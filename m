@@ -1,81 +1,119 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F1A5F
-	for <linux-staging@lists.linux.dev>; Fri, 19 Mar 2021 08:58:45 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id l4so8416239ejc.10
-        for <linux-staging@lists.linux.dev>; Fri, 19 Mar 2021 01:58:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7xTE0saRdg1HsN1EnA4Jq0r+/ZgbH4gbf0pvKWFq0G4=;
-        b=sHbqQmRLJsfWvwKSFK5pLm8ZJhyl1QxhYB8e/ZHzRxnb3mZpcYevIa58/8MORE93dY
-         rXaHXBdBiVU2C71qHQF+88WbETtLV0aQGM613W6a5yMp/sZKBI1NNhPxNGWYcJ7WJSzk
-         wMj2KZZ0K/ObFf1pLHOYUEUNt9HFtF1OmysHS5nWCGbuoSE197J0q1tMWGgF17/E3FfR
-         FzjY4ZrhiQDFF10amYSyd9tqyj6/UXyEkTbCpMOudmCc3+Qc5y0UOWy/01LodzY5Fr2R
-         R5kRdiafUe5mYxSRjUOjf1fk9eXxA150FywvxEx2JxL/sy8TrHPYX+euMfoSHYZvyrq3
-         k3Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7xTE0saRdg1HsN1EnA4Jq0r+/ZgbH4gbf0pvKWFq0G4=;
-        b=CvPOZiyuy5yR7ri8RGLf2SWa4Xcat8caaLFvmLxL0sYW7YpIhO/kfgUDwNlYNTyrF7
-         8XzZQoRdB/bt2EFGhNsiMUe7IgemvhQVInqKvEpesKhi+GsdrHGYYJveqxG5+KnZJnKJ
-         HnFoAb7GfxFS9ozzxvtNr8cNUBN0OanVfp43dhqTsFLs/U3wVOojZ8998NS/73bN1GJV
-         n1XZ/6nGlSDt+rkmGcNlNH8gpp/x0mZ36yEU6uWMLhLEyl8S6uQ1nkfprKU7G7z1ELPH
-         L9PEDiIdoEDQpjZWGBVTFYbmMAx5ASw16BKK86fmrbWjvcw8g8vQ6WbQueSBPyGZoUUP
-         za2Q==
-X-Gm-Message-State: AOAM5323s6RXzclcGhj39Qt+Yx0a5SYGeld49aVoq6oSeZxUAXm6T4ja
-	LM+9f027c4SzvGMKnAKqf2Y=
-X-Google-Smtp-Source: ABdhPJxe1oYFepFttZO8myg+sBvUn/11IPGgad2p6AEhHUgbVCAQHvnIyZbRl6Cc9dQRZt6A1v5JnA==
-X-Received: by 2002:a17:907:e88:: with SMTP id ho8mr3167568ejc.199.1616144324555;
-        Fri, 19 Mar 2021 01:58:44 -0700 (PDT)
-Received: from ubuntudesktop.lan (205.158.32.217.dyn.plus.net. [217.32.158.205])
-        by smtp.gmail.com with ESMTPSA id b22sm3447818edv.96.2021.03.19.01.58.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Mar 2021 01:58:43 -0700 (PDT)
-From: Lee Gibson <leegib@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Lee Gibson <leegib@gmail.com>
-Subject: [PATCH] staging: rtl8712: Fix a possible NULL pointer dereference in function r8712_joinbss_event_callback
-Date: Fri, 19 Mar 2021 08:58:36 +0000
-Message-Id: <20210319085836.8259-1-leegib@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0B15F
+	for <linux-staging@lists.linux.dev>; Sun, 21 Mar 2021 12:33:03 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0822F61944;
+	Sun, 21 Mar 2021 12:33:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1616329983;
+	bh=9YX9ZY5fp0/7OuGATShnCJr/Yw72fmyNYA+7bQ4KpC0=;
+	h=Date:From:To:Cc:Subject:From;
+	b=LSrR760XL9Uj2sfDYHygaODUZdu//iK8fADofclD0fJMzfhjPLJIQhiXRht25wJ0v
+	 uWiwhWf5ma3lcqdO0jXEVvm6twHH8L+xjrSqVE642db359j2h/CAyxzEL5qOLR7v04
+	 mnIPc+UDvWD0d5dxbF1n+Sqvo6nbWVIoAaw6cPcU=
+Date: Sun, 21 Mar 2021 13:33:00 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: devel@linuxdriverproject.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [GIT PULL] Staging/IIO driver fixes for 5.12-rc4
+Message-ID: <YFc8/KJBiKVT2Rt1@kroah.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-GCC 10 analyzer reports a warning: dereference of NULL
-The function r8712_find_network can return NULL and is usually checked but
-no check is present is this case.
-Fix by adding the check.
+The following changes since commit 1e28eed17697bcf343c6743f0028cc3b5dd88bf0:
 
-Signed-off-by: Lee Gibson <leegib@gmail.com>
----
- drivers/staging/rtl8712/rtl871x_mlme.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+  Linux 5.12-rc3 (2021-03-14 14:41:02 -0700)
 
-diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
-index 6074383ec0b5..f5886b39b3b5 100644
---- a/drivers/staging/rtl8712/rtl871x_mlme.c
-+++ b/drivers/staging/rtl8712/rtl871x_mlme.c
-@@ -728,7 +728,8 @@ void r8712_joinbss_event_callback(struct _adapter *adapter, u8 *pbuf)
- 					     r8712_find_network(&pmlmepriv->
- 					     scanned_queue,
- 					     cur_network->network.MacAddress);
--					pcur_wlan->fixed = false;
-+					if (pcur_wlan)
-+						pcur_wlan->fixed = false;
- 
- 					pcur_sta = r8712_get_stainfo(pstapriv,
- 					     cur_network->network.MacAddress);
--- 
-2.25.1
+are available in the Git repository at:
 
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.12-rc4
+
+for you to fetch changes up to 2cafd46a714af1e55354bc6dcea9dcc13f9475b5:
+
+  staging: vt665x: fix alignment constraints (2021-03-18 10:21:46 +0100)
+
+----------------------------------------------------------------
+Staging/IIO driver fixes for 5.12-rc4
+
+Here are some small staging and IIO driver fixes for 5.12-rc4.
+
+They include:
+	- MAINTAINERS changes for the move of the staging mailing list
+	- comedi driver fixes to get request_irq() to work correctly
+	- counter driver fixes for reported issues with iio devices
+	- tiny iio driver fixes for reported issues.
+
+All of these have been in linux-next with no reported problems.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Alexandru Ardelean (1):
+      iio: adc: adi-axi-adc: add proper Kconfig dependencies
+
+Dan Carpenter (1):
+      iio: adis16400: Fix an error code in adis16400_initial_setup()
+
+Dinghao Liu (1):
+      iio: gyro: mpu3050: Fix error handling in mpu3050_trigger_handler
+
+Edmundo Carmona Antoranz (1):
+      staging: vt665x: fix alignment constraints
+
+Fabrice Gasnier (2):
+      counter: stm32-timer-cnt: fix ceiling write max value
+      counter: stm32-timer-cnt: fix ceiling miss-alignment with reload register
+
+Greg Kroah-Hartman (3):
+      Merge tag 'iio-fixes-for-5.12a' of https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio into staging-linus
+      MAINTAINERS: move some real subsystems off of the staging mailing list
+      MAINTAINERS: move the staging subsystem to lists.linux.dev
+
+Jonathan Albrieux (1):
+      iio:adc:qcom-spmi-vadc: add default scale to LR_MUX2_BAT_ID channel
+
+Jonathan Cameron (1):
+      iio:adc:stm32-adc: Add HAS_IOMEM dependency
+
+Linus Walleij (1):
+      iio: adc: ab8500-gpadc: Fix off by 10 to 3
+
+Tong Zhang (2):
+      staging: comedi: cb_pcidas: fix request_irq() warn
+      staging: comedi: cb_pcidas64: fix request_irq() warn
+
+Wilfried Wessner (1):
+      iio: adc: ad7949: fix wrong ADC result due to incorrect bit mask
+
+William Breathitt Gray (1):
+      counter: stm32-timer-cnt: Report count function when SLAVE_MODE_DISABLED
+
+Ye Xiang (3):
+      iio: hid-sensor-prox: Fix scale not correct issue
+      iio: hid-sensor-humidity: Fix alignment issue of timestamp channel
+      iio: hid-sensor-temperature: Fix issues of timestamp channel
+
+ MAINTAINERS                                      |  7 ++-
+ drivers/counter/stm32-timer-cnt.c                | 55 ++++++++++++++----------
+ drivers/iio/adc/Kconfig                          |  3 ++
+ drivers/iio/adc/ab8500-gpadc.c                   |  2 +-
+ drivers/iio/adc/ad7949.c                         |  2 +-
+ drivers/iio/adc/qcom-spmi-vadc.c                 |  2 +-
+ drivers/iio/gyro/mpu3050-core.c                  |  2 +
+ drivers/iio/humidity/hid-sensor-humidity.c       | 12 +++---
+ drivers/iio/imu/adis16400.c                      |  3 +-
+ drivers/iio/light/hid-sensor-prox.c              | 13 +++++-
+ drivers/iio/temperature/hid-sensor-temperature.c | 14 +++---
+ drivers/staging/comedi/drivers/cb_pcidas.c       |  2 +-
+ drivers/staging/comedi/drivers/cb_pcidas64.c     |  2 +-
+ drivers/staging/vt6655/rxtx.h                    |  4 +-
+ 14 files changed, 75 insertions(+), 48 deletions(-)
