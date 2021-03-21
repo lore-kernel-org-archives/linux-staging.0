@@ -1,119 +1,75 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from fallback18.mail.ru (fallback18.mail.ru [185.5.136.250])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0B15F
-	for <linux-staging@lists.linux.dev>; Sun, 21 Mar 2021 12:33:03 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0822F61944;
-	Sun, 21 Mar 2021 12:33:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1616329983;
-	bh=9YX9ZY5fp0/7OuGATShnCJr/Yw72fmyNYA+7bQ4KpC0=;
-	h=Date:From:To:Cc:Subject:From;
-	b=LSrR760XL9Uj2sfDYHygaODUZdu//iK8fADofclD0fJMzfhjPLJIQhiXRht25wJ0v
-	 uWiwhWf5ma3lcqdO0jXEVvm6twHH8L+xjrSqVE642db359j2h/CAyxzEL5qOLR7v04
-	 mnIPc+UDvWD0d5dxbF1n+Sqvo6nbWVIoAaw6cPcU=
-Date: Sun, 21 Mar 2021 13:33:00 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: devel@linuxdriverproject.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [GIT PULL] Staging/IIO driver fixes for 5.12-rc4
-Message-ID: <YFc8/KJBiKVT2Rt1@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A624C6E
+	for <linux-staging@lists.linux.dev>; Sun, 21 Mar 2021 18:34:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=bk.ru; s=mail3;
+	h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From; bh=HIUNGG2sbjceMbv3YdPGVo6WcSVDOprHh1d0jrqw4S8=;
+	b=xJhIAxmTob/d8b7fMeJFhG+Tw182PYT8fO6T9LZbQc+RLdM44raRH1ngt/IU7fISAiSF9sTmub43sJzDt5JHRmGj0pxwAvwis26QkaxJzdT4AJnvV/IuPjI4LCIZf80dhXQno3LPp+iXs3FVaT6vXL5L74Et2JShnRqLe/2Padc=;
+Received: from [10.161.64.44] (port=46284 helo=smtp36.i.mail.ru)
+	by fallback18.m.smailru.net with esmtp (envelope-from <dev.dragon@bk.ru>)
+	id 1lO2mJ-0001oO-Qi; Sun, 21 Mar 2021 21:26:20 +0300
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=bk.ru; s=mail3;
+	h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=HIUNGG2sbjceMbv3YdPGVo6WcSVDOprHh1d0jrqw4S8=;
+	b=lTnlkVbmbq6IpcvVIINXZhAicFsNBvvzmEqx4XVEDBn14fXUIuoUmeHVLK3OjpGIjGG0Miw6HG+g5gA9esmLVLqETMzA9QAd6pRvPrACYR2cp8V39eZiQtUHeavWSqc7kJW2oO/x4sUYLh9iFaKKeqC/5Is2oyZ07dh7M/kdNCc=;
+Received: by smtp36.i.mail.ru with esmtpa (envelope-from <dev.dragon@bk.ru>)
+	id 1lO2mC-00073Y-9Z; Sun, 21 Mar 2021 21:26:12 +0300
+From: dev.dragon@bk.ru
+To: gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Dmitrii Wolf <dev.dragon@bk.ru>
+Subject: [PATCH] Staging: wimax: i2400m: fixed a space coding style issue.
+Date: Sun, 21 Mar 2021 21:26:02 +0300
+Message-Id: <20210321182602.13793-1-dev.dragon@bk.ru>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-7564579A: 646B95376F6C166E
+X-77F55803: 4F1203BC0FB41BD95D6E7CC48CB1F5F1C82687294EF6886BAE1FA542CE3F1C38182A05F538085040A2D8DCAF47F463E2FE55B5AE1FDD7E597D4CB1270E7511DB2DBD7A399811FDCB
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7DECE8D0A5E25C0FCEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637E16D8B060A9A23898638F802B75D45FF914D58D5BE9E6BC131B5C99E7648C95C686AF563A045C75EEA3F2E4C0793BE6D8F6F6A116571AAA4A471835C12D1D9774AD6D5ED66289B5278DA827A17800CE74A95F4E53E8DCE969FA2833FD35BB23D2EF20D2F80756B5F868A13BD56FB6657A471835C12D1D977725E5C173C3A84C3A12191B5F2BB8629117882F4460429728AD0CFFFB425014E868A13BD56FB6657D81D268191BDAD3DC09775C1D3CA48CFF5D7AD01DFB9D5D8BA3038C0950A5D36C8A9BA7A39EFB766EC990983EF5C0329BA3038C0950A5D36D5E8D9A59859A8B622866CC385FEDF7476E601842F6C81A1F004C90652538430CDED94BCBF13EF3B93EC92FD9297F6718AA50765F7900637FF667FE45ADECF75A7F4EDE966BC389F395957E7521B51C24C7702A67D5C33162DBA43225CD8A89FD63380FFBEB38773CE5475246E174218B5C8C57E37DE458B4C7702A67D5C3316FA3894348FB808DBEB6346B700B4D54FE5BFE6E7EFDEDCD789D4C264860C145E
+X-B7AD71C0: AC4F5C86D027EB782CDD5689AFBDA7A2BBE337FB72E92315FF39D8DB89857825EFA8BF88FCBFD63CE0852D54D1EC5181BF0250D8680C883691E6F94FA312E0A3
+X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C414F749A5E30D975C686AF563A045C75EEA3F2E4C0793BE6D8F6F6A116571AAA49C2B6934AE262D3EE7EAB7254005DCED556CBE7F905700A49510FB958DCE06DB6ED91DBE5ABE359A7EE5648E065588D42272C4C079A4C8AD93EDB24507CE13387DFF0A840B692CF8
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D341ADA1A41A420E9B2156A8E67CC5E0CDD66E3AA19D6DDA538E71A1C43BAEB7ACDC7C25B3A331564B61D7E09C32AA3244C80F5E216D09D15C439D83C0CDAB76C9563871F383B54D9B3927AC6DF5659F194
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojvdUtdr6InbC5hCZz/SBVDg==
+X-Mailru-Sender: 3A338A78718AEC5AA85B3E7661095C1E1E9F55F0E8D3183050FA1648B6589AA1B88372C1FD1700EF3833C6AC539110AEA432B8CD90067B65A6C5C4E98768B51D7AA22088860DD9FF5CDEF9E650933936342CD0BA774DB6A9AE208404248635DF
+X-Mras: Ok
+X-7564579A: 646B95376F6C166E
+X-77F55803: 6242723A09DB00B43D3FA0ACCFBC07C6046E779C2B5E99975FBD50963AB15FEA049FFFDB7839CE9EFA817F5924DFCA7582F0A51C96DB3BE6076B455EEE56A0A3CAC5B547EC8A2DE3
+X-7FA49CB5: 0D63561A33F958A57C37F30D3D8E24904591BD133341F9CF53FEA819839E289E8941B15DA834481FA18204E546F3947C4A7E03851CBA2956F6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F7900637EAC5C7182FB0D3F7389733CBF5DBD5E9B5C8C57E37DE458BD9DD9810294C998ED8FC6C240DEA76428AA50765F7900637D85817A53E56C800D81D268191BDAD3DBD4B6F7A4D31EC0BEA7A3FFF5B025636A7F4EDE966BC389F9E8FC8737B5C22494D1995798259236B089D37D7C0E48F6CCF19DD082D7633A0E7DDDDC251EA7DABAAAE862A0553A392EE3A9D0FB4FE0F992DC2C6C1EEA0118B43847C11F186F3C5E7DDDDC251EA7DABCC89B49CDF41148F53FDB0A1CE3EC88B3B503F486389A921A5CC5B56E945C8DA
+X-B7AD71C0: AC4F5C86D027EB782CDD5689AFBDA7A2BBE337FB72E923155C0AF1600DCBC20BBF0250D8680C8836F161B62DB08ECF63
+X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C414F749A5E30D975C686AF563A045C75E0391B587C9FC0F0475C7CDB0293AA60F9C2B6934AE262D3EE7EAB7254005DCED556CBE7F905700A4DC48ACC2A39D04F89CDFB48F4795C241BDAD6C7F3747799A
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojvdUtdr6InbAWCcUFIfbI0w==
+X-Mailru-MI: 1000000000800
+X-Mailru-Sender: A5480F10D64C9005E7955441BDF862652E1B67F9E76A4B63414D48FB47A17118CB0114F4C3D1B6D7CD4CDAD98BDCABE8DDBB79867CC2C1EC846E85FF75DBDC4983CE97D6EC8C31C553326A0E03014151EAB4BC95F72C04283CDA0F3B3F5B9367
+X-Mras: Ok
 
-The following changes since commit 1e28eed17697bcf343c6743f0028cc3b5dd88bf0:
+From: Dmitrii Wolf <dev.dragon@bk.ru>
 
-  Linux 5.12-rc3 (2021-03-14 14:41:02 -0700)
+Fixed a coding style.
 
-are available in the Git repository at:
+Signed-off-by: Dmitrii Wolf <dev.dragon@bk.ru>
+---
+ drivers/staging/wimax/i2400m/debugfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.12-rc4
+diff --git a/drivers/staging/wimax/i2400m/debugfs.c b/drivers/staging/wimax/i2400m/debugfs.c
+index 1c640b41ea4c..4e6e1e3f015e 100644
+--- a/drivers/staging/wimax/i2400m/debugfs.c
++++ b/drivers/staging/wimax/i2400m/debugfs.c
+@@ -170,7 +170,7 @@ int debugfs_i2400m_reset_set(void *data, u64 val)
+ 	int result;
+ 	struct i2400m *i2400m = data;
+ 	enum i2400m_reset_type rt = val;
+-	switch(rt) {
++	switch (rt) {
+ 	case I2400M_RT_WARM:
+ 	case I2400M_RT_COLD:
+ 	case I2400M_RT_BUS:
+-- 
+2.25.1
 
-for you to fetch changes up to 2cafd46a714af1e55354bc6dcea9dcc13f9475b5:
-
-  staging: vt665x: fix alignment constraints (2021-03-18 10:21:46 +0100)
-
-----------------------------------------------------------------
-Staging/IIO driver fixes for 5.12-rc4
-
-Here are some small staging and IIO driver fixes for 5.12-rc4.
-
-They include:
-	- MAINTAINERS changes for the move of the staging mailing list
-	- comedi driver fixes to get request_irq() to work correctly
-	- counter driver fixes for reported issues with iio devices
-	- tiny iio driver fixes for reported issues.
-
-All of these have been in linux-next with no reported problems.
-
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-----------------------------------------------------------------
-Alexandru Ardelean (1):
-      iio: adc: adi-axi-adc: add proper Kconfig dependencies
-
-Dan Carpenter (1):
-      iio: adis16400: Fix an error code in adis16400_initial_setup()
-
-Dinghao Liu (1):
-      iio: gyro: mpu3050: Fix error handling in mpu3050_trigger_handler
-
-Edmundo Carmona Antoranz (1):
-      staging: vt665x: fix alignment constraints
-
-Fabrice Gasnier (2):
-      counter: stm32-timer-cnt: fix ceiling write max value
-      counter: stm32-timer-cnt: fix ceiling miss-alignment with reload register
-
-Greg Kroah-Hartman (3):
-      Merge tag 'iio-fixes-for-5.12a' of https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio into staging-linus
-      MAINTAINERS: move some real subsystems off of the staging mailing list
-      MAINTAINERS: move the staging subsystem to lists.linux.dev
-
-Jonathan Albrieux (1):
-      iio:adc:qcom-spmi-vadc: add default scale to LR_MUX2_BAT_ID channel
-
-Jonathan Cameron (1):
-      iio:adc:stm32-adc: Add HAS_IOMEM dependency
-
-Linus Walleij (1):
-      iio: adc: ab8500-gpadc: Fix off by 10 to 3
-
-Tong Zhang (2):
-      staging: comedi: cb_pcidas: fix request_irq() warn
-      staging: comedi: cb_pcidas64: fix request_irq() warn
-
-Wilfried Wessner (1):
-      iio: adc: ad7949: fix wrong ADC result due to incorrect bit mask
-
-William Breathitt Gray (1):
-      counter: stm32-timer-cnt: Report count function when SLAVE_MODE_DISABLED
-
-Ye Xiang (3):
-      iio: hid-sensor-prox: Fix scale not correct issue
-      iio: hid-sensor-humidity: Fix alignment issue of timestamp channel
-      iio: hid-sensor-temperature: Fix issues of timestamp channel
-
- MAINTAINERS                                      |  7 ++-
- drivers/counter/stm32-timer-cnt.c                | 55 ++++++++++++++----------
- drivers/iio/adc/Kconfig                          |  3 ++
- drivers/iio/adc/ab8500-gpadc.c                   |  2 +-
- drivers/iio/adc/ad7949.c                         |  2 +-
- drivers/iio/adc/qcom-spmi-vadc.c                 |  2 +-
- drivers/iio/gyro/mpu3050-core.c                  |  2 +
- drivers/iio/humidity/hid-sensor-humidity.c       | 12 +++---
- drivers/iio/imu/adis16400.c                      |  3 +-
- drivers/iio/light/hid-sensor-prox.c              | 13 +++++-
- drivers/iio/temperature/hid-sensor-temperature.c | 14 +++---
- drivers/staging/comedi/drivers/cb_pcidas.c       |  2 +-
- drivers/staging/comedi/drivers/cb_pcidas64.c     |  2 +-
- drivers/staging/vt6655/rxtx.h                    |  4 +-
- 14 files changed, 75 insertions(+), 48 deletions(-)
