@@ -1,50 +1,50 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100396F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53675F
 	for <linux-staging@lists.linux.dev>; Mon, 22 Mar 2021 13:37:22 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id j18so16827008wra.2
-        for <linux-staging@lists.linux.dev>; Mon, 22 Mar 2021 06:37:21 -0700 (PDT)
+Received: by mail-wr1-f50.google.com with SMTP id k8so16815713wrc.3
+        for <linux-staging@lists.linux.dev>; Mon, 22 Mar 2021 06:37:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=pkIGaavul49tXOt2X27ShaCcNNX6Dbj/+fu1uukU7iA=;
-        b=omE85Ls1/1oLcHGu3Mdj97zZ2klgA+T5MCvFic7E3WX5HXO+Wzex9EWJF9Mfw2MD7V
-         lu75kulX8bdqfQtbCcrrKcv0k1Yc/jiwYWzn3iruc/XuL29fk5u3cqVYwYIwmG39dmUn
-         4wtbzIh89cIBBWjDKNVfuwPm7kKdW2dF2Rj1iTG0ndSdgjq2ZdmxjnoapS99J76VzbQo
-         xnEG4MzV5x6z63raSrTcd6Ow61o9YYQCWUqeNqAIzheCPuAebRTYmWItbuUq+kTOoU4A
-         Or4ykI4QHR2Ndh7V5So03L4oy4NIl/aExoNm3YnoL5GDQ1NPcGF5pOgw2NlrXwYGLMHD
-         sSoA==
+        bh=Nymfnb6vZCjmN46Ys71DZyGa6luVMEp9VFlBmET69yU=;
+        b=FJwOivSJFvmCV8sGC9OXjOfLJy87Qt01sIJqD67dFZkpuvS09ECQNXluJhq2IDwVQd
+         NmEn2NU4XmOVypxGsIe2XEqvNvmGsMjOxtIANmtYVFQY0NwybEP1vB53Sw+dFDD/T2NF
+         ZqvjDJAFEcaclCTs/5iGgerjLpOimFb/ExO1AHKbQRUrx7YNOTgjfQBvyaaY9jzt9p3S
+         dyE+hHwPjinKB40KTTFHjwNskNwY7LauUapQ4NWbDPqidTWUIPNOLVsUAvADsp6060cs
+         SF432LJO4QWXfH3S8ajRcEJovk14VvplGvn5WSBxSI14nkiV686gLpNfdDW9j/W/PuHa
+         XyYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pkIGaavul49tXOt2X27ShaCcNNX6Dbj/+fu1uukU7iA=;
-        b=M5TgeoVDA8c/WWu43WeMWPr5Jyp77q9lhKNjX7MXL2UMXSlYGOSJ0OxkvtA2KiQuvF
-         VqrMxy0r+0CYdSMnteEb8nCmPVcaJpV8iv9ynChe3/qlWcGj05G3YZllf3b1xXE89/OJ
-         ESyre5Pe9OQbZ3pUH1TPgmPbnS1foOcfvQjiLc2Cl3GthxyQY0kcGDi+BmBcBdYVOLhe
-         G4ylARDdsLJShwVPPR6yT5mMBQsVUitQOulCPTKrrxo7iA7EL0OjUC3dSSWs+QjU49xR
-         BDZQNL3cUWqTDUsZClgPlR3yEKUBQRhQb/+/0LmtLwtt91Djtt/wRxX1diPMY5+4IE9J
-         PhNw==
-X-Gm-Message-State: AOAM530rdDfD8IHJxMUGsAdQqCt+fCawZ8t1PRpvVqcAcb/+Bax6LNZY
-	VbykqqR4P1lYzRv6+9Q0INA=
-X-Google-Smtp-Source: ABdhPJyzjqsj2ReHqr4WvY6IX4AcRVmkPyOncBz7wb2MR3LT73UUJ0wp0ENvCBRE/p9YY7CA29qb1A==
-X-Received: by 2002:a1c:8005:: with SMTP id b5mr16315766wmd.130.1616420240651;
-        Mon, 22 Mar 2021 06:37:20 -0700 (PDT)
+        bh=Nymfnb6vZCjmN46Ys71DZyGa6luVMEp9VFlBmET69yU=;
+        b=Yy43youX2Md/uv2fwTINyCvMR02XYolmGNEQ4P7jogOFmnWaCjRs0TVfbvUBT3hpqb
+         rTLnEwNoD6hXDZqBZQMvYn39T1TJrAuGNtXLpqgOxfXhg5W1co/yC0hnbf612zrnQhvS
+         r6NhmgQQBvnr5Fni5zxKwdspBzNs3n6zzp5XY6uBpnA6im9fGGeiFvNPoUrWXXYRH1Ks
+         EeVll27J4byNz/zPeYXmnqxvMf93CSgoIWR9WMKhGtafmz03df0QG8vTeMXxvL3tFNz1
+         B3Gi4wMtYXg57AaWIKDHIamYLAdLiIPga+QFtwAWeJ2cAJDxVSahI6mTdTGK+WAH9kAu
+         xYoQ==
+X-Gm-Message-State: AOAM531heB3L7qSbXFAW6M8QTkLt8XZcr9OQXv2buDRm8xVMr0s7K5AB
+	esgZluHbH2+jrGpbjyuFbyU=
+X-Google-Smtp-Source: ABdhPJwwXFT/+8D3GFGj65xsnFmKTk8+XLmhlzQcDxCnnDIr0ldCJpCvNQIZO9x1wmhypTQ9gRgc3g==
+X-Received: by 2002:a05:600c:247:: with SMTP id 7mr16134891wmj.116.1616420241540;
+        Mon, 22 Mar 2021 06:37:21 -0700 (PDT)
 Received: from gimli.cesven (93-48-145-141.ip257.fastwebnet.it. [93.48.145.141])
-        by smtp.gmail.com with ESMTPSA id d204sm17091770wmc.17.2021.03.22.06.37.19
+        by smtp.gmail.com with ESMTPSA id d204sm17091770wmc.17.2021.03.22.06.37.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Mar 2021 06:37:20 -0700 (PDT)
+        Mon, 22 Mar 2021 06:37:21 -0700 (PDT)
 From: Marco Cesati <marcocesati@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Hans de Goede <hdegoede@redhat.com>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [PATCH 12/19] Staging: rtl8723bs: remove useless structs in rtw_wifi_regd.h
-Date: Mon, 22 Mar 2021 14:37:10 +0100
-Message-Id: <20210322133717.17797-13-marcocesati@gmail.com>
+Subject: [PATCH 13/19] Staging: rtl8723bs: remove useless structs in rtw_io.h
+Date: Mon, 22 Mar 2021 14:37:11 +0100
+Message-Id: <20210322133717.17797-14-marcocesati@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210322133717.17797-1-marcocesati@gmail.com>
 References: <20210322133717.17797-1-marcocesati@gmail.com>
@@ -55,30 +55,137 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the following unreferenced struct in include/rtw_wifi_regd.h:
+Remove the following unreferenced struct's in include/rtw_io.h:
 
-	struct country_code_to_enum_rd
+	struct reg_protocol_rd
+	struct reg_protocol_wt
 
 Signed-off-by: Marco Cesati <marcocesati@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/rtw_wifi_regd.h | 5 -----
- 1 file changed, 5 deletions(-)
+ drivers/staging/rtl8723bs/include/rtw_io.h | 111 ---------------------
+ 1 file changed, 111 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_wifi_regd.h b/drivers/staging/rtl8723bs/include/rtw_wifi_regd.h
-index f798b0c744a4..66bf3d1b1d5a 100644
---- a/drivers/staging/rtl8723bs/include/rtw_wifi_regd.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_wifi_regd.h
-@@ -8,11 +8,6 @@
- #ifndef __RTW_WIFI_REGD_H__
- #define __RTW_WIFI_REGD_H__
+diff --git a/drivers/staging/rtl8723bs/include/rtw_io.h b/drivers/staging/rtl8723bs/include/rtw_io.h
+index c83d8c66bd86..fbb73e698e09 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_io.h
++++ b/drivers/staging/rtl8723bs/include/rtw_io.h
+@@ -127,117 +127,6 @@ struct	intf_hdl {
+ 	struct _io_ops	io_ops;
+ };
  
--struct country_code_to_enum_rd {
--	u16 countrycode;
--	const char *iso_name;
+-struct reg_protocol_rd {
+-
+-#ifdef __LITTLE_ENDIAN
+-
+-	/* DW1 */
+-	u32 	NumOfTrans:4;
+-	u32 	Reserved1:4;
+-	u32 	Reserved2:24;
+-	/* DW2 */
+-	u32 	ByteCount:7;
+-	u32 	WriteEnable:1;		/* 0:read, 1:write */
+-	u32 	FixOrContinuous:1;	/* 0:continuous, 1: Fix */
+-	u32 	BurstMode:1;
+-	u32 	Byte1Access:1;
+-	u32 	Byte2Access:1;
+-	u32 	Byte4Access:1;
+-	u32 	Reserved3:3;
+-	u32 	Reserved4:16;
+-	/* DW3 */
+-	u32 	BusAddress;
+-	/* DW4 */
+-	/* u32 	Value; */
+-#else
+-
+-
+-/* DW1 */
+-	u32 Reserved1  :4;
+-	u32 NumOfTrans :4;
+-
+-	u32 Reserved2  :24;
+-
+-	/* DW2 */
+-	u32 WriteEnable : 1;
+-	u32 ByteCount :7;
+-
+-
+-	u32 Reserved3 : 3;
+-	u32 Byte4Access : 1;
+-
+-	u32 Byte2Access : 1;
+-	u32 Byte1Access : 1;
+-	u32 BurstMode :1;
+-	u32 FixOrContinuous : 1;
+-
+-	u32 Reserved4 : 16;
+-
+-	/* DW3 */
+-	u32 	BusAddress;
+-
+-	/* DW4 */
+-	/* u32 	Value; */
+-
+-#endif
+-
 -};
 -
- enum country_code_type_t {
- 	COUNTRY_CODE_USER = 0,
+-
+-struct reg_protocol_wt {
+-
+-
+-#ifdef __LITTLE_ENDIAN
+-
+-	/* DW1 */
+-	u32 	NumOfTrans:4;
+-	u32 	Reserved1:4;
+-	u32 	Reserved2:24;
+-	/* DW2 */
+-	u32 	ByteCount:7;
+-	u32 	WriteEnable:1;		/* 0:read, 1:write */
+-	u32 	FixOrContinuous:1;	/* 0:continuous, 1: Fix */
+-	u32 	BurstMode:1;
+-	u32 	Byte1Access:1;
+-	u32 	Byte2Access:1;
+-	u32 	Byte4Access:1;
+-	u32 	Reserved3:3;
+-	u32 	Reserved4:16;
+-	/* DW3 */
+-	u32 	BusAddress;
+-	/* DW4 */
+-	u32 	Value;
+-
+-#else
+-	/* DW1 */
+-	u32 Reserved1  :4;
+-	u32 NumOfTrans :4;
+-
+-	u32 Reserved2  :24;
+-
+-	/* DW2 */
+-	u32 WriteEnable : 1;
+-	u32 ByteCount :7;
+-
+-	u32 Reserved3 : 3;
+-	u32 Byte4Access : 1;
+-
+-	u32 Byte2Access : 1;
+-	u32 Byte1Access : 1;
+-	u32 BurstMode :1;
+-	u32 FixOrContinuous : 1;
+-
+-	u32 Reserved4 : 16;
+-
+-	/* DW3 */
+-	u32 	BusAddress;
+-
+-	/* DW4 */
+-	u32 	Value;
+-
+-#endif
+-
+-};
+ #define SD_IO_TRY_CNT (8)
+ #define MAX_CONTINUAL_IO_ERR SD_IO_TRY_CNT
  
 -- 
 2.30.2
