@@ -1,50 +1,50 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 157925F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E5F6F
 	for <linux-staging@lists.linux.dev>; Mon, 22 Mar 2021 13:37:15 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id j7so16845008wrd.1
-        for <linux-staging@lists.linux.dev>; Mon, 22 Mar 2021 06:37:14 -0700 (PDT)
+Received: by mail-wr1-f47.google.com with SMTP id j7so16845107wrd.1
+        for <linux-staging@lists.linux.dev>; Mon, 22 Mar 2021 06:37:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=zZ4lG4fl9i6EkG0M/cl5xo2h6MaxtP42iPfqhtNmaaI=;
-        b=A/QYBE8PUjDdmx3/5yV1/fEFBnkItU+Lh1iomkP6a58eBgHv6wuzQ3lEp8gPB+qixT
-         hCGwf7fXL5Ly48UiCvLEEblu1F1nlaYAtnbovy1gZjhHmzsAaGcCe5PoOJfij9hfjL31
-         uwnvuezUEByS8zWBluCe5xw1VodOHn63hUDI9NRUi8MC+OPhqcy/UZDhHf7+s0kHdf0L
-         8UqXiSmue/+8Y646BVVua4EKEfSUGVauCm5s19yfG7p+9CqBv1tVKCBPATbsEnsVBS6G
-         sNAmVO7bxp5oNBVylXRKGW2zioxlsigur4l+9UfUrDdzq6piuGYkwZQwlEVO+p+oXG02
-         3gKw==
+        bh=kMdX1fc3cqcNLmuRtmkuTcqx3+HOGuLqRNKr/OhBJA0=;
+        b=c2qOc+92pJmDkN8uQMO0k4tpl7xW2tGyG6RTphYXFX6cyJnlgnLxRGEGAtAMNS2eRo
+         T11Ujlvn/PnK0V+qH6gflBWys+1B/cOecFbUhS8MSNTVq99UEk/2l/6vFXA2CVoucDcJ
+         8scFDTyg3mT6F6l8pxvsdPDRDxCmqmKYtB9BIafTArfOiGcezFwGWubCfLwva780bZlW
+         L8qtxsHbcK589EleLVzWNqbKBBNWx2s6J5UnJWbB/FxcWPjki02vnz1JG2mtLMwzk3+W
+         R6X/HCXFFzJ864Kh07vPkJxXReMIhMPCIZkepBQRIfYW8RJKS2FeZ617HpCh5p9es4h0
+         a3PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zZ4lG4fl9i6EkG0M/cl5xo2h6MaxtP42iPfqhtNmaaI=;
-        b=CIxpQNWlmX4X4idu7O4z+wwTPmEAdJ6qOk/s+21j9PeFwmVmIMnrjlXS1+Kn660Tpd
-         hz2By79WppN9Fu2urcgULrSPNO0+FD9U+LHyzIkKxRPWPN3NZe7xHmyaZY+iC+ScxO0J
-         +DXTmEs+hXYUFbv3PH9yvQwzNAiPGrTPoP4Cgb1aIS09jZQip/ybJv8peYv0CTmwHtn7
-         7yVdiApNrhH/CJkb+xn8FePjwT5Ts1J9r633y+CFPYW3miECNuW+37Y5CjpmY5usBix7
-         jEyx7lyggaAMdvZWT74Ivc6DAEVsqO0bQGqLNtS+p9gXhTO2O9+99YBAFasehDfWf5Hh
-         mQUQ==
-X-Gm-Message-State: AOAM532W/6h+Eefuq7FYjyTEyULnnx2j4HPDlyvqGUmzOyNyyXJ8ygHJ
-	yc2igWDebwTtTfpI93s/8tA=
-X-Google-Smtp-Source: ABdhPJyAksyQ+7qDLMbiPJUJEKw1DYeHVp13IZQloBtyerc2s4FA6HhJTOAG7KhkakSyR4+233P1AQ==
-X-Received: by 2002:a05:600c:4292:: with SMTP id v18mr16023848wmc.23.1616420233623;
-        Mon, 22 Mar 2021 06:37:13 -0700 (PDT)
+        bh=kMdX1fc3cqcNLmuRtmkuTcqx3+HOGuLqRNKr/OhBJA0=;
+        b=ct3mB/hzC/6cUkvh6dXgBgIwUQh5mmZrT8QXaMojCr9OrsTMhMopcgQ7myydxj+jV3
+         blNy+qD+PNCSTR2cdhQsFAhqZqcTP/AgppZNtM4grnx9LWjYbL8W9lThBaYJAHz/8O6M
+         IftNh1I3U+O/r3hjZC5sP+/MudNhNBvArDgE5HgQI0IV+p1BZd86vEBMkvDlVa0D/itz
+         vji7RGcjPpjzotL1aOJA4iXyDGKJ8DpSaGLkfm9Ra+gkJjV+7mWhhQGkWpMepJkepAvZ
+         258oSUp8Seo1CLYAV1wjusu8oCtH1xUCdPdwbH+mUtBZJ1fDhEfA5tu283b62yE899fZ
+         Qg3w==
+X-Gm-Message-State: AOAM531YlmsDoJHB8OP3PP4WCJq9v/OGC9epJgBlGEdXIlDF/PaFywQK
+	9+mYo/FP2CUtw+doVWKESK+7jyCJ3UU=
+X-Google-Smtp-Source: ABdhPJyuOct3RVwcf7aAKMk5ExQFT/hWkB6pS9Vm2biKV5tlujSC5OEBubfemclaXvQCNftKphYJzQ==
+X-Received: by 2002:a5d:6a11:: with SMTP id m17mr7675642wru.361.1616420234498;
+        Mon, 22 Mar 2021 06:37:14 -0700 (PDT)
 Received: from gimli.cesven (93-48-145-141.ip257.fastwebnet.it. [93.48.145.141])
-        by smtp.gmail.com with ESMTPSA id d204sm17091770wmc.17.2021.03.22.06.37.12
+        by smtp.gmail.com with ESMTPSA id d204sm17091770wmc.17.2021.03.22.06.37.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Mar 2021 06:37:13 -0700 (PDT)
+        Mon, 22 Mar 2021 06:37:14 -0700 (PDT)
 From: Marco Cesati <marcocesati@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Hans de Goede <hdegoede@redhat.com>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [PATCH 04/19] Staging: rtl8723bs: remove useless structs in drv_types.h
-Date: Mon, 22 Mar 2021 14:37:02 +0100
-Message-Id: <20210322133717.17797-5-marcocesati@gmail.com>
+Subject: [PATCH 05/19] Staging: rtl8723bs: remove useless structs in rtw_ioctl_set.h
+Date: Mon, 22 Mar 2021 14:37:03 +0100
+Message-Id: <20210322133717.17797-6-marcocesati@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210322133717.17797-1-marcocesati@gmail.com>
 References: <20210322133717.17797-1-marcocesati@gmail.com>
@@ -55,35 +55,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the following unreferenced struct in include/drv_types.h:
+Remove the following unreferenced struct in include/rtw_ioctl_set.h:
 
-	struct specific_device_id
+	struct BSSIDInfo
 
 Signed-off-by: Marco Cesati <marcocesati@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/drv_types.h | 9 ---------
- 1 file changed, 9 deletions(-)
+ drivers/staging/rtl8723bs/include/rtw_ioctl_set.h | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
-index 3119acea4389..1658450b386e 100644
---- a/drivers/staging/rtl8723bs/include/drv_types.h
-+++ b/drivers/staging/rtl8723bs/include/drv_types.h
-@@ -77,15 +77,6 @@ enum _nic_version {
- #define SPEC_DEV_ID_RF_CONFIG_2T2R BIT(4)
- #define SPEC_DEV_ID_ASSIGN_IFNAME BIT(5)
+diff --git a/drivers/staging/rtl8723bs/include/rtw_ioctl_set.h b/drivers/staging/rtl8723bs/include/rtw_ioctl_set.h
+index 4b929b84040a..d6d3c39a69c6 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_ioctl_set.h
++++ b/drivers/staging/rtl8723bs/include/rtw_ioctl_set.h
+@@ -10,12 +10,6 @@
  
--struct specific_device_id {
--
--	u32 	flags;
--
--	u16 	idVendor;
--	u16 	idProduct;
--
+ typedef u8 NDIS_802_11_PMKID_VALUE[16];
+ 
+-struct BSSIDInfo {
+-	NDIS_802_11_MAC_ADDRESS  BSSID;
+-	NDIS_802_11_PMKID_VALUE  PMKID;
 -};
 -
- struct registry_priv {
- 	u8 chip_version;
- 	u8 rfintfs;
+-
+ u8 rtw_set_802_11_authentication_mode(struct adapter *pdapter, enum ndis_802_11_authentication_mode authmode);
+ u8 rtw_set_802_11_bssid(struct adapter *padapter, u8 *bssid);
+ u8 rtw_set_802_11_add_wep(struct adapter *padapter, struct ndis_802_11_wep *wep);
 -- 
 2.30.2
 
