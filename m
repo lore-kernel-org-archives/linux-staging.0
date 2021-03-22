@@ -1,90 +1,103 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D62E45F
-	for <linux-staging@lists.linux.dev>; Mon, 22 Mar 2021 13:09:13 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id j7so16665772wrd.1
-        for <linux-staging@lists.linux.dev>; Mon, 22 Mar 2021 06:09:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1065F
+	for <linux-staging@lists.linux.dev>; Mon, 22 Mar 2021 13:37:11 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id b9so16823857wrt.8
+        for <linux-staging@lists.linux.dev>; Mon, 22 Mar 2021 06:37:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=9ThliA+FvSjJnPMsRGQJR0DXPnljzshwYzvzpSyvF+c=;
-        b=eST1rx5pYBZBo/SJwOB4iGdVbOnpbbgr7b+UtyCV7EcDVPVUmTQm/CbPdWiymvYVig
-         aJHv/uQFKDdY2FUyzO8X0g/oJ2g2tIuMmNCECYaEvHi0Qh0b2d2pZTTVYSsYNYzK8T4t
-         bf2eotINOSp0ZiZXeKdLeOBo0yuCyBoCdI+3bfWotKnTWlun7MED1dfEL1MOU8QxsGug
-         YpiVwbwwhdi2jhvdZNBi8A2AmbJBtPi3YIRpOqtDqH2V+IPtvRXCbyhmsQVJ+nZlgQe7
-         d6B+HwqgNxYMab2M/mFiNqch3PgUi+vv7RC1cC+a7w4ZEWvQQDxEFqTpq4Vj19x3J8jZ
-         K+rg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=986+rBY9NMvg8AWZ+8JJZIeBkd7kUyvjIDJpIiifLf0=;
+        b=UR216jgDaXBsNdJEsNaJP4epLzYIJHaUZg2E4lCZUMe1HnHICN8FkEz7M30RLnJfxC
+         JhFTQIH1xOcsDS08Fh3abumCHEV9de8GRJnK3UKcjFEAPFrogzSB0J2xltlPLkvU7Afg
+         tm5s5x5WXTjlmvsafsqI/sGmqg2hEc3opl9CL3bFU7OhovgfKc8f6Mlexq82Mda3pnx6
+         ypn6q+8NfUwGU1cCex2+11n3O0/UnbFdrDYidABEeO5WXhdV5APf6OB6fZFWf1stsIft
+         EfqS5Zg+uCrFRUvr92HrOFFFMXpm7gi5V5B/8oCe6l99nSBC60qht+7B2b0sQ0OPoewU
+         NV7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=9ThliA+FvSjJnPMsRGQJR0DXPnljzshwYzvzpSyvF+c=;
-        b=LB2jTd16QTty/8yW3WGHUCV5etJ4nICA0R/4JrKa4tQf/SqjyUx4ZmHf3orv2c1HaH
-         d/JWgy9Th9kfx27Et3yImhxK6UVe1gRx8ZOtY2O0h3WXlku8dyt8E/JYF0ZGwGmRcxvO
-         g/BijA0zLIFLOnlqMHGOQivBo2bpqfpwMnwxBKysnHxKmPI4zLefDApUB/9zcw+LUucy
-         lRMbKJONimPRAI5pGZY9n45vlKUZ9YeWyfSrglw5tpPYejY1MGf4CYOx+svFd4TMruUd
-         7ZSJf95pOXbe2ifadXvgSuYZf4gvswfxVu0qTLfhZw84sNhL2g5/fzbo4uCetKPATyQV
-         qXxw==
-X-Gm-Message-State: AOAM532sogD6bidYJ6nvrivZT4vZsDWmVoPaGW8IDqtniDmM+TYYXW98
-	gCHL9VVo/iXncdLZbwfV6i8=
-X-Google-Smtp-Source: ABdhPJzRA8gpt1MA7GkLb2yVGM7qexAa1iYL5d/n9eYkBW8XoIOoVD7D8U6gwpzcaGAQk71LknunXw==
-X-Received: by 2002:a1c:3d8b:: with SMTP id k133mr16067134wma.6.1616418552270;
-        Mon, 22 Mar 2021 06:09:12 -0700 (PDT)
-Received: from cesati.gmail.com (93-48-145-141.ip257.fastwebnet.it. [93.48.145.141])
-        by smtp.gmail.com with ESMTPSA id d8sm21261834wrr.35.2021.03.22.06.09.11
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=986+rBY9NMvg8AWZ+8JJZIeBkd7kUyvjIDJpIiifLf0=;
+        b=VkP1t0tgeF6o/Mu/aKuQMPJbUNxq9Rsr4IZ5bGpQAsHu8pOqdYmJxnYHBU2FrLpuQu
+         M029ZejeOXAt9ScLq4yqY9Qfrafbq2eTqjpEAZRkRJnJmAH6k7b2RI6mtjf/VGbOCqZX
+         7hzKvA9+r/ByF3N3nguSE9/RRyIexie4paXmVaJFc8KhXtqfPBM5UQ6zGjTff0tX9ACf
+         Z7gT3Jgz+7xm0FF5yQhbSVJUsedwWYLd5IJso07emmiouWDqA496R0VL+wj9tQhPBdNU
+         UZoSMAmXfmGD8bhdv0Lp3qe6B+43Oy21c7fNeKLO1mN3gCSn43NnQDswhOt4mfv4zekB
+         naEw==
+X-Gm-Message-State: AOAM530suPUOBgPN3Q/KBLpL5PKShHtjZpbMZtO9pi4dA4VmushHVxhW
+	k+M+ym/S2menN7AMwCdKc7g=
+X-Google-Smtp-Source: ABdhPJx38VN2gZJnb4yulSEi2NStgAa6uuHkLc7QvuOBWRxbS2xcQE8gxsXh6BRYmN1NwTWD0a4k2Q==
+X-Received: by 2002:a5d:4bce:: with SMTP id l14mr11471454wrt.99.1616420230190;
+        Mon, 22 Mar 2021 06:37:10 -0700 (PDT)
+Received: from gimli.cesven (93-48-145-141.ip257.fastwebnet.it. [93.48.145.141])
+        by smtp.gmail.com with ESMTPSA id d204sm17091770wmc.17.2021.03.22.06.37.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Mar 2021 06:09:12 -0700 (PDT)
+        Mon, 22 Mar 2021 06:37:09 -0700 (PDT)
 From: Marco Cesati <marcocesati@gmail.com>
-X-Google-Original-From: Marco Cesati <marco.cesati@gmail.com>
-Date: Mon, 22 Mar 2021 14:09:21 +0100
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Hans de Goede <hdegoede@redhat.com>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
-	linux-staging@lists.linux.dev
-Subject: Staging: rtl8723bs: proposed patchset: remove useless structs
-Message-ID: <20210322130921.o4voti2xkmbxonny@cesati.gmail.com>
+	linux-staging@lists.linux.dev,
+	Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [PATCH 00/19] Staging: rtl8723bs: Remove unreferenced struct's
+Date: Mon, 22 Mar 2021 14:36:58 +0100
+Message-Id: <20210322133717.17797-1-marcocesati@gmail.com>
+X-Mailer: git-send-email 2.30.2
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-The staging/rtl8723bs driver code includes 83 unnecessary struct
-definitions (never referenced in the code). Here there are:
+The staging/rtl8723bs driver includes 83 struct definifions
+that are never referenced in the code. This patchset removes all
+of them.
 
-cfg80211_wifidirect_info tdls_info tdls_txmgmt P2P_PS_Offload_t
-P2P_PS_CTWPeriod_t usb_suspend_parm getbasicrate_rsp getdatarate_rsp
-readBB_parm readBB_rsp readTSSI_parm readTSSI_rsp writeBB_parm
-readRF_parm readRF_rsp writeRF_parm getrfintfs_parm settxagctbl_parm
-gettxagctbl_parm gettxagctbl_rsp setagcctrl_parm setssup_parm
-getssup_parm getssup_rsp setssdlevel_parm getssdlevel_parm
-getssdlevel_rsp setssulevel_parm getssulevel_parm getssulevel_rsp
-setratable_parm getratable_parm getratable_rsp gettxretrycnt_parm
-gettxretrycnt_rsp getrxretrycnt_parm getrxretrycnt_rsp getbcnokcnt_parm
-getbcnokcnt_rsp getbcnerrcnt_parm getbcnerrcnt_rsp getcurtxpwrlevel_parm
-getcurtxpwrlevel_rsp setprobereqextraie_parm setassocreqextraie_parm
-setproberspextraie_parm setassocrspextraie_parm smooth_rssi_data
-specific_device_id BSSIDInfo ndis_802_11_association_information
-ndis_802_11_key ndis_802_11_remove_key iocmd_struct rf_reg_param
-bb_reg_param wowlan_ioctl_param addba_event c2hevent_queue
-phystatus_8723b sha256_state country_code_to_enum_rd reg_protocol_rd
-reg_protocol_wt rtw_ieee80211_bar r_antenna_select_ofdm agg_pkt_info
-ieee_ibss_seq ieee80211_rx_stats ieee80211_frag_entry ieee80211_stats
-ieee80211_softmac_stats ieee80211_security ieee80211_header_data
-phy_status_rpt_8812_t odm_sta_info_t odm_ra_info_t
+[PATCH 01/19] Staging: rtl8723bs: remove useless structs in rtw_mlme.h
+[PATCH 02/19] Staging: rtl8723bs: remove useless structs in rtw_cmd.h
+[PATCH 03/19] Staging: rtl8723bs: remove useless structs in rtw_recv.h
+[PATCH 04/19] Staging: rtl8723bs: remove useless structs in drv_types.h
+[PATCH 05/19] Staging: rtl8723bs: remove useless structs in rtw_ioctl_set.h
+[PATCH 06/19] Staging: rtl8723bs: remove useless structs in wlan_bssdef.h
+[PATCH 07/19] Staging: rtl8723bs: remove useless structs in rtw_mp.h
+[PATCH 08/19] Staging: rtl8723bs: remove useless structs in hal_intf.h
+[PATCH 09/19] Staging: rtl8723bs: remove useless structs in rtw_event.h
+[PATCH 10/19] Staging: rtl8723bs: remove useless structs in rtl8723b_recv.h
+[PATCH 11/19] Staging: rtl8723bs: remove useless structs in rtw_security.h
+[PATCH 12/19] Staging: rtl8723bs: remove useless structs in rtw_wifi_regd.h
+[PATCH 13/19] Staging: rtl8723bs: remove useless structs in rtw_io.h
+[PATCH 14/19] Staging: rtl8723bs: remove useless structs in wifi.h
+[PATCH 15/19] Staging: rtl8723bs: remove useless structs in hal_phy.h
+[PATCH 16/19] Staging: rtl8723bs: remove useless structs in rtw_xmit.h
+[PATCH 17/19] Staging: rtl8723bs: remove useless structs in ieee80211.h
+[PATCH 18/19] Staging: rtl8723bs: remove useless structs in odm_HWConfig.h
+[PATCH 19/19] Staging: rtl8723bs: remove useless structs in odm.h
 
-Should I submit a patchset that removes all of these definitions?
+ drivers/staging/rtl8723bs/hal/odm.h           |  61 -----
+ drivers/staging/rtl8723bs/hal/odm_HWConfig.h  |  45 ----
+ drivers/staging/rtl8723bs/include/drv_types.h |   9 -
+ drivers/staging/rtl8723bs/include/hal_intf.h  |   8 -
+ drivers/staging/rtl8723bs/include/hal_phy.h   |  24 --
+ drivers/staging/rtl8723bs/include/ieee80211.h |  94 -------
+ .../staging/rtl8723bs/include/rtl8723b_recv.h |  44 ----
+ drivers/staging/rtl8723bs/include/rtw_cmd.h   | 231 ------------------
+ drivers/staging/rtl8723bs/include/rtw_event.h |  11 -
+ drivers/staging/rtl8723bs/include/rtw_io.h    | 111 ---------
+ .../staging/rtl8723bs/include/rtw_ioctl_set.h |   6 -
+ drivers/staging/rtl8723bs/include/rtw_mlme.h  |  38 ---
+ drivers/staging/rtl8723bs/include/rtw_mp.h    |  17 --
+ drivers/staging/rtl8723bs/include/rtw_recv.h  |   7 -
+ .../staging/rtl8723bs/include/rtw_security.h  |   6 -
+ .../staging/rtl8723bs/include/rtw_wifi_regd.h |   5 -
+ drivers/staging/rtl8723bs/include/rtw_xmit.h  |   5 -
+ drivers/staging/rtl8723bs/include/wifi.h      |  15 --
+ .../staging/rtl8723bs/include/wlan_bssdef.h   |  26 --
+ 19 files changed, 763 deletions(-)
 
-Best regards,
+-- 
+2.30.2
 
-Marco
-
----- 
-Marco Cesati, PhD
-Dept. of Civil Engineering and Computer Science Engineering
-Univ. of Rome Tor Vergata
-via del Politecnico 1, I-00133 Rome, Italy
-Tel. +39 06 7259 7389
