@@ -1,52 +1,61 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70FFB6E
-	for <linux-staging@lists.linux.dev>; Sun, 21 Mar 2021 19:02:34 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id E683E6024A;
-	Sun, 21 Mar 2021 19:02:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1616353353;
-	bh=W8nhk/e9uQfq98pzoyRkw2HsgksWMgDekNOI2PiaBho=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=QKNy2ItdJbNQazTMeBBEqNzXkwfWjBsH3da7jT8ocRXl6yhv4G/6FCotIBBlYrt/3
-	 Mn6drFHpXJmkhv/OvTnzVxExgcQrpudh/Xldy1EMeDWFO5AYmfR+mmbZN3Ga/y800x
-	 Yti9QoRv5UVCXenl7K5qkOj9YD2KtAGFqDi88cX3R/lcwXr803dgBuZsEzBwzRZqCg
-	 RiZli4+Jcp2lwGNp4qu9B4B0svP6bi7vcoGUDHfC+vqAIBdTxJ92TmD9hOjyhrQ3RE
-	 D0oYPoT8/b6t/8deYOccCdG0M4KBGHsHFmUNXWI+mBXH1pwxE2LWguOxrj5YyC5zeQ
-	 8TE6xPz5Gqkkw==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id D428C60A6A;
-	Sun, 21 Mar 2021 19:02:33 +0000 (UTC)
-Subject: Re: [GIT PULL] Staging/IIO driver fixes for 5.12-rc4
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <YFc8/KJBiKVT2Rt1@kroah.com>
-References: <YFc8/KJBiKVT2Rt1@kroah.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <YFc8/KJBiKVT2Rt1@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.12-rc4
-X-PR-Tracked-Commit-Id: 2cafd46a714af1e55354bc6dcea9dcc13f9475b5
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 1d4345eb51a185b2ecd11834dbddca79cb922eb5
-Message-Id: <161635335386.3800.2419849329640227912.pr-tracker-bot@kernel.org>
-Date: Sun, 21 Mar 2021 19:02:33 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, devel@linuxdriverproject.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 577526E
+	for <linux-staging@lists.linux.dev>; Mon, 22 Mar 2021 07:53:27 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 40D2660238;
+	Mon, 22 Mar 2021 07:53:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1616399606;
+	bh=44p/Ueld9vCVM5Ylo7zNfq3Lvw0y7S7unPop8elIUvo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HWwsuVJjhfSVheX4h3l8MaLd/ilqA+MacNTjsVkrRk7FruD8bHUITkJFSb6Fu+Teq
+	 +pNHLLWaOuTX2EbQ5a2n7R8tzMmMkBvRA191B8FM9pcdlGGkOQ1mMpLBSJ+ivs7Lxf
+	 X7L6uy8y+Dnu0rRh7vcVtt4GW3ATp5lb6pbZlNqs=
+Date: Mon, 22 Mar 2021 08:53:24 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: dev.dragon@bk.ru
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] Staging: wimax: i2400m: fixed a space coding style issue.
+Message-ID: <YFhM9BA3fiBNaQbr@kroah.com>
+References: <20210321182602.13793-1-dev.dragon@bk.ru>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210321182602.13793-1-dev.dragon@bk.ru>
 
-The pull request you sent on Sun, 21 Mar 2021 13:33:00 +0100:
+On Sun, Mar 21, 2021 at 09:26:02PM +0300, dev.dragon@bk.ru wrote:
+> From: Dmitrii Wolf <dev.dragon@bk.ru>
+> 
+> Fixed a coding style.
+> 
+> Signed-off-by: Dmitrii Wolf <dev.dragon@bk.ru>
+> ---
+>  drivers/staging/wimax/i2400m/debugfs.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/wimax/i2400m/debugfs.c b/drivers/staging/wimax/i2400m/debugfs.c
+> index 1c640b41ea4c..4e6e1e3f015e 100644
+> --- a/drivers/staging/wimax/i2400m/debugfs.c
+> +++ b/drivers/staging/wimax/i2400m/debugfs.c
+> @@ -170,7 +170,7 @@ int debugfs_i2400m_reset_set(void *data, u64 val)
+>  	int result;
+>  	struct i2400m *i2400m = data;
+>  	enum i2400m_reset_type rt = val;
+> -	switch(rt) {
+> +	switch (rt) {
+>  	case I2400M_RT_WARM:
+>  	case I2400M_RT_COLD:
+>  	case I2400M_RT_BUS:
+> -- 
+> 2.25.1
+> 
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.12-rc4
+Sorry, but this file is now gone from my tree and from linux-next:
+	    https://lore.kernel.org/r/20210318093315.694404-1-gregkh@linuxfoundation.org
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/1d4345eb51a185b2ecd11834dbddca79cb922eb5
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+greg k-h
