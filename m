@@ -1,197 +1,90 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F945F
-	for <linux-staging@lists.linux.dev>; Mon, 22 Mar 2021 09:58:16 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1C83C6191A;
-	Mon, 22 Mar 2021 09:58:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1616407095;
-	bh=cqnosJVtv6oS31tjD0GRSYupIltGHiZs5alaG8lMVIM=;
-	h=Subject:To:Cc:From:Date:From;
-	b=NqfjZcwL5hdxMtdgQkDijvlRL6V9zfZiC61AdQaOfg01Dp/ia7SaB5ug4YlAFiOrD
-	 2gLteMZbwDFl2CcDNjYQly1+W2sA+t9/fx4SLRpMbIPCH1mcbp2+4DK+I/QE/A1Qpx
-	 b/noVeThj8vVroDt8SL55LzqplaR/2/eNk5oG3kI=
-Subject: Patch "MAINTAINERS: move the staging subsystem to lists.linux.dev" has been added to the 5.10-stable tree
-To: gregkh@linuxfoundation.org,linux-staging@lists.linux.dev,mchehab+huawei@kernel.org
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Mon, 22 Mar 2021 10:57:49 +0100
-Message-ID: <1616407069169199@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D62E45F
+	for <linux-staging@lists.linux.dev>; Mon, 22 Mar 2021 13:09:13 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id j7so16665772wrd.1
+        for <linux-staging@lists.linux.dev>; Mon, 22 Mar 2021 06:09:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=9ThliA+FvSjJnPMsRGQJR0DXPnljzshwYzvzpSyvF+c=;
+        b=eST1rx5pYBZBo/SJwOB4iGdVbOnpbbgr7b+UtyCV7EcDVPVUmTQm/CbPdWiymvYVig
+         aJHv/uQFKDdY2FUyzO8X0g/oJ2g2tIuMmNCECYaEvHi0Qh0b2d2pZTTVYSsYNYzK8T4t
+         bf2eotINOSp0ZiZXeKdLeOBo0yuCyBoCdI+3bfWotKnTWlun7MED1dfEL1MOU8QxsGug
+         YpiVwbwwhdi2jhvdZNBi8A2AmbJBtPi3YIRpOqtDqH2V+IPtvRXCbyhmsQVJ+nZlgQe7
+         d6B+HwqgNxYMab2M/mFiNqch3PgUi+vv7RC1cC+a7w4ZEWvQQDxEFqTpq4Vj19x3J8jZ
+         K+rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=9ThliA+FvSjJnPMsRGQJR0DXPnljzshwYzvzpSyvF+c=;
+        b=LB2jTd16QTty/8yW3WGHUCV5etJ4nICA0R/4JrKa4tQf/SqjyUx4ZmHf3orv2c1HaH
+         d/JWgy9Th9kfx27Et3yImhxK6UVe1gRx8ZOtY2O0h3WXlku8dyt8E/JYF0ZGwGmRcxvO
+         g/BijA0zLIFLOnlqMHGOQivBo2bpqfpwMnwxBKysnHxKmPI4zLefDApUB/9zcw+LUucy
+         lRMbKJONimPRAI5pGZY9n45vlKUZ9YeWyfSrglw5tpPYejY1MGf4CYOx+svFd4TMruUd
+         7ZSJf95pOXbe2ifadXvgSuYZf4gvswfxVu0qTLfhZw84sNhL2g5/fzbo4uCetKPATyQV
+         qXxw==
+X-Gm-Message-State: AOAM532sogD6bidYJ6nvrivZT4vZsDWmVoPaGW8IDqtniDmM+TYYXW98
+	gCHL9VVo/iXncdLZbwfV6i8=
+X-Google-Smtp-Source: ABdhPJzRA8gpt1MA7GkLb2yVGM7qexAa1iYL5d/n9eYkBW8XoIOoVD7D8U6gwpzcaGAQk71LknunXw==
+X-Received: by 2002:a1c:3d8b:: with SMTP id k133mr16067134wma.6.1616418552270;
+        Mon, 22 Mar 2021 06:09:12 -0700 (PDT)
+Received: from cesati.gmail.com (93-48-145-141.ip257.fastwebnet.it. [93.48.145.141])
+        by smtp.gmail.com with ESMTPSA id d8sm21261834wrr.35.2021.03.22.06.09.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Mar 2021 06:09:12 -0700 (PDT)
+From: Marco Cesati <marcocesati@gmail.com>
+X-Google-Original-From: Marco Cesati <marco.cesati@gmail.com>
+Date: Mon, 22 Mar 2021 14:09:21 +0100
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	linux-staging@lists.linux.dev
+Subject: Staging: rtl8723bs: proposed patchset: remove useless structs
+Message-ID: <20210322130921.o4voti2xkmbxonny@cesati.gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+The staging/rtl8723bs driver code includes 83 unnecessary struct
+definitions (never referenced in the code). Here there are:
 
-This is a note to let you know that I've just added the patch titled
+cfg80211_wifidirect_info tdls_info tdls_txmgmt P2P_PS_Offload_t
+P2P_PS_CTWPeriod_t usb_suspend_parm getbasicrate_rsp getdatarate_rsp
+readBB_parm readBB_rsp readTSSI_parm readTSSI_rsp writeBB_parm
+readRF_parm readRF_rsp writeRF_parm getrfintfs_parm settxagctbl_parm
+gettxagctbl_parm gettxagctbl_rsp setagcctrl_parm setssup_parm
+getssup_parm getssup_rsp setssdlevel_parm getssdlevel_parm
+getssdlevel_rsp setssulevel_parm getssulevel_parm getssulevel_rsp
+setratable_parm getratable_parm getratable_rsp gettxretrycnt_parm
+gettxretrycnt_rsp getrxretrycnt_parm getrxretrycnt_rsp getbcnokcnt_parm
+getbcnokcnt_rsp getbcnerrcnt_parm getbcnerrcnt_rsp getcurtxpwrlevel_parm
+getcurtxpwrlevel_rsp setprobereqextraie_parm setassocreqextraie_parm
+setproberspextraie_parm setassocrspextraie_parm smooth_rssi_data
+specific_device_id BSSIDInfo ndis_802_11_association_information
+ndis_802_11_key ndis_802_11_remove_key iocmd_struct rf_reg_param
+bb_reg_param wowlan_ioctl_param addba_event c2hevent_queue
+phystatus_8723b sha256_state country_code_to_enum_rd reg_protocol_rd
+reg_protocol_wt rtw_ieee80211_bar r_antenna_select_ofdm agg_pkt_info
+ieee_ibss_seq ieee80211_rx_stats ieee80211_frag_entry ieee80211_stats
+ieee80211_softmac_stats ieee80211_security ieee80211_header_data
+phy_status_rpt_8812_t odm_sta_info_t odm_ra_info_t
 
-    MAINTAINERS: move the staging subsystem to lists.linux.dev
+Should I submit a patchset that removes all of these definitions?
 
-to the 5.10-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+Best regards,
 
-The filename of the patch is:
-     maintainers-move-the-staging-subsystem-to-lists.linux.dev.patch
-and it can be found in the queue-5.10 subdirectory.
+Marco
 
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From e06da9ea3e3f6746a849edeae1d09ee821f5c2ce Mon Sep 17 00:00:00 2001
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Date: Tue, 16 Mar 2021 11:23:11 +0100
-Subject: MAINTAINERS: move the staging subsystem to lists.linux.dev
-
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-commit e06da9ea3e3f6746a849edeae1d09ee821f5c2ce upstream.
-
-The drivers/staging/ tree has a new mailing list,
-linux-staging@lists.linux.dev, so move the MAINTAINER entry to point to
-it so that we get patches sent to the proper place.
-
-There was no need to specify a list for the hikey9xx driver, the tools
-pick up the "base" list for drivers/staging/* so remove that line to
-make the file simpler.
-
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Link: https://lore.kernel.org/r/20210316102311.182375-1-gregkh@linuxfoundation.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- MAINTAINERS |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8001,7 +8001,6 @@ F:	drivers/crypto/hisilicon/sec2/sec_mai
- 
- HISILICON STAGING DRIVERS FOR HIKEY 960/970
- M:	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
--L:	devel@driverdev.osuosl.org
- S:	Maintained
- F:	drivers/staging/hikey9xx/
- 
-@@ -16665,7 +16664,7 @@ F:	drivers/staging/vt665?/
- 
- STAGING SUBSYSTEM
- M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
--L:	devel@driverdev.osuosl.org
-+L:	linux-staging@lists.linux.dev
- S:	Supported
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
- F:	drivers/staging/
-
-
-Patches currently in stable-queue which might be from gregkh@linuxfoundation.org are
-
-queue-5.10/iio-adc-ad7949-fix-wrong-adc-result-due-to-incorrect-bit-mask.patch
-queue-5.10/genirq-disable-interrupts-for-force-threaded-handlers.patch
-queue-5.10/iio-hid-sensor-temperature-fix-issues-of-timestamp-channel.patch
-queue-5.10/ext4-fix-error-handling-in-ext4_end_enable_verity.patch
-queue-5.10/nfsd-don-t-abort-copies-early.patch
-queue-5.10/s390-pci-fix-leak-of-pci-device-structure.patch
-queue-5.10/nvme-tcp-fix-a-null-deref-when-receiving-a-0-length-r2t-pdu.patch
-queue-5.10/kernel-fs-introduce-and-use-set_restart_fn-and-arch_set_restart_data.patch
-queue-5.10/static_call-fix-static_call_update-sanity-check.patch
-queue-5.10/cifs-fix-allocation-size-on-newly-created-files.patch
-queue-5.10/usb-storage-add-quirk-to-defeat-kindle-s-automatic-unload.patch
-queue-5.10/afs-stop-listxattr-from-listing-afs.-attributes.patch
-queue-5.10/serial-stm32-fix-dma-initialization-error-handling.patch
-queue-5.10/nvme-fix-write-zeroes-limitations.patch
-queue-5.10/asoc-intel-bytcr_rt5640-fix-hp-pavilion-x2-10-p0xx-ovcd-current-threshold.patch
-queue-5.10/afs-fix-accessing-yfs-xattrs-on-a-non-yfs-server.patch
-queue-5.10/ext4-find-old-entry-again-if-failed-to-rename-whiteout.patch
-queue-5.10/iio-adc-stm32-adc-add-has_iomem-dependency.patch
-queue-5.10/alsa-hda-realtek-apply-headset-mic-quirks-for-xiaomi-redmibook-air.patch
-queue-5.10/nvme-tcp-fix-possible-hang-when-failing-to-set-io-queues.patch
-queue-5.10/net-qrtr-fix-__netdev_alloc_skb-call.patch
-queue-5.10/btrfs-fix-slab-cache-flags-for-free-space-tree-bitmap.patch
-queue-5.10/thunderbolt-increase-runtime-pm-reference-count-on-dp-tunnel-discovery.patch
-queue-5.10/iio-gyro-mpu3050-fix-error-handling-in-mpu3050_trigger_handler.patch
-queue-5.10/alsa-dice-fix-null-pointer-dereference-when-node-is-disconnected.patch
-queue-5.10/alsa-hda-realtek-apply-pin-quirk-for-xiaominotebook-pro.patch
-queue-5.10/usb-typec-remove-vdo-part-of-tps6598x_rx_identity_reg-struct.patch
-queue-5.10/sunrpc-fix-refcount-leak-for-rpc-auth-modules.patch
-queue-5.10/maintainers-move-the-staging-subsystem-to-lists.linux.dev.patch
-queue-5.10/nvme-tcp-fix-misuse-of-__smp_processor_id-with-preemption-enabled.patch
-queue-5.10/io_uring-ensure-that-sqpoll-thread-is-started-for-exit.patch
-queue-5.10/asoc-codecs-wcd934x-add-a-sanity-check-in-set-channel-map.patch
-queue-5.10/nfsd-fix-dest-to-src-mount-in-inter-server-copy.patch
-queue-5.10/powerpc-force-inlining-of-cpu_has_feature-to-avoid-build-failure.patch
-queue-5.10/btrfs-fix-race-when-cloning-extent-buffer-during-rewind-of-an-old-root.patch
-queue-5.10/asoc-simple-card-utils-do-not-handle-device-clock.patch
-queue-5.10/perf-x86-intel-fix-a-crash-caused-by-zero-pebs-status.patch
-queue-5.10/nvmet-don-t-check-iosqes-iocqes-for-discovery-controllers.patch
-queue-5.10/ext4-fix-rename-whiteout-with-fast-commit.patch
-queue-5.10/usbip-fix-incorrect-double-assignment-to-udc-ud.tcp_rx.patch
-queue-5.10/alsa-hda-realtek-fix-mute-micmute-leds-for-hp-840-g8.patch
-queue-5.10/drm-amd-display-correct-algorithm-for-reversed-gamma.patch
-queue-5.10/thunderbolt-initialize-hopid-idas-in-tb_switch_alloc.patch
-queue-5.10/maintainers-move-some-real-subsystems-off-of-the-staging-mailing-list.patch
-queue-5.10/ext4-fix-potential-error-in-ext4_do_update_inode.patch
-queue-5.10/iio-adis16400-fix-an-error-code-in-adis16400_initial_setup.patch
-queue-5.10/asoc-ak5558-add-module_device_table.patch
-queue-5.10/iio-adc-adi-axi-adc-add-proper-kconfig-dependencies.patch
-queue-5.10/zonefs-fix-o_append-async-write-handling.patch
-queue-5.10/x86-introduce-ts_compat_restart-to-fix-get_nr_restart_syscall.patch
-queue-5.10/scsi-ufs-ufs-mediatek-correct-operator.patch
-queue-5.10/x86-ioapic-ignore-irq2-again.patch
-queue-5.10/nfsd-repair-misuse-of-sv_lock-in-5.10.16-rt30.patch
-queue-5.10/counter-stm32-timer-cnt-fix-ceiling-write-max-value.patch
-queue-5.10/iio-hid-sensor-prox-fix-scale-not-correct-issue.patch
-queue-5.10/asoc-sof-intel-unregister-dmic-device-on-probe-error.patch
-queue-5.10/pstore-fix-warning-in-pstore_kill_sb.patch
-queue-5.10/s390-pci-remove-superfluous-zdev-zbus-check.patch
-queue-5.10/asoc-fsl_ssi-fix-tdm-slot-setup-for-i2s-mode.patch
-queue-5.10/zonefs-fix-to-update-.i_wr_refcnt-correctly-in-zonefs_open_zone.patch
-queue-5.10/ext4-stop-inode-update-before-return.patch
-queue-5.10/iio-adc-qcom-spmi-vadc-add-default-scale-to-lr_mux2_bat_id-channel.patch
-queue-5.10/asoc-sof-intel-fix-wrong-poll-bits-in-dsp-power-down.patch
-queue-5.10/zonefs-prevent-use-of-seq-files-as-swap-file.patch
-queue-5.10/vhost-vdpa-set-v-config_ctx-to-null-if-eventfd_ctx_fdget-fails.patch
-queue-5.10/iio-adc-ab8500-gpadc-fix-off-by-10-to-3.patch
-queue-5.10/usb-gadget-configfs-fix-kasan-use-after-free.patch
-queue-5.10/asoc-qcom-sdm845-fix-array-out-of-range-on-rx-slim-channels.patch
-queue-5.10/asoc-qcom-lpass-cpu-fix-lpass-dai-ids-parse.patch
-queue-5.10/vhost-vdpa-fix-use-after-free-of-v-config_ctx.patch
-queue-5.10/perf-x86-intel-fix-unchecked-msr-access-error-caused-by-vlbr_event.patch
-queue-5.10/alsa-hda-realtek-fix-mute-micmute-leds-for-hp-850-g8.patch
-queue-5.10/usb-typec-tcpm-invoke-power_supply_changed-for-tcpm-source-psy.patch
-queue-5.10/alsa-usb-audio-fix-unintentional-sign-extension-issue.patch
-queue-5.10/iio-hid-sensor-humidity-fix-alignment-issue-of-timestamp-channel.patch
-queue-5.10/vfio-iommu_api-should-be-selected.patch
-queue-5.10/kbuild-fix-linux-version.h-for-empty-sublevel-or-patchlevel-again.patch
-queue-5.10/revert-pm-runtime-update-device-status-before-letting-suppliers-suspend.patch
-queue-5.10/i915-perf-start-hrtimer-only-if-sampling-the-oa-buffer.patch
-queue-5.10/efi-use-32-bit-alignment-for-efi_guid_t-literals.patch
-queue-5.10/x86-move-ts_compat-back-to-asm-thread_info.h.patch
-queue-5.10/svcrdma-disable-timeouts-on-rdma-backchannel.patch
-queue-5.10/asoc-ak4458-add-module_device_table.patch
-queue-5.10/tty-serial-stm32-usart-remove-set-but-unused-cookie-.patch
-queue-5.10/counter-stm32-timer-cnt-fix-ceiling-miss-alignment-with-reload-register.patch
-queue-5.10/s390-pci-refactor-zpci_create_device.patch
-queue-5.10/alsa-hda-realtek-fix-mute-micmute-leds-for-hp-440-g8.patch
-queue-5.10/scsi-myrs-fix-a-double-free-in-myrs_cleanup.patch
-queue-5.10/nfsd-don-t-keep-looking-up-unhashed-files-in-the-nfsd-file-cache.patch
-queue-5.10/x86-apic-of-fix-cpu-devicetree-node-lookups.patch
-queue-5.10/scsi-lpfc-fix-some-error-codes-in-debugfs.patch
-queue-5.10/asoc-qcom-sdm845-fix-array-out-of-bounds-access.patch
-queue-5.10/spi-cadence-set-cqspi-to-the-driver_data-field-of-struct-device.patch
-queue-5.10/efivars-respect-efi_unsupported-return-from-firmware.patch
-queue-5.10/pci-rpadlpar-fix-potential-drc_name-corruption-in-store-functions.patch
-queue-5.10/usb-dwc3-gadget-prevent-ep-queuing-while-stopping-transfers.patch
-queue-5.10/firmware-efi-fix-a-use-after-bug-in-efi_mem_reserve_persistent.patch
-queue-5.10/usb-dwc3-gadget-allow-runtime-suspend-if-udc-unbinded.patch
-queue-5.10/s390-vtime-fix-increased-steal-time-accounting.patch
-queue-5.10/vhost_vdpa-fix-the-missing-irq_bypass_unregister_producer-invocation.patch
-queue-5.10/ext4-do-not-try-to-set-xattr-into-ea_inode-if-value-is-empty.patch
-queue-5.10/riscv-correct-sparsemem-configuration.patch
-queue-5.10/risc-v-correct-enum-sbi_ext_rfence_fid.patch
-queue-5.10/alsa-hda-generic-fix-the-micmute-led-init-state.patch
+---- 
+Marco Cesati, PhD
+Dept. of Civil Engineering and Computer Science Engineering
+Univ. of Rome Tor Vergata
+via del Politecnico 1, I-00133 Rome, Italy
+Tel. +39 06 7259 7389
