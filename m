@@ -1,49 +1,49 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F058D70
-	for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 12:44:59 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id d191so12814074wmd.2
-        for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 05:44:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACCE6F
+	for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 12:45:00 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id w203-20020a1c49d40000b029010c706d0642so2646722wma.0
+        for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 05:45:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=YOkaJznKMXwXoV9yjUno4xqyLYHIIeZzN/WdlczLEDo=;
-        b=qKKiveG2jEyxo9XPX4LGEM7tbY51ghLpgzmi+wfBAZOUJ3RutQ6E7i+1xO+k6DrL9U
-         XU5uSIWdNQF7K6W2ONyn7JTkoO8mSUGsRoXwWg+6YPnUhzXlBbLiyylSgu2cwyo3U6Hu
-         fjv2hoh3Ln1KMRTXPgbvKOdy2zbJptOGcm40aTXWpUiT8Y1xJrVXszHG/S+H9nQiOUcY
-         TUkYIXkM9KKoMkN+4+UbNub7cnvUbzyj7zFVqH4RZyZoC/SoDKwodOcPk47cJpEz2SY4
-         4uDu8BIyGLDtFLwTpq7+CNLcZ2dHqwwaUQc8PaHGhgM48KGgm5jqRGD7h55OllMoYTeR
-         Xzuw==
+        bh=B7lbCDdH/ioQh2gU0nwdRgXHD+A5zzpfP1C/55L3Bh0=;
+        b=DmAWWeEuoCad0tYtfP3yAid53H4D5YHkweaeLCmGPbGdBaWW/zSd0mpygD2GUglJba
+         +KNjk5hfCM4qPfpd7QK7BxnYJJ1kaBwtPBKtsCIr7h1ScujoM8E8gexS3+dFd+wMOitZ
+         7wMkD68A1VrecvDZa/8D7UUvutYjs5p33KCKLVY9Zb9ab4mZI/8TORHQrUDVp5lhlkcs
+         82jnaA5zcHmt/BP29GwaS5eLzt9CV4eThbXGflIRyEQ7BlHoP8iO0emEj+j16imrXu25
+         ntNZumQQ1Sc2VIC0XCj76LHlHsPMykn01p+FoBKnSHujIJ8rjMbJNoMZHB/sjvYOZvqq
+         dVPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=YOkaJznKMXwXoV9yjUno4xqyLYHIIeZzN/WdlczLEDo=;
-        b=hDsY1zbqYAOqpKz0JNDN1Z1cePy8eOOmiX0QONXGfrghPDR6Rx+jcAq2jVj89wFkJ5
-         8Yth3dYlnE/ujRxB0Mo5xwPFB6san+5C07ytlikqlBmSoaF7OgTH8fbmF7PgEkRkRbL2
-         GJpJVJzFCXxulbJnKvGbi/GxvsZ0bjgqeW3rkuIrGgIuNYlKAKwGMVhX15x4qlJOxRuh
-         79LAy+JzCegzfbqc7YJDO7uenYagsZH5yBiGi+CDN/zitei+2V5fA0mPqM9u9fTmvT+M
-         yRWAfD/chWiSosbV11xGBZfXWvru8oLtpxZ5CS0li8IejTs+YAThQOVnVlEl5Q91Ul9E
-         eZMQ==
-X-Gm-Message-State: AOAM531/c2Bkaeqjnyz9ppvEU9M1QErPy58huVAZyXZe0xbBhSY4kVaq
-	ucRHYFGpV+apOcTh5+UFgh0=
-X-Google-Smtp-Source: ABdhPJyaNYYa6VG46lpZ9itAzBMcBuAOHEl89/tp3ZP2ejowJu2MDqilb2cHjZMQ34ns01pwqISCRw==
-X-Received: by 2002:a1c:bb89:: with SMTP id l131mr2848937wmf.47.1616589898418;
-        Wed, 24 Mar 2021 05:44:58 -0700 (PDT)
+        bh=B7lbCDdH/ioQh2gU0nwdRgXHD+A5zzpfP1C/55L3Bh0=;
+        b=sWF7eA8D3E/JXCZ0tIN69BCs5fo2kW4yUDd3/iJxW+l5st781eZIplSj1wgUBygvbQ
+         OUQRHZtOrccRkKIde5q/gvNhy924Dd7N0uBYPnUzo9xFPdkc33rZg1EnXDiacOYI0XUX
+         9aKKq6VdwnmQ062dVfwFiIFRCOavRFo8KQoPMt2ffwZlpUG+AVnSqg2IEDFmMUlS9A9X
+         cUE3ZmoSYhfDwp4qSym1J8qEKH3lQ4tuyr4BYpO43al8EfZC5DKD5WAARx/sDpicNxWR
+         i8brDo4kNN0ZKrdoccJS/GnyQjJaXyXkCMAEZMaE9JhmTbRYOvyZya70y5N6Sp1vlNgk
+         cwFQ==
+X-Gm-Message-State: AOAM53267vmCeNRUZujmedp/xz1L0u+1Jtq2J+iY0Et5v+VapU813f3I
+	DhlESceFG3xRQUREpYM3cck=
+X-Google-Smtp-Source: ABdhPJw4ERFepcOYYlN8xIKIslCUyCQyZ1TNuaM/E7g74HgOhOk8rSf+O9j+ywPsu02CyNfOv8s25Q==
+X-Received: by 2002:a05:600c:4f89:: with SMTP id n9mr2810526wmq.133.1616589899285;
+        Wed, 24 Mar 2021 05:44:59 -0700 (PDT)
 Received: from gimli.home (93-48-145-141.ip257.fastwebnet.it. [93.48.145.141])
-        by smtp.gmail.com with ESMTPSA id s20sm2324005wmj.36.2021.03.24.05.44.57
+        by smtp.gmail.com with ESMTPSA id s20sm2324005wmj.36.2021.03.24.05.44.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 05:44:58 -0700 (PDT)
+        Wed, 24 Mar 2021 05:44:59 -0700 (PDT)
 From: Marco Cesati <marcocesati@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Hans de Goede <hdegoede@redhat.com>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 12/33] Staging: rtl8723bs: remove named enums in rtw_pwrctrl.h
-Date: Wed, 24 Mar 2021 13:44:35 +0100
-Message-Id: <20210324124456.25221-13-marcocesati@gmail.com>
+Subject: [PATCH 13/33] Staging: rtl8723bs: remove named enums in rtl8723b_cmd.h
+Date: Wed, 24 Mar 2021 13:44:36 +0100
+Message-Id: <20210324124456.25221-14-marcocesati@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210324124456.25221-1-marcocesati@gmail.com>
 References: <20210324124456.25221-1-marcocesati@gmail.com>
@@ -54,40 +54,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the following unnecessary enum names in
-include/rtw_pwrctrl.h:
+Remove the following unnecessary enum name in
+include/rtl8723b_cmd.h:
 
-	enum Power_Mgnt
-	enum _PS_BBRegBackup_
+	enum h2c_cmd_8723B
 
 Signed-off-by: Marco Cesati <marcocesati@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/rtw_pwrctrl.h | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/staging/rtl8723bs/include/rtl8723b_cmd.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-index cec9fc0cf794..2d77446e9482 100644
---- a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-@@ -31,7 +31,7 @@
- #define BTCOEX_ALIVE	BIT(4)
+diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_cmd.h b/drivers/staging/rtl8723bs/include/rtl8723b_cmd.h
+index 9629a8844c2d..dbcf01bbf051 100644
+--- a/drivers/staging/rtl8723bs/include/rtl8723b_cmd.h
++++ b/drivers/staging/rtl8723bs/include/rtl8723b_cmd.h
+@@ -11,7 +11,7 @@
+ /*     H2C CMD DEFINITION    ------------------------------------------------ */
+ /*  */
  
- 
--enum Power_Mgnt {
+-enum h2c_cmd_8723B {
 +enum {
- 	PS_MODE_ACTIVE	= 0,
- 	PS_MODE_MIN,
- 	PS_MODE_MAX,
-@@ -124,8 +124,7 @@ enum rt_rf_power_state {
- #define	RT_PCI_ASPM_OSC_ENABLE		BIT0 /*  PCI ASPM controlled by OS according to ACPI Spec 5.0 */
- #define	RT_PCI_ASPM_OSC_DISABLE		BIT1 /*  PCI ASPM controlled by driver or BIOS, i.e., force enable ASPM */
- 
--
--enum _PS_BBRegBackup_ {
-+enum {
- 	PSBBREG_RF0 = 0,
- 	PSBBREG_RF1,
- 	PSBBREG_RF2,
+ 	/* Common Class: 000 */
+ 	H2C_8723B_RSVD_PAGE = 0x00,
+ 	H2C_8723B_MEDIA_STATUS_RPT = 0x01,
 -- 
 2.30.2
 
