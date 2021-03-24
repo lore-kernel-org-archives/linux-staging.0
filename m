@@ -1,85 +1,129 @@
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359DD5F
-	for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 19:07:08 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-	by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12OJ4vjr194797;
-	Wed, 24 Mar 2021 19:07:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=LNDD0jCzpRhp4theXoRAletQH9Llxl0hjdZtPOsxAmM=;
- b=I0OzSAWIy6ipxWG9rY6flOBWFifCZ9y5d6HiJdm5kf/K9utBq5x1CDIsKxTkfzfX7AB1
- 4DoIBYku97izlRxPmVNGi8B66oAjlW5xaLINtncle9rmkGNK+0QAs39QSDVXLN0ZBlIP
- Fv27Dm0ke2rCFpA9X9wuMsh6j4+IeXfKEHu8kcdPOOE0umRGNL8e0iWj49c0JeZRAF2T
- DyK1+SEnWscLd1hyNIxhPAqJt2tHq56/d2EMCCAOUjxbE8qsk2yHxiZLxI24WhJ79sK1
- YB0Jf6AZ+408quhuD0jw+0+5UI4jSbN9zAeuco+zScSoGAETFI1+HuV+kPRUIBCJ3DKD Kw== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by userp2130.oracle.com with ESMTP id 37d8frbxbd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 24 Mar 2021 19:07:05 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12OJ5Cnn045204;
-	Wed, 24 Mar 2021 19:07:03 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by aserp3030.oracle.com with ESMTP id 37dtmr7fg5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 24 Mar 2021 19:07:02 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 12OJ712M022035;
-	Wed, 24 Mar 2021 19:07:01 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Wed, 24 Mar 2021 19:07:00 +0000
-Date: Wed, 24 Mar 2021 22:06:52 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Marco Cesati <marcocesati@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Larry Finger <Larry.Finger@lwfinger.net>,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH 21/21] Staging: rtl8723bs: remove enums in odm.h
-Message-ID: <20210324190652.GR1717@kadam>
-References: <20210324183847.5595-1-marcocesati@gmail.com>
- <20210324183847.5595-22-marcocesati@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4288D5F
+	for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 19:39:17 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id k8so25636462wrc.3
+        for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 12:39:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FYE0bGD80zrB+s2f9wqCYnAqF6ITvCBq6j3Be/WlGb0=;
+        b=kkpU8BwWsLw+OCX3+49UL1zjKW4MVqsb2h8FOwsIxu8Su9nUNbo8a+fIH0kOeLSpzj
+         +Q30zincu4t/m4CYsikyYHY+ygzICua5O3BqkJtZIEuMUwf1X8I5aEG+4OlinMaVwpIk
+         rzrYDi3XryIQFcChe2OaB/v2Ve+yThjGOmDQ3VONpjOAPN8zykgzgTrZKx7iioJ49xgL
+         qJS0dtBPqDlkLnif2Z6nlbZuJk8CO5QF2iRNClMY9mX0PuolwOS0JLAKb+xmu7m3MIXl
+         rkBtH3/IlcSunzB+ixxhNke2IGGXoFIFs6ijn/qsvBAuzBJgziUtDmnOX8dq0f3a2jv7
+         rkJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FYE0bGD80zrB+s2f9wqCYnAqF6ITvCBq6j3Be/WlGb0=;
+        b=LYmnwjJ3noyrwza6vn2LWtvxTJtnL1fDhoECacK7XCQTybktUncYWyBqLmX9ST3tN7
+         o0dn7nxouOkFJdFsokQUGelcB0jyHW1GsxATwjjwX14zC3Cx8BsDqYF/9TIdsOKsYoq5
+         FGNREKCFAY741ECA62uDRzBcOLMqLPNJ86TawrOhX7r0G8oVX2e/EB2U/JDfLmeZhCIK
+         h4wuKW/caudHPt5jvl2T2eOwuHWubaegqkcRDxDOKWy7NejcUSv8AB/ZUiCX+q/KnYLp
+         cfaqbwWbt6MKmZTAhPv4q0jFzrP2zOl5G3aRcAzFHXIrzcJJRfJFYkh8hy2YuGqLv9te
+         LfQg==
+X-Gm-Message-State: AOAM533iA17x8xceEJZUwnibIhUxqGXdHRtgA8bFtcglr+K3+PD1gIsY
+	rWn/Lkgpbhg9cbugNYdJIW8=
+X-Google-Smtp-Source: ABdhPJxbH/UboiRqh0O/6nrvM+hfB65eCMNSW6vln4hH1co7kortL3naE3Uj2UfQ/7coqx5anAtZ9g==
+X-Received: by 2002:adf:f841:: with SMTP id d1mr5122675wrq.36.1616614755697;
+        Wed, 24 Mar 2021 12:39:15 -0700 (PDT)
+Received: from gimli.home (93-48-145-141.ip257.fastwebnet.it. [93.48.145.141])
+        by smtp.gmail.com with ESMTPSA id i10sm4471481wrs.11.2021.03.24.12.39.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Mar 2021 12:39:15 -0700 (PDT)
+From: Marco Cesati <marcocesati@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] Staging: rtl8723bs: remove useless macro and obsolete comment
+Date: Wed, 24 Mar 2021 20:39:24 +0100
+Message-Id: <20210324193924.12536-1-marcocesati@gmail.com>
+X-Mailer: git-send-email 2.30.2
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210324183847.5595-22-marcocesati@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9933 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxscore=0 phishscore=0
- bulkscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103240137
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9933 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 priorityscore=1501
- impostorscore=0 spamscore=0 mlxscore=0 suspectscore=0 mlxlogscore=999
- phishscore=0 bulkscore=0 adultscore=0 malwarescore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103240137
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 24, 2021 at 07:38:47PM +0100, Marco Cesati wrote:
-> @@ -1270,11 +1158,6 @@ enum dm_rf_e { /* tag_RF_Type_Definition */
->  /* 3 =========================================================== */
->  /* 3 Antenna Diversity */
->  /* 3 =========================================================== */
+Remove two no-op macros, two related helper macrors, and one related
+comment in the staging/rtl8723bs driver.
 
-Probably this comment can go as well.
+Signed-off-by: Marco Cesati <marcocesati@gmail.com>
+---
+ drivers/staging/rtl8723bs/include/osdep_service.h | 7 -------
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 --
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c      | 2 --
+ drivers/staging/rtl8723bs/os_dep/xmit_linux.c     | 4 +---
+ 4 files changed, 1 insertion(+), 14 deletions(-)
 
-> -enum dm_swas_e { /* tag_SW_Antenna_Switch_Definition */
-> -	Antenna_A = 1,
-> -	Antenna_B = 2,
-> -	Antenna_MAX = 3,
-> -};
->  
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/rtl8723bs/include/osdep_service.h b/drivers/staging/rtl8723bs/include/osdep_service.h
+index 9405bdb2abf0..b49838c7e457 100644
+--- a/drivers/staging/rtl8723bs/include/osdep_service.h
++++ b/drivers/staging/rtl8723bs/include/osdep_service.h
+@@ -58,13 +58,6 @@
+ 
+ extern int RTW_STATUS_CODE(int error_code);
+ 
+-/* flags used for rtw_mstat_update() */
+-
+-#define mstat_tf_idx(flags) ((flags)&0xff)
+-#define mstat_ff_idx(flags) (((flags)&0xff00) >> 8)
+-
+-#define rtw_mstat_update(flag, status, sz) do {} while (0)
+-#define rtw_mstat_dump(sel) do {} while (0)
+ void *_rtw_zmalloc(u32 sz);
+ void *_rtw_malloc(u32 sz);
+ void _kfree(u8 *pbuf, u32 sz);
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index a577ddcce8cd..2c12feff0978 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -2386,8 +2386,6 @@ static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struc
+ 	if (!skb)
+ 		goto fail;
+ 
+-	rtw_mstat_update(MSTAT_TYPE_SKB, MSTAT_ALLOC_SUCCESS, skb->truesize);
+-
+ 	if (unlikely(skb->len < sizeof(struct ieee80211_radiotap_header)))
+ 		goto fail;
+ 
+diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+index 8f8549eee23e..79f51fd5648e 100644
+--- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
++++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+@@ -580,8 +580,6 @@ static void __exit rtw_drv_halt(void)
+ 	rtw_ndev_notifier_unregister();
+ 
+ 	DBG_871X_LEVEL(_drv_always_, "module exit success\n");
+-
+-	rtw_mstat_dump(RTW_DBGDUMP);
+ }
+ 
+ 
+diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+index a3b6584ca0d0..216b2f62eefd 100644
+--- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+@@ -248,10 +248,8 @@ int rtw_xmit_entry(struct sk_buff *pkt, struct net_device *pnetdev)
+ {
+ 	int ret = 0;
+ 
+-	if (pkt) {
+-		rtw_mstat_update(MSTAT_TYPE_SKB, MSTAT_ALLOC_SUCCESS, pkt->truesize);
++	if (pkt)
+ 		ret = _rtw_xmit_entry(pkt, pnetdev);
+-	}
+ 
+ 	return ret;
+ }
+-- 
+2.30.2
 
