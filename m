@@ -1,49 +1,49 @@
 Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0531E6F
-	for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 12:45:05 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id x16so24301294wrn.4
-        for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 05:45:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D551270
+	for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 12:45:06 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id b9so24320190wrt.8
+        for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 05:45:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ZYz/QIXXPK5G58ttbIZesqCGkx23FI63FRsBpHzFDqQ=;
-        b=bGCuvRkd5mO4ZDhjaqI5jr/wz5xTskJsBdY3f8Jgjxw9g2ZjwMT3LI4cAouqW8V2BO
-         AQQdEMTPDhFH7cRFEDNfNrDfu0B9KxBu/DrR1KdznEousaFYx4ke/1lXdUNneyYmT0uU
-         hyQMJ81pS6WLWaMOACc7Y10rfqBVTegxHWoh9nA3bBN1BUaUPG5IL8FETBRB9xfkZWzI
-         fxJJY3GWWgfm1HsOksE8cVS1UV1XydhQbRV47O9D0myLauDYrPRy/4YdLJaDjaRjHYWQ
-         t2hu9WNzecBEcg23ocxlsqZP+k2kiT+ZrUNneXpEATzpW+Eo85PlXomO+JQM7SMH0clo
-         KvZg==
+        bh=oMnWeNt+8HKY/XcCc061eINq7mLFVa2tXy6YaO07BpY=;
+        b=THj1hCu2fzmUY6zmcQMi+WdNV+Q/hkZC+Jp+8zjzLRVTeyR0OTBkpbBLASaU1AEKy9
+         bli2LhrTMIiQOipeltJ1N0RH8x2+UnvPe9QmdedS9rZYXjny0gHgnXtopT+yQTSAzqDI
+         24jmjKyNTgrMkt44CI/flybUJtKuxUKjl+XymEVHc332RtSTFtyDeohzQJhofcNqRWFc
+         MwHVdvap0JUl7UeSUzntFqOxSsrar5h3lbz72/XmVHnRJcBOyo++c4o2MNCqOh44B4IS
+         nyj6y530BI/GuZp5IIjDlwwYVNxl/CK3CsN+OrpDwYjE4cLGYZHwKCSapSUljxc1dvRc
+         rw1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ZYz/QIXXPK5G58ttbIZesqCGkx23FI63FRsBpHzFDqQ=;
-        b=P+KG60bKCNugR0mx2aNC4qG8eLo+sylMDMYTcQsityjG9Zoy9To1dQijS8uf5xZQb+
-         CbuIasNC/8CnZvWfxEvUWVEy/lXEz7aB5HQ+4UuOQCjRehqVn67Kj6r0HfvuyxSAJQdY
-         kGhBHxF2mXZffwIoutR0Z0dRBZ01zvxJoEyCVu9foB6qA8VRf5wtqbAurJx8JKIEPoio
-         Uls401nVrHqfA5OLZ4IsBFglY0sVhvTezzSYrsAn5rPZ4hupg8LmVGPevKjlQ/XRZlgA
-         nDgsvEmfyuMpeRPf3SK7B0p/afgV9VOYP+p44o7QxCIivXAC2/sb5rB+NmlQNkLMywDH
-         HZ/Q==
-X-Gm-Message-State: AOAM532xD2n+/jjML1mDMiBcvj2QbZY7aDtQ+wRXQGs+BDU3ZuK0E6ee
-	bjiop1lotKA0l0KFO/8Uox8=
-X-Google-Smtp-Source: ABdhPJzi1nwPJS2WFeSa/d5UQwE7GLHMjtcku7utGFz7dr8NvR+A/AwJsWc+/4let83mEolU9JslCA==
-X-Received: by 2002:adf:8b58:: with SMTP id v24mr3271282wra.160.1616589904556;
-        Wed, 24 Mar 2021 05:45:04 -0700 (PDT)
+        bh=oMnWeNt+8HKY/XcCc061eINq7mLFVa2tXy6YaO07BpY=;
+        b=jQ6ORHiz4e82FNlsBaQft2qkxcpvjubyCizNeWkghddEz2MdPWVECJqc5Gvq6Uid4J
+         Vf5DUFVv89IFXSTiOBCePUXM7Ox6c7qj8kPSX5tRAlwYe2Ln/4Kyc4jYnomFB33xMBi6
+         EPegQfyGht+1YHOZfDSVchuCEs0kqQwd6TF+lfYHGH5hs90OYYS+DWmysiZ/LR5iuIuT
+         yarGRN4naxzyxIrMCFy/veSVMrBOs7oWjcfkFHFO8RlvERVU7ZGRBXXORwoGTQnoo1z4
+         n2zCTQgnYvQu7N6Za+2h8jkFva2B7UAamphMS7HK7XamfJoezMqqlH4rOMCzb5V34we9
+         X+hQ==
+X-Gm-Message-State: AOAM530a58OJADYORAsbwg6UuOW7clVA3xgJM40rjYF1fAn1PGqxnUNc
+	JbGAnJ1Ax9UbW+VGSO9162A=
+X-Google-Smtp-Source: ABdhPJz8/01Tyu8sTfQCuDgclRxSirkTrR1q96hMVQMD+NKcpLUfGPJvHv2d6AHEvAX1l3jeWhvfxg==
+X-Received: by 2002:adf:dd4f:: with SMTP id u15mr3413375wrm.260.1616589905451;
+        Wed, 24 Mar 2021 05:45:05 -0700 (PDT)
 Received: from gimli.home (93-48-145-141.ip257.fastwebnet.it. [93.48.145.141])
-        by smtp.gmail.com with ESMTPSA id s20sm2324005wmj.36.2021.03.24.05.45.03
+        by smtp.gmail.com with ESMTPSA id s20sm2324005wmj.36.2021.03.24.05.45.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 05:45:04 -0700 (PDT)
+        Wed, 24 Mar 2021 05:45:05 -0700 (PDT)
 From: Marco Cesati <marcocesati@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Hans de Goede <hdegoede@redhat.com>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 19/33] Staging: rtl8723bs: remove named enums in rtw_mlme_ext.h
-Date: Wed, 24 Mar 2021 13:44:42 +0100
-Message-Id: <20210324124456.25221-20-marcocesati@gmail.com>
+Subject: [PATCH 20/33] Staging: rtl8723bs: remove named enums in rtw_xmit.h
+Date: Wed, 24 Mar 2021 13:44:43 +0100
+Message-Id: <20210324124456.25221-21-marcocesati@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210324124456.25221-1-marcocesati@gmail.com>
 References: <20210324124456.25221-1-marcocesati@gmail.com>
@@ -54,92 +54,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the following unnecessary enum names or definitions in
-include/rtw_mlme_ext.h:
+Remove the following unnecessary enum definition in
+include/rtw_xmit.h:
 
-	enum rt_channel_domain		[name]
-	enum rt_channel_domain_2g	[name]
-	enum rt_channel_domain_5g	[name]
-	enum Associated_AP		[definition]
-	enum ht_iot_peer_e		[name]
-	enum scan_state			[name]
-	enum rtw_c2h_event		[name]
+	enum txdesc_sc
 
 Signed-off-by: Marco Cesati <marcocesati@gmail.com>
 ---
- .../staging/rtl8723bs/include/rtw_mlme_ext.h  | 24 +++++--------------
- 1 file changed, 6 insertions(+), 18 deletions(-)
+ drivers/staging/rtl8723bs/include/rtw_xmit.h | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-index fb283dc04ee2..e3dce1b2e553 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-@@ -115,7 +115,7 @@ extern unsigned char WMM_PARA_OUI[];
- /* 	If you just wnat to customize the acitions(scan period or join actions) about one of the channel plan, */
- /* 	customize them in rt_channel_info in the RT_CHANNEL_LIST. */
- /*  */
--enum rt_channel_domain {
-+enum {
- 	/*  old channel plan mapping ===== */
- 	RT_CHANNEL_DOMAIN_FCC = 0x00,
- 	RT_CHANNEL_DOMAIN_IC = 0x01,
-@@ -183,7 +183,7 @@ enum rt_channel_domain {
- 	RT_CHANNEL_DOMAIN_REALTEK_DEFINE = 0x7F,
- };
+diff --git a/drivers/staging/rtl8723bs/include/rtw_xmit.h b/drivers/staging/rtl8723bs/include/rtw_xmit.h
+index 4d4fa157daa9..73d020cfd0d1 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_xmit.h
++++ b/drivers/staging/rtl8723bs/include/rtw_xmit.h
+@@ -83,13 +83,6 @@ do {\
  
--enum rt_channel_domain_2g {
-+enum {
- 	RT_CHANNEL_DOMAIN_2G_WORLD = 0x00,		/* Worldwird 13 */
- 	RT_CHANNEL_DOMAIN_2G_ETSI1 = 0x01,		/* Europe */
- 	RT_CHANNEL_DOMAIN_2G_FCC1 = 0x02,		/* US */
-@@ -195,7 +195,7 @@ enum rt_channel_domain_2g {
- 	RT_CHANNEL_DOMAIN_2G_MAX,
- };
+ #define TXDESC_OFFSET TXDESC_SIZE
  
--enum rt_channel_domain_5g {
-+enum {
- 	RT_CHANNEL_DOMAIN_5G_NULL = 0x00,
- 	RT_CHANNEL_DOMAIN_5G_ETSI1 = 0x01,		/* Europe */
- 	RT_CHANNEL_DOMAIN_5G_ETSI2 = 0x02,		/* Australia, New Zealand */
-@@ -258,19 +258,7 @@ struct rt_channel_plan_map {
- 	unsigned char Index5G;
- };
- 
--enum Associated_AP {
--	atherosAP	= 0,
--	broadcomAP	= 1,
--	ciscoAP		= 2,
--	marvellAP	= 3,
--	ralinkAP	= 4,
--	realtekAP	= 5,
--	airgocapAP	= 6,
--	unknownAP	= 7,
--	maxAP,
+-enum txdesc_sc {
+-	SC_DONT_CARE = 0x00,
+-	SC_UPPER = 0x01,
+-	SC_LOWER = 0x02,
+-	SC_DUPLICATE = 0x03
 -};
 -
--enum ht_iot_peer_e {
-+enum {
- 	HT_IOT_PEER_UNKNOWN			= 0,
- 	HT_IOT_PEER_REALTEK			= 1,
- 	HT_IOT_PEER_REALTEK_92SE		= 2,
-@@ -293,7 +281,7 @@ enum ht_iot_peer_e {
- };
+ #define TXDESC_40_BYTES
  
- 
--enum scan_state {
-+enum {
- 	SCAN_DISABLE = 0,
- 	SCAN_START = 1,
- 	SCAN_TXNULL = 2,
-@@ -787,7 +775,7 @@ struct C2HEvent_Header {
- void rtw_dummy_event_callback(struct adapter *adapter, u8 *pbuf);
- void rtw_fwdbg_event_callback(struct adapter *adapter, u8 *pbuf);
- 
--enum rtw_c2h_event {
-+enum {
- 	GEN_EVT_CODE(_Read_MACREG) = 0, /*0*/
- 	GEN_EVT_CODE(_Read_BBREG),
- 	GEN_EVT_CODE(_Read_RFREG),
+ struct tx_desc {
 -- 
 2.30.2
 
