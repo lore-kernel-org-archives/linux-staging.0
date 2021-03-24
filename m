@@ -1,49 +1,49 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6190F6E
-	for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 18:38:54 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id w203-20020a1c49d40000b029010c706d0642so3203228wma.0
-        for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 11:38:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DCBF5F
+	for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 18:38:55 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id w203-20020a1c49d40000b029010c706d0642so3203247wma.0
+        for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 11:38:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=nCexu6RSTgYJFKMsRn94HRIip9Lby2um8F8S5vmMNKk=;
-        b=aqEX72yBCPUt+IPyFb3RnQxpyOoCRX99Zwi2BCzFFs8qtUI50DbGlNlFtbM0XVCRFd
-         7fXqeVMF+tLMBG5+5i3BXouTVInAqhsIL7KVn7rLHAylEKWWofwYQa0vREZVcdY2NLSm
-         auPs82v1J7DcRtgMLMOPOYa1Vb6TmOcdqcIbW4z349HD25ToAvc1wBFm4D2+rQL8Wa7Z
-         1Ci+M0ja6usGKY7sxECxsfl1DesV7rdj9FoHi1NA9ICp9pE2G4SgukWSrSIcYILzmbzP
-         hm4tmbWzCIB36HoEMXK2P1xNWiGBY+Jl7MBbmsXbaT2Cy8u/JVMtyJ3/Ma25ZnHTuwbQ
-         Kgxg==
+        bh=RcJT69StK3zCxer+PUCrairhkv5NW4JYx4JIYLIVYZY=;
+        b=JU5j5N0AN9EItmJr6DOTJ9YEdYvVC0bkfSOA7Kee8hdE7n2xU7KUpxuS5+iyCZqjuQ
+         1kYbut0OcFoW05WvWtoKW8JiDph6ydcGGDZSrLU8d+BBWXRo4OsnVrLeXBT7bVOFuR2V
+         L+8rLCft9Ppg3HnBjOaLcoLA81lmf6mJ+/FE2BN11lhHxLsRKmKAOza5VBqOm8v2JZJ4
+         JpIvllghgxaWSw/KVCRei2McMfqVd+1Z5F7GDZpIWkAGPMJFv3gFy7Bib8lYd9W6hFWr
+         ghpN6YwdYAWvaQXRlVncvCQUfWPan4zuaGEZGn1PTGEGLeKlqY3QcIZg9X/+AfCK8elh
+         +Bjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=nCexu6RSTgYJFKMsRn94HRIip9Lby2um8F8S5vmMNKk=;
-        b=PTMefotqzQyIkl+NUMqY2duHrj36k+glUZB4+Ku+x07q29M7WDMeTIKEfw3H+1mBAO
-         J7wjEZhvbrAxqD987usZZtrZdW9LsigDf4w4lEiiaSE8pd5/YsHpa4kSav4AE/NFaQWn
-         D2z4U6kXfZxWLI+KbGvbcRKJFcOM6rC8qVDN9+I4H9fudLTtmWCl/5/aBA2ChzdRC4hd
-         C2akrwFF1s+u6JtIiQpdybPUnZ4FZ9tykOsP3ioQOpYcb8IHaKlRM3k5seT3GQgbP+uq
-         ypt42lmxvCPa4pb7few3Ox+hmWqQwNtuPcJgnsutyxy8ZISdJdnIfSGQVJAER+lg7WeK
-         w7CQ==
-X-Gm-Message-State: AOAM532iPg+cgOxDJjhii3QhckP0cFrcGB7hcnBtTNxKAD5D0NJShQoZ
-	icNl3Iv0qS4YSwskZlb/quM=
-X-Google-Smtp-Source: ABdhPJx3k+mqeER5dv57OkTXfjnaNFWwRC4IWBRBhtqFR4d9rwC9nZXVyL69o56LLyATFXQOnjI04Q==
-X-Received: by 2002:a1c:3d46:: with SMTP id k67mr4220933wma.188.1616611132859;
-        Wed, 24 Mar 2021 11:38:52 -0700 (PDT)
+        bh=RcJT69StK3zCxer+PUCrairhkv5NW4JYx4JIYLIVYZY=;
+        b=uSYkjjLT2psN5tSldtpU88mtixLFktoRPcyWa1Ie8dTFOTvT8+ddWbABLdZa58hXHm
+         Nx2yCBBlcKy81vVPLSOJVTwWMaU4GPPQiQd/ft14F4mSmDtCwI2x/p1AdJyvI+jFVBP6
+         p2a9cOXpS4riiguX8VebHmr2LjVjxfhnGyR1Tk4tkv7Qif/mc/QZZthnxEhQgasVznnU
+         /+Q3EFzxCl6cjQCDwsGplsz332bT8dkZmIke06yertffx0wH6pRnqAvBk1lKOUVxogRZ
+         ODQzySZtuTJisljoF+GVGPGDVUjsOAgz5zmWHfQZ2WA5Whlpy8Mggl3YQemtMyxZunMq
+         BSzw==
+X-Gm-Message-State: AOAM533Ft4pi3WokbMrrf420i7xoraN2YSVB9MWsBlcJbaAGWXjJZGt/
+	rVW/cjpNqnESFRbojdDfwHQNZsjORf0=
+X-Google-Smtp-Source: ABdhPJx9t23+ljasBkfxSTQ6JwECvTO0KwdxtqtEIiJPvH5GkHt4F6B9L3uxX6Aw5EfClQaGyLLkjA==
+X-Received: by 2002:a7b:c407:: with SMTP id k7mr4356098wmi.136.1616611133773;
+        Wed, 24 Mar 2021 11:38:53 -0700 (PDT)
 Received: from gimli.home (93-48-145-141.ip257.fastwebnet.it. [93.48.145.141])
-        by smtp.gmail.com with ESMTPSA id z2sm4358040wrm.0.2021.03.24.11.38.52
+        by smtp.gmail.com with ESMTPSA id z2sm4358040wrm.0.2021.03.24.11.38.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 11:38:52 -0700 (PDT)
+        Wed, 24 Mar 2021 11:38:53 -0700 (PDT)
 From: Marco Cesati <marcocesati@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Hans de Goede <hdegoede@redhat.com>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 17/21] Staging: rtl8723bs: remove enums in HalBtcOutSrc.h
-Date: Wed, 24 Mar 2021 19:38:43 +0100
-Message-Id: <20210324183847.5595-18-marcocesati@gmail.com>
+Subject: [PATCH 18/21] Staging: rtl8723bs: remove enums in odm_types.h
+Date: Wed, 24 Mar 2021 19:38:44 +0100
+Message-Id: <20210324183847.5595-19-marcocesati@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210324183847.5595-1-marcocesati@gmail.com>
 References: <20210324183847.5595-1-marcocesati@gmail.com>
@@ -54,85 +54,68 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the following unnecessary enum definitions in
-hal/HalBtcOutSrc.h:
+Remove the following unnecessary enum definition in
+hal/odm_types.h:
 
-	enum btc_dbg_opcode
-	enum btc_wifi_role
-	enum bt_wifi_coex_state
-	enum btc_notify_type_stack_operation
+	enum rt_spinlock_type
 
 Signed-off-by: Marco Cesati <marcocesati@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h | 34 --------------------
- 1 file changed, 34 deletions(-)
+ drivers/staging/rtl8723bs/hal/odm_types.h | 41 -----------------------
+ 1 file changed, 41 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h b/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
-index 10c021024b24..08172cc38f09 100644
---- a/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
-+++ b/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
-@@ -166,16 +166,6 @@ struct btc_board_info {
- 	/* bool				bBtExist; */
+diff --git a/drivers/staging/rtl8723bs/hal/odm_types.h b/drivers/staging/rtl8723bs/hal/odm_types.h
+index 0b1b3e14d451..8168dc14e879 100644
+--- a/drivers/staging/rtl8723bs/hal/odm_types.h
++++ b/drivers/staging/rtl8723bs/hal/odm_types.h
+@@ -27,47 +27,6 @@ enum hal_status {
  };
  
--enum btc_dbg_opcode {
--	BTC_DBG_SET_COEX_NORMAL			    = 0x0,
--	BTC_DBG_SET_COEX_WIFI_ONLY		    = 0x1,
--	BTC_DBG_SET_COEX_BT_ONLY		    = 0x2,
--	BTC_DBG_SET_COEX_DEC_BT_PWR		    = 0x3,
--	BTC_DBG_SET_COEX_BT_AFH_MAP		    = 0x4,
--	BTC_DBG_SET_COEX_BT_IGNORE_WLAN_ACT	= 0x5,
--	BTC_DBG_MAX
+ 
+-/*  */
+-/*  Declare for ODM spin lock definition temporarily from compile pass. */
+-/*  */
+-enum rt_spinlock_type {
+-	RT_TX_SPINLOCK = 1,
+-	RT_RX_SPINLOCK = 2,
+-	RT_RM_SPINLOCK = 3,
+-	RT_CAM_SPINLOCK = 4,
+-	RT_SCAN_SPINLOCK = 5,
+-	RT_LOG_SPINLOCK = 7,
+-	RT_BW_SPINLOCK = 8,
+-	RT_CHNLOP_SPINLOCK = 9,
+-	RT_RF_OPERATE_SPINLOCK = 10,
+-	RT_INITIAL_SPINLOCK = 11,
+-	RT_RF_STATE_SPINLOCK = 12, /*  For RF state. Added by Bruce, 2007-10-30. */
+-	/* Shall we define Ndis 6.2 SpinLock Here ? */
+-	RT_PORT_SPINLOCK = 16,
+-	RT_H2C_SPINLOCK = 20, /*  For H2C cmd. Added by tynli. 2009.11.09. */
+-
+-	RT_BTData_SPINLOCK = 25,
+-
+-	RT_WAPI_OPTION_SPINLOCK = 26,
+-	RT_WAPI_RX_SPINLOCK = 27,
+-
+-	/*  add for 92D CCK control issue */
+-	RT_CCK_PAGEA_SPINLOCK = 28,
+-	RT_BUFFER_SPINLOCK = 29,
+-	RT_CHANNEL_AND_BANDWIDTH_SPINLOCK = 30,
+-	RT_GEN_TEMP_BUF_SPINLOCK = 31,
+-	RT_AWB_SPINLOCK = 32,
+-	RT_FW_PS_SPINLOCK = 33,
+-	RT_HW_TIMER_SPIN_LOCK = 34,
+-	RT_MPT_WI_SPINLOCK = 35,
+-	RT_P2P_SPIN_LOCK = 36,	/*  Protect P2P context */
+-	RT_DBG_SPIN_LOCK = 37,
+-	RT_IQK_SPINLOCK = 38,
+-	RT_PENDED_OID_SPINLOCK = 39,
+-	RT_CHNLLIST_SPINLOCK = 40,
+-	RT_INDIC_SPINLOCK = 41,	/* protect indication */
 -};
 -
- enum btc_rssi_state {
- 	BTC_RSSI_STATE_HIGH			    = 0x0,
- 	BTC_RSSI_STATE_MEDIUM			= 0x1,
-@@ -189,14 +179,6 @@ enum btc_rssi_state {
- #define BTC_RSSI_MEDIUM(_rssi_)	((_rssi_ == BTC_RSSI_STATE_MEDIUM || _rssi_ == BTC_RSSI_STATE_STAY_MEDIUM) ? true : false)
- #define BTC_RSSI_LOW(_rssi_)	((_rssi_ == BTC_RSSI_STATE_LOW || _rssi_ == BTC_RSSI_STATE_STAY_LOW) ? true : false)
- 
--enum btc_wifi_role {
--	BTC_ROLE_STATION			= 0x0,
--	BTC_ROLE_AP					= 0x1,
--	BTC_ROLE_IBSS				= 0x2,
--	BTC_ROLE_HS_MODE			= 0x3,
--	BTC_ROLE_MAX
--};
--
- enum btc_wifi_bw_mode {
- 	BTC_WIFI_BW_LEGACY			= 0x0,
- 	BTC_WIFI_BW_HT20			= 0x1,
-@@ -217,15 +199,6 @@ enum btc_wifi_pnp {
- };
- 
- /* for 8723b-d cut large current issue */
--enum bt_wifi_coex_state {
--	BTC_WIFI_STAT_INIT,
--	BTC_WIFI_STAT_IQK,
--	BTC_WIFI_STAT_NORMAL_OFF,
--	BTC_WIFI_STAT_MP_OFF,
--	BTC_WIFI_STAT_NORMAL,
--	BTC_WIFI_STAT_ANT_DIV,
--	BTC_WIFI_STAT_MAX
--};
- 
- /*  defined for BFP_BTC_GET */
- enum btc_get_type {
-@@ -355,13 +328,6 @@ enum btc_notify_type_special_packet {
- 	BTC_PACKET_MAX
- };
- 
--enum btc_notify_type_stack_operation {
--	BTC_STACK_OP_NONE					= 0x0,
--	BTC_STACK_OP_INQ_PAGE_PAIR_START	= 0x1,
--	BTC_STACK_OP_INQ_PAGE_PAIR_FINISH	= 0x2,
--	BTC_STACK_OP_MAX
--};
--
- /* Bryant Add */
- enum btc_antenna_pos {
- 	BTC_ANTENNA_AT_MAIN_PORT = 0x1,
+ 	#if defined(__LITTLE_ENDIAN)
+ 		#define	ODM_ENDIAN_TYPE			ODM_ENDIAN_LITTLE
+ 	#else
 -- 
 2.30.2
 
