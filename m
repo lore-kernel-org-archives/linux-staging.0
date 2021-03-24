@@ -1,49 +1,49 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD90259E
-	for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 18:38:46 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id 14so2250549wrz.12
-        for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 11:38:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504A66E
+	for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 18:38:49 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id g20so13451543wmk.3
+        for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 11:38:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=nqRVzX0VVNeH+Vs3ffJyP+mwljmnW1fuwE79D/YiJLM=;
-        b=CKWoe9RdgiWMdBlndu28BnljRWX6fzRz0KAmtzmfAEXJzc0yPnt4R/Rd8Vzg6Ujnyj
-         YrdX/maXLP6hzzYK092wF2xUr1jQLHEMZ2oDYuQMoXIGp89UH2peFOosulDVPO3qa4gM
-         qy9NQKjiKPuPX4jp3vObqCfyXQVi7j25cFV4AWAiQYe8Zr+PB8WjS2LWsEVe3ButRKcM
-         J+dvD5F8CZPxR8rAmjFFaNt4CA88FQ6FQqO9TrH3tEflzTFYHC2llFx8Z29+28MMWuBW
-         m/MNoAAy19HrIicsD3CrRG/tnaj12Zbq4bLqMmS7tPuOCqosyjAgWnHRc9psirQp7Wd8
-         MI2A==
+        bh=H55WDptEiQrv8TXT9gk29mPs/nM5LM8qRFLo61JtfMc=;
+        b=bICMFBknSRpI4JPAn/2sdYhJut2sNfhp2na/BLxtJhf0GpGlZMYy9+hB6XI0rXg9y4
+         liA2THfsLB3Qm+TX9cj8Mr1xr+WYNZIoY5vwH4bsqPq9+zsuGsJO0ZjsgwLQofkhImnU
+         0rz2NA/RP+FLSTdHJWvDgb/h50mX2CYHlfE/NpYRPXwSY/o2jci2CiT7/RMWgqDl3Ryq
+         /HrCVf8tuben9/h8ED3d1nI31fvao408V8xEOEhcEnDG/UVoJE03JFqmk8hiSMXvpcGe
+         6TL7u5Cx1lB/QyX5OkoDa1N2cD/zcT2qdQBATx36UGDIL1HpoauBeVAujg585POeFx/E
+         o/EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=nqRVzX0VVNeH+Vs3ffJyP+mwljmnW1fuwE79D/YiJLM=;
-        b=lCkY7qQcEFUn686ShfWlGIbTnvIfAIaVX7cvjS1PJ2jBqn/LVsWQXx56r7ikA4X/f7
-         7z4kdQiRaryguztyFhvHip5jLthhztl/6c2XyKmXsXjeuw5vCfbUC9cJZmefpDIJ+q0u
-         vwx2vPBW7NaEvYFsv3fm0d0gU3ckHmVO73LpCRMqT0BN1MrQns5oyic+rPWGcDJ/o2Ka
-         zybNinObOmQKLfQ3GrYJnoBfh19KN+bQepyNX4Gmp3sI27hh4Vw+v0M3WUxpyw51bnYN
-         45KNPu6RbBcZk26Tw+88n8ZIMhTz+LdfJ3Pbqp/4s0oiE9+ZvVaPknK3KdMujaa1uvYl
-         en/A==
-X-Gm-Message-State: AOAM531wdpGl2faZThZ2ewW558vKC25wiqaQUhfmWphV7EHOf9OcsPnb
-	sit2c1oFQfDdAelDv+KezWI=
-X-Google-Smtp-Source: ABdhPJxMU+fJQIocHcAXWIXbllOCcdlkc4apH4uS1zORh+81YGLMykrVfUWfydRa6dXJqqThQqYrMw==
-X-Received: by 2002:adf:b642:: with SMTP id i2mr4821314wre.8.1616611125314;
-        Wed, 24 Mar 2021 11:38:45 -0700 (PDT)
+        bh=H55WDptEiQrv8TXT9gk29mPs/nM5LM8qRFLo61JtfMc=;
+        b=Xx2JNybsG7EG2Mj8FgoguaeMlv//QATRvx8Ed014kYxb2rujPH0Gkw+UiLBbGg1NUv
+         jn7oEnHB+fxoqjrtnPQD7VTHBx+WY9RdXoIxABDMlgIVwkOjQVGdYqF4Y5IkMbPxFRay
+         4sGC6OUsGDffkabs/lSgAKIlI8BGcD7lFXZZsaT6mTuSA9XI9CfvohSusvtpY9jRDiWJ
+         5n26MtzPFaLz8loOmiPy2B8IgVzmcwt3TYkwNWBs5otcyvVdpnk06Ed6ljCrIPbx1jEf
+         71+ObMG2fb+ffAa15pN38p/rMvLwFPDccICfBEEoIKrRJvcZ78k2gJDEVH0mAO+XiEgt
+         bnxA==
+X-Gm-Message-State: AOAM5330KHFK4rVAzheTi+7/6G+KUMpb8Fv0524PPF/rzJIkoLGEpLjN
+	SHT9N9Pi+pM4hT1WF4r5pH4/rkr7E4I=
+X-Google-Smtp-Source: ABdhPJwzi2FR9CnZApTCwQsH2bZKWC7S6Urj2ndCIm6Tplvqr110Mgr/Z/ProeT1h72Fm+uHJsdqyQ==
+X-Received: by 2002:a1c:9817:: with SMTP id a23mr4200076wme.57.1616611127771;
+        Wed, 24 Mar 2021 11:38:47 -0700 (PDT)
 Received: from gimli.home (93-48-145-141.ip257.fastwebnet.it. [93.48.145.141])
-        by smtp.gmail.com with ESMTPSA id z2sm4358040wrm.0.2021.03.24.11.38.44
+        by smtp.gmail.com with ESMTPSA id z2sm4358040wrm.0.2021.03.24.11.38.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 11:38:45 -0700 (PDT)
+        Wed, 24 Mar 2021 11:38:47 -0700 (PDT)
 From: Marco Cesati <marcocesati@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Hans de Goede <hdegoede@redhat.com>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 08/21] Staging: rtl8723bs: remove enums in hal_com_h2c.h
-Date: Wed, 24 Mar 2021 19:38:34 +0100
-Message-Id: <20210324183847.5595-9-marcocesati@gmail.com>
+Subject: [PATCH 11/21] Staging: rtl8723bs: remove enums in hal_phy.h
+Date: Wed, 24 Mar 2021 19:38:37 +0100
+Message-Id: <20210324183847.5595-12-marcocesati@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210324183847.5595-1-marcocesati@gmail.com>
 References: <20210324183847.5595-1-marcocesati@gmail.com>
@@ -54,87 +54,72 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the following unnecessary enum definition in
-include/hal_com_h2c.h:
+Remove the following unnecessary enum definitions in
+include/hal_phy.h:
 
-	enum h2c_cmd
+	enum antenna_path
+	enum rf_content
+	enum BaseBand_Config_Type
+	enum hw_block
 
 Signed-off-by: Marco Cesati <marcocesati@gmail.com>
 ---
- .../staging/rtl8723bs/include/hal_com_h2c.h   | 60 -------------------
- 1 file changed, 60 deletions(-)
+ drivers/staging/rtl8723bs/include/hal_phy.h | 42 ---------------------
+ 1 file changed, 42 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/hal_com_h2c.h b/drivers/staging/rtl8723bs/include/hal_com_h2c.h
-index 65e9548c7b68..c7c2ff6c83b1 100644
---- a/drivers/staging/rtl8723bs/include/hal_com_h2c.h
-+++ b/drivers/staging/rtl8723bs/include/hal_com_h2c.h
-@@ -11,66 +11,6 @@
- /*     H2C CMD DEFINITION    ------------------------------------------------ */
- /*  */
- /*  88e, 8723b, 8812, 8821, 92e use the same FW code base */
--enum h2c_cmd {
--	/* Common Class: 000 */
--	H2C_RSVD_PAGE = 0x00,
--	H2C_MEDIA_STATUS_RPT = 0x01,
--	H2C_SCAN_ENABLE = 0x02,
--	H2C_KEEP_ALIVE = 0x03,
--	H2C_DISCON_DECISION = 0x04,
--	H2C_PSD_OFFLOAD = 0x05,
--	H2C_AP_OFFLOAD = 0x08,
--	H2C_BCN_RSVDPAGE = 0x09,
--	H2C_PROBERSP_RSVDPAGE = 0x0A,
--	H2C_FCS_RSVDPAGE = 0x10,
--	H2C_FCS_INFO = 0x11,
--	H2C_AP_WOW_GPIO_CTRL = 0x13,
--
--	/* PoweSave Class: 001 */
--	H2C_SET_PWR_MODE = 0x20,
--	H2C_PS_TUNING_PARA = 0x21,
--	H2C_PS_TUNING_PARA2 = 0x22,
--	H2C_P2P_LPS_PARAM = 0x23,
--	H2C_P2P_PS_OFFLOAD = 0x24,
--	H2C_PS_SCAN_ENABLE = 0x25,
--	H2C_SAP_PS_ = 0x26,
--	H2C_INACTIVE_PS_ = 0x27, /* Inactive_PS */
--	H2C_FWLPS_IN_IPS_ = 0x28,
--
--	/* Dynamic Mechanism Class: 010 */
--	H2C_MACID_CFG = 0x40,
--	H2C_TXBF = 0x41,
--	H2C_RSSI_SETTING = 0x42,
--	H2C_AP_REQ_TXRPT = 0x43,
--	H2C_INIT_RATE_COLLECT = 0x44,
--
--	/* BT Class: 011 */
--	H2C_B_TYPE_TDMA = 0x60,
--	H2C_BT_INFO = 0x61,
--	H2C_FORCE_BT_TXPWR = 0x62,
--	H2C_BT_IGNORE_WLANACT = 0x63,
--	H2C_DAC_SWING_VALUE = 0x64,
--	H2C_ANT_SEL_RSV = 0x65,
--	H2C_WL_OPMODE = 0x66,
--	H2C_BT_MP_OPER = 0x67,
--	H2C_BT_CONTROL = 0x68,
--	H2C_BT_WIFI_CTRL = 0x69,
--	H2C_BT_FW_PATCH = 0x6A,
--
--	/* WOWLAN Class: 100 */
--	H2C_WOWLAN = 0x80,
--	H2C_REMOTE_WAKE_CTRL = 0x81,
--	H2C_AOAC_GLOBAL_INFO = 0x82,
--	H2C_AOAC_RSVD_PAGE = 0x83,
--	H2C_AOAC_RSVD_PAGE2 = 0x84,
--	H2C_D0_SCAN_OFFLOAD_CTRL = 0x85,
--	H2C_D0_SCAN_OFFLOAD_INFO = 0x86,
--	H2C_CHNL_SWITCH_OFFLOAD = 0x87,
--	H2C_AOAC_RSVDPAGE3 = 0x88,
--
--	H2C_RESET_TSF = 0xC0,
--	H2C_MAXID,
--};
+diff --git a/drivers/staging/rtl8723bs/include/hal_phy.h b/drivers/staging/rtl8723bs/include/hal_phy.h
+index 90bb5d784674..2e94c14e45da 100644
+--- a/drivers/staging/rtl8723bs/include/hal_phy.h
++++ b/drivers/staging/rtl8723bs/include/hal_phy.h
+@@ -74,48 +74,6 @@ enum rf_path {
+ #define	RF_PATH_MAX_92C_88E		2
+ #define	RF_PATH_MAX_90_8812		4	/* Max RF number 90 support */
  
- #define H2C_RSVDPAGE_LOC_LEN		5
- #define H2C_MEDIA_STATUS_RPT_LEN		3
+-enum antenna_path {
+-       ANTENNA_NONE	= 0,
+-	ANTENNA_D	= 1,
+-	ANTENNA_C	= 2,
+-	ANTENNA_CD	= 3,
+-	ANTENNA_B	= 4,
+-	ANTENNA_BD	= 5,
+-	ANTENNA_BC	= 6,
+-	ANTENNA_BCD	= 7,
+-	ANTENNA_A	= 8,
+-	ANTENNA_AD	= 9,
+-	ANTENNA_AC	= 10,
+-	ANTENNA_ACD	= 11,
+-	ANTENNA_AB	= 12,
+-	ANTENNA_ABD	= 13,
+-	ANTENNA_ABC	= 14,
+-	ANTENNA_ABCD	= 15
+-};
+-
+-enum rf_content {
+-	radioa_txt = 0x1000,
+-	radiob_txt = 0x1001,
+-	radioc_txt = 0x1002,
+-	radiod_txt = 0x1003
+-};
+-
+-enum BaseBand_Config_Type {
+-	BaseBand_Config_PHY_REG = 0,			/* Radio Path A */
+-	BaseBand_Config_AGC_TAB = 1,			/* Radio Path B */
+-	BaseBand_Config_AGC_TAB_2G = 2,
+-	BaseBand_Config_AGC_TAB_5G = 3,
+-	BaseBand_Config_PHY_REG_PG
+-};
+-
+-enum hw_block {
+-	HW_BLOCK_MAC = 0,
+-	HW_BLOCK_PHY0 = 1,
+-	HW_BLOCK_PHY1 = 2,
+-	HW_BLOCK_RF = 3,
+-	HW_BLOCK_MAXIMUM = 4, /*  Never use this */
+-};
+-
+ enum wireless_mode {
+ 	WIRELESS_MODE_UNKNOWN = 0x00,
+ 	WIRELESS_MODE_A = 0x01,
 -- 
 2.30.2
 
