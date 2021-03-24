@@ -1,50 +1,50 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4288D5F
-	for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 19:39:17 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id k8so25636462wrc.3
-        for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 12:39:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738635F
+	for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 19:47:14 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id g20so13550486wmk.3
+        for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 12:47:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=FYE0bGD80zrB+s2f9wqCYnAqF6ITvCBq6j3Be/WlGb0=;
-        b=kkpU8BwWsLw+OCX3+49UL1zjKW4MVqsb2h8FOwsIxu8Su9nUNbo8a+fIH0kOeLSpzj
-         +Q30zincu4t/m4CYsikyYHY+ygzICua5O3BqkJtZIEuMUwf1X8I5aEG+4OlinMaVwpIk
-         rzrYDi3XryIQFcChe2OaB/v2Ve+yThjGOmDQ3VONpjOAPN8zykgzgTrZKx7iioJ49xgL
-         qJS0dtBPqDlkLnif2Z6nlbZuJk8CO5QF2iRNClMY9mX0PuolwOS0JLAKb+xmu7m3MIXl
-         rkBtH3/IlcSunzB+ixxhNke2IGGXoFIFs6ijn/qsvBAuzBJgziUtDmnOX8dq0f3a2jv7
-         rkJQ==
+        bh=hza6oGquamGsAj0LENe42t1A5W6slFgaX6TBDjUifOc=;
+        b=KFemaSHCgQe0AyAKtM1QHJKD6On2HXOmkdeKWabOjyS2K1lArQSXU8+6d+dFurxBH4
+         5ia3PDekTSoAH4GU7Ds7kYjODLIx9X+PXgJQO9t3myUzw/BvCJLWMzUVWI6hl1fEPu3r
+         GlWNdbclNFH+yhFnVRavGUPhkr5Z3nY+keFZLvsMKFvwVbDDYiH/hup9SkHyzs6jduQD
+         HcwMLwhjfF3g2aaARUXqFO/nJEfNo1gUYpwH010O29b9ENHV7jB3/EVW+b8J2gfD5cCT
+         CdInWMBcn+Mp4q5rrDwC0+IBpGIzj14CD4TStzPshnG4pCCA1ZfuGZrrdZ+0ycxVQXiu
+         plrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=FYE0bGD80zrB+s2f9wqCYnAqF6ITvCBq6j3Be/WlGb0=;
-        b=LYmnwjJ3noyrwza6vn2LWtvxTJtnL1fDhoECacK7XCQTybktUncYWyBqLmX9ST3tN7
-         o0dn7nxouOkFJdFsokQUGelcB0jyHW1GsxATwjjwX14zC3Cx8BsDqYF/9TIdsOKsYoq5
-         FGNREKCFAY741ECA62uDRzBcOLMqLPNJ86TawrOhX7r0G8oVX2e/EB2U/JDfLmeZhCIK
-         h4wuKW/caudHPt5jvl2T2eOwuHWubaegqkcRDxDOKWy7NejcUSv8AB/ZUiCX+q/KnYLp
-         cfaqbwWbt6MKmZTAhPv4q0jFzrP2zOl5G3aRcAzFHXIrzcJJRfJFYkh8hy2YuGqLv9te
-         LfQg==
-X-Gm-Message-State: AOAM533iA17x8xceEJZUwnibIhUxqGXdHRtgA8bFtcglr+K3+PD1gIsY
-	rWn/Lkgpbhg9cbugNYdJIW8=
-X-Google-Smtp-Source: ABdhPJxbH/UboiRqh0O/6nrvM+hfB65eCMNSW6vln4hH1co7kortL3naE3Uj2UfQ/7coqx5anAtZ9g==
-X-Received: by 2002:adf:f841:: with SMTP id d1mr5122675wrq.36.1616614755697;
-        Wed, 24 Mar 2021 12:39:15 -0700 (PDT)
+        bh=hza6oGquamGsAj0LENe42t1A5W6slFgaX6TBDjUifOc=;
+        b=DEqOWPJZ2OnlzQQNXCCGwJcdCuL2EWda6fPKQjwvJaJDjYyVbB8m4+Uaubg5Pgz3sP
+         V/MBBuGXBqVPZWmBmwTIoUKXOpzaaIZzLfbdOE7yUJn/QvaDqEq4eek6ajfjqtm2PsIc
+         7ypHLbNbRzpAsK5Qw5gZHs1lOkiL+9tQUmzY5YQ6DTW9VkKlSc7k7XR75FE1HPfKiI0L
+         o7fHvkE5OJiZ866/TMK0WaosRZrUYALXqfcDSkIPvWmN/BvQxdpd6IIfl7Mg1a14YLSJ
+         RbA3EAGaiEnXXDv6ndXrhGt/6G68ieQrkpmIVbLVc9XsTWUOMZxY0SXE+M1XjeNWkdOi
+         Yk9Q==
+X-Gm-Message-State: AOAM531reO9dhNWLNrwWtOxQ1eueU5CLUCHD1BaB/v5OtbHcLb13Gt/g
+	4Szy6lHBfPWiJOxUeZVg91k=
+X-Google-Smtp-Source: ABdhPJyi43bIJAOclIDwFdd4uts8vNaaM6WXV95VIsvCeWmHePttTB5qN0rhA6cmZrjnNuN1YpdEeQ==
+X-Received: by 2002:a1c:dfc1:: with SMTP id w184mr4441791wmg.21.1616615232802;
+        Wed, 24 Mar 2021 12:47:12 -0700 (PDT)
 Received: from gimli.home (93-48-145-141.ip257.fastwebnet.it. [93.48.145.141])
-        by smtp.gmail.com with ESMTPSA id i10sm4471481wrs.11.2021.03.24.12.39.14
+        by smtp.gmail.com with ESMTPSA id b17sm4468129wrt.17.2021.03.24.12.47.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 12:39:15 -0700 (PDT)
+        Wed, 24 Mar 2021 12:47:12 -0700 (PDT)
 From: Marco Cesati <marcocesati@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Hans de Goede <hdegoede@redhat.com>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
 	Dan Carpenter <dan.carpenter@oracle.com>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH] Staging: rtl8723bs: remove useless macro and obsolete comment
-Date: Wed, 24 Mar 2021 20:39:24 +0100
-Message-Id: <20210324193924.12536-1-marcocesati@gmail.com>
+Subject: [PATCH] Staging: rtl8723bs: remove obsolete comments
+Date: Wed, 24 Mar 2021 20:47:21 +0100
+Message-Id: <20210324194721.14574-1-marcocesati@gmail.com>
 X-Mailer: git-send-email 2.30.2
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,77 +53,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove two no-op macros, two related helper macrors, and one related
-comment in the staging/rtl8723bs driver.
+Remove some obsolete comments in the staging/rtl8723bs driver.
 
 Signed-off-by: Marco Cesati <marcocesati@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/osdep_service.h | 7 -------
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 --
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c      | 2 --
- drivers/staging/rtl8723bs/os_dep/xmit_linux.c     | 4 +---
- 4 files changed, 1 insertion(+), 14 deletions(-)
+ drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h    | 2 --
+ drivers/staging/rtl8723bs/hal/odm.h             | 4 ----
+ drivers/staging/rtl8723bs/include/hal_com_h2c.h | 5 -----
+ 3 files changed, 11 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/osdep_service.h b/drivers/staging/rtl8723bs/include/osdep_service.h
-index 9405bdb2abf0..b49838c7e457 100644
---- a/drivers/staging/rtl8723bs/include/osdep_service.h
-+++ b/drivers/staging/rtl8723bs/include/osdep_service.h
-@@ -58,13 +58,6 @@
+diff --git a/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h b/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
+index 08172cc38f09..194db3904982 100644
+--- a/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
++++ b/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
+@@ -198,8 +198,6 @@ enum btc_wifi_pnp {
+ 	BTC_WIFI_PNP_MAX
+ };
  
- extern int RTW_STATUS_CODE(int error_code);
- 
--/* flags used for rtw_mstat_update() */
+-/* for 8723b-d cut large current issue */
 -
--#define mstat_tf_idx(flags) ((flags)&0xff)
--#define mstat_ff_idx(flags) (((flags)&0xff00) >> 8)
+ /*  defined for BFP_BTC_GET */
+ enum btc_get_type {
+ 	/*  type bool */
+diff --git a/drivers/staging/rtl8723bs/hal/odm.h b/drivers/staging/rtl8723bs/hal/odm.h
+index 956357abfcaf..6595a5cc972b 100644
+--- a/drivers/staging/rtl8723bs/hal/odm.h
++++ b/drivers/staging/rtl8723bs/hal/odm.h
+@@ -1155,10 +1155,6 @@ enum dm_rf_e { /* tag_RF_Type_Definition */
+ 	RF_MAX = 2,
+ };
+ 
+-/* 3 =========================================================== */
+-/* 3 Antenna Diversity */
+-/* 3 =========================================================== */
 -
--#define rtw_mstat_update(flag, status, sz) do {} while (0)
--#define rtw_mstat_dump(sel) do {} while (0)
- void *_rtw_zmalloc(u32 sz);
- void *_rtw_malloc(u32 sz);
- void _kfree(u8 *pbuf, u32 sz);
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index a577ddcce8cd..2c12feff0978 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -2386,8 +2386,6 @@ static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struc
- 	if (!skb)
- 		goto fail;
+ /*  Maximal number of antenna detection mechanism needs to perform, added by Roger, 2011.12.28. */
+ #define	MAX_ANTENNA_DETECTION_CNT	10
  
--	rtw_mstat_update(MSTAT_TYPE_SKB, MSTAT_ALLOC_SUCCESS, skb->truesize);
+diff --git a/drivers/staging/rtl8723bs/include/hal_com_h2c.h b/drivers/staging/rtl8723bs/include/hal_com_h2c.h
+index c7c2ff6c83b1..24cd9415fa95 100644
+--- a/drivers/staging/rtl8723bs/include/hal_com_h2c.h
++++ b/drivers/staging/rtl8723bs/include/hal_com_h2c.h
+@@ -7,11 +7,6 @@
+ #ifndef __COMMON_H2C_H__
+ #define __COMMON_H2C_H__
+ 
+-/*  */
+-/*     H2C CMD DEFINITION    ------------------------------------------------ */
+-/*  */
+-/*  88e, 8723b, 8812, 8821, 92e use the same FW code base */
 -
- 	if (unlikely(skb->len < sizeof(struct ieee80211_radiotap_header)))
- 		goto fail;
- 
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index 8f8549eee23e..79f51fd5648e 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -580,8 +580,6 @@ static void __exit rtw_drv_halt(void)
- 	rtw_ndev_notifier_unregister();
- 
- 	DBG_871X_LEVEL(_drv_always_, "module exit success\n");
--
--	rtw_mstat_dump(RTW_DBGDUMP);
- }
- 
- 
-diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-index a3b6584ca0d0..216b2f62eefd 100644
---- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-@@ -248,10 +248,8 @@ int rtw_xmit_entry(struct sk_buff *pkt, struct net_device *pnetdev)
- {
- 	int ret = 0;
- 
--	if (pkt) {
--		rtw_mstat_update(MSTAT_TYPE_SKB, MSTAT_ALLOC_SUCCESS, pkt->truesize);
-+	if (pkt)
- 		ret = _rtw_xmit_entry(pkt, pnetdev);
--	}
- 
- 	return ret;
- }
+ #define H2C_RSVDPAGE_LOC_LEN		5
+ #define H2C_MEDIA_STATUS_RPT_LEN		3
+ #define H2C_KEEP_ALIVE_CTRL_LEN	2
 -- 
 2.30.2
 
