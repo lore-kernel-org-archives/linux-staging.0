@@ -1,49 +1,49 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195E872
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 106126E
 	for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 18:38:44 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id j20-20020a05600c1914b029010f31e15a7fso1779657wmq.1
-        for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 11:38:43 -0700 (PDT)
+Received: by mail-wr1-f47.google.com with SMTP id x16so25469944wrn.4
+        for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 11:38:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=gGBuWNnuLIIkEjqXHJ5pLIXLp3WoUQ05z2H7MjCGg9o=;
-        b=qADFT1sB/79kpS3GNjM8Xj8bXp2lw1Repqjd3eedxc7rzct1+ukUaDNvcrX9VMP63D
-         WKQLI7sFcJs8aS3sMkAY4RXMOuwWscUVN+GjhzYrpUwbNt4b600qeZ/ReXGUQVCkq7cF
-         TWHeh2wm+9uA5hF5KzhZVoR9LJ2PyG0CPfSA4r+xwlql3UzbddIQNo8GtYZ3yoR+7vlG
-         SFjnZ3AkmfQnW+vqg/8jn0YynR/V1iFDaMR4NTD1qBNWfNzcL9u7UkkqlFiTz0FWgrkG
-         xiNv9ViRo+/Yjh+PI//d4tXey5+0CwdjjBVJu/TA/h1L8IZR7v0PEuzEj3FojeAOIY7S
-         4FMQ==
+        bh=64XzXGiiOPVhVUd/gZVmb844//zvcVb3ysHntQVBRMc=;
+        b=kstyUUavTT9Aug7yhAWArbEQSccCFrM8Kg0zvwa1QL3YVIUgKwncxDyeWOxjMkuaBj
+         lOM8d63iQl7HjuOfPz0QowmxCiIPBAruxXmoiNvA3/uiYXZHzrSBIzSK+3Hjf0qwFfEf
+         s0CH8EqeVf7QKSwRNpd4sY7gO8PhPUvIAzdTut5/2rDV8lfoBI6EmdYntaxtdxvaLPjw
+         RjMpxc3fImUicegkJebz6dao7DOkyA2inSqHEGTClPSsumS/MuN/Bro1cAZObc1p0/R9
+         Sk59lY4OKQFxj1+2Igju+/wIvnb7QeikCKPa9yTuAXnRq28U/u1gSzrcMyYSpWQD2cyE
+         n0gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gGBuWNnuLIIkEjqXHJ5pLIXLp3WoUQ05z2H7MjCGg9o=;
-        b=g4xCacQUi3VKh8N42H+hOEWfu28pxlpT+x6kGTTPXcCSOWXHcDotHTI+nTle5GSnJy
-         eYXJcB5f+bT91PHAAUqRfzQOKoWAQfL/aTi/nL1uEm0VE1znV4MYZoEj9J+RVK3eaFb6
-         8ckQTQWaM0GgrSmTQlYtVkP/1IrszpA7ubXYuL2Kj4vXSmfwLJZlodECrNj4kEDl1elc
-         YaUIjVc3Oh0PXw0YrayTGC6eOs14rG6db1Dw4FV3LhALH4kKiCZ7yrAf//Y2iF8hFFtp
-         amyEppiUX94MAM4ZsgiT332a5977uBqAiovetJOmTXVrErm3dwjAsXzrd0YovmPrblFp
-         Maog==
-X-Gm-Message-State: AOAM532lg6HNTj26V2eXZXifFvpC+NMPleDsAaCNI2gCeBToUIqfdhyM
-	zlHtzblLfe957hhcOuPVgmyzEIjYr8o=
-X-Google-Smtp-Source: ABdhPJwMORDPW45FNGZ28h/Z662qUsvrSdZj3ipuvoGDwIWIIaAEny4mStpFcjC4GdQBXbj6mDT7Xw==
-X-Received: by 2002:a05:600c:614:: with SMTP id o20mr4126178wmm.66.1616611122586;
-        Wed, 24 Mar 2021 11:38:42 -0700 (PDT)
+        bh=64XzXGiiOPVhVUd/gZVmb844//zvcVb3ysHntQVBRMc=;
+        b=kLAxJV3dixdXRS/Qi1+oGjSelGMqXyeyizoChxSbRkdokGABpTlbKacGRkhJex1Z+9
+         rh4sDlEwDAABwlafiq9cOEoPf0GH01jAJuVVDS6R9edZSRVCX0MO8n6tpIrYkuFyhmTm
+         tYTzJvKEIyVimgvSbDlznEFsm/STAvHpfowe4r9eFTu8j3lzcg2tEwKVjaaMfaGoSZwj
+         RrQI4wKgAW/65m5QOroW8bXbJJzhRzRlyojmpbcQOieLExsj3TwRdbpr+noVWSM7LPAd
+         0VCoEBsQYv1av84W3UT9d/8Fg9QaAoXmp0RluY/e1XP839nLptamxNodDdzW9aixTxmG
+         hZ9Q==
+X-Gm-Message-State: AOAM531d4VjHjBhGrbhSsS3K2cRpJnhcBJVJz4UUtXm7PSC0sxU4o/pl
+	L+m68sCa4qn+7wUjJSoYyw/PwUWPihc=
+X-Google-Smtp-Source: ABdhPJwUHQMSqmOfk+ZsfG2KJBgGys7h9D2wRqCYRZDYjou1ICfTIBt0mRFKSm9/MgsvcijsTwfHMw==
+X-Received: by 2002:a5d:4cc9:: with SMTP id c9mr4887527wrt.117.1616611123502;
+        Wed, 24 Mar 2021 11:38:43 -0700 (PDT)
 Received: from gimli.home (93-48-145-141.ip257.fastwebnet.it. [93.48.145.141])
-        by smtp.gmail.com with ESMTPSA id z2sm4358040wrm.0.2021.03.24.11.38.41
+        by smtp.gmail.com with ESMTPSA id z2sm4358040wrm.0.2021.03.24.11.38.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 11:38:42 -0700 (PDT)
+        Wed, 24 Mar 2021 11:38:43 -0700 (PDT)
 From: Marco Cesati <marcocesati@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Hans de Goede <hdegoede@redhat.com>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 05/21] Staging: rtl8723bs: remove enums in rtw_mp.h
-Date: Wed, 24 Mar 2021 19:38:31 +0100
-Message-Id: <20210324183847.5595-6-marcocesati@gmail.com>
+Subject: [PATCH 06/21] Staging: rtl8723bs: remove enums in osdep_service.h
+Date: Wed, 24 Mar 2021 19:38:32 +0100
+Message-Id: <20210324183847.5595-7-marcocesati@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210324183847.5595-1-marcocesati@gmail.com>
 References: <20210324183847.5595-1-marcocesati@gmail.com>
@@ -55,142 +55,54 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Remove the following unnecessary enum definitions in
-include/rtw_mp.h:
+include/osdep_service.h:
 
-	enum mp_mode
-	enum mpt_rate_index
-	enum power_mode
-	enum ofdm_tx_mode
-	enum encry_ctrl_state
-	enum mpt_txpwr_def
+	enum mstat_f
+	enum mstat_status
 
 Signed-off-by: Marco Cesati <marcocesati@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/rtw_mp.h | 98 ----------------------
- 1 file changed, 98 deletions(-)
+ .../staging/rtl8723bs/include/osdep_service.h | 23 -------------------
+ 1 file changed, 23 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mp.h b/drivers/staging/rtl8723bs/include/rtw_mp.h
-index ead63cf09fe0..26dec21bf0f1 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mp.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mp.h
-@@ -265,97 +265,12 @@ struct mp_priv {
- /* Hardware Registers */
- #define BB_REG_BASE_ADDR		0x800
+diff --git a/drivers/staging/rtl8723bs/include/osdep_service.h b/drivers/staging/rtl8723bs/include/osdep_service.h
+index c4d29d65187f..9405bdb2abf0 100644
+--- a/drivers/staging/rtl8723bs/include/osdep_service.h
++++ b/drivers/staging/rtl8723bs/include/osdep_service.h
+@@ -59,33 +59,10 @@
+ extern int RTW_STATUS_CODE(int error_code);
  
--/* MP variables */
--enum mp_mode {
--	MP_OFF,
--	MP_ON,
--	MP_ERR,
--	MP_CONTINUOUS_TX,
--	MP_SINGLE_CARRIER_TX,
--	MP_CARRIER_SUPPRISSION_TX,
--	MP_SINGLE_TONE_TX,
--	MP_PACKET_TX,
--	MP_PACKET_RX
+ /* flags used for rtw_mstat_update() */
+-enum mstat_f {
+-	/* type: 0x00ff */
+-	MSTAT_TYPE_VIR = 0x00,
+-	MSTAT_TYPE_PHY = 0x01,
+-	MSTAT_TYPE_SKB = 0x02,
+-	MSTAT_TYPE_USB = 0x03,
+-	MSTAT_TYPE_MAX = 0x04,
+-
+-	/* func: 0xff00 */
+-	MSTAT_FUNC_UNSPECIFIED = 0x00<<8,
+-	MSTAT_FUNC_IO = 0x01<<8,
+-	MSTAT_FUNC_TX_IO = 0x02<<8,
+-	MSTAT_FUNC_RX_IO = 0x03<<8,
+-	MSTAT_FUNC_TX = 0x04<<8,
+-	MSTAT_FUNC_RX = 0x05<<8,
+-	MSTAT_FUNC_MAX = 0x06<<8,
+-};
+ 
+ #define mstat_tf_idx(flags) ((flags)&0xff)
+ #define mstat_ff_idx(flags) (((flags)&0xff00) >> 8)
+ 
+-enum mstat_status {
+-	MSTAT_ALLOC_SUCCESS = 0,
+-	MSTAT_ALLOC_FAIL,
+-	MSTAT_FREE
 -};
 -
- #define MAX_RF_PATH_NUMS	RF_PATH_MAX
- 
- extern u8 mpdatarate[NumRates];
- 
--/* MP set force data rate base on the definition. */
--enum mpt_rate_index {
--	/* CCK rate. */
--	MPT_RATE_1M = 0,	/* 0 */
--	MPT_RATE_2M,
--	MPT_RATE_55M,
--	MPT_RATE_11M,	/* 3 */
--
--	/* OFDM rate. */
--	MPT_RATE_6M,	/* 4 */
--	MPT_RATE_9M,
--	MPT_RATE_12M,
--	MPT_RATE_18M,
--	MPT_RATE_24M,
--	MPT_RATE_36M,
--	MPT_RATE_48M,
--	MPT_RATE_54M,	/* 11 */
--
--	/* HT rate. */
--	MPT_RATE_MCS0,	/* 12 */
--	MPT_RATE_MCS1,
--	MPT_RATE_MCS2,
--	MPT_RATE_MCS3,
--	MPT_RATE_MCS4,
--	MPT_RATE_MCS5,
--	MPT_RATE_MCS6,
--	MPT_RATE_MCS7,	/* 19 */
--	MPT_RATE_MCS8,
--	MPT_RATE_MCS9,
--	MPT_RATE_MCS10,
--	MPT_RATE_MCS11,
--	MPT_RATE_MCS12,
--	MPT_RATE_MCS13,
--	MPT_RATE_MCS14,
--	MPT_RATE_MCS15,	/* 27 */
--	/* VHT rate. Total: 20*/
--	MPT_RATE_VHT1SS_MCS0 = 100,/*  To reserve MCS16~MCS31, the index starts from #100. */
--	MPT_RATE_VHT1SS_MCS1, /*  #101 */
--	MPT_RATE_VHT1SS_MCS2,
--	MPT_RATE_VHT1SS_MCS3,
--	MPT_RATE_VHT1SS_MCS4,
--	MPT_RATE_VHT1SS_MCS5,
--	MPT_RATE_VHT1SS_MCS6, /*  #106 */
--	MPT_RATE_VHT1SS_MCS7,
--	MPT_RATE_VHT1SS_MCS8,
--	MPT_RATE_VHT1SS_MCS9,
--	MPT_RATE_VHT2SS_MCS0,
--	MPT_RATE_VHT2SS_MCS1, /*  #111 */
--	MPT_RATE_VHT2SS_MCS2,
--	MPT_RATE_VHT2SS_MCS3,
--	MPT_RATE_VHT2SS_MCS4,
--	MPT_RATE_VHT2SS_MCS5,
--	MPT_RATE_VHT2SS_MCS6, /*  #116 */
--	MPT_RATE_VHT2SS_MCS7,
--	MPT_RATE_VHT2SS_MCS8,
--	MPT_RATE_VHT2SS_MCS9,
--	MPT_RATE_LAST
--};
--
- #define MAX_TX_PWR_INDEX_N_MODE 64	/*  0x3F */
- 
--enum power_mode {
--	POWER_LOW = 0,
--	POWER_NORMAL
--};
--
--/*  The following enumeration is used to define the value of Reg0xD00[30:28] or JaguarReg0x914[18:16]. */
--enum ofdm_tx_mode {
--	OFDM_ALL_OFF		= 0,
--	OFDM_ContinuousTx	= 1,
--	OFDM_SingleCarrier	= 2,
--	OFDM_SingleTone		= 4,
--};
--
- #define RX_PKT_BROADCAST	1
- #define RX_PKT_DEST_ADDR	2
- #define RX_PKT_PHY_MATCH	3
-@@ -371,19 +286,6 @@ enum ofdm_tx_mode {
- #define Mac_HT_FasleAlarm		0x90000000
- #define Mac_DropPacket			0xA0000000
- 
--enum encry_ctrl_state {
--	HW_CONTROL,		/* hw encryption& decryption */
--	SW_CONTROL,		/* sw encryption& decryption */
--	HW_ENCRY_SW_DECRY,	/* hw encryption & sw decryption */
--	SW_ENCRY_HW_DECRY	/* sw encryption & hw decryption */
--};
--
--enum mpt_txpwr_def {
--	MPT_CCK,
--	MPT_OFDM, /*  L and HT OFDM */
--	MPT_VHT_OFDM
--};
--
- #define		REG_RF_BB_GAIN_OFFSET	0x7f
- #define		RF_GAIN_OFFSET_MASK	0xfffff
- 
+ #define rtw_mstat_update(flag, status, sz) do {} while (0)
+ #define rtw_mstat_dump(sel) do {} while (0)
+ void *_rtw_zmalloc(u32 sz);
 -- 
 2.30.2
 
