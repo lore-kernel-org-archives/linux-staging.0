@@ -1,27 +1,51 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4246F
-	for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 09:13:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 702BF6157F;
-	Wed, 24 Mar 2021 09:13:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1616577192;
-	bh=RUzX/nbmq3RGqHMtGfALSfCQu+1aN6qyVwAbUtdZfeQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RDbCVYJGerr6v35Ir/fH9j2vZdextEWxuCLxhUVSm4B9jy+mzdQ9mZo4EAqGZe05X
-	 IfYt++jxQw1nXgDX3YFfJ3qhzNwbPaUFDJXxD16hXdu/qXsLM1YZ9+ASceCZWaAg+L
-	 aqnHHMz/gEcuTIUYi/HbUTf3uF6E2KgecxRSRMAc=
-Date: Wed, 24 Mar 2021 10:13:09 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Zhichao Cai <tomstomsczc@163.com>
-Cc: mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Zhichao Cai <caizhichao@yulong.com>
-Subject: Re: [PATCH] drivers:staging: NULL check before some freeing
- functions is not needed.
-Message-ID: <YFsCpTIneSZyj3t/@kroah.com>
-References: <20210324084126.895-1-tomstomsczc@163.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CCB36F
+	for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 09:58:29 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id x7so1306939wrw.10
+        for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 02:58:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=4IAizyz2Z8XBPiRZXX7HoIXc5iBlfx6vmHmpCSg2ErI=;
+        b=DugpnjoWYYb/RRr0XkYUd7rw/VTVh0IKX2MtqhYuqjRT2kUTGK5XFhCAobCMPFRr/Z
+         KyVRs6Xtw99fy/r6AZZ4oPGG8G+maxoJ9fgeD9gfwVesIwlqUcbyG/chMQOqvnqr5J2F
+         PJVih8t8F3alpJRpEVZWYAWjXN8h3wfCIpNqdDWfQaRKdfHhQwGJ6SF2D2ldVH3yax8q
+         l926lDJv94B12xqF7Bw+g6klWPrJYRBsE1gDvU+R0A4j1hSIX/cBJwRBKw2d6IJD+j7b
+         gtcJ/bIOUoPjRXAMtphqbp5R39m0sgjDioEWtQ8HIgjX2VztXvDUJYNQZQYi+6U7SlbX
+         pL5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=4IAizyz2Z8XBPiRZXX7HoIXc5iBlfx6vmHmpCSg2ErI=;
+        b=uM6o45rz6b+Yed8bsirYDXL34uN1qFfcfLT8au9i2SEYlaNqB4r8PZCKKmM8GEuiCL
+         /2glFSXgbu2GUMqROWMrRtqRrbUhHabGJS/8JdVZEltR0DvMTZuyLleo5S+q/3cT5Ywx
+         UnyNyiiI2karhoMn1JlJpFkA6ut2p1FYL2/VI9cwjuVKReRQebGN+8KIVQ68Y16j8Aji
+         Qd33SRddH5X/fEPNkJGIQ/EYQvPbTqmAxdtmvjwV4hWmHucwZRWeMjOGmllUE8NcAMcp
+         RH4pnVYDJjnk8bUtDPQoic/2Pqtd5ejqfcPFlzZcv+5FPSDVz0laOkG9d5ybooRRNQvT
+         vS8w==
+X-Gm-Message-State: AOAM533KNqHd+TLpVldxOpcZr3YbPQYkx83A+wMdKaCQmKEjbjj03By8
+	bydaLXvm3RuWVV8d6vcKWuA=
+X-Google-Smtp-Source: ABdhPJyaKM8k/Qfk0w0ggcQCOmDe/PyRhryEmODm3bmXXbl3lJHyY4HGCLh7TMkWB0JGix/oMHU9kw==
+X-Received: by 2002:adf:b345:: with SMTP id k5mr2628459wrd.14.1616579907759;
+        Wed, 24 Mar 2021 02:58:27 -0700 (PDT)
+Received: from agape.jhs ([5.170.80.89])
+        by smtp.gmail.com with ESMTPSA id n6sm2542229wrt.1.2021.03.24.02.58.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Mar 2021 02:58:27 -0700 (PDT)
+Date: Wed, 24 Mar 2021 10:58:24 +0100
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: gregkh@linuxfoundation.org, joe@perches.com
+Cc: dan.carpenter@oracle.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: CHECKPATCH: missing a warning soon after include files decl -c
+Message-ID: <20210324095820.GA2259@agape.jhs>
+References: <20210320105424.GA3698@agape.jhs>
+ <YFXVoHvk/VesFn14@kroah.com>
+ <c27ae8926ccbc0f520045fea9127811f6e8fa706.camel@perches.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -29,23 +53,171 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210324084126.895-1-tomstomsczc@163.com>
+In-Reply-To: <c27ae8926ccbc0f520045fea9127811f6e8fa706.camel@perches.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Wed, Mar 24, 2021 at 04:41:26PM +0800, Zhichao Cai wrote:
-> From: Zhichao Cai <caizhichao@yulong.com>
+On Sat, Mar 20, 2021 at 04:28:51AM -0700, Joe Perches wrote:
 > 
-> Fixes coccicheck warning:
-> drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_1.0/ia_css_sdis.host.c:390:2-8: WARNING: NULL check before some freeing functions is not needed.
-> drivers/staging/media/atomisp/pci/sh_css_params.c:1579:2-8: WARNING: NULL check before some freeing functions is not needed.
-> drivers/staging/media/atomisp/pci/sh_css_params.c:3010:2-8: WARNING: NULL check before some freeing functions is not needed.
-> drivers/staging/media/atomisp/pci/atomisp_cmd.c:4269:2-8: WARNING: NULL check before some freeing functions is not needed.
-> drivers/staging/media/atomisp/pci/atomisp_cmd.c:4630:2-7: WARNING: NULL check before some freeing functions is not needed.
-> drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c:159:4-10: WARNING: NULL check before some freeing functions is not needed.
+> Actually, these would seem to be better as one or multiple functions with
+> local statics or even as static inlines functions in the .h file
+> 
+> $ git grep -w RTW_WPA_OUI drivers/staging/rtl8723bs/core
+> drivers/staging/rtl8723bs/core/rtw_ap.c:extern unsigned char RTW_WPA_OUI[];
+> drivers/staging/rtl8723bs/core/rtw_ap.c:        if (!memcmp(RTW_WPA_OUI, oui, 4))
+> drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:unsigned char RTW_WPA_OUI[] = {0x00, 0x50, 0xf2, 0x01};
+> drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:                  if ((!memcmp(pIE->data, RTW_WPA_OUI, 4)) ||
+> drivers/staging/rtl8723bs/core/rtw_wlan_util.c:extern unsigned char RTW_WPA_OUI[];
+> drivers/staging/rtl8723bs/core/rtw_wlan_util.c:                         if ((!memcmp(pIE->data, RTW_WPA_OUI, 4)) && (!memcmp((pIE->data + 12), WPA_TKIP_CIPHER, 4)))
+> 
+> $ git grep -w WMM_OUI drivers/staging/rtl8723bs/core
+> drivers/staging/rtl8723bs/core/rtw_ap.c:extern unsigned char WMM_OUI[];
+> drivers/staging/rtl8723bs/core/rtw_ap.c:        else if (!memcmp(WMM_OUI, oui, 4))
+> drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:unsigned char WMM_OUI[] = {0x00, 0x50, 0xf2, 0x02};
+> drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:                                  (!memcmp(pIE->data, WMM_OUI, 4)) ||
+> drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:                  if (!memcmp(pIE->data, WMM_OUI, 4))
+> drivers/staging/rtl8723bs/include/rtw_mlme_ext.h:extern unsigned char WMM_OUI[];
+> 
+> $ git grep -w WPS_OUI drivers/staging/rtl8723bs/core
+> drivers/staging/rtl8723bs/core/rtw_ap.c:extern unsigned char WPS_OUI[];
+> drivers/staging/rtl8723bs/core/rtw_ap.c:        else if (!memcmp(WPS_OUI, oui, 4))
+> drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:unsigned char WPS_OUI[] = {0x00, 0x50, 0xf2, 0x04};
+> drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:                                  (!memcmp(pIE->data, WPS_OUI, 4))) {
+> drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:                          if ((!padapter->registrypriv.wifi_spec) && (!memcmp(pIE->data, WPS_OUI, 4))) {
+> 
+> $ git grep -w P2P_OUI drivers/staging/rtl8723bs/core
+> drivers/staging/rtl8723bs/core/rtw_ap.c:extern unsigned char P2P_OUI[];
+> drivers/staging/rtl8723bs/core/rtw_ap.c:        else if (!memcmp(P2P_OUI, oui, 4))
+> drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:unsigned char P2P_OUI[] = {0x50, 0x6F, 0x9A, 0x09};
+> drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:  if (!memcmp(frame_body + 2, P2P_OUI, 4)) {
+> 
+> So maybe something like the below (written in email client, maybe typos)
+> 
+> enum oui_type {
+> 	RTW_WPA,
+> 	WMM,
+> 	WPS,
+> 	P2P
+> };
+> 
+> bool is_oui_type(const u8 *mem, enum oui_type type)
+> {
+> 	static const u8 rtw_wpa[] = {0x00, 0x50, 0xf2, 0x01};
+> 	static const u8 wmm[] = {0x00, 0x50, 0xf2, 0x02};
+> 	static const u8 wps[] = {0x00, 0x50, 0xf2, 0x04};
+> 	static const u8 p2p[] = {0x50, 0x6F, 0x9A, 0x09};
+> 
+> 	const u8 *oui;
+> 
+> 	if (type == RTW_WPA)
+> 		oui = rtw_wpa;
+> 	else if (type == WMM)
+> 		oui = wmm;
+> 	else if (type == WPS)
+> 		oui = wps;
+> 	else if (type == P2P)
+> 		oui = p2p;
+> 	else
+> 		return false;
+> 
+> 	return !memcmp(mem, oui, 4);
+> }
+> 
+> so for instance the P2P uses would become
+> 
+> 	else if (is_oui_type(oui, P2P))
+> and
+> 	if (is_oui_type(frame_body + 2, P2P)) {
+> 
+> though I think 4 byte OUIs are just odd.
+> 
+> https://en.wikipedia.org/wiki/Organizationally_unique_identifier
+> 
+> An organizationally unique identifier (OUI) is a 24-bit number that uniquely identifies a vendor, manufacturer, or other organization.
+> 
+> 
+> 
 
-Please break this up per-driver.
+Hi,
 
-And provide a real changelog text.
+is that good? May I do the same for others ouis? One small inline for each oui type instead
+of a switch...
 
-thanks,
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index 3cd9c61eec99..7d31f359cf37 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -1664,7 +1664,7 @@ static void update_bcn_p2p_ie(struct adapter *padapter)
+ 
+ static void update_bcn_vendor_spec_ie(struct adapter *padapter, u8 *oui)
+ {
+-	if (!memcmp(RTW_WPA_OUI, oui, 4))
++	if (is_rtw_wpa_oui(oui))
+ 		update_bcn_wpa_ie(padapter);
+ 
+ 	else if (!memcmp(WMM_OUI, oui, 4))
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 8aadcf72a7ba..e05f70e434a2 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -57,7 +57,6 @@ static u8 null_addr[ETH_ALEN] = {0, 0, 0, 0, 0, 0};
+ /**************************************************
+ OUI definitions for the vendor specific IE
+ ***************************************************/
+-unsigned char RTW_WPA_OUI[] = {0x00, 0x50, 0xf2, 0x01};
+ unsigned char WMM_OUI[] = {0x00, 0x50, 0xf2, 0x02};
+ unsigned char WPS_OUI[] = {0x00, 0x50, 0xf2, 0x04};
+ unsigned char P2P_OUI[] = {0x50, 0x6F, 0x9A, 0x09};
+@@ -3194,7 +3193,7 @@ void issue_assocreq(struct adapter *padapter)
+ 
+ 		switch (pIE->ElementID) {
+ 		case WLAN_EID_VENDOR_SPECIFIC:
+-			if ((!memcmp(pIE->data, RTW_WPA_OUI, 4)) ||
++			if ((is_rtw_wpa_oui(pIE->data)) ||
+ 					(!memcmp(pIE->data, WMM_OUI, 4)) ||
+ 					(!memcmp(pIE->data, WPS_OUI, 4))) {
+ 				vs_ie_length = pIE->Length;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+index 760b0ea4e9bd..8c73e44459eb 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
++++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+@@ -1490,7 +1490,7 @@ unsigned int is_ap_in_tkip(struct adapter *padapter)
+ 
+ 			switch (pIE->ElementID) {
+ 			case WLAN_EID_VENDOR_SPECIFIC:
+-				if ((!memcmp(pIE->data, RTW_WPA_OUI, 4)) && (!memcmp((pIE->data + 12), WPA_TKIP_CIPHER, 4)))
++				if ((is_rtw_wpa_oui(pIE->data)) && (!memcmp((pIE->data + 12), WPA_TKIP_CIPHER, 4)))
+ 					return true;
+ 
+ 				break;
+diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
+index 1658450b386e..95ff682ef877 100644
+--- a/drivers/staging/rtl8723bs/include/drv_types.h
++++ b/drivers/staging/rtl8723bs/include/drv_types.h
+@@ -541,4 +541,10 @@ extern u32 g_wait_hiq_empty;
+ extern u8 g_fwdl_wintint_rdy_fail;
+ extern u8 g_fwdl_chksum_fail;
+ 
++/* OUI verification ruotines */
++static inline bool is_rtw_wpa_oui(const u8 *mem)
++{
++	static const char rtw_wpa[] = {0x00, 0x50, 0xf2, 0x01};
++	return !memcmp(mem, rtw_wpa, 4);
++}
+ #endif /* __DRV_TYPES_H__ */
+diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+index fb283dc04ee2..14b570658b77 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
++++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+@@ -96,8 +96,6 @@ MCS rate definitions
+ #define MCS_RATE_4R	(0xffffffff)
+ #define MCS_RATE_2R_13TO15_OFF	(0x00001fff)
+ 
+-
+-extern unsigned char RTW_WPA_OUI[];
+ extern unsigned char WMM_OUI[];
+ extern unsigned char WPS_OUI[];
+ extern unsigned char WFD_OUI[];
 
-greg k-h
+thank you in advance,
+
+fabio
