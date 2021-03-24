@@ -1,49 +1,49 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 630CF6F
-	for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 12:44:54 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id g25so12862543wmh.0
-        for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 05:44:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473DA70
+	for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 12:44:55 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id a132-20020a1c668a0000b029010f141fe7c2so1133096wmc.0
+        for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 05:44:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=vxK2r8Y0ZlDIG1yQ2Q0/BluBgsbJ57gL+VksPVyV8Rk=;
-        b=WTzJdCEBTRaoI1jblsGZ0gFM9erntLIrgSJVB3fv4UBKlZ6RMLXd7Nhdn93PXqBewe
-         X5zKj1E2MXy3zTe0lprIRk7Qkhc5FH0OiJFCG+K9qMvf5Q1dFq+0Aun7J3uLkxxIHJIT
-         iR6ScMflupEMvfa2B1Fo9JXVhkIzguSoYSw7ExeDDLBDx7xOcuvk8o+yNhjrSpwystLE
-         1hrrgh947jGFLpgXyz321kB0HQA1kkR9I3MKJ2wYh1DDQVmMgPmj+0LJjNHvjyP6HKNH
-         oRRSNG+aCMpFCXPHcRHAH7ouYczzK/T9lDlGJxt9L1b4h7P7wUDJwWMFRpXfRh3AhPZX
-         0tJQ==
+        bh=ObzjOu2jFIxT85YP5gKR5+U0ty2U8Mlsks8+XZdNt44=;
+        b=tffEcXNua3OF+Pyb5BSGLAYMvR2lK09vdjIaaVyAvSXLpupHphfwpG4+xSQij9+bfc
+         UEUyb8bAqj2JPCxtoWwvsESojbbM2C2Ex4HyChtmORcUojnAGZYLYTUoNpYrHQUcgeQD
+         B7GGJm5Zl18GhPEjZ2JYwjzRJbAlIdS0WCSbRCuWpF3uWGH2fWxe57jqoqldqJPAgbbA
+         ro+pXlN7KzoKLhEi0ISrzNVMOj+/KzyxaNyXBFDAMp0S4HTdF5bOF15oECnVE5YMXz7E
+         TpP+g297oTE1hLNwpdYbHTqHV6Aek6VGYSXUMGF3T95A+wKXGS4NdeBkJrDLA2cXCm+s
+         Hf3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vxK2r8Y0ZlDIG1yQ2Q0/BluBgsbJ57gL+VksPVyV8Rk=;
-        b=mKge/ddFXKbjw57NDXuKxe9y5AJFofxYoDPnyTnAPDkE8mu6+a4E0WjLUsNOMAsaBg
-         EvRtN6+bJqkkRDP0QEUYvnDBHCZzDbUSQqpjTx2fh7OyLxB64uqjVkV12HB2+KL+pHnw
-         Fd3J9cr7FlhXFkTTCDYiFuI5HbRLPo8yWYikl6CN4/F2c+uxJkgMWmBFmj8vHGQwEj3G
-         wsTcOFfZomB73wNgHz+F/7RNLTEQCGZzASV1pn/EF+23Gv2ERNY+NXVL+UoqISHFtMOp
-         /hhwsMjO7VsdMYYepDtqT+WHEGkCweWEptSFfXL+uxVzeN1nf1ucXUt+5Nv01kQ76Z+R
-         0NuA==
-X-Gm-Message-State: AOAM532V0nGHE8YFr8cafw4Qe1UjuC6y86QdaJ1Ur3czrHeVz2DYqv6r
-	DX983Yq8vdLkTh7e/BvqXIc=
-X-Google-Smtp-Source: ABdhPJy6PjkFQ0KX6HxcebMtM6BC7IvolyZ8FG1Nso+STZG+kwcon8j72sXMEUd4kdTAyS8/2T9G4Q==
-X-Received: by 2002:a7b:c92d:: with SMTP id h13mr2786534wml.147.1616589892942;
-        Wed, 24 Mar 2021 05:44:52 -0700 (PDT)
+        bh=ObzjOu2jFIxT85YP5gKR5+U0ty2U8Mlsks8+XZdNt44=;
+        b=BQGN5ELStREM9pzfDRTb8C2X4glFvYWswg04HlRDwDexrvvrQeWUQUwIQWqYnXunHv
+         OspxqIoT+RFQ8GOtMyL2cAeWN3TOmckOSaF3TwlW5t11KpJYrwvmmABbx1EGZSLyJVH/
+         IEzu56HvSYmLISr4B8e7FnRNf0cavRHoQdg+XFPNqjGs7B5LnxDpZjcMAdUr06oh5BsO
+         xxQkXvqGQlVJfgS2IohFvMp3tTqDQ80r2cVtyZnZgDj43AqOduY5yDGQBSGCnBq5WLxo
+         6CyDTYjZUSxqg3gHw/mx3ih9QFeb9U5lOT3+9YE37xRuJZhYqE03hPSK1/n2N3Dryovq
+         u4fg==
+X-Gm-Message-State: AOAM530p+wGRApe9n614LVZjVOCmMN1OCFbhMa+NQc53u0Io62eLtCUX
+	JK3uDukf1DJXamtSW7OQ7pU=
+X-Google-Smtp-Source: ABdhPJwPB5jMkGoT9yDXEizy7Fui9CezUvQEVICXvn76jRTcCFz+Uq9Q7+k6RgwLq6cVM+k+O8FpNw==
+X-Received: by 2002:a05:600c:1553:: with SMTP id f19mr2769712wmg.33.1616589893785;
+        Wed, 24 Mar 2021 05:44:53 -0700 (PDT)
 Received: from gimli.home (93-48-145-141.ip257.fastwebnet.it. [93.48.145.141])
-        by smtp.gmail.com with ESMTPSA id s20sm2324005wmj.36.2021.03.24.05.44.52
+        by smtp.gmail.com with ESMTPSA id s20sm2324005wmj.36.2021.03.24.05.44.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 05:44:52 -0700 (PDT)
+        Wed, 24 Mar 2021 05:44:53 -0700 (PDT)
 From: Marco Cesati <marcocesati@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Hans de Goede <hdegoede@redhat.com>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 06/33] Staging: rtl8723bs: remove named enums in drv_types.h
-Date: Wed, 24 Mar 2021 13:44:29 +0100
-Message-Id: <20210324124456.25221-7-marcocesati@gmail.com>
+Subject: [PATCH 07/33] Staging: rtl8723bs: remove named enums in rtw_ht.h
+Date: Wed, 24 Mar 2021 13:44:30 +0100
+Message-Id: <20210324124456.25221-8-marcocesati@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210324124456.25221-1-marcocesati@gmail.com>
 References: <20210324124456.25221-1-marcocesati@gmail.com>
@@ -54,61 +54,49 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the following unnecessary enum names or definitions in
-include/drv_types.h:
+Remove the following unnecessary enum names in
+include/rtw_ht.h:
 
-	enum _nic_version	[definition]
-	enum _iface_type	[name]
-	enum adapter_type	[definition]
-	enum driver_state	[name]
+	enum aggre_size_e
+	enum rt_ht_inf0_capbility
+	enum rt_ht_inf1_capbility
 
 Signed-off-by: Marco Cesati <marcocesati@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/drv_types.h | 19 ++-----------------
- 1 file changed, 2 insertions(+), 17 deletions(-)
+ drivers/staging/rtl8723bs/include/rtw_ht.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
-index 1658450b386e..df1dd9fa7b90 100644
---- a/drivers/staging/rtl8723bs/include/drv_types.h
-+++ b/drivers/staging/rtl8723bs/include/drv_types.h
-@@ -24,15 +24,6 @@
- #include <wifi.h>
- #include <ieee80211.h>
+diff --git a/drivers/staging/rtl8723bs/include/rtw_ht.h b/drivers/staging/rtl8723bs/include/rtw_ht.h
+index fb321d20d276..e3f353fe1e47 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_ht.h
++++ b/drivers/staging/rtl8723bs/include/rtw_ht.h
+@@ -37,7 +37,7 @@ struct ht_priv {
  
--enum _nic_version {
--
--	RTL8711_NIC,
--	RTL8712_NIC,
--	RTL8713_NIC,
--	RTL8716_NIC
--
--};
--
- #include <rtw_rf.h>
- 
- #include <rtw_ht.h>
-@@ -347,19 +338,13 @@ static inline struct device *dvobj_to_dev(struct dvobj_priv *dvobj)
- 
- struct adapter *dvobj_get_port0_adapter(struct dvobj_priv *dvobj);
- 
--enum _iface_type {
-+enum {
- 	IFACE_PORT0, /* mapping to port0 for C/D series chips */
- 	IFACE_PORT1, /* mapping to port1 for C/D series chip */
- 	MAX_IFACE_PORT,
  };
  
--enum adapter_type {
--	PRIMARY_ADAPTER,
--	SECONDARY_ADAPTER,
--	MAX_ADAPTER = 0xFF,
--};
--
--enum driver_state {
+-enum aggre_size_e {
 +enum {
- 	DRIVER_NORMAL = 0,
- 	DRIVER_DISAPPEAR = 1,
- 	DRIVER_REPLACE_DONGLE = 2,
+ 	HT_AGG_SIZE_8K = 0,
+ 	HT_AGG_SIZE_16K = 1,
+ 	HT_AGG_SIZE_32K = 2,
+@@ -48,7 +48,7 @@ enum aggre_size_e {
+ 	VHT_AGG_SIZE_1024K = 7,
+ };
+ 
+-enum rt_ht_inf0_capbility {
++enum {
+ 	RT_HT_CAP_USE_TURBO_AGGR = 0x01,
+ 	RT_HT_CAP_USE_LONG_PREAMBLE = 0x02,
+ 	RT_HT_CAP_USE_AMPDU = 0x04,
+@@ -59,7 +59,7 @@ enum rt_ht_inf0_capbility {
+ 	RT_HT_CAP_USE_AP_CLIENT_MODE = 0x80,	/*  AP team request to reserve this bit, by Emily */
+ };
+ 
+-enum rt_ht_inf1_capbility {
++enum {
+ 	RT_HT_CAP_USE_VIDEO_CLIENT = 0x01,
+ 	RT_HT_CAP_USE_JAGUAR_BCUT = 0x02,
+ 	RT_HT_CAP_USE_JAGUAR_CCUT = 0x04,
 -- 
 2.30.2
 
