@@ -1,49 +1,49 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E17170
-	for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 12:45:08 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id d8-20020a1c1d080000b029010f15546281so1102863wmd.4
-        for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 05:45:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76FFF71
+	for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 12:45:09 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id v11so24290839wro.7
+        for <linux-staging@lists.linux.dev>; Wed, 24 Mar 2021 05:45:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=xHVNroS4jnPAVsDrnq4XBK53RftcSyx4S9WYDjBEhBY=;
-        b=iuTv/gKlNBodt+MNFK4LDwPudDGBzY0Eh1jE8T4fmuez95ZGwUNi6QPMxheTMFrieF
-         X56mfIXBO8TAvwzRXIQfkzw+acGOdsyRWoi2bANHtI2oOHNTuFDbCY2DDTBXQfWcpVpr
-         QbQkc2MJFqkFUKpiyI6evNg9zwQFJbG2d725R4EuVroJSCjhOxwEcGVM4BaDzR5DgwqK
-         RuZ4wkVNcv4pnCZl5UVINUwkk0Bn02voxxBDYj+V0XamaBHPeHVbrGdAekmW0oZZAFT8
-         S3An5dBJjVLhg7Osnl5DJRRoOKEAxlrVf0DJK3JgoulLSimpJRNBrph0c2bBnzvS1pyZ
-         Yk6Q==
+        bh=fwInxrmBjauHKgFMKl6cGvynGthoUXNpQgoA6tTwGSM=;
+        b=cA0jXN7iLYF/2mElheZ6NGi0EbTx6rn4ITtH6WnivRy8uD4oc3RKb/jl1zDyAipJQm
+         Hg+l2L1Tc86c+jOmMDyuIbrE140P49Mp+xHHB9mCkYhqr63WCatNeGG1oNAXLaG7nPcA
+         th7XHsqSu6RF8eFKYWSWbnXBzlEMmy0Oo+tPOJG5mbFhaedqI6mfhGqrvnitXld1ndEA
+         FlXKG7k2MpxgpP9LolA+EfdILOinK15Ztk3x9BgC6aR3QnEJUbWbOX0ACJTK4BQgNa3H
+         cLgAKFPjhLyMwXYdPlkSk5i16Bqw9vUmwlM48jcdpBqeYLN8jTwC2f/jpErDx5c9crz+
+         +0HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=xHVNroS4jnPAVsDrnq4XBK53RftcSyx4S9WYDjBEhBY=;
-        b=gmKiHyCyYOx4rrYB/3pwM8ieFL62NWDnieo80PQb7EdCUxW6tL/169A7JUoxD0Rz+C
-         uxYN08BdgGMD2R9uTmwrMS7okgxl5Pv/UT5ZnkeZOSt3n/fMc0WIgRTr8xpZoTg5eAaL
-         xsQTkDQ/Jz1AYTv+mWiv+Syg/iyLrtTTrWXADGHhxUZb9I80PyL33tKibaQcsvWm+8zN
-         QdIXckkdaUG6i4ZnP6y5lDI91EjDZGXPVCTPpUIaeHuKIrLBJDMzutMf2zvIaQyNlmrk
-         qBC6j+cD+VbubuaGPcEuh74mPwJkt6nqCR00IA8lCAR26g98MsnIswDXDwkLRkypiyLp
-         NRaw==
-X-Gm-Message-State: AOAM533avq0oUYAjVWT2CQ2UJ9sxHfYCiIPrTWhLltlp76tgrSl0NdnP
-	7Vk1C/CLyXl3ifZyZy6tbDY=
-X-Google-Smtp-Source: ABdhPJy6R+/X3KHmUX4bYjhfeEUxuFXi9cbxtwfffte3IGyH/uzCWJEoDULglCDUbkaqSLRGg82mNQ==
-X-Received: by 2002:a7b:c112:: with SMTP id w18mr2750322wmi.28.1616589907123;
+        bh=fwInxrmBjauHKgFMKl6cGvynGthoUXNpQgoA6tTwGSM=;
+        b=iAHVmVq/yCkU7Hwexub7FdRTcBWhLBa/6+C/0s/Qi00sotwK69vuEFFiQaDRs5Bez2
+         SRawzdBUhkMN5IPLO35zhcf11N+elrFyPCWCvXWWSRcsIPoeWUU6bBhnPuY6oNzuP3VZ
+         NxLVUJRHW/nbRSXg1EKl3+X6+T46avrvJrzM0zUjjroPzQyuSSmey4gQwKQiNfn89NY4
+         7mvK9HpJAp9Uk4s/tRCmrjlHMfiyDwbefa+2ltD2ziN0WrTHvSTtfBpH0X+yPpS/TR++
+         O1ULiXjEBAueKteMUT2bnxsUsNh2J3WlOWSqMoIzSxmVBuJRYpY0w2B57jaWquRPPsCh
+         UrHw==
+X-Gm-Message-State: AOAM532+ydsic01hj1DTxfBD1+oXT6ANemEm+NqVHxnOFj5DQDqYD+CR
+	Sn437/pGCVQrtc49jtkadQ8=
+X-Google-Smtp-Source: ABdhPJxf2Rk6kFuVnSrQIoBe5NB3P7F1R/k46btYuvPr48/0ouaZndd7CEHF9e/CgMg9JrRB6/y7Ng==
+X-Received: by 2002:a5d:664e:: with SMTP id f14mr3475803wrw.382.1616589907975;
         Wed, 24 Mar 2021 05:45:07 -0700 (PDT)
 Received: from gimli.home (93-48-145-141.ip257.fastwebnet.it. [93.48.145.141])
-        by smtp.gmail.com with ESMTPSA id s20sm2324005wmj.36.2021.03.24.05.45.06
+        by smtp.gmail.com with ESMTPSA id s20sm2324005wmj.36.2021.03.24.05.45.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 05:45:06 -0700 (PDT)
+        Wed, 24 Mar 2021 05:45:07 -0700 (PDT)
 From: Marco Cesati <marcocesati@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Hans de Goede <hdegoede@redhat.com>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 22/33] Staging: rtl8723bs: remove named enums in HalPwrSeqCmd.h
-Date: Wed, 24 Mar 2021 13:44:45 +0100
-Message-Id: <20210324124456.25221-23-marcocesati@gmail.com>
+Subject: [PATCH 23/33] Staging: rtl8723bs: remove named enums in hal_com_phycfg.h
+Date: Wed, 24 Mar 2021 13:44:46 +0100
+Message-Id: <20210324124456.25221-24-marcocesati@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210324124456.25221-1-marcocesati@gmail.com>
 References: <20210324124456.25221-1-marcocesati@gmail.com>
@@ -54,29 +54,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the following unnecessary enum name in
-include/HalPwrSeqCmd.h:
+Remove the following unnecessary enum names in
+include/hal_com_phycfg.h:
 
-	enum pwrseq_cmd_delay_unit
+	enum rf_tx_num
+	enum _regulation_txpwr_lmt
 
 Signed-off-by: Marco Cesati <marcocesati@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/HalPwrSeqCmd.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/include/hal_com_phycfg.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/HalPwrSeqCmd.h b/drivers/staging/rtl8723bs/include/HalPwrSeqCmd.h
-index ba9b033685ec..e30071935d27 100644
---- a/drivers/staging/rtl8723bs/include/HalPwrSeqCmd.h
-+++ b/drivers/staging/rtl8723bs/include/HalPwrSeqCmd.h
-@@ -82,7 +82,7 @@
- #define	PWR_CUT_ALL_MSK			0xFF
- 
- 
--enum pwrseq_cmd_delay_unit {
-+enum {
- 	PWRSEQ_DELAY_US,
- 	PWRSEQ_DELAY_MS,
+diff --git a/drivers/staging/rtl8723bs/include/hal_com_phycfg.h b/drivers/staging/rtl8723bs/include/hal_com_phycfg.h
+index 51eef4d5c861..73f6cadb5c79 100644
+--- a/drivers/staging/rtl8723bs/include/hal_com_phycfg.h
++++ b/drivers/staging/rtl8723bs/include/hal_com_phycfg.h
+@@ -25,7 +25,7 @@ enum rate_section {
+ 	VHT_4SSMCS0_4SSMCS9,
  };
+ 
+-enum rf_tx_num {
++enum {
+ 	RF_1TX = 0,
+ 	RF_2TX,
+ 	RF_3TX,
+@@ -36,7 +36,7 @@ enum rf_tx_num {
+ 
+ #define MAX_POWER_INDEX			0x3F
+ 
+-enum _regulation_txpwr_lmt {
++enum {
+ 	TXPWR_LMT_FCC = 0,
+ 	TXPWR_LMT_MKK,
+ 	TXPWR_LMT_ETSI,
 -- 
 2.30.2
 
