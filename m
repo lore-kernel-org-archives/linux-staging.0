@@ -1,40 +1,34 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF23D6E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C6F70
 	for <linux-staging@lists.linux.dev>; Thu, 25 Mar 2021 15:46:47 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3668C619EE;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4168461A21;
 	Thu, 25 Mar 2021 15:46:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1616687207;
-	bh=khRMP4FqyRZpbop5ty2x62CaA+4PY7xqgrwPEdsQxPs=;
+	bh=HVpFWp2Y5o1NU6qZTYqHmUYUSRYPmg8Tt1S9M+ynzbU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sW3/G+0ix63PBUOV6xUNQ4xinAJfC0g7ZrVM5zpcP/OrDITYcxWNPotLXSoNBlrPg
-	 nmTvl/Bsp4giUkUbWAleCoWmLpngLknPO9jcmxgOn3oUPcIiVyDVPkS5vFhY2w1Q13
-	 u7dFp+dhPE6B8nkCffAQjk3O//cMQ2z8s7x4d438pfDMaXPvOw27pPSyjGn7VIXP25
-	 L83kciCWTtap0zZAuXKIYyUaXOcuK6hVzSNGZu7bAX+UbYh5fSSNZYYotr57dHDQ/4
-	 XABRaYhXa8qc4iWkjM62yUKKuU79/TpH1fCib6rnc+hzye5U1gBe0YDbGBdfKWsKty
-	 arsYMwNkl53rA==
+	b=rwVcKnOnobjiPvO4Zr8GMtySlJl1WrrFv2ouVpi1OFiC00UoV0nVPuYZAx6tS9Spl
+	 9DM6HE3SVmev8P1rf59ZtpbCiuG22Hc/nT/SUY3TCS4Fe5kJSX3RsZt6SXKpZXV/Sy
+	 /I6I0EKVpOfx/5WG9bD1HBPft7RqgBRceSwqfhHd83GT4Udm61wsu+CNw0N8fU2cjw
+	 vKTH+yUYlL26xWp7UmagOLYhEl8Q7OUddkssajjnzc0SUtv/68uEYuwKh7CBp7TOj7
+	 tMzfft1MffjgPi+x+F/hB6qnoD8pinhCH3to3FHPDW+3od4hz22d5toxzK9i1604dz
+	 6uSHh9pMV17Yg==
 Received: by mail.kernel.org with local (Exim 4.94)
 	(envelope-from <mchehab@kernel.org>)
-	id 1lPSC4-001FYl-5F; Thu, 25 Mar 2021 16:46:44 +0100
+	id 1lPSC4-001FYr-9c; Thu, 25 Mar 2021 16:46:44 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Alex Dewar <alex.dewar90@gmail.com>,
-	Atul Gopinathan <leoatul12@gmail.com>,
-	Kishon Vijay Abraham I <kishon@ti.com>,
+	Lee Jones <lee.jones@linaro.org>,
 	Rob Herring <robh+dt@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Yu Chen <chenyu56@huawei.com>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	Rob Herring <robh@kernel.org>
-Subject: [PATCH v5 1/7] phy: phy-hi3670-usb3: move driver from staging into phy
-Date: Thu, 25 Mar 2021 16:46:35 +0100
-Message-Id: <36c31dcdcd49d5a728a1fe4040bbaef5268d7f79.1616686958.git.mchehab+huawei@kernel.org>
+	linux-staging@lists.linux.dev
+Subject: [PATCH v5 4/7] mfd: hi6421-spmi-pmic: move driver from staging
+Date: Thu, 25 Mar 2021 16:46:38 +0100
+Message-Id: <de3603a366c172923771d3f01aa83b70cbba2199.1616686958.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1616686958.git.mchehab+huawei@kernel.org>
 References: <cover.1616686958.git.mchehab+huawei@kernel.org>
@@ -46,124 +40,122 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-The phy USB3 driver for Hisilicon 970 (hi3670) is ready
-for mainstream. Mode it from staging into the main driver's
-phy/ directory.
+This driver is ready for mainstream. So, move it out of staging.
 
-Acked-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../bindings/phy/hisilicon,hi3670-usb3.yaml           |  0
- MAINTAINERS                                           |  9 ++++++++-
- drivers/phy/hisilicon/Kconfig                         | 10 ++++++++++
- drivers/phy/hisilicon/Makefile                        |  1 +
- .../hikey9xx => phy/hisilicon}/phy-hi3670-usb3.c      |  0
- drivers/staging/hikey9xx/Kconfig                      | 11 -----------
- drivers/staging/hikey9xx/Makefile                     |  2 --
- 7 files changed, 19 insertions(+), 14 deletions(-)
- rename drivers/staging/hikey9xx/phy-hi3670-usb3.yaml => Documentation/devicetree/bindings/phy/hisilicon,hi3670-usb3.yaml (100%)
- rename drivers/{staging/hikey9xx => phy/hisilicon}/phy-hi3670-usb3.c (100%)
+ .../mfd}/hisilicon,hi6421-spmi-pmic.yaml       |  0
+ MAINTAINERS                                    |  7 +++++++
+ drivers/mfd/Kconfig                            | 16 ++++++++++++++++
+ drivers/mfd/Makefile                           |  1 +
+ .../hikey9xx => mfd}/hi6421-spmi-pmic.c        |  0
+ drivers/staging/hikey9xx/Kconfig               | 18 ------------------
+ drivers/staging/hikey9xx/Makefile              |  1 -
+ 7 files changed, 24 insertions(+), 19 deletions(-)
+ rename {drivers/staging/hikey9xx => Documentation/devicetree/bindings/mfd}/hisilicon,hi6421-spmi-pmic.yaml (100%)
+ rename drivers/{staging/hikey9xx => mfd}/hi6421-spmi-pmic.c (100%)
 
-diff --git a/drivers/staging/hikey9xx/phy-hi3670-usb3.yaml b/Documentation/devicetree/bindings/phy/hisilicon,hi3670-usb3.yaml
+diff --git a/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml b/Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
 similarity index 100%
-rename from drivers/staging/hikey9xx/phy-hi3670-usb3.yaml
-rename to Documentation/devicetree/bindings/phy/hisilicon,hi3670-usb3.yaml
+rename from drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
+rename to Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 8c44fd8fd85d..a37489f5b070 100644
+index 2fdea49400c9..c7b4c2325890 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -18654,7 +18654,7 @@ L:	linux-usb@vger.kernel.org
- S:	Maintained
- F:	drivers/usb/roles/intel-xhci-usb-role-switch.c
+@@ -8156,6 +8156,13 @@ S:	Maintained
+ F:	Documentation/devicetree/bindings/spmi/hisilicon,hisi-spmi-controller.yaml
+ F:	drivers/spmi/hisi-spmi-controller.c
  
--USB IP DRIVER FOR HISILICON KIRIN
-+USB IP DRIVER FOR HISILICON KIRIN 960
- M:	Yu Chen <chenyu56@huawei.com>
- M:	Binghui Wang <wangbinghui@hisilicon.com>
- L:	linux-usb@vger.kernel.org
-@@ -18662,6 +18662,13 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/phy/hisilicon,hi3660-usb3.yaml
- F:	drivers/phy/hisilicon/phy-hi3660-usb3.c
- 
-+USB IP DRIVER FOR HISILICON KIRIN 970
-+M:	Mauro Carvalho Chehab <mchehab@kernel.org>
-+L:	linux-usb@vger.kernel.org
++HISILICON SPMI PMIC DRIVER FOR HIKEY 6421v600
++M:	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
++L:	linux-kernel@vger.kernel.org
 +S:	Maintained
-+F:	Documentation/devicetree/bindings/phy/hisilicon,kirin970-usb3.yaml
-+F:	drivers/phy/hisilicon/phy-kirin970-usb3.c
++F:	Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
++F:	drivers/mfd/hi6421-spmi-pmic.c
 +
- USB ISP116X DRIVER
- M:	Olav Kongas <ok@artecdesign.ee>
- L:	linux-usb@vger.kernel.org
-diff --git a/drivers/phy/hisilicon/Kconfig b/drivers/phy/hisilicon/Kconfig
-index 1c73053bcc98..4d008cfc279c 100644
---- a/drivers/phy/hisilicon/Kconfig
-+++ b/drivers/phy/hisilicon/Kconfig
-@@ -23,6 +23,16 @@ config PHY_HI3660_USB
+ HISILICON STAGING DRIVERS FOR HIKEY 960/970
+ M:	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+ S:	Maintained
+diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+index 21a131d4e7bb..d120b89db616 100644
+--- a/drivers/mfd/Kconfig
++++ b/drivers/mfd/Kconfig
+@@ -509,6 +509,22 @@ config MFD_HI6421_PMIC
+ 	  menus in order to enable them.
+ 	  We communicate with the Hi6421 via memory-mapped I/O.
  
- 	  To compile this driver as a module, choose M here.
- 
-+config PHY_HI3670_USB
-+	tristate "hi3670 USB PHY support"
-+	depends on (ARCH_HISI && ARM64) || COMPILE_TEST
-+	select GENERIC_PHY
-+	select MFD_SYSCON
++config MFD_HI6421_SPMI
++	tristate "HiSilicon Hi6421v600 SPMI PMU/Codec IC"
++	depends on OF
++	depends on SPMI
++	select MFD_CORE
++	select REGMAP_SPMI
 +	help
-+	  Enable this to support the HISILICON HI3670 USB PHY.
++	  Add support for HiSilicon Hi6421v600 SPMI PMIC. Hi6421 includes
++	  multi-functions, such as regulators, RTC, codec, Coulomb counter,
++	  etc.
 +
-+	  To compile this driver as a module, choose M here.
++	  This driver includes core APIs _only_. You have to select
++	  individual components like voltage regulators under corresponding
++	  menus in order to enable them.
++	  We communicate with the Hi6421v600 via a SPMI bus.
 +
- config PHY_HISTB_COMBPHY
- 	tristate "HiSilicon STB SoCs COMBPHY support"
- 	depends on (ARCH_HISI && ARM64) || COMPILE_TEST
-diff --git a/drivers/phy/hisilicon/Makefile b/drivers/phy/hisilicon/Makefile
-index 92e874ae9c74..51729868145b 100644
---- a/drivers/phy/hisilicon/Makefile
-+++ b/drivers/phy/hisilicon/Makefile
-@@ -1,6 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- obj-$(CONFIG_PHY_HI6220_USB)		+= phy-hi6220-usb.o
- obj-$(CONFIG_PHY_HI3660_USB)		+= phy-hi3660-usb3.o
-+obj-$(CONFIG_PHY_HI3670_USB)		+= phy-hi3670-usb3.o
- obj-$(CONFIG_PHY_HISTB_COMBPHY)		+= phy-histb-combphy.o
- obj-$(CONFIG_PHY_HISI_INNO_USB2)	+= phy-hisi-inno-usb2.o
- obj-$(CONFIG_PHY_HIX5HD2_SATA)		+= phy-hix5hd2-sata.o
-diff --git a/drivers/staging/hikey9xx/phy-hi3670-usb3.c b/drivers/phy/hisilicon/phy-hi3670-usb3.c
+ config MFD_HI655X_PMIC
+ 	tristate "HiSilicon Hi655X series PMU/Codec IC"
+ 	depends on ARCH_HISI || COMPILE_TEST
+diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+index 4f6d2b8a5f76..e87230fc61ac 100644
+--- a/drivers/mfd/Makefile
++++ b/drivers/mfd/Makefile
+@@ -232,6 +232,7 @@ obj-$(CONFIG_MFD_IPAQ_MICRO)	+= ipaq-micro.o
+ obj-$(CONFIG_MFD_IQS62X)	+= iqs62x.o
+ obj-$(CONFIG_MFD_MENF21BMC)	+= menf21bmc.o
+ obj-$(CONFIG_MFD_HI6421_PMIC)	+= hi6421-pmic-core.o
++obj-$(CONFIG_MFD_HI6421_SPMI)	+= hi6421-spmi-pmic.o
+ obj-$(CONFIG_MFD_HI655X_PMIC)   += hi655x-pmic.o
+ obj-$(CONFIG_MFD_DLN2)		+= dln2.o
+ obj-$(CONFIG_MFD_RT5033)	+= rt5033.o
+diff --git a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c b/drivers/mfd/hi6421-spmi-pmic.c
 similarity index 100%
-rename from drivers/staging/hikey9xx/phy-hi3670-usb3.c
-rename to drivers/phy/hisilicon/phy-hi3670-usb3.c
+rename from drivers/staging/hikey9xx/hi6421-spmi-pmic.c
+rename to drivers/mfd/hi6421-spmi-pmic.c
 diff --git a/drivers/staging/hikey9xx/Kconfig b/drivers/staging/hikey9xx/Kconfig
-index 82bb4a22b286..88bdf5655d20 100644
+index 49ce28ff55b2..b17c047aa700 100644
 --- a/drivers/staging/hikey9xx/Kconfig
 +++ b/drivers/staging/hikey9xx/Kconfig
-@@ -1,16 +1,5 @@
+@@ -1,23 +1,5 @@
  # SPDX-License-Identifier: GPL-2.0
  
--# to be placed at drivers/phy
--config PHY_HI3670_USB
--	tristate "hi3670 USB PHY support"
--	depends on (ARCH_HISI && ARM64) || COMPILE_TEST
--	select GENERIC_PHY
--	select MFD_SYSCON
+-# to be placed at drivers/mfd
+-config MFD_HI6421_SPMI
+-	tristate "HiSilicon Hi6421v600 SPMI PMU/Codec IC"
+-	depends on HAS_IOMEM
+-	depends on OF
+-	depends on SPMI
+-	select MFD_CORE
+-	select REGMAP_SPMI
 -	help
--	  Enable this to support the HISILICON HI3670 USB PHY.
+-	  Add support for HiSilicon Hi6421v600 SPMI PMIC. Hi6421 includes
+-	  multi-functions, such as regulators, RTC, codec, Coulomb counter,
+-	  etc.
 -
--	  To compile this driver as a module, choose M here.
+-	  This driver includes core APIs _only_. You have to select
+-	  individual components like voltage regulators under corresponding
+-	  menus in order to enable them.
+-	  We communicate with the Hi6421v600 via a SPMI bus.
 -
- # to be placed at drivers/spmi
- config SPMI_HISI3670
- 	tristate "Hisilicon 3670 SPMI Controller"
+ # to be placed at drivers/regulator
+ config REGULATOR_HI6421V600
+ 	tristate "HiSilicon Hi6421v600 PMIC voltage regulator support"
 diff --git a/drivers/staging/hikey9xx/Makefile b/drivers/staging/hikey9xx/Makefile
-index 1924fadac952..9371dcc3d35b 100644
+index 347880fd378f..4d63184e6086 100644
 --- a/drivers/staging/hikey9xx/Makefile
 +++ b/drivers/staging/hikey9xx/Makefile
-@@ -1,7 +1,5 @@
+@@ -1,4 +1,3 @@
  # SPDX-License-Identifier: GPL-2.0
  
--obj-$(CONFIG_PHY_HI3670_USB)		+= phy-hi3670-usb3.o
--
- obj-$(CONFIG_SPMI_HISI3670)		+= hisi-spmi-controller.o
- obj-$(CONFIG_MFD_HI6421_SPMI)		+= hi6421-spmi-pmic.o
+-obj-$(CONFIG_MFD_HI6421_SPMI)		+= hi6421-spmi-pmic.o
  obj-$(CONFIG_REGULATOR_HI6421V600)	+= hi6421v600-regulator.o
 -- 
 2.30.2
