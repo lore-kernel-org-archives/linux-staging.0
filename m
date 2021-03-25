@@ -1,84 +1,131 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF0D25F
-	for <linux-staging@lists.linux.dev>; Thu, 25 Mar 2021 11:28:44 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 84C9461A80;
-	Thu, 25 Mar 2021 11:28:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1616671724;
-	bh=CtZ/vzzW/5Ws0GYk7dTy6lCUpfL2ZWWC5U4jabLBQHs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JJaCcbf7fb93or+r7BHI+ltxZ2gd2eWnJ8tWSXpPTO854rUlxqePgEO+85i7Mbe9i
-	 BIDO0e3frM+8QarWAWc60QvhHy6IInZdq+9uG78h8TqaFDtK1QG2f6Uqgl2cQg+JUG
-	 kmHbTqO69w4N+VAodOaaSn8OZU0qsyBEmonmHJizyoAw0XXlHUtSbU2cU9qgGbxy8C
-	 nDmaPXLv3E1IaBixpKVzTu0/QIWDTyWhkw+QDN5Lu85DIOO6QbmPMM2LhOQHdAfja2
-	 XKIXN/GbogSY+Tn1RZkyjWy8lYr27rcUKJjOmcajbH/OOgKPc/34nigidGP+7Htttw
-	 7zjkcfpNfEujA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Tong Zhang <ztong0001@gmail.com>,
-	Ian Abbott <abbotti@mev.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 4.4 09/10] staging: comedi: cb_pcidas64: fix request_irq() warn
-Date: Thu, 25 Mar 2021 07:28:30 -0400
-Message-Id: <20210325112832.1928898-9-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210325112832.1928898-1-sashal@kernel.org>
-References: <20210325112832.1928898-1-sashal@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F406F
+	for <linux-staging@lists.linux.dev>; Thu, 25 Mar 2021 13:35:23 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id b9so2293568wrt.8
+        for <linux-staging@lists.linux.dev>; Thu, 25 Mar 2021 06:35:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=sgVSDNtewl13Faq2L7m0VtnnssegF5rNrygJnFP8kVQ=;
+        b=V87PaBpvHuLPd8si+rBOURH9tvykrSdIEVgRyxYNGleHug7Pet20eoPwfqrKedmoIO
+         xNyOiDnaGrRpgOWGqZIt7Ra3rkDGcRPc35bca/HZIO+b2B9oxyKF73LPvbC2MY+aG+3z
+         gDJYeUMjH9jjxGofh5eJsQbE8bH+8z1EHCOQsmxALu+OE6nxImZWEkWVliEazofNk/M5
+         iLO/jTivjtWTGjH5oUq9vEDwcOmF1mQNSjBQjzgWUkZiCfXymAjksiSwb7zhAzRPT7Nz
+         xfuzouQfGNxeKnTgbFj4YROOe5NSYCUdP7NoF+jDDAFpV02rgPuqXQT+MX6PAdVvZy3U
+         mjJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=sgVSDNtewl13Faq2L7m0VtnnssegF5rNrygJnFP8kVQ=;
+        b=IN57KG8Cwdf7E2T++lfLQoonnJ1jHRPMWot9BuzOh0N6V5ajoJ3kiUNi2rll+OtNxm
+         k996eBb1Ylcbp/B4NXr4q2VC5FgnhWfBhWozkJFVXIbzdJIlLJMocxjWBLnrjvvednsl
+         J94BTHqr1hEots2YlgeDP5Q8kQkJpwXmRWGA576pRFmdBb5igBOz8eolrutmGekYjqCd
+         pitLbGvmO6soOJ5nw3BHnfWaX/kgBsJOBGf9FzeteMeUOG6rvfdGyP0mpgT6Dkk3kPTX
+         5wFnLGgtTuyX1B6qxuPE3KWaYBeW3Kwp3Dmnj7RNhSMk4KHL8jJwUGOgiTlR03ry9Tig
+         vMfA==
+X-Gm-Message-State: AOAM533NicAaV/Zxjkdj4uld5yJF+rkVPB268Zt5gmQvM5HAx7gQyuk0
+	vAiB0iPTGts1ka1SM4rf7KM=
+X-Google-Smtp-Source: ABdhPJwd7KMb+NBqOikfxgscq6R+fEgzdyHZZgsSGwNvgD1/Fl9xQHJKrszuzrDkcxvQ6aeWoBxONQ==
+X-Received: by 2002:adf:f0c1:: with SMTP id x1mr8952882wro.7.1616679322564;
+        Thu, 25 Mar 2021 06:35:22 -0700 (PDT)
+Received: from m17r3en ([46.11.141.4])
+        by smtp.gmail.com with ESMTPSA id o2sm6491758wmc.23.2021.03.25.06.35.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Mar 2021 06:35:21 -0700 (PDT)
+Date: Thu, 25 Mar 2021 14:35:20 +0100
+From: Swen Kalski <kalski.swen@gmail.com>
+To: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: Ian Abbott <abbotti@mev.co.uk>,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH] Staging: comedi: remove unnecessary else statement
+Message-ID: <20210325133520.GA594125@m17r3en>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Tong Zhang <ztong0001@gmail.com>
+Removal of an unnecessary else in statging/comedi/comedi_buf.c
+Add an early Return and removed the unleashed the else condition
+for better readability int staging/comedi drivers.
 
-[ Upstream commit d2d106fe3badfc3bf0dd3899d1c3f210c7203eab ]
-
-request_irq() wont accept a name which contains slash so we need to
-repalce it with something else -- otherwise it will trigger a warning
-and the entry in /proc/irq/ will not be created
-since the .name might be used by userspace and we don't want to break
-userspace, so we are changing the parameters passed to request_irq()
-
-[    1.565966] name 'pci-das6402/16'
-[    1.566149] WARNING: CPU: 0 PID: 184 at fs/proc/generic.c:180 __xlate_proc_name+0x93/0xb0
-[    1.568923] RIP: 0010:__xlate_proc_name+0x93/0xb0
-[    1.574200] Call Trace:
-[    1.574722]  proc_mkdir+0x18/0x20
-[    1.576629]  request_threaded_irq+0xfe/0x160
-[    1.576859]  auto_attach+0x60a/0xc40 [cb_pcidas64]
-
-Suggested-by: Ian Abbott <abbotti@mev.co.uk>
-Reviewed-by: Ian Abbott <abbotti@mev.co.uk>
-Signed-off-by: Tong Zhang <ztong0001@gmail.com>
-Link: https://lore.kernel.org/r/20210315195814.4692-1-ztong0001@gmail.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Swen Kalski <kalski.swen@gmail.com>
 ---
- drivers/staging/comedi/drivers/cb_pcidas64.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/comedi/comedi_buf.c | 52 ++++++++++++++---------------
+ 1 file changed, 26 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/staging/comedi/drivers/cb_pcidas64.c b/drivers/staging/comedi/drivers/cb_pcidas64.c
-index d33b8fe872a7..93d8c0b06d55 100644
---- a/drivers/staging/comedi/drivers/cb_pcidas64.c
-+++ b/drivers/staging/comedi/drivers/cb_pcidas64.c
-@@ -4040,7 +4040,7 @@ static int auto_attach(struct comedi_device *dev,
- 	init_stc_registers(dev);
+diff --git a/drivers/staging/comedi/comedi_buf.c b/drivers/staging/comedi/comedi_buf.c
+index 3ef3ddabf139..06bfc859ab31 100644
+--- a/drivers/staging/comedi/comedi_buf.c
++++ b/drivers/staging/comedi/comedi_buf.c
+@@ -371,35 +371,35 @@ static unsigned int comedi_buf_munge(struct comedi_subdevice *s,
  
- 	retval = request_irq(pcidev->irq, handle_interrupt, IRQF_SHARED,
--			     dev->board_name, dev);
-+			     "cb_pcidas64", dev);
- 	if (retval) {
- 		dev_dbg(dev->class_dev, "unable to allocate irq %u\n",
- 			pcidev->irq);
+ 	if (!s->munge || (async->cmd.flags & CMDF_RAWDATA)) {
+ 		async->munge_count += num_bytes;
+-		count = num_bytes;
+-	} else {
+-		/* don't munge partial samples */
+-		num_bytes -= num_bytes % num_sample_bytes;
+-		while (count < num_bytes) {
+-			int block_size = num_bytes - count;
+-			unsigned int buf_end;
++		return num_bytes;
++	}
+ 
+-			buf_end = async->prealloc_bufsz - async->munge_ptr;
+-			if (block_size > buf_end)
+-				block_size = buf_end;
++	/* don't munge partial samples */
++	num_bytes -= num_bytes % num_sample_bytes;
++	while (count < num_bytes) {
++		int block_size = num_bytes - count;
++		unsigned int buf_end;
+ 
+-			s->munge(s->device, s,
+-				 async->prealloc_buf + async->munge_ptr,
+-				 block_size, async->munge_chan);
++		buf_end = async->prealloc_bufsz - async->munge_ptr;
++		if (block_size > buf_end)
++			block_size = buf_end;
+ 
+-			/*
+-			 * ensure data is munged in buffer before the
+-			 * async buffer munge_count is incremented
+-			 */
+-			smp_wmb();
+-
+-			async->munge_chan += block_size / num_sample_bytes;
+-			async->munge_chan %= async->cmd.chanlist_len;
+-			async->munge_count += block_size;
+-			async->munge_ptr += block_size;
+-			async->munge_ptr %= async->prealloc_bufsz;
+-			count += block_size;
+-		}
++		s->munge(s->device, s,
++			 async->prealloc_buf + async->munge_ptr,
++			 block_size, async->munge_chan);
++
++		/*
++		 * ensure data is munged in buffer before the
++		 * async buffer munge_count is incremented
++		 */
++		smp_wmb();
++
++		async->munge_chan += block_size / num_sample_bytes;
++		async->munge_chan %= async->cmd.chanlist_len;
++		async->munge_count += block_size;
++		async->munge_ptr += block_size;
++		async->munge_ptr %= async->prealloc_bufsz;
++		count += block_size;
+ 	}
+ 
+ 	return count;
 -- 
-2.30.1
+2.25.1
 
