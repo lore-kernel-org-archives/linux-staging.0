@@ -1,20 +1,20 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6495F
-	for <linux-staging@lists.linux.dev>; Thu, 25 Mar 2021 11:27:46 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C7EC661A89;
-	Thu, 25 Mar 2021 11:27:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61EF5F
+	for <linux-staging@lists.linux.dev>; Thu, 25 Mar 2021 11:28:09 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8F39861A68;
+	Thu, 25 Mar 2021 11:28:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1616671665;
-	bh=gCjSjWEMVtaZ6tWw1zQgoMyWDSUPQciiygslKQvvAyw=;
+	s=k20201202; t=1616671689;
+	bh=ZXXW/k7cTS+S5VFAlsQf8Nid+9xzg5C/OEezLtOHqNA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=psphc7Pe+4B+zum4PGmC4tZ+onVL/L/7AMxgFH/AODy9JZ9+bFaPs8Pj0PV2JkKEA
-	 FH2n/3+1BemLwo2uiWA00Ccwxxkdv0QsyIT0/+7EA6POAAZfvZFvqCRP/w6OK1DCBa
-	 qfly+Jf4n1fx27oui//sMcu0qaN0qTIsf/S5tKzRJdmTV/m5Y01POiSChALx4DM0p+
-	 viWcdi1EEXtT/qEDiyA1BNHSM2Xz+naXPOMCioThQWcpN44vr7y7DY6yKMQfIYQKIs
-	 jAzLxPZRlzTcHoYSHRReQj/w+ZAN3ptX0aJz1djgSCteqzyDdbvQwMHoc0c84XUW7F
-	 AVrDnEIPXyB3A==
+	b=ozVfZq/SzR13SaVKcaez6DLfsYQrxy0gJxnAJfEr/w0DvOliAKey69QkZCi8vJ0C2
+	 YzO3IVhOIJg1Mqal2lCT2hZRtWKG6QCYvPzutg55TrXvzkfRzJ47BK8txr2lxGkD4N
+	 DKdP2/jWYl0VtgsztvIFZCvHDk2edVEP5YBsha3DDYzjvCVLJ2p/8qpeqXOp6O9xC5
+	 U3fsx413wesJhCABASs+9BWgHIXYcG02DfQLkWrtJfUuGtGPaX2XiJHrVYrldol7OP
+	 zji1Zf8rnMEL1Lj2u3LokQvQbbpeSIuDRYQ/h0qmLkUYWKwCfxan92HTPjWca65c2s
+	 3d1ymQxF60KWg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -23,12 +23,12 @@ Cc: Tong Zhang <ztong0001@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 4.19 16/20] staging: comedi: cb_pcidas64: fix request_irq() warn
-Date: Thu, 25 Mar 2021 07:27:20 -0400
-Message-Id: <20210325112724.1928174-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 13/16] staging: comedi: cb_pcidas: fix request_irq() warn
+Date: Thu, 25 Mar 2021 07:27:48 -0400
+Message-Id: <20210325112751.1928421-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210325112724.1928174-1-sashal@kernel.org>
-References: <20210325112724.1928174-1-sashal@kernel.org>
+In-Reply-To: <20210325112751.1928421-1-sashal@kernel.org>
+References: <20210325112751.1928421-1-sashal@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -40,7 +40,7 @@ Content-Transfer-Encoding: 8bit
 
 From: Tong Zhang <ztong0001@gmail.com>
 
-[ Upstream commit d2d106fe3badfc3bf0dd3899d1c3f210c7203eab ]
+[ Upstream commit 2e5848a3d86f03024ae096478bdb892ab3d79131 ]
 
 request_irq() wont accept a name which contains slash so we need to
 repalce it with something else -- otherwise it will trigger a warning
@@ -48,36 +48,36 @@ and the entry in /proc/irq/ will not be created
 since the .name might be used by userspace and we don't want to break
 userspace, so we are changing the parameters passed to request_irq()
 
-[    1.565966] name 'pci-das6402/16'
-[    1.566149] WARNING: CPU: 0 PID: 184 at fs/proc/generic.c:180 __xlate_proc_name+0x93/0xb0
-[    1.568923] RIP: 0010:__xlate_proc_name+0x93/0xb0
-[    1.574200] Call Trace:
-[    1.574722]  proc_mkdir+0x18/0x20
-[    1.576629]  request_threaded_irq+0xfe/0x160
-[    1.576859]  auto_attach+0x60a/0xc40 [cb_pcidas64]
+[    1.630764] name 'pci-das1602/16'
+[    1.630950] WARNING: CPU: 0 PID: 181 at fs/proc/generic.c:180 __xlate_proc_name+0x93/0xb0
+[    1.634009] RIP: 0010:__xlate_proc_name+0x93/0xb0
+[    1.639441] Call Trace:
+[    1.639976]  proc_mkdir+0x18/0x20
+[    1.641946]  request_threaded_irq+0xfe/0x160
+[    1.642186]  cb_pcidas_auto_attach+0xf4/0x610 [cb_pcidas]
 
 Suggested-by: Ian Abbott <abbotti@mev.co.uk>
 Reviewed-by: Ian Abbott <abbotti@mev.co.uk>
 Signed-off-by: Tong Zhang <ztong0001@gmail.com>
-Link: https://lore.kernel.org/r/20210315195814.4692-1-ztong0001@gmail.com
+Link: https://lore.kernel.org/r/20210315195914.4801-1-ztong0001@gmail.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/comedi/drivers/cb_pcidas64.c | 2 +-
+ drivers/staging/comedi/drivers/cb_pcidas.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/comedi/drivers/cb_pcidas64.c b/drivers/staging/comedi/drivers/cb_pcidas64.c
-index 631a703b345d..91403cc1bbf9 100644
---- a/drivers/staging/comedi/drivers/cb_pcidas64.c
-+++ b/drivers/staging/comedi/drivers/cb_pcidas64.c
-@@ -4021,7 +4021,7 @@ static int auto_attach(struct comedi_device *dev,
- 	init_stc_registers(dev);
+diff --git a/drivers/staging/comedi/drivers/cb_pcidas.c b/drivers/staging/comedi/drivers/cb_pcidas.c
+index 3ea15bb0e56e..15b9cc8531f0 100644
+--- a/drivers/staging/comedi/drivers/cb_pcidas.c
++++ b/drivers/staging/comedi/drivers/cb_pcidas.c
+@@ -1290,7 +1290,7 @@ static int cb_pcidas_auto_attach(struct comedi_device *dev,
+ 	     devpriv->amcc + AMCC_OP_REG_INTCSR);
  
- 	retval = request_irq(pcidev->irq, handle_interrupt, IRQF_SHARED,
--			     dev->board_name, dev);
-+			     "cb_pcidas64", dev);
- 	if (retval) {
- 		dev_dbg(dev->class_dev, "unable to allocate irq %u\n",
+ 	ret = request_irq(pcidev->irq, cb_pcidas_interrupt, IRQF_SHARED,
+-			  dev->board_name, dev);
++			  "cb_pcidas", dev);
+ 	if (ret) {
+ 		dev_dbg(dev->class_dev, "unable to allocate irq %d\n",
  			pcidev->irq);
 -- 
 2.30.1
