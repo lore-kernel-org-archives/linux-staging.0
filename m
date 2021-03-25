@@ -1,89 +1,150 @@
-Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 733895F
-	for <linux-staging@lists.linux.dev>; Thu, 25 Mar 2021 15:08:04 +0000 (UTC)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id 12PF7vaV028108
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 25 Mar 2021 16:07:57 +0100
-Received: from [139.22.38.170] ([139.22.38.170])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 12PEvufl013703;
-	Thu, 25 Mar 2021 15:57:56 +0100
-Subject: Re: [PATCH] staging: gasket: remove it from the kernel
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Rob Springer <rspringer@google.com>, Todd Poynor <toddpoynor@google.com>,
-        Ben Chan <benchan@chromium.org>, Richard Yeh <rcy@google.com>,
-        linux-staging@lists.linux.dev, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org
-References: <20210315154413.3084149-1-gregkh@linuxfoundation.org>
- <CALTjKEP_+uBU8K-=Cnose8wCv9Wrv8oFnKfRUywLEHV4U_jWjQ@mail.gmail.com>
- <30ee6d6b-9206-acad-b224-591fdeb0dad7@siemens.com>
- <YFyjsAtilH+3fggx@kroah.com>
-From: Jan Kiszka <jan.kiszka@siemens.com>
-Message-ID: <842fccfa-30a6-d40a-bf9a-8e7dea355666@siemens.com>
-Date: Thu, 25 Mar 2021 15:57:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2215F
+	for <linux-staging@lists.linux.dev>; Thu, 25 Mar 2021 15:46:47 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3CD3261A1F;
+	Thu, 25 Mar 2021 15:46:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1616687207;
+	bh=/SvOfmE7K5+ApQUEWc/r6QSnsyoJ0kEyFy1Xif6BRo0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ZKS6ivZ8jmRge+lwMmIzoiYKCFspUNM9AM2RV+2IO8VBtDC6bBs3UVoHMjlxgDR6x
+	 yJkpFItZBkrVjOtMlQGpQL9gqhJBS6JyJtraPeCvxVAWBlr6wUUpCQhsJBe1w7sTPU
+	 fHrY4zJ7TKK2g3Sib1tRdPLkc9AqW7GlG005yMG4tgKf0mHUCwg32UNSAolRAnxF0i
+	 +sMo9WkegWZuw/2+VEGE0Jb+2jmk1BIadp12u4D8DqrKEgamo9M3lvWAINc3suZMlS
+	 6wsGb8xFwRZceTNjV6jnSG+2bvUi+W7sbAb8+RRurF68vheZpTVIgZ1S2HWNGK/PsT
+	 gOOd8d2J/AwOQ==
+Received: by mail.kernel.org with local (Exim 4.94)
+	(envelope-from <mchehab@kernel.org>)
+	id 1lPSC4-001FYp-8W; Thu, 25 Mar 2021 16:46:44 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v5 3/7] spmi: hisi-spmi-controller: move driver from staging
+Date: Thu, 25 Mar 2021 16:46:37 +0100
+Message-Id: <697f26c380dc2c22c07bedc63a0eab8c9325fccc.1616686958.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <cover.1616686958.git.mchehab+huawei@kernel.org>
+References: <cover.1616686958.git.mchehab+huawei@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YFyjsAtilH+3fggx@kroah.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-On 25.03.21 15:52, Greg KH wrote:
-> On Thu, Mar 25, 2021 at 03:46:10PM +0100, Jan Kiszka wrote:
->> On 15.03.21 17:10, Rob Springer wrote:
->>> Acked-by: Rob Springer <rspringer@google.com>
->>>
->>>
->>> On Mon, Mar 15, 2021 at 8:44 AM <gregkh@linuxfoundation.org> wrote:
->>>>
->>>> From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->>>>
->>>> As none of the proposed things that need to be changed in the gasket
->>>> drivers have ever been done, and there has not been any forward progress
->>>> to get this out of staging, it seems totally abandonded so remove the
->>>> code entirely so that people do not spend their time doing tiny cleanups
->>>> for code that will never get out of staging.
->>>>
->>>> If this code is actually being used, it can be reverted simply and then
->>>> cleaned up properly, but as it is abandoned, let's just get rid of it.
->>>>
->>>> Cc: Rob Springer <rspringer@google.com>
->>>> Cc: Todd Poynor <toddpoynor@google.com>
->>>> Cc: Ben Chan <benchan@chromium.org>
->>>> Cc: Richard Yeh <rcy@google.com>
->>>> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->>
->> OK, so is there a plan of the HW vendor to improve the user experience
->> for this hardware? Is there a different software architecture in sight
->> which will not need a kernel driver?
-> 
-> What hardware vendor makes this thing?  What systems require it?  And
-> why can't you use UIO instead?
-> 
->> Just wondering loudly while fiddling with dkms packages and starring at
->> the code diffs between what was removed here and what I still have to
->> install manually from remote sources.
-> 
-> Where are the remote sources for this thing and why didn't they ever get
-> synced into the kernel tree?
-> 
+The Hisilicon 6421v600 SPMI driver is ready for mainstream.
 
-Very good questions, and I'm curious to learn if someone in CC can
-answer them.
+So, move it from staging.
 
-I was just starting to play with this thing, using Google's binary
-Debian repo. But that is not... optimal. Even more when thinking beyond
-a try-out stage.
+Acked-by: Stephen Boyd <sboyd@kernel.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ .../spmi}/hisilicon,hisi-spmi-controller.yaml         |  0
+ MAINTAINERS                                           |  7 +++++++
+ drivers/spmi/Kconfig                                  |  9 +++++++++
+ drivers/spmi/Makefile                                 |  1 +
+ .../{staging/hikey9xx => spmi}/hisi-spmi-controller.c |  0
+ drivers/staging/hikey9xx/Kconfig                      | 11 -----------
+ drivers/staging/hikey9xx/Makefile                     |  1 -
+ 7 files changed, 17 insertions(+), 12 deletions(-)
+ rename {drivers/staging/hikey9xx => Documentation/devicetree/bindings/spmi}/hisilicon,hisi-spmi-controller.yaml (100%)
+ rename drivers/{staging/hikey9xx => spmi}/hisi-spmi-controller.c (100%)
 
-Jan
-
+diff --git a/drivers/staging/hikey9xx/hisilicon,hisi-spmi-controller.yaml b/Documentation/devicetree/bindings/spmi/hisilicon,hisi-spmi-controller.yaml
+similarity index 100%
+rename from drivers/staging/hikey9xx/hisilicon,hisi-spmi-controller.yaml
+rename to Documentation/devicetree/bindings/spmi/hisilicon,hisi-spmi-controller.yaml
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a37489f5b070..2fdea49400c9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8149,6 +8149,13 @@ F:	drivers/crypto/hisilicon/sec2/sec_crypto.c
+ F:	drivers/crypto/hisilicon/sec2/sec_crypto.h
+ F:	drivers/crypto/hisilicon/sec2/sec_main.c
+ 
++HISILICON SPMI CONTROLLER DRIVER FOR HIKEY 970
++M:	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
++L:	linux-kernel@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/spmi/hisilicon,hisi-spmi-controller.yaml
++F:	drivers/spmi/hisi-spmi-controller.c
++
+ HISILICON STAGING DRIVERS FOR HIKEY 960/970
+ M:	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+ S:	Maintained
+diff --git a/drivers/spmi/Kconfig b/drivers/spmi/Kconfig
+index a53bad541f1a..2874b6c26028 100644
+--- a/drivers/spmi/Kconfig
++++ b/drivers/spmi/Kconfig
+@@ -11,6 +11,15 @@ menuconfig SPMI
+ 
+ if SPMI
+ 
++config SPMI_HISI3670
++	tristate "Hisilicon 3670 SPMI Controller"
++	select IRQ_DOMAIN_HIERARCHY
++	depends on HAS_IOMEM
++	help
++	  If you say yes to this option, support will be included for the
++	  built-in SPMI PMIC Arbiter interface on Hisilicon 3670
++	  processors.
++
+ config SPMI_MSM_PMIC_ARB
+ 	tristate "Qualcomm MSM SPMI Controller (PMIC Arbiter)"
+ 	select IRQ_DOMAIN_HIERARCHY
+diff --git a/drivers/spmi/Makefile b/drivers/spmi/Makefile
+index 55a94cadeffe..6e092e6f290c 100644
+--- a/drivers/spmi/Makefile
++++ b/drivers/spmi/Makefile
+@@ -4,4 +4,5 @@
+ #
+ obj-$(CONFIG_SPMI)	+= spmi.o
+ 
++obj-$(CONFIG_SPMI_HISI3670)	+= hisi-spmi-controller.o
+ obj-$(CONFIG_SPMI_MSM_PMIC_ARB)	+= spmi-pmic-arb.o
+diff --git a/drivers/staging/hikey9xx/hisi-spmi-controller.c b/drivers/spmi/hisi-spmi-controller.c
+similarity index 100%
+rename from drivers/staging/hikey9xx/hisi-spmi-controller.c
+rename to drivers/spmi/hisi-spmi-controller.c
+diff --git a/drivers/staging/hikey9xx/Kconfig b/drivers/staging/hikey9xx/Kconfig
+index 88bdf5655d20..49ce28ff55b2 100644
+--- a/drivers/staging/hikey9xx/Kconfig
++++ b/drivers/staging/hikey9xx/Kconfig
+@@ -1,16 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+-# to be placed at drivers/spmi
+-config SPMI_HISI3670
+-	tristate "Hisilicon 3670 SPMI Controller"
+-	select IRQ_DOMAIN_HIERARCHY
+-	depends on HAS_IOMEM
+-	depends on SPMI
+-	help
+-	  If you say yes to this option, support will be included for the
+-	  built-in SPMI PMIC Arbiter interface on Hisilicon 3670
+-	  processors.
+-
+ # to be placed at drivers/mfd
+ config MFD_HI6421_SPMI
+ 	tristate "HiSilicon Hi6421v600 SPMI PMU/Codec IC"
+diff --git a/drivers/staging/hikey9xx/Makefile b/drivers/staging/hikey9xx/Makefile
+index 9371dcc3d35b..347880fd378f 100644
+--- a/drivers/staging/hikey9xx/Makefile
++++ b/drivers/staging/hikey9xx/Makefile
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+-obj-$(CONFIG_SPMI_HISI3670)		+= hisi-spmi-controller.o
+ obj-$(CONFIG_MFD_HI6421_SPMI)		+= hi6421-spmi-pmic.o
+ obj-$(CONFIG_REGULATOR_HI6421V600)	+= hi6421v600-regulator.o
 -- 
-Siemens AG, T RDA IOT
-Corporate Competence Center Embedded Linux
+2.30.2
+
