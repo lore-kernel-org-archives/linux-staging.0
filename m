@@ -1,46 +1,34 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8DF470
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6FD96F
 	for <linux-staging@lists.linux.dev>; Thu, 25 Mar 2021 18:05:45 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 174C561A3C;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0891561A34;
 	Thu, 25 Mar 2021 18:05:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1616695545;
-	bh=jXjLA+y0nCRU/QQpmIbeUF0kq7bcptL/C7t/VeW/fmk=;
-	h=From:To:Cc:Subject:Date:From;
-	b=drnmIoL/1RnNg72x50zPjuhxxzSOAr61LccCC9td9S9HqkEUq/If54GjMa3Fg3nPX
-	 98mE8/VCxRscppqW4zJsPiwhr1mWoHq1dnUJB6aVCecalgYDxxzlpQpjwIdZ/v5CbH
-	 zb3Ry5JBDeWb5LkYOPNF7U566PNr9BeYQWir7pE72b/s3oyXVK07yEYDGB7t8G0upH
-	 ImOQS76Dmexs1r8p+VRfBk5K5txQpzaSCyojuk2z/eles7QQWESYk5Jxlra+E2Yddj
-	 G3OqKnIJ1/iCBjXE3OC/jjh6r7wxBMDnCuiwtDHC3qTMkMdeRVzcV1D2+ncXEF4gEJ
-	 ZloM5ODX5++Mw==
+	bh=Q2tZBsdPQDvnqOQufuHyqZzw7WUjXHdEbtYO9wUPA7A=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=gK2Mo16kFK2WfM9n6gTrjftef34tnwJgP7HsrrgPcXKzlYS8cPachnYvIvYfua/Fr
+	 NPJ6+XdFhrf58gRkMtarbGkgUiAHXzJZYh2EDujNrpBjRjAMUb6oY73F//QQKe3J9F
+	 ogm058TZ9aKB9VlRWNsJ7Q2h3paYOvYS3GpTC9+0zP/iGi6hrVsHVxKaIkYArqefG2
+	 FodBD88EoGjcIaszvzO0XQjtid76v/CXaOVNp3NBIYa1I9YrG66VwuZBVDEq5UEWnM
+	 A8WCl5EiCdxnaxcl1sMUmwu0qsabLUcOt5kI7UwlEnCkLqSOwQOD2YkbkCTT8YpXeQ
+	 xyi/CJRGJEdHA==
 Received: by mail.kernel.org with local (Exim 4.94)
 	(envelope-from <mchehab@kernel.org>)
-	id 1lPUMX-001Mae-O4; Thu, 25 Mar 2021 19:05:41 +0100
+	id 1lPUMX-001Maj-Rc; Thu, 25 Mar 2021 19:05:41 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Alex Dewar <alex.dewar90@gmail.com>,
-	Atul Gopinathan <leoatul12@gmail.com>,
-	Kishon Vijay Abraham I <kishon@ti.com>,
-	Lee Jones <lee.jones@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Wei Xu <xuwei5@hisilicon.com>,
-	Yu Chen <chenyu56@huawei.com>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v5 (RESEND) 0/7] Move Hisilicon 6421v600 SPMI and USB drivers out of staging
-Date: Thu, 25 Mar 2021 19:05:32 +0100
-Message-Id: <cover.1616695231.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v5 (RESEND) 2/7] staging: hisilicon,hisi-spmi-controller.yaml cleanup schema
+Date: Thu, 25 Mar 2021 19:05:34 +0100
+Message-Id: <4e4a80d3a1b84a354d3c40be374a1689ae6c0fb1.1616695231.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <cover.1616695231.git.mchehab+huawei@kernel.org>
+References: <cover.1616695231.git.mchehab+huawei@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -49,89 +37,74 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-PS.: this series is identical to the one I posted earlier today. The only difference
-  is that it was generated with --no-renames, as per Lee Jones request,
-  in order to make easier to review the code.
+Remove some properties already defined at SPMI bus, and
+place the type for the spmi-channel.
 
-Hi Greg,
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ .../hisilicon,hisi-spmi-controller.yaml        | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
 
-Those are the remaining patches that are needed for the USB to work
-with Hikey970. This is based on the top of next-20210323.
-
-The main change from the previous patch series is that a new patch
-was added:
-  - staging: hisilicon,hisi-spmi-controller.yaml cleanup schema
-
-It does some changes at the DT binding file, as requested by Rob.
-
-My understanding from the discussions we had, back on Feb, is that
-those patches will be merged via the staging tree.
-
-Thanks!
-Mauro
-
-
-Mauro Carvalho Chehab (7):
-  phy: phy-hi3670-usb3: move driver from staging into phy
-  staging: hisilicon,hisi-spmi-controller.yaml cleanup schema
-  spmi: hisi-spmi-controller: move driver from staging
-  mfd: hi6421-spmi-pmic: move driver from staging
-  regulator: hi6421v600-regulator: move it from staging
-  dts: hisilicon: add support for the PMIC found on Hikey 970
-  dts: hisilicon: add support for USB3 on Hikey 970
-
- .../mfd/hisilicon,hi6421-spmi-pmic.yaml       | 135 ++++
- .../bindings/phy/hisilicon,hi3670-usb3.yaml   |  73 ++
- .../spmi/hisilicon,hisi-spmi-controller.yaml  |  71 ++
- MAINTAINERS                                   |  23 +-
- .../boot/dts/hisilicon/hi3670-hikey970.dts    | 124 +++-
- arch/arm64/boot/dts/hisilicon/hi3670.dtsi     |  58 ++
- .../boot/dts/hisilicon/hikey970-pmic.dtsi     |  87 +++
- drivers/mfd/Kconfig                           |  16 +
- drivers/mfd/Makefile                          |   1 +
- drivers/mfd/hi6421-spmi-pmic.c                | 297 ++++++++
- drivers/phy/hisilicon/Kconfig                 |  10 +
- drivers/phy/hisilicon/Makefile                |   1 +
- drivers/phy/hisilicon/phy-hi3670-usb3.c       | 668 ++++++++++++++++++
- drivers/regulator/Kconfig                     |   9 +
- drivers/regulator/Makefile                    |   1 +
- drivers/regulator/hi6421v600-regulator.c      | 299 ++++++++
- drivers/spmi/Kconfig                          |   9 +
- drivers/spmi/Makefile                         |   1 +
- drivers/spmi/hisi-spmi-controller.c           | 367 ++++++++++
- drivers/staging/Kconfig                       |   2 -
- drivers/staging/Makefile                      |   1 -
- drivers/staging/hikey9xx/Kconfig              |  52 --
- drivers/staging/hikey9xx/Makefile             |   7 -
- drivers/staging/hikey9xx/TODO                 |   5 -
- drivers/staging/hikey9xx/hi6421-spmi-pmic.c   | 297 --------
- .../staging/hikey9xx/hi6421v600-regulator.c   | 299 --------
- .../staging/hikey9xx/hisi-spmi-controller.c   | 367 ----------
- .../hikey9xx/hisilicon,hi6421-spmi-pmic.yaml  | 135 ----
- .../hisilicon,hisi-spmi-controller.yaml       |  75 --
- drivers/staging/hikey9xx/phy-hi3670-usb3.c    | 668 ------------------
- drivers/staging/hikey9xx/phy-hi3670-usb3.yaml |  73 --
- 31 files changed, 2230 insertions(+), 2001 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
- create mode 100644 Documentation/devicetree/bindings/phy/hisilicon,hi3670-usb3.yaml
- create mode 100644 Documentation/devicetree/bindings/spmi/hisilicon,hisi-spmi-controller.yaml
- create mode 100644 arch/arm64/boot/dts/hisilicon/hikey970-pmic.dtsi
- create mode 100644 drivers/mfd/hi6421-spmi-pmic.c
- create mode 100644 drivers/phy/hisilicon/phy-hi3670-usb3.c
- create mode 100644 drivers/regulator/hi6421v600-regulator.c
- create mode 100644 drivers/spmi/hisi-spmi-controller.c
- delete mode 100644 drivers/staging/hikey9xx/Kconfig
- delete mode 100644 drivers/staging/hikey9xx/Makefile
- delete mode 100644 drivers/staging/hikey9xx/TODO
- delete mode 100644 drivers/staging/hikey9xx/hi6421-spmi-pmic.c
- delete mode 100644 drivers/staging/hikey9xx/hi6421v600-regulator.c
- delete mode 100644 drivers/staging/hikey9xx/hisi-spmi-controller.c
- delete mode 100644 drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
- delete mode 100644 drivers/staging/hikey9xx/hisilicon,hisi-spmi-controller.yaml
- delete mode 100644 drivers/staging/hikey9xx/phy-hi3670-usb3.c
- delete mode 100644 drivers/staging/hikey9xx/phy-hi3670-usb3.yaml
-
+diff --git a/drivers/staging/hikey9xx/hisilicon,hisi-spmi-controller.yaml b/drivers/staging/hikey9xx/hisilicon,hisi-spmi-controller.yaml
+index 21f68a9c2df1..6b755039a74c 100644
+--- a/drivers/staging/hikey9xx/hisilicon,hisi-spmi-controller.yaml
++++ b/drivers/staging/hikey9xx/hisilicon,hisi-spmi-controller.yaml
+@@ -16,7 +16,11 @@ description: |
+   The PMIC part is provided by
+   drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml.
+ 
++allOf:
++  - $ref: spmi.yaml#
++
+ properties:
++
+   $nodename:
+     pattern: "spmi@[0-9a-f]"
+ 
+@@ -26,13 +30,8 @@ properties:
+   reg:
+     maxItems: 1
+ 
+-  "#address-cells":
+-    const: 2
+-
+-  "#size-cells":
+-    const: 0
+-
+   spmi-channel:
++    $ref: /schemas/types.yaml#/definitions/uint32
+     description: |
+       number of the Kirin 970 SPMI channel where the SPMI devices are connected.
+ 
+@@ -40,18 +39,16 @@ required:
+   - compatible
+   - reg
+   - spmi-channel
+-  - "#address-cells"
+-  - "#size-cells"
+ 
+ patternProperties:
+-  "^pmic@[0-9a-f]$":
++  "@[0-9a-f]$":
+     description: |
+       PMIC properties, which are specific to the used SPMI PMIC device(s).
+       When used in combination with HiSilicon 6421v600, the properties
+       are documented at
+       drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml.
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
+@@ -63,7 +60,6 @@ examples:
+         compatible = "hisilicon,kirin970-spmi-controller";
+         #address-cells = <2>;
+         #size-cells = <0>;
+-        status = "ok";
+         reg = <0x0 0xfff24000 0x0 0x1000>;
+         spmi-channel = <2>;
+ 
 -- 
 2.30.2
-
 
