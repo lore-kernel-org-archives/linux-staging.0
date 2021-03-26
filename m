@@ -1,27 +1,29 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41DC670
-	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 14:06:49 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5307161A24;
-	Fri, 26 Mar 2021 14:06:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7084370
+	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 14:06:58 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9725961A24;
+	Fri, 26 Mar 2021 14:06:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1616767608;
-	bh=NpksNz9lLbsAzvUd77qXzLFZ99XN7ephdBncdUikFNc=;
+	s=korg; t=1616767618;
+	bh=Zs7G2VZRCMsfXdjZurww9AAYubVChEXpje6NACEqXak=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=T4HbYzX+U6lZc3JTBVKSLzrAltmTmG3rht0aUgXUpbPQQkj9ARzmcbuxn3yeYu4SB
-	 SFtyZH46CvZwsxuLLOW4/FO2ho9BdbQV07w2X+y6CUwp3PSH4vzYkYnQ621PxA/7ps
-	 fkrf4zPKnh+L/Uhajyj7IJSAJ85T5GCaIES7xcpw=
-Date: Fri, 26 Mar 2021 15:06:02 +0100
+	b=1/X9EmcrFBsei8WYjtN8gNxxS/y/bjAUgBd97Z5l3if/9+5FmKFG4GGQcoEC7npfE
+	 We+vmY76D0R/Xp50ZOSXahxlvMmNoPeBcCnDmz88bn+yT/1DcfDqg/LihgEET5WCRe
+	 6tH3XYLAZRHo7ST9EcW3z8hMrimlQ/ihAMgXaZT8=
+Date: Fri, 26 Mar 2021 15:06:55 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: dan.carpenter@oracle.com, linux-staging@lists.linux.dev,
+Cc: Dan Carpenter <dan.carpenter@oracle.com>, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix indentation broken by previous
- patch
-Message-ID: <YF3qSsH/3vRy7BRy@kroah.com>
-References: <YFxQSJXXQ4dFPGS4@mwanda>
- <20210326091716.6599-1-fabioaiuto83@gmail.com>
+Subject: Re: [PATCH 04/15] staging: rtl8723bs: put parentheses on macros with
+ complex values in include/basic_types.h
+Message-ID: <YF3qf7DdqotjTEeV@kroah.com>
+References: <cover.1616748885.git.fabioaiuto83@gmail.com>
+ <2c7c198ccef194b06921bc476eda7d5102ab70dc.1616748885.git.fabioaiuto83@gmail.com>
+ <20210326100408.GE1717@kadam>
+ <20210326111241.GD1452@agape.jhs>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -29,22 +31,66 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210326091716.6599-1-fabioaiuto83@gmail.com>
+In-Reply-To: <20210326111241.GD1452@agape.jhs>
 
-On Fri, Mar 26, 2021 at 10:17:16AM +0100, Fabio Aiuto wrote:
-> fix indentation broken by patch removing conditional
-> code blocks checked by unused
-> CONFIG_INTERRUPT_BASED_TXBCN family defines
+On Fri, Mar 26, 2021 at 12:12:42PM +0100, Fabio Aiuto wrote:
+> On Fri, Mar 26, 2021 at 01:04:08PM +0300, Dan Carpenter wrote:
+> > On Fri, Mar 26, 2021 at 10:09:11AM +0100, Fabio Aiuto wrote:
+> > > fix the following checkpatch warnings:
+> > > 
+> > > ERROR: Macros with complex values should be enclosed in parentheses
+> > > 154: FILE: drivers/staging/rtl8723bs/include/basic_types.h:154:
+> > > +#define SET_BITS_TO_LE_4BYTE(__pstart, __bitoffset, __bitlen, __val) \
+> > > --
+> > > ERROR: Macros with multiple statements should be enclosed in
+> > > a do - while loop
+> > > 161: FILE: drivers/staging/rtl8723bs/include/basic_types.h:161:
+> > > +#define SET_BITS_TO_LE_2BYTE(__pstart, __bitoffset, __bitlen, __val) \
+> > > --
+> > > ERROR: Macros with complex values should be enclosed in parentheses
+> > > 168: FILE: drivers/staging/rtl8723bs/include/basic_types.h:168:
+> > > +#define SET_BITS_TO_LE_1BYTE(__pstart, __bitoffset, __bitlen, __val) \
+> > > 
+> > > parentheses solution preferred for all fixes and made macros more
+> > > readables
+> > > 
+> > > Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+> > > ---
+> > >  .../staging/rtl8723bs/include/basic_types.h   | 30 +++++++++++--------
+> > >  1 file changed, 18 insertions(+), 12 deletions(-)
+> > > 
+> > > diff --git a/drivers/staging/rtl8723bs/include/basic_types.h b/drivers/staging/rtl8723bs/include/basic_types.h
+> > > index 76304086107a..5054c2e3384c 100644
+> > > --- a/drivers/staging/rtl8723bs/include/basic_types.h
+> > > +++ b/drivers/staging/rtl8723bs/include/basic_types.h
+> > > @@ -152,24 +152,30 @@
+> > >  /* 		Set subfield of little-endian 4-byte value to specified value. */
+> > >  /*  */
+> > >  #define SET_BITS_TO_LE_4BYTE(__pstart, __bitoffset, __bitlen, __val) \
+> > > -		*((u32 *)(__pstart)) =				\
+> > > -		(						\
+> > > -		LE_BITS_CLEARED_TO_4BYTE(__pstart, __bitoffset, __bitlen) | \
+> > > -		((((u32)__val) & BIT_LEN_MASK_32(__bitlen)) << (__bitoffset)) \
+> > > +		(\
+> > > +			*((u32 *)(__pstart)) =				\
+> > > +			(						\
+> > > +				LE_BITS_CLEARED_TO_4BYTE(__pstart, __bitoffset, __bitlen) | \
+> > > +				((((u32)__val) & BIT_LEN_MASK_32(__bitlen)) << (__bitoffset)) \
+> > > +			)\
+> > >  		)
+> > >  
+> > 
+> > These macros are terrible and this makes it uglier.  Better to just
+> > ignore checkpatch until we can figure out a way to re-write this
+> > properly.
+> > 
+> > regards,
+> > dan carpenter
+> > 
 > 
-> https://lore.kernel.org/r/9157000821fd6febf25566b8c712fad1995c7c78.1615907632.git.fabioaiuto83@gmail.com
-> 
-> Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+> I see, will drop the patch for now.
 
-"previous patch" is not very descriptive :(
-
-Please put a "Fixes:" tag in here to point out exactly what commit this
-fixed, and maybe a "Reported-by:" tag if someone pointed this out to
-you...
+Please resend a v2 set of this series so I know what to apply here...
 
 thanks,
 
