@@ -1,86 +1,120 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4ACA70
-	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 09:57:17 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id f17so656860plr.0
-        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 02:57:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=IV75pZ2r/lTsGbcVB2HXKVQUuEN280uU9C5RzK68fYU=;
-        b=Q3rWXH4gNK6ohJquLwTkSl66Qdoxp6MTOgiXSDiftgNaBe/5H+stw2V/iZ+pl35nVc
-         B/QZKZFVXGmObWTqMrfutIeevZt2Ht5zWHTPj6WFFw3kQwdVuoEU3e1fsIyiSJYjHHHg
-         HC9nhqFM9YOuRLJZVNqydWrEVjC6spa5H8BcN1P0Rhee5XzSeEFEUn+U7SC9wUpf+Ny7
-         YvRfaMgXAHZ+NluNeUtlO9mlqL/2AKFSkMLRW4v+sz9OfgJkfXjbILveGHRMY/aFSz4f
-         9m0hEJ8tssrD4d2h73/PlM0qWRwIE3Ac4aBKsZw11/ygsZhBGJPgP8L3829shuktto1J
-         f+XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=IV75pZ2r/lTsGbcVB2HXKVQUuEN280uU9C5RzK68fYU=;
-        b=nALAI1zWy/PaZ8jET27lJO/mJjptX57bf89dJmKAVdaD2HxChhQ13rtiFDjCPm3gDj
-         aJMGO5eLQaIQv/XVmoHxwbxdGEnE1LhzS9dvRmdKODck1+ivwj7l58GsFSZwe29vGf5u
-         NZ1RpZNKTJBrez8hChH6Wcy8qklT+2FEmAwWnzi7cV3TPEcHYZETP2QXtCK7/QvS9nkY
-         P1w0nU2uih51dt+HJpo+YGIdW0kakWbSrQzrBuWnz2sRaicUE8kM1R0LQKh6nCJ/POid
-         mwiJqxpSLEAtT2BPEHyVdrWzZpvQXOo1QhNt+AgeYkRS9QIEnarLvp6gh0EagguVrQy5
-         7Oug==
-X-Gm-Message-State: AOAM530SmEX7wfdAO2QUHr7zrdcqKBHtl9YxYmFNpZGc2C7zioYM2lZK
-	PAPyk/AJzkifrinwX0UNl8k=
-X-Google-Smtp-Source: ABdhPJwwEZXFzZ/RNYveH7mefeJwagBObcPX98zYirGFuzA6NDif9CDcB1Ouvm7REbJkongZ1JDlZQ==
-X-Received: by 2002:a17:90a:a414:: with SMTP id y20mr12906128pjp.77.1616752637305;
-        Fri, 26 Mar 2021 02:57:17 -0700 (PDT)
-Received: from localhost ([103.220.76.197])
-        by smtp.gmail.com with ESMTPSA id n5sm8997971pfq.44.2021.03.26.02.57.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 02:57:16 -0700 (PDT)
-Date: Fri, 26 Mar 2021 17:57:11 +0800
-From: carlis <zhangxuezhi3@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: zhangxuezhi1@yulong.com, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: fix a typo
-Message-ID: <20210326175711.0000684f@gmail.com>
-In-Reply-To: <YF2qhUD1lz3LbEhC@kroah.com>
-References: <1616745915-194644-1-git-send-email-zhangxuezhi3@gmail.com>
-	<YF2dXIxMOUyLzfnQ@kroah.com>
-	<20210326171634.000011f5@gmail.com>
-	<YF2qhUD1lz3LbEhC@kroah.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19D570
+	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 10:04:27 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+	by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12QA4H1q193995;
+	Fri, 26 Mar 2021 10:04:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=AbVS8030l4bUMoP527cWYL6ykbMlzByqBuzDvNNH9ek=;
+ b=SXtPGgnfrOHzfZR1XaYRfbnijFJzc1HtN/Qp1nc9B1Q6x7kHyh0nbLNcR/lQKYYH1Y2b
+ dDE/1oFs83N+r2Bgfu9C18DkjHVO01eQjxF1sbH7+k/o+MaO/HsPkurlXofewPHUU4lB
+ s0eSbOTCkcjZZjol41dWW87MXgyqi/CB2mSOQYNRJG+3x/lE+xKWfOMk0P+BR0/wOuQ8
+ aU2I4gYiQ3yhuMbzKnR4IqpS9201KZPEmcATp83Mq+x6P/CKPgN2LXe6c4wy/saFVs0b
+ 0xSJkgPA9Gm0EBJKTAk7lcvznUZm3W71n0l+5msKr1wu93nj0Xj8LyFNM2jn8CDOlYVq eQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by userp2120.oracle.com with ESMTP id 37h13e9hru-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 26 Mar 2021 10:04:18 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12QA0OOV029387;
+	Fri, 26 Mar 2021 10:04:16 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by userp3020.oracle.com with ESMTP id 37h14h041c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 26 Mar 2021 10:04:16 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 12QA4FZV012657;
+	Fri, 26 Mar 2021 10:04:15 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Fri, 26 Mar 2021 10:04:15 +0000
+Date: Fri, 26 Mar 2021 13:04:08 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 04/15] staging: rtl8723bs: put parentheses on macros with
+ complex values in include/basic_types.h
+Message-ID: <20210326100408.GE1717@kadam>
+References: <cover.1616748885.git.fabioaiuto83@gmail.com>
+ <2c7c198ccef194b06921bc476eda7d5102ab70dc.1616748885.git.fabioaiuto83@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2c7c198ccef194b06921bc476eda7d5102ab70dc.1616748885.git.fabioaiuto83@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9934 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0 spamscore=0
+ phishscore=0 adultscore=0 mlxscore=0 suspectscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
+ definitions=main-2103260072
+X-Proofpoint-ORIG-GUID: sOqb6D46lR5mAG9HgYk3x5sQVDD7SQFg
+X-Proofpoint-GUID: sOqb6D46lR5mAG9HgYk3x5sQVDD7SQFg
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9934 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 lowpriorityscore=0
+ bulkscore=0 malwarescore=0 priorityscore=1501 suspectscore=0
+ impostorscore=0 phishscore=0 mlxscore=0 mlxlogscore=999 adultscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2103250000 definitions=main-2103260073
 
-On Fri, 26 Mar 2021 10:33:57 +0100
-Greg KH <gregkh@linuxfoundation.org> wrote:
+On Fri, Mar 26, 2021 at 10:09:11AM +0100, Fabio Aiuto wrote:
+> fix the following checkpatch warnings:
+> 
+> ERROR: Macros with complex values should be enclosed in parentheses
+> 154: FILE: drivers/staging/rtl8723bs/include/basic_types.h:154:
+> +#define SET_BITS_TO_LE_4BYTE(__pstart, __bitoffset, __bitlen, __val) \
+> --
+> ERROR: Macros with multiple statements should be enclosed in
+> a do - while loop
+> 161: FILE: drivers/staging/rtl8723bs/include/basic_types.h:161:
+> +#define SET_BITS_TO_LE_2BYTE(__pstart, __bitoffset, __bitlen, __val) \
+> --
+> ERROR: Macros with complex values should be enclosed in parentheses
+> 168: FILE: drivers/staging/rtl8723bs/include/basic_types.h:168:
+> +#define SET_BITS_TO_LE_1BYTE(__pstart, __bitoffset, __bitlen, __val) \
+> 
+> parentheses solution preferred for all fixes and made macros more
+> readables
+> 
+> Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+> ---
+>  .../staging/rtl8723bs/include/basic_types.h   | 30 +++++++++++--------
+>  1 file changed, 18 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/include/basic_types.h b/drivers/staging/rtl8723bs/include/basic_types.h
+> index 76304086107a..5054c2e3384c 100644
+> --- a/drivers/staging/rtl8723bs/include/basic_types.h
+> +++ b/drivers/staging/rtl8723bs/include/basic_types.h
+> @@ -152,24 +152,30 @@
+>  /* 		Set subfield of little-endian 4-byte value to specified value. */
+>  /*  */
+>  #define SET_BITS_TO_LE_4BYTE(__pstart, __bitoffset, __bitlen, __val) \
+> -		*((u32 *)(__pstart)) =				\
+> -		(						\
+> -		LE_BITS_CLEARED_TO_4BYTE(__pstart, __bitoffset, __bitlen) | \
+> -		((((u32)__val) & BIT_LEN_MASK_32(__bitlen)) << (__bitoffset)) \
+> +		(\
+> +			*((u32 *)(__pstart)) =				\
+> +			(						\
+> +				LE_BITS_CLEARED_TO_4BYTE(__pstart, __bitoffset, __bitlen) | \
+> +				((((u32)__val) & BIT_LEN_MASK_32(__bitlen)) << (__bitoffset)) \
+> +			)\
+>  		)
+>  
 
-> On Fri, Mar 26, 2021 at 05:16:34PM +0800, carlis wrote:
-> > On Fri, 26 Mar 2021 09:37:48 +0100
-> > Greg KH <gregkh@linuxfoundation.org> wrote:
-> >   
-> > > On Fri, Mar 26, 2021 at 04:05:15PM +0800, Carlis wrote:  
-> > > > From: "Carlis" <zhangxuezhi1@yulong.com>
-> > > > 
-> > > > Change 'tft' to 'TFT'    
-> > > 
-> > > Why?  What is wrong with "tft"?
-> > >   
-> > I think abbreviations should be capitalized.  
-> 
-> Why?  What requires this?
-Many people use capital letters for abbreviations in comments, which I
-think is a good practice
-> 
-> thanks,
-> 
-> greg k-h
+These macros are terrible and this makes it uglier.  Better to just
+ignore checkpatch until we can figure out a way to re-write this
+properly.
 
-thanks,
-Xuezhi Zhang
+regards,
+dan carpenter
+
