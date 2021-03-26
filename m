@@ -1,88 +1,154 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A6E70
-	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 18:07:19 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id x7so6472004wrw.10
-        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 11:07:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=wAmD6ytTwrfyQlONs9BcZVLvDpM+VeJBCdcfqLiuEa4=;
-        b=QleMF9P1oL2czwD76yMt9OAUDXUEDVsHYcJZUYOsgnbEMywbKpX4fWUJyJg6CALK6U
-         Enx3xMvFJNOAPObLvdKRvR6VwRpjukJ1SFGMx7tAgn61w4mUpxCDsjv+cczEfFV8/dfP
-         g6hDmwx3sNAc56vwdWPvNNbz6Ito+9jBX1MC5mhufuH5kAXgZelGARG23OhfXS/fpHrk
-         VXmdt3HR55j7rQS2JAzk3JVOgGYvJyPJ5qfWyJJw/pcITXZNaAwLIBtPJHhk1Iur1IC9
-         bcEIyxWPxGsqdIvpseqt5E6VId6gV+sfPARIr7TsYkvAlHDm7j8PggthRR36W+95FZQ5
-         4Wtw==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C95AA70
+	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 21:11:19 +0000 (UTC)
+Received: by mail-il1-f175.google.com with SMTP id u2so6188184ilk.1
+        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 14:11:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=wAmD6ytTwrfyQlONs9BcZVLvDpM+VeJBCdcfqLiuEa4=;
-        b=YNyAunsogkkyBd400iqboBMr0gR16r2Zc+XCe9E7PB4joIVJ367WisUdbi2M7CdDk8
-         rMCNGzUROGRmKwA859/lQrQ1DqpAIfGFjp2t5CWi9/mOsK+cOl10wWg+l0q2IrCcecJ1
-         rQXd9sDvWckBFW6AuniHIJiy4mqIPLw6KyVpsXfFWfyCu6XEiuzPYG/NkZDs51gxA2vE
-         Jkak3Ui5LdBBdMiBVA5EJchZLm94dw/zmwSkGVsMvsO92AHTsfYpd0bzO3AHcwHHkEc+
-         8iur1TPBCGgUOzG2zlhSr3usu/53UvxRjqmuiqr9vhbjhzr0zyVhVX0xWsLxZQq0Ix6f
-         jy3w==
-X-Gm-Message-State: AOAM531fJXyluEZ18FAwr10GrIhC/3o6+qDF2zqlAodx3ToFWDUUoKJi
-	XlMvPcmWBbN4awWtgOAbyFqpR5OkJF1Gxw==
-X-Google-Smtp-Source: ABdhPJwnk7b4LMXe04/G3qi1KbAsSIeYZ307khr9oQ24D2Ylkab7QzqFANcRb6vjmRuPljO/baED4g==
-X-Received: by 2002:adf:90f0:: with SMTP id i103mr15423979wri.318.1616782037719;
-        Fri, 26 Mar 2021 11:07:17 -0700 (PDT)
-Received: from agape ([151.37.215.119])
-        by smtp.gmail.com with ESMTPSA id v7sm13030022wme.47.2021.03.26.11.07.17
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=YkBaBBFDeht7SNCFuW/9Y03CUQmfjoZwU61Yl9kHu38=;
+        b=l1IU1FQkq2o8gsp1JuzrgVDWiQvimaf1RaKclzXEwkpnD5qWTZmcMIwGTPeOqUm6Vd
+         WuGz1c7hww9stY6pZ6jH2PCPQSPwcbgnGIZiB9acCcbl+/fbU9x0J/WoSrdISZI2cKSA
+         398R1Pn1mCMkGD/phR11LAnzvKUACWHhs9LrJlhAOPFv8DHaJDz5waOqilQxDrXFXd2m
+         rPFq69co0PeyN4vm+TrRmE9AGs4HzAjPOxrxMls6d1yrUYGsRkrrJZHo+DVxtZTGunvn
+         xADe46BtzNnwkSiJnXQJPtAsvLhVmtygLACGno+/exRhutJCalGMDDT5fomp44wENXnx
+         Ii9w==
+X-Gm-Message-State: AOAM530wAUenKmphsyqoulE1SXCuXwkOPsRQrr4OxxSmMKT0CLdpUtjS
+	vvLGsmjrKCXCtJCn46GOyQ==
+X-Google-Smtp-Source: ABdhPJyzxh6B5HL61Cx6KQl31O7AADpeoiH2Q7TPj2sdXOcMG9TavfGkT5IOjMJSftGn1xJE9EDCPQ==
+X-Received: by 2002:a92:730a:: with SMTP id o10mr11910426ilc.160.1616793079008;
+        Fri, 26 Mar 2021 14:11:19 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id y3sm4842556iot.15.2021.03.26.14.11.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 11:07:17 -0700 (PDT)
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: dan.carpenter@oracle.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix broken indentation
-Date: Fri, 26 Mar 2021 19:06:32 +0100
-Message-Id: <20210326180632.1859-1-fabioaiuto83@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <YF4J2JVz1tHiFsGJ@kroah.com>
-References: <YF4J2JVz1tHiFsGJ@kroah.com>
+        Fri, 26 Mar 2021 14:11:18 -0700 (PDT)
+Received: (nullmailer pid 3867570 invoked by uid 1000);
+	Fri, 26 Mar 2021 21:11:17 -0000
+Date: Fri, 26 Mar 2021 15:11:17 -0600
+From: Rob Herring <robh@kernel.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v5 (RESEND) 3/7] spmi: hisi-spmi-controller: move driver
+ from staging
+Message-ID: <20210326211117.GA3862036@robh.at.kernel.org>
+References: <cover.1616695231.git.mchehab+huawei@kernel.org>
+ <697f26c380dc2c22c07bedc63a0eab8c9325fccc.1616695231.git.mchehab+huawei@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <697f26c380dc2c22c07bedc63a0eab8c9325fccc.1616695231.git.mchehab+huawei@kernel.org>
 
-fix indentation broken by patch removing conditional
-code blocks checked by unused
-CONFIG_INTERRUPT_BASED_TXBCN family defines
+On Thu, Mar 25, 2021 at 07:05:35PM +0100, Mauro Carvalho Chehab wrote:
+> The Hisilicon 6421v600 SPMI driver is ready for mainstream.
+> 
+> So, move it from staging.
+> 
+> Acked-by: Stephen Boyd <sboyd@kernel.org>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  .../spmi/hisilicon,hisi-spmi-controller.yaml  |  71 ++++
+>  MAINTAINERS                                   |   7 +
+>  drivers/spmi/Kconfig                          |   9 +
+>  drivers/spmi/Makefile                         |   1 +
+>  drivers/spmi/hisi-spmi-controller.c           | 367 ++++++++++++++++++
+>  drivers/staging/hikey9xx/Kconfig              |  11 -
+>  drivers/staging/hikey9xx/Makefile             |   1 -
+>  .../staging/hikey9xx/hisi-spmi-controller.c   | 367 ------------------
+>  .../hisilicon,hisi-spmi-controller.yaml       |  71 ----
+>  9 files changed, 455 insertions(+), 450 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/spmi/hisilicon,hisi-spmi-controller.yaml
+>  create mode 100644 drivers/spmi/hisi-spmi-controller.c
+>  delete mode 100644 drivers/staging/hikey9xx/hisi-spmi-controller.c
+>  delete mode 100644 drivers/staging/hikey9xx/hisilicon,hisi-spmi-controller.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/spmi/hisilicon,hisi-spmi-controller.yaml b/Documentation/devicetree/bindings/spmi/hisilicon,hisi-spmi-controller.yaml
+> new file mode 100644
+> index 000000000000..6b755039a74c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/spmi/hisilicon,hisi-spmi-controller.yaml
+> @@ -0,0 +1,71 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/spmi/hisilicon,hisi-spmi-controller.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: HiSilicon SPMI controller
+> +
+> +maintainers:
+> +  - Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> +
+> +description: |
+> +  The HiSilicon SPMI BUS controller is found on some Kirin-based designs.
+> +  It is a MIPI System Power Management (SPMI) controller.
+> +
+> +  The PMIC part is provided by
+> +  drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml.
+> +
+> +allOf:
+> +  - $ref: spmi.yaml#
+> +
+> +properties:
+> +
+> +  $nodename:
+> +    pattern: "spmi@[0-9a-f]"
+> +
+> +  compatible:
+> +    const: hisilicon,kirin970-spmi-controller
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  spmi-channel:
 
-Fixes: 65f183001f6e (staging: rtl8723bs: remove unused code blocks conditioned by never set CONFIG_INTERRUPT_BASED_TXBCN*)
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_ap.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Generic to SPMI or HiSilicon specific? Needs to be documented in the 
+appropriate place and named appropriately.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 3cd9c61eec99..dc56477eb084 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -907,9 +907,9 @@ void start_bss_network(struct adapter *padapter, u8 *pbuf)
- 	if (pmlmeext->bstart_bss) {
- 		update_beacon(padapter, WLAN_EID_TIM, NULL, true);
- 
--	/* issue beacon frame */
--	if (send_beacon(padapter) == _FAIL)
--		DBG_871X("issue_beacon, fail!\n");
-+		/* issue beacon frame */
-+		if (send_beacon(padapter) == _FAIL)
-+			DBG_871X("issue_beacon, fail!\n");
- 
- 	}
- 
--- 
-2.20.1
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: |
+> +      number of the Kirin 970 SPMI channel where the SPMI devices are connected.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - spmi-channel
+> +
+> +patternProperties:
+> +  "@[0-9a-f]$":
 
+       type: object
+
+> +    description: |
+> +      PMIC properties, which are specific to the used SPMI PMIC device(s).
+> +      When used in combination with HiSilicon 6421v600, the properties
+> +      are documented at
+> +      drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml.
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    bus {
+> +      #address-cells = <2>;
+> +      #size-cells = <2>;
+> +
+> +      spmi: spmi@fff24000 {
+> +        compatible = "hisilicon,kirin970-spmi-controller";
+> +        #address-cells = <2>;
+> +        #size-cells = <0>;
+> +        reg = <0x0 0xfff24000 0x0 0x1000>;
+> +        spmi-channel = <2>;
+> +
+> +        pmic@0 {
+> +          reg = <0 0>;
+> +          /* pmic properties */
+> +        };
+> +      };
+> +    };
