@@ -1,83 +1,89 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA6305F
-	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 15:41:32 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id b16so6818302eds.7
-        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 08:41:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB355F
+	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 15:53:20 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id c8so6089804wrq.11
+        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 08:53:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=UcaHqKs98Hkc3NEid7wUy9JzMx3tu2jsJp3TMrBzIGs=;
-        b=hxC/ZxQvSzMjxAEz/OyBMxdWsnrxcnMByPPKwm9APhuGELHj9BIdEx/aqeSy+EAAJ3
-         s8xsKAINIyA/CRmWTp9xrPAgFov7m4JJeGbIujnJbbq6E37PcNMU1u3SUz3ayQWrE/Je
-         sr4gc9ITdqRB0T99wh2FHlCtkuS8NuUXwIhtfNxFKr3MSQWgZZQeQoSiWvZVM3iYMXtq
-         yfxpDle9LrNK/6sF08ISlhKngCNfPOW0UBC8ZKS8R9yyHzwsLdW/PvQmBPMZk8Dc6VAS
-         zYTKfRopk1sJKXciGI3lP+HBbSxQKv29Ru7bVm5wBHdCEQM+/qa11CRm8Phu6QJrWFs4
-         sDLg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=5k/BVMfwAegukvEElIIGUwfHYfApU29sbEenfi66cXQ=;
+        b=cGVxh0aGFLtX5bmpyNUup4SVjQaADeguIlmuvskWpz6ghfhMzQpiVrrOj5sV8mv+EC
+         tb0kGKF3tl5llVQjvUiZhXeIEcggEyLN093fVlAM6UQJCkOTyMpcnX4+13OfrTmIrNU1
+         JBZn47Dbt9SKfx1uIFRd0Tr2DnzBJ23NEstVdQKVHW7daKdUwwJHDi1DH38kE+Oqtjt1
+         zERs64eoTDtKDDN+o+fTNnm0uvP98P6dHKQzlEHCffjjQUuQH9y2JHqSev3WA7Ox3QLE
+         nmRilC+hbcsbtanHckG8cdcuLFtaPp57SwkjDw9GwOMYR/52i0GE8SaxRFFKaA4wDIWi
+         zNwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=UcaHqKs98Hkc3NEid7wUy9JzMx3tu2jsJp3TMrBzIGs=;
-        b=r+6sYYspzcrW395oTasrQa/y832PTcayyPfRsRaLb9yQyPZAYbRltwYHwSTTVVgWCJ
-         0tf1c5cagW/1B1vQPTrJX8azXRBoqCn9kWQAEWcjWaG2WAgggWMUAfbtC6YSXKbohUD9
-         uBoGz91noy7ycXZXT3F/mX/PQS/84iV4lGukPcdkIZu3Sk9ZNxDqmBmtJelJj+xL86ui
-         bZdDopMciS4tSRDvqGhXze4SRA9pl3eIIzAwjtaoMGaIb//c4UxysZVrpyHD9TVgAfLK
-         NQjBqQiIR5UfWwPAMbIlCjpa+xKOz6ZymhIVu54ySLIvqYSgyAYHShpffONWgSYGr7bS
-         VzTQ==
-X-Gm-Message-State: AOAM533AtPLOVif310m8SPGrbhGo1TkpAQqw67CnleR1rvnydRLIIukw
-	R/VjvCIjiWiEzfVCHPm1YAU=
-X-Google-Smtp-Source: ABdhPJxaShpLwFOHJNelMHcQGu6tTR4wLlu804AUZ3Si9l2E0+H4VfWeLTDfD56Ryb9Sgkk3nIhT7A==
-X-Received: by 2002:a05:6402:13ca:: with SMTP id a10mr15835635edx.320.1616773291387;
-        Fri, 26 Mar 2021 08:41:31 -0700 (PDT)
-Received: from cesati.gmail.com (93-48-145-141.ip257.fastwebnet.it. [93.48.145.141])
-        by smtp.gmail.com with ESMTPSA id q19sm3955985ejy.50.2021.03.26.08.41.30
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=5k/BVMfwAegukvEElIIGUwfHYfApU29sbEenfi66cXQ=;
+        b=GmEX2Xzy6koGZ6H088WAv/Xt42I0lAXo7oHAUTvIscyI3TEVZPBgu2Z6tHo4ifgJrg
+         DG01ZR9xMnPeKGY1+n1pCd9R6MERxqLwfffmBRPcy9FPrwflJLl71Sc8PEl0wIp4pN74
+         2lPVZa5sihwZedV+zhioY47Ob6TAKB6uxvyw6oR5wMZwBpzjtKiqFkVWCn1e4xhjHcEy
+         jMBSNZ9mvHaCZOD/o7YEjTKYiUCYGytWyRxxr9uc3Q6E+peQMi+VCIC/dX/3xMeIT3td
+         cJWar3dcleC6PoKssc5WdfYNcStrhou+1ywlijQM06Vuu/Z4FFfGCr3BBTmaMI9ZCLWW
+         69Nw==
+X-Gm-Message-State: AOAM531mgN3WNKnaPRaMOyH1o3n4gxk8F3eKkcNL+MzOoClvO4y1JWaG
+	h3SYTV1jwVCzGjeDTptyrNo=
+X-Google-Smtp-Source: ABdhPJwNWPcwRly02eq531zgTLQ3emt4eOoE5mMtsIz8wgWhWaDUNO6xneYGf7lTwDqLRep3BhY1Yg==
+X-Received: by 2002:adf:d1cd:: with SMTP id b13mr15141963wrd.47.1616773999060;
+        Fri, 26 Mar 2021 08:53:19 -0700 (PDT)
+Received: from agape ([5.171.80.141])
+        by smtp.gmail.com with ESMTPSA id 135sm11939750wma.44.2021.03.26.08.53.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 08:41:31 -0700 (PDT)
-Date: Fri, 26 Mar 2021 16:41:39 +0100
-From: Marco Cesati <marcocesati@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] Staging: rtl8723bs: remove useless macro and obsolete
- comment
-Message-ID: <20210326154139.jo3kji2hz2lva53x@cesati.gmail.com>
-References: <20210324193924.12536-1-marcocesati@gmail.com>
- <YF3qAfF0GstW4aOw@kroah.com>
+        Fri, 26 Mar 2021 08:53:18 -0700 (PDT)
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: dan.carpenter@oracle.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Fabio Aiuto <fabioaiuto83@gmail.com>
+Subject: [PATCH] Fixes: 65f183001f6e (staging: rtl8723bs: remove unused code blocks conditioned by never set CONFIG_INTERRUPT_BASED_TXBCN*)
+Date: Fri, 26 Mar 2021 16:52:52 +0100
+Message-Id: <20210326155252.6746-1-fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <YF3qSsH/3vRy7BRy@kroah.com>
+References: <YF3qSsH/3vRy7BRy@kroah.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YF3qAfF0GstW4aOw@kroah.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 26, 2021 at 03:04:49PM +0100, Greg Kroah-Hartman wrote:
-> On Wed, Mar 24, 2021 at 08:39:24PM +0100, Marco Cesati wrote:
-> > Remove two no-op macros, two related helper macrors, and one related
-> > comment in the staging/rtl8723bs driver.
-> > 
-> > Signed-off-by: Marco Cesati <marcocesati@gmail.com>
-> 
-> Does not apply to my tree :(
+fix indentation broken by patch removing conditional
+code blocks checked by unused
+CONFIG_INTERRUPT_BASED_TXBCN family defines
 
-Yeah, it was supposed to be applied on top of the patch set "remove
-unreferenced enums" (alternative to the patch set "remove named
-enums", which you applied)
+https://lore.kernel.org/r/9157000821fd6febf25566b8c712fad1995c7c78.1615907632.git.fabioaiuto83@gmail.com
 
-Sorry again,
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Marco
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index 3cd9c61eec99..dc56477eb084 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -907,9 +907,9 @@ void start_bss_network(struct adapter *padapter, u8 *pbuf)
+ 	if (pmlmeext->bstart_bss) {
+ 		update_beacon(padapter, WLAN_EID_TIM, NULL, true);
+ 
+-	/* issue beacon frame */
+-	if (send_beacon(padapter) == _FAIL)
+-		DBG_871X("issue_beacon, fail!\n");
++		/* issue beacon frame */
++		if (send_beacon(padapter) == _FAIL)
++			DBG_871X("issue_beacon, fail!\n");
+ 
+ 	}
+ 
+-- 
+2.20.1
 
-
----- 
-Marco Cesati, PhD
-Dept. of Civil Engineering and Computer Science Engineering
-Univ. of Rome Tor Vergata
-via del Politecnico 1, I-00133 Rome, Italy
-Tel. +39 06 7259 7389
