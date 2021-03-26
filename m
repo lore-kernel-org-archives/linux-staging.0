@@ -1,29 +1,25 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7084370
-	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 14:06:58 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9725961A24;
-	Fri, 26 Mar 2021 14:06:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E65DC70
+	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 14:08:07 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0D24861A24;
+	Fri, 26 Mar 2021 14:08:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1616767618;
-	bh=Zs7G2VZRCMsfXdjZurww9AAYubVChEXpje6NACEqXak=;
+	s=korg; t=1616767687;
+	bh=sfKejFZdHc5ocWb1u29Ga9LhysZMd+NqlM93fFQXeLc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=1/X9EmcrFBsei8WYjtN8gNxxS/y/bjAUgBd97Z5l3if/9+5FmKFG4GGQcoEC7npfE
-	 We+vmY76D0R/Xp50ZOSXahxlvMmNoPeBcCnDmz88bn+yT/1DcfDqg/LihgEET5WCRe
-	 6tH3XYLAZRHo7ST9EcW3z8hMrimlQ/ihAMgXaZT8=
-Date: Fri, 26 Mar 2021 15:06:55 +0100
+	b=wN2ED4td46fy0E+xRVuWJcEoR+TURtgYYeFTQnmwfzznS/s96egLlT+pOxYTfz4yG
+	 NO2+OrzveTor9cJTr/O0m2UeQ4Z3LREi8JGMsnB3Uy5iLeXR/uFlQYn/7mhUPFHjoa
+	 6dr27IR72nYvDggowmZslO8agE8NROpjOk4fD66c=
+Date: Fri, 26 Mar 2021 15:08:05 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 04/15] staging: rtl8723bs: put parentheses on macros with
- complex values in include/basic_types.h
-Message-ID: <YF3qf7DdqotjTEeV@kroah.com>
-References: <cover.1616748885.git.fabioaiuto83@gmail.com>
- <2c7c198ccef194b06921bc476eda7d5102ab70dc.1616748885.git.fabioaiuto83@gmail.com>
- <20210326100408.GE1717@kadam>
- <20210326111241.GD1452@agape.jhs>
+To: Xu Jia <xujia39@huawei.com>
+Cc: ross.schm.dev@gmail.com, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, hulkcommits@huawei.com
+Subject: Re: [PATCH -next] staging: rtl8723bs: core: fix error return
+Message-ID: <YF3qxema68+hLEZq@kroah.com>
+References: <20210325083041.1881347-1-xujia39@huawei.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -31,66 +27,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210326111241.GD1452@agape.jhs>
+In-Reply-To: <20210325083041.1881347-1-xujia39@huawei.com>
 
-On Fri, Mar 26, 2021 at 12:12:42PM +0100, Fabio Aiuto wrote:
-> On Fri, Mar 26, 2021 at 01:04:08PM +0300, Dan Carpenter wrote:
-> > On Fri, Mar 26, 2021 at 10:09:11AM +0100, Fabio Aiuto wrote:
-> > > fix the following checkpatch warnings:
-> > > 
-> > > ERROR: Macros with complex values should be enclosed in parentheses
-> > > 154: FILE: drivers/staging/rtl8723bs/include/basic_types.h:154:
-> > > +#define SET_BITS_TO_LE_4BYTE(__pstart, __bitoffset, __bitlen, __val) \
-> > > --
-> > > ERROR: Macros with multiple statements should be enclosed in
-> > > a do - while loop
-> > > 161: FILE: drivers/staging/rtl8723bs/include/basic_types.h:161:
-> > > +#define SET_BITS_TO_LE_2BYTE(__pstart, __bitoffset, __bitlen, __val) \
-> > > --
-> > > ERROR: Macros with complex values should be enclosed in parentheses
-> > > 168: FILE: drivers/staging/rtl8723bs/include/basic_types.h:168:
-> > > +#define SET_BITS_TO_LE_1BYTE(__pstart, __bitoffset, __bitlen, __val) \
-> > > 
-> > > parentheses solution preferred for all fixes and made macros more
-> > > readables
-> > > 
-> > > Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
-> > > ---
-> > >  .../staging/rtl8723bs/include/basic_types.h   | 30 +++++++++++--------
-> > >  1 file changed, 18 insertions(+), 12 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/rtl8723bs/include/basic_types.h b/drivers/staging/rtl8723bs/include/basic_types.h
-> > > index 76304086107a..5054c2e3384c 100644
-> > > --- a/drivers/staging/rtl8723bs/include/basic_types.h
-> > > +++ b/drivers/staging/rtl8723bs/include/basic_types.h
-> > > @@ -152,24 +152,30 @@
-> > >  /* 		Set subfield of little-endian 4-byte value to specified value. */
-> > >  /*  */
-> > >  #define SET_BITS_TO_LE_4BYTE(__pstart, __bitoffset, __bitlen, __val) \
-> > > -		*((u32 *)(__pstart)) =				\
-> > > -		(						\
-> > > -		LE_BITS_CLEARED_TO_4BYTE(__pstart, __bitoffset, __bitlen) | \
-> > > -		((((u32)__val) & BIT_LEN_MASK_32(__bitlen)) << (__bitoffset)) \
-> > > +		(\
-> > > +			*((u32 *)(__pstart)) =				\
-> > > +			(						\
-> > > +				LE_BITS_CLEARED_TO_4BYTE(__pstart, __bitoffset, __bitlen) | \
-> > > +				((((u32)__val) & BIT_LEN_MASK_32(__bitlen)) << (__bitoffset)) \
-> > > +			)\
-> > >  		)
-> > >  
-> > 
-> > These macros are terrible and this makes it uglier.  Better to just
-> > ignore checkpatch until we can figure out a way to re-write this
-> > properly.
-> > 
-> > regards,
-> > dan carpenter
-> > 
+On Thu, Mar 25, 2021 at 04:30:41PM +0800, Xu Jia wrote:
+> Function rtw_init_bcmc_stainfo() is always return success.
+> Variable 'ret' set but not used.
 > 
-> I see, will drop the patch for now.
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Xu Jia <xujia39@huawei.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_sta_mgt.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
+> index f96dd0b40e04..7b578192adf5 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
+> @@ -551,7 +551,7 @@ u32 rtw_init_bcmc_stainfo(struct adapter *padapter)
+>  	psta->mac_id = 1;
+>  
+>  exit:
+> -	return _SUCCESS;
+> +	return res;
+>  }
 
-Please resend a v2 set of this series so I know what to apply here...
+You just changed the logic of this function, now it can return a
+failure.  Is that ok?  have you tested it when this fails?
+
+Given that I do not think anyone actually tests this value, should this
+function just return void instead?
 
 thanks,
 
