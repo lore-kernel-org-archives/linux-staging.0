@@ -1,43 +1,43 @@
 Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE1171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82A472
 	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 09:49:23 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id t5-20020a1c77050000b029010e62cea9deso2664181wmi.0
+Received: by mail-wm1-f43.google.com with SMTP id f22-20020a7bc8d60000b029010c024a1407so4576879wml.2
         for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 02:49:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0UFdP1R33F+nbgEZYNFoUDrhXnsfxX1nwM1SbveKev8=;
-        b=Q5s4QlsAC5OvvMCYx1m98XX1lgKn448QqTHtHFJ8gOz0L9ee5ZpHRLPPYPNSPk2J/G
-         og1GLThfJdjfAFgHOu+I/Y4/4wGMxLC0yiS1tD+B9xe8WkgQpk6ZxFQktqHewUdov1GO
-         dwcWQDh2SkN/ltfvMkzrIiwwpCvUKVYElrrnqiqeCJ9WbsuS7/golq3zsdkzX2zsh3N2
-         /wL2ZH4X4yYVJzDuoETj5H6mImU4Lt/ag9XN8gvdvC+u5yO2hOWTgD/AEpcip7uXg4dZ
-         /NeWUsJrn2aQF0YKupAzRED5ke9F6OQ4UORKNyMrB8X4K2knjAMEJ4GW5v5N7auTbuuU
-         P31A==
+        bh=OmWS1qUJ5YaBqLsn7vq5tr1Fq+olzTCspmcQ+a0RiMY=;
+        b=qGElEP9okREA8l5rJd6lznZgRSRbuEMEiN81CgjLu3eI83m5AfZ7+rVKUUGklivQlC
+         Py8WzrKvM7lunZ9g6mr6T8q/jh2k8b1+DBJ5Ti1M3/q+u6FOPgGzYqGu/1RPgDFHtrGH
+         TRpG6icePLg4/748XF5ixxcSGYK75s8OOGwlmH5YIQJwwcBKCKbkuBfhBWSj20YKHZR9
+         BM7UNM0qKvFSXZ8/LsI+LTcz2VLngP/I19CBmAGKVi0PnpHFEw8iM39z901iNuJlaORa
+         jDUbfSOHJ9b70txQC+5wmgO3FDyF6QUfGCZ8vC+NYMpdTW6wIEtJzTSG91Ukbxcwfe2j
+         Qm8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0UFdP1R33F+nbgEZYNFoUDrhXnsfxX1nwM1SbveKev8=;
-        b=mB4isyXlXMYMoshW87Mz28KSe8Wg79rv7/8HWkf8oxOEv7VE0EKSRlP/MG7doRrWON
-         Sm5Oi+oP4h2rdCGfR36wiDXnvbMPbuIA4c5XYsBVLhbW/fzFqErNiX+g+wTT/VWj3vWk
-         L8GaE5XvK3BabYG+LUfYaVe/HYjCzFWjcAvhmw2RBkCvdzOIrRRKeD+OxmwcRZQ4zYtm
-         lYhSi7tl54i4/bZ+Q/bokc3rIqyf2vEreMBd1M4zqqLWIUiURRabNv9sCRnmh4tXCoD8
-         ixinHocOJ404B+HlSbJigEBw7sMJzCBwgd+gWf1PRm37o9LkklQBRoj83ZSOR4ngod9i
-         hI3w==
-X-Gm-Message-State: AOAM531N0ET/+m8bq0eRgNRXd0T3zoNe9eqFMbnnS6qEL/ZOw7g7VygF
-	9S0s2nZssDFyso0n9FJdQHk=
-X-Google-Smtp-Source: ABdhPJzrh6tJd9bZKrAh5Cfgu+tuXoT2VED6HB7tPxpShxdKwfB5ShlEmcSGnsfvP9ze9PvRIae3GQ==
-X-Received: by 2002:a7b:c186:: with SMTP id y6mr12417103wmi.84.1616752162022;
+        bh=OmWS1qUJ5YaBqLsn7vq5tr1Fq+olzTCspmcQ+a0RiMY=;
+        b=feehQlXDJiYJ38f3XGkFPmb6MeDS+jhknXw0RssP87nSAboRwuxHK/cE2K8sFnVYL9
+         /TfI3AKA6ZhNM8WxoO6BXJkTrBktSUEBbXcIgtUnJ+HLN3MZcRjLKewiDH49tPlGThW9
+         eFYxzLk2Spg0bjyttGkn9mVJoqDYmtGkH51JSi65KP/XTZtZRX8+WxpnXOjdS0gASJde
+         3Q7s17dXMd0gK1JU+i5bR3xa2eYAAP7Prd6fSuyvLp0N5Sp1t3tt3FusA6/WOTVvJ+0D
+         6449jU3bah/uJ7TEd8tSTzrXELGSPoIrzBwOxxDg2LDF05uZKkLRJcU+3dp/uvg0q2O4
+         7Vvg==
+X-Gm-Message-State: AOAM5306uczG5KhhlAxv/rKDXxcodoDm3Tcn1OxJrX39/KbGs0et/Xoc
+	hHxbh7zURFqcQ6vjJNUTdWU=
+X-Google-Smtp-Source: ABdhPJwJxDId7naINbDzBrgotI+DWZ6M9+BkDbb0elECL+IvzDSSA3+uyddkjFiawrpQeiXGfYq7sA==
+X-Received: by 2002:a1c:5455:: with SMTP id p21mr12091070wmi.138.1616752162273;
         Fri, 26 Mar 2021 02:49:22 -0700 (PDT)
 Received: from lorien (home.raoult.com. [78.214.78.108])
-        by smtp.gmail.com with ESMTPSA id h13sm9063461wmq.29.2021.03.26.02.49.21
+        by smtp.gmail.com with ESMTPSA id r206sm4191161wma.46.2021.03.26.02.49.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 26 Mar 2021 02:49:21 -0700 (PDT)
 Received: by lorien (Postfix, from userid 1000)
-	id 125611402F9; Fri, 26 Mar 2021 10:49:19 +0100 (CET)
+	id 39F561402FF; Fri, 26 Mar 2021 10:49:20 +0100 (CET)
 From: Bruno Raoult <braoult@gmail.com>
 To: gregkh@linuxfoundation.org,
 	straube.linux@gmail.com,
@@ -46,9 +46,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Bruno Raoult <braoult@gmail.com>
-Subject: [PATCH 2/5] r8192U_wx.c: style: spaces preferred around operators
-Date: Fri, 26 Mar 2021 10:48:32 +0100
-Message-Id: <e7298c14538ad7a58720585d019a70f637e0cdb1.1616748922.git.braoult@gmail.com>
+Subject: [PATCH 4/5] r8192U_wx.c: style: Unnecessary parentheses
+Date: Fri, 26 Mar 2021 10:48:34 +0100
+Message-Id: <f42993e183e1127dcc9fce3f0ed42dd6d795c647.1616748922.git.braoult@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1616748922.git.braoult@gmail.com>
 References: <cover.1616748922.git.braoult@gmail.com>
@@ -61,47 +61,27 @@ Content-Transfer-Encoding: 8bit
 
 fix checkpatch.pl check:
 
-CHECK: spaces required around that <op>
+CHECK: Unnecessary parentheses around expr
 in drivers/staging/rtl8192u/r8192U_wx.c
 
 Signed-off-by: Bruno Raoult <braoult@gmail.com>
 ---
- drivers/staging/rtl8192u/r8192U_wx.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/rtl8192u/r8192U_wx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8192u/r8192U_wx.c b/drivers/staging/rtl8192u/r8192U_wx.c
-index 3ff6da837ac1..039471bcd5b1 100644
+index 03791613853f..e0d32f7b0ace 100644
 --- a/drivers/staging/rtl8192u/r8192U_wx.c
 +++ b/drivers/staging/rtl8192u/r8192U_wx.c
-@@ -294,7 +294,7 @@ static int rtl8180_wx_get_range(struct net_device *dev,
+@@ -778,7 +778,7 @@ static int r8192_wx_set_auth(struct net_device *dev,
+ 	struct r8192_priv *priv = ieee80211_priv(dev);
  
- 	for (i = 0, val = 0; i < 14; i++) {
- 		/* Include only legal frequencies for some countries */
--		if ((GET_DOT11D_INFO(priv->ieee80211)->channel_map)[i+1]) {
-+		if ((GET_DOT11D_INFO(priv->ieee80211)->channel_map)[i + 1]) {
- 			range->freq[val].i = i + 1;
- 			range->freq[val].m = ieee80211_wlan_frequencies[i] * 100000;
- 			range->freq[val].e = 1;
-@@ -309,8 +309,8 @@ static int rtl8180_wx_get_range(struct net_device *dev,
- 	}
- 	range->num_frequency = val;
- 	range->num_channels = val;
--	range->enc_capa = IW_ENC_CAPA_WPA|IW_ENC_CAPA_WPA2|
--			  IW_ENC_CAPA_CIPHER_TKIP|IW_ENC_CAPA_CIPHER_CCMP;
-+	range->enc_capa = IW_ENC_CAPA_WPA | IW_ENC_CAPA_WPA2 |
-+			  IW_ENC_CAPA_CIPHER_TKIP | IW_ENC_CAPA_CIPHER_CCMP;
- 	tmp->scan_capa = 0x01;
- 	return 0;
+ 	mutex_lock(&priv->wx_mutex);
+-	ret = ieee80211_wx_set_auth(priv->ieee80211, info, &(data->param), extra);
++	ret = ieee80211_wx_set_auth(priv->ieee80211, info, &data->param, extra);
+ 	mutex_unlock(&priv->wx_mutex);
+ 	return ret;
  }
-@@ -722,7 +722,7 @@ static int r8192_wx_set_enc_ext(struct net_device *dev,
- 			goto end_hw_sec;
- 
- 		/* as IW_ENCODE_ALG_CCMP is defined to be 3 and KEY_TYPE_CCMP is defined to 4; */
--		alg =  (ext->alg == IW_ENCODE_ALG_CCMP)?KEY_TYPE_CCMP:ext->alg;
-+		alg =  (ext->alg == IW_ENCODE_ALG_CCMP) ? KEY_TYPE_CCMP : ext->alg;
- 		idx = encoding->flags & IW_ENCODE_INDEX;
- 		if (idx)
- 			idx--;
 -- 
 2.27.0
 
