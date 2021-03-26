@@ -1,79 +1,88 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 200F270
-	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 09:16:40 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id t20so609530plr.13
-        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 02:16:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E648670
+	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 09:17:40 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id r10-20020a05600c35cab029010c946c95easo2583853wmq.4
+        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 02:17:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ZJU8eQTrHMk3jqYitTK0s9c/y4olgE5eR7itETLxMTs=;
-        b=Pd0ExQXC3mxg2j0U3TrIN62e91Ss1UD89tIF6YsQtKtbQOwyFBGLxDCHiQC4mfcFpB
-         CqAuCghwR99X9CaWGfNHYJoacATVqOVye3ARLpHFuOrsK8mOQC+NLSKztkvLgfPD3zRz
-         4qUZ9TApnuXmNT+c58G9yi3Hrz2L9N+VdGsyMANuDBh1AdoQA59K5Tymrwr+8YVFNSr6
-         iOdxcfmfpohdRQ8vHcK4kEFi7685+YBbDWio7YQwJOMJgT26K6/X66eTIcCHAYG3aG5M
-         AIn2xWZR5ZtNJide87rLoxUEr842vXcXk3qe0wNLVRHyxdeo4jZfS5TkZpR/xZPFNXbx
-         2TZQ==
+        bh=ZS88VoX8ZZlakrWWcv16+p54kgnbozpp/01RtCA8wMQ=;
+        b=mXWaqovoH5O0Km6aAxN+DKXsqPFlrVfntnVgbcg4Q+QgqY3mBOODvgg5/kjSkqkRWk
+         6jkH0zIZydGW0508MpuNnD8ESJ+Ndh5AW4PNXyIvWvdHLATq4kqQ/4IJf4Wr96yUvIKf
+         euBZBmDodOsP4lAP3qNrGgXUvezmNMqmQxbPXqJ8nBey8A5fupXZXAZZUbmf92B4tqjT
+         5EdLQY9dt/Po9KGxirGN1WgCd7o41E4EXOL7c5A1FBQlJH41LIbJJNdFvnEbdQTD1mxZ
+         kXOu9gR3l6OheS5Sy8EcJ+aiJ2FR8aC65QmV93Znygk+SR3qZvJWLcFBeQ9MyCoV3i8B
+         LAxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ZJU8eQTrHMk3jqYitTK0s9c/y4olgE5eR7itETLxMTs=;
-        b=m8oZDPi+A99AdxAG7jydS+7kgdx6eWi8+rXdZQVYGC5ar+jPzRYsevLgvSrIPdErI8
-         FZnlmIflPTeJLtBk1nlcCQJ9ekW358RsQSdP4Gp8laxTbhVBk2Z52+GnDcSCRHhBqPI5
-         TTwanh1Q/ER7LluSGtNDM2C+GcJrIymwaGXYXQEPmJ7luRRKL8tJGek0YhGQaUZvVIwY
-         vUmakc59AA8dgUDowU/pHcgJHSkFWNQ0oo3WqG0V5OqvUtmkzRjPFIBeR7UytO0LLRLu
-         mFDVlcKlZf12zqkkmKzkez9QtEmY/VnAmUZoobVid4/KQdv17XoUSTJb3ERysZZ95x+s
-         fnnA==
-X-Gm-Message-State: AOAM532YBM8KsnZG6YGCfzf6IZVgwMxpsLt8MEq3gL03w0w+kH26ZI0q
-	fukHlq0Qu/dAMUqydFGD2Uo=
-X-Google-Smtp-Source: ABdhPJxGEMfaZ0tGnNRtBHpxDycvnPtIYnQH7soeehKdm3LHDGp6mAVVr2luWLqKf0DPBBmngmQXyQ==
-X-Received: by 2002:a17:90b:3553:: with SMTP id lt19mr12707460pjb.222.1616750199589;
-        Fri, 26 Mar 2021 02:16:39 -0700 (PDT)
-Received: from localhost ([103.220.76.197])
-        by smtp.gmail.com with ESMTPSA id d8sm8930729pfq.27.2021.03.26.02.16.36
+        bh=ZS88VoX8ZZlakrWWcv16+p54kgnbozpp/01RtCA8wMQ=;
+        b=g62tgtebbnU7nRTNb6WcJe4KijHhn4wkcoNPkD3qRvjNNovPi4Gyk6v7TpS3MC/kWO
+         aYNjZEif3zVf0f5x/gtngbfn5/2PBvzkM7bGedmvW9WttjjX9Id4MhL9A3umqarKPD95
+         DhmU/buf1yDccf71fHDH8Id19FS53kwV8j6A01IsR2ZF3w7KeCpSECl4CXK9NamaOwaA
+         CmC45dNgLOJtUx+CeJlQpxXI2vERLr3jm7C1q88G/6aKPo50MshEJGbRhuz2Z0EiKSnN
+         bRhlAUeYgj8prLPKaHmha+ALeddqYD8MrWMHyVT67IfBq7rGC5H0O5Whz0+cOm5ynDIJ
+         wJhg==
+X-Gm-Message-State: AOAM530N7De1cca2tMQMZc+sKYENChZSyqul80UzKj20pqwqsLvw5HR1
+	lkg7UioJQLAMPZknT1F42ts=
+X-Google-Smtp-Source: ABdhPJzdhXtvJUOkPaYr98SOo5KlxV5GGtkIzAzJD/YDwX5uI15EbrbzEhLRTM/lO8ip/v/fFessxg==
+X-Received: by 2002:a1c:10f:: with SMTP id 15mr12224505wmb.14.1616750259485;
+        Fri, 26 Mar 2021 02:17:39 -0700 (PDT)
+Received: from agape ([5.171.81.75])
+        by smtp.gmail.com with ESMTPSA id c9sm10937121wml.42.2021.03.26.02.17.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 02:16:39 -0700 (PDT)
-Date: Fri, 26 Mar 2021 17:16:34 +0800
-From: carlis <zhangxuezhi3@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: zhangxuezhi1@yulong.com, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: fix a typo
-Message-ID: <20210326171634.000011f5@gmail.com>
-In-Reply-To: <YF2dXIxMOUyLzfnQ@kroah.com>
-References: <1616745915-194644-1-git-send-email-zhangxuezhi3@gmail.com>
-	<YF2dXIxMOUyLzfnQ@kroah.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
+        Fri, 26 Mar 2021 02:17:39 -0700 (PDT)
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: dan.carpenter@oracle.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Fabio Aiuto <fabioaiuto83@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix indentation broken by previous patch
+Date: Fri, 26 Mar 2021 10:17:16 +0100
+Message-Id: <20210326091716.6599-1-fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <YFxQSJXXQ4dFPGS4@mwanda>
+References: <YFxQSJXXQ4dFPGS4@mwanda>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 26 Mar 2021 09:37:48 +0100
-Greg KH <gregkh@linuxfoundation.org> wrote:
+fix indentation broken by patch removing conditional
+code blocks checked by unused
+CONFIG_INTERRUPT_BASED_TXBCN family defines
 
-> On Fri, Mar 26, 2021 at 04:05:15PM +0800, Carlis wrote:
-> > From: "Carlis" <zhangxuezhi1@yulong.com>
-> > 
-> > Change 'tft' to 'TFT'  
-> 
-> Why?  What is wrong with "tft"?
-> 
-I think abbreviations should be capitalized.
-> > 
-> > Signed-off-by: Carlis <zhangxuezhi1@yulong.com>  
-> 
-> Full name please.
-> 
-OK, i will use my full name next patch
-> thanks,
-> 
-> greg k-h
+https://lore.kernel.org/r/9157000821fd6febf25566b8c712fad1995c7c78.1615907632.git.fabioaiuto83@gmail.com
+
+Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index 3cd9c61eec99..dc56477eb084 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -907,9 +907,9 @@ void start_bss_network(struct adapter *padapter, u8 *pbuf)
+ 	if (pmlmeext->bstart_bss) {
+ 		update_beacon(padapter, WLAN_EID_TIM, NULL, true);
+ 
+-	/* issue beacon frame */
+-	if (send_beacon(padapter) == _FAIL)
+-		DBG_871X("issue_beacon, fail!\n");
++		/* issue beacon frame */
++		if (send_beacon(padapter) == _FAIL)
++			DBG_871X("issue_beacon, fail!\n");
+ 
+ 	}
+ 
+-- 
+2.20.1
 
