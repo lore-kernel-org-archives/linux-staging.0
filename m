@@ -1,45 +1,96 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B2C70
-	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 13:03:37 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3178E619F3;
-	Fri, 26 Mar 2021 13:03:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1616763816;
-	bh=7nZUvZiNR1Ilz4n3bwQkwZDwZoMX0OktOORjC+8pYQk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tVKC55fT54U9/yvEY1S6+OO/8e9HKSpvGLRlC/OwkVBjqoDsYnfhkJWAa9k41A103
-	 bVctoqZFNiynpQ5prWaqlepSKOGmR02JpK5zzfDSglSfrCArP63vrfP6KjiNTI+W10
-	 ny2gWoz0Bl+iR0U/wNdorBH1X+UnVnlxzuAIxKfA=
-Date: Fri, 26 Mar 2021 14:03:34 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Carlis <zhangxuezhi3@gmail.com>
-Cc: zhangxuezhi1@yulong.com, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: fbtft: fix a typo
-Message-ID: <YF3bpuh8RVg+3Nx3@kroah.com>
-References: <1616763351-7433-1-git-send-email-zhangxuezhi3@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F4F70
+	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 13:39:28 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-142-9bIiFNUNNmm70U8_vh6zgQ-1; Fri, 26 Mar 2021 13:39:25 +0000
+X-MC-Unique: 9bIiFNUNNmm70U8_vh6zgQ-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.2; Fri, 26 Mar 2021 13:39:24 +0000
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.012; Fri, 26 Mar 2021 13:39:24 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Fabio Aiuto' <fabioaiuto83@gmail.com>, "gregkh@linuxfoundation.org"
+	<gregkh@linuxfoundation.org>
+CC: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 14/15] staging: rtl8723bs:  put parentheses on macros with
+ complex values in include/sta_info.h
+Thread-Topic: [PATCH 14/15] staging: rtl8723bs:  put parentheses on macros
+ with complex values in include/sta_info.h
+Thread-Index: AQHXIh/zAuJ0NeHvkECgXPo7PrRwXqqWRkAA
+Date: Fri, 26 Mar 2021 13:39:24 +0000
+Message-ID: <0466586ada4d4804bca4e84aa5908c01@AcuMS.aculab.com>
+References: <cover.1616748885.git.fabioaiuto83@gmail.com>
+ <24e684c1eff8911dacff1b61957ce25bafc46631.1616748885.git.fabioaiuto83@gmail.com>
+In-Reply-To: <24e684c1eff8911dacff1b61957ce25bafc46631.1616748885.git.fabioaiuto83@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1616763351-7433-1-git-send-email-zhangxuezhi3@gmail.com>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 26, 2021 at 08:55:51PM +0800, Carlis wrote:
-> From: Xuezhi Zhang <zhangxuezhi1@yulong.com>
-> 
-> Change 'tft' to 'TFT'
+From: Fabio Aiuto=20
+> Sent: 26 March 2021 09:09
+>=20
+> fix the following checkpatch warnings:
+>=20
+> ERROR: Macros with complex values should be enclosed in parentheses
+> 284: FILE: drivers/staging/rtl8723bs/include/sta_info.h:284:
+> +#define STA_RX_PKTS_ARG(sta) \
+> --
+> ERROR: Macros with complex values should be enclosed in parentheses
+> 289: FILE: drivers/staging/rtl8723bs/include/sta_info.h:289:
+> +#define STA_LAST_RX_PKTS_ARG(sta) \
+> --
+> ERROR: Macros with complex values should be enclosed in parentheses
+> 294: FILE: drivers/staging/rtl8723bs/include/sta_info.h:294:
+> +#define STA_RX_PKTS_DIFF_ARG(sta) \
+>=20
+> Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/include/sta_info.h | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/staging/rtl8723bs/include/sta_info.h
+> b/drivers/staging/rtl8723bs/include/sta_info.h
+> index abde3e3df988..1cdf93ec3b66 100644
+> --- a/drivers/staging/rtl8723bs/include/sta_info.h
+> +++ b/drivers/staging/rtl8723bs/include/sta_info.h
+> @@ -282,19 +282,19 @@ struct sta_info {
+>  =09} while (0)
+>=20
+>  #define STA_RX_PKTS_ARG(sta) \
+> -=09sta->sta_stats.rx_mgnt_pkts \
+> +=09(sta->sta_stats.rx_mgnt_pkts \
+>  =09, sta->sta_stats.rx_ctrl_pkts \
+> -=09, sta->sta_stats.rx_data_pkts
+> +=09, sta->sta_stats.rx_data_pkts)
 
-That says what you did, but not _why_ you did it.
+That doesn't look right at all.
+You've changed what is (probably) a list of arguments to a function
+into a comma operator list.
 
-And this is not a "typo", as it is not misspelled and really is just
-fine as-is.
+=09David
 
-thanks,
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
 
-greg k-h
