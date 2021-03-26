@@ -1,112 +1,86 @@
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C6970
-	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 09:55:02 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12Q9rrNX020680;
-	Fri, 26 Mar 2021 09:55:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=D+TlEFR74IBjhYCJeVkvSgkKb0Ms7eWrGbAyvMwfH78=;
- b=JRRjUFPY+25eOPHtWdmyzUPqg9S6DNfPia1ajeLm0CgljfmnCgCv4zftU578Ks6golVR
- Z6oGWD1+Gb79Ij9EvoecIs8xdPclkNl34nToKks8SPgD2mAtXkTHxMlrKllgyz1UZ3ER
- iE97FWOr/bEVsf6FNhNInqD5K3ZH3wk6KNvqAoGiYqpk+fIika7dKAbYLL+2AtcvM3iV
- ZCDhhpcvRttLBAYNzZ6fvnUlHSL131mXWRe0A0RRpxUyZPs4VlPxI+6DTjUnkKDtNkui
- Ra0AUlDE9J/PFXdem3cOoJvlqZYHvA4bFL/ysb9c+OQyY9GO5FuULLeoJMNHlxhicXm2 aQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by aserp2120.oracle.com with ESMTP id 37h1421h5d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 26 Mar 2021 09:55:00 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12Q9oLfZ195442;
-	Fri, 26 Mar 2021 09:54:57 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-	by userp3020.oracle.com with ESMTP id 37h14gytaf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 26 Mar 2021 09:54:57 +0000
-Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
-	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 12Q9suY8032116;
-	Fri, 26 Mar 2021 09:54:56 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Fri, 26 Mar 2021 02:54:56 -0700
-Date: Fri, 26 Mar 2021 12:54:49 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 02/15] staging: rtl8723bs: put parentheses on macros with
- complex values in hal/HalBtcOutSrc.h
-Message-ID: <20210326095449.GD1717@kadam>
-References: <cover.1616748885.git.fabioaiuto83@gmail.com>
- <7c734b6d796b369f6a0d23c76daa344c241691b5.1616748885.git.fabioaiuto83@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4ACA70
+	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 09:57:17 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id f17so656860plr.0
+        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 02:57:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=IV75pZ2r/lTsGbcVB2HXKVQUuEN280uU9C5RzK68fYU=;
+        b=Q3rWXH4gNK6ohJquLwTkSl66Qdoxp6MTOgiXSDiftgNaBe/5H+stw2V/iZ+pl35nVc
+         B/QZKZFVXGmObWTqMrfutIeevZt2Ht5zWHTPj6WFFw3kQwdVuoEU3e1fsIyiSJYjHHHg
+         HC9nhqFM9YOuRLJZVNqydWrEVjC6spa5H8BcN1P0Rhee5XzSeEFEUn+U7SC9wUpf+Ny7
+         YvRfaMgXAHZ+NluNeUtlO9mlqL/2AKFSkMLRW4v+sz9OfgJkfXjbILveGHRMY/aFSz4f
+         9m0hEJ8tssrD4d2h73/PlM0qWRwIE3Ac4aBKsZw11/ygsZhBGJPgP8L3829shuktto1J
+         f+XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=IV75pZ2r/lTsGbcVB2HXKVQUuEN280uU9C5RzK68fYU=;
+        b=nALAI1zWy/PaZ8jET27lJO/mJjptX57bf89dJmKAVdaD2HxChhQ13rtiFDjCPm3gDj
+         aJMGO5eLQaIQv/XVmoHxwbxdGEnE1LhzS9dvRmdKODck1+ivwj7l58GsFSZwe29vGf5u
+         NZ1RpZNKTJBrez8hChH6Wcy8qklT+2FEmAwWnzi7cV3TPEcHYZETP2QXtCK7/QvS9nkY
+         P1w0nU2uih51dt+HJpo+YGIdW0kakWbSrQzrBuWnz2sRaicUE8kM1R0LQKh6nCJ/POid
+         mwiJqxpSLEAtT2BPEHyVdrWzZpvQXOo1QhNt+AgeYkRS9QIEnarLvp6gh0EagguVrQy5
+         7Oug==
+X-Gm-Message-State: AOAM530SmEX7wfdAO2QUHr7zrdcqKBHtl9YxYmFNpZGc2C7zioYM2lZK
+	PAPyk/AJzkifrinwX0UNl8k=
+X-Google-Smtp-Source: ABdhPJwwEZXFzZ/RNYveH7mefeJwagBObcPX98zYirGFuzA6NDif9CDcB1Ouvm7REbJkongZ1JDlZQ==
+X-Received: by 2002:a17:90a:a414:: with SMTP id y20mr12906128pjp.77.1616752637305;
+        Fri, 26 Mar 2021 02:57:17 -0700 (PDT)
+Received: from localhost ([103.220.76.197])
+        by smtp.gmail.com with ESMTPSA id n5sm8997971pfq.44.2021.03.26.02.57.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Mar 2021 02:57:16 -0700 (PDT)
+Date: Fri, 26 Mar 2021 17:57:11 +0800
+From: carlis <zhangxuezhi3@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: zhangxuezhi1@yulong.com, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: fbtft: fix a typo
+Message-ID: <20210326175711.0000684f@gmail.com>
+In-Reply-To: <YF2qhUD1lz3LbEhC@kroah.com>
+References: <1616745915-194644-1-git-send-email-zhangxuezhi3@gmail.com>
+	<YF2dXIxMOUyLzfnQ@kroah.com>
+	<20210326171634.000011f5@gmail.com>
+	<YF2qhUD1lz3LbEhC@kroah.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7c734b6d796b369f6a0d23c76daa344c241691b5.1616748885.git.fabioaiuto83@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9934 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0 spamscore=0
- phishscore=0 adultscore=0 mlxscore=0 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
- definitions=main-2103260071
-X-Proofpoint-GUID: GBzSIJrjeuv502DYY0C-5zXYs5qnGd0z
-X-Proofpoint-ORIG-GUID: GBzSIJrjeuv502DYY0C-5zXYs5qnGd0z
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9934 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 mlxscore=0
- clxscore=1015 impostorscore=0 spamscore=0 malwarescore=0 adultscore=0
- phishscore=0 suspectscore=0 mlxlogscore=999 lowpriorityscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
- definitions=main-2103260071
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 26, 2021 at 10:09:09AM +0100, Fabio Aiuto wrote:
-> fix the following checkpatch warning:
+On Fri, 26 Mar 2021 10:33:57 +0100
+Greg KH <gregkh@linuxfoundation.org> wrote:
+
+> On Fri, Mar 26, 2021 at 05:16:34PM +0800, carlis wrote:
+> > On Fri, 26 Mar 2021 09:37:48 +0100
+> > Greg KH <gregkh@linuxfoundation.org> wrote:
+> >   
+> > > On Fri, Mar 26, 2021 at 04:05:15PM +0800, Carlis wrote:  
+> > > > From: "Carlis" <zhangxuezhi1@yulong.com>
+> > > > 
+> > > > Change 'tft' to 'TFT'    
+> > > 
+> > > Why?  What is wrong with "tft"?
+> > >   
+> > I think abbreviations should be capitalized.  
 > 
-> ERROR: Macros with complex values should be enclosed in parentheses
-> 152: FILE: drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h:152:
-> +#define BTC_PRINT(dbgtype, dbgflag, printstr) \
-> no_printk printstr
-> --
-> ERROR: Macros with complex values should be enclosed in parentheses
-> 153: FILE: drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h:153:
-> +#define BTC_PRINT_F(dbgtype, dbgflag, printstr) \
-> no_printk printstr
-> --
-> ERROR: Macros with complex values should be enclosed in parentheses
-> 154: FILE: drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h:154:
-> +#define BTC_PRINT_ADDR(dbgtype, dbgflag, printstr, _Ptr) \
-> no_printk printstr
+> Why?  What requires this?
+Many people use capital letters for abbreviations in comments, which I
+think is a good practice
 > 
-> Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> thanks,
 > 
-> diff --git a/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h b/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
-> index 10c021024b24..1926a1f7a7e5 100644
-> --- a/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
-> +++ b/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
-> @@ -149,9 +149,9 @@ extern u32 		GLBtcDbgType[];
->  }
->  
->  #else
-> -#define BTC_PRINT(dbgtype, dbgflag, printstr)		 no_printk printstr
-> -#define BTC_PRINT_F(dbgtype, dbgflag, printstr)		 no_printk printstr
-> -#define BTC_PRINT_ADDR(dbgtype, dbgflag, printstr, _Ptr) no_printk printstr
-> +#define BTC_PRINT(dbgtype, dbgflag, printstr)		 (no_printk printstr)
-> +#define BTC_PRINT_F(dbgtype, dbgflag, printstr)		 (no_printk printstr)
-> +#define BTC_PRINT_ADDR(dbgtype, dbgflag, printstr, _Ptr) (no_printk printstr)
+> greg k-h
 
-This makes no sense at all.  no_printk is a function.  The BTC_PRINT()
-macros are super ugly and this only makes it worse.
-
-regards,
-dan carpenter
-
+thanks,
+Xuezhi Zhang
