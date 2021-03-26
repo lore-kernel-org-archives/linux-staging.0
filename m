@@ -1,52 +1,53 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F8C5F
-	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 15:12:49 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id j20-20020a05600c1914b029010f31e15a7fso5102362wmq.1
-        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 08:12:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EDFB5F
+	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 15:37:53 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id kt15so9026123ejb.12
+        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 08:37:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=vJD63yjhBQ/6qYwEetX6fhqse6jdADR22GvZycMU1kg=;
-        b=h0hbKyyF+cz/P5CbiOOmWKzwR06PsSPq55Ngy4fgoALtC8yuEaEK9doN+YeSVlmXW7
-         B5lHRN88SDNUGzyEq5lgbxDHGRdQLgTnbIj1LAt3TbE/CvkUGy+ZvReX8GRwSLk+W3cU
-         gNQ8Is9QE3RKW6y5gW6MURu0sX249kNivRQfFVyyfWgBZrtOIngY/ahyw3zYH23k6Za8
-         pRbAXDn7/nGJAO9/FGgLl0y7M3rF0pWi89oM5lf9hdTWX1qB0tuwK6fPXcVNooucHvlb
-         ziw7h/BTS4zTad0L05dW3NDH3hnAUwCOjTKO17HS0RhIe09iUfYZdQHWLIJAuzdfKfVt
-         O5hA==
+         :content-disposition:in-reply-to;
+        bh=JvTqLqjF2BxPa9rbaWsGSP4Tx+zEQ6GgSUin1hhiJFc=;
+        b=duPK2L3f2xMV2cQxwFr0MZYGQk29YUCPK4VwOYbun2D0IPQEW8b3vAMnYrOfZM8ClT
+         fVELkkqCkMjcrnBV9UB4wY4SbcgxQc1rs4clR86YBV1jBvzU4bWpzmfCZP5KUMmacmu0
+         uthI6nf5Mo9EkvwNNHIYaG5M7/74Hu8O/oAF7LcnbMh7+2pStsOPOJasHrT6L/D/1+2U
+         YBbpI/eMCBofdD52VC8k4OwpkN2KNjQZREAq+kpF7DBEhtGHewzPR+BMQ8X19YVC0lvl
+         1Mbp6Btiqkiu5uNS5eB2ixBjxPvGjN2Fp9OaRjIRq12skdPD49WUE56v732mh8vbG+5Q
+         rR9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=vJD63yjhBQ/6qYwEetX6fhqse6jdADR22GvZycMU1kg=;
-        b=FbUQU30Z5TGKU6/95RAg7rLgB2FJ8ROmZUsFJ6Za8JL1ELvaIjn9NB6iJloUsz81qT
-         dCVNPW+VHc5uj+9NKJ+WULqVr0kO2Y7a2LWZy1AfQQDbGloCD/en20LtjJ6wddex/kCK
-         n2snwQwqN0+zTmUgDWQew462oxwQjFTv3NszmVjD0dvQC6u6+0GXGwS3TTLK+zlfl2K9
-         q+9sqeOKCgn8UMz+Ti2mUCR7T08Xxdlvs9fQ5QHCiihfYfhhdxFesnjxn69hJC1vYKaG
-         md735g9ADLg0ADmZ23jlenDmfUFCsGsc+4cu8jsdeWNF1RkTcMaaPlrvdNpJQ1pd/P3+
-         TWRg==
-X-Gm-Message-State: AOAM530EN72m6pD0hjYKNlDt0f1Jkjzpj3Te0GU3jOQHComEKAiiGnQm
-	H1/NCX/I/RMnhefT3j6VM3I=
-X-Google-Smtp-Source: ABdhPJw8EeC9Q8VHNqjHEsGlaY++EiB5170/0PwXVd9gGya6NS6wd71RY1bFBzzeTOfZGpRZEWE3sw==
-X-Received: by 2002:a05:600c:3796:: with SMTP id o22mr5872060wmr.139.1616771567854;
-        Fri, 26 Mar 2021 08:12:47 -0700 (PDT)
-Received: from agape.jhs ([5.171.80.141])
-        by smtp.gmail.com with ESMTPSA id a67sm2558576wme.33.2021.03.26.08.12.46
+         :mime-version:content-disposition:in-reply-to;
+        bh=JvTqLqjF2BxPa9rbaWsGSP4Tx+zEQ6GgSUin1hhiJFc=;
+        b=EAzhiVMxn0b3FeMOh5LWl2FR7OmGTENs0SO4/6UCzXugF4FiK+K9yDsny0VyOBhRNq
+         WpNksrzrXsV1HUxQtNTwrblRb5TT/52ePHTOOZBfL2YSpXd76VSldkhw4aepjg9pDswt
+         rFyNkCNWGMzMUTXgcr8aIMu/7MtOf4MdktJC12hLLmOgbjsLEA7RVvBUeV9ktCY3wD2f
+         RyqHjFVMf+Mf7ZjMF4r9xnAHR0eLqml1rC4qOICN5N8XQP0fP1pqZodS8Vu0jBAq38pG
+         jAmJeVB76K0L62dLEDJalhxK3EKuT7GbsBvLp0RkZ4zxMKdKW9nBZ50oCRRgupznevw/
+         zQpA==
+X-Gm-Message-State: AOAM531OXxtBLnuoOgJBBRx7MgE3AEZrQRtCRSzP3luEaYAgsJFERlMy
+	9MWEVgpXgefnAH3gPmiRW3Y=
+X-Google-Smtp-Source: ABdhPJzBtxWyU9XaE6IqhbSjg2zd+wMkNJ/yU4pcKsF8lxjEvrHzp4oIbytnKNwNjju5GDwsm3QZPg==
+X-Received: by 2002:a17:906:bd2:: with SMTP id y18mr16266418ejg.482.1616773071754;
+        Fri, 26 Mar 2021 08:37:51 -0700 (PDT)
+Received: from cesati.gmail.com (93-48-145-141.ip257.fastwebnet.it. [93.48.145.141])
+        by smtp.gmail.com with ESMTPSA id q26sm3996052eja.45.2021.03.26.08.37.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 08:12:47 -0700 (PDT)
-Date: Fri, 26 Mar 2021 16:12:45 +0100
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: gregkh@linuxfoundation.org, david.laight@aculab.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 05/15] staging: rtl8723bs: put parentheses on macros with
- complex values in include/drv_types.h
-Message-ID: <20210326151244.GB1952@agape.jhs>
-References: <cover.1616748885.git.fabioaiuto83@gmail.com>
- <fea98d1b0260494dc5cb0dfb7fc03d6f74d9acdf.1616748885.git.fabioaiuto83@gmail.com>
- <20210326142257.GF1717@kadam>
+        Fri, 26 Mar 2021 08:37:51 -0700 (PDT)
+Date: Fri, 26 Mar 2021 16:37:54 +0100
+From: Marco Cesati <marcocesati@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	linux-staging@lists.linux.dev,
+	Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH 00/33] Staging: rtl8723bs: remove unnecessary enum names
+ and definitions
+Message-ID: <20210326153754.ndl4k3duxsn2qfz3@cesati.gmail.com>
+References: <20210324124456.25221-1-marcocesati@gmail.com>
+ <YF3p2ABUhzSxYRsP@kroah.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -54,53 +55,82 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210326142257.GF1717@kadam>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <YF3p2ABUhzSxYRsP@kroah.com>
 
-On Fri, Mar 26, 2021 at 05:22:57PM +0300, Dan Carpenter wrote:
-> On Fri, Mar 26, 2021 at 10:09:12AM +0100, Fabio Aiuto wrote:
-> > fix the following checkpatch warning:
+On Fri, Mar 26, 2021 at 03:04:08PM +0100, Greg Kroah-Hartman wrote:
+> On Wed, Mar 24, 2021 at 01:44:23PM +0100, Marco Cesati wrote:
+> > The staging/rtl8723bs driver includes 82 enum definitions whose
+> > names are not referenced in the code. Furthermore, 57 enum definitions
+> > are useless, because the enum elements do not appear in the code.
+> > This patchset transforms 82 'named' enums in 'anonymous' enums and
+> > removes 57 enum definitions.
 > > 
-> > ERROR: Macros with complex values should be enclosed in parentheses
-> > 279: FILE: drivers/staging/rtl8723bs/include/drv_types.h:279:
-> > +#define KEY_ARG(x) ((u8 *)(x))[0], ((u8 *)(x))[1],
-> > ((u8 *)(x))[2], ((u8 *)(x))[3], ((u8 *)(x))[4], ((u8 *)(x))[5], \
 > > 
-> > Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
-> > ---
-> >  drivers/staging/rtl8723bs/include/drv_types.h | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
-> > index 1658450b386e..ead4cb9c1e5a 100644
-> > --- a/drivers/staging/rtl8723bs/include/drv_types.h
-> > +++ b/drivers/staging/rtl8723bs/include/drv_types.h
-> > @@ -276,9 +276,9 @@ struct cam_entry_cache {
-> >  };
-> >  
-> >  #define KEY_FMT "%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x"
-> > -#define KEY_ARG(x) ((u8 *)(x))[0], ((u8 *)(x))[1], ((u8 *)(x))[2], ((u8 *)(x))[3], ((u8 *)(x))[4], ((u8 *)(x))[5], \
-> > +#define KEY_ARG(x) (((u8 *)(x))[0], ((u8 *)(x))[1], ((u8 *)(x))[2], ((u8 *)(x))[3], ((u8 *)(x))[4], ((u8 *)(x))[5], \
-> >  	((u8 *)(x))[6], ((u8 *)(x))[7], ((u8 *)(x))[8], ((u8 *)(x))[9], ((u8 *)(x))[10], ((u8 *)(x))[11], \
-> > -	((u8 *)(x))[12], ((u8 *)(x))[13], ((u8 *)(x))[14], ((u8 *)(x))[15]
-> > +	((u8 *)(x))[12], ((u8 *)(x))[13], ((u8 *)(x))[14], ((u8 *)(x))[15])
+> > [PATCH 01/33] Staging: rtl8723bs: remove named enums in rtw_mlme.h
+> > [PATCH 02/33] Staging: rtl8723bs: remove named enums in rtw_cmd.h
+> > [PATCH 03/33] Staging: rtl8723bs: remove named enums in rtw_eeprom.h
+> > [PATCH 04/33] Staging: rtl8723bs: remove named enums in hal_com.h
+> > [PATCH 05/33] Staging: rtl8723bs: remove named enums in rtw_recv.h
+> > [PATCH 06/33] Staging: rtl8723bs: remove named enums in drv_types.h
+> > [PATCH 07/33] Staging: rtl8723bs: remove named enums in rtw_ht.h
+> > [PATCH 08/33] Staging: rtl8723bs: remove named enums in wlan_bssdef.h
+> > [PATCH 09/33] Staging: rtl8723bs: remove named enums in rtw_mp.h
+> > [PATCH 10/33] Staging: rtl8723bs: remove named enums in osdep_service.h
+> > [PATCH 11/33] Staging: rtl8723bs: remove named enums in hal_intf.h
+> > [PATCH 12/33] Staging: rtl8723bs: remove named enums in rtw_pwrctrl.h
+> > [PATCH 13/33] Staging: rtl8723bs: remove named enums in rtl8723b_cmd.h
+> > [PATCH 14/33] Staging: rtl8723bs: remove named enums in hal_com_h2c.h
+> > [PATCH 15/33] Staging: rtl8723bs: remove named enums in rtw_wifi_regd.h
+> > [PATCH 16/33] Staging: rtl8723bs: remove named enums in wifi.h
+> > [PATCH 17/33] Staging: rtl8723bs: remove named enums in rtl8723b_hal.h
+> > [PATCH 18/33] Staging: rtl8723bs: remove named enums in hal_phy.h
+> > [PATCH 19/33] Staging: rtl8723bs: remove named enums in rtw_mlme_ext.h
+> > [PATCH 20/33] Staging: rtl8723bs: remove named enums in rtw_xmit.h
+> > [PATCH 21/33] Staging: rtl8723bs: remove named enums in rtw_rf.h
+> > [PATCH 22/33] Staging: rtl8723bs: remove named enums in HalPwrSeqCmd.h
+> > [PATCH 23/33] Staging: rtl8723bs: remove named enums in hal_com_phycfg.h
+> > [PATCH 24/33] Staging: rtl8723bs: remove named enums in ieee80211.h
+> > [PATCH 25/33] Staging: rtl8723bs: remove named enums in rtw_efuse.h
+> > [PATCH 26/33] Staging: rtl8723bs: remove named enums in odm_interface.h
+> > [PATCH 27/33] Staging: rtl8723bs: remove named enums in HalBtcOutSrc.h
+> > [PATCH 28/33] Staging: rtl8723bs: remove named enums in HalBtc8723b1Ant.h
+> > [PATCH 29/33] Staging: rtl8723bs: remove named enums in odm_types.h
+> > [PATCH 30/33] Staging: rtl8723bs: remove named enums in odm_DIG.h
+> > [PATCH 31/33] Staging: rtl8723bs: remove named enums in HalPhyRf.h
+> > [PATCH 32/33] Staging: rtl8723bs: remove named enums in odm.h
+> > [PATCH 33/33] Staging: rtl8723bs: remove named enums in HalBtc8723b2Ant.h
 > 
-> KEY_ARG() isn't used anywhere that I can see.  Just delete it.
+> Was this a "v2" of the series?  Or does it not conflict with your other
+> series?
 > 
-> Please take your time when you re-write this series and think about each
-> change clearly and fix the underlying badness instead of just making
-> checkpatch happy.  I would really just throw out the patchset and start
-> over from scratch.
+> I'm getting confused...  Please check my tree and see what I have not
+> applied from you and resend...
 > 
-> regards,
-> dan carpenter
-> 
+> thanks,
+> greg k-h
 
-Hi Dan,
+This was the first, original patch set. However, I got a comment from
+Dan Carpenter from which I inferred that transforming named enums like
+"enum XXX { ... };" into anonymous enums like "enum { ...  };", when
+"XXX" is not referenced elsewhere, was not desiderable. Therefore, I
+submitted another version of the patch set ("[PATCH 00/21] Staging:
+rtl8723bs: remove unreferenced enum definitions"), which just removes
+the enums having no reference _at_all_ in the code. To be clear, the 
+patch set ("remove unreferenced enums") removes a strict subset of the
+enums touched by this patch set ("remove named enums").
 
-KEY_FMT is unused as well. I'm rewriting the whole series, will send
-v2.
+This patch set ("remove named enums") has been properly applied to your
+tree, so for me all is fine.  I guess the decision is up to you: do you
+prefer to _not_ remove the useless enum names? In this case, this patch
+set has to be reverted.
 
-thank you,
+I apologize for the confusion.
 
-fabio
+Marco
+
+---- 
+Marco Cesati, PhD
+Dept. of Civil Engineering and Computer Science Engineering
+Univ. of Rome Tor Vergata
+via del Politecnico 1, I-00133 Rome, Italy
+Tel. +39 06 7259 7389
