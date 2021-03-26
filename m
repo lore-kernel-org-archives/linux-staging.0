@@ -1,46 +1,51 @@
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98AE75F
-	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 11:03:45 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-	by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12QAxkng087719;
-	Fri, 26 Mar 2021 11:03:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=R6xFSwjLE6/8otZaDsmA/39k0i1WoJeR+EjZyhQcHkQ=;
- b=LaZjgHN8P68NXvD1HyZuNrjCFVkAPklD7gqsTbuNFTB7dxRhfHgdDgfSB5oqzTtofqXx
- LTq1DFxeqI3H7AoNP5zV3P1yRoV1teOPrOBxY6pr+M9B4ki4hZ9NElzJVe9mWLK9jYxL
- 4OPMsBkz2xRR5pI+ajpuCWiZaU6vdG9tcGtkAQ25chZXz1E0TUIsBeKSXQ3SJtzrIBFd
- cE9vDfWZ1/tPlYI3tlFOYuN+rvG/23rQZav3n8mOJrSiwa0332wvtBGmrnGtepXqJgxC
- PS1O8oyL4+RZyPgEAqhKdYhYHY1290I10RIT03ha3aPkpG7uXjwtPpREmxpbJnpWrjSl Hw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by userp2130.oracle.com with ESMTP id 37h13rsp6g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 26 Mar 2021 11:03:37 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12QAuK4F017248;
-	Fri, 26 Mar 2021 11:03:35 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by userp3020.oracle.com with ESMTP id 37h14h206a-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 26 Mar 2021 11:03:35 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 12QB3WLV020579;
-	Fri, 26 Mar 2021 11:03:33 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Fri, 26 Mar 2021 04:03:31 -0700
-Date: Fri, 26 Mar 2021 14:03:21 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: linux-staging@lists.linux.dev
-Subject: Re: [bug report] staging: rtl8723bs: remove unused code blocks
- conditioned by never set CONFIG_INTERRUPT_BASED_TXBCN*
-Message-ID: <20210326110321.GA1667@kadam>
-References: <YFxQSJXXQ4dFPGS4@mwanda>
- <20210326082442.GA1452@agape.jhs>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D10505F
+	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 11:04:23 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id k8so5243552wrc.3
+        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 04:04:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=BzvMjDIOgQwhrDSEMqOWrBlRlYExfZKIsGCDktPRE/o=;
+        b=eRPEXlydugzE72c1wI7n0ZYeecX8B67ZX+siv1jZSSMu26jEs5F5GTosJRbUAkMLJ1
+         pv0x2aChpojoYmpdot/AN4u1XFRy4ySpWWgYJcSQJIHZ1bW0QbjN0xUYc/buQYZbnKXC
+         dBodYvNY6luSSDorPgiZboYzZfX9r6aLX15OKOiSLKlnNWZ3KXH2vi2fJMT0MkDZTbbN
+         kohAbHa4anTQoHehem0mFhF94A5F6fTqcCt7VB6xXvJvxE6+bpnl44TIQI0PxKQBryO+
+         z5BKcF8vqWW6NJ8qpaZsnSzNttAVr8woYfv9cToo8xtVTyyI2FuQsR/IILDj/txesIGc
+         nD0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=BzvMjDIOgQwhrDSEMqOWrBlRlYExfZKIsGCDktPRE/o=;
+        b=WYxAJqkyizic0DGao3tiOVuraWubulKEjbaw8W+dkrwt0WAtBoqLIvBWHKVaZ7W45Z
+         l23w2GxCtP51PA0ZZgq1KsRI0xYTGH5hNL5FK97ovS0+atDS7hkb+kkT/YonreBr78MR
+         +U7kMiWsOL40eUvPp6/O/pt4wQrcZz4N+N2e8fx/8CAAyfBA54mlSmBXI61noUT9jirS
+         Z2/Zx+ijuKBOWGSsHqpZ12JVEMGVBcMzdjOdBRxQp2UpHz+JAK2sd4TctkhATqA93mJN
+         Qhtlg1sBWnvvNSGJerS81X4/cgEmhHMDBYGHcfckH/Bocjz+zMw8g47FLINlILdtBiNf
+         ilyQ==
+X-Gm-Message-State: AOAM5319Yn4FC2P9oz1QB7RqjOcm9adk3UwbRNMSFlnndEOQf3//bWJw
+	7467fvFXSCWiqMwCYLIGM/0=
+X-Google-Smtp-Source: ABdhPJx0yHoMTUZH+70hwtYWIi6HphiefYFjdalqhNXDzlN7UPi2vhIF3m95K3jJdg0XHBLYNkre9g==
+X-Received: by 2002:a5d:4307:: with SMTP id h7mr13721779wrq.227.1616756662370;
+        Fri, 26 Mar 2021 04:04:22 -0700 (PDT)
+Received: from agape.jhs ([5.171.81.75])
+        by smtp.gmail.com with ESMTPSA id b65sm10429869wmh.4.2021.03.26.04.04.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Mar 2021 04:04:22 -0700 (PDT)
+Date: Fri, 26 Mar 2021 12:04:19 +0100
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 01/15] staging: rtl8723bs: inlcude macros in a do..while
+ loop in core/rtw_security.c
+Message-ID: <20210326110418.GB1452@agape.jhs>
+References: <cover.1616748885.git.fabioaiuto83@gmail.com>
+ <2e02f646ab3f8058b159d6d790e202a0e4744af8.1616748885.git.fabioaiuto83@gmail.com>
+ <20210326095220.GC1717@kadam>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -48,64 +53,87 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210326082442.GA1452@agape.jhs>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9934 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0 spamscore=0
- phishscore=0 adultscore=0 mlxscore=0 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
- definitions=main-2103260081
-X-Proofpoint-ORIG-GUID: Xf2B6SOL3esu55ZBqpOWPsqwVgII2VH5
-X-Proofpoint-GUID: Xf2B6SOL3esu55ZBqpOWPsqwVgII2VH5
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9934 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 malwarescore=0
- suspectscore=0 adultscore=0 phishscore=0 mlxscore=0 mlxlogscore=999
- impostorscore=0 priorityscore=1501 clxscore=1015 spamscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
- definitions=main-2103260081
+In-Reply-To: <20210326095220.GC1717@kadam>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Fri, Mar 26, 2021 at 09:24:43AM +0100, Fabio Aiuto wrote:
-> On Thu, Mar 25, 2021 at 11:56:40AM +0300, Dan Carpenter wrote:
-> > Hello Fabio Aiuto,
+On Fri, Mar 26, 2021 at 12:52:20PM +0300, Dan Carpenter wrote:
+> On Fri, Mar 26, 2021 at 10:09:08AM +0100, Fabio Aiuto wrote:
+> > fix the following checkpatch warning:
 > > 
-> > The patch 65f183001f6e: "staging: rtl8723bs: remove unused code
-> > blocks conditioned by never set CONFIG_INTERRUPT_BASED_TXBCN*" from
-> > Mar 16, 2021, leads to the following static checker warning:
+> > ERROR: Macros starting with if should be enclosed by a do - while
+> > loop to avoid possible if/else logic defects
+> > 33: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:33:
+> > +#define WEP_SW_ENC_CNT_INC(sec, ra) \
+> > --
+> > ERROR: Macros starting with if should be enclosed by a do - while
+> > loop to avoid possible if/else logic defects
+> > 41: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:41:
+> > +#define WEP_SW_DEC_CNT_INC(sec, ra) \
+> > --
+> > ERROR: Macros starting with if should be enclosed by a do - while
+> > loop to avoid possible if/else logic defects
+> > 49: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:49:
+> > +#define TKIP_SW_ENC_CNT_INC(sec, ra) \
+> > --
+> > ERROR: Macros starting with if should be enclosed by a do - while
+> > loop to avoid possible if/else logic defects
+> > 57: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:57:
+> > +#define TKIP_SW_DEC_CNT_INC(sec, ra) \
+> > --
+> > ERROR: Macros starting with if should be enclosed by a do - while
+> > loop to avoid possible if/else logic defects
+> > 65: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:65:
+> > +#define AES_SW_ENC_CNT_INC(sec, ra) \
+> > --
+> > ERROR: Macros starting with if should be enclosed by a do - while
+> > loop to avoid possible if/else logic defects
+> > 73: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:73:
+> > +#define AES_SW_DEC_CNT_INC(sec, ra) \
+> > --
+> > ERROR: Macros with multiple statements should be enclosed in a
+> > do - while loop
+> > 2082: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:2082:
+> > +#define ROUND(i, d, s) \
 > > 
-> > 	drivers/staging/rtl8723bs/core/rtw_ap.c:911 start_bss_network()
-> > 	warn: inconsistent indenting
+> > Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+> > ---
+> >  drivers/staging/rtl8723bs/core/rtw_security.c | 94 +++++++++++--------
+> >  1 file changed, 54 insertions(+), 40 deletions(-)
 > > 
-> > drivers/staging/rtl8723bs/core/rtw_ap.c
-> >    904                  rtw_get_capability((struct wlan_bssid_ex *)pnetwork)
-> >    905          );
-> >    906  
-> >    907          if (pmlmeext->bstart_bss) {
-> >    908                  update_beacon(padapter, WLAN_EID_TIM, NULL, true);
-> >    909  
-> >    910          /* issue beacon frame */
-> > 
-> > The patch accidentally deleted these extra tab for this block.
-> > 
-> >    911          if (send_beacon(padapter) == _FAIL)
-> >    912                  DBG_871X("issue_beacon, fail!\n");
-> >    913  
-> >    914          }
-> >    915  
-> >    916          /* update bc/mc sta_info */
-> >    917          update_bmc_sta(padapter);
-> >    918  
-> > 
-> > regards,
-> > dan carpenter
+> > diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+> > index 44e2b362c867..c92984fcf42d 100644
+> > --- a/drivers/staging/rtl8723bs/core/rtw_security.c
+> > +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+> > @@ -31,52 +31,64 @@ const char *security_type_str(u8 value)
+> >  
+> >  #ifdef DBG_SW_SEC_CNT
+> >  #define WEP_SW_ENC_CNT_INC(sec, ra) \
+> > -	if (is_broadcast_mac_addr(ra)) \
+> > -		sec->wep_sw_enc_cnt_bc++; \
+> > -	else if (is_multicast_mac_addr(ra)) \
+> > -		sec->wep_sw_enc_cnt_mc++; \
+> > -	else \
+> > -		sec->wep_sw_enc_cnt_uc++;
+> > +	do { \
+> > +		if (is_broadcast_mac_addr(ra)) \
+> > +			sec->wep_sw_enc_cnt_bc++; \
+> > +		else if (is_multicast_mac_addr(ra)) \
+> > +			sec->wep_sw_enc_cnt_mc++; \
+> > +		else \
+> > +			sec->wep_sw_enc_cnt_uc++; \
+> > +	} while (0)
 > 
-> Thank you Dan,
+> What are these statistics used for?  So far as I can see there not
+> used at all.  It's probably better to just delete all the
+> DBG_SW_SEC_CNT code.
 > 
-> sent yesterday a fix,
+> regards,
+> dan carpenter
 > 
 
-Thanks!
+you are right Dan, I will remove all related fields in
+security_priv
 
-regards,
-dan carpenter
+thank you,
 
+fabio
