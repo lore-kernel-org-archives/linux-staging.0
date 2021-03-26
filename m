@@ -1,50 +1,52 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677A870
-	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 09:09:42 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id z2so4889750wrl.5
-        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 02:09:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E401170
+	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 09:09:43 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id d191so2581918wmd.2
+        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 02:09:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dPx/c0ydaxSoxh2qhVeeOV7T8MUpGTDXHROZKiangpM=;
-        b=NcyP0hZT2CcXLbHgN46/9/O9NnHsBUFgdB3WnyR0KW+QQbULKaY8QYRUf7cqX6Gweu
-         jN0/ck89iZ5/nnu7mZNwV17Imw5+V0SfhqXJmYIoPQ5LoH1w1+pIvQWZoFZMFYwJv4i2
-         Jr3vkGhTagZG3Lnp/h4717aQvLgXE6e4rwYpHd+3GjMIJQF9sGow7T4R9AvUahPrp0Xm
-         5VKPwuRB1fx8NJU0mRDCu/L72MhJyLw4d0LJrEDH0d/PbRwMMWKUp2Pj51j4hIR3YoHt
-         ucVkJH4mj40wyD/z0FvLAWbyvSIo2+SILus6Yl4jXsVcnCG+zB5K6P2xORqjTODn9xDv
-         oR5w==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=7XGapRiKO4+2TXKmvx4B6Rzd3Ql3zL4BqJCvy9W6Mn4=;
+        b=fRh0leJUoB7JDSCojU69M8j/A7INx0lsOIQa6VF5D73P8FOkpfzLzV5M1TT5to3ghk
+         fF6fAThjhLmcu4xVZAJtQ543bEAaBwv4sQKRO9IH6h6B4/iWBrGGcTU7jzIaNgnWjHPi
+         f8GNqXcP1fzBGcReMCQZr+K/W2jsfIzQ7nghgUOOdjaXpzW0/vyYAct4hYhcV2FOt4kN
+         hftxmWffdsXIabjiJiGZ+2XnydkJPpYCozDpn1ZctEdy6ev09kh2w+HwLCWBgkw2wh8g
+         lcZr2UJfg/4uKNrlcSRDfQGb+aezbPUep9UC0Vxj1+KTcZrn3+NL4VYrmPw1AVH9/rJs
+         B9Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dPx/c0ydaxSoxh2qhVeeOV7T8MUpGTDXHROZKiangpM=;
-        b=YmlCWKoTv/Lgx8OT3Lutjm84eFxs8eJKunidikMZn6m+Rj3BtGYwbGukRETvd7IxNX
-         3td8yIBNRZdz1ya0blUBY8wx8+Isv/lvi6UzKm0Y/r7w3u+PzUKdXlbFmBlHAAiLBV3f
-         s3MeGY4N7nVwpvL8hkSho8MPQ404WVyiKVn45gw6FyHNd7El+9UmPbjciz733RwfEMHs
-         WsYp8wJzQElx29m5aldqxgA5Mps4AT7Jl3WFAmTgLSE+v2JntlOynz7+3itGQOLQlz8T
-         4oGlIEL48ano3o1rw9SAfGzYKxGDXChFNz/ao+TEZICs4biwT40FIZaTQL8+4xkCZ40Z
-         Ka5w==
-X-Gm-Message-State: AOAM53142DM7CirfBLd4RjCQCgQCXua0D2EUuXhX1HzmrM8gBcy7rwWs
-	pG/8TBjU+3VxX/Lm+v8rfms=
-X-Google-Smtp-Source: ABdhPJzIvJxaaxzuKRzqShsH/6a2v7DXRveguHHdvcI4AJwJZK4ZvlyYnV9ubHxhlmo1RG70UFIekg==
-X-Received: by 2002:a5d:570c:: with SMTP id a12mr13438377wrv.209.1616749780949;
-        Fri, 26 Mar 2021 02:09:40 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=7XGapRiKO4+2TXKmvx4B6Rzd3Ql3zL4BqJCvy9W6Mn4=;
+        b=HcmEf4dirI8lTTqayqP4MKfGiu3VYVBCkVZz7TFjZo7MSYCk5wsWV9iMKjK3b2w2Gn
+         I62Pjl98LXkA28sfJ5Me8lSMKiVf9uScv6jPkXQVwrm5I9Sqdi9ewNdP3LYPSTmWALRR
+         XQDtSLP91eDsfFvA8Wyf2/MoRDGLuwPoiTanVxNKyQ3Ct6Nyzs9KP9LcY1H2hGFB5Bcw
+         cpLWphrPs7U9aeDQiHRPIAl7nc8dqURT6zyVUBIdwnlXC5308qwv2SIqw6bbCV6OHw2f
+         s15cGtbwf0TFrjpO95pFE1ztfkvHmVUZiluS2QsLpqsJvSezZViJ70ItEQ040+OqKr1Q
+         j2Vg==
+X-Gm-Message-State: AOAM531LJZUp0au9Wgj8gIKMMJ6pkN0w5dsekC+TYXCHwEOK/lDpHi76
+	HeZQ6F1ndKq2811/WUexxDk=
+X-Google-Smtp-Source: ABdhPJzWU0i1JZnNa67EmsMv65O5YUxz3f7r38QpwriYWrmyJPZ+minpcNFt7NqP1AO9uQ0GT33o0w==
+X-Received: by 2002:a05:600c:d1:: with SMTP id u17mr12142844wmm.64.1616749782403;
+        Fri, 26 Mar 2021 02:09:42 -0700 (PDT)
 Received: from agape ([5.171.81.75])
-        by smtp.gmail.com with ESMTPSA id h62sm12238035wmf.37.2021.03.26.02.09.40
+        by smtp.gmail.com with ESMTPSA id k12sm11853569wrx.7.2021.03.26.02.09.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 02:09:40 -0700 (PDT)
+        Fri, 26 Mar 2021 02:09:42 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 00/15] staging: rtl8723bs: fix checkpatch errors on macros
-Date: Fri, 26 Mar 2021 10:09:07 +0100
-Message-Id: <cover.1616748885.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 01/15] staging: rtl8723bs: inlcude macros in a do..while loop in core/rtw_security.c
+Date: Fri, 26 Mar 2021 10:09:08 +0100
+Message-Id: <2e02f646ab3f8058b159d6d790e202a0e4744af8.1616748885.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1616748885.git.fabioaiuto83@gmail.com>
+References: <cover.1616748885.git.fabioaiuto83@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -52,118 +54,170 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix all checkpatch errors on macros but the following:
+fix the following checkpatch warning:
 
-ERROR: Macros with complex values should be enclosed in parentheses
-#41: FILE: drivers/staging/rtl8723bs/include/hal_pwr_seq.h:41:
-+#define RTL8723B_TRANS_CARDEMU_TO_ACT														\
+ERROR: Macros starting with if should be enclosed by a do - while
+loop to avoid possible if/else logic defects
+33: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:33:
++#define WEP_SW_ENC_CNT_INC(sec, ra) \
 --
-ERROR: Macros with complex values should be enclosed in parentheses
-#67: FILE: drivers/staging/rtl8723bs/include/hal_pwr_seq.h:67:
-+#define RTL8723B_TRANS_ACT_TO_CARDEMU													\
+ERROR: Macros starting with if should be enclosed by a do - while
+loop to avoid possible if/else logic defects
+41: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:41:
++#define WEP_SW_DEC_CNT_INC(sec, ra) \
 --
-ERROR: Macros with complex values should be enclosed in parentheses
-#80: FILE: drivers/staging/rtl8723bs/include/hal_pwr_seq.h:80:
-+#define RTL8723B_TRANS_CARDEMU_TO_SUS													\
+ERROR: Macros starting with if should be enclosed by a do - while
+loop to avoid possible if/else logic defects
+49: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:49:
++#define TKIP_SW_ENC_CNT_INC(sec, ra) \
 --
-ERROR: Macros with complex values should be enclosed in parentheses
-#91: FILE: drivers/staging/rtl8723bs/include/hal_pwr_seq.h:91:
-+#define RTL8723B_TRANS_SUS_TO_CARDEMU													\
+ERROR: Macros starting with if should be enclosed by a do - while
+loop to avoid possible if/else logic defects
+57: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:57:
++#define TKIP_SW_DEC_CNT_INC(sec, ra) \
 --
-ERROR: Macros with complex values should be enclosed in parentheses
-#100: FILE: drivers/staging/rtl8723bs/include/hal_pwr_seq.h:100:
-+#define RTL8723B_TRANS_CARDEMU_TO_CARDDIS													\
+ERROR: Macros starting with if should be enclosed by a do - while
+loop to avoid possible if/else logic defects
+65: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:65:
++#define AES_SW_ENC_CNT_INC(sec, ra) \
 --
-ERROR: Macros with complex values should be enclosed in parentheses
-#111: FILE: drivers/staging/rtl8723bs/include/hal_pwr_seq.h:111:
-+#define RTL8723B_TRANS_CARDDIS_TO_CARDEMU													\
+ERROR: Macros starting with if should be enclosed by a do - while
+loop to avoid possible if/else logic defects
+73: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:73:
++#define AES_SW_DEC_CNT_INC(sec, ra) \
 --
-ERROR: Macros with complex values should be enclosed in parentheses
-#123: FILE: drivers/staging/rtl8723bs/include/hal_pwr_seq.h:123:
-+#define RTL8723B_TRANS_CARDEMU_TO_PDN												\
---
-ERROR: Macros with complex values should be enclosed in parentheses
-#136: FILE: drivers/staging/rtl8723bs/include/hal_pwr_seq.h:136:
-+#define RTL8723B_TRANS_ACT_TO_LPS														\
---
-ERROR: Macros with complex values should be enclosed in parentheses
-#154: FILE: drivers/staging/rtl8723bs/include/hal_pwr_seq.h:154:
-+#define RTL8723B_TRANS_LPS_TO_ACT															\
---
-ERROR: Macros with complex values should be enclosed in parentheses
-#170: FILE: drivers/staging/rtl8723bs/include/hal_pwr_seq.h:170:
-+ #define RTL8723B_TRANS_ACT_TO_SWLPS														\
---
-ERROR: Macros with complex values should be enclosed in parentheses
-#197: FILE: drivers/staging/rtl8723bs/include/hal_pwr_seq.h:197:
-+#define RTL8723B_TRANS_SWLPS_TO_ACT															\
---
+ERROR: Macros with multiple statements should be enclosed in a
+do - while loop
+2082: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:2082:
++#define ROUND(i, d, s) \
 
-I counld't put braces for they are meant to be expanded inside an 
-array definition
-
-ERROR: Macros with complex values should be enclosed in parentheses
-#108: FILE: drivers/staging/rtl8723bs/include/osdep_service_linux.h:108:
-+#define FUNC_NDEV_ARG(ndev) __func__, ndev->name
---
-ERROR: Macros with complex values should be enclosed in parentheses
-#110: FILE: drivers/staging/rtl8723bs/include/osdep_service_linux.h:110:
-+#define FUNC_ADPT_ARG(adapter) __func__, adapter->pnetdev->nam
-
-All those macros are not used to generate expressions but arguments of
-a functions.
-
-If someone knows how to silence those errors as well,
-please tell me.
-
-Fabio Aiuto (15):
-  staging: rtl8723bs: inlcude macros in a do..while loop in
-    core/rtw_security.c
-  staging: rtl8723bs: put parentheses on macros with complex values in
-    hal/HalBtcOutSrc.h
-  staging: rtl8723bs: put parentheses on macros with complex values in
-    hal/odm_debug.h
-  staging: rtl8723bs: put parentheses on macros with complex values in
-    include/basic_types.h
-  staging: rtl8723bs: put parentheses on macros with complex values in
-    include/drv_types.h
-  staging: rtl8723bs: put parentheses on macros with complex values in
-    include/hal_com.h
-  staging: rtl8723bs: put parentheses on macros with complex values in
-    include/hal_com_reg.h
-  staging: rtl8723bs: put parentheses on macros with complex values in
-    include/hal_data.h
-  staging: rtl8723bs: put parentheses on macros with complex values in
-    include/hal_phy.h
-  staging: rtl8723bs: put parentheses on macros with complex values in
-    include/ieee80211.h
-  staging: rtl8723bs: put parentheses on macros with complex values in
-    include/rtw_debug.h
-  staging: rtl8723bs: put parentheses on macros with complex values in
-    include/rtw_pwrctrl.h
-  staging: rtl8723bs: add spaces around operator in
-    include/rtw_pwrctrl.h
-  staging: rtl8723bs:  put parentheses on macros with complex values in
-    include/sta_info.h
-  staging: rtl8723bs:  put parentheses on macros with complex values in
-    include/wifi.h
-
+Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+---
  drivers/staging/rtl8723bs/core/rtw_security.c | 94 +++++++++++--------
- drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h  |  6 +-
- drivers/staging/rtl8723bs/hal/odm_debug.h     |  6 +-
- .../staging/rtl8723bs/include/basic_types.h   | 30 +++---
- drivers/staging/rtl8723bs/include/drv_types.h |  4 +-
- drivers/staging/rtl8723bs/include/hal_com.h   |  8 +-
- .../staging/rtl8723bs/include/hal_com_reg.h   | 14 +--
- drivers/staging/rtl8723bs/include/hal_data.h  |  6 +-
- drivers/staging/rtl8723bs/include/hal_phy.h   |  2 +-
- drivers/staging/rtl8723bs/include/ieee80211.h |  4 +-
- drivers/staging/rtl8723bs/include/rtw_debug.h | 28 +++---
- .../staging/rtl8723bs/include/rtw_pwrctrl.h   |  6 +-
- drivers/staging/rtl8723bs/include/sta_info.h  | 12 +--
- drivers/staging/rtl8723bs/include/wifi.h      | 38 ++++----
- 14 files changed, 140 insertions(+), 118 deletions(-)
+ 1 file changed, 54 insertions(+), 40 deletions(-)
 
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index 44e2b362c867..c92984fcf42d 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -31,52 +31,64 @@ const char *security_type_str(u8 value)
+ 
+ #ifdef DBG_SW_SEC_CNT
+ #define WEP_SW_ENC_CNT_INC(sec, ra) \
+-	if (is_broadcast_mac_addr(ra)) \
+-		sec->wep_sw_enc_cnt_bc++; \
+-	else if (is_multicast_mac_addr(ra)) \
+-		sec->wep_sw_enc_cnt_mc++; \
+-	else \
+-		sec->wep_sw_enc_cnt_uc++;
++	do { \
++		if (is_broadcast_mac_addr(ra)) \
++			sec->wep_sw_enc_cnt_bc++; \
++		else if (is_multicast_mac_addr(ra)) \
++			sec->wep_sw_enc_cnt_mc++; \
++		else \
++			sec->wep_sw_enc_cnt_uc++; \
++	} while (0)
+ 
+ #define WEP_SW_DEC_CNT_INC(sec, ra) \
+-	if (is_broadcast_mac_addr(ra)) \
+-		sec->wep_sw_dec_cnt_bc++; \
+-	else if (is_multicast_mac_addr(ra)) \
+-		sec->wep_sw_dec_cnt_mc++; \
+-	else \
+-		sec->wep_sw_dec_cnt_uc++;
++	do { \
++		if (is_broadcast_mac_addr(ra)) \
++			sec->wep_sw_dec_cnt_bc++; \
++		else if (is_multicast_mac_addr(ra)) \
++			sec->wep_sw_dec_cnt_mc++; \
++		else \
++			sec->wep_sw_dec_cnt_uc++; \
++	} while (0)
+ 
+ #define TKIP_SW_ENC_CNT_INC(sec, ra) \
+-	if (is_broadcast_mac_addr(ra)) \
+-		sec->tkip_sw_enc_cnt_bc++; \
+-	else if (is_multicast_mac_addr(ra)) \
+-		sec->tkip_sw_enc_cnt_mc++; \
+-	else \
+-		sec->tkip_sw_enc_cnt_uc++;
++	do { \
++		if (is_broadcast_mac_addr(ra)) \
++			sec->tkip_sw_enc_cnt_bc++; \
++		else if (is_multicast_mac_addr(ra)) \
++			sec->tkip_sw_enc_cnt_mc++; \
++		else \
++			sec->tkip_sw_enc_cnt_uc++; \
++	} while (0)
+ 
+ #define TKIP_SW_DEC_CNT_INC(sec, ra) \
+-	if (is_broadcast_mac_addr(ra)) \
+-		sec->tkip_sw_dec_cnt_bc++; \
+-	else if (is_multicast_mac_addr(ra)) \
+-		sec->tkip_sw_dec_cnt_mc++; \
+-	else \
+-		sec->tkip_sw_dec_cnt_uc++;
++	do { \
++		if (is_broadcast_mac_addr(ra)) \
++			sec->tkip_sw_dec_cnt_bc++; \
++		else if (is_multicast_mac_addr(ra)) \
++			sec->tkip_sw_dec_cnt_mc++; \
++		else \
++			sec->tkip_sw_dec_cnt_uc++; \
++	} while (0)
+ 
+ #define AES_SW_ENC_CNT_INC(sec, ra) \
+-	if (is_broadcast_mac_addr(ra)) \
+-		sec->aes_sw_enc_cnt_bc++; \
+-	else if (is_multicast_mac_addr(ra)) \
+-		sec->aes_sw_enc_cnt_mc++; \
+-	else \
+-		sec->aes_sw_enc_cnt_uc++;
++	do { \
++		if (is_broadcast_mac_addr(ra)) \
++			sec->aes_sw_enc_cnt_bc++; \
++		else if (is_multicast_mac_addr(ra)) \
++			sec->aes_sw_enc_cnt_mc++; \
++		else \
++			sec->aes_sw_enc_cnt_uc++; \
++	} while (0)
+ 
+ #define AES_SW_DEC_CNT_INC(sec, ra) \
+-	if (is_broadcast_mac_addr(ra)) \
+-		sec->aes_sw_dec_cnt_bc++; \
+-	else if (is_multicast_mac_addr(ra)) \
+-		sec->aes_sw_dec_cnt_mc++; \
+-	else \
+-		sec->aes_sw_dec_cnt_uc++;
++	do { \
++		if (is_broadcast_mac_addr(ra)) \
++			sec->aes_sw_dec_cnt_bc++; \
++		else if (is_multicast_mac_addr(ra)) \
++			sec->aes_sw_dec_cnt_mc++; \
++		else \
++			sec->aes_sw_dec_cnt_uc++; \
++	} while (0)
+ #else
+ #define WEP_SW_ENC_CNT_INC(sec, ra)
+ #define WEP_SW_DEC_CNT_INC(sec, ra)
+@@ -2080,10 +2092,12 @@ static void rijndaelEncrypt(u32 rk[/*44*/], u8 pt[16], u8 ct[16])
+ 	s3 = GETU32(pt + 12) ^ rk[3];
+ 
+ #define ROUND(i, d, s) \
+-d##0 = TE0(s##0) ^ TE1(s##1) ^ TE2(s##2) ^ TE3(s##3) ^ rk[4 * i]; \
+-d##1 = TE0(s##1) ^ TE1(s##2) ^ TE2(s##3) ^ TE3(s##0) ^ rk[4 * i + 1]; \
+-d##2 = TE0(s##2) ^ TE1(s##3) ^ TE2(s##0) ^ TE3(s##1) ^ rk[4 * i + 2]; \
+-d##3 = TE0(s##3) ^ TE1(s##0) ^ TE2(s##1) ^ TE3(s##2) ^ rk[4 * i + 3]
++	do { \
++		d##0 = TE0(s##0) ^ TE1(s##1) ^ TE2(s##2) ^ TE3(s##3) ^ rk[4 * i]; \
++		d##1 = TE0(s##1) ^ TE1(s##2) ^ TE2(s##3) ^ TE3(s##0) ^ rk[4 * i + 1]; \
++		d##2 = TE0(s##2) ^ TE1(s##3) ^ TE2(s##0) ^ TE3(s##1) ^ rk[4 * i + 2]; \
++		d##3 = TE0(s##3) ^ TE1(s##0) ^ TE2(s##1) ^ TE3(s##2) ^ rk[4 * i + 3]; \
++	} while (0)
+ 
+ 	/* Nr - 1 full rounds: */
+ 	r = Nr >> 1;
 -- 
 2.20.1
 
