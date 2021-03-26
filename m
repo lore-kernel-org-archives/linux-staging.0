@@ -1,87 +1,86 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E36170
-	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 05:45:47 +0000 (UTC)
-Received: by mail-qk1-f171.google.com with SMTP id o5so4262521qkb.0
-        for <linux-staging@lists.linux.dev>; Thu, 25 Mar 2021 22:45:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E0B5F
+	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 08:05:10 +0000 (UTC)
+Received: by mail-pg1-f172.google.com with SMTP id 32so4094040pgm.1
+        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 01:05:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=H0nKKN94g3rEpQ8UJAWbnPHo1zuRCqzXoAQHyyq3QlQ=;
-        b=cEWJ/SIeapNso5pKH9Q2aYpL12RrP9MrsKFp3ziuSgwdwmwOp72ediBpmsbw09n/Ii
-         X+0HWsztbEC3fNldp8zJrpSO8Fs7NvIaB0Qk/3l7zwZuMVlcAeKJ4c0K1ztcRM0zRdm4
-         j4DTBTUHUqmqkzqP3lMGCN6+JfjEY/pMZR4WWG+u17t33ciz+A+doDxnv2l7CrSffKY8
-         JQ1DmNFvALbaQju5wjcuzWXTnkg7vwVrjoVRCjch/tc91yMiT9zrfWITuqwgUgo560vu
-         LtlM/XBcmrNfF+Xyx8x5ea6r3jqVdnPMpu9L/iHoTg66MjMhVTdCgMMRGbHQ0BK+BSM/
-         WYyQ==
+        h=from:to:cc:subject:date:message-id;
+        bh=NwKF2Id58T0+Q4X2V9aN9037qk0PD32MTro/1e/Ds88=;
+        b=ZLXpn/oZ49bMlmklfTI2k7sZhQ+0C9OeZ7VXB+Hywup9pWjxk5oRbgO8TE1cpoXC8C
+         +PRsUv6OLr73zUTDgV/s/2KA51K0qJ97XZmtkNtZWSyR/HLsii8rLG+YF8Rs1vvwdwSC
+         UgUjQHeCCAwU35QikQCNYIVc05SPPIrrvKCW9CHBVAk1i74czU7Agj8+73b5aRqmP/Kb
+         M9ndBgKXOklbs5T5PYSqansXI8FoIy4FnVb78PHHKz/zUk5FpQQRT/OAktsr8Jxq9at8
+         iWCFAf36ESjbFMIDmHO88JJuySpmwkFHIGCCLpjLjq6CfebDTL9yrBTy8fUmMWpDa/TV
+         WQuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=H0nKKN94g3rEpQ8UJAWbnPHo1zuRCqzXoAQHyyq3QlQ=;
-        b=rtFnf5KeZyvbfoa71VrKi3kJhDbFDC6cZi1u8tCERKdGw/5ofgC5UtvHt0woGgjQLk
-         3P/kD/LNkbfYU8OYQpi0trNPFWfunw6AyAcw8Csl1vTqJT3iqI04lf3AeHCTGe4zQhkQ
-         ZFspphQMp2kkoBTHvR8DGTVs51GlTXC2Wf15Y53yXc/UBmmlN/C26/46AB2Bwp0CIPEI
-         l4ubqLO+XndOKAwC+yK+3jwkMVFXRF3+tvqz0VvlTqIfhMaV7chaaNERavW6PGBykcte
-         bST/HUJ13D6lcXhfIXcIy/s4L9CplimBncUpjsr21ZqF4ue5HKPiTlAlsX2FwLMFrt9j
-         fVJA==
-X-Gm-Message-State: AOAM531Igww3R0xtZ6IEVcjXG1PRH2s+cjt17LahpSUilYxU4vvNeshw
-	QdVepfAnC/euRas6jsl8CfY=
-X-Google-Smtp-Source: ABdhPJzfl7bYQlAzbCwNGaX9TnzFrX7G4r4KcPhWEUX2BBmWcK0DckBJWZGV5TUfnpRz4TfIyB2hCg==
-X-Received: by 2002:a37:78b:: with SMTP id 133mr11452198qkh.109.1616737546500;
-        Thu, 25 Mar 2021 22:45:46 -0700 (PDT)
-Received: from kde-neon-desktop.orld.fl.wtsky.net ([208.64.158.251])
-        by smtp.gmail.com with ESMTPSA id d23sm5827566qka.125.2021.03.25.22.45.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Mar 2021 22:45:46 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-From: Julian Braha <julianbraha@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	fazilyildiran@gmail.com
-Subject: [PATCH] drivers: staging: netlogic: fix unmet dependency for PHYLIB
-Date: Fri, 26 Mar 2021 01:45:33 -0400
-Message-Id: <20210326054533.48751-1-julianbraha@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=NwKF2Id58T0+Q4X2V9aN9037qk0PD32MTro/1e/Ds88=;
+        b=k/JunJ6jXlACcnWQ2HIpsU7ecmivQ/SmrMFGOh9Bymw5LuEYhlUlOgayJ77EHrjdcr
+         QdGouSFXURWrsmy8Ceb7nQGDGHFlJtyUPo4Yz9aBTXS6sSKX54IDPDcGhcxGMIL1pxJq
+         s+zaSBS3zbeY0iCYqp/X14KAILXbD+FD0FzRQzGcOrcx8GmaGFap4DpQg6BFhjMGj+fz
+         BORZnowXWvvT6YorxdLfuFIZEG/uVfP16W+T8S6x/YzAq1ZtttEHXgmqXEMFHK8Mqjm9
+         ZSEr4vlyNQveriq7qlfPH1MBoND40lqTPQl3LV7Gq+1r/1A7MC0mA4Boh+XuV8AstsGX
+         9MsQ==
+X-Gm-Message-State: AOAM533UZJClJ18OumK9+3xRy68ySZQu9amWkiDb+zqenox9MoYyAUQ1
+	1z0UmqS4JVw8E4kVG0BEAYM=
+X-Google-Smtp-Source: ABdhPJzwYrWPBCp71W6OTSt/+NtkvOrHJVunRMdCWyg0J4RMLKpEsesX58sJxFEsq5BjNvX4Ogxlrw==
+X-Received: by 2002:a63:4842:: with SMTP id x2mr708260pgk.229.1616745909929;
+        Fri, 26 Mar 2021 01:05:09 -0700 (PDT)
+Received: from bf-rmsz-10.ccdomain.com ([103.220.76.197])
+        by smtp.gmail.com with ESMTPSA id d8sm8661064pfq.27.2021.03.26.01.05.05
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 26 Mar 2021 01:05:09 -0700 (PDT)
+From: Carlis <zhangxuezhi3@gmail.com>
+To: gregkh@linuxfoundation.org,
+	zhangxuezhi1@yulong.com
+Cc: dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: fbtft: fix a typo
+Date: Fri, 26 Mar 2021 16:05:15 +0800
+Message-Id: <1616745915-194644-1-git-send-email-zhangxuezhi3@gmail.com>
+X-Mailer: git-send-email 1.9.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-When NETLOGIC_XLR_NET is enabled, and NETDEVICES is
-disabled, Kbuild gives the following warning:
+From: "Carlis" <zhangxuezhi1@yulong.com>
 
-WARNING: unmet direct dependencies detected for PHYLIB
-  Depends on [n]: NETDEVICES [=n]
-  Selected by [y]:
-  - NETLOGIC_XLR_NET [=y] && STAGING [=y] && CPU_XLR [=y]
+Change 'tft' to 'TFT'
 
-This is because NETLOGIC_XLR_NET selects PHYLIB
-without selecting or depending on NETDEVICES,
-despite PHYLIB depending on NETDEVICES.
-
-Signed-off-by: Julian Braha <julianbraha@gmail.com>
+Signed-off-by: Carlis <zhangxuezhi1@yulong.com>
 ---
- drivers/staging/netlogic/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/staging/fbtft/fbtft-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/netlogic/Kconfig b/drivers/staging/netlogic/Kconfig
-index b2a4d4586697..e1712606ee3c 100644
---- a/drivers/staging/netlogic/Kconfig
-+++ b/drivers/staging/netlogic/Kconfig
-@@ -2,6 +2,7 @@
- config NETLOGIC_XLR_NET
- 	tristate "Netlogic XLR/XLS network device"
- 	depends on CPU_XLR
-+	depends on NETDEVICES
- 	select PHYLIB
- 	help
- 	This driver support Netlogic XLR/XLS on chip gigabit
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index 4f362da..44e7acb 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -775,7 +775,7 @@ void fbtft_framebuffer_release(struct fb_info *info)
+ EXPORT_SYMBOL(fbtft_framebuffer_release);
+ 
+ /**
+- *	fbtft_register_framebuffer - registers a tft frame buffer device
++ *	fbtft_register_framebuffer - registers a TFT frame buffer device
+  *	@fb_info: frame buffer info structure
+  *
+  *  Sets SPI driverdata if needed
+@@ -873,7 +873,7 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
+ EXPORT_SYMBOL(fbtft_register_framebuffer);
+ 
+ /**
+- *	fbtft_unregister_framebuffer - releases a tft frame buffer device
++ *	fbtft_unregister_framebuffer - releases a TFT frame buffer device
+  *	@fb_info: frame buffer info structure
+  *
+  *  Frees SPI driverdata if needed
 -- 
-2.25.1
+1.9.1
 
