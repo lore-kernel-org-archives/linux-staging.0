@@ -1,49 +1,49 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE10770
-	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 09:10:02 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id b9so4868757wrt.8
-        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 02:10:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6982770
+	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 09:10:04 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id a132-20020a1c668a0000b029010f141fe7c2so4534711wmc.0
+        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 02:10:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=BWAw6/ltIWDh7kRKJmEogYzueRT49PB3eW+AcRp/xKk=;
-        b=Mv9ipFmw1YBuNfEmWuEGYPTuA+N1r/CKGCbJ+LfsVTzJ9NIeBWJ/ExANrB/ucRFMN2
-         NFGWbcGDqyf9i6ziuUwkXzpBz3ryqxho8b3ijQYkrgA+FwSnSsysmJ//2nVy+rH8/CG2
-         r1LtIsQ2ko5TDqbTT5mNnpnOsVU2myXgZbFWASjqLZpiYp2y1WGccw1Npt62tSLbjI/o
-         TVVXFxj1LhnlLLp2gplJGMxv17iwf6/g5jc/rLtWjohnpsArH47FF3eS1ScWLnhGpMfB
-         c3GtD3y+GeXncM5LR5x+EIVkbIop6bANysymq/4lTZQBwHQGGGhiG5FNV+dFE7Ha32Pq
-         jVww==
+        bh=NTRDjOB0Z/XWkk3yB0atpiz7nFAoEAEsKk8b97HqiF4=;
+        b=bAVfC9smoc/GoiPdohSLl1LGwUjJWSKELqk5eIpnhC/OaNb8662/YKOZUujOWa8h7Y
+         bPd3lXPh73b/E7DYess+eeUQ59THsw+fBJqLXGCBFy2fd8TwaTtGvihCFm4sJ/61wSdp
+         xdj6pOwspCqUEb3rRSBc3vmHED/3B6HdFhpz98KVCdCqid1mMD1OZC5lqvbl9uEqwhH/
+         giDib/QOJzvo+x4E6D2agtIRzjflQqrDA2UTQ3xNavS9kUDs803JVXzut4FFsAfCvdiC
+         fIKfQ5+yf31knWE9k56avQKmTOchgWaqE4ENmCgGH0wsTfp7D8NXxYrP9GmtnfWyN43l
+         IM0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=BWAw6/ltIWDh7kRKJmEogYzueRT49PB3eW+AcRp/xKk=;
-        b=arVz/LOlcImXcM24baZxJbyfTH9QOuba17EM4mfLHEe1HSZ8fB8gmnnhIxFYwtF7kB
-         8hEmdqrahvYUfB3FHEY/eBpaPyoo25DaKVfPpKT6/v2ADEFwLPYg1+ucQxu1EYPGgTx9
-         uD48w7x3GS33SkAqqg9S4Ty4rKYYnMIL9dFCM1L8qX7Vggbz2Kmm6fNUTjKmoHgZjpS3
-         OKSNGnUuyPBQlJux8z88PHobBWOJ2dHVyxtERNEVIx+UYhm2uTfzNeC18F0qMIXTsHRk
-         c0DbV2dsghduLenXoqojDc26Hvjvy8d6FOJorrG+FtUIgB44zflTkkhmxkNtPFx8PEnc
-         IpTA==
-X-Gm-Message-State: AOAM533tJxYjcsd1A4aN7d624z3bAxt4uhbyXOUMfmM+2kYsQIAYxcw7
-	OwxOr2VXzbK5Fxxca+O6btM=
-X-Google-Smtp-Source: ABdhPJzxI5PTyiGDq7c5WyKOTQrxI9KeTkiu4NBBEtfqMOy+SiUAJ7riuklJTlxVTKZz77onAqLJ7Q==
-X-Received: by 2002:adf:ea82:: with SMTP id s2mr13528121wrm.1.1616749801280;
-        Fri, 26 Mar 2021 02:10:01 -0700 (PDT)
+        bh=NTRDjOB0Z/XWkk3yB0atpiz7nFAoEAEsKk8b97HqiF4=;
+        b=XYIkU3YWJEc79+WHTAleLLWYlxI3pxkYUhRXDDVJqhQAybiCwV1MDPaVBCehYgcDQV
+         kVyO1I0KT1O57UIfuIC8gB9YGSYu5+om7uJpWLo7Qw5lRKtM8pNMJCzJZhvGN6VlpYB1
+         Rr9u0XMNrekoOCs8fefE9PEfthlCscPVQsb0xHh5NTKahXY2BU2g6fvp+ZXJ2QxEATDw
+         aTX4Dbz68kk2zdupLMAyNE4Jj67zd2P+sEFZpCEhgQsczBExZjX0pTfqbQqUbzu/YRR9
+         79JbCn0bDIECsyjuVi9b7ckbESmnmVJj86xaWGCpecqmOFajknpX2Tum4NAoSnivfk2E
+         KbNQ==
+X-Gm-Message-State: AOAM532vDJEBJWTY6Xntak8bAggS+PBSu5UkNGgHbj7gSZ0TL2N2MkG9
+	HsX5LfbrpAPWW9JiZN7flb4=
+X-Google-Smtp-Source: ABdhPJzvYoM3bWgJwFrjKJrXuCIwb2scEh8foTUS9y5Y5EHK/j1fjR7+rvUxcFbtnZHjYGGwSryJpA==
+X-Received: by 2002:a7b:c3cd:: with SMTP id t13mr11862633wmj.109.1616749802846;
+        Fri, 26 Mar 2021 02:10:02 -0700 (PDT)
 Received: from agape ([5.171.81.75])
-        by smtp.gmail.com with ESMTPSA id c2sm1714270wrt.47.2021.03.26.02.10.00
+        by smtp.gmail.com with ESMTPSA id v3sm10014726wmj.25.2021.03.26.02.10.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 02:10:01 -0700 (PDT)
+        Fri, 26 Mar 2021 02:10:02 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 13/15] staging: rtl8723bs: add spaces around operator in include/rtw_pwrctrl.h
-Date: Fri, 26 Mar 2021 10:09:20 +0100
-Message-Id: <b32111b9ca57f21296c1a33dd7136951800ec401.1616748885.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 14/15] staging: rtl8723bs:  put parentheses on macros with complex values in include/sta_info.h
+Date: Fri, 26 Mar 2021 10:09:21 +0100
+Message-Id: <24e684c1eff8911dacff1b61957ce25bafc46631.1616748885.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1616748885.git.fabioaiuto83@gmail.com>
 References: <cover.1616748885.git.fabioaiuto83@gmail.com>
@@ -54,28 +54,55 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-fix post-commit hook checkpatch warning:
+fix the following checkpatch warnings:
 
-add a space around that '*'
+ERROR: Macros with complex values should be enclosed in parentheses
+284: FILE: drivers/staging/rtl8723bs/include/sta_info.h:284:
++#define STA_RX_PKTS_ARG(sta) \
+--
+ERROR: Macros with complex values should be enclosed in parentheses
+289: FILE: drivers/staging/rtl8723bs/include/sta_info.h:289:
++#define STA_LAST_RX_PKTS_ARG(sta) \
+--
+ERROR: Macros with complex values should be enclosed in parentheses
+294: FILE: drivers/staging/rtl8723bs/include/sta_info.h:294:
++#define STA_RX_PKTS_DIFF_ARG(sta) \
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/rtw_pwrctrl.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/include/sta_info.h | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-index 688436cf3610..88e66211e0e3 100644
---- a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-@@ -89,7 +89,7 @@ struct reportpwrstate_parm {
- 	unsigned short rsvd;
- };
+diff --git a/drivers/staging/rtl8723bs/include/sta_info.h b/drivers/staging/rtl8723bs/include/sta_info.h
+index abde3e3df988..1cdf93ec3b66 100644
+--- a/drivers/staging/rtl8723bs/include/sta_info.h
++++ b/drivers/staging/rtl8723bs/include/sta_info.h
+@@ -282,19 +282,19 @@ struct sta_info {
+ 	} while (0)
  
--#define LPS_DELAY_TIME	(1*HZ) /*  1 sec */
-+#define LPS_DELAY_TIME	(1 * HZ) /*  1 sec */
+ #define STA_RX_PKTS_ARG(sta) \
+-	sta->sta_stats.rx_mgnt_pkts \
++	(sta->sta_stats.rx_mgnt_pkts \
+ 	, sta->sta_stats.rx_ctrl_pkts \
+-	, sta->sta_stats.rx_data_pkts
++	, sta->sta_stats.rx_data_pkts)
  
- #define EXE_PWR_NONE	0x01
- #define EXE_PWR_IPS		0x02
+ #define STA_LAST_RX_PKTS_ARG(sta) \
+-	sta->sta_stats.last_rx_mgnt_pkts \
++	(sta->sta_stats.last_rx_mgnt_pkts \
+ 	, sta->sta_stats.last_rx_ctrl_pkts \
+-	, sta->sta_stats.last_rx_data_pkts
++	, sta->sta_stats.last_rx_data_pkts)
+ 
+ #define STA_RX_PKTS_DIFF_ARG(sta) \
+-	sta->sta_stats.rx_mgnt_pkts - sta->sta_stats.last_rx_mgnt_pkts \
++	(sta->sta_stats.rx_mgnt_pkts - sta->sta_stats.last_rx_mgnt_pkts \
+ 	, sta->sta_stats.rx_ctrl_pkts - sta->sta_stats.last_rx_ctrl_pkts \
+-	, sta->sta_stats.rx_data_pkts - sta->sta_stats.last_rx_data_pkts
++	, sta->sta_stats.rx_data_pkts - sta->sta_stats.last_rx_data_pkts)
+ 
+ #define STA_PKTS_FMT "(m:%llu, c:%llu, d:%llu)"
+ 
 -- 
 2.20.1
 
