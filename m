@@ -1,39 +1,39 @@
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C95AA70
-	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 21:11:19 +0000 (UTC)
-Received: by mail-il1-f175.google.com with SMTP id u2so6188184ilk.1
-        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 14:11:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF2070
+	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 21:14:18 +0000 (UTC)
+Received: by mail-il1-f169.google.com with SMTP id y17so6166632ila.6
+        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 14:14:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=YkBaBBFDeht7SNCFuW/9Y03CUQmfjoZwU61Yl9kHu38=;
-        b=l1IU1FQkq2o8gsp1JuzrgVDWiQvimaf1RaKclzXEwkpnD5qWTZmcMIwGTPeOqUm6Vd
-         WuGz1c7hww9stY6pZ6jH2PCPQSPwcbgnGIZiB9acCcbl+/fbU9x0J/WoSrdISZI2cKSA
-         398R1Pn1mCMkGD/phR11LAnzvKUACWHhs9LrJlhAOPFv8DHaJDz5waOqilQxDrXFXd2m
-         rPFq69co0PeyN4vm+TrRmE9AGs4HzAjPOxrxMls6d1yrUYGsRkrrJZHo+DVxtZTGunvn
-         xADe46BtzNnwkSiJnXQJPtAsvLhVmtygLACGno+/exRhutJCalGMDDT5fomp44wENXnx
-         Ii9w==
-X-Gm-Message-State: AOAM530wAUenKmphsyqoulE1SXCuXwkOPsRQrr4OxxSmMKT0CLdpUtjS
-	vvLGsmjrKCXCtJCn46GOyQ==
-X-Google-Smtp-Source: ABdhPJyzxh6B5HL61Cx6KQl31O7AADpeoiH2Q7TPj2sdXOcMG9TavfGkT5IOjMJSftGn1xJE9EDCPQ==
-X-Received: by 2002:a92:730a:: with SMTP id o10mr11910426ilc.160.1616793079008;
-        Fri, 26 Mar 2021 14:11:19 -0700 (PDT)
+        bh=p5p8NGReQEBGHa/zB+g9T8XDzJGvpG2p40Wi1X/7yZc=;
+        b=eJbFg55h6o8u81nUIM54ePHlYco3Ke8klZC/ccliYPkGmM/iFyj3SrfMjMh7N1ldqp
+         d4Oc8My/8L2oIWowOHeZZYFRm62ZwKTlOSL0VQPXESsoyHBNGzmWriBHDrLsER8Vln95
+         Uvk+H2WI5tMDnQs4Tdlg7Rd3YI5fkl/Ked3b1pgE/SaXVcZVwmIwbTJ0AXxGyY6vj2Nv
+         lR+ajcDCrI0CU5E1r5FJbri3gFsdPyMu6GCkVvwQ17NDcWYCc8S3jX77dAh9514zLz52
+         +Abu/h2jxp10PZYhccC8ogJDTpqCylRBlTVLqDy//z8IWL+2izd52NDsiNnqiveZwh4V
+         CFRA==
+X-Gm-Message-State: AOAM532f8twyBnq6Oqr/ocIdAbn0U17uHTNZOeD4LuT8wUfHr2leWEb+
+	c5FduFWT7DLyxLckctewqQ==
+X-Google-Smtp-Source: ABdhPJxKyA7A2t6fNdltfGVqtSFmhB2VlJjmuIaVmZOryPpucEWapXabBay+wuooGHaBDd0+8v/sUQ==
+X-Received: by 2002:a05:6e02:1541:: with SMTP id j1mr930938ilu.301.1616793257820;
+        Fri, 26 Mar 2021 14:14:17 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id y3sm4842556iot.15.2021.03.26.14.11.17
+        by smtp.gmail.com with ESMTPSA id w9sm4953775iox.20.2021.03.26.14.14.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 14:11:18 -0700 (PDT)
-Received: (nullmailer pid 3867570 invoked by uid 1000);
-	Fri, 26 Mar 2021 21:11:17 -0000
-Date: Fri, 26 Mar 2021 15:11:17 -0600
+        Fri, 26 Mar 2021 14:14:17 -0700 (PDT)
+Received: (nullmailer pid 3871506 invoked by uid 1000);
+	Fri, 26 Mar 2021 21:14:16 -0000
+Date: Fri, 26 Mar 2021 15:14:16 -0600
 From: Rob Herring <robh@kernel.org>
 To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Subject: Re: [PATCH v5 (RESEND) 3/7] spmi: hisi-spmi-controller: move driver
  from staging
-Message-ID: <20210326211117.GA3862036@robh.at.kernel.org>
+Message-ID: <20210326211416.GA3867921@robh.at.kernel.org>
 References: <cover.1616695231.git.mchehab+huawei@kernel.org>
  <697f26c380dc2c22c07bedc63a0eab8c9325fccc.1616695231.git.mchehab+huawei@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -91,64 +91,9 @@ On Thu, Mar 25, 2021 at 07:05:35PM +0100, Mauro Carvalho Chehab wrote:
 > +
 > +  The PMIC part is provided by
 > +  drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml.
-> +
-> +allOf:
-> +  - $ref: spmi.yaml#
-> +
-> +properties:
-> +
-> +  $nodename:
-> +    pattern: "spmi@[0-9a-f]"
-> +
-> +  compatible:
-> +    const: hisilicon,kirin970-spmi-controller
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  spmi-channel:
 
-Generic to SPMI or HiSilicon specific? Needs to be documented in the 
-appropriate place and named appropriately.
+Out of date at the end of this series.
 
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: |
-> +      number of the Kirin 970 SPMI channel where the SPMI devices are connected.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - spmi-channel
-> +
-> +patternProperties:
-> +  "@[0-9a-f]$":
+Glad to see the person fixing all of these forgets too. ;)
 
-       type: object
-
-> +    description: |
-> +      PMIC properties, which are specific to the used SPMI PMIC device(s).
-> +      When used in combination with HiSilicon 6421v600, the properties
-> +      are documented at
-> +      drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml.
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    bus {
-> +      #address-cells = <2>;
-> +      #size-cells = <2>;
-> +
-> +      spmi: spmi@fff24000 {
-> +        compatible = "hisilicon,kirin970-spmi-controller";
-> +        #address-cells = <2>;
-> +        #size-cells = <0>;
-> +        reg = <0x0 0xfff24000 0x0 0x1000>;
-> +        spmi-channel = <2>;
-> +
-> +        pmic@0 {
-> +          reg = <0 0>;
-> +          /* pmic properties */
-> +        };
-> +      };
-> +    };
+Rob
