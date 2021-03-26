@@ -1,47 +1,47 @@
 Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0806470
-	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 09:52:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C6970
+	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 09:55:02 +0000 (UTC)
 Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12Q9hd8e195611;
-	Fri, 26 Mar 2021 09:52:32 GMT
+	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12Q9rrNX020680;
+	Fri, 26 Mar 2021 09:55:00 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
  : subject : message-id : references : mime-version : content-type :
  in-reply-to; s=corp-2020-01-29;
- bh=avCY6q93eNNoRefnAtNulcrPTgJVBJ/EjJwMJ+IPy+Q=;
- b=xdNvNM+O8Oh/SGVflMx97UTlfLPpfL6QuSrxbTpmUuaZDED/l1tBdO4F1IAutEYHttZ4
- hAxC2uXUysQDUl2IegSL1Ls1BBuL+D9rf40U6/jFwU5+AjoeIK5af4SlxqXKhUbSIA5G
- mw0UGNdweTQrVuzzOTPjfmYO/T7Bry9sAM2hC7KX1GP/52keHm/d3em+PDv9kQUuVN2K
- S34VaEJ819M00KqPn27yuM+DiFXTADmDWHRomd1Rp8hrw1964jXjnZA16AaSE3Q1xV0G
- Y1qqba53zOX+IgKcch8kEq6ACYfWbocO35w+Q92loQtLY7ug368QrkAxXw/VYgBL5cLr wA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by aserp2120.oracle.com with ESMTP id 37h1421h13-1
+ bh=D+TlEFR74IBjhYCJeVkvSgkKb0Ms7eWrGbAyvMwfH78=;
+ b=JRRjUFPY+25eOPHtWdmyzUPqg9S6DNfPia1ajeLm0CgljfmnCgCv4zftU578Ks6golVR
+ Z6oGWD1+Gb79Ij9EvoecIs8xdPclkNl34nToKks8SPgD2mAtXkTHxMlrKllgyz1UZ3ER
+ iE97FWOr/bEVsf6FNhNInqD5K3ZH3wk6KNvqAoGiYqpk+fIika7dKAbYLL+2AtcvM3iV
+ ZCDhhpcvRttLBAYNzZ6fvnUlHSL131mXWRe0A0RRpxUyZPs4VlPxI+6DTjUnkKDtNkui
+ Ra0AUlDE9J/PFXdem3cOoJvlqZYHvA4bFL/ysb9c+OQyY9GO5FuULLeoJMNHlxhicXm2 aQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by aserp2120.oracle.com with ESMTP id 37h1421h5d-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 26 Mar 2021 09:52:32 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12Q9pKtq166100;
-	Fri, 26 Mar 2021 09:52:30 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-	by aserp3030.oracle.com with ESMTP id 37h1416wye-1
+	Fri, 26 Mar 2021 09:55:00 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12Q9oLfZ195442;
+	Fri, 26 Mar 2021 09:54:57 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+	by userp3020.oracle.com with ESMTP id 37h14gytaf-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 26 Mar 2021 09:52:30 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
-	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 12Q9qTa9023675;
-	Fri, 26 Mar 2021 09:52:29 GMT
+	Fri, 26 Mar 2021 09:54:57 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 12Q9suY8032116;
+	Fri, 26 Mar 2021 09:54:56 GMT
 Received: from kadam (/102.36.221.92)
 	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Fri, 26 Mar 2021 02:52:29 -0700
-Date: Fri, 26 Mar 2021 12:52:20 +0300
+	with ESMTP ; Fri, 26 Mar 2021 02:54:56 -0700
+Date: Fri, 26 Mar 2021 12:54:49 +0300
 From: Dan Carpenter <dan.carpenter@oracle.com>
 To: Fabio Aiuto <fabioaiuto83@gmail.com>
 Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 01/15] staging: rtl8723bs: inlcude macros in a do..while
- loop in core/rtw_security.c
-Message-ID: <20210326095220.GC1717@kadam>
+Subject: Re: [PATCH 02/15] staging: rtl8723bs: put parentheses on macros with
+ complex values in hal/HalBtcOutSrc.h
+Message-ID: <20210326095449.GD1717@kadam>
 References: <cover.1616748885.git.fabioaiuto83@gmail.com>
- <2e02f646ab3f8058b159d6d790e202a0e4744af8.1616748885.git.fabioaiuto83@gmail.com>
+ <7c734b6d796b369f6a0d23c76daa344c241691b5.1616748885.git.fabioaiuto83@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -49,92 +49,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2e02f646ab3f8058b159d6d790e202a0e4744af8.1616748885.git.fabioaiuto83@gmail.com>
+In-Reply-To: <7c734b6d796b369f6a0d23c76daa344c241691b5.1616748885.git.fabioaiuto83@gmail.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Proofpoint-IMR: 1
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9934 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 malwarescore=0 mlxscore=0
- spamscore=0 mlxlogscore=999 adultscore=0 phishscore=0 suspectscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0 spamscore=0
+ phishscore=0 adultscore=0 mlxscore=0 suspectscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
  definitions=main-2103260071
-X-Proofpoint-GUID: 3BL4vuliYYY3jwEahB32VThO8e6vN13Y
-X-Proofpoint-ORIG-GUID: 3BL4vuliYYY3jwEahB32VThO8e6vN13Y
+X-Proofpoint-GUID: GBzSIJrjeuv502DYY0C-5zXYs5qnGd0z
+X-Proofpoint-ORIG-GUID: GBzSIJrjeuv502DYY0C-5zXYs5qnGd0z
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9934 signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 mlxscore=0
  clxscore=1015 impostorscore=0 spamscore=0 malwarescore=0 adultscore=0
  phishscore=0 suspectscore=0 mlxlogscore=999 lowpriorityscore=0 bulkscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
- definitions=main-2103260070
+ definitions=main-2103260071
 
-On Fri, Mar 26, 2021 at 10:09:08AM +0100, Fabio Aiuto wrote:
+On Fri, Mar 26, 2021 at 10:09:09AM +0100, Fabio Aiuto wrote:
 > fix the following checkpatch warning:
 > 
-> ERROR: Macros starting with if should be enclosed by a do - while
-> loop to avoid possible if/else logic defects
-> 33: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:33:
-> +#define WEP_SW_ENC_CNT_INC(sec, ra) \
+> ERROR: Macros with complex values should be enclosed in parentheses
+> 152: FILE: drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h:152:
+> +#define BTC_PRINT(dbgtype, dbgflag, printstr) \
+> no_printk printstr
 > --
-> ERROR: Macros starting with if should be enclosed by a do - while
-> loop to avoid possible if/else logic defects
-> 41: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:41:
-> +#define WEP_SW_DEC_CNT_INC(sec, ra) \
+> ERROR: Macros with complex values should be enclosed in parentheses
+> 153: FILE: drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h:153:
+> +#define BTC_PRINT_F(dbgtype, dbgflag, printstr) \
+> no_printk printstr
 > --
-> ERROR: Macros starting with if should be enclosed by a do - while
-> loop to avoid possible if/else logic defects
-> 49: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:49:
-> +#define TKIP_SW_ENC_CNT_INC(sec, ra) \
-> --
-> ERROR: Macros starting with if should be enclosed by a do - while
-> loop to avoid possible if/else logic defects
-> 57: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:57:
-> +#define TKIP_SW_DEC_CNT_INC(sec, ra) \
-> --
-> ERROR: Macros starting with if should be enclosed by a do - while
-> loop to avoid possible if/else logic defects
-> 65: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:65:
-> +#define AES_SW_ENC_CNT_INC(sec, ra) \
-> --
-> ERROR: Macros starting with if should be enclosed by a do - while
-> loop to avoid possible if/else logic defects
-> 73: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:73:
-> +#define AES_SW_DEC_CNT_INC(sec, ra) \
-> --
-> ERROR: Macros with multiple statements should be enclosed in a
-> do - while loop
-> 2082: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:2082:
-> +#define ROUND(i, d, s) \
+> ERROR: Macros with complex values should be enclosed in parentheses
+> 154: FILE: drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h:154:
+> +#define BTC_PRINT_ADDR(dbgtype, dbgflag, printstr, _Ptr) \
+> no_printk printstr
 > 
 > Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_security.c | 94 +++++++++++--------
->  1 file changed, 54 insertions(+), 40 deletions(-)
+>  drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-> index 44e2b362c867..c92984fcf42d 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_security.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-> @@ -31,52 +31,64 @@ const char *security_type_str(u8 value)
+> diff --git a/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h b/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
+> index 10c021024b24..1926a1f7a7e5 100644
+> --- a/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
+> +++ b/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
+> @@ -149,9 +149,9 @@ extern u32 		GLBtcDbgType[];
+>  }
 >  
->  #ifdef DBG_SW_SEC_CNT
->  #define WEP_SW_ENC_CNT_INC(sec, ra) \
-> -	if (is_broadcast_mac_addr(ra)) \
-> -		sec->wep_sw_enc_cnt_bc++; \
-> -	else if (is_multicast_mac_addr(ra)) \
-> -		sec->wep_sw_enc_cnt_mc++; \
-> -	else \
-> -		sec->wep_sw_enc_cnt_uc++;
-> +	do { \
-> +		if (is_broadcast_mac_addr(ra)) \
-> +			sec->wep_sw_enc_cnt_bc++; \
-> +		else if (is_multicast_mac_addr(ra)) \
-> +			sec->wep_sw_enc_cnt_mc++; \
-> +		else \
-> +			sec->wep_sw_enc_cnt_uc++; \
-> +	} while (0)
+>  #else
+> -#define BTC_PRINT(dbgtype, dbgflag, printstr)		 no_printk printstr
+> -#define BTC_PRINT_F(dbgtype, dbgflag, printstr)		 no_printk printstr
+> -#define BTC_PRINT_ADDR(dbgtype, dbgflag, printstr, _Ptr) no_printk printstr
+> +#define BTC_PRINT(dbgtype, dbgflag, printstr)		 (no_printk printstr)
+> +#define BTC_PRINT_F(dbgtype, dbgflag, printstr)		 (no_printk printstr)
+> +#define BTC_PRINT_ADDR(dbgtype, dbgflag, printstr, _Ptr) (no_printk printstr)
 
-What are these statistics used for?  So far as I can see there not
-used at all.  It's probably better to just delete all the
-DBG_SW_SEC_CNT code.
+This makes no sense at all.  no_printk is a function.  The BTC_PRINT()
+macros are super ugly and this only makes it worse.
 
 regards,
 dan carpenter
