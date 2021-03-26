@@ -1,120 +1,58 @@
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19D570
-	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 10:04:27 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-	by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12QA4H1q193995;
-	Fri, 26 Mar 2021 10:04:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=AbVS8030l4bUMoP527cWYL6ykbMlzByqBuzDvNNH9ek=;
- b=SXtPGgnfrOHzfZR1XaYRfbnijFJzc1HtN/Qp1nc9B1Q6x7kHyh0nbLNcR/lQKYYH1Y2b
- dDE/1oFs83N+r2Bgfu9C18DkjHVO01eQjxF1sbH7+k/o+MaO/HsPkurlXofewPHUU4lB
- s0eSbOTCkcjZZjol41dWW87MXgyqi/CB2mSOQYNRJG+3x/lE+xKWfOMk0P+BR0/wOuQ8
- aU2I4gYiQ3yhuMbzKnR4IqpS9201KZPEmcATp83Mq+x6P/CKPgN2LXe6c4wy/saFVs0b
- 0xSJkgPA9Gm0EBJKTAk7lcvznUZm3W71n0l+5msKr1wu93nj0Xj8LyFNM2jn8CDOlYVq eQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by userp2120.oracle.com with ESMTP id 37h13e9hru-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 26 Mar 2021 10:04:18 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12QA0OOV029387;
-	Fri, 26 Mar 2021 10:04:16 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by userp3020.oracle.com with ESMTP id 37h14h041c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 26 Mar 2021 10:04:16 +0000
-Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 12QA4FZV012657;
-	Fri, 26 Mar 2021 10:04:15 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Fri, 26 Mar 2021 10:04:15 +0000
-Date: Fri, 26 Mar 2021 13:04:08 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 04/15] staging: rtl8723bs: put parentheses on macros with
- complex values in include/basic_types.h
-Message-ID: <20210326100408.GE1717@kadam>
-References: <cover.1616748885.git.fabioaiuto83@gmail.com>
- <2c7c198ccef194b06921bc476eda7d5102ab70dc.1616748885.git.fabioaiuto83@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC7B70
+	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 10:10:16 +0000 (UTC)
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
+	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4F6HM44GWSzkgj2;
+	Fri, 26 Mar 2021 17:52:16 +0800 (CST)
+Received: from thunder-town.china.huawei.com (10.174.179.202) by
+ DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
+ 14.3.498.0; Fri, 26 Mar 2021 17:53:48 +0800
+From: Zhen Lei <thunder.leizhen@huawei.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus
+	<sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, linux-media <linux-media@vger.kernel.org>,
+	netdev <netdev@vger.kernel.org>, linux-staging
+	<linux-staging@lists.linux.dev>, linux-kernel <linux-kernel@vger.kernel.org>
+CC: Zhen Lei <thunder.leizhen@huawei.com>
+Subject: [PATCH 1/1] media: atomisp: Remove duplicated header file inclusion
+Date: Fri, 26 Mar 2021 17:41:55 +0800
+Message-ID: <20210326094155.1441-1-thunder.leizhen@huawei.com>
+X-Mailer: git-send-email 2.26.0.windows.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2c7c198ccef194b06921bc476eda7d5102ab70dc.1616748885.git.fabioaiuto83@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9934 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0 spamscore=0
- phishscore=0 adultscore=0 mlxscore=0 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
- definitions=main-2103260072
-X-Proofpoint-ORIG-GUID: sOqb6D46lR5mAG9HgYk3x5sQVDD7SQFg
-X-Proofpoint-GUID: sOqb6D46lR5mAG9HgYk3x5sQVDD7SQFg
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9934 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 lowpriorityscore=0
- bulkscore=0 malwarescore=0 priorityscore=1501 suspectscore=0
- impostorscore=0 phishscore=0 mlxscore=0 mlxlogscore=999 adultscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2103250000 definitions=main-2103260073
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.179.202]
+X-CFilter-Loop: Reflected
 
-On Fri, Mar 26, 2021 at 10:09:11AM +0100, Fabio Aiuto wrote:
-> fix the following checkpatch warnings:
-> 
-> ERROR: Macros with complex values should be enclosed in parentheses
-> 154: FILE: drivers/staging/rtl8723bs/include/basic_types.h:154:
-> +#define SET_BITS_TO_LE_4BYTE(__pstart, __bitoffset, __bitlen, __val) \
-> --
-> ERROR: Macros with multiple statements should be enclosed in
-> a do - while loop
-> 161: FILE: drivers/staging/rtl8723bs/include/basic_types.h:161:
-> +#define SET_BITS_TO_LE_2BYTE(__pstart, __bitoffset, __bitlen, __val) \
-> --
-> ERROR: Macros with complex values should be enclosed in parentheses
-> 168: FILE: drivers/staging/rtl8723bs/include/basic_types.h:168:
-> +#define SET_BITS_TO_LE_1BYTE(__pstart, __bitoffset, __bitlen, __val) \
-> 
-> parentheses solution preferred for all fixes and made macros more
-> readables
-> 
-> Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
-> ---
->  .../staging/rtl8723bs/include/basic_types.h   | 30 +++++++++++--------
->  1 file changed, 18 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/include/basic_types.h b/drivers/staging/rtl8723bs/include/basic_types.h
-> index 76304086107a..5054c2e3384c 100644
-> --- a/drivers/staging/rtl8723bs/include/basic_types.h
-> +++ b/drivers/staging/rtl8723bs/include/basic_types.h
-> @@ -152,24 +152,30 @@
->  /* 		Set subfield of little-endian 4-byte value to specified value. */
->  /*  */
->  #define SET_BITS_TO_LE_4BYTE(__pstart, __bitoffset, __bitlen, __val) \
-> -		*((u32 *)(__pstart)) =				\
-> -		(						\
-> -		LE_BITS_CLEARED_TO_4BYTE(__pstart, __bitoffset, __bitlen) | \
-> -		((((u32)__val) & BIT_LEN_MASK_32(__bitlen)) << (__bitoffset)) \
-> +		(\
-> +			*((u32 *)(__pstart)) =				\
-> +			(						\
-> +				LE_BITS_CLEARED_TO_4BYTE(__pstart, __bitoffset, __bitlen) | \
-> +				((((u32)__val) & BIT_LEN_MASK_32(__bitlen)) << (__bitoffset)) \
-> +			)\
->  		)
->  
+The header file "ia_css_isys.h" is already included above and can be
+removed here.
 
-These macros are terrible and this makes it uglier.  Better to just
-ignore checkpatch until we can figure out a way to re-write this
-properly.
+Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+---
+ drivers/staging/media/atomisp/pci/sh_css.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index ddee04c8248d043..afddc54094e9f8d 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -49,9 +49,6 @@
+ #include "ia_css_pipe_util.h"
+ #include "ia_css_pipe_binarydesc.h"
+ #include "ia_css_pipe_stagedesc.h"
+-#ifndef ISP2401
+-#include "ia_css_isys.h"
+-#endif
+ 
+ #include "tag.h"
+ #include "assert_support.h"
+-- 
+1.8.3
+
 
