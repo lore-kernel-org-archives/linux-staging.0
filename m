@@ -1,118 +1,87 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E446A5F
-	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 11:12:46 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id c8so5225310wrq.11
-        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 04:12:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6638B70
+	for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 12:55:39 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id w11so863983ply.6
+        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 05:55:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ayZF+r0b23wrtO9csco3tVZwSgnXFBof0wM4XBNzSeY=;
-        b=Q6P3d9Nssxdq0W6ZzQ+wBSG6cCt3phfWqjg+a1wnooDpDBk9V2Y6vtzhc7Mswq7Oa4
-         86LN7+vvcaccPuLTYyhtOykF671k9jme2L7xtAdJMWtuLqO3YSTMAIQRRXpZtBSA1fZM
-         YwGtR4vUOGJYIAcfJZF/+PL9hQwHZsRuAXOszcRe7mzYNL9yR9C/KhcahivYftl1biC6
-         dx/tCHZ2jDe4M4RbYe76/kSY9sYRakFXpwcR6gMZuBqc4FWRn0Gmu6Usbl9y5Ks5hyaO
-         eXc+XqjUm0O24RFK8ihLmL1SmrFYmItCps6dttIh/lOO3qL+Hot939nGXUK+7zYJ3T0l
-         ebTw==
+        h=from:to:cc:subject:date:message-id;
+        bh=bD7BmJLsMFKPJi26Vt4AcHwe8h+Gi9tyJ2So5fUgWQg=;
+        b=PBEzo7+X1jjaDjoT3sILVgIkuqHSGdjHybEj7ugJj1stn7nVD9ZjNdIzhw27oj9PKj
+         Fl8f1ZyIlCxaAWvLdbnyU2OUClBKnKnSdpWVPrZaDIPsFL+BFXGgBX1e8Aiu7GR1COka
+         gm7zDpYF0Wbv7eAvf65i3fUpKVY0ldy/5N7arDvwH9gZMjw8Oh3nQiI0x8/QbqNSZHrB
+         1TLs+10jsNDzoBkowEJIDeZKosA2d2f0zSnC5FcujIoEX8KVpWz+MBB/J4jr883ziy/0
+         L8nvqiSsgYK/3Cn6DBu5DAhalefbp60+jyL2hBEp8b5a3dKozwPqCgv34JEDFdNMIrNH
+         XG3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ayZF+r0b23wrtO9csco3tVZwSgnXFBof0wM4XBNzSeY=;
-        b=KM074UqxtdpYmfPVWiBn3n8E1jtLE0VdnKiApQf3EzPbNXPDERQxYhda+8lNpMlpVs
-         y+jnEZQUdwJWsmX6fOkNWMSb/aD6bO6Eodlc7VPQAlpII3Vg9yHBZkzg4DebExjeulmV
-         eGIbs8mYA1qv03J2ma425A3F9bqMwNyrW6G1ae7Gm+5XCtjot1LIEF6nmIswWa7h6C2M
-         AgVLjH2du/Fb3w26rgDqQtIyb03CNlPVry4cUp6fWvZK0n6xuegOrTCG9NKNXb345m7y
-         iJNXPNXselzPxExkFzs72OjB7ot24kTdeNEInXY+dSvEXMwYDkFafiKcoq1atyBRpxt0
-         CioA==
-X-Gm-Message-State: AOAM531ZT6nePfUKFnmpQ3VYgUwBco2gDzf9I5teihHv6LDsGXdEzJft
-	Fx0mSQKqRNEMB9htazXQytE=
-X-Google-Smtp-Source: ABdhPJwznLZx5Bx6+2GrBnlYTkUGcLrsIXno08NsxbhiZdxiU5vV/Bn/9P+rxdwK4XWTyDupt0/+Dw==
-X-Received: by 2002:a05:6000:1868:: with SMTP id d8mr14061223wri.301.1616757165461;
-        Fri, 26 Mar 2021 04:12:45 -0700 (PDT)
-Received: from agape.jhs ([5.171.81.75])
-        by smtp.gmail.com with ESMTPSA id i26sm11065917wmb.18.2021.03.26.04.12.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 04:12:45 -0700 (PDT)
-Date: Fri, 26 Mar 2021 12:12:42 +0100
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=bD7BmJLsMFKPJi26Vt4AcHwe8h+Gi9tyJ2So5fUgWQg=;
+        b=VRetdxkoag+zkgb3HacMivYPgXvW0CBPx1vzQIpDBJSL1aqB4W1o8HMmwagDW9/h0d
+         +r9k0eBgwGd8doQjiJ6YhN/D/UiU8YCNrvpA6gfYOfClci/iiZQ0zsbJZ2JD4yzN7qV0
+         aYPos5xO+pED98BMg3fR1L+NaaspeFGZkttQ8chhc4SpBTMF6gzf5nKjLnn04M1rmR17
+         j80QIWF0OuvHlso/1GIigj8wog4QJsFWAUykmrVcdqPy5+Z1UKorg3xL+DT5gs3mmVD7
+         bXlwPKOmh3A7VayD5GOKXAwdrZyum95kubPq4yr/3Nxd7XvyCvMAIuXa/nkW6nYV7H52
+         iUdA==
+X-Gm-Message-State: AOAM533W9hM2mSI0zVoGzLz68wsh3C+R94GEcOXFWPJ9fnl/V0GOuaC+
+	ODttiBFiqe/56F3C6uTp2YU=
+X-Google-Smtp-Source: ABdhPJyBJT+jB/6VmowdbHzWRJITwo+Vt9TueqySl4LbJbSV6+tKmwR9e21rR/tQvLODSxDkupaGow==
+X-Received: by 2002:a17:90a:8a8b:: with SMTP id x11mr13657566pjn.151.1616763338813;
+        Fri, 26 Mar 2021 05:55:38 -0700 (PDT)
+Received: from bf-rmsz-10.ccdomain.com ([103.220.76.197])
+        by smtp.gmail.com with ESMTPSA id l190sm9164110pfl.73.2021.03.26.05.55.36
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 26 Mar 2021 05:55:38 -0700 (PDT)
+From: Carlis <zhangxuezhi3@gmail.com>
+To: gregkh@linuxfoundation.org,
+	zhangxuezhi1@yulong.com
+Cc: dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 04/15] staging: rtl8723bs: put parentheses on macros with
- complex values in include/basic_types.h
-Message-ID: <20210326111241.GD1452@agape.jhs>
-References: <cover.1616748885.git.fabioaiuto83@gmail.com>
- <2c7c198ccef194b06921bc476eda7d5102ab70dc.1616748885.git.fabioaiuto83@gmail.com>
- <20210326100408.GE1717@kadam>
+Subject: [PATCH v2] staging: fbtft: fix a typo
+Date: Fri, 26 Mar 2021 20:55:51 +0800
+Message-Id: <1616763351-7433-1-git-send-email-zhangxuezhi3@gmail.com>
+X-Mailer: git-send-email 1.9.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210326100408.GE1717@kadam>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Fri, Mar 26, 2021 at 01:04:08PM +0300, Dan Carpenter wrote:
-> On Fri, Mar 26, 2021 at 10:09:11AM +0100, Fabio Aiuto wrote:
-> > fix the following checkpatch warnings:
-> > 
-> > ERROR: Macros with complex values should be enclosed in parentheses
-> > 154: FILE: drivers/staging/rtl8723bs/include/basic_types.h:154:
-> > +#define SET_BITS_TO_LE_4BYTE(__pstart, __bitoffset, __bitlen, __val) \
-> > --
-> > ERROR: Macros with multiple statements should be enclosed in
-> > a do - while loop
-> > 161: FILE: drivers/staging/rtl8723bs/include/basic_types.h:161:
-> > +#define SET_BITS_TO_LE_2BYTE(__pstart, __bitoffset, __bitlen, __val) \
-> > --
-> > ERROR: Macros with complex values should be enclosed in parentheses
-> > 168: FILE: drivers/staging/rtl8723bs/include/basic_types.h:168:
-> > +#define SET_BITS_TO_LE_1BYTE(__pstart, __bitoffset, __bitlen, __val) \
-> > 
-> > parentheses solution preferred for all fixes and made macros more
-> > readables
-> > 
-> > Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
-> > ---
-> >  .../staging/rtl8723bs/include/basic_types.h   | 30 +++++++++++--------
-> >  1 file changed, 18 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/drivers/staging/rtl8723bs/include/basic_types.h b/drivers/staging/rtl8723bs/include/basic_types.h
-> > index 76304086107a..5054c2e3384c 100644
-> > --- a/drivers/staging/rtl8723bs/include/basic_types.h
-> > +++ b/drivers/staging/rtl8723bs/include/basic_types.h
-> > @@ -152,24 +152,30 @@
-> >  /* 		Set subfield of little-endian 4-byte value to specified value. */
-> >  /*  */
-> >  #define SET_BITS_TO_LE_4BYTE(__pstart, __bitoffset, __bitlen, __val) \
-> > -		*((u32 *)(__pstart)) =				\
-> > -		(						\
-> > -		LE_BITS_CLEARED_TO_4BYTE(__pstart, __bitoffset, __bitlen) | \
-> > -		((((u32)__val) & BIT_LEN_MASK_32(__bitlen)) << (__bitoffset)) \
-> > +		(\
-> > +			*((u32 *)(__pstart)) =				\
-> > +			(						\
-> > +				LE_BITS_CLEARED_TO_4BYTE(__pstart, __bitoffset, __bitlen) | \
-> > +				((((u32)__val) & BIT_LEN_MASK_32(__bitlen)) << (__bitoffset)) \
-> > +			)\
-> >  		)
-> >  
-> 
-> These macros are terrible and this makes it uglier.  Better to just
-> ignore checkpatch until we can figure out a way to re-write this
-> properly.
-> 
-> regards,
-> dan carpenter
-> 
+From: Xuezhi Zhang <zhangxuezhi1@yulong.com>
 
-I see, will drop the patch for now.
+Change 'tft' to 'TFT'
 
-thanks,
+Signed-off-by: Xuezhi Zhang <zhangxuezhi1@yulong.com>
+---
+v2: use full name.
+ drivers/staging/fbtft/fbtft-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-fabio
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index 4f362da..44e7acb 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -775,7 +775,7 @@ void fbtft_framebuffer_release(struct fb_info *info)
+ EXPORT_SYMBOL(fbtft_framebuffer_release);
+ 
+ /**
+- *	fbtft_register_framebuffer - registers a tft frame buffer device
++ *	fbtft_register_framebuffer - registers a TFT frame buffer device
+  *	@fb_info: frame buffer info structure
+  *
+  *  Sets SPI driverdata if needed
+@@ -873,7 +873,7 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
+ EXPORT_SYMBOL(fbtft_register_framebuffer);
+ 
+ /**
+- *	fbtft_unregister_framebuffer - releases a tft frame buffer device
++ *	fbtft_unregister_framebuffer - releases a TFT frame buffer device
+  *	@fb_info: frame buffer info structure
+  *
+  *  Frees SPI driverdata if needed
+-- 
+1.9.1
+
