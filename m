@@ -1,41 +1,41 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A7D70
-	for <linux-staging@lists.linux.dev>; Sat, 27 Mar 2021 14:24:59 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id b9so8356719wrt.8
-        for <linux-staging@lists.linux.dev>; Sat, 27 Mar 2021 07:24:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F5770
+	for <linux-staging@lists.linux.dev>; Sat, 27 Mar 2021 14:25:01 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id x16so8374361wrn.4
+        for <linux-staging@lists.linux.dev>; Sat, 27 Mar 2021 07:25:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=M8DYc5vjzbQ3/FwnNagLMFyG5+xEylbz7fLiJFoVp/8=;
-        b=CvHGsD6u58wUGsz1l7aV67caJfTmD/F9EJptANRN91v9gma21viOSpKWxtY8Q1M5Ix
-         cKxhi35V/toCfU6AqmR7RnLCqyCJQX+5H/49xZqx9veJPV6iNCDgH6XhJfgf19bOkNJR
-         NtTZJ0tSOS9nbr6brW0ucbHA2YR2u0NkOX7upOs32BhxjP9p+4oIKw2SC5Jg9GBnpRC1
-         DImMVxfZuhS4acGPIxzx7svHi0CS5aVbzLKL2eCIH0SSryQZcJBR76vmdQOk832O2FhV
-         NWbAAjVzz7ZApGlSIo2uE/AIawAniBwG/7EFQSrC0ufLWVJ62cf7tHjNUy6j1+CDcM0z
-         4R2g==
+        bh=Dvn70d7ZVR8XY9R5o5JpAomHZOvZdMCNh+kZfGyarKQ=;
+        b=ln3UTy++bXXqTH+TLRHvdv6UJEaCQjlpOU0SitX1IvHqs5oXAU4CxWmRlJxPTZUNPi
+         SQtJW3xlGH1pATI1tfnDKNLZ/WFZxKQ1A0nxG1wstS0PxCYY+2/59UGb43MM9TEjOg81
+         5EE3sCbhqERqW0YIb/KasYeJ8bzN/MzMCrRajhW6TMXfebZkSGfo7RD/+dAr04cjh8K2
+         mjEpi7bdCm6xFlpNpYmLzD2fo9qneWlIyBbJVzozludC3NpqrnKuQco31vQ1E8qipOHe
+         t+op0X3o7NgmJM93yyUpeI0wMVlxrCtYIkA9zbbJfK1PTi744PZ+tkHXcc4BmxnB3+T1
+         IMIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=M8DYc5vjzbQ3/FwnNagLMFyG5+xEylbz7fLiJFoVp/8=;
-        b=n3HRbW3FhY5oQuocaAvSGE7bL2qBTbbA1pI6DjyiWPFMbWFqhXb9jbG5dfgTaICH3E
-         /ckk53UVbG/8KYY1xJ/+/Ke4ATiT/Zw1HlbdzPyMB2G7vaGcJiajc2pvt5T5XXBwjbO/
-         m+VFDm1AefyTUno7GveuRwUVcqja/4Bmqvyz/f02cbGKff2DiQaWw8T6gJ7fpFAC6PiH
-         mJUVx+TXx4UFE5r9YJiOlIx10NbYWo/qBFFJKg7NKyKXpmc1FV5Wr0EYE/kbM4FT3gp1
-         3W24ugtpPn/2kltIhSUFm6QNVEe6Z+RPlHluub/blNypGMeQBxsZj8VKihUSZa+4Xbvv
-         tRWg==
-X-Gm-Message-State: AOAM53132eB1mRQe2wdHyiycBiyzdz3pwcq46Sg5nGQ6VTo6gqoTA+9X
-	RCjD8G5CDDA5oE2gNj3BTR8=
-X-Google-Smtp-Source: ABdhPJxP8sVz3IP9Mv5G2OnrkCSfuYtfZ/Gpp/PNFbPTKswC6aZbeMAEyfc70O/JvyozBvE5TVauYQ==
-X-Received: by 2002:a05:6000:1b0f:: with SMTP id f15mr20050306wrz.171.1616855098084;
-        Sat, 27 Mar 2021 07:24:58 -0700 (PDT)
+        bh=Dvn70d7ZVR8XY9R5o5JpAomHZOvZdMCNh+kZfGyarKQ=;
+        b=hia+OomR2YltxMcW5BDOrBJuCv8mZ0pRcnmj1wfvRVlwZ1BsX6W+am9lnK/PF4azBl
+         3FqCnn0wxowWJjPNMlUHcw1j0wh7Z1q7dIKPhvgqCWblhaU0Adyc+2jwMLbQg9f3uoXZ
+         c5puunY/C2vR58a83C6m5bxF+EyXIjABARgwHAqBCujrJsnw942VL869yOZGDTY79b9c
+         U3xrcVc2scDv6MpxaEVt78ViGHzU73aHT6lntFLMvjGbKfmCrv07TdzPFPpUwy1rS4Q9
+         Y0q98i20dumTA09hJqLbDXyxM+J819/BwLKceoj3KQPPgovnD+0cMj8P2KUdT4PGr/7V
+         3ZSw==
+X-Gm-Message-State: AOAM532HW4SvmOOTT1/SnFzF6olsE+U/puuD8g/IZsn3gGdAQNla8mHF
+	ApoWOPAf50FqFb5o0o0Y9Jg=
+X-Google-Smtp-Source: ABdhPJwXjH5PAU13TKG1WP5GsdrMIjCGw4PJwBTktxJhm37VkaRd4v+zZA4HqH9ef3PP/uwvPsE5Yg==
+X-Received: by 2002:adf:e68e:: with SMTP id r14mr19513342wrm.273.1616855100137;
+        Sat, 27 Mar 2021 07:25:00 -0700 (PDT)
 Received: from agape ([151.46.211.242])
-        by smtp.gmail.com with ESMTPSA id i10sm19237353wrs.11.2021.03.27.07.24.57
+        by smtp.gmail.com with ESMTPSA id x25sm18833839wmj.14.2021.03.27.07.24.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Mar 2021 07:24:57 -0700 (PDT)
+        Sat, 27 Mar 2021 07:24:59 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: dan.carpenter@oracle.com,
@@ -43,9 +43,9 @@ Cc: dan.carpenter@oracle.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH v2 08/20] staging: rtl8723bs: remove unused macros in include/hal_phy.h
-Date: Sat, 27 Mar 2021 15:24:07 +0100
-Message-Id: <a001f2b2b8fb0ffa73ffe2e79f45a4a8e92cdf2a.1616854134.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v2 09/20] staging: rtl8723bs: put parentheses on macros with complex values in include/rtw_debug.h
+Date: Sat, 27 Mar 2021 15:24:08 +0100
+Message-Id: <f36448ddc1553a018f700983b5d436eacaef9cb3.1616854134.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1616854134.git.fabioaiuto83@gmail.com>
 References: <cover.1616854134.git.fabioaiuto83@gmail.com>
@@ -56,35 +56,57 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove declarations of unused macros in include/hal_phy.h
+fix the following checkpatch warning:
+
+ERROR: Macros starting with if should be enclosed by a
+do - while loop to avoid possible if/else logic defects
++	#define RT_PRINT_DATA(_Comp, _Level,
+	_TitleString, _HexData, _HexDataLen)			\
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/hal_phy.h | 11 -----------
- 1 file changed, 11 deletions(-)
+ drivers/staging/rtl8723bs/include/rtw_debug.h | 28 ++++++++++---------
+ 1 file changed, 15 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/hal_phy.h b/drivers/staging/rtl8723bs/include/hal_phy.h
-index bf17a85b5959..521eb1c2efad 100644
---- a/drivers/staging/rtl8723bs/include/hal_phy.h
-+++ b/drivers/staging/rtl8723bs/include/hal_phy.h
-@@ -20,17 +20,6 @@
- #define	HAL_RF_ENABLE				1
- #endif
+diff --git a/drivers/staging/rtl8723bs/include/rtw_debug.h b/drivers/staging/rtl8723bs/include/rtw_debug.h
+index d1c557818305..b00f8a6c4312 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_debug.h
++++ b/drivers/staging/rtl8723bs/include/rtw_debug.h
+@@ -236,19 +236,21 @@
+ #if	defined(_dbgdump)
+ 	#undef RT_PRINT_DATA
+ 	#define RT_PRINT_DATA(_Comp, _Level, _TitleString, _HexData, _HexDataLen)			\
+-		if (((_Comp) & GlobalDebugComponents) && (_Level <= GlobalDebugLevel))	\
+-		{									\
+-			int __i;								\
+-			u8 *ptr = (u8 *)_HexData;				\
+-			_dbgdump("%s", DRIVER_PREFIX);						\
+-			_dbgdump(_TitleString);						\
+-			for (__i = 0; __i < (int)_HexDataLen; __i++)				\
+-			{								\
+-				_dbgdump("%02X%s", ptr[__i], (((__i + 1) % 4) == 0)?"  ":" ");	\
+-				if (((__i + 1) % 16) == 0)	_dbgdump("\n");			\
+-			}								\
+-			_dbgdump("\n");							\
+-		}
++		do { \
++			if (((_Comp) & GlobalDebugComponents) && (_Level <= GlobalDebugLevel))	\
++			{									\
++				int __i;								\
++				u8 *ptr = (u8 *)_HexData;				\
++				_dbgdump("%s", DRIVER_PREFIX);						\
++				_dbgdump(_TitleString);						\
++				for (__i = 0; __i < (int)_HexDataLen; __i++)				\
++				{								\
++					_dbgdump("%02X%s", ptr[__i], (((__i + 1) % 4) == 0)?"  ":" ");	\
++					if (((__i + 1) % 16) == 0)	_dbgdump("\n");			\
++				}								\
++				_dbgdump("\n");							\
++			} \
++		} while (0)
+ #endif /* defined(_dbgdump) */
+ #endif /* DEBUG_RTL871X */
  
--#define	RF6052_MAX_TX_PWR			0x3F
--#define	RF6052_MAX_REG_88E			0xFF
--#define	RF6052_MAX_REG_92C			0x7F
--
--#define	RF6052_MAX_REG	\
--		(RF6052_MAX_REG_88E > RF6052_MAX_REG_92C) ? RF6052_MAX_REG_88E : RF6052_MAX_REG_92C
--
--#define GET_RF6052_REAL_MAX_REG(_Adapter)	RF6052_MAX_REG_92C
--
--#define	RF6052_MAX_PATH				2
--
- /*  */
- /*  Antenna detection method, i.e., using single tone detection or RSSI reported from each antenna detected. */
- /*  Added by Roger, 2013.05.22. */
 -- 
 2.20.1
 
