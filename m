@@ -1,41 +1,41 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428DF70
-	for <linux-staging@lists.linux.dev>; Sat, 27 Mar 2021 14:25:15 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id 12so4371425wmf.5
-        for <linux-staging@lists.linux.dev>; Sat, 27 Mar 2021 07:25:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E4070
+	for <linux-staging@lists.linux.dev>; Sat, 27 Mar 2021 14:25:17 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id g25so4415853wmh.0
+        for <linux-staging@lists.linux.dev>; Sat, 27 Mar 2021 07:25:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=dOcMFyd2U/M16R9viZmo8dIjWXkIaFc+9uM51NwuTag=;
-        b=J3ZbrB8wJVoHPtmufYVWOBHBt/jf5FElZkMcqS9IX8rKqR+FequYSqPc/8WaCbt/2V
-         kAm5rtnHnT0eAcxwrUZfvRESwVUUqMCQY3PWhpVesKp64S1ktMepOBp1oKOdNrz2yeGO
-         pngcgkibbuuLXH3Qc2g60tDATdZtazD0lis0mI7jOmLFLGDJzXG6UiLbsj+D+npOeqmm
-         D/9xMRRg19KqfVmlrDv0FS3IlYU6lh4SCQmXYMug53HDUfwHMhKSFkExEaTFbT6+SUPW
-         StWhtue4Zoz6IbYXMS7QnQTGDiAxUgkbwVtJgixsRNni8l2XI9j2rKmQ7coHGnH3nsJA
-         aiJg==
+        bh=aC2MQBdK86VOmvvorPF4ZeUskMEWXrm4ks1AVcEG2P4=;
+        b=uIlIprkC927ILa8LaiWjskayz79eJ41t3D+91kN5bmBwIZXoL2RR8IvGQz+Oe7dATA
+         tmVwyDFdYm6R0SBiJLycVY5bqAVbqP6jKQWD/mRaLjLb8y9Fu8raUrauGFTtpgJl23ye
+         mv15O3gnfYF9+BHB4AW/A6XDHDR3jII3/ZLn02E60MLhX8EBaB1B+3O/tIrZwN2rQEUC
+         U5QxQop+H5VKAlo7OHn67apuOF+0kgNy+n25p3n2ehj5TDBLN7ivh1687XoFZqYoiLSt
+         1aZwMS41pJtcT4iZepmGf3lg78WBiCWyrsFba0uhwSpY1Ma6NBts4FABddlQnuKhHesb
+         wJtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=dOcMFyd2U/M16R9viZmo8dIjWXkIaFc+9uM51NwuTag=;
-        b=ShCELnFPqvy44A67ccs0Bt/njLaMKh24aZlSQRmBJBxvMxbOmxrOMwJGSMM5tfNMbt
-         zQ+4QDFgmm02nl84wX8Zhf9ft/d5WzydqeNizmElL1xSYhdq8U3aqw5Yby1XAOpa6iRT
-         n7z5Whs5HrK3tEeNEuio432nt/+NAjAn35IQBQ72LQdtbW8XPEdypD9+q4385iEQzI/7
-         xQH5LrCsdufvqp360CtB6jlfZfGY4pnigLJaa45h/XQAn5e2tHhdYz4yuM58w6V1sATg
-         j4gu+thVkaY7nmsHyggLcIRYMcidDGSWHA/agDPw4q0wn0xsOHOTQtRagRz/s4WAUIU7
-         843A==
-X-Gm-Message-State: AOAM532NnTHjr5veaQVniMaw1nxve4P/PY8yhS93Jbboc62PneCPaEQJ
-	m5wpXvWmaYuxErRrVZdLo0I=
-X-Google-Smtp-Source: ABdhPJxt+Yh3hzyxTTMqBJKPZFK46Oql8bq5vRR+/E5bA/r5kCB1sNGne8iOvH8SMhc+FqGNM60+zQ==
-X-Received: by 2002:a7b:c418:: with SMTP id k24mr17531682wmi.169.1616855113861;
-        Sat, 27 Mar 2021 07:25:13 -0700 (PDT)
+        bh=aC2MQBdK86VOmvvorPF4ZeUskMEWXrm4ks1AVcEG2P4=;
+        b=LGz6RB/7lOmR0SYjlVQ8THub9A/HVQZLBbht291uAzHNQRs+mW8WL8C31rn0fdJVJS
+         d/Ze9ia3oXa2aCe7SrNrga/0JIZ1zixE2cqObdZo8aHWrrtOoe5SQG/GWvOn0mWf/L7F
+         I0tw9dAM4acAcP89ZrIn2I+Yz9KTgKFezIYU0BoP8l0h2Z9FnaTCq4NwVESNjnlWzPse
+         OSgZbJV8EA+xKrP8wCu7bQrJehvhwW9/WxqHyI2AvL1Z5fjak1vxQDQdeUb4OOTboedX
+         0W5jhiNNLR1aH1IoHsDZlpAgYpejJKYVWa49b6Zg79tXOr1aiISQ3uNqmTr2yw9WG9dC
+         IRmg==
+X-Gm-Message-State: AOAM530hm4+G7N9LigX4ZHGStJwR0a6kN02F7Z44ESCr3wHfD67q4mY0
+	w/uLMRIW5uFsYnrMO/398B8=
+X-Google-Smtp-Source: ABdhPJw/Po0vJ+I/da7K8qbrOKYw0vyvzJO7/yhIgUKjEguENQOrh2qG8pv1mHBeMc5ze1ftvHPmpQ==
+X-Received: by 2002:a7b:cdf7:: with SMTP id p23mr17636215wmj.26.1616855116474;
+        Sat, 27 Mar 2021 07:25:16 -0700 (PDT)
 Received: from agape ([151.46.211.242])
-        by smtp.gmail.com with ESMTPSA id i4sm14723662wmq.12.2021.03.27.07.25.13
+        by smtp.gmail.com with ESMTPSA id s83sm16732187wmf.26.2021.03.27.07.25.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Mar 2021 07:25:13 -0700 (PDT)
+        Sat, 27 Mar 2021 07:25:16 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: dan.carpenter@oracle.com,
@@ -43,9 +43,9 @@ Cc: dan.carpenter@oracle.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH v2 15/20] staging: rtl8723bs: remove unused macros in include/wifi.h
-Date: Sat, 27 Mar 2021 15:24:14 +0100
-Message-Id: <1192085c7e891f801751f3adb7884083a2999483.1616854134.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v2 16/20] staging: rtl8723bs: put parentheses on macros with complex values in include/wifi.h
+Date: Sat, 27 Mar 2021 15:24:15 +0100
+Message-Id: <99d3e605501c1792035e7403d6da86243e6b48cb.1616854134.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1616854134.git.fabioaiuto83@gmail.com>
 References: <cover.1616854134.git.fabioaiuto83@gmail.com>
@@ -56,72 +56,156 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove declarations of unused macros in include/wifi.h
+fix the following checkpatch warnings:
+
+ERROR: Macros with complex values should be enclosed in parentheses
+114: FILE: drivers/staging/rtl8723bs/include/wifi.h:114:
++#define SetToDs(pbuf)	\
+--
+ERROR: Macros with complex values should be enclosed in parentheses
+122: FILE: drivers/staging/rtl8723bs/include/wifi.h:122:
++#define SetFrDs(pbuf)	\
+--
+ERROR: Macros with complex values should be enclosed in parentheses
+132: FILE: drivers/staging/rtl8723bs/include/wifi.h:132:
++#define SetMFrag(pbuf)	\
+--
+ERROR: Macros with complex values should be enclosed in parentheses
+137: FILE: drivers/staging/rtl8723bs/include/wifi.h:137:
++#define ClearMFrag(pbuf)	\
+--
+ERROR: Macros with complex values should be enclosed in parentheses
+145: FILE: drivers/staging/rtl8723bs/include/wifi.h:145:
++#define ClearRetry(pbuf)	\
+--
+ERROR: Macros with complex values should be enclosed in parentheses
+148: FILE: drivers/staging/rtl8723bs/include/wifi.h:148:
++#define SetPwrMgt(pbuf)	\
+--
+ERROR: Macros with complex values should be enclosed in parentheses
+153: FILE: drivers/staging/rtl8723bs/include/wifi.h:153:
++#define ClearPwrMgt(pbuf)	\
+--
+ERROR: Macros with complex values should be enclosed in parentheses
+156: FILE: drivers/staging/rtl8723bs/include/wifi.h:156:
++#define SetMData(pbuf)	\
+--
+ERROR: Macros with complex values should be enclosed in parentheses
+161: FILE: drivers/staging/rtl8723bs/include/wifi.h:161:
++#define ClearMData(pbuf)	\
+--
+ERROR: Macros with complex values should be enclosed in parentheses
+164: FILE: drivers/staging/rtl8723bs/include/wifi.h:164:
++#define SetPrivacy(pbuf)	\
+--
+ERROR: Macros with complex values should be enclosed in parentheses
+220: FILE: drivers/staging/rtl8723bs/include/wifi.h:220:
++#define SetDuration(pbuf, dur) \
+--
+ERROR: Macros with complex values should be enclosed in parentheses
+224: FILE: drivers/staging/rtl8723bs/include/wifi.h:224:
++#define SetPriority(pbuf, tid)	\
+--
+ERROR: Macros with complex values should be enclosed in parentheses
+229: FILE: drivers/staging/rtl8723bs/include/wifi.h:229:
++#define SetEOSP(pbuf, eosp)	\
+--
+ERROR: Macros with complex values should be enclosed in parentheses
+232: FILE: drivers/staging/rtl8723bs/include/wifi.h:232:
++#define SetAckpolicy(pbuf, ack)	\
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/wifi.h | 20 --------------------
- 1 file changed, 20 deletions(-)
+ drivers/staging/rtl8723bs/include/wifi.h | 28 ++++++++++++------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/include/wifi.h b/drivers/staging/rtl8723bs/include/wifi.h
-index 48db55419bb3..4f8d08c00694 100644
+index 4f8d08c00694..69e714a6d87c 100644
 --- a/drivers/staging/rtl8723bs/include/wifi.h
 +++ b/drivers/staging/rtl8723bs/include/wifi.h
-@@ -102,17 +102,11 @@ enum {
+@@ -98,48 +98,48 @@ enum {
+ #define _ORDER_			BIT(15)
+ 
+ #define SetToDs(pbuf)	\
+-	*(__le16 *)(pbuf) |= cpu_to_le16(_TO_DS_)
++	(*(__le16 *)(pbuf) |= cpu_to_le16(_TO_DS_))
  
  #define GetToDs(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_TO_DS_)) != 0)
  
--#define ClearToDs(pbuf)	\
--	*(__le16 *)(pbuf) &= (~cpu_to_le16(_TO_DS_))
--
  #define SetFrDs(pbuf)	\
- 	*(__le16 *)(pbuf) |= cpu_to_le16(_FROM_DS_)
+-	*(__le16 *)(pbuf) |= cpu_to_le16(_FROM_DS_)
++	(*(__le16 *)(pbuf) |= cpu_to_le16(_FROM_DS_))
  
  #define GetFrDs(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_FROM_DS_)) != 0)
  
--#define ClearFrDs(pbuf)	\
--	*(__le16 *)(pbuf) &= (~cpu_to_le16(_FROM_DS_))
--
  #define get_tofr_ds(pframe)	((GetToDs(pframe) << 1) | GetFrDs(pframe))
  
  #define SetMFrag(pbuf)	\
-@@ -123,9 +117,6 @@ enum {
- #define ClearMFrag(pbuf)	\
- 	*(__le16 *)(pbuf) &= (~cpu_to_le16(_MORE_FRAG_))
+-	*(__le16 *)(pbuf) |= cpu_to_le16(_MORE_FRAG_)
++	(*(__le16 *)(pbuf) |= cpu_to_le16(_MORE_FRAG_))
  
--#define SetRetry(pbuf)	\
--	*(__le16 *)(pbuf) |= cpu_to_le16(_RETRY_)
--
+ #define GetMFrag(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_MORE_FRAG_)) != 0)
+ 
+ #define ClearMFrag(pbuf)	\
+-	*(__le16 *)(pbuf) &= (~cpu_to_le16(_MORE_FRAG_))
++	(*(__le16 *)(pbuf) &= (~cpu_to_le16(_MORE_FRAG_)))
+ 
  #define GetRetry(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_RETRY_)) != 0)
  
  #define ClearRetry(pbuf)	\
-@@ -153,10 +144,6 @@ enum {
+-	*(__le16 *)(pbuf) &= (~cpu_to_le16(_RETRY_))
++	(*(__le16 *)(pbuf) &= (~cpu_to_le16(_RETRY_)))
+ 
+ #define SetPwrMgt(pbuf)	\
+-	*(__le16 *)(pbuf) |= cpu_to_le16(_PWRMGT_)
++	(*(__le16 *)(pbuf) |= cpu_to_le16(_PWRMGT_))
+ 
+ #define GetPwrMgt(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_PWRMGT_)) != 0)
+ 
+ #define ClearPwrMgt(pbuf)	\
+-	*(__le16 *)(pbuf) &= (~cpu_to_le16(_PWRMGT_))
++	(*(__le16 *)(pbuf) &= (~cpu_to_le16(_PWRMGT_)))
+ 
+ #define SetMData(pbuf)	\
+-	*(__le16 *)(pbuf) |= cpu_to_le16(_MORE_DATA_)
++	(*(__le16 *)(pbuf) |= cpu_to_le16(_MORE_DATA_))
+ 
+ #define GetMData(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_MORE_DATA_)) != 0)
+ 
+ #define ClearMData(pbuf)	\
+-	*(__le16 *)(pbuf) &= (~cpu_to_le16(_MORE_DATA_))
++	(*(__le16 *)(pbuf) &= (~cpu_to_le16(_MORE_DATA_)))
+ 
+ #define SetPrivacy(pbuf)	\
+-	*(__le16 *)(pbuf) |= cpu_to_le16(_PRIVACY_)
++	(*(__le16 *)(pbuf) |= cpu_to_le16(_PRIVACY_))
+ 
  #define GetPrivacy(pbuf)					\
  	(((*(__le16 *)(pbuf)) & cpu_to_le16(_PRIVACY_)) != 0)
+@@ -191,19 +191,19 @@ enum {
+ 	} while (0)
  
--#define ClearPrivacy(pbuf)	\
--	*(__le16 *)(pbuf) &= (~cpu_to_le16(_PRIVACY_))
--
--
- #define GetOrder(pbuf)					\
- 	(((*(__le16 *)(pbuf)) & cpu_to_le16(_ORDER_)) != 0)
+ #define SetDuration(pbuf, dur) \
+-	*(__le16 *)((size_t)(pbuf) + 2) = cpu_to_le16(0xffff & (dur))
++	(*(__le16 *)((size_t)(pbuf) + 2) = cpu_to_le16(0xffff & (dur)))
  
-@@ -222,15 +209,8 @@ enum {
  
- #define GetAMsdu(pbuf) (((le16_to_cpu(*(__le16 *)pbuf)) >> 7) & 0x1)
+ #define SetPriority(pbuf, tid)	\
+-	*(__le16 *)(pbuf) |= cpu_to_le16(tid & 0xf)
++	(*(__le16 *)(pbuf) |= cpu_to_le16(tid & 0xf))
  
--#define SetAMsdu(pbuf, amsdu)	\
--	*(__le16 *)(pbuf) |= cpu_to_le16((amsdu & 1) << 7)
--
- #define GetAid(pbuf)	(le16_to_cpu(*(__le16 *)((size_t)(pbuf) + 2)) & 0x3fff)
+ #define GetPriority(pbuf)	((le16_to_cpu(*(__le16 *)(pbuf))) & 0xf)
  
--#define GetTid(pbuf)	(le16_to_cpu(*(__le16 *)((size_t)(pbuf) +	\
--			(((GetToDs(pbuf)<<1) | GetFrDs(pbuf)) == 3 ?	\
--			30 : 24))) & 0x000f)
--
- #define GetAddr1Ptr(pbuf)	((unsigned char *)((size_t)(pbuf) + 4))
+ #define SetEOSP(pbuf, eosp)	\
+-		*(__le16 *)(pbuf) |= cpu_to_le16((eosp & 1) << 4)
++		(*(__le16 *)(pbuf) |= cpu_to_le16((eosp & 1) << 4))
  
- #define GetAddr2Ptr(pbuf)	((unsigned char *)((size_t)(pbuf) + 10))
+ #define SetAckpolicy(pbuf, ack)	\
+-	*(__le16 *)(pbuf) |= cpu_to_le16((ack & 3) << 5)
++	(*(__le16 *)(pbuf) |= cpu_to_le16((ack & 3) << 5))
+ 
+ #define GetAckpolicy(pbuf) (((le16_to_cpu(*(__le16 *)pbuf)) >> 5) & 0x3)
+ 
 -- 
 2.20.1
 
