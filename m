@@ -1,41 +1,41 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425B870
-	for <linux-staging@lists.linux.dev>; Sat, 27 Mar 2021 14:24:57 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id k8so8393703wrc.3
-        for <linux-staging@lists.linux.dev>; Sat, 27 Mar 2021 07:24:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A7D70
+	for <linux-staging@lists.linux.dev>; Sat, 27 Mar 2021 14:24:59 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id b9so8356719wrt.8
+        for <linux-staging@lists.linux.dev>; Sat, 27 Mar 2021 07:24:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=W9EXnh/EfbGVwvr6MY60PRrODm9ziLDg93tkWyqzj3g=;
-        b=ZA5EGu0ud2zEnuChU6hbdGDHPlPcTMKVLai9ZEbicfP2ug/TgPfTtXGi2UTT7zFGk/
-         OakhYOwBFuFpjakEEmukq0JCFY57WfzPGhUnzd3nGNyZxLsjV+qqZgpYNIFhWvz1/rcR
-         B8f00qYGitLlPWEF/SHyUZBQy/jcL0YQGSM70m3JtQzu8cq+8gX0Yb+FQ2E5IavJdC45
-         mLkuJ4+EmAUSYiCN4nMkUlvWo4sUD9mHTfGrc2eWgI/tM8tUE4fvM473UBV1A2tpnZRr
-         5bpxZIFvs2o8Rdcc3EsDSUp5fCjmcYsJ0wZcDlGLQuslqpScPeswPIaxzEYbPdr3MwMU
-         WXLA==
+        bh=M8DYc5vjzbQ3/FwnNagLMFyG5+xEylbz7fLiJFoVp/8=;
+        b=CvHGsD6u58wUGsz1l7aV67caJfTmD/F9EJptANRN91v9gma21viOSpKWxtY8Q1M5Ix
+         cKxhi35V/toCfU6AqmR7RnLCqyCJQX+5H/49xZqx9veJPV6iNCDgH6XhJfgf19bOkNJR
+         NtTZJ0tSOS9nbr6brW0ucbHA2YR2u0NkOX7upOs32BhxjP9p+4oIKw2SC5Jg9GBnpRC1
+         DImMVxfZuhS4acGPIxzx7svHi0CS5aVbzLKL2eCIH0SSryQZcJBR76vmdQOk832O2FhV
+         NWbAAjVzz7ZApGlSIo2uE/AIawAniBwG/7EFQSrC0ufLWVJ62cf7tHjNUy6j1+CDcM0z
+         4R2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=W9EXnh/EfbGVwvr6MY60PRrODm9ziLDg93tkWyqzj3g=;
-        b=SVdIVVIHr+gE+AuOaWJGmWae9Nw/j6AMZ5TjKHqRrdVKWCi2df4uKItsk/zh4CX22r
-         guRa0pe43BGL4MNgoHF6/Y1zLkUKAneRXLXge9g+ia2+gSWhaWnleEZs81ySwrnB+ISq
-         VuBbmE/4lqobWNTt6nW7NEdAHRIb1yXX4fgmVT1QS+NqWtRM74l19GM8TmWTwrHaR27e
-         nKRNUnGZWizDbWmVsLMG2AlLzE08ilH8GLXGlEkuNqe8tOR20vvYd8xGJlT+xvIo0io+
-         tH4i6XgqZ1qY/TLTi0qYgqW+c9AID4Hbsx8YpfYwKih00GhLQMEYtv5fqPUiTOpdZjs6
-         KZIw==
-X-Gm-Message-State: AOAM532ZdGTq8xGgwkYZ88siInU6SAdCMVic3ysNdVbz3Ex+8L6N/PuA
-	nMHgRj6a+YFu72wYm5R4KiE=
-X-Google-Smtp-Source: ABdhPJymKO2w3lHlkqq+xhsTS2wnQh8r5q2m5GXpR5Tij5oLkjE5xc7nRDB4SjGacK8shEK0mL/Vdw==
-X-Received: by 2002:a5d:58fc:: with SMTP id f28mr10776643wrd.180.1616855095899;
-        Sat, 27 Mar 2021 07:24:55 -0700 (PDT)
+        bh=M8DYc5vjzbQ3/FwnNagLMFyG5+xEylbz7fLiJFoVp/8=;
+        b=n3HRbW3FhY5oQuocaAvSGE7bL2qBTbbA1pI6DjyiWPFMbWFqhXb9jbG5dfgTaICH3E
+         /ckk53UVbG/8KYY1xJ/+/Ke4ATiT/Zw1HlbdzPyMB2G7vaGcJiajc2pvt5T5XXBwjbO/
+         m+VFDm1AefyTUno7GveuRwUVcqja/4Bmqvyz/f02cbGKff2DiQaWw8T6gJ7fpFAC6PiH
+         mJUVx+TXx4UFE5r9YJiOlIx10NbYWo/qBFFJKg7NKyKXpmc1FV5Wr0EYE/kbM4FT3gp1
+         3W24ugtpPn/2kltIhSUFm6QNVEe6Z+RPlHluub/blNypGMeQBxsZj8VKihUSZa+4Xbvv
+         tRWg==
+X-Gm-Message-State: AOAM53132eB1mRQe2wdHyiycBiyzdz3pwcq46Sg5nGQ6VTo6gqoTA+9X
+	RCjD8G5CDDA5oE2gNj3BTR8=
+X-Google-Smtp-Source: ABdhPJxP8sVz3IP9Mv5G2OnrkCSfuYtfZ/Gpp/PNFbPTKswC6aZbeMAEyfc70O/JvyozBvE5TVauYQ==
+X-Received: by 2002:a05:6000:1b0f:: with SMTP id f15mr20050306wrz.171.1616855098084;
+        Sat, 27 Mar 2021 07:24:58 -0700 (PDT)
 Received: from agape ([151.46.211.242])
-        by smtp.gmail.com with ESMTPSA id t8sm20164012wrr.10.2021.03.27.07.24.54
+        by smtp.gmail.com with ESMTPSA id i10sm19237353wrs.11.2021.03.27.07.24.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Mar 2021 07:24:55 -0700 (PDT)
+        Sat, 27 Mar 2021 07:24:57 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: dan.carpenter@oracle.com,
@@ -43,9 +43,9 @@ Cc: dan.carpenter@oracle.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH v2 07/20] staging: rtl8723bs: add spaces around operators in include/hal_data.h
-Date: Sat, 27 Mar 2021 15:24:06 +0100
-Message-Id: <4186cc811caa92fe0625d06b3803e73f424059a6.1616854134.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v2 08/20] staging: rtl8723bs: remove unused macros in include/hal_phy.h
+Date: Sat, 27 Mar 2021 15:24:07 +0100
+Message-Id: <a001f2b2b8fb0ffa73ffe2e79f45a4a8e92cdf2a.1616854134.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1616854134.git.fabioaiuto83@gmail.com>
 References: <cover.1616854134.git.fabioaiuto83@gmail.com>
@@ -56,26 +56,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-add spaces around operators in a macro
+remove declarations of unused macros in include/hal_phy.h
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/hal_data.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/include/hal_phy.h | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/hal_data.h b/drivers/staging/rtl8723bs/include/hal_data.h
-index 655528ab8c7c..df5c7b747498 100644
---- a/drivers/staging/rtl8723bs/include/hal_data.h
-+++ b/drivers/staging/rtl8723bs/include/hal_data.h
-@@ -46,7 +46,7 @@ enum rt_ampdu_burst {
- 	RT_AMPDU_BURST_8723B	= 7,
- };
+diff --git a/drivers/staging/rtl8723bs/include/hal_phy.h b/drivers/staging/rtl8723bs/include/hal_phy.h
+index bf17a85b5959..521eb1c2efad 100644
+--- a/drivers/staging/rtl8723bs/include/hal_phy.h
++++ b/drivers/staging/rtl8723bs/include/hal_phy.h
+@@ -20,17 +20,6 @@
+ #define	HAL_RF_ENABLE				1
+ #endif
  
--#define CHANNEL_MAX_NUMBER		(14+24+21)	/*  14 is the max channel number */
-+#define CHANNEL_MAX_NUMBER		(14 + 24 + 21)	/*  14 is the max channel number */
- #define CHANNEL_MAX_NUMBER_2G		14
- #define CHANNEL_MAX_NUMBER_5G		54			/*  Please refer to "phy_GetChnlGroup8812A" and "Hal_ReadTxPowerInfo8812A" */
- #define CHANNEL_MAX_NUMBER_5G_80M	7
+-#define	RF6052_MAX_TX_PWR			0x3F
+-#define	RF6052_MAX_REG_88E			0xFF
+-#define	RF6052_MAX_REG_92C			0x7F
+-
+-#define	RF6052_MAX_REG	\
+-		(RF6052_MAX_REG_88E > RF6052_MAX_REG_92C) ? RF6052_MAX_REG_88E : RF6052_MAX_REG_92C
+-
+-#define GET_RF6052_REAL_MAX_REG(_Adapter)	RF6052_MAX_REG_92C
+-
+-#define	RF6052_MAX_PATH				2
+-
+ /*  */
+ /*  Antenna detection method, i.e., using single tone detection or RSSI reported from each antenna detected. */
+ /*  Added by Roger, 2013.05.22. */
 -- 
 2.20.1
 
