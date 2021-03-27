@@ -1,41 +1,41 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B635F
-	for <linux-staging@lists.linux.dev>; Sat, 27 Mar 2021 00:18:11 +0000 (UTC)
-Received: by mail-qv1-f53.google.com with SMTP id t5so3844399qvs.5
-        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 17:18:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07AB05F
+	for <linux-staging@lists.linux.dev>; Sat, 27 Mar 2021 00:18:12 +0000 (UTC)
+Received: by mail-qk1-f170.google.com with SMTP id q26so7086666qkm.6
+        for <linux-staging@lists.linux.dev>; Fri, 26 Mar 2021 17:18:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xqBa11K+t3yJo64JHPBL4xG7apvJbEXnUnLncnKDQMA=;
-        b=NIt0T9RXfaESkCQkTRUHfIEMw/MB5myfMUFUQ/Y2gNALTg7EinJnNXNyK16+tSo7l0
-         q1565/xhUhqsf0cajIPToAx6MHgRngWeI0aZdHURR4/sf4GPr/7D1//Rgrg+7JAlNQL2
-         GY4oArBZEMNBLTjuSAaahPBvu18TUMOksSZ+iZYPWEPaPaNKQQkoNCxHGwfCZ/VT4W3t
-         nIvM/kNubA0RyaWdxVtjaZLu/UxJrhCDKSBOMiAx9I/wUoNW+qZiPtKgBMMx5Ea/U+g/
-         XB2WbVvTGzY92I4Lj3E2VsLIdiCQaLWoEmbEHhqZiI3vRDAv57qh9jH+L1m8u09kterk
-         3ybw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=YUTuwNvqpqmKihhpt9cpMbBecFdzG1sjo9uedUx7/b4=;
+        b=ZjV0qn4qd6Gp9rjljzJKtcq+m4bxdlGNonFKRqOEzWzygLT7qBi1pcAGo7WKQ44T8r
+         Lbx/GKcB+VRcMXfPLf5lgNnuFlvhDe2MqRrj+QnyygNS0uj8ekzRYJ5Pqot6sTBOIYu/
+         2vfbRfLofYCDP0YiECjnNNHEb7mXqMLZSgpDDR3vqMyHaRLoNlyvZQsbt+8CwBfeu6/T
+         esKw2Urh21VjnfL/HTX9NNEbz8XoMsmQijv4a1o8ZP9uoZBAhvu8bdLyFkdmfkg3xFR7
+         eGk5ycY/jPW+zfqf0CBY4D5fYcqLl8aBdBi2XcfKSslUeevwndpFfYdKxbndiQjk0CJb
+         TFfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xqBa11K+t3yJo64JHPBL4xG7apvJbEXnUnLncnKDQMA=;
-        b=RyYuSO9KkWHlfEFETrbh/TBaVrJZXYDCZu9TsLIQi3KygxHc4M2RSkyVu8JtUb0OXm
-         NOOfK2RltiRqeuq9Rkgrx75MAKpPK0tV6iwO/kEM+DLYGFiIdmekmnTmUTOHldZIGeKI
-         iIpTLEjodRapYiymcTN7b7U1X94s/oC5ZT2UGXxiBs6RgtqG02QlUV0Vu97Xr/+40dsR
-         BKbZyrrghVKgoLvFBeK85MpGOTxTmfEXxSA8EbW0Lc2RLYC/BOs9EnkR1Ko4rhQ5WwTZ
-         bKXv0F125LWX1+tP7lqPeu0HKqlN/obFeyCbmPFmZ4Ckzp0Y6+OtnlzMT5daLbR4qG3D
-         PtMg==
-X-Gm-Message-State: AOAM532GSDa6qGO64NNoIZ3k7R7SwFZ9YYcFH1IuzQvVpB0NYEYHtC2h
-	ld1xqjboUMaNzkJX9e626+w=
-X-Google-Smtp-Source: ABdhPJwNFRvBFgM9rN9qoxreJmFNMEl10dp5kOUd7xtpm2y6ZU4sHjL6q6qAwjXPZgOuzj0e8dK2lw==
-X-Received: by 2002:a0c:e148:: with SMTP id c8mr7780071qvl.18.1616804290258;
-        Fri, 26 Mar 2021 17:18:10 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=YUTuwNvqpqmKihhpt9cpMbBecFdzG1sjo9uedUx7/b4=;
+        b=bTHhys21oJ3rHWYDxkKpt37BTYHdcly24PE3vuqUHhnwcHEHOuj3D8/CDBZ4ZaT6WU
+         QiMWlfRM90/CEr5/AFFbtdmi4iZoBc5AvuOXibryaHMeKB0QVV49O1+KJr1P6TKjnUzV
+         4eV89h5BJQbVd5PtkcLQwzarTY11qq0kEqVb104XOFggDQJTG7IqyNP3O6KiUhSWMWif
+         LNeFQ8ecfBawpY2pnvjryUYAkCXhdmoYEikyt96K9un9u6krj4jo/xLd8w+OwTCoJn9K
+         f6QDRgQmirCRE/27hDTWm4qaRIq6OILs5/RYlcBNr9mttAZjF6tKK1ti6qE0Lqs3NiNv
+         A3hw==
+X-Gm-Message-State: AOAM5337i8kJvXvrIzqau/T5a6/ruW2le/Nj5grtti1yZlAzmZAu39AF
+	L8ahpPpvXKO8QZNEdPZMTmA=
+X-Google-Smtp-Source: ABdhPJwPp7aJjxhWNcTkB1W54U1IQEj4OzbK8gyrUSnlZf7ON38eXdL3NRJKkRR43C1GaiUCeOYvdw==
+X-Received: by 2002:a05:620a:102f:: with SMTP id a15mr16208153qkk.87.1616804292135;
+        Fri, 26 Mar 2021 17:18:12 -0700 (PDT)
 Received: from linuxerio.localdomain ([186.32.194.42])
-        by smtp.gmail.com with ESMTPSA id z2sm8213531qkg.22.2021.03.26.17.18.08
+        by smtp.gmail.com with ESMTPSA id z2sm8213531qkg.22.2021.03.26.17.18.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 17:18:09 -0700 (PDT)
+        Fri, 26 Mar 2021 17:18:11 -0700 (PDT)
 From: Edmundo Carmona Antoranz <eantoranz@gmail.com>
 To: gregkh@linuxfoundation.org,
 	marcocesati@gmail.com,
@@ -45,10 +45,12 @@ To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev
 Cc: kernel-janitors@vger.kernel.org,
 	Edmundo Carmona Antoranz <eantoranz@gmail.com>
-Subject: [PATCH -next 1/6] staging: rtl8723bs: ieee80211: remove unused variable
-Date: Fri, 26 Mar 2021 18:17:31 -0600
-Message-Id: <20210327001736.180881-1-eantoranz@gmail.com>
+Subject: [PATCH -next 2/6] staging: rtl8723bs: mlme: remove unused variables
+Date: Fri, 26 Mar 2021 18:17:32 -0600
+Message-Id: <20210327001736.180881-2-eantoranz@gmail.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210327001736.180881-1-eantoranz@gmail.com>
+References: <20210327001736.180881-1-eantoranz@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -57,95 +59,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-sec_idx in rtw_get_sec_ie() is set to 0 and never changes value. Also,
-it is only used for debugging messages. Therefore the variable is
-removed and the debug messages are adjusted. Adjusting debug messages
-forced style changes. Taking the opportunity to adjust indentation
-of those sections of the code.
+The variable *pframe in rtw_build_wmm_ie_ht() and rtw_restructure_ht_ie()
+is set but never read. Both instances are getting removed.
 
-Removing this warning:
+Removing these warning:
 
-drivers/staging/rtl8723bs/core/rtw_ieee80211.c:657:15: warning: variable ‘sec_idx’ set but not used [-Wunused-but-set-variable]
+drivers/staging/rtl8723bs/core/rtw_mlme.c:2560:6: warning: variable ‘pframe’ set but not used [-Wunused-but-set-variable]
+drivers/staging/rtl8723bs/core/rtw_mlme.c:2576:21: warning: variable ‘pframe’ set but not used [-Wunused-but-set-variable]
 
 Signed-off-by: Edmundo Carmona Antoranz <eantoranz@gmail.com>
 ---
- .../staging/rtl8723bs/core/rtw_ieee80211.c    | 43 +++++++++++--------
- 1 file changed, 25 insertions(+), 18 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-index cccbea555a32..ec065d924fbb 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-@@ -654,7 +654,7 @@ int rtw_get_wapi_ie(u8 *in_ie, uint in_len, u8 *wapi_ie, u16 *wapi_len)
- 
- void rtw_get_sec_ie(u8 *in_ie, uint in_len, u8 *rsn_ie, u16 *rsn_len, u8 *wpa_ie, u16 *wpa_len)
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index 29d4b7493784..83fbd415d766 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -2555,12 +2555,11 @@ void rtw_build_wmm_ie_ht(struct adapter *padapter, u8 *out_ie, uint *pout_len)
  {
--	u8 authmode, sec_idx, i;
-+	u8 authmode, i;
- 	u8 wpa_oui[4] = {0x0, 0x50, 0xf2, 0x01};
- 	uint	cnt;
+ 	unsigned char WMM_IE[] = {0x00, 0x50, 0xf2, 0x02, 0x00, 0x01, 0x00};
+ 	int out_len;
+-	u8 *pframe;
  
-@@ -662,37 +662,44 @@ void rtw_get_sec_ie(u8 *in_ie, uint in_len, u8 *rsn_ie, u16 *rsn_len, u8 *wpa_ie
+ 	if (padapter->mlmepriv.qospriv.qos_option == 0) {
+ 		out_len = *pout_len;
+-		pframe = rtw_set_ie(out_ie+out_len, WLAN_EID_VENDOR_SPECIFIC,
+-							_WMM_IE_Length_, WMM_IE, pout_len);
++		rtw_set_ie(out_ie + out_len, WLAN_EID_VENDOR_SPECIFIC,
++			   _WMM_IE_Length_, WMM_IE, pout_len);
  
- 	cnt = (_TIMESTAMP_ + _BEACON_ITERVAL_ + _CAPABILITY_);
+ 		padapter->mlmepriv.qospriv.qos_option = 1;
+ 	}
+@@ -2571,7 +2570,7 @@ unsigned int rtw_restructure_ht_ie(struct adapter *padapter, u8 *in_ie, u8 *out_
+ {
+ 	u32 ielen, out_len;
+ 	enum ieee80211_max_ampdu_length_exp max_rx_ampdu_factor;
+-	unsigned char *p, *pframe;
++	unsigned char *p;
+ 	struct ieee80211_ht_cap ht_capie;
+ 	u8 cbw40_enable = 0, stbc_rx_enable = 0, rf_type = 0, operation_bw = 0;
+ 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
+@@ -2696,8 +2695,8 @@ unsigned int rtw_restructure_ht_ie(struct adapter *padapter, u8 *in_ie, u8 *out_
+ 	else
+ 		ht_capie.ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY&0x00);
  
--	sec_idx = 0;
--
- 	while (cnt < in_len) {
- 		authmode = in_ie[cnt];
+-	pframe = rtw_set_ie(out_ie+out_len, WLAN_EID_HT_CAPABILITY,
+-						sizeof(struct ieee80211_ht_cap), (unsigned char *)&ht_capie, pout_len);
++	rtw_set_ie(out_ie + out_len, WLAN_EID_HT_CAPABILITY,
++		   sizeof(struct ieee80211_ht_cap), (unsigned char *)&ht_capie, pout_len);
  
- 		if ((authmode == WLAN_EID_VENDOR_SPECIFIC) && (!memcmp(&in_ie[cnt+2], &wpa_oui[0], 4))) {
--				RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("\n rtw_get_wpa_ie: sec_idx =%d in_ie[cnt+1]+2 =%d\n", sec_idx, in_ie[cnt+1]+2));
-+			RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_,
-+				 ("\n rtw_get_wpa_ie: in_ie[cnt+1]+2 =%d\n", in_ie[cnt + 1] + 2));
+ 	phtpriv->ht_option = true;
  
--				if (wpa_ie) {
-+			if (wpa_ie) {
- 				memcpy(wpa_ie, &in_ie[cnt], in_ie[cnt+1]+2);
- 
- 				for (i = 0; i < (in_ie[cnt+1]+2); i = i+8) {
--						RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("\n %2x,%2x,%2x,%2x,%2x,%2x,%2x,%2x\n",
--									wpa_ie[i], wpa_ie[i+1], wpa_ie[i+2], wpa_ie[i+3], wpa_ie[i+4],
--									wpa_ie[i+5], wpa_ie[i+6], wpa_ie[i+7]));
--					}
-+					RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_,
-+						 ("\n %2x,%2x,%2x,%2x,%2x,%2x,%2x,%2x\n",
-+						  wpa_ie[i], wpa_ie[i + 1], wpa_ie[i + 2],
-+						  wpa_ie[i + 3], wpa_ie[i + 4],
-+						  wpa_ie[i + 5], wpa_ie[i + 6],
-+						  wpa_ie[i + 7]));
- 				}
-+			}
- 
--				*wpa_len = in_ie[cnt+1]+2;
--				cnt += in_ie[cnt+1]+2;  /* get next */
-+			*wpa_len = in_ie[cnt + 1] + 2;
-+			cnt += in_ie[cnt + 1] + 2;  /* get next */
- 		} else {
- 			if (authmode == WLAN_EID_RSN) {
--				RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("\n get_rsn_ie: sec_idx =%d in_ie[cnt+1]+2 =%d\n", sec_idx, in_ie[cnt+1]+2));
-+				RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_,
-+					 ("\n get_rsn_ie: in_ie[cnt+1]+2 =%d\n",
-+					  in_ie[cnt + 1] + 2));
- 
- 				if (rsn_ie) {
--				memcpy(rsn_ie, &in_ie[cnt], in_ie[cnt+1]+2);
--
--				for (i = 0; i < (in_ie[cnt+1]+2); i = i+8) {
--						RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("\n %2x,%2x,%2x,%2x,%2x,%2x,%2x,%2x\n",
--									rsn_ie[i], rsn_ie[i+1], rsn_ie[i+2], rsn_ie[i+3], rsn_ie[i+4],
--									rsn_ie[i+5], rsn_ie[i+6], rsn_ie[i+7]));
-+					memcpy(rsn_ie, &in_ie[cnt], in_ie[cnt + 1] + 2);
-+
-+					for (i = 0; i < (in_ie[cnt + 1] + 2); i = i + 8) {
-+						RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_,
-+							 ("\n %2x,%2x,%2x,%2x,%2x,%2x,%2x,%2x\n",
-+							  rsn_ie[i], rsn_ie[i + 1], rsn_ie[i + 2],
-+							  rsn_ie[i + 3], rsn_ie[i + 4],
-+							  rsn_ie[i + 5], rsn_ie[i + 6],
-+							  rsn_ie[i + 7]));
- 					}
- 				}
+@@ -2705,7 +2704,8 @@ unsigned int rtw_restructure_ht_ie(struct adapter *padapter, u8 *in_ie, u8 *out_
+ 		p = rtw_get_ie(in_ie, WLAN_EID_HT_OPERATION, &ielen, in_len);
+ 		if (p && (ielen == sizeof(struct ieee80211_ht_addt_info))) {
+ 			out_len = *pout_len;
+-			pframe = rtw_set_ie(out_ie+out_len, WLAN_EID_HT_OPERATION, ielen, p+2, pout_len);
++			rtw_set_ie(out_ie + out_len, WLAN_EID_HT_OPERATION,
++				   ielen, p + 2, pout_len);
+ 		}
+ 	}
  
 -- 
 2.30.2
