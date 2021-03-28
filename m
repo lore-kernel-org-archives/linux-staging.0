@@ -1,101 +1,102 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtprelay.hostedemail.com (smtprelay0195.hostedemail.com [216.40.44.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FBAB5F
-	for <linux-staging@lists.linux.dev>; Sun, 28 Mar 2021 22:45:17 +0000 (UTC)
-Received: by mail-qt1-f181.google.com with SMTP id a11so8178344qto.2
-        for <linux-staging@lists.linux.dev>; Sun, 28 Mar 2021 15:45:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8RXOlSm03VbeMbySXyCFRFEgeMcD59AdNwl/nJLNOYw=;
-        b=nsEmdX6mc+ybUXc2Qg6U7WBlqgMs1mkM3+2oHxyzbWkHy5FonGwB+0RRKYSCEShtVZ
-         SkVKyu/K+4s3d5pIpfTWJA6uIrh/6ECdm8/Gt4aFrR1dG9kiG7iG8WBxHXovZTUOuXzN
-         QT+yZ/uAH+6dvOxZB4Y+BHtrZ3HvUzGwpeitMHmE/iQ8yWYq7ZVcUJrfGejWTCX1t/0Q
-         V16nreJSl2wLxlm8EoAr30fsv2Q0KFynXDIuZA9CiOkf0ylWNeEI3y8hJlgRjqNZD9H8
-         5j+eVkqHqYpuGFnuciPIUJuimU47AWOYAkg7G6DcIvwEW7d/g1wcO5+CTliTII81l+L+
-         jB/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8RXOlSm03VbeMbySXyCFRFEgeMcD59AdNwl/nJLNOYw=;
-        b=b9iCLh/NhQdKTiDpg0oc2nthQDnOWjYAnxFVedY+hruFc5yj8dyDNXHcAHJ0vxAA3G
-         rukT25Unwt9gH6TlMcbSWW33Ybh3RH9BGAE24sY4T5DvsxGlZzNSCz67nUoobbFcz6Fp
-         pqcbPQah4s9JrTp+mGp3jYXSz75dNIr7oBJ23/LENBRTgzRnbp096AmXek6f4LXfRHwx
-         15kLuYzibwZN/QIN2wpn1kjcmtGMt/gn3S7HZucybFyCbsMujEZxLCTXvS/5Z/HdHzb/
-         Hnf15QhtoXLs13fGWenRThj73FWIEAvQXVrYbMm7OcAdLiDLoXylosWsaX3F1sjPH2ch
-         3cIA==
-X-Gm-Message-State: AOAM530a71xOH0EjEXiyn+wu1AqoJhkJUkN2a6giiC7nZCdjDNKzL7i3
-	1hpGtt3x48Zc33MzE3R+npw=
-X-Google-Smtp-Source: ABdhPJxYLqkBm8dJsbUCNagLo5grTrrqPgxi2R6LQPcesM1Lc6lP/+8e4ZQAQg/MHjkCzYw22ztkXQ==
-X-Received: by 2002:ac8:45c9:: with SMTP id e9mr19842001qto.178.1616971516583;
-        Sun, 28 Mar 2021 15:45:16 -0700 (PDT)
-Received: from localhost.localdomain ([177.189.249.24])
-        by smtp.googlemail.com with ESMTPSA id q24sm11668595qki.120.2021.03.28.15.45.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Mar 2021 15:45:16 -0700 (PDT)
-From: Rodrigo Figueiredo Zaiden <rodrigoffzz@gmail.com>
-To: 
-Cc: rodrigoffzz@gmail.com,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: atomisp: add ibuf_ctrl_rmgr.c to ISP2401 build only
-Date: Sun, 28 Mar 2021 19:43:04 -0300
-Message-Id: <20210328224304.90918-1-rodrigoffzz@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D70B95F
+	for <linux-staging@lists.linux.dev>; Mon, 29 Mar 2021 02:38:30 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+	by smtpgrave03.hostedemail.com (Postfix) with ESMTP id A88F518025623
+	for <linux-staging@lists.linux.dev>; Sun, 28 Mar 2021 08:39:09 +0000 (UTC)
+Received: from omf17.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+	by smtprelay07.hostedemail.com (Postfix) with ESMTP id 64608181D1A04;
+	Sun, 28 Mar 2021 08:39:03 +0000 (UTC)
+Received: from [192.168.1.159] (unknown [47.151.137.21])
+	(Authenticated sender: joe@perches.com)
+	by omf17.hostedemail.com (Postfix) with ESMTPA id 31F8027DD24;
+	Sun, 28 Mar 2021 08:39:02 +0000 (UTC)
+Message-ID: <cc86b15eb81f55ce69da3b1169a083dc7ce9d85c.camel@perches.com>
+Subject: Re: [PATCH v2 09/20] staging: rtl8723bs: put parentheses on macros
+ with complex values in include/rtw_debug.h
+From: Joe Perches <joe@perches.com>
+To: Fabio Aiuto <fabioaiuto83@gmail.com>, gregkh@linuxfoundation.org
+Cc: dan.carpenter@oracle.com, david.laight@aculab.com, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Sun, 28 Mar 2021 01:39:01 -0700
+In-Reply-To: <f36448ddc1553a018f700983b5d436eacaef9cb3.1616854134.git.fabioaiuto83@gmail.com>
+References: <cover.1616854134.git.fabioaiuto83@gmail.com>
+	 <f36448ddc1553a018f700983b5d436eacaef9cb3.1616854134.git.fabioaiuto83@gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 31F8027DD24
+X-Spam-Status: No, score=0.10
+X-Stat-Signature: y3e6yff38rg3subzikg88eh5hgsjiy39
+X-Rspamd-Server: rspamout04
+X-HE-Tag: 1616920742-151709
 
-When CONFIG_VIDEO_ATOMISP_ISP2401 is not set, sparse shows
-the following warnings:
+On Sat, 2021-03-27 at 15:24 +0100, Fabio Aiuto wrote:
+> fix the following checkpatch warning:
+> 
+> ERROR: Macros starting with if should be enclosed by a
+> do - while loop to avoid possible if/else logic defects
+> +	#define RT_PRINT_DATA(_Comp, _Level,
+> 	_TitleString, _HexData, _HexDataLen)			\
+> 
+> Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 
-drivers/staging/media/atomisp/pci/runtime/isys/src/ibuf_ctrl_rmgr.c:34:6: warning: symbol 'ia_css_isys_ibuf_rmgr_init' was not declared. Should it be static?
-drivers/staging/media/atomisp/pci/runtime/isys/src/ibuf_ctrl_rmgr.c:40:6: warning: symbol 'ia_css_isys_ibuf_rmgr_uninit' was not declared. Should it be static?
-drivers/staging/media/atomisp/pci/runtime/isys/src/ibuf_ctrl_rmgr.c:46:6: warning: symbol 'ia_css_isys_ibuf_rmgr_acquire' was not declared. Should it be static?
-drivers/staging/media/atomisp/pci/runtime/isys/src/ibuf_ctrl_rmgr.c:106:6: warning: symbol 'ia_css_isys_ibuf_rmgr_release' was not declared. Should it be static?
+It's good to use checkpatch as a guide to improve code, but this
+particular code is just a mess to begin with and it makes a
+complete mess of the the dmesg log if it's actually enabled.
 
-The symbols stated as not declared are actually declared
-under ISP2401 definition in ia_css_isys.h.
-So, the file ibuf_ctrl_rmgr.c should be compiled only when
-ISP2401 is enabled.
+Try substituting print_hex_dump_debug for this instead.
 
-Signed-off-by: Rodrigo Figueiredo Zaiden <rodrigoffzz@gmail.com>
----
- drivers/staging/media/atomisp/Makefile | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> ---
+>  drivers/staging/rtl8723bs/include/rtw_debug.h | 28 ++++++++++---------
+>  1 file changed, 15 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/include/rtw_debug.h b/drivers/staging/rtl8723bs/include/rtw_debug.h
+> index d1c557818305..b00f8a6c4312 100644
+> --- a/drivers/staging/rtl8723bs/include/rtw_debug.h
+> +++ b/drivers/staging/rtl8723bs/include/rtw_debug.h
+> @@ -236,19 +236,21 @@
+>  #if	defined(_dbgdump)
+>  	#undef RT_PRINT_DATA
+>  	#define RT_PRINT_DATA(_Comp, _Level, _TitleString, _HexData, _HexDataLen)			\
+> -		if (((_Comp) & GlobalDebugComponents) && (_Level <= GlobalDebugLevel))	\
+> -		{									\
+> -			int __i;								\
+> -			u8 *ptr = (u8 *)_HexData;				\
+> -			_dbgdump("%s", DRIVER_PREFIX);						\
+> -			_dbgdump(_TitleString);						\
+> -			for (__i = 0; __i < (int)_HexDataLen; __i++)				\
+> -			{								\
+> -				_dbgdump("%02X%s", ptr[__i], (((__i + 1) % 4) == 0)?"  ":" ");	\
+> -				if (((__i + 1) % 16) == 0)	_dbgdump("\n");			\
+> -			}								\
+> -			_dbgdump("\n");							\
+> -		}
+> +		do { \
+> +			if (((_Comp) & GlobalDebugComponents) && (_Level <= GlobalDebugLevel))	\
+> +			{									\
+> +				int __i;								\
+> +				u8 *ptr = (u8 *)_HexData;				\
+> +				_dbgdump("%s", DRIVER_PREFIX);						\
+> +				_dbgdump(_TitleString);						\
+> +				for (__i = 0; __i < (int)_HexDataLen; __i++)				\
+> +				{								\
+> +					_dbgdump("%02X%s", ptr[__i], (((__i + 1) % 4) == 0)?"  ":" ");	\
+> +					if (((__i + 1) % 16) == 0)	_dbgdump("\n");			\
+> +				}								\
+> +				_dbgdump("\n");							\
+> +			} \
+> +		} while (0)
+>  #endif /* defined(_dbgdump) */
+>  #endif /* DEBUG_RTL871X */
+>  
+> 
 
-diff --git a/drivers/staging/media/atomisp/Makefile b/drivers/staging/media/atomisp/Makefile
-index 1dfad0dd02d0..555f2efa35b7 100644
---- a/drivers/staging/media/atomisp/Makefile
-+++ b/drivers/staging/media/atomisp/Makefile
-@@ -126,7 +126,6 @@ atomisp-objs += \
- 	pci/runtime/inputfifo/src/inputfifo.o \
- 	pci/runtime/isp_param/src/isp_param.o \
- 	pci/runtime/isys/src/csi_rx_rmgr.o \
--	pci/runtime/isys/src/ibuf_ctrl_rmgr.o \
- 	pci/runtime/isys/src/isys_dma_rmgr.o \
- 	pci/runtime/isys/src/isys_init.o \
- 	pci/runtime/isys/src/isys_stream2mmio_rmgr.o \
-@@ -175,7 +174,8 @@ obj-cht = \
- 	pci/css_2401_system/host/ibuf_ctrl.o \
- 	pci/css_2401_system/host/isys_dma.o \
- 	pci/css_2401_system/host/isys_irq.o \
--	pci/css_2401_system/host/isys_stream2mmio.o
-+	pci/css_2401_system/host/isys_stream2mmio.o \
-+	pci/runtime/isys/src/ibuf_ctrl_rmgr.o
- 
- INCLUDES += \
- 	-I$(atomisp)/ \
--- 
-2.25.1
 
