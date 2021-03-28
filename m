@@ -1,52 +1,52 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F369F70
-	for <linux-staging@lists.linux.dev>; Sun, 28 Mar 2021 14:23:53 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id z2so10263822wrl.5
-        for <linux-staging@lists.linux.dev>; Sun, 28 Mar 2021 07:23:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D0F5F
+	for <linux-staging@lists.linux.dev>; Sun, 28 Mar 2021 14:43:28 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id g25so5331367wmh.0
+        for <linux-staging@lists.linux.dev>; Sun, 28 Mar 2021 07:43:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=DCuTEjDe/5W2+5Tt64rnHPWnGwo6A54d3KDraPgBqbo=;
-        b=Xg0f16XVCtH4FSffGtc+oVvfY/RQTzT1CUiia4OuCqkzn/ybf7NjtzE6y4zfO2XWfi
-         05721sPv1S9YMeyet/sLlDflKVsz2BbW1URknSUCkqPlUBgOT0+Qdn3qpc1E3y/SjVXS
-         yXSrqduDDAsv4mW/Mnoaab5m+nw1xLP+Cboe6Nh/j4J1rXN9a75DVZwvhCNGal6I5pE9
-         Q1ak8zFI/nUVANh8JhYuagzyB4SfuTEaTQWTcD7h0hSbZOyTdznsOjtZVjjFrxRZJSKi
-         7WvTLrhlp+XSuGvO1GoURGHYG/hk1zx8r1Oy7bUXcYTZsUN/imZ9nZXZgAmHovx6QqWC
-         lzqA==
+        bh=Rj1gHcqJ6D3CVg382aakQnCnhfVirIRkWk/I75I+2pU=;
+        b=jBOU199SOD136BiiE/UJDFniyiUznX9ADK4GnmJMo++LCW2lAN54tLKszh+3SvusmX
+         UHu96z0r4T0wUi0xCJdvmQ0WHKyN9yJTHrqlTG+3c++WD7S36hjLl/flmc9CgXoF2gwA
+         3El9TUEoL3VeE8usij6C2qYKnmv/FLEihD85G+4O74D1O+UHgxVbzc07+DuPfThA5Njg
+         fCGqqyITsLT5ERbn23hE9dItzJIyjrHRxARG4+k6KOXPhWrWg3Jg0C0KUeU2HUru4l3H
+         OWO7niWCLG+BTS6jMbhgM4+pBW4whqXwuzSnni7fR2rruuUsZLhh+YDvmmeVhETe1AQz
+         fySg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=DCuTEjDe/5W2+5Tt64rnHPWnGwo6A54d3KDraPgBqbo=;
-        b=IMLDayTddyrFg7UW1xGmVhfNXcTb2raL5EwXoZxN6+nWFnkrmU0mPoFaveRBS/4xrx
-         ydgBRwhI5y6wTPXQdDRR/zyMLOjVtyho7yylfir/d9PKrfc0pkVqCd1CaoRHy2IyohJK
-         fvof/tYqlJ/rJ9HrZ2OLVwGOg1SfDYLUqhhGyVl3Wmy6Ng99oeVv7+mmSMQ14AJuw9VE
-         9OWO+yzQc7ubS/HTaqSWb9zm1O62w/XzcV3qFvBC6oS2cZUWVCgKHFUsKkYmrx9CLOkG
-         L2vuaRgOvrjFiur2Gktfgyaz5Ip1sIgBPgMVBPFNEunSn+CsgYmb3VksS48Odi7quIB6
-         d4sA==
-X-Gm-Message-State: AOAM530CgEb+bRMKNGHMAWI3UgwMBsTg0Jhza94kUg5B/WLo8Tz2zqT9
-	gGbKXrcvk6aXgiUGtpVSlZk=
-X-Google-Smtp-Source: ABdhPJwfVuGHbgAxAM1l4vYOBmHnvNDuO9vuw74HOi837D+KQU2q+eVP/A0K8g4QzL5JpC5QAwO67A==
-X-Received: by 2002:a5d:6304:: with SMTP id i4mr23996904wru.155.1616941432347;
-        Sun, 28 Mar 2021 07:23:52 -0700 (PDT)
+        bh=Rj1gHcqJ6D3CVg382aakQnCnhfVirIRkWk/I75I+2pU=;
+        b=D9CBflKihz98R18LLnGccUb2zqKAKDYKF6iIrQ5smuPWy3P0j+eI53OM4zW0NosmM6
+         r6fZMR9Xj8C1lr2G9V8O5Ew9Tm2zMhNXwCNafIXI7Nbzx72BCM5EooN4k8+CPggwOTgq
+         wwa+09ObWf3vMMEmmuCYCUiUIxN/R3BayVx3p4v1XWEFrpR39qPRYnmlZ+0n0QTWKoLf
+         N+yH1NR1+7zypOTGw2v8bTE+MNtmN2ABbqeInr5AQUn1IOR6UI7S9PN/STlz5nhkVGfL
+         7Y8n8eTXUsas5wfMOkKEWoVNJBv/gfwfrFwWrgSzjFMDrydiWjJCwWzYkiszqhUwXkW4
+         tg0g==
+X-Gm-Message-State: AOAM531D7ht9GSrlfRGrBIm4wept9H44CbjAizqddXImhsxo/eWLyCgl
+	n0OrAVRZoZhH0POZCm+zXr4=
+X-Google-Smtp-Source: ABdhPJyt7hBpZNlo1nw5ej5CH2Xsk4xrz95wFR6hcPpi0sns8O553cP9if1l6M+CTv1BhUZalWA1Mg==
+X-Received: by 2002:a1c:6309:: with SMTP id x9mr21066713wmb.62.1616942607297;
+        Sun, 28 Mar 2021 07:43:27 -0700 (PDT)
 Received: from agape.jhs ([151.47.29.17])
-        by smtp.gmail.com with ESMTPSA id m14sm19653524wmi.27.2021.03.28.07.23.50
+        by smtp.gmail.com with ESMTPSA id c2sm20997616wmr.22.2021.03.28.07.43.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Mar 2021 07:23:51 -0700 (PDT)
-Date: Sun, 28 Mar 2021 16:23:48 +0200
+        Sun, 28 Mar 2021 07:43:27 -0700 (PDT)
+Date: Sun, 28 Mar 2021 16:43:24 +0200
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: Greg KH <gregkh@linuxfoundation.org>
-Cc: dan.carpenter@oracle.com, david.laight@aculab.com,
+Cc: joe@perches.com, dan.carpenter@oracle.com, david.laight@aculab.com,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 19/20] staging: rtl8723bs: include macro in a do -
- while loop in core/rtw_security.c
-Message-ID: <20210328142347.GA1450@agape.jhs>
+Subject: Re: [PATCH v2 09/20] staging: rtl8723bs: put parentheses on macros
+ with complex values in include/rtw_debug.h
+Message-ID: <20210328144322.GB1450@agape.jhs>
 References: <cover.1616854134.git.fabioaiuto83@gmail.com>
- <0f176b08b7a49d6649ff9d5468bd912e58c1db06.1616854134.git.fabioaiuto83@gmail.com>
- <YGByG/9r6yoylXJE@kroah.com>
+ <f36448ddc1553a018f700983b5d436eacaef9cb3.1616854134.git.fabioaiuto83@gmail.com>
+ <YGBxyZyj3o6fT//G@kroah.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -54,52 +54,57 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YGByG/9r6yoylXJE@kroah.com>
+In-Reply-To: <YGBxyZyj3o6fT//G@kroah.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Sun, Mar 28, 2021 at 02:10:03PM +0200, Greg KH wrote:
-> On Sat, Mar 27, 2021 at 03:24:18PM +0100, Fabio Aiuto wrote:
+On Sun, Mar 28, 2021 at 02:08:41PM +0200, Greg KH wrote:
+> On Sat, Mar 27, 2021 at 03:24:08PM +0100, Fabio Aiuto wrote:
 > > fix the following checkpatch warning:
 > > 
-> > ERROR: Macros with multiple statements should be enclosed
-> > in a do - while loop
-> > 2014: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:2014:
-> > +#define ROUND(i, d, s) \
+> > ERROR: Macros starting with if should be enclosed by a
+> > do - while loop to avoid possible if/else logic defects
+> > +	#define RT_PRINT_DATA(_Comp, _Level,
+> > 	_TitleString, _HexData, _HexDataLen)			\
 > > 
 > > Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 > > ---
-> >  drivers/staging/rtl8723bs/core/rtw_security.c | 10 ++++++----
-> >  1 file changed, 6 insertions(+), 4 deletions(-)
+> >  drivers/staging/rtl8723bs/include/rtw_debug.h | 28 ++++++++++---------
+> >  1 file changed, 15 insertions(+), 13 deletions(-)
 > > 
-> > diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-> > index 0ddd7667a986..8a447e149438 100644
-> > --- a/drivers/staging/rtl8723bs/core/rtw_security.c
-> > +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-> > @@ -2012,10 +2012,12 @@ static void rijndaelEncrypt(u32 rk[/*44*/], u8 pt[16], u8 ct[16])
-> >  	s3 = GETU32(pt + 12) ^ rk[3];
-> >  
-> >  #define ROUND(i, d, s) \
-> > -d##0 = TE0(s##0) ^ TE1(s##1) ^ TE2(s##2) ^ TE3(s##3) ^ rk[4 * i]; \
-> > -d##1 = TE0(s##1) ^ TE1(s##2) ^ TE2(s##3) ^ TE3(s##0) ^ rk[4 * i + 1]; \
-> > -d##2 = TE0(s##2) ^ TE1(s##3) ^ TE2(s##0) ^ TE3(s##1) ^ rk[4 * i + 2]; \
-> > -d##3 = TE0(s##3) ^ TE1(s##0) ^ TE2(s##1) ^ TE3(s##2) ^ rk[4 * i + 3]
-> > +	do { \
-> > +		d##0 = TE0(s##0) ^ TE1(s##1) ^ TE2(s##2) ^ TE3(s##3) ^ rk[4 * i]; \
-> > +		d##1 = TE0(s##1) ^ TE1(s##2) ^ TE2(s##3) ^ TE3(s##0) ^ rk[4 * i + 1]; \
-> > +		d##2 = TE0(s##2) ^ TE1(s##3) ^ TE2(s##0) ^ TE3(s##1) ^ rk[4 * i + 2]; \
-> > +		d##3 = TE0(s##3) ^ TE1(s##0) ^ TE2(s##1) ^ TE3(s##2) ^ rk[4 * i + 3]; \
-> > +	} while (0)
+> > diff --git a/drivers/staging/rtl8723bs/include/rtw_debug.h b/drivers/staging/rtl8723bs/include/rtw_debug.h
+> > index d1c557818305..b00f8a6c4312 100644
+> > --- a/drivers/staging/rtl8723bs/include/rtw_debug.h
+> > +++ b/drivers/staging/rtl8723bs/include/rtw_debug.h
+> > @@ -236,19 +236,21 @@
+> >  #if	defined(_dbgdump)
+> >  	#undef RT_PRINT_DATA
+> >  	#define RT_PRINT_DATA(_Comp, _Level, _TitleString, _HexData, _HexDataLen)			\
+> > -		if (((_Comp) & GlobalDebugComponents) && (_Level <= GlobalDebugLevel))	\
+> > -		{									\
+> > -			int __i;								\
+> > -			u8 *ptr = (u8 *)_HexData;				\
+> > -			_dbgdump("%s", DRIVER_PREFIX);						\
+> > -			_dbgdump(_TitleString);						\
+> > -			for (__i = 0; __i < (int)_HexDataLen; __i++)				\
+> > -			{								\
+> > -				_dbgdump("%02X%s", ptr[__i], (((__i + 1) % 4) == 0)?"  ":" ");	\
+> > -				if (((__i + 1) % 16) == 0)	_dbgdump("\n");			\
+> > -			}								\
+> > -			_dbgdump("\n");							\
+> > -		}
 > 
-> Why is this code not using the in-kernel crypto code instead?  I'll take
-> this but that should be something that is done to this code
-> eventually...
+> This whole nightmare needs to just be deleted and any callers of it need
+> to use the in-kernel functions for this instead.
 > 
 > thanks,
 > 
 > greg k-h
 
-ok, I will indagate fo the fix.
+ok, will we get rid of the private debug level and components tracking as well?
 
-thank you,
+Maybe encapsulating the built-in proposed by Joe, keeping the macro alive?
 
-fabio
+Thank you,
+
+Fabio
+ 
