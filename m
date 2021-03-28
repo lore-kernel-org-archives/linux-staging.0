@@ -1,71 +1,83 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE3A25F
-	for <linux-staging@lists.linux.dev>; Sun, 28 Mar 2021 12:10:06 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D72056195F;
-	Sun, 28 Mar 2021 12:10:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A266170
+	for <linux-staging@lists.linux.dev>; Sun, 28 Mar 2021 12:32:53 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8EB066188B;
+	Sun, 28 Mar 2021 12:32:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1616933406;
-	bh=+YouyFeYmPrfjBr6cbnwvnPxSqWMJ1ubUecHxczCmY4=;
+	s=korg; t=1616934773;
+	bh=1tW6EgqS3GwDVKr8tt00RSBb137BBQAM9LEQ4HLlngY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SqnsOdPngr9u8D74ogFk0zsCECn138a1AmR9l7qkQyTE345xBoJBQXiLtcy50/gi4
-	 S23vdnvS8/0ZfxgkU4VgXUqqcNss93hf4qRf+0B+O2gD8utqHC3upsRLiEK+hWFPjt
-	 B3RrtkWai8ckl6zqKesvOmHaf/mDr33Klk3zs0Ow=
-Date: Sun, 28 Mar 2021 14:10:03 +0200
+	b=nFKg8wiJWhDItAcrr89mIT9h+RLLL7khcM8WQdUADbmT0SzCeUkNZsoFmhLih3HHf
+	 PUeN874b2vVtJqVpQYAmJRzINpkmwFYpy/YSaxyYz6XSG6lXBOKEfI0T3ewMVr3b2T
+	 6k+/h3H60OVcrTK1cnRQPj72ArS47Ou29YP+NEEY=
+Date: Sun, 28 Mar 2021 14:32:50 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: dan.carpenter@oracle.com, david.laight@aculab.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 19/20] staging: rtl8723bs: include macro in a do -
- while loop in core/rtw_security.c
-Message-ID: <YGByG/9r6yoylXJE@kroah.com>
-References: <cover.1616854134.git.fabioaiuto83@gmail.com>
- <0f176b08b7a49d6649ff9d5468bd912e58c1db06.1616854134.git.fabioaiuto83@gmail.com>
+To: Edmundo Carmona Antoranz <eantoranz@gmail.com>
+Cc: marcocesati@gmail.com, dan.carpenter@oracle.com,
+	ross.schm.dev@gmail.com, fabioaiuto83@gmail.com,
+	linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH -next 1/6] staging: rtl8723bs: ieee80211: remove unused
+ variable
+Message-ID: <YGB3chK5o9+udlWt@kroah.com>
+References: <20210327001736.180881-1-eantoranz@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <0f176b08b7a49d6649ff9d5468bd912e58c1db06.1616854134.git.fabioaiuto83@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210327001736.180881-1-eantoranz@gmail.com>
 
-On Sat, Mar 27, 2021 at 03:24:18PM +0100, Fabio Aiuto wrote:
-> fix the following checkpatch warning:
+On Fri, Mar 26, 2021 at 06:17:31PM -0600, Edmundo Carmona Antoranz wrote:
+> sec_idx in rtw_get_sec_ie() is set to 0 and never changes value. Also,
+> it is only used for debugging messages. Therefore the variable is
+> removed and the debug messages are adjusted. Adjusting debug messages
+> forced style changes. Taking the opportunity to adjust indentation
+> of those sections of the code.
 > 
-> ERROR: Macros with multiple statements should be enclosed
-> in a do - while loop
-> 2014: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:2014:
-> +#define ROUND(i, d, s) \
+> Removing this warning:
 > 
-> Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+> drivers/staging/rtl8723bs/core/rtw_ieee80211.c:657:15: warning: variable ‘sec_idx’ set but not used [-Wunused-but-set-variable]
+> 
+> Signed-off-by: Edmundo Carmona Antoranz <eantoranz@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_security.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
+>  .../staging/rtl8723bs/core/rtw_ieee80211.c    | 43 +++++++++++--------
+>  1 file changed, 25 insertions(+), 18 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-> index 0ddd7667a986..8a447e149438 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_security.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-> @@ -2012,10 +2012,12 @@ static void rijndaelEncrypt(u32 rk[/*44*/], u8 pt[16], u8 ct[16])
->  	s3 = GETU32(pt + 12) ^ rk[3];
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+> index cccbea555a32..ec065d924fbb 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+> @@ -654,7 +654,7 @@ int rtw_get_wapi_ie(u8 *in_ie, uint in_len, u8 *wapi_ie, u16 *wapi_len)
 >  
->  #define ROUND(i, d, s) \
-> -d##0 = TE0(s##0) ^ TE1(s##1) ^ TE2(s##2) ^ TE3(s##3) ^ rk[4 * i]; \
-> -d##1 = TE0(s##1) ^ TE1(s##2) ^ TE2(s##3) ^ TE3(s##0) ^ rk[4 * i + 1]; \
-> -d##2 = TE0(s##2) ^ TE1(s##3) ^ TE2(s##0) ^ TE3(s##1) ^ rk[4 * i + 2]; \
-> -d##3 = TE0(s##3) ^ TE1(s##0) ^ TE2(s##1) ^ TE3(s##2) ^ rk[4 * i + 3]
-> +	do { \
-> +		d##0 = TE0(s##0) ^ TE1(s##1) ^ TE2(s##2) ^ TE3(s##3) ^ rk[4 * i]; \
-> +		d##1 = TE0(s##1) ^ TE1(s##2) ^ TE2(s##3) ^ TE3(s##0) ^ rk[4 * i + 1]; \
-> +		d##2 = TE0(s##2) ^ TE1(s##3) ^ TE2(s##0) ^ TE3(s##1) ^ rk[4 * i + 2]; \
-> +		d##3 = TE0(s##3) ^ TE1(s##0) ^ TE2(s##1) ^ TE3(s##2) ^ rk[4 * i + 3]; \
-> +	} while (0)
+>  void rtw_get_sec_ie(u8 *in_ie, uint in_len, u8 *rsn_ie, u16 *rsn_len, u8 *wpa_ie, u16 *wpa_len)
+>  {
+> -	u8 authmode, sec_idx, i;
+> +	u8 authmode, i;
+>  	u8 wpa_oui[4] = {0x0, 0x50, 0xf2, 0x01};
+>  	uint	cnt;
+>  
+> @@ -662,37 +662,44 @@ void rtw_get_sec_ie(u8 *in_ie, uint in_len, u8 *rsn_ie, u16 *rsn_len, u8 *wpa_ie
+>  
+>  	cnt = (_TIMESTAMP_ + _BEACON_ITERVAL_ + _CAPABILITY_);
+>  
+> -	sec_idx = 0;
+> -
+>  	while (cnt < in_len) {
+>  		authmode = in_ie[cnt];
+>  
+>  		if ((authmode == WLAN_EID_VENDOR_SPECIFIC) && (!memcmp(&in_ie[cnt+2], &wpa_oui[0], 4))) {
+> -				RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("\n rtw_get_wpa_ie: sec_idx =%d in_ie[cnt+1]+2 =%d\n", sec_idx, in_ie[cnt+1]+2));
+> +			RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_,
+> +				 ("\n rtw_get_wpa_ie: in_ie[cnt+1]+2 =%d\n", in_ie[cnt + 1] + 2));
 
-Why is this code not using the in-kernel crypto code instead?  I'll take
-this but that should be something that is done to this code
-eventually...
+These "RT_TRACE" things need to all be removed or use the real in-kernel
+api instead.  Please do not hide the problems with them by trying to
+clean them up.
 
 thanks,
 
