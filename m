@@ -1,52 +1,29 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D0F5F
-	for <linux-staging@lists.linux.dev>; Sun, 28 Mar 2021 14:43:28 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id g25so5331367wmh.0
-        for <linux-staging@lists.linux.dev>; Sun, 28 Mar 2021 07:43:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Rj1gHcqJ6D3CVg382aakQnCnhfVirIRkWk/I75I+2pU=;
-        b=jBOU199SOD136BiiE/UJDFniyiUznX9ADK4GnmJMo++LCW2lAN54tLKszh+3SvusmX
-         UHu96z0r4T0wUi0xCJdvmQ0WHKyN9yJTHrqlTG+3c++WD7S36hjLl/flmc9CgXoF2gwA
-         3El9TUEoL3VeE8usij6C2qYKnmv/FLEihD85G+4O74D1O+UHgxVbzc07+DuPfThA5Njg
-         fCGqqyITsLT5ERbn23hE9dItzJIyjrHRxARG4+k6KOXPhWrWg3Jg0C0KUeU2HUru4l3H
-         OWO7niWCLG+BTS6jMbhgM4+pBW4whqXwuzSnni7fR2rruuUsZLhh+YDvmmeVhETe1AQz
-         fySg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Rj1gHcqJ6D3CVg382aakQnCnhfVirIRkWk/I75I+2pU=;
-        b=D9CBflKihz98R18LLnGccUb2zqKAKDYKF6iIrQ5smuPWy3P0j+eI53OM4zW0NosmM6
-         r6fZMR9Xj8C1lr2G9V8O5Ew9Tm2zMhNXwCNafIXI7Nbzx72BCM5EooN4k8+CPggwOTgq
-         wwa+09ObWf3vMMEmmuCYCUiUIxN/R3BayVx3p4v1XWEFrpR39qPRYnmlZ+0n0QTWKoLf
-         N+yH1NR1+7zypOTGw2v8bTE+MNtmN2ABbqeInr5AQUn1IOR6UI7S9PN/STlz5nhkVGfL
-         7Y8n8eTXUsas5wfMOkKEWoVNJBv/gfwfrFwWrgSzjFMDrydiWjJCwWzYkiszqhUwXkW4
-         tg0g==
-X-Gm-Message-State: AOAM531D7ht9GSrlfRGrBIm4wept9H44CbjAizqddXImhsxo/eWLyCgl
-	n0OrAVRZoZhH0POZCm+zXr4=
-X-Google-Smtp-Source: ABdhPJyt7hBpZNlo1nw5ej5CH2Xsk4xrz95wFR6hcPpi0sns8O553cP9if1l6M+CTv1BhUZalWA1Mg==
-X-Received: by 2002:a1c:6309:: with SMTP id x9mr21066713wmb.62.1616942607297;
-        Sun, 28 Mar 2021 07:43:27 -0700 (PDT)
-Received: from agape.jhs ([151.47.29.17])
-        by smtp.gmail.com with ESMTPSA id c2sm20997616wmr.22.2021.03.28.07.43.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Mar 2021 07:43:27 -0700 (PDT)
-Date: Sun, 28 Mar 2021 16:43:24 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38EFE5F
+	for <linux-staging@lists.linux.dev>; Sun, 28 Mar 2021 14:54:09 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 36D216192F;
+	Sun, 28 Mar 2021 14:54:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1616943248;
+	bh=y/ymWEHYwTx8OaPC3G/hIMwkrfXN3ruJxutzb5Kk6E8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MDt4dB7jPHeJfP3QhNPcLLEymZ/3PaCJ+cPeHpZ3gfUmS02v6/XB0Jqx61ommtRlx
+	 wNYf1z5+pOA/DkR0rUilGohZB5PKTpYNeeBrizjd5m6b+AJLSvsYXcxKv0NssO9Cbi
+	 YZbbj2v+YecAQwFWKuv6j0D+ZAQxanrY8/n3nzKA=
+Date: Sun, 28 Mar 2021 16:54:06 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
 Cc: joe@perches.com, dan.carpenter@oracle.com, david.laight@aculab.com,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 09/20] staging: rtl8723bs: put parentheses on macros
  with complex values in include/rtw_debug.h
-Message-ID: <20210328144322.GB1450@agape.jhs>
+Message-ID: <YGCYjiu5rv09Sm99@kroah.com>
 References: <cover.1616854134.git.fabioaiuto83@gmail.com>
  <f36448ddc1553a018f700983b5d436eacaef9cb3.1616854134.git.fabioaiuto83@gmail.com>
  <YGBxyZyj3o6fT//G@kroah.com>
+ <20210328144322.GB1450@agape.jhs>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -54,57 +31,65 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YGBxyZyj3o6fT//G@kroah.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210328144322.GB1450@agape.jhs>
 
-On Sun, Mar 28, 2021 at 02:08:41PM +0200, Greg KH wrote:
-> On Sat, Mar 27, 2021 at 03:24:08PM +0100, Fabio Aiuto wrote:
-> > fix the following checkpatch warning:
+On Sun, Mar 28, 2021 at 04:43:24PM +0200, Fabio Aiuto wrote:
+> On Sun, Mar 28, 2021 at 02:08:41PM +0200, Greg KH wrote:
+> > On Sat, Mar 27, 2021 at 03:24:08PM +0100, Fabio Aiuto wrote:
+> > > fix the following checkpatch warning:
+> > > 
+> > > ERROR: Macros starting with if should be enclosed by a
+> > > do - while loop to avoid possible if/else logic defects
+> > > +	#define RT_PRINT_DATA(_Comp, _Level,
+> > > 	_TitleString, _HexData, _HexDataLen)			\
+> > > 
+> > > Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+> > > ---
+> > >  drivers/staging/rtl8723bs/include/rtw_debug.h | 28 ++++++++++---------
+> > >  1 file changed, 15 insertions(+), 13 deletions(-)
+> > > 
+> > > diff --git a/drivers/staging/rtl8723bs/include/rtw_debug.h b/drivers/staging/rtl8723bs/include/rtw_debug.h
+> > > index d1c557818305..b00f8a6c4312 100644
+> > > --- a/drivers/staging/rtl8723bs/include/rtw_debug.h
+> > > +++ b/drivers/staging/rtl8723bs/include/rtw_debug.h
+> > > @@ -236,19 +236,21 @@
+> > >  #if	defined(_dbgdump)
+> > >  	#undef RT_PRINT_DATA
+> > >  	#define RT_PRINT_DATA(_Comp, _Level, _TitleString, _HexData, _HexDataLen)			\
+> > > -		if (((_Comp) & GlobalDebugComponents) && (_Level <= GlobalDebugLevel))	\
+> > > -		{									\
+> > > -			int __i;								\
+> > > -			u8 *ptr = (u8 *)_HexData;				\
+> > > -			_dbgdump("%s", DRIVER_PREFIX);						\
+> > > -			_dbgdump(_TitleString);						\
+> > > -			for (__i = 0; __i < (int)_HexDataLen; __i++)				\
+> > > -			{								\
+> > > -				_dbgdump("%02X%s", ptr[__i], (((__i + 1) % 4) == 0)?"  ":" ");	\
+> > > -				if (((__i + 1) % 16) == 0)	_dbgdump("\n");			\
+> > > -			}								\
+> > > -			_dbgdump("\n");							\
+> > > -		}
 > > 
-> > ERROR: Macros starting with if should be enclosed by a
-> > do - while loop to avoid possible if/else logic defects
-> > +	#define RT_PRINT_DATA(_Comp, _Level,
-> > 	_TitleString, _HexData, _HexDataLen)			\
+> > This whole nightmare needs to just be deleted and any callers of it need
+> > to use the in-kernel functions for this instead.
 > > 
-> > Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
-> > ---
-> >  drivers/staging/rtl8723bs/include/rtw_debug.h | 28 ++++++++++---------
-> >  1 file changed, 15 insertions(+), 13 deletions(-)
+> > thanks,
 > > 
-> > diff --git a/drivers/staging/rtl8723bs/include/rtw_debug.h b/drivers/staging/rtl8723bs/include/rtw_debug.h
-> > index d1c557818305..b00f8a6c4312 100644
-> > --- a/drivers/staging/rtl8723bs/include/rtw_debug.h
-> > +++ b/drivers/staging/rtl8723bs/include/rtw_debug.h
-> > @@ -236,19 +236,21 @@
-> >  #if	defined(_dbgdump)
-> >  	#undef RT_PRINT_DATA
-> >  	#define RT_PRINT_DATA(_Comp, _Level, _TitleString, _HexData, _HexDataLen)			\
-> > -		if (((_Comp) & GlobalDebugComponents) && (_Level <= GlobalDebugLevel))	\
-> > -		{									\
-> > -			int __i;								\
-> > -			u8 *ptr = (u8 *)_HexData;				\
-> > -			_dbgdump("%s", DRIVER_PREFIX);						\
-> > -			_dbgdump(_TitleString);						\
-> > -			for (__i = 0; __i < (int)_HexDataLen; __i++)				\
-> > -			{								\
-> > -				_dbgdump("%02X%s", ptr[__i], (((__i + 1) % 4) == 0)?"  ":" ");	\
-> > -				if (((__i + 1) % 16) == 0)	_dbgdump("\n");			\
-> > -			}								\
-> > -			_dbgdump("\n");							\
-> > -		}
+> > greg k-h
 > 
-> This whole nightmare needs to just be deleted and any callers of it need
-> to use the in-kernel functions for this instead.
-> 
-> thanks,
-> 
-> greg k-h
+> ok, will we get rid of the private debug level and components tracking as well?
 
-ok, will we get rid of the private debug level and components tracking as well?
+Please do.
 
-Maybe encapsulating the built-in proposed by Joe, keeping the macro alive?
+> Maybe encapsulating the built-in proposed by Joe, keeping the macro alive?
 
-Thank you,
+No, do not keep it alive.  Individual debugging/trace/info macros for
+drivers do not make sense at all.  We have kernel-wide infrastructure
+for this, it is bold for an individual driver to somehow think that they
+need a "custom" solution for this instead.
 
-Fabio
- 
+Just use the normal apis, that is what they are there for.
+
+thanks,
+
+greg k-h
