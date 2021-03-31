@@ -1,53 +1,51 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B856F
-	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 09:34:23 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id hq27so29038632ejc.9
-        for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 02:34:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829136F
+	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 09:40:14 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id l4so29067137ejc.10
+        for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 02:40:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=nJLOt94s3l6Fobf6ZPtXQMWeNkPKhv/UBfAhGZDQK4c=;
-        b=FM+yqdyhKqo/+jLtBo0PUMiH1tfrS9whjhQTsrwYVd6zQbGiX/8FGnZX+9B7FGcv+d
-         eg0VamjlsVJFn+kVuzo7/e3j2i68Xl7NzMVgU68mqVRbcsxhoU5rJqcbBz0m50fbOJ8A
-         BCngCEwkTM8RJWO8Zw/PZIxXjSYYHNqvXKKEznhi05nZOeKaLgmzNQjUEDT+Ybvcc/7f
-         fXXiT0cLDL7NO0F2a7tMAiQQ0nPsqCj/1wNU1wND5LIsm9d/gqkA1J0OV843lD6jm8qq
-         jYiuj1r9P7q4xsiUvnwJRlW6ADv+tNnDFVoVX7Bs/xnx3kOEpZ/KrXOCafsqzcsFNI1a
-         wdWQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XMjq0EnNPHk8JnXWNq75o7oGRr8GJXa/YQ1PMp5WkcQ=;
+        b=nY1manQxEnYQkBu1Wn2T0srrVqGqwEOQN1Ah4e330sQsQRapDFRGzQV4KnfCKhsnAS
+         fM+rJS2nDNsSBdVCFkyWwQJbBWT5oZubQhoMAyv3GLf09h/U4YP8jl8ytSrisLFQ4zfY
+         AbiGATh7n+wCs2jQc8bdi9ZF/kX9vbmqgwcV4+9ZpPJOvb1jjACKsvLnUcqdDovPfu8K
+         2mHvnnIJPcw1nEo+ijzdOnXgJn82NX6WNnDtlFFsb9xOVafT0vgWPPvuszNwU8cXwmkQ
+         BGZSJtjXdthq5UsizzQTSvDssLdfK1O2V41C0lm6UAWkREoykXbg+61/eNUc1HH33NJh
+         YAUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=nJLOt94s3l6Fobf6ZPtXQMWeNkPKhv/UBfAhGZDQK4c=;
-        b=FLqNfdoYCzY/BhgO1R9BnFAoz8JjrRoGfM1ZsMgoO7Yfwbn7lq+dKRhOXDSMRX9QaW
-         lBeUUr53b5H4cV+yDc9BWvS8nk9LJzdWP8lZFUVaHnwDVrXlZOyLRnGIvLoxZkvsSFH5
-         FaJtv4/Hu9U2bl7GUb9m0xyjhORy9Ep4UfbOF970R+DFOfqFrJS2UWd25aBARXpszUYP
-         I3zDMWj/fE4qWS7YKRLGmZ9wR5e0FLU8OJjVZW+TpwZ4zO8noMocv7Mnt7uVyUoJmWo8
-         /9KUULsprSQjMxYvicwcJtMwCZu6qkd4IIL8OTfGFbPCu+RAaiIB2ev3tqT8pFldKMQe
-         xlRg==
-X-Gm-Message-State: AOAM533fs7plHVUF1W5gakTxKFJoiSlBrV4Y9CUrSOIGsCkZ4IYm9WmM
-	UGAIFB62ZA4fxjujATcQkUc=
-X-Google-Smtp-Source: ABdhPJxHn1CzN8QRRB1addIFq7ulFiTS5vS6eKmQJi2R3RDkXBT3AP1z5iu6oB0JyrTgUrOUaKA2+g==
-X-Received: by 2002:a17:906:4117:: with SMTP id j23mr2623040ejk.10.1617183261777;
-        Wed, 31 Mar 2021 02:34:21 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XMjq0EnNPHk8JnXWNq75o7oGRr8GJXa/YQ1PMp5WkcQ=;
+        b=iA3k0/kQ3RqJDUlCiKa7TKIfx/FUQb2UGJskIsjnSCXXIKhyDS1cCQQrAU49+fXnna
+         hAypfrrHk1AlkzswH1x/6GeIQLNVgujkjq0RwGBlSYep6scR526Jem07S1h9p/QjxCvv
+         LAsIEEmXTTFzirvNSHlhaL3tuLBuQJj3NpqaL5lot1dcwLtSjDdgbCuU1ObsObp4AZMT
+         /k0b1V/6dfhu50yQGbrnIynNggUThG7Uqra8pdCMsIsCPHV+IHsXcG3Ff0qmZnyC41G7
+         oXj2ae3Se3FiQeZLF8eaSOPPU6e1Q/s8q6rkE7I1qc6WiZenX9T6BBMNj6+3C+1gVEAn
+         E27Q==
+X-Gm-Message-State: AOAM532HK0sR8j50oLU/MrESr2bGtjGCKAlIeMiadIirOsA6iJc40N0Z
+	1gBCOeGYVtcKNj4T5mFleQ0=
+X-Google-Smtp-Source: ABdhPJz5WHF5f/iKq7TA6oJ54j2rDg2LDe5jpSIfig6wZw0GRAlXumoGdQYJ7RG6rdZjSjeOTnWx9A==
+X-Received: by 2002:a17:906:36d1:: with SMTP id b17mr2635600ejc.235.1617183613058;
+        Wed, 31 Mar 2021 02:40:13 -0700 (PDT)
 Received: from agape ([5.171.73.44])
-        by smtp.gmail.com with ESMTPSA id w24sm1095489edt.44.2021.03.31.02.34.21
+        by smtp.gmail.com with ESMTPSA id jj15sm831377ejc.99.2021.03.31.02.40.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Mar 2021 02:34:21 -0700 (PDT)
+        Wed, 31 Mar 2021 02:40:12 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: joe@perches.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 2/2] staging: rtl8723bs: remove unused macro RT_PRINT_DATA
-Date: Wed, 31 Mar 2021 11:34:07 +0200
-Message-Id: <1367a38513774e80a3ce32947ae80506576b2e94.1617183040.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 00/40] staging: rtl8723bs: replace RT_TRACE private macro 
+Date: Wed, 31 Mar 2021 11:39:28 +0200
+Message-Id: <cover.1617183374.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1617183040.git.fabioaiuto83@gmail.com>
-References: <cover.1617183040.git.fabioaiuto83@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -55,43 +53,119 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove unused macro declaration: RT_PRINT_DATA
+this patchset replace all RT_TRACE usages with public log functions
+used for this pourpose
 
-Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
----
- drivers/staging/rtl8723bs/include/rtw_debug.h | 19 -------------------
- 1 file changed, 19 deletions(-)
+Fabio Aiuto (40):
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    core/rtw_xmit.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    core/rtw_security.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    core/rtw_eeprom.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    core/rtw_pwrctrl.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    core/rtw_cmd.c
+  staging: rtl8723bs: remove commented RT_TRACE calls in core/rtw_mlme.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    core/rtw_mlme.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    core/rtw_mlme_ext.c
+  staging: rtl8723bs: remove commented RT_TRACE calls in core/rtw_recv.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    core/rtw_recv.c
+  staging: rtl8723bs: remove commented RT_TRACE call in
+    core/rtw_ioctl_set.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    core/rtw_ioctl_set.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    core/rtw_wlan_util.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    core/rtw_sta_mgt.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    core/rtw_ieee80211.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    hal/HalPwrSeqCmd.c
+  staging: rtl8723bs: fix constant name in hal/rtl8723b_hal_init.c
+  staging: rtl8723bs: added driver prefix in log messages
+  staging: rtl8723bs: remove commented RT_TRACE call in
+    hal/rtl8723b_hal_init.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    hal/rtl8723b_hal_init.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    hal/sdio_ops.c
+  staging: rtl8723bs: remove commented code block in
+    hal/hal_com_phycfg.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    hal/rtl8723b_phycfg.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    hal/hal_intf.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    hal/rtl8723bs_xmit.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    hal/sdio_halinit.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    hal/rtl8723bs_recv.c
+  staging: rtl8723bs: remove commented RT_TRACE calls in
+    hal/HalPhyRf_8723B.c
+  staging: rtl8723bs: remove commented RT_TRACE calls in
+    hal/rtl8723b_rf6052.c
+  staging: rtl8723bs: remove commented RT_TRACE calls in
+    os_dep/ioctl_linux.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    os_dep/ioctl_linux.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    os_dep/mlme_linux.c
+  staging: rtl8723bs: fix string format in os_dep/ioctl_cfg80211.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    os_dep/ioctl_cfg80211.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    os_dep/os_intfs.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    os_dep/recv_linux.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    os_dep/sdio_intf.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    os_dep/xmit_linux.c
+  staging: rtl8723bs: replace RT_TRACE with public printk wrappers in
+    os_dep/osdep_service.c
+  staging: rtl8723bs: remove obsolete debug macro
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_debug.h b/drivers/staging/rtl8723bs/include/rtw_debug.h
-index d1c557818305..4c0857241922 100644
---- a/drivers/staging/rtl8723bs/include/rtw_debug.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_debug.h
-@@ -231,25 +231,6 @@
- 	} while (0)
- 
- #endif /* defined(_dbgdump) && defined(_MODULE_DEFINE_) */
--
--
--#if	defined(_dbgdump)
--	#undef RT_PRINT_DATA
--	#define RT_PRINT_DATA(_Comp, _Level, _TitleString, _HexData, _HexDataLen)			\
--		if (((_Comp) & GlobalDebugComponents) && (_Level <= GlobalDebugLevel))	\
--		{									\
--			int __i;								\
--			u8 *ptr = (u8 *)_HexData;				\
--			_dbgdump("%s", DRIVER_PREFIX);						\
--			_dbgdump(_TitleString);						\
--			for (__i = 0; __i < (int)_HexDataLen; __i++)				\
--			{								\
--				_dbgdump("%02X%s", ptr[__i], (((__i + 1) % 4) == 0)?"  ":" ");	\
--				if (((__i + 1) % 16) == 0)	_dbgdump("\n");			\
--			}								\
--			_dbgdump("\n");							\
--		}
--#endif /* defined(_dbgdump) */
- #endif /* DEBUG_RTL871X */
- 
- void dump_drv_version(void *sel);
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      |  55 ++--
+ drivers/staging/rtl8723bs/core/rtw_eeprom.c   |  26 +-
+ .../staging/rtl8723bs/core/rtw_ieee80211.c    | 116 +++++---
+ .../staging/rtl8723bs/core/rtw_ioctl_set.c    | 129 +++++----
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     | 128 +++++----
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  39 +--
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  |  62 ++---
+ drivers/staging/rtl8723bs/core/rtw_recv.c     | 252 +++++++++++-------
+ drivers/staging/rtl8723bs/core/rtw_security.c |  38 ++-
+ drivers/staging/rtl8723bs/core/rtw_sta_mgt.c  |  45 ++--
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    |  28 +-
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     | 168 ++++++++----
+ .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    |   3 -
+ drivers/staging/rtl8723bs/hal/HalPwrSeqCmd.c  |  61 ++---
+ .../staging/rtl8723bs/hal/hal_com_phycfg.c    |  20 --
+ drivers/staging/rtl8723bs/hal/hal_intf.c      |   2 +-
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 155 +++++------
+ .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   |  48 ++--
+ .../staging/rtl8723bs/hal/rtl8723b_rf6052.c   |   2 -
+ .../staging/rtl8723bs/hal/rtl8723bs_recv.c    |   5 +-
+ .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    |  42 +--
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  |  49 ++--
+ drivers/staging/rtl8723bs/hal/sdio_ops.c      |  42 +--
+ drivers/staging/rtl8723bs/include/rtw_debug.h |  17 --
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c |  14 +-
+ .../staging/rtl8723bs/os_dep/ioctl_linux.c    |  87 +++---
+ drivers/staging/rtl8723bs/os_dep/mlme_linux.c |   4 +-
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   |  65 +++--
+ .../staging/rtl8723bs/os_dep/osdep_service.c  |   2 +-
+ drivers/staging/rtl8723bs/os_dep/recv_linux.c |  22 +-
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c  |  19 +-
+ drivers/staging/rtl8723bs/os_dep/xmit_linux.c |  10 +-
+ 32 files changed, 914 insertions(+), 841 deletions(-)
+
 -- 
 2.20.1
 
