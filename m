@@ -1,68 +1,62 @@
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA1E6F
-	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 09:59:37 +0000 (UTC)
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4F9LpP0tcWz1BFv9;
-	Wed, 31 Mar 2021 17:38:05 +0800 (CST)
-Received: from huawei.com (10.175.103.91) by DGGEMS410-HUB.china.huawei.com
- (10.3.19.210) with Microsoft SMTP Server id 14.3.498.0; Wed, 31 Mar 2021
- 17:40:08 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540956F
+	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 10:05:22 +0000 (UTC)
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
+	by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4F9M0X5Jbhz9tVy;
+	Wed, 31 Mar 2021 17:46:52 +0800 (CST)
+Received: from huawei.com (10.175.103.91) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.498.0; Wed, 31 Mar 2021
+ 17:48:54 +0800
 From: Yang Yingliang <yangyingliang@huawei.com>
 To: <linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>
-CC: <gregkh@linuxfoundation.org>
-Subject: [PATCH -next] staging: rtl8723bs: os_dep: remove unused variable 'ret'
-Date: Wed, 31 Mar 2021 17:42:47 +0800
-Message-ID: <20210331094247.2169606-1-yangyingliang@huawei.com>
+CC: <johan@kernel.org>, <elder@kernel.org>, <gregkh@linuxfoundation.org>
+Subject: [PATCH -next] staging: greybus: camera: Switch to memdup_user_nul()
+Date: Wed, 31 Mar 2021 17:52:01 +0800
+Message-ID: <20210331095201.2173793-1-yangyingliang@huawei.com>
 X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.175.103.91]
 X-CFilter-Loop: Reflected
 
-GCC reports the following warning with W=1:
+Use memdup_user_nul() helper instead of open-coding to
+simplify the code.
 
-drivers/staging/rtl8723bs/os_dep/recv_linux.c:101:6: warning:
- variable ‘ret’ set but not used [-Wunused-but-set-variable]
-  101 |  int ret;
-      |      ^~~
-
-This variable is not used in function , this commit
-remove it to fix the warning.
-
-Fixes: de69e2b3f105 ("staging: rtl8723bs: remove DBG_COUNTER calls from os_dep/recv_linux.c")
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 ---
- drivers/staging/rtl8723bs/os_dep/recv_linux.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/greybus/camera.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/recv_linux.c b/drivers/staging/rtl8723bs/os_dep/recv_linux.c
-index fbdbcd04d44a..f6a9482be8e3 100644
---- a/drivers/staging/rtl8723bs/os_dep/recv_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/recv_linux.c
-@@ -98,7 +98,6 @@ struct sk_buff *rtw_os_alloc_msdu_pkt(union recv_frame *prframe, u16 nSubframe_L
- void rtw_os_recv_indicate_pkt(struct adapter *padapter, struct sk_buff *pkt, struct rx_pkt_attrib *pattrib)
- {
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--	int ret;
+diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
+index b570e13394ac..0f005facffbc 100644
+--- a/drivers/staging/greybus/camera.c
++++ b/drivers/staging/greybus/camera.c
+@@ -1120,16 +1120,10 @@ static ssize_t gb_camera_debugfs_write(struct file *file,
+ 	if (len > 1024)
+ 		return -EINVAL;
  
- 	/* Indicate the packets to upper layer */
- 	if (pkt) {
-@@ -140,7 +139,7 @@ void rtw_os_recv_indicate_pkt(struct adapter *padapter, struct sk_buff *pkt, str
+-	kbuf = kmalloc(len + 1, GFP_KERNEL);
+-	if (!kbuf)
++	kbuf = memdup_user_nul(buf, len);
++	if (IS_ERR(kbuf))
+ 		return -ENOMEM;
  
- 		pkt->ip_summed = CHECKSUM_NONE;
+-	if (copy_from_user(kbuf, buf, len)) {
+-		ret = -EFAULT;
+-		goto done;
+-	}
+-
+-	kbuf[len] = '\0';
  
--		ret = rtw_netif_rx(padapter->pnetdev, pkt);
-+		rtw_netif_rx(padapter->pnetdev, pkt);
- 	}
- }
+ 	ret = op->execute(gcam, kbuf, len);
  
 -- 
 2.25.1
