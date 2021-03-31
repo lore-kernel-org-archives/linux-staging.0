@@ -1,80 +1,71 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com [209.85.216.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706546F
-	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 12:46:24 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E315461959;
-	Wed, 31 Mar 2021 12:46:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1617194783;
-	bh=TQkoHACl/sFM+5iuM6x9rFOysAjN+duolQetZcUwOWQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tqRxQ6KO5Yo+HpqJhww4Y98I+1ZL0YA14AIiEGQRGDc2J8BaKegd6HvMh8s2S6Pu9
-	 hujaLdAsFyJWfrTLTxPDLXq/RrxSsZvSQVHG5SSedEqo4L8MYNBtUKtgzMNMKFp7Oy
-	 NedtbimR2scRy2fmCQCZaUkM3CD2+UW+JIqAaRgqPdWq4W58jEsGaIefGBgdtV1XsE
-	 +TwJHetOtZuV+LQVDRqeDSS/ge23LlmogViLNIDdgVZYhjbWCoDB2AEqosviKt12yI
-	 CuSM46EowOq91jlcKyYWy3iuUGVuWmqHCO87SX1e22aGLxwFxJo3FSxVXghWjmMPMy
-	 3xx3hJErZ0+/A==
-Date: Wed, 31 Mar 2021 18:16:19 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Dewar <alex.dewar90@gmail.com>,
-	Atul Gopinathan <leoatul12@gmail.com>,
-	Kishon Vijay Abraham I <kishon@ti.com>,
-	Rob Herring <robh+dt@kernel.org>, Yu Chen <chenyu56@huawei.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org, linux-staging@lists.linux.dev,
-	Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v5 (RESEND) 1/7] phy: phy-hi3670-usb3: move driver from
- staging into phy
-Message-ID: <YGRvG+3sD0gX2I+b@vkoul-mobl.Dlink>
-References: <cover.1616695231.git.mchehab+huawei@kernel.org>
- <36c31dcdcd49d5a728a1fe4040bbaef5268d7f79.1616695231.git.mchehab+huawei@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1BD95F
+	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 20:06:25 +0000 (UTC)
+Received: by mail-pj1-f66.google.com with SMTP id w8so10085174pjf.4
+        for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 13:06:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=BRuM09+J2aRYPZ9OUTp8R2fLyI9MYToqI7peFMSk8bU=;
+        b=lAAjckvzUujgug8k3+FTIryj68kvDL02K8IHYw3YEo7xayLfRq29/56j0AleZqRWmO
+         MDKvhVMKrTw8/hC2PD8PmBjm6C/hT60ToS4UQQuL+VzFptkWlcTn296vC08QtiRjBzIU
+         qTbtF56f0pARvIlV498lLIHWT7wzZk6Xe2Q3xjqKKyGk7ZIWYydCcHsiiJwZxPXu2+3S
+         HdagR7njK7ErZ7/pAx7LyjpxBWEu5Sc8KgF5rpqHa3fNdYrHeodE8FEYEa+czQNMgmiW
+         kBURRanz0kXdXPa/BOo6lik3yXnAu31YJk7tXGE5xzosh4Sy7JYNFTsatXMMy3SJ+ef/
+         JZng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=BRuM09+J2aRYPZ9OUTp8R2fLyI9MYToqI7peFMSk8bU=;
+        b=CDf3XelXE7bDPX+mRr3gpqjzxNdMDpgtcS8+fJNM+H2eXuOjiEcezv2vJ2exXB4M+b
+         J31m1jfMfvgG4HNqiodDPxWFuyUZlMRjxJ5O4Dp1WeGqzlDEYw9nVzeJcmfeDGxm9uPB
+         V5fAII2g5BnfYHVknShGOhVmvrHeQaiJxwUHYzu05biLS9rllPiraFu7sAHPIH9hLiYT
+         qUqMsuX/kbLqry0LNvJogV7qT9xIIZrMbNGtTLq6bsSg2NmpFZAZNMzrzEIgBhuyvj2j
+         3SmECTAVSFRKOM7hxkOIsefS1Ejgd+RO7K+TPm69Qkr3Q1vUwMJUUf1HLig0Bmh6Keau
+         rcYQ==
+X-Gm-Message-State: AOAM531TSJ6BLqlYz161ZYdM2pMCHdayVn0Bu36bLJ8Nh0vN1Z5+04hy
+	Ym6gPA7tngvU4vHAbmo9cxU=
+X-Google-Smtp-Source: ABdhPJwWCA498WxMX0SwPucZ1+YRNBumZ/NsIqqI8w29sQPpE8+Kt23WJFbltg5pKSkZiVBRQ+CRRA==
+X-Received: by 2002:a17:90b:2284:: with SMTP id kx4mr4958415pjb.96.1617221185463;
+        Wed, 31 Mar 2021 13:06:25 -0700 (PDT)
+Received: from djbComp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
+        by smtp.gmail.com with ESMTPSA id d22sm2985668pjx.24.2021.03.31.13.06.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Mar 2021 13:06:25 -0700 (PDT)
+From: Deborah Brouwer <deborahbrouwer3563@gmail.com>
+To: gregkh@linuxfoundation.org,
+	ross.schm.dev@gmail.com,
+	marcocesati@gmail.com,
+	fabioaiuto83@gmail.com,
+	dan.carpenter@oracle.com,
+	phil@philpotter.co.uk,
+	amarjargal16@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy-kernel@googlegroups.com,
+	Deborah Brouwer <deborahbrouwer3563@gmail.com>
+Subject: [PATCH 0/3] Fix block comment warnings
+Date: Wed, 31 Mar 2021 13:05:34 -0700
+Message-Id: <cover.1617221075.git.deborahbrouwer3563@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <36c31dcdcd49d5a728a1fe4040bbaef5268d7f79.1616695231.git.mchehab+huawei@kernel.org>
 
-On 25-03-21, 19:05, Mauro Carvalho Chehab wrote:
-> The phy USB3 driver for Hisilicon 970 (hi3670) is ready
-> for mainstream. Mode it from staging into the main driver's
-> phy/ directory.
+This patchset fixes checkpatch warnings arising
+from the block comments
 
-Overall lgtm, some nits below. With those fixed:
+Deborah Brouwer (3):
+  staging: rtl8723bs: core: fix repeated word warning
+  staging: rtl8723bs: core: fix block comment warning
+  staging: rtl8723bs: core: remove empty comment
 
-Acked-By: Vinod Koul <vkoul@kernel.org>
+ drivers/staging/rtl8723bs/core/rtw_xmit.c | 61 +++++++++++------------
+ 1 file changed, 28 insertions(+), 33 deletions(-)
 
-> +static int hi3670_phy_cr_clk(struct regmap *usb31misc)
-> +{
-> +	int ret;
-> +
-> +	/* Clock up */
-> +	ret = regmap_update_bits(usb31misc, USB_MISC_CFG54,
-> +				 CFG54_USB31PHY_CR_CLK, CFG54_USB31PHY_CR_CLK);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Clock down */
-> +	ret = regmap_update_bits(usb31misc, USB_MISC_CFG54,
-> +				 CFG54_USB31PHY_CR_CLK, 0);
-> +
-> +	return ret;
+--
+2.17.1
 
-return regmap_update_bits() ?
- (i see few more in driver like this, pls change others as well)
-
-> +static int hi3670_phy_cr_read(struct regmap *usb31misc, u32 addr, u32 *val)
-> +{
-> +	int reg;
-> +	int i;
-> +	int ret;
-
-all these could be in a single line
-
--- 
-~Vinod
