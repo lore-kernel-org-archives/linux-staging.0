@@ -1,77 +1,72 @@
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E65EB6F
-	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 08:50:27 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12V8o751184531;
-	Wed, 31 Mar 2021 08:50:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=etggik+6nyW56bNpiaKLu/fEPgt6EYeuNCnDSjwetdw=;
- b=gjfzl0EKRsjgpWsiTAiOLBkceU/t5krLRgV11xlpnIwRcmjPz8/Qcd/UWpApB6T/zy2o
- tXYRzuUJDqTHEjfmIusq0XnUf5CUmZbfXOFPH/eNDGILiw+tuXoWGxwqZocYD1GqAX75
- kj2uQKc5aOgpRLYhqPfA37n2Fnp5kP0iwVtACLPcnglxT0fWsIHCVHArk5ITe/dVHkjv
- JorEDrlzkSJQpUN63Nc9ef9xFKo3rR5xW2laP0u5fjmtQ3aSXwks0Hdjva/06Ud1R4JD
- bnD7HNDtr13n+v7MWj+1ECibzsUukkHzUB9TGjpjRbmh1mR5mdj+Ni3A/HkNTVUuA4G4 7A== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by aserp2120.oracle.com with ESMTP id 37mabqsgp3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 31 Mar 2021 08:50:12 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12V8eqY7181513;
-	Wed, 31 Mar 2021 08:50:10 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-	by aserp3020.oracle.com with ESMTP id 37mac8d55e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 31 Mar 2021 08:50:10 +0000
-Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
-	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 12V8o936010009;
-	Wed, 31 Mar 2021 08:50:09 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Wed, 31 Mar 2021 01:50:09 -0700
-Date: Wed, 31 Mar 2021 11:49:59 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Xu Jia <xujia39@huawei.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ross Schmidt <ross.schm.dev@gmail.com>,
-        Amarjargal Gundjalam <amarjargal16@gmail.com>,
-        Jason Yan <yanaijie@huawei.com>, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH -next] staging: rtl8723bs: core: Remove unused variable
- 'res'
-Message-ID: <20210331084959.GH2065@kadam>
-References: <1617178363-34193-1-git-send-email-xujia39@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D446F
+	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 09:34:20 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id e7so21468293edu.10
+        for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 02:34:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UU43qIhMTe6edOnTRhDNuqs4/6Fcr5WC9xOEehVRvzQ=;
+        b=AhlaDFvX1senwjL60n28pgpN8+6gKhh33Pt/Signy08TCbnbAPNqQ0nA9Z1wo0DACP
+         XLUZZlIGeGzcaHTmd+JpG4KYSfM9vitIKd1P5deDTBfyxob4ozXwI/IAn7lD3A3FDrsB
+         9tvyGYIlG1pW3EYDXNiuxvNTv/HFSTQFXS3NbWkMEyhachGVOP60aJdrz3UsGuVD9k2j
+         0dDPpd0F13WpJTGvjKm5SPcShORoXEsa4HqN12CeKRjXrcZ9Z/m48px3DX2cnCZqoU0H
+         6KKIHpuG1nf38wTPh0sf2PeJ5cMumO/rbCIj1xb2B9gEChBrFNqDxAbNTYCMnmu5Wez1
+         syiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UU43qIhMTe6edOnTRhDNuqs4/6Fcr5WC9xOEehVRvzQ=;
+        b=IL7da17G+UrIia+6k3NxKp1BvGNTNy2RJsZGVJ1Xquxm/nzaRrjhQ+VIrdHSX9lnXx
+         UeJmEbpdtf3QCzpcfyQtv5mt6gX+zMo33mBnHxydSjtF+ijqzM04Fd3YHy1DqpkGEy24
+         Fl01F1UVSfpaA9/Cn6vJlQWyhTgylbiF1qewH9k3UDfMLWNgpFjop4jbMMi8ilLSmgPE
+         FMW92LIOeSrV1w8Bqw9luRfgy9E0XZIuM5QELZYwwSWaM4jfc6iuus+ZuvbvBSWnVDrU
+         KdNc+0HlTWTWnAjH5BrwPQK/08vMk1GfwD7EDKFCRX9g1Sqz6Hpt5rYzIh9nzTRBDx7S
+         zKyg==
+X-Gm-Message-State: AOAM532gbxdQsjmslFQS3iVNwtGRFxuXbHnc4zrRK4DFZq2J0BFu13k5
+	I0vjttixUkbpC8IOLbb2pAY=
+X-Google-Smtp-Source: ABdhPJzlZT+Dj0fdTynGmGpq9s5/jAaugbVporKqJvGfTNKbCnpA8I1EznveD1AzeWoSx1g2mSyCQA==
+X-Received: by 2002:aa7:d74d:: with SMTP id a13mr2651401eds.199.1617183258604;
+        Wed, 31 Mar 2021 02:34:18 -0700 (PDT)
+Received: from agape ([5.171.73.44])
+        by smtp.gmail.com with ESMTPSA id bx24sm828657ejc.88.2021.03.31.02.34.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Mar 2021 02:34:18 -0700 (PDT)
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: joe@perches.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Fabio Aiuto <fabioaiuto83@gmail.com>
+Subject: [PATCH 0/2] staging: rtl8723bs: replace private macro with print_hex_dump_debug
+Date: Wed, 31 Mar 2021 11:34:05 +0200
+Message-Id: <cover.1617183040.git.fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1617178363-34193-1-git-send-email-xujia39@huawei.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9939 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 mlxscore=0 adultscore=0
- spamscore=0 malwarescore=0 phishscore=0 suspectscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103300000
- definitions=main-2103310063
-X-Proofpoint-ORIG-GUID: c1BmgHjkHjmPqhY6O_AWiJVv0XSe3goY
-X-Proofpoint-GUID: c1BmgHjkHjmPqhY6O_AWiJVv0XSe3goY
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9939 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 priorityscore=1501
- lowpriorityscore=0 malwarescore=0 suspectscore=0 adultscore=0 mlxscore=0
- bulkscore=0 spamscore=0 clxscore=1011 mlxlogscore=999 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103300000
- definitions=main-2103310064
+Content-Transfer-Encoding: 8bit
 
-I've been rejecting these patches until someone updates the callers to
-check the return.  This patch just silences the warning but the code is
-still totally buggy.
+this patchset replaces RT_PRINT_DATA private macro for dump hex values
+with the kernel helper used for this pourpose.
 
-regards,
-dan carpenter
+Fabio Aiuto (2):
+  staging: rtl8723bs: use print_hex_dump_debug instead of private
+    RT_PRINT_DATA
+  staging: rtl8723bs: remove unused macro RT_PRINT_DATA
+
+ drivers/staging/rtl8723bs/hal/hal_com.c       | 13 ++++-------
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  | 22 ++++++++++++++-----
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |  3 ++-
+ drivers/staging/rtl8723bs/include/rtw_debug.h | 19 ----------------
+ 4 files changed, 22 insertions(+), 35 deletions(-)
+
+-- 
+2.20.1
 
