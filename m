@@ -1,47 +1,46 @@
 Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44286F
-	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 10:17:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0536F
+	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 10:24:36 +0000 (UTC)
 Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-	by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12VA56Lj105206;
-	Wed, 31 Mar 2021 10:17:09 GMT
+	by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12VA5HIB105333;
+	Wed, 31 Mar 2021 10:24:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
  : subject : message-id : references : mime-version : content-type :
  in-reply-to; s=corp-2020-01-29;
- bh=+D2v2EZQvmBA+m+2IxOAxb/tWwGoJI3TuWzKUzEcgdY=;
- b=Nfr0a2snQgrVcc6rFCtm+oAQckOYGbv/dAmXV0fRt9piLgKUM3b0MXir4NFG3vi5Hhvq
- kATo4xUeW2spDApr4+G3nznYuYjeUTYAHGx0NMQaykypacmE6kXbxxZnPeIZjNrXkNZ0
- gWdBeVNPIrPpLpfTnCgI5efBzydWX0k6k5mOajxk2TR7SFt18/1pgI/BgG6Hsl66/qXb
- qb4DOGPyF5d7hYYgO4jZDPcX/JqJDM/53tzeJ3ClYSh/aK4ao8nluujNgXufh5+1RK0Y
- UBAkw8u8SsgWeTpeUggcmwYYJqfq+f4KJu6+1ioTuEz4+RDAaPzM+zOZsQmJE3EchWxT oQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by userp2130.oracle.com with ESMTP id 37mad9sr5j-1
+ bh=WKBWbPsQJxc9VOnqiOE3LeStzi42sIL5UBxKpzrYUKE=;
+ b=PzsEUq0G0gD9J0pfgu7s+JnOA12j1S+QjlpXfkQSZT0CQqazwu7iEjWA6OmboBp3c4XK
+ u7t/6PYeQ/Vp876gEUV+bqS4ivBReB+uY21sOkeWhgZnfm41S3zgOdsn2qHcrBcs4VK4
+ K9u6os+GK//5hPEgZBr3vfpTETT03kuN1sTEv3PbRtvHqAThnJHfdIkCaTJnhksX7w8q
+ GR/la476IgvGut5QgIbCufrqVBM26HFGNhz8kSfr1K6hF2S9+TnHBEYepmsLLk9dAHfU
+ ggu0/O9vYAaAEJ7sDGAnxq0qvd0prTEfMJ40y6eAFsgN7KyZBSSljZetSQ0m3OTmJNLb eA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by userp2130.oracle.com with ESMTP id 37mad9srn8-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 31 Mar 2021 10:17:09 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12VA5eCc035381;
-	Wed, 31 Mar 2021 10:17:07 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-	by aserp3030.oracle.com with ESMTP id 37mabp7s0x-1
+	Wed, 31 Mar 2021 10:24:24 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12VA6d9l009287;
+	Wed, 31 Mar 2021 10:24:22 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+	by userp3020.oracle.com with ESMTP id 37mac59rm2-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 31 Mar 2021 10:17:07 +0000
-Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
-	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 12VAH6Jd020451;
-	Wed, 31 Mar 2021 10:17:06 GMT
+	Wed, 31 Mar 2021 10:24:22 +0000
+Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
+	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 12VAOLBv028265;
+	Wed, 31 Mar 2021 10:24:21 GMT
 Received: from kadam (/102.36.221.92)
 	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Wed, 31 Mar 2021 10:17:05 +0000
-Date: Wed, 31 Mar 2021 13:16:58 +0300
+	with ESMTP ; Wed, 31 Mar 2021 03:24:21 -0700
+Date: Wed, 31 Mar 2021 13:24:14 +0300
 From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: gregkh@linuxfoundation.org, joe@perches.com, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 01/40] staging: rtl8723bs: replace RT_TRACE with public
- printk wrappers in core/rtw_xmit.c
-Message-ID: <20210331101658.GK2065@kadam>
-References: <cover.1617183374.git.fabioaiuto83@gmail.com>
- <75c8a2396a0cae9ad7933577b20dfbf3a7ce6816.1617183374.git.fabioaiuto83@gmail.com>
+To: Yang Yingliang <yangyingliang@huawei.com>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+        johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org
+Subject: Re: [PATCH -next] staging: greybus: camera: Switch to
+ memdup_user_nul()
+Message-ID: <20210331102414.GL2065@kadam>
+References: <20210331095201.2173793-1-yangyingliang@huawei.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -49,52 +48,61 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <75c8a2396a0cae9ad7933577b20dfbf3a7ce6816.1617183374.git.fabioaiuto83@gmail.com>
+In-Reply-To: <20210331095201.2173793-1-yangyingliang@huawei.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Proofpoint-IMR: 1
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9939 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0
- malwarescore=0 mlxlogscore=999 adultscore=0 spamscore=0 mlxscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxlogscore=999
+ malwarescore=0 spamscore=0 mlxscore=0 suspectscore=0 bulkscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2103300000 definitions=main-2103310073
-X-Proofpoint-ORIG-GUID: kbsi59_HsHa-91GsQHOXMTPFPRY1LkZC
-X-Proofpoint-GUID: kbsi59_HsHa-91GsQHOXMTPFPRY1LkZC
+X-Proofpoint-ORIG-GUID: Z2UkK1U1itczqd4-02As8YtvJo7NbOiI
+X-Proofpoint-GUID: Z2UkK1U1itczqd4-02As8YtvJo7NbOiI
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9939 signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- bulkscore=0 clxscore=1015 lowpriorityscore=0 suspectscore=0 adultscore=0
+ bulkscore=0 clxscore=1011 lowpriorityscore=0 suspectscore=0 adultscore=0
  spamscore=0 mlxscore=0 mlxlogscore=999 phishscore=0 impostorscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103300000
  definitions=main-2103310073
 
-I'm sorry but we can't accept this patch.
-
-> @@ -481,12 +481,13 @@ static s32 update_attrib_sec_info(struct adapter *padapter, struct pkt_attrib *p
->  	pattrib->mac_id = psta->mac_id;
+On Wed, Mar 31, 2021 at 05:52:01PM +0800, Yang Yingliang wrote:
+> Use memdup_user_nul() helper instead of open-coding to
+> simplify the code.
+> 
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+> ---
+>  drivers/staging/greybus/camera.c | 10 ++--------
+>  1 file changed, 2 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
+> index b570e13394ac..0f005facffbc 100644
+> --- a/drivers/staging/greybus/camera.c
+> +++ b/drivers/staging/greybus/camera.c
+> @@ -1120,16 +1120,10 @@ static ssize_t gb_camera_debugfs_write(struct file *file,
+>  	if (len > 1024)
+>  		return -EINVAL;
 >  
->  	if (psta->ieee8021x_blocked == true) {
-> -		RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("\n psta->ieee8021x_blocked == true\n"));
-> +		pr_err("%s psta->ieee8021x_blocked == true\n", DRIVER_PREFIX);
+> -	kbuf = kmalloc(len + 1, GFP_KERNEL);
+> -	if (!kbuf)
+> +	kbuf = memdup_user_nul(buf, len);
+> +	if (IS_ERR(kbuf))
+>  		return -ENOMEM;
 
-Here we have change debug code that's never printed into an error
-message.
+return PTR_ERR(kbuf);
 
-A bunch of the rest are technically "wrong" but harmless.
+>  
+> -	if (copy_from_user(kbuf, buf, len)) {
+> -		ret = -EFAULT;
+> -		goto done;
+> -	}
+> -
+> -	kbuf[len] = '\0';
+>  
+   ^^^^^^^^
+Please delete this blank line so there aren't two blank lines in a row.
 
->  	if (!pxmitpriv->pallocated_frame_buf) {
->  		pxmitpriv->pxmit_frame_buf = NULL;
-> -		RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("alloc xmit_frame fail!\n"));
-> +		pr_err("%s alloc xmit_frame fail!\n", DRIVER_PREFIX);
-
-We don't print warning messages for allocation failures.  Checkpatch
-is supposed to complain.
-
-I always encourage people to think about everything deeply and look at
-the context and read the error messages.  But if you send a patch which
-mindlessly deletes all these RT_TRACE() messages, then we will apply
-that.
-
-It's unfortunate that you have to re-write the first patch in a 40
-patch series.  :/
+>  	ret = op->execute(gcam, kbuf, len);
 
 regards,
 dan carpenter
