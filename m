@@ -1,50 +1,50 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C135D6F
-	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 09:40:53 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id w3so29113200ejc.4
-        for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 02:40:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838DA6F
+	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 09:40:55 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id b7so29097707ejv.1
+        for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 02:40:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=+qjP3rPq6GRvudxmPUC4N1/IMA281UmIav1b4KbVRkI=;
-        b=bUm98LScnGWacVl0SAvhYVeOMyhRNv/Zq/KDJnqAhoNDZd0JLdxMu0dUIBsDA//O3v
-         939BArGYZM+PJa03351QuA2AtmV5Be0bIOT1JzKKdgzqmrABrI1zoy4sjPehBzAyFMj8
-         kjkBlyRBsEAFtkSlVot/CQIY4b0qQ0THCWcya3Cy7X0MDPmt0RprTowUmN9EdckWxep3
-         V8dg4/5vWYJVVZczpMp3l/53FsxzrVRFbKaI8B8dH1iZhxipPYl6xDP4ze3795Gg2dQG
-         /LiD6T+vrxEXTmmV2BTjXIJtGshkVdEnVmDfj3neNUhxzpaPmw6mzrIYiQyC2O4HewcM
-         AIsQ==
+        bh=UwUrxvylt3yZIVSmbQay33Opg09VnbrEvLSM4U98oN8=;
+        b=oGdh1hqDoJ0ZqEbpJv3GhhODipHewFj0wuYX/Pjuzq5aX5Q7zivjem57+8ZCXXe7tf
+         znKeXjAGx/KdMW2obP70TkdQQRETAS1tfurb4j/hvbh7hzXrilPH5xscsYV+O+lqsmeI
+         ZTlJOaDnpTtqgte/PcBqDhhjQtpo/7ZnBU6s8i/aW+O4xm5dhLEQILHNfPTsxEj0qnZ0
+         7RnJE/fCs6HJ4yoM4BA76XFwSVlYkUqLBR9EURPkC4hnSFR8X5xZzcrG3VMPejhMAmqs
+         wJLuT5orODNokIgMmN2BMsMTO1TdoDoPXAN3uNeNo86QEtKK1GVHvkzJDSpVOv6zEncH
+         fMzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+qjP3rPq6GRvudxmPUC4N1/IMA281UmIav1b4KbVRkI=;
-        b=cSmMa/rPwBQ1F7ZqpY+jaBREJpSSmWHSeL8ZB3sCKx417jkNiuqqxpouxsSdY9NFrm
-         rkDYomna+6//SLaTCN7KxAk0whgCMZWRGVep9YL0viTK13BTkz1SyFH/tU9f+cTFzX8L
-         hIRM7KNChiqXpVc+3YPJQatP5/Hu+U6j3RnowaRw6kwrqgdoeMIxw3O7y8njP6Hqk48v
-         erzfm1sOgELlX6HiFiAgVeRpVBYP/wEe8runod8KbdgP5wZ4UiBwchkiOkMFmk3VunWS
-         5zK4slnasn46bENMQM+ciBp34w/HZtfEwDFdNr8M13bB9zBhqn0k+UtuuIV+Grqdipcy
-         9+lQ==
-X-Gm-Message-State: AOAM533CgeLhn8gyKELSSAHkpEwKIVt62XIeuNu6Uvzf7e7cG9sYXBHT
-	Ue5Gt0q4mT5JqNTHTL0/eds=
-X-Google-Smtp-Source: ABdhPJziRlAxm0ldTsyuh1V3luwNdWHu3hej7np0LbqVOVLp1S14bX73PYDM00k8gJTVKz1km6U5hw==
-X-Received: by 2002:a17:906:3ac3:: with SMTP id z3mr2651828ejd.106.1617183652335;
-        Wed, 31 Mar 2021 02:40:52 -0700 (PDT)
+        bh=UwUrxvylt3yZIVSmbQay33Opg09VnbrEvLSM4U98oN8=;
+        b=Px6JW7cZ+pfffXAqv6PZwjwsEuFiUXBTNbWznRJ6TMYUdRGo/PDGIUB/tFEROoVlYl
+         W/Dtla1i9kX/oaxN4KCW4irqqPgzIRcMCyNYPhOr102yLg/j7evtF6/hbCfW/UCjOrrh
+         2AHf0+wwJOWoDAf97mCYL9CtwCoktQ8yqQS5rzU0DQVYYIGFB4EpDUkjjG5cr3E/0NRT
+         ZaamYuVSp1IqQ8RmCti0W6C14WP7dObREMHhNXvzKygidLGv1/4lynFVtMdT5cCEN65A
+         H0LwxfvuaLqlFN1TBGG+RqXqqGShcLWcYjSj6VBEvTJeIMezLABn8rX6sBGIOXTRu1ys
+         qhXg==
+X-Gm-Message-State: AOAM533m263xZZ6DaYq6g+6rmILyFfaAPrpB20ZlejUVkveP7ZGIPNyS
+	J8oPgAkSqgecLT7WTn2TlKM=
+X-Google-Smtp-Source: ABdhPJxjPxlrjZD34DiT7/cRtCwf+cDYiExocYwQw89ffRGXzLBcRNSRdQP7aVblqufpT/OEeGvLbQ==
+X-Received: by 2002:a17:906:170d:: with SMTP id c13mr2449440eje.491.1617183654147;
+        Wed, 31 Mar 2021 02:40:54 -0700 (PDT)
 Received: from agape ([5.171.73.44])
-        by smtp.gmail.com with ESMTPSA id t15sm1115832edw.84.2021.03.31.02.40.51
+        by smtp.gmail.com with ESMTPSA id t12sm1165502edy.56.2021.03.31.02.40.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Mar 2021 02:40:52 -0700 (PDT)
+        Wed, 31 Mar 2021 02:40:53 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: joe@perches.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 21/40] staging: rtl8723bs: replace RT_TRACE with public printk wrappers in hal/sdio_ops.c
-Date: Wed, 31 Mar 2021 11:39:49 +0200
-Message-Id: <c6d2784da5b281d71600b1d1b9f5bf369b2cdb67.1617183374.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 22/40] staging: rtl8723bs: remove commented code block in hal/hal_com_phycfg.c
+Date: Wed, 31 Mar 2021 11:39:50 +0200
+Message-Id: <e8aade1657d685c68c8ef07fa6aca628b1cec8e1.1617183374.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617183374.git.fabioaiuto83@gmail.com>
 References: <cover.1617183374.git.fabioaiuto83@gmail.com>
@@ -55,93 +55,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-replace private macro RT_TRACE for tracing with in-kernel
-pr_* printk wrappers
+remove commented 5G code block in hal/hal_com_phycfg.c
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/sdio_ops.c | 42 ++++++++----------------
- 1 file changed, 13 insertions(+), 29 deletions(-)
+ .../staging/rtl8723bs/hal/hal_com_phycfg.c    | 20 -------------------
+ 1 file changed, 20 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-index a24a39e70454..34531d6a6810 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-@@ -777,29 +777,15 @@ void EnableInterrupt8723BSdio(struct adapter *adapter)
- 	himr = cpu_to_le32(haldata->sdio_himr);
- 	sdio_local_write(adapter, SDIO_REG_HIMR, 4, (u8 *)&himr);
- 
--	RT_TRACE(
--		_module_hci_ops_c_,
--		_drv_notice_,
--		(
--			"%s: enable SDIO HIMR = 0x%08X\n",
--			__func__,
--			haldata->sdio_himr
--		)
--	);
-+	pr_notice("%s %s: enable SDIO HIMR = 0x%08X\n",
-+		  DRIVER_PREFIX, __func__, haldata->sdio_himr);
- 
- 	/*  Update current system IMR settings */
- 	tmp = rtw_read32(adapter, REG_HSIMR);
- 	rtw_write32(adapter, REG_HSIMR, tmp | haldata->SysIntrMask);
- 
--	RT_TRACE(
--		_module_hci_ops_c_,
--		_drv_notice_,
--		(
--			"%s: enable HSIMR = 0x%08X\n",
--			__func__,
--			haldata->SysIntrMask
--		)
--	);
-+	pr_notice("%s %s: enable HSIMR = 0x%08X\n",
-+		  DRIVER_PREFIX, __func__, haldata->SysIntrMask);
- 
- 	/*  */
- 	/*  <Roger_Notes> There are some C2H CMDs have been sent before system interrupt is enabled, e.g., C2H, CPWM. */
-@@ -894,7 +880,7 @@ static struct recv_buf *sd_recv_rxfifo(struct adapter *adapter, u32 size)
- 	readbuf = recvbuf->pskb->data;
- 	ret = sdio_read_port(&adapter->iopriv.intf, WLAN_RX0FF_DEVICE_ID, readsize, readbuf);
- 	if (ret == _FAIL) {
--		RT_TRACE(_module_hci_ops_os_c_, _drv_err_, ("%s: read port FAIL!\n", __func__));
-+		pr_err("%s %s: read port FAIL!\n", DRIVER_PREFIX, __func__);
- 		return NULL;
+diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
+index 9b16265b543d..a7ecdf501a14 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
++++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
+@@ -1780,26 +1780,6 @@ s8 phy_get_tx_pwr_lmt(struct adapter *adapter, u32 reg_pwr_tbl_sel,
+ 		DBG_871X("No power limit table of the specified band\n");
  	}
  
-@@ -1062,9 +1048,8 @@ void sd_int_hdl(struct adapter *adapter)
- 
- 		sd_int_dpc(adapter);
- 	} else {
--		RT_TRACE(_module_hci_ops_c_, _drv_err_,
--				("%s: HISR(0x%08x) and HIMR(0x%08x) not match!\n",
--				__func__, hal->sdio_hisr, hal->sdio_himr));
-+		pr_err("%s %s: HISR(0x%08x) and HIMR(0x%08x) not match!\n",
-+		       DRIVER_PREFIX, __func__, hal->sdio_hisr, hal->sdio_himr);
- 	}
- }
- 
-@@ -1088,13 +1073,12 @@ u8 HalQueryTxBufferStatus8723BSdio(struct adapter *adapter)
- 	numof_free_page = SdioLocalCmd53Read4Byte(adapter, SDIO_REG_FREE_TXPG);
- 
- 	memcpy(hal->SdioTxFIFOFreePage, &numof_free_page, 4);
--	RT_TRACE(_module_hci_ops_c_, _drv_notice_,
--			("%s: Free page for HIQ(%#x), MIDQ(%#x), LOWQ(%#x), PUBQ(%#x)\n",
--			__func__,
--			hal->SdioTxFIFOFreePage[HI_QUEUE_IDX],
--			hal->SdioTxFIFOFreePage[MID_QUEUE_IDX],
--			hal->SdioTxFIFOFreePage[LOW_QUEUE_IDX],
--			hal->SdioTxFIFOFreePage[PUBLIC_QUEUE_IDX]));
-+	pr_notice("%s %s: Free page for HIQ(%#x), MIDQ(%#x), LOWQ(%#x), PUBQ(%#x)\n",
-+		  DRIVER_PREFIX, __func__,
-+		  hal->SdioTxFIFOFreePage[HI_QUEUE_IDX],
-+		  hal->SdioTxFIFOFreePage[MID_QUEUE_IDX],
-+		  hal->SdioTxFIFOFreePage[LOW_QUEUE_IDX],
-+		  hal->SdioTxFIFOFreePage[PUBLIC_QUEUE_IDX]);
- 
- 	return true;
- }
+-	/*  combine 5G VHT & HT rate */
+-	/*  5G 20M and 40M HT and VHT can cross reference */
+-	/*
+-	if (band_type == BAND_ON_5G && pwr_lmt == MAX_POWER_INDEX) {
+-		if (idx_bandwidth == 0 || idx_bandwidth == 1) {
+-			RT_TRACE(COMP_INIT, DBG_LOUD, ("No power limit table of the specified band %d, bandwidth %d, ratesection %d, rf path %d\n",
+-				 idx_band, idx_bandwidth,
+-				 idx_rate_sctn, rf_path));
+-			if (idx_rate_sctn == 2)
+-				pwr_lmt = hal_data->TxPwrLimit_5G[idx_regulation][idx_bandwidth][4][idx_channel][rf_path];
+-			else if (idx_rate_sctn == 4)
+-				pwr_lmt = hal_data->TxPwrLimit_5G[idx_regulation][idx_bandwidth][2][idx_channel][rf_path];
+-			else if (idx_rate_sctn == 3)
+-				pwr_lmt = hal_data->TxPwrLimit_5G[idx_regulation][idx_bandwidth][5][idx_channel][rf_path];
+-			else if (idx_rate_sctn == 5)
+-				pwr_lmt = hal_data->TxPwrLimit_5G[idx_regulation][idx_bandwidth][3][idx_channel][rf_path];
+-		}
+-	}
+-	*/
+-
+ 	/* DBG_871X("TxPwrLmt[Regulation %d][Band %d][BW %d][RFPath %d][Rate 0x%x][Chnl %d] = %d\n", */
+ 	/*		idx_regulation, hal_data->CurrentBandType, bandwidth, rf_path, data_rate, channel, pwr_lmt); */
+ 	return pwr_lmt;
 -- 
 2.20.1
 
