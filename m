@@ -1,50 +1,50 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF4D6F
-	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 09:41:11 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id y6so21560535eds.1
-        for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 02:41:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2EA76F
+	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 09:41:13 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id a7so29080940ejs.3
+        for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 02:41:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=KGxxNO1+1wzxJ8J9QqLlCg7OevMiiohZgaz1srsUILk=;
-        b=BCq8oMdy2ucPOpWkIyJlY/tS7Fjtj3W1OpDy19bYjuREMFsZfddP9VlkCTDrwmXwk2
-         aV8u2wTgRhU0Bu26Ik6StTtnh6xLcme7SJfJo5Dh7FLorIzLLSIk89wP6RFZ9Dy1R6KB
-         z+c/q8I1nzuk5Rf79bjc4cDB4G3VP0xqWoU1vtFgZZeqipXW5ObJAIrxBQLlylI0szd2
-         E0V4dUTTw36BRTiqcGNUZTr1+66rwy5ZfiI6GAmTidnajUfO+/rsqL7t/+GQnA9mPF09
-         7HDQJSAyrE0lHOWYoJrSVHG41VlYLc4tCxOa2csSnwlq3L+pG/yfgxQoIUKSQK9njNw0
-         8JhQ==
+        bh=WIwg6fry+Umqo+Of4e5vr2qOPugGJzkkuRXJAWKwcs8=;
+        b=LnDias1Jrm476BZXUhqFrqUw+jR4kzh0BITGbU7vsBbI9wNSzW5wXQA6SUQv98ZVLu
+         oxRV/n7Ol+wfkx35GtIwA7tpyBESL0/3o42x7U58H3n0VdOUNwxIe33yPrPPR7uNqpB7
+         vj08hzOITknwFAWtCJRBFkQ6T7aiWP81LWS6R5ao29S96Lq9D7276eictPHx7u0MTL2R
+         TODZK4q55PhLz1YkVxK3Tj9BUA3PUlKRIMPhtE2g8zBK+DEtUaIcn+d+LhYnu2864m7a
+         TPQwAp5kl25PIAoi6CxIBzO53ZTn28tqnZQXTwwD0akHpwDx3E5vEzHnmnK0VEpdXn2Y
+         7kqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=KGxxNO1+1wzxJ8J9QqLlCg7OevMiiohZgaz1srsUILk=;
-        b=mOVEhZqyburSh0p6T6xCK4sDaYJPm4rNgSQA/E4nu+jhcB6UAmD5bBR+h8aQ1fMRYt
-         X00vGmZE7nw/FI1thd6qBOnZDEK2LFshDOgsNIVD3f49n/Vs/4+N+bQ0waqnRHtpQzGD
-         8KE6UJ2CfxBRP5MTgI6ltsK4QTky26Gv4GTS2X09bji6GoeOU8s1DQqk6Y5+tjhf8qh8
-         j0G2pyydIbGjeesBJbEC77sLvDSyOzOoYO6bsJs5oL/5sKRAmqkHoOD1kQ8x9wlmXq1a
-         dCyOXqwshjlmFOPxmp+6Y6WH+B0AV8v85/tR0YP5ysjFxBJo4oRRNU+/aadZQYvAPo5n
-         Ggig==
-X-Gm-Message-State: AOAM533p7nsyHCFpsaVY5vo4jvSAX21uhH1zsk7gyRAajliVY+Cygp8i
-	I2uGZo3esq3Ff3IChNaMaUM=
-X-Google-Smtp-Source: ABdhPJxbpNdJNsZg0GCW2k93w84ivzp4/NKu/DKP7Lfgi4TXcl8sghIaBvrqUQryaxAPmIZFSeRUDg==
-X-Received: by 2002:a05:6402:3487:: with SMTP id v7mr2596843edc.302.1617183670554;
-        Wed, 31 Mar 2021 02:41:10 -0700 (PDT)
+        bh=WIwg6fry+Umqo+Of4e5vr2qOPugGJzkkuRXJAWKwcs8=;
+        b=aOhmlIwTfZylCpuzcsnVqTd0Pcqeb3E+NsKXDZCepMygl3hpRMyHSvfgo9CTJmMvvj
+         nI8o2aE8hAOIDBNw08kD7dZG5/D0lahk18oLQ05bVQoXQQQcb3DceBn/ZxckVccZajPf
+         /RYIl+IFLZvEoYRizm3GBnY/hm/ZNPXNaXeYCeCR65OokCtRhbQFO9hBjh6knOzEaXR7
+         bqUuWAswF7TC45tMG4I+OFc5iWNBdcNELNyR5lnRg+ao0I2RpNpg58ljk5ZiujXGYYiK
+         FzTMVQizzwjTWVEDKu2aZ0kV6Zxqsa15vu+SR5JNEjD069ebtbCnh7ZygzT0Cd0fknRw
+         75vA==
+X-Gm-Message-State: AOAM531T9Acwl9vNoY3dWQ7uv1iJQy6FNTl5K/z2XqjDmyn8j+x7TCQg
+	mFkjI6z61s3W0gAC22B9PjtCoOP5VMDlag==
+X-Google-Smtp-Source: ABdhPJzNOhMRAlA6+jn0HJT9bO1TjK3UQqzfs+BEuaO/7OVy0zQooaugRIkY9C8BFjLReoepNA56fQ==
+X-Received: by 2002:a17:906:5d06:: with SMTP id g6mr2597650ejt.216.1617183672320;
+        Wed, 31 Mar 2021 02:41:12 -0700 (PDT)
 Received: from agape ([5.171.73.44])
-        by smtp.gmail.com with ESMTPSA id yk8sm833436ejb.123.2021.03.31.02.41.09
+        by smtp.gmail.com with ESMTPSA id gn3sm829140ejc.2.2021.03.31.02.41.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Mar 2021 02:41:10 -0700 (PDT)
+        Wed, 31 Mar 2021 02:41:12 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: joe@perches.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 31/40] staging: rtl8723bs: replace RT_TRACE with public printk wrappers in os_dep/ioctl_linux.c
-Date: Wed, 31 Mar 2021 11:39:59 +0200
-Message-Id: <ae9113ae91316d9f382bd3717bdd27de283d379f.1617183374.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 32/40] staging: rtl8723bs: replace RT_TRACE with public printk wrappers in os_dep/mlme_linux.c
+Date: Wed, 31 Mar 2021 11:40:00 +0200
+Message-Id: <5653acfb5c93ae5c0dc0ef47434603db5a291cf3.1617183374.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617183374.git.fabioaiuto83@gmail.com>
 References: <cover.1617183374.git.fabioaiuto83@gmail.com>
@@ -60,264 +60,27 @@ pr_* printk wrappers
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- .../staging/rtl8723bs/os_dep/ioctl_linux.c    | 81 ++++++++++---------
- 1 file changed, 44 insertions(+), 37 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/mlme_linux.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-index aee4932162a9..c67064ddc88a 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-@@ -232,8 +232,10 @@ static char *translate_scan(struct adapter *padapter,
- 		u16 wpa_len = 0, rsn_len = 0;
- 		u8 *p;
- 		rtw_get_sec_ie(pnetwork->network.IEs, pnetwork->network.IELength, rsn_ie, &rsn_len, wpa_ie, &wpa_len);
--		RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("rtw_wx_get_scan: ssid =%s\n", pnetwork->network.Ssid.Ssid));
--		RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("rtw_wx_get_scan: wpa_len =%d rsn_len =%d\n", wpa_len, rsn_len));
-+		pr_info("%s rtw_wx_get_scan: ssid =%s\n", DRIVER_PREFIX,
-+			pnetwork->network.Ssid.Ssid);
-+		pr_info("%s rtw_wx_get_scan: wpa_len =%d rsn_len =%d\n",
-+			DRIVER_PREFIX, wpa_len, rsn_len);
+diff --git a/drivers/staging/rtl8723bs/os_dep/mlme_linux.c b/drivers/staging/rtl8723bs/os_dep/mlme_linux.c
+index ba4d3789a41e..bda0c34f2086 100644
+--- a/drivers/staging/rtl8723bs/os_dep/mlme_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/mlme_linux.c
+@@ -145,11 +145,11 @@ void rtw_report_sec_ie(struct adapter *adapter, u8 authmode, u8 *sec_ie)
+ 	u8 *buff, *p, i;
+ 	union iwreq_data wrqu;
  
- 		buf = kzalloc(MAX_WPA_IE_LEN*2, GFP_ATOMIC);
- 		if (!buf)
-@@ -423,7 +425,7 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
- 	}
+-	RT_TRACE(_module_mlme_osdep_c_, _drv_info_, ("+rtw_report_sec_ie, authmode =%d\n", authmode));
++	pr_info("%s+%s, authmode =%d\n", DRIVER_PREFIX, __func__, authmode);
  
- 	if (strcmp(param->u.crypt.alg, "WEP") == 0) {
--		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_err_, ("wpa_set_encryption, crypt.alg = WEP\n"));
-+		pr_err("%s %s, crypt.alg = WEP\n", DRIVER_PREFIX, __func__);
- 		DBG_871X("wpa_set_encryption, crypt.alg = WEP\n");
+ 	buff = NULL;
+ 	if (authmode == WLAN_EID_VENDOR_SPECIFIC) {
+-		RT_TRACE(_module_mlme_osdep_c_, _drv_info_, ("rtw_report_sec_ie, authmode =%d\n", authmode));
++		pr_info("%s %s, authmode =%d\n", DRIVER_PREFIX, __func__, authmode);
  
- 		padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption1Enabled;
-@@ -433,20 +435,21 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
- 		wep_key_idx = param->u.crypt.idx;
- 		wep_key_len = param->u.crypt.key_len;
- 
--		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_, ("(1)wep_key_idx =%d\n", wep_key_idx));
-+		pr_info("%s (1)wep_key_idx =%d\n", DRIVER_PREFIX, wep_key_idx);
- 		DBG_871X("(1)wep_key_idx =%d\n", wep_key_idx);
- 
- 		if (wep_key_idx > WEP_KEYS)
- 			return -EINVAL;
- 
--		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_, ("(2)wep_key_idx =%d\n", wep_key_idx));
-+		pr_info("%s (2)wep_key_idx =%d\n", DRIVER_PREFIX, wep_key_idx);
- 
- 		if (wep_key_len > 0) {
- 			wep_key_len = wep_key_len <= 5 ? 5 : 13;
- 			wep_total_len = wep_key_len + FIELD_OFFSET(struct ndis_802_11_wep, KeyMaterial);
- 			pwep = kzalloc(wep_total_len, GFP_KERNEL);
- 			if (pwep == NULL) {
--				RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_err_, (" wpa_set_encryption: pwep allocate fail !!!\n"));
-+				pr_err("%s %s: pwep allocate fail !!!\n",
-+				       DRIVER_PREFIX, __func__);
- 				goto exit;
- 			}
- 
-@@ -612,7 +615,7 @@ static int rtw_set_wpa_ie(struct adapter *padapter, char *pie, unsigned short ie
- 		}
- 
- 		if (ielen < RSN_HEADER_LEN) {
--			RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_err_, ("Ie len too short %d\n", ielen));
-+			pr_err("%s Ie len too short %d\n", DRIVER_PREFIX, ielen);
- 			ret  = -1;
- 			goto exit;
- 		}
-@@ -715,9 +718,12 @@ static int rtw_set_wpa_ie(struct adapter *padapter, char *pie, unsigned short ie
-                 /*  check_fwstate(&padapter->mlmepriv, WIFI_UNDER_WPS) == true) */
-                 rtw_hal_set_hwreg(padapter, HW_VAR_OFF_RCR_AM, null_addr);
- 
--	RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_,
--		 ("rtw_set_wpa_ie: pairwise_cipher = 0x%08x padapter->securitypriv.ndisencryptstatus =%d padapter->securitypriv.ndisauthtype =%d\n",
--		  pairwise_cipher, padapter->securitypriv.ndisencryptstatus, padapter->securitypriv.ndisauthtype));
-+	pr_info("%s %s: pairwise_cipher = 0x%08x "
-+		"padapter->securitypriv.ndisencryptstatus =%d "
-+		"padapter->securitypriv.ndisauthtype =%d\n",
-+		DRIVER_PREFIX, __func__, pairwise_cipher,
-+		padapter->securitypriv.ndisencryptstatus,
-+		padapter->securitypriv.ndisauthtype);
- 
- exit:
- 
-@@ -738,7 +744,7 @@ static int rtw_wx_get_name(struct net_device *dev,
- 	struct wlan_bssid_ex  *pcur_bss = &pmlmepriv->cur_network.network;
- 	NDIS_802_11_RATES_EX *prates = NULL;
- 
--	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("cmd_code =%x\n", info->cmd));
-+	pr_info("%s cmd_code =%x\n", DRIVER_PREFIX, info->cmd);
- 
- 	if (check_fwstate(pmlmepriv, _FW_LINKED|WIFI_ADHOC_MASTER_STATE) == true) {
- 		/* parsing HT_CAP_IE */
-@@ -785,7 +791,7 @@ static int rtw_wx_set_freq(struct net_device *dev,
- 			     struct iw_request_info *info,
- 			     union iwreq_data *wrqu, char *extra)
- {
--	RT_TRACE(_module_rtl871x_mlme_c_, _drv_notice_, ("+rtw_wx_set_freq\n"));
-+	pr_notice("%s+%s\n", DRIVER_PREFIX, __func__);
- 
- 	return 0;
- }
-@@ -850,7 +856,8 @@ static int rtw_wx_set_mode(struct net_device *dev, struct iw_request_info *a,
- 		break;
- 	default:
- 		ret = -EINVAL;
--		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_err_, ("\n Mode: %s is not supported \n", iw_operation_mode[wrqu->mode]));
-+		pr_err("%s Mode: %s is not supported\n", DRIVER_PREFIX,
-+		       iw_operation_mode[wrqu->mode]);
- 		goto exit;
- 	}
- 
-@@ -884,7 +891,7 @@ static int rtw_wx_get_mode(struct net_device *dev, struct iw_request_info *a,
- 	struct adapter *padapter = rtw_netdev_priv(dev);
- 	struct	mlme_priv *pmlmepriv = &(padapter->mlmepriv);
- 
--	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, (" rtw_wx_get_mode\n"));
-+	pr_info("%s %s\n", DRIVER_PREFIX, __func__);
- 
- 	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == true) {
- 		wrqu->mode = IW_MODE_INFRA;
-@@ -999,7 +1006,7 @@ static int rtw_wx_get_range(struct net_device *dev,
- 	u16 val;
- 	int i;
- 
--	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("rtw_wx_get_range. cmd_code =%x\n", info->cmd));
-+	pr_info("%s %s. cmd_code =%x\n", DRIVER_PREFIX, __func__, info->cmd);
- 
- 	wrqu->data.length = sizeof(*range);
- 	memset(range, 0, sizeof(*range));
-@@ -1178,7 +1185,7 @@ static int rtw_wx_get_wap(struct net_device *dev,
- 
- 	eth_zero_addr(wrqu->ap_addr.sa_data);
- 
--	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("rtw_wx_get_wap\n"));
-+	pr_info("%s %s\n", DRIVER_PREFIX, __func__);
- 
- 	if  (((check_fwstate(pmlmepriv, _FW_LINKED)) == true) ||
- 			((check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)) == true) ||
-@@ -1232,7 +1239,7 @@ static int rtw_wx_set_scan(struct net_device *dev, struct iw_request_info *a,
- 	struct adapter *padapter = rtw_netdev_priv(dev);
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct ndis_802_11_ssid ssid[RTW_SSID_SCAN_AMOUNT];
--	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("rtw_wx_set_scan\n"));
-+	pr_info("%s %s\n", DRIVER_PREFIX, __func__);
- 
- 	#ifdef DBG_IOCTL
- 	DBG_871X("DBG_IOCTL %s:%d\n", __func__, __LINE__);
-@@ -1393,8 +1400,8 @@ static int rtw_wx_get_scan(struct net_device *dev, struct iw_request_info *a,
- 	u32 ret = 0;
- 	signed int wait_status;
- 
--	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("rtw_wx_get_scan\n"));
--	RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_, (" Start of Query SIOCGIWSCAN .\n"));
-+	pr_info("%s %s\n", DRIVER_PREFIX, __func__);
-+	pr_info("%s Start of Query SIOCGIWSCAN .\n", DRIVER_PREFIX);
- 
- 	#ifdef DBG_IOCTL
- 	DBG_871X("DBG_IOCTL %s:%d\n", __func__, __LINE__);
-@@ -1477,8 +1484,8 @@ static int rtw_wx_set_essid(struct net_device *dev,
- 	DBG_871X("DBG_IOCTL %s:%d\n", __func__, __LINE__);
- 	#endif
- 
--	RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_,
--		 ("+rtw_wx_set_essid: fw_state = 0x%08x\n", get_fwstate(pmlmepriv)));
-+	pr_info("%s+%s: fw_state = 0x%08x\n", DRIVER_PREFIX, __func__,
-+		get_fwstate(pmlmepriv));
- 
- 	rtw_ps_deny(padapter, PS_DENY_JOIN);
- 	if (_FAIL == rtw_pwr_wakeup(padapter)) {
-@@ -1513,15 +1520,15 @@ static int rtw_wx_set_essid(struct net_device *dev,
- 		memcpy(ndis_ssid.Ssid, extra, len);
- 		src_ssid = ndis_ssid.Ssid;
- 
--		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_, ("rtw_wx_set_essid: ssid =[%s]\n", src_ssid));
-+		pr_info("%s %s: ssid =[%s]\n", DRIVER_PREFIX, __func__, src_ssid);
- 		spin_lock_bh(&queue->lock);
- 		phead = get_list_head(queue);
- 		pmlmepriv->pscanned = get_next(phead);
- 
- 		while (1) {
- 			if (phead == pmlmepriv->pscanned) {
--			        RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_warning_,
--					 ("rtw_wx_set_essid: scan_q is empty, set ssid to check if scanning again!\n"));
-+				pr_warn("%s %s: scan_q is empty, set ssid to check if scanning again!\n",
-+					DRIVER_PREFIX, __func__);
- 
- 				break;
- 			}
-@@ -1532,14 +1539,13 @@ static int rtw_wx_set_essid(struct net_device *dev,
- 
- 			dst_ssid = pnetwork->network.Ssid.Ssid;
- 
--			RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_,
--				 ("rtw_wx_set_essid: dst_ssid =%s\n",
--				  pnetwork->network.Ssid.Ssid));
-+			pr_info("%s %s: dst_ssid =%s\n", DRIVER_PREFIX, __func__,
-+				pnetwork->network.Ssid.Ssid);
- 
- 			if ((!memcmp(dst_ssid, src_ssid, ndis_ssid.SsidLength)) &&
- 				(pnetwork->network.Ssid.SsidLength == ndis_ssid.SsidLength)) {
--				RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_,
--					 ("rtw_wx_set_essid: find match, set infra mode\n"));
-+				pr_info("%s %s: find match, set infra mode\n",
-+					DRIVER_PREFIX, __func__);
- 
- 				if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true) {
- 					if (pnetwork->network.InfrastructureMode != pmlmepriv->cur_network.network.InfrastructureMode)
-@@ -1556,8 +1562,7 @@ static int rtw_wx_set_essid(struct net_device *dev,
- 			}
- 		}
- 		spin_unlock_bh(&queue->lock);
--		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_,
--			 ("set ssid: set_802_11_auth. mode =%d\n", authmode));
-+		pr_info("%s set ssid: set_802_11_auth. mode =%d\n", DRIVER_PREFIX, authmode);
- 		rtw_set_802_11_authentication_mode(padapter, authmode);
- 		/* set_802_11_encryption_mode(padapter, padapter->securitypriv.ndisencryptstatus); */
- 		if (rtw_set_802_11_ssid(padapter, &ndis_ssid) == false) {
-@@ -1588,7 +1593,7 @@ static int rtw_wx_get_essid(struct net_device *dev,
- 	struct	mlme_priv *pmlmepriv = &(padapter->mlmepriv);
- 	struct wlan_bssid_ex  *pcur_bss = &pmlmepriv->cur_network.network;
- 
--	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("rtw_wx_get_essid\n"));
-+	pr_info("%s %s\n", DRIVER_PREFIX, __func__);
- 
- 	if ((check_fwstate(pmlmepriv, _FW_LINKED) == true) ||
- 	      (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true)) {
-@@ -1620,8 +1625,9 @@ static int rtw_wx_set_rate(struct net_device *dev,
- 	u32 ratevalue = 0;
- 	u8 mpdatarate[NumRates] = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0xff};
- 
--	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, (" rtw_wx_set_rate\n"));
--	RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_, ("target_rate = %d, fixed = %d\n", target_rate, fixed));
-+	pr_info("%s %s\n", DRIVER_PREFIX, __func__);
-+	pr_info("%s target_rate = %d, fixed = %d\n", DRIVER_PREFIX,
-+		target_rate, fixed);
- 
- 	if (target_rate == -1) {
- 		ratevalue = 11;
-@@ -1682,11 +1688,11 @@ static int rtw_wx_set_rate(struct net_device *dev,
- 			datarates[i] = 0xff;
- 		}
- 
--		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_, ("datarate_inx =%d\n", datarates[i]));
-+		pr_info("%s datarate_inx =%d\n", DRIVER_PREFIX, datarates[i]);
- 	}
- 
- 	if (rtw_setdatarate_cmd(padapter, datarates) != _SUCCESS) {
--		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_err_, ("rtw_wx_set_rate Fail!!!\n"));
-+		pr_err("%s %s Fail!!!\n", DRIVER_PREFIX, __func__);
- 		ret = -1;
- 	}
- 	return ret;
-@@ -3180,7 +3186,8 @@ static int wpa_set_param(struct net_device *dev, u8 name, u32 value)
- 			break;
- 		}
- 
--		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_, ("wpa_set_param:padapter->securitypriv.ndisauthtype =%d\n", padapter->securitypriv.ndisauthtype));
-+		pr_info("%s %s:padapter->securitypriv.ndisauthtype =%d\n",
-+			DRIVER_PREFIX, __func__, padapter->securitypriv.ndisauthtype);
- 
- 		break;
- 
+ 		buff = rtw_zmalloc(IW_CUSTOM_MAX);
+ 		if (NULL == buff) {
 -- 
 2.20.1
 
