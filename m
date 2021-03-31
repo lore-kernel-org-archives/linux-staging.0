@@ -1,81 +1,97 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0875F
-	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 20:17:25 +0000 (UTC)
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3ASC6Gq6Dx/0pOM+TlHei9sceALOonbusQ8zAX?=
- =?us-ascii?q?/mp2TgFYddHdqtC2kJ0gpGLJoRsyeFVlo9CPP6GcXWjRnKQf3aA9NaqvNTOGhE?=
- =?us-ascii?q?KGII1u5oPpwXnBNkTFh4hg/Ih6dawWMrHNJH17l9u/wCTQKadY/PCj8Lq0wdvY?=
- =?us-ascii?q?1WtnVwtwa6pthj0JcTqzN01tWU17AoAkH4CX/cpNq36Yf24LB/7LfEUte8jmi5?=
- =?us-ascii?q?n1mIn9YRgAbiRXlDWmqT+z8rb1H1y5834lMw9n+rsp/WjbnwGR3MzK2c2T8RPE?=
- =?us-ascii?q?0n+W0pI+orTc4+FeD8+BgNV9EFjRozuvDb4OZ5Sy+Bg+quey70s2gMDByi1QR/?=
- =?us-ascii?q?hb2jf6dmWtqRvi3GDboVQTwk6n7XXdvWHuuqXCNVUHIvsEoYpYdxfDgnBQ3+1U?=
- =?us-ascii?q?4eZx03uerIcSJRjdhiiV3amtazha0kC9pWMrkeAVj3E3a/p6VINs?=
-X-IronPort-AV: E=Sophos;i="5.81,293,1610406000"; 
-   d="scan'208";a="500982150"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 31 Mar 2021 22:17:23 +0200
-Date: Wed, 31 Mar 2021 22:17:23 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Deborah Brouwer <deborahbrouwer3563@gmail.com>
-cc: gregkh@linuxfoundation.org, ross.schm.dev@gmail.com, marcocesati@gmail.com, 
-    fabioaiuto83@gmail.com, dan.carpenter@oracle.com, phil@philpotter.co.uk, 
-    amarjargal16@gmail.com, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Subject: Re: [Outreachy kernel] [PATCH 1/3] staging: rtl8723bs: core: fix
- repeated word warning
-In-Reply-To: <14c1a1f1f0a34fb821d47ddab6e7e63800ec2736.1617221075.git.deborahbrouwer3563@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2103312215430.3008@hadrien>
-References: <cover.1617221075.git.deborahbrouwer3563@gmail.com> <14c1a1f1f0a34fb821d47ddab6e7e63800ec2736.1617221075.git.deborahbrouwer3563@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DA125F
+	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 20:25:33 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id w203-20020a1c49d40000b029010c706d0642so3022954wma.0
+        for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 13:25:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Gi9OUsUoRxjAcioEAF4TQW9mJ2fTHnHNzeSFEtVk1Wk=;
+        b=FhezNaAYqaHT6VhiYQCDNq6ndWAbOd8uPtZWcvln9/4Ha0ctMuPzJr32kuGiG1RJ1M
+         xWXaPh0XHlgJL3tHCQjhyzrRtx4R7n9If58CaT/jwZl1i+TRKFGtDcsbWB1YOPj3PD6A
+         xp6r51Wufdf2+DHOM/tdy1zE1W8IZCuMjUFNsqvNGxkLwrZEoepPsRR3MjXT+i1ztSRV
+         +N6O7vNuav8nphw+acRW8Zr1Uk16iIEu3YgcsxCRbeXhXaML4FW7Sg+7DA4hEIaZ8bA6
+         r/tWEjNWSuU4660KSi5eiN/0Hd4R7Nq5wcGz9Vi3Df9O6wNTvVFLJ/nBQxibjfQ0Rds7
+         KwRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Gi9OUsUoRxjAcioEAF4TQW9mJ2fTHnHNzeSFEtVk1Wk=;
+        b=boCVirLGN6gQasWXf9XVR0EKsaMcP8fJ/1lirygqPRMDY47NYnpsBf1dOmOOYmJc4n
+         xX77+3KMgi7ugMUw71+ARiZ6boBKlHzzBUYpgf72Qfsqv/f9f2JjPPbBQjGUhbXy1nVd
+         gGJApWLxTERhYNP4646wiNIld7uMkGEJiO/Hd3cNNn1qJXVHnlxKGruPbl0J9k8GlQAm
+         xJBNtd8cMznKRO9IJ4HozjSHiQsD+fk3xmPfarAVktDfwousMlc6mlMLGcEvsNsfoQvX
+         Ta0CSjOPxui5+3cSIvOYHQotVKyVW/4RQoe2fiz0BReaaCj//r+VoJiw/eZP0Py8tNAs
+         YN5Q==
+X-Gm-Message-State: AOAM532XseIaqq1OB80OBgK5wBxMczcrrjwt8zt9Y6bFVTgFDH55R2Gj
+	zvTW79YAAj1ExenKvJlcXDw=
+X-Google-Smtp-Source: ABdhPJzqSgyQVibalW7B3aVhjcAgmvHwW8HWc7q4lM9+ie7AzcVPs9VcvFZsoFPnVCxpDbyCELPK2A==
+X-Received: by 2002:a05:600c:4f94:: with SMTP id n20mr4701240wmq.18.1617222331572;
+        Wed, 31 Mar 2021 13:25:31 -0700 (PDT)
+Received: from bcarvalho-Ubuntu.lan ([2001:818:de85:7e00:87e9:fdd6:2b7a:c720])
+        by smtp.gmail.com with ESMTPSA id u3sm6138637wrt.82.2021.03.31.13.25.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Mar 2021 13:25:31 -0700 (PDT)
+From: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
+To: hvaibhav.linux@gmail.com,
+	johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy-kernel@googlegroups.com
+Subject: [PATCH] staging: greybus: arche-platform: Fix ending '(' warnings
+Date: Wed, 31 Mar 2021 21:24:45 +0100
+Message-Id: <20210331202445.108678-1-martinsdecarvalhobeatriz@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
+Fix checkpatch check "CHECK: Lines should not end with a '('"
+in arche-platform.c:80 and arche-platform.c:184.
 
+Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
+---
+ drivers/staging/greybus/arche-platform.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-On Wed, 31 Mar 2021, Deborah Brouwer wrote:
+diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
+index eebf0deb39f5..e374dfc0c92f 100644
+--- a/drivers/staging/greybus/arche-platform.c
++++ b/drivers/staging/greybus/arche-platform.c
+@@ -77,9 +77,8 @@ static void arche_platform_set_state(struct arche_platform_drvdata *arche_pdata,
+ }
+ 
+ /* Requires arche_pdata->wake_lock is held by calling context */
+-static void arche_platform_set_wake_detect_state(
+-				struct arche_platform_drvdata *arche_pdata,
+-				enum svc_wakedetect_state state)
++static void arche_platform_set_wake_detect_state(struct arche_platform_drvdata *arche_pdata,
++						 enum svc_wakedetect_state state)
+ {
+ 	arche_pdata->wake_detect_state = state;
+ }
+@@ -181,9 +180,8 @@ static irqreturn_t arche_platform_wd_irq(int irq, void *devid)
+ 						WD_STATE_COLDBOOT_START) {
+ 					arche_platform_set_wake_detect_state(arche_pdata,
+ 									     WD_STATE_COLDBOOT_TRIG);
+-					spin_unlock_irqrestore(
+-						&arche_pdata->wake_lock,
+-						flags);
++					spin_unlock_irqrestore(&arche_pdata->wake_lock,
++							       flags);
+ 					return IRQ_WAKE_THREAD;
+ 				}
+ 			}
+-- 
+2.25.1
 
-> Fix checkpatch warning:
-> WARNING: Possible repeated word: 'very'
-
-This is a simple but clear example of how "Fix" doesn't help one
-understand the patch.  In reading the log message, one would probably
-assume that you removed the repetition, but actually you added a comma.
-So it would be better to explain what you did and why.  It's good to
-acknowledge checkpatch, but the text of the warning message is not that
-useful.
-
-julia
-
->
-> Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_xmit.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> index 2daf5c461a4d..3878caf0b56c 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> @@ -1700,7 +1700,7 @@ Calling context:
->  If we turn on USE_RXTHREAD, then, no need for critical section.
->  Otherwise, we must use _enter/_exit critical to protect free_xmit_queue...
->
-> -Must be very very cautious...
-> +Must be very, very cautious...
->
->  */
->  struct xmit_frame *rtw_alloc_xmitframe(struct xmit_priv *pxmitpriv)/* _queue *pfree_xmit_queue) */
-> --
-> 2.17.1
->
-> --
-> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/14c1a1f1f0a34fb821d47ddab6e7e63800ec2736.1617221075.git.deborahbrouwer3563%40gmail.com.
->
