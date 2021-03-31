@@ -1,54 +1,54 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905845F
-	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 12:17:33 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id a7so29734951ejs.3
-        for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 05:17:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1635F
+	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 12:20:04 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id h10so22045477edt.13
+        for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 05:20:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=oYv7KV+vPKymp5Vqak7qegS1FdYgShW8DujJwU/0Nzc=;
-        b=qCY8iHBJ0GMAog1brwfg3xQhaH1ZeCf0EpHmwcHi47RWQmugLf8srCHHEbS8WXLk5L
-         4B8Ao6bC5/g1hnroKaOWWdwYA1SD+szEfYFdWkFbto5OWbxSyAXNg+vEenW2M+BVr8n6
-         XW5NnD7OjND04XpXOaio+CnGGpbiBdzY+dECsiO6xAQtLjlwFkcdAyU0N6d8cOAYGm9a
-         FOcmip0jdrgBXNO031t/ea+sWmqmG+CpUiNCW3jc4bcN0Ed6JCxUlVKpBQCHYhhwPGQ2
-         NnjhfQHy8f0mRm6trEwyNs7hj8LPsPs60VGQNtqd1LcWrgLalCu11li43cM8XwwrrIj8
-         /NkA==
+        bh=4C0Nob3kCxAymCSBdPGfWK0bfiuslhH1Vyz8Q3gjxRo=;
+        b=WV7syPXn9LH9fJYZqbs1RyWSEpti9lGZmZaUv5egUu2dWg4eyM2Jtm7jTPgNiXftpS
+         e1Nsy8Znn/M0En+K+NV/WdwW5T9MuHhcGjJiRB5RPLEzDs0Cu+wqP8uYWl9r6dlcPEnN
+         1rWMKD2Dm3LqAiL3f2QrWGL44stLW1Ld2G0TL1ofamr3UyJbTJYHDS9OtmHTzmUmsKPg
+         5BAM9QqqsKCgxx2O1gwh8nphdwdZbmS2SYu2h8XVSoCEY5CKcuMtuBZcte9iQf2WZrY/
+         7wLW1oa1pwS7+YpKpNgE8P7115ILpXVbfamuYVvmNu9ecxIWWEZvhNLPPjHasCPKe7Te
+         lvqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=oYv7KV+vPKymp5Vqak7qegS1FdYgShW8DujJwU/0Nzc=;
-        b=rTEZff++9TBAxr6PiLAK+IFNP51T3cSWLdBTFCQLJOsSevrhHIRbEk3dHXyZa/mHbX
-         7lB7nzp9i4F9bfY6ZkW7FJ82+lavdlUD3CnE36DNUzkDJ3yQx7WSZc7tDymrACZZzdKB
-         WYlLjuuytLGFzYJWbq+3Rk6dlA51Jd+5MXYeNOWYWNF4y90d9ZHyjps0ulG364+G4/5u
-         6rxmzae9C6zsjBhUH+t3tVU7qwG1MNlt3Q+hHxayZ5JM4PE+EwzyINnHoIEFc0gGHsKh
-         fPHhMqKyno3aW9yaZuJ+KhvKFnso5qZ4DAcWcXWYXbq8kE7oOecIPumyhTUEtb5agkII
-         yLgA==
-X-Gm-Message-State: AOAM531e1lPoesv23FIS/uIhxXb0gB48Juv5u727vMKwxdaLUpQQoCHQ
-	cpg8yCKqTOV0gIXH97s0Npk=
-X-Google-Smtp-Source: ABdhPJytrQ1QlerWOFvV2F4sUMUH5OPvcbzXbVV9e5LhkctWLg+7giZd+daod7213IPskQBAnVV8vA==
-X-Received: by 2002:a17:907:94cc:: with SMTP id dn12mr3214727ejc.177.1617193052031;
-        Wed, 31 Mar 2021 05:17:32 -0700 (PDT)
+        bh=4C0Nob3kCxAymCSBdPGfWK0bfiuslhH1Vyz8Q3gjxRo=;
+        b=YqRFxkflg6OhPUKUYfVQNxaZmBGfSBRcSbtJdvVlgYkxipGqc9hN69bmKnXTRCQlsJ
+         IQh8fv8/xD6wM/TW/zp0S8B/hzfiGy96pH2itSwwOos/Wey7N0QlrEBZDL/sAdQaYCxl
+         Jd/RQOwYstfJhZFD0NZQLVz2nSdNpx7QEt8JTbBJv9nEVSzOh6lqHYlvIGaYfqLze1PZ
+         QTFAfA0eXVO//aWDy/TKEAHcGqVSRz0hwvOs9H4oZ2yKJ6OYXCmq3c4QpmBI6kgZ5aa/
+         zB6CgF71CrliRZLNjUO4XZPPR2brXfysg2nDuEbc5iX+jDo536hjLW1YlvnEmJyBqQgw
+         oqNA==
+X-Gm-Message-State: AOAM530sYGAt8dK4OcYxy7mInTlOIqGWxLsdA2kiNi0M58FD1sh5VL2m
+	QdgMrfVnpnA5ec4XF7A+riE=
+X-Google-Smtp-Source: ABdhPJxNdqsV8z7jkT0KwLw67EgrL5lKP2qhXWZ5KRKp7FYjWebkHBniCAIBJvyMuPSzC97k35fKWA==
+X-Received: by 2002:a50:ec07:: with SMTP id g7mr3347331edr.72.1617193202749;
+        Wed, 31 Mar 2021 05:20:02 -0700 (PDT)
 Received: from agape.jhs ([5.171.81.9])
-        by smtp.gmail.com with ESMTPSA id s20sm1103527ejj.38.2021.03.31.05.17.30
+        by smtp.gmail.com with ESMTPSA id dg26sm1432386edb.88.2021.03.31.05.20.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Mar 2021 05:17:31 -0700 (PDT)
-Date: Wed, 31 Mar 2021 14:17:28 +0200
+        Wed, 31 Mar 2021 05:20:02 -0700 (PDT)
+Date: Wed, 31 Mar 2021 14:19:59 +0200
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: Greg KH <gregkh@linuxfoundation.org>
 Cc: dan.carpenter@oracle.com, joe@perches.com,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 03/40] staging: rtl8723bs: replace RT_TRACE with public
  printk wrappers in core/rtw_eeprom.c
-Message-ID: <20210331121727.GA1599@agape.jhs>
+Message-ID: <20210331121958.GB1599@agape.jhs>
 References: <cover.1617183374.git.fabioaiuto83@gmail.com>
  <39c2cd878bc914a00e71ea988c3cacb651670822.1617183374.git.fabioaiuto83@gmail.com>
  <YGROiD19tgF8XnK6@kroah.com>
- <20210331105551.GB1450@agape.jhs>
- <YGRZilreNqCdsLCE@kroah.com>
+ <20210331103630.GA1450@agape.jhs>
+ <YGRTdBWseZw72rae@kroah.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -56,11 +56,11 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YGRZilreNqCdsLCE@kroah.com>
+In-Reply-To: <YGRTdBWseZw72rae@kroah.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Wed, Mar 31, 2021 at 01:14:18PM +0200, Greg KH wrote:
-> On Wed, Mar 31, 2021 at 12:55:51PM +0200, Fabio Aiuto wrote:
+On Wed, Mar 31, 2021 at 12:48:20PM +0200, Greg KH wrote:
+> On Wed, Mar 31, 2021 at 12:36:31PM +0200, Fabio Aiuto wrote:
 > > On Wed, Mar 31, 2021 at 12:27:20PM +0200, Greg KH wrote:
 > > > On Wed, Mar 31, 2021 at 11:39:31AM +0200, Fabio Aiuto wrote:
 > > > > replace private macro RT_TRACE for tracing with in-kernel
@@ -80,87 +80,34 @@ On Wed, Mar 31, 2021 at 01:14:18PM +0200, Greg KH wrote:
 > > > >  
 > > > >  	if (padapter->bSurpriseRemoved == true) {
 > > > > -		RT_TRACE(_module_rtl871x_eeprom_c_, _drv_err_, ("padapter->bSurpriseRemoved==true"));
-> > > > +		pr_err("%s padapter->bSurpriseRemoved==true", DRIVER_PREFIX);
-> > > 
-> > > As Dan said, this is not the same thing.  You are now always printing
-> > > out this mess, when before you were not unless you explicitly enabled
-> > > "tracing".
 > > 
-> > RT_TRACE is enabled if is defined the symbol DEBUG_RTL871X. It doesn't seem to be related 
-> > to tracing. DEBUG_RTL871X is never declared, is commented out in rtl8723bs/include/autoconf.h
+> > I looked at this ---------------------------------------^
+> > and so I thought that pr_err was good...
 > 
-> That's a good sign this is never used and should just all be removed.
+> But you missed the fact that RT_TRACE() does not always spit this stuff
+> out.
 > 
-> > that's why RT_TRACE is never printed. If we try to uncomment the symbol definition we have some
-> > comiling errors..
-> 
-> What errors do you get?
+> And I don't know what _drv_err_ is, but tracing messages should never go
+> to an error log :)
 
-If I declare DEBUG and DEBUG_RTL871X to activate private tracing..
-
-diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-index 9b16265b543d..f84e0e54cc9c 100644
---- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-@@ -1717,7 +1717,7 @@ s8 phy_get_tx_pwr_lmt(struct adapter *adapter, u32 reg_pwr_tbl_sel,
- 	idx_rate_sctn = get_rate_sctn_idx(data_rate);
- 
- 	if (band_type == BAND_ON_5G && idx_rate_sctn == 0)
--		DBG_871X("Wrong rate 0x%x: No CCK in 5G Band\n", DataRate);
-+		DBG_871X("Wrong rate 0x%x: No CCK in 5G Band\n", data_rate);
-
-here I have to fix a variable name -----------------------------------^
-to let the code compile.
-
-but it won't compile yet, there are more of those errors, in both DBG_871X and
-RT_TRACE macro.
-
- 
- 	/*  workaround for wrong index combination to obtain tx power limit, */
- 	/*  OFDM only exists in BW 20M */
-diff --git a/drivers/staging/rtl8723bs/include/autoconf.h b/drivers/staging/rtl8723bs/include/autoconf.h
-index 996198750814..bece2ed1ef88 100644
---- a/drivers/staging/rtl8723bs/include/autoconf.h
-+++ b/drivers/staging/rtl8723bs/include/autoconf.h
-@@ -45,10 +45,10 @@
-  * Debug Related Config
-  */
- #undef DEBUG
--
-+#define DEBUG
- #ifdef DEBUG
- #define DBG	1	/*  for ODM & BTCOEX debug */
--/*#define DEBUG_RTL871X */
-+#define DEBUG_RTL871X 
- #else /*  !DEBUG */
- #define DBG	0	/*  for ODM & BTCOEX debug */
- #endif /*  !DEBUG */
-
-^^^^^^^^^^^^^^^^^------------here hand declaration to reproduce
-				compiling errors
-
+ok, got it 
 
 > 
-> > > And you are sending it to the error log?
-> > > 
-> > > And finally, drivers should never be using pr_*() for messages, they
-> > > should be using dev_*() instead as they are a driver and have access to
-> > > a device pointer.
-> > > 
-> > > thanks,
-> > > 
-> > > greg k-h
-> > 
-> > I still wonder what's best...
+> > my aim was remove private macros replicating component tracing and log levels...
 > 
-> Just delete them all please, they are obviously not used as no one
-> rebuilds the source just for this type of thing.
+> That's a great goal!
+> 
+> > so what's best? Keep a simplyfied RT_TRACE encapsulating a dev_* call?
+> 
+> replace them with dev_dbg() is one way, if they really are even needed
+> at all.  At this point in time, I would strongly just recommend removing
+> them all as no one is using them for anything.
 > 
 > thanks,
 > 
 > greg k-h
 
-ok I will delete all RT_TRACE call, and even DBG_871X if you agree...
+I will remove then,
 
 thank you,
 
