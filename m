@@ -1,46 +1,27 @@
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0536F
-	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 10:24:36 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-	by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12VA5HIB105333;
-	Wed, 31 Mar 2021 10:24:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=WKBWbPsQJxc9VOnqiOE3LeStzi42sIL5UBxKpzrYUKE=;
- b=PzsEUq0G0gD9J0pfgu7s+JnOA12j1S+QjlpXfkQSZT0CQqazwu7iEjWA6OmboBp3c4XK
- u7t/6PYeQ/Vp876gEUV+bqS4ivBReB+uY21sOkeWhgZnfm41S3zgOdsn2qHcrBcs4VK4
- K9u6os+GK//5hPEgZBr3vfpTETT03kuN1sTEv3PbRtvHqAThnJHfdIkCaTJnhksX7w8q
- GR/la476IgvGut5QgIbCufrqVBM26HFGNhz8kSfr1K6hF2S9+TnHBEYepmsLLk9dAHfU
- ggu0/O9vYAaAEJ7sDGAnxq0qvd0prTEfMJ40y6eAFsgN7KyZBSSljZetSQ0m3OTmJNLb eA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by userp2130.oracle.com with ESMTP id 37mad9srn8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 31 Mar 2021 10:24:24 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12VA6d9l009287;
-	Wed, 31 Mar 2021 10:24:22 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-	by userp3020.oracle.com with ESMTP id 37mac59rm2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 31 Mar 2021 10:24:22 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
-	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 12VAOLBv028265;
-	Wed, 31 Mar 2021 10:24:21 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Wed, 31 Mar 2021 03:24:21 -0700
-Date: Wed, 31 Mar 2021 13:24:14 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Yang Yingliang <yangyingliang@huawei.com>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org
-Subject: Re: [PATCH -next] staging: greybus: camera: Switch to
- memdup_user_nul()
-Message-ID: <20210331102414.GL2065@kadam>
-References: <20210331095201.2173793-1-yangyingliang@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D9A96F
+	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 10:27:23 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3ED1061985;
+	Wed, 31 Mar 2021 10:27:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1617186442;
+	bh=At+KgA3+yqtYvjyHzeiOYBunO6Ha+W24cy9kRqbtE14=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=o9ACvFXjLPyr6CUODgOstCfZ60GfhvGKEArB2wH+vHXEbQg2zvoB7toAXDbKqyxRM
+	 cU5P5QQJ8pKq+ybmQyeIpcjWcU5wsaAeNZvBx/LjjhNQs4MRxgSEv8CQZpnc91ROoD
+	 VTWXEHFJ49tI+PBuYhKbmeRLhyJTiVhCC+lTM40E=
+Date: Wed, 31 Mar 2021 12:27:20 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc: joe@perches.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 03/40] staging: rtl8723bs: replace RT_TRACE with public
+ printk wrappers in core/rtw_eeprom.c
+Message-ID: <YGROiD19tgF8XnK6@kroah.com>
+References: <cover.1617183374.git.fabioaiuto83@gmail.com>
+ <39c2cd878bc914a00e71ea988c3cacb651670822.1617183374.git.fabioaiuto83@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -48,62 +29,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210331095201.2173793-1-yangyingliang@huawei.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9939 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxlogscore=999
- malwarescore=0 spamscore=0 mlxscore=0 suspectscore=0 bulkscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2103300000 definitions=main-2103310073
-X-Proofpoint-ORIG-GUID: Z2UkK1U1itczqd4-02As8YtvJo7NbOiI
-X-Proofpoint-GUID: Z2UkK1U1itczqd4-02As8YtvJo7NbOiI
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9939 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- bulkscore=0 clxscore=1011 lowpriorityscore=0 suspectscore=0 adultscore=0
- spamscore=0 mlxscore=0 mlxlogscore=999 phishscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103300000
- definitions=main-2103310073
+In-Reply-To: <39c2cd878bc914a00e71ea988c3cacb651670822.1617183374.git.fabioaiuto83@gmail.com>
 
-On Wed, Mar 31, 2021 at 05:52:01PM +0800, Yang Yingliang wrote:
-> Use memdup_user_nul() helper instead of open-coding to
-> simplify the code.
+On Wed, Mar 31, 2021 at 11:39:31AM +0200, Fabio Aiuto wrote:
+> replace private macro RT_TRACE for tracing with in-kernel
+> pr_* printk wrappers
 > 
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+> Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 > ---
->  drivers/staging/greybus/camera.c | 10 ++--------
->  1 file changed, 2 insertions(+), 8 deletions(-)
+>  drivers/staging/rtl8723bs/core/rtw_eeprom.c | 26 ++++++++++-----------
+>  1 file changed, 13 insertions(+), 13 deletions(-)
 > 
-> diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
-> index b570e13394ac..0f005facffbc 100644
-> --- a/drivers/staging/greybus/camera.c
-> +++ b/drivers/staging/greybus/camera.c
-> @@ -1120,16 +1120,10 @@ static ssize_t gb_camera_debugfs_write(struct file *file,
->  	if (len > 1024)
->  		return -EINVAL;
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_eeprom.c b/drivers/staging/rtl8723bs/core/rtw_eeprom.c
+> index 3cbd65dee741..6176d741d60e 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_eeprom.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_eeprom.c
+> @@ -36,7 +36,7 @@ void shift_out_bits(_adapter *padapter, u16 data, u16 count)
+>  _func_enter_;
 >  
-> -	kbuf = kmalloc(len + 1, GFP_KERNEL);
-> -	if (!kbuf)
-> +	kbuf = memdup_user_nul(buf, len);
-> +	if (IS_ERR(kbuf))
->  		return -ENOMEM;
+>  	if (padapter->bSurpriseRemoved == true) {
+> -		RT_TRACE(_module_rtl871x_eeprom_c_, _drv_err_, ("padapter->bSurpriseRemoved==true"));
+> +		pr_err("%s padapter->bSurpriseRemoved==true", DRIVER_PREFIX);
 
-return PTR_ERR(kbuf);
+As Dan said, this is not the same thing.  You are now always printing
+out this mess, when before you were not unless you explicitly enabled
+"tracing".
 
->  
-> -	if (copy_from_user(kbuf, buf, len)) {
-> -		ret = -EFAULT;
-> -		goto done;
-> -	}
-> -
-> -	kbuf[len] = '\0';
->  
-   ^^^^^^^^
-Please delete this blank line so there aren't two blank lines in a row.
+And you are sending it to the error log?
 
->  	ret = op->execute(gcam, kbuf, len);
+And finally, drivers should never be using pr_*() for messages, they
+should be using dev_*() instead as they are a driver and have access to
+a device pointer.
 
-regards,
-dan carpenter
+thanks,
 
+greg k-h
