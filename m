@@ -1,50 +1,50 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB3A6F
-	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 09:41:23 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id y6so21561213eds.1
-        for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 02:41:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F706F
+	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 09:41:25 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id y6so21561312eds.1
+        for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 02:41:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8n3ZwrC13ezuBVNAF/vXFI5bhVOgwsL7vX2B5CS7LuE=;
-        b=AI5LgzhvLvWU1w28pHDAUeMGQ3Nq8rtFmseICL0hDSqnGt04bmGUVaN5K3ee0j1JEE
-         C/NvnPU/zGG9cCDfPZ5BiF2c3191reo2TjLgP1r0ace4aCjA13KoHmoTqnIoXSB9ZLpy
-         svQQou07kIpvJc9aFkT327QD5T/b7MxDOSysE8tMoC9sTzSxZ6FD3rxr/+/agxNVgWGR
-         /lQSZciUzptWWqy1k62XLWHju58pO662K43drNLOt4OwfJL+Um9rO+3q+Cw/jR4m961P
-         wIKSeRjHAk25pbwoUFqWM/OgO9Vb0zyxHc8VvwobeTXIlsNyv0gjLxwQX51fyuS2NS3i
-         AfqA==
+        bh=ZP4wKbMRMwqEeI/UoxGUOokmbbP4VYk3spjExIgzybg=;
+        b=l1bzxHwwJnzka9akVrlKhaHYgMplPypRD7IacQjOm5Z/EEepraymXszXE05bDnKHUx
+         e4G9oWHpr1BUOumvSXAFlK/N71vYTWsNLBTUxEMyA/X54QqD2lgETSkkebborceaGKlp
+         U08IKFKKT8xXzudulCXYCOhHBnhLUXNxtfGPUPT5npX/nQtlig0FqVrtP1BRMXR4jERN
+         qsrAIZ64oJ4HuoODz+AlupyFUUWjUPw/Ks7cv7Hgw9lH39hyVWu0qyK5m8uP1zsoAK5E
+         iLMtFljk5t489wu4x9ja62Lb6lgdJq8MPrKnO5JsqCJWPp4S4/y/HMQr9sTSxEOqMfzv
+         q+4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8n3ZwrC13ezuBVNAF/vXFI5bhVOgwsL7vX2B5CS7LuE=;
-        b=tlxAtJmfqgCwBfb6nqepoCYnVBgNri95t9FQnRPiVA65SikJAC4onbQak/shYNxIHW
-         xFSqOIwRpOWaVJeRiRZUK3kcWuqchCO7gMXGmvk99gfya6smFY7OH/5EmjMx6Qx9fp1l
-         0wTWm4OJnuaBp/Hb5yNq7DzXP7dQmQJFfeyYpf23fwdThfUvu2TJQu+e6oTOkmw3jEfi
-         sqhq80eV0Ldd8QdblvA6Gfm4XOYcwskjYNV5glA5uYCdM/jgwHsC6UiPaAR451360oYo
-         mDcdNN4yQvgTecg9v9//8l3dzb0QTaqF/a/dl+jcuxNEjhiF4xUZZ2fY9BW65okU/bta
-         PHpw==
-X-Gm-Message-State: AOAM532ykSXO37/eAOdPJNkGGPJLCXXswYCm5IjSJg5ar/m9wKOYrBfm
-	gyirF3c38L6EIv9v0djytQA=
-X-Google-Smtp-Source: ABdhPJxewNfOpoC32UN0+VBTKT6CMvHuag33jLmJfshVhr8zOJI5fb/lHXkm62FeLTX64+FPEYWXpg==
-X-Received: by 2002:a05:6402:32a:: with SMTP id q10mr2561825edw.15.1617183682524;
-        Wed, 31 Mar 2021 02:41:22 -0700 (PDT)
+        bh=ZP4wKbMRMwqEeI/UoxGUOokmbbP4VYk3spjExIgzybg=;
+        b=IYhN5naYWbwp0cNTH/HdioLRV91zSHDzngbvtJWc74dQR9CQmGzdvNfHW5pkC+wzuj
+         CUpftkMuJQjWjLGhQQ+V2QsH7AIdWTbBpIWWcNdbYcK7CfoSzArF9ho42P+Z0x5b+ji1
+         oONBrck9eBWBUh4gGzfSZGaH7BjSbEDjd3z/uWNe1WwbaV4/PSn3iIlJMUaq7TBKzSTl
+         SiHHJsc4TCw4bKTIA6joIkcKVVoQTgUq5wmBWXu8mCqpWdPfpJVS7eOViGh++7+envqH
+         dPIlBo9Q0YzqOkOp5YHm3iwbyEnLw+uqdtNS+HS6b+lk8ZTCWWWNfUqM5z7kKXTiiDGS
+         zHVA==
+X-Gm-Message-State: AOAM5315jN8fRPgI5pdUtnvaD39u2Ns37AsPWybNhZeZot/ty0jLIH94
+	G5jJfDx9wt4L0T/Xp/mRSEGiU21lZ47H9A==
+X-Google-Smtp-Source: ABdhPJzEKiS21NiHDfR3O3pGswNk9U99uTj9g3bbAAqC+X5cuy5KzsfcImZxu6dUHDWbORBP4WlamQ==
+X-Received: by 2002:a05:6402:3487:: with SMTP id v7mr2597732edc.302.1617183684332;
+        Wed, 31 Mar 2021 02:41:24 -0700 (PDT)
 Received: from agape ([5.171.73.44])
-        by smtp.gmail.com with ESMTPSA id lu5sm814729ejb.97.2021.03.31.02.41.21
+        by smtp.gmail.com with ESMTPSA id ak20sm814955ejc.72.2021.03.31.02.41.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Mar 2021 02:41:22 -0700 (PDT)
+        Wed, 31 Mar 2021 02:41:24 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: joe@perches.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 38/40] staging: rtl8723bs: replace RT_TRACE with public printk wrappers in os_dep/xmit_linux.c
-Date: Wed, 31 Mar 2021 11:40:06 +0200
-Message-Id: <79fb0daed5d94bd92739cdf5985193a53834d3e1.1617183374.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 39/40] staging: rtl8723bs: replace RT_TRACE with public printk wrappers in os_dep/osdep_service.c
+Date: Wed, 31 Mar 2021 11:40:07 +0200
+Message-Id: <de95a0740d468cb8e3f9a646c91ef79dccc93ec2.1617183374.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617183374.git.fabioaiuto83@gmail.com>
 References: <cover.1617183374.git.fabioaiuto83@gmail.com>
@@ -60,44 +60,22 @@ pr_* printk wrappers
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/osdep_service.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-index 216b2f62eefd..50c381d7e734 100644
---- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-@@ -196,10 +196,10 @@ int _rtw_xmit_entry(struct sk_buff *pkt, struct net_device *pnetdev)
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	s32 res = 0;
+diff --git a/drivers/staging/rtl8723bs/os_dep/osdep_service.c b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
+index 843003b91ea2..db979403e16a 100644
+--- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
++++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
+@@ -161,7 +161,7 @@ int rtw_change_ifname(struct adapter *padapter, const char *ifname)
+ 		ret = register_netdevice(pnetdev);
  
--	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("+xmit_enry\n"));
-+	pr_info("%s+%s\n", DRIVER_PREFIX, __func__);
- 
- 	if (rtw_if_up(padapter) == false) {
--		RT_TRACE(_module_xmit_osdep_c_, _drv_err_, ("rtw_xmit_entry: rtw_if_up fail\n"));
-+		pr_err("%s %s: rtw_if_up fail\n", DRIVER_PREFIX, __func__);
- 		#ifdef DBG_TX_DROP_FRAME
- 		DBG_871X("DBG_TX_DROP_FRAME %s if_up fail\n", __func__);
- 		#endif
-@@ -232,13 +232,15 @@ int _rtw_xmit_entry(struct sk_buff *pkt, struct net_device *pnetdev)
- 		goto drop_packet;
+ 	if (ret != 0) {
+-		RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("register_netdev() failed\n"));
++		pr_err("%s register_netdev() failed\n", DRIVER_PREFIX);
+ 		goto error;
  	}
  
--	RT_TRACE(_module_xmit_osdep_c_, _drv_info_, ("rtw_xmit_entry: tx_pkts =%d\n", (u32)pxmitpriv->tx_pkts));
-+	pr_info("%s %s: tx_pkts =%d\n", DRIVER_PREFIX, __func__,
-+		(u32)pxmitpriv->tx_pkts);
- 	goto exit;
- 
- drop_packet:
- 	pxmitpriv->tx_drop++;
- 	dev_kfree_skb_any(pkt);
--	RT_TRACE(_module_xmit_osdep_c_, _drv_notice_, ("rtw_xmit_entry: drop, tx_drop =%d\n", (u32)pxmitpriv->tx_drop));
-+	pr_notice("%s %s: drop, tx_drop =%d\n", DRIVER_PREFIX,
-+		  __func__, (u32)pxmitpriv->tx_drop);
- 
- exit:
- 	return 0;
 -- 
 2.20.1
 
