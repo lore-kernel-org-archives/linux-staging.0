@@ -1,41 +1,41 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8442471
-	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 09:22:04 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id ap14so1905120ejc.0
-        for <linux-staging@lists.linux.dev>; Thu, 01 Apr 2021 02:22:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091F65F
+	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 09:22:06 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id b16so1152900eds.7
+        for <linux-staging@lists.linux.dev>; Thu, 01 Apr 2021 02:22:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=82CdLjY8VS8WWjbCmtISyq7PJS/R41U6h4QCnRIJAXQ=;
-        b=uKTeltvRitssEUWkPa9e/HfcckrRs9YCiW6E5FEmFifk2sdWRCDZGOtYjpNUVZnRNf
-         JazD4BZlMJywBm9WV821dLl1/LkHq8yqPDwS4D8uDU+TwS8mfZUcUq39u45RmYoZvzUG
-         nGoyYcoOmdDyItxgm0qV+NgD6ngxsqzKY89YyOz59WfIc6G8HdZj12vCEbIWqSOTokkw
-         o9/UGxAc7jDry2rDUypOe6ktwuFWINoE333PjTFkKg3y1ZlqinX7M4tMBZd2Ys9Yaagx
-         +zXwQVkziwaKJBPwNtVLxcPNuff2BNgadrHSlsQ597iL+oQGi+4B6tvU1kTdJUhEP25C
-         TKig==
+        bh=6naPNcvu5QVkT6Y8CwxzupUotzs3n7U/uiWqq+f+W48=;
+        b=NTMukDVNjGnPUhtHu61ZP4v0o1SzsA3fJWbJwIu1+HXdYwRakPlneVuirjWPWZZOBk
+         XRmmF6AhRjWyyH1kZRrrF4S+6ux57eGVnVL0vgSAsqWd9aeFRRKpuP3EmmPdVkXrcB3a
+         0Y20EMDAJw6WnmUnpbUG09FAYGCr3Y2UyeTwtFMvCWTJxgLDop48enn130p8jRY6K03P
+         CFG94+qFkeAB7gD+6PhpuzWuR17wt5NBJPYrWHFWhL4KoHTQ2Vm8rvGexu2VmwOop7eM
+         3TL8ESpCa3HhU3AogIze9l4p6GJDg36IrbDj5zvlV8/TLZ3028lyVr4AL2bDYaqJMIa1
+         xpPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=82CdLjY8VS8WWjbCmtISyq7PJS/R41U6h4QCnRIJAXQ=;
-        b=s+zOyWAq/dZhxAOXxWHMBXToJJspzjNFbczerKhBQVDh+D/xe2I3dDcOPEvxZs3T3Y
-         HzgEpFK/SaiyLcn0V33x6/CI7FhLWR+GHqCcoDZqi6KFtIIOW+QZ0ABBg4MiFAkulpEd
-         pFor6YGA3uBR1ISLaqEXgFiGWbrcSABBUM6W3VEENbg3QOKRXQEtccH/wf0SwGDf8ms7
-         U43NY8iPFqtXY+CWTgDrZf7JzP8dAWUHpqEkcQgaXNSp8ymdhLId8olVfre8gJXRGbS+
-         JjowVV05r0rebcyI1Y+yXjxDGWpizzEdAZovrz020cXB35BfiDzK2Ouw4PPXKF8aKt2K
-         c7Ow==
-X-Gm-Message-State: AOAM533CTL0KwL/7utSP2TInaQ34RGlpcYYncFtwGrk1O8D10NihcYUD
-	VXTZsgGhp6fqAVH6JQJcqWelcjAP7cxUYg==
-X-Google-Smtp-Source: ABdhPJwjPWcUqkatUawEStseRBk1rRcMssa0nL8K5OYRkAK9Pr1RM00ABWbi+Ncr12gotGSi6bBEMw==
-X-Received: by 2002:a17:906:4955:: with SMTP id f21mr8436138ejt.74.1617268923080;
-        Thu, 01 Apr 2021 02:22:03 -0700 (PDT)
+        bh=6naPNcvu5QVkT6Y8CwxzupUotzs3n7U/uiWqq+f+W48=;
+        b=Bbul0nOSTF40UPY34uqAV1M1MHtVt9EJZWjilWK/6Iea0AdNCx28E0cGL2r4zyi1wq
+         +2sYPkBUCBjKLmLCocSEo19tIIYKt5/4ChPPCjKhCackhqBRTORUA346T3FPdkgfajx6
+         9R+HoQxl8bpfNq3LeopuhQ632UuXFlIuRDf01m8G0lrpOB7H9ILz7dze/Djul8RNIQ6c
+         g1gLnBiWOGCjg8YEj6CWNmxxHPza9H05dShSiLRbFEaUGY2AZRR5QuHO9ZOhjQngz2iR
+         s5/j6nu6XUxBIE4C4sEfV58pAPd7+fEZUf1Fe3wZkF3CQToxILVq2o+M2SwCkdeS0jkA
+         RzIQ==
+X-Gm-Message-State: AOAM5323B86kV44oNXYcvkM9rf535GxBMq0Lx0VD0dNZiYnx2FuGSnhp
+	TkR5ND22or2II86U51c5wYE=
+X-Google-Smtp-Source: ABdhPJwm8JtI2s0tVmOeqGnF3qnKis00RB9lXbmu74k+/g3br7urylvOSFdEI1Ie/dI6cAV1Br3aFg==
+X-Received: by 2002:a05:6402:614:: with SMTP id n20mr8616571edv.58.1617268924645;
+        Thu, 01 Apr 2021 02:22:04 -0700 (PDT)
 Received: from agape ([5.171.80.247])
-        by smtp.gmail.com with ESMTPSA id i2sm3295149edy.72.2021.04.01.02.22.02
+        by smtp.gmail.com with ESMTPSA id k26sm2473876ejx.81.2021.04.01.02.22.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 02:22:02 -0700 (PDT)
+        Thu, 01 Apr 2021 02:22:04 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: joe@perches.com,
@@ -43,9 +43,9 @@ Cc: joe@perches.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 24/49] staging: rtl8723bs: remove empty for cycles
-Date: Thu,  1 Apr 2021 11:20:54 +0200
-Message-Id: <17a82ff571b16f14368b3f7cde4c5c1312e74c40.1617268327.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 25/49] staging: rtl8723bs: remove RT_TRACE logs in hal/HalPwrSeqCmd.c
+Date: Thu,  1 Apr 2021 11:20:55 +0200
+Message-Id: <cc4469f689d4e123945c51191cbabff93f456560.1617268327.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617268327.git.fabioaiuto83@gmail.com>
 References: <cover.1617268327.git.fabioaiuto83@gmail.com>
@@ -56,65 +56,105 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove empty for cycles and related unused counters
+remove all RT_TRACE logs
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 13 ++-----------
- 1 file changed, 2 insertions(+), 11 deletions(-)
+ drivers/staging/rtl8723bs/hal/HalPwrSeqCmd.c | 47 --------------------
+ 1 file changed, 47 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-index 3cf2c4db14f6..0f72be17c540 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-@@ -595,7 +595,7 @@ int rtw_parse_wpa2_ie(u8 *rsn_ie, int rsn_ie_len, int *group_cipher, int *pairwi
- int rtw_get_wapi_ie(u8 *in_ie, uint in_len, u8 *wapi_ie, u16 *wapi_len)
- {
- 	int len = 0;
--	u8 authmode, i;
-+	u8 authmode;
- 	uint	cnt;
- 	u8 wapi_oui1[4] = {0x0, 0x14, 0x72, 0x01};
- 	u8 wapi_oui2[4] = {0x0, 0x14, 0x72, 0x02};
-@@ -616,9 +616,6 @@ int rtw_get_wapi_ie(u8 *in_ie, uint in_len, u8 *wapi_ie, u16 *wapi_len)
- 					!memcmp(&in_ie[cnt+6], wapi_oui2, 4))) {
- 			if (wapi_ie) {
- 				memcpy(wapi_ie, &in_ie[cnt], in_ie[cnt+1]+2);
+diff --git a/drivers/staging/rtl8723bs/hal/HalPwrSeqCmd.c b/drivers/staging/rtl8723bs/hal/HalPwrSeqCmd.c
+index 932b31fda6ad..4b54c6ac8cc2 100644
+--- a/drivers/staging/rtl8723bs/hal/HalPwrSeqCmd.c
++++ b/drivers/staging/rtl8723bs/hal/HalPwrSeqCmd.c
+@@ -53,22 +53,6 @@ u8 HalPwrSeqCmdParsing(
+ 	do {
+ 		PwrCfgCmd = PwrSeqCmd[AryIdx];
+ 
+-		RT_TRACE(
+-			_module_hal_init_c_,
+-			_drv_info_,
+-			(
+-				"HalPwrSeqCmdParsing: offset(%#x) cut_msk(%#x) fab_msk(%#x) interface_msk(%#x) base(%#x) cmd(%#x) msk(%#x) value(%#x)\n",
+-				GET_PWR_CFG_OFFSET(PwrCfgCmd),
+-				GET_PWR_CFG_CUT_MASK(PwrCfgCmd),
+-				GET_PWR_CFG_FAB_MASK(PwrCfgCmd),
+-				GET_PWR_CFG_INTF_MASK(PwrCfgCmd),
+-				GET_PWR_CFG_BASE(PwrCfgCmd),
+-				GET_PWR_CFG_CMD(PwrCfgCmd),
+-				GET_PWR_CFG_MASK(PwrCfgCmd),
+-				GET_PWR_CFG_VALUE(PwrCfgCmd)
+-			)
+-		);
 -
--				for (i = 0; i < (in_ie[cnt+1]+2); i = i+8) {
--				}
+ 		/* 2 Only Handle the command whose FAB, CUT, and Interface are matched */
+ 		if (
+ 			(GET_PWR_CFG_FAB_MASK(PwrCfgCmd) & FabVersion) &&
+@@ -77,19 +61,9 @@ u8 HalPwrSeqCmdParsing(
+ 		) {
+ 			switch (GET_PWR_CFG_CMD(PwrCfgCmd)) {
+ 			case PWR_CMD_READ:
+-				RT_TRACE(
+-					_module_hal_init_c_,
+-					_drv_info_,
+-					("HalPwrSeqCmdParsing: PWR_CMD_READ\n")
+-				);
+ 				break;
+ 
+ 			case PWR_CMD_WRITE:
+-				RT_TRACE(
+-					_module_hal_init_c_,
+-					_drv_info_,
+-					("HalPwrSeqCmdParsing: PWR_CMD_WRITE\n")
+-				);
+ 				offset = GET_PWR_CFG_OFFSET(PwrCfgCmd);
+ 
+ 				/*  */
+@@ -124,12 +98,6 @@ u8 HalPwrSeqCmdParsing(
+ 				break;
+ 
+ 			case PWR_CMD_POLLING:
+-				RT_TRACE(
+-					_module_hal_init_c_,
+-					_drv_info_,
+-					("HalPwrSeqCmdParsing: PWR_CMD_POLLING\n")
+-				);
+-
+ 				bPollingBit = false;
+ 				offset = GET_PWR_CFG_OFFSET(PwrCfgCmd);
+ 				do {
+@@ -160,11 +128,6 @@ u8 HalPwrSeqCmdParsing(
+ 				break;
+ 
+ 			case PWR_CMD_DELAY:
+-				RT_TRACE(
+-					_module_hal_init_c_,
+-					_drv_info_,
+-					("HalPwrSeqCmdParsing: PWR_CMD_DELAY\n")
+-				);
+ 				if (GET_PWR_CFG_VALUE(PwrCfgCmd) == PWRSEQ_DELAY_US)
+ 					udelay(GET_PWR_CFG_OFFSET(PwrCfgCmd));
+ 				else
+@@ -173,19 +136,9 @@ u8 HalPwrSeqCmdParsing(
+ 
+ 			case PWR_CMD_END:
+ 				/*  When this command is parsed, end the process */
+-				RT_TRACE(
+-					_module_hal_init_c_,
+-					_drv_info_,
+-					("HalPwrSeqCmdParsing: PWR_CMD_END\n")
+-				);
+ 				return true;
+ 
+ 			default:
+-				RT_TRACE(
+-					_module_hal_init_c_,
+-					_drv_err_,
+-					("HalPwrSeqCmdParsing: Unknown CMD!!\n")
+-				);
+ 				break;
  			}
- 
- 			if (wapi_len)
-@@ -639,7 +636,7 @@ int rtw_get_wapi_ie(u8 *in_ie, uint in_len, u8 *wapi_ie, u16 *wapi_len)
- 
- void rtw_get_sec_ie(u8 *in_ie, uint in_len, u8 *rsn_ie, u16 *rsn_len, u8 *wpa_ie, u16 *wpa_len)
- {
--	u8 authmode, sec_idx, i;
-+	u8 authmode, sec_idx;
- 	u8 wpa_oui[4] = {0x0, 0x50, 0xf2, 0x01};
- 	uint	cnt;
- 
-@@ -655,9 +652,6 @@ void rtw_get_sec_ie(u8 *in_ie, uint in_len, u8 *rsn_ie, u16 *rsn_len, u8 *wpa_ie
- 		if ((authmode == WLAN_EID_VENDOR_SPECIFIC) && (!memcmp(&in_ie[cnt+2], &wpa_oui[0], 4))) {
- 				if (wpa_ie) {
- 				memcpy(wpa_ie, &in_ie[cnt], in_ie[cnt+1]+2);
--
--				for (i = 0; i < (in_ie[cnt+1]+2); i = i+8) {
--					}
- 				}
- 
- 				*wpa_len = in_ie[cnt+1]+2;
-@@ -666,9 +660,6 @@ void rtw_get_sec_ie(u8 *in_ie, uint in_len, u8 *rsn_ie, u16 *rsn_len, u8 *wpa_ie
- 			if (authmode == WLAN_EID_RSN) {
- 				if (rsn_ie) {
- 				memcpy(rsn_ie, &in_ie[cnt], in_ie[cnt+1]+2);
--
--				for (i = 0; i < (in_ie[cnt+1]+2); i = i+8) {
--					}
- 				}
- 
- 				*rsn_len = in_ie[cnt+1]+2;
+ 		}
 -- 
 2.20.1
 
