@@ -1,41 +1,41 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D355F
-	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 09:22:37 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id h10so1129363edt.13
-        for <linux-staging@lists.linux.dev>; Thu, 01 Apr 2021 02:22:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A7055F
+	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 09:22:39 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id u9so1839226ejj.7
+        for <linux-staging@lists.linux.dev>; Thu, 01 Apr 2021 02:22:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=j8yBh+QrAemiC0bPY4Ow5WV3STLbPxKdPO1253KlO8E=;
-        b=OhpN8VvpGm0bFGtgRnt1NDcbV70nSeMs7fv69TeRd03m/KluDthTV6/M/Gf6VzA658
-         oA8cfGd0wPyW7U80eJBdD89tQG8h5PGR3AxCyNHDqhT+8JVSHLiqW11FriP4fZaLLkpi
-         K8uHfQlzvHWTTITijhWb0InGA20tPJmaow4G1bPyleK1pF/GvetVXcy8nxKTV8UTNQr6
-         3mZ/lSlGw/0gEkT4/jOdG+pk0YPCvAIi7Ps4upYwD1jtqSOowl7LRjwOmaLOJReQrcLZ
-         aLYJJzaOevrm+mAP3KIk6B/t0VxmRjZ/Nx3jxX5LbwRA4qn8YKz7zpYPyXtCX6z/RV9c
-         61eQ==
+        bh=ijhL0ZsC+HjMH8jmoBDVbg5fT9sGzujqSvq84Y9LBBI=;
+        b=dyl8Ob/U5haYMYgTFKBiF53CjK05Pfuo9b+BXQ4TWGyAF5HL2TyHeLdmxQ2cyyt6ax
+         ZhSYkTZnFqaavAIolap7xzBBpqirfz+r04G6AGn8JsKsX600eWMz6du0BI/c4z4J66Ay
+         r9IUAqtpomtZ+LRlQuZUKcIiyB2fZql4TnFHmxY4Xfj3+4JW8fz0ZUJIbXoh6rLkoXZ+
+         lcOJBds+UbufzW9CnS9mnwbdgYBx8KJ7ip3XRy7ZdMf1mkZl+cJzopM9oVudkQQ7e/jg
+         +jKJg/cjpthLausVjlREgu1AdImYg+yprqjH3QnGOaacCGriTUkPJIBUGMkdf1ZvR1LC
+         u3Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=j8yBh+QrAemiC0bPY4Ow5WV3STLbPxKdPO1253KlO8E=;
-        b=s8jHXdw7AZg81oTB0pdRJhd+N65k1CP5Q1oXm29YrhVXJvRy20cDcnZJ2BDWGRQWJk
-         MzUy5DCO6YvD3Jrg2dvpmByekHA6cg0bUDKLhhagPJyAttAYLH0S/bb8RQgxRcqak8Ig
-         Zt0OvHV2iRVTouZqhkrm0E/z5dbcHGn9mTvsq1R/sB2bxskF8Fx0lH/8WxL8fN8P+L6O
-         W7eHEUf7Zs+wmUWWaHdTit+RLoLwZh/0VdfV1PxITU78eMoOruXtdvl6PjpZ10NinsDX
-         5pARHuvrFMv2IzpOb8Jm5v1khFnGfUM5LJl5SUPj0sUyx4DGvXaV9GQDx3nYM62I9xbH
-         FQsQ==
-X-Gm-Message-State: AOAM532bOFqOS1sElMHNXyp1JDj588whvd3NFepIFE9SkZzyDidgNaea
-	6f5XigPAuJavp1F1kTnnIyXNNdq9ce28Kg==
-X-Google-Smtp-Source: ABdhPJzs1aZHMP3M9CxAAP2l/WDqbK0qVH9aqo7hvWt/RD4Af/18tdUhCOw7N0bgNg3iOmN9vXvjbw==
-X-Received: by 2002:a05:6402:438f:: with SMTP id o15mr8833029edc.123.1617268956527;
-        Thu, 01 Apr 2021 02:22:36 -0700 (PDT)
+        bh=ijhL0ZsC+HjMH8jmoBDVbg5fT9sGzujqSvq84Y9LBBI=;
+        b=JiVbg9RQzMmz5+BojHNp6A0Sz3RVja58AwxgrteaO4U6ddzKFqlXcynhWuI5QUq9I1
+         7T5UJVH9ThNM47+h9Jc2KhBAnCxm67+p0Oh5E5dxbgEpKB7aX6Le5x7CA3npevhcHqBB
+         TX3xXI8EbR8zHHkUAPjLXkfOoK+sUsl8y0oZZNBc//o6hfRk/MS26ISq9fMFRtBrDL1r
+         yvChEi3I01VtPy+9SSZ8Nl2VNQqIRXTvn+jfXfPAkI5EgGPKiQwtDzS/r1jow1/8q78D
+         BMwQ2Ioc43fEEFjpBdBBsgiaqvNpVCIf5T+iqEUwRk+wqSwNS9aE0ZyCgmJ93FuBN2Jy
+         f7KQ==
+X-Gm-Message-State: AOAM531GrdPcUPJV8N/kKDxwrZo+usSeEW8EoLxWgLdwt3xAIOwvw0KD
+	rUXBb2GS4raAK4mbcPTzm3g=
+X-Google-Smtp-Source: ABdhPJz720PFdZ/NBqwKB+rZQVebuG299JiphBXeuZpCysHELn1R0DFOEkA36pI9wZdKxRhYB9aEgw==
+X-Received: by 2002:a17:906:1985:: with SMTP id g5mr8005338ejd.285.1617268958080;
+        Thu, 01 Apr 2021 02:22:38 -0700 (PDT)
 Received: from agape ([5.171.80.247])
-        by smtp.gmail.com with ESMTPSA id g20sm3083129edb.7.2021.04.01.02.22.35
+        by smtp.gmail.com with ESMTPSA id z17sm2582754eju.27.2021.04.01.02.22.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 02:22:36 -0700 (PDT)
+        Thu, 01 Apr 2021 02:22:37 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: joe@perches.com,
@@ -43,9 +43,9 @@ Cc: joe@perches.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 45/49] staging: rtl8723bs: remove RT_TRACE logs in os_dep/sdio_intf.c
-Date: Thu,  1 Apr 2021 11:21:15 +0200
-Message-Id: <1efd90da9a2d3b1456f2fe47b28543e0ef5b1fb7.1617268327.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 46/49] staging: rtl8723bs: remove RT_TRACE logs in os_dep/xmit_linux.c
+Date: Thu,  1 Apr 2021 11:21:16 +0200
+Message-Id: <178753695fab9d51c45fc17022b77ddfc525044c.1617268327.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617268327.git.fabioaiuto83@gmail.com>
 References: <cover.1617268327.git.fabioaiuto83@gmail.com>
@@ -60,83 +60,38 @@ remove RT_TRACE logs
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 14 --------------
- 1 file changed, 14 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index b6be1423ef75..fecb43b870d7 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -159,9 +159,6 @@ static void sdio_deinit(struct dvobj_priv *dvobj)
- 	struct sdio_func *func;
- 	int err;
+diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+index 216b2f62eefd..1dc0787a80da 100644
+--- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+@@ -196,10 +196,7 @@ int _rtw_xmit_entry(struct sk_buff *pkt, struct net_device *pnetdev)
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	s32 res = 0;
  
+-	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("+xmit_enry\n"));
 -
--	RT_TRACE(_module_hci_intfs_c_, _drv_notice_, ("+sdio_deinit\n"));
--
- 	func = dvobj->intf_data.func;
- 
- 	if (func) {
-@@ -201,7 +198,6 @@ static struct dvobj_priv *sdio_dvobj_init(struct sdio_func *func)
- 	psdio->func = func;
- 
- 	if (sdio_init(dvobj) != _SUCCESS) {
--		RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("%s: initialize SDIO Failed!\n", __func__));
- 		goto free_dvobj;
- 	}
- 	rtw_reset_continual_io_error(dvobj);
-@@ -306,8 +302,6 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct
- 	padapter->intf_free_irq = &sdio_free_irq;
- 
- 	if (rtw_init_io_priv(padapter, sdio_set_intf_ops) == _FAIL) {
--		RT_TRACE(_module_hci_intfs_c_, _drv_err_,
--			("rtw_drv_init: Can't init io_priv\n"));
- 		goto free_hal_data;
+ 	if (rtw_if_up(padapter) == false) {
+-		RT_TRACE(_module_xmit_osdep_c_, _drv_err_, ("rtw_xmit_entry: rtw_if_up fail\n"));
+ 		#ifdef DBG_TX_DROP_FRAME
+ 		DBG_871X("DBG_TX_DROP_FRAME %s if_up fail\n", __func__);
+ 		#endif
+@@ -232,13 +229,11 @@ int _rtw_xmit_entry(struct sk_buff *pkt, struct net_device *pnetdev)
+ 		goto drop_packet;
  	}
  
-@@ -322,8 +316,6 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct
+-	RT_TRACE(_module_xmit_osdep_c_, _drv_info_, ("rtw_xmit_entry: tx_pkts =%d\n", (u32)pxmitpriv->tx_pkts));
+ 	goto exit;
  
- 	/* 3 7. init driver common data */
- 	if (rtw_init_drv_sw(padapter) == _FAIL) {
--		RT_TRACE(_module_hci_intfs_c_, _drv_err_,
--			 ("rtw_drv_init: Initialize driver software resource Failed!\n"));
- 		goto free_hal_data;
- 	}
+ drop_packet:
+ 	pxmitpriv->tx_drop++;
+ 	dev_kfree_skb_any(pkt);
+-	RT_TRACE(_module_xmit_osdep_c_, _drv_notice_, ("rtw_xmit_entry: drop, tx_drop =%d\n", (u32)pxmitpriv->tx_drop));
  
-@@ -406,7 +398,6 @@ static int rtw_drv_init(
- 
- 	dvobj = sdio_dvobj_init(func);
- 	if (dvobj == NULL) {
--		RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("initialize device object priv Failed!\n"));
- 		goto exit;
- 	}
- 
-@@ -424,8 +415,6 @@ static int rtw_drv_init(
- 	if (sdio_alloc_irq(dvobj) != _SUCCESS)
- 		goto free_if2;
- 
--	RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("-871x_drv - drv_init, success!\n"));
--
- 	rtw_ndev_notifier_register();
- 	status = _SUCCESS;
- 
-@@ -447,8 +436,6 @@ static void rtw_dev_remove(struct sdio_func *func)
- 	struct dvobj_priv *dvobj = sdio_get_drvdata(func);
- 	struct adapter *padapter = dvobj->if1;
- 
--	RT_TRACE(_module_hci_intfs_c_, _drv_notice_, ("+rtw_dev_remove\n"));
--
- 	dvobj->processing_dev_remove = true;
- 
- 	rtw_unregister_netdevs(dvobj);
-@@ -479,7 +466,6 @@ static void rtw_dev_remove(struct sdio_func *func)
- 
- 	sdio_dvobj_deinit(func);
- 
--	RT_TRACE(_module_hci_intfs_c_, _drv_notice_, ("-rtw_dev_remove\n"));
- }
- 
- static int rtw_sdio_suspend(struct device *dev)
+ exit:
+ 	return 0;
 -- 
 2.20.1
 
