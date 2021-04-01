@@ -1,41 +1,41 @@
 Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6678D71
-	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 09:21:57 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id h13so1155707eds.5
-        for <linux-staging@lists.linux.dev>; Thu, 01 Apr 2021 02:21:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA0271
+	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 09:21:59 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id z1so1143007edb.8
+        for <linux-staging@lists.linux.dev>; Thu, 01 Apr 2021 02:21:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=YZ5b7ao/ZXBfmZah2BX66hKezYl8HfGL05msSmUSV60=;
-        b=JqYE6dexvnr0vWlIntrmoTG46FCTPQGmnER32LiN7Qzxla7syATeYrJCY8EKGy89fB
-         Q9IsJE/i3TJb79BOGAFhUe55dcjEh3EoKzl7mUEJlbc8U0wgiRIiGRl8xCOchEu/V7Fp
-         dpgnl6qMk9KmUhb7h78z/ZYGjJDEA1r8yVWyjeZERoZBKDroqkvbzQPQ9CmRmOWmiEUV
-         xPl/0AoZ6qqeXKdY9aSCVYkOGssUGPbLk6kUZK7YfQDa24NKDfBVrXWtUg8OEtleH8SU
-         uV9Qn3IQ18IaTvamWdZ/vo0EE0mJixeOMWP7exdmj9mHTXGeTY+BGqcQEmPYVFpa6H+5
-         UAmg==
+        bh=vl98NO3efhmL4Uf72VouuywLqEyvjsnyXcNhAsGyR7s=;
+        b=GYVh6f6V3bijuMIY5kTwOYKHF2wzdSECMlH2LmE/73aYA9y2lx6lMtWVapSHSt1riK
+         7BFVJzfD1Fvb6AENNCVMHgjosw0mdoZCp7JS4dQ+qnCUgPKewU841WjRDa4WFhIj6302
+         biFF/cg/JnqE9afm+QWTh5QnISW4v9OdSg9R8kI/fivsn1Z6IsND0zPc0Bkn0QzZnC00
+         IJEnPkUPMCCltxMZYZkOjlQRpRqWWM5D7bt+dxGCWQ1k4U6ShP1Z4NsXh6uekOMilMGI
+         XBAk7dv6sxLMT1gYBVisNUueZVyLdv0u6aRYjvumYvQPOuz4j44H8fz6JNvHtx7LZTdh
+         +H3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=YZ5b7ao/ZXBfmZah2BX66hKezYl8HfGL05msSmUSV60=;
-        b=ZEajqDDE+VKvGzGYNK7SF67SepmevnjwBPPkn/atPkusxwn+clF6yt59Ql5SRVof5B
-         SRNfYyFdyYbNGuv44YYswjhhS48pXwbbfd/B+c3gLJEiEW7/g84yUVuLNmS6oHsLNK+O
-         mGuRUJ/x8q1oqJ5B0WZ+SZHyC9xS3/0v6nQX4CAFDhvXKtSWZjt9uCDwAJeZLIXaKDd9
-         Lu8Di2ptgO1xXFymt56mvcFt7Tg3otB7crNWYLT1ahQhPRPyL2wG43hAVoM71RakfgC+
-         pLEUKFbMrg0+BoF4KQERqn03KJ4zRF2B2ugDoT5bEjRV2A2adm02KNQbOqnsZF51Ftha
-         sNcQ==
-X-Gm-Message-State: AOAM531oaqN9DN1dlWDbE/5ToAm0FUZcW0h6n+sTVCYXIkbRp0xavCU1
-	OxRYl1U1ESiwtI7szKGRDfA=
-X-Google-Smtp-Source: ABdhPJxd8EFptUjoHx4I1U+bLj/s/lYI3U/iTgYCHn8xcImA3hFdEGNdH65lUT+IfVQ1ALqBZDsuNQ==
-X-Received: by 2002:a05:6402:32a:: with SMTP id q10mr8692185edw.15.1617268915994;
-        Thu, 01 Apr 2021 02:21:55 -0700 (PDT)
+        bh=vl98NO3efhmL4Uf72VouuywLqEyvjsnyXcNhAsGyR7s=;
+        b=uLbw2QSpmqsm0njg+v20mkLHZJD0NKmV/Mfk5tylbxTiY4KXDJGHNhvp3DzBYgj9lR
+         BF6ZOnsQMT+HoJhuMk3mG1N5QPZ+ZM5iL9rGhFBArKadW4eb7WNwxNrJT77IL3Wqlob5
+         ivxg+hqybD0eDZCuwrXkiHyH/jMpeamp1dtLnlirf2kyMfQusQu3Kipj1vNbexFcBsni
+         ruIvqhNcxTtKU9lDWo3UXJOIQwZ9hSt024R7aoPGunn3mvAPnya6CMLM/AXfkc3ZJKre
+         lgEwPoJk2NNATPkVgxNCy6RCnqIteRh34i0ZUjgUHuyzJSBNS859qiCrt9NImZ/yS7nf
+         5SNw==
+X-Gm-Message-State: AOAM533t8xv606eXYqULeoBfnfR4cQjXqxP+A0OcDVhRQmrv061bxiJ1
+	FTlzvgNK1A9AeR91teg5qbE=
+X-Google-Smtp-Source: ABdhPJyelFzQPu5wDDWL8LOkPL0Vr5cBWB/6jbC0ETwdCf9j3+KabSlyRgkX8dZML5IArHYOlDU6cg==
+X-Received: by 2002:a50:fd15:: with SMTP id i21mr8580686eds.384.1617268917641;
+        Thu, 01 Apr 2021 02:21:57 -0700 (PDT)
 Received: from agape ([5.171.80.247])
-        by smtp.gmail.com with ESMTPSA id lu5sm2442044ejb.97.2021.04.01.02.21.55
+        by smtp.gmail.com with ESMTPSA id jj15sm2502595ejc.99.2021.04.01.02.21.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 02:21:55 -0700 (PDT)
+        Thu, 01 Apr 2021 02:21:57 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: joe@perches.com,
@@ -43,9 +43,9 @@ Cc: joe@perches.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 20/49] staging: rtl8723bs: remove empty if-block in core/rtw_ioctl_set.c
-Date: Thu,  1 Apr 2021 11:20:50 +0200
-Message-Id: <2eb03134008d273b89907dd67757d02c556131cd.1617268327.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 21/49] staging: rtl8723bs: remove all RT_TRACE logs in core/rtw_wlan_util.c
+Date: Thu,  1 Apr 2021 11:20:51 +0200
+Message-Id: <ec315eef2dc9582020d8b5f91af695c1ee2bb599.1617268327.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617268327.git.fabioaiuto83@gmail.com>
 References: <cover.1617268327.git.fabioaiuto83@gmail.com>
@@ -56,27 +56,64 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove empty if-block
+remove all RT_TRACE logs
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-index 44bead8cb6f4..080d548fe269 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-@@ -457,9 +457,6 @@ u8 rtw_set_802_11_bssid_list_scan(struct adapter *padapter, struct ndis_802_11_s
- 		/*  Scan or linking is in progress, do nothing. */
- 		res = true;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+index 760b0ea4e9bd..8bf3ddec3f58 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
++++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+@@ -1334,11 +1334,6 @@ int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
+ 	memcpy(bssid->Ssid.Ssid, (p + 2), ssid_len);
+ 	bssid->Ssid.SsidLength = ssid_len;
  
--		if (check_fwstate(pmlmepriv, (_FW_UNDER_SURVEY|_FW_UNDER_LINKING)) == true)
--			;
+-	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("%s bssid.Ssid.Ssid:%s bssid.Ssid.SsidLength:%d "
+-				"cur_network->network.Ssid.Ssid:%s len:%d\n", __func__, bssid->Ssid.Ssid,
+-				bssid->Ssid.SsidLength, cur_network->network.Ssid.Ssid,
+-				cur_network->network.Ssid.SsidLength));
 -
- 	} else {
- 		if (rtw_is_scan_deny(padapter)) {
- 			DBG_871X(FUNC_ADPT_FMT": scan deny\n", FUNC_ADPT_ARG(padapter));
+ 	if (memcmp(bssid->Ssid.Ssid, cur_network->network.Ssid.Ssid, 32) ||
+ 			bssid->Ssid.SsidLength != cur_network->network.Ssid.SsidLength) {
+ 		if (bssid->Ssid.Ssid[0] != '\0' && bssid->Ssid.SsidLength != 0) { /* not hidden ssid */
+@@ -1355,9 +1350,6 @@ int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
+ 	else
+ 		bssid->Privacy = 0;
+ 
+-	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_,
+-			("%s(): cur_network->network.Privacy is %d, bssid.Privacy is %d\n",
+-			 __func__, cur_network->network.Privacy, bssid->Privacy));
+ 	if (cur_network->network.Privacy != bssid->Privacy) {
+ 		DBG_871X("%s(), privacy is not match\n", __func__);
+ 		goto _mismatch;
+@@ -1383,24 +1375,16 @@ int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
+ 		pbuf = rtw_get_wpa_ie(&bssid->IEs[12], &wpa_ielen, bssid->IELength-12);
+ 		if (pbuf && (wpa_ielen > 0)) {
+ 			if (_SUCCESS == rtw_parse_wpa_ie(pbuf, wpa_ielen+2, &group_cipher, &pairwise_cipher, &is_8021x)) {
+-				RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_,
+-						("%s pnetwork->pairwise_cipher: %d, group_cipher is %d, is_8021x is %d\n", __func__,
+-						 pairwise_cipher, group_cipher, is_8021x));
+ 			}
+ 		} else {
+ 			pbuf = rtw_get_wpa2_ie(&bssid->IEs[12], &wpa_ielen, bssid->IELength-12);
+ 
+ 			if (pbuf && (wpa_ielen > 0)) {
+ 				if (_SUCCESS == rtw_parse_wpa2_ie(pbuf, wpa_ielen+2, &group_cipher, &pairwise_cipher, &is_8021x)) {
+-					RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_,
+-							("%s pnetwork->pairwise_cipher: %d, pnetwork->group_cipher is %d, is_802x is %d\n",
+-							 __func__, pairwise_cipher, group_cipher, is_8021x));
+ 				}
+ 			}
+ 		}
+ 
+-		RT_TRACE(_module_rtl871x_mlme_c_, _drv_err_,
+-				("%s cur_network->group_cipher is %d: %d\n", __func__, cur_network->BcnInfo.group_cipher, group_cipher));
+ 		if (pairwise_cipher != cur_network->BcnInfo.pairwise_cipher || group_cipher != cur_network->BcnInfo.group_cipher) {
+ 			DBG_871X("%s pairwise_cipher(%x:%x) or group_cipher(%x:%x) is not match\n", __func__,
+ 					pairwise_cipher, cur_network->BcnInfo.pairwise_cipher,
 -- 
 2.20.1
 
