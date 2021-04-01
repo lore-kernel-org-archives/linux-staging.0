@@ -1,83 +1,77 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53D55F
-	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 09:01:48 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id o19so1101768edc.3
-        for <linux-staging@lists.linux.dev>; Thu, 01 Apr 2021 02:01:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC075F
+	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 09:07:26 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id z1so1098230edb.8
+        for <linux-staging@lists.linux.dev>; Thu, 01 Apr 2021 02:07:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=s/KI0MJgK9QofyThEgPplyvQu0DKV1gNDZdKcA9WQyI=;
-        b=J/kl1FAlhHjoQasXIFGD7dlz77iXZ2V/vmGwj+NcHuXR0qjRBbigEisn2b6x8dz60j
-         j7O7OuQI1/gyBctQrWamL8kVGuip7e28UQ1uS7Tfz3awhbhTNDwvOBxIBfJJguh3zQDv
-         uzaMf953kXgPABN6GcLXxBUVYIO7ePGdrMoKueAJRAdITLMZkaXQZt7Wku5fKSDJhfaC
-         5ZA35tUp5GRptmuS2q5hMFAdmqBu8jOHqLXkvDmgLjDCb16EqYISEm7OuTBScJ3HXWIN
-         XJ4OVMP76IKN0cutJdcLUZEIu/wl95S1XcLz9DwliKqOd2PldLGYHbmScJy2djLmYhdC
-         MvJg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hqKqZ9iRjRyPN9EH543S80Z7tugSlkFDhD8jKubgWUg=;
+        b=nhcWAEMQZyxjL9hmCvp2KiPL79BTZowgTDPY5mOzLS/XL7saV1FpBP4DR2CHMXRp6d
+         ujvaLn+yiTQZC3jjnX1PVCRFCrClZ55qh2GQbEuqtVnGfU2l0SZBpyjqKCGng1YpGm3D
+         7rj3K4S9f24JRDo5e9CUGMj6A/4FTwBpZwWXcS1oxb44N0uVaoCf2m3XpCEBDY2/xS3c
+         OGw1DhrOe5Zz2szMgvg1lrXJ68NiT9NGeLzCmgUo3zVY0ArKT9S/3dDJYrCSZl4DXbdN
+         Ay67zgPWbZkI+71Iq7/QKzt7wl6ncUyr2h07VKw7vcNVLGTkeyqx7p37wrYJXzg/1Im6
+         dKdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=s/KI0MJgK9QofyThEgPplyvQu0DKV1gNDZdKcA9WQyI=;
-        b=dqH16cYnru1TvMQz+g6K31HUBZrhe4pttJSc65+J8UjlUrDLS4gSBaRLALndYWDblR
-         BMh0PuLw/zT1M/40fycttO9c26Uik8IXzPMMbVbhLdV30bVeOad2B5imcL/tnxJjQHhb
-         vutn0rnsu5D3snNR6b1EgaaBfiDYfcWa/pDSTvyGHX0Y/dsm0L47vnCSj6li+m868Z6h
-         YisjqUoFEssSZS8kGV5OMm5u2V/soKujgzXmczSPijr2TiTWxEeRp9zLBr3KvgDnStxB
-         GucxK/dmsZEnUxDgglQD/3Ca02MjO5JAKWaNqAlwrOi3kpgfkqbhhC8q7pStnyjdRa4e
-         DCXQ==
-X-Gm-Message-State: AOAM533548FZ3dMUzev+B+gKe89i1I6AW6sMdA+muZHrmHuBHXwa3Qoa
-	vDTwkjsbv57NGqLJoYglM84=
-X-Google-Smtp-Source: ABdhPJw5CPPctarOql+rS2x1uLAr1a+Mp8+uwazHWoqo/j95L0cOZH6WvM0FAien2sFFgysAZTvJow==
-X-Received: by 2002:a05:6402:5203:: with SMTP id s3mr8769668edd.79.1617267705931;
-        Thu, 01 Apr 2021 02:01:45 -0700 (PDT)
-Received: from agape.jhs ([5.171.80.247])
-        by smtp.gmail.com with ESMTPSA id r24sm3118586edw.11.2021.04.01.02.01.44
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hqKqZ9iRjRyPN9EH543S80Z7tugSlkFDhD8jKubgWUg=;
+        b=kDvmvVna/H9rTkA66oeD6oT/mjUknyAey/Wtstm6WMgG566uuKOlauHdVUYAiy08Vf
+         t94/OxabeR+Rh81TE/V/lBJaW2P6UeqstevVN0YWHLku58IBfxhiHrbTeukly47v3A61
+         gqXyyWTT3eW59EMEB4NwYPr79gLGtL/6hR/8R+UaywVWUIxW3vRiSNZ4DaF3Rjle1dOJ
+         KY4wK0ufUPDC8Q6UCHxABY1O4Br+7f+Rtq85tbHtaEK5Z7V7WcVnSjr8ex2u/g7cdkV/
+         sXk4fyj4anAdm45aRPGn/kTtYSRaF9f9keJXBhTclhtlG7vEYsxUD7X7uIEKBnhXjHyf
+         j0iQ==
+X-Gm-Message-State: AOAM5321ytnbxUwrzwtyLVEfGA30kIXXor+Vm+/7Xe41FdRnPWhpVXuT
+	MX3XUvgTRryH0ZvVgMPYT7k=
+X-Google-Smtp-Source: ABdhPJzSSeVqMygi6cvv+ZRKLABJ79m178dLdquDaM0/vdzN98AWriWp06vwoafhOmKXu46DmtBT2g==
+X-Received: by 2002:a50:9ea7:: with SMTP id a36mr8846379edf.174.1617268045446;
+        Thu, 01 Apr 2021 02:07:25 -0700 (PDT)
+Received: from agape ([5.171.80.247])
+        by smtp.gmail.com with ESMTPSA id u14sm2444999ejx.60.2021.04.01.02.07.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 02:01:45 -0700 (PDT)
-Date: Thu, 1 Apr 2021 11:01:42 +0200
+        Thu, 01 Apr 2021 02:07:25 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
-Cc: joe@perches.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] staging: rtl8723bs: replace private macro with
- print_hex_dump_debug
-Message-ID: <20210401090141.GA1442@agape.jhs>
-References: <cover.1617183040.git.fabioaiuto83@gmail.com>
+Cc: joe@perches.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Fabio Aiuto <fabioaiuto83@gmail.com>
+Subject: [PATCH v2 0/2] staging: rtl8723bs: replace private macro with print_hex_dump_debug
+Date: Thu,  1 Apr 2021 11:07:20 +0200
+Message-Id: <cover.1617267827.git.fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1617183040.git.fabioaiuto83@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 31, 2021 at 11:34:05AM +0200, Fabio Aiuto wrote:
-> this patchset replaces RT_PRINT_DATA private macro for dump hex values
-> with the kernel helper used for this pourpose.
-> 
-> Fabio Aiuto (2):
->   staging: rtl8723bs: use print_hex_dump_debug instead of private
->     RT_PRINT_DATA
->   staging: rtl8723bs: remove unused macro RT_PRINT_DATA
-> 
->  drivers/staging/rtl8723bs/hal/hal_com.c       | 13 ++++-------
->  drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  | 22 ++++++++++++++-----
->  .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |  3 ++-
->  drivers/staging/rtl8723bs/include/rtw_debug.h | 19 ----------------
->  4 files changed, 22 insertions(+), 35 deletions(-)
-> 
-> -- 
-> 2.20.1
-> 
+this patchset replaces RT_PRINT_DATA private macro for dump hex values
+with the kernel helper used for this pourpose.
 
-Hi Greg,
+---------------------------------
 
-please drop this, I will send you a v2 soon.
+Changes in v2:
+	- removed the do-nothing macro declaration as well
 
-Thank you,
+Fabio Aiuto (2):
+  staging: rtl8723bs: use print_hex_dump_debug instead of private
+    RT_PRINT_DATA
+  staging: rtl8723bs: remove unused macro RT_PRINT_DATA
 
-fabio
+ drivers/staging/rtl8723bs/hal/hal_com.c       | 13 ++++-------
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  | 22 ++++++++++++++-----
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |  3 ++-
+ drivers/staging/rtl8723bs/include/rtw_debug.h | 20 -----------------
+ 4 files changed, 22 insertions(+), 36 deletions(-)
+
+-- 
+2.20.1
+
