@@ -1,41 +1,41 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0366171
-	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 09:22:18 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id kt15so1809264ejb.12
-        for <linux-staging@lists.linux.dev>; Thu, 01 Apr 2021 02:22:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8715E71
+	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 09:22:20 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id o19so1167745edc.3
+        for <linux-staging@lists.linux.dev>; Thu, 01 Apr 2021 02:22:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=T/0KpG9qJzUFrcObdFWrqj3M4DpTo/B6MAsgxOwfgZw=;
-        b=Mywg/Aw5tfjCqpn+8AAvs2eJ9ogyLGXlI7ivF47TcKwvkSg2Frtlnsh+2xzCEToCKV
-         vZOdtCojJ4O6LBSw8MxuxacuayiG48O7Tx+lqSPyJVCWSbTL7xCS6dpmC3dKoGMrqf71
-         5RgxtSdo6xncSg1Qa9MeNzqMcPKOBWF02xKslXnjZkfJG0ZyDl13VgrpE8E9jb6CbtYJ
-         a6Kr8vq7bHnnHeGMPJl5yPm8Xu43WBa7/ajtvSqDxc5A4ydKWGtqdeFa69RG6A4YNHyt
-         WbNFbTMz31ZnaKKJsD56UnUdbK+OOABkOHJMxgKhK/BxsOmkkFe8FW4kXvRch2IX4yb+
-         51CQ==
+        bh=yx+72Epx+NUmisxn0SR/nVRJ35Oi3tLmnqMdM+YV3RY=;
+        b=Q27FYDA23lpDWJV/fvWPA5uAILasjXzE9vUUpKmLCpWRMXc8wz0c8GYe08V+Ld/6n8
+         bWwHMiekG46yvOYx77BimmmunVA38ZY2cqm7xrPIy+DNlqfNt63UPgtVztxEecbezmkn
+         hS01qpNImXoHeHzeCgA9aBQOKgKkg8eWwLNCPam6/j5LRXQby8nWCGKv6UNWMgg3HHuw
+         tp1cwkK5y2SxOprJ8e9Dv6ItCtyoa1APi35PmkkcQAMXTXHxQJnrHVjvVdK3JvK26uFV
+         OXH2j+FZe24V7R72IgqrUR8p3a6B+F3DV2CW3d067FQ10M7MlEINRjmqqugsJd1SkXTd
+         C2cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=T/0KpG9qJzUFrcObdFWrqj3M4DpTo/B6MAsgxOwfgZw=;
-        b=WPEj8nNuxoH9EOuRJPuiG41/no9zLZIYQwpoJ4QGO78gVkauXbfWQ9P8n6NouD+WON
-         tyqfTfHZog0g9286L1eO+BfPNCFiAszjxW5yLOmVlTbGGOvRsrklWDdf8OCp4W9oGpX2
-         IU0RniKlSA/WKtgj6lNscPU8UFhJ/S1Pe+LBUsB2653p9y5QUGTj3UJmXPh2WXJy3PeO
-         jysy6702JGp37RfGH2UiuOrT5XVjBNsQlevGkgD5kEKCGhDuorW2GlIvXzO6xQDOfuqL
-         nPQGH/wioL23Dj/5Su/xPtYg7ed2K1V9ku19zjymkMZjEewQPEatPoRs0AE30A2lh672
-         8Q0A==
-X-Gm-Message-State: AOAM531ZUQMbaemTwDaegnEZc144/dfchK2LdqG+IVc1XYWiVCHpnEOA
-	8KDXQna/4HU2GPiFxmHB0OuUFyBXK5wsYQ==
-X-Google-Smtp-Source: ABdhPJyev3in+h/Z/oALvSw362KMO1ejUOBui9lugELGuzO8TUIrEIVOqFh7po3uhFFhn/qZQXk6GA==
-X-Received: by 2002:a17:907:2062:: with SMTP id qp2mr8063522ejb.397.1617268937616;
-        Thu, 01 Apr 2021 02:22:17 -0700 (PDT)
+        bh=yx+72Epx+NUmisxn0SR/nVRJ35Oi3tLmnqMdM+YV3RY=;
+        b=Ldlo6PtAEtP2JDGaRxjbnYsrj3dojnwAFJnSdg44oK0t7sxgeZgmvY1YRiqmsTgG8v
+         /qy9Bl2IUoU7wy3uCemVeKBTRc5v0XU92Ux7yWdzEj8j/cHMOgHbsASctlmggrlR7qki
+         vc4oVr8hhZ5bomaOQBKZLKnL5IyrAwWR+NKllYRw+VFclrjm6zRSxkkSfKoSEHxnvFPP
+         NWakjVOjONds+ryxFAlakU2mvtDO4VZfevVT1DywZgclFzGPyMtzZxdSUGcaap3sXg2u
+         jwRsLDQ39IHcHI4R8kQPpKxasyBzwyqzyLeChecO4JnIrOJI8hDb+7C7PGW/XVFzMsGm
+         LOfg==
+X-Gm-Message-State: AOAM5307+sL+VXd0yrzFjMILLnZFk4xmFsGU3OmwkTxoooW6gfrvASmt
+	J3S0QeT06Z57c2DD952dii4=
+X-Google-Smtp-Source: ABdhPJxXj0e1SrScqhvCIunTcW48FMFvhjTlzJlEbNCcfK22JlhNZwG6coQ9up6oiPJCKPKtgPfEgw==
+X-Received: by 2002:aa7:d74d:: with SMTP id a13mr9092777eds.199.1617268939166;
+        Thu, 01 Apr 2021 02:22:19 -0700 (PDT)
 Received: from agape ([5.171.80.247])
-        by smtp.gmail.com with ESMTPSA id u14sm2462629ejx.60.2021.04.01.02.22.17
+        by smtp.gmail.com with ESMTPSA id wr20sm2472855ejb.111.2021.04.01.02.22.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 02:22:17 -0700 (PDT)
+        Thu, 01 Apr 2021 02:22:18 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: joe@perches.com,
@@ -43,9 +43,9 @@ Cc: joe@perches.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 33/49] staging: rtl8723bs: remove empty else-blocks in hal/rtl8723b_phycfg.c
-Date: Thu,  1 Apr 2021 11:21:03 +0200
-Message-Id: <fd56a8d2c033988a9713113c8e7077c751da82ef.1617268327.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 34/49] staging: rtl8723bs: remove RT_TRACE logs in hal/hal_intf.c
+Date: Thu,  1 Apr 2021 11:21:04 +0200
+Message-Id: <bdefcae9217453774e97cbecc08d8f8bd194048b.1617268327.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617268327.git.fabioaiuto83@gmail.com>
 References: <cover.1617268327.git.fabioaiuto83@gmail.com>
@@ -56,52 +56,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove empty else-blocks
+remove all RT_TRACE LOGS
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ drivers/staging/rtl8723bs/hal/hal_intf.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-index 2b9254000526..89d3c2fc0926 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-@@ -550,7 +550,6 @@ void PHY_SetTxPowerIndex(
- 			DBG_871X("Invalid Rate!!\n");
- 			break;
- 		}
--	} else {
+diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
+index aa4356327636..7fbac4c8f2f8 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_intf.c
++++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
+@@ -108,8 +108,6 @@ uint rtw_hal_init(struct adapter *padapter)
+ 		DBG_871X("rtw_hal_init: hal__init fail\n");
  	}
+ 
+-	RT_TRACE(_module_hal_init_c_, _drv_err_, ("-rtl871x_hal_init:status = 0x%x\n", status));
+-
+ 	return status;
  }
  
-@@ -649,8 +648,7 @@ static u8 phy_GetSecondaryChnl_8723B(struct adapter *Adapter)
- 			SCSettingOf40 = VHT_DATA_SC_40_LOWER_OF_80MHZ;
- 		else if (pHalData->nCur80MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_UPPER)
- 			SCSettingOf40 = VHT_DATA_SC_40_UPPER_OF_80MHZ;
--		else
--			;
-+
- 		if (
- 			(pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER) &&
- 			(pHalData->nCur80MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER)
-@@ -671,15 +669,12 @@ static u8 phy_GetSecondaryChnl_8723B(struct adapter *Adapter)
- 			(pHalData->nCur80MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_UPPER)
- 		)
- 			SCSettingOf20 = VHT_DATA_SC_20_UPPERST_OF_80MHZ;
--		else
--			;
-+
- 	} else if (pHalData->CurrentChannelBW == CHANNEL_WIDTH_40) {
- 		if (pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_UPPER)
- 			SCSettingOf20 = VHT_DATA_SC_20_UPPER_OF_80MHZ;
- 		else if (pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER)
- 			SCSettingOf20 = VHT_DATA_SC_20_LOWER_OF_80MHZ;
--		else
--			;
- 	}
- 
- 	return  (SCSettingOf40 << 4) | SCSettingOf20;
 -- 
 2.20.1
 
