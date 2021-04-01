@@ -1,41 +1,41 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19DF45F
-	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 09:22:41 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id w18so1202905edc.0
-        for <linux-staging@lists.linux.dev>; Thu, 01 Apr 2021 02:22:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F995F
+	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 09:22:42 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id b7so1878504ejv.1
+        for <linux-staging@lists.linux.dev>; Thu, 01 Apr 2021 02:22:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=DAFBVnxf7LYJNJ2cEtCwdZzp2LZTVZ57HRGj4i0Yfv0=;
-        b=H4MRrnzDqU3fQV2tI+vF6k16CJHD8FF0/74qbrP6zydfMR1/PUG07IFbkQUo8xNfDB
-         2l+d2KexSMPNKVypK3STC8YyP+SdEZPQKTV5ZTS1AdHhq3AY4gSM6KBAayLStAklVtYF
-         yH5BS+msk9ixefkqZ3jcBsTqURYKDl3KSuKQxMoLTgHoSVsHDpZ+TsLkVEMZdmj498qq
-         CSDVWuCv2gvzsI35aS+B8z5xsbgWpsRfGshF+q/pujNT36XzWSxqW4MzxxkNYVMzwtGg
-         0vTRcM03Z29Y6ovvGm2ATFdbMQnBktfBLmW5SwYci+CQbiDOQ/6oXg9jGeNQtvoSD/GB
-         dfRw==
+        bh=gKcFi2fc3Wy8Z1lrS6DNKXPqI4a6Z8RYVdRQPPrB/cA=;
+        b=kqq0tb1Oa2/z6XdiEY1gc+SJeQTuij5WjYRqoYHnoyQVIFLo/gPc/JIAPhbuTP0n9f
+         p7/r491nc3vk9NkZbBNMgT9uyVrad3dx+50hLgWLoC3mlKgGDSlDvnO5VcjnZMwRaMnF
+         4pzXfTq4sHazDNTOhZCCk9NIsY5mz6Sf3xVn8tm2SlCzvnvFsbiLB/C9grFxtpElPnbH
+         Jl4jsdak988ziKRLiB5bxJ5T2/D3QkSyA62fg6urgupWZopCqr4Q9y/s+Yf2mnDHbUT8
+         mfzqKFtjDsZybTTDNStD7aqaybqO/MQuibIOkGBezMaAr7XCTsYaASAeMdxiYA3e/C/h
+         F2xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=DAFBVnxf7LYJNJ2cEtCwdZzp2LZTVZ57HRGj4i0Yfv0=;
-        b=IdTFXrLSmUl4fC9gAXVrQewYucw2Iw5vYJtyklXN967QnqJQ8qb1CUFesjrDsDNfBR
-         vRpFQhSsusBAC+l7gOUQVEY1nON/2y5JwMHdBTajj/7znbGSRyNHziMc4klXaokaBGe7
-         9gO9dfMiOq2CPCGWJDORzI6h0oYkAE3tHJyt0FfD3NO/CFUdwA66Wv8ZBtF/4MWLDyRp
-         W6wjxrVAJvNYRKtm+6yO5KZoboig0wLBAbBZwsAh7uw+3I0l6VypcYc7cZiJmIBPkvG1
-         JFmLBv2/7+B8tyVn+O6RZA6Ki32vdGFXHo3TSytu4BAcLuMjBT8sIaHpQw6oloXi6QdI
-         bjfQ==
-X-Gm-Message-State: AOAM533cVFQaBUq6iJwpUZQnsYpT0KXEc+TTxbF6SLZBliItuTG1aMHT
-	L3j9xDqYVVNMBP7Pg1rBcsU=
-X-Google-Smtp-Source: ABdhPJxmdTbecwBRCCzKhbZq3vVCYrS5ds2xB6I2Vbqdn0cJrvOLKGhg3EcvpenWujwrzXcjA7DJiw==
-X-Received: by 2002:a05:6402:350f:: with SMTP id b15mr8706183edd.6.1617268959655;
-        Thu, 01 Apr 2021 02:22:39 -0700 (PDT)
+        bh=gKcFi2fc3Wy8Z1lrS6DNKXPqI4a6Z8RYVdRQPPrB/cA=;
+        b=UmKTmwfqz+RjXUh3rcargLQ/iGt8J047bGDF1QdIYODe4UH5JxT0p5W3V0XOX/t+ey
+         qya6RVVX5iF3IhCBUdQaifXo54yZk4QIkqS9q/7e2RTVJ9eIh8w8ghCmIajrIPez7Wq8
+         5lkxaXBM/rMJKpCRm2/XXLuf+IqziblbzzG0q6YZWlQRULKoA6MCUqBFRapS/nd9TLop
+         g7C8qlIIbVbHP6pN+Xl+pfOivH+j2SIFsYCz7trsndXrVdY1TClxv4JAFp5zHTbV2NnY
+         ZTzmo+UGN0U2weX7FE4NMkdvrVF/6cAk2nSOl42yj7IBhSsaAFw4ZlKUL4giryp6qfn/
+         oY/g==
+X-Gm-Message-State: AOAM533ubcd/HLdi0YzeIDeA2VNei1jvtVmmrNZytb4uIdEy4Wg0T/n/
+	Ys5Ij5Q2zOd1WXJzSNU2nufwDgo+1qGSew==
+X-Google-Smtp-Source: ABdhPJwesXiGKuy2YG81D4j2x22aJCNt3T6u6G1A5JWUuRPYBx/7dHnROtcsUeHIQejSkOCTpv+6Ww==
+X-Received: by 2002:a17:906:229b:: with SMTP id p27mr8361704eja.287.1617268961227;
+        Thu, 01 Apr 2021 02:22:41 -0700 (PDT)
 Received: from agape ([5.171.80.247])
-        by smtp.gmail.com with ESMTPSA id n6sm2498169eji.37.2021.04.01.02.22.39
+        by smtp.gmail.com with ESMTPSA id gn3sm2436875ejc.2.2021.04.01.02.22.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 02:22:39 -0700 (PDT)
+        Thu, 01 Apr 2021 02:22:40 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: joe@perches.com,
@@ -43,9 +43,9 @@ Cc: joe@perches.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 47/49] staging: rtl8723bs: remove RT_TRACE logs in os_dep/osdep_service.c
-Date: Thu,  1 Apr 2021 11:21:17 +0200
-Message-Id: <44f37521ea6486b4d95b86fc7acf7391bcf13e51.1617268327.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 48/49] staging: rtl8723bs: remove RT_TRACE logs in os_dep/os_intfs.c
+Date: Thu,  1 Apr 2021 11:21:18 +0200
+Message-Id: <ca0acbfba4f426de530a5701d133180154861009.1617268327.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617268327.git.fabioaiuto83@gmail.com>
 References: <cover.1617268327.git.fabioaiuto83@gmail.com>
@@ -60,19 +60,247 @@ remove all RT_TRACE logs
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/osdep_service.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c | 45 ---------------------
+ 1 file changed, 45 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/osdep_service.c b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-index 843003b91ea2..7b2aad346d20 100644
---- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-+++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-@@ -161,7 +161,6 @@ int rtw_change_ifname(struct adapter *padapter, const char *ifname)
- 		ret = register_netdevice(pnetdev);
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index 405aa95af579..902ea040da25 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -479,8 +479,6 @@ struct net_device *rtw_init_netdev(struct adapter *old_padapter)
+ 	struct adapter *padapter;
+ 	struct net_device *pnetdev;
  
- 	if (ret != 0) {
--		RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("register_netdev() failed\n"));
- 		goto error;
+-	RT_TRACE(_module_os_intfs_c_, _drv_info_, ("+init_net_dev\n"));
+-
+ 	if (old_padapter)
+ 		pnetdev = rtw_alloc_etherdev_with_old_priv(sizeof(struct adapter), (void *)old_padapter);
+ 	else
+@@ -529,7 +527,6 @@ u32 rtw_start_drv_threads(struct adapter *padapter)
+ {
+ 	u32 _status = _SUCCESS;
+ 
+-	RT_TRACE(_module_os_intfs_c_, _drv_info_, ("+rtw_start_drv_threads\n"));
+ 	padapter->xmitThread = kthread_run(rtw_xmit_thread, padapter, "RTW_XMIT_THREAD");
+ 	if (IS_ERR(padapter->xmitThread))
+ 		_status = _FAIL;
+@@ -546,14 +543,11 @@ u32 rtw_start_drv_threads(struct adapter *padapter)
+ 
+ void rtw_stop_drv_threads(struct adapter *padapter)
+ {
+-	RT_TRACE(_module_os_intfs_c_, _drv_info_, ("+rtw_stop_drv_threads\n"));
+-
+ 	rtw_stop_cmd_thread(padapter);
+ 
+ 	/*  Below is to termindate tx_thread... */
+ 	complete(&padapter->xmitpriv.xmit_comp);
+ 	wait_for_completion(&padapter->xmitpriv.terminate_xmitthread_comp);
+-	RT_TRACE(_module_os_intfs_c_, _drv_info_, ("\n drv_halt: rtw_xmit_thread can be terminated !\n"));
+ 
+ 	rtw_hal_stop_thread(padapter);
+ }
+@@ -697,14 +691,11 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
+ {
+ 	u8 ret8 = _SUCCESS;
+ 
+-	RT_TRACE(_module_os_intfs_c_, _drv_info_, ("+rtw_init_drv_sw\n"));
+-
+ 	rtw_init_default_value(padapter);
+ 
+ 	rtw_init_hal_com_default_value(padapter);
+ 
+ 	if (rtw_init_cmd_priv(&padapter->cmdpriv)) {
+-		RT_TRACE(_module_os_intfs_c_, _drv_err_, ("\n Can't init cmd_priv\n"));
+ 		ret8 = _FAIL;
+ 		goto exit;
+ 	}
+@@ -712,14 +703,12 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
+ 	padapter->cmdpriv.padapter = padapter;
+ 
+ 	if (rtw_init_evt_priv(&padapter->evtpriv)) {
+-		RT_TRACE(_module_os_intfs_c_, _drv_err_, ("\n Can't init evt_priv\n"));
+ 		ret8 = _FAIL;
+ 		goto exit;
+ 	}
+ 
+ 
+ 	if (rtw_init_mlme_priv(padapter) == _FAIL) {
+-		RT_TRACE(_module_os_intfs_c_, _drv_err_, ("\n Can't init mlme_priv\n"));
+ 		ret8 = _FAIL;
+ 		goto exit;
+ 	}
+@@ -760,29 +749,21 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
+ 
+ exit:
+ 
+-	RT_TRACE(_module_os_intfs_c_, _drv_info_, ("-rtw_init_drv_sw\n"));
+-
+ 	return ret8;
+ }
+ 
+ void rtw_cancel_all_timer(struct adapter *padapter)
+ {
+-	RT_TRACE(_module_os_intfs_c_, _drv_info_, ("+rtw_cancel_all_timer\n"));
+-
+ 	del_timer_sync(&padapter->mlmepriv.assoc_timer);
+-	RT_TRACE(_module_os_intfs_c_, _drv_info_, ("rtw_cancel_all_timer:cancel association timer complete!\n"));
+ 
+ 	del_timer_sync(&padapter->mlmepriv.scan_to_timer);
+-	RT_TRACE(_module_os_intfs_c_, _drv_info_, ("rtw_cancel_all_timer:cancel scan_to_timer!\n"));
+ 
+ 	del_timer_sync(&padapter->mlmepriv.dynamic_chk_timer);
+-	RT_TRACE(_module_os_intfs_c_, _drv_info_, ("rtw_cancel_all_timer:cancel dynamic_chk_timer!\n"));
+ 
+ 	del_timer_sync(&(adapter_to_pwrctl(padapter)->pwr_state_check_timer));
+ 
+ 	del_timer_sync(&padapter->mlmepriv.set_scan_deny_timer);
+ 	rtw_clear_scan_deny(padapter);
+-	RT_TRACE(_module_os_intfs_c_, _drv_info_, ("rtw_cancel_all_timer:cancel set_scan_deny_timer!\n"));
+ 
+ 	del_timer_sync(&padapter->recvpriv.signal_stat_timer);
+ 
+@@ -792,8 +773,6 @@ void rtw_cancel_all_timer(struct adapter *padapter)
+ 
+ u8 rtw_free_drv_sw(struct adapter *padapter)
+ {
+-	RT_TRACE(_module_os_intfs_c_, _drv_info_, ("==>rtw_free_drv_sw"));
+-
+ 	free_mlme_ext_priv(&padapter->mlmeextpriv);
+ 
+ 	rtw_free_cmd_priv(&padapter->cmdpriv);
+@@ -816,8 +795,6 @@ u8 rtw_free_drv_sw(struct adapter *padapter)
+ 
+ 	rtw_hal_free_data(padapter);
+ 
+-	RT_TRACE(_module_os_intfs_c_, _drv_info_, ("<==rtw_free_drv_sw\n"));
+-
+ 	/* free the old_pnetdev */
+ 	if (padapter->rereg_nd_name_priv.old_pnetdev) {
+ 		free_netdev(padapter->rereg_nd_name_priv.old_pnetdev);
+@@ -828,8 +805,6 @@ u8 rtw_free_drv_sw(struct adapter *padapter)
+ 	if (padapter->pbuddy_adapter)
+ 		padapter->pbuddy_adapter->pbuddy_adapter = NULL;
+ 
+-	RT_TRACE(_module_os_intfs_c_, _drv_info_, ("-rtw_free_drv_sw\n"));
+-
+ 	return _SUCCESS;
+ }
+ 
+@@ -879,7 +854,6 @@ static int _netdev_open(struct net_device *pnetdev)
+ 	struct adapter *padapter = rtw_netdev_priv(pnetdev);
+ 	struct pwrctrl_priv *pwrctrlpriv = adapter_to_pwrctl(padapter);
+ 
+-	RT_TRACE(_module_os_intfs_c_, _drv_info_, ("+871x_drv - dev_open\n"));
+ 	DBG_871X("+871x_drv - drv_open, bup =%d\n", padapter->bup);
+ 
+ 	padapter->netif_up = true;
+@@ -896,7 +870,6 @@ static int _netdev_open(struct net_device *pnetdev)
+ 
+ 		status = rtw_hal_init(padapter);
+ 		if (status == _FAIL) {
+-			RT_TRACE(_module_os_intfs_c_, _drv_err_, ("rtl871x_hal_init(): Can't init h/w!\n"));
+ 			goto netdev_open_error;
+ 		}
+ 
+@@ -927,7 +900,6 @@ static int _netdev_open(struct net_device *pnetdev)
+ 
+ netdev_open_normal_process:
+ 
+-	RT_TRACE(_module_os_intfs_c_, _drv_info_, ("-871x_drv - dev_open\n"));
+ 	DBG_871X("-871x_drv - drv_open, bup =%d\n", padapter->bup);
+ 
+ 	return 0;
+@@ -939,7 +911,6 @@ static int _netdev_open(struct net_device *pnetdev)
+ 	netif_carrier_off(pnetdev);
+ 	rtw_netif_stop_queue(pnetdev);
+ 
+-	RT_TRACE(_module_os_intfs_c_, _drv_err_, ("-871x_drv - dev_open, fail!\n"));
+ 	DBG_871X("-871x_drv - drv_open fail, bup =%d\n", padapter->bup);
+ 
+ 	return (-1);
+@@ -978,7 +949,6 @@ static int  ips_netdrv_open(struct adapter *padapter)
+ 
+ 	status = rtw_hal_init(padapter);
+ 	if (status == _FAIL) {
+-		RT_TRACE(_module_os_intfs_c_, _drv_err_, ("ips_netdrv_open(): Can't init h/w!\n"));
+ 		goto netdev_open_error;
+ 	}
+ 
+@@ -1050,8 +1020,6 @@ static int netdev_close(struct net_device *pnetdev)
+ 	struct adapter *padapter = rtw_netdev_priv(pnetdev);
+ 	struct pwrctrl_priv *pwrctl = adapter_to_pwrctl(padapter);
+ 
+-	RT_TRACE(_module_os_intfs_c_, _drv_info_, ("+871x_drv - drv_close\n"));
+-
+ 	if (pwrctl->bInternalAutoSuspend) {
+ 		/* rtw_pwr_wakeup(padapter); */
+ 		if (pwrctl->rf_pwrstate == rf_off)
+@@ -1092,7 +1060,6 @@ static int netdev_close(struct net_device *pnetdev)
+ 	rtw_scan_abort(padapter);
+ 	adapter_wdev_data(padapter)->bandroid_scan = false;
+ 
+-	RT_TRACE(_module_os_intfs_c_, _drv_info_, ("-871x_drv - drv_close\n"));
+ 	DBG_871X("-871x_drv - drv_close, bup =%d\n", padapter->bup);
+ 
+ 	return 0;
+@@ -1113,8 +1080,6 @@ void rtw_dev_unload(struct adapter *padapter)
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 	u8 cnt = 0;
+ 
+-	RT_TRACE(_module_hci_intfs_c_, _drv_notice_, ("+%s\n", __func__));
+-
+ 	if (padapter->bup) {
+ 
+ 		padapter->bDriverStopped = true;
+@@ -1124,8 +1089,6 @@ void rtw_dev_unload(struct adapter *padapter)
+ 		if (padapter->intf_stop)
+ 			padapter->intf_stop(padapter);
+ 
+-		RT_TRACE(_module_hci_intfs_c_, _drv_notice_, ("@ rtw_dev_unload: stop intf complete!\n"));
+-
+ 		if (!pwrctl->bInternalAutoSuspend)
+ 			rtw_stop_drv_threads(padapter);
+ 
+@@ -1140,8 +1103,6 @@ void rtw_dev_unload(struct adapter *padapter)
+ 			}
+ 		}
+ 
+-		RT_TRACE(_module_hci_intfs_c_, _drv_notice_, ("@ %s: stop thread complete!\n", __func__));
+-
+ 		/* check the status of IPS */
+ 		if (rtw_hal_check_ips_status(padapter) || pwrctl->rf_pwrstate == rf_off) {
+ 			/* check HW status and SW state */
+@@ -1160,17 +1121,13 @@ void rtw_dev_unload(struct adapter *padapter)
+ 
+ 			padapter->bSurpriseRemoved = true;
+ 		}
+-		RT_TRACE(_module_hci_intfs_c_, _drv_notice_,
+-			 ("@ %s: deinit hal complete!\n", __func__));
+ 
+ 		padapter->bup = false;
+ 
+ 	} else {
+-		RT_TRACE(_module_hci_intfs_c_, _drv_notice_, ("%s: bup ==false\n", __func__));
+ 		DBG_871X("%s: bup ==false\n", __func__);
+ 	}
+ 
+-	RT_TRACE(_module_hci_intfs_c_, _drv_notice_, ("-%s\n", __func__));
+ }
+ 
+ static int rtw_suspend_free_assoc_resource(struct adapter *padapter)
+@@ -1329,14 +1286,12 @@ static int rtw_resume_process_normal(struct adapter *padapter)
+ 	/* if (sdio_init(adapter_to_dvobj(padapter)) != _SUCCESS) */
+ 	if ((padapter->intf_init) && (padapter->intf_init(adapter_to_dvobj(padapter)) != _SUCCESS)) {
+ 		ret = -1;
+-		RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("%s: initialize SDIO Failed!!\n", __func__));
+ 		goto exit;
+ 	}
+ 	rtw_hal_disable_interrupt(padapter);
+ 	/* if (sdio_alloc_irq(adapter_to_dvobj(padapter)) != _SUCCESS) */
+ 	if ((padapter->intf_alloc_irq) && (padapter->intf_alloc_irq(adapter_to_dvobj(padapter)) != _SUCCESS)) {
+ 		ret = -1;
+-		RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("%s: sdio_alloc_irq Failed!!\n", __func__));
+ 		goto exit;
  	}
  
 -- 
