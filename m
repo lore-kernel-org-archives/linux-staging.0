@@ -1,66 +1,159 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2025F
-	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 14:18:28 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C05A16134F;
-	Thu,  1 Apr 2021 14:18:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1617286708;
-	bh=jqdufY/UuwXUmWUGoi4vXUl54h/XWTzkg20ypWSlnEE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mOe9Wnt/HdL57OPLZn7Vl7d3z+FIOE5QP+7XbvhU2Gll60lxJojxr0lzGJ+TLCK95
-	 eGcWeuHPUHA6ZEt5/xjsyOuvHPUNlbliSQt07nI7VhdnfQ9DfvYGXzfhbhtmEef7wc
-	 +nHtgQUV9XaHOvilBx7EJpeQjHkBYj4+w7hCZLz4pVSVPtI8MmN11oaeYN818B3/u1
-	 Z6BxY2zxU803zL8XqHgK+69rhtg/nA1XgL1quiCtObtTspqyMQ0F+m90zrbv7zEJX/
-	 zz9H6RgGodQHf3tZmi0NoYFab/zNctEtq9wcmDNLK0lTmInwJJFqBodCHo4XguoTnd
-	 hjh/6FJgbsowA==
-Date: Thu, 1 Apr 2021 15:18:15 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v5 (RESEND) 5/7] regulator: hi6421v600-regulator: move it
- from staging
-Message-ID: <20210401141815.GI4758@sirena.org.uk>
-References: <cover.1616695231.git.mchehab+huawei@kernel.org>
- <815b79a4e93f133478d9a5b2dd429526dcfe1dde.1616695231.git.mchehab+huawei@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A9370
+	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 14:32:51 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 131EUOwa043580;
+	Thu, 1 Apr 2021 14:32:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=wqAWeuP8pgtH8tcRXg6w3pb7HUuw1+zzkXuZ1BFgBPY=;
+ b=QmPAOcPWtEtNaGTh1AhcIKkjFWCcDjA7qmsTl4FJbdbHxlALnkkHQzjbIX1R8dAdZ0SV
+ HNOou25aJjLlRRkaWWqrUm8PHtJnf3Adxu7wEGBp6QiABwKPKP+YhwxEaUTbE5SLheVs
+ 3zkzkOYdLz4ujhqO1oRDmQ6WHgxBHvLrWjVupoiGZ+KcIK8mC4G9SCZ9sg3hmoACWv/0
+ YvKC7x8ZNQrAD/owh+laK/1C0o4vuXaQvxuFAU7sAhBvYO4A4KAGYxWYcLAH02Cs/cgd
+ 1TQ/jYzNUVUUugSCFlJTSGv7GinfsrX6YEIC0oqEdhUpzzmsrHN30PExNG3AJwEK320x VA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by aserp2120.oracle.com with ESMTP id 37n2akj2k9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 01 Apr 2021 14:32:49 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 131EOhWe074615;
+	Thu, 1 Apr 2021 14:32:46 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+	by userp3020.oracle.com with ESMTP id 37n2pam94k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 01 Apr 2021 14:32:46 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 131EWivu016975;
+	Thu, 1 Apr 2021 14:32:44 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Thu, 01 Apr 2021 07:32:43 -0700
+Date: Thu, 1 Apr 2021 17:32:36 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc: gregkh@linuxfoundation.org, joe@perches.com, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 08/49] staging: rtl8723bs: remove RT_TRACE logs in
+ core/rtw_cmd.c
+Message-ID: <20210401143235.GV2065@kadam>
+References: <cover.1617268327.git.fabioaiuto83@gmail.com>
+ <7f51432d99459d79742639341f107115f0c224c5.1617268327.git.fabioaiuto83@gmail.com>
+ <20210401095017.GR2065@kadam>
+ <20210401135536.GA1691@agape.jhs>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="DwoPkXS38qd3dnhB"
-Content-Disposition: inline
-In-Reply-To: <815b79a4e93f133478d9a5b2dd429526dcfe1dde.1616695231.git.mchehab+huawei@kernel.org>
-X-Cookie: You can't take damsel here now.
-User-Agent: Mutt/1.10.1 (2018-07-13)
-
-
---DwoPkXS38qd3dnhB
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20210401135536.GA1691@agape.jhs>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9941 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxlogscore=999
+ adultscore=0 bulkscore=0 mlxscore=0 spamscore=0 malwarescore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2103310000 definitions=main-2104010100
+X-Proofpoint-ORIG-GUID: 13N7doJFI8bwWPWRhNo0DEDJrsYq0KTW
+X-Proofpoint-GUID: 13N7doJFI8bwWPWRhNo0DEDJrsYq0KTW
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9941 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 impostorscore=0 phishscore=0
+ bulkscore=0 adultscore=0 clxscore=1015 malwarescore=0 priorityscore=1501
+ suspectscore=0 spamscore=0 mlxlogscore=999 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103310000
+ definitions=main-2104010100
 
-On Thu, Mar 25, 2021 at 07:05:37PM +0100, Mauro Carvalho Chehab wrote:
-> This driver is ready for mainstream. Move it out of staging.
+On Thu, Apr 01, 2021 at 03:55:37PM +0200, Fabio Aiuto wrote:
+> 
+> Hi Dan,
+> 
+> I have the following:
+> 
+>  	if (rtw_createbss_cmd(adapter) != _SUCCESS)
+> -		RT_TRACE(_module_rtl871x_mlme_c_, _drv_err_, ("Error =>rtw_createbss_cmd status FAIL\n"));
+> +	;
+> 
+> will I leave
+> 
+> 	if (rtw_createbss_cmd(adapter) != _SUCCESS)
+> 		;
+> 
+> or just
+> 
+> 	rtw_createbss_cmd(adapter);
+> 
+> ?
+> 
+> what's best from the static analysis point of view?
+> 
+> smatch and sparse says nothing about that.
 
-Acked-by: Mark Brown <broonie@kernel.org>
+rtw_createbss_cmd() can only fail if this allocation fails:
 
---DwoPkXS38qd3dnhB
-Content-Type: application/pgp-signature; name="signature.asc"
+	pcmd = rtw_zmalloc(sizeof(struct cmd_obj));
 
------BEGIN PGP SIGNATURE-----
+In current kernels, that size of small allocation will never fail.  But
+we alway write code as if every allocation can fail.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmBl1iYACgkQJNaLcl1U
-h9BZgAf+I3kP+Jp+r1dHAW0AXf0Fhk9DNl9QGn4g0+vlgHOjCqgxYuXljGZ+c1+t
-UNh10OpAs47RM2JZTM3RVyEfu3sTgeEqhlaZncY1gjSL5jUzM00kAwmWvrrtK4Ex
-Lrverxk3+cCfM/0JapuKNtVzDMmyvO0MFO1WbE4TYj4YnLnVC7Nb11x8azaih+LN
-0en2a5zoGpqc+4tdXLzKnGNZd5a7iTbdVP7qQ/qogDLmvKOuPwn/DzbMfPsML1y+
-HEf9yyZyDmJAVa3WfHuaBVyX7B4VV67W5EwN7lBlwj41G0qjHCSCeiPrX5BG2AMR
-CyV+1wkmabJGmmmaxbGiUBKLrsrMaQ==
-=TTgB
------END PGP SIGNATURE-----
+Normally when an allocation fails then we want to return -ENOMEM and
+clean up.  But this code is an event handler for firmware events and
+there isn't any real clean up to do.  Since there is nothing we can do
+then this is basically working and fine.
 
---DwoPkXS38qd3dnhB--
+How I would write this is:
+
+			ret = rtw_createbss_cmd(adapter);
+			if (ret != _SUCCESS)
+				goto unlock;
+		}
+	}
+unlock:
+	spin_unlock_bh(&pmlmepriv->lock);
+}
+
+That doesn't change how the code works but it signals to the the reader
+what your intention is.  If we just remove the error handling then it's
+ambiguous.
+
+			rtw_createbss_cmd(adapter);
+		}
+	}
+	<-- Futurue programmer decides to add code here then figuring
+            that rtw_createbss_cmd() can fail is a problem.
+
+	spin_unlock_bh(&pmlmepriv->lock);
+}
+
+But for something like this which is maybe more subtle than just a
+straight delete of lines of code, then consider pulling it out into its
+own separate patch.  That makes it easier to review.  Put all the stuff
+that I said in the commit message:
+
+---
+[PATCH] tidy up some error handling
+
+The RT_TRACE() output is not useful so we want to delete it.  In this
+case there is no cleanup for rtw_createbss_cmd() required or even
+possible.  I've deleted the RT_TRACE() output and added a goto unlock
+to show that we can't continue if rtw_createbss_cmd() fails.
+
+---
+
+> 
+> Checkpatch too seems to ignore it, maybe the first one is good,
+> but I would like to be sure before sending another over 40 patches
+> long patchset.
+
+Don't send 40 patches.  Just send 10 at a time until you get a better
+feel for which ones are going to get applied or not. :P  It's not
+arbitrary, and I'm definitely not trying to NAK your patches.  Once you
+learn the rules I hope that it's predictable and straight forward.
+
+regards,
+dan carpenter
+
