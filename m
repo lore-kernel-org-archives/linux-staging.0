@@ -1,124 +1,83 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7EB5F
-	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 09:10:36 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id z1so1108235edb.8
-        for <linux-staging@lists.linux.dev>; Thu, 01 Apr 2021 02:10:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Yz2uAKOVLdpCA/W96Sc6EEUFc6Wo0dIgN6QEihppNbU=;
-        b=oP2NBqVlju7vp7m3LOckHhHUNKDd8Gs1hyGYYuC8qp8KKvkqPNRZr2919RIaAqwHmE
-         pyhI2njrQ0Qrng16SoNECX+nTQ1LVjQKlIFL4zqeYjwZ8PLi+8rvl5Cmv2gFg5NFWzbq
-         1mjeFTV6McE5oq1kBCbtAu24I2j/6Obrl5+XTY4vDvSsZtXnoMQfm7gqOPH3H72S6Iwl
-         64BsE/H81Tj05PAj4wNn/vA9SZAaeGlrpCNYAGki7qaPz8rM6DExTxIXsZazi89svYvI
-         hsDmrTNdaOdXOM9/Y6/kagIqTIKWwQi1PrL3nnkNzafFruoZ/+Y8laUbQJpzubxVq8Fe
-         VNSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Yz2uAKOVLdpCA/W96Sc6EEUFc6Wo0dIgN6QEihppNbU=;
-        b=Zc1Q7RhUUzqn05SuYohsC1BDSATdlPmIBKsPxz5tGquqlKFnHEdWyPt5V3ouisHpEL
-         szx3y6xobu/nnyNHMHiuKar1K420W1WjvUjOqg+y+7DLKeoNwYX3xMAUixqwv8qHJgJe
-         xYCWc6Lgzcjx/sOMJUUyN+INTt1N9dcRo5GZXvIVVUnT7kWkZlySoZ4rgWWLOLun8yGS
-         sBQNqB/V3QLpUpY966p+ldooNv3DLplnuee5k4wZ4C80bL/TwHIGWLuwMJUoKQubhZ7O
-         bKL0QCvKPzYzAhRWSk6zhvLqHLqMBDiM2zl1D4oewF/M3Ak1YrHDhYiEmBmLtgjYX4ai
-         NzNg==
-X-Gm-Message-State: AOAM530BKfiGDyYmq6hMq1f0xmtenYPUSX2vpP7nseZSQrgivhEedflD
-	V7V+WiHwjSr0weSG66Hp9YE8OvCjXzk6dw==
-X-Google-Smtp-Source: ABdhPJw1S3zpHxMQiBjiNx+pagbqT+Wfo4r87kEY2b1AnuTXs9AiCq0fD44o1oKRvPoHwfkWkP5L9A==
-X-Received: by 2002:a50:f747:: with SMTP id j7mr8490344edn.338.1617268235222;
-        Thu, 01 Apr 2021 02:10:35 -0700 (PDT)
-Received: from agape.jhs ([5.171.80.247])
-        by smtp.gmail.com with ESMTPSA id d1sm2491932eje.26.2021.04.01.02.10.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 02:10:34 -0700 (PDT)
-Date: Thu, 1 Apr 2021 11:10:32 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: joe@perches.com, dan.carpenter@oracle.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 03/40] staging: rtl8723bs: replace RT_TRACE with public
- printk wrappers in core/rtw_eeprom.c
-Message-ID: <20210401091031.GB1442@agape.jhs>
-References: <cover.1617183374.git.fabioaiuto83@gmail.com>
- <39c2cd878bc914a00e71ea988c3cacb651670822.1617183374.git.fabioaiuto83@gmail.com>
- <YGROiD19tgF8XnK6@kroah.com>
- <20210331105551.GB1450@agape.jhs>
- <YGRZilreNqCdsLCE@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50FB55F
+	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 09:11:58 +0000 (UTC)
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
+	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4F9y7L4Ktzz17PWQ;
+	Thu,  1 Apr 2021 17:09:50 +0800 (CST)
+Received: from [10.174.178.174] (10.174.178.174) by
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.498.0; Thu, 1 Apr 2021 17:11:54 +0800
+Subject: Re: [PATCH -next v2] staging: greybus: camera: Switch to
+ memdup_user_nul()
+To: Dan Carpenter <dan.carpenter@oracle.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+	<johan@kernel.org>, <elder@kernel.org>, <gregkh@linuxfoundation.org>
+References: <20210401031752.2861248-1-yangyingliang@huawei.com>
+ <20210401074332.GO2065@kadam>
+From: Yang Yingliang <yangyingliang@huawei.com>
+Message-ID: <92731704-8d18-77c5-7d8c-0a38f32321e4@huawei.com>
+Date: Thu, 1 Apr 2021 17:11:54 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YGRZilreNqCdsLCE@kroah.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210401074332.GO2065@kadam>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.178.174]
+X-CFilter-Loop: Reflected
 
-On Wed, Mar 31, 2021 at 01:14:18PM +0200, Greg KH wrote:
-> On Wed, Mar 31, 2021 at 12:55:51PM +0200, Fabio Aiuto wrote:
-> > On Wed, Mar 31, 2021 at 12:27:20PM +0200, Greg KH wrote:
-> > > On Wed, Mar 31, 2021 at 11:39:31AM +0200, Fabio Aiuto wrote:
-> > > > replace private macro RT_TRACE for tracing with in-kernel
-> > > > pr_* printk wrappers
-> > > > 
-> > > > Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
-> > > > ---
-> > > >  drivers/staging/rtl8723bs/core/rtw_eeprom.c | 26 ++++++++++-----------
-> > > >  1 file changed, 13 insertions(+), 13 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/staging/rtl8723bs/core/rtw_eeprom.c b/drivers/staging/rtl8723bs/core/rtw_eeprom.c
-> > > > index 3cbd65dee741..6176d741d60e 100644
-> > > > --- a/drivers/staging/rtl8723bs/core/rtw_eeprom.c
-> > > > +++ b/drivers/staging/rtl8723bs/core/rtw_eeprom.c
-> > > > @@ -36,7 +36,7 @@ void shift_out_bits(_adapter *padapter, u16 data, u16 count)
-> > > >  _func_enter_;
-> > > >  
-> > > >  	if (padapter->bSurpriseRemoved == true) {
-> > > > -		RT_TRACE(_module_rtl871x_eeprom_c_, _drv_err_, ("padapter->bSurpriseRemoved==true"));
-> > > > +		pr_err("%s padapter->bSurpriseRemoved==true", DRIVER_PREFIX);
-> > > 
-> > > As Dan said, this is not the same thing.  You are now always printing
-> > > out this mess, when before you were not unless you explicitly enabled
-> > > "tracing".
-> > 
-> > RT_TRACE is enabled if is defined the symbol DEBUG_RTL871X. It doesn't seem to be related 
-> > to tracing. DEBUG_RTL871X is never declared, is commented out in rtl8723bs/include/autoconf.h
-> 
-> That's a good sign this is never used and should just all be removed.
-> 
-> > that's why RT_TRACE is never printed. If we try to uncomment the symbol definition we have some
-> > comiling errors..
-> 
-> What errors do you get?
-> 
-> > > And you are sending it to the error log?
-> > > 
-> > > And finally, drivers should never be using pr_*() for messages, they
-> > > should be using dev_*() instead as they are a driver and have access to
-> > > a device pointer.
-> > > 
-> > > thanks,
-> > > 
-> > > greg k-h
-> > 
-> > I still wonder what's best...
-> 
-> Just delete them all please, they are obviously not used as no one
-> rebuilds the source just for this type of thing.
-> 
-> thanks,
-> 
-> greg k-h
 
-Hi Greg,
+On 2021/4/1 15:43, Dan Carpenter wrote:
+> On Thu, Apr 01, 2021 at 11:17:52AM +0800, Yang Yingliang wrote:
+>> Use memdup_user_nul() helper instead of open-coding to
+>> simplify the code.
+>>
+>> Reported-by: Hulk Robot <hulkci@huawei.com>
+>> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+>> ---
+>>   drivers/staging/greybus/camera.c | 13 +++----------
+>>   1 file changed, 3 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
+>> index b570e13394ac..2ecdc1bc5092 100644
+>> --- a/drivers/staging/greybus/camera.c
+>> +++ b/drivers/staging/greybus/camera.c
+>> @@ -1120,16 +1120,9 @@ static ssize_t gb_camera_debugfs_write(struct file *file,
+>>   	if (len > 1024)
+>>   		return -EINVAL;
+>>   
+>> -	kbuf = kmalloc(len + 1, GFP_KERNEL);
+>> -	if (!kbuf)
+>> -		return -ENOMEM;
+>> -
+>> -	if (copy_from_user(kbuf, buf, len)) {
+>> -		ret = -EFAULT;
+>> -		goto done;
+>> -	}
+>> -
+>> -	kbuf[len] = '\0';
+>> +	kbuf = memdup_user_nul(buf, len);
+>> +	if (IS_ERR(kbuf))
+>> +		return PTR_ERR(kbuf);;
+>                                      ^^
+> There is an extra semi-colon here.  Checkpatch actually catches this
+> sort of typo.
 
-I will send a brand new patchset, not a v2, for the pourpose is changed.
+I will remove it, and send a v3 later.
 
-Thank you,
+Thanks,
 
-fabio
+Yang
+
+>
+> regards,
+> dan carpenter
+>
+> .
