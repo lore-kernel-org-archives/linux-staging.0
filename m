@@ -1,47 +1,50 @@
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C276270
-	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 07:47:36 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1317i673030903;
-	Thu, 1 Apr 2021 07:47:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=2bcovUiEvqLT3u5u4Mm/FOWPoWqn+P5taGkkF1I4kq4=;
- b=tm8X6D86+wim7J4xB4euCtAUJDXPhNsPcr4ewc4uaX1h34LkBUEtqpJQP3oBeMOHNT/J
- sS3FBIjTTnonJ5I4MQbZB0RLvVp2PoMkqRkvEOH92BVSM3yOvpuXi2h/eSwUObPGrMLJ
- i5+ugOzV+dltP4tdCq2TUvI+FdlcJGBbYZW7pTO8xIm00bbum+n4HnkZQVc83J3R42gD
- yKOGwFDadkZBiaZRokOwcGRlXCRymfsjyuvhSP2a7EjzR4ogKX3Wb8r0+5ID/5c03P02
- aSp/AfDija/Qr4W2n4ok/IApAG5Cwj5QJNelCXUBJxSP8wO6AhH7dWyCKDnk5SmZzeAF xg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by aserp2120.oracle.com with ESMTP id 37n2akgu0v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 01 Apr 2021 07:47:29 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1317fhsC181366;
-	Thu, 1 Apr 2021 07:47:28 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by aserp3030.oracle.com with ESMTP id 37n2arwn28-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 01 Apr 2021 07:47:28 +0000
-Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 1317lQ4e016493;
-	Thu, 1 Apr 2021 07:47:26 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Thu, 01 Apr 2021 00:47:26 -0700
-Date: Thu, 1 Apr 2021 10:47:19 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Yang Yingliang <yangyingliang@huawei.com>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org
-Subject: Re: [PATCH -next v2] staging: greybus: camera: Switch to
- memdup_user_nul()
-Message-ID: <20210401074719.GP2065@kadam>
-References: <20210401031752.2861248-1-yangyingliang@huawei.com>
- <20210401074332.GO2065@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53D55F
+	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 09:01:48 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id o19so1101768edc.3
+        for <linux-staging@lists.linux.dev>; Thu, 01 Apr 2021 02:01:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=s/KI0MJgK9QofyThEgPplyvQu0DKV1gNDZdKcA9WQyI=;
+        b=J/kl1FAlhHjoQasXIFGD7dlz77iXZ2V/vmGwj+NcHuXR0qjRBbigEisn2b6x8dz60j
+         j7O7OuQI1/gyBctQrWamL8kVGuip7e28UQ1uS7Tfz3awhbhTNDwvOBxIBfJJguh3zQDv
+         uzaMf953kXgPABN6GcLXxBUVYIO7ePGdrMoKueAJRAdITLMZkaXQZt7Wku5fKSDJhfaC
+         5ZA35tUp5GRptmuS2q5hMFAdmqBu8jOHqLXkvDmgLjDCb16EqYISEm7OuTBScJ3HXWIN
+         XJ4OVMP76IKN0cutJdcLUZEIu/wl95S1XcLz9DwliKqOd2PldLGYHbmScJy2djLmYhdC
+         MvJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=s/KI0MJgK9QofyThEgPplyvQu0DKV1gNDZdKcA9WQyI=;
+        b=dqH16cYnru1TvMQz+g6K31HUBZrhe4pttJSc65+J8UjlUrDLS4gSBaRLALndYWDblR
+         BMh0PuLw/zT1M/40fycttO9c26Uik8IXzPMMbVbhLdV30bVeOad2B5imcL/tnxJjQHhb
+         vutn0rnsu5D3snNR6b1EgaaBfiDYfcWa/pDSTvyGHX0Y/dsm0L47vnCSj6li+m868Z6h
+         YisjqUoFEssSZS8kGV5OMm5u2V/soKujgzXmczSPijr2TiTWxEeRp9zLBr3KvgDnStxB
+         GucxK/dmsZEnUxDgglQD/3Ca02MjO5JAKWaNqAlwrOi3kpgfkqbhhC8q7pStnyjdRa4e
+         DCXQ==
+X-Gm-Message-State: AOAM533548FZ3dMUzev+B+gKe89i1I6AW6sMdA+muZHrmHuBHXwa3Qoa
+	vDTwkjsbv57NGqLJoYglM84=
+X-Google-Smtp-Source: ABdhPJw5CPPctarOql+rS2x1uLAr1a+Mp8+uwazHWoqo/j95L0cOZH6WvM0FAien2sFFgysAZTvJow==
+X-Received: by 2002:a05:6402:5203:: with SMTP id s3mr8769668edd.79.1617267705931;
+        Thu, 01 Apr 2021 02:01:45 -0700 (PDT)
+Received: from agape.jhs ([5.171.80.247])
+        by smtp.gmail.com with ESMTPSA id r24sm3118586edw.11.2021.04.01.02.01.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Apr 2021 02:01:45 -0700 (PDT)
+Date: Thu, 1 Apr 2021 11:01:42 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: joe@perches.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] staging: rtl8723bs: replace private macro with
+ print_hex_dump_debug
+Message-ID: <20210401090141.GA1442@agape.jhs>
+References: <cover.1617183040.git.fabioaiuto83@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -49,65 +52,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210401074332.GO2065@kadam>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9940 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 spamscore=0
- suspectscore=0 bulkscore=0 mlxscore=0 adultscore=0 malwarescore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2103310000 definitions=main-2104010053
-X-Proofpoint-ORIG-GUID: hWVRwZENoBwvIUFAvOrohnWO9uz3lIkC
-X-Proofpoint-GUID: hWVRwZENoBwvIUFAvOrohnWO9uz3lIkC
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9940 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 impostorscore=0 phishscore=0
- bulkscore=0 adultscore=0 clxscore=1015 malwarescore=0 priorityscore=1501
- suspectscore=0 spamscore=0 mlxlogscore=999 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103310000
- definitions=main-2104010053
+In-Reply-To: <cover.1617183040.git.fabioaiuto83@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Thu, Apr 01, 2021 at 10:43:32AM +0300, Dan Carpenter wrote:
-> On Thu, Apr 01, 2021 at 11:17:52AM +0800, Yang Yingliang wrote:
-> > Use memdup_user_nul() helper instead of open-coding to
-> > simplify the code.
-> > 
-> > Reported-by: Hulk Robot <hulkci@huawei.com>
-> > Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> > ---
-> >  drivers/staging/greybus/camera.c | 13 +++----------
-> >  1 file changed, 3 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
-> > index b570e13394ac..2ecdc1bc5092 100644
-> > --- a/drivers/staging/greybus/camera.c
-> > +++ b/drivers/staging/greybus/camera.c
-> > @@ -1120,16 +1120,9 @@ static ssize_t gb_camera_debugfs_write(struct file *file,
-> >  	if (len > 1024)
-> >  		return -EINVAL;
-> >  
-> > -	kbuf = kmalloc(len + 1, GFP_KERNEL);
-> > -	if (!kbuf)
-> > -		return -ENOMEM;
-> > -
-> > -	if (copy_from_user(kbuf, buf, len)) {
-> > -		ret = -EFAULT;
-> > -		goto done;
-> > -	}
-> > -
-> > -	kbuf[len] = '\0';
-> > +	kbuf = memdup_user_nul(buf, len);
-> > +	if (IS_ERR(kbuf))
-> > +		return PTR_ERR(kbuf);;
->                                     ^^
-> There is an extra semi-colon here.  Checkpatch actually catches this
-> sort of typo.
+On Wed, Mar 31, 2021 at 11:34:05AM +0200, Fabio Aiuto wrote:
+> this patchset replaces RT_PRINT_DATA private macro for dump hex values
+> with the kernel helper used for this pourpose.
+> 
+> Fabio Aiuto (2):
+>   staging: rtl8723bs: use print_hex_dump_debug instead of private
+>     RT_PRINT_DATA
+>   staging: rtl8723bs: remove unused macro RT_PRINT_DATA
+> 
+>  drivers/staging/rtl8723bs/hal/hal_com.c       | 13 ++++-------
+>  drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  | 22 ++++++++++++++-----
+>  .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |  3 ++-
+>  drivers/staging/rtl8723bs/include/rtw_debug.h | 19 ----------------
+>  4 files changed, 22 insertions(+), 35 deletions(-)
+> 
+> -- 
+> 2.20.1
+> 
 
-So when someone makes a typo like this, my response is:
+Hi Greg,
 
-1) Let's add this to checkpatch (turns out it was already done)
-2) Let's grep the kernel and fix the other instances.  The command would
-be something like: git grep ';;$' | grep '\.c:'
+please drop this, I will send you a v2 soon.
 
-regards,
-dan carpenter
+Thank you,
 
+fabio
