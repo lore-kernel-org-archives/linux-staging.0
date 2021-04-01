@@ -1,104 +1,115 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC825F
-	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 09:22:44 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id b16so1154712eds.7
-        for <linux-staging@lists.linux.dev>; Thu, 01 Apr 2021 02:22:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=IKhEXT66iJIONAmAc2SJC/Db6Cavnl//qgP4+fnjAt0=;
-        b=JAfsSg/xP6H1BaRfgCQtGN9xzxHBtoKk1XXrNlLAdSiom41M861yNgL9UxpS1MRmMR
-         Dt+qkazwMg1dDc1w/lw79Y58FTeTMLCcG8E8PqhZMF6dnOtogUYeQHqWVrsOdaG8i7OU
-         6qDEtxtCmF90kDPuQzJDkq4dAbeSupVFgQuBSIYYOMFZFzq5FhSOpxD2RwZmioCB0QTP
-         CRBbg9d5Rr+gEPEhGuzt1jPrc08IBGc5pYdlMAJ9BTOrwD7hVVWMFZ1zQujX8yR3WJNs
-         ZHuClfLUVEbY3rvvUDD2XNY4MvJ0RHDPFiHiXvEImZnVO/R+G4AaCnbby0ETn3+r5EYE
-         kolw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=IKhEXT66iJIONAmAc2SJC/Db6Cavnl//qgP4+fnjAt0=;
-        b=nHNckLd8n29gxauIMIToVL4QwkUQHEJdpF/qUTcdB5vHJ2vdVZwAFjL5YLB+2Z/KIK
-         1W6rsJUwe67ty6GNdhuceBYJ9z2cXKWrqyOXWzgvXisMId4ZE748f7jcVY2roMMahDpY
-         Z4s51MBkgSgssD2yiAT8PDdAU1DEKMSuuV+akjVtUyq5sglC5BMHLtGsv5Bn194JCZkh
-         iC3AQu9KKRrwXGpfjLIj2quComd14kxye+4eahERt0ARUZ9wUzJoSW7Z8UrxiUhj6vuu
-         isGWeZpvaqcuER2Bu+Rpvddi2Wt53X47EoJ1l5QAoIFnkG5Ms0Gcd5oEL1xIrB7FAe8x
-         48QQ==
-X-Gm-Message-State: AOAM530ZiOHuCbyIlWPWUgc8mf9QDnytefx4B7GvB7dwoTgnWaJNncNP
-	KEhz3cD/OeAyi7JKo5hdfmZ1akTaCEhU2Q==
-X-Google-Smtp-Source: ABdhPJxjoF82gW4KMVWKm60oOl8v9ay5vfX9TqHcN5ipYsV9JJRquqKlivA+5y0gzNc/9JVkxyDv2Q==
-X-Received: by 2002:a05:6402:1350:: with SMTP id y16mr8650792edw.309.1617268962913;
-        Thu, 01 Apr 2021 02:22:42 -0700 (PDT)
-Received: from agape ([5.171.80.247])
-        by smtp.gmail.com with ESMTPSA id p19sm3273654edr.57.2021.04.01.02.22.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 02:22:42 -0700 (PDT)
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: joe@perches.com,
-	dan.carpenter@oracle.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 49/49] staging: rtl8723bs: remove obsolete macro
-Date: Thu,  1 Apr 2021 11:21:19 +0200
-Message-Id: <1c7cdfcf488e5dc5bc5c3c29733b0d53caee71fb.1617268327.git.fabioaiuto83@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1617268327.git.fabioaiuto83@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE255F
+	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 09:50:38 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1319kG33019371;
+	Thu, 1 Apr 2021 09:50:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=le2CN1auiZcjfeDiPWiULarZytNQ/KTrJUO/ek0InTQ=;
+ b=jt6f6H6J7wXrAk2z50xIoCdF0ETksqsZzKyd/a+96NuVgI6J8jbzFeD2EkRfKQvvKKzE
+ ZodY9S+a9w2UI7xar6Ab5rhbLKk4y6fsIwg+PudA3MV0ybBShXH3K1Wn4OPJJpNijica
+ kVJGddpWwq6sikiNXBvO5/+s3Qjd7kCESQjxecYD/pn//Ta9Wt5MKGxynYZ5ZPGmiUk9
+ bn/5ncM7TWibHW3Mmz2QIJV/9JX+I6a1IIp2Cg72et/gIHejJIt+2BsK41DpBem6snDZ
+ d8VRQh0HvM1UV1+iS6lq+h42ojZi+NcqHF3cFdpQlZKnrWQOtlse7bbjxqbh4AelH+IF 9g== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by aserp2120.oracle.com with ESMTP id 37n2akh7ts-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 01 Apr 2021 09:50:30 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1319jiZb014457;
+	Thu, 1 Apr 2021 09:50:27 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+	by aserp3030.oracle.com with ESMTP id 37n2as1uff-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 01 Apr 2021 09:50:27 +0000
+Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
+	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 1319oQLu003574;
+	Thu, 1 Apr 2021 09:50:26 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Thu, 01 Apr 2021 09:50:26 +0000
+Date: Thu, 1 Apr 2021 12:50:18 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc: gregkh@linuxfoundation.org, joe@perches.com, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 08/49] staging: rtl8723bs: remove RT_TRACE logs in
+ core/rtw_cmd.c
+Message-ID: <20210401095017.GR2065@kadam>
 References: <cover.1617268327.git.fabioaiuto83@gmail.com>
+ <7f51432d99459d79742639341f107115f0c224c5.1617268327.git.fabioaiuto83@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7f51432d99459d79742639341f107115f0c224c5.1617268327.git.fabioaiuto83@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9940 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 spamscore=0
+ suspectscore=0 bulkscore=0 mlxscore=0 adultscore=0 malwarescore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2103310000 definitions=main-2104010067
+X-Proofpoint-ORIG-GUID: 0TTPdwEtSO6lSbd4mdl82MP_WubY26oA
+X-Proofpoint-GUID: 0TTPdwEtSO6lSbd4mdl82MP_WubY26oA
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9940 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 impostorscore=0 phishscore=0
+ bulkscore=0 adultscore=0 clxscore=1015 malwarescore=0 priorityscore=1501
+ suspectscore=0 spamscore=0 mlxlogscore=999 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103310000
+ definitions=main-2104010067
 
-remove obsolete macro RT_TRACE
+On Thu, Apr 01, 2021 at 11:20:38AM +0200, Fabio Aiuto wrote:
+> @@ -677,9 +663,8 @@ u8 rtw_createbss_cmd(struct adapter  *padapter)
+>  	u8 res = _SUCCESS;
+>  
+>  	if (pmlmepriv->assoc_ssid.SsidLength == 0)
+> -		RT_TRACE(_module_rtl871x_cmd_c_, _drv_info_, (" createbss for Any SSid:%s\n", pmlmepriv->assoc_ssid.Ssid));
+> +		;
+>  	else
+> -		RT_TRACE(_module_rtl871x_cmd_c_, _drv_info_, (" createbss for SSid:%s\n", pmlmepriv->assoc_ssid.Ssid));
+>  
+>  	pcmd = rtw_zmalloc(sizeof(struct cmd_obj));
 
-Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
----
- drivers/staging/rtl8723bs/include/rtw_debug.h | 18 ------------------
- 1 file changed, 18 deletions(-)
+This is a bug.  Smatch has a check for this which hopefully would have
+detected it (I haven't tested).
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_debug.h b/drivers/staging/rtl8723bs/include/rtw_debug.h
-index d3c77798a5eb..6639d79cd7ec 100644
---- a/drivers/staging/rtl8723bs/include/rtw_debug.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_debug.h
-@@ -131,8 +131,6 @@
- 	#define	_MODULE_DEFINE_	_module_efuse_
- #endif
- 
--#define RT_TRACE(_Comp, _Level, Fmt) do {} while (0)
--
- #define DBG_871X(x, ...) do {} while (0)
- #define MSG_8192C(x, ...) do {} while (0)
- #define DBG_8192C(x, ...) do {} while (0)
-@@ -216,22 +214,6 @@
- #endif /* defined(_dbgdump) */
- #endif /* DEBUG */
- 
--#ifdef DEBUG_RTL871X
--
--#if	defined(_dbgdump) && defined(_MODULE_DEFINE_)
--
--	#undef RT_TRACE
--	#define RT_TRACE(_Comp, _Level, Fmt)\
--	do {\
--		if ((_Comp & GlobalDebugComponents) && (_Level <= GlobalDebugLevel)) {\
--			_dbgdump("%s [0x%08x,%d]", DRIVER_PREFIX, (unsigned int)_Comp, _Level);\
--			_dbgdump Fmt;\
--		} \
--	} while (0)
--
--#endif /* defined(_dbgdump) && defined(_MODULE_DEFINE_) */
--#endif /* DEBUG_RTL871X */
--
- void dump_drv_version(void *sel);
- void dump_log_level(void *sel);
- 
--- 
-2.20.1
+There are some more similar issues below as well.  So generally the rule
+is don't adjust the indenting if it's not related to your patch.  In
+some cases you have been fixing the indenting but it should be done in
+a separate patch.  But the other rule is that if your patch introduces
+a checkpatch warning then you need to fix it in the same patch.  In
+this block the whole if statement should be removed.  But also if you
+have something like:
+
+	if (foo) {
+		RT_TRACE(blha blah blah);
+		return;
+	}
+
+Then checkpatch will complain that the the curly braces are not
+required.  (Checkpatch might not complain for your patch but it will
+complain when we re-run it with the -f option over the whole file).  So
+you should update this to:
+
+	if (foo)
+		return;
+
+That's all considered part of deleting the RT_TRACE().  Also if there
+are empty curly braces then delete those in the same patch.
+
+I have looked over patches 1-7 and those seem basically fine.  I'm not
+going to review any further into this patchset because you're going to
+have to redo them and I will be reviewing the v2 set later anyway.  So
+just look it over yourself and check for any similar issues.
+
+regards,
+dan carpenter
 
