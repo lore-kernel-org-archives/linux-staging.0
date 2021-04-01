@@ -1,86 +1,88 @@
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF8570
-	for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 22:43:41 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id j25so72233pfe.2
-        for <linux-staging@lists.linux.dev>; Wed, 31 Mar 2021 15:43:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :in-reply-to:references;
-        bh=FGiGH5+ml2VgPHsxZs7b2NPl4+G+lB9mceSj+p7XzF8=;
-        b=U26e19lwfmllaO35ttkmS5Q9GUoXvorxglHB11m/WKuLNdhFDwEtcfJzEY5n14zAix
-         680wmmGXS3n5yDrhmR90ygfciS5Ntimh6D701yPq13FRDikCpUu3xUQ3/juATCLkj+hO
-         NTujkaeoGtFZc91cOpZBzPHUVlzlYJ2vBD2RytvBtjVkWdqoTMiuOMk2J/E9ZXuFpIdH
-         ImXVxydqcCoTqTL2l1jSHwFZfmYMxKnO53ecqZ3JCLabBVWJAJFZUQZdVdbQqQs234U1
-         chK/EpN71lmh2ZB3pnLUdij4oYmtsRASbHG0g5a94Mj4S7Ns6DlnPwuzPmaGbjOZ6xXl
-         Nf1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:in-reply-to:references;
-        bh=FGiGH5+ml2VgPHsxZs7b2NPl4+G+lB9mceSj+p7XzF8=;
-        b=GKiCWAAneObHlMJI0hShygSONivVd2j4h/8bLe7VZe44T9p2aBCx8ZwPehMD+6mKaw
-         Fk9wiMUTpWp4vjA9gdX8FfuMvvPYpgCxoYQr3zlcnmDnaUrkKR357FPldjZPX1aeOa12
-         eMNoqqGnWteAXnprFcZXjHk2GFtLgLIORCwLkhjnIAOvdSly2P6DFvQQ1T+f6WKovcWq
-         31WLslfo3DlVI27Cb+a4SliVlNRdlIZQQAGdalzhTAPjWw959VMbHV0xCySS1XAr4Lrw
-         kQ2uw85/noDtHTtG14TPY874vuExZoCUbDkjPmyOw7jCSQc/HqboxC88wfXMhCgj77vN
-         xTGA==
-X-Gm-Message-State: AOAM532ym09uI8Wb9leUe6gw0fQuFr9PPFE6E+wLuEa0KZosvx3GN6oY
-	P19HqTflhRheQIDRsOhTHDs=
-X-Google-Smtp-Source: ABdhPJyVOksN7qTo5ZX/8ggaGWoUjeQRjKfHd/mNDBghRzJ/kAj76voWenrwwe4oaKRUHd3J+5xDFQ==
-X-Received: by 2002:a62:76c5:0:b029:1f2:e6af:e2ab with SMTP id r188-20020a6276c50000b02901f2e6afe2abmr5159679pfc.10.1617230621174;
-        Wed, 31 Mar 2021 15:43:41 -0700 (PDT)
-Received: from djbComp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
-        by smtp.gmail.com with ESMTPSA id h19sm3338830pfc.172.2021.03.31.15.43.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Mar 2021 15:43:40 -0700 (PDT)
-From: Deborah Brouwer <deborahbrouwer3563@gmail.com>
-To: gregkh@linuxfoundation.org,
-	ross.schm.dev@gmail.com,
-	marcocesati@gmail.com,
-	fabioaiuto83@gmail.com,
-	dan.carpenter@oracle.com,
-	phil@philpotter.co.uk,
-	amarjargal16@gmail.com
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com,
-	Deborah Brouwer <deborahbrouwer3563@gmail.com>
-Subject: [PATCH v2 3/3] staging: rtl8723bs: core: remove empty comment
-Date: Wed, 31 Mar 2021 15:42:31 -0700
-Message-Id: <2362c76457b94895f0b62b59889e80349bb69d8f.1617229359.git.deborahbrouwer3563@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1617229359.git.deborahbrouwer3563@gmail.com>
-References: <cover.1617229359.git.deborahbrouwer3563@gmail.com>
-In-Reply-To: <cover.1617229359.git.deborahbrouwer3563@gmail.com>
-References: <cover.1617229359.git.deborahbrouwer3563@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B273A70
+	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 02:35:43 +0000 (UTC)
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4F9nL63XpkzyNJ6;
+	Thu,  1 Apr 2021 10:33:34 +0800 (CST)
+Received: from [10.174.178.174] (10.174.178.174) by
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.498.0; Thu, 1 Apr 2021 10:35:37 +0800
+Subject: Re: [PATCH -next] staging: rtl8723bs: os_dep: remove unused variable
+ 'ret'
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>
+References: <20210331094247.2169606-1-yangyingliang@huawei.com>
+ <YGROp83Mnf8hGjY4@kroah.com>
+From: Yang Yingliang <yangyingliang@huawei.com>
+Message-ID: <7910bfa1-e903-68a1-4ece-221610fbd8d4@huawei.com>
+Date: Thu, 1 Apr 2021 10:35:37 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+In-Reply-To: <YGROp83Mnf8hGjY4@kroah.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.174.178.174]
+X-CFilter-Loop: Reflected
 
-Remove empty comment because it provides no information.
+Hi,
 
-Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 2 --
- 1 file changed, 2 deletions(-)
+On 2021/3/31 18:27, Greg KH wrote:
+> On Wed, Mar 31, 2021 at 05:42:47PM +0800, Yang Yingliang wrote:
+>> GCC reports the following warning with W=1:
+>>
+>> drivers/staging/rtl8723bs/os_dep/recv_linux.c:101:6: warning:
+>>   variable ‘ret’ set but not used [-Wunused-but-set-variable]
+>>    101 |  int ret;
+>>        |      ^~~
+>>
+>> This variable is not used in function , this commit
+>> remove it to fix the warning.
+>>
+>> Fixes: de69e2b3f105 ("staging: rtl8723bs: remove DBG_COUNTER calls from os_dep/recv_linux.c")
+>> Reported-by: Hulk Robot <hulkci@huawei.com>
+>> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+>> ---
+>>   drivers/staging/rtl8723bs/os_dep/recv_linux.c | 3 +--
+>>   1 file changed, 1 insertion(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/staging/rtl8723bs/os_dep/recv_linux.c b/drivers/staging/rtl8723bs/os_dep/recv_linux.c
+>> index fbdbcd04d44a..f6a9482be8e3 100644
+>> --- a/drivers/staging/rtl8723bs/os_dep/recv_linux.c
+>> +++ b/drivers/staging/rtl8723bs/os_dep/recv_linux.c
+>> @@ -98,7 +98,6 @@ struct sk_buff *rtw_os_alloc_msdu_pkt(union recv_frame *prframe, u16 nSubframe_L
+>>   void rtw_os_recv_indicate_pkt(struct adapter *padapter, struct sk_buff *pkt, struct rx_pkt_attrib *pattrib)
+>>   {
+>>   	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+>> -	int ret;
+>>   
+>>   	/* Indicate the packets to upper layer */
+>>   	if (pkt) {
+>> @@ -140,7 +139,7 @@ void rtw_os_recv_indicate_pkt(struct adapter *padapter, struct sk_buff *pkt, str
+>>   
+>>   		pkt->ip_summed = CHECKSUM_NONE;
+>>   
+>> -		ret = rtw_netif_rx(padapter->pnetdev, pkt);
+>> +		rtw_netif_rx(padapter->pnetdev, pkt);
+> Why not handle the result of this call properly?
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index cb8d19e4dd3c..3fc4ea02bf15 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -876,8 +876,6 @@ static s32 xmitframe_addmic(struct adapter *padapter, struct xmit_frame *pxmitfr
- 					*(payload+curfragnum), *(payload+curfragnum+1), *(payload+curfragnum+2), *(payload+curfragnum+3),
- 					*(payload+curfragnum+4), *(payload+curfragnum+5), *(payload+curfragnum+6), *(payload+curfragnum+7)));
- 			}
--/*
--*/
- 	}
- 	return _SUCCESS;
- }
--- 
-2.17.1
+The return type of rtw_os_recv_indicate_pkt() is void, it can't use this 
+return code.
 
+I will try to make a patch to change return type of 
+rtw_os_recv_indicate_pkt() to use
+this return code later.
+
+Thanks,
+
+Yang
+
+>
+> .
