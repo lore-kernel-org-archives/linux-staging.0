@@ -1,53 +1,54 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57EAE5F
-	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 09:07:30 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id x21so1115738eds.4
-        for <linux-staging@lists.linux.dev>; Thu, 01 Apr 2021 02:07:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B575F
+	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 09:08:32 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id x13so1033741wrs.9
+        for <linux-staging@lists.linux.dev>; Thu, 01 Apr 2021 02:08:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Y8KbK2adWOITzic3uSCbYPwpSyouNdBB+luO12NuLOU=;
-        b=i7zMwDQY5gr9rLiPrivN3dZZmP/NhvM1rEOV/q61kRrDNSnbVebx7wAhNAI0z7FTZq
-         KnnsWfoScLavc0WL6XmRXYtWfib6t44RPTf6rKMNFZX4WHPFImkeLewZA/1kJR0+mi0u
-         +018ECIVKCouHnrTcjiCIpy+3Vj9Kw2oK4BmJcX6/ft5dlNE9KmHYcuhs5A8u0UvG1pa
-         xDGt14+7WG2i0umuQHHEG8VvDcQhR3fSA049jcqw26aIeVkq0UvjpSSkfqCZQTixDiyv
-         dyMdJ1OxvEgrlywNS0VjWljdtA2noYe/TSFEvhD95Lv0A948w2fBoZY2kPatx1hD/aqD
-         cEfQ==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wUJdzQc6vGqaF/tH9fjrVo5h9ptifyriz2mlBFMVazk=;
+        b=MRR4QO5AiRIwwXG4y8t9iiQv4w64a7HkwnanCJD7qbLzg9B388whJgj8We6h0L6J0J
+         yV7oEcEd23/V6iu9M5EA3bMUuydsVIYord96BohBOFT/u90NgQhFVLBiO81I5QbYLBtb
+         WYftikXIomG3z5w16KyreWl5XZGTzt4lt7sgCbHlsrlpPouiFzGUgAp0gEQiK8mmtHB7
+         TZdg/FHHHfGlOqnQ/yVGnilWnXwb47xhilA5FUehQS4v0c237hGgJQlwhIzAEZN18tOX
+         sEyxPPm7b0TJ6p29EIWC28y55Lt0wyTr4tBXPaS989eRa8ycmJMykgPefijW1SQkApSR
+         cH4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Y8KbK2adWOITzic3uSCbYPwpSyouNdBB+luO12NuLOU=;
-        b=tG0rVACfXBBWAP3YIPupZ8WUSPObwGCP5Lqhwwb2QQPNmxNjQPAON0oVuc7AIL1daF
-         clyaAE1MHtezB/j8lqGCTnBwvzJNQfcqTyl6LWyV+EY0OXaDfRu8hQbHkltbdwu4pr0I
-         5uqSJiU6yu6R5kPTyYP4B0NNbnrWiKq86hOrfeApxB1IbwRYbCONKG7lt+eifoym0qst
-         UCcaQsxIpHDIw5lWhMS0QoDdCVfrpRRyhnoakSi3uJR1uCDlIu1+PsdZBkYOZfHtzXdS
-         603auxswHrASI5tZXu2sQTCsKxI1dic1+M/CQ7Vu4qaRpD7lVuiQO+VB7B3OfWJ2jobE
-         ngrQ==
-X-Gm-Message-State: AOAM5310MAI9dKo+dpAIG1aWG3ZNxWCTKchgikm/YOdVhNg8w4HSm3rt
-	BlVOkpv4hwrbrl3BX7IAyd0=
-X-Google-Smtp-Source: ABdhPJxMjTcBO+tDVIriTELG8sJrabR5JYuN71hy5jWsEKX6qPx1Wz6Wq47LzDe7A4hfOXoPPyTjFw==
-X-Received: by 2002:a05:6402:34c8:: with SMTP id w8mr9096736edc.235.1617268048964;
-        Thu, 01 Apr 2021 02:07:28 -0700 (PDT)
-Received: from agape ([5.171.80.247])
-        by smtp.gmail.com with ESMTPSA id jx22sm2420778ejc.105.2021.04.01.02.07.28
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wUJdzQc6vGqaF/tH9fjrVo5h9ptifyriz2mlBFMVazk=;
+        b=PoIp0uU7TeTOTJx3JaQu/XY5klnVg0k/UqCWgSoklX0Fjmnvt4RAvzmniYqSN3uOyD
+         B4uiXQT7O5bLu1yPa/zDo8iRr6eyQAzwjlcwnUYbHHEMjNTz64+QuSNHQQar+hTIGrhE
+         UvjKQmpirVrasnDSNm97sjdsw52sEp5xpqQdiYInpuY/iVXltD3a55eZDiWwzr/3b9IX
+         rJU4hHhqWf9TQuGUUgmFRq0CQSImtHaV4x4mcOT0803oXFIbpwOCd9eaWjVP1YDa8WKs
+         n0g+1dlPL/uUnmGc9YqSxFrFaACs4QbiUGOFyljmXPFvdBonkgw1J1MX4i8RUXjd5csa
+         X8UA==
+X-Gm-Message-State: AOAM533p+Q6LiKgUcAw8uuu38AjIEWrlsbqkUV5MeJKQ+4J+P3uege1F
+	e/RJNNu7NWHdNpHhZGUssxA=
+X-Google-Smtp-Source: ABdhPJxdgy8DJO+g1gU1IIdvU1b1sjuvWBitFUneRSVeAtmNRykqv/kB6WPB5qc8GdpOe/0yZeuIhg==
+X-Received: by 2002:adf:d1cd:: with SMTP id b13mr8370069wrd.47.1617268111249;
+        Thu, 01 Apr 2021 02:08:31 -0700 (PDT)
+Received: from bcarvalho-Ubuntu.lan ([2001:818:de85:7e00:87e9:fdd6:2b7a:c720])
+        by smtp.gmail.com with ESMTPSA id 135sm8193856wma.44.2021.04.01.02.08.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 02:07:28 -0700 (PDT)
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: joe@perches.com,
+        Thu, 01 Apr 2021 02:08:30 -0700 (PDT)
+From: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
+To: hvaibhav.linux@gmail.com,
+	johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org,
+	greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH v2 2/2] staging: rtl8723bs: remove unused macro RT_PRINT_DATA
-Date: Thu,  1 Apr 2021 11:07:22 +0200
-Message-Id: <a7d11ff4f0c069fac8b66e9c50a846d004ee2a4a.1617267827.git.fabioaiuto83@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1617267827.git.fabioaiuto83@gmail.com>
-References: <cover.1617267827.git.fabioaiuto83@gmail.com>
+	outreachy-kernel@googlegroups.com
+Subject: [PATCH v2] staging: greybus: arche-platform: Ending line with argument
+Date: Thu,  1 Apr 2021 10:07:54 +0100
+Message-Id: <20210401090754.116522-1-martinsdecarvalhobeatriz@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -55,51 +56,46 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove unused macro declaration: RT_PRINT_DATA
+Remove checkpatch check "CHECK: Lines should not end with a '('"
+with argument present in next line.
 
-Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/rtw_debug.h | 20 -------------------
- 1 file changed, 20 deletions(-)
+Changes in v2:
+	- correction commit title
+	- correction commit message
+---
+ drivers/staging/greybus/arche-platform.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_debug.h b/drivers/staging/rtl8723bs/include/rtw_debug.h
-index d1c557818305..d3c77798a5eb 100644
---- a/drivers/staging/rtl8723bs/include/rtw_debug.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_debug.h
-@@ -132,7 +132,6 @@
- #endif
+diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
+index eebf0deb39f5..e374dfc0c92f 100644
+--- a/drivers/staging/greybus/arche-platform.c
++++ b/drivers/staging/greybus/arche-platform.c
+@@ -77,9 +77,8 @@ static void arche_platform_set_state(struct arche_platform_drvdata *arche_pdata,
+ }
  
- #define RT_TRACE(_Comp, _Level, Fmt) do {} while (0)
--#define RT_PRINT_DATA(_Comp, _Level, _TitleString, _HexData, _HexDataLen) do {} while (0)
- 
- #define DBG_871X(x, ...) do {} while (0)
- #define MSG_8192C(x, ...) do {} while (0)
-@@ -231,25 +230,6 @@
- 	} while (0)
- 
- #endif /* defined(_dbgdump) && defined(_MODULE_DEFINE_) */
--
--
--#if	defined(_dbgdump)
--	#undef RT_PRINT_DATA
--	#define RT_PRINT_DATA(_Comp, _Level, _TitleString, _HexData, _HexDataLen)			\
--		if (((_Comp) & GlobalDebugComponents) && (_Level <= GlobalDebugLevel))	\
--		{									\
--			int __i;								\
--			u8 *ptr = (u8 *)_HexData;				\
--			_dbgdump("%s", DRIVER_PREFIX);						\
--			_dbgdump(_TitleString);						\
--			for (__i = 0; __i < (int)_HexDataLen; __i++)				\
--			{								\
--				_dbgdump("%02X%s", ptr[__i], (((__i + 1) % 4) == 0)?"  ":" ");	\
--				if (((__i + 1) % 16) == 0)	_dbgdump("\n");			\
--			}								\
--			_dbgdump("\n");							\
--		}
--#endif /* defined(_dbgdump) */
- #endif /* DEBUG_RTL871X */
- 
- void dump_drv_version(void *sel);
+ /* Requires arche_pdata->wake_lock is held by calling context */
+-static void arche_platform_set_wake_detect_state(
+-				struct arche_platform_drvdata *arche_pdata,
+-				enum svc_wakedetect_state state)
++static void arche_platform_set_wake_detect_state(struct arche_platform_drvdata *arche_pdata,
++						 enum svc_wakedetect_state state)
+ {
+ 	arche_pdata->wake_detect_state = state;
+ }
+@@ -181,9 +180,8 @@ static irqreturn_t arche_platform_wd_irq(int irq, void *devid)
+ 						WD_STATE_COLDBOOT_START) {
+ 					arche_platform_set_wake_detect_state(arche_pdata,
+ 									     WD_STATE_COLDBOOT_TRIG);
+-					spin_unlock_irqrestore(
+-						&arche_pdata->wake_lock,
+-						flags);
++					spin_unlock_irqrestore(&arche_pdata->wake_lock,
++							       flags);
+ 					return IRQ_WAKE_THREAD;
+ 				}
+ 			}
 -- 
-2.20.1
+2.25.1
 
