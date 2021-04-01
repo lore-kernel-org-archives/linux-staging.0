@@ -1,41 +1,41 @@
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8ED6D0D
-	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 22:16:28 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id a22-20020a17090aa516b02900c1215e9b33so3769270pjq.5
-        for <linux-staging@lists.linux.dev>; Thu, 01 Apr 2021 15:16:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0575E6D09
+	for <linux-staging@lists.linux.dev>; Thu,  1 Apr 2021 22:16:29 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id h25so2465956pgm.3
+        for <linux-staging@lists.linux.dev>; Thu, 01 Apr 2021 15:16:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :in-reply-to:references;
-        bh=YrSMleKSbg2hGfW2GjIs965FPlWSY5ydLUSNL+d/gGc=;
-        b=Q6WvExIF3mEG2FTk9zpl0eDPMJoz82Yll3FVTAcJMcDIULymyfPTggVRR94Vb9sD2L
-         DyDs6wV1F8HPEwmz6iplTCGJL9GspIjA4buhneeC96oYjHpkuyQf0T8YVEddnyHehs1J
-         at4V4Lo2BsMvl+tHFD/KTQLTupYwz3hHbBvV69gng//N6h82iHzJGczyCFjuKhBRdT3L
-         SfP3nGWzNaDTTNs+nVH9nDWeelJ5RtrnaiXH7WtC8sQX48j/zeIjzYxFBn0FK8+mfmxO
-         HNuKLzQJ+MfEQfjGUoSkT2DnmRrX+mjXLsLx9Eg/Ixi47u2qqc4LHup6Q4v35hI3R1rf
-         XoEw==
+        bh=20/XsB+4nOjyVNc3FO5kZBSjhLzmibdPtDV2QDGrEKY=;
+        b=nyyidNBycRid3npH/SZFrDzLYulf0Qdo3b0lzm34Pqrj0FZjUv/r/Ln/QwjeYQhk5s
+         hEG0Z2LzVUo1SXSjaNKV7r2wxdsbV0Qitap1EZ1J9NlAZRyMWLdR17+IzxnHDu4Et0/J
+         qSSZauNWIRP1Q6/Vh1X5wASeWOikw55ZpiJmzjPK1DWhGEMTvultBRdRmq9q+rZyQX3P
+         RdPy/S0YErFITH7yl7rlOknt+SJRn4Drs7rk0FdPR+WNXMWT29Jfr3XIsZxs3Qk74E18
+         urly6ck0LH58BcqXsItZsh5xPxdXOVUrl7OiNfptLHeX2glm6Yj/S4nPO6GrDZqHmrGg
+         AXwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:in-reply-to:references;
-        bh=YrSMleKSbg2hGfW2GjIs965FPlWSY5ydLUSNL+d/gGc=;
-        b=h8quaoqwFap6BxKBQmzO8SIFC975CA/RQXIc4Zg5WlThGqy6sSG+4ctlkT+U3kObjK
-         FgoihKLv480KGLYYgjSBPTUZqc7Y0Zj0sPn/OF5bwUSruvCLq2x/5LqwTyG7LsgxRxR3
-         0OkcQdwqtcTv5b8++exg2Ivkvicz9Ye6r+TjowNdcLiDkE9C1292wvxGWFAR3PL8Qyzf
-         pvHssyO5XS0Z3VRJ1919uLU9w6MnPwSMAt+ZMD3yd7rGdM5cDOkZXMWb6zHsQwXr+lbj
-         /Bg5ULiCIGkOcORo927jI0DCL/4GMon8FJeAEKw4Q7LUMeCY11XBuUPTRaBRpiTiJ2TU
-         UKjw==
-X-Gm-Message-State: AOAM532phD9PF6LLqcF2f3yV6cuJCUdQe3D1QDantCaZsgdjlv8CUo5F
-	0LF0Zbj79LOyL0WMpRP5qac=
-X-Google-Smtp-Source: ABdhPJyxNG1J4XEWyiZFQG5e9ZWuhvHqYlGg6gJKplzDfsmDOJYi9BDz4JDqtzLaxADh1ybRleJIVg==
-X-Received: by 2002:a17:902:8687:b029:e6:5eda:c3a8 with SMTP id g7-20020a1709028687b02900e65edac3a8mr9588989plo.59.1617315387700;
-        Thu, 01 Apr 2021 15:16:27 -0700 (PDT)
+        bh=20/XsB+4nOjyVNc3FO5kZBSjhLzmibdPtDV2QDGrEKY=;
+        b=aSTaKUlZ43/Bj+K+7c6IuhQRPFj1YOQQH68d2D3PTZUhVzQnXT1+OggD4nMU9YIEet
+         tjXuWjnGJkv9HZNSz92HO7ANi3Ir6B6OKXAmC+Wzs8rOPXYj2MLvLRA8KhjCVYxBBCzy
+         DJeoAbMe5Tf3NRuzLUWGJI5wKwvFIe1WcV/QDh2i444I1jB3AKMpevtQyWpZ4LivBAHy
+         75yV07vAJ0NT7jKEDMPDQSPzIykC2Di05peNkEA3ALvxRuiNpzktOXap65oBOAyNKq5r
+         LQSAV4AWIu7TUeqvFD/syOmloEN3Iqlf5n26hY/qcCfsCTG8sJyjQlG3k365Jcj0YoPY
+         X0ww==
+X-Gm-Message-State: AOAM531QB7pkOT39pLHA6QnXGAfSy7bFS/f6sErmozJUAAGNL2FvIMzO
+	EXlROMJgl+pUHMH7BTrbuw0=
+X-Google-Smtp-Source: ABdhPJz38eh3WuSyN0IkxFTsQTKOkqp+n1Kao3wMI7GQxPkkiGZvbmXsJ3r2w5B5zMn87e5lSDzCwg==
+X-Received: by 2002:a65:4243:: with SMTP id d3mr9648485pgq.180.1617315389461;
+        Thu, 01 Apr 2021 15:16:29 -0700 (PDT)
 Received: from djbComp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
-        by smtp.gmail.com with ESMTPSA id d13sm6671494pgb.6.2021.04.01.15.16.27
+        by smtp.gmail.com with ESMTPSA id d13sm6671494pgb.6.2021.04.01.15.16.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 15:16:27 -0700 (PDT)
+        Thu, 01 Apr 2021 15:16:29 -0700 (PDT)
 From: Deborah Brouwer <deborahbrouwer3563@gmail.com>
 To: gregkh@linuxfoundation.org,
 	ross.schm.dev@gmail.com,
@@ -48,9 +48,9 @@ Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	outreachy-kernel@googlegroups.com,
 	Deborah Brouwer <deborahbrouwer3563@gmail.com>
-Subject: [PATCH v3 1/3] staging: rtl8723bs: core: add comma within a comment
-Date: Thu,  1 Apr 2021 15:15:40 -0700
-Message-Id: <dc7ba26949bab3eb09dac4e4ebf2b87dd242b566.1617314121.git.deborahbrouwer3563@gmail.com>
+Subject: [PATCH v3 2/3] staging: rtl8723bs: core: add * to block comments
+Date: Thu,  1 Apr 2021 15:15:41 -0700
+Message-Id: <09db7fd3bed9a0ce00289d686a4e8dea256082e5.1617314121.git.deborahbrouwer3563@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1617314121.git.deborahbrouwer3563@gmail.com>
 References: <cover.1617314121.git.deborahbrouwer3563@gmail.com>
@@ -61,28 +61,108 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-Add a comma to separate repeated words in a comment. The comma preserves
-the meaning of the comment while also stopping the checkpatch warning:
-WARNING: Possible repeated word: 'very'.
+Add * at the beginning of each line in block comments to conform to the
+Linux kernel coding style. Issue detected using checkpatch.
 
 Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/core/rtw_xmit.c | 59 +++++++++++------------
+ 1 file changed, 28 insertions(+), 31 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 2daf5c461a4d..3878caf0b56c 100644
+index 3878caf0b56c..428c71ce0334 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -1700,7 +1700,7 @@ Calling context:
- If we turn on USE_RXTHREAD, then, no need for critical section.
- Otherwise, we must use _enter/_exit critical to protect free_xmit_queue...
+@@ -46,8 +46,8 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+ 	init_completion(&pxmitpriv->terminate_xmitthread_comp);
  
--Must be very very cautious...
-+Must be very, very cautious...
+ 	/*
+-	Please insert all the queue initializaiton using _rtw_init_queue below
+-	*/
++	 * Please insert all the queue initializaiton using _rtw_init_queue below
++	 */
  
- */
+ 	pxmitpriv->adapter = padapter;
+ 
+@@ -60,10 +60,10 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+ 	_rtw_init_queue(&pxmitpriv->free_xmit_queue);
+ 
+ 	/*
+-	Please allocate memory with the sz = (struct xmit_frame) * NR_XMITFRAME,
+-	and initialize free_xmit_frame below.
+-	Please also apply  free_txobj to link_up all the xmit_frames...
+-	*/
++	 * Please allocate memory with the sz = (struct xmit_frame) * NR_XMITFRAME,
++	 * and initialize free_xmit_frame below.
++	 * Please also apply  free_txobj to link_up all the xmit_frames...
++	 */
+ 
+ 	pxmitpriv->pallocated_frame_buf = vzalloc(NR_XMITFRAME * sizeof(struct xmit_frame) + 4);
+ 
+@@ -1069,17 +1069,15 @@ u32 rtw_calculate_wlan_pkt_size_by_attribue(struct pkt_attrib *pattrib)
+ }
+ 
+ /*
+-
+-This sub-routine will perform all the following:
+-
+-1. remove 802.3 header.
+-2. create wlan_header, based on the info in pxmitframe
+-3. append sta's iv/ext-iv
+-4. append LLC
+-5. move frag chunk from pframe to pxmitframe->mem
+-6. apply sw-encrypt, if necessary.
+-
+-*/
++ * This sub-routine will perform all the following:
++ *
++ * 1. remove 802.3 header.
++ * 2. create wlan_header, based on the info in pxmitframe
++ * 3. append sta's iv/ext-iv
++ * 4. append LLC
++ * 5. move frag chunk from pframe to pxmitframe->mem
++ * 6. apply sw-encrypt, if necessary.
++ */
+ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct xmit_frame *pxmitframe)
+ {
+ 	struct pkt_file pktfile;
+@@ -1693,23 +1691,22 @@ static void rtw_init_xmitframe(struct xmit_frame *pxframe)
+ }
+ 
+ /*
+-Calling context:
+-1. OS_TXENTRY
+-2. RXENTRY (rx_thread or RX_ISR/RX_CallBack)
+-
+-If we turn on USE_RXTHREAD, then, no need for critical section.
+-Otherwise, we must use _enter/_exit critical to protect free_xmit_queue...
+-
+-Must be very, very cautious...
+-
+-*/
++ * Calling context:
++ * 1. OS_TXENTRY
++ * 2. RXENTRY (rx_thread or RX_ISR/RX_CallBack)
++ *
++ * If we turn on USE_RXTHREAD, then, no need for critical section.
++ * Otherwise, we must use _enter/_exit critical to protect free_xmit_queue...
++ *
++ * Must be very, very cautious...
++ */
  struct xmit_frame *rtw_alloc_xmitframe(struct xmit_priv *pxmitpriv)/* _queue *pfree_xmit_queue) */
+ {
+ 	/*
+-		Please remember to use all the osdep_service api,
+-		and lock/unlock or _enter/_exit critical to protect
+-		pfree_xmit_queue
+-	*/
++	 *	Please remember to use all the osdep_service api,
++	 *	and lock/unlock or _enter/_exit critical to protect
++	 *	pfree_xmit_queue
++	 */
+ 
+ 	struct xmit_frame *pxframe = NULL;
+ 	struct list_head *plist, *phead;
 -- 
 2.17.1
 
