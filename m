@@ -1,41 +1,41 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 150B729DE
-	for <linux-staging@lists.linux.dev>; Fri,  2 Apr 2021 17:30:30 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id r14-20020a05600c35ceb029010fe0f81519so1159040wmq.0
-        for <linux-staging@lists.linux.dev>; Fri, 02 Apr 2021 10:30:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1D46D09
+	for <linux-staging@lists.linux.dev>; Fri,  2 Apr 2021 17:30:31 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id k8so5307022wrc.3
+        for <linux-staging@lists.linux.dev>; Fri, 02 Apr 2021 10:30:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=mejZVqpRJ8oVKa+6YzrLPAS4xjEjGZsSp2jhdnFadfE=;
-        b=jeP/TSj+Y4AYtnBoSS8z5vzezLfDMty/5TdSJ4BK5CSeLnAHGngQdvjWKXrG5mISSc
-         8Er+MIuw/CLsdHOFL5FrrXM7UtRnRld7nIE8wudk94IkJpbCzVNzojnuMqj6ZfFB7qaj
-         WSUMlUqE5cedJEaK9glbEGFdOoL5a129M6yH0XfaxEW7neXlMPGUpXDQoBmVxeZ2s+KN
-         V8WlsZ+IMCj6Q8RNLaYpaQRxA+22+Cc3sX6WZsLRWxPPnvG4ePh0pNtGT0fp7lEHVr+F
-         BS0BgktiRo+Ah1m9L7WslgXo2SyIoG8fHzEScDldTbua0cQY2IJnbdrDc+pZvim/HxFn
-         rSag==
+        bh=JiEqs6MSc8Nm4Buf8jFUPSNvcz+vqEUG20tk1qyaE1s=;
+        b=s0fmAqFyHJVEiQwmL/AVo+F/3dZq/ho4Bsb7ziymW612Nhof8yULjVsdTVkaujEeTa
+         6rT2jwwoUyALpRlqJUHefkYrjlXr+XY8JZDpN4UHPZJpzWR8rukEbfekS3KuluwKo7Uy
+         DUbmjg/OokVsm4DP5Afs+maEsb/Ky85Yg4UlI0g4mIM2wm56ip/i6BU6rP8ARE46T9yJ
+         iloJ9qffFQ2n/f2FvqHgbNy4e6+bcjOWB6YhxySfSh2GjjWHGqeZ7P/vMjoJsayZ2dOk
+         +6chhfEhC9byGUcPjVHZ39JJjnD6mjiSyNWY61pCOvf/F50pDDMKoHwaLG8BUGUVyahN
+         2klQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mejZVqpRJ8oVKa+6YzrLPAS4xjEjGZsSp2jhdnFadfE=;
-        b=WmflpMG2VZY7qq5mhCsd0VSq4/bw+quaTxgPb9qhw+ejIlC6BXkqPLVaIjQG7BT98b
-         TUiB6RjK+N7D5rQdioNX016M7l0f4aQW2qau3SYwG3H5qTSlCsfgN58X0x0P/TjcS8Gf
-         6DBYcZgKYSHR+LaJmwb10X/DNt85AxZv5bL9W9yjpja7oU8lv0OrKNzxQE58Ac/m+FXm
-         Dnxx3jrtNYwixs5KCIHkWL65RjaTsJyRPgVb2oPDjJlYKl0TU6EZ6WPvFI6f7zgnOYMt
-         rn92hLuNzx8KZ/mVcbJEBI+UR5JSyhpZ2BRbm58j/gPUaa5NUqP0D+UCcvelay/a0TnF
-         0Lzw==
-X-Gm-Message-State: AOAM53020iRvzFXhhTbmpxDQltehfHEKSaJc57fLQjTSNzswWQJsbgdd
-	/6VxcD4/V6PqZXaFmEDLwvg=
-X-Google-Smtp-Source: ABdhPJw/uS1HPNjFjLfn2axRnsoF//Vw++8n9+JWMu7H/Nvp5fiISnsSfjoOTX2RygBaAk30h5PiDg==
-X-Received: by 2002:a1c:b006:: with SMTP id z6mr13160878wme.19.1617384628595;
-        Fri, 02 Apr 2021 10:30:28 -0700 (PDT)
+        bh=JiEqs6MSc8Nm4Buf8jFUPSNvcz+vqEUG20tk1qyaE1s=;
+        b=Lg41Orrr6YJEHvtr/hO7tX5rp+szVdgiVZwdHQWjsr86X/cvuVBZTdcD0B2tG5oG5a
+         ChjqKC81Euq0wlNcACBrxn1qM3Bkg2O1+IuNhKIl7fRlF6aL2dOItB+3jWAtaw1qKpwN
+         o/7BuQreE6lfkz8ZWytjiRkSly/axIUbD5FPxylFsOO58RNhH/0gXYTA6JWX5Cdv5v18
+         DPaGcpYtte5upWxIayONnmZ8AY5KpS/VDQ/ZkDAFxhYH+WA4lpKdvnjJ2FFdwCyGWv9l
+         7gqKqhvKkErwHNSU5QdVrap9UccR8Kxs9p49ADtu3jp8PMb7o+L/y/ezk4wkJPAgmImj
+         EONw==
+X-Gm-Message-State: AOAM532T+ce3OzBOCYsQhAhrschSoUsCKGuepMLhRBXzNuhsWA2TPOVb
+	y0o5/TUN1NsADDIts0RNDM0=
+X-Google-Smtp-Source: ABdhPJw+1iisZeaHW5iY2ZW02hJI4K20gX10vomTTje+AGQIkTGvqoyO8SdoRlu+tuCn0tus5iCwAQ==
+X-Received: by 2002:a5d:67c8:: with SMTP id n8mr16419514wrw.351.1617384630234;
+        Fri, 02 Apr 2021 10:30:30 -0700 (PDT)
 Received: from agape ([5.171.81.4])
-        by smtp.gmail.com with ESMTPSA id o14sm3840226wrc.3.2021.04.02.10.30.27
+        by smtp.gmail.com with ESMTPSA id c9sm14832154wrr.78.2021.04.02.10.30.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Apr 2021 10:30:28 -0700 (PDT)
+        Fri, 02 Apr 2021 10:30:29 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: dan.carpenter@oracle.com,
@@ -43,9 +43,9 @@ Cc: dan.carpenter@oracle.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH v2 07/30] staging: rtl8723bs: fix error prone if conditions
-Date: Fri,  2 Apr 2021 19:29:49 +0200
-Message-Id: <979809a68e00f4841f90ca699c75a038762200a4.1617384172.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v2 08/30] staging: rtl8723bs: remove all RT_TRACE logs in core/rtw_pwrctrl.c
+Date: Fri,  2 Apr 2021 19:29:50 +0200
+Message-Id: <ae63934a50e7205625458fe4d3bc8dfb9ae2b5a0.1617384172.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617384172.git.fabioaiuto83@gmail.com>
 References: <cover.1617384172.git.fabioaiuto83@gmail.com>
@@ -56,147 +56,152 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-fix the following post-commit check:
-
-CHECK: Using comparison to true is error prone
-21: FILE: drivers/staging/rtl8723bs/core/rtw_eeprom.c:38:
-+	if (padapter->bSurpriseRemoved == true)
-
-CHECK: Using comparison to true is error prone
-36: FILE: drivers/staging/rtl8723bs/core/rtw_eeprom.c:50:
-+		if (padapter->bSurpriseRemoved == true)
-
-CHECK: Using comparison to true is error prone
-47: FILE: drivers/staging/rtl8723bs/core/rtw_eeprom.c:59:
-+	if (padapter->bSurpriseRemoved == true)
-
-CHECK: Using comparison to true is error prone
-60: FILE: drivers/staging/rtl8723bs/core/rtw_eeprom.c:72:
-+	if (padapter->bSurpriseRemoved == true)
-
-CHECK: Using comparison to true is error prone
-73: FILE: drivers/staging/rtl8723bs/core/rtw_eeprom.c:83:
-+	if (padapter->bSurpriseRemoved == true)
-
-CHECK: Using comparison to true is error prone
-86: FILE: drivers/staging/rtl8723bs/core/rtw_eeprom.c:120:
-+	if (padapter->bSurpriseRemoved == true)
-
-CHECK: Using comparison to true is error prone
-93: FILE: drivers/staging/rtl8723bs/core/rtw_eeprom.c:124:
-+	if (padapter->bSurpriseRemoved == true)
-
-CHECK: Using comparison to true is error prone
-101: FILE: drivers/staging/rtl8723bs/core/rtw_eeprom.c:129:
-+	if (padapter->bSurpriseRemoved == true)
-
-CHECK: Using comparison to true is error prone
-108: FILE: drivers/staging/rtl8723bs/core/rtw_eeprom.c:133:
-+	if (padapter->bSurpriseRemoved == true)
-
-CHECK: Using comparison to true is error prone
-121: FILE: drivers/staging/rtl8723bs/core/rtw_eeprom.c:149:
-+	if (padapter->bSurpriseRemoved == true)
-
-CHECK: Using comparison to true is error prone
-130: FILE: drivers/staging/rtl8723bs/core/rtw_eeprom.c:155:
-+	if (padapter->bSurpriseRemoved == true)
+remove all RT_TRACE logs
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_eeprom.c | 22 ++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 54 ++------------------
+ 1 file changed, 4 insertions(+), 50 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_eeprom.c b/drivers/staging/rtl8723bs/core/rtw_eeprom.c
-index 32d5e5b23337..be0eda1604d0 100644
---- a/drivers/staging/rtl8723bs/core/rtw_eeprom.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_eeprom.c
-@@ -35,7 +35,7 @@ void shift_out_bits(_adapter *padapter, u16 data, u16 count)
- 	u16 x, mask;
- _func_enter_;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+index 8bf80e6f4a11..cc1b0d1a5a7b 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
++++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+@@ -267,40 +267,26 @@ void rtw_set_rpwm(struct adapter *padapter, u8 pslv)
+ 		DBG_871X("%s: RPWM timeout, force to set RPWM(0x%02X) again!\n", __func__, pslv);
+ 	} else {
+ 		if ((pwrpriv->rpwm == pslv)
+-			|| ((pwrpriv->rpwm >= PS_STATE_S2) && (pslv >= PS_STATE_S2))) {
+-			RT_TRACE(_module_rtl871x_pwrctrl_c_, _drv_err_,
+-				("%s: Already set rpwm[0x%02X], new = 0x%02X!\n", __func__, pwrpriv->rpwm, pslv));
++			|| ((pwrpriv->rpwm >= PS_STATE_S2) && (pslv >= PS_STATE_S2)))
+ 			return;
+-		}
++
+ 	}
  
--	if (padapter->bSurpriseRemoved == true)
-+	if (padapter->bSurpriseRemoved)
- 		goto out;
+ 	if ((padapter->bSurpriseRemoved) || !(padapter->hw_init_completed)) {
+-		RT_TRACE(_module_rtl871x_pwrctrl_c_, _drv_err_,
+-				 ("%s: SurpriseRemoved(%d) hw_init_completed(%d)\n",
+-				  __func__, padapter->bSurpriseRemoved, padapter->hw_init_completed));
+-
+ 		pwrpriv->cpwm = PS_STATE_S4;
  
- 	mask = 0x01 << (count - 1);
-@@ -47,7 +47,7 @@ _func_enter_;
- 		x &= ~_EEDI;
- 		if (data & mask)
- 			x |= _EEDI;
--		if (padapter->bSurpriseRemoved == true)
-+		if (padapter->bSurpriseRemoved)
- 			goto out;
+ 		return;
+ 	}
  
- 		rtw_write8(padapter, EE_9346CR, (u8)x);
-@@ -56,7 +56,7 @@ _func_enter_;
- 		down_clk(padapter, &x);
- 		mask = mask >> 1;
- 	} while (mask);
--	if (padapter->bSurpriseRemoved == true)
-+	if (padapter->bSurpriseRemoved)
- 		goto out;
+ 	if (padapter->bDriverStopped) {
+-		RT_TRACE(_module_rtl871x_pwrctrl_c_, _drv_err_,
+-				 ("%s: change power state(0x%02X) when DriverStopped\n", __func__, pslv));
+-
+-		if (pslv < PS_STATE_S2) {
+-			RT_TRACE(_module_rtl871x_pwrctrl_c_, _drv_err_,
+-					 ("%s: Reject to enter PS_STATE(0x%02X) lower than S2 when DriverStopped!!\n", __func__, pslv));
++		if (pslv < PS_STATE_S2)
+ 			return;
+-		}
+ 	}
  
- 	x &= ~_EEDI;
-@@ -69,7 +69,7 @@ u16 shift_in_bits(_adapter *padapter)
+ 	rpwm = pslv | pwrpriv->tog;
+ 	/*  only when from PS_STATE S0/S1 to S2 and higher needs ACK */
+ 	if ((pwrpriv->cpwm < PS_STATE_S2) && (pslv >= PS_STATE_S2))
+ 		rpwm |= PS_ACK;
+-	RT_TRACE(_module_rtl871x_pwrctrl_c_, _drv_notice_,
+-			 ("rtw_set_rpwm: rpwm = 0x%02x cpwm = 0x%02x\n", rpwm, pwrpriv->cpwm));
+ 
+ 	pwrpriv->rpwm = pslv;
+ 
+@@ -382,14 +368,8 @@ void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode, u8 smart_ps, u8 bcn_a
  {
- 	u16 x, d = 0, i;
- _func_enter_;
--	if (padapter->bSurpriseRemoved == true)
-+	if (padapter->bSurpriseRemoved)
- 		goto out;
+ 	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
  
- 	x = rtw_read8(padapter, EE_9346CR);
-@@ -80,7 +80,7 @@ _func_enter_;
- 	for (i = 0; i < 16; i++) {
- 		d = d << 1;
- 		up_clk(padapter, &x);
--	if (padapter->bSurpriseRemoved == true)
-+	if (padapter->bSurpriseRemoved)
- 		goto out;
+-	RT_TRACE(_module_rtl871x_pwrctrl_c_, _drv_notice_,
+-			 ("%s: PowerMode =%d Smart_PS =%d\n",
+-			  __func__, ps_mode, smart_ps));
+-
+-	if (ps_mode > PM_Card_Disable) {
+-		RT_TRACE(_module_rtl871x_pwrctrl_c_, _drv_err_, ("ps_mode:%d error\n", ps_mode));
++	if (ps_mode > PM_Card_Disable)
+ 		return;
+-	}
  
- 		x = rtw_read8(padapter, EE_9346CR);
-@@ -117,20 +117,20 @@ void eeprom_clean(_adapter *padapter)
- {
- 	u16 x;
- _func_enter_;
--	if (padapter->bSurpriseRemoved == true)
-+	if (padapter->bSurpriseRemoved)
- 		goto out;
+ 	if (pwrpriv->pwr_mode == ps_mode)
+ 		if (PS_MODE_ACTIVE == ps_mode)
+@@ -701,8 +681,6 @@ void cpwm_int_hdl(struct adapter *padapter, struct reportpwrstate_parm *preportp
+ exit:
+ 	mutex_unlock(&pwrpriv->lock);
  
- 	x = rtw_read8(padapter, EE_9346CR);
--	if (padapter->bSurpriseRemoved == true)
-+	if (padapter->bSurpriseRemoved)
- 		goto out;
+-	RT_TRACE(_module_rtl871x_pwrctrl_c_, _drv_notice_,
+-			 ("cpwm_int_hdl: cpwm = 0x%02x\n", pwrpriv->cpwm));
+ }
  
- 	x &= ~(_EECS | _EEDI);
- 	rtw_write8(padapter, EE_9346CR, (u8)x);
--	if (padapter->bSurpriseRemoved == true)
-+	if (padapter->bSurpriseRemoved)
- 		goto out;
+ static void cpwm_event_callback(struct work_struct *work)
+@@ -817,10 +795,6 @@ s32 rtw_register_task_alive(struct adapter *padapter, u32 task)
+ 	register_task_alive(pwrctrl, task);
  
- 	up_clk(padapter, &x);
--	if (padapter->bSurpriseRemoved == true)
-+	if (padapter->bSurpriseRemoved)
- 		goto out;
+ 	if (pwrctrl->bFwCurrentInPSMode) {
+-		RT_TRACE(_module_rtl871x_pwrctrl_c_, _drv_notice_,
+-				 ("%s: task = 0x%x cpwm = 0x%02x alives = 0x%08x\n",
+-				  __func__, task, pwrctrl->cpwm, pwrctrl->alives));
+-
+ 		if (pwrctrl->cpwm < pslv) {
+ 			if (pwrctrl->cpwm < PS_STATE_S2)
+ 				res = _FAIL;
+@@ -869,10 +843,6 @@ void rtw_unregister_task_alive(struct adapter *padapter, u32 task)
+ 	unregister_task_alive(pwrctrl, task);
  
- 	down_clk(padapter, &x);
-@@ -146,13 +146,13 @@ u16 eeprom_read16(_adapter *padapter, u16 reg) /*ReadEEprom*/
+ 	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) && pwrctrl->bFwCurrentInPSMode) {
+-		RT_TRACE(_module_rtl871x_pwrctrl_c_, _drv_notice_,
+-				 ("%s: cpwm = 0x%02x alives = 0x%08x\n",
+-				  __func__, pwrctrl->cpwm, pwrctrl->alives));
+-
+ 		if (pwrctrl->cpwm > pslv)
+ 			if ((pslv >= PS_STATE_S2) || (pwrctrl->alives == 0))
+ 				rtw_set_rpwm(padapter, pslv);
+@@ -910,10 +880,6 @@ s32 rtw_register_tx_alive(struct adapter *padapter)
+ 	register_task_alive(pwrctrl, XMIT_ALIVE);
  
- _func_enter_;
+ 	if (pwrctrl->bFwCurrentInPSMode) {
+-		RT_TRACE(_module_rtl871x_pwrctrl_c_, _drv_notice_,
+-				 ("rtw_register_tx_alive: cpwm = 0x%02x alives = 0x%08x\n",
+-				  pwrctrl->cpwm, pwrctrl->alives));
+-
+ 		if (pwrctrl->cpwm < pslv) {
+ 			if (pwrctrl->cpwm < PS_STATE_S2)
+ 				res = _FAIL;
+@@ -959,10 +925,6 @@ s32 rtw_register_cmd_alive(struct adapter *padapter)
+ 	register_task_alive(pwrctrl, CMD_ALIVE);
  
--	if (padapter->bSurpriseRemoved == true)
-+	if (padapter->bSurpriseRemoved)
- 		goto out;
+ 	if (pwrctrl->bFwCurrentInPSMode) {
+-		RT_TRACE(_module_rtl871x_pwrctrl_c_, _drv_info_,
+-				 ("rtw_register_cmd_alive: cpwm = 0x%02x alives = 0x%08x\n",
+-				  pwrctrl->cpwm, pwrctrl->alives));
+-
+ 		if (pwrctrl->cpwm < pslv) {
+ 			if (pwrctrl->cpwm < PS_STATE_S2)
+ 				res = _FAIL;
+@@ -1008,10 +970,6 @@ void rtw_unregister_tx_alive(struct adapter *padapter)
+ 	unregister_task_alive(pwrctrl, XMIT_ALIVE);
  
- 	/* select EEPROM, reset bits, set _EECS*/
- 	x = rtw_read8(padapter, EE_9346CR);
+ 	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) && pwrctrl->bFwCurrentInPSMode) {
+-		RT_TRACE(_module_rtl871x_pwrctrl_c_, _drv_notice_,
+-				 ("%s: cpwm = 0x%02x alives = 0x%08x\n",
+-				  __func__, pwrctrl->cpwm, pwrctrl->alives));
+-
+ 		if (pwrctrl->cpwm > pslv)
+ 			if ((pslv >= PS_STATE_S2) || (pwrctrl->alives == 0))
+ 				rtw_set_rpwm(padapter, pslv);
+@@ -1048,10 +1006,6 @@ void rtw_unregister_cmd_alive(struct adapter *padapter)
+ 	unregister_task_alive(pwrctrl, CMD_ALIVE);
  
--	if (padapter->bSurpriseRemoved == true)
-+	if (padapter->bSurpriseRemoved)
- 		goto out;
- 
- 	x &= ~(_EEDI | _EEDO | _EESK | _EEM0);
+ 	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) && pwrctrl->bFwCurrentInPSMode) {
+-		RT_TRACE(_module_rtl871x_pwrctrl_c_, _drv_info_,
+-				 ("%s: cpwm = 0x%02x alives = 0x%08x\n",
+-				  __func__, pwrctrl->cpwm, pwrctrl->alives));
+-
+ 		if (pwrctrl->cpwm > pslv) {
+ 			if ((pslv >= PS_STATE_S2) || (pwrctrl->alives == 0))
+ 				rtw_set_rpwm(padapter, pslv);
 -- 
 2.20.1
 
