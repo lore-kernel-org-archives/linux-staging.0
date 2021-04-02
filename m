@@ -1,41 +1,41 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD366D09
-	for <linux-staging@lists.linux.dev>; Fri,  2 Apr 2021 17:30:37 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id z6-20020a1c4c060000b029010f13694ba2so2665005wmf.5
-        for <linux-staging@lists.linux.dev>; Fri, 02 Apr 2021 10:30:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970AB6D09
+	for <linux-staging@lists.linux.dev>; Fri,  2 Apr 2021 17:30:39 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id z6-20020a1c4c060000b029010f13694ba2so2665036wmf.5
+        for <linux-staging@lists.linux.dev>; Fri, 02 Apr 2021 10:30:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=NlEtSw2yb334S6OHokyLqfSbSWsCFUXj1IQBpWYM0ts=;
-        b=VbTD3U5r1eU4nnsEYo9lsrcPWFqDblP226l2xygxMUP3JZb4Cu6WmtzONpdZHWj351
-         gyEY4F3oICMNl9DlTFK+7avj97Xkbjz1LJ4lhU1fN4R68ziTUgr1f0gfuQy3Ksor1b22
-         6Hj1XChCjWTDK1dQQjGBIqR4F9NimLao22uXUWcf52+CXTHrY5kGDsl+gNPq+iQEMuIP
-         3EqGlbdvrp3xmhBni7eg64a9zfzlOcfNByA0eKVYtIq8DAS/U9qkkrH3RQjy1hnmNN4u
-         oygORwchjVKMv1k/ckrJHP763GMUM3UTclNBkUmtMB8et95r/yUpKVy3yHAArK2Tolb+
-         PHxQ==
+        bh=k4gSFe0DOErEwXm3jMgMd1VdZfPYQ5MK/WIOIxx48g4=;
+        b=u5zESPr4xis7ZcOF9UIyGUt8KJF0nt9q/VSw94Ks/Bj4hgpi6uaJQ4gVWmYaik6B14
+         KkwlGy65NnpvubQ7FZVat0Z0mEcbA9NUsyWGhGcs7Gn4BzSm5l0CjL8G+OKqI7mspuE8
+         LUjG33pPWc63XCbq6I1a3P/jwmQ//oQSigwmpTMt0tADrn1tcDB8Uj443ujQizWrig5t
+         BBIaUitTf4J5vHrjAKVqIQ7xpGzj9jxHC0i0MmrivdTQZPuO3ZE0rH6eA4Jq1wUPOJZr
+         fAUJYq9ZeE+0jv0HgzMdEt7W8WVQjI2OZx0jQArS6OAFWjSLxn84+4bI1hU7w0HqsYR5
+         NDHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=NlEtSw2yb334S6OHokyLqfSbSWsCFUXj1IQBpWYM0ts=;
-        b=cX997hzoFs+cq932qs0XK8mSoAWF7DJYlYnNBTEceaxkbYhEsfE11aNW9n/WlC217i
-         GgptziPtR/FROak5n2QuWqjTcBSMMBr2g8NHBQTlcPyatPdPkvO8U1aJgIMhEt8L11Ep
-         Vf5qhDS9vsyR2xVFnfECBtcVomhLpllSYUpaqx3Ml/4FZUY7j9PH0O2ybMUEvUYKKftM
-         9bgLe0fllfR6/t52yzk1Ht23UMlyicjZgfUI1vhg8IqeuYE6hmim/VMtUJlyEdSoIkvR
-         2Qo1jlWvu9bGxwjWRSRxW8FDXC5K2cQ8R02jpLoFcHVMEG1ufLyUOZ1lMX4R8plq5TTR
-         IfXQ==
-X-Gm-Message-State: AOAM5310vcFod9GNtM7Y8JA3CnCYzoFiXBDPg+GTsQCGupdjX4MaT0Bn
-	n8arSRlKm5EG6HLJb64JyMw=
-X-Google-Smtp-Source: ABdhPJymXxsrngrTgJcwC1rZrqmuNQR+PcysFvJfwU7RP5opn8hl/0wvGxsmX9HrgCtIuXRzChyb3Q==
-X-Received: by 2002:a1c:a98a:: with SMTP id s132mr14185665wme.12.1617384636584;
-        Fri, 02 Apr 2021 10:30:36 -0700 (PDT)
+        bh=k4gSFe0DOErEwXm3jMgMd1VdZfPYQ5MK/WIOIxx48g4=;
+        b=S7bsQWrBBHZQMEeEjBSuWZ6GNABzOPlGXmh/QYNxsfpjkQzEkBYiYkwyoHGnqRNkln
+         9WJ64Hihqh3fHSSEOOAy9oevq8nHWX7nsajDQkseFzB8ubAYNpSyE9BKsow8dz/8b0cB
+         c1R2gUNv+OHVshPP+PZ/kJmhQiRgLt/V5ea5u540WomNGo+UxoGGiJgHy3LmCW694vV1
+         aIBWToyMZ7JVILxTmD/wBG+cc//yXP1ZaHAyhULluJsyy83S7T+vOi1dm9eXtImAvuM0
+         pDgh+nST5t+zD8Kd110AijWuYPgJ5mX1fLAPViewBVLIsuYKAMJRXeJOthCmyMglrgjx
+         Cx1w==
+X-Gm-Message-State: AOAM5336JxBc1DI83WN3CTB6Ym+icrkYgufcyLwmwcu4KdX86sUw7wgj
+	1lzRykLaOIoawjymiMF6IVRvhbYGad587Q==
+X-Google-Smtp-Source: ABdhPJy4gh61j3zJslUmrsERM/NqkoD55anqpT/8nNJCg0Y4Iq0jjeZNi9rRnKmiN7GOwf5BemK1lw==
+X-Received: by 2002:a7b:c2fa:: with SMTP id e26mr13425514wmk.102.1617384638171;
+        Fri, 02 Apr 2021 10:30:38 -0700 (PDT)
 Received: from agape ([5.171.81.4])
-        by smtp.gmail.com with ESMTPSA id x12sm3894409wrr.7.2021.04.02.10.30.36
+        by smtp.gmail.com with ESMTPSA id w6sm15221439wrl.49.2021.04.02.10.30.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Apr 2021 10:30:36 -0700 (PDT)
+        Fri, 02 Apr 2021 10:30:37 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: dan.carpenter@oracle.com,
@@ -43,9 +43,9 @@ Cc: dan.carpenter@oracle.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH v2 12/30] staging: rtl8723bs: fix null check conditions
-Date: Fri,  2 Apr 2021 19:29:54 +0200
-Message-Id: <dbb5f33f55441a4ea296da685a31833d7990bf6b.1617384172.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v2 13/30] staging: rtl8723bs: remove unnecessary parentheses in if condition
+Date: Fri,  2 Apr 2021 19:29:55 +0200
+Message-Id: <72afa4756d2af668ac47cd50aca6744ea8c20953.1617384172.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617384172.git.fabioaiuto83@gmail.com>
 References: <cover.1617384172.git.fabioaiuto83@gmail.com>
@@ -56,56 +56,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-fix post-commit hook issues:
+fix post commit hook issue:
 
-CHECK: Comparison to NULL could be written "!psta"
-178: FILE: drivers/staging/rtl8723bs/core/rtw_cmd.c:2012:
-+			if (psta == NULL)
-
-CHECK: Comparison to NULL could be written "!psta"
-198: FILE: drivers/staging/rtl8723bs/core/rtw_cmd.c:2066:
-+	if (psta == NULL)
-
-CHECK: Comparison to NULL could be written "!psta"
-211: FILE: drivers/staging/rtl8723bs/core/rtw_cmd.c:2081:
-+	if (psta == NULL)
+WARNING: Unnecessary parentheses
+166: FILE: drivers/staging/rtl8723bs/core/rtw_cmd.c:2000:
++	if ((pcmd->res != H2C_SUCCESS))
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index 2086df056c44..840b9da9f2d9 100644
+index 840b9da9f2d9..77c583c60343 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -2009,7 +2009,7 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
- 		psta = rtw_get_stainfo(&padapter->stapriv, pnetwork->MacAddress);
- 		if (!psta) {
- 			psta = rtw_alloc_stainfo(&padapter->stapriv, pnetwork->MacAddress);
--			if (psta == NULL)
-+			if (!psta)
- 				goto createbss_cmd_fail;
- 		}
- 
-@@ -2063,7 +2063,7 @@ void rtw_setstaKey_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *pc
- 	struct set_stakey_rsp *psetstakey_rsp = (struct set_stakey_rsp *) (pcmd->rsp);
- 	struct sta_info *psta = rtw_get_stainfo(pstapriv, psetstakey_rsp->addr);
- 
--	if (psta == NULL)
-+	if (!psta)
+@@ -1997,7 +1997,7 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
+ 	if (pcmd->parmbuf == NULL)
  		goto exit;
  
- exit:
-@@ -2078,7 +2078,7 @@ void rtw_setassocsta_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *
- 	struct set_assocsta_rsp *passocsta_rsp = (struct set_assocsta_rsp *) (pcmd->rsp);
- 	struct sta_info *psta = rtw_get_stainfo(pstapriv, passocsta_parm->addr);
+-	if ((pcmd->res != H2C_SUCCESS))
++	if (pcmd->res != H2C_SUCCESS)
+ 		_set_timer(&pmlmepriv->assoc_timer, 1);
  
--	if (psta == NULL)
-+	if (!psta)
- 		goto exit;
- 
- 	psta->aid = passocsta_rsp->cam_id;
+ 	del_timer_sync(&pmlmepriv->assoc_timer);
 -- 
 2.20.1
 
