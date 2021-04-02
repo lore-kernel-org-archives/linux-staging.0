@@ -1,234 +1,101 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B7D259E
-	for <linux-staging@lists.linux.dev>; Fri,  2 Apr 2021 09:18:57 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id b7so6658781ejv.1
-        for <linux-staging@lists.linux.dev>; Fri, 02 Apr 2021 02:18:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709A5259E
+	for <linux-staging@lists.linux.dev>; Fri,  2 Apr 2021 10:01:47 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id f8so926278edd.11
+        for <linux-staging@lists.linux.dev>; Fri, 02 Apr 2021 03:01:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Go+nOYmjItOdLHaRSwqz52JDspIO1NEPVs2X7x6Gm1w=;
-        b=Kga+SD/wMiFC5TDw4Welm/bMQU8At4LdonfUlxfFEC0KwjQDOB+F2oxi5X459MUbyn
-         b6nTmzrnee04y9rCcpWTG3lT1MOPCRs1onp3h/3ZPFNkTWE2iqTOn74tZu9Ri7tm4/Yo
-         O1KjkfSWek4y7JUhva3RbPiWTz8y/+7wFUS2pvKPRjjxDwfJQk3/Zd3gjjKar//yaFFY
-         yRxTNcPVNHcroN4qxAEtmGgFTbSTAompw3EoPQcbDpI/y26SUAIgUKJCUgMq7ZOOChaL
-         dYdhZmtWy8UI7K9UiHfXqEQWv84EoLkz86DHudfNjJEgs+SxNSYMIfOpPTjUeMKWmcXW
-         iamw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RgR6eBkPH1N3b2kMo1NenojBzQbPmoeGNNkcW0tcO3Q=;
+        b=c4uiGenEROW/33JFGMviN5Yo6XpyRXGRc7txx+97Osuz3CdwfT8RiLp/LmnEzdokw+
+         9m9CO0RET8dbNJ7OLJY8pol368NKOjY+XeqyKsz4lkcuV+sBip5VXWCnnHX0gI8WgJUo
+         lx2Eys2jOVbeI7IBbkhtISi19z5CE5Vd2x9DMjC4RZRPpbvfY+Df1TSWTO9BpLuB50wU
+         LbOvWT2PjhPJP4H9DvonCd2DHrDHrjX/NX4IC/FRJ4YQ5aDmmyXJz7Tk0pU1cIzUcfdg
+         Bt33ooB21cYbG9sbXIcGOR+7ih9bREFIQz5ke8C6hHkKmbnp+xpGnap5UBrWh5cwaTPt
+         y7NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Go+nOYmjItOdLHaRSwqz52JDspIO1NEPVs2X7x6Gm1w=;
-        b=gbSnkvrQuTuzTggJ3JazdFeGkXQvZi/RqD7x0kLIElkVM0r2ViFbj2n+27yxIrSCAW
-         q2L8zOWZV5g6bj9QCaYUIA/2i3GbqeCjhKAlMsj8YGe1ZArg1VCF7Du4btXoSLjaS8Dg
-         NoAUqGUptRR4T9hXDgd2q4I03cOZVo6zniEw2sGcbt9LWx9Fn6MsMAhEGzydffdwNolJ
-         /ty7tcJZpWj1kPYAu1cFZujAviJMskYQECQZVUTG3G4tJoopx3o4rmXcd9Q/GlHhxXqt
-         t/vHEN35rpzbPjeVc0CZioW2OInzbiHR6y+EthewMFPYRT9459wb5LHYhzhXJonZYDPB
-         HLig==
-X-Gm-Message-State: AOAM531NOMJqizf40R+2HzBVocRI3cM2hds5jrAVah30x0VQgPIyxqpK
-	vGToSzZ42+5gmTEtTMajIiQ=
-X-Google-Smtp-Source: ABdhPJzWQ4ISQZC/ax8+lpRbleVx+bMb7pUiDAsLmOTPYK1U+uDZ3BNA1QvbJ8Thllhjoq1Uy1MtCw==
-X-Received: by 2002:a17:906:5203:: with SMTP id g3mr12733271ejm.95.1617355136459;
-        Fri, 02 Apr 2021 02:18:56 -0700 (PDT)
-Received: from agape.jhs ([5.171.72.128])
-        by smtp.gmail.com with ESMTPSA id v25sm5084428edr.18.2021.04.02.02.18.55
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RgR6eBkPH1N3b2kMo1NenojBzQbPmoeGNNkcW0tcO3Q=;
+        b=HD07ltcT6ZkR5HmP4MOj7ZzWbAemHyOK/rH2KgWrPiQkqBVQLFxTt4rYcR9fvDDp7A
+         87UE9ITPC39eKL/EMrDB3gmFwb48rtFt8jOW0b9RI58I27zC4kx/oSgPaFVfFynxH+r0
+         HGx6hKTuFE0/ysNv305hEk524eSJbKPbPRzoY3bkNozYftZ88E/JenAx0CHkL49EASFZ
+         1AngP9OGpIJxXHsAaHxG2WFWIu+cNxUqlFOmLjEBQLX2agjn8un5vilkfCVQN3ZdsdTH
+         bdaSDPTx9mx6VPAb4pawyHOtLD2MjQnk3ZJ+KlVc4qKkLoseWDdGrryz6wt7v+m6OADV
+         bq1g==
+X-Gm-Message-State: AOAM532UMMdzkWCZZe/cqgAp/tp/rwTAEkzak/slkzuCATe+LoTkJJ14
+	LOFd1/xXa14/GsIAcA9QSxA=
+X-Google-Smtp-Source: ABdhPJzToUxZvFo+v9qOwXHEJQ6zBDAA4MX5SPMeisOunhDidlO0ekNdGunsfDJPkvGMUTB5T7TLoQ==
+X-Received: by 2002:aa7:c71a:: with SMTP id i26mr1705111edq.281.1617357706011;
+        Fri, 02 Apr 2021 03:01:46 -0700 (PDT)
+Received: from agape ([5.171.72.128])
+        by smtp.gmail.com with ESMTPSA id hy13sm3932350ejc.32.2021.04.02.03.01.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Apr 2021 02:18:56 -0700 (PDT)
-Date: Fri, 2 Apr 2021 11:18:53 +0200
+        Fri, 02 Apr 2021 03:01:45 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: gregkh@linuxfoundation.org, joe@perches.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 08/49] staging: rtl8723bs: remove RT_TRACE logs in
- core/rtw_cmd.c
-Message-ID: <20210402091852.GA1406@agape.jhs>
-References: <cover.1617268327.git.fabioaiuto83@gmail.com>
- <7f51432d99459d79742639341f107115f0c224c5.1617268327.git.fabioaiuto83@gmail.com>
- <20210401095017.GR2065@kadam>
- <20210401135536.GA1691@agape.jhs>
- <20210401143235.GV2065@kadam>
- <20210401215114.GA15992@agape.jhs>
- <20210402081420.GU2088@kadam>
+To: gregkh@linuxfoundation.org
+Cc: dan.carpenter@oracle.com,
+	joe@perches.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Fabio Aiuto <fabioaiuto83@gmail.com>
+Subject: [PATCH 00/16] staging: rtl8723bs: remove RT_TRACE logs in core/*
+Date: Fri,  2 Apr 2021 12:01:20 +0200
+Message-Id: <cover.1617356821.git.fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210402081420.GU2088@kadam>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 02, 2021 at 08:14:20AM +0000, Dan Carpenter wrote:
-> On Thu, Apr 01, 2021 at 11:51:15PM +0200, Fabio Aiuto wrote:
-> > On Thu, Apr 01, 2021 at 05:32:36PM +0300, Dan Carpenter wrote:
-> > > On Thu, Apr 01, 2021 at 03:55:37PM +0200, Fabio Aiuto wrote:
-> > > > 
-> > > > Hi Dan,
-> > > > 
-> > > > I have the following:
-> > > > 
-> > > >  	if (rtw_createbss_cmd(adapter) != _SUCCESS)
-> > > > -		RT_TRACE(_module_rtl871x_mlme_c_, _drv_err_, ("Error =>rtw_createbss_cmd status FAIL\n"));
-> > > > +	;
-> > > > 
-> > > > will I leave
-> > > > 
-> > > > 	if (rtw_createbss_cmd(adapter) != _SUCCESS)
-> > > > 		;
-> > > > 
-> > > > or just
-> > > > 
-> > > > 	rtw_createbss_cmd(adapter);
-> > > > 
-> > > > ?
-> > > > 
-> > > > what's best from the static analysis point of view?
-> > > > 
-> > > > smatch and sparse says nothing about that.
-> > > 
-> > > rtw_createbss_cmd() can only fail if this allocation fails:
-> > > 
-> > > 	pcmd = rtw_zmalloc(sizeof(struct cmd_obj));
-> > > 
-> > > In current kernels, that size of small allocation will never fail.  But
-> > > we alway write code as if every allocation can fail.
-> > > 
-> > > Normally when an allocation fails then we want to return -ENOMEM and
-> > > clean up.  But this code is an event handler for firmware events and
-> > > there isn't any real clean up to do.  Since there is nothing we can do
-> > > then this is basically working and fine.
-> > > 
-> > > How I would write this is:
-> > > 
-> > > 			ret = rtw_createbss_cmd(adapter);
-> > > 			if (ret != _SUCCESS)
-> > > 				goto unlock;
-> > > 		}
-> > > 	}
-> > > unlock:
-> > > 	spin_unlock_bh(&pmlmepriv->lock);
-> > > }
-> > > 
-> > > That doesn't change how the code works but it signals to the the reader
-> > > what your intention is.  If we just remove the error handling then it's
-> > > ambiguous.
-> > > 
-> > > 			rtw_createbss_cmd(adapter);
-> > > 		}
-> > > 	}
-> > > 	<-- Futurue programmer decides to add code here then figuring
-> > >             that rtw_createbss_cmd() can fail is a problem.
-> > > 
-> > > 	spin_unlock_bh(&pmlmepriv->lock);
-> > > }
-> > > 
-> > > But for something like this which is maybe more subtle than just a
-> > > straight delete of lines of code, then consider pulling it out into its
-> > > own separate patch.  That makes it easier to review.  Put all the stuff
-> > > that I said in the commit message:
-> > > 
-> > > ---
-> > > [PATCH] tidy up some error handling
-> > > 
-> > > The RT_TRACE() output is not useful so we want to delete it.  In this
-> > > case there is no cleanup for rtw_createbss_cmd() required or even
-> > > possible.  I've deleted the RT_TRACE() output and added a goto unlock
-> > > to show that we can't continue if rtw_createbss_cmd() fails.
-> > > 
-> > > ---
-> > > 
-> > > > 
-> > > > Checkpatch too seems to ignore it, maybe the first one is good,
-> > > > but I would like to be sure before sending another over 40 patches
-> > > > long patchset.
-> > > 
-> > > Don't send 40 patches.  Just send 10 at a time until you get a better
-> > > feel for which ones are going to get applied or not. :P  It's not
-> > > arbitrary, and I'm definitely not trying to NAK your patches.  Once you
-> > > learn the rules I hope that it's predictable and straight forward.
-> > > 
-> > > regards,
-> > > dan carpenter
-> > > 
-> > 
-> > Hi Dan,
-> > 
-> > sorry again. In this case:
-> > 
-> > @@ -828,10 +829,11 @@ void rtw_surveydone_event_callback(struct adapter *adapter, u8 *pbuf)
-> >  
-> >                                         pmlmepriv->fw_state = WIFI_ADHOC_MASTER_STATE;
-> >  
-> > -                                       if (rtw_createbss_cmd(adapter) != _SUCCESS)
-> > -                                               ;
-> > -
-> >                                         pmlmepriv->to_join = false;
-> > +
-> > +                                       ret = rtw_createbss_cmd(adapter);
-> > +                                       if (ret != _SUCCESS)
-> > +                                               goto unlock;
-> >                                 }
-> >                         }
-> > 
-> > I decided to move the set to false of pmlepriv->to_join before 
-> > the rtw_createbss_cmd(). In old code that statement was executed
-> > unconditionally and seems not to be tied to the failure of 
-> > rtw_createbss_cmd().
-> > 
-> > The eventual goto would skip this instruction so I moved it
-> > before.
-> > 
-> > What do you think?
-> 
-> So when you're sending patches like this which have the potential to
-> change the behavior then we want to see your thought process explained a
-> bit in the message.
+This patchset removes all RT_TRACE usages in core/ files.
 
-you are right, I skip a lot of steps in the message, next time I will
-explain better.
+This is the first of a series aimed at removing RT_TRACE macro.
 
-> 
-> For example, when I'm reviewing patches in my email client, then I don't
-> know if rtw_createbss_cmd() uses pmlmepriv->to_join.  It turns out it
-> doesn't.  I also don't know what ->to_join is for really.  Your patch
-> preserves the original logic, but it's not totally clear that the
-> original code was correct.  See how it's done in rtw_do_join():
-> 
-> drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
->    107                                  rtw_generate_random_ibss(pibss);
->    108  
->    109                                  if (rtw_createbss_cmd(padapter) != _SUCCESS) {
->    110                                          RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_, ("***Error =>do_goin: rtw_createbss_cmd status FAIL***\n "));
->    111                                          ret =  false;
->    112                                          goto exit;
->    113                                  }
->    114  
->    115                                  pmlmepriv->to_join = false;
->    116  
-> 
-> So you could make an argument that the original code is wrong.
-> 
-> Also rtw_createbss_cmd() can't actually fail.
-> 
-> The other option is to replace that particular RT_TRACE() with a dev_err()
-> message.  Another option is to just skip that one and come back to it
-> later.  Maybe the code will be more clear after we have cleaned it up.
-> 
-> It doesn't matter so long as the commit message defends your choice then
-> probably we would accept any of these patches.
-> 
-> regards,
-> dan carpenter
+The whole private tracing system is not tied to a configuration
+symbol and the default behaviour is _trace nothing_. It's verbose
+and relies on a private log level tracing doomed to be
+removed.
 
-ok I will leave the logic untouched moving the
+Fabio Aiuto (16):
+  staging: rtl8723bs: remove RT_TRACE logs in core/rtw_xmit.c
+  staging: rtl8723bs: remove RT_TRACE logs in core/rtw_security.c
+  staging: rtl8723bs: remove all RT_TRACE logs in core/rtw_eeprom.c
+  staging: rtl8723bs: remove all RT_TRACE logs in core/rtw_pwrctrl.c
+  staging: rtl8723bs: remove RT_TRACE logs in core/rtw_cmd.c
+  staging: rtl8723bs: remove commented RT_TRACE calls in core/rtw_mlme.c
+  staging: rtl8723bs: remove RT_TRACE logs in core/rtw_mlme.c
+  staging: rtl8723bs: tidy up some error handling
+  staging: rtl8723bs: remove RT_TRACE logs in core/rtw_mlme_ext.c
+  staging: rtl8723bs: remove commented RT_TRACE calls in core/rtw_recv.c
+  staging: rtl8723bs: remove RT_TRACE logs in core/rtw_recv.c
+  staging: rtl8723bs: remove commented RT_TRACE call in
+    core/rtw_ioctl_set.c
+  staging: rtl8723bs: remove RT_TRACE logs in core/rtw_ioctl_set.c
+  staging: rtl8723bs: remove all RT_TRACE logs in core/rtw_wlan_util.c
+  staging: rtl8723bs: remove RT_TRACE logs in core/rtw_sta_mgt.c
+  staging: rtl8723bs: remove RT_TRACE logs in core/rtw_ieee80211.c
 
-pmlmepriv->to_join = false;
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      |  53 +------
+ drivers/staging/rtl8723bs/core/rtw_eeprom.c   |  56 +++----
+ .../staging/rtl8723bs/core/rtw_ieee80211.c    |  90 ++---------
+ .../staging/rtl8723bs/core/rtw_ioctl_set.c    |  79 +---------
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     | 124 +++------------
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  39 +----
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  |  60 +------
+ drivers/staging/rtl8723bs/core/rtw_recv.c     | 147 +-----------------
+ drivers/staging/rtl8723bs/core/rtw_security.c |  41 +----
+ drivers/staging/rtl8723bs/core/rtw_sta_mgt.c  |  25 ---
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    |  26 +---
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     |  82 +---------
+ 12 files changed, 104 insertions(+), 718 deletions(-)
 
-before the rtw_create_bss() call, for they not interfere.
+-- 
+2.20.1
 
-thank you,
-
-fabio
