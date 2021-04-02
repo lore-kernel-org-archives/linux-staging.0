@@ -1,41 +1,41 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5956D09
-	for <linux-staging@lists.linux.dev>; Fri,  2 Apr 2021 10:01:50 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id l18so4940277edc.9
-        for <linux-staging@lists.linux.dev>; Fri, 02 Apr 2021 03:01:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03B86D00
+	for <linux-staging@lists.linux.dev>; Fri,  2 Apr 2021 10:01:52 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id h13so4949386eds.5
+        for <linux-staging@lists.linux.dev>; Fri, 02 Apr 2021 03:01:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=RR5dNd1HhsdkjoA6cfLbMXCUCseogWnG0uvtveuJ77U=;
-        b=X9iS8Qs6nmfb8zar2KT1iXx0gme2RBy8ebmTRJMGKGhnB4NePun7xVko9xhytF0xLC
-         j5V+678gre18YqWALUqKrTqXqhy/TZY/dVEEmkm+vcjxnTYcboUY2v0r4ddsBVTxzqnn
-         xuIbZ6gzIGPcAAZcbxl+NfS2SzvrwP8xx2TxVAIKmEMMJ0nYUTT2MB0UlZHQePBEPik3
-         0AhtyZ0bJ2wBvJhS0vhvAhYOSPBMK/YuInx/anGSPeB6mXuLHKMDdDa5RYF7oyxbrF34
-         oJJMNqLXgm9gzUu8BLOBJZb4kEmlPMcIaCrSBTT7rvxOulTx1NOAn748DMb1qNlBd0aJ
-         hVNw==
+        bh=elDtaXxqbBz7CfvdseF55dVdfqtzeGsUAApAih4pNfs=;
+        b=ftd6A96TpJuaxPHFNifHwgr3lhJgmLSmAwt7+SMzZWikWuTE+XRo7UyGWJlQwSWXXI
+         EbfPgzA+kmb/+5dj95qoZ4pgdD7alHALrMKU5kX/N1R6R6iILUO+FwYbMlRtpbJAAfLO
+         G4j0aqMHrAYYaHpd1nSOHLvTSq6Rtlf5YAfHFSc4M79sOuRUMdtnian9U0nfaKcZQJ1n
+         dneIrAtkgqKspn612j0YOjBO6nehWlBU6RNZ/80NHnAcNju9wcARwkZ9gjFmZCjAwPKO
+         s65rC8jr2CURc5FzjFIzgBUtkrp23xbFrkjHWVHipIKaIyAqJiw7AMeqrkHfX3fkP0dl
+         heUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=RR5dNd1HhsdkjoA6cfLbMXCUCseogWnG0uvtveuJ77U=;
-        b=czRhj5NGWBiDPiShqRxSAj5sdx+focDBkKYyXMNlrgYtBoT5CEZaYD6OQQ+1ZelTPC
-         ZwvtYV2S19me98orvQ8iE0dp/uPMfNN+Gq8F4AGSmxXVSg3ZZRDjA4ZZphCjacA4Dl8c
-         Czf5LK6+d1dZ9huS+xP/Jutg9KfuuLLx2MLD4fQUy9pAmt5ZGz800AQWozQyfQ7QxCKV
-         ftVQdcXMDu0JCD7D7B0f6pRf6tBWU9w1QxgLK6t5Wd2gtuP2B7DRILO7iV7O3EgutKOH
-         bU34gyM62QgfemqjraNthcBd3fSMHzrF0VDrZ5kvosude5AoUYYUrOKG6zrCU+Imlndy
-         vW9Q==
-X-Gm-Message-State: AOAM531KS4Fz2Zu1NiAAui8vriWYZGNPJz4MvDchLWNuHJ5jzNMIzgU/
-	rUdAMzjoUJGPcWwOkVGMZaE=
-X-Google-Smtp-Source: ABdhPJx+BmXlo3RIIuuZ35zgaxdJcfU4m3N40nHgPf9JDgLHUZN+wSEtBGGmJe2MZ+Gfir3mIcWaRw==
-X-Received: by 2002:aa7:d0cb:: with SMTP id u11mr14640156edo.163.1617357709638;
-        Fri, 02 Apr 2021 03:01:49 -0700 (PDT)
+        bh=elDtaXxqbBz7CfvdseF55dVdfqtzeGsUAApAih4pNfs=;
+        b=NrQnh/8iJL4mbr/MWfAeUnTxa18saFkN80fwVx61io9CfmC69fSjBWOCu5kFvHu61x
+         xqiFtSmGv53aR5gld216/zEideL9BdcDVhNCyR89N7yog5iby6lD893HEkUDr+uqNbfq
+         n5DXB54n56Ey/IAyKMVbfOILRFXPpERBaRK2ANm1N9kSl+WKT59frypxlu3dabn2ntWF
+         bVGgTgktLbkm16hsrlkVCufidytYi1FdUB1GkuxQNfNxfNEIPy6HwOYiho6jEuGJ+nas
+         fQnPEI//WE5yAihitiS/UeNRYMaYIymH4/fWhYKCa8HVt59XFX3La0uto4H74t5SJ6Yg
+         qFPg==
+X-Gm-Message-State: AOAM533hjyGwInUIyDL/2Tu64sidYUtVOrpqAGglFPEWnUcpcymLIa43
+	XI/Q/BOeiLZgHzcRf1NMD4A=
+X-Google-Smtp-Source: ABdhPJzrbD8JQ4Ps3PSU6oxxB6KviXa/ulMSwYHv2YIg2imWt9UeTKDgRfXWJkOunP3IFJor0zB2fg==
+X-Received: by 2002:aa7:d4d6:: with SMTP id t22mr14947384edr.376.1617357711241;
+        Fri, 02 Apr 2021 03:01:51 -0700 (PDT)
 Received: from agape ([5.171.72.128])
-        by smtp.gmail.com with ESMTPSA id r19sm5124293edp.52.2021.04.02.03.01.49
+        by smtp.gmail.com with ESMTPSA id r5sm5285533eds.49.2021.04.02.03.01.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Apr 2021 03:01:49 -0700 (PDT)
+        Fri, 02 Apr 2021 03:01:50 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: dan.carpenter@oracle.com,
@@ -43,9 +43,9 @@ Cc: dan.carpenter@oracle.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 02/16] staging: rtl8723bs: remove RT_TRACE logs in core/rtw_security.c
-Date: Fri,  2 Apr 2021 12:01:22 +0200
-Message-Id: <92918e4fd7fe87864e19a92e7db44e6c904d3fbf.1617356821.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 03/16] staging: rtl8723bs: remove all RT_TRACE logs in core/rtw_eeprom.c
+Date: Fri,  2 Apr 2021 12:01:23 +0200
+Message-Id: <7f2f51a4b3301bec3f3c5a1523f7de0cb2ff2efe.1617356821.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617356821.git.fabioaiuto83@gmail.com>
 References: <cover.1617356821.git.fabioaiuto83@gmail.com>
@@ -56,116 +56,139 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove all RT_TRACE logs in core/rtw_security.c
+remove all RT_TRACE logs
+fix patch-related checkpatch issues
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_security.c | 41 +------------------
- 1 file changed, 2 insertions(+), 39 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_eeprom.c | 56 ++++++++-------------
+ 1 file changed, 22 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index 8a447e149438..6c74c0444abc 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -236,16 +236,6 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
- 		/* calculate icv and compare the icv */
- 		*((u32 *)crc) = le32_to_cpu(getcrc32(payload, length-4));
+diff --git a/drivers/staging/rtl8723bs/core/rtw_eeprom.c b/drivers/staging/rtl8723bs/core/rtw_eeprom.c
+index 3cbd65dee741..be0eda1604d0 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_eeprom.c
++++ b/drivers/staging/rtl8723bs/core/rtw_eeprom.c
+@@ -35,10 +35,9 @@ void shift_out_bits(_adapter *padapter, u16 data, u16 count)
+ 	u16 x, mask;
+ _func_enter_;
  
--		if (crc[3] != payload[length-1] || crc[2] != payload[length-2] || crc[1] != payload[length-3] || crc[0] != payload[length-4]) {
--			RT_TRACE(_module_rtl871x_security_c_,
--				 _drv_err_,
--				 ("%s:icv error crc[3](%x)!=payload[length-1](%x) || crc[2](%x)!=payload[length-2](%x) || crc[1](%x)!=payload[length-3](%x) || crc[0](%x)!=payload[length-4](%x)\n",
--					__func__,
--					crc[3], payload[length - 1],
--					crc[2], payload[length - 2],
--					crc[1], payload[length - 3],
--					crc[0], payload[length - 4]));
+-	if (padapter->bSurpriseRemoved == true) {
+-		RT_TRACE(_module_rtl871x_eeprom_c_, _drv_err_, ("padapter->bSurpriseRemoved==true"));
++	if (padapter->bSurpriseRemoved)
+ 		goto out;
+-	}
++
+ 	mask = 0x01 << (count - 1);
+ 	x = rtw_read8(padapter, EE_9346CR);
+ 
+@@ -48,20 +47,18 @@ _func_enter_;
+ 		x &= ~_EEDI;
+ 		if (data & mask)
+ 			x |= _EEDI;
+-		if (padapter->bSurpriseRemoved == true) {
+-		RT_TRACE(_module_rtl871x_eeprom_c_, _drv_err_, ("padapter->bSurpriseRemoved==true"));
+-		goto out;
 -		}
- 	}
- }
++		if (padapter->bSurpriseRemoved)
++			goto out;
++
+ 		rtw_write8(padapter, EE_9346CR, (u8)x);
+ 		udelay(CLOCK_RATE);
+ 		up_clk(padapter, &x);
+ 		down_clk(padapter, &x);
+ 		mask = mask >> 1;
+ 	} while (mask);
+-	if (padapter->bSurpriseRemoved == true) {
+-		RT_TRACE(_module_rtl871x_eeprom_c_, _drv_err_, ("padapter->bSurpriseRemoved==true"));
++	if (padapter->bSurpriseRemoved)
+ 		goto out;
+-	}
++
+ 	x &= ~_EEDI;
+ 	rtw_write8(padapter, EE_9346CR, (u8)x);
+ out:
+@@ -72,10 +69,9 @@ u16 shift_in_bits(_adapter *padapter)
+ {
+ 	u16 x, d = 0, i;
+ _func_enter_;
+-	if (padapter->bSurpriseRemoved == true) {
+-		RT_TRACE(_module_rtl871x_eeprom_c_, _drv_err_, ("padapter->bSurpriseRemoved==true"));
++	if (padapter->bSurpriseRemoved)
+ 		goto out;
+-	}
++
+ 	x = rtw_read8(padapter, EE_9346CR);
  
-@@ -609,8 +599,6 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 	if (pattrib->encrypt == _TKIP_) {
+ 	x &= ~(_EEDO | _EEDI);
+@@ -84,10 +80,9 @@ _func_enter_;
+ 	for (i = 0; i < 16; i++) {
+ 		d = d << 1;
+ 		up_clk(padapter, &x);
+-	if (padapter->bSurpriseRemoved == true) {
+-		RT_TRACE(_module_rtl871x_eeprom_c_, _drv_err_, ("padapter->bSurpriseRemoved==true"));
++	if (padapter->bSurpriseRemoved)
+ 		goto out;
+-	}
++
+ 		x = rtw_read8(padapter, EE_9346CR);
  
- 		{
--			RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("%s: stainfo!= NULL!!!\n", __func__));
--
- 			if (IS_MCAST(pattrib->ra))
- 				prwskey = psecuritypriv->dot118021XGrpKey[psecuritypriv->dot118021XGrpKeyid].skey;
- 			else
-@@ -631,7 +619,6 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 		x &= ~(_EEDI);
+@@ -122,26 +117,22 @@ void eeprom_clean(_adapter *padapter)
+ {
+ 	u16 x;
+ _func_enter_;
+-	if (padapter->bSurpriseRemoved == true) {
+-		RT_TRACE(_module_rtl871x_eeprom_c_, _drv_err_, ("padapter->bSurpriseRemoved==true"));
++	if (padapter->bSurpriseRemoved)
+ 		goto out;
+-	}
++
+ 	x = rtw_read8(padapter, EE_9346CR);
+-	if (padapter->bSurpriseRemoved == true) {
+-		RT_TRACE(_module_rtl871x_eeprom_c_, _drv_err_, ("padapter->bSurpriseRemoved==true"));
++	if (padapter->bSurpriseRemoved)
+ 		goto out;
+-	}
++
+ 	x &= ~(_EECS | _EEDI);
+ 	rtw_write8(padapter, EE_9346CR, (u8)x);
+-	if (padapter->bSurpriseRemoved == true) {
+-		RT_TRACE(_module_rtl871x_eeprom_c_, _drv_err_, ("padapter->bSurpriseRemoved==true"));
++	if (padapter->bSurpriseRemoved)
+ 		goto out;
+-	}
++
+ 	up_clk(padapter, &x);
+-		if (padapter->bSurpriseRemoved == true) {
+-		RT_TRACE(_module_rtl871x_eeprom_c_, _drv_err_, ("padapter->bSurpriseRemoved==true"));
++	if (padapter->bSurpriseRemoved)
+ 		goto out;
+-	}
++
+ 	down_clk(padapter, &x);
+ out:
+ _func_exit_;
+@@ -155,17 +146,14 @@ u16 eeprom_read16(_adapter *padapter, u16 reg) /*ReadEEprom*/
  
- 				if ((curfragnum+1) == pattrib->nr_frags) {	/* 4 the last fragment */
- 					length = pattrib->last_txcmdsz-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
--					RT_TRACE(_module_rtl871x_security_c_, _drv_info_, ("pattrib->iv_len =%x, pattrib->icv_len =%x\n", pattrib->iv_len, pattrib->icv_len));
- 					*((__le32 *)crc) = getcrc32(payload, length);/* modified by Amy*/
+ _func_enter_;
  
- 					arcfour_init(&mycontext, rc4key, 16);
-@@ -739,18 +726,10 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+-	if (padapter->bSurpriseRemoved == true) {
+-		RT_TRACE(_module_rtl871x_eeprom_c_, _drv_err_, ("padapter->bSurpriseRemoved==true"));
++	if (padapter->bSurpriseRemoved)
+ 		goto out;
+-	}
++
+ 	/* select EEPROM, reset bits, set _EECS*/
+ 	x = rtw_read8(padapter, EE_9346CR);
  
- 			*((u32 *)crc) = le32_to_cpu(getcrc32(payload, length-4));
+-	if (padapter->bSurpriseRemoved == true) {
+-		RT_TRACE(_module_rtl871x_eeprom_c_, _drv_err_, ("padapter->bSurpriseRemoved==true"));
++	if (padapter->bSurpriseRemoved)
+ 		goto out;
+-	}
  
--			if (crc[3] != payload[length-1] || crc[2] != payload[length-2] || crc[1] != payload[length-3] || crc[0] != payload[length-4]) {
--				RT_TRACE(_module_rtl871x_security_c_,
--					 _drv_err_,
--					 ("rtw_wep_decrypt:icv error crc[3](%x)!=payload[length-1](%x) || crc[2](%x)!=payload[length-2](%x) || crc[1](%x)!=payload[length-3](%x) || crc[0](%x)!=payload[length-4](%x)\n",
--						crc[3], payload[length - 1],
--						crc[2], payload[length - 2],
--						crc[1], payload[length - 3],
--						crc[0], payload[length - 4]));
-+			if (crc[3] != payload[length - 1] || crc[2] != payload[length - 2] ||
-+			    crc[1] != payload[length - 3] || crc[0] != payload[length - 4])
- 				res = _FAIL;
--			}
- 		} else {
--			RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("%s: stainfo == NULL!!!\n", __func__));
- 			res = _FAIL;
- 		}
- 	}
-@@ -1380,8 +1359,6 @@ u32 rtw_aes_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 
- 	/* 4 start to encrypt each fragment */
- 	if (pattrib->encrypt == _AES_) {
--		RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("%s: stainfo!= NULL!!!\n", __func__));
--
- 		if (IS_MCAST(pattrib->ra))
- 			prwskey = psecuritypriv->dot118021XGrpKey[psecuritypriv->dot118021XGrpKeyid].skey;
- 		else
-@@ -1611,13 +1588,6 @@ static signed int aes_decipher(u8 *key, uint	hdrlen,
- 	/* compare the mic */
- 	for (i = 0; i < 8; i++) {
- 		if (pframe[hdrlen+8+plen-8+i] != message[hdrlen+8+plen-8+i]) {
--			RT_TRACE(_module_rtl871x_security_c_,
--				 _drv_err_,
--				 ("%s:mic check error mic[%d]: pframe(%x) != message(%x)\n",
--					__func__,
--					i,
--					pframe[hdrlen + 8 + plen - 8 + i],
--					message[hdrlen + 8 + plen - 8 + i]));
- 			DBG_871X("%s:mic check error mic[%d]: pframe(%x) != message(%x)\n",
- 					__func__,
- 					i,
-@@ -1649,10 +1619,6 @@ u32 rtw_aes_decrypt(struct adapter *padapter, u8 *precvframe)
- 	if (prxattrib->encrypt == _AES_) {
- 		stainfo = rtw_get_stainfo(&padapter->stapriv, &prxattrib->ta[0]);
- 		if (stainfo) {
--			RT_TRACE(_module_rtl871x_security_c_,
--				 _drv_err_,
--				 ("%s: stainfo!= NULL!!!\n", __func__));
--
- 			if (IS_MCAST(prxattrib->ra)) {
- 				static unsigned long start;
- 				static u32 no_gkey_bc_cnt;
-@@ -1706,9 +1672,6 @@ u32 rtw_aes_decrypt(struct adapter *padapter, u8 *precvframe)
- 			res = aes_decipher(prwskey, prxattrib->hdrlen, pframe, length);
- 
- 		} else {
--			RT_TRACE(_module_rtl871x_security_c_,
--				 _drv_err_,
--				 ("%s: stainfo == NULL!!!\n", __func__));
- 			res = _FAIL;
- 		}
- 	}
+ 	x &= ~(_EEDI | _EEDO | _EESK | _EEM0);
+ 	x |= _EEM1 | _EECS;
 -- 
 2.20.1
 
