@@ -1,78 +1,81 @@
-Received: from smtprelay.hostedemail.com (smtprelay0026.hostedemail.com [216.40.44.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D7B70
-	for <linux-staging@lists.linux.dev>; Sat,  3 Apr 2021 20:02:13 +0000 (UTC)
-Received: from omf13.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-	by smtprelay05.hostedemail.com (Postfix) with ESMTP id CD8A5180458DB;
-	Sat,  3 Apr 2021 20:02:06 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf13.hostedemail.com (Postfix) with ESMTPA id D32991124F4;
-	Sat,  3 Apr 2021 20:02:05 +0000 (UTC)
-Message-ID: <844503af879d05b209d9af98e378350b4f74ff9d.camel@perches.com>
-Subject: Re: [PATCH v3 00/30] staging: rtl8723bs: remove RT_TRACE logs in
- core/*
-From: Joe Perches <joe@perches.com>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: gregkh@linuxfoundation.org, dan.carpenter@oracle.com, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Sat, 03 Apr 2021 13:02:04 -0700
-In-Reply-To: <20210403172858.GA2397@agape.jhs>
-References: <cover.1617440833.git.fabioaiuto83@gmail.com>
-	 <1cd79d781cdcccf621ce8e104a9cdf1e90e7f803.camel@perches.com>
-	 <20210403152143.GA1403@agape.jhs>
-	 <7120836b08b680d54c15fd89b8630ccc67a53116.camel@perches.com>
-	 <20210403172858.GA2397@agape.jhs>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7239259E
+	for <linux-staging@lists.linux.dev>; Sat,  3 Apr 2021 21:09:56 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id ay2so3972339plb.3
+        for <linux-staging@lists.linux.dev>; Sat, 03 Apr 2021 14:09:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=IWVLq4cGetylmYeeCZo39PJuYByM8tFivG4dPSxGTKE=;
+        b=VDI1CPOgECenibvItdnb1mxjiv9HsuQPF7RJ6a8Fvkj46Ud3O9wVXJaHiGN7pJAHfb
+         zrIPl0YqF85Xo4OJdQEM3RI/+IMHlSyLlpKu7HiORc9jATk1TsqaPrNrT6GCO7IkA8Ie
+         J4aYwyqhaK9ztY+k3J35iyfizTJLYQJCettOhK3jOTmBlyYlvRPIfEXBVdnP/4YClsbQ
+         PLVklhuYJpfgc/sYlrZq3sm5z6XEUlgo2WDwfcX169H/J9lnfGYvIVaJJSsFiFEODldU
+         iYoMNwjZO6WwtaZjVRpkdTP7FyTzvLc4YdIxlHzPfb5+iQ78UPmf4I4bMkrwjEFo92C+
+         zQsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=IWVLq4cGetylmYeeCZo39PJuYByM8tFivG4dPSxGTKE=;
+        b=T3WSqsHpDNpSfqpDtz6MQEqaX2Id/6+kGnMz4+eDpzZSNBHVS8gyFBX1tYXgBcBpe5
+         Fn5LeWqjUFrrVuQURS2nXdb014rabNok2DjqX/RljQ41qb+Naqk/870JUBSHxtbxICO5
+         /tz4oICTdp8Sp4dNnxcxYMEZvc9pSoWDd63apLexMDuJvRyuHOvymWukQtUF96NIg8ZQ
+         JbtPF56zzJpH8jUJehli4YkH8NozKxZDOMCcYPPBdRq1GdZ6aflZGD60Q+mVSFpb1sNy
+         Nxqg5BsA3g6j9oXgwmFC7hSSVBCAMywDhHNBZqb8s6GVbKckw9zsIYUmz4tF094z5e9t
+         C1Rg==
+X-Gm-Message-State: AOAM53038icK2yUglP5znnCF9rUdah30NmPpGVNNznyyQXy7aP8LXeum
+	cWPray5r8v0FEllWVbINhtw=
+X-Google-Smtp-Source: ABdhPJxhE5EJ9rfWUx1ZpiMrI8xHdQd5ciCxdftyndGRFA/YTc6IS/33qX3EY71OOLDKk8fNGobvwA==
+X-Received: by 2002:a17:90b:4b92:: with SMTP id lr18mr20181032pjb.86.1617484196282;
+        Sat, 03 Apr 2021 14:09:56 -0700 (PDT)
+Received: from djbComp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
+        by smtp.gmail.com with ESMTPSA id j3sm11628447pfi.74.2021.04.03.14.09.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Apr 2021 14:09:55 -0700 (PDT)
+From: Deborah Brouwer <deborahbrouwer3563@gmail.com>
+To: Larry.Finger@lwfinger.net,
+	gregkh@linuxfoundation.org,
+	insafonov@gmail.com,
+	martin@kaiser.cx,
+	simon.fodin@gmail.com,
+	straube.linux@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy-kernel@googlegroups.com,
+	Deborah Brouwer <deborahbrouwer3563@gmail.com>
+Subject: [PATCH] staging: rtl8188eu: core: add comma within a comment
+Date: Sat,  3 Apr 2021 14:09:30 -0700
+Message-Id: <20210403210930.17781-1-deborahbrouwer3563@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=0.10
-X-Rspamd-Server: rspamout02
-X-Stat-Signature: gabuok9ucs7h7afg833xcucuojww8dgz
-X-Rspamd-Queue-Id: D32991124F4
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/9nFMw3M0TUvd6otDijDvItut39GnlUgo=
-X-HE-Tag: 1617480125-621146
 
-On Sat, 2021-04-03 at 19:28 +0200, Fabio Aiuto wrote:
-> On Sat, Apr 03, 2021 at 09:17:37AM -0700, Joe Perches wrote:
-> > On Sat, 2021-04-03 at 17:21 +0200, Fabio Aiuto wrote:
-> > > On Sat, Apr 03, 2021 at 08:02:25AM -0700, Joe Perches wrote:
-> > > > On Sat, 2021-04-03 at 11:13 +0200, Fabio Aiuto wrote:
-> > > > > This patchset removes all RT_TRACE usages in core/ files.
-> > > > 
-> > > > and hal and include and os_dep
-> > > 
-> > > Hi, 
-> > > 
-> > > I was just about to send the second patchset relative to hal/ files.
-> > > The whole has been split up in directories in order to reduce the
-> > > number of patch per patchset
-> > 
-> > > It's a good idea, but the patches relative to RT_TRACE removal
-> > > could be huge
-> > 
-> > That's really not a significant issue.
-> > Simplicity in review is also important.
-> > Mechanization of patch creation can reduce review efforts.
-> 
-> Maybe I wrongly associated simplicity with patch dimensions, but maybe
-> for patches this simple have expert reviewers some tool for
-> automatic review?
+Add a comma to separate repeated words in a comment. The comma preserves
+the meaning of the comment while also stopping the checkpatch warning:
+WARNING: Possible repeated word: 'very'.
 
-Coccinelle is a relatively trusted tool and using it as a scripting
-mechanism where the script is shown as part of the commit message
-gives confidence that the change it produces can be applied without
-significant doubt.
+Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
+---
+ drivers/staging/rtl8188eu/core/rtw_xmit.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-To improve confidence that any change that does not have an output
-object code delta, comparing the object code produced before and
-after the change is useful.  Showing that the code has been both
-compiled and compared in the commit message also improves confidence
-that the change is useful and can be applied.
-
+diff --git a/drivers/staging/rtl8188eu/core/rtw_xmit.c b/drivers/staging/rtl8188eu/core/rtw_xmit.c
+index ed81cbc5e191..99e44b2c6f36 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_xmit.c
++++ b/drivers/staging/rtl8188eu/core/rtw_xmit.c
+@@ -1243,7 +1243,7 @@ s32 rtw_free_xmitbuf(struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf)
+  * If we turn on USE_RXTHREAD, then, no need for critical section.
+  * Otherwise, we must use _enter/_exit critical to protect free_xmit_queue...
+  *
+- * Must be very very cautious...
++ * Must be very, very cautious...
+  *
+  */
+ 
+-- 
+2.17.1
 
