@@ -1,81 +1,82 @@
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7239259E
-	for <linux-staging@lists.linux.dev>; Sat,  3 Apr 2021 21:09:56 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id ay2so3972339plb.3
-        for <linux-staging@lists.linux.dev>; Sat, 03 Apr 2021 14:09:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=IWVLq4cGetylmYeeCZo39PJuYByM8tFivG4dPSxGTKE=;
-        b=VDI1CPOgECenibvItdnb1mxjiv9HsuQPF7RJ6a8Fvkj46Ud3O9wVXJaHiGN7pJAHfb
-         zrIPl0YqF85Xo4OJdQEM3RI/+IMHlSyLlpKu7HiORc9jATk1TsqaPrNrT6GCO7IkA8Ie
-         J4aYwyqhaK9ztY+k3J35iyfizTJLYQJCettOhK3jOTmBlyYlvRPIfEXBVdnP/4YClsbQ
-         PLVklhuYJpfgc/sYlrZq3sm5z6XEUlgo2WDwfcX169H/J9lnfGYvIVaJJSsFiFEODldU
-         iYoMNwjZO6WwtaZjVRpkdTP7FyTzvLc4YdIxlHzPfb5+iQ78UPmf4I4bMkrwjEFo92C+
-         zQsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=IWVLq4cGetylmYeeCZo39PJuYByM8tFivG4dPSxGTKE=;
-        b=T3WSqsHpDNpSfqpDtz6MQEqaX2Id/6+kGnMz4+eDpzZSNBHVS8gyFBX1tYXgBcBpe5
-         Fn5LeWqjUFrrVuQURS2nXdb014rabNok2DjqX/RljQ41qb+Naqk/870JUBSHxtbxICO5
-         /tz4oICTdp8Sp4dNnxcxYMEZvc9pSoWDd63apLexMDuJvRyuHOvymWukQtUF96NIg8ZQ
-         JbtPF56zzJpH8jUJehli4YkH8NozKxZDOMCcYPPBdRq1GdZ6aflZGD60Q+mVSFpb1sNy
-         Nxqg5BsA3g6j9oXgwmFC7hSSVBCAMywDhHNBZqb8s6GVbKckw9zsIYUmz4tF094z5e9t
-         C1Rg==
-X-Gm-Message-State: AOAM53038icK2yUglP5znnCF9rUdah30NmPpGVNNznyyQXy7aP8LXeum
-	cWPray5r8v0FEllWVbINhtw=
-X-Google-Smtp-Source: ABdhPJxhE5EJ9rfWUx1ZpiMrI8xHdQd5ciCxdftyndGRFA/YTc6IS/33qX3EY71OOLDKk8fNGobvwA==
-X-Received: by 2002:a17:90b:4b92:: with SMTP id lr18mr20181032pjb.86.1617484196282;
-        Sat, 03 Apr 2021 14:09:56 -0700 (PDT)
-Received: from djbComp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
-        by smtp.gmail.com with ESMTPSA id j3sm11628447pfi.74.2021.04.03.14.09.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Apr 2021 14:09:55 -0700 (PDT)
-From: Deborah Brouwer <deborahbrouwer3563@gmail.com>
-To: Larry.Finger@lwfinger.net,
-	gregkh@linuxfoundation.org,
-	insafonov@gmail.com,
-	martin@kaiser.cx,
-	simon.fodin@gmail.com,
-	straube.linux@gmail.com
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com,
-	Deborah Brouwer <deborahbrouwer3563@gmail.com>
-Subject: [PATCH] staging: rtl8188eu: core: add comma within a comment
-Date: Sat,  3 Apr 2021 14:09:30 -0700
-Message-Id: <20210403210930.17781-1-deborahbrouwer3563@gmail.com>
-X-Mailer: git-send-email 2.17.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F10259E
+	for <linux-staging@lists.linux.dev>; Sat,  3 Apr 2021 21:16:24 +0000 (UTC)
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3Apzj7MawzQ6d7AWD4XltsKrPx2uskLtp033Aq?=
+ =?us-ascii?q?2lEZdDV+dMuEm8ey2MkKzBOcskdmZFgMkc2NUZPwP0/02JJx4ZYcJruuGDTh0V?=
+ =?us-ascii?q?HYT71KwpDlx1TbalzD385bkZxtaq1vTOD3ZGIK//rSxQmjDpIAzNyfmZrGuc76?=
+ =?us-ascii?q?z21xCSFmApsB0y5dChyHVnRxXhQuP/sEPb+d/NcCmz27ZX8MZN+6DXVtZYb+jv?=
+ =?us-ascii?q?nqsL6jXhIcHR4g72C1/ESVwZrzEx2Z2RlbdjNU3N4ZnFTttwDi/K2sv7Wa53bn?=
+ =?us-ascii?q?phzuxq1MlNHsx9dFDsDksKQoAw7hgAqpe4htMofq1Fte0YPfjSdP4aO832ZeA+?=
+ =?us-ascii?q?1J53ncfn64rF/W4iaI6kdS11bYxVCVmnflq8DiLQhKfvZpv55TcRfS9iMbzaVB?=
+ =?us-ascii?q?+Z9Mtljpx6Z/PFfikCP+59/TEzJtnSOP0DMfuN9WrHBZU4sYcvtroZYC+V49Ku?=
+ =?us-ascii?q?ZJIAvKrLo/GO0rI8TV6p9tADWnRkGchHBmxJiIUms+G369MzA/k/3Q6SFfmDRC?=
+ =?us-ascii?q?xU0CyKUk7w493aN4cYBN46D/L6x0iKsmdL5sUYtNQNgAWtesTlbGSRXKPG/6Gy?=
+ =?us-ascii?q?WBKJ06?=
+X-IronPort-AV: E=Sophos;i="5.81,302,1610406000"; 
+   d="scan'208";a="501479224"
+Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Apr 2021 23:16:16 +0200
+Date: Sat, 3 Apr 2021 23:16:16 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Deborah Brouwer <deborahbrouwer3563@gmail.com>
+cc: Larry.Finger@lwfinger.net, gregkh@linuxfoundation.org, insafonov@gmail.com, 
+    martin@kaiser.cx, simon.fodin@gmail.com, straube.linux@gmail.com, 
+    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+    outreachy-kernel@googlegroups.com
+Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8188eu: core: add comma
+ within a comment
+In-Reply-To: <20210403210930.17781-1-deborahbrouwer3563@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2104032315200.7875@hadrien>
+References: <20210403210930.17781-1-deborahbrouwer3563@gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 
-Add a comma to separate repeated words in a comment. The comma preserves
-the meaning of the comment while also stopping the checkpatch warning:
-WARNING: Possible repeated word: 'very'.
 
-Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
----
- drivers/staging/rtl8188eu/core/rtw_xmit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8188eu/core/rtw_xmit.c b/drivers/staging/rtl8188eu/core/rtw_xmit.c
-index ed81cbc5e191..99e44b2c6f36 100644
---- a/drivers/staging/rtl8188eu/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_xmit.c
-@@ -1243,7 +1243,7 @@ s32 rtw_free_xmitbuf(struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf)
-  * If we turn on USE_RXTHREAD, then, no need for critical section.
-  * Otherwise, we must use _enter/_exit critical to protect free_xmit_queue...
-  *
-- * Must be very very cautious...
-+ * Must be very, very cautious...
-  *
-  */
- 
--- 
-2.17.1
+On Sat, 3 Apr 2021, Deborah Brouwer wrote:
 
+> Add a comma to separate repeated words in a comment. The comma preserves
+> the meaning of the comment while also stopping the checkpatch warning:
+> WARNING: Possible repeated word: 'very'.
+
+Thanks.  That is more understandable.  Isn't this a v2?  If so, there
+should be v2 after PATCH and an explanation of the change under the ---
+
+julia
+
+
+>
+> Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
+> ---
+>  drivers/staging/rtl8188eu/core/rtw_xmit.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/staging/rtl8188eu/core/rtw_xmit.c b/drivers/staging/rtl8188eu/core/rtw_xmit.c
+> index ed81cbc5e191..99e44b2c6f36 100644
+> --- a/drivers/staging/rtl8188eu/core/rtw_xmit.c
+> +++ b/drivers/staging/rtl8188eu/core/rtw_xmit.c
+> @@ -1243,7 +1243,7 @@ s32 rtw_free_xmitbuf(struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf)
+>   * If we turn on USE_RXTHREAD, then, no need for critical section.
+>   * Otherwise, we must use _enter/_exit critical to protect free_xmit_queue...
+>   *
+> - * Must be very very cautious...
+> + * Must be very, very cautious...
+>   *
+>   */
+>
+> --
+> 2.17.1
+>
+> --
+> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/20210403210930.17781-1-deborahbrouwer3563%40gmail.com.
+>
