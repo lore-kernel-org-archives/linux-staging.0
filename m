@@ -1,52 +1,49 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE596259E
-	for <linux-staging@lists.linux.dev>; Sat,  3 Apr 2021 09:50:34 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id k8so6598232wrc.3
-        for <linux-staging@lists.linux.dev>; Sat, 03 Apr 2021 02:50:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=BsuX244Qwo5U14rjmt302Jci2DoZxQVAfqhH3h6HqLE=;
-        b=E/Y+lZfdQok49SrEQ0ilEV83pkM0lBsRaVK4hSZWm2uuJja8OO+6SEKBfvCinRi173
-         GOSdXrvumuOIM374gfHoI/7UX2JKxSozXhueTsMElNqu7LqCZeNPy0X5BDbDjEbeYzF9
-         FJFr4bP2eOJjz+pp27ZHwNkkANcYAv9kFuSFXhAk4WssKRB8wrlr9BCRxdVYNL2jtDaz
-         Wh/T62sv7aEexAX1qjLCQtSeo3fzeceBAQ/6qpOGoxCnkArTEz8tzz7qnn1GuJj06CyF
-         vBoZrkVXXvnW48j3/hYxgD7oxwXqTWXVKshJwuHQu6T9NpZERBuEKBxzlSWAxW5PI28Z
-         Y4dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=BsuX244Qwo5U14rjmt302Jci2DoZxQVAfqhH3h6HqLE=;
-        b=gfCN80PoMAtCr4lJkq/oeq/SHT04m8mH1768M1Gc6KyD/Aa4GGvBILBOFC4+y+R5C9
-         sGP4lTHaZDNe0aAxw/lb+7S/JZUkGC4upVvTGusuZCL0nqMFP68kKGaTw+WPoXQJxLN2
-         l9ETl94HNr8q/Fz2El0HDAKr2kZhf2P9eMQA+O/J06/aZORHUN1odSXaMpplKU52ok0y
-         vmSywO5liPr+6RJK9iM6xccZ+BXdxr4OjATgvod37houTe3DKZ+hRgu1x8pSZAI4szWJ
-         ERNjbNOhVsn3LtVajIM06O8LaZYDEOPIbXQ91MhLhhzmR6MJKAiN9cYz6QxplL0shzrW
-         DFFA==
-X-Gm-Message-State: AOAM5328L4K+rLhUemY/tapl0bIDK5r3lyoIwso4WEZsrsFM07vDskqv
-	2BOkwrx7ajsXQSJEfWvSLXbgbJYfykQ=
-X-Google-Smtp-Source: ABdhPJyftwBaOHZfgx34qVXAjk+Abj+CNEOgp1rC+jypa7eQC/o6R3jpjsduR/osuXKXZ6TtpMB8DA==
-X-Received: by 2002:adf:a1d8:: with SMTP id v24mr18987172wrv.378.1617443433390;
-        Sat, 03 Apr 2021 02:50:33 -0700 (PDT)
-Received: from agape.jhs ([5.171.72.64])
-        by smtp.gmail.com with ESMTPSA id g16sm19513787wrs.76.2021.04.03.02.50.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Apr 2021 02:50:33 -0700 (PDT)
-Date: Sat, 3 Apr 2021 11:50:30 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: dan.carpenter@oracle.com
-Cc: gregkh@linuxfoundation.org, joe@perches.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5679259E
+	for <linux-staging@lists.linux.dev>; Sat,  3 Apr 2021 10:04:53 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 133A4j0o070930;
+	Sat, 3 Apr 2021 10:04:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=DR3kMcIERBD5ZDWaTiYiYYL6h7b0SaMEVWUxDGaiv7E=;
+ b=Ek8XPUZR0qeBlT3n2niXGvSrM6f1R6F5qWCTJjqlAvx3JVGXthfLDqqvVYjkTywV1x8j
+ Ab17hpjJKJKm33Cah043qJHkBw6c87egNSLNQOnGOKqUxY7qzWbmQVJRNfNMuBfUi7G3
+ yMhDCZzXCE8NR7MlFtc+plRnU69KdoXhdrLppQ0kP+CWW1nJiAgNbTKx+usKxdzIexKu
+ kZMru9cb2feP2WseDffO0OStx29VUIzxs39Y0uLAVw3TpQlUOy7HEDtiYPhZ05JCREQu
+ rlE7E/uEnvYP+ZhD2Z/v4akgCnGamvfWg5/WMXo5oiBBAF15xdY08uHNUmBOqsqFH4xb Yw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by aserp2120.oracle.com with ESMTP id 37pgam8atr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 03 Apr 2021 10:04:45 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1339j3pl178658;
+	Sat, 3 Apr 2021 10:04:43 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+	by aserp3020.oracle.com with ESMTP id 37pg616t0j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 03 Apr 2021 10:04:43 +0000
+Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
+	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 133A4gqb029456;
+	Sat, 3 Apr 2021 10:04:42 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Sat, 03 Apr 2021 10:04:42 +0000
+Date: Sat, 3 Apr 2021 13:04:34 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc: gregkh@linuxfoundation.org, joe@perches.com, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v3 16/30] staging: rtl8723bs: tidy up some error handling
  in core/rtw_mlme.c
-Message-ID: <20210403095029.GD1563@agape.jhs>
+Message-ID: <20210403100434.GX2065@kadam>
 References: <cover.1617440833.git.fabioaiuto83@gmail.com>
  <d8ad88bef77430107f8593091770b6a514b6f0e2.1617440834.git.fabioaiuto83@gmail.com>
  <20210403094247.GC1563@agape.jhs>
+ <20210403095029.GD1563@agape.jhs>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -54,47 +51,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210403094247.GC1563@agape.jhs>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210403095029.GD1563@agape.jhs>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9942 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 spamscore=0
+ mlxlogscore=999 phishscore=0 bulkscore=0 malwarescore=0 adultscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2103310000 definitions=main-2104030064
+X-Proofpoint-ORIG-GUID: 1Id9So8mZg97cBxcupyyoWHxWhPhNhFo
+X-Proofpoint-GUID: 1Id9So8mZg97cBxcupyyoWHxWhPhNhFo
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9942 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 spamscore=0 bulkscore=0
+ clxscore=1015 phishscore=0 mlxscore=0 mlxlogscore=999 priorityscore=1501
+ malwarescore=0 lowpriorityscore=0 suspectscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103310000
+ definitions=main-2104030065
 
-On Sat, Apr 03, 2021 at 11:42:47AM +0200, Fabio Aiuto wrote:
-> On Sat, Apr 03, 2021 at 11:13:38AM +0200, Fabio Aiuto wrote:
-> > the RT_TRACE() output is not useful so we want to delete it. In this case
-> > there is no cleanup for rtw_cleanbss_cmd() required or even possible. I've
-> > deleted the RT_TRACE() output and added a goto unlock to show
-> > that we can't continue if rtw_createbss_cmd() fails.
+On Sat, Apr 03, 2021 at 11:50:30AM +0200, Fabio Aiuto wrote:
+> On Sat, Apr 03, 2021 at 11:42:47AM +0200, Fabio Aiuto wrote:
+> > On Sat, Apr 03, 2021 at 11:13:38AM +0200, Fabio Aiuto wrote:
+> > > the RT_TRACE() output is not useful so we want to delete it. In this case
+> > > there is no cleanup for rtw_cleanbss_cmd() required or even possible. I've
+> > > deleted the RT_TRACE() output and added a goto unlock to show
+> > > that we can't continue if rtw_createbss_cmd() fails.
+> > > 
+> > > Suggested-by: David Carpenter <dan.carpenter@oracle.org>
+> > > Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+> > > ---
+> > >  drivers/staging/rtl8723bs/core/rtw_mlme.c | 17 +++++++++++------
+> > >  1 file changed, 11 insertions(+), 6 deletions(-)
 > > 
-> > Suggested-by: David Carpenter <dan.carpenter@oracle.org>
-> > Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
-> > ---
-> >  drivers/staging/rtl8723bs/core/rtw_mlme.c | 17 +++++++++++------
-> >  1 file changed, 11 insertions(+), 6 deletions(-)
+> > Hi Dan,
+> > 
+> > I put a Suggested-by tag on one patch in v3 patchset. But reading the docs
+> > on submitting patches I relaized later that maybe it requires your permission before.
+> > 
+> > It' written about Reviewed-by but not about Suggested-by, should I have asked you before, should I?
+> > 
+> > I'm sorry if I should have.
 > 
-> Hi Dan,
+> Found it, I'm really sorry
 > 
-> I put a Suggested-by tag on one patch in v3 patchset. But reading the docs
-> on submitting patches I relaized later that maybe it requires your permission before.
+> A Suggested-by: tag indicates that the patch idea is suggested by the person
+> named and ensures credit to the person for the idea. Please note that this
+> tag should not be added without the reporter's permission, especially if the
+> idea was not posted in a public forum. That said, if we diligently credit our
+> idea reporters, they will, hopefully, be inspired to help us again in the
+> future.
 > 
-> It' written about Reviewed-by but not about Suggested-by, should I have asked you before, should I?
-> 
-> I'm sorry if I should have.
+> I wonder if in the case of this patch was needed this tag..
 
-Found it, I'm really sorry
-
-A Suggested-by: tag indicates that the patch idea is suggested by the person
-named and ensures credit to the person for the idea. Please note that this
-tag should not be added without the reporter's permission, especially if the
-idea was not posted in a public forum. That said, if we diligently credit our
-idea reporters, they will, hopefully, be inspired to help us again in the
-future.
-
-I wonder if in the case of this patch was needed this tag..
-
-> 
-> thank you,
-> 
-> fabio
+Yeah, it's fine.  It's all on a public list so it's not a secret.
 
 regards,
+dan carpenter
 
-fabio
