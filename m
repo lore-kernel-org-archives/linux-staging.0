@@ -1,41 +1,41 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC8D6D09
-	for <linux-staging@lists.linux.dev>; Sat,  3 Apr 2021 09:14:51 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id b2-20020a7bc2420000b029010be1081172so3324954wmj.1
-        for <linux-staging@lists.linux.dev>; Sat, 03 Apr 2021 02:14:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518956D09
+	for <linux-staging@lists.linux.dev>; Sat,  3 Apr 2021 09:14:53 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id q26so847457wrz.9
+        for <linux-staging@lists.linux.dev>; Sat, 03 Apr 2021 02:14:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=HW8zP7DoM2YfAVkpuEz006Zh/rGoWUODHC32UiI5NeU=;
-        b=OHRXh5+26RnIXBkTcT3u7qvjYxGs18gFrQKrrYik5fnQx+BAYvMZusUX2DxC+HiR8R
-         I+GIUCHNGe3RB88aDwori/fRKOVcfm5OtgOvraG+ui0+UaRnorsuu3A34YqITsVALJlV
-         3aClGUIhtYpRCHhHmLE+RS23JihKLjFPmKEqQU80tiW4uAn7B3FWoe5p1vpIkbBOG8dO
-         ZA4tc1OSzg7bvZMnnac3YE/5JJad6DnJhezA15pO/Yt7N2+bFPZunZ/tVvZGMukkwG83
-         akHq9vPK+1zE58103MxXr4Z0q9ij/K7TmrsT/Ty4RL0nT3n9mI2Yi8ytv4cLZONw5Nqa
-         vTyA==
+        bh=0bzab+wyS6KvStbR7zDn+0HIWgAiRTCX8kg+zp342XE=;
+        b=oKK4ATlPz63YglMxho0RkFxIej+0VLGq+6NFX1sb964k1dmGO9Fz3xWV8tEMFIZqLr
+         gnLires1JRCiu8MyDpR0eBNr3Ui3k60NnVfxHP6pSzzur6dkB3/l3bXrT/zr8pxebLn1
+         fEWO88PQ7vV2t8jHgakO2gxORfdvrmiup+vDUq1WawjVNQQxTrO20/3lVyV7pTp/px6n
+         2d08aU6zQC9/ivIr7zBEEhNNDxn5oVdsLdukFqGR568DqpzZ9cGyUcUI2VLhD1E6pNgB
+         vCbhpzWlgjQTxbw6XXW3Xo62oHXMSDlk7O4ORDOFBNBwvMPMT+qzR8iHCP2gw17n0pDj
+         gedw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=HW8zP7DoM2YfAVkpuEz006Zh/rGoWUODHC32UiI5NeU=;
-        b=DdILjmZPgj79zYaauGIWiAhZU3tJS6SVKAy5AOi9DWrxGWjP05dYyiIsvjYVpOvzLy
-         xogJi0kzDA95fpTM2HSrq29k8qxl11IK5tjJpndpwtaDOETax6Bo5xgxvm10Fa9bW4K2
-         r1mJ5eRr5CdjzF/BFznDJ2XWyvJ2JTgHayuRr3IOFu7dxn12Zbqohs8czzwGZq+gZZvQ
-         kSSmob9Fm725lWzWmUZcPFlarqWi2/2VE7k1OF2S7gj5qH/U/cbHdvKMAiFZ0iTYZ0/s
-         oyyNp1dcowmVZ9PDNTzfrUFeoIgZ+iPazDsy9zVbaetqDfjJCJ9phySmc9/DKx1J/3ix
-         aC3Q==
-X-Gm-Message-State: AOAM531eQCEuJf4yWToIY04pH95MJmO06foaI2ezDHcY/OhEYGqk7b+v
-	nM9MtFJwjqbKfkgfpzBqTj8=
-X-Google-Smtp-Source: ABdhPJx5HvirmS15z/0MhS5AZ3okG4YxAYVKgxsnFMmQEyRQ9tafwrDkVpjln0dqSnNepkAGekZRNA==
-X-Received: by 2002:a1c:1f4a:: with SMTP id f71mr16391388wmf.101.1617441290342;
-        Sat, 03 Apr 2021 02:14:50 -0700 (PDT)
+        bh=0bzab+wyS6KvStbR7zDn+0HIWgAiRTCX8kg+zp342XE=;
+        b=QsCNXRXi+Ff5Uam15nHv/r0oT2YkbGbq3g8KBg+Y1JldVW9P3J+B2dL2qffeMJ6C/l
+         ZgpnsuCakP3h/NdJBY0HNvLOrb9AKfslifj8CGIUdPLoi/2EHywqNdTB6NUed7z2P3Xd
+         j750UInCszZrTKPKeZMDEP6DGWiI3TzQmNaoxw3b15vzJ03TVKPxTl9jIIkN3Awh3IUn
+         mjMVfAgV+NpeVrfmy5tDX6Ar8Dg6i55snu/DICc57WphY+805WbK8qwJue+bfM4A8+D3
+         wLhAbeUgqBMY9fthJUM3AED1NfhzNlEHyOtXt0cJiZPfKWPWUlaWjbyhCb+tJAgxT/Ff
+         +etA==
+X-Gm-Message-State: AOAM5316JksF4phLZWV9dVDOye3pEtEiVY686W5ACxg0AMQkmc/bhtFI
+	uJAR3h5LhWXkjGJQGpI9EAo=
+X-Google-Smtp-Source: ABdhPJx6aiQNiY9q0OrelcNpOzAhVydSO1/VdWy7CuSw+s+79hNE8KaEJ8sn871vxO836lvbRrzhuQ==
+X-Received: by 2002:adf:deca:: with SMTP id i10mr1609520wrn.319.1617441291952;
+        Sat, 03 Apr 2021 02:14:51 -0700 (PDT)
 Received: from agape ([5.171.72.64])
-        by smtp.gmail.com with ESMTPSA id b66sm3828776wmb.48.2021.04.03.02.14.49
+        by smtp.gmail.com with ESMTPSA id s21sm15207799wmc.10.2021.04.03.02.14.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Apr 2021 02:14:50 -0700 (PDT)
+        Sat, 03 Apr 2021 02:14:51 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: dan.carpenter@oracle.com,
@@ -43,9 +43,9 @@ Cc: dan.carpenter@oracle.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH v3 23/30] staging: rtl8723bs: fix comparison in if condition in core/rtw_recv.c
-Date: Sat,  3 Apr 2021 11:13:45 +0200
-Message-Id: <5acf0d9573f2d9cd5d249f928fbfeee010f5f3fc.1617440834.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v3 24/30] staging: rtl8723bs: remove commented RT_TRACE call in core/rtw_ioctl_set.c
+Date: Sat,  3 Apr 2021 11:13:46 +0200
+Message-Id: <22243acbf44c80ffb578d9a56cbec293f7c02de5.1617440834.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617440833.git.fabioaiuto83@gmail.com>
 References: <cover.1617440833.git.fabioaiuto83@gmail.com>
@@ -56,31 +56,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-fix post-commit checkpatch issue:
+Remove commented RT_TRACE call in core/rtw_ioctl_set.c
 
-CHECK: Using comparison to false is error prone
-27: FILE: drivers/staging/rtl8723bs/core/rtw_recv.c:381:
-+				if (psecuritypriv->
-			bcheck_grpkey == false &&
+Remove all of the RT_TRACE logs in the core/rtw_ioctl_set.c file as they
+currently do nothing as they require the code to be modified by
+hand in order to be turned on. This obviously has not happened
+since the code was merged. Moreover it relies on an unneeded
+private log level tracing which overrides the in-kernel public one,
+so just remove them as they are unused.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_recv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index cd4324a93275..21949925ec77 100644
---- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -378,7 +378,7 @@ static signed int recvframe_chkmic(struct adapter *adapter,  union recv_frame *p
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+index 7d858cae2395..14eb01df69b0 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+@@ -451,9 +451,6 @@ u8 rtw_set_802_11_infrastructure_mode(struct adapter *padapter,
  
- 			} else {
- 				/* mic checked ok */
--				if (psecuritypriv->bcheck_grpkey == false &&
-+				if (!psecuritypriv->bcheck_grpkey &&
- 				    (IS_MCAST(prxattrib->ra) == true))
- 					psecuritypriv->bcheck_grpkey = true;
- 			}
+ 		/* SecClearAllKeys(adapter); */
+ 
+-		/* RT_TRACE(COMP_OID_SET, DBG_LOUD, ("set_infrastructure: fw_state:%x after changing mode\n", */
+-		/* 									get_fwstate(pmlmepriv))); */
+-
+ 		spin_unlock_bh(&pmlmepriv->lock);
+ 	}
+ 	return true;
 -- 
 2.20.1
 
