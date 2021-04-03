@@ -1,52 +1,78 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from smtprelay.hostedemail.com (smtprelay0026.hostedemail.com [216.40.44.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9575F
-	for <linux-staging@lists.linux.dev>; Sat,  3 Apr 2021 18:18:41 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id B7DEC61286;
-	Sat,  3 Apr 2021 18:18:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1617473920;
-	bh=FywnJxMdr1k3pQ1HeIhFN0gSdsokC74HndvCOCCRrQ4=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=kS1YbHDeqm7mpXNvzjM0THgRxSvgNcPonBg/hmHU3F4MYhMkX0f0uVuDA2fFN23Vz
-	 UmBpViOq6oJlY5ni7vv+YvtmS11T1pBUMj/U8saA6+VzvF7Y7D1eyvZhcu8NkPaJTC
-	 HB8j38h7FkETdcrDZhqqNHLfC54xcDWAaZGCO6MOqEhKHAHRO1LyewUeaAYUjLHmWd
-	 aUMDk/ezA1SQ/buH4LnJPyfdOBKlZAt5/nwpob2utZ/IIeyKUnNHqr+Hk6fJVktAOb
-	 cBBxYRlnB9phKJ4IpvG+jvozXZuZ33kkV75iGUeTJOpEsdr2eUSkaI/szAEJoGdvFQ
-	 BC0glAq0uB+eA==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id B201B600DF;
-	Sat,  3 Apr 2021 18:18:40 +0000 (UTC)
-Subject: Re: [GIT PULL] Staging driver fix for 5.12-rc6
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <YGhIsWHsP474a+dE@kroah.com>
-References: <YGhIsWHsP474a+dE@kroah.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <YGhIsWHsP474a+dE@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.12-rc6
-X-PR-Tracked-Commit-Id: e78836ae76d20f38eed8c8c67f21db97529949da
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 3e707eb6b8aa715847c17279f9c17c8dca2d639b
-Message-Id: <161747392072.13474.11297671042251072132.pr-tracker-bot@kernel.org>
-Date: Sat, 03 Apr 2021 18:18:40 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, devel@linuxdriverproject.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D7B70
+	for <linux-staging@lists.linux.dev>; Sat,  3 Apr 2021 20:02:13 +0000 (UTC)
+Received: from omf13.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+	by smtprelay05.hostedemail.com (Postfix) with ESMTP id CD8A5180458DB;
+	Sat,  3 Apr 2021 20:02:06 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf13.hostedemail.com (Postfix) with ESMTPA id D32991124F4;
+	Sat,  3 Apr 2021 20:02:05 +0000 (UTC)
+Message-ID: <844503af879d05b209d9af98e378350b4f74ff9d.camel@perches.com>
+Subject: Re: [PATCH v3 00/30] staging: rtl8723bs: remove RT_TRACE logs in
+ core/*
+From: Joe Perches <joe@perches.com>
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc: gregkh@linuxfoundation.org, dan.carpenter@oracle.com, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Sat, 03 Apr 2021 13:02:04 -0700
+In-Reply-To: <20210403172858.GA2397@agape.jhs>
+References: <cover.1617440833.git.fabioaiuto83@gmail.com>
+	 <1cd79d781cdcccf621ce8e104a9cdf1e90e7f803.camel@perches.com>
+	 <20210403152143.GA1403@agape.jhs>
+	 <7120836b08b680d54c15fd89b8630ccc67a53116.camel@perches.com>
+	 <20210403172858.GA2397@agape.jhs>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=0.10
+X-Rspamd-Server: rspamout02
+X-Stat-Signature: gabuok9ucs7h7afg833xcucuojww8dgz
+X-Rspamd-Queue-Id: D32991124F4
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/9nFMw3M0TUvd6otDijDvItut39GnlUgo=
+X-HE-Tag: 1617480125-621146
 
-The pull request you sent on Sat, 3 Apr 2021 12:51:29 +0200:
+On Sat, 2021-04-03 at 19:28 +0200, Fabio Aiuto wrote:
+> On Sat, Apr 03, 2021 at 09:17:37AM -0700, Joe Perches wrote:
+> > On Sat, 2021-04-03 at 17:21 +0200, Fabio Aiuto wrote:
+> > > On Sat, Apr 03, 2021 at 08:02:25AM -0700, Joe Perches wrote:
+> > > > On Sat, 2021-04-03 at 11:13 +0200, Fabio Aiuto wrote:
+> > > > > This patchset removes all RT_TRACE usages in core/ files.
+> > > > 
+> > > > and hal and include and os_dep
+> > > 
+> > > Hi, 
+> > > 
+> > > I was just about to send the second patchset relative to hal/ files.
+> > > The whole has been split up in directories in order to reduce the
+> > > number of patch per patchset
+> > 
+> > > It's a good idea, but the patches relative to RT_TRACE removal
+> > > could be huge
+> > 
+> > That's really not a significant issue.
+> > Simplicity in review is also important.
+> > Mechanization of patch creation can reduce review efforts.
+> 
+> Maybe I wrongly associated simplicity with patch dimensions, but maybe
+> for patches this simple have expert reviewers some tool for
+> automatic review?
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.12-rc6
+Coccinelle is a relatively trusted tool and using it as a scripting
+mechanism where the script is shown as part of the commit message
+gives confidence that the change it produces can be applied without
+significant doubt.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/3e707eb6b8aa715847c17279f9c17c8dca2d639b
+To improve confidence that any change that does not have an output
+object code delta, comparing the object code produced before and
+after the change is useful.  Showing that the code has been both
+compiled and compared in the commit message also improves confidence
+that the change is useful and can be applied.
 
-Thank you!
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
