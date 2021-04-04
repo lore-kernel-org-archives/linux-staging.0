@@ -1,41 +1,41 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E14D70
-	for <linux-staging@lists.linux.dev>; Sun,  4 Apr 2021 14:10:13 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id j4-20020a05600c4104b029010c62bc1e20so4472633wmi.3
-        for <linux-staging@lists.linux.dev>; Sun, 04 Apr 2021 07:10:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93E770
+	for <linux-staging@lists.linux.dev>; Sun,  4 Apr 2021 14:10:14 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id u5-20020a7bcb050000b029010e9316b9d5so4468700wmj.2
+        for <linux-staging@lists.linux.dev>; Sun, 04 Apr 2021 07:10:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=vXCLvI8TEyAmbBcLdMXgq4ObYns8B8WMiEotpUKpaLI=;
-        b=h09SrG+r+5CWjgigGT0BYGHjCzEwKi9mzCR2/48D2LF+znv236NDVYDzokxR7YrGwZ
-         YSpEIcDzYxtR3XMR62416DflGpVuxe0aphmwNYjVoOYyTpPiLetpYjW0tm1aTw9eRNBD
-         1HVKba+p5cHJ7/b/r6+e1UE55uP+m9aJo70jNpvZiIOB/TjP/7SvckO6ObEIRrwwipHH
-         czPibnUzdxlLX+n//pyom/p+h5rXkotiqGqGm0mEnmjimYRjzlivkQ3k3Lu/eL3JQ0pB
-         ZtILhv0HvNx1906e97kyvEyrbfJw7IaWdHbBKTmv0bgUn273l3MrVeP4+1V+cvoBkO5b
-         Vc6g==
+        bh=aKJMQyibGkbhT7wVDkcAwfnXuo5IWQYiwpzUD+I1No0=;
+        b=YIICI1EnDAQIG+agmEPc7Vd6BcInQyeh8NdLLT6IK3ebjBBOe0wbRmrO7hdAibVo1o
+         9xs13W91sV5RNdYzRD+KO4ADal9ieTMjWqo+wwRyUo3Y0huiYPugWBKcgWy8wFVego3g
+         6a6RWR31YefMweeUV9O2iTEvZL9djiA40qUIipPJEwbFVhCpYziOZ6hdNZpMytpMGOn8
+         27BMcIDTXWC2EbR1KOEo1lqDy+5spNX46iDZtZJKBlDsh87sccE28bCRUjoRcTnt7fv4
+         ZLVA5LQtZPhbvnmAoAKd7+1TSKdx59nAygH00KOXPLT6ru8RtdLsZT4nUPBhF/9Jyb5N
+         TVjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vXCLvI8TEyAmbBcLdMXgq4ObYns8B8WMiEotpUKpaLI=;
-        b=PCo+iIpBD2KWA2ZXWQdWd25mGF19Lt4/yrahgJjFAwxKDOHcL45BuaMZ2F5RmIpyA4
-         uNlqJ9B852EjnNM6nMu+rVBTO/NIEzKUrzSe1gquPrYfoki6T5FkFVvZt4CcgAur9Hyb
-         AE9u6Suef44e9L6oKThX/k52s09NQB2dsgel7RwHqP2d032qeLHGZYtsf18CsYqCus8h
-         4gBdVKFSuty2ZSnhpOAXddh96IZe3Sj1ZQ5RFPW2eS4O3cL0GoV2u++0Tx+cL2z4GS2t
-         DVC6kvIFgIPUcoiGkcJpU6cp9VKoyynJ2p85eHDfULQ5euP2Oo6NtWMHdTp02WRp/9/9
-         A+kA==
-X-Gm-Message-State: AOAM532Ck6Q5kOQVc8i1NPRrioPAi7Fj36nbYGtxWfHsmAST1sJK3EKc
-	uT/WidofZ04FAIYZ9K2H/U8=
-X-Google-Smtp-Source: ABdhPJwpr3wIitZZJ4lIhFVwC/axsTBKKp2IXt1abjIudRj2qB48XB6qJs2ZNtaZh7tbTyUz5e9WXQ==
-X-Received: by 2002:a1c:bd55:: with SMTP id n82mr21034711wmf.3.1617545411881;
-        Sun, 04 Apr 2021 07:10:11 -0700 (PDT)
+        bh=aKJMQyibGkbhT7wVDkcAwfnXuo5IWQYiwpzUD+I1No0=;
+        b=DPlJnz7fCgKXfh1vB/EK6vHHk3/NnCoLZx002HfhzwluVyFh2nmRhhm8yBXPbNFbaR
+         pUq1ulCv+3Qg2f7kq5/56Eb5olLPSHEzwXArvj719HWAKcXjglaRbzlJcQsQvmOLMqkF
+         bA8BSHzL5VItobchLDS0fLnA4R9leU0Nb8X1Ws+KtEf3etO4j7agF+moQoXYZvYx5HUT
+         YHyowBLlDpyz2YaH93AYPFrTSEn+BxwCxu1CpsVfJGDFhzOHcT2q2U33ckl3GCY24bab
+         ZHE0vBctgP/fUsaAaal4ExiRcN4qIDVUYidHZdI0NapYjGctnq5nmj9SCdhkJs0CdgPq
+         5FOA==
+X-Gm-Message-State: AOAM533z1PmHuvukC62MH8OCN7n/Dlk+mYGruAQ/qrzH0I2cvG2bJvVh
+	01P/rQ5ZEqNk+P/LdAI9NkgxqcOCDTBe7Q==
+X-Google-Smtp-Source: ABdhPJzrmDQybCU4L7MRdcfzVHuGRBl+4WwLhK81JhCpklUz02zwylAGQcuO2b58pmxVvhqBmZfFig==
+X-Received: by 2002:a7b:cbc4:: with SMTP id n4mr21931659wmi.153.1617545413455;
+        Sun, 04 Apr 2021 07:10:13 -0700 (PDT)
 Received: from agape ([5.171.81.112])
-        by smtp.gmail.com with ESMTPSA id k16sm11319725wro.11.2021.04.04.07.10.11
+        by smtp.gmail.com with ESMTPSA id h10sm23472217wrp.22.2021.04.04.07.10.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Apr 2021 07:10:11 -0700 (PDT)
+        Sun, 04 Apr 2021 07:10:13 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: dan.carpenter@oracle.com,
@@ -43,9 +43,9 @@ Cc: dan.carpenter@oracle.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH v4 13/30] staging: rtl8723bs: remove unnecessary parentheses in if condition in core/rtw_cmd.c
-Date: Sun,  4 Apr 2021 16:09:29 +0200
-Message-Id: <04aa9d68d6d28d295001dde7cc14f33ef83f8046.1617545239.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v4 14/30] staging: rtl8723bs: remove commented RT_TRACE calls in core/rtw_mlme.c
+Date: Sun,  4 Apr 2021 16:09:30 +0200
+Message-Id: <09862e8783366045a08fd97523595710a08df918.1617545239.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617545239.git.fabioaiuto83@gmail.com>
 References: <cover.1617545239.git.fabioaiuto83@gmail.com>
@@ -56,30 +56,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-fix post-commit hook checkpatch issue:
+Remove commented RT_TRACE calls in core/rtw_mlme.c
 
-WARNING: Unnecessary parentheses
-166: FILE: drivers/staging/rtl8723bs/core/rtw_cmd.c:2000:
-+	if ((pcmd->res != H2C_SUCCESS))
+Remove all of the RT_TRACE logs in the core/rtw_mlme.c file as they
+currently do nothing as they require the code to be modified by
+hand in order to be turned on. This obviously has not happened
+since the code was merged. Moreover it relies on an unneeded
+private log level tracing which overrides the in-kernel public one,
+so just remove them as they are unused.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index 840b9da9f2d9..77c583c60343 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -1997,7 +1997,7 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
- 	if (pcmd->parmbuf == NULL)
- 		goto exit;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index 29d4b7493784..4289bf40aa73 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -356,7 +356,6 @@ static struct	wlan_network *rtw_dequeue_network(struct __queue *queue)
+ void rtw_free_network_nolock(struct adapter *padapter, struct wlan_network *pnetwork);
+ void rtw_free_network_nolock(struct adapter *padapter, struct wlan_network *pnetwork)
+ {
+-	/* RT_TRACE(_module_rtl871x_mlme_c_, _drv_err_, ("rtw_free_network ==> ssid = %s\n\n" , pnetwork->network.Ssid.Ssid)); */
+ 	_rtw_free_network_nolock(&(padapter->mlmepriv), pnetwork);
+ 	rtw_cfg80211_unlink_bss(padapter, pnetwork);
+ }
+@@ -393,8 +392,6 @@ int rtw_is_same_ibss(struct adapter *adapter, struct wlan_network *pnetwork)
  
--	if ((pcmd->res != H2C_SUCCESS))
-+	if (pcmd->res != H2C_SUCCESS)
- 		_set_timer(&pmlmepriv->assoc_timer, 1);
+ inline int is_same_ess(struct wlan_bssid_ex *a, struct wlan_bssid_ex *b)
+ {
+-	/* RT_TRACE(_module_rtl871x_mlme_c_, _drv_err_, ("(%s,%d)(%s,%d)\n", */
+-	/* 		a->Ssid.Ssid, a->Ssid.SsidLength, b->Ssid.Ssid, b->Ssid.SsidLength)); */
+ 	return (a->Ssid.SsidLength == b->Ssid.SsidLength)
+ 		&&  !memcmp(a->Ssid.Ssid, b->Ssid.Ssid, a->Ssid.SsidLength);
+ }
+@@ -551,8 +548,6 @@ static void update_current_network(struct adapter *adapter, struct wlan_bssid_ex
+ 		&(pmlmepriv->cur_network.network));
  
- 	del_timer_sync(&pmlmepriv->assoc_timer);
+ 	if ((check_fwstate(pmlmepriv, _FW_LINKED) == true) && (is_same_network(&(pmlmepriv->cur_network.network), pnetwork, 0))) {
+-		/* RT_TRACE(_module_rtl871x_mlme_c_, _drv_err_,"Same Network\n"); */
+-
+ 		/* if (pmlmepriv->cur_network.network.IELength<= pnetwork->IELength) */
+ 		{
+ 			update_network(&(pmlmepriv->cur_network.network), pnetwork, adapter, true);
+@@ -778,7 +773,6 @@ void rtw_survey_event_callback(struct adapter	*adapter, u8 *pbuf)
+ 
+ 	/*  update IBSS_network 's timestamp */
+ 	if ((check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)) == true) {
+-		/* RT_TRACE(_module_rtl871x_mlme_c_, _drv_err_,"rtw_survey_event_callback : WIFI_ADHOC_MASTER_STATE\n\n"); */
+ 		if (!memcmp(&(pmlmepriv->cur_network.network.MacAddress), pnetwork->MacAddress, ETH_ALEN)) {
+ 			struct wlan_network *ibss_wlan = NULL;
+ 
 -- 
 2.20.1
 
