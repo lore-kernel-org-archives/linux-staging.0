@@ -1,79 +1,121 @@
-Received: from fallback21.mail.ru (fallback21.m.smailru.net [94.100.176.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5A55F
-	for <linux-staging@lists.linux.dev>; Sun,  4 Apr 2021 06:04:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=bk.ru; s=mail3;
-	h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From; bh=vODOyMMQrQwIWK970nuT0VSVrPY7/ao58k+25UVV+3U=;
-	b=gzd9pIlyjX+mFUCIS9uIsBQHuyjS/TQI+2WactepYfBgADoFPH6RXza/sysc4+2rfbIS4nMbRIv5hYpotx0KO2d2jVvSrM0xfeQI7rHqmhBs2tw372FhQukn9Fk+2ASlQCb7iZTpJ3kS8inKg8ZnLOQpsMPtJxn26gqfuoipPRM=;
-Received: from [10.161.64.58] (port=52844 helo=smtp50.i.mail.ru)
-	by fallback21.m.smailru.net with esmtp (envelope-from <dev.dragon@bk.ru>)
-	id 1lSv6b-0006uQ-DM; Sun, 04 Apr 2021 08:15:25 +0300
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=bk.ru; s=mail3;
-	h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=vODOyMMQrQwIWK970nuT0VSVrPY7/ao58k+25UVV+3U=;
-	b=0o4RKbI7P4Rt78e+C+NOnTF9G50y7zsTL5t+uf7tXDd4gHmQteNruq7lF514QaHSyDWp6Zkl1NYEXuve/KUY7C/8d2mvHmvl6S6LD68RBgP3TcbQOwWwXCaKTQuZBJIgm0Hy3Du420O1U9SOkeZV+u4TaERwZ5m+QQzkO9NjJEs=;
-Received: by smtp50.i.mail.ru with esmtpa (envelope-from <dev.dragon@bk.ru>)
-	id 1lSv6U-0008NY-3e; Sun, 04 Apr 2021 08:15:18 +0300
-From: dev.dragon@bk.ru
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Dmitrii Wolf <dev.dragon@bk.ru>
-Subject: [PATCH] Staging: rtl8192u: ieee80211: fixed a trailing statements coding style issue.
-Date: Sun,  4 Apr 2021 08:15:00 +0300
-Message-Id: <20210404051500.6644-1-dev.dragon@bk.ru>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CBD70
+	for <linux-staging@lists.linux.dev>; Sun,  4 Apr 2021 06:48:14 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id v4so8175336wrp.13
+        for <linux-staging@lists.linux.dev>; Sat, 03 Apr 2021 23:48:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=tgrRgfC/AS75qx+sFS4KzZOps5eBumxQzPquj/kuv/s=;
+        b=Yac76LSYnblNMeet6KFw2iCUTCT82eHZ2VzON5r5iOdiIFNBfOS7Jxf65f/kCUsm9X
+         liZyHvWgA0l0K3RGko6Ntywzbu8CuB0Z2s/Km9/MMJnFVJGQv9ATdyxXlR/0mZa3CemX
+         FxQlNl9qZqngZJwIAkmsk49EaHaZhyvHppXZ/tUS5FN3HG4CmiDQ5nSXb1SXhStbMiQZ
+         ekYCjAr9rWVrg5ZjY2hGsu8Qq+OqvNj2D+ulJxpSaOals4AqJqvK7/I3GZ5ecqjb52t9
+         bV2SCgnZoXHOnIppogaJGfr0vehBfHWRo0nKe2tT09yLuLaE0E2gTKHlS4klRAiQyLNP
+         2ZxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=tgrRgfC/AS75qx+sFS4KzZOps5eBumxQzPquj/kuv/s=;
+        b=XuXYna5DdxJc+vuTyqW57fSMSI3GGix/sToCuFEwZpysPPXl2HoDDTTj6o31HW7dOF
+         527xC3dFTVTOnaCjvlmgYAqcDCGnW0UjG9SgZC9NQmUuHmjfAmEtp7Q2nHC1JrFPJE7Z
+         +JPNOZjggfDK+nANG5GRSDjmYGS4dQA91cS3QipP4TvGj6bNvn36io6aYiETIWE8M7aS
+         l5boJTX9y9YH5mIv9syId+KuiGlQCSAjkCY5Rs8yiepiFwQzNcud6gVoUEhqCVS5pV7I
+         oZPgwrq+szzZAYeAS9NEf3y47FzZ9hxMrpStPrMAwrWAkNXytOPBcWYTyFydREkEzDWB
+         E5AQ==
+X-Gm-Message-State: AOAM532sMYTTskccJ7DcCLsZLl9ru2sBLubKICjSTXme5DLFvnBGZUJu
+	sMDz175S0VH6EqSceeEsX26Bee9x4L3o/g==
+X-Google-Smtp-Source: ABdhPJxGxKv+uMmzCG1cAz9sUBEHELavzR5LYu99H4bHKKBWaKeWxdpiqZ4sqz8OuFOPsTCIfh3Hfw==
+X-Received: by 2002:adf:a15e:: with SMTP id r30mr4808440wrr.101.1617518892649;
+        Sat, 03 Apr 2021 23:48:12 -0700 (PDT)
+Received: from agape.jhs ([5.171.80.10])
+        by smtp.gmail.com with ESMTPSA id i17sm22888100wrp.77.2021.04.03.23.48.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Apr 2021 23:48:12 -0700 (PDT)
+Date: Sun, 4 Apr 2021 08:48:09 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Joe Perches <joe@perches.com>
+Cc: gregkh@linuxfoundation.org, dan.carpenter@oracle.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 00/30] staging: rtl8723bs: remove RT_TRACE logs in
+ core/*
+Message-ID: <20210404064808.GA1401@agape.jhs>
+References: <cover.1617440833.git.fabioaiuto83@gmail.com>
+ <1cd79d781cdcccf621ce8e104a9cdf1e90e7f803.camel@perches.com>
+ <20210403152143.GA1403@agape.jhs>
+ <7120836b08b680d54c15fd89b8630ccc67a53116.camel@perches.com>
+ <20210403172858.GA2397@agape.jhs>
+ <844503af879d05b209d9af98e378350b4f74ff9d.camel@perches.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-7564579A: 646B95376F6C166E
-X-77F55803: 4F1203BC0FB41BD9ED7173E37F4E32947287414FD1D04A09E656A5F3377C994A182A05F5380850401631DEEA721502D9F90D94D8807B2E0C7CC4E50287A61A9BA30829E9EAF806C7
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE77C1346FE4B18DC51EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F790063716A4A39B750036BB8638F802B75D45FF914D58D5BE9E6BC131B5C99E7648C95C7B5A45DDF210A4CFD002B3FC504A19172310B58CFF9FA30BA471835C12D1D9774AD6D5ED66289B5278DA827A17800CE746CC513BB44FBA1D9FA2833FD35BB23D2EF20D2F80756B5F868A13BD56FB6657A471835C12D1D977725E5C173C3A84C3F5E532225D4D775B117882F4460429728AD0CFFFB425014E868A13BD56FB6657D81D268191BDAD3DC09775C1D3CA48CFB1B85B2539DF5BE3BA3038C0950A5D36C8A9BA7A39EFB766EC990983EF5C0329BA3038C0950A5D36D5E8D9A59859A8B6D46C0F1BFA22653176E601842F6C81A1F004C906525384307823802FF610243DF43C7A68FF6260569E8FC8737B5C2249EC8D19AE6D49635B68655334FD4449CB9ECD01F8117BC8BEAAAE862A0553A3920E30A4C9C8E338DACAF32FB7AB05475F43847C11F186F3C59DAA53EE0834AAEE
-X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C414F749A5E30D975C7B5A45DDF210A4CFD002B3FC504A19172310B58CFF9FA30B9C2B6934AE262D3EE7EAB7254005DCED246B04B1A760E0861E0A4E2319210D9B64D260DF9561598F01A9E91200F654B02E4E6844585584458E8E86DC7131B365E7726E8460B7C23C
-X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D3429499E429979B7C798062227321C16DF7D6F7C8A0CA6C09E4027549D4EFD237A351BC1519B42F95B1D7E09C32AA3244C298E8D877306A9184A1D556EB13272D1A995755A1445935E927AC6DF5659F194
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojt47dm/981n5I+ZaT6x+mHg==
-X-Mailru-Sender: 3A338A78718AEC5AA85B3E7661095C1EF6C936A70B6C087246227CBBF7A866895718A935A427C5FD3833C6AC539110AEA432B8CD90067B65A6C5C4E98768B51D7AA22088860DD9FF5CDEF9E650933936342CD0BA774DB6A9AE208404248635DF
-X-Mras: Ok
-X-7564579A: 646B95376F6C166E
-X-77F55803: 6242723A09DB00B4DF7173A40FF1347DA6106AACE9855D4976ED1A9D65780DFF049FFFDB7839CE9E750848576F542D0E8EB837B7FF7DEC847DCE5CB3672AF29E56EAEF0F0DD5C092
-X-7FA49CB5: 0D63561A33F958A56A6726E9426957F4722A41DC75417935F62A39754CBC0F618941B15DA834481FA18204E546F3947C5D2C5C0A547CD2CBF6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F79006379CB0AA5F2FC3A5BC389733CBF5DBD5E9B5C8C57E37DE458BD9DD9810294C998ED8FC6C240DEA76428AA50765F79006373BD29FA120C2C537D81D268191BDAD3DBD4B6F7A4D31EC0BEA7A3FFF5B025636AAAE862A0553A3920E30A4C9C8E338DACAF32FB7AB05475F43847C11F186F3C59DAA53EE0834AAEE
-X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C414F749A5E30D975C7B5A45DDF210A4CFB878721915A393540EF4E8556AE47A7B9C2B6934AE262D3EE7EAB7254005DCED246B04B1A760E086699F904B3F4130E343918A1A30D5E7FCCB5012B2E24CD356
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojt47dm/981n5FXm8FOx/Bwg==
-X-Mailru-MI: 800
-X-Mailru-Sender: A5480F10D64C90054F94DD2E9EA85DB6F1A6D316C6F9163D484E56D8614A87AFAB4789D4C62FB0A1CD4CDAD98BDCABE8DDBB79867CC2C1EC846E85FF75DBDC4983CE97D6EC8C31C553326A0E03014151EAB4BC95F72C04283CDA0F3B3F5B9367
-X-Mras: Ok
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <844503af879d05b209d9af98e378350b4f74ff9d.camel@perches.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-From: Dmitrii Wolf <dev.dragon@bk.ru>
+On Sat, Apr 03, 2021 at 01:02:04PM -0700, Joe Perches wrote:
+> On Sat, 2021-04-03 at 19:28 +0200, Fabio Aiuto wrote:
+> > On Sat, Apr 03, 2021 at 09:17:37AM -0700, Joe Perches wrote:
+> > > On Sat, 2021-04-03 at 17:21 +0200, Fabio Aiuto wrote:
+> > > > On Sat, Apr 03, 2021 at 08:02:25AM -0700, Joe Perches wrote:
+> > > > > On Sat, 2021-04-03 at 11:13 +0200, Fabio Aiuto wrote:
+> > > > > > This patchset removes all RT_TRACE usages in core/ files.
+> > > > > 
+> > > > > and hal and include and os_dep
+> > > > 
+> > > > Hi, 
+> > > > 
+> > > > I was just about to send the second patchset relative to hal/ files.
+> > > > The whole has been split up in directories in order to reduce the
+> > > > number of patch per patchset
+> > > 
+> > > > It's a good idea, but the patches relative to RT_TRACE removal
+> > > > could be huge
+> > > 
+> > > That's really not a significant issue.
+> > > Simplicity in review is also important.
+> > > Mechanization of patch creation can reduce review efforts.
+> > 
+> > Maybe I wrongly associated simplicity with patch dimensions, but maybe
+> > for patches this simple have expert reviewers some tool for
+> > automatic review?
+> 
+> Coccinelle is a relatively trusted tool and using it as a scripting
+> mechanism where the script is shown as part of the commit message
+> gives confidence that the change it produces can be applied without
+> significant doubt.
+> 
+> To improve confidence that any change that does not have an output
+> object code delta, comparing the object code produced before and
+> after the change is useful.  Showing that the code has been both
+> compiled and compared in the commit message also improves confidence
+> that the change is useful and can be applied.
+> 
+> 
 
-Signed-off-by: Dmitrii Wolf <dev.dragon@bk.ru>
----
- drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+which tool provides an object code delta output suitable for a commit message?
 
-diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-index 690b664df8fa..29a6ce20e2bd 100644
---- a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-+++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-@@ -2048,12 +2048,12 @@ void ieee80211_softmac_xmit(struct ieee80211_txb *txb, struct ieee80211_device *
- 	/* if xmit available, just xmit it immediately, else just insert it to the wait queue */
- 	for (i = 0; i < txb->nr_frags; i++) {
- #ifdef USB_TX_DRIVER_AGGREGATION_ENABLE
--		if ((skb_queue_len(&ieee->skb_drv_aggQ[queue_index]) != 0) ||
-+		if ((skb_queue_len(&ieee->skb_drv_aggQ[queue_index]) != 0)
- #else
--		if ((skb_queue_len(&ieee->skb_waitQ[queue_index]) != 0) ||
-+		if ((skb_queue_len(&ieee->skb_waitQ[queue_index]) != 0)
- #endif
--		    (!ieee->check_nic_enough_desc(ieee->dev, queue_index)) || \
--		    (ieee->queue_stop)) {
-+		 || (!ieee->check_nic_enough_desc(ieee->dev, queue_index)) \
-+		 || (ieee->queue_stop)) {
- 			/* insert the skb packet to the wait queue */
- 			/* as for the completion function, it does not need
- 			 * to check it any more.
--- 
-2.25.1
+I dare a proposal apologizing in advance if this question should sound off topic,
+if it is please tell me how to ask it,
 
+is anyone of you all available being my mentor?
+
+I realized that what you told me in last weeks helps me a lot, and maybe
+a mentor can address me working towards more useful code bases.
+
+I choosed rtl8723bs quite by random, just to make experience in cleaning up code,
+and get more confident with required dev tools, but if there is some other task 
+with higher priority that I could carry on, I will be glad to
+follow directives of a mentor. I really would like to become an expert kernel developer,
+and the way community works gets me more and more involved.
+
+Thank you again to all people helping me,
+
+fabio
