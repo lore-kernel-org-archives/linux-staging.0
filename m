@@ -1,41 +1,41 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22E3070
-	for <linux-staging@lists.linux.dev>; Sun,  4 Apr 2021 14:10:30 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id i18so5317725wrm.5
-        for <linux-staging@lists.linux.dev>; Sun, 04 Apr 2021 07:10:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B900E70
+	for <linux-staging@lists.linux.dev>; Sun,  4 Apr 2021 14:10:31 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id i18so5317758wrm.5
+        for <linux-staging@lists.linux.dev>; Sun, 04 Apr 2021 07:10:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=omO9jbU544MlX2hw1Wy7qunDkzreILEkRU9p4/5TxAg=;
-        b=dBXjzkb0tN2RvolgWXitSUBe/HE9FrHZuPVAYafly2kXwy6cciOn3qRvetMvb5HKfS
-         jDs3bQXQC1d7nCMKK4kAaXFF2iCC/s94mZRkXsq0uYpHD1KyyY/5ZhAfVUlP3raOPz1U
-         D7Bf+CMcedfxVUCAgNJJcxH7jO2VyhG4nUV8bNzJuaZ2bwcBrUSFSre344BIPJLhY95e
-         irauH7WJm/D+9wtu9A7RwT0zV6yUtYZhYyXXKxEqa/l8jZmyi0VFb1LIwRluU/EJsz93
-         IUscAcYZp7tVrEQ7mGaMSrLv8fUeKsFBXG5yhCE7mtpbfsZeXsJWps+c5c8v7U70foJ+
-         q4gA==
+        bh=0bzab+wyS6KvStbR7zDn+0HIWgAiRTCX8kg+zp342XE=;
+        b=cQ0C3c1FFb7y/npDqi+I3jvpdHV2HB+7QNhTGR2aDuGRck0hQyPP8vKaeMlx01R42q
+         Vh8q27Sw2rcwPqeEp/Jlmm3G8U+wWJOpYQc1U5D4Wum1AXOPeAywRoHjCjqrjVKlaOcI
+         myQHsCRHVXOq5WgkFbI4FURv2Czqc9JugJ6I0kQQ6fKjbPJO51aBzosuOm8genrPcP/8
+         cOLpQmFMf+Dctl+0cBK1WgwgEVrPMT+v8fpKUVlH9Ppnve8aRToGAd0R8KdGhyuncLc6
+         xFGikJymo2TfooRW8PBiIBSWRJqlwzSnM4Y2Xl3mKCou2fG207GzfIUSeJlSfXXh5qKc
+         Sgvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=omO9jbU544MlX2hw1Wy7qunDkzreILEkRU9p4/5TxAg=;
-        b=UxJ969U2PYJo2vKCt+UfPlnCmp90Gjpr7WDYXysqLuwNejs6WFT/+Dqz2u6/bAmAM5
-         UsUJocxa1kKw7QeBbgSZcJVYjCuXtZROV2ZWh8ybR9X6MrVuVbw0uLtETqmmIcYSyotD
-         /BiWdsd5QIGYJuFDYW7T8/cgMX2yBGghYXEb7IJ6TWoHIKod0x3YzvFyOUlUHHbXfZiS
-         fJJYRdpQszRmpvFzYTXeaBcYFVkhFSB1yqGetHsDBo2I5aKoTX8yx6nGoN6FGo6luPbj
-         LAyJJDytPlQKErbJEM9Gz/RSHWW8iq5wY6AkuwxWk9CAtrvedrdx/xBeQACT2J+QbZFZ
-         mPKg==
-X-Gm-Message-State: AOAM532CUwM2hKh46gwsXREZrA7WYsJemydklSW1VWWHowZIizCQ7Gig
-	YnSLPJoks0t487AeMnoT7J8=
-X-Google-Smtp-Source: ABdhPJzRBH5QByWqTC7wvVWLfP9UmPmgTRQPuoinbBjuJIsgfXBPi5EkxQoGY5t3YlQnnvBPT8oRFQ==
-X-Received: by 2002:a5d:5051:: with SMTP id h17mr24462110wrt.80.1617545428719;
-        Sun, 04 Apr 2021 07:10:28 -0700 (PDT)
+        bh=0bzab+wyS6KvStbR7zDn+0HIWgAiRTCX8kg+zp342XE=;
+        b=eyKfI6r5Jj/jnokFmqmkw2+3QOXnZRcD4TYKO7S5rld3P7Byac4Q8hdIUR6GTZWqJZ
+         oQ8ms5aO9A6F7H5F4MD4pAa44n3Hfl/WRqhzX2WN6B2XN+vSkRqps/qZkqjBTvbO8onr
+         K+weHPCy1Zpx/x6MaOKkYINWjYTuQavJIBKTLIXTDV0u25YNzX4q6NqnX7XskDqv5cHj
+         zWw4C7z6KBMnTcyhF86JS6XmCp3ke5ZC8rmU+qfpeXnDTsvBq63L3+uxNkBQ0e3VWoqq
+         PrWBM1fHtInONt7OBbHQnWDhILA3GgCPjYPXYQ8DLSd2wkFLr/5uakviW/OsqYvriMNn
+         ZiKQ==
+X-Gm-Message-State: AOAM530BMJ8GaQonVB6Xwtj+PaUd8Jk29LpovL+UTjrc9aNhqTIezTAi
+	UggI/FqkdZyCnoKRZ+6EQrpEptlyFFtxkQ==
+X-Google-Smtp-Source: ABdhPJyOeot1wL6EQbSIPhMaKqNFy1G9lzJw/62wud5r2REdDMtd/dQhOlIRoKlPvPcCaZKMwdwkgQ==
+X-Received: by 2002:adf:dfc3:: with SMTP id q3mr25441303wrn.121.1617545430347;
+        Sun, 04 Apr 2021 07:10:30 -0700 (PDT)
 Received: from agape ([5.171.81.112])
-        by smtp.gmail.com with ESMTPSA id d123sm570106wmd.26.2021.04.04.07.10.28
+        by smtp.gmail.com with ESMTPSA id b131sm19629340wmb.34.2021.04.04.07.10.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Apr 2021 07:10:28 -0700 (PDT)
+        Sun, 04 Apr 2021 07:10:30 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: dan.carpenter@oracle.com,
@@ -43,9 +43,9 @@ Cc: dan.carpenter@oracle.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH v4 23/30] staging: rtl8723bs: fix comparison in if condition in core/rtw_recv.c
-Date: Sun,  4 Apr 2021 16:09:39 +0200
-Message-Id: <4b363edbc2da36cb3c63edbcd43e3285754768c9.1617545239.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v4 24/30] staging: rtl8723bs: remove commented RT_TRACE call in core/rtw_ioctl_set.c
+Date: Sun,  4 Apr 2021 16:09:40 +0200
+Message-Id: <aae1227b56fb75c0b221a46b612aa4aeb6460feb.1617545239.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617545239.git.fabioaiuto83@gmail.com>
 References: <cover.1617545239.git.fabioaiuto83@gmail.com>
@@ -56,37 +56,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-fix post-commit checkpatch issue:
+Remove commented RT_TRACE call in core/rtw_ioctl_set.c
 
-CHECK: Using comparison to false is error prone
-27: FILE: drivers/staging/rtl8723bs/core/rtw_recv.c:381:
-+				if (psecuritypriv->
-			bcheck_grpkey == false &&
+Remove all of the RT_TRACE logs in the core/rtw_ioctl_set.c file as they
+currently do nothing as they require the code to be modified by
+hand in order to be turned on. This obviously has not happened
+since the code was merged. Moreover it relies on an unneeded
+private log level tracing which overrides the in-kernel public one,
+so just remove them as they are unused.
 
-and fix the same issue in second comparison to true
-inside the same if condition
-IS_MCAST(prxattrib->ra) == true
-			^^^^^^^
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_recv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index bf53695f9f7d..eac663119290 100644
---- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -378,8 +378,8 @@ static signed int recvframe_chkmic(struct adapter *adapter,  union recv_frame *p
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+index 7d858cae2395..14eb01df69b0 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+@@ -451,9 +451,6 @@ u8 rtw_set_802_11_infrastructure_mode(struct adapter *padapter,
  
- 			} else {
- 				/* mic checked ok */
--				if (psecuritypriv->bcheck_grpkey == false &&
--				    IS_MCAST(prxattrib->ra) == true)
-+				if (!psecuritypriv->bcheck_grpkey &&
-+				    IS_MCAST(prxattrib->ra))
- 					psecuritypriv->bcheck_grpkey = true;
- 			}
- 		}
+ 		/* SecClearAllKeys(adapter); */
+ 
+-		/* RT_TRACE(COMP_OID_SET, DBG_LOUD, ("set_infrastructure: fw_state:%x after changing mode\n", */
+-		/* 									get_fwstate(pmlmepriv))); */
+-
+ 		spin_unlock_bh(&pmlmepriv->lock);
+ 	}
+ 	return true;
 -- 
 2.20.1
 
