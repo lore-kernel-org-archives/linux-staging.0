@@ -1,25 +1,49 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658A3259E
-	for <linux-staging@lists.linux.dev>; Sun,  4 Apr 2021 09:58:13 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3BA0761380;
-	Sun,  4 Apr 2021 09:58:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1617530293;
-	bh=Jlm5k1Z0ghnp4ZK0Sxl+YdBR3Xn/bXcOpc7QvzAXWm4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EjMI/GQt3ZAEjJZV5R+LoKiX4vXeuSzROuvCN/4cvD68gAe6IOzH4Z3Sw8pvzvk8q
-	 q9f9mpgTpla/OI4ksdI/5trIW0+FCLvN0AfQg6sbcw0qDg4zqIxBqetAR541Ktlbon
-	 988bst4fvx1zrpeluf6DiSlzA+mq2YZ5n67VJKz4=
-Date: Sun, 4 Apr 2021 11:58:08 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: dev.dragon@bk.ru
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Staging: rtl8192u: ieee80211: fixed a trailing
- statements coding style issue.
-Message-ID: <YGmNsBUqRtu6/lMA@kroah.com>
-References: <20210404051500.6644-1-dev.dragon@bk.ru>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55A55F
+	for <linux-staging@lists.linux.dev>; Sun,  4 Apr 2021 11:10:58 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id o10so13608665lfb.9
+        for <linux-staging@lists.linux.dev>; Sun, 04 Apr 2021 04:10:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=RWPDQxxgV2nTCNL1FAYclu9roEAzSAdEQg2xga59ELs=;
+        b=Z0Z5Y+0DJmoXupHa9zQfPZT3kCZ4shfboOOlC58PCdOUhtjmsJDx/nI3uHa99/n1Nz
+         ZkKBDPyQZl1ZmIehGFxtGs6b38Ktn/TttjCGlt36dNBvEuZydjuX4OwjGtUV1b64wfl+
+         YXVWjiw57CPZ85SoX1pHp9JxDKoBqQ/aN45bvoKqFT224liyy2Nbu3jLP60l2RURwRvn
+         kp2vjF+9HekaHBqsdFz5oQVrh9jr4dz7ApPD9VO52VfR2IPhWllfsmQfOn8dCB8L4IEb
+         VWuOTvZQdfKUcLe9XPgpbc9GRLmzkdiXxyR6LsLv78D3aAzN5MSSIU+MSrC6IR3YAOrc
+         VYYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=RWPDQxxgV2nTCNL1FAYclu9roEAzSAdEQg2xga59ELs=;
+        b=Qc40lPJWp9uKEe+j3wM0ZgP3Cq1PiSIcX3u0+iC4s/TxwJ3+j3ypf3l3OiZfOBF6D/
+         u7ZivoYJSkgMZ+7eo2O58DI4apFox/7mlh7qMWR3MxeOGXfS9haK5dLyr+Shc6toeK25
+         /yw75YgkrLmLZh6kp831jRR8mcCtLDu+VDgpGcxJ+pVWgYwmA90Gihp5FcL1BDN8YsJQ
+         JNuvlQw890X1OeaZgYekBqCaqdggjpyMxzph8Io3tM3NKwlfDaiYkN128fabTyK5w+MK
+         3VI2VXAyBCxn7SqZg/hpY9eMaNeKFltjjVhpDdAUxstFSte1bpOSqPvxpABuNhtxstKo
+         JrMg==
+X-Gm-Message-State: AOAM532ugaXEQ/tWOYok5qOY3sX7VrChxbdI54wSC3SF74H5Fk4OKOi5
+	gK/pBi/c5qVGF1AN+ZcHJY8=
+X-Google-Smtp-Source: ABdhPJzVjmPkRcr6H6lgc+7U+TNzNsYW6ZhZshonW16IImKJlv6D0zR9/s+zoD/jHVvUX1Ie5j+Xcw==
+X-Received: by 2002:ac2:5a5b:: with SMTP id r27mr13957725lfn.255.1617534657168;
+        Sun, 04 Apr 2021 04:10:57 -0700 (PDT)
+Received: from zhans ([37.151.32.231])
+        by smtp.gmail.com with ESMTPSA id i184sm1412263lfd.205.2021.04.04.04.10.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Apr 2021 04:10:56 -0700 (PDT)
+Date: Sun, 4 Apr 2021 17:10:55 +0600
+From: Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>
+To: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+Subject: [Outreachy kernel][PATCH] staging: sm750fb: Remove unnecessary blank
+ line
+Message-ID: <20210404111055.GA22626@zhans>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -27,41 +51,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210404051500.6644-1-dev.dragon@bk.ru>
 
-On Sun, Apr 04, 2021 at 08:15:00AM +0300, dev.dragon@bk.ru wrote:
-> From: Dmitrii Wolf <dev.dragon@bk.ru>
-> 
-> Signed-off-by: Dmitrii Wolf <dev.dragon@bk.ru>
-> ---
->  drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
+Remove unnecessary extra blank line to improve readability.
+Reported by checkpatch.
 
-Hi,
+Signed-off-by: Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>
+---
+ drivers/staging/sm750fb/sm750.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
+index 1b3f5f649c52..23eefd019ec9 100644
+--- a/drivers/staging/sm750fb/sm750.h
++++ b/drivers/staging/sm750fb/sm750.h
+@@ -64,7 +64,6 @@ struct lynx_accel {
+ 			   u32 x, u32 y, u32 width, u32 height,
+ 			   u32 color, u32 rop);
+ 
+-
+ 	int (*de_copyarea)(struct lynx_accel *accel,
+ 			   u32 s_base, u32 s_pitch,
+ 			   u32 sx, u32 sy,
+-- 
+2.25.1
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what is needed in order to
-  properly describe the change.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
