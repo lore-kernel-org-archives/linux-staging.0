@@ -1,80 +1,94 @@
-Received: from smtprelay.hostedemail.com (smtprelay0241.hostedemail.com [216.40.44.241])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDEA70
-	for <linux-staging@lists.linux.dev>; Sun,  4 Apr 2021 01:39:21 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-	by smtpgrave05.hostedemail.com (Postfix) with ESMTP id C7C501839C99E
-	for <linux-staging@lists.linux.dev>; Sat,  3 Apr 2021 15:02:34 +0000 (UTC)
-Received: from omf19.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-	by smtprelay07.hostedemail.com (Postfix) with ESMTP id EEBBB184558E0;
-	Sat,  3 Apr 2021 15:02:27 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf19.hostedemail.com (Postfix) with ESMTPA id 0F57520D756;
-	Sat,  3 Apr 2021 15:02:26 +0000 (UTC)
-Message-ID: <1cd79d781cdcccf621ce8e104a9cdf1e90e7f803.camel@perches.com>
-Subject: Re: [PATCH v3 00/30] staging: rtl8723bs: remove RT_TRACE logs in
- core/*
-From: Joe Perches <joe@perches.com>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>, gregkh@linuxfoundation.org
-Cc: dan.carpenter@oracle.com, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Sat, 03 Apr 2021 08:02:25 -0700
-In-Reply-To: <cover.1617440833.git.fabioaiuto83@gmail.com>
-References: <cover.1617440833.git.fabioaiuto83@gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23EA5F
+	for <linux-staging@lists.linux.dev>; Sun,  4 Apr 2021 05:40:31 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id t20so4220078plr.13
+        for <linux-staging@lists.linux.dev>; Sat, 03 Apr 2021 22:40:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=KxyeeXYM+0996CFKfGwExxixHCD5JVGi5ipPAcYMkSg=;
+        b=Njl5EIu18L7UlpKpxbxVVOfMtbUa6XdKE32KhTWr8XmZeibmo+CqL73CX0Ka7pzrDU
+         bhLaJ4YXoBFtqzuhFMwxgVShCIsXdn0Jj62uKWLrZitzhfRA/RKwvQFjf8BMKBupU5GV
+         BIq1Izg3MhnDwt1vq01sLkGhKxuKI9p2rbIrWN7aSlOjgtmdvVfeNPlzuObtNqeGXWzF
+         z2ijBHognMmIVt3iRVzKLxxCrzpZXm42a32+mNlOWACUpHey/f/IVTFhAY1ZNtehyd2B
+         iunxT7L/KeLfyj85rvvZLkX6LRVdRm/6b2EGJJhT0VyBF0kuXmGDAmQB75egoNGAF+0H
+         RFmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=KxyeeXYM+0996CFKfGwExxixHCD5JVGi5ipPAcYMkSg=;
+        b=enLfFVrDZFClpdupUKQlXVcZ/dbyTh7wX3I185Jvahx0zSv51Y0G6PfmQ/mQ8WsDNa
+         IdX8w6W5zIMghVnTgJc0c2IOUNJEGy6uj0FBhc0kRaYmkToH81134L3onU0+ZiMjyTFF
+         Od2Ro3JYcGBAPFd6wUOMWck3Eybu30o56dLOV5Cn6IImLJtDLcPl7gWv8RW3N5BInPSP
+         ChMnxH5UkYNMdTAZ1+orC8WhakeTreUEfSnhNKHQrUuyQCa2TISs8+WPhqMRPuyM3w4j
+         6rLf9U4NCr4wq6/jbjKB/TjENphStfRCVx+YSNZv/skZBDRX1XxX08cZunbmPBbU6eu+
+         FqJw==
+X-Gm-Message-State: AOAM5315S0iGkA8m2xZ0SuHxMAo7zu2dLqfZMfCFGyu7IQjfY5j7uQCi
+	8OydVrYvxCkgRbFNkkxiLCk=
+X-Google-Smtp-Source: ABdhPJwTY1G+qMQ0x1XLtf9HBFsor12CoiNfQtUtMDCoE+gLtjOl3HnvSXaAguMpmiMF09X2CbEMSA==
+X-Received: by 2002:a17:902:8218:b029:e6:190e:48e with SMTP id x24-20020a1709028218b02900e6190e048emr19130071pln.33.1617514831530;
+        Sat, 03 Apr 2021 22:40:31 -0700 (PDT)
+Received: from djbComp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
+        by smtp.gmail.com with ESMTPSA id y7sm11759877pja.25.2021.04.03.22.40.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Apr 2021 22:40:31 -0700 (PDT)
+From: Deborah Brouwer <deborahbrouwer3563@gmail.com>
+To: Larry.Finger@lwfinger.net,
+	gregkh@linuxfoundation.org,
+	straube.linux@gmail.com,
+	unixbhaskar@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy-kernel@googlegroups.com,
+	Deborah Brouwer <deborahbrouwer3563@gmail.com>
+Subject: [PATCH] staging: rtl8188eu: replace goto with direct return
+Date: Sat,  3 Apr 2021 22:40:08 -0700
+Message-Id: <20210404054008.23525-1-deborahbrouwer3563@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=0.10
-X-Stat-Signature: f8y8xwjzigh8njpx8b1i1a3yycqrrokd
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: 0F57520D756
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/4QJLtXCTzaD3/uBcvaBOi2jxvHRsyFM4=
-X-HE-Tag: 1617462146-363510
 
-On Sat, 2021-04-03 at 11:13 +0200, Fabio Aiuto wrote:
-> This patchset removes all RT_TRACE usages in core/ files.
+To conform with Linux kernel coding style, replace goto statement that
+does no cleanup with a direct return.  To preserve meaning, copy comments
+from the original goto statement to the return statement.  Identified by
+the checkpatch warning: WARNING: void function return statements are not
+generally useful.
 
-and hal and include and os_dep
+Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
+---
+ drivers/staging/rtl8188eu/hal/rtl8188e_dm.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> 
-> This is the first of a series aimed at removing RT_TRACE macro.
-> 
-> The whole private tracing system is not tied to a configuration
-> symbol and the default behaviour is _trace nothing_. It's verbose
-> and relies on a private log level tracing doomed to be
-> removed.
-
-It's nice, but individual patches per file done by hand are difficult
-to review because you are interleaving removal patches with cleanup
-patches.
-
-I believe this should be a patch series with a single patch to remove
-all RT_TRACE macro uses using coccinelle and then use separate patches
-to do whatever cleanups around these removals you want to do.
-
-All of these below should be done for all files in drivers/staging/rtl8723bs
-at once instead of submitting per-file patches.
-
-IMO something like:
-
-Cover-letter: Explain why you are doing this
-Patch 1 of N: Remove all RT_TRACE macro uses using a coccinelle script
-              and include the coccinelle script in the commit message
-Patch 2 of N: Remove commented out RT_TRACE uses
-Patch 3 of N: Remove RT_TRACE macro definition
-Patch 4 of N: Cleanup coccinelle generated {} uses, if/else braces and
-              the now unnecessary if tests around the RT_TRACE removals
-Patch 5 of N: Cleanup whitespace
-Patcn x of N: Whatever else related to these RT_TRACE sites...
-
-https://lore.kernel.org/lkml/c845d8ea7d0d8e7a613471edb53d780d660142a9.camel@perches.com/
-
-Using a sequence like the above would be much easier to review and
-would be a significant shorter patch set.
+diff --git a/drivers/staging/rtl8188eu/hal/rtl8188e_dm.c b/drivers/staging/rtl8188eu/hal/rtl8188e_dm.c
+index 391c59490718..d21f21857c20 100644
+--- a/drivers/staging/rtl8188eu/hal/rtl8188e_dm.c
++++ b/drivers/staging/rtl8188eu/hal/rtl8188e_dm.c
+@@ -139,7 +139,9 @@ void rtw_hal_dm_watchdog(struct adapter *Adapter)
+ 	hw_init_completed = Adapter->hw_init_completed;
+ 
+ 	if (!hw_init_completed)
+-		goto skip_dm;
++		/*  Check GPIO to determine current RF on/off and Pbc status. */
++		/*  Check Hardware Radio ON/OFF or not */
++		return;
+ 
+ 	/* ODM */
+ 	pmlmepriv = &Adapter->mlmepriv;
+@@ -156,10 +158,8 @@ void rtw_hal_dm_watchdog(struct adapter *Adapter)
+ 
+ 	Adapter->HalData->odmpriv.bLinked = bLinked;
+ 	ODM_DMWatchdog(&Adapter->HalData->odmpriv);
+-skip_dm:
+ 	/*  Check GPIO to determine current RF on/off and Pbc status. */
+ 	/*  Check Hardware Radio ON/OFF or not */
+-	return;
+ }
+ 
+ void rtw_hal_dm_init(struct adapter *Adapter)
+-- 
+2.17.1
 
