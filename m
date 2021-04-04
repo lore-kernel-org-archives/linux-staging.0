@@ -1,81 +1,134 @@
-Received: from fallback16.mail.ru (fallback16.mail.ru [94.100.177.128])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C3270
-	for <linux-staging@lists.linux.dev>; Sun,  4 Apr 2021 13:35:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=bk.ru; s=mail3;
-	h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From; bh=LETLziB89uAsZr/rmV4CuXtr79aw/vQw4ui4/Ykg9Uc=;
-	b=ul07cmk/AHkJ05ahLrteHD/sENaCrOlhMVuIYmuuZh/8vmPy5A6ZpkdBWzZ7oceZM6maF3RwQPTmEDq1agtxA8fkfSkU2JfUKz8wSv7CjKFKX+ISbj6Cbk/BWI6riJQF2Qx4h/2HHLm0QPFZlq7drhEsdnHLROTf+foE73LXumg=;
-Received: from [10.161.64.1] (port=39530 helo=smtp30.i.mail.ru)
-	by fallback16.i with esmtp (envelope-from <dev.dragon@bk.ru>)
-	id 1lT2m1-0006ir-GQ
-	for linux-staging@lists.linux.dev; Sun, 04 Apr 2021 16:26:41 +0300
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=bk.ru; s=mail3;
-	h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=LETLziB89uAsZr/rmV4CuXtr79aw/vQw4ui4/Ykg9Uc=;
-	b=glPOtMyTc1maVspYGvt5XkL3G4zmZSsitREZFcdOBFwOP1dMkj6uFUmlt1tFBgfEjEvE87XHnVAEa1nzjMeZRJY2dDCUuyVSurpwCi6PpTsen2eX2c5dP+CYiArZrb40h394HAkVLmMdYUkjaItCSP+Kn2CdscWzBQK4c8VO5ss=;
-Received: by smtp30.i.mail.ru with esmtpa (envelope-from <dev.dragon@bk.ru>)
-	id 1lT2lt-0005U2-6l; Sun, 04 Apr 2021 16:26:33 +0300
-From: dev.dragon@bk.ru
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F79970
+	for <linux-staging@lists.linux.dev>; Sun,  4 Apr 2021 14:09:52 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id q26so3085395wrz.9
+        for <linux-staging@lists.linux.dev>; Sun, 04 Apr 2021 07:09:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TcLF+WCv0M4wIqTfEUJhCyuPrAeNDbmNX5DkS26TIY8=;
+        b=Vgz3KZa9eMWbWMRoa9HkH6mx86HoCm6NjAVUjwqUlOkgm3fcGAYrC3JWUbKqyP3LWk
+         7wZg/nwIBbA8ef9o+XzxBiDsQY+50tHemJh+/wTcaUDjtjTIr6MDtf+RyUCS3xeIWGP5
+         oL0JanyLiqXKgfUmYZF+mIrTnK3DzyDNaEWlGJIWPNTYLqEtC/J7M2RFCCT/EiJjndcT
+         sWq4Pdm6AQzHRW789FzzYAITBJ1dYk0DdS/lE1WilOwIsSfgjDRfHrFGLQf1f01nwNV7
+         SGaIpsIuLHDOihPrqAwRkLY48tZExvT0AlrL0nneBofEANazlf40ak0oSEKQ6ZqCYyLk
+         IuPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TcLF+WCv0M4wIqTfEUJhCyuPrAeNDbmNX5DkS26TIY8=;
+        b=pBua7QAVCtd8b8+x+uodM98CLfidHXejQDssKk+MU5n09EhJpetIXYrkEw90SjY+UJ
+         HTXkgbCK+B/ddDGCnJUC1WB50kYaIZG18xuWzmbgqTCxJ5ckxK3pO0habOE8ygNvb2Hm
+         vHc4ogQuJ45UcjUsngIwCLphnHZV8DSWuqLNLKel/2v1dxdW9gE8HZ7GFKm86pFMdY/o
+         bJrPkDDu0fGcbJoQavo9JZhLEiZ5buE9coHZ7/elJ+1HRMQjOsIzBuOKlN6FSNR1G+LJ
+         fINpiv6m/B2WtLlTNh92s11eoR6mVyQpw9eJe9R4uYhB0RB58wvL8IiJIxMFqh6fxKM6
+         xjSA==
+X-Gm-Message-State: AOAM533wlwfHs6K+I/3TCgIr984C0s8Q4lCefvMFPmkBpk7L37sdFbIb
+	qDfIuHf+kqmf2mGXk5OziKo=
+X-Google-Smtp-Source: ABdhPJy1RATGo/LYhD1xiVQyUD4S++zSSES6oN8H0nwoHiiljngyMvSAmRZY/QT2U7l7OvN5XWo1Aw==
+X-Received: by 2002:a5d:4751:: with SMTP id o17mr12818998wrs.219.1617545390898;
+        Sun, 04 Apr 2021 07:09:50 -0700 (PDT)
+Received: from agape ([5.171.81.112])
+        by smtp.gmail.com with ESMTPSA id z17sm12320797wrv.59.2021.04.04.07.09.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Apr 2021 07:09:50 -0700 (PDT)
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
+Cc: dan.carpenter@oracle.com,
+	joe@perches.com,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Dmitrii Wolf <dev.dragon@bk.ru>
-Subject: [PATCH] Staging: rtl8192u: ieee80211: fixed a trailing statements of condition.
-Date: Sun,  4 Apr 2021 16:26:14 +0300
-Message-Id: <20210404132613.5464-1-dev.dragon@bk.ru>
-X-Mailer: git-send-email 2.25.1
+	Fabio Aiuto <fabioaiuto83@gmail.com>
+Subject: [PATCH v4 00/30] staging: rtl8723bs: remove RT_TRACE logs in core/*
+Date: Sun,  4 Apr 2021 16:09:16 +0200
+Message-Id: <cover.1617545239.git.fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-7564579A: 646B95376F6C166E
-X-77F55803: 4F1203BC0FB41BD9ED7173E37F4E32947A0146560F8BA709E798FFD99D1B1662182A05F5380850403967E96E3DE147F8331AD8EC2CB116954496268119EDB3AD14DD9F9E918497C5
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE70EEC24FFE855BCBBC2099A533E45F2D0395957E7521B51C2CFCAF695D4D8E9FCEA1F7E6F0F101C6778DA827A17800CE7A3295C83650092F9EA1F7E6F0F101C67CDEEF6D7F21E0D1D174C73DBBBFC7664701A8C483038278B45BC77A840DD08DAC7F7CB36A5DC4E70389733CBF5DBD5E913377AFFFEAFD269176DF2183F8FC7C06CDB2E15ACB7FB748941B15DA834481FCF19DD082D7633A0EF3E4896CB9E6436389733CBF5DBD5E9D5E8D9A59859A8B6F657401E1635F1D7CC7F00164DA146DA6F5DAA56C3B73B237318B6A418E8EAB8D32BA5DBAC0009BE9E8FC8737B5C224929E57CDFA355096D76E601842F6C81A12EF20D2F80756B5F7E9C4E3C761E06A776E601842F6C81A127C277FBC8AE2E8B00B2ECFB950381B23AA81AA40904B5D9DBF02ECDB25306B2201CA6A4E26CD07C3BBE47FD9DD3FB595F5C1EE8F4F765FC72CEEB2601E22B093A03B725D353964B0B7D0EA88DDEDAC722CA9DD8327EE493B89ED3C7A6281781AD05CC21270DE0F1C4224003CC83647689D4C264860C145E
-X-B7AD71C0: 2623F767319EFA42AC98609FCEE262F9192335DD689A58EBAE0174B7F1092AFBF63472D858672956A8BD931D03E43403
-X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C414F749A5E30D975C16EE06F5A270FE6A004883401E3217AA749839F795C915209C2B6934AE262D3EE7EAB7254005DCED246B04B1A760E0861E0A4E2319210D9B64D260DF9561598F01A9E91200F654B01098AAFFB0A1231D8E8E86DC7131B365E7726E8460B7C23C
-X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D342E8FEDBD32DECB6DCE105F9E184D158104676EC26861AE2B017C6C7D7991F9E4213AF6172ED321DC1D7E09C32AA3244C1E4426A78A9BC1B2A183BDA071234B61250262A5EE9971B0927AC6DF5659F194
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojt47dm/981n61iGJGd7Ky2w==
-X-Mailru-Sender: 3A338A78718AEC5AA85B3E7661095C1E3A251DAE66DFBBCB3DCDCC9E291E8445BCBED4EBA2EB499A3833C6AC539110AEA432B8CD90067B65A6C5C4E98768B51D7AA22088860DD9FF5CDEF9E650933936342CD0BA774DB6A9AE208404248635DF
-X-Mras: Ok
-X-7564579A: 78E4E2B564C1792B
-X-77F55803: 6242723A09DB00B4DF7173A40FF1347DA6106AACE9855D497B195A79B23E2D14049FFFDB7839CE9EEAEE7218277C81E5FDB75F188BBBAE6F32718CBC5BF0A80FDE795FB19006DD23
-X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C414F749A5E30D975C16EE06F5A270FE6A7F73F3763FF4B6C37E0A829885CBB8EF9C2B6934AE262D3EE7EAB7254005DCED71AA4EEF106CEA7D699F904B3F4130E343918A1A30D5E7FCCB5012B2E24CD356
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5xhPKz0ZEsZ5k6NOOPWz5QAiZSCXKGQRq3/7KxbCLSB2ESzQkaOXqCBFZPLWFrEGlV1shfWe2EVcxl5toh0c/aCGOghz/frdRhzMe95NxDFdM/HWZ2FZeTeIuITXTZjbCQ==
-X-Mailru-MI: 800
-X-Mras: Ok
 
-From: Dmitrii Wolf <dev.dragon@bk.ru>
+This patchset removes all RT_TRACE usages in core/ files.
 
-Fixed a coding style issue.
+This is the first of a series aimed at removing RT_TRACE macro.
 
-Signed-off-by: Dmitrii Wolf <dev.dragon@bk.ru>
----
- drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+The whole private tracing system is not tied to a configuration
+symbol and the default behaviour is _trace nothing_. It's verbose
+and relies on a private log level tracing doomed to be
+removed.
 
-diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-index 690b664df8fa..29a6ce20e2bd 100644
---- a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-+++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-@@ -2048,12 +2048,12 @@ void ieee80211_softmac_xmit(struct ieee80211_txb *txb, struct ieee80211_device *
- 	/* if xmit available, just xmit it immediately, else just insert it to the wait queue */
- 	for (i = 0; i < txb->nr_frags; i++) {
- #ifdef USB_TX_DRIVER_AGGREGATION_ENABLE
--		if ((skb_queue_len(&ieee->skb_drv_aggQ[queue_index]) != 0) ||
-+		if ((skb_queue_len(&ieee->skb_drv_aggQ[queue_index]) != 0)
- #else
--		if ((skb_queue_len(&ieee->skb_waitQ[queue_index]) != 0) ||
-+		if ((skb_queue_len(&ieee->skb_waitQ[queue_index]) != 0)
- #endif
--		    (!ieee->check_nic_enough_desc(ieee->dev, queue_index)) || \
--		    (ieee->queue_stop)) {
-+		 || (!ieee->check_nic_enough_desc(ieee->dev, queue_index)) \
-+		 || (ieee->queue_stop)) {
- 			/* insert the skb packet to the wait queue */
- 			/* as for the completion function, it does not need
- 			 * to check it any more.
+-------------------------------
+Changes in v4:
+	- completed checkpatch fix in if condition
+	- fix reference in Suggested-by: tag
+ 
+Changes in v3:
+        - written better changelog in single patches
+
+Changes in v2:
+        - isolate checkpatch fixes in separate patches
+        - removed two if conditions in core/rtw_wlan_util.c
+
+
+Fabio Aiuto (30):
+  staging: rtl8723bs: remove RT_TRACE logs in core/rtw_xmit.c
+  staging: rtl8723bs: fix condition in if statement in core/rtw_xmit.c
+  staging: rtl8723bs: remove RT_TRACE logs in core/rtw_security.c
+  staging: rtl8723bs: fix line exceed warning in core/rtw_security.c
+  staging: rtl8723bs: fix spaces around operator issues in
+    core/rtw_security.c
+  staging: rtl8723bs: remove all RT_TRACE logs in core/rtw_eeprom.c
+  staging: rtl8723bs: fix error prone if conditions in core/rtw_eeprom.c
+  staging: rtl8723bs: remove all RT_TRACE logs in core/rtw_pwrctrl.c
+  staging: rtl8723bs: fix logical continuation issue in
+    core/rtw_pwrctrl.c
+  staging: rtl8723bs: remove unnecessary parentheses in if-condition in
+    core/rtw_pwrctrl.c
+  staging: rtl8723bs: remove RT_TRACE logs in core/rtw_cmd.c
+  staging: rtl8723bs: fix null check conditions in core/rtw_cmd.c
+  staging: rtl8723bs: remove unnecessary parentheses in if condition in
+    core/rtw_cmd.c
+  staging: rtl8723bs: remove commented RT_TRACE calls in core/rtw_mlme.c
+  staging: rtl8723bs: remove RT_TRACE logs in core/rtw_mlme.c
+  staging: rtl8723bs: tidy up some error handling in core/rtw_mlme.c
+  staging: rtl8723bs: remove RT_TRACE logs in core/rtw_mlme_ext.c
+  staging: rtl8723bs: remove commented RT_TRACE calls in core/rtw_recv.c
+  staging: rtl8723bs: remove RT_TRACE logs in core/rtw_recv.c
+  staging: rtl8723bs: added spaces around operator in core/rtw_recv.c
+  staging: rtl8723bs: split long line in core/rtw_recv.c
+  staging: rtl8723bs: remove unnecessary parentheses in core/rtw_recv.c
+  staging: rtl8723bs: fix comparison in if condition in core/rtw_recv.c
+  staging: rtl8723bs: remove commented RT_TRACE call in
+    core/rtw_ioctl_set.c
+  staging: rtl8723bs: remove RT_TRACE logs in core/rtw_ioctl_set.c
+  staging: rtl8723bs: place constant on the right side of the test in
+    core/rtw_ioctl_set.c
+  staging: rtl8723bs: remove all RT_TRACE logs in core/rtw_wlan_util.c
+  staging: rtl8723bs: remove RT_TRACE logs in core/rtw_sta_mgt.c
+  staging: rtl8723bs: remove RT_TRACE logs in core/rtw_ieee80211.c
+  staging: rtl8723bs: add spaces around operators in
+    core/rtw_ieee80211.c
+
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      |  53 +------
+ drivers/staging/rtl8723bs/core/rtw_eeprom.c   |  56 +++----
+ .../staging/rtl8723bs/core/rtw_ieee80211.c    |  90 ++---------
+ .../staging/rtl8723bs/core/rtw_ioctl_set.c    |  79 +---------
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     | 124 +++------------
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  39 +----
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  |  56 +------
+ drivers/staging/rtl8723bs/core/rtw_recv.c     | 147 +-----------------
+ drivers/staging/rtl8723bs/core/rtw_security.c |  41 +----
+ drivers/staging/rtl8723bs/core/rtw_sta_mgt.c  |  25 ---
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    |  24 +--
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     |  82 +---------
+ 12 files changed, 101 insertions(+), 715 deletions(-)
+
 -- 
-2.25.1
+2.20.1
 
