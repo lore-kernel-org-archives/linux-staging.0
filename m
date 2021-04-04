@@ -1,41 +1,41 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2894470
-	for <linux-staging@lists.linux.dev>; Sun,  4 Apr 2021 14:10:25 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id i18so5317615wrm.5
-        for <linux-staging@lists.linux.dev>; Sun, 04 Apr 2021 07:10:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD21770
+	for <linux-staging@lists.linux.dev>; Sun,  4 Apr 2021 14:10:26 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id v4so8747951wrp.13
+        for <linux-staging@lists.linux.dev>; Sun, 04 Apr 2021 07:10:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=zv6blgVUmmcg0rrTba28HSVxaCH1kZzMtYvEm8Uvvjg=;
-        b=Sd7DdYntWCEbA52OQ6osSzKs1EHKTdlo6ePTT0D8DGBA7eGRtt8J53UXh8nO2NBn73
-         cAYk8exggiO3SgXP6+Cwfbh/jP+zL3McW/JFI9JaIo5nRZGONLrtLUD+fqVIbbAZ+jgH
-         ETAraAFJ2bPuk08VVhlQaschmu3mkezAglt/bXUjZtULt8bDNKJ2No6kIXcGxGM8/ElK
-         V73DfB4chG49wdj6gTourVz/h84CDfpvo4xtVj50xO//DP1wfBBbm99HaxqdxDzWqxJs
-         asPOoI7Y6VyDd7idiW648NEGfZg+YQhK/Qw+uovvEUGbQMZOiHfYatIsx8AraV0XFsyF
-         jqTw==
+        bh=Wv9UQx8pFx9EKn1LAk5Wrb1T9ZM1NP2AqUIoiI8Ejp0=;
+        b=u6vfMqCI2MtUyeqLsgxkpUQzbF+w+I1CB9FeeQP+NYympvJxX+YAzIqcW4KRxiyjHt
+         s9aCSIcFiJogB8HfX1FRKATNm7Y1BgzDxUCDElq/jJ8x8D5o5brdKfA3L5qqnDP5fDtH
+         c3oNyTmutIJOV1N02AENrcnniCnSbaioqBMbToyHl7PQi4laEQ/OHXMCN/+7GFyXdU77
+         nf+Y4rS7XWO+c2ChbmHxrLr8wluzonIg7IP3BdDBDTWhFUx7sxytHpdTxCfAWSe9bAi7
+         /F/UO92MGJ6+RrOVnRECdJHdbgUk15/Ompqd52ZOujBegBSD1vzRpTCinnyYBmduodhq
+         Bi1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zv6blgVUmmcg0rrTba28HSVxaCH1kZzMtYvEm8Uvvjg=;
-        b=aIFh8aYy9XF80IkeglGofeYfdtUL9IPhnQZY3c7S71S6zuewkcX8HrnE9gbRgEiBya
-         /Ddsr22kV2HbHhSB6d67HFNsjHAydjIvPlyPvQVmJc1W9Rbzb+JrJ/db3ZB1f598laQN
-         Hz/e5S/M5q1HiYUz8L7r13HTxeJ/wt88Z0FWDL4qtYJ8BouryEaFeSEoXY/uGeAyaD7g
-         cCKr/fsHK5Ql1qBgJ+QlTWW7Nm+JUDKqJRCkm/apPHNbMDQdck/NvrQp/K1OjekHJehR
-         /TcUYRF7KDrwayfCOBApCsuVDNl6T4QITRaL5BDNo5Xel/YncCkCxma6ihmpqbM2n6MS
-         jNUg==
-X-Gm-Message-State: AOAM530CBwcUeizZj4D+JNmhFVFh7iehdCy8NZO/63NOnCBlwscGnODW
-	aCCtw2dUlmfL/rzVxNABHLw=
-X-Google-Smtp-Source: ABdhPJzkucPICGsyiO+ELiRtEeLavjifxl/6wKTV/4kZKku5x5IaUrE0URa9UikX5QXtO3L8yPBDgw==
-X-Received: by 2002:a5d:4e08:: with SMTP id p8mr2112737wrt.4.1617545423794;
-        Sun, 04 Apr 2021 07:10:23 -0700 (PDT)
+        bh=Wv9UQx8pFx9EKn1LAk5Wrb1T9ZM1NP2AqUIoiI8Ejp0=;
+        b=KBwFsmkVq5mB3xdRFGp7539VdHjjh//q90jtky2r1X4eM7ZW0cjsBt2ubqHpZoOpuM
+         Fuo/oQQj/Aq4+KMCdw8JW8AALK533Ee4enleKox9mx5jfg8zKj5m9UGuhtW5aObvGJpY
+         uuuezzG1BX3i+4jrlqZu4Z5q+XarfORnhPbeco4hBp438vKrfMDt+1R7sIyvw0opnN5e
+         eZ97CTOCv/vH1ScO95B2TE8wnfe3+HVUNGFr1PQuh8l/tU+mMrKWELr+pMTG/nVsaq9c
+         CmdknVcY2XZeBUiniJch4Oio9WcLMnUs07INJjvxyvn0FcuC5lAxzv2D/+c2v71V8xLr
+         N3Sw==
+X-Gm-Message-State: AOAM533xHS1Z3bXy9zP+W4kc8bFpAWheUs5eud774cmtdMFD8iGxvW/Q
+	qr450ygdX2BIzrHi7ZosiLM=
+X-Google-Smtp-Source: ABdhPJySK3lhlaYVHenCUv2Qf/NKI9TvLcB//ndFIcbcHb47S+/O7bRCnv6Rqz90V8aet1hNU+CQLQ==
+X-Received: by 2002:adf:f7cc:: with SMTP id a12mr24871522wrq.54.1617545425339;
+        Sun, 04 Apr 2021 07:10:25 -0700 (PDT)
 Received: from agape ([5.171.81.112])
-        by smtp.gmail.com with ESMTPSA id p18sm23322353wrs.68.2021.04.04.07.10.23
+        by smtp.gmail.com with ESMTPSA id k16sm11320479wro.11.2021.04.04.07.10.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Apr 2021 07:10:23 -0700 (PDT)
+        Sun, 04 Apr 2021 07:10:25 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: dan.carpenter@oracle.com,
@@ -43,9 +43,9 @@ Cc: dan.carpenter@oracle.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH v4 20/30] staging: rtl8723bs: added spaces around operator in core/rtw_recv.c
-Date: Sun,  4 Apr 2021 16:09:36 +0200
-Message-Id: <6202df1b5383aa0a66810358495c2b1c9dd6c189.1617545239.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v4 21/30] staging: rtl8723bs: split long line in core/rtw_recv.c
+Date: Sun,  4 Apr 2021 16:09:37 +0200
+Message-Id: <ac256752eddba7678e8305cb5e560969dec482de.1617545239.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617545239.git.fabioaiuto83@gmail.com>
 References: <cover.1617545239.git.fabioaiuto83@gmail.com>
@@ -58,29 +58,30 @@ Content-Transfer-Encoding: 8bit
 
 fix post-commit hook checkpatch issue:
 
-CHECK: spaces preferred around that '+' (ctx:VxV)
-60: FILE: drivers/staging/rtl8723bs/core/rtw_recv.c:359:
-+				if (miccode[i] != *(pframemic+i))
- 				                             ^
+WARNING: line length of 113 exceeds 100 columns
+110: FILE: drivers/staging/rtl8723bs/core/rtw_recv.c:381:
++				if ((psecuritypriv->bcheck_grpkey
+	 == false) && (IS_MCAST(prxattrib->ra) == true))
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_recv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/core/rtw_recv.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index 2d749341d47b..953351f896c3 100644
+index 953351f896c3..c8a13d733c98 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -356,7 +356,7 @@ static signed int recvframe_chkmic(struct adapter *adapter,  union recv_frame *p
- 			bmic_err = false;
+@@ -378,7 +378,8 @@ static signed int recvframe_chkmic(struct adapter *adapter,  union recv_frame *p
  
- 			for (i = 0; i < 8; i++) {
--				if (miccode[i] != *(pframemic+i))
-+				if (miccode[i] != *(pframemic + i))
- 					bmic_err = true;
+ 			} else {
+ 				/* mic checked ok */
+-				if ((psecuritypriv->bcheck_grpkey == false) && (IS_MCAST(prxattrib->ra) == true))
++				if ((psecuritypriv->bcheck_grpkey == false) &&
++				    (IS_MCAST(prxattrib->ra) == true))
+ 					psecuritypriv->bcheck_grpkey = true;
  			}
- 
+ 		}
 -- 
 2.20.1
 
