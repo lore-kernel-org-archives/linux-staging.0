@@ -1,41 +1,41 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA355F
-	for <linux-staging@lists.linux.dev>; Mon,  5 Apr 2021 16:50:29 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id a6so5435066wrw.8
-        for <linux-staging@lists.linux.dev>; Mon, 05 Apr 2021 09:50:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 059CD5F
+	for <linux-staging@lists.linux.dev>; Mon,  5 Apr 2021 16:50:30 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id g18-20020a7bc4d20000b0290116042cfdd8so2762059wmk.4
+        for <linux-staging@lists.linux.dev>; Mon, 05 Apr 2021 09:50:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=lY2cZl4jmtqee28Wid3oWUq3bqH3JHfeDzZ9nthtBOY=;
-        b=Y1+T+GzxranPSfFpVG88DfAIeUZ7+KfkL0ArlGPMbbvuK/JYjJgF2+FkQJQgmmtdaT
-         ODCuqrDb21sZBjw/2Gxjg4iRFCNzM59rD2FaWNhwgJUYf33TycTOB6dP2lDMV97XGzzC
-         u3vsYukqQxQWOSPn1RJr9m2TNvTTCRXkC7NJP2YEA3Xklde4GlXaquLbecJviTlvE1cY
-         Zylp3c0SRlo+UQ55FNZE00ioCZCNl8aObrx9N2Eu3kcls0VuTTeOFUh+bGrtOkR6X6zQ
-         +UnGD1tBrXirEdtS0+IifmfJQgLqV1S9ax4i8TTR2YrhftviyVcKK1UPGLoyL7PGnfEY
-         khvA==
+        bh=5lLBdOAva93h7sba5wfimP9PBGLz9NegQLKVskRq+74=;
+        b=KIl2NCpe68hPJ/Tg2SAuV1834Z/8EqBVs3S5strfFb8PuIE6j1dWKUmUbDwOegTM/L
+         mdBvwaVm6oVXKI0t1rYgj3vozJNjV9eGds8YShhq1P/+ZykaCBcL1WCSZ2Uv2JJ3B7qh
+         pPni2wmJvFw4+e/MYY945GlH8SnePV8hmeVbHaf8VO1AsOoy9UbJAK6e0CgypOB1j+UW
+         /CWkC/aknl1EZk2fAneVCTLYLNWrfYO36PxEBf2nqENddLJA8MztgdnpZmu2x7cqsCeS
+         TDcLsu4vPvRDTPWgUkOxZHRBnnYzlfq0N6GlkqpkgpWYD8mOkw5eg+TeMWhM0LTh4cSS
+         x6Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=lY2cZl4jmtqee28Wid3oWUq3bqH3JHfeDzZ9nthtBOY=;
-        b=QQ5aqdMiQPpuC6BMDo3U4oh9XBzoUfiwhBQcCXHRpyqk0Z8CE95/hiFiTJb/Y+Lf8r
-         GqBP+NsfQNTLvImP80ajuwg0VNrmgOWly5wIVj7z8ze5m0qC8w006VgLgTO9adMUNKAH
-         myFDfqsi+Gl9IWfpD2rJsPWc8K4sV9Ptgg9+q2q5vsjrPSamUeP5dukHF1JDz7FEk6bC
-         ZB4Zc/+dWcsdZ/zvCniiWYDcPeVes7Q5kYrTrZhVjL8SxqwUzEfL1bQ3P+M2lmPeW8Sw
-         5bs0kYeMsL6E+lIt9Yo07lWywamTjNO/UW/4kGT474hw2LEXWph7PBQQZcav19bYXFlI
-         jySA==
-X-Gm-Message-State: AOAM530Oc0IJlAIk/VDKV/DrT2cyKYglJnKwtWND6v4SJg6vlWlfesu+
-	IB6TjLq1QtghV9KyUYdsLa8=
-X-Google-Smtp-Source: ABdhPJwrABX4IxFOcIS3MXPr0hk2kBOFhli6e4mmcChdEhXzunvTkXDMalAbeNfypfQ7kW/XSxfChQ==
-X-Received: by 2002:adf:df8b:: with SMTP id z11mr8154449wrl.133.1617641428026;
-        Mon, 05 Apr 2021 09:50:28 -0700 (PDT)
+        bh=5lLBdOAva93h7sba5wfimP9PBGLz9NegQLKVskRq+74=;
+        b=Zr4gbJQgp6TnuJ0pZbJcPur10ZkGVdGKf+NvZR5rd+k+Ef/M/GKdS4Rji2+kSWlrNT
+         HHDrnQRcQn6u/cR3iskiOkrUqScuKGu+ruoPTIM+fIUwQyneyCGV52WgzqiKg9bYvSJe
+         TgMDf881xdMWhZv/rAVin803/p80emujkMBJsM0/lk841l0RTjmNUjdOfpkwlma0cNLu
+         Q2RfJW7T6b4j0eP6ZXiA+R+rXqc3LRrLiQjY2PST5Jo+ikm8rvcm3YibTHlD9MG8yFzV
+         UHY59xKnWApiyGLnDN7WCufA/HquYs8kMwok10kjbQ21Lb6nzlQ7J3nuUf5O89L1MJNH
+         xsPA==
+X-Gm-Message-State: AOAM5305FU3/tCROkHHY6J/nDvSEotimh3ARX+J6HVdupnqY/WxS4V+j
+	/TudRK/MPUIMyEgIa4AA5A0=
+X-Google-Smtp-Source: ABdhPJyhgyP9bhPh6qlT91x5gAJ3IFDsG2lhJjwkNcKL6WO46TXixiyX6F3LwK0KFGzX5uBbkJB4DQ==
+X-Received: by 2002:a1c:e906:: with SMTP id q6mr52738wmc.138.1617641429648;
+        Mon, 05 Apr 2021 09:50:29 -0700 (PDT)
 Received: from agape ([5.171.72.58])
-        by smtp.gmail.com with ESMTPSA id r1sm35488857wrj.63.2021.04.05.09.50.27
+        by smtp.gmail.com with ESMTPSA id c16sm34889822wrs.81.2021.04.05.09.50.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Apr 2021 09:50:27 -0700 (PDT)
+        Mon, 05 Apr 2021 09:50:29 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: dan.carpenter@oracle.com,
@@ -43,9 +43,9 @@ Cc: dan.carpenter@oracle.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 08/10] staging: rtl8723bs: rewrite comparisons to null
-Date: Mon,  5 Apr 2021 18:49:55 +0200
-Message-Id: <92edc9da10838dd99f96a99121343f4ec11b5d90.1617640221.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 09/10] staging: rtl8723bs: remove empty for cycles
+Date: Mon,  5 Apr 2021 18:49:56 +0200
+Message-Id: <09875f599705d8f50af3511fa6bfaa54b9446a86.1617640221.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617640221.git.fabioaiuto83@gmail.com>
 References: <cover.1617640221.git.fabioaiuto83@gmail.com>
@@ -56,67 +56,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-fix the following post-commit hook checkpatch issues:
-
-CHECK: Comparison to NULL could be written "!pwep"
-147: FILE: drivers/staging/rtl8723bs/os_dep/ioctl_linux.c:442:
-+			if (pwep == NULL)
-
-CHECK: Comparison to NULL could be written "!skb"
-226: FILE: drivers/staging/rtl8723bs/os_dep/recv_linux.c:204:
-+	if (skb == NULL)
-
-CHECK: Comparison to NULL could be written "!dvobj"
-275: FILE: drivers/staging/rtl8723bs/os_dep/sdio_intf.c:398:
-+	if (dvobj == NULL)
+remove for-cycles left empty after RT_TRACE deletion
+and unused index variables
 
 Suggested-by: Joe Perches <joe@perches.com>
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/ioctl_linux.c | 2 +-
- drivers/staging/rtl8723bs/os_dep/recv_linux.c  | 2 +-
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c   | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-index 03360af0645d..297287cff5be 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-@@ -439,7 +439,7 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
- 			wep_key_len = wep_key_len <= 5 ? 5 : 13;
- 			wep_total_len = wep_key_len + FIELD_OFFSET(struct ndis_802_11_wep, KeyMaterial);
- 			pwep = kzalloc(wep_total_len, GFP_KERNEL);
--			if (pwep == NULL)
-+			if (!pwep)
- 				goto exit;
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index 4c94202ac209..eaa9f9e2e6a4 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -3466,7 +3466,6 @@ s32 c2h_handler_8723b(struct adapter *padapter, u8 *buf)
+ {
+ 	struct c2h_evt_hdr_88xx *pC2hEvent = (struct c2h_evt_hdr_88xx *)buf;
+ 	s32 ret = _SUCCESS;
+-	u8 index = 0;
  
- 			pwep->KeyLength = wep_key_len;
-diff --git a/drivers/staging/rtl8723bs/os_dep/recv_linux.c b/drivers/staging/rtl8723bs/os_dep/recv_linux.c
-index 63a7e7fe2bb5..975aceb7b45b 100644
---- a/drivers/staging/rtl8723bs/os_dep/recv_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/recv_linux.c
-@@ -201,7 +201,7 @@ int rtw_recv_indicatepkt(struct adapter *padapter, union recv_frame *precv_frame
- 	pfree_recv_queue = &(precvpriv->free_recv_queue);
+ 	if (!pC2hEvent) {
+ 		DBG_8192C("%s(): pC2hEventis NULL\n", __func__);
+@@ -3491,8 +3490,6 @@ s32 c2h_handler_8723b(struct adapter *padapter, u8 *buf)
+ 		break;
  
- 	skb = precv_frame->u.hdr.pkt;
--	if (skb == NULL)
-+	if (!skb)
- 		goto _recv_indicatepkt_drop;
+ 	case C2H_HW_INFO_EXCH:
+-		for (index = 0; index < pC2hEvent->plen; index++) {
+-		}
+ 		break;
  
- 	skb->data = precv_frame->u.hdr.rx_data;
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index f8e1d15f54ef..deba03ad6c6e 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -395,7 +395,7 @@ static int rtw_drv_init(
- 	struct dvobj_priv *dvobj;
+ 	case C2H_8723B_BT_INFO:
+@@ -3513,8 +3510,6 @@ s32 c2h_handler_8723b(struct adapter *padapter, u8 *buf)
  
- 	dvobj = sdio_dvobj_init(func);
--	if (dvobj == NULL)
-+	if (!dvobj)
- 		goto exit;
+ static void process_c2h_event(struct adapter *padapter, struct c2h_evt_hdr_t *pC2hEvent, u8 *c2hBuf)
+ {
+-	u8 index = 0;
+-
+ 	if (!c2hBuf) {
+ 		DBG_8192C("%s c2hbuff is NULL\n", __func__);
+ 		return;
+@@ -3537,8 +3532,6 @@ static void process_c2h_event(struct adapter *padapter, struct c2h_evt_hdr_t *pC
+ 		break;
  
- 	if1 = rtw_sdio_if1_init(dvobj, id);
+ 	case C2H_HW_INFO_EXCH:
+-		for (index = 0; index < pC2hEvent->CmdLen; index++) {
+-		}
+ 		break;
+ 
+ 	case C2H_8723B_BT_INFO:
 -- 
 2.20.1
 
