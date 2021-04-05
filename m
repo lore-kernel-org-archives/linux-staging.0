@@ -1,46 +1,48 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B40FA5F
-	for <linux-staging@lists.linux.dev>; Mon,  5 Apr 2021 00:02:17 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id t23so1967546pjy.3
-        for <linux-staging@lists.linux.dev>; Sun, 04 Apr 2021 17:02:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A948F70
+	for <linux-staging@lists.linux.dev>; Mon,  5 Apr 2021 00:42:43 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id g10so4888547plt.8
+        for <linux-staging@lists.linux.dev>; Sun, 04 Apr 2021 17:42:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:message-id:mime-version:content-disposition;
-        bh=wCxcfmyN+uyu2EuDS2MM3DeNALMCF932/5FQyU6Gi3E=;
-        b=pW1LFy3z+aGibN9XcvUaCpLdBNrk7Z5AQjCvKHmlFvMBayizkOw/+QGI86OSrHVQvf
-         IoQXZjXmHiSrHdPUChgBU7FZ2melVICdLW5bLgkANGlvnqRGbs4RzgPoHH16ZQaM63Il
-         FsD4QOV2q4PZzWzyikp4DYe/jzyJ0JsktZPyPspmr7tE1RmrU1I3FCmeW5eQbHPjK0Lg
-         zcNi4MLXxOZe4f2UazQQLSTyyteKnJPhdwlNFRYDxzoBYo08Cz5M4eHBmz1430jZbOWy
-         LzIaBQiHvXrbQ25LmePYrN8vUJDC3wuMXorRqhm0n1z96IGO2TT0XkBjbTppSMKqAuKn
-         nF6g==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=IroJdoAcq5zAI1honZ3ThwMkWQDS5Bqq0q4OifWOrBY=;
+        b=i3C6WhOMU0EGF4ZLXdWYwphURgSehOFih2BYREbGOAokXJ7mN1DWHHZcFPF3r3lAZU
+         zekilOVO0OAJ/QLe/J1Q/dLt0NqTBP8TxHNnDvo4ECHR9o1QCvRwkFwt/DGH6taUAchR
+         ModzHy0esq9zd2fKxkn/lD7HhWA6zfnk/xgt+Y9piYPpkJkA5fQcj4Utz+gM1MztnT0v
+         uiqfpOaJoReWJ91Q+7RJWbhs/3vyObiVvGEccB8zkM54rtOCS3a3Z1hUEQyNIGHQuzqm
+         h2FPvaLt5rJl47YRSqAcO724h10Ns+UA0p8hb8vDhft8U8DcuX60ZICALDosO6Wsn2EI
+         W21g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:message-id:mime-version
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
          :content-disposition;
-        bh=wCxcfmyN+uyu2EuDS2MM3DeNALMCF932/5FQyU6Gi3E=;
-        b=Zmz1wLGAVAvgMnj41uFx7tQCLRpzTQeG3uReuY2Avh6BYcLNWDsYj4pGGQCMrfMZ3n
-         d1C5tnF/ZvvdFjUviWhXZ+l/YTzXj8JXjeGF0GvjnqBc6EjvYwo/+FDVmfwtPJZLlRK5
-         ax8WGvY7e2K4VUfm5DIh01eeTR3DOb3StYDAABnZPLfPU/7NnO8NmBvKaojmA/cFha5H
-         XB3lLPPelkUUjpQOABDXbwsDgiVhN2mRVo2ZTFgeJIF7fc+cZp34Nxfhl7r3CrBNUDvf
-         fF3hh33V60o/eZWIYoA5ftqC/RCjAAbKHjr2HPluTMK2hb+nBRnp9a/bQJaXZU1gCFsb
-         eC9A==
-X-Gm-Message-State: AOAM530KjdP72kn5bLKJ3A7cXgsAA03YyBxq54OUG5JyWjBmFK8Rgw9g
-	NMTyaLXwPeEv6aV/9SYy3Rg=
-X-Google-Smtp-Source: ABdhPJxpPazXdKfvMEld3hWN/kGBTCn2ZuS94vfE3AVfI/3g+TS9JM/zSr1c9/sCgTSxL04DPYy1lg==
-X-Received: by 2002:a17:902:7612:b029:e5:f0dd:8667 with SMTP id k18-20020a1709027612b02900e5f0dd8667mr21654982pll.59.1617580936970;
-        Sun, 04 Apr 2021 17:02:16 -0700 (PDT)
+        bh=IroJdoAcq5zAI1honZ3ThwMkWQDS5Bqq0q4OifWOrBY=;
+        b=U+JfDf/eODxkdEwNjae3ENYfSrcTLucuXEcNzoE85ILtjDUlzRtEDkqVenm1jQkfgd
+         YtESQPov4/YMagmFCXNuwIdTm2NuA8ANhsrGIvbQA8zQWMr8lP1kryyEAjDai3/xIxKx
+         kAyQ3z540y0RGoMWXvY88ddB6C3ogGbvFh1nZkIp+3T13ZhdRJBbFmigxFx/5Y2S/UZR
+         8024AjMTQtRDZJ5IzCGIlsPGcxGQYLTsRGz8GiclQodmKNWimeZowm7lkBg9MF3OLeMx
+         Y7xEmA4X20NiETCfzvqPkn8+QusztHib9WAdXDd4RIO02pvehDssGweg1EpiCYkTldaU
+         5hdQ==
+X-Gm-Message-State: AOAM530uAmXIAs5INLroVE3eodVC6gzgizozupLDyKY0sICusnHXp2dB
+	ZBJqPxAkBm7/Y9cOOXB88OY=
+X-Google-Smtp-Source: ABdhPJwNpsGO0DHC2BtRNKlK9V+ctRoirx70WYVOQGZUY22wzasZXkjbc84kRaSHg7nHtSBl2Oyyvw==
+X-Received: by 2002:a17:902:ec06:b029:e8:e57f:680 with SMTP id l6-20020a170902ec06b02900e8e57f0680mr6438673pld.8.1617583362893;
+        Sun, 04 Apr 2021 17:42:42 -0700 (PDT)
 Received: from kali ([2409:4042:4d84:a21:5e54:ca6d:ddda:81d3])
-        by smtp.gmail.com with ESMTPSA id 195sm13571179pge.7.2021.04.04.17.02.15
+        by smtp.gmail.com with ESMTPSA id q19sm13364813pgv.38.2021.04.04.17.42.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Apr 2021 17:02:16 -0700 (PDT)
-Date: Mon, 5 Apr 2021 05:31:17 +0530
+        Sun, 04 Apr 2021 17:42:42 -0700 (PDT)
+Date: Mon, 5 Apr 2021 06:11:43 +0530
 From: Mitali Borkar <mitaliborkar810@gmail.com>
 To: manish@marvell.com, GR-Linux-NIC-Dev@marvell.com,
 	gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Message-ID: <YGpTTbWENcr1EejC@kali>
+Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, mitaliborkar810@gmail.com
+Subject: [PATCH] staging: qlge: remove else after break
+Message-ID: <YGpcx9MZuZJFy0Z/@kali>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -49,7 +51,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-outreachy-kernel@googlegroups.com, mitaliborkar810@gmail.com 
+linux-staging@lists,linux-kernel@vger.kernel.org
 Bcc: 
 Subject: [PATCH] staging: qlge:remove else after break
 Reply-To: 
