@@ -1,54 +1,123 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ssl.serverraum.org (ssl.serverraum.org [176.9.125.105])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4EE25F
-	for <linux-staging@lists.linux.dev>; Mon,  5 Apr 2021 16:50:32 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id 12so5979803wmf.5
-        for <linux-staging@lists.linux.dev>; Mon, 05 Apr 2021 09:50:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=b7BFqSIqisVb+P8mMvuvvRlADBX0+TPMxqh1kGTuZXM=;
-        b=iG9q5XUtIHMDcHH7CsOFSN7JYSmNEWyPNz/jOrLZpz7bboDc3H4PFOnmRhLNwCF53T
-         TnEgmVkO5WlVzHgp7bY7ldZ7NsqLgqJggU1Hqza/ikbtDr/RlYRWGOJKt1idCMoffBNw
-         7QhMsh2uTurgReczK/rgRWsaznuzKHxk8+2K3lYi6LeXgMkbO5lVD7Qlkel9icCIb4c8
-         93Dgzj+Dm9Somh3q9ZbdNqv/U6VqMm8Twanw2hmxiCcFosaPtaY0XZD7VKwpQwFBDwPB
-         6FQCGN0aNddOVY/+D6L3x1iFWW1XiGLPA91tLmYpnfW1xqZrRnTpNDsCDsZa3+YWYr+G
-         vVzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=b7BFqSIqisVb+P8mMvuvvRlADBX0+TPMxqh1kGTuZXM=;
-        b=l7oUgpPrFkxSaLHNy/dOEOjp33C6g0fsVUNKLopUmK9ZA0qKSbmSMdmzEOYCY53LXz
-         Odls3V+y3GUvWuWpchxZam9pRMq/VA/Xg+AmYFH0Hsq9CODDDvNycbcZJUi62WSrGgzl
-         BqpjrsF92K9lA53kjpMHxO+rvHOKPrbHQydF0z86lG1eNCe2gyo+JB7vhnq4k2vWvc9M
-         qqyFP4zIq/9Q1TO2TV2TMDzOcwXoCdfCPsEx4ClJ33qzc1tJHXSu5X4o7Nvtci+HDZvA
-         CgghsQ3AkxZvbZakWIOL7zGSmd4L8Exz8AqBBGgcmRGUSdezTNtnvnmaQLTG7qj0eT3t
-         OQsw==
-X-Gm-Message-State: AOAM5332hgRU9prWYTrpQzhtgQVlVHkwlXaCoqYG+Z4MQvN3y3REchRN
-	I9vKB+V6OrgL1KW2lufsa/0=
-X-Google-Smtp-Source: ABdhPJwMwa2NsjlE95FpdPqliEGDD8OGda7R1VX9xHRjszt7i9zH02Y9H6yI8+uCcLbQG1vtRinZZw==
-X-Received: by 2002:a05:600c:2945:: with SMTP id n5mr65886wmd.42.1617641431169;
-        Mon, 05 Apr 2021 09:50:31 -0700 (PDT)
-Received: from agape ([5.171.72.58])
-        by smtp.gmail.com with ESMTPSA id l21sm46969wmg.41.2021.04.05.09.50.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Apr 2021 09:50:30 -0700 (PDT)
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: dan.carpenter@oracle.com,
-	joe@perches.com,
-	linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2B7E5F
+	for <linux-staging@lists.linux.dev>; Mon,  5 Apr 2021 16:55:38 +0000 (UTC)
+Received: from mwalle01.fritz.box (unknown [IPv6:2a02:810c:c200:2e91:fa59:71ff:fe9b:b851])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ssl.serverraum.org (Postfix) with ESMTPSA id CEB002224E;
+	Mon,  5 Apr 2021 18:47:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2016061301;
+	t=1617641259;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lACUh6+pO6Mh+0/uWp/aTCFDfW7S2kCGechEIv6LxiY=;
+	b=lwFE87EYukRw6Yc6p60CLMzC5zc1q4XkEPTn8w8EvzA1JTUuv+YccJm62Q7VbOfBftWYWl
+	UYVpBPvEm+zmXff6Nt+50Y7ystqKWnOHm4H8B+opiuB/6tPwdRVQ2hz+cKHZqMG/Bd3MLL
+	hij5E+nDvi2JnjZOiwmh02pWHeeGxPw=
+From: Michael Walle <michael@walle.cc>
+To: ath9k-devel@qca.qualcomm.com,
+	UNGLinuxDriver@microchip.com,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 10/10] staging: rtl8723bs: remove commented code block
-Date: Mon,  5 Apr 2021 18:49:57 +0200
-Message-Id: <b930cfc476c97f2ae5c5b90c1314a6270d56a539.1617640221.git.fabioaiuto83@gmail.com>
+	linuxppc-dev@lists.ozlabs.org,
+	netdev@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-amlogic@lists.infradead.org,
+	linux-oxnas@groups.io,
+	linux-omap@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Andrew Lunn <andrew@lunn.ch>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Paul Mackerras <paulus@samba.org>,
+	Andreas Larsson <andreas@gaisler.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@siol.net>,
+	Joyce Ooi <joyce.ooi@intel.com>,
+	Chris Snook <chris.snook@gmail.com>,
+	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
+	bcm-kernel-feedback-list@broadcom.com,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Fugang Duan <fugang.duan@nxp.com>,
+	Madalin Bucur <madalin.bucur@nxp.com>,
+	Pantelis Antoniou <pantelis.antoniou@gmail.com>,
+	Claudiu Manoil <claudiu.manoil@nxp.com>,
+	Li Yang <leoyang.li@nxp.com>,
+	Yisen Zhuang <yisen.zhuang@huawei.com>,
+	Salil Mehta <salil.mehta@huawei.com>,
+	Hauke Mehrtens <hauke@hauke-m.de>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Vadym Kochan <vkochan@marvell.com>,
+	Taras Chornyi <tchornyi@marvell.com>,
+	Mirko Lindner <mlindner@marvell.com>,
+	Stephen Hemminger <stephen@networkplumber.org>,
+	Felix Fietkau <nbd@nbd.name>,
+	John Crispin <john@phrozen.org>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Mark Lee <Mark-MC.Lee@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Bryan Whitehead <bryan.whitehead@microchip.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+	Byungho An <bh74.an@samsung.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Alexandre Torgue <alexandre.torgue@st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Neil Armstrong <narmstrong@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Grygorii Strashko <grygorii.strashko@ti.com>,
+	Wingman Kwok <w-kwok2@ti.com>,
+	Murali Karicheri <m-karicheri2@ti.com>,
+	Michal Simek <michal.simek@xilinx.com>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
+	Kalle Valo <kvalo@codeaurora.org>,
+	Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>,
+	Ryder Lee <ryder.lee@mediatek.com>,
+	Stanislaw Gruszka <stf_xl@wp.pl>,
+	Helmut Schaa <helmut.schaa@googlemail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	=?UTF-8?q?J=C3=A9r=C3=B4me=20Pouiller?= <jerome.pouiller@silabs.com>,
+	Vivien Didelot <vivien.didelot@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Michael Walle <michael@walle.cc>
+Subject: [PATCH 2/2] of: net: fix of_get_mac_addr_nvmem() for PCI and DSA nodes
+Date: Mon,  5 Apr 2021 18:46:43 +0200
+Message-Id: <20210405164643.21130-3-michael@walle.cc>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1617640221.git.fabioaiuto83@gmail.com>
-References: <cover.1617640221.git.fabioaiuto83@gmail.com>
+In-Reply-To: <20210405164643.21130-1-michael@walle.cc>
+References: <20210405164643.21130-1-michael@walle.cc>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -56,53 +125,88 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove commented 5G code block in hal/hal_com_phycfg.c
-which contained removed RT_TRACE log
+of_get_mac_address() already supports fetching the MAC address by an
+nvmem provider. But until now, it was just working for platform devices.
+Esp. it was not working for DSA ports and PCI devices. It gets more
+common that PCI devices have a device tree binding since SoCs contain
+integrated root complexes.
 
-as reported in the driver's TODO file:
+Use the nvmem of_* binding to fetch the nvmem cells by a struct
+device_node. We still have to try to read the cell by device first
+because there might be a nvmem_cell_lookup associated with that device.
 
-    - find and remove remaining code valid only for 5 GHz.
-      Most of the obvious ones have been removed,
-      but things like channel > 14 still exist.
-
-so just removed obsolete commented code.
-
-Suggested-by: Joe Perches <joe@perches.com>
-Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+Signed-off-by: Michael Walle <michael@walle.cc>
 ---
- .../staging/rtl8723bs/hal/hal_com_phycfg.c    | 19 -------------------
- 1 file changed, 19 deletions(-)
+Please note, that I've kept the nvmem_get_mac_address() which operates
+on a device. The new of_get_mac_addr_nvmem() is almost identical and
+there are no users of the former function right now, but it seems to be
+the "newer" version to get the MAC address for a "struct device". Thus
+I've kept it. Please advise, if I should kill it though.
 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-index f52cc4e7a6e6..a7ecdf501a14 100644
---- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-@@ -1780,25 +1780,6 @@ s8 phy_get_tx_pwr_lmt(struct adapter *adapter, u32 reg_pwr_tbl_sel,
- 		DBG_871X("No power limit table of the specified band\n");
- 	}
+ drivers/of/of_net.c | 37 +++++++++++++++++++++++++++++++------
+ 1 file changed, 31 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/of/of_net.c b/drivers/of/of_net.c
+index 2344ad7fff5e..2323c6063eaf 100644
+--- a/drivers/of/of_net.c
++++ b/drivers/of/of_net.c
+@@ -11,6 +11,7 @@
+ #include <linux/phy.h>
+ #include <linux/export.h>
+ #include <linux/device.h>
++#include <linux/nvmem-consumer.h>
  
--	/*  combine 5G VHT & HT rate */
--	/*  5G 20M and 40M HT and VHT can cross reference */
--	/*
--	if (band_type == BAND_ON_5G && pwr_lmt == MAX_POWER_INDEX) {
--		if (idx_bandwidth == 0 || idx_bandwidth == 1) {
--				 idx_band, idx_bandwidth,
--				 idx_rate_sctn, rf_path));
--			if (idx_rate_sctn == 2)
--				pwr_lmt = hal_data->TxPwrLimit_5G[idx_regulation][idx_bandwidth][4][idx_channel][rf_path];
--			else if (idx_rate_sctn == 4)
--				pwr_lmt = hal_data->TxPwrLimit_5G[idx_regulation][idx_bandwidth][2][idx_channel][rf_path];
--			else if (idx_rate_sctn == 3)
--				pwr_lmt = hal_data->TxPwrLimit_5G[idx_regulation][idx_bandwidth][5][idx_channel][rf_path];
--			else if (idx_rate_sctn == 5)
--				pwr_lmt = hal_data->TxPwrLimit_5G[idx_regulation][idx_bandwidth][3][idx_channel][rf_path];
--		}
--	}
--	*/
--
- 	/* DBG_871X("TxPwrLmt[Regulation %d][Band %d][BW %d][RFPath %d][Rate 0x%x][Chnl %d] = %d\n", */
- 	/*		idx_regulation, hal_data->CurrentBandType, bandwidth, rf_path, data_rate, channel, pwr_lmt); */
- 	return pwr_lmt;
+ /**
+  * of_get_phy_mode - Get phy mode for given device_node
+@@ -56,18 +57,42 @@ static int of_get_mac_addr(struct device_node *np, const char *name, u8 *addr)
+ 	return -ENODEV;
+ }
+ 
+-static int of_get_mac_addr_nvmem(struct device_node *np, u8 addr)
++static int of_get_mac_addr_nvmem(struct device_node *np, u8 *addr)
+ {
+ 	struct platform_device *pdev = of_find_device_by_node(np);
++	struct nvmem_cell *cell;
++	const void *mac;
++	size_t len;
+ 	int ret;
+ 
+-	if (!pdev)
+-		return -ENODEV;
++	/* Try lookup by device first, there might be a nvmem_cell_lookup
++	 * associated with a given device.
++	 */
++	if (pdev) {
++		ret = nvmem_get_mac_address(&pdev->dev, addr);
++		put_device(&pdev->dev);
++		return ret;
++	}
++
++	cell = of_nvmem_cell_get(np, "mac-address");
++	if (IS_ERR(cell))
++		return PTR_ERR(cell);
++
++	mac = nvmem_cell_read(cell, &len);
++	nvmem_cell_put(cell);
++
++	if (IS_ERR(mac))
++		return PTR_ERR(mac);
++
++	if (len != ETH_ALEN || !is_valid_ether_addr(mac)) {
++		kfree(mac);
++		return -EINVAL;
++	}
+ 
+-	ret = nvmem_get_mac_address(&pdev->dev, addr);
+-	put_device(&pdev->dev);
++	ether_addr_copy(addr, mac);
++	kfree(mac);
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ /**
 -- 
 2.20.1
 
