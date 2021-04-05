@@ -1,133 +1,122 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E59F259E
-	for <linux-staging@lists.linux.dev>; Mon,  5 Apr 2021 15:11:08 +0000 (UTC)
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AxNhREK6xgeoKKlONSAPXwCnXdLJzesId70hD?=
- =?us-ascii?q?6mlaTxtJfsuE0/2/hfhz726RtB89UGwt8OrqBICuWnXZnKQe3aAwOvOYUBDiqC?=
- =?us-ascii?q?+UKuhZjLfK5x3FN2nA+vVG1aFmGpIObeHYKVRhl8717E2ZPr8boOWvy6yjiefA?=
- =?us-ascii?q?w3oFd2gDV4ha4wh0EQqdGEFtLTM2ZqYRLoaW5cZMulObF0g/U8LTPBU4dtTYq8?=
- =?us-ascii?q?aOvJzrZgNuPW9E1CC+yQLt0rL8HhSCty1ybxpEy94ZnlT4rw=3D=3D?=
-X-IronPort-AV: E=Sophos;i="5.81,306,1610406000"; 
-   d="scan'208";a="377777468"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Apr 2021 17:09:56 +0200
-Date: Mon, 5 Apr 2021 17:09:55 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
-cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Subject: Re: [Outreachy kernel] [PATCH] staging: emxx_udc: Ending line with
- argument
-In-Reply-To: <82580331-13dc-ed79-72e7-3984fd2f75f9@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2104051708370.2981@hadrien>
-References: <20210401195457.24512-1-martinsdecarvalhobeatriz@gmail.com> <alpine.DEB.2.22.394.2104012314480.2908@hadrien> <82580331-13dc-ed79-72e7-3984fd2f75f9@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97BB95F
+	for <linux-staging@lists.linux.dev>; Mon,  5 Apr 2021 16:50:11 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id t5-20020a1c77050000b029010e62cea9deso5921783wmi.0
+        for <linux-staging@lists.linux.dev>; Mon, 05 Apr 2021 09:50:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gPfTaF4f61niwOGxXWsD+hVfFZNowGCSAbAq2kTY6aM=;
+        b=Wqe3zo9iBWtoAOeNGdjAM+RAT4M8svsQoneMnXc7wv7EkKstiyMLs2ylnQaANp4XOR
+         hZo//KKRRzwSJKeP3LB4Cw2gyqIdowXt8HgrTrBEs0ORRCNwiDLH0B5Veqe9gyScLFg9
+         nYNsHHbue/5OHq2/Puzjja7ni0JHg/zI+3uou+YcrLfVSJX0ZAafbaolME0PnMyLRL5Z
+         RPPK6y+zHzSsmQfTM2I2ZzQZfPgO+SmWAzrvL1acAtSDnHHsNWEq+5eNojn4Yr0uS5v0
+         NfJ3ShZY1TCC6F3ZitGtmbUyL42bEBGnB+JbsfG24c4799Xg/qV9WP5+BtcuNYriIVso
+         zmFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gPfTaF4f61niwOGxXWsD+hVfFZNowGCSAbAq2kTY6aM=;
+        b=isG85O/lfm0ZMWFCortbNXCllW1E06C9h8eV4hoXXRStPUnjrgICpVctqmLHNVfUtt
+         306WOOnbHxtzXSwJJs9rds/BMSaliHqGXR6dJS83DQV5ICuoUzLqpC5rEKUuj//xjZ1E
+         dTpsE20hFt1CpbUQiHjQ7BVilqXtl3VE6yHGWAJoeMjnqot7bzyhvg8GdxTdOkAMH26m
+         wa68eyXL+hGlLyvIoHDonymLHXCXcDoA4IKoZ74461dnsancHeYEqP73y33+Fjj3gJrs
+         OqIWLGlR3vsLDoiN0/VZhgeo8/ofR+G2o2qMzjxPSU6DBObhoMdci2Dq+inRzaLbhPDC
+         p3oA==
+X-Gm-Message-State: AOAM533gVuYaid89b6tC128OTrsdN0NxDdp1PHb6QRJ/o9Z69QIUTPdt
+	H7xr94SgHUZCCgR0JgDnNFs=
+X-Google-Smtp-Source: ABdhPJx/V1BFwD23If6cf9JbGSYqTBNZsLBzujn0wMhcwfZW2n9WEbB0phfQ7dxx1xMswoisYA/BKg==
+X-Received: by 2002:a05:600c:4103:: with SMTP id j3mr21010wmi.175.1617641410079;
+        Mon, 05 Apr 2021 09:50:10 -0700 (PDT)
+Received: from agape ([5.171.72.58])
+        by smtp.gmail.com with ESMTPSA id 187sm1369311wma.0.2021.04.05.09.50.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Apr 2021 09:50:09 -0700 (PDT)
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: dan.carpenter@oracle.com,
+	joe@perches.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Fabio Aiuto <fabioaiuto83@gmail.com>
+Subject: [PATCH 00/10] staging: rtl8723bs: completely remove RT_TRACE logs
+Date: Mon,  5 Apr 2021 18:49:47 +0200
+Message-Id: <cover.1617640221.git.fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
+This patchset removes all RT_TRACE usages left and definitions
 
+The whole private tracing system is not tied to a configuration
+symbol and the default behaviour is _trace nothing_. It's verbose
+and relies on a private log level tracing doomed to be
+removed.
 
-On Mon, 5 Apr 2021, Beatriz Martins de Carvalho wrote:
+The patchset consist on a first patch applying the following
+semantic patch on rtl8723bs directory:
 
->
-> Em 01/04/21 22:16, Julia Lawall escreveu:
-> >
-> > On Thu, 1 Apr 2021, Beatriz Martins de Carvalho wrote:
-> >
-> > > Cleans up check of "Lines should not end with a '('"
-> > > with argument present in next line in file emxx_udc.c
-> > The coding style documentation encourages remaining within 80 characters.
-> > I'm not sure that the ( warning is worth increading the excess beyond 80
-> > characters (or introducing it in the last case).
-> >
-> > julia
-> Thanks, prof Julia, how the checkpath now warning only if line length of 100
-> characters, I used it for reference.
+$ cat RT_TRACE.cocci
+@@
+expression a, b, c;
+@@
 
-I think it was changed so that people would leave as is code that was
-really more readable at 85 or 90 characters.  But the documentation still
-encourages 80 characters.
+-       RT_TRACE(a, b, (c));
 
-julia
+Then follows a patch removing commented out RT_TRACE calls.
+Third patch removes RT_TRACE definitions.
 
->
-> I will take the suggestions of checkpatch with more attention.
->
-> Beatriz
->
-> > > Signed-off-by: Beatriz Martins de Carvalho
-> > > <martinsdecarvalhobeatriz@gmail.com>
-> > > ---
-> > >   drivers/staging/emxx_udc/emxx_udc.c | 11 ++++-------
-> > >   1 file changed, 4 insertions(+), 7 deletions(-)
-> > >
-> > > diff --git a/drivers/staging/emxx_udc/emxx_udc.c
-> > > b/drivers/staging/emxx_udc/emxx_udc.c
-> > > index 741147a4f0fe..20f53cf6e20f 100644
-> > > --- a/drivers/staging/emxx_udc/emxx_udc.c
-> > > +++ b/drivers/staging/emxx_udc/emxx_udc.c
-> > > @@ -1073,9 +1073,8 @@ static int _nbu2ss_epn_in_pio(struct nbu2ss_udc
-> > > *udc, struct nbu2ss_ep *ep,
-> > >   		i_word_length = length / sizeof(u32);
-> > >   		if (i_word_length > 0) {
-> > >   			for (i = 0; i < i_word_length; i++) {
-> > > -				_nbu2ss_writel(
-> > > -					&preg->EP_REGS[ep->epnum -
-> > > 1].EP_WRITE,
-> > > -					p_buf_32->dw);
-> > > +				_nbu2ss_writel(&preg->EP_REGS[ep->epnum -
-> > > 1].EP_WRITE,
-> > > +					       p_buf_32->dw);
-> > >
-> > >   				p_buf_32++;
-> > >   			}
-> > > @@ -1225,8 +1224,7 @@ static void _nbu2ss_restert_transfer(struct
-> > > nbu2ss_ep *ep)
-> > >   		return;
-> > >
-> > >   	if (ep->epnum > 0) {
-> > > -		length = _nbu2ss_readl(
-> > > -			&ep->udc->p_regs->EP_REGS[ep->epnum - 1].EP_LEN_DCNT);
-> > > +		length = _nbu2ss_readl(&ep->udc->p_regs->EP_REGS[ep->epnum -
-> > > 1].EP_LEN_DCNT);
-> > >
-> > >   		length &= EPN_LDATA;
-> > >   		if (length < ep->ep.maxpacket)
-> > > @@ -1462,8 +1460,7 @@ static void _nbu2ss_epn_set_stall(struct nbu2ss_udc
-> > > *udc,
-> > >   		for (limit_cnt = 0
-> > >   			; limit_cnt < IN_DATA_EMPTY_COUNT
-> > >   			; limit_cnt++) {
-> > > -			regdata = _nbu2ss_readl(
-> > > -				&preg->EP_REGS[ep->epnum - 1].EP_STATUS);
-> > > +			regdata = _nbu2ss_readl(&preg->EP_REGS[ep->epnum -
-> > > 1].EP_STATUS);
-> > >
-> > >   			if ((regdata & EPN_IN_DATA) == 0)
-> > >   				break;
-> > > --
-> > > 2.25.1
-> > >
-> > > --
-> > > You received this message because you are subscribed to the Google Groups
-> > > "outreachy-kernel" group.
-> > > To unsubscribe from this group and stop receiving emails from it, send an
-> > > email to outreachy-kernel+unsubscribe@googlegroups.com.
-> > > To view this discussion on the web visit
-> > > https://groups.google.com/d/msgid/outreachy-kernel/20210401195457.24512-1-martinsdecarvalhobeatriz%40gmail.com.
-> > >
->
-> --
-> You received this message because you are subscribed to the Google Groups
-> "outreachy-kernel" group.
-> To unsubscribe from this group and stop receiving emails from it, send an
-> email to outreachy-kernel+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit
-> https://groups.google.com/d/msgid/outreachy-kernel/82580331-13dc-ed79-72e7-3984fd2f75f9%40gmail.com.
->
+All other patches, do some code cleaning on sites left blank
+by RT_TRACE removal.
+
+This scheme was suggested by Joe Perches.
+
+https://lore.kernel.org/linux-staging/1cd79d781cdcccf621ce8e104a9cdf1e90e7f803.camel@perches.com/
+
+Fabio Aiuto (10):
+  staging: rtl8723bs: remove all RT_TRACE logs in hal/ and os_dep/
+  staging: rtl8723bs: remove commented out RT_TRACE logs in hal/ and
+    os_dep/
+  staging: rtl8723bs: remove RT_TRACE log definitions
+  staging: rtl8723bs: remove empty if, else blocks after RT_TRACE
+    deletion
+  staging: rtl8723bs: remove empty #ifdef blocks after RT_TRACE deletion
+  staging: rtl8723bs: remove unnecessary bracks after RT_TRACE deletion
+  staging: rtl8723bs: place constant on the right side of the test
+  staging: rtl8723bs: rewrite comparisons to null
+  staging: rtl8723bs: remove empty for cycles
+  staging: rtl8723bs: remove commented code block
+
+ .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    |   3 -
+ drivers/staging/rtl8723bs/hal/HalPwrSeqCmd.c  |  46 ------
+ .../staging/rtl8723bs/hal/hal_com_phycfg.c    |  20 ---
+ drivers/staging/rtl8723bs/hal/hal_intf.c      |   2 -
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 131 +-----------------
+ .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   |  33 -----
+ .../staging/rtl8723bs/hal/rtl8723b_rf6052.c   |   2 -
+ .../staging/rtl8723bs/hal/rtl8723bs_recv.c    |   5 +-
+ .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    |  41 +-----
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  |  49 +------
+ drivers/staging/rtl8723bs/hal/sdio_ops.c      |  35 +----
+ drivers/staging/rtl8723bs/include/rtw_debug.h |  18 ---
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c |   6 -
+ .../staging/rtl8723bs/os_dep/ioctl_linux.c    |  69 +--------
+ drivers/staging/rtl8723bs/os_dep/mlme_linux.c |   4 -
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   |  52 +------
+ .../staging/rtl8723bs/os_dep/osdep_service.c  |   4 +-
+ drivers/staging/rtl8723bs/os_dep/recv_linux.c |  12 +-
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c  |  28 +---
+ drivers/staging/rtl8723bs/os_dep/xmit_linux.c |   5 -
+ 20 files changed, 24 insertions(+), 541 deletions(-)
+
+-- 
+2.20.1
+
