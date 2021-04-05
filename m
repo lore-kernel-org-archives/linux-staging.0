@@ -1,74 +1,68 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A835F
-	for <linux-staging@lists.linux.dev>; Mon,  5 Apr 2021 06:21:32 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 259D961399;
-	Mon,  5 Apr 2021 06:21:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1617603691;
-	bh=xKdGZ44ZwQ3VybqwUhF7c0iuUupdhhUePbVF00lo1Hc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ma0jUVRBxeTvA5MX/MKMkCXamBJofQ9SmH38mKpEloZsRapwwGGEh64zmQUbU6R4B
-	 fjCJ4UCRnJo9NY+4kvgpsozrM+4NCX9vgFGuqpOJ02MLap8g7ze+c57EwxmoulzJ+1
-	 l0iBGaQzjeaUgimkJtbxkw1sZQTo5zluoRkBBH0A=
-Date: Mon, 5 Apr 2021 08:21:28 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Mitali Borkar <mitaliborkar810@gmail.com>
-Cc: manish@marvell.com, GR-Linux-NIC-Dev@marvell.com,
-	outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: qlge: remove else after break
-Message-ID: <YGqsaKVJM8pn1BYU@kroah.com>
-References: <YGpcx9MZuZJFy0Z/@kali>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA65F259E
+	for <linux-staging@lists.linux.dev>; Mon,  5 Apr 2021 08:33:37 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+	by mx2.suse.de (Postfix) with ESMTP id A1691B135;
+	Mon,  5 Apr 2021 08:13:45 +0000 (UTC)
+Message-ID: <6ae5042643d3d079e3b0bf3c8e07334dd4179d41.camel@suse.de>
+Subject: Re: [PATCH] bcm2835-pcm: Allow up to 8 channels and 192kHz data rate
+From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To: Stefan Wahren <stefan.wahren@i2se.com>, Greg Kroah-Hartman
+	 <gregkh@linuxfoundation.org>, Takashi Iwai <tiwai@suse.de>
+Cc: linux-staging@lists.linux.dev, Dom Cobley <popcornmix@gmail.com>
+Date: Mon, 05 Apr 2021 10:13:43 +0200
+In-Reply-To: <1617373688-8715-1-git-send-email-stefan.wahren@i2se.com>
+References: <1617373688-8715-1-git-send-email-stefan.wahren@i2se.com>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-luK8/GRMRrlbhUIuRPWH"
+User-Agent: Evolution 3.38.4 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YGpcx9MZuZJFy0Z/@kali>
-
-On Mon, Apr 05, 2021 at 06:11:43AM +0530, Mitali Borkar wrote:
-> linux-staging@lists,linux-kernel@vger.kernel.org
-> Bcc: 
-> Subject: [PATCH] staging: qlge:remove else after break
-> Reply-To: 
-
-Very odd, why is this in the body of the email?
 
 
+--=-luK8/GRMRrlbhUIuRPWH
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Fixed Warning:- else is not needed after break
-> break terminates the loop if encountered. else is unnecessary and
-> increases indenatation
-> 
-> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+On Fri, 2021-04-02 at 16:28 +0200, Stefan Wahren wrote:
+> From: Dom Cobley <popcornmix@gmail.com>
+>=20
+> The firmware driver can support this, so allow it to be selected
+> Increase the buffer sizes to handle the higher data rates.
+>=20
+> Signed-off-by: Dom Cobley <popcornmix@gmail.com>
+> Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 > ---
->  drivers/staging/qlge/qlge_mpi.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/qlge/qlge_mpi.c b/drivers/staging/qlge/qlge_mpi.c
-> index 2630ebf50341..3a49f187203b 100644
-> --- a/drivers/staging/qlge/qlge_mpi.c
-> +++ b/drivers/staging/qlge/qlge_mpi.c
-> @@ -935,13 +935,11 @@ static int qlge_idc_wait(struct qlge_adapter *qdev)
->  			netif_err(qdev, drv, qdev->ndev, "IDC Success.\n");
->  			status = 0;
->  			break;
-> -		} else {
-> -			netif_err(qdev, drv, qdev->ndev,
-> +		}	netif_err(qdev, drv, qdev->ndev,
->  				  "IDC: Invalid State 0x%.04x.\n",
->  				  mbcp->mbox_out[0]);
->  			status = -EIO;
->  			break;
-> -		}
 
-Indentation is now no longer correct :(
+Reviewed-by: Nicolas Saenz Julienne <nsaenz@kernel.org>
 
-thanks,
+Thanks!
+Nicolas
 
-greg k-h
+
+
+--=-luK8/GRMRrlbhUIuRPWH
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAmBqxrgACgkQlfZmHno8
+x/6XMAf9FYZDsU6yJk7SpnEN331sEdsrS+XebxRuEroLpA/ercJh3fh23vo/HLW4
+XUyUvnwLoF6ZopjJP1XST99Ksx5Wa0dlcWDnAUadiNlQsMWOT1lZNebEaB/AQxBE
+rZXcTwaAQLpLjIASW8zJk/cX6Dvp71bbcTB+6Ci+dcqgsuZ+SMbMHpluuE6DbIDF
+/1sYprgxLLwuXtR189SX2gSC8/J913PWHfcvs+lPRAUGB82QWIw878kxvn0iPAVF
+aQay98PN72Nj7HgeuOYEecKMQWCMiqipwgFgjAcOwjJNHtS7vaG+Ax6W8r4bIh80
+q6toB8/r87PLkyPxOlhK3Dn6k1ZrzA==
+=vRms
+-----END PGP SIGNATURE-----
+
+--=-luK8/GRMRrlbhUIuRPWH--
+
