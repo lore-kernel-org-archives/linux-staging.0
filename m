@@ -1,39 +1,39 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68B65F
-	for <linux-staging@lists.linux.dev>; Mon,  5 Apr 2021 17:29:25 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id x7so11531955wrw.10
-        for <linux-staging@lists.linux.dev>; Mon, 05 Apr 2021 10:29:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 917046D09
+	for <linux-staging@lists.linux.dev>; Mon,  5 Apr 2021 17:29:26 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id x16so11520554wrn.4
+        for <linux-staging@lists.linux.dev>; Mon, 05 Apr 2021 10:29:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=bKz/zL8aMPqGfUWgzJWrQn+k6sxAWjkqG0TRxYA7Mn0=;
-        b=B85pOMrySjt062hHVU3fwo73VQK2XmQB1kkwMdd3bWeMvQ3Oi7KXoTBAwTICQmabm+
-         hxUR4qBbq8qDRoB+WFkiD1qIYgvudSlIiKweFFFGu+8gepOZtoMh9wSq/jnExdr7/7G2
-         9+cDrpJeHqnIetOIqEeV/xDMpgO1mzvWVeQxVUySt8INYJu3d/Y0aSeDW4Xw+7erTH/m
-         ytQu4Ob/qf31ErU2rdhMouE0w681zsPh/RRIcjPAj4vPmUubLTsccXO+D7U1XpCzIDGL
-         aDm7GD3txRSU5AQEOnr7RrLB3yEO98NYwd3bSRc8xffZCW5JDYTr+kNOynlom5jKewsi
-         lRZA==
+        bh=YfIIHnV0A9du9ORGwoOsInV843q39HnrSsHUhvGVWnc=;
+        b=LKLZaJMdbTLWBZcTbbPQK4lBcGeN6boliJnrSn+vv0siO3oWjizfBhcsBHe3/UD0kS
+         s/cvopt2lCV35yVYbPvfv6daJE/PtEsAlG/OOrdEfXZAXYVFhcm70feIhmAjfsEJmTm0
+         3C9alVqtEqcOf3eWkYxL3FvHy/5WtbaeloNKo69Cwwf2lxim6WbdSef0hxcMC6tV/ISV
+         5XHJdyS+dcdg8/zSsZEA+3oISNcRuk9MD24+4tLHi2hoTQ4ip31oLKMqAmfMqAq0SEx/
+         XMXV33B+ivxgiI9CcvcEMpD4e0Bj0AACcNdbrnIVAAOAv/pEhBNeBTFwl19ePO3TMnem
+         4nPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=bKz/zL8aMPqGfUWgzJWrQn+k6sxAWjkqG0TRxYA7Mn0=;
-        b=TmYyXuA2AOizNlWaxPd74XVrJsx7RGa9ohDcVQP4kTvpiDCHuKZR2JA1oHbfstR9A9
-         tmSvOPdW1aa4aCk32JJo0rNtCNzkqonbL6D8Z2+ZyzaFYQ4JZFI28qrSpD9olBEV6uft
-         JZfbqX9agLUacmGuL5Yw8wrdtpkhFEwO391nhtT51grlmL9xOLzMFz/pxH++kr48OiOt
-         I3hQAwwhmlfa8y5hSThMyBZm2/elubEu7QJcHDObZfXYW8d4pT7b/f8ifpC4tJmfS+kd
-         sif1W3UKoSUtLQuD1wp/w09UPVnBfoZqtA9EVNvnonH73B37fP6UHozmiMWIlBTj8qq5
-         Fhjg==
-X-Gm-Message-State: AOAM5323fSB71kCxVdCs1aQVWQkDZ9sfaiV4aqF/iJalItbcZWV8V/Kq
-	8hSJ1rUlC897lptpgqw8T6Q=
-X-Google-Smtp-Source: ABdhPJw6x7RH7hlzbuhPdmLXxj5PfjAWgxDeFXxLTFl3L6zPrSFc/KEboDEg1q1Y7bbWx5Y+b9ITxQ==
-X-Received: by 2002:a05:6000:10c3:: with SMTP id b3mr30087210wrx.96.1617643764323;
-        Mon, 05 Apr 2021 10:29:24 -0700 (PDT)
+        bh=YfIIHnV0A9du9ORGwoOsInV843q39HnrSsHUhvGVWnc=;
+        b=OTQ6Z0/TmR/Qncqodxg1ucOg+Y2qaKCJbW2dAgo7wkmiq6RAIW5UmkAts/feZl9EI4
+         mHgID7bBc5HxEfVTJG7WQdakTX0ZnPJjLNLKJyx0Vs7jwd1pgquNbThYs87DCg6NedJD
+         2i5yo2+Dv6CMIa33dTe6y6KPeKMrLycXPs36lk8RkNxtZwXUMMhkgeGx1JX5YsDUmU77
+         +w7Fhj5uCrECMO/sE0rGlCTyOcIgAUoLrIphzvVuADJSRzWooAE2uk68q6/pyOhy/tnc
+         pRo5dFL3Xf5wzP4Dvqcce1j19J6H9uOt01dC/+PqIyqCjKxDJvUkXbaq79AGe8ZqF6V4
+         PoNw==
+X-Gm-Message-State: AOAM531HT2ghiOIKt2A6Tcvw8IPgArUaF65mMZuIRrX+3wC0zZzk4FS1
+	fDdF4HilntaHwGrIHcXbmO4=
+X-Google-Smtp-Source: ABdhPJzp9kXYeJCL511uqQsVUlYTR/QWqXI9QFE4xftYXspIxxShaEwjoe0FJ9Fi8CJo+woSvtFUow==
+X-Received: by 2002:a5d:64af:: with SMTP id m15mr29754671wrp.231.1617643765186;
+        Mon, 05 Apr 2021 10:29:25 -0700 (PDT)
 Received: from bcarvalho-Ubuntu.lan ([2001:818:de85:7e00:9a5b:98e6:2174:bf29])
-        by smtp.gmail.com with ESMTPSA id x1sm17858699wro.66.2021.04.05.10.29.23
+        by smtp.gmail.com with ESMTPSA id x1sm17858699wro.66.2021.04.05.10.29.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 05 Apr 2021 10:29:24 -0700 (PDT)
 From: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
@@ -41,9 +41,9 @@ To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	outreachy-kernel@googlegroups.com
-Subject: [PATCH 2/4] staging: rtl8723bs: core: Ending line with argument
-Date: Mon,  5 Apr 2021 18:29:18 +0100
-Message-Id: <ce400adc5623b3bfbd520da4aa6bcc5867ad4dc8.1617641790.git.martinsdecarvalhobeatriz@gmail.com>
+Subject: [PATCH 3/4] staging: rtl8723bs: core: reorganize characters so the lines are under 100 ch
+Date: Mon,  5 Apr 2021 18:29:19 +0100
+Message-Id: <6ce5f20399f2bea9f08bb37150fc67fe3c2b2a55.1617641790.git.martinsdecarvalhobeatriz@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1617641790.git.martinsdecarvalhobeatriz@gmail.com>
 References: <cover.1617641790.git.martinsdecarvalhobeatriz@gmail.com>
@@ -54,197 +54,85 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Cleans up checks of "Lines should not end with a '('"
-with argument present in next line in file rtw_ap.c
+Cleans up warnings of "line over 100 characters" but avoinding
+more than 90 characters in file rtw_ap.c
 
 Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_ap.c | 98 ++++++++++---------------
- 1 file changed, 40 insertions(+), 58 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 81acc6bcb092..4dab4d741675 100644
+index 4dab4d741675..ca6fec52d213 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -67,11 +67,10 @@ static void update_BCNTIM(struct adapter *padapter)
+@@ -278,11 +278,13 @@ void expire_timeout_chk(struct adapter *padapter)
  
- 		tim_bitmap_le = cpu_to_le16(pstapriv->tim_bitmap);
+ 			if (psta->state & WIFI_SLEEP_STATE) {
+ 				if (!(psta->state & WIFI_STA_ALIVE_CHK_STATE)) {
+-					/* to check if alive by another methods if station is at ps mode. */
++					/* to check if alive by another methods */
++					/* if station is at ps mode. */
+ 					psta->expire_to = pstapriv->expire_to;
+ 					psta->state |= WIFI_STA_ALIVE_CHK_STATE;
  
--		p = rtw_get_ie(
--			pie + _FIXED_IE_LENGTH_,
--			WLAN_EID_TIM,
--			&tim_ielen,
--			pnetwork_mlmeext->IELength - _FIXED_IE_LENGTH_
-+		p = rtw_get_ie(pie + _FIXED_IE_LENGTH_,
-+			       WLAN_EID_TIM,
-+			       &tim_ielen,
-+			       pnetwork_mlmeext->IELength - _FIXED_IE_LENGTH_
- 		);
- 		if (p && tim_ielen > 0) {
- 			tim_ielen += 2;
-@@ -91,20 +90,18 @@ static void update_BCNTIM(struct adapter *padapter)
- 			offset = _FIXED_IE_LENGTH_;
+-					/* DBG_871X("alive chk, sta:%pM is at ps mode!\n", MAC_ARG(psta->hwaddr)); */
++					/* DBG_871X("alive chk, sta:%pM is at ps */
++					/* mode!\n", MAC_ARG(psta->hwaddr)); */
  
- 			/* get ssid_ie len */
--			p = rtw_get_ie(
--				pie + _BEACON_IE_OFFSET_,
--				WLAN_EID_SSID,
--				&tmp_len,
--				(pnetwork_mlmeext->IELength - _BEACON_IE_OFFSET_)
-+			p = rtw_get_ie(pie + _BEACON_IE_OFFSET_,
-+				       WLAN_EID_SSID,
-+				       &tmp_len,
-+				       (pnetwork_mlmeext->IELength - _BEACON_IE_OFFSET_)
- 			);
- 			if (p)
- 				offset += tmp_len + 2;
- 
- 			/*  get supported rates len */
--			p = rtw_get_ie(
--				pie + _BEACON_IE_OFFSET_,
--				WLAN_EID_SUPP_RATES, &tmp_len,
--				(pnetwork_mlmeext->IELength - _BEACON_IE_OFFSET_)
-+			p = rtw_get_ie(pie + _BEACON_IE_OFFSET_,
-+				       WLAN_EID_SUPP_RATES, &tmp_len,
-+				       (pnetwork_mlmeext->IELength - _BEACON_IE_OFFSET_)
- 			);
- 			if (p)
- 				offset += tmp_len + 2;
-@@ -226,14 +223,13 @@ void expire_timeout_chk(struct adapter *padapter)
- 				list_del_init(&psta->auth_list);
- 				pstapriv->auth_list_cnt--;
- 
--				DBG_871X(
--					"auth expire %02X%02X%02X%02X%02X%02X\n",
--					psta->hwaddr[0],
--					psta->hwaddr[1],
--					psta->hwaddr[2],
--					psta->hwaddr[3],
--					psta->hwaddr[4],
--					psta->hwaddr[5]
-+				DBG_871X("auth expire %02X%02X%02X%02X%02X%02X\n",
-+					 psta->hwaddr[0],
-+					 psta->hwaddr[1],
-+					 psta->hwaddr[2],
-+					 psta->hwaddr[3],
-+					 psta->hwaddr[4],
-+					 psta->hwaddr[5]
- 				);
- 
- 				spin_unlock_bh(&pstapriv->auth_list_lock);
-@@ -307,10 +303,9 @@ void expire_timeout_chk(struct adapter *padapter)
- 			}
- 			list_del_init(&psta->asoc_list);
- 			pstapriv->asoc_list_cnt--;
--			DBG_871X(
--				"asoc expire %pM, state = 0x%x\n",
--				MAC_ARG(psta->hwaddr),
--				psta->state
-+			DBG_871X("asoc expire %pM, state = 0x%x\n",
-+				 MAC_ARG(psta->hwaddr),
-+				 psta->state
+ 					/* to update bcn with tim_bitmap for this station */
+ 					pstapriv->tim_bitmap |= BIT(psta->aid);
+@@ -309,7 +311,8 @@ void expire_timeout_chk(struct adapter *padapter)
  			);
  			updated = ap_free_sta(padapter, psta, false, WLAN_REASON_DEAUTH_LEAVING);
  		} else {
-@@ -360,17 +355,15 @@ void expire_timeout_chk(struct adapter *padapter)
- 
- 			psta->keep_alive_trycnt++;
- 			if (ret == _SUCCESS) {
--				DBG_871X(
--					"asoc check, sta(%pM) is alive\n",
--					MAC_ARG(psta->hwaddr)
-+				DBG_871X("asoc check, sta(%pM) is alive\n",
-+					 MAC_ARG(psta->hwaddr)
- 					);
- 				psta->expire_to = pstapriv->expire_to;
- 				psta->keep_alive_trycnt = 0;
- 				continue;
- 			} else if (psta->keep_alive_trycnt <= 3) {
--				DBG_871X(
--					"ack check for asoc expire, keep_alive_trycnt =%d\n",
--					psta->keep_alive_trycnt);
-+				DBG_871X("ack check for asoc expire, keep_alive_trycnt =%d\n",
-+					 psta->keep_alive_trycnt);
- 				psta->expire_to = 1;
- 				continue;
+-			/* TODO: Aging mechanism to digest frames in sleep_q to avoid running out of xmitframe */
++			/* TODO: Aging mechanism to digest frames in sleep_q to */
++			/* avoid running out of xmitframe */
+ 			if (psta->sleepq_len > (NR_XMITFRAME / pstapriv->asoc_list_cnt)
+ 				&& padapter->xmitpriv.free_xmitframe_cnt < ((
+ 					NR_XMITFRAME / pstapriv->asoc_list_cnt
+@@ -375,7 +378,8 @@ void expire_timeout_chk(struct adapter *padapter)
+ 			if (list_empty(&psta->asoc_list) == false) {
+ 				list_del_init(&psta->asoc_list);
+ 				pstapriv->asoc_list_cnt--;
+-				updated = ap_free_sta(padapter, psta, false, WLAN_REASON_DEAUTH_LEAVING);
++				updated = ap_free_sta(padapter, psta, false,
++						      WLAN_REASON_DEAUTH_LEAVING);
  			}
-@@ -480,10 +473,9 @@ void update_bmc_sta(struct adapter *padapter)
+ 			spin_unlock_bh(&pstapriv->asoc_list_lock);
+ 		}
+@@ -469,7 +473,8 @@ void update_bmc_sta(struct adapter *padapter)
+ 
+ 		memset((void *)&psta->sta_stats, 0, sizeof(struct stainfo_stats));
+ 
+-		/* psta->dot118021XPrivacy = _NO_PRIVACY_;//!!! remove it, because it has been set before this. */
++		/* psta->dot118021XPrivacy = _NO_PRIVACY_;//!!! remove it, */
++		/* because it has been set before this. */
  
  		/* prepare for add_RATid */
  		supportRateNum = rtw_get_rateset_len((u8 *)&pcur_network->SupportedRates);
--		network_type = rtw_check_network_type(
--			(u8 *)&pcur_network->SupportedRates,
--			supportRateNum,
--			pcur_network->Configuration.DSConfig
-+		network_type = rtw_check_network_type((u8 *)&pcur_network->SupportedRates,
-+						      supportRateNum,
-+						      pcur_network->Configuration.DSConfig
- 		);
- 		if (IsSupportedTxCCK(network_type)) {
- 			network_type = WIRELESS_11B;
-@@ -711,15 +703,9 @@ static void update_hw_ht_param(struct adapter *padapter)
- 	 */
- 	max_AMPDU_len = pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x03;
+@@ -748,8 +753,8 @@ void start_bss_network(struct adapter *padapter, u8 *pbuf)
+ 	cur_ch_offset = HAL_PRIME_CHNL_OFFSET_DONT_CARE;
  
--	min_MPDU_spacing = (
--		pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x1c
--	) >> 2;
-+	min_MPDU_spacing = (pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x1c) >> 2;
+ 	/* check if there is wps ie, */
+-	/* if there is wpsie in beacon, the hostapd will update beacon twice when stating hostapd, */
+-	/* and at first time the security ie (RSN/WPA IE) will not include in beacon. */
++	/* if there is wpsie in beacon, the hostapd will update beacon twice when stating */
++	/* hostapd, and at first time the security ie (RSN/WPA IE) will not include in beacon. */
+ 	if (!rtw_get_wps_ie(pnetwork->IEs + _FIXED_IE_LENGTH_,
+ 			    pnetwork->IELength - _FIXED_IE_LENGTH_, NULL, NULL))
+ 		pmlmeext->bstart_bss = true;
+@@ -1117,7 +1122,8 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
  
--	rtw_hal_set_hwreg(
--		padapter,
--		HW_VAR_AMPDU_MIN_SPACE,
--		(u8 *)(&min_MPDU_spacing)
--	);
-+	rtw_hal_set_hwreg(padapter, HW_VAR_AMPDU_MIN_SPACE, (u8 *)(&min_MPDU_spacing));
+ 				*(p + 8) |= BIT(7);/* QoS Info, support U-APSD */
  
- 	rtw_hal_set_hwreg(padapter, HW_VAR_AMPDU_FACTOR, (u8 *)(&max_AMPDU_len));
- 
-@@ -785,10 +771,8 @@ void start_bss_network(struct adapter *padapter, u8 *pbuf)
- 	if (!pmlmepriv->cur_network.join_res) { /* setting only at  first time */
- 
- 		/* WEP Key will be set before this function, do not clear CAM. */
--		if (
--			(psecuritypriv->dot11PrivacyAlgrthm != _WEP40_) &&
--			(psecuritypriv->dot11PrivacyAlgrthm != _WEP104_)
--		)
-+		if ((psecuritypriv->dot11PrivacyAlgrthm != _WEP40_) &&
-+		    (psecuritypriv->dot11PrivacyAlgrthm != _WEP104_))
- 			flush_all_cam_entry(padapter);	/* clear CAM */
- 	}
- 
-@@ -836,11 +820,10 @@ void start_bss_network(struct adapter *padapter, u8 *pbuf)
- 	}
- 
- 	/* set channel, bwmode */
--	p = rtw_get_ie(
--		(pnetwork->IEs + sizeof(struct ndis_802_11_fix_ie)),
--		WLAN_EID_HT_OPERATION,
--		&ie_len,
--		(pnetwork->IELength - sizeof(struct ndis_802_11_fix_ie))
-+	p = rtw_get_ie((pnetwork->IEs + sizeof(struct ndis_802_11_fix_ie)),
-+		       WLAN_EID_HT_OPERATION,
-+		       &ie_len,
-+		       (pnetwork->IELength - sizeof(struct ndis_802_11_fix_ie))
- 	);
- 	if (p && ie_len) {
- 		pht_info = (struct HT_info_element *)(p + 2);
-@@ -877,11 +860,10 @@ void start_bss_network(struct adapter *padapter, u8 *pbuf)
- 	}
- 
- 	set_channel_bwmode(padapter, cur_channel, cur_ch_offset, cur_bwmode);
--	DBG_871X(
--		"CH =%d, BW =%d, offset =%d\n",
--		cur_channel,
--		cur_bwmode,
--		cur_ch_offset
-+	DBG_871X("CH =%d, BW =%d, offset =%d\n",
-+		 cur_channel,
-+		 cur_bwmode,
-+		 cur_ch_offset
- 	);
- 	pmlmeext->cur_channel = cur_channel;
- 	pmlmeext->cur_bwmode = cur_bwmode;
+-				/* disable all ACM bits since the WMM admission control is not supported */
++				/* disable all ACM bits since the WMM admission */
++				/* control is not supported */
+ 				*(p + 10) &= ~BIT(4); /* BE */
+ 				*(p + 14) &= ~BIT(4); /* BK */
+ 				*(p + 18) &= ~BIT(4); /* VI */
 -- 
 2.25.1
 
