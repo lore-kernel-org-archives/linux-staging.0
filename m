@@ -1,136 +1,76 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A98270
-	for <linux-staging@lists.linux.dev>; Mon,  5 Apr 2021 19:41:02 +0000 (UTC)
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AKjwsRKgO6mRS1bbdAwFfnsDbaHBQXjsji2hD?=
- =?us-ascii?q?6mlwRA09T+WzkceykPMHkSLlkTp5YgBFpfmsMLSNKEm2ybdb+o8UVI3JYCDHvy?=
- =?us-ascii?q?+SIJhm/c/exVTbehHW0s54+eNef7NlCNv2ZGIK6PrSxAWjCd4vzJ2m3cmT5dv2?=
- =?us-ascii?q?9HtmQQF0Z6wI1W4QNi+hHkJ7XwVAD5YifaDshfZvnSaqengcc62AaEUtYu6rnb?=
- =?us-ascii?q?H2va79bQVDLxAq7xTmt0LL1JfKVynd5BsYXj9VqI1OzUHOmWXCiZmejw=3D=3D?=
-X-IronPort-AV: E=Sophos;i="5.81,307,1610406000"; 
-   d="scan'208";a="377792127"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Apr 2021 21:41:00 +0200
-Date: Mon, 5 Apr 2021 21:40:59 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
-cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Subject: Re: [Outreachy kernel] [PATCH 4/4] staging: rtl8723bs: core: align
- arguments with open parenthesis
-In-Reply-To: <00250c746ed850f6a73ff0ad4c1735cbd019b58f.1617641790.git.martinsdecarvalhobeatriz@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2104052138230.2981@hadrien>
-References: <cover.1617641790.git.martinsdecarvalhobeatriz@gmail.com> <00250c746ed850f6a73ff0ad4c1735cbd019b58f.1617641790.git.martinsdecarvalhobeatriz@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8782259E
+	for <linux-staging@lists.linux.dev>; Mon,  5 Apr 2021 20:59:09 +0000 (UTC)
+Received: by mail-oi1-f179.google.com with SMTP id i3so12874471oik.7
+        for <linux-staging@lists.linux.dev>; Mon, 05 Apr 2021 13:59:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :content-transfer-encoding;
+        bh=rnZ/+SCFR6smzC4OOQsVNnFSMdYRMfjOaDE11Bdi33k=;
+        b=f1Y8RbPFc+agJhL3l2y37ACRHnZwWB8QD6d9sWjlu50E0ckwkK85rN181aWfrPNZKC
+         rU8wy2bhuXT01eVE/8IH9u1sKtNfHATWr87gFiJVQuLPE4iaYpF2xTkky4+wTlkOxOHz
+         POuYW4MRPX41JnoppCydFlM8SzadagpVXX1Z1Qc9COuYKz/l5D5kqhRcIwSHSUdO+pIZ
+         5+ddBKGLiZX4qvGiA4kAdDXAw990M0bY9BWQBgyRkSiSTGI4PfAgKrzkvyXYOvUwDI7C
+         o7D+tmKuNGbU4SqrudwQJK00S/uAZvAtxY5xzPpXwXNJgnGM9elmNbl33ZJgwZ1UhOUz
+         AKgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:content-transfer-encoding;
+        bh=rnZ/+SCFR6smzC4OOQsVNnFSMdYRMfjOaDE11Bdi33k=;
+        b=i6zBonA55c+Siqonrcu6mDHiBVx+fqrQbMpqSws02hfHjpn8tT0a6KFkg+Sp/4IjZF
+         KZ/5bnNspX7+wXboqBc2Qsx/tShzH9p4P8cpCrqBmB4wUt77oFGfw5IYPOUzQw4qYCji
+         g52RobBTqo2sNh6aBuyGxdBNxE59X0eKzIBvdI+b7QaM8hZJNlzK04KAhupBhaT8kYSw
+         DJY9x/+zWEjyMUV5lZhKcCTKF9ucM6NcioZWEqfyn7J/kryCxVQJ03+WJF/p6YBUWoPN
+         VxWozrVTwdGsN5Kzm480jK+1TEqjDUfVXllNsFrxRbubaeXEq9jIr8fyzYx6V89aEwS8
+         eDZA==
+X-Gm-Message-State: AOAM530EbzROr0zhbqSan3kg0BsZ0V27xhIE0kDScT2bKK3wc/CUd6x4
+	vA2AjbyGYN42RICfsWlpjKE=
+X-Google-Smtp-Source: ABdhPJw8XqvnE9iO/gZdxZ9J2iI8wd1L9o2jLq4BGDzHyU05O4EyAdGiO7cJBiVHE1tbtx7sE9Y8mg==
+X-Received: by 2002:aca:af43:: with SMTP id y64mr763978oie.46.1617656348908;
+        Mon, 05 Apr 2021 13:59:08 -0700 (PDT)
+Received: from fedora ([2806:2f0:7000:86b1:c1bc:6875:f962:d652])
+        by smtp.gmail.com with ESMTPSA id l26sm4225235otd.21.2021.04.05.13.59.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Apr 2021 13:59:08 -0700 (PDT)
+Date: Mon, 5 Apr 2021 15:59:06 -0500
+From: David Villasana =?iso-8859-1?Q?Jim=E9nez?= <davidvillasana14@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy-kernel@googlegroups.com
+Subject: [PATCH] staging: kpc2000: pcie.h: Remove extra blank line
+Message-ID: <YGt6GhZHqB62Y038@fedora>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
+Issue found by checkpatch.pl
 
+Signed-off-by: David Villasana Jiménez <davidvillasana14@gmail.com>
+---
+ drivers/staging/kpc2000/kpc2000/pcie.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-On Mon, 5 Apr 2021, Beatriz Martins de Carvalho wrote:
+diff --git a/drivers/staging/kpc2000/kpc2000/pcie.h b/drivers/staging/kpc2000/kpc2000/pcie.h
+index cb815c30faa4..f1fc91b4c704 100644
+--- a/drivers/staging/kpc2000/kpc2000/pcie.h
++++ b/drivers/staging/kpc2000/kpc2000/pcie.h
+@@ -6,7 +6,6 @@
+ #include "../kpc.h"
+ #include "dma_common_defs.h"
+ 
+-
+ /*      System Register Map (BAR 1, Start Addr 0)
+  *
+  *  BAR Size:
+-- 
+2.30.2
 
-> Cleans up checks of "Alignment should match open parenthesis"
-> in file rtw_ap.c
->
-> Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_ap.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-> index ca6fec52d213..73a35b3320fe 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-> @@ -439,7 +439,7 @@ void add_RATid(struct adapter *padapter, struct sta_info *psta, u8 rssi_level)
->  		arg[3] = psta->init_rate;
->
->  		DBG_871X("%s => mac_id:%d , raid:%d , shortGIrate =%d, bitmap = 0x%x\n",
-> -			__func__, psta->mac_id, psta->raid, shortGIrate, tx_ra_bitmap);
-> +			 __func__, psta->mac_id, psta->raid, shortGIrate, tx_ra_bitmap);
->
->  		rtw_hal_add_ra_tid(padapter, tx_ra_bitmap, arg, rssi_level);
->  	} else {
-> @@ -512,7 +512,7 @@ void update_bmc_sta(struct adapter *padapter)
->  			arg[3] = psta->init_rate;
->
->  			DBG_871X("%s => mac_id:%d , raid:%d , bitmap = 0x%x\n",
-> -				__func__, psta->mac_id, psta->raid, tx_ra_bitmap);
-> +				 __func__, psta->mac_id, psta->raid, tx_ra_bitmap);
->
->  			rtw_hal_add_ra_tid(padapter, tx_ra_bitmap, arg, 0);
->  		}
-> @@ -605,14 +605,14 @@ void update_sta_info_apmode(struct adapter *padapter, struct sta_info *psta)
->
->  		/*  B0 Config LDPC Coding Capability */
->  		if (TEST_FLAG(phtpriv_ap->ldpc_cap, LDPC_HT_ENABLE_TX) &&
-> -			GET_HT_CAPABILITY_ELE_LDPC_CAP((u8 *)(&phtpriv_sta->ht_cap))) {
-> +			      GET_HT_CAPABILITY_ELE_LDPC_CAP((u8 *)(&phtpriv_sta->ht_cap))) {
->  			SET_FLAG(cur_ldpc_cap, (LDPC_HT_ENABLE_TX | LDPC_HT_CAP_TX));
->  			DBG_871X("Enable HT Tx LDPC for STA(%d)\n", psta->aid);
->  		}
-
-TEST_FLAG and SET_FLAG are not standard for the kernel, don't do anything
-very interesting, and aren't even used consistently in this file.  Maybe
-you could get rid of them completely from the driver.  In another patch,
-of course.
-
-julia
-
-
->  		/*  B7 B8 B9 Config STBC setting */
->  		if (TEST_FLAG(phtpriv_ap->stbc_cap, STBC_HT_ENABLE_TX) &&
-> -			GET_HT_CAPABILITY_ELE_RX_STBC((u8 *)(&phtpriv_sta->ht_cap))) {
-> +			      GET_HT_CAPABILITY_ELE_RX_STBC((u8 *)(&phtpriv_sta->ht_cap))) {
->  			SET_FLAG(cur_stbc_cap, (STBC_HT_ENABLE_TX | STBC_HT_CAP_TX));
->  			DBG_871X("Enable HT Tx STBC for STA(%d)\n", psta->aid);
->  		}
-> @@ -1176,7 +1176,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
->  		);
->
->  		if ((psecuritypriv->wpa_pairwise_cipher & WPA_CIPHER_CCMP) ||
-> -			(psecuritypriv->wpa2_pairwise_cipher & WPA_CIPHER_CCMP)) {
-> +		     (psecuritypriv->wpa2_pairwise_cipher & WPA_CIPHER_CCMP)) {
->  			pht_cap->ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY & (0x07 << 2));
->  		} else {
->  			pht_cap->ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY & 0x00);
-> @@ -1233,7 +1233,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
->  	pmlmepriv->htpriv.ht_option = false;
->
->  	if ((psecuritypriv->wpa2_pairwise_cipher & WPA_CIPHER_TKIP) ||
-> -		      (psecuritypriv->wpa_pairwise_cipher & WPA_CIPHER_TKIP)) {
-> +	     (psecuritypriv->wpa_pairwise_cipher & WPA_CIPHER_TKIP)) {
->  		/* todo: */
->  		/* ht_cap = false; */
->  	}
-> @@ -1820,7 +1820,7 @@ static int rtw_ht_operation_update(struct adapter *padapter)
->  	}
->
->  	DBG_871X("%s new operation mode = 0x%X changes =%d\n",
-> -		   __func__, pmlmepriv->ht_op_mode, op_mode_changes);
-> +		 __func__, pmlmepriv->ht_op_mode, op_mode_changes);
->
->  	return op_mode_changes;
->  }
-> @@ -1865,7 +1865,7 @@ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta)
->  			pmlmepriv->num_sta_no_short_preamble++;
->
->  			if ((pmlmeext->cur_wireless_mode > WIRELESS_11B) &&
-> -				(pmlmepriv->num_sta_no_short_preamble == 1)) {
-> +			    (pmlmepriv->num_sta_no_short_preamble == 1)) {
->  				beacon_updated = true;
->  				update_beacon(padapter, 0xFF, NULL, true);
->  			}
-> --
-> 2.25.1
->
-> --
-> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/00250c746ed850f6a73ff0ad4c1735cbd019b58f.1617641790.git.martinsdecarvalhobeatriz%40gmail.com.
->
