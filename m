@@ -1,89 +1,129 @@
-Received: from p3plsmtpa09-01.prod.phx3.secureserver.net (p3plsmtpa09-01.prod.phx3.secureserver.net [173.201.193.230])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4515F
-	for <linux-staging@lists.linux.dev>; Mon,  5 Apr 2021 12:27:19 +0000 (UTC)
-Received: from mail-vs1-f47.google.com ([209.85.217.47])
-	by :SMTPAUTH: with ESMTPSA
-	id TOHplm8RYEpcQTOHpl887M; Mon, 05 Apr 2021 05:24:57 -0700
-X-CMAE-Analysis: v=2.4 cv=SspVVNC0 c=1 sm=1 tr=0 ts=606b0199
- a=GFkePgBPOPvmhUBO7sJnuQ==:117 a=IkcTkHD0fZMA:10 a=MKtGQD3n3ToA:10
- a=3YhXtTcJ-WEA:10 a=pFd2Zl5z2vwA:10 a=ZZnuYtJkoWoA:10 a=pGLkceISAAAA:8
- a=4RBUngkUAAAA:8 a=1XWaLZrsAAAA:8 a=VDxRAwm8vqx6A6xO54EA:9 a=QEXdDO2ut3YA:10
- a=cDyXFGGuxjcA:10 a=_sbA2Q-Kp09kWB8D3iXc:22
-X-SECURESERVER-ACCT: vthakkar@vaishalithakkar.in
-Received: by mail-vs1-f47.google.com with SMTP id r12so5943838vsj.5
-        for <linux-staging@lists.linux.dev>; Mon, 05 Apr 2021 05:24:57 -0700 (PDT)
-X-Gm-Message-State: AOAM532MzCHjvYtd+TX5H7FCogLDuBfgz2tITyKBs6/8vDjp9IoEnBC1
-	yNL79cCMUhjcZMzK1j3ti0zS+igtBgIU2Ufkrmo=
-X-Google-Smtp-Source: ABdhPJw8oNhc2iZlao2rYtRTr1BJxos5bPsxvxGtCHAuOUol3rpcVoj9IR6OgSIea8rGAxxX1A3+mUUu4xd3wfLvx+w=
-X-Received: by 2002:a05:6102:2e5:: with SMTP id j5mr13469215vsj.38.1617625497136;
- Mon, 05 Apr 2021 05:24:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 297CA70
+	for <linux-staging@lists.linux.dev>; Mon,  5 Apr 2021 14:07:56 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id f12so5048290wro.0
+        for <linux-staging@lists.linux.dev>; Mon, 05 Apr 2021 07:07:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=JlbOqM+HKUif9ACJOM3T2e04ay7sz/FxW5cMBM8jD4k=;
+        b=ZGVLjSk84lCWVnojhyYzP1r+QhKbwr6wuQt/Rkasuop9Srm7CQuoFEZMqk+8qGevQj
+         7Ob6/BT8Pm4wa1+xWRbOsr2Rl2QHIIc1j5bTuEejSTCejh1jQPe76rT9Dx1rG7AhTWLp
+         FoDtUGCcd+FaQseLEcXBm36umL4cpJPmc47JnyI74lf/xZNAqKllEYiYpTxwCqTZ5CfK
+         68idM1b2kHu5lHEYp+v5kZ5EJPDJATfo9DleD+DaAZMZH9DA13WnUt30j+Qvc9LGlLha
+         vXwllPbh7shxYIdcLAphO4OBxA4LYw5ipPCZ1tOgnPw1pYUYnMX4nQ4/zYKwgQE1OB6q
+         7vyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=JlbOqM+HKUif9ACJOM3T2e04ay7sz/FxW5cMBM8jD4k=;
+        b=MFnzlaRjenFJ98hhMjpQZPQ8XY3CGQA61yYqXifFpui2ewg9ztmHXZpTt/9bXowW8g
+         oDmmiBke9P07cwy256upQ0x1B/yXg9e5zs8pa2EQPplB3+sErBMHhPSSiqXZBpA4lH4A
+         pB18RR5oA6HKjM1Uk2sE2y/GOXFmNfgC5q7CBWOiVK7jmOeVcVrtLYDSy0MI73hsc3rY
+         By0WJ9O7ZqFf+B+qD3UP1KM5TEeQWSOVOFS6OwuA4GfeldmTnWB6cTiH88UelDO0n/v2
+         bWpwM3wwWQB1rQTs6+w127L2SUc+e16tfhGeLZarN76MXy4LQGzJNB42/kj/ZinMwAe6
+         cfKA==
+X-Gm-Message-State: AOAM5319wPyfdgRq43NXUOkcFcmW/ULXqE5LAMX4No4M9PIU6PFazWk3
+	Ximbxg5s3TKiJuraNEMrOoc=
+X-Google-Smtp-Source: ABdhPJxdPOR3HmxvlPuIlDCDtbTwQJhMoUaOz8NP0db4o07Fr7c+h4mgkzm1y8faKJ9cU397p/tQBQ==
+X-Received: by 2002:a5d:4884:: with SMTP id g4mr29215748wrq.191.1617631674693;
+        Mon, 05 Apr 2021 07:07:54 -0700 (PDT)
+Received: from ?IPv6:2001:818:de85:7e00:9a5b:98e6:2174:bf29? ([2001:818:de85:7e00:9a5b:98e6:2174:bf29])
+        by smtp.gmail.com with ESMTPSA id 61sm17381191wrn.25.2021.04.05.07.07.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Apr 2021 07:07:53 -0700 (PDT)
+Subject: Re: [Outreachy kernel] [PATCH] staging: emxx_udc: Ending line with
+ argument
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+References: <20210401195457.24512-1-martinsdecarvalhobeatriz@gmail.com>
+ <alpine.DEB.2.22.394.2104012314480.2908@hadrien>
+From: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
+Message-ID: <82580331-13dc-ed79-72e7-3984fd2f75f9@gmail.com>
+Date: Mon, 5 Apr 2021 15:07:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <YGo8q4R5dqgtDMlg@fedora>
-In-Reply-To: <YGo8q4R5dqgtDMlg@fedora>
-From: Vaishali Thakkar <vthakkar@vaishalithakkar.in>
-Date: Mon, 5 Apr 2021 14:24:44 +0200
-X-Gmail-Original-Message-ID: <CAK-LDb+Sdd3ubX-Mv-pPcnkrBPp_Q0_O=D4dq+b75LiSUfJrqg@mail.gmail.com>
-Message-ID: <CAK-LDb+Sdd3ubX-Mv-pPcnkrBPp_Q0_O=D4dq+b75LiSUfJrqg@mail.gmail.com>
-Subject: Re: [Outreachy kernel] [PATCH] staging: iio: cdc: remove repeated word
-To: =?UTF-8?Q?David_Villasana_Jim=C3=A9nez?= <davidvillasana14@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Greg KH <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org, 
-	linux-staging@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Outreachy <outreachy-kernel@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-CMAE-Envelope: MS4xfMBThR5zNMPsKvW9T+XBNduNK/KPN8/nWB6O15xu95R4ROwjmMHXrFv/HzmsMtjUKnD3O5HmwOvzEOasIdCmZvZIFYGVnjC62znjFgrnB9vmJrM1ePE4
- /zgjet4gkHMtq3J6umTI8j3ByaMxZ68qCN0kwsnp/mjjwEX4lWqRps2zOQtC7feZ07XYZjX6PCHpY5oVAiqs20RrX58dQHCGjXDioqLiwTAlTijGX9/QA65p
+In-Reply-To: <alpine.DEB.2.22.394.2104012314480.2908@hadrien>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Mon, Apr 5, 2021 at 12:24 AM David Villasana Jim=C3=A9nez
-<davidvillasana14@gmail.com> wrote:
+
+Em 01/04/21 22:16, Julia Lawall escreveu:
 >
-> Fix checkpatch warning:
-> WARNING: Possible repeated word: 'from'
-
-You don't need to include the checkpatch warning in the commit log.
-Your commit log should just be able to give enough information about
-why you're doing this change. Then you can give credit to the tool by
-adding a line like this:  'Issue found by checkpatch.pl'.
-
-> Signed-off-by: David Villasana Jim=C3=A9nez <davidvillasana14@gmail.com>
-> ---
->  drivers/staging/iio/cdc/ad7150.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> On Thu, 1 Apr 2021, Beatriz Martins de Carvalho wrote:
 >
-> diff --git a/drivers/staging/iio/cdc/ad7150.c b/drivers/staging/iio/cdc/a=
-d7150.c
-> index 48132ab157ef..1be214512ff8 100644
-> --- a/drivers/staging/iio/cdc/ad7150.c
-> +++ b/drivers/staging/iio/cdc/ad7150.c
-> @@ -57,7 +57,7 @@
->   * @threshold: thresholds for simple capacitance value events
->   * @thresh_sensitivity: threshold for simple capacitance offset
->   *     from 'average' value.
-> - * @mag_sensitity: threshold for magnitude of capacitance offset from
-> + * @mag_sensitity: threshold for magnitude of capacitance offset
->   *     from 'average' value.
->   * @thresh_timeout: a timeout, in samples from the moment an
->   *     adaptive threshold event occurs to when the average
-> --
-> 2.30.2
+>> Cleans up check of "Lines should not end with a '('"
+>> with argument present in next line in file emxx_udc.c
+> The coding style documentation encourages remaining within 80 characters.
+> I'm not sure that the ( warning is worth increading the excess beyond 80
+> characters (or introducing it in the last case).
 >
-> --
-> You received this message because you are subscribed to the Google Groups=
- "outreachy-kernel" group.
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to outreachy-kernel+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgi=
-d/outreachy-kernel/YGo8q4R5dqgtDMlg%40fedora.
+> julia
+Thanks, prof Julia, how the checkpath now warning only if line length of 
+100 characters, I used it for reference.
 
+I will take the suggestions of checkpatch with more attention.
 
+Beatriz
 
---=20
-Vaishali
+>> Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
+>> ---
+>>   drivers/staging/emxx_udc/emxx_udc.c | 11 ++++-------
+>>   1 file changed, 4 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/staging/emxx_udc/emxx_udc.c b/drivers/staging/emxx_udc/emxx_udc.c
+>> index 741147a4f0fe..20f53cf6e20f 100644
+>> --- a/drivers/staging/emxx_udc/emxx_udc.c
+>> +++ b/drivers/staging/emxx_udc/emxx_udc.c
+>> @@ -1073,9 +1073,8 @@ static int _nbu2ss_epn_in_pio(struct nbu2ss_udc *udc, struct nbu2ss_ep *ep,
+>>   		i_word_length = length / sizeof(u32);
+>>   		if (i_word_length > 0) {
+>>   			for (i = 0; i < i_word_length; i++) {
+>> -				_nbu2ss_writel(
+>> -					&preg->EP_REGS[ep->epnum - 1].EP_WRITE,
+>> -					p_buf_32->dw);
+>> +				_nbu2ss_writel(&preg->EP_REGS[ep->epnum - 1].EP_WRITE,
+>> +					       p_buf_32->dw);
+>>
+>>   				p_buf_32++;
+>>   			}
+>> @@ -1225,8 +1224,7 @@ static void _nbu2ss_restert_transfer(struct nbu2ss_ep *ep)
+>>   		return;
+>>
+>>   	if (ep->epnum > 0) {
+>> -		length = _nbu2ss_readl(
+>> -			&ep->udc->p_regs->EP_REGS[ep->epnum - 1].EP_LEN_DCNT);
+>> +		length = _nbu2ss_readl(&ep->udc->p_regs->EP_REGS[ep->epnum - 1].EP_LEN_DCNT);
+>>
+>>   		length &= EPN_LDATA;
+>>   		if (length < ep->ep.maxpacket)
+>> @@ -1462,8 +1460,7 @@ static void _nbu2ss_epn_set_stall(struct nbu2ss_udc *udc,
+>>   		for (limit_cnt = 0
+>>   			; limit_cnt < IN_DATA_EMPTY_COUNT
+>>   			; limit_cnt++) {
+>> -			regdata = _nbu2ss_readl(
+>> -				&preg->EP_REGS[ep->epnum - 1].EP_STATUS);
+>> +			regdata = _nbu2ss_readl(&preg->EP_REGS[ep->epnum - 1].EP_STATUS);
+>>
+>>   			if ((regdata & EPN_IN_DATA) == 0)
+>>   				break;
+>> --
+>> 2.25.1
+>>
+>> --
+>> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
+>> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
+>> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/20210401195457.24512-1-martinsdecarvalhobeatriz%40gmail.com.
+>>
