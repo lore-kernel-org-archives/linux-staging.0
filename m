@@ -1,28 +1,25 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF8EC70
-	for <linux-staging@lists.linux.dev>; Mon,  5 Apr 2021 01:13:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=WFTs1r/K720X27EVNRCFyCxYPcB0o1qMFJEeae/Czms=; b=oQKzIc0H4wFKK2RV4RRnFv/bGo
-	8WYhmyiEBFjwrefylJzoDrmSUPJGB9BzJxfxUtBisr8L/yH1ISZt8Imu2RoIGwqBiWXglnlagYpnx
-	Y3X9wjAv6mF0nAX6mjFWXt8zV225snVe0WuGIEZe1OXTK6yZfLtxGOKEXabdHfH2znvW4Wc2joFVF
-	5wySigb+UaF1XCzFaTi8t+6qsBxmtVFZ4hOx4V6sfh4EtlJXnIjo5nv+pxsRQoogiyy7qDGCkBT/F
-	C0ZrzxlCLkx9O7pqqcEYYtH4lz6rUmfzGxUGx4OSXM5Wp4efNzvp5OmvU9XjLc74PSLO7KU11yk80
-	l2m2nG2Q==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-	id 1lTDnv-00Aliq-KS; Mon, 05 Apr 2021 01:13:26 +0000
-Date: Mon, 5 Apr 2021 02:13:23 +0100
-From: Matthew Wilcox <willy@infradead.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A835F
+	for <linux-staging@lists.linux.dev>; Mon,  5 Apr 2021 06:21:32 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 259D961399;
+	Mon,  5 Apr 2021 06:21:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1617603691;
+	bh=xKdGZ44ZwQ3VybqwUhF7c0iuUupdhhUePbVF00lo1Hc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ma0jUVRBxeTvA5MX/MKMkCXamBJofQ9SmH38mKpEloZsRapwwGGEh64zmQUbU6R4B
+	 fjCJ4UCRnJo9NY+4kvgpsozrM+4NCX9vgFGuqpOJ02MLap8g7ze+c57EwxmoulzJ+1
+	 l0iBGaQzjeaUgimkJtbxkw1sZQTo5zluoRkBBH0A=
+Date: Mon, 5 Apr 2021 08:21:28 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
 To: Mitali Borkar <mitaliborkar810@gmail.com>
 Cc: manish@marvell.com, GR-Linux-NIC-Dev@marvell.com,
-	gregkh@linuxfoundation.org, outreachy-kernel@googlegroups.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH] staging: qlge: remove else after break
-Message-ID: <20210405011323.GB2531743@casper.infradead.org>
+	outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: qlge: remove else after break
+Message-ID: <YGqsaKVJM8pn1BYU@kroah.com>
 References: <YGpcx9MZuZJFy0Z/@kali>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -34,25 +31,44 @@ Content-Disposition: inline
 In-Reply-To: <YGpcx9MZuZJFy0Z/@kali>
 
 On Mon, Apr 05, 2021 at 06:11:43AM +0530, Mitali Borkar wrote:
+> linux-staging@lists,linux-kernel@vger.kernel.org
+> Bcc: 
+> Subject: [PATCH] staging: qlge:remove else after break
+> Reply-To: 
+
+Very odd, why is this in the body of the email?
+
+
+
+> 
+> Fixed Warning:- else is not needed after break
+> break terminates the loop if encountered. else is unnecessary and
+> increases indenatation
+> 
+> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+> ---
+>  drivers/staging/qlge/qlge_mpi.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/qlge/qlge_mpi.c b/drivers/staging/qlge/qlge_mpi.c
+> index 2630ebf50341..3a49f187203b 100644
+> --- a/drivers/staging/qlge/qlge_mpi.c
+> +++ b/drivers/staging/qlge/qlge_mpi.c
+> @@ -935,13 +935,11 @@ static int qlge_idc_wait(struct qlge_adapter *qdev)
+>  			netif_err(qdev, drv, qdev->ndev, "IDC Success.\n");
+>  			status = 0;
+>  			break;
 > -		} else {
 > -			netif_err(qdev, drv, qdev->ndev,
 > +		}	netif_err(qdev, drv, qdev->ndev,
-
-That's not the normal indentation style ... does checkpatch really not
-complain about that?
-
 >  				  "IDC: Invalid State 0x%.04x.\n",
 >  				  mbcp->mbox_out[0]);
 >  			status = -EIO;
 >  			break;
 > -		}
->  	}
->  
->  	return status;
-> -- 
-> 2.30.2
-> 
-> -- 
-> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/YGpcx9MZuZJFy0Z/%40kali.
+
+Indentation is now no longer correct :(
+
+thanks,
+
+greg k-h
