@@ -1,103 +1,75 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195796D10
-	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 16:00:44 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id m3so7383875edv.5
-        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 09:00:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C166E6D10
+	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 16:02:04 +0000 (UTC)
+Received: by mail-io1-f44.google.com with SMTP id f19so16101888ion.3
+        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 09:02:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=k5EpuzuQJTKW4iCexb4wYn9pAT56gYbwWP/iQi0chJE=;
-        b=d3pyj6/e3e/fxYUdpu90XqhYram4OhWvReN9Bo7SKbbY5tXgcKg6Vcxejn4Y2FhZyY
-         qyiBX4wUVVubcDYf2hojBzSFiQ1OBf0pbQPDW73tmv7WVEWUhEY8jOVD+BKsZ10Jdqwd
-         /2oux4dbZA3nijNfEqi8esoiYDSC3ATU7r8uvgYpGWL98OiIxFeCGEfXusZthiweq8o1
-         WTDtlCm5EyWqWgsRYxn5q6yoGQ/Cnk+hf55Hixxp9NJ1LEJCfGlw1QYuE7QoREwmbc6u
-         SOzXsZSpeKnIVaVe/m1y9R9NAzXQ1ReBCGLT+f1AUWBLTFZOqC/Iu2LzQQNqZreuML16
-         Jwqg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=y6td6U/wgXJy1PKxkTx+qADiVVwnBDVWbevDjru0nls=;
+        b=XvPpCjYxNmJmPbhWQwWWLjNrOfwWJekG5FGqReCq3HR7smTKgok8w/+146+n12sXYh
+         g1SrBLJkHm6800/a8NRq/X+CMSiz6G/JNNS8hv/BXu44w47pWOn4xjF227zQ2lkprOIh
+         eGWepOCNQdmUWzQmHnj7HDx92mhDsbhqkmNXhEA/G8FyxFn6hoH1IVrtQ7PnvK8DwgzB
+         PpYChXnoMFzZkwxfV3WUOwaNcPHs1chU+ro8WE+MMTT1XaElw/fgi6L1oS8RhBNtOjdF
+         OYxHMqvZRgAwps12+XvU/yKiF+SLtPa48N5qxjKKm0GQe2t7kykpeRwCrm/FaC3hYWj6
+         A/SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=k5EpuzuQJTKW4iCexb4wYn9pAT56gYbwWP/iQi0chJE=;
-        b=PiJvNiVZOSN13La3Fho7K9HK180BrbGkLk7C3ZJDN0F6sUYq2+MDh9PJX3EtG650oE
-         Nbl+q2vg8JywPlAe6kNyFvHvAh4xv8SX3X2PutaG1tHVedueke3gqp66n+1r5lZydz5+
-         L1ZyF3fXeq301ftnSQ7v+6q7YPgd+QDVy6u2iqLtajTavNakZCDvWJPqj8W8ILG8DR7O
-         8E5kQAOXwjn2RTtZjxUZVQCRRMijv7aPibOXKa4576TBEqe+W4tbFUKZyP1cNhy8aK16
-         eerwW2RPn+8bb55MNnSuwbIyONl+pnWd743Y5d+aCuTqAdz7GC3T4DMaz1EhVYvm4I4t
-         xLrw==
-X-Gm-Message-State: AOAM5314y2v2e7fXh+o4T+UP1dJbsKRo9K6chf+9vpwbRzgqiGwByr+Z
-	KPPpRDSPupAgjFzILftkRKzCg6MgVUepVDV7
-X-Google-Smtp-Source: ABdhPJw8nHUAQuZ6zZk8j9rfvTPC/Ukwe91CIxsRC6iPj5FHzN6E8hu8ZaonkNE2FgYrO6EcuD3u/w==
-X-Received: by 2002:a05:6402:344e:: with SMTP id l14mr8680125edc.184.1617724842572;
-        Tue, 06 Apr 2021 09:00:42 -0700 (PDT)
-Received: from localhost.localdomain (host-79-42-91-147.retail.telecomitalia.it. [79.42.91.147])
-        by smtp.gmail.com with ESMTPSA id n16sm14317737edr.42.2021.04.06.09.00.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Apr 2021 09:00:42 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: gregkh@linuxfoundation.org,
-	outreachy-kernel@googlegroups.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [Outreachy kernel] [PATCH v3] staging: rtl8723bs: hal: Remove camelcase in Hal8723BReg.h
-Date: Tue,  6 Apr 2021 18:00:37 +0200
-Message-Id: <20210406160037.27225-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=y6td6U/wgXJy1PKxkTx+qADiVVwnBDVWbevDjru0nls=;
+        b=luErrmScP/2Ncs4R3TtS7BoG4ukd95NHGu73r9h+klJKF0CHY/kHHA1WtHTKOrdXkB
+         ezdx8ZGxHKsd8RX8W0oUkA0kqfsMwFUwuiOPUzFmTIUuIInaHdmxXWIGMh2ObxrIzp51
+         iiVzA8SpyO1doM8sk9zEMu6Hj7/fB+Uupwpru2MIO+pi0Fk0X8dvvkGSh6EKdBua8XRb
+         EhK71gorAPm3kYzdYyr6R7sED2R/Q4jCwWGAEUjYzYDkY64yIRBCpl7O1QjccM3cdSNr
+         8a1CUDdX3HJQ5gpnSufD/pWmiLVaeP1liTLldAI5SaVzMBbjnA3gHGWYGB0SS/C28HKl
+         rc1g==
+X-Gm-Message-State: AOAM532bZoAMmpIgaQczLBd07fFYmjiqK1m6AW/scVVZi9PgOKWKyluJ
+	sG/7TEYe4P6SuvESbKxZdPjVxfFJWHXMJHu+TB0=
+X-Google-Smtp-Source: ABdhPJzrupn5Tqo/qGYiJFhgY4pom3bPfOsFnrJ4YLA/PGWrDxckk5HncixtyDHTPC1rXWyNlr2qX0SRG+OFMzNoklo=
+X-Received: by 2002:a05:6638:144e:: with SMTP id l14mr29148356jad.76.1617724924002;
+ Tue, 06 Apr 2021 09:02:04 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210406141819.1025864-1-dqfext@gmail.com> <20210406141819.1025864-3-dqfext@gmail.com>
+ <YGx+nyYkSY3Xu0Za@lunn.ch> <CALW65jYhBGmz8dy+9C_YCpJU5wa-KAwgrGjCSpa3nqUNT+xU+g@mail.gmail.com>
+ <YGyC9liu9v+DFSHA@lunn.ch>
+In-Reply-To: <YGyC9liu9v+DFSHA@lunn.ch>
+From: DENG Qingfang <dqfext@gmail.com>
+Date: Wed, 7 Apr 2021 00:02:00 +0800
+Message-ID: <CALW65jaTfcJoMqZPfLjbYXd+JWvG8CciUiGRmQwc_bf2538kog@mail.gmail.com>
+Subject: Re: [RFC net-next 2/4] net: dsa: mt7530: add interrupt support
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: "David S. Miller" <davem@davemloft.net>, Florian Fainelli <f.fainelli@gmail.com>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Landen Chao <Landen.Chao@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, Sean Wang <sean.wang@mediatek.com>, 
+	Vivien Didelot <vivien.didelot@gmail.com>, Vladimir Oltean <olteanv@gmail.com>, 
+	Rob Herring <robh+dt@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>, linux-kernel <linux-kernel@vger.kernel.org>, 
+	"moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, linux-staging@lists.linux.dev, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, netdev <netdev@vger.kernel.org>, 
+	Weijie Gao <weijie.gao@mediatek.com>, Chuanhong Guo <gch981213@gmail.com>, 
+	=?UTF-8?Q?Ren=C3=A9_van_Dorst?= <opensource@vdorst.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Remove camelcase in some symbols defined in Hal8723BReg.h. These symbols
-are not used anywhere else, therefore this patch does not break the driver.
+On Tue, Apr 6, 2021 at 11:49 PM Andrew Lunn <andrew@lunn.ch> wrote:
+> O.K. So that makes it similar to the mv88e6xxx. With that driver, i
+> kept interrupt setup and mdio setup separate. I add the interrupt
+> controller first, and then do mdio setup, calling a helper to map the
+> PHY interrupts and assign them to bus->irq[].
+>
+> That gives you a cleaner structure when you start using the other
+> interrupts.
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
+Okay. Will split the function in v2. Thanks.
 
-Patch v3 changes nothing with respect to v2 and v1. It exists only to cc some recipients that were missing in the header of the previous email.
-
- drivers/staging/rtl8723bs/hal/Hal8723BReg.h | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/hal/Hal8723BReg.h b/drivers/staging/rtl8723bs/hal/Hal8723BReg.h
-index cc249e15b4bd..60c1f966c5de 100644
---- a/drivers/staging/rtl8723bs/hal/Hal8723BReg.h
-+++ b/drivers/staging/rtl8723bs/hal/Hal8723BReg.h
-@@ -110,7 +110,7 @@
- #define REG_RSVD3_8723B				0x0168
- #define REG_C2HEVT_MSG_NORMAL_8723B		0x01A0
- #define REG_C2HEVT_CMD_SEQ_88XX			0x01A1
--#define REG_C2hEVT_CMD_CONTENT_88XX		0x01A2
-+#define REG_C2HEVT_CMD_CONTENT_88XX		0x01A2
- #define REG_C2HEVT_CMD_LEN_88XX			0x01AE
- #define REG_C2HEVT_CLEAR_8723B			0x01AF
- #define REG_MCUTST_1_8723B			0x01C0
-@@ -424,13 +424,13 @@
- #define	IMR_RXFOVW_8723B		BIT8	/* Receive FIFO Overflow */
- 
- /* 2 ACMHWCTRL 0x05C0 */
--#define	AcmHw_HwEn_8723B		BIT(0)
--#define	AcmHw_VoqEn_8723B		BIT(1)
--#define	AcmHw_ViqEn_8723B		BIT(2)
--#define	AcmHw_BeqEn_8723B		BIT(3)
--#define	AcmHw_VoqStatus_8723B		BIT(5)
--#define	AcmHw_ViqStatus_8723B		BIT(6)
--#define	AcmHw_BeqStatus_8723B		BIT(7)
-+#define	ACMHW_HWEN_8723B		BIT(0)
-+#define	ACMHW_VOQEN_8723B		BIT(1)
-+#define	ACMHW_VIQEN_8723B		BIT(2)
-+#define	ACMHW_BEQEN_8723B		BIT(3)
-+#define	ACMHW_VOQSTATUS_8723B		BIT(5)
-+#define	ACMHW_VIQSTATUS_8723B		BIT(6)
-+#define	ACMHW_BEQSTATUS_8723B		BIT(7)
- 
- /* 8195 (RCR) Receive Configuration Register	(Offset 0x608, 32 bits) */
- #define	RCR_TCPOFLD_EN			BIT25	/* Enable TCP checksum offload */
--- 
-2.30.2
-
+>
+>         Andrew
