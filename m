@@ -1,51 +1,51 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C7D6D0D
-	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 18:14:35 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id s15so2723494edd.4
-        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 11:14:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31EE6D00
+	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 19:34:47 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id e12so2362881wro.11
+        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 12:34:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=UBnStJVt45cTAjhC4EKrrJE26aOExYNYx9iIn/5oiDo=;
-        b=ScRAg4b5Y86C+5rwhTCSRpuzx54P92D3Kas4YYGOru0zupPhT6QQihvTGGd9NJ9LGa
-         oX2hW4Aql3nw7fjsczkf1Kfw2NNXlZYqOUUbz4NkXo55h+4AHg7rpgc188v4iLdagYoK
-         z8OjYl00qmaTsmOa8XZrWu4Va0VN+4MTrTIzHsllNfWk2kKjR8f5siEicalOeEzVZHKe
-         ZGTFMqDto8W4vTCavnIrZg7TAip6MV8HU/WAudXebeKEK+X4yyZiYS0CT2t/B3nig4wq
-         tWQ0rMjixwJeZ149IYVFryqi4YWHfQFtBXMNzl6Jqn7dG/PNkU1haydYK6jlY2yNfXAo
-         B7CQ==
+        bh=8S3Uh23H+gQhsf7YASK94vXEdzHi8M0NhOcwtIIfD7A=;
+        b=K1jhGkT0rQRrxYrdUccc9LKWjwtNtE9JBvnSETUmCSElTHz3NOMDx9VPkZFkQy2V3A
+         CUvcwCNOaHGF6nFo9RaP8gIvxfiu+K9v2Ag/EaR3c9+GdJV21TX0oREV0piWy6RLVBvn
+         evaQ5igK6kZvhfi0Dn7DSZYTP/pF0x6twRofcg0OqKpQ0r/uaFe63z/ZWeVMkr/oviF2
+         TYPkZjPba4L358UAql88B6lSPqyq2FPTNyhwHN2jAKLQmiu8HN1Tyrkk18SQHEUWhz/J
+         ugkzJOXqhPH23SbPD0Iezga5dB6M2Fk48fMh4ThAQq4tMx7xH0oW0oSZQYIa8YDlNway
+         aKvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=UBnStJVt45cTAjhC4EKrrJE26aOExYNYx9iIn/5oiDo=;
-        b=ilvBycGFQIbAlCkU76TWNSug+5Y9Nq/8B+bC49Lo00tKy9mfYCHykbC+qO0JFggB99
-         G16hTk8gRRw2ErYANe+BL4TDpvaOF07I/SuY5fq9w7C4mFsxaEL/SNv1+Kf0oK00Kfjn
-         osI9i+UYeC3eYsPdra0mBBP8wkIc6bH0L+MISMoBUltW5Tllf0ZQjofG69IFgNTs3dUW
-         VOds6hMZr7PKhBu5ooQEJyo7ap3svv3b912IzP+RwfBCBL0Ze9RhI0kMK1nhWryEknIe
-         g+gP67VArru50SAuIHcuZiUc0ttDWg+8Frw++utLMHphmqgEezbrzIG7KgHoXVWOuAq0
-         KD6A==
-X-Gm-Message-State: AOAM533uJMFOqslD6teVAV6hyBF3iCMVl6hB9G8X2Gw9DZtvccNpNJp3
-	qjCSPlDuZa8HKp8H7KQsLd0=
-X-Google-Smtp-Source: ABdhPJwLWl54V/TB6+CjqyBdhnA/2Xr9GtklE6O6wdnpyzkEJEchPdisZbOv15L5POMT6b5grrzP7g==
-X-Received: by 2002:a05:6402:229a:: with SMTP id cw26mr13270091edb.266.1617732874034;
-        Tue, 06 Apr 2021 11:14:34 -0700 (PDT)
-Received: from localhost.localdomain (host-79-42-91-147.retail.telecomitalia.it. [79.42.91.147])
-        by smtp.gmail.com with ESMTPSA id eo22sm11463976ejc.0.2021.04.06.11.14.32
+        bh=8S3Uh23H+gQhsf7YASK94vXEdzHi8M0NhOcwtIIfD7A=;
+        b=aLt+iR0hrtL3EXH1+/TopC/ZTBM8weF7swkFGpNXZ4hUBMn6SBCqxzr1ns9bNjSMTD
+         /USESDG1o1kIXs5UzlQ8m7ruQqRd4koXDyXOCy68H4CNy4KYaJ6WEEoSZz9FrHldUJJ8
+         Yz28OSVOu7hG1wKIFMLYzO+wOzf2mTZj9742zS9y1c512a4BTcJDxNjAnCH5CD1m462t
+         1ovEjClyTpn6V7w/OfFEiwEJdHzqUM6lYFSlNexLQiTqxaAJpfQE1CzjmgksXAMMoyuR
+         FLuBq3W266fTqslr0T1wl8pydYLUkh+MpAgOBlg0mHZgRYfuxmEmldHr+vI/qufZTCrg
+         p0sg==
+X-Gm-Message-State: AOAM533Om7M3oalNK5h5v+TjDSRdj7z4wozOsergUTlNJnFYtZcAS61v
+	vkRDyX+dUZPr+xtK03G10B/XjsGRkN/qRg==
+X-Google-Smtp-Source: ABdhPJz/zZHte4xMj1qmO9PuPTWmA+ei+0MmuKjvvtqrQohhqJyFRgyEP6VSgVJ9ZwybUo9jhUllaA==
+X-Received: by 2002:adf:f645:: with SMTP id x5mr14835224wrp.314.1617737685884;
+        Tue, 06 Apr 2021 12:34:45 -0700 (PDT)
+Received: from bcarvalho-Ubuntu.lan ([2001:818:de85:7e00:ef5c:3f2a:a646:d6ec])
+        by smtp.gmail.com with ESMTPSA id r11sm18793668wrp.70.2021.04.06.12.34.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Apr 2021 11:14:33 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: gregkh@linuxfoundation.org,
+        Tue, 06 Apr 2021 12:34:45 -0700 (PDT)
+From: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
+To: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
 	outreachy-kernel@googlegroups.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [Outreachy kernel] [PATCH] staging: rtl8723bs: hal: Add spaces around operators in hal_btcoex.c
-Date: Tue,  6 Apr 2021 20:14:28 +0200
-Message-Id: <20210406181428.15097-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.30.2
+	gregkh@linuxfoundation.org
+Cc: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
+Subject: [RESEND PATCH] staging: emxx_udc: Ending line with argument
+Date: Tue,  6 Apr 2021 20:34:09 +0100
+Message-Id: <20210406193409.96428-1-martinsdecarvalhobeatriz@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -53,126 +53,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Added spaces around operators. Issue detected by checkpatch.pl.
-Spaces around operators are preferred to improve readibility.
+Cleans up check of "Lines should not end with a '('"
+with argument present in next line in file emxx_udc.c
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/hal_btcoex.c | 30 +++++++++++-----------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ drivers/staging/emxx_udc/emxx_udc.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_btcoex.c b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-index d42cc24c7535..2cb5eedddde3 100644
---- a/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-@@ -721,7 +721,7 @@ static void halbtcoutsrc_BitMaskWrite1Byte(void *pBtcContext, u32 regAddr, u8 bi
- 		originalValue = rtw_read8(padapter, regAddr);
+diff --git a/drivers/staging/emxx_udc/emxx_udc.c b/drivers/staging/emxx_udc/emxx_udc.c
+index 741147a4f0fe..20f53cf6e20f 100644
+--- a/drivers/staging/emxx_udc/emxx_udc.c
++++ b/drivers/staging/emxx_udc/emxx_udc.c
+@@ -1073,9 +1073,8 @@ static int _nbu2ss_epn_in_pio(struct nbu2ss_udc *udc, struct nbu2ss_ep *ep,
+ 		i_word_length = length / sizeof(u32);
+ 		if (i_word_length > 0) {
+ 			for (i = 0; i < i_word_length; i++) {
+-				_nbu2ss_writel(
+-					&preg->EP_REGS[ep->epnum - 1].EP_WRITE,
+-					p_buf_32->dw);
++				_nbu2ss_writel(&preg->EP_REGS[ep->epnum - 1].EP_WRITE,
++					       p_buf_32->dw);
  
- 		for (i = 0; i <= 7; i++) {
--			if ((bitMask>>i)&0x1)
-+			if ((bitMask >> i) & 0x1)
+ 				p_buf_32++;
+ 			}
+@@ -1225,8 +1224,7 @@ static void _nbu2ss_restert_transfer(struct nbu2ss_ep *ep)
+ 		return;
+ 
+ 	if (ep->epnum > 0) {
+-		length = _nbu2ss_readl(
+-			&ep->udc->p_regs->EP_REGS[ep->epnum - 1].EP_LEN_DCNT);
++		length = _nbu2ss_readl(&ep->udc->p_regs->EP_REGS[ep->epnum - 1].EP_LEN_DCNT);
+ 
+ 		length &= EPN_LDATA;
+ 		if (length < ep->ep.maxpacket)
+@@ -1462,8 +1460,7 @@ static void _nbu2ss_epn_set_stall(struct nbu2ss_udc *udc,
+ 		for (limit_cnt = 0
+ 			; limit_cnt < IN_DATA_EMPTY_COUNT
+ 			; limit_cnt++) {
+-			regdata = _nbu2ss_readl(
+-				&preg->EP_REGS[ep->epnum - 1].EP_STATUS);
++			regdata = _nbu2ss_readl(&preg->EP_REGS[ep->epnum - 1].EP_STATUS);
+ 
+ 			if ((regdata & EPN_IN_DATA) == 0)
  				break;
- 		}
- 		bitShift = i;
-@@ -1482,8 +1482,8 @@ u32 hal_btcoex_GetRaMask(struct adapter *padapter)
- void hal_btcoex_RecordPwrMode(struct adapter *padapter, u8 *pCmdBuf, u8 cmdLen)
- {
- 	BTC_PRINT(BTC_MSG_ALGORITHM, ALGO_TRACE_FW_EXEC, ("[BTCoex], FW write pwrModeCmd = 0x%04x%08x\n",
--		pCmdBuf[0]<<8|pCmdBuf[1],
--		pCmdBuf[2]<<24|pCmdBuf[3]<<16|pCmdBuf[4]<<8|pCmdBuf[5]));
-+		pCmdBuf[0] << 8 | pCmdBuf[1],
-+		pCmdBuf[2] << 24 | pCmdBuf[3] << 16 | pCmdBuf[4] << 8 | pCmdBuf[5]));
- 
- 	memcpy(GLBtCoexist.pwrModeVal, pCmdBuf, cmdLen);
- }
-@@ -1552,13 +1552,13 @@ u32 hal_btcoex_GetDBG(struct adapter *padapter, u8 *pStrBuf, u32 bufSize)
- 	pstr += count;
- 	leftSize -= count;
- 	count = rtw_sprintf(pstr, leftSize, "\tbit[0]=%d for INTF_INIT\n",
--		(GLBtcDbgType[BTC_MSG_INTERFACE]&INTF_INIT)?1:0);
-+		(GLBtcDbgType[BTC_MSG_INTERFACE] & INTF_INIT) ? 1 : 0);
- 	if ((count < 0) || (count >= leftSize))
- 		goto exit;
- 	pstr += count;
- 	leftSize -= count;
- 	count = rtw_sprintf(pstr, leftSize, "\tbit[2]=%d for INTF_NOTIFY\n\n",
--		(GLBtcDbgType[BTC_MSG_INTERFACE]&INTF_NOTIFY)?1:0);
-+		(GLBtcDbgType[BTC_MSG_INTERFACE] & INTF_NOTIFY) ? 1 : 0);
- 	if ((count < 0) || (count >= leftSize))
- 		goto exit;
- 	pstr += count;
-@@ -1570,61 +1570,61 @@ u32 hal_btcoex_GetDBG(struct adapter *padapter, u8 *pStrBuf, u32 bufSize)
- 	pstr += count;
- 	leftSize -= count;
- 	count = rtw_sprintf(pstr, leftSize, "\tbit[0]=%d for BT_RSSI_STATE\n",
--		(GLBtcDbgType[BTC_MSG_ALGORITHM]&ALGO_BT_RSSI_STATE)?1:0);
-+		(GLBtcDbgType[BTC_MSG_ALGORITHM] & ALGO_BT_RSSI_STATE) ? 1 : 0);
- 	if ((count < 0) || (count >= leftSize))
- 		goto exit;
- 	pstr += count;
- 	leftSize -= count;
- 	count = rtw_sprintf(pstr, leftSize, "\tbit[1]=%d for WIFI_RSSI_STATE\n",
--		(GLBtcDbgType[BTC_MSG_ALGORITHM]&ALGO_WIFI_RSSI_STATE)?1:0);
-+		(GLBtcDbgType[BTC_MSG_ALGORITHM] & ALGO_WIFI_RSSI_STATE) ? 1 : 0);
- 	if ((count < 0) || (count >= leftSize))
- 		goto exit;
- 	pstr += count;
- 	leftSize -= count;
- 	count = rtw_sprintf(pstr, leftSize, "\tbit[2]=%d for BT_MONITOR\n",
--		(GLBtcDbgType[BTC_MSG_ALGORITHM]&ALGO_BT_MONITOR)?1:0);
-+		(GLBtcDbgType[BTC_MSG_ALGORITHM] & ALGO_BT_MONITOR) ? 1 : 0);
- 	if ((count < 0) || (count >= leftSize))
- 		goto exit;
- 	pstr += count;
- 	leftSize -= count;
- 	count = rtw_sprintf(pstr, leftSize, "\tbit[3]=%d for TRACE\n",
--		(GLBtcDbgType[BTC_MSG_ALGORITHM]&ALGO_TRACE)?1:0);
-+		(GLBtcDbgType[BTC_MSG_ALGORITHM] & ALGO_TRACE) ? 1 : 0);
- 	if ((count < 0) || (count >= leftSize))
- 		goto exit;
- 	pstr += count;
- 	leftSize -= count;
- 	count = rtw_sprintf(pstr, leftSize, "\tbit[4]=%d for TRACE_FW\n",
--		(GLBtcDbgType[BTC_MSG_ALGORITHM]&ALGO_TRACE_FW)?1:0);
-+		(GLBtcDbgType[BTC_MSG_ALGORITHM] & ALGO_TRACE_FW) ? 1 : 0);
- 	if ((count < 0) || (count >= leftSize))
- 		goto exit;
- 	pstr += count;
- 	leftSize -= count;
- 	count = rtw_sprintf(pstr, leftSize, "\tbit[5]=%d for TRACE_FW_DETAIL\n",
--		(GLBtcDbgType[BTC_MSG_ALGORITHM]&ALGO_TRACE_FW_DETAIL)?1:0);
-+		(GLBtcDbgType[BTC_MSG_ALGORITHM] & ALGO_TRACE_FW_DETAIL) ? 1 : 0);
- 	if ((count < 0) || (count >= leftSize))
- 		goto exit;
- 	pstr += count;
- 	leftSize -= count;
- 	count = rtw_sprintf(pstr, leftSize, "\tbit[6]=%d for TRACE_FW_EXEC\n",
--		(GLBtcDbgType[BTC_MSG_ALGORITHM]&ALGO_TRACE_FW_EXEC)?1:0);
-+		(GLBtcDbgType[BTC_MSG_ALGORITHM] & ALGO_TRACE_FW_EXEC) ? 1 : 0);
- 	if ((count < 0) || (count >= leftSize))
- 		goto exit;
- 	pstr += count;
- 	leftSize -= count;
- 	count = rtw_sprintf(pstr, leftSize, "\tbit[7]=%d for TRACE_SW\n",
--		(GLBtcDbgType[BTC_MSG_ALGORITHM]&ALGO_TRACE_SW)?1:0);
-+		(GLBtcDbgType[BTC_MSG_ALGORITHM] & ALGO_TRACE_SW) ? 1 : 0);
- 	if ((count < 0) || (count >= leftSize))
- 		goto exit;
- 	pstr += count;
- 	leftSize -= count;
- 	count = rtw_sprintf(pstr, leftSize, "\tbit[8]=%d for TRACE_SW_DETAIL\n",
--		(GLBtcDbgType[BTC_MSG_ALGORITHM]&ALGO_TRACE_SW_DETAIL)?1:0);
-+		(GLBtcDbgType[BTC_MSG_ALGORITHM] & ALGO_TRACE_SW_DETAIL) ? 1 : 0);
- 	if ((count < 0) || (count >= leftSize))
- 		goto exit;
- 	pstr += count;
- 	leftSize -= count;
- 	count = rtw_sprintf(pstr, leftSize, "\tbit[9]=%d for TRACE_SW_EXEC\n",
--		(GLBtcDbgType[BTC_MSG_ALGORITHM]&ALGO_TRACE_SW_EXEC)?1:0);
-+		(GLBtcDbgType[BTC_MSG_ALGORITHM] & ALGO_TRACE_SW_EXEC) ? 1 : 0);
- 	if ((count < 0) || (count >= leftSize))
- 		goto exit;
- 	pstr += count;
 -- 
-2.30.2
+2.25.1
 
