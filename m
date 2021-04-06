@@ -1,41 +1,41 @@
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52059259E
-	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 02:32:41 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id j7so1973367plx.2
-        for <linux-staging@lists.linux.dev>; Mon, 05 Apr 2021 19:32:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DCBB259E
+	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 02:32:45 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id t23so3854933pjy.3
+        for <linux-staging@lists.linux.dev>; Mon, 05 Apr 2021 19:32:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :in-reply-to:references;
-        bh=h8ugM46gCL76gBJzMhTW9CmhyaTuMvOLXXK4q2ofL4c=;
-        b=jhLAfUpXkJozGAGaEGwbsNGpRtkiFeKIsZqaOQ1Szd5jb303YibVkasQ67Uag4uDa2
-         3OCc/qfp+yHBerCudp+fhlvYhoUtShf8mQ3xKZA8mt+1blFwsChHjXFpvaXo8dt8steU
-         dS1HTfZ2lMgDrPz+2xnJF8mHen5EW1R2W/smX8G3rEbMQ7Nudnae8d9iEJ8rSsO6sOIM
-         sBU6LuNJd/n5jIIsvy2HFQrq6TVqJrUxyKhy759nOO+Gfr0Byd+ohaA/KrYB9ps8Gl1w
-         nousXKJosPQs70z6cxYacA8aJ5Jrlg/JeKVdMdei+vc6IcSoZ9O3+xf6LqS/Lphepj4Y
-         IQjw==
+        bh=MQjkCNA0ARaI3+BBDoCvhZ6gKeUVeHPj810XjZy2HGQ=;
+        b=GMc+KqIWnN4Hg00WTSr0Elcj15axXHI8s8YCEvrknTeNA9W1QR7G8MakUmqK60v7Nc
+         X7taWapNxFLSlcpP840bo692TzfiLog6Kaxr+u7VW3w5Y7tqdy55DrQnCg1MIc5Kk3W1
+         0audgYvAW038bQiv+KkTSz5OYmRT5wmUM+UKzvjiAQL47TogVzHRqXmlOXOldF6KUZm9
+         GdhQ6P+77lt5QT/07qnrg1s2D/5MoA8LFJQjTKS3uNGI+zXaoumIYjsPOa/72R+gGnr9
+         eolzpQZyTTSKdSTaDsIjBvjDUSJH16o4kzQ+A3LycGe2mDlg6J8isx+r6BITJcnh1+nq
+         mk0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:in-reply-to:references;
-        bh=h8ugM46gCL76gBJzMhTW9CmhyaTuMvOLXXK4q2ofL4c=;
-        b=SNMbXDUNWDRXeprpyjM2eFdKM5DJWcoeTtsCI+unXZO+9LmYzpxoPzsSQYFGvr8lIL
-         0QunFt0utQ4kh18/d2AjkcOKNK9KM4t2MxIBGDYFk5N/WzFfDlZEzLG3x5SLtcigTK24
-         JrozlB+R/2JPXNE1Ht+6lDapYW6zCiQoN/Iu21SYb6dcfLA04VbyDbFeidM1lJu1/Lmu
-         2yYzu1xJn82sw/7S37eZZRd1p501yDXMkLm3Fm90Mv4SrBj5QUgyztGfcm2vSB/0CEkF
-         XWnRikfnz5Crw9vxWGe1Zl5Q3MbYUqHaT8s03dvTHxsSNZvsBZB49un72afHCpZL+PYg
-         BOgQ==
-X-Gm-Message-State: AOAM531q1P3qPRKcuqfRYFzf2e9zKmYZK4amYZqzGLZRPMeqCaq1h7bc
-	+FJbZo3IWTuAVUej8Af/JGs=
-X-Google-Smtp-Source: ABdhPJzRS2dRHe4IPn9ZnN4Gu/6Zi3PIBhHp5paudp88N/AZO8k3PGBpyn2QqnDGo8/9m9Gh3YgYww==
-X-Received: by 2002:a17:90a:5d10:: with SMTP id s16mr2069094pji.204.1617676360898;
-        Mon, 05 Apr 2021 19:32:40 -0700 (PDT)
+        bh=MQjkCNA0ARaI3+BBDoCvhZ6gKeUVeHPj810XjZy2HGQ=;
+        b=gXFVpgAlT7FIIiIrMjnwTheURKuxXp3IIlEitVxbK6EX8bSdz2PJCoaw+D5q032HE0
+         zI3FMf3UcOTYq4TOIzJMHOT6HHRie/1LQNsjnLCtzrOc84m0sWUlTSXYlySiuLm16ipP
+         poPjLAKR+UwIR4nrpzGL6+6IKfgLFIsrOvQbsuTenXZIRMCZWCflkug5DdcGg/ok9MoL
+         tWuhZXdxqA7udkPlWwESQshltLDto5gu8HQl+rdaIdXSdCied6r/aeGzwgeSVoXzG6UP
+         vTpYOygiI4h2lZ2HyXdI3RyxJVkIzZ1nFIhUr6IoDMo07hCkRlA+ycx1rgrRAOVXda9O
+         0E8A==
+X-Gm-Message-State: AOAM531WtcsNHdMmwSq/RDxuSqj5Won/4rscl5UIXiYWkaJIhcd5aEAQ
+	DhPSoFGrf+wdXxG1bM/nEyc=
+X-Google-Smtp-Source: ABdhPJzwsszqTalK9OyFF3ZL274qb3dmq1mR3MzKWc3uWXaHhgKsHVHZ5xJJ9Zg7prEqItK8J1wo0Q==
+X-Received: by 2002:a17:90a:3905:: with SMTP id y5mr2130349pjb.91.1617676365039;
+        Mon, 05 Apr 2021 19:32:45 -0700 (PDT)
 Received: from djbComp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
-        by smtp.gmail.com with ESMTPSA id e7sm281196pfv.107.2021.04.05.19.32.40
+        by smtp.gmail.com with ESMTPSA id e7sm281196pfv.107.2021.04.05.19.32.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Apr 2021 19:32:40 -0700 (PDT)
+        Mon, 05 Apr 2021 19:32:44 -0700 (PDT)
 From: Deborah Brouwer <deborahbrouwer3563@gmail.com>
 To: Larry.Finger@lwfinger.net,
 	florian.c.schilhabel@googlemail.com,
@@ -44,9 +44,9 @@ Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	outreachy-kernel@googlegroups.com,
 	Deborah Brouwer <deborahbrouwer3563@gmail.com>
-Subject: [PATCH 1/4] staging: rtl8712: add period within a comment
-Date: Mon,  5 Apr 2021 19:32:17 -0700
-Message-Id: <f9f48ac6e93e814c51a7ed370d0b2988d2e3a602.1617674639.git.deborahbrouwer3563@gmail.com>
+Subject: [PATCH 2/4] staging: rtl8712: remove a blank line
+Date: Mon,  5 Apr 2021 19:32:18 -0700
+Message-Id: <81801604460c8cad8770cb2e1290e1587bf88075.1617674639.git.deborahbrouwer3563@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1617674639.git.deborahbrouwer3563@gmail.com>
 References: <cover.1617674639.git.deborahbrouwer3563@gmail.com>
@@ -57,37 +57,26 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-Add a period to separate repeated words in a comment. The period preserves
-the meaning of the comment while also stopping the checkpatch warning:
-WARNING: Possible repeated word: 'fw'.
+A duplicate blank line is removed so that only a single blank line
+separates two functions. Identified by checkpatch.
 
 Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
 ---
- drivers/staging/rtl8712/rtl8712_xmit.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8712/rtl8712_xmit.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8712/rtl8712_xmit.c b/drivers/staging/rtl8712/rtl8712_xmit.c
-index c247f92207f5..d8a366338a2b 100644
+index d8a366338a2b..4be81c2546fe 100644
 --- a/drivers/staging/rtl8712/rtl8712_xmit.c
 +++ b/drivers/staging/rtl8712/rtl8712_xmit.c
-@@ -507,7 +507,7 @@ static void update_txdesc(struct xmit_frame *pxmitframe, uint *pmem, int sz)
+@@ -317,7 +317,6 @@ void r8712_append_mpdu_unit(struct xmit_buf *pxmitbuf,
+ 			 0x0000ffff)));
+ }
  
- 		/*offset 12*/
- 		/* f/w will increase the seqnum by itself, driver pass the
--		 * correct priority to fw
-+		 * correct priority to fw.
- 		 * fw will check the correct priority for increasing the
- 		 * seqnum per tid. about usb using 4-endpoint, qsel points out
- 		 * the correct mapping between AC&Endpoint,
-@@ -560,7 +560,7 @@ static void update_txdesc(struct xmit_frame *pxmitframe, uint *pmem, int sz)
- 			ptxdesc->txdw2 |= cpu_to_le32(BMC);
- 		/* offset 12 */
- 		/* f/w will increase the seqnum by itself, driver pass the
--		 * correct priority to fw
-+		 * correct priority to fw.
- 		 * fw will check the correct priority for increasing the seqnum
- 		 * per tid. about usb using 4-endpoint, qsel points out the
- 		 * correct mapping between AC&Endpoint,
+-
+ void r8712_xmitframe_aggr_1st(struct xmit_buf *pxmitbuf,
+ 			      struct xmit_frame *pxmitframe)
+ {
 -- 
 2.17.1
 
