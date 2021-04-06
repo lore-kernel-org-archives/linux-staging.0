@@ -1,50 +1,51 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F14506D0E
-	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 15:58:18 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id b9so6905029wrs.1
-        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 08:58:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195796D10
+	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 16:00:44 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id m3so7383875edv.5
+        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 09:00:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=rJVOsPOpPhvCUvR1+VHBhDpILBtur99NXP6x6WnJpx0=;
-        b=tZVerhjvml6oRiaS0NFeGshg/9K5fZet4K8K6R2oIVFt21ysMu4++4OtjxKrLlagqs
-         OUgC54isLnwPHxX/omg6M+hrXW1ZMZtOLOeknH6nW7mMo8e8VHnfwUJnPpLB9+mCLOzr
-         9tUL36yQdYijp5cKfO0EcqZVznYDo7AHcQEuTC5G9OFtjxi3YQJTxBrQaLloYTCNnfBc
-         jhsKHI2/tGBw/fM/yD5cuJphuaER+AyZBh+eJG9+mLj6JwiD/5uzsIGAj6V1TuP1qrfE
-         wEg6iiUPHRsOIlPknMonrD8jD8lRCytIwZdnNPHLwFahJQbKbTckmzWSj3TLnf9IgugO
-         Hd1g==
+        bh=k5EpuzuQJTKW4iCexb4wYn9pAT56gYbwWP/iQi0chJE=;
+        b=d3pyj6/e3e/fxYUdpu90XqhYram4OhWvReN9Bo7SKbbY5tXgcKg6Vcxejn4Y2FhZyY
+         qyiBX4wUVVubcDYf2hojBzSFiQ1OBf0pbQPDW73tmv7WVEWUhEY8jOVD+BKsZ10Jdqwd
+         /2oux4dbZA3nijNfEqi8esoiYDSC3ATU7r8uvgYpGWL98OiIxFeCGEfXusZthiweq8o1
+         WTDtlCm5EyWqWgsRYxn5q6yoGQ/Cnk+hf55Hixxp9NJ1LEJCfGlw1QYuE7QoREwmbc6u
+         SOzXsZSpeKnIVaVe/m1y9R9NAzXQ1ReBCGLT+f1AUWBLTFZOqC/Iu2LzQQNqZreuML16
+         Jwqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=rJVOsPOpPhvCUvR1+VHBhDpILBtur99NXP6x6WnJpx0=;
-        b=sb75okJDD6q/eU15gVuQyThVedi9A8XRj8B1bClRugEX82AEWFtgxfuzn9zFPw5mcH
-         muWNO5KMu7IaFfE96yzH8LkxgxB7wqW89Ary2T2mdiec+bBUH9ljvzRZXQbpXxEf01na
-         krV7PmSK5grDkVq5xtQ2QRbyFF34KwRiLYZCOFTfQaSxRtwBNjTkcyjw2x96so5Lampw
-         FlBPiCmjFYfjyoe+6/7Yg+z1jPEOV5ByHjuvxsacvS7WNORGPHaeRU1A6kL96EXtsawS
-         lfxn4y6rCClsjexHPtw86h9rXUkSYlceH3CapIHazBn764dnSi5B7uy45AknnmkJeGVC
-         zQDw==
-X-Gm-Message-State: AOAM5309Zaq69csjfmUotbt1b+bKERh1v8vkxqsy/tJBfTCJNk6iWKPQ
-	ctUbULkvvdIjK1IYhts5HaY=
-X-Google-Smtp-Source: ABdhPJyvttPXKcE1cEbpYzmnCYYEuYwmq/yz39FEUNvzNmrKKRfafK9e4JuLhjd9WrzgrHh+TqwM9w==
-X-Received: by 2002:a5d:6852:: with SMTP id o18mr35818377wrw.173.1617724697503;
-        Tue, 06 Apr 2021 08:58:17 -0700 (PDT)
-Received: from bcarvalho-Ubuntu.lan ([2001:818:de85:7e00:ad13:af9b:f63b:bc4b])
-        by smtp.gmail.com with ESMTPSA id k7sm23219508wrd.24.2021.04.06.08.58.16
+        bh=k5EpuzuQJTKW4iCexb4wYn9pAT56gYbwWP/iQi0chJE=;
+        b=PiJvNiVZOSN13La3Fho7K9HK180BrbGkLk7C3ZJDN0F6sUYq2+MDh9PJX3EtG650oE
+         Nbl+q2vg8JywPlAe6kNyFvHvAh4xv8SX3X2PutaG1tHVedueke3gqp66n+1r5lZydz5+
+         L1ZyF3fXeq301ftnSQ7v+6q7YPgd+QDVy6u2iqLtajTavNakZCDvWJPqj8W8ILG8DR7O
+         8E5kQAOXwjn2RTtZjxUZVQCRRMijv7aPibOXKa4576TBEqe+W4tbFUKZyP1cNhy8aK16
+         eerwW2RPn+8bb55MNnSuwbIyONl+pnWd743Y5d+aCuTqAdz7GC3T4DMaz1EhVYvm4I4t
+         xLrw==
+X-Gm-Message-State: AOAM5314y2v2e7fXh+o4T+UP1dJbsKRo9K6chf+9vpwbRzgqiGwByr+Z
+	KPPpRDSPupAgjFzILftkRKzCg6MgVUepVDV7
+X-Google-Smtp-Source: ABdhPJw8nHUAQuZ6zZk8j9rfvTPC/Ukwe91CIxsRC6iPj5FHzN6E8hu8ZaonkNE2FgYrO6EcuD3u/w==
+X-Received: by 2002:a05:6402:344e:: with SMTP id l14mr8680125edc.184.1617724842572;
+        Tue, 06 Apr 2021 09:00:42 -0700 (PDT)
+Received: from localhost.localdomain (host-79-42-91-147.retail.telecomitalia.it. [79.42.91.147])
+        by smtp.gmail.com with ESMTPSA id n16sm14317737edr.42.2021.04.06.09.00.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Apr 2021 08:58:16 -0700 (PDT)
-From: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
+        Tue, 06 Apr 2021 09:00:42 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 To: gregkh@linuxfoundation.org,
+	outreachy-kernel@googlegroups.com,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com
-Subject: [PATCH v2] staging: rtl8723bs: core: reorganize characters so the lines are under 100 ch
-Date: Tue,  6 Apr 2021 16:58:15 +0100
-Message-Id: <20210406155815.90271-1-martinsdecarvalhobeatriz@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [Outreachy kernel] [PATCH v3] staging: rtl8723bs: hal: Remove camelcase in Hal8723BReg.h
+Date: Tue,  6 Apr 2021 18:00:37 +0200
+Message-Id: <20210406160037.27225-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.30.2
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -52,64 +53,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Cleans up warnings of "line over 100 characters" but avoiding
-more than 90 characters in file rtw_ap.c
+Remove camelcase in some symbols defined in Hal8723BReg.h. These symbols
+are not used anywhere else, therefore this patch does not break the driver.
 
-Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
-Changes in v2:
-	- revert some cleans up warning previously applied wrong
 
-This patch came from patch series that could find in:
-https://lore.kernel.org/linux-staging/cover.1617641790.git.martinsdecarvalhobeatriz@gmail.com
----
- drivers/staging/rtl8723bs/core/rtw_ap.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+Patch v3 changes nothing with respect to v2 and v1. It exists only to cc some recipients that were missing in the header of the previous email.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index bee4f83a6db7..d65832b06444 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -278,7 +278,8 @@ void expire_timeout_chk(struct adapter *padapter)
+ drivers/staging/rtl8723bs/hal/Hal8723BReg.h | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/hal/Hal8723BReg.h b/drivers/staging/rtl8723bs/hal/Hal8723BReg.h
+index cc249e15b4bd..60c1f966c5de 100644
+--- a/drivers/staging/rtl8723bs/hal/Hal8723BReg.h
++++ b/drivers/staging/rtl8723bs/hal/Hal8723BReg.h
+@@ -110,7 +110,7 @@
+ #define REG_RSVD3_8723B				0x0168
+ #define REG_C2HEVT_MSG_NORMAL_8723B		0x01A0
+ #define REG_C2HEVT_CMD_SEQ_88XX			0x01A1
+-#define REG_C2hEVT_CMD_CONTENT_88XX		0x01A2
++#define REG_C2HEVT_CMD_CONTENT_88XX		0x01A2
+ #define REG_C2HEVT_CMD_LEN_88XX			0x01AE
+ #define REG_C2HEVT_CLEAR_8723B			0x01AF
+ #define REG_MCUTST_1_8723B			0x01C0
+@@ -424,13 +424,13 @@
+ #define	IMR_RXFOVW_8723B		BIT8	/* Receive FIFO Overflow */
  
- 			if (psta->state & WIFI_SLEEP_STATE) {
- 				if (!(psta->state & WIFI_STA_ALIVE_CHK_STATE)) {
--					/* to check if alive by another methods if station is at ps mode. */
-+					/* to check if alive by another methods */
-+					/* if station is at ps mode. */
- 					psta->expire_to = pstapriv->expire_to;
- 					psta->state |= WIFI_STA_ALIVE_CHK_STATE;
+ /* 2 ACMHWCTRL 0x05C0 */
+-#define	AcmHw_HwEn_8723B		BIT(0)
+-#define	AcmHw_VoqEn_8723B		BIT(1)
+-#define	AcmHw_ViqEn_8723B		BIT(2)
+-#define	AcmHw_BeqEn_8723B		BIT(3)
+-#define	AcmHw_VoqStatus_8723B		BIT(5)
+-#define	AcmHw_ViqStatus_8723B		BIT(6)
+-#define	AcmHw_BeqStatus_8723B		BIT(7)
++#define	ACMHW_HWEN_8723B		BIT(0)
++#define	ACMHW_VOQEN_8723B		BIT(1)
++#define	ACMHW_VIQEN_8723B		BIT(2)
++#define	ACMHW_BEQEN_8723B		BIT(3)
++#define	ACMHW_VOQSTATUS_8723B		BIT(5)
++#define	ACMHW_VIQSTATUS_8723B		BIT(6)
++#define	ACMHW_BEQSTATUS_8723B		BIT(7)
  
-@@ -309,7 +310,8 @@ void expire_timeout_chk(struct adapter *padapter)
- 			);
- 			updated = ap_free_sta(padapter, psta, false, WLAN_REASON_DEAUTH_LEAVING);
- 		} else {
--			/* TODO: Aging mechanism to digest frames in sleep_q to avoid running out of xmitframe */
-+			/* TODO: Aging mechanism to digest frames in sleep_q to */
-+			/* avoid running out of xmitframe */
- 			if (psta->sleepq_len > (NR_XMITFRAME / pstapriv->asoc_list_cnt)
- 				&& padapter->xmitpriv.free_xmitframe_cnt < ((
- 					NR_XMITFRAME / pstapriv->asoc_list_cnt
-@@ -375,7 +377,8 @@ void expire_timeout_chk(struct adapter *padapter)
- 			if (list_empty(&psta->asoc_list) == false) {
- 				list_del_init(&psta->asoc_list);
- 				pstapriv->asoc_list_cnt--;
--				updated = ap_free_sta(padapter, psta, false, WLAN_REASON_DEAUTH_LEAVING);
-+				updated = ap_free_sta(padapter, psta, false,
-+						      WLAN_REASON_DEAUTH_LEAVING);
- 			}
- 			spin_unlock_bh(&pstapriv->asoc_list_lock);
- 		}
-@@ -1117,7 +1120,8 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 
- 				*(p + 8) |= BIT(7);/* QoS Info, support U-APSD */
- 
--				/* disable all ACM bits since the WMM admission control is not supported */
-+				/* disable all ACM bits since the WMM admission */
-+				/* control is not supported */
- 				*(p + 10) &= ~BIT(4); /* BE */
- 				*(p + 14) &= ~BIT(4); /* BK */
- 				*(p + 18) &= ~BIT(4); /* VI */
+ /* 8195 (RCR) Receive Configuration Register	(Offset 0x608, 32 bits) */
+ #define	RCR_TCPOFLD_EN			BIT25	/* Enable TCP checksum offload */
 -- 
-2.25.1
+2.30.2
 
