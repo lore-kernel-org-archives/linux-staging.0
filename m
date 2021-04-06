@@ -1,413 +1,100 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8707B5F
-	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 13:01:53 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id r12so21805774ejr.5
-        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 06:01:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28DE85F
+	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 13:06:02 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id l4so21786962ejc.10
+        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 06:06:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=orYHTHwzLrIX+x1O/kX5PBg1okGiwDlt2vRn5RjvWf4=;
-        b=nv18+buCEKjTnJhuJTg9Z2paQtXW67+ixWFzYcigRjL3uDaLEs2R1NF7MRsES/kKQx
-         OM4Ml9qP/67Z02/sOLxpKdpO/M3/I1tbki2qC/RxXmMxAxkKHP2EcMbygLLIz6zVa+pP
-         AHk7vl9eZBAjQmtwH2AzaRJcQGsWhDlyrm+0DvJyVoVDV3RK/SbWwyNNeOdX/6dRhWHy
-         MaiRWi/ChXySnx6OL15KRfaoufGh3ipp4xtmb9giYX/Soe3KX5zPup+SlFtSm0pZe3SS
-         09Qa6GiYgirYkr6QTVUsci6hFmRoKC9W93nHULPx8IR9URdOUHCuzwceSNq9zQJ193bh
-         XTYg==
+        bh=GGmF2rdYBG/AzXYkXGuoMiHqRDGWNujv9sDGHDshI+4=;
+        b=UvrRF0jRMWdyA5DUZeBThTmI4cjr5LtugXUAVt5KpC5Rvkz+dne/RZT6Zn1Z36EmNP
+         D2VJMIUM1etZ0X4xqM1yaerIxfB0yxn5+jYDEihiHHH9w+BczKzHGWAMTqTepXP2RkRG
+         s97EHzhXQvl5QpDiaFszmNGGhrFlgks8c0UkWNEbSGhmCVzC6RRT60F12xvTtoUkOdCO
+         ORMhuLpJY56FdYrEX4CGIX+UBdxrcdUhfct8VmUWlsP2XQudzmOAYaM8WX4YbmJaGvxf
+         fiHrFCnKt5ibFTBDCEwT0HZNXe8TKoXDh0YEUD9wy2JHr2GnJQn+Zw6k6RAwwtqaXD0P
+         54dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=orYHTHwzLrIX+x1O/kX5PBg1okGiwDlt2vRn5RjvWf4=;
-        b=Wdm4gOw9D4bvSqVfI5pi3ERqSfukXjb1tw1sUqa6heDD/czkiOLIOqHqk2QorUZqn6
-         y7V8wh8wkjZ/uLB+HyegP1Wcxk/YyGdBpxk06Ee72mSc40UmO/Xiok+KeE7R/yBpEI1N
-         tJdNO8BHh3jCH8Jvi+SOnInl4m2/m0tnWExHh64AFzYHbTtYiNVu/jWDuwkileeg/+dt
-         EF34b5FDe5yHxLleyiveDlgapQhERLxSrEUDgtlz9Q/IyDc2iM9jcD9Uae1+88Ap/aGw
-         VWMsbVPF8gTbZGPrfCqfhXHsOZFkoVTB9tV4vHzK5w5lJidOkLsAg53fL3jCgIGfnaRi
-         jHaA==
-X-Gm-Message-State: AOAM530W34rhKiLcOw9f66Pa3hPs+JTU7EnsntJPB6VVGRsRx3qH/rbJ
-	ImPSbLfphiA/IfaVOB1oUKg=
-X-Google-Smtp-Source: ABdhPJwaaUxQGDLcsdHnwm88iJA4kJCF0AkA3Jqn9bs6hESJRimpUm7HdBShtAYqyokS6YuqPdwCiw==
-X-Received: by 2002:a17:906:2594:: with SMTP id m20mr10092729ejb.124.1617714111607;
-        Tue, 06 Apr 2021 06:01:51 -0700 (PDT)
+        bh=GGmF2rdYBG/AzXYkXGuoMiHqRDGWNujv9sDGHDshI+4=;
+        b=C4YONKh2D6j+FfXJjzmBgKbRbb3y06LTK4KCQDf92hH2k6khkpHes0MJiKKl/QRl7c
+         sCiVU7kVBMIs44T3whjt3CqjqONGi8BOMEA/NCEkNlnLkD4XBBbAWEUNBXgqKovUhRp0
+         J26K6earURLGMG+ufPdTmm2pcFu7rVkcsiclmVwtw0mhNQ0sPwQt4VvtgH6OP8EMR22j
+         51f5leWDjQZSokcG63cpl0junoMkHL9rRen1SpkQ3ZQ4tT3jNAb8Vd5q7XHgLnzbwtT6
+         anQgG7Zn9RA2IWBLkfIqZfkdpht8P/iZ7vcPpWmGEuYlZ9Tgky6S1yO0zup320MymJWq
+         ckuQ==
+X-Gm-Message-State: AOAM533MgklBCBTFzIiYazr7M8+koxK7iHYprFcnd7wGYP7E1fARGhlu
+	mpJZ9vm/1X2uZBW78vL0Z6A=
+X-Google-Smtp-Source: ABdhPJyDiLxHkbaP3sk3sljMSPq8gh5F6eiS3+6mRIt2nNBTNMbuQsixxnx4KtiQTg2977NTRT1YjQ==
+X-Received: by 2002:a17:907:2bdd:: with SMTP id gv29mr33145501ejc.259.1617714360617;
+        Tue, 06 Apr 2021 06:06:00 -0700 (PDT)
 Received: from localhost.localdomain (host-79-42-91-147.retail.telecomitalia.it. [79.42.91.147])
-        by smtp.gmail.com with ESMTPSA id h3sm872398edv.80.2021.04.06.06.01.50
+        by smtp.gmail.com with ESMTPSA id t14sm10967241ejc.121.2021.04.06.06.05.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Apr 2021 06:01:51 -0700 (PDT)
+        Tue, 06 Apr 2021 06:06:00 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 To: gregkh@linuxfoundation.org,
 	outreachy-kernel@googlegroups.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [Outreachy kernel] [PATCH] staging: rtl8723bs: hal: Add spaces around operators
-Date: Tue,  6 Apr 2021 15:01:38 +0200
-Message-Id: <20210406130138.30744-1-fmdefrancesco@gmail.com>
+Subject: [Outreachy kernel] [PATCH v2] staging: rtl8723bs: hal: Remove camelcase in Hal8723BReg.h
+Date: Tue,  6 Apr 2021 15:05:56 +0200
+Message-Id: <20210406130556.1417-1-fmdefrancesco@gmail.com>
 X-Mailer: git-send-email 2.30.2
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Added spaces around operators in file HalBtc8723b1Ant.c. Issue detected
-by checkpatch.pl. Spaces are preferred to improve readibility.
+Remove camelcase in some symbols defined in Hal8723BReg.h. These symbols
+are not used anywhere else, therefore this patch does not break the driver.
 
 Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
- .../staging/rtl8723bs/hal/HalBtc8723b1Ant.c   | 98 +++++++++----------
- 1 file changed, 49 insertions(+), 49 deletions(-)
+ drivers/staging/rtl8723bs/hal/Hal8723BReg.h | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-index 3e794093092b..b2b872016e45 100644
---- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-+++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-@@ -38,7 +38,7 @@ static u8 halbtc8723b1ant_BtRssiState(
- 			(pCoexSta->preBtRssiState == BTC_RSSI_STATE_LOW) ||
- 			(pCoexSta->preBtRssiState == BTC_RSSI_STATE_STAY_LOW)
- 		) {
--			if (btRssi >= (rssiThresh+BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
-+			if (btRssi >= (rssiThresh + BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
+diff --git a/drivers/staging/rtl8723bs/hal/Hal8723BReg.h b/drivers/staging/rtl8723bs/hal/Hal8723BReg.h
+index cc249e15b4bd..60c1f966c5de 100644
+--- a/drivers/staging/rtl8723bs/hal/Hal8723BReg.h
++++ b/drivers/staging/rtl8723bs/hal/Hal8723BReg.h
+@@ -110,7 +110,7 @@
+ #define REG_RSVD3_8723B				0x0168
+ #define REG_C2HEVT_MSG_NORMAL_8723B		0x01A0
+ #define REG_C2HEVT_CMD_SEQ_88XX			0x01A1
+-#define REG_C2hEVT_CMD_CONTENT_88XX		0x01A2
++#define REG_C2HEVT_CMD_CONTENT_88XX		0x01A2
+ #define REG_C2HEVT_CMD_LEN_88XX			0x01AE
+ #define REG_C2HEVT_CLEAR_8723B			0x01AF
+ #define REG_MCUTST_1_8723B			0x01C0
+@@ -424,13 +424,13 @@
+ #define	IMR_RXFOVW_8723B		BIT8	/* Receive FIFO Overflow */
  
- 				btRssiState = BTC_RSSI_STATE_HIGH;
- 				BTC_PRINT(
-@@ -85,7 +85,7 @@ static u8 halbtc8723b1ant_BtRssiState(
- 			(pCoexSta->preBtRssiState == BTC_RSSI_STATE_LOW) ||
- 			(pCoexSta->preBtRssiState == BTC_RSSI_STATE_STAY_LOW)
- 		) {
--			if (btRssi >= (rssiThresh+BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
-+			if (btRssi >= (rssiThresh + BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
- 				btRssiState = BTC_RSSI_STATE_MEDIUM;
- 				BTC_PRINT(
- 					BTC_MSG_ALGORITHM,
-@@ -104,7 +104,7 @@ static u8 halbtc8723b1ant_BtRssiState(
- 			(pCoexSta->preBtRssiState == BTC_RSSI_STATE_MEDIUM) ||
- 			(pCoexSta->preBtRssiState == BTC_RSSI_STATE_STAY_MEDIUM)
- 		) {
--			if (btRssi >= (rssiThresh1+BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
-+			if (btRssi >= (rssiThresh1 + BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
- 				btRssiState = BTC_RSSI_STATE_HIGH;
- 				BTC_PRINT(
- 					BTC_MSG_ALGORITHM,
-@@ -353,11 +353,11 @@ static void halbtc8723b1ant_MonitorBtCtr(struct btc_coexist *pBtCoexist)
+ /* 2 ACMHWCTRL 0x05C0 */
+-#define	AcmHw_HwEn_8723B		BIT(0)
+-#define	AcmHw_VoqEn_8723B		BIT(1)
+-#define	AcmHw_ViqEn_8723B		BIT(2)
+-#define	AcmHw_BeqEn_8723B		BIT(3)
+-#define	AcmHw_VoqStatus_8723B		BIT(5)
+-#define	AcmHw_ViqStatus_8723B		BIT(6)
+-#define	AcmHw_BeqStatus_8723B		BIT(7)
++#define	ACMHW_HWEN_8723B		BIT(0)
++#define	ACMHW_VOQEN_8723B		BIT(1)
++#define	ACMHW_VIQEN_8723B		BIT(2)
++#define	ACMHW_BEQEN_8723B		BIT(3)
++#define	ACMHW_VOQSTATUS_8723B		BIT(5)
++#define	ACMHW_VIQSTATUS_8723B		BIT(6)
++#define	ACMHW_BEQSTATUS_8723B		BIT(7)
  
- 	u4Tmp = pBtCoexist->fBtcRead4Byte(pBtCoexist, regHPTxRx);
- 	regHPTx = u4Tmp & bMaskLWord;
--	regHPRx = (u4Tmp & bMaskHWord)>>16;
-+	regHPRx = (u4Tmp & bMaskHWord) >> 16;
- 
- 	u4Tmp = pBtCoexist->fBtcRead4Byte(pBtCoexist, regLPTxRx);
- 	regLPTx = u4Tmp & bMaskLWord;
--	regLPRx = (u4Tmp & bMaskHWord)>>16;
-+	regLPRx = (u4Tmp & bMaskHWord) >> 16;
- 
- 	pCoexSta->highPriorityTx = regHPTx;
- 	pCoexSta->highPriorityRx = regHPRx;
-@@ -1317,7 +1317,7 @@ static void halbtc8723b1ant_SetFwPstdma(
- 	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_AP_MODE_ENABLE, &bApEnable);
- 
- 	if (bApEnable) {
--		if (byte1&BIT4 && !(byte1&BIT5)) {
-+		if (byte1 & BIT4 && !(byte1 & BIT5)) {
- 			BTC_PRINT(
- 				BTC_MSG_INTERFACE,
- 				INTF_NOTIFY,
-@@ -1349,9 +1349,9 @@ static void halbtc8723b1ant_SetFwPstdma(
- 		(
- 			"[BTCoex], PS-TDMA H2C cmd = 0x%x%08x\n",
- 			H2C_Parameter[0],
--			H2C_Parameter[1]<<24|
--			H2C_Parameter[2]<<16|
--			H2C_Parameter[3]<<8|
-+			H2C_Parameter[1] << 24 |
-+			H2C_Parameter[2] << 16 |
-+			H2C_Parameter[3]<< 8 |
- 			H2C_Parameter[4]
- 		)
- 	);
-@@ -1435,7 +1435,7 @@ static void halbtc8723b1ant_PsTdma(
- 			halbtc8723b1ant_SetFwPstdma(
- 				pBtCoexist,
- 				psTdmaByte0Val,
--				0x3a+nWiFiDurationAdjust,
-+				0x3a + nWiFiDurationAdjust,
- 				0x03,
- 				psTdmaByte3Val,
- 				psTdmaByte4Val
-@@ -1445,7 +1445,7 @@ static void halbtc8723b1ant_PsTdma(
- 			halbtc8723b1ant_SetFwPstdma(
- 				pBtCoexist,
- 				psTdmaByte0Val,
--				0x2d+nWiFiDurationAdjust,
-+				0x2d + nWiFiDurationAdjust,
- 				0x03,
- 				psTdmaByte3Val,
- 				psTdmaByte4Val
-@@ -1855,7 +1855,7 @@ static void halbtc8723b1ant_TdmaDurationAdjustForAcl(
- 				if (m >= 20) /* m 最大值 = 20 ' 最大120秒 recheck是否調整 WiFi duration. */
- 					m = 20;
- 
--				n = 3*m;
-+				n = 3 * m;
- 				up = 0;
- 				dn = 0;
- 				WaitCount = 0;
-@@ -1871,7 +1871,7 @@ static void halbtc8723b1ant_TdmaDurationAdjustForAcl(
- 			if (m >= 20) /* m 最大值 = 20 ' 最大120秒 recheck是否調整 WiFi duration. */
- 				m = 20;
- 
--			n = 3*m;
-+			n = 3 * m;
- 			up = 0;
- 			dn = 0;
- 			WaitCount = 0;
-@@ -2495,9 +2495,9 @@ static void halbtc8723b1ant_RunCoexistMechanism(struct btc_coexist *pBtCoexist)
- 		BTC_GET_U4_WIFI_LINK_STATUS,
- 		&wifiLinkStatus
- 	);
--	numOfWifiLink = wifiLinkStatus>>16;
-+	numOfWifiLink = wifiLinkStatus >> 16;
- 
--	if ((numOfWifiLink >= 2) || (wifiLinkStatus&WIFI_P2P_GO_CONNECTED)) {
-+	if ((numOfWifiLink >= 2) || (wifiLinkStatus & WIFI_P2P_GO_CONNECTED)) {
- 		BTC_PRINT(
- 			BTC_MSG_INTERFACE,
- 			INTF_NOTIFY,
-@@ -2656,7 +2656,7 @@ void EXhalbtc8723b1ant_PowerOnSetting(struct btc_coexist *pBtCoexist)
- 
- 	/*  enable BB, REG_SYS_FUNC_EN such that we can write 0x948 correctly. */
- 	u2Tmp = pBtCoexist->fBtcRead2Byte(pBtCoexist, 0x2);
--	pBtCoexist->fBtcWrite2Byte(pBtCoexist, 0x2, u2Tmp|BIT0|BIT1);
-+	pBtCoexist->fBtcWrite2Byte(pBtCoexist, 0x2, u2Tmp | BIT0 | BIT1);
- 
- 	/*  set GRAN_BT = 1 */
- 	pBtCoexist->fBtcWrite1Byte(pBtCoexist, 0x765, 0x18);
-@@ -2837,7 +2837,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
- 		cliBuf,
- 		BT_TMP_BUF_SIZE,
- 		"\r\n %-35s = %d/ %d", "Wifi rssi/ HS rssi", \
--		wifiRssi-100, btHsRssi-100
-+		wifiRssi - 100, btHsRssi - 100
- 	);
- 	CL_PRINTF(cliBuf);
- 
-@@ -2881,11 +2881,11 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
- 		cliBuf,
- 		BT_TMP_BUF_SIZE,
- 		"\r\n %-35s = %d/ %d/ %d/ %d/ %d", "sta/vwifi/hs/p2pGo/p2pGc", \
--		((wifiLinkStatus&WIFI_STA_CONNECTED) ? 1 : 0),
--		((wifiLinkStatus&WIFI_AP_CONNECTED) ? 1 : 0),
--		((wifiLinkStatus&WIFI_HS_CONNECTED) ? 1 : 0),
--		((wifiLinkStatus&WIFI_P2P_GO_CONNECTED) ? 1 : 0),
--		((wifiLinkStatus&WIFI_P2P_GC_CONNECTED) ? 1 : 0)
-+		((wifiLinkStatus & WIFI_STA_CONNECTED) ? 1 : 0),
-+		((wifiLinkStatus & WIFI_AP_CONNECTED) ? 1 : 0),
-+		((wifiLinkStatus & WIFI_HS_CONNECTED) ? 1 : 0),
-+		((wifiLinkStatus & WIFI_P2P_GO_CONNECTED) ? 1 : 0),
-+		((wifiLinkStatus & WIFI_P2P_GC_CONNECTED) ? 1 : 0)
- 	);
- 	CL_PRINTF(cliBuf);
- 
-@@ -2932,7 +2932,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
- 		cliBuf,
- 		BT_TMP_BUF_SIZE,
- 		"\r\n %-35s = %s", "BT Info A2DP rate", \
--		(btInfoExt&BIT0) ? "Basic rate" : "EDR rate"
-+		(btInfoExt & BIT0) ? "Basic rate" : "EDR rate"
- 	);
- 	CL_PRINTF(cliBuf);
- 
-@@ -3044,7 +3044,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
- 	CL_SPRINTF(
- 		cliBuf, BT_TMP_BUF_SIZE,
- 		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x", "0x778/0x6cc/0x880[29:25]", \
--		u1Tmp[0], u4Tmp[0],  (u4Tmp[1]&0x3e000000) >> 25
-+		u1Tmp[0], u4Tmp[0],  (u4Tmp[1] & 0x3e000000) >> 25
- 	);
- 	CL_PRINTF(cliBuf);
- 
-@@ -3056,7 +3056,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
- 		cliBuf,
- 		BT_TMP_BUF_SIZE,
- 		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x/ 0x%x", "0x948/ 0x67[5] / 0x764 / 0x76e", \
--		u4Tmp[0], ((u1Tmp[0]&0x20) >> 5), (u4Tmp[1] & 0xffff), u1Tmp[1]
-+		u4Tmp[0], ((u1Tmp[0] & 0x20) >> 5), (u4Tmp[1] & 0xffff), u1Tmp[1]
- 	);
- 	CL_PRINTF(cliBuf);
- 
-@@ -3067,7 +3067,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
- 		cliBuf,
- 		BT_TMP_BUF_SIZE,
- 		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x", "0x92c[1:0]/ 0x930[7:0]/0x944[1:0]", \
--		u4Tmp[0]&0x3, u4Tmp[1]&0xff, u4Tmp[2]&0x3
-+		u4Tmp[0] & 0x3, u4Tmp[1] & 0xff, u4Tmp[2] & 0x3
- 	);
- 	CL_PRINTF(cliBuf);
- 
-@@ -3079,10 +3079,10 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
- 		cliBuf,
- 		BT_TMP_BUF_SIZE,
- 		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x/ 0x%x", "0x38[11]/0x40/0x4c[24:23]/0x64[0]", \
--		((u1Tmp[0] & 0x8)>>3),
-+		((u1Tmp[0] & 0x8) >> 3),
- 		u1Tmp[1],
--		((u4Tmp[0]&0x01800000)>>23),
--		u1Tmp[2]&0x1
-+		((u4Tmp[0] & 0x01800000) >> 23),
-+		u1Tmp[2] & 0x1
- 	);
- 	CL_PRINTF(cliBuf);
- 
-@@ -3102,7 +3102,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
- 		cliBuf,
- 		BT_TMP_BUF_SIZE,
- 		"\r\n %-35s = 0x%x/ 0x%x", "0xc50(dig)/0x49c(null-drop)", \
--		u4Tmp[0]&0xff, u1Tmp[0]
-+		u4Tmp[0] & 0xff, u1Tmp[0]
- 	);
- 	CL_PRINTF(cliBuf);
- 
-@@ -3115,17 +3115,17 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
- 	u1Tmp[1] = pBtCoexist->fBtcRead1Byte(pBtCoexist, 0xa5c);
- 
- 	faOfdm =
--		((u4Tmp[0]&0xffff0000) >> 16) +
--		((u4Tmp[1]&0xffff0000) >> 16) +
-+		((u4Tmp[0] & 0xffff0000) >> 16) +
-+		((u4Tmp[1] & 0xffff0000) >> 16) +
- 		(u4Tmp[1] & 0xffff) +  (u4Tmp[2] & 0xffff) + \
--		((u4Tmp[3]&0xffff0000) >> 16) + (u4Tmp[3] & 0xffff);
-+		((u4Tmp[3] & 0xffff0000) >> 16) + (u4Tmp[3] & 0xffff);
- 	faCck = (u1Tmp[0] << 8) + u1Tmp[1];
- 
- 	CL_SPRINTF(
- 		cliBuf,
- 		BT_TMP_BUF_SIZE,
- 		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x", "OFDM-CCA/OFDM-FA/CCK-FA", \
--		u4Tmp[0]&0xffff, faOfdm, faCck
-+		u4Tmp[0] & 0xffff, faOfdm, faCck
- 	);
- 	CL_PRINTF(cliBuf);
- 
-@@ -3281,7 +3281,7 @@ void EXhalbtc8723b1ant_ScanNotify(struct btc_coexist *pBtCoexist, u8 type)
- 	halbtc8723b1ant_QueryBtInfo(pBtCoexist);
- 
- 	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_U4_WIFI_LINK_STATUS, &wifiLinkStatus);
--	numOfWifiLink = wifiLinkStatus>>16;
-+	numOfWifiLink = wifiLinkStatus >> 16;
- 
- 	if (numOfWifiLink >= 2) {
- 		halbtc8723b1ant_LimitedTx(pBtCoexist, NORMAL_EXEC, 0, 0, 0, 0);
-@@ -3341,7 +3341,7 @@ void EXhalbtc8723b1ant_ConnectNotify(struct btc_coexist *pBtCoexist, u8 type)
- 	}
- 
- 	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_U4_WIFI_LINK_STATUS, &wifiLinkStatus);
--	numOfWifiLink = wifiLinkStatus>>16;
-+	numOfWifiLink = wifiLinkStatus >> 16;
- 	if (numOfWifiLink >= 2) {
- 		halbtc8723b1ant_LimitedTx(pBtCoexist, NORMAL_EXEC, 0, 0, 0, 0);
- 		halbtc8723b1ant_LimitedRx(pBtCoexist, NORMAL_EXEC, false, bBtCtrlAggBufSize, aggBufSize);
-@@ -3435,7 +3435,7 @@ void EXhalbtc8723b1ant_MediaStatusNotify(struct btc_coexist *pBtCoexist, u8 type
- 		ALGO_TRACE_FW_EXEC,
- 		(
- 			"[BTCoex], FW write 0x66 = 0x%x\n",
--			H2C_Parameter[0]<<16 | H2C_Parameter[1]<<8 | H2C_Parameter[2]
-+			H2C_Parameter[0] << 16 | H2C_Parameter[1] << 8 | H2C_Parameter[2]
- 		)
- 	);
- 
-@@ -3502,7 +3502,7 @@ void EXhalbtc8723b1ant_SpecialPacketNotify(struct btc_coexist *pBtCoexist, u8 ty
- 	pBtCoexist->fBtcGet(
- 		pBtCoexist, BTC_GET_U4_WIFI_LINK_STATUS, &wifiLinkStatus
- 	);
--	numOfWifiLink = wifiLinkStatus>>16;
-+	numOfWifiLink = wifiLinkStatus >> 16;
- 
- 	if (numOfWifiLink >= 2) {
- 		halbtc8723b1ant_LimitedTx(pBtCoexist, NORMAL_EXEC, 0, 0, 0, 0);
-@@ -3541,7 +3541,7 @@ void EXhalbtc8723b1ant_BtInfoNotify(
- 
- 	pCoexSta->bC2hBtInfoReqSent = false;
- 
--	rspSource = tmpBuf[0]&0xf;
-+	rspSource = tmpBuf[0] & 0xf;
- 	if (rspSource >= BT_INFO_SRC_8723B_1ANT_MAX)
- 		rspSource = BT_INFO_SRC_8723B_1ANT_WIFI_FW;
- 	pCoexSta->btInfoC2hCnt[rspSource]++;
-@@ -3557,7 +3557,7 @@ void EXhalbtc8723b1ant_BtInfoNotify(
- 		pCoexSta->btInfoC2h[rspSource][i] = tmpBuf[i];
- 		if (i == 1)
- 			btInfo = tmpBuf[i];
--		if (i == length-1)
-+		if (i == length - 1)
- 			BTC_PRINT(
- 				BTC_MSG_INTERFACE, INTF_NOTIFY, ("0x%02x]\n", tmpBuf[i])
- 			);
-@@ -3566,22 +3566,22 @@ void EXhalbtc8723b1ant_BtInfoNotify(
- 	}
- 
- 	if (BT_INFO_SRC_8723B_1ANT_WIFI_FW != rspSource) {
--		pCoexSta->btRetryCnt = pCoexSta->btInfoC2h[rspSource][2]&0xf;
-+		pCoexSta->btRetryCnt = pCoexSta->btInfoC2h[rspSource][2] & 0xf;
- 
- 		if (pCoexSta->btRetryCnt >= 1)
- 			pCoexSta->popEventCnt++;
- 
--		if (pCoexSta->btInfoC2h[rspSource][2]&0x20)
-+		if (pCoexSta->btInfoC2h[rspSource][2] & 0x20)
- 			pCoexSta->bC2hBtPage = true;
- 		else
- 			pCoexSta->bC2hBtPage = false;
- 
--		pCoexSta->btRssi = pCoexSta->btInfoC2h[rspSource][3]*2-90;
-+		pCoexSta->btRssi = pCoexSta->btInfoC2h[rspSource][3] * 2 - 90;
- 		/* pCoexSta->btInfoC2h[rspSource][3]*2+10; */
- 
- 		pCoexSta->btInfoExt = pCoexSta->btInfoC2h[rspSource][4];
- 
--		pCoexSta->bBtTxRxMask = (pCoexSta->btInfoC2h[rspSource][2]&0x40);
-+		pCoexSta->bBtTxRxMask = (pCoexSta->btInfoC2h[rspSource][2] & 0x40);
- 		pBtCoexist->fBtcSet(pBtCoexist, BTC_SET_BL_BT_TX_RX_MASK, &pCoexSta->bBtTxRxMask);
- 
- 		if (!pCoexSta->bBtTxRxMask) {
-@@ -3626,7 +3626,7 @@ void EXhalbtc8723b1ant_BtInfoNotify(
- 		pCoexSta->bC2hBtInquiryPage = false;
- 
- 	/*  set link exist status */
--	if (!(btInfo&BT_INFO_8723B_1ANT_B_CONNECTION)) {
-+	if (!(btInfo & BT_INFO_8723B_1ANT_B_CONNECTION)) {
- 		pCoexSta->bBtLinkExist = false;
- 		pCoexSta->bPanExist = false;
- 		pCoexSta->bA2dpExist = false;
-@@ -3659,7 +3659,7 @@ void EXhalbtc8723b1ant_BtInfoNotify(
- 
- 	btInfo = btInfo & 0x1f;  /* mask profile bit for connect-ilde identification (for CSR case: A2DP idle --> 0x41) */
- 
--	if (!(btInfo&BT_INFO_8723B_1ANT_B_CONNECTION)) {
-+	if (!(btInfo & BT_INFO_8723B_1ANT_B_CONNECTION)) {
- 		pCoexDm->btStatus = BT_8723B_1ANT_BT_STATUS_NON_CONNECTED_IDLE;
- 		BTC_PRINT(BTC_MSG_ALGORITHM, ALGO_TRACE, ("[BTCoex], BtInfoNotify(), BT Non-Connected idle!!!\n"));
- 	} else if (btInfo == BT_INFO_8723B_1ANT_B_CONNECTION)	{
-@@ -3667,12 +3667,12 @@ void EXhalbtc8723b1ant_BtInfoNotify(
- 		pCoexDm->btStatus = BT_8723B_1ANT_BT_STATUS_CONNECTED_IDLE;
- 		BTC_PRINT(BTC_MSG_ALGORITHM, ALGO_TRACE, ("[BTCoex], BtInfoNotify(), BT Connected-idle!!!\n"));
- 	} else if (
--		(btInfo&BT_INFO_8723B_1ANT_B_SCO_ESCO) ||
--		(btInfo&BT_INFO_8723B_1ANT_B_SCO_BUSY)
-+		(btInfo & BT_INFO_8723B_1ANT_B_SCO_ESCO) ||
-+		(btInfo & BT_INFO_8723B_1ANT_B_SCO_BUSY)
- 	) {
- 		pCoexDm->btStatus = BT_8723B_1ANT_BT_STATUS_SCO_BUSY;
- 		BTC_PRINT(BTC_MSG_ALGORITHM, ALGO_TRACE, ("[BTCoex], BtInfoNotify(), BT SCO busy!!!\n"));
--	} else if (btInfo&BT_INFO_8723B_1ANT_B_ACL_BUSY) {
-+	} else if (btInfo & BT_INFO_8723B_1ANT_B_ACL_BUSY) {
- 		if (BT_8723B_1ANT_BT_STATUS_ACL_BUSY != pCoexDm->btStatus)
- 			pCoexDm->bAutoTdmaAdjust = false;
- 
+ /* 8195 (RCR) Receive Configuration Register	(Offset 0x608, 32 bits) */
+ #define	RCR_TCPOFLD_EN			BIT25	/* Enable TCP checksum offload */
 -- 
 2.30.2
 
