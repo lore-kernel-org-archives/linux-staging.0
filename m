@@ -1,99 +1,148 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79ED70
-	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 14:18:57 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id mj7-20020a17090b3687b029014d162a65b6so3834883pjb.2
-        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 07:18:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB5070
+	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 14:22:43 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id y19-20020a0568301d93b02901b9f88a238eso14759756oti.11
+        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 07:22:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=7DjmGF6FnRAdOMOxx79iiAfLHcA67arTjIOWyK4tFvc=;
-        b=tuFpQyem7+MyofHl1KDCGxnIE9BsTsqrcTnmIFRasapf56OIPO5TFcMvR4t2HLcAWp
-         90Mv+yNotGjgJpalZ5jOv/CMz0jwjXmk/aREctLFBtXDsiQFAMidyoFqZkm1e3O71FiB
-         PyLTZtBn5+kjv4sG9tSau9F4RUuYcFvM38IQ5Hv6oD6oUUhTFk2sQdp1ik0ulyw9bZly
-         FyAKL2w92xiT7L3FQgCQJCJ1DW/1sOuq8wRnpqEtGAzTFDgX0VKmD52L8N5ljh004vBf
-         iaVQlizsUAhnF6ksf38ZqqZog3InF4u6fOflhNW8wskTyPj0T8ZJA52ydK2wAl2OAvTK
-         DqiQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2C58heWhjWSXVwd82d75mh+4ssAK4ihVn1YcjIF/AAg=;
+        b=soHVhgYDQK5DhGL2cYR8dtJ3mFb+IY7oWhlKrSZCmDH1eu4FvpnLjil8XXxZp8VfI1
+         KMfyYHBaG4bbiJGwZVZclylKZoUl+Vbq+NrD7aEkhlRvckUYo4j3I8AQNFzsAoioZEv+
+         W9aI91zfZzVrrfEOpCA52VvHoMwsr5hJFfWbc/19Myy/9rp8ysbtrUXfpdv+MXN2CHbG
+         S1BHi1AorKcTyhjRmhqoS5OEJ8UwUK2MwlIeRcVuYLUBg76CREejoZyN9phYCF311Dk2
+         sSYUHg4A3W2eGOXnYDhPc7MzEG32PaakcTBpLeeTgyYyZZyKL78UGPxJFO1EaHYLtzxr
+         p7MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=7DjmGF6FnRAdOMOxx79iiAfLHcA67arTjIOWyK4tFvc=;
-        b=iPpazmJQyS6gKaE4T6ocLfeNpYzVTZgAHSelfLrlfvhvJp0515Kq7KAjivefavvQnz
-         E5Mhu+6L5RiDlM95a3q4JRZGweBw0H/9b8udObzyhSDNlCemklIayor6sGNZWPoJeKf3
-         6HUBjxWTRAQjFXdqwi5yi0j+UbmOH1yEM+Ry4FtxXsmOR5xWvF6ruDEm0+YHMkxEIdf3
-         3jK3L8pqjjn328g93peGw3ewyz2aJCnO32+g+9+rqIAk4EoBV44VEwnygOQs8aoI4dcL
-         LWrUfP6H+GDuqgeQMRQ9nJDx/zDaayNJM2XBDsjTASMW8jBazSEX79M67PPu9mqpDhAv
-         tV/Q==
-X-Gm-Message-State: AOAM531rUzRNjAz78CJKp7ri5VJ1TP8YxdZfFiurPp0VMGaQbvUCDg93
-	yQ7Sm36Rj6zygWUrrpI2jM4=
-X-Google-Smtp-Source: ABdhPJxsINrnkef2tA65NnbGwjhL+miREBITUbGbg8CoFi/8e+9oSsiWo5WIJE7CIo/QexG5M3g2Jw==
-X-Received: by 2002:a17:90a:7064:: with SMTP id f91mr4768709pjk.89.1617718737378;
-        Tue, 06 Apr 2021 07:18:57 -0700 (PDT)
-Received: from localhost.localdomain ([138.197.212.246])
-        by smtp.gmail.com with ESMTPSA id u1sm18337581pgg.11.2021.04.06.07.18.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Apr 2021 07:18:56 -0700 (PDT)
-From: DENG Qingfang <dqfext@gmail.com>
-To: "David S. Miller" <davem@davemloft.net>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Landen Chao <Landen.Chao@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Vivien Didelot <vivien.didelot@gmail.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	netdev@vger.kernel.org
-Cc: Weijie Gao <weijie.gao@mediatek.com>,
-	Chuanhong Guo <gch981213@gmail.com>,
-	=?UTF-8?q?Ren=C3=A9=20van=20Dorst?= <opensource@vdorst.com>
-Subject: [RFC net-next 4/4] staging: mt7621-dts: enable MT7530 interrupt controller
-Date: Tue,  6 Apr 2021 22:18:19 +0800
-Message-Id: <20210406141819.1025864-5-dqfext@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210406141819.1025864-1-dqfext@gmail.com>
-References: <20210406141819.1025864-1-dqfext@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2C58heWhjWSXVwd82d75mh+4ssAK4ihVn1YcjIF/AAg=;
+        b=M6mPumwyEG1vXT0x8kUVG/we/Kf9uFUmyP7w3oUDvukC4giWtLT676pq0yN9CWUx01
+         quFhnkwpGR6yz1bB2Cfd15HUjjhPXxB32ASGtvfqJduoP92QAc1Y+vEvOrF2LUwbNKEJ
+         diinonmjRMcMnn+PmDH6Oa77/eyYVBwRM34PVxa16im3q1ayNj1Gr139K+r/SpVS13VK
+         Cq8NyIqLHFhnZebOadxgsMDnPf0H6YAYO/QBIduX6GQOGa0GllnE6jFDP0vTOowURHAh
+         fKp6399V3V0+7O4kcCmGE1KKduAmx+htfuQfUHWP5+dBzRkcy0APlL/dqrsKggcrbrAl
+         nhbw==
+X-Gm-Message-State: AOAM533fJg0DMBsJ5wuxFfp9K8P5/Sj9NqC8ttSYp2tZL/ox7RwaWCYN
+	peupKo9c2iLANb20rrbh0EvTThLJdwiIPmGTdts=
+X-Google-Smtp-Source: ABdhPJy+Cwg2iYwtFcgBus7i09ayPPWSytIc4YUURuFQzet7jXBYENspMVnnC2fb4zFlxp0jCH/i5bdsoHdsVulcIas=
+X-Received: by 2002:a9d:7f8a:: with SMTP id t10mr26150737otp.239.1617718962943;
+ Tue, 06 Apr 2021 07:22:42 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210406130138.30744-1-fmdefrancesco@gmail.com> <YGxsNVs+sexiPMJS@kroah.com>
+In-Reply-To: <YGxsNVs+sexiPMJS@kroah.com>
+From: FMDF <fmdefrancesco@gmail.com>
+Date: Tue, 6 Apr 2021 16:22:27 +0200
+Message-ID: <CAPj211s_MCJ6R+DgETqzj8pbzToZv=aYsDjT-c-HvLst+4nNOQ@mail.gmail.com>
+Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8723bs: hal: Add spaces
+ around operators
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Enable MT7530 interrupt controller in the MT7621 SoC.
+On Tue, Apr 6, 2021 at 4:12 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Tue, Apr 06, 2021 at 03:01:38PM +0200, Fabio M. De Francesco wrote:
+> > Added spaces around operators in file HalBtc8723b1Ant.c. Issue detected
+> > by checkpatch.pl. Spaces are preferred to improve readibility.
+> >
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > ---
+> >  .../staging/rtl8723bs/hal/HalBtc8723b1Ant.c   | 98 +++++++++----------
+> >  1 file changed, 49 insertions(+), 49 deletions(-)
+> >
+> > diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
+> > index 3e794093092b..b2b872016e45 100644
+> > --- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
+> > +++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
+> > @@ -38,7 +38,7 @@ static u8 halbtc8723b1ant_BtRssiState(
+> >                       (pCoexSta->preBtRssiState == BTC_RSSI_STATE_LOW) ||
+> >                       (pCoexSta->preBtRssiState == BTC_RSSI_STATE_STAY_LOW)
+> >               ) {
+> > -                     if (btRssi >= (rssiThresh+BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
+> > +                     if (btRssi >= (rssiThresh + BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
+> >
+> >                               btRssiState = BTC_RSSI_STATE_HIGH;
+> >                               BTC_PRINT(
+> > @@ -85,7 +85,7 @@ static u8 halbtc8723b1ant_BtRssiState(
+> >                       (pCoexSta->preBtRssiState == BTC_RSSI_STATE_LOW) ||
+> >                       (pCoexSta->preBtRssiState == BTC_RSSI_STATE_STAY_LOW)
+> >               ) {
+> > -                     if (btRssi >= (rssiThresh+BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
+> > +                     if (btRssi >= (rssiThresh + BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
+> >                               btRssiState = BTC_RSSI_STATE_MEDIUM;
+> >                               BTC_PRINT(
+> >                                       BTC_MSG_ALGORITHM,
+> > @@ -104,7 +104,7 @@ static u8 halbtc8723b1ant_BtRssiState(
+> >                       (pCoexSta->preBtRssiState == BTC_RSSI_STATE_MEDIUM) ||
+> >                       (pCoexSta->preBtRssiState == BTC_RSSI_STATE_STAY_MEDIUM)
+> >               ) {
+> > -                     if (btRssi >= (rssiThresh1+BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
+> > +                     if (btRssi >= (rssiThresh1 + BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
+> >                               btRssiState = BTC_RSSI_STATE_HIGH;
+> >                               BTC_PRINT(
+> >                                       BTC_MSG_ALGORITHM,
+> > @@ -353,11 +353,11 @@ static void halbtc8723b1ant_MonitorBtCtr(struct btc_coexist *pBtCoexist)
+> >
+> >       u4Tmp = pBtCoexist->fBtcRead4Byte(pBtCoexist, regHPTxRx);
+> >       regHPTx = u4Tmp & bMaskLWord;
+> > -     regHPRx = (u4Tmp & bMaskHWord)>>16;
+> > +     regHPRx = (u4Tmp & bMaskHWord) >> 16;
+> >
+> >       u4Tmp = pBtCoexist->fBtcRead4Byte(pBtCoexist, regLPTxRx);
+> >       regLPTx = u4Tmp & bMaskLWord;
+> > -     regLPRx = (u4Tmp & bMaskHWord)>>16;
+> > +     regLPRx = (u4Tmp & bMaskHWord) >> 16;
+> >
+> >       pCoexSta->highPriorityTx = regHPTx;
+> >       pCoexSta->highPriorityRx = regHPRx;
+> > @@ -1317,7 +1317,7 @@ static void halbtc8723b1ant_SetFwPstdma(
+> >       pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_AP_MODE_ENABLE, &bApEnable);
+> >
+> >       if (bApEnable) {
+> > -             if (byte1&BIT4 && !(byte1&BIT5)) {
+> > +             if (byte1 & BIT4 && !(byte1 & BIT5)) {
+> >                       BTC_PRINT(
+> >                               BTC_MSG_INTERFACE,
+> >                               INTF_NOTIFY,
+> > @@ -1349,9 +1349,9 @@ static void halbtc8723b1ant_SetFwPstdma(
+> >               (
+> >                       "[BTCoex], PS-TDMA H2C cmd = 0x%x%08x\n",
+> >                       H2C_Parameter[0],
+> > -                     H2C_Parameter[1]<<24|
+> > -                     H2C_Parameter[2]<<16|
+> > -                     H2C_Parameter[3]<<8|
+> > +                     H2C_Parameter[1] << 24 |
+> > +                     H2C_Parameter[2] << 16 |
+> > +                     H2C_Parameter[3]<< 8 |
+>
+> Why did you miss the space that is needed here too?
 
-Signed-off-by: DENG Qingfang <dqfext@gmail.com>
----
- drivers/staging/mt7621-dts/mt7621.dtsi | 3 +++
- 1 file changed, 3 insertions(+)
+I really don't know why I overlooked these.
 
-diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
-index 16fc94f65486..ebf8b0633e88 100644
---- a/drivers/staging/mt7621-dts/mt7621.dtsi
-+++ b/drivers/staging/mt7621-dts/mt7621.dtsi
-@@ -447,6 +447,9 @@ switch0: switch0@0 {
- 				mediatek,mcm;
- 				resets = <&rstctrl 2>;
- 				reset-names = "mcm";
-+				interrupt-controller;
-+				interrupt-parent = <&gic>;
-+				interrupts = <GIC_SHARED 23 IRQ_TYPE_LEVEL_HIGH>;
- 
- 				ports {
- 					#address-cells = <1>;
--- 
-2.25.1
+>
+> Did you run this patch through checkpatch.pl?
 
+Yes, I did it as I always do.
+
+>
+> Please do so.
+>
+> thanks,
+>
+> greg k-h
+
+I am going to send a v2 as soon as possible.
+
+Thanks for your review,
+
+Fabio
