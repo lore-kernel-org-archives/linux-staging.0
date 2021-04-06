@@ -1,12 +1,12 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4B56D0E
-	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 15:30:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F366D0E
+	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 15:34:31 +0000 (UTC)
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
 	(envelope-from <andrew@lunn.ch>)
-	id 1lTnf5-00F8jg-4x; Tue, 06 Apr 2021 17:30:39 +0200
-Date: Tue, 6 Apr 2021 17:30:39 +0200
+	id 1lTnW7-00F8gN-Pt; Tue, 06 Apr 2021 17:21:23 +0200
+Date: Tue, 6 Apr 2021 17:21:23 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: DENG Qingfang <dqfext@gmail.com>
 Cc: "David S. Miller" <davem@davemloft.net>,
@@ -28,10 +28,10 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	netdev@vger.kernel.org, Weijie Gao <weijie.gao@mediatek.com>,
 	Chuanhong Guo <gch981213@gmail.com>,
 	=?iso-8859-1?Q?Ren=E9?= van Dorst <opensource@vdorst.com>
-Subject: Re: [RFC net-next 2/4] net: dsa: mt7530: add interrupt support
-Message-ID: <YGx+nyYkSY3Xu0Za@lunn.ch>
+Subject: Re: [RFC net-next 1/4] net: phy: add MediaTek PHY driver
+Message-ID: <YGx8c5Jt2D7fB0cO@lunn.ch>
 References: <20210406141819.1025864-1-dqfext@gmail.com>
- <20210406141819.1025864-3-dqfext@gmail.com>
+ <20210406141819.1025864-2-dqfext@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -39,15 +39,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210406141819.1025864-3-dqfext@gmail.com>
+In-Reply-To: <20210406141819.1025864-2-dqfext@gmail.com>
 
-On Tue, Apr 06, 2021 at 10:18:17PM +0800, DENG Qingfang wrote:
-> Add support for MT7530 interrupt controller to handle internal PHYs.
+On Tue, Apr 06, 2021 at 10:18:16PM +0800, DENG Qingfang wrote:
+> Add support for MediaTek PHYs found in MT7530 and MT7531 switches.
 
-Are the interrupts purely PHY interrupts? Or are there some switch
-operation interrupts, which are currently not used?
+Do you know if this PHY is available standalone?
 
-I'm just wondering if it is correct to so closely tie interrupts and
-MDIO together.
+> +static int mt7531_phy_config_init(struct phy_device *phydev)
+> +{
+> +	mtk_phy_config_init(phydev);
+> +
+> +	/* PHY link down power saving enable */
+> +	phy_set_bits(phydev, 0x17, BIT(4));
+> +	phy_clear_bits_mmd(phydev, MDIO_MMD_VEND1, 0xc6, 0x300);
+> +
+> +	/* Set TX Pair delay selection */
+> +	phy_write_mmd(phydev, MDIO_MMD_VEND1, 0x13, 0x404);
+> +	phy_write_mmd(phydev, MDIO_MMD_VEND1, 0x14, 0x404);
 
-     Andrew
+This gets me worried about RGMII delays. We have had bad backwards
+compatibility problems with PHY drivers which get RGMII delays wrong.
+
+Since this is an internal PHY, i suggest you add a test to the
+beginning of mt7531_phy_config_init():
+
+	if (phydev->interface != PHY_INTERFACE_MODE_INTERNAL)
+		return -EINVAL;
+
+We can then solve RGMII problems when somebody actually needs RGMII.
+
+   Andrew
