@@ -1,95 +1,109 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6866D00
-	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 10:56:10 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id f12so7736681wro.0
-        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 03:56:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=q1OdVdRoE2zhBD6rueqcaxE65GfvXBrF/yJr7/CuoJo=;
-        b=hH91VRw7grrA/ma+05HwprBB4SWH0PZOL2v6GaYzgcar6w8RimAebXwQ0r1WqEbU3F
-         2LqKCCbqWQjEokmMQnzjO+k1KIwE3JhktahVYlWhKxIQ62dqTYIE+cirsW1MbpHs9que
-         o94nVwOMtuN7jHkOZiA63gb2nere09fid76p6MaVjNI1G2g4GbCn3nZbkln7vZP9iDwV
-         Lh5w2umCi+tjzA8XvAk+vbRn5+pa0aaQvxSEbSNir9qZjaSVEPtTXxR9iybi/Pp0niLA
-         QbCYWtfk9oU6ElBYBTmMw4mRZQmDpJMlC1LoAhwH60zEQ5aNgZHTITjFNUk3LP70d+0U
-         OYoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=q1OdVdRoE2zhBD6rueqcaxE65GfvXBrF/yJr7/CuoJo=;
-        b=pBxS1B7zM18G4D+atbtlXhYAPVs0//MKfNIkFzape8B8Bc2Uu1Vzz88KmDGKvXcF5W
-         C1N8m7bBAOnjFAGojej07PvlP4k9jSNpdSbUlaweo/mTSkxCU3JGNli6PCKvlTS0PoUp
-         LPhKhPLWqBTTSeG8GLz6cpyM+ORUPfC5Fb0LaSaMqSy0+S2yAR+td/KLbWeS4qPFNtkC
-         Do7OFv5uMQdny+Q7o9AOH0lX30tiRbXlE6HGtR50Cyx3Us3AM/kf5mz0RqHQUbNEZgYm
-         oTJx2diPUNqoa2tbDPK1SHIRtOy1HXlAqgM3fC2Z3/bLV2pQavA1ZzAcdtCbjzPQ2Daa
-         kiHg==
-X-Gm-Message-State: AOAM533GP6U86c2dmusmbjl+ry6UbijVvcv8PePY4hSVXjvkwfwN3ndy
-	nmBCxwTh2Ltywc0OBiCOqjwb6Q==
-X-Google-Smtp-Source: ABdhPJxrLzBsqhvzZyPqBM+u3AzvgfmTytgOO3UgoVYMi1dwP3EYYqHD4fx9yq+TjIxfwAEfUYinXw==
-X-Received: by 2002:adf:9d48:: with SMTP id o8mr34278705wre.183.1617706569128;
-        Tue, 06 Apr 2021 03:56:09 -0700 (PDT)
-Received: from localhost.localdomain (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
-        by smtp.gmail.com with ESMTPSA id x1sm20673504wro.66.2021.04.06.03.56.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Apr 2021 03:56:08 -0700 (PDT)
-From: Phillip Potter <phil@philpotter.co.uk>
-To: gregkh@linuxfoundation.org
-Cc: ross.schm.dev@gmail.com,
-	fabioaiuto83@gmail.com,
-	dan.carpenter@oracle.com,
-	insafonov@gmail.com,
-	marcocesati@gmail.com,
-	pterjan@google.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: remove unused variable from rtw_os_recv_indicate_pkt
-Date: Tue,  6 Apr 2021 11:56:07 +0100
-Message-Id: <20210406105607.1689292-1-phil@philpotter.co.uk>
-X-Mailer: git-send-email 2.30.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4446D00
+	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 10:59:01 +0000 (UTC)
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3Al9gs6qguLlDkq2Ib8TFDVPJlV3BQXgQji2hD?=
+ =?us-ascii?q?6mlwRA09T+WzkceykPMHkSLlkTp5YgBCpfmsGomlBUnd+5l8/JULMd6ZNzXOlW?=
+ =?us-ascii?q?O0IOhZgrfK7CbnH0TFmNJ18YdFX+xABMbrDV585Pyb3CCdH8w7yNeKtICE7N2+?=
+ =?us-ascii?q?815XQQtna75t4m5CY27wLmRNWAJECZAlfaDx2uN7oVObFEgqUg=3D=3D?=
+X-IronPort-AV: E=Sophos;i="5.81,309,1610406000"; 
+   d="scan'208";a="377853947"
+Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Apr 2021 12:58:58 +0200
+Date: Tue, 6 Apr 2021 12:58:58 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>
+cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, 
+    gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+    linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+Subject: Re: [Outreachy kernel] [PATCH 1/2] staging: rtl8712: Rewrite NULL
+ comparisons
+In-Reply-To: <5d2db1d233030ececcdd4934ca9c46cb998c0c5b.1617705825.git.zhansayabagdaulet@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2104061258040.2882@hadrien>
+References: <cover.1617705825.git.zhansayabagdaulet@gmail.com> <5d2db1d233030ececcdd4934ca9c46cb998c0c5b.1617705825.git.zhansayabagdaulet@gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-Remove unused 'ret' variable from rtw_os_recv_indicate_pkt function in
-drivers/staging/rtl8723bs/os_dep/recv_linux.c as nothing is actually
-done with it. A function return val is conditionally stored to it under
-certain circumstances, but nothing is done with it after. Fixes a
-warning from kernel test robot.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
----
- drivers/staging/rtl8723bs/os_dep/recv_linux.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/recv_linux.c b/drivers/staging/rtl8723bs/os_dep/recv_linux.c
-index fbdbcd04d44a..f6a9482be8e3 100644
---- a/drivers/staging/rtl8723bs/os_dep/recv_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/recv_linux.c
-@@ -98,7 +98,6 @@ struct sk_buff *rtw_os_alloc_msdu_pkt(union recv_frame *prframe, u16 nSubframe_L
- void rtw_os_recv_indicate_pkt(struct adapter *padapter, struct sk_buff *pkt, struct rx_pkt_attrib *pattrib)
- {
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--	int ret;
- 
- 	/* Indicate the packets to upper layer */
- 	if (pkt) {
-@@ -140,7 +139,7 @@ void rtw_os_recv_indicate_pkt(struct adapter *padapter, struct sk_buff *pkt, str
- 
- 		pkt->ip_summed = CHECKSUM_NONE;
- 
--		ret = rtw_netif_rx(padapter->pnetdev, pkt);
-+		rtw_netif_rx(padapter->pnetdev, pkt);
- 	}
- }
- 
--- 
-2.30.2
+On Tue, 6 Apr 2021, Zhansaya Bagdauletkyzy wrote:
 
+> Replace NULL comparisons with boolean negation.
+
+This summarizes concisely what you did, which is helpful, but you could
+also say why.  For example, to make the code more concise or to improve
+readability or for consistency with the rest of the code base.
+
+julia
+
+> Reported by checkpatch.
+>
+> Signed-off-by: Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>
+> ---
+>  drivers/staging/rtl8712/rtl871x_recv.h | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/staging/rtl8712/rtl871x_recv.h b/drivers/staging/rtl8712/rtl871x_recv.h
+> index 7c9995060a6f..4aa39f4f3b84 100644
+> --- a/drivers/staging/rtl8712/rtl871x_recv.h
+> +++ b/drivers/staging/rtl8712/rtl871x_recv.h
+> @@ -135,7 +135,7 @@ int recv_func(struct _adapter *padapter, void *pcontext);
+>  static inline u8 *get_rxmem(union recv_frame *precvframe)
+>  {
+>  	/* always return rx_head... */
+> -	if (precvframe == NULL)
+> +	if (!precvframe)
+>  		return NULL;
+>  	return precvframe->u.hdr.rx_head;
+>  }
+> @@ -143,7 +143,7 @@ static inline u8 *get_rxmem(union recv_frame *precvframe)
+>  static inline u8 *get_recvframe_data(union recv_frame *precvframe)
+>  {
+>  	/* always return rx_data */
+> -	if (precvframe == NULL)
+> +	if (!precvframe)
+>  		return NULL;
+>  	return precvframe->u.hdr.rx_data;
+>  }
+> @@ -153,7 +153,7 @@ static inline u8 *recvframe_pull(union recv_frame *precvframe, sint sz)
+>  	/* used for extract sz bytes from rx_data, update rx_data and return
+>  	 * the updated rx_data to the caller
+>  	 */
+> -	if (precvframe == NULL)
+> +	if (!precvframe)
+>  		return NULL;
+>  	precvframe->u.hdr.rx_data += sz;
+>  	if (precvframe->u.hdr.rx_data > precvframe->u.hdr.rx_tail) {
+> @@ -170,7 +170,7 @@ static inline u8 *recvframe_put(union recv_frame *precvframe, sint sz)
+>  	 * return the updated rx_tail to the caller
+>  	 * after putting, rx_tail must be still larger than rx_end.
+>  	 */
+> -	if (precvframe == NULL)
+> +	if (!precvframe)
+>  		return NULL;
+>  	precvframe->u.hdr.rx_tail += sz;
+>  	if (precvframe->u.hdr.rx_tail > precvframe->u.hdr.rx_end) {
+> @@ -188,7 +188,7 @@ static inline u8 *recvframe_pull_tail(union recv_frame *precvframe, sint sz)
+>  	 * updated rx_end to the caller
+>  	 * after pulling, rx_end must be still larger than rx_data.
+>  	 */
+> -	if (precvframe == NULL)
+> +	if (!precvframe)
+>  		return NULL;
+>  	precvframe->u.hdr.rx_tail -= sz;
+>  	if (precvframe->u.hdr.rx_tail < precvframe->u.hdr.rx_data) {
+> --
+> 2.25.1
+>
+> --
+> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/5d2db1d233030ececcdd4934ca9c46cb998c0c5b.1617705825.git.zhansayabagdaulet%40gmail.com.
+>
