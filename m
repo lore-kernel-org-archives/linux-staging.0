@@ -1,47 +1,94 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBF2A70
-	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 14:12:47 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D4A8A6139C;
-	Tue,  6 Apr 2021 14:12:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1617718367;
-	bh=pcziQPHW1TqS0kWxpYxP9neRIebp6sZAONItqnbfQvY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KdFawesu53kdwMYki+QYg5Bso5YqGTCFpROshhmtT4kuZCLKQ0VG1OPQhi/eB6zhz
-	 2G3/wPjNSfuOdfSHAK+PxgQTmAZ8BlUpVFRhQ3W7utBYiH1qoz+FspI8B5EPgTdluY
-	 e6u9GyNQIbzYX7pPVNff0eyhIIue0MnR8eF/wjhw=
-Date: Tue, 6 Apr 2021 16:12:44 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>
-Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com
-Subject: Re: [PATCH v2 2/2] staging: rtl8712: Remove extra blank lines
-Message-ID: <YGxsXMonD5TvtUyB@kroah.com>
-References: <cover.1617710602.git.zhansayabagdaulet@gmail.com>
- <f61f6d330bc3fa53d4d420754d1d461b6cfcb2de.1617710602.git.zhansayabagdaulet@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F374670
+	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 14:18:29 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id t23so4782090pjy.3
+        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 07:18:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oHeyYOhTyr/Pj14dswoKpegMv2vJUh025+BN2sVtXu8=;
+        b=RtwbzxaLtNZ0nmdC4WJ/Cx9sZwXO1DHJ8WqQYOxbxvHGlQneXoT8hZHtjuYkmAPLAn
+         +6JTWU6Ws84uztBHt7NYBcbVcXDde3Fj5zcCJ5ssBJQDm9xUC4IaYY0HcCH+8YFW/sDo
+         4mu6CsmLrotTPSTK9y77uxPSMmLcL3qJBaJhRafv9kEsBXP62g+trAQjsOGilTI0c00Y
+         zQmg6e8jMR4cMxkGHgs4R7BFQA+O035RKOVNLgcCWxHlWwMBKQRC3FavgUGBJ8WpE974
+         ui3F38lBrgyaZ5tDeXKuR/6umDgfaSsfj+ifEIs2c1ddA3B9/Z4FrDCcvKIa7ONX2wu2
+         dJ3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oHeyYOhTyr/Pj14dswoKpegMv2vJUh025+BN2sVtXu8=;
+        b=AWhpZH7hICs3CQBuzleusgXA/D7h9icf9y4eYl7zfxHr76D1FMY96jab2wlebBSmiA
+         VU2m4V71oZJki90G3SyQ0hAlwQH66CbFuNKx5VfxYg8JBE9y2EWiIlMMXlia7nhy0fvs
+         WoCsxP8uvP8G0cASi9AFzYnhtXdBKFNlnnOJFV30JbRGO1ymL4kzxFGAee9Bs8s4NfGd
+         hqYOxo6pOjyHpxxaO+yOzXwU2T203y1h87FdKNJYYy4xGsEQtOCKfWLAGjo4uO67YyDN
+         mCVlM0jE4LjoeUzxXJKiMkrMiCHv2bl9xpeXcJa6exoi1SwsO5AfGcfGvU+xUHWo9eZc
+         xjqA==
+X-Gm-Message-State: AOAM5311WipKzkB7SDVX56uFQlzTNwG2dRZyAJnhf0X00TvU1VNmG3jX
+	rdlyUbLqtHDxdhxQhQiZ7HU=
+X-Google-Smtp-Source: ABdhPJycUf08xH7qOZt9syoGWZKCK/ZFzVK3LiVHhby8ua9De8vgDPchYrwqPZAbqEJIvB6LOhGhgw==
+X-Received: by 2002:a17:90a:314:: with SMTP id 20mr4735746pje.72.1617718709461;
+        Tue, 06 Apr 2021 07:18:29 -0700 (PDT)
+Received: from localhost.localdomain ([138.197.212.246])
+        by smtp.gmail.com with ESMTPSA id u1sm18337581pgg.11.2021.04.06.07.18.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Apr 2021 07:18:28 -0700 (PDT)
+From: DENG Qingfang <dqfext@gmail.com>
+To: "David S. Miller" <davem@davemloft.net>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Landen Chao <Landen.Chao@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Vivien Didelot <vivien.didelot@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	netdev@vger.kernel.org
+Cc: Weijie Gao <weijie.gao@mediatek.com>,
+	Chuanhong Guo <gch981213@gmail.com>,
+	=?UTF-8?q?Ren=C3=A9=20van=20Dorst?= <opensource@vdorst.com>
+Subject: [RFC net-next 0/4] MT7530 interrupt support
+Date: Tue,  6 Apr 2021 22:18:15 +0800
+Message-Id: <20210406141819.1025864-1-dqfext@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f61f6d330bc3fa53d4d420754d1d461b6cfcb2de.1617710602.git.zhansayabagdaulet@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 06, 2021 at 06:09:58PM +0600, Zhansaya Bagdauletkyzy wrote:
-> Remove extra blank lines after an open brace to adhere to Linux kernel
-> coding style.
-> Reported by checkpatch.
-> 
-> Signed-off-by: Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>
-> ---
->  drivers/staging/rtl8712/rtl871x_io.h   | 1 -
->  drivers/staging/rtl8712/rtl871x_mlme.h | 1 -
->  drivers/staging/rtl8712/rtl871x_recv.h | 1 -
->  drivers/staging/rtl8712/sta_info.h     | 1 -
->  4 files changed, 4 deletions(-)
+Add support for MT7530 interrupt controller.
 
-This does not apply either :(
+DENG Qingfang (4):
+  net: phy: add MediaTek PHY driver
+  net: dsa: mt7530: add interrupt support
+  dt-bindings: net: dsa: add MT7530 interrupt controller binding
+  staging: mt7621-dts: enable MT7530 interrupt controller
+
+ .../devicetree/bindings/net/dsa/mt7530.txt    |   5 +
+ drivers/net/dsa/mt7530.c                      | 203 ++++++++++++++++--
+ drivers/net/dsa/mt7530.h                      |  18 +-
+ drivers/net/phy/Kconfig                       |   5 +
+ drivers/net/phy/Makefile                      |   1 +
+ drivers/net/phy/mediatek.c                    | 109 ++++++++++
+ drivers/staging/mt7621-dts/mt7621.dtsi        |   3 +
+ 7 files changed, 323 insertions(+), 21 deletions(-)
+ create mode 100644 drivers/net/phy/mediatek.c
+
+-- 
+2.25.1
+
