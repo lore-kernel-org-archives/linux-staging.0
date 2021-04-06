@@ -1,24 +1,28 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14D06D00
-	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 19:36:16 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A6777613A9;
-	Tue,  6 Apr 2021 19:36:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1617737776;
-	bh=MJKZMQKHJHY6Vc9TMSOIgqmLg1at+USHkUd5zXJWp4M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qQs+DIBu7bc3HH4i/wM6Vq+v8ecI711FauSPxZYFbEyoIyieRBKlyQdgfdDaKRM41
-	 IH83oRKcpoNg2QSYNHPuukF9fc+R+G5W6JMzk+NDoXtCaKDEi3WFV9XAOAyuAmcDSp
-	 ALvjCkvqdRVKKi/wHvvxSPbOj/owZqQVZYhE7GJA=
-Date: Tue, 6 Apr 2021 21:36:13 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57486D00
+	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 19:56:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=SmuAICY7BfV2FQ+TWZqN5rr6C144dVwfzZ62LXjDgDI=; b=EhawNeEXpMRPlr1ZhJ3QQHx5Zf
+	+LoaIUlKOpitU0CxrCHiXJT68Dr645j4vuu6J0PZIqVtqW+RSRoyPzocyN6tBo86mm169kTIUAJtW
+	mOvce3s1KJ2x+9bIgfqJvCInxD1dYguBlOwvsXwYLNrYsw2sQwdODQCAeXh/5Uk5YWT2hnYX+XISl
+	jS62mWkspKvymAoUOuSRrTnQl85OXp9zr4dygdB0YHq7xCDExbcMdAGsxkascDc7hUSWDVFiYVg+F
+	o8KUXoNpkgVQcglfei6ujXuv5GOLqI99o4p2Gy25H/aLjM9VvyDckYLORCgvK7qj29C1PuVGB2CJE
+	Nm3geIqQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+	id 1lTroD-00DLMI-Tr; Tue, 06 Apr 2021 19:56:27 +0000
+Date: Tue, 6 Apr 2021 20:56:21 +0100
+From: Matthew Wilcox <willy@infradead.org>
 To: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com
-Subject: Re: [RESEND PATCH] staging: emxx_udc: Ending line with argument
-Message-ID: <YGy4LXHBrBb/r3dk@kroah.com>
+	outreachy-kernel@googlegroups.com, gregkh@linuxfoundation.org
+Subject: Re: [Outreachy kernel] [RESEND PATCH] staging: emxx_udc: Ending line
+ with argument
+Message-ID: <20210406195621.GU2531743@casper.infradead.org>
 References: <20210406193409.96428-1-martinsdecarvalhobeatriz@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -32,19 +36,38 @@ In-Reply-To: <20210406193409.96428-1-martinsdecarvalhobeatriz@gmail.com>
 On Tue, Apr 06, 2021 at 08:34:09PM +0100, Beatriz Martins de Carvalho wrote:
 > Cleans up check of "Lines should not end with a '('"
 > with argument present in next line in file emxx_udc.c
-> 
-> Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
-> ---
->  drivers/staging/emxx_udc/emxx_udc.c | 11 ++++-------
->  1 file changed, 4 insertions(+), 7 deletions(-)
 
-Why is this a [RESEND] ?
+I appreciate that you've removed the checkpatch warning, but this is
+still harder to read than the original used to be.
 
-What happened to the first version?
+> -				_nbu2ss_writel(
+> -					&preg->EP_REGS[ep->epnum - 1].EP_WRITE,
+> -					p_buf_32->dw);
+> +				_nbu2ss_writel(&preg->EP_REGS[ep->epnum - 1].EP_WRITE,
+> +					       p_buf_32->dw);
 
-Also, your subject is odd, please look at the documentation for how to
-write good subject lines for patches.
+> -		length = _nbu2ss_readl(
+> -			&ep->udc->p_regs->EP_REGS[ep->epnum - 1].EP_LEN_DCNT);
+> +		length = _nbu2ss_readl(&ep->udc->p_regs->EP_REGS[ep->epnum - 1].EP_LEN_DCNT);
 
-thanks,
+> -			regdata = _nbu2ss_readl(
+> -				&preg->EP_REGS[ep->epnum - 1].EP_STATUS);
+> +			regdata = _nbu2ss_readl(&preg->EP_REGS[ep->epnum - 1].EP_STATUS);
 
-greg k-h
+The real problem with this driver is that their abstraction layer is
+wrong.  For example:
+
+        /* Interrupt Status */
+        status = _nbu2ss_readl(&udc->p_regs->EP_REGS[num].EP_STATUS);
+
+        /* Interrupt Clear */
+        _nbu2ss_writel(&udc->p_regs->EP_REGS[num].EP_STATUS, ~status);
+
+If instead this were:
+
+	status = nbu2ss_read_ep_status(udc, num);
+	nbu2ss_write_ep_status(udc, num, ~status);
+
+that would be a lot shorter and clearer.  Cleanups along these lines
+would be a lot more useful, and would fix the 80 column warning.
+
