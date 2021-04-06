@@ -1,50 +1,27 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92DC86D00
-	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 12:10:01 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id s17so16199387ljc.5
-        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 05:10:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=3IjasWzqLdpd77pS1i7PqF29b9l9kltRxgeNazC6S+A=;
-        b=S1R9xTNRJ6qErMKNLecSOhfU0ZS5czLdE4zGKv2duJ4rxyIrJrsJJXLABBX9ZOGg1V
-         A1Bm8UIrJrHnmZ8hoei+UoW/blHMCIUDPhlv7EvUdh/Dv8rDByVmxiBPoH9KvKE+aWOT
-         gHsLe7LBWEPqbkPySQBR5ZC5zV6mdCYuDlUF561lLCL7HzYv2CZrG5lEzEXAxi5dDUuy
-         pIdDyfR34V0GOtMYbLw8dv/KaNYKpVDyggmUYkJlPs1x/pdDBAQuPAjrwrh0AvKRImOm
-         IwZdOnovvQ7xG+LxXWakHhEqwJhuTPSgzyPQ5REigQePE+zTAKo+ohP3jJwCl7JdxTZx
-         xjAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=3IjasWzqLdpd77pS1i7PqF29b9l9kltRxgeNazC6S+A=;
-        b=aOC0QVY7SA+jJDIf6FiGjfKf0NNCbMJHxLbg8Rz0ag7l2+6aO1M0zE96GJPZbsvzx5
-         I9OYV06w737sJ4QM1Rw9DqJ6CLqtCNsBjRCxnpGaSpHTObalU4cm5snwByHNCM6z1Zpq
-         wiOpyuGOlAGvro8fItPAIua9wk6tuivqBnPSuTeKgwoAS7+zrxU1rS8FVIkSSEms3wJ+
-         d6Drc+FGYSdMtCz2T+/JFKo5bYIdcMZ61DOo+RDMkGbl75SByEqeupM4ZRUtxeqb1pLF
-         Nn+Y1PadR541dmAIjxDmQjh/o9fsvZVHQBSnFSd/uT1yXTH5cqKj4/cdUzr+UVKJHg0N
-         tYIQ==
-X-Gm-Message-State: AOAM531gR1ZzVn/F4snVRvEGpGbPCAORLbaxJ4w0Qkem5ytpQcLmOjDZ
-	sPSvtk6ubpHbclRSAj3X8gk=
-X-Google-Smtp-Source: ABdhPJwIUl0MQfZ/2/NMGem9fKhQEYoeM1YIRR54q07OehkznMauFsU6YQNzeezICHosCdxoz5TRLg==
-X-Received: by 2002:a2e:9715:: with SMTP id r21mr18955331lji.224.1617710999935;
-        Tue, 06 Apr 2021 05:09:59 -0700 (PDT)
-Received: from zhans ([37.151.32.231])
-        by smtp.gmail.com with ESMTPSA id a7sm2135510lfo.177.2021.04.06.05.09.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Apr 2021 05:09:59 -0700 (PDT)
-Date: Tue, 6 Apr 2021 18:09:58 +0600
-From: Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDAC6D00
+	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 12:13:39 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9EA846139E;
+	Tue,  6 Apr 2021 12:13:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1617711219;
+	bh=e7eFd02Z9wUi0fdYUZP7ksNxGrIRXxvKr6qEjvDuAgY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=xw/1H6Y41hhakwQEtXX9g7On8WHn2oMiIPnleRAi0ku5UDHmdEoDek0ceMnaLGALl
+	 WFULMx1nelXHeE/vMi0+zu9ESPoiaskrzTmPjNdi+Oy+SiPpU41pyOVWT08orMbxcF
+	 4GWI+2GCdQ2MnCe3if2uvEG6hQkeNsrIufg7lSB4=
+Date: Tue, 6 Apr 2021 14:13:36 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy-kernel@googlegroups.com
-Subject: [PATCH v2 2/2] staging: rtl8712: Remove extra blank lines
-Message-ID: <f61f6d330bc3fa53d4d420754d1d461b6cfcb2de.1617710602.git.zhansayabagdaulet@gmail.com>
-References: <cover.1617710602.git.zhansayabagdaulet@gmail.com>
+Subject: Re: [PATCH 3/4] staging: rtl8723bs: core: reorganize characters so
+ the lines are under 100 ch
+Message-ID: <YGxQcEvmxHrNz2US@kroah.com>
+References: <cover.1617641790.git.martinsdecarvalhobeatriz@gmail.com>
+ <6ce5f20399f2bea9f08bb37150fc67fe3c2b2a55.1617641790.git.martinsdecarvalhobeatriz@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -52,68 +29,87 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1617710602.git.zhansayabagdaulet@gmail.com>
+In-Reply-To: <6ce5f20399f2bea9f08bb37150fc67fe3c2b2a55.1617641790.git.martinsdecarvalhobeatriz@gmail.com>
 
-Remove extra blank lines after an open brace to adhere to Linux kernel
-coding style.
-Reported by checkpatch.
+On Mon, Apr 05, 2021 at 06:29:19PM +0100, Beatriz Martins de Carvalho wrote:
+> Cleans up warnings of "line over 100 characters" but avoinding
+> more than 90 characters in file rtw_ap.c
+> 
+> Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_ap.c | 22 ++++++++++++++--------
+>  1 file changed, 14 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+> index 4dab4d741675..ca6fec52d213 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+> @@ -278,11 +278,13 @@ void expire_timeout_chk(struct adapter *padapter)
+>  
+>  			if (psta->state & WIFI_SLEEP_STATE) {
+>  				if (!(psta->state & WIFI_STA_ALIVE_CHK_STATE)) {
+> -					/* to check if alive by another methods if station is at ps mode. */
+> +					/* to check if alive by another methods */
+> +					/* if station is at ps mode. */
+>  					psta->expire_to = pstapriv->expire_to;
+>  					psta->state |= WIFI_STA_ALIVE_CHK_STATE;
+>  
+> -					/* DBG_871X("alive chk, sta:%pM is at ps mode!\n", MAC_ARG(psta->hwaddr)); */
+> +					/* DBG_871X("alive chk, sta:%pM is at ps */
+> +					/* mode!\n", MAC_ARG(psta->hwaddr)); */
 
-Signed-off-by: Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>
----
- drivers/staging/rtl8712/rtl871x_io.h   | 1 -
- drivers/staging/rtl8712/rtl871x_mlme.h | 1 -
- drivers/staging/rtl8712/rtl871x_recv.h | 1 -
- drivers/staging/rtl8712/sta_info.h     | 1 -
- 4 files changed, 4 deletions(-)
+You just wrapped a code line :(
 
-diff --git a/drivers/staging/rtl8712/rtl871x_io.h b/drivers/staging/rtl8712/rtl871x_io.h
-index c20dd5a6bbd1..c5b12f74ebf8 100644
---- a/drivers/staging/rtl8712/rtl871x_io.h
-+++ b/drivers/staging/rtl8712/rtl871x_io.h
-@@ -123,7 +123,6 @@ struct	intf_hdl {
- };
- 
- struct reg_protocol_rd {
--
- #ifdef __LITTLE_ENDIAN
- 	/* DW1 */
- 	u32		NumOfTrans:4;
-diff --git a/drivers/staging/rtl8712/rtl871x_mlme.h b/drivers/staging/rtl8712/rtl871x_mlme.h
-index 46effb469fd4..d7d25f240111 100644
---- a/drivers/staging/rtl8712/rtl871x_mlme.h
-+++ b/drivers/staging/rtl8712/rtl871x_mlme.h
-@@ -77,7 +77,6 @@ struct sitesurvey_ctrl {
- };
- 
- struct mlme_priv {
--
- 	spinlock_t lock;
- 	spinlock_t lock2;
- 	sint	fw_state;	/*shall we protect this variable? */
-diff --git a/drivers/staging/rtl8712/rtl871x_recv.h b/drivers/staging/rtl8712/rtl871x_recv.h
-index 4aa39f4f3b84..1c8298bde033 100644
---- a/drivers/staging/rtl8712/rtl871x_recv.h
-+++ b/drivers/staging/rtl8712/rtl871x_recv.h
-@@ -37,7 +37,6 @@ struct smooth_rssi_data {
- };
- 
- struct rx_pkt_attrib {
--
- 	u8	amsdu;
- 	u8	order;
- 	u8	qos;
-diff --git a/drivers/staging/rtl8712/sta_info.h b/drivers/staging/rtl8712/sta_info.h
-index d042d900f30c..9b7e5ffa380d 100644
---- a/drivers/staging/rtl8712/sta_info.h
-+++ b/drivers/staging/rtl8712/sta_info.h
-@@ -36,7 +36,6 @@ struct wlan_acl_pool {
- };
- 
- struct	stainfo_stats {
--
- 	uint	rx_pkts;
- 	uint	rx_bytes;
- 	u64	tx_pkts;
--- 
-2.25.1
+Just remove it, it's not needed.
 
+
+>  
+>  					/* to update bcn with tim_bitmap for this station */
+>  					pstapriv->tim_bitmap |= BIT(psta->aid);
+> @@ -309,7 +311,8 @@ void expire_timeout_chk(struct adapter *padapter)
+>  			);
+>  			updated = ap_free_sta(padapter, psta, false, WLAN_REASON_DEAUTH_LEAVING);
+>  		} else {
+> -			/* TODO: Aging mechanism to digest frames in sleep_q to avoid running out of xmitframe */
+> +			/* TODO: Aging mechanism to digest frames in sleep_q to */
+> +			/* avoid running out of xmitframe */
+>  			if (psta->sleepq_len > (NR_XMITFRAME / pstapriv->asoc_list_cnt)
+>  				&& padapter->xmitpriv.free_xmitframe_cnt < ((
+>  					NR_XMITFRAME / pstapriv->asoc_list_cnt
+> @@ -375,7 +378,8 @@ void expire_timeout_chk(struct adapter *padapter)
+>  			if (list_empty(&psta->asoc_list) == false) {
+>  				list_del_init(&psta->asoc_list);
+>  				pstapriv->asoc_list_cnt--;
+> -				updated = ap_free_sta(padapter, psta, false, WLAN_REASON_DEAUTH_LEAVING);
+> +				updated = ap_free_sta(padapter, psta, false,
+> +						      WLAN_REASON_DEAUTH_LEAVING);
+>  			}
+>  			spin_unlock_bh(&pstapriv->asoc_list_lock);
+>  		}
+> @@ -469,7 +473,8 @@ void update_bmc_sta(struct adapter *padapter)
+>  
+>  		memset((void *)&psta->sta_stats, 0, sizeof(struct stainfo_stats));
+>  
+> -		/* psta->dot118021XPrivacy = _NO_PRIVACY_;//!!! remove it, because it has been set before this. */
+> +		/* psta->dot118021XPrivacy = _NO_PRIVACY_;//!!! remove it, */
+> +		/* because it has been set before this. */
+
+Again, look at what you are changing to see if it makes sense.
+
+>  
+>  		/* prepare for add_RATid */
+>  		supportRateNum = rtw_get_rateset_len((u8 *)&pcur_network->SupportedRates);
+> @@ -748,8 +753,8 @@ void start_bss_network(struct adapter *padapter, u8 *pbuf)
+>  	cur_ch_offset = HAL_PRIME_CHNL_OFFSET_DONT_CARE;
+>  
+>  	/* check if there is wps ie, */
+> -	/* if there is wpsie in beacon, the hostapd will update beacon twice when stating hostapd, */
+> -	/* and at first time the security ie (RSN/WPA IE) will not include in beacon. */
+> +	/* if there is wpsie in beacon, the hostapd will update beacon twice when stating */
+> +	/* hostapd, and at first time the security ie (RSN/WPA IE) will not include in beacon. */
+
+These changes do not look correct, you made them longer?
+
+thanks,
+
+greg k-h
