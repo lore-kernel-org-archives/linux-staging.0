@@ -1,106 +1,79 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E175C6D0E
-	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 16:14:52 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2962C613D2
-	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 16:14:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1617725692;
-	bh=e7fZVz6b0FMgjgCkbnNmNXBn1MD/C6gNDZ3usE0y5hc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=USE73gN/6PJf5bTwmAe+aEqN6RlKtxqQvoAKsF4cnQbuDuqs74aFV4L67qwrB1B1f
-	 ASAuseMeo2vKHBrzGPD5ZkjbM2PZKOgQpY5IdRvPAlgU6nHf253ygstru7Mn1kiE5u
-	 sUtwZxrU2QzHAcL6oaxTFfijDRsnFie0Lz8q1+efl0E+feU+vxKqM3+SHecqAXcS83
-	 dhDlDZUi/LxctuCNKHqqD49sBmCYAw4LkrS+WWpRGld39qSWcgzUtk196LKQc5etVQ
-	 PXsKhshbW02RyTa8jaoBIiQByJBgvRJcZ+nPQwDpvtC+tvBvJEIwOEhL45ssbdlo/a
-	 xD1V7eSe6r45w==
-Received: by mail-ej1-f51.google.com with SMTP id u17so16597515ejk.2
-        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 09:14:52 -0700 (PDT)
-X-Gm-Message-State: AOAM5324XXNWHrdYEGcY5GteEAEl8KHsEchBk1mihw9thDi2JV7b9wcH
-	sq5mgZd0NMnqAiBWIc9fZ3+GIaS/aURFg06ntA==
-X-Google-Smtp-Source: ABdhPJxus3vaJlBolyIDnwHcY8HUfh+bhu44dUc1lwfkvNdASWzEwWAgbEIKh7zaUEUIwYwhnk1eltD52lV6wsnPcD0=
-X-Received: by 2002:a17:906:490e:: with SMTP id b14mr6498315ejq.303.1617725690674;
- Tue, 06 Apr 2021 09:14:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69ED6D0D
+	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 16:40:07 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id u17so16722419ejk.2
+        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 09:40:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TYC5pS0xZoRYRV3BpSxKjUXSyW8aTbxm6/R1LCQeLzw=;
+        b=qV50w6B8dKqAjAmUayknbkDnjoTNg3BVKtkUfavuH2Ko5BoDXs6W0KfMdPVqXa4t40
+         CFDr4rS4U6HJBrhrhHCWn6mDvzzMXyNckepu1qbjeaHYsUkzgXRxVj0jwXGiM56tZfbg
+         F8JFEvZa+GaJBynVMqfAT743ycIV11ef+8zDPhBPQR3OSkI1t4A0TseXbpkcR6NVTmVB
+         7RSydu7KZnvqQg0j4kiqfeizcy4KPervJAYw4gKmXA8/j7RXHN6tCcVZQrw9Jx5vjWWR
+         6ufSUQMJeCqrFIrAcQAmPv4FpkDArjAVCNCBsqq6vPXACC85QxngpL/MdNWvQ1vFDWbT
+         k24g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TYC5pS0xZoRYRV3BpSxKjUXSyW8aTbxm6/R1LCQeLzw=;
+        b=JYJT+YwEDKhAkz6UNASWVs99nIlJtMkzuGXz8AWlA5R6bK38Bc6pnMguUoTvSG23Td
+         Qy5/Im1SRKeCugmu7fi22sz9KayN36kTMEkB283BHCF1NuMrmj7DHGyJpB5JW4M1Jncs
+         5KYxRLIJYBa2IU8AFF9rBTkOz0NhAiB14KQln830EM064ZH3Ins/kxocOURUWJCGncKH
+         W4IGO90LsEob4WJiaXJLcXIu7J2w7IRxCfw0fwn37pu6m2FDOqeO8QazPb4IqXE8/pfg
+         l/XWyi7ntngsqZ4anaeD56OAT+WHGRIaOpBGgk234Xxp1I0EKJsJRitxxkPfwVKe5C9H
+         jR9g==
+X-Gm-Message-State: AOAM533+Z2eFMF8xXD0mNJGtA19GXuTQwd4OYf1gqaPcgrf8S1t0fV0B
+	fGEA4qSl4mY0/nw2D5zHb0E=
+X-Google-Smtp-Source: ABdhPJy7sW6ic8uagw1PdBfYwaIz1gA5ezwo92Wh8hrIC5f8GuoRKE48Me3mP1HmWhy7b0RmPOzZ4g==
+X-Received: by 2002:a17:906:430f:: with SMTP id j15mr21808675ejm.543.1617727206298;
+        Tue, 06 Apr 2021 09:40:06 -0700 (PDT)
+Received: from localhost.localdomain (host-79-42-91-147.retail.telecomitalia.it. [79.42.91.147])
+        by smtp.gmail.com with ESMTPSA id u24sm14117326edt.85.2021.04.06.09.40.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Apr 2021 09:40:05 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: gregkh@linuxfoundation.org,
+	outreachy-kernel@googlegroups.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [Outreachy kernel] [PATCH] staging: rtl8723bs: hal: Add spaces around operator in HalBtc8723b1Ant.h
+Date: Tue,  6 Apr 2021 18:40:01 +0200
+Message-Id: <20210406164001.13646-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.30.2
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210406141819.1025864-1-dqfext@gmail.com> <20210406141819.1025864-2-dqfext@gmail.com>
- <CAAOTY_8snSTcguhyB9PJBWydqNaWZL3V4zXiYULVp5n48fN24w@mail.gmail.com> <YGyGFOrXwEsqCW/z@lunn.ch>
-In-Reply-To: <YGyGFOrXwEsqCW/z@lunn.ch>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 7 Apr 2021 00:14:39 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_9feP7bBFJFVBWzNbnAK7xZQFLZJ=viFFncyS55JghP9A@mail.gmail.com>
-Message-ID: <CAAOTY_9feP7bBFJFVBWzNbnAK7xZQFLZJ=viFFncyS55JghP9A@mail.gmail.com>
-Subject: Re: [RFC net-next 1/4] net: phy: add MediaTek PHY driver
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, DENG Qingfang <dqfext@gmail.com>, 
-	"David S. Miller" <davem@davemloft.net>, Florian Fainelli <f.fainelli@gmail.com>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Landen Chao <Landen.Chao@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, Sean Wang <sean.wang@mediatek.com>, 
-	Vivien Didelot <vivien.didelot@gmail.com>, Vladimir Oltean <olteanv@gmail.com>, 
-	Rob Herring <robh+dt@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>, linux-kernel <linux-kernel@vger.kernel.org>, 
-	"moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, linux-staging@lists.linux.dev, 
-	DTML <devicetree@vger.kernel.org>, netdev <netdev@vger.kernel.org>, 
-	Weijie Gao <weijie.gao@mediatek.com>, Chuanhong Guo <gch981213@gmail.com>, 
-	=?UTF-8?Q?Ren=C3=A9_van_Dorst?= <opensource@vdorst.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Andrew Lunn <andrew@lunn.ch> =E6=96=BC 2021=E5=B9=B44=E6=9C=887=E6=97=A5 =
-=E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=8812:02=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> On Tue, Apr 06, 2021 at 11:47:08PM +0800, Chun-Kuang Hu wrote:
-> > Hi, Qingfang:
-> >
-> > DENG Qingfang <dqfext@gmail.com> =E6=96=BC 2021=E5=B9=B44=E6=9C=886=E6=
-=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=8810:19=E5=AF=AB=E9=81=93=EF=BC=
-=9A
-> > >
-> > > Add support for MediaTek PHYs found in MT7530 and MT7531 switches.
-> > > The initialization procedure is from the vendor driver, but due to la=
-ck
-> > > of documentation, the function of some register values remains unknow=
-n.
-> > >
-> > > Signed-off-by: DENG Qingfang <dqfext@gmail.com>
-> > > ---
-> > >  drivers/net/phy/Kconfig    |   5 ++
-> > >  drivers/net/phy/Makefile   |   1 +
-> > >  drivers/net/phy/mediatek.c | 109 +++++++++++++++++++++++++++++++++++=
-++
-> > >  3 files changed, 115 insertions(+)
-> > >  create mode 100644 drivers/net/phy/mediatek.c
-> > >
-> > > diff --git a/drivers/net/phy/Kconfig b/drivers/net/phy/Kconfig
-> > > index a615b3660b05..edd858cec9ec 100644
-> > > --- a/drivers/net/phy/Kconfig
-> > > +++ b/drivers/net/phy/Kconfig
-> > > @@ -207,6 +207,11 @@ config MARVELL_88X2222_PHY
-> > >           Support for the Marvell 88X2222 Dual-port Multi-speed Ether=
-net
-> > >           Transceiver.
-> > >
-> > > +config MEDIATEK_PHY
-> >
-> > There are many Mediatek phy drivers in [1], so use a specific name.
->
-> Those are generic PHY drivers, where as this patch is add a PHY
-> driver. The naming used in this patch is consistent with other PHY
-> drivers. So i'm happy with this patch in this respect.
->
-> PHY drivers have been around a lot longer than generic PHY drivers. So
-> i would actually say the generic PHY driver naming should make it
-> clear they are generic PHYs, not PHYs.
->
+Added spaces around operators in file HalBtc8723b1Ant.h. Issue detected
+by checkpatch.pl. Spaces are preferred to improve readibility.
 
-OK, so just ignore my comment.
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> But lets not bike shed about this too much.
->
->       Andrew
+diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.h b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.h
+index 59e8c68cdc20..719e19420a3b 100644
+--- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.h
++++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.h
+@@ -15,7 +15,7 @@
+ #define	BT_INFO_8723B_1ANT_B_CONNECTION		BIT0
+ 
+ #define	BT_INFO_8723B_1ANT_A2DP_BASIC_RATE(_BT_INFO_EXT_)	\
+-		(((_BT_INFO_EXT_&BIT0)) ? true : false)
++		(((_BT_INFO_EXT_ & BIT0)) ? true : false)
+ 
+ #define	BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT 2
+ 
+-- 
+2.30.2
+
