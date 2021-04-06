@@ -1,49 +1,49 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EFD26D1A
-	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 11:43:47 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id v140so4425405lfa.4
-        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 04:43:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465586D00
+	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 11:43:49 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id a1so16138371ljp.2
+        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 04:43:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=Q9WBuK6OhOs9OaGEgKhL5YcwsAzLgbzYaT8/doodq88=;
-        b=FGNFAZPqCEv3zJHnNSHZC66i9V/OZMZFSbChHMkmTFpg5xHD3JV14L7arnZXaRbOFl
-         0xszyZD4NXj5rU0elJif8lA5NMQOIm4BrEEN1UqFo54CAC4CbLvkfvUU78n4/zN3xJbJ
-         tMEtNUN4s2AVNWJx71ZTBR5tAEKO3+n+Hf48QFZPAh9ZgMWH50Ntz6rHRHQewePMiorp
-         b2q3+/3hluoekjEmv8THygae5Vt2ka6RAoXD2oYWI3A66UhB1CMemAlBtbB77m3mt/CY
-         ucO3T4oulrFvrU2G+m+OVeOHy8hH7acQ+9+KHVRZte1XD2+5huAXNbaUmKvx6Spr/umu
-         qwBQ==
+        bh=3IjasWzqLdpd77pS1i7PqF29b9l9kltRxgeNazC6S+A=;
+        b=YRQ2un+x1GRDNMpOfchUiLj6wKbHVcJWzYixrzYrHZe5ImoCpFt0V9+4E4+9yMPAa9
+         YhGdeofhupjNhFZamryrPcV+7PNYst5gRopw/pGfL91wUOYuCqgCBPw6YznU3MGJ6z5O
+         f6IqSg9fw02o2ah6xcK3MJZoY8+ZNddxuED2yQkLCEfwoofHf1TxLaduVd5G5wYUNSNc
+         tPz4BufMK2YkMyKZMHTvashRSAwfggcKqj4BBwEr6b4pfO6Ou4kHqQuhhw7yPvPoOWX1
+         39YGH2lsKvmfgO9NgF46KWBhCv6jPTUKJe4cr+QXVUK1MB2ZPIRpU1+Wrtz7Nl1pEJUB
+         jyGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Q9WBuK6OhOs9OaGEgKhL5YcwsAzLgbzYaT8/doodq88=;
-        b=fYph3qPlqAeDqxuIJ8LbLV/yFGUTe5ZfJ/sAOMyZ8ETUIoFu7FugoYZDF5MdMmJhAJ
-         rqOaUIJ2/A/9xFHJ/CW2Jc0tx6TqKq8EepMjoRuWTq+SFTkHEZ8FLwSTNLX8DbKgJ0y2
-         T35x7pIaiKeQRUenU3g0cQo3WvvyFwc2a6IUkj708+DffkvuIhv138wRCvrXF9Tnccbw
-         4aFDmCWbH3r1g3KehaaepftaqOpVdDHyOjbKc9bUbDlh/GCPod23BycL0lgrydAxRS8b
-         +ymJ6h4nDqvEXiHShunmvjGtZk2Mo27hi83Wrlh4CPzeCajjnusZ59ZIf+fSdne0jn9F
-         03zg==
-X-Gm-Message-State: AOAM531NgCFsJybPDegYm2T+/xxJaFwu32AVZ636b1L75zUH+FetvfdC
-	O9jDpHypil2a1S6JkHXPMb0=
-X-Google-Smtp-Source: ABdhPJzSmDvywKme+gC3EQ9MaqzfjJ43DnM1j7ttMF/OrHQs7HIopbK5dc+zZKkYN+Fj7K71YXEPSQ==
-X-Received: by 2002:a19:cd1:: with SMTP id 200mr21004350lfm.480.1617709425433;
-        Tue, 06 Apr 2021 04:43:45 -0700 (PDT)
+        bh=3IjasWzqLdpd77pS1i7PqF29b9l9kltRxgeNazC6S+A=;
+        b=TlDRnZARD4ZSbaSAZ0h1P6UHpNJfCeMHC5wSR7nEknu7VDrA7fTeWZbvckqGmHO+DX
+         OIJ+W+bUljlL/M+B3YCimw3MaVqmeFxloLsuxUGhkRZezg48G8mX3CwaFv40Sq8SrSAs
+         zjZY3WG/lmGEj3LW5qgRD4oK0cctqcDBQopLpqxP8QWPt1cHdDPPs0Te1UYJAamHsppc
+         7N9YicZylA/YEfzGEuam44FCZX1Lc38itA+HCB7RUXWMlFl5tnaDrSgSwbFiaF67/k8X
+         ywLPqpud5WOLc7UipNrjlmtlzFjdbBlORxkvuZfc2OXs5R5y/mdGMPAE85U1GebvlyAH
+         Dsfg==
+X-Gm-Message-State: AOAM5309951Vz2nQlxr//tt0nxQ84X4wv3kE15oVDUim/JEjdJlo6J02
+	hMxTbwCNix6AAAim3FQScknpqFkp0LXUXg==
+X-Google-Smtp-Source: ABdhPJzob+c57aneqwDNEZWAEOZJ0TYdVCA+/JWvz7YXKaR8lgr7CM2WH4MMGwOZ9mgjAOP8fIUi1A==
+X-Received: by 2002:a05:651c:29a:: with SMTP id b26mr18331006ljo.451.1617709427616;
+        Tue, 06 Apr 2021 04:43:47 -0700 (PDT)
 Received: from zhans ([37.151.32.231])
-        by smtp.gmail.com with ESMTPSA id h9sm2206860ljh.58.2021.04.06.04.43.44
+        by smtp.gmail.com with ESMTPSA id i30sm2132615lfj.206.2021.04.06.04.43.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Apr 2021 04:43:45 -0700 (PDT)
-Date: Tue, 6 Apr 2021 17:43:44 +0600
+        Tue, 06 Apr 2021 04:43:47 -0700 (PDT)
+Date: Tue, 6 Apr 2021 17:43:46 +0600
 From: Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>
 To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
 	gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy-kernel@googlegroups.com
-Subject: [PATCH v2 1/2] staging: rtl8712: Rewrite NULL comparisons
-Message-ID: <74471865b399584d73a18696d2008006301dfd71.1617708653.git.zhansayabagdaulet@gmail.com>
+Subject: [PATCH v2 2/2] staging: rtl8712: Remove extra blank lines
+Message-ID: <f61f6d330bc3fa53d4d420754d1d461b6cfcb2de.1617708653.git.zhansayabagdaulet@gmail.com>
 References: <cover.1617708653.git.zhansayabagdaulet@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,64 +54,66 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1617708653.git.zhansayabagdaulet@gmail.com>
 
-Replace NULL comparisons with boolean negation to be more consistent with
-the rest of the Linux kernel code base.
+Remove extra blank lines after an open brace to adhere to Linux kernel
+coding style.
 Reported by checkpatch.
 
 Signed-off-by: Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>
 ---
- drivers/staging/rtl8712/rtl871x_recv.h | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/rtl8712/rtl871x_io.h   | 1 -
+ drivers/staging/rtl8712/rtl871x_mlme.h | 1 -
+ drivers/staging/rtl8712/rtl871x_recv.h | 1 -
+ drivers/staging/rtl8712/sta_info.h     | 1 -
+ 4 files changed, 4 deletions(-)
 
+diff --git a/drivers/staging/rtl8712/rtl871x_io.h b/drivers/staging/rtl8712/rtl871x_io.h
+index c20dd5a6bbd1..c5b12f74ebf8 100644
+--- a/drivers/staging/rtl8712/rtl871x_io.h
++++ b/drivers/staging/rtl8712/rtl871x_io.h
+@@ -123,7 +123,6 @@ struct	intf_hdl {
+ };
+ 
+ struct reg_protocol_rd {
+-
+ #ifdef __LITTLE_ENDIAN
+ 	/* DW1 */
+ 	u32		NumOfTrans:4;
+diff --git a/drivers/staging/rtl8712/rtl871x_mlme.h b/drivers/staging/rtl8712/rtl871x_mlme.h
+index 46effb469fd4..d7d25f240111 100644
+--- a/drivers/staging/rtl8712/rtl871x_mlme.h
++++ b/drivers/staging/rtl8712/rtl871x_mlme.h
+@@ -77,7 +77,6 @@ struct sitesurvey_ctrl {
+ };
+ 
+ struct mlme_priv {
+-
+ 	spinlock_t lock;
+ 	spinlock_t lock2;
+ 	sint	fw_state;	/*shall we protect this variable? */
 diff --git a/drivers/staging/rtl8712/rtl871x_recv.h b/drivers/staging/rtl8712/rtl871x_recv.h
-index 7c9995060a6f..4aa39f4f3b84 100644
+index 4aa39f4f3b84..1c8298bde033 100644
 --- a/drivers/staging/rtl8712/rtl871x_recv.h
 +++ b/drivers/staging/rtl8712/rtl871x_recv.h
-@@ -135,7 +135,7 @@ int recv_func(struct _adapter *padapter, void *pcontext);
- static inline u8 *get_rxmem(union recv_frame *precvframe)
- {
- 	/* always return rx_head... */
--	if (precvframe == NULL)
-+	if (!precvframe)
- 		return NULL;
- 	return precvframe->u.hdr.rx_head;
- }
-@@ -143,7 +143,7 @@ static inline u8 *get_rxmem(union recv_frame *precvframe)
- static inline u8 *get_recvframe_data(union recv_frame *precvframe)
- {
- 	/* always return rx_data */
--	if (precvframe == NULL)
-+	if (!precvframe)
- 		return NULL;
- 	return precvframe->u.hdr.rx_data;
- }
-@@ -153,7 +153,7 @@ static inline u8 *recvframe_pull(union recv_frame *precvframe, sint sz)
- 	/* used for extract sz bytes from rx_data, update rx_data and return
- 	 * the updated rx_data to the caller
- 	 */
--	if (precvframe == NULL)
-+	if (!precvframe)
- 		return NULL;
- 	precvframe->u.hdr.rx_data += sz;
- 	if (precvframe->u.hdr.rx_data > precvframe->u.hdr.rx_tail) {
-@@ -170,7 +170,7 @@ static inline u8 *recvframe_put(union recv_frame *precvframe, sint sz)
- 	 * return the updated rx_tail to the caller
- 	 * after putting, rx_tail must be still larger than rx_end.
- 	 */
--	if (precvframe == NULL)
-+	if (!precvframe)
- 		return NULL;
- 	precvframe->u.hdr.rx_tail += sz;
- 	if (precvframe->u.hdr.rx_tail > precvframe->u.hdr.rx_end) {
-@@ -188,7 +188,7 @@ static inline u8 *recvframe_pull_tail(union recv_frame *precvframe, sint sz)
- 	 * updated rx_end to the caller
- 	 * after pulling, rx_end must be still larger than rx_data.
- 	 */
--	if (precvframe == NULL)
-+	if (!precvframe)
- 		return NULL;
- 	precvframe->u.hdr.rx_tail -= sz;
- 	if (precvframe->u.hdr.rx_tail < precvframe->u.hdr.rx_data) {
+@@ -37,7 +37,6 @@ struct smooth_rssi_data {
+ };
+ 
+ struct rx_pkt_attrib {
+-
+ 	u8	amsdu;
+ 	u8	order;
+ 	u8	qos;
+diff --git a/drivers/staging/rtl8712/sta_info.h b/drivers/staging/rtl8712/sta_info.h
+index d042d900f30c..9b7e5ffa380d 100644
+--- a/drivers/staging/rtl8712/sta_info.h
++++ b/drivers/staging/rtl8712/sta_info.h
+@@ -36,7 +36,6 @@ struct wlan_acl_pool {
+ };
+ 
+ struct	stainfo_stats {
+-
+ 	uint	rx_pkts;
+ 	uint	rx_bytes;
+ 	u64	tx_pkts;
 -- 
 2.25.1
 
