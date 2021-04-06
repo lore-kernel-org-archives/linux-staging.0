@@ -1,26 +1,27 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D0370
-	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 14:12:08 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2E4CB613A7;
-	Tue,  6 Apr 2021 14:12:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EDF070
+	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 14:12:24 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4E9E4613A7;
+	Tue,  6 Apr 2021 14:12:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1617718327;
-	bh=SkeXr6kmO3TRWmCpzmcCYhbhUeaQPRXZtA7DPBw4ur4=;
+	s=korg; t=1617718343;
+	bh=oodJRS58Zr1qQH9SbmkMEge3e6GJAXCXrN3+8c6DR+I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Qos20xoLQTARUM1v/Ei2vOg66CGij/FyTkAVkAI6ODbCzRLzX13fgfKsTNgjhGS5w
-	 DCOxLHSoVndSuhNPi7PTFbOmH4DImO9rovmmISMaeVH3mPzZYRJWVFSj/QXPRG9NxH
-	 5tVPuUZhoir9WI97DMFKcL83iVv+Tm6aIeTI/IU0=
-Date: Tue, 6 Apr 2021 16:12:05 +0200
+	b=iX8vd2yVg6MTs3na1+dWeT7zDgItRlbYpahwppEZNl9l7vVcdB3be9YoNkfocNXKH
+	 09TuLpxKe+w6dnDwOEKa/dXYXA1WFvhvG9fsrN0QnXx+7pvrkjqibp54EmNXiQ/iTN
+	 rIv4i8K7z96gXSL7u1J9rylVBWS2O3QgtSlrZw1Y=
+Date: Tue, 6 Apr 2021 16:12:21 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8723bs: hal: Add spaces
- around operators
-Message-ID: <YGxsNVs+sexiPMJS@kroah.com>
-References: <20210406130138.30744-1-fmdefrancesco@gmail.com>
+To: Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>
+Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy-kernel@googlegroups.com
+Subject: Re: [PATCH v2 1/2] staging: rtl8712: Rewrite NULL comparisons
+Message-ID: <YGxsRarVAblIa1l+@kroah.com>
+References: <cover.1617710602.git.zhansayabagdaulet@gmail.com>
+ <74471865b399584d73a18696d2008006301dfd71.1617710602.git.zhansayabagdaulet@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -28,88 +29,16 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210406130138.30744-1-fmdefrancesco@gmail.com>
+In-Reply-To: <74471865b399584d73a18696d2008006301dfd71.1617710602.git.zhansayabagdaulet@gmail.com>
 
-On Tue, Apr 06, 2021 at 03:01:38PM +0200, Fabio M. De Francesco wrote:
-> Added spaces around operators in file HalBtc8723b1Ant.c. Issue detected
-> by checkpatch.pl. Spaces are preferred to improve readibility.
+On Tue, Apr 06, 2021 at 06:09:56PM +0600, Zhansaya Bagdauletkyzy wrote:
+> Replace NULL comparisons with boolean negation to be more consistent with
+> the rest of the Linux kernel code base.
+> Reported by checkpatch.
 > 
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> Signed-off-by: Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>
 > ---
->  .../staging/rtl8723bs/hal/HalBtc8723b1Ant.c   | 98 +++++++++----------
->  1 file changed, 49 insertions(+), 49 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-> index 3e794093092b..b2b872016e45 100644
-> --- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-> +++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-> @@ -38,7 +38,7 @@ static u8 halbtc8723b1ant_BtRssiState(
->  			(pCoexSta->preBtRssiState == BTC_RSSI_STATE_LOW) ||
->  			(pCoexSta->preBtRssiState == BTC_RSSI_STATE_STAY_LOW)
->  		) {
-> -			if (btRssi >= (rssiThresh+BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
-> +			if (btRssi >= (rssiThresh + BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
->  
->  				btRssiState = BTC_RSSI_STATE_HIGH;
->  				BTC_PRINT(
-> @@ -85,7 +85,7 @@ static u8 halbtc8723b1ant_BtRssiState(
->  			(pCoexSta->preBtRssiState == BTC_RSSI_STATE_LOW) ||
->  			(pCoexSta->preBtRssiState == BTC_RSSI_STATE_STAY_LOW)
->  		) {
-> -			if (btRssi >= (rssiThresh+BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
-> +			if (btRssi >= (rssiThresh + BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
->  				btRssiState = BTC_RSSI_STATE_MEDIUM;
->  				BTC_PRINT(
->  					BTC_MSG_ALGORITHM,
-> @@ -104,7 +104,7 @@ static u8 halbtc8723b1ant_BtRssiState(
->  			(pCoexSta->preBtRssiState == BTC_RSSI_STATE_MEDIUM) ||
->  			(pCoexSta->preBtRssiState == BTC_RSSI_STATE_STAY_MEDIUM)
->  		) {
-> -			if (btRssi >= (rssiThresh1+BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
-> +			if (btRssi >= (rssiThresh1 + BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
->  				btRssiState = BTC_RSSI_STATE_HIGH;
->  				BTC_PRINT(
->  					BTC_MSG_ALGORITHM,
-> @@ -353,11 +353,11 @@ static void halbtc8723b1ant_MonitorBtCtr(struct btc_coexist *pBtCoexist)
->  
->  	u4Tmp = pBtCoexist->fBtcRead4Byte(pBtCoexist, regHPTxRx);
->  	regHPTx = u4Tmp & bMaskLWord;
-> -	regHPRx = (u4Tmp & bMaskHWord)>>16;
-> +	regHPRx = (u4Tmp & bMaskHWord) >> 16;
->  
->  	u4Tmp = pBtCoexist->fBtcRead4Byte(pBtCoexist, regLPTxRx);
->  	regLPTx = u4Tmp & bMaskLWord;
-> -	regLPRx = (u4Tmp & bMaskHWord)>>16;
-> +	regLPRx = (u4Tmp & bMaskHWord) >> 16;
->  
->  	pCoexSta->highPriorityTx = regHPTx;
->  	pCoexSta->highPriorityRx = regHPRx;
-> @@ -1317,7 +1317,7 @@ static void halbtc8723b1ant_SetFwPstdma(
->  	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_AP_MODE_ENABLE, &bApEnable);
->  
->  	if (bApEnable) {
-> -		if (byte1&BIT4 && !(byte1&BIT5)) {
-> +		if (byte1 & BIT4 && !(byte1 & BIT5)) {
->  			BTC_PRINT(
->  				BTC_MSG_INTERFACE,
->  				INTF_NOTIFY,
-> @@ -1349,9 +1349,9 @@ static void halbtc8723b1ant_SetFwPstdma(
->  		(
->  			"[BTCoex], PS-TDMA H2C cmd = 0x%x%08x\n",
->  			H2C_Parameter[0],
-> -			H2C_Parameter[1]<<24|
-> -			H2C_Parameter[2]<<16|
-> -			H2C_Parameter[3]<<8|
-> +			H2C_Parameter[1] << 24 |
-> +			H2C_Parameter[2] << 16 |
-> +			H2C_Parameter[3]<< 8 |
+>  drivers/staging/rtl8712/rtl871x_recv.h | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 
-Why did you miss the space that is needed here too?
-
-Did you run this patch through checkpatch.pl?
-
-Please do so.
-
-thanks,
-
-greg k-h
+This does not apply to my tree :(
