@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9DF6D12
-	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 20:49:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E4F6D13
+	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 20:49:21 +0000 (UTC)
 Received: from ipservice-092-217-067-214.092.217.pools.vodafone-ip.de ([92.217.67.214] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1lTsdS-0005Yc-2c; Tue, 06 Apr 2021 22:49:18 +0200
+	id 1lTsdT-0005Yc-GC; Tue, 06 Apr 2021 22:49:19 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -15,9 +15,9 @@ Cc: linux-staging@lists.linux.dev,
 	kernel-janitors@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 07/11] staging: rtl8188eu: clean up usb_read32
-Date: Tue,  6 Apr 2021 22:48:25 +0200
-Message-Id: <20210406204829.18130-7-martin@kaiser.cx>
+Subject: [PATCH 08/11] staging: rtl8188eu: clean up usb_write8
+Date: Tue,  6 Apr 2021 22:48:26 +0200
+Message-Id: <20210406204829.18130-8-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210406204829.18130-1-martin@kaiser.cx>
 References: <20210406204829.18130-1-martin@kaiser.cx>
@@ -32,30 +32,31 @@ Remove unnecessary variable, summarize declaration and assignment.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c b/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
-index 915bf86237b0..beab5343fda8 100644
+index beab5343fda8..e2ff4f70610e 100644
 --- a/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
 +++ b/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
-@@ -316,14 +316,10 @@ u16 usb_read16(struct adapter *adapter, u32 addr)
+@@ -487,14 +487,10 @@ void rtw_hal_inirp_deinit(struct adapter *padapter)
  
- u32 usb_read32(struct adapter *adapter, u32 addr)
+ int usb_write8(struct adapter *adapter, u32 addr, u8 val)
  {
 -	u16 wvalue;
 -	u16 len;
+-	u8 data;
 +	u16 wvalue = (u16)(addr & 0xffff);
- 	__le32 data;
++	u8 data = val;
  
 -	wvalue = (u16)(addr & 0x0000ffff);
--	len = 4;
--
--	usbctrl_vendorreq(adapter, wvalue, &data, len, REALTEK_USB_VENQT_READ);
-+	usbctrl_vendorreq(adapter, wvalue, &data, 4, REALTEK_USB_VENQT_READ);
- 
- 	return le32_to_cpu(data);
+-	len = 1;
+-	data = val;
+-	return usbctrl_vendorreq(adapter, wvalue, &data, len, REALTEK_USB_VENQT_WRITE);
++	return usbctrl_vendorreq(adapter, wvalue, &data, 1, REALTEK_USB_VENQT_WRITE);
  }
+ 
+ int usb_write16(struct adapter *adapter, u32 addr, u16 val)
 -- 
 2.20.1
 
