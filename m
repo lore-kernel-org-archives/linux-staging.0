@@ -1,26 +1,25 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C075C70
-	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 20:49:06 +0000 (UTC)
-Received: from ipservice-092-217-067-214.092.217.pools.vodafone-ip.de ([92.217.67.214] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1lTsdE-0005Yc-EE; Tue, 06 Apr 2021 22:49:04 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Received: from smtp.smtpout.orange.fr (smtp02.smtpout.orange.fr [80.12.242.124])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33EE570
+	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 20:49:12 +0000 (UTC)
+Received: from localhost.localdomain ([90.126.11.170])
+	by mwinf5d04 with ME
+	id pYhY2400D3g7mfN03YhZxb; Tue, 06 Apr 2021 22:41:34 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Tue, 06 Apr 2021 22:41:34 +0200
+X-ME-IP: 90.126.11.170
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Larry.Finger@lwfinger.net,
+	florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
-	kernel-janitors@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 03/11] staging: rtl8188eu: ctrl vendor req index is not used
-Date: Tue,  6 Apr 2021 22:48:21 +0200
-Message-Id: <20210406204829.18130-3-martin@kaiser.cx>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210406204829.18130-1-martin@kaiser.cx>
-References: <20210406204829.18130-1-martin@kaiser.cx>
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] staging: rtl8712: Use constants from <linux/ieee80211.h>
+Date: Tue,  6 Apr 2021 22:41:32 +0200
+Message-Id: <fe35fb45323adc3a30f31b7280cec7700fd325d8.1617741313.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.27.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -28,161 +27,203 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The index for rtl8188eu's vendor-specific control requests is not used.
-Remove the index parameter from usbctrl_vendorreq and pass index 0 to
-usb_control_msg.
+Some constants defined in wifi.h are already defined in <linux/ieee80211.h>
+with some other (but similar) names.
+Be consistent and use the ones from <linux/ieee80211.h>.
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+The conversions made are:
+_SSID_IE_                -->  WLAN_EID_SSID
+_SUPPORTEDRATES_IE_      -->  WLAN_EID_SUPP_RATES
+_DSSET_IE_               -->  WLAN_EID_DS_PARAMS
+_IBSS_PARA_IE_           -->  WLAN_EID_IBSS_PARAMS
+_ERPINFO_IE_             -->  WLAN_EID_ERP_INFO
+_EXT_SUPPORTEDRATES_IE_  -->  WLAN_EID_EXT_SUPP_RATES
+
+_HT_CAPABILITY_IE_       -->  WLAN_EID_HT_CAPABILITY
+_HT_EXTRA_INFO_IE_       -->  WLAN_EID_HT_OPERATION    (not used)
+_HT_ADD_INFO_IE_         -->  WLAN_EID_HT_OPERATION
+
+_VENDOR_SPECIFIC_IE_     -->  WLAN_EID_VENDOR_SPECIFIC
+
+_RESERVED47_             --> (not used)
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- .../staging/rtl8188eu/os_dep/usb_ops_linux.c  | 33 ++++++-------------
- 1 file changed, 10 insertions(+), 23 deletions(-)
+ drivers/staging/rtl8712/ieee80211.c           | 12 ++++++------
+ drivers/staging/rtl8712/rtl871x_ioctl_linux.c |  8 ++++----
+ drivers/staging/rtl8712/rtl871x_mlme.c        | 10 +++++-----
+ drivers/staging/rtl8712/rtl871x_xmit.c        |  3 ++-
+ drivers/staging/rtl8712/wifi.h                | 15 ---------------
+ 5 files changed, 17 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c b/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
-index bf57a91cc40d..b760636f03d3 100644
---- a/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
-+++ b/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
-@@ -11,6 +11,7 @@
- #include <rtw_sreset.h>
- 
- #define REALTEK_USB_VENQT_CMD_REQ	0x05
-+#define REALTEK_USB_VENQT_CMD_IDX	0x00
- 
- static void interrupt_handler_8188eu(struct adapter *adapt, u16 pkt_len, u8 *pbuf)
- {
-@@ -201,7 +202,7 @@ unsigned int ffaddr2pipehdl(struct dvobj_priv *pdvobj, u32 addr)
+diff --git a/drivers/staging/rtl8712/ieee80211.c b/drivers/staging/rtl8712/ieee80211.c
+index 13fc3c1ec0db..f926809b1021 100644
+--- a/drivers/staging/rtl8712/ieee80211.c
++++ b/drivers/staging/rtl8712/ieee80211.c
+@@ -181,25 +181,25 @@ int r8712_generate_ie(struct registry_priv *registrypriv)
+ 	sz += 2;
+ 	ie += 2;
+ 	/*SSID*/
+-	ie = r8712_set_ie(ie, _SSID_IE_, dev_network->Ssid.SsidLength,
++	ie = r8712_set_ie(ie, WLAN_EID_SSID, dev_network->Ssid.SsidLength,
+ 			  dev_network->Ssid.Ssid, &sz);
+ 	/*supported rates*/
+ 	set_supported_rate(dev_network->rates, registrypriv->wireless_mode);
+ 	rate_len = r8712_get_rateset_len(dev_network->rates);
+ 	if (rate_len > 8) {
+-		ie = r8712_set_ie(ie, _SUPPORTEDRATES_IE_, 8,
++		ie = r8712_set_ie(ie, WLAN_EID_SUPP_RATES, 8,
+ 				  dev_network->rates, &sz);
+-		ie = r8712_set_ie(ie, _EXT_SUPPORTEDRATES_IE_, (rate_len - 8),
++		ie = r8712_set_ie(ie, WLAN_EID_EXT_SUPP_RATES, (rate_len - 8),
+ 				  (dev_network->rates + 8), &sz);
+ 	} else {
+-		ie = r8712_set_ie(ie, _SUPPORTEDRATES_IE_,
++		ie = r8712_set_ie(ie, WLAN_EID_SUPP_RATES,
+ 				  rate_len, dev_network->rates, &sz);
+ 	}
+ 	/*DS parameter set*/
+-	ie = r8712_set_ie(ie, _DSSET_IE_, 1,
++	ie = r8712_set_ie(ie, WLAN_EID_DS_PARAMS, 1,
+ 			  (u8 *)&dev_network->Configuration.DSConfig, &sz);
+ 	/*IBSS Parameter Set*/
+-	ie = r8712_set_ie(ie, _IBSS_PARA_IE_, 2,
++	ie = r8712_set_ie(ie, WLAN_EID_IBSS_PARAMS, 2,
+ 			  (u8 *)&dev_network->Configuration.ATIMWindow, &sz);
+ 	return sz;
  }
+diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
+index 60dd798a6e51..8fb02458618d 100644
+--- a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
++++ b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
+@@ -236,7 +236,7 @@ static char *translate_scan(struct _adapter *padapter,
+ 	start = iwe_stream_add_point(info, start, stop, &iwe,
+ 				     pnetwork->network.Ssid.Ssid);
+ 	/* parsing HT_CAP_IE */
+-	p = r8712_get_ie(&pnetwork->network.IEs[12], _HT_CAPABILITY_IE_,
++	p = r8712_get_ie(&pnetwork->network.IEs[12], WLAN_EID_HT_CAPABILITY,
+ 			 &ht_ielen, pnetwork->network.IELength - 12);
+ 	if (p && ht_ielen > 0)
+ 		ht_cap = true;
+@@ -567,7 +567,7 @@ static int r871x_set_wpa_ie(struct _adapter *padapter, char *pie,
+ 			while (cnt < ielen) {
+ 				eid = buf[cnt];
  
- static int
--usbctrl_vendorreq(struct adapter *adapt, u16 value, u16 index, void *pdata, u16 len, u8 requesttype)
-+usbctrl_vendorreq(struct adapter *adapt, u16 value, void *pdata, u16 len, u8 requesttype)
- {
- 	struct dvobj_priv *dvobjpriv = adapter_to_dvobj(adapt);
- 	struct usb_device *udev = dvobjpriv->pusbdev;
-@@ -251,7 +252,8 @@ usbctrl_vendorreq(struct adapter *adapt, u16 value, u16 index, void *pdata, u16
+-				if ((eid == _VENDOR_SPECIFIC_IE_) &&
++				if ((eid == WLAN_EID_VENDOR_SPECIFIC) &&
+ 				    (!memcmp(&buf[cnt + 2], wps_oui, 4))) {
+ 					netdev_info(padapter->pnetdev, "r8712u: SET WPS_IE\n");
+ 					padapter->securitypriv.wps_ie_len =
+@@ -609,7 +609,7 @@ static int r8711_wx_get_name(struct net_device *dev,
+ 	if (check_fwstate(pmlmepriv, _FW_LINKED | WIFI_ADHOC_MASTER_STATE) ==
+ 	    true) {
+ 		/* parsing HT_CAP_IE */
+-		p = r8712_get_ie(&pcur_bss->IEs[12], _HT_CAPABILITY_IE_,
++		p = r8712_get_ie(&pcur_bss->IEs[12], WLAN_EID_HT_CAPABILITY,
+ 				 &ht_ielen, pcur_bss->IELength - 12);
+ 		if (p && ht_ielen > 0)
+ 			ht_cap = true;
+@@ -1403,7 +1403,7 @@ static int r8711_wx_get_rate(struct net_device *dev,
+ 	i = 0;
+ 	if (!check_fwstate(pmlmepriv, _FW_LINKED | WIFI_ADHOC_MASTER_STATE))
+ 		return -ENOLINK;
+-	p = r8712_get_ie(&pcur_bss->IEs[12], _HT_CAPABILITY_IE_, &ht_ielen,
++	p = r8712_get_ie(&pcur_bss->IEs[12], WLAN_EID_HT_CAPABILITY, &ht_ielen,
+ 			 pcur_bss->IELength - 12);
+ 	if (p && ht_ielen > 0) {
+ 		ht_cap = true;
+diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
+index f5886b39b3b5..2fa8ad00ead4 100644
+--- a/drivers/staging/rtl8712/rtl871x_mlme.c
++++ b/drivers/staging/rtl8712/rtl871x_mlme.c
+@@ -1650,11 +1650,11 @@ unsigned int r8712_restructure_ht_ie(struct _adapter *padapter, u8 *in_ie,
+ 	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
+ 
+ 	phtpriv->ht_option = 0;
+-	p = r8712_get_ie(in_ie + 12, _HT_CAPABILITY_IE_, &ielen, in_len - 12);
++	p = r8712_get_ie(in_ie + 12, WLAN_EID_HT_CAPABILITY, &ielen, in_len - 12);
+ 	if (p && (ielen > 0)) {
+ 		if (pqospriv->qos_option == 0) {
+ 			out_len = *pout_len;
+-			r8712_set_ie(out_ie + out_len, _VENDOR_SPECIFIC_IE_,
++			r8712_set_ie(out_ie + out_len, WLAN_EID_VENDOR_SPECIFIC,
+ 				     _WMM_IE_Length_, WMM_IE, pout_len);
+ 			pqospriv->qos_option = 1;
  		}
- 
- 		status = usb_control_msg(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
--					 reqtype, value, index, pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT);
-+					 reqtype, value, REALTEK_USB_VENQT_CMD_IDX,
-+					 pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT);
- 
- 		if (status == len) {   /*  Success this control transfer. */
- 			if (requesttype == 0x01)
-@@ -292,17 +294,15 @@ u8 usb_read8(struct adapter *adapter, u32 addr)
- {
- 	u8 requesttype;
- 	u16 wvalue;
--	u16 index;
- 	u16 len;
- 	u8 data = 0;
- 
- 	requesttype = 0x01;/* read_in */
--	index = 0;/* n/a */
- 
- 	wvalue = (u16)(addr & 0x0000ffff);
- 	len = 1;
- 
--	usbctrl_vendorreq(adapter, wvalue, index, &data, len, requesttype);
-+	usbctrl_vendorreq(adapter, wvalue, &data, len, requesttype);
- 
- 	return data;
- }
-@@ -311,15 +311,13 @@ u16 usb_read16(struct adapter *adapter, u32 addr)
- {
- 	u8 requesttype;
- 	u16 wvalue;
--	u16 index;
- 	u16 len;
- 	__le32 data;
- 
- 	requesttype = 0x01;/* read_in */
--	index = 0;/* n/a */
- 	wvalue = (u16)(addr & 0x0000ffff);
- 	len = 2;
--	usbctrl_vendorreq(adapter, wvalue, index, &data, len, requesttype);
-+	usbctrl_vendorreq(adapter, wvalue, &data, len, requesttype);
- 
- 	return (u16)(le32_to_cpu(data) & 0xffff);
- }
-@@ -328,17 +326,15 @@ u32 usb_read32(struct adapter *adapter, u32 addr)
- {
- 	u8 requesttype;
- 	u16 wvalue;
--	u16 index;
- 	u16 len;
- 	__le32 data;
- 
- 	requesttype = 0x01;/* read_in */
--	index = 0;/* n/a */
- 
- 	wvalue = (u16)(addr & 0x0000ffff);
- 	len = 4;
- 
--	usbctrl_vendorreq(adapter, wvalue, index, &data, len, requesttype);
-+	usbctrl_vendorreq(adapter, wvalue, &data, len, requesttype);
- 
- 	return le32_to_cpu(data);
- }
-@@ -508,56 +504,47 @@ int usb_write8(struct adapter *adapter, u32 addr, u8 val)
- {
- 	u8 requesttype;
- 	u16 wvalue;
--	u16 index;
- 	u16 len;
- 	u8 data;
- 
- 	requesttype = 0x00;/* write_out */
--	index = 0;/* n/a */
- 	wvalue = (u16)(addr & 0x0000ffff);
- 	len = 1;
- 	data = val;
--	return usbctrl_vendorreq(adapter, wvalue,
--				 index, &data, len, requesttype);
-+	return usbctrl_vendorreq(adapter, wvalue, &data, len, requesttype);
+@@ -1668,7 +1668,7 @@ unsigned int r8712_restructure_ht_ie(struct _adapter *padapter, u8 *in_ie,
+ 				    IEEE80211_HT_CAP_DSSSCCK40);
+ 		ht_capie.ampdu_params_info = (IEEE80211_HT_AMPDU_PARM_FACTOR &
+ 				0x03) | (IEEE80211_HT_AMPDU_PARM_DENSITY & 0x00);
+-		r8712_set_ie(out_ie + out_len, _HT_CAPABILITY_IE_,
++		r8712_set_ie(out_ie + out_len, WLAN_EID_HT_CAPABILITY,
+ 			     sizeof(struct rtl_ieee80211_ht_cap),
+ 			     (unsigned char *)&ht_capie, pout_len);
+ 		phtpriv->ht_option = 1;
+@@ -1699,7 +1699,7 @@ static void update_ht_cap(struct _adapter *padapter, u8 *pie, uint ie_len)
+ 	/*check Max Rx A-MPDU Size*/
+ 	len = 0;
+ 	p = r8712_get_ie(pie + sizeof(struct NDIS_802_11_FIXED_IEs),
+-				_HT_CAPABILITY_IE_,
++				WLAN_EID_HT_CAPABILITY,
+ 				&len, ie_len -
+ 				sizeof(struct NDIS_802_11_FIXED_IEs));
+ 	if (p && len > 0) {
+@@ -1734,7 +1734,7 @@ static void update_ht_cap(struct _adapter *padapter, u8 *pie, uint ie_len)
+ 	}
+ 	len = 0;
+ 	p = r8712_get_ie(pie + sizeof(struct NDIS_802_11_FIXED_IEs),
+-		   _HT_ADD_INFO_IE_, &len,
++		   WLAN_EID_HT_OPERATION, &len,
+ 		   ie_len - sizeof(struct NDIS_802_11_FIXED_IEs));
  }
  
- int usb_write16(struct adapter *adapter, u32 addr, u16 val)
- {
- 	u8 requesttype;
- 	u16 wvalue;
--	u16 index;
- 	u16 len;
- 	__le32 data;
+diff --git a/drivers/staging/rtl8712/rtl871x_xmit.c b/drivers/staging/rtl8712/rtl871x_xmit.c
+index fd99782a400a..15491859aeda 100644
+--- a/drivers/staging/rtl8712/rtl871x_xmit.c
++++ b/drivers/staging/rtl8712/rtl871x_xmit.c
+@@ -22,6 +22,7 @@
+ #include "osdep_intf.h"
+ #include "usb_ops.h"
  
- 	requesttype = 0x00;/* write_out */
--	index = 0;/* n/a */
++#include <linux/ieee80211.h>
  
- 	wvalue = (u16)(addr & 0x0000ffff);
- 	len = 2;
+ static const u8 P802_1H_OUI[P80211_OUI_LEN] = {0x00, 0x00, 0xf8};
+ static const u8 RFC1042_OUI[P80211_OUI_LEN] = {0x00, 0x00, 0x00};
+@@ -709,7 +710,7 @@ void r8712_update_protection(struct _adapter *padapter, u8 *ie, uint ie_len)
+ 		break;
+ 	case AUTO_VCS:
+ 	default:
+-		perp = r8712_get_ie(ie, _ERPINFO_IE_, &erp_len, ie_len);
++		perp = r8712_get_ie(ie, WLAN_EID_ERP_INFO, &erp_len, ie_len);
+ 		if (!perp) {
+ 			pxmitpriv->vcs = NONE_VCS;
+ 		} else {
+diff --git a/drivers/staging/rtl8712/wifi.h b/drivers/staging/rtl8712/wifi.h
+index f941efb1f4e2..b8269b97fd11 100644
+--- a/drivers/staging/rtl8712/wifi.h
++++ b/drivers/staging/rtl8712/wifi.h
+@@ -245,21 +245,6 @@ static inline unsigned char *get_hdr_bssid(unsigned char *pframe)
  
- 	data = cpu_to_le32(val & 0x0000ffff);
+ #define _FIXED_IE_LENGTH_	_BEACON_IE_OFFSET_
  
--	return usbctrl_vendorreq(adapter, wvalue,
--				 index, &data, len, requesttype);
-+	return usbctrl_vendorreq(adapter, wvalue, &data, len, requesttype);
- }
- 
- int usb_write32(struct adapter *adapter, u32 addr, u32 val)
- {
- 	u8 requesttype;
- 	u16 wvalue;
--	u16 index;
- 	u16 len;
- 	__le32 data;
- 
- 	requesttype = 0x00;/* write_out */
--	index = 0;/* n/a */
- 
- 	wvalue = (u16)(addr & 0x0000ffff);
- 	len = 4;
- 	data = cpu_to_le32(val);
- 
--	return usbctrl_vendorreq(adapter, wvalue,
--				 index, &data, len, requesttype);
-+	return usbctrl_vendorreq(adapter, wvalue, &data, len, requesttype);
- }
- 
- static void usb_write_port_complete(struct urb *purb, struct pt_regs *regs)
+-#define _SSID_IE_		0
+-#define _SUPPORTEDRATES_IE_	1
+-#define _DSSET_IE_		3
+-#define _IBSS_PARA_IE_		6
+-#define _ERPINFO_IE_		42
+-#define _EXT_SUPPORTEDRATES_IE_	50
+-
+-#define _HT_CAPABILITY_IE_	45
+-#define _HT_EXTRA_INFO_IE_	61
+-#define _HT_ADD_INFO_IE_	61 /* _HT_EXTRA_INFO_IE_ */
+-
+-#define _VENDOR_SPECIFIC_IE_	221
+-
+-#define	_RESERVED47_		47
+-
+ /* ---------------------------------------------------------------------------
+  *			Below is the fixed elements...
+  * ---------------------------------------------------------------------------
 -- 
-2.20.1
+2.27.0
 
