@@ -1,41 +1,41 @@
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC32259E
-	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 02:32:48 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id e10so2290202pls.6
-        for <linux-staging@lists.linux.dev>; Mon, 05 Apr 2021 19:32:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2DB6259E
+	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 02:32:51 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id f2-20020a17090a4a82b02900c67bf8dc69so8833396pjh.1
+        for <linux-staging@lists.linux.dev>; Mon, 05 Apr 2021 19:32:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :in-reply-to:references;
-        bh=3K8MDaPlGRbY3ftET9m0Ij8E3KZKZRukEowLKCuMZ8g=;
-        b=nEImKKfqFD+OW8rN4yJUDbXbw0X90WNZZuYPkrqxC3Owy2H7h2Hd56p6DL8eNiypJl
-         vPQZdCY63aQUMfIFzLAJJrg+jzc/AogX3MBoNWjB51ibpWbezLNNHxSEsIL02HKKIGWx
-         wde80EQDRXdKBVV3VNsj33XHH3q8Locyd1XkiYIDnA7VszrHm+VXjIlwIzuknYDzcNsA
-         1a0hhVTEOSP4fWC1dTaIY8ilYjyLO0bN1qLBvXdq+jtLYg5eluZsKhdx9EV4O/RUoUzN
-         4wlqbnICJ/TTFnVpQP5S2793FkBEGkgINBX/X5tNO6lLrvREZN+i6FUuWze2WWRCo6LR
-         8jQA==
+        bh=kc3RPHxu+J++goCeHYiszuO53o7w5S9ayyCjfILd0lM=;
+        b=JRYHITpo6w4w07x9yRv9Y9YpxqOUkRdrcY7yhtNdP5rDzdROEP2WMn26aq0pTDHK1T
+         ybmQVLS7toVRvKURVxYTDZc0ApGeOYbGJVoeq1vcSbp9gEffzjUTWmlDLjqTLv+SraPk
+         GmZetivej+25TtENIpyBrjUBHl/Siq/9Bv68wmhqD9PKiNMmmi0GD6x3Fb1kB/wvJYGa
+         wbuEn1uafdMLoIT29uETd8/6IvNGUig3tRIMgqb1up2jvShYxR8kZaOiZP4TdXacYVpL
+         TCCcrjuanWl/IFfwJMwuzchhVBu3eZWAWygQ8oUy7FMLz/g9WhdUyF02omrB+T/byJGv
+         aIvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:in-reply-to:references;
-        bh=3K8MDaPlGRbY3ftET9m0Ij8E3KZKZRukEowLKCuMZ8g=;
-        b=LCcVrgJt/NCLa4YkflN4z2K8QwItkvQUiNmmjb3PpaGsg0ytENGa3BykyrZTH0YXxn
-         kR9xCROs7wKHLIY4aeFXj9iJaNLoYyIgcp6589ErUXc/8/yJ89nv8Xw8VmudkNDlZGwM
-         FfI8TuWyunRI25QXc1cJhmjNLA7o93v/plJ21WqEGcrsMvY7yqx8uTEG4KfNTlAlGWbK
-         0WQcpA0EyC45sumo8m7UDzUv4BaE7oY9bkZnqSbFqg+db4aPCsAMkAG2LPBKeVMYyjPn
-         J0z8pKYBPAoqTr19VciM5rx/1nBXMZpFCq7vwOFup80S8WdggHj6qC5RYATSWUBU+/6e
-         thFg==
-X-Gm-Message-State: AOAM530BHq0aMtR+sMsPZib+cT0sod/Bl/aygbU61DAuuM0hQO+me0js
-	+rcNs7xMxhrWuI70J3gvnek=
-X-Google-Smtp-Source: ABdhPJzxjB1KyBrVyIglZ0Xg0+O/cotS2I+P2k7EFIPRbRav+/BbOsC/7Z4lXHujNxkaGI9baIFzZA==
-X-Received: by 2002:a17:902:dcc9:b029:e9:3900:1c9a with SMTP id t9-20020a170902dcc9b02900e939001c9amr2176382pll.9.1617676368264;
-        Mon, 05 Apr 2021 19:32:48 -0700 (PDT)
+        bh=kc3RPHxu+J++goCeHYiszuO53o7w5S9ayyCjfILd0lM=;
+        b=fq5Wd9xKyIirpMZtULCZ8a1CdFm9vbTlfHjGwUNWs2Ox2A+NGmRSa6IdbsU+45EA3g
+         5dvjyBiC3mk0MqmVlJ6OVIECOGAazWNxC/awQzikAjamAQcncNPdIkuNqxNCVBLHzvI5
+         GXLWOkUMPMLE/HrixIY30fZi+kgqnWdcG1/FXvVSpXvHcuKfiSDJ0bUTPaE34hI09xC0
+         WeGjnN+4lJL6Q2m4dNITRYv37PUOf0A76TBSsahssKeUvfeJVMQCE6jC94IRG1pqWntv
+         DzWBSW7SyfYZ6L5md/wuqt4SrxMn7GFGpgvkZFZLyl0805w3lbzH9OI9VCrPceHCHOzt
+         QGoQ==
+X-Gm-Message-State: AOAM5338M9b/u63YHU3Dp5dIkws9+tws1QYPnicMWxNp83b6l0WOL4aI
+	kUNWB6qJPTlQpawIvIn9IFgpmZM9DmIK8g==
+X-Google-Smtp-Source: ABdhPJwzKtZy9r41zSCW0z4OszFZhjdGMtgly1rMyHybMJOS63uziIFDP6xwB2vi+QW+xAum79bpaQ==
+X-Received: by 2002:a17:90a:4a8e:: with SMTP id f14mr2128684pjh.84.1617676371091;
+        Mon, 05 Apr 2021 19:32:51 -0700 (PDT)
 Received: from djbComp.hitronhub.home (S0106ac202ecb0523.gv.shawcable.net. [70.67.120.89])
-        by smtp.gmail.com with ESMTPSA id e7sm281196pfv.107.2021.04.05.19.32.47
+        by smtp.gmail.com with ESMTPSA id e7sm281196pfv.107.2021.04.05.19.32.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Apr 2021 19:32:47 -0700 (PDT)
+        Mon, 05 Apr 2021 19:32:50 -0700 (PDT)
 From: Deborah Brouwer <deborahbrouwer3563@gmail.com>
 To: Larry.Finger@lwfinger.net,
 	florian.c.schilhabel@googlemail.com,
@@ -44,9 +44,9 @@ Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	outreachy-kernel@googlegroups.com,
 	Deborah Brouwer <deborahbrouwer3563@gmail.com>
-Subject: [PATCH 3/4] staging: rtl8712: remove space after cast
-Date: Mon,  5 Apr 2021 19:32:19 -0700
-Message-Id: <b1ba94644f5204505623ffc64614671aac30bbd8.1617674639.git.deborahbrouwer3563@gmail.com>
+Subject: [PATCH 4/4] staging: rtl8712: add space before binary operator
+Date: Mon,  5 Apr 2021 19:32:20 -0700
+Message-Id: <6db3ca92022376d162289174e201c79017b366db.1617674639.git.deborahbrouwer3563@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1617674639.git.deborahbrouwer3563@gmail.com>
 References: <cover.1617674639.git.deborahbrouwer3563@gmail.com>
@@ -57,39 +57,27 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-Remove the unnecessary space immediately after a cast. Identified by
-checkpatch: CHECK: No space is necessary after a cast.
+Add a space before the binary operator "|" to comply with kernel coding
+style.  Identified by checkpatch.
 
 Signed-off-by: Deborah Brouwer <deborahbrouwer3563@gmail.com>
 ---
- drivers/staging/rtl8712/rtl8712_xmit.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/rtl8712/rtl8712_xmit.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8712/rtl8712_xmit.c b/drivers/staging/rtl8712/rtl8712_xmit.c
-index 4be81c2546fe..ad9ea05504db 100644
+index ad9ea05504db..116cb812dcb9 100644
 --- a/drivers/staging/rtl8712/rtl8712_xmit.c
 +++ b/drivers/staging/rtl8712/rtl8712_xmit.c
-@@ -228,9 +228,9 @@ void r8712_do_queue_select(struct _adapter *padapter,
- 	struct dvobj_priv *pdvobj = &padapter->dvobjpriv;
+@@ -368,7 +368,7 @@ void r8712_dump_aggr_xframe(struct xmit_buf *pxmitbuf,
+ 							0xffff0000));
  
- 	if (pdvobj->nr_endpoint == 6) {
--		qsel = (unsigned int) pattrib->priority;
-+		qsel = (unsigned int)pattrib->priority;
- 	} else if (pdvobj->nr_endpoint == 4) {
--		qsel = (unsigned int) pattrib->priority;
-+		qsel = (unsigned int)pattrib->priority;
- 		if (qsel == 0 || qsel == 3)
- 			qsel = 3;
- 		else if (qsel == 1 || qsel == 2)
-@@ -359,7 +359,7 @@ void r8712_dump_aggr_xframe(struct xmit_buf *pxmitbuf,
- 	struct tx_desc *ptxdesc = pxmitbuf->pbuf;
- 	struct cmd_hdr *pcmd_hdr = (struct cmd_hdr *)
- 		(pxmitbuf->pbuf + TXDESC_SIZE);
--	u16 total_length = (u16) (ptxdesc->txdw0 & 0xffff);
-+	u16 total_length = (u16)(ptxdesc->txdw0 & 0xffff);
- 
- 	/* use 1st xmitframe as media */
- 	xmitframe_xmitbuf_attach(pxmitframe, pxmitbuf);
+ 	/* urb length in cmd_dw1 */
+-	pcmd_hdr->cmd_dw1 = cpu_to_le32((pxmitbuf->aggr_nr & 0xff)|
++	pcmd_hdr->cmd_dw1 = cpu_to_le32((pxmitbuf->aggr_nr & 0xff) |
+ 					((total_length + TXDESC_SIZE) << 16));
+ 	pxmitframe->last[0] = 1;
+ 	pxmitframe->bpending[0] = false;
 -- 
 2.17.1
 
