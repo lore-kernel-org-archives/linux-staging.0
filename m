@@ -1,34 +1,33 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F916D12
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 10:23:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ED45D613EA;
-	Wed,  7 Apr 2021 10:23:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119C96D2B
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 10:23:54 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 27C7B613C0;
+	Wed,  7 Apr 2021 10:23:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1617791031;
-	bh=YvIR0wKojxogYm4mzV63se8JnVW9YMFH3XKPAsG7738=;
+	bh=RjlzXkDmri64OQOjocp1PayJH/33h45Hk0UFMGKgoQ4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sIYUKWNeo2Msucz9qhPpvQuQJ5+m8Br118lI46SA3MCNm9N743C/4Ipm+ay1jKDx7
-	 qku/mXJPNiCW5uu0LGWecO3wJzUgkhO+zUJQKjQolf0QPbHOOoYpO4SH7rYsltdxmW
-	 OVBlvediJuUSDKcrhUY2ZfhXZafUzgndq+k8V5ik2idP8G/xrWUrMK+2QbK8bBwxUb
-	 qhCmJajnKvs4ntzYwnPoC5yrVCt1dxjJvsFn7xaejrB2sVsPk8VEFwBKBL09dHXWXy
-	 WKemapHQkTNfjlcL5vDfqVcNYhYMq6zI3UpKowIQy69/cHP72jbUAUI2Lk6/KpyLot
-	 BhZdwdEFpiMpQ==
+	b=Eibbuh1k4QxhS/ZbcBbvkspFgJ1K8d4RL/3g6MoYxg3Po6sey6WmI9/ZO87PMWAbc
+	 DHdxnUQcKCN5dWPBi/gUC6g301c6Fzz70z++/BTlucW1NGbiq+HBUQ2PWy0FdTbs8c
+	 OeDfrp+wqjnTyNMwpLuE5I7Eke5U3avotdF/ZeosZH9natXVHzF8euSFTbVbSbHKZ9
+	 sf3A6wNH2j/r26sfyASemXK5dCSi+eSVge7Qle9hZTQ/TwAPrdHVuX7rOysu8xF3T7
+	 A6+oCFjYnEwDoDpcN0Gb50Glb60qHq1OsgJU/HBczumuNgglm5LwlaIAuS8SrPKxP7
+	 jHLX4dM5XbIoA==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
 	(envelope-from <johan@kernel.org>)
-	id 1lU5Lb-0008Rc-Ma; Wed, 07 Apr 2021 12:23:43 +0200
+	id 1lU5Lb-0008Rn-Uu; Wed, 07 Apr 2021 12:23:43 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Jiri Slaby <jirislaby@kernel.org>,
 	linux-staging@lists.linux.dev,
 	greybus-dev@lists.linaro.org,
 	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH 13/16] tty: mxser: fix TIOCSSERIAL jiffies conversions
-Date: Wed,  7 Apr 2021 12:23:31 +0200
-Message-Id: <20210407102334.32361-14-johan@kernel.org>
+	Johan Hovold <johan@kernel.org>
+Subject: [PATCH 16/16] tty: synclink_gt: drop redundant tty-port initialisation
+Date: Wed,  7 Apr 2021 12:23:34 +0200
+Message-Id: <20210407102334.32361-17-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210407102334.32361-1-johan@kernel.org>
 References: <20210407102334.32361-1-johan@kernel.org>
@@ -39,88 +38,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The port close_delay and closing wait parameters set by TIOCSSERIAL are
-specified in jiffies, while the values returned by TIOCGSERIAL are
-specified in centiseconds.
+The port close_delay and closing_wait parameters have already been by
+tty_port_init() so drop the redundant driver initialisation to the
+default values.
 
-Add the missing conversions so that TIOCSSERIAL works as expected also
-when HZ is not 100.
-
-Cc: stable@vger.kernel.org
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/tty/mxser.c | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
+ drivers/tty/synclink_gt.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/tty/mxser.c b/drivers/tty/mxser.c
-index 4203b64bccdb..914b23071961 100644
---- a/drivers/tty/mxser.c
-+++ b/drivers/tty/mxser.c
-@@ -1208,19 +1208,26 @@ static int mxser_get_serial_info(struct tty_struct *tty,
- {
- 	struct mxser_port *info = tty->driver_data;
- 	struct tty_port *port = &info->port;
-+	unsigned int closing_wait, close_delay;
- 
- 	if (tty->index == MXSER_PORTS)
- 		return -ENOTTY;
- 
- 	mutex_lock(&port->mutex);
-+
-+	close_delay = jiffies_to_msecs(info->port.close_delay) / 10;
-+	closing_wait = info->port.closing_wait;
-+	if (closing_wait != ASYNC_CLOSING_WAIT_NONE)
-+		closing_wait = jiffies_to_msecs(closing_wait) / 10;
-+
- 	ss->type = info->type,
- 	ss->line = tty->index,
- 	ss->port = info->ioaddr,
- 	ss->irq = info->board->irq,
- 	ss->flags = info->port.flags,
- 	ss->baud_base = info->baud_base,
--	ss->close_delay = info->port.close_delay,
--	ss->closing_wait = info->port.closing_wait,
-+	ss->close_delay = close_delay;
-+	ss->closing_wait = closing_wait;
- 	ss->custom_divisor = info->custom_divisor,
- 	mutex_unlock(&port->mutex);
- 	return 0;
-@@ -1233,7 +1240,7 @@ static int mxser_set_serial_info(struct tty_struct *tty,
- 	struct tty_port *port = &info->port;
- 	speed_t baud;
- 	unsigned long sl_flags;
--	unsigned int flags;
-+	unsigned int flags, close_delay, closing_wait;
- 	int retval = 0;
- 
- 	if (tty->index == MXSER_PORTS)
-@@ -1255,9 +1262,14 @@ static int mxser_set_serial_info(struct tty_struct *tty,
- 
- 	flags = port->flags & ASYNC_SPD_MASK;
- 
-+	close_delay = msecs_to_jiffies(ss->close_delay * 10);
-+	closing_wait = ss->closing_wait;
-+	if (closing_wait != ASYNC_CLOSING_WAIT_NONE)
-+		closing_wait = msecs_to_jiffies(closing_wait * 10);
-+
- 	if (!capable(CAP_SYS_ADMIN)) {
- 		if ((ss->baud_base != info->baud_base) ||
--				(ss->close_delay != info->port.close_delay) ||
-+				(close_delay != info->port.close_delay) ||
- 				((ss->flags & ~ASYNC_USR_MASK) != (info->port.flags & ~ASYNC_USR_MASK))) {
- 			mutex_unlock(&port->mutex);
- 			return -EPERM;
-@@ -1271,8 +1283,8 @@ static int mxser_set_serial_info(struct tty_struct *tty,
- 		 */
- 		port->flags = ((port->flags & ~ASYNC_FLAGS) |
- 				(ss->flags & ASYNC_FLAGS));
--		port->close_delay = ss->close_delay * HZ / 100;
--		port->closing_wait = ss->closing_wait * HZ / 100;
-+		port->close_delay = close_delay;
-+		port->closing_wait = closing_wait;
- 		if ((port->flags & ASYNC_SPD_MASK) == ASYNC_SPD_CUST &&
- 				(ss->baud_base != info->baud_base ||
- 				ss->custom_divisor !=
+diff --git a/drivers/tty/synclink_gt.c b/drivers/tty/synclink_gt.c
+index 1db908f62fde..994618618466 100644
+--- a/drivers/tty/synclink_gt.c
++++ b/drivers/tty/synclink_gt.c
+@@ -3511,8 +3511,6 @@ static struct slgt_info *alloc_dev(int adapter_num, int port_num, struct pci_dev
+ 		info->max_frame_size = 4096;
+ 		info->base_clock = 14745600;
+ 		info->rbuf_fill_level = DMABUFSIZE;
+-		info->port.close_delay = 5*HZ/10;
+-		info->port.closing_wait = 30*HZ;
+ 		init_waitqueue_head(&info->status_event_wait_q);
+ 		init_waitqueue_head(&info->event_wait_q);
+ 		spin_lock_init(&info->netlock);
 -- 
 2.26.3
 
