@@ -1,20 +1,20 @@
 Received: from out4436.biz.mail.alibaba.com (out4436.biz.mail.alibaba.com [47.88.44.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24146D00
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 03:24:28 +0000 (UTC)
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R521e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0UUklsn3_1617765508;
-Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0UUklsn3_1617765508)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC0C6D00
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 03:53:10 +0000 (UTC)
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01424;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0UUklzHF_1617767559;
+Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0UUklzHF_1617767559)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 07 Apr 2021 11:18:43 +0800
+          Wed, 07 Apr 2021 11:52:50 +0800
 From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Subject: [PATCH] staging: rtl8723bs: remove unused variable
-Date: Wed,  7 Apr 2021 11:18:19 +0800
-Message-Id: <1617765499-65626-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+Subject: [PATCH] staging: rtl8192e: rtl8192E_dev: remove unused variable
+Date: Wed,  7 Apr 2021 11:52:38 +0800
+Message-Id: <1617767558-114050-1-git-send-email-jiapeng.chong@linux.alibaba.com>
 X-Mailer: git-send-email 1.8.3.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -26,52 +26,39 @@ Content-Transfer-Encoding: 8bit
 
 Fix the following gcc warning:
 
-drivers/staging/rtl8723bs/core/rtw_ieee80211.c:657:15: warning: variable
-‘sec_idx’ set but not used [-Wunused-but-set-variable].
+drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c:693:15: warning: variable
+‘tmpRegC’ set but not used [-Wunused-but-set-variable].
 
 Reported-by: Abaci Robot <abaci@linux.alibaba.com>
 Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-index be4cffc..df00a79 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-@@ -654,7 +654,7 @@ int rtw_get_wapi_ie(u8 *in_ie, uint in_len, u8 *wapi_ie, u16 *wapi_len)
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+index ff843d7..8dbb31f 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+@@ -690,7 +690,7 @@ bool rtl92e_start_adapter(struct net_device *dev)
+ 	u8 tmpvalue;
+ 	u8 ICVersion, SwitchingRegulatorOutput;
+ 	bool bfirmwareok = true;
+-	u32 tmpRegA, tmpRegC, TempCCk;
++	u32 tmpRegA, TempCCk;
+ 	int i = 0;
+ 	u32 retry_times = 0;
  
- void rtw_get_sec_ie(u8 *in_ie, uint in_len, u8 *rsn_ie, u16 *rsn_len, u8 *wpa_ie, u16 *wpa_len)
- {
--	u8 authmode, sec_idx, i;
-+	u8 authmode, i;
- 	u8 wpa_oui[4] = {0x0, 0x50, 0xf2, 0x01};
- 	uint	cnt;
- 
-@@ -662,13 +662,11 @@ void rtw_get_sec_ie(u8 *in_ie, uint in_len, u8 *rsn_ie, u16 *rsn_len, u8 *wpa_ie
- 
- 	cnt = (_TIMESTAMP_ + _BEACON_ITERVAL_ + _CAPABILITY_);
- 
--	sec_idx = 0;
--
- 	while (cnt < in_len) {
- 		authmode = in_ie[cnt];
- 
- 		if ((authmode == WLAN_EID_VENDOR_SPECIFIC) && (!memcmp(&in_ie[cnt+2], &wpa_oui[0], 4))) {
--				RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("\n rtw_get_wpa_ie: sec_idx =%d in_ie[cnt+1]+2 =%d\n", sec_idx, in_ie[cnt+1]+2));
-+				RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("\n in_ie[cnt+1]+2 =%d\n", in_ie[cnt+1]+2));
- 
- 				if (wpa_ie) {
- 				memcpy(wpa_ie, &in_ie[cnt], in_ie[cnt+1]+2);
-@@ -684,7 +682,7 @@ void rtw_get_sec_ie(u8 *in_ie, uint in_len, u8 *rsn_ie, u16 *rsn_len, u8 *wpa_ie
- 				cnt += in_ie[cnt+1]+2;  /* get next */
- 		} else {
- 			if (authmode == WLAN_EID_RSN) {
--				RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("\n get_rsn_ie: sec_idx =%d in_ie[cnt+1]+2 =%d\n", sec_idx, in_ie[cnt+1]+2));
-+				RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("\n in_ie[cnt+1]+2 =%d\n", in_ie[cnt+1]+2));
- 
- 				if (rsn_ie) {
- 				memcpy(rsn_ie, &in_ie[cnt], in_ie[cnt+1]+2);
+@@ -889,8 +889,8 @@ bool rtl92e_start_adapter(struct net_device *dev)
+ 		if (priv->IC_Cut >= IC_VersionCut_D) {
+ 			tmpRegA = rtl92e_get_bb_reg(dev, rOFDM0_XATxIQImbalance,
+ 						    bMaskDWord);
+-			tmpRegC = rtl92e_get_bb_reg(dev, rOFDM0_XCTxIQImbalance,
+-						    bMaskDWord);
++			rtl92e_get_bb_reg(dev, rOFDM0_XCTxIQImbalance, bMaskDWord);
++
+ 			for (i = 0; i < TxBBGainTableLength; i++) {
+ 				if (tmpRegA == dm_tx_bb_gain[i]) {
+ 					priv->rfa_txpowertrackingindex = (u8)i;
 -- 
 1.8.3.1
 
