@@ -1,29 +1,30 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20AA29CA
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 08:35:01 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A596061363;
-	Wed,  7 Apr 2021 08:35:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E5CB6D0D
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 08:39:38 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6469B61177;
+	Wed,  7 Apr 2021 08:39:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1617784501;
-	bh=QUPSZJEVZ4gOqekzobUa4Tu78f4ebblB6ELbnwdOIw0=;
+	s=korg; t=1617784778;
+	bh=f4c3ezjYH23cJMIbwrMMR0u7/xkmBRyfpVCol87Gd6Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u+xv4he5FiLWTw6uVqlGVRKzfN4vnXj8XwhEQEZGLONO/36pm0CpWha2XbchjGEVB
-	 /oo+0uryitIsJhls/71V1ZITjEZm54YgUFkhP+AtzkQYxRw80bSsFQC8Hkg9Ty2Q4Y
-	 TA0yr56OIxQtLXx57eX1ficLY5bBCUGBEcWGQtr4=
-Date: Wed, 7 Apr 2021 10:34:58 +0200
+	b=o9NhKvHdDc6hrVG3JwQf+J8PrYuUEy1DiNKkWcsDoacJxBNkBkLA6W0V3i9Qse9Cl
+	 5Jpi+ksbUqPb1Q4G6my3HlOot3VMZz5j505PLMKRC/m2vhxjSxjHwptoCLiaMtGGIm
+	 F1f/7Ms8nceHeChzLqLDiTyD8/AQ9A0QtsTE+ESo=
+Date: Wed, 7 Apr 2021 10:39:35 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com
-Subject: Re: [RESEND PATCH] staging: emxx_udc: Ending line with argument
-Message-ID: <YG1usolTNEOfDqXh@kroah.com>
-References: <20210406193409.96428-1-martinsdecarvalhobeatriz@gmail.com>
- <YGy4LXHBrBb/r3dk@kroah.com>
- <4c7df741-4e73-2ac4-f0d8-c9513ae29c88@gmail.com>
- <YG1FI38zNbidjt9q@kroah.com>
- <4d7ebe9c-8ebc-2fc9-10ed-6756ab42d5d7@gmail.com>
+To: Pavle Rohalj <pavle.rohalj@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 08/49]  staging: sm750fb: Update enum values in dpms
+ to snake case
+Message-ID: <YG1vx/9FGXcApNEZ@kroah.com>
+References: <cover.1617776878.git.pavle.rohalj@gmail.com>
+ <16693e7cc62f84ea1ec34b7d5cbd77c4cd1965e8.1617776878.git.pavle.rohalj@gmail.com>
+ <YG1eFxQDP6dITlXA@kroah.com>
+ <YG1tBSqVTwKQChHV@localhost.localdomain>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -31,37 +32,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4d7ebe9c-8ebc-2fc9-10ed-6756ab42d5d7@gmail.com>
+In-Reply-To: <YG1tBSqVTwKQChHV@localhost.localdomain>
 
-On Wed, Apr 07, 2021 at 09:16:44AM +0100, Beatriz Martins de Carvalho wrote:
+On Wed, Apr 07, 2021 at 01:27:49AM -0700, Pavle Rohalj wrote:
+> On Wed, Apr 07, 2021 at 09:24:07AM +0200, Greg KH wrote:
+> > On Tue, Apr 06, 2021 at 11:36:16PM -0700, Pavle Rohalj wrote:
+> > > Fix "Avoid CamelCase" checkpatch.pl checks for values in
+> > > enum dpms.
+> > > 
+> > > Signed-off-by: Pavle Rohalj <pavle.rohalj@gmail.com>
+> > > ---
+> > >  drivers/staging/sm750fb/ddk750_power.h | 8 ++++----
+> > >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > > 
+> > > diff --git a/drivers/staging/sm750fb/ddk750_power.h b/drivers/staging/sm750fb/ddk750_power.h
+> > > index 7002567a47d2..4756db1ccb9c 100644
+> > > --- a/drivers/staging/sm750fb/ddk750_power.h
+> > > +++ b/drivers/staging/sm750fb/ddk750_power.h
+> > > @@ -3,10 +3,10 @@
+> > >  #define DDK750_POWER_H__
+> > >  
+> > >  enum dpms {
+> > > -	crtDPMS_ON = 0x0,
+> > > -	crtDPMS_STANDBY = 0x1,
+> > > -	crtDPMS_SUSPEND = 0x2,
+> > > -	crtDPMS_OFF = 0x3,
+> > > +	CRT_DPMS_ON = 0x0,
+> > > +	CRT_DPMS_STANDBY = 0x1,
+> > > +	CRT_DPMS_SUSPEND = 0x2,
+> > > +	CRT_DPMS_OFF = 0x3,
+> > >  };
+> > 
+> > And the build does not break with this change?  If so, then why are
+> > these here at all?
+> > 
+> > thanks,
+> > 
+> > greg k-h
 > 
-> Em 07/04/21 06:37, Greg KH escreveu:
-> > On Tue, Apr 06, 2021 at 09:00:07PM +0100, Beatriz Martins de Carvalho wrote:
-> > > Em 06/04/21 20:36, Greg KH escreveu:
-> > > > On Tue, Apr 06, 2021 at 08:34:09PM +0100, Beatriz Martins de Carvalho wrote:
-> > > > > Cleans up check of "Lines should not end with a '('"
-> > > > > with argument present in next line in file emxx_udc.c
-> > > > > 
-> > > > > Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
-> > > > > ---
-> > > > >    drivers/staging/emxx_udc/emxx_udc.c | 11 ++++-------
-> > > > >    1 file changed, 4 insertions(+), 7 deletions(-)
-> > > > Why is this a [RESEND] ?
-> > > > 
-> > > > What happened to the first version?
-> > > Sorry, I didn't receive your review, and in kernelnewbies tutorial, they say
-> > > if not receive a response, may have missed the patch, so I resent it.
-> > Do you have a pointer to your previous patch in the lore.kernel.org
-> > archives anywhere?  I can't seem to find it.
-> 
-> 
-> I found this, it's what is you need?
-> 
-> https://lore.kernel.org/linux-staging/20210401195457.24512-1-martinsdecarvalhobeatriz@gmail.com/
+> I do not think so, I was able to build and load the driver with these
+> changes. It looks like this enum is used as a type of the state parameter of
+> ddk750_set_dpms function, but the three defined constants are never referenced. 
+> Should we get rid of dpms enum and change the type of the parameter to an unsigned integer?
 
-Ah, yes, I saw Julia's review and assumed you would fix up your patch
-based on her comments.  Please do not ignore review comments, it makes
-everyone's lives harder.
+If the enum is used, but the names are not used, that's not good and
+should be fixed up.
 
 thanks,
 
