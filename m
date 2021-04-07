@@ -1,86 +1,76 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835206D0E
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 15:38:50 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id i18so15012797wrm.5
-        for <linux-staging@lists.linux.dev>; Wed, 07 Apr 2021 08:38:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6D66D0E
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 15:43:43 +0000 (UTC)
+Received: by mail-qv1-f54.google.com with SMTP id o11so4965242qvh.11
+        for <linux-staging@lists.linux.dev>; Wed, 07 Apr 2021 08:43:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=PgfSSgWWGnJrITlLJ0K+KPTYMGpFHqdgXbRVjqTXauE=;
-        b=kDhTBq1m4FakBwFLKFIwVcGHcH0AqtLggFGnTPKPAgyLWmSb6Qkhj/u4hh/cHK4oei
-         tO7ZoP41t6AF+dyQ0kZlul8ZxKo6xDtBewUP+2hZL0QvA7gHAkPCkcQ6pXZOiceANA79
-         AMt/CAmZ7Qco8RQ+rkFCbumUWVrkKvthomWnDLc8vpYw+JA0hmiR1tenlsVzVEx/nw5Z
-         WTpJ+tJzX/r0xR5tTPHo16hvjB8nNaCGpEIo+RPtp6ssTgEiiCgC6S+mzuHQ4HeNi9sL
-         AXSfnpw6bBkovdH1gTpdv1cIAEpNDZzl8tMKYuK2rZ6v1TELt0p1w3DzFOvaLPSgCC/A
-         6SSw==
+        d=umich.edu; s=google-2016-06-03;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kSbaVUsAS/4147GZ5oGOQn53zvd+9eX1P35DCfcHl/c=;
+        b=M6tfz/dci/9n23rYcKMyI40m83L1YwzDU50IEMILM7Y3owvZvyVg9qgGKplnSwNTKG
+         HQN7sMtN0pB1iud9GYznkOjkDbpm9EsXmnKum6zlFasmM97td8Rs+fH6/ealNiGJqNOM
+         xh7OE0p+XfCRIvJM6IEXyCByWpGs3zVdG9yqyWgZDeLQk22bPpi59vUi0aRFSBfcwmic
+         mu+p6LrGu6t81fT2j1OeIg2GY5S+3C8mvzc3rVM2D/hal9uwDCW3uPwFcSgy1P2n4DE9
+         5sJJOKLdmamQ+o0fuD4SOtjryT2XFyAk6nKko2owXSD+RYJWInWghcLBHDGOU6+wpkGH
+         3mpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=PgfSSgWWGnJrITlLJ0K+KPTYMGpFHqdgXbRVjqTXauE=;
-        b=CH0jmmHIBK57xcmkRX1uIcbYZAPJkpb9KyWNHVTUdOh6r0FYXpdytKzFoMRvy1x/6D
-         9B5usE++UTFlRVk01CSp6wry98JeVG51GLKZZpO6N0zmy12SCfuIT7E6NNRcLZpE/Tk5
-         RCv+kFYKVt0Mj0+Luuz55gO1Xmk8u4+LxdtLo7Ee83A12z20ShIjYhBTbKNr66HjtWvv
-         jv/4LtNYm6ebGedafgX9EFHxodBlkfuk3TB6UJolzLPo+YUogsjYjNejlGqefY2eTjXw
-         GOG/TJM/RiAdacf9/sCXpr1nPHnsgH7dl/UPrCMWgT/1VlJ2tJ3Az11TgFvrA/Tw5m5m
-         zPYg==
-X-Gm-Message-State: AOAM53290gF4iVGOqKMcB01d4q8blWSaBhJuAiR2N+N/ZyC3wjQBIfZ0
-	rU5padCNylZfH2QxzXLHtv4=
-X-Google-Smtp-Source: ABdhPJy34RCn31VLSLxNkvRukDu5fZtzbNJcl+BYjRDAeKer83hnHvTVrU+Z0ars+LB2pgKbk9RBcQ==
-X-Received: by 2002:a5d:4ac7:: with SMTP id y7mr5166844wrs.395.1617809929055;
-        Wed, 07 Apr 2021 08:38:49 -0700 (PDT)
-Received: from agape.jhs ([5.171.72.217])
-        by smtp.gmail.com with ESMTPSA id y4sm9642472wmc.2.2021.04.07.08.38.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Apr 2021 08:38:48 -0700 (PDT)
-Date: Wed, 7 Apr 2021 17:38:46 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 07/19] drivers: rtl8723bs: rewrite comparison to null
-Message-ID: <20210407153845.GB1590@agape.jhs>
-References: <cover.1617802415.git.fabioaiuto83@gmail.com>
- <0c6d53c851d1b07eb0183108e0bad7b4f273f04b.1617802415.git.fabioaiuto83@gmail.com>
- <YG3MOCQHu3o/qHTg@kroah.com>
- <20210407152533.GA1590@agape.jhs>
- <YG3QGq0T/cO2kdFN@kroah.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kSbaVUsAS/4147GZ5oGOQn53zvd+9eX1P35DCfcHl/c=;
+        b=VHFkaldpMV7XIayo6U+f88YCNXESzz6kNYiMO+7kA3/8F0vZDAwaq+mREOXA1sE9Th
+         01Cj0/qbhS/QIoxN6MeMaWpjJcMmIQIP4cRGix6Dwqk3t6l2uLor7RFzoJpV7CmXu3C5
+         rgIkQ5jrgQOnjk9aZ1mCoqsdS0ekup1MUb1vlmZScSvSpeuNlu/Zbt1uiOOz3jb8+2pu
+         IKe3Tb+0/+8JhisELEYrEVacvyKeSVMukYix0rw/5cWLW33Sjq+Po0hP/ueLeNlVEFld
+         /YiJxFyWBcjoaSt/EstZXKQqWD2RJk6FXonYl2DE+tw3MDp1Q/Eg2omBHd5+lYMQRbY/
+         n8vw==
+X-Gm-Message-State: AOAM531ekLWlw6XXHnO3sOkAlmNHKIr2Qly+U25FXYQKGTitkdc3J9+u
+	B42+GSlb/GrsBNczHPLBSyGU4mmwmnba5HWmPqgM1Q==
+X-Google-Smtp-Source: ABdhPJxToNO98/QcF2h2Uhm6Vuxc/23r2ktn4xRvT/9iu1pSFSpCQTh7pUXyHql1h2bFhOqEN3vWzgHYGEiXG2kkce8=
+X-Received: by 2002:a0c:c243:: with SMTP id w3mr4077902qvh.34.1617810222315;
+ Wed, 07 Apr 2021 08:43:42 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YG3QGq0T/cO2kdFN@kroah.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210407140142.447250-1-abbotti@mev.co.uk>
+In-Reply-To: <20210407140142.447250-1-abbotti@mev.co.uk>
+From: Spencer Olson <olsonse@umich.edu>
+Date: Wed, 7 Apr 2021 09:43:31 -0600
+Message-ID: <CAOx9Pehoh1nPng__Bx1RJo9p7uX8MMM7fN+Wzm1oOosDEEDHTA@mail.gmail.com>
+Subject: Re: [PATCH 0/5] staging: comedi: tests: Fix various issues
+To: Ian Abbott <abbotti@mev.co.uk>
+Cc: linux-staging@lists.linux.dev, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	H Hartley Sweeten <hsweeten@visionengravers.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 07, 2021 at 05:30:34PM +0200, Greg KH wrote:
-> On Wed, Apr 07, 2021 at 05:25:34PM +0200, Fabio Aiuto wrote:
-> > On Wed, Apr 07, 2021 at 05:14:00PM +0200, Greg KH wrote:
-> > > On Wed, Apr 07, 2021 at 03:49:31PM +0200, Fabio Aiuto wrote:
-> > > > fix following post-commit hook checkpatch warnings:
-> > > > 
-> > > > CHECK: Comparison to NULL could be written "!psta"
-> > > > 97: FILE: drivers/staging/rtl8723bs/core/rtw_ap.c:2115:
-> > > > +		if (psta == NULL)
-> > > > 
-> > > > Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
-> > > > ---
-> > > >  drivers/staging/rtl8723bs/core/rtw_ap.c | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > Nit, your subject line has "drivers:" not "staging:" here.  Be a bit
-> > > more careful next time please.
-> > > 
-> > > thanks,
-> > > 
-> > > greg k-h
-> > 
-> > sorry, you can drop them off the staging-testing branch and I will resend you all if you want,
-> 
-> Nah, it's not worth it, I'll keep them for now :)
+On Wed, Apr 7, 2021 at 8:11 AM Ian Abbott <abbotti@mev.co.uk> wrote:
+>
+> The code under "drivers/staging/comedi/drivers/tests/" is built when the
+> CONFIG_COMEDI_TESTS option is enabled.  That currently needs to be done
+> on the "make" command line since the option does not appear in the
+> Kconfig files.
+>
+> This patch series fixes a compilation error and various other niggles
+> including checkpatch.pl stuff.
+>
+> 1) staging: comedi: tests: ni_routes_test: Fix compilation error
+> 2) staging: comedi: tests: ni_routes_test: Put complex values in parentheses
+> 3) staging: comedi: tests: ni_routes_test: Avoid CamelCase: <RVi>
+> 4) staging: comedi: tests: ni_routes_test: Lines should not end with a '('
+> 5) staging: comedi: tests: Correct unittest_fptr
+>
+>  .../staging/comedi/drivers/tests/example_test.c    |  2 +-
+>  .../staging/comedi/drivers/tests/ni_routes_test.c  | 81 +++++++++++-----------
+>  drivers/staging/comedi/drivers/tests/unittest.h    |  2 +-
+>  3 files changed, 42 insertions(+), 43 deletions(-)
+>
 
-:-D
+Hmm.  That must have been a fat-finger on my part when I was
+submitting those patches.  I am pretty sure that at least one revision
+in my copy did have the option comedi/Kconfig at one point.
