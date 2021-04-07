@@ -1,82 +1,62 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E5CB6D0D
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 08:39:38 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6469B61177;
-	Wed,  7 Apr 2021 08:39:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D64D96D0D
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 08:40:56 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9B3F1611CC;
+	Wed,  7 Apr 2021 08:40:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1617784778;
-	bh=f4c3ezjYH23cJMIbwrMMR0u7/xkmBRyfpVCol87Gd6Q=;
+	s=korg; t=1617784856;
+	bh=ArCApTSPQQIjlopJ4gguiMxnCzPzOxidZ1gZWuJzWNA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=o9NhKvHdDc6hrVG3JwQf+J8PrYuUEy1DiNKkWcsDoacJxBNkBkLA6W0V3i9Qse9Cl
-	 5Jpi+ksbUqPb1Q4G6my3HlOot3VMZz5j505PLMKRC/m2vhxjSxjHwptoCLiaMtGGIm
-	 F1f/7Ms8nceHeChzLqLDiTyD8/AQ9A0QtsTE+ESo=
-Date: Wed, 7 Apr 2021 10:39:35 +0200
+	b=PrFrkmHyiuG4I0FT/2BIsTIf5XQBmuvPXHdVrcpvkFJsrvksEjr+yavZnLZ2/3WBP
+	 Ik07ve8PAyw/O6vdCkkkkLba248D+tgaU0K9zGF8TwccQn5JmF6eYkNUclDJPq7q4U
+	 yFY5RCk6Z7KFulCL3Cc9MMoKNuVPvGWiXuQFtdwk=
+Date: Wed, 7 Apr 2021 10:40:53 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Pavle Rohalj <pavle.rohalj@gmail.com>
-Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 08/49]  staging: sm750fb: Update enum values in dpms
- to snake case
-Message-ID: <YG1vx/9FGXcApNEZ@kroah.com>
-References: <cover.1617776878.git.pavle.rohalj@gmail.com>
- <16693e7cc62f84ea1ec34b7d5cbd77c4cd1965e8.1617776878.git.pavle.rohalj@gmail.com>
- <YG1eFxQDP6dITlXA@kroah.com>
- <YG1tBSqVTwKQChHV@localhost.localdomain>
+To: "tiantao (H)" <tiantao6@huawei.com>
+Cc: Tian Tao <tiantao6@hisilicon.com>, hvaibhav.linux@gmail.com,
+	johan@kernel.org, elder@kernel.org, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: greybus: move to use request_irq by
+ IRQF_NO_AUTOEN flag
+Message-ID: <YG1wFcQvKmYsziLt@kroah.com>
+References: <1617778203-23117-1-git-send-email-tiantao6@hisilicon.com>
+ <YG1rwdRzKk83RBmG@kroah.com>
+ <5126cb93-4227-8a0f-1421-7685ade4b2e2@huawei.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YG1tBSqVTwKQChHV@localhost.localdomain>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5126cb93-4227-8a0f-1421-7685ade4b2e2@huawei.com>
 
-On Wed, Apr 07, 2021 at 01:27:49AM -0700, Pavle Rohalj wrote:
-> On Wed, Apr 07, 2021 at 09:24:07AM +0200, Greg KH wrote:
-> > On Tue, Apr 06, 2021 at 11:36:16PM -0700, Pavle Rohalj wrote:
-> > > Fix "Avoid CamelCase" checkpatch.pl checks for values in
-> > > enum dpms.
-> > > 
-> > > Signed-off-by: Pavle Rohalj <pavle.rohalj@gmail.com>
-> > > ---
-> > >  drivers/staging/sm750fb/ddk750_power.h | 8 ++++----
-> > >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/sm750fb/ddk750_power.h b/drivers/staging/sm750fb/ddk750_power.h
-> > > index 7002567a47d2..4756db1ccb9c 100644
-> > > --- a/drivers/staging/sm750fb/ddk750_power.h
-> > > +++ b/drivers/staging/sm750fb/ddk750_power.h
-> > > @@ -3,10 +3,10 @@
-> > >  #define DDK750_POWER_H__
-> > >  
-> > >  enum dpms {
-> > > -	crtDPMS_ON = 0x0,
-> > > -	crtDPMS_STANDBY = 0x1,
-> > > -	crtDPMS_SUSPEND = 0x2,
-> > > -	crtDPMS_OFF = 0x3,
-> > > +	CRT_DPMS_ON = 0x0,
-> > > +	CRT_DPMS_STANDBY = 0x1,
-> > > +	CRT_DPMS_SUSPEND = 0x2,
-> > > +	CRT_DPMS_OFF = 0x3,
-> > >  };
-> > 
-> > And the build does not break with this change?  If so, then why are
-> > these here at all?
-> > 
-> > thanks,
-> > 
-> > greg k-h
+On Wed, Apr 07, 2021 at 04:29:59PM +0800, tiantao (H) wrote:
 > 
-> I do not think so, I was able to build and load the driver with these
-> changes. It looks like this enum is used as a type of the state parameter of
-> ddk750_set_dpms function, but the three defined constants are never referenced. 
-> Should we get rid of dpms enum and change the type of the parameter to an unsigned integer?
+> 在 2021/4/7 16:22, Greg KH 写道:
+> > On Wed, Apr 07, 2021 at 02:50:03PM +0800, Tian Tao wrote:
+> > > disable_irq() after request_irq() still has a time gap in which
+> > > interrupts can come. request_irq() with IRQF_NO_AUTOEN flag will
+> > > disable IRQ auto-enable because of requesting.
+> > > 
+> > > this patch is made base on "add IRQF_NO_AUTOEN for request_irq" which
+> > > is being merged: https://lore.kernel.org/patchwork/patch/1388765/
+> > Can you wait until that is merged before sending this out to us as we
+> > can't do anything until then.
+> 
+> this is already in linux-next.git.
+> 
+> cbe16f3 genirq: Add IRQF_NO_AUTOEN for request_irq/nmi()
 
-If the enum is used, but the names are not used, that's not good and
-should be fixed up.
+That's great, but note that linux-next is a combined tree of all
+subsystem trees.  It's impossible for a subsystem tree to include
+linux-next :)
+
+So how about we wait until this gets into Linus's tree so that we do not
+all suddenly get problems in our individual subsystem trees.
 
 thanks,
 
