@@ -1,55 +1,87 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from lb3-smtp-cloud7.xs4all.net (lb3-smtp-cloud7.xs4all.net [194.109.24.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03E46D0E
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 15:23:14 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C0D77610CB;
-	Wed,  7 Apr 2021 15:23:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1617808994;
-	bh=LoDcrAeLj2cIGYDihQohQ8HAxhMR3ppOEnDlucGC+nw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IR/OmnxjYxWKxsZsrFBBY3m1M4fuZPZxTPPSVCY6T+5Zz8PTWOWvx1btgwKoiM82H
-	 DmyLyp7NZFbvsB2M++/fBm/uR/TmhawS1v3NbFxWmLbUSmAjsRT86WeabhwIxuBs1Q
-	 cj1WW7NtHOXzKfcM1NugImXcTN+FQQrS/T0XL9gY=
-Date: Wed, 7 Apr 2021 17:22:45 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: Jiri Slaby <jirislaby@kernel.org>, linux-staging@lists.linux.dev,
-	greybus-dev@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/16] tty: TIOCSSERIAL fixes and clean ups
-Message-ID: <YG3ORQcI5DRw7QL/@kroah.com>
-References: <20210407102334.32361-1-johan@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6537B6D0E
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 15:23:46 +0000 (UTC)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+	by smtp-cloud7.xs4all.net with ESMTPA
+	id UA1slSst3MxedUA1vlJ4En; Wed, 07 Apr 2021 17:23:44 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+	t=1617809024; bh=V835Zuis8g0KN1/PbqNJgIcK9rU9HnEL/KvW9G7jRkE=;
+	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+	 Subject;
+	b=iGiYshcSi8j52JDjPCDMafo1/Dg0F0ji/4LeUOzWHPmtqlW8abjTvhKV61DWK/4i7
+	 l6Yb0zFQ0dLJHlkm7jH3nVMS4+/FbW1BxCs9TPZGVrh27QEV54D5zqsQ2352feAp2P
+	 yh+zvYgFWI6Y4sYTj9TFaE6Cz8puuRV8jrnHzxy/Zw4HBUTxM2xMWkGrgr7wgSon2x
+	 hyfGbBm4hZZX744JKARmTcZZWLim+2OBQWltd1vNi9vDOQmph8CFe8GWhZ1+lu6XT8
+	 80aqYHNBkF57gQU6KD02QYyOhgNomfWfUCT+G9NuB5K6vUExIVultJ6i+0muyrNT6Q
+	 IpEozZ+lQjXMA==
+Subject: Re: [PATCH 2/2] staging: media: omap4iss: align arguments with open
+ parenthesis
+To: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>,
+ laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+ gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ outreachy-kernel@googlegroups.com
+References: <cover.1617287509.git.martinsdecarvalhobeatriz@gmail.com>
+ <475dbbe5774cbfed2d924807d8a3cfeb84b3d845.1617287509.git.martinsdecarvalhobeatriz@gmail.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <80d633de-180e-6b2c-e75b-7e32116a078e@xs4all.nl>
+Date: Wed, 7 Apr 2021 17:23:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210407102334.32361-1-johan@kernel.org>
+In-Reply-To: <475dbbe5774cbfed2d924807d8a3cfeb84b3d845.1617287509.git.martinsdecarvalhobeatriz@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfEwDytVfm5vNpNSS4TjLfMfSvUD9BZf125p9d/GxUwTj1wVtkk7Wog3PHClCRJhD3ywS0A/Lp3VKA9982nK6ZsH9LRf5T9sWWJdS77f47+ulwnFkyqo9
+ +9YtjnKVnKLbaXLQrk9mAQCi4RvWxD3nwb1LyWiDI75x3zIZkaH7z02JFBvukLVBr6Ar2Lgv9/A9eSudi2tlHwUULRWo0AV3EZ4TgU2dlLCmtaH3BsIzGCJl
+ +N5K8ylxFs3vV8SLmQ4t6pN+iYEuWib5unp6U8d5JYywzXbvJU+Qq/Bz/dlXF/HtdSxO2UWqcNAuPhaXz8+GaQh2jdXx9k8UBoI6QzlfhKmv4sRsnI/7JK5M
+ q/JXgMMJxE9KAsQuuqPt3TMQhUcQ7kpk+t1iaorEJRonxOLqZKz/qJStwd/zGG8S7OQGB1C+pFq/lgVDYFbccZrNYhvJQUYBhIzHH9UkSq2CEyMv3i+NB3xM
+ U3JulNUigFU0vzdg7KfjcFqauvEylvqDaTq0+Q==
 
-On Wed, Apr 07, 2021 at 12:23:18PM +0200, Johan Hovold wrote:
-> TIOCSSERIAL is a horrid, underspecified, legacy interface which for most
-> serial devices is only useful for setting the close_delay and
-> closing_wait parameters.
-> 
-> This series fixes up the various ways in which driver authors have
-> gotten the implementation wrong over the years, like, for example,
-> jiffies conversions, permissions checks and error handling.
-> 
-> The de-facto standard for error handling is to ignore any unsupported
-> features and immutable parameters (cf. UPF_FIXED_PORT and deprecated
-> ASYNC flags).
-> 
-> Permission checking should prevent an unprivileged user from changing
-> anything but the ASYNC_USR flags (and custom divisor) by returning
-> -EPERM.
-> 
-> These patches are against tty-next, but the staging ones could otherwise
-> go through either tree.
+Hi Beatriz,
 
-I've taken all of these through my tty tree, thanks for cleaning this
-mess up.
+On 01/04/2021 17:07, Beatriz Martins de Carvalho wrote:
+> Cleans up checks of "Alignment should match open parenthesis"
+> in iss.c:96.
 
-greg k-h
+Looks good. I'll take this patch.
+
+You can use this reference to record your contribution:
+
+https://patchwork.linuxtv.org/project/linux-media/patch/475dbbe5774cbfed2d924807d8a3cfeb84b3d845.1617287509.git.martinsdecarvalhobeatriz@gmail.com/
+
+The state will change to Accepted once it is merged in our media tree
+here: https://git.linuxtv.org/media_tree.git/log/
+
+Regards,
+
+	Hans
+
+> 
+> Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
+> ---
+>  drivers/staging/media/omap4iss/iss.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/omap4iss/iss.c b/drivers/staging/media/omap4iss/iss.c
+> index e8f724dbf810..472f1837632e 100644
+> --- a/drivers/staging/media/omap4iss/iss.c
+> +++ b/drivers/staging/media/omap4iss/iss.c
+> @@ -963,7 +963,7 @@ iss_register_subdev_group(struct iss_device *iss,
+>  		}
+>  
+>  		subdev = v4l2_i2c_new_subdev_board(&iss->v4l2_dev, adapter,
+> -				board_info->board_info, NULL);
+> +						   board_info->board_info, NULL);
+>  		if (!subdev) {
+>  			dev_err(iss->dev, "Unable to register subdev %s\n",
+>  				board_info->board_info->type);
+> 
+
