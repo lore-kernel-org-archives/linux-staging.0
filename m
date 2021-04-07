@@ -1,49 +1,49 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441C36D0E
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 06:46:11 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id y2so8841870plg.5
-        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 23:46:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BA606D0E
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 06:46:12 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id i4so317868pjk.1
+        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 23:46:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=87FzL2bfn+zBBigzd2S34Gvtwu79/Sjcc2/CQOxweQU=;
-        b=MubQ22CpAN1kkt6OD34w02Kt6gDd/Mo619issLItehETO7lPL1JJF/cs4ANeT1NBoU
-         f1VNBSl8/PphpLTFZ17sDZz6U5SaCnO3p5ERo4r/NdxT73FI+G8SVh+1ZgqynUpvKMiM
-         omnN9swULQHZ3Gxgvj4Hr0ti3PDqiGeRWtooNlVkVAgiZq5QxjWt2oRSQWGTngviELye
-         lZrMNG0yhvO9oJlsxa5i9Lta35mTEgR8EY72CODyNfXnnw82wE3tQvdtwjEtRCKz0NRJ
-         jAjT+H2Z0dDq/XbQH8EYEiG5MhO6qchB7G5aB0QD/aQ5t1FmAokqRVjPBYClqfgSETyQ
-         HRqQ==
+        bh=P81LnC6bDd+byVZVERPQ7nQWM5zWnQv6C3u8NNQHox4=;
+        b=E/aKNJo54FqShHJx/iEwNgesBoUWtnV4rV5+/FCKpMJ7OJWRkUUQztYa+6lP0vM4HS
+         zKerDwilw9VUXXz8iDH3TUbVw8wMRR/GK5x7FPh7LdAqqIxgtUc/KHQ/rPO9vss/t4df
+         NTv70Vvw4mGdRITOu486Th0VF+NeP6o9CvTqogQDw3b6OeckKrXVSWEjX3v6JH1RBifG
+         3HeXRR07Yge8lEERcWmOnxvt4+LlGoTUz+lph1VmE/s1kaTAvsAXymvk+w5s9xAJsuO8
+         ZH4rZyezP+3idDHV+KfN70q3ETKGWj0X1xwAknq2tTQ38zPeeN/OzSP1oNaI3EvIwq9t
+         aAPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=87FzL2bfn+zBBigzd2S34Gvtwu79/Sjcc2/CQOxweQU=;
-        b=WDaUd5DFDVsBnE+n+GK9UOP5QAUxFqnRa46mMCKBfA07bO6hP5AMLBHWntoRHz7rsj
-         Hni5ZsuSZdFKN44TnST/UPJ2bkpuYHvNFwrPmGFJ+GOyiCr5YkQ1jiGaGk5G22OyMZZe
-         g5ENhoYPJtR94uirbRoUnas+GGG4lc3yJGVo6YUqkCmpMMVTh983PCQzlWGLbCTB/Vwc
-         2SQsZQBl8dAaVgf3K0Y8R+0Z92LjriOvyulXnZu6vYrX3l+E1NsjwC84uuTJwAw2Lhaj
-         +VnWn2Nmg0sAT2kHZmw+rU6FihChKe5mDgUEgbTtatXKyLNVrG9X9xOy/YMPKLxUFwLv
-         BoVA==
-X-Gm-Message-State: AOAM533W4pNUC2gSc7+L4adneWOofEc3S51FmAvxvUEb9xRzwITCBh6A
-	E5lw56pJaqvMbHRIks3ioxI=
-X-Google-Smtp-Source: ABdhPJxJMLnMvlrNyuI8azlZ4zPLdcHtePAjBxO51e+ihrQaykciRMTvUL0wA7/2BJib4J2hEv5gzg==
-X-Received: by 2002:a17:90b:300a:: with SMTP id hg10mr1863313pjb.58.1617777970829;
-        Tue, 06 Apr 2021 23:46:10 -0700 (PDT)
+        bh=P81LnC6bDd+byVZVERPQ7nQWM5zWnQv6C3u8NNQHox4=;
+        b=WSW2b0CA1TVr9cEvDNskcPd0aSR7CMCIhr1RJmzwFP4eldLpIH943v4OGyLsSUE0CR
+         bQShxL1fmUDS+u4Aw8LsaCreFfr4+Ffqp7XbYW7rB8qoN7RxHx2WYH4Hi+b3EmsqZB4R
+         0te+t0dJ4t/A1ZxBcVf7ouu7KSuJ2p4+0uRuABw7m2FlWKF9qP9UlrSHzWhVeHC2b5PK
+         3eGHrT4KUUzvM2j8Ys06TvT9uTugVE5I9/a5r21VzDob/iKLOsVByZGNQI8NYtDRbrnu
+         tJKFDowWcILvafxLtQKKLZ4yUt+0xCZaAKBIKQ0s1ICXqPWX/vUz7eKVhGvFYQD9W0zp
+         Og/Q==
+X-Gm-Message-State: AOAM532ITsZsZYUAd6rmqIpb2Zui1zZzwugXs65NHrYl/CsR7S3z7xfI
+	MaAp+ErME7DSmvgBaoylXIZyhdlHwTXpXg==
+X-Google-Smtp-Source: ABdhPJw0j67aR86TwFg3HC6ld3mo9/Va/7UbZQl1JhC/sMn28GhNSjjCm7Jp7wz3P5JK3mLKugWfHQ==
+X-Received: by 2002:a17:902:7c88:b029:e6:f006:f8e5 with SMTP id y8-20020a1709027c88b02900e6f006f8e5mr1839101pll.1.1617777972094;
+        Tue, 06 Apr 2021 23:46:12 -0700 (PDT)
 Received: from localhost.localdomain ([134.173.248.5])
-        by smtp.gmail.com with ESMTPSA id l1sm10927658pgt.29.2021.04.06.23.46.10
+        by smtp.gmail.com with ESMTPSA id t19sm21243026pfg.38.2021.04.06.23.46.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Apr 2021 23:46:10 -0700 (PDT)
-Date: Tue, 6 Apr 2021 23:46:08 -0700
+        Tue, 06 Apr 2021 23:46:11 -0700 (PDT)
+Date: Tue, 6 Apr 2021 23:46:09 -0700
 From: Pavle Rohalj <pavle.rohalj@gmail.com>
 To: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
 	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 45/49] staging: sm750fb: Rename sii164_set_power function
- parameter
-Message-ID: <e84fb623b9b89051758fda1a21877b008b5439ae.1617776878.git.pavle.rohalj@gmail.com>
+Subject: [PATCH v2 46/49] staging: sm750fb: Rename local variable Bpp to bpp
+ in sm750.c
+Message-ID: <b51650f7eb9b8340b64b53f33ef1a062d5699142.1617776878.git.pavle.rohalj@gmail.com>
 References: <cover.1617776878.git.pavle.rohalj@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,27 +54,102 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1617776878.git.pavle.rohalj@gmail.com>
 
-Fix "Avoid CamelCase" checkpatch.pl checks for the function parameter
-powerUp.
+Fix "Avoid CamelCase" checkpatch.pl checks for the local variable
+Bpp in functions lynxfb_ops_fillrect and lynxfb_ops_copyarea.
 
 Signed-off-by: Pavle Rohalj <pavle.rohalj@gmail.com>
 ---
- drivers/staging/sm750fb/ddk750_sii164.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/sm750fb/sm750.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/ddk750_sii164.h b/drivers/staging/sm750fb/ddk750_sii164.h
-index ac1431dcb419..a414afbb719a 100644
---- a/drivers/staging/sm750fb/ddk750_sii164.h
-+++ b/drivers/staging/sm750fb/ddk750_sii164.h
-@@ -33,7 +33,7 @@ unsigned short sii164_get_device_id(void);
- #ifdef SII164_FULL_FUNCTIONS
- void sii164_reset_chip(void);
- char *sii164_get_chip_string(void);
--void sii164_set_power(unsigned char powerUp);
-+void sii164_set_power(unsigned char power_up);
- void sii164_enable_hot_plug_detection(unsigned char enable_hot_plug);
- unsigned char sii164_is_connected(void);
- unsigned char sii164_check_interrupt(void);
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 162eaf08db4c..937a44530fbf 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -162,7 +162,7 @@ static void lynxfb_ops_fillrect(struct fb_info *info,
+ {
+ 	struct lynxfb_par *par;
+ 	struct sm750_dev *sm750_dev;
+-	unsigned int base, pitch, Bpp, rop;
++	unsigned int base, pitch, bpp, rop;
+ 	u32 color;
+ 
+ 	if (info->state != FBINFO_STATE_RUNNING)
+@@ -177,9 +177,9 @@ static void lynxfb_ops_fillrect(struct fb_info *info,
+ 	 */
+ 	base = par->crtc.o_screen;
+ 	pitch = info->fix.line_length;
+-	Bpp = info->var.bits_per_pixel >> 3;
++	bpp = info->var.bits_per_pixel >> 3;
+ 
+-	color = (Bpp == 1) ? region->color :
++	color = (bpp == 1) ? region->color :
+ 		((u32 *)info->pseudo_palette)[region->color];
+ 	rop = (region->rop != ROP_COPY) ? HW_ROP2_XOR : HW_ROP2_COPY;
+ 
+@@ -192,7 +192,7 @@ static void lynxfb_ops_fillrect(struct fb_info *info,
+ 	spin_lock(&sm750_dev->slock);
+ 
+ 	sm750_dev->accel.de_fillrect(&sm750_dev->accel,
+-				     base, pitch, Bpp,
++				     base, pitch, bpp,
+ 				     region->dx, region->dy,
+ 				     region->width, region->height,
+ 				     color, rop);
+@@ -204,7 +204,7 @@ static void lynxfb_ops_copyarea(struct fb_info *info,
+ {
+ 	struct lynxfb_par *par;
+ 	struct sm750_dev *sm750_dev;
+-	unsigned int base, pitch, Bpp;
++	unsigned int base, pitch, bpp;
+ 
+ 	par = info->par;
+ 	sm750_dev = par->dev;
+@@ -215,7 +215,7 @@ static void lynxfb_ops_copyarea(struct fb_info *info,
+ 	 */
+ 	base = par->crtc.o_screen;
+ 	pitch = info->fix.line_length;
+-	Bpp = info->var.bits_per_pixel >> 3;
++	bpp = info->var.bits_per_pixel >> 3;
+ 
+ 	/*
+ 	 * If not use spin_lock, system will die if user load driver
+@@ -227,7 +227,7 @@ static void lynxfb_ops_copyarea(struct fb_info *info,
+ 
+ 	sm750_dev->accel.de_copyarea(&sm750_dev->accel,
+ 				     base, pitch, region->sx, region->sy,
+-				     base, pitch, Bpp, region->dx, region->dy,
++				     base, pitch, bpp, region->dx, region->dy,
+ 				     region->width, region->height,
+ 				     HW_ROP2_COPY);
+ 	spin_unlock(&sm750_dev->slock);
+@@ -236,7 +236,7 @@ static void lynxfb_ops_copyarea(struct fb_info *info,
+ static void lynxfb_ops_imageblit(struct fb_info *info,
+ 				 const struct fb_image *image)
+ {
+-	unsigned int base, pitch, Bpp;
++	unsigned int base, pitch, bpp;
+ 	unsigned int fgcol, bgcol;
+ 	struct lynxfb_par *par;
+ 	struct sm750_dev *sm750_dev;
+@@ -249,7 +249,7 @@ static void lynxfb_ops_imageblit(struct fb_info *info,
+ 	 */
+ 	base = par->crtc.o_screen;
+ 	pitch = info->fix.line_length;
+-	Bpp = info->var.bits_per_pixel >> 3;
++	bpp = info->var.bits_per_pixel >> 3;
+ 
+ 	/* TODO: Implement hardware acceleration for image->depth > 1 */
+ 	if (image->depth != 1) {
+@@ -276,7 +276,7 @@ static void lynxfb_ops_imageblit(struct fb_info *info,
+ 
+ 	sm750_dev->accel.de_imageblit(&sm750_dev->accel,
+ 				      image->data, image->width >> 3, 0,
+-				      base, pitch, Bpp,
++				      base, pitch, bpp,
+ 				      image->dx, image->dy,
+ 				      image->width, image->height,
+ 				      fgcol, bgcol, HW_ROP2_COPY);
 -- 
 2.30.2
 
