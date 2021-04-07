@@ -1,23 +1,23 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E395F6D11
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 10:23:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3BA3C6139C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3006D14
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 10:23:53 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8E294613CE;
 	Wed,  7 Apr 2021 10:23:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1617791030;
-	bh=CeKm6ipfL9Qlfx+2An5KVum6+4Qfn5PtcZDf+8XmBU0=;
+	bh=MYJodErwJtLvlMj+dEhMM1b5fX/LATb85PPnocm4wyw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NCpaqXin5Y4HXiCRsFp8/Te34bqn4cOyL7sioClnsfuVCMABQATTWQ8ZK2EXKIVmC
-	 vHPX/gxY/1KrJYdmgNuL10cq/PqyyMxGGX3RgLHSGPi48md7NHGlr0kjTzBHZNmI4P
-	 uUfVsLA5Tl/MJ6cR9izOOKkAVpz0Xw3/SDQGKvtLkyVvzE9R9jZmMvsQpjEnbz9Oyo
-	 Mb0YoNFt0VhI+gBpSj1x0YqE6hJhCyd5JXQlTzYnfKiydnRB9Igu9nks+N5GzxVWkb
-	 OFmdYFe26eTlg8njBFsx4w7wo31T+esVeX6r2WCDxQNjpm0ApMGjREC4YubTXMSrFt
-	 AAyo83pCnbQXw==
+	b=O4efwDEAhpfHDrmN60UfUPuq4iYI1mZya9IWdbrJsenM+uQHv3fllGVKxmxYQFBx3
+	 RJhoCnF3H8vLa0JgKL9zPbP2Mxlrg1mAYnT0lbd7cnNTIgbhqhF8YUNJaQ16Jdv+Sd
+	 fSggtQeOh0p8ExZwA2u4PE+5i8ovFV26mIo7ogEXAAj8tgwc/qqvx6eO3rC1dODU/7
+	 BjNHMw8eEh01C8kbV6gS2MIn4Zjhzr4CZXizuSUdDKrFNXMAIahFde2XWdWN4Q2SMl
+	 /imWhiRhQL2GJknhnG+EYpYyJlXKGrknNAFl7JXatHjJKM/pt9aQooP5R32DAKswkg
+	 aCzNFhs9/pFWA==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
 	(envelope-from <johan@kernel.org>)
-	id 1lU5La-0008R9-Uu; Wed, 07 Apr 2021 12:23:42 +0200
+	id 1lU5Lb-0008RQ-BN; Wed, 07 Apr 2021 12:23:43 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Jiri Slaby <jirislaby@kernel.org>,
@@ -25,9 +25,9 @@ Cc: Jiri Slaby <jirislaby@kernel.org>,
 	greybus-dev@lists.linaro.org,
 	linux-kernel@vger.kernel.org,
 	Johan Hovold <johan@kernel.org>
-Subject: [PATCH 04/16] staging: fwserial: fix TIOCGSERIAL implementation
-Date: Wed,  7 Apr 2021 12:23:22 +0200
-Message-Id: <20210407102334.32361-5-johan@kernel.org>
+Subject: [PATCH 09/16] tty: amiserial: add missing TIOCSSERIAL jiffies conversions
+Date: Wed,  7 Apr 2021 12:23:27 +0200
+Message-Id: <20210407102334.32361-10-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210407102334.32361-1-johan@kernel.org>
 References: <20210407102334.32361-1-johan@kernel.org>
@@ -38,52 +38,85 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-TIOCSSERIAL is a horrid, underspecified, legacy interface which for most
-serial devices is only useful for setting the close_delay and
-closing_wait parameters.
+The tty-port close_delay and closing_wait parameters set by TIOCSSERIAL
+are specified in jiffies, while the values returned by TIOCGSERIAL are
+specified in centiseconds.
 
-The xmit_fifo_size parameter could be used to set the hardware transmit
-fifo size of a legacy UART when it could not be detected, but the
-interface is limited to eight bits and should be left unset when not
-used.
+Add the missing conversions so that TIOCSSERIAL works as expected also
+if this code is ever reused on a system where HZ is not 100.
 
-Fix the fwserial implementation by dropping its custom interpretation of
-the unused xmit_fifo_size field, which was overflowed with the driver
-FIFO size. Also leave the type and flags fields unset as these cannot be
-changed.
-
-The close_delay and closing_wait parameters returned by TIOCGSERIAL are
-specified in centiseconds. The driver does not yet support changing
-closing_wait, but let's report back the default value actually used (30
-seconds).
-
-Fixes: 7355ba3445f2 ("staging: fwserial: Add TTY-over-Firewire serial driver")
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/staging/fwserial/fwserial.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/tty/amiserial.c | 26 +++++++++++++++++++-------
+ 1 file changed, 19 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/fwserial/fwserial.c b/drivers/staging/fwserial/fwserial.c
-index 2888b80a2c1a..0f4655d7d520 100644
---- a/drivers/staging/fwserial/fwserial.c
-+++ b/drivers/staging/fwserial/fwserial.c
-@@ -1218,13 +1218,12 @@ static int get_serial_info(struct tty_struct *tty,
- 	struct fwtty_port *port = tty->driver_data;
+diff --git a/drivers/tty/amiserial.c b/drivers/tty/amiserial.c
+index ec6802ba2bf8..ca48ce5a0862 100644
+--- a/drivers/tty/amiserial.c
++++ b/drivers/tty/amiserial.c
+@@ -937,15 +937,21 @@ static void rs_unthrottle(struct tty_struct * tty)
+ static int get_serial_info(struct tty_struct *tty, struct serial_struct *ss)
+ {
+ 	struct serial_state *state = tty->driver_data;
++	unsigned int close_delay, closing_wait;
  
- 	mutex_lock(&port->port.mutex);
--	ss->type =  PORT_UNKNOWN;
--	ss->line =  port->port.tty->index;
--	ss->flags = port->port.flags;
--	ss->xmit_fifo_size = FWTTY_PORT_TXFIFO_LEN;
-+	ss->line = port->index;
- 	ss->baud_base = 400000000;
- 	ss->close_delay = jiffies_to_msecs(port->port.close_delay) / 10;
-+	ss->closing_wait = 3000;
- 	mutex_unlock(&port->port.mutex);
+ 	tty_lock(tty);
++	close_delay = jiffies_to_msecs(state->tport.close_delay) / 10;
++	closing_wait = state->tport.closing_wait;
++	if (closing_wait != ASYNC_CLOSING_WAIT_NONE)
++		closing_wait = jiffies_to_msecs(closing_wait) / 10;
 +
+ 	ss->line = tty->index;
+ 	ss->port = state->port;
+ 	ss->flags = state->tport.flags;
+ 	ss->xmit_fifo_size = state->xmit_fifo_size;
+ 	ss->baud_base = state->baud_base;
+-	ss->close_delay = state->tport.close_delay;
+-	ss->closing_wait = state->tport.closing_wait;
++	ss->close_delay = close_delay;
++	ss->closing_wait = closing_wait;
+ 	ss->custom_divisor = state->custom_divisor;
+ 	tty_unlock(tty);
  	return 0;
- }
+@@ -957,6 +963,7 @@ static int set_serial_info(struct tty_struct *tty, struct serial_struct *ss)
+ 	struct tty_port *port = &state->tport;
+ 	bool change_spd;
+ 	int 			retval = 0;
++	unsigned int close_delay, closing_wait;
  
+ 	tty_lock(tty);
+ 	change_spd = ((ss->flags ^ port->flags) & ASYNC_SPD_MASK) ||
+@@ -966,11 +973,16 @@ static int set_serial_info(struct tty_struct *tty, struct serial_struct *ss)
+ 		tty_unlock(tty);
+ 		return -EINVAL;
+ 	}
+-  
++
++	close_delay = msecs_to_jiffies(ss->close_delay * 10);
++	closing_wait = ss->closing_wait;
++	if (closing_wait != ASYNC_CLOSING_WAIT_NONE)
++		closing_wait = msecs_to_jiffies(closing_wait * 10);
++
+ 	if (!serial_isroot()) {
+ 		if ((ss->baud_base != state->baud_base) ||
+-		    (ss->close_delay != port->close_delay) ||
+-		    (ss->closing_wait != port->closing_wait) ||
++		    (close_delay != port->close_delay) ||
++		    (closing_wait != port->closing_wait) ||
+ 		    (ss->xmit_fifo_size != state->xmit_fifo_size) ||
+ 		    ((ss->flags & ~ASYNC_USR_MASK) !=
+ 		     (port->flags & ~ASYNC_USR_MASK))) {
+@@ -997,8 +1009,8 @@ static int set_serial_info(struct tty_struct *tty, struct serial_struct *ss)
+ 	port->flags = ((port->flags & ~ASYNC_FLAGS) |
+ 			(ss->flags & ASYNC_FLAGS));
+ 	state->custom_divisor = ss->custom_divisor;
+-	port->close_delay = ss->close_delay * HZ/100;
+-	port->closing_wait = ss->closing_wait * HZ/100;
++	port->close_delay = close_delay;
++	port->closing_wait = closing_wait;
+ 
+ check_and_exit:
+ 	if (tty_port_initialized(port)) {
 -- 
 2.26.3
 
