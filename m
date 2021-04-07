@@ -1,12 +1,12 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 906906D0D
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 23:23:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F30D6D0D
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 23:24:17 +0000 (UTC)
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
 	(envelope-from <andrew@lunn.ch>)
-	id 1lUHWN-00FP3Y-Vc; Thu, 08 Apr 2021 01:23:39 +0200
-Date: Thu, 8 Apr 2021 01:23:39 +0200
+	id 1lUHWu-00FP4O-Ed; Thu, 08 Apr 2021 01:24:12 +0200
+Date: Thu, 8 Apr 2021 01:24:12 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: DENG Qingfang <dqfext@gmail.com>
 Cc: "David S. Miller" <davem@davemloft.net>,
@@ -28,10 +28,11 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	netdev@vger.kernel.org, Weijie Gao <weijie.gao@mediatek.com>,
 	Chuanhong Guo <gch981213@gmail.com>,
 	=?iso-8859-1?Q?Ren=E9?= van Dorst <opensource@vdorst.com>
-Subject: Re: [RFC v2 net-next 2/4] net: dsa: mt7530: add interrupt support
-Message-ID: <YG4++xTrYfifg7yA@lunn.ch>
+Subject: Re: [RFC v2 net-next 3/4] dt-bindings: net: dsa: add MT7530
+ interrupt controller binding
+Message-ID: <YG4/HAJeq8KFVaBM@lunn.ch>
 References: <20210407045038.1436843-1-dqfext@gmail.com>
- <20210407045038.1436843-3-dqfext@gmail.com>
+ <20210407045038.1436843-4-dqfext@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -39,25 +40,13 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210407045038.1436843-3-dqfext@gmail.com>
+In-Reply-To: <20210407045038.1436843-4-dqfext@gmail.com>
 
-On Wed, Apr 07, 2021 at 12:50:36PM +0800, DENG Qingfang wrote:
-> Add support for MT7530 interrupt controller to handle internal PHYs.
-> In order to assign an IRQ number to each PHY, the registration of MDIO bus
-> is also done in this driver.
+On Wed, Apr 07, 2021 at 12:50:37PM +0800, DENG Qingfang wrote:
+> Add device tree binding to support MT7530 interrupt controller.
 > 
 > Signed-off-by: DENG Qingfang <dqfext@gmail.com>
-> ---
-> RFC v1 -> RFC v2:
-> - Split MDIO and IRQ setup function
 
-Thanks for the split. It looks good.
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-> +/* Forward declaration */
-> +struct mt7530_priv;
-> +static int mt753x_phy_read(struct mii_bus *, int, int);
-> +static int mt753x_phy_write(struct mii_bus *, int, int, u16);
-
-It is better to move the functions to before mt7530_setup_mdio().
-
-   Andrew
+    Andrew
