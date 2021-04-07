@@ -1,122 +1,76 @@
-Received: from ssl.serverraum.org (ssl.serverraum.org [176.9.125.105])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3AD6D0E
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 16:10:38 +0000 (UTC)
-Received: from ssl.serverraum.org (web.serverraum.org [172.16.0.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ssl.serverraum.org (Postfix) with ESMTPSA id 18A9F22236;
-	Wed,  7 Apr 2021 18:10:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2016061301;
-	t=1617811836;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gjuAN9QqCnWD77UCettma95Ojaeyk86+8J2wmtLYYZo=;
-	b=i99BezLwmPOE6w4/hGL0FvjE3br7uwuw9VGO9aRg8uJTlzeGu8Ac4FIxGX9vOQ8oMVP/r/
-	vE3I00R508lGU6R1pfNebHfFNtH5wO92z1+kMGfRRoMcmLezfBux9iSvegup2fWrGU4qza
-	5flIWUW4ulzNHWTXNBqNWa8WPLM3Izs=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06F86D0E
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 16:12:08 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id y18so2472014wrn.6
+        for <linux-staging@lists.linux.dev>; Wed, 07 Apr 2021 09:12:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=aXJMkbHYuGwBccedw3JgWsefWKqhfd6TEzDaHSegUOk=;
+        b=R1KnRH95esdS9oJngTJiNZ2CatqOweuDjwG7YueIAq4yybD/VqsfZ7XUCxLdZdV6E4
+         EgCwKrBgJakPq7fABuDUdxThqaCjFwI+J0xkoC3TYzYF0De073O6zoat8QwcVZzCMG6l
+         Qw8yzziCKkwuhe3bq1f6I2Cs3c0VMl26WY5EnMT9BstwjrQsRMCGIYBPBUBljreJ9upE
+         +U8Fx16+sZxpq/7UNpd012yPcJ6kSHJAmeAnD+2CbXpGp1W8AqEsO8+HLlTNqXlp7Sk+
+         yHNusFxLGV27vhSQcfcjfAlr4WwAry0e/9qLEkAAk4i/6McwwdFrKKVjsuT0gGdZfdn/
+         laQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=aXJMkbHYuGwBccedw3JgWsefWKqhfd6TEzDaHSegUOk=;
+        b=X10ZMQ6rV8OEj38thU6CXEhwyi3zxFTazujgzpYEa9YB8HMiHnEilPJyZ1B1bOO8qH
+         cTHZVMWsfSLuzR9MBBI+KSS5oZ5J4pZxWbd6JrCCCuIPfGLpOJxDKZnm143hbBhT5gxf
+         YJc+REJKIhDK5iOH/aVOcmNJDkmObAoRcardM3BFqkxNR6GaOW18ah13LDArpHutib+k
+         t403ktUDvmk7pMjmG2nDHOb7b1zttqhbdmVCT0re3FqiEutWmcdF7gNqzAbms4wQzsq1
+         U7LokMnKnXt6Gv20rZ6dy5WwQWxCtbDJ+uguHtQwGZZ1Pm2hLHjhvj49BPA2hBRXL72X
+         xONg==
+X-Gm-Message-State: AOAM5307fNCsv33LU33lM5L5mAy0WgHSKHhX9sqo8JXS8IoU2hQaoA4T
+	rDZjTyQrLwXzEikx+aswY9c=
+X-Google-Smtp-Source: ABdhPJyGIvPG0ARpLbeJXdpIZSUFIA2iFlDIsg3HEkuSdEsupu8NtfeJLY9X5lt1/1vMEkYcg+Eedw==
+X-Received: by 2002:adf:d4cc:: with SMTP id w12mr5311147wrk.49.1617811927452;
+        Wed, 07 Apr 2021 09:12:07 -0700 (PDT)
+Received: from LEGION ([39.46.7.73])
+        by smtp.gmail.com with ESMTPSA id w7sm6211481wro.43.2021.04.07.09.12.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Apr 2021 09:12:07 -0700 (PDT)
+Date: Wed, 7 Apr 2021 21:12:02 +0500
+From: Muhammad Usama Anjum <musamaanjum@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+	open list <linux-kernel@vger.kernel.org>, hverkuil@xs4all.nl
+Cc: musamaanjum@gmail.com
+Subject: [PATCH] staging: axis-fifo: remove redundant dev_err call
+Message-ID: <20210407161202.GA1505056@LEGION>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Wed, 07 Apr 2021 18:10:30 +0200
-From: Michael Walle <michael@walle.cc>
-To: ath9k-devel@qca.qualcomm.com, UNGLinuxDriver@microchip.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-amlogic@lists.infradead.org,
- linux-oxnas@groups.io, linux-omap@vger.kernel.org,
- linux-wireless@vger.kernel.org, devicetree@vger.kernel.org,
- linux-staging@lists.linux.dev
-Cc: Andrew Lunn <andrew@lunn.ch>, Gregory Clement
- <gregory.clement@bootlin.com>, Sebastian Hesselbarth
- <sebastian.hesselbarth@gmail.com>, Russell King <linux@armlinux.org.uk>,
- Michael Ellerman <mpe@ellerman.id.au>, Benjamin Herrenschmidt
- <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, Andreas
- Larsson <andreas@gaisler.com>, "David S . Miller" <davem@davemloft.net>,
- Jakub Kicinski <kuba@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Joyce Ooi <joyce.ooi@intel.com>, Chris Snook <chris.snook@gmail.com>,
- =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>,
- bcm-kernel-feedback-list@broadcom.com, Florian Fainelli
- <f.fainelli@gmail.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, Claudiu
- Beznea <claudiu.beznea@microchip.com>, Sunil Goutham <sgoutham@marvell.com>,
- Fugang Duan <fugang.duan@nxp.com>, Madalin Bucur <madalin.bucur@nxp.com>,
- Pantelis Antoniou <pantelis.antoniou@gmail.com>, Claudiu Manoil
- <claudiu.manoil@nxp.com>, Li Yang <leoyang.li@nxp.com>, Yisen Zhuang
- <yisen.zhuang@huawei.com>, Salil Mehta <salil.mehta@huawei.com>, Hauke
- Mehrtens <hauke@hauke-m.de>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, Vadym Kochan <vkochan@marvell.com>, Taras
- Chornyi <tchornyi@marvell.com>, Mirko Lindner <mlindner@marvell.com>,
- Stephen Hemminger <stephen@networkplumber.org>, Felix Fietkau
- <nbd@nbd.name>, John Crispin <john@phrozen.org>, Sean Wang
- <sean.wang@mediatek.com>, Mark Lee <Mark-MC.Lee@mediatek.com>, Matthias
- Brugger <matthias.bgg@gmail.com>, Bryan Whitehead
- <bryan.whitehead@microchip.com>, Vladimir Zapolskiy <vz@mleia.com>, Sergei
- Shtylyov <sergei.shtylyov@gmail.com>, Byungho An <bh74.an@samsung.com>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Giuseppe Cavallaro
- <peppe.cavallaro@st.com>, Alexandre Torgue <alexandre.torgue@st.com>, Jose
- Abreu <joabreu@synopsys.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
- <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Kevin Hilman
- <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>, Jerome
- Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Vinod Koul <vkoul@kernel.org>,
- Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, Grygorii Strashko
- <grygorii.strashko@ti.com>, Wingman Kwok <w-kwok2@ti.com>, Murali Karicheri
- <m-karicheri2@ti.com>, Michal Simek <michal.simek@xilinx.com>, Radhey Shyam
- Pandey <radhey.shyam.pandey@xilinx.com>, Kalle Valo <kvalo@codeaurora.org>,
- Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>, Ryder Lee
- <ryder.lee@mediatek.com>, Stanislaw Gruszka <stf_xl@wp.pl>, Helmut Schaa
- <helmut.schaa@googlemail.com>, Heiner Kallweit <hkallweit1@gmail.com>, Rob
- Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?Q?J=C3=A9r=C3=B4me?=
- =?UTF-8?Q?_Pouiller?= <jerome.pouiller@silabs.com>, Vivien Didelot
- <vivien.didelot@gmail.com>, Vladimir Oltean <olteanv@gmail.com>
-Subject: Re: [PATCH net-next v3 1/2] of: net: pass the dst buffer to
- of_get_mac_address()
-In-Reply-To: <20210406220921.24313-2-michael@walle.cc>
-References: <20210406220921.24313-1-michael@walle.cc>
- <20210406220921.24313-2-michael@walle.cc>
-User-Agent: Roundcube Webmail/1.4.11
-Message-ID: <50f474611ecf0f5e61c9a14a24b28773@walle.cc>
-X-Sender: michael@walle.cc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Am 2021-04-07 00:09, schrieb Michael Walle:
-[..]
-> diff --git a/drivers/of/of_net.c b/drivers/of/of_net.c
-> index bc0a27de69d4..2d5d5e59aea5 100644
-> --- a/drivers/of/of_net.c
-> +++ b/drivers/of/of_net.c
-> @@ -45,42 +45,35 @@ int of_get_phy_mode(struct device_node *np,
-> phy_interface_t *interface)
->  }
->  EXPORT_SYMBOL_GPL(of_get_phy_mode);
-> 
-> -static const void *of_get_mac_addr(struct device_node *np, const char 
-> *name)
-> +static int of_get_mac_addr(struct device_node *np, const char *name, 
-> u8 *addr)
->  {
->  	struct property *pp = of_find_property(np, name, NULL);
-> 
-> -	if (pp && pp->length == ETH_ALEN && is_valid_ether_addr(pp->value))
-> -		return pp->value;
-> -	return NULL;
-> +	if (pp && pp->length == ETH_ALEN && is_valid_ether_addr(pp->value)) {
-> +		ether_addr_copy(addr, pp->value);
+devm_ioremap_resource() prints error message in itself. Remove the
+dev_err call to avoid redundant error message.
 
-Mh, I guess this should rather be memcpy(addr, pp->value, ETH_ALEN) 
-because
-ether_addr_copy() needs 2 byte aligned source and destination buffers.
+Signed-off-by: Muhammad Usama Anjum <musamaanjum@gmail.com>
+---
+ drivers/staging/axis-fifo/axis-fifo.c | 1 -
+ 1 file changed, 1 deletion(-)
 
--michael
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index 2bb1c2e9cb57..ed9281089738 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -853,7 +853,6 @@ static int axis_fifo_probe(struct platform_device *pdev)
+ 	fifo->base_addr = devm_ioremap_resource(fifo->dt_device, r_mem);
+ 	if (IS_ERR(fifo->base_addr)) {
+ 		rc = PTR_ERR(fifo->base_addr);
+-		dev_err(fifo->dt_device, "can't remap IO resource (%d)\n", rc);
+ 		goto err_initial;
+ 	}
+ 
+-- 
+2.25.1
+
