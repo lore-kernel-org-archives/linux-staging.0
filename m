@@ -1,49 +1,49 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D626D10
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 06:43:40 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id a6so5503937pls.1
-        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 23:43:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B6D6D11
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 06:43:41 +0000 (UTC)
+Received: by mail-pg1-f172.google.com with SMTP id h25so12297438pgm.3
+        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 23:43:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=sykweF1xow+67RG88cYdeLCD9JLGGBr6+VUxqXfVo3c=;
-        b=tMCGc6exiWT5/SzYX95SEtNEdMhsPtWabVZ7qpaIQtCMQr0dLxD+cl0mp09sOgtIiI
-         Ce+Hbm33MTfaJAWNV3q8V2n2GjOjww0lkrj5EeXUwHimuzbFmhiMaTXwQh9RFZYt0X2m
-         +BVu2C+sqHI/QygpybP359dH28as4BQ4P3zvHxwldYit7tZKFBk4UEH++ClZzfbJZZFl
-         7UzdMUioFXLYDD/O+qSVnY1OW93UCI8nFo79d43UpH1X4AkKp4K0qznpe18ugdDKGUfc
-         FPHIGN0+UI8fyu3r8gI5wtRhZ6TEqUj6Zb2A2CDUSOm+1BG4IEKz/s09ZiQQitcfZ1av
-         7Y8Q==
+        bh=7SRBX2zWlmG+Wnp7OjpNFHLRL6YKU9gaSLUgjStjeSA=;
+        b=AMYUtoZ2wZYY0gE9hzXqShCPRugVZ8z0VUJuJH69xXJaXI/FZ+5yIsOAHHhp/Xa8EG
+         nG060gKFAckyldI9nEBSQFRlUT5CBU5SN/CdLeGI3klVLm++zuw+TWeFGFhcsC4+J2Tr
+         YT6c2ZKmlY8a3+ecoahFAL7uMsLzRMzRR01xwgPZhBbBmxe56yV8/VeRhVyaLqGT7lDN
+         7dVox0XD/bmyyw1HFVvKsHHtMj11E4isqMso+4SBhUk2EItcxuSE0vnAEObsO8BNXkEO
+         wnG4SUBiLS1blPlV21YE0eSx40atF61ipiDIbZ5sqVgOW+UnA6x9Z1T2uG8dTOAw+OFR
+         yCug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=sykweF1xow+67RG88cYdeLCD9JLGGBr6+VUxqXfVo3c=;
-        b=tbTVEmKPXovwNo7qotq6VheJoFvlJLWTElTf6tvCeuZRijgvm3kEdkGIhBL2dJANNE
-         UVDymw7pAlyF+bWoW27VxlcvCOOAib/DF0L+8WClU27DZVNYDt3ltNhTYnQiMvUjZF8b
-         5ZrbkiMOFRAOZglP177f4f9lNVUUBdkaiJ4xlj0qO5uSCCFUiWDuZr7hqrOxuZDSZGkD
-         yDRiitDRfqJpVi9VktpncRot3LTte5aVrcRBY2ZPFaaKQbUk3ZO/UQftDidU/O1gyisb
-         u1zhGGY3Attqb57/GIU7jS3YmgfACzjAb26o4lCHhqplw2TEptSs6Gx9IfTejOAD+5in
-         EF0A==
-X-Gm-Message-State: AOAM5312JbVsdPFZWjr9CCfQtTyRbGTAxLgXcHBE+By++bPLCVwQvydo
-	51R3FABuXeWrrVbl+KLb+2U=
-X-Google-Smtp-Source: ABdhPJxBKfSQkEa2QkysRsUeMg9hiBbRFrLc9DHXYZggn8Gl9H0/Yjp+K7ab73tqIK60RcdNyb71mg==
-X-Received: by 2002:a17:90b:f93:: with SMTP id ft19mr1811479pjb.135.1617777820160;
+        bh=7SRBX2zWlmG+Wnp7OjpNFHLRL6YKU9gaSLUgjStjeSA=;
+        b=VhkvuP7pKiHSH7RQ5pGekxCqMVB/nxNUcpN71qRna+nX+Pu4jiepbxk66HDgbHN024
+         8+V/6DBkFQVAzfo75YrAPxMq62cTCDk881GvOCVwYYz1v9aEyRKJh3O0XU7x+Lbt5auP
+         E0sZ0NLldeiTIGSD8tRsLRwVzxdy+FOl/qCT4TPjc1tRkMFmR9En5Jl+J8PU8VX8p4wJ
+         1DbxcxaRwWKJo1mz5pQJl+adyq2RnYRhzxXVH43nV4Zwp103gemS2RIcgqG5o90E2xue
+         dLNTGzvfYOnDCqY9xk6G7vVsevY6tjmYEcTVOwLagHi6y5lCc8jPPCuPT/2oMRdo0GDJ
+         zEeg==
+X-Gm-Message-State: AOAM530KZxcC9fPy5iFEdiarUuWbjlzMMVQHoape/LKLXgc+koNaWwXn
+	m/kJTSTHrSA+NYTscsYdPwSyTkBv8jgiEg==
+X-Google-Smtp-Source: ABdhPJwqQmSR9ejO+2SH7wVFCu55gOSjGn+5iNaoES3fzICyJ7d5/kNX9xjU90SUtbPAmh/KqTV17g==
+X-Received: by 2002:a63:dd14:: with SMTP id t20mr1912847pgg.258.1617777820715;
         Tue, 06 Apr 2021 23:43:40 -0700 (PDT)
 Received: from localhost.localdomain ([134.173.248.5])
-        by smtp.gmail.com with ESMTPSA id e6sm13641235pgm.92.2021.04.06.23.43.39
+        by smtp.gmail.com with ESMTPSA id x2sm20604956pgb.89.2021.04.06.23.43.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Apr 2021 23:43:39 -0700 (PDT)
-Date: Tue, 6 Apr 2021 23:43:37 -0700
+        Tue, 06 Apr 2021 23:43:40 -0700 (PDT)
+Date: Tue, 6 Apr 2021 23:43:38 -0700
 From: Pavle Rohalj <pavle.rohalj@gmail.com>
 To: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
 	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 23/49] staging: sm750fb: Update local variables in
- sm750_hw_imageblit to snake case
-Message-ID: <8785050f4c2d4b9568689fec897aec03ca01da35.1617776878.git.pavle.rohalj@gmail.com>
+Subject: [PATCH v2 24/49] staging: sm750fb: Update local variable in
+ sm750_hw_fillrect to snake case
+Message-ID: <cd24d36b55d3bdb6121e86b8fb2112efbfdd3f89.1617776878.git.pavle.rohalj@gmail.com>
 References: <cover.1617776878.git.pavle.rohalj@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,62 +54,41 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1617776878.git.pavle.rohalj@gmail.com>
 
-Fix "Avoid CamelCase" checkpoint.pl checks for the local variables
-in the function sm750_hw_imageblit.
+Fix "Avoid CamelCase" checkpoint.pl checks for the local variable
+deCtrl in the function sm750_hw_fillrect.
 
 Signed-off-by: Pavle Rohalj <pavle.rohalj@gmail.com>
 ---
- drivers/staging/sm750fb/sm750_accel.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ drivers/staging/sm750fb/sm750_accel.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750fb/sm750_accel.c
-index 760dd036d71a..c840873e9622 100644
+index c840873e9622..1eeedacfc4a8 100644
 --- a/drivers/staging/sm750fb/sm750_accel.c
 +++ b/drivers/staging/sm750fb/sm750_accel.c
-@@ -319,17 +319,17 @@ int sm750_hw_imageblit(struct lynx_accel *accel, const char *src_buf,
- 		       u32 byte_per_pixel, u32 dx, u32 dy, u32 width,
- 		       u32 height, u32 fColor, u32 b_olor, u32 rop2)
+@@ -90,7 +90,7 @@ int sm750_hw_fillrect(struct lynx_accel *accel,
+ 		      u32 x, u32 y, u32 width, u32 height,
+ 		      u32 color, u32 rop)
  {
--	unsigned int ulBytesPerScan;
--	unsigned int ul4BytesPerScan;
--	unsigned int ulBytesRemain;
-+	unsigned int ul_bytes_per_scan;
-+	unsigned int ul4_bytes_per_scan;
-+	unsigned int ul_bytes_remain;
- 	unsigned int de_ctrl = 0;
--	unsigned char ajRemain[4];
-+	unsigned char aj_remain[4];
- 	int i, j;
+-	u32 deCtrl;
++	u32 de_ctrl;
  
- 	start_bit &= 7; /* Just make sure the start bit is within legal range */
--	ulBytesPerScan = (width + start_bit + 7) / 8;
--	ul4BytesPerScan = ulBytesPerScan & ~3;
--	ulBytesRemain = ulBytesPerScan & 3;
-+	ul_bytes_per_scan = (width + start_bit + 7) / 8;
-+	ul4_bytes_per_scan = ul_bytes_per_scan & ~3;
-+	ul_bytes_remain = ul_bytes_per_scan & 3;
+ 	if (accel->de_wait() != 0) {
+ 		/*
+@@ -122,11 +122,11 @@ int sm750_hw_fillrect(struct lynx_accel *accel,
+ 		  ((width << DE_DIMENSION_X_SHIFT) & DE_DIMENSION_X_MASK) |
+ 		  (height & DE_DIMENSION_Y_ET_MASK)); /* dpr8 */
  
- 	if (accel->de_wait() != 0)
- 		return -1;
-@@ -395,13 +395,13 @@ int sm750_hw_imageblit(struct lynx_accel *accel, const char *src_buf,
- 	/* Write MONO data (line by line) to 2D Engine data port */
- 	for (i = 0; i < height; i++) {
- 		/* For each line, send the data in chunks of 4 bytes */
--		for (j = 0; j < (ul4BytesPerScan / 4); j++)
-+		for (j = 0; j < (ul4_bytes_per_scan / 4); j++)
- 			write_dp_port(accel, *(unsigned int *)(src_buf + (j * 4)));
+-	deCtrl = DE_CONTROL_STATUS | DE_CONTROL_LAST_PIXEL |
++	de_ctrl = DE_CONTROL_STATUS | DE_CONTROL_LAST_PIXEL |
+ 		DE_CONTROL_COMMAND_RECTANGLE_FILL | DE_CONTROL_ROP_SELECT |
+ 		(rop & DE_CONTROL_ROP_MASK); /* dpr0xc */
  
--		if (ulBytesRemain) {
--			memcpy(ajRemain, src_buf + ul4BytesPerScan,
--			       ulBytesRemain);
--			write_dp_port(accel, *(unsigned int *)ajRemain);
-+		if (ul_bytes_remain) {
-+			memcpy(aj_remain, src_buf + ul4_bytes_per_scan,
-+			       ul_bytes_remain);
-+			write_dp_port(accel, *(unsigned int *)aj_remain);
- 		}
+-	write_dpr(accel, DE_CONTROL, deCtrl);
++	write_dpr(accel, DE_CONTROL, de_ctrl);
+ 	return 0;
+ }
  
- 		src_buf += src_delta;
 -- 
 2.30.2
 
