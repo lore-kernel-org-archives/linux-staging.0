@@ -1,309 +1,183 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB6F76D0E
-	for <linux-staging@lists.linux.dev>; Tue,  6 Apr 2021 23:15:21 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id 12so25222375lfq.13
-        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 16:15:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=5pkQa+A/3vvq9xfKOGYJ3q2RAzOOAi/VcGGX+q7kLaM=;
-        b=MsU2ypYIm96M1lDHBb2kyQlGtYzKB2+EkUX2xvmRupzB+ZMBfzKIWFaD37cPrlkmdX
-         8bh2Rr19ybpTcoUyGWvAHpmG/+omnXaxlAjzYqIPZssGoWk5KK8m2NVxVtaihHIFvAW7
-         BLESsXgIfTanW8+dnB931ZaMlvAGFRliaJfUvq1Iz1MLnXDJLS/rHW1W0DiqzpfVstFE
-         eRKYkJVarJt7dNe1cVf2W4sFxu+oEwqT1oyBPQ3emuRknVjVZAHQ2Un9/c4Wmjq41LGB
-         +T6KG/P3VgHkP2rUpjzDNCZnNJQwiZz71N3ZyiWBiSjL8RF1FFv/BiN0fggWxld33kpx
-         NBpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=5pkQa+A/3vvq9xfKOGYJ3q2RAzOOAi/VcGGX+q7kLaM=;
-        b=BQfZc8K61HYPZ/U+0QPUAryKZpgqKQtJk1p9Ha7G/ppAqOjXPZYVYQS18nsPmcI19f
-         G8k1FaZU4TP4D1YhF4Zk0FGr2IUtRorqduAga7C4M80owftxkG3UbWsJjhKsNd+0Cij7
-         5EHOjuPF3Jr8ZcgOAzntYrAqxh9MotLbc7bdEayzuKhkBY+tfPVIxOUEkfjV1P2cj8if
-         +fqo4z7EcxMA0jnYMbcQVNi4R8Zt1dKJR/+AYxAUsablCuoq1OkMDSUsLnxJOIUKmPld
-         XgOj0TaHgheT+INDi8D90I7PhtrP2owIv6+UQ6s9GUui/ChE14iww1eM2M+7PZPHB8bd
-         Mj7g==
-X-Gm-Message-State: AOAM533j5c2tnqh4Yysgz478YhcbBvYgIjAfx7R8BuAsJjBdkqOOP7vX
-	ToJ3jXnrWxd9aAwj+r2EHuU=
-X-Google-Smtp-Source: ABdhPJyLrn4XSp1drEpJbRw1apLx7m/8GlGLpuoM0WYW7MJ2TNaXbGVh2QaH7cgvsI+yIPzj1tyNIg==
-X-Received: by 2002:a05:6512:3741:: with SMTP id a1mr384023lfs.121.1617750919878;
-        Tue, 06 Apr 2021 16:15:19 -0700 (PDT)
-Received: from test-VirtualBox ([87.116.183.186])
-        by smtp.gmail.com with ESMTPSA id j15sm2284211lfm.138.2021.04.06.16.15.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Apr 2021 16:15:19 -0700 (PDT)
-Date: Wed, 7 Apr 2021 01:15:17 +0200
-From: Sergei Krainov <sergei.krainov.lkd@gmail.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: [PATCH] staging: rtl8712: avoid multiple line dereference
-Message-ID: <20210406231517.GA30925@test-VirtualBox>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D36B6D0D
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 01:13:29 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 80B97613A7
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 01:13:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1617758008;
+	bh=4wmgtd3m+Ta1X4jkV88q8R8S6J8R9xiITuF0Yr6xVvE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=pRLlQVTSNNqQq6FWgIz2B7IVJb0WD4DcmH/q1OoNuEMrYaWQrNUQZE+TGHQqvO7uZ
+	 0sbEWPuyB8HyaAmOyOmuJUzxCmp1p115y8GLeeHMULg8c7AuvfXjx5Z564IDbK8lJq
+	 gmbN4+vm5P6n1CiJ0TfpP9EWDKvzUd31Ix6pvdON87LVzboxcqirc6EFlZYA+M4j8G
+	 jHfCtKJ3iJFDoh1b09Poyvm8SAkLWUaz66KIw278EYEG9sTTsgo5EgmZQ4PmQnu3Wd
+	 /7t4s6bK6dnu7hbZeox3JOJGIH6WZmQ5XIo2AS7KlPr83ACsPhjvDPLHQqqdmOaGvc
+	 LBaAPBKO1awEA==
+Received: by mail-ej1-f45.google.com with SMTP id s21so93468eju.8
+        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 18:13:28 -0700 (PDT)
+X-Gm-Message-State: AOAM531EUFXvh0kfg6uW4FqveHVmbrfNoCwVQ3pjZNXlj9E1iu1X+9WJ
+	BBIJNq/1Ie7npJ394tsHsVh3xeavDX5iQRFihA==
+X-Google-Smtp-Source: ABdhPJzl6RD27BOpLC9b+ksVgecIqSPzz04cn67QiZn3u6NF8pL8OvwlE6sLhJddWpFdEonXi5GuOvvWMqx7AYRmDLw=
+X-Received: by 2002:a17:906:1984:: with SMTP id g4mr847605ejd.525.1617758006930;
+ Tue, 06 Apr 2021 18:13:26 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20210405164643.21130-1-michael@walle.cc> <20210405164643.21130-3-michael@walle.cc>
+In-Reply-To: <20210405164643.21130-3-michael@walle.cc>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Tue, 6 Apr 2021 20:13:15 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKbxY5sCJ_8F7iF0hFr52cwRsSc2bu48H7cqcNeWytDpA@mail.gmail.com>
+Message-ID: <CAL_JsqKbxY5sCJ_8F7iF0hFr52cwRsSc2bu48H7cqcNeWytDpA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] of: net: fix of_get_mac_addr_nvmem() for PCI and DSA nodes
+To: Michael Walle <michael@walle.cc>
+Cc: QCA ath9k Development <ath9k-devel@qca.qualcomm.com>, 
+	Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, 
+	netdev <netdev@vger.kernel.org>, 
+	"moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, 
+	"open list:MEDIA DRIVERS FOR RENESAS - FCP" <linux-renesas-soc@vger.kernel.org>, 
+	"moderated list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>, 
+	"open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>, linux-oxnas@groups.io, 
+	linux-omap <linux-omap@vger.kernel.org>, 
+	linux-wireless <linux-wireless@vger.kernel.org>, devicetree@vger.kernel.org, 
+	linux-staging@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>, 
+	Gregory Clement <gregory.clement@bootlin.com>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
+	Paul Mackerras <paulus@samba.org>, Andreas Larsson <andreas@gaisler.com>, 
+	"David S . Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@siol.net>, Joyce Ooi <joyce.ooi@intel.com>, 
+	Chris Snook <chris.snook@gmail.com>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
+	"maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE" <bcm-kernel-feedback-list@broadcom.com>, 
+	Florian Fainelli <f.fainelli@gmail.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Claudiu Beznea <claudiu.beznea@microchip.com>, Sunil Goutham <sgoutham@marvell.com>, 
+	Fugang Duan <fugang.duan@nxp.com>, Madalin Bucur <madalin.bucur@nxp.com>, 
+	Pantelis Antoniou <pantelis.antoniou@gmail.com>, Claudiu Manoil <claudiu.manoil@nxp.com>, 
+	Li Yang <leoyang.li@nxp.com>, Yisen Zhuang <yisen.zhuang@huawei.com>, 
+	Salil Mehta <salil.mehta@huawei.com>, Hauke Mehrtens <hauke@hauke-m.de>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Vadym Kochan <vkochan@marvell.com>, 
+	Taras Chornyi <tchornyi@marvell.com>, Mirko Lindner <mlindner@marvell.com>, 
+	Stephen Hemminger <stephen@networkplumber.org>, Felix Fietkau <nbd@nbd.name>, 
+	John Crispin <john@phrozen.org>, Sean Wang <sean.wang@mediatek.com>, 
+	Mark Lee <Mark-MC.Lee@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Bryan Whitehead <bryan.whitehead@microchip.com>, Vladimir Zapolskiy <vz@mleia.com>, 
+	Sergei Shtylyov <sergei.shtylyov@gmail.com>, Byungho An <bh74.an@samsung.com>, 
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>, Alexandre Torgue <alexandre.torgue@st.com>, 
+	Jose Abreu <joabreu@synopsys.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	NXP Linux Team <linux-imx@nxp.com>, Kevin Hilman <khilman@baylibre.com>, 
+	Neil Armstrong <narmstrong@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Vinod Koul <vkoul@kernel.org>, 
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, 
+	Grygorii Strashko <grygorii.strashko@ti.com>, Wingman Kwok <w-kwok2@ti.com>, 
+	Murali Karicheri <m-karicheri2@ti.com>, Michal Simek <michal.simek@xilinx.com>, 
+	Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>, Kalle Valo <kvalo@codeaurora.org>, 
+	Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>, Ryder Lee <ryder.lee@mediatek.com>, 
+	Stanislaw Gruszka <stf_xl@wp.pl>, Helmut Schaa <helmut.schaa@googlemail.com>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Frank Rowand <frowand.list@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	=?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?= <jerome.pouiller@silabs.com>, 
+	Vivien Didelot <vivien.didelot@gmail.com>, Vladimir Oltean <olteanv@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-fix post-commit hook checkpatch issues:
+On Mon, Apr 5, 2021 at 11:47 AM Michael Walle <michael@walle.cc> wrote:
+>
+> of_get_mac_address() already supports fetching the MAC address by an
+> nvmem provider. But until now, it was just working for platform devices.
+> Esp. it was not working for DSA ports and PCI devices. It gets more
+> common that PCI devices have a device tree binding since SoCs contain
+> integrated root complexes.
+>
+> Use the nvmem of_* binding to fetch the nvmem cells by a struct
+> device_node. We still have to try to read the cell by device first
+> because there might be a nvmem_cell_lookup associated with that device.
+>
+> Signed-off-by: Michael Walle <michael@walle.cc>
+> ---
+> Please note, that I've kept the nvmem_get_mac_address() which operates
+> on a device. The new of_get_mac_addr_nvmem() is almost identical and
+> there are no users of the former function right now, but it seems to be
+> the "newer" version to get the MAC address for a "struct device". Thus
+> I've kept it. Please advise, if I should kill it though.
 
-WARNING: Avoid multiple line dereference - prefer 'adapter->mlmepriv.cur_network.network.InfrastructureMode'
-+			adapter->mlmepriv.cur_network.network.
-+			InfrastructureMode)
+It seems kind of backwards from how we normally design this type of
+API where the API with a struct device will call a firmware specific
+version if there's a firmware handle. But certainly, I don't think we
+should be operating on platform device if we can help it.
 
-WARNING: Avoid multiple line dereference - prefer 'adapter->registrypriv.dev_network.MacAddress'
-+						 adapter->registrypriv.
-+							dev_network.MacAddress;
-
-WARNING: Avoid multiple line dereference - prefer 'pnetwork->network.Configuration.FHConfig.DwellTime'
-+		 le32_to_cpu(pnetwork->network.Configuration.FHConfig.
-+			     DwellTime);
-
-WARNING: Avoid multiple line dereference - prefer 'pnetwork->network.Configuration.FHConfig.HopPattern'
-+		 le32_to_cpu(pnetwork->network.Configuration.
-+			     FHConfig.HopPattern);
-
-WARNING: Avoid multiple line dereference - prefer 'pmlmepriv->scanned_queue'
-+					    r8712_find_network(&pmlmepriv->
-+					    scanned_queue,
-
-WARNING: Avoid multiple line dereference - prefer 'pmlmepriv->scanned_queue'
-+					     r8712_find_network(&pmlmepriv->
-+					     scanned_queue,
-
-WARNING: Avoid multiple line dereference - prefer 'pstapriv->sta_hash_lock'
-+					spin_lock_irqsave(&pstapriv->
-+						sta_hash_lock, irqL2);
-
-WARNING: Avoid multiple line dereference - prefer 'pstapriv->sta_hash_lock'
-+					spin_unlock_irqrestore(&(pstapriv->
-+						sta_hash_lock), irqL2);
-
-WARNING: Avoid multiple line dereference - prefer 'pmlmepriv->scanned_queue'
-+						 r8712_find_network(&pmlmepriv->
-+						 scanned_queue,
-
-WARNING: Avoid multiple line dereference - prefer 'pnetwork->network.MacAddress'
-+						 pnetwork->network.
-+						 MacAddress);
-
-WARNING: Avoid multiple line dereference - prefer 'pmlmepriv->scanned_queue'
-+				ptarget_wlan = r8712_find_network(&pmlmepriv->
-+						scanned_queue,
-
-WARNING: Avoid multiple line dereference - prefer 'adapter->securitypriv.AuthAlgrthm'
-+					if (adapter->securitypriv.
-+					    AuthAlgrthm == 2) {
-
-WARNING: Avoid multiple line dereference - prefer 'adapter->securitypriv.binstallGrpkey'
-+						adapter->securitypriv.
-+							binstallGrpkey =
-
-WARNING: Avoid multiple line dereference - prefer 'adapter->securitypriv.busetkipkey'
-+						adapter->securitypriv.
-+							busetkipkey =
-
-WARNING: Avoid multiple line dereference - prefer 'adapter->securitypriv.bgrpkey_handshake'
-+						adapter->securitypriv.
-+							bgrpkey_handshake =
-
-WARNING: Avoid multiple line dereference - prefer 'adapter->securitypriv.PrivacyAlgrthm'
-+							 adapter->securitypriv.
-+							 PrivacyAlgrthm;
-
-WARNING: Avoid multiple line dereference - prefer 'ptarget_sta->x_UncstKey'
-+						memset((u8 *)&ptarget_sta->
-+							 x_UncstKey,
-
-WARNING: Avoid multiple line dereference - prefer 'ptarget_sta->tkiprxmickey'
-+						memset((u8 *)&ptarget_sta->
-+							 tkiprxmickey,
-
-WARNING: Avoid multiple line dereference - prefer 'ptarget_sta->tkiptxmickey'
-+						memset((u8 *)&ptarget_sta->
-+							 tkiptxmickey,
-
-WARNING: Avoid multiple line dereference - prefer 'ptarget_sta->txpn'
-+						memset((u8 *)&ptarget_sta->
-+							 txpn, 0,
-
-WARNING: Avoid multiple line dereference - prefer 'ptarget_sta->rxpn'
-+						memset((u8 *)&ptarget_sta->
-+							 rxpn, 0,
-
-WARNING: Avoid multiple line dereference - prefer 'tgt_network->network'
-+				r8712_get_wlan_bssid_ex_sz(&tgt_network->
-+							network));
-
-WARNING: Avoid multiple line dereference - prefer 'pmlmepriv->cur_network.network'
-+					if (is_same_network(&pmlmepriv->
-+					    cur_network.network,
-
-Signed-off-by: Sergei Krainov <sergei.krainov.lkd@gmail.com>
----
- drivers/staging/rtl8712/rtl871x_mlme.c | 73 +++++++++-----------------
- 1 file changed, 25 insertions(+), 48 deletions(-)
-
-diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
-index 8a97307fbbd6..26acb4069d3d 100644
---- a/drivers/staging/rtl8712/rtl871x_mlme.c
-+++ b/drivers/staging/rtl8712/rtl871x_mlme.c
-@@ -431,8 +431,7 @@ static int is_desired_network(struct _adapter *adapter,
- 		bselected = false;
- 	if (check_fwstate(&adapter->mlmepriv, WIFI_ADHOC_STATE)) {
- 		if (pnetwork->network.InfrastructureMode !=
--			adapter->mlmepriv.cur_network.network.
--			InfrastructureMode)
-+			adapter->mlmepriv.cur_network.network.InfrastructureMode)
- 			bselected = false;
- 	}
- 	return bselected;
-@@ -539,8 +538,7 @@ void r8712_surveydone_event_callback(struct _adapter *adapter, u8 *pbuf)
- 					struct wlan_bssid_ex *pdev_network =
- 					  &(adapter->registrypriv.dev_network);
- 					u8 *pibss =
--						 adapter->registrypriv.
--							dev_network.MacAddress;
-+						 adapter->registrypriv.dev_network.MacAddress;
- 					pmlmepriv->fw_state ^= _FW_UNDER_SURVEY;
- 					memcpy(&pdev_network->Ssid,
- 						&pmlmepriv->assoc_ssid,
-@@ -688,11 +686,9 @@ void r8712_joinbss_event_callback(struct _adapter *adapter, u8 *pbuf)
- 	pnetwork->network.Configuration.DSConfig =
- 		 le32_to_cpu(pnetwork->network.Configuration.DSConfig);
- 	pnetwork->network.Configuration.FHConfig.DwellTime =
--		 le32_to_cpu(pnetwork->network.Configuration.FHConfig.
--			     DwellTime);
-+		 le32_to_cpu(pnetwork->network.Configuration.FHConfig.DwellTime);
- 	pnetwork->network.Configuration.FHConfig.HopPattern =
--		 le32_to_cpu(pnetwork->network.Configuration.
--			     FHConfig.HopPattern);
-+		 le32_to_cpu(pnetwork->network.Configuration.FHConfig.HopPattern);
- 	pnetwork->network.Configuration.FHConfig.HopSet =
- 		 le32_to_cpu(pnetwork->network.Configuration.FHConfig.HopSet);
- 	pnetwork->network.Configuration.FHConfig.Length =
-@@ -717,36 +713,29 @@ void r8712_joinbss_event_callback(struct _adapter *adapter, u8 *pbuf)
- 			if (check_fwstate(pmlmepriv, _FW_LINKED)) {
- 				if (the_same_macaddr) {
- 					ptarget_wlan =
--					    r8712_find_network(&pmlmepriv->
--					    scanned_queue,
-+					    r8712_find_network(&pmlmepriv->scanned_queue,
- 					    cur_network->network.MacAddress);
- 				} else {
- 					pcur_wlan =
--					     r8712_find_network(&pmlmepriv->
--					     scanned_queue,
-+					     r8712_find_network(&pmlmepriv->scanned_queue,
- 					     cur_network->network.MacAddress);
- 					if (pcur_wlan)
- 						pcur_wlan->fixed = false;
- 
- 					pcur_sta = r8712_get_stainfo(pstapriv,
- 					     cur_network->network.MacAddress);
--					spin_lock_irqsave(&pstapriv->
--						sta_hash_lock, irqL2);
-+					spin_lock_irqsave(&pstapriv->sta_hash_lock, irqL2);
- 					r8712_free_stainfo(adapter, pcur_sta);
--					spin_unlock_irqrestore(&(pstapriv->
--						sta_hash_lock), irqL2);
-+					spin_unlock_irqrestore(&(pstapriv->sta_hash_lock), irqL2);
- 
- 					ptarget_wlan =
--						 r8712_find_network(&pmlmepriv->
--						 scanned_queue,
--						 pnetwork->network.
--						 MacAddress);
-+						 r8712_find_network(&pmlmepriv->scanned_queue,
-+						 pnetwork->network.MacAddress);
- 					if (ptarget_wlan)
- 						ptarget_wlan->fixed = true;
- 				}
- 			} else {
--				ptarget_wlan = r8712_find_network(&pmlmepriv->
--						scanned_queue,
-+				ptarget_wlan = r8712_find_network(&pmlmepriv->scanned_queue,
- 						pnetwork->network.MacAddress);
- 				if (ptarget_wlan)
- 					ptarget_wlan->fixed = true;
-@@ -779,39 +768,29 @@ void r8712_joinbss_event_callback(struct _adapter *adapter, u8 *pbuf)
- 					ptarget_sta->aid = pnetwork->join_res;
- 					ptarget_sta->qos_option = 1;
- 					ptarget_sta->mac_id = 5;
--					if (adapter->securitypriv.
--					    AuthAlgrthm == 2) {
--						adapter->securitypriv.
--							binstallGrpkey =
-+					if (adapter->securitypriv.AuthAlgrthm == 2) {
-+						adapter->securitypriv.binstallGrpkey =
- 							 false;
--						adapter->securitypriv.
--							busetkipkey =
-+						adapter->securitypriv.busetkipkey =
- 							 false;
--						adapter->securitypriv.
--							bgrpkey_handshake =
-+						adapter->securitypriv.bgrpkey_handshake =
- 							 false;
--						ptarget_sta->ieee8021x_blocked
--							 = true;
-+						ptarget_sta->ieee8021x_blocked =
-+							 true;
- 						ptarget_sta->XPrivacy =
--							 adapter->securitypriv.
--							 PrivacyAlgrthm;
--						memset((u8 *)&ptarget_sta->
--							 x_UncstKey,
-+							 adapter->securitypriv.PrivacyAlgrthm;
-+						memset((u8 *)&ptarget_sta->x_UncstKey,
- 							 0,
- 							 sizeof(union Keytype));
--						memset((u8 *)&ptarget_sta->
--							 tkiprxmickey,
-+						memset((u8 *)&ptarget_sta->tkiprxmickey,
- 							 0,
- 							 sizeof(union Keytype));
--						memset((u8 *)&ptarget_sta->
--							 tkiptxmickey,
-+						memset((u8 *)&ptarget_sta->tkiptxmickey,
- 							 0,
- 							 sizeof(union Keytype));
--						memset((u8 *)&ptarget_sta->
--							 txpn, 0,
-+						memset((u8 *)&ptarget_sta->txpn, 0,
- 							 sizeof(union pn48));
--						memset((u8 *)&ptarget_sta->
--							 rxpn, 0,
-+						memset((u8 *)&ptarget_sta->rxpn, 0,
- 							 sizeof(union pn48));
- 					}
- 				} else {
-@@ -942,8 +921,7 @@ void r8712_stadel_event_callback(struct _adapter *adapter, u8 *pbuf)
- 			pdev_network = &(adapter->registrypriv.dev_network);
- 			pibss = adapter->registrypriv.dev_network.MacAddress;
- 			memcpy(pdev_network, &tgt_network->network,
--				r8712_get_wlan_bssid_ex_sz(&tgt_network->
--							network));
-+				r8712_get_wlan_bssid_ex_sz(&tgt_network->network));
- 			memcpy(&pdev_network->Ssid,
- 				&pmlmepriv->assoc_ssid,
- 				sizeof(struct ndis_802_11_ssid));
-@@ -1092,8 +1070,7 @@ int r8712_select_and_join_from_scan(struct mlme_priv *pmlmepriv)
- 			src_ssid = pmlmepriv->assoc_bssid;
- 			if (!memcmp(dst_ssid, src_ssid, ETH_ALEN)) {
- 				if (check_fwstate(pmlmepriv, _FW_LINKED)) {
--					if (is_same_network(&pmlmepriv->
--					    cur_network.network,
-+					if (is_same_network(&pmlmepriv->cur_network.network,
- 					    &pnetwork->network)) {
- 						_clr_fwstate_(pmlmepriv,
- 							_FW_UNDER_LINKING);
--- 
-2.25.1
-
+>  drivers/of/of_net.c | 37 +++++++++++++++++++++++++++++++------
+>  1 file changed, 31 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/of/of_net.c b/drivers/of/of_net.c
+> index 2344ad7fff5e..2323c6063eaf 100644
+> --- a/drivers/of/of_net.c
+> +++ b/drivers/of/of_net.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/phy.h>
+>  #include <linux/export.h>
+>  #include <linux/device.h>
+> +#include <linux/nvmem-consumer.h>
+>
+>  /**
+>   * of_get_phy_mode - Get phy mode for given device_node
+> @@ -56,18 +57,42 @@ static int of_get_mac_addr(struct device_node *np, const char *name, u8 *addr)
+>         return -ENODEV;
+>  }
+>
+> -static int of_get_mac_addr_nvmem(struct device_node *np, u8 addr)
+> +static int of_get_mac_addr_nvmem(struct device_node *np, u8 *addr)
+>  {
+>         struct platform_device *pdev = of_find_device_by_node(np);
+> +       struct nvmem_cell *cell;
+> +       const void *mac;
+> +       size_t len;
+>         int ret;
+>
+> -       if (!pdev)
+> -               return -ENODEV;
+> +       /* Try lookup by device first, there might be a nvmem_cell_lookup
+> +        * associated with a given device.
+> +        */
+> +       if (pdev) {
+> +               ret = nvmem_get_mac_address(&pdev->dev, addr);
+> +               put_device(&pdev->dev);
+> +               return ret;
+> +       }
+> +
+> +       cell = of_nvmem_cell_get(np, "mac-address");
+> +       if (IS_ERR(cell))
+> +               return PTR_ERR(cell);
+> +
+> +       mac = nvmem_cell_read(cell, &len);
+> +       nvmem_cell_put(cell);
+> +
+> +       if (IS_ERR(mac))
+> +               return PTR_ERR(mac);
+> +
+> +       if (len != ETH_ALEN || !is_valid_ether_addr(mac)) {
+> +               kfree(mac);
+> +               return -EINVAL;
+> +       }
+>
+> -       ret = nvmem_get_mac_address(&pdev->dev, addr);
+> -       put_device(&pdev->dev);
+> +       ether_addr_copy(addr, mac);
+> +       kfree(mac);
+>
+> -       return ret;
+> +       return 0;
+>  }
+>
+>  /**
+> --
+> 2.20.1
+>
