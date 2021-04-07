@@ -1,50 +1,52 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F4470
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 13:49:54 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id i18so14617908wrm.5
-        for <linux-staging@lists.linux.dev>; Wed, 07 Apr 2021 06:49:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9F576D11
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 13:49:55 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id b133-20020a1c678b0000b02901231346381dso1209017wmc.0
+        for <linux-staging@lists.linux.dev>; Wed, 07 Apr 2021 06:49:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SLDZxUjEmd8H03UIAZwbOELnb4PvWVwu2cigZdBcIQ8=;
-        b=CXISKQLewVQGInvpUf/mMnS6BvtM4/uF7pOgJL2g+njL6Xae6CHqy5iA9RjmdC/H0Q
-         WO1FhlHnQtNnlb/G+vsgDZQ3cCzW2fqokFURv4OszU6qhx6Kwnuwk/eRJqWApy6yc72b
-         YbR7F1vVSWiWSB7qj3v4mK3uNUJnsO4SjTyF5cjePv+Z8OFK/PYv1Cz0fBptaYxJvnVs
-         vOXFrB/VV8WPEIR54PpyR24m2cmCru93VVAkNZnIsuTqfvx+uw03kn/zZklBnIcxHwZQ
-         GSvnaCJJWZ+cOzGocef16EqMPwLKKLPb9P+vNcQaCPFX01oR8hdB2YG4rDOXgLOMJQC/
-         8K/g==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=dkjimhjDd9u/y2YdPJ4t6EDrMe97yh+nEoGhNNKYzQA=;
+        b=dYwi0ietfEob54IKIQye9xDmJmJNeltd1q1eFzgnbXjCf4xQ02Z/71Z917OvAiF1RX
+         m2W+ZD4Cy6ZVNTpfUkEXEG7XE1wp/xEPtnfH1QX70n/MMfS52JtCzDnyWVnayvMUTtjQ
+         DNnoWwSvkdpirBNHdOUv0X1ObSgCtKO1E6R+j9KhGAap1Tej+hOmYKkyU3qUGcsupsj2
+         ROCR0aIKG9X1p9Kl3fNCa1JaSUXQcplNsuQoGzvfSw+g324d8aaggeUapi+pjGCguO5L
+         oEMgBLWAwBjPd8bKizNjj2KnPAmarmwrS8QSOtEDeLtO2Z//eHInLHPHBOxk1TFCdnLt
+         ww7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SLDZxUjEmd8H03UIAZwbOELnb4PvWVwu2cigZdBcIQ8=;
-        b=nh+o9IxDqxxxl0WKb+3pqkz2xc2FZso1H+GiuV26GlQRUnR9pw15IttnB/ChhQuFq3
-         zoT0GEIdzcJJC9rG4kPJU+gMg3nUwJXfZKAXEh0CddAvs8CL4OoSCUGveSpXaf+q38Kc
-         u6sthZpUMsXH8Cyh+4yiy6VSte9RA7kNoZ2DEGKJMlsSiYqZKzs9co47chZiQkinG3CW
-         Q19ogFISi0/R6O6pV0utn3U0E+R51qq3mV2GucH5BwlPn4z+XmrA5RuBOodj2YZyDhoX
-         j4hQxew9VczjBZxDOKWNUjrIMl+W8CxgDRHQhcDFIGGSZYvHu/JHebPqRgxkCgBC0Hsw
-         x9Yg==
-X-Gm-Message-State: AOAM533djo+NqwhYjtDafwSJgfhmrdnZM3aSiBkp/xF/FqAbtHXJej0l
-	ndjdBPTEAXtyuyfaGlOIe1A=
-X-Google-Smtp-Source: ABdhPJx5Ztgk3j91FSUQSM63bgKDRbwsEtMnqxxyn4vCXUYF4+1+EV4JCN45wOzS0Y0CIRR7pPK4EQ==
-X-Received: by 2002:adf:ff89:: with SMTP id j9mr4504524wrr.350.1617803392737;
-        Wed, 07 Apr 2021 06:49:52 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=dkjimhjDd9u/y2YdPJ4t6EDrMe97yh+nEoGhNNKYzQA=;
+        b=H/PCxi6s35QegYX3CXdxxom7M8WngYgGgNS5RQ87+ulgQKpLdL7okP/aTBMIRJsbCz
+         YMDw5iWSL7azoirWDyxaJbp2R0WdYJfy0V+eqTc1AYRpIvIf0Kb62l9qSFoQpWWgtNmB
+         IADXhwp07SNziy9zMjrJ4vGIaoZsdNE2yHFZUx7m8aT/FohLSYD/KgYRdvy/k2msRB8t
+         u8VvffcsTf1ViJja4ynrOVjchOCumfjUCCq5YVSb2VHcCG4GAlj9YyBitk2QCPuTzUQF
+         rus5+co5wx1Ik+5Lxl1+AMMduaxZkTzVpys+aWlRIre1B5oUe7Tc9MVXieoxwvue3y5Z
+         70ng==
+X-Gm-Message-State: AOAM532W/eZlBMN8L4/X73c0c+89kiPXBgazasJRFAE6s7FEdg1ErKM9
+	uHZc6yk6o4tGhwOV9cSUC4M=
+X-Google-Smtp-Source: ABdhPJyL7+Lls+1JEjbmaOvWqid65ZWj3PZdWaCDPEp+d1ON4mSbDq+YNB48fRvaDJzGcoKXC03oNw==
+X-Received: by 2002:a05:600c:4103:: with SMTP id j3mr3168538wmi.175.1617803394209;
+        Wed, 07 Apr 2021 06:49:54 -0700 (PDT)
 Received: from agape ([5.171.81.68])
-        by smtp.gmail.com with ESMTPSA id t17sm27563265wrv.91.2021.04.07.06.49.51
+        by smtp.gmail.com with ESMTPSA id o14sm31915253wrh.88.2021.04.07.06.49.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Apr 2021 06:49:52 -0700 (PDT)
+        Wed, 07 Apr 2021 06:49:53 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 00/19] staging: rtl8723bs: remove DBG_871X trace macro
-Date: Wed,  7 Apr 2021 15:49:24 +0200
-Message-Id: <cover.1617802415.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 01/19] staging: rtl8723bs: remove DBG_871X log argument
+Date: Wed,  7 Apr 2021 15:49:25 +0200
+Message-Id: <3473925ae9ee5a3bcd0ab86613dbce80b6d3f33f.1617802415.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1617802415.git.fabioaiuto83@gmail.com>
+References: <cover.1617802415.git.fabioaiuto83@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -52,186 +54,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patchset removes all DBG_871X usages and definitions.
+This patch prepares the application of the semantic
+patch aimed to remove all DBG_871X logs.
 
-The whole private tracing system is not tied to a configuration
-symbol and the default behaviour is _trace nothing_.
+One occurrence of the DBG_871X macro has one
+repeated argument, that's not even comma separated
+value with the previous one nor a format string
+parameter associated.
 
-DBG_871X macros require the code to be modified by
+In normal conditions this worked, for the macro
+is usually not expanded (the do nothing behaviour),
+but if I try to apply the sempantic patch to remove
+all macro occurrences, all macros call after that
+abnormal declaration are left untouched (not removed).
+
+Remove all of the DBG_871X logs as they currently
+do nothing as they require the code to be modified by
 hand in order to be turned on. This obviously has not happened
 since the code was merged, so just remove them as they are unused.
 
-First patch fix a DBG_871X call. It has three args over only two
-placeholders in the first format string argument.
-If I would not make this fix, the semantic patch
-used to bulk remove all macro occurences would ignore the abnormal
-macro (the one with three args) and all subsequent occurrences in
-the same file (core/rtw_recv.c).
+Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_recv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The second patch applies the cocci script.
-
-This is the semantic patch:
-
-@@
-expression a, b, c, d, e, f, g, h, i, j, k;
-constant B, C, D, E;
-@@
-
-(
--	DBG_871X(a);
-|
--	DBG_871X(a, b);
-|
--	DBG_871X(a, B);
-|
--	DBG_871X(a, b, c);
-|
--	DBG_871X(a, B, c);
-|
--	DBG_871X(a, b, C);
-|
--	DBG_871X(a, B, C);
-|
--	DBG_871X(a, b, c, d);
-|
--	DBG_871X(a, B, c, d);
-|
--	DBG_871X(a, b, C, d);
-|
--	DBG_871X(a, b, c, D);
-|
--	DBG_871X(a, B, C, d);
-|
--	DBG_871X(a, B, c, D);
-|
--	DBG_871X(a, b, C, D);
-|
--	DBG_871X(a, B, C, D);
-|
--	DBG_871X(a, b, c, d, e);
-|
--	DBG_871X(a, B, c, d, e);
-|
--	DBG_871X(a, b, C, d, e);
-|
--	DBG_871X(a, b, c, D, e);
-|
--	DBG_871X(a, b, c, d, E);
-|
--	DBG_871X(a, B, C, d, e);
-|
--	DBG_871X(a, B, c, D, e);
-|
--	DBG_871X(a, B, c, d, E);
-|
--	DBG_871X(a, b, C, D, e);
-|
--	DBG_871X(a, b, C, d, E);
-|
--	DBG_871X(a, b, c, D, E);
-|
--	DBG_871X(a, B, C, D, e);
-|
--	DBG_871X(a, B, C, d, E);
-|
--	DBG_871X(a, B, c, D, E);
-|
--	DBG_871X(a, b, C, D, E);
-|
--	DBG_871X(a, B, C, D, E);
-|
--	DBG_871X(a, b, c, d, e, f);
-|
--	DBG_871X(a, b, c, d, e, f, g);
-|
--	DBG_871X(a, b, c, d, e, f, g, h);
-|
--	DBG_871X(a, b, c, d, e, f, g, h, i);
-|
--	DBG_871X(a, b, c, d, e, f, g, h, i, j);
-|
--	DBG_871X(a, b, c, d, e, f, g, h, i, j, k);
-)
-
-The third one removes an unmatched macro call,
-maybe due to the trailing \, because the occurrence is
-inside a macro expansion.
-
-The fourth one deletes all commented out call spread all over
-the rtl8723bs code.
-
-Fifth one removes definitions.
-
-All remaining patches do some code cleaning on all
-places where DBG_871X has been removed.
-
-Fabio Aiuto (19):
-  staging: rtl8723bs: remove DBG_871X log argument
-  staging: rtl8723bs: remove all DBG_871X logs
-  staging: rtl8723bs: remove DBG_871CX log unmatched by cocci
-  staging: rtl8723bs: remove commented out DBG_871X logs
-  staging: rtl8723bs: remove DBG_871X macro definitions
-  staging: rtl8723bs: remove all if-else empty blocks left by DBG_871X
-    removal
-  drivers: rtl8723bs: rewrite comparison to null
-  staging: rtl8723bs: put constant on the right side in if condition
-  staging: rtl8723bs: remove empty for cycles left by DBG_871X removal
-  staging: rtl8723bs: remove empty tracing function dump_rx_packet
-  staging: rtl8723bs: remove empty #ifdef blocks after DBG_871X removal
-  staging: rtl8723bs: remove unnecessary bracks on DBG_871X removal
-    sites
-  staging: rtl8723bs: remove unnecessary parentheses in if condition
-  staging: rtl8723bs: add spaces around operators
-  staging: rtl8723bs: rewrite comparison to null
-  staging: rtl8723bs: remove unnecessary parentheses
-  staging: rtl8723bs: fix comparison in if condition
-  staging: rtl8723bs: split long lines
-  staging: rtl8723bs: remove unnecessary parentheses
-
- drivers/staging/rtl8723bs/core/rtw_ap.c       | 158 +------
- drivers/staging/rtl8723bs/core/rtw_btcoex.c   |  12 +-
- drivers/staging/rtl8723bs/core/rtw_cmd.c      |  51 +--
- drivers/staging/rtl8723bs/core/rtw_efuse.c    |  11 -
- .../staging/rtl8723bs/core/rtw_ieee80211.c    |  48 +-
- drivers/staging/rtl8723bs/core/rtw_io.c       |   7 +-
- .../staging/rtl8723bs/core/rtw_ioctl_set.c    |  11 +-
- drivers/staging/rtl8723bs/core/rtw_mlme.c     | 170 +------
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 366 ++-------------
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  | 144 +-----
- drivers/staging/rtl8723bs/core/rtw_recv.c     | 251 +----------
- drivers/staging/rtl8723bs/core/rtw_security.c |  26 +-
- drivers/staging/rtl8723bs/core/rtw_sta_mgt.c  |  10 -
- .../staging/rtl8723bs/core/rtw_wlan_util.c    | 154 ++-----
- drivers/staging/rtl8723bs/core/rtw_xmit.c     | 141 +-----
- .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    |  11 -
- drivers/staging/rtl8723bs/hal/HalPwrSeqCmd.c  |   9 +-
- drivers/staging/rtl8723bs/hal/hal_btcoex.c    |   2 -
- drivers/staging/rtl8723bs/hal/hal_com.c       |  49 +-
- .../staging/rtl8723bs/hal/hal_com_phycfg.c    | 208 ++-------
- drivers/staging/rtl8723bs/hal/hal_intf.c      |  12 +-
- drivers/staging/rtl8723bs/hal/odm.c           |   3 -
- drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  |  92 +---
- drivers/staging/rtl8723bs/hal/rtl8723b_dm.c   |   5 -
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |  90 +---
- .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   |  15 +-
- .../staging/rtl8723bs/hal/rtl8723bs_recv.c    |   9 -
- .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    |  37 +-
- drivers/staging/rtl8723bs/hal/sdio_halinit.c  |  31 +-
- drivers/staging/rtl8723bs/hal/sdio_ops.c      |  23 +-
- drivers/staging/rtl8723bs/include/rtw_debug.h |   6 -
- .../staging/rtl8723bs/include/rtw_mlme_ext.h  |   3 -
- .../staging/rtl8723bs/include/rtw_pwrctrl.h   |   1 -
- .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 208 +--------
- .../staging/rtl8723bs/os_dep/ioctl_linux.c    | 421 +-----------------
- drivers/staging/rtl8723bs/os_dep/mlme_linux.c |   6 +-
- drivers/staging/rtl8723bs/os_dep/os_intfs.c   |  90 +---
- .../staging/rtl8723bs/os_dep/osdep_service.c  |   2 -
- drivers/staging/rtl8723bs/os_dep/recv_linux.c |   5 +-
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c  |  27 +-
- .../staging/rtl8723bs/os_dep/sdio_ops_linux.c |  97 +---
- drivers/staging/rtl8723bs/os_dep/xmit_linux.c |  21 +-
- 42 files changed, 299 insertions(+), 2744 deletions(-)
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+index eac663119290..f18a7afcc0d3 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_recv.c
++++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+@@ -823,7 +823,7 @@ static signed int ap2sta_data_frame(struct adapter *adapter, union recv_frame *p
+ 			#ifdef DBG_RX_DROP_FRAME
+ 			DBG_871X("DBG_RX_DROP_FRAME %s BSSID =%pM, mybssid =%pM\n",
+ 				__func__, MAC_ARG(pattrib->bssid), MAC_ARG(mybssid));
+-			DBG_871X("this adapter = %d, buddy adapter = %d\n", adapter->adapter_type, adapter->pbuddystruct adapter->adapter_type);
++			DBG_871X("this adapter = %d, buddy adapter = %d\n", adapter->adapter_type, adapter->pbuddystruct);
+ 			#endif
+ 
+ 			if (!bmcast) {
 -- 
 2.20.1
 
