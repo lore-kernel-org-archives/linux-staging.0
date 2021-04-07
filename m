@@ -1,49 +1,48 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F1D6D0E
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 08:18:16 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D70FB611AF;
-	Wed,  7 Apr 2021 08:18:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB70E6D0E
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 08:20:16 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E0D2461363;
+	Wed,  7 Apr 2021 08:20:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1617783496;
-	bh=uf8+dE2AP3tAU5ZxCGlJFGZ8FUljPywASKktP/5uv7M=;
+	s=korg; t=1617783616;
+	bh=RIQQZ/8OzyrqcVeWTPhjOoZF88p41cOlDYgQorJvWh0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bmUKRAUr1LSYH+6TwXqBHM3UUTx0obo9XpWipLPSJMDMNQDgKIJ91xgt2dcJx3Xiy
-	 0o2tyP1quRAyFofzMREmbkoP1o31f1bxCTOsXcTd5NgO4NwvLpanKY+2lPtnxY7UKz
-	 m2c53lVM7MDF8OWHbofn7EA9OwfF0hObfLDJ0FUc=
-Date: Wed, 7 Apr 2021 10:18:13 +0200
+	b=nSFcHHCumsdCEBMoybYS1wxglvtYG8f+/SgA1uBtK0d1UmLZxCYMCwrGHq6U0YPuD
+	 OnQG6+sQ9IDUh46edCwkdF9aDA07VEKNRmz0kjTxWaxBLK5NeCAT0qe59jTBB62vNB
+	 iAI+Ec2e2X9Uri8tHyeEPlaWTT/ZEJDRjS/R01Hs=
+Date: Wed, 7 Apr 2021 10:20:14 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH v3] staging: rtl8723bs: hal: Remove
- camelcase in Hal8723BReg.h
-Message-ID: <YG1qxdRtNIIVK3fX@kroah.com>
-References: <20210406160037.27225-1-fmdefrancesco@gmail.com>
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: remove unused variable
+Message-ID: <YG1rPiYTjo2zkiJp@kroah.com>
+References: <1617765499-65626-1-git-send-email-jiapeng.chong@linux.alibaba.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210406160037.27225-1-fmdefrancesco@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1617765499-65626-1-git-send-email-jiapeng.chong@linux.alibaba.com>
 
-On Tue, Apr 06, 2021 at 06:00:37PM +0200, Fabio M. De Francesco wrote:
-> Remove camelcase in some symbols defined in Hal8723BReg.h. These symbols
-> are not used anywhere else, therefore this patch does not break the driver.
+On Wed, Apr 07, 2021 at 11:18:19AM +0800, Jiapeng Chong wrote:
+> Fix the following gcc warning:
 > 
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> drivers/staging/rtl8723bs/core/rtw_ieee80211.c:657:15: warning: variable
+> ‘sec_idx’ set but not used [-Wunused-but-set-variable].
+> 
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 > ---
-> 
-> Patch v3 changes nothing with respect to v2 and v1. It exists only to cc some recipients that were missing in the header of the previous email.
-> 
->  drivers/staging/rtl8723bs/hal/Hal8723BReg.h | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
+>  drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
 
-This patch does not apply to my tree right now.  Can you refresh and
-rebase your copy of my branch and rebase it and resend?
+This does not apply to my tree anymore, please update your branch and
+rebase and resend.
 
 thanks,
 
