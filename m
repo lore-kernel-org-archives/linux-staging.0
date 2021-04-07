@@ -1,58 +1,147 @@
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13EE16D0D
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 08:30:18 +0000 (UTC)
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
-	by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4FFcwF5tXBz7tKn;
-	Wed,  7 Apr 2021 16:27:57 +0800 (CST)
-Received: from [127.0.0.1] (10.40.188.144) by DGGEMS404-HUB.china.huawei.com
- (10.3.19.204) with Microsoft SMTP Server id 14.3.498.0; Wed, 7 Apr 2021
- 16:30:00 +0800
-Subject: Re: [PATCH] staging: greybus: move to use request_irq by
- IRQF_NO_AUTOEN flag
-To: Greg KH <gregkh@linuxfoundation.org>, Tian Tao <tiantao6@hisilicon.com>
-CC: <hvaibhav.linux@gmail.com>, <johan@kernel.org>, <elder@kernel.org>,
-	<greybus-dev@lists.linaro.org>, <linux-staging@lists.linux.dev>
-References: <1617778203-23117-1-git-send-email-tiantao6@hisilicon.com>
- <YG1rwdRzKk83RBmG@kroah.com>
-From: "tiantao (H)" <tiantao6@huawei.com>
-Message-ID: <5126cb93-4227-8a0f-1421-7685ade4b2e2@huawei.com>
-Date: Wed, 7 Apr 2021 16:29:59 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 659996D0D
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 08:31:24 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 69FB96139C;
+	Wed,  7 Apr 2021 08:31:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1617784283;
+	bh=57NmromL2JqqMNwKn1lxk2rM0OK+F3IfoxU9XI0Fm6Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=N8mq73w4l+w1W2+7Bspzriwz1/V8mA0tYO1NZhq6lTHeZ6xvAKof6zt8ICWrOoLIX
+	 VnUP4dVCGMgFTQYCRHN/Mbdi2ExxmdTuRK+8rzn6p1Ekv1YEv7c5b/3mb7JYVAu2Ev
+	 nqEMUzXeiY9qvdMUf+1hcMjy1ugRJ65GtGt1zUi8=
+Date: Wed, 7 Apr 2021 10:31:21 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Pavle Rohalj <pavle.rohalj@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 01/49] staging: sm750fb: Update dvi_ctrl_device to
+ snake case
+Message-ID: <YG1t2Y55oyt8qxYi@kroah.com>
+References: <cover.1617776878.git.pavle.rohalj@gmail.com>
+ <a3618331115064265bc3bbf8963a84ee8bb57fed.1617776878.git.pavle.rohalj@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YG1rwdRzKk83RBmG@kroah.com>
-Content-Type: text/plain; charset="gbk"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.40.188.144]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a3618331115064265bc3bbf8963a84ee8bb57fed.1617776878.git.pavle.rohalj@gmail.com>
 
+On Tue, Apr 06, 2021 at 11:35:56PM -0700, Pavle Rohalj wrote:
+> Fix "Avoid CamelCase" checkpatch.pl checks for dvi_ctrl_device structure and
+> its usages.
+> 
+> Signed-off-by: Pavle Rohalj <pavle.rohalj@gmail.com>
+> ---
+>  drivers/staging/sm750fb/ddk750_dvi.c    | 30 ++++++++--------
+>  drivers/staging/sm750fb/ddk750_dvi.h    | 20 +++++------
+>  drivers/staging/sm750fb/ddk750_sii164.c | 48 ++++++++++++-------------
+>  drivers/staging/sm750fb/ddk750_sii164.h | 20 +++++------
+>  4 files changed, 59 insertions(+), 59 deletions(-)
+> 
+> diff --git a/drivers/staging/sm750fb/ddk750_dvi.c b/drivers/staging/sm750fb/ddk750_dvi.c
+> index cd564ea40779..db19bf732482 100644
+> --- a/drivers/staging/sm750fb/ddk750_dvi.c
+> +++ b/drivers/staging/sm750fb/ddk750_dvi.c
+> @@ -11,20 +11,20 @@
+>   * function API. Please set the function pointer to NULL whenever the function
+>   * is not supported.
+>   */
+> -static struct dvi_ctrl_device g_dcftSupportedDviController[] = {
+> +static struct dvi_ctrl_device dcft_supported_dvi_controller[] = {
 
-ÔÚ 2021/4/7 16:22, Greg KH Ð´µÀ:
-> On Wed, Apr 07, 2021 at 02:50:03PM +0800, Tian Tao wrote:
->> disable_irq() after request_irq() still has a time gap in which
->> interrupts can come. request_irq() with IRQF_NO_AUTOEN flag will
->> disable IRQ auto-enable because of requesting.
->>
->> this patch is made base on "add IRQF_NO_AUTOEN for request_irq" which
->> is being merged: https://lore.kernel.org/patchwork/patch/1388765/
-> Can you wait until that is merged before sending this out to us as we
-> can't do anything until then.
+Why the "dcft_" prefix?  We know this is a "dvi control device" by the
+fact that the type says it is :)
 
-this is already in linux-next.git.
+>  #ifdef DVI_CTRL_SII164
+>  	{
+> -		.pfnInit = sii164InitChip,
+> -		.pfnGetVendorId = sii164GetVendorID,
+> -		.pfnGetDeviceId = sii164GetDeviceID,
+> +		.pfn_init = sii164_init_chip,
+> +		.pfn_get_vendor_id = sii164_get_vendor_id,
+> +		.pfn_get_device_id = sii164_get_device_id,
+>  #ifdef SII164_FULL_FUNCTIONS
+> -		.pfnResetChip = sii164ResetChip,
+> -		.pfnGetChipString = sii164GetChipString,
+> -		.pfnSetPower = sii164SetPower,
+> -		.pfnEnableHotPlugDetection = sii164EnableHotPlugDetection,
+> -		.pfnIsConnected = sii164IsConnected,
+> -		.pfnCheckInterrupt = sii164CheckInterrupt,
+> -		.pfnClearInterrupt = sii164ClearInterrupt,
+> +		.pfn_reset_chip = sii164_reset_chip,
+> +		.pfn_get_chip_string = sii164_get_chip_string,
+> +		.pfn_set_power = sii164_set_power,
+> +		.pfn_enable_hot_plug_detection = sii164_enable_hot_plug_detection,
+> +		.pfn_is_connected = sii164_is_connected,
+> +		.pfn_check_interrupt = sii164_check_interrupt,
+> +		.pfn_clear_interrupt = sii164_clear_interrupt,
+>  #endif
+>  	},
+>  #endif
+> @@ -41,11 +41,11 @@ int dviInit(unsigned char edge_select,
+>  	    unsigned char pll_filter_enable,
+>  	    unsigned char pll_filter_value)
+>  {
+> -	struct dvi_ctrl_device *pCurrentDviCtrl;
+> +	struct dvi_ctrl_device *current_dvi_ctrl;
+>  
+> -	pCurrentDviCtrl = g_dcftSupportedDviController;
+> -	if (pCurrentDviCtrl->pfnInit) {
+> -		return pCurrentDviCtrl->pfnInit(edge_select,
+> +	current_dvi_ctrl = dcft_supported_dvi_controller;
+> +	if (current_dvi_ctrl->pfn_init) {
+> +		return current_dvi_ctrl->pfn_init(edge_select,
+>  						bus_select,
+>  						dual_edge_clk_select,
+>  						hsync_enable,
+> diff --git a/drivers/staging/sm750fb/ddk750_dvi.h b/drivers/staging/sm750fb/ddk750_dvi.h
+> index 1c7a565b617a..4ca2591ea94b 100644
+> --- a/drivers/staging/sm750fb/ddk750_dvi.h
+> +++ b/drivers/staging/sm750fb/ddk750_dvi.h
+> @@ -27,16 +27,16 @@ typedef void (*PFN_DVICTRL_CLEARINTERRUPT)(void);
+>  
+>  /* Structure to hold all the function pointer to the DVI Controller. */
+>  struct dvi_ctrl_device {
+> -	PFN_DVICTRL_INIT		pfnInit;
+> -	PFN_DVICTRL_RESETCHIP		pfnResetChip;
+> -	PFN_DVICTRL_GETCHIPSTRING	pfnGetChipString;
+> -	PFN_DVICTRL_GETVENDORID		pfnGetVendorId;
+> -	PFN_DVICTRL_GETDEVICEID		pfnGetDeviceId;
+> -	PFN_DVICTRL_SETPOWER		pfnSetPower;
+> -	PFN_DVICTRL_HOTPLUGDETECTION	pfnEnableHotPlugDetection;
+> -	PFN_DVICTRL_ISCONNECTED		pfnIsConnected;
+> -	PFN_DVICTRL_CHECKINTERRUPT	pfnCheckInterrupt;
+> -	PFN_DVICTRL_CLEARINTERRUPT	pfnClearInterrupt;
+> +	PFN_DVICTRL_INIT		pfn_init;
 
-cbe16f3 genirq: Add IRQF_NO_AUTOEN for request_irq/nmi()
+"pfn_" means "pointer to a function" which is not needed at all.  Just
+make this be "init".
 
+And the whole crazy "PFN_DVICTRL_INIT" also is not needed, just put the
+real function prototype in here so that we don't have to unwind the mess
+to look it up.
 
->
-> thanks,
->
-> greg k-h
-> .
->
+So, this line would look like:
+	void (*init)(void);
 
+Much smaller, more obvious, matches the kernel coding style, and is way
+easier to understand exactly what is happening here.
+
+Typedefs can be used to hide complexity, but here they are just adding
+it, for no good reason at all.
+
+I appreciate long patch series being sent out, but maybe make them
+smaller so you do not have to redo 49 patches because you are asked to
+make a change on the very first patch like here.  Perhaps stick to 20
+max for a bit until you get the process down and understand more about
+what the kernel programming style is?
+
+thanks,
+
+greg k-h
