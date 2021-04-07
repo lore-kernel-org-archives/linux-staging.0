@@ -1,97 +1,122 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ssl.serverraum.org (ssl.serverraum.org [176.9.125.105])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3956D0E
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 16:09:30 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id d191so9322499wmd.2
-        for <linux-staging@lists.linux.dev>; Wed, 07 Apr 2021 09:09:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=JvelsXiWFhKiuGc95HnXl80V7C2PAh9toMttuEic8p4=;
-        b=IrIk1cIvAGMsMIbtfA6TTDf4CDC8HoNmKqtJ2r9DRCj59ZO4+q9oJtLk0SNeP+QqSg
-         PDs6Szt1xf8k/Vy81oW9lcyhG2yJufDjgayLf7YQTQy/PUt8iP6E3xEJ64q/R8K7kqTe
-         huqXuL9FCwm5zisZd2cywcoQ/PX3+L6dS8gKzUBVziWBP47/P6kPOmBytVStyrlWRUjt
-         /vXJg4XJXjaA5RPEcXVYrPZY1QgmIyLuPIykLN7kszLdy3ySpz3AyOlJNXQwvO+k9+Dy
-         RXjkvbuNTsXpoCDfXUoVJcNXV/RrDg+uIxUf7N0tVZ71nrYzovG7wM9DhQD8Dn5GovCj
-         5nIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=JvelsXiWFhKiuGc95HnXl80V7C2PAh9toMttuEic8p4=;
-        b=AKTe4vz7BMv7atLgmSN4qmRdIrv93OwnS+vGOB4AZ+cRFOCgrGGD0czIQMFXJkdMtZ
-         HXi40mF8d6Bm2Lx9f+K71NPBQM4z+fd2D4jvRHHKZyCTXdR4w/ZQF+i5poXoSzeuzzYH
-         SBHs2wdMttYrs6ERC5+P8B+Pv/WAHmx+3TrG9b+seBhwmnetqD7zSTTZDmMq/RAP3Odn
-         l6oNVKE7BEL5t01RpORDLj4KiAab59Br3Gs0fA9/RV6uTvqdkNZhGFvrOF6NJ7hCqjBQ
-         9jBHzSpUkkesiiaacaB0YmiFJN2zsLcyaVnKIy4gW8eMjaX+Misovh9g6CJ4gwHTDqku
-         k0Ow==
-X-Gm-Message-State: AOAM531bG65myRxsmvpj0IELkwicovQqsY849iIxGTk4tz2Mj5ABpuVk
-	kbikt3AsjV+SmqflWiJlUIE=
-X-Google-Smtp-Source: ABdhPJyuSEjgC8gxcdCSq+RmMhMDpIj2VfgSm4mV8lRxLBxVjOmi7Jvkw3oGCeM9Sps9dZfNkLyqaQ==
-X-Received: by 2002:a1c:df55:: with SMTP id w82mr3826801wmg.162.1617811769001;
-        Wed, 07 Apr 2021 09:09:29 -0700 (PDT)
-Received: from LEGION ([39.46.7.73])
-        by smtp.gmail.com with ESMTPSA id j6sm8376112wmq.16.2021.04.07.09.09.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Apr 2021 09:09:28 -0700 (PDT)
-Date: Wed, 7 Apr 2021 21:09:21 +0500
-From: Muhammad Usama Anjum <musamaanjum@gmail.com>
-To: hverkuil@xs4all.nl, Neil Armstrong <narmstrong@baylibre.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	"open list:MESON VIDEO DECODER DRIVER FOR AMLOGIC SOCS" <linux-media@vger.kernel.org>,
-	"open list:MESON VIDEO DECODER DRIVER FOR AMLOGIC SOCS" <linux-amlogic@lists.infradead.org>,
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-	"moderated list:ARM/Amlogic Meson SoC support" <linux-arm-kernel@lists.infradead.org>,
-	open list <linux-kernel@vger.kernel.org>
-Cc: musamaanjum@gmail.com, kernel-janitors@vger.kernel.org,
-	dan.carpenter@oracle.com
-Subject: [PATCH] staging: media/meson: remove redundant dev_err call
-Message-ID: <20210407160921.GA1504294@LEGION>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3AD6D0E
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 16:10:38 +0000 (UTC)
+Received: from ssl.serverraum.org (web.serverraum.org [172.16.0.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ssl.serverraum.org (Postfix) with ESMTPSA id 18A9F22236;
+	Wed,  7 Apr 2021 18:10:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2016061301;
+	t=1617811836;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gjuAN9QqCnWD77UCettma95Ojaeyk86+8J2wmtLYYZo=;
+	b=i99BezLwmPOE6w4/hGL0FvjE3br7uwuw9VGO9aRg8uJTlzeGu8Ac4FIxGX9vOQ8oMVP/r/
+	vE3I00R508lGU6R1pfNebHfFNtH5wO92z1+kMGfRRoMcmLezfBux9iSvegup2fWrGU4qza
+	5flIWUW4ulzNHWTXNBqNWa8WPLM3Izs=
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Wed, 07 Apr 2021 18:10:30 +0200
+From: Michael Walle <michael@walle.cc>
+To: ath9k-devel@qca.qualcomm.com, UNGLinuxDriver@microchip.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-amlogic@lists.infradead.org,
+ linux-oxnas@groups.io, linux-omap@vger.kernel.org,
+ linux-wireless@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Cc: Andrew Lunn <andrew@lunn.ch>, Gregory Clement
+ <gregory.clement@bootlin.com>, Sebastian Hesselbarth
+ <sebastian.hesselbarth@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ Michael Ellerman <mpe@ellerman.id.au>, Benjamin Herrenschmidt
+ <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, Andreas
+ Larsson <andreas@gaisler.com>, "David S . Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Joyce Ooi <joyce.ooi@intel.com>, Chris Snook <chris.snook@gmail.com>,
+ =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>,
+ bcm-kernel-feedback-list@broadcom.com, Florian Fainelli
+ <f.fainelli@gmail.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, Claudiu
+ Beznea <claudiu.beznea@microchip.com>, Sunil Goutham <sgoutham@marvell.com>,
+ Fugang Duan <fugang.duan@nxp.com>, Madalin Bucur <madalin.bucur@nxp.com>,
+ Pantelis Antoniou <pantelis.antoniou@gmail.com>, Claudiu Manoil
+ <claudiu.manoil@nxp.com>, Li Yang <leoyang.li@nxp.com>, Yisen Zhuang
+ <yisen.zhuang@huawei.com>, Salil Mehta <salil.mehta@huawei.com>, Hauke
+ Mehrtens <hauke@hauke-m.de>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, Vadym Kochan <vkochan@marvell.com>, Taras
+ Chornyi <tchornyi@marvell.com>, Mirko Lindner <mlindner@marvell.com>,
+ Stephen Hemminger <stephen@networkplumber.org>, Felix Fietkau
+ <nbd@nbd.name>, John Crispin <john@phrozen.org>, Sean Wang
+ <sean.wang@mediatek.com>, Mark Lee <Mark-MC.Lee@mediatek.com>, Matthias
+ Brugger <matthias.bgg@gmail.com>, Bryan Whitehead
+ <bryan.whitehead@microchip.com>, Vladimir Zapolskiy <vz@mleia.com>, Sergei
+ Shtylyov <sergei.shtylyov@gmail.com>, Byungho An <bh74.an@samsung.com>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Giuseppe Cavallaro
+ <peppe.cavallaro@st.com>, Alexandre Torgue <alexandre.torgue@st.com>, Jose
+ Abreu <joabreu@synopsys.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
+ <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Kevin Hilman
+ <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>, Jerome
+ Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Vinod Koul <vkoul@kernel.org>,
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, Grygorii Strashko
+ <grygorii.strashko@ti.com>, Wingman Kwok <w-kwok2@ti.com>, Murali Karicheri
+ <m-karicheri2@ti.com>, Michal Simek <michal.simek@xilinx.com>, Radhey Shyam
+ Pandey <radhey.shyam.pandey@xilinx.com>, Kalle Valo <kvalo@codeaurora.org>,
+ Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>, Ryder Lee
+ <ryder.lee@mediatek.com>, Stanislaw Gruszka <stf_xl@wp.pl>, Helmut Schaa
+ <helmut.schaa@googlemail.com>, Heiner Kallweit <hkallweit1@gmail.com>, Rob
+ Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?Q?J=C3=A9r=C3=B4me?=
+ =?UTF-8?Q?_Pouiller?= <jerome.pouiller@silabs.com>, Vivien Didelot
+ <vivien.didelot@gmail.com>, Vladimir Oltean <olteanv@gmail.com>
+Subject: Re: [PATCH net-next v3 1/2] of: net: pass the dst buffer to
+ of_get_mac_address()
+In-Reply-To: <20210406220921.24313-2-michael@walle.cc>
+References: <20210406220921.24313-1-michael@walle.cc>
+ <20210406220921.24313-2-michael@walle.cc>
+User-Agent: Roundcube Webmail/1.4.11
+Message-ID: <50f474611ecf0f5e61c9a14a24b28773@walle.cc>
+X-Sender: michael@walle.cc
 
-devm_ioremap_resource() prints error message in itself. Remove the
-dev_err call to avoid redundant error message.
+Am 2021-04-07 00:09, schrieb Michael Walle:
+[..]
+> diff --git a/drivers/of/of_net.c b/drivers/of/of_net.c
+> index bc0a27de69d4..2d5d5e59aea5 100644
+> --- a/drivers/of/of_net.c
+> +++ b/drivers/of/of_net.c
+> @@ -45,42 +45,35 @@ int of_get_phy_mode(struct device_node *np,
+> phy_interface_t *interface)
+>  }
+>  EXPORT_SYMBOL_GPL(of_get_phy_mode);
+> 
+> -static const void *of_get_mac_addr(struct device_node *np, const char 
+> *name)
+> +static int of_get_mac_addr(struct device_node *np, const char *name, 
+> u8 *addr)
+>  {
+>  	struct property *pp = of_find_property(np, name, NULL);
+> 
+> -	if (pp && pp->length == ETH_ALEN && is_valid_ether_addr(pp->value))
+> -		return pp->value;
+> -	return NULL;
+> +	if (pp && pp->length == ETH_ALEN && is_valid_ether_addr(pp->value)) {
+> +		ether_addr_copy(addr, pp->value);
 
-Signed-off-by: Muhammad Usama Anjum <musamaanjum@gmail.com>
----
- drivers/staging/media/meson/vdec/vdec.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+Mh, I guess this should rather be memcpy(addr, pp->value, ETH_ALEN) 
+because
+ether_addr_copy() needs 2 byte aligned source and destination buffers.
 
-diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-index 5d4db7a5b4b5..e51d69c4729d 100644
---- a/drivers/staging/media/meson/vdec/vdec.c
-+++ b/drivers/staging/media/meson/vdec/vdec.c
-@@ -1008,17 +1008,13 @@ static int vdec_probe(struct platform_device *pdev)
- 
- 	r = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dos");
- 	core->dos_base = devm_ioremap_resource(dev, r);
--	if (IS_ERR(core->dos_base)) {
--		dev_err(dev, "Couldn't remap DOS memory\n");
-+	if (IS_ERR(core->dos_base))
- 		return PTR_ERR(core->dos_base);
--	}
- 
- 	r = platform_get_resource_byname(pdev, IORESOURCE_MEM, "esparser");
- 	core->esparser_base = devm_ioremap_resource(dev, r);
--	if (IS_ERR(core->esparser_base)) {
--		dev_err(dev, "Couldn't remap ESPARSER memory\n");
-+	if (IS_ERR(core->esparser_base))
- 		return PTR_ERR(core->esparser_base);
--	}
- 
- 	core->regmap_ao =
- 		syscon_regmap_lookup_by_phandle(dev->of_node,
--- 
-2.25.1
-
+-michael
