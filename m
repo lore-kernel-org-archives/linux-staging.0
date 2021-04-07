@@ -1,49 +1,49 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB9FB70
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 13:50:23 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id j20-20020a05600c1914b029010f31e15a7fso1194758wmq.1
-        for <linux-staging@lists.linux.dev>; Wed, 07 Apr 2021 06:50:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5131870
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 13:50:25 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id x15so8871727wrq.3
+        for <linux-staging@lists.linux.dev>; Wed, 07 Apr 2021 06:50:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ZHPPmH/9scj2tTqrM6KnTGx6qYluXiPbPCqtebRoBKI=;
-        b=tO1RHbrlih5UBJyU6ZDZsGAiXYZA6Snuc3mjqpgaVsZ0quAtnYMeCAOsJ4WoAxk3A8
-         Uf5xLgy4tHLEcIoXIRw8HNcvzQ+ki0Y9A4r8wo/vGbgihGxjPn89d4V2SIqgvz3zSDqq
-         c9fJsERb8Z47JTPxHS2BMCkABj0hJP3ObqzbZuyMO/5a5C/ZGJUt5nFSsyeUBetaFXMi
-         q/AGsYOKBiF6ex/hp+dbn56UXYIQBOjukEgPVUK9NaTFkx137yYPT228uITNvXnIgEPo
-         FBYS/3IvYj2yt64X1s4uqrKWT3KNz//6KtLcyiWcPGGzZhzrKC60Tx+vRebMVUxL74+u
-         VHBA==
+        bh=agWTThKJnzpXbfQJioyYRi1VTSU31768MskVIC2gqW4=;
+        b=jmtsFcqklHHmMrKwWd2iroaNilgCYrRb+1g4cmVaqB2uWDAGz3svccfiPd5VWa1pVl
+         rCF4M5Vq/Rij8svJt/Jw+GUMin9bZDzUUYRrALhgqv+1ayIhb3pfsU4rFrvaMpsqywZS
+         DwEvz/GPMuyuzxp37lEgmS+qNuMG87UqV2I+LTJPa5Zd4Vuy3/6BJCrhCUbC1N9EsoT/
+         mIq1x3g96qmIHdxNmhKJc4cpiTywL8l3TmGAMN0/q0UUqD1mT5z6vkWEOgtIi4R3Z1XO
+         7D0Om2+5p8DYtR8tE7Jv3qUZlhhg2cpU/vUTNSncWx2krAurdpJoOL2oP86wJ/KPEDYc
+         B1/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ZHPPmH/9scj2tTqrM6KnTGx6qYluXiPbPCqtebRoBKI=;
-        b=uWO9vraGKEc+W5wpxgCql0oBNkAktJfGq++O5bL1mIwtdzBraz5DO0Poqq7HblGrNn
-         SajNHRaBS0HQr8xMyg07EXe3FU8lmsVhfzzEPZBlyWWOCK5kfHrrGkmvsRzSWjO7NJg8
-         f6PjQLmBKBoWauBuF3FkApf0L3G2s1JGV01Ck34g2s2+1Ajtm/GTSR0ioqO4xcFB+vyV
-         X1RSUqbVt9lGjjFyde0KQYLmKvSJW1FirwUz9bCG/AX0q3Ku5NcXuHeepNaf5f3f//V1
-         tYd+oSqRwCJXZ2N624NPpHkBkZbFy/EM8VEJRSDcqU1jP6wnxxFI3o4rpCIojAS1Xkd9
-         GbCQ==
-X-Gm-Message-State: AOAM530q4LppU+VxZercPTBRcqGUa158CdK3Pr+E275fBzF8o92N5Gjx
-	Vz9WURiWRL5PYnm1u4KVaVc=
-X-Google-Smtp-Source: ABdhPJyP36q4Qk3lamjjEWPQUjJMdSRoMpJqh71sR8CZq+cRCb+1pdLlV83kwvybx1CaHRQ2qBMVHw==
-X-Received: by 2002:a7b:c7d3:: with SMTP id z19mr3251889wmk.139.1617803422380;
-        Wed, 07 Apr 2021 06:50:22 -0700 (PDT)
+        bh=agWTThKJnzpXbfQJioyYRi1VTSU31768MskVIC2gqW4=;
+        b=An1EGb9Vg21GN8A2IbmvoENMOz/2lG6X5/9BZ1o93VItbCqOZdAjO0JFEQw0nGCc8N
+         1mlQiGTh0sck6vMTU70NMDsPrRUAiCYzAWHBMSFFWWfVd26P4IpvUl7OOeZVtggOK5mD
+         47EAaSNLVpJ0VRxDzZanxGlSgHGio8QmB0jbJEtf3+j9Ijxkz3VkRBc8t2aV10NnStaB
+         izjOMMO/cNr2DiD/GbGzs9oQsCtEh9tG8J/dmfg1JteghSVdufLUIBOMTq6V0DuS3AcX
+         XtDJ4+bSvzO0eG5q9TjIPYyLlWHhLbanfZMmuJ2tRqwVtjInye/7/kQ9jkbV76MfEJrm
+         WIjQ==
+X-Gm-Message-State: AOAM531iEBPwC5TlmBPetyPI8Hyj9b5csiVMRiF/iFgAWZ76HXzomlrR
+	eLG50LQThaqM1qiXIKqXxqM=
+X-Google-Smtp-Source: ABdhPJxphLhhA9NmKcBRuu0OvxDwttWJGTyRAzXCv/wE8fUhmujzISOt9xPFniIeNtqT4cSAf28Zew==
+X-Received: by 2002:adf:f64e:: with SMTP id x14mr4572832wrp.203.1617803423995;
+        Wed, 07 Apr 2021 06:50:23 -0700 (PDT)
 Received: from agape ([5.171.81.68])
-        by smtp.gmail.com with ESMTPSA id o1sm13431619wrw.23.2021.04.07.06.50.21
+        by smtp.gmail.com with ESMTPSA id k11sm8714212wmj.1.2021.04.07.06.50.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Apr 2021 06:50:22 -0700 (PDT)
+        Wed, 07 Apr 2021 06:50:23 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 16/19] staging: rtl8723bs: remove unnecessary parentheses
-Date: Wed,  7 Apr 2021 15:49:40 +0200
-Message-Id: <1453eec49833fc940e134fc14bc65d218ace0663.1617802415.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 17/19] staging: rtl8723bs: fix comparison in if condition
+Date: Wed,  7 Apr 2021 15:49:41 +0200
+Message-Id: <b32610045cad3c385b236266d7a10665ed202150.1617802415.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617802415.git.fabioaiuto83@gmail.com>
 References: <cover.1617802415.git.fabioaiuto83@gmail.com>
@@ -56,28 +56,28 @@ Content-Transfer-Encoding: 8bit
 
 fix following post-commit checkpatch issue:
 
-CHECK: Unnecessary parentheses around 'prxattrib->bdecrypted'
-125: FILE: drivers/staging/rtl8723bs/core/rtw_recv.c:365:
-+				if ((prxattrib->bdecrypted) && (brpt_micerror))
+WARNING: Comparisons should place the constant on the right side of the test
+1833: FILE: drivers/staging/rtl8723bs/os_dep/mlme_linux.c:151:
++		if (NULL == buff)
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_recv.c | 2 +-
+ drivers/staging/rtl8723bs/os_dep/mlme_linux.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index 18ad719c9826..668a703dee7f 100644
---- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -362,7 +362,7 @@ static signed int recvframe_chkmic(struct adapter *adapter,  union recv_frame *p
- 				if ((IS_MCAST(prxattrib->ra) == true)  && (prxattrib->key_index != pmlmeinfo->key_index))
- 					brpt_micerror = false;
+diff --git a/drivers/staging/rtl8723bs/os_dep/mlme_linux.c b/drivers/staging/rtl8723bs/os_dep/mlme_linux.c
+index f5c94509ad71..0a16752f805b 100644
+--- a/drivers/staging/rtl8723bs/os_dep/mlme_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/mlme_linux.c
+@@ -148,7 +148,7 @@ void rtw_report_sec_ie(struct adapter *adapter, u8 authmode, u8 *sec_ie)
+ 	buff = NULL;
+ 	if (authmode == WLAN_EID_VENDOR_SPECIFIC) {
+ 		buff = rtw_zmalloc(IW_CUSTOM_MAX);
+-		if (NULL == buff)
++		if (!buff)
+ 			return;
  
--				if ((prxattrib->bdecrypted) && (brpt_micerror))
-+				if (prxattrib->bdecrypted && brpt_micerror)
- 					rtw_handle_tkip_mic_err(adapter, (u8)IS_MCAST(prxattrib->ra));
- 
- 				res = _FAIL;
+ 		p = buff;
 -- 
 2.20.1
 
