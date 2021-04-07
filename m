@@ -1,76 +1,72 @@
-Received: from smtp125.ord1c.emailsrvr.com (smtp125.ord1c.emailsrvr.com [108.166.43.125])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB84570
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 20:46:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
-	s=20190130-41we5z8j; t=1617819646;
-	bh=4LGgb90Ndoe+2TqXyELQNZz3polJxIGqnUaWHXIUMiA=;
-	h=Subject:To:From:Date:From;
-	b=Hvl5dVfo4EiRP9IRuLJv/iUBB/uZ26/A3/gCe17rjy6rg8ZDd6lcFJ30NvWgsg+jS
-	 trISq8K/KZ4Em7ZBcuK4QGUy4YvymG01KjrPcC5SoRWbyfCCDkcaKpSzkpWCa9oIwP
-	 /MGfDMLKYo2ef7eslWSi94gpxL0qk2vuGPLw/rZI=
-X-Auth-ID: abbotti@mev.co.uk
-Received: by smtp16.relay.ord1c.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id CDB53C0221;
-	Wed,  7 Apr 2021 14:20:45 -0400 (EDT)
-Subject: Re: [PATCH 0/5] staging: comedi: tests: Fix various issues
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
- H Hartley Sweeten <hsweeten@visionengravers.com>,
- "Spencer E . Olson" <olsonse@umich.edu>
-References: <20210407140142.447250-1-abbotti@mev.co.uk>
- <YG3LY0hhDhzeXa1V@kroah.com> <3d70fc39-3c3f-16af-d4bb-e4dc2c9ffc26@mev.co.uk>
- <YG3rUN0fvyA6HCpf@kroah.com>
-From: Ian Abbott <abbotti@mev.co.uk>
-Organization: MEV Ltd.
-Message-ID: <31138c5e-9272-fc05-2c79-234101f8d5dd@mev.co.uk>
-Date: Wed, 7 Apr 2021 19:20:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933BD70
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 21:26:43 +0000 (UTC)
+Received: by mail-qk1-f181.google.com with SMTP id q3so83510qkq.12
+        for <linux-staging@lists.linux.dev>; Wed, 07 Apr 2021 14:26:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=YmJWVZVCE0nBAIyztMwblyzhG8DMCv0lWyvf1G3l0f8=;
+        b=tXbIacZhePHp5cOIGIkAz0vDSH59OEMujhAtK+p39NvO0tijLukHQfj07YbwuWf7wW
+         Ba3ofjdrbYEsgWq4jeHj8gC6ao7Sh0/Zig+K9/5C7WVqJFE3GjYRFU0PpFqaAYo+y+pV
+         F1hIb6wvBc69dwwxk83PhR8cawOjUtz4mCxue4SgAypbQtWH8Ivoa9i2iDs703Ir6UoL
+         Gdyf+YNwRMJNRaZdBRoU1j9HfnxYYes0vgw5KGETJPFHas+VOdjCEo9BezhqSmlLtk4L
+         x036LpCazyXua/pk5SciE1KBJwE5Fq9wrhUivzerAnUNXBUMgYfz/smDZcG6Sbb6Iet7
+         5g6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=YmJWVZVCE0nBAIyztMwblyzhG8DMCv0lWyvf1G3l0f8=;
+        b=Ve9OwPD4xY0pl487RdoKIRqkjnvwt60JGvtx6WjHBF37c9T3wQNi//vKtfsBbbJ+Rj
+         rNuN8USKYxiG0IU0HtekiF1uQrrW6hdcxGBxzifM78VuLn7B1djMw84HJt4/d64yDd6j
+         G5Na+eC4WLMUVCKZUdmIwdURm4Uis4ODZzPAE5kaKsR20ZClEvZ/95n8MvzmOWNXyyyE
+         PGNzRuTV8dbXEJMyH7xEawRSEYImptaKsSBtDEI2HrUz7ntE9dQUv9nrl1iQcpcYqjIc
+         6x5f6zCphfyT8AoVgnCw3F90MT7IOM9QVtdk9AJfL+PN66hHJ2OrBg4DDOS2fcbGXJ1t
+         7rFw==
+X-Gm-Message-State: AOAM5303W+4AxAFYUdj1zSPLrD43bxatFfOC9GRk+Xh3OGGIEikG8T1Y
+	p4tXDyoMOw7tM0Lak7AJrrA=
+X-Google-Smtp-Source: ABdhPJyTOs5yeM5Gs/3O78S66x+F9OUD3cSYHCOFubhe/hcOv/0Vw50Ul4NBt9XWhiqUd/DiLT9t2A==
+X-Received: by 2002:a37:acd:: with SMTP id 196mr5474432qkk.219.1617830802641;
+        Wed, 07 Apr 2021 14:26:42 -0700 (PDT)
+Received: from focaruja ([2001:1284:f013:b099:91d8:678f:6a0a:466d])
+        by smtp.gmail.com with ESMTPSA id b1sm19858992qkk.117.2021.04.07.14.26.41
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Wed, 07 Apr 2021 14:26:42 -0700 (PDT)
+Date: Wed, 7 Apr 2021 18:26:40 -0300
+From: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+To: Ezequiel Garcia <ezequiel@collabora.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy-kernel@googlegroups.com, alinesantanacordeiro@gmail.com
+Subject: [Outreachy kernel][PATCH 0/2] staging: media: hantro: Align line
+ break to the open parenthesis
+Message-ID: <cover.1617829497.git.alinesantanacordeiro@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YG3rUN0fvyA6HCpf@kroah.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-Classification-ID: 6f78df84-99cd-4181-92c2-c05b8efa4ce9-1-1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.24 (2015-08-30)
 
-On 07/04/2021 18:26, Greg Kroah-Hartman wrote:
-> On Wed, Apr 07, 2021 at 04:39:25PM +0100, Ian Abbott wrote:
->> On 07/04/2021 16:10, Greg Kroah-Hartman wrote:
->>> On Wed, Apr 07, 2021 at 03:01:37PM +0100, Ian Abbott wrote:
->>>> The code under "drivers/staging/comedi/drivers/tests/" is built when the
->>>> CONFIG_COMEDI_TESTS option is enabled.  That currently needs to be done
->>>> on the "make" command line since the option does not appear in the
->>>> Kconfig files.
->>>>
->>>> This patch series fixes a compilation error and various other niggles
->>>> including checkpatch.pl stuff.
->>>>
->>>> 1) staging: comedi: tests: ni_routes_test: Fix compilation error
->>>> 2) staging: comedi: tests: ni_routes_test: Put complex values in parentheses
->>>> 3) staging: comedi: tests: ni_routes_test: Avoid CamelCase: <RVi>
->>>> 4) staging: comedi: tests: ni_routes_test: Lines should not end with a '('
->>>> 5) staging: comedi: tests: Correct unittest_fptr
->>>
->>> Should we move these to the normal kernel testing directory instead, so
->>> that they do get some build testing?
->>
->> I'm not sure since they are in "drivers/staging".  However, we could add
->> something to comedi's Kconfig to allow the tests to be built.
-> 
-> We need to get the comedi code out of staging, I really don't think
-> there is any need to keep it in here anymore, do you?  I'll try to carve
-> some time next week to look at the code and if I can't find anything
-> left to do, start moving it out.
+Aligns line break with the remaining function arguments
+to the open parenthesis. Issue found by checkpatch.
 
-What do you mean - it's only been in staging for 12 and a half years! :-)
+Aline Santana Cordeiro (2):
+  [PATCH 1/2] staging: media: hantro: Align line break to the open parenthesis
+  [PATCH 2/2] staging: media: hantro: Align line break to the open parenthesis
+
+ drivers/staging/media/hantro/hantro_hw.h    | 2 +-
+ drivers/staging/media/hantro/hantro_mpeg2.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 -- 
--=( Ian Abbott <abbotti@mev.co.uk> || MEV Ltd. is a company  )=-
--=( registered in England & Wales.  Regd. number: 02862268.  )=-
--=( Regd. addr.: S11 & 12 Building 67, Europa Business Park, )=-
--=( Bird Hall Lane, STOCKPORT, SK3 0XA, UK. || www.mev.co.uk )=-
+2.7.4
+
