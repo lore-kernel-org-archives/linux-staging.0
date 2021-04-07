@@ -1,131 +1,94 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBF06D0E
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 15:48:33 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id p19so9288955wmq.1
-        for <linux-staging@lists.linux.dev>; Wed, 07 Apr 2021 08:48:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 099746D0E
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 15:48:38 +0000 (UTC)
+Received: by mail-qt1-f173.google.com with SMTP id l13so14045715qtu.9
+        for <linux-staging@lists.linux.dev>; Wed, 07 Apr 2021 08:48:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=VXyrtGnwTjNkgIA1jrziNG4eeLUP6i3fUCHQ1vhVTNk=;
-        b=AT3fDu5INkxhj3Ycskj+25gD7VvEaPZFZOqS+dhmjSsFiVZ01PPcXhLNUTnVfU6F9T
-         E0XhY4u1NBJm5jTKMs7AcK+gzPIAXkVqEgk+T49IfKZLkDo5mqKZKRVFf11vkcvr5LUA
-         jXeX/IYQl6oBAUQLk3c2+KmMoN8w+LME7R5+tp200su1i7v4ClMarRdCiNqfPZnLAqX1
-         k7FMPChv+9NMP1ym25RwMfvTL/6KVRO1Kh1ziGhSI4x7ijLJK86xHGHdwQJ+fVlh/7Be
-         Z1oGWwNYGPu9/pqRHVoHZRW8mBI6HXAVhCeK00BOayKoSU9s9USmOKT4eQRZ/kGHWoJ4
-         5u1w==
+        d=umich.edu; s=google-2016-06-03;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JbPJmtJdQ7BVqkT28E565nFA/y7LagUhwIcJY8SA28s=;
+        b=dcfNhQVzeXrqJo0ojvkqehkHzPn2NXYvJHOkAc78Bu4WZQFKB+wqRtoz5MRBJ0S9xF
+         HuK7rnsmf70bY4hogfS/197EYz+tAkDCjJND+iOUaU5nIpRytoCQHN3W7PQ645ryXQbt
+         k7lqCmkG4Fu0EZLPHlrXTSfr9JVNjXxbTYn0t1xAoNapkSuCD7/Kb6PKaynHu1HP8cu4
+         b99nnvRU5USZeQrLtOozXBjU4ADiP8cV7/Oiuq93ZL0ZxXAVex1SkEvJRPFE7vhWJ6qN
+         hqFcT1U/9uxm+n0N0cc+qdhLQ72U6sgYsQGwudl4qe+mNFCGpBvAD083j1tS7v7MTpQK
+         SqvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=VXyrtGnwTjNkgIA1jrziNG4eeLUP6i3fUCHQ1vhVTNk=;
-        b=SKmdK8JQl0X2GQPkaGz4jeDjCabjweyoSestiM564VkNzoXkG9X124HYu0Us6lhqiw
-         lsvysWi+LCoTk2CzLuZOC7TRcGowgFhKQrutZxc/yqRzGplfUfJoKRLXd8H611zgtSU9
-         jy+lXf6vTbsYsciNF/M/W+cPMtZtPmCM7ZwfUwOPaJ20IbtgzbmBQDva1iyYsFzcwzrY
-         nXEV7nzkjR1iGFrQcSnwMlijuKTS0uii1Zt/MKvFgGAaDa8aSv547n9vIBd3fJgld1aL
-         BIA4spvLMwV8ilGboYi8gBCrYh5lk1iSS9aTyWjeA6sRUruaqlZoDQVqDTEw6ruTdDPW
-         Zr5w==
-X-Gm-Message-State: AOAM533AWUXNphhUGTHvdTYJq5iqtGTwZjG3PWrtQJTfWKtTKJDlBkhW
-	Fee+HooE45KL/QdArIin6/Q=
-X-Google-Smtp-Source: ABdhPJzD7dxKEjfVHj/Mt5EH5n5S/dlaxsmEkejN73MZv+TvkDOrEI5rgccyVlOqrKVUnws2nEHr5A==
-X-Received: by 2002:a05:600c:2946:: with SMTP id n6mr3655449wmd.52.1617810511641;
-        Wed, 07 Apr 2021 08:48:31 -0700 (PDT)
-Received: from 192.168.10.5 ([39.46.7.73])
-        by smtp.gmail.com with ESMTPSA id v185sm9224838wmb.25.2021.04.07.08.48.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Apr 2021 08:48:31 -0700 (PDT)
-Message-ID: <5daaeac37cfa5c07a1880ae49b712566a561ba1a.camel@gmail.com>
-Subject: Re: [PATCH] staging: axis-fifo: media/meson: remove redundant
- dev_err call
-From: Muhammad Usama Anjum <musamaanjum@gmail.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: musamaanjum@gmail.com, linqiheng@huawei.com, 
- kernel-janitors@vger.kernel.org, dan.carpenter@oracle.com, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Neil Armstrong
- <narmstrong@baylibre.com>,  Mauro Carvalho Chehab <mchehab@kernel.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,  "open
- list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, open list
- <linux-kernel@vger.kernel.org>,  "open list:MESON VIDEO DECODER DRIVER FOR
- AMLOGIC SOCS" <linux-media@vger.kernel.org>, "open list:MESON VIDEO DECODER
- DRIVER FOR AMLOGIC SOCS" <linux-amlogic@lists.infradead.org>, "moderated
- list:ARM/Amlogic Meson SoC support" <linux-arm-kernel@lists.infradead.org>
-Date: Wed, 07 Apr 2021 20:48:21 +0500
-In-Reply-To: <93218bc8-2cbb-bacc-f985-876a842261c4@xs4all.nl>
-References: <20210407101047.GA1491258@LEGION>
-	 <93218bc8-2cbb-bacc-f985-876a842261c4@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JbPJmtJdQ7BVqkT28E565nFA/y7LagUhwIcJY8SA28s=;
+        b=gFn/io2tuurZYYR1faQ1m3ApcQN82oelfWrgzU8LJc0ZbXEpDetxG/+RP16HL+uFR0
+         fIR7207fbOuBrTHsuMb0eEHXfqrTvQrocWzIJbfdEP773bmc587PV9KomPGC1p36TIQT
+         YBw+/zXn9NrtH4mgbeXE9t81qdrUiXXgqYCuzcOWB5pKTcW8zedCXorGZzOfcFiOVg1G
+         zSNjeuVRriS2K5m1aKfQLz3nuIuVMxNOo5hlfcU2J0YEqKDYoRuCb4AsEo7fZRF7uUo2
+         5mQX0aanWlrp4nAjUjfq8wkHJieRyGKxiNzljjMRM6REEzjn31aOtaWiUvAkx5MoqGrW
+         Q4bw==
+X-Gm-Message-State: AOAM533ANAT8K/M2H5Y60DxKHpv9to+OgOsIa32AqYKogseeU9dGElMC
+	FyfOwu0PwpDeQdYq3Z/+zW0ruXdo8jlOlMLB5dLQgg==
+X-Google-Smtp-Source: ABdhPJytynqYXUzvbxudt9E4wVlqHMGKiuVSw4KZ9ljiMogMlSUxBXoU9TVgvE2HHNWab5TBRA46Yc1jgGL4xcG5XaQ=
+X-Received: by 2002:ac8:4f06:: with SMTP id b6mr3326040qte.255.1617810517940;
+ Wed, 07 Apr 2021 08:48:37 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20210407140142.447250-1-abbotti@mev.co.uk> <YG3LY0hhDhzeXa1V@kroah.com>
+ <3d70fc39-3c3f-16af-d4bb-e4dc2c9ffc26@mev.co.uk>
+In-Reply-To: <3d70fc39-3c3f-16af-d4bb-e4dc2c9ffc26@mev.co.uk>
+From: Spencer Olson <olsonse@umich.edu>
+Date: Wed, 7 Apr 2021 09:48:27 -0600
+Message-ID: <CAOx9PegenGENfvqwp2XFiSgYTB6y=g8dQcy3NQ_NipbQFxdGTw@mail.gmail.com>
+Subject: Re: [PATCH 0/5] staging: comedi: tests: Fix various issues
+To: Ian Abbott <abbotti@mev.co.uk>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
+	H Hartley Sweeten <hsweeten@visionengravers.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 2021-04-07 at 16:05 +0200, Hans Verkuil wrote:
-> Hi Muhammad,
-> 
-> On 07/04/2021 12:10, Muhammad Usama Anjum wrote:
-> > devm_ioremap_resource() prints error message in itself. Remove the
-> > dev_err call to avoid redundant error message.
-> 
-> Please split this up into two separate patches! They are independent
-> changes and these two drivers are maintained by different people as well.
-> 
-> The patch itself looks OK, but it really has to be two separate patches.
-> 
-Okay. I'll send two separate patches. Thank you.
+On Wed, Apr 7, 2021 at 9:39 AM Ian Abbott <abbotti@mev.co.uk> wrote:
+>
+> On 07/04/2021 16:10, Greg Kroah-Hartman wrote:
+> > On Wed, Apr 07, 2021 at 03:01:37PM +0100, Ian Abbott wrote:
+> >> The code under "drivers/staging/comedi/drivers/tests/" is built when the
+> >> CONFIG_COMEDI_TESTS option is enabled.  That currently needs to be done
+> >> on the "make" command line since the option does not appear in the
+> >> Kconfig files.
+> >>
+> >> This patch series fixes a compilation error and various other niggles
+> >> including checkpatch.pl stuff.
+> >>
+> >> 1) staging: comedi: tests: ni_routes_test: Fix compilation error
+> >> 2) staging: comedi: tests: ni_routes_test: Put complex values in parentheses
+> >> 3) staging: comedi: tests: ni_routes_test: Avoid CamelCase: <RVi>
+> >> 4) staging: comedi: tests: ni_routes_test: Lines should not end with a '('
+> >> 5) staging: comedi: tests: Correct unittest_fptr
+> >
+> > Should we move these to the normal kernel testing directory instead, so
+> > that they do get some build testing?
+>
+> I'm not sure since they are in "drivers/staging".  However, we could add
+> something to comedi's Kconfig to allow the tests to be built.
+>
+> The "ni_routes_test" module in "drivers/staging/comedi/drivers/test/"
+> would need a new config option because it will need to either depend on
+> or select the COMEDI_NI_ROUTING option.  The "example_test" module (crap
+> name) in the same directory doesn't depend on anything in particular.
+>
+> --
+> -=( Ian Abbott <abbotti@mev.co.uk> || MEV Ltd. is a company  )=-
+> -=( registered in England & Wales.  Regd. number: 02862268.  )=-
+> -=( Regd. addr.: S11 & 12 Building 67, Europa Business Park, )=-
+> -=( Bird Hall Lane, STOCKPORT, SK3 0XA, UK. || www.mev.co.uk )=-
 
-Regards,
-Usama
-> Regards,
-> 
-> 	Hans
-> 
-> > Signed-off-by: Muhammad Usama Anjum <musamaanjum@gmail.com>
-> > ---
-> >  drivers/staging/axis-fifo/axis-fifo.c   | 1 -
-> >  drivers/staging/media/meson/vdec/vdec.c | 8 ++------
-> >  2 files changed, 2 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-> > index 2bb1c2e9cb57..ed9281089738 100644
-> > --- a/drivers/staging/axis-fifo/axis-fifo.c
-> > +++ b/drivers/staging/axis-fifo/axis-fifo.c
-> > @@ -853,7 +853,6 @@ static int axis_fifo_probe(struct platform_device *pdev)
-> >  	fifo->base_addr = devm_ioremap_resource(fifo->dt_device, r_mem);
-> >  	if (IS_ERR(fifo->base_addr)) {
-> >  		rc = PTR_ERR(fifo->base_addr);
-> > -		dev_err(fifo->dt_device, "can't remap IO resource (%d)\n", rc);
-> >  		goto err_initial;
-> >  	}
-> >  
-> > diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-> > index 5d4db7a5b4b5..e51d69c4729d 100644
-> > --- a/drivers/staging/media/meson/vdec/vdec.c
-> > +++ b/drivers/staging/media/meson/vdec/vdec.c
-> > @@ -1008,17 +1008,13 @@ static int vdec_probe(struct platform_device *pdev)
-> >  
-> >  	r = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dos");
-> >  	core->dos_base = devm_ioremap_resource(dev, r);
-> > -	if (IS_ERR(core->dos_base)) {
-> > -		dev_err(dev, "Couldn't remap DOS memory\n");
-> > +	if (IS_ERR(core->dos_base))
-> >  		return PTR_ERR(core->dos_base);
-> > -	}
-> >  
-> >  	r = platform_get_resource_byname(pdev, IORESOURCE_MEM, "esparser");
-> >  	core->esparser_base = devm_ioremap_resource(dev, r);
-> > -	if (IS_ERR(core->esparser_base)) {
-> > -		dev_err(dev, "Couldn't remap ESPARSER memory\n");
-> > +	if (IS_ERR(core->esparser_base))
-> >  		return PTR_ERR(core->esparser_base);
-> > -	}
-> >  
-> >  	core->regmap_ao =
-> >  		syscon_regmap_lookup_by_phandle(dev->of_node,
-> > 
+I don't have any arguments against your complaint of the
+"example_test" name :-).  It was written with the hope that more parts
+of comedi might follow suit and create some unit tests.  In terms of
+placement in the tree, I had been following a pattern set by another
+module that also had some unit tests contained local to the module's
+directory (can't remember now which one it was).
 
+Spencer
