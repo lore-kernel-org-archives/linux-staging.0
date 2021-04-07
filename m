@@ -1,63 +1,141 @@
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4BF6D0E
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 06:34:09 +0000 (UTC)
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FFZLG3Gnyz17Qtq;
-	Wed,  7 Apr 2021 14:31:50 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 7 Apr 2021 14:33:54 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <marvin24@gmx.de>, <p.zabel@pengutronix.de>
-CC: <ac100@lists.launchpad.net>, <linux-tegra@vger.kernel.org>,
-	<linux-staging@lists.linux.dev>, Tian Tao <tiantao6@hisilicon.com>
-Subject: [PATCH] staging: nvec: move to use request_irq by IRQF_NO_AUTOEN flag
-Date: Wed, 7 Apr 2021 14:34:19 +0800
-Message-ID: <1617777259-27463-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C096D0E
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 06:35:58 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id x26so5445632pfn.0
+        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 23:35:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=Kpadh2a52Sny43OWLtjjTywPE6OAtZ2j+jNoMxyDVSw=;
+        b=COVHN0e75+tmi1XgiOPsCKXkUbcFba+PUO6pVjrFXU1/aQd8+8NccoFdAhVa4+2V5l
+         p4AW2ahIK2qNHexph+yJA931r3n9JSYXVQpNc4EYihBLxFH2nLd3CZ+Ir24eFB9v+UNn
+         i5xn+QoOHoPxV3gE3UOSNB5ZHqXF4MER94QtMheXelil7vH59UQNjGfNhYIrYyTiiC+W
+         6kWD7GG71UB4pT0jUh4l279VfsQ6xazRgHB6Alvym8WtLI1HTjqB7GixrRGmTCDOfHGD
+         MeRlnUWjwjPcdM7s2OOeMw0LOfHGhsz2JvSZXR7wVZj1Gbo9Fgt5rxKU8RC50+/+tKyW
+         fZoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=Kpadh2a52Sny43OWLtjjTywPE6OAtZ2j+jNoMxyDVSw=;
+        b=lxHNn/tfqJR8cMIQkav8aP+jvpyLXzjObymnAED33LzY8E/vvjlJ10NcqZYdIcjjPR
+         FwBZkGPY7qZcs1eM5wL4MWzS43YckLYSt2Gen19djaS5EaQO+mq18rlMLeGlSOujIkRE
+         vrknXsqX22gKolVQdeNNsI2LF9cHYoRU9WPhFmmpDdhy0sN/h9XVApV42qkh0Fsy+Fx2
+         UtBnPV1QzA7+0GYjfBzbSQpwRt12rwfKI74HUyGbpgR+nWY5jhzLc8v7lUGvshVPJQOv
+         /8UnwB25RamywFVQSeQHyEaX2vS0s2fpbLTYrC1HnU5xK+8XLQpbwODW8VlXe718BLHe
+         B6mw==
+X-Gm-Message-State: AOAM532fjUhD7aTG75HCt2sPDS9srCoDoHtHslgMq7Y9pG6I/qx/nPaW
+	fyOPFHb5Nc5qyggigBnFvBo=
+X-Google-Smtp-Source: ABdhPJyYyodEW+gfwmlphycKDQ2ep/z/1vWwxpaAalQ0Toek+O713NOHEYPOigtPIJoKhJk8w36+ug==
+X-Received: by 2002:a62:63c7:0:b029:225:7c19:a8f9 with SMTP id x190-20020a6263c70000b02902257c19a8f9mr1689320pfb.39.1617777357588;
+        Tue, 06 Apr 2021 23:35:57 -0700 (PDT)
+Received: from localhost.localdomain ([134.173.248.5])
+        by smtp.gmail.com with ESMTPSA id ot17sm4048352pjb.50.2021.04.06.23.35.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Apr 2021 23:35:56 -0700 (PDT)
+Date: Tue, 6 Apr 2021 23:35:54 -0700
+From: Pavle Rohalj <pavle.rohalj@gmail.com>
+To: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 00/49] *** SUBJECT HERE ***
+Message-ID: <cover.1617776878.git.pavle.rohalj@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-disable_irq() after request_irq() still has a time gap in which
-interrupts can come. request_irq() with IRQF_NO_AUTOEN flag will
-disable IRQ auto-enable because of requesting.
+Changes in v2:
+    - Removed type information from variable names
+    - Broken up the changes into smaller patches
 
-this patch is made base on "add IRQF_NO_AUTOEN for request_irq" which
-is being merged: https://lore.kernel.org/patchwork/patch/1388765/
+Pavle Rohalj (49):
+  staging: sm750fb: Update dvi_ctrl_device to snake case
+  staging: sm750fb: Rename dviInit to dvi_init and update param names
+  staging: sm750fb: Update param names of PFN_DVICTRL_INIT function
+    pointer
+  staging: sm750fb: Remove type names in variables and type definitions
+  staging: sm750fb: Remove remaining camel case names in ddk750_dvi.h
+  staging: sm750fb: Update displayControlAdjust_SM750LE to snake case
+  staging: sm750fb: Update programModeRegisters to snake case
+  staging: sm750fb: Update enum values in dpms to snake case
+  staging: sm750fb: Rename sm750_set_power_mode function parameter
+  staging: sm750fb: Rename ddk750_setModeTiming to
+    ddk750_set_mode_timing
+  staging: sm750fb: Rename i2cWriteReg and i2cReadReg to snake case
+  staging: sm750fb: Rename vendorID local variable to snake case
+  staging: sm750fb: Rename deviceID local variable to snake case
+  staging: sm750fb: Rename sii164SelectHotPlugDetectionMode to snake
+    case
+  staging: sm750fb: Rename gDviCtrlChipName to snake case
+  staging: sm750fb: Update function parameter names in ddk750_sii164.c
+  staging: sm750fb: Rename local variables to snake case
+  staging: sm750fb: Rename function params of sii164_init_chip
+  staging: sm750fb: Rename function parameter of
+    sii164_enable_hot_plug_detection
+  staging: sm750fb: Update function parameter names to snake case
+  staging: sm750fb: Rename function write_dpPort to snake case
+  staging: sm750fb: Update local variable in sm750_hw_copyarea to snake
+    case
+  staging: sm750fb: Update local variables in sm750_hw_imageblit to
+    snake case
+  staging: sm750fb: Update local variable in sm750_hw_fillrect to snake
+    case
+  staging: sm750fb: Rename deGetTransparency to snake case
+  staging: sm750fb: Update function parameter of sm750_hw_imageblit to
+    snake case
+  staging: sm750fb: Rename function params to snake case in
+    sm750_accel.h
+  staging: sm750fb: Update members of lynx_cursor to snake case
+  staging: sm750fb: Rename function sm750_hw_cursor_setSize to snake
+    case
+  staging: sm750fb: Rename function sm750_hw_cursor_setPos to snake case
+  staging: sm750fb: Rename function sm750_hw_cursor_setColor to snake
+    case
+  staging: sm750fb: Rename function sm750_hw_cursor_setData to snake
+    case
+  staging: sm750fb: Rename function hw_sm750_crtc_setMode to snake case
+  staging: sm750fb: Update members of init_status struct to snake case
+  staging: sm750fb: Update members of sm750_dev struct to snake case
+  staging: sm750fb: Update members of lynxfb_crtc struct to snake case
+  staging: sm750fb: Rename function hw_sm750_output_setMode to snake
+    case
+  staging: sm750fb: Rename function hw_sm750_setColReg to snake case
+  staging: sm750fb: Rename functions *_setBLANK to snake case
+  staging: sm750fb: Rename function sm750_hw_cursor_setData2 to snake
+    case
+  staging: sm750fb: Rename function hw_sm750_initAccel to snake case
+  staging: sm750fb: Rename functions *_deWait to snake case
+  staging: sm750fb: Update members of lynx_accel struct to snake case
+  staging: sm750fb: Rename function hw_sm750_crtc_checkMode to snake
+    case
+  staging: sm750fb: Rename sii164_set_power function parameter
+  staging: sm750fb: Rename local variable Bpp to bpp in sm750.c
+  staging: sm750fb: Rename proc_setBLANK member of lynxfb_output struct
+  staging: sm750fb: Rename fixId to fix_id
+  staging: sm750fb: Update members of sm750_pnltype struct to snake case
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
----
- drivers/staging/nvec/nvec.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/staging/sm750fb/ddk750_dvi.c    |  32 ++---
+ drivers/staging/sm750fb/ddk750_dvi.h    |  80 ++++++-------
+ drivers/staging/sm750fb/ddk750_mode.c   |  88 +++++++-------
+ drivers/staging/sm750fb/ddk750_mode.h   |   2 +-
+ drivers/staging/sm750fb/ddk750_power.h  |  10 +-
+ drivers/staging/sm750fb/ddk750_sii164.c | 152 ++++++++++++------------
+ drivers/staging/sm750fb/ddk750_sii164.h |  40 +++----
+ drivers/staging/sm750fb/sm750.c         | 130 ++++++++++----------
+ drivers/staging/sm750fb/sm750.h         |  56 ++++-----
+ drivers/staging/sm750fb/sm750_accel.c   | 148 +++++++++++------------
+ drivers/staging/sm750fb/sm750_accel.h   |  42 +++----
+ drivers/staging/sm750fb/sm750_cursor.c  |  14 +--
+ drivers/staging/sm750fb/sm750_cursor.h  |  10 +-
+ drivers/staging/sm750fb/sm750_hw.c      |  56 ++++-----
+ 14 files changed, 430 insertions(+), 430 deletions(-)
 
-diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-index a80996b..f23e127 100644
---- a/drivers/staging/nvec/nvec.c
-+++ b/drivers/staging/nvec/nvec.c
-@@ -831,13 +831,12 @@ static int tegra_nvec_probe(struct platform_device *pdev)
- 		return PTR_ERR(nvec->gpiod);
- 	}
- 
--	err = devm_request_irq(dev, nvec->irq, nvec_interrupt, 0,
--			       "nvec", nvec);
-+	err = devm_request_irq(dev, nvec->irq, nvec_interrupt,
-+			       IRQF_NO_AUTOEN, "nvec", nvec);
- 	if (err) {
- 		dev_err(dev, "couldn't request irq\n");
- 		return -ENODEV;
- 	}
--	disable_irq(nvec->irq);
- 
- 	tegra_init_i2c_slave(nvec);
- 
 -- 
-2.7.4
+2.30.2
 
