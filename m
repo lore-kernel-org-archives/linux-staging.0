@@ -1,27 +1,27 @@
-Received: from smtp109.ord1c.emailsrvr.com (smtp109.ord1c.emailsrvr.com [108.166.43.109])
+Received: from smtp104.ord1c.emailsrvr.com (smtp104.ord1c.emailsrvr.com [108.166.43.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885FE6D11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A0816D12
 	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 18:21:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
-	s=20190130-41we5z8j; t=1617819240;
-	bh=/n8xlksT0U2kfhS3wyjpfGCKweb+VgR1KUxAlem3A6s=;
+	s=20190130-41we5z8j; t=1617819238;
+	bh=GW/SJii8jurBk+bJCT6kK1Xe9pXYO1vM5Lxr1/eEykg=;
 	h=From:To:Subject:Date:From;
-	b=DZW56nFk50YrwEsVQctNEdvK0W2HHMJys7WTiGjwsJ56YI+hguZeMrMVYHb9XUm3E
-	 WX3dPOx3F1SCw9rT1SsQ8UfhrUzfkVsbIDWuZ5MqaSOUavy8JIQIiMqxteIze/lQv5
-	 oElEsm9LNiEMRwP+enj24cZHHYfPOi5c6u2ZFVCo=
+	b=XRyhHnmkMGxRWzwrlZRAyIS2Nfmv4Qr/Cv2bFuBmujyVanefBgURsj7bulmCmXZ3g
+	 PfPGQv5qT2ewSaXrC0G5Jn27uV4xOAP7rbo6OXfTVMj8A3RolXJYxu8YvsmbV07bl3
+	 Rh2La0fwf7QlWG9gRH+cI0wWKElYtcqfRmhmevFo=
 X-Auth-ID: abbotti@mev.co.uk
-Received: by smtp14.relay.ord1c.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id B21C0C021D;
-	Wed,  7 Apr 2021 14:13:59 -0400 (EDT)
+Received: by smtp14.relay.ord1c.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id 75361C01CD;
+	Wed,  7 Apr 2021 14:13:57 -0400 (EDT)
 From: Ian Abbott <abbotti@mev.co.uk>
 To: linux-staging@lists.linux.dev
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Ian Abbott <abbotti@mev.co.uk>,
 	H Hartley Sweeten <hsweeten@visionengravers.com>,
 	"Spencer E . Olson" <olsonse@umich.edu>
-Subject: [PATCH v2 4/6] staging: comedi: tests: example_test: Declare functions static
-Date: Wed,  7 Apr 2021 19:13:40 +0100
-Message-Id: <20210407181342.1117754-5-abbotti@mev.co.uk>
+Subject: [PATCH v2 2/6] staging: comedi: tests: ni_route_tests: Declare functions static
+Date: Wed,  7 Apr 2021 19:13:38 +0100
+Message-Id: <20210407181342.1117754-3-abbotti@mev.co.uk>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210407181342.1117754-1-abbotti@mev.co.uk>
 References: <20210407175307.1114472-1-abbotti@mev.co.uk>
@@ -32,9 +32,9 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Classification-ID: a81c9685-f05f-4fba-8531-f3df5c3a4275-5-1
+X-Classification-ID: a81c9685-f05f-4fba-8531-f3df5c3a4275-3-1
 
-The "example_test" module contains a couple of functions with external
+The "ni_routes_test" module contains a bunch of functions with external
 linkage that are not called externally.  Declare them `static`.
 
 Cc: Spencer E. Olson <olsonse@umich.edu>
@@ -42,30 +42,166 @@ Signed-off-by: Ian Abbott <abbotti@mev.co.uk>
 ---
 v2: Unchanged
 ---
- drivers/staging/comedi/drivers/tests/example_test.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../comedi/drivers/tests/ni_routes_test.c     | 34 +++++++++----------
+ 1 file changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/staging/comedi/drivers/tests/example_test.c b/drivers/staging/comedi/drivers/tests/example_test.c
-index 550784fdac2f..7010f6ef322d 100644
---- a/drivers/staging/comedi/drivers/tests/example_test.c
-+++ b/drivers/staging/comedi/drivers/tests/example_test.c
-@@ -35,14 +35,14 @@ static struct comedi_device dev = {
- /* *** END fake board data *** */
- 
- /* *** BEGIN fake data init *** */
--void init_fake(void)
-+static void init_fake(void)
- {
- 	dev.item = 10;
+diff --git a/drivers/staging/comedi/drivers/tests/ni_routes_test.c b/drivers/staging/comedi/drivers/tests/ni_routes_test.c
+index cdfbb054d537..40fe4f180eb9 100644
+--- a/drivers/staging/comedi/drivers/tests/ni_routes_test.c
++++ b/drivers/staging/comedi/drivers/tests/ni_routes_test.c
+@@ -194,7 +194,7 @@ static bool route_set_dests_in_order(const struct ni_device_routes *devroutes)
  }
  
- /* *** END fake data init *** */
- 
--void test0(void)
-+static void test0(void)
+ /* Tests that all route_set->src are in order of the signal source. */
+-bool route_set_sources_in_order(const struct ni_device_routes *devroutes)
++static bool route_set_sources_in_order(const struct ni_device_routes *devroutes)
  {
- 	init_fake();
- 	unittest(dev.item != 11, "negative result\n");
+ 	int i;
+ 
+@@ -211,7 +211,7 @@ bool route_set_sources_in_order(const struct ni_device_routes *devroutes)
+ 	return true;
+ }
+ 
+-void test_ni_assign_device_routes(void)
++static void test_ni_assign_device_routes(void)
+ {
+ 	const struct ni_device_routes *devroutes, *olddevroutes;
+ 	const u8 *table, *oldtable;
+@@ -268,7 +268,7 @@ void test_ni_assign_device_routes(void)
+ 		 "pci-6220 finds m-series route_values table\n");
+ }
+ 
+-void test_ni_sort_device_routes(void)
++static void test_ni_sort_device_routes(void)
+ {
+ 	/* We begin by sorting the device routes for use in later tests */
+ 	ni_sort_device_routes(&DR);
+@@ -279,7 +279,7 @@ void test_ni_sort_device_routes(void)
+ 		 "all route_set->src's of fake data in order of sig. source\n");
+ }
+ 
+-void test_ni_find_route_set(void)
++static void test_ni_find_route_set(void)
+ {
+ 	unittest(!ni_find_route_set(bad_dest, &DR),
+ 		 "check for nonexistent route_set\n");
+@@ -295,7 +295,7 @@ void test_ni_find_route_set(void)
+ 		 "find last route_set\n");
+ }
+ 
+-void test_ni_route_set_has_source(void)
++static void test_ni_route_set_has_source(void)
+ {
+ 	unittest(!ni_route_set_has_source(&DR.routes[0], O(0)),
+ 		 "check for bad source\n");
+@@ -307,7 +307,7 @@ void test_ni_route_set_has_source(void)
+ 		 "find last source\n");
+ }
+ 
+-void test_ni_route_to_register(void)
++static void test_ni_route_to_register(void)
+ {
+ 	const struct ni_route_tables *T = &private.routing_tables;
+ 
+@@ -357,7 +357,7 @@ void test_ni_route_to_register(void)
+ 		 "validate indirect route through brd3 to TRIGGER_LINE(1)\n");
+ }
+ 
+-void test_ni_lookup_route_register(void)
++static void test_ni_lookup_route_register(void)
+ {
+ 	const struct ni_route_tables *T = &private.routing_tables;
+ 
+@@ -396,7 +396,7 @@ void test_ni_lookup_route_register(void)
+ 		 "brd0_src1: lookup indirect route register\n");
+ }
+ 
+-void test_route_is_valid(void)
++static void test_route_is_valid(void)
+ {
+ 	const struct ni_route_tables *T = &private.routing_tables;
+ 
+@@ -411,7 +411,7 @@ void test_route_is_valid(void)
+ 		 "validate last destination\n");
+ }
+ 
+-void test_ni_is_cmd_dest(void)
++static void test_ni_is_cmd_dest(void)
+ {
+ 	init_pci_fake();
+ 	unittest(ni_is_cmd_dest(NI_AI_SampleClock),
+@@ -428,7 +428,7 @@ void test_ni_is_cmd_dest(void)
+ 		 "check that AO/SampleClockTimebase _not_ cmd destination\n");
+ }
+ 
+-void test_channel_is_pfi(void)
++static void test_channel_is_pfi(void)
+ {
+ 	init_pci_fake();
+ 	unittest(channel_is_pfi(NI_PFI(0)), "check First pfi channel\n");
+@@ -438,7 +438,7 @@ void test_channel_is_pfi(void)
+ 		 "check first non pfi channel\n");
+ }
+ 
+-void test_channel_is_rtsi(void)
++static void test_channel_is_rtsi(void)
+ {
+ 	init_pci_fake();
+ 	unittest(channel_is_rtsi(TRIGGER_LINE(0)),
+@@ -451,7 +451,7 @@ void test_channel_is_rtsi(void)
+ 		 "check first non rtsi channel\n");
+ }
+ 
+-void test_ni_count_valid_routes(void)
++static void test_ni_count_valid_routes(void)
+ {
+ 	const struct ni_route_tables *T = &private.routing_tables;
+ 
+@@ -459,7 +459,7 @@ void test_ni_count_valid_routes(void)
+ 	unittest(ni_count_valid_routes(T) == 57, "count all valid routes\n");
+ }
+ 
+-void test_ni_get_valid_routes(void)
++static void test_ni_get_valid_routes(void)
+ {
+ 	const struct ni_route_tables *T = &private.routing_tables;
+ 	unsigned int pair_data[2];
+@@ -476,7 +476,7 @@ void test_ni_get_valid_routes(void)
+ 		 "destination of first valid pair from ni_get_valid_routes\n");
+ }
+ 
+-void test_ni_find_route_source(void)
++static void test_ni_find_route_source(void)
+ {
+ 	const struct ni_route_tables *T = &private.routing_tables;
+ 
+@@ -493,7 +493,7 @@ void test_ni_find_route_source(void)
+ 		 "find invalid source (without checking device routes)\n");
+ }
+ 
+-void test_route_register_is_valid(void)
++static void test_route_register_is_valid(void)
+ {
+ 	const struct ni_route_tables *T = &private.routing_tables;
+ 
+@@ -508,7 +508,7 @@ void test_route_register_is_valid(void)
+ 		 "find last source");
+ }
+ 
+-void test_ni_check_trigger_arg(void)
++static void test_ni_check_trigger_arg(void)
+ {
+ 	const struct ni_route_tables *T = &private.routing_tables;
+ 
+@@ -541,7 +541,7 @@ void test_ni_check_trigger_arg(void)
+ 		 "check trigger arg for last src->dest\n");
+ }
+ 
+-void test_ni_get_reg_value(void)
++static void test_ni_get_reg_value(void)
+ {
+ 	const struct ni_route_tables *T = &private.routing_tables;
+ 
 -- 
 2.31.0
 
