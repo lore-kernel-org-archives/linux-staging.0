@@ -1,33 +1,34 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3006D14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7346D1A
 	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 10:23:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8E294613CE;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AF25A613DF;
 	Wed,  7 Apr 2021 10:23:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1617791030;
-	bh=MYJodErwJtLvlMj+dEhMM1b5fX/LATb85PPnocm4wyw=;
+	bh=osq8Zv5no+jjMKMVk9DS4gKqyPi6TZhpdLxBOLoPeJ0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=O4efwDEAhpfHDrmN60UfUPuq4iYI1mZya9IWdbrJsenM+uQHv3fllGVKxmxYQFBx3
-	 RJhoCnF3H8vLa0JgKL9zPbP2Mxlrg1mAYnT0lbd7cnNTIgbhqhF8YUNJaQ16Jdv+Sd
-	 fSggtQeOh0p8ExZwA2u4PE+5i8ovFV26mIo7ogEXAAj8tgwc/qqvx6eO3rC1dODU/7
-	 BjNHMw8eEh01C8kbV6gS2MIn4Zjhzr4CZXizuSUdDKrFNXMAIahFde2XWdWN4Q2SMl
-	 /imWhiRhQL2GJknhnG+EYpYyJlXKGrknNAFl7JXatHjJKM/pt9aQooP5R32DAKswkg
-	 aCzNFhs9/pFWA==
+	b=OsbJmXwBde2d8e+Lr6V5drvXKoLICyFpxDZnMjwpun+5gPF5scBnwg4GJRavGCZkh
+	 2TPKrto7dJgbX3xsfrUc/VZstna7ELu+UBRr5wsY2d1wH8semrsXtQNc8Uz1FKPpQo
+	 kOrhUNR7B4TkyE4L+TOFPUYOzc8ILnhGbUL1qujyeZUwNplmHHGpfWjnyigFOh3O5q
+	 eGskzEIWIPcyjSX7t0zLN854YOX7402fzTy8Q6TETsqiYw++tss77MqCQ3PNKsPGx+
+	 u+V5pBQ7q/StMEmYfLZYZRmp6FFKK5iJdLkTCcxKjKicalMUuOW7QCQ9lD8TvuL8e0
+	 A7oXfpRzV7W1A==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
 	(envelope-from <johan@kernel.org>)
-	id 1lU5Lb-0008RQ-BN; Wed, 07 Apr 2021 12:23:43 +0200
+	id 1lU5Lb-0008RT-Dq; Wed, 07 Apr 2021 12:23:43 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Jiri Slaby <jirislaby@kernel.org>,
 	linux-staging@lists.linux.dev,
 	greybus-dev@lists.linaro.org,
 	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan@kernel.org>
-Subject: [PATCH 09/16] tty: amiserial: add missing TIOCSSERIAL jiffies conversions
-Date: Wed,  7 Apr 2021 12:23:27 +0200
-Message-Id: <20210407102334.32361-10-johan@kernel.org>
+	Johan Hovold <johan@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH 10/16] tty: moxa: fix TIOCSSERIAL jiffies conversions
+Date: Wed,  7 Apr 2021 12:23:28 +0200
+Message-Id: <20210407102334.32361-11-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210407102334.32361-1-johan@kernel.org>
 References: <20210407102334.32361-1-johan@kernel.org>
@@ -38,85 +39,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The tty-port close_delay and closing_wait parameters set by TIOCSSERIAL
-are specified in jiffies, while the values returned by TIOCGSERIAL are
-specified in centiseconds.
+The port close_delay parameter set by TIOCSSERIAL is specified in
+jiffies, while the value returned by TIOCGSERIAL is specified in
+centiseconds.
 
-Add the missing conversions so that TIOCSSERIAL works as expected also
-if this code is ever reused on a system where HZ is not 100.
+Add the missing conversions so that TIOCGSERIAL works as expected also
+when HZ is not 100.
 
+Cc: stable@vger.kernel.org
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/tty/amiserial.c | 26 +++++++++++++++++++-------
- 1 file changed, 19 insertions(+), 7 deletions(-)
+ drivers/tty/moxa.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/tty/amiserial.c b/drivers/tty/amiserial.c
-index ec6802ba2bf8..ca48ce5a0862 100644
---- a/drivers/tty/amiserial.c
-+++ b/drivers/tty/amiserial.c
-@@ -937,15 +937,21 @@ static void rs_unthrottle(struct tty_struct * tty)
- static int get_serial_info(struct tty_struct *tty, struct serial_struct *ss)
- {
- 	struct serial_state *state = tty->driver_data;
-+	unsigned int close_delay, closing_wait;
- 
- 	tty_lock(tty);
-+	close_delay = jiffies_to_msecs(state->tport.close_delay) / 10;
-+	closing_wait = state->tport.closing_wait;
-+	if (closing_wait != ASYNC_CLOSING_WAIT_NONE)
-+		closing_wait = jiffies_to_msecs(closing_wait) / 10;
-+
- 	ss->line = tty->index;
- 	ss->port = state->port;
- 	ss->flags = state->tport.flags;
- 	ss->xmit_fifo_size = state->xmit_fifo_size;
- 	ss->baud_base = state->baud_base;
--	ss->close_delay = state->tport.close_delay;
--	ss->closing_wait = state->tport.closing_wait;
-+	ss->close_delay = close_delay;
-+	ss->closing_wait = closing_wait;
- 	ss->custom_divisor = state->custom_divisor;
- 	tty_unlock(tty);
+diff --git a/drivers/tty/moxa.c b/drivers/tty/moxa.c
+index 32eb6b5e510f..5b7bc7af8b1e 100644
+--- a/drivers/tty/moxa.c
++++ b/drivers/tty/moxa.c
+@@ -2038,7 +2038,7 @@ static int moxa_get_serial_info(struct tty_struct *tty,
+ 	ss->line = info->port.tty->index,
+ 	ss->flags = info->port.flags,
+ 	ss->baud_base = 921600,
+-	ss->close_delay = info->port.close_delay;
++	ss->close_delay = jiffies_to_msecs(info->port.close_delay) / 10;
+ 	mutex_unlock(&info->port.mutex);
  	return 0;
-@@ -957,6 +963,7 @@ static int set_serial_info(struct tty_struct *tty, struct serial_struct *ss)
- 	struct tty_port *port = &state->tport;
- 	bool change_spd;
- 	int 			retval = 0;
-+	unsigned int close_delay, closing_wait;
- 
- 	tty_lock(tty);
- 	change_spd = ((ss->flags ^ port->flags) & ASYNC_SPD_MASK) ||
-@@ -966,11 +973,16 @@ static int set_serial_info(struct tty_struct *tty, struct serial_struct *ss)
- 		tty_unlock(tty);
- 		return -EINVAL;
+ }
+@@ -2067,7 +2067,7 @@ static int moxa_set_serial_info(struct tty_struct *tty,
+ 			return -EPERM;
+ 		}
  	}
--  
-+
-+	close_delay = msecs_to_jiffies(ss->close_delay * 10);
-+	closing_wait = ss->closing_wait;
-+	if (closing_wait != ASYNC_CLOSING_WAIT_NONE)
-+		closing_wait = msecs_to_jiffies(closing_wait * 10);
-+
- 	if (!serial_isroot()) {
- 		if ((ss->baud_base != state->baud_base) ||
--		    (ss->close_delay != port->close_delay) ||
--		    (ss->closing_wait != port->closing_wait) ||
-+		    (close_delay != port->close_delay) ||
-+		    (closing_wait != port->closing_wait) ||
- 		    (ss->xmit_fifo_size != state->xmit_fifo_size) ||
- 		    ((ss->flags & ~ASYNC_USR_MASK) !=
- 		     (port->flags & ~ASYNC_USR_MASK))) {
-@@ -997,8 +1009,8 @@ static int set_serial_info(struct tty_struct *tty, struct serial_struct *ss)
- 	port->flags = ((port->flags & ~ASYNC_FLAGS) |
- 			(ss->flags & ASYNC_FLAGS));
- 	state->custom_divisor = ss->custom_divisor;
--	port->close_delay = ss->close_delay * HZ/100;
--	port->closing_wait = ss->closing_wait * HZ/100;
-+	port->close_delay = close_delay;
-+	port->closing_wait = closing_wait;
+-	info->port.close_delay = ss->close_delay * HZ / 100;
++	info->port.close_delay = msecs_to_jiffies(ss->close_delay * 10);
  
- check_and_exit:
- 	if (tty_port_initialized(port)) {
+ 	MoxaSetFifo(info, ss->type == PORT_16550A);
+ 
 -- 
 2.26.3
 
