@@ -1,77 +1,71 @@
-Received: from smtp64.iad3a.emailsrvr.com (smtp64.iad3a.emailsrvr.com [173.203.187.64])
+Received: from smtp86.iad3b.emailsrvr.com (smtp86.iad3b.emailsrvr.com [146.20.161.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB3C16D11
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 18:01:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF93A6D0D
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 18:06:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
-	s=20190130-41we5z8j; t=1617818003;
-	bh=VI4d9a0Lc5cQjNmq13+ir6gvjLIJ+JnXQGl6pGNdaWA=;
-	h=From:To:Subject:Date:From;
-	b=d2prVl6877rfFagxHPqLhi6vTRb33giUxNNmtt8ysVgcz+Dr3zKiSw0L62zcGXe1K
-	 OhdOwLeuqPDSlz3TT+CXK8/5CwJshFrhzijFa+HJ4ExhxaHEBX05Ss5ox9dhZRWS2J
-	 HseqnaMkpxRlC3gKuzTXgavygcB4HONnjZ3pATpQ=
+	s=20190130-41we5z8j; t=1617809967;
+	bh=NFnRsnooXgPKk4h8eM8Ts/yrKzjYCgvFqeanp31eGuM=;
+	h=Subject:To:From:Date:From;
+	b=XJEeWjLQLf/zOzhCs6g5XQsN2gV+ezjYBF/1xFHJUJ7gwMnbHYU6NUWyB2nQAoOUH
+	 GdwJtUHtHbmKdfrop7Fgj4fcw1iGIBw5DAPrxA0Nwq+H+DE1ByclzmzYEG/hzqXptm
+	 2bwpfV8CIZhBAMtaTOgzKJMENa2Ra+bMx15GzUm8=
 X-Auth-ID: abbotti@mev.co.uk
-Received: by smtp17.relay.iad3a.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id 9CC3325E39;
-	Wed,  7 Apr 2021 13:53:22 -0400 (EDT)
+Received: by smtp3.relay.iad3b.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id A2F3A40233;
+	Wed,  7 Apr 2021 11:39:26 -0400 (EDT)
+Subject: Re: [PATCH 0/5] staging: comedi: tests: Fix various issues
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+ H Hartley Sweeten <hsweeten@visionengravers.com>,
+ "Spencer E . Olson" <olsonse@umich.edu>
+References: <20210407140142.447250-1-abbotti@mev.co.uk>
+ <YG3LY0hhDhzeXa1V@kroah.com>
 From: Ian Abbott <abbotti@mev.co.uk>
-To: linux-staging@lists.linux.dev
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	"Spencer E . Olson" <olsonse@umich.edu>
-Subject: [PATCH 5/6] staging: comedi: tests: example_test: Rename to 'comedi_example_test'
-Date: Wed,  7 Apr 2021 18:53:06 +0100
-Message-Id: <20210407175307.1114472-6-abbotti@mev.co.uk>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20210407175307.1114472-1-abbotti@mev.co.uk>
-References: <20210407175307.1114472-1-abbotti@mev.co.uk>
+Organization: MEV Ltd.
+Message-ID: <3d70fc39-3c3f-16af-d4bb-e4dc2c9ffc26@mev.co.uk>
+Date: Wed, 7 Apr 2021 16:39:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Classification-ID: 5feb4b29-2060-4bb6-a8af-5bdb2c2252ce-6-1
+In-Reply-To: <YG3LY0hhDhzeXa1V@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-Classification-ID: 9379fab5-780b-428a-9ef2-e767e5734cd0-1-1
 
-Rename the "example_test" module to "comedi_example_test" to make the
-name more relevant to Comedi.
+On 07/04/2021 16:10, Greg Kroah-Hartman wrote:
+> On Wed, Apr 07, 2021 at 03:01:37PM +0100, Ian Abbott wrote:
+>> The code under "drivers/staging/comedi/drivers/tests/" is built when the
+>> CONFIG_COMEDI_TESTS option is enabled.  That currently needs to be done
+>> on the "make" command line since the option does not appear in the
+>> Kconfig files.
+>>
+>> This patch series fixes a compilation error and various other niggles
+>> including checkpatch.pl stuff.
+>>
+>> 1) staging: comedi: tests: ni_routes_test: Fix compilation error
+>> 2) staging: comedi: tests: ni_routes_test: Put complex values in parentheses
+>> 3) staging: comedi: tests: ni_routes_test: Avoid CamelCase: <RVi>
+>> 4) staging: comedi: tests: ni_routes_test: Lines should not end with a '('
+>> 5) staging: comedi: tests: Correct unittest_fptr
+> 
+> Should we move these to the normal kernel testing directory instead, so
+> that they do get some build testing?
 
-Cc: Spencer E. Olson <olsonse@umich.edu>
-Signed-off-by: Ian Abbott <abbotti@mev.co.uk>
----
- drivers/staging/comedi/drivers/tests/Makefile                  | 3 ++-
- .../drivers/tests/{example_test.c => comedi_example_test.c}    | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
- rename drivers/staging/comedi/drivers/tests/{example_test.c => comedi_example_test.c} (97%)
+I'm not sure since they are in "drivers/staging".  However, we could add 
+something to comedi's Kconfig to allow the tests to be built.
 
-diff --git a/drivers/staging/comedi/drivers/tests/Makefile b/drivers/staging/comedi/drivers/tests/Makefile
-index b5d8e13d4162..a7883e406c43 100644
---- a/drivers/staging/comedi/drivers/tests/Makefile
-+++ b/drivers/staging/comedi/drivers/tests/Makefile
-@@ -3,5 +3,6 @@
- #
- ccflags-$(CONFIG_COMEDI_DEBUG)		:= -DDEBUG
- 
--obj-$(CONFIG_COMEDI_TESTS)		+= example_test.o ni_routes_test.o
-+obj-$(CONFIG_COMEDI_TESTS)		+= comedi_example_test.o
-+obj-$(CONFIG_COMEDI_TESTS)		+= ni_routes_test.o
- CFLAGS_ni_routes_test.o			:= -DDEBUG
-diff --git a/drivers/staging/comedi/drivers/tests/example_test.c b/drivers/staging/comedi/drivers/tests/comedi_example_test.c
-similarity index 97%
-rename from drivers/staging/comedi/drivers/tests/example_test.c
-rename to drivers/staging/comedi/drivers/tests/comedi_example_test.c
-index 7010f6ef322d..e5aaaeab7bdd 100644
---- a/drivers/staging/comedi/drivers/tests/example_test.c
-+++ b/drivers/staging/comedi/drivers/tests/comedi_example_test.c
-@@ -1,7 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0+
- /* vim: set ts=8 sw=8 noet tw=80 nowrap: */
- /*
-- *  comedi/drivers/tests/example_test.c
-+ *  comedi/drivers/tests/comedi_example_test.c
-  *  Example set of unit tests.
-  *
-  *  COMEDI - Linux Control and Measurement Device Interface
+The "ni_routes_test" module in "drivers/staging/comedi/drivers/test/" 
+would need a new config option because it will need to either depend on 
+or select the COMEDI_NI_ROUTING option.  The "example_test" module (crap 
+name) in the same directory doesn't depend on anything in particular.
+
 -- 
-2.31.0
-
+-=( Ian Abbott <abbotti@mev.co.uk> || MEV Ltd. is a company  )=-
+-=( registered in England & Wales.  Regd. number: 02862268.  )=-
+-=( Regd. addr.: S11 & 12 Building 67, Europa Business Park, )=-
+-=( Bird Hall Lane, STOCKPORT, SK3 0XA, UK. || www.mev.co.uk )=-
