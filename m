@@ -1,64 +1,59 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from youngberry.canonical.com (youngberry.canonical.com [91.189.89.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E375A6D0E
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 14:48:16 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E09CA61260;
-	Wed,  7 Apr 2021 14:48:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1617806896;
-	bh=s4YHVX6I4KFaEOaDuE91HtM/xl0oR/OIQH9ovTk2uTw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J47mtbpE/V6HL4mHsYSe3PvbrSQzJG+3zVxK30e8SQmcjs9R+3SrbnPtMMYsuk/pb
-	 i8oJcirGFKFeA9ouXJMX6YZKqesYThRHIwWv2AlxWWmq76mU2jpVOrx/W/VdM7boMK
-	 M8XTFhMNqw5wOonW3co4XkYKEzTVo0/ABVf7vDOU=
-Date: Wed, 7 Apr 2021 16:48:13 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Barney Goette <barneygoette@gmail.com>
-Cc: arve@android.com, linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FF66D0E
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 15:03:11 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+	by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.86_2)
+	(envelope-from <colin.king@canonical.com>)
+	id 1lU9i0-0005iz-Vf; Wed, 07 Apr 2021 15:03:09 +0000
+From: Colin King <colin.king@canonical.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] Staging: android: ashmem: Fixed a const coding style
- issue
-Message-ID: <YG3GLQA1O3b0w0RY@kroah.com>
-References: <20210407143502.3414-1-barneygoette@gmail.com>
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8192u: Fix potential infinite loop
+Date: Wed,  7 Apr 2021 16:03:08 +0100
+Message-Id: <20210407150308.496623-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.30.2
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210407143502.3414-1-barneygoette@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 07, 2021 at 09:35:02AM -0500, Barney Goette wrote:
-> Fixed a coding style issue.
-> Reported by checkpatch.
-> 
-> Signed-off-by: Barney Goette <barneygoette@gmail.com>
-> ---
->  drivers/staging/android/ashmem.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/android/ashmem.c b/drivers/staging/android/ashmem.c
-> index d66a64e42273..7854fd410efa 100644
-> --- a/drivers/staging/android/ashmem.c
-> +++ b/drivers/staging/android/ashmem.c
-> @@ -376,7 +376,7 @@ ashmem_vmfile_get_unmapped_area(struct file *file, unsigned long addr,
->  
->  static int ashmem_mmap(struct file *file, struct vm_area_struct *vma)
->  {
-> -	static struct file_operations vmfile_fops;
-> +	static const struct file_operations vmfile_fops;
->  	struct ashmem_area *asma = file->private_data;
->  	int ret = 0;
->  
-> -- 
-> 2.25.1
+From: Colin Ian King <colin.king@canonical.com>
 
-Why did you not test-build your patch before sending it out?
+The for-loop iterates with a u8 loop counter i and compares this
+with the loop upper limit of riv->ieee80211->LinkDetectInfo.SlotNum
+that is a u16 type. There is a potential infinite loop if SlotNum
+is larger than the u8 loop counter. Fix this by making the loop
+counter the same type as SlotNum.
 
-Always do so.
+Addresses-Coverity: ("Infinite loop")
+Fixes: 8fc8598e61f6 ("Staging: Added Realtek rtl8192u driver to staging")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/staging/rtl8192u/r8192U_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-thanks,
+diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
+index 9fc4adc83d77..b5a313649f44 100644
+--- a/drivers/staging/rtl8192u/r8192U_core.c
++++ b/drivers/staging/rtl8192u/r8192U_core.c
+@@ -3210,7 +3210,7 @@ static void rtl819x_update_rxcounts(struct r8192_priv *priv, u32 *TotalRxBcnNum,
+ 			     u32 *TotalRxDataNum)
+ {
+ 	u16			SlotIndex;
+-	u8			i;
++	u16			i;
+ 
+ 	*TotalRxBcnNum = 0;
+ 	*TotalRxDataNum = 0;
+-- 
+2.30.2
 
-greg k-h
