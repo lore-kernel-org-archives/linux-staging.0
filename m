@@ -1,107 +1,111 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2086D0D
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 10:04:16 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id w23so8852932edx.7
-        for <linux-staging@lists.linux.dev>; Wed, 07 Apr 2021 03:04:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447CA6D0D
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 10:10:56 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id e12so4251191wro.11
+        for <linux-staging@lists.linux.dev>; Wed, 07 Apr 2021 03:10:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=44ZqeD5EPkyiyFJAkLWDYZXBNtCAIXuuyBZhNmXgs0M=;
-        b=u/qSxrao7mOSvvfEmGSW2fzH0XEfHO8maFw5c9HCl34YysuTze6lqPLTjRnRTvJ3me
-         RfeTYTn0WukHHg9JeTEtw6cCmzAfr+l2qh9Q5siNCsPO5I5r0GHTPXtZvqLNQmU6L1d1
-         wKJV/ADf9TZ28i+Y8tdjLy68CMO3m3/WgOK/kh0MtfBUwbHAjHC94ZtH325G3FzYiMO5
-         cXRJ+UeqwkTirPwow9jl4Jp8tiM45Ow24x3s+5tsur1cXD+1HXlnsayU50aAWNDX0+OV
-         LsYOYcQzPL0//hgaTNPNA4xDXIr9OXhDzqwMppSwnLF8SByTteK6Kq1UWvHjSLtyMuOr
-         b3+A==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=wPByJzN/lrtdxw7IeGs/VhpNS5SPbMlWIMYIa7XkvgA=;
+        b=Mv1KqnOmWXihqzCTJ7mc3sDMHB2wPVvBiahBlHsncEMZtquH6WvHTwwrUTTh6AONiF
+         J7HgP0UHU1SZn+flahbTYrKdztw8UgHAP0CCxXG0/LHPpiomdNdtCQmSb4u8U+nGYMi0
+         K9FOQJZaQT3Et3YjxjMePQsUoWgUZxmJedTqXXg1VseoePKRo9PcSAgwmLIIpdvExWXK
+         hCxRXLox9jhtz5bP2po8hrakmCjWyk7JUp0ocj3G1iwpSWZHNRx0tORESQjhWPlx1fY+
+         ABXFXsN40JndUn1ldyjab/Iu/C24XoCYUpqdBKTlu4p+O18kE2r2G1YsDyPwccwe6KOK
+         cEXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=44ZqeD5EPkyiyFJAkLWDYZXBNtCAIXuuyBZhNmXgs0M=;
-        b=dHnYK0SCXQXvT79zVkFQPhBOGr6QjI95+csF04fWBZl5xF+WH7GVhJSRv+QD/Pf9rq
-         J3z8uYRO1C9PvRcBdhHYIHcuj65/dvYN3M5weWC7/+mcQeIYkNCAGA/61hdG5M8eWqJL
-         4t3apWgAwu6XPboHb7u/mrLAc/74BhnX0b6yo3ixgcqhbWlYg9iLLh0dQ/q5iIDu/pIu
-         G7vug7KAuKTnl30k3GtnS5qAHX1jW7yejH6jR3RV48PKcmfammc1wuZFhdmhS/XLEGui
-         Yq11cGP1L7sbg/dHAnJ3HDHUaVEwI3Vazbo5gxEcC8L+GX6+LrJu+otQ1oUAabNbQ0KR
-         exiA==
-X-Gm-Message-State: AOAM533dB5XpbyILHhq+9bavE5L4m9CAchHDhcAeJ5ytYb9w+PiU/QiG
-	OKqsQbsO2miEWfYjMhh/Oys=
-X-Google-Smtp-Source: ABdhPJwTPdIlhDnf3qWqbIT1K3D1vTVfwJAOzx9LyF4DagVoXaJs33p7OdefzswJ1sNPCSoEIOJ1Qg==
-X-Received: by 2002:a05:6402:b26:: with SMTP id bo6mr3559011edb.162.1617789854662;
-        Wed, 07 Apr 2021 03:04:14 -0700 (PDT)
-Received: from localhost.localdomain (host-79-42-91-147.retail.telecomitalia.it. [79.42.91.147])
-        by smtp.gmail.com with ESMTPSA id g22sm12427533ejm.69.2021.04.07.03.04.13
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=wPByJzN/lrtdxw7IeGs/VhpNS5SPbMlWIMYIa7XkvgA=;
+        b=odxW3DlQIuHpbF66epSH84NvUL/1dQ3BCX7eH+r9WfpLpOXlctiJXf+v3q+/SyqcVv
+         g337dzxqIs5LuvzolhdSJLU2gy8HXYHV3DqnDEoA7SYRsOYQQqGGbjq9GqPM4h4N0NEF
+         jM3FmbCboeFhR6W82z+gqBQ/YjZlyRgLetbsGpln3bJI1XcUb863bnN42VThOcRfyXRL
+         oIECudDee0/3TvPytVRuaKNVQ3um+3qQDinx9gWSrQOvUtsgM6QBj0CQlf4xuXf8ve58
+         OoNignCeq9c2lqRV9oqxpLWyyzYuNwAJdZ/F49Rl1Cr8V5AuIu0Aw1l3eW9L6mJbZdHl
+         Wzeg==
+X-Gm-Message-State: AOAM533NQGp6Ok8Wos0OY4eAbEyl10KtViZaOIgd5m1Vjd3BVc5CrwzY
+	pGrnGJGAhXBMhDoV4QWOZHw=
+X-Google-Smtp-Source: ABdhPJzF21Oel/0BU67OgtwJ2Z/9oyBl0+N2CQ9W+9/69ZNDuh80eCyuAPaG2Rmx5fOW9kTaY0xQ1A==
+X-Received: by 2002:adf:d082:: with SMTP id y2mr2920830wrh.176.1617790254787;
+        Wed, 07 Apr 2021 03:10:54 -0700 (PDT)
+Received: from LEGION ([39.46.7.73])
+        by smtp.gmail.com with ESMTPSA id k13sm46297544wri.27.2021.04.07.03.10.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Apr 2021 03:04:14 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: gregkh@linuxfoundation.org,
-	outreachy-kernel@googlegroups.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [Outreachy kernel] [PATCH v4] staging: rtl8723bs: hal: Remove camelcase
-Date: Wed,  7 Apr 2021 12:04:10 +0200
-Message-Id: <20210407100410.8058-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        Wed, 07 Apr 2021 03:10:54 -0700 (PDT)
+Date: Wed, 7 Apr 2021 15:10:47 +0500
+From: Muhammad Usama Anjum <musamaanjum@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Neil Armstrong <narmstrong@baylibre.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:MESON VIDEO DECODER DRIVER FOR AMLOGIC SOCS" <linux-media@vger.kernel.org>,
+	"open list:MESON VIDEO DECODER DRIVER FOR AMLOGIC SOCS" <linux-amlogic@lists.infradead.org>,
+	"moderated list:ARM/Amlogic Meson SoC support" <linux-arm-kernel@lists.infradead.org>
+Cc: musamaanjum@gmail.com, linqiheng@huawei.com,
+	kernel-janitors@vger.kernel.org, dan.carpenter@oracle.com
+Subject: [PATCH] staging: axis-fifo: media/meson: remove redundant dev_err
+ call
+Message-ID: <20210407101047.GA1491258@LEGION>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Remove camelcase. Issue detected by checkpatch.pl. The symbols aren't
-used in other files, so this change doesn't break the driver's code.
+devm_ioremap_resource() prints error message in itself. Remove the
+dev_err call to avoid redundant error message.
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+Signed-off-by: Muhammad Usama Anjum <musamaanjum@gmail.com>
 ---
+ drivers/staging/axis-fifo/axis-fifo.c   | 1 -
+ drivers/staging/media/meson/vdec/vdec.c | 8 ++------
+ 2 files changed, 2 insertions(+), 7 deletions(-)
 
-Changes since v3: the previous patch cannot anymore be applied to the current
-staging-testing.
-Changes since v2: forgot to cc some recipients (again); no changes to
-the code.
-Changes since v1: forgot to cc some recipients; no changes to the code.
-
- drivers/staging/rtl8723bs/hal/Hal8723BReg.h | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/hal/Hal8723BReg.h b/drivers/staging/rtl8723bs/hal/Hal8723BReg.h
-index b9aca99478db..616d20106392 100644
---- a/drivers/staging/rtl8723bs/hal/Hal8723BReg.h
-+++ b/drivers/staging/rtl8723bs/hal/Hal8723BReg.h
-@@ -112,7 +112,7 @@
- #define REG_RSVD3_8723B					0x0168
- #define REG_C2HEVT_MSG_NORMAL_8723B	0x01A0
- #define REG_C2HEVT_CMD_SEQ_88XX		0x01A1
--#define REG_C2hEVT_CMD_CONTENT_88XX	0x01A2
-+#define REG_C2HEVT_CMD_CONTENT_88XX	0x01A2
- #define REG_C2HEVT_CMD_LEN_88XX		0x01AE
- #define REG_C2HEVT_CLEAR_8723B			0x01AF
- #define REG_MCUTST_1_8723B				0x01C0
-@@ -429,13 +429,13 @@
- #define	IMR_RXFOVW_8723B		BIT8	/*  Receive FIFO Overflow */
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index 2bb1c2e9cb57..ed9281089738 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -853,7 +853,6 @@ static int axis_fifo_probe(struct platform_device *pdev)
+ 	fifo->base_addr = devm_ioremap_resource(fifo->dt_device, r_mem);
+ 	if (IS_ERR(fifo->base_addr)) {
+ 		rc = PTR_ERR(fifo->base_addr);
+-		dev_err(fifo->dt_device, "can't remap IO resource (%d)\n", rc);
+ 		goto err_initial;
+ 	}
  
- /* 2 ACMHWCTRL 0x05C0 */
--#define	AcmHw_HwEn_8723B		BIT(0)
--#define	AcmHw_VoqEn_8723B		BIT(1)
--#define	AcmHw_ViqEn_8723B		BIT(2)
--#define	AcmHw_BeqEn_8723B		BIT(3)
--#define	AcmHw_VoqStatus_8723B		BIT(5)
--#define	AcmHw_ViqStatus_8723B		BIT(6)
--#define	AcmHw_BeqStatus_8723B		BIT(7)
-+#define	ACMHW_HWEN_8723B		BIT(0)
-+#define	ACMHW_VOQEN_8723B		BIT(1)
-+#define	ACMHW_VIQEN_8723B		BIT(2)
-+#define	ACMHW_BEQEN_8723B		BIT(3)
-+#define	ACMHW_VOQSTATUS_8723B		BIT(5)
-+#define	ACMHW_VIQSTATUS_8723B		BIT(6)
-+#define	ACMHW_BEQSTATUS_8723B		BIT(7)
+diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
+index 5d4db7a5b4b5..e51d69c4729d 100644
+--- a/drivers/staging/media/meson/vdec/vdec.c
++++ b/drivers/staging/media/meson/vdec/vdec.c
+@@ -1008,17 +1008,13 @@ static int vdec_probe(struct platform_device *pdev)
  
- /*        8195 (RCR) Receive Configuration Register	(Offset 0x608, 32 bits) */
- #define	RCR_TCPOFLD_EN			BIT25	/*  Enable TCP checksum offload */
+ 	r = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dos");
+ 	core->dos_base = devm_ioremap_resource(dev, r);
+-	if (IS_ERR(core->dos_base)) {
+-		dev_err(dev, "Couldn't remap DOS memory\n");
++	if (IS_ERR(core->dos_base))
+ 		return PTR_ERR(core->dos_base);
+-	}
+ 
+ 	r = platform_get_resource_byname(pdev, IORESOURCE_MEM, "esparser");
+ 	core->esparser_base = devm_ioremap_resource(dev, r);
+-	if (IS_ERR(core->esparser_base)) {
+-		dev_err(dev, "Couldn't remap ESPARSER memory\n");
++	if (IS_ERR(core->esparser_base))
+ 		return PTR_ERR(core->esparser_base);
+-	}
+ 
+ 	core->regmap_ao =
+ 		syscon_regmap_lookup_by_phandle(dev->of_node,
 -- 
-2.30.2
+2.25.1
 
