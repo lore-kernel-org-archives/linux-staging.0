@@ -1,98 +1,80 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756F96D0D
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 10:16:00 +0000 (UTC)
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AlP0CQ6zLCEBxzWeuLsFjKrPwtb1zdoIgy1kn?=
- =?us-ascii?q?xilNYDZSddGVkN3roeQD2XbP+VUscVwDufTFAqmPRnvA6YV4iLN7AZ6OVBTr0V?=
- =?us-ascii?q?HDEKhM9o3nqgeMJwTb1spwkZhtaLJ/DtqYNzhHpOL3+hOxHdpl4PTvys6VrNzT?=
- =?us-ascii?q?xXtsUg1mApsIhztRMQqDF10zeQ8uP/YEPaCB7clKrSfIQxUqR/m8b0NrY8Hz4/?=
- =?us-ascii?q?XwtL+OW29lOzcXrCOrrR7A0s+cLzGomjQZWFp0sNMf2FmArCjFzsyYwpSG9iM?=
- =?us-ascii?q?=3D?=
-X-IronPort-AV: E=Sophos;i="5.82,203,1613430000"; 
-   d="scan'208";a="501970199"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Apr 2021 12:15:57 +0200
-Date: Wed, 7 Apr 2021 12:15:57 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
-cc: Matthew Wilcox <willy@infradead.org>, laurent.pinchart@ideasonboard.com, 
-    mchehab@kernel.org, gregkh@linuxfoundation.org, 
-    linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Subject: Re: [Outreachy kernel] [PATCH 1/2] staging: media: omap4iss: Ending
- line with argument
-In-Reply-To: <e175859f-4f68-0408-415f-a3e19f7e4874@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2104071213100.7407@hadrien>
-References: <cover.1617287509.git.martinsdecarvalhobeatriz@gmail.com> <441d27060ff6477d0ad418f41e194b96373c1f7f.1617287509.git.martinsdecarvalhobeatriz@gmail.com> <20210401152844.GF351017@casper.infradead.org>
- <e175859f-4f68-0408-415f-a3e19f7e4874@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E106D0D
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 10:23:50 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 43B2F613A0;
+	Wed,  7 Apr 2021 10:23:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1617791030;
+	bh=wHRJSTfhmbp2C9AGX30evxMJrkmtbmwIdlqGkY/e/2Q=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=SGrb+ehhbmbharjoG2/kdhMvEMEAn4KqVkmW27uS07R3zXQnxjtTT9bl4clMtRC4L
+	 mz/NOkKzLXZFSyVetnC92f9nG4iFWfJd2DPNPxr9asYt3+YYahmw4HF5ksGvoRHFpk
+	 ivwoxk6NtKyFf0eslfsKZltd8/13XQD3h925CPv47ebd6nBWc7kKtyLTVXpLrTazo1
+	 tn2Op9/+/BUu4lns92hk8wieXI27aKQcZd1REzxI7f3u1d1RD07FSdft/LymuR7pX/
+	 nkssdhNi+W/Zen92B3L4ZuXDMvGiXboUiC8Yf4E1mQfaOJhm3zhdROvrAsFTle8vZg
+	 e+C8t0W5HMO+A==
+Received: from johan by xi.lan with local (Exim 4.93.0.4)
+	(envelope-from <johan@kernel.org>)
+	id 1lU5La-0008R1-Mc; Wed, 07 Apr 2021 12:23:42 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jiri Slaby <jirislaby@kernel.org>,
+	linux-staging@lists.linux.dev,
+	greybus-dev@lists.linaro.org,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH 01/16] staging: fwserial: fix TIOCSSERIAL jiffies conversions
+Date: Wed,  7 Apr 2021 12:23:19 +0200
+Message-Id: <20210407102334.32361-2-johan@kernel.org>
+X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210407102334.32361-1-johan@kernel.org>
+References: <20210407102334.32361-1-johan@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
+The port close_delay parameter set by TIOCSSERIAL is specified in
+jiffies, while the value returned by TIOCGSERIAL is specified in
+centiseconds.
 
+Add the missing conversions so that TIOCGSERIAL works as expected also
+when HZ is not 100.
 
-On Wed, 7 Apr 2021, Beatriz Martins de Carvalho wrote:
+Fixes: 7355ba3445f2 ("staging: fwserial: Add TTY-over-Firewire serial driver")
+Cc: stable@vger.kernel.org      # 3.8
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/staging/fwserial/fwserial.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->
-> Em 01/04/21 16:28, Matthew Wilcox escreveu:
-> > On Thu, Apr 01, 2021 at 04:07:38PM +0100, Beatriz Martins de Carvalho wrote:
-> > > diff --git a/drivers/staging/media/omap4iss/iss.c
-> > > b/drivers/staging/media/omap4iss/iss.c
-> > > index dae9073e7d3c..e8f724dbf810 100644
-> > > --- a/drivers/staging/media/omap4iss/iss.c
-> > > +++ b/drivers/staging/media/omap4iss/iss.c
-> > > @@ -559,9 +559,10 @@ static int iss_reset(struct iss_device *iss)
-> > >   	iss_reg_set(iss, OMAP4_ISS_MEM_TOP, ISS_HL_SYSCONFIG,
-> > >   		    ISS_HL_SYSCONFIG_SOFTRESET);
-> > >   -	timeout = iss_poll_condition_timeout(
-> > > -		!(iss_reg_read(iss, OMAP4_ISS_MEM_TOP, ISS_HL_SYSCONFIG) &
-> > > -		ISS_HL_SYSCONFIG_SOFTRESET), 1000, 10, 100);
-> > > +	timeout = iss_poll_condition_timeout(!(iss_reg_read(iss,
-> > > +							    OMAP4_ISS_MEM_TOP,
-> > > ISS_HL_SYSCONFIG)
-> > > +							    &
-> > > ISS_HL_SYSCONFIG_SOFTRESET),
-> > > +							    1000, 10, 100);
-> > This is not a readability improvment.  I would factor it out into its
-> > own function.
->
-> Thanks for the review. How can I do this? I don't know how to do this.
+diff --git a/drivers/staging/fwserial/fwserial.c b/drivers/staging/fwserial/fwserial.c
+index c368082aae1a..c963848522b1 100644
+--- a/drivers/staging/fwserial/fwserial.c
++++ b/drivers/staging/fwserial/fwserial.c
+@@ -1223,7 +1223,7 @@ static int get_serial_info(struct tty_struct *tty,
+ 	ss->flags = port->port.flags;
+ 	ss->xmit_fifo_size = FWTTY_PORT_TXFIFO_LEN;
+ 	ss->baud_base = 400000000;
+-	ss->close_delay = port->port.close_delay;
++	ss->close_delay = jiffies_to_msecs(port->port.close_delay) / 10;
+ 	mutex_unlock(&port->port.mutex);
+ 	return 0;
+ }
+@@ -1245,7 +1245,7 @@ static int set_serial_info(struct tty_struct *tty,
+ 			return -EPERM;
+ 		}
+ 	}
+-	port->port.close_delay = ss->close_delay * HZ / 100;
++	port->port.close_delay = msecs_to_jiffies(ss->close_delay * 10);
+ 	mutex_unlock(&port->port.mutex);
+ 
+ 	return 0;
+-- 
+2.26.3
 
-Copy the code into a new function.  Then see what parameters this function
-needs for the various information it requires.  The code will produce some
-results that are needed by the rest of the program.  So you have to
-arrange via the return value that the proper variables are initialized
-after the function call.
-
-For example,
-
-x = a + b;
-
-could become
-
-int f(int a, int b) {
-  return a + b;
-}
-
-x = f(a,b);
-
-That is a pretty silly change, but it gives the idea.
-
-julia
-
-> Beatriz Martins de Carvalho
->
-> --
-> You received this message because you are subscribed to the Google Groups
-> "outreachy-kernel" group.
-> To unsubscribe from this group and stop receiving emails from it, send an
-> email to outreachy-kernel+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit
-> https://groups.google.com/d/msgid/outreachy-kernel/e175859f-4f68-0408-415f-a3e19f7e4874%40gmail.com.
->
