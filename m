@@ -1,49 +1,49 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 773E46D10
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 06:43:42 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id d5-20020a17090a2a45b029014d934553c4so38210pjg.1
-        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 23:43:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ADCA6D10
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 06:43:43 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id e10so4469881pls.6
+        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 23:43:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=iNQgMFGdHCJQybttnc8ZktUg+AuixFV373VKxt8OipQ=;
-        b=bL4tLK6rPdC9+pMpm+HgZ5dgrI/LpotabRYSpDBBWA/GPfObATMmj0oDciLDLRPShY
-         sXA5qGSY6JqDDlUxFrNOS5K6DaOhD9FNkeKi1J0yNR0qgBn+MEQaHHyUVXB1iUSuRRSX
-         hLE9ZBm3U95hSbeespJke+/a1o7eI0a4QBzAZxjEerBV8nRf0XLzTI2RRWQMKKw4tTFo
-         3L0fO/i9Q/XwMLOVNY7XZkEzBF9+fiP0M0nZE0wjpRz/N+p2CpVmROeA2QMHqWcVK5Zu
-         ZmkodlE1i0ppSsaj6gZiuVrTH1z74+GTKxLid36gFbjvz/4cZubHTHBH/bxkSkOQkTr6
-         QoCg==
+        bh=KdD/0jSjXQu+pj5Tw8B9xW+iyGYs472db51etZPlQWM=;
+        b=Cuij2ZAyqmlX8ep4uD8ie3JDJu9JmDDWeyfVqGuFYbxLxExVx13/kAMuXmArzRqbIq
+         1yNubc40iVWWJhhYDZd0R+4LTJyzP1DuAxZFjSts0glTiC/vEjQUk4Bj2VDxrg6K+xko
+         rG+DwQVB9qYCLpJMvKgl360B9lxBTjX6hak4jFtOCGfet/wBVZg4vapOG01LVkv1uupB
+         FKUOMHDjRNx5WRR9PShTZgfps5+xEYZfiyYpwNT6Qh08SYmjXGhZxQAnrgWtfmgut9bS
+         b89YtfpOz5duji1P/HNN2zJ8xdNhQgx06f3TEClh492et9Yl3nf8lE4HFtatBkrT34Wd
+         B75g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=iNQgMFGdHCJQybttnc8ZktUg+AuixFV373VKxt8OipQ=;
-        b=VBq445Yq/uy4y+oBQ9xg9ENnmyvO22zEMEnGdhSeDU903hjMdk9MhMasUiA/2YqOBY
-         ZN6tB1c6MV9yucdSYmyI9SJa85oHmH7QjSjjL4hcCZ1k0VE4TdbrUzK2GMOHzDWIlEOU
-         l2ZAKOOWUlEBqIUuD+wf1DpHUTF1PavG6yvVDxnEKrepAqIKp+gNbuG/UC5G/FjIupvx
-         W22tAVd8TW2jpqnto77LzQSCWrrgZNyGFZMHvSRLSt/gqEdjR46GQVxi5AuPovO4h7of
-         X6Rw/Y09O6ZyCpFhq2GtcCDgrjS8q7iciLgZjQ2D7hC1s8V5PNHZtNxTpYMpFJc+Okoj
-         aP/g==
-X-Gm-Message-State: AOAM532nlx3OQwoGHadcPCNIxKwBrbyHejnhX3S4kebkQlFfmDyEbeqF
-	ohxKBKuk8TqcDiXtLxTxOq4=
-X-Google-Smtp-Source: ABdhPJxBAsCxXKZcvwuM32JlND25qmOd8VBz/H1GWFe+6qjtmSIae702aXP3xKjzS3nHNJ6Koe5VCw==
-X-Received: by 2002:a17:90a:9281:: with SMTP id n1mr1867246pjo.146.1617777822010;
-        Tue, 06 Apr 2021 23:43:42 -0700 (PDT)
+        bh=KdD/0jSjXQu+pj5Tw8B9xW+iyGYs472db51etZPlQWM=;
+        b=P9TTF7/65UJIQUfyPf8eXVnyVJcEjbVFVV4bCm1yQJjM5L9vBms908JZWcH9W2ULR6
+         sB81YjpxjvQohs9fmJI70ZdqFJh2sWExaURdIhakOG2fzOrWLdl1OwbcDhSZAvhKaRWx
+         NMiFkMMlTYjWuI4LHn+w61GKlw0X0zuAXo9DDaMgfUkpVKzV3DPfnj/1YzniTBWA2pQJ
+         FQWQigePxTsFV8iPYTiVwFJyVYbZ69MX5eddTrjB3VQLCT2fnCOeSUC+1hQyl8zTbTEo
+         cLlGyg00hxJbJL7VxxQ0ZTCl0Z/e3wZMspm6A8jK0dZwJSJYnF4vmShb5N5aIdnPjGgi
+         GBRg==
+X-Gm-Message-State: AOAM530Kr00gzFVUMz6xrSy53k4Riwq/6krFTq13SC6L7LP9Y9o9LgWd
+	J3ELjV9A8i8EpyQHAD8LFEU=
+X-Google-Smtp-Source: ABdhPJwFg0ykpCJkqAF7uxTunboyHBPPTna7uYRLdOsIFwRktA/JTtm8BuYFwjjpCHU1BZjwRltxAw==
+X-Received: by 2002:a17:90a:7b85:: with SMTP id z5mr1870880pjc.39.1617777823012;
+        Tue, 06 Apr 2021 23:43:43 -0700 (PDT)
 Received: from localhost.localdomain ([134.173.248.5])
-        by smtp.gmail.com with ESMTPSA id j205sm3817856pfd.214.2021.04.06.23.43.41
+        by smtp.gmail.com with ESMTPSA id f2sm19378511pfe.177.2021.04.06.23.43.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Apr 2021 23:43:41 -0700 (PDT)
-Date: Tue, 6 Apr 2021 23:43:39 -0700
+        Tue, 06 Apr 2021 23:43:42 -0700 (PDT)
+Date: Tue, 6 Apr 2021 23:43:40 -0700
 From: Pavle Rohalj <pavle.rohalj@gmail.com>
 To: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
 	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 25/49] staging: sm750fb: Rename deGetTransparency to snake
- case
-Message-ID: <1cdaddb4b127cf70c3ccac2496a29da1b761cfbf.1617776878.git.pavle.rohalj@gmail.com>
+Subject: [PATCH v2 26/49] staging: sm750fb: Update function parameter of
+ sm750_hw_imageblit to snake case
+Message-ID: <080958faf487654e336a2e8ce152bfd756128617.1617776878.git.pavle.rohalj@gmail.com>
 References: <cover.1617776878.git.pavle.rohalj@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,36 +54,44 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1617776878.git.pavle.rohalj@gmail.com>
 
-Fix "Avoid CamelCase" checkpatch.pl checks for the function
-deGetTransparency in sm750_accel.c.
+Fix "Avoid CamelCase" checkpoint.pl checks for the function parameter
+fColor in the function sm750_hw_imageblit.
 
 Signed-off-by: Pavle Rohalj <pavle.rohalj@gmail.com>
 ---
- drivers/staging/sm750fb/sm750_accel.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/sm750fb/sm750_accel.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750fb/sm750_accel.c
-index 1eeedacfc4a8..8ab7d827a99e 100644
+index 8ab7d827a99e..d0b64962b10e 100644
 --- a/drivers/staging/sm750fb/sm750_accel.c
 +++ b/drivers/staging/sm750fb/sm750_accel.c
-@@ -284,7 +284,7 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
- 	return 0;
- }
- 
--static unsigned int deGetTransparency(struct lynx_accel *accel)
-+static unsigned int de_get_transparency(struct lynx_accel *accel)
+@@ -310,14 +310,14 @@ static unsigned int de_get_transparency(struct lynx_accel *accel)
+  * @dy: Starting y coordinate of destination surface
+  * @width: width of rectangle in pixel value
+  * @height: height of rectangle in pixel value
+- * @fColor: Foreground color (corresponding to a 1 in the monochrome data
++ * @f_color: Foreground color (corresponding to a 1 in the monochrome data
+  * @b_olor: Background color (corresponding to a 0 in the monochrome data
+  * @rop2: ROP value
+  */
+ int sm750_hw_imageblit(struct lynx_accel *accel, const char *src_buf,
+ 		       u32 src_delta, u32 start_bit, u32 d_base, u32 d_pitch,
+ 		       u32 byte_per_pixel, u32 dx, u32 dy, u32 width,
+-		       u32 height, u32 fColor, u32 b_olor, u32 rop2)
++		       u32 height, u32 f_color, u32 b_olor, u32 rop2)
  {
- 	unsigned int de_ctrl;
+ 	unsigned int ul_bytes_per_scan;
+ 	unsigned int ul4_bytes_per_scan;
+@@ -383,7 +383,7 @@ int sm750_hw_imageblit(struct lynx_accel *accel, const char *src_buf,
+ 		  ((width << DE_DIMENSION_X_SHIFT) & DE_DIMENSION_X_MASK) |
+ 		  (height & DE_DIMENSION_Y_ET_MASK)); /* dpr08 */
  
-@@ -390,7 +390,7 @@ int sm750_hw_imageblit(struct lynx_accel *accel, const char *src_buf,
- 		DE_CONTROL_ROP_SELECT | DE_CONTROL_COMMAND_HOST_WRITE |
- 		DE_CONTROL_HOST | DE_CONTROL_STATUS;
+-	write_dpr(accel, DE_FOREGROUND, fColor);
++	write_dpr(accel, DE_FOREGROUND, f_color);
+ 	write_dpr(accel, DE_BACKGROUND, b_olor);
  
--	write_dpr(accel, DE_CONTROL, de_ctrl | deGetTransparency(accel));
-+	write_dpr(accel, DE_CONTROL, de_ctrl | de_get_transparency(accel));
- 
- 	/* Write MONO data (line by line) to 2D Engine data port */
- 	for (i = 0; i < height; i++) {
+ 	de_ctrl = (rop2 & DE_CONTROL_ROP_MASK) |
 -- 
 2.30.2
 
