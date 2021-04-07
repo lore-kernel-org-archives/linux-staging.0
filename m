@@ -1,74 +1,90 @@
-Received: from smtp102.iad3a.emailsrvr.com (smtp102.iad3a.emailsrvr.com [173.203.187.102])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE586D11
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 18:36:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
-	s=20190130-41we5z8j; t=1617818274;
-	bh=zIJ5FoF+IQ+jZf2zAWMcm+/7zH6hWaSsbY361PCJaKU=;
-	h=Subject:To:From:Date:From;
-	b=fayzohv0IZVlcotCk8jnJj2gbs+fGUx3fPGEPHBtVDW0uMclr7Mx41O1N5p9+1dT5
-	 SgAhB8R94CxtN7aqFTYssqZUAwqUCZ8uG+3ZWVYSbgwfIqZQznvYdzKWWg/d9hRF++
-	 BbacLlcc0w4dDBCfUeGXgjxCfbs+0tLg1t2OROBM=
-X-Auth-ID: abbotti@mev.co.uk
-Received: by smtp21.relay.iad3a.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id D4028250F8;
-	Wed,  7 Apr 2021 13:57:53 -0400 (EDT)
-Subject: Re: [PATCH 1/6] staging: comedi: tests: ni_routes_test: Reduce stack
- usage
-To: linux-staging@lists.linux.dev
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- H Hartley Sweeten <hsweeten@visionengravers.com>,
- "Spencer E . Olson" <olsonse@umich.edu>, SpencerE.Olsonolsonse@umich.edu
-References: <20210407175307.1114472-1-abbotti@mev.co.uk>
- <20210407175307.1114472-2-abbotti@mev.co.uk>
-From: Ian Abbott <abbotti@mev.co.uk>
-Organization: MEV Ltd.
-Message-ID: <644d3f0a-df49-f734-0a9c-56c9849a595e@mev.co.uk>
-Date: Wed, 7 Apr 2021 18:57:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418BD6D00
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 19:32:19 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id y1so22061879ljm.10
+        for <linux-staging@lists.linux.dev>; Wed, 07 Apr 2021 12:32:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=BGJNbfrqvXQ7YZKTbOhkcicRAhCvNB362hxy1D5Wp7I=;
+        b=eCGFsHJjM1Kn/fofJc5xWmawS6hTP0oJMLC1Ju0X6LDktS0MBvv5rZcrmmLQxsTecL
+         xDjpn+zcJrZriI42/ajIRrlsYaX8FUeSGVnah/xvVNm34KCIaQGieyCpTDjHmESojj94
+         gvc80nOUVMl+6q9pF8WKOCodnCEdH0Mfec+pPjJDR9G5aO54HZYEnWXogCn7T2Lk1Eo0
+         cZGLNlpp/Px98tLR+5yG1GSVddos1cX1lFulrnXNm9DTRk9yGsAoOJF7JFZhP/ZAxG3z
+         eyiCuuiZSQVkEyQEh9/znW18PD0yzWHwbWvdc0gDFkVb+kVLUVBjW0Zpk0+v7WpDxluq
+         f3cA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=BGJNbfrqvXQ7YZKTbOhkcicRAhCvNB362hxy1D5Wp7I=;
+        b=DxDbLkyCxF2qvCawHCFGHSwHBatoRmC4lI8TiOnwWljcRaHBodBu4UYO1D9XJIxNxO
+         P56wufvodY1wjoH7fdPllzy+LeqAtvF4igiBGM0pLx9EQCki+LBAy21ni4D6R4yVAmNl
+         bsWNPDA0GNfuUVW3vkB0o9LD/hAFjUhPUWhFMR8klXKyeTPp2XnvVWQ1M5jhvofD38g6
+         hPuPhmFi0O6BWpzYY7Iz3lFHXlXkz4zVIvgC0Ux/bPf51vtAunlYpW4IGRVebPJW15br
+         m+Qs5f1FdcXfBEBRFARDempPpyWbVDkpaEEOmjbeOQJP1rhdt6C/Jh66o7VJFRXkCsxx
+         28+Q==
+X-Gm-Message-State: AOAM533sQ0h0y+hqRqTmsaEcHCONPadIESP705n0wJFEH6NlXuS3q/EQ
+	hxmfXD4dBv8yvahqm6PGGN8=
+X-Google-Smtp-Source: ABdhPJwQG4d5XvB4QyfkaW3I4rf6tge4vYmGDkdNtaK8ULajoegD4824Yb3YDClxehK30p1DtUkXEg==
+X-Received: by 2002:a2e:3913:: with SMTP id g19mr3146110lja.294.1617823937326;
+        Wed, 07 Apr 2021 12:32:17 -0700 (PDT)
+Received: from test-VirtualBox ([87.116.183.186])
+        by smtp.gmail.com with ESMTPSA id f16sm2500686lfm.155.2021.04.07.12.32.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Apr 2021 12:32:17 -0700 (PDT)
+Date: Wed, 7 Apr 2021 21:32:14 +0200
+From: Sergei Krainov <sergei.krainov.lkd@gmail.com>
+To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH] staging: rtl8712: remove unused variable from rtl871x_mlme.c
+Message-ID: <20210407193214.GA284402@test-VirtualBox>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210407175307.1114472-2-abbotti@mev.co.uk>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-Classification-ID: 6c2f9ba3-bc6f-4174-b4ef-ec1d40b526bd-1-1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 07/04/2021 18:53, Ian Abbott wrote:
-> Declare the `unit_tests` array in `ni_routes_unittest()` `static` to
-> reduce stack usage.
-> 
-> Cc: <Spencer E. Olson <olsonse@umich.edu>
+Remove unused variable from rtl871x_mlme.c
 
-I messed that one up too.  I'd better fix up and resend the series.
+Signed-off-by: Sergei Krainov <sergei.krainov.lkd@gmail.com>
+---
+ drivers/staging/rtl8712/rtl871x_mlme.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-> Signed-off-by: Ian Abbott <abbotti@mev.co.uk>
-> ---
->   drivers/staging/comedi/drivers/tests/ni_routes_test.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/comedi/drivers/tests/ni_routes_test.c b/drivers/staging/comedi/drivers/tests/ni_routes_test.c
-> index 777d9b5d96d4..cdfbb054d537 100644
-> --- a/drivers/staging/comedi/drivers/tests/ni_routes_test.c
-> +++ b/drivers/staging/comedi/drivers/tests/ni_routes_test.c
-> @@ -577,7 +577,7 @@ void test_ni_get_reg_value(void)
->   /* **** BEGIN simple module entry/exit functions **** */
->   static int __init ni_routes_unittest(void)
->   {
-> -	const unittest_fptr unit_tests[] = {
-> +	static const unittest_fptr unit_tests[] = {
->   		test_ni_assign_device_routes,
->   		test_ni_sort_device_routes,
->   		test_ni_find_route_set,
-> 
-
-
+diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
+index 8a97307fbbd6..4f41e321ea63 100644
+--- a/drivers/staging/rtl8712/rtl871x_mlme.c
++++ b/drivers/staging/rtl8712/rtl871x_mlme.c
+@@ -656,7 +656,7 @@ void r8712_joinbss_event_callback(struct _adapter *adapter, u8 *pbuf)
+ 	struct sta_priv	*pstapriv = &adapter->stapriv;
+ 	struct mlme_priv	*pmlmepriv = &adapter->mlmepriv;
+ 	struct wlan_network	*cur_network = &pmlmepriv->cur_network;
+-	struct wlan_network	*pcur_wlan = NULL, *ptarget_wlan = NULL;
++	struct wlan_network	*ptarget_wlan = NULL;
+ 	unsigned int		the_same_macaddr = false;
+ 	struct wlan_network *pnetwork;
+ 
+@@ -721,13 +721,6 @@ void r8712_joinbss_event_callback(struct _adapter *adapter, u8 *pbuf)
+ 					    scanned_queue,
+ 					    cur_network->network.MacAddress);
+ 				} else {
+-					pcur_wlan =
+-					     r8712_find_network(&pmlmepriv->
+-					     scanned_queue,
+-					     cur_network->network.MacAddress);
+-					if (pcur_wlan)
+-						pcur_wlan->fixed = false;
+-
+ 					pcur_sta = r8712_get_stainfo(pstapriv,
+ 					     cur_network->network.MacAddress);
+ 					spin_lock_irqsave(&pstapriv->
 -- 
--=( Ian Abbott <abbotti@mev.co.uk> || MEV Ltd. is a company  )=-
--=( registered in England & Wales.  Regd. number: 02862268.  )=-
--=( Regd. addr.: S11 & 12 Building 67, Europa Business Park, )=-
--=( Bird Hall Lane, STOCKPORT, SK3 0XA, UK. || www.mev.co.uk )=-
+2.25.1
+
