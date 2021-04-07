@@ -1,61 +1,178 @@
-Received: from smtp96.iad3a.emailsrvr.com (smtp96.iad3a.emailsrvr.com [173.203.187.96])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6F86D0D
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 16:31:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
-	s=20190130-41we5z8j; t=1617812196;
-	bh=bGnsEKKjWfG7WkhlO36jNMSe1mAnlUusiyc86GWO4qI=;
-	h=Subject:To:From:Date:From;
-	b=eFirG3jN3a0Wo3vgQDkigW8+L+bV26f7/T5BHLxjCwamj9sS4P3aOx8Zn/Tx3JvGp
-	 jbg3BwxBh5QtHeJIb8jP+dMz9SZVUSp0u+dJE0Mutp6ACe9xw8q9w1Z/QxZE9dUjyM
-	 RWRevEdqqL09/HeLrk6txXvn2D3zsP80s8BZgN+w=
-X-Auth-ID: abbotti@mev.co.uk
-Received: by smtp37.relay.iad3a.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id 5BA535BA7;
-	Wed,  7 Apr 2021 12:16:35 -0400 (EDT)
-Subject: Re: [PATCH 0/5] staging: comedi: tests: Fix various issues
-To: Spencer Olson <olsonse@umich.edu>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev,
- H Hartley Sweeten <hsweeten@visionengravers.com>
-References: <20210407140142.447250-1-abbotti@mev.co.uk>
- <YG3LY0hhDhzeXa1V@kroah.com> <3d70fc39-3c3f-16af-d4bb-e4dc2c9ffc26@mev.co.uk>
- <CAOx9PegenGENfvqwp2XFiSgYTB6y=g8dQcy3NQ_NipbQFxdGTw@mail.gmail.com>
-From: Ian Abbott <abbotti@mev.co.uk>
-Organization: MEV Ltd.
-Message-ID: <b7d98d4e-212a-7f5d-d274-007bf29bf705@mev.co.uk>
-Date: Wed, 7 Apr 2021 17:16:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D016D0D
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 16:49:07 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id f12so12712143wro.0
+        for <linux-staging@lists.linux.dev>; Wed, 07 Apr 2021 09:49:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=s4obH9YIZgpmzsW+SCrIe4AakWZcXJUvY0gyNebmfoA=;
+        b=VtgsnxbpikqPS8uUSFrDn8gWyKhnnnyLZ99c4HgIi+pY8j6cNTYKsrrkougkL7rv92
+         XRSOoTa+Qw9Qul+IPJOV6FEUu6kOPQ9KfYGn1ZkyKkJcelFe1SBSCEkPSmwvmrH+wsCa
+         fbG4/QcHAFRHsxcl6gGeF21lFAOs0Sx4gI5d2LFBT332RVazDfwdfAFOxEVFokUv9TTz
+         MixuGs9qmvKefyn2jfyOjti5tNlo1SdxWALGFKZT+cNiRfQ5T91A1MiFLIkeMhQOn8br
+         kC0pquv8urJ+dgfiThUj1NXIusgBL537GxghTZLHqY2u6MemO/aC7L/nNghFymySH5Zi
+         D/+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=s4obH9YIZgpmzsW+SCrIe4AakWZcXJUvY0gyNebmfoA=;
+        b=bvhkUoRyR5wNZ2Yl8uBDf4NssaS2AdjzaUPc+HiLwobOGyG7eLbghMJgWtMCDBh2rJ
+         Q72ITzWBOf2oZwKN5ssuKoNYJPCt+UmblTh/6k7a/3k56qIO6oOG0S9pz5qnG0v6FbOl
+         3swHzyTHeHF6wSGMIgU9NrRJAzFFpSoKTt3kB+4khkbcfTGj+Ehc9aVFoLFxp3wXAmST
+         jQhMnqvvOl7HCBugIChdtpEwilC7ilBSiOjvOdMXWk/NlPaws34gUMvEImkr14JqNZA2
+         1xAF3JiBAeJ+sRGwcbc7Xmqwz207Hzl73FaosbChCSvm2/pVuSdUMdVWvtmrvmTOWy6U
+         dWtQ==
+X-Gm-Message-State: AOAM532gzWYM28EaMg2vsh0dzKIvK/JRJoDeVQ8kqV5jfgww4BR44+wT
+	iCbnfOX3f/5cLtRAO408Z8I=
+X-Google-Smtp-Source: ABdhPJzHWR41KWvKZXmIW2NuUyMinGdiVpqZvO2/fzOf1XQYFyKq8/xBCI0iAuHAPBmYx2EcqyiLXQ==
+X-Received: by 2002:adf:b642:: with SMTP id i2mr5348617wre.8.1617814146380;
+        Wed, 07 Apr 2021 09:49:06 -0700 (PDT)
+Received: from agape.jhs ([5.171.72.134])
+        by smtp.gmail.com with ESMTPSA id s8sm40255543wrn.97.2021.04.07.09.49.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Apr 2021 09:49:05 -0700 (PDT)
+Date: Wed, 7 Apr 2021 18:49:03 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/19] staging: rtl8723bs: remove DBG_871X trace macro
+Message-ID: <20210407164901.GA1403@agape.jhs>
+References: <cover.1617802415.git.fabioaiuto83@gmail.com>
+ <YG3MVGBomCeVicj+@kroah.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAOx9PegenGENfvqwp2XFiSgYTB6y=g8dQcy3NQ_NipbQFxdGTw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-Classification-ID: a22d9d1c-4635-4c5b-9762-96f786e4c7eb-1-1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YG3MVGBomCeVicj+@kroah.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On 07/04/2021 16:48, Spencer Olson wrote:
-> On Wed, Apr 7, 2021 at 9:39 AM Ian Abbott <abbotti@mev.co.uk> wrote:
->> The "ni_routes_test" module in "drivers/staging/comedi/drivers/test/"
->> would need a new config option because it will need to either depend on
->> or select the COMEDI_NI_ROUTING option.  The "example_test" module (crap
->> name) in the same directory doesn't depend on anything in particular.
+On Wed, Apr 07, 2021 at 05:14:28PM +0200, Greg KH wrote:
+> On Wed, Apr 07, 2021 at 03:49:24PM +0200, Fabio Aiuto wrote:
+> > This patchset removes all DBG_871X usages and definitions.
+> > 
+> > The whole private tracing system is not tied to a configuration
+> > symbol and the default behaviour is _trace nothing_.
+> > 
+> > DBG_871X macros require the code to be modified by
+> > hand in order to be turned on. This obviously has not happened
+> > since the code was merged, so just remove them as they are unused.
+> > 
+> > First patch fix a DBG_871X call. It has three args over only two
+> > placeholders in the first format string argument.
+> > If I would not make this fix, the semantic patch
+> > used to bulk remove all macro occurences would ignore the abnormal
+> > macro (the one with three args) and all subsequent occurrences in
+> > the same file (core/rtw_recv.c).
+> > 
+> > The second patch applies the cocci script.
+> > 
+> > This is the semantic patch:
+> > 
+> > @@
+> > expression a, b, c, d, e, f, g, h, i, j, k;
+> > constant B, C, D, E;
+> > @@
+> > 
+> > (
+> > -	DBG_871X(a);
+> > |
+> > -	DBG_871X(a, b);
+> > |
+> > -	DBG_871X(a, B);
+> > |
+> > -	DBG_871X(a, b, c);
+> > |
+> > -	DBG_871X(a, B, c);
+> > |
+> > -	DBG_871X(a, b, C);
+> > |
+> > -	DBG_871X(a, B, C);
+> > |
+> > -	DBG_871X(a, b, c, d);
+> > |
+> > -	DBG_871X(a, B, c, d);
+> > |
+> > -	DBG_871X(a, b, C, d);
+> > |
+> > -	DBG_871X(a, b, c, D);
+> > |
+> > -	DBG_871X(a, B, C, d);
+> > |
+> > -	DBG_871X(a, B, c, D);
+> > |
+> > -	DBG_871X(a, b, C, D);
+> > |
+> > -	DBG_871X(a, B, C, D);
+> > |
+> > -	DBG_871X(a, b, c, d, e);
+> > |
+> > -	DBG_871X(a, B, c, d, e);
+> > |
+> > -	DBG_871X(a, b, C, d, e);
+> > |
+> > -	DBG_871X(a, b, c, D, e);
+> > |
+> > -	DBG_871X(a, b, c, d, E);
+> > |
+> > -	DBG_871X(a, B, C, d, e);
+> > |
+> > -	DBG_871X(a, B, c, D, e);
+> > |
+> > -	DBG_871X(a, B, c, d, E);
+> > |
+> > -	DBG_871X(a, b, C, D, e);
+> > |
+> > -	DBG_871X(a, b, C, d, E);
+> > |
+> > -	DBG_871X(a, b, c, D, E);
+> > |
+> > -	DBG_871X(a, B, C, D, e);
+> > |
+> > -	DBG_871X(a, B, C, d, E);
+> > |
+> > -	DBG_871X(a, B, c, D, E);
+> > |
+> > -	DBG_871X(a, b, C, D, E);
+> > |
+> > -	DBG_871X(a, B, C, D, E);
+> > |
+> > -	DBG_871X(a, b, c, d, e, f);
+> > |
+> > -	DBG_871X(a, b, c, d, e, f, g);
+> > |
+> > -	DBG_871X(a, b, c, d, e, f, g, h);
+> > |
+> > -	DBG_871X(a, b, c, d, e, f, g, h, i);
+> > |
+> > -	DBG_871X(a, b, c, d, e, f, g, h, i, j);
+> > |
+> > -	DBG_871X(a, b, c, d, e, f, g, h, i, j, k);
+> > )
+> > 
+> > The third one removes an unmatched macro call,
+> > maybe due to the trailing \, because the occurrence is
+> > inside a macro expansion.
+> > 
+> > The fourth one deletes all commented out call spread all over
+> > the rtl8723bs code.
+> > 
+> > Fifth one removes definitions.
+> > 
+> > All remaining patches do some code cleaning on all
+> > places where DBG_871X has been removed.
 > 
-> I don't have any arguments against your complaint of the
-> "example_test" name :-).  It was written with the hope that more parts
-> of comedi might follow suit and create some unit tests.  In terms of
-> placement in the tree, I had been following a pattern set by another
-> module that also had some unit tests contained local to the module's
-> directory (can't remember now which one it was).
+> Nice work, thanks for doing this, all now queued up!
+> 
+> greg k-h
 
-I might as well rename it to "comedi_example_test" then.
+thank you,
 
--- 
--=( Ian Abbott <abbotti@mev.co.uk> || MEV Ltd. is a company  )=-
--=( registered in England & Wales.  Regd. number: 02862268.  )=-
--=( Regd. addr.: S11 & 12 Building 67, Europa Business Park, )=-
--=( Bird Hall Lane, STOCKPORT, SK3 0XA, UK. || www.mev.co.uk )=-
+fabio
