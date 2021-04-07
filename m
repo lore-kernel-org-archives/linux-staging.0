@@ -1,28 +1,28 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 659996D0D
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 08:31:24 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 69FB96139C;
-	Wed,  7 Apr 2021 08:31:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5462A6D0D
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 08:32:07 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F94A61246;
+	Wed,  7 Apr 2021 08:32:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1617784283;
-	bh=57NmromL2JqqMNwKn1lxk2rM0OK+F3IfoxU9XI0Fm6Y=;
+	s=korg; t=1617784326;
+	bh=r74abV0HnQhwcnFE9x4s3tE7D4/Va11TGitx5tmoBZk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N8mq73w4l+w1W2+7Bspzriwz1/V8mA0tYO1NZhq6lTHeZ6xvAKof6zt8ICWrOoLIX
-	 VnUP4dVCGMgFTQYCRHN/Mbdi2ExxmdTuRK+8rzn6p1Ekv1YEv7c5b/3mb7JYVAu2Ev
-	 nqEMUzXeiY9qvdMUf+1hcMjy1ugRJ65GtGt1zUi8=
-Date: Wed, 7 Apr 2021 10:31:21 +0200
+	b=gAkFggY4GxEY5JTKLyGWfpcqP55G6bHc6irB5KEyY/OOTYZKBH9sBMeC7/bGmvNDY
+	 ndlIcfYmf3/fINPA/suIvyrSL+R6V80rDuSRodJo9X3An160as6vvgU3ma1hNTJvxM
+	 1Q7fv6QEirV8ZBLUcQ24CV3V9n+eQjd59jJ5z45U=
+Date: Wed, 7 Apr 2021 10:32:04 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Pavle Rohalj <pavle.rohalj@gmail.com>
 Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
 	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 01/49] staging: sm750fb: Update dvi_ctrl_device to
- snake case
-Message-ID: <YG1t2Y55oyt8qxYi@kroah.com>
+Subject: Re: [PATCH v2 02/49] staging: sm750fb: Rename dviInit to dvi_init
+ and update param names
+Message-ID: <YG1uBAIOgwA2FYUB@kroah.com>
 References: <cover.1617776878.git.pavle.rohalj@gmail.com>
- <a3618331115064265bc3bbf8963a84ee8bb57fed.1617776878.git.pavle.rohalj@gmail.com>
+ <6c6ecf7eee7d41492dbbcc4410db7eefd1fbb13d.1617776878.git.pavle.rohalj@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -30,117 +30,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a3618331115064265bc3bbf8963a84ee8bb57fed.1617776878.git.pavle.rohalj@gmail.com>
+In-Reply-To: <6c6ecf7eee7d41492dbbcc4410db7eefd1fbb13d.1617776878.git.pavle.rohalj@gmail.com>
 
-On Tue, Apr 06, 2021 at 11:35:56PM -0700, Pavle Rohalj wrote:
-> Fix "Avoid CamelCase" checkpatch.pl checks for dvi_ctrl_device structure and
-> its usages.
+On Tue, Apr 06, 2021 at 11:36:01PM -0700, Pavle Rohalj wrote:
+> Fix "Avoid CamelCase" checkpatch.pl checks for the function dviInit and
+> its parameter names in ddk750_dvi.h.
 > 
 > Signed-off-by: Pavle Rohalj <pavle.rohalj@gmail.com>
 > ---
->  drivers/staging/sm750fb/ddk750_dvi.c    | 30 ++++++++--------
->  drivers/staging/sm750fb/ddk750_dvi.h    | 20 +++++------
->  drivers/staging/sm750fb/ddk750_sii164.c | 48 ++++++++++++-------------
->  drivers/staging/sm750fb/ddk750_sii164.h | 20 +++++------
->  4 files changed, 59 insertions(+), 59 deletions(-)
+>  drivers/staging/sm750fb/ddk750_dvi.c |  2 +-
+>  drivers/staging/sm750fb/ddk750_dvi.h | 20 ++++++++++----------
+>  2 files changed, 11 insertions(+), 11 deletions(-)
 > 
 > diff --git a/drivers/staging/sm750fb/ddk750_dvi.c b/drivers/staging/sm750fb/ddk750_dvi.c
-> index cd564ea40779..db19bf732482 100644
+> index db19bf732482..943cbcafcffa 100644
 > --- a/drivers/staging/sm750fb/ddk750_dvi.c
 > +++ b/drivers/staging/sm750fb/ddk750_dvi.c
-> @@ -11,20 +11,20 @@
->   * function API. Please set the function pointer to NULL whenever the function
->   * is not supported.
->   */
-> -static struct dvi_ctrl_device g_dcftSupportedDviController[] = {
-> +static struct dvi_ctrl_device dcft_supported_dvi_controller[] = {
-
-Why the "dcft_" prefix?  We know this is a "dvi control device" by the
-fact that the type says it is :)
-
->  #ifdef DVI_CTRL_SII164
->  	{
-> -		.pfnInit = sii164InitChip,
-> -		.pfnGetVendorId = sii164GetVendorID,
-> -		.pfnGetDeviceId = sii164GetDeviceID,
-> +		.pfn_init = sii164_init_chip,
-> +		.pfn_get_vendor_id = sii164_get_vendor_id,
-> +		.pfn_get_device_id = sii164_get_device_id,
->  #ifdef SII164_FULL_FUNCTIONS
-> -		.pfnResetChip = sii164ResetChip,
-> -		.pfnGetChipString = sii164GetChipString,
-> -		.pfnSetPower = sii164SetPower,
-> -		.pfnEnableHotPlugDetection = sii164EnableHotPlugDetection,
-> -		.pfnIsConnected = sii164IsConnected,
-> -		.pfnCheckInterrupt = sii164CheckInterrupt,
-> -		.pfnClearInterrupt = sii164ClearInterrupt,
-> +		.pfn_reset_chip = sii164_reset_chip,
-> +		.pfn_get_chip_string = sii164_get_chip_string,
-> +		.pfn_set_power = sii164_set_power,
-> +		.pfn_enable_hot_plug_detection = sii164_enable_hot_plug_detection,
-> +		.pfn_is_connected = sii164_is_connected,
-> +		.pfn_check_interrupt = sii164_check_interrupt,
-> +		.pfn_clear_interrupt = sii164_clear_interrupt,
+> @@ -30,7 +30,7 @@ static struct dvi_ctrl_device dcft_supported_dvi_controller[] = {
 >  #endif
->  	},
->  #endif
-> @@ -41,11 +41,11 @@ int dviInit(unsigned char edge_select,
->  	    unsigned char pll_filter_enable,
->  	    unsigned char pll_filter_value)
->  {
-> -	struct dvi_ctrl_device *pCurrentDviCtrl;
-> +	struct dvi_ctrl_device *current_dvi_ctrl;
+>  };
 >  
-> -	pCurrentDviCtrl = g_dcftSupportedDviController;
-> -	if (pCurrentDviCtrl->pfnInit) {
-> -		return pCurrentDviCtrl->pfnInit(edge_select,
-> +	current_dvi_ctrl = dcft_supported_dvi_controller;
-> +	if (current_dvi_ctrl->pfn_init) {
-> +		return current_dvi_ctrl->pfn_init(edge_select,
->  						bus_select,
->  						dual_edge_clk_select,
->  						hsync_enable,
-> diff --git a/drivers/staging/sm750fb/ddk750_dvi.h b/drivers/staging/sm750fb/ddk750_dvi.h
-> index 1c7a565b617a..4ca2591ea94b 100644
-> --- a/drivers/staging/sm750fb/ddk750_dvi.h
-> +++ b/drivers/staging/sm750fb/ddk750_dvi.h
-> @@ -27,16 +27,16 @@ typedef void (*PFN_DVICTRL_CLEARINTERRUPT)(void);
->  
->  /* Structure to hold all the function pointer to the DVI Controller. */
->  struct dvi_ctrl_device {
-> -	PFN_DVICTRL_INIT		pfnInit;
-> -	PFN_DVICTRL_RESETCHIP		pfnResetChip;
-> -	PFN_DVICTRL_GETCHIPSTRING	pfnGetChipString;
-> -	PFN_DVICTRL_GETVENDORID		pfnGetVendorId;
-> -	PFN_DVICTRL_GETDEVICEID		pfnGetDeviceId;
-> -	PFN_DVICTRL_SETPOWER		pfnSetPower;
-> -	PFN_DVICTRL_HOTPLUGDETECTION	pfnEnableHotPlugDetection;
-> -	PFN_DVICTRL_ISCONNECTED		pfnIsConnected;
-> -	PFN_DVICTRL_CHECKINTERRUPT	pfnCheckInterrupt;
-> -	PFN_DVICTRL_CLEARINTERRUPT	pfnClearInterrupt;
-> +	PFN_DVICTRL_INIT		pfn_init;
+> -int dviInit(unsigned char edge_select,
+> +int dvi_init(unsigned char edge_select,
 
-"pfn_" means "pointer to a function" which is not needed at all.  Just
-make this be "init".
-
-And the whole crazy "PFN_DVICTRL_INIT" also is not needed, just put the
-real function prototype in here so that we don't have to unwind the mess
-to look it up.
-
-So, this line would look like:
-	void (*init)(void);
-
-Much smaller, more obvious, matches the kernel coding style, and is way
-easier to understand exactly what is happening here.
-
-Typedefs can be used to hide complexity, but here they are just adding
-it, for no good reason at all.
-
-I appreciate long patch series being sent out, but maybe make them
-smaller so you do not have to redo 49 patches because you are asked to
-make a change on the very first patch like here.  Perhaps stick to 20
-max for a bit until you get the process down and understand more about
-what the kernel programming style is?
+Why is this a global function?  Just make it static and remove it from
+the .h file.
 
 thanks,
 
