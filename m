@@ -1,166 +1,237 @@
-Received: from lb3-smtp-cloud7.xs4all.net (lb3-smtp-cloud7.xs4all.net [194.109.24.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C470A70
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 13:47:24 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud7.xs4all.net with ESMTPA
-	id U8VYlSAykMxedU8VblIbRb; Wed, 07 Apr 2021 15:46:16 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1617803176; bh=0lWAigJfnBdAZZQf3xF3B3OZq3RPO5pT/vKIgwsduMQ=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=vST2vnOgJPU7s+FPHN0Q54yvcyoSD7k9oeeKzrGKDbE6+74lG4lDfxVosdujxghWy
-	 x7sGxou9eNRcfTUgwccyAEfUSUu0TOo7Nf3aYenv3T94ouZA1RMmyjiNq63/yZ5wDT
-	 pOaZI37q5LW3okoZ91lGVJVzJFgCkRdPzgEk0e8b6EEtb3mct7VeV8hnMxHSWFHzUT
-	 bE8BTZqXWGyU6w+c7epFa7h2IDx/7EQWk7bBLvOl1espNYbyRKWH6WPGniZTi2A12b
-	 K7C/sNYGyGAsWH1e2B5eHkrSfZ2PI71cDgj6xpBTCU+8R43Bd8wbvhVB41gx1c1HZH
-	 iyU5fznWkfSng==
-Subject: Re: [PATCH 1/2] staging: media: omap4iss: Ending line with argument
-To: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>,
- laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
- gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- outreachy-kernel@googlegroups.com
-References: <cover.1617287509.git.martinsdecarvalhobeatriz@gmail.com>
- <441d27060ff6477d0ad418f41e194b96373c1f7f.1617287509.git.martinsdecarvalhobeatriz@gmail.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <e1b25826-1359-24dd-47ad-41fbd3a406b9@xs4all.nl>
-Date: Wed, 7 Apr 2021 15:46:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F4470
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 13:49:54 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id i18so14617908wrm.5
+        for <linux-staging@lists.linux.dev>; Wed, 07 Apr 2021 06:49:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SLDZxUjEmd8H03UIAZwbOELnb4PvWVwu2cigZdBcIQ8=;
+        b=CXISKQLewVQGInvpUf/mMnS6BvtM4/uF7pOgJL2g+njL6Xae6CHqy5iA9RjmdC/H0Q
+         WO1FhlHnQtNnlb/G+vsgDZQ3cCzW2fqokFURv4OszU6qhx6Kwnuwk/eRJqWApy6yc72b
+         YbR7F1vVSWiWSB7qj3v4mK3uNUJnsO4SjTyF5cjePv+Z8OFK/PYv1Cz0fBptaYxJvnVs
+         vOXFrB/VV8WPEIR54PpyR24m2cmCru93VVAkNZnIsuTqfvx+uw03kn/zZklBnIcxHwZQ
+         GSvnaCJJWZ+cOzGocef16EqMPwLKKLPb9P+vNcQaCPFX01oR8hdB2YG4rDOXgLOMJQC/
+         8K/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SLDZxUjEmd8H03UIAZwbOELnb4PvWVwu2cigZdBcIQ8=;
+        b=nh+o9IxDqxxxl0WKb+3pqkz2xc2FZso1H+GiuV26GlQRUnR9pw15IttnB/ChhQuFq3
+         zoT0GEIdzcJJC9rG4kPJU+gMg3nUwJXfZKAXEh0CddAvs8CL4OoSCUGveSpXaf+q38Kc
+         u6sthZpUMsXH8Cyh+4yiy6VSte9RA7kNoZ2DEGKJMlsSiYqZKzs9co47chZiQkinG3CW
+         Q19ogFISi0/R6O6pV0utn3U0E+R51qq3mV2GucH5BwlPn4z+XmrA5RuBOodj2YZyDhoX
+         j4hQxew9VczjBZxDOKWNUjrIMl+W8CxgDRHQhcDFIGGSZYvHu/JHebPqRgxkCgBC0Hsw
+         x9Yg==
+X-Gm-Message-State: AOAM533djo+NqwhYjtDafwSJgfhmrdnZM3aSiBkp/xF/FqAbtHXJej0l
+	ndjdBPTEAXtyuyfaGlOIe1A=
+X-Google-Smtp-Source: ABdhPJx5Ztgk3j91FSUQSM63bgKDRbwsEtMnqxxyn4vCXUYF4+1+EV4JCN45wOzS0Y0CIRR7pPK4EQ==
+X-Received: by 2002:adf:ff89:: with SMTP id j9mr4504524wrr.350.1617803392737;
+        Wed, 07 Apr 2021 06:49:52 -0700 (PDT)
+Received: from agape ([5.171.81.68])
+        by smtp.gmail.com with ESMTPSA id t17sm27563265wrv.91.2021.04.07.06.49.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Apr 2021 06:49:52 -0700 (PDT)
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Fabio Aiuto <fabioaiuto83@gmail.com>
+Subject: [PATCH 00/19] staging: rtl8723bs: remove DBG_871X trace macro
+Date: Wed,  7 Apr 2021 15:49:24 +0200
+Message-Id: <cover.1617802415.git.fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <441d27060ff6477d0ad418f41e194b96373c1f7f.1617287509.git.martinsdecarvalhobeatriz@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfNyliiv7nqtDF3kIRgP2dS9nBfW2ds8w63Jf79FQQWaIoEcHFIWi6huzpYLA5yqNGxoRT32w4U8wVkdExRuFjCfLwiMYYo1FfWj1lqUpC9td5q8uJpiv
- nKAy8OxtaAgzCY497ggGunKAC/ZzitJ2sJZ5Sljlj7J4hiifOlrG7mp7PpbBIzQqNbEy67oJT6S4lU4QO8vU3d5NHv1yCWShnf4ijAeoOscHl1dlVC0fJsfg
- EKYl+taFLexwvVQRxGHVyI490LxnpmMdgsJJz8BkOFKa8SnBBGiCCMRSNJ5QSq0uMHmqq7ZnG5+wQHNW9LRcLOLqFLmpZxK4hdryQGvAIeNKk1JcSXLHydv8
- rHnSlJ2c0faHosLFp2C2Rqx0/PuV5KZdqPwnMA7Hrp9rAOasg5OgtA6/gz+aKa0nQbwkhtBgeyPTD26OWEPYKoCkT3Q1Lw7v8HkjzjtTq/Nw8QQbiRtSrCRS
- W8mqMJ9ec2s7CYbLuN1nL3uCxqxTc5zWwpskSg==
+Content-Transfer-Encoding: 8bit
 
-Hi Beatriz,
+This patchset removes all DBG_871X usages and definitions.
 
-I'm now reviewing staging/media patches instead of Greg KH. See Vaishali's
-email from today: "Sending patches for the drivers/staging/media".
+The whole private tracing system is not tied to a configuration
+symbol and the default behaviour is _trace nothing_.
 
-On 01/04/2021 17:07, Beatriz Martins de Carvalho wrote:
-> Remove checkpatch check "CHECK: Lines should not end with a '('" with
-> argument present in next line and reorganize characters so the lines
-> are under 100 columns
-> 
-> Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
-> ---
->  drivers/staging/media/omap4iss/iss.c | 46 +++++++++++++---------------
->  1 file changed, 22 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/staging/media/omap4iss/iss.c b/drivers/staging/media/omap4iss/iss.c
-> index dae9073e7d3c..e8f724dbf810 100644
-> --- a/drivers/staging/media/omap4iss/iss.c
-> +++ b/drivers/staging/media/omap4iss/iss.c
-> @@ -559,9 +559,10 @@ static int iss_reset(struct iss_device *iss)
->  	iss_reg_set(iss, OMAP4_ISS_MEM_TOP, ISS_HL_SYSCONFIG,
->  		    ISS_HL_SYSCONFIG_SOFTRESET);
->  
-> -	timeout = iss_poll_condition_timeout(
-> -		!(iss_reg_read(iss, OMAP4_ISS_MEM_TOP, ISS_HL_SYSCONFIG) &
-> -		ISS_HL_SYSCONFIG_SOFTRESET), 1000, 10, 100);
-> +	timeout = iss_poll_condition_timeout(!(iss_reg_read(iss,
-> +							    OMAP4_ISS_MEM_TOP, ISS_HL_SYSCONFIG)
-> +							    & ISS_HL_SYSCONFIG_SOFTRESET),
-> +							    1000, 10, 100);
->  	if (timeout) {
->  		dev_err(iss->dev, "ISS reset timeout\n");
->  		return -ETIMEDOUT;
-> @@ -583,9 +584,10 @@ static int iss_isp_reset(struct iss_device *iss)
->  
->  	iss_reg_set(iss, OMAP4_ISS_MEM_ISP_SYS1, ISP5_CTRL, ISP5_CTRL_MSTANDBY);
->  
-> -	timeout = iss_poll_condition_timeout(
-> -		iss_reg_read(iss, OMAP4_ISS_MEM_ISP_SYS1, ISP5_CTRL) &
-> -		ISP5_CTRL_MSTANDBY_WAIT, 1000000, 1000, 1500);
-> +	timeout = iss_poll_condition_timeout(iss_reg_read(iss,
-> +							  OMAP4_ISS_MEM_ISP_SYS1, ISP5_CTRL)
-> +							  & ISP5_CTRL_MSTANDBY_WAIT, 1000000,
-> +							  1000, 1500);
->  	if (timeout) {
->  		dev_err(iss->dev, "ISP5 standby timeout\n");
->  		return -ETIMEDOUT;
-> @@ -595,9 +597,10 @@ static int iss_isp_reset(struct iss_device *iss)
->  	iss_reg_set(iss, OMAP4_ISS_MEM_ISP_SYS1, ISP5_SYSCONFIG,
->  		    ISP5_SYSCONFIG_SOFTRESET);
->  
-> -	timeout = iss_poll_condition_timeout(
-> -		!(iss_reg_read(iss, OMAP4_ISS_MEM_ISP_SYS1, ISP5_SYSCONFIG) &
-> -		ISP5_SYSCONFIG_SOFTRESET), 1000000, 1000, 1500);
-> +	timeout = iss_poll_condition_timeout(!(iss_reg_read(iss, OMAP4_ISS_MEM_ISP_SYS1,
-> +							    ISP5_SYSCONFIG) &
-> +							    ISP5_SYSCONFIG_SOFTRESET), 1000000,
-> +							    1000, 1500);
+DBG_871X macros require the code to be modified by
+hand in order to be turned on. This obviously has not happened
+since the code was merged, so just remove them as they are unused.
 
-As several other people already commented, these changes do not improve readability.
-Just leave this code alone, it's good enough. Even splitting up the condition into
-a separate function would degrade readability since that would make it harder to
-discover the exact condition that will be polled for.
+First patch fix a DBG_871X call. It has three args over only two
+placeholders in the first format string argument.
+If I would not make this fix, the semantic patch
+used to bulk remove all macro occurences would ignore the abnormal
+macro (the one with three args) and all subsequent occurrences in
+the same file (core/rtw_recv.c).
 
-Not everything that checkpatch.pl flags is necessarily bad code :-)
+The second patch applies the cocci script.
 
->  	if (timeout) {
->  		dev_err(iss->dev, "ISP5 reset timeout\n");
->  		return -ETIMEDOUT;
-> @@ -1104,33 +1107,28 @@ static int iss_create_links(struct iss_device *iss)
->  	}
->  
->  	/* Connect the submodules. */
-> -	ret = media_create_pad_link(
-> -			&iss->csi2a.subdev.entity, CSI2_PAD_SOURCE,
-> -			&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SINK, 0);
-> +	ret = media_create_pad_link(&iss->csi2a.subdev.entity, CSI2_PAD_SOURCE,
-> +				    &iss->ipipeif.subdev.entity, IPIPEIF_PAD_SINK, 0);
->  	if (ret < 0)
->  		return ret;
->  
-> -	ret = media_create_pad_link(
-> -			&iss->csi2b.subdev.entity, CSI2_PAD_SOURCE,
-> -			&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SINK, 0);
-> +	ret = media_create_pad_link(&iss->csi2b.subdev.entity, CSI2_PAD_SOURCE,
-> +				    &iss->ipipeif.subdev.entity, IPIPEIF_PAD_SINK, 0);
->  	if (ret < 0)
->  		return ret;
->  
-> -	ret = media_create_pad_link(
-> -			&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SOURCE_VP,
-> -			&iss->resizer.subdev.entity, RESIZER_PAD_SINK, 0);
-> +	ret = media_create_pad_link(&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SOURCE_VP,
-> +				    &iss->resizer.subdev.entity, RESIZER_PAD_SINK, 0);
->  	if (ret < 0)
->  		return ret;
->  
-> -	ret = media_create_pad_link(
-> -			&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SOURCE_VP,
-> -			&iss->ipipe.subdev.entity, IPIPE_PAD_SINK, 0);
-> +	ret = media_create_pad_link(&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SOURCE_VP,
-> +				    &iss->ipipe.subdev.entity, IPIPE_PAD_SINK, 0);
->  	if (ret < 0)
->  		return ret;
->  
-> -	ret = media_create_pad_link(
-> -			&iss->ipipe.subdev.entity, IPIPE_PAD_SOURCE_VP,
-> -			&iss->resizer.subdev.entity, RESIZER_PAD_SINK, 0);
-> +	ret = media_create_pad_link(&iss->ipipe.subdev.entity, IPIPE_PAD_SOURCE_VP,
-> +				    &iss->resizer.subdev.entity, RESIZER_PAD_SINK, 0);
->  	if (ret < 0)
->  		return ret;
->  
-> 
+This is the semantic patch:
 
-These, however, are readability improvements, so I'm happy with that.
+@@
+expression a, b, c, d, e, f, g, h, i, j, k;
+constant B, C, D, E;
+@@
 
-Regards,
+(
+-	DBG_871X(a);
+|
+-	DBG_871X(a, b);
+|
+-	DBG_871X(a, B);
+|
+-	DBG_871X(a, b, c);
+|
+-	DBG_871X(a, B, c);
+|
+-	DBG_871X(a, b, C);
+|
+-	DBG_871X(a, B, C);
+|
+-	DBG_871X(a, b, c, d);
+|
+-	DBG_871X(a, B, c, d);
+|
+-	DBG_871X(a, b, C, d);
+|
+-	DBG_871X(a, b, c, D);
+|
+-	DBG_871X(a, B, C, d);
+|
+-	DBG_871X(a, B, c, D);
+|
+-	DBG_871X(a, b, C, D);
+|
+-	DBG_871X(a, B, C, D);
+|
+-	DBG_871X(a, b, c, d, e);
+|
+-	DBG_871X(a, B, c, d, e);
+|
+-	DBG_871X(a, b, C, d, e);
+|
+-	DBG_871X(a, b, c, D, e);
+|
+-	DBG_871X(a, b, c, d, E);
+|
+-	DBG_871X(a, B, C, d, e);
+|
+-	DBG_871X(a, B, c, D, e);
+|
+-	DBG_871X(a, B, c, d, E);
+|
+-	DBG_871X(a, b, C, D, e);
+|
+-	DBG_871X(a, b, C, d, E);
+|
+-	DBG_871X(a, b, c, D, E);
+|
+-	DBG_871X(a, B, C, D, e);
+|
+-	DBG_871X(a, B, C, d, E);
+|
+-	DBG_871X(a, B, c, D, E);
+|
+-	DBG_871X(a, b, C, D, E);
+|
+-	DBG_871X(a, B, C, D, E);
+|
+-	DBG_871X(a, b, c, d, e, f);
+|
+-	DBG_871X(a, b, c, d, e, f, g);
+|
+-	DBG_871X(a, b, c, d, e, f, g, h);
+|
+-	DBG_871X(a, b, c, d, e, f, g, h, i);
+|
+-	DBG_871X(a, b, c, d, e, f, g, h, i, j);
+|
+-	DBG_871X(a, b, c, d, e, f, g, h, i, j, k);
+)
 
-	Hans
+The third one removes an unmatched macro call,
+maybe due to the trailing \, because the occurrence is
+inside a macro expansion.
+
+The fourth one deletes all commented out call spread all over
+the rtl8723bs code.
+
+Fifth one removes definitions.
+
+All remaining patches do some code cleaning on all
+places where DBG_871X has been removed.
+
+Fabio Aiuto (19):
+  staging: rtl8723bs: remove DBG_871X log argument
+  staging: rtl8723bs: remove all DBG_871X logs
+  staging: rtl8723bs: remove DBG_871CX log unmatched by cocci
+  staging: rtl8723bs: remove commented out DBG_871X logs
+  staging: rtl8723bs: remove DBG_871X macro definitions
+  staging: rtl8723bs: remove all if-else empty blocks left by DBG_871X
+    removal
+  drivers: rtl8723bs: rewrite comparison to null
+  staging: rtl8723bs: put constant on the right side in if condition
+  staging: rtl8723bs: remove empty for cycles left by DBG_871X removal
+  staging: rtl8723bs: remove empty tracing function dump_rx_packet
+  staging: rtl8723bs: remove empty #ifdef blocks after DBG_871X removal
+  staging: rtl8723bs: remove unnecessary bracks on DBG_871X removal
+    sites
+  staging: rtl8723bs: remove unnecessary parentheses in if condition
+  staging: rtl8723bs: add spaces around operators
+  staging: rtl8723bs: rewrite comparison to null
+  staging: rtl8723bs: remove unnecessary parentheses
+  staging: rtl8723bs: fix comparison in if condition
+  staging: rtl8723bs: split long lines
+  staging: rtl8723bs: remove unnecessary parentheses
+
+ drivers/staging/rtl8723bs/core/rtw_ap.c       | 158 +------
+ drivers/staging/rtl8723bs/core/rtw_btcoex.c   |  12 +-
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      |  51 +--
+ drivers/staging/rtl8723bs/core/rtw_efuse.c    |  11 -
+ .../staging/rtl8723bs/core/rtw_ieee80211.c    |  48 +-
+ drivers/staging/rtl8723bs/core/rtw_io.c       |   7 +-
+ .../staging/rtl8723bs/core/rtw_ioctl_set.c    |  11 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     | 170 +------
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 366 ++-------------
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  | 144 +-----
+ drivers/staging/rtl8723bs/core/rtw_recv.c     | 251 +----------
+ drivers/staging/rtl8723bs/core/rtw_security.c |  26 +-
+ drivers/staging/rtl8723bs/core/rtw_sta_mgt.c  |  10 -
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    | 154 ++-----
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     | 141 +-----
+ .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    |  11 -
+ drivers/staging/rtl8723bs/hal/HalPwrSeqCmd.c  |   9 +-
+ drivers/staging/rtl8723bs/hal/hal_btcoex.c    |   2 -
+ drivers/staging/rtl8723bs/hal/hal_com.c       |  49 +-
+ .../staging/rtl8723bs/hal/hal_com_phycfg.c    | 208 ++-------
+ drivers/staging/rtl8723bs/hal/hal_intf.c      |  12 +-
+ drivers/staging/rtl8723bs/hal/odm.c           |   3 -
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  |  92 +---
+ drivers/staging/rtl8723bs/hal/rtl8723b_dm.c   |   5 -
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |  90 +---
+ .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   |  15 +-
+ .../staging/rtl8723bs/hal/rtl8723bs_recv.c    |   9 -
+ .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    |  37 +-
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  |  31 +-
+ drivers/staging/rtl8723bs/hal/sdio_ops.c      |  23 +-
+ drivers/staging/rtl8723bs/include/rtw_debug.h |   6 -
+ .../staging/rtl8723bs/include/rtw_mlme_ext.h  |   3 -
+ .../staging/rtl8723bs/include/rtw_pwrctrl.h   |   1 -
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 208 +--------
+ .../staging/rtl8723bs/os_dep/ioctl_linux.c    | 421 +-----------------
+ drivers/staging/rtl8723bs/os_dep/mlme_linux.c |   6 +-
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   |  90 +---
+ .../staging/rtl8723bs/os_dep/osdep_service.c  |   2 -
+ drivers/staging/rtl8723bs/os_dep/recv_linux.c |   5 +-
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c  |  27 +-
+ .../staging/rtl8723bs/os_dep/sdio_ops_linux.c |  97 +---
+ drivers/staging/rtl8723bs/os_dep/xmit_linux.c |  21 +-
+ 42 files changed, 299 insertions(+), 2744 deletions(-)
+
+-- 
+2.20.1
+
