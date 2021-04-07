@@ -1,94 +1,191 @@
-Received: from smtp67.iad3b.emailsrvr.com (smtp67.iad3b.emailsrvr.com [146.20.161.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D684F6D12
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 14:11:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
-	s=20190130-41we5z8j; t=1617804128;
-	bh=GbQ3uf46nP5RFxkxBOwVEYPP9QbEZFISVYJB1W0TlG8=;
-	h=From:To:Subject:Date:From;
-	b=MFrS92Az46RFJqkJ0iNwPxVhncjNbrlVPiqEtjuMqC8uAsx0knC9RY+a8rNV4/xNI
-	 YMTtTSFpPjAloKsT8kPr8GW6POqlc9aLzdwPee8bLFhvigcp9hPS9RYYXpMTjyFW4m
-	 rfUSFB+Xni6vDcAkGKhmFnDMXY2QE1QxnV/y81ic=
-X-Auth-ID: abbotti@mev.co.uk
-Received: by smtp1.relay.iad3b.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id 90EF3601B1;
-	Wed,  7 Apr 2021 10:02:07 -0400 (EDT)
-From: Ian Abbott <abbotti@mev.co.uk>
-To: linux-staging@lists.linux.dev
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	"Spencer E . Olson" <olsonse@umich.edu>
-Subject: [PATCH 3/5] staging: comedi: tests: ni_routes_test: Avoid CamelCase: <RVi>
-Date: Wed,  7 Apr 2021 15:01:40 +0100
-Message-Id: <20210407140142.447250-4-abbotti@mev.co.uk>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20210407140142.447250-1-abbotti@mev.co.uk>
-References: <20210407140142.447250-1-abbotti@mev.co.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A90770
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 14:19:14 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id b9so10300009wrs.1
+        for <linux-staging@lists.linux.dev>; Wed, 07 Apr 2021 07:19:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-transfer-encoding:content-language;
+        bh=hk6O1+YsLCe8qBF6gMN+3M1D1gXE0oXAs3ZDrHvZOkc=;
+        b=qbwAVGrCFye6M/nU4HSaDpQmhzHWShlbTv2YMAlwPD73fUgpT8QLzXMRb1A97RvM9x
+         WnfAc9NtdVTS5rvXaxatLWLe4o6xVlG8C69A0LWuLO0jU/sHVA+kaucL7n7VajWnOGF7
+         4D8pK3J38YC23K2O6umsL3CYV0fnqbTYdayfjgYc5ShPqereBe8sliGCg1cNsWauhR9x
+         TebZrnwOPnDU0sCESFvlee45TRgSt4as7rpEjPKo+LJKIdIwePcnCxsjYEyxje1Yn9P5
+         smBX17QZFgvqsGuQ8DsqYZT12B/AbficNYOlM+xcyyXaKyctpuzwTcEy5wmRaCApLENj
+         D1ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=hk6O1+YsLCe8qBF6gMN+3M1D1gXE0oXAs3ZDrHvZOkc=;
+        b=A7WlRGzvgwB4QNZKnG0YT1T9wPjByrfUtEeGlltg2YzwoDuBW+gUZGpLFV+wzo1XB/
+         X/jphe22+jvn4RMixE18u1dEu2WwrPU///ZF2SUcrAz8/vFtCeSIbE7mg6phfl1trWOp
+         V9+h8yHuk1RveZ3bgfTACp2L8NLyXAjARIHZPzS6OQdpdwJAIEo+jofKupbegREIaWhx
+         jOJMmhUaSLNdZ0t33eWzCctPCF4vQ3kmDPP6OMB6UBpmSMTwOKMrxaMIoxB947qfTbR4
+         1nZWHFP1uvti3BRAP+OyG27nI2ysWJFAd10XlMWQ+YsGIyQFNmQvfUL4fF60Bg6vJU8D
+         z5fw==
+X-Gm-Message-State: AOAM530kYkKJG+oLoQd0eM6VcQsaW5FDHprMlfD1OeqwAFJ+3MPLnWFR
+	GOMBSYwdfyHkTSx2pYOetB9pnnvzWAmHRU5L
+X-Google-Smtp-Source: ABdhPJwUcwSJAIHk2OCtR+24DQShpSo3zGo/9gzczxTU1Ct2vayQA6uI0NS42UkEL7Nyzxbv3sIGcA==
+X-Received: by 2002:a5d:424c:: with SMTP id s12mr4803031wrr.174.1617805152679;
+        Wed, 07 Apr 2021 07:19:12 -0700 (PDT)
+Received: from ?IPv6:2001:818:de85:7e00:ef5c:3f2a:a646:d6ec? ([2001:818:de85:7e00:ef5c:3f2a:a646:d6ec])
+        by smtp.gmail.com with ESMTPSA id 61sm29613174wrn.25.2021.04.07.07.19.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Apr 2021 07:19:11 -0700 (PDT)
+Subject: Re: [PATCH 1/2] staging: media: omap4iss: Ending line with argument
+To: Hans Verkuil <hverkuil@xs4all.nl>, laurent.pinchart@ideasonboard.com,
+ mchehab@kernel.org, gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ outreachy-kernel@googlegroups.com
+References: <cover.1617287509.git.martinsdecarvalhobeatriz@gmail.com>
+ <441d27060ff6477d0ad418f41e194b96373c1f7f.1617287509.git.martinsdecarvalhobeatriz@gmail.com>
+ <e1b25826-1359-24dd-47ad-41fbd3a406b9@xs4all.nl>
+From: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
+Message-ID: <1df312a9-6216-1926-ff42-012654b81f3b@gmail.com>
+Date: Wed, 7 Apr 2021 15:19:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Classification-ID: 6de28929-b89a-445d-9861-df15a58200d7-4-1
+In-Reply-To: <e1b25826-1359-24dd-47ad-41fbd3a406b9@xs4all.nl>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Rename the `RVi` macro to `RVI` to avoid this checkpatch.pl issue:
 
-CHECK: #27: FILE: drivers/staging/comedi/drivers/tests/ni_routes_test.c:27:
-+#define RVi(table, src, dest)	((table)[(dest) * NI_NUM_NAMES + (src)])
 
-Cc: Spencer E. Olson <olsonse@umich.edu>
-Signed-off-by: Ian Abbott <abbotti@mev.co.uk>
----
-Note: checkpatch.pl shows an unrelated CamelCase issue for this patch.
----
- .../comedi/drivers/tests/ni_routes_test.c      | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+Em 07/04/21 14:46, Hans Verkuil escreveu:
+> Hi Beatriz,
+Hi,
+>
+> I'm now reviewing staging/media patches instead of Greg KH. See Vaishali's
+> email from today: "Sending patches for the drivers/staging/media".
+Yes, I saw the email! Thanks for helping us!
+>
+> On 01/04/2021 17:07, Beatriz Martins de Carvalho wrote:
+>> Remove checkpatch check "CHECK: Lines should not end with a '('" with
+>> argument present in next line and reorganize characters so the lines
+>> are under 100 columns
+>>
+>> Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
+>> ---
+>>   drivers/staging/media/omap4iss/iss.c | 46 +++++++++++++---------------
+>>   1 file changed, 22 insertions(+), 24 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/omap4iss/iss.c b/drivers/staging/media/omap4iss/iss.c
+>> index dae9073e7d3c..e8f724dbf810 100644
+>> --- a/drivers/staging/media/omap4iss/iss.c
+>> +++ b/drivers/staging/media/omap4iss/iss.c
+>> @@ -559,9 +559,10 @@ static int iss_reset(struct iss_device *iss)
+>>   	iss_reg_set(iss, OMAP4_ISS_MEM_TOP, ISS_HL_SYSCONFIG,
+>>   		    ISS_HL_SYSCONFIG_SOFTRESET);
+>>   
+>> -	timeout = iss_poll_condition_timeout(
+>> -		!(iss_reg_read(iss, OMAP4_ISS_MEM_TOP, ISS_HL_SYSCONFIG) &
+>> -		ISS_HL_SYSCONFIG_SOFTRESET), 1000, 10, 100);
+>> +	timeout = iss_poll_condition_timeout(!(iss_reg_read(iss,
+>> +							    OMAP4_ISS_MEM_TOP, ISS_HL_SYSCONFIG)
+>> +							    & ISS_HL_SYSCONFIG_SOFTRESET),
+>> +							    1000, 10, 100);
+>>   	if (timeout) {
+>>   		dev_err(iss->dev, "ISS reset timeout\n");
+>>   		return -ETIMEDOUT;
+>> @@ -583,9 +584,10 @@ static int iss_isp_reset(struct iss_device *iss)
+>>   
+>>   	iss_reg_set(iss, OMAP4_ISS_MEM_ISP_SYS1, ISP5_CTRL, ISP5_CTRL_MSTANDBY);
+>>   
+>> -	timeout = iss_poll_condition_timeout(
+>> -		iss_reg_read(iss, OMAP4_ISS_MEM_ISP_SYS1, ISP5_CTRL) &
+>> -		ISP5_CTRL_MSTANDBY_WAIT, 1000000, 1000, 1500);
+>> +	timeout = iss_poll_condition_timeout(iss_reg_read(iss,
+>> +							  OMAP4_ISS_MEM_ISP_SYS1, ISP5_CTRL)
+>> +							  & ISP5_CTRL_MSTANDBY_WAIT, 1000000,
+>> +							  1000, 1500);
+>>   	if (timeout) {
+>>   		dev_err(iss->dev, "ISP5 standby timeout\n");
+>>   		return -ETIMEDOUT;
+>> @@ -595,9 +597,10 @@ static int iss_isp_reset(struct iss_device *iss)
+>>   	iss_reg_set(iss, OMAP4_ISS_MEM_ISP_SYS1, ISP5_SYSCONFIG,
+>>   		    ISP5_SYSCONFIG_SOFTRESET);
+>>   
+>> -	timeout = iss_poll_condition_timeout(
+>> -		!(iss_reg_read(iss, OMAP4_ISS_MEM_ISP_SYS1, ISP5_SYSCONFIG) &
+>> -		ISP5_SYSCONFIG_SOFTRESET), 1000000, 1000, 1500);
+>> +	timeout = iss_poll_condition_timeout(!(iss_reg_read(iss, OMAP4_ISS_MEM_ISP_SYS1,
+>> +							    ISP5_SYSCONFIG) &
+>> +							    ISP5_SYSCONFIG_SOFTRESET), 1000000,
+>> +							    1000, 1500);
+> As several other people already commented, these changes do not improve readability.
+> Just leave this code alone, it's good enough. Even splitting up the condition into
+> a separate function would degrade readability since that would make it harder to
+> discover the exact condition that will be polled for.
+>
+> Not everything that checkpatch.pl flags is necessarily bad code :-)
 
-diff --git a/drivers/staging/comedi/drivers/tests/ni_routes_test.c b/drivers/staging/comedi/drivers/tests/ni_routes_test.c
-index 696e610f1822..7dfc70a4cc6f 100644
---- a/drivers/staging/comedi/drivers/tests/ni_routes_test.c
-+++ b/drivers/staging/comedi/drivers/tests/ni_routes_test.c
-@@ -24,7 +24,7 @@
- #include "../ni_routes.h"
- #include "unittest.h"
- 
--#define RVi(table, src, dest)	((table)[(dest) * NI_NUM_NAMES + (src)])
-+#define RVI(table, src, dest)	((table)[(dest) * NI_NUM_NAMES + (src)])
- #define O(x)	((x) + NI_NAMES_BASE)
- #define B(x)	((x) - NI_NAMES_BASE)
- #define V(x)	((x) | 0x80)
-@@ -244,10 +244,10 @@ void test_ni_assign_device_routes(void)
- 		 "all pci-6070e route_set->src's in order of signal source\n");
- 
- 	unittest(
--	  RVi(table, B(PXI_Star), B(NI_AI_SampleClock)) == V(17) &&
--	  RVi(table, B(NI_10MHzRefClock), B(TRIGGER_LINE(0))) == 0 &&
--	  RVi(table, B(NI_AI_ConvertClock), B(NI_PFI(0))) == 0 &&
--	  RVi(table, B(NI_AI_ConvertClock), B(NI_PFI(2))) ==
-+	  RVI(table, B(PXI_Star), B(NI_AI_SampleClock)) == V(17) &&
-+	  RVI(table, B(NI_10MHzRefClock), B(TRIGGER_LINE(0))) == 0 &&
-+	  RVI(table, B(NI_AI_ConvertClock), B(NI_PFI(0))) == 0 &&
-+	  RVI(table, B(NI_AI_ConvertClock), B(NI_PFI(2))) ==
- 		V(NI_PFI_OUTPUT_AI_CONVERT),
- 	  "pci-6070e finds e-series route_values table\n");
- 
-@@ -264,10 +264,10 @@ void test_ni_assign_device_routes(void)
- 	unittest(oldtable != table, "pci-6220 find other route_values table\n");
- 
- 	unittest(
--	  RVi(table, B(PXI_Star), B(NI_AI_SampleClock)) == V(20) &&
--	  RVi(table, B(NI_10MHzRefClock), B(TRIGGER_LINE(0))) == V(12) &&
--	  RVi(table, B(NI_AI_ConvertClock), B(NI_PFI(0))) == V(3) &&
--	  RVi(table, B(NI_AI_ConvertClock), B(NI_PFI(2))) == V(3),
-+	  RVI(table, B(PXI_Star), B(NI_AI_SampleClock)) == V(20) &&
-+	  RVI(table, B(NI_10MHzRefClock), B(TRIGGER_LINE(0))) == V(12) &&
-+	  RVI(table, B(NI_AI_ConvertClock), B(NI_PFI(0))) == V(3) &&
-+	  RVI(table, B(NI_AI_ConvertClock), B(NI_PFI(2))) == V(3),
- 	  "pci-6220 finds m-series route_values table\n");
- }
- 
--- 
-2.31.0
+Yes, I learning about this. And I will using this for the next patches.
+>
+>>   	if (timeout) {
+>>   		dev_err(iss->dev, "ISP5 reset timeout\n");
+>>   		return -ETIMEDOUT;
+>> @@ -1104,33 +1107,28 @@ static int iss_create_links(struct iss_device *iss)
+>>   	}
+>>   
+>>   	/* Connect the submodules. */
+>> -	ret = media_create_pad_link(
+>> -			&iss->csi2a.subdev.entity, CSI2_PAD_SOURCE,
+>> -			&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SINK, 0);
+>> +	ret = media_create_pad_link(&iss->csi2a.subdev.entity, CSI2_PAD_SOURCE,
+>> +				    &iss->ipipeif.subdev.entity, IPIPEIF_PAD_SINK, 0);
+>>   	if (ret < 0)
+>>   		return ret;
+>>   
+>> -	ret = media_create_pad_link(
+>> -			&iss->csi2b.subdev.entity, CSI2_PAD_SOURCE,
+>> -			&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SINK, 0);
+>> +	ret = media_create_pad_link(&iss->csi2b.subdev.entity, CSI2_PAD_SOURCE,
+>> +				    &iss->ipipeif.subdev.entity, IPIPEIF_PAD_SINK, 0);
+>>   	if (ret < 0)
+>>   		return ret;
+>>   
+>> -	ret = media_create_pad_link(
+>> -			&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SOURCE_VP,
+>> -			&iss->resizer.subdev.entity, RESIZER_PAD_SINK, 0);
+>> +	ret = media_create_pad_link(&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SOURCE_VP,
+>> +				    &iss->resizer.subdev.entity, RESIZER_PAD_SINK, 0);
+>>   	if (ret < 0)
+>>   		return ret;
+>>   
+>> -	ret = media_create_pad_link(
+>> -			&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SOURCE_VP,
+>> -			&iss->ipipe.subdev.entity, IPIPE_PAD_SINK, 0);
+>> +	ret = media_create_pad_link(&iss->ipipeif.subdev.entity, IPIPEIF_PAD_SOURCE_VP,
+>> +				    &iss->ipipe.subdev.entity, IPIPE_PAD_SINK, 0);
+>>   	if (ret < 0)
+>>   		return ret;
+>>   
+>> -	ret = media_create_pad_link(
+>> -			&iss->ipipe.subdev.entity, IPIPE_PAD_SOURCE_VP,
+>> -			&iss->resizer.subdev.entity, RESIZER_PAD_SINK, 0);
+>> +	ret = media_create_pad_link(&iss->ipipe.subdev.entity, IPIPE_PAD_SOURCE_VP,
+>> +				    &iss->resizer.subdev.entity, RESIZER_PAD_SINK, 0);
+>>   	if (ret < 0)
+>>   		return ret;
+>>   
+>>
+> These, however, are readability improvements, so I'm happy with that.
+Thank!
+>
+> Regards,
+>
+> 	Hans
+Best wishes,
+Beatriz Carvalho
 
