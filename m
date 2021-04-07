@@ -1,27 +1,26 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2125D70
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 05:37:42 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2D25A613AF;
-	Wed,  7 Apr 2021 05:37:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B888C70
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 05:40:36 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AD097613C0;
+	Wed,  7 Apr 2021 05:40:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1617773861;
-	bh=nzwtY+L0kgmfWf4JSBCkm5fqQT9Wgv7V7OBgqfxP7iQ=;
+	s=korg; t=1617774036;
+	bh=1XZqIx6SDJy9lK+nO0VwaLN+iUjNHhA/ArlJSIl3ljo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=xnCUb60RQc+dbIilRCXgHSUKVn1uSFZRGHhqBgIHEUtOafKvgpD8IHyGesMJ1jfXL
-	 01RmSupd0IRlARujw4yym69PmeknlmD/m+ZPpiHBvIaUWDGCfrEvx0jMX/iGk0Yneh
-	 EqdAp4TF0KHnboEMVlH3NikrloWCoSpedSWQfP/8=
-Date: Wed, 7 Apr 2021 07:37:39 +0200
+	b=xoGkVLoXvJNh3XlnGqJyeiXaD8SRMrd+VXkZihtDE1peRfYWMq+extQsBidMHAMh6
+	 NOKLHwyINIZ5qtzNU1PYmRBKh2vOx11QkT2cb45cgqZbE+Y6KjatF4Gkkp3vNCkhR3
+	 ONcjDXD/Jk2smbQyAv7FA+Bkkhx6xlIbR+X/kAlM=
+Date: Wed, 7 Apr 2021 07:40:33 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com
-Subject: Re: [RESEND PATCH] staging: emxx_udc: Ending line with argument
-Message-ID: <YG1FI38zNbidjt9q@kroah.com>
-References: <20210406193409.96428-1-martinsdecarvalhobeatriz@gmail.com>
- <YGy4LXHBrBb/r3dk@kroah.com>
- <4c7df741-4e73-2ac4-f0d8-c9513ae29c88@gmail.com>
+To: Sergei Krainov <sergei.krainov.lkd@gmail.com>
+Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8712: avoid multiple line dereference
+Message-ID: <YG1F0UoHuuGXctim@kroah.com>
+References: <20210406231517.GA30925@test-VirtualBox>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -29,37 +28,119 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4c7df741-4e73-2ac4-f0d8-c9513ae29c88@gmail.com>
+In-Reply-To: <20210406231517.GA30925@test-VirtualBox>
 
-On Tue, Apr 06, 2021 at 09:00:07PM +0100, Beatriz Martins de Carvalho wrote:
+On Wed, Apr 07, 2021 at 01:15:17AM +0200, Sergei Krainov wrote:
+> fix post-commit hook checkpatch issues:
 > 
-> Em 06/04/21 20:36, Greg KH escreveu:
-> > On Tue, Apr 06, 2021 at 08:34:09PM +0100, Beatriz Martins de Carvalho wrote:
-> > > Cleans up check of "Lines should not end with a '('"
-> > > with argument present in next line in file emxx_udc.c
-> > > 
-> > > Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
-> > > ---
-> > >   drivers/staging/emxx_udc/emxx_udc.c | 11 ++++-------
-> > >   1 file changed, 4 insertions(+), 7 deletions(-)
-> > Why is this a [RESEND] ?
-> > 
-> > What happened to the first version?
-> Sorry, I didn't receive your review, and in kernelnewbies tutorial, they say
-> if not receive a response, may have missed the patch, so I resent it.
-
-Do you have a pointer to your previous patch in the lore.kernel.org
-archives anywhere?  I can't seem to find it.
-
-> > Also, your subject is odd, please look at the documentation for how to
-> > write good subject lines for patches.
+> WARNING: Avoid multiple line dereference - prefer 'adapter->mlmepriv.cur_network.network.InfrastructureMode'
+> +			adapter->mlmepriv.cur_network.network.
+> +			InfrastructureMode)
 > 
-> Yes, I know. It was my second patch, and I was learning, and when I resent
-> it, I didn't know if I can change the subject.
+> WARNING: Avoid multiple line dereference - prefer 'adapter->registrypriv.dev_network.MacAddress'
+> +						 adapter->registrypriv.
+> +							dev_network.MacAddress;
+> 
+> WARNING: Avoid multiple line dereference - prefer 'pnetwork->network.Configuration.FHConfig.DwellTime'
+> +		 le32_to_cpu(pnetwork->network.Configuration.FHConfig.
+> +			     DwellTime);
+> 
+> WARNING: Avoid multiple line dereference - prefer 'pnetwork->network.Configuration.FHConfig.HopPattern'
+> +		 le32_to_cpu(pnetwork->network.Configuration.
+> +			     FHConfig.HopPattern);
+> 
+> WARNING: Avoid multiple line dereference - prefer 'pmlmepriv->scanned_queue'
+> +					    r8712_find_network(&pmlmepriv->
+> +					    scanned_queue,
+> 
+> WARNING: Avoid multiple line dereference - prefer 'pmlmepriv->scanned_queue'
+> +					     r8712_find_network(&pmlmepriv->
+> +					     scanned_queue,
+> 
+> WARNING: Avoid multiple line dereference - prefer 'pstapriv->sta_hash_lock'
+> +					spin_lock_irqsave(&pstapriv->
+> +						sta_hash_lock, irqL2);
+> 
+> WARNING: Avoid multiple line dereference - prefer 'pstapriv->sta_hash_lock'
+> +					spin_unlock_irqrestore(&(pstapriv->
+> +						sta_hash_lock), irqL2);
+> 
+> WARNING: Avoid multiple line dereference - prefer 'pmlmepriv->scanned_queue'
+> +						 r8712_find_network(&pmlmepriv->
+> +						 scanned_queue,
+> 
+> WARNING: Avoid multiple line dereference - prefer 'pnetwork->network.MacAddress'
+> +						 pnetwork->network.
+> +						 MacAddress);
+> 
+> WARNING: Avoid multiple line dereference - prefer 'pmlmepriv->scanned_queue'
+> +				ptarget_wlan = r8712_find_network(&pmlmepriv->
+> +						scanned_queue,
+> 
+> WARNING: Avoid multiple line dereference - prefer 'adapter->securitypriv.AuthAlgrthm'
+> +					if (adapter->securitypriv.
+> +					    AuthAlgrthm == 2) {
+> 
+> WARNING: Avoid multiple line dereference - prefer 'adapter->securitypriv.binstallGrpkey'
+> +						adapter->securitypriv.
+> +							binstallGrpkey =
+> 
+> WARNING: Avoid multiple line dereference - prefer 'adapter->securitypriv.busetkipkey'
+> +						adapter->securitypriv.
+> +							busetkipkey =
+> 
+> WARNING: Avoid multiple line dereference - prefer 'adapter->securitypriv.bgrpkey_handshake'
+> +						adapter->securitypriv.
+> +							bgrpkey_handshake =
+> 
+> WARNING: Avoid multiple line dereference - prefer 'adapter->securitypriv.PrivacyAlgrthm'
+> +							 adapter->securitypriv.
+> +							 PrivacyAlgrthm;
+> 
+> WARNING: Avoid multiple line dereference - prefer 'ptarget_sta->x_UncstKey'
+> +						memset((u8 *)&ptarget_sta->
+> +							 x_UncstKey,
+> 
+> WARNING: Avoid multiple line dereference - prefer 'ptarget_sta->tkiprxmickey'
+> +						memset((u8 *)&ptarget_sta->
+> +							 tkiprxmickey,
+> 
+> WARNING: Avoid multiple line dereference - prefer 'ptarget_sta->tkiptxmickey'
+> +						memset((u8 *)&ptarget_sta->
+> +							 tkiptxmickey,
+> 
+> WARNING: Avoid multiple line dereference - prefer 'ptarget_sta->txpn'
+> +						memset((u8 *)&ptarget_sta->
+> +							 txpn, 0,
+> 
+> WARNING: Avoid multiple line dereference - prefer 'ptarget_sta->rxpn'
+> +						memset((u8 *)&ptarget_sta->
+> +							 rxpn, 0,
+> 
+> WARNING: Avoid multiple line dereference - prefer 'tgt_network->network'
+> +				r8712_get_wlan_bssid_ex_sz(&tgt_network->
+> +							network));
+> 
+> WARNING: Avoid multiple line dereference - prefer 'pmlmepriv->cur_network.network'
+> +					if (is_same_network(&pmlmepriv->
+> +					    cur_network.network,
+> 
 
-Of course you can always fix up things you know you did incorrectly,
-don't make others review stuff that you know is wrong, that just wastes
-everyone's time.
+That's a lot of information we don't need in a changelog text, please
+summarize when possible :)
+
+>  					ptarget_wlan =
+> -						 r8712_find_network(&pmlmepriv->
+> -						 scanned_queue,
+> -						 pnetwork->network.
+> -						 MacAddress);
+> +						 r8712_find_network(&pmlmepriv->scanned_queue,
+> +						 pnetwork->network.MacAddress);
+
+As bad as the original line here is, this isn't all that much better at
+all, right?  How about working to fix the huge indentation levels in
+this function instead, which will resolve all of this mess properly?
+That would be a much better way to solve this.
 
 thanks,
 
