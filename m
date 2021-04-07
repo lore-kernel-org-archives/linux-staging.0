@@ -1,88 +1,119 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [194.109.24.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5F270
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 13:50:28 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id y20-20020a1c4b140000b029011f294095d3so1187089wma.3
-        for <linux-staging@lists.linux.dev>; Wed, 07 Apr 2021 06:50:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=8ATocqzISrvJhii+4mqvqB6jnvgXhMORzZO+oZXnMLk=;
-        b=F7SMBjXMoQNt/S4a54onFYpu6SDPHVjbXyfXEls5sPeUr+sdCwYQVzNSx5qED+3o8u
-         eiQVv0tzteF5QWlGBjY1HLYj1SKc6twX3pBjuasV6feOe6XgBIFKcHY6P9S3n7+1Cvqn
-         r4rltEDzlNnxDYTxM4Cm0Fdjxg4KQNfOVgef6Ak0UQDN5ckD2+zFh1rAp7ssvRyWalS1
-         JRxHErS3tgJqye+FuHQ9fwrQrn+4+nT5IvahkgwFAeQ3lGjPuziXTbh1vSr+VAuKrYh5
-         YXre5KCPciSyn+33Pansm6vKIMRx2hqh5ncZkpkk+/07nH972+EP9hgxSZgWnAbwno3H
-         wMWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8ATocqzISrvJhii+4mqvqB6jnvgXhMORzZO+oZXnMLk=;
-        b=Wr+gAmnheOuR8ETvK5pGU9jWFskv67pCh+shU045rVJq8btKBoaVBMsP/kTD15Iy/7
-         rM4q2D9ZzD+smIQruNWH+zILL+HWEbwBV9hrsBvHl0nP/SMxHJNnfp1KrkAIZhRL1chH
-         fJ2qTeTQNPy1iXR7J8qiflNMdrjqm3dwqrjHarpTsjjacML/BaZ/fNcg4xqUAahYbZ14
-         s8mMUzGIu1svshyPzgSvpeRr/Kxvw5cCg5eeI/u5u9WF+TX3j61lmm09IusBHxWHjdXR
-         dV7CLYs/viZ2sMtKNIlcUYQ/z7hV96X472l2xtxyuZlvhmWfwQY1WnZhYDrz0vE+ZoPo
-         UyRw==
-X-Gm-Message-State: AOAM531W+N51fQGIWQlmsyvGq+FkyD8Y0auZg30YkTSSoQKHhwnLc6Jh
-	rjT2g1qPfk0GoexDWQIkDmg=
-X-Google-Smtp-Source: ABdhPJwxZOSviwk8T2n9bCN+M0nwC98LmNBuf2OsEeMRkttoVNgTu/deYLLOSemwtCVpcg6nPopWQg==
-X-Received: by 2002:a1c:1d53:: with SMTP id d80mr3220568wmd.62.1617803427225;
-        Wed, 07 Apr 2021 06:50:27 -0700 (PDT)
-Received: from agape ([5.171.81.68])
-        by smtp.gmail.com with ESMTPSA id c2sm8663811wmr.22.2021.04.07.06.50.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Apr 2021 06:50:26 -0700 (PDT)
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 19/19] staging: rtl8723bs: remove unnecessary parentheses
-Date: Wed,  7 Apr 2021 15:49:43 +0200
-Message-Id: <a45ec5059ea315db6509989f320340c1816068c5.1617802415.git.fabioaiuto83@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1617802415.git.fabioaiuto83@gmail.com>
-References: <cover.1617802415.git.fabioaiuto83@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C445970
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 14:06:38 +0000 (UTC)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+	by smtp-cloud7.xs4all.net with ESMTPA
+	id U8oAlSJzRMxedU8oDlIhgv; Wed, 07 Apr 2021 16:05:30 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+	t=1617804330; bh=fm44WbDRvg5ne0yHElY/ZyexmCrcHUZfm1JrxKKHYXg=;
+	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+	 Subject;
+	b=aBi0K7CfEbQR3dOy/Dnkf6U3bpGGiR4dImI1ENRMrd+iOMAYetDNcOE91Z8j8c1yC
+	 98QOz9QKMQJ7o0rAL7En+I9RvzA80St63ktEqw9ROlHcY5ZDdFUm4NgFitcZOG+tnu
+	 5Z1t4Zt0gbDXm3gy687VY76pnednaqr7IO51V1TZHSeefFyzr/GQU6gCvCfttw/d+C
+	 wCes29Y50tdio3sxOpP7NsPNqIKN/+1kH6v9jJO0GwazL0J90gS5hQdaLIcNoBq9PD
+	 SXGIdhXsy2HKIAnGTaG/4IauQ0ILoRX++5JlV010XIz4QudfpmWj9vo0nXdpXYD3yv
+	 0grmeMe/tWusA==
+Subject: Re: [PATCH] staging: axis-fifo: media/meson: remove redundant dev_err
+ call
+To: Muhammad Usama Anjum <musamaanjum@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:MESON VIDEO DECODER DRIVER FOR AMLOGIC SOCS"
+ <linux-media@vger.kernel.org>,
+ "open list:MESON VIDEO DECODER DRIVER FOR AMLOGIC SOCS"
+ <linux-amlogic@lists.infradead.org>,
+ "moderated list:ARM/Amlogic Meson SoC support"
+ <linux-arm-kernel@lists.infradead.org>
+Cc: linqiheng@huawei.com, kernel-janitors@vger.kernel.org,
+ dan.carpenter@oracle.com
+References: <20210407101047.GA1491258@LEGION>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <93218bc8-2cbb-bacc-f985-876a842261c4@xs4all.nl>
+Date: Wed, 7 Apr 2021 16:05:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210407101047.GA1491258@LEGION>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfJuuT3CZKUYbj5nNz8R/l8wm1VJrpjTtQH6J0CmLwm7ghIJ918q0+hbMonNISO7KHY8ltQTOpTNtDRJ8Usjw2cLayCjTim5Lj6hbxFqYwUVV/Qtx3fJy
+ o0P69y7rvrQfzlLdxH8b3CC78srRQDzdHZJ/x7+amPLWayrB6sc/NMDGDF/cHG6rq/ogA/QwcDjLzibQZp+Ly/oyZywn54zrOCrapWyEC5vw5TRHmZP+c90l
+ e6/WiNqO+9zXEPoCZluWJONhoR13VC9A5NrFKRPpOI2J0KxRzbPO4Gn7FH5boVqwzH6s50YHCu/ZKfyl4Ahkf70ldCPaUaP4WnWApKXZKfrCYdd0267PJ4MB
+ KxbTjy/4zMZDTC6dZR06qj+JvYW9hvbSONGDCTvmjSAPmMpwJ/DIB5Yq60JfhrVeth0c3dq1te5hwtjReUKEgA9j8tl3pXMpRJ14neeQEs+WEKPmNIy7rVq5
+ MLFvYKzilglPPRkGrvsVc97xsoAZnFQ/oablebOTuOfMNKlP/yzYJCOruNtcprpg4nCj+gkXxPkK8cyRe9qTkTMevzx20QTWiPsIxFXgNgvzgUVHFZQyH6sO
+ xfkWiBGP+m5OgIhW44sDGDqPdU32hrBv6XcmD+Zu7+WhTsSYh5Sgbd4gujKk3QKL+oiqqoqI4kevS4yXbdXk6+sjioXy5RvgJ6HrECyButS1+fSOwvT/tBs2
+ K4PVCUJwHESaKQ8za4+7i4rHtqUjK+Uoi9tfuavJjs+QR1XeqkcFTw==
 
-fix following post-commit checkpatch issue:
+Hi Muhammad,
 
-CHECK: Unnecessary parentheses around
-'padapter->securitypriv.dot11AuthAlgrthm == dot11AuthAlgrthm_8021X'
-84: FILE: drivers/staging/rtl8723bs/core/rtw_pwrctrl.c:335:
-+	if ((padapter->securitypriv.dot11AuthAlgrthm
-			== dot11AuthAlgrthm_8021X) &&
-+	    !(padapter->securitypriv.binstallGrpkey))
+On 07/04/2021 12:10, Muhammad Usama Anjum wrote:
+> devm_ioremap_resource() prints error message in itself. Remove the
+> dev_err call to avoid redundant error message.
 
-Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Please split this up into two separate patches! They are independent
+changes and these two drivers are maintained by different people as well.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-index 893c7a417587..f7465cf90c46 100644
---- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-@@ -332,8 +332,8 @@ static u8 PS_RDY_CHECK(struct adapter *padapter)
- 	)
- 		return false;
- 
--	if ((padapter->securitypriv.dot11AuthAlgrthm == dot11AuthAlgrthm_8021X) &&
--	    !(padapter->securitypriv.binstallGrpkey))
-+	if (padapter->securitypriv.dot11AuthAlgrthm == dot11AuthAlgrthm_8021X &&
-+	    !padapter->securitypriv.binstallGrpkey)
- 		return false;
- 
- 	if (!rtw_cfg80211_pwr_mgmt(padapter))
--- 
-2.20.1
+The patch itself looks OK, but it really has to be two separate patches.
+
+Regards,
+
+	Hans
+
+> 
+> Signed-off-by: Muhammad Usama Anjum <musamaanjum@gmail.com>
+> ---
+>  drivers/staging/axis-fifo/axis-fifo.c   | 1 -
+>  drivers/staging/media/meson/vdec/vdec.c | 8 ++------
+>  2 files changed, 2 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+> index 2bb1c2e9cb57..ed9281089738 100644
+> --- a/drivers/staging/axis-fifo/axis-fifo.c
+> +++ b/drivers/staging/axis-fifo/axis-fifo.c
+> @@ -853,7 +853,6 @@ static int axis_fifo_probe(struct platform_device *pdev)
+>  	fifo->base_addr = devm_ioremap_resource(fifo->dt_device, r_mem);
+>  	if (IS_ERR(fifo->base_addr)) {
+>  		rc = PTR_ERR(fifo->base_addr);
+> -		dev_err(fifo->dt_device, "can't remap IO resource (%d)\n", rc);
+>  		goto err_initial;
+>  	}
+>  
+> diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
+> index 5d4db7a5b4b5..e51d69c4729d 100644
+> --- a/drivers/staging/media/meson/vdec/vdec.c
+> +++ b/drivers/staging/media/meson/vdec/vdec.c
+> @@ -1008,17 +1008,13 @@ static int vdec_probe(struct platform_device *pdev)
+>  
+>  	r = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dos");
+>  	core->dos_base = devm_ioremap_resource(dev, r);
+> -	if (IS_ERR(core->dos_base)) {
+> -		dev_err(dev, "Couldn't remap DOS memory\n");
+> +	if (IS_ERR(core->dos_base))
+>  		return PTR_ERR(core->dos_base);
+> -	}
+>  
+>  	r = platform_get_resource_byname(pdev, IORESOURCE_MEM, "esparser");
+>  	core->esparser_base = devm_ioremap_resource(dev, r);
+> -	if (IS_ERR(core->esparser_base)) {
+> -		dev_err(dev, "Couldn't remap ESPARSER memory\n");
+> +	if (IS_ERR(core->esparser_base))
+>  		return PTR_ERR(core->esparser_base);
+> -	}
+>  
+>  	core->regmap_ao =
+>  		syscon_regmap_lookup_by_phandle(dev->of_node,
+> 
 
