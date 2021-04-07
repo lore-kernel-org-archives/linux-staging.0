@@ -1,49 +1,49 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BA606D0E
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 06:46:12 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id i4so317868pjk.1
-        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 23:46:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8CCA6D0E
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 06:46:13 +0000 (UTC)
+Received: by mail-pg1-f175.google.com with SMTP id t22so5134587pgu.0
+        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 23:46:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=P81LnC6bDd+byVZVERPQ7nQWM5zWnQv6C3u8NNQHox4=;
-        b=E/aKNJo54FqShHJx/iEwNgesBoUWtnV4rV5+/FCKpMJ7OJWRkUUQztYa+6lP0vM4HS
-         zKerDwilw9VUXXz8iDH3TUbVw8wMRR/GK5x7FPh7LdAqqIxgtUc/KHQ/rPO9vss/t4df
-         NTv70Vvw4mGdRITOu486Th0VF+NeP6o9CvTqogQDw3b6OeckKrXVSWEjX3v6JH1RBifG
-         3HeXRR07Yge8lEERcWmOnxvt4+LlGoTUz+lph1VmE/s1kaTAvsAXymvk+w5s9xAJsuO8
-         ZH4rZyezP+3idDHV+KfN70q3ETKGWj0X1xwAknq2tTQ38zPeeN/OzSP1oNaI3EvIwq9t
-         aAPQ==
+        bh=m074W+fFkEnWYNx+xHLavlSpN4uemXZiY3b+q0HiAUU=;
+        b=FHU0blh6RjBM8BtMRLL9ChwDZ32YGDEWkaMi3L7+Pgl7h99c9/lsrEmPf0k6rnXSxT
+         emdtWz7SMBTt6gegFBrrR8hsNfyrDFLYueDsRVGLqelYXV36q6nC83vgmJspou5sK60D
+         GuJUkhvnKn8HFlLofTUSE3kv6chHp7nuYNKfnmeBpLBz7F1Ji9hXEL7osG1ONDjTImP0
+         2qj7JnoQ6X5AyxbFR2xtI85PDtsrQVVcXtfWdJin6NmCjYPeZ/WajH820G32HtQV+1RX
+         sdIMI3GQ2/6Q/9N7vORHMsqTkVu1AOipzLoJMIn/5zsjeFgG4xTyuXj5CIG+YyMq/nm8
+         95WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=P81LnC6bDd+byVZVERPQ7nQWM5zWnQv6C3u8NNQHox4=;
-        b=WSW2b0CA1TVr9cEvDNskcPd0aSR7CMCIhr1RJmzwFP4eldLpIH943v4OGyLsSUE0CR
-         bQShxL1fmUDS+u4Aw8LsaCreFfr4+Ffqp7XbYW7rB8qoN7RxHx2WYH4Hi+b3EmsqZB4R
-         0te+t0dJ4t/A1ZxBcVf7ouu7KSuJ2p4+0uRuABw7m2FlWKF9qP9UlrSHzWhVeHC2b5PK
-         3eGHrT4KUUzvM2j8Ys06TvT9uTugVE5I9/a5r21VzDob/iKLOsVByZGNQI8NYtDRbrnu
-         tJKFDowWcILvafxLtQKKLZ4yUt+0xCZaAKBIKQ0s1ICXqPWX/vUz7eKVhGvFYQD9W0zp
-         Og/Q==
-X-Gm-Message-State: AOAM532ITsZsZYUAd6rmqIpb2Zui1zZzwugXs65NHrYl/CsR7S3z7xfI
-	MaAp+ErME7DSmvgBaoylXIZyhdlHwTXpXg==
-X-Google-Smtp-Source: ABdhPJw0j67aR86TwFg3HC6ld3mo9/Va/7UbZQl1JhC/sMn28GhNSjjCm7Jp7wz3P5JK3mLKugWfHQ==
-X-Received: by 2002:a17:902:7c88:b029:e6:f006:f8e5 with SMTP id y8-20020a1709027c88b02900e6f006f8e5mr1839101pll.1.1617777972094;
-        Tue, 06 Apr 2021 23:46:12 -0700 (PDT)
+        bh=m074W+fFkEnWYNx+xHLavlSpN4uemXZiY3b+q0HiAUU=;
+        b=Oxkxgwe2CDT4d1HMsQAfR04cWuxRJEEgxxYA5t+B8wVanY1PRUEnVmq0KSxDANK6AA
+         25zENK1o0Lnm4+G+OfWJluxKfcrH7DrcHyTB12BLw6GhnG00liYMz5xKv5D04f8HgBOO
+         PkyPoVSlDFHnamaAQ0oZ/1lgPTyYK+ey+3zLH19oe7Dn6NGNagV2a/jR1mLM+fnZrbMO
+         IpvktyfzrqDSFLqtqJM3pLGVM7+mTTUvCNKUv7a+5bbeVgdMuGI2I9OFvJ3l5GGXW1in
+         MXtXR/uWvWF22w3kZrdLTEsQEAU1fuAJEnUPWDJ8SXsfRtUwDTcrZMF4nEzMXA4rEQCw
+         Xx6g==
+X-Gm-Message-State: AOAM531gE6YMWW9WI7esM/gsF00Qjiiik764Gf1zThcDzu4pO9RaIkKG
+	AI6aM5K8LDG1FzZaRGRue9RZojIOvI5PMA==
+X-Google-Smtp-Source: ABdhPJx6IPOkk0HkagSvLJIsZglNVauGdjjn7nSK6ZyfeI0lP0SWEnafiKYcC/WDk3q1snSmaBT4TQ==
+X-Received: by 2002:aa7:9394:0:b029:1f4:2b30:4cdb with SMTP id t20-20020aa793940000b02901f42b304cdbmr1563635pfe.50.1617777973359;
+        Tue, 06 Apr 2021 23:46:13 -0700 (PDT)
 Received: from localhost.localdomain ([134.173.248.5])
-        by smtp.gmail.com with ESMTPSA id t19sm21243026pfg.38.2021.04.06.23.46.11
+        by smtp.gmail.com with ESMTPSA id e3sm20476007pfm.43.2021.04.06.23.46.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Apr 2021 23:46:11 -0700 (PDT)
-Date: Tue, 6 Apr 2021 23:46:09 -0700
+        Tue, 06 Apr 2021 23:46:12 -0700 (PDT)
+Date: Tue, 6 Apr 2021 23:46:10 -0700
 From: Pavle Rohalj <pavle.rohalj@gmail.com>
 To: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
 	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 46/49] staging: sm750fb: Rename local variable Bpp to bpp
- in sm750.c
-Message-ID: <b51650f7eb9b8340b64b53f33ef1a062d5699142.1617776878.git.pavle.rohalj@gmail.com>
+Subject: [PATCH v2 47/49] staging: sm750fb: Rename proc_setBLANK member of
+ lynxfb_output struct
+Message-ID: <4ac1f3b8295e4f6e2c82a2508a0742bf0b490ef4.1617776878.git.pavle.rohalj@gmail.com>
 References: <cover.1617776878.git.pavle.rohalj@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,102 +54,50 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1617776878.git.pavle.rohalj@gmail.com>
 
-Fix "Avoid CamelCase" checkpatch.pl checks for the local variable
-Bpp in functions lynxfb_ops_fillrect and lynxfb_ops_copyarea.
+Fix "Avoid CamelCase" checkpatch.pl check for proc_setBLANK member of
+lynxfb_output structure.
 
 Signed-off-by: Pavle Rohalj <pavle.rohalj@gmail.com>
 ---
- drivers/staging/sm750fb/sm750.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/staging/sm750fb/sm750.c | 4 ++--
+ drivers/staging/sm750fb/sm750.h | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 162eaf08db4c..937a44530fbf 100644
+index 937a44530fbf..0c6bfbedde50 100644
 --- a/drivers/staging/sm750fb/sm750.c
 +++ b/drivers/staging/sm750fb/sm750.c
-@@ -162,7 +162,7 @@ static void lynxfb_ops_fillrect(struct fb_info *info,
- {
- 	struct lynxfb_par *par;
- 	struct sm750_dev *sm750_dev;
--	unsigned int base, pitch, Bpp, rop;
-+	unsigned int base, pitch, bpp, rop;
- 	u32 color;
- 
- 	if (info->state != FBINFO_STATE_RUNNING)
-@@ -177,9 +177,9 @@ static void lynxfb_ops_fillrect(struct fb_info *info,
- 	 */
- 	base = par->crtc.o_screen;
- 	pitch = info->fix.line_length;
--	Bpp = info->var.bits_per_pixel >> 3;
-+	bpp = info->var.bits_per_pixel >> 3;
- 
--	color = (Bpp == 1) ? region->color :
-+	color = (bpp == 1) ? region->color :
- 		((u32 *)info->pseudo_palette)[region->color];
- 	rop = (region->rop != ROP_COPY) ? HW_ROP2_XOR : HW_ROP2_COPY;
- 
-@@ -192,7 +192,7 @@ static void lynxfb_ops_fillrect(struct fb_info *info,
- 	spin_lock(&sm750_dev->slock);
- 
- 	sm750_dev->accel.de_fillrect(&sm750_dev->accel,
--				     base, pitch, Bpp,
-+				     base, pitch, bpp,
- 				     region->dx, region->dy,
- 				     region->width, region->height,
- 				     color, rop);
-@@ -204,7 +204,7 @@ static void lynxfb_ops_copyarea(struct fb_info *info,
- {
- 	struct lynxfb_par *par;
- 	struct sm750_dev *sm750_dev;
--	unsigned int base, pitch, Bpp;
-+	unsigned int base, pitch, bpp;
- 
+@@ -577,7 +577,7 @@ static int lynxfb_ops_blank(int blank, struct fb_info *info)
+ 	pr_debug("blank = %d.\n", blank);
  	par = info->par;
- 	sm750_dev = par->dev;
-@@ -215,7 +215,7 @@ static void lynxfb_ops_copyarea(struct fb_info *info,
+ 	output = &par->output;
+-	return output->proc_setBLANK(output, blank);
++	return output->proc_set_blank(output, blank);
+ }
+ 
+ static int sm750fb_set_drv(struct lynxfb_par *par)
+@@ -605,7 +605,7 @@ static int sm750fb_set_drv(struct lynxfb_par *par)
+ 	crtc->ypanstep = 1;
+ 	crtc->ywrapstep = 0;
+ 
+-	output->proc_setBLANK = (sm750_dev->revid == SM750LE_REVISION_ID) ?
++	output->proc_set_blank = (sm750_dev->revid == SM750LE_REVISION_ID) ?
+ 				 hw_sm750le_set_blank : hw_sm750_set_blank;
+ 	/* chip specific phase */
+ 	sm750_dev->accel.de_wait = (sm750_dev->revid == SM750LE_REVISION_ID) ?
+diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
+index 2e6481809d43..06cf136fa28c 100644
+--- a/drivers/staging/sm750fb/sm750.h
++++ b/drivers/staging/sm750fb/sm750.h
+@@ -170,7 +170,7 @@ struct lynxfb_output {
  	 */
- 	base = par->crtc.o_screen;
- 	pitch = info->fix.line_length;
--	Bpp = info->var.bits_per_pixel >> 3;
-+	bpp = info->var.bits_per_pixel >> 3;
+ 	void *priv;
  
- 	/*
- 	 * If not use spin_lock, system will die if user load driver
-@@ -227,7 +227,7 @@ static void lynxfb_ops_copyarea(struct fb_info *info,
+-	int (*proc_setBLANK)(struct lynxfb_output *output, int blank);
++	int (*proc_set_blank)(struct lynxfb_output *output, int blank);
+ };
  
- 	sm750_dev->accel.de_copyarea(&sm750_dev->accel,
- 				     base, pitch, region->sx, region->sy,
--				     base, pitch, Bpp, region->dx, region->dy,
-+				     base, pitch, bpp, region->dx, region->dy,
- 				     region->width, region->height,
- 				     HW_ROP2_COPY);
- 	spin_unlock(&sm750_dev->slock);
-@@ -236,7 +236,7 @@ static void lynxfb_ops_copyarea(struct fb_info *info,
- static void lynxfb_ops_imageblit(struct fb_info *info,
- 				 const struct fb_image *image)
- {
--	unsigned int base, pitch, Bpp;
-+	unsigned int base, pitch, bpp;
- 	unsigned int fgcol, bgcol;
- 	struct lynxfb_par *par;
- 	struct sm750_dev *sm750_dev;
-@@ -249,7 +249,7 @@ static void lynxfb_ops_imageblit(struct fb_info *info,
- 	 */
- 	base = par->crtc.o_screen;
- 	pitch = info->fix.line_length;
--	Bpp = info->var.bits_per_pixel >> 3;
-+	bpp = info->var.bits_per_pixel >> 3;
- 
- 	/* TODO: Implement hardware acceleration for image->depth > 1 */
- 	if (image->depth != 1) {
-@@ -276,7 +276,7 @@ static void lynxfb_ops_imageblit(struct fb_info *info,
- 
- 	sm750_dev->accel.de_imageblit(&sm750_dev->accel,
- 				      image->data, image->width >> 3, 0,
--				      base, pitch, Bpp,
-+				      base, pitch, bpp,
- 				      image->dx, image->dy,
- 				      image->width, image->height,
- 				      fgcol, bgcol, HW_ROP2_COPY);
+ struct lynxfb_par {
 -- 
 2.30.2
 
