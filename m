@@ -1,49 +1,49 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6204B6D10
-	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 06:43:39 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id i4so314618pjk.1
-        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 23:43:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D626D10
+	for <linux-staging@lists.linux.dev>; Wed,  7 Apr 2021 06:43:40 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id a6so5503937pls.1
+        for <linux-staging@lists.linux.dev>; Tue, 06 Apr 2021 23:43:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=juPdFsys4r3Aaic/tVEakxA+SlqXVvRJQMcNPtT88ko=;
-        b=V3Jd8on2MAtBF/RvEHZ1tA0fxsIBKGL9HyHv8m7MS02I+BhhMaFAxvfwKrxBtdmgIa
-         ZsvnIg9VaPf5aQw5/FhyhPtpNNezI9I3/ThfdWf1zEZR9/dAyrl9yIgtsRPYFey6OqMi
-         qNdSDWkx/74o0qT5iirVrEh4HwyXNShC+jPlWitcli4StnQCtIHI2ysMQCAQs7K6k1er
-         D6dccbtfNj0/+sPSFech95aVrHX7qDadNgR8dQiQo2vYZ7woqy6ZIt+nPa1TyfbMYxv7
-         WEMxEyhCUQAo5KbGGsbd7pMB4OC5ZNijgLZQz1Jz1eEupTBufLJkXPS9BjKuav0Vxt03
-         ts+Q==
+        bh=sykweF1xow+67RG88cYdeLCD9JLGGBr6+VUxqXfVo3c=;
+        b=tMCGc6exiWT5/SzYX95SEtNEdMhsPtWabVZ7qpaIQtCMQr0dLxD+cl0mp09sOgtIiI
+         Ce+Hbm33MTfaJAWNV3q8V2n2GjOjww0lkrj5EeXUwHimuzbFmhiMaTXwQh9RFZYt0X2m
+         +BVu2C+sqHI/QygpybP359dH28as4BQ4P3zvHxwldYit7tZKFBk4UEH++ClZzfbJZZFl
+         7UzdMUioFXLYDD/O+qSVnY1OW93UCI8nFo79d43UpH1X4AkKp4K0qznpe18ugdDKGUfc
+         FPHIGN0+UI8fyu3r8gI5wtRhZ6TEqUj6Zb2A2CDUSOm+1BG4IEKz/s09ZiQQitcfZ1av
+         7Y8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=juPdFsys4r3Aaic/tVEakxA+SlqXVvRJQMcNPtT88ko=;
-        b=EZYkV26xdbyuk2hQPJU6tDvbyLdhSBDy9AVZTTMAMT1dJiSS07ppb5XepHlV9+xSff
-         +34k0I/pBP6e/DxQTulafVsImYQOLA/00IpvD1ECi+5rtHaxJ7XwA1k7xcv9YYGvTwqP
-         D+HW68OhpqIWeGe6flEhHTfRw7TO7/hgktrwDbuQp6653CQy4A0gRR5JvGLLLgeQvgEK
-         7k2zAkfl/G1JUbGUX18QDrYPnqClLkuyP8kV9sdgVZYfFZXsqmv0gQhgjGVXasLobKLc
-         ECEA/kA8C/IQ2Xu2OTN6sEkDwZq5VvAaQVsL+81mPnKqmDg9SjNBPCLq6AQ8ketojrBZ
-         ojQQ==
-X-Gm-Message-State: AOAM532CqMSU54OwUP67o5gQTMhhVrNd5foW0/a1cKlJxnYBI9zONKiC
-	lAD33CutLUkEGnMV1E2I3c0=
-X-Google-Smtp-Source: ABdhPJzooZZLcFRKF8gWsCfqXUMmjqpDRxFfh8K5S0UQaX5Xv3UXDYqGmunEpRFbquOtNCtZ80nsCA==
-X-Received: by 2002:a17:902:122:b029:e8:bde2:7f6c with SMTP id 31-20020a1709020122b02900e8bde27f6cmr1686322plb.29.1617777818946;
-        Tue, 06 Apr 2021 23:43:38 -0700 (PDT)
+        bh=sykweF1xow+67RG88cYdeLCD9JLGGBr6+VUxqXfVo3c=;
+        b=tbTVEmKPXovwNo7qotq6VheJoFvlJLWTElTf6tvCeuZRijgvm3kEdkGIhBL2dJANNE
+         UVDymw7pAlyF+bWoW27VxlcvCOOAib/DF0L+8WClU27DZVNYDt3ltNhTYnQiMvUjZF8b
+         5ZrbkiMOFRAOZglP177f4f9lNVUUBdkaiJ4xlj0qO5uSCCFUiWDuZr7hqrOxuZDSZGkD
+         yDRiitDRfqJpVi9VktpncRot3LTte5aVrcRBY2ZPFaaKQbUk3ZO/UQftDidU/O1gyisb
+         u1zhGGY3Attqb57/GIU7jS3YmgfACzjAb26o4lCHhqplw2TEptSs6Gx9IfTejOAD+5in
+         EF0A==
+X-Gm-Message-State: AOAM5312JbVsdPFZWjr9CCfQtTyRbGTAxLgXcHBE+By++bPLCVwQvydo
+	51R3FABuXeWrrVbl+KLb+2U=
+X-Google-Smtp-Source: ABdhPJxBKfSQkEa2QkysRsUeMg9hiBbRFrLc9DHXYZggn8Gl9H0/Yjp+K7ab73tqIK60RcdNyb71mg==
+X-Received: by 2002:a17:90b:f93:: with SMTP id ft19mr1811479pjb.135.1617777820160;
+        Tue, 06 Apr 2021 23:43:40 -0700 (PDT)
 Received: from localhost.localdomain ([134.173.248.5])
-        by smtp.gmail.com with ESMTPSA id 14sm19981411pfl.1.2021.04.06.23.43.38
+        by smtp.gmail.com with ESMTPSA id e6sm13641235pgm.92.2021.04.06.23.43.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Apr 2021 23:43:38 -0700 (PDT)
-Date: Tue, 6 Apr 2021 23:43:36 -0700
+        Tue, 06 Apr 2021 23:43:39 -0700 (PDT)
+Date: Tue, 6 Apr 2021 23:43:37 -0700
 From: Pavle Rohalj <pavle.rohalj@gmail.com>
 To: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
 	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 22/49] staging: sm750fb: Update local variable in
- sm750_hw_copyarea to snake case
-Message-ID: <e112c237568818ab77e11d5785c89e7932a62678.1617776878.git.pavle.rohalj@gmail.com>
+Subject: [PATCH v2 23/49] staging: sm750fb: Update local variables in
+ sm750_hw_imageblit to snake case
+Message-ID: <8785050f4c2d4b9568689fec897aec03ca01da35.1617776878.git.pavle.rohalj@gmail.com>
 References: <cover.1617776878.git.pavle.rohalj@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,81 +54,62 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1617776878.git.pavle.rohalj@gmail.com>
 
-Fix "Avoid CamelCase" checkpoint.pl checks for the local variable
-nDirection in the function sm750_hw_copyarea.
+Fix "Avoid CamelCase" checkpoint.pl checks for the local variables
+in the function sm750_hw_imageblit.
 
 Signed-off-by: Pavle Rohalj <pavle.rohalj@gmail.com>
 ---
- drivers/staging/sm750fb/sm750_accel.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/staging/sm750fb/sm750_accel.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750fb/sm750_accel.c
-index 4ad2814b5b54..760dd036d71a 100644
+index 760dd036d71a..c840873e9622 100644
 --- a/drivers/staging/sm750fb/sm750_accel.c
 +++ b/drivers/staging/sm750fb/sm750_accel.c
-@@ -153,9 +153,9 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
- 		      unsigned int width, unsigned int height,
- 		      unsigned int rop2)
+@@ -319,17 +319,17 @@ int sm750_hw_imageblit(struct lynx_accel *accel, const char *src_buf,
+ 		       u32 byte_per_pixel, u32 dx, u32 dy, u32 width,
+ 		       u32 height, u32 fColor, u32 b_olor, u32 rop2)
  {
--	unsigned int nDirection, de_ctrl;
-+	unsigned int n_direction, de_ctrl;
+-	unsigned int ulBytesPerScan;
+-	unsigned int ul4BytesPerScan;
+-	unsigned int ulBytesRemain;
++	unsigned int ul_bytes_per_scan;
++	unsigned int ul4_bytes_per_scan;
++	unsigned int ul_bytes_remain;
+ 	unsigned int de_ctrl = 0;
+-	unsigned char ajRemain[4];
++	unsigned char aj_remain[4];
+ 	int i, j;
  
--	nDirection = LEFT_TO_RIGHT;
-+	n_direction = LEFT_TO_RIGHT;
- 	/* Direction of ROP2 operation: 1 = Left to Right, (-1) = Right to Left */
- 	de_ctrl = 0;
+ 	start_bit &= 7; /* Just make sure the start bit is within legal range */
+-	ulBytesPerScan = (width + start_bit + 7) / 8;
+-	ul4BytesPerScan = ulBytesPerScan & ~3;
+-	ulBytesRemain = ulBytesPerScan & 3;
++	ul_bytes_per_scan = (width + start_bit + 7) / 8;
++	ul4_bytes_per_scan = ul_bytes_per_scan & ~3;
++	ul_bytes_remain = ul_bytes_per_scan & 3;
  
-@@ -173,7 +173,7 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
- 			 *	+----------+
- 			 */
+ 	if (accel->de_wait() != 0)
+ 		return -1;
+@@ -395,13 +395,13 @@ int sm750_hw_imageblit(struct lynx_accel *accel, const char *src_buf,
+ 	/* Write MONO data (line by line) to 2D Engine data port */
+ 	for (i = 0; i < height; i++) {
+ 		/* For each line, send the data in chunks of 4 bytes */
+-		for (j = 0; j < (ul4BytesPerScan / 4); j++)
++		for (j = 0; j < (ul4_bytes_per_scan / 4); j++)
+ 			write_dp_port(accel, *(unsigned int *)(src_buf + (j * 4)));
  
--			nDirection = BOTTOM_TO_TOP;
-+			n_direction = BOTTOM_TO_TOP;
- 		} else if (sy > dy) {
- 			/*  +----------+
- 			 *  |D         |
-@@ -185,7 +185,7 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
- 			 *	+----------+
- 			 */
- 
--			nDirection = TOP_TO_BOTTOM;
-+			n_direction = TOP_TO_BOTTOM;
- 		} else {
- 			/* sy == dy */
- 
-@@ -198,7 +198,7 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
- 				 * +------+---+------+
- 				 */
- 
--				nDirection = RIGHT_TO_LEFT;
-+				n_direction = RIGHT_TO_LEFT;
- 			} else {
- 			/* sx > dx */
- 
-@@ -210,12 +210,12 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
- 				 * +------+---+------+
- 				 */
- 
--				nDirection = LEFT_TO_RIGHT;
-+				n_direction = LEFT_TO_RIGHT;
- 			}
+-		if (ulBytesRemain) {
+-			memcpy(ajRemain, src_buf + ul4BytesPerScan,
+-			       ulBytesRemain);
+-			write_dp_port(accel, *(unsigned int *)ajRemain);
++		if (ul_bytes_remain) {
++			memcpy(aj_remain, src_buf + ul4_bytes_per_scan,
++			       ul_bytes_remain);
++			write_dp_port(accel, *(unsigned int *)aj_remain);
  		}
- 	}
  
--	if ((nDirection == BOTTOM_TO_TOP) || (nDirection == RIGHT_TO_LEFT)) {
-+	if ((n_direction == BOTTOM_TO_TOP) || (n_direction == RIGHT_TO_LEFT)) {
- 		sx += width - 1;
- 		sy += height - 1;
- 		dx += width - 1;
-@@ -277,7 +277,7 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
- 		  (height & DE_DIMENSION_Y_ET_MASK)); /* dpr08 */
- 
- 	de_ctrl = (rop2 & DE_CONTROL_ROP_MASK) | DE_CONTROL_ROP_SELECT |
--		((nDirection == RIGHT_TO_LEFT) ? DE_CONTROL_DIRECTION : 0) |
-+		((n_direction == RIGHT_TO_LEFT) ? DE_CONTROL_DIRECTION : 0) |
- 		DE_CONTROL_COMMAND_BITBLT | DE_CONTROL_STATUS;
- 	write_dpr(accel, DE_CONTROL, de_ctrl); /* dpr0c */
- 
+ 		src_buf += src_delta;
 -- 
 2.30.2
 
