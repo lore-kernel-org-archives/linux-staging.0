@@ -1,102 +1,95 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B9370
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 08:38:49 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E9BB361165;
-	Thu,  8 Apr 2021 08:38:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1617871129;
-	bh=K8sVpV5r3BqS9hmPn96824THlYvOfMr5q5GJIDgHY1I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GfrbDht54m5KwRiHWtaxkbORpy4uJG7AQrqM5OGHoOiKmfNM7o0cN5thOuJWALCuX
-	 IaYTVxPGscaZaQTxHC9aKsEyb7b9jvyWF9M/GvmI8PomlwYUXpPFjv/kh3kjL7dGlJ
-	 DnsuI9YIB/cHqJLGGnXIMnX02mOAl810Zp+aTPdM=
-Date: Thu, 8 Apr 2021 10:38:47 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Sergei Krainov <sergei.krainov.lkd@gmail.com>
-Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8712: remove unused variable from
- rtl871x_mlme.c
-Message-ID: <YG7BF8Z1/gC1r8AP@kroah.com>
-References: <20210408083312.GA3118@test-VirtualBox>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16D570
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 08:52:12 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id ba6so1452422edb.1
+        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 01:52:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=y+lmQ3hALiXCsKP1/n0DQLq9ue3zxpvU44J69w8dPHQ=;
+        b=p5o/rilQ604m+8thfELohiipXeePoWLo5nBQfmpp4rI1LiULtovWi/QspuN0+DjAYt
+         dPGEcLDOiWIC5JYU0H4oSBANRGEIQOlvH+EGnIUPZ9dq3GJxTJVvw4TmsI4VtZixE3dA
+         Sr5mehOXU9MZy83U3gZUo1FbPUImu+rXDF4x0H5ht00WSKQOx3fAbqF+9/s9LUj5Zr59
+         BrwQzQiXNVOairgFRhB3LHlWjKySfx6kt5OmYOJhe2iCRqhW8/DYFvzvfWQliRz0i8Vr
+         nO+GZExjU4DzCWB4SluJZw8ZodYJpFSJgM1R2vxYdkw8O0FmNvajHT7mJ1a5FcHjXrYY
+         yNjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=y+lmQ3hALiXCsKP1/n0DQLq9ue3zxpvU44J69w8dPHQ=;
+        b=Vz7qCPUOrFcdPiYy18qsCgGXXtlECcxqEIAX9gDDRDQ5CFUAaTbTKnBiEYZirgUaiI
+         RgmaAG0knLvJgzOWBn3Li52hk+a1Vjwxvb7TBYlOqBkk65GwwCC8j3L98BvjBvKivkpA
+         uRLgWfGoST/xRGhbvR4yq43ScljTjg9L/QKNBBF09kTlpCSFKHWXY0jk6V4opmEglwPX
+         0zMGmd17E1rHvhyZQqLn9ZqDArXmszM0eKvz/XXWFOmVN9H4B4ldRuSB5tdohNAU+DkT
+         y7zDBjW5WH0SdrDfy7QQuHwChU8rHxaQRxETdUnPowuANWiwEqLJd/QkFJAlOZwGdcr2
+         mEPA==
+X-Gm-Message-State: AOAM532OfjSOHhKJG9skmCFWABhy9TNyUGrDXlWBr7II0ShgU8c6MPqr
+	3QPBub03NKAJm3wfnGLDd5g=
+X-Google-Smtp-Source: ABdhPJyCRKZUq36x7IWYzPHdbS0e0nPFE0T22NNVQk7qdiYdoaepOIl6CLYOMctqwMeH0Jl3R3+7wQ==
+X-Received: by 2002:a05:6402:270e:: with SMTP id y14mr9901298edd.283.1617871931160;
+        Thu, 08 Apr 2021 01:52:11 -0700 (PDT)
+Received: from localhost.localdomain (host-79-42-91-147.retail.telecomitalia.it. [79.42.91.147])
+        by smtp.gmail.com with ESMTPSA id ly21sm6105983ejb.116.2021.04.08.01.52.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Apr 2021 01:52:10 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8723bs: Remove camelcase in several files
+Date: Thu, 08 Apr 2021 10:52:09 +0200
+Message-ID: <2284292.R3b5UFg5HO@localhost.localdomain>
+In-Reply-To: <YG7AkJjSThRbb/f5@kroah.com>
+References: <20210408080714.29481-1-fmdefrancesco@gmail.com> <YG7AkJjSThRbb/f5@kroah.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210408083312.GA3118@test-VirtualBox>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, Apr 08, 2021 at 10:33:12AM +0200, Sergei Krainov wrote:
-> Remove unused variable from rtl871x_mlme.c.
+On Thursday, April 8, 2021 10:36:32 AM CEST Greg KH wrote:
+> On Thu, Apr 08, 2021 at 10:07:14AM +0200, Fabio M. De Francesco wrote:
+> > Remove camelcase in a symbol that is used by several files.
 > 
-> No side effects can be seen locally or in r8712_find_network()
-> 
-> Signed-off-by: Sergei Krainov <sergei.krainov.lkd@gmail.com>
-> ---
->  drivers/staging/rtl8712/rtl871x_mlme.c | 9 +--------
->  1 file changed, 1 insertion(+), 8 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
-> index 8a97307fbbd6..4f41e321ea63 100644
-> --- a/drivers/staging/rtl8712/rtl871x_mlme.c
-> +++ b/drivers/staging/rtl8712/rtl871x_mlme.c
-> @@ -656,7 +656,7 @@ void r8712_joinbss_event_callback(struct _adapter *adapter, u8 *pbuf)
->  	struct sta_priv	*pstapriv = &adapter->stapriv;
->  	struct mlme_priv	*pmlmepriv = &adapter->mlmepriv;
->  	struct wlan_network	*cur_network = &pmlmepriv->cur_network;
-> -	struct wlan_network	*pcur_wlan = NULL, *ptarget_wlan = NULL;
-> +	struct wlan_network	*ptarget_wlan = NULL;
->  	unsigned int		the_same_macaddr = false;
->  	struct wlan_network *pnetwork;
->  
-> @@ -721,13 +721,6 @@ void r8712_joinbss_event_callback(struct _adapter *adapter, u8 *pbuf)
->  					    scanned_queue,
->  					    cur_network->network.MacAddress);
->  				} else {
-> -					pcur_wlan =
-> -					     r8712_find_network(&pmlmepriv->
-> -					     scanned_queue,
-> -					     cur_network->network.MacAddress);
-> -					if (pcur_wlan)
-> -						pcur_wlan->fixed = false;
-> -
->  					pcur_sta = r8712_get_stainfo(pstapriv,
->  					     cur_network->network.MacAddress);
->  					spin_lock_irqsave(&pstapriv->
-> -- 
-> 2.25.1
-> 
+> What symbol?
 > 
 
-Hi,
+I'm not sure I understand what you are asking. You mean
+that I have to specify the name of the variable that I changed?
+Or you mean that I shouldn't use the term "symbol" but write
+"variable", "function", "macro", and so on?
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+>
+> > --- a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
+> > +++ b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
+> > @@ -203,7 +203,7 @@ struct pwrctrl_priv {
+> >  	u8 LpsIdleCount;
+> >  	u8 power_mgnt;
+> >  	u8 org_power_mgnt;
+> > -	u8 bFwCurrentInPSMode;
+> > +	u8 b_fw_current_in_ps_mode;
+> 
+> The "b" here means "byte" so you can drop the "b_" as that means
+> nothing, we do not use this type of notation in the kernel as the
+> compiler can check it for us.
+>
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+OK, I didn't know what the 'b' meant in this context. I'll drop it.
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/SubmittingPatches for what needs to be done
-  here to properly describe this.
+Thanks,
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+Fabio
+ 
+> thanks,
+> 
+> greg k-h
+> 
 
-thanks,
 
-greg k-h's patch email bot
+
+
