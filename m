@@ -1,42 +1,42 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E3B6D0E
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 14:07:46 +0000 (UTC)
-Received: by mail-qk1-f179.google.com with SMTP id v70so2249502qkb.8
-        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 07:07:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B770E29CA
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 14:07:49 +0000 (UTC)
+Received: by mail-qv1-f51.google.com with SMTP id x27so918147qvd.2
+        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 07:07:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=rBvCDlUD9+QrMvuUFtxmfpbAHHnvTaccTwMtx3DApDw=;
-        b=Oozl2fPn+qxC9SB8PVO+Mmcec6ecQ1nNUJL+42GibZJFjhqkkoVh16IIMtAKdo5NWB
-         nHJCyci2Sg8pq/uDnihvClvSIADUJd21eq0YcZX7m63GilZuaa0JlqzXTZdFSBwnl0Iy
-         1S/QxYArGZrXgaVSD+XGpekzl2n5+HO9/UKLhw8j71hoULuRDDzqR5sGSa/LrV8UDuJM
-         LGaUoFznTQjnMWtiNNwWxBUfu7mvH/5IZ4zn1nKnahtx3/Wt4PEY/DqbgIQEEXC9kTK6
-         l9sg6JHdMSOFeqqw2nVOtNMPf4Xsr5puzYtyfQhM5CMoEyU5KkH7fqQvIjzCPf1nwfDQ
-         Ch0Q==
+        bh=6fSIQirtWShuMIqpJMly6hnk0nfAVM8QytarwMk1/LU=;
+        b=oHXWP2bGqx/WEx+RNKLuU6bEMQt589jw9z42sIvZwxkecxAYroGAJMwMfzU7F7U+J2
+         OuvQR0a5x0SfkcZBOqQoE03rwQK6v/OAFe7ckWiPCodFbKCPxEw9f6wpepmrCq8ehd/A
+         4rPN0M7qmkKQ2ZNjSclrlXWkNmXdhRPfdBe3wW4KGdiJGKugG4WWnbmO3Y2QmFEp4thI
+         1eHLH8vpeflGx3C3iNw4NBBgwL7yillA29nUnKxktcfXx799Kl5ExVkeEiMblWtucd2B
+         h8s7hJPzrmXutsRWj6SkNjafvQujSuKt61zZUE3fhx5R5YWAfC3c+DmilXoO78D0Slrl
+         Vk9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=rBvCDlUD9+QrMvuUFtxmfpbAHHnvTaccTwMtx3DApDw=;
-        b=W0xm/sKvrdFazN84J05BkGmLdwKbtuERcsNr0n459P4PByTir8H+KxwPorZvFpF7jA
-         n8PEaFKGjLCiI/04HXBRKkEiMjTbGBCzrva/95HRCbNiOI8REN6iANvKLpIF26kux8AD
-         vxfd4CataoYilErgF+a+/9PFA3EXrmY6z3NqCjHwBsvWGigxJaBId9FWEfJvya42aZfW
-         4NE9EmN0XGiEE3H+xMv9iURAD+nlZEREvhFXXsT98Cp97/JH0JlpAvH08oA0ZofMbC5j
-         8asj2n+JKSODuHfWjTJzYDipo4zDNK0IZ9ShbTUavWcOgw4JfXOO6CitJcC8QE2FSz9a
-         dRQw==
-X-Gm-Message-State: AOAM533U5dq0BGqqs7sOs3QKy+b3Ctb74X7NkqEjkEbNqhw6rTjpxZaz
-	wMYCE3Jz2IhrEdgua+vpOfo=
-X-Google-Smtp-Source: ABdhPJwotZWtb7+KCPZTivBDHuiJkoTNviXwcKLjpzrfIppVm10NHQ6NnqoyrVSO8paIZpiNqu2jVg==
-X-Received: by 2002:a37:b8b:: with SMTP id 133mr8407502qkl.401.1617890865340;
-        Thu, 08 Apr 2021 07:07:45 -0700 (PDT)
+        bh=6fSIQirtWShuMIqpJMly6hnk0nfAVM8QytarwMk1/LU=;
+        b=Sprv1SbsUPGYHZrARz0un0+J1IOwmEHHsCPi6xRwyBryYzmzHe1RhVokSfMy1HbL/1
+         tydlKiVnhk+T5YpNOGZevwltB0fHAB1QwakCli6v8HHF4Sf7NJIbT3Lzkvn5KbNgWyDR
+         w7nL4O1JLKKi6EYNfANbtM+syLcdktGNHIlAQxVmXF/ENYgcpD2kUHJpfpHviJx+rQtJ
+         hkYc9jfJEva2kUjdWCihEE13uqji9eLzEGRO/q6P0Pru2xHPbO4K9NW7KQv0w0SxZg3H
+         kbtYqEVjO51Y7F9ssecUug1SWPi61pR9Psok4RRiuB8eVANlK690UmB4wcXirSFZVFJj
+         vtWw==
+X-Gm-Message-State: AOAM5302AHF5tFsb9fJRM9tW6Dr/YFKiqzGJ0Bfwyejda9nt3K9AGS3r
+	ogmZn0BzOHk2h0ZePRYO/hg=
+X-Google-Smtp-Source: ABdhPJz68eslT7UjXEATT3L19+JElDT/v5Keuk8rtceg9B2IqGxgBg3KFs5ciq+AkeTgrVZm0Z/URg==
+X-Received: by 2002:a0c:bd25:: with SMTP id m37mr5407569qvg.17.1617890868905;
+        Thu, 08 Apr 2021 07:07:48 -0700 (PDT)
 Received: from focaruja ([2001:1284:f013:b099:175e:8b29:c386:d20e])
-        by smtp.gmail.com with ESMTPSA id l6sm19069760qkk.28.2021.04.08.07.07.44
+        by smtp.gmail.com with ESMTPSA id b9sm17761584qtx.38.2021.04.08.07.07.48
         (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Thu, 08 Apr 2021 07:07:45 -0700 (PDT)
-Date: Thu, 8 Apr 2021 11:07:42 -0300
+        Thu, 08 Apr 2021 07:07:48 -0700 (PDT)
+Date: Thu, 8 Apr 2021 11:07:46 -0300
 From: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
 To: Ezequiel Garcia <ezequiel@collabora.com>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
@@ -44,9 +44,9 @@ To: Ezequiel Garcia <ezequiel@collabora.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Subject: [PATCH 1/2 v2] staging: media: hantro: Align line break to the open
- parenthesis in file hantro_hw.h
-Message-ID: <1e6d73432d60dfb8bb3f7f2bd6bf3084091a2a39.1617890467.git.alinesantanacordeiro@gmail.com>
+Subject: [PATCH 2/2 v2] staging: media: hantro: Align line break to the open
+ parenthesis in file hantro_mpeg2.c
+Message-ID: <8209d15ab3a8391b74939cb942daffc556d72942.1617890467.git.alinesantanacordeiro@gmail.com>
 References: <cover.1617890467.git.alinesantanacordeiro@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,21 +63,21 @@ to the open parenthesis. Issue found by checkpatch.
 
 Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
 ---
- drivers/staging/media/hantro/hantro_hw.h | 2 +-
+ drivers/staging/media/hantro/hantro_mpeg2.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index 34c9e46..a650b9c 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -207,7 +207,7 @@ hantro_h264_mv_size(unsigned int width, unsigned int height)
- void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx);
- void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx);
+diff --git a/drivers/staging/media/hantro/hantro_mpeg2.c b/drivers/staging/media/hantro/hantro_mpeg2.c
+index 1d334e6..53a99a9 100644
+--- a/drivers/staging/media/hantro/hantro_mpeg2.c
++++ b/drivers/staging/media/hantro/hantro_mpeg2.c
+@@ -19,7 +19,7 @@ static const u8 zigzag[64] = {
+ };
+ 
  void hantro_mpeg2_dec_copy_qtable(u8 *qtable,
--	const struct v4l2_ctrl_mpeg2_quantization *ctrl);
-+				  const struct v4l2_ctrl_mpeg2_quantization *ctrl);
- int hantro_mpeg2_dec_init(struct hantro_ctx *ctx);
- void hantro_mpeg2_dec_exit(struct hantro_ctx *ctx);
+-	const struct v4l2_ctrl_mpeg2_quantization *ctrl)
++				  const struct v4l2_ctrl_mpeg2_quantization *ctrl)
+ {
+ 	int i, n;
  
 -- 
 2.7.4
