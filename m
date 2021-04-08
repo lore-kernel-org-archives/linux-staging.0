@@ -1,55 +1,48 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F93670
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 23:15:32 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id l1so1803997plg.12
-        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 16:15:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2FB70
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 23:45:31 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id r9so5812673ejj.3
+        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 16:45:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=7F1NrpzVcU5GSSnL4Q5tRkk/0OTLWPdILVCrXDKlrcU=;
-        b=KmY6O8cmvy4x6bVD2N6lN+Kq4m6736F9Xq4qXpte+Gh/F0Zggdei+qWR0z2LjuxUg6
-         LzVjq1FJi87en+NkdZj6veNyK4V/ej67b83CBB1qxaap8BFYlzzuhW7bCdY3RGo5vGvX
-         Yo5FWT4cnE9EbwLQZaIVWRGVZCufZWkJfOps1z4Q9b71qj3w4zeliCJf84QGQabNYsIl
-         EfDF4wUeaCBjp0X18K4e48TBgASYE3Pv484VS3YJOZdoOxMd5ZQz/M/N57MxmS5h5XQZ
-         WqQuQ7iyWRPLlbFOiCuy91eCMxSQhyC3LZy+CPlBdKMDL5buTv/khV5lbaTVVpZJqVg0
-         hULA==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=QhXqjewBtncdOCVUU5t44rbala3/r6RlbCvxFUCu3+M=;
+        b=uA8WrQ0N22+iR9oeA1h8gASKkARO7xU5WR15k/IhN6w0VmVzJ/ctMncOyRSvrlawmZ
+         9Y9hl3rY+3Jt7KcxhL3ZSceFm8fBZHSj8K65ahVdhaTobmUIOZHZOitOwaJsW+yIMGAG
+         2sz1T44y5XyRbs3PPbMLJE0Ceo76TWUxE4/yueSRUHbhfg666K4d3NpEYsJS0LhQa0nK
+         YEGTocAOSadgCqAfQReKpwIcs11SRclfg+DEbr3MHlsVCZDIXPTJmPYVuogeoft0TvOk
+         od6I0utFQKakFwmn7R7i0teJ7kP9q37qU6++zTPpnV4pjJGxqkUPIKwIcDg58lQbWSgP
+         VXnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=7F1NrpzVcU5GSSnL4Q5tRkk/0OTLWPdILVCrXDKlrcU=;
-        b=QeXFYAsvfSoZgLMaG+jENanLte6z0o6/6r/5Fmt7BaYQKydKBkpKksEfSaE/2ZVxOj
-         x5aqG66GBsRdMkrUal0NfBkJ0zaXzSZUyx0ReACY5HwkDY9WmY8QraN+sy4OuSc8WeNL
-         m4s92TdsmlWBrqZpIkq6QZqJbQAcZyH00iNq4c+i+qSR1eLKvN2cp5q6y4UIfu7ruNzY
-         tJ0hVDzUeOK8qFD82gWcK33Sf1OoRg+YgPBVPYuRYSHHwo58IXEWE93v0YITq3iV5pl2
-         +z7/47qxjUz6+ZsrMTWpt5mPzQzsK3RfIkcouq1OL00eNSHjAb/xHEO2IJV0fSz+NCUs
-         zrjQ==
-X-Gm-Message-State: AOAM533VBoneuAp0aNWQjNi3yZyF3DvGpqloHrZ2DKftYDTrmYzAC9l6
-	Hz93Sm54Y4u6AZ+8XAaMQpc=
-X-Google-Smtp-Source: ABdhPJxJAlfUz4AdpoXyHlnOgRgCXg8ScvuKf2dCSwd3EOxOlgD+eLag9Cw1HhYS06ZQGkMfdGaagg==
-X-Received: by 2002:a17:90b:3704:: with SMTP id mg4mr10706833pjb.156.1617923731545;
-        Thu, 08 Apr 2021 16:15:31 -0700 (PDT)
-Received: from kali ([152.57.243.224])
-        by smtp.gmail.com with ESMTPSA id i9sm425178pjh.9.2021.04.08.16.15.27
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=QhXqjewBtncdOCVUU5t44rbala3/r6RlbCvxFUCu3+M=;
+        b=kFeZUpPpSN6+a3kWzaO0kBzsoEh3lw4pwN34j2wiBBdt4bdq4Yk31o9cdfuAVG75k0
+         Kmt8wmQxjdsaiRr7Z/Jeyso+6nMeFJNuucw5YchPjHZnPAzkaNFaE3OdYlqpsrGzrN8E
+         PzH42Ej5h4RI+zjIVA1f1MS8BWgFSWh9lhmEzr2nBib+OBTIvVWWeQfPdGPFLUNGhuSL
+         6b+LI7osdRzuP0NiIoNJwbIQmulkrXLY4HS8Dqcrb2IiYa7INzhBEpk4/9HDQirpnH8F
+         YgTuhrWJexNv93tNiw7Rb4HJIwAfET9Brh0qAhWuuXwoOqNmHY8RzX8q+y1GkdeMn88O
+         gFhQ==
+X-Gm-Message-State: AOAM533bA1CG0pn1FGGbMIG5kykRCUEgbKHesKWHHgwWjzGhL1nofSxh
+	7iDyriDF/E4bOz0y4P2xAaE=
+X-Google-Smtp-Source: ABdhPJxlmqZFXITOX8f8zYmoxVtOp+YhPyDdDgCXRVxxqPyk51MqeXJsMlFlQJT7QmBqwpsecshSwQ==
+X-Received: by 2002:a17:906:3a94:: with SMTP id y20mr13368380ejd.35.1617925530313;
+        Thu, 08 Apr 2021 16:45:30 -0700 (PDT)
+Received: from test-VirtualBox ([87.116.181.227])
+        by smtp.gmail.com with ESMTPSA id h25sm383175ejx.105.2021.04.08.16.45.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 16:15:31 -0700 (PDT)
-Date: Fri, 9 Apr 2021 04:45:21 +0530
-From: Mitali Borkar <mitaliborkar810@gmail.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: clabbe@baylibre.com, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: Re: [Outreachy kernel] [PATCH 2/2] media: zoran: replace bit shifts
- by BIT() macro
-Message-ID: <YG+OibRNRmILe8nQ@kali>
-References: <cover.1617912177.git.mitaliborkar810@gmail.com>
- <ac8ec2b70ac2cc7c541c05a1d9a8db1fe79df793.1617912177.git.mitaliborkar810@gmail.com>
- <alpine.DEB.2.22.394.2104082314090.21785@hadrien>
- <YG95l9b++d+RFrDa@kali>
- <alpine.DEB.2.22.394.2104090009220.21785@hadrien>
+        Thu, 08 Apr 2021 16:45:30 -0700 (PDT)
+Date: Fri, 9 Apr 2021 01:45:27 +0200
+From: Sergei Krainov <sergei.krainov.lkd@gmail.com>
+To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH] staging: rtl8712: fix wrong function output
+Message-ID: <20210408234527.GA6893@test-VirtualBox>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -57,84 +50,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2104090009220.21785@hadrien>
 
-On Fri, Apr 09, 2021 at 12:10:06AM +0200, Julia Lawall wrote:
-> 
-> 
-> On Fri, 9 Apr 2021, Mitali Borkar wrote:
-> 
-> > On Thu, Apr 08, 2021 at 11:15:07PM +0200, Julia Lawall wrote:
-> > >
-> > >
-> > > On Fri, 9 Apr 2021, Mitali Borkar wrote:
-> > >
-> > > > Added #include <linux/bitops.h> and replaced bit shifts by BIT() macro.
-> > > > This BIT() macro from linux/bitops.h is used to define ZR36057_VFESPFR_* bitmasks.
-> > > > Use of macro is better and neater. It maintains consistency.
-> > > > Reported by checkpatch.
-> > > >
-> > > > Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
-> > > > ---
-> > > >  drivers/staging/media/zoran/zr36057.h | 10 ++++++----
-> > > >  1 file changed, 6 insertions(+), 4 deletions(-)
-> > > >
-> > > > diff --git a/drivers/staging/media/zoran/zr36057.h b/drivers/staging/media/zoran/zr36057.h
-> > > > index a2a75fd9f535..93075459f910 100644
-> > > > --- a/drivers/staging/media/zoran/zr36057.h
-> > > > +++ b/drivers/staging/media/zoran/zr36057.h
-> > > > @@ -8,6 +8,8 @@
-> > > >  #ifndef _ZR36057_H_
-> > > >  #define _ZR36057_H_
-> > > >
-> > > > +#include <linux/bitops.h>
-> > > > +
-> > > >  /* Zoran ZR36057 registers */
-> > > >
-> > > >  #define ZR36057_VFEHCR          0x000	/* Video Front End, Horizontal Configuration Register */
-> > > > @@ -31,12 +33,12 @@
-> > > >  #define ZR36057_VFESPFR_VER_DCM          8
-> > > >  #define ZR36057_VFESPFR_DISP_MODE        6
-> > > >  #define ZR36057_VFESPFR_YUV422          (0 << 3)
-> > > > -#define ZR36057_VFESPFR_RGB888          (1 << 3)
-> > > > +#define ZR36057_VFESPFR_RGB888          BIT(3)
-> > >
-> > > Uniformity is generally considered to be more important than using BIT.
-> > > Having only a few constants defined using BIT is a bit strange.
-> > >
-> > Okay Ma'am. Can you please tell me on how to proceed now? I am not sure
-> > how to proceed.
-> 
-> I think that this code should just be left as is.
-> 
-> Checkpatch makes suggestions.  Its suggestions are not always appropriate
-> for the context.
->
-Okay Ma'am. This means I should not do any changes now. Do I need to do
-something in this patch now? Or move onto next one?
+Function r8712_find_network() were returning wlan_network even if it
+didn't match required address. This happened due to not checking if
+list end was reached and returning last processed wlan_network.
 
-> julia
-> 
-> >
-> > > julia
-> > >
-> > > >  #define ZR36057_VFESPFR_RGB565          (2 << 3)
-> > > >  #define ZR36057_VFESPFR_RGB555          (3 << 3)
-> > > > -#define ZR36057_VFESPFR_ERR_DIF          (1 << 2)
-> > > > -#define ZR36057_VFESPFR_PACK24          (1 << 1)
-> > > > -#define ZR36057_VFESPFR_LITTLE_ENDIAN    (1 << 0)
-> > > > +#define ZR36057_VFESPFR_ERR_DIF          BIT(2)
-> > > > +#define ZR36057_VFESPFR_PACK24          BIT(1)
-> > > > +#define ZR36057_VFESPFR_LITTLE_ENDIAN    BIT(0)
-> > > >
-> > > >  #define ZR36057_VDTR            0x00c	/* Video Display "Top" Register */
-> > > >
-> > > > --
-> > > > 2.30.2
-> > > >
-> > > > --
-> > > > You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
-> > > > To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
-> > > > To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/ac8ec2b70ac2cc7c541c05a1d9a8db1fe79df793.1617912177.git.mitaliborkar810%40gmail.com.
-> > > >
-> >
+Signed-off-by: Sergei Krainov <sergei.krainov.lkd@gmail.com>
+---
+ drivers/staging/rtl8712/rtl871x_mlme.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
+index 8a97307fbbd6..c38161114b80 100644
+--- a/drivers/staging/rtl8712/rtl871x_mlme.c
++++ b/drivers/staging/rtl8712/rtl871x_mlme.c
+@@ -146,6 +146,8 @@ static struct wlan_network *r8712_find_network(struct  __queue *scanned_queue,
+ 		if (!memcmp(addr, pnetwork->network.MacAddress, ETH_ALEN))
+ 			break;
+ 	}
++	if (plist == phead)
++		pnetwork = NULL;
+ 	spin_unlock_irqrestore(&scanned_queue->lock, irqL);
+ 	return pnetwork;
+ }
+-- 
+2.25.1
+
