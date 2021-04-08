@@ -1,41 +1,41 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF2D6D0E
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 12:39:53 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id k8so1320033pgf.4
-        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 05:39:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA4CC6D0E
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 12:40:00 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id x21-20020a17090a5315b029012c4a622e4aso1291288pjh.2
+        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 05:40:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=VzV7lyQln0XA1JCgSeiUWDox5dSI+LspNrlFJBEvVLU=;
-        b=QIWyO0KBwbb5dGIuEFslPQ/f53R82wAXpF7mjSFJR3GGw+u2+NKsqHi1jTpyAmpEkO
-         FgRBI8rx08Gqu0SK1G7LMVN7SE2S02IptIAI3MM77KjYfhGVz4i5oKQ8YZ6sf8njcoPS
-         IuUBTp4eg1/e0iIrFWpQ1oDnuwJm/krfqAqjlbodf9VbkLxKaPTM68PYtfYNVogTOZrB
-         eGdGuDZ9+XA150W4RqNg0DhhTnQwMMNL9nzm1wG+9VPH81sGM5qYKwBEeYrcxyf6ZtiH
-         ijK/gkBu893mLqTVPRnXrhgP8rJ7oQGnG/v1isisnlJ3mXVS0vgwMdHRMnuZNvpPwOuz
-         ZrvQ==
+        bh=SmFnhaRyZGKmhh6YeRu24XJccjOmUgsYe3aUSqwEOJM=;
+        b=sdrEyJmGy8XW5Tzk4vxJNZ8GlNfQeQ8WXFXrGGIx/uGcosQHu/5191zepwOkcbLF+i
+         AOruGbLsMv4y19ByxfOYte2JeWh0dGSamkX9OMk8nWIeaZLsN5y4xBY3ZsfEtEuvCF/q
+         Z1eDnT73strNZt2ZmehAlPjFXSQ3acTrOAFqi7oz67pNod5+7/cqpJes4zjp6yULS9wc
+         0mDf9lWINdxUfp/4HMwcR9bZAh1KWSidqFYKdlxGGSsZ2sruUIgWn1j9WE3mjSsgrmiA
+         Xj4fOscrKjbMUbKyNdHkRyCs25myAKjiQ2RmU2uJpemu1q3gXFyYUGGkOISY9k50vINO
+         OT0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=VzV7lyQln0XA1JCgSeiUWDox5dSI+LspNrlFJBEvVLU=;
-        b=FPqMj3fluPD75zia6LjvCy+QgyPepxKRRn7WDoGrUPQia47LPCYSkGtQ2RBEKBN4px
-         3SwVmdDJ6PymQEH+ruIidXEfmGMA4Xurnieo8v8yEXdxZgHDiDAKEXeUlhJMCD6CJkfA
-         bXPmtj+p/YPBtoqTUHEAON4rNSdW9SYSRNbCK4GmzJDRmVtZxz4FdsVmdFaEBQXnddCw
-         5RKYXE5JA7mwIyqQDCM/yn+l5CWX+bjW7xngUkJ7vVXuLx7HQBTov8Wt1QpSFIb2cDLG
-         Z1tcgAvPIpY40PJvyQvjBFSs2j4qeatQgzX+cQsXUyoSRJMfYe3IUX4MizcJ0QChSdKd
-         N69w==
-X-Gm-Message-State: AOAM533LtwcVK8fQuJr0TtkiT5a4sCgVdPDnsZNWbMOgpTxtFCjc1Ry3
-	v8gDWAtRnG0dVh2LB36epPQ=
-X-Google-Smtp-Source: ABdhPJyp9VaFPFEAmeGKoQRHaTt2iO4zA2XvAzS+8Y/ejS0RpUBAyI51ofexpaE0Z60Yve2L8YNZeQ==
-X-Received: by 2002:a63:d449:: with SMTP id i9mr7609621pgj.227.1617885592981;
-        Thu, 08 Apr 2021 05:39:52 -0700 (PDT)
+        bh=SmFnhaRyZGKmhh6YeRu24XJccjOmUgsYe3aUSqwEOJM=;
+        b=RIDjmQmnjK28aDYOogxBSOIWzm+5SdhbJkBBKjCG5rNlBUiRGsQUgAERxRWv2GZjaE
+         khjPDffTUAmC1/g5wfwZIgv1m2AHq4XoHx7pkMUwP4VNGdHxwZI4MWs6BONAAJLMXdvI
+         AfB3LpxCqg6BoN2ShYVkGfZMxsA1TQLhft0osbNGZ8QuF3rrOjsI+uanAIbv9PafVDwp
+         KPd0cHACFwj3tiNRFk8GNM7FP+TR/R+TFp80cMmbWqo266+qnBsqmN+3TZz/Fx925/Ji
+         VeTR/tgx+CszIuwVo9qQaoX5VbRvfDIVklcohBoTE1IZKKwPcrtf+TUOtgWr/4Ws6/Zc
+         Y+Yw==
+X-Gm-Message-State: AOAM533KUvt8hyHGlPXiA7zE86wKbFXmHlx3U1E1QHHmg03Gz1eqil1N
+	BMp/K1Fp3n3VQFo5AqQ4AyU=
+X-Google-Smtp-Source: ABdhPJwek5HN1INa68+/CiKVytrivW+Z1sTojuAw8HeUS+/ee91/803ebFNmLRdXTFarQLbaJDtvbg==
+X-Received: by 2002:a17:903:185:b029:e9:9253:5328 with SMTP id z5-20020a1709030185b02900e992535328mr2507786plg.58.1617885600491;
+        Thu, 08 Apr 2021 05:40:00 -0700 (PDT)
 Received: from localhost.localdomain ([138.197.212.246])
-        by smtp.gmail.com with ESMTPSA id e65sm25831311pfe.9.2021.04.08.05.39.45
+        by smtp.gmail.com with ESMTPSA id e65sm25831311pfe.9.2021.04.08.05.39.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 05:39:52 -0700 (PDT)
+        Thu, 08 Apr 2021 05:39:59 -0700 (PDT)
 From: DENG Qingfang <dqfext@gmail.com>
 To: "David S. Miller" <davem@davemloft.net>,
 	Andrew Lunn <andrew@lunn.ch>,
@@ -63,9 +63,9 @@ Cc: Weijie Gao <weijie.gao@mediatek.com>,
 	Frank Wunderlich <frank-w@public-files.de>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Marc Zyngier <maz@kernel.org>
-Subject: [RFC v3 net-next 3/4] dt-bindings: net: dsa: add MT7530 interrupt controller binding
-Date: Thu,  8 Apr 2021 20:39:18 +0800
-Message-Id: <20210408123919.2528516-4-dqfext@gmail.com>
+Subject: [RFC v3 net-next 4/4] staging: mt7621-dts: enable MT7530 interrupt controller
+Date: Thu,  8 Apr 2021 20:39:19 +0800
+Message-Id: <20210408123919.2528516-5-dqfext@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210408123919.2528516-1-dqfext@gmail.com>
 References: <20210408123919.2528516-1-dqfext@gmail.com>
@@ -76,7 +76,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add device tree binding to support MT7530 interrupt controller.
+Enable MT7530 interrupt controller in the MT7621 SoC.
 
 Signed-off-by: DENG Qingfang <dqfext@gmail.com>
 Reviewed-by: Andrew Lunn <andrew@lunn.ch>
@@ -84,25 +84,23 @@ Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 RFC v2 -> RFC v3:
 - No changes.
 
- Documentation/devicetree/bindings/net/dsa/mt7530.txt | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/staging/mt7621-dts/mt7621.dtsi | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/net/dsa/mt7530.txt b/Documentation/devicetree/bindings/net/dsa/mt7530.txt
-index de04626a8e9d..26b34888eb62 100644
---- a/Documentation/devicetree/bindings/net/dsa/mt7530.txt
-+++ b/Documentation/devicetree/bindings/net/dsa/mt7530.txt
-@@ -81,6 +81,11 @@ Optional properties:
- - gpio-controller: Boolean; if defined, MT7530's LED controller will run on
- 	GPIO mode.
- - #gpio-cells: Must be 2 if gpio-controller is defined.
-+- interrupt-controller: Boolean; Enables the internal interrupt controller.
-+
-+If interrupt-controller is defined, the following property is required.
-+
-+- interrupts: Parent interrupt for the interrupt controller.
+diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
+index 16fc94f65486..ebf8b0633e88 100644
+--- a/drivers/staging/mt7621-dts/mt7621.dtsi
++++ b/drivers/staging/mt7621-dts/mt7621.dtsi
+@@ -447,6 +447,9 @@ switch0: switch0@0 {
+ 				mediatek,mcm;
+ 				resets = <&rstctrl 2>;
+ 				reset-names = "mcm";
++				interrupt-controller;
++				interrupt-parent = <&gic>;
++				interrupts = <GIC_SHARED 23 IRQ_TYPE_LEVEL_HIGH>;
  
- See Documentation/devicetree/bindings/net/dsa/dsa.txt for a list of additional
- required, optional properties and how the integrated switch subnodes must
+ 				ports {
+ 					#address-cells = <1>;
 -- 
 2.25.1
 
