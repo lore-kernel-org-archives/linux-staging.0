@@ -1,48 +1,55 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF91C70
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 23:05:28 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id k8so2458481pgf.4
-        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 16:05:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F93670
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 23:15:32 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id l1so1803997plg.12
+        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 16:15:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=n86d8I0VVSWF4Xuv5hVTXdKVgAMp4Cd1RqhEoJubX0Y=;
-        b=QhgPRZJuZUrw6Lzc1Yw4KS8Vt59PLm4jF7notnmmmapKWK1ZBf9rR0aL1diuN1t/+7
-         ndtZWza9MAqx9XEMHSMFlLvSffSVGsWIMCaRhcKlxT+EVjaFe7FfddBn5ndsnrbp5B/F
-         0QmkZNKWyJZu2ufVkFQynSL7k2cBT+BqLMGf3HtYSijqWgcoNXXZEBuZRBue20zEYK0E
-         NjoFubxirjFAyw1b4QTXLDMaOduuyZwt7GPPWjCVAZZO/MynFUkTkybt4YAfWXWis5mw
-         CnSYvVL2bxTe+tcrn5KwVgj4Z2dnouXn8yavbhc9KEQQhvltwPDIlDktVAy8xfs+KYgi
-         dIlQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=7F1NrpzVcU5GSSnL4Q5tRkk/0OTLWPdILVCrXDKlrcU=;
+        b=KmY6O8cmvy4x6bVD2N6lN+Kq4m6736F9Xq4qXpte+Gh/F0Zggdei+qWR0z2LjuxUg6
+         LzVjq1FJi87en+NkdZj6veNyK4V/ej67b83CBB1qxaap8BFYlzzuhW7bCdY3RGo5vGvX
+         Yo5FWT4cnE9EbwLQZaIVWRGVZCufZWkJfOps1z4Q9b71qj3w4zeliCJf84QGQabNYsIl
+         EfDF4wUeaCBjp0X18K4e48TBgASYE3Pv484VS3YJOZdoOxMd5ZQz/M/N57MxmS5h5XQZ
+         WqQuQ7iyWRPLlbFOiCuy91eCMxSQhyC3LZy+CPlBdKMDL5buTv/khV5lbaTVVpZJqVg0
+         hULA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=n86d8I0VVSWF4Xuv5hVTXdKVgAMp4Cd1RqhEoJubX0Y=;
-        b=O264b67yqnMWWJN/JJm62PorJxx92lizpvSd3Oh3x4YbQc45Nn8f8CX4wA4elI9itu
-         RPD4CC+s2ti5mmOSke+Nf6CY2SCT3xMzD3TN3SrgiCmVpV9ZQeJEiDgW3UxJXipAtrDu
-         f8dbqt7UaLWQzv9sEAcqdavna1cofqSV3j8Rov6pnblfQHkvX706gd6rbK/yjC7gagcD
-         t5BPtK3fHDPwtEr3V9WgiofzF+UL/j9KWyeqtv6eOYHp6GKUFTdLcAh442Oz/fe3JjrH
-         AEF3ZkNbVKX3UVKInVl5dCMVgH1IQG/VLe7J9GKP41jb9ycVbJ17oCnjDFJMJv8aWBrE
-         HKDg==
-X-Gm-Message-State: AOAM531NOQHOE94vk0+Z+dNwMbwfYTmM62aE3rXe9l8aAASQOMwyYxBw
-	qcaERkFuYaClUVEo4OA+orQ=
-X-Google-Smtp-Source: ABdhPJyPvr1g+T662ZAFkvaFPPWDXEVYlB0QwtSqqlR1cZuOSZE05byi9KcRIyN77YUftw7m+dEPlg==
-X-Received: by 2002:a63:e913:: with SMTP id i19mr9948560pgh.426.1617923128228;
-        Thu, 08 Apr 2021 16:05:28 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=7F1NrpzVcU5GSSnL4Q5tRkk/0OTLWPdILVCrXDKlrcU=;
+        b=QeXFYAsvfSoZgLMaG+jENanLte6z0o6/6r/5Fmt7BaYQKydKBkpKksEfSaE/2ZVxOj
+         x5aqG66GBsRdMkrUal0NfBkJ0zaXzSZUyx0ReACY5HwkDY9WmY8QraN+sy4OuSc8WeNL
+         m4s92TdsmlWBrqZpIkq6QZqJbQAcZyH00iNq4c+i+qSR1eLKvN2cp5q6y4UIfu7ruNzY
+         tJ0hVDzUeOK8qFD82gWcK33Sf1OoRg+YgPBVPYuRYSHHwo58IXEWE93v0YITq3iV5pl2
+         +z7/47qxjUz6+ZsrMTWpt5mPzQzsK3RfIkcouq1OL00eNSHjAb/xHEO2IJV0fSz+NCUs
+         zrjQ==
+X-Gm-Message-State: AOAM533VBoneuAp0aNWQjNi3yZyF3DvGpqloHrZ2DKftYDTrmYzAC9l6
+	Hz93Sm54Y4u6AZ+8XAaMQpc=
+X-Google-Smtp-Source: ABdhPJxJAlfUz4AdpoXyHlnOgRgCXg8ScvuKf2dCSwd3EOxOlgD+eLag9Cw1HhYS06ZQGkMfdGaagg==
+X-Received: by 2002:a17:90b:3704:: with SMTP id mg4mr10706833pjb.156.1617923731545;
+        Thu, 08 Apr 2021 16:15:31 -0700 (PDT)
 Received: from kali ([152.57.243.224])
-        by smtp.gmail.com with ESMTPSA id f5sm384469pjo.3.2021.04.08.16.05.23
+        by smtp.gmail.com with ESMTPSA id i9sm425178pjh.9.2021.04.08.16.15.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 16:05:27 -0700 (PDT)
-Date: Fri, 9 Apr 2021 04:35:14 +0530
+        Thu, 08 Apr 2021 16:15:31 -0700 (PDT)
+Date: Fri, 9 Apr 2021 04:45:21 +0530
 From: Mitali Borkar <mitaliborkar810@gmail.com>
-To: clabbe@baylibre.com, mchehab@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
-	mitali_s@me.iitr.ac.in
-Subject: [PATCH] staging: media: zoran: add '*' in subsequent line
-Message-ID: <YG+MKk9C/fTd7vj4@kali>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: clabbe@baylibre.com, mchehab@kernel.org, gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
+Subject: Re: [Outreachy kernel] [PATCH 2/2] media: zoran: replace bit shifts
+ by BIT() macro
+Message-ID: <YG+OibRNRmILe8nQ@kali>
+References: <cover.1617912177.git.mitaliborkar810@gmail.com>
+ <ac8ec2b70ac2cc7c541c05a1d9a8db1fe79df793.1617912177.git.mitaliborkar810@gmail.com>
+ <alpine.DEB.2.22.394.2104082314090.21785@hadrien>
+ <YG95l9b++d+RFrDa@kali>
+ <alpine.DEB.2.22.394.2104090009220.21785@hadrien>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -50,170 +57,84 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.22.394.2104090009220.21785@hadrien>
 
-Added '*' in susbsequent lines for block comments to meet linux kernel
-coding style.
+On Fri, Apr 09, 2021 at 12:10:06AM +0200, Julia Lawall wrote:
+> 
+> 
+> On Fri, 9 Apr 2021, Mitali Borkar wrote:
+> 
+> > On Thu, Apr 08, 2021 at 11:15:07PM +0200, Julia Lawall wrote:
+> > >
+> > >
+> > > On Fri, 9 Apr 2021, Mitali Borkar wrote:
+> > >
+> > > > Added #include <linux/bitops.h> and replaced bit shifts by BIT() macro.
+> > > > This BIT() macro from linux/bitops.h is used to define ZR36057_VFESPFR_* bitmasks.
+> > > > Use of macro is better and neater. It maintains consistency.
+> > > > Reported by checkpatch.
+> > > >
+> > > > Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+> > > > ---
+> > > >  drivers/staging/media/zoran/zr36057.h | 10 ++++++----
+> > > >  1 file changed, 6 insertions(+), 4 deletions(-)
+> > > >
+> > > > diff --git a/drivers/staging/media/zoran/zr36057.h b/drivers/staging/media/zoran/zr36057.h
+> > > > index a2a75fd9f535..93075459f910 100644
+> > > > --- a/drivers/staging/media/zoran/zr36057.h
+> > > > +++ b/drivers/staging/media/zoran/zr36057.h
+> > > > @@ -8,6 +8,8 @@
+> > > >  #ifndef _ZR36057_H_
+> > > >  #define _ZR36057_H_
+> > > >
+> > > > +#include <linux/bitops.h>
+> > > > +
+> > > >  /* Zoran ZR36057 registers */
+> > > >
+> > > >  #define ZR36057_VFEHCR          0x000	/* Video Front End, Horizontal Configuration Register */
+> > > > @@ -31,12 +33,12 @@
+> > > >  #define ZR36057_VFESPFR_VER_DCM          8
+> > > >  #define ZR36057_VFESPFR_DISP_MODE        6
+> > > >  #define ZR36057_VFESPFR_YUV422          (0 << 3)
+> > > > -#define ZR36057_VFESPFR_RGB888          (1 << 3)
+> > > > +#define ZR36057_VFESPFR_RGB888          BIT(3)
+> > >
+> > > Uniformity is generally considered to be more important than using BIT.
+> > > Having only a few constants defined using BIT is a bit strange.
+> > >
+> > Okay Ma'am. Can you please tell me on how to proceed now? I am not sure
+> > how to proceed.
+> 
+> I think that this code should just be left as is.
+> 
+> Checkpatch makes suggestions.  Its suggestions are not always appropriate
+> for the context.
+>
+Okay Ma'am. This means I should not do any changes now. Do I need to do
+something in this patch now? Or move onto next one?
 
-Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
----
- drivers/staging/media/zoran/zr36050.c | 34 +++++++++++++--------------
- 1 file changed, 17 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/staging/media/zoran/zr36050.c b/drivers/staging/media/zoran/zr36050.c
-index 2826f4e5d37b..663ac2b3434e 100644
---- a/drivers/staging/media/zoran/zr36050.c
-+++ b/drivers/staging/media/zoran/zr36050.c
-@@ -25,7 +25,7 @@
- #include "videocodec.h"
- 
- /* it doesn't make sense to have more than 20 or so,
--  just to prevent some unwanted loops */
-+ * just to prevent some unwanted loops */
- #define MAX_CODECS 20
- 
- /* amount of chips attached via this driver */
-@@ -43,7 +43,7 @@ MODULE_PARM_DESC(debug, "Debug level (0-4)");
- 	} while (0)
- 
- /* =========================================================================
--   Local hardware I/O functions:
-+ *  Local hardware I/O functions:
- 
-    read/write via codec layer (registers are located in the master device)
-    ========================================================================= */
-@@ -80,7 +80,7 @@ static void zr36050_write(struct zr36050 *ptr, u16 reg, u8 value)
- }
- 
- /* =========================================================================
--   Local helper function:
-+ *  Local helper function:
- 
-    status read
-    ========================================================================= */
-@@ -95,7 +95,7 @@ static u8 zr36050_read_status1(struct zr36050 *ptr)
- }
- 
- /* =========================================================================
--   Local helper function:
-+ *  Local helper function:
- 
-    scale factor read
-    ========================================================================= */
-@@ -112,7 +112,7 @@ static u16 zr36050_read_scalefactor(struct zr36050 *ptr)
- }
- 
- /* =========================================================================
--   Local helper function:
-+ *  Local helper function:
- 
-    wait if codec is ready to proceed (end of processing) or time is over
-    ========================================================================= */
-@@ -133,7 +133,7 @@ static void zr36050_wait_end(struct zr36050 *ptr)
- }
- 
- /* =========================================================================
--   Local helper function:
-+ *  Local helper function:
- 
-    basic test of "connectivity", writes/reads to/from memory the SOF marker
-    ========================================================================= */
-@@ -174,7 +174,7 @@ static int zr36050_basic_test(struct zr36050 *ptr)
- }
- 
- /* =========================================================================
--   Local helper function:
-+ *  Local helper function:
- 
-    simple loop for pushing the init datasets
-    ========================================================================= */
-@@ -192,7 +192,7 @@ static int zr36050_pushit(struct zr36050 *ptr, u16 startreg, u16 len, const char
- }
- 
- /* =========================================================================
--   Basic datasets:
-+ *  Basic datasets:
- 
-    jpeg baseline setup data (you find it on lots places in internet, or just
-    extract it from any regular .jpg image...)
-@@ -294,7 +294,7 @@ static const char zr36050_decimation_h[8] = { 2, 1, 1, 0, 0, 0, 0, 0 };
- static const char zr36050_decimation_v[8] = { 1, 1, 1, 0, 0, 0, 0, 0 };
- 
- /* =========================================================================
--   Local helper functions:
-+ *  Local helper functions:
- 
-    calculation and setup of parameter-dependent JPEG baseline segments
-    (needed for compression only)
-@@ -303,7 +303,7 @@ static const char zr36050_decimation_v[8] = { 1, 1, 1, 0, 0, 0, 0, 0 };
- /* ------------------------------------------------------------------------- */
- 
- /* SOF (start of frame) segment depends on width, height and sampling ratio
--			 of each color component */
-+ *			 of each color component */
- 
- static int zr36050_set_sof(struct zr36050 *ptr)
- {
-@@ -334,7 +334,7 @@ static int zr36050_set_sof(struct zr36050 *ptr)
- /* ------------------------------------------------------------------------- */
- 
- /* SOS (start of scan) segment depends on the used scan components
--			of each color component */
-+ *			of each color component */
- 
- static int zr36050_set_sos(struct zr36050 *ptr)
- {
-@@ -378,7 +378,7 @@ static int zr36050_set_dri(struct zr36050 *ptr)
- }
- 
- /* =========================================================================
--   Setup function:
-+ *  Setup function:
- 
-    Setup compression/decompression of Zoran's JPEG processor
-    ( see also zoran 36050 manual )
-@@ -531,13 +531,13 @@ static void zr36050_init(struct zr36050 *ptr)
- }
- 
- /* =========================================================================
--   CODEC API FUNCTIONS
-+ *  CODEC API FUNCTIONS
- 
-    this functions are accessed by the master via the API structure
-    ========================================================================= */
- 
- /* set compression/expansion mode and launches codec -
--   this should be the last call from the master before starting processing */
-+ *  this should be the last call from the master before starting processing */
- static int zr36050_set_mode(struct videocodec *codec, int mode)
- {
- 	struct zr36050 *ptr = (struct zr36050 *)codec->data;
-@@ -707,7 +707,7 @@ static int zr36050_control(struct videocodec *codec, int type, int size, void *d
- }
- 
- /* =========================================================================
--   Exit and unregister function:
-+ *  Exit and unregister function:
- 
-    Deinitializes Zoran's JPEG processor
-    ========================================================================= */
-@@ -732,7 +732,7 @@ static int zr36050_unset(struct videocodec *codec)
- }
- 
- /* =========================================================================
--   Setup and registry function:
-+ *  Setup and registry function:
- 
-    Initializes Zoran's JPEG processor
- 
-@@ -813,7 +813,7 @@ static const struct videocodec zr36050_codec = {
- };
- 
- /* =========================================================================
--   HOOK IN DRIVER AS KERNEL MODULE
-+ *  HOOK IN DRIVER AS KERNEL MODULE
-    ========================================================================= */
- 
- static int __init zr36050_init_module(void)
--- 
-2.30.2
-
+> julia
+> 
+> >
+> > > julia
+> > >
+> > > >  #define ZR36057_VFESPFR_RGB565          (2 << 3)
+> > > >  #define ZR36057_VFESPFR_RGB555          (3 << 3)
+> > > > -#define ZR36057_VFESPFR_ERR_DIF          (1 << 2)
+> > > > -#define ZR36057_VFESPFR_PACK24          (1 << 1)
+> > > > -#define ZR36057_VFESPFR_LITTLE_ENDIAN    (1 << 0)
+> > > > +#define ZR36057_VFESPFR_ERR_DIF          BIT(2)
+> > > > +#define ZR36057_VFESPFR_PACK24          BIT(1)
+> > > > +#define ZR36057_VFESPFR_LITTLE_ENDIAN    BIT(0)
+> > > >
+> > > >  #define ZR36057_VDTR            0x00c	/* Video Display "Top" Register */
+> > > >
+> > > > --
+> > > > 2.30.2
+> > > >
+> > > > --
+> > > > You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
+> > > > To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
+> > > > To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/ac8ec2b70ac2cc7c541c05a1d9a8db1fe79df793.1617912177.git.mitaliborkar810%40gmail.com.
+> > > >
+> >
