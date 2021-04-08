@@ -1,93 +1,95 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3305470
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 08:54:11 +0000 (UTC)
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3A24su1KCfvk0iGvnlHejQsceALOonbusQ8zAX?=
- =?us-ascii?q?/mh6QxBNb4i8n8ehgPwU2XbP+VMscVsL8OruBICrR3TA+ZlppawYOrm/VAfr0V?=
- =?us-ascii?q?HYSL1Kx43k3jHmBmnC5vdQvJ0QCJRWJdXsATFB/KXHySaiFdJI+rS62YSJocub?=
- =?us-ascii?q?8Ht3VwFtbMhbnn1EIyKWCFd/SgUDJbdRLuv/2uN9qzCteWsaY62AbxFvNdTrnc?=
- =?us-ascii?q?HBl57tfHc9aSIP1QiUgTukrJ78HhSIty1/bxpzwKwv+WWArgrh5q/LiZCG4yLb?=
- =?us-ascii?q?vlW+071m3P/ajvpKHoill9UcIDSEsHfOWK1RH5m5+A0TjM7qwlAwi9XIqwonJK?=
- =?us-ascii?q?1ImhXsV3DwpwDs1Qnm2Csv7HGnyUbwuwqbneXpAC8/T9BHmJgcaB/F8iMbzalB?=
- =?us-ascii?q?7J4=3D?=
-X-IronPort-AV: E=Sophos;i="5.82,205,1613430000"; 
-   d="scan'208";a="378068035"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Apr 2021 10:54:09 +0200
-Date: Thu, 8 Apr 2021 10:54:09 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-cc: Greg KH <gregkh@linuxfoundation.org>, outreachy-kernel@googlegroups.com, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8723bs: Remove camelcase
- in several files
-In-Reply-To: <2284292.R3b5UFg5HO@localhost.localdomain>
-Message-ID: <alpine.DEB.2.22.394.2104081053200.5197@hadrien>
-References: <20210408080714.29481-1-fmdefrancesco@gmail.com> <YG7AkJjSThRbb/f5@kroah.com> <2284292.R3b5UFg5HO@localhost.localdomain>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06F0870
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 09:08:39 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.192.24.118])
+	by mail-app3 (Coremail) with SMTP id cC_KCgAHnz0MyG5gbiToAA--.50767S4;
+	Thu, 08 Apr 2021 17:08:31 +0800 (CST)
+From: Dinghao Liu <dinghao.liu@zju.edu.cn>
+To: dinghao.liu@zju.edu.cn,
+	kjlu@umn.edu
+Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: imx: imx7-mipi-csis: Fix runtime PM imbalance in mipi_csis_s_stream
+Date: Thu,  8 Apr 2021 17:08:27 +0800
+Message-Id: <20210408090827.32612-1-dinghao.liu@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID:cC_KCgAHnz0MyG5gbiToAA--.50767S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cw45ur1Utr4rCF48ZFykuFg_yoW8JFWrpr
+	4xK34Fyry8JFn5CrZrA3W7Xr98G34Sk3s7Gry7G3WF9Fs5t3Wag34kta4YqF48WrWrA345
+	AF1rJw1avFWjkr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvC1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+	w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+	IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW0oVCq3wA2z4x0Y4vEx4A2
+	jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52
+	x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWU
+	GwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI4
+	8JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCF04k20xvY
+	0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fKr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
+	1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
+	14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
+	IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY
+	6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2Kf
+	nxnUUI43ZEXa7VUb0D73UUUUU==
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAg0JBlZdtTTcOgAQs8
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 
+When v4l2_subdev_call() fails, a pairing PM usage counter
+decrement is needed to keep the counter balanced. It's the
+same for the following error paths in case 'enable' is on.
 
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+---
+ drivers/staging/media/imx/imx7-mipi-csis.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-On Thu, 8 Apr 2021, Fabio M. De Francesco wrote:
+diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+index a01a7364b4b9..2a3fff231a40 100644
+--- a/drivers/staging/media/imx/imx7-mipi-csis.c
++++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+@@ -627,21 +627,26 @@ static int mipi_csis_s_stream(struct v4l2_subdev *mipi_sd, int enable)
+ 			return ret;
+ 		}
+ 		ret = v4l2_subdev_call(state->src_sd, core, s_power, 1);
+-		if (ret < 0)
++		if (ret < 0) {
++			pm_runtime_put_noidle(&state->pdev->dev);
+ 			return ret;
++		}
+ 	}
+ 
+ 	mutex_lock(&state->lock);
+ 	if (enable) {
+ 		if (state->flags & ST_SUSPENDED) {
+ 			ret = -EBUSY;
++			pm_runtime_put_noidle(&state->pdev->dev);
+ 			goto unlock;
+ 		}
+ 
+ 		mipi_csis_start_stream(state);
+ 		ret = v4l2_subdev_call(state->src_sd, video, s_stream, 1);
+-		if (ret < 0)
++		if (ret < 0) {
++			pm_runtime_put_noidle(&state->pdev->dev);
+ 			goto unlock;
++		}
+ 
+ 		mipi_csis_log_counters(state, true);
+ 
+-- 
+2.17.1
 
-> On Thursday, April 8, 2021 10:36:32 AM CEST Greg KH wrote:
-> > On Thu, Apr 08, 2021 at 10:07:14AM +0200, Fabio M. De Francesco wrote:
-> > > Remove camelcase in a symbol that is used by several files.
-> >
-> > What symbol?
-> >
->
-> I'm not sure I understand what you are asking. You mean
-> that I have to specify the name of the variable that I changed?
-> Or you mean that I shouldn't use the term "symbol" but write
-> "variable", "function", "macro", and so on?
-
-He wants the name of the symbol.  Each changed line includes lots of
-symbols, so it is a significant effort to scan the patch to see what
-symbol is being changed.
-
-julia
-
->
-> >
-> > > --- a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-> > > +++ b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-> > > @@ -203,7 +203,7 @@ struct pwrctrl_priv {
-> > >  	u8 LpsIdleCount;
-> > >  	u8 power_mgnt;
-> > >  	u8 org_power_mgnt;
-> > > -	u8 bFwCurrentInPSMode;
-> > > +	u8 b_fw_current_in_ps_mode;
-> >
-> > The "b" here means "byte" so you can drop the "b_" as that means
-> > nothing, we do not use this type of notation in the kernel as the
-> > compiler can check it for us.
-> >
->
-> OK, I didn't know what the 'b' meant in this context. I'll drop it.
->
-> Thanks,
->
-> Fabio
->
-> > thanks,
-> >
-> > greg k-h
-> >
->
->
->
->
-> --
-> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/2284292.R3b5UFg5HO%40localhost.localdomain.
->
