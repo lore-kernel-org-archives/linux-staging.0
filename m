@@ -1,66 +1,66 @@
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BAD66D0D
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 08:17:18 +0000 (UTC)
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FGDZp14djz1BFjT;
-	Thu,  8 Apr 2021 16:14:58 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 8 Apr 2021 16:17:00 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <gregkh@linuxfoundation.org>, <marcocesati@gmail.com>,
-	<ross.schm.dev@gmail.com>
-CC: <linux-staging@lists.linux.dev>, Tian Tao <tiantao6@hisilicon.com>,
-	"Zhiqi Song" <songzhiqi1@huawei.com>
-Subject: [PATCH] staging: rtl8723bs: remove unused including <linux/version.h>
-Date: Thu, 8 Apr 2021 16:17:25 +0800
-Message-ID: <1617869845-43046-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EE156D10
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 08:19:04 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.192.24.118])
+	by mail-app4 (Coremail) with SMTP id cS_KCgDHCUVrvG5gcXGbAA--.14933S4;
+	Thu, 08 Apr 2021 16:18:54 +0800 (CST)
+From: Dinghao Liu <dinghao.liu@zju.edu.cn>
+To: dinghao.liu@zju.edu.cn,
+	kjlu@umn.edu
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: atomisp: Fix runtime PM imbalance in atomisp_pci_probe
+Date: Thu,  8 Apr 2021 16:18:43 +0800
+Message-Id: <20210408081850.24278-1-dinghao.liu@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID:cS_KCgDHCUVrvG5gcXGbAA--.14933S4
+X-Coremail-Antispam: 1UD129KBjvdXoW7GF47AFWkKr1UGw48tw17trb_yoWDJrc_Gr
+	Z7t3WxWr45Cr18W34UtF1YvryvgFZ0vay8XF4FyFWaya9xCa15CrWvvry8Jay7Ww4agr9I
+	kry7WF1rCr1kGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbc8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+	wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+	vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4UJVW0owA2z4x0Y4vEx4A2
+	jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52
+	x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWU
+	GwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI4
+	8JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
+	6cx26r4fKr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGw
+	C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48J
+	MIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMI
+	IF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
+	6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAg0JBlZdtTTcOgAOsi
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
 
-Remove including <linux/version.h> that don't need it.
+When hmm_pool_register() fails, a pairing PM usage counter
+increment is needed to keep the counter balanced. It's the
+same for the following error paths.
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-Signed-off-by: Zhiqi Song <songzhiqi1@huawei.com>
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
 ---
- drivers/staging/rtl8723bs/include/drv_types.h      | 1 -
- drivers/staging/rtl8723bs/include/ioctl_cfg80211.h | 2 --
- 2 files changed, 3 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
-index cec8d5a..19da27f 100644
---- a/drivers/staging/rtl8723bs/include/drv_types.h
-+++ b/drivers/staging/rtl8723bs/include/drv_types.h
-@@ -14,7 +14,6 @@
- #ifndef __DRV_TYPES_H__
- #define __DRV_TYPES_H__
- 
--#include <linux/version.h>
- #include <linux/sched/signal.h>
- #include <autoconf.h>
- #include <basic_types.h>
-diff --git a/drivers/staging/rtl8723bs/include/ioctl_cfg80211.h b/drivers/staging/rtl8723bs/include/ioctl_cfg80211.h
-index 7c86d05..993a7b3 100644
---- a/drivers/staging/rtl8723bs/include/ioctl_cfg80211.h
-+++ b/drivers/staging/rtl8723bs/include/ioctl_cfg80211.h
-@@ -7,8 +7,6 @@
- #ifndef __IOCTL_CFG80211_H__
- #define __IOCTL_CFG80211_H__
- 
--#include <linux/version.h>
--
- struct rtw_wdev_invit_info {
- 	u8 state; /* 0: req, 1:rep */
- 	u8 peer_mac[ETH_ALEN];
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+index 0295e2e32d79..02f774ed80c8 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+@@ -1815,6 +1815,7 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 	hmm_cleanup();
+ 	hmm_pool_unregister(HMM_POOL_TYPE_RESERVED);
+ hmm_pool_fail:
++	pm_runtime_get_noresume(&pdev->dev);
+ 	destroy_workqueue(isp->wdt_work_queue);
+ wdt_work_queue_fail:
+ 	atomisp_acc_cleanup(isp);
 -- 
-2.7.4
+2.17.1
 
