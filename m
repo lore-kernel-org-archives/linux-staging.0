@@ -1,87 +1,60 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out4436.biz.mail.alibaba.com (out4436.biz.mail.alibaba.com [47.88.44.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA6170
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 09:51:06 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id z16so1046152pga.1
-        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 02:51:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=f2CrD7zytwdxUdd+RrcJ2fDn/wxf5jDuY/dOIB395dY=;
-        b=HmXQvdnhzVc2Jn7za5jIyK8J+1N/B42mbO0WjVyMtD/JrfAz7tGWMtU92wqETfhzAh
-         uIa4Ob+LfTdH8qEiOq6zlcGw4C/+5ZuUel8aUIPjuBFDRtIO1auO1hdILDA3TeVwt1pc
-         4PgK//U+jJua7fOWEq/WXjtAadT1gEux2XbNE953DqlpWXWmrD0rdr1iKB+g78uhvvuy
-         M3pdxmb9EY48Ia+CfKHBxBi16Tu/A9HUgikR3SYIJID84Q/ucuDhUCiM8t7M3hNVJkMs
-         UrIB2MBA8LjLaFMaLik1Gm8ZrU44cSPfnDqmikSRSVFdyLq4qUBQBBap87OIcrLsmVnb
-         Lbfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=f2CrD7zytwdxUdd+RrcJ2fDn/wxf5jDuY/dOIB395dY=;
-        b=cDsb2ZoQbQFs3SWfRFGgxhFF0lGUGJE62w+dGfqkqW6YxrzJykbFupkeTqMYMFaKtj
-         g4BKZqu8Sfdx2gMyj2VlJp0+kC2ktO+fFYrkhBFG3tPJG5NLB5MBf+NTPKceNh+PX7ry
-         wtSZPsQPTd5F3u8zdkApyFDRsAipvcVtZlJ3kBm5inhA6U+D1Ult7N3c2tG/wSpplc62
-         iTU+YgW1wOQTZpXk0XipWJTLc7qbVZI1sPR8QhrJP46ASHKw1XNYqbR3b2HgOiNFykpJ
-         s2knJ6bO3GyMpK7XYEKEcy9LhY2xY4t98Cjyuosi1nQaZ7k5uHVDlSk+AeUmcllcuGz3
-         eBdA==
-X-Gm-Message-State: AOAM531N18HTqcHQw+8IQ28NdCjgqdINIY+Hx6+9/xz6KwTgTAH9jZ8c
-	L/zvYxOLF9ZxXMLsW4VQR3C2oXGX220pdz3b4Zw=
-X-Google-Smtp-Source: ABdhPJySmkGXyA4hCpShj73VGaOhDOQlhk1pEuV/dP4z7YxYZcl9vRJW/mfimWqrToOUcrQH3ktvU0HWdiKR5wS4Rrg=
-X-Received: by 2002:a63:cb44:: with SMTP id m4mr7331898pgi.4.1617875465880;
- Thu, 08 Apr 2021 02:51:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD0029CA
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 09:52:05 +0000 (UTC)
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R821e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0UUsn2It_1617875480;
+Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0UUsn2It_1617875480)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Thu, 08 Apr 2021 17:51:30 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Subject: [PATCH] staging: ks7010: remove useless variable
+Date: Thu,  8 Apr 2021 17:51:19 +0800
+Message-Id: <1617875479-58849-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210408081850.24278-1-dinghao.liu@zju.edu.cn>
-In-Reply-To: <20210408081850.24278-1-dinghao.liu@zju.edu.cn>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 8 Apr 2021 12:50:49 +0300
-Message-ID: <CAHp75VftjKTDJj+8m1HajMfnbLCdZ8UCNxU9wj4Pio0+FK=O4g@mail.gmail.com>
-Subject: Re: [PATCH] media: atomisp: Fix runtime PM imbalance in atomisp_pci_probe
-To: Dinghao Liu <dinghao.liu@zju.edu.cn>
-Cc: Kangjie Lu <kjlu@umn.edu>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, linux-staging@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 8, 2021 at 11:19 AM Dinghao Liu <dinghao.liu@zju.edu.cn> wrote:
->
-> When hmm_pool_register() fails, a pairing PM usage counter
-> increment is needed to keep the counter balanced. It's the
-> same for the following error paths.
+Fix the following gcc warning:
 
-Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+drivers/staging/ks7010/ks_hostif.c:929:19: warning: variable ‘noise’ set
+but not used [-Wunused-but-set-variable].
 
-> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
-> ---
->  drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> index 0295e2e32d79..02f774ed80c8 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> @@ -1815,6 +1815,7 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
->         hmm_cleanup();
->         hmm_pool_unregister(HMM_POOL_TYPE_RESERVED);
->  hmm_pool_fail:
-> +       pm_runtime_get_noresume(&pdev->dev);
->         destroy_workqueue(isp->wdt_work_queue);
->  wdt_work_queue_fail:
->         atomisp_acc_cleanup(isp);
-> --
-> 2.17.1
->
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ drivers/staging/ks7010/ks_hostif.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-
+diff --git a/drivers/staging/ks7010/ks_hostif.c b/drivers/staging/ks7010/ks_hostif.c
+index 8bc3b7d..499161d 100644
+--- a/drivers/staging/ks7010/ks_hostif.c
++++ b/drivers/staging/ks7010/ks_hostif.c
+@@ -926,14 +926,13 @@ void hostif_bss_scan_confirm(struct ks_wlan_private *priv)
+ void hostif_phy_information_confirm(struct ks_wlan_private *priv)
+ {
+ 	struct iw_statistics *wstats = &priv->wstats;
+-	u8 rssi, signal, noise;
++	u8 rssi, signal;
+ 	u8 link_speed;
+ 	u32 transmitted_frame_count, received_fragment_count;
+ 	u32 failed_count, fcs_error_count;
+ 
+ 	rssi = get_byte(priv);
+ 	signal = get_byte(priv);
+-	noise = get_byte(priv);
+ 	link_speed = get_byte(priv);
+ 	transmitted_frame_count = get_dword(priv);
+ 	received_fragment_count = get_dword(priv);
 -- 
-With Best Regards,
-Andy Shevchenko
+1.8.3.1
+
