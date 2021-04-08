@@ -1,176 +1,66 @@
-Received: from smtp.smtpout.orange.fr (smtp03.smtpout.orange.fr [80.12.242.125])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D00876D00
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 20:06:08 +0000 (UTC)
-Received: from localhost.localdomain ([90.126.11.170])
-	by mwinf5d05 with ME
-	id qKyV240023g7mfN03KyVAX; Thu, 08 Apr 2021 21:58:30 +0200
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 08 Apr 2021 21:58:30 +0200
-X-ME-IP: 90.126.11.170
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Larry.Finger@lwfinger.net,
-	florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH 1/3] staging: rtl8712: remove struct rtl_ieee80211_ht_cap and ieee80211_ht_addt_info
-Date: Thu,  8 Apr 2021 21:58:27 +0200
-Message-Id: <4291cb10744457cc12c89fc9fd414c37d732bc9d.1617911201.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.27.0
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3252670
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 20:38:23 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id l123so2703174pfl.8
+        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 13:38:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=zk2h9OUEkeXCZ1HjAVgUvuKrSyf0eKRwZjnK1zVYlOY=;
+        b=j9vp1INpqRgcAVyQuSBKK92aYEkDbB18yrDakdH+SoIGf5sTjgfXICPQ8B9BekXBhm
+         BQB9SpejECNfJc1VGUgJzCc38zZ0PKk7qp14uaYYyVlowycmVC3SznXbFcwcBogGH4Dm
+         K6w6hGLCUBdaByPgPgMEPC9xPsGwPSb0QXIuCwGbajlTJ6chjAIx2ZxKcHXRJFC/lqNl
+         6n56dwNQ2DSm0Fcbp0OcDJr4E/zDc1MTAJuifaitmJKtOIAMgDFpB81qc3TXiM08m6OW
+         +xWY2BDew3vayMWVNyLWuY0ruJo4ikKgdqDfYTkQhz5uc4smWaPlcH3V+QPt3II6O7f0
+         CiDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=zk2h9OUEkeXCZ1HjAVgUvuKrSyf0eKRwZjnK1zVYlOY=;
+        b=G+e561grvW/e3dal42jYYglfu1mKyBNjZxqoW5T6CbsR11yaufK7ZBvF7bYF6sdfht
+         m1e50tziY11OF/CI0OBT4290CdfejHX/S/tuFf4aU/1BXj28zi614i4JeD4/AsFNDS7d
+         iP9l4cKm/WnH0H6RcbD2W+jyclTXf4eQfyj27M6MhpJJ5QwsKRdS3OqlwrwxzwirlhvP
+         kGhJshK+JEUgnS22HRUmu2kdyffgqn9E2JYOzXDc6HjqdFaCIMfowwkKoQjgxzlVo8C2
+         2v4/5VCmqgeDkWkErvXYeATvrD58XUySKJZkPEiYq3shFB3Ab619C/txxC/6hvQePS5K
+         6+Gg==
+X-Gm-Message-State: AOAM531zZL2+kqQg1j9rewoDfTIgOEf8WIdldsmDiPvnani14XHrSz7/
+	9hZKsnQ5JfN3FfarY0KjpJo=
+X-Google-Smtp-Source: ABdhPJyZgsymT634l5QOHhmDLjr6UpV0Ear1AXUybJKL/yRxTyDCO7ppsi4gXPHj4ivqPT60g/QeZw==
+X-Received: by 2002:a63:3189:: with SMTP id x131mr9652577pgx.430.1617914302551;
+        Thu, 08 Apr 2021 13:38:22 -0700 (PDT)
+Received: from kali ([152.57.11.236])
+        by smtp.gmail.com with ESMTPSA id y17sm316669pfl.10.2021.04.08.13.38.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Apr 2021 13:38:22 -0700 (PDT)
+Date: Fri, 9 Apr 2021 02:08:14 +0530
+From: Mitali Borkar <mitaliborkar810@gmail.com>
+To: clabbe@baylibre.com, mchehab@kernel.org, gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
+	mitali_s@me.iitr.ac.in
+Subject: [PATCH 0/2] media: zoran: clean up style issues
+Message-ID: <cover.1617912177.git.mitaliborkar810@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-struct 'ieee80211_ht_addt_info' is unused and can be removed.
+These patches make changes to clean up style issues
+as identified by checkpatch
 
-struct 'rtl_ieee80211_ht_cap' can be replaced by 'ieee80211_ht_cap'
-defined in <linux/ieee80211.h> which has the same layout.
+Mitali Borkar (2):
+  media: zoran: add spaces around '<<'
+  media: zoran: replace bit shifts by BIT() macro
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/staging/rtl8712/rtl871x_ht.h          |  2 +-
- drivers/staging/rtl8712/rtl871x_ioctl_linux.c |  6 ++--
- drivers/staging/rtl8712/rtl871x_mlme.c        | 10 +++---
- drivers/staging/rtl8712/wifi.h                | 35 -------------------
- 4 files changed, 9 insertions(+), 44 deletions(-)
+ drivers/staging/media/zoran/zr36057.h | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/rtl8712/rtl871x_ht.h b/drivers/staging/rtl8712/rtl871x_ht.h
-index 4bcf5591c44d..ebd78665775d 100644
---- a/drivers/staging/rtl8712/rtl871x_ht.h
-+++ b/drivers/staging/rtl8712/rtl871x_ht.h
-@@ -26,7 +26,7 @@ struct ht_priv {
- 	unsigned int	rx_ampdu_maxlen; /* for rx reordering ctrl win_sz,
- 					  * updated when join_callback.
- 					  */
--	struct rtl_ieee80211_ht_cap ht_cap;
-+	struct ieee80211_ht_cap ht_cap;
- };
- 
- #endif	/*_RTL871X_HT_H_ */
-diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-index 14fe12eb930c..3b6926613257 100644
---- a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-+++ b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-@@ -1389,7 +1389,7 @@ static int r8711_wx_get_rate(struct net_device *dev,
- 	struct _adapter *padapter = netdev_priv(dev);
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct wlan_bssid_ex *pcur_bss = &pmlmepriv->cur_network.network;
--	struct rtl_ieee80211_ht_cap *pht_capie;
-+	struct ieee80211_ht_cap *pht_capie;
- 	unsigned char rf_type = padapter->registrypriv.rf_config;
- 	int i;
- 	u8 *p;
-@@ -1405,8 +1405,8 @@ static int r8711_wx_get_rate(struct net_device *dev,
- 			 pcur_bss->IELength - 12);
- 	if (p && ht_ielen > 0) {
- 		ht_cap = true;
--		pht_capie = (struct rtl_ieee80211_ht_cap *)(p + 2);
--		memcpy(&mcs_rate, pht_capie->supp_mcs_set, 2);
-+		pht_capie = (struct ieee80211_ht_cap *)(p + 2);
-+		memcpy(&mcs_rate, &pht_capie->mcs, 2);
- 		bw_40MHz = (le16_to_cpu(pht_capie->cap_info) &
- 			    IEEE80211_HT_CAP_SUP_WIDTH_20_40) ? 1 : 0;
- 		short_GI = (le16_to_cpu(pht_capie->cap_info) &
-diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
-index b377c0b94cfb..6328da8a498e 100644
---- a/drivers/staging/rtl8712/rtl871x_mlme.c
-+++ b/drivers/staging/rtl8712/rtl871x_mlme.c
-@@ -1640,7 +1640,7 @@ unsigned int r8712_restructure_ht_ie(struct _adapter *padapter, u8 *in_ie,
- {
- 	u32 ielen, out_len;
- 	unsigned char *p;
--	struct rtl_ieee80211_ht_cap ht_capie;
-+	struct ieee80211_ht_cap ht_capie;
- 	unsigned char WMM_IE[] = {0x00, 0x50, 0xf2, 0x02, 0x00, 0x01, 0x00};
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct qos_priv *pqospriv = &pmlmepriv->qospriv;
-@@ -1656,7 +1656,7 @@ unsigned int r8712_restructure_ht_ie(struct _adapter *padapter, u8 *in_ie,
- 			pqospriv->qos_option = 1;
- 		}
- 		out_len = *pout_len;
--		memset(&ht_capie, 0, sizeof(struct rtl_ieee80211_ht_cap));
-+		memset(&ht_capie, 0, sizeof(struct ieee80211_ht_cap));
- 		ht_capie.cap_info = cpu_to_le16(IEEE80211_HT_CAP_SUP_WIDTH_20_40 |
- 				    IEEE80211_HT_CAP_SGI_20 |
- 				    IEEE80211_HT_CAP_SGI_40 |
-@@ -1666,7 +1666,7 @@ unsigned int r8712_restructure_ht_ie(struct _adapter *padapter, u8 *in_ie,
- 		ht_capie.ampdu_params_info = (IEEE80211_HT_AMPDU_PARM_FACTOR &
- 				0x03) | (IEEE80211_HT_AMPDU_PARM_DENSITY & 0x00);
- 		r8712_set_ie(out_ie + out_len, WLAN_EID_HT_CAPABILITY,
--			     sizeof(struct rtl_ieee80211_ht_cap),
-+			     sizeof(struct ieee80211_ht_cap),
- 			     (unsigned char *)&ht_capie, pout_len);
- 		phtpriv->ht_option = 1;
- 	}
-@@ -1680,7 +1680,7 @@ static void update_ht_cap(struct _adapter *padapter, u8 *pie, uint ie_len)
- 	int i;
- 	uint len;
- 	struct sta_info *bmc_sta, *psta;
--	struct rtl_ieee80211_ht_cap *pht_capie;
-+	struct ieee80211_ht_cap *pht_capie;
- 	struct recv_reorder_ctrl *preorder_ctrl;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
-@@ -1700,7 +1700,7 @@ static void update_ht_cap(struct _adapter *padapter, u8 *pie, uint ie_len)
- 				&len, ie_len -
- 				sizeof(struct NDIS_802_11_FIXED_IEs));
- 	if (p && len > 0) {
--		pht_capie = (struct rtl_ieee80211_ht_cap *)(p + 2);
-+		pht_capie = (struct ieee80211_ht_cap *)(p + 2);
- 		max_ampdu_sz = (pht_capie->ampdu_params_info &
- 				IEEE80211_HT_AMPDU_PARM_FACTOR);
- 		/* max_ampdu_sz (kbytes); */
-diff --git a/drivers/staging/rtl8712/wifi.h b/drivers/staging/rtl8712/wifi.h
-index c4e756316b5e..61ebc730427f 100644
---- a/drivers/staging/rtl8712/wifi.h
-+++ b/drivers/staging/rtl8712/wifi.h
-@@ -276,40 +276,5 @@ static inline unsigned char *get_hdr_bssid(unsigned char *pframe)
-  */
- #define _WMM_IE_Length_				7  /* for WMM STA */
- 
--/*-----------------------------------------------------------------------------
-- *			Below is the definition for 802.11n
-- *------------------------------------------------------------------------------
-- */
--
--/*
-- * struct rtl_ieee80211_ht_cap - HT capabilities
-- *
-- * This structure refers to "HT capabilities element" as
-- * described in 802.11n draft section 7.3.2.52
-- */
--
--struct rtl_ieee80211_ht_cap {
--	__le16	cap_info;
--	unsigned char	ampdu_params_info;
--	unsigned char	supp_mcs_set[16];
--	__le16	extended_ht_cap_info;
--	__le32	tx_BF_cap_info;
--	unsigned char	       antenna_selection_info;
--} __packed;
--
--/**
-- * struct ieee80211_ht_addt_info - HT additional information
-- *
-- * This structure refers to "HT information element" as
-- * described in 802.11n draft section 7.3.2.53
-- */
--struct ieee80211_ht_addt_info {
--	unsigned char	control_chan;
--	unsigned char		ht_param;
--	__le16	operation_mode;
--	__le16	stbc_param;
--	unsigned char		basic_set[16];
--} __packed;
--
- #endif /* _WIFI_H_ */
- 
 -- 
-2.27.0
+2.30.2
 
