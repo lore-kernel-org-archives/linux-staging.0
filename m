@@ -1,74 +1,92 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868F070
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 08:30:20 +0000 (UTC)
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AAevAdamIDo+F1C89bdmhHNmfatTpDfIk3DAb?=
- =?us-ascii?q?vn1ZSRFFG/GwusiykJ0guSPcpy0WXBgb9OyoHKWbW3vT+dpU7OAqU4uKZwXttG?=
- =?us-ascii?q?u2IIwK1+KLqAHIITH09eJWyM5bHJRWNduYNzJHsfo=3D?=
-X-IronPort-AV: E=Sophos;i="5.82,205,1613430000"; 
-   d="scan'208";a="502143081"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Apr 2021 10:30:10 +0200
-Date: Thu, 8 Apr 2021 10:30:09 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Mitali Borkar <mitaliborkar810@gmail.com>
-cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, 
-    gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com, 
-    mitali_s@me.iitr.ac.in
-Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8712: added spaces around
- '+'
-In-Reply-To: <YG690ZIRdCEcjoM6@kali>
-Message-ID: <alpine.DEB.2.22.394.2104081027100.3155@hadrien>
-References: <YG690ZIRdCEcjoM6@kali>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E82570
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 08:33:17 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id u21so1569277ejo.13
+        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 01:33:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=Exo3uKERlOorL8sYR7oV52Cn5+SfGTGaWwxNlmktpDQ=;
+        b=VhpWVORxuid4K2b27HoDl2AYyP69gLKfqeNvy19T7oyNBS0eLlKVj1HTdtekZCvjGM
+         dCYX+7+7jy/QXBf2u+EDQli+MC2A6TRt26EKjtJWzudSucQ9kt77PgcGtJESRzabL+0p
+         MA1p0T2+l0pwVaeVrllSeWnBkorqTxSgRlIUFkkvzyOM3W6rcKTa/qlW7zUCx1nn6jXB
+         cqYqHae4nsnlcJqkvdm92QUOSm/fnVwvqVC3GW7qKgf6n/HZO5CpcOzQ9UzvTO2OinRa
+         Vg1RdBvD+nznzH0x8qYaPr0kvVFQgGJSYRLPDRvyOnf6NDyGm8I02w7LWWSMqFD/4lr0
+         SdUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=Exo3uKERlOorL8sYR7oV52Cn5+SfGTGaWwxNlmktpDQ=;
+        b=WlBvhbapnJqQNJ8ejTrGeVi2PhkOj4dpLF5USZrEWmFiQ7DaLaJG0gORoqYO1Q9TD2
+         DLtf+Xwh+9mYwKESByiQdVHr/ABgPKnocthL7sBGAUX8jWyYb/SI56bwPYfbZILwLehN
+         UfBGBe9dNoy8aL4i/+ICykNafEQ/LHhot8ZUYBrlJvGbtRchtVpTUQZBnzSLzp9i0txx
+         7HJmTR3wq0VI2UId1QWm/xDxyHZjQodi3tSPFr/JdKT5fscmmPauzB0KIFKHZEx0+tVy
+         Bzw0ZKOdyZCImxy6nfpf75+L9xdWTANkXKcxfQE4vj8OzCFQjUVUzUYZTcXAFi4zkOmE
+         neyQ==
+X-Gm-Message-State: AOAM531y96fCqKIXleTu9jT65NMrROYwqVun6iP8qe+NLlua92Tc9Q3r
+	pfvK7GjdfzIOmrVYKtpJ95T1iLUdkJvTFA==
+X-Google-Smtp-Source: ABdhPJwR95/4pR3u/U+9Z5ks/A7/FkmTTdsgUE0MbZDz3MHwSAkNlKNcvoE0ArY+CCCyDTeU8owpyQ==
+X-Received: by 2002:a17:906:27c9:: with SMTP id k9mr8563485ejc.26.1617870795620;
+        Thu, 08 Apr 2021 01:33:15 -0700 (PDT)
+Received: from test-VirtualBox ([87.116.165.76])
+        by smtp.gmail.com with ESMTPSA id t15sm155883ejd.7.2021.04.08.01.33.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Apr 2021 01:33:15 -0700 (PDT)
+Date: Thu, 8 Apr 2021 10:33:12 +0200
+From: Sergei Krainov <sergei.krainov.lkd@gmail.com>
+To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH] staging: rtl8712: remove unused variable from rtl871x_mlme.c
+Message-ID: <20210408083312.GA3118@test-VirtualBox>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The subject line should be in the imperative, so "add" instead of "added".
+Remove unused variable from rtl871x_mlme.c.
 
-On Thu, 8 Apr 2021, Mitali Borkar wrote:
+No side effects can be seen locally or in r8712_find_network()
 
-> Clean up Check:spaces preferred around that '+' (ctx:VxV)
-> Reported by checkpatch
+Signed-off-by: Sergei Krainov <sergei.krainov.lkd@gmail.com>
+---
+ drivers/staging/rtl8712/rtl871x_mlme.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-Please try to rephrase to explain what you did and why.  "Clean up" kind
-of states what the goal is, but your opinion about what is a clean up
-might be different than someone else's.  It's also not necessary to cite
-the checkpatch warning exactly.
+diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
+index 8a97307fbbd6..4f41e321ea63 100644
+--- a/drivers/staging/rtl8712/rtl871x_mlme.c
++++ b/drivers/staging/rtl8712/rtl871x_mlme.c
+@@ -656,7 +656,7 @@ void r8712_joinbss_event_callback(struct _adapter *adapter, u8 *pbuf)
+ 	struct sta_priv	*pstapriv = &adapter->stapriv;
+ 	struct mlme_priv	*pmlmepriv = &adapter->mlmepriv;
+ 	struct wlan_network	*cur_network = &pmlmepriv->cur_network;
+-	struct wlan_network	*pcur_wlan = NULL, *ptarget_wlan = NULL;
++	struct wlan_network	*ptarget_wlan = NULL;
+ 	unsigned int		the_same_macaddr = false;
+ 	struct wlan_network *pnetwork;
+ 
+@@ -721,13 +721,6 @@ void r8712_joinbss_event_callback(struct _adapter *adapter, u8 *pbuf)
+ 					    scanned_queue,
+ 					    cur_network->network.MacAddress);
+ 				} else {
+-					pcur_wlan =
+-					     r8712_find_network(&pmlmepriv->
+-					     scanned_queue,
+-					     cur_network->network.MacAddress);
+-					if (pcur_wlan)
+-						pcur_wlan->fixed = false;
+-
+ 					pcur_sta = r8712_get_stainfo(pstapriv,
+ 					     cur_network->network.MacAddress);
+ 					spin_lock_irqsave(&pstapriv->
+-- 
+2.25.1
 
-julia
-
->
-> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
-> ---
->  drivers/staging/rtl8712/wlan_bssdef.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/rtl8712/wlan_bssdef.h b/drivers/staging/rtl8712/wlan_bssdef.h
-> index b54ccaacc527..ec3749813728 100644
-> --- a/drivers/staging/rtl8712/wlan_bssdef.h
-> +++ b/drivers/staging/rtl8712/wlan_bssdef.h
-> @@ -176,7 +176,7 @@ struct NDIS_802_11_WEP {
->  #define MIC_CHECK_TIME	60000000
->
->  #ifndef Ndis802_11APMode
-> -#define Ndis802_11APMode (Ndis802_11InfrastructureMax+1)
-> +#define Ndis802_11APMode (Ndis802_11InfrastructureMax + 1)
->  #endif
->
->  struct	wlan_network {
-> --
-> 2.30.2
->
-> --
-> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/YG690ZIRdCEcjoM6%40kali.
->
