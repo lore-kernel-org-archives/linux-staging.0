@@ -1,28 +1,27 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D459470
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 08:37:22 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C681A61004;
-	Thu,  8 Apr 2021 08:37:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B9370
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 08:38:49 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E9BB361165;
+	Thu,  8 Apr 2021 08:38:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1617871042;
-	bh=gTRJUY1qblXJejgz2sywV+BWhoT7K1wnHBT96srPwq8=;
+	s=korg; t=1617871129;
+	bh=K8sVpV5r3BqS9hmPn96824THlYvOfMr5q5GJIDgHY1I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V6GxBF5jSNseCmswWdYSFXiLQuH+aG/A37oCuSEAh7CmY2C6N1PC84DplxdY3O1ui
-	 NStz0KauMpzYzjj+qboizZE4QjEjFtgeKAg2sQTmsaEDPk4JoebI/ogPE/QYCw5vov
-	 OUZS4GRsv3lRdgaukMhB/Mf4Up4YrjfZyukaYt/w=
-Date: Thu, 8 Apr 2021 10:37:19 +0200
+	b=GfrbDht54m5KwRiHWtaxkbORpy4uJG7AQrqM5OGHoOiKmfNM7o0cN5thOuJWALCuX
+	 IaYTVxPGscaZaQTxHC9aKsEyb7b9jvyWF9M/GvmI8PomlwYUXpPFjv/kh3kjL7dGlJ
+	 DnsuI9YIB/cHqJLGGnXIMnX02mOAl810Zp+aTPdM=
+Date: Thu, 8 Apr 2021 10:38:47 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Mitali Borkar <mitaliborkar810@gmail.com>
+To: Sergei Krainov <sergei.krainov.lkd@gmail.com>
 Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: Re: [PATCH] staging: rtl8712: removed unnecessary blank line
-Message-ID: <YG7Avz5/iaSynCwX@kroah.com>
-References: <YG61JYTdl1HQKcGj@kali>
- <YG64Kvun5Xxy4lOL@kroah.com>
- <CAHWmKdgm0bjRBasEjcWdtDPX1DPON6RSmNXMTp+NQfYrYHmcXg@mail.gmail.com>
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8712: remove unused variable from
+ rtl871x_mlme.c
+Message-ID: <YG7BF8Z1/gC1r8AP@kroah.com>
+References: <20210408083312.GA3118@test-VirtualBox>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -30,31 +29,74 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHWmKdgm0bjRBasEjcWdtDPX1DPON6RSmNXMTp+NQfYrYHmcXg@mail.gmail.com>
+In-Reply-To: <20210408083312.GA3118@test-VirtualBox>
 
-A: http://en.wikipedia.org/wiki/Top_post
-Q: Were do I find info about this thing called top-posting?
-A: Because it messes up the order in which people normally read text.
-Q: Why is top-posting such a bad thing?
-A: Top-posting.
-Q: What is the most annoying thing in e-mail?
+On Thu, Apr 08, 2021 at 10:33:12AM +0200, Sergei Krainov wrote:
+> Remove unused variable from rtl871x_mlme.c.
+> 
+> No side effects can be seen locally or in r8712_find_network()
+> 
+> Signed-off-by: Sergei Krainov <sergei.krainov.lkd@gmail.com>
+> ---
+>  drivers/staging/rtl8712/rtl871x_mlme.c | 9 +--------
+>  1 file changed, 1 insertion(+), 8 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
+> index 8a97307fbbd6..4f41e321ea63 100644
+> --- a/drivers/staging/rtl8712/rtl871x_mlme.c
+> +++ b/drivers/staging/rtl8712/rtl871x_mlme.c
+> @@ -656,7 +656,7 @@ void r8712_joinbss_event_callback(struct _adapter *adapter, u8 *pbuf)
+>  	struct sta_priv	*pstapriv = &adapter->stapriv;
+>  	struct mlme_priv	*pmlmepriv = &adapter->mlmepriv;
+>  	struct wlan_network	*cur_network = &pmlmepriv->cur_network;
+> -	struct wlan_network	*pcur_wlan = NULL, *ptarget_wlan = NULL;
+> +	struct wlan_network	*ptarget_wlan = NULL;
+>  	unsigned int		the_same_macaddr = false;
+>  	struct wlan_network *pnetwork;
+>  
+> @@ -721,13 +721,6 @@ void r8712_joinbss_event_callback(struct _adapter *adapter, u8 *pbuf)
+>  					    scanned_queue,
+>  					    cur_network->network.MacAddress);
+>  				} else {
+> -					pcur_wlan =
+> -					     r8712_find_network(&pmlmepriv->
+> -					     scanned_queue,
+> -					     cur_network->network.MacAddress);
+> -					if (pcur_wlan)
+> -						pcur_wlan->fixed = false;
+> -
+>  					pcur_sta = r8712_get_stainfo(pstapriv,
+>  					     cur_network->network.MacAddress);
+>  					spin_lock_irqsave(&pstapriv->
+> -- 
+> 2.25.1
+> 
+> 
 
-A: No.
-Q: Should I include quotations after my reply?
+Hi,
 
-http://daringfireball.net/2007/07/on_top
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-On Thu, Apr 08, 2021 at 01:36:07PM +0530, Mitali Borkar wrote:
-> Okay, should I rename the patch?
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-I can't take it as-is, so you need to change something :)
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/SubmittingPatches for what needs to be done
+  here to properly describe this.
 
-> I removed a line and matched alignment, so should I rename this
-> appropriately?
-
-Only do one logical thing per patch, so if this is 2 logical things,
-then you need 2 patches, right?
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
 thanks,
 
-greg k-h
+greg k-h's patch email bot
