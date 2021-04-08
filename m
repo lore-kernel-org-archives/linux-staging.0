@@ -1,72 +1,77 @@
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8658F6D0E
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 14:29:12 +0000 (UTC)
-Received: by mail-yb1-f175.google.com with SMTP id o10so2886827ybb.10
-        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 07:29:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2607570
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 15:00:21 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id j18so4570103lfg.5
+        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 08:00:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cJ1HKbVq8oYS2MezhvWMnzWregg532xa6RuUFoQmjM4=;
-        b=j5HdqHozCPgm+rdf5wrN48PYpnJ4eAaKZCJ+dTn5RHjjEpDtAl5aHtC7Yl7f8yDE/p
-         wJysoQsWiCG7OFsNmI4mduW3HU5peiVJC8T8QAbF8NW2dTdqK9i9hp46bKcHjikg2ZLq
-         gJH6/weLIEkoO1+WBdWug5Q+LDKGBbqUrRYdgLFyXfqlHvyNH5WXB/bWIQgFvaCO2kI/
-         Hrxvk5NQKBYRi8cM0Mutcc6vx7plFq3/qkBDZH3a6SQC2tGp71gQcZaUM3Ey855xVxTE
-         yqSmY5azF8GTh36VOufefn4uofO8tnmE4YBsDciZTNL6zGu5Go92TeX8vdbzOde/DmN4
-         8L8A==
+         :cc:content-transfer-encoding;
+        bh=FjPNKJFXnPLlIkn9ofe/hgNOiX4jHuRRHt6hgl/CzlA=;
+        b=XbZQ46kuRoE8CvvYGZdRG7dg/QOplHjo7etUJYk4YVHrjZT3NA85gaoysHXoEEMscI
+         5eIzjIauhjJHRn+s2BeO6XCW/EP6IrCLfCsVbyDyrXM3rg0uFrSBSAYOLHTlOhNwux0B
+         5eVE73WtGFAuKNOUnbvg+u0JYoB+0Ah4UenNLHTLYmBzLjXeaOAQoLGOeGQQ422RsPfi
+         Hcvu7QB8tkyboyurVK1mjBv9DEqucCDuu3igcXiJ5GZTW3T3cGJBdDcU5FUP7f+mphm0
+         ZmsLpKKnyHiHsSH38Cud7G2mu5HWtCsI3f0l5qzwjUrfneucL4Bg2uatzY8F+tp45Sp0
+         aX+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cJ1HKbVq8oYS2MezhvWMnzWregg532xa6RuUFoQmjM4=;
-        b=Ytgptz7LdTVcATB4l0VuJ9e1jyAvbGgav1fo15vs733Qm5IrJlPCpncNBhWwTTNpzu
-         AHKBuXDQTdprb4MWEPSTLkPTH4pUKaDi4apb93VoWYfCLrVTSlL54RtoQyXwAnLas1U/
-         8P70++vGl+afX3fMAnSaN16Cr5QqzV55n6jPvQ6i9k55CMGBngy79oE9ftI9lZZYdRmE
-         snHJMjzNv1iknwSqH1WHuy8HdST+L2ajEbX3hzFAT2j2serISDPBOgpPV4oR1P/Ne8Io
-         BYrItsx4LBJZcpiKmQzmjvjqngE2mUYmmUYLgwx+k+abdNLSpVCAccmnuZIUNjDC9xSc
-         feAw==
-X-Gm-Message-State: AOAM532mzI8qfO5dlW4JMztTJVOiPUo06lsNcAkdXqkJQESJ6k2rleIa
-	qSgN2m60VdtiUm6ozf5tjXkUL8vPyiyiIeNowgU=
-X-Google-Smtp-Source: ABdhPJwV/UAGKfdvuY2VHiZaUizO/h/HFjqV/HN2u/My7JCKnVvCPkkukWXZdo/FHIwjFpx9JnKXK0KJ68bpfCHNxiU=
-X-Received: by 2002:a25:3211:: with SMTP id y17mr11618063yby.44.1617892151657;
- Thu, 08 Apr 2021 07:29:11 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=FjPNKJFXnPLlIkn9ofe/hgNOiX4jHuRRHt6hgl/CzlA=;
+        b=EKOU2+rbDIB0baJa/Hza1n1uY+X/QQFAZWClSY2B3OflCHgtT9v6Nh0tK+yM2PxbeH
+         K4IAT2EkHO+GNfkoBNTKEk8pQWFL9V78nDKWinLalWK/W5cVbvuIdwhiF+y06hP6Y0sb
+         ZYUDe51HycHb/GO8PY003+O9XlEmuonRzOxdBr9oPmj9aw9LgKQLr+uyrpVKvu6bO/9m
+         +pN1J85rXWXCgaY/V3mrnIp1rfZHjpP4I1Gknf7MzJ5L2b72b04g8FhaMOgRj3VgWTsO
+         fqRM7BNA8nN3VoPXxEEq2N2GEdbpuRml3Zt0EzP/er4BSeBGwJffIgCdWpF7WpKQ1w6L
+         eDPg==
+X-Gm-Message-State: AOAM5312uat13B6RrW4mzwZ6CCKpVohFs+7hzz0dnDpdiu3wVQI49Ztf
+	SpycJmxd7eL1+5tOhCadnQw7CwVime+3dNY1ofA=
+X-Google-Smtp-Source: ABdhPJzjEAtp7tSnx5kIvHtgEJeseYxS+FKQnHvpnDHWEm/cOFqXyqTMKAR3dgjC0R3Fe6+Hrb+V8yEVk7P8pi+tQOc=
+X-Received: by 2002:a05:6512:2295:: with SMTP id f21mr2490389lfu.166.1617894019468;
+ Thu, 08 Apr 2021 08:00:19 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210408120929.GA4346@test-VirtualBox>
-In-Reply-To: <20210408120929.GA4346@test-VirtualBox>
-From: Edmundo Carmona Antoranz <eantoranz@gmail.com>
-Date: Thu, 8 Apr 2021 08:29:00 -0600
-Message-ID: <CAOc6eta6ehHRhEYrWv0daS6WrC4oJg0Q8q2CB=K5BzF-E61jxQ@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: rtl8712: remove unused variable from rtl871x_mlme.c
-To: Sergei Krainov <sergei.krainov.lkd@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, florian.c.schilhabel@googlemail.com, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <20210408123919.2528516-1-dqfext@gmail.com> <20210408140255.Horde.Pl-DXtrqmiH9imsWjDqblfM@www.vdorst.com>
+In-Reply-To: <20210408140255.Horde.Pl-DXtrqmiH9imsWjDqblfM@www.vdorst.com>
+From: DENG Qingfang <dqfext@gmail.com>
+Date: Thu, 8 Apr 2021 23:00:08 +0800
+Message-ID: <CALW65jZujSCk16RX_xgcg+NGrc9yyFQOQ9Y-z3qz-Qv1TvUQLg@mail.gmail.com>
+Subject: Re: [RFC v3 net-next 0/4] MT7530 interrupt support
+To: =?UTF-8?Q?Ren=C3=A9_van_Dorst?= <opensource@vdorst.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Andrew Lunn <andrew@lunn.ch>, 
+	Florian Fainelli <f.fainelli@gmail.com>, Heiner Kallweit <hkallweit1@gmail.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Landen Chao <Landen.Chao@mediatek.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	Sean Wang <sean.wang@mediatek.com>, Vivien Didelot <vivien.didelot@gmail.com>, 
+	Vladimir Oltean <olteanv@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>, linux-kernel <linux-kernel@vger.kernel.org>, 
+	"moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, linux-staging@lists.linux.dev, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, netdev <netdev@vger.kernel.org>, 
+	Weijie Gao <weijie.gao@mediatek.com>, Chuanhong Guo <gch981213@gmail.com>, 
+	Frank Wunderlich <frank-w@public-files.de>, Thomas Gleixner <tglx@linutronix.de>, 
+	Marc Zyngier <maz@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 8, 2021 at 6:10 AM Sergei Krainov
-<sergei.krainov.lkd@gmail.com> wrote:
-> No side effects can be seen locally or in r8712_find_network()
+Hi Ren=C3=A9,
 
-I am sorry to jump in. Sergei, what Greg is asking is basically why
-you want to delete the r8712_find_network call in the first place.
-Deleting an unused variable is fine, but the problem here is that you
-are _also_ deleting a call to a function that _probably_ does some
-things that, even if you want to get rid of the variable, you would
-probably like to keep on doing (and so the call would remain). Is that
-call really not doing anything relevant? That's what you will have to
-explain in the patch in order for it to make sense.
+On Thu, Apr 8, 2021 at 10:02 PM Ren=C3=A9 van Dorst <opensource@vdorst.com>=
+ wrote:
+>
+> Tested on Ubiquiti ER-X-SFP (MT7621) with 1 external phy which uses irq=
+=3DPOLL.
+>
 
-As a side note on top of the question about the call, it's not like
-the variable is not being used. It's used right after the call to
-r8712_find_network to check the result of the call... so is the real
-purpose of the patch to remove the call in the first place and then
-having the variable removed because there is no point in having it if
-the call goes away?
+I wonder if the external PHY's IRQ can be registered in the devicetree.
+Change MT7530_NUM_PHYS to 6, and add the following to ER-X-SFP dts PHY node=
+:
 
-I hope that helps.
+interrupt-parent =3D <&switch0>;
+interrupts =3D <5>;
