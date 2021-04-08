@@ -1,106 +1,142 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2051.outbound.protection.outlook.com [40.107.244.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA4CC6D0E
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 12:40:00 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id x21-20020a17090a5315b029012c4a622e4aso1291288pjh.2
-        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 05:40:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3230E6D0E
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 12:58:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CvBoiDbbVa2Bq/yD0EhTXlVgN3SoIvMbiukQbIhLTY2bY9cmsOll+RL4dbQQWbXLJTihNvOfdCP+zAMoDK+307Oav0HUQwRNQZ/nHUFabt7kDYjBkdVShKsFMJcb/Pa4qR2RXvkgg+GhCVrAIZsoTMwfE57TlwXMJCEfS6uH3J505jrbMkYwCivJfSfikBBjzCbOeR6x74rUUG0vmPkOukf9qyefhADFLasgyKlcTT/av6/kMHmSRJoMutsdpZTM7BF7YHnpG9tlP67kjIMCiEQpVFttzm+JItov3RvONa723Qj1GtjrKQXn7+zKNZ5S2drsq1OmXdgHTL3nn/++Jw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SzzsYeQ11TiIYoB4hwugHTkUjmFUQqlUVDLQYqAwpfQ=;
+ b=N+7eu/G2aAdZLpULk+AhqmPT1tCZI88pj/8izEy7V9hSQmclQEaQd9KsvV9lyhDDX+evH01E5zeYE02izpH7+X72wmwLEEyGUwykOAPwkZS9LZBjcwVzrhBi8pGJPiiISlZtrmBflgk5d+90NihtG3/zNCfQIrBH8i/0FdfbavR0hyOrrzwZcNL/3utZ1AenUiJDKU3QMfmF8KnhgbGGJfqwPqm/KYfTXZKeo4ZvCr47ki+dMHkZZCZc1MAcOA8wX7ZBRJ+JkWSs09r0tedQ5Z4v4una6yU0QRWh+/NBngnWpTZyKCpleUbjdcfd502m5+tmanVAkeCXwXczjK8iJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=xilinx.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
+ dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=SmFnhaRyZGKmhh6YeRu24XJccjOmUgsYe3aUSqwEOJM=;
-        b=sdrEyJmGy8XW5Tzk4vxJNZ8GlNfQeQ8WXFXrGGIx/uGcosQHu/5191zepwOkcbLF+i
-         AOruGbLsMv4y19ByxfOYte2JeWh0dGSamkX9OMk8nWIeaZLsN5y4xBY3ZsfEtEuvCF/q
-         Z1eDnT73strNZt2ZmehAlPjFXSQ3acTrOAFqi7oz67pNod5+7/cqpJes4zjp6yULS9wc
-         0mDf9lWINdxUfp/4HMwcR9bZAh1KWSidqFYKdlxGGSsZ2sruUIgWn1j9WE3mjSsgrmiA
-         Xj4fOscrKjbMUbKyNdHkRyCs25myAKjiQ2RmU2uJpemu1q3gXFyYUGGkOISY9k50vINO
-         OT0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=SmFnhaRyZGKmhh6YeRu24XJccjOmUgsYe3aUSqwEOJM=;
-        b=RIDjmQmnjK28aDYOogxBSOIWzm+5SdhbJkBBKjCG5rNlBUiRGsQUgAERxRWv2GZjaE
-         khjPDffTUAmC1/g5wfwZIgv1m2AHq4XoHx7pkMUwP4VNGdHxwZI4MWs6BONAAJLMXdvI
-         AfB3LpxCqg6BoN2ShYVkGfZMxsA1TQLhft0osbNGZ8QuF3rrOjsI+uanAIbv9PafVDwp
-         KPd0cHACFwj3tiNRFk8GNM7FP+TR/R+TFp80cMmbWqo266+qnBsqmN+3TZz/Fx925/Ji
-         VeTR/tgx+CszIuwVo9qQaoX5VbRvfDIVklcohBoTE1IZKKwPcrtf+TUOtgWr/4Ws6/Zc
-         Y+Yw==
-X-Gm-Message-State: AOAM533KUvt8hyHGlPXiA7zE86wKbFXmHlx3U1E1QHHmg03Gz1eqil1N
-	BMp/K1Fp3n3VQFo5AqQ4AyU=
-X-Google-Smtp-Source: ABdhPJwek5HN1INa68+/CiKVytrivW+Z1sTojuAw8HeUS+/ee91/803ebFNmLRdXTFarQLbaJDtvbg==
-X-Received: by 2002:a17:903:185:b029:e9:9253:5328 with SMTP id z5-20020a1709030185b02900e992535328mr2507786plg.58.1617885600491;
-        Thu, 08 Apr 2021 05:40:00 -0700 (PDT)
-Received: from localhost.localdomain ([138.197.212.246])
-        by smtp.gmail.com with ESMTPSA id e65sm25831311pfe.9.2021.04.08.05.39.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 05:39:59 -0700 (PDT)
-From: DENG Qingfang <dqfext@gmail.com>
-To: "David S. Miller" <davem@davemloft.net>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Landen Chao <Landen.Chao@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Vivien Didelot <vivien.didelot@gmail.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	netdev@vger.kernel.org
-Cc: Weijie Gao <weijie.gao@mediatek.com>,
-	Chuanhong Guo <gch981213@gmail.com>,
-	=?UTF-8?q?Ren=C3=A9=20van=20Dorst?= <opensource@vdorst.com>,
-	Frank Wunderlich <frank-w@public-files.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Marc Zyngier <maz@kernel.org>
-Subject: [RFC v3 net-next 4/4] staging: mt7621-dts: enable MT7530 interrupt controller
-Date: Thu,  8 Apr 2021 20:39:19 +0800
-Message-Id: <20210408123919.2528516-5-dqfext@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210408123919.2528516-1-dqfext@gmail.com>
-References: <20210408123919.2528516-1-dqfext@gmail.com>
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SzzsYeQ11TiIYoB4hwugHTkUjmFUQqlUVDLQYqAwpfQ=;
+ b=JmhfkkOxaagDp0KDx02emS3OHmvLawtpZRXOnd+29O4jp5psa0vlno8yawVRaGG2f+p2iAqDRM6zk4mWfb6gGqL6LFwZlp+23s6hLJj2Ue0rCXV5TDwVlvKqL4M5ITm/IudQriGvUPpXe5KUWTKEIcudmsdYdH8wQydXRZX/veM=
+Received: from CY4PR2201CA0007.namprd22.prod.outlook.com
+ (2603:10b6:910:5f::17) by MWHPR02MB2623.namprd02.prod.outlook.com
+ (2603:10b6:300:44::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.16; Thu, 8 Apr
+ 2021 12:58:51 +0000
+Received: from CY1NAM02FT055.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:910:5f:cafe::83) by CY4PR2201CA0007.outlook.office365.com
+ (2603:10b6:910:5f::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17 via Frontend
+ Transport; Thu, 8 Apr 2021 12:58:51 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=pass action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
+Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
+ CY1NAM02FT055.mail.protection.outlook.com (10.152.74.80) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4020.17 via Frontend Transport; Thu, 8 Apr 2021 12:58:51 +0000
+Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 8 Apr 2021 05:58:49 -0700
+Received: from smtp.xilinx.com (172.19.127.96) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
+ 15.1.2106.2 via Frontend Transport; Thu, 8 Apr 2021 05:58:49 -0700
+Envelope-to: git@xilinx.com,
+ linux-clk@vger.kernel.org,
+ mturquette@baylibre.com,
+ sboyd@kernel.org,
+ robh+dt@kernel.org,
+ gregkh@linuxfoundation.org,
+ linux-staging@lists.linux.dev,
+ zhengxunli.mxic@gmail.com
+Received: from [10.140.6.59] (port=57650 helo=xhdshubhraj40.xilinx.com)
+	by smtp.xilinx.com with esmtp (Exim 4.90)
+	(envelope-from <shubhrajyoti.datta@xilinx.com>)
+	id 1lUUFE-0000kJ-7M; Thu, 08 Apr 2021 05:58:48 -0700
+From: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
+To: <linux-clk@vger.kernel.org>
+CC: <mturquette@baylibre.com>, <sboyd@kernel.org>, <robh+dt@kernel.org>,
+	<gregkh@linuxfoundation.org>, <linux-staging@lists.linux.dev>,
+	<git@xilinx.com>, <michals@xilinx.com>, <zhengxunli.mxic@gmail.com>,
+	Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
+Subject: [PATCH v11 0/5] clk: clocking-wizard: Driver updates
+Date: Thu, 8 Apr 2021 18:28:38 +0530
+Message-ID: <1617886723-27117-1-git-send-email-shubhrajyoti.datta@xilinx.com>
+X-Mailer: git-send-email 2.1.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2794e4e7-527c-4321-bb4c-08d8fa8e0ec9
+X-MS-TrafficTypeDiagnostic: MWHPR02MB2623:
+X-Microsoft-Antispam-PRVS:
+	<MWHPR02MB2623C4940CFC2EAE11A4CE23AA749@MWHPR02MB2623.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	C56p5hUTh04SJJxdgEAE623DgD8NfyFeal1v07xF53SfGUaE2kiRTs0P/XHx04H2QtG4EDuBX2KTh+PMJ1G/a48ML4bl3IfOFJzv3dCllhZFiUUW5gSw7H0kXAFlD+02pag3CeUU6+SE7I3KNpn0rWvXvZJttqN3aepZvtNvPmqiPccbSQA7hMTak5tdQhZdXs+UTOkEhaOt+uyjpTuarwh6rjJgEzVtvakfkGGr7EpSLol0u3SEz/VMx4djwL+RoXTwZIp3KxRQuIamzJPU1k0r00gRDsQDL0jPf9hu7efTNchkclDvopAJAKOYjK9ACVfn61EfBv0nqYmsGG548U4z2bEd8bVPkM+85EdQt2O+M7LpH4/cfTwFzvLpl0C4nXXF3uZuESHPKviN9dCOVsSWK8yOhdX+ZtbT7Wfq/Gj+hC8E061MeU+ViLhpgqlq+oz9PQA4C/CruuzF1Num+YgW2OSXP5Lw2B6DPV6yL3ue8GwtwMl3Ujkz5kQS0FJWpx8AhX+Sabzyhrtcp04xZ2o+JyKJrjmAx/n/BO3l4f0vYUPeo7j1N/xRLE0kBdRw7jzwZ0bc32/C+DMIbyoJrBcBmajwXyJFBPdFqB/MyauYcQYQOQHAljb8Le58rmuVWANfjtqpZcchNJYTLK2z3F5cJdAiu04C98KmIA/02p9rXthsBQG04I+kqrnQ9kYu
+X-Forefront-Antispam-Report:
+	CIP:149.199.62.198;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapexch01.xlnx.xilinx.com;PTR:unknown-62-198.xilinx.com;CAT:NONE;SFS:(4636009)(376002)(396003)(136003)(39860400002)(346002)(46966006)(36840700001)(356005)(6916009)(83380400001)(8936002)(2616005)(70206006)(7636003)(2906002)(36756003)(7696005)(47076005)(15650500001)(36860700001)(9786002)(426003)(70586007)(336012)(316002)(107886003)(36906005)(8676002)(4326008)(82310400003)(44832011)(82740400003)(54906003)(6666004)(478600001)(26005)(186003)(5660300002)(102446001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2021 12:58:51.2598
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2794e4e7-527c-4321-bb4c-08d8fa8e0ec9
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.62.198];Helo=[xsj-pvapexch01.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY1NAM02FT055.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB2623
 
-Enable MT7530 interrupt controller in the MT7621 SoC.
+The patch does the following
+Update the versions of the clocking wizard ip.
+Move from staging to clk directory.
+Update the bindings.
 
-Signed-off-by: DENG Qingfang <dqfext@gmail.com>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
----
-RFC v2 -> RFC v3:
-- No changes.
+Applies on
+git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
+in the staging-next branch.
 
- drivers/staging/mt7621-dts/mt7621.dtsi | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
-index 16fc94f65486..ebf8b0633e88 100644
---- a/drivers/staging/mt7621-dts/mt7621.dtsi
-+++ b/drivers/staging/mt7621-dts/mt7621.dtsi
-@@ -447,6 +447,9 @@ switch0: switch0@0 {
- 				mediatek,mcm;
- 				resets = <&rstctrl 2>;
- 				reset-names = "mcm";
-+				interrupt-controller;
-+				interrupt-parent = <&gic>;
-+				interrupts = <GIC_SHARED 23 IRQ_TYPE_LEVEL_HIGH>;
  
- 				ports {
- 					#address-cells = <1>;
+Shubhrajyoti Datta (5):
+  dt-bindings: add documentation of xilinx clocking wizard
+  clk: clocking-wizard: Add the clockwizard to clk directory
+  clk: clocking-wizard: Rename nr-outputs to xlnx,nr-outputs
+  clk: clocking-wizard: Fix the reconfig for 5.2
+  clk: clocking-wizard: Update the compatible
+
+ .../bindings/clock/xlnx,clocking-wizard.yaml       |  77 +++
+ drivers/clk/Kconfig                                |   9 +
+ drivers/clk/Makefile                               |   1 +
+ drivers/clk/clk-xlnx-clock-wizard.c                | 643 +++++++++++++++++++++
+ drivers/staging/Kconfig                            |   2 -
+ drivers/staging/Makefile                           |   1 -
+ drivers/staging/clocking-wizard/Kconfig            |  10 -
+ drivers/staging/clocking-wizard/Makefile           |   2 -
+ drivers/staging/clocking-wizard/TODO               |  13 -
+ .../clocking-wizard/clk-xlnx-clock-wizard.c        | 634 --------------------
+ drivers/staging/clocking-wizard/dt-binding.txt     |  30 -
+ 11 files changed, 730 insertions(+), 692 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/clock/xlnx,clocking-wizard.yaml
+ create mode 100644 drivers/clk/clk-xlnx-clock-wizard.c
+ delete mode 100644 drivers/staging/clocking-wizard/Kconfig
+ delete mode 100644 drivers/staging/clocking-wizard/Makefile
+ delete mode 100644 drivers/staging/clocking-wizard/TODO
+ delete mode 100644 drivers/staging/clocking-wizard/clk-xlnx-clock-wizard.c
+ delete mode 100644 drivers/staging/clocking-wizard/dt-binding.txt
+
 -- 
-2.25.1
+2.1.1
 
