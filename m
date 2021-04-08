@@ -1,52 +1,72 @@
-Received: from rere.qmqm.pl (rere.qmqm.pl [91.227.64.183])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946D46D00
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 04:45:52 +0000 (UTC)
-Received: from remote.user (localhost [127.0.0.1])
-	by rere.qmqm.pl (Postfix) with ESMTPSA id 4FG7mk5jtmzCg;
-	Thu,  8 Apr 2021 06:38:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-	t=1617856695; bh=cIWowVmIstGa4XsZQf6kLscFfPr+0N/wKHkq0IDfrRA=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14AE96D00
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 06:23:45 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1F7D660FF0;
+	Thu,  8 Apr 2021 06:23:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1617863025;
+	bh=AmnGcTw72tSsUyDZ1tgA+L5JFtgYU38Who6M38eRL/U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=g4n904YaRWURy8BSdwGdKe3a3rVHfDrHaVJTqKkLOnbUxcMuLBFnNm9tjAO2QcWfU
-	 NvxF60Niu6bNiYec2QDX8vavPfqXiRt3AJnWYov4zNCtgOUEaiIEtwbvRQ5HCwXXy/
-	 2v9iQho5kASI77MvqVmOLKLTpP79tgYJOcqiLsBEnC8spvr/tLxINCpEGm/4h7FBhv
-	 FQg6a9HcaQQ4vA/qYcwysCA+7493/arzFFSDfxvg5+ygg44O/7Rdz4Ea1Li5u5qMp9
-	 HH9vl9Z9KPpxCs5LGw6pPBRuN+aj1u9C/aB1uaGkVgJ4nfkfXr7I9kCPu++dGH5+bz
-	 VE9W7tnqKlmJQ==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.4 at mail
-Date: Thu, 8 Apr 2021 06:37:17 +0200
-From: =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To: Tian Tao <tiantao6@hisilicon.com>
-Cc: marvin24@gmx.de, p.zabel@pengutronix.de, ac100@lists.launchpad.net,
-	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: nvec: move to use request_irq by IRQF_NO_AUTOEN
- flag
-Message-ID: <20210408043717.GD19244@qmqm.qmqm.pl>
-References: <1617777259-27463-1-git-send-email-tiantao6@hisilicon.com>
+	b=z4XmOgYPSCItFke6p5SjqRs4HqZ+HtCyFk3PM5x+JK7yH1u/9/95xQwu2mWMw2sVB
+	 IerecaJIsWOjwVAMd/OqpRSo0rJilpkzxvXIzFNpMTGpJx83F49J+zIzMgbZ2KTV5O
+	 eir9Kut9X0TKeHFH9wDW45nKgzapfPHjRoFnrrlc=
+Date: Thu, 8 Apr 2021 08:23:43 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sergei Krainov <sergei.krainov.lkd@gmail.com>
+Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8712: remove unused variable from
+ rtl871x_mlme.c
+Message-ID: <YG6hb9YoPyrtEQdc@kroah.com>
+References: <20210407193214.GA284402@test-VirtualBox>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1617777259-27463-1-git-send-email-tiantao6@hisilicon.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210407193214.GA284402@test-VirtualBox>
 
-On Wed, Apr 07, 2021 at 02:34:19PM +0800, Tian Tao wrote:
-> disable_irq() after request_irq() still has a time gap in which
-> interrupts can come. request_irq() with IRQF_NO_AUTOEN flag will
-> disable IRQ auto-enable because of requesting.
+On Wed, Apr 07, 2021 at 09:32:14PM +0200, Sergei Krainov wrote:
+> Remove unused variable from rtl871x_mlme.c
 > 
-> this patch is made base on "add IRQF_NO_AUTOEN for request_irq" which
-> is being merged: https://lore.kernel.org/patchwork/patch/1388765/
+> Signed-off-by: Sergei Krainov <sergei.krainov.lkd@gmail.com>
+> ---
+>  drivers/staging/rtl8712/rtl871x_mlme.c | 9 +--------
+>  1 file changed, 1 insertion(+), 8 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
+> index 8a97307fbbd6..4f41e321ea63 100644
+> --- a/drivers/staging/rtl8712/rtl871x_mlme.c
+> +++ b/drivers/staging/rtl8712/rtl871x_mlme.c
+> @@ -656,7 +656,7 @@ void r8712_joinbss_event_callback(struct _adapter *adapter, u8 *pbuf)
+>  	struct sta_priv	*pstapriv = &adapter->stapriv;
+>  	struct mlme_priv	*pmlmepriv = &adapter->mlmepriv;
+>  	struct wlan_network	*cur_network = &pmlmepriv->cur_network;
+> -	struct wlan_network	*pcur_wlan = NULL, *ptarget_wlan = NULL;
+> +	struct wlan_network	*ptarget_wlan = NULL;
+>  	unsigned int		the_same_macaddr = false;
+>  	struct wlan_network *pnetwork;
+>  
+> @@ -721,13 +721,6 @@ void r8712_joinbss_event_callback(struct _adapter *adapter, u8 *pbuf)
+>  					    scanned_queue,
+>  					    cur_network->network.MacAddress);
+>  				} else {
+> -					pcur_wlan =
+> -					     r8712_find_network(&pmlmepriv->
+> -					     scanned_queue,
+> -					     cur_network->network.MacAddress);
+> -					if (pcur_wlan)
+> -						pcur_wlan->fixed = false;
+> -
 
-This assumes that the interrupt is not shared. This could be fixed
-by requesting the IRQ after init (and releasing before deinit).
+Are you sure that r8712_find_network() does not have some other
+side-affect here?  Please doucment that in the changelog text.
 
-Best Regards
-Micha³ Miros³aw
+thanks,
+
+greg k-h
