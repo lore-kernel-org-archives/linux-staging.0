@@ -1,77 +1,74 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADEAB6D0D
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 08:24:53 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id l1so625962plg.12
-        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 01:24:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=lqMgkJQYoqUfp1WF2Os45zue5ybF7IcJCuRBI7bg4uQ=;
-        b=SZEDIXirS114Eb5GuJte8T+YJ1JDlEOJA+5LURSp3329dYgjNRwKOFe8hpzPorkHsd
-         6/fBAaKNwmmiZQ5FU41qlajiInFScWcb3dRvNPSFbwFAfWNI5WIwuBAeAGjdyOyoptYp
-         TgwJpZXSTRbzepwiPB3qsQ2cRhHLsX4YkKBF7aL2yvxwPYYYmcBWqd8/lodjLuwRny2g
-         tJBmGxe268XgBB04t4BTB+mzBx8xSJINkYBdk5w7r6hr2SrfOOxCfdL0vMEBEFZnmmOh
-         ckOV8W8Rp85n7F4fCleVO6ZnKUHzSVhJH0RFtojqfYBbqlGTm8SPYUM7cjj7LsTgiFWV
-         PjEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=lqMgkJQYoqUfp1WF2Os45zue5ybF7IcJCuRBI7bg4uQ=;
-        b=DFJr8cNiC/bvudKxdOCZYYGAA7qdzvw65O9iyJhHutSV7knVteekmBpETBkx8p1+5S
-         4idC8rqFVVYgc2mo0jJe+rg9m6b5Dv/yrDFQrqPFuLOI7bFoN+FYOgN93xLaECM1howr
-         q5ebb+Fd+PCz92HesSIS1sed7oAMAeCMybE7tRNoEU3veXghir8xbyeEFilM59foG2cw
-         DqLZGf/K36rMrXmyMtyy1TT1OQ7LrrkNxNF+6fKVA7J5p5EaKNjRqFvRW5nXqRzZnyY2
-         S/reEqPfEklagg0nmyBPZvPF6AjGXEyb0qrWdeb6TyJysLSh+n5M5Ost3A0+8aq6R2DG
-         Q/Pw==
-X-Gm-Message-State: AOAM5337x3/xu77Upk++kNE7T9GNo5l953TYMYXxWzenM2H2f+WLJVHD
-	w86fMDdw/9UdbroBPL/9ctA=
-X-Google-Smtp-Source: ABdhPJw2QAU2YRijtKDvsrutrmbGTgXpCV+OXgSBNfEzuLUC0368gUUZciRAsm8sgJdM1C3pQkmNqA==
-X-Received: by 2002:a17:902:d645:b029:e8:ec90:d097 with SMTP id y5-20020a170902d645b02900e8ec90d097mr6680046plh.47.1617870293084;
-        Thu, 08 Apr 2021 01:24:53 -0700 (PDT)
-Received: from kali ([152.57.40.190])
-        by smtp.gmail.com with ESMTPSA id 205sm24424032pfc.201.2021.04.08.01.24.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 01:24:52 -0700 (PDT)
-Date: Thu, 8 Apr 2021 13:54:49 +0530
-From: Mitali Borkar <mitaliborkar810@gmail.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: [PATCH] staging: rtl8712: added spaces around '+'
-Message-ID: <YG690ZIRdCEcjoM6@kali>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868F070
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 08:30:20 +0000 (UTC)
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AAevAdamIDo+F1C89bdmhHNmfatTpDfIk3DAb?=
+ =?us-ascii?q?vn1ZSRFFG/GwusiykJ0guSPcpy0WXBgb9OyoHKWbW3vT+dpU7OAqU4uKZwXttG?=
+ =?us-ascii?q?u2IIwK1+KLqAHIITH09eJWyM5bHJRWNduYNzJHsfo=3D?=
+X-IronPort-AV: E=Sophos;i="5.82,205,1613430000"; 
+   d="scan'208";a="502143081"
+Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Apr 2021 10:30:10 +0200
+Date: Thu, 8 Apr 2021 10:30:09 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Mitali Borkar <mitaliborkar810@gmail.com>
+cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, 
+    gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+    linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com, 
+    mitali_s@me.iitr.ac.in
+Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8712: added spaces around
+ '+'
+In-Reply-To: <YG690ZIRdCEcjoM6@kali>
+Message-ID: <alpine.DEB.2.22.394.2104081027100.3155@hadrien>
+References: <YG690ZIRdCEcjoM6@kali>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-Clean up Check:spaces preferred around that '+' (ctx:VxV)
-Reported by checkpatch
+The subject line should be in the imperative, so "add" instead of "added".
 
-Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
----
- drivers/staging/rtl8712/wlan_bssdef.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, 8 Apr 2021, Mitali Borkar wrote:
 
-diff --git a/drivers/staging/rtl8712/wlan_bssdef.h b/drivers/staging/rtl8712/wlan_bssdef.h
-index b54ccaacc527..ec3749813728 100644
---- a/drivers/staging/rtl8712/wlan_bssdef.h
-+++ b/drivers/staging/rtl8712/wlan_bssdef.h
-@@ -176,7 +176,7 @@ struct NDIS_802_11_WEP {
- #define MIC_CHECK_TIME	60000000
- 
- #ifndef Ndis802_11APMode
--#define Ndis802_11APMode (Ndis802_11InfrastructureMax+1)
-+#define Ndis802_11APMode (Ndis802_11InfrastructureMax + 1)
- #endif
- 
- struct	wlan_network {
--- 
-2.30.2
+> Clean up Check:spaces preferred around that '+' (ctx:VxV)
+> Reported by checkpatch
 
+Please try to rephrase to explain what you did and why.  "Clean up" kind
+of states what the goal is, but your opinion about what is a clean up
+might be different than someone else's.  It's also not necessary to cite
+the checkpatch warning exactly.
+
+julia
+
+>
+> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+> ---
+>  drivers/staging/rtl8712/wlan_bssdef.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/staging/rtl8712/wlan_bssdef.h b/drivers/staging/rtl8712/wlan_bssdef.h
+> index b54ccaacc527..ec3749813728 100644
+> --- a/drivers/staging/rtl8712/wlan_bssdef.h
+> +++ b/drivers/staging/rtl8712/wlan_bssdef.h
+> @@ -176,7 +176,7 @@ struct NDIS_802_11_WEP {
+>  #define MIC_CHECK_TIME	60000000
+>
+>  #ifndef Ndis802_11APMode
+> -#define Ndis802_11APMode (Ndis802_11InfrastructureMax+1)
+> +#define Ndis802_11APMode (Ndis802_11InfrastructureMax + 1)
+>  #endif
+>
+>  struct	wlan_network {
+> --
+> 2.30.2
+>
+> --
+> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/YG690ZIRdCEcjoM6%40kali.
+>
