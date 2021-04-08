@@ -1,82 +1,93 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F002570
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 20:45:04 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id x7so3471190wrw.10
-        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 13:45:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=I2uf88F1MX0D+/ieSTh4Dwgs5iH5yDVfXlgdaFvgyLY=;
-        b=iLQaYA9ii9lu78nfawnJ1j3EnThTkKbwXfmYWnlD+/U7jNg54IkiZ2oafwoqsiPQmB
-         bXDztdUBIbPdz5o99zGzRw2KZg9vbtjRnPgftRp7TxyTz68PKMUmaVXcESMvNVgZ3ZmZ
-         HG8DIPq7a0/4u8whVHwTVPV9uWHiPbjXlVwmhL73FaQrNIl/ewoMrsl97+Whcye4jTHt
-         VN0tFRDETneCHToNWF+aw74HYgtgTuVOTcnkgetKzSSygR8nGdp19G2somF84BBIG8/I
-         wgv8MqKba/7QQcLvTD2aPcE9UkePb1cmOJ/E/qdNatzSXo01WtcE2A2O4nUHAXSRNUZW
-         3odg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=I2uf88F1MX0D+/ieSTh4Dwgs5iH5yDVfXlgdaFvgyLY=;
-        b=aC55Sk+jhX+UxwBSoiwJH9HtsJM6gEwuPydNu0DEO1N9P1BvETNpKZhcDjw/s9hJ43
-         eE3As5aLVyDTBod6BRUBofvmPwU0VOioezutnYhy/WothLVzMukDzOjSxdxb3s5toaow
-         /I53UC69Ce4X/gk/rdiR7jHSfNHIDp02gNouuvMWN2ScaHGGbzGQLIb66sMjPr4MQhqP
-         nHtEFTlcWPE+5T2qGg8RSKiVtLV04F++tMZq+fxU5dCssmlrh9HXXp5V8FFGN6HVh/wk
-         TK8yCoStoX1SOcbH+Sp8/FvrszMggsKlKyHSsJaVLDBAebp7kgjPZ1RzIAaLbyqBgnWI
-         usVg==
-X-Gm-Message-State: AOAM531rxO2zx03pjU9EhJNN3m5nDt4JG7pa+VvkH+Relt1wA/uIh7pY
-	oPkY/HA+nHrdLiKVqTyuEUE=
-X-Google-Smtp-Source: ABdhPJz9eH5hl3abnAet2ReLpQ9AF0Zt0z0vKdm5nhpwAuyLX7xec5aYXlictvG+iAmXJIvosyDaWg==
-X-Received: by 2002:a5d:4686:: with SMTP id u6mr14043266wrq.60.1617914703550;
-        Thu, 08 Apr 2021 13:45:03 -0700 (PDT)
-Received: from LEGION ([39.46.7.73])
-        by smtp.gmail.com with ESMTPSA id w9sm519597wmg.21.2021.04.08.13.45.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 13:45:03 -0700 (PDT)
-Date: Fri, 9 Apr 2021 01:44:57 +0500
-From: Muhammad Usama Anjum <musamaanjum@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-	open list <linux-kernel@vger.kernel.org>
-Cc: musamaanjum@gmail.com, kernel-janitors@vger.kernel.org,
-	colin.king@canonical.com, dan.carpenter@oracle.com
-Subject: [PATCH] staging: rtl8723bs: Remove unnecessary code
-Message-ID: <20210408204457.GA3079308@LEGION>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F14F70
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 21:15:24 +0000 (UTC)
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AguW+CqOVkLKASMBcTiCjsMiAIKoaSvp033AA?=
+ =?us-ascii?q?0UdtRRtJNvGJjszGpoV+6TbYgCscMUtKpfmuI6+FKEm3ybdU5s0rMa6mTE3avg?=
+ =?us-ascii?q?KTTb1KyavH73neFzbl9uhbvJ0QFpRWLNHrF1B1gYLbzWCDc+oI+9WM/KC2ieq2?=
+ =?us-ascii?q?9R4EcShQZ65t9At/AAqAe3cGJzVuP4YzF5aX+6N8yQaIRHJ/VKiGL0UeU/OGj9?=
+ =?us-ascii?q?PGk4+OW29lOzcXrDjLtz+u5bLgeiL04j4VWVp0rosfzQ=3D=3D?=
+X-IronPort-AV: E=Sophos;i="5.82,207,1613430000"; 
+   d="scan'208";a="502294468"
+Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Apr 2021 23:15:08 +0200
+Date: Thu, 8 Apr 2021 23:15:07 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Mitali Borkar <mitaliborkar810@gmail.com>
+cc: clabbe@baylibre.com, mchehab@kernel.org, gregkh@linuxfoundation.org, 
+    linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+    linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com, 
+    mitali_s@me.iitr.ac.in
+Subject: Re: [Outreachy kernel] [PATCH 2/2] media: zoran: replace bit shifts
+ by BIT() macro
+In-Reply-To: <ac8ec2b70ac2cc7c541c05a1d9a8db1fe79df793.1617912177.git.mitaliborkar810@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2104082314090.21785@hadrien>
+References: <cover.1617912177.git.mitaliborkar810@gmail.com> <ac8ec2b70ac2cc7c541c05a1d9a8db1fe79df793.1617912177.git.mitaliborkar810@gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-The same code is executed when the condition "!show_errors" is true or
-false. Remove the if condition from here. The original intension of this
-condition was to not to report any error logs if condition was true. But
-this driver doesn't has those logs added. So this if condition can be
-removed.
 
-Addresses-Coverity: ("Same code execution")
-Signed-off-by: Muhammad Usama Anjum <musamaanjum@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 2 --
- 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-index 1b60252545b3..2af66a18200d 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-@@ -1000,8 +1000,6 @@ enum ParseRes rtw_ieee802_11_parse_elems(u8 *start, uint len,
- 			break;
- 		default:
- 			unknown++;
--			if (!show_errors)
--				break;
- 			break;
- 		}
- 
--- 
-2.25.1
+On Fri, 9 Apr 2021, Mitali Borkar wrote:
 
+> Added #include <linux/bitops.h> and replaced bit shifts by BIT() macro.
+> This BIT() macro from linux/bitops.h is used to define ZR36057_VFESPFR_* bitmasks.
+> Use of macro is better and neater. It maintains consistency.
+> Reported by checkpatch.
+>
+> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+> ---
+>  drivers/staging/media/zoran/zr36057.h | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/staging/media/zoran/zr36057.h b/drivers/staging/media/zoran/zr36057.h
+> index a2a75fd9f535..93075459f910 100644
+> --- a/drivers/staging/media/zoran/zr36057.h
+> +++ b/drivers/staging/media/zoran/zr36057.h
+> @@ -8,6 +8,8 @@
+>  #ifndef _ZR36057_H_
+>  #define _ZR36057_H_
+>
+> +#include <linux/bitops.h>
+> +
+>  /* Zoran ZR36057 registers */
+>
+>  #define ZR36057_VFEHCR          0x000	/* Video Front End, Horizontal Configuration Register */
+> @@ -31,12 +33,12 @@
+>  #define ZR36057_VFESPFR_VER_DCM          8
+>  #define ZR36057_VFESPFR_DISP_MODE        6
+>  #define ZR36057_VFESPFR_YUV422          (0 << 3)
+> -#define ZR36057_VFESPFR_RGB888          (1 << 3)
+> +#define ZR36057_VFESPFR_RGB888          BIT(3)
+
+Uniformity is generally considered to be more important than using BIT.
+Having only a few constants defined using BIT is a bit strange.
+
+julia
+
+>  #define ZR36057_VFESPFR_RGB565          (2 << 3)
+>  #define ZR36057_VFESPFR_RGB555          (3 << 3)
+> -#define ZR36057_VFESPFR_ERR_DIF          (1 << 2)
+> -#define ZR36057_VFESPFR_PACK24          (1 << 1)
+> -#define ZR36057_VFESPFR_LITTLE_ENDIAN    (1 << 0)
+> +#define ZR36057_VFESPFR_ERR_DIF          BIT(2)
+> +#define ZR36057_VFESPFR_PACK24          BIT(1)
+> +#define ZR36057_VFESPFR_LITTLE_ENDIAN    BIT(0)
+>
+>  #define ZR36057_VDTR            0x00c	/* Video Display "Top" Register */
+>
+> --
+> 2.30.2
+>
+> --
+> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/ac8ec2b70ac2cc7c541c05a1d9a8db1fe79df793.1617912177.git.mitaliborkar810%40gmail.com.
+>
