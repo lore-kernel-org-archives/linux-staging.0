@@ -1,163 +1,326 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2072.outbound.protection.outlook.com [40.107.223.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 121F76D12
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 12:59:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aEHYnppdtnXMZfx4MqHmXSj8E+4ixOdHLs32YX2MERExg08E+O/Z745sjA/BdyNFRSZ7Q9nrYq0hUcXloERjJFsvDU52zACoYCz9iNFVHIaHcZBbEJU9MWbt+BwlzRci2jFQ/TEWA5HM86glkGjFm6rQcljPl2xfPEnY860m3RbEd8ZDmRrsLHCFJ7npAhCnsDE4uf0pJCetzNJnCL7DqNXdtYEIMy7p88jwHWby38xyyEYMnttHcwB6JlK3yfym2NfjWol3vFfMeeHSHoCGCNZNhzNlx7dk0OMEqClUqKaEEc0pgstw32WXvEtxtne6V0dPuVH9GlVK8xJUROSZCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1Xla5MnXki0MPvy7s4hWEfysHkytGDCPMVXTpi8QXFY=;
- b=ijV5ct4Y98iq1SjxQrUFBcRaG0N7RWQzOelFHhgJZOfNUWoDhJLs3PXmj7/Doyf3CmCXeQopiyx8Zf+agRY3o0J5EinPXw0+MsprbiTvsaxwQZ5mMpuXZRtcnSGJFxp1TuTHmjRp8sVHgVmt/nDdkxxajJ6QZ/GMOS+kS91BFcvdNKgT6ld9fd8c8yKxqxY5jqEDZBoisN/e13+b96PNJgAAefOH/ncsLBuD8cTh0h/UDI41sx2izBNsJeJc0v+cybncLn7JTVKmxa5tLHMB3L/56E4KZTXntHi/yoiKbX5wtpivlgJB8jwbsvjRq1WhdKde8PS55wP5y3STbZUKaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=xilinx.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
- dkim=none (message not signed); arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7650A6D0E
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 13:16:48 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id m3so2381031edv.5
+        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 06:16:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1Xla5MnXki0MPvy7s4hWEfysHkytGDCPMVXTpi8QXFY=;
- b=P1bQhNcb0uLInHzESIaNi0Z/QY0dtBIwZwsJzoGPVKFmvl74/ezM8AFBOZdY/8DWNn1FJFAKCC1jJUfZfeJkmBSh0WgHVQSRqPW245tPyVc6jyDo+k90Sx1brPF4Qm56RWjNZHt1WChKfGPwfh5cW9BhveF3ZRRFCS/yKZBYW+8=
-Received: from DM6PR02CA0105.namprd02.prod.outlook.com (2603:10b6:5:1f4::46)
- by CH2PR02MB6856.namprd02.prod.outlook.com (2603:10b6:610:ac::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.29; Thu, 8 Apr
- 2021 12:59:23 +0000
-Received: from CY1NAM02FT049.eop-nam02.prod.protection.outlook.com
- (2603:10b6:5:1f4:cafe::5f) by DM6PR02CA0105.outlook.office365.com
- (2603:10b6:5:1f4::46) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17 via Frontend
- Transport; Thu, 8 Apr 2021 12:59:23 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=pass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
-Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
- CY1NAM02FT049.mail.protection.outlook.com (10.152.75.83) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4020.17 via Frontend Transport; Thu, 8 Apr 2021 12:59:22 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Thu, 8 Apr 2021 05:59:02 -0700
-Received: from smtp.xilinx.com (172.19.127.96) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2106.2 via Frontend Transport; Thu, 8 Apr 2021 05:59:02 -0700
-Envelope-to: git@xilinx.com,
- linux-clk@vger.kernel.org,
- mturquette@baylibre.com,
- sboyd@kernel.org,
- robh+dt@kernel.org,
- gregkh@linuxfoundation.org,
- linux-staging@lists.linux.dev,
- zhengxunli.mxic@gmail.com
-Received: from [10.140.6.59] (port=57650 helo=xhdshubhraj40.xilinx.com)
-	by smtp.xilinx.com with esmtp (Exim 4.90)
-	(envelope-from <shubhrajyoti.datta@xilinx.com>)
-	id 1lUUFQ-0000kJ-Ok; Thu, 08 Apr 2021 05:59:00 -0700
-From: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
-To: <linux-clk@vger.kernel.org>
-CC: <mturquette@baylibre.com>, <sboyd@kernel.org>, <robh+dt@kernel.org>,
-	<gregkh@linuxfoundation.org>, <linux-staging@lists.linux.dev>,
-	<git@xilinx.com>, <michals@xilinx.com>, <zhengxunli.mxic@gmail.com>,
-	Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
-Subject: [PATCH v11  4/5] clk: clocking-wizard: Fix the reconfig for 5.2
-Date: Thu, 8 Apr 2021 18:28:42 +0530
-Message-ID: <1617886723-27117-5-git-send-email-shubhrajyoti.datta@xilinx.com>
-X-Mailer: git-send-email 2.1.1
-In-Reply-To: <1617886723-27117-1-git-send-email-shubhrajyoti.datta@xilinx.com>
-References: <1617886723-27117-1-git-send-email-shubhrajyoti.datta@xilinx.com>
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VeEHzYO01rEVjqMVtQnGaXItdBabbpuzXR8BA/iWZks=;
+        b=GTP0kmlBC31MPbJsLORzj6ot8d/uXPM+i9EwEDR2FAD7ut94QIE69SgOqNIuP4zirP
+         t6IMaV+uqS/85JvthTqxLy9l+9UV4Res1RZPEGLtXfolhdzcB+SpnY9b5U7oBZavxHqj
+         hBw2cc6cM0Ms0oJ/2cCf25JLy3poF0ENOR56n9snS2SDJdub13E5xgZgZTVLQCaZkp4S
+         SZU7E7qAnqueDOWlK5HnBhKrp78CHZjYnfw4yBaVOovmqtKr/b1hTV6rg9jno+o7Syyp
+         7CuFv889eCT9CR8oW+xCRkGG7vJZVa4hCGsvH8SW4WXnLcEPTTqfKtRcWIHoCYBREnB5
+         mIPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VeEHzYO01rEVjqMVtQnGaXItdBabbpuzXR8BA/iWZks=;
+        b=XV3rq4lFK4jCVfqIe4yjdw8a5KzYvtoeXQ9uxQmjDLTYUkkmXXY+3rQUzD4TXznNMD
+         i0+fIgvF2FriBtBS3TnY9ioymuziOKs/XV9lI0r0gvc0u2NG4kplzstuQKt6Rw+WKEtG
+         KmTNXIBdnR2AsjdhU66Qj4SDuJmVq9nXEVVIhR9BbmYCfZ4SrKionEJrOkb8LmUTLTIY
+         eCL2SAVoxoq7X2NzAfit5tAAo4ymlqjgIM0iaAl0EfSk9iVbyugCxTI8fFDykx9R1Yvt
+         iaZlgns/X5Rm/JICNcmdnCDABvb09SKuyXvAcCzNbbtfiiLWxtL1HR9rgNZtBJbvQrWv
+         CP3Q==
+X-Gm-Message-State: AOAM5319x/h8tSpsXkzIYFjZMRbumXt9k0v7CPIwfbbJzDrydpNK7B74
+	1fH8x0KlahuX0fekhK4myvc=
+X-Google-Smtp-Source: ABdhPJzs1DtO9bsS3x97A6N+r3cgJ1Q4hfyOfogeisjBIIWrP0SYm/6QcpokU3Rq8e1rGiZhT/pUTg==
+X-Received: by 2002:a05:6402:3487:: with SMTP id v7mr11369805edc.302.1617887806988;
+        Thu, 08 Apr 2021 06:16:46 -0700 (PDT)
+Received: from localhost.localdomain (host-79-42-91-147.retail.telecomitalia.it. [79.42.91.147])
+        by smtp.gmail.com with ESMTPSA id yh6sm5306025ejb.37.2021.04.08.06.16.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Apr 2021 06:16:45 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>,
+	outreachy-kernel@googlegroups.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [Outreachy kernel] [PATCH v3] staging: rtl8723bs: Remove camelcase in several files
+Date: Thu,  8 Apr 2021 15:16:41 +0200
+Message-Id: <20210408131641.31113-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.30.2
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 19a43c83-d436-4916-8093-08d8fa8e2179
-X-MS-TrafficTypeDiagnostic: CH2PR02MB6856:
-X-Microsoft-Antispam-PRVS:
-	<CH2PR02MB6856C33A1234CE89E591E5DDAA749@CH2PR02MB6856.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:883;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	Wjr/5HDpG53kbGPvcZ4h4dmvpGQH8YM945Q2pVnxclgrLTuWbjN1/XcLjZcZ5Wy/4em/mOonUDSFt7h8rx4+BQAQz2+pUAFj7XCltiu9buZG+5fyVHKpeYOa41Hv4Mukp2hdZHgQiT4umn9JFCXrWRhh+X3WfytKx+ColSQvqPL2CoYzVXhIy92479+SYthXxw4javQthZ41IZn4UCdVCrwSIYUWAe7woKeFE2nbunlEQjd+xY9CjABTU6NLoHzFrRPj29V/Vvq7MgpgPqebe1jnOOf+9Pzc1TZO9SMhqi187cqUjHIfIjo6csUjrkF/A0pg333FGoW02FiQkRw5wTZzQgUaqijl/4w4nOkpz27TVj26Vllpr0eIjYwYEQfCIGkjw8wGQWAZpkwPmPKwSlZHfN5/Aa5zNB7QiCZHAEOAU9I3BvRSf60cdM9rBztcD43hBhmcW7A0ZkdK3FyAr//cGmTexKFdJTeWj6DewTtJyS8ddcNml507k3sUAhnONKnKN9ymMT8bqX7jumgNH7KssLGDCnj35SLlMG8yYBeYU+JZvcgBlBphY5CozN5u4IHQWcu3radhOPw77GadGCwHNNxBdYvqPnv673ADrHYQaGmn9qGvqC+gyG82Y1mjJKckk1h/oaKklk5qNENnCPh/7qfPRp0EcT21WTLUU9tPGwRr0hpTEGNtNoh2vWLN
-X-Forefront-Antispam-Report:
-	CIP:149.199.62.198;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapexch01.xlnx.xilinx.com;PTR:unknown-62-198.xilinx.com;CAT:NONE;SFS:(4636009)(39860400002)(396003)(346002)(376002)(136003)(36840700001)(46966006)(478600001)(70206006)(47076005)(70586007)(186003)(316002)(36906005)(8676002)(7636003)(82740400003)(4326008)(336012)(44832011)(2616005)(6916009)(54906003)(8936002)(2906002)(7696005)(83380400001)(36860700001)(107886003)(9786002)(6666004)(5660300002)(36756003)(26005)(82310400003)(426003)(356005)(102446001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2021 12:59:22.6206
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 19a43c83-d436-4916-8093-08d8fa8e2179
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.62.198];Helo=[xsj-pvapexch01.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY1NAM02FT049.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6856
+Content-Transfer-Encoding: 8bit
 
-The 5.2 the reconfig is triggered by writing 7 followed by
-2 to the reconfig reg. Add the same. Also 6.0 is backward
-compatible so it should be fine.
+Remove camelcase in bFwCurrentInPSMode, a variable used by code
+of several subdirectories/files of the driver. Issue detected by
+checkpatch.pl.
 
-Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
-v11:
-new patch
 
- drivers/clk/clk-xlnx-clock-wizard.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+Changes from v2: Discard v2 because it is a diff against v1 instead of a
+replacement for v1.
+Changes from v1: Rewrite comment for the purpose of specifying which
+variable changes. Shorten its name by removing two unnecessary
+characters (b_).
 
-diff --git a/drivers/clk/clk-xlnx-clock-wizard.c b/drivers/clk/clk-xlnx-clock-wizard.c
-index 1e0818e..61c40e0 100644
---- a/drivers/clk/clk-xlnx-clock-wizard.c
-+++ b/drivers/clk/clk-xlnx-clock-wizard.c
-@@ -44,6 +44,8 @@
- #define WZRD_DR_INIT_REG_OFFSET		0x25C
- #define WZRD_DR_DIV_TO_PHASE_OFFSET	4
- #define WZRD_DR_BEGIN_DYNA_RECONF	0x03
-+#define WZRD_DR_BEGIN_DYNA_RECONF_5_2	0x07
-+#define WZRD_DR_BEGIN_DYNA_RECONF1_5_2	0x02
+ drivers/staging/rtl8723bs/core/rtw_cmd.c       |  2 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme.c      |  2 +-
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c   | 18 +++++++++---------
+ drivers/staging/rtl8723bs/hal/hal_intf.c       |  2 +-
+ drivers/staging/rtl8723bs/hal/rtl8723b_dm.c    |  6 +++---
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c  |  2 +-
+ drivers/staging/rtl8723bs/hal/sdio_ops.c       | 14 +++++++-------
+ .../staging/rtl8723bs/include/rtw_pwrctrl.h    |  2 +-
+ 8 files changed, 24 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index baf8b1e0f43c..a08f22b53592 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -1510,7 +1510,7 @@ static void rtw_lps_change_dtim_hdl(struct adapter *padapter, u8 dtim)
+ 	if (pwrpriv->dtim != dtim)
+ 		pwrpriv->dtim = dtim;
  
- #define WZRD_USEC_POLL		10
- #define WZRD_TIMEOUT_POLL		1000
-@@ -165,7 +167,9 @@ static int clk_wzrd_dynamic_reconfig(struct clk_hw *hw, unsigned long rate,
- 		goto err_reconfig;
+-	if ((pwrpriv->bFwCurrentInPSMode == true) && (pwrpriv->pwr_mode > PS_MODE_ACTIVE)) {
++	if ((pwrpriv->b_fw_current_in_ps_mode == true) && (pwrpriv->pwr_mode > PS_MODE_ACTIVE)) {
+ 		u8 ps_mode = pwrpriv->pwr_mode;
  
- 	/* Initiate reconfiguration */
--	writel(WZRD_DR_BEGIN_DYNA_RECONF,
-+	writel(WZRD_DR_BEGIN_DYNA_RECONF_5_2,
-+	       divider->base + WZRD_DR_INIT_REG_OFFSET);
-+	writel(WZRD_DR_BEGIN_DYNA_RECONF1_5_2,
- 	       divider->base + WZRD_DR_INIT_REG_OFFSET);
+ 		rtw_hal_set_hwreg(padapter, HW_VAR_H2C_FW_PWRMODE, (u8 *)(&ps_mode));
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index a7e40aaae2d9..51cea6cf46e7 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -1684,7 +1684,7 @@ void rtw_dynamic_check_timer_handler(struct adapter *adapter)
+ 	if (adapter->net_closed)
+ 		return;
  
- 	/* Check status register */
-@@ -224,7 +228,7 @@ static int clk_wzrd_dynamic_reconfig_f(struct clk_hw *hw, unsigned long rate,
- 	struct clk_wzrd_divider *divider = to_clk_wzrd_divider(hw);
- 	void __iomem *div_addr = divider->base + divider->offset;
+-	if ((adapter_to_pwrctl(adapter)->bFwCurrentInPSMode)
++	if ((adapter_to_pwrctl(adapter)->b_fw_current_in_ps_mode)
+ 		&& !(hal_btcoex_IsBtControlLps(adapter))
+ 		) {
+ 		u8 bEnterPS;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+index f7465cf90c46..21e7a847866f 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
++++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+@@ -365,7 +365,7 @@ void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode, u8 smart_ps, u8 bcn_a
+ 			rtw_set_rpwm(padapter, PS_STATE_S4);
  
--	rate_div = ((parent_rate * 1000) / rate);
-+	rate_div = DIV_ROUND_DOWN_ULL(parent_rate * 1000, rate);
- 	clockout0_div = rate_div / 1000;
+ 			rtw_hal_set_hwreg(padapter, HW_VAR_H2C_FW_PWRMODE, (u8 *)(&ps_mode));
+-			pwrpriv->bFwCurrentInPSMode = false;
++			pwrpriv->b_fw_current_in_ps_mode = false;
  
- 	pre = DIV_ROUND_CLOSEST((parent_rate * 1000), rate);
-@@ -246,7 +250,9 @@ static int clk_wzrd_dynamic_reconfig_f(struct clk_hw *hw, unsigned long rate,
- 		return err;
+ 			hal_btcoex_LpsNotify(padapter, ps_mode);
+ 		}
+@@ -377,7 +377,7 @@ void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode, u8 smart_ps, u8 bcn_a
  
- 	/* Initiate reconfiguration */
--	writel(WZRD_DR_BEGIN_DYNA_RECONF,
-+	writel(WZRD_DR_BEGIN_DYNA_RECONF_5_2,
-+	       divider->base + WZRD_DR_INIT_REG_OFFSET);
-+	writel(WZRD_DR_BEGIN_DYNA_RECONF1_5_2,
- 	       divider->base + WZRD_DR_INIT_REG_OFFSET);
+ 			hal_btcoex_LpsNotify(padapter, ps_mode);
  
- 	/* Check status register */
+-			pwrpriv->bFwCurrentInPSMode = true;
++			pwrpriv->b_fw_current_in_ps_mode = true;
+ 			pwrpriv->pwr_mode = ps_mode;
+ 			pwrpriv->smart_ps = smart_ps;
+ 			pwrpriv->bcn_ant_mode = bcn_ant_mode;
+@@ -734,7 +734,7 @@ s32 rtw_register_task_alive(struct adapter *padapter, u32 task)
+ 
+ 	register_task_alive(pwrctrl, task);
+ 
+-	if (pwrctrl->bFwCurrentInPSMode) {
++	if (pwrctrl->b_fw_current_in_ps_mode) {
+ 		if (pwrctrl->cpwm < pslv) {
+ 			if (pwrctrl->cpwm < PS_STATE_S2)
+ 				res = _FAIL;
+@@ -782,7 +782,7 @@ void rtw_unregister_task_alive(struct adapter *padapter, u32 task)
+ 
+ 	unregister_task_alive(pwrctrl, task);
+ 
+-	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) && pwrctrl->bFwCurrentInPSMode) {
++	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) && pwrctrl->b_fw_current_in_ps_mode) {
+ 		if (pwrctrl->cpwm > pslv)
+ 			if ((pslv >= PS_STATE_S2) || (pwrctrl->alives == 0))
+ 				rtw_set_rpwm(padapter, pslv);
+@@ -819,7 +819,7 @@ s32 rtw_register_tx_alive(struct adapter *padapter)
+ 
+ 	register_task_alive(pwrctrl, XMIT_ALIVE);
+ 
+-	if (pwrctrl->bFwCurrentInPSMode) {
++	if (pwrctrl->b_fw_current_in_ps_mode) {
+ 		if (pwrctrl->cpwm < pslv) {
+ 			if (pwrctrl->cpwm < PS_STATE_S2)
+ 				res = _FAIL;
+@@ -864,7 +864,7 @@ s32 rtw_register_cmd_alive(struct adapter *padapter)
+ 
+ 	register_task_alive(pwrctrl, CMD_ALIVE);
+ 
+-	if (pwrctrl->bFwCurrentInPSMode) {
++	if (pwrctrl->b_fw_current_in_ps_mode) {
+ 		if (pwrctrl->cpwm < pslv) {
+ 			if (pwrctrl->cpwm < PS_STATE_S2)
+ 				res = _FAIL;
+@@ -909,7 +909,7 @@ void rtw_unregister_tx_alive(struct adapter *padapter)
+ 
+ 	unregister_task_alive(pwrctrl, XMIT_ALIVE);
+ 
+-	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) && pwrctrl->bFwCurrentInPSMode) {
++	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) && pwrctrl->b_fw_current_in_ps_mode) {
+ 		if (pwrctrl->cpwm > pslv)
+ 			if ((pslv >= PS_STATE_S2) || (pwrctrl->alives == 0))
+ 				rtw_set_rpwm(padapter, pslv);
+@@ -945,7 +945,7 @@ void rtw_unregister_cmd_alive(struct adapter *padapter)
+ 
+ 	unregister_task_alive(pwrctrl, CMD_ALIVE);
+ 
+-	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) && pwrctrl->bFwCurrentInPSMode) {
++	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) && pwrctrl->b_fw_current_in_ps_mode) {
+ 		if (pwrctrl->cpwm > pslv) {
+ 			if ((pslv >= PS_STATE_S2) || (pwrctrl->alives == 0))
+ 				rtw_set_rpwm(padapter, pslv);
+@@ -978,7 +978,7 @@ void rtw_init_pwrctrl_priv(struct adapter *padapter)
+ 	pwrctrlpriv->power_mgnt = padapter->registrypriv.power_mgnt;/*  PS_MODE_MIN; */
+ 	pwrctrlpriv->bLeisurePs = pwrctrlpriv->power_mgnt != PS_MODE_ACTIVE;
+ 
+-	pwrctrlpriv->bFwCurrentInPSMode = false;
++	pwrctrlpriv->b_fw_current_in_ps_mode = false;
+ 
+ 	pwrctrlpriv->rpwm = 0;
+ 	pwrctrlpriv->cpwm = PS_STATE_S4;
+diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
+index bc9ae2088754..a73c2f76628d 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_intf.c
++++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
+@@ -348,7 +348,7 @@ void rtw_hal_dm_watchdog(struct adapter *padapter)
+ 
+ void rtw_hal_dm_watchdog_in_lps(struct adapter *padapter)
+ {
+-	if (adapter_to_pwrctl(padapter)->bFwCurrentInPSMode == true) {
++	if (adapter_to_pwrctl(padapter)->b_fw_current_in_ps_mode == true) {
+ 		if (padapter->HalFunc.hal_dm_watchdog_in_lps)
+ 			padapter->HalFunc.hal_dm_watchdog_in_lps(padapter); /* this function caller is in interrupt context */
+ 	}
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
+index c2e9e4a0be22..265db187b8d5 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
+@@ -141,7 +141,7 @@ void rtl8723b_InitHalDm(struct adapter *Adapter)
+ 
+ void rtl8723b_HalDmWatchDog(struct adapter *Adapter)
+ {
+-	bool bFwCurrentInPSMode = false;
++	bool b_fw_current_in_ps_mode = false;
+ 	bool bFwPSAwake = true;
+ 	u8 hw_init_completed = false;
+ 	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
+@@ -151,12 +151,12 @@ void rtl8723b_HalDmWatchDog(struct adapter *Adapter)
+ 	if (hw_init_completed == false)
+ 		goto skip_dm;
+ 
+-	bFwCurrentInPSMode = adapter_to_pwrctl(Adapter)->bFwCurrentInPSMode;
++	b_fw_current_in_ps_mode = adapter_to_pwrctl(Adapter)->b_fw_current_in_ps_mode;
+ 	rtw_hal_get_hwreg(Adapter, HW_VAR_FWLPS_RF_ON, (u8 *)(&bFwPSAwake));
+ 
+ 	if (
+ 		(hw_init_completed == true) &&
+-		((!bFwCurrentInPSMode) && bFwPSAwake)
++		((!b_fw_current_in_ps_mode) && bFwPSAwake)
+ 	) {
+ 		/*  */
+ 		/*  Calculate Tx/Rx statistics. */
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index e31ad3feed62..7ebc438870fd 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -430,7 +430,7 @@ void rtl8723b_InitializeFirmwareVars(struct adapter *padapter)
+ 	struct hal_com_data *pHalData = GET_HAL_DATA(padapter);
+ 
+ 	/*  Init Fw LPS related. */
+-	adapter_to_pwrctl(padapter)->bFwCurrentInPSMode = false;
++	adapter_to_pwrctl(padapter)->b_fw_current_in_ps_mode = false;
+ 
+ 	/* Init H2C cmd. */
+ 	rtw_write8(padapter, REG_HMETFR, 0x0f);
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+index af7f846f90fe..c78a6724fc1c 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+@@ -173,7 +173,7 @@ static u32 sdio_read32(struct intf_hdl *intfhdl, u32 addr)
+ 	if (
+ 		((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 0x100)) ||
+ 		(!mac_pwr_ctrl_on) ||
+-		(adapter_to_pwrctl(adapter)->bFwCurrentInPSMode)
++		(adapter_to_pwrctl(adapter)->b_fw_current_in_ps_mode)
+ 	) {
+ 		err = sd_cmd52_read(intfhdl, ftaddr, 4, (u8 *)&le_tmp);
+ #ifdef SDIO_DEBUG_IO
+@@ -230,7 +230,7 @@ static s32 sdio_readN(struct intf_hdl *intfhdl, u32 addr, u32 cnt, u8 *buf)
+ 	if (
+ 		((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 0x100)) ||
+ 		(!mac_pwr_ctrl_on) ||
+-		(adapter_to_pwrctl(adapter)->bFwCurrentInPSMode)
++		(adapter_to_pwrctl(adapter)->b_fw_current_in_ps_mode)
+ 	)
+ 		return sd_cmd52_read(intfhdl, ftaddr, cnt, buf);
+ 
+@@ -297,7 +297,7 @@ static s32 sdio_write32(struct intf_hdl *intfhdl, u32 addr, u32 val)
+ 	if (
+ 		((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 0x100)) ||
+ 		(!mac_pwr_ctrl_on) ||
+-		(adapter_to_pwrctl(adapter)->bFwCurrentInPSMode)
++		(adapter_to_pwrctl(adapter)->b_fw_current_in_ps_mode)
+ 	) {
+ 		le_tmp = cpu_to_le32(val);
+ 
+@@ -334,7 +334,7 @@ static s32 sdio_writeN(struct intf_hdl *intfhdl, u32 addr, u32 cnt, u8 *buf)
+ 	if (
+ 		((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 0x100)) ||
+ 		(!mac_pwr_ctrl_on) ||
+-		(adapter_to_pwrctl(adapter)->bFwCurrentInPSMode)
++		(adapter_to_pwrctl(adapter)->b_fw_current_in_ps_mode)
+ 	)
+ 		return sd_cmd52_write(intfhdl, ftaddr, cnt, buf);
+ 
+@@ -565,7 +565,7 @@ s32 sdio_local_read(
+ 	rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, &mac_pwr_ctrl_on);
+ 	if (
+ 		(!mac_pwr_ctrl_on) ||
+-		(adapter_to_pwrctl(adapter)->bFwCurrentInPSMode)
++		(adapter_to_pwrctl(adapter)->b_fw_current_in_ps_mode)
+ 	)
+ 		return sd_cmd52_read(intfhdl, addr, cnt, buf);
+ 
+@@ -611,7 +611,7 @@ s32 sdio_local_write(
+ 	rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, &mac_pwr_ctrl_on);
+ 	if (
+ 		(!mac_pwr_ctrl_on) ||
+-		(adapter_to_pwrctl(adapter)->bFwCurrentInPSMode)
++		(adapter_to_pwrctl(adapter)->b_fw_current_in_ps_mode)
+ 	)
+ 		return sd_cmd52_write(intfhdl, addr, cnt, buf);
+ 
+@@ -660,7 +660,7 @@ static u32 sdio_local_cmd53_read4byte(struct adapter *adapter, u32 addr)
+ 
+ 	hal_sdio_get_cmd_addr_8723b(adapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
+ 	rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, &mac_pwr_ctrl_on);
+-	if (!mac_pwr_ctrl_on || adapter_to_pwrctl(adapter)->bFwCurrentInPSMode) {
++	if (!mac_pwr_ctrl_on || adapter_to_pwrctl(adapter)->b_fw_current_in_ps_mode) {
+ 		sd_cmd52_read(intfhdl, addr, 4, (u8 *)&le_tmp);
+ 		val = le32_to_cpu(le_tmp);
+ 	} else {
+diff --git a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
+index 2e739a17dd95..fcb06a95fdf6 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
++++ b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
+@@ -203,7 +203,7 @@ struct pwrctrl_priv {
+ 	u8 LpsIdleCount;
+ 	u8 power_mgnt;
+ 	u8 org_power_mgnt;
+-	u8 bFwCurrentInPSMode;
++	u8 b_fw_current_in_ps_mode;
+ 	unsigned long	DelayLPSLastTimeStamp;
+ 	s32		pnp_current_pwr_state;
+ 	u8 pnp_bstop_trx;
 -- 
-2.1.1
+2.30.2
 
