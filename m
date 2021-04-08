@@ -1,94 +1,201 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA6370
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 09:24:38 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id mh7so1814175ejb.12
-        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 02:24:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B1770
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 09:27:32 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id q26so1339362wrz.9
+        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 02:27:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=3lbUPpJurXJokmph9WoNmMs1fe6ThVm1fd93joLn2Gk=;
-        b=jF/NCrUw5IxSYu/zRC5hVftqtDXEwXbRsFnXPReraR8naNX5NCFI/zqNrp7DvMc0oz
-         IJYNvNeglJkWskPOMhGSRo8A6USzjQMiohfjvmVR9wyuqG/WIkkBpIvTTIO/zFF2zoSw
-         X1U4TEk5H+075lNLfvV04Gc64Wh7vpPF8tfRuE3zx2wJMM7NhqfzjEROGEqtJ6EHovAR
-         Pp/cVcUrYvJdT6h6D8lZyTrxYZ2AScANZL6B/7ADwPMFyMx9RxcENbmwle2vsD8rT1nZ
-         pgs6vAUYXsdhE1DHqZFYgYBUCi/aio/NihSlp2CvaybwG1la7N7S/GoXVUn4izUhufNY
-         3dsA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=48C+aUCAw/5HBSrI0DJTgDCws6FWqJvlhCmFPj8c4MI=;
+        b=fd8IaLe41wlZZv9dP+GV7sa9CXRatY01hhpcOKJlIQo/og1CChBl4MUMKjGO3xHfFX
+         nQG0eNCsJEYkfSXJRMQx1eyGV1kka7zBfTmwUNgPIFb7YwKq8PfVgWtFLuGX82kcB1fk
+         mj+UmRtvVEAUyUNTPvbp+0g1VsKHVqIsXma15bayJkUWwpLcb9tYcYj5uqbdlFtBmedK
+         Y5hbovH3J+xov4/NyJOzkl3PAKP44ifvm6vRv4LVOxhgEY8hCavE78eCCt2IDkgUWF5L
+         4NdDw5P7qEAhM/RG0UFFxtnH9J0pEHv0v/sNszp7q1EV/ZVEvz6s60S0CGpkqNpYVJtQ
+         t6IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=3lbUPpJurXJokmph9WoNmMs1fe6ThVm1fd93joLn2Gk=;
-        b=T3TrqpwUPvp7Z2vPSJzmZlmDonO/07NzqQmRQoUdgSvLW7uRNi4usJsnSeVY80uI4/
-         PL06mIhfPd7kGQUk1/MTS3n0orwMuDW5ucMW9TMGeceMOjutITxU4eeErLG5uf5X0WVs
-         5A9yGIv8jormzUn2tg7yP/sdlKfUV89lJJpJv/6XMTKyUmGQQzMYskLTD/mk9XDFheEU
-         kyW9U902P8UvycT5pzesLvsnSKowTywhbohsB0o0lRsKYQhpaOCv8xlbOYFhd56XcLPQ
-         Ykg9MALQZ0T60stX7QQD53J6+rxcqG8Dv0mis8mmx+a9zu/9QSYTWFU/k9CDkhgdfBpy
-         m/Vw==
-X-Gm-Message-State: AOAM530QjiwzSGLeIomkT+zznLPHn310vdmU59CiaRlAowwBAUCST3HZ
-	lucP4ovskIuAFdQPkaaGuiI=
-X-Google-Smtp-Source: ABdhPJzfmCVbJAtKQ3Q84d94CylAYCPtANdcTodmCR7IviUqvYzsypN85SQkgNAJHTb54r8Vm9BReA==
-X-Received: by 2002:a17:906:64f:: with SMTP id t15mr6115377ejb.411.1617873877383;
-        Thu, 08 Apr 2021 02:24:37 -0700 (PDT)
-Received: from test-VirtualBox ([87.116.181.227])
-        by smtp.gmail.com with ESMTPSA id d15sm453497ejj.42.2021.04.08.02.24.36
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=48C+aUCAw/5HBSrI0DJTgDCws6FWqJvlhCmFPj8c4MI=;
+        b=GHxKrskWOJ4wlXoRiVKfyrrePs0KDJ8ANwv9bIR8PpMTqrNDf+A+2WLj6hV+FyJI3n
+         SA/GcSbm4VgjzumAmFfrwjomRz18BrcXjfrIh5KuXk7n3uxrYlOQLJ4HCr1hoXdShsTz
+         ruduFbPDRBRV5kuvooFFg5BDHjTgdyuSno2yb9HX+/GAiJCHOQb0hgEC37t564+7hbvD
+         DocIHfWyR6go4oHgEnFKjnpi9AX1ITZu71Ns9otuVSaKK+AA1qT9K0mYJS6BsEcxuPeA
+         1gvYFzPXmfGsqtvvV+KV4C5zmbptEUA+UeVZ4izoUwDXN0vOL9H2CIuXrhy/LUnjcwKI
+         QGfA==
+X-Gm-Message-State: AOAM5334in3HHYIvx4iYBP8vcqmINn3zoJo+A1vgCzUXz+t14PGC6rYl
+	YrPkeR0JWOR24L22Ik+ZD70=
+X-Google-Smtp-Source: ABdhPJwQ4GG0zxk/uzYthI9jgEc+Iub3ZyFz4cvX6uH9x/wIDCFMld9ZPIZhqTJJH0H0fLt/AFnwqA==
+X-Received: by 2002:adf:d082:: with SMTP id y2mr9256160wrh.176.1617874051185;
+        Thu, 08 Apr 2021 02:27:31 -0700 (PDT)
+Received: from agape ([5.171.81.167])
+        by smtp.gmail.com with ESMTPSA id n3sm12787844wmi.7.2021.04.08.02.27.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 02:24:37 -0700 (PDT)
-Date: Thu, 8 Apr 2021 11:24:35 +0200
-From: Sergei Krainov <sergei.krainov.lkd@gmail.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: [PATCH] staging: rtl8712: remove unused variable from rtl871x_mlme.c
-Message-ID: <20210408092435.GA4096@test-VirtualBox>
+        Thu, 08 Apr 2021 02:27:30 -0700 (PDT)
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] staging: rtl8723bs: remove unused variables
+Date: Thu,  8 Apr 2021 11:27:02 +0200
+Message-Id: <20210408092702.25863-1-fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Remove unused variable from rtl871x_mlme.c.
+remove declared and assigned unused variables
 
-No side effects can be seen locally or in r8712_find_network()
-
-Signed-off-by: Sergei Krainov <sergei.krainov.lkd@gmail.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
-Mention in the description that no observable side effects were found
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      |  3 ---
+ .../staging/rtl8723bs/include/rtw_security.h  | 18 -------------
+ .../staging/rtl8723bs/os_dep/ioctl_linux.c    | 26 +++----------------
+ 3 files changed, 3 insertions(+), 44 deletions(-)
 
- drivers/staging/rtl8712/rtl871x_mlme.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
-
-diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
-index 8a97307fbbd6..4f41e321ea63 100644
---- a/drivers/staging/rtl8712/rtl871x_mlme.c
-+++ b/drivers/staging/rtl8712/rtl871x_mlme.c
-@@ -656,7 +656,7 @@ void r8712_joinbss_event_callback(struct _adapter *adapter, u8 *pbuf)
- 	struct sta_priv	*pstapriv = &adapter->stapriv;
- 	struct mlme_priv	*pmlmepriv = &adapter->mlmepriv;
- 	struct wlan_network	*cur_network = &pmlmepriv->cur_network;
--	struct wlan_network	*pcur_wlan = NULL, *ptarget_wlan = NULL;
-+	struct wlan_network	*ptarget_wlan = NULL;
- 	unsigned int		the_same_macaddr = false;
- 	struct wlan_network *pnetwork;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index baf8b1e0f43c..e94eb1138cf1 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -387,7 +387,6 @@ int rtw_cmd_thread(void *context)
+ 	u8 ret;
+ 	struct cmd_obj *pcmd;
+ 	u8 *pcmdbuf;
+-	unsigned long cmd_start_time;
+ 	u8 (*cmd_hdl)(struct adapter *padapter, u8 *pbuf);
+ 	void (*pcmd_callback)(struct adapter *dev, struct cmd_obj *pcmd);
+ 	struct adapter *padapter = context;
+@@ -438,8 +437,6 @@ int rtw_cmd_thread(void *context)
+ 			continue;
+ 		}
  
-@@ -721,13 +721,6 @@ void r8712_joinbss_event_callback(struct _adapter *adapter, u8 *pbuf)
- 					    scanned_queue,
- 					    cur_network->network.MacAddress);
- 				} else {
--					pcur_wlan =
--					     r8712_find_network(&pmlmepriv->
--					     scanned_queue,
--					     cur_network->network.MacAddress);
--					if (pcur_wlan)
--						pcur_wlan->fixed = false;
+-		cmd_start_time = jiffies;
 -
- 					pcur_sta = r8712_get_stainfo(pstapriv,
- 					     cur_network->network.MacAddress);
- 					spin_lock_irqsave(&pstapriv->
+ 		if (rtw_cmd_filter(pcmdpriv, pcmd) == _FAIL) {
+ 			pcmd->res = H2C_DROPPED;
+ 			goto post_process;
+diff --git a/drivers/staging/rtl8723bs/include/rtw_security.h b/drivers/staging/rtl8723bs/include/rtw_security.h
+index b71f0959108b..5c787e999aab 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_security.h
++++ b/drivers/staging/rtl8723bs/include/rtw_security.h
+@@ -332,24 +332,6 @@ static inline u32 rotr(u32 val, int bits)
+ /* This is based on SHA256 implementation in LibTomCrypt that was released into
+  * public domain by Tom St Denis. */
+ 
+-/* the K array */
+-static const unsigned long K[64] = {
+-	0x428a2f98UL, 0x71374491UL, 0xb5c0fbcfUL, 0xe9b5dba5UL, 0x3956c25bUL,
+-	0x59f111f1UL, 0x923f82a4UL, 0xab1c5ed5UL, 0xd807aa98UL, 0x12835b01UL,
+-	0x243185beUL, 0x550c7dc3UL, 0x72be5d74UL, 0x80deb1feUL, 0x9bdc06a7UL,
+-	0xc19bf174UL, 0xe49b69c1UL, 0xefbe4786UL, 0x0fc19dc6UL, 0x240ca1ccUL,
+-	0x2de92c6fUL, 0x4a7484aaUL, 0x5cb0a9dcUL, 0x76f988daUL, 0x983e5152UL,
+-	0xa831c66dUL, 0xb00327c8UL, 0xbf597fc7UL, 0xc6e00bf3UL, 0xd5a79147UL,
+-	0x06ca6351UL, 0x14292967UL, 0x27b70a85UL, 0x2e1b2138UL, 0x4d2c6dfcUL,
+-	0x53380d13UL, 0x650a7354UL, 0x766a0abbUL, 0x81c2c92eUL, 0x92722c85UL,
+-	0xa2bfe8a1UL, 0xa81a664bUL, 0xc24b8b70UL, 0xc76c51a3UL, 0xd192e819UL,
+-	0xd6990624UL, 0xf40e3585UL, 0x106aa070UL, 0x19a4c116UL, 0x1e376c08UL,
+-	0x2748774cUL, 0x34b0bcb5UL, 0x391c0cb3UL, 0x4ed8aa4aUL, 0x5b9cca4fUL,
+-	0x682e6ff3UL, 0x748f82eeUL, 0x78a5636fUL, 0x84c87814UL, 0x8cc70208UL,
+-	0x90befffaUL, 0xa4506cebUL, 0xbef9a3f7UL, 0xc67178f2UL
+-};
+-
+-
+ /* Various logical functions */
+ #define RORc(x, y) \
+ (((((unsigned long) (x) & 0xFFFFFFFFUL) >> (unsigned long) ((y) & 31)) | \
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+index a9820d813d8b..8d29ca9ba67f 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+@@ -33,10 +33,6 @@
+ static u32 rtw_rates[] = {1000000, 2000000, 5500000, 11000000,
+ 	6000000, 9000000, 12000000, 18000000, 24000000, 36000000, 48000000, 54000000};
+ 
+-static const char * const iw_operation_mode[] = {
+-	"Auto", "Ad-Hoc", "Managed",  "Master", "Repeater", "Secondary", "Monitor"
+-};
+-
+ void indicate_wx_scan_complete_event(struct adapter *padapter)
+ {
+ 	union iwreq_data wrqu;
+@@ -1125,7 +1121,6 @@ static int rtw_wx_set_mlme(struct net_device *dev,
+ 			     union iwreq_data *wrqu, char *extra)
+ {
+ 	int ret = 0;
+-	u16 reason;
+ 	struct adapter *padapter = rtw_netdev_priv(dev);
+ 	struct iw_mlme *mlme = (struct iw_mlme *)extra;
+ 
+@@ -1133,8 +1128,6 @@ static int rtw_wx_set_mlme(struct net_device *dev,
+ 	if (mlme == NULL)
+ 		return -1;
+ 
+-	reason = mlme->reason_code;
+-
+ 	switch (mlme->cmd) {
+ 	case IW_MLME_DEAUTH:
+ 		if (!rtw_set_802_11_disassociate(padapter))
+@@ -2440,7 +2433,6 @@ static int rtw_dbg_port(struct net_device *dev,
+ 	u8 major_cmd, minor_cmd;
+ 	u16 arg;
+ 	u32 extra_arg, *pdata, val32;
+-	struct sta_info *psta;
+ 	struct adapter *padapter = rtw_netdev_priv(dev);
+ 	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+@@ -2542,15 +2534,7 @@ static int rtw_dbg_port(struct net_device *dev,
+ 
+ 					break;
+ 				case 0x05:
+-					psta = rtw_get_stainfo(pstapriv, cur_network->network.MacAddress);
+-					if (psta) {
+-						int i;
+-						struct recv_reorder_ctrl *preorder_ctrl;
+-
+-						for (i = 0; i < 16; i++)
+-							preorder_ctrl = &psta->recvreorder_ctrl[i];
+-
+-					}
++					rtw_get_stainfo(pstapriv, cur_network->network.MacAddress);
+ 					break;
+ 				case 0x06:
+ 					{
+@@ -2568,9 +2552,8 @@ static int rtw_dbg_port(struct net_device *dev,
+ 					break;
+ 				case 0x09:
+ 					{
+-						int i, j;
++						int i;
+ 						struct list_head	*plist, *phead;
+-						struct recv_reorder_ctrl *preorder_ctrl;
+ 
+ 						spin_lock_bh(&pstapriv->sta_hash_lock);
+ 
+@@ -2579,13 +2562,10 @@ static int rtw_dbg_port(struct net_device *dev,
+ 							plist = get_next(phead);
+ 
+ 							while (phead != plist) {
+-								psta = container_of(plist, struct sta_info, hash_list);
++								container_of(plist, struct sta_info, hash_list);
+ 
+ 								plist = get_next(plist);
+ 
+-								if (extra_arg == psta->aid)
+-									for (j = 0; j < 16; j++)
+-										preorder_ctrl = &psta->recvreorder_ctrl[j];
+ 							}
+ 						}
+ 
 -- 
-2.25.1
+2.20.1
 
