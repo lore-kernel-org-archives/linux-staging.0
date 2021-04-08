@@ -1,50 +1,50 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7650A6D0E
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 13:16:48 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id m3so2381031edv.5
-        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 06:16:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1AA66D0E
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 13:30:41 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id a7so3090944eju.1
+        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 06:30:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=VeEHzYO01rEVjqMVtQnGaXItdBabbpuzXR8BA/iWZks=;
-        b=GTP0kmlBC31MPbJsLORzj6ot8d/uXPM+i9EwEDR2FAD7ut94QIE69SgOqNIuP4zirP
-         t6IMaV+uqS/85JvthTqxLy9l+9UV4Res1RZPEGLtXfolhdzcB+SpnY9b5U7oBZavxHqj
-         hBw2cc6cM0Ms0oJ/2cCf25JLy3poF0ENOR56n9snS2SDJdub13E5xgZgZTVLQCaZkp4S
-         SZU7E7qAnqueDOWlK5HnBhKrp78CHZjYnfw4yBaVOovmqtKr/b1hTV6rg9jno+o7Syyp
-         7CuFv889eCT9CR8oW+xCRkGG7vJZVa4hCGsvH8SW4WXnLcEPTTqfKtRcWIHoCYBREnB5
-         mIPQ==
+        bh=fKWx0+q7MvIF2MRm1YPI9fNkmUi0TcoIcXeiw/XDF/k=;
+        b=B25uSI9CVYuS9bRfHANBOsdviQbM8VNpzKdKtX6rDFh4BkbHQEGGqpAMzGlT+rrfl+
+         7bPmRlkQMv7Nw/sSIf1svC+TgDdCMDkBSzi+EyLbeEo0vn7rrf/JLS7tSurEmndeXKth
+         3IWSJ4Dyu+0He9Q6ZGb27SjlJt71/koc36D3LoC/frmk9NsEo/Odgnln39rUsQ0nUT/h
+         JF5d/ajsC/AsQjQ/n/NAPduYlAaCowSLo6K2/MQbpSaxEuOs/jEzhMX2yynxwJh7tIYS
+         OSqP1+5OeWXwByJEQX+OrNFF993ZJG3FniGpj2GyDgkEqRCLzkWLo7ntdl5WoLgXijMv
+         TfLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=VeEHzYO01rEVjqMVtQnGaXItdBabbpuzXR8BA/iWZks=;
-        b=XV3rq4lFK4jCVfqIe4yjdw8a5KzYvtoeXQ9uxQmjDLTYUkkmXXY+3rQUzD4TXznNMD
-         i0+fIgvF2FriBtBS3TnY9ioymuziOKs/XV9lI0r0gvc0u2NG4kplzstuQKt6Rw+WKEtG
-         KmTNXIBdnR2AsjdhU66Qj4SDuJmVq9nXEVVIhR9BbmYCfZ4SrKionEJrOkb8LmUTLTIY
-         eCL2SAVoxoq7X2NzAfit5tAAo4ymlqjgIM0iaAl0EfSk9iVbyugCxTI8fFDykx9R1Yvt
-         iaZlgns/X5Rm/JICNcmdnCDABvb09SKuyXvAcCzNbbtfiiLWxtL1HR9rgNZtBJbvQrWv
-         CP3Q==
-X-Gm-Message-State: AOAM5319x/h8tSpsXkzIYFjZMRbumXt9k0v7CPIwfbbJzDrydpNK7B74
-	1fH8x0KlahuX0fekhK4myvc=
-X-Google-Smtp-Source: ABdhPJzs1DtO9bsS3x97A6N+r3cgJ1Q4hfyOfogeisjBIIWrP0SYm/6QcpokU3Rq8e1rGiZhT/pUTg==
-X-Received: by 2002:a05:6402:3487:: with SMTP id v7mr11369805edc.302.1617887806988;
-        Thu, 08 Apr 2021 06:16:46 -0700 (PDT)
+        bh=fKWx0+q7MvIF2MRm1YPI9fNkmUi0TcoIcXeiw/XDF/k=;
+        b=SrkpCr9ScJOFhRn6R5s6A99f/4ToUTv+yLsHitw7JnwQTNhsSiHnl1cZIa+LWIMRXJ
+         EuVUiKvrZew3ntLzoLHd/HaQfv/pdEfkrTDzkvqfW0+inG+UQidM2MccYUx9udXHAt63
+         vdxjSxjYO+ej6JwPZudLKSHao5SPZn0NuvR8ywKmszNx/zOKoIJDERonFbjbUMQMaTBj
+         1ANBmXrpr8o3U+QnMguiGwU/TeOO17kxBIsu4/Lb5VTUGZ1S+2EU+YEI+3plwkSn3Y1S
+         Bw4Ux7uLibA8dIbdJLZS8QYNSDJ1qatUz2vD26iKT9LpP8NLFKsH+1VBo9k7VVHxU5Y6
+         2w9Q==
+X-Gm-Message-State: AOAM531zp5TTLlg2yhb2v5EK7zpOIbUUZx4o4eVBDZh/1qPEcg3AHtLW
+	LpqHBjqZev9gSVl0zxQQ2+Q=
+X-Google-Smtp-Source: ABdhPJytY1frgTL0ysxSZTz5ZjhFXrhaSbf3gGgvDy5IS4Cj9eDYUYWmZWrLpESi9iQiiVL5tFxeuQ==
+X-Received: by 2002:a17:906:4017:: with SMTP id v23mr4141823ejj.421.1617888640202;
+        Thu, 08 Apr 2021 06:30:40 -0700 (PDT)
 Received: from localhost.localdomain (host-79-42-91-147.retail.telecomitalia.it. [79.42.91.147])
-        by smtp.gmail.com with ESMTPSA id yh6sm5306025ejb.37.2021.04.08.06.16.44
+        by smtp.gmail.com with ESMTPSA id r17sm17574066edt.70.2021.04.08.06.30.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 06:16:45 -0700 (PDT)
+        Thu, 08 Apr 2021 06:30:39 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 To: Greg KH <gregkh@linuxfoundation.org>,
 	outreachy-kernel@googlegroups.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [Outreachy kernel] [PATCH v3] staging: rtl8723bs: Remove camelcase in several files
-Date: Thu,  8 Apr 2021 15:16:41 +0200
-Message-Id: <20210408131641.31113-1-fmdefrancesco@gmail.com>
+Subject: [Outreachy kernel] [PATCH v4] staging: rtl8723bs: Remove camelcase in several files
+Date: Thu,  8 Apr 2021 15:30:36 +0200
+Message-Id: <20210408133036.7324-1-fmdefrancesco@gmail.com>
 X-Mailer: git-send-email 2.30.2
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,6 +60,7 @@ checkpatch.pl.
 Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
 
+Changes from v3: Discard v3 because "b_" is not yet removed.
 Changes from v2: Discard v2 because it is a diff against v1 instead of a
 replacement for v1.
 Changes from v1: Rewrite comment for the purpose of specifying which
@@ -85,7 +86,7 @@ index baf8b1e0f43c..a08f22b53592 100644
  		pwrpriv->dtim = dtim;
  
 -	if ((pwrpriv->bFwCurrentInPSMode == true) && (pwrpriv->pwr_mode > PS_MODE_ACTIVE)) {
-+	if ((pwrpriv->b_fw_current_in_ps_mode == true) && (pwrpriv->pwr_mode > PS_MODE_ACTIVE)) {
++	if ((pwrpriv->fw_current_in_ps_mode == true) && (pwrpriv->pwr_mode > PS_MODE_ACTIVE)) {
  		u8 ps_mode = pwrpriv->pwr_mode;
  
  		rtw_hal_set_hwreg(padapter, HW_VAR_H2C_FW_PWRMODE, (u8 *)(&ps_mode));
@@ -98,7 +99,7 @@ index a7e40aaae2d9..51cea6cf46e7 100644
  		return;
  
 -	if ((adapter_to_pwrctl(adapter)->bFwCurrentInPSMode)
-+	if ((adapter_to_pwrctl(adapter)->b_fw_current_in_ps_mode)
++	if ((adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
  		&& !(hal_btcoex_IsBtControlLps(adapter))
  		) {
  		u8 bEnterPS;
@@ -111,7 +112,7 @@ index f7465cf90c46..21e7a847866f 100644
  
  			rtw_hal_set_hwreg(padapter, HW_VAR_H2C_FW_PWRMODE, (u8 *)(&ps_mode));
 -			pwrpriv->bFwCurrentInPSMode = false;
-+			pwrpriv->b_fw_current_in_ps_mode = false;
++			pwrpriv->fw_current_in_ps_mode = false;
  
  			hal_btcoex_LpsNotify(padapter, ps_mode);
  		}
@@ -120,7 +121,7 @@ index f7465cf90c46..21e7a847866f 100644
  			hal_btcoex_LpsNotify(padapter, ps_mode);
  
 -			pwrpriv->bFwCurrentInPSMode = true;
-+			pwrpriv->b_fw_current_in_ps_mode = true;
++			pwrpriv->fw_current_in_ps_mode = true;
  			pwrpriv->pwr_mode = ps_mode;
  			pwrpriv->smart_ps = smart_ps;
  			pwrpriv->bcn_ant_mode = bcn_ant_mode;
@@ -129,7 +130,7 @@ index f7465cf90c46..21e7a847866f 100644
  	register_task_alive(pwrctrl, task);
  
 -	if (pwrctrl->bFwCurrentInPSMode) {
-+	if (pwrctrl->b_fw_current_in_ps_mode) {
++	if (pwrctrl->fw_current_in_ps_mode) {
  		if (pwrctrl->cpwm < pslv) {
  			if (pwrctrl->cpwm < PS_STATE_S2)
  				res = _FAIL;
@@ -138,7 +139,7 @@ index f7465cf90c46..21e7a847866f 100644
  	unregister_task_alive(pwrctrl, task);
  
 -	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) && pwrctrl->bFwCurrentInPSMode) {
-+	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) && pwrctrl->b_fw_current_in_ps_mode) {
++	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) && pwrctrl->fw_current_in_ps_mode) {
  		if (pwrctrl->cpwm > pslv)
  			if ((pslv >= PS_STATE_S2) || (pwrctrl->alives == 0))
  				rtw_set_rpwm(padapter, pslv);
@@ -147,7 +148,7 @@ index f7465cf90c46..21e7a847866f 100644
  	register_task_alive(pwrctrl, XMIT_ALIVE);
  
 -	if (pwrctrl->bFwCurrentInPSMode) {
-+	if (pwrctrl->b_fw_current_in_ps_mode) {
++	if (pwrctrl->fw_current_in_ps_mode) {
  		if (pwrctrl->cpwm < pslv) {
  			if (pwrctrl->cpwm < PS_STATE_S2)
  				res = _FAIL;
@@ -156,7 +157,7 @@ index f7465cf90c46..21e7a847866f 100644
  	register_task_alive(pwrctrl, CMD_ALIVE);
  
 -	if (pwrctrl->bFwCurrentInPSMode) {
-+	if (pwrctrl->b_fw_current_in_ps_mode) {
++	if (pwrctrl->fw_current_in_ps_mode) {
  		if (pwrctrl->cpwm < pslv) {
  			if (pwrctrl->cpwm < PS_STATE_S2)
  				res = _FAIL;
@@ -165,7 +166,7 @@ index f7465cf90c46..21e7a847866f 100644
  	unregister_task_alive(pwrctrl, XMIT_ALIVE);
  
 -	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) && pwrctrl->bFwCurrentInPSMode) {
-+	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) && pwrctrl->b_fw_current_in_ps_mode) {
++	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) && pwrctrl->fw_current_in_ps_mode) {
  		if (pwrctrl->cpwm > pslv)
  			if ((pslv >= PS_STATE_S2) || (pwrctrl->alives == 0))
  				rtw_set_rpwm(padapter, pslv);
@@ -174,7 +175,7 @@ index f7465cf90c46..21e7a847866f 100644
  	unregister_task_alive(pwrctrl, CMD_ALIVE);
  
 -	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) && pwrctrl->bFwCurrentInPSMode) {
-+	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) && pwrctrl->b_fw_current_in_ps_mode) {
++	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) && pwrctrl->fw_current_in_ps_mode) {
  		if (pwrctrl->cpwm > pslv) {
  			if ((pslv >= PS_STATE_S2) || (pwrctrl->alives == 0))
  				rtw_set_rpwm(padapter, pslv);
@@ -183,7 +184,7 @@ index f7465cf90c46..21e7a847866f 100644
  	pwrctrlpriv->bLeisurePs = pwrctrlpriv->power_mgnt != PS_MODE_ACTIVE;
  
 -	pwrctrlpriv->bFwCurrentInPSMode = false;
-+	pwrctrlpriv->b_fw_current_in_ps_mode = false;
++	pwrctrlpriv->fw_current_in_ps_mode = false;
  
  	pwrctrlpriv->rpwm = 0;
  	pwrctrlpriv->cpwm = PS_STATE_S4;
@@ -196,7 +197,7 @@ index bc9ae2088754..a73c2f76628d 100644
  void rtw_hal_dm_watchdog_in_lps(struct adapter *padapter)
  {
 -	if (adapter_to_pwrctl(padapter)->bFwCurrentInPSMode == true) {
-+	if (adapter_to_pwrctl(padapter)->b_fw_current_in_ps_mode == true) {
++	if (adapter_to_pwrctl(padapter)->fw_current_in_ps_mode == true) {
  		if (padapter->HalFunc.hal_dm_watchdog_in_lps)
  			padapter->HalFunc.hal_dm_watchdog_in_lps(padapter); /* this function caller is in interrupt context */
  	}
@@ -209,7 +210,7 @@ index c2e9e4a0be22..265db187b8d5 100644
  void rtl8723b_HalDmWatchDog(struct adapter *Adapter)
  {
 -	bool bFwCurrentInPSMode = false;
-+	bool b_fw_current_in_ps_mode = false;
++	bool fw_current_in_ps_mode = false;
  	bool bFwPSAwake = true;
  	u8 hw_init_completed = false;
  	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
@@ -218,13 +219,13 @@ index c2e9e4a0be22..265db187b8d5 100644
  		goto skip_dm;
  
 -	bFwCurrentInPSMode = adapter_to_pwrctl(Adapter)->bFwCurrentInPSMode;
-+	b_fw_current_in_ps_mode = adapter_to_pwrctl(Adapter)->b_fw_current_in_ps_mode;
++	fw_current_in_ps_mode = adapter_to_pwrctl(Adapter)->fw_current_in_ps_mode;
  	rtw_hal_get_hwreg(Adapter, HW_VAR_FWLPS_RF_ON, (u8 *)(&bFwPSAwake));
  
  	if (
  		(hw_init_completed == true) &&
 -		((!bFwCurrentInPSMode) && bFwPSAwake)
-+		((!b_fw_current_in_ps_mode) && bFwPSAwake)
++		((!fw_current_in_ps_mode) && bFwPSAwake)
  	) {
  		/*  */
  		/*  Calculate Tx/Rx statistics. */
@@ -237,7 +238,7 @@ index e31ad3feed62..7ebc438870fd 100644
  
  	/*  Init Fw LPS related. */
 -	adapter_to_pwrctl(padapter)->bFwCurrentInPSMode = false;
-+	adapter_to_pwrctl(padapter)->b_fw_current_in_ps_mode = false;
++	adapter_to_pwrctl(padapter)->fw_current_in_ps_mode = false;
  
  	/* Init H2C cmd. */
  	rtw_write8(padapter, REG_HMETFR, 0x0f);
@@ -250,7 +251,7 @@ index af7f846f90fe..c78a6724fc1c 100644
  		((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 0x100)) ||
  		(!mac_pwr_ctrl_on) ||
 -		(adapter_to_pwrctl(adapter)->bFwCurrentInPSMode)
-+		(adapter_to_pwrctl(adapter)->b_fw_current_in_ps_mode)
++		(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
  	) {
  		err = sd_cmd52_read(intfhdl, ftaddr, 4, (u8 *)&le_tmp);
  #ifdef SDIO_DEBUG_IO
@@ -259,7 +260,7 @@ index af7f846f90fe..c78a6724fc1c 100644
  		((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 0x100)) ||
  		(!mac_pwr_ctrl_on) ||
 -		(adapter_to_pwrctl(adapter)->bFwCurrentInPSMode)
-+		(adapter_to_pwrctl(adapter)->b_fw_current_in_ps_mode)
++		(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
  	)
  		return sd_cmd52_read(intfhdl, ftaddr, cnt, buf);
  
@@ -268,7 +269,7 @@ index af7f846f90fe..c78a6724fc1c 100644
  		((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 0x100)) ||
  		(!mac_pwr_ctrl_on) ||
 -		(adapter_to_pwrctl(adapter)->bFwCurrentInPSMode)
-+		(adapter_to_pwrctl(adapter)->b_fw_current_in_ps_mode)
++		(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
  	) {
  		le_tmp = cpu_to_le32(val);
  
@@ -277,7 +278,7 @@ index af7f846f90fe..c78a6724fc1c 100644
  		((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 0x100)) ||
  		(!mac_pwr_ctrl_on) ||
 -		(adapter_to_pwrctl(adapter)->bFwCurrentInPSMode)
-+		(adapter_to_pwrctl(adapter)->b_fw_current_in_ps_mode)
++		(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
  	)
  		return sd_cmd52_write(intfhdl, ftaddr, cnt, buf);
  
@@ -286,7 +287,7 @@ index af7f846f90fe..c78a6724fc1c 100644
  	if (
  		(!mac_pwr_ctrl_on) ||
 -		(adapter_to_pwrctl(adapter)->bFwCurrentInPSMode)
-+		(adapter_to_pwrctl(adapter)->b_fw_current_in_ps_mode)
++		(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
  	)
  		return sd_cmd52_read(intfhdl, addr, cnt, buf);
  
@@ -295,7 +296,7 @@ index af7f846f90fe..c78a6724fc1c 100644
  	if (
  		(!mac_pwr_ctrl_on) ||
 -		(adapter_to_pwrctl(adapter)->bFwCurrentInPSMode)
-+		(adapter_to_pwrctl(adapter)->b_fw_current_in_ps_mode)
++		(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
  	)
  		return sd_cmd52_write(intfhdl, addr, cnt, buf);
  
@@ -304,7 +305,7 @@ index af7f846f90fe..c78a6724fc1c 100644
  	hal_sdio_get_cmd_addr_8723b(adapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
  	rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, &mac_pwr_ctrl_on);
 -	if (!mac_pwr_ctrl_on || adapter_to_pwrctl(adapter)->bFwCurrentInPSMode) {
-+	if (!mac_pwr_ctrl_on || adapter_to_pwrctl(adapter)->b_fw_current_in_ps_mode) {
++	if (!mac_pwr_ctrl_on || adapter_to_pwrctl(adapter)->fw_current_in_ps_mode) {
  		sd_cmd52_read(intfhdl, addr, 4, (u8 *)&le_tmp);
  		val = le32_to_cpu(le_tmp);
  	} else {
@@ -317,7 +318,7 @@ index 2e739a17dd95..fcb06a95fdf6 100644
  	u8 power_mgnt;
  	u8 org_power_mgnt;
 -	u8 bFwCurrentInPSMode;
-+	u8 b_fw_current_in_ps_mode;
++	u8 fw_current_in_ps_mode;
  	unsigned long	DelayLPSLastTimeStamp;
  	s32		pnp_current_pwr_state;
  	u8 pnp_bstop_trx;
