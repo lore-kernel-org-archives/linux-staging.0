@@ -1,26 +1,29 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp03.smtpout.orange.fr [80.12.242.125])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F237C6D13
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 19:57:06 +0000 (UTC)
-Received: from ipservice-092-217-074-086.092.217.pools.vodafone-ip.de ([92.217.74.86] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1lUam1-0005PV-0O; Thu, 08 Apr 2021 21:57:05 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B5036D00
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 19:58:43 +0000 (UTC)
+Received: from localhost.localdomain ([90.126.11.170])
+	by mwinf5d05 with ME
+	id qKyg2400B3g7mfN03KyhB8; Thu, 08 Apr 2021 21:58:41 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Thu, 08 Apr 2021 21:58:41 +0200
+X-ME-IP: 90.126.11.170
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Larry.Finger@lwfinger.net,
+	florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
-	kernel-janitors@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 12/12] staging: rtl8188eu: simplify rtw_cmd_thread's main loop
-Date: Thu,  8 Apr 2021 21:56:01 +0200
-Message-Id: <20210408195601.4762-12-martin@kaiser.cx>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210408195601.4762-1-martin@kaiser.cx>
-References: <20210408195601.4762-1-martin@kaiser.cx>
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH 2/3] staging: rtl8712: remove enum WIFI_FRAME_SUBTYPE
+Date: Thu,  8 Apr 2021 21:58:40 +0200
+Message-Id: <5a6fdcf0b5eb43c3d5511b5badd60bfac9389628.1617911201.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <4291cb10744457cc12c89fc9fd414c37d732bc9d.1617911201.git.christophe.jaillet@wanadoo.fr>
+References: <4291cb10744457cc12c89fc9fd414c37d732bc9d.1617911201.git.christophe.jaillet@wanadoo.fr>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -28,58 +31,116 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In rtw_cmd_thread's main loop, we wait until there's a command in the
-queue. To skip this wait statement in subsequent iterations, the driver
-uses a label and goto instead of the actual loop. We only get back to the
-initial wait if the queue is empty when we read it.
+The values defined in enum WIFI_FRAME_SUBTYPE are the same the #define
+IEEE80211_STYPE_xxx from <linux/ieee80211.h>
 
-Basically, all we want to do is check if there's a command in the queue.
-If yes, we process it. If not, we wait until someone enqueues a command.
+Use theses values to avoid code duplication.
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- drivers/staging/rtl8188eu/core/rtw_cmd.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ drivers/staging/rtl8712/rtl871x_recv.c     |  2 +-
+ drivers/staging/rtl8712/rtl871x_security.c | 14 +++++-----
+ drivers/staging/rtl8712/wifi.h             | 32 ----------------------
+ 3 files changed, 8 insertions(+), 40 deletions(-)
 
-diff --git a/drivers/staging/rtl8188eu/core/rtw_cmd.c b/drivers/staging/rtl8188eu/core/rtw_cmd.c
-index 9d358dce5296..6728391d39e3 100644
---- a/drivers/staging/rtl8188eu/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_cmd.c
-@@ -188,10 +188,6 @@ int rtw_cmd_thread(void *context)
- 		 ("start r871x %s !!!!\n", __func__));
+diff --git a/drivers/staging/rtl8712/rtl871x_recv.c b/drivers/staging/rtl8712/rtl871x_recv.c
+index f4b871637795..c13076b0e3d1 100644
+--- a/drivers/staging/rtl8712/rtl871x_recv.c
++++ b/drivers/staging/rtl8712/rtl871x_recv.c
+@@ -373,7 +373,7 @@ static sint ap2sta_data_frame(struct _adapter *adapter,
+ 	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) &&
+ 	    check_fwstate(pmlmepriv, _FW_LINKED)) {
+ 		/* if NULL-frame, drop packet */
+-		if ((GetFrameSubType(ptr)) == WIFI_DATA_NULL)
++		if ((GetFrameSubType(ptr)) == IEEE80211_STYPE_NULLFUNC)
+ 			return _FAIL;
+ 		/* drop QoS-SubType Data, including QoS NULL,
+ 		 * excluding QoS-Data
+diff --git a/drivers/staging/rtl8712/rtl871x_security.c b/drivers/staging/rtl8712/rtl871x_security.c
+index b0cc3c922842..1c7df65db3c9 100644
+--- a/drivers/staging/rtl8712/rtl871x_security.c
++++ b/drivers/staging/rtl8712/rtl871x_security.c
+@@ -30,10 +30,10 @@
+ #include <linux/atomic.h>
+ #include <linux/crc32poly.h>
+ #include <linux/semaphore.h>
++#include <linux/ieee80211.h>
  
- 	while (1) {
--		if (wait_for_completion_interruptible(&pcmdpriv->cmd_queue_comp))
--			break;
+ #include "osdep_service.h"
+ #include "drv_types.h"
+-#include "wifi.h"
+ #include "osdep_intf.h"
+ 
+ /* =====WEP related===== */
+@@ -1045,9 +1045,9 @@ static void aes_cipher(u8 *key, uint hdrlen,
+ 	else
+ 		a4_exists = 1;
+ 
+-	if ((frtype == WIFI_DATA_CFACK) ||
+-	     (frtype == WIFI_DATA_CFPOLL) ||
+-	     (frtype == WIFI_DATA_CFACKPOLL)) {
++	if ((frtype == IEEE80211_STYPE_DATA_CFACK) ||
++	    (frtype == IEEE80211_STYPE_DATA_CFPOLL) ||
++	    (frtype == IEEE80211_STYPE_DATA_CFACKPOLL)) {
+ 		qc_exists = 1;
+ 		if (hdrlen !=  WLAN_HDR_A3_QOS_LEN)
+ 			hdrlen += 2;
+@@ -1225,9 +1225,9 @@ static void aes_decipher(u8 *key, uint hdrlen,
+ 		a4_exists = 0;
+ 	else
+ 		a4_exists = 1;
+-	if ((frtype == WIFI_DATA_CFACK) ||
+-	    (frtype == WIFI_DATA_CFPOLL) ||
+-	    (frtype == WIFI_DATA_CFACKPOLL)) {
++	if ((frtype == IEEE80211_STYPE_DATA_CFACK) ||
++	    (frtype == IEEE80211_STYPE_DATA_CFPOLL) ||
++	    (frtype == IEEE80211_STYPE_DATA_CFACKPOLL)) {
+ 		qc_exists = 1;
+ 		if (hdrlen != WLAN_HDR_A3_QOS_LEN)
+ 			hdrlen += 2;
+diff --git a/drivers/staging/rtl8712/wifi.h b/drivers/staging/rtl8712/wifi.h
+index 61ebc730427f..68c253b0f66d 100644
+--- a/drivers/staging/rtl8712/wifi.h
++++ b/drivers/staging/rtl8712/wifi.h
+@@ -29,38 +29,6 @@ enum WIFI_FRAME_TYPE {
+ 	WIFI_QOS_DATA_TYPE	= (BIT(7) | BIT(3)),	/*!< QoS Data */
+ };
+ 
+-enum WIFI_FRAME_SUBTYPE {
+-	/* below is for mgt frame */
+-	WIFI_ASSOCREQ       = (0 | WIFI_MGT_TYPE),
+-	WIFI_ASSOCRSP       = (BIT(4) | WIFI_MGT_TYPE),
+-	WIFI_REASSOCREQ     = (BIT(5) | WIFI_MGT_TYPE),
+-	WIFI_REASSOCRSP     = (BIT(5) | BIT(4) | WIFI_MGT_TYPE),
+-	WIFI_PROBEREQ       = (BIT(6) | WIFI_MGT_TYPE),
+-	WIFI_PROBERSP       = (BIT(6) | BIT(4) | WIFI_MGT_TYPE),
+-	WIFI_BEACON         = (BIT(7) | WIFI_MGT_TYPE),
+-	WIFI_ATIM           = (BIT(7) | BIT(4) | WIFI_MGT_TYPE),
+-	WIFI_DISASSOC       = (BIT(7) | BIT(5) | WIFI_MGT_TYPE),
+-	WIFI_AUTH           = (BIT(7) | BIT(5) | BIT(4) | WIFI_MGT_TYPE),
+-	WIFI_DEAUTH         = (BIT(7) | BIT(6) | WIFI_MGT_TYPE),
+-	WIFI_ACTION         = (BIT(7) | BIT(6) | BIT(4) | WIFI_MGT_TYPE),
+-	/* below is for control frame */
+-	WIFI_PSPOLL         = (BIT(7) | BIT(5) | WIFI_CTRL_TYPE),
+-	WIFI_RTS            = (BIT(7) | BIT(5) | BIT(4) | WIFI_CTRL_TYPE),
+-	WIFI_CTS            = (BIT(7) | BIT(6) | WIFI_CTRL_TYPE),
+-	WIFI_ACK            = (BIT(7) | BIT(6) | BIT(4) | WIFI_CTRL_TYPE),
+-	WIFI_CFEND          = (BIT(7) | BIT(6) | BIT(5) | WIFI_CTRL_TYPE),
+-	WIFI_CFEND_CFACK = (BIT(7) | BIT(6) | BIT(5) | BIT(4) | WIFI_CTRL_TYPE),
+-	/* below is for data frame */
+-	WIFI_DATA           = (0 | WIFI_DATA_TYPE),
+-	WIFI_DATA_CFACK     = (BIT(4) | WIFI_DATA_TYPE),
+-	WIFI_DATA_CFPOLL    = (BIT(5) | WIFI_DATA_TYPE),
+-	WIFI_DATA_CFACKPOLL = (BIT(5) | BIT(4) | WIFI_DATA_TYPE),
+-	WIFI_DATA_NULL      = (BIT(6) | WIFI_DATA_TYPE),
+-	WIFI_CF_ACK         = (BIT(6) | BIT(4) | WIFI_DATA_TYPE),
+-	WIFI_CF_POLL        = (BIT(6) | BIT(5) | WIFI_DATA_TYPE),
+-	WIFI_CF_ACKPOLL     = (BIT(6) | BIT(5) | BIT(4) | WIFI_DATA_TYPE),
+-};
 -
--_next:
- 		if (padapter->bDriverStopped ||
- 		    padapter->bSurpriseRemoved) {
- 			DBG_88E("%s: DriverStopped(%d) SurpriseRemoved(%d) break at line %d\n",
-@@ -201,8 +197,13 @@ int rtw_cmd_thread(void *context)
- 		}
- 
- 		pcmd = rtw_dequeue_cmd(&pcmdpriv->cmd_queue);
--		if (!pcmd)
-+		if (!pcmd) {
-+			/* The queue is empty. Wait until someone enqueues a command. */
-+			if (wait_for_completion_interruptible(&pcmdpriv->cmd_queue_comp))
-+				break;
-+
- 			continue;
-+		}
- 
- 		if (rtw_cmd_filter(pcmdpriv, pcmd) == _FAIL) {
- 			pcmd->res = H2C_DROPPED;
-@@ -239,8 +240,6 @@ int rtw_cmd_thread(void *context)
- 
- 		if (signal_pending(current))
- 			flush_signals(current);
--
--		goto _next;
- 	}
- 	pcmdpriv->cmdthd_running = false;
- 
+ enum WIFI_REG_DOMAIN {
+ 	DOMAIN_FCC	= 1,
+ 	DOMAIN_IC	= 2,
 -- 
-2.20.1
+2.27.0
 
