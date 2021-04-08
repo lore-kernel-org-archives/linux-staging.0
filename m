@@ -1,260 +1,68 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C1606D0D
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 07:05:59 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id ba6so1113139edb.1
-        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 00:05:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tblVdzEqnz8Gci0ois+P0n+r3zDE6+7fyu6clK3bLZ0=;
-        b=jPNRUNOklNVKnzAcV6gSMR42WDRH07KKn58Nm23WV0cgzPpTBnbLuKMELSgFs5GP8m
-         aZxkODIctZ5gYeLUo17jVxJkSDsIl5iecDBBBdOAzjV6naKJJlX1A2gxbSAtmC1XFMeI
-         /hpJRLiFcJCOfCHzz7a7Y7tryKvjybEkVjjQfzJGlLxlCpS+4JYTQqbn9qCfHsqqWCIS
-         GZlO6sGcAC7eRdAIoKM7aN6ZbT+AEvrV4YHoZ2Cx8NWl6oqMKsgY1SJaQ5eGwt0WpcVU
-         u+jksjGhzVLADRJzOE91k9syrsU7EySarggBN7TnhRzX6Z7XFFvkHWwZiyibSQ521VOZ
-         OaQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tblVdzEqnz8Gci0ois+P0n+r3zDE6+7fyu6clK3bLZ0=;
-        b=NRZsyX9FSqu9J9V2xhfifduW77UBAcBEl8OLT351EgUMy5JcKMm9+3Z1tvz4Sr1/jD
-         szJEkQmGWyx3ALULdpSL8mkIDr5O6U6Jg2SCWkNZpAa0ngNwPIllazj8gScBEQ370mFB
-         OCUBXjsFYtNMHUyvqqnu/Io2F0E/DfwpwzHt3tnz3e1n2Sa5b8V3QWDANu1Ve/ChIy8k
-         SCNH07lM591bUw1XfUwS52snGc5uAVR3c694ioUhW6hQYFyixPk3M7kIBZbDzII+NMPG
-         9VrS8esbLbBn7bV7vm7wZOHsqRre9NpTa9T6sqanOH5Yss/SvE1eV9OGOn7q+8GGl/LR
-         SI3Q==
-X-Gm-Message-State: AOAM5320Fvd1WweTOGuWkDe7U92ZCpvrCMfFSew/9dHqgJsId65uUrVS
-	7HLuWuJIQm4/+Ua9fi70uY56drzuCkGo2Y8H
-X-Google-Smtp-Source: ABdhPJy1D0pePvzien0wUyFuveRR3iCm6vO5dYv58Gbp9fE9jtUYhsX+QUokUVOr5WIhkRTQy9mlWg==
-X-Received: by 2002:a05:6402:9:: with SMTP id d9mr9352543edu.67.1617865557768;
-        Thu, 08 Apr 2021 00:05:57 -0700 (PDT)
-Received: from localhost.localdomain (host-79-42-91-147.retail.telecomitalia.it. [79.42.91.147])
-        by smtp.gmail.com with ESMTPSA id gz20sm13721760ejc.25.2021.04.08.00.05.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 00:05:57 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: outreachy-kernel@googlegroups.com,
-	gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [Outreachy kernel] [PATCH v4] staging: rtl8723bs: hal: Remove camelcase in sdio_ops.c
-Date: Thu,  8 Apr 2021 09:05:53 +0200
-Message-Id: <20210408070553.30363-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.30.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A860B6D0D
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 07:26:11 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8B96261057;
+	Thu,  8 Apr 2021 07:26:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1617866771;
+	bh=FkccS7u81T140XGv+zsj6P+7Au5FReyCyBe+7GemLP4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=w8zLkNgt8/LePucgzTgO+trAK1xmPwAdW7zk1MERcwHvBcYZ/23XdZPlPVakVae+v
+	 LVc1UKuyWTuQtbSdzpaGRFR33e3SWWRyzEIou+oqj52XGepkAuNdSt2K8wm+LO/tB4
+	 olKy5n6gmyTyJ9b/t6lv2itVLJ/OKl1qT4CEkDyM=
+Date: Thu, 8 Apr 2021 09:26:08 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Martin Kaiser <martin@kaiser.cx>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, linux-staging@lists.linux.dev,
+	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 01/10] staging: rtl8188eu: remove unused macros
+Message-ID: <YG6wEDs2ZVPAOeUZ@kroah.com>
+References: <20210407170531.29356-1-martin@kaiser.cx>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210407170531.29356-1-martin@kaiser.cx>
 
-Remove camelcase. Issue detected by checkpatch.pl. For now, change only
-names of static functions in order to not break the driver's code.
+On Wed, Apr 07, 2021 at 07:05:22PM +0200, Martin Kaiser wrote:
+> usb_ops_linux.h contains a couple of macros to make functions usable as
+> urb completion callbacks. Most of them are unused and can be removed.
+> 
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> ---
+>  drivers/staging/rtl8188eu/include/usb_ops_linux.h | 8 --------
+>  1 file changed, 8 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8188eu/include/usb_ops_linux.h b/drivers/staging/rtl8188eu/include/usb_ops_linux.h
+> index 4e0e48cb5c8e..1a0b38de5027 100644
+> --- a/drivers/staging/rtl8188eu/include/usb_ops_linux.h
+> +++ b/drivers/staging/rtl8188eu/include/usb_ops_linux.h
+> @@ -23,18 +23,10 @@
+>  #define USB_HIGH_SPEED_BULK_SIZE	512
+>  #define USB_FULL_SPEED_BULK_SIZE	64
+>  
+> -#define _usbctrl_vendorreq_async_callback(urb, regs)	\
+> -	_usbctrl_vendorreq_async_callback(urb)
+> -#define usb_bulkout_zero_complete(purb, regs)		\
+> -	usb_bulkout_zero_complete(purb)
+> -#define usb_write_mem_complete(purb, regs)		\
+> -	usb_write_mem_complete(purb)
+>  #define usb_write_port_complete(purb, regs)		\
+>  	usb_write_port_complete(purb)
+>  #define usb_read_port_complete(purb, regs)		\
+>  	usb_read_port_complete(purb)
+> -#define usb_read_interrupt_complete(purb, regs)		\
+> -	usb_read_interrupt_complete(purb)
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
+Wow, that's there for a really old kernel version and should not be
+needed anymore at all.  I'll take this, but please remove the other ones
+here, they are not necessary.
 
-Changes from v3: fix errors in the format of the patch.
-Changes from v2: Remove unnecessary comment. Shortened a function name.
-Changes from v1: No changes to the code but only to the subject for the
-purpose to differentiate this patch because other removes of camelcase
-have been made in other files of the same directory.
+thanks,
 
- drivers/staging/rtl8723bs/hal/sdio_ops.c | 46 +++++++++++-------------
- 1 file changed, 21 insertions(+), 25 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-index 8df3350d53fb..af7f846f90fe 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-@@ -19,7 +19,7 @@
- /*  */
- /*  Creadted by Roger, 2011.01.31. */
- /*  */
--static void HalSdioGetCmdAddr8723BSdio(
-+static void hal_sdio_get_cmd_addr_8723b(
- 	struct adapter *adapter,
- 	u8 device_id,
- 	u32 addr,
-@@ -95,10 +95,6 @@ static u8 get_deviceid(u32 addr)
- 	return devide_id;
- }
- 
--/*
-- * Ref:
-- *HalSdioGetCmdAddr8723BSdio()
-- */
- static u32 _cvrt2ftaddr(const u32 addr, u8 *pdevice_id, u16 *poffset)
- {
- 	u8 device_id;
-@@ -426,7 +422,7 @@ static u32 sdio_read_port(
- 	psdio = &adapter_to_dvobj(adapter)->intf_data;
- 	hal = GET_HAL_DATA(adapter);
- 
--	HalSdioGetCmdAddr8723BSdio(adapter, addr, hal->SdioRxFIFOCnt++, &addr);
-+	hal_sdio_get_cmd_addr_8723b(adapter, addr, hal->SdioRxFIFOCnt++, &addr);
- 
- 	if (cnt > psdio->block_transfer_len)
- 		cnt = _RND(cnt, psdio->block_transfer_len);
-@@ -473,7 +469,7 @@ static u32 sdio_write_port(
- 		return _FAIL;
- 
- 	cnt = round_up(cnt, 4);
--	HalSdioGetCmdAddr8723BSdio(adapter, addr, cnt >> 2, &addr);
-+	hal_sdio_get_cmd_addr_8723b(adapter, addr, cnt >> 2, &addr);
- 
- 	if (cnt > psdio->block_transfer_len)
- 		cnt = _RND(cnt, psdio->block_transfer_len);
-@@ -526,7 +522,7 @@ static s32 _sdio_local_read(
- 
- 	intfhdl = &adapter->iopriv.intf;
- 
--	HalSdioGetCmdAddr8723BSdio(adapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
-+	hal_sdio_get_cmd_addr_8723b(adapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
- 
- 	rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, &mac_pwr_ctrl_on);
- 	if (!mac_pwr_ctrl_on)
-@@ -564,7 +560,7 @@ s32 sdio_local_read(
- 
- 	intfhdl = &adapter->iopriv.intf;
- 
--	HalSdioGetCmdAddr8723BSdio(adapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
-+	hal_sdio_get_cmd_addr_8723b(adapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
- 
- 	rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, &mac_pwr_ctrl_on);
- 	if (
-@@ -610,7 +606,7 @@ s32 sdio_local_write(
- 
- 	intfhdl = &adapter->iopriv.intf;
- 
--	HalSdioGetCmdAddr8723BSdio(adapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
-+	hal_sdio_get_cmd_addr_8723b(adapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
- 
- 	rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, &mac_pwr_ctrl_on);
- 	if (
-@@ -637,24 +633,24 @@ u8 SdioLocalCmd52Read1Byte(struct adapter *adapter, u32 addr)
- 	u8 val = 0;
- 	struct intf_hdl *intfhdl = &adapter->iopriv.intf;
- 
--	HalSdioGetCmdAddr8723BSdio(adapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
-+	hal_sdio_get_cmd_addr_8723b(adapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
- 	sd_cmd52_read(intfhdl, addr, 1, &val);
- 
- 	return val;
- }
- 
--static u16 SdioLocalCmd52Read2Byte(struct adapter *adapter, u32 addr)
-+static u16 sdio_local_cmd52_read2byte(struct adapter *adapter, u32 addr)
- {
- 	__le16 val = 0;
- 	struct intf_hdl *intfhdl = &adapter->iopriv.intf;
- 
--	HalSdioGetCmdAddr8723BSdio(adapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
-+	hal_sdio_get_cmd_addr_8723b(adapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
- 	sd_cmd52_read(intfhdl, addr, 2, (u8 *)&val);
- 
- 	return le16_to_cpu(val);
- }
- 
--static u32 SdioLocalCmd53Read4Byte(struct adapter *adapter, u32 addr)
-+static u32 sdio_local_cmd53_read4byte(struct adapter *adapter, u32 addr)
- {
- 
- 	u8 mac_pwr_ctrl_on;
-@@ -662,7 +658,7 @@ static u32 SdioLocalCmd53Read4Byte(struct adapter *adapter, u32 addr)
- 	struct intf_hdl *intfhdl = &adapter->iopriv.intf;
- 	__le32 le_tmp;
- 
--	HalSdioGetCmdAddr8723BSdio(adapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
-+	hal_sdio_get_cmd_addr_8723b(adapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
- 	rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, &mac_pwr_ctrl_on);
- 	if (!mac_pwr_ctrl_on || adapter_to_pwrctl(adapter)->bFwCurrentInPSMode) {
- 		sd_cmd52_read(intfhdl, addr, 4, (u8 *)&le_tmp);
-@@ -677,21 +673,21 @@ void SdioLocalCmd52Write1Byte(struct adapter *adapter, u32 addr, u8 v)
- {
- 	struct intf_hdl *intfhdl = &adapter->iopriv.intf;
- 
--	HalSdioGetCmdAddr8723BSdio(adapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
-+	hal_sdio_get_cmd_addr_8723b(adapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
- 	sd_cmd52_write(intfhdl, addr, 1, &v);
- }
- 
--static void SdioLocalCmd52Write4Byte(struct adapter *adapter, u32 addr, u32 v)
-+static void sdio_local_cmd52_write4byte(struct adapter *adapter, u32 addr, u32 v)
- {
- 	struct intf_hdl *intfhdl = &adapter->iopriv.intf;
- 	__le32 le_tmp;
- 
--	HalSdioGetCmdAddr8723BSdio(adapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
-+	hal_sdio_get_cmd_addr_8723b(adapter, SDIO_LOCAL_DEVICE_ID, addr, &addr);
- 	le_tmp = cpu_to_le32(v);
- 	sd_cmd52_write(intfhdl, addr, 4, (u8 *)&le_tmp);
- }
- 
--static s32 ReadInterrupt8723BSdio(struct adapter *adapter, u32 *phisr)
-+static s32 read_interrupt_8723b_sdio(struct adapter *adapter, u32 *phisr)
- {
- 	u32 hisr, himr;
- 	u8 val8, hisr_len;
-@@ -924,7 +920,7 @@ void sd_int_dpc(struct adapter *adapter)
- 		status = rtw_malloc(4);
- 		if (status) {
- 			addr = REG_TXDMA_STATUS;
--			HalSdioGetCmdAddr8723BSdio(adapter, WLAN_IOREG_DEVICE_ID, addr, &addr);
-+			hal_sdio_get_cmd_addr_8723b(adapter, WLAN_IOREG_DEVICE_ID, addr, &addr);
- 			_sd_read(intfhdl, addr, 4, status);
- 			_sd_write(intfhdl, addr, 4, status);
- 			DBG_8192C("%s: SDIO_HISR_TXERR (0x%08x)\n", __func__, le32_to_cpu(*(u32 *)status));
-@@ -974,7 +970,7 @@ void sd_int_dpc(struct adapter *adapter)
- 
- 		hal->sdio_hisr ^= SDIO_HISR_RX_REQUEST;
- 		do {
--			hal->SdioRxFIFOSize = SdioLocalCmd52Read2Byte(adapter, SDIO_REG_RX0_REQ_LEN);
-+			hal->SdioRxFIFOSize = sdio_local_cmd52_read2byte(adapter, SDIO_REG_RX0_REQ_LEN);
- 			if (hal->SdioRxFIFOSize != 0) {
- 				recvbuf = sd_recv_rxfifo(adapter, hal->SdioRxFIFOSize);
- 				if (recvbuf)
-@@ -989,7 +985,7 @@ void sd_int_dpc(struct adapter *adapter)
- 				break;
- 
- 			hisr = 0;
--			ReadInterrupt8723BSdio(adapter, &hisr);
-+			read_interrupt_8723b_sdio(adapter, &hisr);
- 			hisr &= SDIO_HISR_RX_REQUEST;
- 			if (!hisr)
- 				break;
-@@ -1009,7 +1005,7 @@ void sd_int_hdl(struct adapter *adapter)
- 	hal = GET_HAL_DATA(adapter);
- 
- 	hal->sdio_hisr = 0;
--	ReadInterrupt8723BSdio(adapter, &hal->sdio_hisr);
-+	read_interrupt_8723b_sdio(adapter, &hal->sdio_hisr);
- 
- 	if (hal->sdio_hisr & hal->sdio_himr) {
- 		u32 v32;
-@@ -1019,7 +1015,7 @@ void sd_int_hdl(struct adapter *adapter)
- 		/*  clear HISR */
- 		v32 = hal->sdio_hisr & MASK_SDIO_HISR_CLEAR;
- 		if (v32)
--			SdioLocalCmd52Write4Byte(adapter, SDIO_REG_HISR, v32);
-+			sdio_local_cmd52_write4byte(adapter, SDIO_REG_HISR, v32);
- 
- 		sd_int_dpc(adapter);
- 	}
-@@ -1042,7 +1038,7 @@ u8 HalQueryTxBufferStatus8723BSdio(struct adapter *adapter)
- 
- 	hal = GET_HAL_DATA(adapter);
- 
--	numof_free_page = SdioLocalCmd53Read4Byte(adapter, SDIO_REG_FREE_TXPG);
-+	numof_free_page = sdio_local_cmd53_read4byte(adapter, SDIO_REG_FREE_TXPG);
- 
- 	memcpy(hal->SdioTxFIFOFreePage, &numof_free_page, 4);
- 
--- 
-2.30.2
-
+greg k-h
