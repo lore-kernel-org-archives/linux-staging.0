@@ -1,72 +1,66 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96A06D12
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 16:26:46 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: ezequiel)
-	with ESMTPSA id B82A11F45CF6
-Message-ID: <d4000598fddcf45e578462aa04b556c0ca057091.camel@collabora.com>
-Subject: Re: [PATCH 1/2 v2] staging: media: hantro: Align line break to the
- open parenthesis in file hantro_hw.h
-From: Ezequiel Garcia <ezequiel@collabora.com>
-To: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>, Philipp Zabel
-	 <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
-	Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Date: Thu, 08 Apr 2021 13:20:49 -0300
-In-Reply-To: <1e6d73432d60dfb8bb3f7f2bd6bf3084091a2a39.1617890467.git.alinesantanacordeiro@gmail.com>
-References: <cover.1617890467.git.alinesantanacordeiro@gmail.com>
-	 <1e6d73432d60dfb8bb3f7f2bd6bf3084091a2a39.1617890467.git.alinesantanacordeiro@gmail.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A466D0D
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 16:48:11 +0000 (UTC)
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
+	(envelope-from <andrew@lunn.ch>)
+	id 1lUXoz-00FYhk-05; Thu, 08 Apr 2021 18:47:57 +0200
+Date: Thu, 8 Apr 2021 18:47:56 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: DENG Qingfang <dqfext@gmail.com>
+Cc: =?iso-8859-1?Q?Ren=E9?= van Dorst <opensource@vdorst.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Landen Chao <Landen.Chao@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Vivien Didelot <vivien.didelot@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+	linux-kernel <linux-kernel@vger.kernel.org>,
+	"moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+	linux-staging@lists.linux.dev,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	netdev <netdev@vger.kernel.org>,
+	Weijie Gao <weijie.gao@mediatek.com>,
+	Chuanhong Guo <gch981213@gmail.com>,
+	Frank Wunderlich <frank-w@public-files.de>,
+	Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>
+Subject: Re: [RFC v3 net-next 0/4] MT7530 interrupt support
+Message-ID: <YG8zvFKOdnzaJqLa@lunn.ch>
+References: <20210408123919.2528516-1-dqfext@gmail.com>
+ <20210408140255.Horde.Pl-DXtrqmiH9imsWjDqblfM@www.vdorst.com>
+ <CALW65jZujSCk16RX_xgcg+NGrc9yyFQOQ9Y-z3qz-Qv1TvUQLg@mail.gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALW65jZujSCk16RX_xgcg+NGrc9yyFQOQ9Y-z3qz-Qv1TvUQLg@mail.gmail.com>
 
-Ola Aline,
-
-Welcome to the kernel community. Hope you enjoy some of this
-Outreachy adventures.
-
-Normally, when you submit a v2, we want to know what changed
-between the first submission and v2.
-
-If you are subscribed to linux-media, you can read some
-of the series with a vN+1 and look how it's done. Examples:
-
-https://www.spinics.net/lists/linux-media/msg190043.html
-
-https://www.spinics.net/lists/linux-media/msg189923.html
-
-I'm sure your Outreachy mentors can tell you more.
-
-On Thu, 2021-04-08 at 11:07 -0300, Aline Santana Cordeiro wrote:
-> Aligns line break with the remaining function arguments
-> to the open parenthesis. Issue found by checkpatch.
+On Thu, Apr 08, 2021 at 11:00:08PM +0800, DENG Qingfang wrote:
+> Hi Ren�,
 > 
-> Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
-> ---
->  drivers/staging/media/hantro/hantro_hw.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> On Thu, Apr 8, 2021 at 10:02 PM Ren� van Dorst <opensource@vdorst.com> wrote:
+> >
+> > Tested on Ubiquiti ER-X-SFP (MT7621) with 1 external phy which uses irq=POLL.
+> >
 > 
-> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-> index 34c9e46..a650b9c 100644
-> --- a/drivers/staging/media/hantro/hantro_hw.h
-> +++ b/drivers/staging/media/hantro/hantro_hw.h
-> @@ -207,7 +207,7 @@ hantro_h264_mv_size(unsigned int width, unsigned int height)
->  void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx);
->  void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx);
->  void hantro_mpeg2_dec_copy_qtable(u8 *qtable,
-> -       const struct v4l2_ctrl_mpeg2_quantization *ctrl);
-> +                                 const struct v4l2_ctrl_mpeg2_quantization *ctrl);
->  int hantro_mpeg2_dec_init(struct hantro_ctx *ctx);
->  void hantro_mpeg2_dec_exit(struct hantro_ctx *ctx);
->  
+> I wonder if the external PHY's IRQ can be registered in the devicetree.
+> Change MT7530_NUM_PHYS to 6, and add the following to ER-X-SFP dts PHY node:
 
+I don't know this platform. What is the PHYs interrupt pin connected
+to? A SoC GPIO? There is a generic mechanism to describe PHY
+interrupts in DT. That should be used, if it is a GPIO.
 
+	   Andrew
