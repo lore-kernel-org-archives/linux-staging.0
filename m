@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247206D00
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 19:57:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C286D00
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 19:57:03 +0000 (UTC)
 Received: from ipservice-092-217-074-086.092.217.pools.vodafone-ip.de ([92.217.74.86] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1lUalw-0005PV-78; Thu, 08 Apr 2021 21:57:00 +0200
+	id 1lUalx-0005PV-Iq; Thu, 08 Apr 2021 21:57:01 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -15,9 +15,9 @@ Cc: linux-staging@lists.linux.dev,
 	kernel-janitors@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 09/12] staging: rtl8188eu: always free cmd_obj in the cmd thread
-Date: Thu,  8 Apr 2021 21:55:58 +0200
-Message-Id: <20210408195601.4762-9-martin@kaiser.cx>
+Subject: [PATCH 10/12] staging: rtl8188eu: remove duplicate if statement
+Date: Thu,  8 Apr 2021 21:55:59 +0200
+Message-Id: <20210408195601.4762-10-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210408195601.4762-1-martin@kaiser.cx>
 References: <20210408195601.4762-1-martin@kaiser.cx>
@@ -28,115 +28,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The rtl8188 driver starts a command thread that reads commands from a queue
-and processes them. Each command consists of a struct cmd_obj. The command
-thread may call a function to process the current command and optionally a
-post-processing function. Eventually, the command's cmd_obj must be freed.
-
-At the moment, if there's a post-processing function for the current
-command, this function has to free the cmd_obj. If there's no
-post-processing function, the command thread frees cmd_obj.
-
-It's much simpler if we always leave it to the command thread to free
-cmd_obj.
+There's two identical checks if the device was stopped or unplugged.
+Remove one of them.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/rtl8188eu/core/rtw_cmd.c | 24 +++---------------------
- 1 file changed, 3 insertions(+), 21 deletions(-)
+ drivers/staging/rtl8188eu/core/rtw_cmd.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
 diff --git a/drivers/staging/rtl8188eu/core/rtw_cmd.c b/drivers/staging/rtl8188eu/core/rtw_cmd.c
-index 0bbe5ee918ce..4e4cac1ad6be 100644
+index 4e4cac1ad6be..e1bf4ce9ab9d 100644
 --- a/drivers/staging/rtl8188eu/core/rtw_cmd.c
 +++ b/drivers/staging/rtl8188eu/core/rtw_cmd.c
-@@ -235,17 +235,16 @@ int rtw_cmd_thread(void *context)
- 				RT_TRACE(_module_rtl871x_cmd_c_, _drv_info_,
- 					 ("mlme_cmd_hdl(): pcmd_callback = 0x%p, cmdcode = 0x%x\n",
- 					  pcmd_callback, pcmd->cmdcode));
--				rtw_free_cmd_obj(pcmd);
- 			} else {
- 				/* todo: !!! fill rsp_buf to pcmd->rsp if (pcmd->rsp!= NULL) */
--				pcmd_callback(pcmd->padapter, pcmd);/* need consider that free cmd_obj in rtw_cmd_callback */
-+				pcmd_callback(pcmd->padapter, pcmd);
- 			}
- 		} else {
- 			RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_,
- 				 ("%s: cmdcode = 0x%x callback not defined!\n",
- 				  __func__, pcmd->cmdcode));
--			rtw_free_cmd_obj(pcmd);
- 		}
-+		rtw_free_cmd_obj(pcmd);
+@@ -191,13 +191,6 @@ int rtw_cmd_thread(void *context)
+ 		if (wait_for_completion_interruptible(&pcmdpriv->cmd_queue_comp))
+ 			break;
  
- 		if (signal_pending(current))
- 			flush_signals(current);
-@@ -1186,9 +1185,6 @@ void rtw_survey_cmd_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
- 		RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_,
- 			 ("\n ********Error: MgntActrtw_set_802_11_bssid_LIST_SCAN Fail ************\n\n."));
- 	}
--
--	/*  free cmd */
--	rtw_free_cmd_obj(pcmd);
- }
- 
- void rtw_disassoc_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
-@@ -1202,11 +1198,7 @@ void rtw_disassoc_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
- 
- 		RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_,
- 			 ("\n ***Error: disconnect_cmd_callback Fail ***\n."));
--		return;
- 	}
--
--	/*  free cmd */
--	rtw_free_cmd_obj(pcmd);
- }
- 
- void rtw_joinbss_cmd_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
-@@ -1224,8 +1216,6 @@ void rtw_joinbss_cmd_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
- 		mod_timer(&pmlmepriv->assoc_timer,
- 			  jiffies + msecs_to_jiffies(1));
- 	}
--
--	rtw_free_cmd_obj(pcmd);
- }
- 
- void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
-@@ -1292,8 +1282,6 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
- createbss_cmd_fail:
- 
- 	spin_unlock_bh(&pmlmepriv->lock);
--
--	rtw_free_cmd_obj(pcmd);
- }
- 
- void rtw_setstaKey_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
-@@ -1305,10 +1293,7 @@ void rtw_setstaKey_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *pc
- 	if (!psta) {
- 		RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_,
- 			 ("\nERROR: %s => can't get sta_info\n\n", __func__));
--		goto exit;
- 	}
--exit:
--	rtw_free_cmd_obj(pcmd);
- }
- 
- void rtw_setassocsta_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
-@@ -1322,7 +1307,7 @@ void rtw_setassocsta_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *
- 	if (!psta) {
- 		RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_,
- 			 ("\nERROR: %s => can't get sta_info\n\n", __func__));
--		goto exit;
-+		return;
- 	}
- 
- 	psta->aid = passocsta_rsp->cam_id;
-@@ -1332,7 +1317,4 @@ void rtw_setassocsta_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *
- 
- 	set_fwstate(pmlmepriv, _FW_LINKED);
- 	spin_unlock_bh(&pmlmepriv->lock);
--
--exit:
--	rtw_free_cmd_obj(pcmd);
- }
+-		if (padapter->bDriverStopped ||
+-		    padapter->bSurpriseRemoved) {
+-			DBG_88E("%s: DriverStopped(%d) SurpriseRemoved(%d) break at line %d\n",
+-				__func__, padapter->bDriverStopped,
+-				padapter->bSurpriseRemoved, __LINE__);
+-			break;
+-		}
+ _next:
+ 		if (padapter->bDriverStopped ||
+ 		    padapter->bSurpriseRemoved) {
 -- 
 2.20.1
 
