@@ -1,90 +1,52 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from rere.qmqm.pl (rere.qmqm.pl [91.227.64.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E199370
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 02:58:35 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id z22-20020a17090a0156b029014d4056663fso567022pje.0
-        for <linux-staging@lists.linux.dev>; Wed, 07 Apr 2021 19:58:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=uj9M9j69MmEK6kxoKurva3J2kTnrLS58UJHTZwQEUnA=;
-        b=Bx6bE9HUW6Kdju/XBIi8ukVkfQPBPAs+KrxrFXSP7TqqqntvXMuNNj6ey3fyvwVS+z
-         wE5V65H7X8fKXwSEJwWpJ78XncP3VREp9WQUzqzg6uFOECvRQpq3WXNbn5c6klOGgHpE
-         rWAGCku9Ag9BQ/0kMYzQPCqg80kT0sil+Uz/1gFWOv9/KsrK3EUBbjayXWikU1PcO28/
-         wPbRvIGXFXmGvMvUD9jIki9XbzxWdwua06DhoyP646fipK24d9lCxhFXcWP0oLri2VSj
-         CTqi0CMar8RxnVDUL0Ix4XPyvi7UdBw3TtVhbDWWNNila/WXa6srTZZb+8ZDch+au9VD
-         qoww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=uj9M9j69MmEK6kxoKurva3J2kTnrLS58UJHTZwQEUnA=;
-        b=RCPBYeon/QfCqkQkq82r/rPyPjQVuPqpCikS8PxO/jNkWv4wzBvJIPVSR+o10KkT+a
-         s4nU4c5FbQylKCgem6EpyqU0W//tQBbq7g4XsuST1nnoqeV2v7PSr1lAgyQCbOi6cFyi
-         5fWYnhZyuc7ykXf9717g+vtiGeI6CknC7DhKyRoCBRZpeVZUQ79Ng62qdAeESUUxzDup
-         ms02It/gYymyLpxnUchm2TtfYQJxkJwG6hDTkGPGFb82xIayhSzE3M2i3auPTenEW6cq
-         hY1FwBHR7HYirx1nKxPKKcrhrr3VMsvCx7fE7ZdW0OHxKhCwKf1JQTCiv2yXLS4u5gfM
-         pX1w==
-X-Gm-Message-State: AOAM530h5WOSRDKFLLGxOxOiDEQo4hUAuFHbj5BEeTQMUM4ICqg3Lu/g
-	NFlPTK2+1L52jBP8T99l1ns=
-X-Google-Smtp-Source: ABdhPJyMn9ffLLVpX2XMegNd0jtX8WAJrpZzXiWyMO9kWVowkD5YmryUoDNUqTUyknQ9kccWJE8YQA==
-X-Received: by 2002:a17:90b:e18:: with SMTP id ge24mr6297133pjb.199.1617850715204;
-        Wed, 07 Apr 2021 19:58:35 -0700 (PDT)
-Received: from kali ([152.57.40.190])
-        by smtp.gmail.com with ESMTPSA id b24sm22454613pgj.58.2021.04.07.19.58.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Apr 2021 19:58:34 -0700 (PDT)
-Date: Thu, 8 Apr 2021 08:28:31 +0530
-From: Mitali Borkar <mitaliborkar810@gmail.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kenel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: [PATCH] staging: rtl8712: matched alignment with open parenthesis
-Message-ID: <YG5xV5q7ODTUTVK/@kali>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946D46D00
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 04:45:52 +0000 (UTC)
+Received: from remote.user (localhost [127.0.0.1])
+	by rere.qmqm.pl (Postfix) with ESMTPSA id 4FG7mk5jtmzCg;
+	Thu,  8 Apr 2021 06:38:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+	t=1617856695; bh=cIWowVmIstGa4XsZQf6kLscFfPr+0N/wKHkq0IDfrRA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=g4n904YaRWURy8BSdwGdKe3a3rVHfDrHaVJTqKkLOnbUxcMuLBFnNm9tjAO2QcWfU
+	 NvxF60Niu6bNiYec2QDX8vavPfqXiRt3AJnWYov4zNCtgOUEaiIEtwbvRQ5HCwXXy/
+	 2v9iQho5kASI77MvqVmOLKLTpP79tgYJOcqiLsBEnC8spvr/tLxINCpEGm/4h7FBhv
+	 FQg6a9HcaQQ4vA/qYcwysCA+7493/arzFFSDfxvg5+ygg44O/7Rdz4Ea1Li5u5qMp9
+	 HH9vl9Z9KPpxCs5LGw6pPBRuN+aj1u9C/aB1uaGkVgJ4nfkfXr7I9kCPu++dGH5+bz
+	 VE9W7tnqKlmJQ==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.102.4 at mail
+Date: Thu, 8 Apr 2021 06:37:17 +0200
+From: =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To: Tian Tao <tiantao6@hisilicon.com>
+Cc: marvin24@gmx.de, p.zabel@pengutronix.de, ac100@lists.launchpad.net,
+	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: nvec: move to use request_irq by IRQF_NO_AUTOEN
+ flag
+Message-ID: <20210408043717.GD19244@qmqm.qmqm.pl>
+References: <1617777259-27463-1-git-send-email-tiantao6@hisilicon.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-2
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1617777259-27463-1-git-send-email-tiantao6@hisilicon.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Aligned arguments with open parenthesis to meet linux kernel coding
-style
-Reported by checkpatch
+On Wed, Apr 07, 2021 at 02:34:19PM +0800, Tian Tao wrote:
+> disable_irq() after request_irq() still has a time gap in which
+> interrupts can come. request_irq() with IRQF_NO_AUTOEN flag will
+> disable IRQ auto-enable because of requesting.
+> 
+> this patch is made base on "add IRQF_NO_AUTOEN for request_irq" which
+> is being merged: https://lore.kernel.org/patchwork/patch/1388765/
 
-Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
----
- drivers/staging/rtl8712/usb_ops.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+This assumes that the interrupt is not shared. This could be fixed
+by requesting the IRQ after init (and releasing before deinit).
 
-diff --git a/drivers/staging/rtl8712/usb_ops.h b/drivers/staging/rtl8712/usb_ops.h
-index d62975447d29..7a6b619b73fa 100644
---- a/drivers/staging/rtl8712/usb_ops.h
-+++ b/drivers/staging/rtl8712/usb_ops.h
-@@ -21,9 +21,9 @@
- void r8712_usb_write_mem(struct intf_hdl *pintfhdl, u32 addr,
- 			 u32 cnt, u8 *wmem);
- u32 r8712_usb_write_port(struct intf_hdl *pintfhdl, u32 addr,
--			  u32 cnt, u8 *wmem);
-+			 u32 cnt, u8 *wmem);
- u32 r8712_usb_read_port(struct intf_hdl *pintfhdl, u32 addr,
--			 u32 cnt, u8 *rmem);
-+			u32 cnt, u8 *rmem);
- void r8712_usb_set_intf_option(u32 *poption);
- void r8712_usb_set_intf_funs(struct intf_hdl *pintf_hdl);
- uint r8712_usb_init_intf_priv(struct intf_priv *pintfpriv);
-@@ -32,7 +32,7 @@ void r8712_usb_set_intf_ops(struct _io_ops *pops);
- void r8712_usb_read_port_cancel(struct _adapter *padapter);
- void r8712_usb_write_port_cancel(struct _adapter *padapter);
- int r8712_usbctrl_vendorreq(struct intf_priv *pintfpriv, u8 request, u16 value,
--		      u16 index, void *pdata, u16 len, u8 requesttype);
-+			    u16 index, void *pdata, u16 len, u8 requesttype);
- 
- #endif
- 
--- 
-2.30.2
-
+Best Regards
+Micha³ Miros³aw
