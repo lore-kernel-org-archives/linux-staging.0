@@ -1,66 +1,124 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A466D0D
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 16:48:11 +0000 (UTC)
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
-	(envelope-from <andrew@lunn.ch>)
-	id 1lUXoz-00FYhk-05; Thu, 08 Apr 2021 18:47:57 +0200
-Date: Thu, 8 Apr 2021 18:47:56 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: DENG Qingfang <dqfext@gmail.com>
-Cc: =?iso-8859-1?Q?Ren=E9?= van Dorst <opensource@vdorst.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Landen Chao <Landen.Chao@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Vivien Didelot <vivien.didelot@gmail.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-	linux-kernel <linux-kernel@vger.kernel.org>,
-	"moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
-	linux-staging@lists.linux.dev,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-	netdev <netdev@vger.kernel.org>,
-	Weijie Gao <weijie.gao@mediatek.com>,
-	Chuanhong Guo <gch981213@gmail.com>,
-	Frank Wunderlich <frank-w@public-files.de>,
-	Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>
-Subject: Re: [RFC v3 net-next 0/4] MT7530 interrupt support
-Message-ID: <YG8zvFKOdnzaJqLa@lunn.ch>
-References: <20210408123919.2528516-1-dqfext@gmail.com>
- <20210408140255.Horde.Pl-DXtrqmiH9imsWjDqblfM@www.vdorst.com>
- <CALW65jZujSCk16RX_xgcg+NGrc9yyFQOQ9Y-z3qz-Qv1TvUQLg@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F236D0D
+	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 17:41:16 +0000 (UTC)
+Received: by mail-qk1-f181.google.com with SMTP id q26so3062867qkm.6
+        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 10:41:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=mdN1Jw+gb2OecTVeF2v17EO+ynpqxrd3oGCmcBY+OBM=;
+        b=rQ/FpK2Z0CI3YxPS+hWS4mebh5dGyrxeoRFSIvHIUZCutspu4O5XOqMS3IVisPgFA8
+         rbSjgrxIysU4gO2j25SNe694SSJx9g3BRpn1/kzNqmHISxn6pVoMJmeahsg7y5Mc0rwB
+         a9IgI/LPySkZi+BOS4DBnh4mnlEsRPSuQRMg6OLAHLyhhQWIsyt5pjvP7sD8XZJJYpWY
+         mCroKgdLoRPSzVIqj6+/91K+OWiLKLTb5/6P6ch3y8YnkC0i7GuKXtHlIJTlcLfqhCzB
+         L8msNiKFv3QOT75WWHp9CLjTpAeBgv+p8J4fq96KhCMsBDdoEzRMNs8Wi+FBIdgcATxi
+         9+pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=mdN1Jw+gb2OecTVeF2v17EO+ynpqxrd3oGCmcBY+OBM=;
+        b=fvx6I8p9mxR8+HUNFRpow5p2DtOo+OvhIaVhgmZkF1srAo2vw6Tz9IFnS/62x0WGPn
+         lQU3bXEQniZHPlxBQtMmzyvGMk/sDbQQU4oB9YULaF7Bsftf3j3DwJMzD1UQIXTRPon5
+         CA7FhZOZ0hD+tA7H/4qlmuL5mSBkuxlHAcnDIrJhKVRvIIkIaYTZaZOCLCFVpSioBPaa
+         hEsH7KiqhkuCvuFdayX/lJs+u9bTiiBZWhX4JqFMBKkr9Hi2uCBT0qxv0BGeLyYdibGc
+         V566m9FfGh8P4ql7hfqSJ2qznE+yFCySH5FAeXLAGJxicQr3hloEGzMlprKv+OXe+Z03
+         Gd0w==
+X-Gm-Message-State: AOAM532AO7lXIsGwKfk0CVOJXoYLzsJ1wJ9MkPleKoeu76ioxGapCmAh
+	445U2oxvP48cKIISJnpbT/4=
+X-Google-Smtp-Source: ABdhPJwChQvTmLNRRPsxLWBk6i0S/I28pVczZQKyNZ94Z4lsjeYx//nGZU/H3GCpeL278TBHubKGrQ==
+X-Received: by 2002:a37:ae44:: with SMTP id x65mr9633255qke.9.1617903675135;
+        Thu, 08 Apr 2021 10:41:15 -0700 (PDT)
+Received: from [192.168.100.7] ([177.220.174.147])
+        by smtp.gmail.com with ESMTPSA id o30sm129666qtl.8.2021.04.08.10.41.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Apr 2021 10:41:14 -0700 (PDT)
+Message-ID: <6bba0e0a5768e902ffec4bda563d4ca810412f84.camel@gmail.com>
+Subject: Re: [PATCH 1/2 v2] staging: media: hantro: Align line break to the
+ open parenthesis in file hantro_hw.h
+From: ascordeiro <alinesantanacordeiro@gmail.com>
+To: Ezequiel Garcia <ezequiel@collabora.com>, Philipp Zabel
+	 <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
+	Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+Date: Thu, 08 Apr 2021 14:41:10 -0300
+In-Reply-To: <d4000598fddcf45e578462aa04b556c0ca057091.camel@collabora.com>
+References: <cover.1617890467.git.alinesantanacordeiro@gmail.com>
+	 <1e6d73432d60dfb8bb3f7f2bd6bf3084091a2a39.1617890467.git.alinesantanacordeiro@gmail.com>
+	 <d4000598fddcf45e578462aa04b556c0ca057091.camel@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.0 (by Flathub.org) 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALW65jZujSCk16RX_xgcg+NGrc9yyFQOQ9Y-z3qz-Qv1TvUQLg@mail.gmail.com>
 
-On Thu, Apr 08, 2021 at 11:00:08PM +0800, DENG Qingfang wrote:
-> Hi Ren�,
+Em qui, 2021-04-08 às 13:20 -0300, Ezequiel Garcia escreveu:
+> Ola Aline,
+Ola Ezequiel,
+
+> Welcome to the kernel community. Hope you enjoy some of this
+> Outreachy adventures.
+Thank you!
+
+> Normally, when you submit a v2, we want to know what changed
+> between the first submission and v2.
 > 
-> On Thu, Apr 8, 2021 at 10:02 PM Ren� van Dorst <opensource@vdorst.com> wrote:
-> >
-> > Tested on Ubiquiti ER-X-SFP (MT7621) with 1 external phy which uses irq=POLL.
-> >
+> If you are subscribed to linux-media, you can read some
+> of the series with a vN+1 and look how it's done. Examples:
 > 
-> I wonder if the external PHY's IRQ can be registered in the devicetree.
-> Change MT7530_NUM_PHYS to 6, and add the following to ER-X-SFP dts PHY node:
+> https://www.spinics.net/lists/linux-media/msg190043.html
+> 
+> https://www.spinics.net/lists/linux-media/msg189923.html
+> 
+> I'm sure your Outreachy mentors can tell you more.
+Thank you for the examples, it won't happen again.
 
-I don't know this platform. What is the PHYs interrupt pin connected
-to? A SoC GPIO? There is a generic mechanism to describe PHY
-interrupts in DT. That should be used, if it is a GPIO.
+The reason for sending a v2 is that I sent my very first patchset
+yesterday and I sent the cover-letter together, but (I think) I wasn't
+supposed to, and as the patches weren't marked as [PATCH 1/2] and
+[PATCH 2/2] in the email - since I commited all the files with the same
+message - I tought it was wrong and sent again today.
 
-	   Andrew
+However, I just realized that I've changed just the subject of the e-
+mail, but I would've to change the commit message, right? And then, it
+would be a second version, am I right? 
+
+Thank you in advance,
+
+> On Thu, 2021-04-08 at 11:07 -0300, Aline Santana Cordeiro wrote:
+> > Aligns line break with the remaining function arguments
+> > to the open parenthesis. Issue found by checkpatch.
+> > 
+> > Signed-off-by: Aline Santana Cordeiro <   
+> > alinesantanacordeiro@gmail.com>
+> > ---
+> >  drivers/staging/media/hantro/hantro_hw.h | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/staging/media/hantro/hantro_hw.h
+> > b/drivers/staging/media/hantro/hantro_hw.h
+> > index 34c9e46..a650b9c 100644
+> > --- a/drivers/staging/media/hantro/hantro_hw.h
+> > +++ b/drivers/staging/media/hantro/hantro_hw.h
+> > @@ -207,7 +207,7 @@ hantro_h264_mv_size(unsigned int width,
+> > unsigned int height)
+> >  void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx);
+> >  void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx);
+> >  void hantro_mpeg2_dec_copy_qtable(u8 *qtable,
+> > -       const struct v4l2_ctrl_mpeg2_quantization *ctrl);
+> > +                                 const struct
+> > v4l2_ctrl_mpeg2_quantization *ctrl);
+> >  int hantro_mpeg2_dec_init(struct hantro_ctx *ctx);
+> >  void hantro_mpeg2_dec_exit(struct hantro_ctx *ctx);
+> >  
+> 
+> 
+
+
