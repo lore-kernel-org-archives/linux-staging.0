@@ -1,49 +1,50 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBC516D0E
-	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 10:01:53 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id hq27so7714249ejc.9
-        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 03:01:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5855C6D0E
+	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 10:01:55 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id g5so1037335ejx.0
+        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 03:01:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=t5MrkBplUUW0jMP76detLuZqvjeuH5bGcdiLHmrpOV0=;
-        b=aOKZyoK1e7xHR3B6+TTvGsvy9sUdH3GQq2Fv6Mydx42N9wb5bBcJPrvUplwtR/mqNk
-         lrpLTCajPmlYyZsioQDRdcUBoIssh38Cf6xj6eW4Et+tSg98A7BF500IqwE9J5RXaKvn
-         gpD6Wwh8Bvmgnv0eVHt9T//bAkPEWWzhSDSSB9eM1/FrzRVD91KHTEX/DDJxcocP9JSa
-         pvxxqJ4RF13jL22G7mf+MwZaTF4kpHaJtve1xd7GJ1uX/DrP4BvMwnAYCsep6g5/Gfzb
-         atGaAdIOs/W6FuEQkEaz2O12XQmK/HmVZTaYLA3tD7vVTOOc1Xk3bX25ItopYco24hzy
-         /kUQ==
+        bh=HkNYgYU1YHKm0Z1UO5d8nPKM2/cFIDGkUiKsAmSRBPY=;
+        b=TV0jDUjCAXJbookaohbCurQF9VNP01/WzG8EccM2hVtczfDwv6/ukoDBMFsWx0KryF
+         ajApL7I2yEzMYEQQ2I5w2T41cDRKbMqY/fBUknMJc5uEmm8kdAFrtKUcaTwdqRCQfXAM
+         6SppRFElfkfPRi7JcyDU4WIN0gy1XU8N7WtlPFbXgNhI46I/PvYYZsNNOy9IyWlvHKcT
+         ko+amq1hpPpjsvVcfH5dqF1EH8xx7+uQD+jovIbXLeBGrjMgcNj+Z5dKPPImzWk/RbQo
+         8qxvC4gQ27CEgmmsumxrTo3iyJWIws1yQU/uuHSgDq1Q92qlqe5tAM7lbdXe+X22Cz+x
+         mvyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=t5MrkBplUUW0jMP76detLuZqvjeuH5bGcdiLHmrpOV0=;
-        b=W/VElEzNnTHqsikWXX6OIJerh0fOUmtPvNQAc3lMkjTkAt1hnXuRtdxpITxs/ElQAC
-         7jTCpMpkTiYFgvOq36pa8HrOz9nuYXHEcSkiPw3EZaxUgG/e5ndjvU1CyTT4eIS1yT55
-         qxvXkXatVVruQo8ZOwP1aBfuCwaV+IkGtlcCgLiS1ppp7dk7L+COxgKehWEqYUhceEpH
-         Oc9mrSw/NgzMF60miI0pEXLd5Z46Im2ZWR+NFOYfWtRpu7V0vWs7FZ6WNuhhT23hEEGR
-         mXFs7TPVxePEeZMi0DFZbhXgBo4oIVWh5nuTnrS54b8FChKTNcx00leCZtsNSTdN7E5/
-         v1iQ==
-X-Gm-Message-State: AOAM530EUImYlG3zZOIpvbzmAxqeNJEvjnjt8kbYeAwg2ZkyPNZilof5
-	4KYvZAKep9QM82S4GZA5tj4=
-X-Google-Smtp-Source: ABdhPJzW+9b/StIgSDnjiIRYU+ita+RNBimNLDEAWgwEGdyc/muLvrTDZFGzFG5y+HigeF+8tgWRZg==
-X-Received: by 2002:a17:906:1351:: with SMTP id x17mr15651133ejb.242.1617962512476;
-        Fri, 09 Apr 2021 03:01:52 -0700 (PDT)
+        bh=HkNYgYU1YHKm0Z1UO5d8nPKM2/cFIDGkUiKsAmSRBPY=;
+        b=ZOW+d89KDW9xaGCvAxoyzuyLdbTyBRl4uH65PvOrypdIhYSYMbQGNzZqS6IPl6MK1h
+         7IW3iq41sDxvCHKPMHELP0vNKqIqsBvW6efQura3XMXxQ3nr25xIXLD6Py98BIRTrWO0
+         FkZSDyzz1yU8JIgmNe5gDrDJj60cLHkD8rw2ZtMpMvrfY0bE41UiaBZTROpQwI4LnqiS
+         BFgHEkAMT154+xxIawzxCn69foM6kKPI3qNQ2cL27lSiCyGbL8iUou90SczKBC0QKuUC
+         VwahrDvYwv+PIZDtJ8FcPJ5stFENgN3cfujBVnD8qvmCzn4hrGrg64gr8B4KWf5Dj91P
+         lpNQ==
+X-Gm-Message-State: AOAM533f7NorFHJotLofJgL9t8lTU3X3LKeefMun6IDdfvaxFV7AxCnf
+	3jVMrAbeIfaipte5c0vsIcM=
+X-Google-Smtp-Source: ABdhPJy0z2z0G+TjWtsbFGQ5lvpYowidNQ14fpUwQaDnwsB3KcMV/lyXUfmcHNHNtkAzUOT3HFwilg==
+X-Received: by 2002:a17:906:2e8f:: with SMTP id o15mr14995995eji.171.1617962514008;
+        Fri, 09 Apr 2021 03:01:54 -0700 (PDT)
 Received: from agape ([5.171.72.173])
-        by smtp.gmail.com with ESMTPSA id h8sm1114387ede.25.2021.04.09.03.01.51
+        by smtp.gmail.com with ESMTPSA id g11sm1136531edw.37.2021.04.09.03.01.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 03:01:52 -0700 (PDT)
+        Fri, 09 Apr 2021 03:01:53 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 03/11] staging: rtl8723bs: remove unused code block in os_dep/ioctl_linux.c
-Date: Fri,  9 Apr 2021 12:01:31 +0200
-Message-Id: <b1d8f99f949fd79b27295e8a508d1b0c5861622f.1617962215.git.fabioaiuto83@gmail.com>
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH 04/11] staging: rtl8723bs: remove unused variables and code block left unused in os_dep/ioctl_linux.c
+Date: Fri,  9 Apr 2021 12:01:32 +0200
+Message-Id: <0e950e74565b573a98b851092cc2078045d5ac3d.1617962215.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617962215.git.fabioaiuto83@gmail.com>
 References: <cover.1617962215.git.fabioaiuto83@gmail.com>
@@ -52,48 +53,45 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-remove unused code block which does nothing.
+fix following kernel test robot warnings:
 
-A list is parsed but no value is written outside
-the scope of the function rtw_dbg_port.
+drivers/staging/rtl8723bs/os_dep/ioctl_linux.c:
+In function ‘rtw_dbg_port’:
+drivers/staging/rtl8723bs/os_dep/ioctl_linux.c:2548:33:
+warning: variable ‘preorder_ctrl’ set but
+	not used [-Wunused-but-set-variable]
+       struct recv_reorder_ctrl *preorder_ctrl;
+                                 ^~~~~~~~~~~~~
 
+remove also unnecessary conditional code block.
+
+Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- .../staging/rtl8723bs/os_dep/ioctl_linux.c    | 20 -------------------
- 1 file changed, 20 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/ioctl_linux.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-index 303a236fe8e6..9735522f9cc8 100644
+index 9735522f9cc8..d70e2d5d51e7 100644
 --- a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
 +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-@@ -2567,26 +2567,6 @@ static int rtw_dbg_port(struct net_device *dev,
- 					}
+@@ -2543,14 +2543,6 @@ static int rtw_dbg_port(struct net_device *dev,
  					break;
- 				case 0x09:
--					{
+ 				case 0x05:
+ 					psta = rtw_get_stainfo(pstapriv, cur_network->network.MacAddress);
+-					if (psta) {
 -						int i;
--						struct list_head	*plist, *phead;
+-						struct recv_reorder_ctrl *preorder_ctrl;
 -
--						spin_lock_bh(&pstapriv->sta_hash_lock);
--
--						for (i = 0; i < NUM_STA; i++) {
--							phead = &(pstapriv->sta_hash[i]);
--							plist = get_next(phead);
--
--							while (phead != plist) {
--								psta = container_of(plist, struct sta_info, hash_list);
--
--								plist = get_next(plist);
--							}
--						}
--
--						spin_unlock_bh(&pstapriv->sta_hash_lock);
+-						for (i = 0; i < 16; i++)
+-							preorder_ctrl = &psta->recvreorder_ctrl[i];
 -
 -					}
  					break;
- 				case 0x0a:
+ 				case 0x06:
  					{
 -- 
 2.20.1
