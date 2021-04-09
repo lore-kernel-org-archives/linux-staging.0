@@ -1,126 +1,117 @@
-Received: from smtprelay.hostedemail.com (smtprelay0209.hostedemail.com [216.40.44.209])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8E16D0E
-	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 08:40:55 +0000 (UTC)
-Received: from omf17.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-	by smtprelay07.hostedemail.com (Postfix) with ESMTP id 1E804181CB2D4;
-	Fri,  9 Apr 2021 08:40:49 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf17.hostedemail.com (Postfix) with ESMTPA id E63D027DD11;
-	Fri,  9 Apr 2021 08:40:46 +0000 (UTC)
-Message-ID: <05802da66d3751611b85eb63d566220e09ef4bb7.camel@perches.com>
-Subject: Re: [PATCH] staging: media: meson: vdec: matched alignment with
- parenthesis
-From: Joe Perches <joe@perches.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>, Mitali Borkar
- <mitaliborkar810@gmail.com>,  narmstrong@baylibre.com, mchehab@kernel.org,
- gregkh@linuxfoundation.org,  khilman@baylibre.com, jbrunet@baylibre.com,
- martin.blumenstingl@googlemail.com
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com, 
-	mitali_s@me.iitr.ac.in
-Date: Fri, 09 Apr 2021 01:40:45 -0700
-In-Reply-To: <479be6a4-2e6f-98a6-045f-d7c2132137c4@xs4all.nl>
-References: <YG+Bcqxetfj98l6V@kali>
-	 <479be6a4-2e6f-98a6-045f-d7c2132137c4@xs4all.nl>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76CF86D0E
+	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 08:53:21 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id f12so4872759wro.0
+        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 01:53:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=5A7hip5HNnqqYLaE8cwZV0V2a06xYyPPsPaw4/onnlI=;
+        b=E/8GgFwelU6ZMU3BlvWFt00DzbWUEBm+p5if5yuq3rd8uBeRrXl3L+F9A1CmFfxl61
+         g/kXk3pws6NLEC8xhd+wm+VPLMNPsaFs047yGXm0k9mHdetig8vqDF5O/TfDsc5zm+oL
+         1MWxS5g2Q7LUNt25SvQS/TtB81xp7x7WU2WQ7Di40zAZTElW3dvk4lvh7g4mVdewQ7Au
+         PToOU1uAhPy0wrFSWmiOZkaFG4EaaJk9HJhkjtmJ4CRGR0q+rAorI3bizPQc7bKDdABb
+         wcVfQpT3jQMhzx/4WBlVrU/zKXplS2tp+lk0ctKfNB3l6WBqY75jpjokU95VlI+qe+SM
+         ipuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=5A7hip5HNnqqYLaE8cwZV0V2a06xYyPPsPaw4/onnlI=;
+        b=SdXKDyL87ifNQrKEnMmeuNtTljqDYqVPXeBVETPYm3VT59Ei/jjyR8H5K1E7bC/jpr
+         kyofzFfNGRAGfzs+xza1aTmFpW3zpwQJKwfGYQ1wP99OJFRc4Qmocgkz5Zma9yD+YFUK
+         xIgyAW+365RX9eU++3h5WS0t54C5OxVP7sIzzhH3TZ2WxEmJ5TvWPrn1lSbO+Zlm1tWc
+         Cbpvi3IOhZ1WJ4tYJxbsNE4iqPGoDm2vxJWoO8f5EcpWQiG2KXsFYrIY2MnnpPbJ8/i6
+         lD28CQUaRGwvNAJXVI21DKb6c6LQGXuQCTikblqdeFynBA8NTMVsyciIIgu/4sWhoMak
+         kQ1g==
+X-Gm-Message-State: AOAM5309Xt/2gK35c3shvSxXtSRlrlTV1r1ZiW6ncVNyrkU1HUkDp8vp
+	v3SO/DFyPL/RRH2mVt4A/5A=
+X-Google-Smtp-Source: ABdhPJy/hMUhoUXl46PoPPOyK3KQawtQgk1CfJKQDeLLRw4/8Cfdeh7A5T2E2ovfJVBF3SouidyLFg==
+X-Received: by 2002:adf:d1cd:: with SMTP id b13mr16303013wrd.47.1617958399990;
+        Fri, 09 Apr 2021 01:53:19 -0700 (PDT)
+Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
+        by smtp.gmail.com with ESMTPSA id m67sm1659146wme.27.2021.04.09.01.53.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Apr 2021 01:53:19 -0700 (PDT)
+Date: Fri, 9 Apr 2021 09:53:17 +0100
+From: Rui Miguel Silva <rmfrfs@gmail.com>
+To: Dinghao Liu <dinghao.liu@zju.edu.cn>
+Cc: kjlu@umn.edu, Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] [v2] media: imx: imx7-mipi-csis: Fix runtime PM
+ imbalance in mipi_csis_s_stream
+Message-ID: <20210409085317.ycj273fqwbmowfqb@arch-thunder.localdomain>
+References: <20210409082225.22461-1-dinghao.liu@zju.edu.cn>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.60
-X-Stat-Signature: 3wzrfrdy5sxkqd6b68tqw46b31ozb1s4
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: E63D027DD11
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX186Cki4iz9kgGIdAcl84qUVMxED1MeG/h8=
-X-HE-Tag: 1617957646-625853
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210409082225.22461-1-dinghao.liu@zju.edu.cn>
 
-On Fri, 2021-04-09 at 09:30 +0200, Hans Verkuil wrote:
-> On 09/04/2021 00:19, Mitali Borkar wrote:
-> > Matched alignment with open parenthesis to meet linux kernel coding
-> > style.
-> > Reported by checkpatch
-> > 
-> > Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
-> > ---
-> >  drivers/staging/media/meson/vdec/codec_mpeg12.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/media/meson/vdec/codec_mpeg12.c b/drivers/staging/media/meson/vdec/codec_mpeg12.c
-> > index 48869cc3d973..21e93a13356c 100644
-> > --- a/drivers/staging/media/meson/vdec/codec_mpeg12.c
-> > +++ b/drivers/staging/media/meson/vdec/codec_mpeg12.c
-> > @@ -81,7 +81,7 @@ static int codec_mpeg12_start(struct amvdec_session *sess)
-> >  	}
-> >  
-> > 
-> >  	ret = amvdec_set_canvases(sess, (u32[]){ AV_SCRATCH_0, 0 },
-> > -					(u32[]){ 8, 0 });
-> > +				  (u32[]){ 8, 0 });
+Hi Liu,
+Many thanks for the patch.
+
+On Fri, Apr 09, 2021 at 04:22:25PM +0800, Dinghao Liu wrote:
+> When v4l2_subdev_call() fails, a pairing PM usage counter
+> decrement is needed to keep the counter balanced. It's the
+> same for the following error paths in case 'enable' is on.
 > 
-> The alignment here is because the 2nd and 3rd arguments belong together, so
-> the alignment indicates that. In order to keep that I would add a newline
-> after 'sess,' as well. Same as is done in meson/vdec/codec_h264.c.
+> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
 
-Perhaps better as:
+LGTM
+Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
 
----
- drivers/staging/media/meson/vdec/codec_mpeg12.c | 5 +++--
- drivers/staging/media/meson/vdec/vdec_helpers.c | 2 +-
- drivers/staging/media/meson/vdec/vdec_helpers.h | 2 +-
- 3 files changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/staging/media/meson/vdec/codec_mpeg12.c b/drivers/staging/media/meson/vdec/codec_mpeg12.c
-index 48869cc3d973..933f1cd16ce1 100644
---- a/drivers/staging/media/meson/vdec/codec_mpeg12.c
-+++ b/drivers/staging/media/meson/vdec/codec_mpeg12.c
-@@ -65,6 +65,8 @@ static int codec_mpeg12_start(struct amvdec_session *sess)
- 	struct amvdec_core *core = sess->core;
- 	struct codec_mpeg12 *mpeg12;
- 	int ret;
-+	static const u32 canvas1[] = { AV_SCRATCH_0, 0 };
-+	static const u32 canvas2[] = { 8, 0 };
- 
- 	mpeg12 = kzalloc(sizeof(*mpeg12), GFP_KERNEL);
- 	if (!mpeg12)
-@@ -80,8 +82,7 @@ static int codec_mpeg12_start(struct amvdec_session *sess)
- 		goto free_mpeg12;
- 	}
- 
--	ret = amvdec_set_canvases(sess, (u32[]){ AV_SCRATCH_0, 0 },
--					(u32[]){ 8, 0 });
-+	ret = amvdec_set_canvases(sess, canvas1, canvas2);
- 	if (ret)
- 		goto free_workspace;
- 
-diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
-index 7f07a9175815..df5c27266c44 100644
---- a/drivers/staging/media/meson/vdec/vdec_helpers.c
-+++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
-@@ -177,7 +177,7 @@ static int set_canvas_nv12m(struct amvdec_session *sess,
- }
- 
- int amvdec_set_canvases(struct amvdec_session *sess,
--			u32 reg_base[], u32 reg_num[])
-+			const u32 reg_base[], const u32 reg_num[])
- {
- 	struct v4l2_m2m_buffer *buf;
- 	u32 pixfmt = sess->pixfmt_cap;
-diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
-index cfaed52ab526..ace8897c34fe 100644
---- a/drivers/staging/media/meson/vdec/vdec_helpers.h
-+++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
-@@ -17,7 +17,7 @@
-  * @reg_num: number of contiguous registers after each reg_base (including it)
-  */
- int amvdec_set_canvases(struct amvdec_session *sess,
--			u32 reg_base[], u32 reg_num[]);
-+			const u32 reg_base[], const u32 reg_num[]);
- 
- /* Helpers to read/write to the various IPs (DOS, PARSER) */
- u32 amvdec_read_dos(struct amvdec_core *core, u32 reg);
-
+------
+Cheers,
+     Rui
+> ---
+> 
+> Changelog:
+> 
+> v2: - Use pm_runtime_put() to balance the refcount.
+> ---
+>  drivers/staging/media/imx/imx7-mipi-csis.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+> index a01a7364b4b9..6f3e8a15e7c4 100644
+> --- a/drivers/staging/media/imx/imx7-mipi-csis.c
+> +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+> @@ -628,7 +628,7 @@ static int mipi_csis_s_stream(struct v4l2_subdev *mipi_sd, int enable)
+>  		}
+>  		ret = v4l2_subdev_call(state->src_sd, core, s_power, 1);
+>  		if (ret < 0)
+> -			return ret;
+> +			goto pm_put;
+>  	}
+>  
+>  	mutex_lock(&state->lock);
+> @@ -657,7 +657,8 @@ static int mipi_csis_s_stream(struct v4l2_subdev *mipi_sd, int enable)
+>  
+>  unlock:
+>  	mutex_unlock(&state->lock);
+> -	if (!enable)
+> +pm_put:
+> +	if (!enable || (ret < 0))
+>  		pm_runtime_put(&state->pdev->dev);
+>  
+>  	return ret;
+> -- 
+> 2.17.1
+> 
+> 
