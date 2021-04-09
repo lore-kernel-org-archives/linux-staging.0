@@ -1,81 +1,126 @@
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+Received: from smtprelay.hostedemail.com (smtprelay0209.hostedemail.com [216.40.44.209])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C618B6D0E
-	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 08:33:52 +0000 (UTC)
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FGrtm2nxqzPpcr;
-	Fri,  9 Apr 2021 16:30:56 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.498.0; Fri, 9 Apr 2021 16:33:36 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <TheSven73@gmail.com>, <gregkh@linuxfoundation.org>
-CC: <linux-staging@lists.linux.dev>, Tian Tao <tiantao6@hisilicon.com>
-Subject: [PATCH] staging: fieldbus: simplify devm_anybuss_host_common_probe
-Date: Fri, 9 Apr 2021 16:34:00 +0800
-Message-ID: <1617957240-53633-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8E16D0E
+	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 08:40:55 +0000 (UTC)
+Received: from omf17.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+	by smtprelay07.hostedemail.com (Postfix) with ESMTP id 1E804181CB2D4;
+	Fri,  9 Apr 2021 08:40:49 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf17.hostedemail.com (Postfix) with ESMTPA id E63D027DD11;
+	Fri,  9 Apr 2021 08:40:46 +0000 (UTC)
+Message-ID: <05802da66d3751611b85eb63d566220e09ef4bb7.camel@perches.com>
+Subject: Re: [PATCH] staging: media: meson: vdec: matched alignment with
+ parenthesis
+From: Joe Perches <joe@perches.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>, Mitali Borkar
+ <mitaliborkar810@gmail.com>,  narmstrong@baylibre.com, mchehab@kernel.org,
+ gregkh@linuxfoundation.org,  khilman@baylibre.com, jbrunet@baylibre.com,
+ martin.blumenstingl@googlemail.com
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com, 
+	mitali_s@me.iitr.ac.in
+Date: Fri, 09 Apr 2021 01:40:45 -0700
+In-Reply-To: <479be6a4-2e6f-98a6-045f-d7c2132137c4@xs4all.nl>
+References: <YG+Bcqxetfj98l6V@kali>
+	 <479be6a4-2e6f-98a6-045f-d7c2132137c4@xs4all.nl>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.60
+X-Stat-Signature: 3wzrfrdy5sxkqd6b68tqw46b31ozb1s4
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: E63D027DD11
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX186Cki4iz9kgGIdAcl84qUVMxED1MeG/h8=
+X-HE-Tag: 1617957646-625853
 
-Use devm_add_action_or_reset() instead of devres_alloc() and
-devres_add(), which works the same. This will simplify the
-code. There is no functional changes.
+On Fri, 2021-04-09 at 09:30 +0200, Hans Verkuil wrote:
+> On 09/04/2021 00:19, Mitali Borkar wrote:
+> > Matched alignment with open parenthesis to meet linux kernel coding
+> > style.
+> > Reported by checkpatch
+> > 
+> > Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+> > ---
+> >  drivers/staging/media/meson/vdec/codec_mpeg12.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/staging/media/meson/vdec/codec_mpeg12.c b/drivers/staging/media/meson/vdec/codec_mpeg12.c
+> > index 48869cc3d973..21e93a13356c 100644
+> > --- a/drivers/staging/media/meson/vdec/codec_mpeg12.c
+> > +++ b/drivers/staging/media/meson/vdec/codec_mpeg12.c
+> > @@ -81,7 +81,7 @@ static int codec_mpeg12_start(struct amvdec_session *sess)
+> >  	}
+> >  
+> > 
+> >  	ret = amvdec_set_canvases(sess, (u32[]){ AV_SCRATCH_0, 0 },
+> > -					(u32[]){ 8, 0 });
+> > +				  (u32[]){ 8, 0 });
+> 
+> The alignment here is because the 2nd and 3rd arguments belong together, so
+> the alignment indicates that. In order to keep that I would add a newline
+> after 'sess,' as well. Same as is done in meson/vdec/codec_h264.c.
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+Perhaps better as:
+
 ---
- drivers/staging/fieldbus/anybuss/host.c | 20 ++++++++------------
- 1 file changed, 8 insertions(+), 12 deletions(-)
+ drivers/staging/media/meson/vdec/codec_mpeg12.c | 5 +++--
+ drivers/staging/media/meson/vdec/vdec_helpers.c | 2 +-
+ drivers/staging/media/meson/vdec/vdec_helpers.h | 2 +-
+ 3 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/fieldbus/anybuss/host.c b/drivers/staging/fieldbus/anybuss/host.c
-index 549cb7d5..2924e68 100644
---- a/drivers/staging/fieldbus/anybuss/host.c
-+++ b/drivers/staging/fieldbus/anybuss/host.c
-@@ -1406,7 +1406,7 @@ void anybuss_host_common_remove(struct anybuss_host *host)
+diff --git a/drivers/staging/media/meson/vdec/codec_mpeg12.c b/drivers/staging/media/meson/vdec/codec_mpeg12.c
+index 48869cc3d973..933f1cd16ce1 100644
+--- a/drivers/staging/media/meson/vdec/codec_mpeg12.c
++++ b/drivers/staging/media/meson/vdec/codec_mpeg12.c
+@@ -65,6 +65,8 @@ static int codec_mpeg12_start(struct amvdec_session *sess)
+ 	struct amvdec_core *core = sess->core;
+ 	struct codec_mpeg12 *mpeg12;
+ 	int ret;
++	static const u32 canvas1[] = { AV_SCRATCH_0, 0 };
++	static const u32 canvas2[] = { 8, 0 };
+ 
+ 	mpeg12 = kzalloc(sizeof(*mpeg12), GFP_KERNEL);
+ 	if (!mpeg12)
+@@ -80,8 +82,7 @@ static int codec_mpeg12_start(struct amvdec_session *sess)
+ 		goto free_mpeg12;
+ 	}
+ 
+-	ret = amvdec_set_canvases(sess, (u32[]){ AV_SCRATCH_0, 0 },
+-					(u32[]){ 8, 0 });
++	ret = amvdec_set_canvases(sess, canvas1, canvas2);
+ 	if (ret)
+ 		goto free_workspace;
+ 
+diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
+index 7f07a9175815..df5c27266c44 100644
+--- a/drivers/staging/media/meson/vdec/vdec_helpers.c
++++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
+@@ -177,7 +177,7 @@ static int set_canvas_nv12m(struct amvdec_session *sess,
  }
- EXPORT_SYMBOL_GPL(anybuss_host_common_remove);
  
--static void host_release(struct device *dev, void *res)
-+static void host_release(void *res)
+ int amvdec_set_canvases(struct amvdec_session *sess,
+-			u32 reg_base[], u32 reg_num[])
++			const u32 reg_base[], const u32 reg_num[])
  {
- 	struct anybuss_host **dr = res;
+ 	struct v4l2_m2m_buffer *buf;
+ 	u32 pixfmt = sess->pixfmt_cap;
+diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
+index cfaed52ab526..ace8897c34fe 100644
+--- a/drivers/staging/media/meson/vdec/vdec_helpers.h
++++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
+@@ -17,7 +17,7 @@
+  * @reg_num: number of contiguous registers after each reg_base (including it)
+  */
+ int amvdec_set_canvases(struct amvdec_session *sess,
+-			u32 reg_base[], u32 reg_num[]);
++			const u32 reg_base[], const u32 reg_num[]);
  
-@@ -1417,21 +1417,17 @@ struct anybuss_host * __must_check
- devm_anybuss_host_common_probe(struct device *dev,
- 			       const struct anybuss_ops *ops)
- {
--	struct anybuss_host **dr;
- 	struct anybuss_host *host;
--
--	dr = devres_alloc(host_release, sizeof(struct anybuss_host *),
--			  GFP_KERNEL);
--	if (!dr)
--		return ERR_PTR(-ENOMEM);
-+	int ret;
- 
- 	host = anybuss_host_common_probe(dev, ops);
--	if (IS_ERR(host)) {
--		devres_free(dr);
-+	if (IS_ERR(host))
- 		return host;
--	}
--	*dr = host;
--	devres_add(dev, dr);
-+
-+	ret = devm_add_action_or_reset(dev, host_release, host);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
- 	return host;
- }
- EXPORT_SYMBOL_GPL(devm_anybuss_host_common_probe);
--- 
-2.7.4
+ /* Helpers to read/write to the various IPs (DOS, PARSER) */
+ u32 amvdec_read_dos(struct amvdec_core *core, u32 reg);
 
