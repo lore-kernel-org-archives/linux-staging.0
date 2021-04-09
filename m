@@ -1,49 +1,49 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41856D0E
-	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 10:02:03 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id z1so5855045edb.8
-        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 03:02:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E3CC6D0E
+	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 10:02:05 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id e14so7706900ejz.11
+        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 03:02:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=7P0K3FKgejJxyJ0qBQdn6JCUteyrf/rikuY3jTQzlpw=;
-        b=fxzwMak2IjFah+p+7J+qQgZid1/zKU3CMrVNUKRJJDVCLJhlITr10lUi1ZWddP5Gbg
-         FMEZemFMn5r2YWXz07TXvcJgBskIAi8J/FHfHWJll5XhJ/oTSdpZFY3yaDfp7qUyZpO4
-         0OHpMDdfxM9nme23T+c7kdJUHflipOisczsv9rPk/nhRj+rzbDtq2PX8jXebrQ6SWh2Z
-         97iCNgoa1PozWx8TsQcYZ+3X1Jxo2TtXqm71ZBfvGXQo8qLYb4UsZQUNN2nHA7tEqqWk
-         ErjJvX2aQmn2y/ZB3XMnDZFxFzghkq0wTcfHbMrqpLRdnoE+l0Pdiki8wHHx4I500xjv
-         8vJg==
+        bh=wJ8/v9wK24aS5UXikGd6e9KbYisMB01d5v8N2b/3U7A=;
+        b=VAqidPpx2T2vRO2DcUlQUj3c21p45h+CAtoufrQ5nER7ogfjgDWILOUiXDZvOUYen0
+         o/Zbl5FYTjeZXiOibRJKxHooKLhMMqWIlgof4nYPfU5nIm4S6o4kte0cDcnFbqTBRMjQ
+         eKHlQHQyPo4k1mn65R+kJwDTSuBEJCrie7Psqm13wdLyGe4dahPYr103HN2LQCQrtSu4
+         ISQTC1Qf+7jye5uGGhP06pqBKgXAYU+DI2xX6hzhMjkYMc+5C6+RXj1OwyaXvailpkGR
+         ymEyz7daFwqLbO+NNivV7WGPVO9pM9x5D5QLNxpCSw88QjzwDKbl2wIK70kk3uls9HPq
+         8j8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=7P0K3FKgejJxyJ0qBQdn6JCUteyrf/rikuY3jTQzlpw=;
-        b=mhg9bAoLruiENaQx94updm3td5FN/uZ8tk/JwkEnvonHaQnzDrjLrdP+72Be/2f6x/
-         ju+PJTRBvqseWjfOgV6DXd1XoXuyLQcztEKSA5uwwEhgke06TKZq7bx288KgUwhBxugK
-         J0y3sbLO/uJPWo70UXUqXh2RfSGngGUFQJ9f+CbSz2mNVbi35uOOIh+YyL7j6JVtniGa
-         Ajh/YhNVWB3dCwfjOj+SYiLVYuTvNuCQ4hgqy1EbyXmyEzT0mnMTT9hDwL9d2IXbem+N
-         uztYeIOQ6NkuIGU5rRg36RytdqeHvrtusD3u0VcO0suUMJx505RFL98BRuWkSJgV7wbY
-         SQ5g==
-X-Gm-Message-State: AOAM530943yvApEdgbLVt8SLZvZpGejn25UXTL6MTo6FYnAon1wGwfBx
-	XAejTaZx8OstJEvX2MghFaQ=
-X-Google-Smtp-Source: ABdhPJzWbj+T/lQYp+qk6KX/DONxUPx9r3cMHQ8rIRVUbMnERb3LcQXHeI1FVnDFoMxwHXPquoB4Kw==
-X-Received: by 2002:a05:6402:40ca:: with SMTP id z10mr12353968edb.215.1617962522528;
-        Fri, 09 Apr 2021 03:02:02 -0700 (PDT)
+        bh=wJ8/v9wK24aS5UXikGd6e9KbYisMB01d5v8N2b/3U7A=;
+        b=L31AoyjxwQ493PLdd3w0dgrYj/oHI6xfRxdk/ib80GHGZhiUlwgeCcKNUEAMMlw9IK
+         5CFnTMFQU7mPV6sCzsE31JjsGxFxiZajThRdQaGj+CAwE29dR1Gw6smZd1MN32lrnVND
+         +bhZS16HzjY3bXH3SGwjUQo7hKdZOu57zRZA3M1THbhDb4Lc7JRIbtKNEl7Dzp2iGFYZ
+         f0dDLLpXV6uxDQzT9RhOLnuepoIPklGautvlStsxyf/4Rxjnjavyl8sKeHfV4fA6ZcTT
+         89E4JWnsOPv06FIJzfMu46iNTqtDwMZ4Lh/BRqJMONgp4ysuJUb4Q3QETZtidFFyhT/B
+         Oexw==
+X-Gm-Message-State: AOAM532IJJMYlRX9AKMfCxWzJuiyNfvkRzMVbkoU0KvEGkN040Ce+KO5
+	6huHLKeseZ8hhacW0vuaZHo=
+X-Google-Smtp-Source: ABdhPJw+HXVISIBTqmrtllvm15Bx2krjOzP8ZfiDyNRia6+AfSfgTH9kDkIOXMihRQXgcZONw/Pz1A==
+X-Received: by 2002:a17:906:7016:: with SMTP id n22mr6102564ejj.23.1617962524251;
+        Fri, 09 Apr 2021 03:02:04 -0700 (PDT)
 Received: from agape ([5.171.72.173])
-        by smtp.gmail.com with ESMTPSA id i16sm576252ejc.106.2021.04.09.03.02.01
+        by smtp.gmail.com with ESMTPSA id g20sm1137983edb.7.2021.04.09.03.02.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 03:02:02 -0700 (PDT)
+        Fri, 09 Apr 2021 03:02:03 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 09/11] staging: rtl8723bs: remove unused variable declaration in include/rtw_security.h
-Date: Fri,  9 Apr 2021 12:01:37 +0200
-Message-Id: <819680ab87bbe543aba966f1fe47b209d3d8a69f.1617962215.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 10/11] staging: rtl8723bs: remove unused variable in os_dep/ioctl_linux.c
+Date: Fri,  9 Apr 2021 12:01:38 +0200
+Message-Id: <6211c4177a9ef1e677987c9ebac445df08605f40.1617962215.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617962215.git.fabioaiuto83@gmail.com>
 References: <cover.1617962215.git.fabioaiuto83@gmail.com>
@@ -52,50 +52,45 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 fix following kernel test robot warning:
 
-   At top level:
-   drivers/staging/rtl8723bs/include/rtw_security.h:336:28:
-warning: 'K' defined but not used [-Wunused-const-variable=]
-     336 | static const unsigned long K[64] = {
-         |                            ^
+drivers/staging/rtl8723bs/os_dep/ioctl_linux.c:
+In function ‘rtw_wx_set_mlme’:
+drivers/staging/rtl8723bs/os_dep/ioctl_linux.c:1128:6:
+warning: variable ‘reason’ set but
+	not used [-Wunused-but-set-variable]
+  u16 reason;
+      ^~~~~~
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- .../staging/rtl8723bs/include/rtw_security.h   | 18 ------------------
- 1 file changed, 18 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/ioctl_linux.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_security.h b/drivers/staging/rtl8723bs/include/rtw_security.h
-index b71f0959108b..5c787e999aab 100644
---- a/drivers/staging/rtl8723bs/include/rtw_security.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_security.h
-@@ -332,24 +332,6 @@ static inline u32 rotr(u32 val, int bits)
- /* This is based on SHA256 implementation in LibTomCrypt that was released into
-  * public domain by Tom St Denis. */
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+index 0ff6fbbb4e4f..6f52b8fb0d6e 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+@@ -1125,7 +1125,6 @@ static int rtw_wx_set_mlme(struct net_device *dev,
+ 			     union iwreq_data *wrqu, char *extra)
+ {
+ 	int ret = 0;
+-	u16 reason;
+ 	struct adapter *padapter = rtw_netdev_priv(dev);
+ 	struct iw_mlme *mlme = (struct iw_mlme *)extra;
  
--/* the K array */
--static const unsigned long K[64] = {
--	0x428a2f98UL, 0x71374491UL, 0xb5c0fbcfUL, 0xe9b5dba5UL, 0x3956c25bUL,
--	0x59f111f1UL, 0x923f82a4UL, 0xab1c5ed5UL, 0xd807aa98UL, 0x12835b01UL,
--	0x243185beUL, 0x550c7dc3UL, 0x72be5d74UL, 0x80deb1feUL, 0x9bdc06a7UL,
--	0xc19bf174UL, 0xe49b69c1UL, 0xefbe4786UL, 0x0fc19dc6UL, 0x240ca1ccUL,
--	0x2de92c6fUL, 0x4a7484aaUL, 0x5cb0a9dcUL, 0x76f988daUL, 0x983e5152UL,
--	0xa831c66dUL, 0xb00327c8UL, 0xbf597fc7UL, 0xc6e00bf3UL, 0xd5a79147UL,
--	0x06ca6351UL, 0x14292967UL, 0x27b70a85UL, 0x2e1b2138UL, 0x4d2c6dfcUL,
--	0x53380d13UL, 0x650a7354UL, 0x766a0abbUL, 0x81c2c92eUL, 0x92722c85UL,
--	0xa2bfe8a1UL, 0xa81a664bUL, 0xc24b8b70UL, 0xc76c51a3UL, 0xd192e819UL,
--	0xd6990624UL, 0xf40e3585UL, 0x106aa070UL, 0x19a4c116UL, 0x1e376c08UL,
--	0x2748774cUL, 0x34b0bcb5UL, 0x391c0cb3UL, 0x4ed8aa4aUL, 0x5b9cca4fUL,
--	0x682e6ff3UL, 0x748f82eeUL, 0x78a5636fUL, 0x84c87814UL, 0x8cc70208UL,
--	0x90befffaUL, 0xa4506cebUL, 0xbef9a3f7UL, 0xc67178f2UL
--};
+@@ -1133,8 +1132,6 @@ static int rtw_wx_set_mlme(struct net_device *dev,
+ 	if (mlme == NULL)
+ 		return -1;
+ 
+-	reason = mlme->reason_code;
 -
--
- /* Various logical functions */
- #define RORc(x, y) \
- (((((unsigned long) (x) & 0xFFFFFFFFUL) >> (unsigned long) ((y) & 31)) | \
+ 	switch (mlme->cmd) {
+ 	case IW_MLME_DEAUTH:
+ 		if (!rtw_set_802_11_disassociate(padapter))
 -- 
 2.20.1
 
