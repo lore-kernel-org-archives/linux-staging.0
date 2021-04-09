@@ -1,50 +1,50 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0B86D0E
-	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 18:50:15 +0000 (UTC)
-Received: by mail-qk1-f178.google.com with SMTP id v70so6838474qkb.8
-        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 11:50:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905EE6D0E
+	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 18:50:32 +0000 (UTC)
+Received: by mail-qk1-f181.google.com with SMTP id c3so6864257qkc.5
+        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 11:50:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=TxCHjocfvolgLMKcJMUAXR2MQWXiJcrJ6XGdnV3UFSQ=;
-        b=ojboIib+LAJLAK2R8WPLMMcSqk+duxlFCwkfYsg9J1bKE8gUkzMQqCqRLq0H6K+yl3
-         pbhzBrbhRrg6OuSvzamOvj6kwcyqFhGPnfTfXTZOQ8/PpbL/S1gukY53VzZZUY+U0Md3
-         XB2U82/29krHpOWRH35hesUBKWShbwez+UJeH72RQq8HdVJHcFcP9+HJlIJpHON3K/Qw
-         iGyLrK9p9Wk9re3dsgV3XuZPokr00Ip5i9zdmB/vnZ79OitE6rM1fS84og6tFNKwGYPl
-         J2RF1mzWKZ3GKtfSMcQIUulzby/dxVaiYssy+l0C7k1BvA/YDXW42KV9VW4lD0v2N/Ih
-         E1dw==
+        bh=V06g/V1PyEv48SI7Hy2SrXRWy5uxigOGYLsg44Gvu+0=;
+        b=flQtyr4g7O0z7R1besBKPwzFccbfZHeZo/r1YD03lAB0h2S4w+etAKkwk9039/e5TW
+         9hlM1xt1pUzntNZ73KIfw9Be26WhjVs5RR8LGpM+9mdG13KXoOcMUosrLxbFs0RJYrg2
+         cOcpYZmb4rZAjcno68WG7NBtIOdPxKd2AckokMiKZN1kdYIgjDKXPgmzHNvaUIHSNzeO
+         7f30TmhSszH/z6huOOTnRgeqfSWrltgxM7e3r2D/5Vj6b23DnySSCrYyYzJbKxX6r4br
+         oZXyq3D0l9fPUFr/iCO5yuzMuqJdyFEjeqHuSdlp+2GgTkEeaKcUjrAbC70K3sI9Hw1e
+         xrdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=TxCHjocfvolgLMKcJMUAXR2MQWXiJcrJ6XGdnV3UFSQ=;
-        b=of3Izv4cnn2otkyNyzfyCq986CfQuIr0UfRAYIeKqluYSfxx+7ztUSNytNDcW4tTTu
-         60butLzW12euznAbdEe5chTbPDqc+/YIkhTHq5L2SZ0HW+NZ1cQQxwnIpd/rdsSI/egC
-         LSJG5hGBVmwabP1owB2eLYijFUl0VXQiLlCKGWycgT68OBj48yopBmBQ1iRL/9y7Sgzj
-         nyh4B8eejDT+Nw/NZr7slA/I436ZKhNeSE1o/R+deJTnJR7PivuKBvJsjVR6TKxqAIal
-         cbpQMdes+SBeeRJ0y/sRtLJVQHdIOCst7T2M1DpuEqZ0xLJREVcrTquzif4Ji+PdVqO4
-         SmWg==
-X-Gm-Message-State: AOAM530aOAOdiQQy1c0JmMNvq9JNgJLYgmJRmprktFQu1LZNVD0q9o2/
-	RSeBh6vSZCppuwnptxkou+Q=
-X-Google-Smtp-Source: ABdhPJwplwfUkzNEF2GL+6/qzxFO2fQsmh1/BJO08c880AYwwprUUfBzaG8l2b2S9+xiMJaqpqpNyQ==
-X-Received: by 2002:a37:7147:: with SMTP id m68mr14899919qkc.286.1617994214783;
-        Fri, 09 Apr 2021 11:50:14 -0700 (PDT)
+        bh=V06g/V1PyEv48SI7Hy2SrXRWy5uxigOGYLsg44Gvu+0=;
+        b=sSNVj8bGltxylgNLDeDv1XTzoM92DgTJUuQtKAgMu+3kYZZwSyLTXYAjfRrWESeMoE
+         T9pPMLelLi45s9l8XpevGysJSHVrZhV7LRJJHrTV1wqLimvwEtY5NynUE5UkD2BoWGpI
+         XI2ezGqK79WBTtFONzxrSRy6RhXdJcAU6lFhmVMXLQDGhArxPkgUzW5P7aSnSXEbuvbK
+         EDZFwaTYR1sou2AgMwwsMYI6iiVTtMuDg1wEa/7DEOS1t3x/TTLuXZPQ7YQ15F++jpHm
+         HFIqpESCYkh+4er6QUqK1RxRstObQ+UVseFKRbq9PIXdLU2j0t01KfVlQUk9rUDVcYED
+         MfbQ==
+X-Gm-Message-State: AOAM5333HJeztL0kg1ObzywL7MGeTvKwpuJBTlrWxPt8kdyV0TY8x7gC
+	Up2Z81dvxQiE7T1nUZSrk7ffJu0n8ZOU8Izr
+X-Google-Smtp-Source: ABdhPJyNkvxUdZ444gfxFwAZsyO1t3IEaIvmxGRhVd2xNTTWfiYLHqfkW6o8JphngO0hLlvc6uuFKg==
+X-Received: by 2002:a37:5ce:: with SMTP id 197mr1236863qkf.23.1617994231748;
+        Fri, 09 Apr 2021 11:50:31 -0700 (PDT)
 Received: from smtp.gmail.com ([2804:14c:73:9a01:86f3:17eb:e23c:86fd])
-        by smtp.gmail.com with ESMTPSA id h62sm2347198qkf.116.2021.04.09.11.50.12
+        by smtp.gmail.com with ESMTPSA id n136sm2379730qke.123.2021.04.09.11.50.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 11:50:14 -0700 (PDT)
-Date: Fri, 9 Apr 2021 15:50:10 -0300
+        Fri, 09 Apr 2021 11:50:31 -0700 (PDT)
+Date: Fri, 9 Apr 2021 15:50:27 -0300
 From: Lucas Stankus <lucas.p.stankus@gmail.com>
 To: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
 	gregkh@linuxfoundation.org
 Cc: linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH 1/3] dt-bindings: staging: iio: cdc: ad7746: add binding
- documentation for AD7746
-Message-ID: <4be8e3e40794474d8622192c6a5ea0fb4af527e1.1617993776.git.lucas.p.stankus@gmail.com>
+Subject: [PATCH 2/3] staging: iio: cdc: ad7746: use dt bindings to set the
+ EXCx pins output
+Message-ID: <39486895e4e985d0220342f3accfd98a1e149ea7.1617993776.git.lucas.p.stankus@gmail.com>
 References: <cover.1617993776.git.lucas.p.stankus@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,99 +55,90 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1617993776.git.lucas.p.stankus@gmail.com>
 
-Add device tree binding documentation for AD7746 cdc in YAML format.
+Ditch platform_data fields in favor of device tree properties for
+configuring EXCA and EXCB output.
+This also removes the fields from the platform_data struct, since they're
+not used anymore.
 
 Signed-off-by: Lucas Stankus <lucas.p.stankus@gmail.com>
 ---
- .../bindings/iio/cdc/adi,ad7746.yaml          | 79 +++++++++++++++++++
- 1 file changed, 79 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml
+ drivers/staging/iio/cdc/ad7746.c | 33 +++++++++++++++++---------------
+ drivers/staging/iio/cdc/ad7746.h |  4 ----
+ 2 files changed, 18 insertions(+), 19 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml b/Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml
-new file mode 100644
-index 000000000000..5de86f4374e1
---- /dev/null
-+++ b/Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml
-@@ -0,0 +1,79 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/iio/cdc/adi,ad7746.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: AD7746 24-Bit Capacitance-to-Digital Converter with Temperature Sensor
-+
-+maintainers:
-+  - Michael Hennerich <michael.hennerich@analog.com>
-+
-+description: |
-+  AD7746 24-Bit Capacitance-to-Digital Converter with Temperature Sensor
-+
-+  Specifications about the part can be found at:
-+  https://www.analog.com/media/en/technical-documentation/data-sheets/ad7291.pdf
-+
-+properties:
-+  compatible:
-+    enum:
-+      - adi,ad7745
-+      - adi,ad7746
-+      - adi,ad7747
-+
-+  reg:
-+    description: |
-+      Physiscal address of the EXC set-up register.
-+    maxItems: 1
-+
-+  adi,excitation-voltage-level:
-+    description: |
-+      Select the reference excitation voltage level used by the device.
-+      With VDD being the power supply voltage, valid values are:
-+      0: +-VDD / 8
-+      1: +-VDD / 4
-+      2: +-VDD * 3 / 8
-+      3: +-VDD / 2
-+      If left empty option 3 is selected.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [0, 1, 2, 3]
-+
-+  adi,exca-output:
-+    description: |
-+      Sets the excitation output in the exca pin.
-+      Valid values are:
-+      0: Disables output in the EXCA pin.
-+      1: Enables EXCA pin as the excitation output.
-+      2: Enables EXCA pin as the inverted excitation output.
-+      If left empty the output is disabled.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [0, 1, 2]
-+
-+  adi,excb-output:
-+    description: |
-+      Analoguos to the adi,exca-output for the EXCB pin.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [0, 1, 2]
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      ad7746: cdc@0 {
-+        compatible = "adi,ad7746";
-+        reg = <0>;
-+        adi,excitation-voltage-level = <3>;
-+        adi,exca-output = <0>;
-+        adi,excb-output = <0>;
-+      };
-+    };
-+...
+diff --git a/drivers/staging/iio/cdc/ad7746.c b/drivers/staging/iio/cdc/ad7746.c
+index dfd71e99e872..63041b164dbe 100644
+--- a/drivers/staging/iio/cdc/ad7746.c
++++ b/drivers/staging/iio/cdc/ad7746.c
+@@ -677,8 +677,10 @@ static int ad7746_probe(struct i2c_client *client,
+ 			const struct i2c_device_id *id)
+ {
+ 	struct ad7746_platform_data *pdata = client->dev.platform_data;
++	struct device_node *np = client->dev.of_node;
+ 	struct ad7746_chip_info *chip;
+ 	struct iio_dev *indio_dev;
++	unsigned int exca_en, excb_en;
+ 	unsigned char regval = 0;
+ 	int ret = 0;
+ 
+@@ -703,26 +705,27 @@ static int ad7746_probe(struct i2c_client *client,
+ 	indio_dev->num_channels = ARRAY_SIZE(ad7746_channels);
+ 	indio_dev->modes = INDIO_DIRECT_MODE;
+ 
+-	if (pdata) {
+-		if (pdata->exca_en) {
+-			if (pdata->exca_inv_en)
+-				regval |= AD7746_EXCSETUP_NEXCA;
+-			else
+-				regval |= AD7746_EXCSETUP_EXCA;
+-		}
++	ret = of_property_read_u32(np, "adi,exca-output", &exca_en);
++	if (!ret && exca_en) {
++		if (exca_en == 1)
++			regval |= AD7746_EXCSETUP_EXCA;
++		else
++			regval |= AD7746_EXCSETUP_NEXCA;
++	}
+ 
+-		if (pdata->excb_en) {
+-			if (pdata->excb_inv_en)
+-				regval |= AD7746_EXCSETUP_NEXCB;
+-			else
+-				regval |= AD7746_EXCSETUP_EXCB;
+-		}
++	ret = of_property_read_u32(np, "adi,excb-output", &excb_en);
++	if (!ret && excb_en) {
++		if (excb_en == 1)
++			regval |= AD7746_EXCSETUP_EXCB;
++		else
++			regval |= AD7746_EXCSETUP_NEXCB;
++	}
+ 
++	if (pdata) {
+ 		regval |= AD7746_EXCSETUP_EXCLVL(pdata->exclvl);
+ 	} else {
+ 		dev_warn(&client->dev, "No platform data? using default\n");
+-		regval = AD7746_EXCSETUP_EXCA | AD7746_EXCSETUP_EXCB |
+-			AD7746_EXCSETUP_EXCLVL(3);
++		regval = AD7746_EXCSETUP_EXCLVL(3);
+ 	}
+ 
+ 	ret = i2c_smbus_write_byte_data(chip->client,
+diff --git a/drivers/staging/iio/cdc/ad7746.h b/drivers/staging/iio/cdc/ad7746.h
+index 8bdbd732dbbd..6cae4ecf779e 100644
+--- a/drivers/staging/iio/cdc/ad7746.h
++++ b/drivers/staging/iio/cdc/ad7746.h
+@@ -19,10 +19,6 @@
+ 
+ struct ad7746_platform_data {
+ 	unsigned char exclvl;	/*Excitation Voltage Level */
+-	bool exca_en;		/* enables EXCA pin as the excitation output */
+-	bool exca_inv_en;	/* enables /EXCA pin as the excitation output */
+-	bool excb_en;		/* enables EXCB pin as the excitation output */
+-	bool excb_inv_en;	/* enables /EXCB pin as the excitation output */
+ };
+ 
+ #endif /* IIO_CDC_AD7746_H_ */
 -- 
 2.31.1
 
