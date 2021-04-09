@@ -1,201 +1,161 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82B8C70
-	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 11:49:27 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8AF2561005;
-	Fri,  9 Apr 2021 11:49:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1617968966;
-	bh=wSgw8vqxkTcKSyPgvD8ke8joz3MElmiOLTRjt10EyxQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r257Sg1OggCxGJg5bCTag7NFuCUtM6bBbQPGssOeudpQTueqANF9k8caCST6j+GGs
-	 mhq+777ZkQwKVhOaru41hweVqSWj04b/XsU8h7+ydnyEF2kONVWjrmWmJI81FX2inh
-	 1I5q5flBzM6rB5dvZupRSAfvTfk2iRV4KJ8C1mZTY2vPCzbW73c/T7i/07hy3SI8DF
-	 8mRhhs2yT0V+iCISJxvGjQqPD7ppY2j6k1JTxquPWqltBrBwD9Eqf+usc+F86rClEv
-	 1sWx6Xv2N6pfdBPoJd3B8urT8gi+vY7QJWCh4h6thPfMXLecWCPm/VUEaLlVYX5ru+
-	 /QWkr+ISokV9Q==
-Received: by earth.universe (Postfix, from userid 1000)
-	id 877D23C0C96; Fri,  9 Apr 2021 13:49:24 +0200 (CEST)
-Date: Fri, 9 Apr 2021 13:49:24 +0200
-From: Sebastian Reichel <sre@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Alexander Lobakin <alobakin@pm.me>, Wei Liu <wei.liu@kernel.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Bjorn Andersson <bjorn.andersson@linaro.org>,
-	Christian Brauner <christian.brauner@ubuntu.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Kees Cook <keescook@chromium.org>, Mike Rapoport <rppt@kernel.org>,
-	Corey Minyard <cminyard@mvista.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	"Jason J. Herne" <jjherne@linux.ibm.com>,
-	Joerg Roedel <jroedel@suse.de>,
-	Michael Kelley <mikelley@microsoft.com>,
-	Joe Perches <joe@perches.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Scott Branden <scott.branden@broadcom.com>,
-	Olof Johansson <olof@lixom.net>,
-	Mihai Carabas <mihai.carabas@oracle.com>,
-	Wang Wenhu <wenhu.wang@vivo.com>,
-	Marek Czerski <ma.czerski@gmail.com>,
-	Hongbo Yao <yaohongbo@huawei.com>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Vineeth Vijayan <vneethv@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Peter Oberparleiter <oberpar@linux.ibm.com>,
-	Alexander Egorenkov <egorenar@linux.ibm.com>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	"Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-um@lists.infradead.org, linux-hyperv@vger.kernel.org,
-	xen-devel@lists.xenproject.org, linux-xtensa@linux-xtensa.org,
-	openipmi-developer@lists.sourceforge.net, linux-clk@vger.kernel.org,
-	linux-edac@vger.kernel.org, coresight@lists.linaro.org,
-	linux-leds@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
-	netdev@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-arch@vger.kernel.org, kexec@lists.infradead.org,
-	rcu@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Richard Henderson <rth@twiddle.net>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	Matt Turner <mattst88@gmail.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	Helge Deller <deller@gmx.de>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Paul Mackerras <paulus@samba.org>,
-	Christian Borntraeger <borntraeger@de.ibm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Stephen Hemminger <sthemmin@microsoft.com>,
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
-	Corey Minyard <minyard@acm.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Dinh Nguyen <dinguyen@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tony Luck <tony.luck@intel.com>, James Morse <james.morse@arm.com>,
-	Robert Richter <rric@kernel.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Pavel Machek <pavel@ucw.cz>, Alex Elder <elder@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Ohad Ben-Cohen <ohad@wizery.com>,
-	Jens Frederich <jfrederich@gmail.com>,
-	Daniel Drake <dsd@laptop.org>,
-	Jon Nettleton <jon.nettleton@gmail.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Iurii Zaikin <yzaikin@google.com>,
-	Mike Rapoport <rppt@linux.ibm.com>
-Subject: Re: [PATCH v2 1/1] kernel.h: Split out panic and oops helpers
-Message-ID: <20210409114924.6dpefx26px7aeuaj@earth.universe>
-References: <20210409100250.25922-1-andriy.shevchenko@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C2A70
+	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 11:53:47 +0000 (UTC)
+Received: by mail-qt1-f179.google.com with SMTP id g24so3906894qts.6
+        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 04:53:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=rfY7/TSIGIzzxtfqlFd7sY3b3y7+bcFeCK0VpNZPuRY=;
+        b=So/hiCRVkiAtxlGQG51g2yW+Xox7jax6ey2w20HtiXYP0FCYqoMaZ5jwIxylUFhemK
+         LSm7y5ib+lLnn9iEqIG7kuRdnfK7s/8QRZLTbzOI2v0b1w/95xKKXjAZy8ZBtxX83bPf
+         ZvT/6PSNUzVEQ/7Z3ufBzk3VV+5JCznM3AmQj/x/UPR+S5jqe6EIiCtebgCqGo7p7XUe
+         kq6NfjcH0Zs6eVLxq7E3BEn6NpCMTJBpmrKu1lJZap1YKbEp+fELEP1miFBl6DT0WXaW
+         4h7fQW6RFVkHkta7cI3rgf1y0uC4PTeVkbU6yOjQzr4ZmKhd+pihVR82b3vo1LPY7ZC3
+         cuoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=rfY7/TSIGIzzxtfqlFd7sY3b3y7+bcFeCK0VpNZPuRY=;
+        b=NKvwFLB2aoihJes33zAA41hpQbzrB6nzjbJYsN+7i7jAsFq6+JaiFKOMgRpY0zYtTM
+         bbyTUS1QLjGaHdjsTj6qRnxIJOEXAIXcgDvy8vk12AwWyLibTQBsaxR9lHVUT5akrh7w
+         BGljPcj8JdjPoDDETwhWARXT+JJswSnbR5I+iEkE0MQFg5Ms0srMYcssiXo5TlXpd4Gw
+         Z7DIidIxCkzfN6WD3488vTxFLxn0PRRXJ0BFiufVzyOQrq39YuAQfvD/BUuKwjTsgymp
+         wZ6qQ2NfTpyBUV7rVdRyS9h74op5DQn4F4R2S7TNysk6pdsV9gYc9dBUWJtWuB9AjaCL
+         pxQA==
+X-Gm-Message-State: AOAM530/FsGbh2edwpORgJdqf4fu4JmKjpJFRMwS843+6U54w1cS1c1p
+	Vb9xY8pmxNhPTsj3xxyW/fQ=
+X-Google-Smtp-Source: ABdhPJyHI1CyePIKQe9Vgiz8Kk7yaPjecKjf5t0f/wSmEGgC7YY/nCTtL28dYNBXQJ1fa3TfwJpN8Q==
+X-Received: by 2002:ac8:46c5:: with SMTP id h5mr504198qto.180.1617969226014;
+        Fri, 09 Apr 2021 04:53:46 -0700 (PDT)
+Received: from ?IPv6:2001:1284:f013:b099:8056:1dc0:5a27:acd7? ([2001:1284:f013:b099:8056:1dc0:5a27:acd7])
+        by smtp.gmail.com with ESMTPSA id a8sm1627222qtx.9.2021.04.09.04.53.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Apr 2021 04:53:45 -0700 (PDT)
+Message-ID: <bd3d8a6b231ec142e420b622c1fd72276256c77f.camel@gmail.com>
+Subject: Re: [Outreachy kernel] Re: [PATCH 1/2 v2] staging: media: hantro:
+ Align line break to the open parenthesis in file hantro_hw.h
+From: ascordeiro <alinesantanacordeiro@gmail.com>
+To: Vaishali Thakkar <vthakkar@vaishalithakkar.in>
+Cc: Ezequiel Garcia <ezequiel@collabora.com>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev,  Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Outreachy
+ <outreachy-kernel@googlegroups.com>
+Date: Fri, 09 Apr 2021 08:53:41 -0300
+In-Reply-To: <CAK-LDb+L-hXpVgFpAz95921p6JOPZ8=BSYAiqjRpYv0oV=YK2A@mail.gmail.com>
+References: <cover.1617890467.git.alinesantanacordeiro@gmail.com>
+	 <1e6d73432d60dfb8bb3f7f2bd6bf3084091a2a39.1617890467.git.alinesantanacordeiro@gmail.com>
+	 <d4000598fddcf45e578462aa04b556c0ca057091.camel@collabora.com>
+	 <6bba0e0a5768e902ffec4bda563d4ca810412f84.camel@gmail.com>
+	 <CAK-LDb+L-hXpVgFpAz95921p6JOPZ8=BSYAiqjRpYv0oV=YK2A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.0 (by Flathub.org) 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="c2qg5eip4k7clkwy"
-Content-Disposition: inline
-In-Reply-To: <20210409100250.25922-1-andriy.shevchenko@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+
+Em sex, 2021-04-09 às 10:25 +0200, Vaishali Thakkar escreveu:
+> On Thu, Apr 8, 2021 at 7:41 PM ascordeiro
+> <alinesantanacordeiro@gmail.com> wrote:
+> > 
+> > Em qui, 2021-04-08 às 13:20 -0300, Ezequiel Garcia escreveu:
+> > > Ola Aline,
+> > Ola Ezequiel,
+> > 
+> > > Welcome to the kernel community. Hope you enjoy some of this
+> > > Outreachy adventures.
+> > Thank you!
+> > 
+> > > Normally, when you submit a v2, we want to know what changed
+> > > between the first submission and v2.
+> > > 
+> > > If you are subscribed to linux-media, you can read some
+> > > of the series with a vN+1 and look how it's done. Examples:
+> > > 
+> > > https://www.spinics.net/lists/linux-media/msg190043.html
+> > > 
+> > > https://www.spinics.net/lists/linux-media/msg189923.html
+> > > 
+> > > I'm sure your Outreachy mentors can tell you more.
+> > Thank you for the examples, it won't happen again.
+> > 
+> > The reason for sending a v2 is that I sent my very first patchset
+> > yesterday and I sent the cover-letter together, but (I think) I
+> > wasn't
+> > supposed to, and as the patches weren't marked as [PATCH 1/2] and
+> > [PATCH 2/2] in the email - since I commited all the files with the
+> > same
+> > message - I tought it was wrong and sent again today.
+> > 
+> > However, I just realized that I've changed just the subject of the
+> > e-
+> > mail, but I would've to change the commit message, right? And then,
+> > it
+> > would be a second version, am I right?
+> 
+> Your next version should be v3 with information about changes since
+> v1 under --- . If you send it with v2, it'll still be confusing for
+> people
+> because then they have to manually find out the difference between
+> two different patchsets with the same subject line. :)
+> 
+> You can also check 'Revising your patches' section in the tutorial.
+
+Thank you, Vaishali!
+You made it clear :)
+I'm going to correct the patchset and send v3.
+
+> > Thank you in advance,
+> > 
+> > > On Thu, 2021-04-08 at 11:07 -0300, Aline Santana Cordeiro wrote:
+> > > > Aligns line break with the remaining function arguments
+> > > > to the open parenthesis. Issue found by checkpatch.
+> > > > 
+> > > > Signed-off-by: Aline Santana Cordeiro <
+> > > > alinesantanacordeiro@gmail.com>
+> > > > ---
+> > > >  drivers/staging/media/hantro/hantro_hw.h | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/drivers/staging/media/hantro/hantro_hw.h
+> > > > b/drivers/staging/media/hantro/hantro_hw.h
+> > > > index 34c9e46..a650b9c 100644
+> > > > --- a/drivers/staging/media/hantro/hantro_hw.h
+> > > > +++ b/drivers/staging/media/hantro/hantro_hw.h
+> > > > @@ -207,7 +207,7 @@ hantro_h264_mv_size(unsigned int width,
+> > > > unsigned int height)
+> > > >  void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx);
+> > > >  void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx);
+> > > >  void hantro_mpeg2_dec_copy_qtable(u8 *qtable,
+> > > > -       const struct v4l2_ctrl_mpeg2_quantization *ctrl);
+> > > > +                                 const struct
+> > > > v4l2_ctrl_mpeg2_quantization *ctrl);
+> > > >  int hantro_mpeg2_dec_init(struct hantro_ctx *ctx);
+> > > >  void hantro_mpeg2_dec_exit(struct hantro_ctx *ctx);
+> > > > 
+> > > 
+> > > 
+> > 
+> > 
+> > --
+> > You received this message because you are subscribed to the Google
+> > Groups "outreachy-kernel" group.
+> > To unsubscribe from this group and stop receiving emails from it,
+> > send an email to outreachy-kernel+unsubscribe@googlegroups.com.
+> > To view this discussion on the web visit 
+> > https://groups.google.com/d/msgid/outreachy-kernel/6bba0e0a5768e902ffec4bda563d4ca810412f84.camel%40gmail.com
+> > .
+> 
+> 
+> 
 
 
---c2qg5eip4k7clkwy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Fri, Apr 09, 2021 at 01:02:50PM +0300, Andy Shevchenko wrote:
-> kernel.h is being used as a dump for all kinds of stuff for a long time.
-> Here is the attempt to start cleaning it up by splitting out panic and
-> oops helpers.
->=20
-> There are several purposes of doing this:
-> - dropping dependency in bug.h
-> - dropping a loop by moving out panic_notifier.h
-> - unload kernel.h from something which has its own domain
->=20
-> At the same time convert users tree-wide to use new headers, although
-> for the time being include new header back to kernel.h to avoid twisted
-> indirected includes for existing users.
->=20
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Acked-by: Mike Rapoport <rppt@linux.ibm.com>
-> Acked-by: Corey Minyard <cminyard@mvista.com>
-> Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
-> Acked-by: Kees Cook <keescook@chromium.org>
-> Acked-by: Wei Liu <wei.liu@kernel.org>
-> Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-> ---
-> v2:
->  - fixed all errors with allmodconfig on x86_64 (Andrew)
->  - checked with allyesconfig on x86_64
->  - additionally grepped source code for panic notifier list usage
->    and converted all users
->  - elaborated commit message (Luis)
->  - collected given tags (incl. Andrew's SoB, see below)
->=20
-> I added Andrew's SoB since part of the fixes I took from him. Andrew,
-> feel free to amend or tell me how you want me to do.
->=20
-> [...]
->  drivers/power/reset/ltc2952-poweroff.c        |  1 +
-> [...]
-
-Acked-by: Sebastian Reichel <sre@kernel.org>
-
--- Sebastian
-
---c2qg5eip4k7clkwy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmBwPzkACgkQ2O7X88g7
-+poVqw//cO5+glgFxA2CU4t3EHFTzSR2pExNCOensIzn/2YcvKlq6RBiaVlO87al
-zfq//z42WEWWRFkl4NeyjJx6ueQGo5Hk7qQiPRQhgt55UiQsizdAFXK4u97lVQ68
-7V2xDT3MlQ/vc+LG3vZBcSGMIoupHDqbYU2kF8xlBhdwuF1lr44NDxRTRsVErgor
-hlvEGYmwSTIg8aEkLt6Da/elDscG08MDU+vv6KLaSiruCN+RtgZGin9gv3Xu+KUi
-PhPU9ZOAfi6duIQdKmdXiAZ8Vlp/43yzeo80t/XUyiEy7Yq+qtsP6YXHlSWlPJnV
-Zz3ifkmNn7YFWd+iOeTe3oTfVIAtg4w/uX184urC+t242MBSeqEkHt7/1TJR2UAx
-8s9NtSaCLUPuFLPO9s8t6nP4kQ4HN3BoxMvgessqguLZtSg3n1Z4+ZE8veoYHQD3
-Vwz58nFLYkMxRB/pFq6dkXv6uPXTbreYkWuUFsDIao2+FVDkMp81DqE86K2li2d6
-/B6jSmObDmG/aryJn+hoHhCEJSfLnaszENAc0toFvCGYU9D5Com1A74gdztMgOvf
-CB4G04azFTgeTjX5JB6r7KXrcZ08bzspk/lo5H9fx+SLki6gFb88zNqBOLcnMM0d
-FZFNMmZ543wUtAsJSxqObtKeAcjitPcaURrh6sWiRuJkndGtmNY=
-=QA06
------END PGP SIGNATURE-----
-
---c2qg5eip4k7clkwy--
