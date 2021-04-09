@@ -1,497 +1,81 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E656D0D
-	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 07:45:03 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id m3so5424394edv.5
-        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 00:45:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Xy0Vao0tdVjFYlW/wITfeVvtikD+bPVCKwCpJGCLmRg=;
-        b=PCPyTiRfCvpOfrmJEJ/BHYzh5A0PV/3w1GAMbedMBe5mdFKUjdz22ZaZGSLUYHqo8T
-         M4aocy0wsDFcZoC30sl8Vtg7KOB/VSXVgkjYxHgZvG2M/rA57/BdDo3azMcvQbEltuaL
-         5ii+UmV8jX05F0sOeYNxfFsDMTN3s02fnHpPGXfwHj7vKIhzfIcr2+JmZPMht1mos5fa
-         FkC5TEeelhB23i5NOApK9ou8VVzN2PN42bUOhbnYFuaO5J48VXG04HB8+KeI+OOZeoFP
-         ICt2s/jEnE3MCA5kMFEUEfgdo/8hLedEjg/vSIYNQoYmXKNc1vlrjgXsK3OF4pCV4Fhk
-         Jsfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Xy0Vao0tdVjFYlW/wITfeVvtikD+bPVCKwCpJGCLmRg=;
-        b=lomWlY2c6IjZvol0e1fIhAeoYKakNcUrhnxVsPVMHxOPy3Kx6RVhYodMWFT7UkC3hd
-         9i5bfpvUZNS1F0c0VKjnGzqCeCFwMbLLMbAI/Nm7IRq8MjEWZaDaNpuB/QYfQkyeIzto
-         KzYzVUdVDJV6PNr3lChYd4MHF2s7vXkl8ME6S4vqceTZQ4ejG1wijtGDNRIMC/vlOXuy
-         Zn7rSaZVD+3K1+RYu9pOrGr79Uk7BBJVTGpXgZ4fAdbJhZS4ZaEqHCs5vceO0GgB4oJX
-         yZc22mZQ2tFwuU1tz9Tnf0j5pWkud9zhPw6rd/Ma6L+sGs4Ag0muwBukP/Zgw1uULmCM
-         lyVg==
-X-Gm-Message-State: AOAM530n+l5vKvBJMjyu/FZjTyzl3ioGO9HME1/tmo+RCgO5wzyi0VcI
-	YteFdlerOmKU/ov+Xh16Ajs=
-X-Google-Smtp-Source: ABdhPJzqfOQUCL6KsLoo2mykgMBDu2PVeQF9fQwROCQgBNUNF06WDYaPkWTbwhFz94ND9BgsqWWU0A==
-X-Received: by 2002:aa7:c694:: with SMTP id n20mr15898695edq.51.1617954302150;
-        Fri, 09 Apr 2021 00:45:02 -0700 (PDT)
-Received: from localhost.localdomain (host-79-42-91-147.retail.telecomitalia.it. [79.42.91.147])
-        by smtp.gmail.com with ESMTPSA id s11sm952148edt.27.2021.04.09.00.45.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 00:45:01 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: Greg KH <gregkh@linuxfoundation.org>, outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH v5] staging: rtl8723bs: Remove camelcase in several files
-Date: Fri, 09 Apr 2021 09:45:00 +0200
-Message-ID: <7856458.1kExZPAqk2@localhost.localdomain>
-In-Reply-To: <alpine.DEB.2.22.394.2104090922210.4597@hadrien>
-References: <20210409063458.7961-1-fmdefrancesco@gmail.com> <alpine.DEB.2.22.394.2104090922210.4597@hadrien>
+Received: from zju.edu.cn (spam.zju.edu.cn [61.164.42.155])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 876216D13
+	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 08:00:08 +0000 (UTC)
+Received: by ajax-webmail-mail-app3 (Coremail) ; Fri, 9 Apr 2021 15:59:53
+ +0800 (GMT+08:00)
+X-Originating-IP: [222.205.72.8]
+Date: Fri, 9 Apr 2021 15:59:53 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: dinghao.liu@zju.edu.cn
+To: "Rui Miguel Silva" <rmfrfs@gmail.com>
+Cc: kjlu@umn.edu, "Steve Longerbeam" <slongerbeam@gmail.com>, 
+	"Philipp Zabel" <p.zabel@pengutronix.de>, 
+	"Mauro Carvalho Chehab" <mchehab@kernel.org>, 
+	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, 
+	"Shawn Guo" <shawnguo@kernel.org>, 
+	"Sascha Hauer" <s.hauer@pengutronix.de>, 
+	"Pengutronix Kernel Team" <kernel@pengutronix.de>, 
+	"Fabio Estevam" <festevam@gmail.com>, 
+	"NXP Linux Team" <linux-imx@nxp.com>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: Re: [PATCH] media: imx: imx7-mipi-csis: Fix runtime PM
+ imbalance in mipi_csis_s_stream
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
+ Copyright (c) 2002-2021 www.mailtech.cn zju.edu.cn
+In-Reply-To: <20210408135702.f7ikjvwirvtzsarv@arch-thunder.localdomain>
+References: <20210408090827.32612-1-dinghao.liu@zju.edu.cn>
+ <20210408135702.f7ikjvwirvtzsarv@arch-thunder.localdomain>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Message-ID: <5025467a.453b6.178b5a50321.Coremail.dinghao.liu@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:cC_KCgC3nz55CXBgg0vxAA--.30249W
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgkKBlZdtTUlDwABsn
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
 
-On Friday, April 9, 2021 9:22:54 AM CEST Julia Lawall wrote:
-> On Fri, 9 Apr 2021, Fabio M. De Francesco wrote:
-> > Remove camelcase in bFwCurrentInPSMode, a variable used by code
-> > of several subdirectories/files of the driver. Issue detected by
-> > checkpatch.pl. Delete the unnecessary "b" (that stands for "byte") from
-> > the beginning of the name.
-> 
-> Isn't this still against your previous patch?  I see b_ on the removed
-> lines.
-> 
-
-Sorry, Julia. You're right: it's against the wrong patch (again and again 
-and...).
-Version 6 is on the way.
-
-Thanks,
-
-Fabio
-
-> julia
-> 
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > ---
-> > 
-> > Changes from v4: Mention the removal of the initial "b" in log message.
-> > Changes from v3: Fix errors in the format of the patch.
-> > Changes from v2: Remove unnecessary comment. Shortened a function name.
-> > Changes from v1: No changes to the code but only to the subject for the
-> > purpose to differentiate this patch because other removes of camelcase
-> > have been made in other files of the same directory.
-> > 
-> >  drivers/staging/rtl8723bs/core/rtw_cmd.c       |  2 +-
-> >  drivers/staging/rtl8723bs/core/rtw_mlme.c      |  2 +-
-> >  drivers/staging/rtl8723bs/core/rtw_pwrctrl.c   | 18 +++++++++---------
-> >  drivers/staging/rtl8723bs/hal/hal_intf.c       |  2 +-
-> >  drivers/staging/rtl8723bs/hal/rtl8723b_dm.c    |  6 +++---
-> >  .../staging/rtl8723bs/hal/rtl8723b_hal_init.c  |  2 +-
-> >  drivers/staging/rtl8723bs/hal/sdio_ops.c       | 14 +++++++-------
-> >  .../staging/rtl8723bs/include/rtw_pwrctrl.h    |  2 +-
-> >  8 files changed, 24 insertions(+), 24 deletions(-)
-> > 
-> > diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> > b/drivers/staging/rtl8723bs/core/rtw_cmd.c index
-> > a08f22b53592..feb53b8c0ff2 100644
-> > --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> > +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> > @@ -1510,7 +1510,7 @@ static void rtw_lps_change_dtim_hdl(struct
-> > adapter *padapter, u8 dtim)> 
-> >  	if (pwrpriv->dtim != dtim)
-> >  	
-> >  		pwrpriv->dtim = dtim;
-> > 
-> > -	if ((pwrpriv->b_fw_current_in_ps_mode == true) && (pwrpriv-
->pwr_mode
-> > > PS_MODE_ACTIVE)) { +	if ((pwrpriv->fw_current_in_ps_mode == 
-true) &&
-> > (pwrpriv->pwr_mode > PS_MODE_ACTIVE)) {> 
-> >  		u8 ps_mode = pwrpriv->pwr_mode;
-> >  		
-> >  		rtw_hal_set_hwreg(padapter, HW_VAR_H2C_FW_PWRMODE, 
-(u8
-> >  		*)(&ps_mode));
-> > 
-> > diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> > b/drivers/staging/rtl8723bs/core/rtw_mlme.c index
-> > 51cea6cf46e7..895997868c81 100644
-> > --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> > +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> > @@ -1684,7 +1684,7 @@ void rtw_dynamic_check_timer_handler(struct
-> > adapter *adapter)> 
-> >  	if (adapter->net_closed)
-> >  	
-> >  		return;
-> > 
-> > -	if ((adapter_to_pwrctl(adapter)->b_fw_current_in_ps_mode)
-> > +	if ((adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
-> > 
-> >  		&& !(hal_btcoex_IsBtControlLps(adapter))
-> >  		) {
-> >  		u8 bEnterPS;
-> > 
-> > diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-> > b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c index
-> > 21e7a847866f..481e2ad60853 100644
-> > --- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-> > +++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-> > @@ -365,7 +365,7 @@ void rtw_set_ps_mode(struct adapter *padapter, u8
-> > ps_mode, u8 smart_ps, u8 bcn_a> 
-> >  			rtw_set_rpwm(padapter, PS_STATE_S4);
-> >  			
-> >  			rtw_hal_set_hwreg(padapter, 
-HW_VAR_H2C_FW_PWRMODE, (u8
-> >  			*)(&ps_mode));
-> > 
-> > -			pwrpriv->b_fw_current_in_ps_mode = false;
-> > +			pwrpriv->fw_current_in_ps_mode = false;
-> > 
-> >  			hal_btcoex_LpsNotify(padapter, ps_mode);
-> >  		
-> >  		}
-> > 
-> > @@ -377,7 +377,7 @@ void rtw_set_ps_mode(struct adapter *padapter, u8
-> > ps_mode, u8 smart_ps, u8 bcn_a> 
-> >  			hal_btcoex_LpsNotify(padapter, ps_mode);
-> > 
-> > -			pwrpriv->b_fw_current_in_ps_mode = true;
-> > +			pwrpriv->fw_current_in_ps_mode = true;
-> > 
-> >  			pwrpriv->pwr_mode = ps_mode;
-> >  			pwrpriv->smart_ps = smart_ps;
-> >  			pwrpriv->bcn_ant_mode = bcn_ant_mode;
-> > 
-> > @@ -734,7 +734,7 @@ s32 rtw_register_task_alive(struct adapter
-> > *padapter, u32 task)> 
-> >  	register_task_alive(pwrctrl, task);
-> > 
-> > -	if (pwrctrl->b_fw_current_in_ps_mode) {
-> > +	if (pwrctrl->fw_current_in_ps_mode) {
-> > 
-> >  		if (pwrctrl->cpwm < pslv) {
-> >  		
-> >  			if (pwrctrl->cpwm < PS_STATE_S2)
-> >  			
-> >  				res = _FAIL;
-> > 
-> > @@ -782,7 +782,7 @@ void rtw_unregister_task_alive(struct adapter
-> > *padapter, u32 task)> 
-> >  	unregister_task_alive(pwrctrl, task);
-> > 
-> > -	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) &&
-> > pwrctrl->b_fw_current_in_ps_mode) { +	if ((pwrctrl->pwr_mode !=
-> > PS_MODE_ACTIVE) && pwrctrl->fw_current_in_ps_mode) {> 
-> >  		if (pwrctrl->cpwm > pslv)
-> >  		
-> >  			if ((pslv >= PS_STATE_S2) || (pwrctrl-
->alives == 0))
-> >  			
-> >  				rtw_set_rpwm(padapter, pslv);
-> > 
-> > @@ -819,7 +819,7 @@ s32 rtw_register_tx_alive(struct adapter *padapter)
-> > 
-> >  	register_task_alive(pwrctrl, XMIT_ALIVE);
-> > 
-> > -	if (pwrctrl->b_fw_current_in_ps_mode) {
-> > +	if (pwrctrl->fw_current_in_ps_mode) {
-> > 
-> >  		if (pwrctrl->cpwm < pslv) {
-> >  		
-> >  			if (pwrctrl->cpwm < PS_STATE_S2)
-> >  			
-> >  				res = _FAIL;
-> > 
-> > @@ -864,7 +864,7 @@ s32 rtw_register_cmd_alive(struct adapter
-> > *padapter)
-> > 
-> >  	register_task_alive(pwrctrl, CMD_ALIVE);
-> > 
-> > -	if (pwrctrl->b_fw_current_in_ps_mode) {
-> > +	if (pwrctrl->fw_current_in_ps_mode) {
-> > 
-> >  		if (pwrctrl->cpwm < pslv) {
-> >  		
-> >  			if (pwrctrl->cpwm < PS_STATE_S2)
-> >  			
-> >  				res = _FAIL;
-> > 
-> > @@ -909,7 +909,7 @@ void rtw_unregister_tx_alive(struct adapter
-> > *padapter)> 
-> >  	unregister_task_alive(pwrctrl, XMIT_ALIVE);
-> > 
-> > -	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) &&
-> > pwrctrl->b_fw_current_in_ps_mode) { +	if ((pwrctrl->pwr_mode !=
-> > PS_MODE_ACTIVE) && pwrctrl->fw_current_in_ps_mode) {> 
-> >  		if (pwrctrl->cpwm > pslv)
-> >  		
-> >  			if ((pslv >= PS_STATE_S2) || (pwrctrl-
->alives == 0))
-> >  			
-> >  				rtw_set_rpwm(padapter, pslv);
-> > 
-> > @@ -945,7 +945,7 @@ void rtw_unregister_cmd_alive(struct adapter
-> > *padapter)> 
-> >  	unregister_task_alive(pwrctrl, CMD_ALIVE);
-> > 
-> > -	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) &&
-> > pwrctrl->b_fw_current_in_ps_mode) { +	if ((pwrctrl->pwr_mode !=
-> > PS_MODE_ACTIVE) && pwrctrl->fw_current_in_ps_mode) {> 
-> >  		if (pwrctrl->cpwm > pslv) {
-> >  		
-> >  			if ((pslv >= PS_STATE_S2) || (pwrctrl-
->alives == 0))
-> >  			
-> >  				rtw_set_rpwm(padapter, pslv);
-> > 
-> > @@ -978,7 +978,7 @@ void rtw_init_pwrctrl_priv(struct adapter
-> > *padapter)
-> > 
-> >  	pwrctrlpriv->power_mgnt = padapter->registrypriv.power_mgnt;/* 
-> >  	PS_MODE_MIN; */ pwrctrlpriv->bLeisurePs = pwrctrlpriv-
->power_mgnt !=
-> >  	PS_MODE_ACTIVE;> 
-> > -	pwrctrlpriv->b_fw_current_in_ps_mode = false;
-> > +	pwrctrlpriv->fw_current_in_ps_mode = false;
-> > 
-> >  	pwrctrlpriv->rpwm = 0;
-> >  	pwrctrlpriv->cpwm = PS_STATE_S4;
-> > 
-> > diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c
-> > b/drivers/staging/rtl8723bs/hal/hal_intf.c index
-> > a73c2f76628d..96fe172ced8d 100644
-> > --- a/drivers/staging/rtl8723bs/hal/hal_intf.c
-> > +++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
-> > @@ -348,7 +348,7 @@ void rtw_hal_dm_watchdog(struct adapter *padapter)
-> > 
-> >  void rtw_hal_dm_watchdog_in_lps(struct adapter *padapter)
-> >  {
-> > 
-> > -	if (adapter_to_pwrctl(padapter)->b_fw_current_in_ps_mode == 
-true) {
-> > +	if (adapter_to_pwrctl(padapter)->fw_current_in_ps_mode == true) 
-{
-> > 
-> >  		if (padapter->HalFunc.hal_dm_watchdog_in_lps)
-> >  		
-> >  			padapter-
->HalFunc.hal_dm_watchdog_in_lps(padapter); /* this
-> >  			function caller is in interrupt context 
-*/>  	
-> >  	}
-> > 
-> > diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
-> > b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c index
-> > 265db187b8d5..23be025ceb5b 100644
-> > --- a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
-> > +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
-> > @@ -141,7 +141,7 @@ void rtl8723b_InitHalDm(struct adapter *Adapter)
-> > 
-> >  void rtl8723b_HalDmWatchDog(struct adapter *Adapter)
-> >  {
-> > 
-> > -	bool b_fw_current_in_ps_mode = false;
-> > +	bool fw_current_in_ps_mode = false;
-> > 
-> >  	bool bFwPSAwake = true;
-> >  	u8 hw_init_completed = false;
-> >  	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
-> > 
-> > @@ -151,12 +151,12 @@ void rtl8723b_HalDmWatchDog(struct adapter
-> > *Adapter)> 
-> >  	if (hw_init_completed == false)
-> >  	
-> >  		goto skip_dm;
-> > 
-> > -	b_fw_current_in_ps_mode =
-> > adapter_to_pwrctl(Adapter)->b_fw_current_in_ps_mode;
-> > +	fw_current_in_ps_mode =
-> > adapter_to_pwrctl(Adapter)->fw_current_in_ps_mode;> 
-> >  	rtw_hal_get_hwreg(Adapter, HW_VAR_FWLPS_RF_ON, (u8 *)
-(&bFwPSAwake));
-> >  	
-> >  	if (
-> >  	
-> >  		(hw_init_completed == true) &&
-> > 
-> > -		((!b_fw_current_in_ps_mode) && bFwPSAwake)
-> > +		((!fw_current_in_ps_mode) && bFwPSAwake)
-> > 
-> >  	) {
-> >  	
-> >  		/*  */
-> >  		/*  Calculate Tx/Rx statistics. */
-> > 
-> > diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> > b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c index
-> > 7ebc438870fd..1ab0c9e8760b 100644
-> > --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> > +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> > @@ -430,7 +430,7 @@ void rtl8723b_InitializeFirmwareVars(struct adapter
-> > *padapter)> 
-> >  	struct hal_com_data *pHalData = GET_HAL_DATA(padapter);
-> >  	
-> >  	/*  Init Fw LPS related. */
-> > 
-> > -	adapter_to_pwrctl(padapter)->b_fw_current_in_ps_mode = false;
-> > +	adapter_to_pwrctl(padapter)->fw_current_in_ps_mode = false;
-> > 
-> >  	/* Init H2C cmd. */
-> >  	rtw_write8(padapter, REG_HMETFR, 0x0f);
-> > 
-> > diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-> > b/drivers/staging/rtl8723bs/hal/sdio_ops.c index
-> > c78a6724fc1c..abe8f2f8f452 100644
-> > --- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-> > +++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-> > @@ -173,7 +173,7 @@ static u32 sdio_read32(struct intf_hdl *intfhdl,
-> > u32 addr)> 
-> >  	if (
-> >  	
-> >  		((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 
-0x100)) ||
-> >  		(!mac_pwr_ctrl_on) ||
-> > 
-> > -		(adapter_to_pwrctl(adapter)-
->b_fw_current_in_ps_mode)
-> > +		(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
-> > 
-> >  	) {
-> >  	
-> >  		err = sd_cmd52_read(intfhdl, ftaddr, 4, (u8 
-*)&le_tmp);
-> >  
-> >  #ifdef SDIO_DEBUG_IO
-> > 
-> > @@ -230,7 +230,7 @@ static s32 sdio_readN(struct intf_hdl *intfhdl, u32
-> > addr, u32 cnt, u8 *buf)> 
-> >  	if (
-> >  	
-> >  		((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 
-0x100)) ||
-> >  		(!mac_pwr_ctrl_on) ||
-> > 
-> > -		(adapter_to_pwrctl(adapter)-
->b_fw_current_in_ps_mode)
-> > +		(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
-> > 
-> >  	)
-> >  	
-> >  		return sd_cmd52_read(intfhdl, ftaddr, cnt, buf);
-> > 
-> > @@ -297,7 +297,7 @@ static s32 sdio_write32(struct intf_hdl *intfhdl,
-> > u32 addr, u32 val)> 
-> >  	if (
-> >  	
-> >  		((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 
-0x100)) ||
-> >  		(!mac_pwr_ctrl_on) ||
-> > 
-> > -		(adapter_to_pwrctl(adapter)-
->b_fw_current_in_ps_mode)
-> > +		(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
-> > 
-> >  	) {
-> >  	
-> >  		le_tmp = cpu_to_le32(val);
-> > 
-> > @@ -334,7 +334,7 @@ static s32 sdio_writeN(struct intf_hdl *intfhdl,
-> > u32 addr, u32 cnt, u8 *buf)> 
-> >  	if (
-> >  	
-> >  		((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 
-0x100)) ||
-> >  		(!mac_pwr_ctrl_on) ||
-> > 
-> > -		(adapter_to_pwrctl(adapter)-
->b_fw_current_in_ps_mode)
-> > +		(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
-> > 
-> >  	)
-> >  	
-> >  		return sd_cmd52_write(intfhdl, ftaddr, cnt, buf);
-> > 
-> > @@ -565,7 +565,7 @@ s32 sdio_local_read(
-> > 
-> >  	rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, 
-&mac_pwr_ctrl_on);
-> >  	if (
-> >  	
-> >  		(!mac_pwr_ctrl_on) ||
-> > 
-> > -		(adapter_to_pwrctl(adapter)-
->b_fw_current_in_ps_mode)
-> > +		(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
-> > 
-> >  	)
-> >  	
-> >  		return sd_cmd52_read(intfhdl, addr, cnt, buf);
-> > 
-> > @@ -611,7 +611,7 @@ s32 sdio_local_write(
-> > 
-> >  	rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, 
-&mac_pwr_ctrl_on);
-> >  	if (
-> >  	
-> >  		(!mac_pwr_ctrl_on) ||
-> > 
-> > -		(adapter_to_pwrctl(adapter)-
->b_fw_current_in_ps_mode)
-> > +		(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
-> > 
-> >  	)
-> >  	
-> >  		return sd_cmd52_write(intfhdl, addr, cnt, buf);
-> > 
-> > @@ -660,7 +660,7 @@ static u32 sdio_local_cmd53_read4byte(struct
-> > adapter *adapter, u32 addr)> 
-> >  	hal_sdio_get_cmd_addr_8723b(adapter, SDIO_LOCAL_DEVICE_ID, 
-addr,
-> >  	&addr);
-> >  	rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, 
-&mac_pwr_ctrl_on);
-> > 
-> > -	if (!mac_pwr_ctrl_on ||
-> > adapter_to_pwrctl(adapter)->b_fw_current_in_ps_mode) { +	if
-> > (!mac_pwr_ctrl_on ||
-> > adapter_to_pwrctl(adapter)->fw_current_in_ps_mode) {> 
-> >  		sd_cmd52_read(intfhdl, addr, 4, (u8 *)&le_tmp);
-> >  		val = le32_to_cpu(le_tmp);
-> >  	
-> >  	} else {
-> > 
-> > diff --git a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-> > b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h index
-> > fcb06a95fdf6..5450d20b44a6 100644
-> > --- a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-> > +++ b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-> > @@ -203,7 +203,7 @@ struct pwrctrl_priv {
-> > 
-> >  	u8 LpsIdleCount;
-> >  	u8 power_mgnt;
-> >  	u8 org_power_mgnt;
-> > 
-> > -	u8 b_fw_current_in_ps_mode;
-> > +	u8 fw_current_in_ps_mode;
-> > 
-> >  	unsigned long	DelayLPSLastTimeStamp;
-> >  	s32		pnp_current_pwr_state;
-> >  	u8 pnp_bstop_trx;
-> > 
-> > --
-> > 2.31.1
-> > 
-> > --
-> > You received this message because you are subscribed to the Google
-> > Groups "outreachy-kernel" group. To unsubscribe from this group and
-> > stop receiving emails from it, send an email to
-> > outreachy-kernel+unsubscribe@googlegroups.com. To view this discussion
-> > on the web visit
-> > https://groups.google.com/d/msgid/outreachy-kernel/20210409063458.7961
-> > -1-fmdefrancesco%40gmail.com.
-
-
-
-
+PiBIaSBMaXUsCj4gVGhhbmtzIGZvciB5b3VyIHBhdGNoLgo+IAo+IE9uIFRodSwgQXByIDA4LCAy
+MDIxIGF0IDA1OjA4OjI3UE0gKzA4MDAsIERpbmdoYW8gTGl1IHdyb3RlOgo+ID4gV2hlbiB2NGwy
+X3N1YmRldl9jYWxsKCkgZmFpbHMsIGEgcGFpcmluZyBQTSB1c2FnZSBjb3VudGVyCj4gPiBkZWNy
+ZW1lbnQgaXMgbmVlZGVkIHRvIGtlZXAgdGhlIGNvdW50ZXIgYmFsYW5jZWQuIEl0J3MgdGhlCj4g
+PiBzYW1lIGZvciB0aGUgZm9sbG93aW5nIGVycm9yIHBhdGhzIGluIGNhc2UgJ2VuYWJsZScgaXMg
+b24uCj4gPiAKPiA+IFNpZ25lZC1vZmYtYnk6IERpbmdoYW8gTGl1IDxkaW5naGFvLmxpdUB6anUu
+ZWR1LmNuPgo+ID4gLS0tCj4gPiAgZHJpdmVycy9zdGFnaW5nL21lZGlhL2lteC9pbXg3LW1pcGkt
+Y3Npcy5jIHwgOSArKysrKysrLS0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCsp
+LCAyIGRlbGV0aW9ucygtKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9zdGFnaW5nL21l
+ZGlhL2lteC9pbXg3LW1pcGktY3Npcy5jIGIvZHJpdmVycy9zdGFnaW5nL21lZGlhL2lteC9pbXg3
+LW1pcGktY3Npcy5jCj4gPiBpbmRleCBhMDFhNzM2NGI0YjkuLjJhM2ZmZjIzMWE0MCAxMDA2NDQK
+PiA+IC0tLSBhL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS9pbXgvaW14Ny1taXBpLWNzaXMuYwo+ID4g
+KysrIGIvZHJpdmVycy9zdGFnaW5nL21lZGlhL2lteC9pbXg3LW1pcGktY3Npcy5jCj4gPiBAQCAt
+NjI3LDIxICs2MjcsMjYgQEAgc3RhdGljIGludCBtaXBpX2NzaXNfc19zdHJlYW0oc3RydWN0IHY0
+bDJfc3ViZGV2ICptaXBpX3NkLCBpbnQgZW5hYmxlKQo+ID4gIAkJCXJldHVybiByZXQ7Cj4gPiAg
+CQl9Cj4gPiAgCQlyZXQgPSB2NGwyX3N1YmRldl9jYWxsKHN0YXRlLT5zcmNfc2QsIGNvcmUsIHNf
+cG93ZXIsIDEpOwo+ID4gLQkJaWYgKHJldCA8IDApCj4gPiArCQlpZiAocmV0IDwgMCkgewo+ID4g
+KwkJCXBtX3J1bnRpbWVfcHV0X25vaWRsZSgmc3RhdGUtPnBkZXYtPmRldik7Cj4gCj4gSSB0aGlu
+ayBoZXJlIHdlIHNob3VsZCBnbyBjb21wbGV0ZWx5IHBtX3J1bnRpbWVfcHV0IHRvIGNhbGwgdGhl
+Cj4gbWlwaV9jc2lzX3BtX3N1c3BlbmQgZG93biB0aGUgbGluZSwgcmlnaHQ/Cj4gCj4gPiAgCQkJ
+cmV0dXJuIHJldDsKPiA+ICsJCX0KPiA+ICAJfQo+ID4gIAo+ID4gIAltdXRleF9sb2NrKCZzdGF0
+ZS0+bG9jayk7Cj4gPiAgCWlmIChlbmFibGUpIHsKPiA+ICAJCWlmIChzdGF0ZS0+ZmxhZ3MgJiBT
+VF9TVVNQRU5ERUQpIHsKPiA+ICAJCQlyZXQgPSAtRUJVU1k7Cj4gPiArCQkJcG1fcnVudGltZV9w
+dXRfbm9pZGxlKCZzdGF0ZS0+cGRldi0+ZGV2KTsKPiAKPiBzaW5jZSB3ZSBhcmUgaW4gU1RfU1VT
+UEVOREVEIHN0YXRlLCBmb3Igc3VyZSB0aGUgcG0gY291bnRlciB3YXMKPiBhbHJlYWR5IDAuCj4g
+Cj4gPiAgCQkJZ290byB1bmxvY2s7Cj4gPiAgCQl9Cj4gPiAgCj4gPiAgCQltaXBpX2NzaXNfc3Rh
+cnRfc3RyZWFtKHN0YXRlKTsKPiA+ICAJCXJldCA9IHY0bDJfc3ViZGV2X2NhbGwoc3RhdGUtPnNy
+Y19zZCwgdmlkZW8sIHNfc3RyZWFtLCAxKTsKPiA+IC0JCWlmIChyZXQgPCAwKQo+ID4gKwkJaWYg
+KHJldCA8IDApIHsKPiA+ICsJCQlwbV9ydW50aW1lX3B1dF9ub2lkbGUoJnN0YXRlLT5wZGV2LT5k
+ZXYpOwo+IAo+IGhlcmUgYWxzbyB3ZSBuZWVkIHRoZSBwbV9ydW50aW1lX3B1dCwgbWF5YmUganVz
+dCBjaGFuZ2luZyB0aGUgdW5sb2NrCj4gdGFnIGJlbGxvdyBmcm9tOgo+ICAgICBpZiAoIWVuYWJs
+ZSkKPiAgICAgICAgIHBtX3J1bnRpbWVfcHV0KCZzdGF0ZS0+cGRldi0+ZGV2KTsKPiAKPiB0byAK
+PiAgICAgaWYgKCFlbmFibGUgfHwgKHJldCA8IDApKQo+ICAgICAgICAgcG1fcnVudGltZV9wdXQo
+JnN0YXRlLT5wZGV2LT5kZXYpOwo+IAo+IHdpbGwgbm90IGh1cnQgdGhlIGZpcnN0IGNhc2UgYW5k
+IHdpbGwgY29tcGxldGUgdGhlIHN1c3BlbmQgcm91dGluZQo+IGFmdGVyd2FyZCBpbiB0aGUgc2Vj
+b25kIGNhc2UuCj4gCgpUaGlzIGlzIG11Y2ggY2xlYXJlciwgdGhhbmtzISBJIHdpbGwgZml4IHRo
+aXMgYW5kIHNlbmQgYSBuZXcgcGF0Y2ggc29vbi4KClJlZ2FyZHMsCkRpbmdoYW8=
