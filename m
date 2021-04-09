@@ -1,97 +1,91 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ADBB6D13
-	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 12:40:14 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id r12so8439724ejr.5
-        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 05:40:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBFE16D00
+	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 12:46:15 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id j20-20020a05600c1914b029010f31e15a7fso4662838wmq.1
+        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 05:46:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=o2hUyBNJx1Jb8VgZ6GiR+mEMvZYh2PnrFc9dZsVatss=;
-        b=o97L5+nXsRkEGqo/gschV+ZNhsHbj613yxVG0O7vPFD8m44gdvr+SrDg7Cm6dWPWdL
-         QDiJbhb0Vuxcvv1zXc1zp5dKji5NzqnUzHODogk8gZrnuu1tos+pQ7Nd04Ag6ZMByFeY
-         GWFXJZrwwGgvq9jfADV9CAxKOSzUYiWFG+ghzrxS5gCA7wxzpJvt/AV/bigmy8iFv9nH
-         ZLNOrmqTc/gsTvoSZFed1kq4OISMoZJQZDB0/Aamk0jZ4bxMpHPzXj/xTfvGhWZqX64u
-         +CTUXEQrDcsseQLRUC/LctDc9DXcJxT1b+Km6RJtcMiheSLDQ5fuBGLA2zsMAUAjoZzr
-         KFhw==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=KlSRX8zU0KTuE/qKWYqizNg9JGBt025L2E4igOAe0/s=;
+        b=h7poIT8bwExI/TCmdJHHT3BNh+Imp230eLBnKUq1rGm8O3Fp1/pLUjLDlp52DPWAwB
+         TMALSKeLMq1a9zIgudAPNVdNZvuCuwqScMANowOAo3B0UULTsqCRvPkbhzaFo8A3lfhP
+         7OIBBcQ/wz1mnXv55CD4g0SM8Rgi58I6f4L+iSTlOkPg0Tw356Iq3DvwbX+HUji5PKvn
+         4vKCMjzeZ+8694e/nePPLBsIm+5zRvKzP9lsKuuCjCcFwBD8XWAGuQQnfxV6cqqnX8Ig
+         +5sugpZJm8fnxr0jMQngF1l5aa9VM/OMqqBSN432LVfAnibnj9bbVzvEACtbpdtT/xfv
+         dnkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=o2hUyBNJx1Jb8VgZ6GiR+mEMvZYh2PnrFc9dZsVatss=;
-        b=lWvcu6/PaVJOI43agyXKMCXYK04/g272nryK+kQRIQYaFtsH5YhQzK5V+WuzeY6Mg/
-         m/ywsEFedNS5io+JIblJwswGHddwMMqB8P+pvezSycO5oD5DF37bv6Kd9wWJGIk+9p2x
-         X0a3+pMqTXXjV6l/Zm7Yq0m0VrOOJapTM/bIebSHeQTQZcU68iN7XP19FCHMJHJqYxjW
-         pmmuEduJTCWNt3DwkWd1Jghnr3hQW6IKC0QK6TXwQxDBeBxJJa7OL7alfKKkcq2Lwjcn
-         EurJRE82Xy1nRbLJHvR7ALIRFSCtLNcMBqo7WW5UJzSYMX9u0QyciR5r2fs3boIS8U7W
-         2CHA==
-X-Gm-Message-State: AOAM531kdpglLBpgYVWqrgTFMyu/pjtEHlG5duHBhp/yACdm0mGkLSeT
-	Q06u5s+cz8KXKo/MowZAE1Y=
-X-Google-Smtp-Source: ABdhPJySvH9U/9b1caQCa4KS+OHt8wFa30UCV2Q//AIy+i7A5VcqT0/PNz+HzLMlO7JuejUzyw01SQ==
-X-Received: by 2002:a17:906:eb49:: with SMTP id mc9mr6583329ejb.67.1617972013081;
-        Fri, 09 Apr 2021 05:40:13 -0700 (PDT)
-Received: from agape ([151.43.204.41])
-        by smtp.gmail.com with ESMTPSA id jo12sm1169167ejb.52.2021.04.09.05.40.12
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=KlSRX8zU0KTuE/qKWYqizNg9JGBt025L2E4igOAe0/s=;
+        b=ILZX6pXu9w8cIUPp/Sb7N6HTrvRyVXJ19VEcyVmGp1/sTE66maEZgDJV7rECUcW4Mg
+         rCewFjZuucT/gX7hyyb3bLYWIIcmHvZHvEpk70zSpF6aWv3lqTDp8sc+Ide/CnwLOq3k
+         pF0r34VpuEGdDrP7X/8sOGeua2kXOccJl5GsXAsKroBiujVGWb8sED+vVwlGRgXpY6ZW
+         cFPc/lI/v6vxmgHhyTH7BYC7ckMgfF6KOY38aH5tLZL5stJMDCzlsmGC76/QEI+ouUIu
+         Kal/4YpVeO3ueKcL4jfzIlPn5wS5HL0/XwwtZdLTu2h9FJSU7FqYcJy0OpOdtDv9BbMr
+         f9TA==
+X-Gm-Message-State: AOAM5330o98KggOOSYGebc6DSnI/ArmqSdOGz3BJ238s7c9ocnz0rU/L
+	Fg7itDg7pc9IKuScpVJE46M=
+X-Google-Smtp-Source: ABdhPJx33HYypTGXE4AUKki/UmoaGB6AYtLBPnpcbIuOWYpzdkVhe+9R7QfIy31CD/k7pwDoIR5XXw==
+X-Received: by 2002:a1c:2985:: with SMTP id p127mr9021126wmp.165.1617972374293;
+        Fri, 09 Apr 2021 05:46:14 -0700 (PDT)
+Received: from test-VirtualBox ([87.116.165.76])
+        by smtp.gmail.com with ESMTPSA id e23sm3745970wmk.15.2021.04.09.05.46.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 05:40:12 -0700 (PDT)
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 3/3] staging: rtl8723bs: remove MSG_8192C macro definitions
-Date: Fri,  9 Apr 2021 14:40:03 +0200
-Message-Id: <97f38f269e8dabb3dd7464d49022a62cd9773657.1617971593.git.fabioaiuto83@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1617971592.git.fabioaiuto83@gmail.com>
-References: <cover.1617971592.git.fabioaiuto83@gmail.com>
+        Fri, 09 Apr 2021 05:46:14 -0700 (PDT)
+Date: Fri, 9 Apr 2021 14:46:11 +0200
+From: Sergei Krainov <sergei.krainov.lkd@gmail.com>
+To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH v2] staging: rtl8712: fix wrong function output
+Message-ID: <20210409124611.GA3981@test-VirtualBox>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-remove obsolete MSG_8192C macro definitions.
+Return NULL from r8712_find_network() if no matched wlan_network
+was found. Code with a bug:
 
-MSG_8192C is a private trace mechanism macro and is deactivated.
-(i.e. the default behaviour is _do nothing_)
-The only way to activate it is to manually define a debug
-symbol.
+while (plist != phead) {
+	pnetwork = container_of(plist, struct wlan_network, list);
+	plist = plist->next;
+	if (!memcmp(addr, pnetwork->network.MacAddress, ETH_ALEN))
+		break;
+}
+spin_unlock_irqrestore(&scanned_queue->lock, irqL);
+return pnetwork;
 
-So just remove it.
+In this code last processed pnetwork returned if list end was reached
+and no pnetwork matched test condition.
 
-Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+Signed-off-by: Sergei Krainov <sergei.krainov.lkd@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/rtw_debug.h | 6 ------
- 1 file changed, 6 deletions(-)
+Changes from v1: Updated description
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_debug.h b/drivers/staging/rtl8723bs/include/rtw_debug.h
-index 4c159c1a0747..65e1d9bd7099 100644
---- a/drivers/staging/rtl8723bs/include/rtw_debug.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_debug.h
-@@ -131,7 +131,6 @@
- 	#define	_MODULE_DEFINE_	_module_efuse_
- #endif
- 
--#define MSG_8192C(x, ...) do {} while (0)
- #define DBG_8192C(x, ...) do {} while (0)
- #define DBG_871X_LEVEL(x, ...) do {} while (0)
- 
-@@ -196,11 +195,6 @@
- 
- #ifdef DEBUG
- #if	defined(_dbgdump)
--	#undef MSG_8192C
--	#define MSG_8192C(...)     do {\
--		_dbgdump(DRIVER_PREFIX __VA_ARGS__);\
--	} while (0)
--
- 	#undef DBG_8192C
- 	#define DBG_8192C(...)     do {\
- 		_dbgdump(DRIVER_PREFIX __VA_ARGS__);\
+ drivers/staging/rtl8712/rtl871x_mlme.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
+index 8a97307fbbd6..c38161114b80 100644
+--- a/drivers/staging/rtl8712/rtl871x_mlme.c
++++ b/drivers/staging/rtl8712/rtl871x_mlme.c
+@@ -146,6 +146,8 @@ static struct wlan_network *r8712_find_network(struct  __queue *scanned_queue,
+ 		if (!memcmp(addr, pnetwork->network.MacAddress, ETH_ALEN))
+ 			break;
+ 	}
++	if (plist == phead)
++		pnetwork = NULL;
+ 	spin_unlock_irqrestore(&scanned_queue->lock, irqL);
+ 	return pnetwork;
+ }
 -- 
-2.20.1
+2.25.1
 
