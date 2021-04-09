@@ -1,138 +1,97 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473006D0E
-	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 10:01:48 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id r9so7740027ejj.3
-        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 03:01:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D196D0E
+	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 10:01:50 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id w3so7741926ejc.4
+        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 03:01:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1P+0nxbW6EE4uDKQ1rz3C7vt8pTf6WjPfY7LnFMvz7A=;
-        b=PrSzaPaj/Aqr8e/n9/jDScxkeJze/483xW+Bhsci82xl3hkqLS2guyBKL/GODSl5Y9
-         NVLoJig+vwk0SpWPGGSugImfaO4jadiIRFUL+SbV2B/vu3j+YQb87TYaI6NrCT/SSpeL
-         EP0RgiczOOtzOb/WiqUijZYhZT9AVvB1LQKBFYU7KvX7jAuIbIj7tvjQBXv1rx7yBkMT
-         el6SWmRGlFs/xPRcK09JWsnTxTwBjbCoWirLGb3z0bvV81VnNScHTNL9UwQj3Ok4tFmB
-         /5//kU6e07KZFW5xYQygkJZ+Mw6RWK0uqF2n2FDNtEOsyfObffqUAyShopTc3D1rwVJP
-         3C3Q==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=QcNI82rCMeXgGwcR22vG+oCInfi5++z99L+5L1TkCVs=;
+        b=vcVaSBJug+0P7UtjNbujQXQSgpOq4w+MPspd8A0AGaHWhbhGFnOfPrriEgkDHATEpe
+         2g/zhPDJT6452PkRfVS0lGpBV9i5KwLa89Dwj44BqybqfTCHSegkpjumq7mV7lMmph9x
+         nBjQ928F8CTDVM1q4grGSVOcnXpOxazpnWwUj7bI7tXoNp8agLsSILwCjAbSt4J/utgY
+         LmwZpvQDWdoFmY+w5rhUR2I3iNm99UpfTI2Qx/AEa0NxBLP4weLWPbvVZWHU9x9jc6EQ
+         +d+NyK4OdqCdvoLlc3+lV2QZdsjYUeO3PfxCviYg61l1fFMDZmWHdgMja4QhyPJgiizw
+         X7RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1P+0nxbW6EE4uDKQ1rz3C7vt8pTf6WjPfY7LnFMvz7A=;
-        b=oB7NY9qe6dJQ1XZd8vYFRVnsd+JQPS1alAnW3xo+0sjpcXnLKPI8v9Ob0mwcCDd5zc
-         sFrwL+cQMSwLRsUf6g5V9FYuB70wYVHDIBbW9lRHGd0ZlYjlyS8GZPzElJDLuJgen1SY
-         3BLWYj3IzN9odc0ApgBkrBJt59f06lFL0rY4CNBg7GkFkpp/P21J6OZv9roFqebUurI3
-         o5WW1RwOvfNZCgGF/vEoMHkTJwAKlXLWdocijf+y/QElhiM8RMjIAr1npYzDEd7qsRK/
-         S/ksiOj27YvVHn3EiDc/l35GwQbLvVYLa8vRcOXBVneqrI2/xm3Lj8vuI/XJRqgWcQjS
-         GraQ==
-X-Gm-Message-State: AOAM533g9UT0h3HICuclGDOi81y0MMMU8G0PfMpXIWuc7VioxTv6B5bX
-	UaLvNBO3St0INHGKlR5r/hs=
-X-Google-Smtp-Source: ABdhPJz2jzcpJzXKElStEks8CQzOE6a2KB2Kx6fRATGpv+j33o3ops6DgY/gHBzdeK2Rw+MIrGeJBA==
-X-Received: by 2002:a17:906:d15a:: with SMTP id br26mr15428852ejb.328.1617962506839;
-        Fri, 09 Apr 2021 03:01:46 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=QcNI82rCMeXgGwcR22vG+oCInfi5++z99L+5L1TkCVs=;
+        b=DYxPjBG9F5DrwIM0ESixDxS7PnGt/QpxNRm54ULFYy+F5DiYDPY/O5gdUuOj88kvjI
+         ONatBXCsAP9exJmAC3MBvSrPOjaeKVlXYG1tGzABC19cK8JeDUB/8ldsRvDqTEgr+20R
+         dZBS7QdxkfMpeSmmsaxeVB4J4u8qjrtu//6gpwq6a1K/bzuIeoneU4PbQRRSITh8f7TE
+         PgmN1UKwDDmZEln7qam+Ey1xhMmLGAJJguoEsZ5MiTXwIJqHWxQfmP7CHoko0JFr7XeE
+         B9o7klRVAR5PBa4k4u6ERSDp2Bwo5z4D5w8wOhYZviIdhDDgaWFCm7QkAuNmkHoiaZfT
+         P4/g==
+X-Gm-Message-State: AOAM530Zw2Xfm4fx0T+sdFWhMpYfrCEpXINXNSp3WJalCpkWdofBzMGv
+	HG/i2mhH0MJS9Tz/Pf13urI=
+X-Google-Smtp-Source: ABdhPJzLAqJwjB6L6RerairFq05LNKr1UIpIpGMQLLCkvWyeNyfh0HRr+Dn/B39QWmI4lm0IL1ALDg==
+X-Received: by 2002:a17:906:d555:: with SMTP id cr21mr8759440ejc.66.1617962508613;
+        Fri, 09 Apr 2021 03:01:48 -0700 (PDT)
 Received: from agape ([5.171.72.173])
-        by smtp.gmail.com with ESMTPSA id h24sm984461ejl.9.2021.04.09.03.01.45
+        by smtp.gmail.com with ESMTPSA id yr16sm63761ejb.63.2021.04.09.03.01.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 03:01:46 -0700 (PDT)
+        Fri, 09 Apr 2021 03:01:48 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	kernel test robot <lkp@intel.com>
-Subject: [PATCH 00/11] staging: rtl8723bs: remove unused variables
-Date: Fri,  9 Apr 2021 12:01:28 +0200
-Message-Id: <cover.1617962215.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 01/11] staging: rtl8723bs: remove unused variable in core/rtw_cmd.c
+Date: Fri,  9 Apr 2021 12:01:29 +0200
+Message-Id: <509eeb1c4a7fcfc37b69cb8578ea146b95b50864.1617962215.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1617962215.git.fabioaiuto83@gmail.com>
+References: <cover.1617962215.git.fabioaiuto83@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This patchset fixes some issues warned from kernel test robot in reply
-to the following patch:
+fix following kernel test robot warning:
 
-https://lore.kernel.org/linux-staging/56055b20bc064d7ac1e8f14bd1ed42aba6b02c36.1617802415.git.fabioaiuto83@gmail.com/
-
-This is kernel robot output:
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   drivers/staging/rtl8723bs/core/rtw_cmd.c: In function 'rtw_cmd_thread':
->> drivers/staging/rtl8723bs/core/rtw_cmd.c:390:16: warning: variable 'cmd_start_time' set but not used [-Wunused-but-set-variable]
+   drivers/staging/rtl8723bs/core/rtw_cmd.c:
+	In function 'rtw_cmd_thread':
+>> drivers/staging/rtl8723bs/core/rtw_cmd.c:390:16:
+warning: variable 'cmd_start_time' set
+	but not used [-Wunused-but-set-variable]
      390 |  unsigned long cmd_start_time;
          |                ^~~~~~~~~~~~~~
-   In file included from drivers/staging/rtl8723bs/include/drv_types.h:33,
-                    from drivers/staging/rtl8723bs/core/rtw_cmd.c:9:
-   At top level:
-   drivers/staging/rtl8723bs/include/rtw_security.h:336:28: warning: 'K' defined but not used [-Wunused-const-variable=]
-     336 | static const unsigned long K[64] = {
-         |                            ^
---
-   drivers/staging/rtl8723bs/os_dep/ioctl_linux.c: In function 'rtw_wx_set_mlme':
-   drivers/staging/rtl8723bs/os_dep/ioctl_linux.c:1136:6: warning: variable 'reason' set but not used [-Wunused-but-set-variable]
-    1136 |  u16 reason;
-         |      ^~~~~~
-   drivers/staging/rtl8723bs/os_dep/ioctl_linux.c: In function 'rtw_dbg_port':
->> drivers/staging/rtl8723bs/os_dep/ioctl_linux.c:2575:33: warning: variable 'preorder_ctrl' set but not used
-+[-Wunused-but-set-variable]
-    2575 |       struct recv_reorder_ctrl *preorder_ctrl;
-         |                                 ^~~~~~~~~~~~~
-   drivers/staging/rtl8723bs/os_dep/ioctl_linux.c:2601:33: warning: variable 'preorder_ctrl' set but not used
-+[-Wunused-but-set-variable]
-    2601 |       struct recv_reorder_ctrl *preorder_ctrl;
-         |                                 ^~~~~~~~~~~~~
-   At top level:
-   drivers/staging/rtl8723bs/os_dep/ioctl_linux.c:36:27: warning: 'iw_operation_mode' defined but not used [-Wunused-const-variable=]
-      36 | static const char * const iw_operation_mode[] = {
-         |                           ^~~~~~~~~~~~~~~~~
-   In file included from drivers/staging/rtl8723bs/include/drv_types.h:33,
-                    from drivers/staging/rtl8723bs/os_dep/ioctl_linux.c:10:
-   drivers/staging/rtl8723bs/include/rtw_security.h:336:28: warning: 'K' defined but not used [-Wunused-const-variable=]
-     336 | static const unsigned long K[64] = {
-         |                            ^
 
-First and fourth patch remove these two issues introduced by the patch above.
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-Other patches fix other local issues described in kernel test robot output
-and other local 'make W=1' compiler warnings.
-
-Unnecessary code blocks are removed as well.
-
-Fabio Aiuto (11):
-  staging: rtl8723bs: remove unused variable in core/rtw_cmd.c
-  staging: rtl8723bs: remove unused variable and empty for cycles left
-    unused in os_dep/ioctl_linux.c
-  staging: rtl8723bs: remove unused code block in os_dep/ioctl_linux.c
-  staging: rtl8723bs: remove unused variables and code block left unused
-    in os_dep/ioctl_linux.c
-  staging: rtl8723bs: remove set but unused psta variable in
-    rtw_dbg_port() in os_dep/ioctl_linux.c
-  staging: rtl8723bs: remove unused variable pstapriv in rtw_dbg_port()
-    in os_dep/ioctl_linux.c
-  staging: rtl8723bs: remove unused cur_network variable in
-    rtw_dbg_port() in os_dep/ioctl_linux.c
-  staging: rtl8723bs: remove unused pmlmepriv variable in rtw_dbg_port()
-    in os_dep/ioctl_linux.c
-  staging: rtl8723bs: remove unused variable declaration in
-    include/rtw_security.h
-  staging: rtl8723bs: remove unused variable in os_dep/ioctl_linux.c
-  staging: rtl8723bs: remove decl of unused static const variable in
-    os_dep/ioctl_linux.c
-
- drivers/staging/rtl8723bs/core/rtw_cmd.c      |  3 --
- .../staging/rtl8723bs/include/rtw_security.h  | 18 --------
- .../staging/rtl8723bs/os_dep/ioctl_linux.c    | 46 -------------------
- 3 files changed, 67 deletions(-)
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index baf8b1e0f43c..e94eb1138cf1 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -387,7 +387,6 @@ int rtw_cmd_thread(void *context)
+ 	u8 ret;
+ 	struct cmd_obj *pcmd;
+ 	u8 *pcmdbuf;
+-	unsigned long cmd_start_time;
+ 	u8 (*cmd_hdl)(struct adapter *padapter, u8 *pbuf);
+ 	void (*pcmd_callback)(struct adapter *dev, struct cmd_obj *pcmd);
+ 	struct adapter *padapter = context;
+@@ -438,8 +437,6 @@ int rtw_cmd_thread(void *context)
+ 			continue;
+ 		}
+ 
+-		cmd_start_time = jiffies;
+-
+ 		if (rtw_cmd_filter(pcmdpriv, pcmd) == _FAIL) {
+ 			pcmd->res = H2C_DROPPED;
+ 			goto post_process;
 -- 
 2.20.1
 
