@@ -1,88 +1,77 @@
-Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05CB76D00
-	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 12:36:13 +0000 (UTC)
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-	by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 139A5FJQ186534;
-	Fri, 9 Apr 2021 10:13:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=5VMAgQY/rRrnQA1Fz/0QJp8YT1vXr4XEk59BoMFyGIE=;
- b=geHAOJCl0FodBJtPzjutS4rf+4kSK9PW0QXLczGnmdSNAzNayYSPPmgD1sxsRt5ttRPs
- tt5sbclJogGXdIEKD1NPCYqoFNm+zYCawBHQcL2QH6q2agyZnFM21BG9kJhBFR2MePUK
- 6nSBr3bZOADrZPfRc4wcsSdRHXpjP82/vaFeoT0Gcz2D6mLiDV4BXINk7gbvVmphmYt0
- 0TkSJowAQSkEcWBb9T19YNPi8l9/DSi99N1y2YhqPeKfdthdB2ganSRVH+1ve6whgZ3v
- Y2eJoI/O4anbRVzQS6z4fws8qSpL0/usTgD2DAYunYUL3kY3HdIhlGYbIepHE87mfUQx fw== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by aserp2130.oracle.com with ESMTP id 37rvaw8w11-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 09 Apr 2021 10:13:02 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 139AAC5B113928;
-	Fri, 9 Apr 2021 10:13:01 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-	by aserp3030.oracle.com with ESMTP id 37rvbhegs5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 09 Apr 2021 10:13:01 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
-	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 139AD0SL028927;
-	Fri, 9 Apr 2021 10:13:00 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Fri, 09 Apr 2021 03:12:59 -0700
-Date: Fri, 9 Apr 2021 13:12:53 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: gregkh@linuxfoundation.org, joe@perches.com, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 02/10] staging: rtl8723bs: remove commented out RT_TRACE
- logs in hal/ and os_dep/
-Message-ID: <20210409101252.GL6048@kadam>
-References: <cover.1617640221.git.fabioaiuto83@gmail.com>
- <85338f2b2cffb530efbd987064d146fc2be49c72.1617640221.git.fabioaiuto83@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A491E29CA
+	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 12:40:08 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id x4so6413753edd.2
+        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 05:40:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0qM2/IEN+AkA2uS3y4nQykwtyhpicukZG09T/lUhejA=;
+        b=EFvfa7U5cFR3alwiybhEPjfgtDFCgIClKD+30qf2LTaGFVrBfvylJStcoAaPeoBtku
+         nc8dLfRXwVWTO0eFAdK1UUSKfzUDAqwksimAweIKd3CM5jwWqcWv100XdddfaImxITKA
+         ETYc7CrGxUsyfMk/chA99zG8gzjsWAGMOcDvjyaHybaNFuI/MeGc7KEbyhNHQUW7258W
+         1zCcSrzt6bwC/L4+KzlfNnyABANhSBbESOdFdeHdUSNxq5X5HCidp64cyNrRQpdXX1oI
+         m150sU+GnM7iI5J0EZORZRBN5eCw8D+Cnojztv3ktoAMjjnLAJhpWrZkXTCzxMNANVx5
+         THrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0qM2/IEN+AkA2uS3y4nQykwtyhpicukZG09T/lUhejA=;
+        b=KVBCRNDxYyeX+ppeWin1H9z3hsC/SZqRfZzIH9/urJ1gmFFzxA/l7ChCk7DyIIjsYL
+         7WINK2MBt4N/QwiiDxmyltj7qKu0IPrhyCKPLGjzXn9uuSWbQclLjcf2Bar89/h2BPMg
+         Kz4CvDKjzYZTpOp2koatv8dEfDYZLmOe23Xr2RfZb1fJbJjWzH6sYJaopsqx/ktpKo5k
+         w0xsr3ARtL5sCXeWlEmGynRZHFxEUeZR032krsMeJhAPD2Vxu4GQfqam6lYmZxgqZq0j
+         IWk0v6Qq0jj2sjNiiiQon8mor96CkdhSXBqq/aOGyPLMcxO0MTa3W7gHSz3PEFb1HKtD
+         dpNQ==
+X-Gm-Message-State: AOAM533yedhicgugtY5ZyYum9x66NppJx+Zc0xx/CzCM/Qxas/j+deeE
+	NRw+ULoXT8moBRWAD9sUOyE=
+X-Google-Smtp-Source: ABdhPJxTaBjOSB9vWQ1708QBNB4+vYEGBm6HcYGzW0A2a2nN/Nr6T0GnQ44DX8tgMokH+QXEdGFg3Q==
+X-Received: by 2002:a50:e607:: with SMTP id y7mr17608650edm.18.1617972007229;
+        Fri, 09 Apr 2021 05:40:07 -0700 (PDT)
+Received: from agape ([151.43.204.41])
+        by smtp.gmail.com with ESMTPSA id f10sm1349546edd.29.2021.04.09.05.40.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Apr 2021 05:40:06 -0700 (PDT)
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Fabio Aiuto <fabioaiuto83@gmail.com>
+Subject: [PATCH 0/3] staging: rtl8723bs: remove MGS_8192C trace logs
+Date: Fri,  9 Apr 2021 14:40:00 +0200
+Message-Id: <cover.1617971592.git.fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <85338f2b2cffb530efbd987064d146fc2be49c72.1617640221.git.fabioaiuto83@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9948 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxlogscore=999
- malwarescore=0 mlxscore=0 phishscore=0 spamscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104090073
-X-Proofpoint-ORIG-GUID: 9P1oyh_n1EBBy_-ChxvPw-pat7t0FTWX
-X-Proofpoint-GUID: 9P1oyh_n1EBBy_-ChxvPw-pat7t0FTWX
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9948 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 priorityscore=1501
- suspectscore=0 phishscore=0 mlxlogscore=999 spamscore=0 malwarescore=0
- mlxscore=0 bulkscore=0 impostorscore=0 adultscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104090072
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 05, 2021 at 06:49:49PM +0200, Fabio Aiuto wrote:
-> diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-> index 9b16265b543d..f52cc4e7a6e6 100644
-> --- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-> +++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-> @@ -1785,7 +1785,6 @@ s8 phy_get_tx_pwr_lmt(struct adapter *adapter, u32 reg_pwr_tbl_sel,
->  	/*
->  	if (band_type == BAND_ON_5G && pwr_lmt == MAX_POWER_INDEX) {
->  		if (idx_bandwidth == 0 || idx_bandwidth == 1) {
-> -			RT_TRACE(COMP_INIT, DBG_LOUD, ("No power limit table of the specified band %d, bandwidth %d, ratesection %d, rf path %d\n",
->  				 idx_band, idx_bandwidth,
->  				 idx_rate_sctn, rf_path));
->  			if (idx_rate_sctn == 2)
+This patchset removes the tracing private macro MSG_8192C.
 
-This won't compile.
+This macro belongs to a redundant driver specific tracing
+macro family.
 
-regards,
-dan carpenter
+Moreover the default behaviour is _do nothing_ as to
+activate it, it's necessary to hardcode a DEBUG symbol
+definition.
 
+Fabio Aiuto (3):
+  staging: rtl8723bs: remove all MSG_8192C logs
+  staging: rtl8723bs: remove commented out MSG_8192C log
+  staging: rtl8723bs: remove MSG_8192C macro definitions
+
+ drivers/staging/rtl8723bs/hal/odm.c               | 3 ---
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 4 ----
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c      | 4 ----
+ drivers/staging/rtl8723bs/include/rtw_debug.h     | 6 ------
+ 4 files changed, 17 deletions(-)
+
+-- 
+2.20.1
 
