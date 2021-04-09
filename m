@@ -1,92 +1,139 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+Received: from mx.i2x.nl (mx.i2x.nl [5.2.79.48])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B119470
+	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 12:25:31 +0000 (UTC)
+Received: from mail.vdorst.com (mail.vdorst.com [IPv6:fd00::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx.i2x.nl (Postfix) with ESMTPS id BC5575FBA8;
+	Fri,  9 Apr 2021 14:25:29 +0200 (CEST)
+Authentication-Results: mx.i2x.nl;
+	dkim=pass (2048-bit key; secure) header.d=vdorst.com header.i=@vdorst.com header.b="Tcw1qj2W";
+	dkim-atps=neutral
+Received: from www (unknown [192.168.2.222])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C973270
-	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 12:24:28 +0000 (UTC)
-Received: by mail-qk1-f175.google.com with SMTP id z10so5517566qkz.13
-        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 05:24:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=FFyKVQiiCs5puSz3WES2iYZgay4qT5NEj+d2mqioyWY=;
-        b=Z3neBw2YL7iaEMhoqCq7Li4M/YjKFuEfckanqHotLbExe4Q2djjXb2dGWlQqaW+c8r
-         CWvZOzcCZy/G/+pXQwODwqD88jKLpOvotARANlWv4dzd4AI4RaW2K5cTrui/rm3MoQ7z
-         KO1kHhuWblajOaR/KW1xCeGbAA6mk9OIdWNIfXBzm0q1R4t/16OJSUmA/fGdO+Bn9OqS
-         kXkRLc1nxXJOgBllIlegiWn3VYcwu71Bam+eRczRJEB9Epojo0a4z+I+GAvAW7zzz9Nq
-         jj1K/ZDHyp5OxRXgolrvGk+QuOI2m451xzAiaQ65vYZHzZo7D5yBbhbxqTgIj3EbyB04
-         o1rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=FFyKVQiiCs5puSz3WES2iYZgay4qT5NEj+d2mqioyWY=;
-        b=MP+VLFkdzjRWRMUIBRRlI2GSKAAGIwYTservnPdzMoMVEDWUx70qoayABRCH2fO442
-         oot/1hGUDzxLvuDW7H34jk5t5rhnEmT+EX1U9p5jeWKB0yGr6Wc7dMQx0XoQiNXxhZRz
-         3JyEZH5XKY83tC+8XU5ho5J+XuBGaQx1T99T42nlS3ma1SqdvYhOghz7G+ynhhqMJaVG
-         Yje1hJpnOfoPU/kVSxmBtD6p5IsokQNVevbi8dklhxIaRmlBoH4wK7roBFSjo3kywqlt
-         XUsIkL3wB7yppfpCxK5juJuc+1n9kKHgVB2hFbD41vGOwxpXxEIzI0zJOXan8VmVstnv
-         B1ag==
-X-Gm-Message-State: AOAM53364doEm8o1ClqYmWuLxvnzqWazpoiPuqHvRWFdtHeTr5XjZRT6
-	yCwjRHMBg+EqjS6Bi6wL4qQ=
-X-Google-Smtp-Source: ABdhPJwZO170GmUfRXKwffIyZXccIeGIdNKr6SdeRDoJHGlHzqzG68TuosmYyukDuZKxo2ckJXrT1A==
-X-Received: by 2002:a37:93c2:: with SMTP id v185mr5189190qkd.179.1617971067966;
-        Fri, 09 Apr 2021 05:24:27 -0700 (PDT)
-Received: from focaruja ([2001:1284:f013:b099:8056:1dc0:5a27:acd7])
-        by smtp.gmail.com with ESMTPSA id k4sm1610193qke.13.2021.04.09.05.24.27
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Fri, 09 Apr 2021 05:24:27 -0700 (PDT)
-Date: Fri, 9 Apr 2021 09:24:25 -0300
-From: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
-To: Ezequiel Garcia <ezequiel@collabora.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
-	alinesantanacordeiro@gmail.com
-Subject: [Outreachy kernel][PATCH 2/2 v3] staging: media: hantro: Align line
- break to the open parenthesis in file hantro_mpeg2.c
-Message-ID: <790e0b3def9e7bc747122c9b6f336b857cd05d11.1617970550.git.alinesantanacordeiro@gmail.com>
-References: <cover.1617970550.git.alinesantanacordeiro@gmail.com>
+	by mail.vdorst.com (Postfix) with ESMTPSA id 7F273BC6013;
+	Fri,  9 Apr 2021 14:25:29 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.vdorst.com 7F273BC6013
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vdorst.com;
+	s=default; t=1617971129;
+	bh=8+E8zX/etY3i4LNvV1TwVYoMvMWtXNcy6wJF6uT5dRI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Tcw1qj2Wfgvbthhz2/picZXahWlFzpEgfAPbgjUST7I4lhUBZYACWjtYtc9Yb+osb
+	 tp7b/aLxZ6HeRn9PFIz6MgGmZiSRINCL9O3NEeb6Ne9p15n9mqctyN/Lc3W7B9zpdL
+	 +s5pDcWEID9av23lIspKxpt0d7CRyIzsF77uAxXmFGSmIp9qQ/Tul/N2bSqEEEFkRL
+	 GfoXTg6TDxCTyq4F+8ARBgGkOIRLJWFiGQ1oNtTmWy/Hb2lwgwqU+mhF1HJE81p6L8
+	 7Jt2oyMyFQTVHzCBtkGLSDzejUbp2AKemy9j0vclRtwKiWWyZj16cn0kriDnkrqEG2
+	 xTqkT1/o+fZcg==
+Received: from 48.79.2.5.in-addr.arpa (48.79.2.5.in-addr.arpa [5.2.79.48])
+ by www.vdorst.com (Horde Framework) with HTTPS; Fri, 09 Apr 2021 12:25:29
+ +0000
+Date: Fri, 09 Apr 2021 12:25:29 +0000
+Message-ID: <20210409122529.Horde.fb4QbDNxhPNA6ZyDBOjGTct@www.vdorst.com>
+From: =?utf-8?b?UmVuw6k=?= van Dorst <opensource@vdorst.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: DENG Qingfang <dqfext@gmail.com>, "David S. Miller"
+ <davem@davemloft.net>, Florian Fainelli <f.fainelli@gmail.com>, Heiner
+ Kallweit <hkallweit1@gmail.com>, Jakub Kicinski <kuba@kernel.org>, Landen
+ Chao <Landen.Chao@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, Sean Wang <sean.wang@mediatek.com>,
+ Vivien Didelot <vivien.didelot@gmail.com>, Vladimir Oltean
+ <olteanv@gmail.com>, Rob Herring <robh+dt@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sergio Paracuellos <sergio.paracuellos@gmail.com>, linux-kernel
+ <linux-kernel@vger.kernel.org>, "moderated list:ARM/Mediatek SoC support"
+ <linux-mediatek@lists.infradead.org>, linux-staging@lists.linux.dev, "open
+ list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, netdev <netdev@vger.kernel.org>, Weijie Gao
+ <weijie.gao@mediatek.com>, Chuanhong Guo <gch981213@gmail.com>, Frank
+ Wunderlich <frank-w@public-files.de>, Thomas Gleixner <tglx@linutronix.de>,
+ Marc Zyngier <maz@kernel.org>
+Subject: Re: [RFC v3 net-next 0/4] MT7530 interrupt support
+References: <20210408123919.2528516-1-dqfext@gmail.com>
+ <20210408140255.Horde.Pl-DXtrqmiH9imsWjDqblfM@www.vdorst.com>
+ <CALW65jZujSCk16RX_xgcg+NGrc9yyFQOQ9Y-z3qz-Qv1TvUQLg@mail.gmail.com>
+ <YG8zvFKOdnzaJqLa@lunn.ch>
+In-Reply-To: <YG8zvFKOdnzaJqLa@lunn.ch>
+User-Agent: Horde Application Framework 5
+Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1617970550.git.alinesantanacordeiro@gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Transfer-Encoding: 8bit
 
-Aligns line break with the remaining function arguments
-to the open parenthesis. Issue found by checkpatch.
+Quoting Andrew Lunn <andrew@lunn.ch>:
 
-Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
----
-Changes since v2:
- - Rename the commit messages properly
- 
- Changes since v1:
-  - Send patchset without the cover-letter
-   - Rename the commit messages wrongly in the email subject only
-   
- drivers/staging/media/hantro/hantro_mpeg2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> On Thu, Apr 08, 2021 at 11:00:08PM +0800, DENG Qingfang wrote:
+>> Hi René,
+>>
+>> On Thu, Apr 8, 2021 at 10:02 PM René van Dorst  
+>> <opensource@vdorst.com> wrote:
+>> >
+>> > Tested on Ubiquiti ER-X-SFP (MT7621) with 1 external phy which  
+>> uses irq=POLL.
+>> >
+>>
+>> I wonder if the external PHY's IRQ can be registered in the devicetree.
+>> Change MT7530_NUM_PHYS to 6, and add the following to ER-X-SFP dts PHY node:
+>
+> I don't know this platform. What is the PHYs interrupt pin connected
+> to? A SoC GPIO? There is a generic mechanism to describe PHY
+> interrupts in DT. That should be used, if it is a GPIO.
+>
+> 	   Andrew
 
-diff --git a/drivers/staging/media/hantro/hantro_mpeg2.c b/drivers/staging/media/hantro/hantro_mpeg2.c
-index 1d334e6..53a99a9 100644
---- a/drivers/staging/media/hantro/hantro_mpeg2.c
-+++ b/drivers/staging/media/hantro/hantro_mpeg2.c
-@@ -19,7 +19,7 @@ static const u8 zigzag[64] = {
- };
- 
- void hantro_mpeg2_dec_copy_qtable(u8 *qtable,
--	const struct v4l2_ctrl_mpeg2_quantization *ctrl)
-+				  const struct v4l2_ctrl_mpeg2_quantization *ctrl)
- {
- 	int i, n;
- 
--- 
-2.7.4
+Quoting Andrew Lunn <andrew@lunn.ch>:
+
+> On Thu, Apr 08, 2021 at 11:00:08PM +0800, DENG Qingfang wrote:
+>> Hi René,
+>>
+>> On Thu, Apr 8, 2021 at 10:02 PM René van Dorst  
+>> <opensource@vdorst.com> wrote:
+>> >
+>> > Tested on Ubiquiti ER-X-SFP (MT7621) with 1 external phy which  
+>> uses irq=POLL.
+>> >
+>>
+>> I wonder if the external PHY's IRQ can be registered in the devicetree.
+>> Change MT7530_NUM_PHYS to 6, and add the following to ER-X-SFP dts PHY node:
+>
+> I don't know this platform. What is the PHYs interrupt pin connected
+> to? A SoC GPIO? There is a generic mechanism to describe PHY
+> interrupts in DT. That should be used, if it is a GPIO.
+>
+> 	   Andrew
+
+
+Hi Andrew,
+
+I couldn't find if the external phy IRQ is connected to any gpio of the SOC.
+So External PHY IRQ can't be sensed via a gpio.
+
+
+The patch used the MT7530 link change interrupt and flags.
+Maybe the patch is misusing the these flags as an interrupt?
+The same MT7530 register also has the interrupt flags for the internal phys.
+But in the MT7531 datasheet they don't describe them.
+
+On the other hand I don't have any information about the internal PHY  
+or register settings.
+So enabling the interrupt on the PHY is currently not possible.
+
+I also forced enabled all the MT7530 PHY interrupts and PHY link  
+change interrupts.
+I print the interrupt status mt7530.
+I don't see any MT7530 interrupt fired when link changing the port  
+5/external phy.
+Which was of course as expected. We only have 5 internal phy's for the  
+port 0 to 4.
+Port 5 and 6 is only have a MAC that is connected to the SOC of an  
+external PHY.
+
+Greats,
+
+René
 
