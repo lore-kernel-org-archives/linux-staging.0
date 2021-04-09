@@ -1,49 +1,49 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E971C6D0E
-	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 18:44:51 +0000 (UTC)
-Received: by mail-pg1-f178.google.com with SMTP id t140so4568392pgb.13
-        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 11:44:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 115496D0E
+	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 18:49:58 +0000 (UTC)
+Received: by mail-qt1-f178.google.com with SMTP id m16so4329559qtx.9
+        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 11:49:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=X8Uig22OPkeFSGGdTrGTGcCnsRVT/HXYW0IkegBciCs=;
-        b=ALPB7EVylo6GmagTTG/ZyNEZ8ULk2DNEv2j0MwcAW1EmPU5uKuO3/lKh+PB9dS9BOU
-         UZhj0GBbAh/mDtX3Ac4l++w3Swm9IoogdUhDQeHHmxjd6Gz1xryb52+VTWPO3Rkd0dRu
-         uY+REDKlSlf6JRgx1N94iOHhDkzdkCPr4dNQtBJGnZ9jf9aDGvvy6y7RHkz8sKXNwnox
-         7AbQHi7Dw5EuDzQ5RyRu8h8KMGARduqkICEZheGSTG13mZb7Rilnz3mTKLGUvV55yuys
-         9DhZk6j2RDDqC/qtyn/dSIAIkKg1+SsRbtS1qRZs0owUBDNeqt+Gswo8fNlxA9FpzLPg
-         xx0A==
+        bh=W/Yva+lieaknSkZKEFwejE4Ku137WP0mlyV8FGttUOY=;
+        b=V8VsrF+tjFecTf7SCocG9mdOFPnpVBNz3AWTy3oKFRA50BeHWhgFA1imI0SuNy/x6D
+         trlvwlm9mMKWUj+KeRMTaW5zXdRTKjAvIMRi9igkSJd5ZS4R02axxwRu/dHe8BLyXAhq
+         eHTgYdYI15/9K59Lc/LbTvNCCBFEiOCAkCb61Of0cYGRPQYNmvqJ3hahBw4ryI4oiotU
+         mbntiwg3j9FcoVl7faoLC3PylQ7uIBVWKHvU4gYHC7XhMITKLoYPc04vB7CrYH8EdJ3X
+         HlSoHe6yk0yFE2E/8DeJRMKJQqs8fBI7En0OisjrhIBHT5UDg2coKXz8afTnHU4XP2AZ
+         W7qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
          :content-disposition;
-        bh=X8Uig22OPkeFSGGdTrGTGcCnsRVT/HXYW0IkegBciCs=;
-        b=ECLo3gc7nMpc1O1MDJEG/aKQ7WatMez/g5eLSCId+/dMFBvqTLD6hn1fnxHCZLQcGP
-         cczEE+2erNeLv0aqA7LNoTqN/RrFyjhxrindWswHsIVnlf5W6KkVajpfkELZQyKv7XzT
-         23OXf0cjTzyMIhByhsBJI9YdfqJWcRcQlL3zhvhYjzZF0awAsQNxxuG0BTyioeHORkQu
-         a1lU7NoNlBLEy/Ee7STYzBX8LSlR/9GfnTTzGG5k2GwXJt7DZ8vkvoGOjf64wpcVlfc4
-         mgypDYZk99jE57qJKNO0tlzqEQWvx+RBZ8Fd1Jucqz/1pF7flWaH8DuKo19OvYsk3hAR
-         M/Kg==
-X-Gm-Message-State: AOAM531OMWDHIaJQLExyLrS4gVB7ME89Bw9l0ougGA9E16H1Rg+Ybp8z
-	OJvQPYSUzIkQzx/jNfU1Zls=
-X-Google-Smtp-Source: ABdhPJw0ApZieP1fSwguGfuX8QiwUtJayW5q/pOdc+RvFAP2VfdwWSahVPVJ+XX2Q7/KzKgZKN2hOA==
-X-Received: by 2002:a63:5807:: with SMTP id m7mr14379245pgb.73.1617993891409;
-        Fri, 09 Apr 2021 11:44:51 -0700 (PDT)
-Received: from kali ([103.141.87.254])
-        by smtp.gmail.com with ESMTPSA id s6sm2797646pfw.96.2021.04.09.11.44.47
+        bh=W/Yva+lieaknSkZKEFwejE4Ku137WP0mlyV8FGttUOY=;
+        b=niBGifnXq3Yuf8vATBjujv2SpbMmPvFz4CgH2h50GPi3qE4OXj5wT4zJgotydgItXM
+         U+OAPcG+SHEbVC/rN2YxDV30StiR7oER8B85ZWrYvis0tSX6+GVFqCuuTy9e+oQ3Pam4
+         q1Fv16vgcRCAsiOgB8apOOAvkf0KuDaQ/V8NNP7zSGajdRR6SLZvZsnMChK9SSRALpWj
+         QmjGAiYu3EFNwtOA6jNVPPLOOR7wWLqpxRbn+h5PmQCmkd4D/0rDZOhDs6tL4/OHmzTQ
+         iSE7/gbyOa1BLE+4HNzOeoVsJEt3iPcdov6I9YnvNOI3ReM38qIu0faubOThXLDPJyfC
+         ejfw==
+X-Gm-Message-State: AOAM532UCHuyeOmWO6PQqBYSQoMFRlnYPGhICwDEMbtprOMDZ3ODn1xj
+	PPHVqYWvs36Kx/1hakkjdE0=
+X-Google-Smtp-Source: ABdhPJyDbvD1+yHwXYLDhGXsuLgzJ1AgAyyUze5eUvFTOpfhHLZnJF4pvLfgegVH+5vQM3oeiFb5HA==
+X-Received: by 2002:ac8:7fcd:: with SMTP id b13mr13785148qtk.68.1617994197206;
+        Fri, 09 Apr 2021 11:49:57 -0700 (PDT)
+Received: from smtp.gmail.com ([2804:14c:73:9a01:86f3:17eb:e23c:86fd])
+        by smtp.gmail.com with ESMTPSA id 8sm2390329qkb.32.2021.04.09.11.49.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 11:44:51 -0700 (PDT)
-Date: Sat, 10 Apr 2021 00:14:44 +0530
-From: Mitali Borkar <mitaliborkar810@gmail.com>
-To: clabbe@baylibre.com, mchehab@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
-	mitali_s@me.iitr.ac.in
-Subject: [PATCH v2 2/2] staging: media: zoran: remove and add comments; align
- code
-Message-ID: <YHCgnP6Jr6TbjwUy@kali>
+        Fri, 09 Apr 2021 11:49:56 -0700 (PDT)
+Date: Fri, 9 Apr 2021 15:49:52 -0300
+From: Lucas Stankus <lucas.p.stankus@gmail.com>
+To: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH 0/3] staging: iio: cdc: ad7746: remove platform_data in favor
+ of device tree bindings
+Message-ID: <cover.1617993776.git.lucas.p.stankus@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -52,327 +52,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Removed comments from the same line and added them to new line above the
-blocks, aligned everything properly by using tabs to make code neater
-and improve readability.
+This patch series aims to replace the platform_struct for the ad7746 driver
+in favor of device tree bindings, creating the dt-bindings documentation in
+the process.
 
-Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
----
- drivers/staging/media/zoran/zr36057.h | 293 ++++++++++++++------------
- 1 file changed, 162 insertions(+), 131 deletions(-)
+Since the header file was only used to define the struct and the excitation
+level values, it was possible to remove the file entirely.
 
-diff --git a/drivers/staging/media/zoran/zr36057.h b/drivers/staging/media/zoran/zr36057.h
-index 93075459f910..198d344a8879 100644
---- a/drivers/staging/media/zoran/zr36057.h
-+++ b/drivers/staging/media/zoran/zr36057.h
-@@ -12,145 +12,176 @@
- 
- /* Zoran ZR36057 registers */
- 
--#define ZR36057_VFEHCR          0x000	/* Video Front End, Horizontal Configuration Register */
--#define ZR36057_VFEHCR_HS_POL             BIT(30)
--#define ZR36057_VFEHCR_H_START           10
-+/* Video Front End, Horizontal Configuration Register */
-+#define ZR36057_VFEHCR			0x000
-+#define ZR36057_VFEHCR_HS_POL			BIT(30)
-+#define ZR36057_VFEHCR_H_START		10
- #define ZR36057_VFEHCR_H_END		0
- #define ZR36057_VFEHCR_HMASK		0x3ff
- 
--#define ZR36057_VFEVCR          0x004	/* Video Front End, Vertical Configuration Register */
--#define ZR36057_VFEVCR_VS_POL             BIT(30)
--#define ZR36057_VFEVCR_V_START           10
-+/* Video Front End, Vertical Configuration Register */
-+#define ZR36057_VFEVCR			0x004
-+#define ZR36057_VFEVCR_VS_POL			BIT(30)
-+#define ZR36057_VFEVCR_V_START		10
- #define ZR36057_VFEVCR_V_END		0
- #define ZR36057_VFEVCR_VMASK		0x3ff
- 
--#define ZR36057_VFESPFR         0x008	/* Video Front End, Scaler and Pixel Format Register */
--#define ZR36057_VFESPFR_EXT_FL            BIT(26)
--#define ZR36057_VFESPFR_TOP_FIELD         BIT(25)
--#define ZR36057_VFESPFR_VCLK_POL          BIT(24)
--#define ZR36057_VFESPFR_H_FILTER         21
--#define ZR36057_VFESPFR_HOR_DCM          14
--#define ZR36057_VFESPFR_VER_DCM          8
--#define ZR36057_VFESPFR_DISP_MODE        6
--#define ZR36057_VFESPFR_YUV422          (0 << 3)
--#define ZR36057_VFESPFR_RGB888          BIT(3)
--#define ZR36057_VFESPFR_RGB565          (2 << 3)
--#define ZR36057_VFESPFR_RGB555          (3 << 3)
--#define ZR36057_VFESPFR_ERR_DIF          BIT(2)
--#define ZR36057_VFESPFR_PACK24          BIT(1)
--#define ZR36057_VFESPFR_LITTLE_ENDIAN    BIT(0)
--
--#define ZR36057_VDTR            0x00c	/* Video Display "Top" Register */
--
--#define ZR36057_VDBR            0x010	/* Video Display "Bottom" Register */
--
--#define ZR36057_VSSFGR          0x014	/* Video Stride, Status, and Frame Grab Register */
--#define ZR36057_VSSFGR_DISP_STRIDE       16
--#define ZR36057_VSSFGR_VID_OVF            BIT(8)
--#define ZR36057_VSSFGR_SNAP_SHOT          BIT(1)
--#define ZR36057_VSSFGR_FRAME_GRAB         BIT(0)
--
--#define ZR36057_VDCR            0x018	/* Video Display Configuration Register */
--#define ZR36057_VDCR_VID_EN               BIT(31)
--#define ZR36057_VDCR_MIN_PIX             24
--#define ZR36057_VDCR_TRITON              BIT(24)
--#define ZR36057_VDCR_VID_WIN_HT           12
--#define ZR36057_VDCR_VID_WIN_WID          0
--
--#define ZR36057_MMTR            0x01c	/* Masking Map "Top" Register */
--
--#define ZR36057_MMBR            0x020	/* Masking Map "Bottom" Register */
--
--#define ZR36057_OCR             0x024	/* Overlay Control Register */
--#define ZR36057_OCR_OVL_ENABLE            BIT(15)
--#define ZR36057_OCR_MASK_STRIDE          0
--
--#define ZR36057_SPGPPCR         0x028	/* System, PCI, and General Purpose Pins Control Register */
--#define ZR36057_SPGPPCR_SOFT_RESET	 BIT(24)
--
--#define ZR36057_GPPGCR1         0x02c	/* General Purpose Pins and GuestBus Control Register (1) */
--
--#define ZR36057_MCSAR           0x030	/* MPEG Code Source Address Register */
--
--#define ZR36057_MCTCR           0x034	/* MPEG Code Transfer Control Register */
--#define ZR36057_MCTCR_COD_TIME            BIT(30)
--#define ZR36057_MCTCR_C_EMPTY             BIT(29)
--#define ZR36057_MCTCR_C_FLUSH             BIT(28)
-+/* Video Front End, Scaler and Pixel Format Register */
-+#define ZR36057_VFESPFR			0x008
-+#define ZR36057_VFESPFR_EXT_FL			BIT(26)
-+#define ZR36057_VFESPFR_TOP_FIELD		BIT(25)
-+#define ZR36057_VFESPFR_VCLK_POL		BIT(24)
-+#define ZR36057_VFESPFR_H_FILTER	21
-+#define ZR36057_VFESPFR_HOR_DCM		14
-+#define ZR36057_VFESPFR_VER_DCM		8
-+#define ZR36057_VFESPFR_DISP_MODE	6
-+#define ZR36057_VFESPFR_YUV422			(0 << 3)
-+#define ZR36057_VFESPFR_RGB888			BIT(3)
-+#define ZR36057_VFESPFR_RGB565			(2 << 3)
-+#define ZR36057_VFESPFR_RGB555			(3 << 3)
-+#define ZR36057_VFESPFR_ERR_DIF			BIT(2)
-+#define ZR36057_VFESPFR_PACK24			BIT(1)
-+#define ZR36057_VFESPFR_LITTLE_ENDIAN		BIT(0)
-+
-+/* Video Display "Top" Register */
-+#define ZR36057_VDTR			0x00c
-+
-+/* Video Display "Bottom" Register */
-+#define ZR36057_VDBR			0x010
-+
-+/* Video Stride, Status, and Frame Grab Register */
-+#define ZR36057_VSSFGR			0x014
-+#define ZR36057_VSSFGR_DISP_STRIDE	16
-+#define ZR36057_VSSFGR_VID_OVF			BIT(8)
-+#define ZR36057_VSSFGR_SNAP_SHOT		BIT(1)
-+#define ZR36057_VSSFGR_FRAME_GRAB		BIT(0)
-+
-+/* Video Display Configuration Register */
-+#define ZR36057_VDCR			0x018
-+#define ZR36057_VDCR_VID_EN			BIT(31)
-+#define ZR36057_VDCR_MIN_PIX		24
-+#define ZR36057_VDCR_TRITON			BIT(24)
-+#define ZR36057_VDCR_VID_WIN_HT		12
-+#define ZR36057_VDCR_VID_WIN_WID	0
-+
-+/* Masking Map "Top" Register */
-+#define ZR36057_MMTR			0x01c
-+
-+/* Masking Map "Bottom" Register */
-+#define ZR36057_MMBR			0x020
-+
-+/* Overlay Control Register */
-+#define ZR36057_OCR			0x024
-+#define ZR36057_OCR_OVL_ENABLE			BIT(15)
-+#define ZR36057_OCR_MASK_STRIDE		0
-+
-+/* System, PCI, and General Purpose Pins Control Register */
-+#define ZR36057_SPGPPCR			0x028
-+#define ZR36057_SPGPPCR_SOFT_RESET		BIT(24)
-+
-+/* General Purpose Pins and GuestBus Control Register (1) */
-+#define ZR36057_GPPGCR1			0x02c
-+
-+/* MPEG Code Source Address Register */
-+#define ZR36057_MCSAR			0x030
-+
-+/* MPEG Code Transfer Control Register */
-+#define ZR36057_MCTCR			0x034
-+#define ZR36057_MCTCR_COD_TIME			BIT(30)
-+#define ZR36057_MCTCR_C_EMPTY			BIT(29)
-+#define ZR36057_MCTCR_C_FLUSH			BIT(28)
- #define ZR36057_MCTCR_COD_GUEST_ID	20
- #define ZR36057_MCTCR_COD_GUEST_REG	16
- 
--#define ZR36057_MCMPR           0x038	/* MPEG Code Memory Pointer Register */
--
--#define ZR36057_ISR             0x03c	/* Interrupt Status Register */
--#define ZR36057_ISR_GIRQ1                BIT(30)
--#define ZR36057_ISR_GIRQ0                BIT(29)
--#define ZR36057_ISR_COD_REP_IRQ            BIT(28)
--#define ZR36057_ISR_JPEG_REP_IRQ           BIT(27)
--
--#define ZR36057_ICR             0x040	/* Interrupt Control Register */
--#define ZR36057_ICR_GIRQ1                BIT(30)
--#define ZR36057_ICR_GIRQ0                BIT(29)
--#define ZR36057_ICR_COD_REP_IRQ            BIT(28)
--#define ZR36057_ICR_JPEG_REP_IRQ           BIT(27)
--#define ZR36057_ICR_INT_PIN_EN             BIT(24)
--
--#define ZR36057_I2CBR           0x044	/* I2C Bus Register */
--#define ZR36057_I2CBR_SDA		 BIT(1)
--#define ZR36057_I2CBR_SCL		 BIT(0)
--
--#define ZR36057_JMC             0x100	/* JPEG Mode and Control */
--#define ZR36057_JMC_JPG                  BIT(31)
--#define ZR36057_JMC_JPG_EXP_MODE          (0 << 29)
--#define ZR36057_JMC_JPG_CMP_MODE           BIT(29)
--#define ZR36057_JMC_MJPG_EXP_MODE         (2 << 29)
--#define ZR36057_JMC_MJPG_CMP_MODE         (3 << 29)
--#define ZR36057_JMC_RTBUSY_FB            BIT(6)
--#define ZR36057_JMC_GO_EN                BIT(5)
--#define ZR36057_JMC_SYNC_MSTR             BIT(4)
--#define ZR36057_JMC_FLD_PER_BUFF         BIT(3)
--#define ZR36057_JMC_VFIFO_FB             BIT(2)
--#define ZR36057_JMC_CFIFO_FB             BIT(1)
--#define ZR36057_JMC_STLL_LIT_ENDIAN       BIT(0)
--
--#define ZR36057_JPC             0x104	/* JPEG Process Control */
--#define ZR36057_JPC_P_RESET              BIT(7)
--#define ZR36057_JPC_COD_TRNS_EN            BIT(5)
--#define ZR36057_JPC_ACTIVE               BIT(0)
--
--#define ZR36057_VSP             0x108	/* Vertical Sync Parameters */
--#define ZR36057_VSP_VSYNC_SIZE           16
--#define ZR36057_VSP_FRM_TOT              0
--
--#define ZR36057_HSP             0x10c	/* Horizontal Sync Parameters */
--#define ZR36057_HSP_HSYNC_START          16
--#define ZR36057_HSP_LINE_TOT             0
--
--#define ZR36057_FHAP            0x110	/* Field Horizontal Active Portion */
--#define ZR36057_FHAP_NAX                16
--#define ZR36057_FHAP_PAX                0
--
--#define ZR36057_FVAP            0x114	/* Field Vertical Active Portion */
--#define ZR36057_FVAP_NAY                16
--#define ZR36057_FVAP_PAY                0
--
--#define ZR36057_FPP             0x118	/* Field Process Parameters */
--#define ZR36057_FPP_ODD_EVEN             BIT(0)
--
--#define ZR36057_JCBA            0x11c	/* JPEG Code Base Address */
--
--#define ZR36057_JCFT            0x120	/* JPEG Code FIFO Threshold */
--
--#define ZR36057_JCGI            0x124	/* JPEG Codec Guest ID */
--#define ZR36057_JCGI_JPE_GUEST_ID         4
--#define ZR36057_JCGI_JPE_GUEST_REG        0
--
--#define ZR36057_GCR2            0x12c	/* GuestBus Control Register (2) */
--
--#define ZR36057_POR             0x200	/* Post Office Register */
--#define ZR36057_POR_PO_PEN                BIT(25)
--#define ZR36057_POR_PO_TIME               BIT(24)
--#define ZR36057_POR_PO_DIR                BIT(23)
--
--#define ZR36057_STR             0x300	/* "Still" Transfer Register */
-+/* MPEG Code Memory Pointer Register */
-+#define ZR36057_MCMPR			0x038
-+
-+/* Interrupt Status Register */
-+#define ZR36057_ISR			0x03c
-+#define ZR36057_ISR_GIRQ1			BIT(30)
-+#define ZR36057_ISR_GIRQ0			BIT(29)
-+#define ZR36057_ISR_COD_REP_IRQ			BIT(28)
-+#define ZR36057_ISR_JPEG_REP_IRQ		BIT(27)
-+
-+/* Interrupt Control Register */
-+#define ZR36057_ICR			0x040
-+#define ZR36057_ICR_GIRQ1			BIT(30)
-+#define ZR36057_ICR_GIRQ0			BIT(29)
-+#define ZR36057_ICR_COD_REP_IRQ			BIT(28)
-+#define ZR36057_ICR_JPEG_REP_IRQ		BIT(27)
-+#define ZR36057_ICR_INT_PIN_EN			BIT(24)
-+
-+/* I2C Bus Register */
-+#define ZR36057_I2CBR			0x044
-+#define ZR36057_I2CBR_SDA			BIT(1)
-+#define ZR36057_I2CBR_SCL			BIT(0)
-+
-+/* JPEG Mode and Control */
-+#define ZR36057_JMC			0x100
-+#define ZR36057_JMC_JPG				BIT(31)
-+#define ZR36057_JMC_JPG_EXP_MODE		(0 << 29)
-+#define ZR36057_JMC_JPG_CMP_MODE		BIT(29)
-+#define ZR36057_JMC_MJPG_EXP_MODE		(2 << 29)
-+#define ZR36057_JMC_MJPG_CMP_MODE		(3 << 29)
-+#define ZR36057_JMC_RTBUSY_FB			BIT(6)
-+#define ZR36057_JMC_GO_EN			BIT(5)
-+#define ZR36057_JMC_SYNC_MSTR			BIT(4)
-+#define ZR36057_JMC_FLD_PER_BUFF		BIT(3)
-+#define ZR36057_JMC_VFIFO_FB			BIT(2)
-+#define ZR36057_JMC_CFIFO_FB			BIT(1)
-+#define ZR36057_JMC_STLL_LIT_ENDIAN		BIT(0)
-+
-+/* JPEG Process Control */
-+#define ZR36057_JPC			0x104
-+#define ZR36057_JPC_P_RESET			BIT(7)
-+#define ZR36057_JPC_COD_TRNS_EN			BIT(5)
-+#define ZR36057_JPC_ACTIVE			BIT(0)
-+
-+/* Vertical Sync Parameters */
-+#define ZR36057_VSP			0x108
-+#define ZR36057_VSP_VSYNC_SIZE		16
-+#define ZR36057_VSP_FRM_TOT		0
-+
-+/* Horizontal Sync Parameters */
-+#define ZR36057_HSP			0x10c
-+#define ZR36057_HSP_HSYNC_START		16
-+#define ZR36057_HSP_LINE_TOT		0
-+
-+/* Field Horizontal Active Portion */
-+#define ZR36057_FHAP			0x110
-+#define ZR36057_FHAP_NAX		16
-+#define ZR36057_FHAP_PAX		0
-+
-+/* Field Vertical Active Portion */
-+#define ZR36057_FVAP			0x114
-+#define ZR36057_FVAP_NAY		16
-+#define ZR36057_FVAP_PAY		0
-+
-+/* Field Process Parameters */
-+#define ZR36057_FPP			0x118
-+#define ZR36057_FPP_ODD_EVEN			BIT(0)
-+
-+/* JPEG Code Base Address */
-+#define ZR36057_JCBA			0x11c
-+
-+/* JPEG Code FIFO Threshold */
-+#define ZR36057_JCFT			0x120
-+
-+/* JPEG Codec Guest ID */
-+#define ZR36057_JCGI			0x124
-+#define ZR36057_JCGI_JPE_GUEST_ID	4
-+#define ZR36057_JCGI_JPE_GUEST_REG	0
-+
-+/* GuestBus Control Register (2) */
-+#define ZR36057_GCR2			0x12c
-+
-+/* Post Office Register */
-+#define ZR36057_POR			0x200
-+#define ZR36057_POR_PO_PEN			BIT(25)
-+#define ZR36057_POR_PO_TIME			BIT(24)
-+#define ZR36057_POR_PO_DIR			BIT(23)
-+
-+/* "Still" Transfer Register */
-+#define ZR36057_STR			0x300
- 
- #endif
+Lucas Stankus (3):
+  dt-bindings: staging: iio: cdc: ad7746: add binding documentation for
+    AD7746
+  staging: iio: cdc: ad7746: use dt bindings to set the EXCx pins output
+  staging: iio: cdc: ad7746: use dt binding to set the excitation level
+
+ .../bindings/iio/cdc/adi,ad7746.yaml          | 79 +++++++++++++++++++
+ drivers/staging/iio/cdc/ad7746.c              | 43 +++++-----
+ drivers/staging/iio/cdc/ad7746.h              | 28 -------
+ 3 files changed, 100 insertions(+), 50 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml
+ delete mode 100644 drivers/staging/iio/cdc/ad7746.h
+
 -- 
-2.30.2
+2.31.1
 
