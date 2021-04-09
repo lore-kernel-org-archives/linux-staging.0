@@ -1,78 +1,66 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2FB70
-	for <linux-staging@lists.linux.dev>; Thu,  8 Apr 2021 23:45:31 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id r9so5812673ejj.3
-        for <linux-staging@lists.linux.dev>; Thu, 08 Apr 2021 16:45:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=QhXqjewBtncdOCVUU5t44rbala3/r6RlbCvxFUCu3+M=;
-        b=uA8WrQ0N22+iR9oeA1h8gASKkARO7xU5WR15k/IhN6w0VmVzJ/ctMncOyRSvrlawmZ
-         9Y9hl3rY+3Jt7KcxhL3ZSceFm8fBZHSj8K65ahVdhaTobmUIOZHZOitOwaJsW+yIMGAG
-         2sz1T44y5XyRbs3PPbMLJE0Ceo76TWUxE4/yueSRUHbhfg666K4d3NpEYsJS0LhQa0nK
-         YEGTocAOSadgCqAfQReKpwIcs11SRclfg+DEbr3MHlsVCZDIXPTJmPYVuogeoft0TvOk
-         od6I0utFQKakFwmn7R7i0teJ7kP9q37qU6++zTPpnV4pjJGxqkUPIKwIcDg58lQbWSgP
-         VXnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=QhXqjewBtncdOCVUU5t44rbala3/r6RlbCvxFUCu3+M=;
-        b=kFeZUpPpSN6+a3kWzaO0kBzsoEh3lw4pwN34j2wiBBdt4bdq4Yk31o9cdfuAVG75k0
-         Kmt8wmQxjdsaiRr7Z/Jeyso+6nMeFJNuucw5YchPjHZnPAzkaNFaE3OdYlqpsrGzrN8E
-         PzH42Ej5h4RI+zjIVA1f1MS8BWgFSWh9lhmEzr2nBib+OBTIvVWWeQfPdGPFLUNGhuSL
-         6b+LI7osdRzuP0NiIoNJwbIQmulkrXLY4HS8Dqcrb2IiYa7INzhBEpk4/9HDQirpnH8F
-         YgTuhrWJexNv93tNiw7Rb4HJIwAfET9Brh0qAhWuuXwoOqNmHY8RzX8q+y1GkdeMn88O
-         gFhQ==
-X-Gm-Message-State: AOAM533bA1CG0pn1FGGbMIG5kykRCUEgbKHesKWHHgwWjzGhL1nofSxh
-	7iDyriDF/E4bOz0y4P2xAaE=
-X-Google-Smtp-Source: ABdhPJxlmqZFXITOX8f8zYmoxVtOp+YhPyDdDgCXRVxxqPyk51MqeXJsMlFlQJT7QmBqwpsecshSwQ==
-X-Received: by 2002:a17:906:3a94:: with SMTP id y20mr13368380ejd.35.1617925530313;
-        Thu, 08 Apr 2021 16:45:30 -0700 (PDT)
-Received: from test-VirtualBox ([87.116.181.227])
-        by smtp.gmail.com with ESMTPSA id h25sm383175ejx.105.2021.04.08.16.45.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 16:45:30 -0700 (PDT)
-Date: Fri, 9 Apr 2021 01:45:27 +0200
-From: Sergei Krainov <sergei.krainov.lkd@gmail.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: [PATCH] staging: rtl8712: fix wrong function output
-Message-ID: <20210408234527.GA6893@test-VirtualBox>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8214F70
+	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 05:15:27 +0000 (UTC)
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
+	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4FGm6Q0PZ2zlWqH;
+	Fri,  9 Apr 2021 12:55:42 +0800 (CST)
+Received: from ubuntu1804.huawei.com (10.67.174.98) by
+ DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
+ 14.3.498.0; Fri, 9 Apr 2021 12:57:23 +0800
+From: Pu Lehui <pulehui@huawei.com>
+To: <gregkh@linuxfoundation.org>, <fabioaiuto83@gmail.com>,
+	<ross.schm.dev@gmail.com>, <marcocesati@gmail.com>
+CC: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<pulehui@huawei.com>
+Subject: [PATCH -next] staging: rtl8723bs: remove unused variable pwrctl
+Date: Fri, 9 Apr 2021 12:57:28 +0800
+Message-ID: <20210409045728.125852-1-pulehui@huawei.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
+X-Originating-IP: [10.67.174.98]
+X-CFilter-Loop: Reflected
 
-Function r8712_find_network() were returning wlan_network even if it
-didn't match required address. This happened due to not checking if
-list end was reached and returning last processed wlan_network.
+GCC reports the following warning with W=1:
 
-Signed-off-by: Sergei Krainov <sergei.krainov.lkd@gmail.com>
+drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c:532:23: warning:
+ variable 'pwrctl' set but not used [-Wunused-but-set-variable]
+   532 |  struct pwrctrl_priv *pwrctl;
+       |                       ^~~~~~
+
+This variable is not used so remove it to fix the warning.
+
+Signed-off-by: Pu Lehui <pulehui@huawei.com>
 ---
- drivers/staging/rtl8712/rtl871x_mlme.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
-index 8a97307fbbd6..c38161114b80 100644
---- a/drivers/staging/rtl8712/rtl871x_mlme.c
-+++ b/drivers/staging/rtl8712/rtl871x_mlme.c
-@@ -146,6 +146,8 @@ static struct wlan_network *r8712_find_network(struct  __queue *scanned_queue,
- 		if (!memcmp(addr, pnetwork->network.MacAddress, ETH_ALEN))
- 			break;
- 	}
-+	if (plist == phead)
-+		pnetwork = NULL;
- 	spin_unlock_irqrestore(&scanned_queue->lock, irqL);
- 	return pnetwork;
- }
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+index f2ab878babcb..f8c6028f89f3 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+@@ -529,7 +529,6 @@ static void rtl8723b_set_FwRsvdPagePkt(
+ 	struct xmit_priv *pxmitpriv;
+ 	struct mlme_ext_priv *pmlmeext;
+ 	struct mlme_ext_info *pmlmeinfo;
+-	struct pwrctrl_priv *pwrctl;
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	u32 BeaconLength = 0, PSPollLength = 0;
+ 	u32 NullDataLength = 0, QosNullLength = 0, BTQosNullLength = 0;
+@@ -544,7 +543,6 @@ static void rtl8723b_set_FwRsvdPagePkt(
+ 	pxmitpriv = &padapter->xmitpriv;
+ 	pmlmeext = &padapter->mlmeextpriv;
+ 	pmlmeinfo = &pmlmeext->mlmext_info;
+-	pwrctl = adapter_to_pwrctl(padapter);
+ 
+ 	RsvdPageNum = BCNQ_PAGE_NUM_8723B + WOWLAN_PAGE_NUM_8723B;
+ 	MaxRsvdPageBufSize = RsvdPageNum*PageSize;
 -- 
-2.25.1
+2.17.1
 
