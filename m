@@ -1,49 +1,49 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E3CC6D0E
-	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 10:02:05 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id e14so7706900ejz.11
-        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 03:02:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4389829CA
+	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 10:02:07 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id w3so7743215ejc.4
+        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 03:02:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=wJ8/v9wK24aS5UXikGd6e9KbYisMB01d5v8N2b/3U7A=;
-        b=VAqidPpx2T2vRO2DcUlQUj3c21p45h+CAtoufrQ5nER7ogfjgDWILOUiXDZvOUYen0
-         o/Zbl5FYTjeZXiOibRJKxHooKLhMMqWIlgof4nYPfU5nIm4S6o4kte0cDcnFbqTBRMjQ
-         eKHlQHQyPo4k1mn65R+kJwDTSuBEJCrie7Psqm13wdLyGe4dahPYr103HN2LQCQrtSu4
-         ISQTC1Qf+7jye5uGGhP06pqBKgXAYU+DI2xX6hzhMjkYMc+5C6+RXj1OwyaXvailpkGR
-         ymEyz7daFwqLbO+NNivV7WGPVO9pM9x5D5QLNxpCSw88QjzwDKbl2wIK70kk3uls9HPq
-         8j8w==
+        bh=JytH94vJbFCj7GF8XTLRPZJht9eld57OrRaG5ECiMQQ=;
+        b=HA0frDEEl8tu4uCWwfdOa71uh2WD0uWeXL8s6LZ64BeJGsjy2ZHFTPJ3Dn/QJIYy5f
+         bv5l/22hlVG5ydcJExLLTmZ+0fQXphesxhYA0zxQ41Jt8/vDvCNxJm1z0DyELXmGpRST
+         O2R889XsBO0eSR4zteK1YkkmMKO+dotKAyOlSxdD9/NQ8/atRVMtVShk/nbiVWfZvlSO
+         WVPvEjDw/a4uaKUi4IRANEWe1/Cm68kUq1TNiQTR9MzrbCLyluq4NZc9tol1hTn0zC9X
+         kw5Qq3CBpSi0nQkPMWbplu4NWK7ELys74hSrcspbV6Vhi+tCMjbG/mNQdN1zEMOuNlGd
+         lwLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=wJ8/v9wK24aS5UXikGd6e9KbYisMB01d5v8N2b/3U7A=;
-        b=L31AoyjxwQ493PLdd3w0dgrYj/oHI6xfRxdk/ib80GHGZhiUlwgeCcKNUEAMMlw9IK
-         5CFnTMFQU7mPV6sCzsE31JjsGxFxiZajThRdQaGj+CAwE29dR1Gw6smZd1MN32lrnVND
-         +bhZS16HzjY3bXH3SGwjUQo7hKdZOu57zRZA3M1THbhDb4Lc7JRIbtKNEl7Dzp2iGFYZ
-         f0dDLLpXV6uxDQzT9RhOLnuepoIPklGautvlStsxyf/4Rxjnjavyl8sKeHfV4fA6ZcTT
-         89E4JWnsOPv06FIJzfMu46iNTqtDwMZ4Lh/BRqJMONgp4ysuJUb4Q3QETZtidFFyhT/B
-         Oexw==
-X-Gm-Message-State: AOAM532IJJMYlRX9AKMfCxWzJuiyNfvkRzMVbkoU0KvEGkN040Ce+KO5
-	6huHLKeseZ8hhacW0vuaZHo=
-X-Google-Smtp-Source: ABdhPJw+HXVISIBTqmrtllvm15Bx2krjOzP8ZfiDyNRia6+AfSfgTH9kDkIOXMihRQXgcZONw/Pz1A==
-X-Received: by 2002:a17:906:7016:: with SMTP id n22mr6102564ejj.23.1617962524251;
-        Fri, 09 Apr 2021 03:02:04 -0700 (PDT)
+        bh=JytH94vJbFCj7GF8XTLRPZJht9eld57OrRaG5ECiMQQ=;
+        b=BVOVdRCkXB2lNIXIu9bwE4TIvzfMHA1Qopkk7q21UwEHkJ2q9oYCHIZ3MYBjBBnyv4
+         7meaMQ0yTERynsdUaeJA0ipBzI856xlk8PzyFxQ2D+oB4OdHxqPBv6+p1O/hG5BsjdBt
+         A4QtckkA6DH0EeUlNQQ7tY/5oLb/b0hstG1IsndqztuPvJykxdM5ncLcitPdIpMFj703
+         fZcZlyfcOCz+awoXQbbJjGrOozNHvCg+fYR1QJy7rAihAevYMO2n0oacCE1SHJxIcoI2
+         bsIJnEcnQsbRfuEOcUakbj/5e46/fkt+h0TYwjIkmEiTeVCkK+/whEh9avf3L+LzZGSz
+         2nuA==
+X-Gm-Message-State: AOAM531etR2kWObWppYb39emRWz4len42bcRqzpdWD2OCppcQSuG1xAq
+	OW7l01mQlLnsPgELmLsBCpM=
+X-Google-Smtp-Source: ABdhPJwEt4KOxtI39dsUCn7FcQMHvZfIfa9co23ZLdx9gxo3Ha1HqveEuWc2UE+XRqwnvpWdIb4I/A==
+X-Received: by 2002:a17:907:3a98:: with SMTP id fh24mr5486136ejc.371.1617962525933;
+        Fri, 09 Apr 2021 03:02:05 -0700 (PDT)
 Received: from agape ([5.171.72.173])
-        by smtp.gmail.com with ESMTPSA id g20sm1137983edb.7.2021.04.09.03.02.03
+        by smtp.gmail.com with ESMTPSA id r13sm1158992edy.3.2021.04.09.03.02.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 03:02:03 -0700 (PDT)
+        Fri, 09 Apr 2021 03:02:05 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 10/11] staging: rtl8723bs: remove unused variable in os_dep/ioctl_linux.c
-Date: Fri,  9 Apr 2021 12:01:38 +0200
-Message-Id: <6211c4177a9ef1e677987c9ebac445df08605f40.1617962215.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 11/11] staging: rtl8723bs: remove decl of unused static const variable in os_dep/ioctl_linux.c
+Date: Fri,  9 Apr 2021 12:01:39 +0200
+Message-Id: <05cc97a114269ee55ac9a91c61493c885fcc0193.1617962215.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1617962215.git.fabioaiuto83@gmail.com>
 References: <cover.1617962215.git.fabioaiuto83@gmail.com>
@@ -52,45 +52,37 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 fix following kernel test robot warning:
 
-drivers/staging/rtl8723bs/os_dep/ioctl_linux.c:
-In function ‘rtw_wx_set_mlme’:
-drivers/staging/rtl8723bs/os_dep/ioctl_linux.c:1128:6:
-warning: variable ‘reason’ set but
-	not used [-Wunused-but-set-variable]
-  u16 reason;
-      ^~~~~~
+   At top level:
+   drivers/staging/rtl8723bs/os_dep/ioctl_linux.c:36:27:
+warning: 'iw_operation_mode' defined but not used
+		[-Wunused-const-variable=]
+      36 | static const char * const iw_operation_mode[] = {
+         |                           ^~~~~~~~~~~~~~~~~
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/ioctl_linux.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/ioctl_linux.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-index 0ff6fbbb4e4f..6f52b8fb0d6e 100644
+index 6f52b8fb0d6e..e5f0cdc9711e 100644
 --- a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
 +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-@@ -1125,7 +1125,6 @@ static int rtw_wx_set_mlme(struct net_device *dev,
- 			     union iwreq_data *wrqu, char *extra)
- {
- 	int ret = 0;
--	u16 reason;
- 	struct adapter *padapter = rtw_netdev_priv(dev);
- 	struct iw_mlme *mlme = (struct iw_mlme *)extra;
+@@ -33,10 +33,6 @@
+ static u32 rtw_rates[] = {1000000, 2000000, 5500000, 11000000,
+ 	6000000, 9000000, 12000000, 18000000, 24000000, 36000000, 48000000, 54000000};
  
-@@ -1133,8 +1132,6 @@ static int rtw_wx_set_mlme(struct net_device *dev,
- 	if (mlme == NULL)
- 		return -1;
- 
--	reason = mlme->reason_code;
+-static const char * const iw_operation_mode[] = {
+-	"Auto", "Ad-Hoc", "Managed",  "Master", "Repeater", "Secondary", "Monitor"
+-};
 -
- 	switch (mlme->cmd) {
- 	case IW_MLME_DEAUTH:
- 		if (!rtw_set_802_11_disassociate(padapter))
+ void indicate_wx_scan_complete_event(struct adapter *padapter)
+ {
+ 	union iwreq_data wrqu;
 -- 
 2.20.1
 
