@@ -1,229 +1,497 @@
-Received: from lb1-smtp-cloud8.xs4all.net (lb1-smtp-cloud8.xs4all.net [194.109.24.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B19A66D0D
-	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 07:36:49 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud8.xs4all.net with ESMTPA
-	id Ulh6lYoysgIC3Ulh9lBNug; Fri, 09 Apr 2021 09:36:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1617953808; bh=FZKnp+i6ej8wW7s6zhRNv75eOBlfohmpZyzny6z/wZs=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=r1MdFud83e9uP/mY+oNtSG8IU3pVYxydTc8ZwKmjnLVdC4zyjhvyQlkU8p5uQTNAC
-	 f4XcjEyMt7gVi0rWkO+umyH8ITqO4Uz0rggKUABSEeP880tDY8/7Lu+KG8qwLcJM2U
-	 8C3AfVoYQSjB9Ffm+v1rL/nUM+SBbCsHetmrwN6eE2cesaD83eIxDo6NdIFz6dXxXp
-	 +JipX0X1XLOxsQnmaMhO+W73+g9H/0JCrSLcmlqy93TWK86FYt/QTWhMNxDyuiiRrf
-	 jNYf/JTV2JQrKuRY5Q7Zmo751oFcH1/tAIS/bf9m04Za0h3jZFH2Lrv1djVRrRHoWO
-	 w6Ka4jYbpVjfQ==
-Subject: Re: [PATCH] staging: media: zoran: add '*' in subsequent line
-To: Mitali Borkar <mitaliborkar810@gmail.com>, clabbe@baylibre.com,
- mchehab@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
- mitali_s@me.iitr.ac.in
-References: <YG+MKk9C/fTd7vj4@kali>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <2e57ea09-ce08-496a-09ec-4b8f72eface5@xs4all.nl>
-Date: Fri, 9 Apr 2021 09:36:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E656D0D
+	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 07:45:03 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id m3so5424394edv.5
+        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 00:45:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Xy0Vao0tdVjFYlW/wITfeVvtikD+bPVCKwCpJGCLmRg=;
+        b=PCPyTiRfCvpOfrmJEJ/BHYzh5A0PV/3w1GAMbedMBe5mdFKUjdz22ZaZGSLUYHqo8T
+         M4aocy0wsDFcZoC30sl8Vtg7KOB/VSXVgkjYxHgZvG2M/rA57/BdDo3azMcvQbEltuaL
+         5ii+UmV8jX05F0sOeYNxfFsDMTN3s02fnHpPGXfwHj7vKIhzfIcr2+JmZPMht1mos5fa
+         FkC5TEeelhB23i5NOApK9ou8VVzN2PN42bUOhbnYFuaO5J48VXG04HB8+KeI+OOZeoFP
+         ICt2s/jEnE3MCA5kMFEUEfgdo/8hLedEjg/vSIYNQoYmXKNc1vlrjgXsK3OF4pCV4Fhk
+         Jsfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Xy0Vao0tdVjFYlW/wITfeVvtikD+bPVCKwCpJGCLmRg=;
+        b=lomWlY2c6IjZvol0e1fIhAeoYKakNcUrhnxVsPVMHxOPy3Kx6RVhYodMWFT7UkC3hd
+         9i5bfpvUZNS1F0c0VKjnGzqCeCFwMbLLMbAI/Nm7IRq8MjEWZaDaNpuB/QYfQkyeIzto
+         KzYzVUdVDJV6PNr3lChYd4MHF2s7vXkl8ME6S4vqceTZQ4ejG1wijtGDNRIMC/vlOXuy
+         Zn7rSaZVD+3K1+RYu9pOrGr79Uk7BBJVTGpXgZ4fAdbJhZS4ZaEqHCs5vceO0GgB4oJX
+         yZc22mZQ2tFwuU1tz9Tnf0j5pWkud9zhPw6rd/Ma6L+sGs4Ag0muwBukP/Zgw1uULmCM
+         lyVg==
+X-Gm-Message-State: AOAM530n+l5vKvBJMjyu/FZjTyzl3ioGO9HME1/tmo+RCgO5wzyi0VcI
+	YteFdlerOmKU/ov+Xh16Ajs=
+X-Google-Smtp-Source: ABdhPJzqfOQUCL6KsLoo2mykgMBDu2PVeQF9fQwROCQgBNUNF06WDYaPkWTbwhFz94ND9BgsqWWU0A==
+X-Received: by 2002:aa7:c694:: with SMTP id n20mr15898695edq.51.1617954302150;
+        Fri, 09 Apr 2021 00:45:02 -0700 (PDT)
+Received: from localhost.localdomain (host-79-42-91-147.retail.telecomitalia.it. [79.42.91.147])
+        by smtp.gmail.com with ESMTPSA id s11sm952148edt.27.2021.04.09.00.45.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Apr 2021 00:45:01 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: Greg KH <gregkh@linuxfoundation.org>, outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [Outreachy kernel] [PATCH v5] staging: rtl8723bs: Remove camelcase in several files
+Date: Fri, 09 Apr 2021 09:45:00 +0200
+Message-ID: <7856458.1kExZPAqk2@localhost.localdomain>
+In-Reply-To: <alpine.DEB.2.22.394.2104090922210.4597@hadrien>
+References: <20210409063458.7961-1-fmdefrancesco@gmail.com> <alpine.DEB.2.22.394.2104090922210.4597@hadrien>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YG+MKk9C/fTd7vj4@kali>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfCpCFGd6+94vAGTwesF9ortrOUnAW+aeGlfnIndyxlRwSGGBo3B1xTGI4V3r5nmXnPxxJ5qQpMpbqSvTryr54T4pU1gFRzAsXJ++CTN3ZvyY041Scmtr
- yybtl6ABkV0Q/dqVeh+Q15nHUETxRAxDnYHXguh0pFuBxtqtXT4KEqSqWudtXXrJxc5Syu31xiLIXaishfJxtB1OguCTy+1EImWTu7chvz7RcjJnB4X9jFOG
- OEieqA+MdbPR1lDSuCsWL8nYnRTmwP4g9Qs/QvQhXvLMTt/ptGJCuOvL0CXLIggrycnWLN2GiXBYakHdiM3fzpFAJLzpFDpAL9jrKHIlj79wfPElwY6ocvvi
- OALG3rk2WuAlL0UfqrBtcLTnPZazrbEmPoFEY4wVXPDeBgy1O4UaMslgN3gBSBuHQWLomqdNXJubcyt5oDS9XtUD18PIyw8E9YiVbEY5AmxSy/i7ydZm0IG9
- BFxfUuUul1lB/aYgiKgxE9EBpwBYlVD7c6zflQ==
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-Hi Mitali,
-
-On 09/04/2021 01:05, Mitali Borkar wrote:
-> Added '*' in susbsequent lines for block comments to meet linux kernel
-> coding style.
+On Friday, April 9, 2021 9:22:54 AM CEST Julia Lawall wrote:
+> On Fri, 9 Apr 2021, Fabio M. De Francesco wrote:
+> > Remove camelcase in bFwCurrentInPSMode, a variable used by code
+> > of several subdirectories/files of the driver. Issue detected by
+> > checkpatch.pl. Delete the unnecessary "b" (that stands for "byte") from
+> > the beginning of the name.
 > 
-> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
-> ---
->  drivers/staging/media/zoran/zr36050.c | 34 +++++++++++++--------------
->  1 file changed, 17 insertions(+), 17 deletions(-)
+> Isn't this still against your previous patch?  I see b_ on the removed
+> lines.
 > 
-> diff --git a/drivers/staging/media/zoran/zr36050.c b/drivers/staging/media/zoran/zr36050.c
-> index 2826f4e5d37b..663ac2b3434e 100644
-> --- a/drivers/staging/media/zoran/zr36050.c
-> +++ b/drivers/staging/media/zoran/zr36050.c
-> @@ -25,7 +25,7 @@
->  #include "videocodec.h"
->  
->  /* it doesn't make sense to have more than 20 or so,
-> -  just to prevent some unwanted loops */
-> + * just to prevent some unwanted loops */
 
-Use proper coding style for long comments:
+Sorry, Julia. You're right: it's against the wrong patch (again and again 
+and...).
+Version 6 is on the way.
 
-/*
- * text
- * text
- */
+Thanks,
 
-checkpatch.pl warns about that, so did you run checkpatch.pl after your modifications
-were made? After fixing checkpatch issues, always run it again to make sure the issue
-is really fixed and not just replaced by another issue.
+Fabio
 
-Regards,
-
-	Hans
-
->  #define MAX_CODECS 20
->  
->  /* amount of chips attached via this driver */
-> @@ -43,7 +43,7 @@ MODULE_PARM_DESC(debug, "Debug level (0-4)");
->  	} while (0)
->  
->  /* =========================================================================
-> -   Local hardware I/O functions:
-> + *  Local hardware I/O functions:
->  
->     read/write via codec layer (registers are located in the master device)
->     ========================================================================= */
-> @@ -80,7 +80,7 @@ static void zr36050_write(struct zr36050 *ptr, u16 reg, u8 value)
->  }
->  
->  /* =========================================================================
-> -   Local helper function:
-> + *  Local helper function:
->  
->     status read
->     ========================================================================= */
-> @@ -95,7 +95,7 @@ static u8 zr36050_read_status1(struct zr36050 *ptr)
->  }
->  
->  /* =========================================================================
-> -   Local helper function:
-> + *  Local helper function:
->  
->     scale factor read
->     ========================================================================= */
-> @@ -112,7 +112,7 @@ static u16 zr36050_read_scalefactor(struct zr36050 *ptr)
->  }
->  
->  /* =========================================================================
-> -   Local helper function:
-> + *  Local helper function:
->  
->     wait if codec is ready to proceed (end of processing) or time is over
->     ========================================================================= */
-> @@ -133,7 +133,7 @@ static void zr36050_wait_end(struct zr36050 *ptr)
->  }
->  
->  /* =========================================================================
-> -   Local helper function:
-> + *  Local helper function:
->  
->     basic test of "connectivity", writes/reads to/from memory the SOF marker
->     ========================================================================= */
-> @@ -174,7 +174,7 @@ static int zr36050_basic_test(struct zr36050 *ptr)
->  }
->  
->  /* =========================================================================
-> -   Local helper function:
-> + *  Local helper function:
->  
->     simple loop for pushing the init datasets
->     ========================================================================= */
-> @@ -192,7 +192,7 @@ static int zr36050_pushit(struct zr36050 *ptr, u16 startreg, u16 len, const char
->  }
->  
->  /* =========================================================================
-> -   Basic datasets:
-> + *  Basic datasets:
->  
->     jpeg baseline setup data (you find it on lots places in internet, or just
->     extract it from any regular .jpg image...)
-> @@ -294,7 +294,7 @@ static const char zr36050_decimation_h[8] = { 2, 1, 1, 0, 0, 0, 0, 0 };
->  static const char zr36050_decimation_v[8] = { 1, 1, 1, 0, 0, 0, 0, 0 };
->  
->  /* =========================================================================
-> -   Local helper functions:
-> + *  Local helper functions:
->  
->     calculation and setup of parameter-dependent JPEG baseline segments
->     (needed for compression only)
-> @@ -303,7 +303,7 @@ static const char zr36050_decimation_v[8] = { 1, 1, 1, 0, 0, 0, 0, 0 };
->  /* ------------------------------------------------------------------------- */
->  
->  /* SOF (start of frame) segment depends on width, height and sampling ratio
-> -			 of each color component */
-> + *			 of each color component */
->  
->  static int zr36050_set_sof(struct zr36050 *ptr)
->  {
-> @@ -334,7 +334,7 @@ static int zr36050_set_sof(struct zr36050 *ptr)
->  /* ------------------------------------------------------------------------- */
->  
->  /* SOS (start of scan) segment depends on the used scan components
-> -			of each color component */
-> + *			of each color component */
->  
->  static int zr36050_set_sos(struct zr36050 *ptr)
->  {
-> @@ -378,7 +378,7 @@ static int zr36050_set_dri(struct zr36050 *ptr)
->  }
->  
->  /* =========================================================================
-> -   Setup function:
-> + *  Setup function:
->  
->     Setup compression/decompression of Zoran's JPEG processor
->     ( see also zoran 36050 manual )
-> @@ -531,13 +531,13 @@ static void zr36050_init(struct zr36050 *ptr)
->  }
->  
->  /* =========================================================================
-> -   CODEC API FUNCTIONS
-> + *  CODEC API FUNCTIONS
->  
->     this functions are accessed by the master via the API structure
->     ========================================================================= */
->  
->  /* set compression/expansion mode and launches codec -
-> -   this should be the last call from the master before starting processing */
-> + *  this should be the last call from the master before starting processing */
->  static int zr36050_set_mode(struct videocodec *codec, int mode)
->  {
->  	struct zr36050 *ptr = (struct zr36050 *)codec->data;
-> @@ -707,7 +707,7 @@ static int zr36050_control(struct videocodec *codec, int type, int size, void *d
->  }
->  
->  /* =========================================================================
-> -   Exit and unregister function:
-> + *  Exit and unregister function:
->  
->     Deinitializes Zoran's JPEG processor
->     ========================================================================= */
-> @@ -732,7 +732,7 @@ static int zr36050_unset(struct videocodec *codec)
->  }
->  
->  /* =========================================================================
-> -   Setup and registry function:
-> + *  Setup and registry function:
->  
->     Initializes Zoran's JPEG processor
->  
-> @@ -813,7 +813,7 @@ static const struct videocodec zr36050_codec = {
->  };
->  
->  /* =========================================================================
-> -   HOOK IN DRIVER AS KERNEL MODULE
-> + *  HOOK IN DRIVER AS KERNEL MODULE
->     ========================================================================= */
->  
->  static int __init zr36050_init_module(void)
+> julia
 > 
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > ---
+> > 
+> > Changes from v4: Mention the removal of the initial "b" in log message.
+> > Changes from v3: Fix errors in the format of the patch.
+> > Changes from v2: Remove unnecessary comment. Shortened a function name.
+> > Changes from v1: No changes to the code but only to the subject for the
+> > purpose to differentiate this patch because other removes of camelcase
+> > have been made in other files of the same directory.
+> > 
+> >  drivers/staging/rtl8723bs/core/rtw_cmd.c       |  2 +-
+> >  drivers/staging/rtl8723bs/core/rtw_mlme.c      |  2 +-
+> >  drivers/staging/rtl8723bs/core/rtw_pwrctrl.c   | 18 +++++++++---------
+> >  drivers/staging/rtl8723bs/hal/hal_intf.c       |  2 +-
+> >  drivers/staging/rtl8723bs/hal/rtl8723b_dm.c    |  6 +++---
+> >  .../staging/rtl8723bs/hal/rtl8723b_hal_init.c  |  2 +-
+> >  drivers/staging/rtl8723bs/hal/sdio_ops.c       | 14 +++++++-------
+> >  .../staging/rtl8723bs/include/rtw_pwrctrl.h    |  2 +-
+> >  8 files changed, 24 insertions(+), 24 deletions(-)
+> > 
+> > diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> > b/drivers/staging/rtl8723bs/core/rtw_cmd.c index
+> > a08f22b53592..feb53b8c0ff2 100644
+> > --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> > +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> > @@ -1510,7 +1510,7 @@ static void rtw_lps_change_dtim_hdl(struct
+> > adapter *padapter, u8 dtim)> 
+> >  	if (pwrpriv->dtim != dtim)
+> >  	
+> >  		pwrpriv->dtim = dtim;
+> > 
+> > -	if ((pwrpriv->b_fw_current_in_ps_mode == true) && (pwrpriv-
+>pwr_mode
+> > > PS_MODE_ACTIVE)) { +	if ((pwrpriv->fw_current_in_ps_mode == 
+true) &&
+> > (pwrpriv->pwr_mode > PS_MODE_ACTIVE)) {> 
+> >  		u8 ps_mode = pwrpriv->pwr_mode;
+> >  		
+> >  		rtw_hal_set_hwreg(padapter, HW_VAR_H2C_FW_PWRMODE, 
+(u8
+> >  		*)(&ps_mode));
+> > 
+> > diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> > b/drivers/staging/rtl8723bs/core/rtw_mlme.c index
+> > 51cea6cf46e7..895997868c81 100644
+> > --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> > +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> > @@ -1684,7 +1684,7 @@ void rtw_dynamic_check_timer_handler(struct
+> > adapter *adapter)> 
+> >  	if (adapter->net_closed)
+> >  	
+> >  		return;
+> > 
+> > -	if ((adapter_to_pwrctl(adapter)->b_fw_current_in_ps_mode)
+> > +	if ((adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
+> > 
+> >  		&& !(hal_btcoex_IsBtControlLps(adapter))
+> >  		) {
+> >  		u8 bEnterPS;
+> > 
+> > diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> > b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c index
+> > 21e7a847866f..481e2ad60853 100644
+> > --- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> > +++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> > @@ -365,7 +365,7 @@ void rtw_set_ps_mode(struct adapter *padapter, u8
+> > ps_mode, u8 smart_ps, u8 bcn_a> 
+> >  			rtw_set_rpwm(padapter, PS_STATE_S4);
+> >  			
+> >  			rtw_hal_set_hwreg(padapter, 
+HW_VAR_H2C_FW_PWRMODE, (u8
+> >  			*)(&ps_mode));
+> > 
+> > -			pwrpriv->b_fw_current_in_ps_mode = false;
+> > +			pwrpriv->fw_current_in_ps_mode = false;
+> > 
+> >  			hal_btcoex_LpsNotify(padapter, ps_mode);
+> >  		
+> >  		}
+> > 
+> > @@ -377,7 +377,7 @@ void rtw_set_ps_mode(struct adapter *padapter, u8
+> > ps_mode, u8 smart_ps, u8 bcn_a> 
+> >  			hal_btcoex_LpsNotify(padapter, ps_mode);
+> > 
+> > -			pwrpriv->b_fw_current_in_ps_mode = true;
+> > +			pwrpriv->fw_current_in_ps_mode = true;
+> > 
+> >  			pwrpriv->pwr_mode = ps_mode;
+> >  			pwrpriv->smart_ps = smart_ps;
+> >  			pwrpriv->bcn_ant_mode = bcn_ant_mode;
+> > 
+> > @@ -734,7 +734,7 @@ s32 rtw_register_task_alive(struct adapter
+> > *padapter, u32 task)> 
+> >  	register_task_alive(pwrctrl, task);
+> > 
+> > -	if (pwrctrl->b_fw_current_in_ps_mode) {
+> > +	if (pwrctrl->fw_current_in_ps_mode) {
+> > 
+> >  		if (pwrctrl->cpwm < pslv) {
+> >  		
+> >  			if (pwrctrl->cpwm < PS_STATE_S2)
+> >  			
+> >  				res = _FAIL;
+> > 
+> > @@ -782,7 +782,7 @@ void rtw_unregister_task_alive(struct adapter
+> > *padapter, u32 task)> 
+> >  	unregister_task_alive(pwrctrl, task);
+> > 
+> > -	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) &&
+> > pwrctrl->b_fw_current_in_ps_mode) { +	if ((pwrctrl->pwr_mode !=
+> > PS_MODE_ACTIVE) && pwrctrl->fw_current_in_ps_mode) {> 
+> >  		if (pwrctrl->cpwm > pslv)
+> >  		
+> >  			if ((pslv >= PS_STATE_S2) || (pwrctrl-
+>alives == 0))
+> >  			
+> >  				rtw_set_rpwm(padapter, pslv);
+> > 
+> > @@ -819,7 +819,7 @@ s32 rtw_register_tx_alive(struct adapter *padapter)
+> > 
+> >  	register_task_alive(pwrctrl, XMIT_ALIVE);
+> > 
+> > -	if (pwrctrl->b_fw_current_in_ps_mode) {
+> > +	if (pwrctrl->fw_current_in_ps_mode) {
+> > 
+> >  		if (pwrctrl->cpwm < pslv) {
+> >  		
+> >  			if (pwrctrl->cpwm < PS_STATE_S2)
+> >  			
+> >  				res = _FAIL;
+> > 
+> > @@ -864,7 +864,7 @@ s32 rtw_register_cmd_alive(struct adapter
+> > *padapter)
+> > 
+> >  	register_task_alive(pwrctrl, CMD_ALIVE);
+> > 
+> > -	if (pwrctrl->b_fw_current_in_ps_mode) {
+> > +	if (pwrctrl->fw_current_in_ps_mode) {
+> > 
+> >  		if (pwrctrl->cpwm < pslv) {
+> >  		
+> >  			if (pwrctrl->cpwm < PS_STATE_S2)
+> >  			
+> >  				res = _FAIL;
+> > 
+> > @@ -909,7 +909,7 @@ void rtw_unregister_tx_alive(struct adapter
+> > *padapter)> 
+> >  	unregister_task_alive(pwrctrl, XMIT_ALIVE);
+> > 
+> > -	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) &&
+> > pwrctrl->b_fw_current_in_ps_mode) { +	if ((pwrctrl->pwr_mode !=
+> > PS_MODE_ACTIVE) && pwrctrl->fw_current_in_ps_mode) {> 
+> >  		if (pwrctrl->cpwm > pslv)
+> >  		
+> >  			if ((pslv >= PS_STATE_S2) || (pwrctrl-
+>alives == 0))
+> >  			
+> >  				rtw_set_rpwm(padapter, pslv);
+> > 
+> > @@ -945,7 +945,7 @@ void rtw_unregister_cmd_alive(struct adapter
+> > *padapter)> 
+> >  	unregister_task_alive(pwrctrl, CMD_ALIVE);
+> > 
+> > -	if ((pwrctrl->pwr_mode != PS_MODE_ACTIVE) &&
+> > pwrctrl->b_fw_current_in_ps_mode) { +	if ((pwrctrl->pwr_mode !=
+> > PS_MODE_ACTIVE) && pwrctrl->fw_current_in_ps_mode) {> 
+> >  		if (pwrctrl->cpwm > pslv) {
+> >  		
+> >  			if ((pslv >= PS_STATE_S2) || (pwrctrl-
+>alives == 0))
+> >  			
+> >  				rtw_set_rpwm(padapter, pslv);
+> > 
+> > @@ -978,7 +978,7 @@ void rtw_init_pwrctrl_priv(struct adapter
+> > *padapter)
+> > 
+> >  	pwrctrlpriv->power_mgnt = padapter->registrypriv.power_mgnt;/* 
+> >  	PS_MODE_MIN; */ pwrctrlpriv->bLeisurePs = pwrctrlpriv-
+>power_mgnt !=
+> >  	PS_MODE_ACTIVE;> 
+> > -	pwrctrlpriv->b_fw_current_in_ps_mode = false;
+> > +	pwrctrlpriv->fw_current_in_ps_mode = false;
+> > 
+> >  	pwrctrlpriv->rpwm = 0;
+> >  	pwrctrlpriv->cpwm = PS_STATE_S4;
+> > 
+> > diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c
+> > b/drivers/staging/rtl8723bs/hal/hal_intf.c index
+> > a73c2f76628d..96fe172ced8d 100644
+> > --- a/drivers/staging/rtl8723bs/hal/hal_intf.c
+> > +++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
+> > @@ -348,7 +348,7 @@ void rtw_hal_dm_watchdog(struct adapter *padapter)
+> > 
+> >  void rtw_hal_dm_watchdog_in_lps(struct adapter *padapter)
+> >  {
+> > 
+> > -	if (adapter_to_pwrctl(padapter)->b_fw_current_in_ps_mode == 
+true) {
+> > +	if (adapter_to_pwrctl(padapter)->fw_current_in_ps_mode == true) 
+{
+> > 
+> >  		if (padapter->HalFunc.hal_dm_watchdog_in_lps)
+> >  		
+> >  			padapter-
+>HalFunc.hal_dm_watchdog_in_lps(padapter); /* this
+> >  			function caller is in interrupt context 
+*/>  	
+> >  	}
+> > 
+> > diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
+> > b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c index
+> > 265db187b8d5..23be025ceb5b 100644
+> > --- a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
+> > +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
+> > @@ -141,7 +141,7 @@ void rtl8723b_InitHalDm(struct adapter *Adapter)
+> > 
+> >  void rtl8723b_HalDmWatchDog(struct adapter *Adapter)
+> >  {
+> > 
+> > -	bool b_fw_current_in_ps_mode = false;
+> > +	bool fw_current_in_ps_mode = false;
+> > 
+> >  	bool bFwPSAwake = true;
+> >  	u8 hw_init_completed = false;
+> >  	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
+> > 
+> > @@ -151,12 +151,12 @@ void rtl8723b_HalDmWatchDog(struct adapter
+> > *Adapter)> 
+> >  	if (hw_init_completed == false)
+> >  	
+> >  		goto skip_dm;
+> > 
+> > -	b_fw_current_in_ps_mode =
+> > adapter_to_pwrctl(Adapter)->b_fw_current_in_ps_mode;
+> > +	fw_current_in_ps_mode =
+> > adapter_to_pwrctl(Adapter)->fw_current_in_ps_mode;> 
+> >  	rtw_hal_get_hwreg(Adapter, HW_VAR_FWLPS_RF_ON, (u8 *)
+(&bFwPSAwake));
+> >  	
+> >  	if (
+> >  	
+> >  		(hw_init_completed == true) &&
+> > 
+> > -		((!b_fw_current_in_ps_mode) && bFwPSAwake)
+> > +		((!fw_current_in_ps_mode) && bFwPSAwake)
+> > 
+> >  	) {
+> >  	
+> >  		/*  */
+> >  		/*  Calculate Tx/Rx statistics. */
+> > 
+> > diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> > b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c index
+> > 7ebc438870fd..1ab0c9e8760b 100644
+> > --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> > +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> > @@ -430,7 +430,7 @@ void rtl8723b_InitializeFirmwareVars(struct adapter
+> > *padapter)> 
+> >  	struct hal_com_data *pHalData = GET_HAL_DATA(padapter);
+> >  	
+> >  	/*  Init Fw LPS related. */
+> > 
+> > -	adapter_to_pwrctl(padapter)->b_fw_current_in_ps_mode = false;
+> > +	adapter_to_pwrctl(padapter)->fw_current_in_ps_mode = false;
+> > 
+> >  	/* Init H2C cmd. */
+> >  	rtw_write8(padapter, REG_HMETFR, 0x0f);
+> > 
+> > diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c
+> > b/drivers/staging/rtl8723bs/hal/sdio_ops.c index
+> > c78a6724fc1c..abe8f2f8f452 100644
+> > --- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
+> > +++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+> > @@ -173,7 +173,7 @@ static u32 sdio_read32(struct intf_hdl *intfhdl,
+> > u32 addr)> 
+> >  	if (
+> >  	
+> >  		((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 
+0x100)) ||
+> >  		(!mac_pwr_ctrl_on) ||
+> > 
+> > -		(adapter_to_pwrctl(adapter)-
+>b_fw_current_in_ps_mode)
+> > +		(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
+> > 
+> >  	) {
+> >  	
+> >  		err = sd_cmd52_read(intfhdl, ftaddr, 4, (u8 
+*)&le_tmp);
+> >  
+> >  #ifdef SDIO_DEBUG_IO
+> > 
+> > @@ -230,7 +230,7 @@ static s32 sdio_readN(struct intf_hdl *intfhdl, u32
+> > addr, u32 cnt, u8 *buf)> 
+> >  	if (
+> >  	
+> >  		((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 
+0x100)) ||
+> >  		(!mac_pwr_ctrl_on) ||
+> > 
+> > -		(adapter_to_pwrctl(adapter)-
+>b_fw_current_in_ps_mode)
+> > +		(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
+> > 
+> >  	)
+> >  	
+> >  		return sd_cmd52_read(intfhdl, ftaddr, cnt, buf);
+> > 
+> > @@ -297,7 +297,7 @@ static s32 sdio_write32(struct intf_hdl *intfhdl,
+> > u32 addr, u32 val)> 
+> >  	if (
+> >  	
+> >  		((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 
+0x100)) ||
+> >  		(!mac_pwr_ctrl_on) ||
+> > 
+> > -		(adapter_to_pwrctl(adapter)-
+>b_fw_current_in_ps_mode)
+> > +		(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
+> > 
+> >  	) {
+> >  	
+> >  		le_tmp = cpu_to_le32(val);
+> > 
+> > @@ -334,7 +334,7 @@ static s32 sdio_writeN(struct intf_hdl *intfhdl,
+> > u32 addr, u32 cnt, u8 *buf)> 
+> >  	if (
+> >  	
+> >  		((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 
+0x100)) ||
+> >  		(!mac_pwr_ctrl_on) ||
+> > 
+> > -		(adapter_to_pwrctl(adapter)-
+>b_fw_current_in_ps_mode)
+> > +		(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
+> > 
+> >  	)
+> >  	
+> >  		return sd_cmd52_write(intfhdl, ftaddr, cnt, buf);
+> > 
+> > @@ -565,7 +565,7 @@ s32 sdio_local_read(
+> > 
+> >  	rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, 
+&mac_pwr_ctrl_on);
+> >  	if (
+> >  	
+> >  		(!mac_pwr_ctrl_on) ||
+> > 
+> > -		(adapter_to_pwrctl(adapter)-
+>b_fw_current_in_ps_mode)
+> > +		(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
+> > 
+> >  	)
+> >  	
+> >  		return sd_cmd52_read(intfhdl, addr, cnt, buf);
+> > 
+> > @@ -611,7 +611,7 @@ s32 sdio_local_write(
+> > 
+> >  	rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, 
+&mac_pwr_ctrl_on);
+> >  	if (
+> >  	
+> >  		(!mac_pwr_ctrl_on) ||
+> > 
+> > -		(adapter_to_pwrctl(adapter)-
+>b_fw_current_in_ps_mode)
+> > +		(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
+> > 
+> >  	)
+> >  	
+> >  		return sd_cmd52_write(intfhdl, addr, cnt, buf);
+> > 
+> > @@ -660,7 +660,7 @@ static u32 sdio_local_cmd53_read4byte(struct
+> > adapter *adapter, u32 addr)> 
+> >  	hal_sdio_get_cmd_addr_8723b(adapter, SDIO_LOCAL_DEVICE_ID, 
+addr,
+> >  	&addr);
+> >  	rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, 
+&mac_pwr_ctrl_on);
+> > 
+> > -	if (!mac_pwr_ctrl_on ||
+> > adapter_to_pwrctl(adapter)->b_fw_current_in_ps_mode) { +	if
+> > (!mac_pwr_ctrl_on ||
+> > adapter_to_pwrctl(adapter)->fw_current_in_ps_mode) {> 
+> >  		sd_cmd52_read(intfhdl, addr, 4, (u8 *)&le_tmp);
+> >  		val = le32_to_cpu(le_tmp);
+> >  	
+> >  	} else {
+> > 
+> > diff --git a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
+> > b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h index
+> > fcb06a95fdf6..5450d20b44a6 100644
+> > --- a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
+> > +++ b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
+> > @@ -203,7 +203,7 @@ struct pwrctrl_priv {
+> > 
+> >  	u8 LpsIdleCount;
+> >  	u8 power_mgnt;
+> >  	u8 org_power_mgnt;
+> > 
+> > -	u8 b_fw_current_in_ps_mode;
+> > +	u8 fw_current_in_ps_mode;
+> > 
+> >  	unsigned long	DelayLPSLastTimeStamp;
+> >  	s32		pnp_current_pwr_state;
+> >  	u8 pnp_bstop_trx;
+> > 
+> > --
+> > 2.31.1
+> > 
+> > --
+> > You received this message because you are subscribed to the Google
+> > Groups "outreachy-kernel" group. To unsubscribe from this group and
+> > stop receiving emails from it, send an email to
+> > outreachy-kernel+unsubscribe@googlegroups.com. To view this discussion
+> > on the web visit
+> > https://groups.google.com/d/msgid/outreachy-kernel/20210409063458.7961
+> > -1-fmdefrancesco%40gmail.com.
+
+
+
 
