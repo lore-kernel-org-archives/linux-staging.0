@@ -1,71 +1,94 @@
-Received: from mail-41104.protonmail.ch (mail-41104.protonmail.ch [185.70.41.104])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A062A6D0E
-	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 20:13:40 +0000 (UTC)
-Received: from mail-03.mail-europe.com (mail-03.mail-europe.com [91.134.188.129])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	by mail-41104.protonmail.ch (Postfix) with ESMTPS id 4FH8TS4vZBz4wwvl
-	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 20:13:32 +0000 (UTC)
-Authentication-Results: mail-41104.protonmail.ch;
-	dkim=pass (2048-bit key) header.d=bryanbrattlof.com header.i=@bryanbrattlof.com header.b="EvtnezQZ"
-Date: Fri, 09 Apr 2021 20:13:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail3; t=1617999196;
-	bh=EqzbmR+DJhqb9z9zKSGWyGT6bMFjSUyRnTL5U0wQp9E=;
-	h=Date:To:From:Cc:Reply-To:Subject:From;
-	b=EvtnezQZaulaWFJFWk6fCh3jklQ8Gbz7xTns7P5j1XDm5MXZf2it1XFBvFprcUEAB
-	 NyHRsa/486AHbrzLBlU9bHfYmNwG3w6VXl0qp2+BtzhWeNa8b/wqI5FyqHxNEbdCOo
-	 0A+a5e3hElFrUbBoLFzjDn0fPg2qTOexB2pd5MS+SqiJx78ON2dRJhB9akW1SjwDuX
-	 /OYHmfahUKE3wPcFm0p8brzN8vRZNFtZHOyVoL5tJlu5W/d6L5izNWkPBKP6T5/YAj
-	 D/EKjHFBgHUNCkPOxnDetQadoC5L2lE5BeoI3Xm4HU4QMAv+reiUBatnJb0n10TH6X
-	 EN6juZP+jb4YQ==
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans de Goede <hdegoede@redhat.com>, Larry Finger <Larry.Finger@lwfinger.net>
-From: Bryan Brattlof <hello@bryanbrattlof.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, Bryan Brattlof <hello@bryanbrattlof.com>
-Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: [PATCH] staging: rtl8723bs: remove redundant initialization
-Message-ID: <20210409201235.407671-1-hello@bryanbrattlof.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7A36D13
+	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 20:40:41 +0000 (UTC)
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3ARjyMx62CzRTl5vtAkckU6wqjBFMkLtp033Aq?=
+ =?us-ascii?q?2lEZdDV+dMuEm8ey2MkKzBOcskd0ZFgMkc2NUZPqfVry7phwiLN6AZ6DW03ctH?=
+ =?us-ascii?q?KsPMVe6+LZogHIPw3b2qpj2bx7c654YeeAaGRSqcrh+gG3H5IB7bC8kJyAvuvV?=
+ =?us-ascii?q?w3dzQQwCUcgJ0y5DBgmWCUFwTgVdbKBJd6a03NZNpDarZB0sAPiTO39tZYT+ju?=
+ =?us-ascii?q?HQmImjSRALAANP0njtsRqYrI+/KRSe0xsEOgkj/Z4p+wH+/DDE2g=3D=3D?=
+X-IronPort-AV: E=Sophos;i="5.82,210,1613430000"; 
+   d="scan'208";a="378250268"
+Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Apr 2021 22:40:25 +0200
+Date: Fri, 9 Apr 2021 22:40:25 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Mitali Borkar <mitaliborkar810@gmail.com>
+cc: clabbe@baylibre.com, mchehab@kernel.org, gregkh@linuxfoundation.org, 
+    linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+    linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com, 
+    mitali_s@me.iitr.ac.in
+Subject: Re: [Outreachy kernel] [PATCH v2 1/2] media: zoran: add spaces around
+ '<<'
+In-Reply-To: <YHCgksbiLv0pFF2F@kali>
+Message-ID: <alpine.DEB.2.22.394.2104092239170.23056@hadrien>
+References: <YHCgksbiLv0pFF2F@kali>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-	autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-	mailout.protonmail.ch
-
-The variable ret is being initialized as 0 and is never used until
-it's updated by sdio_register_driver()
-
-This removes the redundant initialization of ret
-
-Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
----
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging=
-/rtl8723bs/os_dep/sdio_intf.c
-index 5de4c70aab6a..9fd926e1698f 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -503,7 +503,7 @@ static int rtw_sdio_resume(struct device *dev)
-=20
- static int __init rtw_drv_entry(void)
- {
--=09int ret =3D 0;
-+=09int ret;
-=20
- =09DBG_871X_LEVEL(_drv_always_, "module init start\n");
- =09dump_drv_version(RTW_DBGDUMP);
---=20
-2.27.0
+Content-Type: text/plain; charset=US-ASCII
 
 
+
+On Sat, 10 Apr 2021, Mitali Borkar wrote:
+
+> No changes required in this patch.
+> In v1:- Added spaces around '<<' operator to improve readability and meet linux kernel coding
+> style
+
+The text above would go in the git history.  "No changes required in this
+patch." doesn't make sense in that context.  If you want to say something
+that relates to the history of the submitted patches, then that should be
+under the ---.  The text there will disappear when the patch is applied.
+
+julia
+
+
+>
+> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+> ---
+>
+> Changes from v1:- No changes required in this patch. Below is the git
+> diff of v1.
+>
+>  drivers/staging/media/zoran/zr36057.h | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/staging/media/zoran/zr36057.h b/drivers/staging/media/zoran/zr36057.h
+> index 71b651add35a..a2a75fd9f535 100644
+> --- a/drivers/staging/media/zoran/zr36057.h
+> +++ b/drivers/staging/media/zoran/zr36057.h
+> @@ -30,13 +30,13 @@
+>  #define ZR36057_VFESPFR_HOR_DCM          14
+>  #define ZR36057_VFESPFR_VER_DCM          8
+>  #define ZR36057_VFESPFR_DISP_MODE        6
+> -#define ZR36057_VFESPFR_YUV422          (0<<3)
+> -#define ZR36057_VFESPFR_RGB888          (1<<3)
+> -#define ZR36057_VFESPFR_RGB565          (2<<3)
+> -#define ZR36057_VFESPFR_RGB555          (3<<3)
+> -#define ZR36057_VFESPFR_ERR_DIF          (1<<2)
+> -#define ZR36057_VFESPFR_PACK24          (1<<1)
+> -#define ZR36057_VFESPFR_LITTLE_ENDIAN    (1<<0)
+> +#define ZR36057_VFESPFR_YUV422          (0 << 3)
+> +#define ZR36057_VFESPFR_RGB888          (1 << 3)
+> +#define ZR36057_VFESPFR_RGB565          (2 << 3)
+> +#define ZR36057_VFESPFR_RGB555          (3 << 3)
+> +#define ZR36057_VFESPFR_ERR_DIF          (1 << 2)
+> +#define ZR36057_VFESPFR_PACK24          (1 << 1)
+> +#define ZR36057_VFESPFR_LITTLE_ENDIAN    (1 << 0)
+>
+>  #define ZR36057_VDTR            0x00c	/* Video Display "Top" Register */
+>
+> --
+> 2.30.2
+>
+> --
+> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/YHCgksbiLv0pFF2F%40kali.
+>
