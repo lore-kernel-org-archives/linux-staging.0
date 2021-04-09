@@ -1,53 +1,47 @@
-Received: from out4436.biz.mail.alibaba.com (out4436.biz.mail.alibaba.com [47.88.44.36])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683D870
-	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 06:24:11 +0000 (UTC)
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0UUyWTPy_1617949426;
-Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0UUyWTPy_1617949426)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 09 Apr 2021 14:23:51 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Subject: [PATCH] staging: comedi: cb_pcidas64: remove useless function
-Date: Fri,  9 Apr 2021 14:23:45 +0800
-Message-Id: <1617949425-105420-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D64F6D0D
+	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 06:33:26 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4496B610A3;
+	Fri,  9 Apr 2021 06:33:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1617950005;
+	bh=yCdHBrN/kHGVkFYaO/eG0PB/iD92rmwVP1Z0FrCjlzc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ioF3xfMTkks4yEir6PotK2ustLBZKIzKr68uaBkkatl/NyyhvKgtUR0ThK+pk++r2
+	 /RtmzlfVhBRIDX6fJLRyU6rqkMgazLzHJGxkyjsT3YMU5c9Hb2eKz30AsRZrx0N2TE
+	 1DEHL1xdvYH+Isui/ijjhLeCt18iOgq5D8NncP4E=
+Date: Fri, 9 Apr 2021 08:33:23 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sergei Krainov <sergei.krainov.lkd@gmail.com>
+Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8712: fix wrong function output
+Message-ID: <YG/1MyfOrHgCi5sr@kroah.com>
+References: <20210408234527.GA6893@test-VirtualBox>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210408234527.GA6893@test-VirtualBox>
 
-Fix the following gcc warning:
+On Fri, Apr 09, 2021 at 01:45:27AM +0200, Sergei Krainov wrote:
+> Function r8712_find_network() were returning wlan_network even if it
+> didn't match required address. This happened due to not checking if
+> list end was reached and returning last processed wlan_network.
+> 
+> Signed-off-by: Sergei Krainov <sergei.krainov.lkd@gmail.com>
+> ---
+>  drivers/staging/rtl8712/rtl871x_mlme.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
-drivers/staging/comedi/drivers/cb_pcidas64.c:232:19: warning: unused
-function 'analog_trig_low_threshold_bits' [-Wunused-function].
+What commit does this "fix"?  Or has this bug been there always?
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
----
- drivers/staging/comedi/drivers/cb_pcidas64.c | 5 -----
- 1 file changed, 5 deletions(-)
+thanks,
 
-diff --git a/drivers/staging/comedi/drivers/cb_pcidas64.c b/drivers/staging/comedi/drivers/cb_pcidas64.c
-index 6d3ba39..41a8fea 100644
---- a/drivers/staging/comedi/drivers/cb_pcidas64.c
-+++ b/drivers/staging/comedi/drivers/cb_pcidas64.c
-@@ -229,11 +229,6 @@ enum daq_atrig_low_4020_contents {
- 	EXT_START_TRIG_BNC_BIT = 0x2000,
- };
- 
--static inline u16 analog_trig_low_threshold_bits(u16 threshold)
--{
--	return threshold & 0xfff;
--}
--
- enum adc_control0_contents {
- 	ADC_GATE_SRC_MASK = 0x3,	/* bits that select gate */
- 	ADC_SOFT_GATE_BITS = 0x1,	/* software gate */
--- 
-1.8.3.1
-
+greg k-h
