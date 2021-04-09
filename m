@@ -1,161 +1,114 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C2A70
-	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 11:53:47 +0000 (UTC)
-Received: by mail-qt1-f179.google.com with SMTP id g24so3906894qts.6
-        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 04:53:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BDB70
+	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 11:59:12 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id y124-20020a1c32820000b029010c93864955so4574272wmy.5
+        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 04:59:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=rfY7/TSIGIzzxtfqlFd7sY3b3y7+bcFeCK0VpNZPuRY=;
-        b=So/hiCRVkiAtxlGQG51g2yW+Xox7jax6ey2w20HtiXYP0FCYqoMaZ5jwIxylUFhemK
-         LSm7y5ib+lLnn9iEqIG7kuRdnfK7s/8QRZLTbzOI2v0b1w/95xKKXjAZy8ZBtxX83bPf
-         ZvT/6PSNUzVEQ/7Z3ufBzk3VV+5JCznM3AmQj/x/UPR+S5jqe6EIiCtebgCqGo7p7XUe
-         kq6NfjcH0Zs6eVLxq7E3BEn6NpCMTJBpmrKu1lJZap1YKbEp+fELEP1miFBl6DT0WXaW
-         4h7fQW6RFVkHkta7cI3rgf1y0uC4PTeVkbU6yOjQzr4ZmKhd+pihVR82b3vo1LPY7ZC3
-         cuoQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1JxLGtNxnOp44Fk3GR4yu3/dSaD+2VjIuaHuj9l1KiQ=;
+        b=nMGELfkFKUlyq1MbWUKQSzrWlQcNqbav3ngNWkPz7v/ypHRgI5TAgc71uyUfqA6GYq
+         9t/E6YNdsgGllOqJl0WsUjFupq+dNbxdi67u5SrsmwTI3qaX2fgl6B8sgPfWF7kkR0vP
+         +cCQrsq4QL3e1bl8kIgc5P4rXKQwMrxNM/Jwpe9E+w3X6slHXBi9UP17swan1UcA/8Je
+         a9RCgH4JO8mVuQZctGq0Ft/ngtEfn9HLyUWrdp1OZiUSKRRR11gEKvfwKdCK6BaG96ZM
+         5sM8IbS4bNUcMtya/q05yRK3Q9CeXkMa6Dm732oluQ0UtsLSDBZUgUykMoHp8imSWGRc
+         sV9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=rfY7/TSIGIzzxtfqlFd7sY3b3y7+bcFeCK0VpNZPuRY=;
-        b=NKvwFLB2aoihJes33zAA41hpQbzrB6nzjbJYsN+7i7jAsFq6+JaiFKOMgRpY0zYtTM
-         bbyTUS1QLjGaHdjsTj6qRnxIJOEXAIXcgDvy8vk12AwWyLibTQBsaxR9lHVUT5akrh7w
-         BGljPcj8JdjPoDDETwhWARXT+JJswSnbR5I+iEkE0MQFg5Ms0srMYcssiXo5TlXpd4Gw
-         Z7DIidIxCkzfN6WD3488vTxFLxn0PRRXJ0BFiufVzyOQrq39YuAQfvD/BUuKwjTsgymp
-         wZ6qQ2NfTpyBUV7rVdRyS9h74op5DQn4F4R2S7TNysk6pdsV9gYc9dBUWJtWuB9AjaCL
-         pxQA==
-X-Gm-Message-State: AOAM530/FsGbh2edwpORgJdqf4fu4JmKjpJFRMwS843+6U54w1cS1c1p
-	Vb9xY8pmxNhPTsj3xxyW/fQ=
-X-Google-Smtp-Source: ABdhPJyHI1CyePIKQe9Vgiz8Kk7yaPjecKjf5t0f/wSmEGgC7YY/nCTtL28dYNBXQJ1fa3TfwJpN8Q==
-X-Received: by 2002:ac8:46c5:: with SMTP id h5mr504198qto.180.1617969226014;
-        Fri, 09 Apr 2021 04:53:46 -0700 (PDT)
-Received: from ?IPv6:2001:1284:f013:b099:8056:1dc0:5a27:acd7? ([2001:1284:f013:b099:8056:1dc0:5a27:acd7])
-        by smtp.gmail.com with ESMTPSA id a8sm1627222qtx.9.2021.04.09.04.53.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 04:53:45 -0700 (PDT)
-Message-ID: <bd3d8a6b231ec142e420b622c1fd72276256c77f.camel@gmail.com>
-Subject: Re: [Outreachy kernel] Re: [PATCH 1/2 v2] staging: media: hantro:
- Align line break to the open parenthesis in file hantro_hw.h
-From: ascordeiro <alinesantanacordeiro@gmail.com>
-To: Vaishali Thakkar <vthakkar@vaishalithakkar.in>
-Cc: Ezequiel Garcia <ezequiel@collabora.com>, Philipp Zabel
- <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev,  Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Outreachy
- <outreachy-kernel@googlegroups.com>
-Date: Fri, 09 Apr 2021 08:53:41 -0300
-In-Reply-To: <CAK-LDb+L-hXpVgFpAz95921p6JOPZ8=BSYAiqjRpYv0oV=YK2A@mail.gmail.com>
-References: <cover.1617890467.git.alinesantanacordeiro@gmail.com>
-	 <1e6d73432d60dfb8bb3f7f2bd6bf3084091a2a39.1617890467.git.alinesantanacordeiro@gmail.com>
-	 <d4000598fddcf45e578462aa04b556c0ca057091.camel@collabora.com>
-	 <6bba0e0a5768e902ffec4bda563d4ca810412f84.camel@gmail.com>
-	 <CAK-LDb+L-hXpVgFpAz95921p6JOPZ8=BSYAiqjRpYv0oV=YK2A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.0 (by Flathub.org) 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1JxLGtNxnOp44Fk3GR4yu3/dSaD+2VjIuaHuj9l1KiQ=;
+        b=n3sKHVO0gWbPdHngCmP+jJP4r1UA8/dbQ9BtkzlVs5HGDGlZLsTqEHoekATc7Ffo1Z
+         AfccAAU7h+r65OD2bVQsScM9Zf4N5sXvOJI9oG+BzvQeDgOwUstT4yhBAbihewwBw6yX
+         5k8rpP+0YQ13OGXI8CDpgNXnF2vzW0IrfYs4KNHxEC56zW1eAxAlmZcgdbk99Vmh4paC
+         a355enjd5XzFppG1yf95Na8Nxe4gOY2P7Zzpi4AB7vH+fCc4twAejQVO1hLIUYZy9nVL
+         ZifsNv04Ppq+zj1LPWCv71AMTsZT7lLne8aeNTZuiZjiEl73fIso+rmDcMX1qOeBY+w9
+         691g==
+X-Gm-Message-State: AOAM5329UlchNujilUw/pU7GetSIOvcRcKeSErQyG5sMd8hRfLuR2M8m
+	e2sahzKR7nIksi50pZ5s7dfzcSI1hn4njXMeTX4=
+X-Google-Smtp-Source: ABdhPJw+h9YP0xI/t8HB8HQXIT3HtxhdzO19Cb0l3tmB5+0Y9WuDgFa5h1a3TR4Umpd2g2+C2cpqPS3XRZJ4xfEUxWo=
+X-Received: by 2002:a7b:c003:: with SMTP id c3mr13360369wmb.59.1617969550800;
+ Fri, 09 Apr 2021 04:59:10 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1617957240-53633-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1617957240-53633-1-git-send-email-tiantao6@hisilicon.com>
+From: Sven Van Asbroeck <thesven73@gmail.com>
+Date: Fri, 9 Apr 2021 07:58:59 -0400
+Message-ID: <CAGngYiVfattJKO7npMHTagxNfzU-B=rP3FoZ89_yzy-c=Zw2RQ@mail.gmail.com>
+Subject: Re: [PATCH] staging: fieldbus: simplify devm_anybuss_host_common_probe
+To: Tian Tao <tiantao6@hisilicon.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Em sex, 2021-04-09 às 10:25 +0200, Vaishali Thakkar escreveu:
-> On Thu, Apr 8, 2021 at 7:41 PM ascordeiro
-> <alinesantanacordeiro@gmail.com> wrote:
-> > 
-> > Em qui, 2021-04-08 às 13:20 -0300, Ezequiel Garcia escreveu:
-> > > Ola Aline,
-> > Ola Ezequiel,
-> > 
-> > > Welcome to the kernel community. Hope you enjoy some of this
-> > > Outreachy adventures.
-> > Thank you!
-> > 
-> > > Normally, when you submit a v2, we want to know what changed
-> > > between the first submission and v2.
-> > > 
-> > > If you are subscribed to linux-media, you can read some
-> > > of the series with a vN+1 and look how it's done. Examples:
-> > > 
-> > > https://www.spinics.net/lists/linux-media/msg190043.html
-> > > 
-> > > https://www.spinics.net/lists/linux-media/msg189923.html
-> > > 
-> > > I'm sure your Outreachy mentors can tell you more.
-> > Thank you for the examples, it won't happen again.
-> > 
-> > The reason for sending a v2 is that I sent my very first patchset
-> > yesterday and I sent the cover-letter together, but (I think) I
-> > wasn't
-> > supposed to, and as the patches weren't marked as [PATCH 1/2] and
-> > [PATCH 2/2] in the email - since I commited all the files with the
-> > same
-> > message - I tought it was wrong and sent again today.
-> > 
-> > However, I just realized that I've changed just the subject of the
-> > e-
-> > mail, but I would've to change the commit message, right? And then,
-> > it
-> > would be a second version, am I right?
-> 
-> Your next version should be v3 with information about changes since
-> v1 under --- . If you send it with v2, it'll still be confusing for
-> people
-> because then they have to manually find out the difference between
-> two different patchsets with the same subject line. :)
-> 
-> You can also check 'Revising your patches' section in the tutorial.
+Hello Tian, thank you for the contribution. See below.
 
-Thank you, Vaishali!
-You made it clear :)
-I'm going to correct the patchset and send v3.
+On Fri, Apr 9, 2021 at 4:33 AM Tian Tao <tiantao6@hisilicon.com> wrote:
+>
+> Use devm_add_action_or_reset() instead of devres_alloc() and
+> devres_add(), which works the same. This will simplify the
+> code. There is no functional changes.
+>
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+> ---
+>  drivers/staging/fieldbus/anybuss/host.c | 20 ++++++++------------
+>  1 file changed, 8 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/staging/fieldbus/anybuss/host.c b/drivers/staging/fieldbus/anybuss/host.c
+> index 549cb7d5..2924e68 100644
+> --- a/drivers/staging/fieldbus/anybuss/host.c
+> +++ b/drivers/staging/fieldbus/anybuss/host.c
+> @@ -1406,7 +1406,7 @@ void anybuss_host_common_remove(struct anybuss_host *host)
+>  }
+>  EXPORT_SYMBOL_GPL(anybuss_host_common_remove);
+>
+> -static void host_release(struct device *dev, void *res)
+> +static void host_release(void *res)
+>  {
+>         struct anybuss_host **dr = res;
 
-> > Thank you in advance,
-> > 
-> > > On Thu, 2021-04-08 at 11:07 -0300, Aline Santana Cordeiro wrote:
-> > > > Aligns line break with the remaining function arguments
-> > > > to the open parenthesis. Issue found by checkpatch.
-> > > > 
-> > > > Signed-off-by: Aline Santana Cordeiro <
-> > > > alinesantanacordeiro@gmail.com>
-> > > > ---
-> > > >  drivers/staging/media/hantro/hantro_hw.h | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/drivers/staging/media/hantro/hantro_hw.h
-> > > > b/drivers/staging/media/hantro/hantro_hw.h
-> > > > index 34c9e46..a650b9c 100644
-> > > > --- a/drivers/staging/media/hantro/hantro_hw.h
-> > > > +++ b/drivers/staging/media/hantro/hantro_hw.h
-> > > > @@ -207,7 +207,7 @@ hantro_h264_mv_size(unsigned int width,
-> > > > unsigned int height)
-> > > >  void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx);
-> > > >  void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx);
-> > > >  void hantro_mpeg2_dec_copy_qtable(u8 *qtable,
-> > > > -       const struct v4l2_ctrl_mpeg2_quantization *ctrl);
-> > > > +                                 const struct
-> > > > v4l2_ctrl_mpeg2_quantization *ctrl);
-> > > >  int hantro_mpeg2_dec_init(struct hantro_ctx *ctx);
-> > > >  void hantro_mpeg2_dec_exit(struct hantro_ctx *ctx);
-> > > > 
-> > > 
-> > > 
-> > 
-> > 
-> > --
-> > You received this message because you are subscribed to the Google
-> > Groups "outreachy-kernel" group.
-> > To unsubscribe from this group and stop receiving emails from it,
-> > send an email to outreachy-kernel+unsubscribe@googlegroups.com.
-> > To view this discussion on the web visit 
-> > https://groups.google.com/d/msgid/outreachy-kernel/6bba0e0a5768e902ffec4bda563d4ca810412f84.camel%40gmail.com
-> > .
-> 
-> 
-> 
+You're expecting a double pointer as the argument here...
 
+>
+> @@ -1417,21 +1417,17 @@ struct anybuss_host * __must_check
+>  devm_anybuss_host_common_probe(struct device *dev,
+>                                const struct anybuss_ops *ops)
+>  {
+> -       struct anybuss_host **dr;
+>         struct anybuss_host *host;
+> -
+> -       dr = devres_alloc(host_release, sizeof(struct anybuss_host *),
+> -                         GFP_KERNEL);
+> -       if (!dr)
+> -               return ERR_PTR(-ENOMEM);
+> +       int ret;
+>
+>         host = anybuss_host_common_probe(dev, ops);
+> -       if (IS_ERR(host)) {
+> -               devres_free(dr);
+> +       if (IS_ERR(host))
+>                 return host;
+> -       }
+> -       *dr = host;
+> -       devres_add(dev, dr);
+> +
+> +       ret = devm_add_action_or_reset(dev, host_release, host);
 
+... yet you pass in a single pointer here. Is that going to work?
+
+> +       if (ret)
+> +               return ERR_PTR(ret);
+> +
+>         return host;
+>  }
+>  EXPORT_SYMBOL_GPL(devm_anybuss_host_common_probe);
+> --
+> 2.7.4
+>
