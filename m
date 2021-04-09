@@ -1,140 +1,96 @@
-Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [194.109.24.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F786D0D
-	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 15:48:21 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud9.xs4all.net with ESMTPA
-	id UtMllNf7043ycUtMplViqD; Fri, 09 Apr 2021 17:48:19 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1617983299; bh=aqh+Zzn1hJxWjSU5XkbWDsKzOnI7VAizCnPDczASZnk=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=c2Xk+Dy8MeJH6eTYC8AXCvgwUa3R1InH8x1U6rkbADbo7ZMPGhPGhQXMYlRLwyRMu
-	 xxqdnSYFb+msD4Z6j1vh7nQgJr2O6qHcnbt+AMBQnhyjD+zQBn8I/NT7Y1uo/GWivP
-	 fiIa5V3RIZSqlkbmvhIgsxYL8Xw5ytmEdL4E47Rgpeoer6Qm74c5fSxKFKSAdNRz5c
-	 0347nSEDf6MkVFXIZAdMmOOEtuGHatvCkBHS2IEptv0YoawWRRvDREbTDJxcisE3pC
-	 z4qxtj/f+zwqT2ghsd76/PAvWQLIFY4kz54MolVE/dfOwyklcOLADVOFqDgeBLSrPz
-	 bRlksDXBeK6nQ==
-Subject: Re: [PATCH 1/2] media: zoran: add spaces around '<<'
-To: Mitali Borkar <mitaliborkar810@gmail.com>
-Cc: clabbe@baylibre.com, mchehab@kernel.org, gregkh@linuxfoundation.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
- mitali_s@me.iitr.ac.in
-References: <cover.1617912177.git.mitaliborkar810@gmail.com>
- <8e8ac690d97478f7cbb9b91d46ef7a95e4444e5f.1617912177.git.mitaliborkar810@gmail.com>
- <f196d8ff-e8bf-360e-ee7b-cd2dcafd9742@xs4all.nl> <YHBukmdxSiRc+K6I@kali>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <5b187aca-8793-bfcb-e52a-c1e03c94b5c9@xs4all.nl>
-Date: Fri, 9 Apr 2021 17:48:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8459470
+	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 16:30:02 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id u21so9570550ejo.13
+        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 09:30:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=O3vu4JiCvawgkzQRTM733t0EmK6dXnhEuYP8MQmV/cQ=;
+        b=XYaZinIjzm7bKXCZvWWYr4et4NaJwkj9zBf+7IkCaB+ak+bZUgBTWbU1CSkb8mX15s
+         4+uczQ4jcSv3bXbFKUV4hbS+NQV4KiFQouIwJztvQ/FI6434CmaiQQ2v+CbsoewMm02x
+         lyJPTnD8tDgygvzS/6eq3A9TTyxjL8j3wMYb8+XqZ3htIyjrOol+/mp/z8NuF2xK8TNA
+         VUZskotMeznEZvvs82pDZHXzrPQ7YNkhcLtvRLQyYd5t5La8qwKF57V1bfjaX1c6A6mi
+         HG5dIRYa6GNJiaILTS0FxGnu8mvbs9SHbwH5sTweGCPQlLMeerESEpkhoQfgwGLt4VKS
+         PlrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=O3vu4JiCvawgkzQRTM733t0EmK6dXnhEuYP8MQmV/cQ=;
+        b=dbaAT0ctWzj2+WP8T5ag4sd3dJxXDa7NWTZCrrneau9HAsof5uq5EkaWJkbZeIfErr
+         6OSXA6yQEhDgJZN0eUl37a5xWnm+h3hUzRZ6tQwbXITgoWZkPFp5J7kvZ+/VkqflXWlD
+         QzOx81L4Sa2CLlISWhhUFJpCDmoevbSE897RUjsFNxyV0doCHMHnVdlJtUf9ClJEDsZg
+         ZbH6rBqEF9g1tKtRgzjnaFw33q/5xxcHM5X+kjlVhVvLAEa3q012ZgXQ+z8gLtsfMlya
+         jaqsFaUu3KIK/+5669YnoXc4cMREB6rXRBL7tkV3Fx7vc/kqCCJnmgfU4taGHRZ6AVnZ
+         S5Zg==
+X-Gm-Message-State: AOAM531yXFS72MmLH3yeIuxwuSyv11hZAQue3IC+tsgZfSN80+cPXqN2
+	cmjSQvjWQmZp5sCIpdOQMfQ=
+X-Google-Smtp-Source: ABdhPJxdZNxps2WOHBx4rLR7Gnoyvp1Go36M8pkbSwXXyld8P7FgvhWbVQgY9Mg9GZ5kqvaWqVG1fg==
+X-Received: by 2002:a17:907:213a:: with SMTP id qo26mr16615247ejb.547.1617985801079;
+        Fri, 09 Apr 2021 09:30:01 -0700 (PDT)
+Received: from localhost.localdomain (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
+        by smtp.gmail.com with ESMTPSA id mp36sm1415095ejc.48.2021.04.09.09.29.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Apr 2021 09:30:00 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>, outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [Outreachy kernel] [Patch 0/3]
+Date: Fri, 09 Apr 2021 18:29:59 +0200
+Message-ID: <6552860.D8CPca6BT0@localhost.localdomain>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YHBukmdxSiRc+K6I@kali>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfOCYqn9OV1kkiKur35I3Q16pWydZ4LMkDJVwg6ZUS5V3RxMVXRbD2OgrjFwY+YBsXWPb1fS92d4rQJj0XUonUmZT+gJlIIcRh06iXtZfOTd2gZ21vj/3
- ogPpMuA6bUlDV3PWKrYqMh8YXAWLiY9HxjRq0zPpFO25ie4hQea4KIV+C9LTm6Ue7uGBTEe6ARqAvamwd01/L+HbeFoDeHda5J7qOI1tsHz/8s6i2VIqOr9h
- Uh2hntroHrBwMimM5lS+4zoJwbtWNxbg5nMn1TvJymB26sEdKK/DcvMqQS3Nqqj3vf6vlU40iStWQvkdXqtcKvxvh9FDBK927xW7NnAV0rbOSKPFvNfUb0Ln
- 0qb9f1vcLvUi/0opfT8RJ28cZxRgXK4FhdCqWp7YffH8D2iNlN1SlOj+8vM8cWIYemAFk3dhHLpISe5magAqzFbjmS/NhoxcI0g+53v8TtqhaBM1yu8rTlWS
- pBNlFAXpomjnb5wxhiTqQwxdLRcKUok7NhUn4A==
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-On 09/04/2021 17:11, Mitali Borkar wrote:
-> On Fri, Apr 09, 2021 at 09:23:22AM +0200, Hans Verkuil wrote:
->> Hi Mitali,
->>
->> On 08/04/2021 22:38, Mitali Borkar wrote:
->>> Added spaces around '<<' operator to improve readability and meet linux
->>> kernel coding style.
->>> Reported by checkpatch
->>>
->>> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
->>> ---
->>>  drivers/staging/media/zoran/zr36057.h | 14 +++++++-------
->>>  1 file changed, 7 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/drivers/staging/media/zoran/zr36057.h b/drivers/staging/media/zoran/zr36057.h
->>> index 71b651add35a..a2a75fd9f535 100644
->>> --- a/drivers/staging/media/zoran/zr36057.h
->>> +++ b/drivers/staging/media/zoran/zr36057.h
->>> @@ -30,13 +30,13 @@
->>>  #define ZR36057_VFESPFR_HOR_DCM          14
->>>  #define ZR36057_VFESPFR_VER_DCM          8
->>>  #define ZR36057_VFESPFR_DISP_MODE        6
->>> -#define ZR36057_VFESPFR_YUV422          (0<<3)
->>> -#define ZR36057_VFESPFR_RGB888          (1<<3)
->>> -#define ZR36057_VFESPFR_RGB565          (2<<3)
->>> -#define ZR36057_VFESPFR_RGB555          (3<<3)
->>> -#define ZR36057_VFESPFR_ERR_DIF          (1<<2)
->>> -#define ZR36057_VFESPFR_PACK24          (1<<1)
->>> -#define ZR36057_VFESPFR_LITTLE_ENDIAN    (1<<0)
->>> +#define ZR36057_VFESPFR_YUV422          (0 << 3)
->>> +#define ZR36057_VFESPFR_RGB888          (1 << 3)
->>> +#define ZR36057_VFESPFR_RGB565          (2 << 3)
->>> +#define ZR36057_VFESPFR_RGB555          (3 << 3)
->>> +#define ZR36057_VFESPFR_ERR_DIF          (1 << 2)
->>> +#define ZR36057_VFESPFR_PACK24          (1 << 1)
->>> +#define ZR36057_VFESPFR_LITTLE_ENDIAN    (1 << 0)
->>>  
->>>  #define ZR36057_VDTR            0x00c	/* Video Display "Top" Register */
->>>  
->>>
->>
->> I looked at that header and it is very messy.
->>
->> Can you make two new patches? The first aligns every nicely, e.g. this:
->>
->> #define ZR36057_VFEHCR          0x000   /* Video Front End, Horizontal Configuration Register */
->> #define ZR36057_VFEHCR_HS_POL             BIT(30)
->> #define ZR36057_VFEHCR_H_START           10
->> #define ZR36057_VFEHCR_H_END            0
->> #define ZR36057_VFEHCR_HMASK            0x3ff
->>
->> should become:
->>
->> /* Video Front End, Horizontal Configuration Register */
->> #define ZR36057_VFEHCR			0x000
->> #define ZR36057_VFEHCR_HS_POL		BIT(30)
->> #define ZR36057_VFEHCR_H_START		10
->> #define ZR36057_VFEHCR_H_END		0
->> #define ZR36057_VFEHCR_HMASK		0x3ff
->>
->> Same for all the other register blocks. Use tabs to do the alignment
->> instead of spaces, as is currently the case.
->>
-> Okay Sir, will do this.
-> 
->> The second patch can replace the (0<<3) etc. to BIT(0).
->>
-> Sir may I know how to write (2<<3) in BIT() form? Like I am still
-> learning and not sure how to convert this. Should it be BIT(2)? But this
-> is only possible for (1<<nr), PLease help me out. 
+This patch series removes camelcases, changes the type and use of a 
+variable, and correct misspelled words.
 
-The << notation is kept for that. So this would be kept as-is:
+Patch 1/3: staging: rtl8723bs: Remove camelcase in several files
 
-#define ZR36057_VFESPFR_YUV422          (0 << 3)
-#define ZR36057_VFESPFR_RGB888          (1 << 3)
-#define ZR36057_VFESPFR_RGB565          (2 << 3)
-#define ZR36057_VFESPFR_RGB555          (3 << 3)
+drivers/staging/rtl8723bs/core/rtw_cmd.c       |  2 +-
+drivers/staging/rtl8723bs/core/rtw_mlme.c      |  2 +-
+drivers/staging/rtl8723bs/core/rtw_pwrctrl.c   | 18 +++++++++---------
+drivers/staging/rtl8723bs/hal/hal_intf.c       |  2 +-
+drivers/staging/rtl8723bs/hal/rtl8723b_dm.c    |  6 +++---
+.../staging/rtl8723bs/hal/rtl8723b_hal_init.c  |  2 +-
+drivers/staging/rtl8723bs/hal/sdio_ops.c       | 14 +++++++-------
+.../staging/rtl8723bs/include/rtw_pwrctrl.h    |  2 +-
+8 files changed, 24 insertions(+), 24 deletions(-)
 
-BIT() is only used for single bits.
+Patch 2/3: staging: rtl8723bs: Change the type and use of a variable
 
-Regards,
+drivers/staging/rtl8723bs/hal/hal_intf.c        | 2 +-
+ drivers/staging/rtl8723bs/include/rtw_pwrctrl.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-	Hans
+Patch 3/3: staging: rtl8723bs: include: Fix misspelled words in comments
 
-> 
-> Thanks.
-> 
->> That would be a nice cleanup of this rather messy header.
->>
->> Thanks!
->>
->> 	Hans
+.../rtl8723bs/include/Hal8192CPhyReg.h        |  8 ++---
+ .../staging/rtl8723bs/include/basic_types.h   |  2 +-
+ drivers/staging/rtl8723bs/include/drv_types.h |  2 +-
+ drivers/staging/rtl8723bs/include/hal_com.h   |  2 +-
+ .../staging/rtl8723bs/include/hal_com_reg.h   | 34 +++++++++----------
+ drivers/staging/rtl8723bs/include/hal_data.h  |  2 +-
+ .../staging/rtl8723bs/include/hal_pwr_seq.h   |  2 +-
+ drivers/staging/rtl8723bs/include/rtw_cmd.h   |  6 ++--
+ drivers/staging/rtl8723bs/include/rtw_mlme.h  | 18 +++++-----
+ .../staging/rtl8723bs/include/rtw_mlme_ext.h  |  2 +-
+ drivers/staging/rtl8723bs/include/rtw_mp.h    |  2 +-
+ .../staging/rtl8723bs/include/rtw_pwrctrl.h   |  2 +-
+ drivers/staging/rtl8723bs/include/rtw_recv.h  |  4 +--
+ drivers/staging/rtl8723bs/include/rtw_xmit.h  |  2 +-
+ drivers/staging/rtl8723bs/include/sta_info.h  |  2 +-
+ drivers/staging/rtl8723bs/include/wifi.h      |  2 +-
+ 16 files changed, 46 insertions(+), 46 deletions(-)
+
+Fabio M. De Francesco
+
+
 
