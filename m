@@ -1,48 +1,46 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBFE16D00
-	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 12:46:15 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id j20-20020a05600c1914b029010f31e15a7fso4662838wmq.1
-        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 05:46:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=KlSRX8zU0KTuE/qKWYqizNg9JGBt025L2E4igOAe0/s=;
-        b=h7poIT8bwExI/TCmdJHHT3BNh+Imp230eLBnKUq1rGm8O3Fp1/pLUjLDlp52DPWAwB
-         TMALSKeLMq1a9zIgudAPNVdNZvuCuwqScMANowOAo3B0UULTsqCRvPkbhzaFo8A3lfhP
-         7OIBBcQ/wz1mnXv55CD4g0SM8Rgi58I6f4L+iSTlOkPg0Tw356Iq3DvwbX+HUji5PKvn
-         4vKCMjzeZ+8694e/nePPLBsIm+5zRvKzP9lsKuuCjCcFwBD8XWAGuQQnfxV6cqqnX8Ig
-         +5sugpZJm8fnxr0jMQngF1l5aa9VM/OMqqBSN432LVfAnibnj9bbVzvEACtbpdtT/xfv
-         dnkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=KlSRX8zU0KTuE/qKWYqizNg9JGBt025L2E4igOAe0/s=;
-        b=ILZX6pXu9w8cIUPp/Sb7N6HTrvRyVXJ19VEcyVmGp1/sTE66maEZgDJV7rECUcW4Mg
-         rCewFjZuucT/gX7hyyb3bLYWIIcmHvZHvEpk70zSpF6aWv3lqTDp8sc+Ide/CnwLOq3k
-         pF0r34VpuEGdDrP7X/8sOGeua2kXOccJl5GsXAsKroBiujVGWb8sED+vVwlGRgXpY6ZW
-         cFPc/lI/v6vxmgHhyTH7BYC7ckMgfF6KOY38aH5tLZL5stJMDCzlsmGC76/QEI+ouUIu
-         Kal/4YpVeO3ueKcL4jfzIlPn5wS5HL0/XwwtZdLTu2h9FJSU7FqYcJy0OpOdtDv9BbMr
-         f9TA==
-X-Gm-Message-State: AOAM5330o98KggOOSYGebc6DSnI/ArmqSdOGz3BJ238s7c9ocnz0rU/L
-	Fg7itDg7pc9IKuScpVJE46M=
-X-Google-Smtp-Source: ABdhPJx33HYypTGXE4AUKki/UmoaGB6AYtLBPnpcbIuOWYpzdkVhe+9R7QfIy31CD/k7pwDoIR5XXw==
-X-Received: by 2002:a1c:2985:: with SMTP id p127mr9021126wmp.165.1617972374293;
-        Fri, 09 Apr 2021 05:46:14 -0700 (PDT)
-Received: from test-VirtualBox ([87.116.165.76])
-        by smtp.gmail.com with ESMTPSA id e23sm3745970wmk.15.2021.04.09.05.46.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 05:46:14 -0700 (PDT)
-Date: Fri, 9 Apr 2021 14:46:11 +0200
-From: Sergei Krainov <sergei.krainov.lkd@gmail.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: [PATCH v2] staging: rtl8712: fix wrong function output
-Message-ID: <20210409124611.GA3981@test-VirtualBox>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FAF36D00
+	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 13:14:29 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 139DEJX7021238;
+	Fri, 9 Apr 2021 13:14:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=DuTEK6YF3Pku6GuZSj4bkggFPegvnaI7KM/CBoeLHaE=;
+ b=S4EAvbBKvCnC2A4WanffzwW9+6N+8JnV2QMs1N59MXciHLR+TyJIG8dd6WUFRv8dB/G5
+ zBpYxT5vCRNCbFPcVwJtHn4opKTp95GIyXhepUb9XITiQ4q6ms0/yelRB8m/j3D2lbYX
+ c5U9NnLv+5y5m2i2tA0KPiiSlIHlC0CB9+5W5X08NFWyztCmH5xd1QQ4Q1LevwGtV0fZ
+ U/RmfpdNWvmbduUXgX2N4qL1wiGZGTz4XS9BLUcXIbw1khnOlmGdDTiIN+pANDhN6EAA
+ CqG9hVujYE5DL6MOcrE4deyvMdax2zAZjMw7Y2xwOfn60UE+D5VqsrEys7ZfvIvDxNXP lw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by aserp2120.oracle.com with ESMTP id 37rvaghcek-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 09 Apr 2021 13:14:19 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 139DBQLQ124685;
+	Fri, 9 Apr 2021 13:14:16 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+	by aserp3020.oracle.com with ESMTP id 37rvb6kn8v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 09 Apr 2021 13:14:16 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 139DECQN009487;
+	Fri, 9 Apr 2021 13:14:12 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Fri, 09 Apr 2021 06:14:12 -0700
+Date: Fri, 9 Apr 2021 16:14:04 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: dev.dragon@bk.ru
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Staging: rtl8192u: ieee80211: fixed a trailing
+ statements coding style issue.
+Message-ID: <20210409131403.GB6021@kadam>
+References: <20210404051500.6644-1-dev.dragon@bk.ru>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -50,42 +48,53 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20210404051500.6644-1-dev.dragon@bk.ru>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9949 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxlogscore=999
+ malwarescore=0 mlxscore=0 suspectscore=0 adultscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104090097
+X-Proofpoint-GUID: e6ugudPsgPfBQ_ZEtl7cSM2sm_ItqoEo
+X-Proofpoint-ORIG-GUID: e6ugudPsgPfBQ_ZEtl7cSM2sm_ItqoEo
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9949 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 mlxlogscore=999
+ suspectscore=0 spamscore=0 phishscore=0 clxscore=1011 bulkscore=0
+ mlxscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104090098
 
-Return NULL from r8712_find_network() if no matched wlan_network
-was found. Code with a bug:
+On Sun, Apr 04, 2021 at 08:15:00AM +0300, dev.dragon@bk.ru wrote:
+> From: Dmitrii Wolf <dev.dragon@bk.ru>
+> 
+> Signed-off-by: Dmitrii Wolf <dev.dragon@bk.ru>
+> ---
+>  drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+> index 690b664df8fa..29a6ce20e2bd 100644
+> --- a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+> +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+> @@ -2048,12 +2048,12 @@ void ieee80211_softmac_xmit(struct ieee80211_txb *txb, struct ieee80211_device *
+>  	/* if xmit available, just xmit it immediately, else just insert it to the wait queue */
+>  	for (i = 0; i < txb->nr_frags; i++) {
+>  #ifdef USB_TX_DRIVER_AGGREGATION_ENABLE
+> -		if ((skb_queue_len(&ieee->skb_drv_aggQ[queue_index]) != 0) ||
+> +		if ((skb_queue_len(&ieee->skb_drv_aggQ[queue_index]) != 0)
+>  #else
+> -		if ((skb_queue_len(&ieee->skb_waitQ[queue_index]) != 0) ||
+> +		if ((skb_queue_len(&ieee->skb_waitQ[queue_index]) != 0)
+>  #endif
+> -		    (!ieee->check_nic_enough_desc(ieee->dev, queue_index)) || \
+> -		    (ieee->queue_stop)) {
+> +		 || (!ieee->check_nic_enough_desc(ieee->dev, queue_index)) \
+> +		 || (ieee->queue_stop)) {
 
-while (plist != phead) {
-	pnetwork = container_of(plist, struct wlan_network, list);
-	plist = plist->next;
-	if (!memcmp(addr, pnetwork->network.MacAddress, ETH_ALEN))
-		break;
-}
-spin_unlock_irqrestore(&scanned_queue->lock, irqL);
-return pnetwork;
+No.  The || go on the end, the way the original code had it.  I've no
+idea what you were trying to fix.  Maybe the \ characters?
 
-In this code last processed pnetwork returned if list end was reached
-and no pnetwork matched test condition.
-
-Signed-off-by: Sergei Krainov <sergei.krainov.lkd@gmail.com>
----
-Changes from v1: Updated description
-
- drivers/staging/rtl8712/rtl871x_mlme.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
-index 8a97307fbbd6..c38161114b80 100644
---- a/drivers/staging/rtl8712/rtl871x_mlme.c
-+++ b/drivers/staging/rtl8712/rtl871x_mlme.c
-@@ -146,6 +146,8 @@ static struct wlan_network *r8712_find_network(struct  __queue *scanned_queue,
- 		if (!memcmp(addr, pnetwork->network.MacAddress, ETH_ALEN))
- 			break;
- 	}
-+	if (plist == phead)
-+		pnetwork = NULL;
- 	spin_unlock_irqrestore(&scanned_queue->lock, irqL);
- 	return pnetwork;
- }
--- 
-2.25.1
+regards,
+dan carpenter
 
