@@ -1,111 +1,47 @@
-Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E2FB70
-	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 23:02:57 +0000 (UTC)
-Received: from uucp (helo=alpha)
-	by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
-	id 1lUznc-00038n-01; Sat, 10 Apr 2021 00:40:24 +0200
-Received: by alpha.franken.de (Postfix, from userid 1000)
-	id EDAA4C24FC; Sat, 10 Apr 2021 00:39:11 +0200 (CEST)
-Date: Sat, 10 Apr 2021 00:39:11 +0200
-From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Alexander Lobakin <alobakin@pm.me>, Wei Liu <wei.liu@kernel.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Bjorn Andersson <bjorn.andersson@linaro.org>,
-	Christian Brauner <christian.brauner@ubuntu.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Kees Cook <keescook@chromium.org>, Mike Rapoport <rppt@kernel.org>,
-	Corey Minyard <cminyard@mvista.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	"Jason J. Herne" <jjherne@linux.ibm.com>,
-	Joerg Roedel <jroedel@suse.de>,
-	Michael Kelley <mikelley@microsoft.com>,
-	Joe Perches <joe@perches.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Scott Branden <scott.branden@broadcom.com>,
-	Olof Johansson <olof@lixom.net>,
-	Mihai Carabas <mihai.carabas@oracle.com>,
-	Wang Wenhu <wenhu.wang@vivo.com>,
-	Marek Czerski <ma.czerski@gmail.com>,
-	Hongbo Yao <yaohongbo@huawei.com>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Vineeth Vijayan <vneethv@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Peter Oberparleiter <oberpar@linux.ibm.com>,
-	Alexander Egorenkov <egorenar@linux.ibm.com>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	"Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-um@lists.infradead.org, linux-hyperv@vger.kernel.org,
-	xen-devel@lists.xenproject.org, linux-xtensa@linux-xtensa.org,
-	openipmi-developer@lists.sourceforge.net, linux-clk@vger.kernel.org,
-	linux-edac@vger.kernel.org, coresight@lists.linaro.org,
-	linux-leds@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
-	netdev@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-arch@vger.kernel.org, kexec@lists.infradead.org,
-	rcu@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Richard Henderson <rth@twiddle.net>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	Matt Turner <mattst88@gmail.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	Helge Deller <deller@gmx.de>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Paul Mackerras <paulus@samba.org>,
-	Christian Borntraeger <borntraeger@de.ibm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Stephen Hemminger <sthemmin@microsoft.com>,
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
-	Corey Minyard <minyard@acm.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Dinh Nguyen <dinguyen@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tony Luck <tony.luck@intel.com>, James Morse <james.morse@arm.com>,
-	Robert Richter <rric@kernel.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Pavel Machek <pavel@ucw.cz>, Alex Elder <elder@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Ohad Ben-Cohen <ohad@wizery.com>,
-	Jens Frederich <jfrederich@gmail.com>,
-	Daniel Drake <dsd@laptop.org>,
-	Jon Nettleton <jon.nettleton@gmail.com>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Iurii Zaikin <yzaikin@google.com>,
-	Mike Rapoport <rppt@linux.ibm.com>
-Subject: Re: [PATCH v2 1/1] kernel.h: Split out panic and oops helpers
-Message-ID: <20210409223911.GA21445@alpha.franken.de>
-References: <20210409100250.25922-1-andriy.shevchenko@linux.intel.com>
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B582C70
+	for <linux-staging@lists.linux.dev>; Fri,  9 Apr 2021 23:46:40 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id bg21so3671233pjb.0
+        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 16:46:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=SVHlr9PFsAmGK4+X1iTgg6ZdMx+ehnrMFUWQE+qDW68=;
+        b=eqpKB3KjqIKg8bCrXpgqDgvGD6OtrVps761SKfnm3LqgzUVpBis2S1dNnDiQG1WXjs
+         QSsSf787BjZNH+sHBNG4u7GHcflzhqNLZiEiBAnC0wUUUW0WcBBoivNP2M1AwrEi0qXr
+         n9/dIHILE0SSUHkvbu3x0JHoqTj3oF8N01sT3b+Iy/ZEzG9lD0TS0qhENJ8wvhZeiKmx
+         LEpDhiNsBOSPt9qPYSvSCXbIdHsYEg/NpS5OOBDCeKqLc1im4n31ykjY000SrW6sZR8+
+         l2wTkiguiny2s/zc+5Ttub+CVSe9Mko8CQYLR7fZRKX3sCm6cZfJ0J2fHSdbgdHGnGIS
+         +7UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=SVHlr9PFsAmGK4+X1iTgg6ZdMx+ehnrMFUWQE+qDW68=;
+        b=R3EZrED1el/c+j6BvbqYAkT2cnHF7puNUj/sIjb/sf3Xh9yXBD5fSOq//qYCSrlO/J
+         A1yb3UwTiDXdsFddRVXVDgbuPQm+g0tzWM9Zs+RfqCvvkpZoDu4dtz6tmb8Zr23sMfBg
+         XteeivViDuR6r2MD+4YUINVA5Anb5WW7rP3w1OIE7Km9k1mEANa78bzKCXkSqIwd+wOp
+         Zc4ORRRgfq5cz53sRLPdUElejOyMh3T8qiVDQsPcR8fUrqVNxC3cM1opoeTShkYZd4Yk
+         N3iVRJo3M6TSLMO29PDqmqsSs+gklgcS/QAIlr2PXt2v/3FelmW3UMt2SzmsqvQEu7Ml
+         deQg==
+X-Gm-Message-State: AOAM533dW+sJwolkDSbxKFllWnpQHeUSYNG476iCWnjZqbOPL8OZKRWb
+	AvPdQ5RFFygImFqfj9DHrTI=
+X-Google-Smtp-Source: ABdhPJzVU+Orygs2yV5tMEy9uXd4WzHLdQf48nbKmjxhvwz7VtiIIctKHsB4fuXXORy07AaqLBJSHA==
+X-Received: by 2002:a17:90a:516:: with SMTP id h22mr15503466pjh.222.1618012000197;
+        Fri, 09 Apr 2021 16:46:40 -0700 (PDT)
+Received: from kali ([103.141.87.253])
+        by smtp.gmail.com with ESMTPSA id w191sm3570429pfd.25.2021.04.09.16.46.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Apr 2021 16:46:39 -0700 (PDT)
+Date: Sat, 10 Apr 2021 05:16:34 +0530
+From: Mitali Borkar <mitaliborkar810@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
+Subject: [PATCH] staging: rtl8192e: replace comparison to NULL by bool
+Message-ID: <YHDnWpWztxeZospi@kali>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -113,51 +49,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210409100250.25922-1-andriy.shevchenko@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Fri, Apr 09, 2021 at 01:02:50PM +0300, Andy Shevchenko wrote:
-> kernel.h is being used as a dump for all kinds of stuff for a long time.
-> Here is the attempt to start cleaning it up by splitting out panic and
-> oops helpers.
-> 
-> There are several purposes of doing this:
-> - dropping dependency in bug.h
-> - dropping a loop by moving out panic_notifier.h
-> - unload kernel.h from something which has its own domain
-> 
-> At the same time convert users tree-wide to use new headers, although
-> for the time being include new header back to kernel.h to avoid twisted
-> indirected includes for existing users.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Acked-by: Mike Rapoport <rppt@linux.ibm.com>
-> Acked-by: Corey Minyard <cminyard@mvista.com>
-> Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
-> Acked-by: Kees Cook <keescook@chromium.org>
-> Acked-by: Wei Liu <wei.liu@kernel.org>
-> Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-> ---
-> v2:
->  - fixed all errors with allmodconfig on x86_64 (Andrew)
->  - checked with allyesconfig on x86_64
->  - additionally grepped source code for panic notifier list usage
->    and converted all users
->  - elaborated commit message (Luis)
->  - collected given tags (incl. Andrew's SoB, see below)
-> 
-> I added Andrew's SoB since part of the fixes I took from him. Andrew,
-> feel free to amend or tell me how you want me to do.
-> 
->  arch/mips/kernel/relocate.c                   |  1 +
->  arch/mips/sgi-ip22/ip22-reset.c               |  1 +
->  arch/mips/sgi-ip32/ip32-reset.c               |  1 +
+Fixed Comparison to NULL can be written as '!...' by replacing it with
+simpler form i.e boolean expression. This makes code more readable alternative.
+Reported by checkpatch.
 
-Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+---
+ drivers/staging/rtl8192e/rtl819x_TSProc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/staging/rtl8192e/rtl819x_TSProc.c b/drivers/staging/rtl8192e/rtl819x_TSProc.c
+index 65eac33aaa5b..476875125e87 100644
+--- a/drivers/staging/rtl8192e/rtl819x_TSProc.c
++++ b/drivers/staging/rtl8192e/rtl819x_TSProc.c
+@@ -269,12 +269,12 @@ static void MakeTSEntry(struct ts_common_info *pTsCommonInfo, u8 *Addr,
+ {
+ 	u8	count;
+ 
+-	if (pTsCommonInfo == NULL)
++	if (!pTsCommonInfo)
+ 		return;
+ 
+ 	memcpy(pTsCommonInfo->Addr, Addr, 6);
+ 
+-	if (pTSPEC != NULL)
++	if (pTSPEC)
+ 		memcpy((u8 *)(&(pTsCommonInfo->TSpec)), (u8 *)pTSPEC,
+ 		       sizeof(union tspec_body));
+ 
+@@ -328,7 +328,7 @@ bool GetTs(struct rtllib_device *ieee, struct ts_common_info **ppTS,
+ 	}
+ 
+ 	*ppTS = SearchAdmitTRStream(ieee, Addr, UP, TxRxSelect);
+-	if (*ppTS != NULL)
++	if (ppTS)
+ 		return true;
+ 
+ 	if (!bAddNewTs) {
 -- 
-Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-good idea.                                                [ RFC1925, 2.3 ]
+2.30.2
+
