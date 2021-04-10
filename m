@@ -1,25 +1,24 @@
 Received: from smtp.smtpout.orange.fr (smtp03.smtpout.orange.fr [80.12.242.125])
 	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B9372
-	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 11:55:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E4372
+	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 11:55:46 +0000 (UTC)
 Received: from localhost.localdomain ([90.126.11.170])
 	by mwinf5d50 with ME
-	id qzv02400F3g7mfN03zv1tB; Sat, 10 Apr 2021 13:55:02 +0200
+	id qzvk2400J3g7mfN03zvkwY; Sat, 10 Apr 2021 13:55:45 +0200
 X-ME-Helo: localhost.localdomain
 X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 10 Apr 2021 13:55:02 +0200
+X-ME-Date: Sat, 10 Apr 2021 13:55:45 +0200
 X-ME-IP: 90.126.11.170
 From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Larry.Finger@lwfinger.net,
-	gregkh@linuxfoundation.org
+To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	kernel-janitors@vger.kernel.org,
 	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 Subject: [PATCH 1/3] staging: rtl8188eu: Use existing arc4 implementation
-Date: Sat, 10 Apr 2021 13:54:59 +0200
-Message-Id: <7e16c40d5baa007dca81a12b967a597ed00d8dd7.1618055514.git.christophe.jaillet@wanadoo.fr>
+Date: Sat, 10 Apr 2021 13:55:43 +0200
+Message-ID: <7e16c40d5baa007dca81a12b967a597ed00d8dd7.1618055514.git.christophe.jaillet@wanadoo.fr>
 X-Mailer: git-send-email 2.27.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -27,6 +26,7 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Message-ID: <20210410115543.qf4nkbWTmcL4ULrc1fT67HQdQTaRFNI2WlxSlXQg8yc@z>
 
 Use functions provided by <crypto/arc4.h> instead of hand writing them.
 
