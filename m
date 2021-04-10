@@ -1,106 +1,75 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fallback21.mail.ru (fallback21.m.smailru.net [94.100.176.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F6A72
-	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 17:33:41 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id t22so3921688ply.1
-        for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 10:33:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mPRVe+dtqmO2CcciwnI9bQjdkM3bNfy3dPHUSjpkio0=;
-        b=Or6FpkmW6TxCMa3OmWBKZP6PbJ149nI6bqjqQtHrLPEsY1abnGi1Cxv3Nc7+KCT8nm
-         39XT2KO082uMXtCnmBCTzUR8IMgPo6oxTnBpU3IrJn8mprANKiXByiX4d5KDKqcgCG6F
-         MMVXUulMJCVdiSnJQi6SdLbQyJ8rIqACCnf7QNLM7glh1vQ56aqJAVNJiYVp3FcA6Cj7
-         neJXQRylQ4IYwzwdaAvb3MSTDvQD6WLNdQBV+3PFdYvnPuBdWHnAkH3xpZt0u1SGCnSV
-         2vEnwxQjjpQF/IOvKXylhWb3Lx40v7A29L9JkrLS5U30I/HyjPgCcaRGMYV5nLf+Uv03
-         dLoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mPRVe+dtqmO2CcciwnI9bQjdkM3bNfy3dPHUSjpkio0=;
-        b=FjCYd4Un5dtKd2lCEPQdEClYoNJkeKz6Hvbb/Fh7+587zB1G7WmLesGdsArNJOxGE1
-         DDvNhybvkfNdYXy597QRW7XCLTE73VKoAsr/4pXtAr7EuSVShpdL3DcicpUjP/uSLqNi
-         HtW2AE2bXotCtALnVuEhYtLxMr8tIu4W7ATdyoK7YTXniyeQdm5pkzTvf96DVOrhEePg
-         96KvoukkkI/AC3OE2vQrcY3wJW4ign+l2YIT3lHhx4ucfkNV9aqc9iPoz2v6R53hd5rw
-         iEVfyq88Io5rBQMWypo1dsTYDtN0QyoG7x7vF3+IdVBs1VL2R/B2o0Kj0ULTShImvWXk
-         MUiw==
-X-Gm-Message-State: AOAM5325ySM3MrwPff5AR8PGpk12bqqjZY76J7qKj6OVTVZqs1Fd7h9R
-	PCbGgu7QAjnUj88kBhvpiFc=
-X-Google-Smtp-Source: ABdhPJz5VX7Gq0ep7DhbH4m7k4xatK5kOnSk1q6Pg7RmFrFTJnl/w8yDq0OAeDCIVE10fb7zC75/zQ==
-X-Received: by 2002:a17:90a:8907:: with SMTP id u7mr19621197pjn.114.1618076021193;
-        Sat, 10 Apr 2021 10:33:41 -0700 (PDT)
-Received: from z640-arch.lan ([2602:61:7344:f100::678])
-        by smtp.gmail.com with ESMTPSA id b67sm3062135pfb.37.2021.04.10.10.33.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Apr 2021 10:33:40 -0700 (PDT)
-From: Ilya Lipnitskiy <ilya.lipnitskiy@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-	Siddhant Gupta <siddhantgupta416@gmail.com>,
-	Ilya Lipnitskiy <ilya.lipnitskiy@gmail.com>,
-	Selvakumar Elangovan <selvakumar16197@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAC670
+	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 19:17:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=bk.ru; s=mail3;
+	h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From; bh=/n3VjNvACnAJ60ANKxwDucsN/FQ+u+9EHf1Ytd05s50=;
+	b=TXxGhE0DihEU+aZnvCJwFtb7cnClvgGKHbBLwu4O+LnHKf3tQzu3EusVL2DCFeCZl+4nfkckRkxU0UBHNBcS9zC4p6P71cmXL//8NRqqdG+niJw8c8maMDxIZpoLibNvP10CKKXqdG2zBvwFDPf6KKeE83/mWiyl6c0t63scmes=;
+Received: from [10.161.64.44] (port=51466 helo=smtp36.i.mail.ru)
+	by fallback21.m.smailru.net with esmtp (envelope-from <dev.dragon@bk.ru>)
+	id 1lVJ6m-0007Rk-LZ; Sat, 10 Apr 2021 22:17:29 +0300
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=bk.ru; s=mail3;
+	h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=/n3VjNvACnAJ60ANKxwDucsN/FQ+u+9EHf1Ytd05s50=;
+	b=azG6BCcV9bd2T9NScyz05hjCoLCtKuXZxc1oOYONNueZrUayxxObY/cauzxiM4e+7Ck+xKavW3DIyDN0nCKGUwP10+0hOYxQqsNpv5YIFOEKFLthkYAOWDoeiBE9lYy0s6rbQIwQt3QoRMwWE1/xP8HVBRTT/mEFEkhDOWJnx/4=;
+Received: by smtp36.i.mail.ru with esmtpa (envelope-from <dev.dragon@bk.ru>)
+	id 1lVJ6f-0005ol-2Q; Sat, 10 Apr 2021 22:17:21 +0300
+From: dev.dragon@bk.ru
+To: mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: mt7621-pci: stop using of_pci_range_to_resource
-Date: Sat, 10 Apr 2021 10:33:31 -0700
-Message-Id: <20210410173331.57949-1-ilya.lipnitskiy@gmail.com>
-X-Mailer: git-send-email 2.31.1
+	linux-kernel@vger.kernel.org,
+	Dmitrii Wolf <dev.dragon@bk.ru>
+Subject: [PATCH] Staging: media: atomisp: pci: fixed a curly bracket coding style issue.
+Date: Sat, 10 Apr 2021 22:16:56 +0300
+Message-Id: <20210410191655.32719-1-dev.dragon@bk.ru>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-7564579A: 646B95376F6C166E
+X-77F55803: 4F1203BC0FB41BD92FFCB8E6708E7480D608FE24BC85426BB1B55F651FED8C70182A05F53808504038C4C691BD028CD67577BC6197054B408E37FA8AA24A30922BB3CF5DFFD08385
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7046EF22710D35B81EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F79006376F978168E59B07A5EA1F7E6F0F101C67CDEEF6D7F21E0D1D9295C2E9FA3191EE1B59CA4C82EFA658666293059DC4D586984B2E6512477067F6B57BC7E64490618DEB871D839B73339E8FC8737B5C22494854413538E1713FCC7F00164DA146DAFE8445B8C89999729449624AB7ADAF37F6B57BC7E64490611E7FA7ABCAF51C92176DF2183F8FC7C0A3E989B1926288338941B15DA834481F9449624AB7ADAF37BA3038C0950A5D3613377AFFFEAFD2697680F9384605B90368BA0AD3B22A3C517B076A6E789B0E97A8DF7F3B2552694A1E7802607F20496D49FD398EE364050F042285CD7A5C321F3DBBCB839D0549ACB3661434B16C20AC78D18283394535A9E827F84554CEF50127C277FBC8AE2E8BA83251EDC214901ED5E8D9A59859A8B6E9687809A427A9F9089D37D7C0E48F6C5571747095F342E88FB05168BE4CE3AF
+X-B7AD71C0: AC4F5C86D027EB782CDD5689AFBDA7A2368A440D3B0F6089093C9A16E5BC824A2A04A2ABAA09D25379311020FFC8D4AD521342F7752FCF28B3A09396CAA66D86
+X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C414F749A5E30D975CE44850EFB5864EA2C70ABAD5AAE7D166EC96BA78500BA6849C2B6934AE262D3EE7EAB7254005DCED556CBE7F905700A49510FB958DCE06DB6ED91DBE5ABE359A7EE5648E065588D469F8FEF10F1C2C2993EDB24507CE13387DFF0A840B692CF8
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D346B222596F62B8FA952447156549F56AD52E08A11414F586FD44D5FF33397B7C0F1E608E91EC90EB21D7E09C32AA3244C49BD678CA6371EB5E7ADEF6E32E096A83FD9C8CA1B0515E083B48618A63566E0
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojqcJA+pXcDukX0g/nTt995Q==
+X-Mailru-Sender: 3A338A78718AEC5AA85B3E7661095C1EDAE73A6F6FD4E0364AF7413C85806CCE80644619C1906B6F3833C6AC539110AEA432B8CD90067B65A6C5C4E98768B51D7AA22088860DD9FF5CDEF9E650933936342CD0BA774DB6A9AE208404248635DF
+X-Mras: Ok
+X-7564579A: 646B95376F6C166E
+X-77F55803: 6242723A09DB00B4F462559CB183475CD50668BED91BC476606C4EA0DFE9BE89049FFFDB7839CE9E305EC3E96664ADC9FE2B912F38A592AAF3C9F0E42E91D0690D5BA0ED5DAA0555
+X-7FA49CB5: 0D63561A33F958A50A53244B2D6CE31D75804F9F74A9A5269748E964D135AAC98941B15DA834481FA18204E546F3947C4A7E03851CBA2956F6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F7900637EAC5C7182FB0D3F7389733CBF5DBD5E9B5C8C57E37DE458BD9DD9810294C998ED8FC6C240DEA76428AA50765F790063710FEC4F8C56CDF14D81D268191BDAD3DBD4B6F7A4D31EC0BEA7A3FFF5B025636AAAE862A0553A39223F8577A6DFFEA7C275A9BCBA916DA8C43847C11F186F3C59DAA53EE0834AAEE
+X-B7AD71C0: AC4F5C86D027EB782CDD5689AFBDA7A2AD77751E876CB595E8F7B195E1C978312279995616FEDEF3AC1B55117025DB7A
+X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C414F749A5E30D975CE44850EFB5864EA2D15068F836A38AD0F6854D551A8A6D359C2B6934AE262D3EE7EAB7254005DCED556CBE7F905700A4DC48ACC2A39D04F89CDFB48F4795C241BDAD6C7F3747799A
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojqcJA+pXcDumTn6SvTVexdg==
+X-Mailru-MI: 1000000000800
+X-Mailru-Sender: A5480F10D64C9005E7955441BDF86265A87AAE43C9B5A74031BD7141B8DFBC0FCCB37A0EC2B93260CD4CDAD98BDCABE8DDBB79867CC2C1EC846E85FF75DBDC4983CE97D6EC8C31C553326A0E03014151EAB4BC95F72C04283CDA0F3B3F5B9367
+X-Mras: Ok
 
-The logic here was already overriding the erroneous IO addresses
-returned from of_pci_range_to_resource, which is the bulk of the logic.
+From: Dmitrii Wolf <dev.dragon@bk.ru>
 
-So stop using it altogether and initialize the fields explicitly, as
-done in aeba3731b150 ("powerpc/pci: Fix IO space breakage after
-of_pci_range_to_resource() change").
-
-Signed-off-by: Ilya Lipnitskiy <ilya.lipnitskiy@gmail.com>
-Cc: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Fixed a coding style issue.
 ---
- drivers/staging/mt7621-pci/pci-mt7621.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_csi2.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/mt7621-pci/pci-mt7621.c b/drivers/staging/mt7621-pci/pci-mt7621.c
-index 1781c1dcf5b4..115250115f10 100644
---- a/drivers/staging/mt7621-pci/pci-mt7621.c
-+++ b/drivers/staging/mt7621-pci/pci-mt7621.c
-@@ -301,18 +301,19 @@ static int mt7621_pci_parse_request_of_pci_ranges(struct pci_host_bridge *host)
- 
- 	/*
- 	 * IO_SPACE_LIMIT for MIPS is 0xffff but this platform uses IO at
--	 * upper address 0x001e160000 so we have to get the resource from
--	 * the DT because when it has been requested it failed and has been
--	 * removed from bridge->dma_ranges and bridge->windows. So parse it
--	 * and remap it manually to make things work.
-+	 * upper address 0x001e160000. of_pci_range_to_resource does not work
-+	 * well for MIPS platforms that don't define PCI_IOBASE, so set the IO
-+	 * resource manually instead.
- 	 */
-+	pcie->io.name = node->full_name;
-+	pcie->io.parent = pcie->io.child = pcie->io.sibling = NULL;
- 	for_each_of_pci_range(&parser, &range) {
- 		switch (range.flags & IORESOURCE_TYPE_BITS) {
- 		case IORESOURCE_IO:
- 			pcie->io_map_base =
- 				(unsigned long)ioremap(range.cpu_addr,
- 						       range.size);
--			of_pci_range_to_resource(&range, node, &pcie->io);
-+			pcie->io.flags = range.flags;
- 			pcie->io.start = range.cpu_addr;
- 			pcie->io.end = range.cpu_addr + range.size - 1;
- 			set_io_port_base(pcie->io_map_base);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2.c b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
+index 060b8765ae96..200f16994f3a 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_csi2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
+@@ -29,7 +29,8 @@ static struct v4l2_mbus_framefmt *__csi2_get_format(struct
+ 	v4l2_subdev_pad_config *cfg,
+ 	enum
+ 	v4l2_subdev_format_whence
+-	which, unsigned int pad) {
++	which, unsigned int pad)
++{
+ 	if (which == V4L2_SUBDEV_FORMAT_TRY)
+ 		return v4l2_subdev_get_try_format(&csi2->subdev, cfg, pad);
+ 	else
 -- 
-2.31.1
+2.25.1
 
