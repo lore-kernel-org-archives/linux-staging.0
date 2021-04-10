@@ -1,226 +1,56 @@
-Received: from smtp.smtpout.orange.fr (smtp05.smtpout.orange.fr [80.12.242.127])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F29770
-	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 13:43:31 +0000 (UTC)
-Received: from localhost.localdomain ([90.126.11.170])
-	by mwinf5d61 with ME
-	id r1bt2400J3g7mfN031btbK; Sat, 10 Apr 2021 15:35:54 +0200
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 10 Apr 2021 15:35:54 +0200
-X-ME-IP: 90.126.11.170
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH 2/3] staging: rtl8723bs: Use existing arc4 implementation
-Date: Sat, 10 Apr 2021 15:35:52 +0200
-Message-Id: <6a4aebf9feb9ece975734f2e51da5ecae2996cee.1618055514.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <7e16c40d5baa007dca81a12b967a597ed00d8dd7.1618055514.git.christophe.jaillet@wanadoo.fr>
-References: <7e16c40d5baa007dca81a12b967a597ed00d8dd7.1618055514.git.christophe.jaillet@wanadoo.fr>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01CD70
+	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 13:48:28 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D32FC610A7;
+	Sat, 10 Apr 2021 13:48:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1618062508;
+	bh=BV9vwcodbAKeTvV83HkpyUEzg0GvejpCEcxYAY2s9/w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VqL5by2vI075Osno2/+I6lG7twNASIjNQ4RIfekAGdZ0tvRKa+V295U4rYRgZeuwk
+	 0HVEI/2TuTUF1+yYPLz/Xnu2cv3jQpabdjzNlwZBWm5Sy/G1eMCaAqlHxE+eSpu8qq
+	 0Lt6dBQTf605WufbqtpFntSGI42aL/5z7ujEfiyk=
+Date: Sat, 10 Apr 2021 15:48:26 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Mitali Borkar <mitaliborkar810@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
+Subject: Re: [PATCH v2] staging: rtl8192e: fixed pointer error by adding '*'
+Message-ID: <YHGsqpNPPw+yZN12@kroah.com>
+References: <YHGhdtldqAlRsPHT@kali>
+ <YHGksKltkkmaUeAk@kroah.com>
+ <YHGqBLS+IcHdkI6r@kali>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YHGqBLS+IcHdkI6r@kali>
 
-Use functions provided by <crypto/arc4.h> instead of hand writing them.
+On Sat, Apr 10, 2021 at 07:07:08PM +0530, Mitali Borkar wrote:
+> On Sat, Apr 10, 2021 at 03:14:24PM +0200, Greg KH wrote:
+> > On Sat, Apr 10, 2021 at 06:30:38PM +0530, Mitali Borkar wrote:
+> > > Fixed Comparison to NULL can be written as '!...' by replacing it with
+> > > simpler form i.e. boolean expression. This makes code more readable
+> > > alternative.
+> > > Reported by checkpatch.
+> > 
+> > Checkpatch did not report this specific problem, Julia did :)
+> > 
+> > And this changelog text does not reflect the commit you made here.
+> > 
+> Making the changes now.
+> 
+> > > 
+> > > Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+> > 
+> > We need a "Reported-by:" line here to reflect that someone reported the
+> > problem as well.
+> >
+> I am resending this as patch v3. I have to add reprted by Julia, right?
 
-The implementations are slightly different, but are equivalent. It has
-been checked with a test program which compares the output of the 2 sets of
-functions.
-
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/staging/rtl8723bs/core/rtw_security.c | 101 ++++--------------
- 1 file changed, 21 insertions(+), 80 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index 9587d89a6b24..86949a65e96f 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -6,6 +6,7 @@
-  ******************************************************************************/
- #define  _RTW_SECURITY_C_
- 
-+#include <crypto/arc4.h>
- #include <linux/crc32poly.h>
- #include <drv_types.h>
- #include <rtw_debug.h>
-@@ -31,66 +32,6 @@ const char *security_type_str(u8 value)
- 
- /* WEP related ===== */
- 
--struct arc4context {
--	u32 x;
--	u32 y;
--	u8 state[256];
--};
--
--
--static void arcfour_init(struct arc4context	*parc4ctx, u8 *key, u32 key_len)
--{
--	u32 t, u;
--	u32 keyindex;
--	u32 stateindex;
--	u8 *state;
--	u32 counter;
--
--	state = parc4ctx->state;
--	parc4ctx->x = 0;
--	parc4ctx->y = 0;
--	for (counter = 0; counter < 256; counter++)
--		state[counter] = (u8)counter;
--	keyindex = 0;
--	stateindex = 0;
--	for (counter = 0; counter < 256; counter++) {
--		t = state[counter];
--		stateindex = (stateindex + key[keyindex] + t) & 0xff;
--		u = state[stateindex];
--		state[stateindex] = (u8)t;
--		state[counter] = (u8)u;
--		if (++keyindex >= key_len)
--			keyindex = 0;
--	}
--}
--
--static u32 arcfour_byte(struct arc4context	*parc4ctx)
--{
--	u32 x;
--	u32 y;
--	u32 sx, sy;
--	u8 *state;
--
--	state = parc4ctx->state;
--	x = (parc4ctx->x + 1) & 0xff;
--	sx = state[x];
--	y = (sx + parc4ctx->y) & 0xff;
--	sy = state[y];
--	parc4ctx->x = x;
--	parc4ctx->y = y;
--	state[y] = (u8)sx;
--	state[x] = (u8)sy;
--	return state[(sx + sy) & 0xff];
--}
--
--static void arcfour_encrypt(struct arc4context *parc4ctx, u8 *dest, u8 *src, u32 len)
--{
--	u32 i;
--
--	for (i = 0; i < len; i++)
--		dest[i] = src[i] ^ (unsigned char)arcfour_byte(parc4ctx);
--}
--
- static signed int bcrc32initialized;
- static u32 crc32_table[256];
- 
-@@ -150,7 +91,7 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
- {																	/*  exclude ICV */
- 
- 	unsigned char crc[4];
--	struct arc4context	 mycontext;
-+	struct arc4_ctx mycontext;
- 
- 	signed int	curfragnum, length;
- 	u32 keylength;
-@@ -184,16 +125,16 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 
- 				*((__le32 *)crc) = getcrc32(payload, length);
- 
--				arcfour_init(&mycontext, wepkey, 3+keylength);
--				arcfour_encrypt(&mycontext, payload, payload, length);
--				arcfour_encrypt(&mycontext, payload+length, crc, 4);
-+				arc4_setkey(&mycontext, wepkey, 3 + keylength);
-+				arc4_crypt(&mycontext, payload, payload, length);
-+				arc4_crypt(&mycontext, payload + length, crc, 4);
- 
- 			} else {
- 				length = pxmitpriv->frag_len-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
- 				*((__le32 *)crc) = getcrc32(payload, length);
--				arcfour_init(&mycontext, wepkey, 3+keylength);
--				arcfour_encrypt(&mycontext, payload, payload, length);
--				arcfour_encrypt(&mycontext, payload+length, crc, 4);
-+				arc4_setkey(&mycontext, wepkey, 3 + keylength);
-+				arc4_crypt(&mycontext, payload, payload, length);
-+				arc4_crypt(&mycontext, payload + length, crc, 4);
- 
- 				pframe += pxmitpriv->frag_len;
- 				pframe = (u8 *)round_up((SIZE_PTR)(pframe), 4);
-@@ -206,7 +147,7 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
- {
- 	/*  exclude ICV */
- 	u8 crc[4];
--	struct arc4context	 mycontext;
-+	struct arc4_ctx mycontext;
- 	signed int	length;
- 	u32 keylength;
- 	u8 *pframe, *payload, *iv, wepkey[16];
-@@ -230,8 +171,8 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
- 		payload = pframe+prxattrib->iv_len+prxattrib->hdrlen;
- 
- 		/* decrypt payload include icv */
--		arcfour_init(&mycontext, wepkey, 3+keylength);
--		arcfour_encrypt(&mycontext, payload, payload,  length);
-+		arc4_setkey(&mycontext, wepkey, 3 + keylength);
-+		arc4_crypt(&mycontext, payload, payload, length);
- 
- 		/* calculate icv and compare the icv */
- 		*((u32 *)crc) = le32_to_cpu(getcrc32(payload, length-4));
-@@ -579,7 +520,7 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 	u8   ttkey[16];
- 	u8 crc[4];
- 	u8   hw_hdr_offset = 0;
--	struct arc4context mycontext;
-+	struct arc4_ctx mycontext;
- 	signed int			curfragnum, length;
- 
- 	u8 *pframe, *payload, *iv, *prwskey;
-@@ -621,16 +562,16 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 					length = pattrib->last_txcmdsz-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
- 					*((__le32 *)crc) = getcrc32(payload, length);/* modified by Amy*/
- 
--					arcfour_init(&mycontext, rc4key, 16);
--					arcfour_encrypt(&mycontext, payload, payload, length);
--					arcfour_encrypt(&mycontext, payload+length, crc, 4);
-+					arc4_setkey(&mycontext, rc4key, 16);
-+					arc4_crypt(&mycontext, payload, payload, length);
-+					arc4_crypt(&mycontext, payload + length, crc, 4);
- 
- 				} else {
- 					length = pxmitpriv->frag_len-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
- 					*((__le32 *)crc) = getcrc32(payload, length);/* modified by Amy*/
--					arcfour_init(&mycontext, rc4key, 16);
--					arcfour_encrypt(&mycontext, payload, payload, length);
--					arcfour_encrypt(&mycontext, payload+length, crc, 4);
-+					arc4_setkey(&mycontext, rc4key, 16);
-+					arc4_crypt(&mycontext, payload, payload, length);
-+					arc4_crypt(&mycontext, payload + length, crc, 4);
- 
- 					pframe += pxmitpriv->frag_len;
- 					pframe = (u8 *)round_up((SIZE_PTR)(pframe), 4);
-@@ -650,7 +591,7 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
- 	u8   rc4key[16];
- 	u8   ttkey[16];
- 	u8 crc[4];
--	struct arc4context mycontext;
-+	struct arc4_ctx mycontext;
- 	signed int			length;
- 
- 	u8 *pframe, *payload, *iv, *prwskey;
-@@ -721,8 +662,8 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
- 
- 			/* 4 decrypt payload include icv */
- 
--			arcfour_init(&mycontext, rc4key, 16);
--			arcfour_encrypt(&mycontext, payload, payload, length);
-+			arc4_setkey(&mycontext, rc4key, 16);
-+			arc4_crypt(&mycontext, payload, payload, length);
- 
- 			*((u32 *)crc) = le32_to_cpu(getcrc32(payload, length-4));
- 
--- 
-2.27.0
-
+Yes please.
