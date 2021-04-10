@@ -1,48 +1,48 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750036D00
-	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 14:21:16 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id g5so6345694ejx.0
-        for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 07:21:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC496D00
+	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 14:21:18 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id ba6so9797727edb.1
+        for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 07:21:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=75uzijMaXeM4/Fh+95uVhQDxEt+qvy+jANgJCzP36jQ=;
-        b=ksHXqnnv8/h/I2BisfVI0eVxaRryQkJRHKRYd6dhEpq5U5U+mL03tLYSGIaVwHnlkr
-         EOh5l0nY2T/KyJXJGdPE41RmkMf/16Ty2Ij3/D6Ro/L8LbEPG/auPFJU7cNRGej2uu+H
-         vriPKe4wQFq2UCNws1w4z8R3XFNFUBVDqfeCdS6tKjJFVkRK9RUMBnJG8vXAMtMqnYaM
-         CaHwrDHYjh8i7XbPK++N639AwCJa0wHbvWoOVjJ4mLBqyotOvxF8wpUyAoM4pyfNPnEx
-         Ra4/wdIfXxDHiIp5TSZdEVVe7No5hvJy76eqoXRHRiRoOZW3Inl5JBFvlZhIcvqBd3UI
-         fOhQ==
+        bh=Q5nuHsBBM9Uu1NfcSwY0BeNDKPAr9Mc7yGwZ1gPZKnI=;
+        b=nKprcCW1KTc/ZmDN5ZQEAry5+/nQAra+VVTkkuAbas6WuVdFCJ5fZvp3vXivJT0DM5
+         dp18WmeGkl3zuj6UxxceNPQ8M/d0sih/Ac4iUX5J0Vjir+Tk2jLTqUrxcLh5VNGb/LRp
+         OljX66TtyEMSo3mg6/apkaUJOMWXtFcfJKHNvS7mE799ijil+vGRQmO6NJL/0W3FfMK7
+         36Ng16iUJ7o9uHFFaW+VcvuCqM0PTyktNDO971wVAVo4Plfn9aoleub93Elf6Cmg7yk2
+         0J18SHspXPBPGol0Ul9S2rSTCfooV5bLdjx3aDmAOMyvBnI4iIKLt2IVVKg5R6Y/J71V
+         y5jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=75uzijMaXeM4/Fh+95uVhQDxEt+qvy+jANgJCzP36jQ=;
-        b=JiXM7iD2YAxkgtrIEbauL49PugY1i1Wm9cB3OMwustDSbKh//1zUR+HFwkFQsoLAml
-         OWmFIcLBNdbwxXsHBLZTW6FjK0jYmSbfbZlzBbm9+clRiV5qhCBW4PyMMTdzDUWrr1G7
-         bvVQI6B9Tc2dJjw85/kHr3fPl1Q4J5JbSDAKX6JPzDXIRAGhyPp/ajVuE+WTnb9xX22V
-         gZIFX608B8CzKYRG/dDaLuW7OLYYrydIaNaLXRRPQ/hgmdL23kM+713LQEAa7qZspcus
-         sCh1DDDR9+Szjie73RynqwCavehA+566JaFGem/AZ1auVa0BzcMsieSDQFSxdRoD0/XV
-         0TVg==
-X-Gm-Message-State: AOAM5332bGVsADfhP89Nmn1WIyyU34FLZ9qf5oytzIFOOE4kShy/f/Cr
-	Gqnxs/6rnqthtYNcryMoDGo=
-X-Google-Smtp-Source: ABdhPJw1Z+2EI7/w/oe2Njaf6Oaf1PDv6h984uE9U03dK5B51ZrfjPz9sNSVBiStHY12OtDZhbm1NQ==
-X-Received: by 2002:a17:906:c9d8:: with SMTP id hk24mr20444378ejb.480.1618064475094;
-        Sat, 10 Apr 2021 07:21:15 -0700 (PDT)
+        bh=Q5nuHsBBM9Uu1NfcSwY0BeNDKPAr9Mc7yGwZ1gPZKnI=;
+        b=tQgkTv/7rTsYoYrgQ138ZtTAjl9wRmUKAU20gDr55eJzOc4bpg86thAe2Ux4y1K7QG
+         b/Fm8y2cR9GhSkHhJj6Q+Q3vGnVB3ZKYJrnkg6NYoW7lgAFMiU24YjuPHGJfYW33DSPm
+         QRyr1tLdOECWvk6EpK2MsjOlVnrCOfwiuFpr3EK8e87l+Ezy0PMq7CREF87CqzAJFi+u
+         9EQndD2kTr1poH2DlZIF4KpsZKFaBGku+qbCkztu7RkRoi2Q0fdcYy179UcI3PabtwYf
+         wdX6w+wkZBWLcu6Z0UWjqb7YhYhTm07lHZRQiK/xZYIl9il2Kf4liUnuGrh1KriGWiCk
+         StEw==
+X-Gm-Message-State: AOAM531bC9LIfk7KcLSQ84/P64IDRm37sGToByKIKMiaLtKjgJBOjeAk
+	qomQJ12QrOi0MujGg7lw23Q=
+X-Google-Smtp-Source: ABdhPJxeC5c3e6VdSCsFCmVjQi/P2oC645yjC7t0oCNNxYoJmVqrKrujomXohaEdCntWE7Kp1NheBw==
+X-Received: by 2002:aa7:db9a:: with SMTP id u26mr21776965edt.292.1618064476704;
+        Sat, 10 Apr 2021 07:21:16 -0700 (PDT)
 Received: from agape ([5.171.81.28])
-        by smtp.gmail.com with ESMTPSA id z22sm2052818ejr.60.2021.04.10.07.21.14
+        by smtp.gmail.com with ESMTPSA id df8sm3270777edb.4.2021.04.10.07.21.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Apr 2021 07:21:14 -0700 (PDT)
+        Sat, 10 Apr 2021 07:21:16 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 22/25] staging: rtl8723bs: remove empty else block in os_dep/ioctl_cfg80211.c
-Date: Sat, 10 Apr 2021 16:20:35 +0200
-Message-Id: <1bee993834410c2c11a6799e1868589efc1334f6.1618064275.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 23/25] staging: rtl8723bs: fix comparison to true issue
+Date: Sat, 10 Apr 2021 16:20:36 +0200
+Message-Id: <680d86950d760003a694f8880c0a912a9d815a5e.1618064275.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1618064274.git.fabioaiuto83@gmail.com>
 References: <cover.1618064274.git.fabioaiuto83@gmail.com>
@@ -53,25 +53,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove empty else-block
+fix following post-commit hook checkpatch issue:
+
+CHECK: Using comparison to true is error prone
+136: FILE: drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:
+2497:
++			if (psta->dot8021xalg != 1 ||
+	psta->bpairwise_key_installed == true) {
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 39d0a0d24d2b..9c98820952e4 100644
+index 9c98820952e4..89a21eb63c0a 100644
 --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
 +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -1226,7 +1226,6 @@ void rtw_cfg80211_indicate_scan_done(struct adapter *adapter, bool aborted)
- 			cfg80211_scan_done(pwdev_priv->scan_request, &info);
+@@ -2491,7 +2491,7 @@ static int cfg80211_rtw_del_station(struct wiphy *wiphy, struct net_device *ndev
+ 		plist = get_next(plist);
  
- 		pwdev_priv->scan_request = NULL;
--	} else {
- 	}
- 	spin_unlock_bh(&pwdev_priv->scan_req_lock);
- }
+ 		if (!memcmp((u8 *)mac, psta->hwaddr, ETH_ALEN)) {
+-			if (psta->dot8021xalg != 1 || psta->bpairwise_key_installed == true) {
++			if (psta->dot8021xalg != 1 || psta->bpairwise_key_installed) {
+ 				list_del_init(&psta->asoc_list);
+ 				pstapriv->asoc_list_cnt--;
+ 
 -- 
 2.20.1
 
