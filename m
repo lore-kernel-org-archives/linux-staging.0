@@ -1,77 +1,76 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0133570
-	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 14:02:39 +0000 (UTC)
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AGQapg6yZeNxmG+w+aj6AKrPwzb1zdoIgy1kn?=
- =?us-ascii?q?xilNYDZSddGVkN3roeQD2XbP+VIscVwphNzoAsK9aFzG85od2+MsFJekGDLroW?=
- =?us-ascii?q?65aLxlhLGC/xTFOwnTstFQzr1hda8WMqyUMXFfgdzh6Ae1V/YMqePmzImSie3T?=
- =?us-ascii?q?z2hgQGhRAsldxjx0BQqBHkp9SBMuP+tbKLOn+sFFqzC8EE54Uu2HABA+M9Trm8?=
- =?us-ascii?q?fGj9bPbxIAGnccmWuzpALt2frBHx+U0gx2aV5y6L0pmFKrrzDE?=
-X-IronPort-AV: E=Sophos;i="5.82,212,1613430000"; 
-   d="scan'208";a="378288277"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Apr 2021 16:02:38 +0200
-Date: Sat, 10 Apr 2021 16:02:37 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Mitali Borkar <mitaliborkar810@gmail.com>
-cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com, 
-    mitali_s@me.iitr.ac.in
-Subject: Re: [Outreachy kernel] [PATCH v3] staging: rtl8192e: fixed pointer
- error by adding '*'
-In-Reply-To: <YHGvJxMhQ8nzHf6I@kali>
-Message-ID: <alpine.DEB.2.22.394.2104101602080.2975@hadrien>
-References: <YHGvJxMhQ8nzHf6I@kali>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A857670
+	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 14:20:34 +0000 (UTC)
+Date: Sat, 10 Apr 2021 14:20:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
+	s=protonmail3; t=1618064427;
+	bh=9IwoH2UcLoIb4zzjDMXjFYQvN8/nnZXjHg+Ev5D0vqQ=;
+	h=Date:To:From:Cc:Reply-To:Subject:From;
+	b=pB8VcD1Y+IhvvVvC99JSiSxDGrqsB+sQEkZEqu3DKpuoh1aj9v5atmGpAxgj854/A
+	 /q2aen4oPcVSnFWudSbxZHOJiZYIouCfNv564UnIqAXQr4xA1DBDg30IkD0Z3o+u01
+	 UDG3yY8a8eyxQ9Tfbawr5MN7jQz5Oprn1aDlPWRCwXYxquBjR9SV8jKRHzpIyt3tfa
+	 gOQdtXognDu7MGUzPQI+ieD7xT4MyRwv2q9nQLqg20SUjiuFbBCWtBiCaHtK/tjtPu
+	 i0QzHM6SnBzWgMP+tfUA1cyZmVya4KsQSQUhNhIMSuT0YivcjdHs6jZEJNthPBM+xX
+	 dgX/AWLmf+HBQ==
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans de Goede <hdegoede@redhat.com>, Larry Finger <Larry.Finger@lwfinger.net>
+From: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, Bryan Brattlof <hello@bryanbrattlof.com>
+Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
+Subject: [PATCH v2] staging: rtl8723bs: remove unnecessary goto jumps
+Message-ID: <20210410141945.424238-1-hello@bryanbrattlof.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+	autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	mailout.protonmail.ch
+
+The next instruction for both 'goto exit' jump statements is to
+execute the exit jump instructions regardless. We can safely
+remove all jump statements from __init rtw_drv_entry()
+
+Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
+---
+Changes from:
+  v1: removed unnecessary edit of DBG_871X_LEVEL
+
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging=
+/rtl8723bs/os_dep/sdio_intf.c
+index 9fd926e1698f..39b6d4b6dec4 100644
+--- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
++++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+@@ -517,12 +517,8 @@ static int __init rtw_drv_entry(void)
+ =09if (ret !=3D 0) {
+ =09=09sdio_drvpriv.drv_registered =3D false;
+ =09=09rtw_ndev_notifier_unregister();
+-=09=09goto exit;
+ =09}
+=20
+-=09goto exit;
+-
+-exit:
+ =09DBG_871X_LEVEL(_drv_always_, "module init ret =3D%d\n", ret);
+ =09return ret;
+ }
+@@ -540,6 +536,5 @@ static void __exit rtw_drv_halt(void)
+ =09DBG_871X_LEVEL(_drv_always_, "module exit success\n");
+ }
+=20
+-
+ module_init(rtw_drv_entry);
+ module_exit(rtw_drv_halt);
+--=20
+2.27.0
 
 
-
-On Sat, 10 Apr 2021, Mitali Borkar wrote:
-
-> Fixed pointer error by adding '*' to the function.
-> Reported by Julia.
-
-Actually, there is a proper tag for reported by, like Signed-off-by.  Look
-through the git history to see what to do.
-
-julia
-
->
-> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
-> ---
-> Changes from v2:- modified patch body but writing commit message
-> clearly.
-> Changes from v1:- added pointer to the function.
->
->  drivers/staging/rtl8192e/rtl819x_TSProc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/rtl8192e/rtl819x_TSProc.c b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-> index 4457c1acfbf6..78b5b4eaec5f 100644
-> --- a/drivers/staging/rtl8192e/rtl819x_TSProc.c
-> +++ b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-> @@ -327,7 +327,7 @@ bool GetTs(struct rtllib_device *ieee, struct ts_common_info **ppTS,
->  	}
->
->  	*ppTS = SearchAdmitTRStream(ieee, Addr, UP, TxRxSelect);
-> -	if (ppTS)
-> +	if (*ppTS)
->  		return true;
->
->  	if (!bAddNewTs) {
-> --
-> 2.30.2
->
-> --
-> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/YHGvJxMhQ8nzHf6I%40kali.
->
