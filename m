@@ -1,59 +1,173 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp03.smtpout.orange.fr [80.12.242.125])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9597C72
-	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 11:37:32 +0000 (UTC)
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3A8EyCK6A21whjpfXlHegZsceALOonbusQ8zAX?=
- =?us-ascii?q?/mp2TgFYddHdusC1hfIA1QL1jjF5YgBQpfmrPq6cTXTAsaNv6Y4KMru4GCXgsm?=
- =?us-ascii?q?2kLIZthLGSigHIMSv46+JbyONcY7FzYeeARWRSoOTbxE2DE9gmyMSa66zAv5a7?=
- =?us-ascii?q?815BRRxnApsQlTtRJwqfElJ7XwVKQac+faDw2uNqvCGnYm5SU8LTPAhPY8HtvN?=
- =?us-ascii?q?vO/aiWFiIuIz4CxE2wgSiz6Lj8eiLooCs2dz9U278t/SzkvmXCl9iemsihxhXR?=
- =?us-ascii?q?2mPV5Zg+oqqU9vJ5CMaBitcYJ1zX427CCOsROczmzVdFxpDXmS5a6+XkmBsrM8?=
- =?us-ascii?q?Rt536URFibyCGduDXI6zo27m+n9FnwuwqUneXCSDU2B9Epv/MSTjLi90EisNtg?=
- =?us-ascii?q?uZg7rF6xipw/N2K9oA3A/dTSEzllmk2oyEBS7tI7vjh1XYcYVb5ctoB3xjImLL?=
- =?us-ascii?q?4wWAbz6IUiGO4rJNjE//BIfV7fR22xhBge/PWcGlA6HhKDSk9HhcCPyThRmxlC?=
- =?us-ascii?q?vj4l7f1auGwB+pI7Q5wB2uKsCM5VvYALceMsUIJWLMJEYfLyMnDEWhrKLWKULR?=
- =?us-ascii?q?DGOcg8VU7lmtrJzI4JxMuDXdgp9d8Jsrznd3903FRSR2veTfKj56Bq2DjpBEWF?=
- =?us-ascii?q?GQ71wsUb3ZJ+obGUftrWDRE=3D?=
-X-IronPort-AV: E=Sophos;i="5.82,210,1613430000"; 
-   d="scan'208";a="502547776"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Apr 2021 13:37:30 +0200
-Date: Sat, 10 Apr 2021 13:37:30 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-cc: Greg KH <gregkh@linuxfoundation.org>, outreachy-kernel@googlegroups.com, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH 4/4] staging: rtl8723bs: Change the
- type and use of a variable
-In-Reply-To: <10115279.QsZogQpAqX@localhost.localdomain>
-Message-ID: <alpine.DEB.2.22.394.2104101334190.2975@hadrien>
-References: <20210410092232.15155-1-fmdefrancesco@gmail.com> <4547533.LBOHeWh67L@localhost.localdomain> <YHGGBpSLj+W8ikXz@kroah.com> <10115279.QsZogQpAqX@localhost.localdomain>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B9372
+	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 11:55:09 +0000 (UTC)
+Received: from localhost.localdomain ([90.126.11.170])
+	by mwinf5d50 with ME
+	id qzv02400F3g7mfN03zv1tB; Sat, 10 Apr 2021 13:55:02 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 10 Apr 2021 13:55:02 +0200
+X-ME-IP: 90.126.11.170
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Larry.Finger@lwfinger.net,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH 1/3] staging: rtl8188eu: Use existing arc4 implementation
+Date: Sat, 10 Apr 2021 13:54:59 +0200
+Message-Id: <7e16c40d5baa007dca81a12b967a597ed00d8dd7.1618055514.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.27.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
-> That variable has global scope and is assigned at least in:
+Use functions provided by <crypto/arc4.h> instead of hand writing them.
 
-What do you mean by global scope?  None of the following look like
-references to global variables.
+The implementations are slightly different, but are equivalent. It has
+been checked with a test program which compares the output of the 2 sets of
+functions.
 
-julia
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/staging/rtl8188eu/core/rtw_security.c | 80 +++----------------
+ 1 file changed, 11 insertions(+), 69 deletions(-)
 
->
-> drivers/staging/rtl8723bs/core/rtw_pwrctrl.c:368:
-> pwrpriv->fw_current_in_ps_mode = false;
->
-> drivers/staging/rtl8723bs/core/rtw_pwrctrl.c:380:
-> pwrpriv->fw_current_in_ps_mode = true;
->
-> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:433:
-> adapter_to_pwrctl(padapter)->fw_current_in_ps_mode = false;
->
-> drivers/staging/rtl8723bs/core/rtw_pwrctrl.c:981:
-> pwrctrlpriv->fw_current_in_ps_mode = false;
+diff --git a/drivers/staging/rtl8188eu/core/rtw_security.c b/drivers/staging/rtl8188eu/core/rtw_security.c
+index 617f89842c81..61e3eb0a4791 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_security.c
++++ b/drivers/staging/rtl8188eu/core/rtw_security.c
+@@ -6,6 +6,7 @@
+  ******************************************************************************/
+ #define  _RTW_SECURITY_C_
+ 
++#include <crypto/arc4.h>
+ #include <osdep_service.h>
+ #include <drv_types.h>
+ #include <wifi.h>
+@@ -16,65 +17,6 @@
+ 
+ #define CRC32_POLY 0x04c11db7
+ 
+-struct arc4context {
+-	u32 x;
+-	u32 y;
+-	u8 state[256];
+-};
+-
+-static void arcfour_init(struct arc4context *parc4ctx, u8 *key, u32	key_len)
+-{
+-	u32	t, u;
+-	u32	keyindex;
+-	u32	stateindex;
+-	u8 *state;
+-	u32	counter;
+-
+-	state = parc4ctx->state;
+-	parc4ctx->x = 0;
+-	parc4ctx->y = 0;
+-	for (counter = 0; counter < 256; counter++)
+-		state[counter] = (u8)counter;
+-	keyindex = 0;
+-	stateindex = 0;
+-	for (counter = 0; counter < 256; counter++) {
+-		t = state[counter];
+-		stateindex = (stateindex + key[keyindex] + t) & 0xff;
+-		u = state[stateindex];
+-		state[stateindex] = (u8)t;
+-		state[counter] = (u8)u;
+-		if (++keyindex >= key_len)
+-			keyindex = 0;
+-	}
+-}
+-
+-static u32 arcfour_byte(struct arc4context *parc4ctx)
+-{
+-	u32 x;
+-	u32 y;
+-	u32 sx, sy;
+-	u8 *state;
+-
+-	state = parc4ctx->state;
+-	x = (parc4ctx->x + 1) & 0xff;
+-	sx = state[x];
+-	y = (sx + parc4ctx->y) & 0xff;
+-	sy = state[y];
+-	parc4ctx->x = x;
+-	parc4ctx->y = y;
+-	state[y] = (u8)sx;
+-	state[x] = (u8)sy;
+-	return state[(sx + sy) & 0xff];
+-}
+-
+-static void arcfour_encrypt(struct arc4context *parc4ctx, u8 *dest, u8 *src, u32 len)
+-{
+-	u32	i;
+-
+-	for (i = 0; i < len; i++)
+-		dest[i] = src[i] ^ (unsigned char)arcfour_byte(parc4ctx);
+-}
+-
+ static int bcrc32initialized;
+ static u32 crc32_table[256];
+ 
+@@ -564,7 +506,7 @@ u32	rtw_tkip_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
+ 	u8   ttkey[16];
+ 	u8	crc[4];
+ 	u8   hw_hdr_offset = 0;
+-	struct arc4context mycontext;
++	struct arc4_ctx mycontext;
+ 	int			curfragnum, length;
+ 
+ 	u8	*pframe, *payload, *iv, *prwskey;
+@@ -614,15 +556,15 @@ u32	rtw_tkip_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
+ 						 pattrib->iv_len, pattrib->icv_len));
+ 					*((__le32 *)crc) = getcrc32(payload, length);/* modified by Amy*/
+ 
+-					arcfour_init(&mycontext, rc4key, 16);
+-					arcfour_encrypt(&mycontext, payload, payload, length);
+-					arcfour_encrypt(&mycontext, payload + length, crc, 4);
++					arc4_setkey(&mycontext, rc4key, 16);
++					arc4_crypt(&mycontext, payload, payload, length);
++					arc4_crypt(&mycontext, payload + length, crc, 4);
+ 				} else {
+ 					length = pxmitpriv->frag_len - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
+ 					*((__le32 *)crc) = getcrc32(payload, length);/* modified by Amy*/
+-					arcfour_init(&mycontext, rc4key, 16);
+-					arcfour_encrypt(&mycontext, payload, payload, length);
+-					arcfour_encrypt(&mycontext, payload + length, crc, 4);
++					arc4_setkey(&mycontext, rc4key, 16);
++					arc4_crypt(&mycontext, payload, payload, length);
++					arc4_crypt(&mycontext, payload + length, crc, 4);
+ 
+ 					pframe += pxmitpriv->frag_len;
+ 					pframe = (u8 *)round_up((size_t)(pframe), 4);
+@@ -644,7 +586,7 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, struct recv_frame *precvframe)
+ 	u8   rc4key[16];
+ 	u8   ttkey[16];
+ 	u8	crc[4];
+-	struct arc4context mycontext;
++	struct arc4_ctx mycontext;
+ 	int			length;
+ 	u8	*pframe, *payload, *iv, *prwskey;
+ 	union pn48 dot11txpn;
+@@ -685,8 +627,8 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, struct recv_frame *precvframe)
+ 
+ 			/* 4 decrypt payload include icv */
+ 
+-			arcfour_init(&mycontext, rc4key, 16);
+-			arcfour_encrypt(&mycontext, payload, payload, length);
++			arc4_setkey(&mycontext, rc4key, 16);
++			arc4_crypt(&mycontext, payload, payload, length);
+ 
+ 			*((__le32 *)crc) = getcrc32(payload, length - 4);
+ 
+-- 
+2.27.0
+
