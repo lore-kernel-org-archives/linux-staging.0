@@ -1,80 +1,154 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E0070
-	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 13:59:12 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id kk2-20020a17090b4a02b02900c777aa746fso4625158pjb.3
-        for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 06:59:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=rfTe7qVwJ3j0wr2RCsj+TUrasTd+AoVaaUkJcF+TL78=;
-        b=h5Ou9+OiaESvdUnOFknMWzm5BZvQjhhLDihQC+Fczy8srhBlFsRJZsXov9/5n+vfUK
-         SZN1d3T7LbiSBKZbnhqF3vhZyafvp3qJy0jlpz9/JcqkkPoE3dInG5uX+ippegOzaWyl
-         Cn3fqkxA/V9lcmPBqWAr4hsCP3Z/iXWDlWpZ1dEhnKagnLFLW5fQlVZBZL8jqlP1CK+A
-         vkiMUxCAXM5UeFq7MMtptKcccmJrXyzD/N9xOqc+S02GF8s0j0zviIaCmXpo01l0S/GG
-         uLhbMqJm1jKz9YFx3bvKbQZYAj94FXISxhEXZ5FTSn0rbBbCRVzAXSqCxXPe4kTFMGOv
-         aIGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=rfTe7qVwJ3j0wr2RCsj+TUrasTd+AoVaaUkJcF+TL78=;
-        b=bW+O5Hx1/cJucjMK0X0a5Qeepdh+KFXGCPsBgG+bY3I8Na1U05U03aDs85pbksgWB1
-         FJAsKuSVZLyXDBdQUxNIYzRhZZF3zXSJpTs8czwuhNKWbmRFJ1R22U0Gz0K3X5jXnJqu
-         hipTQQeoAUM6po6h5LCUpZM8270uNde/QtivNc3V3HmpIMT0+VJQb336X+Hb6zlwhDru
-         TmkK+6DzeECBDb0Xu+ovIGvVzjzaz/t+WCSHz4cU7f+8NND/ye2OiXZqnAj2tmVlGVAl
-         D3w8PvzEtDrlF4paDs4MJiazPhdPDKXlaogYTTOMftEi0oKJA0D0wqYCNn+dpbROESUP
-         RDyg==
-X-Gm-Message-State: AOAM533CGBqryixDEgvmBIdqr0xQe1ryC1qJnyXtRbmSDZrEZfXl1fyx
-	K1jdnoleRfn17dmi6lQFUbs=
-X-Google-Smtp-Source: ABdhPJxeehylySE2bL479tNyW69Q0UAX9z+Ki1FawSLvDa4Wh/+z6Nskm8LDqPK2pytH+5VNfgzzAA==
-X-Received: by 2002:a17:90a:7348:: with SMTP id j8mr8072477pjs.155.1618063152360;
-        Sat, 10 Apr 2021 06:59:12 -0700 (PDT)
-Received: from kali ([106.195.15.71])
-        by smtp.gmail.com with ESMTPSA id q66sm5519824pja.27.2021.04.10.06.59.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Apr 2021 06:59:11 -0700 (PDT)
-Date: Sat, 10 Apr 2021 19:29:03 +0530
-From: Mitali Borkar <mitaliborkar810@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: [PATCH v3] staging: rtl8192e: fixed pointer error by adding '*'
-Message-ID: <YHGvJxMhQ8nzHf6I@kali>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C68570
+	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 14:01:53 +0000 (UTC)
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3Ar6mAq67lpGrAOLVITwPXwCnXdLJzesId70hD?=
+ =?us-ascii?q?6mlaTxtJfsuE0/2/hfhz726RtB89UGwt8OrqBICuWnXZnKQe3aAwOvOYUBDiqC?=
+ =?us-ascii?q?+UKuhZjLfK5x3FN2nA+vVG1aFmGpIObeHYKVRhl8717E2ZPr8boOWvy6yjiefA?=
+ =?us-ascii?q?w3oFd2gDV4ha4wh0EQqdGEFtLTM2ZqYRLoaW5cZMulObF0g/U8LTPBU4dtTYq8?=
+ =?us-ascii?q?aOvJzrZgNuPW9E1CC+yQLt0rL8HhSCty1ybxpEy94ZnlT4rw=3D=3D?=
+X-IronPort-AV: E=Sophos;i="5.82,212,1613430000"; 
+   d="scan'208";a="378288243"
+Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Apr 2021 16:01:51 +0200
+Date: Sat, 10 Apr 2021 16:01:51 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+cc: Julia Lawall <julia.lawall@inria.fr>, Greg KH <gregkh@linuxfoundation.org>, 
+    outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev, 
+    linux-kernel@vger.kernel.org
+Subject: Re: [Outreachy kernel] [PATCH 4/4] staging: rtl8723bs: Change the
+ type and use of a variable
+In-Reply-To: <3114102.qbl0ZuBMXl@localhost.localdomain>
+Message-ID: <alpine.DEB.2.22.394.2104101601100.2975@hadrien>
+References: <20210410092232.15155-1-fmdefrancesco@gmail.com> <2186059.xkuF2sVEJi@localhost.localdomain> <alpine.DEB.2.22.394.2104101524260.2975@hadrien> <3114102.qbl0ZuBMXl@localhost.localdomain>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-Fixed pointer error by adding '*' to the function.
-Reported by Julia.
 
-Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
----
-Changes from v2:- modified patch body but writing commit message
-clearly.
-Changes from v1:- added pointer to the function.
 
- drivers/staging/rtl8192e/rtl819x_TSProc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Sat, 10 Apr 2021, Fabio M. De Francesco wrote:
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_TSProc.c b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-index 4457c1acfbf6..78b5b4eaec5f 100644
---- a/drivers/staging/rtl8192e/rtl819x_TSProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-@@ -327,7 +327,7 @@ bool GetTs(struct rtllib_device *ieee, struct ts_common_info **ppTS,
- 	}
- 
- 	*ppTS = SearchAdmitTRStream(ieee, Addr, UP, TxRxSelect);
--	if (ppTS)
-+	if (*ppTS)
- 		return true;
- 
- 	if (!bAddNewTs) {
--- 
-2.30.2
+> On Saturday, April 10, 2021 3:24:43 PM CEST Julia Lawall wrote:
+> > On Sat, 10 Apr 2021, Fabio M. De Francesco wrote:
+> > > On Saturday, April 10, 2021 2:12:28 PM CEST Julia Lawall wrote:
+> > > > On Sat, 10 Apr 2021, Fabio M. De Francesco wrote:
+> > > > > On Saturday, April 10, 2021 1:37:30 PM CEST Julia Lawall wrote:
+> > > > > > > That variable has global scope and is assigned at least in:
+> > > > > > What do you mean by global scope?  None of the following look
+> > > > > > like
+> > > > > > references to global variables.
+> > > > > >
+> > > > > > julia
+> > > > >
+> > > > > I just mean that fw_current_in_ps_mode is a field of a struct in a
+> > > > > .h
+> > > > > file included everywhere in this driver and that the functions whom
+> > > > > the following assignments belong to have not the "static" type
+> > > > > modifier.
+> > > >
+> > > > OK, but a field in a structure is not a variable, and this is not
+> > > > what
+> > > > scope means.
+> > >
+> > > You're right, a field in a structure is not a variable.
+> > >
+> > > > int x;
+> > > >
+> > > > outside of anything is a global variable (global scope).
+> > > >
+> > > > int foo() {
+> > > >
+> > > >   int x;
+> > > >   ...
+> > > >
+> > > > }
+> > > >
+> > > > Here x is a local variable.  Its scope is the body of the function.
+> > > >
+> > > > int foo() {
+> > > >
+> > > >   if (abc) {
+> > > >
+> > > >     int x;
+> > > >     ...
+> > > >
+> > > >   }
+> > > >
+> > > > }
+> > > >
+> > > > Here x is a local variable, but its scope is only in the if branch.
+> > >
+> > > And you're right again: I needed a little refresh of my knowledge of C.
+> > >
+> > > I've searched again in the code for the purpose of finding out if that
+> > > struct is initialized with global scope but I didn't find anything. I
+> > > didn't even find any dynamic allocation within functions that returns
+> > > pointers to that struct.
+> > >
+> > > Therefore, according to Greg's request, I'll delete that stupid 'if'
+> > > statement in the patch series v2 that I'm about to submit.
+> >
+> > I'm really not clear on why the if should be deleted.
+> >
+> > julia
+> >
+> I'm supposed to delete it because of the review made by Greg. In a couple
+> of previous messages he wrote:
+>
+> "If this is only checked, how can it ever be true?  Who ever sets this
+> value?"
+>
+> and then:
+>
+> "Just delete the variable from the structure entirely and when it is
+> used.".
+>
+> However, like you, I'm not sure yet.
 
+Be sure.  Greg already said that he misinterpreted the patch, because he
+thought that the name also changed.
+
+julia
+
+
+>
+> Thanks,
+>
+> Fabio
+> >
+> > > I've really appreciated your help.
+> > >
+> > > Thanks,
+> > >
+> > > Fabio
+> > >
+> > > > julia
+> > > >
+> > > > > Thanks,
+> > > > >
+> > > > > Fabio
+> > > > >
+> > > > > > > drivers/staging/rtl8723bs/core/rtw_pwrctrl.c:368:
+> > > > > > > pwrpriv->fw_current_in_ps_mode = false;
+> > > > > > >
+> > > > > > > drivers/staging/rtl8723bs/core/rtw_pwrctrl.c:380:
+> > > > > > > pwrpriv->fw_current_in_ps_mode = true;
+> > > > > > >
+> > > > > > > drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:433:
+> > > > > > > adapter_to_pwrctl(padapter)->fw_current_in_ps_mode = false;
+> > > > > > >
+> > > > > > > drivers/staging/rtl8723bs/core/rtw_pwrctrl.c:981:
+> > > > > > > pwrctrlpriv->fw_current_in_ps_mode = false;
+>
+>
+>
+>
+>
