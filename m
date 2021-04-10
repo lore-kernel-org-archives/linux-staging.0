@@ -1,48 +1,48 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F4C71
-	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 01:35:01 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id s11so5378882pfm.1
-        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 18:35:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF12A71
+	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 01:35:13 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id y2so3582386plg.5
+        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 18:35:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=3hsu6obEc/gfKsB+04dEn5JLfQh37pqmbH2QRBkH7pE=;
-        b=uzHNVTRa8y9qXDXs6YrK/TlfUyTgeumLt/HyAnINR2vKD45S1+/Q64H7ovHiDwXUSj
-         IBlGNFXM/TtyPWpCz3PkPcCbZDkqovOTXvPtgIK3SgVSznywpAkij3uakgC5gbqmIt8K
-         mzavK4+kYSo/BuH3/Vn+GNv4oR8oellWqiBI5gLuH4g9Y2/mevfc43tCdMYkWnRZRAij
-         JAMSzWCF2p8JVMhw+ffpAnhOcVCG7fRRRK4J4/w60iMMJSvTw+XBgBG5SSDRpKdon1KC
-         Bc66uStZCBN4/883xs6eQfAoY4vP7Sx4+nYRJJUv9rOgErvBtPAvavrOt4kdV+Xx8gO/
-         Z4qA==
+        bh=AmH+UMyc1cUAc4hzdn/oSiz/QnBV7R1v32Iys4DOp0s=;
+        b=M8B463kyH+a1W5utxKfyOtivuPkCqs7onqXldRTgrHV18AjrJ2/Uyfu6dgIxjuyvul
+         SnyfibvyXDqFSEcHjxvHdirLL7j91yqJ1yb1QIRaXmkzODWdpgbuV+4A6pxuABqIQ4KV
+         8zBEbNGx89je4ikUkD6ot1pmV6y4SVL6LZxvw18cZEwn6/iKWbKtS57Aq3nEmVXqMVAy
+         l8kRS8ytZG63jSXQJcWdAT5EeseNwwIEvtx8YKq/y7A/BhbKiVNkr4SMTe4KqY+GAJVW
+         3Eu+IHozQueMbFfIt+koiJZBc8C8j333DaiTKiuIpXkkd8PmECvH3+n72ZDIor3K6oG1
+         FoEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
          :content-disposition;
-        bh=3hsu6obEc/gfKsB+04dEn5JLfQh37pqmbH2QRBkH7pE=;
-        b=WD/49yM5iG6ehoie1XsEq56mSr5HRNQdF6t7zmC8Ns6RdgwnnDkdgWmEaPSh3AHCJ5
-         Lxr6aDpGDac/z3kPE7Lngrd8t0+RzAMM6/SqNnhofaLzxk95ZjUi08weDrRWSqQpM1ES
-         FpNjpiaGqsl5+sLX3mVTyJeHaVA222ZzfVp5F+MlC9hSxWfnKWlWrNtUgyAVG6qR0gha
-         KVi5A7DFiHIp508rZKi4iE4EP1JGGdmTWo5J/fb66t/TzC8KC2R5Enkm6CcUOfLfCN04
-         exAL9Mu/DxTlmfCme6j3Uuq/cu49D2uod6w174ma42BCnFXALsjygmbYvuKXE5b7j45R
-         8/NQ==
-X-Gm-Message-State: AOAM530RPtC+rZP/1tKlIFK0LxA0tRHeJoC9N8wIpGfj/Q72WzGqezHu
-	qqG8jcabV7mUOfwuJr9nqUI=
-X-Google-Smtp-Source: ABdhPJyj4/qF4fvSdU6LkAGZ1yxGc1JrmRT7Vlr0H1RlVsAygupZQHyU7b+PRONvspXi1J2MrlDWIQ==
-X-Received: by 2002:a62:7907:0:b029:23e:9010:3844 with SMTP id u7-20020a6279070000b029023e90103844mr14743834pfc.58.1618018501204;
-        Fri, 09 Apr 2021 18:35:01 -0700 (PDT)
+        bh=AmH+UMyc1cUAc4hzdn/oSiz/QnBV7R1v32Iys4DOp0s=;
+        b=kZ2+DoO89mqPXOzuRhgPo7fwQWdBCR/u4TB8+SGB59rVowyzFYPtYRpupoNHeIWZLU
+         81Eoo7jF6g2balBJsCelBHjV5hCVwYNiIJa2q21M2nfgDuIGIApXC4B1nu2911U/M9CO
+         HIg23JT+Xh1exLeQPiKE0rkm822Fh1+3lO97b565CVEiiEG+eNKKHYGlcQ99PZ5Wn5r7
+         x4hFFmB0doIEKrM2T6BBdL/NC19hjgye+Oe1Y0cRn0GMYYcGkBgtkeDrqNuwRkQ0ISBQ
+         sYxmNea6L9HgVTSm/qfWO0wPKdKPQC29ntugATeTwx5TqLZmG+RTgzgWR3+xPEdIHuEw
+         4zBQ==
+X-Gm-Message-State: AOAM5313dImhchvNnKA55MLodEBt1ozgm/4afz8AdSr2NqpV0AdvrQT5
+	4dGk+5qcm7cxl9rDKgEb618=
+X-Google-Smtp-Source: ABdhPJwTde34qNXCq6fW6I4cIgzIH+xEe09llhnZzIrZkL+1Aj9CKxWjrRLmhzBpG35A1QHuc3ZFOw==
+X-Received: by 2002:a17:90a:20c:: with SMTP id c12mr16288412pjc.224.1618018513395;
+        Fri, 09 Apr 2021 18:35:13 -0700 (PDT)
 Received: from kali ([103.141.87.254])
-        by smtp.gmail.com with ESMTPSA id 22sm937483pfj.101.2021.04.09.18.34.58
+        by smtp.gmail.com with ESMTPSA id j188sm3352388pfd.64.2021.04.09.18.35.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 18:35:00 -0700 (PDT)
-Date: Sat, 10 Apr 2021 07:04:55 +0530
+        Fri, 09 Apr 2021 18:35:13 -0700 (PDT)
+Date: Sat, 10 Apr 2021 07:05:07 +0530
 From: Mitali Borkar <mitaliborkar810@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: [PATCH 2/6] staging: rtl8192e: remove unnecessary blank line before
+Subject: [PATCH 3/6] staging: rtl8192e: remove unncessary blank line after
  brace
-Message-ID: <YHEAv+Bnl3NVUi/s@kali>
+Message-ID: <YHEAy+SVBJQk0HDB@kali>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -51,55 +51,35 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Removed an extra blank line before close brace as it was not necessary.
-Reported by checkpatch.
+Removed an exra blank line after close brace '{' as it was not
+necessary.
+Reported by checkpatch
 
 Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
 ---
  drivers/staging/rtl8192e/rtl819x_HTProc.c | 2 --
- drivers/staging/rtl8192e/rtl819x_TSProc.c | 2 --
- 2 files changed, 4 deletions(-)
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 7ed2ed9e63f6..e188e9e6b11e 100644
+index e188e9e6b11e..0ded86da1562 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
 +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -263,7 +263,6 @@ static void HTIOTActDetermineRaFunc(struct rtllib_device *ieee, bool bPeerRx2ss)
- 
- 	if (pHTInfo->IOTAction & HT_IOT_ACT_AMSDU_ENABLE)
- 		pHTInfo->IOTRaFunc |= HT_IOT_RAFUNC_TX_AMSDU;
+@@ -492,7 +492,6 @@ u8 HTGetHighestMCSRate(struct rtllib_device *ieee, u8 *pMCSRateSet,
+ static u8 HTFilterMCSRate(struct rtllib_device *ieee, u8 *pSupportMCS,
+ 			  u8 *pOperateMCS)
+ {
 -
- }
+ 	u8 i;
  
- void HTResetIOTSetting(struct rt_hi_throughput *pHTInfo)
-@@ -445,7 +444,6 @@ static u8 HT_PickMCSRate(struct rtllib_device *ieee, u8 *pOperateMCS)
- 		break;
- 	default:
- 		break;
--
- 	}
+ 	for (i = 0; i <= 15; i++)
+@@ -686,7 +685,6 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
  
- 	return true;
-diff --git a/drivers/staging/rtl8192e/rtl819x_TSProc.c b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-index afcdb4b6a18e..1b994a57633f 100644
---- a/drivers/staging/rtl8192e/rtl819x_TSProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_TSProc.c
-@@ -193,7 +193,6 @@ void TSInitialize(struct rtllib_device *ieee)
- 			break;
- 		pRxReorderEntry = &ieee->RxReorderEntry[count + 1];
- 	}
+ void HTInitializeBssDesc(struct bss_ht *pBssHT)
+ {
 -
- }
- 
- static void AdmitTS(struct rtllib_device *ieee,
-@@ -254,7 +253,6 @@ static struct ts_common_info *SearchAdmitTRStream(struct rtllib_device *ieee,
- 			    pRet->TSpec.f.TSInfo.field.ucTSID == TID &&
- 			    pRet->TSpec.f.TSInfo.field.ucDirection == dir)
- 				break;
--
- 		}
- 		if (&pRet->List  != psearch_list)
- 			break;
+ 	pBssHT->bd_support_ht = false;
+ 	memset(pBssHT->bd_ht_cap_buf, 0, sizeof(pBssHT->bd_ht_cap_buf));
+ 	pBssHT->bd_ht_cap_len = 0;
 -- 
 2.30.2
 
