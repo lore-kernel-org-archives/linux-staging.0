@@ -1,50 +1,50 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3704C71
-	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 09:22:58 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id l4so12271244ejc.10
-        for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 02:22:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B0C71
+	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 09:23:00 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id e7so9226749edu.10
+        for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 02:23:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ZSnOFIesKBCVdD0WKupHufVEiQpga/uUTH6Sx1Oc/oc=;
-        b=X5RFo/3GVWmXIAANlMsEGxClbqtDEvC6CCQpZgHR/1hHEnFzQYYYOJlDyMr2YMS3mL
-         2MyA4DVWfY19rAuM76nUaCBmr7H6WL9+FrRR+u/caHi2yZ8rmg4Qe9H5fnSRGNTvlKMX
-         pzt0fiJNNBdQaeYDMnIDArz5w6eGZN6WwOmAZL023xpxVOYew+fNv2IRj5xANvz3lz6F
-         RYEHb3bGpP7ZhG8OeDB2UMNjh3p6yyuoOFHX4qS5A8A6078ZvKJTNvUH9vyY+H07Osi3
-         tQ5BLQ+jBt/FmkpkqmuitZt/Agp+n9i1AD2RnGPUx4LB6akfDbYgSVuIwRSXjVX93sMf
-         loRA==
+        bh=6C1kuLI/6U1TSBMUqk9JLF9SDGzIgrVMBUMNpn8I56w=;
+        b=kHFajjcjeY0LaYCjifNIp+F+rpF48yL0JPVutu8rI57pss6iPMuHp1GmPfMX2wnDM2
+         4FSYE0Zi6UDF4+YpSmKeVYy6ut0NUT49icEe0+AA/cpLSq5T7CRZmeH4TE+8MLmJ8eRL
+         1NR0GFo1f9DnAdKS6/H9ziMLKJV8HnP9seAgKpKWWDfUoH0k1PQm4AVLL+wJ4VqfA0OD
+         QvhSaWV+yjjCzeyeszgU2iQtujAR6Kj5bRcqSVZCcbp2zZKfQZBnVb19Ikx3s/9Ws0j/
+         kU/2cu0hW4L9nFDHj31wJFi+JcCuYNWIoqd3rw91KhozGXySfnF+awjvg1dK5R0oNKU4
+         0UWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ZSnOFIesKBCVdD0WKupHufVEiQpga/uUTH6Sx1Oc/oc=;
-        b=N7Zs4jiMll4XHNt5WqizCei5ZRx1PiiWfnSITjq04xF12MHtPp9bmIa6xjUSfmJkzG
-         KxbUiuTTrjjVP39ygnBciPyJ2ROw3q9SSrWnQoN3XYJ4WgQsZUfNjbPKB/e6g2gR413j
-         6oT5ZY+X39N2BOBtjJlcUri+fNtCRQKFh+1N0A5X0Ch64I3znMTXdT9rxwPb/kz9HgyP
-         Er2MQEv2MY6BxiDUExZVLLgRw0WxNXV6bFNf1mEOHyDojsmxvosdiyGKiFzHN3pMulQp
-         WNeW03dpDQMLlnk9MBeAM3TXncqOKV5/V4ZHKZlL4IiWfvCw/N5ep1SPcpumEN6M1e6o
-         XEqA==
-X-Gm-Message-State: AOAM531UCsoKCu7Jr9IpspPz5zF6bUox86y9vf3hqQeX1ztV0HmmPRL4
-	+FFT5gY7zzMhTXW91pmwK7o=
-X-Google-Smtp-Source: ABdhPJxIMqYxr5oClj3WIN/kzVKrPcI1JKNkqCdpWK0mhvNgtmYXuwTYAcOdQNZ7zrnvfX5gOWlwiA==
-X-Received: by 2002:a17:907:d09:: with SMTP id gn9mr18916239ejc.538.1618046576868;
-        Sat, 10 Apr 2021 02:22:56 -0700 (PDT)
+        bh=6C1kuLI/6U1TSBMUqk9JLF9SDGzIgrVMBUMNpn8I56w=;
+        b=Mmh5nvQbEqVRzxn06vYgsjoeGKK3imyh0JsNgKqWwyCV/h4M3sdlt8J+SQnx7lkeyP
+         eobEtl6AOsWv4dJCPMvPtBtFxwuM9FFxTWn5XIEtHRhbDLru3nVbSBPVIZ3NTORArXKL
+         ADC/lF1729C2f3GdvRKtgFwOBWtSnalsROJkp30fdyzhRUJKl9ABFZE0d94r5CdvbueF
+         T9pdkz6rwKIYQbZ6KZJ/mYdixQTYEiKQsKhv328LCxzrr1BcVBQ9AxHSCAdtjE5XXvSJ
+         3U6G2un1PQ/CxCC4q6+FndXHS/m4vwKvFA1RjWSq6vRw1wIp/VAkPeo7WDBcO69WoI6J
+         Zppw==
+X-Gm-Message-State: AOAM530bxJQdL2tWYlLgLdOM+Ljgf1LcDzTaW3WiSgclkLDnuRFRpEKF
+	gU2KyfdZd8sIialYZDhpGw7Ipf/EPPzl6QjQ
+X-Google-Smtp-Source: ABdhPJyFFwmjVHqbl6Ldl5E961acmImtDpzrBNYIi9NV8+qYIO0bB3G66dsmwsAIjvgRehs6lsQ00Q==
+X-Received: by 2002:a05:6402:2209:: with SMTP id cq9mr5651190edb.216.1618046579364;
+        Sat, 10 Apr 2021 02:22:59 -0700 (PDT)
 Received: from localhost.localdomain (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
-        by smtp.gmail.com with ESMTPSA id a22sm2801624edu.14.2021.04.10.02.22.55
+        by smtp.gmail.com with ESMTPSA id a22sm2801624edu.14.2021.04.10.02.22.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Apr 2021 02:22:56 -0700 (PDT)
+        Sat, 10 Apr 2021 02:22:58 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 To: Greg KH <gregkh@linuxfoundation.org>,
 	outreachy-kernel@googlegroups.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [Outreachy kernel] [PATCH 3/4] staging: rtl8723bs: core: Remove an unused variable
-Date: Sat, 10 Apr 2021 11:22:31 +0200
-Message-Id: <20210410092232.15155-4-fmdefrancesco@gmail.com>
+Subject: [Outreachy kernel] [PATCH 4/4] staging: rtl8723bs: Change the type and use of a variable
+Date: Sat, 10 Apr 2021 11:22:32 +0200
+Message-Id: <20210410092232.15155-5-fmdefrancesco@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210410092232.15155-1-fmdefrancesco@gmail.com>
 References: <20210410092232.15155-1-fmdefrancesco@gmail.com>
@@ -55,36 +55,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Delete local variable "u8 sec_idx" because it is declared and
-initialised, but never used.
+Change the type of fw_current_in_ps_mode from u8 to bool, because
+it is used everywhere as a bool and, accordingly, it should be
+declared as a bool. Shorten the controlling
+expression of an 'if' statement.
 
 Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/staging/rtl8723bs/hal/hal_intf.c        | 2 +-
+ drivers/staging/rtl8723bs/include/rtw_pwrctrl.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-index 2af66a18200d..3fd8a4261ea2 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-@@ -628,7 +628,7 @@ int rtw_get_wapi_ie(u8 *in_ie, uint in_len, u8 *wapi_ie, u16 *wapi_len)
+diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
+index 96fe172ced8d..8dc4dd8c6d4c 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_intf.c
++++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
+@@ -348,7 +348,7 @@ void rtw_hal_dm_watchdog(struct adapter *padapter)
  
- void rtw_get_sec_ie(u8 *in_ie, uint in_len, u8 *rsn_ie, u16 *rsn_len, u8 *wpa_ie, u16 *wpa_len)
+ void rtw_hal_dm_watchdog_in_lps(struct adapter *padapter)
  {
--	u8 authmode, sec_idx;
-+	u8 authmode;
- 	u8 wpa_oui[4] = {0x0, 0x50, 0xf2, 0x01};
- 	uint	cnt;
- 
-@@ -636,8 +636,6 @@ void rtw_get_sec_ie(u8 *in_ie, uint in_len, u8 *rsn_ie, u16 *rsn_len, u8 *wpa_ie
- 
- 	cnt = (_TIMESTAMP_ + _BEACON_ITERVAL_ + _CAPABILITY_);
- 
--	sec_idx = 0;
--
- 	while (cnt < in_len) {
- 		authmode = in_ie[cnt];
- 
+-	if (adapter_to_pwrctl(padapter)->fw_current_in_ps_mode == true) {
++	if (adapter_to_pwrctl(padapter)->fw_current_in_ps_mode) {
+ 		if (padapter->HalFunc.hal_dm_watchdog_in_lps)
+ 			padapter->HalFunc.hal_dm_watchdog_in_lps(padapter); /* this function caller is in interrupt context */
+ 	}
+diff --git a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
+index 0a48f1653be5..0767dbb84199 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
++++ b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
+@@ -203,7 +203,7 @@ struct pwrctrl_priv {
+ 	u8 LpsIdleCount;
+ 	u8 power_mgnt;
+ 	u8 org_power_mgnt;
+-	u8 fw_current_in_ps_mode;
++	bool fw_current_in_ps_mode;
+ 	unsigned long	DelayLPSLastTimeStamp;
+ 	s32		pnp_current_pwr_state;
+ 	u8 pnp_bstop_trx;
 -- 
 2.31.1
 
