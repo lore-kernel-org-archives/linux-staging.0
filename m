@@ -1,105 +1,65 @@
-Received: from smtprelay.hostedemail.com (smtprelay0033.hostedemail.com [216.40.44.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9D371
-	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 02:07:18 +0000 (UTC)
-Received: from omf17.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-	by smtprelay04.hostedemail.com (Postfix) with ESMTP id A36711812FAA6;
-	Sat, 10 Apr 2021 02:07:11 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf17.hostedemail.com (Postfix) with ESMTPA id 91FCC27DD18;
-	Sat, 10 Apr 2021 02:07:10 +0000 (UTC)
-Message-ID: <f5fe04d62b22eb5e09c299e769d9b9d8917f119c.camel@perches.com>
-Subject: Re: [PATCH 4/6] staging: rtl8192e: matched alignment with open
- parenthesis
-From: Joe Perches <joe@perches.com>
-To: Mitali Borkar <mitaliborkar810@gmail.com>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 825B171
+	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 02:12:41 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id nh5so3756728pjb.5
+        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 19:12:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=hbVf4wVfNxnKZxFZJSlPx/JJraXw3lheZgCYNdZrqqk=;
+        b=lOYTBpnhtHMJ+6GMN0ThIPlxCD/e4HCWnsMR4Dcd1BxZ0UNCjmAZu4EUCDAVPOfcI0
+         0QV8/GiuXZ+nGbLOxRUptkSwDmwb3iKzNuS15pDZtp8HKIJNGsGt5E3kibZtMDMtEu0P
+         5s713UzUcpIN7JYQnm+eOHdv6EzeACJBi7I1ET0YeKkfn1oP4wPOQBU/oLc8udgC8aSQ
+         u0d9LIv/jJeh57b897fxDpm22+CNFUMv02TuKYayNqqgY/7IrxYHFxKduijD5V7YAnOE
+         e47ImFrcn2JUfsld0N7m0B4CuT9FvX2J3qsw7D1IJrJA4RyTrlr2kTmZPfXByK41iRi3
+         GEmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=hbVf4wVfNxnKZxFZJSlPx/JJraXw3lheZgCYNdZrqqk=;
+        b=YQRIvJdVOEvwRvm9qP6oOXIhK+QFinWlpvrKQ4smyZa83I0uSh8RBtLeS5L7jWfbh3
+         PYBMPRrqyW80SWIEqs9arp1huoSZNMYudmcXNirY8klW7NFEZtqDl7x72DeauWNcw8Qy
+         FFCC2GS6cX4CM9Anem+AmT9qu0LvqTLJEZRb0dTdPxPFXI9R3dJc/RKcOhY5xqs+i8lZ
+         zwqEVh5TEkBEKLYQBpI1Pd5vAYyAH17El7Z+YNqs2e3pwUtFNxjtEWCRJZWGhG3ICDks
+         eZFJSGgdxMJesxTubuZjz2xb+MIpM+0IBIa7fwRMw68WtIbRcpaSIYGKVsHFfBH/Nnln
+         sALQ==
+X-Gm-Message-State: AOAM532GMqIzs5iPXtD+SefHs4oAGwLIAi+4iccRntoaZMIdS+YJKZiY
+	JrJQLSyjt2Qr6pFU4+1qwgU=
+X-Google-Smtp-Source: ABdhPJwJB6ivjOBcNbWw7+jzcWHtaUcg6VB2TwA5G+81NUFgSFyq4cP5dU6bxiBGchpYzVGKjfW+tA==
+X-Received: by 2002:a17:90a:a616:: with SMTP id c22mr16336354pjq.94.1618020761057;
+        Fri, 09 Apr 2021 19:12:41 -0700 (PDT)
+Received: from kali ([103.141.87.254])
+        by smtp.gmail.com with ESMTPSA id x13sm3523524pgf.13.2021.04.09.19.12.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Apr 2021 19:12:40 -0700 (PDT)
+Date: Sat, 10 Apr 2021 07:42:34 +0530
+From: Mitali Borkar <mitaliborkar810@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Date: Fri, 09 Apr 2021 19:07:09 -0700
-In-Reply-To: <YHEA2Te3Hik5J39t@kali>
-References: <YHEA2Te3Hik5J39t@kali>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+Subject: [PATCH 0/3] staging: rtl8192e: cleanup patchset for style issues
+Message-ID: <YHEJkknTdEwID9X+@kali>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 91FCC27DD18
-X-Spam-Status: No, score=0.10
-X-Stat-Signature: mkpzxbsbmfazgbhd1k69skk37sdefyeh
-X-Rspamd-Server: rspamout04
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX187jCxClcn3J4yFzx2u4t0xldxYR15e8j0=
-X-HE-Tag: 1618020430-317341
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, 2021-04-10 at 07:05 +0530, Mitali Borkar wrote:
-> Matched the alignment with open parenthesis to meet linux kernel coding
-> style.
-> Reported by checkpatch.
-[]
-> diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-[]
-> @@ -154,7 +154,7 @@ bool IsHTHalfNmodeAPs(struct rtllib_device *ieee)
->  	    (net->ralink_cap_exist))
->  		retValue = true;
->  	else if (!memcmp(net->bssid, UNKNOWN_BORADCOM, 3) ||
-> -		!memcmp(net->bssid, LINKSYSWRT330_LINKSYSWRT300_BROADCOM, 3) ||
-> +		 !memcmp(net->bssid, LINKSYSWRT330_LINKSYSWRT300_BROADCOM, 3) ||
->  		!memcmp(net->bssid, LINKSYSWRT350_LINKSYSWRT150_BROADCOM, 3) ||
->  		(net->broadcom_cap_exist))
+These patches fix the cleanup style issues identified by checkpatch
 
-checkpatch is a stupid script.
-Look further at the code not just at what checkpatch reports.
-Align all the contination lines, not just the first one.
+Mitali Borkar (3):
+  staging: rtl8192e: replace comparison to NULL by boolean expression
+  staging: rtl8192e: remove unnecessary ftrace-like logging
+  staging: rtl8192e: remove unncessary parentheses
 
-It might be sensible to add a generic function like
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 26 ++++++++++-------------
+ 1 file changed, 11 insertions(+), 15 deletions(-)
 
-static inline bool ether_oui_equal(const u8 *addr, const u8 *oui)
-{
-	return addr[0] == oui[0] && addr[1] == oui[1] && addr[2] == oui[2];
-}	
-
-to include/linux/etherdevice.h
-
-(Maybe use & instead of && if it's speed sensitive)
-
-so this would read
-
-	else if (ether_oui_equal(net->bssid, UNKNOWN_BORADCOM) ||
-		 ether_oui_equal(net->bssid, LINKSYSWRT330_LINKSYSWRT300_BROADCOM) ||
-		 ether_oui_equal(net->bssid, LINKSYSWRT350_LINKSYSWRT150_BROADCOM) ||
-		 net->broacom_cap_exist)
-
-and it'd also be good to correct the typo of UNKNOWN_BORADCOM globally.
-
-> @@ -654,13 +654,13 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
->  	pHTInfo->CurrentAMPDUFactor = pHTInfo->AMPDU_Factor;
->  
-> 
->  	memset((void *)(&(pHTInfo->SelfHTCap)), 0,
-> -		sizeof(pHTInfo->SelfHTCap));
-> +	       sizeof(pHTInfo->SelfHTCap));
-
-Doesn't need casts or parentheses.
-
-	memset(&pHTInfo->SelfHTCap, 0, sizeof(pHTInfo->SelfHCap));
-
->  	memset((void *)(&(pHTInfo->SelfHTInfo)), 0,
-> -		sizeof(pHTInfo->SelfHTInfo));
-> +	       sizeof(pHTInfo->SelfHTInfo));
-
-etc...
-
-> @@ -815,7 +815,7 @@ void HTUseDefaultSetting(struct rtllib_device *ieee)
->  		HTFilterMCSRate(ieee, ieee->Regdot11TxHTOperationalRateSet,
->  				ieee->dot11HTOperationalRateSet);
->  		ieee->HTHighestOperaRate = HTGetHighestMCSRate(ieee,
-> -					   ieee->dot11HTOperationalRateSet,
-> +							       ieee->dot11HTOperationalRateSet,
->  					   MCS_FILTER_ALL);
-
-multi line statement alignment etc...
-
+-- 
+2.30.2
 
