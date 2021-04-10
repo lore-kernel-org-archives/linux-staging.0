@@ -1,49 +1,51 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2ECC70
-	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 14:20:41 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id w23so9782059edx.7
-        for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 07:20:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79CAE6D00
+	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 14:20:45 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id w3so13049537ejc.4
+        for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 07:20:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VnVAs9S/fAMLk5Dt98uPXMFZSkDV368cEFeZ4fHEM3U=;
-        b=mfLlFm5nlRvh5A7RB4B/XPr5PEQ1v6SLW2lXm6UvMdBgPtXEMdCysF85acOGNlO7PC
-         gEGt/MhbBlmQD7jDsbeLP4uRVi84eHThpMmGbRAHIA9lJsTaBBlyYoJOgmLOp+wrznWF
-         Qql2NEtI97AEnwk0cjowHBFQ0BEclzcn5s3kyExBVTbFRmX69BjvxJ9x7uQYsQJ52KOQ
-         AoXjTA96kTtnUV+0He22kP4HElq64xbxzMQmyXK3dk670oA95a3HjMl0MOv2TFszYCHx
-         TyOyeQFNLLeXy5O/tVFJXqNLcxXt5Cgi0xftBWOsC7Phxi0Txi2ewR/e1jcFAHhii2kd
-         1jEA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=pjbBfPVyaC4MGJ/Ud9uRphtmMDMv46G9Fk5sFPVHPHI=;
+        b=opr+D6d/nYyG03/ygvPC7AserHaEzyHrcw03lLX/UVf6+z85OctQ3f8IoUY+QSTXhq
+         nVk/eKoAv2i6JCcIPn+yW6A5KuUfTo5HzID5VvT+CPgFx/KExJkIGvs6NkxNfThMGmiW
+         Zzdi4LOtyxl4jFCGTPzr+0HJR2ypjOeE8QD+lV2lCCeAT3eo5aEIkt4t/gPQkx9TttOb
+         lkL7ZtXUsBIT0Sak5xjxm8ZDBVHTqJAd8aS5g9VAY0ej/VDURm7E1na5KrWAbsYueCVK
+         4HkMm0EEtXNPoOz/FHTXMDBHVhnDeINbIE5PS/dYBx1M8Kjor8L47q0QDyRyw6N5P+y3
+         VZ9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VnVAs9S/fAMLk5Dt98uPXMFZSkDV368cEFeZ4fHEM3U=;
-        b=JJsdKSOuFT/FopZf+S/Z50VMzRhRTaWqRmF36TBpDaOUGNVoyHyADrAYIytbfhwyxg
-         3sJ56wg02kpub45U377jcyW6akX1Zfmw09nnVup52+cZnh9EL+wThinPa1P2NiALP67p
-         y26PsjXbKgQKUykuUr+a7JmwsUOiVzAnY8HsOqXXylnXwoWDmQV7j8aQULh2GttK2m5Q
-         EjLCpKAB9UTzsNbygOWagl6OjpTmVwMBpPitUsf3Sb6nSb7ef946JQKsbXzEQ9KQ4WIp
-         VdZbTql1Vd1hybk9bAcQfj9deyCqf1fdkMinZTk5849MBMPuN+cI++1UxEekvOtDhb0F
-         rEhw==
-X-Gm-Message-State: AOAM533oTJQaG1PAFtsA4DPFL97IG5wfeozjlVQnJ0eWHoU95rQSkDcC
-	A3DZwSFKy/KiVdIp1kF4No1svitUBC/LIA==
-X-Google-Smtp-Source: ABdhPJyV8eNOc9Rt2W+POJcV98aeRx5aZaIngmY8S9UnYdU98Lj6bEEVXJJXWiQwR3ptzyGE1vOAbQ==
-X-Received: by 2002:a05:6402:5205:: with SMTP id s5mr19022336edd.65.1618064440313;
-        Sat, 10 Apr 2021 07:20:40 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=pjbBfPVyaC4MGJ/Ud9uRphtmMDMv46G9Fk5sFPVHPHI=;
+        b=ZYykm/6tDE5jVnnY+DD2F/4Skt+77cHBGhDkdJWkwQxkWhLoWwINuHPW59UzytMKiX
+         c2ITY/ROYMZd84gXbOtEjBK+g+wBbw1gf1XUE+B5/JjGzyKe/vT+uScaGbvAsJyIDmCM
+         ILQRVIt0ZDIqoQXmTrxEVtkBSENFyoISMQxHIWJwKdwIEdsHInceFR7Fdn+5qKhB2sdv
+         oDcz5+sUEI9dB7C/FgQdgPcZFnLMLty0hFBcfDDNVfDHQyJTLKFRxaK9y/oTsULSeFM/
+         9FO1I67JJsl1bABESCP0/dTvwJq8ekM4S4deF8kzmyKMf4brlRNz8s2qMyACYXpp5w3b
+         v8ew==
+X-Gm-Message-State: AOAM531FEqzEqEh//1gYHkyVR4UTB49wCXXauBj8ZaL9D7Z/pViZMsK1
+	lnnbkWqGR9/toE3UxwXAkVw=
+X-Google-Smtp-Source: ABdhPJwwgi0w0zbrlEz/dJPiITbLrrX7zSAva+B6fUPj9kYhtiLc58o5QsWpRzScu6h0uucsk5yx0Q==
+X-Received: by 2002:a17:907:77d4:: with SMTP id kz20mr20443992ejc.93.1618064444020;
+        Sat, 10 Apr 2021 07:20:44 -0700 (PDT)
 Received: from agape ([5.171.81.28])
-        by smtp.gmail.com with ESMTPSA id b21sm2740100ejz.123.2021.04.10.07.20.39
+        by smtp.gmail.com with ESMTPSA id s17sm2712159ejx.10.2021.04.10.07.20.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Apr 2021 07:20:40 -0700 (PDT)
+        Sat, 10 Apr 2021 07:20:43 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 00/25] staging: rtl8723bs: remove DBG_8192C tracing macro
-Date: Sat, 10 Apr 2021 16:20:13 +0200
-Message-Id: <cover.1618064274.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 02/25] staging: rtl8723bs: remove all commented out DBG_8192C logs
+Date: Sat, 10 Apr 2021 16:20:15 +0200
+Message-Id: <d954fbde0ae689cd053a57f57f954f14b5d013cb.1618064274.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1618064274.git.fabioaiuto83@gmail.com>
+References: <cover.1618064274.git.fabioaiuto83@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -51,164 +53,348 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patchset remove from rtl8723bs driver the tracing macro
-DBG_8192C.
+remove all commented out DBG_8192C logs.
 
-This macro belongs to a verbose private tracing family,
-which by default is set to _do nothing_. The only way
-to activate the tracing is to manually define a symbol
-in code.
+Macro DBG_8192C belongs to a family of verbose
+private tracing macros.
 
-First patch applies the following semantic patch:
+The default behaviour is _do nothing_, to activate
+it one should define DEBUG symbol by hand.
 
-@@
-expression a, b, c, d, e, f, g, h, i, j, k;
-constant B, C, D, E;
-@@
+So just remove it
 
-(
--	DBG_8192C(a);
-|
--	DBG_8192C(a, b);
-|
--	DBG_8192C(a, B);
-|
--	DBG_8192C(a, b, c);
-|
--	DBG_8192C(a, B, c);
-|
--	DBG_8192C(a, b, C);
-|
--	DBG_8192C(a, B, C);
-|
--	DBG_8192C(a, b, c, d);
-|
--	DBG_8192C(a, B, c, d);
-|
--	DBG_8192C(a, b, C, d);
-|
--	DBG_8192C(a, b, c, D);
-|
--	DBG_8192C(a, B, C, d);
-|
--	DBG_8192C(a, B, c, D);
-|
--	DBG_8192C(a, b, C, D);
-|
--	DBG_8192C(a, B, C, D);
-|
--	DBG_8192C(a, b, c, d, e);
-|
--	DBG_8192C(a, B, c, d, e);
-|
--	DBG_8192C(a, b, C, d, e);
-|
--	DBG_8192C(a, b, c, D, e);
-|
--	DBG_8192C(a, b, c, d, E);
-|
--	DBG_8192C(a, B, C, d, e);
-|
--	DBG_8192C(a, B, c, D, e);
-|
--	DBG_8192C(a, B, c, d, E);
-|
--	DBG_8192C(a, b, C, D, e);
-|
--	DBG_8192C(a, b, C, d, E);
-|
--	DBG_8192C(a, b, c, D, E);
-|
--	DBG_8192C(a, B, C, D, e);
-|
--	DBG_8192C(a, B, C, d, E);
-|
--	DBG_8192C(a, B, c, D, E);
-|
--	DBG_8192C(a, b, C, D, E);
-|
--	DBG_8192C(a, B, C, D, E);
-|
--	DBG_8192C(a, b, c, d, e, f);
-|
--	DBG_8192C(a, b, c, d, e, f, g);
-|
--	DBG_8192C(a, b, c, d, e, f, g, h);
-|
--	DBG_8192C(a, b, c, d, e, f, g, h, i);
-|
--	DBG_8192C(a, b, c, d, e, f, g, h, i, j);
-|
--	DBG_8192C(a, b, c, d, e, f, g, h, i, j, k);
-)
+Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+---
+ .../staging/rtl8723bs/core/rtw_ieee80211.c    |  1 -
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    |  3 ---
+ drivers/staging/rtl8723bs/hal/odm.c           |  1 -
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  | 12 -----------
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 21 -------------------
+ .../staging/rtl8723bs/hal/rtl8723b_rxdesc.c   |  3 ---
+ .../staging/rtl8723bs/hal/rtl8723bs_recv.c    |  2 --
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  |  4 ----
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c |  5 -----
+ 9 files changed, 52 deletions(-)
 
-Second patch removes all commented out call of macro.
-
-Third patch removes macro definitions.
-
-All subsequent patches do some code cleaning in all places
-left empty by deleted macro, such as empty #ifdef blocks,
-conditional code blocks guarded by never defined symbols
-if-else blocks, for cycles, commented debug symbol definitions,
-unnecessary parentheses and some other checkpatch issues.
-
-Fabio Aiuto (25):
-  staging: rtl8723bs: remove all DBG_8192C logs
-  staging: rtl8723bs: remove all commented out DBG_8192C logs
-  staging: rtl8723bs: remove DBG_8192C macro definitions
-  staging: rtl8723bs: remove all if-blocks left empty by
-    DBG_8192C-remove coccinelle script
-  staging: rtl8723bs: put spaces around operators
-  staging: rtl8723bs: remove unused code blocks guarded by DEBUG_RTL871X
-  staging: rtl8723bs: remove commented out DEBUG_RTL871X definition
-  staging: rtl8723bs: remove code blocks guarded by DEBUG symbol
-  staging: rtl8723bs: remove empty code block guarded by DBG_CCX
-  staging: rtl8723bs: remove code block guarded by undefined
-    SDIO_DEBUG_IO
-  staging: rtl8723bs: remove commented out SDIO_DEBUG_IO symbol
-    definition
-  staging: rtl8723bs: remove empty ifdef blocks conditioned to
-    DEBUG_CFG80211 definition
-  staging: rtl8723bs: remove commented out DEBUG_CFG80211 symbol
-    definition
-  staging: rtl8723bs: remove unnecessary bracks
-  staging: rtl8723bs: fix comparison to null
-  staging: rtl8723bs: put spaces around operators
-  staging: rtl8723bs: split long line
-  staging: rtl8723bs: put constant on the right side of the test
-  staging: rtl8723bs: remove empty if and else blocks
-  staging: rtl8723bs: put constant on the right side of a test in
-    os_dep/ioctl_cfg80211.c
-  staging: rtl8723bs: remove unnecessary parentheses in
-    os_dep/ioctl_cfg80211.c
-  staging: rtl8723bs: remove empty else block in os_dep/ioctl_cfg80211.c
-  staging: rtl8723bs: fix comparison to true issue
-  staging: rtl8723bs: remove more unnecessary parentheses
-  staging: rtl8723bs: remove more empty if blocks after DBG_8192C
-    deletion
-
- drivers/staging/rtl8723bs/core/rtw_debug.c    |  35 ---
- .../staging/rtl8723bs/core/rtw_ieee80211.c    |   1 -
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  21 --
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  |   7 -
- .../staging/rtl8723bs/core/rtw_wlan_util.c    |   3 -
- drivers/staging/rtl8723bs/core/rtw_xmit.c     |   7 +-
- drivers/staging/rtl8723bs/hal/hal_com.c       |  10 +-
- drivers/staging/rtl8723bs/hal/odm.c           |   1 -
- drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  |  48 +---
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 263 +++---------------
- .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   |   2 -
- .../staging/rtl8723bs/hal/rtl8723b_rxdesc.c   |   3 -
- .../staging/rtl8723bs/hal/rtl8723bs_recv.c    |  15 +-
- drivers/staging/rtl8723bs/hal/sdio_halinit.c  |  19 +-
- drivers/staging/rtl8723bs/hal/sdio_ops.c      |  39 +--
- drivers/staging/rtl8723bs/include/autoconf.h  |   7 -
- drivers/staging/rtl8723bs/include/rtw_debug.h |  10 -
- .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 216 +-------------
- .../staging/rtl8723bs/os_dep/ioctl_linux.c    |   6 -
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c  |  35 +--
- 20 files changed, 69 insertions(+), 679 deletions(-)
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+index 2af66a18200d..3b0148dbf353 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+@@ -672,7 +672,6 @@ u8 rtw_is_wps_ie(u8 *ie_ptr, uint *wps_ielen)
+ 	eid = ie_ptr[0];
+ 
+ 	if ((eid == WLAN_EID_VENDOR_SPECIFIC) && (!memcmp(&ie_ptr[2], wps_oui, 4))) {
+-		/* DBG_8192C("==> found WPS_IE.....\n"); */
+ 		*wps_ielen = ie_ptr[1]+2;
+ 		match = true;
+ 	}
+diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+index 76c4105d1fe8..c1b893451788 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
++++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+@@ -504,14 +504,11 @@ void read_cam(struct adapter *padapter, u8 entry, u8 *get_key)
+ 
+ 	addr = entry << 3;
+ 
+-	/* DBG_8192C("********* DUMP CAM Entry_#%02d***************\n", entry); */
+ 	for (j = 0; j < 6; j++) {
+ 		cmd = _ReadCAM(padapter, addr+j);
+-		/* DBG_8192C("offset:0x%02x => 0x%08x\n", addr+j, cmd); */
+ 		if (j > 1) /* get key from cam */
+ 			memcpy(get_key+(j-2)*4, &cmd, 4);
+ 	}
+-	/* DBG_8192C("*********************************\n"); */
+ }
+ 
+ void _write_cam(struct adapter *padapter, u8 entry, u16 ctrl, u8 *mac, u8 *key)
+diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
+index dea4e3679b8e..092b32c41ff3 100644
+--- a/drivers/staging/rtl8723bs/hal/odm.c
++++ b/drivers/staging/rtl8723bs/hal/odm.c
+@@ -635,7 +635,6 @@ static void FindMinimumRSSI(struct adapter *padapter)
+ 	} else
+ 		pdmpriv->MinUndecoratedPWDBForDM = pdmpriv->EntryMinUndecoratedSmoothedPWDB;
+ 
+-	/* DBG_8192C("%s =>MinUndecoratedPWDBForDM(%d)\n", __func__, pdmpriv->MinUndecoratedPWDBForDM); */
+ 	/* ODM_RT_TRACE(pDM_Odm, COMP_DIG, DBG_LOUD, ("MinUndecoratedPWDBForDM =%d\n", pHalData->MinUndecoratedPWDBForDM)); */
+ }
+ 
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+index de8717f21e28..2c50ff2d16f6 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+@@ -24,8 +24,6 @@ static u8 _is_fw_read_cmd_down(struct adapter *padapter, u8 msgbox_num)
+ 
+ 	u8 valid;
+ 
+-	/* DBG_8192C(" _is_fw_read_cmd_down , reg_1cc(%x), msg_box(%d)...\n", rtw_read8(padapter, REG_HMETFR), msgbox_num); */
+-
+ 	do {
+ 		valid = rtw_read8(padapter, REG_HMETFR) & BIT(msgbox_num);
+ 		if (0 == valid) {
+@@ -77,8 +75,6 @@ s32 FillH2CCmd8723B(struct adapter *padapter, u8 ElementID, u32 CmdLen, u8 *pCmd
+ 		h2c_box_num = pHalData->LastHMEBoxNum;
+ 
+ 		if (!_is_fw_read_cmd_down(padapter, h2c_box_num)) {
+-			/* DBG_8192C(" 0x1c0: 0x%8x\n", rtw_read32(padapter, 0x1c0)); */
+-			/* DBG_8192C(" 0x1c4: 0x%8x\n", rtw_read32(padapter, 0x1c4)); */
+ 			goto exit;
+ 		}
+ 
+@@ -99,9 +95,6 @@ s32 FillH2CCmd8723B(struct adapter *padapter, u8 ElementID, u32 CmdLen, u8 *pCmd
+ 		msgbox_addr = REG_HMEBOX_0 + (h2c_box_num*MESSAGE_BOX_SIZE);
+ 		rtw_write32(padapter, msgbox_addr, h2c_cmd);
+ 
+-		/* DBG_8192C("MSG_BOX:%d, CmdLen(%d), CmdID(0x%x), reg:0x%x =>h2c_cmd:0x%.8x, reg:0x%x =>h2c_cmd_ex:0x%.8x\n" */
+-		/* 	, pHalData->LastHMEBoxNum , CmdLen, ElementID, msgbox_addr, h2c_cmd, msgbox_ex_addr, h2c_cmd_ex); */
+-
+ 		pHalData->LastHMEBoxNum = (h2c_box_num+1) % MAX_H2C_BOX_NUMS;
+ 
+ 	} while (0);
+@@ -852,9 +845,6 @@ static void SetFwRsvdPagePkt_BTCoex(struct adapter *padapter)
+ 	u32 TotalPacketLen, MaxRsvdPageBufSize = 0;
+ 	struct rsvdpage_loc RsvdPageLoc;
+ 
+-
+-/* 	DBG_8192C("+" FUNC_ADPT_FMT "\n", FUNC_ADPT_ARG(padapter)); */
+-
+ 	pxmitpriv = &padapter->xmitpriv;
+ 	TxDescLen = TXDESC_SIZE;
+ 	TxDescOffset = TXDESC_OFFSET;
+@@ -918,8 +908,6 @@ static void SetFwRsvdPagePkt_BTCoex(struct adapter *padapter)
+ 	pattrib->pktlen = pattrib->last_txcmdsz = TotalPacketLen - TxDescOffset;
+ 	dump_mgntframe_and_wait(padapter, pcmdframe, 100);
+ 
+-/* 	DBG_8192C(FUNC_ADPT_FMT ": Set RSVD page location to Fw, TotalPacketLen(%d), TotalPageNum(%d)\n", */
+-/* 		FUNC_ADPT_ARG(padapter), TotalPacketLen, TotalPageNum); */
+ 	rtl8723b_set_FwRsvdPage_cmd(padapter, &RsvdPageLoc);
+ 	rtl8723b_set_FwAoacRsvdPage_cmd(padapter, &RsvdPageLoc);
+ 
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index ff05f3bf09b2..30845235c7a4 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -777,15 +777,12 @@ if (0) {
+ 		if (efuseHeader == 0xFF) {
+ 			break;
+ 		}
+-		/* DBG_8192C("%s: efuse[0x%X]= 0x%02X\n", __func__, eFuse_Addr-1, efuseHeader); */
+ 
+ 		/*  Check PG header for section num. */
+ 		if (EXT_HEADER(efuseHeader)) { /* extended header */
+ 			offset = GET_HDR_OFFSET_2_0(efuseHeader);
+-			/* DBG_8192C("%s: extended header offset = 0x%X\n", __func__, offset); */
+ 
+ 			efuse_OneByteRead(padapter, eFuse_Addr++, &efuseExtHdr, bPseudoTest);
+-			/* DBG_8192C("%s: efuse[0x%X]= 0x%02X\n", __func__, eFuse_Addr-1, efuseExtHdr); */
+ 			if (ALL_WORDS_DISABLED(efuseExtHdr))
+ 				continue;
+ 
+@@ -795,23 +792,19 @@ if (0) {
+ 			offset = ((efuseHeader >> 4) & 0x0f);
+ 			wden = (efuseHeader & 0x0f);
+ 		}
+-		/* DBG_8192C("%s: Offset =%d Worden = 0x%X\n", __func__, offset, wden); */
+ 
+ 		if (offset < EFUSE_MAX_SECTION_8723B) {
+ 			u16 addr;
+ 			/*  Get word enable value from PG header */
+-/* 			DBG_8192C("%s: Offset =%d Worden = 0x%X\n", __func__, offset, wden); */
+ 
+ 			addr = offset * PGPKT_DATA_SIZE;
+ 			for (i = 0; i < EFUSE_MAX_WORD_UNIT; i++) {
+ 				/*  Check word enable condition in the section */
+ 				if (!(wden & (0x01<<i))) {
+ 					efuse_OneByteRead(padapter, eFuse_Addr++, &efuseData, bPseudoTest);
+-/* 					DBG_8192C("%s: efuse[%#X]= 0x%02X\n", __func__, eFuse_Addr-1, efuseData); */
+ 					efuseTbl[addr] = efuseData;
+ 
+ 					efuse_OneByteRead(padapter, eFuse_Addr++, &efuseData, bPseudoTest);
+-/* 					DBG_8192C("%s: efuse[%#X]= 0x%02X\n", __func__, eFuse_Addr-1, efuseData); */
+ 					efuseTbl[addr+1] = efuseData;
+ 				}
+ 				addr += 2;
+@@ -1225,8 +1218,6 @@ static u8 Hal_EfuseWordEnableDataWrite(
+ 	u8 badworden = 0x0F;
+ 	u8 tmpdata[PGPKT_DATA_SIZE];
+ 
+-
+-/* 	DBG_8192C("%s: efuse_addr =%#x word_en =%#x\n", __func__, efuse_addr, word_en); */
+ 	memset(tmpdata, 0xFF, PGPKT_DATA_SIZE);
+ 
+ 	if (!(word_en & BIT(0))) {
+@@ -1338,11 +1329,9 @@ static s32 Hal_EfusePgPacketRead(
+ 				/*  Check word enable condition in the section */
+ 				if (!(hworden & (0x01<<i))) {
+ 					efuse_OneByteRead(padapter, efuse_addr++, &efuse_data, bPseudoTest);
+-/* 					DBG_8192C("%s: efuse[%#X]= 0x%02X\n", __func__, efuse_addr+tmpidx, efuse_data); */
+ 					data[i*2] = efuse_data;
+ 
+ 					efuse_OneByteRead(padapter, efuse_addr++, &efuse_data, bPseudoTest);
+-/* 					DBG_8192C("%s: efuse[%#X]= 0x%02X\n", __func__, efuse_addr+tmpidx, efuse_data); */
+ 					data[(i*2)+1] = efuse_data;
+ 				}
+ 			}
+@@ -1364,7 +1353,6 @@ static u8 hal_EfusePgCheckAvailableAddr(
+ 
+ 
+ 	EFUSE_GetEfuseDefinition(padapter, efuseType, TYPE_AVAILABLE_EFUSE_BYTES_TOTAL, &max_available, bPseudoTest);
+-/* 	DBG_8192C("%s: max_available =%d\n", __func__, max_available); */
+ 
+ 	current_size = Efuse_GetCurrentSize(padapter, efuseType, bPseudoTest);
+ 	if (current_size >= max_available) {
+@@ -1441,7 +1429,6 @@ static u8 hal_EfusePartialWriteCheck(
+ 				startAddr++;
+ 				efuse_OneByteRead(padapter, startAddr, &efuse_data, bPseudoTest);
+ 				if (ALL_WORDS_DISABLED(efuse_data)) {
+-					DBG_8192C("%s: Error condition, all words disabled!", __func__);
+ 					bRet = false;
+ 					break;
+ 				} else {
+@@ -1462,7 +1449,6 @@ static u8 hal_EfusePartialWriteCheck(
+ 				(hal_EfuseCheckIfDatafollowed(padapter, curPkt.word_cnts, startAddr+1, bPseudoTest) == false) &&
+ 				wordEnMatched(pTargetPkt, &curPkt, &matched_wden) == true
+ 			) {
+-				DBG_8192C("%s: Need to partial write data by the previous wrote header\n", __func__);
+ 				/*  Here to write partial data */
+ 				badworden = Efuse_WordEnableDataWrite(padapter, startAddr+1, matched_wden, pTargetPkt->data, bPseudoTest);
+ 				if (badworden != 0x0F) {
+@@ -1492,7 +1478,6 @@ static u8 hal_EfusePartialWriteCheck(
+ 		} else {
+ 			/*  not used header, 0xff */
+ 			*pAddr = startAddr;
+-/* 			DBG_8192C("%s: Started from unused header offset =%d\n", __func__, startAddr)); */
+ 			bRet = true;
+ 			break;
+ 		}
+@@ -1554,7 +1539,6 @@ static u8 hal_EfusePgPacketWrite2ByteHeader(
+ 	}
+ 
+ 	pg_header = ((pTargetPkt->offset & 0x07) << 5) | 0x0F;
+-/* 	DBG_8192C("%s: pg_header = 0x%x\n", __func__, pg_header); */
+ 
+ 	do {
+ 		efuse_OneByteWrite(padapter, efuse_addr, pg_header, bPseudoTest);
+@@ -1629,7 +1613,6 @@ static u8 hal_EfusePgPacketWriteData(
+ 		return false;
+ 	}
+ 
+-/* 	DBG_8192C("%s: ok\n", __func__); */
+ 	return true;
+ }
+ 
+@@ -2683,8 +2666,6 @@ static u8 fill_txdesc_sectype(struct pkt_attrib *pattrib)
+ 
+ static void fill_txdesc_vcs_8723b(struct adapter *padapter, struct pkt_attrib *pattrib, struct txdesc_8723b *ptxdesc)
+ {
+-	/* DBG_8192C("cvs_mode =%d\n", pattrib->vcs_mode); */
+-
+ 	if (pattrib->vcs_mode) {
+ 		switch (pattrib->vcs_mode) {
+ 		case RTS_CTS:
+@@ -2716,8 +2697,6 @@ static void fill_txdesc_vcs_8723b(struct adapter *padapter, struct pkt_attrib *p
+ 
+ static void fill_txdesc_phy_8723b(struct adapter *padapter, struct pkt_attrib *pattrib, struct txdesc_8723b *ptxdesc)
+ {
+-	/* DBG_8192C("bwmode =%d, ch_off =%d\n", pattrib->bwmode, pattrib->ch_offset); */
+-
+ 	if (pattrib->ht_en) {
+ 		ptxdesc->data_bw = BWMapping_8723B(padapter, pattrib);
+ 
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_rxdesc.c b/drivers/staging/rtl8723bs/hal/rtl8723b_rxdesc.c
+index 86512264e280..f2f02a69f0af 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_rxdesc.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_rxdesc.c
+@@ -13,7 +13,6 @@ static void process_rssi(struct adapter *padapter, union recv_frame *prframe)
+ 	struct rx_pkt_attrib *pattrib = &prframe->u.hdr.attrib;
+ 	struct signal_stat *signal_stat = &padapter->recvpriv.signal_strength_data;
+ 
+-	/* DBG_8192C("process_rssi => pattrib->rssil(%d) signal_strength(%d)\n ", pattrib->RecvSignalPower, pattrib->signal_strength); */
+ 	/* if (pRfd->Status.bPacketToSelf || pRfd->Status.bPacketBeacon) */
+ 	{
+ 		if (signal_stat->update_req) {
+@@ -40,8 +39,6 @@ static void process_link_qual(struct adapter *padapter, union recv_frame *prfram
+ 	pattrib = &prframe->u.hdr.attrib;
+ 	signal_stat = &padapter->recvpriv.signal_qual_data;
+ 
+-	/* DBG_8192C("process_link_qual => pattrib->signal_qual(%d)\n ", pattrib->signal_qual); */
+-
+ 	if (signal_stat->update_req) {
+ 		signal_stat->total_num = 0;
+ 		signal_stat->total_val = 0;
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
+index 09d53006595d..a69cc24c81c7 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
+@@ -125,8 +125,6 @@ static void update_recvframe_phyinfo(union recv_frame *precvframe,
+ 	psta = rtw_get_stainfo(pstapriv, sa);
+ 	if (psta) {
+ 		pkt_info.station_id = psta->mac_id;
+-		/* DBG_8192C("%s ==> StationID(%d)\n",
+-		 * 	  __func__, pkt_info.station_id); */
+ 	}
+ 	pkt_info.data_rate = pattrib->data_rate;
+ 
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+index a5d6ff591064..a1ec0bb434fd 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+@@ -101,17 +101,14 @@ u8 _InitPowerOn_8723BS(struct adapter *padapter)
+ 	/*  Switch the control of EESK, EECS to RFC for DPDT or Antenna switch */
+ 	value16 |= BIT(11); /*  BIT_EEPRPAD_RFE_CTRL_EN */
+ 	rtw_write16(padapter, REG_PWR_DATA, value16);
+-/* 	DBG_8192C("%s: REG_PWR_DATA(0x%x) = 0x%04X\n", __func__, REG_PWR_DATA, rtw_read16(padapter, REG_PWR_DATA)); */
+ 
+ 	value32 = rtw_read32(padapter, REG_LEDCFG0);
+ 	value32 |= BIT(23); /*  DPDT_SEL_EN, 1 for SW control */
+ 	rtw_write32(padapter, REG_LEDCFG0, value32);
+-/* 	DBG_8192C("%s: REG_LEDCFG0(0x%x) = 0x%08X\n", __func__, REG_LEDCFG0, rtw_read32(padapter, REG_LEDCFG0)); */
+ 
+ 	value8 = rtw_read8(padapter, REG_PAD_CTRL1_8723B);
+ 	value8 &= ~BIT(0); /*  BIT_SW_DPDT_SEL_DATA, DPDT_SEL default configuration */
+ 	rtw_write8(padapter, REG_PAD_CTRL1_8723B, value8);
+-/* 	DBG_8192C("%s: REG_PAD_CTRL1(0x%x) = 0x%02X\n", __func__, REG_PAD_CTRL1_8723B, rtw_read8(padapter, REG_PAD_CTRL1_8723B)); */
+ 
+ 	return _SUCCESS;
+ }
+@@ -1263,7 +1260,6 @@ static void SetHwRegWithBuf8723B(struct adapter *padapter, u8 variable, u8 *pbuf
+ {
+ 	switch (variable) {
+ 	case HW_VAR_C2H_HANDLE:
+-		/* DBG_8192C("%s len =%d\n", __func__, len); */
+ 		C2HPacketHandler_8723B(padapter, pbuf, len);
+ 		break;
+ 	default:
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index 986b3e2cf263..b7dffdaffda7 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -855,8 +855,6 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
+ 		struct sta_info *psta, *pbcmc_sta;
+ 		struct sta_priv *pstapriv = &padapter->stapriv;
+ 
+-		/* DBG_8192C("%s, : dot11AuthAlgrthm == dot11AuthAlgrthm_8021X\n", __func__); */
+-
+ 		if (check_fwstate(pmlmepriv, WIFI_STATION_STATE | WIFI_MP_STATE) == true) /* sta mode */
+ 		{
+ 			psta = rtw_get_stainfo(pstapriv, get_bssid(pmlmepriv));
+@@ -1028,7 +1026,6 @@ static int cfg80211_rtw_add_key(struct wiphy *wiphy, struct net_device *ndev,
+         else if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true
+                 || check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true)
+         {
+-                /* DBG_8192C("@@@@@@@@@@ fw_state = 0x%x, iftype =%d\n", pmlmepriv->fw_state, rtw_wdev->iftype); */
+                 ret =  rtw_cfg80211_set_encryption(ndev, param, param_len);
+         }
+ 	else
+@@ -1785,8 +1782,6 @@ static int cfg80211_rtw_join_ibss(struct wiphy *wiphy, struct net_device *ndev,
+ 	ndis_ssid.SsidLength = params->ssid_len;
+ 	memcpy(ndis_ssid.Ssid, (u8 *)params->ssid, params->ssid_len);
+ 
+-	/* DBG_8192C("ssid =%s, len =%zu\n", ndis_ssid.Ssid, params->ssid_len); */
+-
+ 	psecuritypriv->ndisencryptstatus = Ndis802_11EncryptionDisabled;
+ 	psecuritypriv->dot11PrivacyAlgrthm = _NO_PRIVACY_;
+ 	psecuritypriv->dot118021XGrpPrivacy = _NO_PRIVACY_;
 -- 
 2.20.1
 
