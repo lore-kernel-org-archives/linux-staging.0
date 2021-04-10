@@ -1,48 +1,48 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2DF670
-	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 14:21:05 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id a7so13073197eju.1
-        for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 07:21:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31B2970
+	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 14:21:07 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id u21so13003959ejo.13
+        for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 07:21:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=bIfCpRzZUpXirgKl1gCFnYnBbKjxAWQCu96s2HjUGIE=;
-        b=N+XvGNzm8M9loYIWss15cm9NCPztCfXaLnmIErKUXufJyWPfh75M0LEv/vnLhqeQaN
-         G/0xcyhSmdsb+vgk0etpL4ro53iaZzub1M7RbQuwwKK//REHgLAQCFwTHko9pWR3C/Qk
-         VUogp7qW4homD6likv242aiATMkFjG2ySSJKqoZ0F8mQilnuWQdtyD+1bmfl1X9nw87g
-         G/ABHiNLxIih9W2ngFl74128DWetEN3nc1u6duKwoOtYEHbGA5Dg0E/BB00gVMCaIVBH
-         0j9ysAOfYAsXVSncZDM7a3DHHfoFNpR/aFSEN6E94w1UOxBKcM+8biAc8H7kPThopaFM
-         oFqA==
+        bh=70up8zMFHK98mBqYLU707HfdW2OG0jaycv4htN1s4V0=;
+        b=UxoIFR1bhd8vbmQC86UCMEjaVHHbGAuG3zr4mCh3EfoQ0v0Wf9Q+pZV91UBqBHlrPT
+         gSs4NNbuIR4UQZV9RoFLtlBvuoEDXZor+542UHpQ0B6ziCfDxQOyjHOIJAqQqcU1Z+sj
+         bi2ZUUvePoY4dwv/cufJ7awY+nQDdpFmQpbEXJBaV7viPMxzKX+j+teu01H8VqLgJ5PI
+         tOMNP9eRWE1LYeZ7OqoyLGrDJp4rAipDVABS5Bx7ppjWEbSUnWAnDkUEhGDfcGZMTEO8
+         gSP3DSPE2tH3cVsKYSEARJbhaiFoesH8x2sUcIzugNuF7CyDDPMPbtG0uHtNlNU59+uo
+         CTNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=bIfCpRzZUpXirgKl1gCFnYnBbKjxAWQCu96s2HjUGIE=;
-        b=unRG2RhX9IblmRRCNXoqgtZz6TaAUpC7stCLH5X9WivH1sAzMlSIhVQHilchUObKLc
-         NtxgJTxX/y7H3afsqh8FY8Hg60xLMeJb2RMOfoQMi8Zc/dCFvPkOg8nJ0QCd0k+/6/TK
-         YhJthpG+QRT2SeJmqyyXSG0r/L831vDFw0yqYm+7N2NCcitWR91ig/4l+0FAB6YFOuZg
-         vRLzbCXXFmD+6K0lzD1q2xn8fV31+ufwNdBYSmRsxeUE27ajkUxsD7W3K7GnWyQtZLlq
-         dxoE0mt39/WYjCKR+5udzusHVIk3pABW5mcYKEOzjIb0EjYZWAzQKgKuNy1shZwVM/Wo
-         rkfg==
-X-Gm-Message-State: AOAM533bBrjmhPS3VIQcXtUTZQgCbqeB47mqbdfmSyxCaPdYmwMmBldG
-	16s6pm8vl+JLAH+KKmujIHY=
-X-Google-Smtp-Source: ABdhPJxO82dvZHLf2ql9dCjZxCFbN+2l1MNQdLpOnmy7Lwg54GlCS3geTiRO1/YdKZo4MHFWUBudRQ==
-X-Received: by 2002:a17:906:489b:: with SMTP id v27mr20226261ejq.1.1618064464334;
-        Sat, 10 Apr 2021 07:21:04 -0700 (PDT)
+        bh=70up8zMFHK98mBqYLU707HfdW2OG0jaycv4htN1s4V0=;
+        b=jQy76ZrnogqGRQCT/4xo0KT0QaPWBw8POa+CSt+8ss7M0s4/JkiOeg3SiTqAXgdw6+
+         tfQJEl8nEo7qcehTPHydVB8aX1oXP6jn9t99FvIthKEwBP3nwgHjjuFPqCFmtl1FL7+w
+         zCgSAIppW0zntzzlPQeeMENLCbUh5BYeiNsU3UOxi7UFfIXRhy5owcurPg4+ryih0Uu5
+         c+tCZOr/3Pj7RpM4tUtGObfxhAWKCR+Giu+TQ0UI0N14k2pU4iAmxeM8QDLPqk5P1OLy
+         DFoLWnqsK1pvMvAb/Bhns2ZwiUNu5Bk2I90/dkTbk5Wj3eDurday5so5m4lybItqTKDC
+         Hzwg==
+X-Gm-Message-State: AOAM533CQgawjrMX6CSKx+zblFnwhxXzG2sm0KnDpXT2W6hWgvLh4PEJ
+	wzxNmgswEfS4n1BLfNnFSdo=
+X-Google-Smtp-Source: ABdhPJwd71jUymegSb9eC64dLSXqPTqTphaSVXSAJqPjQhwMfTFzxqvGxWWrMOjTdaD9pZ3iiw78Kg==
+X-Received: by 2002:a17:906:4015:: with SMTP id v21mr20929790ejj.433.1618064465775;
+        Sat, 10 Apr 2021 07:21:05 -0700 (PDT)
 Received: from agape ([5.171.81.28])
-        by smtp.gmail.com with ESMTPSA id c19sm3205259edu.20.2021.04.10.07.21.03
+        by smtp.gmail.com with ESMTPSA id gb22sm2686324ejc.78.2021.04.10.07.21.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Apr 2021 07:21:04 -0700 (PDT)
+        Sat, 10 Apr 2021 07:21:05 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 15/25] staging: rtl8723bs: fix comparison to null
-Date: Sat, 10 Apr 2021 16:20:28 +0200
-Message-Id: <2c7557a465aeda7fb6989df30c6250f9ec56ebe1.1618064274.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 16/25] staging: rtl8723bs: put spaces around operators
+Date: Sat, 10 Apr 2021 16:20:29 +0200
+Message-Id: <65b7cf4b1ae3cea25a316f3c9f56c697ee7be8af.1618064274.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1618064274.git.fabioaiuto83@gmail.com>
 References: <cover.1618064274.git.fabioaiuto83@gmail.com>
@@ -55,85 +55,72 @@ Content-Transfer-Encoding: 8bit
 
 fix following post-commit hook checkpatch issues:
 
-CHECK: Comparison to NULL could be written "!pmlmepriv->wps_probe_req_ie"
-348: FILE: drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:1319:
-+			if (pmlmepriv->wps_probe_req_ie == NULL)
-
-CHECK: Comparison to NULL could be written "!dvobj"
-459: FILE: drivers/staging/rtl8723bs/os_dep/sdio_intf.c:184:
-+	if (dvobj == NULL)
-
-CHECK: Comparison to NULL could be written "!padapter"
-470: FILE: drivers/staging/rtl8723bs/os_dep/sdio_intf.c:231:
-+	if (padapter == NULL)
-
-CHECK: Comparison to NULL could be written "!padapter"
-481: FILE: drivers/staging/rtl8723bs/os_dep/sdio_intf.c:240:
-+	if (padapter == NULL)
-
-CHECK: Comparison to NULL could be written "!padapter"
-492: FILE: drivers/staging/rtl8723bs/os_dep/sdio_intf.c:256:
-+	if (padapter == NULL)
+CHECK: spaces preferred around that '+' (ctx:VxV)
+87: FILE: drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:746:
++	if ((_offset+_size_byte) > EFUSE_MAX_MAP_LEN)
+--
+CHECK: spaces preferred around that '+' (ctx:VxV)
+105: FILE: drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:847:
++	if ((_offset+_size_byte) > EFUSE_BT_MAP_LEN)
+--
+CHECK: spaces preferred around that '-' (ctx:VxV)
+133: FILE: drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:906:
++		if ((eFuse_Addr-1) < total)
+--
+CHECK: spaces preferred around that '|' (ctx:VxV)
+392: FILE: drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:2485:
++	if (check_fwstate(pmlmepriv, (_FW_LINKED|WIFI_AP_STATE)) != true)
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 6 +++---
  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 +-
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c      | 8 ++++----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index 44cb4c5be501..00115a0c70be 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -743,7 +743,7 @@ static void hal_ReadEFuse_WiFi(
+ 	/*  */
+ 	/*  Do NOT excess total size of EFuse table. Added by Roger, 2008.11.10. */
+ 	/*  */
+-	if ((_offset+_size_byte) > EFUSE_MAX_MAP_LEN)
++	if ((_offset + _size_byte) > EFUSE_MAX_MAP_LEN)
+ 		return;
+ 
+ 	efuseTbl = rtw_malloc(EFUSE_MAX_MAP_LEN);
+@@ -844,7 +844,7 @@ static void hal_ReadEFuse_BT(
+ 	/*  */
+ 	/*  Do NOT excess total size of EFuse table. Added by Roger, 2008.11.10. */
+ 	/*  */
+-	if ((_offset+_size_byte) > EFUSE_BT_MAP_LEN)
++	if ((_offset + _size_byte) > EFUSE_BT_MAP_LEN)
+ 		return;
+ 
+ 	efuseTbl = rtw_malloc(EFUSE_BT_MAP_LEN);
+@@ -903,7 +903,7 @@ static void hal_ReadEFuse_BT(
+ 			}
+ 		}
+ 
+-		if ((eFuse_Addr-1) < total)
++		if ((eFuse_Addr - 1) < total)
+ 			break;
+ 
+ 	}
 diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index c85fd9e9e394..601a16074ee3 100644
+index 601a16074ee3..54c65c125c8c 100644
 --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
 +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -1316,7 +1316,7 @@ static int rtw_cfg80211_set_probe_req_wpsp2pie(struct adapter *padapter, char *b
- 			}
+@@ -2482,7 +2482,7 @@ static int cfg80211_rtw_del_station(struct wiphy *wiphy, struct net_device *ndev
+ 	struct sta_priv *pstapriv = &padapter->stapriv;
+ 	const u8 *mac = params->mac;
  
- 			pmlmepriv->wps_probe_req_ie = rtw_malloc(wps_ielen);
--			if (pmlmepriv->wps_probe_req_ie == NULL)
-+			if (!pmlmepriv->wps_probe_req_ie)
- 				return -EINVAL;
+-	if (check_fwstate(pmlmepriv, (_FW_LINKED|WIFI_AP_STATE)) != true)
++	if (check_fwstate(pmlmepriv, (_FW_LINKED | WIFI_AP_STATE)) != true)
+ 		return -EINVAL;
  
- 			memcpy(pmlmepriv->wps_probe_req_ie, wps_ie, wps_ielen);
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index 34c5eff02b2f..a8ef95ab14da 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -181,7 +181,7 @@ static struct dvobj_priv *sdio_dvobj_init(struct sdio_func *func)
- 	struct sdio_data *psdio;
- 
- 	dvobj = devobj_init();
--	if (dvobj == NULL)
-+	if (!dvobj)
- 		goto exit;
- 
- 	sdio_set_drvdata(func, dvobj);
-@@ -228,7 +228,7 @@ void rtw_set_hal_ops(struct adapter *padapter)
- 
- static void sd_intf_start(struct adapter *padapter)
- {
--	if (padapter == NULL)
-+	if (!padapter)
- 		return;
- 
- 	/*  hal dep */
-@@ -237,7 +237,7 @@ static void sd_intf_start(struct adapter *padapter)
- 
- static void sd_intf_stop(struct adapter *padapter)
- {
--	if (padapter == NULL)
-+	if (!padapter)
- 		return;
- 
- 	/*  hal dep */
-@@ -253,7 +253,7 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct
- 	struct sdio_data *psdio = &dvobj->intf_data;
- 
- 	padapter = vzalloc(sizeof(*padapter));
--	if (padapter == NULL)
-+	if (!padapter)
- 		goto exit;
- 
- 	padapter->dvobj = dvobj;
+ 	if (!mac) {
 -- 
 2.20.1
 
