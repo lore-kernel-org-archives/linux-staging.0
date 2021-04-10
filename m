@@ -1,87 +1,105 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtprelay.hostedemail.com (smtprelay0033.hostedemail.com [216.40.44.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5E171
-	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 01:35:50 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id j7so3584718plx.2
-        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 18:35:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=vd8lMgu3zkr2z6g7xcisDVvdvTxxf93W5Kur6M5AgCE=;
-        b=pjWwg+1y5IL9DISwRYtHV5mqgLMoNyUUSI8L2ZaCDgnAhgNKtgmpczwGAoAaM/YHNO
-         piGExD3Hsl+9zazWBVqpupyQCmTNh79HGaoxKii5uU0HJ7/t+w58yg55KeyaRgiQtRbV
-         D0H+xf7lDtYr2nX4QDJ64y/26kijC+/9PvAFnyJZUJhhiasMVmfZdSpFo4D4CpFc/27Q
-         0qg2OvRUI1z81wiG+wgKYpyif+j8kvZ8ehtbCas7oNcRUqLIeArCQZjPYzo3utaeA2l6
-         tY8TRx1h4i16MQjOl7Paa2tzI97k/jWcJHZo2G6ENcJp3ODzygwviwRjQ4e49dRk0TrW
-         vlbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=vd8lMgu3zkr2z6g7xcisDVvdvTxxf93W5Kur6M5AgCE=;
-        b=mphLe5R8IN8Qv3yccSLX1EUvJD8mqgrGZ8ZwjvP/qoCMh9EmgsHXldFqlOO1emNqJ8
-         dMdLvqGJ6JmxHhyd6zM+UXTLHyEpU7Ian40wBgt0mNjp8jQI06gtBxgNSPqB18VGpQA+
-         susY5yyvqbZdHuOAK25Nr7XZ1om9o0lcqARc4Mn0Chm2XQiMpd77n/TCg0XH5nu6MCKU
-         bI2sS+2LIkPP6XNb0PmctTmJH+naROKNKAPHOopDEmrl4mbFkLX1unc8nlt+61Z6/aOA
-         Ij2UloeXRF5Xy9ak9mD7n1UHPM25kx9Yzv5FQDvlsbr10rKFeRkkAncmBdhxo252Q3V7
-         hDyA==
-X-Gm-Message-State: AOAM531wIER7iJI61ErS3Tb0A+dMn7afkywE54luY6MA9StHlm05tHp3
-	zwxB33uHrKTtTpzHDJ8nA6g=
-X-Google-Smtp-Source: ABdhPJyAXgEMAGxMzgkToJGpihLSoY6PKV6GJHaGOCDQSsp2uyZk0f3r9/ddmsDUQ7rTG+g32bs4sg==
-X-Received: by 2002:a17:903:2306:b029:e7:1c8d:63fc with SMTP id d6-20020a1709032306b02900e71c8d63fcmr15769758plh.35.1618018550053;
-        Fri, 09 Apr 2021 18:35:50 -0700 (PDT)
-Received: from kali ([103.141.87.254])
-        by smtp.gmail.com with ESMTPSA id e68sm3126832pfa.78.2021.04.09.18.35.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 18:35:49 -0700 (PDT)
-Date: Sat, 10 Apr 2021 07:05:44 +0530
-From: Mitali Borkar <mitaliborkar810@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9D371
+	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 02:07:18 +0000 (UTC)
+Received: from omf17.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+	by smtprelay04.hostedemail.com (Postfix) with ESMTP id A36711812FAA6;
+	Sat, 10 Apr 2021 02:07:11 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf17.hostedemail.com (Postfix) with ESMTPA id 91FCC27DD18;
+	Sat, 10 Apr 2021 02:07:10 +0000 (UTC)
+Message-ID: <f5fe04d62b22eb5e09c299e769d9b9d8917f119c.camel@perches.com>
+Subject: Re: [PATCH 4/6] staging: rtl8192e: matched alignment with open
+ parenthesis
+From: Joe Perches <joe@perches.com>
+To: Mitali Borkar <mitaliborkar810@gmail.com>, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
 	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: [PATCH 6/6] staging: rtl8192e: align statements properly
-Message-ID: <YHEA8CgeJAXI8z93@kali>
+Date: Fri, 09 Apr 2021 19:07:09 -0700
+In-Reply-To: <YHEA2Te3Hik5J39t@kali>
+References: <YHEA2Te3Hik5J39t@kali>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 91FCC27DD18
+X-Spam-Status: No, score=0.10
+X-Stat-Signature: mkpzxbsbmfazgbhd1k69skk37sdefyeh
+X-Rspamd-Server: rspamout04
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX187jCxClcn3J4yFzx2u4t0xldxYR15e8j0=
+X-HE-Tag: 1618020430-317341
 
-Aligned the statements properly in one line to make code neater and to
-improve readability.
+On Sat, 2021-04-10 at 07:05 +0530, Mitali Borkar wrote:
+> Matched the alignment with open parenthesis to meet linux kernel coding
+> style.
+> Reported by checkpatch.
+[]
+> diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+[]
+> @@ -154,7 +154,7 @@ bool IsHTHalfNmodeAPs(struct rtllib_device *ieee)
+>  	    (net->ralink_cap_exist))
+>  		retValue = true;
+>  	else if (!memcmp(net->bssid, UNKNOWN_BORADCOM, 3) ||
+> -		!memcmp(net->bssid, LINKSYSWRT330_LINKSYSWRT300_BROADCOM, 3) ||
+> +		 !memcmp(net->bssid, LINKSYSWRT330_LINKSYSWRT300_BROADCOM, 3) ||
+>  		!memcmp(net->bssid, LINKSYSWRT350_LINKSYSWRT150_BROADCOM, 3) ||
+>  		(net->broadcom_cap_exist))
 
-Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
----
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+checkpatch is a stupid script.
+Look further at the code not just at what checkpatch reports.
+Align all the contination lines, not just the first one.
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 2b9e275f42bb..65202dd53447 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -155,8 +155,8 @@ bool IsHTHalfNmodeAPs(struct rtllib_device *ieee)
- 		retValue = true;
- 	else if (!memcmp(net->bssid, UNKNOWN_BORADCOM, 3) ||
- 		 !memcmp(net->bssid, LINKSYSWRT330_LINKSYSWRT300_BROADCOM, 3) ||
--		!memcmp(net->bssid, LINKSYSWRT350_LINKSYSWRT150_BROADCOM, 3) ||
--		(net->broadcom_cap_exist))
-+		 !memcmp(net->bssid, LINKSYSWRT350_LINKSYSWRT150_BROADCOM, 3) ||
-+		 (net->broadcom_cap_exist))
- 		retValue = true;
- 	else if (net->bssht.bd_rt2rt_aggregation)
- 		retValue = true;
-@@ -809,7 +809,7 @@ void HTUseDefaultSetting(struct rtllib_device *ieee)
- 				ieee->dot11HTOperationalRateSet);
- 		ieee->HTHighestOperaRate = HTGetHighestMCSRate(ieee,
- 							       ieee->dot11HTOperationalRateSet,
--					   MCS_FILTER_ALL);
-+							       MCS_FILTER_ALL);
- 		ieee->HTCurrentOperaRate = ieee->HTHighestOperaRate;
- 
- 	} else {
--- 
-2.30.2
+It might be sensible to add a generic function like
+
+static inline bool ether_oui_equal(const u8 *addr, const u8 *oui)
+{
+	return addr[0] == oui[0] && addr[1] == oui[1] && addr[2] == oui[2];
+}	
+
+to include/linux/etherdevice.h
+
+(Maybe use & instead of && if it's speed sensitive)
+
+so this would read
+
+	else if (ether_oui_equal(net->bssid, UNKNOWN_BORADCOM) ||
+		 ether_oui_equal(net->bssid, LINKSYSWRT330_LINKSYSWRT300_BROADCOM) ||
+		 ether_oui_equal(net->bssid, LINKSYSWRT350_LINKSYSWRT150_BROADCOM) ||
+		 net->broacom_cap_exist)
+
+and it'd also be good to correct the typo of UNKNOWN_BORADCOM globally.
+
+> @@ -654,13 +654,13 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
+>  	pHTInfo->CurrentAMPDUFactor = pHTInfo->AMPDU_Factor;
+>  
+> 
+>  	memset((void *)(&(pHTInfo->SelfHTCap)), 0,
+> -		sizeof(pHTInfo->SelfHTCap));
+> +	       sizeof(pHTInfo->SelfHTCap));
+
+Doesn't need casts or parentheses.
+
+	memset(&pHTInfo->SelfHTCap, 0, sizeof(pHTInfo->SelfHCap));
+
+>  	memset((void *)(&(pHTInfo->SelfHTInfo)), 0,
+> -		sizeof(pHTInfo->SelfHTInfo));
+> +	       sizeof(pHTInfo->SelfHTInfo));
+
+etc...
+
+> @@ -815,7 +815,7 @@ void HTUseDefaultSetting(struct rtllib_device *ieee)
+>  		HTFilterMCSRate(ieee, ieee->Regdot11TxHTOperationalRateSet,
+>  				ieee->dot11HTOperationalRateSet);
+>  		ieee->HTHighestOperaRate = HTGetHighestMCSRate(ieee,
+> -					   ieee->dot11HTOperationalRateSet,
+> +							       ieee->dot11HTOperationalRateSet,
+>  					   MCS_FILTER_ALL);
+
+multi line statement alignment etc...
+
 
