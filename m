@@ -1,120 +1,69 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C76470
-	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 08:23:02 +0000 (UTC)
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AZK5RiaEzgjE4cwejpLqECceALOonbusQ8zAX?=
- =?us-ascii?q?/mp2TgFYddHdqtC2kJ0gpHvJoRsYRX1Io7u9EYaaR3e0z/RIyKkXeYyvRQz3/F?=
- =?us-ascii?q?avRbsC0aLH4xnNXxLz7fRc06AISdkaNPTVAUJhhcj3pCmUeuxB/PC9/KqlhfjT?=
- =?us-ascii?q?wh5WJGlXQppt4AtjBgGQHlcefngkObMCCJGe6sBbzgDPRV0raK2AakUtY/LOvJ?=
- =?us-ascii?q?nimp7gfHc9dnwawTjLvHeT5Ln2HwPw5HojejlEqI1MzVT4?=
-X-IronPort-AV: E=Sophos;i="5.82,210,1613430000"; 
-   d="scan'208";a="502532788"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Apr 2021 10:22:45 +0200
-Date: Sat, 10 Apr 2021 10:22:45 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Greg KH <gregkh@linuxfoundation.org>
-cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, 
-    outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [Patch 0/3]
-In-Reply-To: <YHFcI104K+ih3UDG@kroah.com>
-Message-ID: <alpine.DEB.2.22.394.2104101021190.2975@hadrien>
-References: <6552860.D8CPca6BT0@localhost.localdomain> <YHFT2S31kFy72DMv@kroah.com> <2101069.1PIH1tPmJ7@localhost.localdomain> <YHFcI104K+ih3UDG@kroah.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E710671
+	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 08:31:43 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D7CCB610C8;
+	Sat, 10 Apr 2021 08:31:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1618043503;
+	bh=TLe3b6eYl5WXk+SrGIqyCYCg/bSYEiSQG3SxWxQ8LvE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XOWTgARkjElBB5yfl2YiPxa34rMrEFaaSfFy4aj8LQhv51SAGx8kkJnE8Zsw5OIMQ
+	 GtjRRgNIG6KKlmq6Xw56aJN5xl+ZAKr1CHYAP1/AqawFIMr+nwsXnozcD5oHroHaEU
+	 4FBOy9Ackv95/ZB573PW3fxr9HnEq++B1TyNRpGY=
+Date: Sat, 10 Apr 2021 10:31:40 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Mitali Borkar <mitaliborkar810@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
+Subject: Re: [PATCH 0/6] staging: rtl8192e: cleanup patchset for style issues
+Message-ID: <YHFibAvRrun6Jk6T@kroah.com>
+References: <YHEAnyO11wgp5PNZ@kali>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YHEAnyO11wgp5PNZ@kali>
 
+On Sat, Apr 10, 2021 at 07:04:23AM +0530, Mitali Borkar wrote:
+> This patches fix the cleanup style issues.
+> 
+> Mitali Borkar (6):
+>   staging: rtl8192e: add spaces around binary operators
+>   staging: rtl8192e: remove unnecessary blank line before brace
+>   staging: rtl8192e: remove unncessary blank line after brace
+>   staging: rtl8192e: matched alignment with open parenthesis
+>   staging: rtl8192e: removed multiple blank lines
+>   staging: rtl8192e: align statements properly
+> 
+>  drivers/staging/rtl8192e/rtl819x_HTProc.c | 43 +++++++++--------------
+>  drivers/staging/rtl8192e/rtl819x_TSProc.c | 28 +++++++--------
+>  2 files changed, 29 insertions(+), 42 deletions(-)
 
+You emails are not threaded properly at all :(
 
-On Sat, 10 Apr 2021, Greg KH wrote:
+Look at how this showed up on lore.kernel.org:
+	https://lore.kernel.org/linux-staging/YHEAnyO11wgp5PNZ@kali/
 
-> On Sat, Apr 10, 2021 at 09:57:00AM +0200, Fabio M. De Francesco wrote:
-> > On Saturday, April 10, 2021 9:29:29 AM CEST Greg KH wrote:
-> > > On Fri, Apr 09, 2021 at 06:29:59PM +0200, Fabio M. De Francesco wrote:
-> > > > This patch series removes camelcases, changes the type and use of a
-> > > > variable, and correct misspelled words.
-> > > >
-> > > > Patch 1/3: staging: rtl8723bs: Remove camelcase in several files
-> > > >
-> > > > drivers/staging/rtl8723bs/core/rtw_cmd.c       |  2 +-
-> > > > drivers/staging/rtl8723bs/core/rtw_mlme.c      |  2 +-
-> > > > drivers/staging/rtl8723bs/core/rtw_pwrctrl.c   | 18 +++++++++---------
-> > > > drivers/staging/rtl8723bs/hal/hal_intf.c       |  2 +-
-> > > > drivers/staging/rtl8723bs/hal/rtl8723b_dm.c    |  6 +++---
-> > > > .../staging/rtl8723bs/hal/rtl8723b_hal_init.c  |  2 +-
-> > > > drivers/staging/rtl8723bs/hal/sdio_ops.c       | 14 +++++++-------
-> > > > .../staging/rtl8723bs/include/rtw_pwrctrl.h    |  2 +-
-> > > > 8 files changed, 24 insertions(+), 24 deletions(-)
-> > > >
-> > > > Patch 2/3: staging: rtl8723bs: Change the type and use of a variable
-> > > >
-> > > > drivers/staging/rtl8723bs/hal/hal_intf.c        | 2 +-
-> > > >
-> > > >  drivers/staging/rtl8723bs/include/rtw_pwrctrl.h | 2 +-
-> > > >  2 files changed, 2 insertions(+), 2 deletions(-)
-> > > >
-> > > > Patch 3/3: staging: rtl8723bs: include: Fix misspelled words in
-> > > > comments
-> > > >
-> > > > .../rtl8723bs/include/Hal8192CPhyReg.h        |  8 ++---
-> > > >
-> > > >  .../staging/rtl8723bs/include/basic_types.h   |  2 +-
-> > > >  drivers/staging/rtl8723bs/include/drv_types.h |  2 +-
-> > > >  drivers/staging/rtl8723bs/include/hal_com.h   |  2 +-
-> > > >  .../staging/rtl8723bs/include/hal_com_reg.h   | 34 +++++++++----------
-> > > >  drivers/staging/rtl8723bs/include/hal_data.h  |  2 +-
-> > > >  .../staging/rtl8723bs/include/hal_pwr_seq.h   |  2 +-
-> > > >  drivers/staging/rtl8723bs/include/rtw_cmd.h   |  6 ++--
-> > > >  drivers/staging/rtl8723bs/include/rtw_mlme.h  | 18 +++++-----
-> > > >  .../staging/rtl8723bs/include/rtw_mlme_ext.h  |  2 +-
-> > > >  drivers/staging/rtl8723bs/include/rtw_mp.h    |  2 +-
-> > > >  .../staging/rtl8723bs/include/rtw_pwrctrl.h   |  2 +-
-> > > >  drivers/staging/rtl8723bs/include/rtw_recv.h  |  4 +--
-> > > >  drivers/staging/rtl8723bs/include/rtw_xmit.h  |  2 +-
-> > > >  drivers/staging/rtl8723bs/include/sta_info.h  |  2 +-
-> > > >  drivers/staging/rtl8723bs/include/wifi.h      |  2 +-
-> > > >  16 files changed, 46 insertions(+), 46 deletions(-)
-> > > >
-> > > > Fabio M. De Francesco
-> > >
-> > > I have no idea how you created this patch series, but I do not think it
-> > > worked well :(
-> > >
-> > > Please use our standard tools, that do this all for you automatically,
-> > >
-> > Apart from the fact that I forgot to save the subject, I didn't know that
-> > there are standard tools for doing Patch 0/N. Therefore I thought to make
-> > an email message that contained the information about the patch series.
-> >
-> > I was wrong, sorry. I have to research this topic in the git manual or
-> > somewhere else.
->
-> 'git format-patch --cover-letter main..HEAD' will to the trick, if you
-> are on a different branch from 'main'.  Then edit the 0000-* file and
-> then send them all off with 'git send-email'.
+See, only the first email shows there.
 
-Fabio,
+But here is a properly threaded series of patches:
+	https://lore.kernel.org/r/161793058309.10062.17056551235139961080.stgit@mickey.themaw.net
 
-The --cover-letter option is discussed in the "Versioning patchsets"
-section of the tutorial.  Perhaps that is not the best place for it, since
-the need for a cover letter is not specific to versioning...
+Look down at the bottom of the page to see all patches, and the
+responses, linked together.
 
-julia
+Please use 'git send-email' to send your patches out as it will
+correctly thread things if you do not know how to do this "by hand".
+And note, "by hand" is hard to do...
 
->
-> thanks,
->
-> greg k-h
->
-> --
-> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/YHFcI104K%2Bih3UDG%40kroah.com.
->
+I have now dropped all pending patches from you from my queue, please
+fix up your two patch series and resend.
+
+thanks,
+
+greg k-h
