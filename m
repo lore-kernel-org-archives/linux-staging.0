@@ -1,104 +1,137 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7578F71
-	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 02:13:16 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id b26so262274pfr.3
-        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 19:13:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9757671
+	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 02:25:56 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id cu16so1772388pjb.4
+        for <linux-staging@lists.linux.dev>; Fri, 09 Apr 2021 19:25:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=nPOFyIIlua33yWGhXrEphFLgIKlagAmifofs3UcXjLU=;
-        b=pou+hH1r5XCVI4nwllZpV2muFqU45ynq/ro4ciJaA15IfBIAgZuzBR19o4diZVKePh
-         36c4fWXFHl+jr+z+s1t5UsmCJ/RfLoAoVBoh6kvWbGZSjRzfdpIdGeqU/1iQwa1dJEY1
-         Lxr1ZC2/d1vESMsWWKJfGfAAHEO4T4FLBOHi29ePiItf25XvdKD4yPLdaUcs9Pu8XAgc
-         H0akB4IjgvYEODSOGouQIi8/1LFEqD4CNfByXfiHRIm4d/VBSvaLysXI5EUsIsAiCbyG
-         NEaIoIYff9bryGVI9wye4Mk3FIn1TbRJuA1sFhY+FT3wLspysiXjh0k9+rOxLI7PE5uP
-         AXtA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=tRxserF1kmYtyXKOVcZo2cxB5e2oiDqXxMhGx+qb4IE=;
+        b=F5lFTt3U3onbYaIlDdSmB46f8guOx+gRe+kZHWp07pu3+yZDYockBr2vbQ7hAeNTS4
+         Fzs0quiCYHKBowNI+wv8sS178SXa6NQZfLWC1FHWYKO9+/R/c2KMn9ZMpUJnfkhld2zA
+         5BHVMN/gg7H6P05qMhcJ5jIx6IrI8QNb+cR9HViVjX3EXBOFH2JYAtbb4J4vpAlEfME6
+         YF6kJX/7SvnFI5unlVfQVmjf6+AQNSxZQxrFHaU3031kdysT8zONzp9FiPxQ/mxuBCBa
+         047kHruZEzYYfNSPqww1MKLpiriz9ZNKrDQ/T8Dl3dR3QHhwqBe4BBDmWRHL4F2UUZo8
+         xSLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=nPOFyIIlua33yWGhXrEphFLgIKlagAmifofs3UcXjLU=;
-        b=bruV0MmvXAUe4kTDYYZZ4UGJyM2GUeDyc9HlpEMZyAgIMdJ0y3bXKrN7q5cC4/YX3g
-         m82a6+xWF1EemkxS2i0AQ2yUr4pLHWUa2Q1KWe8kcbvluUtFcP7BUwv0/x7aI1sjKJ85
-         mgbKqAbQw2XQZAEFtgh/2aoWP8ShtVwXYHPhEZJfAguGoD+X6l1GlPDsx30f9aBBEmg0
-         pQytvdMhNXjGZ5rpitkgW01WN+bycq6Y/T8kaTfT/dLvNgHPCwbgP3gsYEC1rHbwWoI7
-         iEX8cPv7T6lg1zIHqBAPlYLifnOQEpc7EaGz3g8+/8vHAkn16OD9h0da2I21r7sxiZtm
-         qOtA==
-X-Gm-Message-State: AOAM533xFa1zF7Q0MIhY3hufYSeZBBya1JeqCmw5hKgrWNi5Wvl214iu
-	6TqwsMtjKwPszGIECy7x7eWv9bBlYA1qug==
-X-Google-Smtp-Source: ABdhPJx6A9m9dxKB1E5XyPPTqYzNk5zTivMr3wfmnlGaTgzuVo7/6vOwyx0MQ2nOOYcBD+UNxuUEhA==
-X-Received: by 2002:a63:544e:: with SMTP id e14mr16749833pgm.288.1618020795974;
-        Fri, 09 Apr 2021 19:13:15 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=tRxserF1kmYtyXKOVcZo2cxB5e2oiDqXxMhGx+qb4IE=;
+        b=M7wwofvBlaCrnbyoJEdZu3/YmVLm+EBFWM99nTfOphI01nvLxhrahMXcTl1Een197N
+         g6jjl2rM5+L+AwhBzQEyg0+EjiGcntz9+yN9zeC0ALEo/8TTP8Wqj9HaHqrw+etPe1U3
+         oT5NHCZsGizLmDKg2I/lynxNdSD1E92Srq9iAsEjH8nNGBYK7MF2AtLQ8exMfbHEi5Zd
+         OVOJ0df0agV6Cw4XvxvzyJo/SK6+eZQkKjT8DQEjmtuaFQXOn4sfIH1WIHzkhzJ0iVnw
+         g8ruotPhJTRupAXzJ2vB/WG6JAMVtyKsmTbEuFoCrMfaZQCfi+97rcR6mHOJY6JpesN7
+         CSHw==
+X-Gm-Message-State: AOAM532G83gcttcaQtthtD7BMdtiWbI9xxJVieO0h84b2DHbUrYVpu4K
+	7ocIQKDyNDkpkHFSf+f7Ko8=
+X-Google-Smtp-Source: ABdhPJz7lM/gsqRZlDLJ+6SkN81Sx32KSGrMytlIcd/YtLBZ92T+CGsrCPI1usz47hXSPlkj5IMO8g==
+X-Received: by 2002:a17:90b:4b87:: with SMTP id lr7mr15623594pjb.5.1618021556083;
+        Fri, 09 Apr 2021 19:25:56 -0700 (PDT)
 Received: from kali ([103.141.87.254])
-        by smtp.gmail.com with ESMTPSA id q14sm4174933pgt.54.2021.04.09.19.13.13
+        by smtp.gmail.com with ESMTPSA id d2sm3844630pgp.47.2021.04.09.19.25.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 19:13:15 -0700 (PDT)
-Date: Sat, 10 Apr 2021 07:43:10 +0530
+        Fri, 09 Apr 2021 19:25:55 -0700 (PDT)
+Date: Sat, 10 Apr 2021 07:55:49 +0530
 From: Mitali Borkar <mitaliborkar810@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: [PATCH 3/3] staging: rtl8192e: remove unncessary parentheses
-Message-ID: <YHEJtkbGtHmajJIt@kali>
+To: Joe Perches <joe@perches.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
+	mitali_s@me.iitr.ac.in
+Subject: Re: [PATCH 4/6] staging: rtl8192e: matched alignment with open
+ parenthesis
+Message-ID: <YHEMrQdEFpXgmMh/@kali>
+References: <YHEA2Te3Hik5J39t@kali>
+ <f5fe04d62b22eb5e09c299e769d9b9d8917f119c.camel@perches.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f5fe04d62b22eb5e09c299e769d9b9d8917f119c.camel@perches.com>
 
-Removed unnecessary parentheses because they must be used only when it
-is necessary or they improve readability.
-Reported by checkpatch.
+On Fri, Apr 09, 2021 at 07:07:09PM -0700, Joe Perches wrote:
+> On Sat, 2021-04-10 at 07:05 +0530, Mitali Borkar wrote:
+> > Matched the alignment with open parenthesis to meet linux kernel coding
+> > style.
+> > Reported by checkpatch.
+> []
+> > diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+> []
+> > @@ -154,7 +154,7 @@ bool IsHTHalfNmodeAPs(struct rtllib_device *ieee)
+> >  	    (net->ralink_cap_exist))
+> >  		retValue = true;
+> >  	else if (!memcmp(net->bssid, UNKNOWN_BORADCOM, 3) ||
+> > -		!memcmp(net->bssid, LINKSYSWRT330_LINKSYSWRT300_BROADCOM, 3) ||
+> > +		 !memcmp(net->bssid, LINKSYSWRT330_LINKSYSWRT300_BROADCOM, 3) ||
+> >  		!memcmp(net->bssid, LINKSYSWRT350_LINKSYSWRT150_BROADCOM, 3) ||
+> >  		(net->broadcom_cap_exist))
+> 
+> checkpatch is a stupid script.
+> Look further at the code not just at what checkpatch reports.
+> Align all the contination lines, not just the first one.
+>
+Sir, I have aligned them in last patch of this patchset.
 
-Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
----
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+> It might be sensible to add a generic function like
+> 
+> static inline bool ether_oui_equal(const u8 *addr, const u8 *oui)
+> {
+> 	return addr[0] == oui[0] && addr[1] == oui[1] && addr[2] == oui[2];
+> }	
+> 
+> to include/linux/etherdevice.h
+> 
+> (Maybe use & instead of && if it's speed sensitive)
+> 
+> so this would read
+> 
+> 	else if (ether_oui_equal(net->bssid, UNKNOWN_BORADCOM) ||
+> 		 ether_oui_equal(net->bssid, LINKSYSWRT330_LINKSYSWRT300_BROADCOM) ||
+> 		 ether_oui_equal(net->bssid, LINKSYSWRT350_LINKSYSWRT150_BROADCOM) ||
+> 		 net->broacom_cap_exist)
+> 
+> and it'd also be good to correct the typo of UNKNOWN_BORADCOM globally.
+>
+I will look into this.
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 89d0e9ec188d..b1fa8e9a4f28 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -287,7 +287,7 @@ void HTConstructCapabilityElement(struct rtllib_device *ieee, u8 *posHTCap,
- 		u8	EWC11NHTCap[] = {0x00, 0x90, 0x4c, 0x33};
- 
- 		memcpy(posHTCap, EWC11NHTCap, sizeof(EWC11NHTCap));
--		pCapELE = (struct ht_capab_ele *)&(posHTCap[4]);
-+		pCapELE = (struct ht_capab_ele *)&posHTCap[4];
- 		*len = 30 + 2;
- 	} else {
- 		pCapELE = (struct ht_capab_ele *)posHTCap;
-@@ -646,13 +646,13 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
- 	pHTInfo->CurrentMPDUDensity = pHTInfo->MPDU_Density;
- 	pHTInfo->CurrentAMPDUFactor = pHTInfo->AMPDU_Factor;
- 
--	memset((void *)(&(pHTInfo->SelfHTCap)), 0,
-+	memset((void *)(&pHTInfo->SelfHTCap), 0,
- 	       sizeof(pHTInfo->SelfHTCap));
--	memset((void *)(&(pHTInfo->SelfHTInfo)), 0,
-+	memset((void *)(&pHTInfo->SelfHTInfo), 0,
- 	       sizeof(pHTInfo->SelfHTInfo));
--	memset((void *)(&(pHTInfo->PeerHTCapBuf)), 0,
-+	memset((void *)(&pHTInfo->PeerHTCapBuf), 0,
- 	       sizeof(pHTInfo->PeerHTCapBuf));
--	memset((void *)(&(pHTInfo->PeerHTInfoBuf)), 0,
-+	memset((void *)(&pHTInfo->PeerHTInfoBuf), 0,
- 	       sizeof(pHTInfo->PeerHTInfoBuf));
- 
- 	pHTInfo->bSwBwInProgress = false;
-@@ -668,7 +668,7 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
- 	pHTInfo->IOTRaFunc = 0;
- 
- 	{
--		u8 *RegHTSuppRateSets = &(ieee->RegHTSuppRateSet[0]);
-+		u8 *RegHTSuppRateSets = &ieee->RegHTSuppRateSet[0];
- 
- 		RegHTSuppRateSets[0] = 0xFF;
- 		RegHTSuppRateSets[1] = 0xFF;
--- 
-2.30.2
+> > @@ -654,13 +654,13 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
+> >  	pHTInfo->CurrentAMPDUFactor = pHTInfo->AMPDU_Factor;
+> >  
+> > 
+> >  	memset((void *)(&(pHTInfo->SelfHTCap)), 0,
+> > -		sizeof(pHTInfo->SelfHTCap));
+> > +	       sizeof(pHTInfo->SelfHTCap));
+> 
+> Doesn't need casts or parentheses.
+> 
+> 	memset(&pHTInfo->SelfHTCap, 0, sizeof(pHTInfo->SelfHCap));
+> 
+Ok Sir, i am on it.
 
+> >  	memset((void *)(&(pHTInfo->SelfHTInfo)), 0,
+> > -		sizeof(pHTInfo->SelfHTInfo));
+> > +	       sizeof(pHTInfo->SelfHTInfo));
+> 
+> etc...
+> 
+> > @@ -815,7 +815,7 @@ void HTUseDefaultSetting(struct rtllib_device *ieee)
+> >  		HTFilterMCSRate(ieee, ieee->Regdot11TxHTOperationalRateSet,
+> >  				ieee->dot11HTOperationalRateSet);
+> >  		ieee->HTHighestOperaRate = HTGetHighestMCSRate(ieee,
+> > -					   ieee->dot11HTOperationalRateSet,
+> > +							       ieee->dot11HTOperationalRateSet,
+> >  					   MCS_FILTER_ALL);
+> 
+> multi line statement alignment etc...
+>
+Sir, I have aligned this patch 6/6
+> 
