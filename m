@@ -1,71 +1,168 @@
-Received: from mail-40133.protonmail.ch (mail-40133.protonmail.ch [185.70.40.133])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788C470
-	for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 13:36:55 +0000 (UTC)
-Date: Sun, 11 Apr 2021 13:36:39 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail3; t=1618148208;
-	bh=S+1fGAVV8UQL2Dd8l3RggPscvGMHVfdyONCHp5RBFt4=;
-	h=Date:To:From:Cc:Reply-To:Subject:From;
-	b=czKFh2c9sv+IQ4oyKxhSmRTc3kFleH5nErGuc1aEg8oFWnZHqnsVy5XxHaHGEnOGs
-	 sUflTx+qhKo9FTqB2AMjPxvuojTY/B3KUxjGOL6ZZB3dm5vJ1jpmnhQXh8meCIv/Es
-	 +qjg0f7e2r9xw8bPlMsEJexDV1OhKkzlkDFw7ChpheU7gYDZB6x71IzpzJ0bju7WR+
-	 zq1/Nmuh0uVJPQWHYipSga23BaeGqVtjdCfBjdHHC7VYRtO58ZMguEiQ4f7WHqxqhm
-	 lZp+4iN2jIyUDYSuHpBy+/0ZERN7UjBxm8KK/uB6h06C2I4jGonquRY1Cs3EjMMkgc
-	 TZLc/MmnT9cfg==
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans de Goede <hdegoede@redhat.com>, Larry Finger <Larry.Finger@lwfinger.net>
-From: Bryan Brattlof <hello@bryanbrattlof.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, Bryan Brattlof <hello@bryanbrattlof.com>
-Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: [PATCH v4] staging: rtl8723bs: remove unnecessary goto jumps
-Message-ID: <20210411133625.38195-1-hello@bryanbrattlof.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DD970
+	for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 13:45:55 +0000 (UTC)
+Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id C655061027;
+	Sun, 11 Apr 2021 13:45:52 +0000 (UTC)
+Date: Sun, 11 Apr 2021 14:46:13 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Lucas Stankus <lucas.p.stankus@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com,
+ gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: staging: iio: cdc: ad7746: add binding
+ documentation for AD7746
+Message-ID: <20210411144613.249c4d2f@jic23-huawei>
+In-Reply-To: <4be8e3e40794474d8622192c6a5ea0fb4af527e1.1617993776.git.lucas.p.stankus@gmail.com>
+References: <cover.1617993776.git.lucas.p.stankus@gmail.com>
+	<4be8e3e40794474d8622192c6a5ea0fb4af527e1.1617993776.git.lucas.p.stankus@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-	autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-	mailout.protonmail.ch
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The next instruction for both 'goto exit' jump statements is to
-execute the exit jump instructions regardless. We can safely
-remove all jump statements from __init rtw_drv_entry()
+On Fri, 9 Apr 2021 15:50:10 -0300
+Lucas Stankus <lucas.p.stankus@gmail.com> wrote:
 
-Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
----
-Changes from:
-  v1: removed unnecessary edit of DBG_871X_LEVEL
-  v2: elaborated on steps to remove a checkpatch.pl warning
-  v3: separated checkpatch.pl fix into separate patch
+> Add device tree binding documentation for AD7746 cdc in YAML format.
+> 
+> Signed-off-by: Lucas Stankus <lucas.p.stankus@gmail.com>
 
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 4 ----
- 1 file changed, 4 deletions(-)
+Hi Lucas,
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging=
-/rtl8723bs/os_dep/sdio_intf.c
-index 9fd926e1698f..2b61a4bdd8a1 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -517,12 +517,8 @@ static int __init rtw_drv_entry(void)
- =09if (ret !=3D 0) {
- =09=09sdio_drvpriv.drv_registered =3D false;
- =09=09rtw_ndev_notifier_unregister();
--=09=09goto exit;
- =09}
-=20
--=09goto exit;
--
--exit:
- =09DBG_871X_LEVEL(_drv_always_, "module init ret =3D%d\n", ret);
- =09return ret;
- }
---=20
-2.27.0
+Good to see progress on this one after all these years :)
 
+I think we can do a bit better though by making the attributes
+easy to comprehend without needing to refer to the documentation.
+Always good to avoid magic numbers if we can.
+
+Suggestions inline.
+
+Jonathan
+
+> ---
+>  .../bindings/iio/cdc/adi,ad7746.yaml          | 79 +++++++++++++++++++
+>  1 file changed, 79 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml b/Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml
+> new file mode 100644
+> index 000000000000..5de86f4374e1
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml
+> @@ -0,0 +1,79 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iio/cdc/adi,ad7746.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: AD7746 24-Bit Capacitance-to-Digital Converter with Temperature Sensor
+> +
+> +maintainers:
+> +  - Michael Hennerich <michael.hennerich@analog.com>
+> +
+> +description: |
+> +  AD7746 24-Bit Capacitance-to-Digital Converter with Temperature Sensor
+> +
+> +  Specifications about the part can be found at:
+> +  https://www.analog.com/media/en/technical-documentation/data-sheets/ad7291.pdf
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - adi,ad7745
+> +      - adi,ad7746
+> +      - adi,ad7747
+> +
+> +  reg:
+> +    description: |
+> +      Physiscal address of the EXC set-up register.
+
+reg in this case would be the i2c address.
+
+> +    maxItems: 1
+> +
+> +  adi,excitation-voltage-level:
+
+This isn't a level as such, it's a scale factor, or something like
+that and the naming should reflect that + the values
+should be real in some sense (multipliers so
+perhaps something like adi,excitation-vdd-milicent ?
+schema/property-units.yaml includes -percent but that doesn't
+have enough precision.
+
+enum [125, 250, 375, 500] 
+
+> +    description: |
+> +      Select the reference excitation voltage level used by the device.
+> +      With VDD being the power supply voltage, valid values are:
+> +      0: +-VDD / 8
+> +      1: +-VDD / 4
+> +      2: +-VDD * 3 / 8
+> +      3: +-VDD / 2
+> +      If left empty option 3 is selected.
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [0, 1, 2, 3]
+> +
+> +  adi,exca-output:
+> +    description: |
+> +      Sets the excitation output in the exca pin.
+> +      Valid values are:
+> +      0: Disables output in the EXCA pin.
+> +      1: Enables EXCA pin as the excitation output.
+> +      2: Enables EXCA pin as the inverted excitation output.
+
+Hmm. Various ways we could do this and avoid the need for
+a enum representing several different things.  Perhaps
+
+adi,exa-output-en
+adi,exa-output-invert
+
+(appropriate checks so we can only have invert of the channel
+is enabled as otherwise it is less than meaningful)
+
+> +      If left empty the output is disabled.
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [0, 1, 2]
+> +
+> +  adi,excb-output:
+> +    description: |
+> +      Analoguos to the adi,exca-output for the EXCB pin.
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [0, 1, 2]
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      ad7746: cdc@0 {
+> +        compatible = "adi,ad7746";
+> +        reg = <0>;
+
+That's very unlikely as an i2c address.
+
+> +        adi,excitation-voltage-level = <3>;
+> +        adi,exca-output = <0>;
+> +        adi,excb-output = <0>;
+> +      };
+> +    };
+> +...
 
