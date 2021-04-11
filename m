@@ -1,60 +1,56 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 710916D15
-	for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 18:12:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2BA6D00
+	for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 18:12:28 +0000 (UTC)
 Received: from localhost.localdomain ([37.4.249.124]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MTR6K-1l8Zoi3GkW-00Toty; Sun, 11 Apr 2021 20:12:24 +0200
+ id 1MKKIZ-1lGaYi1Kvv-00LoHF; Sun, 11 Apr 2021 20:12:23 +0200
 From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Nicolas Saenz Julienne <nsaenz@kernel.org>
 Cc: linux-staging@lists.linux.dev,
 	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH 07/10] staging: vchiq_core: use BITSET_WORD macro
-Date: Sun, 11 Apr 2021 20:11:37 +0200
-Message-Id: <1618164700-21150-8-git-send-email-stefan.wahren@i2se.com>
+Subject: [PATCH 00/10] staging: vchiq_core: improve code readability
+Date: Sun, 11 Apr 2021 20:11:30 +0200
+Message-Id: <1618164700-21150-1-git-send-email-stefan.wahren@i2se.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1618164700-21150-1-git-send-email-stefan.wahren@i2se.com>
-References: <1618164700-21150-1-git-send-email-stefan.wahren@i2se.com>
-X-Provags-ID: V03:K1:RIQvgbePrBcrCydC1R634IhLCcpozBaHhIIdoS52+PJN06v46Ba
- hupZDRlPYwrLknHX801T/aaDhFKRpl303s8u37C3dwfFhZKn7/xOA53GIx7nRGpyg9mBspw
- rgzXuaAQj3x6fzrn6AmyM36Ybiv40Z1v0si31sra0QMxtGQGdYP4+v7hos8K/IwK5wD/UX+
- 9NPkkWxVrv31cUtKy5VyQ==
+X-Provags-ID: V03:K1:p/uzOoHMgdiiIkBFykZ7LeGVCK4DvUgyhkacKe5PXnmNg7BL9P1
+ nsSz9JwfSOVWSqKPutbzWly74sp3cvq4M4x+B34JV2LFTYmCqvFtCpq9WknTQhlgWGiTEEu
+ qnM12J5KfFSNCXgvyVhTxjfmKO/6RjBeybKlL+l93kNynFoZ3B+9WvdmKxroxY91HHq+og0
+ tPNJgU39nZ0VjxgkPHDAg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vjBo+IIrGDM=:Tt04wOtLzem+JwobWmsDSv
- LPWCptr/Kml7KQCd+bPF0fJA8nBGBxrQuOElmgyRuhvfNYor0hy0l7w7Htx5qw9YQ/NlZ0kI7
- /+uhkJ8b30qdFAf3qBSY61stxHpbRKDiz3sdHFymFqR1LDcOMisHdU79HWLOOjdOpcHOapBsj
- mECQis6An5BHsUt/LtsCMKB8+z0ojaVC836pGy/aENDxOynmVdLmO9DqO0E8S0d31iRXOj/0X
- KWX3rScusdSBqUx66lKj1QJ7Izi1WCMTcFmYkTN6xlxaVDbGXO6sZU0lWqzOBaYz4bdMIR8PB
- VHxR1iPhTlupPUhBSFP8wJz1kKup+4G1/cuqkTzwu9lb/BULIT46800X7NECj/KhKpd1zoXO+
- Y5ctZUXWiy4vIHEUzNApAchPEbcmHD+QMdRLJzEfC4pfHO9m28Tv6U+zYNy8AlAQGHyDW15iW
- sTjzVqcivo8ISBDHaa15ttsB69FddO0heB1jPNvfK1+xhRdKu8uS
+X-UI-Out-Filterresults: notjunk:1;V03:K0:SvQyoyjLqHo=:9BoyJ/V6AQKIEYH++hSGR+
+ KJpkVkXV073+soklmjtlurR2ih3IovAkAY/bRFKIV02SXXGA642RFNgO7iWUUFLmiofWr/F13
+ yUelE3JmqMPtSzcI5U1x5NHZzMzaW7Wk11/HnPvAtWhyxPP/RsdSNPu5mAUsWr5Zk+FpHna4f
+ bO2pPmu0SGTVtwJi/ID47KG9ll0VfIAhkCqM2IM74yuWHyDbxv5G3bWeodMhvf53F8fnLelog
+ qYzNLbnvJ/E5pJzeYve8TYaUPd1Ui52jy9fT4AlgGMpSK1E+CmlbthBgwUZLrwGS0jrtBIyk2
+ oo3wqTcwW1kRe1Npv56FmuURHo9uxoY6FRRKKvctDK+Fgdt3FM7c+LjeYoGcqyBHtelr6xI/4
+ LgrDBSls63jXC2VUSwJ0RkRNnD6uS7XGFaJVKrULBUux3AdFTZKg5wSnIqhzx7ntgX08/nhLi
+ Y8hyEjMg9+hanYnZbp60gsUtaOfdQGqd9XYO8fJNarzwrkzJJQRQ
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-Use this macro to make the index retrieval less opaque.
+This series mostly addresses the point "Reformat core code with more sane
+indentations" from the TODO list.
 
-Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
----
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Stefan Wahren (10):
+  staging: vchiq_core: Simplify vchiq_send_remote_use*
+  staging: vchiq_core: Shorten var name for service quota
+  staging: vchiq_core: Get the rid off curly braces around cases
+  staging: vchiq_core: Exit early in 2 functions
+  staging: vchiq_core: introduce service skip
+  staging: vchiq_core: improve readability of request_poll
+  staging: vchiq_core: use BITSET_WORD macro
+  staging: vchiq_core: introduce SLOT_QUEUE_INDEX_FROM_POS_MASKED
+  staging: vchiq_core: fix if alignments
+  staging: vchiq_core: split exit conditions
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 22989866..2db2332 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -547,7 +547,7 @@ request_poll(struct vchiq_state *state, struct vchiq_service *service,
- 	} while (atomic_cmpxchg(&service->poll_flags, value,
- 		 value | BIT(poll_type)) != value);
- 
--	index = service->localport >> 5;
-+	index = BITSET_WORD(service->localport);
- 	do {
- 		value = atomic_read(&state->poll_services[index]);
- 	} while (atomic_cmpxchg(&state->poll_services[index],
+ .../vc04_services/interface/vchiq_arm/vchiq_core.c | 360 +++++++++++----------
+ 1 file changed, 182 insertions(+), 178 deletions(-)
+
 -- 
 2.7.4
 
