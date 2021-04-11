@@ -1,27 +1,25 @@
-Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch [185.70.40.136])
+Received: from mail-40133.protonmail.ch (mail-40133.protonmail.ch [185.70.40.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D07770
-	for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 13:05:58 +0000 (UTC)
-Date: Sun, 11 Apr 2021 13:05:45 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788C470
+	for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 13:36:55 +0000 (UTC)
+Date: Sun, 11 Apr 2021 13:36:39 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail3; t=1618146350;
-	bh=gMCbMDXKluEh7a3wZCLySW+6f1sYY+ESIrdx8bfwTtE=;
-	h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-	b=QJY4bBcPITcWEBo4JwJW5uYGcN8Hzt32/bfJZkm1+yyaaQ69d+Q2nMVKvQrhFq+Jr
-	 JD7qzRPF9xUwgEnnEGTit2YgRrtWFvT817LTSWMYXMw+78MIPwILyHsVTYUxYo6v+c
-	 o6CfICy0rsBqi8DL8UJQqWRYNIW+hLm/yvYGijTbAZ0fQcwo5fDhouI3ZpgqLrNAic
-	 9vfHxKTS4uNEQX5smN0P2o77AkGlpnsln1ZjF+cMaCs0nfj8xCf8E9baR6nR18eb+t
-	 BNXrod8g/iNm3MZBBsCf1MBZ32Vh6xudRhT6a5Zw9tg7uo/h0Rf3iZXf8Xvf7bBisY
-	 AMzpbB4/FpZQQ==
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	s=protonmail3; t=1618148208;
+	bh=S+1fGAVV8UQL2Dd8l3RggPscvGMHVfdyONCHp5RBFt4=;
+	h=Date:To:From:Cc:Reply-To:Subject:From;
+	b=czKFh2c9sv+IQ4oyKxhSmRTc3kFleH5nErGuc1aEg8oFWnZHqnsVy5XxHaHGEnOGs
+	 sUflTx+qhKo9FTqB2AMjPxvuojTY/B3KUxjGOL6ZZB3dm5vJ1jpmnhQXh8meCIv/Es
+	 +qjg0f7e2r9xw8bPlMsEJexDV1OhKkzlkDFw7ChpheU7gYDZB6x71IzpzJ0bju7WR+
+	 zq1/Nmuh0uVJPQWHYipSga23BaeGqVtjdCfBjdHHC7VYRtO58ZMguEiQ4f7WHqxqhm
+	 lZp+4iN2jIyUDYSuHpBy+/0ZERN7UjBxm8KK/uB6h06C2I4jGonquRY1Cs3EjMMkgc
+	 TZLc/MmnT9cfg==
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans de Goede <hdegoede@redhat.com>, Larry Finger <Larry.Finger@lwfinger.net>
 From: Bryan Brattlof <hello@bryanbrattlof.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Larry Finger <Larry.Finger@lwfinger.net>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, Bryan Brattlof <hello@bryanbrattlof.com>
 Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: Re: [PATCH v3] staging: rtl8723bs: remove unnecessary goto jumps
-Message-ID: <20210411130531.wpp2jm5xsoxhombk@bryanbrattlof.com>
-In-Reply-To: <YHKaeaEPzoDRKI01@kroah.com>
-References: <20210410152536.426047-1-hello@bryanbrattlof.com> <YHKaeaEPzoDRKI01@kroah.com>
+Subject: [PATCH v4] staging: rtl8723bs: remove unnecessary goto jumps
+Message-ID: <20210411133625.38195-1-hello@bryanbrattlof.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -35,30 +33,39 @@ X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
 X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
 	mailout.protonmail.ch
 
-On Sun, Apr 11, 2021 at 08:43:05AM +0200, Greg Kroah-Hartman wrote:
->
->On Sat, Apr 10, 2021 at 03:27:02PM +0000, Bryan Brattlof wrote:
->> The next instruction for both 'goto exit' jump statements is to
->> execute the exit jump instructions regardless. We can safely
->> remove all jump statements from __init rtw_drv_entry()
->>
->> This will also remove the extra line-break before module_init()
->> that checkpatch.pl was concerned with.
->
->When you say "also", that almost always means it should be a separate
->patch.  Please do so here, try to do only "one logical thing" per kernel
->patch please.
->
+The next instruction for both 'goto exit' jump statements is to
+execute the exit jump instructions regardless. We can safely
+remove all jump statements from __init rtw_drv_entry()
 
-Will do.
+Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
+---
+Changes from:
+  v1: removed unnecessary edit of DBG_871X_LEVEL
+  v2: elaborated on steps to remove a checkpatch.pl warning
+  v3: separated checkpatch.pl fix into separate patch
 
-I'll resubmit a clean v4 without the extra bits.
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
->
->thanks,
->
->greg k-h
+diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging=
+/rtl8723bs/os_dep/sdio_intf.c
+index 9fd926e1698f..2b61a4bdd8a1 100644
+--- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
++++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+@@ -517,12 +517,8 @@ static int __init rtw_drv_entry(void)
+ =09if (ret !=3D 0) {
+ =09=09sdio_drvpriv.drv_registered =3D false;
+ =09=09rtw_ndev_notifier_unregister();
+-=09=09goto exit;
+ =09}
+=20
+-=09goto exit;
+-
+-exit:
+ =09DBG_871X_LEVEL(_drv_always_, "module init ret =3D%d\n", ret);
+ =09return ret;
+ }
+--=20
+2.27.0
 
---
-~Brayn
 
