@@ -1,53 +1,51 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BD272
-	for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 10:56:23 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id g17so10827706edm.6
-        for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 03:56:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8FDF72
+	for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 11:05:03 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id r12so15542214ejr.5
+        for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 04:05:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Q1npjWd8vdjVzI836QvD79nNpNz24IQNsqdLifo9GH0=;
-        b=f6xP84EIdrHfCpLbq2zehKVLF0fdPl/MmFhD3LPidsCDsrKXRqKIf/XUvdY6D7ZfqS
-         4WaNFTuqcO5IqI2pWyISAYeoRe5IHVptcbp9RvkbU8mGfvMlkwGx8Lx2m2w16j4MMUxZ
-         00gYkTcZ9YpTHk21ms9NUgm06UQt30BQYx39wisUHCOhw4uWJYIitpNy03Y/mps5ChIZ
-         PFpKTuMcKpAmDDU90O1rh2tL+3JnM101kmSNjzGR3sXPC2YTONnjvMHI1boQ+ruk/dYq
-         r8u2ZMLJvTEc4FTwlMJrR+kXcB5aSxE5cNxVvSMb5DtbvZE93omU1jhU6k57CdSfszDd
-         YtdQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=az8q2odqAehv/6ccb9+lYFG/ANi2ZGKRpdq6W0qCMck=;
+        b=h157FVAEdsj22vfj8EhBEa/n516NW0gIl7o8+tw8rdFUvDIObwG7ab0F0McIFnlhWU
+         HkABfVBoQ6FHOSVgoRTXMgAUJIBJQolYbWyTpdji0iWbYNOE8vXpXSdH+HOaExRsP5Or
+         7cxTCcuPfmxB9K6X+FNJ671tqC6PQJqMlrZqnB4rBvcdclTM8ubwSbxrR0hV4nL7swNU
+         xo1ATP47vzutATXf6CQJkF/t5lQhjhs4BwZhEkFZfN3SBMMaS5cYOQuJRrhfKoEDf9oQ
+         D7+j4LXPTt/0ET4Oo8S+7+y5F5IKafEOIB1yuMr9KD9qdjF2T6I86OQaWL8L0eAW9DrV
+         paEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Q1npjWd8vdjVzI836QvD79nNpNz24IQNsqdLifo9GH0=;
-        b=n841PeQCAaPAq5gAeFLYlhrKOl5+egb8dmMMoW9/7Xv+Jfz1lbselm6GqirEMhh8n/
-         XinwYaW+euClj2ASweSBZjILz7Iz7v9TpAjsrPsTA+qBMur6wlFXrIId/eFMaMH1Xmtw
-         V5CP5E4oL/rh7ZOa9ge5mBrv4YNkyx+Pcn4zrK7Hp7j4W9jzA1Z50NS+BJmqXniJUN2Q
-         X9BwkU3AtvhRs47ZpjMC/kYmT5ABTlMIz0uR+5MSeRv/V40YODtKCDUpMvHwK5omBqez
-         gG1L5hN0j18UyHlVJn4niKX8B5qLDHANJc8xVtgTzO2JnL9w8bXy+iddj3zJXH/pROjp
-         aswA==
-X-Gm-Message-State: AOAM531opcoOU0ycmIgkj4PT3fKl44amS0rKQO6gar+yaNOr9FyC61ps
-	lBRQ05IDX5qcOVyDJuRGUBB5ZMAVJbGjrOF7
-X-Google-Smtp-Source: ABdhPJyt/f/XCCQ4jVqHM0MGNQwcU2nzXTp+mm1Ss+nSPSgWyBd8fPSTELDDYAczjdB429D4bl9kkQ==
-X-Received: by 2002:a05:6402:51c6:: with SMTP id r6mr24567953edd.278.1618138582343;
-        Sun, 11 Apr 2021 03:56:22 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=az8q2odqAehv/6ccb9+lYFG/ANi2ZGKRpdq6W0qCMck=;
+        b=PM7ugR9TAPwmlYPjNIcdCiVDbIFmVfZgeQIRQf1mr8rf3aSEY5uKorkmzDfGIfhjhI
+         nI/p7xqFaOlbnuuWos/vaKYdbvKRcz2OgPH76MijKVzKm5S162p5B5XLA0E5JbNBg+Dg
+         fdrUh3TJjM2UTd8HDrz3WyPJTs45U7x8z4gf978CH8hB/AxUS/5lJNK+cI+gSSek74Wq
+         LYjBpj4meIiW90Mkm1bjQC4uwF/g7mp/jfdGK5WfUzqfZ0XNgLD+6+3sPha1r7DmyiEb
+         wJsg7Xm/7U33cxftSGheK0MDmuo2SBLDlhJi9mhoXipOFL2naJFNmYKq4DyQICQx0na2
+         xmCQ==
+X-Gm-Message-State: AOAM530+Zq9zKVk1+rgc1lDWgb7xF6zexH/48Y8BrSX+uq6AuR939uqQ
+	n76Is5eP+9I1U+tQtQHmz/A=
+X-Google-Smtp-Source: ABdhPJyGmIUcU9hMK8vtxrrVi1WWp4GtlJ7YQ0MLjun1KSanFzDmudqZFAm1ZSsEULXv84IutKFqTw==
+X-Received: by 2002:a17:906:b28c:: with SMTP id q12mr8781212ejz.284.1618139102222;
+        Sun, 11 Apr 2021 04:05:02 -0700 (PDT)
 Received: from localhost.localdomain (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
-        by smtp.gmail.com with ESMTPSA id f10sm4369100edd.29.2021.04.11.03.56.21
+        by smtp.gmail.com with ESMTPSA id i2sm4577202edy.72.2021.04.11.04.05.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Apr 2021 03:56:21 -0700 (PDT)
+        Sun, 11 Apr 2021 04:05:01 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 To: Greg KH <gregkh@linuxfoundation.org>,
 	outreachy-kernel@googlegroups.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [Outreachy kernel] [PATCH v4 4/4] staging: rtl8723bs: Change controlling expressions
-Date: Sun, 11 Apr 2021 12:56:08 +0200
-Message-Id: <20210411105608.12900-5-fmdefrancesco@gmail.com>
+Subject: [Outreachy kernel] [PATCH v5 0/4] staging: rtl8723bs: Change several files of the driver
+Date: Sun, 11 Apr 2021 13:04:54 +0200
+Message-Id: <20210411110458.15955-1-fmdefrancesco@gmail.com>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210411105608.12900-1-fmdefrancesco@gmail.com>
-References: <20210411105608.12900-1-fmdefrancesco@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -55,47 +53,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Change controlling expressions within 'if' statements: don't compare
-with 'true'.
+Remove camelcase, correct misspelled words in comments, change 
+the type of a variable and its use, change comparisons with 'true'
+in controlling expressions.
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
-
+Changes from v4: Write patch version number in 2/4.
 Changes from v3: Move changes of controlling expressions in patch 4/4.
 Changes from v2: Rewrite subject in patch 0/4; remove a patch from the
 series because it had alreay been applied (rtl8723bs: core: Remove an unused variable).
 Changes from v1: Fix a typo in subject of patch 1/5, add patch 5/5.
 
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 2 +-
- drivers/staging/rtl8723bs/hal/hal_intf.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Fabio M. De Francesco (4):
+  staging: rtl8723bs: Remove camelcase in several files
+  staging: rtl8723bs: include: Fix misspelled words in comments
+  staging: rtl8723bs: include: Change the type of a variable
+  staging: rtl8723bs: Change controlling expressions
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index 32079e0f71d5..0297fbad7bce 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -1507,7 +1507,7 @@ static void rtw_lps_change_dtim_hdl(struct adapter *padapter, u8 dtim)
- 	if (pwrpriv->dtim != dtim)
- 		pwrpriv->dtim = dtim;
- 
--	if ((pwrpriv->fw_current_in_ps_mode == true) && (pwrpriv->pwr_mode > PS_MODE_ACTIVE)) {
-+	if (pwrpriv->fw_current_in_ps_mode && (pwrpriv->pwr_mode > PS_MODE_ACTIVE)) {
- 		u8 ps_mode = pwrpriv->pwr_mode;
- 
- 		rtw_hal_set_hwreg(padapter, HW_VAR_H2C_FW_PWRMODE, (u8 *)(&ps_mode));
-diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
-index 96fe172ced8d..8dc4dd8c6d4c 100644
---- a/drivers/staging/rtl8723bs/hal/hal_intf.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
-@@ -348,7 +348,7 @@ void rtw_hal_dm_watchdog(struct adapter *padapter)
- 
- void rtw_hal_dm_watchdog_in_lps(struct adapter *padapter)
- {
--	if (adapter_to_pwrctl(padapter)->fw_current_in_ps_mode == true) {
-+	if (adapter_to_pwrctl(padapter)->fw_current_in_ps_mode) {
- 		if (padapter->HalFunc.hal_dm_watchdog_in_lps)
- 			padapter->HalFunc.hal_dm_watchdog_in_lps(padapter); /* this function caller is in interrupt context */
- 	}
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      |  2 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     |  2 +-
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  | 18 +++++-----
+ drivers/staging/rtl8723bs/hal/hal_intf.c      |  2 +-
+ drivers/staging/rtl8723bs/hal/rtl8723b_dm.c   |  6 ++--
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |  2 +-
+ drivers/staging/rtl8723bs/hal/sdio_ops.c      | 14 ++++----
+ .../rtl8723bs/include/Hal8192CPhyReg.h        |  8 ++---
+ .../staging/rtl8723bs/include/basic_types.h   |  2 +-
+ drivers/staging/rtl8723bs/include/drv_types.h |  2 +-
+ drivers/staging/rtl8723bs/include/hal_com.h   |  2 +-
+ .../staging/rtl8723bs/include/hal_com_reg.h   | 34 +++++++++----------
+ drivers/staging/rtl8723bs/include/hal_data.h  |  2 +-
+ .../staging/rtl8723bs/include/hal_pwr_seq.h   |  2 +-
+ drivers/staging/rtl8723bs/include/rtw_cmd.h   |  6 ++--
+ drivers/staging/rtl8723bs/include/rtw_mlme.h  | 18 +++++-----
+ .../staging/rtl8723bs/include/rtw_mlme_ext.h  |  2 +-
+ drivers/staging/rtl8723bs/include/rtw_mp.h    |  2 +-
+ .../staging/rtl8723bs/include/rtw_pwrctrl.h   |  4 +--
+ drivers/staging/rtl8723bs/include/rtw_recv.h  |  4 +--
+ drivers/staging/rtl8723bs/include/rtw_xmit.h  |  2 +-
+ drivers/staging/rtl8723bs/include/sta_info.h  |  2 +-
+ drivers/staging/rtl8723bs/include/wifi.h      |  2 +-
+ 23 files changed, 70 insertions(+), 70 deletions(-)
+
 -- 
 2.31.1
 
