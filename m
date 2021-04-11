@@ -1,86 +1,50 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0FF70
-	for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 08:29:25 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id r22so11334705edq.9
-        for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 01:29:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Ctk7dRosetR2M8O8IdMtpC+jlxdgFJPjI6tvTIw5feY=;
-        b=tmhaHz7ZqgVIZJz0lOxCaKh4MNrtGA7X4zjXijxQZ8nExXRMiBGlm1WX5UHGAfmztr
-         kyjxSoDB249xrmC83NgCFZpGLEnAKHA7fmbGPeiX0JI/IfatapP0cwoWwFZ9HAcXILLT
-         E3Z9TeiJ+3wnVWG9+rJonCe6Sy1kKgu0xylwyis3gIGrQkFP1EfAM3wAhjpenUnq4BYc
-         aJnHflQwY36hz8Apt6OKzWbV4XvrlC67XAetbNBqNGiq0jbL/+ZWCPV4R/ICUW8vmEIH
-         VNPk2ymc1nEsTDBR478l4Qobi8gmXnWvta9B688UfNnf3J5JUYXgpXFuGE2skR+gBWRQ
-         9e6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Ctk7dRosetR2M8O8IdMtpC+jlxdgFJPjI6tvTIw5feY=;
-        b=cs7vdmA4c7Fyaxqmsow3a4PhO6FMjWVqjLVVMA/7hRZ7xb9VyRrniHPBM4Lwj9eXoo
-         CDYDVHfQ+oBb4OdlynqnPjHrlbr8Il07Db8+hE3E9QIwzrThCSgMS3mUW3mzD/7g8lsz
-         sy5l1cF1d0Zr18ywV4lMCXfxb2C0sS5Znbb8jdTLf47LcqBG4cGOWZs3uszOiYeymxKU
-         di2U2WN24WsTe+GQOf3wRVzg//NcpIaaRv2vKntB6FLnY9iAa0rR1cClSypfHSGYrX4D
-         57u8i1j0bFwWS4MmMYuYsl7VYF0EUjYCzKH0/mkDMDn/DFH4yTb3h26mnrq13J3xSyRS
-         XaLw==
-X-Gm-Message-State: AOAM5337mnIiJEtW+dmkVWTZ3+rCwjugNGNOA/9zfrhqW/oEZ/Z5bbxt
-	K1UWOfQgkE1ICFm6vsCl2RA=
-X-Google-Smtp-Source: ABdhPJxXLKKBH+tv6toOyicj/bNhkVaHS0BBk91QS63N3+kCIeu/sKhSAmaQRNm/LnJ/6lLTYJFjCw==
-X-Received: by 2002:aa7:cf03:: with SMTP id a3mr24457347edy.142.1618129764057;
-        Sun, 11 Apr 2021 01:29:24 -0700 (PDT)
-Received: from localhost.localdomain (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
-        by smtp.gmail.com with ESMTPSA id hp12sm3682541ejc.46.2021.04.11.01.29.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Apr 2021 01:29:23 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>,
-	outreachy-kernel@googlegroups.com,
-	linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5F0971
+	for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 08:39:18 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1588D60C41;
+	Sun, 11 Apr 2021 08:39:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1618130357;
+	bh=ptgz4PciJ8EZIH/tSNBSr2EiihonEzM+ZjH4HOcBJQs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cGOH+OCyfwx6BkX4ftG2DpPeHPSdvfmR/JRQOkRSn+YOrLWbnzN3BCEYMBxQZXZh2
+	 DAnGEzMBIDk2ung1IxeqxLOryV0vj9eIUbPlcOFJ4dnW6yGMVUMeLvPo4kL00NLR+b
+	 ak6bdNn3NffsEbOVSJajQrjNHMXDLUHq5jGacGss=
+Date: Sun, 11 Apr 2021 10:39:13 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [Outreachy kernel] [PATCH v3 4/4] staging: rtl8723bs: core: Change a controlling expression
-Date: Sun, 11 Apr 2021 10:29:08 +0200
-Message-Id: <20210411082908.31876-5-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210411082908.31876-1-fmdefrancesco@gmail.com>
+Subject: Re: [Outreachy kernel] [PATCH v3 3/4] staging: rtl8723bs: Change the
+ type and use of a variable
+Message-ID: <YHK1sS6N/+dcxxhZ@kroah.com>
 References: <20210411082908.31876-1-fmdefrancesco@gmail.com>
+ <20210411082908.31876-4-fmdefrancesco@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210411082908.31876-4-fmdefrancesco@gmail.com>
 
-Change a controlling expression within an 'if' statement: don't compare
-with 'true'.
+On Sun, Apr 11, 2021 at 10:29:07AM +0200, Fabio M. De Francesco wrote:
+> Change the type of fw_current_in_ps_mode from u8 to bool, because
+> it is used everywhere as a bool and, accordingly, it should be
+> declared as a bool. Shorten the controlling expression of an 
+> 'if' statement.
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
+The "shorten" portion should be in patch 4/4 as it does the same thing
+there, right?
 
-Changes from v2: Rewrite subject in patch 0/4; remove a patch from the
-series because it had alreay been applied (rtl8723bs: core: Remove an unused variable).
-Changes from v1: Fix a typo in subject of patch 1/5, add patch 5/5.
+Don't mix the two here, the changing of the type is fine to do alone as
+a single patch and the if () change has nothing to do with that.
 
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Also, you have trailing whitespace in your changelog text :(
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index 32079e0f71d5..600366cb1aeb 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -1507,7 +1507,7 @@ static void rtw_lps_change_dtim_hdl(struct adapter *padapter, u8 dtim)
- 	if (pwrpriv->dtim != dtim)
- 		pwrpriv->dtim = dtim;
- 
--	if ((pwrpriv->fw_current_in_ps_mode == true) && (pwrpriv->pwr_mode > PS_MODE_ACTIVE)) {
-+	if ((pwrpriv->fw_current_in_ps_mode) && (pwrpriv->pwr_mode > PS_MODE_ACTIVE)) {
- 		u8 ps_mode = pwrpriv->pwr_mode;
- 
- 		rtw_hal_set_hwreg(padapter, HW_VAR_H2C_FW_PWRMODE, (u8 *)(&ps_mode));
--- 
-2.31.1
+thanks,
 
+greg k-h
