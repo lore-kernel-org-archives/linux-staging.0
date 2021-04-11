@@ -1,113 +1,76 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B34CC71
-	for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 09:51:33 +0000 (UTC)
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3ANv2ZMqnKuUABvLgY7TB0L8LDHmTpDfLT3DAb?=
- =?us-ascii?q?vn1ZSRFFG/GwvcrGppQm/DXzjyscX2xlpMCYNMC7LE/02JZp7eAqU4uKcxLhvA?=
- =?us-ascii?q?KTR71KzYyn+DH4Hj27y+g178ZdWoxzEsf5A1Q/rcuS2mOFOvIhxNXCz6yyn+fZ?=
- =?us-ascii?q?yB5WIT1CUK1r4wdnBgvzKCQfeCB8CZU0D5aa7MZczgDQG0g/VNixBXUOQoH4yO?=
- =?us-ascii?q?HjqZSOW29kOzcXrC2HjTal89fBYn2l4is=3D?=
-X-IronPort-AV: E=Sophos;i="5.82,214,1613430000"; 
-   d="scan'208";a="502613962"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Apr 2021 11:51:32 +0200
-Date: Sun, 11 Apr 2021 11:51:32 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-cc: Julia Lawall <julia.lawall@inria.fr>, Greg KH <gregkh@linuxfoundation.org>, 
-    outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH v3 4/4] staging: rtl8723bs: core:
- Change a controlling expression
-In-Reply-To: <2796632.fryDJISotm@localhost.localdomain>
-Message-ID: <alpine.DEB.2.22.394.2104111150010.2854@hadrien>
-References: <20210411082908.31876-1-fmdefrancesco@gmail.com> <20210411082908.31876-5-fmdefrancesco@gmail.com> <alpine.DEB.2.22.394.2104111125310.2854@hadrien> <2796632.fryDJISotm@localhost.localdomain>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56FC971
+	for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 09:55:13 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id b26so2080510pfr.3
+        for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 02:55:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=7F1O+bCAJeRId7kUZbXaUrQs1QzWOIovw5IMYAIBgIw=;
+        b=UZ+wMFzbIft4Q+ZPHh+UzuG7t5OLjaylBYvANNTU7gwLwVLA3oRYBuV0tOKBGacoxs
+         6r4W+CUcReefrZ/pkkNuabslafThVW7DWR+g3XE4NSM/K8B0YOgSFqnSvWtPCSHlwKM/
+         2q7AUthsPhAZOwp6jWHIGQ+wR+pjFWh3ebafGPcExTU8RzYn0PDkSZTCfvWvD/ZUZeo5
+         gd+wGHtVpKsM3g0I6Yr+Krt13ZAT/j6FJYg0yq85qRx3SL4aU4Ydd1DhfzKm++CO1dFZ
+         wpHE911647Q5rIdYYR9Oel3rpdqsMHaPwkI5i/sLl7bOZT2cqkacAshmG8Td+MczeMKn
+         OotQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=7F1O+bCAJeRId7kUZbXaUrQs1QzWOIovw5IMYAIBgIw=;
+        b=XJBCBm//j2eof4/wdwZCQzlTlknRm34UPyHM2QkxJC9JP2hDIsqoHj9FipCRyBJS+i
+         hfl+xbjJPu0tyz9eEe5ArpVc2R0qI9wmxgn0iux3KchZAJ0uBeyrb4jBZ1pWGk30d2ub
+         08WwixLjfhum5vCBKbWxsxewpoAjZVJO1CWTUDdXmHSTL1L2unzVFCipxsjLIuzoog/X
+         XqUsyuYXcBol8QoeFFw757Tv9ZGKYYaiHs8Z5P0gs3acUY3XC8hX/R0Sx4kHLXK7mNOH
+         OlcRXugHCAsldL2oAdyyxfvChttihXofb1Pey+dh4DsVnRLbaiIX5kRru15oXM90BsqP
+         +K2g==
+X-Gm-Message-State: AOAM5307Iv5B6NDs4YloINBntHR3y+xhzVK7OCO9gxJ8INwEq6ETX3p6
+	k5ypKWd/gnPTqeZkM+yfDV0=
+X-Google-Smtp-Source: ABdhPJxXYmVx3abCfCXWnRfEd+xPH5PnTb5oIDEBoIwm29FEfbm5LXTD20t/2ogISJrjCoUiLKN7CQ==
+X-Received: by 2002:a63:7e51:: with SMTP id o17mr21501048pgn.281.1618134912802;
+        Sun, 11 Apr 2021 02:55:12 -0700 (PDT)
+Received: from kali ([103.141.87.253])
+        by smtp.gmail.com with ESMTPSA id g3sm6734435pfi.31.2021.04.11.02.55.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Apr 2021 02:55:12 -0700 (PDT)
+Date: Sun, 11 Apr 2021 15:25:05 +0530
+From: Mitali Borkar <mitaliborkar810@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
+Subject: [PATCH v3 0/3] Modify subject description and rectify spelling
+ mistake.
+Message-ID: <cover.1618133351.git.mitaliborkar810@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+This patch fixes style issues
+Changes from v2:-
+[PATCH v2 1/3]:- Modified subject description.
+[PATCH V2 2/3]:- No changes.
+[PATCH v2 3/3]:- Rectified spelling mistake in subject description.
 
+Changes from v1:- 
+[PATCH 1/3]:- Removed unnecessary parentheses around boolean expression.
+Changes has been made in v2.
+[PATCH 2/3]:- No changes.
+[PATCH 3/3]:- No changes.
 
-On Sun, 11 Apr 2021, Fabio M. De Francesco wrote:
+Mitali Borkar (3):
+  staging: rtl8192e: remove parentheses around boolean expression
+  staging: rtl8192e: remove unnecessary ftrace-like logging
+  staging: rtl8192e: remove unnecessary parentheses
 
-> On Sunday, April 11, 2021 11:26:41 AM CEST Julia Lawall wrote:
-> > On Sun, 11 Apr 2021, Fabio M. De Francesco wrote:
-> > > Change a controlling expression within an 'if' statement: don't compare
-> > > with 'true'.
-> > >
-> > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > > ---
-> > >
-> > > Changes from v2: Rewrite subject in patch 0/4; remove a patch from the
-> > > series because it had already been applied (rtl8723bs: core: Remove an
-> > > unused variable). Changes from v1: Fix a typo in subject of patch 1/5,
-> > > add patch 5/5.>
-> > >  drivers/staging/rtl8723bs/core/rtw_cmd.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> > > b/drivers/staging/rtl8723bs/core/rtw_cmd.c index
-> > > 32079e0f71d5..600366cb1aeb 100644
-> > > --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> > > +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> > > @@ -1507,7 +1507,7 @@ static void rtw_lps_change_dtim_hdl(struct
-> > > adapter *padapter, u8 dtim)>
-> > >  	if (pwrpriv->dtim != dtim)
-> > >
-> > >  		pwrpriv->dtim = dtim;
-> > >
-> > > -	if ((pwrpriv->fw_current_in_ps_mode == true) && (pwrpriv-
-> >pwr_mode >
-> > > PS_MODE_ACTIVE)) { +	if ((pwrpriv->fw_current_in_ps_mode) &&
-> > > (pwrpriv->pwr_mode > PS_MODE_ACTIVE)) {
-> > The parentheses in the left argument of && can be dropped as well.
-> >
-> What about the parentheses of the right argument? I'm not sure: does '>'
-> have precedence over '&&'? Doesn't it?
+ drivers/staging/rtl8192e/rtl819x_HTProc.c     |  18 ++-
+ 1 files changed, 7 insertions(+), 11 deletions(-)
 
-On the right they are not actually needed either:
+-- 
+2.30.2
 
-https://en.cppreference.com/w/c/language/operator_precedence
-
-But you could look around in the code and see what people typically do.
-Perhaps one might find the parentheses more clear when there is a binary
-operator.  But when there is no binary operator, they could be more
-confusing than useful.
-
-julia
-
->
-> Thanks,
->
-> Fabio
-> >
-> > julia
-> >
-> > >  		u8 ps_mode = pwrpriv->pwr_mode;
-> > >
-> > >  		rtw_hal_set_hwreg(padapter, HW_VAR_H2C_FW_PWRMODE,
-> (u8
-> > >  		*)(&ps_mode));
-> > >
-> > > --
-> > > 2.31.1
-> > >
-> > > --
-> > > You received this message because you are subscribed to the Google
-> > > Groups "outreachy-kernel" group. To unsubscribe from this group and
-> > > stop receiving emails from it, send an email to
-> > > outreachy-kernel+unsubscribe@googlegroups.com. To view this discussion
-> > > on the web visit
-> > > https://groups.google.com/d/msgid/outreachy-kernel/20210411082908.3187
-> > > 6-5-fmdefrancesco%40gmail.com.
->
->
->
->
->
