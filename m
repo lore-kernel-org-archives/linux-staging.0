@@ -1,49 +1,48 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F55C72
-	for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 04:34:36 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id b17so6833771pgh.7
-        for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 21:34:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7701072
+	for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 04:34:53 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id b8-20020a17090a5508b029014d0fbe9b64so6948401pji.5
+        for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 21:34:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=T2BqAHrw2lrAPveG5tNBR1zjqxaEBIbo2AlCFYFiJmQ=;
-        b=P89JbJrFS35OLMoOnZ3PzsM4t153DPBw+PCNvnnp5YLyoT4G34xWY4CtV3DLczZKfS
-         lSzFEl/8jUf6qnCub6OZIcMP91wYkydmsR6bDIjG8/NK3NPrWLqlQ1JiSI/dF2mo43pb
-         UXTR1F/sf1fQxSUX96JGDgs3BNpCdfdxR02C8hlnC1XTmFVuYwudCNCzHBS8m8Rv9uPk
-         v44oTiq0+KVV1cOIPneaekhGFexJR/ERlb9aY/2smG64jD/jmP2sYQQH4xPuSzYV1WpQ
-         Owd4o3GRRqXQOE9Jsl3k3G2AyAJYFgYobbY8tIYz4JbC/SxWnxHownJcUb3b6vGUF6q9
-         wJgg==
+        bh=T2DCR+pBRj77mnajpSp0QIz6gQyKylZyF8pvYWlFKCA=;
+        b=Cnv3VZMvBNQpIlTF30kymRPMQrSvVe3fkJYRDqsHjQHiiI65jQxEUulF0dyfT3+2k7
+         zHVBKdpDjs0E797AU7Ti5dSzp3KjuIn4NG6AQuEaHHkIJYExvNcC6ddfTtHUQDBpt1Lr
+         STsZw71UMU2WLpcCBjJsnGOh6DlDaGE3JDjfF5rTPS83zma1M5WPeYOd2wz+mCJMJeX4
+         0OReNZM10rTBwHFSMphTIpN0avoyr5U1CRQ3G92NH6i4MLwOZSNFGeukltHjhT5avzAx
+         Mp8TgGjkqMB5um3ZxWKpxBj1fWgIgHgLRS70Lxh/rg82x7bT3s4BbOIjH3KNqhBwUYXc
+         2HOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=T2BqAHrw2lrAPveG5tNBR1zjqxaEBIbo2AlCFYFiJmQ=;
-        b=Ri2CheiHsgY31NeHVwsLnZLlYPk4kqCkLL6W2BQtiiv6wyrWWUeJykzkJ4iD/J7xfW
-         M4KsDOPAAj7iDX7LBq6+FF7keGtH4RolzUR3i8VHGUyuzWuc4Ln+WPay1fllSMVKNi6N
-         kMcnPl2sipOML58PRpuRWNtIToaM0rfd2FofhjUhe4r+c925n1mEUMWsCmhEuXVyIRLu
-         cYfZ6OG+LLGYJc31LvTLDGOdB9lDaGU2joyOJNtjGQlkPk6yReDsojUu0UfLUJzNJGx1
-         fh7ApbVfkyddUhB5xgo2+1vrpC1PO/e08afOWBZBwC/c+LX3yVg6tGWPOVfGRvFYnLXA
-         wMhA==
-X-Gm-Message-State: AOAM531VZ62QQ6cRTs5e991mASjqOwAaEM4wZ1O6jYaXCk4Li7AHDsA6
-	bBVLtVH73PVGx++6Vk2aIse97Lazo3dqcQ==
-X-Google-Smtp-Source: ABdhPJygjyld7FhoVZGn8ulNcZ52CjsBgouBigNZuioN19fT/HBiGY2bSCi2Sd+zxBrMECOaf/ao2g==
-X-Received: by 2002:a63:2c8f:: with SMTP id s137mr20179759pgs.51.1618115675991;
-        Sat, 10 Apr 2021 21:34:35 -0700 (PDT)
+        bh=T2DCR+pBRj77mnajpSp0QIz6gQyKylZyF8pvYWlFKCA=;
+        b=OsGzlMvSXDnd/nCOQFm1eZMo5Vjw/wO4gO9olHNOQcBYMoBdbEuofCT49I4z7Pu7uo
+         aVb2KeU1dqe9acgocS0Wr6RAUm36V1NO+CqQgnpDDxW76+7ugiw/2uOGIw4f6X02fjzi
+         hhMpdd8C2Lb/dXXU7QbR6UI0Hnyb6llSB1rOWJ0ZChOTyORvWm+DHthq66mjbGvFMwzO
+         d/brHrTbJidA+PFC2xPad3F4Qvl3LhC6yQIEzlwGci6lHn7badTfkCTFXH1UhtBPCMYX
+         c+8d73DJo7oLZFedtndB4TenPhECUVdQz39LLwGXM78fGoWIxbO6uqWa2DjsNW/yAivn
+         IIKw==
+X-Gm-Message-State: AOAM530OdmleUpcRDaLlUmZXazZGxQrRrcwR7zhY+Nmgr3CIqmiXvmSB
+	mrWlSly+mccKCswzyY7i7jo=
+X-Google-Smtp-Source: ABdhPJw0Gr1/G08jbHMa4Woz9j/Esc6kGoPMgZSgZGq7dAjUvpgkuPJRHEUAr6zUoStB+Y4boBDuVA==
+X-Received: by 2002:a17:90a:1502:: with SMTP id l2mr21502228pja.149.1618115693009;
+        Sat, 10 Apr 2021 21:34:53 -0700 (PDT)
 Received: from kali ([103.141.87.254])
-        by smtp.gmail.com with ESMTPSA id s195sm6218785pfc.211.2021.04.10.21.34.33
+        by smtp.gmail.com with ESMTPSA id y29sm6250926pfp.206.2021.04.10.21.34.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Apr 2021 21:34:35 -0700 (PDT)
-Date: Sun, 11 Apr 2021 10:04:30 +0530
+        Sat, 10 Apr 2021 21:34:52 -0700 (PDT)
+Date: Sun, 11 Apr 2021 10:04:46 +0530
 From: Mitali Borkar <mitaliborkar810@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: [PATCH v2 2/3] staging: rtl8192e: remove unnecessary ftrace-like
- logging
-Message-ID: <667dd268dd1387584cc28d2c63cb3b18edb4bc7f.1618110617.git.mitaliborkar810@gmail.com>
+Subject: [PATCH v2 3/3] staging: rtl8192e: remove unncessary parentheses
+Message-ID: <1365e7d8dc76842e6fd9d9842bfef1ddd548b4f9.1618110617.git.mitaliborkar810@gmail.com>
 References: <cover.1618110617.git.mitaliborkar810@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,47 +53,58 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1618110617.git.mitaliborkar810@gmail.com>
 
-Removed unncessary ftrace-like logging by simply deleting that statement
-as we have other modes of logging like ftrace.
+Removed unnecessary parentheses because they must be used only when it
+is necessary or they improve readability.
 Reported by checkpatch.
 
 Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
 ---
 
-Changes from v1:- No changes made.
+Changes from v1:- No changes. 
 
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 0b1e92f17805..89d0e9ec188d 100644
+index 89d0e9ec188d..b1fa8e9a4f28 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
 +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -630,7 +630,6 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
- {
- 	struct rt_hi_throughput *pHTInfo = ieee->pHTInfo;
+@@ -287,7 +287,7 @@ void HTConstructCapabilityElement(struct rtllib_device *ieee, u8 *posHTCap,
+ 		u8	EWC11NHTCap[] = {0x00, 0x90, 0x4c, 0x33};
  
--	netdev_vdbg(ieee->dev, "%s()\n", __func__);
- 	pHTInfo->bCurrentHTSupport = false;
+ 		memcpy(posHTCap, EWC11NHTCap, sizeof(EWC11NHTCap));
+-		pCapELE = (struct ht_capab_ele *)&(posHTCap[4]);
++		pCapELE = (struct ht_capab_ele *)&posHTCap[4];
+ 		*len = 30 + 2;
+ 	} else {
+ 		pCapELE = (struct ht_capab_ele *)posHTCap;
+@@ -646,13 +646,13 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
+ 	pHTInfo->CurrentMPDUDensity = pHTInfo->MPDU_Density;
+ 	pHTInfo->CurrentAMPDUFactor = pHTInfo->AMPDU_Factor;
  
- 	pHTInfo->bCurBW40MHz = false;
-@@ -698,7 +697,6 @@ void HTResetSelfAndSavePeerSetting(struct rtllib_device *ieee,
- 	struct rt_hi_throughput *pHTInfo = ieee->pHTInfo;
- 	u8	bIOTAction = 0;
+-	memset((void *)(&(pHTInfo->SelfHTCap)), 0,
++	memset((void *)(&pHTInfo->SelfHTCap), 0,
+ 	       sizeof(pHTInfo->SelfHTCap));
+-	memset((void *)(&(pHTInfo->SelfHTInfo)), 0,
++	memset((void *)(&pHTInfo->SelfHTInfo), 0,
+ 	       sizeof(pHTInfo->SelfHTInfo));
+-	memset((void *)(&(pHTInfo->PeerHTCapBuf)), 0,
++	memset((void *)(&pHTInfo->PeerHTCapBuf), 0,
+ 	       sizeof(pHTInfo->PeerHTCapBuf));
+-	memset((void *)(&(pHTInfo->PeerHTInfoBuf)), 0,
++	memset((void *)(&pHTInfo->PeerHTInfoBuf), 0,
+ 	       sizeof(pHTInfo->PeerHTInfoBuf));
  
--	netdev_vdbg(ieee->dev, "%s()\n", __func__);
- 	/* unmark bEnableHT flag here is the same reason why unmarked in
- 	 * function rtllib_softmac_new_net. WB 2008.09.10
- 	 */
-@@ -832,8 +830,6 @@ static void HTSetConnectBwModeCallback(struct rtllib_device *ieee)
- {
- 	struct rt_hi_throughput *pHTInfo = ieee->pHTInfo;
+ 	pHTInfo->bSwBwInProgress = false;
+@@ -668,7 +668,7 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
+ 	pHTInfo->IOTRaFunc = 0;
  
--	netdev_vdbg(ieee->dev, "%s()\n", __func__);
--
- 	if (pHTInfo->bCurBW40MHz) {
- 		if (pHTInfo->CurSTAExtChnlOffset == HT_EXTCHNL_OFFSET_UPPER)
- 			ieee->set_chan(ieee->dev,
+ 	{
+-		u8 *RegHTSuppRateSets = &(ieee->RegHTSuppRateSet[0]);
++		u8 *RegHTSuppRateSets = &ieee->RegHTSuppRateSet[0];
+ 
+ 		RegHTSuppRateSets[0] = 0xFF;
+ 		RegHTSuppRateSets[1] = 0xFF;
 -- 
 2.30.2
 
