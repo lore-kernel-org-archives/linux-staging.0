@@ -1,49 +1,53 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1861972
-	for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 11:35:57 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id y32so7185961pga.11
-        for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 04:35:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ECE372
+	for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 11:48:03 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id r13so1347243pjf.2
+        for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 04:48:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=zTJs2BTaTABCUyNSzygxb7w5Eiwv3e639bQ2LLKnHnM=;
-        b=Mj4WQJXcma0VVgXG/XUr0XCRq3oX0Y9P0ITCXK1+tSYapq25iwmM2IdVbHfYeGgxod
-         k1MZ+Kb8vS0ge4hkPhW68QAdRygMrHUuuOnfANT72Kvz8SM8hJC77boWoWUQGq4l9DgI
-         svNHX+rgL9sFIH0evpLe6d/U74qC+sps0ZGswLPor38xfvV3IdHwsRltpR99idI4rE9W
-         /QznuMRFXSBPkW3TV4VRn4bs5Lqg0pKZvPDHbj8GLAWDBtjCM1I2ubHXGtd5n9x8ERNm
-         PDNblmivdRukkUyCeberzc0NkfBnVrx0RWiBt171trkFjzbV4D+I3cCqiU6Lkr/shQ40
-         VDbw==
+        bh=9P7a0UY91+IJ2YvqNRTmJKK8ciMYI7HhU1YDRiAkRTE=;
+        b=GXIndmUCtRUuhApQbzMudDFU+CWtxU33TsyFgIFYesrbXhQoblOgVe0CUCw5w+C55M
+         4or4hxEQ6FjSCispfldVSgR6cfaC7eGLCHmQ1fe21lfOUdLxMOIDTzd1UdRDA7sLAYg9
+         U1TFsRIzb7970bjwn36Jf6bRnM1rdiveohcv0ieIPb/GXU6nf1APk6qZqLgFf2qqLqHK
+         5UWGkkaMo2pIontJiHkVq7WEyXz7sTSYBclFS9HMCoOD2NMGHzqmUxWCzOlrsvQSoRXL
+         zBMokcciCdzPQd1HFn0r1qEVgeFemTlxKTySAOM3jClwjQcz/hiVr0TlZCeOcmHgbREV
+         U4yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=zTJs2BTaTABCUyNSzygxb7w5Eiwv3e639bQ2LLKnHnM=;
-        b=DW8oLQZlgn13AsdJafVqnflHZSr9DcQ3whLtYkX+TpM6TY6d1N6LVJbjOcdY0u7Xvg
-         0N5Zd2jkIL+P5lRyb0XbfXTqSJphMcXbs51AWXxiMZd2Tq/ljOZegNWjymbso9g0Ykp/
-         1csEob7JXa9E4ecXHKCWdvJTj77VHp8pZSIK9S/qBS4P2m8MA8BDlgHaaPg7Xi5+cQ4f
-         q0a8i81LzMDXal4eZDF99bsUsxvolM5bV2KN0HcQRXI4m+aJhwol5TdvmYj5O4uBRrBN
-         LYSvnc2bvbaAwhI2qMA7M8UXAdIw2WMCbbiPi9l2GTvKnJ8ct8pX1jhMGZqaDYYE6aCJ
-         +wZw==
-X-Gm-Message-State: AOAM532hL6CXbrxts1fnOok1HifcPqHU36mc5ChaBJfz8yu5PSmhMfDJ
-	VusEikQza6nJrPOGjG5uldc=
-X-Google-Smtp-Source: ABdhPJzzjfTQgNj1uOMSGiIM5Ixftq7aqAZORbDaUofhh2y/8KmJi8b6TJ57B7BY6Go3QTlP6S1TRA==
-X-Received: by 2002:a62:2cc8:0:b029:23d:bd0d:2ac3 with SMTP id s191-20020a622cc80000b029023dbd0d2ac3mr20391256pfs.41.1618140956629;
-        Sun, 11 Apr 2021 04:35:56 -0700 (PDT)
+        bh=9P7a0UY91+IJ2YvqNRTmJKK8ciMYI7HhU1YDRiAkRTE=;
+        b=bx/y1KO0u9qzOE+aN+QWE3zGFeXNmDQtoFrdh8ikR/yLA8EW+cjYveULpfazTe6/n3
+         Ao94PBSztnsii7yfXNQN516o1f7pJS2xzyukuM+Mtmk0WyIhucOAVi6kbi17ELPyGAPV
+         4ngybOrx48MyiUeHF0PJQq3uN+uLIgp3fxXajDRPxug2O4FYmMsrfUMC+ECTVV2XtZq1
+         gm6Hfte84ZzucFG0Ny/G1PK+YhLag7S7IX74kxV+zo7iVHkMWeumPlT2N/eLxeyO3vlk
+         Ug0dXF3Muxg7+MWW0wCA5sVweaxqh1cuuMnsvWcR7IQDRpjtu+DzVhQgMMqDYs472zx4
+         c+1g==
+X-Gm-Message-State: AOAM530FShKnPGdnyfbBaYjIsRLcjAAXGwpuNOCKa8x1rChHJBRO+6qg
+	CzEDWC5Ivpo5MDCRqJaEp11vDj0D98ncUQ==
+X-Google-Smtp-Source: ABdhPJy6Rco1W57hagQh8590YFsiCRXc+q6u88uF9uGa7RAThmtuaxtJlTW9DXFrdaoH7D1Dd3Rguw==
+X-Received: by 2002:a17:90a:8b07:: with SMTP id y7mr22624658pjn.78.1618141682962;
+        Sun, 11 Apr 2021 04:48:02 -0700 (PDT)
 Received: from kali ([103.141.87.254])
-        by smtp.gmail.com with ESMTPSA id w1sm8151277pgh.26.2021.04.11.04.35.53
+        by smtp.gmail.com with ESMTPSA id k64sm8009159pgk.23.2021.04.11.04.47.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Apr 2021 04:35:56 -0700 (PDT)
-Date: Sun, 11 Apr 2021 17:05:47 +0530
+        Sun, 11 Apr 2021 04:48:02 -0700 (PDT)
+Date: Sun, 11 Apr 2021 17:17:46 +0530
 From: Mitali Borkar <mitaliborkar810@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: [PATCH v4 3/3] staging: rtl8192e: remove unnecessary parentheses
-Message-ID: <29464cba775f9529db30b7fb4168198975098b55.1618139271.git.mitaliborkar810@gmail.com>
-References: <cover.1618139271.git.mitaliborkar810@gmail.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: clabbe@baylibre.com, mchehab@kernel.org, gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
+	mitali_s@me.iitr.ac.in
+Subject: Re: [PATCH v2] staging: media: zoran: remove and add '*' in
+ long(multi-line) comments
+Message-ID: <YHLh4vQvECHopNZX@kali>
+References: <YHAxQh9bfFeN337E@kali>
+ <9f8b3018-2b5e-2471-f5d4-bac03e4ab259@xs4all.nl>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -51,62 +55,322 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1618139271.git.mitaliborkar810@gmail.com>
+In-Reply-To: <9f8b3018-2b5e-2471-f5d4-bac03e4ab259@xs4all.nl>
 
-Removed unnecessary parentheses because they must be used only when it
-is necessary or they improve readability.
-Reported by checkpatch.
+On Fri, Apr 09, 2021 at 12:53:35PM +0200, Hans Verkuil wrote:
+> On 09/04/2021 12:49, Mitali Borkar wrote:
+> > Added '*' before every line inside long(multi-line) comments. Removed
+> > '*/' from end of the comment line and added to next line as per linux
+> > kernel coding style. Aligned '*' accordingly to make code neater.
+> > 
+> > Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+> > ---
+> > 
+> > Changes from v1:- Changes made in code according to linux kernel coding
+> > style for long(multi-line) comments.
+> > 
+> > drivers/staging/media/zoran/zr36050.c | 138 +++++++++++++++-----------
+> >  1 file changed, 81 insertions(+), 57 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/zoran/zr36050.c b/drivers/staging/media/zoran/zr36050.c
+> > index 663ac2b3434e..703064009c6b 100644
+> > --- a/drivers/staging/media/zoran/zr36050.c
+> > +++ b/drivers/staging/media/zoran/zr36050.c
+> > @@ -25,7 +25,8 @@
+> >  #include "videocodec.h"
+> >  
+> >  /* it doesn't make sense to have more than 20 or so,
+> 
+> The coding style says that /* is on a line of its own. So change that too.
+>
 
-Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
----
+Sir, I have sent v3 patch for this two days ago and didnt received reply
+til now, should I resend that patch?
 
-Changes from v3:- No changes.
-Changes from v2:- Rectified spelling mistake in subject description.
-Changes from v1:- No changes.
-
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 89d0e9ec188d..b1fa8e9a4f28 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -287,7 +287,7 @@ void HTConstructCapabilityElement(struct rtllib_device *ieee, u8 *posHTCap,
- 		u8	EWC11NHTCap[] = {0x00, 0x90, 0x4c, 0x33};
- 
- 		memcpy(posHTCap, EWC11NHTCap, sizeof(EWC11NHTCap));
--		pCapELE = (struct ht_capab_ele *)&(posHTCap[4]);
-+		pCapELE = (struct ht_capab_ele *)&posHTCap[4];
- 		*len = 30 + 2;
- 	} else {
- 		pCapELE = (struct ht_capab_ele *)posHTCap;
-@@ -646,13 +646,13 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
- 	pHTInfo->CurrentMPDUDensity = pHTInfo->MPDU_Density;
- 	pHTInfo->CurrentAMPDUFactor = pHTInfo->AMPDU_Factor;
- 
--	memset((void *)(&(pHTInfo->SelfHTCap)), 0,
-+	memset((void *)(&pHTInfo->SelfHTCap), 0,
- 	       sizeof(pHTInfo->SelfHTCap));
--	memset((void *)(&(pHTInfo->SelfHTInfo)), 0,
-+	memset((void *)(&pHTInfo->SelfHTInfo), 0,
- 	       sizeof(pHTInfo->SelfHTInfo));
--	memset((void *)(&(pHTInfo->PeerHTCapBuf)), 0,
-+	memset((void *)(&pHTInfo->PeerHTCapBuf), 0,
- 	       sizeof(pHTInfo->PeerHTCapBuf));
--	memset((void *)(&(pHTInfo->PeerHTInfoBuf)), 0,
-+	memset((void *)(&pHTInfo->PeerHTInfoBuf), 0,
- 	       sizeof(pHTInfo->PeerHTInfoBuf));
- 
- 	pHTInfo->bSwBwInProgress = false;
-@@ -668,7 +668,7 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
- 	pHTInfo->IOTRaFunc = 0;
- 
- 	{
--		u8 *RegHTSuppRateSets = &(ieee->RegHTSuppRateSet[0]);
-+		u8 *RegHTSuppRateSets = &ieee->RegHTSuppRateSet[0];
- 
- 		RegHTSuppRateSets[0] = 0xFF;
- 		RegHTSuppRateSets[1] = 0xFF;
--- 
-2.30.2
-
+> Regards,
+> 
+> 	Hans
+> 
+> > - * just to prevent some unwanted loops */
+> > + * just to prevent some unwanted loops
+> > + */
+> >  #define MAX_CODECS 20
+> >  
+> >  /* amount of chips attached via this driver */
+> > @@ -44,9 +45,10 @@ MODULE_PARM_DESC(debug, "Debug level (0-4)");
+> >  
+> >  /* =========================================================================
+> >   *  Local hardware I/O functions:
+> > -
+> > -   read/write via codec layer (registers are located in the master device)
+> > -   ========================================================================= */
+> > + *
+> > + *  read/write via codec layer (registers are located in the master device)
+> > + * =========================================================================
+> > + */
+> >  
+> >  /* read and write functions */
+> >  static u8 zr36050_read(struct zr36050 *ptr, u16 reg)
+> > @@ -81,9 +83,10 @@ static void zr36050_write(struct zr36050 *ptr, u16 reg, u8 value)
+> >  
+> >  /* =========================================================================
+> >   *  Local helper function:
+> > -
+> > -   status read
+> > -   ========================================================================= */
+> > + *
+> > + *  status read
+> > + * =========================================================================
+> > + */
+> >  
+> >  /* status is kept in datastructure */
+> >  static u8 zr36050_read_status1(struct zr36050 *ptr)
+> > @@ -96,9 +99,10 @@ static u8 zr36050_read_status1(struct zr36050 *ptr)
+> >  
+> >  /* =========================================================================
+> >   *  Local helper function:
+> > -
+> > -   scale factor read
+> > -   ========================================================================= */
+> > + *
+> > + *  scale factor read
+> > + * =========================================================================
+> > + */
+> >  
+> >  /* scale factor is kept in datastructure */
+> >  static u16 zr36050_read_scalefactor(struct zr36050 *ptr)
+> > @@ -113,9 +117,10 @@ static u16 zr36050_read_scalefactor(struct zr36050 *ptr)
+> >  
+> >  /* =========================================================================
+> >   *  Local helper function:
+> > -
+> > -   wait if codec is ready to proceed (end of processing) or time is over
+> > -   ========================================================================= */
+> > + *
+> > + *  wait if codec is ready to proceed (end of processing) or time is over
+> > + * =========================================================================
+> > + */
+> >  
+> >  static void zr36050_wait_end(struct zr36050 *ptr)
+> >  {
+> > @@ -134,9 +139,10 @@ static void zr36050_wait_end(struct zr36050 *ptr)
+> >  
+> >  /* =========================================================================
+> >   *  Local helper function:
+> > -
+> > -   basic test of "connectivity", writes/reads to/from memory the SOF marker
+> > -   ========================================================================= */
+> > + *
+> > + *  basic test of "connectivity", writes/reads to/from memory the SOF marker
+> > + * =========================================================================
+> > + */
+> >  
+> >  static int zr36050_basic_test(struct zr36050 *ptr)
+> >  {
+> > @@ -175,9 +181,10 @@ static int zr36050_basic_test(struct zr36050 *ptr)
+> >  
+> >  /* =========================================================================
+> >   *  Local helper function:
+> > -
+> > -   simple loop for pushing the init datasets
+> > -   ========================================================================= */
+> > + *
+> > + *  simple loop for pushing the init datasets
+> > + * =========================================================================
+> > + */
+> >  
+> >  static int zr36050_pushit(struct zr36050 *ptr, u16 startreg, u16 len, const char *data)
+> >  {
+> > @@ -193,14 +200,15 @@ static int zr36050_pushit(struct zr36050 *ptr, u16 startreg, u16 len, const char
+> >  
+> >  /* =========================================================================
+> >   *  Basic datasets:
+> > -
+> > -   jpeg baseline setup data (you find it on lots places in internet, or just
+> > -   extract it from any regular .jpg image...)
+> > -
+> > -   Could be variable, but until it's not needed it they are just fixed to save
+> > -   memory. Otherwise expand zr36050 structure with arrays, push the values to
+> > -   it and initialize from there, as e.g. the linux zr36057/60 driver does it.
+> > -   ========================================================================= */
+> > + *
+> > + *  jpeg baseline setup data (you find it on lots places in internet, or just
+> > + *  extract it from any regular .jpg image...)
+> > + *
+> > + *  Could be variable, but until it's not needed it they are just fixed to save
+> > + *  memory. Otherwise expand zr36050 structure with arrays, push the values to
+> > + *  it and initialize from there, as e.g. the linux zr36057/60 driver does it.
+> > + *  =========================================================================
+> > + */
+> >  
+> >  static const char zr36050_dqt[0x86] = {
+> >  	0xff, 0xdb,		//Marker: DQT
+> > @@ -295,15 +303,17 @@ static const char zr36050_decimation_v[8] = { 1, 1, 1, 0, 0, 0, 0, 0 };
+> >  
+> >  /* =========================================================================
+> >   *  Local helper functions:
+> > -
+> > -   calculation and setup of parameter-dependent JPEG baseline segments
+> > -   (needed for compression only)
+> > -   ========================================================================= */
+> > + *
+> > + *  calculation and setup of parameter-dependent JPEG baseline segments
+> > + *  (needed for compression only)
+> > + * =========================================================================
+> > + */
+> >  
+> >  /* ------------------------------------------------------------------------- */
+> >  
+> >  /* SOF (start of frame) segment depends on width, height and sampling ratio
+> > - *			 of each color component */
+> > + *			 of each color component
+> > + */
+> >  
+> >  static int zr36050_set_sof(struct zr36050 *ptr)
+> >  {
+> > @@ -334,7 +344,8 @@ static int zr36050_set_sof(struct zr36050 *ptr)
+> >  /* ------------------------------------------------------------------------- */
+> >  
+> >  /* SOS (start of scan) segment depends on the used scan components
+> > - *			of each color component */
+> > + *			of each color component
+> > + */
+> >  
+> >  static int zr36050_set_sos(struct zr36050 *ptr)
+> >  {
+> > @@ -379,12 +390,14 @@ static int zr36050_set_dri(struct zr36050 *ptr)
+> >  
+> >  /* =========================================================================
+> >   *  Setup function:
+> > + *
+> > + *  Setup compression/decompression of Zoran's JPEG processor
+> > + *  ( see also zoran 36050 manual )
+> > + *
+> > + *  ... sorry for the spaghetti code ...
+> > + * =========================================================================
+> > + */
+> >  
+> > -   Setup compression/decompression of Zoran's JPEG processor
+> > -   ( see also zoran 36050 manual )
+> > -
+> > -   ... sorry for the spaghetti code ...
+> > -   ========================================================================= */
+> >  static void zr36050_init(struct zr36050 *ptr)
+> >  {
+> >  	int sum = 0;
+> > @@ -420,7 +433,8 @@ static void zr36050_init(struct zr36050 *ptr)
+> >  		sum += zr36050_set_dri(ptr);
+> >  
+> >  		/* setup the fixed jpeg tables - maybe variable, though -
+> > -		 * (see table init section above) */
+> > +		 * (see table init section above)
+> > +		 */
+> >  		dprintk(3, "%s: write DQT, DHT, APP\n", ptr->name);
+> >  		sum += zr36050_pushit(ptr, ZR050_DQT_IDX,
+> >  				      sizeof(zr36050_dqt), zr36050_dqt);
+> > @@ -532,12 +546,15 @@ static void zr36050_init(struct zr36050 *ptr)
+> >  
+> >  /* =========================================================================
+> >   *  CODEC API FUNCTIONS
+> > -
+> > -   this functions are accessed by the master via the API structure
+> > -   ========================================================================= */
+> > + *
+> > + *  this functions are accessed by the master via the API structure
+> > + * =========================================================================
+> > + */
+> >  
+> >  /* set compression/expansion mode and launches codec -
+> > - *  this should be the last call from the master before starting processing */
+> > + *  this should be the last call from the master before starting processing
+> > + */
+> > +
+> >  static int zr36050_set_mode(struct videocodec *codec, int mode)
+> >  {
+> >  	struct zr36050 *ptr = (struct zr36050 *)codec->data;
+> > @@ -566,7 +583,8 @@ static int zr36050_set_video(struct videocodec *codec, const struct tvnorm *norm
+> >  		cap->decimation, cap->quality);
+> >  	/* if () return -EINVAL;
+> >  	 * trust the master driver that it knows what it does - so
+> > -	 * we allow invalid startx/y and norm for now ... */
+> > +	 * we allow invalid startx/y and norm for now ...
+> > +	 */
+> >  	ptr->width = cap->width / (cap->decimation & 0xff);
+> >  	ptr->height = cap->height / ((cap->decimation >> 8) & 0xff);
+> >  
+> > @@ -586,7 +604,8 @@ static int zr36050_set_video(struct videocodec *codec, const struct tvnorm *norm
+> >  	ptr->real_code_vol = size >> 3; /* in bytes */
+> >  
+> >  	/* Set max_block_vol here (previously in zr36050_init, moved
+> > - * here for consistency with zr36060 code */
+> > +	 * here for consistency with zr36060 code
+> > +	 */
+> >  	zr36050_write(ptr, ZR050_MBCV, ptr->max_block_vol);
+> >  
+> >  	return 0;
+> > @@ -643,7 +662,8 @@ static int zr36050_control(struct videocodec *codec, int type, int size, void *d
+> >  			return -EFAULT;
+> >  		ptr->total_code_vol = *ival;
+> >  		/* (Kieran Morrissey)
+> > -		 * code copied from zr36060.c to ensure proper bitrate */
+> > +		 * code copied from zr36060.c to ensure proper bitrate
+> > +		 */
+> >  		ptr->real_code_vol = (ptr->total_code_vol * 6) >> 3;
+> >  		break;
+> >  
+> > @@ -708,9 +728,10 @@ static int zr36050_control(struct videocodec *codec, int type, int size, void *d
+> >  
+> >  /* =========================================================================
+> >   *  Exit and unregister function:
+> > -
+> > -   Deinitializes Zoran's JPEG processor
+> > -   ========================================================================= */
+> > + *
+> > + *  Deinitializes Zoran's JPEG processor
+> > + * =========================================================================
+> > + */
+> >  
+> >  static int zr36050_unset(struct videocodec *codec)
+> >  {
+> > @@ -733,12 +754,13 @@ static int zr36050_unset(struct videocodec *codec)
+> >  
+> >  /* =========================================================================
+> >   *  Setup and registry function:
+> > -
+> > -   Initializes Zoran's JPEG processor
+> > -
+> > -   Also sets pixel size, average code size, mode (compr./decompr.)
+> > -   (the given size is determined by the processor with the video interface)
+> > -   ========================================================================= */
+> > + *
+> > + *  Initializes Zoran's JPEG processor
+> > + *
+> > + *  Also sets pixel size, average code size, mode (compr./decompr.)
+> > + *  (the given size is determined by the processor with the video interface)
+> > + * =========================================================================
+> > + */
+> >  
+> >  static int zr36050_setup(struct videocodec *codec)
+> >  {
+> > @@ -774,7 +796,8 @@ static int zr36050_setup(struct videocodec *codec)
+> >  	memcpy(ptr->v_samp_ratio, zr36050_decimation_v, 8);
+> >  
+> >  	ptr->bitrate_ctrl = 0;	/* 0 or 1 - fixed file size flag
+> > -				 * (what is the difference?) */
+> > +				 * (what is the difference?)
+> > +				 */
+> >  	ptr->mode = CODEC_DO_COMPRESSION;
+> >  	ptr->width = 384;
+> >  	ptr->height = 288;
+> > @@ -814,7 +837,8 @@ static const struct videocodec zr36050_codec = {
+> >  
+> >  /* =========================================================================
+> >   *  HOOK IN DRIVER AS KERNEL MODULE
+> > -   ========================================================================= */
+> > + * =========================================================================
+> > + */
+> >  
+> >  static int __init zr36050_init_module(void)
+> >  {
+> > 
+> 
