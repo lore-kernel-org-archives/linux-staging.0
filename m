@@ -1,74 +1,69 @@
-Received: from fallback17.mail.ru (fallback17.m.smailru.net [94.100.176.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D91070
-	for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 20:12:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=bk.ru; s=mail3;
-	h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From; bh=NVQNe5HJEFG+sCU5DriGBxS+PhTSIpH38n/8WcR/Nvk=;
-	b=fy9qHfzK45/pUGUqE0EyXHGWxidVR+R1Zhski09yhLy8XuZF0s46AZlrDhnQ4mikUfhXpV5AXD96oYongxVMp3z65I9CNA908Y8F8Qwa3Nl9On0/XSocFp4LklHLe2dacRDPnOv0jSrdkhDkBy7Z69PDqOxHUVGgBAz57dJugS8=;
-Received: from [10.161.64.42] (port=43216 helo=smtp34.i.mail.ru)
-	by fallback17.m.smailru.net with esmtp (envelope-from <dev.dragon@bk.ru>)
-	id 1lVJIZ-0000Df-Ga
-	for linux-staging@lists.linux.dev; Sat, 10 Apr 2021 22:29:39 +0300
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=bk.ru; s=mail3;
-	h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=NVQNe5HJEFG+sCU5DriGBxS+PhTSIpH38n/8WcR/Nvk=;
-	b=5EOuIrLaTzdaprJOysj3jaieEcg5US8ApR2odDtQMu+7YqZU9vgtjrI4Proni5lfo9lVnRi5jw1rusO4heceBU8q3Wsf4FGcrvN6h9RFG9bcudXwrCWankmc11tXyxAiccgRjUzDdT6ZhMDIKq/Muva9+R8F0LEColDFD3F1+ME=;
-Received: by smtp34.i.mail.ru with esmtpa (envelope-from <dev.dragon@bk.ru>)
-	id 1lVJIR-0001P4-QM; Sat, 10 Apr 2021 22:29:32 +0300
-From: dev.dragon@bk.ru
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C036C72
+	for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 04:33:48 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id p12so6822992pgj.10
+        for <linux-staging@lists.linux.dev>; Sat, 10 Apr 2021 21:33:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=Fhx4bFoz4AMpMdIpkI4YdswXasRpyjIs7bwxZv1lokc=;
+        b=naSRNKXl4+AVcsZ6V0ZzIrqr+ioCnJZtER7CZP6F5ddHLxFAFxbb6x/AeZyc8NaXhX
+         O/+NKprUHBa98HXhjhjsyVe9xOSDDTEw/U3F4fXao3ObGki0df2ZbGHFCCb8iRE3CVe1
+         K3FWwEy31KV7a0v/ZXz2JSkvMKZr/HTb9vu9bQz1/9nV6Ku0Qjr81B8xnprQ/tFAo/AO
+         KXC0z+rEI41lOBi0kMM/Rl4Y6SOtbbfTOfnDK21R8t3F9ggYDQuEu5p7AgZ2brvFPp3L
+         ZkR2xbsqI8+rqT60XJzBgklqcybOuwbhV4cDJYNSBA8Q71Bb+znxBmgT1H0W6K8Qtn7V
+         ubxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=Fhx4bFoz4AMpMdIpkI4YdswXasRpyjIs7bwxZv1lokc=;
+        b=ZJIfQnz2udW58IgQlBgnsRvtHQbcenC9du7XngJUIYmgsRFBretieIu1FHVMqvhZXQ
+         2eGlggVL0jHzL0emPPGIE/eKBTGraVHBB91BlbuWGNS6o0YhP4olP18PFJDL0H/yqvZQ
+         8vUQasW6ZWUxyeqNxHo+rrBBPDK27R4Xf61Lt69BuVV3V/961W+L9ZUIronWJSyjLKcA
+         pyeOglrfFK7i+1B0t5DJ0FBx5ASYUTCdC/64YKcXY8BqwoNCtr8Ol5CYDGSEWlgiiuMH
+         AbsNIjeYGfEQBSIuVCRVZR2GE4qo989bCjrXsHhb8JrtSZuPO+x6f3J7+Pl5qkszWoQ6
+         7DBA==
+X-Gm-Message-State: AOAM533qeN+vl8tPnELBXS5JUa1xgpwLwnQWw8eENO1oUK2LqsXGbPmu
+	SUnO2VWr3/F8AlhuMAOCjTg=
+X-Google-Smtp-Source: ABdhPJxd3xnYxhBFQMfSIVs0XvpyUtF+yS1cyow1AA1E1biddxprVFf4vqcLIsV29MfDawuQuVPWYg==
+X-Received: by 2002:a63:d815:: with SMTP id b21mr20632938pgh.217.1618115628183;
+        Sat, 10 Apr 2021 21:33:48 -0700 (PDT)
+Received: from kali ([103.141.87.254])
+        by smtp.gmail.com with ESMTPSA id p22sm6570951pjg.39.2021.04.10.21.33.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Apr 2021 21:33:47 -0700 (PDT)
+Date: Sun, 11 Apr 2021 10:03:40 +0530
+From: Mitali Borkar <mitaliborkar810@gmail.com>
 To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Dmitrii Wolf <dev.dragon@bk.ru>
-Subject: [PATCH] Staging: rtl8192u: ieee80211: remove odd backslash.
-Date: Sat, 10 Apr 2021 22:29:12 +0300
-Message-Id: <20210410192911.47486-1-dev.dragon@bk.ru>
-X-Mailer: git-send-email 2.25.1
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
+Subject: [PATCH v2 0/3] staging: rtl8192e: remove unnecessary parentheses
+Message-ID: <cover.1618110617.git.mitaliborkar810@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-7564579A: 646B95376F6C166E
-X-77F55803: 4F1203BC0FB41BD92FFCB8E6708E7480B1C8842CE613979723F2FB4628545A35182A05F538085040FF61310D79CB51A52BB674D9DE483118A6A97FFC44C6662235A441C10B4E624F
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE77C1346FE4B18DC51EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F79006379A6B93796C91DCB58638F802B75D45FF914D58D5BE9E6BC1A93B80C6DEB9DEE97C6FB206A91F05B2BF8FA2385D3E21523CF2B613DDF7A6BA06708AB62ED68B8ED2E47CDBA5A96583C09775C1D3CA48CF90D92131081DE748117882F4460429724CE54428C33FAD30A8DF7F3B2552694AC26CFBAC0749D213D2E47CDBA5A9658378DA827A17800CE77E7E81EEA8A9722B8941B15DA834481F9449624AB7ADAF37BA3038C0950A5D3613377AFFFEAFD2697680F9384605B90301A9DF589746230F7B076A6E789B0E97A8DF7F3B2552694A1E7802607F20496D49FD398EE364050FC8105B04EFE0762849AF716F719AB83EB3661434B16C20AC78D18283394535A9E827F84554CEF50127C277FBC8AE2E8BA83251EDC214901ED5E8D9A59859A8B6303687A6F40845FD089D37D7C0E48F6C5571747095F342E88FB05168BE4CE3AF
-X-B7AD71C0: AC4F5C86D027EB782CDD5689AFBDA7A24209795067102C07E8F7B195E1C97831327F537E1C91DBDB8FF110C78C8E6CED
-X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C414F749A5E30D975CE44850EFB5864EA21A5FB9C5559153C094588ABE9D3074C69C2B6934AE262D3EE7EAB7254005DCED246B04B1A760E0861E0A4E2319210D9B64D260DF9561598F01A9E91200F654B0588BE6097D4A97A98E8E86DC7131B365E7726E8460B7C23C
-X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D348F343DA43F62289F7A98024701FA37CF0BEE00CC2FB6B7A97697D7E3D2828F911074C95A968694281D7E09C32AA3244C0E312B5E377A4D59CA0E2A6A242EC8DC853296C06374E602927AC6DF5659F194
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojqcJA+pXcDulXEjjFEiv68A==
-X-Mailru-Sender: 3A338A78718AEC5AA85B3E7661095C1E7D2337A54B3DCD92E4366E813D35928D7D804C57934F49F93833C6AC539110AEA432B8CD90067B65A6C5C4E98768B51D7AA22088860DD9FF5CDEF9E650933936342CD0BA774DB6A9AE208404248635DF
-X-Mras: Ok
-X-7564579A: 646B95376F6C166E
-X-77F55803: 6242723A09DB00B4F462559CB183475CD50668BED91BC4761D8FE2443B914C57049FFFDB7839CE9E305EC3E96664ADC97A0D6ECE33B1F799FF9B7E231D2B394761A6F78C0CE74627
-X-7FA49CB5: 0D63561A33F958A506455EA878E72C191CA77210AA9F7693AC124BBB52DC98B58941B15DA834481FA18204E546F3947C4A7E03851CBA2956F6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F7900637EAC5C7182FB0D3F7389733CBF5DBD5E9B5C8C57E37DE458BD9DD9810294C998ED8FC6C240DEA76428AA50765F790063710FEC4F8C56CDF14D81D268191BDAD3DBD4B6F7A4D31EC0BEA7A3FFF5B025636AAAE862A0553A39223F8577A6DFFEA7C0DE7A2C49537E71343847C11F186F3C59DAA53EE0834AAEE
-X-B7AD71C0: AC4F5C86D027EB782CDD5689AFBDA7A2AD77751E876CB595E8F7B195E1C97831327F537E1C91DBDB9BB839037DF3A6B5
-X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C414F749A5E30D975CE44850EFB5864EA2F15A61140B796585FC09770A0397326F9C2B6934AE262D3EE7EAB7254005DCED246B04B1A760E086699F904B3F4130E343918A1A30D5E7FCCB5012B2E24CD356
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojqcJA+pXcDumEqY2U2lfOOg==
-X-Mailru-MI: 1000000000800
-X-Mailru-Sender: A5480F10D64C90056DE2D996C7A19556F4689E9E2D62181E7699CF451773C2E6CC9EE61D01B1EFB9CD4CDAD98BDCABE8DDBB79867CC2C1EC846E85FF75DBDC4983CE97D6EC8C31C553326A0E03014151EAB4BC95F72C04283CDA0F3B3F5B9367
-X-Mras: Ok
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Dmitrii Wolf <dev.dragon@bk.ru>
+This patch fixes style issues
+Changes from v1:-
+[Patch 1/3]:- Removed unnecessary parentheses around boolean expressions
+[Patch 2/3]:- No changes
+[Patch 3/3]:- No changes
 
-This backslash should be deleted - looks like leftover and not needed.
----
- drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c | 2 +-
+Mitali Borkar (3):
+  staging: rtl8192e: remove unnecessary parentheses
+  staging: rtl8192e: remove unnecessary ftrace-like logging
+  staging: rtl8192e: remove unncessary parentheses
+
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-index 690b664df8fa..25ea8e1b6b65 100644
---- a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-+++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-@@ -2052,7 +2052,7 @@ void ieee80211_softmac_xmit(struct ieee80211_txb *txb, struct ieee80211_device *
- #else
- 		if ((skb_queue_len(&ieee->skb_waitQ[queue_index]) != 0) ||
- #endif
--		    (!ieee->check_nic_enough_desc(ieee->dev, queue_index)) || \
-+		    (!ieee->check_nic_enough_desc(ieee->dev, queue_index)) ||
- 		    (ieee->queue_stop)) {
- 			/* insert the skb packet to the wait queue */
- 			/* as for the completion function, it does not need
 -- 
-2.25.1
+2.30.2
 
