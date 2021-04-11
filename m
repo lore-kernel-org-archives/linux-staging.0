@@ -1,169 +1,76 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from fallback12.mail.ru (fallback12.mail.ru [94.100.179.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB57E70
-	for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 13:52:28 +0000 (UTC)
-Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 02EF4610A6;
-	Sun, 11 Apr 2021 13:52:24 +0000 (UTC)
-Date: Sun, 11 Apr 2021 14:52:45 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Alexandru Ardelean <ardeleanalex@gmail.com>
-Cc: Lucas Stankus <lucas.p.stankus@gmail.com>, Lars-Peter Clausen
- <lars@metafoo.de>, "Hennerich, Michael" <Michael.Hennerich@analog.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-iio
- <linux-iio@vger.kernel.org>, linux-staging@lists.linux.dev, LKML
- <linux-kernel@vger.kernel.org>, devicetree <devicetree@vger.kernel.org>
-Subject: Re: [PATCH 2/3] staging: iio: cdc: ad7746: use dt bindings to set
- the EXCx pins output
-Message-ID: <20210411145245.18698d61@jic23-huawei>
-In-Reply-To: <CA+U=DsqGG=NA9yHimRYuoSuBxupiqZ8JH-7FKThXj9J7D__U=A@mail.gmail.com>
-References: <cover.1617993776.git.lucas.p.stankus@gmail.com>
-	<39486895e4e985d0220342f3accfd98a1e149ea7.1617993776.git.lucas.p.stankus@gmail.com>
-	<CA+U=Dsot+p76kaCAecN+ORdhZ_u+Bw1J8oVKZYAjoexHgiazVg@mail.gmail.com>
-	<CA+U=DsqGG=NA9yHimRYuoSuBxupiqZ8JH-7FKThXj9J7D__U=A@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9529570
+	for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 13:59:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=bk.ru; s=mail3;
+	h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From; bh=DCS5bgku0LFGoNK+LOToM8NW1oqmiWlymTiwWkl8OZw=;
+	b=EHB3A3ZY8If2iWS0yIFcrxxFazE5tRFcVX/dNqLRj5B/16zVgOqOv8DlBD3XsZAGldEGKwsceRmGFV+QsA6rV6k39nrQLdglzvAc7hABCK8j60ZrzFfrhA1s/q8vWSHUMbBTTSM93nOeElleTdU/45oAHJJr7Q0CqPKFiJ8GCbc=;
+Received: from [10.161.64.59] (port=37090 helo=smtp51.i.mail.ru)
+	by fallback12.m.smailru.net with esmtp (envelope-from <dev.dragon@bk.ru>)
+	id 1lVaSj-0006FD-Ud
+	for linux-staging@lists.linux.dev; Sun, 11 Apr 2021 16:49:18 +0300
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=bk.ru; s=mail3;
+	h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=DCS5bgku0LFGoNK+LOToM8NW1oqmiWlymTiwWkl8OZw=;
+	b=V4m9fAIAEdPW+dGErF7gx/8uTH1z1vtmQFfD0gSunY0DJWxrHDl97m1TGXbNiMiqM7F9YNMczLSWSe7+r4oc1opKQ+hMGlOfjD1rZkYztvnyXlBNsfdhmyrJyXnckElXxcnOMUltce7exWXLvltuDZlrlqWoTPKN8DeFyzpAWwk=;
+Received: by smtp51.i.mail.ru with esmtpa (envelope-from <dev.dragon@bk.ru>)
+	id 1lVaSN-0003RX-0c; Sun, 11 Apr 2021 16:48:55 +0300
+From: dev.dragon@bk.ru
+To: mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Dmitrii Wolf <dev.dragon@bk.ru>
+Subject: [PATCH] Staging: media: atomisp: pci: fixed a curly bracket coding style issue.
+Date: Sun, 11 Apr 2021 16:48:41 +0300
+Message-Id: <20210411134840.7184-1-dev.dragon@bk.ru>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-7564579A: B8F34718100C35BD
+X-77F55803: 4F1203BC0FB41BD92FFCB8E6708E74807BAE725B9AE625DE765B0E193B5B7687182A05F5380850407DFF9C1872653EB4A7EB6021575DFFDB6128DDA1A0D63343F47167B29CE7576B
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE71343958AEA576E5EEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637DA5CEC9EE7F170198638F802B75D45FF914D58D5BE9E6BC1A93B80C6DEB9DEE97C6FB206A91F05B206ED6C8DD202441F05D87ECC7E4B99230E47C10036089472D2E47CDBA5A96583C09775C1D3CA48CF27ED053E960B195E117882F4460429724CE54428C33FAD30A8DF7F3B2552694AC26CFBAC0749D213D2E47CDBA5A9658378DA827A17800CE767883B903EA3BAEA9FA2833FD35BB23DF004C90652538430302FCEF25BFAB3454AD6D5ED66289B5278DA827A17800CE74B449066CFC473267B076A6E789B0E97A8DF7F3B2552694A1E7802607F20496D49FD398EE364050F0AC5B80A05675ACD1B780A39BCC1DD35B3661434B16C20AC78D18283394535A9E827F84554CEF50127C277FBC8AE2E8BA83251EDC214901ED5E8D9A59859A8B67BEEC15D15C45022089D37D7C0E48F6C5571747095F342E88FB05168BE4CE3AF
+X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C414F749A5E30D975CE44850EFB5864EA2916BBEDD442F6E682559AFB93FF5A5229C2B6934AE262D3EE7EAB7254005DCED556CBE7F905700A49510FB958DCE06DB6ED91DBE5ABE359ADBCB5631A0A9D21F23D4379F09C64C7393EDB24507CE13387DFF0A840B692CF8
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D34F6110710A6CC527F893C57021E9A60506678398854B20B099512CC4567CFE5A664601BB8B02277421D7E09C32AA3244CAB2417A4E9E32DCE4BCA49FC5103B98DA8CE788DE683120583B48618A63566E0
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojyKKJYJ15DtLKp1kg4T9mwA==
+X-Mailru-Sender: 3A338A78718AEC5AA85B3E7661095C1E2C5C04A378BD967FD2269DDD7FDC53E2E91E5C0C426EA6BC3833C6AC539110AEA432B8CD90067B65A6C5C4E98768B51D7AA22088860DD9FF5CDEF9E650933936342CD0BA774DB6A9AE208404248635DF
+X-Mras: Ok
+X-7564579A: 646B95376F6C166E
+X-77F55803: 6242723A09DB00B4F462559CB183475CD50668BED91BC476656235E6829084D7049FFFDB7839CE9E305EC3E96664ADC9434DB96E331A69E53B74AB60707CF3EFF84B49261A708C4D
+X-7FA49CB5: 0D63561A33F958A5E54CC517AC261C2C4CE4480BD952CE8935B5EAECE2A4CD458941B15DA834481FA18204E546F3947C4A7E03851CBA2956F6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F7900637EAC5C7182FB0D3F7389733CBF5DBD5E9B5C8C57E37DE458BD9DD9810294C998ED8FC6C240DEA76428AA50765F79006374DB5EA3F81C3E4F5D81D268191BDAD3DBD4B6F7A4D31EC0BEA7A3FFF5B025636AAAE862A0553A3920E30A4C9C8E338DAE1FDDD8BCAFBFF1943847C11F186F3C59DAA53EE0834AAEE
+X-C1DE0DAB: C20DE7B7AB408E4181F030C43753B8186998911F362727C414F749A5E30D975CE44850EFB5864EA242A165947640107B7F374EE6478AE6CA9C2B6934AE262D3EE7EAB7254005DCED556CBE7F905700A4DC48ACC2A39D04F89CDFB48F4795C241BDAD6C7F3747799A
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojyKKJYJ15DtLOz2Hl5FJe8w==
+X-Mailru-MI: 800
+X-Mailru-Sender: A5480F10D64C9005F4843EF15D8AD6F815BD7748078BEE7F8A1B45FCE32304B320D24A6AA3ADFC6DCD4CDAD98BDCABE8DDBB79867CC2C1EC846E85FF75DBDC4983CE97D6EC8C31C553326A0E03014151EAB4BC95F72C04283CDA0F3B3F5B9367
+X-Mras: Ok
 
-On Sat, 10 Apr 2021 19:15:39 +0300
-Alexandru Ardelean <ardeleanalex@gmail.com> wrote:
+From: Dmitrii Wolf <dev.dragon@bk.ru>
 
-> On Sat, Apr 10, 2021 at 7:12 PM Alexandru Ardelean
-> <ardeleanalex@gmail.com> wrote:
-> >
-> > On Fri, Apr 9, 2021 at 9:51 PM Lucas Stankus <lucas.p.stankus@gmail.com> wrote:  
-> > >
-> > > Ditch platform_data fields in favor of device tree properties for
-> > > configuring EXCA and EXCB output.
-> > > This also removes the fields from the platform_data struct, since they're
-> > > not used anymore.
-> > >
-> > > Signed-off-by: Lucas Stankus <lucas.p.stankus@gmail.com>
-> > > ---
-> > >  drivers/staging/iio/cdc/ad7746.c | 33 +++++++++++++++++---------------
-> > >  drivers/staging/iio/cdc/ad7746.h |  4 ----
-> > >  2 files changed, 18 insertions(+), 19 deletions(-)
-> > >
-> > > diff --git a/drivers/staging/iio/cdc/ad7746.c b/drivers/staging/iio/cdc/ad7746.c
-> > > index dfd71e99e872..63041b164dbe 100644
-> > > --- a/drivers/staging/iio/cdc/ad7746.c
-> > > +++ b/drivers/staging/iio/cdc/ad7746.c
-> > > @@ -677,8 +677,10 @@ static int ad7746_probe(struct i2c_client *client,
-> > >                         const struct i2c_device_id *id)
-> > >  {
-> > >         struct ad7746_platform_data *pdata = client->dev.platform_data;
-> > > +       struct device_node *np = client->dev.of_node;
-> > >         struct ad7746_chip_info *chip;
-> > >         struct iio_dev *indio_dev;
-> > > +       unsigned int exca_en, excb_en;
-> > >         unsigned char regval = 0;
-> > >         int ret = 0;
-> > >
-> > > @@ -703,26 +705,27 @@ static int ad7746_probe(struct i2c_client *client,
-> > >         indio_dev->num_channels = ARRAY_SIZE(ad7746_channels);
-> > >         indio_dev->modes = INDIO_DIRECT_MODE;
-> > >  
-> >
-> > [1]
-> >  
-> > > -       if (pdata) {
-> > > -               if (pdata->exca_en) {
-> > > -                       if (pdata->exca_inv_en)
-> > > -                               regval |= AD7746_EXCSETUP_NEXCA;
-> > > -                       else
-> > > -                               regval |= AD7746_EXCSETUP_EXCA;
-> > > -               }
-> > > +       ret = of_property_read_u32(np, "adi,exca-output", &exca_en);  
-> >
-> > maybe a better idea would be to use:
-> >
-> > device_property_read_u32(dev, .... )
-> > where:
-> > dev = client->dev.;
-> >
-> > this would make the driver a bit more friendly with both OF and ACPI
-> >  
-> > > +       if (!ret && exca_en) {
-> > > +               if (exca_en == 1)
-> > > +                       regval |= AD7746_EXCSETUP_EXCA;
-> > > +               else
-> > > +                       regval |= AD7746_EXCSETUP_NEXCA;
-> > > +       }
-> > >
-> > > -               if (pdata->excb_en) {
-> > > -                       if (pdata->excb_inv_en)
-> > > -                               regval |= AD7746_EXCSETUP_NEXCB;
-> > > -                       else
-> > > -                               regval |= AD7746_EXCSETUP_EXCB;
-> > > -               }
-> > > +       ret = of_property_read_u32(np, "adi,excb-output", &excb_en);
-> > > +       if (!ret && excb_en) {
-> > > +               if (excb_en == 1)
-> > > +                       regval |= AD7746_EXCSETUP_EXCB;
-> > > +               else
-> > > +                       regval |= AD7746_EXCSETUP_NEXCB;
-> > > +       }
-> > >
-> > > +       if (pdata) {
-> > >                 regval |= AD7746_EXCSETUP_EXCLVL(pdata->exclvl);
-> > >         } else {
-> > >                 dev_warn(&client->dev, "No platform data? using default\n");
-> > > -               regval = AD7746_EXCSETUP_EXCA | AD7746_EXCSETUP_EXCB |
-> > > -                       AD7746_EXCSETUP_EXCLVL(3);  
-> >
-> > This logic is problematic now.
-> > Because no matter what you're setting in the DT, it always gets
-> > overridden here because there is no platform data.
-> >
-> > Maybe a better idea is to do something like:
-> > if (!pdata)
-> >      regval = AD7746_EXCSETUP_EXCLVL(3);
-> >
-> > but this should be placed somewhere around [1]  
-> 
-> [ i can see that this logic will get corrected in the next patch]
-> to add here a bit: the idea of a patch is that it should try to not
-> introduce any [even temporary] breakage, even when it's in a series;
-> if a driver was already broken, then it should get fixed via it's own patch;
-> but no patch should introduce any breakages [if possible]
+Fixed a coding style issue.
 
-The two patches are small enough I'd be fine with them being merged into one
-that avoiding any special handling.  Just add a note to the patch description
-to say that it was done in one patch for this reason.
+Signed-off-by: Dmitrii Wolf <dev.dragon@bk.ru>
+---
+ drivers/staging/media/atomisp/pci/atomisp_csi2.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Jonathan
-
-> 
-> >
-> >  
-> > > +               regval = AD7746_EXCSETUP_EXCLVL(3);
-> > >         }
-> > >
-> > >         ret = i2c_smbus_write_byte_data(chip->client,
-> > > diff --git a/drivers/staging/iio/cdc/ad7746.h b/drivers/staging/iio/cdc/ad7746.h
-> > > index 8bdbd732dbbd..6cae4ecf779e 100644
-> > > --- a/drivers/staging/iio/cdc/ad7746.h
-> > > +++ b/drivers/staging/iio/cdc/ad7746.h
-> > > @@ -19,10 +19,6 @@
-> > >
-> > >  struct ad7746_platform_data {
-> > >         unsigned char exclvl;   /*Excitation Voltage Level */
-> > > -       bool exca_en;           /* enables EXCA pin as the excitation output */
-> > > -       bool exca_inv_en;       /* enables /EXCA pin as the excitation output */
-> > > -       bool excb_en;           /* enables EXCB pin as the excitation output */
-> > > -       bool excb_inv_en;       /* enables /EXCB pin as the excitation output */
-> > >  };
-> > >
-> > >  #endif /* IIO_CDC_AD7746_H_ */
-> > > --
-> > > 2.31.1
-> > >  
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2.c b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
+index 060b8765ae96..200f16994f3a 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_csi2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
+@@ -29,7 +29,8 @@ static struct v4l2_mbus_framefmt *__csi2_get_format(struct
+ 	v4l2_subdev_pad_config *cfg,
+ 	enum
+ 	v4l2_subdev_format_whence
+-	which, unsigned int pad) {
++	which, unsigned int pad)
++{
+ 	if (which == V4L2_SUBDEV_FORMAT_TRY)
+ 		return v4l2_subdev_get_try_format(&csi2->subdev, cfg, pad);
+ 	else
+-- 
+2.25.1
 
