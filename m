@@ -1,85 +1,104 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9EA70
-	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 14:29:53 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id b8-20020a17090a5508b029014d0fbe9b64so8921062pji.5
-        for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 07:29:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C9271
+	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 15:08:46 +0000 (UTC)
+Received: by mail-pg1-f175.google.com with SMTP id q10so9609945pgj.2
+        for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 08:08:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=tKKcJsInlPqpfcFDpQt6bNttFP8cv3zMw+nHpvpdxuE=;
-        b=T6ww3nDrZI5sxtE+ufOahTQ4WPxiy+Gzu+qA5iJQ4rE3l0r9k43GF0Bh+p1yOXxqza
-         f+d45JZi72IoqYHbzV8y9QHbaFURzSvZSUyL05T+xivYN12j84BMjirB5qLJTAbaYvul
-         tjS4gZzljNJXxAe1Rz1jSOdt18LyPPZtpi8Ovl2YQnOHdsX9d+jK8qIrBsnEmS7ozdbN
-         JXibGXtnRBAgfdVO85fjIL4ErfXAzlbgn4MdrzSEOXfN2bPWHXFJSy54wT4sycvT0XC0
-         8TWIcrRn6AunL2q7oAdFmTUjtJXXm0Pig/HcD8JZWtxFAd5qVwgakKE2SDHjBJZpscbm
-         ODRA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-disposition:content-transfer-encoding;
+        bh=7c5hbFDJuzW8IbaNLbCCwK5N29exubinPApJnJHDfR0=;
+        b=ITLLe2DYMYPMeZVGTkOR3bOoGfykAoYj/bQy2kCNye+lBUJ4XaLgFBgV6f2/yXfdd7
+         oFAVX0mQPwwymASavuDGXYqCdTXy47ZVJ/xlr9FH+qYoJ0kyvIHWC7SglHHDqrO50knq
+         erVGGF9AYHklUu3pGvXTBSIB1dK/wjQF3ksPtYKoYc3UTmIXSSS5oIwQ8EYvT/rFv2Qw
+         B9VpY9yz26CcM80Jg4PDwvFix5CNjmrPsjA+feH4HFT9yDVUE0HBsePWEfP2D1E6A0BC
+         k9hnIqKMl0A/k7zYjwFsYK0ENESXfAjEks0+fqqa79661PTy2kc8s1fOcLNn/eQCZcR7
+         09Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=tKKcJsInlPqpfcFDpQt6bNttFP8cv3zMw+nHpvpdxuE=;
-        b=jPVxnuNwXrK1UUMzId7NXrJCMSSvAZCDcTdWUKy2J+Vgr3P49qmYBTNAPH5eXP0RnU
-         KmZo85aa9vwyF7uOQSzjbXekAAm1R3SpPcWnpiNJ62GAj4ODupiOeu8/sdnves8K87dI
-         hAtEFViRJl/4EjjjsJ1VpTVhjhJDmIqBnaVpFo2B0+ytsdJ8RgFF2vwlm+QINKyUNsS3
-         /cUs12J6OPTolNBFoUjsqMfiMOvraz9QGLr6wdM8x66V5QVgvkxuyLJoVxkkEZihHad/
-         sDaeY92hrB8ywFqQD2Wzu433D98HdQeLhQXnSljTd9glCWCv38YOWmflmk7CYpe6XHDL
-         H4Ng==
-X-Gm-Message-State: AOAM531TKcf/RErVXGMiybaFHSdNEG06Qr/jKwdxOCEaIFqgH86vJ9Bt
-	7+IxB1Tze0E58zG+jg6QaPM=
-X-Google-Smtp-Source: ABdhPJxBRYhkbeLMLQQUz+zvf+lASZDN4Ft87LNynMBa/pXYyZ3WhXB6LZZpew/h3AT920zAoEAZ3A==
-X-Received: by 2002:a17:902:106:b029:e8:de25:4a1d with SMTP id 6-20020a1709020106b02900e8de254a1dmr26971190plb.7.1618237793240;
-        Mon, 12 Apr 2021 07:29:53 -0700 (PDT)
-Received: from kali ([103.141.87.253])
-        by smtp.gmail.com with ESMTPSA id r1sm11410647pjo.26.2021.04.12.07.29.40
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-disposition
+         :content-transfer-encoding;
+        bh=7c5hbFDJuzW8IbaNLbCCwK5N29exubinPApJnJHDfR0=;
+        b=Iy7+FWdPh8F/jcyy5KRcxsH8rimdvjbpyYeKwlHLyCKOr15KCl931rjBZdHeTMOkuI
+         kDWkgglZxcivSlsosaGiS89EGJO09W2cY4Y8QPJCEavt5LHt96Jjp9Psv2okUEWyEX5a
+         P9+L9YsoEXm6iJHy0P82vFv4AVf7WkW94JQCtuS3BLJJcpLOPfXOmKm1f+5491WHz4+T
+         P63TiACDten9l/VG6IgINTUQMa7jqh98lT1Rg7z61sblDiHNcsq2aFhKNZtvV6CXRoqu
+         ESQ8yHD9fUJ44EgcErSPw6VgHLWso/DCgyx7/KumLl+r+VrP7N6gvpawws7dNlvp8/8g
+         cX0g==
+X-Gm-Message-State: AOAM530xNdetjdLfzc74x7h9vrq1wyqY3h38TagCBkhfwaE5Zpy0nQdt
+	EXw7L3MerX3GZR96umLPTjQ=
+X-Google-Smtp-Source: ABdhPJz7KRLv1g9bRdFHzT6lp7tQwKP2uj+NoPFEntDd1eukLWRlre8tS73iPaLZc+mPS/pqqEeSxQ==
+X-Received: by 2002:aa7:91d1:0:b029:1fe:2a02:73b9 with SMTP id z17-20020aa791d10000b02901fe2a0273b9mr25310238pfa.2.1618240125830;
+        Mon, 12 Apr 2021 08:08:45 -0700 (PDT)
+Received: from localhost.localdomain ([138.197.212.246])
+        by smtp.gmail.com with ESMTPSA id k13sm8406233pji.14.2021.04.12.08.08.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Apr 2021 07:29:52 -0700 (PDT)
-Date: Mon, 12 Apr 2021 19:59:29 +0530
-From: Mitali Borkar <mitaliborkar810@gmail.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: Re: [Outreachy kernel] Re: [PATCH 2/6] staging: media: intel-ipu3:
- preferred __aligned(size) over __attribute__aligned(size)
-Message-ID: <YHRZSYmHfXTh/S39@kali>
-References: <cover.1618180659.git.mitaliborkar810@gmail.com>
- <f618f1fe2d13417ebed185da392fb48811593a9f.1618180660.git.mitaliborkar810@gmail.com>
- <20210412094315.GJ3@paasikivi.fi.intel.com>
+        Mon, 12 Apr 2021 08:08:45 -0700 (PDT)
+From: DENG Qingfang <dqfext@gmail.com>
+To: =?iso-8859-1?Q?Ren=E9?= van Dorst <opensource@vdorst.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Landen Chao <Landen.Chao@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Vivien Didelot <vivien.didelot@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	netdev@vger.kernel.org,
+	Weijie Gao <weijie.gao@mediatek.com>,
+	Chuanhong Guo <gch981213@gmail.com>,
+	Frank Wunderlich <frank-w@public-files.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Marc Zyngier <maz@kernel.org>
+Subject: Re: [RFC v4 net-next 1/4] net: phy: add MediaTek PHY driver
+Date: Mon, 12 Apr 2021 23:08:36 +0800
+Message-Id: <20210412150836.929610-1-dqfext@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210412070449.Horde.wg9CWXW8V9o0P-heKYtQpVh@www.vdorst.com>
+References: <20210412034237.2473017-1-dqfext@gmail.com> <20210412034237.2473017-2-dqfext@gmail.com> <20210412070449.Horde.wg9CWXW8V9o0P-heKYtQpVh@www.vdorst.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210412094315.GJ3@paasikivi.fi.intel.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 12, 2021 at 12:43:15PM +0300, Sakari Ailus wrote:
-> Hi Mitali,
+On Mon, Apr 12, 2021 at 07:04:49AM +0000, René van Dorst wrote:
+> Hi Qingfang,
+> > +static void mtk_phy_config_init(struct phy_device *phydev)
+> > +{
+> > +	/* Disable EEE */
+> > +	phy_write_mmd(phydev, MDIO_MMD_AN, MDIO_AN_EEE_ADV, 0);
 > 
-> On Mon, Apr 12, 2021 at 04:38:59AM +0530, Mitali Borkar wrote:
-> > This patch fixes the warning identified by checkpatch.pl by replacing
-> > __attribute__aligned(size) with __aligned(size)
+> For my EEE patch I changed this line to:
 > 
-> Same comments on this than the 1st patch.
+> genphy_config_eee_advert(phydev);
 > 
-> It's a staging driver so even if this is a user space header, it's not
-> under include/uapi/linux.
->
-Sir, I am not able to understandd what you are trying to say in this. As you
-mentioned in patch 1/6, I removed and added header where BIT() macro under 
-apprpriate userpace, but what should I modify in this patch?
+> So PHY EEE part is setup properly at boot, instead enable it manual via
+> ethtool.
+> This function also takes the DTS parameters "eee-broken-xxxx" in to account
+> while
+i> setting-up the PHY.
 
-> -- 
-> Kind regards,
+Thanks, I'm now testing with it.
+
 > 
-> Sakari Ailus
-> 
-> -- 
-> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/20210412094315.GJ3%40paasikivi.fi.intel.com.
+> > +
+> > +	/* Enable HW auto downshift */
+> > +	phy_modify_paged(phydev, MTK_PHY_PAGE_EXTENDED, 0x14, 0, BIT(4));
