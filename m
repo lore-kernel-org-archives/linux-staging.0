@@ -1,97 +1,86 @@
-Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4887A70
-	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 14:02:03 +0000 (UTC)
-Date: Mon, 12 Apr 2021 14:01:49 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail3; t=1618236113;
-	bh=03onwTU9Um31w8Mfn6QH4RSR6w5lr0DBC+K+sh5MACQ=;
-	h=Date:To:From:Cc:Reply-To:Subject:From;
-	b=JzW5GAgMQtt7/FbwM8bH6zxd6LxgBLViXP9kO8fg5WuTonXWwVI/yF7vdUzd8OJ4o
-	 z9or4fvT2bmubghYlJgO14bbPqCrqrC6d0odNWYIU1o4+uTt/SaABJCuL+iV/RtKNY
-	 55Ct8IEGyPR59bM7lMyUl8ReGBliDx6zhZJgExQ/fH5mPdz09p2vCOnZVNauRjfKv8
-	 qTr0j6ExqlpDRU550J/Ch5Yes8mNt+LRBu/OjAZovmFxI1fCT8nsHyiyslzGzTg/VD
-	 FoWQXPusv3JoGiD+fT6PXllzAD03B2Mi3TDQPfXQ8qJ82LblYghHocrJY2Oin2G3dT
-	 Rl34KktR+1Ywg==
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans de Goede <hdegoede@redhat.com>, Larry Finger <Larry.Finger@lwfinger.net>
-From: Bryan Brattlof <hello@bryanbrattlof.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, Bryan Brattlof <hello@bryanbrattlof.com>
-Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: [PATCH] staging: rtl8723bs: remove unnecessary adapter
-Message-ID: <20210412140054.27629-1-hello@bryanbrattlof.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE04470
+	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 14:18:54 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id 20so2487133pll.7
+        for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 07:18:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=gE1tFWhSzbHqAI5X9ftQT0mEeaEBuCfbMLq9XJpCJgo=;
+        b=kAr42R2krMprDasFsl+izamVChxE+LZ8Vd0aPw47+CCHoupj1Qgnq68hh9kaimTv7F
+         37gTXi1cEh+NQk9l6uzuQrdIhj/8ScTKyLBVwYcOjRw9TDXI0peJmFyFq4ikp5qLPnzX
+         fXZA72Vq8jWSg0VH0W7sfejshHq75rG60XhYxtyYvEwAThHqqIsFMZN6YEOUwTQWUuzh
+         IIDTwHv7zQfSZXfOsovIERUgBePRT/8dJFfoWIc0HkJ8n5vCTJyCVaBu8e9rntDVYWXZ
+         7nu29nmtdJzotxfPnQeWQ4tMZ6IxdL9d3i/LmtAqO7DlXrbp5Pj3xdetRHlCrKt+lMP3
+         gANg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=gE1tFWhSzbHqAI5X9ftQT0mEeaEBuCfbMLq9XJpCJgo=;
+        b=eCWxyBBDGwv69ocoR/uLOXVsIEFH5muyUsY1jIjSlwdA6lfNHTCOhnKIHSrAPDwBEb
+         /WnmGrQ2jWWZiuY6jHxHXxW6OrG7yzascFu2VJxmVQauobrhAjEtWu+LdLvOMsX6B8jw
+         t6PThLIuncR2qCEza8AAYsmc22iEecP6nsjfbaeCdu9FrQGiUEFfwhjQA7JL3R4zfIg9
+         SnmqThRrh1QOta/6j87FWfo+k4tfvhQyq03cC4ihvHn7nBvB993wWq9sX4rJIKSqpQ8W
+         HGnVAek9C65e5MPDmyyowYDN6edP6s7ZLp7G/stxm7OBQ87rC/ZkLgl7+SjswUeDsotN
+         NrHQ==
+X-Gm-Message-State: AOAM533NiFQF7TbniZDRF6yJYleSAJwv2okAzQl1CWPqKIFXskvVNXn6
+	yUCKEkvS1kkGRIOiwb78EtQ=
+X-Google-Smtp-Source: ABdhPJy1IOQSh91XC3ctGh4jru7zmv9U5bKzAJBmvP804WFF9A+NhYzJx1RaM2WGdTkFa91OwV6kOg==
+X-Received: by 2002:a17:902:ac89:b029:e6:d199:29ac with SMTP id h9-20020a170902ac89b02900e6d19929acmr26586468plr.46.1618237134354;
+        Mon, 12 Apr 2021 07:18:54 -0700 (PDT)
+Received: from kali ([103.141.87.254])
+        by smtp.gmail.com with ESMTPSA id gb15sm11274248pjb.32.2021.04.12.07.18.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Apr 2021 07:18:54 -0700 (PDT)
+Date: Mon, 12 Apr 2021 19:48:45 +0530
+From: Mitali Borkar <mitaliborkar810@gmail.com>
+To: narmstrong@baylibre.com, mchehab@kernel.org, gregkh@linuxfoundation.org,
+	khilman@baylibre.com, jbrunet@baylibre.com,
+	martin.blumenstingl@googlemail.com
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
+	mitali_s@me.iitr.ac.in, linux-amlogic@lists.infradead.org
+Subject: Subject: [PATCH] staging: media: meson: vdec: declare u32 as static
+ const
+Message-ID: <YHRWxeXA9m+Gt+e+@kali>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-	autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-	mailout.protonmail.ch
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The if2 adapter is defined in rtw_dvr_init() and in the dvobj_priv
-structure but never used anywhere in the driver. This will remove all
-definitions of if2
+Declared 32 bit unsigned int as static constant inside a function and
+replaced u32[] {x,y} as canvas3, canvas4 in codec_h264.c
+This indicates the value of canvas indexes will remain constant throughout execution.
 
-Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
+Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/drv_types.h |  1 -
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c  | 10 ++++------
- 2 files changed, 4 insertions(+), 7 deletions(-)
+ drivers/staging/media/meson/vdec/codec_h264.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/stagin=
-g/rtl8723bs/include/drv_types.h
-index cec8d5ac0e2e..35882dc2654e 100644
---- a/drivers/staging/rtl8723bs/include/drv_types.h
-+++ b/drivers/staging/rtl8723bs/include/drv_types.h
-@@ -269,7 +269,6 @@ struct cam_entry_cache {
- struct dvobj_priv {
- =09/*-------- below is common data --------*/
- =09struct adapter *if1; /* PRIMARY_ADAPTER */
--=09struct adapter *if2; /* SECONDARY_ADAPTER */
-=20
- =09s32=09processing_dev_remove;
-=20
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging=
-/rtl8723bs/os_dep/sdio_intf.c
-index 2b61a4bdd8a1..3545cb6ef886 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -381,7 +381,7 @@ static int rtw_drv_init(
- =09const struct sdio_device_id *id)
- {
- =09int status =3D _FAIL;
--=09struct adapter *if1 =3D NULL, *if2 =3D NULL;
-+=09struct adapter *if1 =3D NULL;
- =09struct dvobj_priv *dvobj;
-=20
- =09dvobj =3D sdio_dvobj_init(func);
-@@ -395,17 +395,15 @@ static int rtw_drv_init(
- =09/* dev_alloc_name && register_netdev */
- =09status =3D rtw_drv_register_netdev(if1);
- =09if (status !=3D _SUCCESS)
--=09=09goto free_if2;
-+=09=09goto free_if1;
-=20
- =09if (sdio_alloc_irq(dvobj) !=3D _SUCCESS)
--=09=09goto free_if2;
-+=09=09goto free_if1;
-=20
- =09rtw_ndev_notifier_register();
- =09status =3D _SUCCESS;
-=20
--free_if2:
--=09if (status !=3D _SUCCESS && if2) {
--=09}
-+free_if1:
- =09if (status !=3D _SUCCESS && if1) {
- =09=09rtw_sdio_if1_deinit(if1);
- =09}
---=20
-2.27.0
-
+diff --git a/drivers/staging/media/meson/vdec/codec_h264.c b/drivers/staging/media/meson/vdec/codec_h264.c
+index c61128fc4bb9..ea86e9e1c447 100644
+--- a/drivers/staging/media/meson/vdec/codec_h264.c
++++ b/drivers/staging/media/meson/vdec/codec_h264.c
+@@ -287,10 +287,10 @@ static void codec_h264_resume(struct amvdec_session *sess)
+ 	struct amvdec_core *core = sess->core;
+ 	struct codec_h264 *h264 = sess->priv;
+ 	u32 mb_width, mb_height, mb_total;
++	static const u32[] canvas3 = { ANCO_CANVAS_ADDR, 0 };
++	static const u32[] canvas4 = { 24, 0 };
+ 
+-	amvdec_set_canvases(sess,
+-			    (u32[]){ ANC0_CANVAS_ADDR, 0 },
+-			    (u32[]){ 24, 0 });
++	amvdec_set_canvases(sess, canvas3, canvas4);
+ 
+ 	dev_dbg(core->dev, "max_refs = %u; actual_dpb_size = %u\n",
+ 		h264->max_refs, sess->num_dst_bufs);
+-- 
+2.30.2
 
