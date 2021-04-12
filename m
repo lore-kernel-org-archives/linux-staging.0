@@ -1,162 +1,98 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D84471
-	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 10:12:37 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id e7so14338161edu.10
-        for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 03:12:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=mF+6SGO1JLL8M4234s6vYG5jQ2k4t0YfQWKHCjz7COY=;
-        b=dPe43xTptCxH/ooeJ+PlNENISk5DTUt4gdP5FIiRkXxTA/CRz+ITFNzkn33yehExKV
-         jo+VCt8J+OxFPF/6YWy1ZXa+vjNM5S4ZtVpueShKdagx9ZIB/p0o8JvygqK0OZDLnMcT
-         QGST+WaZdtAMZsKLC9SVfkx9GDhTudQ8I9qjVbgyoX4vnvvSDikoig1VgqleyaGVbeWt
-         253u+b3ivBDVQBtptksigzV5YE7swNAheTq8RKGowWW9DnSSRxDK9EijJS2HAcZDZo4b
-         PQHHKzj8M8G8NYKYP/9EypOoajqSIolCkAuDmUt5PBOLSr8b+ciHev20/o17ZcWiN8Q9
-         MSjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=mF+6SGO1JLL8M4234s6vYG5jQ2k4t0YfQWKHCjz7COY=;
-        b=QwV+vMJe+7UPk7xnFkxPDMVW2wk+mSo4F6LTID2EHrZvUuHDita3yAPiJz8WRk5gyL
-         Vu1x1K161bdloCDA9S0v8wpSeJ7HM2NzHy1q1ZPUDlNyJpJtdJ64KgOFpEaur+SMZ6zr
-         pBdnMaCMrJAOzQhVF4po3oJZWQ0wIx7P9MWpHmuYZ+x5ebdLwd797vSljtKorWZfoXvu
-         k9wdNX29xPIMGdtPiVleVfRIfMijsEKsnnLPn1Mky1PlKdhtd21dMYGCb2zQFtkEtUVA
-         rKtmsmIjDH7bYM6J18rT7LPj1xmdlx7Zmj8Vf6zGKj9WYpJN6Jj2pAQucHYAkc4Oq7vM
-         oPYQ==
-X-Gm-Message-State: AOAM530jR74zUHqd9lNU8sRSe2rhZeWGEGOLX01DFypoH60ih7wx2Y3P
-	jBUo/vik7SKDchKhF2hobnr9liHmHN3wJ5Je
-X-Google-Smtp-Source: ABdhPJxAJG31dXCdts6fVyOxmHsmyqRMGHD1zCqAfamsliKBSAzI2E+EV1fILkDCp1ukdr7aGj2Mmg==
-X-Received: by 2002:aa7:d843:: with SMTP id f3mr22951918eds.52.1618222356109;
-        Mon, 12 Apr 2021 03:12:36 -0700 (PDT)
-Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
-        by smtp.gmail.com with ESMTPSA id i16sm4948733ejc.106.2021.04.12.03.12.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Apr 2021 03:12:35 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6454571
+	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 10:17:11 +0000 (UTC)
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AGbDAia04DzLbot04H/gwLgqjBGUkLtp033Aq?=
+ =?us-ascii?q?2lEZdDV+dMuEm8ey2MkB3RjvhzoLHF0mk9aMOK6PKEm9ybde544NMbC+GDT3oW?=
+ =?us-ascii?q?fAFuBfxKbr3jGIIUfD38FH06MIScRDIfnRKXQ/ssrg+gm/FL8bruWv1Kyzn+/R?=
+ =?us-ascii?q?wzNMYGhRAJ1I1AtyBgaFHkAefmAvObMCCJGe6sBbzgDMRV0raK2AaUU4Yw=3D?=
+ =?us-ascii?q?=3D?=
+X-IronPort-AV: E=Sophos;i="5.82,216,1613430000"; 
+   d="scan'208";a="502751049"
+Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 12:17:10 +0200
+Date: Mon, 12 Apr 2021 12:17:10 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
 To: Greg KH <gregkh@linuxfoundation.org>
-Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8192u: Remove function
-Date: Mon, 12 Apr 2021 12:12:34 +0200
-Message-ID: <4388012.RVq5xMhMDq@linux.local>
-In-Reply-To: <YHQWG2f34jhA41lK@kroah.com>
-References: <20210411184813.22836-1-fmdefrancesco@gmail.com> <YHQWG2f34jhA41lK@kroah.com>
+cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+    Mitali Borkar <mitaliborkar810@gmail.com>, bingbu.cao@intel.com, 
+    tian.shu.qiu@intel.com, mchehab@kernel.org, linux-media@vger.kernel.org, 
+    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+    outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
+Subject: Re: [Outreachy kernel] Re: [PATCH 1/6] staging: media: intel-ipu3:
+ replace bit shifts with BIT() macro
+In-Reply-To: <YHQXty07oAP1L0W9@kroah.com>
+Message-ID: <alpine.DEB.2.22.394.2104121216140.6734@hadrien>
+References: <cover.1618180659.git.mitaliborkar810@gmail.com> <cc7b827a3264f08cedb76adddd16a34df48f935f.1618180659.git.mitaliborkar810@gmail.com> <20210412094230.GI3@paasikivi.fi.intel.com> <YHQXty07oAP1L0W9@kroah.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=US-ASCII
 
-On Monday, April 12, 2021 11:42:51 AM CEST Greg KH wrote:
-> On Sun, Apr 11, 2021 at 08:48:13PM +0200, Fabio M. De Francesco wrote:
-> > Remove cmpk_handle_query_config_rx() because it just initializes a
-> > local
-> > variable and then returns "void".
-> > 
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > ---
-> > 
-> >  drivers/staging/rtl8192u/r819xU_cmdpkt.c | 40 ------------------------
-> >  1 file changed, 40 deletions(-)
-> > 
-> > diff --git a/drivers/staging/rtl8192u/r819xU_cmdpkt.c
-> > b/drivers/staging/rtl8192u/r819xU_cmdpkt.c index
-> > 4cece40a92f6..d5a54c2d3086 100644
-> > --- a/drivers/staging/rtl8192u/r819xU_cmdpkt.c
-> > +++ b/drivers/staging/rtl8192u/r819xU_cmdpkt.c
-> > @@ -249,46 +249,6 @@ static void cmpk_handle_interrupt_status(struct
-> > net_device *dev, u8 *pmsg)> 
-> >  	DMESG("<---- cmpk_handle_interrupt_status()\n");
-> >  
-> >  }
-> > 
-> > -/*--------------------------------------------------------------------
-> > --------- - * Function:    cmpk_handle_query_config_rx()
-> > - *
-> > - * Overview:    The function is responsible for extract the message
-> > from - *		firmware. It will contain dedicated info in
-> > - *		ws-06-0063-rtl8190-command-packet-specification. 
-Please
-> > - *		refer to chapter "Beacon State Element".
-> > - *
-> > - * Input:       u8    *pmsg	-	Message Pointer of the 
-command packet.
-> > - *
-> > - * Output:      NONE
-> > - *
-> > - * Return:      NONE
-> > - *
-> > - * Revised History:
-> > - *  When		Who	Remark
-> > - *  05/12/2008		amy	Create Version 0 porting from 
-windows code.
-> > - *
-> > -
-> > *---------------------------------------------------------------------
-> > ------ - */
-> > -static void cmpk_handle_query_config_rx(struct net_device *dev, u8
-> > *pmsg) -{
-> > -	struct cmpk_query_cfg	rx_query_cfg;
-> > -
-> > -	/* 1. Extract TX feedback info from RFD to temp structure 
-buffer. */
-> > -	/* It seems that FW use big endian(MIPS) and DRV use little 
-endian in
-> > -	 * windows OS. So we have to read the content byte by byte or
-> > transfer
-> > -	 * endian type before copy the message copy.
-> > -	 */
-> > -	rx_query_cfg.cfg_action		= (pmsg[4] & 0x80) >> 7;
-> > -	rx_query_cfg.cfg_type		= (pmsg[4] & 0x60) >> 5;
-> > -	rx_query_cfg.cfg_size		= (pmsg[4] & 0x18) >> 3;
-> > -	rx_query_cfg.cfg_page		= (pmsg[6] & 0x0F) >> 0;
-> > -	rx_query_cfg.cfg_offset		= pmsg[7];
-> > -	rx_query_cfg.value		= (pmsg[8]  << 24) | 
-(pmsg[9]  << 16) |
-> > -					  (pmsg[10] <<  8) 
-| (pmsg[11] <<  0);
-> > -	rx_query_cfg.mask		= (pmsg[12] << 24) | 
-(pmsg[13] << 16) |
-> > -					  (pmsg[14] <<  8) 
-| (pmsg[15] <<  0);
-> > -}
-> > -
-> > 
-> >  /*--------------------------------------------------------------------
-> >  --------->  
-> >   * Function:	cmpk_count_tx_status()
-> >   *
-> 
-> Always test-build your patches as they can not break the build.  You
-> obviously did not do that here, why not?
+
+
+On Mon, 12 Apr 2021, Greg KH wrote:
+
+> On Mon, Apr 12, 2021 at 12:42:30PM +0300, Sakari Ailus wrote:
+> > Hi Mitali,
+> >
+> > On Mon, Apr 12, 2021 at 04:38:39AM +0530, Mitali Borkar wrote:
+> > > Added #include <linux/bitops.h> and replaced bit shifts by BIT() macro.
+> > > This BIT() macro from linux/bitops.h is used to define IPU3_UAPI_GRID_Y_START_EN
+> > > and IPU3_UAPI_AWB_RGBS_THR_B_* bitmask.
+> > > Use of macro is better and neater. It maintains consistency.
+> > > Reported by checkpatch.
+> > >
+> > > Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+> > > ---
+> > >  drivers/staging/media/ipu3/include/intel-ipu3.h | 7 ++++---
+> > >  1 file changed, 4 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/intel-ipu3.h
+> > > index edd8edda0647..589d5ccee3a7 100644
+> > > --- a/drivers/staging/media/ipu3/include/intel-ipu3.h
+> > > +++ b/drivers/staging/media/ipu3/include/intel-ipu3.h
+> > > @@ -5,6 +5,7 @@
+> > >  #define __IPU3_UAPI_H
+> > >
+> > >  #include <linux/types.h>
+> > > +#include <linux/bitops.h>
+> > >
+> > >  /* from /drivers/staging/media/ipu3/include/videodev2.h */
+> > >
+> > > @@ -22,11 +23,11 @@
+> > >  #define IPU3_UAPI_MAX_BUBBLE_SIZE			10
+> > >
+> > >  #define IPU3_UAPI_GRID_START_MASK			((1 << 12) - 1)
+
+Mitali,
+
+It's not very relevant given the use of this header, but if the 1 << 15
+translation was correct, you could have changed the 1 << 12 computation as
+well.
+
+julia
+
+> > > -#define IPU3_UAPI_GRID_Y_START_EN			(1 << 15)
+> > > +#define IPU3_UAPI_GRID_Y_START_EN			BIT(15)
+> >
+> > This header is used in user space where you don't have the BIT() macro.
 >
-I can't see that where the build of rtl8192u is broken. 
-The following lines are from the compilation log:
-
-git/kernels/staging> make -j8 drivers/staging/rtl8192u/
- [...]
- CC [M]  drivers/staging/rtl8192u/r819xU_cmdpkt.o
- CC [M]  drivers/staging/rtl8192u/r819xU_cmdpkt.o
- [...]
- LD [M]  drivers/staging/rtl8192u/r8192u_usb.o
-
-No errors are reported.
-
-What am I missing?
-
-Thanks,
-
-Fabio
-> 
+> If that is true, why is it not in a "uapi" subdir within this driver?
+>
+> Otherwise it is not obvious at all that this is the case :(
+>
 > thanks,
-> 
+>
 > greg k-h
-
-
-
-
+>
+> --
+> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/YHQXty07oAP1L0W9%40kroah.com.
+>
