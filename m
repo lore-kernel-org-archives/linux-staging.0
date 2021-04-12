@@ -1,26 +1,27 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A596571
-	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 09:37:43 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B31B26121E;
-	Mon, 12 Apr 2021 09:37:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E6771
+	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 09:38:52 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 080BA6120F;
+	Mon, 12 Apr 2021 09:38:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1618220263;
-	bh=uBEBWCvKhDMQP4UP/TvSZxCggBLXt3IfEwGxtJ1Rg6w=;
+	s=korg; t=1618220331;
+	bh=5XCbpQ2jaq37pFKegsSHbOMkbKZ0wG2OYWzBu2rU7QE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=y+9Oxn25Slqjyi6P1Wetic+CokPt+pAZ3c4VmQlOpj1MHuqU+HoxKCDfhtE53JKOi
-	 M7nJTq2gpRXNc8xq0Ys/OD1xQ7qQ1A7FuVEwQVqSBtLOrsduAQZD30SQiTnQ1z1Nqc
-	 jkEMafIyVtu5L3f2dS6f6fCbwnWIycX1O1MMqgAA=
-Date: Mon, 12 Apr 2021 11:37:40 +0200
+	b=UpNbq3qLa8usFfqRYPlgHES2fkwyykMg6KuAhcpbAnUYVZ8SIEuPywnWyZwzxv4eW
+	 Hzs/o7rE0C3fwz2x1bB9hUx6b0ZvgAmf2+XJYwgSwyVPW6LZNtSOAYh8yh8CCuchYC
+	 Odu/4iEb19OVqB7jexNpiZ3UDq06fg4xs6S5FUHc=
+Date: Mon, 12 Apr 2021 11:38:48 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH v5 0/4] staging: rtl8723bs: Change
- several files of the driver
-Message-ID: <YHQU5NNLOGO///39@kroah.com>
-References: <20210411110458.15955-1-fmdefrancesco@gmail.com>
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH 1/3] staging: rtl8723bs: remove unused variable ret in
+ hal/sdio_halinit.c
+Message-ID: <YHQVKPOoGS3auAeQ@kroah.com>
+References: <cover.1618145345.git.fabioaiuto83@gmail.com>
+ <fbba90b0c8fb9f65b0dc7bc0b02560724a5502ab.1618145345.git.fabioaiuto83@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -28,20 +29,52 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210411110458.15955-1-fmdefrancesco@gmail.com>
+In-Reply-To: <fbba90b0c8fb9f65b0dc7bc0b02560724a5502ab.1618145345.git.fabioaiuto83@gmail.com>
 
-On Sun, Apr 11, 2021 at 01:04:54PM +0200, Fabio M. De Francesco wrote:
-> Remove camelcase, correct misspelled words in comments, change 
-> the type of a variable and its use, change comparisons with 'true'
-> in controlling expressions.
+On Sun, Apr 11, 2021 at 02:57:35PM +0200, Fabio Aiuto wrote:
+> fix following compiler warning issue:
 > 
-> Changes from v4: Write patch version number in 2/4.
-> Changes from v3: Move changes of controlling expressions in patch 4/4.
-> Changes from v2: Rewrite subject in patch 0/4; remove a patch from the
-> series because it had alreay been applied (rtl8723bs: core: Remove an unused variable).
-> Changes from v1: Fix a typo in subject of patch 1/5, add patch 5/5.
+>    drivers/staging/rtl8723bs/hal/sdio_halinit.c:
+>  In function 'CardDisableRTL8723BSdio':
+> >> drivers/staging/rtl8723bs/hal/sdio_halinit.c:881:5:
+> warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+>      881 |  u8 ret = _FAIL;
+>          |     ^~~
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/hal/sdio_halinit.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> index 2098384efe92..936181a73d73 100644
+> --- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> +++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> @@ -878,10 +878,9 @@ static void CardDisableRTL8723BSdio(struct adapter *padapter)
+>  {
+>  	u8 u1bTmp;
+>  	u8 bMacPwrCtrlOn;
+> -	u8 ret = _FAIL;
+>  
+>  	/*  Run LPS WL RFOFF flow */
+> -	ret = HalPwrSeqCmdParsing(padapter, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, rtl8723B_enter_lps_flow);
+> +	HalPwrSeqCmdParsing(padapter, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, rtl8723B_enter_lps_flow);
+>  
+>  	/* 	==== Reset digital sequence   ====== */
+>  
+> @@ -909,9 +908,8 @@ static void CardDisableRTL8723BSdio(struct adapter *padapter)
+>  	/* 	==== Reset digital sequence end ====== */
+>  
+>  	bMacPwrCtrlOn = false;	/*  Disable CMD53 R/W */
+> -	ret = false;
+>  	rtw_hal_set_hwreg(padapter, HW_VAR_APFM_ON_MAC, &bMacPwrCtrlOn);
+> -	ret = HalPwrSeqCmdParsing(padapter, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, rtl8723B_card_disable_flow);
+> +	HalPwrSeqCmdParsing(padapter, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, rtl8723B_card_disable_flow);
+>  }
 
-I'll take this, but the subject here is a bit odd, and obvious :)
+Why isn't the return value being checked and returned to the caller if
+something goes wrong?  Ignoring it feels wrong to me.
 
 thanks,
 
