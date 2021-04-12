@@ -1,107 +1,77 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54DE71
-	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 03:43:18 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id q10so8331937pgj.2
-        for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 20:43:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230FB72
+	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 06:11:11 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id z16so8558171pga.1
+        for <linux-staging@lists.linux.dev>; Sun, 11 Apr 2021 23:11:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=B7rQ+eZyVc+UGwnL8MpFME+8yUWCYk1WtHWcRPLJGoU=;
-        b=SX9V77mQzekQf74AmDKyq12CC70YI2JSMomXypPWg9EHeJO19nYLvD9v1RV/OQhqZ2
-         bnJ5kqRCF0sI51ZclyYfkhiK9LsuieMFVM5BMyGSBtOSFI3OnQmY73FUusH6Tq7gNyW2
-         osgLXz40/Q0FOx3/MmRNi33vLAK8MLpJUCpJ1aSJSc4Rfl/ljkQoYNCAfyc1Aj/nLRel
-         mWEh8nXmAf9GZPeHwdRvCxRvs8ryBxXafF5k8lQFak74lGtR9/mvfyb0hCDlputgEcIh
-         PQvVZPo35rol+nKCC9hUzYYCm7LFmGgBN03lYQlYMjwaE1P8oTR+LBzBAMFJU+ehziGn
-         guBg==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=IYqQaJDmst//9bdnYVVyaSBsB447C8sYHCRi8q6qoSo=;
+        b=W12j8BWHXgpL0vM/RczGUl98h72QC2rDYB2oFoqBObmeShy6F1t2KdJpuh1rkZaLTy
+         T9vj6Rq3gKnLGfRtO1SReFA0QoPC6S011LhsgckVjgM2KZ+XHlYTh0TeIy6HIJdBk9e3
+         dpc/x5nRU/MOkMPrsuOhfTtauaMDrVIIWBfyi0qWDRURsoHkJZgz0wzxmQb0/6uaHSQh
+         VJk7bz3qrMJCb6Yaclo7nbOJ2A7BiXPBmFPIFgDCHpgdYxk3o4XtgiHoxQ/ZiccKGflA
+         cExbgrWVLC3ukRoK4VFVKAll+jDa+FVRz9I/JCaw4LCr8ep7Mlm/xoVPP0b0LThdz1X+
+         sQuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=B7rQ+eZyVc+UGwnL8MpFME+8yUWCYk1WtHWcRPLJGoU=;
-        b=AjKK4SqBuMt74yvR+Ha62k3u+SH64kxOut4xMqngZ48GoSoUymqELTX/Pg1Dg8HsEV
-         bM9OOnG6LS9qHuK0uJm+hKiw1/brYMGjy0YfSbu/mSq8YJq66EHFJ378aQbA06X9/VzE
-         pbKA6yTZjXtWVAZuXuUMCPN/93Ksc/mXFLJyM7LFRIyzo7dVMndDdKcpNxsJnb8FIXEX
-         cnTj3HyPjNETUNjSz3Z6wef78HO5otmL8khtINwxpUfygUewO+FeHSFUW/uE+6uQ/NTU
-         JUokqiGNQCMaq/o3spzlfW7nIN6WrqkH6WngTlhTW/+Q7Me91UFKhC9Q4+DquZLRrbeW
-         l3kg==
-X-Gm-Message-State: AOAM5304AEDrecbH8+SzPGvfkHjmUcLK/E7xyxgjcERFnQjVaEfa5ETf
-	4QotWHnWeymS4wNVXhILgOE=
-X-Google-Smtp-Source: ABdhPJydgOU/45ri7toqVvb8GVdWpTxBGy/14uX4uwb3MKKywYOtmAFOl76qvuEMw6EYJbxuNTiK6w==
-X-Received: by 2002:a63:1c22:: with SMTP id c34mr18489418pgc.408.1618198998301;
-        Sun, 11 Apr 2021 20:43:18 -0700 (PDT)
-Received: from localhost.localdomain ([138.197.212.246])
-        by smtp.gmail.com with ESMTPSA id v22sm5387185pff.105.2021.04.11.20.43.11
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=IYqQaJDmst//9bdnYVVyaSBsB447C8sYHCRi8q6qoSo=;
+        b=nGarZilnbF2OJ2IVn61GD9N7UAO1SuLAjKYOOWtG+tt+JgX6pDK6AAo2tlKeR5Pl4u
+         Bja4TDrRfz7j04+AGk+d8i1ycXMlZU5Y7lqtyJpUOSSKngLHg9PShixtSUT9p+kXmBUh
+         M/GtJLxzlPExqBp9bKW1b/4pvq6sY7Fi2fCdeqrkeMJk2+ZSS6ZL1RgNL5X3yVMbFSoQ
+         k00ukzIj0MV32Q875RyPnrNf/cnXIcEmmYRoFDIH1IqdAgfQ7j/uPlgbtysfjSyinsM3
+         y2GRxwzKuTXu03AA9G2+HwalibWGD6Jt1hD1jEjhLxAtVsNbirfsZbFIxRvsO/z+OWSK
+         lA8Q==
+X-Gm-Message-State: AOAM530bOATTGYg9OlK9pMt4ifka0xNOnWRcCvblL56fQlFQVZfmLerU
+	f/nNXon8Q+ZAy/cUJULO3FU=
+X-Google-Smtp-Source: ABdhPJwfL47PPkhOmo5lvnsX2ttVihNr5nOth4H5yuMT/EHGfsD7lYdBLDOO+q23eRkOAiQnB0L1mQ==
+X-Received: by 2002:a63:3dc7:: with SMTP id k190mr26403045pga.181.1618207870533;
+        Sun, 11 Apr 2021 23:11:10 -0700 (PDT)
+Received: from kali ([103.141.87.254])
+        by smtp.gmail.com with ESMTPSA id a25sm4251251pfo.27.2021.04.11.23.11.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Apr 2021 20:43:17 -0700 (PDT)
-From: DENG Qingfang <dqfext@gmail.com>
-To: "David S. Miller" <davem@davemloft.net>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Landen Chao <Landen.Chao@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Vivien Didelot <vivien.didelot@gmail.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	netdev@vger.kernel.org
-Cc: Weijie Gao <weijie.gao@mediatek.com>,
-	Chuanhong Guo <gch981213@gmail.com>,
-	=?UTF-8?q?Ren=C3=A9=20van=20Dorst?= <opensource@vdorst.com>,
-	Frank Wunderlich <frank-w@public-files.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Marc Zyngier <maz@kernel.org>
-Subject: [RFC v4 net-next 4/4] staging: mt7621-dts: enable MT7530 interrupt controller
-Date: Mon, 12 Apr 2021 11:42:37 +0800
-Message-Id: <20210412034237.2473017-5-dqfext@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210412034237.2473017-1-dqfext@gmail.com>
-References: <20210412034237.2473017-1-dqfext@gmail.com>
+        Sun, 11 Apr 2021 23:11:10 -0700 (PDT)
+Date: Mon, 12 Apr 2021 11:40:53 +0530
+From: Mitali Borkar <mitaliborkar810@gmail.com>
+To: Larry.Finger@lwfinger.net, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
+Subject: [PATCH] staging: rtl8188eu: replaced msleep() by usleep_range()
+Message-ID: <YHPkbTPPra2isn5e@kali>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Enable MT7530 interrupt controller in the MT7621 SoC.
+Fixed the warning:-msleep < 20ms can sleep for up to 20ms by replacing
+msleep(unsigned long msecs) by usleep_range(unsigned long min, unsigned long max)
+in usecs as msleep(1ms~20ms) can sleep for upto 20 ms.
 
-Signed-off-by: DENG Qingfang <dqfext@gmail.com>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
 ---
-RFC v3 -> RFC v4:
-- Add #interrupt-cells property.
+ drivers/staging/rtl8188eu/core/rtw_mlme_ext.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/staging/mt7621-dts/mt7621.dtsi | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
-index 16fc94f65486..0f7e487883a5 100644
---- a/drivers/staging/mt7621-dts/mt7621.dtsi
-+++ b/drivers/staging/mt7621-dts/mt7621.dtsi
-@@ -447,6 +447,10 @@ switch0: switch0@0 {
- 				mediatek,mcm;
- 				resets = <&rstctrl 2>;
- 				reset-names = "mcm";
-+				interrupt-controller;
-+				#interrupt-cells = <1>;
-+				interrupt-parent = <&gic>;
-+				interrupts = <GIC_SHARED 23 IRQ_TYPE_LEVEL_HIGH>;
+diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+index 50d3c3631be0..6afbb5bf8118 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+@@ -5396,7 +5396,7 @@ u8 tx_beacon_hdl(struct adapter *padapter, unsigned char *pbuf)
+ 			return H2C_SUCCESS;
  
- 				ports {
- 					#address-cells = <1>;
+ 		if ((pstapriv->tim_bitmap & BIT(0)) && (psta_bmc->sleepq_len > 0)) {
+-			msleep(10);/*  10ms, ATIM(HIQ) Windows */
++			usleep_range(10000 , 20000);/*  10ms, ATIM(HIQ) Windows */
+ 			spin_lock_bh(&psta_bmc->sleep_q.lock);
+ 
+ 			xmitframe_phead = get_list_head(&psta_bmc->sleep_q);
 -- 
-2.25.1
+2.30.2
 
