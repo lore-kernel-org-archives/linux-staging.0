@@ -1,43 +1,171 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 537E271
-	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 21:13:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Qxt5hGUGCIOriu3kYww5GhknJDLjCA6JPdqgUUXGgoM=; b=VLET7wPtaKrRRfzF3FNJlosHRs
-	53TLpy3ZIicI9BERoQtjnoFJlwpUzX8HnbaYJsoxLg5uBj+SKIZj6qAi3eWpDydUCJP9/HpJmwFAr
-	Z56xeKGBAEub2TWsJq5FtlCH/A3wCmS4v0aEtWXrQcdSlDjaq42QuTNBbdJOukIrhyAa7UaePgnpe
-	nKBsKF11XQGNYYBamyaHJHf+M1c3TOmzwEO7LD2xhMwJ53WoamQYVhMGwUIUj3iK5WfW7S7vmoiu9
-	zXvWat8+TfVWJl3owoRTgnQMog6i6FUooBAO/LmAoGM2KcrdqVp310Y1NyVR4jSOCQzhil7G26Cpc
-	ZRTeIWhg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-	id 1lW3rh-004tEt-Qe; Mon, 12 Apr 2021 21:13:04 +0000
-Date: Mon, 12 Apr 2021 22:13:01 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: outreachy-kernel@googlegroups.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8723bs: hal: Remove
- camelcase
-Message-ID: <20210412211301.GO2531743@casper.infradead.org>
-References: <20210412210258.8061-1-fmdefrancesco@gmail.com>
+Received: from smtp.smtpout.orange.fr (smtp01.smtpout.orange.fr [80.12.242.123])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E6EA71
+	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 21:17:34 +0000 (UTC)
+Received: from [192.168.1.18] ([86.243.172.93])
+	by mwinf5d24 with ME
+	id rx9v2400321Fzsu03x9vcL; Mon, 12 Apr 2021 23:09:56 +0200
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 12 Apr 2021 23:09:56 +0200
+X-ME-IP: 86.243.172.93
+Subject: Re: [PATCH 2/3] staging: rtl8723bs: Use existing arc4 implementation
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+References: <7e16c40d5baa007dca81a12b967a597ed00d8dd7.1618055514.git.christophe.jaillet@wanadoo.fr>
+ <6a4aebf9feb9ece975734f2e51da5ecae2996cee.1618055514.git.christophe.jaillet@wanadoo.fr>
+ <YHQUH+Nqc/zS14Tb@kroah.com>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Message-ID: <b37bc546-c087-0f9d-b16a-bfc2231e0849@wanadoo.fr>
+Date: Mon, 12 Apr 2021 23:09:55 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210412210258.8061-1-fmdefrancesco@gmail.com>
+In-Reply-To: <YHQUH+Nqc/zS14Tb@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 12, 2021 at 11:02:58PM +0200, Fabio M. De Francesco wrote:
-> Removed camelcase in (some) symbols. Further work is needed.
+Le 12/04/2021 à 11:34, Greg KH a écrit :
+> On Sat, Apr 10, 2021 at 03:35:52PM +0200, Christophe JAILLET wrote:
+>> Use functions provided by <crypto/arc4.h> instead of hand writing them.
+>>
+>> The implementations are slightly different, but are equivalent. It has
+>> been checked with a test program which compares the output of the 2 sets of
+>> functions.
+>>
+>> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+>> ---
+>>   drivers/staging/rtl8723bs/core/rtw_security.c | 101 ++++--------------
+>>   1 file changed, 21 insertions(+), 80 deletions(-)
+>>
+>> diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+>> index 9587d89a6b24..86949a65e96f 100644
+>> --- a/drivers/staging/rtl8723bs/core/rtw_security.c
+>> +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+>> @@ -6,6 +6,7 @@
+>>    ******************************************************************************/
+>>   #define  _RTW_SECURITY_C_
+>>   
+>> +#include <crypto/arc4.h>
+>>   #include <linux/crc32poly.h>
+>>   #include <drv_types.h>
+>>   #include <rtw_debug.h>
+>> @@ -31,66 +32,6 @@ const char *security_type_str(u8 value)
+>>   
+>>   /* WEP related ===== */
+>>   
+>> -struct arc4context {
+>> -	u32 x;
+>> -	u32 y;
+>> -	u8 state[256];
+>> -};
+>> -
+>> -
+>> -static void arcfour_init(struct arc4context	*parc4ctx, u8 *key, u32 key_len)
+>> -{
+>> -	u32 t, u;
+>> -	u32 keyindex;
+>> -	u32 stateindex;
+>> -	u8 *state;
+>> -	u32 counter;
+>> -
+>> -	state = parc4ctx->state;
+>> -	parc4ctx->x = 0;
+>> -	parc4ctx->y = 0;
+>> -	for (counter = 0; counter < 256; counter++)
+>> -		state[counter] = (u8)counter;
+>> -	keyindex = 0;
+>> -	stateindex = 0;
+>> -	for (counter = 0; counter < 256; counter++) {
+>> -		t = state[counter];
+>> -		stateindex = (stateindex + key[keyindex] + t) & 0xff;
+>> -		u = state[stateindex];
+>> -		state[stateindex] = (u8)t;
+>> -		state[counter] = (u8)u;
+>> -		if (++keyindex >= key_len)
+>> -			keyindex = 0;
+>> -	}
+>> -}
+>> -
+>> -static u32 arcfour_byte(struct arc4context	*parc4ctx)
+>> -{
+>> -	u32 x;
+>> -	u32 y;
+>> -	u32 sx, sy;
+>> -	u8 *state;
+>> -
+>> -	state = parc4ctx->state;
+>> -	x = (parc4ctx->x + 1) & 0xff;
+>> -	sx = state[x];
+>> -	y = (sx + parc4ctx->y) & 0xff;
+>> -	sy = state[y];
+>> -	parc4ctx->x = x;
+>> -	parc4ctx->y = y;
+>> -	state[y] = (u8)sx;
+>> -	state[x] = (u8)sy;
+>> -	return state[(sx + sy) & 0xff];
+>> -}
+>> -
+>> -static void arcfour_encrypt(struct arc4context *parc4ctx, u8 *dest, u8 *src, u32 len)
+>> -{
+>> -	u32 i;
+>> -
+>> -	for (i = 0; i < len; i++)
+>> -		dest[i] = src[i] ^ (unsigned char)arcfour_byte(parc4ctx);
+>> -}
+>> -
+>>   static signed int bcrc32initialized;
+>>   static u32 crc32_table[256];
+>>   
+>> @@ -150,7 +91,7 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
+>>   {																	/*  exclude ICV */
+>>   
+>>   	unsigned char crc[4];
+>> -	struct arc4context	 mycontext;
+>> +	struct arc4_ctx mycontext;
+> 
+> Are you sure you can declare that much space on the stack?  Is that what
+> other users of this api do?  In looking at the in-kernel users, they do
+> not :(
+> 
 
-What would be more useful for this driver is making it use
-drivers/net/wireless/realtek/rtlwifi/btcoexist/ which has already
-graduated out of staging.  I haven't checked how closely it matches,
-but this is surely a better use of time than "cleaning up" this version.
+In fact arc4context was a u8[256] but arc4_ctx uses a u32[256].
+
+Maybe arc4 function should be modified to use u8? Or at least when
+CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS is defined?
+
+
+
+Concerning the other uses of the arc4 API, in fact there is only few of 
+them. Most uses are buried into lib80211_crypt_tkip.c and 
+lib80211_crypt_wep.c which is the way to go, IMHO.
+In fact, I think that most, if not all 'rtl871x_security.c' could be 
+removed.
+
+However, it looks like a big step to me. And without any hardware to 
+test, I'm pretty sure to break something.
+
+
+Any hints on the best way to axe some duplicated code without to much 
+risks to break everything?
+
+CJ
+
+> Can you fix up this series to not take up so much stack memory?
+
+I guess that _adapter could be used to store this arc4_ctx, but I'm not 
+convinced that it is the way to go.
+
+CJ
+
+> 
+> thanks,
+> 
+> greg k-h
+> 
+
