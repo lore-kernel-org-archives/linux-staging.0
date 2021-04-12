@@ -1,26 +1,36 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1118171
-	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 09:43:06 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 40196611AD;
-	Mon, 12 Apr 2021 09:43:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1618220586;
-	bh=WsiNqKTdYhZHLWI0ixdu86RNc49vtM155yUiz3ZveTY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UhKxHYqB4zdIGW991QXkB/gNj9Zf+zhvVKr6EM7AQHnx32mMHyXOS5F/i1/utUORd
-	 YpYqn4nqdIan2yPcOclvUZpr5jIUUQCS7PCk5TBESbEnS7voZ8f6/4ryN1I1ZJw0uO
-	 3FD25bGNDPi3O2+zNNYCFnuj9+2kyxWn8KIRwoD4=
-Date: Mon, 12 Apr 2021 11:43:04 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH v2] staging: rtl8192u: Remove variable
- set but not used
-Message-ID: <YHQWKMu/KuhZ9Oxs@kroah.com>
-References: <20210411183634.18385-1-fmdefrancesco@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5BBE71
+	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 09:43:08 +0000 (UTC)
+IronPort-SDR: OHuygtpoqB0LE5b2OxJPy05H12pT3wwtQKiZsKKXL4hbcqUErpNkc6ZVa6Pzx0VqB9Gjclifg/
+ 2fp+rwLpCkdg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="279451716"
+X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
+   d="scan'208";a="279451716"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 02:43:06 -0700
+IronPort-SDR: c3qofnFRJu4y+V5m3FVtUxb1haaRQdz6XGFkubCHPk2VHDvvzoGGQsabXKRtntCKT63wT/g8lS
+ 2J3/coYr/TPA==
+X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
+   d="scan'208";a="599915096"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 02:43:03 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+	by paasikivi.fi.intel.com (Postfix) with SMTP id 5DC89205AA;
+	Mon, 12 Apr 2021 12:42:30 +0300 (EEST)
+Date: Mon, 12 Apr 2021 12:42:30 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Mitali Borkar <mitaliborkar810@gmail.com>
+Cc: bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
+	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
+Subject: Re: [PATCH 1/6] staging: media: intel-ipu3: replace bit shifts with
+ BIT() macro
+Message-ID: <20210412094230.GI3@paasikivi.fi.intel.com>
+References: <cover.1618180659.git.mitaliborkar810@gmail.com>
+ <cc7b827a3264f08cedb76adddd16a34df48f935f.1618180659.git.mitaliborkar810@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -28,37 +38,55 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210411183634.18385-1-fmdefrancesco@gmail.com>
+In-Reply-To: <cc7b827a3264f08cedb76adddd16a34df48f935f.1618180659.git.mitaliborkar810@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Sun, Apr 11, 2021 at 08:36:34PM +0200, Fabio M. De Francesco wrote:
-> Remove variable "int ret", declared but not used.
+Hi Mitali,
+
+On Mon, Apr 12, 2021 at 04:38:39AM +0530, Mitali Borkar wrote:
+> Added #include <linux/bitops.h> and replaced bit shifts by BIT() macro.
+> This BIT() macro from linux/bitops.h is used to define IPU3_UAPI_GRID_Y_START_EN
+> and IPU3_UAPI_AWB_RGBS_THR_B_* bitmask.
+> Use of macro is better and neater. It maintains consistency.
+> Reported by checkpatch.
 > 
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
 > ---
+>  drivers/staging/media/ipu3/include/intel-ipu3.h | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 > 
-> Changes from v1: Change the text of the subject and log.
-> 
->  drivers/staging/rtl8192u/r8192U_core.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
-> index f48186a89fa1..30055de66239 100644
-> --- a/drivers/staging/rtl8192u/r8192U_core.c
-> +++ b/drivers/staging/rtl8192u/r8192U_core.c
-> @@ -902,7 +902,6 @@ static void rtl8192_hard_data_xmit(struct sk_buff *skb, struct net_device *dev,
->  				   int rate)
->  {
->  	struct r8192_priv *priv = (struct r8192_priv *)ieee80211_priv(dev);
-> -	int ret;
->  	unsigned long flags;
->  	struct cb_desc *tcb_desc = (struct cb_desc *)(skb->cb + MAX_DEV_ADDR_SIZE);
->  	u8 queue_index = tcb_desc->queue_index;
-> -- 
-> 2.31.1
-> 
+> diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/intel-ipu3.h
+> index edd8edda0647..589d5ccee3a7 100644
+> --- a/drivers/staging/media/ipu3/include/intel-ipu3.h
+> +++ b/drivers/staging/media/ipu3/include/intel-ipu3.h
+> @@ -5,6 +5,7 @@
+>  #define __IPU3_UAPI_H
+>  
+>  #include <linux/types.h>
+> +#include <linux/bitops.h>
+>  
+>  /* from /drivers/staging/media/ipu3/include/videodev2.h */
+>  
+> @@ -22,11 +23,11 @@
+>  #define IPU3_UAPI_MAX_BUBBLE_SIZE			10
+>  
+>  #define IPU3_UAPI_GRID_START_MASK			((1 << 12) - 1)
+> -#define IPU3_UAPI_GRID_Y_START_EN			(1 << 15)
+> +#define IPU3_UAPI_GRID_Y_START_EN			BIT(15)
 
-Breaks the build, why did you not test this patch?
+This header is used in user space where you don't have the BIT() macro.
 
-thanks,
+>  
+>  /* controls generation of meta_data (like FF enable/disable) */
+> -#define IPU3_UAPI_AWB_RGBS_THR_B_EN			(1 << 14)
+> -#define IPU3_UAPI_AWB_RGBS_THR_B_INCL_SAT		(1 << 15)
+> +#define IPU3_UAPI_AWB_RGBS_THR_B_EN			BIT(14)
+> +#define IPU3_UAPI_AWB_RGBS_THR_B_INCL_SAT		BIT(15)
+>  
+>  /**
+>   * struct ipu3_uapi_grid_config - Grid plane config
 
-greg k-h
+-- 
+Kind regards,
+
+Sakari Ailus
