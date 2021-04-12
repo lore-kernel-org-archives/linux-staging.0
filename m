@@ -1,177 +1,100 @@
-Received: from mx.i2x.nl (mx.i2x.nl [5.2.79.48])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 630D270
-	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 07:04:57 +0000 (UTC)
-Received: from mail.vdorst.com (mail.vdorst.com [IPv6:fd00::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by mx.i2x.nl (Postfix) with ESMTPS id 7DC8A5FB39;
-	Mon, 12 Apr 2021 09:04:49 +0200 (CEST)
-Authentication-Results: mx.i2x.nl;
-	dkim=pass (2048-bit key) header.d=vdorst.com header.i=@vdorst.com header.b="KOH61tZq";
-	dkim-atps=neutral
-Received: from www (unknown [192.168.2.222])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.vdorst.com (Postfix) with ESMTPSA id 33C67BCA030;
-	Mon, 12 Apr 2021 09:04:49 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.vdorst.com 33C67BCA030
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vdorst.com;
-	s=default; t=1618211089;
-	bh=M3JQj7NzQ2CBv+j5XuKuVWBX0H8tPiRu38YIUIPNjSc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KOH61tZqHiukrLYL9orX2yh2BVHg/y8DgL5igT2aG+TF571PC/ImF29hG0/4PBw/7
-	 3Di7yXomrnD8HlzijAEPIKkRf58yfY75kRFmqmk3ZNvkIIB8fsIsus7DL2xMnnZFtu
-	 mCrKmG/p3wBBnxrPZuFBlODuczwfhpwFJsxpABR0sBp2X1G6MwFdI4Js43WlaXRhqL
-	 FbZaQUo8fm00uX0EJKouhWyspLxMyH81yxtvbP4UKXeBNmLddqZUy6sLusKEXXu6oI
-	 Al3jwshnr79LRIAbUGE7OatklqNrl4RgNnM4XE1P9ArFAWIDktsHtvwRfp9BB1pM6D
-	 EPFXRfrMGg+rQ==
-Received: from 48.79.2.5.in-addr.arpa (48.79.2.5.in-addr.arpa [5.2.79.48])
- by www.vdorst.com (Horde Framework) with HTTPS; Mon, 12 Apr 2021 07:04:49
- +0000
-Date: Mon, 12 Apr 2021 07:04:49 +0000
-Message-ID: <20210412070449.Horde.wg9CWXW8V9o0P-heKYtQpVh@www.vdorst.com>
-From: =?utf-8?b?UmVuw6k=?= van Dorst <opensource@vdorst.com>
-To: DENG Qingfang <dqfext@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Andrew Lunn <andrew@lunn.ch>,
- Florian Fainelli <f.fainelli@gmail.com>, Heiner Kallweit
- <hkallweit1@gmail.com>, Jakub Kicinski <kuba@kernel.org>, Landen Chao
- <Landen.Chao@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Sean Wang <sean.wang@mediatek.com>,
- Vivien Didelot <vivien.didelot@gmail.com>, Vladimir Oltean
- <olteanv@gmail.com>, Rob Herring <robh+dt@kernel.org>, Linus Walleij
- <linus.walleij@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sergio Paracuellos <sergio.paracuellos@gmail.com>,
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-staging@lists.linux.dev, devicetree@vger.kernel.org,
- netdev@vger.kernel.org, Weijie Gao <weijie.gao@mediatek.com>, Chuanhong Guo
- <gch981213@gmail.com>, Frank Wunderlich <frank-w@public-files.de>, Thomas
- Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>
-Subject: Re: [RFC v4 net-next 1/4] net: phy: add MediaTek PHY driver
-References: <20210412034237.2473017-1-dqfext@gmail.com>
- <20210412034237.2473017-2-dqfext@gmail.com>
-In-Reply-To: <20210412034237.2473017-2-dqfext@gmail.com>
-User-Agent: Horde Application Framework 5
-Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A46F870
+	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 07:59:34 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id 20so1976049pll.7
+        for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 00:59:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=svFmgmywrBOMRGGlXJDvnuvLp7x0h0E/u68wx4on/6k=;
+        b=HSlcPoLBn0yTP0kYKoy3Ps5iQr1AJfbcwNMXQnTtzS6a2KgFCAa9zRbKsmDJQFC9ir
+         A21UeT5y9Z3SAmUiWgbZ0BTdCUG5SHhcBkXJdR48qfYIDiJcLh6AxgGNR8o9HTRLPxjI
+         mS/H4qeHlS5csGYt+ZRSIUcowhPVhmZQklrrN4NXwZIcuBAe2U99/4GMv+yEOxCpK9pf
+         16UbW83pB66v6HS0azMVa+uAHnnQOoA96bCXUI3BGQFpvCqh1XRrRqvoudtsNTgUGV4j
+         CFUpl8UHyJct0j83FwBlc1WyWJb0NBlvv2ZC5BNIXYGKTrndubVeEihg9KVrsOZsoP+W
+         RJ4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=svFmgmywrBOMRGGlXJDvnuvLp7x0h0E/u68wx4on/6k=;
+        b=UfNvdORR54joqWafa6WWYNsaJozkqkRZx5PHagxRfAUh9oedPn/kTYF2UyKq78ZJcF
+         usezBhuWB8FAQlg5ExL3woJjcLpQyw52uKLAnRZ0+geS9SUdIb15PzOoc92a+14cS+ZP
+         KucDPWQ01Dh/T1kZ5kG5Mizp40QVrrL6NeB9Kc8M2PXxv5bdn1DvhP/UVSKSE/cWFUY2
+         Qv4udYsl2GStiX5VNOLSzcvo2DqR8k4NqhVKEVBhUoXh3ThvQAZDfjt7u2yR/UsJMekg
+         UBUt6x3xoiDPFteZWYGnaZZlwFfJUIx1eR0HEbfrV21cgJKHa37GvMG6gllNMk5cGzM9
+         Gdvw==
+X-Gm-Message-State: AOAM531WpyN/xXj8Bu90ChVmD+EUs60a2qgrg7IHVCtoz7RC26OkFTue
+	fRYOUdBk7vMGvyhHJdwFHCM=
+X-Google-Smtp-Source: ABdhPJz4cR5w/rz/oKhQvGSzKl3dKZkqi1YoUzQg5ELymkfZCJHuda8msGfnpmOsBe6pVXXiuW/zww==
+X-Received: by 2002:a17:90a:9409:: with SMTP id r9mr27108514pjo.157.1618214373993;
+        Mon, 12 Apr 2021 00:59:33 -0700 (PDT)
+Received: from kali ([103.141.87.254])
+        by smtp.gmail.com with ESMTPSA id s195sm9035338pfc.211.2021.04.12.00.59.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Apr 2021 00:59:33 -0700 (PDT)
+Date: Mon, 12 Apr 2021 13:29:18 +0530
+From: Mitali Borkar <mitaliborkar810@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
+	mitali_s@me.iitr.ac.in
+Subject: Re: [PATCH] staging: rtl8188eu: replaced msleep() by usleep_range()
+Message-ID: <YHP91sDmPJIqG95G@kali>
+References: <YHPkbTPPra2isn5e@kali>
+ <YHPmVtAGH7WWGfjJ@kroah.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YHPmVtAGH7WWGfjJ@kroah.com>
 
-Hi Qingfang,
-
-Quoting DENG Qingfang <dqfext@gmail.com>:
-
-> Add support for MediaTek PHYs found in MT7530 and MT7531 switches.
-> The initialization procedure is from the vendor driver, but due to lack
-> of documentation, the function of some register values remains unknown.
+On Mon, Apr 12, 2021 at 08:19:02AM +0200, Greg KH wrote:
+> On Mon, Apr 12, 2021 at 11:40:53AM +0530, Mitali Borkar wrote:
+> > Fixed the warning:-msleep < 20ms can sleep for up to 20ms by replacing
+> > msleep(unsigned long msecs) by usleep_range(unsigned long min, unsigned long max)
+> > in usecs as msleep(1ms~20ms) can sleep for upto 20 ms.
+> > 
+> > Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+> > ---
+> >  drivers/staging/rtl8188eu/core/rtw_mlme_ext.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+> > index 50d3c3631be0..6afbb5bf8118 100644
+> > --- a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+> > +++ b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+> > @@ -5396,7 +5396,7 @@ u8 tx_beacon_hdl(struct adapter *padapter, unsigned char *pbuf)
+> >  			return H2C_SUCCESS;
+> >  
+> >  		if ((pstapriv->tim_bitmap & BIT(0)) && (psta_bmc->sleepq_len > 0)) {
+> > -			msleep(10);/*  10ms, ATIM(HIQ) Windows */
+> > +			usleep_range(10000 , 20000);/*  10ms, ATIM(HIQ) Windows */
+> 
+> How do you know you can sleep for 20000 here?
 >
-> Signed-off-by: DENG Qingfang <dqfext@gmail.com>
-> ---
-> RFC v3 -> RFC v4:
-> - Remove unused include.
->
->  drivers/net/phy/Kconfig    |   5 ++
->  drivers/net/phy/Makefile   |   1 +
->  drivers/net/phy/mediatek.c | 111 +++++++++++++++++++++++++++++++++++++
->  3 files changed, 117 insertions(+)
->  create mode 100644 drivers/net/phy/mediatek.c
->
-> diff --git a/drivers/net/phy/Kconfig b/drivers/net/phy/Kconfig
-> index a615b3660b05..edd858cec9ec 100644
-> --- a/drivers/net/phy/Kconfig
-> +++ b/drivers/net/phy/Kconfig
-> @@ -207,6 +207,11 @@ config MARVELL_88X2222_PHY
->  	  Support for the Marvell 88X2222 Dual-port Multi-speed Ethernet
->  	  Transceiver.
->
-> +config MEDIATEK_PHY
-> +	tristate "MediaTek PHYs"
-> +	help
-> +	  Supports the MediaTek switch integrated PHYs.
-> +
->  config MICREL_PHY
->  	tristate "Micrel PHYs"
->  	help
-> diff --git a/drivers/net/phy/Makefile b/drivers/net/phy/Makefile
-> index de683e3abe63..9ed7dbab7770 100644
-> --- a/drivers/net/phy/Makefile
-> +++ b/drivers/net/phy/Makefile
-> @@ -64,6 +64,7 @@ obj-$(CONFIG_LXT_PHY)		+= lxt.o
->  obj-$(CONFIG_MARVELL_10G_PHY)	+= marvell10g.o
->  obj-$(CONFIG_MARVELL_PHY)	+= marvell.o
->  obj-$(CONFIG_MARVELL_88X2222_PHY)	+= marvell-88x2222.o
-> +obj-$(CONFIG_MEDIATEK_PHY)	+= mediatek.o
->  obj-$(CONFIG_MESON_GXL_PHY)	+= meson-gxl.o
->  obj-$(CONFIG_MICREL_KS8995MA)	+= spi_ks8995.o
->  obj-$(CONFIG_MICREL_PHY)	+= micrel.o
-> diff --git a/drivers/net/phy/mediatek.c b/drivers/net/phy/mediatek.c
-> new file mode 100644
-> index 000000000000..1627b7c04345
-> --- /dev/null
-> +++ b/drivers/net/phy/mediatek.c
-> @@ -0,0 +1,111 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +#include <linux/module.h>
-> +#include <linux/phy.h>
-> +
-> +#define MTK_EXT_PAGE_ACCESS		0x1f
-> +#define MTK_PHY_PAGE_STANDARD		0x0000
-> +#define MTK_PHY_PAGE_EXTENDED		0x0001
-> +#define MTK_PHY_PAGE_EXTENDED_2		0x0002
-> +#define MTK_PHY_PAGE_EXTENDED_3		0x0003
-> +#define MTK_PHY_PAGE_EXTENDED_2A30	0x2a30
-> +#define MTK_PHY_PAGE_EXTENDED_52B5	0x52b5
-> +
-> +static int mtk_phy_read_page(struct phy_device *phydev)
-> +{
-> +	return __phy_read(phydev, MTK_EXT_PAGE_ACCESS);
-> +}
-> +
-> +static int mtk_phy_write_page(struct phy_device *phydev, int page)
-> +{
-> +	return __phy_write(phydev, MTK_EXT_PAGE_ACCESS, page);
-> +}
-> +
-> +static void mtk_phy_config_init(struct phy_device *phydev)
-> +{
-> +	/* Disable EEE */
-> +	phy_write_mmd(phydev, MDIO_MMD_AN, MDIO_AN_EEE_ADV, 0);
 
-For my EEE patch I changed this line to:
+When i ran checkpatch.pl it warned that msleep<20 ms can sleep for 20ms.
+I checked Documentation, it stated that msleep(1ms~20ms) will often
+sleep longer, ~20ms for any value given in between 1~20ms. 
 
-genphy_config_eee_advert(phydev);
-
-So PHY EEE part is setup properly at boot, instead enable it manual  
-via ethtool.
-This function also takes the DTS parameters "eee-broken-xxxx" in to  
-account while
-setting-up the PHY.
-
-> +
-> +	/* Enable HW auto downshift */
-> +	phy_modify_paged(phydev, MTK_PHY_PAGE_EXTENDED, 0x14, 0, BIT(4));
-> +
-> +	/* Increase SlvDPSready time */
-> +	phy_select_page(phydev, MTK_PHY_PAGE_EXTENDED_52B5);
-> +	__phy_write(phydev, 0x10, 0xafae);
-> +	__phy_write(phydev, 0x12, 0x2f);
-> +	__phy_write(phydev, 0x10, 0x8fae);
-> +	phy_restore_page(phydev, MTK_PHY_PAGE_STANDARD, 0);
-> +
-> +	/* Adjust 100_mse_threshold */
-> +	phy_write_mmd(phydev, MDIO_MMD_VEND1, 0x123, 0xffff);
-> +
-> +	/* Disable mcc */
-> +	phy_write_mmd(phydev, MDIO_MMD_VEND1, 0xa6, 0x300);
-> +}
-> +
-
-Greats,
-
-René
+That's why I took 20msec/20000usec as max sleep value. 
 
 
+> And given that you just changed how the sleep works, are you sure the
+> functionality is the same now?
+
+I am still learning, I am not sure about this.
+> 
+> Only change this type of warning if you have the hardware and can test
+> the change properly.
+> 
+> thanks,
+> 
+> greg k-h
