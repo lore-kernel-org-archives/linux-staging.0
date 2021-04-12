@@ -1,100 +1,454 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A46F870
-	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 07:59:34 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id 20so1976049pll.7
-        for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 00:59:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=svFmgmywrBOMRGGlXJDvnuvLp7x0h0E/u68wx4on/6k=;
-        b=HSlcPoLBn0yTP0kYKoy3Ps5iQr1AJfbcwNMXQnTtzS6a2KgFCAa9zRbKsmDJQFC9ir
-         A21UeT5y9Z3SAmUiWgbZ0BTdCUG5SHhcBkXJdR48qfYIDiJcLh6AxgGNR8o9HTRLPxjI
-         mS/H4qeHlS5csGYt+ZRSIUcowhPVhmZQklrrN4NXwZIcuBAe2U99/4GMv+yEOxCpK9pf
-         16UbW83pB66v6HS0azMVa+uAHnnQOoA96bCXUI3BGQFpvCqh1XRrRqvoudtsNTgUGV4j
-         CFUpl8UHyJct0j83FwBlc1WyWJb0NBlvv2ZC5BNIXYGKTrndubVeEihg9KVrsOZsoP+W
-         RJ4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=svFmgmywrBOMRGGlXJDvnuvLp7x0h0E/u68wx4on/6k=;
-        b=UfNvdORR54joqWafa6WWYNsaJozkqkRZx5PHagxRfAUh9oedPn/kTYF2UyKq78ZJcF
-         usezBhuWB8FAQlg5ExL3woJjcLpQyw52uKLAnRZ0+geS9SUdIb15PzOoc92a+14cS+ZP
-         KucDPWQ01Dh/T1kZ5kG5Mizp40QVrrL6NeB9Kc8M2PXxv5bdn1DvhP/UVSKSE/cWFUY2
-         Qv4udYsl2GStiX5VNOLSzcvo2DqR8k4NqhVKEVBhUoXh3ThvQAZDfjt7u2yR/UsJMekg
-         UBUt6x3xoiDPFteZWYGnaZZlwFfJUIx1eR0HEbfrV21cgJKHa37GvMG6gllNMk5cGzM9
-         Gdvw==
-X-Gm-Message-State: AOAM531WpyN/xXj8Bu90ChVmD+EUs60a2qgrg7IHVCtoz7RC26OkFTue
-	fRYOUdBk7vMGvyhHJdwFHCM=
-X-Google-Smtp-Source: ABdhPJz4cR5w/rz/oKhQvGSzKl3dKZkqi1YoUzQg5ELymkfZCJHuda8msGfnpmOsBe6pVXXiuW/zww==
-X-Received: by 2002:a17:90a:9409:: with SMTP id r9mr27108514pjo.157.1618214373993;
-        Mon, 12 Apr 2021 00:59:33 -0700 (PDT)
-Received: from kali ([103.141.87.254])
-        by smtp.gmail.com with ESMTPSA id s195sm9035338pfc.211.2021.04.12.00.59.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Apr 2021 00:59:33 -0700 (PDT)
-Date: Mon, 12 Apr 2021 13:29:18 +0530
-From: Mitali Borkar <mitaliborkar810@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
-	mitali_s@me.iitr.ac.in
-Subject: Re: [PATCH] staging: rtl8188eu: replaced msleep() by usleep_range()
-Message-ID: <YHP91sDmPJIqG95G@kali>
-References: <YHPkbTPPra2isn5e@kali>
- <YHPmVtAGH7WWGfjJ@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C49570
+	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 08:21:16 +0000 (UTC)
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 6528D6120F;
+	Mon, 12 Apr 2021 08:21:16 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94)
+	(envelope-from <maz@kernel.org>)
+	id 1lVroo-006ve9-0U; Mon, 12 Apr 2021 09:21:14 +0100
+Date: Mon, 12 Apr 2021 09:21:12 +0100
+Message-ID: <87fszvoqvb.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: DENG Qingfang <dqfext@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>,	Andrew Lunn <andrew@lunn.ch>,
+	Florian Fainelli <f.fainelli@gmail.com>,	Heiner Kallweit
+ <hkallweit1@gmail.com>,	Jakub Kicinski <kuba@kernel.org>,	Landen Chao
+ <Landen.Chao@mediatek.com>,	Matthias Brugger <matthias.bgg@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,	Sean Wang <sean.wang@mediatek.com>,
+	Vivien Didelot <vivien.didelot@gmail.com>,	Vladimir Oltean
+ <olteanv@gmail.com>,	Rob Herring <robh+dt@kernel.org>,	Linus Walleij
+ <linus.walleij@linaro.org>,	Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,	Sergio Paracuellos
+ <sergio.paracuellos@gmail.com>,	linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,	linux-staging@lists.linux.dev,
+	devicetree@vger.kernel.org,	netdev@vger.kernel.org,	Weijie Gao
+ <weijie.gao@mediatek.com>,	Chuanhong Guo <gch981213@gmail.com>,
+	=?UTF-8?B?UmVuw6k=?= van Dorst <opensource@vdorst.com>,	Frank Wunderlich
+ <frank-w@public-files.de>,	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [RFC v4 net-next 2/4] net: dsa: mt7530: add interrupt support
+In-Reply-To: <20210412034237.2473017-3-dqfext@gmail.com>
+References: <20210412034237.2473017-1-dqfext@gmail.com>
+	<20210412034237.2473017-3-dqfext@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YHPmVtAGH7WWGfjJ@kroah.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: dqfext@gmail.com, davem@davemloft.net, andrew@lunn.ch, f.fainelli@gmail.com, hkallweit1@gmail.com, kuba@kernel.org, Landen.Chao@mediatek.com, matthias.bgg@gmail.com, linux@armlinux.org.uk, sean.wang@mediatek.com, vivien.didelot@gmail.com, olteanv@gmail.com, robh+dt@kernel.org, linus.walleij@linaro.org, gregkh@linuxfoundation.org, sergio.paracuellos@gmail.com, linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-staging@lists.linux.dev, devicetree@vger.kernel.org, netdev@vger.kernel.org, weijie.gao@mediatek.com, gch981213@gmail.com, opensource@vdorst.com, frank-w@public-files.de, tglx@linutronix.de
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Mon, Apr 12, 2021 at 08:19:02AM +0200, Greg KH wrote:
-> On Mon, Apr 12, 2021 at 11:40:53AM +0530, Mitali Borkar wrote:
-> > Fixed the warning:-msleep < 20ms can sleep for up to 20ms by replacing
-> > msleep(unsigned long msecs) by usleep_range(unsigned long min, unsigned long max)
-> > in usecs as msleep(1ms~20ms) can sleep for upto 20 ms.
-> > 
-> > Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
-> > ---
-> >  drivers/staging/rtl8188eu/core/rtw_mlme_ext.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
-> > index 50d3c3631be0..6afbb5bf8118 100644
-> > --- a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
-> > +++ b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
-> > @@ -5396,7 +5396,7 @@ u8 tx_beacon_hdl(struct adapter *padapter, unsigned char *pbuf)
-> >  			return H2C_SUCCESS;
-> >  
-> >  		if ((pstapriv->tim_bitmap & BIT(0)) && (psta_bmc->sleepq_len > 0)) {
-> > -			msleep(10);/*  10ms, ATIM(HIQ) Windows */
-> > +			usleep_range(10000 , 20000);/*  10ms, ATIM(HIQ) Windows */
+On Mon, 12 Apr 2021 04:42:35 +0100,
+DENG Qingfang <dqfext@gmail.com> wrote:
 > 
-> How do you know you can sleep for 20000 here?
->
-
-When i ran checkpatch.pl it warned that msleep<20 ms can sleep for 20ms.
-I checked Documentation, it stated that msleep(1ms~20ms) will often
-sleep longer, ~20ms for any value given in between 1~20ms. 
-
-That's why I took 20msec/20000usec as max sleep value. 
-
-
-> And given that you just changed how the sleep works, are you sure the
-> functionality is the same now?
-
-I am still learning, I am not sure about this.
+> Add support for MT7530 interrupt controller to handle internal PHYs.
+> In order to assign an IRQ number to each PHY, the registration of MDIO bus
+> is also done in this driver.
 > 
-> Only change this type of warning if you have the hardware and can test
-> the change properly.
+> Signed-off-by: DENG Qingfang <dqfext@gmail.com>
+> ---
+> RFC v3 -> RFC v4:
+> - No changes.
 > 
-> thanks,
+>  drivers/net/dsa/Kconfig  |   1 +
+>  drivers/net/dsa/mt7530.c | 266 +++++++++++++++++++++++++++++++++++----
+>  drivers/net/dsa/mt7530.h |  20 ++-
+>  3 files changed, 258 insertions(+), 29 deletions(-)
 > 
-> greg k-h
+> diff --git a/drivers/net/dsa/Kconfig b/drivers/net/dsa/Kconfig
+> index a5f1aa911fe2..264384449f09 100644
+> --- a/drivers/net/dsa/Kconfig
+> +++ b/drivers/net/dsa/Kconfig
+> @@ -36,6 +36,7 @@ config NET_DSA_LANTIQ_GSWIP
+>  config NET_DSA_MT7530
+>  	tristate "MediaTek MT753x and MT7621 Ethernet switch support"
+>  	select NET_DSA_TAG_MTK
+> +	select MEDIATEK_PHY
+>  	help
+>  	  This enables support for the MediaTek MT7530, MT7531, and MT7621
+>  	  Ethernet switch chips.
+> diff --git a/drivers/net/dsa/mt7530.c b/drivers/net/dsa/mt7530.c
+> index 2bd1bab71497..da033004a74d 100644
+> --- a/drivers/net/dsa/mt7530.c
+> +++ b/drivers/net/dsa/mt7530.c
+> @@ -10,6 +10,7 @@
+>  #include <linux/mfd/syscon.h>
+>  #include <linux/module.h>
+>  #include <linux/netdevice.h>
+> +#include <linux/of_irq.h>
+>  #include <linux/of_mdio.h>
+>  #include <linux/of_net.h>
+>  #include <linux/of_platform.h>
+> @@ -596,18 +597,14 @@ mt7530_mib_reset(struct dsa_switch *ds)
+>  	mt7530_write(priv, MT7530_MIB_CCR, CCR_MIB_ACTIVATE);
+>  }
+>  
+> -static int mt7530_phy_read(struct dsa_switch *ds, int port, int regnum)
+> +static int mt7530_phy_read(struct mt7530_priv *priv, int port, int regnum)
+>  {
+> -	struct mt7530_priv *priv = ds->priv;
+> -
+>  	return mdiobus_read_nested(priv->bus, port, regnum);
+>  }
+>  
+> -static int mt7530_phy_write(struct dsa_switch *ds, int port, int regnum,
+> +static int mt7530_phy_write(struct mt7530_priv *priv, int port, int regnum,
+>  			    u16 val)
+>  {
+> -	struct mt7530_priv *priv = ds->priv;
+> -
+>  	return mdiobus_write_nested(priv->bus, port, regnum, val);
+>  }
+>  
+> @@ -785,9 +782,8 @@ mt7531_ind_c22_phy_write(struct mt7530_priv *priv, int port, int regnum,
+>  }
+>  
+>  static int
+> -mt7531_ind_phy_read(struct dsa_switch *ds, int port, int regnum)
+> +mt7531_ind_phy_read(struct mt7530_priv *priv, int port, int regnum)
+>  {
+> -	struct mt7530_priv *priv = ds->priv;
+>  	int devad;
+>  	int ret;
+>  
+> @@ -803,10 +799,9 @@ mt7531_ind_phy_read(struct dsa_switch *ds, int port, int regnum)
+>  }
+>  
+>  static int
+> -mt7531_ind_phy_write(struct dsa_switch *ds, int port, int regnum,
+> +mt7531_ind_phy_write(struct mt7530_priv *priv, int port, int regnum,
+>  		     u16 data)
+>  {
+> -	struct mt7530_priv *priv = ds->priv;
+>  	int devad;
+>  	int ret;
+>  
+> @@ -822,6 +817,22 @@ mt7531_ind_phy_write(struct dsa_switch *ds, int port, int regnum,
+>  	return ret;
+>  }
+>  
+> +static int
+> +mt753x_phy_read(struct mii_bus *bus, int port, int regnum)
+> +{
+> +	struct mt7530_priv *priv = bus->priv;
+> +
+> +	return priv->info->phy_read(priv, port, regnum);
+> +}
+> +
+> +static int
+> +mt753x_phy_write(struct mii_bus *bus, int port, int regnum, u16 val)
+> +{
+> +	struct mt7530_priv *priv = bus->priv;
+> +
+> +	return priv->info->phy_write(priv, port, regnum, val);
+> +}
+> +
+>  static void
+>  mt7530_get_strings(struct dsa_switch *ds, int port, u32 stringset,
+>  		   uint8_t *data)
+> @@ -1828,6 +1839,211 @@ mt7530_setup_gpio(struct mt7530_priv *priv)
+>  }
+>  #endif /* CONFIG_GPIOLIB */
+>  
+> +static irqreturn_t
+> +mt7530_irq_thread_fn(int irq, void *dev_id)
+> +{
+> +	struct mt7530_priv *priv = dev_id;
+> +	bool handled = false;
+> +	u32 val;
+> +	int p;
+> +
+> +	mutex_lock_nested(&priv->bus->mdio_lock, MDIO_MUTEX_NESTED);
+> +	val = mt7530_mii_read(priv, MT7530_SYS_INT_STS);
+> +	mt7530_mii_write(priv, MT7530_SYS_INT_STS, val);
+> +	mutex_unlock(&priv->bus->mdio_lock);
+> +
+> +	for (p = 0; p < MT7530_NUM_PHYS; p++) {
+> +		if (BIT(p) & val) {
+> +			unsigned int irq;
+> +
+> +			irq = irq_find_mapping(priv->irq_domain, p);
+> +			handle_nested_irq(irq);
+> +			handled = true;
+> +		}
+> +	}
+> +
+> +	return IRQ_RETVAL(handled);
+> +}
+> +
+> +static void
+> +mt7530_irq_mask(struct irq_data *d)
+> +{
+> +	struct mt7530_priv *priv = irq_data_get_irq_chip_data(d);
+> +
+> +	priv->irq_enable &= ~BIT(d->hwirq);
+> +}
+> +
+> +static void
+> +mt7530_irq_unmask(struct irq_data *d)
+> +{
+> +	struct mt7530_priv *priv = irq_data_get_irq_chip_data(d);
+> +
+> +	priv->irq_enable |= BIT(d->hwirq);
+> +}
+> +
+> +static void
+> +mt7530_irq_bus_lock(struct irq_data *d)
+> +{
+> +	struct mt7530_priv *priv = irq_data_get_irq_chip_data(d);
+> +
+> +	mutex_lock_nested(&priv->bus->mdio_lock, MDIO_MUTEX_NESTED);
+> +}
+> +
+> +static void
+> +mt7530_irq_bus_sync_unlock(struct irq_data *d)
+> +{
+> +	struct mt7530_priv *priv = irq_data_get_irq_chip_data(d);
+> +
+> +	mt7530_mii_write(priv, MT7530_SYS_INT_EN, priv->irq_enable);
+> +	mutex_unlock(&priv->bus->mdio_lock);
+> +}
+> +
+> +static struct irq_chip mt7530_irq_chip = {
+> +	.name = KBUILD_MODNAME,
+> +	.irq_mask = mt7530_irq_mask,
+> +	.irq_unmask = mt7530_irq_unmask,
+> +	.irq_bus_lock = mt7530_irq_bus_lock,
+> +	.irq_bus_sync_unlock = mt7530_irq_bus_sync_unlock,
+> +};
+> +
+> +static int
+> +mt7530_irq_map(struct irq_domain *domain, unsigned int irq,
+> +	       irq_hw_number_t hwirq)
+> +{
+> +	irq_set_chip_data(irq, domain->host_data);
+> +	irq_set_chip_and_handler(irq, &mt7530_irq_chip, handle_simple_irq);
+> +	irq_set_nested_thread(irq, true);
+> +	irq_set_noprobe(irq);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct irq_domain_ops mt7530_irq_domain_ops = {
+> +	.map = mt7530_irq_map,
+> +	.xlate = irq_domain_xlate_onecell,
+> +};
+> +
+> +static void
+> +mt7530_setup_mdio_irq(struct mt7530_priv *priv)
+> +{
+> +	struct dsa_switch *ds = priv->ds;
+> +	int p;
+> +
+> +	for (p = 0; p < MT7530_NUM_PHYS; p++) {
+> +		if (BIT(p) & ds->phys_mii_mask) {
+> +			unsigned int irq;
+> +
+> +			irq = irq_create_mapping(priv->irq_domain, p);
+
+This seems odd. Why aren't the MDIO IRQs allocated on demand as
+endpoint attached to this interrupt controller are being probed
+individually? In general, doing this allocation upfront is an
+indication that there is some missing information in the DT to perform
+the discovery.
+
+> +			ds->slave_mii_bus->irq[p] = irq;
+> +		}
+> +	}
+> +}
+> +
+> +static int
+> +mt7530_setup_irq(struct mt7530_priv *priv)
+> +{
+> +	struct device *dev = priv->dev;
+> +	struct device_node *np = dev->of_node;
+> +	int ret;
+> +
+> +	if (!of_property_read_bool(np, "interrupt-controller")) {
+> +		dev_info(dev, "no interrupt support\n");
+> +		return 0;
+> +	}
+> +
+> +	priv->irq = of_irq_get(np, 0);
+> +	if (priv->irq <= 0) {
+> +		dev_err(dev, "failed to get parent IRQ: %d\n", priv->irq);
+> +		return priv->irq ? : -EINVAL;
+> +	}
+> +
+> +	priv->irq_domain = irq_domain_add_linear(np, MT7530_NUM_PHYS,
+> +						&mt7530_irq_domain_ops, priv);
+> +	if (!priv->irq_domain) {
+> +		dev_err(dev, "failed to create IRQ domain\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	/* This register must be set for MT7530 to properly fire interrupts */
+> +	if (priv->id != ID_MT7531)
+
+Why not check for ID_MT7530 directly then?
+
+> +		mt7530_set(priv, MT7530_TOP_SIG_CTRL, TOP_SIG_CTRL_NORMAL);
+> +
+> +	ret = request_threaded_irq(priv->irq, NULL, mt7530_irq_thread_fn,
+> +				   IRQF_ONESHOT, KBUILD_MODNAME, priv);
+> +	if (ret) {
+> +		irq_domain_remove(priv->irq_domain);
+> +		dev_err(dev, "failed to request IRQ: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void
+> +mt7530_free_mdio_irq(struct mt7530_priv *priv)
+> +{
+> +	int p;
+> +
+> +	for (p = 0; p < MT7530_NUM_PHYS; p++) {
+> +		if (BIT(p) & priv->ds->phys_mii_mask) {
+> +			unsigned int irq;
+> +
+> +			irq = irq_find_mapping(priv->irq_domain, p);
+> +			irq_dispose_mapping(irq);
+> +		}
+> +	}
+> +}
+> +
+> +
+> +static void
+> +mt7530_free_irq_common(struct mt7530_priv *priv)
+> +{
+> +	free_irq(priv->irq, priv);
+> +	irq_domain_remove(priv->irq_domain);
+> +}
+> +
+> +static void
+> +mt7530_free_irq(struct mt7530_priv *priv)
+> +{
+> +	mt7530_free_mdio_irq(priv);
+> +	mt7530_free_irq_common(priv);
+> +}
+> +
+> +static int
+> +mt7530_setup_mdio(struct mt7530_priv *priv)
+> +{
+> +	struct dsa_switch *ds = priv->ds;
+> +	struct device *dev = priv->dev;
+> +	struct mii_bus *bus;
+> +	static int idx;
+> +	int ret;
+> +
+> +	bus = devm_mdiobus_alloc(dev);
+> +	if (!bus)
+> +		return -ENOMEM;
+> +
+> +	ds->slave_mii_bus = bus;
+> +	bus->priv = priv;
+> +	bus->name = KBUILD_MODNAME "-mii";
+> +	snprintf(bus->id, MII_BUS_ID_SIZE, KBUILD_MODNAME "-%d", idx++);
+> +	bus->read = mt753x_phy_read;
+> +	bus->write = mt753x_phy_write;
+> +	bus->parent = dev;
+> +	bus->phy_mask = ~ds->phys_mii_mask;
+> +
+> +	if (priv->irq)
+> +		mt7530_setup_mdio_irq(priv);
+> +
+> +	ret = mdiobus_register(bus);
+> +	if (ret) {
+> +		dev_err(dev, "failed to register MDIO bus: %d\n", ret);
+> +		if (priv->irq)
+> +			mt7530_free_mdio_irq(priv);
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  static int
+>  mt7530_setup(struct dsa_switch *ds)
+>  {
+> @@ -2780,32 +2996,25 @@ static int
+>  mt753x_setup(struct dsa_switch *ds)
+>  {
+>  	struct mt7530_priv *priv = ds->priv;
+> +	int ret = priv->info->sw_setup(ds);
+> +	if (ret)
+> +		return ret;
+>  
+> -	return priv->info->sw_setup(ds);
+> -}
+> -
+> -static int
+> -mt753x_phy_read(struct dsa_switch *ds, int port, int regnum)
+> -{
+> -	struct mt7530_priv *priv = ds->priv;
+> -
+> -	return priv->info->phy_read(ds, port, regnum);
+> -}
+> +	ret = mt7530_setup_irq(priv);
+> +	if (ret)
+> +		return ret;
+>  
+> -static int
+> -mt753x_phy_write(struct dsa_switch *ds, int port, int regnum, u16 val)
+> -{
+> -	struct mt7530_priv *priv = ds->priv;
+> +	ret = mt7530_setup_mdio(priv);
+> +	if (ret && priv->irq)
+> +		mt7530_free_irq_common(priv);
+>  
+> -	return priv->info->phy_write(ds, port, regnum, val);
+> +	return ret;
+>  }
+>  
+>  static const struct dsa_switch_ops mt7530_switch_ops = {
+>  	.get_tag_protocol	= mtk_get_tag_protocol,
+>  	.setup			= mt753x_setup,
+>  	.get_strings		= mt7530_get_strings,
+> -	.phy_read		= mt753x_phy_read,
+> -	.phy_write		= mt753x_phy_write,
+
+I don't get why this change is part of the interrupt support. This
+should probably be a separate patch.
+
+>  	.get_ethtool_stats	= mt7530_get_ethtool_stats,
+>  	.get_sset_count		= mt7530_get_sset_count,
+>  	.set_ageing_time	= mt7530_set_ageing_time,
+> @@ -2986,6 +3195,9 @@ mt7530_remove(struct mdio_device *mdiodev)
+>  		dev_err(priv->dev, "Failed to disable io pwr: %d\n",
+>  			ret);
+>  
+> +	if (priv->irq)
+> +		mt7530_free_irq(priv);
+> +
+>  	dsa_unregister_switch(priv->ds);
+>  	mutex_destroy(&priv->reg_mutex);
+>  }
+> diff --git a/drivers/net/dsa/mt7530.h b/drivers/net/dsa/mt7530.h
+> index ec36ea5dfd57..62fcaabefba1 100644
+> --- a/drivers/net/dsa/mt7530.h
+> +++ b/drivers/net/dsa/mt7530.h
+
+nit: Another thing is that I don't see why this include file exists at
+all. The only user is mt7530.c, so the two could be merged and reduce
+the clutter.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
