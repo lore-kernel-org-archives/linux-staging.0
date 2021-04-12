@@ -1,101 +1,206 @@
-Received: from mail.siol.net (mailoutvs25.siol.net [185.57.226.216])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EBAD71;
-	Mon, 12 Apr 2021 21:39:42 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.siol.net (Postfix) with ESMTP id AAD38523A64;
-	Mon, 12 Apr 2021 17:44:01 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-	by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id IdI5XYwZbO6v; Mon, 12 Apr 2021 17:44:01 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
-	by mail.siol.net (Postfix) with ESMTPS id 3B96E5257CF;
-	Mon, 12 Apr 2021 17:44:01 +0200 (CEST)
-Received: from kista.localdomain (cpe-86-58-17-133.cable.triera.net [86.58.17.133])
-	(Authenticated sender: 031275009)
-	by mail.siol.net (Postfix) with ESMTPSA id A1664523A64;
-	Mon, 12 Apr 2021 17:44:00 +0200 (CEST)
-From: Jernej Skrabec <jernej.skrabec@siol.net>
-To: mripard@kernel.org,
-	paul.kocialkowski@bootlin.com,
-	wens@csie.org
-Cc: mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	jernej.skrabec@siol.net,
-	hverkuil-cisco@xs4all.nl,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: cedrus: Fix H265 status definitions
-Date: Mon, 12 Apr 2021 17:43:49 +0200
-Message-Id: <20210412154349.1989045-1-jernej.skrabec@siol.net>
-X-Mailer: git-send-email 2.31.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E47671
+	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 22:20:45 +0000 (UTC)
+Received: by mail-qk1-f180.google.com with SMTP id i9so15998779qka.2
+        for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 15:20:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=SDIMIsHgzIN3pPXc6C7qelFOQfB8Xs0e1yxPYg32Ijo=;
+        b=MqpMQtteU02K/j2eR+5kdYN/xoJuPYDBCPxbsjWuO2tg4H3elwt06EP3PebPWgr45b
+         unCvpzIoB42Vef6++HPU9ihfOVo5b6soR0Xbo5AI5n/vIMu6hk0d1KSuHKyIx3OX5gt8
+         HitkgKDqroE3HBAWyIYU1Hl7/0YedB7bI7mORLzVuoMIHZ/z6RhxfIRQRWmYUF4ud7dO
+         Uv9gn23JyrwbRoCnqfYdRMiiLSPuQnNupgfqhlB6CLnr0uOztpbW2XIbsCwRtpBkW4PG
+         i8eDNTDwiGz3AzqAaALVIOYa2FlOT2HFIVOzv5RZYrMGaubW1NWSORputKspidOD6iIq
+         aT6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=SDIMIsHgzIN3pPXc6C7qelFOQfB8Xs0e1yxPYg32Ijo=;
+        b=Tbb6FWhI2Oz8qzRXoQ+UuqmSt1Lv2SV4taFVIlyH6reGUMBD9X/fznRKkduzsFq4hu
+         0m6GbCF9HK9LYG6AVM8XYLkXf0x+W9nFInuaN4Ff6mupN3vRGcJG4vL5YsMStkOZJorQ
+         paY45VmwpwaJnV1HCqIRLg+kPH+76BPSyqDg2T6y0RUCb0K5U6l/lzoOno6Z66EdIVLJ
+         7Gmc/CFeKbTlPKTfPhHFHT4mc64yBs9chL3x7pray5UqsHSpBJ0ALX/oZNXMXD+N663t
+         1i5tLiENy1/ZN5vqP4f8R2TsdCQC0+7dHIah6Uuou4ZGdY6dJQW2zhNOZchvIoQmbUnW
+         iYZA==
+X-Gm-Message-State: AOAM5312aEQuk3cssjAnYrbXKKecHzMP8+YWAaOeX5CGjw66AfNn5pmz
+	ymsbUsF1pyAWkS7OxpehTE0=
+X-Google-Smtp-Source: ABdhPJxelVv1UphO6h1ypfQ0NognyM4+QIrG0xolpdmjBgV8pr+/gNeDMevByEmUBXoWzw83tFAAwg==
+X-Received: by 2002:ae9:e518:: with SMTP id w24mr28923415qkf.78.1618266044638;
+        Mon, 12 Apr 2021 15:20:44 -0700 (PDT)
+Received: from focaruja ([2001:1284:f016:a037:3782:dcd2:d032:5ca8])
+        by smtp.gmail.com with ESMTPSA id f12sm8839781qti.63.2021.04.12.15.20.43
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Mon, 12 Apr 2021 15:20:44 -0700 (PDT)
+Date: Mon, 12 Apr 2021 19:20:40 -0300
+From: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+Subject: [PATCH] staging: media: tegra-vde: Align line break to match with
+ the open parenthesis in file trace.h
+Message-ID: <20210412222040.GA13659@focaruja>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.24 (2015-08-30)
 
-Some of the H265 status flags are wrong. Redefine them to corespond to
-Allwinner CedarC open source userspace library. Only one of these flags
-is actually used and new value also matches value used in libvdpau-sunxi
-library, which is proven to be working.
+Align line break to match with the open parenthesis.
+Issue detected by checkpatch.pl.
+It consequently solved a few end lines with a '(',
+issue also detected by checkpatch.pl
 
-Note that wrong (old) value in right circumstances (in combination with
-another H265 decoding bug) causes driver lock up. With this fix decoding
-is still broken (green output) but at least driver doesn't lock up.
-
-Fixes: 86caab29da78 ("media: cedrus: Add HEVC/H.265 decoding support")
-Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
 ---
-This is the sample which locks up driver:
-http://jernej.libreelec.tv/videos/h265/hevc-breakage.mkv
+ drivers/staging/media/tegra-vde/trace.h | 111 ++++++++++++++------------------
+ 1 file changed, 50 insertions(+), 61 deletions(-)
 
-Second bug is actually in HEVC API - dependent slice flag for slice is
-missing. Similar flag in PPS exists, but that only tells if this
-feature is enabled and should not be used for slice.
-
-This will be fixed later.
-
- .../staging/media/sunxi/cedrus/cedrus_regs.h    | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h b/drivers/s=
-taging/media/sunxi/cedrus/cedrus_regs.h
-index 6cb1c279790f..7ab3a2b0aa10 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-@@ -443,16 +443,17 @@
- #define VE_DEC_H265_STATUS_STCD_BUSY		BIT(21)
- #define VE_DEC_H265_STATUS_WB_BUSY		BIT(20)
- #define VE_DEC_H265_STATUS_BS_DMA_BUSY		BIT(19)
--#define VE_DEC_H265_STATUS_IQIT_BUSY		BIT(18)
-+#define VE_DEC_H265_STATUS_IT_BUSY		BIT(18)
- #define VE_DEC_H265_STATUS_INTER_BUSY		BIT(17)
- #define VE_DEC_H265_STATUS_MORE_DATA		BIT(16)
--#define VE_DEC_H265_STATUS_VLD_BUSY		BIT(14)
--#define VE_DEC_H265_STATUS_DEBLOCKING_BUSY	BIT(13)
--#define VE_DEC_H265_STATUS_DEBLOCKING_DRAM_BUSY	BIT(12)
--#define VE_DEC_H265_STATUS_INTRA_BUSY		BIT(11)
--#define VE_DEC_H265_STATUS_SAO_BUSY		BIT(10)
--#define VE_DEC_H265_STATUS_MVP_BUSY		BIT(9)
--#define VE_DEC_H265_STATUS_SWDEC_BUSY		BIT(8)
-+#define VE_DEC_H265_STATUS_DBLK_BUSY		BIT(15)
-+#define VE_DEC_H265_STATUS_IREC_BUSY		BIT(14)
-+#define VE_DEC_H265_STATUS_INTRA_BUSY		BIT(13)
-+#define VE_DEC_H265_STATUS_MCRI_BUSY		BIT(12)
-+#define VE_DEC_H265_STATUS_IQIT_BUSY		BIT(11)
-+#define VE_DEC_H265_STATUS_MVP_BUSY		BIT(10)
-+#define VE_DEC_H265_STATUS_IS_BUSY		BIT(9)
-+#define VE_DEC_H265_STATUS_VLD_BUSY		BIT(8)
- #define VE_DEC_H265_STATUS_OVER_TIME		BIT(3)
- #define VE_DEC_H265_STATUS_VLD_DATA_REQ		BIT(2)
- #define VE_DEC_H265_STATUS_ERROR		BIT(1)
---=20
-2.31.1
+diff --git a/drivers/staging/media/tegra-vde/trace.h b/drivers/staging/media/tegra-vde/trace.h
+index e571410..1fcc573 100644
+--- a/drivers/staging/media/tegra-vde/trace.h
++++ b/drivers/staging/media/tegra-vde/trace.h
+@@ -11,79 +11,68 @@
+ #include "vde.h"
+ 
+ DECLARE_EVENT_CLASS(register_access,
+-	TP_PROTO(struct tegra_vde *vde, void __iomem *base,
+-		 u32 offset, u32 value),
+-	TP_ARGS(vde, base, offset, value),
+-	TP_STRUCT__entry(
+-		__string(hw_name, tegra_vde_reg_base_name(vde, base))
+-		__field(u32, offset)
+-		__field(u32, value)
+-	),
+-	TP_fast_assign(
+-		__assign_str(hw_name, tegra_vde_reg_base_name(vde, base));
+-		__entry->offset = offset;
+-		__entry->value = value;
+-	),
+-	TP_printk("%s:0x%03x 0x%08x", __get_str(hw_name), __entry->offset,
+-		  __entry->value)
++		    TP_PROTO(struct tegra_vde *vde, void __iomem *base,
++			     u32 offset, u32 value),
++		    TP_ARGS(vde, base, offset, value),
++			    TP_STRUCT__entry(__string(hw_name, tegra_vde_reg_base_name(vde, base))
++					     __field(u32, offset)
++					     __field(u32, value)
++			    ),
++			    TP_fast_assign(__assign_str(hw_name,
++							tegra_vde_reg_base_name(vde, base));
++					   __entry->offset = offset;
++					   __entry->value = value;
++			    ),
++			    TP_printk("%s:0x%03x 0x%08x", __get_str(hw_name), __entry->offset,
++				      __entry->value)
+ );
+ 
+ DEFINE_EVENT(register_access, vde_writel,
+-	TP_PROTO(struct tegra_vde *vde, void __iomem *base,
+-		 u32 offset, u32 value),
+-	TP_ARGS(vde, base, offset, value));
++	     TP_PROTO(struct tegra_vde *vde, void __iomem *base,
++		      u32 offset, u32 value),
++	     TP_ARGS(vde, base, offset, value));
+ DEFINE_EVENT(register_access, vde_readl,
+-	TP_PROTO(struct tegra_vde *vde, void __iomem *base,
+-		 u32 offset, u32 value),
+-	TP_ARGS(vde, base, offset, value));
++	     TP_PROTO(struct tegra_vde *vde, void __iomem *base,
++		      u32 offset, u32 value),
++	     TP_ARGS(vde, base, offset, value));
+ 
+ TRACE_EVENT(vde_setup_iram_entry,
+-	TP_PROTO(unsigned int table, unsigned int row, u32 value, u32 aux_addr),
+-	TP_ARGS(table, row, value, aux_addr),
+-	TP_STRUCT__entry(
+-		__field(unsigned int, table)
+-		__field(unsigned int, row)
+-		__field(u32, value)
+-		__field(u32, aux_addr)
+-	),
+-	TP_fast_assign(
+-		__entry->table = table;
+-		__entry->row = row;
+-		__entry->value = value;
+-		__entry->aux_addr = aux_addr;
+-	),
+-	TP_printk("[%u][%u] = { 0x%08x (flags = \"%s\", frame_num = %u); 0x%08x }",
+-		  __entry->table, __entry->row, __entry->value,
+-		  __print_flags(__entry->value, " ", { (1 << 25), "B" }),
+-		  __entry->value & 0x7FFFFF, __entry->aux_addr)
++	    TP_PROTO(unsigned int table, unsigned int row, u32 value, u32 aux_addr),
++	    TP_ARGS(table, row, value, aux_addr),
++		    TP_STRUCT__entry(__field(unsigned int, table)
++				     __field(unsigned int, row)
++				     __field(u32, value)
++				     __field(u32, aux_addr)
++		    ),
++		    TP_fast_assign(__entry->table = table;
++				   __entry->row = row;
++				   __entry->value = value;
++				   __entry->aux_addr = aux_addr;
++		    ),
++		    TP_printk("[%u][%u] = { 0x%08x (flags = \"%s\", frame_num = %u); 0x%08x }",
++			      __entry->table, __entry->row, __entry->value,
++			      __print_flags(__entry->value, " ", { (1 << 25), "B" }),
++			      __entry->value & 0x7FFFFF, __entry->aux_addr)
+ );
+ 
+ TRACE_EVENT(vde_ref_l0,
+-	TP_PROTO(unsigned int frame_num),
+-	TP_ARGS(frame_num),
+-	TP_STRUCT__entry(
+-		__field(unsigned int, frame_num)
+-	),
+-	TP_fast_assign(
+-		__entry->frame_num = frame_num;
+-	),
+-	TP_printk("REF L0: DPB: Frame 0: frame_num = %u", __entry->frame_num)
++	    TP_PROTO(unsigned int frame_num),
++	    TP_ARGS(frame_num),
++	    TP_STRUCT__entry(__field(unsigned int, frame_num)),
++	    TP_fast_assign(__entry->frame_num = frame_num;),
++	    TP_printk("REF L0: DPB: Frame 0: frame_num = %u", __entry->frame_num)
+ );
+ 
+ TRACE_EVENT(vde_ref_l1,
+-	TP_PROTO(unsigned int with_later_poc_nb,
+-		 unsigned int with_earlier_poc_nb),
+-	TP_ARGS(with_later_poc_nb, with_earlier_poc_nb),
+-	TP_STRUCT__entry(
+-		__field(unsigned int, with_later_poc_nb)
+-		__field(unsigned int, with_earlier_poc_nb)
+-	),
+-	TP_fast_assign(
+-		__entry->with_later_poc_nb = with_later_poc_nb;
+-		__entry->with_earlier_poc_nb = with_earlier_poc_nb;
+-	),
+-	TP_printk("REF L1: with_later_poc_nb %u, with_earlier_poc_nb %u",
+-		  __entry->with_later_poc_nb, __entry->with_earlier_poc_nb)
++	    TP_PROTO(unsigned int with_later_poc_nb,
++		     unsigned int with_earlier_poc_nb),
++	    TP_ARGS(with_later_poc_nb, with_earlier_poc_nb),
++		    TP_STRUCT__entry(__field(unsigned int, with_later_poc_nb)
++				     __field(unsigned int, with_earlier_poc_nb)),
++		    TP_fast_assign(__entry->with_later_poc_nb = with_later_poc_nb;
++				   __entry->with_earlier_poc_nb = with_earlier_poc_nb;),
++		    TP_printk("REF L1: with_later_poc_nb %u, with_earlier_poc_nb %u",
++			      __entry->with_later_poc_nb, __entry->with_earlier_poc_nb)
+ );
+ 
+ #endif /* TEGRA_VDE_TRACE_H */
+-- 
+2.7.4
 
