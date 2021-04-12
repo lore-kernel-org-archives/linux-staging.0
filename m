@@ -1,75 +1,97 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C3170
-	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 13:58:49 +0000 (UTC)
-Received: by mail-qt1-f179.google.com with SMTP id u8so9902567qtq.12
-        for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 06:58:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=SJw/FCmBKIoHaZdn5FSsuIC5fqSzcrzjPH5C6swmKnU=;
-        b=C5aRJDDnSepZQj02FKN5Pt1KjVS4QcitMncok9+1+VXGcl4U+zNMyE/CDSRFpGnNsg
-         o8dtkR1O04Y64hBWrt5sW/Nxa5Off34WPhS5p461086smlNV/vwnJsOUx4J7pQtBGQOd
-         NkMgtFWEdPC0F8wB6kggZFshNy1S6HsSGEFnTPbS7DSq5T3BsF6icZi+xK30DjKjl7zQ
-         eo2QFX6aBpyvkf3kceseTWQn+6j1S5NtJjIVGYP/0e6fcDPDcpWTWyYZbjFGFjmIMTz2
-         7N4nAj2qT2Cexa0gIpNzQ1RRo2lWRaw+BzDHCjmIzA2lq0mlUCuWqH9cfs/9YtWEPP7/
-         6OUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=SJw/FCmBKIoHaZdn5FSsuIC5fqSzcrzjPH5C6swmKnU=;
-        b=SqP+P+zQxnnNHDQFHPE9Z0b4apmTnB2kjXd6HnaGJbJDQKzeRU8Oio2zYhn0VGAlz6
-         yoaNbGn65yAI69mDVnRV3NWi/ZfbfTClI6TGG635qL+Axgvb9k5VPiXwTtmrNt3EqwBE
-         pztqUIp27wikqcIHxhr+Q8njl9UpIbSCywr0YnnNVrIh7KNIsBNqztK//WXhwkVg8FyZ
-         JRIe7sRIrGaVqnU//GbJL62YMfVcuke1e9cE5uRUBnKKVwPEPf+aa5cONAtnQuOpWZuD
-         IQdAVdfK6FH32vvbpKQXoY/6Un3mdLWdUa0pU4W+KSgmBEZCsi2mRFYm00LxhQEkc7Je
-         H+7A==
-X-Gm-Message-State: AOAM532wjY6SfFSYSNLVtW/kGJHu+60CnXmcND5QPnVSJLUjQ5eILEVw
-	eCzgBVWbk+NMs6gwfohZvpQ=
-X-Google-Smtp-Source: ABdhPJzAomUhFof9b0BEGxLSk7wwbcJ/y8uBh3McRsLXAyxNCVB/Ux0Yj05t8t+JBWvFn6wFSJqjjg==
-X-Received: by 2002:a05:622a:486:: with SMTP id p6mr26013241qtx.98.1618235929094;
-        Mon, 12 Apr 2021 06:58:49 -0700 (PDT)
-Received: from ?IPv6:2001:1284:f016:a037:476a:dfcd:f18f:9ad5? ([2001:1284:f016:a037:476a:dfcd:f18f:9ad5])
-        by smtp.gmail.com with ESMTPSA id q125sm8018087qkf.68.2021.04.12.06.58.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Apr 2021 06:58:48 -0700 (PDT)
-Message-ID: <7457fd4eb5afbf66b3a6f2fed4dd1e440e6ed422.camel@gmail.com>
-Subject: Re: [Outreachy kernel][PATCH 1/4 v2] staging: media: omap4iss:
- Replace macro function by static inline function in file iss.c
-From: ascordeiro <alinesantanacordeiro@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	outreachy-kernel@googlegroups.com
-Date: Mon, 12 Apr 2021 10:58:45 -0300
-In-Reply-To: <YHRNzq3h3LEp3Dgc@pendragon.ideasonboard.com>
-References: <cover.1618231618.git.alinesantanacordeiro@gmail.com>
-	 <e302566a3d9e5180ab27eb2c2824fd1b678a6d99.1618231618.git.alinesantanacordeiro@gmail.com>
-	 <YHRNzq3h3LEp3Dgc@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.0 (by Flathub.org) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4887A70
+	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 14:02:03 +0000 (UTC)
+Date: Mon, 12 Apr 2021 14:01:49 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
+	s=protonmail3; t=1618236113;
+	bh=03onwTU9Um31w8Mfn6QH4RSR6w5lr0DBC+K+sh5MACQ=;
+	h=Date:To:From:Cc:Reply-To:Subject:From;
+	b=JzW5GAgMQtt7/FbwM8bH6zxd6LxgBLViXP9kO8fg5WuTonXWwVI/yF7vdUzd8OJ4o
+	 z9or4fvT2bmubghYlJgO14bbPqCrqrC6d0odNWYIU1o4+uTt/SaABJCuL+iV/RtKNY
+	 55Ct8IEGyPR59bM7lMyUl8ReGBliDx6zhZJgExQ/fH5mPdz09p2vCOnZVNauRjfKv8
+	 qTr0j6ExqlpDRU550J/Ch5Yes8mNt+LRBu/OjAZovmFxI1fCT8nsHyiyslzGzTg/VD
+	 FoWQXPusv3JoGiD+fT6PXllzAD03B2Mi3TDQPfXQ8qJ82LblYghHocrJY2Oin2G3dT
+	 Rl34KktR+1Ywg==
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans de Goede <hdegoede@redhat.com>, Larry Finger <Larry.Finger@lwfinger.net>
+From: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, Bryan Brattlof <hello@bryanbrattlof.com>
+Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
+Subject: [PATCH] staging: rtl8723bs: remove unnecessary adapter
+Message-ID: <20210412140054.27629-1-hello@bryanbrattlof.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+	autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	mailout.protonmail.ch
 
-Em seg, 2021-04-12 às 16:40 +0300, Laurent Pinchart escreveu:
-> While testing on a device isn't a requirement as you can't be
-> expected
-> to have the necessary hardware, changes are expected to be at least
-> compile-tested before being submitted.
+The if2 adapter is defined in rtw_dvr_init() and in the dvobj_priv
+structure but never used anywhere in the driver. This will remove all
+definitions of if2
 
-Hi Laurent,
+Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
+---
+ drivers/staging/rtl8723bs/include/drv_types.h |  1 -
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c  | 10 ++++------
+ 2 files changed, 4 insertions(+), 7 deletions(-)
 
-I thought recompiling the kernel would be enough in this case.
-I recompiled it in native Ubuntu 16.04 without errors.
+diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/stagin=
+g/rtl8723bs/include/drv_types.h
+index cec8d5ac0e2e..35882dc2654e 100644
+--- a/drivers/staging/rtl8723bs/include/drv_types.h
++++ b/drivers/staging/rtl8723bs/include/drv_types.h
+@@ -269,7 +269,6 @@ struct cam_entry_cache {
+ struct dvobj_priv {
+ =09/*-------- below is common data --------*/
+ =09struct adapter *if1; /* PRIMARY_ADAPTER */
+-=09struct adapter *if2; /* SECONDARY_ADAPTER */
+=20
+ =09s32=09processing_dev_remove;
+=20
+diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging=
+/rtl8723bs/os_dep/sdio_intf.c
+index 2b61a4bdd8a1..3545cb6ef886 100644
+--- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
++++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+@@ -381,7 +381,7 @@ static int rtw_drv_init(
+ =09const struct sdio_device_id *id)
+ {
+ =09int status =3D _FAIL;
+-=09struct adapter *if1 =3D NULL, *if2 =3D NULL;
++=09struct adapter *if1 =3D NULL;
+ =09struct dvobj_priv *dvobj;
+=20
+ =09dvobj =3D sdio_dvobj_init(func);
+@@ -395,17 +395,15 @@ static int rtw_drv_init(
+ =09/* dev_alloc_name && register_netdev */
+ =09status =3D rtw_drv_register_netdev(if1);
+ =09if (status !=3D _SUCCESS)
+-=09=09goto free_if2;
++=09=09goto free_if1;
+=20
+ =09if (sdio_alloc_irq(dvobj) !=3D _SUCCESS)
+-=09=09goto free_if2;
++=09=09goto free_if1;
+=20
+ =09rtw_ndev_notifier_register();
+ =09status =3D _SUCCESS;
+=20
+-free_if2:
+-=09if (status !=3D _SUCCESS && if2) {
+-=09}
++free_if1:
+ =09if (status !=3D _SUCCESS && if1) {
+ =09=09rtw_sdio_if1_deinit(if1);
+ =09}
+--=20
+2.27.0
 
-Thank you for the feedback.
-Aline
 
