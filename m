@@ -1,86 +1,100 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33C8170
-	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 13:43:20 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id j20-20020a05600c1914b029010f31e15a7fso8724309wmq.1
-        for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 06:43:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NycMU0cz3kJfBn80ZlCBYweE/JLtLsmBXUcJn2/DB0g=;
-        b=ZSNuqAESESzRNHrvcezSyPa8BAQkVixnafp2tzGO0dkZJ1EEUb8Wl/KCJX7e6j4jCG
-         cKHd+NpbLjIZNNPbMqA7rW0fd4C+Ojc7tUQiSjdY3aB6WaklUf5Lvjxvp33rObgYMZfo
-         KH33N3HrMQ1jwSbupofwA1/GhJdtsFAQpK17Psf3rNAM482IAXLbwwmBWeIsC7auKjBN
-         VWa4ltBhdfq6cEpNWW4v282jdZlgnyU/tjK2oiebHrnRHnIomET3eSPKFhk+3bPo56rc
-         aqai6Mo7EK7wJYm7qRijOAPLm36+oHlOSMvur3bltweo72qIP2meJR+HvR8IHI/GrMjC
-         sqZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NycMU0cz3kJfBn80ZlCBYweE/JLtLsmBXUcJn2/DB0g=;
-        b=o5foxddXEr68uEeCi0Mg5CnsXzaojvhIeXiv25tOzXvrEwtZMCCh2k1uZK5G9Yw7Hj
-         a8/F5JhN836qDOHmIbRi534MZY7liAduLj5fnitY99vOrfo9MQuOKKfxniYzyYbt3DGU
-         GN4NtBV7nYWEBMF1ZMyOhjaiCuD0KVXB8YPO/VjSaO1G6IerRWaVOJZeOw77ppFPJ4FC
-         LaJ1BNsTPzRdj2AiTFmYr3ZdimeD9cRjcu1uU9EQroQf0xnaX5ZBditeDm+QHmUqD2nN
-         VtiLfn/HkIjILbTkNqp/OKwLzj7Rkf0NDpPv3CvKBAFa4h6AmMROpREs5c46NGDvKrg3
-         OuYA==
-X-Gm-Message-State: AOAM531R+Vda+YEMEDtpInv5aRrCAeHHcmI9RJlHAbfq2BA4srXYalix
-	koVbSVrkKAQoys3zEDm3iuY=
-X-Google-Smtp-Source: ABdhPJwcSkVXUE7+Gw9X9xA2TbXb4xDJcYCcBeUJDeOR+rci23+7/1ux6sGk/mjaEAZajumf+kFwVg==
-X-Received: by 2002:a05:600c:4f13:: with SMTP id l19mr25592568wmq.89.1618234998788;
-        Mon, 12 Apr 2021 06:43:18 -0700 (PDT)
-Received: from bcarvalho-Ubuntu.lan ([2001:818:de85:7e00:813f:b20e:675a:834d])
-        by smtp.gmail.com with ESMTPSA id f6sm9313922wmf.28.2021.04.12.06.43.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Apr 2021 06:43:18 -0700 (PDT)
-From: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
-To: hverkuil@xs4all.nl,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com
-Cc: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
-Subject: [PATCH] staging: media: atomisp: i2c: align line break to match with open parenthesis
-Date: Mon, 12 Apr 2021 14:43:01 +0100
-Message-Id: <20210412134301.11587-1-martinsdecarvalhobeatriz@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE81C70
+	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 13:51:20 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 61F3E3F0;
+	Mon, 12 Apr 2021 15:41:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1618234879;
+	bh=Yw/wZQVEH1BcaYF1r7FYIcCDtqB03Gdz7x1hGwb4OBc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Pj+KdwAXg+afY5joKq2F6Q++4UJPoOO1d3uSkNTq/hIQb6tt0ZWWimHUlfGLQ8Bms
+	 TE4w5kqakddjtmc9wgLPmV3PDAMqb2cGf/TW6rbRf58UUW3LzNJOqWVle5GyTyV1SI
+	 dKAAPb31/3clW70FJNi6SSOt3h6+8qWHUjV2Wx7c=
+Date: Mon, 12 Apr 2021 16:40:30 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+Subject: Re: [Outreachy kernel][PATCH 1/4 v2] staging: media: omap4iss:
+ Replace macro function by static inline function in file iss.c
+Message-ID: <YHRNzq3h3LEp3Dgc@pendragon.ideasonboard.com>
+References: <cover.1618231618.git.alinesantanacordeiro@gmail.com>
+ <e302566a3d9e5180ab27eb2c2824fd1b678a6d99.1618231618.git.alinesantanacordeiro@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <e302566a3d9e5180ab27eb2c2824fd1b678a6d99.1618231618.git.alinesantanacordeiro@gmail.com>
 
-Aligns line break with the remaining function arguments
-to the open parenthesis.
-Issue found by checkpatch in file atomisp-gc2235.c
+Hi Aline,
 
-Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
----
- drivers/staging/media/atomisp/i2c/atomisp-gc2235.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+While testing on a device isn't a requirement as you can't be expected
+to have the necessary hardware, changes are expected to be at least
+compile-tested before being submitted.
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-index 78147ffb6099..6ba4a8adff7c 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-@@ -171,8 +171,8 @@ static int __gc2235_buf_reg_array(struct i2c_client *client,
- }
- 
- static int __gc2235_write_reg_is_consecutive(struct i2c_client *client,
--	struct gc2235_write_ctrl *ctrl,
--	const struct gc2235_reg *next)
-+					     struct gc2235_write_ctrl *ctrl,
-+					     const struct gc2235_reg *next)
- {
- 	if (ctrl->index == 0)
- 		return 1;
+On Mon, Apr 12, 2021 at 09:57:09AM -0300, Aline Santana Cordeiro wrote:
+> Replace macro function by static inline function.
+> Issue suggested by Julia.
+> 
+> Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+> ---
+> 
+> Changes since v1:
+>  - Insert file path in commit message
+> 
+>  drivers/staging/media/omap4iss/iss.c | 24 +++++++++++++-----------
+>  1 file changed, 13 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/staging/media/omap4iss/iss.c b/drivers/staging/media/omap4iss/iss.c
+> index c89f268a..3bbc39e 100644
+> --- a/drivers/staging/media/omap4iss/iss.c
+> +++ b/drivers/staging/media/omap4iss/iss.c
+> @@ -27,22 +27,24 @@
+>  #include "iss.h"
+>  #include "iss_regs.h"
+>  
+> -#define ISS_PRINT_REGISTER(iss, name)\
+> -	dev_dbg(iss->dev, "###ISS " #name "=0x%08x\n", \
+> -		iss_reg_read(iss, OMAP4_ISS_MEM_TOP, ISS_##name))
+> +static inline iss_print_register(iss, name)
+> +{
+> +	dev_dbg(iss->dev, "###ISS " #name "=0x%08x\n",
+> +		iss_reg_read(iss, OMAP4_ISS_MEM_TOP, ISS_##name));
+> +}
+>  
+>  static void iss_print_status(struct iss_device *iss)
+>  {
+>  	dev_dbg(iss->dev, "-------------ISS HL Register dump-------------\n");
+>  
+> -	ISS_PRINT_REGISTER(iss, HL_REVISION);
+> -	ISS_PRINT_REGISTER(iss, HL_SYSCONFIG);
+> -	ISS_PRINT_REGISTER(iss, HL_IRQSTATUS(5));
+> -	ISS_PRINT_REGISTER(iss, HL_IRQENABLE_SET(5));
+> -	ISS_PRINT_REGISTER(iss, HL_IRQENABLE_CLR(5));
+> -	ISS_PRINT_REGISTER(iss, CTRL);
+> -	ISS_PRINT_REGISTER(iss, CLKCTRL);
+> -	ISS_PRINT_REGISTER(iss, CLKSTAT);
+> +	iss_print_register(iss, HL_REVISION);
+> +	iss_print_register(iss, HL_SYSCONFIG);
+> +	iss_print_register(iss, HL_IRQSTATUS(5));
+> +	iss_print_register(iss, HL_IRQENABLE_SET(5));
+> +	iss_print_register(iss, HL_IRQENABLE_CLR(5));
+> +	iss_print_register(iss, CTRL);
+> +	iss_print_register(iss, CLKCTRL);
+> +	iss_print_register(iss, CLKSTAT);
+>  
+>  	dev_dbg(iss->dev, "-----------------------------------------------\n");
+>  }
+
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
