@@ -1,98 +1,108 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3260F71
-	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 10:23:10 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id s15so14401344edd.4
-        for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 03:23:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=aDYfwXOX7CXJC5km5DlusEFEF+Nl5xWOkbGcpQvebPk=;
-        b=dpot/PDuWTxI0+YsjLFgYLzDEj6vgBZZXMNrC5eNX2r5KNR9iKUMwbnVJ3BjT1vNex
-         wSvgO0xYpng6v2cvxlxxCRq11pcF/DE7hoSDUMbKXRYT5KekR45y2Nq3ysC2ZIpwD60A
-         x+KcjDBwQquu8oosqncOGLRy67S0T+CGgm5HKD0eYbk3vjCK16gkdUWxSGGMFA3Gw2th
-         ddF2dtSOkIIa4diivQ++lhGNuGwicsn/6RariSY8/whcfMdjuc+3Z34zZ9WM2DMKn7WP
-         fzyFLCHBvMhd4M8K/hPezvjDvD0xXIUs4cBCHSOoMqUHN0fT7ioOasbstn/+FxMfg4Ey
-         Q+bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=aDYfwXOX7CXJC5km5DlusEFEF+Nl5xWOkbGcpQvebPk=;
-        b=bVTS19yZmSAybqfs9k5+33VvCofu3VkmRgKPOof3FrViw0BQWMDkLQiX527IeOyIOO
-         ynXzY3g+eyZBHXeRZ7RcX8lO3oRm4X71nCQQorqqv4ws6cD9CsS2SAyc5WO/0dZpX0vC
-         Cf+vdrG3Zo5rdyEBpi5bYFo2+tHBNg2zgX5Ligqy0hMLgRhvVhLf/vj+OxQukm822v9l
-         VuT58nSg+sxaI1Yfm9GXXXYMYIyWgjhQvIIXKlzDLPiwHGWeH6ki/gm2O4KKikB21kJp
-         UeIXkQhRUVPCy5yWeHJdlmnqfi28fbHzQzzsJ9CehotoLr9fkFOscEFGr4tW9TBk4T0v
-         3qFg==
-X-Gm-Message-State: AOAM530K3xgOO+Dbl6pYYWpiYZ8LkpxfT+XSVA6cwH1wD7Rga+Z06w0b
-	cFw+En/Qa3q0eFNH6GXhCio=
-X-Google-Smtp-Source: ABdhPJzcBYWukqy9abedu05uFLTelTQXauXhdaT4/d0FJPiqlSsW5qbhAnCE5YHP5PV2lJdpDCi/2g==
-X-Received: by 2002:a05:6402:2691:: with SMTP id w17mr21565207edd.81.1618222988753;
-        Mon, 12 Apr 2021 03:23:08 -0700 (PDT)
-Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
-        by smtp.gmail.com with ESMTPSA id w13sm6134925edc.81.2021.04.12.03.23.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Apr 2021 03:23:08 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8192u: Remove variable set but not used
-Date: Mon, 12 Apr 2021 12:23:07 +0200
-Message-ID: <269706412.I7xuoi7Q6o@linux.local>
-In-Reply-To: <YHQTY4fGJfsdSjXL@kroah.com>
-References: <20210411174143.31618-1-fmdefrancesco@gmail.com> <YHQTY4fGJfsdSjXL@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FAA372
+	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 10:41:13 +0000 (UTC)
+From: Kurt Kanzenbach <kurt.kanzenbach@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1618223618;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IeSCzkLT2TMeD064rdqHLGZki7q9FiMEKUBGP2lah28=;
+	b=aOwrlZywc/YrJLZK9f5pAK6bVVkEAJbG8rauLdQSUcj94gqe+Ues1bT7vJRElQlm46GKsR
+	e1CLophyGGZOa0Mey7nFRuHGdUTMMzw0WCaRlZQ3IAkbFEjtR0nAnPVhMtTVc6ZqrRpkPH
+	ciAOWatoqHSKfJus4ox0SssJKJ+eTxQHOtS1QdUQkHcewDvdumoYjKYfX/h80g98f6QCtW
+	Tf1+tgL6BixgjIKD+I63qAYKpXF6jPVhCYJ8wN9qTZ2pnEuJ95+FY41uZAaFc3mC/FJkPn
+	o/QDPdzIPWgL7uBsEdjYBL76cMtZZA/V5CRa4DaEeXnsOncCelP6Z0pFTMXIfQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1618223618;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IeSCzkLT2TMeD064rdqHLGZki7q9FiMEKUBGP2lah28=;
+	b=mFv0Bx9kAqb1f/heYquuq0cHNEKj9RxAiMiSk+K6nqcFWebS/8czH/Rp4qoCb6tCF46Lf/
+	43lpqtFX4DniNNCw==
+To: DENG Qingfang <dqfext@gmail.com>, "David S. Miller" <davem@davemloft.net>, Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>, Heiner Kallweit <hkallweit1@gmail.com>, Jakub Kicinski <kuba@kernel.org>, Landen Chao <Landen.Chao@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, Russell King <linux@armlinux.org.uk>, Sean Wang <sean.wang@mediatek.com>, Vivien Didelot <vivien.didelot@gmail.com>, Vladimir Oltean <olteanv@gmail.com>, Rob Herring <robh+dt@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sergio Paracuellos <sergio.paracuellos@gmail.com>, linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-staging@lists.linux.dev, devicetree@vger.kernel.org, netdev@vger.kernel.org
+Cc: Weijie Gao <weijie.gao@mediatek.com>, Chuanhong Guo
+ <gch981213@gmail.com>, =?utf-8?Q?Ren=C3=A9?= van Dorst
+ <opensource@vdorst.com>, Frank Wunderlich <frank-w@public-files.de>,
+ Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>
+Subject: Re: [RFC v4 net-next 3/4] dt-bindings: net: dsa: add MT7530 interrupt controller binding
+In-Reply-To: <20210412034237.2473017-4-dqfext@gmail.com>
+References: <20210412034237.2473017-1-dqfext@gmail.com> <20210412034237.2473017-4-dqfext@gmail.com>
+Date: Mon, 12 Apr 2021 12:33:36 +0200
+Message-ID: <8735vv6bcv.fsf@kurt>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
 
-On Monday, April 12, 2021 11:31:15 AM CEST Greg KH wrote:
-> On Sun, Apr 11, 2021 at 07:41:43PM +0200, Fabio M. De Francesco wrote:
-> > Remove variable "int ret" which is instantiated but not used.
-> > 
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > ---
-> > 
-> >  drivers/staging/rtl8192u/r8192U_core.c | 1 -
-> >  1 file changed, 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/rtl8192u/r8192U_core.c
-> > b/drivers/staging/rtl8192u/r8192U_core.c index
-> > f48186a89fa1..30055de66239 100644
-> > --- a/drivers/staging/rtl8192u/r8192U_core.c
-> > +++ b/drivers/staging/rtl8192u/r8192U_core.c
-> > @@ -902,7 +902,6 @@ static void rtl8192_hard_data_xmit(struct sk_buff
-> > *skb, struct net_device *dev,> 
-> >  				   int rate)
-> >  
-> >  {
-> >  
-> >  	struct r8192_priv *priv = (struct r8192_priv 
-*)ieee80211_priv(dev);
-> > 
-> > -	int ret;
-> > 
-> >  	unsigned long flags;
-> >  	struct cb_desc *tcb_desc = (struct cb_desc *)(skb->cb +
-> >  	MAX_DEV_ADDR_SIZE); u8 queue_index = tcb_desc->queue_index;
-> 
-> Did you test-build this patch?
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+
+On Mon Apr 12 2021, DENG Qingfang wrote:
+> Add device tree binding to support MT7530 interrupt controller.
 >
-Sorry, I don't know why I forgot to test it.
-I realized that this morning when I read a message from the kernel test 
-robot.
-I'll be more careful with future patches.
+> Signed-off-by: DENG Qingfang <dqfext@gmail.com>
+> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+> ---
+> RFC v3 -> RFC v4:
+> - Add #interrupt-cells property.
+>
+>  Documentation/devicetree/bindings/net/dsa/mt7530.txt | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/net/dsa/mt7530.txt b/Docum=
+entation/devicetree/bindings/net/dsa/mt7530.txt
+> index de04626a8e9d..892b1570c496 100644
+> --- a/Documentation/devicetree/bindings/net/dsa/mt7530.txt
+> +++ b/Documentation/devicetree/bindings/net/dsa/mt7530.txt
+> @@ -81,6 +81,12 @@ Optional properties:
+>  - gpio-controller: Boolean; if defined, MT7530's LED controller will run=
+ on
+>  	GPIO mode.
+>  - #gpio-cells: Must be 2 if gpio-controller is defined.
+> +- interrupt-controller: Boolean; Enables the internal interrupt controll=
+er.
+> +
+> +If interrupt-controller is defined, the following property is required.
+> +
+> +- #interrupt-cells: Must be 1.
+> +- interrupts: Parent interrupt for the interrupt controller.
+>=20=20
+>  See Documentation/devicetree/bindings/net/dsa/dsa.txt for a list of addi=
+tional
+
+That dsa.txt still exists, but it refers to the dsa.yaml binding. Any
+chance to convert this mt7530.txt to yaml as well? Then, device trees
+can be automatically validated for correct entries. There are a few
+examples of dsa yaml bindings already: ksz, b53, sf2, hellcreek, ...
 
 Thanks,
+Kurt
 
-Fabio
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-
-
+iQIzBAEBCgAdFiEEooWgvezyxHPhdEojeSpbgcuY8KYFAmB0IgAACgkQeSpbgcuY
+8Kb6eg/9FdeRCvEbOTCVRDtl5lsVRik6QqjbYTaQLNrkEUmOA9SrkbQ63yxhPF2i
+j7heR52USECwZDmiUG+P7CIlk9EIZhsgy4xQngJe8BvAa+Xai4Rybrn/0QIGv8Mp
+vlljoycO8z16JNQ4BV7ySXGb901RZFHEDH4MovM30fXwjWLgkV0nwzl87Wj9uisr
+jXob9CTbvf7h/+kdAfP3zm1vAscwLqS+JopIbp0qkUd+1B93LZ0E6hyzMTD0/IWp
+S3XQNRMOWeHOksTxmZAUvtVB+g2HeQZ4s0sXzPJjlJ2e4XSKQephjd1kjFxQcyJc
+Bw14tdWW3OdP6B2lai48RsswjximG50FQHLyUMtAJiiu0S96gC+OEbQY/tPB58K3
+KgmW3RCCGvefVtx+OcOiLVYUerGrdHNhteFtrNHxBL63OH1T0/UEfCnyeEq5GcXV
+LtfRbSJk2LoipSbyyqqbMptBXd5I5W8Ae5iNQ9eOmkZoG3Jmujh76mJAqV2CeIJd
+Rn3PKti1JwpI036y5s048CZoUd7ptSn3T2DoHTuuVuTGbvVVU8HaY/NJMMaU8CYI
+1+hluj/sJM9chjGwE270w8pgh8tQV5xnpzLDD54PcaWRiynfS7V2WMCnwdwMSNdT
+mz2F2GXEDDrlTaao5T4SpzvmDad9IdL0vLcR+nnH2ji3zoPzMKo=
+=+a88
+-----END PGP SIGNATURE-----
+--=-=-=--
