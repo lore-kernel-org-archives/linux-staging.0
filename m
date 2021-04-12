@@ -1,97 +1,47 @@
-Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0330872
-	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 16:44:09 +0000 (UTC)
-Date: Mon, 12 Apr 2021 16:43:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail3; t=1618245841;
-	bh=ulTTUCXOpo0fssqFzQfBnBrBbtR/MokXSuII90+RuVc=;
-	h=Date:To:From:Cc:Reply-To:Subject:From;
-	b=ol6tJ8AmtDDvJIkrKbmLFFWLZbjb5TMqNfc90hk+lUJ9nN48tmBVtYne0kFf5ihna
-	 fMaEPL38jbKqzQD3uzLu6oL5hem3Nsh9+7SWMXgPcDHCVIYhtqrv2iq0hI10mCvQqX
-	 UbJ5fW/zR8Zfe5a4LZigQTDJTVHgOcfDIhVRAlje1TKCKLBSQZLU9k+G8B47Q8er4x
-	 JOMPdwJHhQVxppX+Qku6jEVamFZecDbyrn/7SA+V3ZQngibcvwxxfZtgKo/geB5KqB
-	 WHdxk87Mn8ky47UFKwPZVNF8vj1lEPZM9UcN1zfx810Ij9MAAn6saosHKSAxHqMum3
-	 1RB6GqWvVnYmA==
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans de Goede <hdegoede@redhat.com>, Larry Finger <Larry.Finger@lwfinger.net>
-From: Bryan Brattlof <hello@bryanbrattlof.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, Bryan Brattlof <hello@bryanbrattlof.com>
-Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: [PATCH v2] staging: rtl8723bs: remove unnecessary adapter
-Message-ID: <20210412163650.42467-1-hello@bryanbrattlof.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D2A72
+	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 16:45:38 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3106161042;
+	Mon, 12 Apr 2021 16:45:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1618245937;
+	bh=YzJfpRRwHIL/702AQ7JNIjM04wJ0QxXSj4/2WU2D0Yo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=enPn3PDHLhw/lDt7On0cAtqD72stzBnSJQiVTR3LsgOEClrvOanEN1Jmulh2WTFbG
+	 wGkuIFFO8I+ciIUm9snU3Hep1VV4mXl2dutwDy3U8fabfo7K0CtbwmbKpdbak5rMrD
+	 1yETrg+Y4byb5Ye69LdOhq9IO5kUFQR4Z4EEOcTE=
+Date: Mon, 12 Apr 2021 18:45:35 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: remove unnecessary adapter
+Message-ID: <YHR5L2aSZ4hNNmT0@kroah.com>
+References: <20210412163650.42467-1-hello@bryanbrattlof.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-	autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-	mailout.protonmail.ch
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210412163650.42467-1-hello@bryanbrattlof.com>
 
-The if2 adapter is defined in rtw_dvr_init() and in the dvobj_priv
-structure but never used anywhere in the driver. This will remove all
-definitions of if2
+On Mon, Apr 12, 2021 at 04:43:56PM +0000, Bryan Brattlof wrote:
+> The if2 adapter is defined in rtw_dvr_init() and in the dvobj_priv
+> structure but never used anywhere in the driver. This will remove all
+> definitions of if2
+> 
+> Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
+> ---
+>  drivers/staging/rtl8723bs/include/drv_types.h |  1 -
+>  drivers/staging/rtl8723bs/os_dep/sdio_intf.c  | 10 ++++------
+>  2 files changed, 4 insertions(+), 7 deletions(-)
 
-Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
----
- drivers/staging/rtl8723bs/include/drv_types.h |  1 -
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c  | 10 ++++------
- 2 files changed, 4 insertions(+), 7 deletions(-)
+What changed from v1?  That goes below the --- line.
 
-diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/stagin=
-g/rtl8723bs/include/drv_types.h
-index 19da27fb5ddf..bf3de9a78f16 100644
---- a/drivers/staging/rtl8723bs/include/drv_types.h
-+++ b/drivers/staging/rtl8723bs/include/drv_types.h
-@@ -268,7 +268,6 @@ struct cam_entry_cache {
- struct dvobj_priv {
- =09/*-------- below is common data --------*/
- =09struct adapter *if1; /* PRIMARY_ADAPTER */
--=09struct adapter *if2; /* SECONDARY_ADAPTER */
-=20
- =09s32=09processing_dev_remove;
-=20
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging=
-/rtl8723bs/os_dep/sdio_intf.c
-index 7090c1b3cc2f..a9a9631dd23c 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -369,7 +369,7 @@ static int rtw_drv_init(
- =09const struct sdio_device_id *id)
- {
- =09int status =3D _FAIL;
--=09struct adapter *if1 =3D NULL, *if2 =3D NULL;
-+=09struct adapter *if1 =3D NULL;
- =09struct dvobj_priv *dvobj;
-=20
- =09dvobj =3D sdio_dvobj_init(func);
-@@ -383,17 +383,15 @@ static int rtw_drv_init(
- =09/* dev_alloc_name && register_netdev */
- =09status =3D rtw_drv_register_netdev(if1);
- =09if (status !=3D _SUCCESS)
--=09=09goto free_if2;
-+=09=09goto free_if1;
-=20
- =09if (sdio_alloc_irq(dvobj) !=3D _SUCCESS)
--=09=09goto free_if2;
-+=09=09goto free_if1;
-=20
- =09rtw_ndev_notifier_register();
- =09status =3D _SUCCESS;
-=20
--free_if2:
--=09if (status !=3D _SUCCESS && if2) {
--=09}
-+free_if1:
- =09if (status !=3D _SUCCESS && if1)
- =09=09rtw_sdio_if1_deinit(if1);
-=20
---=20
-2.27.0
-
-
+v3?
