@@ -1,171 +1,74 @@
-Received: from smtp.smtpout.orange.fr (smtp01.smtpout.orange.fr [80.12.242.123])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E6EA71
-	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 21:17:34 +0000 (UTC)
-Received: from [192.168.1.18] ([86.243.172.93])
-	by mwinf5d24 with ME
-	id rx9v2400321Fzsu03x9vcL; Mon, 12 Apr 2021 23:09:56 +0200
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Mon, 12 Apr 2021 23:09:56 +0200
-X-ME-IP: 86.243.172.93
-Subject: Re: [PATCH 2/3] staging: rtl8723bs: Use existing arc4 implementation
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-References: <7e16c40d5baa007dca81a12b967a597ed00d8dd7.1618055514.git.christophe.jaillet@wanadoo.fr>
- <6a4aebf9feb9ece975734f2e51da5ecae2996cee.1618055514.git.christophe.jaillet@wanadoo.fr>
- <YHQUH+Nqc/zS14Tb@kroah.com>
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Message-ID: <b37bc546-c087-0f9d-b16a-bfc2231e0849@wanadoo.fr>
-Date: Mon, 12 Apr 2021 23:09:55 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3938471
+	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 21:22:54 +0000 (UTC)
+IronPort-SDR: ItEGMVD3lByhcWo366AuATSM5u54YH64dGCbyeDilU6mvg/mX59Jvayv+J8fhy+1XG6ON5u3y3
+ sVGgGICw3SCQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9952"; a="173773382"
+X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
+   d="scan'208";a="173773382"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 14:22:53 -0700
+IronPort-SDR: w20xRPbCNHbZFV4m4XNmVa95UmIEMCg5aIdaO7+IhGBpJS5OGhALVd7CkDtoYszRuLy2sWGJpr
+ Pclup8EAGWSg==
+X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
+   d="scan'208";a="521337381"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 14:22:50 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+	by paasikivi.fi.intel.com (Postfix) with SMTP id B5855200E8;
+	Tue, 13 Apr 2021 00:22:48 +0300 (EEST)
+Date: Tue, 13 Apr 2021 00:22:48 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Mitali Borkar <mitaliborkar810@gmail.com>
+Cc: bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
+	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
+Subject: Re: [Outreachy kernel] Re: [PATCH 2/6] staging: media: intel-ipu3:
+ preferred __aligned(size) over __attribute__aligned(size)
+Message-ID: <20210412212248.GN3@paasikivi.fi.intel.com>
+References: <cover.1618180659.git.mitaliborkar810@gmail.com>
+ <f618f1fe2d13417ebed185da392fb48811593a9f.1618180660.git.mitaliborkar810@gmail.com>
+ <20210412094315.GJ3@paasikivi.fi.intel.com>
+ <YHRZSYmHfXTh/S39@kali>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YHQUH+Nqc/zS14Tb@kroah.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YHRZSYmHfXTh/S39@kali>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Le 12/04/2021 à 11:34, Greg KH a écrit :
-> On Sat, Apr 10, 2021 at 03:35:52PM +0200, Christophe JAILLET wrote:
->> Use functions provided by <crypto/arc4.h> instead of hand writing them.
->>
->> The implementations are slightly different, but are equivalent. It has
->> been checked with a test program which compares the output of the 2 sets of
->> functions.
->>
->> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
->> ---
->>   drivers/staging/rtl8723bs/core/rtw_security.c | 101 ++++--------------
->>   1 file changed, 21 insertions(+), 80 deletions(-)
->>
->> diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
->> index 9587d89a6b24..86949a65e96f 100644
->> --- a/drivers/staging/rtl8723bs/core/rtw_security.c
->> +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
->> @@ -6,6 +6,7 @@
->>    ******************************************************************************/
->>   #define  _RTW_SECURITY_C_
->>   
->> +#include <crypto/arc4.h>
->>   #include <linux/crc32poly.h>
->>   #include <drv_types.h>
->>   #include <rtw_debug.h>
->> @@ -31,66 +32,6 @@ const char *security_type_str(u8 value)
->>   
->>   /* WEP related ===== */
->>   
->> -struct arc4context {
->> -	u32 x;
->> -	u32 y;
->> -	u8 state[256];
->> -};
->> -
->> -
->> -static void arcfour_init(struct arc4context	*parc4ctx, u8 *key, u32 key_len)
->> -{
->> -	u32 t, u;
->> -	u32 keyindex;
->> -	u32 stateindex;
->> -	u8 *state;
->> -	u32 counter;
->> -
->> -	state = parc4ctx->state;
->> -	parc4ctx->x = 0;
->> -	parc4ctx->y = 0;
->> -	for (counter = 0; counter < 256; counter++)
->> -		state[counter] = (u8)counter;
->> -	keyindex = 0;
->> -	stateindex = 0;
->> -	for (counter = 0; counter < 256; counter++) {
->> -		t = state[counter];
->> -		stateindex = (stateindex + key[keyindex] + t) & 0xff;
->> -		u = state[stateindex];
->> -		state[stateindex] = (u8)t;
->> -		state[counter] = (u8)u;
->> -		if (++keyindex >= key_len)
->> -			keyindex = 0;
->> -	}
->> -}
->> -
->> -static u32 arcfour_byte(struct arc4context	*parc4ctx)
->> -{
->> -	u32 x;
->> -	u32 y;
->> -	u32 sx, sy;
->> -	u8 *state;
->> -
->> -	state = parc4ctx->state;
->> -	x = (parc4ctx->x + 1) & 0xff;
->> -	sx = state[x];
->> -	y = (sx + parc4ctx->y) & 0xff;
->> -	sy = state[y];
->> -	parc4ctx->x = x;
->> -	parc4ctx->y = y;
->> -	state[y] = (u8)sx;
->> -	state[x] = (u8)sy;
->> -	return state[(sx + sy) & 0xff];
->> -}
->> -
->> -static void arcfour_encrypt(struct arc4context *parc4ctx, u8 *dest, u8 *src, u32 len)
->> -{
->> -	u32 i;
->> -
->> -	for (i = 0; i < len; i++)
->> -		dest[i] = src[i] ^ (unsigned char)arcfour_byte(parc4ctx);
->> -}
->> -
->>   static signed int bcrc32initialized;
->>   static u32 crc32_table[256];
->>   
->> @@ -150,7 +91,7 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
->>   {																	/*  exclude ICV */
->>   
->>   	unsigned char crc[4];
->> -	struct arc4context	 mycontext;
->> +	struct arc4_ctx mycontext;
-> 
-> Are you sure you can declare that much space on the stack?  Is that what
-> other users of this api do?  In looking at the in-kernel users, they do
-> not :(
-> 
+Hi Mitali,
 
-In fact arc4context was a u8[256] but arc4_ctx uses a u32[256].
+On Mon, Apr 12, 2021 at 07:59:29PM +0530, Mitali Borkar wrote:
+> On Mon, Apr 12, 2021 at 12:43:15PM +0300, Sakari Ailus wrote:
+> > Hi Mitali,
+> > 
+> > On Mon, Apr 12, 2021 at 04:38:59AM +0530, Mitali Borkar wrote:
+> > > This patch fixes the warning identified by checkpatch.pl by replacing
+> > > __attribute__aligned(size) with __aligned(size)
+> > 
+> > Same comments on this than the 1st patch.
+> > 
+> > It's a staging driver so even if this is a user space header, it's not
+> > under include/uapi/linux.
+> >
+> Sir, I am not able to understandd what you are trying to say in this. As you
+> mentioned in patch 1/6, I removed and added header where BIT() macro under 
+> apprpriate userpace, but what should I modify in this patch?
 
-Maybe arc4 function should be modified to use u8? Or at least when
-CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS is defined?
+The comment on the 1st patch and above was a weird way of saying "please
+drop patches 1 and 2".
 
+BIT(), __aligned() and __packed are macros in kernel headers that generally
+are not available in headers exported for user space consumption.
 
+-- 
+Kind regards,
 
-Concerning the other uses of the arc4 API, in fact there is only few of 
-them. Most uses are buried into lib80211_crypt_tkip.c and 
-lib80211_crypt_wep.c which is the way to go, IMHO.
-In fact, I think that most, if not all 'rtl871x_security.c' could be 
-removed.
-
-However, it looks like a big step to me. And without any hardware to 
-test, I'm pretty sure to break something.
-
-
-Any hints on the best way to axe some duplicated code without to much 
-risks to break everything?
-
-CJ
-
-> Can you fix up this series to not take up so much stack memory?
-
-I guess that _adapter could be used to store this arc4_ctx, but I'm not 
-convinced that it is the way to go.
-
-CJ
-
-> 
-> thanks,
-> 
-> greg k-h
-> 
-
+Sakari Ailus
