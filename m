@@ -1,133 +1,98 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738B771
-	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 10:22:06 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 550316134F;
-	Mon, 12 Apr 2021 10:22:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1618222925;
-	bh=uJJiofvCn1YyOHVdzJpT5k6jhpAFdOwokAiFuFAoabs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jXRedCTGmXBypQ7+CbP7cNSsslBauM+S2DOuSoEGdA+2nny1r1rhWbLB4qYo8XaYV
-	 aDPtUjv9N4qfnZuurTFJgLrh9XXEziIvfRicZLpZZgH4ddONXke83oRXgwxMieOCgC
-	 lTDi+mDgXcs8C7r2QfEZ7BrUS7BucItVMw5OHzNE=
-Date: Mon, 12 Apr 2021 12:22:03 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8192u: Remove function
-Message-ID: <YHQfS3rb81ElJ6uQ@kroah.com>
-References: <20210411184813.22836-1-fmdefrancesco@gmail.com>
- <YHQWG2f34jhA41lK@kroah.com>
- <4388012.RVq5xMhMDq@linux.local>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3260F71
+	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 10:23:10 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id s15so14401344edd.4
+        for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 03:23:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=aDYfwXOX7CXJC5km5DlusEFEF+Nl5xWOkbGcpQvebPk=;
+        b=dpot/PDuWTxI0+YsjLFgYLzDEj6vgBZZXMNrC5eNX2r5KNR9iKUMwbnVJ3BjT1vNex
+         wSvgO0xYpng6v2cvxlxxCRq11pcF/DE7hoSDUMbKXRYT5KekR45y2Nq3ysC2ZIpwD60A
+         x+KcjDBwQquu8oosqncOGLRy67S0T+CGgm5HKD0eYbk3vjCK16gkdUWxSGGMFA3Gw2th
+         ddF2dtSOkIIa4diivQ++lhGNuGwicsn/6RariSY8/whcfMdjuc+3Z34zZ9WM2DMKn7WP
+         fzyFLCHBvMhd4M8K/hPezvjDvD0xXIUs4cBCHSOoMqUHN0fT7ioOasbstn/+FxMfg4Ey
+         Q+bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=aDYfwXOX7CXJC5km5DlusEFEF+Nl5xWOkbGcpQvebPk=;
+        b=bVTS19yZmSAybqfs9k5+33VvCofu3VkmRgKPOof3FrViw0BQWMDkLQiX527IeOyIOO
+         ynXzY3g+eyZBHXeRZ7RcX8lO3oRm4X71nCQQorqqv4ws6cD9CsS2SAyc5WO/0dZpX0vC
+         Cf+vdrG3Zo5rdyEBpi5bYFo2+tHBNg2zgX5Ligqy0hMLgRhvVhLf/vj+OxQukm822v9l
+         VuT58nSg+sxaI1Yfm9GXXXYMYIyWgjhQvIIXKlzDLPiwHGWeH6ki/gm2O4KKikB21kJp
+         UeIXkQhRUVPCy5yWeHJdlmnqfi28fbHzQzzsJ9CehotoLr9fkFOscEFGr4tW9TBk4T0v
+         3qFg==
+X-Gm-Message-State: AOAM530K3xgOO+Dbl6pYYWpiYZ8LkpxfT+XSVA6cwH1wD7Rga+Z06w0b
+	cFw+En/Qa3q0eFNH6GXhCio=
+X-Google-Smtp-Source: ABdhPJzcBYWukqy9abedu05uFLTelTQXauXhdaT4/d0FJPiqlSsW5qbhAnCE5YHP5PV2lJdpDCi/2g==
+X-Received: by 2002:a05:6402:2691:: with SMTP id w17mr21565207edd.81.1618222988753;
+        Mon, 12 Apr 2021 03:23:08 -0700 (PDT)
+Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
+        by smtp.gmail.com with ESMTPSA id w13sm6134925edc.81.2021.04.12.03.23.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Apr 2021 03:23:08 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8192u: Remove variable set but not used
+Date: Mon, 12 Apr 2021 12:23:07 +0200
+Message-ID: <269706412.I7xuoi7Q6o@linux.local>
+In-Reply-To: <YHQTY4fGJfsdSjXL@kroah.com>
+References: <20210411174143.31618-1-fmdefrancesco@gmail.com> <YHQTY4fGJfsdSjXL@kroah.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4388012.RVq5xMhMDq@linux.local>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, Apr 12, 2021 at 12:12:34PM +0200, Fabio M. De Francesco wrote:
-> On Monday, April 12, 2021 11:42:51 AM CEST Greg KH wrote:
-> > On Sun, Apr 11, 2021 at 08:48:13PM +0200, Fabio M. De Francesco wrote:
-> > > Remove cmpk_handle_query_config_rx() because it just initializes a
-> > > local
-> > > variable and then returns "void".
-> > > 
-> > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > > ---
-> > > 
-> > >  drivers/staging/rtl8192u/r819xU_cmdpkt.c | 40 ------------------------
-> > >  1 file changed, 40 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/rtl8192u/r819xU_cmdpkt.c
-> > > b/drivers/staging/rtl8192u/r819xU_cmdpkt.c index
-> > > 4cece40a92f6..d5a54c2d3086 100644
-> > > --- a/drivers/staging/rtl8192u/r819xU_cmdpkt.c
-> > > +++ b/drivers/staging/rtl8192u/r819xU_cmdpkt.c
-> > > @@ -249,46 +249,6 @@ static void cmpk_handle_interrupt_status(struct
-> > > net_device *dev, u8 *pmsg)> 
-> > >  	DMESG("<---- cmpk_handle_interrupt_status()\n");
-> > >  
-> > >  }
-> > > 
-> > > -/*--------------------------------------------------------------------
-> > > --------- - * Function:    cmpk_handle_query_config_rx()
-> > > - *
-> > > - * Overview:    The function is responsible for extract the message
-> > > from - *		firmware. It will contain dedicated info in
-> > > - *		ws-06-0063-rtl8190-command-packet-specification. 
-> Please
-> > > - *		refer to chapter "Beacon State Element".
-> > > - *
-> > > - * Input:       u8    *pmsg	-	Message Pointer of the 
-> command packet.
-> > > - *
-> > > - * Output:      NONE
-> > > - *
-> > > - * Return:      NONE
-> > > - *
-> > > - * Revised History:
-> > > - *  When		Who	Remark
-> > > - *  05/12/2008		amy	Create Version 0 porting from 
-> windows code.
-> > > - *
-> > > -
-> > > *---------------------------------------------------------------------
-> > > ------ - */
-> > > -static void cmpk_handle_query_config_rx(struct net_device *dev, u8
-> > > *pmsg) -{
-> > > -	struct cmpk_query_cfg	rx_query_cfg;
-> > > -
-> > > -	/* 1. Extract TX feedback info from RFD to temp structure 
-> buffer. */
-> > > -	/* It seems that FW use big endian(MIPS) and DRV use little 
-> endian in
-> > > -	 * windows OS. So we have to read the content byte by byte or
-> > > transfer
-> > > -	 * endian type before copy the message copy.
-> > > -	 */
-> > > -	rx_query_cfg.cfg_action		= (pmsg[4] & 0x80) >> 7;
-> > > -	rx_query_cfg.cfg_type		= (pmsg[4] & 0x60) >> 5;
-> > > -	rx_query_cfg.cfg_size		= (pmsg[4] & 0x18) >> 3;
-> > > -	rx_query_cfg.cfg_page		= (pmsg[6] & 0x0F) >> 0;
-> > > -	rx_query_cfg.cfg_offset		= pmsg[7];
-> > > -	rx_query_cfg.value		= (pmsg[8]  << 24) | 
-> (pmsg[9]  << 16) |
-> > > -					  (pmsg[10] <<  8) 
-> | (pmsg[11] <<  0);
-> > > -	rx_query_cfg.mask		= (pmsg[12] << 24) | 
-> (pmsg[13] << 16) |
-> > > -					  (pmsg[14] <<  8) 
-> | (pmsg[15] <<  0);
-> > > -}
-> > > -
-> > > 
-> > >  /*--------------------------------------------------------------------
-> > >  --------->  
-> > >   * Function:	cmpk_count_tx_status()
-> > >   *
+On Monday, April 12, 2021 11:31:15 AM CEST Greg KH wrote:
+> On Sun, Apr 11, 2021 at 07:41:43PM +0200, Fabio M. De Francesco wrote:
+> > Remove variable "int ret" which is instantiated but not used.
 > > 
-> > Always test-build your patches as they can not break the build.  You
-> > obviously did not do that here, why not?
-> >
-> I can't see that where the build of rtl8192u is broken. 
-> The following lines are from the compilation log:
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > ---
+> > 
+> >  drivers/staging/rtl8192u/r8192U_core.c | 1 -
+> >  1 file changed, 1 deletion(-)
+> > 
+> > diff --git a/drivers/staging/rtl8192u/r8192U_core.c
+> > b/drivers/staging/rtl8192u/r8192U_core.c index
+> > f48186a89fa1..30055de66239 100644
+> > --- a/drivers/staging/rtl8192u/r8192U_core.c
+> > +++ b/drivers/staging/rtl8192u/r8192U_core.c
+> > @@ -902,7 +902,6 @@ static void rtl8192_hard_data_xmit(struct sk_buff
+> > *skb, struct net_device *dev,> 
+> >  				   int rate)
+> >  
+> >  {
+> >  
+> >  	struct r8192_priv *priv = (struct r8192_priv 
+*)ieee80211_priv(dev);
+> > 
+> > -	int ret;
+> > 
+> >  	unsigned long flags;
+> >  	struct cb_desc *tcb_desc = (struct cb_desc *)(skb->cb +
+> >  	MAX_DEV_ADDR_SIZE); u8 queue_index = tcb_desc->queue_index;
 > 
-> git/kernels/staging> make -j8 drivers/staging/rtl8192u/
->  [...]
->  CC [M]  drivers/staging/rtl8192u/r819xU_cmdpkt.o
->  CC [M]  drivers/staging/rtl8192u/r819xU_cmdpkt.o
->  [...]
->  LD [M]  drivers/staging/rtl8192u/r8192u_usb.o
-> 
-> No errors are reported.
-> 
-> What am I missing?
+> Did you test-build this patch?
+>
+Sorry, I don't know why I forgot to test it.
+I realized that this morning when I read a message from the kernel test 
+robot.
+I'll be more careful with future patches.
 
-The function is used elsewhere in this file :(
+Thanks,
+
+Fabio
+
+
+
 
