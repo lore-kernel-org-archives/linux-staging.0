@@ -1,49 +1,39 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C2572
-	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 10:44:36 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id a85so8499154pfa.0
-        for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 03:44:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=X5Zkx3/PmOz226VDaHPUOrqvW4IVZLwxtVFG37YmhL8=;
-        b=n6rRbm0yTIltvNi1N0xtCXbdwwR4pWththrksGAIk8cNX8Y47peQO7IWknYwiDXZLU
-         4qagSnIRiu6be8BYQaH3u98xi+zt77IdpQGsF4q163GJ7NMjl/vx6DA7WLnz+87i57vl
-         BINM9ezkVYDbmNHfowukC/fiFpqhO9TL+svXSDT3vQ55qerPKK1r70UnPFtRDKQfE78J
-         LlpMfn2xqkoffESWahFHngiyHnpiLauczeXgGHB9Uqs+KhcAOMxlLoPkipFuSLHPSdh8
-         R28cFkm6+EYRTBMO0VR5C6VQb0tDI77EbK7J+0Zoej8QlmrQejj1kwi12m/rqgolflA/
-         o+fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=X5Zkx3/PmOz226VDaHPUOrqvW4IVZLwxtVFG37YmhL8=;
-        b=aUqnmxM8Ti3FXCZegVFWiI1V/GO4zvDpTz/MhLIYizMx9gC/fUIQQu9kBV/7gJPsyP
-         G08JMt0o3qLPBqZMH+Hrsp80H6Qjb1TLDpNDTXf12QdchELDNVwPRXJ7DoZDIiUDGACf
-         RLNUiKQ+6vsFtWVJ5UoMjZQQCUGJwU0GF8vLdGs7fgIt14md/kd1gO66neAp/4MD9nbD
-         yicV8lh+4ZxbMY/LP5Od9VkEd5gBGdWrRtR8PIpVNY4DEoJLcyAXhmq5ZwjPl/E6bGos
-         Avnig7pM3aG5cEpBsweif89OuGCHlPsI3SSgyycbmHYHoJo8Q/gnGly/87VK2jafmBYV
-         sQvQ==
-X-Gm-Message-State: AOAM530EtYFxsU2/k0x9RPGefLg832mkRCuIIzUJy1e8tFUJA+mKyJsZ
-	jVxikmwhot6BNBptIjArZ6o=
-X-Google-Smtp-Source: ABdhPJyBR5T/xmD4u4Gku3ZO/f4l7wjZcN1OtuDNGziMjhhgAqzGRwmQwp0GF3XZcv/CwZWVyMCUrA==
-X-Received: by 2002:aa7:943b:0:b029:23f:8fa1:5f11 with SMTP id y27-20020aa7943b0000b029023f8fa15f11mr23557569pfo.67.1618224276587;
-        Mon, 12 Apr 2021 03:44:36 -0700 (PDT)
-Received: from kali ([103.141.87.254])
-        by smtp.gmail.com with ESMTPSA id q19sm11005093pgv.38.2021.04.12.03.44.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Apr 2021 03:44:36 -0700 (PDT)
-Date: Mon, 12 Apr 2021 16:14:27 +0530
-From: Mitali Borkar <mitaliborkar810@gmail.com>
-To: nsaenzjulienne@susu.de, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: [PATCH v2 2/2] staging: vc04_services: rectify spelling mistake
-Message-ID: <967c328610909bc010b0bb82a1f89b71a57fa7a3.1618223171.git.mitaliborkar810@gmail.com>
-References: <cover.1618223171.git.mitaliborkar810@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD3C72
+	for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 10:45:11 +0000 (UTC)
+IronPort-SDR: NZxsGpcdt6QrozhnvZKTqvcHNbD1WYA5PLstI/jSIOd7QEfj0PMQ6ton2JLAfr4hf1W7srnYX/
+ 8N9yKzjXy3MA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="193724716"
+X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
+   d="scan'208";a="193724716"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 03:45:10 -0700
+IronPort-SDR: wNP5upRSfj+0qPIFk8LsJTDQpXOAuI/yI0IsV5BdDAzF2k4P5ylFG7zOxzTKz9zCWyrpV17/cF
+ Y0E4Ir68EnRA==
+X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
+   d="scan'208";a="420360141"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 03:45:07 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+	by paasikivi.fi.intel.com (Postfix) with SMTP id 54E71203D0;
+	Mon, 12 Apr 2021 13:44:35 +0300 (EEST)
+Date: Mon, 12 Apr 2021 13:44:35 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Mitali Borkar <mitaliborkar810@gmail.com>, bingbu.cao@intel.com,
+	tian.shu.qiu@intel.com, mchehab@kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
+	mitali_s@me.iitr.ac.in, laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH 1/6] staging: media: intel-ipu3: replace bit shifts with
+ BIT() macro
+Message-ID: <20210412104435.GL3@paasikivi.fi.intel.com>
+References: <cover.1618180659.git.mitaliborkar810@gmail.com>
+ <cc7b827a3264f08cedb76adddd16a34df48f935f.1618180659.git.mitaliborkar810@gmail.com>
+ <20210412094230.GI3@paasikivi.fi.intel.com>
+ <YHQXty07oAP1L0W9@kroah.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -51,32 +41,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1618223171.git.mitaliborkar810@gmail.com>
+In-Reply-To: <YHQXty07oAP1L0W9@kroah.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Corrected the misspelled word.
-Reported by checkpatch.
+Hi Greg,
 
-Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
----
- 
-Changes from v1:- No changes.
+On Mon, Apr 12, 2021 at 11:49:43AM +0200, Greg KH wrote:
+> On Mon, Apr 12, 2021 at 12:42:30PM +0300, Sakari Ailus wrote:
+> > Hi Mitali,
+> > 
+> > On Mon, Apr 12, 2021 at 04:38:39AM +0530, Mitali Borkar wrote:
+> > > Added #include <linux/bitops.h> and replaced bit shifts by BIT() macro.
+> > > This BIT() macro from linux/bitops.h is used to define IPU3_UAPI_GRID_Y_START_EN
+> > > and IPU3_UAPI_AWB_RGBS_THR_B_* bitmask.
+> > > Use of macro is better and neater. It maintains consistency.
+> > > Reported by checkpatch.
+> > > 
+> > > Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+> > > ---
+> > >  drivers/staging/media/ipu3/include/intel-ipu3.h | 7 ++++---
+> > >  1 file changed, 4 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/intel-ipu3.h
+> > > index edd8edda0647..589d5ccee3a7 100644
+> > > --- a/drivers/staging/media/ipu3/include/intel-ipu3.h
+> > > +++ b/drivers/staging/media/ipu3/include/intel-ipu3.h
+> > > @@ -5,6 +5,7 @@
+> > >  #define __IPU3_UAPI_H
+> > >  
+> > >  #include <linux/types.h>
+> > > +#include <linux/bitops.h>
+> > >  
+> > >  /* from /drivers/staging/media/ipu3/include/videodev2.h */
+> > >  
+> > > @@ -22,11 +23,11 @@
+> > >  #define IPU3_UAPI_MAX_BUBBLE_SIZE			10
+> > >  
+> > >  #define IPU3_UAPI_GRID_START_MASK			((1 << 12) - 1)
+> > > -#define IPU3_UAPI_GRID_Y_START_EN			(1 << 15)
+> > > +#define IPU3_UAPI_GRID_Y_START_EN			BIT(15)
+> > 
+> > This header is used in user space where you don't have the BIT() macro.
+> 
+> If that is true, why is it not in a "uapi" subdir within this driver?
+> 
+> Otherwise it is not obvious at all that this is the case :(
 
- drivers/staging/vc04_services/interface/TODO | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+It defines an interface towards the user space and the argument has been a
+staging driver shouldn't be doing that (for the lack of ABI stability),
+hence leaving it where it is currently.
 
-diff --git a/drivers/staging/vc04_services/interface/TODO b/drivers/staging/vc04_services/interface/TODO
-index adb28f46ba67..39810ce017cd 100644
---- a/drivers/staging/vc04_services/interface/TODO
-+++ b/drivers/staging/vc04_services/interface/TODO
-@@ -37,7 +37,7 @@ This should be fixed.
- 
- Even the VPU firmware doesn't support a VCHI re-connect, the driver
- should properly handle a module unload. This also includes that all
--resouces must be freed (kthreads, debugfs entries, ...) and global
-+resources must be freed (kthreads, debugfs entries, ...) and global
- variables avoided.
- 
- 5) Cleanup logging mechanism
+Also CC Laurent.
+
 -- 
-2.30.2
+Kind regards,
 
+Sakari Ailus
