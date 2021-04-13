@@ -1,87 +1,58 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FA071
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 12:30:47 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id r12so25639512ejr.5
-        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 05:30:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F75971
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 12:33:56 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id o20-20020a05600c4fd4b0290114265518afso8646927wmq.4
+        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 05:33:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pAgxhBv5/NtB+cWLkX3BpIezGlDEtSC6ik2muIVW1Gc=;
-        b=CxyDwaoJqNN/OwD7hAXxGSPuhJmXJM48x6CShyhYyO+l76LLtt8YRUsBDWgcCALiyR
-         rO54kBHPYbvfVh7ohrqZD0xVFPDcNgfn7P86G/txg+UOmxlMRXisdxIsFHHXA1NCHvQA
-         qmTm5tiEjL7F5dStR7q20BjNwsoQUGJJOEjqQahu84Snf6aqCP9RPi0C8q8YjhqsjjZ/
-         AGRDtvpGaEByPOLwXAeFduUkkzXiPcnRzvori0VT57wE4v+FUQ0VBUpD7SjBW7MOD9QD
-         U+RxaeaE62jBJ/OQV4clfralWwhWz2+wLXpsJ+2zhRJf/KXwGZaFh4KpuV+KIyL4Wx7Z
-         KKGQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VF1MXXyGrDHXIdllFbgniMv/v/labAzQbyRDen8apm4=;
+        b=AQFzJwJirfLp6ZjlqMGSMrcZevxKkz6/3d/3JbpA9NutXdX7qVzx/j3zpFqsSHFKjL
+         9da0UbOrP9Yo7eURxUmcyql5ttG108vN25dWqu0VsFl9OmuFbdKkYSqBNAKtINUIJUA8
+         Za1zUWh3bF5Rt7lQmgP695fw9WjVKU0mocH79Ndd1W2c50A3xXfzt740sqg6D897hl0z
+         IBWuCO+ehg/S3QUAF+TZ5prdnvnTMlgrUtoLFboYe/Sb8fWhFecrR8hnbwyPrw5uj3Dr
+         gHd1gxwu+CvgUUg4mInzN13rvhlkloWRr/9MvIqx2RE7uzPTtesUAFikQ9PhMvKpbTVp
+         yhuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pAgxhBv5/NtB+cWLkX3BpIezGlDEtSC6ik2muIVW1Gc=;
-        b=oV+sEgM3KNZl/i2it4seRAbnEyJA0TQ2QzqN0jik+EtDOufqz5Ckd+zV3CbxuMqxzT
-         u6qbr/zq5v0J+cJlhZR8V+TaY5/UFfVWUAkY65VID6esf3FDyZNkoZ3T5WuIhnZ1oBZS
-         iOCiD1RxbPaUlMDq0DQocH8Lj7mtsZ9pfkJKVGMe0AcptUKq7pF2a8gG1U0QK6v5ON0d
-         +jgCLGv774WmsObmZIhtPPhKdA5WIu16d1Ox2PUSvitBHA1dNsTN/F3L4Ax/2iFjxoiW
-         Kl3/ThEqDGiP/CaUGbtueIz+o2OsMrSifyGskxa7esEutg6SavuI/BAMVcJcjM/VA8ye
-         +vGA==
-X-Gm-Message-State: AOAM532n1Z3nj+3b8vZI93y7KRE4tO/v5+qEluKnwD6C5rd8ZxOCQsoB
-	JkXtBC8UGY7R1jpYHZf2wMI=
-X-Google-Smtp-Source: ABdhPJy3RUm5199KNZFcG3FHQV8zoLwzVvCxYhlXgazrCE7Jv9Oxy5BfBiNl7OdKuv4V91V9cuGGog==
-X-Received: by 2002:a17:906:1444:: with SMTP id q4mr32001626ejc.343.1618317045883;
-        Tue, 13 Apr 2021 05:30:45 -0700 (PDT)
-Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
-        by smtp.gmail.com with ESMTPSA id d22sm687391ejz.79.2021.04.13.05.30.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 05:30:45 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: outreachy-kernel@googlegroups.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [Outreachy kernel] [PATCH] staging: rtl8192u: ieee80211: Replaced strncpy() with strscpy()
-Date: Tue, 13 Apr 2021 14:30:41 +0200
-Message-Id: <20210413123041.24260-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.31.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VF1MXXyGrDHXIdllFbgniMv/v/labAzQbyRDen8apm4=;
+        b=ttQtqfy+l9obOGBLgm9FPbImiT0POxaTqc8Nt8zvYcG6EURyPdF/SDilBkSxgZpPLS
+         2NE13Jg0gzZ2LfxO9zogHE7iffSKIFBENvPNvhWMjHx1nLkcdrVD2lM5qO9mhNgK9J+j
+         wfwLG6vYVCO4qJqfvVqijea3t47DhH00jMSozgWBa78mdYjUqfKguEzJ6ltgFGPauX9R
+         7HFbOL+f6bvyW1OsHmDssfkK87K5HNL6bmX+QtUp1F1OGR7ztUDjOR9lH5qU+9RUAwl2
+         R7u2MOYs6EBmxyF45k9PRFk8qSY9nKLNkEATn9fm0iApEgjIVcxFuz0dh4sntR6N7F1H
+         k3dA==
+X-Gm-Message-State: AOAM5336zSUcvf8zy7VaGRXBoM5l6v/zlIXAqykXqmuK813535Kq6QHo
+	gjbk3AcKw6N83C4dZYOlkMoPDYNbDL1vB663rBQ=
+X-Google-Smtp-Source: ABdhPJxfn/Wr38Giv9fgJ84d77wrkjhlkTZEsxk4OEmgu0hdMlrJBx3f+4BRTn+zGo9qHDJ+rTI2tto4LwFSiMaA49o=
+X-Received: by 2002:a05:600c:4f55:: with SMTP id m21mr3934608wmq.11.1618317234524;
+ Tue, 13 Apr 2021 05:33:54 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1618275183-56792-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1618275183-56792-1-git-send-email-tiantao6@hisilicon.com>
+From: Sven Van Asbroeck <thesven73@gmail.com>
+Date: Tue, 13 Apr 2021 08:33:43 -0400
+Message-ID: <CAGngYiXRjaP6zFsZUKAzUHT1JxkFdQt+bdzxj7jX4uRpTkmUVA@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: fieldbus: simplify devm_anybuss_host_common_probe
+To: Tian Tao <tiantao6@hisilicon.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Replaced strncpy() with strscpy() because of compilation time warnings
-about possible truncation of output [-Wstringop-truncation].
-Furthermore, according to the Linux official documentation, strscpy() is
-preferred to strncpy.
+Looking good to me. Thank you for the contribution !
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-index 25ea8e1b6b65..aa58eedf5e86 100644
---- a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-+++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-@@ -1385,12 +1385,12 @@ inline void ieee80211_softmac_new_net(struct ieee80211_device *ieee, struct ieee
- 			 * essid provided by the user.
- 			 */
- 			if (!ssidbroad) {
--				strncpy(tmp_ssid, ieee->current_network.ssid, IW_ESSID_MAX_SIZE);
-+				strscpy(tmp_ssid, ieee->current_network.ssid, IW_ESSID_MAX_SIZE);
- 				tmp_ssid_len = ieee->current_network.ssid_len;
- 			}
- 			memcpy(&ieee->current_network, net, sizeof(struct ieee80211_network));
- 
--			strncpy(ieee->current_network.ssid, tmp_ssid, IW_ESSID_MAX_SIZE);
-+			strscpy(ieee->current_network.ssid, tmp_ssid, IW_ESSID_MAX_SIZE);
- 			ieee->current_network.ssid_len = tmp_ssid_len;
- 			netdev_info(ieee->dev,
- 				    "Linking with %s,channel:%d, qos:%d, myHT:%d, networkHT:%d\n",
--- 
-2.31.1
-
+On Mon, Apr 12, 2021 at 8:52 PM Tian Tao <tiantao6@hisilicon.com> wrote:
+>
+> Use devm_add_action_or_reset() instead of devres_alloc() and
+> devres_add(), which works the same. This will simplify the
+> code. There is no functional changes.
+>
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
