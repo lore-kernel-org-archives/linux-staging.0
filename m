@@ -1,107 +1,87 @@
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-oln040092075065.outbound.protection.outlook.com [40.92.75.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6491C70
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 08:16:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nqvk1m+g8HSYN/nSz2HXCWjecI3ztf7Fhmohh3SICQwPCnUHCjRbvuMAneNEP7MQDO+W8W1hBFwwKHB8hAd3cGhLBikfnTPuri6F4irRbv2cXfbg1hJyWGtzJcKsixvwytJLMGd6gd5A6BjZPT15j5FDm6jO1cm+n9vnvGOPDsUXgWACbLduVDq36pqtAHPNAwqa3H4+b32jIekgqPVixhAqQ0WTpEsoU6+NDBaj2lphxk4UQiutzKMR1V0KjLkWCy7R8H3PVhWQw329WAG3njG7NbJR2HL5+1750atU6QqSiaN5OD9npIrA6THTIEAplcx8+SWi24vjf/h3bGNGHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z4AWzqTzAG2rdZpscGGBKR9wvYLK3+R5Gv6kXYJeSKU=;
- b=Nh6XBF3VCSEUrGpE0OTtqo7TB4qYU1DxLGNQaRa/lEb+gFVBJYNr1JC2TDiIC8IAvdzzO+/Y+vpz0ifRW0BkWUUJXoYwzx+aDieF+SDr/v6aTxHSSElc0K3n825Q9RuIXhpcReMRrGqwhfWULIPQfNtUL5O9H038zmm2iEKjIUKag2/XH2I3OKl0BhUATvpdkujPtK3HSbgPROh91mE3JlgFt3PUcOSF4nMou4h5TCZfQLECN6gWkui8DwsjT+Taa32BaAPGnceABNyqqj0fV2aT0LLFuWsMr9mLKNEX+VRSZzHAkc5RhUCsJoncRRvqALV9p5FGa46cyzzWExfU1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z4AWzqTzAG2rdZpscGGBKR9wvYLK3+R5Gv6kXYJeSKU=;
- b=dYXQYjtHNshrTJiee3aa0Vnh6G+o4yJUmGeqKkmK97guJE9C8ftch6mOvKeUkhEyhGXuyeQRHn5kSb0Wc378BpRfsZPiKbt2C2ffWk+wseh5LxbTcapsuHaRuuUYXW8wFhcfEJ64hxyxxZesOt800pIdpOxnyZuZSmA/oVEn2LXhI/4XMIz0FgmQx6+AWfu3BVvhGx+wmWq+Ge3fkz/trGKoG6GVHOz5NVDHCyKkCacca7hqXreSJ9FfSE/cdbc40bekcMLTogbRRm9j7HhImI86fvYoVw8td3eW4SpxMBDhdbuJfYjfstDlOjQuAQ2D03aqRxZIFQR+4ruIMltVYg==
-Received: from VI1EUR04FT048.eop-eur04.prod.protection.outlook.com
- (2a01:111:e400:7e0e::4c) by
- VI1EUR04HT172.eop-eur04.prod.protection.outlook.com (2a01:111:e400:7e0e::161)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17; Tue, 13 Apr
- 2021 08:16:48 +0000
-Received: from AM0PR01MB4259.eurprd01.prod.exchangelabs.com
- (2a01:111:e400:7e0e::42) by VI1EUR04FT048.mail.protection.outlook.com
- (2a01:111:e400:7e0e::259) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17 via Frontend
- Transport; Tue, 13 Apr 2021 08:16:48 +0000
-X-IncomingTopHeaderMarker:
- OriginalChecksum:B23A13BA061885BDCE1480CA385425818C984A31AE2FF9521B59CF3408CDE234;UpperCasedChecksum:70D87F1691DAC5600AEA4C6E5B8EC8E6B6842D7315D8752C560680AE24E9DEB7;SizeAsReceived:7354;Count:44
-Received: from AM0PR01MB4259.eurprd01.prod.exchangelabs.com
- ([fe80::18c2:36c1:2595:c74d]) by AM0PR01MB4259.eurprd01.prod.exchangelabs.com
- ([fe80::18c2:36c1:2595:c74d%6]) with mapi id 15.20.4020.022; Tue, 13 Apr 2021
- 08:16:48 +0000
-Date: Tue, 13 Apr 2021 10:16:37 +0200
-From: Mikko Talikka <mikko.talikka@live.com>
-To: gregkh@linuxfoundation.org
-Cc: abbotti@mev.co.uk, hsweeten@visionengravers.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: comedi: adv_pci_dio: remove whitespace
-Message-ID:
- <AM0PR01MB42597C4CAA1B9E51D4AE3D5E974F9@AM0PR01MB4259.eurprd01.prod.exchangelabs.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-TMN: [O2lj88HIoQl/6mJFuY0h/mQi1ZD8XrGS]
-X-ClientProxiedBy: PR0P264CA0218.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:100:1e::14) To AM0PR01MB4259.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:6f::27)
-X-Microsoft-Original-Message-ID: <YHVTZcSChScebk1j@localhost.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E97CE71
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 09:04:05 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id m9so2895558wrx.3
+        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 02:04:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=qAycWgL50Bb206IaW++W2ixsVOoTd8eyjvhFQR4cHts=;
+        b=rJmE+oeCKQqym+3INuHfS/BbPhfPCQO+TBuJJzrhd6TgDvAX+BpDSa8sVHElkL0/SD
+         bdsKrG+bMPsHoTBhJB0OvTCp2wvQOMRfJsUKp4Hagx91VzQ1ad+LGa9Bb9Mj0vBiKemG
+         cu9aLsOzBNdYcJSth/g7Y14djCTebwThuZD6TWSg3aSrgx+tUutbYuc8t01jKHj50ats
+         YpnU6+KUieFh07bezbrVUVtBF317BJmQyc2Yei5uXNHN9XKhaGpgd2WCGLgxPujb31tx
+         JC+5zPHvbUG/f0K5YTBUry5G+Y4NsPjx8jWURDI6iwFDQUbYJ9Y9E/0xleXPc4gaaMAN
+         9EAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=qAycWgL50Bb206IaW++W2ixsVOoTd8eyjvhFQR4cHts=;
+        b=D0xioA4YUJmtvw2omcocXu6igY/roiO0xA2m6YeA/4xJUgV2q0zaRFfZmwBLRtRh5j
+         oOBzhpGVHv5pvmdsug6iqmnr17z/KHZUDCnbC8zVRwZ8HJ3FrP8nFQ8XAJlqie2srILC
+         lSv8UrILvWcXgiIPbIhuRvMcXQ8ZDzCaNIcr4Hxcji20dkk6T4GADHKM1xgWh0mbf0FU
+         N23pUQKMrA5rWKB3GxjtjA3gmmYU46hsUVI3//GRmhbvd97VIubljv3JpfeHdts563KF
+         d09+lOgMfVhBgMA3cU8oqCJED4FEypR7uAUQaKfxihF4h8UlIeYglUXIz3otnWLDhVQL
+         3Pyg==
+X-Gm-Message-State: AOAM533Ru/3fAZkrTt2c19R7A2ErckC+9XoCIJXMPYx4V6EXKA71RTAq
+	bERMtwpiFNOs0FVQbsQXvoQ=
+X-Google-Smtp-Source: ABdhPJxDqNctt3Zm6LpWHn9ldjzDoS5gfH8D62Bn62qiJ1xCmEbvhdcWM2q2docMiG7y7MCkPzxdFw==
+X-Received: by 2002:adf:f543:: with SMTP id j3mr34999738wrp.259.1618304644560;
+        Tue, 13 Apr 2021 02:04:04 -0700 (PDT)
+Received: from agape.jhs ([5.171.81.136])
+        by smtp.gmail.com with ESMTPSA id g84sm1801370wmf.30.2021.04.13.02.04.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Apr 2021 02:04:04 -0700 (PDT)
+Date: Tue, 13 Apr 2021 11:04:01 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: gregkh@linuxfoundation.org, joe@perches.com, julia.lawall@inria.fr
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: cocci script hints request
+Message-ID: <20210413090400.GA5477@agape.jhs>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (89.172.40.255) by PR0P264CA0218.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:1e::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17 via Frontend Transport; Tue, 13 Apr 2021 08:16:47 +0000
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 44
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 5e0fdc2e-39ce-4687-4de1-08d8fe547bb0
-X-MS-TrafficTypeDiagnostic: VI1EUR04HT172:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	DP87mcKzggo4HtEbX0V4gQ5XQc1IYPrahceaYhLt7gFP+fa/bCRjKqdJd3dGO2Jap1xtHHjWD2R/4ogeTbs/gcK9hnBdpLrVYmKMOtXX2qoxXBI3Rd964tXhh2vEogBLx3Nkwxb+rbkYobE/jsm9rg5J278fmDSmRbulLnk1CL8SRde+fATEuW01h7KbGtOseVFDUZkWBTL86q2ZTGaww7Z3QqShNUPH/1P3YGTmFmsW4uOgyS+z2SDTDGmdn4KG47YhFBFFPsCgo7Ew6tjxnX3uwjf20VtF4A2APAtxGQrZZTRS38L5Rg9apovvzJQSHtUgKSHJq42cczoQi8XCSHcE2aflU1Ja/DnSNjM7VoYRQ65to48ASaoGV5luQBOvbOPzrU5a5CC7QhEiEWNq3g==
-X-MS-Exchange-AntiSpam-MessageData:
-	W1fMrc6GxpHm48epRelJ2o2NjecJIXZJdC212jRYuK2xaeuaWWNne2QaPuz9WLLXaV7Yplk6LWPcEj54Epo83wiybY0xJ8jt+++88Hg55c/thdR+NWcl6Zg91ESznP9nwUJkRyai5D9MWg5gqkU3bg==
-X-OriginatorOrg: live.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e0fdc2e-39ce-4687-4de1-08d8fe547bb0
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2021 08:16:48.3632
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-AuthSource:
-	VI1EUR04FT048.eop-eur04.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1EUR04HT172
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Fixed checkpatch.pl warning:
+Hi,
 
-CHECK: Blank lines aren't necessary before a close brace '}'
-+
-+               }
+I would like to improve the following coccinelle script:
 
-Signed-off-by: Mikko Talikka <mikko.talikka@live.com>
----
- drivers/staging/comedi/drivers/adv_pci_dio.c | 1 -
- 1 file changed, 1 deletion(-)
+@@
+expression a, fmt;
+expression list var_args;
+@@
 
-diff --git a/drivers/staging/comedi/drivers/adv_pci_dio.c b/drivers/staging/comedi/drivers/adv_pci_dio.c
-index 8e222b6ff2b4..54c7419c8ca6 100644
---- a/drivers/staging/comedi/drivers/adv_pci_dio.c
-+++ b/drivers/staging/comedi/drivers/adv_pci_dio.c
-@@ -604,7 +604,6 @@ static int pci_dio_auto_attach(struct comedi_device *dev,
- 						? pci_dio_insn_bits_di_w
- 						: pci_dio_insn_bits_di_b;
- 			s->private	= (void *)d->addr;
--
- 		}
- 	}
- 
--- 
-2.30.2
+-       DBG_871X_LEVEL(a, fmt, var_args);
++       printk(fmt, var_args);
 
+I would  replace the DBG_871X_LEVEL macro with printk, but
+I can't find a way to add KERN_* constant prefix to the fmt
+argument in the + code line. If i try this
+
+@@
+expression a, fmt;
+expression list var_args;
+@@
+
+-       DBG_871X_LEVEL(a, fmt, var_args);
++       printk(KERN_DEBUG fmt, var_args);
+
+plus: parse error: 
+  File "../test.cocci", line 94, column 20, charpos = 1171
+  around = 'fmt',
+  whole content = +	printk(KERN_DEBUG fmt, var_args);
+
+how could I do this?
+
+thank you in advance,
+
+fabio
