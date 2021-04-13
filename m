@@ -1,50 +1,50 @@
 Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DE172
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 18:17:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4467B72
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 18:21:08 +0000 (UTC)
 Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-	by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13DI9xJ8196156;
-	Tue, 13 Apr 2021 18:17:29 GMT
+	by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13DIA0X9196183;
+	Tue, 13 Apr 2021 18:21:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
  : subject : message-id : references : mime-version : content-type :
  in-reply-to; s=corp-2020-01-29;
- bh=F+1v+yIScK3Z0cLFoMNXHBXlxp/8G6ap/elyXl4WIHg=;
- b=Ci7afjVXTtJKTW/ZtERoTqO4RrHFdUKLlRW8gkzAQcNN4JINoN+s5aDEr/T7bTj9AChf
- ZHMBV8rNR/1LUx4M5URKbroB+KeSqnZDOJP5bUOLBU5JJWtgpmaN0duveYQvJLmqSZi6
- 09p4GUnBKIjsSZQ/6JZTlD9T2SoUrfjTjGYSvX2T/Uen2vlx3QZDBdBi86JMC1xaG77w
- VpMCdMxEYh+9E6HM99ms+DNVdoEA1k0ytWWr8jNMRURkID9YTI8iDmDt9aSNs6np6b5m
- NIrHzrWABmpLjM8gWy8xhGIHWqPK9dA5VbjnRgFnKEAeg8gpcGm10HI2nYpuwsoX/qng TQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by userp2130.oracle.com with ESMTP id 37u3erg25t-1
+ bh=zJmMkPWwEHnOFNx4ivbLmpeaymE1s3KJ3peFswgFjwY=;
+ b=Kz82JCk912rEHsVJnuMfsqwRct74ZYpiSyuQQmrkD57v3S5jmDXBR/BZA99ydZ6R2ij4
+ XybjaP5583EBOkD3KCpCFSBWXrkb+6jMlQUK7huhCPMUNyYMEu4SxneK10dZD5QUnSNJ
+ 6GQBRdhic7Izhu7LukZtc/SEzksGCa1x3Q9pBes1kycindtvTd8EbeYKi1MflqJ8/aVi
+ GKP9ed6BxW49GHFLlhAp3hv3e6nb9SQ8Ktx+UhJlaYt6/LPLcnjJpkyn0gEjF3QMuWO7
+ ptMubslnUkWkf90VVFZsfinK2CCjC3EsG7+7QxMT3NigNR0FYwfbBJks7RHkKGuoEyDe +Q== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by userp2130.oracle.com with ESMTP id 37u3erg2fc-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 13 Apr 2021 18:17:28 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13DI9fIS022035;
-	Tue, 13 Apr 2021 18:17:27 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-	by aserp3020.oracle.com with ESMTP id 37unx04wnc-1
+	Tue, 13 Apr 2021 18:21:00 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13DIBTOL004221;
+	Tue, 13 Apr 2021 18:20:59 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by userp3020.oracle.com with ESMTP id 37unssrb0w-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 13 Apr 2021 18:17:27 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
-	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13DIHKIP031139;
-	Tue, 13 Apr 2021 18:17:20 GMT
+	Tue, 13 Apr 2021 18:20:59 +0000
+Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13DIKv8P020610;
+	Tue, 13 Apr 2021 18:20:57 GMT
 Received: from kadam (/102.36.221.92)
 	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Tue, 13 Apr 2021 18:17:20 +0000
-Date: Tue, 13 Apr 2021 21:17:12 +0300
+	with ESMTP ; Tue, 13 Apr 2021 11:20:56 -0700
+Date: Tue, 13 Apr 2021 21:20:50 +0300
 From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Mitali Borkar <mitaliborkar810@gmail.com>
-Cc: sakari.ailus@linux.intel.com, bingbu.cao@intel.com, tian.shu.qiu@intel.com,
-        mchehab@kernel.org, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
-        mitali_s@me.iitr.ac.in
-Subject: Re: [PATCH v3 4/4] staging: media: intel-ipu3: remove space before
- tabs
-Message-ID: <20210413181712.GI6021@kadam>
-References: <cover.1618326535.git.mitaliborkar810@gmail.com>
- <01ad7ff353f805dfc48e7bcc26ed974e7bb5ef9f.1618326535.git.mitaliborkar810@gmail.com>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Julia Lawall <julia.lawall@inria.fr>, outreachy-kernel@googlegroups.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [Outreachy kernel] [PATCH] :staging: rtl8723bs: Remove useless
+ led_blink_hdl()
+Message-ID: <20210413182050.GJ6021@kadam>
+References: <20210413155908.8691-1-fmdefrancesco@gmail.com>
+ <1843649.8FsqevVC75@linux.local>
+ <alpine.DEB.2.22.394.2104131826160.8430@hadrien>
+ <3381109.TaO10cqo9c@linux.local>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -52,50 +52,109 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <01ad7ff353f805dfc48e7bcc26ed974e7bb5ef9f.1618326535.git.mitaliborkar810@gmail.com>
+In-Reply-To: <3381109.TaO10cqo9c@linux.local>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Proofpoint-IMR: 1
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
- mlxscore=0 malwarescore=0 adultscore=0 bulkscore=0 spamscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
+ malwarescore=0 suspectscore=0 bulkscore=0 mlxscore=0 spamscore=0
  phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2104060000 definitions=main-2104130123
-X-Proofpoint-ORIG-GUID: DWT0JG83Ahgw0Uf143jhZJqIDTuuAyuC
-X-Proofpoint-GUID: DWT0JG83Ahgw0Uf143jhZJqIDTuuAyuC
+X-Proofpoint-ORIG-GUID: D77uMoNZ9pSonbrsXGT2AVbjHDFVxWIe
+X-Proofpoint-GUID: D77uMoNZ9pSonbrsXGT2AVbjHDFVxWIe
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 clxscore=1011
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 clxscore=1031
  adultscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 spamscore=0
  impostorscore=0 suspectscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
  definitions=main-2104130123
 
-On Tue, Apr 13, 2021 at 08:59:34PM +0530, Mitali Borkar wrote:
-> Removed unnecessary space before tabs to adhere to linux kernel coding
-> style.
-> Reported by checkpatch.
+On Tue, Apr 13, 2021 at 06:47:06PM +0200, Fabio M. De Francesco wrote:
+> On Tuesday, April 13, 2021 6:27:17 PM CEST Julia Lawall wrote:
+> > On Tue, 13 Apr 2021, Fabio M. De Francesco wrote:
+> > > On Tuesday, April 13, 2021 6:04:16 PM CEST Julia Lawall wrote:
+> > > > On Tue, 13 Apr 2021, Fabio M. De Francesco wrote:
+> > > > > Removed the led_blink_hdl() function (declaration, definition, and
+> > > > > caller code) because it's useless. It only seems to check whether
+> > > > > or
+> > > > > not a given pointer is NULL. There are other (simpler) means for
+> > > > > that
+> > > > > purpose.
+> > > > > 
+> > > > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > > > > ---
+> > > > > 
+> > > > >  drivers/staging/rtl8723bs/core/rtw_cmd.c         | 1 -
+> > > > >  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    | 9 ---------
+> > > > >  drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 1 -
+> > > > >  3 files changed, 11 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> > > > > b/drivers/staging/rtl8723bs/core/rtw_cmd.c index
+> > > > > 0297fbad7bce..4c44dfd21514 100644
+> > > > > --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> > > > > +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> > > > > @@ -150,7 +150,6 @@ static struct cmd_hdl wlancmds[] = {
+> > > > > 
+> > > > >  	GEN_MLME_EXT_HANDLER(0, h2c_msg_hdl) /*58*/
+> > > > >  	GEN_MLME_EXT_HANDLER(sizeof(struct SetChannelPlan_param),
+> > > > >  	set_chplan_hdl) /*59*/>
+> > > > > 
+> > > > > -	GEN_MLME_EXT_HANDLER(sizeof(struct LedBlink_param),
+> > > 
+> > > led_blink_hdl)
+> > > 
+> > > > > /*60*/
+> > > > 
+> > > > This is worrisome.  Doyou fully understand the impact of this?  If
+> > > > not,
+> > > > the change is probably not a good idea.
+> > > 
+> > > This is that macro definition:
+> > > 
+> > > #define GEN_MLME_EXT_HANDLER(size, cmd) {size, cmd},
+> > > 
+> > > struct C2HEvent_Header {
+> > > 
+> > > #ifdef __LITTLE_ENDIAN
+> > > 
+> > >         unsigned int len:16;
+> > >         unsigned int ID:8;
+> > >         unsigned int seq:8;
+> > > 
+> > > #else
+> > > 
+> > >         unsigned int seq:8;
+> > >         unsigned int ID:8;
+> > >         unsigned int len:16;
+> > > 
+> > > #endif
+> > > 
+> > >         unsigned int rsvd;
+> > > 
+> > > };
+> > > 
+> > > It's a bit convoluted with regard to my experience. Probably I don't
+> > > understand it fully, but it seems to me to not having effects to the
+> > > code where I removed its use within core/rtw_cmd.c.
+> > > 
+> > > What am I missing?
+> > 
+> > It seems that the function is being put into an array.  Probably someone
+> > expects to find it there.  Probably you have shifted all of the functions
+> > that come afterwards back one slot so that they are all in the wrong
+> > places.
+> > 
+> > julia
+> >
+> Thanks for your explanation. Obviously this implies that the function 
+> cannot be removed, unless one fill the slot that is deleted by to not 
+> calling this macro at the right moment. 
 > 
-> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
-> ---
->  
-> Changes from v2:- No changes.
-> Changes from v1:- No changes.
-> 
->  drivers/staging/media/ipu3/include/intel-ipu3.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/intel-ipu3.h
-> index 47e98979683c..42edac5ee4e4 100644
-> --- a/drivers/staging/media/ipu3/include/intel-ipu3.h
-> +++ b/drivers/staging/media/ipu3/include/intel-ipu3.h
-> @@ -633,7 +633,7 @@ struct ipu3_uapi_bnr_static_config_wb_gains_thr_config {
->   * @cg:	Gain coefficient for threshold calculation, [0, 31], default 8.
->   * @ci:	Intensity coefficient for threshold calculation. range [0, 0x1f]
->   *	default 6.
-> - * 	format: u3.2 (3 most significant bits represent whole number,
-> + *format: u3.2 (3 most significant bits represent whole number,
->   *	2 least significant bits represent the fractional part
+> I also suppose that providing a function pointer with a NULL value wouldn't 
+> work either.
 
-Just remove the spaces, don't remove the tab.  It's looks silly now.
+It would work.  That array is full of NULL function pointers.
 
 regards,
 dan carpenter
