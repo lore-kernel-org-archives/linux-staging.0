@@ -1,97 +1,143 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5193971
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 13:16:20 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 41781611C9;
-	Tue, 13 Apr 2021 13:16:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1618319779;
-	bh=52pCO/Ubuan7rPzq3r31wCXDbf6qMbBIH5fFiq9gt+c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fwP8Nd+L4ncHkZQX6pzVY0hqT4y9UILLukBCFlGDtcoOPUPylWvpsN+yX6d5r48zY
-	 oG33aPwqpeCgVk+csC0mpe7k3f7Rdrm+AFi1uSO8iGqMk/G8/4fVE6PercvNU0orIm
-	 j0wc5J6spqGFbTIdNh45w/wU+mJ43OQqHUR2SQjs=
-Date: Tue, 13 Apr 2021 15:16:17 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8192u: ieee80211:
- Replaced strncpy() with strscpy()
-Message-ID: <YHWZoY6B8sOiflwy@kroah.com>
-References: <20210413123041.24260-1-fmdefrancesco@gmail.com>
- <YHWVsahY4nfo9xF/@kroah.com>
- <4666289.4L6Ep8XSK1@linux.local>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230C671
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 13:24:34 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id w23so10088614ejb.9
+        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 06:24:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=fpmataO6y6J5iqfwR2qd4Wivtgq/Ar9WsoWwLjvHy0c=;
+        b=mNKYVtFGVLLXwE9Omr3M9RfH65jYaxtIcovHMYS75vwg5DtsqE0ANHMMNMXuU9D1C6
+         5vFZr4vbdzaN5euprooz/ytbGt6b1w+IQLv4QycvwO+NvZO0Wg5uenGd30qOJTGbBwFT
+         Tnk7f71jgBqHDvFhsybf966K1L4fJooXpcfv4jLTAzLK9jWoExePErAj7cSGeU/xZDkT
+         e5ZfZGcV7iax+F4kZYVqh+8CdbaYWxHiDH4WYmOWfnOFSrr5ByOyRN/W0pgNNjRsSFDQ
+         vCuVKlngJfe4cHt39zvRY51J1d50fIHYc+sQVmwrc6RS4koH6YBJHroh12jnX7o33A7Y
+         eYdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=fpmataO6y6J5iqfwR2qd4Wivtgq/Ar9WsoWwLjvHy0c=;
+        b=gdQ84LXp6hCrmECfaowtRw+mon1oeNf2zgUmnllfWo2d4+xlXfCfpVn0iWTy+PJk41
+         V7h7WAkDrMJiAcLNaCVmkrIN/vnw+C9zl4jBuCbBjzbQNX6bTOCJwl80n9ce2MCVrtOu
+         lWi+Lnv59YctKR+qGj3w/W46TrJMnTiW5v66XbAX+fP85pppj2bk0DYiXZgZLPstkaxw
+         ymEHHIz4DkMARoyrcS1M3LTxJKsiyfVAEMZs038vU5djEsyMgyM8GGBp56IraDA7io72
+         dh9/Hoq1fuvE00q2UrGegjhHAiIc093WuSnf5WfyBBsqmfJxpwRQwk+kd1r1DvaEoxXN
+         6Dtg==
+X-Gm-Message-State: AOAM530HNWp1rRbiBEiOI/n3k8P3OIdQWwqagYmAOUGY/cdSX16eqgzu
+	sruEmUm0jTX1XOJYA9qD4+Zl/18OIu45ITvR
+X-Google-Smtp-Source: ABdhPJxcR9pnUMn135tSaoAu7qjl2wbM9MRaXOguJWNr5L6QMefpdJ0jufcHkjqmMXXHloOrthoUVg==
+X-Received: by 2002:a17:906:3385:: with SMTP id v5mr32201707eja.539.1618320272670;
+        Tue, 13 Apr 2021 06:24:32 -0700 (PDT)
+Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
+        by smtp.gmail.com with ESMTPSA id y21sm9195860edv.31.2021.04.13.06.24.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Apr 2021 06:24:32 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8192u: ieee80211: Replaced strncpy() with strscpy()
+Date: Tue, 13 Apr 2021 15:24:31 +0200
+Message-ID: <5414987.Cp2PYjnBm2@linux.local>
+In-Reply-To: <YHWZoY6B8sOiflwy@kroah.com>
+References: <20210413123041.24260-1-fmdefrancesco@gmail.com> <4666289.4L6Ep8XSK1@linux.local> <YHWZoY6B8sOiflwy@kroah.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4666289.4L6Ep8XSK1@linux.local>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Tue, Apr 13, 2021 at 03:12:02PM +0200, Fabio M. De Francesco wrote:
-> On Tuesday, April 13, 2021 2:59:29 PM CEST Greg Kroah-Hartman wrote:
-> > On Tue, Apr 13, 2021 at 02:30:41PM +0200, Fabio M. De Francesco wrote:
-> > > Replaced strncpy() with strscpy() because of compilation time warnings
-> > > about possible truncation of output [-Wstringop-truncation].
-> > 
-> > build warnings?  What build warnings?
-> >
-> drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c:1388:5: warning: 
-> ‘strncpy’ output may be truncated copying 32 bytes from a string of length 
-> 32 [-Wstringop-truncation]
->  1388 |     strncpy(tmp_ssid, ieee->current_network.ssid, 
-> IW_ESSID_MAX_SIZE);
+On Tuesday, April 13, 2021 3:16:17 PM CEST Greg Kroah-Hartman wrote:
+> On Tue, Apr 13, 2021 at 03:12:02PM +0200, Fabio M. De Francesco wrote:
+> > On Tuesday, April 13, 2021 2:59:29 PM CEST Greg Kroah-Hartman wrote:
+> > > On Tue, Apr 13, 2021 at 02:30:41PM +0200, Fabio M. De Francesco=20
+wrote:
+> > > > Replaced strncpy() with strscpy() because of compilation time
+> > > > warnings
+> > > > about possible truncation of output [-Wstringop-truncation].
+> > >=20
+> > > build warnings?  What build warnings?
+> >=20
+> > drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c:1388:5: warning:
+> > =E2=80=98strncpy=E2=80=99 output may be truncated copying 32 bytes from=
+ a string of
+> > length 32 [-Wstringop-truncation]
+> >=20
+> >  1388 |     strncpy(tmp_ssid, ieee->current_network.ssid,
+> >=20
+> > IW_ESSID_MAX_SIZE);
+>=20
+> That's implying that there is a real bug here, not that just replacing
+> it with a different call is going to solve this, right?
+>=20
+> And how do you see that, I can't see that in my builds.
+>
+I see that with flag W=3D1 like in=20
+make -j8 drivers/staging/rtl8192u/ W=3D1
 
-That's implying that there is a real bug here, not that just replacing
-it with a different call is going to solve this, right?
+However I also think it's not a real issue in this context.
+Just that strscpy() is preferred and get rid of warnings.
+You only can judge if a patch is worth.
+I just thought that gcc is (mostly) right in pointing out warnings like=20
+that.
 
-And how do you see that, I can't see that in my builds.
+Thanks,
+
+=46abio
+>=20
+> > > > Furthermore, according to the Linux official documentation,
+> > > > strscpy()
+> > > > is
+> > > > preferred to strncpy.
+> > > >=20
+> > > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > > > ---
+> > > >=20
+> > > >  drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c | 4 ++--
+> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > >=20
+> > > > diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+> > > > b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c index
+> > > > 25ea8e1b6b65..aa58eedf5e86 100644
+> > > > --- a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+> > > > +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+> > > > @@ -1385,12 +1385,12 @@ inline void
+> > > > ieee80211_softmac_new_net(struct
+> > > > ieee80211_device *ieee, struct ieee>
+> > > >=20
+> > > >  			 * essid provided by the user.
+> > > >  			 */
+> > > >  		=09
+> > > >  			if (!ssidbroad) {
+> > > >=20
+> > > > -				strncpy(tmp_ssid, ieee-
+> > >
+> > >current_network.ssid, IW_ESSID_MAX_SIZE);
+> > >
+> > > > +				strscpy(tmp_ssid, ieee-
+> > >
+> > >current_network.ssid, IW_ESSID_MAX_SIZE);
+> > >
+> > > Are you sure you can just replace this like this?
+> >=20
+> > I surely was... but now I'm not anymore, since your review :)
+> >=20
+> > Maybe you mean I have to check possible return of -E2BIG?
+> > Did you mean something else?
+> > May you please elaborate further?
+>=20
+> If it was as simple as search/replace, we would have already done that
+> on the whole codebase at once.  It's not that simple :)
+>=20
+> thanks,
+>=20
+> greg k-h
 
 
-> > 
-> > > Furthermore, according to the Linux official documentation, strscpy()
-> > > is
-> > > preferred to strncpy.
-> > > 
-> > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > > ---
-> > > 
-> > >  drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-> > > b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c index
-> > > 25ea8e1b6b65..aa58eedf5e86 100644
-> > > --- a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-> > > +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-> > > @@ -1385,12 +1385,12 @@ inline void ieee80211_softmac_new_net(struct
-> > > ieee80211_device *ieee, struct ieee> 
-> > >  			 * essid provided by the user.
-> > >  			 */
-> > >  			
-> > >  			if (!ssidbroad) {
-> > > 
-> > > -				strncpy(tmp_ssid, ieee-
-> >current_network.ssid, IW_ESSID_MAX_SIZE);
-> > > +				strscpy(tmp_ssid, ieee-
-> >current_network.ssid, IW_ESSID_MAX_SIZE);
-> > 
-> > Are you sure you can just replace this like this?
-> >
-> I surely was... but now I'm not anymore, since your review :)
-> 
-> Maybe you mean I have to check possible return of -E2BIG?
-> Did you mean something else?
-> May you please elaborate further?
 
-If it was as simple as search/replace, we would have already done that
-on the whole codebase at once.  It's not that simple :)
 
-thanks,
-
-greg k-h
