@@ -1,91 +1,113 @@
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B182A70
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 15:51:27 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-	by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13DEnqpS083632;
-	Tue, 13 Apr 2021 14:57:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=JhYvFNCfR6OJZkqyPEmIIrheY8Abto4HIXOl1+WX9Yk=;
- b=nzuYWBCQULQgWpSYibSU9p+FkqZZB0da5CoRLgY/ySzFZZB9d0h+7ijCyahHVBGKS5tS
- HPSHYn/2FLPGIqfOfruWpNReP65tmCUJqI3JEs4PE13S6f8kIRiUcR7Og/kgCyROYoL2
- kdbEdZtraQENUBqsQ/gunWtyv18ET3h6H68aHg9IPYGVTB7pFt0pAoWuBEiFg5kQpxB0
- mA0H/YXxc8OSfdbL3WrJjwTDphfPlvsoRndNgAcIu1AmMuoe4EBdTp69bLLQ7XRDLzw0
- dd0bysKPiRIHoojq+ZCS4LItKlFyMPGqnvhVEH+gXuhSs7yIWVfOC/8yYn/u9nowBi40 jg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by userp2130.oracle.com with ESMTP id 37u3erfd0y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 13 Apr 2021 14:57:22 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13DEkU5B172594;
-	Tue, 13 Apr 2021 14:57:20 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by aserp3030.oracle.com with ESMTP id 37unkpmn00-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 13 Apr 2021 14:57:20 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13DEvJJM031967;
-	Tue, 13 Apr 2021 14:57:19 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Tue, 13 Apr 2021 07:57:18 -0700
-Date: Tue, 13 Apr 2021 17:57:12 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 18/19] staging: rtl8723bs: split long lines
-Message-ID: <20210413145712.GH6021@kadam>
-References: <cover.1617802415.git.fabioaiuto83@gmail.com>
- <814139162ef516bb07bb50876578b032573271ac.1617802415.git.fabioaiuto83@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F089A70
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 15:59:18 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id v6so25490359ejo.6
+        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 08:59:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=t80Ay0RM+FSktFuIVmdmHsgIKuVKC6dk8w1F4+C4e8M=;
+        b=Q2lfUhHd0jGJMAVNDwb7Opdm+DyQ3AeqNzu23r3ykYgH/NA9048hTnRz8m32kSjeqe
+         cC8YY2uu+ifsa8uoo32WCKYYRgnESPEZn/G/gdXHTDeaYnJ5HJh8TwaPWLMUkrfzI2jk
+         3gjBiVnIACSyFMIcnUArUvNx3YnGzmqj7gNCdzuJ9y0C4nCUQdEjHmK9xdDweaiavT8T
+         +Hivdj6cIIQntQukoQtlJnufFaEf/J1vrXVtbWAxyGYS6PyH3tKuMdD4edzGtHLlHzSR
+         UJsHvdZALW/iHhfLAspxsycS7Hj+lwP+1x32T5HwZcOQEz3EPqepURZRGyjTgu08tX/2
+         SBgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=t80Ay0RM+FSktFuIVmdmHsgIKuVKC6dk8w1F4+C4e8M=;
+        b=GTKplRH6UZQ1DkzSi6PUQ6YfjON9XVLUOKZ1dzbBkZZG9c7sCQ7l2fmLn6QdochDwY
+         VP5BTFhVFatmMundqwGqmXE5rYM6b6JeQ5EHbcnGIAE0v1Nl3QekxYvHt634MLbsoEPy
+         gNON1YUZ6TBR2HCx3nedooHaH1PECf+WS787OC85TDvnkbInltRWQWrbl+RP0jzygzlT
+         BCSgsVGtZemrb5JPUCVgOqElFXWD5Ua1iE8Hb1pXHjrgjq9hzFDo3yzFJOkLsUQNhpbk
+         UFtjJ9bepElcLNICpH4LsrM/BWnAB/CqgPqZFAeC+t/yiTIiau/KCxAojB237eWqX3Yq
+         e0dw==
+X-Gm-Message-State: AOAM530v12zZl6krjGr1B8prfrP6ZWp6txbqFzauQm4JUUQLjxux2Fw2
+	t6y4FRx57SyTK0FNEMrdukQ=
+X-Google-Smtp-Source: ABdhPJwvcOcs6oBSjuASpP7E87KvEDv66H3z82OyfO6XgkjpRk7CZwks7HuotpHpEhqbcgt48hdlHA==
+X-Received: by 2002:a17:907:3f8b:: with SMTP id hr11mr33680401ejc.477.1618329557497;
+        Tue, 13 Apr 2021 08:59:17 -0700 (PDT)
+Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
+        by smtp.gmail.com with ESMTPSA id a18sm2119910ejr.76.2021.04.13.08.59.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Apr 2021 08:59:17 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: outreachy-kernel@googlegroups.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [Outreachy kernel] [PATCH] :staging: rtl8723bs: Remove useless led_blink_hdl()
+Date: Tue, 13 Apr 2021 17:59:08 +0200
+Message-Id: <20210413155908.8691-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <814139162ef516bb07bb50876578b032573271ac.1617802415.git.fabioaiuto83@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
- adultscore=0 phishscore=0 malwarescore=0 mlxscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104130106
-X-Proofpoint-ORIG-GUID: JeMP_k2CRd6nUYCcSEAl50kNil_TxiON
-X-Proofpoint-GUID: JeMP_k2CRd6nUYCcSEAl50kNil_TxiON
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 clxscore=1015
- adultscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 spamscore=0
- impostorscore=0 suspectscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104130106
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 07, 2021 at 03:49:42PM +0200, Fabio Aiuto wrote:
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> index 7f998a2f8001..a1e27ba4707e 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> @@ -619,8 +619,9 @@ unsigned int OnProbeReq(struct adapter *padapter, union recv_frame *precv_frame)
->  			return _SUCCESS;
->  
->  _issue_probersp:
-> -		if ((check_fwstate(pmlmepriv, _FW_LINKED)  &&
-> -			pmlmepriv->cur_network.join_res) || check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE))
-> +		if ((check_fwstate(pmlmepriv, _FW_LINKED) &&
-> +		     pmlmepriv->cur_network.join_res) ||
-> +		     check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE))
+Removed the led_blink_hdl() function (declaration, definition, and
+caller code) because it's useless. It only seems to check whether or not a
+given pointer is NULL. There are other (simpler) means for that purpose.
 
-The last line is indented one space character too much.  It should be:
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_cmd.c         | 1 -
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    | 9 ---------
+ drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 1 -
+ 3 files changed, 11 deletions(-)
 
-		if ((check_fwstate(pmlmepriv, _FW_LINKED) &&
-		     pmlmepriv->cur_network.join_res) ||
-		    check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE))
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index 0297fbad7bce..4c44dfd21514 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -150,7 +150,6 @@ static struct cmd_hdl wlancmds[] = {
+ 
+ 	GEN_MLME_EXT_HANDLER(0, h2c_msg_hdl) /*58*/
+ 	GEN_MLME_EXT_HANDLER(sizeof(struct SetChannelPlan_param), set_chplan_hdl) /*59*/
+-	GEN_MLME_EXT_HANDLER(sizeof(struct LedBlink_param), led_blink_hdl) /*60*/
+ 
+ 	GEN_MLME_EXT_HANDLER(sizeof(struct SetChannelSwitch_param), set_csa_hdl) /*61*/
+ 	GEN_MLME_EXT_HANDLER(sizeof(struct TDLSoption_param), tdls_hdl) /*62*/
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 440e22922106..6f2a0584f977 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -6189,15 +6189,6 @@ u8 set_chplan_hdl(struct adapter *padapter, unsigned char *pbuf)
+ 	return	H2C_SUCCESS;
+ }
+ 
+-u8 led_blink_hdl(struct adapter *padapter, unsigned char *pbuf)
+-{
+-
+-	if (!pbuf)
+-		return H2C_PARAMETERS_ERROR;
+-
+-	return	H2C_SUCCESS;
+-}
+-
+ u8 set_csa_hdl(struct adapter *padapter, unsigned char *pbuf)
+ {
+ 	return	H2C_REJECTED;
+diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+index 5e6cf63956b8..472818c5fd83 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
++++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+@@ -745,7 +745,6 @@ u8 chk_bmc_sleepq_hdl(struct adapter *padapter, unsigned char *pbuf);
+ u8 tx_beacon_hdl(struct adapter *padapter, unsigned char *pbuf);
+ u8 set_ch_hdl(struct adapter *padapter, u8 *pbuf);
+ u8 set_chplan_hdl(struct adapter *padapter, unsigned char *pbuf);
+-u8 led_blink_hdl(struct adapter *padapter, unsigned char *pbuf);
+ u8 set_csa_hdl(struct adapter *padapter, unsigned char *pbuf);	/* Kurt: Handling DFS channel switch announcement ie. */
+ u8 tdls_hdl(struct adapter *padapter, unsigned char *pbuf);
+ u8 run_in_thread_hdl(struct adapter *padapter, u8 *pbuf);
+-- 
+2.31.1
 
