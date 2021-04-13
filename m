@@ -1,90 +1,79 @@
-Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [194.109.24.24])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2564F70
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 15:02:31 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud7.xs4all.net with ESMTPA
-	id WKYclFiBNMxedWKYglj7fF; Tue, 13 Apr 2021 17:02:30 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1618326150; bh=IDKasFqgZQXyRzPPd8mvlQ7HH6pYthpdVRPFi2j8brk=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=m+9KtqUrym5RH2Ct0yC59jWTznQCxXhAcOOb4wusDJbrLjOZ3ROSjr0m16UgfxQgc
-	 uu/OoEvPY1oQFvtMM2Tgtco/Pzy/BNWT2YRIb07ZRmKL3itqS2XeZIFGe1zLJVLI0h
-	 1cs/BjKYTXitacN/xTf1Qpxse/P/TuaEX0wbHRz1el4JOjtcT3TtDqgOIkkr0jdeWV
-	 ibKJN5I49MfmSVf0PVERX4aBxKiB9vRkupEFW7THNRODh6QpQtHOwkz6eWjE+HdF/C
-	 m3w23zWzMOK/7iAC1RloSd1SxF9wyskULWJLhffkmshuz4MYLY1YGsCSWBLmkebZsH
-	 rraX0L+0fFuJA==
-Subject: Re: [PATCH v3 1/2] media: zoran: add spaces around '<<'
-To: Mitali Borkar <mitaliborkar810@gmail.com>, clabbe@baylibre.com,
- mchehab@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
- mitali_s@me.iitr.ac.in
-References: <cover.1618066787.git.mitaliborkar810@gmail.com>
- <8e8ac690d97478f7cbb9b91d46ef7a95e4444e5f.1618066787.git.mitaliborkar810@gmail.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <1b70e00e-383f-17c2-231e-e7e8a11acf90@xs4all.nl>
-Date: Tue, 13 Apr 2021 17:02:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D9270
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 15:04:51 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2B3B1613B7;
+	Tue, 13 Apr 2021 15:04:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1618326290;
+	bh=Zc0jTEgteZ4V3OV0BMx/XYPFzvMef4niL0JXkTqU9fU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jNKrStN1RP+hWMQ+71gb/B90IFn0pSqlxDsNKAEOyp20zDsIl/PEyItF3BdsoSYxm
+	 HWdXRILUvQbkdfMBkqtzVDmBoPb7aGDwKjeiTR3FnktWL5Ef0FmwJhWgAsELyLmsL2
+	 sDNJH70W4xgpL4PJpDZhxowFshx004YFnAJ78sok=
+Date: Tue, 13 Apr 2021 17:04:48 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8192u: ieee80211:
+ Replaced strncpy() with strscpy()
+Message-ID: <YHWzENKgthTasHNO@kroah.com>
+References: <20210413123041.24260-1-fmdefrancesco@gmail.com>
+ <4666289.4L6Ep8XSK1@linux.local>
+ <YHWZoY6B8sOiflwy@kroah.com>
+ <5414987.Cp2PYjnBm2@linux.local>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <8e8ac690d97478f7cbb9b91d46ef7a95e4444e5f.1618066787.git.mitaliborkar810@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfC4JMNIPm95Mxy3A/xjTotsLqMg61nIii6HL9k+S5EOSb+HzHtqjhne4NdDOE/a5W/DF6BC+VczczhAwfGqSSxkkWtJkHmaEXwjTFzOhEKJrwMBR4d8Q
- sLxQSIqPG04BrMLGhdne74i3Q1wpHj4JfVzESgMJs6pCFl2Rk1irChga1WsdyE7QcGTFii+x/f07IKl2Gp1QMkagoC75EmXdRiOsDyRk/kT8KaPvcQQ9YSYt
- jo6SPSBOUOYaiTxImTTmpDNkD/Q/2mKWEucQ7kuWpZM34un6e/lUTNw5s/949xvb2sWQ9W4ogyV2cI9pW/HvN7lZ3Vfl/521GtFVQ4BwFn95SXp/1wf4gLRG
- Dk/dK0+ukXb4TQ0dSOwEcWXE8tqizZslmeMDGSZejeWcKIbzzRlp365Z5nrzYmdq1spFloQPi16ENVgotCxb9ikWlE0dBb5cOtTieTXQPAX1HaSJwMJz+5sf
- iUe+ueM605rGxBDwWxnQhK5DScauorQmiYGbaw==
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5414987.Cp2PYjnBm2@linux.local>
 
-Missing commit message.
+On Tue, Apr 13, 2021 at 03:24:31PM +0200, Fabio M. De Francesco wrote:
+> On Tuesday, April 13, 2021 3:16:17 PM CEST Greg Kroah-Hartman wrote:
+> > On Tue, Apr 13, 2021 at 03:12:02PM +0200, Fabio M. De Francesco wrote:
+> > > On Tuesday, April 13, 2021 2:59:29 PM CEST Greg Kroah-Hartman wrote:
+> > > > On Tue, Apr 13, 2021 at 02:30:41PM +0200, Fabio M. De Francesco 
+> wrote:
+> > > > > Replaced strncpy() with strscpy() because of compilation time
+> > > > > warnings
+> > > > > about possible truncation of output [-Wstringop-truncation].
+> > > > 
+> > > > build warnings?  What build warnings?
+> > > 
+> > > drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c:1388:5: warning:
+> > > ‘strncpy’ output may be truncated copying 32 bytes from a string of
+> > > length 32 [-Wstringop-truncation]
+> > > 
+> > >  1388 |     strncpy(tmp_ssid, ieee->current_network.ssid,
+> > > 
+> > > IW_ESSID_MAX_SIZE);
+> > 
+> > That's implying that there is a real bug here, not that just replacing
+> > it with a different call is going to solve this, right?
+> > 
+> > And how do you see that, I can't see that in my builds.
+> >
+> I see that with flag W=1 like in 
+> make -j8 drivers/staging/rtl8192u/ W=1
 
-You used to have one in v1 of this patch!
+Ah, no one "normal" builds with "W=1" :)
 
-Regards,
+> However I also think it's not a real issue in this context.
+> Just that strscpy() is preferred and get rid of warnings.
+> You only can judge if a patch is worth.
+> I just thought that gcc is (mostly) right in pointing out warnings like 
+> that.
 
-	Hans
+Check and verify if this is wrong as-is and if so, then replace it
+properly.  Don't just blindly to a search/replace, as that's not ok
+here.
 
-On 10/04/2021 17:33, Mitali Borkar wrote:
-> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
-> ---
-> Changes from v2:- No changes. 
-> Changes from v1:- NO changes.
-> 
->  drivers/staging/media/zoran/zr36057.h | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/staging/media/zoran/zr36057.h b/drivers/staging/media/zoran/zr36057.h
-> index 71b651add35a..a2a75fd9f535 100644
-> --- a/drivers/staging/media/zoran/zr36057.h
-> +++ b/drivers/staging/media/zoran/zr36057.h
-> @@ -30,13 +30,13 @@
->  #define ZR36057_VFESPFR_HOR_DCM          14
->  #define ZR36057_VFESPFR_VER_DCM          8
->  #define ZR36057_VFESPFR_DISP_MODE        6
-> -#define ZR36057_VFESPFR_YUV422          (0<<3)
-> -#define ZR36057_VFESPFR_RGB888          (1<<3)
-> -#define ZR36057_VFESPFR_RGB565          (2<<3)
-> -#define ZR36057_VFESPFR_RGB555          (3<<3)
-> -#define ZR36057_VFESPFR_ERR_DIF          (1<<2)
-> -#define ZR36057_VFESPFR_PACK24          (1<<1)
-> -#define ZR36057_VFESPFR_LITTLE_ENDIAN    (1<<0)
-> +#define ZR36057_VFESPFR_YUV422          (0 << 3)
-> +#define ZR36057_VFESPFR_RGB888          (1 << 3)
-> +#define ZR36057_VFESPFR_RGB565          (2 << 3)
-> +#define ZR36057_VFESPFR_RGB555          (3 << 3)
-> +#define ZR36057_VFESPFR_ERR_DIF          (1 << 2)
-> +#define ZR36057_VFESPFR_PACK24          (1 << 1)
-> +#define ZR36057_VFESPFR_LITTLE_ENDIAN    (1 << 0)
->  
->  #define ZR36057_VDTR            0x00c	/* Video Display "Top" Register */
->  
-> 
+thanks,
 
+greg k-h
