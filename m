@@ -1,79 +1,74 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D9270
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 15:04:51 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2B3B1613B7;
-	Tue, 13 Apr 2021 15:04:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1618326290;
-	bh=Zc0jTEgteZ4V3OV0BMx/XYPFzvMef4niL0JXkTqU9fU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jNKrStN1RP+hWMQ+71gb/B90IFn0pSqlxDsNKAEOyp20zDsIl/PEyItF3BdsoSYxm
-	 HWdXRILUvQbkdfMBkqtzVDmBoPb7aGDwKjeiTR3FnktWL5Ef0FmwJhWgAsELyLmsL2
-	 sDNJH70W4xgpL4PJpDZhxowFshx004YFnAJ78sok=
-Date: Tue, 13 Apr 2021 17:04:48 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8192u: ieee80211:
- Replaced strncpy() with strscpy()
-Message-ID: <YHWzENKgthTasHNO@kroah.com>
-References: <20210413123041.24260-1-fmdefrancesco@gmail.com>
- <4666289.4L6Ep8XSK1@linux.local>
- <YHWZoY6B8sOiflwy@kroah.com>
- <5414987.Cp2PYjnBm2@linux.local>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A71070
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 15:04:52 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+	by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13DCn8N7159369;
+	Tue, 13 Apr 2021 12:56:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=kdLWZIMHb3SQudb0jxNMATYyODvy77jL7zBOLEtpNVw=;
+ b=z6+dZckmzZhuYl2HFD91SDizhxB0Ag4v8uHgc/VNfz2EO9hiteFnxiJ5GWGu7doE5G/e
+ vciQDRMQU33q4JdqbfZQ/JjDW8Vm9A7uhKW36t/61e5yptpJGaAmcqAqRs0jOd9lBbkr
+ Y1YaFtQse8QRYCrfd5+m2WiOFRtKxprvIx8Ozrlz735iDyC/W+Yc4ViEav7PmJHTiiz/
+ HA8xLRRi3icKLSx4kBBlFcV962z/9cqOlbG3a/ibPRcAklWtng0zuRsqj0zvspWv5c3s
+ MKm+smub/NfZMfCwJZ7dPekRlztI3Aj67iLl12suN0lEpB50tzwKNveABNZZvk5yvp85 eA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+	by userp2120.oracle.com with ESMTP id 37u4nnewxb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 13 Apr 2021 12:56:55 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+	by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13DCuK55057461;
+	Tue, 13 Apr 2021 12:56:54 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by userp3030.oracle.com with ESMTP id 37unxwtcn2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 13 Apr 2021 12:56:54 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13DCupl1032142;
+	Tue, 13 Apr 2021 12:56:51 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Tue, 13 Apr 2021 05:56:51 -0700
+Date: Tue, 13 Apr 2021 15:56:43 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Deborah Brouwer <deborahbrouwer3563@gmail.com>
+Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+        gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+Subject: Re: [PATCH 3/4] staging: rtl8712: remove space after cast
+Message-ID: <20210413125643.GD6021@kadam>
+References: <cover.1617674639.git.deborahbrouwer3563@gmail.com>
+ <b1ba94644f5204505623ffc64614671aac30bbd8.1617674639.git.deborahbrouwer3563@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5414987.Cp2PYjnBm2@linux.local>
+In-Reply-To: <b1ba94644f5204505623ffc64614671aac30bbd8.1617674639.git.deborahbrouwer3563@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9952 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 bulkscore=0 malwarescore=0
+ spamscore=0 adultscore=0 phishscore=0 mlxlogscore=999 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104130090
+X-Proofpoint-ORIG-GUID: v4hqLfl9cFykEzjKPTu8wXtu5XpcM927
+X-Proofpoint-GUID: v4hqLfl9cFykEzjKPTu8wXtu5XpcM927
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9952 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0
+ phishscore=0 suspectscore=0 mlxlogscore=999 priorityscore=1501
+ clxscore=1011 lowpriorityscore=0 spamscore=0 impostorscore=0 bulkscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104130089
 
-On Tue, Apr 13, 2021 at 03:24:31PM +0200, Fabio M. De Francesco wrote:
-> On Tuesday, April 13, 2021 3:16:17 PM CEST Greg Kroah-Hartman wrote:
-> > On Tue, Apr 13, 2021 at 03:12:02PM +0200, Fabio M. De Francesco wrote:
-> > > On Tuesday, April 13, 2021 2:59:29 PM CEST Greg Kroah-Hartman wrote:
-> > > > On Tue, Apr 13, 2021 at 02:30:41PM +0200, Fabio M. De Francesco 
-> wrote:
-> > > > > Replaced strncpy() with strscpy() because of compilation time
-> > > > > warnings
-> > > > > about possible truncation of output [-Wstringop-truncation].
-> > > > 
-> > > > build warnings?  What build warnings?
-> > > 
-> > > drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c:1388:5: warning:
-> > > ‘strncpy’ output may be truncated copying 32 bytes from a string of
-> > > length 32 [-Wstringop-truncation]
-> > > 
-> > >  1388 |     strncpy(tmp_ssid, ieee->current_network.ssid,
-> > > 
-> > > IW_ESSID_MAX_SIZE);
-> > 
-> > That's implying that there is a real bug here, not that just replacing
-> > it with a different call is going to solve this, right?
-> > 
-> > And how do you see that, I can't see that in my builds.
-> >
-> I see that with flag W=1 like in 
-> make -j8 drivers/staging/rtl8192u/ W=1
+This patch has already been applied, which is fine, but really all these
+casts are totally pointless and should be removed.
 
-Ah, no one "normal" builds with "W=1" :)
+regards,
+dan carpenter
 
-> However I also think it's not a real issue in this context.
-> Just that strscpy() is preferred and get rid of warnings.
-> You only can judge if a patch is worth.
-> I just thought that gcc is (mostly) right in pointing out warnings like 
-> that.
-
-Check and verify if this is wrong as-is and if so, then replace it
-properly.  Don't just blindly to a search/replace, as that's not ok
-here.
-
-thanks,
-
-greg k-h
