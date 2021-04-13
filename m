@@ -1,133 +1,79 @@
-Received: from mx.i2x.nl (mx.i2x.nl [5.2.79.48])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7177371
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 09:55:54 +0000 (UTC)
-Received: from mail.vdorst.com (mail.vdorst.com [IPv6:fd00::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mx.i2x.nl (Postfix) with ESMTPS id 3CB085FBA8;
-	Tue, 13 Apr 2021 11:55:47 +0200 (CEST)
-Authentication-Results: mx.i2x.nl;
-	dkim=pass (2048-bit key; secure) header.d=vdorst.com header.i=@vdorst.com header.b="Gghi4hES";
-	dkim-atps=neutral
-Received: from www (unknown [192.168.2.222])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.vdorst.com (Postfix) with ESMTPSA id EDBE5BCBD82;
-	Tue, 13 Apr 2021 11:55:46 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.vdorst.com EDBE5BCBD82
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vdorst.com;
-	s=default; t=1618307747;
-	bh=sWQeaeOZs1zGfDyfM+Yma0gmKoH8b4gYtID9LwyyZ5w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Gghi4hEShLFgZnDXwuQW8jfIxh7MkxHmq+NZ0k2s+nND11zJt7k4G1H3UMRBbSPaD
-	 8J4TJrlKR08JzOITEUFD5YjM4pojAxuGYtzuGKdq6w5ZWzOqiGhsgKvJlPayJXmgc7
-	 0R343Hr8LuZBbSwqz95x5qGKYwtiSIlvw8pQ3lAl36oIOkYldIISeeHMwVz4w4kAI5
-	 9nAiWev+Ipuk1zFHDSqVmaatXUONC8fEE+Tc14M4+Wy6WyaklIpKTZCXLLRFxukSYe
-	 JwT3D1mxVmyaqSSScCNP6/pZMdOl4pKfTtOOhPskToPL6snJfFPMff7XOmFmRi0nWn
-	 9cEMPEdyhK96Q==
-Received: from 48.79.2.5.in-addr.arpa (48.79.2.5.in-addr.arpa [5.2.79.48])
- by www.vdorst.com (Horde Framework) with HTTPS; Tue, 13 Apr 2021 09:55:46
- +0000
-Date: Tue, 13 Apr 2021 09:55:46 +0000
-Message-ID: <20210413095546.Horde.AlZ6EGgmo3WL6JXtMEAWgRh@www.vdorst.com>
-From: =?utf-8?b?UmVuw6k=?= van Dorst <opensource@vdorst.com>
-To: DENG Qingfang <dqfext@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Andrew Lunn <andrew@lunn.ch>,
- Florian Fainelli <f.fainelli@gmail.com>, Heiner Kallweit
- <hkallweit1@gmail.com>, Jakub Kicinski <kuba@kernel.org>, Landen Chao
- <Landen.Chao@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Sean Wang <sean.wang@mediatek.com>,
- Vivien Didelot <vivien.didelot@gmail.com>, Vladimir Oltean
- <olteanv@gmail.com>, Rob Herring <robh+dt@kernel.org>, Linus Walleij
- <linus.walleij@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sergio Paracuellos <sergio.paracuellos@gmail.com>,
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-staging@lists.linux.dev, devicetree@vger.kernel.org,
- netdev@vger.kernel.org, Weijie Gao <weijie.gao@mediatek.com>, Chuanhong Guo
- <gch981213@gmail.com>, Frank Wunderlich <frank-w@public-files.de>, Thomas
- Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>
-Subject: Re: [RFC v4 net-next 1/4] net: phy: add MediaTek PHY driver
-References: <20210412034237.2473017-1-dqfext@gmail.com>
- <20210412034237.2473017-2-dqfext@gmail.com>
- <20210412070449.Horde.wg9CWXW8V9o0P-heKYtQpVh@www.vdorst.com>
- <20210412150836.929610-1-dqfext@gmail.com>
- <20210413035920.1422364-1-dqfext@gmail.com>
-In-Reply-To: <20210413035920.1422364-1-dqfext@gmail.com>
-User-Agent: Horde Application Framework 5
-Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1969271
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 09:56:22 +0000 (UTC)
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AFqbHTaq7g8Ab45sZyXkxT8saV5t/L9V00zAX?=
+ =?us-ascii?q?/kB9WHVpW+afkN2jm+le8BfyhioYVn1Io6H4BICrR3TA+ZlppbQAJLvKZniFhE?=
+ =?us-ascii?q?KEJJxvhLGC/xTOACv7n9Q26Y5Bd7F5E8D5ClJ35PyKmDWQM9Fl+9Wf9bDtuOG2?=
+ =?us-ascii?q?9RhQZCVLT40l0AtjEAacFSRNNWp7LL40DoCV6MYChxfIQxQqR/+2DHUEQOTPzu?=
+ =?us-ascii?q?ej/K7OWhIICwUq7wODl1qThILSKBSA2wdbbjUn+9wf2FLYmA/07LjLiZ+G4yLc?=
+ =?us-ascii?q?zGPa4tB3n9bs27J4daqxo/USQw+Ati+YIKBaf7WDuXQNu+Go81Y2gLD30nMdFv?=
+ =?us-ascii?q?U2z3vQe22vyCGdvDXI4XIW8H/l0l+EkRLY0KnEeA4=3D?=
+X-IronPort-AV: E=Sophos;i="5.82,219,1613430000"; 
+   d="scan'208";a="502961834"
+Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Apr 2021 11:56:21 +0200
+Date: Tue, 13 Apr 2021 11:56:20 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+cc: gregkh@linuxfoundation.org, joe@perches.com, linux-staging@lists.linux.dev, 
+    linux-kernel@vger.kernel.org
+Subject: Re: cocci script hints request
+In-Reply-To: <20210413090400.GA5477@agape.jhs>
+Message-ID: <alpine.DEB.2.22.394.2104131154100.2872@hadrien>
+References: <20210413090400.GA5477@agape.jhs>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-Quoting DENG Qingfang <dqfext@gmail.com>:
 
-> On Mon, Apr 12, 2021 at 11:08:36PM +0800, DENG Qingfang wrote:
->> On Mon, Apr 12, 2021 at 07:04:49AM +0000, René van Dorst wrote:
->> > Hi Qingfang,
->> > > +static void mtk_phy_config_init(struct phy_device *phydev)
->> > > +{
->> > > +	/* Disable EEE */
->> > > +	phy_write_mmd(phydev, MDIO_MMD_AN, MDIO_AN_EEE_ADV, 0);
->> >
->> > For my EEE patch I changed this line to:
->> >
->> > genphy_config_eee_advert(phydev);
->> >
->> > So PHY EEE part is setup properly at boot, instead enable it manual via
->> > ethtool.
->> > This function also takes the DTS parameters "eee-broken-xxxx" in  
->> to account
->> > while
->> > setting-up the PHY.
->>
->> Thanks, I'm now testing with it.
+
+On Tue, 13 Apr 2021, Fabio Aiuto wrote:
+
+> Hi,
 >
-> Hi Rene,
+> I would like to improve the following coccinelle script:
 >
-> Within 12 hours, I got some spontaneous link down/ups when EEE is enabled:
+> @@
+> expression a, fmt;
+> expression list var_args;
+> @@
 >
-> [16334.236233] mt7530 mdio-bus:1f wan: Link is Down
-> [16334.241340] br-lan: port 3(wan) entered disabled state
-> [16337.355988] mt7530 mdio-bus:1f wan: Link is Up - 1Gbps/Full -  
-> flow control rx/tx
-> [16337.363468] br-lan: port 3(wan) entered blocking state
-> [16337.368638] br-lan: port 3(wan) entered forwarding state
+> -       DBG_871X_LEVEL(a, fmt, var_args);
+> +       printk(fmt, var_args);
 >
-> The cable is a 30m Cat.6 and never has such issue when EEE is disabled.
-> Perhaps WAKEUP_TIME_1000/100 or some PHY registers need to be fine-tuned,
-> but for now I think it should be disabled by default.
-
-Hi Qingfang,
-
-Problem is that, may be the other device on the other side, may is issue.
-So it is hard to tell which device is the issue.
-
-
-I have a low traffic access point with 1meter cable running the  
-openwrt 5.10 kernel with the openwrt EEE patch.
-EEE is active and uptime with 16days without an issue.
-This was with the old patch which clears the WAKEUP_TIME_1000/100 values.
-
-
-I changed my ethernet setup so that access point switch has more  
-traffic and longer cable ~18meters.
-I also upgraded the kernel to 5.10.28 and added the EEE v2 patch.
-Let's see what happens for a longer time and with more real world traffic.
-
-Greats,
-
-René
+> I would  replace the DBG_871X_LEVEL macro with printk, but
+> I can't find a way to add KERN_* constant prefix to the fmt
+> argument in the + code line. If i try this
 >
->>
->> >
->> > > +
->> > > +	/* Enable HW auto downshift */
->> > > +	phy_modify_paged(phydev, MTK_PHY_PAGE_EXTENDED, 0x14, 0, BIT(4));
+> @@
+> expression a, fmt;
+> expression list var_args;
+> @@
+>
+> -       DBG_871X_LEVEL(a, fmt, var_args);
+> +       printk(KERN_DEBUG fmt, var_args);
+>
+> plus: parse error:
+>   File "../test.cocci", line 94, column 20, charpos = 1171
+>   around = 'fmt',
+>   whole content = +	printk(KERN_DEBUG fmt, var_args);
+>
+> how could I do this?
 
+Although I certainly agree with Greg, I'll answer the question from a
+technical point of view.
 
+I'm not sure that that kind of compound string is supported for a
+metavariable.  It is possible to get around this problem using a python
+script.  If you ever need to do this for a better reason, you can take a
+look at demos/pythontococci.cocci in the Coccinelle source code
+distribution.
 
+julia
