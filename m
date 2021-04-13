@@ -1,91 +1,99 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1EF71
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 20:08:35 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id x4so20907223edd.2
-        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 13:08:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=FxiwZS1ypRO0CPpMIgmz+1n36gXQuCqv0DCfrFyvXvE=;
-        b=WFzCm2+96E3AicJ9cw/P49tSLgNUOuab+s4Tax+yEMToNezQn+4WBP7DRAdu08t8OA
-         ops0vkEYfihzCABQvwehY/4Zcm+zdVSrylQgQ/aL7W00kLGC/UNwfjRj7b7EAZudqgBK
-         ChYtZs0yX1Y1qeJqaP+TtBKDkqSp9u1TUuZTCad3uMc2lFVJ92fy+uyLJ5mYPWW71QRz
-         /PYZ2I1uxJnMWCTcdGpwaySLuIdeXA2CqdEzXXCksCrgTPUxFAfG2rjCCm2xHFT1VsJR
-         d+O9tDYdfnO24qMWxoJdsqlqR39zOyovSEGEJ5bZr3+u17CDwC4gfg2bFivIRTgReij5
-         3xNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=FxiwZS1ypRO0CPpMIgmz+1n36gXQuCqv0DCfrFyvXvE=;
-        b=YVvadr3jxC35WsJFjNFlk2UvftPLykeCysl8tsKLl2ViWtP9ZSSh7ClsJN3BlIYnbH
-         sunxRP/Hed6sNJGfYfSVKNWbQ+CphE4epzn3mxFAsRmpxISVLGGGcMquc5VeW0XhiO+8
-         BOQBsg77lg9Sq+pWtsxXuWdeWcaqTsnVKkW5uZW4XmDKJ8MfYYtN2OoYWkT/aBw5CBTl
-         3jNf+Aqh+QzZs6i/SmzkKsNN4ceKgnTb7PXJOJNw9f1JFVzF8jsMe9OfkhmV+nGh4fZ3
-         xxWJJBvCDev0EUMWUvVMcMnhSOcioc3R28/yewwCx3LlAiVQa2mdNTn1konwGj9FFSon
-         Fehg==
-X-Gm-Message-State: AOAM5314C6iyTmk4sn1jOtDtyrAwByyLi+25YQ3WOhMyq657b7h5zbK+
-	+k7ne9Eq5w79bcOK4sw/OyI=
-X-Google-Smtp-Source: ABdhPJykMu/ukwA7ubmUAgc8lcQfkw6PAN2aol05P4sYO6p3GvosDhkDnm1lOwVIyQGB839li64QCA==
-X-Received: by 2002:a50:fd16:: with SMTP id i22mr36470144eds.239.1618344513898;
-        Tue, 13 Apr 2021 13:08:33 -0700 (PDT)
-Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
-        by smtp.gmail.com with ESMTPSA id t1sm10207562edy.6.2021.04.13.13.08.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 13:08:33 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Julia Lawall <julia.lawall@inria.fr>, Dan Carpenter <dan.carpenter@oracle.com>, outreachy-kernel@googlegroups.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH] :staging: rtl8723bs: Remove useless led_blink_hdl()
-Date: Tue, 13 Apr 2021 22:08:32 +0200
-Message-ID: <3505455.GpAHCVcAZI@linux.local>
-In-Reply-To: <20210413194844.GR2531743@casper.infradead.org>
-References: <20210413155908.8691-1-fmdefrancesco@gmail.com> <7008359.Jy8utYDuns@linux.local> <20210413194844.GR2531743@casper.infradead.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15A716D0D
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 21:40:14 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id B533E613C0;
+	Tue, 13 Apr 2021 21:40:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1618350012;
+	bh=toVub+slEHyxpan1zl2EKjAs+n9L+DqJjmVyXdpSda8=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=pRV3XRV88aPlnwLClx5LDM21mdefxIbRGFcsOMAWKDGAPSf1o7HWMcUJArQ3XXTo2
+	 omQ7Z2UBYmJ/4VEgdmDWMtz3nLyeoWfPZMbM/epzVuNn/dfLkNcaqGX/sQ3OpMjUBS
+	 bAKgZugFWBnTeaINp8LqtfjdEpx90+cwvi+asWJoSAi80GbrFagrnhafBEMs9d/q64
+	 V1GuK22jWWyeImHuDUYrsXisI7HOHaVrq3GZpA1n6OF84dCG4EQ57enrHgZGDRNpgk
+	 +wx2yJOLG9rxC5gEKrr9mBBot2pLRQqzLRJSzYPRKCwgwQuIOp0m7AJtIXo8z3kOIr
+	 TcOoK6hf+PaXg==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 9A519609B9;
+	Tue, 13 Apr 2021 21:40:12 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v4 0/2] of: net: support non-platform devices in
+ of_get_mac_address()
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <161835001262.18297.4500601910911096840.git-patchwork-notify@kernel.org>
+Date: Tue, 13 Apr 2021 21:40:12 +0000
+References: <20210412174718.17382-1-michael@walle.cc>
+In-Reply-To: <20210412174718.17382-1-michael@walle.cc>
+To: Michael Walle <michael@walle.cc>
+Cc: ath9k-devel@qca.qualcomm.com, UNGLinuxDriver@microchip.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-amlogic@lists.infradead.org,
+ linux-oxnas@groups.io, linux-omap@vger.kernel.org,
+ linux-wireless@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-staging@lists.linux.dev, andrew@lunn.ch, gregory.clement@bootlin.com,
+ sebastian.hesselbarth@gmail.com, linux@armlinux.org.uk, mpe@ellerman.id.au,
+ benh@kernel.crashing.org, paulus@samba.org, andreas@gaisler.com,
+ davem@davemloft.net, kuba@kernel.org, mripard@kernel.org, wens@csie.org,
+ jernej.skrabec@siol.net, joyce.ooi@intel.com, chris.snook@gmail.com,
+ rafal@milecki.pl, bcm-kernel-feedback-list@broadcom.com,
+ f.fainelli@gmail.com, nicolas.ferre@microchip.com,
+ claudiu.beznea@microchip.com, sgoutham@marvell.com, fugang.duan@nxp.com,
+ madalin.bucur@nxp.com, pantelis.antoniou@gmail.com, claudiu.manoil@nxp.com,
+ leoyang.li@nxp.com, yisen.zhuang@huawei.com, salil.mehta@huawei.com,
+ hauke@hauke-m.de, thomas.petazzoni@bootlin.com, vkochan@marvell.com,
+ tchornyi@marvell.com, mlindner@marvell.com, stephen@networkplumber.org,
+ nbd@nbd.name, john@phrozen.org, sean.wang@mediatek.com,
+ Mark-MC.Lee@mediatek.com, matthias.bgg@gmail.com,
+ bryan.whitehead@microchip.com, vz@mleia.com, sergei.shtylyov@gmail.com,
+ bh74.an@samsung.com, hayashi.kunihiko@socionext.com, peppe.cavallaro@st.com,
+ alexandre.torgue@st.com, joabreu@synopsys.com, mcoquelin.stm32@gmail.com,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, linux-imx@nxp.com, khilman@baylibre.com,
+ narmstrong@baylibre.com, jbrunet@baylibre.com,
+ martin.blumenstingl@googlemail.com, vkoul@kernel.org,
+ nobuhiro1.iwamatsu@toshiba.co.jp, grygorii.strashko@ti.com, w-kwok2@ti.com,
+ m-karicheri2@ti.com, michal.simek@xilinx.com, radhey.shyam.pandey@xilinx.com,
+ kvalo@codeaurora.org, lorenzo.bianconi83@gmail.com, ryder.lee@mediatek.com,
+ stf_xl@wp.pl, helmut.schaa@googlemail.com, hkallweit1@gmail.com,
+ robh+dt@kernel.org, frowand.list@gmail.com, gregkh@linuxfoundation.org,
+ jerome.pouiller@silabs.com, vivien.didelot@gmail.com, olteanv@gmail.com
 
-On Tuesday, April 13, 2021 9:48:44 PM CEST Matthew Wilcox wrote:
-> On Tue, Apr 13, 2021 at 09:45:03PM +0200, Fabio M. De Francesco wrote:
-> > 1) The driver doesn't call that function from anywhere else than the
-> > macro. 2) You have explained that the macro add its symbol to a slot
-> > in an array that would shift all the subsequent elements down if that
-> > macro is not used exactly in the line where it is.
-> > 3) Dan Carpenter said that that array is full of null functions (or
-> > empty slots?).
-> > 
-> > Unless that function is called anonymously dereferencing its address
-> > from the position it occupies in the array, I'm not able to see what
-> > else means can any caller use.
-> > 
-> > I know I have much less experience than you with C: what can go wrong?
+Hello:
+
+This series was applied to netdev/net-next.git (refs/heads/master):
+
+On Mon, 12 Apr 2021 19:47:16 +0200 you wrote:
+> of_get_mac_address() is commonly used to fetch the MAC address
+> from the device tree. It also supports reading it from a NVMEM
+> provider. But the latter is only possible for platform devices,
+> because only platform devices are searched for a matching device
+> node.
 > 
-> Here's where the driver calls that function:
+> Add a second method to fetch the NVMEM cell by a device tree node
+> instead of a "struct device".
 > 
-> $ git grep wlancmds drivers/staging/rtl8723bs/
-> drivers/staging/rtl8723bs/core/rtw_cmd.c:static struct cmd_hdl wlancmds[]
-> = { drivers/staging/rtl8723bs/core/rtw_cmd.c:               if
-> (pcmd->cmdcode < ARRAY_SIZE(wlancmds)) {
-> drivers/staging/rtl8723bs/core/rtw_cmd.c:                       cmd_hdl
-> = wlancmds[pcmd->cmdcode].h2cfuns;
->
-OK, I had imagined an anonymous call from its location in the array (as I 
-wrote in the last phrase of my message). However, I thought that it could 
-have been an improbable possibility, not a real one.
+> [...]
 
-Linux uses a lot of interesting ideas that newcomers like me should learn. 
-Things here are trickier than they appear at first sight.
+Here is the summary with links:
+  - [net-next,v4,1/2] of: net: pass the dst buffer to of_get_mac_address()
+    https://git.kernel.org/netdev/net-next/c/83216e3988cd
+  - [net-next,v4,2/2] of: net: fix of_get_mac_addr_nvmem() for non-platform devices
+    https://git.kernel.org/netdev/net-next/c/f10843e04a07
 
-Thanks,
-
-Fabio
-
+You are awesome, thank you!
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
