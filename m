@@ -1,108 +1,84 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D10371
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 10:20:39 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id l4so25000677ejc.10
-        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 03:20:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dvmfAjhAD75vFCCwV7Fr+IU7OY4E5qiwJqveL+UcwEs=;
-        b=uMlyqifqVFl76a2qS3JaTbUAuKVxnmP7ZjDUGoO5A0rDRibyZhWKK67CzIe1nABH4k
-         WdY7wMIRIJoJrGZ9Vw7QIYvlgEwJfba85e+uM1Ycqpf2ZOBN7d9iuCZ0QhpozpDeJnCb
-         /Qk2a1GYoH9/53XjiYhCfWhVz4WammPeG120HKy4wdPcoRl5vChyp3RSMykGxmSpzG5V
-         GD8RIvY6l61Wik3G2ZZ7C5Wcmd/CUjkwrKhr5KtjcvqHTfGYwPmSw0WFyJ53pvIMsh2g
-         LSmFprisskPRKpQ2qbQAEYXDiI190annCbYAaW0MUGCu+KHuOCpbfMu/YKTGx7t/qecm
-         IstA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dvmfAjhAD75vFCCwV7Fr+IU7OY4E5qiwJqveL+UcwEs=;
-        b=ouAQtlL3gdOj6bU0Q/gVWeLSbuKhOfBLrPkdrAMLuLbJa/rv6jod28mfPQ5t2KTXbl
-         87SfUFuKXsS34IwLkm2PX6/3k27pWE3GUXaWGDCcOZKA7weGDs3boiimMKS5ga5qFrtU
-         3f6Vq88zJ+/sSCs2p/epaVQnkYQYjUKCyZxB0uOBJz1lB1pch2zySubmozXI9jfR8SN7
-         TO4BYCAZMH8coXMPdg2b4z9uiyD852X+wfujaeKUrbbGkfEE0A8lKkgnXl8N37CMOnFq
-         c7gojhZSvuRdRtqGRGYtG0Zk7H5gX2g+vfhhxbVaDrhc6EfKB1zFdX3goZ/EyZnw59Gs
-         gycA==
-X-Gm-Message-State: AOAM53197rVogn9iv7acCzx/zXXTtw5BrQVQA0l25GmXgjOEq/oJmQz/
-	jO3aDa2SscnJPLk3km0Ym6w=
-X-Google-Smtp-Source: ABdhPJzin6vzUy5rdpSDcOnbdYH95QlRx4lImMz+KTL6dlF1CZSYA7oX8krfgbzocjXLwfFkscU9qQ==
-X-Received: by 2002:a17:906:524f:: with SMTP id y15mr31008850ejm.65.1618309237743;
-        Tue, 13 Apr 2021 03:20:37 -0700 (PDT)
-Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
-        by smtp.gmail.com with ESMTPSA id y6sm7496565ejw.83.2021.04.13.03.20.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 03:20:37 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: outreachy-kernel@googlegroups.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [Outreachy patch] [PATCH] staging: rtl8188eu: Move channel_table away from rtw_mlme_ext.h
-Date: Tue, 13 Apr 2021 12:20:33 +0200
-Message-Id: <20210413102033.24781-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.31.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465BA71
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 10:29:58 +0000 (UTC)
+Received: from hillosipuli.retiisi.eu (unknown [IPv6:2001:2003:f444:fb00:f814:8791:6dad:f550])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 1FAA61B00348;
+	Tue, 13 Apr 2021 13:23:24 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1618309404;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z7kx6it9HR4h3rh5xEqXP9YVys6uySu3VVFrBBK0aRs=;
+	b=NzsrtbLG+ZRJL60z3ZIOGs0zIYNNBz3LOHkw6WlhnL9cE9rjGcPFg3OPUlkD+WnvHrf7Rn
+	Tkca+1R/yvdiVi/im+nyN4Q5tIYIsmQfGSfuLp8HpMiIvn0u3+c6F2l4YS82J8LpafB9S1
+	i05K/OENyEBoMyQPgMekaVlpZw9kg6ZC2K5y2ZGgD8aSdnRz0blxVFwphilMA4DUtVDD12
+	5vNp7Eu9bSR5CpzZ74f3fRUUJY9h1Wzz+xrIcbA/7xVyVjIZZqm/1DMocwbG8FrRE8aJyS
+	o5wd6IPvcUlbQdwxaS83YvH+4c8Vrcf3UOTI9wwbNbihSEKMsKYoEYeTVrVjGw==
+Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 39EF4634C87;
+	Tue, 13 Apr 2021 13:22:31 +0300 (EEST)
+Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.eu)
+	by valkosipuli.localdomain with esmtp (Exim 4.92)
+	(envelope-from <sakari.ailus@iki.fi>)
+	id 1lWGCY-0002B3-AB; Tue, 13 Apr 2021 13:23:22 +0300
+Date: Tue, 13 Apr 2021 13:23:22 +0300
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: dev.dragon@bk.ru
+Cc: mchehab@kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Staging: media: atomisp: pci: fixed a curly bracket
+ coding style issue.
+Message-ID: <20210413102322.GL3@valkosipuli.retiisi.eu>
+References: <20210411134840.7184-1-dev.dragon@bk.ru>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210411134840.7184-1-dev.dragon@bk.ru>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1618309404;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z7kx6it9HR4h3rh5xEqXP9YVys6uySu3VVFrBBK0aRs=;
+	b=XKZMCZ9xRc5fvWswBb44cLhE/86zKwVqHWCp+50R8mNHIbv5eeOvBu/bzOn/Sqy8wXJeET
+	oD3RyVbnsshohNkp+H41vnvqtocqXFArQMwrWZPy7lrDyJ72smgFe20RROF61X1MRi8k0E
+	xj8+Rjt7HyCVIn58IVngnMgBrSZUnJAM5wmqNBnzwVTYk3dgHu4EbDhlOgvKnurzKdWhH9
+	o3jjlsEbuGCMY2i3GLF+kI27dYDzv6jJC1rlf9eMU+aws9X19IVvGPLHt+WfdtrMqGStpF
+	sAqo2u/ptsYcX4U0wEweWsev1Glcfd5CYsQeCM5hmHkoxyh2EweESYopnC50nA==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1618309404; a=rsa-sha256;
+	cv=none;
+	b=Hz72SJ0klz0GEAIgrg5jEXvZOGRLc1HhIwRWtnVO0gHu01Q14AotnxCV+YzxpGA+E+Fo3b
+	sBaKy4qDln5IKvKq0au9XqQrCKXR6H8YONBlzWSUFS4p/C5LIgWcj1NLJ101jkNFabagnx
+	CGjkUWZ8jrhct+6NirBOuTMRCCn4EpjNb5rMhThEk3pGmatNDvz6DNE11S3tsnqdXY/8h0
+	XudPvFfZe7d1eg1EA7NCApqHOF6QDKNjrV2je98Bj8qW6at9XnkDhnUe0JEL1uVB5nx2wo
+	BIftP/QJ7+x7RRB78caOPa3KIlgIktVzzJI9jrbotx2rhvXVoYCe9troNLnljw==
 
-Moved "static const struct channel_table[]" from include/rtw_mlme_ext.h
-to core/rtw_ioctl_set.c because the latter is the only file that uses
-that array of struct(s) in the whole driver. "make rtl8188eu/ W=1" output
-several warnings about "'channel_table' defined but not used
-[-Wunused-const-variable=]".
+On Sun, Apr 11, 2021 at 04:48:41PM +0300, dev.dragon@bk.ru wrote:
+> From: Dmitrii Wolf <dev.dragon@bk.ru>
+> 
+> Fixed a coding style issue.
+> 
+> Signed-off-by: Dmitrii Wolf <dev.dragon@bk.ru>
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- drivers/staging/rtl8188eu/core/rtw_ioctl_set.c   | 8 ++++++++
- drivers/staging/rtl8188eu/include/rtw_mlme_ext.h | 8 --------
- 2 files changed, 8 insertions(+), 8 deletions(-)
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-diff --git a/drivers/staging/rtl8188eu/core/rtw_ioctl_set.c b/drivers/staging/rtl8188eu/core/rtw_ioctl_set.c
-index 1ef32ff900a9..17b999f45132 100644
---- a/drivers/staging/rtl8188eu/core/rtw_ioctl_set.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_ioctl_set.c
-@@ -11,6 +11,14 @@
- #include <rtw_ioctl_set.h>
- #include <hal_intf.h>
- 
-+static const struct {
-+        int channel_plan;
-+        char *name;
-+} channel_table[] = { { RT_CHANNEL_DOMAIN_FCC, "US" },
-+        { RT_CHANNEL_DOMAIN_ETSI, "EU" },
-+        { RT_CHANNEL_DOMAIN_MKK, "JP" },
-+        { RT_CHANNEL_DOMAIN_CHINA, "CN"} };
-+
- extern void indicate_wx_scan_complete_event(struct adapter *padapter);
- 
- u8 rtw_do_join(struct adapter *padapter)
-diff --git a/drivers/staging/rtl8188eu/include/rtw_mlme_ext.h b/drivers/staging/rtl8188eu/include/rtw_mlme_ext.h
-index 77eb5e3ef172..03d55eb7dc16 100644
---- a/drivers/staging/rtl8188eu/include/rtw_mlme_ext.h
-+++ b/drivers/staging/rtl8188eu/include/rtw_mlme_ext.h
-@@ -171,14 +171,6 @@ struct rt_channel_plan_map {
- 	unsigned char	Index2G;
- };
- 
--static const struct {
--	int channel_plan;
--	char *name;
--} channel_table[] = { { RT_CHANNEL_DOMAIN_FCC, "US" },
--	{ RT_CHANNEL_DOMAIN_ETSI, "EU" },
--	{ RT_CHANNEL_DOMAIN_MKK, "JP" },
--	{ RT_CHANNEL_DOMAIN_CHINA, "CN"} };
--
- enum Associated_AP {
- 	atherosAP	= 0,
- 	broadcomAP	= 1,
 -- 
-2.31.1
-
+Sakari Ailus
