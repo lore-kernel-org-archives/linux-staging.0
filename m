@@ -1,50 +1,46 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C740D70
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 15:43:17 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id e8-20020a17090a7288b029014e51f5a6baso3875858pjg.2
-        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 08:43:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=8Muu/9WdfBgf9XGzBb/oUnmSPxJfSkGD9Nopu5TItCA=;
-        b=t3Ri2SNL5+EIJHCO7rV0ZBDAuEnogEiAwxV5x0DtpbyJocT6i2WoGDYeINTw4XNjNY
-         CoGAhswVk2+FCbxNGJLJAbLbWVNO+z9TFj9Szwr5W8fb4oJ5vrFn4Alm/cIijGbfJ6dN
-         Lo0kgHFnheU8pDkOg5hHZc1WPmMq/6uU9ypeCur2JSeaZoiV3JBIADdYzJ48u46YSuJz
-         QERBXv537o/d9RPTE4svky7HLqPMY8tev5/ngiOtvWIrzk/rLyTrWJ8Wrp3pOIpPY7YG
-         Tz9cAPfWi4OzuuAQCTSe9magjw5EwyOP5Mh858MfiqYke60Sm1YFx+cLQ5jf73BWpHMP
-         1/aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=8Muu/9WdfBgf9XGzBb/oUnmSPxJfSkGD9Nopu5TItCA=;
-        b=pvcUC7o7DNa9QS4qYHJerzAhDxkBtaM0hnoD3MDXDUORi5xmb00UGVnW8zcUA84P/x
-         3dX/gfCCWGVzz6p0essLB8vVsOtLjh8emr+Vx+IjN6TBFp0aj3Z//ZAVAMEOMN63zjrN
-         b2i//XQN95vjuA2Gkt4a2yHAlYWJFCoCsA08QZfv4L1rfDQtQV7zJo5EY2XFD0SnXrcH
-         vv2a5XbbVMSHNJ9w0RQwMrVKKUHTTf2tOhukaKg0twGsmmyljvVE2iT7O2XKvwV661AU
-         qm6aWXayJbxCZiBV1/E+6SO+mO+wrf9rVpgT5gq9R8Cxx2pgNVpZMZy+kN/dWgfL3LOQ
-         BfPw==
-X-Gm-Message-State: AOAM5320NBMvUivFPz2VFjWzEnBhRbV6O/MMh2APAYVrR/AeRDsZVku0
-	VtuN8vqblhxGx2b4zLuxZ00=
-X-Google-Smtp-Source: ABdhPJz/c8JF8Y0C2ZrFun4nbKLfAk7fOQL/bMOCYWVt3pDXLg0kd7q1MYv+v6audMkS+3vUsB62nQ==
-X-Received: by 2002:a17:90b:e0d:: with SMTP id ge13mr614712pjb.189.1618328597240;
-        Tue, 13 Apr 2021 08:43:17 -0700 (PDT)
-Received: from kali ([103.141.87.253])
-        by smtp.gmail.com with ESMTPSA id k3sm14555276pgq.57.2021.04.13.08.43.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 08:43:16 -0700 (PDT)
-Date: Tue, 13 Apr 2021 21:13:09 +0530
-From: Mitali Borkar <mitaliborkar810@gmail.com>
-To: narmstrong@baylibre.com, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	khilman@baylibre.com, jbrunet@baylibre.com,
-	martin.blumenstingl@googlemail.com
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
-	linux-amlogic@lists.infradead.org, mitali_s@me.iitr.ac.in
-Subject: [PATCH v4] staging: media: meson: vdec: declare u32 as static const
-Message-ID: <YHW8DWNUAmp4mXm3@kali>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B182A70
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 15:51:27 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+	by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13DEnqpS083632;
+	Tue, 13 Apr 2021 14:57:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=JhYvFNCfR6OJZkqyPEmIIrheY8Abto4HIXOl1+WX9Yk=;
+ b=nzuYWBCQULQgWpSYibSU9p+FkqZZB0da5CoRLgY/ySzFZZB9d0h+7ijCyahHVBGKS5tS
+ HPSHYn/2FLPGIqfOfruWpNReP65tmCUJqI3JEs4PE13S6f8kIRiUcR7Og/kgCyROYoL2
+ kdbEdZtraQENUBqsQ/gunWtyv18ET3h6H68aHg9IPYGVTB7pFt0pAoWuBEiFg5kQpxB0
+ mA0H/YXxc8OSfdbL3WrJjwTDphfPlvsoRndNgAcIu1AmMuoe4EBdTp69bLLQ7XRDLzw0
+ dd0bysKPiRIHoojq+ZCS4LItKlFyMPGqnvhVEH+gXuhSs7yIWVfOC/8yYn/u9nowBi40 jg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by userp2130.oracle.com with ESMTP id 37u3erfd0y-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 13 Apr 2021 14:57:22 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13DEkU5B172594;
+	Tue, 13 Apr 2021 14:57:20 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by aserp3030.oracle.com with ESMTP id 37unkpmn00-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 13 Apr 2021 14:57:20 +0000
+Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13DEvJJM031967;
+	Tue, 13 Apr 2021 14:57:19 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Tue, 13 Apr 2021 07:57:18 -0700
+Date: Tue, 13 Apr 2021 17:57:12 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 18/19] staging: rtl8723bs: split long lines
+Message-ID: <20210413145712.GH6021@kadam>
+References: <cover.1617802415.git.fabioaiuto83@gmail.com>
+ <814139162ef516bb07bb50876578b032573271ac.1617802415.git.fabioaiuto83@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -52,40 +48,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <814139162ef516bb07bb50876578b032573271ac.1617802415.git.fabioaiuto83@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
+ adultscore=0 phishscore=0 malwarescore=0 mlxscore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104130106
+X-Proofpoint-ORIG-GUID: JeMP_k2CRd6nUYCcSEAl50kNil_TxiON
+X-Proofpoint-GUID: JeMP_k2CRd6nUYCcSEAl50kNil_TxiON
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 clxscore=1015
+ adultscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 spamscore=0
+ impostorscore=0 suspectscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104130106
 
-Declared 32 bit unsigned int as static constant inside a function and
-replaced u32[] {x,y} as canvas3, canvas4 in codec_h264.c
-This indicates the value of canvas indexes will remain constant
-throughout execution.
+On Wed, Apr 07, 2021 at 03:49:42PM +0200, Fabio Aiuto wrote:
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> index 7f998a2f8001..a1e27ba4707e 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> @@ -619,8 +619,9 @@ unsigned int OnProbeReq(struct adapter *padapter, union recv_frame *precv_frame)
+>  			return _SUCCESS;
+>  
+>  _issue_probersp:
+> -		if ((check_fwstate(pmlmepriv, _FW_LINKED)  &&
+> -			pmlmepriv->cur_network.join_res) || check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE))
+> +		if ((check_fwstate(pmlmepriv, _FW_LINKED) &&
+> +		     pmlmepriv->cur_network.join_res) ||
+> +		     check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE))
 
-Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
----
-Changes from v3:- Made commit message under 75 characters per line.
-Changes from v2:- Rebased this patch and made changes against mainline code
-Changes from v1:- Rectified mistake by declaring u32 as static const
-properly as static const u32 canvas'x'[]
+The last line is indented one space character too much.  It should be:
 
- drivers/staging/media/meson/vdec/codec_h264.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+		if ((check_fwstate(pmlmepriv, _FW_LINKED) &&
+		     pmlmepriv->cur_network.join_res) ||
+		    check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE))
 
-diff --git a/drivers/staging/media/meson/vdec/codec_h264.c b/drivers/staging/media/meson/vdec/codec_h264.c
-index c61128fc4bb9..80141b89a9f6 100644
---- a/drivers/staging/media/meson/vdec/codec_h264.c
-+++ b/drivers/staging/media/meson/vdec/codec_h264.c
-@@ -287,10 +287,10 @@ static void codec_h264_resume(struct amvdec_session *sess)
- 	struct amvdec_core *core = sess->core;
- 	struct codec_h264 *h264 = sess->priv;
- 	u32 mb_width, mb_height, mb_total;
-+	static const u32 canvas3[] = { ANCO_CANVAS_ADDR, 0 };
-+	static const u32 canvas4[] = { 24, 0 };
- 
--	amvdec_set_canvases(sess,
--			    (u32[]){ ANC0_CANVAS_ADDR, 0 },
--			    (u32[]){ 24, 0 });
-+	amvdec_set_canvases(sess, canvas3, canvas4);
- 
- 	dev_dbg(core->dev, "max_refs = %u; actual_dpb_size = %u\n",
- 		h264->max_refs, sess->num_dst_bufs);
--- 
-2.30.2
+regards,
+dan carpenter
 
