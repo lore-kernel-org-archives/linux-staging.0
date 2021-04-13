@@ -1,84 +1,91 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [194.109.24.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9004F70
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 15:05:23 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id w3so26511706ejc.4
-        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 08:05:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0xoku/gJZVifospo6o1WZ6Sg1aj10S84grdNkCx2C9U=;
-        b=OqO69w81Xg78+Yg0PKNTUy5lhRRTv55K3xIP+2wpLNf6aoNyj65s9aDl+EfNz5FAZj
-         lokQ+1koIWlndO5ZgnqKwEuO0sPxthTNiMd0tDwsrRcY29v8PpL59hn9iwqkCYW4eRp4
-         GMwpTNqls1vwDO3tjCQ3C25pZQ7lPrwiM+cLl1Y91YX/qLN2sT4HXjzV+WnroSNDHaS/
-         FymL1SocfkRLXCWHe7hctEoy890ucotx/E2pan7eEMplNJr+DJL30cVAROuWfTJZqLNg
-         a2XwW4eUNcz/F120dcCdkqiBDhHktew8M7ilJyH7W2Nr5pj7hAv/2DMDfkFtnBEswujV
-         k8Pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0xoku/gJZVifospo6o1WZ6Sg1aj10S84grdNkCx2C9U=;
-        b=O+1FLffz5pWpIvRXeSZ5qxTSaKcXjAWZdAGrpW4czgw7UTG907DOw5rxkP3o0+grBK
-         C94Hb7srPVykUvtQQNUDbLhroZz1Le9VImsuhjn/C/iYsbmxwZb0cwf7lhFUiTADW/ja
-         Na236TwC6h47zG2+wmBMDAo5FVsfi9ZlOTc61/CdPNXWKRqq4wMQ4TLmbXaa5ryGxCwE
-         /CFxvTjnBuyimpwJBRrZl8ACCy70IuxCEZmc9jmswuwSi8iG5t+7WZ8awD3oP4yw6xNI
-         2Rt/L0Ml9hbhrq5niCEIew6zvM9SG8UaOp42f/sSvNetEQpSv1iH1m1efciqolnTXUhI
-         xo6Q==
-X-Gm-Message-State: AOAM531iX8mUU9dcsoPl3TT0Zcx62MPpyO7emHWbTkQBUMQT2hDLLRKZ
-	9z/duEAyvTUH7HADnsJQMqU=
-X-Google-Smtp-Source: ABdhPJyr1MXST1Y1PDIDxsCuqGEiSF5meOf84ayVkS4Gc4mwVsAkK+Kd5EnSQNKM4K6VjofV4VN/zw==
-X-Received: by 2002:a17:907:33cb:: with SMTP id zk11mr16188048ejb.231.1618326322074;
-        Tue, 13 Apr 2021 08:05:22 -0700 (PDT)
-Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
-        by smtp.gmail.com with ESMTPSA id t1sm9681085edy.6.2021.04.13.08.05.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 08:05:21 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: outreachy-kernel@googlegroups.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [Outreachy kernel] [PATCH] staging: rtl8723bs: core: Remove unused but set variable
-Date: Tue, 13 Apr 2021 17:05:17 +0200
-Message-Id: <20210413150517.12533-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.31.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F3270
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 15:06:14 +0000 (UTC)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+	by smtp-cloud7.xs4all.net with ESMTPA
+	id WKcElFjlXMxedWKcHlj8nW; Tue, 13 Apr 2021 17:06:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+	t=1618326373; bh=1qWX5LSdkE+UnSxx/mvnAUMQvE7SF+yGfcmW7NGrCHA=;
+	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+	 Subject;
+	b=SZp7DqsM7byWceRJQ9c2en83ABJJ0WU9J+XYVlhrQ2Gf6m+LSiB9Tmh0XIMNYbohK
+	 tvZs3ICT3x5jtx8fCGm/RKCfNLTQVd9f3bS9YL9tRDO9zMmBgbonfY32j+1qiCsesg
+	 QAMfrx+rhe6eFu51ATayJykB35a79uo/zXWtXI5tuTbZtoe4It9p6HHQDCD4jaYdNF
+	 mlDwLoR1TOmHtxQsdWGnw+jTMchLoJ21Ujew0mW0QwcyOAZDlDIxk2zR0KJcXVpqvP
+	 RYem6NEdwG8MYYisinsYD0fZjzuZEaCh/n3LCZa0If61zT1+GgIoPxZ8UhPV7qUMkZ
+	 NNiWMeawekYqw==
+Subject: Re: [PATCH] staging: media: omap4iss: Remove unused macro functions
+To: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+References: <20210412134253.GA19402@focaruja>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <03549d0e-04d9-6d37-93e3-c09b29ce53aa@xs4all.nl>
+Date: Tue, 13 Apr 2021 17:06:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210412134253.GA19402@focaruja>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfE6LJLukE/yUnm9irefi8TOqJFZGAFoIfIRJ3P7rPL9c7aLLTZJOOuCkboRVdF30rTQag5qsupBz63U4q6IU2tXSsl8FXD1gYdhyYNZYkNjVRHfeFdC1
+ SbP+biyhRRE1t2z2E8QM/LgoEu9LfVnGtthfNu0JFFARltATLunu513QBqDmzqIjlsJ4+kzG+llWDl6odePurhZd7DeJEruFO+uCUTYvcXSctTpuKgaKjl7+
+ sSoLo3vPimuqc4ZoubUZP9gQ8WpGTY25n4PUVhwp8Wvs+UFeTWnwT9SlOOGxrodVlZHyePEk9ujPhI8Tpfnk/uXgk1L5K63Ok2JB6zNr8VDuEv29KB/NW1H9
+ 0R1HTG5cz1hFgiKz/OJDMwnukQXu2yjwxZ27Gmz7QbJgSsrZSlDe/RSv2GrI+bBRVGKjnwSOr3V03dNYlf4W7S1lXmrQyGmRCWwo86GsWHg++qvpoPTGgX9w
+ Bes9pRO5t3Q+vDrW/6WZ85+OQIaIXyrAyxqo/g==
 
-Removed "ledBlink_param" because it was set to the value of "pbuf" but was
-never reused. This set was made by direct assignment (no helper had been
-called), therefore it had no side effect to the location pointed by "pbuf".
+On 12/04/2021 15:42, Aline Santana Cordeiro wrote:
+> Remove unused macro functions "to_iss_device()", "to_device()",
+> and "v4l2_dev_to_iss_device(dev)".
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 2 --
- 1 file changed, 2 deletions(-)
+'git grep to_iss_device drivers/staging/omap4iss' gives me lots of hits!
+Same for to_device. Only v4l2_dev_to_iss_device appears to be unused.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index f19a15a3924b..440e22922106 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -6191,12 +6191,10 @@ u8 set_chplan_hdl(struct adapter *padapter, unsigned char *pbuf)
- 
- u8 led_blink_hdl(struct adapter *padapter, unsigned char *pbuf)
- {
--	struct LedBlink_param *ledBlink_param;
- 
- 	if (!pbuf)
- 		return H2C_PARAMETERS_ERROR;
- 
--	ledBlink_param = (struct LedBlink_param *)pbuf;
- 	return	H2C_SUCCESS;
- }
- 
--- 
-2.31.1
+Regards,
+
+	Hans
+
+> 
+> Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+> ---
+>  drivers/staging/media/omap4iss/iss.h | 8 --------
+>  1 file changed, 8 deletions(-)
+> 
+> diff --git a/drivers/staging/media/omap4iss/iss.h b/drivers/staging/media/omap4iss/iss.h
+> index b88f952..a354d5f 100644
+> --- a/drivers/staging/media/omap4iss/iss.h
+> +++ b/drivers/staging/media/omap4iss/iss.h
+> @@ -29,11 +29,6 @@
+>  
+>  struct regmap;
+>  
+> -#define to_iss_device(ptr_module)				\
+> -	container_of(ptr_module, struct iss_device, ptr_module)
+> -#define to_device(ptr_module)						\
+> -	(to_iss_device(ptr_module)->dev)
+> -
+>  enum iss_mem_resources {
+>  	OMAP4_ISS_MEM_TOP,
+>  	OMAP4_ISS_MEM_CSI2_A_REGS1,
+> @@ -119,9 +114,6 @@ struct iss_device {
+>  	unsigned int isp_subclk_resources;
+>  };
+>  
+> -#define v4l2_dev_to_iss_device(dev) \
+> -	container_of(dev, struct iss_device, v4l2_dev)
+> -
+>  int omap4iss_get_external_info(struct iss_pipeline *pipe,
+>  			       struct media_link *link);
+>  
+> 
 
