@@ -1,42 +1,42 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64EF72
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 05:15:55 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id h20so7579336plr.4
-        for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 22:15:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AFF072
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 05:16:13 +0000 (UTC)
+Received: by mail-pg1-f172.google.com with SMTP id p12so11106958pgj.10
+        for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 22:16:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=2G4Sv3LtujgUMx6LivaQKJ/nSswqoSp68oTOL36KfQ0=;
-        b=SbpjChqFW20CKXahZ4POV1UtDvN7EZHMcmjhnHloxYsyR9lJ3s8QXqewGgXPFGTcKg
-         +0B9v1kXbFTIae1pT4fHRcvXs4MS4eujiUV4EsTbVtmvbsGQ65OWuvgr9FtahOrEJnbC
-         yzp41Uclbm1fFxCh1sZov1+durPRBitaXYMna7CSlenHsftbO1k/vU6AqULm3VyOIBi4
-         esUBbj91i9MiaGAxcsdtI1K+a/5LbAEbD2PI0E4Vaem062urKOYMjevZY2RXrJ8skcjl
-         5r///uzZvmhm5aunneiZHzMHljieZWEe2/mvkKN1RUC1h+vX7dsl4C/9U6yUl2G8s9m3
-         7MZg==
+        bh=zBM+FAFuyyZibWOVEU+NwC2c9w2fNaMRxLkV7FI0hEU=;
+        b=IuAaYHqgmWuGE1aDi5pIPlZamrmCpCqykFFVVaojpyqCtwRYGnvNC1fNguqZTNV29j
+         DK1BQLhTNPtKqwtnFpH7x4tesjocdWzdNUGeyETuYJRmmW2GkfrEotRS+VLtTVYy+eyu
+         HXklhZEl8zMlWPV9F8OdUNHLa1ThyLfw7+ntx7c/OQs9x9CG+L+QrQfA8WTmiv4jxlvq
+         /KpORx/ZSQWHV0boKkrfFFv577AqIKYqESgh5gbCz0CWyKtORtXtgXxc2LZjge2YShjK
+         7KbR16Q2WP2YmBB0i98vWiu0mNwtB2pboRL5L99RcDyLtTOG0AIkuSZwX5Doa8FqqxB1
+         ZrNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=2G4Sv3LtujgUMx6LivaQKJ/nSswqoSp68oTOL36KfQ0=;
-        b=V1bFe6ECCxIzXEe22rS9049lry/cWPURjPEz77gQjZQDQ8Etz7qLDVNWD/63wYrMXv
-         xlZs2CNPhatOepe7bxRdmHC4B20fxeVUhqcXGmpQjWytzKYo4h2Sb+VIlzl0PJMdxn9t
-         RiZtvdqcEKkPwAKtt/NJqWL6toAun6SdArLgjCkN8Wq1w0DbIugmhoRmegETCXCWETeT
-         ZbA8OebKriAFllJp1BxRpeEy5Y5Nv6jffIjLUYnThKBRi88jcCtADyLLwTmCshRp8VyG
-         +dX5bDFCCJ81ii2/BSMASRCsdl/HxXKDhf7RTP62AqH5d2GdW35UICPpUkoEfuovlPDN
-         tnCw==
-X-Gm-Message-State: AOAM532uLawt8+GCJetbToSCVMzVzyUMHYIDiV8Wc9vYKbEjhXKh92CP
-	kmcAi+9bFT7VwVcgRNDVjiI=
-X-Google-Smtp-Source: ABdhPJwoufieI9ztKXZhb4CBfUZbEHz9dA2hQ2t84hQOzdQtm3BMRBsq/rlzV34tIcmsBgEBPXjdFQ==
-X-Received: by 2002:a17:90b:a0c:: with SMTP id gg12mr2889193pjb.184.1618290955215;
-        Mon, 12 Apr 2021 22:15:55 -0700 (PDT)
-Received: from kali ([103.141.87.254])
-        by smtp.gmail.com with ESMTPSA id 19sm1833627pfy.77.2021.04.12.22.15.51
+        bh=zBM+FAFuyyZibWOVEU+NwC2c9w2fNaMRxLkV7FI0hEU=;
+        b=EHYG5Qhlfwl2mel74IZQGGCCSW9PejOuwB2DWqhJULN1aThu1+e6sgr56v4empztsP
+         Jdxgu+Ip/et0XDkn/PZXQqnBM3rXcj0W4rqNZuybP89zpYdugXGkLbtv1eGM++t38oTe
+         UN4CsiYj+SS9yGQLx0LYk4eN2AKo3CEjjLtH1OwLDmzUxGQRWBFPcxmyvicBAV7GVed+
+         VhFf3ehCOjoM96gNoX7LVa1KIKivKxpb5naRh5y6h8aFujvwV2qvD8CdHUX5gX/pCEu5
+         EIUcP4BkNd3YF2GXh0XGPqskQmT+Kr6o3QkHgb69cyD3f6EbQmTeR7KRNn6r/KI1UWzl
+         bEDQ==
+X-Gm-Message-State: AOAM532/PGGxdGk+oGfATqi9VPqunIQxgVHJ1O7z2/Vl6koF3J+HXa7R
+	iddAYxMoiRcgYsM5ivgs+uw=
+X-Google-Smtp-Source: ABdhPJxUIQRi0S0oxbsGwqu5IzrWJT3HCr2cf7YA8VPrWcZYp0caKGpYurVl+6bikCc8hgkhD452Jw==
+X-Received: by 2002:a65:40c7:: with SMTP id u7mr30494173pgp.29.1618290972915;
+        Mon, 12 Apr 2021 22:16:12 -0700 (PDT)
+Received: from kali ([103.141.87.253])
+        by smtp.gmail.com with ESMTPSA id p24sm7952422pfn.11.2021.04.12.22.16.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Apr 2021 22:15:54 -0700 (PDT)
-Date: Tue, 13 Apr 2021 10:45:46 +0530
+        Mon, 12 Apr 2021 22:16:12 -0700 (PDT)
+Date: Tue, 13 Apr 2021 10:46:06 +0530
 From: Mitali Borkar <mitaliborkar810@gmail.com>
 To: sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
 	tian.shu.qiu@intel.com, mchehab@kernel.org,
@@ -44,8 +44,8 @@ To: sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
 Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
 	mitali_s@me.iitr.ac.in
-Subject: [PATCH v2 2/4] staging: media: intel-ipu3: reduce length of line
-Message-ID: <a374da6b8cce637dea5a2f2677b70abbd9a87118.1618289130.git.mitaliborkar810@gmail.com>
+Subject: [PATCH v2 3/4] staging: media: intel-ipu3: reduce length of line
+Message-ID: <f18b704654797e29f3bbbe49689eaa2c0ad28d59.1618289130.git.mitaliborkar810@gmail.com>
 References: <cover.1618289130.git.mitaliborkar810@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,36 +56,31 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1618289130.git.mitaliborkar810@gmail.com>
 
-Reduced length of line as it was exceeding 100 characters by removing
-comments from same line and adding it to previous line. This makes code
-neater, and meets linux kernel coding style.
-Reported by checkpatch.
+Reduced length of the line under 80 characters to meet linux-kernel
+coding style.
 
 Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
 ---
- 
-Changes from v1:- No changes.
 
- drivers/staging/media/ipu3/include/intel-ipu3.h | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Changes from v1:- Reduced length of the line under 80 characters
+
+ drivers/staging/media/ipu3/include/intel-ipu3.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/intel-ipu3.h
-index 335522e7fc08..53f8e5dec8f5 100644
+index 6a72c81d2b67..52dcc6cdcffc 100644
 --- a/drivers/staging/media/ipu3/include/intel-ipu3.h
 +++ b/drivers/staging/media/ipu3/include/intel-ipu3.h
-@@ -10,8 +10,10 @@
- /* from /drivers/staging/media/ipu3/include/videodev2.h */
+@@ -247,7 +247,8 @@ struct ipu3_uapi_ae_ccm {
+  */
+ struct ipu3_uapi_ae_config {
+ 	struct ipu3_uapi_ae_grid_config grid_cfg __aligned(32);
+-	struct ipu3_uapi_ae_weight_elem weights[IPU3_UAPI_AE_WEIGHTS] __aligned(32);
++	struct ipu3_uapi_ae_weight_elem weights[IPU3_UAPI_AE_WEIGHTS]
++							__aligned(32);
+ 	struct ipu3_uapi_ae_ccm ae_ccm __aligned(32);
+ } __packed;
  
- /* Vendor specific - used for IPU3 camera sub-system */
--#define V4L2_META_FMT_IPU3_PARAMS	v4l2_fourcc('i', 'p', '3', 'p') /* IPU3 processing parameters */
--#define V4L2_META_FMT_IPU3_STAT_3A	v4l2_fourcc('i', 'p', '3', 's') /* IPU3 3A statistics */
-+/* IPU3 processing parameters */
-+#define V4L2_META_FMT_IPU3_PARAMS	v4l2_fourcc('i', 'p', '3', 'p')
-+/* IPU3 3A statistics */
-+#define V4L2_META_FMT_IPU3_STAT_3A	v4l2_fourcc('i', 'p', '3', 's')
- 
- /* from include/uapi/linux/v4l2-controls.h */
- #define V4L2_CID_INTEL_IPU3_BASE	(V4L2_CID_USER_BASE + 0x10c0)
 -- 
 2.30.2
 
