@@ -1,109 +1,150 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E2971
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 18:42:28 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id w23so11746548ejb.9
-        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 11:42:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=onqd5io8gO8TF2jNxNjVt3EUovwErpIeRRu6nXL6B/A=;
-        b=Mhxg0jTNUUWW03BOheyo6id20xNDkcrvWCMKt2165RjRwTyHtQp6TIkWXBk8zsflT5
-         1XBreAGHlLjubA6lUe3j5DD178ipOCTyVm9G2ZUEJS7sj0OvMG13oAJiVyjq1v1msG10
-         AWJP1ztgBcnq59m1OU1UErs+VaipKPyOOYfOkWUysiO1R3CTO8wGJo3MHe/IlN0yZeMP
-         x6lswigNafMCbF5QTg+Q6Tpe8ruS0BoUSfgkn4P8XLKMGK+BJk4jOK/8CRaT/XgKVU4W
-         0VOvqR+xGIKG3g+a0ySDQDDNrZHI5PQEQBRMm3GM9VUV6zV6xTmFawDcAh+afTM0PjjH
-         mtvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=onqd5io8gO8TF2jNxNjVt3EUovwErpIeRRu6nXL6B/A=;
-        b=c0uUV4cAZVNZSf8VmHHqSReU0yi6lQ8PgiELfvxdBrQRGtb2prGtCGLX4TVXSIH7at
-         8flWhSOI8QonPs1ori8a4N2vAMCo5BjkAwjMcdrF/CaP2LYnOH9EwWzC//Ym3LN119uI
-         drDtMXnBAYjfQ75YQl9+87jaICCOnOW673qLVvrD3GTmYG0i5za8Ajta+7/tiNeAEk3m
-         6PohOZsfZVUTiOjcEcgCggY72kLlenoX/Hx5FBdbjbZCDlz4EFLbqQp43980ieJ1EQv/
-         McMOisOsJS7jqB84n+ZuCr/RXicVDQdAGI+R5G9AucBP8aUcUL2yiV2BEuAqHVpQwkUr
-         PSLQ==
-X-Gm-Message-State: AOAM532bAQVNIdntqWyBWKFZ4AjW3Z2fbfGvhqP3quhbITxku0Ou4Vlx
-	fHZsnYxzGHPuiXplf8YW07k=
-X-Google-Smtp-Source: ABdhPJxOvKDGycPU7RpUJ6yUTmQVz7G609IgKGxIH4ynRWjTNTnGNN2Iz5LPZRsPejRQWyJ5xF1akg==
-X-Received: by 2002:a17:906:3f88:: with SMTP id b8mr34519778ejj.36.1618339347135;
-        Tue, 13 Apr 2021 11:42:27 -0700 (PDT)
-Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
-        by smtp.gmail.com with ESMTPSA id d15sm8339776ejj.42.2021.04.13.11.42.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 11:42:26 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: outreachy-kernel@googlegroups.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [Outreachy kernel] [PATCH] staging: rtl8723bs: hal: Remove four set but not used variables
-Date: Tue, 13 Apr 2021 20:42:22 +0200
-Message-Id: <20210413184222.19539-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.31.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C1F471
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 18:57:22 +0000 (UTC)
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3ALLiDiKgOMGhUFS2AKwnY+EjHlnBQXw113DAb?=
+ =?us-ascii?q?vn1ZSRFFG/GwvcrGppUm/DXzjyscX2xlpMuJP7OOTWiZ2Zl+54QQOrnKZniDhE?=
+ =?us-ascii?q?KDKoZ+4Yz+hwDxAiGWzJ856Y5MUYhbTOfxA19zkNrg7GCDeeoI7dGb/MmT6Nv2?=
+ =?us-ascii?q?4GxqSWhRB51IygdiF0KyCUd2RBZLbKBJbqa0w8pcun6BVB0sH7+GL1wERfWGnt?=
+ =?us-ascii?q?vQifvdEGM7Ljsm8hTLsTSz9LXhGQOZ1Rt2aUIy/Z4H/XLemwL0ooWP2sva9jb5?=
+ =?us-ascii?q?12veq6tbg8HgzNwrPr3vtuEtMTnnhgulY45sMofy2wwdm+2k5FY0nNSkmX5JVP?=
+ =?us-ascii?q?hb0H/Je3HwnB2F4Wbd+Qwz4Hzvw0LwuwqBneXFQlsBZfZptMZwbgber3Etpsh7?=
+ =?us-ascii?q?17hGm1iEroNNAQnb9R6NmOTgZlVFlleUvXFnquIalXpZOLFuEIN5nMgw/F51DJ?=
+ =?us-ascii?q?xFJy7x6JkmHO5yZfusncp+QBe1b235omIq+9CnXm0yEhCaBmAOt9eYySI+pgEG?=
+ =?us-ascii?q?82IogOIeg1Yd/9YGR55I6/+sCNUPqI1z?=
+X-IronPort-AV: E=Sophos;i="5.82,220,1613430000"; 
+   d="scan'208";a="503068718"
+Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Apr 2021 20:57:20 +0200
+Date: Tue, 13 Apr 2021 20:57:20 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+cc: Dan Carpenter <dan.carpenter@oracle.com>, 
+    outreachy-kernel@googlegroups.com, 
+    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [Outreachy kernel] [PATCH] :staging: rtl8723bs: Remove useless
+ led_blink_hdl()
+In-Reply-To: <4666345.5ezhEZ0rgB@linux.local>
+Message-ID: <alpine.DEB.2.22.394.2104132056470.14108@hadrien>
+References: <20210413155908.8691-1-fmdefrancesco@gmail.com> <3381109.TaO10cqo9c@linux.local> <20210413182050.GJ6021@kadam> <4666345.5ezhEZ0rgB@linux.local>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-Removed four variables that were set but not used.
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index 77f8353c5ce5..fad6a3bfe07c 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -3199,12 +3199,10 @@ static void hw_var_set_mlme_join(struct adapter *padapter, u8 variable, u8 *val)
- 
- void CCX_FwC2HTxRpt_8723b(struct adapter *padapter, u8 *pdata, u8 len)
- {
--	u8 seq_no;
- 
- #define	GET_8723B_C2H_TX_RPT_LIFE_TIME_OVER(_Header)	LE_BITS_TO_1BYTE((_Header + 0), 6, 1)
- #define	GET_8723B_C2H_TX_RPT_RETRY_OVER(_Header)	LE_BITS_TO_1BYTE((_Header + 0), 7, 1)
- 
--	seq_no = *(pdata+6);
- 
- 	if (GET_8723B_C2H_TX_RPT_RETRY_OVER(pdata) | GET_8723B_C2H_TX_RPT_LIFE_TIME_OVER(pdata)) {
- 		rtw_ack_tx_done(&padapter->xmitpriv, RTW_SCTX_DONE_CCX_PKT_FAIL);
-@@ -3357,17 +3355,15 @@ void SetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
- 	case HW_VAR_BASIC_RATE:
- 	{
- 		struct mlme_ext_info *mlmext_info = &padapter->mlmeextpriv.mlmext_info;
--		u16 input_b = 0, masked = 0, ioted = 0, BrateCfg = 0;
-+		u16 BrateCfg = 0;
- 		u16 rrsr_2g_force_mask = (RRSR_11M|RRSR_5_5M|RRSR_1M);
- 		u16 rrsr_2g_allow_mask = (RRSR_24M|RRSR_12M|RRSR_6M|RRSR_CCK_RATES);
- 
- 		HalSetBrateCfg(padapter, val, &BrateCfg);
--		input_b = BrateCfg;
- 
- 		/* apply force and allow mask */
- 		BrateCfg |= rrsr_2g_force_mask;
- 		BrateCfg &= rrsr_2g_allow_mask;
--		masked = BrateCfg;
- 
- 		/* IOT consideration */
- 		if (mlmext_info->assoc_AP_vendor == HT_IOT_PEER_CISCO) {
-@@ -3375,7 +3371,6 @@ void SetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
- 			if ((BrateCfg & (RRSR_24M|RRSR_12M|RRSR_6M)) == 0)
- 				BrateCfg |= RRSR_6M;
- 		}
--		ioted = BrateCfg;
- 
- 		pHalData->BasicRateSet = BrateCfg;
- 
--- 
-2.31.1
+On Tue, 13 Apr 2021, Fabio M. De Francesco wrote:
 
+> On Tuesday, April 13, 2021 8:20:50 PM CEST Dan Carpenter wrote:
+> > On Tue, Apr 13, 2021 at 06:47:06PM +0200, Fabio M. De Francesco wrote:
+> > > On Tuesday, April 13, 2021 6:27:17 PM CEST Julia Lawall wrote:
+> > > > On Tue, 13 Apr 2021, Fabio M. De Francesco wrote:
+> > > > > On Tuesday, April 13, 2021 6:04:16 PM CEST Julia Lawall wrote:
+> > > > > > On Tue, 13 Apr 2021, Fabio M. De Francesco wrote:
+> > > > > > > Removed the led_blink_hdl() function (declaration, definition,
+> > > > > > > and
+> > > > > > > caller code) because it's useless. It only seems to check
+> > > > > > > whether
+> > > > > > > or
+> > > > > > > not a given pointer is NULL. There are other (simpler) means
+> > > > > > > for
+> > > > > > > that
+> > > > > > > purpose.
+> > > > > > >
+> > > > > > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > > > > > > ---
+> > > > > > >
+> > > > > > >  drivers/staging/rtl8723bs/core/rtw_cmd.c         | 1 -
+> > > > > > >  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    | 9 ---------
+> > > > > > >  drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 1 -
+> > > > > > >  3 files changed, 11 deletions(-)
+> > > > > > >
+> > > > > > > diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> > > > > > > b/drivers/staging/rtl8723bs/core/rtw_cmd.c index
+> > > > > > > 0297fbad7bce..4c44dfd21514 100644
+> > > > > > > --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> > > > > > > +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> > > > > > > @@ -150,7 +150,6 @@ static struct cmd_hdl wlancmds[] = {
+> > > > > > >
+> > > > > > >  	GEN_MLME_EXT_HANDLER(0, h2c_msg_hdl) /*58*/
+> > > > > > >  	GEN_MLME_EXT_HANDLER(sizeof(struct SetChannelPlan_param),
+> > > > > > >  	set_chplan_hdl) /*59*/>
+> > > > > > >
+> > > > > > > -	GEN_MLME_EXT_HANDLER(sizeof(struct LedBlink_param),
+> > > > >
+> > > > > led_blink_hdl)
+> > > > >
+> > > > > > > /*60*/
+> > > > > >
+> > > > > > This is worrisome.  Doyou fully understand the impact of this?
+> > > > > > If
+> > > > > > not,
+> > > > > > the change is probably not a good idea.
+> > > > >
+> > > > > This is that macro definition:
+> > > > >
+> > > > > #define GEN_MLME_EXT_HANDLER(size, cmd) {size, cmd},
+> > > > >
+> > > > > struct C2HEvent_Header {
+> > > > >
+> > > > > #ifdef __LITTLE_ENDIAN
+> > > > >
+> > > > >         unsigned int len:16;
+> > > > >         unsigned int ID:8;
+> > > > >         unsigned int seq:8;
+> > > > >
+> > > > > #else
+> > > > >
+> > > > >         unsigned int seq:8;
+> > > > >         unsigned int ID:8;
+> > > > >         unsigned int len:16;
+> > > > >
+> > > > > #endif
+> > > > >
+> > > > >         unsigned int rsvd;
+> > > > >
+> > > > > };
+> > > > >
+> > > > > It's a bit convoluted with regard to my experience. Probably I
+> > > > > don't
+> > > > > understand it fully, but it seems to me to not having effects to
+> > > > > the
+> > > > > code where I removed its use within core/rtw_cmd.c.
+> > > > >
+> > > > > What am I missing?
+> > > >
+> > > > It seems that the function is being put into an array.  Probably
+> > > > someone
+> > > > expects to find it there.  Probably you have shifted all of the
+> > > > functions that come afterwards back one slot so that they are all in
+> > > > the wrong places.
+> > > >
+> > > > julia
+> > >
+> > > Thanks for your explanation. Obviously this implies that the function
+> > > cannot be removed, unless one fill the slot that is deleted by to not
+> > > calling this macro at the right moment.
+> > >
+> > > I also suppose that providing a function pointer with a NULL value
+> > > wouldn't work either.
+> >
+> > It would work.  That array is full of NULL function pointers.
+> >
+> Interesting, thanks.
+>
+> I'm going to remove that function and replace its name in the macro with a
+> NULL function pointer.
+>
+> I couldn't believe it would work when I wrote about that.
+
+Have you checked that a value of NULL in that place is going to have the
+same effect as the function?
+
+julia
