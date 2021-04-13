@@ -1,100 +1,54 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4F470
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 16:27:19 +0000 (UTC)
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3A+gD8ga8CSWQhZ3Sc4gpuk+AuI+orLtY04lQ7?=
- =?us-ascii?q?vn1ZYxpTb8CeioSSjO0WvCWE6go5dXk8lbm7Sc29aFzG85od2+gsFJODeCWjh2?=
- =?us-ascii?q?eyNoFl6uLZsl7dMgnz7PRU26slU6UWMqyUMXFAgcz34Ba1Hr8bqbHtmpyAvuvG?=
- =?us-ascii?q?ymcocAcCUcFdxj1kAQWWGFAefmV7LKc+faDw2uN34x6peXEada2AaEUtbqz7hu?=
- =?us-ascii?q?SOsonnbx4ADwMm7wfLtzmy6KfmeiL24isj?=
-X-IronPort-AV: E=Sophos;i="5.82,219,1613430000"; 
-   d="scan'208";a="378563316"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Apr 2021 18:27:17 +0200
-Date: Tue, 13 Apr 2021 18:27:17 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-cc: Julia Lawall <julia.lawall@inria.fr>, outreachy-kernel@googlegroups.com, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH] :staging: rtl8723bs: Remove useless
- led_blink_hdl()
-In-Reply-To: <1843649.8FsqevVC75@linux.local>
-Message-ID: <alpine.DEB.2.22.394.2104131826160.8430@hadrien>
-References: <20210413155908.8691-1-fmdefrancesco@gmail.com> <alpine.DEB.2.22.394.2104131803270.8430@hadrien> <1843649.8FsqevVC75@linux.local>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C479270
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 16:28:33 +0000 (UTC)
+IronPort-SDR: m4Y8fyVtL7/hRzvbzJv+Oy0DDMpRemDWKMu8jesjpKU8z+FGhIXqvy78RndkImLDw8nEqe/szK
+ 0+7YoKhagUxw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9953"; a="194476846"
+X-IronPort-AV: E=Sophos;i="5.82,219,1613462400"; 
+   d="scan'208";a="194476846"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2021 09:21:18 -0700
+IronPort-SDR: Q51ZUF7fUPgxel3O2ZVeJfjn/hFIrUOaCHA0a9nTOCojMvw50WfJKB6VLPSXbNQS/DgH8ZP5Ay
+ AmhW2FitOWsQ==
+X-IronPort-AV: E=Sophos;i="5.82,219,1613462400"; 
+   d="scan'208";a="382016739"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2021 09:21:14 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+	by paasikivi.fi.intel.com (Postfix) with SMTP id D28A62082C;
+	Tue, 13 Apr 2021 19:21:11 +0300 (EEST)
+Date: Tue, 13 Apr 2021 19:21:11 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Mitali Borkar <mitaliborkar810@gmail.com>
+Cc: bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
+	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
+Subject: Re: [PATCH v3 0/4] staging: media: intel-ipu3: Cleanup patchset for
+ style issues
+Message-ID: <20210413162111.GX3@paasikivi.fi.intel.com>
+References: <cover.1618326535.git.mitaliborkar810@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1618326535.git.mitaliborkar810@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
+On Tue, Apr 13, 2021 at 08:58:19PM +0530, Mitali Borkar wrote:
+> Changes from v2:- Rebased these four patces and made changes against
+> mailine code
 
+Thanks for the update, Mitali.
 
-On Tue, 13 Apr 2021, Fabio M. De Francesco wrote:
+For the set:
 
-> On Tuesday, April 13, 2021 6:04:16 PM CEST Julia Lawall wrote:
-> > On Tue, 13 Apr 2021, Fabio M. De Francesco wrote:
-> > > Removed the led_blink_hdl() function (declaration, definition, and
-> > > caller code) because it's useless. It only seems to check whether or
-> > > not a given pointer is NULL. There are other (simpler) means for that
-> > > purpose.
-> > >
-> > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > > ---
-> > >
-> > >  drivers/staging/rtl8723bs/core/rtw_cmd.c         | 1 -
-> > >  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    | 9 ---------
-> > >  drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 1 -
-> > >  3 files changed, 11 deletions(-)
-> > >
-> > > diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> > > b/drivers/staging/rtl8723bs/core/rtw_cmd.c index
-> > > 0297fbad7bce..4c44dfd21514 100644
-> > > --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> > > +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> > > @@ -150,7 +150,6 @@ static struct cmd_hdl wlancmds[] = {
-> > >
-> > >  	GEN_MLME_EXT_HANDLER(0, h2c_msg_hdl) /*58*/
-> > >  	GEN_MLME_EXT_HANDLER(sizeof(struct SetChannelPlan_param),
-> > >  	set_chplan_hdl) /*59*/>
-> > > -	GEN_MLME_EXT_HANDLER(sizeof(struct LedBlink_param),
-> led_blink_hdl)
-> > > /*60*/
-> > This is worrisome.  Doyou fully understand the impact of this?  If not,
-> > the change is probably not a good idea.
-> >
-> This is that macro definition:
->
-> #define GEN_MLME_EXT_HANDLER(size, cmd) {size, cmd},
->
-> struct C2HEvent_Header {
->
-> #ifdef __LITTLE_ENDIAN
->
->         unsigned int len:16;
->         unsigned int ID:8;
->         unsigned int seq:8;
-> #else
->         unsigned int seq:8;
->         unsigned int ID:8;
->         unsigned int len:16;
-> #endif
->         unsigned int rsvd;
-> };
->
-> It's a bit convoluted with regard to my experience. Probably I don't
-> understand it fully, but it seems to me to not having effects to the code
-> where I removed its use within core/rtw_cmd.c.
->
-> What am I missing?
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-It seems that the function is being put into an array.  Probably someone
-expects to find it there.  Probably you have shifted all of the functions
-that come afterwards back one slot so that they are all in the wrong
-places.
-
-julia
+-- 
+Sakari Ailus
