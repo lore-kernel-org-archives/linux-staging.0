@@ -1,37 +1,51 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7845173
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 10:44:37 +0000 (UTC)
-IronPort-SDR: YEYpR6ARABqGgMK+jEHRUvf+S/XKdj2NIaF9Sl0Xk6uXedleP8sTmoBcqwJHPWb62+Ts/IgnXd
- rB6QFQXg9BhQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9952"; a="173878202"
-X-IronPort-AV: E=Sophos;i="5.82,219,1613462400"; 
-   d="scan'208";a="173878202"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2021 03:44:37 -0700
-IronPort-SDR: 3PUF6PcGRPMdE3KsQleHMqmiukVuS53w9Xkb0qf1ik57NY6VgzQK+P0yyVBLftq4K/KDjGywbN
- MpgQ0qsyh78A==
-X-IronPort-AV: E=Sophos;i="5.82,219,1613462400"; 
-   d="scan'208";a="417813705"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2021 03:44:34 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-	by paasikivi.fi.intel.com (Postfix) with SMTP id B0B5E200E8;
-	Tue, 13 Apr 2021 13:44:32 +0300 (EEST)
-Date: Tue, 13 Apr 2021 13:44:32 +0300
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Mitali Borkar <mitaliborkar810@gmail.com>
-Cc: bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD296D0D
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 10:45:10 +0000 (UTC)
+Received: by mail-pg1-f179.google.com with SMTP id q10so11621439pgj.2
+        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 03:45:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=NJEs0OVIbEPu0niN8aqEV6/oMkDrOYYQ8S6g+FDY+1A=;
+        b=bt+SWsRREEyZ8aGF2En2o3+UBIqn/QCQ9DJpF7VyNlNflyKIJlByhGVzBdU7aTFr58
+         AD1b9sH/dahahuGyfLCJOT9VYjTjp+VZFv2Y11pMK1Zza7Pi19Pa6kHM3GSyc8i3f+um
+         UIsDTBPoTll6H+73jlKzEulll3kD+ywexevz8FFliFFFKSxpMB+84PxqRi6GIPICsuXc
+         rPIwHwS0xtdmOE7WDvvENu/nF0OMvVqvdeLmJbSojPjj3S6S5nQLocAVgtcSnH2WwOOj
+         tSpcz6jOh1Y2urrtg5NI8Ajl74RkQkRWfMh54BVhdQMP80+R7cI5Of2VFRGHfFS0ASuA
+         /H1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=NJEs0OVIbEPu0niN8aqEV6/oMkDrOYYQ8S6g+FDY+1A=;
+        b=XC3I/5eWrzDlRaWqbr4dqvNxB6MqODB2nnmXVMG1FT6Y7N5PdL+o86dsDyq/BaVTxk
+         KHJ2/iXFBmUsIxzS1pNA9d+PH7wmC9cU4li7GSiQUqmFv15mCyPT/n+Ghcsz5U4b7pA6
+         9ghXnMO1NnsqzOXY9SNQaIQIv0Unv70e8A4YArX9DeAaNXeD5bsDOviSyslYT3zEHOb7
+         wx3KNFZQuLZGU3WIl0CEyoBuUU3TPywYPu/zYcXJkseeef4wEZ8R2eT6pgeOzVBbzZ7R
+         L6vDLkeIq7xM/XvVXOULKjBlxAF4JlkgSYEdReSKVYvsuWMLO4hH+Tl95/ap0pqDW+xG
+         uofQ==
+X-Gm-Message-State: AOAM532PWH0Uaew7Xq2YscLd0Fh6YY0Fke6Awn9qwwcJv39za1/N/7FL
+	K2EXEveBcUcJCYcSJ7edgSr8gyuywXnFZw==
+X-Google-Smtp-Source: ABdhPJzkmnq2CdOTUZB7OPf0KEEyoGAWhwp4xVg0M2I3EF6YMyaSPr91k6VCLi9FUtkx27P1iat/Xw==
+X-Received: by 2002:a63:f95a:: with SMTP id q26mr31695929pgk.25.1618310709544;
+        Tue, 13 Apr 2021 03:45:09 -0700 (PDT)
+Received: from kali ([103.141.87.253])
+        by smtp.gmail.com with ESMTPSA id f21sm1957426pjj.52.2021.04.13.03.45.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Apr 2021 03:45:09 -0700 (PDT)
+Date: Tue, 13 Apr 2021 16:15:03 +0530
+From: Mitali Borkar <mitaliborkar810@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: Re: [PATCH v2 3/4] staging: media: intel-ipu3: reduce length of line
-Message-ID: <20210413104432.GU3@paasikivi.fi.intel.com>
-References: <cover.1618289130.git.mitaliborkar810@gmail.com>
- <f18b704654797e29f3bbbe49689eaa2c0ad28d59.1618289130.git.mitaliborkar810@gmail.com>
- <20210413100134.GR3@paasikivi.fi.intel.com>
- <YHV1uOq9pXmGUD+x@kali>
+Subject: Re: [PATCH v5 0/3] staging: rtl8192e: Cleanup patchset for style
+ issues in rtl819x_HTProc.c
+Message-ID: <YHV2LyXrJjVnMsyT@kali>
+References: <cover.1618283232.git.mitaliborkar810@gmail.com>
+ <YHVN0JRWqNDJYF3T@kroah.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -39,47 +53,20 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YHV1uOq9pXmGUD+x@kali>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <YHVN0JRWqNDJYF3T@kroah.com>
 
-On Tue, Apr 13, 2021 at 04:13:04PM +0530, Mitali Borkar wrote:
-> On Tue, Apr 13, 2021 at 01:01:34PM +0300, Sakari Ailus wrote:
-> > Hi Mitali,
-> > 
-> > Thanks for the update.
-> > 
-> > On Tue, Apr 13, 2021 at 10:46:06AM +0530, Mitali Borkar wrote:
-> > > Reduced length of the line under 80 characters to meet linux-kernel
-> > > coding style.
-> > > 
-> > > Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
-> > > ---
-> > > 
-> > > Changes from v1:- Reduced length of the line under 80 characters
-> > > 
-> > >  drivers/staging/media/ipu3/include/intel-ipu3.h | 3 ++-
-> > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/intel-ipu3.h
-> > > index 6a72c81d2b67..52dcc6cdcffc 100644
-> > > --- a/drivers/staging/media/ipu3/include/intel-ipu3.h
-> > > +++ b/drivers/staging/media/ipu3/include/intel-ipu3.h
-> > > @@ -247,7 +247,8 @@ struct ipu3_uapi_ae_ccm {
-> > >   */
-> > >  struct ipu3_uapi_ae_config {
-> > >  	struct ipu3_uapi_ae_grid_config grid_cfg __aligned(32);
-> > > -	struct ipu3_uapi_ae_weight_elem weights[IPU3_UAPI_AE_WEIGHTS] __aligned(32);
-> > > +	struct ipu3_uapi_ae_weight_elem weights[IPU3_UAPI_AE_WEIGHTS]
-> > > +							__aligned(32);
-> > 
-> > Do you still have the other two patches in your tree? This doesn't apply
-> > here due to the different attribute syntax.
-> >
-> I have patch 1/6 and 2/6 in my tree which you asked me to drop.
+On Tue, Apr 13, 2021 at 09:52:48AM +0200, Greg KH wrote:
+> On Tue, Apr 13, 2021 at 08:55:03AM +0530, Mitali Borkar wrote:
+> > Changes from v4:-
+> > [PATCH v4 1/3]:- No changes.
+> > [PATCH v4 2/3]:- No changes.
+> > [PATCH V4 3/3]:- Removed casts and parentheses.
+> 
+> This series does not apply cleanly, please rebase and resend.
+>
+Resend as v6? Does not apply cleanly as in? Were mails not threaded
+properly?
 
-Could you drop them and then submit v3?
-
-Thanks.
-
--- 
-Sakari Ailus
+> thanks,
+> 
+> greg k-h
