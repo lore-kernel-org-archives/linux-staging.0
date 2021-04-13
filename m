@@ -1,91 +1,88 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5934070
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 02:03:11 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id w10so10839061pgh.5
-        for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 19:03:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCD171
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 03:25:09 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id p16so3499473plf.12
+        for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 20:25:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=qUjaIguq8yzqDkohG7sI2rAfSZY7awUZei/nxUOMr3E=;
-        b=vJNaJV+SxnOz/uU9pIGZ5okaXuBTkZF8q/Ly7teLJE7oCsuHhkgi3MBc24jkuPxSP/
-         UUb0SzxQW3WlzKcfXCPF6vUHlhA7WFK0uD3vVny63Vz6MotwBIFnCLtKfHKpaPMVnAcO
-         Rn1/jTBwEJ+pHqh7xmBVKVHTGC0QdzLBQDWsmu6RFxg2L90/u38pESDyfbHQ51o925FJ
-         i02sTLO5QTfgTWdB57HMRXPhmlJMf2Z1KIBC/quvGPJ0XFnltyrm7MxpX8cp4/sY7gWc
-         1TcTs0OGWbqBbSCvDTZPYZS9MhODFK00TgsexRH9eCLcChjcBcfbzugvm4BFWYlW1Qqc
-         4QBQ==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=SRXvRUJitDAL3LVBcxgMSN2+Nyo+g/E1R/YUuhMK3zY=;
+        b=NT5wxcrMIElDPZAIwOHzPA+cCkYYmfN0PcrXjLMovuafkLeOokhyvZDn2+qKo1JRMw
+         yfifmdoDp0w2m5Lq8veWu5rKtEumpKNmqr5PHwjWEM9M+FvcakfBMLmH5HMQ5mVP+Y+m
+         Xc6qu+v5+bA4mn4ApziWUp4d9NSZ7y7kojwd/lKea4W7FW4qdJbG6GwkCemLFG241fRU
+         2LOd1mtDMhFJdW6M88KvI8PSK+ZpgeDOPmQ60KIxOUuea6gtP7WojxZbAjsV4dUTCPa9
+         WGSxnkmoixLKk4UHZqJul0iqUf0VQNm+Cuv3hxFjsj0qN9e8/NrkHF/Ve38cU4JU80PD
+         0Xmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=qUjaIguq8yzqDkohG7sI2rAfSZY7awUZei/nxUOMr3E=;
-        b=EgSA6djTCZWWeLKMJfn+S8ibCjevwP7CrlAZK/S5MGWkqlL3FADNeBlI/xkzZRpt0Z
-         8lVdj7to+CY+W2jRkdQ7R8j+4PQKFSqPdobDcLaGsjooYaZZN8XrulJz4jykfu7H21YF
-         I0iGxSqZXsrUjyosFxOS/ddBgH7lr1N9CtzYxX/pGG8nFPyM9XC+F680ndjXOI8CdnEj
-         jj/JLySPG63KDL6ufjEJjIhEkKNiqJ6vn+scFSFbXsrnpBeVaIxkOyVHbqI2Bi9Bn8XP
-         9CXJq8PKHV8UrYdEiWdqykb4AsbuoD0B4ygUZx4uGVeyfNCOaz7neR8X3ibv0trQfW1Z
-         wvRg==
-X-Gm-Message-State: AOAM530RzXSxaNYVJ8h5Km4cfeEWDMxb31FfzrHS1sElmo/wMSOWt0it
-	xG+mRN/1Y9tOMFFoh37JdcI=
-X-Google-Smtp-Source: ABdhPJzh+KJxcTy///1/XRItUEDPHgNs0iw+HJPK72UDsZB/HlXRkeuW56DidnZcm9f7dUPEziSs9Q==
-X-Received: by 2002:a05:6a00:13a0:b029:248:f411:2778 with SMTP id t32-20020a056a0013a0b0290248f4112778mr13864229pfg.66.1618279390742;
-        Mon, 12 Apr 2021 19:03:10 -0700 (PDT)
-Received: from kali ([103.141.87.253])
-        by smtp.gmail.com with ESMTPSA id d21sm577784pjx.24.2021.04.12.19.03.07
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=SRXvRUJitDAL3LVBcxgMSN2+Nyo+g/E1R/YUuhMK3zY=;
+        b=rv6WPtVH87xtTDX6sLxkeScS2F9egkhIMteS/EZk/mnJtK5pZQS8aOM+c1JB3O0w/O
+         p9/R8l25mQKp17+vFHtRRP7tOL9qDi51MeZWJBOgZwbctcOosYmlj3QqX1xTbaXqODj5
+         oyCN+Q4IqYcuq8j9i9ZGUt9CIz/c8LgWhLu1dUMT2iGWoQ04eDD9GN9HRYsKHO/2/0UG
+         ftt1qHrKaMLhAsrAar9MY0IX9ygJ/KLWrw7tdPKAhLh9kXvYBWn3kGZHG5qCD6fXxRKy
+         fVwOKZ+X6c4jUlydeYBr5JZDfEnglFZCbIWj8uzaYaXSYhHOSV0SixHILVv5xsfunAEN
+         n1ww==
+X-Gm-Message-State: AOAM530/KPXNe2HPQnJ1Qfm7ak2ggZ3m9n7F+bUrkeOqmSqe5iO09VZK
+	xV2YrvSyyHom8Dvmdd6u8Go=
+X-Google-Smtp-Source: ABdhPJz3w+bs8FKEbZQO5/VCoWcYR59uE27wBIEKt7H5yflDTqlYWDg0XRJIdjOaTQbyPflIpgtrDg==
+X-Received: by 2002:a17:902:aa8a:b029:e6:64bd:e29d with SMTP id d10-20020a170902aa8ab02900e664bde29dmr30083774plr.24.1618284309436;
+        Mon, 12 Apr 2021 20:25:09 -0700 (PDT)
+Received: from kali ([103.141.87.254])
+        by smtp.gmail.com with ESMTPSA id s20sm8993891pfh.144.2021.04.12.20.25.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Apr 2021 19:03:09 -0700 (PDT)
-Date: Tue, 13 Apr 2021 07:33:04 +0530
+        Mon, 12 Apr 2021 20:25:09 -0700 (PDT)
+Date: Tue, 13 Apr 2021 08:55:03 +0530
 From: Mitali Borkar <mitaliborkar810@gmail.com>
-To: Joe Perches <joe@perches.com>, gregkh@linuxfoundation.org
+To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: Re: [PATCH v4 3/3] staging: rtl8192e: remove unnecessary parentheses
-Message-ID: <YHT72MuY6mQ+JPGL@kali>
-References: <cover.1618224838.git.mitaliborkar810@gmail.com>
- <29464cba775f9529db30b7fb4168198975098b55.1618224838.git.mitaliborkar810@gmail.com>
- <d82c4f4be48b645983a7f922f1791ebf098b22c5.camel@perches.com>
+Subject: [PATCH v5 0/3] staging: rtl8192e: Cleanup patchset for style issues
+ in rtl819x_HTProc.c
+Message-ID: <cover.1618283232.git.mitaliborkar810@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d82c4f4be48b645983a7f922f1791ebf098b22c5.camel@perches.com>
 
-On Mon, Apr 12, 2021 at 01:46:54PM -0700, Joe Perches wrote:
-> On Mon, 2021-04-12 at 16:52 +0530, Mitali Borkar wrote:
-> > Removed unnecessary parentheses because they must be used only when it
-> > is necessary or they improve readability.
-> > Reported by checkpatch.
-> 
-> I gave you feedback about the memset changes.
-> Please use it.
-> https://lore.kernel.org/lkml/f5fe04d62b22eb5e09c299e769d9b9d8917f119c.camel@perches.com/
->
-I am sorry Sir, I missed this. I will make required changes now.
+Changes from v4:-
+[PATCH v4 1/3]:- No changes.
+[PATCH v4 2/3]:- No changes.
+[PATCH V4 3/3]:- Removed casts and parentheses.
 
-> > Changes from v3:- No changes.
-> > Changes from v2:- Rectified spelling mistake in subject description.
-> > Changes has been made in v3.
-> > Changes from v1:- No changes.
-> []
-> > diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> []
-> > @@ -646,13 +646,13 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
-> >  	pHTInfo->CurrentMPDUDensity = pHTInfo->MPDU_Density;
-> >  	pHTInfo->CurrentAMPDUFactor = pHTInfo->AMPDU_Factor;
-> >  
-> > 
-> > -	memset((void *)(&(pHTInfo->SelfHTCap)), 0,
-> > +	memset((void *)(&pHTInfo->SelfHTCap), 0,
-> >  	       sizeof(pHTInfo->SelfHTCap));
-> 
-> 	memset(&pHTInfo->SelfHTCap, 0, sizeof(pHTInfo->SelfHTCap);
-> 
-> etc...
-> 
+Changes from v3:- Changed subject line to match prefix on the patches.
+[PATCH v3 1/3]:- No changes.
+[PATCH v3 2/3]:- No changes.
+[PATCH V3 3/3]:- No changes.
+
+Changes from v2:-
+[PATCH v2 1/3]:- Modified subject description. Changes has been made in
+v3.
+[PATCH v2 2/3]:- No changes.
+[PATCH v2 3/3]:- Rectified spelling mistake in subject description.
+Changes has been made in v3.
+
+Changes from v1:-
+[PATCH 1/3]:- Removed unnecessary parentheses around boolean expression.
+Changes has been made in v2.
+[PATCH 2/3]:- No changes.
+[PATCH 3/3]:- No changes.
+
+Mitali Borkar (3):
+  staging: rtl8192e: remove parentheses around boolean expression
+  staging: rtl8192e: remove unnecessary ftrace-like logging
+  staging: rtl8192e: remove casts and parentheses
+
+ drivers/staging/rtl8192e/rtl819x_HTProc.c     |  18 ++--
+ 1 file changed, 5 insertions(+), 13 deletions(-)
+
+
+-- 
+2.30.2
+
