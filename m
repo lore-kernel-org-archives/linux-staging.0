@@ -1,102 +1,107 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-oln040092075065.outbound.protection.outlook.com [40.92.75.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA9B70
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 08:06:55 +0000 (UTC)
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 9CB6960FE8;
-	Tue, 13 Apr 2021 08:06:54 +0000 (UTC)
-Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94)
-	(envelope-from <maz@kernel.org>)
-	id 1lWE4S-007BTF-H5; Tue, 13 Apr 2021 09:06:52 +0100
-Date: Tue, 13 Apr 2021 09:06:51 +0100
-Message-ID: <8735vuobfo.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: DENG Qingfang <dqfext@gmail.com>,	"David S. Miller"
- <davem@davemloft.net>,	Florian Fainelli <f.fainelli@gmail.com>,	Heiner
- Kallweit <hkallweit1@gmail.com>,	Jakub Kicinski <kuba@kernel.org>,	Landen
- Chao <Landen.Chao@mediatek.com>,	Matthias Brugger <matthias.bgg@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,	Sean Wang <sean.wang@mediatek.com>,
-	Vivien Didelot <vivien.didelot@gmail.com>,	Vladimir Oltean
- <olteanv@gmail.com>,	Rob Herring <robh+dt@kernel.org>,	Linus Walleij
- <linus.walleij@linaro.org>,	Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,	Sergio Paracuellos
- <sergio.paracuellos@gmail.com>,	linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,	linux-staging@lists.linux.dev,
-	devicetree@vger.kernel.org,	netdev@vger.kernel.org,	Weijie Gao
- <weijie.gao@mediatek.com>,	Chuanhong Guo <gch981213@gmail.com>,
-	=?UTF-8?B?UmVuw6k=?= van Dorst <opensource@vdorst.com>,	Frank Wunderlich
- <frank-w@public-files.de>,	Thomas Gleixner <tglx@linutronix.de>,	Greg
- Ungerer <gerg@kernel.org>
-Subject: Re: [RFC v4 net-next 2/4] net: dsa: mt7530: add interrupt support
-In-Reply-To: <YHTgu1+6GZFdFgWJ@lunn.ch>
-References: <20210412034237.2473017-1-dqfext@gmail.com>
-	<20210412034237.2473017-3-dqfext@gmail.com>
-	<87fszvoqvb.wl-maz@kernel.org>
-	<20210412152210.929733-1-dqfext@gmail.com>
-	<YHTgu1+6GZFdFgWJ@lunn.ch>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6491C70
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 08:16:50 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nqvk1m+g8HSYN/nSz2HXCWjecI3ztf7Fhmohh3SICQwPCnUHCjRbvuMAneNEP7MQDO+W8W1hBFwwKHB8hAd3cGhLBikfnTPuri6F4irRbv2cXfbg1hJyWGtzJcKsixvwytJLMGd6gd5A6BjZPT15j5FDm6jO1cm+n9vnvGOPDsUXgWACbLduVDq36pqtAHPNAwqa3H4+b32jIekgqPVixhAqQ0WTpEsoU6+NDBaj2lphxk4UQiutzKMR1V0KjLkWCy7R8H3PVhWQw329WAG3njG7NbJR2HL5+1750atU6QqSiaN5OD9npIrA6THTIEAplcx8+SWi24vjf/h3bGNGHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z4AWzqTzAG2rdZpscGGBKR9wvYLK3+R5Gv6kXYJeSKU=;
+ b=Nh6XBF3VCSEUrGpE0OTtqo7TB4qYU1DxLGNQaRa/lEb+gFVBJYNr1JC2TDiIC8IAvdzzO+/Y+vpz0ifRW0BkWUUJXoYwzx+aDieF+SDr/v6aTxHSSElc0K3n825Q9RuIXhpcReMRrGqwhfWULIPQfNtUL5O9H038zmm2iEKjIUKag2/XH2I3OKl0BhUATvpdkujPtK3HSbgPROh91mE3JlgFt3PUcOSF4nMou4h5TCZfQLECN6gWkui8DwsjT+Taa32BaAPGnceABNyqqj0fV2aT0LLFuWsMr9mLKNEX+VRSZzHAkc5RhUCsJoncRRvqALV9p5FGa46cyzzWExfU1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z4AWzqTzAG2rdZpscGGBKR9wvYLK3+R5Gv6kXYJeSKU=;
+ b=dYXQYjtHNshrTJiee3aa0Vnh6G+o4yJUmGeqKkmK97guJE9C8ftch6mOvKeUkhEyhGXuyeQRHn5kSb0Wc378BpRfsZPiKbt2C2ffWk+wseh5LxbTcapsuHaRuuUYXW8wFhcfEJ64hxyxxZesOt800pIdpOxnyZuZSmA/oVEn2LXhI/4XMIz0FgmQx6+AWfu3BVvhGx+wmWq+Ge3fkz/trGKoG6GVHOz5NVDHCyKkCacca7hqXreSJ9FfSE/cdbc40bekcMLTogbRRm9j7HhImI86fvYoVw8td3eW4SpxMBDhdbuJfYjfstDlOjQuAQ2D03aqRxZIFQR+4ruIMltVYg==
+Received: from VI1EUR04FT048.eop-eur04.prod.protection.outlook.com
+ (2a01:111:e400:7e0e::4c) by
+ VI1EUR04HT172.eop-eur04.prod.protection.outlook.com (2a01:111:e400:7e0e::161)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17; Tue, 13 Apr
+ 2021 08:16:48 +0000
+Received: from AM0PR01MB4259.eurprd01.prod.exchangelabs.com
+ (2a01:111:e400:7e0e::42) by VI1EUR04FT048.mail.protection.outlook.com
+ (2a01:111:e400:7e0e::259) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17 via Frontend
+ Transport; Tue, 13 Apr 2021 08:16:48 +0000
+X-IncomingTopHeaderMarker:
+ OriginalChecksum:B23A13BA061885BDCE1480CA385425818C984A31AE2FF9521B59CF3408CDE234;UpperCasedChecksum:70D87F1691DAC5600AEA4C6E5B8EC8E6B6842D7315D8752C560680AE24E9DEB7;SizeAsReceived:7354;Count:44
+Received: from AM0PR01MB4259.eurprd01.prod.exchangelabs.com
+ ([fe80::18c2:36c1:2595:c74d]) by AM0PR01MB4259.eurprd01.prod.exchangelabs.com
+ ([fe80::18c2:36c1:2595:c74d%6]) with mapi id 15.20.4020.022; Tue, 13 Apr 2021
+ 08:16:48 +0000
+Date: Tue, 13 Apr 2021 10:16:37 +0200
+From: Mikko Talikka <mikko.talikka@live.com>
+To: gregkh@linuxfoundation.org
+Cc: abbotti@mev.co.uk, hsweeten@visionengravers.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: comedi: adv_pci_dio: remove whitespace
+Message-ID:
+ <AM0PR01MB42597C4CAA1B9E51D4AE3D5E974F9@AM0PR01MB4259.eurprd01.prod.exchangelabs.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-TMN: [O2lj88HIoQl/6mJFuY0h/mQi1ZD8XrGS]
+X-ClientProxiedBy: PR0P264CA0218.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:100:1e::14) To AM0PR01MB4259.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:6f::27)
+X-Microsoft-Original-Message-ID: <YHVTZcSChScebk1j@localhost.localdomain>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 62.31.163.78
-X-SA-Exim-Rcpt-To: andrew@lunn.ch, dqfext@gmail.com, davem@davemloft.net, f.fainelli@gmail.com, hkallweit1@gmail.com, kuba@kernel.org, Landen.Chao@mediatek.com, matthias.bgg@gmail.com, linux@armlinux.org.uk, sean.wang@mediatek.com, vivien.didelot@gmail.com, olteanv@gmail.com, robh+dt@kernel.org, linus.walleij@linaro.org, gregkh@linuxfoundation.org, sergio.paracuellos@gmail.com, linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-staging@lists.linux.dev, devicetree@vger.kernel.org, netdev@vger.kernel.org, weijie.gao@mediatek.com, gch981213@gmail.com, opensource@vdorst.com, frank-w@public-files.de, tglx@linutronix.de, gerg@kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (89.172.40.255) by PR0P264CA0218.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:1e::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17 via Frontend Transport; Tue, 13 Apr 2021 08:16:47 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 44
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 5e0fdc2e-39ce-4687-4de1-08d8fe547bb0
+X-MS-TrafficTypeDiagnostic: VI1EUR04HT172:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	DP87mcKzggo4HtEbX0V4gQ5XQc1IYPrahceaYhLt7gFP+fa/bCRjKqdJd3dGO2Jap1xtHHjWD2R/4ogeTbs/gcK9hnBdpLrVYmKMOtXX2qoxXBI3Rd964tXhh2vEogBLx3Nkwxb+rbkYobE/jsm9rg5J278fmDSmRbulLnk1CL8SRde+fATEuW01h7KbGtOseVFDUZkWBTL86q2ZTGaww7Z3QqShNUPH/1P3YGTmFmsW4uOgyS+z2SDTDGmdn4KG47YhFBFFPsCgo7Ew6tjxnX3uwjf20VtF4A2APAtxGQrZZTRS38L5Rg9apovvzJQSHtUgKSHJq42cczoQi8XCSHcE2aflU1Ja/DnSNjM7VoYRQ65to48ASaoGV5luQBOvbOPzrU5a5CC7QhEiEWNq3g==
+X-MS-Exchange-AntiSpam-MessageData:
+	W1fMrc6GxpHm48epRelJ2o2NjecJIXZJdC212jRYuK2xaeuaWWNne2QaPuz9WLLXaV7Yplk6LWPcEj54Epo83wiybY0xJ8jt+++88Hg55c/thdR+NWcl6Zg91ESznP9nwUJkRyai5D9MWg5gqkU3bg==
+X-OriginatorOrg: live.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e0fdc2e-39ce-4687-4de1-08d8fe547bb0
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2021 08:16:48.3632
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-AuthSource:
+	VI1EUR04FT048.eop-eur04.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1EUR04HT172
 
-On Tue, 13 Apr 2021 01:07:23 +0100,
-Andrew Lunn <andrew@lunn.ch> wrote:
-> 
-> > > > +static void
-> > > > +mt7530_setup_mdio_irq(struct mt7530_priv *priv)
-> > > > +{
-> > > > +	struct dsa_switch *ds = priv->ds;
-> > > > +	int p;
-> > > > +
-> > > > +	for (p = 0; p < MT7530_NUM_PHYS; p++) {
-> > > > +		if (BIT(p) & ds->phys_mii_mask) {
-> > > > +			unsigned int irq;
-> > > > +
-> > > > +			irq = irq_create_mapping(priv->irq_domain, p);
-> > > 
-> > > This seems odd. Why aren't the MDIO IRQs allocated on demand as
-> > > endpoint attached to this interrupt controller are being probed
-> > > individually? In general, doing this allocation upfront is an
-> > > indication that there is some missing information in the DT to perform
-> > > the discovery.
-> > 
-> > This is what Andrew's mv88e6xxx does, actually. In addition, I also check
-> > the phys_mii_mask to avoid creating mappings for unused ports.
-> 
-> It can be done via DT, using the standard interrupt property, so long
-> as you use of_mdiobus_register(np).
-> 
-> But when you have an 7 port switch, and a nice simple mapping, port 0
-> PHY using interrupt 0, you can save a lot of device tree boilerplate
-> by doing it in code. And when you have 4 of these switches, it gets
-> very boring adding all the DT to just wire up the interrupts 28
-> interrupts.
+Fixed checkpatch.pl warning:
 
-I guess this is depends whether the most usual case is to have all
-these interrupts being actively in use or not. Most interrupts only
-use a limited portion of their interrupt space at any given time.
-Allocating all interrupts and creating mappings upfront is a waste of
-memory.
+CHECK: Blank lines aren't necessary before a close brace '}'
++
++               }
 
-If the use case here is that all these interrupts will be wired and
-used in most cases, then upfront allocation is probably not a problem.
+Signed-off-by: Mikko Talikka <mikko.talikka@live.com>
+---
+ drivers/staging/comedi/drivers/adv_pci_dio.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-	M.
-
+diff --git a/drivers/staging/comedi/drivers/adv_pci_dio.c b/drivers/staging/comedi/drivers/adv_pci_dio.c
+index 8e222b6ff2b4..54c7419c8ca6 100644
+--- a/drivers/staging/comedi/drivers/adv_pci_dio.c
++++ b/drivers/staging/comedi/drivers/adv_pci_dio.c
+@@ -604,7 +604,6 @@ static int pci_dio_auto_attach(struct comedi_device *dev,
+ 						? pci_dio_insn_bits_di_w
+ 						: pci_dio_insn_bits_di_b;
+ 			s->private	= (void *)d->addr;
+-
+ 		}
+ 	}
+ 
 -- 
-Without deviation from the norm, progress is not possible.
+2.30.2
+
