@@ -1,49 +1,48 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486B271
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 03:25:47 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id lr1-20020a17090b4b81b02900ea0a3f38c1so616815pjb.0
-        for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 20:25:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A168271
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 03:26:05 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id u14-20020a17090a1f0eb029014e38011b09so3434032pja.5
+        for <linux-staging@lists.linux.dev>; Mon, 12 Apr 2021 20:26:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=dSZfSUphe0NnbZB4k0O50WfWli08mKIdprthWm9Rpno=;
-        b=Q2zyqbhkJBE+68u2PKiL6DXL1fRUnCaElQ5huclQL9s5/ARpDjGe+BQ+/6Fwu6SJoB
-         lhhqE++b+6bpKJBmIxMtXPtOeuYPrwxliwSyyhXxyVzMV5QMo4/pQnP+sbYWtMNCwzDB
-         SaO3oIjJAr60Q6hHixI6zO30B/buCvH6clz1gwhuzujMC6zK1nYe8qCdDKTOK2Uo6tO0
-         aLAWxN4au9GG2KGT9XT2uhSnpezXZJypo9G279gHbm/fPLZZi6uBZDj5eGqndlErlah+
-         GXKswWWEDlemT8ZkZF1RlNWxogeMEZ4KFjNDsKxxvEDVCs/+Bdw+tz1eYQAx2GtPZKYR
-         L8yw==
+        bh=cp9Q3q4NFkapY3F7PFjTBCPu8I2/yhix4VA8BHzZzls=;
+        b=jyL39EPKMRbMkF0H8rbw6NZX1+zZgJP8rqnJ9V6W7SeaX1Fw+PMHo6LHRRnE71F2xP
+         bZ/6MQNeBhJTo1CzCfmYpLq5c2VubtyUZr0eiQtmNy2RGP3QU+wu/ca5sMZFgXLQuK95
+         i6gRCxHKrHH2qCctRZJRKtDFah5eRxFykDujHolvqAodLegAzHmvJFRej3zVNy9rgwtU
+         kz/gLWmS3UJ/T0Hrp9OQBYtoKT6nM4qy6B1PQ6oQnMoAavfe2PhjnkL7nbSGS6yNNCPI
+         w1niRXACKkVIzC2zt3lRl7jkhwVgTPPIKSC7ftfHuBNpC/mMdNLn2ZE3tbu6Uryrn5UO
+         3zBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=dSZfSUphe0NnbZB4k0O50WfWli08mKIdprthWm9Rpno=;
-        b=ps5nUumsJXlCkkeXBxbkEHtZhNqYgZejnToXcZACsEc+o47KG/WGhOazS8xqJW+orv
-         BvCI48xxAj/JNVOM9mMYz7Wf+fYYmJI+bj4hErvzeBbAGwC1o394IbuGmSgnVpUNEDw1
-         hOPVV414yZ6X9qmBUP6AicLObPNZDFelu2c7Ynklr3doMgEj6PuBPUx8mv/vxGHmjqYa
-         F76SbNnGqcWas3mFZ4/JwHZlhGSL6XD2e4sQwwk3v0UiZxWhgKKuelae40F5nrfEAbDf
-         E396OVLkRNbZfy6WnFi2MGlLnjFJRmGqOxEntbbzYBSN+P0MNYkDQE4/rXV7kV1ldVvN
-         kxVQ==
-X-Gm-Message-State: AOAM532nf9qj5zYp/cD9qjzXHi0O6wDI1d6nE3reptBRCgtT90C0tA3w
-	Z1R2mcpxFCnnAQzwKbNDUSewb2QVB57YcA==
-X-Google-Smtp-Source: ABdhPJyKAZCA9CN6M9vXmT3sUkhVKKtehRUoTVZaKf8uB1pYlKWygMK+JjrfoVEBNT56jYha6AGeBw==
-X-Received: by 2002:a17:902:d306:b029:ea:bb6c:3c99 with SMTP id b6-20020a170902d306b02900eabb6c3c99mr15772422plc.9.1618284346794;
-        Mon, 12 Apr 2021 20:25:46 -0700 (PDT)
+        bh=cp9Q3q4NFkapY3F7PFjTBCPu8I2/yhix4VA8BHzZzls=;
+        b=Hz40CHWUI69xdv0c1gmTDpquomwUYq9o8OyrDxlWsxmeclpFkaUOMCkQLAutEgQUg9
+         OeSFKqEwQmBqiuma7rGeqvHZXqwVg4Dvpt+lQGDiZsQQZzIs9COxrr7T3ZxE2015k77E
+         ETj5IWwNGYJjTyRyoSLyFiyHh5hYzmpV/dk39vi1aR/Gl5mY5LhTioQES1yZtjC5u2hX
+         H8+WjJbGLvicZkyF0zQiXwpu6YOlY+aAn6E4lie0SP/JFu6qG4nrUKLclcSoOANT0ou0
+         BKIC4ReZVLUo4DAt9GwzhbKgi9WLHZ/3aMJn9mO3vrk4W057tYkDQ0ca2mXlS66NaGRI
+         MgmA==
+X-Gm-Message-State: AOAM530bU51bjjXswsa4oUBHUF57vlIJ5YhpNR66EZknz5y+OsPEENVk
+	9iAu5TzYJuQyHQNHhwqvH5s=
+X-Google-Smtp-Source: ABdhPJwPBj4usCtQBUi8pHfrA3aalNYSfLkG0mr4ylFDBqGGii21/i1YneBshIqaxZsHVc6efl6mpQ==
+X-Received: by 2002:a17:90a:a403:: with SMTP id y3mr2490713pjp.227.1618284365145;
+        Mon, 12 Apr 2021 20:26:05 -0700 (PDT)
 Received: from kali ([103.141.87.254])
-        by smtp.gmail.com with ESMTPSA id k13sm10334636pfc.50.2021.04.12.20.25.43
+        by smtp.gmail.com with ESMTPSA id h19sm11284507pfc.172.2021.04.12.20.26.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Apr 2021 20:25:46 -0700 (PDT)
-Date: Tue, 13 Apr 2021 08:55:41 +0530
+        Mon, 12 Apr 2021 20:26:04 -0700 (PDT)
+Date: Tue, 13 Apr 2021 08:55:59 +0530
 From: Mitali Borkar <mitaliborkar810@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: [PATCH v5 2/3] staging: rtl8192e: remove unnecessary ftrace-like
- logging
-Message-ID: <460ba9cdd256bf1064c4e3a694caa046171cb60e.1618283232.git.mitaliborkar810@gmail.com>
+Subject: [PATCH v5 3/3] staging: rtl8192e: remove casts and parentheses
+Message-ID: <4a26a0e155e3ea1ed48aad5a1df4b543c35346f5.1618283232.git.mitaliborkar810@gmail.com>
 References: <cover.1618283232.git.mitaliborkar810@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,50 +53,44 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1618283232.git.mitaliborkar810@gmail.com>
 
-Removed unncessary ftrace-like logging by simply deleting that statement
-as we have other modes of logging like ftrace.
-Reported by checkpatch.
+Removed unnecessary (void *) cast and parentheses to meet linux kernel
+coding style.
 
 Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
 ---
  
-Changes from v4:- No changes.
+Changes from v4:- Removed unnecessary casts and parentheses.
 Changes from v3:- No changes.
-Changes from v2:- No changes.
+Changes from v2:- Rectified spelling mistake in subject description.
+Changes has been made in v3.
 Changes from v1:- No changes.
 
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 0b1e92f17805..89d0e9ec188d 100644
+index 431202927036..ec6b46166e84 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
 +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -630,7 +630,6 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
- {
- 	struct rt_hi_throughput *pHTInfo = ieee->pHTInfo;
+@@ -646,14 +646,10 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
+ 	pHTInfo->CurrentMPDUDensity = pHTInfo->MPDU_Density;
+ 	pHTInfo->CurrentAMPDUFactor = pHTInfo->AMPDU_Factor;
  
--	netdev_vdbg(ieee->dev, "%s()\n", __func__);
- 	pHTInfo->bCurrentHTSupport = false;
+-	memset((void *)(&pHTInfo->SelfHTCap), 0,
+-	       sizeof(pHTInfo->SelfHTCap));
+-	memset((void *)(&pHTInfo->SelfHTInfo), 0,
+-	       sizeof(pHTInfo->SelfHTInfo));
+-	memset((void *)(&pHTInfo->PeerHTCapBuf), 0,
+-	       sizeof(pHTInfo->PeerHTCapBuf));
+-	memset((void *)(&pHTInfo->PeerHTInfoBuf), 0,
+-	       sizeof(pHTInfo->PeerHTInfoBuf));
++	memset(&pHTInfo->SelfHTCap, 0, sizeof(pHTInfo->SelfHTCap));
++	memset(&pHTInfo->SelfHTInfo, 0, sizeof(pHTInfo->SelfHTInfo));
++	memset(&pHTInfo->PeerHTCapBuf, 0, sizeof(pHTInfo->PeerHTCapBuf));
++	memset(&pHTInfo->PeerHTInfoBuf, 0, sizeof(pHTInfo->PeerHTInfoBuf));
  
- 	pHTInfo->bCurBW40MHz = false;
-@@ -698,7 +697,6 @@ void HTResetSelfAndSavePeerSetting(struct rtllib_device *ieee,
- 	struct rt_hi_throughput *pHTInfo = ieee->pHTInfo;
- 	u8	bIOTAction = 0;
+ 	pHTInfo->bSwBwInProgress = false;
  
--	netdev_vdbg(ieee->dev, "%s()\n", __func__);
- 	/* unmark bEnableHT flag here is the same reason why unmarked in
- 	 * function rtllib_softmac_new_net. WB 2008.09.10
- 	 */
-@@ -832,8 +830,6 @@ static void HTSetConnectBwModeCallback(struct rtllib_device *ieee)
- {
- 	struct rt_hi_throughput *pHTInfo = ieee->pHTInfo;
- 
--	netdev_vdbg(ieee->dev, "%s()\n", __func__);
--
- 	if (pHTInfo->bCurBW40MHz) {
- 		if (pHTInfo->CurSTAExtChnlOffset == HT_EXTCHNL_OFFSET_UPPER)
- 			ieee->set_chan(ieee->dev,
 -- 
 2.30.2
 
