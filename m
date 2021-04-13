@@ -1,143 +1,90 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230C671
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 13:24:34 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id w23so10088614ejb.9
-        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 06:24:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=fpmataO6y6J5iqfwR2qd4Wivtgq/Ar9WsoWwLjvHy0c=;
-        b=mNKYVtFGVLLXwE9Omr3M9RfH65jYaxtIcovHMYS75vwg5DtsqE0ANHMMNMXuU9D1C6
-         5vFZr4vbdzaN5euprooz/ytbGt6b1w+IQLv4QycvwO+NvZO0Wg5uenGd30qOJTGbBwFT
-         Tnk7f71jgBqHDvFhsybf966K1L4fJooXpcfv4jLTAzLK9jWoExePErAj7cSGeU/xZDkT
-         e5ZfZGcV7iax+F4kZYVqh+8CdbaYWxHiDH4WYmOWfnOFSrr5ByOyRN/W0pgNNjRsSFDQ
-         vCuVKlngJfe4cHt39zvRY51J1d50fIHYc+sQVmwrc6RS4koH6YBJHroh12jnX7o33A7Y
-         eYdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=fpmataO6y6J5iqfwR2qd4Wivtgq/Ar9WsoWwLjvHy0c=;
-        b=gdQ84LXp6hCrmECfaowtRw+mon1oeNf2zgUmnllfWo2d4+xlXfCfpVn0iWTy+PJk41
-         V7h7WAkDrMJiAcLNaCVmkrIN/vnw+C9zl4jBuCbBjzbQNX6bTOCJwl80n9ce2MCVrtOu
-         lWi+Lnv59YctKR+qGj3w/W46TrJMnTiW5v66XbAX+fP85pppj2bk0DYiXZgZLPstkaxw
-         ymEHHIz4DkMARoyrcS1M3LTxJKsiyfVAEMZs038vU5djEsyMgyM8GGBp56IraDA7io72
-         dh9/Hoq1fuvE00q2UrGegjhHAiIc093WuSnf5WfyBBsqmfJxpwRQwk+kd1r1DvaEoxXN
-         6Dtg==
-X-Gm-Message-State: AOAM530HNWp1rRbiBEiOI/n3k8P3OIdQWwqagYmAOUGY/cdSX16eqgzu
-	sruEmUm0jTX1XOJYA9qD4+Zl/18OIu45ITvR
-X-Google-Smtp-Source: ABdhPJxcR9pnUMn135tSaoAu7qjl2wbM9MRaXOguJWNr5L6QMefpdJ0jufcHkjqmMXXHloOrthoUVg==
-X-Received: by 2002:a17:906:3385:: with SMTP id v5mr32201707eja.539.1618320272670;
-        Tue, 13 Apr 2021 06:24:32 -0700 (PDT)
-Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
-        by smtp.gmail.com with ESMTPSA id y21sm9195860edv.31.2021.04.13.06.24.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 06:24:32 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8192u: ieee80211: Replaced strncpy() with strscpy()
-Date: Tue, 13 Apr 2021 15:24:31 +0200
-Message-ID: <5414987.Cp2PYjnBm2@linux.local>
-In-Reply-To: <YHWZoY6B8sOiflwy@kroah.com>
-References: <20210413123041.24260-1-fmdefrancesco@gmail.com> <4666289.4L6Ep8XSK1@linux.local> <YHWZoY6B8sOiflwy@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40D171
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 13:24:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	 bh=foqwV3LZUmXDdTNvR/fFhNELYb8TFDLpg4frq5Uu1wk=; b=Xz7TLVrDwoJr2Cf66bWhzW9QF
+	WHeOD48tHgtmtJk98kZpCQKsC+wsS/ghnnNOG2pqGpJDSVT+X7IE2lW9nkVYitr5RvEn/YC9lAcSF
+	3fkkNFcK+/1/ejCVlMPSv6NwXApaRWKB7/tcQAYK5nr08To45hIbHKQ6eTRDPAlgnh+wsGnRonNJc
+	DpkEELgHFLqgQLZZIzDLi0C+ouDYh7wie83lmDRV+BSbkWNWYQWXEjRKUSSK2zGkWCxAUDVLFQ8QA
+	3TQBXvDShIj0lAs2MrLgQOb92QuASnVXgR4SiZ1/4wK0Y/SmlAV9yrw45LVpcgL37easz1L2K5d6P
+	trRRwq7dw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:52380)
+	by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1lWIqn-0005fZ-L0; Tue, 13 Apr 2021 14:13:05 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1lWIqh-0008DM-Rt; Tue, 13 Apr 2021 14:12:59 +0100
+Date: Tue, 13 Apr 2021 14:12:59 +0100
+From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To: DENG Qingfang <dqfext@gmail.com>
+Cc: =?iso-8859-1?Q?Ren=E9?= van Dorst <opensource@vdorst.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Landen Chao <Landen.Chao@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Vivien Didelot <vivien.didelot@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-staging@lists.linux.dev, devicetree@vger.kernel.org,
+	netdev@vger.kernel.org, Weijie Gao <weijie.gao@mediatek.com>,
+	Chuanhong Guo <gch981213@gmail.com>,
+	Frank Wunderlich <frank-w@public-files.de>,
+	Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>
+Subject: Re: [RFC v4 net-next 1/4] net: phy: add MediaTek PHY driver
+Message-ID: <20210413131259.GP1463@shell.armlinux.org.uk>
+References: <20210412034237.2473017-1-dqfext@gmail.com>
+ <20210412034237.2473017-2-dqfext@gmail.com>
+ <20210412070449.Horde.wg9CWXW8V9o0P-heKYtQpVh@www.vdorst.com>
+ <20210412150836.929610-1-dqfext@gmail.com>
+ <20210413035920.1422364-1-dqfext@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210413035920.1422364-1-dqfext@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Sender: Russell King - ARM Linux admin <linux@armlinux.org.uk>
 
-On Tuesday, April 13, 2021 3:16:17 PM CEST Greg Kroah-Hartman wrote:
-> On Tue, Apr 13, 2021 at 03:12:02PM +0200, Fabio M. De Francesco wrote:
-> > On Tuesday, April 13, 2021 2:59:29 PM CEST Greg Kroah-Hartman wrote:
-> > > On Tue, Apr 13, 2021 at 02:30:41PM +0200, Fabio M. De Francesco=20
-wrote:
-> > > > Replaced strncpy() with strscpy() because of compilation time
-> > > > warnings
-> > > > about possible truncation of output [-Wstringop-truncation].
-> > >=20
-> > > build warnings?  What build warnings?
-> >=20
-> > drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c:1388:5: warning:
-> > =E2=80=98strncpy=E2=80=99 output may be truncated copying 32 bytes from=
- a string of
-> > length 32 [-Wstringop-truncation]
-> >=20
-> >  1388 |     strncpy(tmp_ssid, ieee->current_network.ssid,
-> >=20
-> > IW_ESSID_MAX_SIZE);
->=20
-> That's implying that there is a real bug here, not that just replacing
-> it with a different call is going to solve this, right?
->=20
-> And how do you see that, I can't see that in my builds.
->
-I see that with flag W=3D1 like in=20
-make -j8 drivers/staging/rtl8192u/ W=3D1
+On Tue, Apr 13, 2021 at 11:59:20AM +0800, DENG Qingfang wrote:
+> Within 12 hours, I got some spontaneous link down/ups when EEE is enabled:
+> 
+> [16334.236233] mt7530 mdio-bus:1f wan: Link is Down
+> [16334.241340] br-lan: port 3(wan) entered disabled state
+> [16337.355988] mt7530 mdio-bus:1f wan: Link is Up - 1Gbps/Full - flow control rx/tx
+> [16337.363468] br-lan: port 3(wan) entered blocking state
+> [16337.368638] br-lan: port 3(wan) entered forwarding state
+> 
+> The cable is a 30m Cat.6 and never has such issue when EEE is disabled.
+> Perhaps WAKEUP_TIME_1000/100 or some PHY registers need to be fine-tuned,
+> but for now I think it should be disabled by default.
 
-However I also think it's not a real issue in this context.
-Just that strscpy() is preferred and get rid of warnings.
-You only can judge if a patch is worth.
-I just thought that gcc is (mostly) right in pointing out warnings like=20
-that.
+Experience with Atheros AR8035 which has a very similar issue would
+suggest that before resorting to the blunt hammer of disabling
+SmartEEE, one should definitely experiment with the 1G Tw settings.
 
-Thanks,
+Using 24us for 1G speeds on AR8035 helps a great deal, whereas the PHY
+defaults to 17us for 1G and 23us for 100M.
 
-=46abio
->=20
-> > > > Furthermore, according to the Linux official documentation,
-> > > > strscpy()
-> > > > is
-> > > > preferred to strncpy.
-> > > >=20
-> > > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > > > ---
-> > > >=20
-> > > >  drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c | 4 ++--
-> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > >=20
-> > > > diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-> > > > b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c index
-> > > > 25ea8e1b6b65..aa58eedf5e86 100644
-> > > > --- a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-> > > > +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-> > > > @@ -1385,12 +1385,12 @@ inline void
-> > > > ieee80211_softmac_new_net(struct
-> > > > ieee80211_device *ieee, struct ieee>
-> > > >=20
-> > > >  			 * essid provided by the user.
-> > > >  			 */
-> > > >  		=09
-> > > >  			if (!ssidbroad) {
-> > > >=20
-> > > > -				strncpy(tmp_ssid, ieee-
-> > >
-> > >current_network.ssid, IW_ESSID_MAX_SIZE);
-> > >
-> > > > +				strscpy(tmp_ssid, ieee-
-> > >
-> > >current_network.ssid, IW_ESSID_MAX_SIZE);
-> > >
-> > > Are you sure you can just replace this like this?
-> >=20
-> > I surely was... but now I'm not anymore, since your review :)
-> >=20
-> > Maybe you mean I have to check possible return of -E2BIG?
-> > Did you mean something else?
-> > May you please elaborate further?
->=20
-> If it was as simple as search/replace, we would have already done that
-> on the whole codebase at once.  It's not that simple :)
->=20
-> thanks,
->=20
-> greg k-h
-
-
-
-
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
