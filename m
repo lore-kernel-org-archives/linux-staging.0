@@ -1,90 +1,146 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40D171
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 13:24:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	 bh=foqwV3LZUmXDdTNvR/fFhNELYb8TFDLpg4frq5Uu1wk=; b=Xz7TLVrDwoJr2Cf66bWhzW9QF
-	WHeOD48tHgtmtJk98kZpCQKsC+wsS/ghnnNOG2pqGpJDSVT+X7IE2lW9nkVYitr5RvEn/YC9lAcSF
-	3fkkNFcK+/1/ejCVlMPSv6NwXApaRWKB7/tcQAYK5nr08To45hIbHKQ6eTRDPAlgnh+wsGnRonNJc
-	DpkEELgHFLqgQLZZIzDLi0C+ouDYh7wie83lmDRV+BSbkWNWYQWXEjRKUSSK2zGkWCxAUDVLFQ8QA
-	3TQBXvDShIj0lAs2MrLgQOb92QuASnVXgR4SiZ1/4wK0Y/SmlAV9yrw45LVpcgL37easz1L2K5d6P
-	trRRwq7dw==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:52380)
-	by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1lWIqn-0005fZ-L0; Tue, 13 Apr 2021 14:13:05 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1lWIqh-0008DM-Rt; Tue, 13 Apr 2021 14:12:59 +0100
-Date: Tue, 13 Apr 2021 14:12:59 +0100
-From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To: DENG Qingfang <dqfext@gmail.com>
-Cc: =?iso-8859-1?Q?Ren=E9?= van Dorst <opensource@vdorst.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Landen Chao <Landen.Chao@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Vivien Didelot <vivien.didelot@gmail.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	linux-staging@lists.linux.dev, devicetree@vger.kernel.org,
-	netdev@vger.kernel.org, Weijie Gao <weijie.gao@mediatek.com>,
-	Chuanhong Guo <gch981213@gmail.com>,
-	Frank Wunderlich <frank-w@public-files.de>,
-	Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>
-Subject: Re: [RFC v4 net-next 1/4] net: phy: add MediaTek PHY driver
-Message-ID: <20210413131259.GP1463@shell.armlinux.org.uk>
-References: <20210412034237.2473017-1-dqfext@gmail.com>
- <20210412034237.2473017-2-dqfext@gmail.com>
- <20210412070449.Horde.wg9CWXW8V9o0P-heKYtQpVh@www.vdorst.com>
- <20210412150836.929610-1-dqfext@gmail.com>
- <20210413035920.1422364-1-dqfext@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C4871
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 13:46:15 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A3D1D8AF;
+	Tue, 13 Apr 2021 15:46:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1618321567;
+	bh=ERzFPHfwcC1rsN/DqiEKlswPknAmFAYpH+SlZCHO53s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=M+mVpGANMD7po+3PLGrcQK+tltANs7uEpInW1c0IEonhQ3Rd/h5sawXyi0/08uqdD
+	 1gf6EPhyF5ypqxn0ylQFS1KOOI+/qhlfpEJNlZTSMMjSlhM6QwW0qoCmmoQr37FJFF
+	 bcfl9eWNSPHvuHH9tlsMlpoxghqi1IWm/oJdwLxs=
+Date: Tue, 13 Apr 2021 16:45:17 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
+	Mitali Borkar <mitaliborkar810@gmail.com>, bingbu.cao@intel.com,
+	tian.shu.qiu@intel.com, mchehab@kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
+Subject: Re: [PATCH 1/1] staging: ipu3-imgu: Move the UAPI header from
+ include under include/uapi
+Message-ID: <YHWgbZTDAWBX9EpR@pendragon.ideasonboard.com>
+References: <20210412111120.31625-1-sakari.ailus@linux.intel.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210413035920.1422364-1-dqfext@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Sender: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210412111120.31625-1-sakari.ailus@linux.intel.com>
 
-On Tue, Apr 13, 2021 at 11:59:20AM +0800, DENG Qingfang wrote:
-> Within 12 hours, I got some spontaneous link down/ups when EEE is enabled:
+Hi Sakari,
+
+Thank you for the patch.
+
+On Mon, Apr 12, 2021 at 02:11:20PM +0300, Sakari Ailus wrote:
+> The header defines the user space interface but may be mistaken as
+> kernel-only header due to its location. Add "uapi" directory under
+> driver's include directory and move the header there.
 > 
-> [16334.236233] mt7530 mdio-bus:1f wan: Link is Down
-> [16334.241340] br-lan: port 3(wan) entered disabled state
-> [16337.355988] mt7530 mdio-bus:1f wan: Link is Up - 1Gbps/Full - flow control rx/tx
-> [16337.363468] br-lan: port 3(wan) entered blocking state
-> [16337.368638] br-lan: port 3(wan) entered forwarding state
+> Suggested-by: Greg KH <gregkh@linuxfoundation.org>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  Documentation/admin-guide/media/ipu3.rst      | 35 ++++++++++---------
+>  .../media/v4l/pixfmt-meta-intel-ipu3.rst      |  2 +-
+>  .../ipu3/include/{ => uapi}/intel-ipu3.h      |  0
+>  drivers/staging/media/ipu3/ipu3-abi.h         |  2 +-
+>  4 files changed, 20 insertions(+), 19 deletions(-)
+>  rename drivers/staging/media/ipu3/include/{ => uapi}/intel-ipu3.h (100%)
 > 
-> The cable is a 30m Cat.6 and never has such issue when EEE is disabled.
-> Perhaps WAKEUP_TIME_1000/100 or some PHY registers need to be fine-tuned,
-> but for now I think it should be disabled by default.
+> diff --git a/Documentation/admin-guide/media/ipu3.rst b/Documentation/admin-guide/media/ipu3.rst
+> index f59697c7b374..d6454f637ff4 100644
+> --- a/Documentation/admin-guide/media/ipu3.rst
+> +++ b/Documentation/admin-guide/media/ipu3.rst
+> @@ -234,22 +234,23 @@ The IPU3 ImgU pipelines can be configured using the Media Controller, defined at
+>  Running mode and firmware binary selection
+>  ------------------------------------------
+>  
+> -ImgU works based on firmware, currently the ImgU firmware support run 2 pipes in
+> -time-sharing with single input frame data. Each pipe can run at certain mode -
+> -"VIDEO" or "STILL", "VIDEO" mode is commonly used for video frames capture, and
+> -"STILL" is used for still frame capture. However, you can also select "VIDEO" to
+> -capture still frames if you want to capture images with less system load and
+> -power. For "STILL" mode, ImgU will try to use smaller BDS factor and output
+> -larger bayer frame for further YUV processing than "VIDEO" mode to get high
+> -quality images. Besides, "STILL" mode need XNR3 to do noise reduction, hence
+> -"STILL" mode will need more power and memory bandwidth than "VIDEO" mode. TNR
+> -will be enabled in "VIDEO" mode and bypassed by "STILL" mode. ImgU is running at
+> -“VIDEO” mode by default, the user can use v4l2 control V4L2_CID_INTEL_IPU3_MODE
+> -(currently defined in drivers/staging/media/ipu3/include/intel-ipu3.h) to query
+> -and set the running mode. For user, there is no difference for buffer queueing
+> -between the "VIDEO" and "STILL" mode, mandatory input and main output node
+> -should be enabled and buffers need be queued, the statistics and the view-finder
+> -queues are optional.
+> +ImgU works based on firmware, currently the ImgU firmware support run 2 pipes
+> +in time-sharing with single input frame data. Each pipe can run at certain mode
+> +- "VIDEO" or "STILL", "VIDEO" mode is commonly used for video frames capture,
+> +and "STILL" is used for still frame capture. However, you can also select
+> +"VIDEO" to capture still frames if you want to capture images with less system
+> +load and power. For "STILL" mode, ImgU will try to use smaller BDS factor and
+> +output larger bayer frame for further YUV processing than "VIDEO" mode to get
+> +high quality images. Besides, "STILL" mode need XNR3 to do noise reduction,
+> +hence "STILL" mode will need more power and memory bandwidth than "VIDEO" mode.
+> +TNR will be enabled in "VIDEO" mode and bypassed by "STILL" mode. ImgU is
+> +running at “VIDEO” mode by default, the user can use v4l2 control
+> +V4L2_CID_INTEL_IPU3_MODE (currently defined in
+> +drivers/staging/media/ipu3/include/uapi/intel-ipu3.h) to query and set the
+> +running mode. For user, there is no difference for buffer queueing between the
+> +"VIDEO" and "STILL" mode, mandatory input and main output node should be
+> +enabled and buffers need be queued, the statistics and the view-finder queues
+> +are optional.
 
-Experience with Atheros AR8035 which has a very similar issue would
-suggest that before resorting to the blunt hammer of disabling
-SmartEEE, one should definitely experiment with the 1G Tw settings.
+The reflow of the whole paragraph is a bit painful to review.
 
-Using 24us for 1G speeds on AR8035 helps a great deal, whereas the PHY
-defaults to 17us for 1G and 23us for 100M.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>  
+>  The firmware binary will be selected according to current running mode, such log
+>  "using binary if_to_osys_striped " or "using binary if_to_osys_primary_striped"
+> @@ -586,7 +587,7 @@ preserved.
+>  References
+>  ==========
+>  
+> -.. [#f5] drivers/staging/media/ipu3/include/intel-ipu3.h
+> +.. [#f5] drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+>  
+>  .. [#f1] https://github.com/intel/nvt
+>  
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-intel-ipu3.rst b/Documentation/userspace-api/media/v4l/pixfmt-meta-intel-ipu3.rst
+> index 5f33d35532ef..84d81dd7a7b5 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-meta-intel-ipu3.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-meta-intel-ipu3.rst
+> @@ -78,4 +78,4 @@ hardware and algorithm details.
+>  Intel IPU3 ImgU uAPI data types
+>  ===============================
+>  
+> -.. kernel-doc:: drivers/staging/media/ipu3/include/intel-ipu3.h
+> +.. kernel-doc:: drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+> diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+> similarity index 100%
+> rename from drivers/staging/media/ipu3/include/intel-ipu3.h
+> rename to drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+> diff --git a/drivers/staging/media/ipu3/ipu3-abi.h b/drivers/staging/media/ipu3/ipu3-abi.h
+> index e1185602c7fd..c76935b436d7 100644
+> --- a/drivers/staging/media/ipu3/ipu3-abi.h
+> +++ b/drivers/staging/media/ipu3/ipu3-abi.h
+> @@ -4,7 +4,7 @@
+>  #ifndef __IPU3_ABI_H
+>  #define __IPU3_ABI_H
+>  
+> -#include "include/intel-ipu3.h"
+> +#include "include/uapi/intel-ipu3.h"
+>  
+>  /******************* IMGU Hardware information *******************/
+>  
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+Regards,
+
+Laurent Pinchart
