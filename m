@@ -1,89 +1,148 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11FC772
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 16:35:35 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id m11so11775853pfc.11
-        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 09:35:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE1772
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 16:47:09 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id mh2so5464967ejb.8
+        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 09:47:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=dd20NqXtrojKGrBJQbQ2lRtgUmGNTiUlPe1joyxcopU=;
-        b=IHFs8FlI+E2aYsqYZDA/xjPPjwlgQOduLuWNDf2cgPNWnj3Oy9WLA9fUOhEbATI+PE
-         Z4s5GySRJjI8+3wsFsACFI+AcdnjHoxdHuJGFguBUBNb4S/0cVWD4oEVq2WkxB8bNalr
-         CxQVY/XPBRxFMXyGtcY0lxV0PiKL62F0c/OCpLIsCbrjA+p55wRTDcwGCOMaebnjSuBr
-         tz9qcRrCtQT/Fbau2ZEWyqeyBgfSOSs0B+C3L6Qr3TXfkOhkZ/XGh6CAE7y7k86sj8ah
-         Dk8Bv4iuEtHja1ussXG+SeSQSxdHCI2SQcq3izqWyGjp8CU3bwRdheVeHOWT0dEfsnzm
-         csbw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=PPrRY59PSM3yh1tKzKnDdwXXNAeLcHdKyiHLS4Gj0hA=;
+        b=PWc+O58bUAq/kMKopVybp8PnVvTQooI+TmUFcMtKNxZToh6H59xzyXWGeWkVeN6dOQ
+         4ZXH8yBZsuEiv/KzeLynhpQouNAN0t4LHnPMpsW5fcTPSPi9r0ybW+jcPx8pftEqM/6v
+         FWpO/yxes1F9i9ZNMcPJVyJXl/4vCASSa8LinvIXP2cl9J+pWueBjZjblMhS5OCG807k
+         G914OIPOC/U8+BdFOTYm8BvSSGsLxQ/QGMvGcxrALARS3cwxHN2Vsg+wmOetdDMNFlKf
+         HqYDX6KOlw1RAyVZMiava4gZFPB2OW6tgPXOI6f33e/TFbItHYpIllphVTMZfO/oZryf
+         +/xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=dd20NqXtrojKGrBJQbQ2lRtgUmGNTiUlPe1joyxcopU=;
-        b=jdzMR/Is+KN7DSehYa7XqLvI2DBxUxmcqXDOrvmDB6SFHr9iR9G4ULn3p665u+Ih7w
-         7Uql7tNFpb9w9dySCKs4a8qgK4XewBUJti6N3PQOr1ncZLq0xjvZ4K/szA+MMTRorMHx
-         CJ4bnJTV88dkCJMLw7Zp6ZQdLoL4mTPpfc77Bu1mPne23acdud+z6sQpuAWhNkwwSCTH
-         AzuuCGg4NsKd+cMXT1h5lXxECJz+jdfCqf3cMhx+M7jSdCrYj073gg2AZTK4vB/q8RPS
-         Vk1xzzlq3r3sQbtPF/LRLt4XSnTkmSgWy+iUYHPpwHAU+jFhk/mjyPBs4KzXhSoJFNeE
-         oC0A==
-X-Gm-Message-State: AOAM5313E2pCCQUzD3t2f+haGaHzbiAxttgjNHVhcm864UsnZVkUuV9/
-	AtqhrD+QKGoof1XNt6ZePEI=
-X-Google-Smtp-Source: ABdhPJzQfoOV1tSHdZTGBisqi78C3nrKplsv/ZKnmC8yl6nptENeS276rzZ7sxyorD4DPW2QPa20+g==
-X-Received: by 2002:a62:824c:0:b029:21b:66f5:c813 with SMTP id w73-20020a62824c0000b029021b66f5c813mr29926041pfd.32.1618331734483;
-        Tue, 13 Apr 2021 09:35:34 -0700 (PDT)
-Received: from kali ([103.141.87.254])
-        by smtp.gmail.com with ESMTPSA id v11sm14904582pgg.68.2021.04.13.09.35.30
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=PPrRY59PSM3yh1tKzKnDdwXXNAeLcHdKyiHLS4Gj0hA=;
+        b=dPODyoTH3Pt3f7TQ3fRDBJmANKYALmA2Kz/gooil80BdaHxOvVTuyUSTEAnw/RDdgC
+         XBsGAMDWV6Bg6lNz0gUuJOo5UD38huS0TCmEMeyoOEb/kKxLspHv3DyJK3+tVQL7PuV5
+         CoRi4RYIQsKvm/7MpJlIJdr0hVlxNTlOswH4uBnFl5RAaP74o5LTBv5WkG9VNn+deZs3
+         RKZqDlpOX9xpjxOtVVS7iA09rdVm3zjnsuosSwiDQSMsdDOw2yytAL5aVExkbUohW1P6
+         hdTFFkwFL4qqZr08csZFgE3aIpXA+wr6ARDE7fAVd4F+eRaAGB7ZLnaCYYRYBpu4AjeR
+         eXTA==
+X-Gm-Message-State: AOAM532UPzbaoVH/VFzRS5CkNOCknXJ4Lz6mL9PkzHsiZHh7m2PDhs+g
+	h4XQrLCzciMMzj2W5f1KHXc=
+X-Google-Smtp-Source: ABdhPJz0gemxtEUhkyNn+0UOr/2CuNn6V/jLhexji8Boak1pkWkg0uu9NyPIsR+dKLLzEGf9b7Bqow==
+X-Received: by 2002:a17:906:29cf:: with SMTP id y15mr8381481eje.500.1618332427687;
+        Tue, 13 Apr 2021 09:47:07 -0700 (PDT)
+Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
+        by smtp.gmail.com with ESMTPSA id j6sm9549653edw.73.2021.04.13.09.47.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 09:35:34 -0700 (PDT)
-Date: Tue, 13 Apr 2021 22:05:26 +0530
-From: Mitali Borkar <mitaliborkar810@gmail.com>
-To: clabbe@baylibre.com, mchehab@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
-	mitali_s@me.iitr.ac.in
-Subject: [PATCH v3] staging: media: zoran: reduce length of a line
-Message-ID: <YHXITpUbYOb2lO/u@kali>
+        Tue, 13 Apr 2021 09:47:07 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: Julia Lawall <julia.lawall@inria.fr>, outreachy-kernel@googlegroups.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [Outreachy kernel] [PATCH] :staging: rtl8723bs: Remove useless led_blink_hdl()
+Date: Tue, 13 Apr 2021 18:47:06 +0200
+Message-ID: <3381109.TaO10cqo9c@linux.local>
+In-Reply-To: <alpine.DEB.2.22.394.2104131826160.8430@hadrien>
+References: <20210413155908.8691-1-fmdefrancesco@gmail.com> <1843649.8FsqevVC75@linux.local> <alpine.DEB.2.22.394.2104131826160.8430@hadrien>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="US-ASCII"
 
-Reduced length of a line which exceed the 100 columns limit by splitting
-the line into two statements and commenting it with '*' to meet linux
-kernel coding style for long(multi-line) comments.
-Reported by checkpatch.
+On Tuesday, April 13, 2021 6:27:17 PM CEST Julia Lawall wrote:
+> On Tue, 13 Apr 2021, Fabio M. De Francesco wrote:
+> > On Tuesday, April 13, 2021 6:04:16 PM CEST Julia Lawall wrote:
+> > > On Tue, 13 Apr 2021, Fabio M. De Francesco wrote:
+> > > > Removed the led_blink_hdl() function (declaration, definition, and
+> > > > caller code) because it's useless. It only seems to check whether
+> > > > or
+> > > > not a given pointer is NULL. There are other (simpler) means for
+> > > > that
+> > > > purpose.
+> > > > 
+> > > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > > > ---
+> > > > 
+> > > >  drivers/staging/rtl8723bs/core/rtw_cmd.c         | 1 -
+> > > >  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    | 9 ---------
+> > > >  drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 1 -
+> > > >  3 files changed, 11 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> > > > b/drivers/staging/rtl8723bs/core/rtw_cmd.c index
+> > > > 0297fbad7bce..4c44dfd21514 100644
+> > > > --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> > > > +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> > > > @@ -150,7 +150,6 @@ static struct cmd_hdl wlancmds[] = {
+> > > > 
+> > > >  	GEN_MLME_EXT_HANDLER(0, h2c_msg_hdl) /*58*/
+> > > >  	GEN_MLME_EXT_HANDLER(sizeof(struct SetChannelPlan_param),
+> > > >  	set_chplan_hdl) /*59*/>
+> > > > 
+> > > > -	GEN_MLME_EXT_HANDLER(sizeof(struct LedBlink_param),
+> > 
+> > led_blink_hdl)
+> > 
+> > > > /*60*/
+> > > 
+> > > This is worrisome.  Doyou fully understand the impact of this?  If
+> > > not,
+> > > the change is probably not a good idea.
+> > 
+> > This is that macro definition:
+> > 
+> > #define GEN_MLME_EXT_HANDLER(size, cmd) {size, cmd},
+> > 
+> > struct C2HEvent_Header {
+> > 
+> > #ifdef __LITTLE_ENDIAN
+> > 
+> >         unsigned int len:16;
+> >         unsigned int ID:8;
+> >         unsigned int seq:8;
+> > 
+> > #else
+> > 
+> >         unsigned int seq:8;
+> >         unsigned int ID:8;
+> >         unsigned int len:16;
+> > 
+> > #endif
+> > 
+> >         unsigned int rsvd;
+> > 
+> > };
+> > 
+> > It's a bit convoluted with regard to my experience. Probably I don't
+> > understand it fully, but it seems to me to not having effects to the
+> > code where I removed its use within core/rtw_cmd.c.
+> > 
+> > What am I missing?
+> 
+> It seems that the function is being put into an array.  Probably someone
+> expects to find it there.  Probably you have shifted all of the functions
+> that come afterwards back one slot so that they are all in the wrong
+> places.
+> 
+> julia
+>
+Thanks for your explanation. Obviously this implies that the function 
+cannot be removed, unless one fill the slot that is deleted by to not 
+calling this macro at the right moment. 
 
-Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
----
+I also suppose that providing a function pointer with a NULL value wouldn't 
+work either.
 
-Changes from v2:- Rebased this patch and made changes against mainline
-code.
-Changes from v1:- Made style changes according to linux kernel coding style
-for long comments.
+OK, h2c_msg_hdl() cannot be deleted.
 
- drivers/staging/media/zoran/zr36060.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Thanks,
 
-diff --git a/drivers/staging/media/zoran/zr36060.c b/drivers/staging/media/zoran/zr36060.c
-index 4f9eb9ff2c42..27eec3446592 100644
---- a/drivers/staging/media/zoran/zr36060.c
-+++ b/drivers/staging/media/zoran/zr36060.c
-@@ -249,7 +249,11 @@ static const char zr36060_ta[8] = { 0, 1, 1, 0, 0, 0, 0, 0 };	//table idx's AC
- static const char zr36060_decimation_h[8] = { 2, 1, 1, 0, 0, 0, 0, 0 };
- static const char zr36060_decimation_v[8] = { 1, 1, 1, 0, 0, 0, 0, 0 };
- 
--/* SOF (start of frame) segment depends on width, height and sampling ratio of each color component */
-+/*
-+ * SOF (start of frame) segment depends on width,
-+ * height and sampling ratio of each color component
-+ */
-+
- static int zr36060_set_sof(struct zr36060 *ptr)
- {
- 	char sof_data[34];	// max. size of register set
--- 
-2.30.2
+Fabio
+  
+
+
+
 
