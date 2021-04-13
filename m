@@ -1,93 +1,120 @@
-Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51FB70
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 14:53:01 +0000 (UTC)
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-	by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13DEnYa3036778;
-	Tue, 13 Apr 2021 14:52:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=XlmNGq/1+E4+j5kYmK7x5/m8LnmtU0Ndl1MhNnKYffw=;
- b=BAlV+9aQn2uvlp+oY1x6eG6BdK8q5jawmxxEhaRqVG0LLkcOpVQPdMnhvG89CuxK4Pjj
- X6b7oatlzJiMcak5gExyMzQH+w5GVB2cVYMr3XFPpRXMZegJRIfybGn+0eL8WMIxWLqz
- YfSt9NLfEd+AVQSWrQ4erA7sugClm7ZvG9oUdFfj7tNnITWH6TMVtcqSeY/Zg5ZZp7z1
- YCvT+YmCN6V+/zAitttIbP7CUsvxsNeQFsXFIRb0NNmM1KXYCiXpGS2sWFvE2Izw7HW7
- yrRz7PtZL90yK5+cj5bl22yBektnLW8e7t4MFmOKsIjT1Al0YGjlIrwynQrjGhB/f7x3 Zw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by aserp2130.oracle.com with ESMTP id 37u1hbffj9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 13 Apr 2021 14:52:53 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13DEjeu8161362;
-	Tue, 13 Apr 2021 14:52:52 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-	by aserp3020.oracle.com with ESMTP id 37unwyvv2g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 13 Apr 2021 14:52:52 +0000
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
-	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13DEqpq6014908;
-	Tue, 13 Apr 2021 14:52:51 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Tue, 13 Apr 2021 07:52:51 -0700
-Date: Tue, 13 Apr 2021 17:52:45 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 12/19] staging: rtl8723bs: remove unnecessary bracks on
- DBG_871X removal sites
-Message-ID: <20210413145245.GG6021@kadam>
-References: <cover.1617802415.git.fabioaiuto83@gmail.com>
- <35f5edf0f39b717b3de3ad7861cbaa5f4ba60576.1617802415.git.fabioaiuto83@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668E770
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 14:53:22 +0000 (UTC)
+IronPort-SDR: /+VvF5GBIqtzWTdHe4OISzuszrtPj7HqWPJH2mjfAtycew5lmKilqG2o++zCzD2HqwpTcVprMx
+ 3wTAJRb7DaTg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9953"; a="181552947"
+X-IronPort-AV: E=Sophos;i="5.82,219,1613462400"; 
+   d="scan'208";a="181552947"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2021 07:53:21 -0700
+IronPort-SDR: ThDZnDaLHvuc3kj4p9CLOj8eCMjDN7c9Gh2EuxNxgL6sIYP7mPiWT3hhP/eptiuAKNHHa6pZn0
+ geGfOVXQD4Gg==
+X-IronPort-AV: E=Sophos;i="5.82,219,1613462400"; 
+   d="scan'208";a="521623505"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2021 07:53:18 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+	by paasikivi.fi.intel.com (Postfix) with ESMTP id 5D7352082C;
+	Tue, 13 Apr 2021 17:53:15 +0300 (EEST)
+Date: Tue, 13 Apr 2021 17:53:15 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
+	Mitali Borkar <mitaliborkar810@gmail.com>, bingbu.cao@intel.com,
+	tian.shu.qiu@intel.com, mchehab@kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
+Subject: Re: [PATCH 1/1] staging: ipu3-imgu: Move the UAPI header from
+ include under include/uapi
+Message-ID: <20210413145315.GW3@paasikivi.fi.intel.com>
+References: <20210412111120.31625-1-sakari.ailus@linux.intel.com>
+ <YHWgbZTDAWBX9EpR@pendragon.ideasonboard.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <35f5edf0f39b717b3de3ad7861cbaa5f4ba60576.1617802415.git.fabioaiuto83@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
- mlxscore=0 malwarescore=0 adultscore=0 bulkscore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104130106
-X-Proofpoint-GUID: 5WBQ4qNszvuj1d5rr6ONVqtYsYaBpGu4
-X-Proofpoint-ORIG-GUID: 5WBQ4qNszvuj1d5rr6ONVqtYsYaBpGu4
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 priorityscore=1501
- clxscore=1015 adultscore=0 mlxlogscore=999 impostorscore=0 malwarescore=0
- lowpriorityscore=0 spamscore=0 phishscore=0 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104130106
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YHWgbZTDAWBX9EpR@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Wed, Apr 07, 2021 at 03:49:36PM +0200, Fabio Aiuto wrote:
-> @@ -2586,11 +2583,9 @@ static int rtw_dbg_port(struct net_device *dev,
->  
->  								plist = get_next(plist);
->  
-> -								if (extra_arg == psta->aid) {
-> -									for (j = 0; j < 16; j++) {
-> +								if (extra_arg == psta->aid)
-> +									for (j = 0; j < 16; j++)
->  										preorder_ctrl = &psta->recvreorder_ctrl[j];
-> -									}
-> -								}
+Hi Laurent,
 
-I think Greg already applied this so no stress (don't bother fixing),
-but you removed a bit too much on this one.  Multi-line indents normally
-get curly braces for readability.  In other words:
+On Tue, Apr 13, 2021 at 04:45:17PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Apr 12, 2021 at 02:11:20PM +0300, Sakari Ailus wrote:
+> > The header defines the user space interface but may be mistaken as
+> > kernel-only header due to its location. Add "uapi" directory under
+> > driver's include directory and move the header there.
+> > 
+> > Suggested-by: Greg KH <gregkh@linuxfoundation.org>
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  Documentation/admin-guide/media/ipu3.rst      | 35 ++++++++++---------
+> >  .../media/v4l/pixfmt-meta-intel-ipu3.rst      |  2 +-
+> >  .../ipu3/include/{ => uapi}/intel-ipu3.h      |  0
+> >  drivers/staging/media/ipu3/ipu3-abi.h         |  2 +-
+> >  4 files changed, 20 insertions(+), 19 deletions(-)
+> >  rename drivers/staging/media/ipu3/include/{ => uapi}/intel-ipu3.h (100%)
+> > 
+> > diff --git a/Documentation/admin-guide/media/ipu3.rst b/Documentation/admin-guide/media/ipu3.rst
+> > index f59697c7b374..d6454f637ff4 100644
+> > --- a/Documentation/admin-guide/media/ipu3.rst
+> > +++ b/Documentation/admin-guide/media/ipu3.rst
+> > @@ -234,22 +234,23 @@ The IPU3 ImgU pipelines can be configured using the Media Controller, defined at
+> >  Running mode and firmware binary selection
+> >  ------------------------------------------
+> >  
+> > -ImgU works based on firmware, currently the ImgU firmware support run 2 pipes in
+> > -time-sharing with single input frame data. Each pipe can run at certain mode -
+> > -"VIDEO" or "STILL", "VIDEO" mode is commonly used for video frames capture, and
+> > -"STILL" is used for still frame capture. However, you can also select "VIDEO" to
+> > -capture still frames if you want to capture images with less system load and
+> > -power. For "STILL" mode, ImgU will try to use smaller BDS factor and output
+> > -larger bayer frame for further YUV processing than "VIDEO" mode to get high
+> > -quality images. Besides, "STILL" mode need XNR3 to do noise reduction, hence
+> > -"STILL" mode will need more power and memory bandwidth than "VIDEO" mode. TNR
+> > -will be enabled in "VIDEO" mode and bypassed by "STILL" mode. ImgU is running at
+> > -“VIDEO” mode by default, the user can use v4l2 control V4L2_CID_INTEL_IPU3_MODE
+> > -(currently defined in drivers/staging/media/ipu3/include/intel-ipu3.h) to query
+> > -and set the running mode. For user, there is no difference for buffer queueing
+> > -between the "VIDEO" and "STILL" mode, mandatory input and main output node
+> > -should be enabled and buffers need be queued, the statistics and the view-finder
+> > -queues are optional.
+> > +ImgU works based on firmware, currently the ImgU firmware support run 2 pipes
+> > +in time-sharing with single input frame data. Each pipe can run at certain mode
+> > +- "VIDEO" or "STILL", "VIDEO" mode is commonly used for video frames capture,
+> > +and "STILL" is used for still frame capture. However, you can also select
+> > +"VIDEO" to capture still frames if you want to capture images with less system
+> > +load and power. For "STILL" mode, ImgU will try to use smaller BDS factor and
+> > +output larger bayer frame for further YUV processing than "VIDEO" mode to get
+> > +high quality images. Besides, "STILL" mode need XNR3 to do noise reduction,
+> > +hence "STILL" mode will need more power and memory bandwidth than "VIDEO" mode.
+> > +TNR will be enabled in "VIDEO" mode and bypassed by "STILL" mode. ImgU is
+> > +running at “VIDEO” mode by default, the user can use v4l2 control
+> > +V4L2_CID_INTEL_IPU3_MODE (currently defined in
+> > +drivers/staging/media/ipu3/include/uapi/intel-ipu3.h) to query and set the
+> > +running mode. For user, there is no difference for buffer queueing between the
+> > +"VIDEO" and "STILL" mode, mandatory input and main output node should be
+> > +enabled and buffers need be queued, the statistics and the view-finder queues
+> > +are optional.
+> 
+> The reflow of the whole paragraph is a bit painful to review.
 
-				if (extra_arg == psta->aid) {
-					for (j = 0; j < 16; j++)
-						preorder_ctrl = &psta->recvreorder_ctrl[j];
-				}
+Yes. The only difference there is still the addition of "/uapi". :-)
 
-regards,
-dan carpenter
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
+Thank you!
+
+-- 
+Sakari Ailus
