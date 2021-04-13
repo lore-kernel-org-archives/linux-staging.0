@@ -1,108 +1,92 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6875617F
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 10:56:45 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id i190so11171848pfc.12
-        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 03:56:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45DF56D0D
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 11:00:39 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id w8so5672280plg.9
+        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 04:00:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=MAGppu7VhjPYwD2qxh3YHD4bU0Gc/HYHrVGQQoZyahU=;
-        b=IpBgHtCyRL3gNX7opeVdx95bt1xmEcYgkCa30wTNZuMfWkAVXRuTEWI4jgzM1rBc42
-         m1D37NMSaDkwEZJSB1NgiZZO29QYuHbeG7k2kgGriwCVqfXTG+J71SRz98Vcrj08K8G7
-         /vNA4lDX4R3bmuN7vN8UhCKOjtX/CT4AK00ly9qczRoNzkFH6RmIc/plfHTzm8QL3EDQ
-         olouQdpxWpRtS8QKQtbd5L5PoJxG2Vs708sNFKzU8OJzxxAMM7nDZL540Ltip/bWog2t
-         atYMFAR8BBQpZx45KnpCL466T40IgtZM9HkW/jrXLgKXxgqTYhAOVSUf7UZ8WUteI/hC
-         TnLg==
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=A2IPqO8My7+g2aQ2CPPds+GGz3tnCFkMYnx9rkmowbs=;
+        b=IWXJy/3eCQ9wrYX4wDMDoBSXlvDioLUOwRwW7HXRuN1ud3h8dWb/emC2b40W9OXO3U
+         OtZHUHJKchtl7d9x69X8CUtmtTNXIODznLcANtFZ9je3MAUKDZUecBxinXaYZ+HZZNK7
+         PfOAcujMoMmuE4XK6v25mTbLBRgVmA/1xX50I62zyJzg08e3v6msgnCpzggX3slIdxA+
+         P4YUrtCwlke6iGZonP+5QT61/P/4yzResTBBqY+y60b56y5jl+KP5E6h+jKjl84xIk3W
+         fzAmRKwROABGsyR82AGOUKYengiTQSs4uChnIEasfpijnjhHI7P8u8OtYNtJkYNMI1eU
+         pgqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=MAGppu7VhjPYwD2qxh3YHD4bU0Gc/HYHrVGQQoZyahU=;
-        b=Li+N6prmPYyCsfj0jt8n0oQSgQizyu499aOKk/cmXx9tdsqbkzxoKlHDYCYXxnaL4i
-         Yjv93WEEqPOmKuaGJflMMWiM7iDfCFy6w59FDSrpfXNKhxKEkT0Gzo2nrOrFGk7jFHP1
-         L2dcmtiNkot4qTLdlG+/Ze73q3bGFm/UBw1AeVehPOSL6J6+vM7SUnNGx8ZdSG9m9F7J
-         3dlkhMkqQH2OG/1hXi09q7u7Ps7bZiUm6HW0px+3fBJk7LsKopluOpeTFEZcv9IDAU4P
-         tRx5G4hfnDS0nSGsTNDfEflDJ6K3f/YnDR6wcs5rBUbBE9iDCr44C1TssNCrjgWY752T
-         +qAA==
-X-Gm-Message-State: AOAM532qHAOSabnt6908HhHQ6O35QwWRrUZVziz3Z4HXS6sRHWzVepTs
-	aO0Zb1JiA0i6RTSyfMWgXuU=
-X-Google-Smtp-Source: ABdhPJzTKQeZIzirwZSD206tzj/T5X/VUTXAEmxsu+8U62aE7swXsuUaMYXGjeJg9TJkqfZhp7MHQw==
-X-Received: by 2002:a63:703:: with SMTP id 3mr31987197pgh.253.1618311404850;
-        Tue, 13 Apr 2021 03:56:44 -0700 (PDT)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=A2IPqO8My7+g2aQ2CPPds+GGz3tnCFkMYnx9rkmowbs=;
+        b=lkhTvyO0/GUz1QcaTA4qFl3SVIULHs80t+TY7HJnD5MFk5ZfFcnVay5mPazGQ9rxLW
+         xsu9E4c/gYiqPYz0G7O1SV/pR6zSuZrJoHpSCCUsC8mUV9uYILjJ7fw3xRJJcuiXsG3w
+         aXFROr7wARKOHIPxk9etYvF0WY4YCiVHwm3zOqezrrFn4KDTZ/mOvSdm+Kz9tIM9Dge8
+         6FXtGdiC+8uGkqilgMRF8Trjl0aCqfFWpdeztNTbh6+Tl3q8zK+ca3h9Dr8RNwexc6KL
+         HOAHNYJXaxjTWdj2lm8UD/41CpT6V4JXEeinRNtUNOu4mCD+CQHnHDQtffQGZyd08L91
+         FaRA==
+X-Gm-Message-State: AOAM531mR8x53RuLBT99MunO+beP/1IfMgopOHqtlpKcszMjmBa4X70U
+	NwfmPyL9LSMWNFes0d218QE=
+X-Google-Smtp-Source: ABdhPJwa3YAyS4HNh3it26S2hz0C3HLu6d8pMlgiT0mrr7RU8dAu2wVVZ2b6pOev0ymU96E7h3iKcg==
+X-Received: by 2002:a17:902:b40e:b029:e6:837f:711 with SMTP id x14-20020a170902b40eb02900e6837f0711mr31093234plr.2.1618311638686;
+        Tue, 13 Apr 2021 04:00:38 -0700 (PDT)
 Received: from kali ([103.141.87.253])
-        by smtp.gmail.com with ESMTPSA id h68sm12219382pfe.111.2021.04.13.03.56.40
+        by smtp.gmail.com with ESMTPSA id e1sm14299002pgl.25.2021.04.13.04.00.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 03:56:44 -0700 (PDT)
-Date: Tue, 13 Apr 2021 16:26:36 +0530
+        Tue, 13 Apr 2021 04:00:38 -0700 (PDT)
+Date: Tue, 13 Apr 2021 16:30:30 +0530
 From: Mitali Borkar <mitaliborkar810@gmail.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: Re: [PATCH v2 3/4] staging: media: intel-ipu3: reduce length of line
-Message-ID: <YHV45I6ZDsXNwdiG@kali>
-References: <cover.1618289130.git.mitaliborkar810@gmail.com>
- <f18b704654797e29f3bbbe49689eaa2c0ad28d59.1618289130.git.mitaliborkar810@gmail.com>
- <20210413100134.GR3@paasikivi.fi.intel.com>
- <YHV1uOq9pXmGUD+x@kali>
- <20210413104432.GU3@paasikivi.fi.intel.com>
+To: Joe Perches <joe@perches.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
+	mitali_s@me.iitr.ac.in
+Subject: Re: [PATCH 4/6] staging: rtl8192e: matched alignment with open
+ parenthesis
+Message-ID: <YHV5zikK8CUheULV@kali>
+References: <YHEA2Te3Hik5J39t@kali>
+ <f5fe04d62b22eb5e09c299e769d9b9d8917f119c.camel@perches.com>
+ <YHEMrQdEFpXgmMh/@kali>
+ <04fcc5ac37f750e335447aee57da5aad072e321d.camel@perches.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210413104432.GU3@paasikivi.fi.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <04fcc5ac37f750e335447aee57da5aad072e321d.camel@perches.com>
 
-On Tue, Apr 13, 2021 at 01:44:32PM +0300, Sakari Ailus wrote:
-> On Tue, Apr 13, 2021 at 04:13:04PM +0530, Mitali Borkar wrote:
-> > On Tue, Apr 13, 2021 at 01:01:34PM +0300, Sakari Ailus wrote:
-> > > Hi Mitali,
+On Fri, Apr 09, 2021 at 07:31:53PM -0700, Joe Perches wrote:
+> On Sat, 2021-04-10 at 07:55 +0530, Mitali Borkar wrote:
+> > On Fri, Apr 09, 2021 at 07:07:09PM -0700, Joe Perches wrote:
+> > > On Sat, 2021-04-10 at 07:05 +0530, Mitali Borkar wrote:
+> > > > Matched the alignment with open parenthesis to meet linux kernel coding
+> > > > style.
+> > > > Reported by checkpatch.
+> > > []
+> > > > diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+> > > []
+> > > > @@ -154,7 +154,7 @@ bool IsHTHalfNmodeAPs(struct rtllib_device *ieee)
+> > > >  	    (net->ralink_cap_exist))
+> > > >  		retValue = true;
+> > > >  	else if (!memcmp(net->bssid, UNKNOWN_BORADCOM, 3) ||
+> > > > -		!memcmp(net->bssid, LINKSYSWRT330_LINKSYSWRT300_BROADCOM, 3) ||
+> > > > +		 !memcmp(net->bssid, LINKSYSWRT330_LINKSYSWRT300_BROADCOM, 3) ||
+> > > >  		!memcmp(net->bssid, LINKSYSWRT350_LINKSYSWRT150_BROADCOM, 3) ||
+> > > >  		(net->broadcom_cap_exist))
 > > > 
-> > > Thanks for the update.
+> > > checkpatch is a stupid script.
+> > > Look further at the code not just at what checkpatch reports.
+> > > Align all the contination lines, not just the first one.
 > > > 
-> > > On Tue, Apr 13, 2021 at 10:46:06AM +0530, Mitali Borkar wrote:
-> > > > Reduced length of the line under 80 characters to meet linux-kernel
-> > > > coding style.
-> > > > 
-> > > > Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
-> > > > ---
-> > > > 
-> > > > Changes from v1:- Reduced length of the line under 80 characters
-> > > > 
-> > > >  drivers/staging/media/ipu3/include/intel-ipu3.h | 3 ++-
-> > > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/intel-ipu3.h
-> > > > index 6a72c81d2b67..52dcc6cdcffc 100644
-> > > > --- a/drivers/staging/media/ipu3/include/intel-ipu3.h
-> > > > +++ b/drivers/staging/media/ipu3/include/intel-ipu3.h
-> > > > @@ -247,7 +247,8 @@ struct ipu3_uapi_ae_ccm {
-> > > >   */
-> > > >  struct ipu3_uapi_ae_config {
-> > > >  	struct ipu3_uapi_ae_grid_config grid_cfg __aligned(32);
-> > > > -	struct ipu3_uapi_ae_weight_elem weights[IPU3_UAPI_AE_WEIGHTS] __aligned(32);
-> > > > +	struct ipu3_uapi_ae_weight_elem weights[IPU3_UAPI_AE_WEIGHTS]
-> > > > +							__aligned(32);
-> > > 
-> > > Do you still have the other two patches in your tree? This doesn't apply
-> > > here due to the different attribute syntax.
-> > >
-> > I have patch 1/6 and 2/6 in my tree which you asked me to drop.
+> > Sir, I have aligned them in last patch of this patchset.
 > 
-> Could you drop them and then submit v3?
+> This sort of change should not require an additional patch.
 >
-I am extremely sorry Sir, but I am still learning to use git, drop them
-means to delete those commits? Even if I delete those, this patch was
-made after those, so the changes I made then will remain as it is, so
-what to do now? 
-
-> Thanks.
+So now should I compile this as a patchset of 5, removing the last patch
+of alignment?
 > 
-> -- 
-> Sakari Ailus
