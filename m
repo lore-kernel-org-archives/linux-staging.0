@@ -1,145 +1,104 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECFBE173
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 11:10:12 +0000 (UTC)
-IronPort-SDR: UDSVwkiNsN2q81HnMG68+fUzyBUPhYOZt6DW4BPrSvoUCEfk3s3Ylgcft4JobrKpAX91+s33PF
- Jek8ehbAzuOw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9952"; a="214866286"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC0217F
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 11:11:46 +0000 (UTC)
+IronPort-SDR: 0UVDFTWr3bXAgqDK8Supt2moCYUJGnWuXCEQaM0BeSxkL+F+52g3aTStSv2GZ8cdXRiJ1QDNV1
+ gRvLAtTCsgTw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9952"; a="191202204"
 X-IronPort-AV: E=Sophos;i="5.82,219,1613462400"; 
-   d="scan'208";a="214866286"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2021 04:10:12 -0700
-IronPort-SDR: SWUMmDbHuMTJDMYpvyQoZhZ368xvZpvfFKjjB91AqHcy81mwyrQTl7wgqwLrSaZpvFkjH60U1x
- u7v1zoEaKKiw==
-X-ExtLoop1: 1
+   d="scan'208";a="191202204"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2021 04:11:45 -0700
+IronPort-SDR: 1IkuPvPYrc3t8CU6+XciUlWKhD+O/HFxILxn3xoyhU2kBYk6kSu2Zbgd2JTqL0CkYOx9I7RYw8
+ 1z1vNPio0Oxg==
 X-IronPort-AV: E=Sophos;i="5.82,219,1613462400"; 
-   d="scan'208";a="451906319"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.202]) ([10.238.232.202])
-  by fmsmga002.fm.intel.com with ESMTP; 13 Apr 2021 04:10:09 -0700
-Subject: Re: [PATCH 1/1] staging: ipu3-imgu: Move the UAPI header from include
- under include/uapi
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- Mitali Borkar <mitaliborkar810@gmail.com>, bingbu.cao@intel.com,
- tian.shu.qiu@intel.com, mchehab@kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
- mitali_s@me.iitr.ac.in, laurent.pinchart@ideasonboard.com
-References: <20210412111120.31625-1-sakari.ailus@linux.intel.com>
-From: Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <f94863a5-3e6a-7f4f-afef-634f66fec10d@linux.intel.com>
-Date: Tue, 13 Apr 2021 19:03:04 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+   d="scan'208";a="532247488"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2021 04:11:42 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+	by paasikivi.fi.intel.com (Postfix) with SMTP id D8E38200E8;
+	Tue, 13 Apr 2021 14:11:40 +0300 (EEST)
+Date: Tue, 13 Apr 2021 14:11:40 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Mitali Borkar <mitaliborkar810@gmail.com>
+Cc: bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
+	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
+Subject: Re: [PATCH v2 3/4] staging: media: intel-ipu3: reduce length of line
+Message-ID: <20210413111140.GV3@paasikivi.fi.intel.com>
+References: <cover.1618289130.git.mitaliborkar810@gmail.com>
+ <f18b704654797e29f3bbbe49689eaa2c0ad28d59.1618289130.git.mitaliborkar810@gmail.com>
+ <20210413100134.GR3@paasikivi.fi.intel.com>
+ <YHV1uOq9pXmGUD+x@kali>
+ <20210413104432.GU3@paasikivi.fi.intel.com>
+ <YHV45I6ZDsXNwdiG@kali>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210412111120.31625-1-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YHV45I6ZDsXNwdiG@kali>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
+On Tue, Apr 13, 2021 at 04:26:36PM +0530, Mitali Borkar wrote:
+> On Tue, Apr 13, 2021 at 01:44:32PM +0300, Sakari Ailus wrote:
+> > On Tue, Apr 13, 2021 at 04:13:04PM +0530, Mitali Borkar wrote:
+> > > On Tue, Apr 13, 2021 at 01:01:34PM +0300, Sakari Ailus wrote:
+> > > > Hi Mitali,
+> > > > 
+> > > > Thanks for the update.
+> > > > 
+> > > > On Tue, Apr 13, 2021 at 10:46:06AM +0530, Mitali Borkar wrote:
+> > > > > Reduced length of the line under 80 characters to meet linux-kernel
+> > > > > coding style.
+> > > > > 
+> > > > > Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+> > > > > ---
+> > > > > 
+> > > > > Changes from v1:- Reduced length of the line under 80 characters
+> > > > > 
+> > > > >  drivers/staging/media/ipu3/include/intel-ipu3.h | 3 ++-
+> > > > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > > > 
+> > > > > diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/intel-ipu3.h
+> > > > > index 6a72c81d2b67..52dcc6cdcffc 100644
+> > > > > --- a/drivers/staging/media/ipu3/include/intel-ipu3.h
+> > > > > +++ b/drivers/staging/media/ipu3/include/intel-ipu3.h
+> > > > > @@ -247,7 +247,8 @@ struct ipu3_uapi_ae_ccm {
+> > > > >   */
+> > > > >  struct ipu3_uapi_ae_config {
+> > > > >  	struct ipu3_uapi_ae_grid_config grid_cfg __aligned(32);
+> > > > > -	struct ipu3_uapi_ae_weight_elem weights[IPU3_UAPI_AE_WEIGHTS] __aligned(32);
+> > > > > +	struct ipu3_uapi_ae_weight_elem weights[IPU3_UAPI_AE_WEIGHTS]
+> > > > > +							__aligned(32);
+> > > > 
+> > > > Do you still have the other two patches in your tree? This doesn't apply
+> > > > here due to the different attribute syntax.
+> > > >
+> > > I have patch 1/6 and 2/6 in my tree which you asked me to drop.
+> > 
+> > Could you drop them and then submit v3?
+> >
+> I am extremely sorry Sir, but I am still learning to use git, drop them
+> means to delete those commits? Even if I delete those, this patch was
+> made after those, so the changes I made then will remain as it is, so
+> what to do now? 
 
-On 4/12/21 7:11 PM, Sakari Ailus wrote:
-> The header defines the user space interface but may be mistaken as
-> kernel-only header due to its location. Add "uapi" directory under
-> driver's include directory and move the header there.
-> 
-> Suggested-by: Greg KH <gregkh@linuxfoundation.org>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  Documentation/admin-guide/media/ipu3.rst      | 35 ++++++++++---------
->  .../media/v4l/pixfmt-meta-intel-ipu3.rst      |  2 +-
->  .../ipu3/include/{ => uapi}/intel-ipu3.h      |  0
->  drivers/staging/media/ipu3/ipu3-abi.h         |  2 +-
->  4 files changed, 20 insertions(+), 19 deletions(-)
->  rename drivers/staging/media/ipu3/include/{ => uapi}/intel-ipu3.h (100%)
-> 
-> diff --git a/Documentation/admin-guide/media/ipu3.rst b/Documentation/admin-guide/media/ipu3.rst
-> index f59697c7b374..d6454f637ff4 100644
-> --- a/Documentation/admin-guide/media/ipu3.rst
-> +++ b/Documentation/admin-guide/media/ipu3.rst
-> @@ -234,22 +234,23 @@ The IPU3 ImgU pipelines can be configured using the Media Controller, defined at
->  Running mode and firmware binary selection
->  ------------------------------------------
->  
-> -ImgU works based on firmware, currently the ImgU firmware support run 2 pipes in
-> -time-sharing with single input frame data. Each pipe can run at certain mode -
-> -"VIDEO" or "STILL", "VIDEO" mode is commonly used for video frames capture, and
-> -"STILL" is used for still frame capture. However, you can also select "VIDEO" to
-> -capture still frames if you want to capture images with less system load and
-> -power. For "STILL" mode, ImgU will try to use smaller BDS factor and output
-> -larger bayer frame for further YUV processing than "VIDEO" mode to get high
-> -quality images. Besides, "STILL" mode need XNR3 to do noise reduction, hence
-> -"STILL" mode will need more power and memory bandwidth than "VIDEO" mode. TNR
-> -will be enabled in "VIDEO" mode and bypassed by "STILL" mode. ImgU is running at
-> -“VIDEO” mode by default, the user can use v4l2 control V4L2_CID_INTEL_IPU3_MODE
-> -(currently defined in drivers/staging/media/ipu3/include/intel-ipu3.h) to query
-> -and set the running mode. For user, there is no difference for buffer queueing
-> -between the "VIDEO" and "STILL" mode, mandatory input and main output node
-> -should be enabled and buffers need be queued, the statistics and the view-finder
-> -queues are optional.
-> +ImgU works based on firmware, currently the ImgU firmware support run 2 pipes
-> +in time-sharing with single input frame data. Each pipe can run at certain mode
-> +- "VIDEO" or "STILL", "VIDEO" mode is commonly used for video frames capture,
-> +and "STILL" is used for still frame capture. However, you can also select
-> +"VIDEO" to capture still frames if you want to capture images with less system
-> +load and power. For "STILL" mode, ImgU will try to use smaller BDS factor and
-> +output larger bayer frame for further YUV processing than "VIDEO" mode to get
-> +high quality images. Besides, "STILL" mode need XNR3 to do noise reduction,
-> +hence "STILL" mode will need more power and memory bandwidth than "VIDEO" mode.
-> +TNR will be enabled in "VIDEO" mode and bypassed by "STILL" mode. ImgU is
-> +running at “VIDEO” mode by default, the user can use v4l2 control
-> +V4L2_CID_INTEL_IPU3_MODE (currently defined in
-> +drivers/staging/media/ipu3/include/uapi/intel-ipu3.h) to query and set the
-> +running mode. For user, there is no difference for buffer queueing between the
-> +"VIDEO" and "STILL" mode, mandatory input and main output node should be
-> +enabled and buffers need be queued, the statistics and the view-finder queues
-> +are optional.
->  
->  The firmware binary will be selected according to current running mode, such log
->  "using binary if_to_osys_striped " or "using binary if_to_osys_primary_striped"
-> @@ -586,7 +587,7 @@ preserved.
->  References
->  ==========
->  
-> -.. [#f5] drivers/staging/media/ipu3/include/intel-ipu3.h
-> +.. [#f5] drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
->  
->  .. [#f1] https://github.com/intel/nvt
->  
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-intel-ipu3.rst b/Documentation/userspace-api/media/v4l/pixfmt-meta-intel-ipu3.rst
-> index 5f33d35532ef..84d81dd7a7b5 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-meta-intel-ipu3.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-meta-intel-ipu3.rst
-> @@ -78,4 +78,4 @@ hardware and algorithm details.
->  Intel IPU3 ImgU uAPI data types
->  ===============================
->  
-> -.. kernel-doc:: drivers/staging/media/ipu3/include/intel-ipu3.h
-> +.. kernel-doc:: drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-> diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-> similarity index 100%
-> rename from drivers/staging/media/ipu3/include/intel-ipu3.h
-> rename to drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-> diff --git a/drivers/staging/media/ipu3/ipu3-abi.h b/drivers/staging/media/ipu3/ipu3-abi.h
-> index e1185602c7fd..c76935b436d7 100644
-> --- a/drivers/staging/media/ipu3/ipu3-abi.h
-> +++ b/drivers/staging/media/ipu3/ipu3-abi.h
-> @@ -4,7 +4,7 @@
->  #ifndef __IPU3_ABI_H
->  #define __IPU3_ABI_H
->  
-> -#include "include/intel-ipu3.h"
-> +#include "include/uapi/intel-ipu3.h"
->  
->  /******************* IMGU Hardware information *******************/
->  
-> 
+No worries.
+
+Yes, please remove the two commits, as you need to use the same (or at
+least non-conflicting) baseline for the patches compared to the tree where
+the patches will be applied.
+
+So in practice what you need to do is to rebase these four patches on
+linux-media tree's master branch and resolve the resulting conflict in this
+patch (as the preceding patches no longer have the attribute changes).
+
+The -i option for git rebase in particular is useful.
 
 -- 
-Best regards,
-Bingbu Cao
+Sakari Ailus
