@@ -1,148 +1,113 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch [185.70.40.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE1772
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 16:47:09 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id mh2so5464967ejb.8
-        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 09:47:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=PPrRY59PSM3yh1tKzKnDdwXXNAeLcHdKyiHLS4Gj0hA=;
-        b=PWc+O58bUAq/kMKopVybp8PnVvTQooI+TmUFcMtKNxZToh6H59xzyXWGeWkVeN6dOQ
-         4ZXH8yBZsuEiv/KzeLynhpQouNAN0t4LHnPMpsW5fcTPSPi9r0ybW+jcPx8pftEqM/6v
-         FWpO/yxes1F9i9ZNMcPJVyJXl/4vCASSa8LinvIXP2cl9J+pWueBjZjblMhS5OCG807k
-         G914OIPOC/U8+BdFOTYm8BvSSGsLxQ/QGMvGcxrALARS3cwxHN2Vsg+wmOetdDMNFlKf
-         HqYDX6KOlw1RAyVZMiava4gZFPB2OW6tgPXOI6f33e/TFbItHYpIllphVTMZfO/oZryf
-         +/xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=PPrRY59PSM3yh1tKzKnDdwXXNAeLcHdKyiHLS4Gj0hA=;
-        b=dPODyoTH3Pt3f7TQ3fRDBJmANKYALmA2Kz/gooil80BdaHxOvVTuyUSTEAnw/RDdgC
-         XBsGAMDWV6Bg6lNz0gUuJOo5UD38huS0TCmEMeyoOEb/kKxLspHv3DyJK3+tVQL7PuV5
-         CoRi4RYIQsKvm/7MpJlIJdr0hVlxNTlOswH4uBnFl5RAaP74o5LTBv5WkG9VNn+deZs3
-         RKZqDlpOX9xpjxOtVVS7iA09rdVm3zjnsuosSwiDQSMsdDOw2yytAL5aVExkbUohW1P6
-         hdTFFkwFL4qqZr08csZFgE3aIpXA+wr6ARDE7fAVd4F+eRaAGB7ZLnaCYYRYBpu4AjeR
-         eXTA==
-X-Gm-Message-State: AOAM532UPzbaoVH/VFzRS5CkNOCknXJ4Lz6mL9PkzHsiZHh7m2PDhs+g
-	h4XQrLCzciMMzj2W5f1KHXc=
-X-Google-Smtp-Source: ABdhPJz0gemxtEUhkyNn+0UOr/2CuNn6V/jLhexji8Boak1pkWkg0uu9NyPIsR+dKLLzEGf9b7Bqow==
-X-Received: by 2002:a17:906:29cf:: with SMTP id y15mr8381481eje.500.1618332427687;
-        Tue, 13 Apr 2021 09:47:07 -0700 (PDT)
-Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
-        by smtp.gmail.com with ESMTPSA id j6sm9549653edw.73.2021.04.13.09.47.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 09:47:07 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: Julia Lawall <julia.lawall@inria.fr>, outreachy-kernel@googlegroups.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH] :staging: rtl8723bs: Remove useless led_blink_hdl()
-Date: Tue, 13 Apr 2021 18:47:06 +0200
-Message-ID: <3381109.TaO10cqo9c@linux.local>
-In-Reply-To: <alpine.DEB.2.22.394.2104131826160.8430@hadrien>
-References: <20210413155908.8691-1-fmdefrancesco@gmail.com> <1843649.8FsqevVC75@linux.local> <alpine.DEB.2.22.394.2104131826160.8430@hadrien>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B0E72
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 17:11:53 +0000 (UTC)
+Date: Tue, 13 Apr 2021 17:11:39 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
+	s=protonmail3; t=1618333905;
+	bh=JRgenIaLUI4xNF3fT6/o+CfeGgQ3ycbu2skgPulPjiI=;
+	h=Date:To:From:Cc:Reply-To:Subject:From;
+	b=el1X2abuLZXwA3e5DlDZ4teIaFcaAL7MIJTMwOlKmD9MiVRFaxtH0VvUE/DxjVnb0
+	 wxON/ImnI9/nMl8lDQjVIc7AFD8nQIz2cCh5XgYiGCAlO2rLAewBWHK25fzi5V7cCQ
+	 DjQ1AKX44wYKg6CcSSaNixgn7bLYhx+eUH+ctkJ1624VQbzqS1Iy0Ve9Rjzhgq/Rmd
+	 ezY96vOYsRTNUquaitSQx5GQLg6AWC8vW38+2J64ELPl3pbEs3OlmII3jgjU1BTM9h
+	 zac+ia0bQoPWSS5cK65xlMl1xGF6XIvZl/oAYYLvfuCL7MX556/fOhkuSpd2is8Eq2
+	 Tc4lFeZ577fnQ==
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans de Goede <hdegoede@redhat.com>, Larry Finger <Larry.Finger@lwfinger.net>
+From: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, Bryan Brattlof <hello@bryanbrattlof.com>
+Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
+Subject: [PATCH] staging: rtl8723bs: remove sdio_drv_priv structure
+Message-ID: <20210413171124.174008-1-hello@bryanbrattlof.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+	autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	mailout.protonmail.ch
 
-On Tuesday, April 13, 2021 6:27:17 PM CEST Julia Lawall wrote:
-> On Tue, 13 Apr 2021, Fabio M. De Francesco wrote:
-> > On Tuesday, April 13, 2021 6:04:16 PM CEST Julia Lawall wrote:
-> > > On Tue, 13 Apr 2021, Fabio M. De Francesco wrote:
-> > > > Removed the led_blink_hdl() function (declaration, definition, and
-> > > > caller code) because it's useless. It only seems to check whether
-> > > > or
-> > > > not a given pointer is NULL. There are other (simpler) means for
-> > > > that
-> > > > purpose.
-> > > > 
-> > > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > > > ---
-> > > > 
-> > > >  drivers/staging/rtl8723bs/core/rtw_cmd.c         | 1 -
-> > > >  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    | 9 ---------
-> > > >  drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 1 -
-> > > >  3 files changed, 11 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> > > > b/drivers/staging/rtl8723bs/core/rtw_cmd.c index
-> > > > 0297fbad7bce..4c44dfd21514 100644
-> > > > --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> > > > +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> > > > @@ -150,7 +150,6 @@ static struct cmd_hdl wlancmds[] = {
-> > > > 
-> > > >  	GEN_MLME_EXT_HANDLER(0, h2c_msg_hdl) /*58*/
-> > > >  	GEN_MLME_EXT_HANDLER(sizeof(struct SetChannelPlan_param),
-> > > >  	set_chplan_hdl) /*59*/>
-> > > > 
-> > > > -	GEN_MLME_EXT_HANDLER(sizeof(struct LedBlink_param),
-> > 
-> > led_blink_hdl)
-> > 
-> > > > /*60*/
-> > > 
-> > > This is worrisome.  Doyou fully understand the impact of this?  If
-> > > not,
-> > > the change is probably not a good idea.
-> > 
-> > This is that macro definition:
-> > 
-> > #define GEN_MLME_EXT_HANDLER(size, cmd) {size, cmd},
-> > 
-> > struct C2HEvent_Header {
-> > 
-> > #ifdef __LITTLE_ENDIAN
-> > 
-> >         unsigned int len:16;
-> >         unsigned int ID:8;
-> >         unsigned int seq:8;
-> > 
-> > #else
-> > 
-> >         unsigned int seq:8;
-> >         unsigned int ID:8;
-> >         unsigned int len:16;
-> > 
-> > #endif
-> > 
-> >         unsigned int rsvd;
-> > 
-> > };
-> > 
-> > It's a bit convoluted with regard to my experience. Probably I don't
-> > understand it fully, but it seems to me to not having effects to the
-> > code where I removed its use within core/rtw_cmd.c.
-> > 
-> > What am I missing?
-> 
-> It seems that the function is being put into an array.  Probably someone
-> expects to find it there.  Probably you have shifted all of the functions
-> that come afterwards back one slot so that they are all in the wrong
-> places.
-> 
-> julia
->
-Thanks for your explanation. Obviously this implies that the function 
-cannot be removed, unless one fill the slot that is deleted by to not 
-calling this macro at the right moment. 
+The sdio_drv_priv structure is a small wrapper around sdio_driver in
+linux/mmc/sdio_func.h with an added drv_registered integer.
 
-I also suppose that providing a function pointer with a NULL value wouldn't 
-work either.
+drv_registered is never used anywhere in the driver and only assigned to
+during the sdio registering and unregistering process. We can safely
+remove sdio_drv_priv and use the sdio_driver structure directly.
 
-OK, h2c_msg_hdl() cannot be deleted.
+Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
+---
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 32 ++++++--------------
+ 1 file changed, 9 insertions(+), 23 deletions(-)
 
-Thanks,
-
-Fabio
-  
-
-
+diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging=
+/rtl8723bs/os_dep/sdio_intf.c
+index a8ef95ab14da..816b5bf6e3ed 100644
+--- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
++++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+@@ -36,17 +36,12 @@ static const struct dev_pm_ops rtw_sdio_pm_ops =3D {
+ =09.resume=09=3D rtw_sdio_resume,
+ };
+=20
+-struct sdio_drv_priv {
+-=09struct sdio_driver r871xs_drv;
+-=09int drv_registered;
+-};
+-
+-static struct sdio_drv_priv sdio_drvpriv =3D {
+-=09.r871xs_drv.probe =3D rtw_drv_init,
+-=09.r871xs_drv.remove =3D rtw_dev_remove,
+-=09.r871xs_drv.name =3D "rtl8723bs",
+-=09.r871xs_drv.id_table =3D sdio_ids,
+-=09.r871xs_drv.drv =3D {
++static struct sdio_driver rtl8723bs_sdio_driver =3D {
++=09.probe =3D rtw_drv_init,
++=09.remove =3D rtw_dev_remove,
++=09.name =3D "rtl8723bs",
++=09.id_table =3D sdio_ids,
++=09.drv =3D {
+ =09=09.pm =3D &rtw_sdio_pm_ops,
+ =09}
+ };
+@@ -498,18 +493,11 @@ static int __init rtw_drv_entry(void)
+ =09DBG_871X_LEVEL(_drv_always_, "rtl8723bs BT-Coex version =3D %s\n", BTCO=
+EXVERSION);
+ #endif /*  BTCOEXVERSION */
+=20
+-=09sdio_drvpriv.drv_registered =3D true;
+=20
+-=09ret =3D sdio_register_driver(&sdio_drvpriv.r871xs_drv);
+-=09if (ret !=3D 0) {
+-=09=09sdio_drvpriv.drv_registered =3D false;
++=09ret =3D sdio_register_driver(&rtl8723bs_sdio_driver);
++=09if (ret !=3D 0)
+ =09=09rtw_ndev_notifier_unregister();
+-=09=09goto exit;
+-=09}
+=20
+-=09goto exit;
+-
+-exit:
+ =09DBG_871X_LEVEL(_drv_always_, "module init ret =3D%d\n", ret);
+ =09return ret;
+ }
+@@ -518,9 +506,7 @@ static void __exit rtw_drv_halt(void)
+ {
+ =09DBG_871X_LEVEL(_drv_always_, "module exit start\n");
+=20
+-=09sdio_drvpriv.drv_registered =3D false;
+-
+-=09sdio_unregister_driver(&sdio_drvpriv.r871xs_drv);
++=09sdio_unregister_driver(&rtl8723bs_sdio_driver);
+=20
+ =09rtw_ndev_notifier_unregister();
+=20
+--=20
+2.27.0
 
 
