@@ -1,146 +1,181 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C4871
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 13:46:15 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A3D1D8AF;
-	Tue, 13 Apr 2021 15:46:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1618321567;
-	bh=ERzFPHfwcC1rsN/DqiEKlswPknAmFAYpH+SlZCHO53s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M+mVpGANMD7po+3PLGrcQK+tltANs7uEpInW1c0IEonhQ3Rd/h5sawXyi0/08uqdD
-	 1gf6EPhyF5ypqxn0ylQFS1KOOI+/qhlfpEJNlZTSMMjSlhM6QwW0qoCmmoQr37FJFF
-	 bcfl9eWNSPHvuHH9tlsMlpoxghqi1IWm/oJdwLxs=
-Date: Tue, 13 Apr 2021 16:45:17 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
-	Mitali Borkar <mitaliborkar810@gmail.com>, bingbu.cao@intel.com,
-	tian.shu.qiu@intel.com, mchehab@kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: Re: [PATCH 1/1] staging: ipu3-imgu: Move the UAPI header from
- include under include/uapi
-Message-ID: <YHWgbZTDAWBX9EpR@pendragon.ideasonboard.com>
-References: <20210412111120.31625-1-sakari.ailus@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AFCF71
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 14:10:46 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id h4so7589506wrt.12
+        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 07:10:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mkCkAJIkrOY7pAZ9reInsO74iKUOVHosiFJ4TLiQNQ8=;
+        b=QT1oIyX+9iVDyxzz0ym6WeLK4T9wYQAhpg+JBOlR9g0kKFKVpAYzmLimy3RmQLgltJ
+         j8hYH6IJtLVk2O3IogkWfpayVkA2iEo+4Z+QY4fiKRfugE4M1kt/m2+cXwACtFGO3EDu
+         4RNgPL5hcMHWNqBbdTyO0QwwL5php5FCwvC51gcfYmwGyySHQLutPC1RuxvF6Xbpyp8A
+         4RUfFMFai/EYV8I5v/IYd9hR7AKoTv5lDu4hZbz+SCnZpBoFYzAyIxqvQohrZgefAgKc
+         k/PyTsRFGxvbYYaQuiBjmVE0mjIoGna4BKA4t+Q6veoDFNn+0zgXxh7lccX//YxFc/XO
+         f1Bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mkCkAJIkrOY7pAZ9reInsO74iKUOVHosiFJ4TLiQNQ8=;
+        b=PX6nQeMEwruDmHdb/up5ah9xl7W2Ot2veJfo0P0uLXxaTI7M8JeyPv4rmpOqUESza3
+         B6PGjQL6Yn0iPHb9oHrUANgAzYK6aLpevS88mmHFhg/cRwWwU+pjunIExcy57klg2/Hf
+         0/pfFBLvFMzW0bjCYQ0jl7TRe+pCIT+THUw9JMWdyuLEVmFr+YQUG2AuQN8rMi1Gdaz5
+         fhJcNCB/HhmT6+UDhXBwAvOYMrjkjpDy7Zdo2O2z3wBsc3/Yqq48hZ4s6P9kHCcUeBlG
+         LTW12wfgTp6NVnX17RCZKtSlkwTJiscbAKTWKa/JOnFXvyNqXcmgF2dQ4K8NQT7OR82g
+         sk3A==
+X-Gm-Message-State: AOAM530L6TlWBoPoxMiuCR42OBrrUz6Tbjk4rEhW27gFGzaxr9eUX/kz
+	kieDu3x5pMED0OSWVvv/K5k=
+X-Google-Smtp-Source: ABdhPJxbcd638a9JsO2Z9rbT4kJBz5lxLw+EtxwHOgcK+OPjnZc2vcw1U2EeKZtkggOIt5MNmTPruQ==
+X-Received: by 2002:adf:e0d1:: with SMTP id m17mr37060834wri.90.1618323044675;
+        Tue, 13 Apr 2021 07:10:44 -0700 (PDT)
+Received: from agape ([5.171.81.171])
+        by smtp.gmail.com with ESMTPSA id 66sm3086598wmb.36.2021.04.13.07.10.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Apr 2021 07:10:44 -0700 (PDT)
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: 
+Cc: julia.lawall@inria.fr,
+	joe@perches.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/7] staging: rtl8723bs: replace DBG_871X_SEL_NL macro with netdev_dbg()
+Date: Tue, 13 Apr 2021 16:10:35 +0200
+Message-Id: <cover.1618322367.git.fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210412111120.31625-1-sakari.ailus@linux.intel.com>
 
-Hi Sakari,
+This patchset replaces DGB_871X_SEL_NL macro with the driver
+recommended log function netdev_dbg().
 
-Thank you for the patch.
+Macro DBG_871X_SEL_NL indeed executes a raw printk call as
+default behaviour. The other behaviour is doing a seq_printf()
+call which never occurs.
 
-On Mon, Apr 12, 2021 at 02:11:20PM +0300, Sakari Ailus wrote:
-> The header defines the user space interface but may be mistaken as
-> kernel-only header due to its location. Add "uapi" directory under
-> driver's include directory and move the header there.
-> 
-> Suggested-by: Greg KH <gregkh@linuxfoundation.org>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  Documentation/admin-guide/media/ipu3.rst      | 35 ++++++++++---------
->  .../media/v4l/pixfmt-meta-intel-ipu3.rst      |  2 +-
->  .../ipu3/include/{ => uapi}/intel-ipu3.h      |  0
->  drivers/staging/media/ipu3/ipu3-abi.h         |  2 +-
->  4 files changed, 20 insertions(+), 19 deletions(-)
->  rename drivers/staging/media/ipu3/include/{ => uapi}/intel-ipu3.h (100%)
-> 
-> diff --git a/Documentation/admin-guide/media/ipu3.rst b/Documentation/admin-guide/media/ipu3.rst
-> index f59697c7b374..d6454f637ff4 100644
-> --- a/Documentation/admin-guide/media/ipu3.rst
-> +++ b/Documentation/admin-guide/media/ipu3.rst
-> @@ -234,22 +234,23 @@ The IPU3 ImgU pipelines can be configured using the Media Controller, defined at
->  Running mode and firmware binary selection
->  ------------------------------------------
->  
-> -ImgU works based on firmware, currently the ImgU firmware support run 2 pipes in
-> -time-sharing with single input frame data. Each pipe can run at certain mode -
-> -"VIDEO" or "STILL", "VIDEO" mode is commonly used for video frames capture, and
-> -"STILL" is used for still frame capture. However, you can also select "VIDEO" to
-> -capture still frames if you want to capture images with less system load and
-> -power. For "STILL" mode, ImgU will try to use smaller BDS factor and output
-> -larger bayer frame for further YUV processing than "VIDEO" mode to get high
-> -quality images. Besides, "STILL" mode need XNR3 to do noise reduction, hence
-> -"STILL" mode will need more power and memory bandwidth than "VIDEO" mode. TNR
-> -will be enabled in "VIDEO" mode and bypassed by "STILL" mode. ImgU is running at
-> -“VIDEO” mode by default, the user can use v4l2 control V4L2_CID_INTEL_IPU3_MODE
-> -(currently defined in drivers/staging/media/ipu3/include/intel-ipu3.h) to query
-> -and set the running mode. For user, there is no difference for buffer queueing
-> -between the "VIDEO" and "STILL" mode, mandatory input and main output node
-> -should be enabled and buffers need be queued, the statistics and the view-finder
-> -queues are optional.
-> +ImgU works based on firmware, currently the ImgU firmware support run 2 pipes
-> +in time-sharing with single input frame data. Each pipe can run at certain mode
-> +- "VIDEO" or "STILL", "VIDEO" mode is commonly used for video frames capture,
-> +and "STILL" is used for still frame capture. However, you can also select
-> +"VIDEO" to capture still frames if you want to capture images with less system
-> +load and power. For "STILL" mode, ImgU will try to use smaller BDS factor and
-> +output larger bayer frame for further YUV processing than "VIDEO" mode to get
-> +high quality images. Besides, "STILL" mode need XNR3 to do noise reduction,
-> +hence "STILL" mode will need more power and memory bandwidth than "VIDEO" mode.
-> +TNR will be enabled in "VIDEO" mode and bypassed by "STILL" mode. ImgU is
-> +running at “VIDEO” mode by default, the user can use v4l2 control
-> +V4L2_CID_INTEL_IPU3_MODE (currently defined in
-> +drivers/staging/media/ipu3/include/uapi/intel-ipu3.h) to query and set the
-> +running mode. For user, there is no difference for buffer queueing between the
-> +"VIDEO" and "STILL" mode, mandatory input and main output node should be
-> +enabled and buffers need be queued, the statistics and the view-finder queues
-> +are optional.
+First patch replace dump_drv_version with a netdev_dbg() call.
+Second patch remove an unnecessary dump_drv_version() usage.
+Third patch removes dump_drv_version() now unused and
+	unused dump_log_level() as well
+Fourth patch apply the following coccinelle script for macro
+bulk replacement:
 
-The reflow of the whole paragraph is a bit painful to review.
+@@
+expression sel;
+expression list args;
+identifier padapter;
+identifier func;
+@@
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+func(..., struct adapter *padapter, ...) {
+	<...
+-	DBG_871X_SEL_NL(sel, args);
++	netdev_dbg(padapter->pnetdev, args);
+	...>
+}
 
->  
->  The firmware binary will be selected according to current running mode, such log
->  "using binary if_to_osys_striped " or "using binary if_to_osys_primary_striped"
-> @@ -586,7 +587,7 @@ preserved.
->  References
->  ==========
->  
-> -.. [#f5] drivers/staging/media/ipu3/include/intel-ipu3.h
-> +.. [#f5] drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
->  
->  .. [#f1] https://github.com/intel/nvt
->  
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-intel-ipu3.rst b/Documentation/userspace-api/media/v4l/pixfmt-meta-intel-ipu3.rst
-> index 5f33d35532ef..84d81dd7a7b5 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-meta-intel-ipu3.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-meta-intel-ipu3.rst
-> @@ -78,4 +78,4 @@ hardware and algorithm details.
->  Intel IPU3 ImgU uAPI data types
->  ===============================
->  
-> -.. kernel-doc:: drivers/staging/media/ipu3/include/intel-ipu3.h
-> +.. kernel-doc:: drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-> diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-> similarity index 100%
-> rename from drivers/staging/media/ipu3/include/intel-ipu3.h
-> rename to drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
-> diff --git a/drivers/staging/media/ipu3/ipu3-abi.h b/drivers/staging/media/ipu3/ipu3-abi.h
-> index e1185602c7fd..c76935b436d7 100644
-> --- a/drivers/staging/media/ipu3/ipu3-abi.h
-> +++ b/drivers/staging/media/ipu3/ipu3-abi.h
-> @@ -4,7 +4,7 @@
->  #ifndef __IPU3_ABI_H
->  #define __IPU3_ABI_H
->  
-> -#include "include/intel-ipu3.h"
-> +#include "include/uapi/intel-ipu3.h"
->  
->  /******************* IMGU Hardware information *******************/
->  
+@rule@
+identifier func, context, padapter;
+@@
+
+func(void *context)
+{
+	...
+struct adapter *padapter = context;
+	...
+}
+
+@@
+expression sel;
+expression list args;
+identifier rule.padapter;
+identifier rule.func, rule.context;
+@@
+
+func(void *context)
+{
+	<...
+-	DBG_871X_SEL_NL(sel, args);
++	netdev_dbg(padapter->pnetdev, args);
+	...>
+}
+
+@@
+expression sel;
+expression list args;
+expression get_dev;
+identifier func, dev;
+@@
+
+func(...)
+{
+	...
+	struct net_device *dev = get_dev;
+	<...
+-	DBG_871X_SEL_NL(sel, args);
++	netdev_dbg(dev, args);
+	...>
+}
+
+@@
+expression sel;
+expression list args;
+identifier func, dev;
+@@
+
+func(struct net_device *dev)
+{
+	<...
+-	DBG_871X_SEL_NL(sel, args);
++	netdev_dbg(dev, args);
+	...>
+}
+
+@@
+expression sel;
+expression list args;
+identifier func, dvobj;
+@@
+
+func(struct dvobj_priv *dvobj)
+{
+	<...
+-	DBG_871X_SEL_NL(sel, args);
++	netdev_dbg(dvobj->if1->pnetdev, args);
+	...>
+}
+
+Fifth patch fixes a post commit checkpatch issue left
+by coccinelle output.
+Sixth patch removes DBG_871X_SEL_NL macro declaration.
+Seventh patch removes an unused function argument after
+macro replacement.
+
+Fabio Aiuto (7):
+  staging: rtl8723bs: replace dump_drv_version usage with netdev_*
+  staging: rtl8723bs: remove unnecessary dump_drv_version() usage
+  staging: rtl8723bs: remove two unused functions
+  staging: rtl8723bs: replace DBG_871X_SEL_NL with netdev_dbg()
+  staging: rtl8723bs: put a new line after ';'
+  staging: rtl8723bs: remove DBG_871X_SEL_NL macro declaration
+  staging: rtl8723bs: remove unused argument in function
+
+ drivers/staging/rtl8723bs/core/rtw_debug.c    | 26 +++-------
+ drivers/staging/rtl8723bs/core/rtw_odm.c      | 52 ++++++++++---------
+ drivers/staging/rtl8723bs/hal/hal_com.c       | 31 +++++------
+ drivers/staging/rtl8723bs/include/rtw_debug.h | 12 -----
+ drivers/staging/rtl8723bs/include/rtw_odm.h   |  2 +-
+ .../staging/rtl8723bs/os_dep/ioctl_linux.c    |  4 +-
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c  |  1 -
+ 7 files changed, 51 insertions(+), 77 deletions(-)
 
 -- 
-Regards,
+2.20.1
 
-Laurent Pinchart
