@@ -1,45 +1,26 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26EE871
-	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 12:53:09 +0000 (UTC)
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
-	(envelope-from <andrew@lunn.ch>)
-	id 1lWIXL-00GTYv-RL; Tue, 13 Apr 2021 14:52:59 +0200
-Date: Tue, 13 Apr 2021 14:52:59 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Marc Zyngier <maz@kernel.org>
-Cc: DENG Qingfang <dqfext@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Landen Chao <Landen.Chao@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Vivien Didelot <vivien.didelot@gmail.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	linux-staging@lists.linux.dev, devicetree@vger.kernel.org,
-	netdev@vger.kernel.org, Weijie Gao <weijie.gao@mediatek.com>,
-	Chuanhong Guo <gch981213@gmail.com>,
-	=?iso-8859-1?Q?Ren=E9?= van Dorst <opensource@vdorst.com>,
-	Frank Wunderlich <frank-w@public-files.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Greg Ungerer <gerg@kernel.org>
-Subject: Re: [RFC v4 net-next 2/4] net: dsa: mt7530: add interrupt support
-Message-ID: <YHWUK+tG3v9ZU/DT@lunn.ch>
-References: <20210412034237.2473017-1-dqfext@gmail.com>
- <20210412034237.2473017-3-dqfext@gmail.com>
- <87fszvoqvb.wl-maz@kernel.org>
- <20210412152210.929733-1-dqfext@gmail.com>
- <YHTgu1+6GZFdFgWJ@lunn.ch>
- <8735vuobfo.wl-maz@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35FB71
+	for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 12:59:32 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 012E0613AE;
+	Tue, 13 Apr 2021 12:59:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1618318772;
+	bh=aKtum944X7oeenAWgmQgDcJZvTXmMz3gUbpNSPJyU8g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HRZZp/nN3mhOQgmRjVbkHRGs0pQ25itch/o9i3kiQepQran+rOaCkj2ah0UN152Z+
+	 vxddEeb1ZJJwsgjUmD4xwpwp0RcQnAwqHk5b8rwV9hCZbTeZ9W/Uaa2sBXOVMiu26q
+	 h6LKIutVyRa1GZs4DmiaFuMtin+uFB3C66r0l3UE=
+Date: Tue, 13 Apr 2021 14:59:29 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8192u: ieee80211:
+ Replaced strncpy() with strscpy()
+Message-ID: <YHWVsahY4nfo9xF/@kroah.com>
+References: <20210413123041.24260-1-fmdefrancesco@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -47,28 +28,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8735vuobfo.wl-maz@kernel.org>
+In-Reply-To: <20210413123041.24260-1-fmdefrancesco@gmail.com>
 
-> I guess this is depends whether the most usual case is to have all
-> these interrupts being actively in use or not. Most interrupts only
-> use a limited portion of their interrupt space at any given time.
-> Allocating all interrupts and creating mappings upfront is a waste of
-> memory.
+On Tue, Apr 13, 2021 at 02:30:41PM +0200, Fabio M. De Francesco wrote:
+> Replaced strncpy() with strscpy() because of compilation time warnings
+> about possible truncation of output [-Wstringop-truncation].
+
+build warnings?  What build warnings?
+
+> Furthermore, according to the Linux official documentation, strscpy() is
+> preferred to strncpy.
 > 
-> If the use case here is that all these interrupts will be wired and
-> used in most cases, then upfront allocation is probably not a problem.
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> ---
+>  drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+> index 25ea8e1b6b65..aa58eedf5e86 100644
+> --- a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+> +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+> @@ -1385,12 +1385,12 @@ inline void ieee80211_softmac_new_net(struct ieee80211_device *ieee, struct ieee
+>  			 * essid provided by the user.
+>  			 */
+>  			if (!ssidbroad) {
+> -				strncpy(tmp_ssid, ieee->current_network.ssid, IW_ESSID_MAX_SIZE);
+> +				strscpy(tmp_ssid, ieee->current_network.ssid, IW_ESSID_MAX_SIZE);
 
-Hi Marc
+Are you sure you can just replace this like this?
 
-The interrupts are generally used. Since this is an Ethernet switch,
-generally the port is administratively up, even if there is no cable
-plugged in. Once/if a cable is plugged in and there is a link peer,
-the PHY will interrupt to indicate this.
 
-The only real case i can think of when the interrupts are not used is
-when the switch has more ports than connected to the front panel. This
-can happen in industrial settings, but not SOHO. Those ports which
-don't go anywhere are never configured up and so the interrupt is
-never used.
+>  				tmp_ssid_len = ieee->current_network.ssid_len;
+>  			}
+>  			memcpy(&ieee->current_network, net, sizeof(struct ieee80211_network));
+>  
+> -			strncpy(ieee->current_network.ssid, tmp_ssid, IW_ESSID_MAX_SIZE);
+> +			strscpy(ieee->current_network.ssid, tmp_ssid, IW_ESSID_MAX_SIZE);
 
-      Andrew
+Same here, are you sure?
+
+thanks,
+
+greg k-h
