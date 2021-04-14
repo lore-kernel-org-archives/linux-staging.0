@@ -1,126 +1,113 @@
-Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B596D13
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 05:22:42 +0000 (UTC)
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-	by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13E5JgvP102985;
-	Wed, 14 Apr 2021 05:22:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=CZkptgcO3DGKGJ08iwMUHqqcUbf4lj+BxntMCOs7Pgg=;
- b=LsZPIn9KekMDv6/z7JVklg4qX8brFrq2kGV+fjPr27SCCdagI5oyS20hTRohxbDSKfbV
- AWjAOSE+pZ56WEjiYUQUM/ggzK/XWHVHVRf4GPYdBVC2S9oOxKZO6H9GvmKxxUI5x64G
- 9Z09Ot3B1EElFzt9o5CtpNXtc7eX8VoUCyhnGSjkeVpp2qN4zSiOQRLwFawV5pYj8B/o
- gDql57cbRC3R3iqyeWc4E5WEeQGJEvTdqS/ZTN7cDtpoRWhsPB4ohXD739lcz4HFObUS
- hFy/z7EerHoRfFo2773Dcb29DLhxUiU4ZJwhbLZgVm4ZmHg3R+SSgKWk1ByGR/BZZWX+ ZQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by aserp2130.oracle.com with ESMTP id 37u1hbh7he-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 14 Apr 2021 05:22:05 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13E5KVwL169344;
-	Wed, 14 Apr 2021 05:22:04 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by aserp3030.oracle.com with ESMTP id 37unkqgyd7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 14 Apr 2021 05:22:04 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13E5Lwdd019636;
-	Wed, 14 Apr 2021 05:21:59 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Tue, 13 Apr 2021 22:21:58 -0700
-Date: Wed, 14 Apr 2021 08:21:50 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Matthew Wilcox <willy@infradead.org>, Julia Lawall <julia.lawall@inria.fr>,
-        outreachy-kernel@googlegroups.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH] :staging: rtl8723bs: Remove useless
- led_blink_hdl()
-Message-ID: <20210414052150.GO6021@kadam>
-References: <20210413155908.8691-1-fmdefrancesco@gmail.com>
- <7008359.Jy8utYDuns@linux.local>
- <20210413194844.GR2531743@casper.infradead.org>
- <3505455.GpAHCVcAZI@linux.local>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D466D13
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 06:13:52 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id x4so22259500edd.2
+        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 23:13:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2OU2KfPs5ZLY9/eANVVEMxuGk0nOH0alcTehz44zqd4=;
+        b=Q34+3UVvVMeRO2pDc0ZhkM5C6ptR6G9eG5qsdyekgxQftdiVVd9V1+4urI+xWpCQ8A
+         PQUKFFxiX+TBAT78SVeiB4ByyQsmxu6zuco2JbD8ltFg1sfaQ1Vk4/aaHgj316KJD5mh
+         mh25SVYcMnveSSdl9la2RpzBmyosmp2an4lWmAmXZxlTvpdRkEf1HE+aa5qyXCUFTR0h
+         1GqX3v57HXeeFnxM8cAkVpRsXigpbrx3zhznG6qmPeD/+g0oMXKq9qD5BP7qhRBX7zFv
+         B3LuPWFrKPCOYunZPAj5KzunwgJMmVOiczPYbMXlS20dJ8K7MMCVhQBbq88yTGAboJqi
+         W5vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2OU2KfPs5ZLY9/eANVVEMxuGk0nOH0alcTehz44zqd4=;
+        b=Cmf9C3YiWZZOGm5dLHdUsGVsePU1rqwsACKWjOMAK+sbYECXuRRn5OHNQzO/woqH9s
+         F3ycAL1oepPC6mhHOi/Cf8CW+GSK8LdSMiR1N6NcgH6qthUh0mjJciVICmQ0byzqwfCM
+         EZaioIetv3HRuK8lCPUHONfDpNjwkjZ6DchilCL5z5IYvPOaykaLRHHCocs8a66xBW9f
+         EBkWmwGvzFDdfUU340m9m3liyZ9hXNCv6WOumZH8CVT9SeJUtovWpFNYT6NyMdKYyUin
+         TGpbxsfVCewZ3b6F0nwQk9EnAdZxJDfScA89BzMTeZdXwJhkEvfoRhtQP3zwvAL95CC7
+         RZvg==
+X-Gm-Message-State: AOAM5317mEUla9qZMBfdit6RVJ3j4wHudTqT5jVdbzNSy6BwxXPrfT9K
+	n9NoauD1dq8obLusu0gS4Zg=
+X-Google-Smtp-Source: ABdhPJwwJG66A7j7zmHDI6pADLthTYyzZVxvACfPBEUHMVkq/XFP0e4jorqTX76bRg7iDMQ+0CbQ6Q==
+X-Received: by 2002:aa7:cc15:: with SMTP id q21mr40158512edt.140.1618380831272;
+        Tue, 13 Apr 2021 23:13:51 -0700 (PDT)
+Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
+        by smtp.gmail.com with ESMTPSA id w1sm11384312edt.89.2021.04.13.23.13.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Apr 2021 23:13:50 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: outreachy-kernel@googlegroups.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [Outreachy kernel] [PATCH v2] staging: rtl8723bs: hal: Remove four set but not used variables
+Date: Wed, 14 Apr 2021 08:13:46 +0200
+Message-Id: <20210414061346.11423-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3505455.GpAHCVcAZI@linux.local>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
- adultscore=0 phishscore=0 malwarescore=0 mlxscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104140036
-X-Proofpoint-GUID: YEzxurop5mggoI9SiG_lYx3jEjcb2yFb
-X-Proofpoint-ORIG-GUID: YEzxurop5mggoI9SiG_lYx3jEjcb2yFb
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 priorityscore=1501
- clxscore=1031 adultscore=0 mlxlogscore=999 impostorscore=0 malwarescore=0
- lowpriorityscore=0 spamscore=0 phishscore=0 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104140036
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 13, 2021 at 10:08:32PM +0200, Fabio M. De Francesco wrote:
-> On Tuesday, April 13, 2021 9:48:44 PM CEST Matthew Wilcox wrote:
-> > On Tue, Apr 13, 2021 at 09:45:03PM +0200, Fabio M. De Francesco wrote:
-> > > 1) The driver doesn't call that function from anywhere else than the
-> > > macro. 2) You have explained that the macro add its symbol to a slot
-> > > in an array that would shift all the subsequent elements down if that
-> > > macro is not used exactly in the line where it is.
-> > > 3) Dan Carpenter said that that array is full of null functions (or
-> > > empty slots?).
-> > > 
-> > > Unless that function is called anonymously dereferencing its address
-> > > from the position it occupies in the array, I'm not able to see what
-> > > else means can any caller use.
-> > > 
-> > > I know I have much less experience than you with C: what can go wrong?
-> > 
-> > Here's where the driver calls that function:
-> > 
-> > $ git grep wlancmds drivers/staging/rtl8723bs/
-> > drivers/staging/rtl8723bs/core/rtw_cmd.c:static struct cmd_hdl wlancmds[]
-> > = { drivers/staging/rtl8723bs/core/rtw_cmd.c:               if
-> > (pcmd->cmdcode < ARRAY_SIZE(wlancmds)) {
-> > drivers/staging/rtl8723bs/core/rtw_cmd.c:                       cmd_hdl
-> > = wlancmds[pcmd->cmdcode].h2cfuns;
-> >
-> OK, I had imagined an anonymous call from its location in the array (as I 
-> wrote in the last phrase of my message). However, I thought that it could 
-> have been an improbable possibility, not a real one.
-> 
-> Linux uses a lot of interesting ideas that newcomers like me should learn. 
-> Things here are trickier than they appear at first sight.
+Removed four variables that were set but not used.
 
-One trick would be to build the Smatch cross function database.
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
 
-https://www.spinics.net/lists/smatch/msg00568.html
+Changes from v1: deleted one blank line.
 
-Then you could do:
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-$ ~/path/to/smatch_data/db/smdb.py led_blink_hdl
-file | caller | function | type | parameter | key | value |
-drivers/staging/rtl8723bs/core/rtw_cmd.c |       rtw_cmd_thread | rtw_cmd_thread ptr cmd_hdl |           INTERNAL | -1 |                 | uchar(*)(struct adapter*, uchar*)
-drivers/staging/rtl8188eu/core/rtw_cmd.c |       rtw_cmd_thread | rtw_cmd_thread ptr cmd_hdl |           INTERNAL | -1 |                 | uchar(*)(struct adapter*, uchar*)
-drivers/staging/rtl8188eu/core/rtw_cmd.c |       rtw_cmd_thread | rtw_cmd_thread ptr cmd_hdl |           BUF_SIZE |  1 |            pbuf | 1,4,6,8,12,14,16,19-20,23-24,48,740,884,892,900,960
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index 77f8353c5ce5..63f7f673aefb 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -3199,13 +3199,10 @@ static void hw_var_set_mlme_join(struct adapter *padapter, u8 variable, u8 *val)
+ 
+ void CCX_FwC2HTxRpt_8723b(struct adapter *padapter, u8 *pdata, u8 len)
+ {
+-	u8 seq_no;
+ 
+ #define	GET_8723B_C2H_TX_RPT_LIFE_TIME_OVER(_Header)	LE_BITS_TO_1BYTE((_Header + 0), 6, 1)
+ #define	GET_8723B_C2H_TX_RPT_RETRY_OVER(_Header)	LE_BITS_TO_1BYTE((_Header + 0), 7, 1)
+ 
+-	seq_no = *(pdata+6);
+-
+ 	if (GET_8723B_C2H_TX_RPT_RETRY_OVER(pdata) | GET_8723B_C2H_TX_RPT_LIFE_TIME_OVER(pdata)) {
+ 		rtw_ack_tx_done(&padapter->xmitpriv, RTW_SCTX_DONE_CCX_PKT_FAIL);
+ 	}
+@@ -3357,17 +3354,15 @@ void SetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
+ 	case HW_VAR_BASIC_RATE:
+ 	{
+ 		struct mlme_ext_info *mlmext_info = &padapter->mlmeextpriv.mlmext_info;
+-		u16 input_b = 0, masked = 0, ioted = 0, BrateCfg = 0;
++		u16 BrateCfg = 0;
+ 		u16 rrsr_2g_force_mask = (RRSR_11M|RRSR_5_5M|RRSR_1M);
+ 		u16 rrsr_2g_allow_mask = (RRSR_24M|RRSR_12M|RRSR_6M|RRSR_CCK_RATES);
+ 
+ 		HalSetBrateCfg(padapter, val, &BrateCfg);
+-		input_b = BrateCfg;
+ 
+ 		/* apply force and allow mask */
+ 		BrateCfg |= rrsr_2g_force_mask;
+ 		BrateCfg &= rrsr_2g_allow_mask;
+-		masked = BrateCfg;
+ 
+ 		/* IOT consideration */
+ 		if (mlmext_info->assoc_AP_vendor == HT_IOT_PEER_CISCO) {
+@@ -3375,7 +3370,6 @@ void SetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
+ 			if ((BrateCfg & (RRSR_24M|RRSR_12M|RRSR_6M)) == 0)
+ 				BrateCfg |= RRSR_6M;
+ 		}
+-		ioted = BrateCfg;
+ 
+ 		pHalData->BasicRateSet = BrateCfg;
+ 
+-- 
+2.31.1
 
-
-Which says that led_blink_hdl() is called as a function pointer called
-"cmd_hdl" from rtw_cmd_thread().
-
-Hm...  It says it can be called from either rtw_cmd_thread() function
-(the rtl8723bs or rtl8188eu version) which is not ideal.  But also
-basically harmless so whatever...
-
-regards,
-dan carpenter
