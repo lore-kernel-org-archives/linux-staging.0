@@ -1,48 +1,50 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8CA572
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 07:21:46 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id l76so13768394pga.6
-        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 00:21:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A8D72
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 07:22:02 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id ot17-20020a17090b3b51b0290109c9ac3c34so12017568pjb.4
+        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 00:22:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=5M6lZDHmRsVmI9+ZaAWTX2wcWhrGZNQhEEI4YOQh3oU=;
-        b=ChZh3Dl2or1rhHPDot1lrzwIiiA6KRu5T1fe5TnRdZP5sdWQ14awGLuWyEw5GtNYm4
-         V38HkjKYWV5ciOTEdLjKikOttbjRK6dxcOeh2IrCdhAqqdFee2wFDXKSl9ALq41aY+2I
-         EqCkqrrx9GR6A2hy0LWanqayxplsLvtQ7ZIeqt+dvzthLBdXqAFeiOXoOwSWiWpCga4B
-         4ywq953KplFvQnvTey7m3Gx5ztx5H10uGjZ+VBo4Xh5vO8iVBrDErqo2KQeLQtnrof+u
-         eqCeRFAKm16/9rBSd43uMkTrJIliNYPkjKb3zL7BkZadoJPAD1sZc4q3WV+2zmuxYHhR
-         a+Ig==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=fOZOvYrVPIcZPO2R1dW7gEMhF5gXoGLf+TJd7DF8ljo=;
+        b=HRQJdPkhGjqRsB6YI0Jwx0K/h2FghIaw9XUDYBGZiew7aqo8R0m2+CwOrjpTpGgFMC
+         S/srO2NNCgixWWUO7YixYFcQlf8oiduiBGx4n8LkDFwuL3+T/gTK3l8tijP8zio6TU7Y
+         5uw1v3/yBHIqq1kKWXQMPkJA7SNKMboqbJ3tmcI7HCqi0InZB2ogDCb+4zJbrkZJU87h
+         fUpoUQS8oWRB3DGalomq71SCS1uuBPudoMBaF71LbnDOne8pTYA6w9D0D+jekRTwZWUp
+         f5m4MGhcXrGMqrLdjZ61cCpOGB/T7eTn8NLa0YGNPpucf6sUPhh0AnPQS9R65OU7xlcJ
+         sOmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=5M6lZDHmRsVmI9+ZaAWTX2wcWhrGZNQhEEI4YOQh3oU=;
-        b=q1E5iMVk+gRVXpzT3iMOM4g8HmVxobG3OnykmJanst6snpuWdIHFbz7ul2zTaLTFt+
-         KaOgb2Vxt8QWuZJ06XtdsBPuzS49WDGfg4kTrlq4f865xLU9IWoS8MaUk1uxclc0bYwI
-         5Q6drUXtlozcY2WammtoymmUXBina55wukajhT/p2TezwZ374B3cR/OE2pCvSXTt9Kjz
-         XREp9bJZd/HFfmsB4dHbVU4WtN8ikirk4E+U8fWGrVHiEQKVMp1+63/yZszQk4rYXSQa
-         8Yn7vOd3vWe+vFiHRiRe1/+BaHQFuftJPPdWNwNWzb+o2pIDe9rFp97LY2kCwJt7/xrl
-         q5jg==
-X-Gm-Message-State: AOAM533ywN0u/GqyX8Jcl730qOz+hnOEWKURymMka4tyx0e22G4ruCFI
-	7qREkH2ek2hDNFirzt4p4G0=
-X-Google-Smtp-Source: ABdhPJxMkFmo2SO2Tj4yN8plu5ZWoTd/3WUhDlACHik/MxUw4iQ8KvISpyA9PKdHD6F1FUkGmR6W5w==
-X-Received: by 2002:a63:c4f:: with SMTP id 15mr35326894pgm.379.1618384905996;
-        Wed, 14 Apr 2021 00:21:45 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=fOZOvYrVPIcZPO2R1dW7gEMhF5gXoGLf+TJd7DF8ljo=;
+        b=ExcLtsxhqsfAe05e/vaKsfskGlUnXwFa/wOcY4nE6jLv5nYD0A8MjbUQZNBU2aQjnM
+         RXX1/LmKNq+1H7MJ4Vs1fzsNJI5iOHs2je26PBeqxFelE5vaE91QVDFD5CkX0SSrwZfa
+         DGmGQ9+W2taDlTfzNRZ7phpUADEnW1M+NsLLCoAiIKQc3tBWRDGWFhyb5NTyP1YGU5FO
+         fEcNUuTbNt66ZGIj6ie4rK8dwu9MS0ApBlNiil3CpgvfdRlBMu4oPLr0yBd7Jm3jWuO1
+         YVPXbwBYokG7GlBavlbACmJJ+ZzIEXXmOEH/1rLQ1HBxKZvhmTAC6ol34HMFx7XBSS7c
+         ms6g==
+X-Gm-Message-State: AOAM532MzOmDVfFoHBh21lCAbNntlwwJPYry2JXSLnwYhb7k83Liqn52
+	bRCRQ83B5iBJxQWnfc7bpkQ=
+X-Google-Smtp-Source: ABdhPJwD9xA9TFfNPjtfquklFyJTiYrdUaPFWrmyRgn4DButJl6iWVYC5sH1H9fyuQ7hLtOoLnieyg==
+X-Received: by 2002:a17:902:6bcc:b029:ea:f58f:274c with SMTP id m12-20020a1709026bccb02900eaf58f274cmr15518935plt.68.1618384921966;
+        Wed, 14 Apr 2021 00:22:01 -0700 (PDT)
 Received: from kali ([103.141.87.253])
-        by smtp.gmail.com with ESMTPSA id c2sm13931755pfo.53.2021.04.14.00.21.43
+        by smtp.gmail.com with ESMTPSA id u1sm16135423pgg.11.2021.04.14.00.21.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 00:21:45 -0700 (PDT)
-Date: Wed, 14 Apr 2021 12:51:35 +0530
+        Wed, 14 Apr 2021 00:22:01 -0700 (PDT)
+Date: Wed, 14 Apr 2021 12:51:55 +0530
 From: Mitali Borkar <mitaliborkar810@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: [PATCH v6 0/2] staging: rtl8192e: Clean up patchset for style issues
- in rtl819x_HTProc.c
-Message-ID: <cover.1618383684.git.mitaliborkar810@gmail.com>
+Subject: [PATCH v6 1/2] staging: rtl8192e: remove parentheses around boolean
+ expression
+Message-ID: <60483f646c16ffd3c19ca8f508a1f1c3a0a13db6.1618383684.git.mitaliborkar810@gmail.com>
+References: <cover.1618383684.git.mitaliborkar810@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -50,38 +52,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1618383684.git.mitaliborkar810@gmail.com>
 
-Changes from v5:- Rebased these patches and dropped 2/3 and made this
-a patchset of 2.
-[PATCH v5 1/2]:- No changes.
-[PATCH V5 2/2]:- No changes.
+Removed unnecessary parentheses around '!xyz' boolean expression as '!'
+has higher precedance than '||'
 
-Changes from v4:-
-[PATCH v4 1/2]:- No changes.
-[PATCH V4 2/2]:- Removed casts and parentheses.
-
-Changes from v3:- Changed subject line to match prefix on the patches.
-[PATCH v3 1/2]:- No changes.
-[PATCH V3 2/2]:- No changes.
-
-Changes from v2:-
-[PATCH v2 1/2]:- Modified subject description. Changes has been made in
+Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+---
+ 
+Changes from v5:- No changes.
+Changes from v4:- No changes.
+Changes from v3:- No changes.
+Changes from v2:- Modified subject description. Changes has been made in
 v3.
-[PATCH v2 2/2]:- Rectified spelling mistake in subject description.
-Changes has been made in v3.
+Changes from v1:- Removed unnecessary parentheses around boolean
+expression. Changes has been made in v2.
 
-Changes from v1:-
-[PATCH 1/2]:- Removed unnecessary parentheses around boolean expression.
-Changes has been made in v2.
-[PATCH 2/2]:- No changes.
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Mitali Borkar (2):
-  staging: rtl8192e: remove parentheses around boolean expression
-  staging: rtl8192e: remove casts and parentheses
-
- drivers/staging/rtl8192e/rtl819x_HTProc.c     | 14 +--
- 1 file changed, 5 insertions(+), 9 deletions(-)
-
+diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+index b1fa8e9a4f28..431202927036 100644
+--- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
++++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+@@ -276,7 +276,7 @@ void HTConstructCapabilityElement(struct rtllib_device *ieee, u8 *posHTCap,
+ 	struct rt_hi_throughput *pHT = ieee->pHTInfo;
+ 	struct ht_capab_ele *pCapELE = NULL;
+ 
+-	if ((!posHTCap) || (!pHT)) {
++	if (!posHTCap || !pHT) {
+ 		netdev_warn(ieee->dev,
+ 			    "%s(): posHTCap and pHTInfo are null\n", __func__);
+ 		return;
 -- 
 2.30.2
 
