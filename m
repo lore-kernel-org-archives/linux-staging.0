@@ -1,68 +1,135 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08BD6D14
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 13:12:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 36BC5600CD;
-	Wed, 14 Apr 2021 13:12:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1618405924;
-	bh=NWtj4dpdXgl6EC1DyTMcpHGDwC7Er0QrmdO2r3ioKpo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Qc80NSV/ay3sLkuVegGcJ5+KlijcSZ0rdHzYwfsHCJDR9qJUOmiliDbMRF0fxwNgO
-	 gKpdVWSNSyinb7XQTqBaaPLeaCbxG52Sbswilf923J8fhqLe04ZlMmW9UUvGTnH9b3
-	 5QxhME8rlImbmX6MGcEGA4Yei9T9w7H26sOVGNuc=
-Date: Wed, 14 Apr 2021 15:12:02 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Ian Abbott <abbotti@mev.co.uk>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>, linux-staging@lists.linux.dev,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	"Spencer E . Olson" <olsonse@umich.edu>
-Subject: Re: [PATCH 0/5] staging: comedi: tests: Fix various issues
-Message-ID: <YHbqImqxHfxRri3B@kroah.com>
-References: <20210407140142.447250-1-abbotti@mev.co.uk>
- <YG3LY0hhDhzeXa1V@kroah.com>
- <3d70fc39-3c3f-16af-d4bb-e4dc2c9ffc26@mev.co.uk>
- <YG3rUN0fvyA6HCpf@kroah.com>
- <20210414100905.GD6048@kadam>
- <87e957d3-12b8-bac8-b1a3-ea10abee4ef5@mev.co.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 202416D13
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 13:17:40 +0000 (UTC)
+Received: by mail-il1-f171.google.com with SMTP id c15so17081964ilj.1
+        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 06:17:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ieee.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=KR5tUi2Pjym92G8VJBGTvp1Vw9Vmq14ckbna/IAfvxY=;
+        b=LXpcpQcBz4zfAoS3GCoj2F36fqCg83/wkDUE/2flZ4QY/NLdrXBzUHPJp5syo5f+uV
+         NzYemHAM0XS0+RWtXiKoERGidOZnVfMZtnV86xTUC6CWr1B5ykeho2l7NbBK+IJbfzXk
+         p5D7/PA7yRi9D1nhZy78UuT+H1i2dXHhIiOZA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=KR5tUi2Pjym92G8VJBGTvp1Vw9Vmq14ckbna/IAfvxY=;
+        b=Tipe7fMYUc6IWVh6UOE4LEx/htEjACHc/sEm53VPugBrPqyGazAbpOV1a5QyfFpTr5
+         +8lyxE4EMXrj1nwnVq8QYStzPXWFYGwxRWTcjkMbHgexDB4SJk3UcPn2PYq+8jBLfFkH
+         MpF6JmER63E3vfIOdcTxrOuPmyhic+IUwR6rT70ptBQ5TlrNZ3c0SbLsP5jklS5DH5+O
+         WFCeW+IbSxPULgSMrhk04oz9Di1zGwkJbWyjtvce81iLYMfMhUO70TjYjk6v15/a58AQ
+         skRD+sa8VKpziESPexBb3DimWGLkAizV3fPKw5QxsTV08GjLVz9B4oQXyTYruED8RTIq
+         0pEQ==
+X-Gm-Message-State: AOAM533522DgDhF3WesVEiGJQR1+vYc/HmbQ2OYc0YID9+zmGMSQlm/d
+	1+5yoHRJzlBf38bQrcGmWlOJTg==
+X-Google-Smtp-Source: ABdhPJyb+zve3gy2tS0pVuePobkDcZJ6i03AHQgQ4GPnJtCEoPevEY/e3ov0ozoSq1Yrkb46lfVeqA==
+X-Received: by 2002:a92:7f0c:: with SMTP id a12mr16080857ild.54.1618406260271;
+        Wed, 14 Apr 2021 06:17:40 -0700 (PDT)
+Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
+        by smtp.googlemail.com with ESMTPSA id h17sm3621738ilh.55.2021.04.14.06.17.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Apr 2021 06:17:39 -0700 (PDT)
+Subject: Re: [PATCH] staging: greybus: Match parentheses alignment
+To: Joe Perches <joe@perches.com>, Greg KH <gregkh@linuxfoundation.org>,
+ Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>
+Cc: johan@kernel.org, elder@kernel.org, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ outreachy-kernel@googlegroups.com
+References: <20210406124259.GA96537@zhans> <YGxhrLZPIPjILWUH@kroah.com>
+ <7d7be8bcc0e80d826083890ed7791070ad25e603.camel@perches.com>
+From: Alex Elder <elder@ieee.org>
+Message-ID: <1607b040-6bc4-9a58-ae81-4ea0adf5885d@ieee.org>
+Date: Wed, 14 Apr 2021 08:17:38 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87e957d3-12b8-bac8-b1a3-ea10abee4ef5@mev.co.uk>
+In-Reply-To: <7d7be8bcc0e80d826083890ed7791070ad25e603.camel@perches.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 14, 2021 at 01:40:34PM +0100, Ian Abbott wrote:
-> On 14/04/2021 11:09, Dan Carpenter wrote:
-> > This driver is doing a bunch of DMA on stack which doesn't work on
-> > all architectures.  You have to use kmalloc() (or vmalloc() I suppose)
-> > memory for DMA.
-> > 
-> > drivers/staging/comedi/drivers/dt9812.c:249 dt9812_read_info() error: doing dma on the stack (&cmd)
-> > drivers/staging/comedi/drivers/dt9812.c:273 dt9812_read_multiple_registers() error: doing dma on the stack (&cmd)
-> > drivers/staging/comedi/drivers/dt9812.c:299 dt9812_write_multiple_registers() error: doing dma on the stack (&cmd)
-> > drivers/staging/comedi/drivers/dt9812.c:318 dt9812_rmw_multiple_registers() error: doing dma on the stack (&cmd)
-> > drivers/staging/comedi/drivers/dt9812.c:330 dt9812_digital_in() error: doing dma on the stack (value)
-> > drivers/staging/comedi/drivers/dt9812.c:456 dt9812_analog_in() error: doing dma on the stack (val)
-> > drivers/staging/comedi/drivers/dt9812.c:692 dt9812_reset_device() error: doing dma on the stack (&tmp8)
-> > drivers/staging/comedi/drivers/dt9812.c:700 dt9812_reset_device() error: doing dma on the stack (&tmp8)
-> > drivers/staging/comedi/drivers/dt9812.c:711 dt9812_reset_device() error: doing dma on the stack (&tmp16)
-> > drivers/staging/comedi/drivers/dt9812.c:718 dt9812_reset_device() error: doing dma on the stack (&tmp16)
-> > drivers/staging/comedi/drivers/dt9812.c:725 dt9812_reset_device() error: doing dma on the stack (&tmp16)
-> > drivers/staging/comedi/drivers/dt9812.c:732 dt9812_reset_device() error: doing dma on the stack (&tmp32)
+On 4/6/21 12:21 PM, Joe Perches wrote:
+> On Tue, 2021-04-06 at 15:27 +0200, Greg KH wrote:
+>> On Tue, Apr 06, 2021 at 06:42:59PM +0600, Zhansaya Bagdauletkyzy wrote:
+>>> Match next line with open parentheses by adding tabs/spaces
+>>> to conform with Linux kernel coding style.
+>>> Reported by checkpatch.
+> []
+>>> diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
+> []
+>>> @@ -378,8 +378,8 @@ struct ap_csi_config_request {
+>>>   #define GB_CAMERA_CSI_CLK_FREQ_MARGIN		150000000U
+>>>   
+>>>
+>>>   static int gb_camera_setup_data_connection(struct gb_camera *gcam,
+>>> -		struct gb_camera_configure_streams_response *resp,
+>>> -		struct gb_camera_csi_params *csi_params)
+>>> +					   struct gb_camera_configure_streams_response *resp,
+>>> +					   struct gb_camera_csi_params *csi_params)
+>>
+>> And now you violate another coding style requirement, which means
+>> someone will send another patch to fix that up and around and around it
+>> goes...
 > 
-> Yes, it seems it requires a bit of an overhaul!
+> None of the coding style document is an actual requirement Greg.
+> It's all rules of thumb.  Useful rules, but not hard and fast right?
 
-As no one has complained about the warning messages they would be
-getting if they tried to use this driver in the past year, are there any
-real users of it?
+I agree with this, but this ambiguity causes some problems.
 
-This should be an easy thing to fix up for someone interested in getting
-some experience in kernel development...
+Greybus is a go-to place for just-starting developers to
+work with some reasonably good "real" code.  But someone
+just starting has no way of judging whether the warnings
+issued by checkpatch are real or not.  Even experienced
+developers will lack the insight to judge this if they
+are modifying on a less-familiar part of the kernel.
 
-thanks,
+The result--for Greybus certainly--is fairly regular
+stream patches that suggest making trivial changes based
+on checkpatch recommendations.  And unfortunately each
+one is destined to be rejected by the maintainers.  This
+is no good for anybody.
 
-greg k-h
+Can you think of a way to try to further characterize
+how "serious" a warning message is?  I recognize that
+even if (for example) you had something like 1-10 severity
+scale, the scale might not be uniform across the whole
+kernel tree.  Perhaps (like the -W options for GCC) there
+could be a way to specify in a Makefile which checkpatch
+messages are reported/not reported?  I don't claim that's
+a good suggestion, but if I could optionally indicate
+somewhere that "two consecutive blank lines is OK for
+Greybus" (one example that comes to mind) I might do so.
+
+> To me, the biggest issue with this code isn't whether or not the
+> code is aligned at open parentheses or stays within 80 columns,
+> but is the use of 30+ character length identifiers.
+
+I agree with you on this one...  I've worked with code
+like that and it's very difficult to make it readable.
+I've made a mental note to go look at this and see if
+I can make it better.  I can't say when I'll get to it
+but I think it's a good suggestion.
+
+					-Alex
+
+> Using identifiers of that length makes using 80 column, or even
+> 100 column length lines infeasible.
+> 
+> Perhaps seeing if include/linux/greybus/greybus_protocols.h
+> could be updated to use shorter length identifiers might be useful.
+> 
+> The median length identifier there is ~25 chars long and the
+> maximum length identifier is ~50 chars.
+> 
+> 
+> 
+
