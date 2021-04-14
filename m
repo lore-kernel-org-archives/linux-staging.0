@@ -1,50 +1,50 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E9686D37
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 18:12:10 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id r9so32818695ejj.3
-        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 11:12:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848EB6D32
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 18:12:11 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id h10so24796266edt.13
+        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 11:12:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=x6swCV8MABma/kvfA/z+/vs0favPyInYA12FLnpeb1k=;
-        b=WhRVGsNUs16A4SHOiwGJH3+VhlkVON+SOgYg3cYg0syXzQCGucwewKfv1PGEXfKKEO
-         w4InHL525QL6qZVBwNmGhKvPnxh9VH4oB53Hhbxy+8t/r9iucwiudvAfQ3ybkVOex5Iv
-         bLaEz1R0/fBJmh9IsFGrcMbuEyWlRBirdIDKdexFar7xYJO7QVDpcBKuhooHecpO8/+P
-         arrEBUdyE29OBxlR74ZYiAS83nJudtCX/vCLUf5DlBPW0rYyP14EFOUVhlpImcRsVvNA
-         iWb444J07PyZf+bZN/uJRW2QAD8iktXDanTOamYzJpvTWGcyZKmkjgGUYnqH8EKWad17
-         AeKQ==
+        bh=suKchik7fkxJsbWv0EpdrzPIlTn55sc8L3ee+Nqts2M=;
+        b=WbF8UtvVwzmb8yK9F48/oZ18yLEt+5DscFf7bjt1wb5liGXY1me+3cJVwo1CO6j7XM
+         HTdApphufLPFEzdvn6mETHm/W9DMRq6pfn3ume7QKnNsRKXITu3iBcYtsFg+X9+IRAAp
+         yWGzi52MMRmELdUDOMv9sni74jRBx+Ui0pkaJ/DiZ8+UYGXtPNmVQopQMRxQ+CPGHsZ0
+         lshBmBgTdvMSmxrPYr4H6tD4XJCPz4vK8GCwbmE9rEFh0stk8JLaXkaSAJhrYPWQzFuU
+         FMVtpxFNIlv2r8FbPqo4ZPohHX3XvK1tSpKk3qrKR5Z3nXrMUjIOLsu2yL0bepoEYerQ
+         eLbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=x6swCV8MABma/kvfA/z+/vs0favPyInYA12FLnpeb1k=;
-        b=nBNP3SfSMlzx6OYHJvASUcoIsX5CdddKoSroWUYIYQ7eOlBWnqaSo6bZFdBHQ/8Srt
-         HNIbSzst3fVMotKDGhRrqzRet6FL4YRYiJR7z/7/l6doCdkV0KykOmGUtN0tx8qrRac4
-         /fEH18JeSLslkNDAXYjU4VRCRzbUJk8dKtAkRm2HoTzpVvvurhOPmt1sgtZJzgipLKBA
-         fasJvvGvwBVKNK1R4g7nmZ8j+Dro757MAPfabgX3nR6VkypZ9wbXKHBUCLoqklxcNXwr
-         3mb8lulOmRgjftifzMSiE6Q7MCDFJ1EJafla2B9EUc2MNlS4ZQDvx6gqASYOkb618KGi
-         E9tA==
-X-Gm-Message-State: AOAM530F5nwgGR8FP8V+4t4OoI+VTrghfb7QIIyPOoOfz/Pt39F1ga9c
-	w79u9PkJv/wjpdpIuQs/IJYpAA==
-X-Google-Smtp-Source: ABdhPJw1exYvLBm56CUU8hswEMeLLroWnY2pN9quMUAksqZb74fNwYQ0mHj77DYzXWeKUuwYY/WCFg==
-X-Received: by 2002:a17:907:2d94:: with SMTP id gt20mr150708ejc.552.1618423929013;
-        Wed, 14 Apr 2021 11:12:09 -0700 (PDT)
+        bh=suKchik7fkxJsbWv0EpdrzPIlTn55sc8L3ee+Nqts2M=;
+        b=CqdPQGrWk0t2T5C8JiDIPXP9BGz7Mzy+ptM2sAW9eyoBPnYzqdvb/zjzfWNIcadoiG
+         0Ar8fRk80BpQw0OiJU1vDvM9P1HjsI6Jow+h4oadz4O65b7sJmi02+GdIDYZ2tP+cyd/
+         zV9ul2+BqvZNOxsj9ZAeF+SQrJlPm9ynRn7AYtCoBA4yO4+f+NWyZm4D+udcgLl6fu+5
+         6TRO5N6S81BwAHp5jAWJEemWI4wnvAAqspPFMh3ZCEFCYM1l/jfgETLj5Fn7SVUYG0y1
+         RsLYQ1qpho2RQhQv3t+m14V9kx0JcWbhmxH6w3QMCeftYkjwV49sZQ6fXbyVIEWVvobB
+         KWeA==
+X-Gm-Message-State: AOAM532mAHVEH29XN8mtmPPZaXDWhmIZjZ+AjH/GQBwaq4EJrN1+lII8
+	0XIB+yemml+x3e4SpWEUFy5wdUKKKJ3HoQ==
+X-Google-Smtp-Source: ABdhPJxxaB7vg1VjWvnPfy0wQUMVRVTj6ZRbGFyi+lt8dP7Hv7ivz583lG85OuY/Dix8Q18eUEw+Kw==
+X-Received: by 2002:aa7:cd7b:: with SMTP id ca27mr189673edb.354.1618423930097;
+        Wed, 14 Apr 2021 11:12:10 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
-        by smtp.gmail.com with ESMTPSA id v1sm279493eds.17.2021.04.14.11.12.08
+        by smtp.gmail.com with ESMTPSA id v1sm279493eds.17.2021.04.14.11.12.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 11:12:08 -0700 (PDT)
+        Wed, 14 Apr 2021 11:12:09 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
 Cc: linux-kernel@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Andrey Shvetsov <andrey.shvetsov@k2l.de>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 33/57] staging: most: i2c: Fix a little doc-rot
-Date: Wed, 14 Apr 2021 19:11:05 +0100
-Message-Id: <20210414181129.1628598-34-lee.jones@linaro.org>
+Subject: [PATCH 34/57] staging: most: dim2: hal: Fix one kernel-doc header and demote two non-conforming ones
+Date: Wed, 14 Apr 2021 19:11:06 +0100
+Message-Id: <20210414181129.1628598-35-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210414181129.1628598-1-lee.jones@linaro.org>
 References: <20210414181129.1628598-1-lee.jones@linaro.org>
@@ -57,63 +57,52 @@ Content-Transfer-Encoding: 8bit
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/staging/most/i2c/i2c.c:66: warning: Function parameter or member 'most_iface' not described in 'configure_channel'
- drivers/staging/most/i2c/i2c.c:66: warning: Function parameter or member 'ch_idx' not described in 'configure_channel'
- drivers/staging/most/i2c/i2c.c:66: warning: Excess function parameter 'iface' description in 'configure_channel'
- drivers/staging/most/i2c/i2c.c:66: warning: Excess function parameter 'channel' description in 'configure_channel'
- drivers/staging/most/i2c/i2c.c:121: warning: Function parameter or member 'most_iface' not described in 'enqueue'
- drivers/staging/most/i2c/i2c.c:121: warning: Function parameter or member 'ch_idx' not described in 'enqueue'
- drivers/staging/most/i2c/i2c.c:121: warning: Excess function parameter 'iface' description in 'enqueue'
- drivers/staging/most/i2c/i2c.c:121: warning: Excess function parameter 'channel' description in 'enqueue'
- drivers/staging/most/i2c/i2c.c:166: warning: Function parameter or member 'most_iface' not described in 'poison_channel'
- drivers/staging/most/i2c/i2c.c:166: warning: Function parameter or member 'ch_idx' not described in 'poison_channel'
- drivers/staging/most/i2c/i2c.c:166: warning: Excess function parameter 'iface' description in 'poison_channel'
- drivers/staging/most/i2c/i2c.c:166: warning: Excess function parameter 'channel_id' description in 'poison_channel'
+ drivers/staging/most/dim2/hal.c:99: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ drivers/staging/most/dim2/hal.c:788: warning: Function parameter or member 'buf_size' not described in 'dim_norm_isoc_buffer_size'
+ drivers/staging/most/dim2/hal.c:788: warning: Function parameter or member 'packet_length' not described in 'dim_norm_isoc_buffer_size'
+ drivers/staging/most/dim2/hal.c:788: warning: expecting prototype for Retrieves maximal possible correct buffer size for isochronous data type(). Prototype was for dim_norm_isoc_buffer_size() instead
+ drivers/staging/most/dim2/hal.c:802: warning: Function parameter or member 'buf_size' not described in 'dim_norm_sync_buffer_size'
+ drivers/staging/most/dim2/hal.c:802: warning: Function parameter or member 'bytes_per_frame' not described in 'dim_norm_sync_buffer_size'
+ drivers/staging/most/dim2/hal.c:802: warning: expecting prototype for Retrieves maximal possible correct buffer size for synchronous data type(). Prototype was for dim_norm_sync_buffer_size() instead
 
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Andrey Shvetsov <andrey.shvetsov@k2l.de>
 Cc: linux-staging@lists.linux.dev
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/staging/most/i2c/i2c.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/staging/most/dim2/hal.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/most/i2c/i2c.c b/drivers/staging/most/i2c/i2c.c
-index 893a8babdb2f7..7042f10887bb6 100644
---- a/drivers/staging/most/i2c/i2c.c
-+++ b/drivers/staging/most/i2c/i2c.c
-@@ -51,8 +51,8 @@ static void pending_rx_work(struct work_struct *);
+diff --git a/drivers/staging/most/dim2/hal.c b/drivers/staging/most/dim2/hal.c
+index 39e17a7d2f24b..30112413f20a0 100644
+--- a/drivers/staging/most/dim2/hal.c
++++ b/drivers/staging/most/dim2/hal.c
+@@ -97,7 +97,7 @@ static int dbr_get_mask_size(u16 size)
  
  /**
-  * configure_channel - called from MOST core to configure a channel
-- * @iface: interface the channel belongs to
-- * @channel: channel to be configured
-+ * @most_iface: interface the channel belongs to
-+ * @ch_idx: channel to be configured
-  * @channel_config: structure that holds the configuration information
-  *
-  * Return 0 on success, negative on failure.
-@@ -107,8 +107,8 @@ static int configure_channel(struct most_interface *most_iface,
+  * Allocates DBR memory.
+- * @param size Allocating memory size.
++ * @size: Allocating memory size.
+  * @return Offset in DBR memory by success or DBR_SIZE if out of memory.
+  */
+ static int alloc_dbr(u16 size)
+@@ -778,7 +778,7 @@ void dim_service_mlb_int_irq(void)
+ 	writel(0, &g.dim2->MS1);
+ }
  
- /**
-  * enqueue - called from MOST core to enqueue a buffer for data transfer
-- * @iface: intended interface
-- * @channel: ID of the channel the buffer is intended for
-+ * @most_iface: intended interface
-+ * @ch_idx: ID of the channel the buffer is intended for
-  * @mbo: pointer to the buffer object
+-/**
++/*
+  * Retrieves maximal possible correct buffer size for isochronous data type
+  * conform to given packet length and not bigger than given buffer size.
   *
-  * Return 0 on success, negative on failure.
-@@ -153,8 +153,8 @@ static int enqueue(struct most_interface *most_iface,
+@@ -792,7 +792,7 @@ u16 dim_norm_isoc_buffer_size(u16 buf_size, u16 packet_length)
+ 	return norm_isoc_buffer_size(buf_size, packet_length);
+ }
  
- /**
-  * poison_channel - called from MOST core to poison buffers of a channel
-- * @iface: pointer to the interface the channel to be poisoned belongs to
-- * @channel_id: corresponding channel ID
-+ * @most_iface: pointer to the interface the channel to be poisoned belongs to
-+ * @ch_idx: corresponding channel ID
-  *
-  * Return 0 on success, negative on failure.
+-/**
++/*
+  * Retrieves maximal possible correct buffer size for synchronous data type
+  * conform to given bytes per frame and not bigger than given buffer size.
   *
 -- 
 2.27.0
