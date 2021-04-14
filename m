@@ -1,49 +1,41 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07E672
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 07:22:21 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id r13so6011890pjf.2
-        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 00:22:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=bOPzYhyvJvVeiml9bPQrg6xtoJCGmo6/t9FOb5TdJag=;
-        b=jMVDMm76mBSnsuvjoK65aKRcxKQ82DrfuvIEwMueNgXXtO0BwQPLK3gUj9y65eyfI2
-         81AadnT3nuyjjiA0hGlfn0O5WYsd7qV6FX5dKtt6bPUx6KQtPXeBbYnKsDRLF2WjqnVD
-         7W9mMTHsxtcFSjE3kmO/6Mnxx5h1nKZvtXJCn10E1/8Vit4+LCj9+V4KuwnIcBRAYY43
-         68H3oJvzgzb4JEfUqbYBVE5DSFU0qPm27ybKogdWPMqKFwPzF7UhFH7R5CV447NYsL76
-         SeK2GXUeiGFt4Kz2//AfbLhRUVwKtShNIctyEBL96iBM/uSR+J/oWIfXYeMMfVAJ7fEj
-         mhBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=bOPzYhyvJvVeiml9bPQrg6xtoJCGmo6/t9FOb5TdJag=;
-        b=F9Z2SqONqn4FUVu56s5i/vPGFzXt9uTxBQYPwoqLdKD/Id+0C84gsdCXXKZ39P6B3Q
-         A31mClOa1vmhNGMFXN+6gwsdVbpFSmjr57QG7SMPsruqVkSkLMA/rt+PFWd9fzzPdNfG
-         tYQH87aEMDTORy+B4X86DhNbkrdOC49METNXNafL1YVVB+E6Afy9XuulhbqgJczaNS7D
-         WXudCZvoGYjqgPLgiMhNVT4KY9wDRjzy1Z24XtadBciLr/+Xpm7rkeAr1rZtgj1xbz2r
-         0hGAN6KE2H2X4RiYLLkVChXJk6MFeAzTs++2rrJjf2JsEQziynp30zfmyYNOPF6GgDFu
-         A1HQ==
-X-Gm-Message-State: AOAM53139scJCTgaLvzMg2gP0rzcOJI75JHAbSoktDKjEz94niIC7vjD
-	aGHC50g6r3S/Ko3DYSLJuUo=
-X-Google-Smtp-Source: ABdhPJyiVqELxuxWAEiFr6hqPPjXxgUYHZxsxK/2aUz1Kxh1evr7gH6m/jLskN3aFnYY0Ad3YovwAg==
-X-Received: by 2002:a17:902:7589:b029:e8:c011:1f28 with SMTP id j9-20020a1709027589b02900e8c0111f28mr35753149pll.35.1618384941156;
-        Wed, 14 Apr 2021 00:22:21 -0700 (PDT)
-Received: from kali ([103.141.87.253])
-        by smtp.gmail.com with ESMTPSA id i22sm16235159pgj.90.2021.04.14.00.22.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 00:22:20 -0700 (PDT)
-Date: Wed, 14 Apr 2021 12:52:12 +0530
-From: Mitali Borkar <mitaliborkar810@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5011072
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 07:28:16 +0000 (UTC)
+IronPort-SDR: 9RUYmZHBqJhpA2Rlch1EGgHdoBApMwAL5R79qT6uJOQrfeClA0WibOfImkTa94Nks0CGCeVrfz
+ 8l1XKlws7G0w==
+X-IronPort-AV: E=McAfee;i="6200,9189,9953"; a="194150781"
+X-IronPort-AV: E=Sophos;i="5.82,221,1613462400"; 
+   d="scan'208";a="194150781"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2021 00:28:03 -0700
+IronPort-SDR: G662FlIdTzBS+sgyF982vbTaYMXS791eapI1uQ7YZ9cmOYdI8Vm6F7ySXj2FWXxjdoBR/PvNKs
+ 7ga5mYfCzYww==
+X-IronPort-AV: E=Sophos;i="5.82,221,1613462400"; 
+   d="scan'208";a="382268190"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2021 00:28:00 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+	by paasikivi.fi.intel.com (Postfix) with SMTP id 1BBA1200E8;
+	Wed, 14 Apr 2021 10:27:58 +0300 (EEST)
+Date: Wed, 14 Apr 2021 10:27:58 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: Mitali Borkar <mitaliborkar810@gmail.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>, bingbu.cao@intel.com,
+	tian.shu.qiu@intel.com, mchehab@kernel.org,
+	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: [PATCH v6 2/2] staging: rtl8192e: remove casts and parentheses
-Message-ID: <f23b290c27fdfaf36ff723fc49f486cfdb985052.1618383684.git.mitaliborkar810@gmail.com>
-References: <cover.1618383684.git.mitaliborkar810@gmail.com>
+Subject: Re: [Outreachy kernel] Re: [PATCH v3 4/4] staging: media:
+ intel-ipu3: remove space before tabs
+Message-ID: <20210414072757.GY3@paasikivi.fi.intel.com>
+References: <cover.1618326535.git.mitaliborkar810@gmail.com>
+ <01ad7ff353f805dfc48e7bcc26ed974e7bb5ef9f.1618326535.git.mitaliborkar810@gmail.com>
+ <20210413181712.GI6021@kadam>
+ <YHX3iVCNXJlOsmuQ@kali>
+ <alpine.DEB.2.22.394.2104140004430.14108@hadrien>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -51,47 +43,49 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1618383684.git.mitaliborkar810@gmail.com>
+In-Reply-To: <alpine.DEB.2.22.394.2104140004430.14108@hadrien>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Removed unnecessary (void *) cast and parentheses to meet linux kernel
-coding style.
+On Wed, Apr 14, 2021 at 12:05:04AM +0200, Julia Lawall wrote:
+> 
+> 
+> On Wed, 14 Apr 2021, Mitali Borkar wrote:
+> 
+> > On Tue, Apr 13, 2021 at 09:17:12PM +0300, Dan Carpenter wrote:
+> > > On Tue, Apr 13, 2021 at 08:59:34PM +0530, Mitali Borkar wrote:
+> > > > Removed unnecessary space before tabs to adhere to linux kernel coding
+> > > > style.
+> > > > Reported by checkpatch.
+> > > >
+> > > > Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
+> > > > ---
+> > > >
+> > > > Changes from v2:- No changes.
+> > > > Changes from v1:- No changes.
+> > > >
+> > > >  drivers/staging/media/ipu3/include/intel-ipu3.h | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/intel-ipu3.h
+> > > > index 47e98979683c..42edac5ee4e4 100644
+> > > > --- a/drivers/staging/media/ipu3/include/intel-ipu3.h
+> > > > +++ b/drivers/staging/media/ipu3/include/intel-ipu3.h
+> > > > @@ -633,7 +633,7 @@ struct ipu3_uapi_bnr_static_config_wb_gains_thr_config {
+> > > >   * @cg:	Gain coefficient for threshold calculation, [0, 31], default 8.
+> > > >   * @ci:	Intensity coefficient for threshold calculation. range [0, 0x1f]
+> > > >   *	default 6.
+> > > > - * 	format: u3.2 (3 most significant bits represent whole number,
+> > > > + *format: u3.2 (3 most significant bits represent whole number,
+> > > >   *	2 least significant bits represent the fractional part
+> > >
+> > > Just remove the spaces, don't remove the tab.  It's looks silly now.
+> > >
+> > Okay Sir, do I have to send a v4 patch on this now?
+> 
+> Yes.  If you get feedback on a patch, you should send a new version.
 
-Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
----
+v2 of this patch can be used as well, it's fine. (I missed this change in
+v3.)
 
-Changes from v5:- No changes.
-Changes from v4:- Removed unnecessary casts and parentheses.
-Changes from v3:- No changes.
-Changes from v2:- Rectified spelling mistake in subject description.
-Changes has been made in v3.
-Changes from v1:- No changes.
-
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 431202927036..ec6b46166e84 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -646,14 +646,10 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
- 	pHTInfo->CurrentMPDUDensity = pHTInfo->MPDU_Density;
- 	pHTInfo->CurrentAMPDUFactor = pHTInfo->AMPDU_Factor;
- 
--	memset((void *)(&pHTInfo->SelfHTCap), 0,
--	       sizeof(pHTInfo->SelfHTCap));
--	memset((void *)(&pHTInfo->SelfHTInfo), 0,
--	       sizeof(pHTInfo->SelfHTInfo));
--	memset((void *)(&pHTInfo->PeerHTCapBuf), 0,
--	       sizeof(pHTInfo->PeerHTCapBuf));
--	memset((void *)(&pHTInfo->PeerHTInfoBuf), 0,
--	       sizeof(pHTInfo->PeerHTInfoBuf));
-+	memset(&pHTInfo->SelfHTCap, 0, sizeof(pHTInfo->SelfHTCap));
-+	memset(&pHTInfo->SelfHTInfo, 0, sizeof(pHTInfo->SelfHTInfo));
-+	memset(&pHTInfo->PeerHTCapBuf, 0, sizeof(pHTInfo->PeerHTCapBuf));
-+	memset(&pHTInfo->PeerHTInfoBuf, 0, sizeof(pHTInfo->PeerHTInfoBuf));
- 
- 	pHTInfo->bSwBwInProgress = false;
- 
 -- 
-2.30.2
-
+Sakari Ailus
