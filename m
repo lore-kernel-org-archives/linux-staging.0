@@ -1,50 +1,49 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A306D36
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 18:12:08 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id e7so24777759edu.10
-        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 11:12:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8672A6D36
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 18:12:09 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id n2so32783022ejy.7
+        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 11:12:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=hYMye0IWAuj8RFeZy63MkMZcxL0iTXzS4xtWYLiHck0=;
-        b=yyXxxjs4IKHkj4wqcKroBryTI4rZQIegaaGKaAxZLY6tX0F6fdM4pMjkoT6R3EJTpl
-         NtX6HJNG6M9w+OgqUOefcuXQwjTfShrEbVVvQIQe7EqzNkohAzNoOe4kS5W7443xtJ0k
-         Xss/6U47Uyo2jesmXehzExNPzJ79Wgntv7QBy0LGoBaENwvA9RjQKxBcmnIpP5d5j4Xo
-         C7xaBiNjWyVw3ZfKGiko9jjQ499ZmkIknvIkBMK+PNswu5NpQBnDK58CtVK6tcwNydWR
-         +Cky4KD8RHcEJLGmVXU7OohKg68+zYmS6Y5VQF3f1UFPzMJdeYxWHv3EsSLyuN6hzFEK
-         qU4A==
+        bh=gsRq4XrCIbEI1Y0MYbckaGY82KlEcKihUFnkf/W4oNw=;
+        b=ZbkeJ08q7zC/ZxOElHjCdRmwEFpf1itx0NinXxj4Yo/0c1IvB5WaV7ygdcFet977iR
+         +qFlbo/pkGO8DATNKVR1wrIuAZznJHXNqYTGkn1lSiXRv/CLabOHKNITTClNDDFlc5bZ
+         ldvlxc/Mhf3uq0QC6iuooGs6tCbowyDu00++p146uK8cZGnY1iDmeHxbTclPVuAP212A
+         k2Gowlzbx+wT2Fc4bCmGAJRUEkQ0KzqQtsfkwcAAJo7in4Iapjfd9ki6KiXXsY7srFLw
+         UgijUdXAA1E2PKpJlI+2syD6bm+ofsQaNKFg29VJhanVDwNnFQKVJMPUPuDWTWlepCE5
+         JxHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hYMye0IWAuj8RFeZy63MkMZcxL0iTXzS4xtWYLiHck0=;
-        b=faSEI6ukYPBN+UZKJtN25Zu2zY3JpOsP15bhekka7TdaXazHQkoHkxPiJfS6Znb9Ss
-         eh8+YLvcupIi0J72qTU81vjNakuzraYCqnYnCAg2jmjQSkr1q92Obr8pNHtHkry943Jy
-         eGttLtdbY3JMIbgiJnaFhkWd2yxqRMTHLu+wFsf7gN6It49JI1LMGdykMPRg7ogin+lk
-         VOgjltKc1gWuVOFnBpmlWnniX0FOOwGR5+sFIktFLuI+XsHsglHf9bgiQx19T/AkAMQU
-         wa8aloAVOoksY4lzIEICxZzs1shm93BddMxH3ZhfsDdrhnufKt7ZCoKbJlycW+Kmtyma
-         FRgQ==
-X-Gm-Message-State: AOAM533A+CgWTm2tJDPwKVYPcfMjJ/8poPj7D+eUo9pYLC6ludQa9+AI
-	rKhNZ6JOc0SPUbqAxZ0XWtle7w==
-X-Google-Smtp-Source: ABdhPJyf++VxWRoCuEVm0bnW+BwiCWtOScPptcrs64C6V2Xn9nFfEGPc7ER5jnI3NBYwMx7RkrHCuQ==
-X-Received: by 2002:a05:6402:ca6:: with SMTP id cn6mr162082edb.169.1618423926974;
-        Wed, 14 Apr 2021 11:12:06 -0700 (PDT)
+        bh=gsRq4XrCIbEI1Y0MYbckaGY82KlEcKihUFnkf/W4oNw=;
+        b=XjGTZ7+xOOm5laExPymsAE3cP/eVfo29LAkD+wX5fHLVr4lkmQMogsjwsZnCCrh0jb
+         oo9bqxdjBWC3/AXQjuBN/+Uk7jLD+BbbFKvorhZFubKYhxU4eG9/N5UuiuguHZEedVBa
+         L6eWYg6TnlgJbZ7ze8yFHlbcSt54Ujd9zX9lRStMJzGci5eE8QcgQJJTa+d0llFFnMQy
+         nb2fIZLQH/pDGcXs/Hi3gEDMLxzgsZIjTCB+d3e3wT6hFNUYO6E99qdd483Hw8ZXLdqP
+         ro449IHHmtzrkgHLHjFZiX7+vR8M4J7nzsSkhqOAhWjQGTttaYcyPQmIk/k1UOqWWd+N
+         W7Gw==
+X-Gm-Message-State: AOAM531527NPOQjbIBNCwSFp+GlFsJakAx6CNwcy8U7Osg5s+KmAOqe1
+	nQJqT+FIV69btY6QrB+KyGuYjA==
+X-Google-Smtp-Source: ABdhPJxXteaIGyMyGsDbjsvVQnCFGeuHLu4HK7WaS1kHjo2XpkFunpBo/YsvXSB2mX0tfMnor94Ovw==
+X-Received: by 2002:a17:907:1c01:: with SMTP id nc1mr132058ejc.283.1618423928040;
+        Wed, 14 Apr 2021 11:12:08 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
-        by smtp.gmail.com with ESMTPSA id v1sm279493eds.17.2021.04.14.11.12.06
+        by smtp.gmail.com with ESMTPSA id v1sm279493eds.17.2021.04.14.11.12.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 11:12:06 -0700 (PDT)
+        Wed, 14 Apr 2021 11:12:07 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
 Cc: linux-kernel@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 31/57] staging: rtl8723bs: core: rtw_mlme: 'retry' is only used if REJOIN is set
-Date: Wed, 14 Apr 2021 19:11:03 +0100
-Message-Id: <20210414181129.1628598-32-lee.jones@linaro.org>
+Subject: [PATCH 32/57] staging: rtl8723bs: core: rtw_mlme_ext: 'evt_seq' is only used if CHECK_EVENT_SEQ is set
+Date: Wed, 14 Apr 2021 19:11:04 +0100
+Message-Id: <20210414181129.1628598-33-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210414181129.1628598-1-lee.jones@linaro.org>
 References: <20210414181129.1628598-1-lee.jones@linaro.org>
@@ -58,30 +57,31 @@ Content-Transfer-Encoding: 8bit
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/staging/rtl8723bs/core/rtw_mlme.c: In function ‘rtw_joinbss_event_prehandle’:
- drivers/staging/rtl8723bs/core/rtw_mlme.c:1192:12: warning: variable ‘retry’ set but not used [-Wunused-but-set-variable]
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c: In function ‘mlme_evt_hdl’:
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:6004:5: warning: variable ‘evt_seq’ set but not used [-Wunused-but-set-variable]
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c: In function ‘issue_probersp’:
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:2543:1: warning: the frame size of 1096 bytes is larger than 1024 bytes [-Wframe-larger-than=]
 
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Fabio Aiuto <fabioaiuto83@gmail.com>
 Cc: linux-staging@lists.linux.dev
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 2 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index c624887aeed0c..f8ce4f2d31e13 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -1189,7 +1189,7 @@ static void rtw_joinbss_update_network(struct adapter *padapter, struct wlan_net
- /* define REJOIN */
- void rtw_joinbss_event_prehandle(struct adapter *adapter, u8 *pbuf)
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index d1dbf234e9e02..f708e7b9f8fc8 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -5980,7 +5980,7 @@ u8 set_tx_beacon_cmd(struct adapter *padapter)
+ 
+ u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
  {
--	static u8 retry;
-+	static u8 __maybe_unused retry;
- 	struct sta_info *ptarget_sta = NULL, *pcur_sta = NULL;
- 	struct	sta_priv *pstapriv = &adapter->stapriv;
- 	struct	mlme_priv *pmlmepriv = &(adapter->mlmepriv);
+-	u8 evt_seq;
++	u8 __maybe_unused evt_seq;
+ 	u8 evt_code;
+ 	u16 evt_sz;
+ 	uint	*peventbuf;
 -- 
 2.27.0
 
