@@ -1,51 +1,57 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45A46D36
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 18:11:36 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id v6so31523382ejo.6
-        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 11:11:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1AB46D36
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 18:11:37 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id u21so32810457ejo.13
+        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 11:11:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=cnExdzfO9je6lLNL7qtvdytBrdvZAdV+P/MA6dcwm/Y=;
-        b=LFCnxo/ON6AR8hqk6TYHju9T6QsGLojj9S66l0FpBe1yOYFDfYAEdmRpFZfOz1G9md
-         yrBMvBz+XAgb9jcDDWX8Q/kbLrP6jNqiQfqIwBRCkEZ92bMknaf+XIeePDX69SokWijx
-         YgLuT2ylOBoS3uAVMreT4LkpvQgCMJvG/ClwaR39l1EYvDd/H9Q6/tZs+wErlKEfgxl1
-         j1edSJiutNNNHAMml0362bfMJc6LwWmmGzBSIciLlLqJHPWIaqo/6ea151AeJDZ2X/5j
-         gnzotl1RUgEMvnaXOJd7RPeXb3fdhOf1k+aFurpLFxbDffO/AIvqG9wJuz56bByhoWg3
-         VP2g==
+        bh=Gbt21eDz1ux51dDRM9MoqUrelbAbvGfR2phsdgoe2Ao=;
+        b=YKgeyjeacYVFEOHEJdyPIwX8GmVd+0fgY+s0NCuKaTCVcz3BxVoRZzOwM51phkAVI0
+         fuhkx/ad3ynSmA1jRaDJ7qqbKg/VDm9B0fpf6sdZff0zJK5VP1lhP5X/gC/pPruOmQ5C
+         De87VKH4KcDlRsj/npdgu0kVfzULo5G1yVAxMQa+ZLoFykBLrc91RzQTyEqR0LuN27Xk
+         dwpOyb+we9aMUzYWYQzaRcZUwDWIUppnd7ApyQRRvsJcNAynSHIyA0uKJ73lcVleweLn
+         1B3CoL75AUu8mhaeGEjD2YUiGbz6AXPWaQrnhksGW14OVrfvPec53aZKu9s29Ks0RZBd
+         D7Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=cnExdzfO9je6lLNL7qtvdytBrdvZAdV+P/MA6dcwm/Y=;
-        b=TvhhV+24Ciem9sA9nhphLmv1eZB+ONyF7jdh35knGY0kZmc1NQscTclCwgFSOACLpu
-         RRqQSWXUniAbgmXHOE6C99VHLsHxtwMwt4CluFVCLLqeIsmtESgCf/ACaIeMDa5LyHRb
-         E55WK56V9K2db4rADgbN2ba+fLqRKfMZ4RSiTCy8J22ASGMjraHFxOOmFEDf/tCCsuDr
-         P//9g+7vp12yCXThkcm8ORgKVWllzZXatTQCy45AmEgNun42L/Uyuf34X0f0h0OQaekt
-         2AEgQQZP0I1sxrP2J/i9/s5QnK92W31d6Lg7RAjZifjeZ8JD29vt3+s7oaCPxJnRkeA/
-         8lBg==
-X-Gm-Message-State: AOAM531L7e1w7uz9Stm31i1qFbRRL7P/qOuvuO5x+jRqFfyB1H+uJAYh
-	psxsUZ73p6Q9kFs0KtNm9+cWBg==
-X-Google-Smtp-Source: ABdhPJztchaXZGy4TYvWXRBUOA/K9lvgspXhAfnCq5NTnCE6kXdkNGxm0ItI1LLoSbdSkmpwXPK4oQ==
-X-Received: by 2002:a17:906:3455:: with SMTP id d21mr144104ejb.11.1618423895284;
-        Wed, 14 Apr 2021 11:11:35 -0700 (PDT)
+        bh=Gbt21eDz1ux51dDRM9MoqUrelbAbvGfR2phsdgoe2Ao=;
+        b=jYiqyOXtq/CGjWp27/2cBXodO58jJ57bomJMZ9PQvrU6jmqWBr/shpCRSg6tl+G2sW
+         GRmn1h2UqlYHfTSEQS+t+lmAZ91DMocShVYHB5neY1TGW0qmUihBzWU+l82RSq0rxI5h
+         Ew+9Kva4i1jtOZxcF1/Gc6HSYLE4fZlzSRrzdKwtXiCBnufUvtTtwo/XfV23BuX7aXgc
+         AwpaithbEJ7HMZHvA67gILD/t6aFzNC03ljoMZcGiJbsnTn5097CLw8HtSKRFjrK3Dg+
+         ZvvRA0i4tIGkTyEcngHzCSeVxXs7W9q3MyCzDN0pmNnzNS1VvaVMCqxzAIL9e6XQPjU0
+         ELFA==
+X-Gm-Message-State: AOAM5327zfQVtLm56adRqsD//doHmEi2hlTQELnCCmdmWCUGbghjA4Oh
+	QVlYp+E2cELfUfpplseCKERyGQ==
+X-Google-Smtp-Source: ABdhPJzvFYOudbT5j/JPcLbvtNb0DGNTrjSbjbSE+E+gZP8b+TC4DybEHUjZEMvOoww0x/CBfaWmwQ==
+X-Received: by 2002:a17:906:1e8e:: with SMTP id e14mr124239ejj.399.1618423896479;
+        Wed, 14 Apr 2021 11:11:36 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
-        by smtp.gmail.com with ESMTPSA id v1sm279493eds.17.2021.04.14.11.11.34
+        by smtp.gmail.com with ESMTPSA id v1sm279493eds.17.2021.04.14.11.11.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 11:11:34 -0700 (PDT)
+        Wed, 14 Apr 2021 11:11:35 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
 Cc: linux-kernel@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrea Merello <andrea.merello@gmail.com>,
-	Jerry chuang <wlanfae@realtek.com>,
+	=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
+	Todd Kjos <tkjos@android.com>,
+	Martijn Coenen <maco@android.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Christian Brauner <christian@brauner.io>,
+	Hridya Valsaraju <hridya@google.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Robert Love <rlove@google.com>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 01/57] staging: r8192U_core: Remove unused variable 'ret' and demote kernel-doc abuse
-Date: Wed, 14 Apr 2021 19:10:33 +0100
-Message-Id: <20210414181129.1628598-2-lee.jones@linaro.org>
+Subject: [PATCH 02/57] staging: android: ashmem: Supply description for 'new_range'
+Date: Wed, 14 Apr 2021 19:10:34 +0100
+Message-Id: <20210414181129.1628598-3-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210414181129.1628598-1-lee.jones@linaro.org>
 References: <20210414181129.1628598-1-lee.jones@linaro.org>
@@ -59,53 +65,35 @@ Content-Transfer-Encoding: 8bit
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/staging/rtl8192u/r8192U_core.c: In function ‘rtl8192_hard_data_xmit’:
- drivers/staging/rtl8192u/r8192U_core.c:905:6: warning: variable ‘ret’ set but not used [-Wunused-but-set-variable]
+ drivers/staging/android/ashmem.c:189: warning: Function parameter or member 'new_range' not described in 'range_alloc'
 
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andrea Merello <andrea.merello@gmail.com>
-Cc: Jerry chuang <wlanfae@realtek.com>
+Cc: "Arve Hjønnevåg" <arve@android.com>
+Cc: Todd Kjos <tkjos@android.com>
+Cc: Martijn Coenen <maco@android.com>
+Cc: Joel Fernandes <joel@joelfernandes.org>
+Cc: Christian Brauner <christian@brauner.io>
+Cc: Hridya Valsaraju <hridya@google.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Robert Love <rlove@google.com>
 Cc: linux-staging@lists.linux.dev
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/staging/rtl8192u/r8192U_core.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/staging/android/ashmem.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
-index f48186a89fa14..643769e32e433 100644
---- a/drivers/staging/rtl8192u/r8192U_core.c
-+++ b/drivers/staging/rtl8192u/r8192U_core.c
-@@ -902,7 +902,6 @@ static void rtl8192_hard_data_xmit(struct sk_buff *skb, struct net_device *dev,
- 				   int rate)
- {
- 	struct r8192_priv *priv = (struct r8192_priv *)ieee80211_priv(dev);
--	int ret;
- 	unsigned long flags;
- 	struct cb_desc *tcb_desc = (struct cb_desc *)(skb->cb + MAX_DEV_ADDR_SIZE);
- 	u8 queue_index = tcb_desc->queue_index;
-@@ -915,7 +914,7 @@ static void rtl8192_hard_data_xmit(struct sk_buff *skb, struct net_device *dev,
- 	*(struct net_device **)(skb->cb) = dev;
- 	tcb_desc->bTxEnableFwCalcDur = 1;
- 	skb_push(skb, priv->ieee80211->tx_headroom);
--	ret = rtl8192_tx(dev, skb);
-+	rtl8192_tx(dev, skb);
- 
- 	spin_unlock_irqrestore(&priv->tx_lock, flags);
- }
-@@ -2972,12 +2971,10 @@ static RESET_TYPE RxCheckStuck(struct net_device *dev)
- 	return RESET_TYPE_NORESET;
- }
- 
--/**
-+/*
-  * This function is called by Checkforhang to check whether we should
-  * ask OS to reset driver
+diff --git a/drivers/staging/android/ashmem.c b/drivers/staging/android/ashmem.c
+index d66a64e42273a..8ee4320a5dc6d 100644
+--- a/drivers/staging/android/ashmem.c
++++ b/drivers/staging/android/ashmem.c
+@@ -179,6 +179,7 @@ static inline void lru_del(struct ashmem_range *range)
+  * @purged:	   Initial purge status (ASMEM_NOT_PURGED or ASHMEM_WAS_PURGED)
+  * @start:	   The starting page (inclusive)
+  * @end:	   The ending page (inclusive)
++ * @new_range:	   The placeholder for the new range
   *
-- * \param pAdapter	The adapter context for this miniport
-- *
-  * Note:NIC with USB interface sholud not call this function because we
-  * cannot scan descriptor to judge whether there is tx stuck.
-  * Note: This function may be required to be rewrite for Vista OS.
+  * This function is protected by ashmem_mutex.
+  */
 -- 
 2.27.0
 
