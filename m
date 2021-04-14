@@ -1,122 +1,199 @@
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E1872
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 07:55:47 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-	by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13E7nEoJ173917;
-	Wed, 14 Apr 2021 07:55:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=1thdEyOoz4Ff74p2RvNbSPbAdDaciwMX8cdY7e71W5Q=;
- b=e7lVDEq+e+jz6QqxUfLaCcBIa8q0jMnQG+fMf0Gm0+S9QyONyZjgl25RTglbmlRBzuA3
- fRKGFmaHC/yKK89+rNBySCI61S0m9k9LviGATE2j+G+N2GBxQnicIQO+gBxprefwC9Ep
- 1cCoX5/BmO1LR/54u9zQ77K1zf8ZGQ9LoPMdVDf/atosqO6lPKIVAE8kOQkC9VEJzE7y
- rUBg6rmFaGHiNYEn9aq6/UEuuOo7wHrMJpZR03uNwnYfGbZry9oO8HPnZbZJXdYKGOLU
- E5PJVX/MfU44X1MEqL9SJR9oUPH1g0/P+RfWhogXJaS65Jxre/hWwz/J/MQQqhbfA0QL pA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by userp2120.oracle.com with ESMTP id 37u4nnhek3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 14 Apr 2021 07:55:38 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13E7tWoe050253;
-	Wed, 14 Apr 2021 07:55:36 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-	by userp3020.oracle.com with ESMTP id 37unstjqvm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 14 Apr 2021 07:55:36 +0000
-Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
-	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13E7tXgN003494;
-	Wed, 14 Apr 2021 07:55:33 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Wed, 14 Apr 2021 00:55:33 -0700
-Date: Wed, 14 Apr 2021 10:55:25 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Mitali Borkar <mitaliborkar810@gmail.com>
-Cc: gregkh@linuxfoundation.org, davem@davemloft.net, kuba@kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: Re: [PATCH v2 4/5] staging: rtl8192e: rectified spelling mistake and
- replace memcmp with ether_oui_equal
-Message-ID: <20210414075525.GR6021@kadam>
-References: <cover.1618380932.git.mitaliborkar810@gmail.com>
- <eda8d3401f2f7ff7a61137b4935c6ccb09112e52.1618380932.git.mitaliborkar810@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD18C72
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 07:59:39 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id mh2so8427148ejb.8
+        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 00:59:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=9ibSfaxMDOYRux13gOXyhDI45bjJWSQu1PLpiJt0t54=;
+        b=UmyxIy5wFfRbbUFPuN/6V290dal5iiDuoS8ErA+IsGUckgkTvo8yvCc7Qja6C56ITF
+         5vIUKRJFEkuXez2ffx/LCgtFuBEO9NtFzlUL/gjKvLrl8Bw9TyE6q1ZkHLdwaZaYqeGG
+         eIKU5gKH5ugX0baV1nfqjaZvC+65O7t2Gq0hSMY9J5d65IFlXI45IkByMMujm+e+5g9J
+         lQdaeAYroZxlyG3adiaENRRyRG/xN0aH2t5215Fbs2SU/jCitoT6+0bqUFzixDD6I7ab
+         OG8SlO3hcTvk6DFyw5axaYE7QWb0H9zeNMiwuwMG3HAWbkc1vVYHnI51i322z1ZpgFvy
+         x3cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=9ibSfaxMDOYRux13gOXyhDI45bjJWSQu1PLpiJt0t54=;
+        b=IUwYiIrA8AQIm8nCTPE00Z7C4JiKCFEQZ4waNTGnKZNg3jCsuZqxeVvisXD+uxMavc
+         q5db7GNNpJ5G21AoZqvzmVmkjlnQKdgnmybSfvLAns1FU3BOz2HWCvQozrNd3MWHuTBh
+         kjuslbkgR0aSyp3pBVBMVN6fW1NyBgNq+6kGzJH9s6Cb6/Gy6rqPSFWWl/GUxFndzcjK
+         ZdP5+vi353HxKKqLBZCcBQY7DVjF52uvLJcKyrVBwsHGbb5yOByskhiZ82XJyq4KO4Zp
+         4R3Yvdf54JcxPw0/Uxs3dcONcYtor1eGJ9U4DQWtEeUGNcfjDlSt6YS8XZF+qT8BsHG6
+         qK1Q==
+X-Gm-Message-State: AOAM532P1+m27e5NVH/OIfFrb4EYq0D4/93o+E35OBzUYWwSZyvOusW3
+	EwIjwj3Xhv2Mm1/dOxoOxGQ6uMvel3E5mnfE
+X-Google-Smtp-Source: ABdhPJyx3maz7rv+J7z3LposHsKwETimi4fOaYFprPWQqu9x1sUSjHgMC9xdxHDflNAAmnpCFBQSHA==
+X-Received: by 2002:a17:906:ca45:: with SMTP id jx5mr6306786ejb.417.1618387178169;
+        Wed, 14 Apr 2021 00:59:38 -0700 (PDT)
+Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
+        by smtp.gmail.com with ESMTPSA id 16sm322298ejw.0.2021.04.14.00.59.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Apr 2021 00:59:37 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Matthew Wilcox <willy@infradead.org>, Julia Lawall <julia.lawall@inria.fr>, outreachy-kernel@googlegroups.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [Outreachy kernel] [PATCH] :staging: rtl8723bs: Remove useless led_blink_hdl()
+Date: Wed, 14 Apr 2021 09:59:36 +0200
+Message-ID: <17405149.YoMEP5XZXy@linux.local>
+In-Reply-To: <20210414070025.GB6048@kadam>
+References: <20210413155908.8691-1-fmdefrancesco@gmail.com> <2418632.vfNx7fMs9o@linux.local> <20210414070025.GB6048@kadam>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eda8d3401f2f7ff7a61137b4935c6ccb09112e52.1618380932.git.mitaliborkar810@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
- malwarescore=0 suspectscore=0 bulkscore=0 mlxscore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104140054
-X-Proofpoint-ORIG-GUID: 705QvOa-IL_yN18Aq_CePzFssLaaW_gL
-X-Proofpoint-GUID: 705QvOa-IL_yN18Aq_CePzFssLaaW_gL
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0
- phishscore=0 suspectscore=0 mlxlogscore=999 priorityscore=1501
- clxscore=1015 lowpriorityscore=0 spamscore=0 impostorscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104140053
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, Apr 14, 2021 at 12:26:01PM +0530, Mitali Borkar wrote:
-> Added a generic function of static inline bool in
-> include/linux/etherdevice.h to replace memcmp with
-> ether_oui_equal throughout the execution.
-> Corrected the misspelled words in this file.
+On Wednesday, April 14, 2021 9:00:25 AM CEST Dan Carpenter wrote:
+> On Wed, Apr 14, 2021 at 08:33:48AM +0200, Fabio M. De Francesco wrote:
+> > On Wednesday, April 14, 2021 7:21:50 AM CEST Dan Carpenter wrote:
+> > > On Tue, Apr 13, 2021 at 10:08:32PM +0200, Fabio M. De Francesco 
+wrote:
+> > > > On Tuesday, April 13, 2021 9:48:44 PM CEST Matthew Wilcox wrote:
+> > > > > On Tue, Apr 13, 2021 at 09:45:03PM +0200, Fabio M. De Francesco
+> > 
+> > wrote:
+> > > > > > 1) The driver doesn't call that function from anywhere else
+> > > > > > than
+> > > > > > the
+> > > > > > macro. 2) You have explained that the macro add its symbol to a
+> > > > > > slot
+> > > > > > in an array that would shift all the subsequent elements down
+> > > > > > if
+> > > > > > that
+> > > > > > macro is not used exactly in the line where it is.
+> > > > > > 3) Dan Carpenter said that that array is full of null functions
+> > > > > > (or
+> > > > > > empty slots?).
+> > > > > > 
+> > > > > > Unless that function is called anonymously dereferencing its
+> > > > > > address
+> > > > > > from the position it occupies in the array, I'm not able to see
+> > > > > > what
+> > > > > > else means can any caller use.
+> > > > > > 
+> > > > > > I know I have much less experience than you with C: what can go
+> > > > > > wrong?
+> > > > > 
+> > > > > Here's where the driver calls that function:
+> > > > > 
+> > > > > $ git grep wlancmds drivers/staging/rtl8723bs/
+> > > > > drivers/staging/rtl8723bs/core/rtw_cmd.c:static struct cmd_hdl
+> > > > > 
+> > > > > wlancmds[] = { drivers/staging/rtl8723bs/core/rtw_cmd.c:
+> > > > >   if
+> > > > > 
+> > > > > (pcmd->cmdcode < ARRAY_SIZE(wlancmds)) {
+> > > > > drivers/staging/rtl8723bs/core/rtw_cmd.c:
+> > > > > cmd_hdl
+> > > > > = wlancmds[pcmd->cmdcode].h2cfuns;
+> > > > 
+> > > > OK, I had imagined an anonymous call from its location in the array
+> > > > (as
+> > > > I wrote in the last phrase of my message). However, I thought that
+> > > > it
+> > > > could have been an improbable possibility, not a real one.
+> > > > 
+> > > > Linux uses a lot of interesting ideas that newcomers like me should
+> > > > learn. Things here are trickier than they appear at first sight.
+> > > 
+> > > One trick would be to build the Smatch cross function database.
+> > > 
+> > > https://www.spinics.net/lists/smatch/msg00568.html
+> > > 
+> > > Then you could do:
+> > > 
+> > > $ ~/path/to/smatch_data/db/smdb.py led_blink_hdl
+> > > file | caller | function | type | parameter | key | value |
+> > > drivers/staging/rtl8723bs/core/rtw_cmd.c |       rtw_cmd_thread |
+> > > rtw_cmd_thread ptr cmd_hdl |           INTERNAL | -1 |               
+> > >  |
+> > > uchar(*)(struct adapter*, uchar*)
+> > > drivers/staging/rtl8188eu/core/rtw_cmd.c |       rtw_cmd_thread |
+> > > rtw_cmd_thread ptr cmd_hdl |           INTERNAL | -1 |               
+> > >  |
+> > > uchar(*)(struct adapter*, uchar*)
+> > > drivers/staging/rtl8188eu/core/rtw_cmd.c |       rtw_cmd_thread |
+> > > rtw_cmd_thread ptr cmd_hdl |           BUF_SIZE |  1 |           
+> > > pbuf |
+> > > 1,4,6,8,12,14,16,19-20,23-24,48,740,884,892,900,960
+> > > 
+> > > 
+> > > Which says that led_blink_hdl() is called as a function pointer
+> > > called
+> > > "cmd_hdl" from rtw_cmd_thread().
+> > > 
+> > > Hm...  It says it can be called from either rtw_cmd_thread() function
+> > > (the rtl8723bs or rtl8188eu version) which is not ideal.  But also
+> > > basically harmless so whatever...
+> > > 
+> > > regards,
+> > > dan carpenter
+> > 
+> > Nice tool, thanks. I'll surely use it when it is needed to find out
+> > which callers use a function pointer.
+> > 
+> > However I cannot see how it can help in this context. That function
+> > *does* something, even if I cannot understand why someone needs a
+> > function to test the initialization of a pointer. Furthermore it is
+> > actually called by rtw_cmd_thread() (as you found out by using smatch)
+> > that expect one of the two possible values that led_blink_hdl()
+> > returns.
+> > 
+> > That said, what trick could I use for the purpose of getting rid of
+> > that
+> > function? At this point I'm not sure it could be made.
 > 
-> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
-> ---
->  
-> Changes from v1:- Rectified spelling mistake and replaced memcmp with
-> ether_oui_equal.
+> If you look at how this is called:
 > 
->  drivers/staging/rtl8192e/rtl819x_HTProc.c | 48 +++++++++++------------
->  include/linux/etherdevice.h               |  5 +++
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This is networking code and not staging code, but the netdev mailing
-list isn't CC'd.
-
->  2 files changed, 29 insertions(+), 24 deletions(-)
+> drivers/staging/rtl8723bs/core/rtw_cmd.c
+>    449                  memcpy(pcmdbuf, pcmd->parmbuf, pcmd->cmdsz);
+>    450
+>    451                  if (pcmd->cmdcode < ARRAY_SIZE(wlancmds)) {
+>    452                          cmd_hdl =
+> wlancmds[pcmd->cmdcode].h2cfuns; 453
+>    454                          if (cmd_hdl) {
+>    455                                  ret = cmd_hdl(pcmd->padapter,
+> pcmdbuf); ^^^^^^^
 > 
-> diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> index ec6b46166e84..ce58feb2af9a 100644
-> --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> @@ -43,7 +43,7 @@ u16 MCS_DATA_RATE[2][2][77] = {
->  	 810, 720, 810, 900, 900, 990} }
->  };
->  
-> -static u8 UNKNOWN_BORADCOM[3] = {0x00, 0x14, 0xbf};
-> +static u8 UNKNOWN_BROADCOM[3] = {0x00, 0x14, 0xbf};
+>    456                                  pcmd->res = ret;
+>    457                          }
+>    458
+>    459                          pcmdpriv->cmd_seq++;
+>    460                  } else {
+>    461                          pcmd->res = H2C_PARAMETERS_ERROR;
+>    462                  }
+>    463
+>    464                  cmd_hdl = NULL;
+> 
+> The led_blink_hdl() function returns success if "pcmdbuf" is non-NULL
+> and fail if it's NULL.  "pcmdbuf" is never supposed to be NULL.  (The
+> "supposed" caveat is because there may be a race in rtw_sdio_if1_init()
+> which briefly allows a NULL "pcmdbuf", but that is an unrelated bug).
+> 
+> Anyway, there is no point to the led_blink_hdl() function.  Likely
+> they intended it to do something but never got around to implementing
+> it.  Just delete it.
+> 
+> regards,
+> dan carpenter
+>
+Fine. I'm about to submit a patch.
 
-Please pull this spelling fix into its own patch.
+Is there any formal means to acknowledge (in the patch) your contribution 
+to the resolution of this problem?
 
-[ snip ]
+Regards,
 
-> diff --git a/include/linux/etherdevice.h b/include/linux/etherdevice.h
-> index 2e5debc0373c..6a1a63168319 100644
-> --- a/include/linux/etherdevice.h
-> +++ b/include/linux/etherdevice.h
-> @@ -87,6 +87,11 @@ static inline bool is_link_local_ether_addr(const u8 *addr)
->  #endif
->  }
->  
-> +static inline bool ether_oui_equal(const u8 *addr, const u8 *oui)
-> +{
-> +return addr[0] == oui[0] && addr[1] == oui[1] && addr[2] == oui[2];
-> +}
+Fabio
 
-The indenting is messed up on this.
 
-regards,
-dan carpenter
 
