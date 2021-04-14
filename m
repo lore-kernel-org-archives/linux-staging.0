@@ -1,58 +1,89 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26DBE6D28
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 21:01:17 +0000 (UTC)
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3A91hWm6CpwVf2e03lHejDsseALOonbusQ8zAX?=
- =?us-ascii?q?/mhrQx1UbcCU0+iy9c5rlSPcojAXRX0mhJSkMK6PXXvT+fdOkPcsFJ2lWxTrv3?=
- =?us-ascii?q?btEZF64eLZskLdMgD36+I179YaT4FSBNjxElRggcu/3Q/QKbod6fWd66ayn6Pi?=
- =?us-ascii?q?yR5WPHVXQo566QMRMHf8LmRXQ018CYM9BN6g4KN81kadUFEWdNn+LmIOXujdq7?=
- =?us-ascii?q?Tw5dPbSDsHHQNiyQWKlFqTmfTHOj2ZxApbcz4n+8ZozUHhkxblooO8tP2hoyWs?=
- =?us-ascii?q?mVP7ypRNhZ/ZzMFfbfb8xfQ9DzX3l0KTeI96UaaDtzxdmpDj1H8OkMPQ5ysmJd?=
- =?us-ascii?q?h58XnLfmq4yCGdlzXI9BYLxzvcxUSDgX3lyPaJOQ4SL8Zan4pWfl/4xiMbzalB?=
- =?us-ascii?q?+ZtR02iUupZRBx+oplWLlq71fipnnEa1vnYu+NR75xc0PuV/GdwhyLA3x09bHI?=
- =?us-ascii?q?wNGyj38ukcYY1TJfrR/fNHNW6dBkqpzVVH+tCqU3gpdy32C3QqgNCf0DRdgRlC?=
- =?us-ascii?q?vjsl7fEY901wk64Vd4NJ/KDtPKhuidh1P7UrRJM4K+EbX8OtB2DBBTbBKnibL1?=
- =?us-ascii?q?iiNKxvAQO1l7fHpJAy4vjCQu178LIC3LLbUF1ZsmY2P3/pYPfi4LR7tjbXQGu8?=
- =?us-ascii?q?WjzxysZRo7hB04eMJobDAGm4REgzn8yrr5wkc7jmcsf2B5pSA/LqMGvpHsJDz2?=
- =?us-ascii?q?TFKuhvAEhbb80Ppsx+YViHpcXGJ+TR19DzQbLVIv7kCjwkWnzya0FzFATOGA?=
- =?us-ascii?q?=3D=3D?=
-X-IronPort-AV: E=Sophos;i="5.82,223,1613430000"; 
-   d="scan'208";a="378682693"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Apr 2021 23:01:16 +0200
-Date: Wed, 14 Apr 2021 23:01:15 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-cc: outreachy-kernel@googlegroups.com, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-    Matthew Wilcox <willy@infradead.org>, Julia Lawall <julia.lawall@inria.fr>, 
-    Fabio Aiuto <fabioaiuto83@gmail.com>, 
-    Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [Outreachy patch] [PATCH v3 1/2] staging: rtl8723bs: Remove
- useless led_blink_hdl()
-In-Reply-To: <20210414192750.4974-2-fmdefrancesco@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2104142300550.33347@hadrien>
-References: <20210414192750.4974-1-fmdefrancesco@gmail.com> <20210414192750.4974-2-fmdefrancesco@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED2EE6D28
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 21:16:48 +0000 (UTC)
+Received: by mail-qk1-f179.google.com with SMTP id e13so13208823qkl.6
+        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 14:16:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=qiUQ4NVtXEH1CMflbOKif0hCwSbNTklspxOUaeby/iQ=;
+        b=hDZRHMMxFK7R2NrkgQhxSwAoIwQkVRrJ8o1YsOmNBoNOlWPn4Gc+iCi4VO1OmgFjqm
+         vYip6OP0wJWs6AQ16eMu4fvR1l6ocmvy4z1CxiW+JXLucIiCMsyCoK9Hw/1waUbr0nTw
+         ZHMR34cT5Rs6ponUKKVF2wEOTDPO2KMs09kdM+RjBiD6hfTr9hBYgY+LZRo25gIJCoOw
+         kxuH+2C9OT5paQUr4dH4M3aXHC8FwGkQ2bxiF5dAyPQof2haGWO0OQcxM1ZJDwOG0yPw
+         ZqnXxMPo4JjBvyXyaix4jkF/Ow1r4k/Zo8BWNDBW4DYwO8R/KIviTJ33D38Js3XTUPZI
+         /DpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=qiUQ4NVtXEH1CMflbOKif0hCwSbNTklspxOUaeby/iQ=;
+        b=lXuuQAXJvZIPa8gZbU/Zo213oF2OCY0R3eQgonH5F1fV7LS32KOJjPQwMSXToV94Sf
+         rYmfeGc7PemQoLJXuXhBxzl10d+U5aO+nmwankPjAPQ3SEaSOYzPTRpCOdGhRr9VmwyL
+         57aZHkkaRuGDLh0ZTen2enFl2ozlGqMRJP2IKC0zToTg1kZCZdmn4rvUQiaD//xkG5CT
+         J8EoTG+bWNLu0o4tBu1Qw5ES9o4VmMolg6ApB1PNao3AE4a13jcjodk2S6THMx10c99F
+         Upz/DUtJEm4NvK49vtKYPKHVSdH5mPlVEwngV7jX4Q4TZd8wgodp+tLaZgFlDBoq8KB6
+         S3/g==
+X-Gm-Message-State: AOAM530kU18lFv21VSgiW7wbTbYyBECGJq0OGAspVt9+jGHKzJ4trD+S
+	xPkozyqojQWUNsXHnYahTS0=
+X-Google-Smtp-Source: ABdhPJxM7Por4iYzjAlaScTJ3jZsEJ/QBLnXQzLGrixCbMAzDVgaBZicwmJQYBzdh2KKDsloYVIs0A==
+X-Received: by 2002:a05:620a:15b7:: with SMTP id f23mr388045qkk.58.1618435008068;
+        Wed, 14 Apr 2021 14:16:48 -0700 (PDT)
+Received: from focaruja ([138.204.24.234])
+        by smtp.gmail.com with ESMTPSA id d10sm304801qtn.34.2021.04.14.14.16.47
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Wed, 14 Apr 2021 14:16:47 -0700 (PDT)
+Date: Wed, 14 Apr 2021 18:16:45 -0300
+From: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+Subject: [PATCH 1/2] staging: media: atomisp: pci: Format comments according
+ to coding-style in file atomisp_acc.c
+Message-ID: <42bf11b7e2b9645075b0a48c682366ecf9754443.1618434875.git.alinesantanacordeiro@gmail.com>
+References: <cover.1618434875.git.alinesantanacordeiro@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1618434875.git.alinesantanacordeiro@gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 
+Format all comments according to the coding-style.
+Issue detected by checkpatch.pl.
 
+Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_acc.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-On Wed, 14 Apr 2021, Fabio M. De Francesco wrote:
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_acc.c b/drivers/staging/media/atomisp/pci/atomisp_acc.c
+index 5e5faa4..9a17518 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_acc.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_acc.c
+@@ -464,9 +464,11 @@ int atomisp_acc_load_extensions(struct atomisp_sub_device *asd)
+ 			continue;
+ 
+ 		for (i = 0; i < ARRAY_SIZE(acc_flag_to_pipe); i++) {
+-			/* QoS (ACC pipe) acceleration stages are currently
+-			 * allowed only in continuous mode. Skip them for
+-			 * all other modes. */
++			/*
++			 * QoS (ACC pipe) acceleration stages are
++			 * currently allowed only in continuous mode.
++			 * Skip them for all other modes.
++			 */
+ 			if (!continuous &&
+ 			    acc_flag_to_pipe[i].flag ==
+ 			    ATOMISP_ACC_FW_LOAD_FL_ACC)
+-- 
+2.7.4
 
-> Removed useless led_blink_hdl() prototype and definition. In wlancmds[]
-> the slot #60 is now set to NULL using the macro GEN_MLME_EXT_HANDLER. This
-> change has not unwanted side effects because the code in rtw_cmd.c checks
-> if the function pointer is valid before using it.
-
-When you send the series again, you can change not to no in the above.
-
-julia
