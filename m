@@ -1,78 +1,134 @@
-Received: from smtp93.iad3a.emailsrvr.com (smtp93.iad3a.emailsrvr.com [173.203.187.93])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B9271
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 19:51:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
-	s=20190130-41we5z8j; t=1618421061;
-	bh=JMQj+VeVN0eSkJ7MbQ77HtRudxstUALxi9GNXVhX2ng=;
-	h=Subject:To:From:Date:From;
-	b=hg2+nvoqAXu5iPnC+uG2dSMWZqgGE1iB8Hsgi6WgMYVgRKK/9NTXSuUU3kRFZ0rMe
-	 ligvGmwWR0shlw8m+anS9UuqIRdvwgsNkUH8IGUCb7Byoss4vD3fkaWK5PZwsgsq57
-	 gxj/CNIT+kixXHVVZoClvcyoDbxVvkuAo/IYf5NU=
-X-Auth-ID: abbotti@mev.co.uk
-Received: by smtp20.relay.iad3a.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id BA5F8249FB;
-	Wed, 14 Apr 2021 13:24:20 -0400 (EDT)
-Subject: Re: [PATCH 0/5] staging: comedi: tests: Fix various issues
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev,
- H Hartley Sweeten <hsweeten@visionengravers.com>,
- "Spencer E . Olson" <olsonse@umich.edu>
-References: <20210407140142.447250-1-abbotti@mev.co.uk>
- <YG3LY0hhDhzeXa1V@kroah.com> <3d70fc39-3c3f-16af-d4bb-e4dc2c9ffc26@mev.co.uk>
- <YG3rUN0fvyA6HCpf@kroah.com> <20210414100905.GD6048@kadam>
- <2955bb05-fa59-c35a-b5a2-a5aedb4c96a8@mev.co.uk>
- <20210414132818.GF6048@kadam>
-From: Ian Abbott <abbotti@mev.co.uk>
-Organization: MEV Ltd.
-Message-ID: <a09c77de-488a-3c2d-1ea7-82d3a8ef507f@mev.co.uk>
-Date: Wed, 14 Apr 2021 18:24:19 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6C271
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 20:06:35 +0000 (UTC)
+IronPort-SDR: 7/nb3RhSUs70WJmaossyBVPrTun1YTz+Lh2e5UnSLteQ/Ioq2OfN8YI9tKJDzBcd38c62mQKSW
+ FEjJNGti7iig==
+X-IronPort-AV: E=McAfee;i="6200,9189,9954"; a="258688942"
+X-IronPort-AV: E=Sophos;i="5.82,223,1613462400"; 
+   d="scan'208";a="258688942"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2021 13:06:34 -0700
+IronPort-SDR: /F/n8F7lMm7e3GOVharWdu5rWXP8oSpLWbns0yEtrIrJZjMsOoYOhObCXE3k+ZJHuJvBwiCMCE
+ GPLVAO67U3gg==
+X-IronPort-AV: E=Sophos;i="5.82,223,1613462400"; 
+   d="scan'208";a="532893966"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2021 13:06:32 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+	by paasikivi.fi.intel.com (Postfix) with ESMTP id 66643204F8;
+	Wed, 14 Apr 2021 23:06:30 +0300 (EEST)
+Date: Wed, 14 Apr 2021 23:06:30 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: ascordeiro <alinesantanacordeiro@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+Subject: Re: [PATCH] staging: media: atomisp: pci: Format multi-line comments
+ according to coding-style in file atomisp_cmd.c
+Message-ID: <20210414200630.GE3@paasikivi.fi.intel.com>
+References: <20210414182755.GA2799@focaruja>
+ <20210414183325.GD3@paasikivi.fi.intel.com>
+ <fae832b2555f1d971b45fcdfe34952aa03a42e4d.camel@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210414132818.GF6048@kadam>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-Classification-ID: 1f0017b4-0c11-45be-ab5c-2d5c3e87f73b-1-1
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <fae832b2555f1d971b45fcdfe34952aa03a42e4d.camel@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On 14/04/2021 14:28, Dan Carpenter wrote:
-> On Wed, Apr 14, 2021 at 01:34:23PM +0100, Ian Abbott wrote:
->>> drivers/staging/comedi/drivers/ni_routes.c:61 ni_find_route_values() warn: 'device_family' sometimes too small '8,11' size = 30
->>>      59          for (i = 0; ni_all_route_values[i]; ++i) {
->>>      60                  if (memcmp(ni_all_route_values[i]->family, device_family,
->>>                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->>>      61                             strnlen(device_family, 30)) == 0) {
->>>                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
->>> This whole memcmp() is very strange.  Why not just use:
->>>
->>> 	if (strncmp(ni_all_route_values[i]->family, device_family, 30) == 0)
->>
->> I think even a simple strcmp() would do as well because all the device
->> family strings and board name strings are null terminated.  I don't know why
->> the magic number 30 is used here!
->>
->> The above applies similarly to ni_find_valid_routes() too.
->>
+On Wed, Apr 14, 2021 at 03:55:42PM -0300, ascordeiro wrote:
+> Em qua, 2021-04-14 às 21:33 +0300, Sakari Ailus escreveu:
+> > Hi Aline,
+> > 
+> > Thanks for the patch.
+> > 
+> > On Wed, Apr 14, 2021 at 03:27:55PM -0300, Aline Santana Cordeiro
+> > wrote:
+> > > Format multi-line comments according to the coding-style.
+> > > Issue detected by checkpatch.pl.
+> > > 
+> > > Signed-off-by: Aline Santana Cordeiro <
+> > > alinesantanacordeiro@gmail.com>
+> > > ---
+> > >  drivers/staging/media/atomisp/pci/atomisp_cmd.c | 109
+> > > ++++++++++++++----------
+> > >  1 file changed, 65 insertions(+), 44 deletions(-)
+> > > 
+> > > diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> > > b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> > > index 592ea99..6113785 100644
+> > > --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> > > +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> > > @@ -67,7 +67,8 @@
+> > >   * At 15fps this means 133ms. We set the timeout a bit longer.
+> > >   * Each flash driver is supposed to set its own timeout, but
+> > >   * just in case someone else changed the timeout, we set it
+> > > - * here to make sure we don't damage the flash hardware. */
+> > > + * here to make sure we don't damage the flash hardware.
+> > > + */
+> > >  #define FLASH_TIMEOUT 800 /* ms */
+> > >  
+> > >  union host {
+> > > @@ -562,7 +563,8 @@ irqreturn_t atomisp_isr(int irq, void *dev)
+> > >                          * and driver needs to keep old
+> > > sequence_temp value.
+> > >                          * NOTE: There is assumption here that ISP
+> > > will not
+> > >                          * start processing next frame from sensor
+> > > before old
+> > > -                        * one is completely done. */
+> > > +                        * one is completely done.
+> > > +                        */
+> > >                         if (atomic_read(&asd->sequence) ==
+> > > atomic_read(
+> > >                                 &asd->sequence_temp))
+> > >                                 atomic_set(&asd->sequence_temp,
+> > > @@ -1247,7 +1249,8 @@ void atomisp_buf_done(struct
+> > > atomisp_sub_device *asd, int error,
+> > >  
+> > >         if (IS_ISP2401) {
+> > >                 /* If there are no buffers queued then
+> > 
+> > This should begin with:
+> > 
+> >                 /*
+> >                  *
+> > 
+> > And the same for the rest. Apart from this the patch seems fine.
+> > 
+> Hi Sakari,
 > 
-> I was thinking maybe ni_all_route_values[i]->family has an additional
-> string on the end.  For example, it could end in "_bar" and we want
-> ->family "foo_bar" to match with device_family "foo"?
+> I'm going to send a v2 correcting all the multi-line comments that are
+> not beginning like this.
+> 
+> Besides, there are single line comments with different styles, a few
+> like this:
+> 
+> case 1:				/* comment */
+> 
+> and the other like this:
+> 				/*
+> case2:				 * comment
+>  				 */
+> 
+> Should I standardize these ones to the first case?
 
-That doesn't seem to be the case.  The family names are just string
-literals pointed to by the 'family' member of 'struct
-family_route_values' in
-".../comedi/drivers/ni_routing/ni_route_values.h".  Instances of 'struct
-family_route_values' are statically defined in
-".../comedi/drivers/ni_routing/ni_route_values/*.c".
+The first one is preferred for multi-line comments. But please keep under
+80 characters per line.
+
+> 
+> Thank you for yout attention,
+
+You're welcome!
 
 -- 
--=( Ian Abbott <abbotti@mev.co.uk> || MEV Ltd. is a company  )=-
--=( registered in England & Wales.  Regd. number: 02862268.  )=-
--=( Regd. addr.: S11 & 12 Building 67, Europa Business Park, )=-
--=( Bird Hall Lane, STOCKPORT, SK3 0XA, UK. || www.mev.co.uk )=-
+Kind regards,
+
+Sakari Ailus
