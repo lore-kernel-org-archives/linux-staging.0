@@ -1,49 +1,50 @@
-Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA77C6D13
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 13:24:45 +0000 (UTC)
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-	by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13EDNjjr028959;
-	Wed, 14 Apr 2021 13:24:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=QG+ETTa5+7MrCPV6Jb0N5h1kmH0uaW+IKUcdij7mO9A=;
- b=h78lQwZ1FxM31/tuhyxZ+ZU7h6bexYUp5dvP6HO+6s5viux8AJ0F7/ItpsgkXvHLzKda
- +amICd2TNILAaxllMB14vdcfn6/0gEKtCqN7bdZ2syExnhkJKQrk+lt0ESs5TeunWUOI
- cHaG2MKkmFa2wNa8c8pssqn/3Ag9lrGcndcXgenVyqSkERvTsiMFUQjLk0N1xZY9OXkZ
- OoJJmr/Zco1Hv26cWSBfVHb4FWxMN3ZdQiBu/DE6G41QTaHmfm/hfpX8Ndq1tep3vV+c
- NLFfgTAtplYNgR1ckKHugoskZk+zu21tFM+4x78aitkskh9BfpkfFwG12ybWRlmVpqWu 2w== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by aserp2130.oracle.com with ESMTP id 37u1hbjh7n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 14 Apr 2021 13:24:30 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13EDLcAB074613;
-	Wed, 14 Apr 2021 13:24:27 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-	by userp3020.oracle.com with ESMTP id 37unsty88w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 14 Apr 2021 13:24:27 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
-	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 13EDOL0x026035;
-	Wed, 14 Apr 2021 13:24:21 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Wed, 14 Apr 2021 06:24:21 -0700
-Date: Wed, 14 Apr 2021 16:24:14 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: outreachy-kernel@googlegroups.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Matthew Wilcox <willy@infradead.org>,
-        Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8723bs: Remove useless
- led_blink_hdl()
-Message-ID: <20210414132414.GE6048@kadam>
-References: <20210414115243.32716-1-fmdefrancesco@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985556D13
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 13:25:41 +0000 (UTC)
+Received: by mail-qt1-f179.google.com with SMTP id h7so15385418qtx.3
+        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 06:25:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=NS2Bw26/lYixh5RZoHKAJ8ElpXYjSbxdF61bTnSB1is=;
+        b=toAJnJVRjMrkpQx4FcSUcX6JbpfReRDzI23V/MWQVYtHJ5SdUfaIkhX+9spmMNyD+y
+         UnPE0LJ8X2tQ3x7HG1jy146jJLpcGOEAYvLQSoaz01Oqrj6gGtX9gZbKc1aoeGAR1VOY
+         DWDXcLrXDZDPn4NODgl8ioTl9jsRIh1gqfryH2XLTg75uqAbtzPnYHsqfRmBHWTZmHN+
+         /9TAr2UDC8pFqlv2E9sJwxiqyzcWxkF5QOfwE4BSPETQpeIGtJymBytcBxHElDjEmo/m
+         ZbwixI6k3kMkrcf2QmOh3F1oFVDo56xp1mvAQjNZVeI1ASJlbnLpuWbTAxQP36tpBZI7
+         zAkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=NS2Bw26/lYixh5RZoHKAJ8ElpXYjSbxdF61bTnSB1is=;
+        b=Bu7zF9rpMU4yEgGGjEYv94xUpXJak2Evg2HtWMrKi/EQNBK26xUW1Lvi/0pNClKwTp
+         aRJJNenb+HLb8rye5rCjW7JHoeFPN6S8jq5Csy7kLhBBTzI4zi6hn7J2C4Ivjrm2gJmc
+         IpozJ7oTi+X16PXju89WYbmOmVA6aW3r9yT5gt27Ca+OIEw2PnL+2vjg2m1r0yUF2xxL
+         AqHtek0jUNdoWqKrN0uzVUvwRjduoE1tNCbUTAMegQm/4pYMMhhgm0AdrlY0qhOiojLq
+         3zfl+zy/PCheN+1SYVcAzshlU6uichTT4lYj85WOUTNiCpiKZCLUg19HSmevLaB0hb25
+         /hiA==
+X-Gm-Message-State: AOAM533TE4j0Z1GMLJQP4nCK0/SDvabtkWVj8GcnIotbgwmaIpekn5qm
+	6zpHPU3tmSjGwJ9mQHt+p0U=
+X-Google-Smtp-Source: ABdhPJzwU+M0Oykcfm27jfLSv0IOoPnBW+9uyyzf6trdexap9regc+qGxDIxZMTPntU8lOO3RX4cHw==
+X-Received: by 2002:a05:622a:650:: with SMTP id a16mr1628999qtb.316.1618406740656;
+        Wed, 14 Apr 2021 06:25:40 -0700 (PDT)
+Received: from focaruja ([2001:1284:f016:a037:7038:c088:ae60:452d])
+        by smtp.gmail.com with ESMTPSA id f14sm7986252qka.54.2021.04.14.06.25.39
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Wed, 14 Apr 2021 06:25:40 -0700 (PDT)
+Date: Wed, 14 Apr 2021 10:25:37 -0300
+From: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+Subject: [PATCH v3] staging: media: omap4iss: Remove unused macro function
+Message-ID: <20210414132537.GA15742@focaruja>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -51,62 +52,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210414115243.32716-1-fmdefrancesco@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9954 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
- malwarescore=0 suspectscore=0 bulkscore=0 mlxscore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104140091
-X-Proofpoint-GUID: VW4z5hvcMF_GoM0KuAk3vaqp9tiOWZ_y
-X-Proofpoint-ORIG-GUID: VW4z5hvcMF_GoM0KuAk3vaqp9tiOWZ_y
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9954 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 priorityscore=1501
- clxscore=1031 adultscore=0 mlxlogscore=999 impostorscore=0 malwarescore=0
- lowpriorityscore=0 spamscore=0 phishscore=0 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104140092
+User-Agent: Mutt/1.5.24 (2015-08-30)
 
-On Wed, Apr 14, 2021 at 01:52:43PM +0200, Fabio M. De Francesco wrote:
-> Removed the led_blink_hdl() function (declaration and definition).
-> Declared dummy_function() in include/rtw_mlme_ext.h and defined it in
-> core/rtw_cmd.c. Changed the second parameter of GEN_MLME_EXT_HANDLER
-> macro to make use of dummy_function().
-> 
-> Reported-by: Julia Lawall <julia.lawall@inria.fr>
-> Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_cmd.c         | 4 +++-
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    | 9 ---------
->  drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 3 ++-
->  3 files changed, 5 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> index 0297fbad7bce..7b6102a2bb2c 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> @@ -87,6 +87,8 @@ static struct _cmd_callback rtw_cmd_callback[] = {
->  	{GEN_CMD_CODE(_RunInThreadCMD), NULL},/*64*/
->  };
->  
-> +u8 dummy_functioni(struct adapter *var0, u8 *var1) { return 0; }
-> +
->  static struct cmd_hdl wlancmds[] = {
->  	GEN_DRV_CMD_HANDLER(0, NULL) /*0*/
->  	GEN_DRV_CMD_HANDLER(0, NULL)
-> @@ -150,7 +152,7 @@ static struct cmd_hdl wlancmds[] = {
->  
->  	GEN_MLME_EXT_HANDLER(0, h2c_msg_hdl) /*58*/
->  	GEN_MLME_EXT_HANDLER(sizeof(struct SetChannelPlan_param), set_chplan_hdl) /*59*/
-> -	GEN_MLME_EXT_HANDLER(sizeof(struct LedBlink_param), led_blink_hdl) /*60*/
-> +	GEN_MLME_EXT_HANDLER(sizeof(struct LedBlink_param), dummy_function) /*60*/
+Remove unused macro function "v4l2_dev_to_iss_device(dev)".
 
-No, no.  Don't create a dummy function. Do it like so:
+Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+---
 
-	GEN_DRV_CMD_HANDLER(0, NULL) /* 60 */
+Changes since v2:
+ - No changes in code, just forgot to list the changes made
 
-regards,
-dan carpenter
+Changes since v1:
+ - Remove only unused macro function v4l2_dev_to_iss_device(dev)
+ - Left macro functions "to_iss_device()" and "to_device()"
+
+ drivers/staging/media/omap4iss/iss.h | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/drivers/staging/media/omap4iss/iss.h b/drivers/staging/media/omap4iss/iss.h
+index b88f952..3f587e0 100644
+--- a/drivers/staging/media/omap4iss/iss.h
++++ b/drivers/staging/media/omap4iss/iss.h
+@@ -119,9 +119,6 @@ struct iss_device {
+ 	unsigned int isp_subclk_resources;
+ };
+ 
+-#define v4l2_dev_to_iss_device(dev) \
+-	container_of(dev, struct iss_device, v4l2_dev)
+-
+ int omap4iss_get_external_info(struct iss_pipeline *pipe,
+ 			       struct media_link *link);
+ 
+-- 
+2.7.4
 
