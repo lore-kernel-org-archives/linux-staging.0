@@ -1,50 +1,51 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 900436D32
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 18:12:14 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id f8so24820370edd.11
-        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 11:12:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742516D37
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 18:12:15 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id e7so24778142edu.10
+        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 11:12:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=iNak7t2/n+TkEA5ScWfi9u14bmgi0YzUvL4SB6ShOqk=;
-        b=JUEf2JXZhXFWK1RXS/hCZrNNUccxxZ//fO44dbDJFVxY9o0ErZX7Uo7LY8OHXSdklv
-         iecZ+9D2JYe1T+n/QDw0kdiZh21+yKFmI8n7LXzwfyZnNOkHJGWVYFJJoKjrKNDwNX+Q
-         yXRx/EkCqOGnXGB9CRGjJv5tIu8H0knQTCtHuRjFvtzf8xZZSOkFyH9YU7AswlP0mPWb
-         ZSvxJGF7WDRPlkoNe2TaMut4hvyj53wPVLitT6mHcT5pTY8/CAGwqRJrG4lgphZ2awO0
-         p/gHMPwsBSKiU2NCG1IbcsKe/WOAYd5QZ+3ud/R29N9ReisAr/90fTzZDuPwXKnQwnpN
-         cwZg==
+        bh=XaDqv6uPzP6qKRYwsvhGZokvdMBhemyYbul7hQEy7vM=;
+        b=qrsUqyKwLxiLtTJIKW7zoZJmBwPpulz25SwG7ERZAZkWHwI6CKy4JTKhtvcgtwmYxi
+         DNsRI9oXwnlFM8y1ZQxc5NxqbU2oenwpdvY0dI7NFAKSSY72yhkPKfYTsP+GoSmaRFun
+         9LnnQ2uT/XyC5zUzBdzaivrAGo0yJfbDbmV4kfBwiXFUHCuFqdGRrS9n9ja+/6f6Wqen
+         vF+5lUDtVuE/cxK/gcDTefDoPSsJPmXWFNHOzAZ2H1Mn32INVKNdqRs7hHCHcoQs4opK
+         31g/wHsY1AJ7spPFjrWUHTvT3cyV4tzX1N7oEfwvnqqjii2eCm4WJvPbdC01CeZp0qfO
+         lRrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=iNak7t2/n+TkEA5ScWfi9u14bmgi0YzUvL4SB6ShOqk=;
-        b=YwDJeAww3vWC5a/+13B84YzPkjFsA1bhjVb6qJoUGYAOKwpjxG0mowiFNIKTyuazYO
-         QR8kb0sjNnDgOKqG5aa//okXDzXuMT7VSvYCBqOEv9mXsuQLANkkrpA2svzixpjKS7jD
-         5zCEqoxSzX3T9G7zjJeLXeuZcCjXWejuniVo21Zy0qSrxzCIhUzmp40HZDsu9VK6Bv9m
-         OZH4M2fmC+oPeKGnKY1wIrmPyGbQNz35wjgnnY6QUPUSDk/teh6v5Yfijxfr1WGaUQnd
-         3TS1iC4Gc0bUgd58KrNtIJYfNNqx9MjrMFdXtNd7UC7eUjYzMToOTmXE48blpLU1/xwZ
-         ufiQ==
-X-Gm-Message-State: AOAM533qkrf6cHc4ILeYQTTaZMOOVfPmXaP1j5dWaxZv4h8HiE+ZDB73
-	9CnaX7c5Tzg30bENsbnzWyOYXg==
-X-Google-Smtp-Source: ABdhPJwE6JC+3zsVayk+aJpMjJ+Xs7MV0cgpI7XuQithc6M4jw3zMkHsBuGwunnYXL4WqJq3IdlrjA==
-X-Received: by 2002:a05:6402:350f:: with SMTP id b15mr221007edd.6.1618423933136;
-        Wed, 14 Apr 2021 11:12:13 -0700 (PDT)
+        bh=XaDqv6uPzP6qKRYwsvhGZokvdMBhemyYbul7hQEy7vM=;
+        b=FswErpj9hbqiqF61D57Epe2Ynjqh1cdzNJjHaZU+wW3+tX1/NSQaKy/rY+x7CMYxLO
+         P9v+dLNn6RrMB3SJs2iBZnGBPhZF5ukux0Rgt27eQMy6buFanQ2Zv6TQALe1cwqkJy0b
+         7YYwT4gZeUOVrGohzK63HFkdUn/JA/fajt6hqZFT2cuTzD6PPx0Xzphho7nDFCwGkeIY
+         nMc9rbOGFpmkmgLFSRHxfs+VOPuZOycDIpCuSwD9MUNUQcwXpQbRogupFOyBw3F59iAC
+         kEDKUpz+76+uxTbHO0IRecbRmI/3PQUj+0glmxiQ0Tdtsko8REcYXJlA6yJx7ZSxR4Mc
+         sFnA==
+X-Gm-Message-State: AOAM530TeqorCwjDuzcck0Is1aACR4G8BUJUED0G73eDYtXxYblCTc2F
+	/mpdq3c4etOcx1oDR4iRXFNzt/k8dT7fvQ==
+X-Google-Smtp-Source: ABdhPJyFKJ9t/SlxwgkNZtl1Er9EBURioW4mHm6fuoqesYXDLzxQET03VyRMKq1QMeHc3ipnNvmuYQ==
+X-Received: by 2002:a05:6402:35cd:: with SMTP id z13mr179881edc.21.1618423934063;
+        Wed, 14 Apr 2021 11:12:14 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
-        by smtp.gmail.com with ESMTPSA id v1sm279493eds.17.2021.04.14.11.12.12
+        by smtp.gmail.com with ESMTPSA id v1sm279493eds.17.2021.04.14.11.12.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 11:12:12 -0700 (PDT)
+        Wed, 14 Apr 2021 11:12:13 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
 Cc: linux-kernel@vger.kernel.org,
-	Larry Finger <Larry.Finger@lwfinger.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 37/57] staging: rtl8188eu: os_dep: ioctl_linux: Move 2 large data buffers into the heap
-Date: Wed, 14 Apr 2021 19:11:09 +0100
-Message-Id: <20210414181129.1628598-38-lee.jones@linaro.org>
+Subject: [PATCH 38/57] staging: fbtft: fb_ili9320: Remove unused variable 'ret'
+Date: Wed, 14 Apr 2021 19:11:10 +0100
+Message-Id: <20210414181129.1628598-39-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210414181129.1628598-1-lee.jones@linaro.org>
 References: <20210414181129.1628598-1-lee.jones@linaro.org>
@@ -58,60 +59,35 @@ Content-Transfer-Encoding: 8bit
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/staging/rtl8188eu/os_dep/ioctl_linux.c: In function ‘translate_scan’:
- drivers/staging/rtl8188eu/os_dep/ioctl_linux.c:310:1: warning: the frame size of 1064 bytes is larger than 1024 bytes [-Wframe-larger-than=]
- drivers/staging/rtl8723bs/os_dep/ioctl_linux.c: In function ‘rtw_wx_set_mlme’:
- drivers/staging/rtl8723bs/os_dep/ioctl_linux.c:1128:6: warning: variable ‘reason’ set but not used [-Wunused-but-set-variable]
- drivers/staging/rtl8723bs/os_dep/ioctl_linux.c: In function ‘rtw_dbg_port’:
- drivers/staging/rtl8723bs/os_dep/ioctl_linux.c:2548:33: warning: variable ‘preorder_ctrl’ set but not used [-Wunused-but-set-variable]
- drivers/staging/rtl8723bs/os_dep/ioctl_linux.c:2573:33: warning: variable ‘preorder_ctrl’ set but not used [-Wunused-but-set-variable]
- drivers/staging/rtl8723bs/os_dep/ioctl_linux.c:36:27: warning: ‘iw_operation_mode’ defined but not used [-Wunused-const-variable=]
+ drivers/staging/fbtft/fb_ili9320.c: In function ‘read_devicecode’:
+ drivers/staging/fbtft/fb_ili9320.c:25:6: warning: variable ‘ret’ set but not used [-Wunused-but-set-variable]
 
-Cc: Larry Finger <Larry.Finger@lwfinger.net>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org
 Cc: linux-staging@lists.linux.dev
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/staging/rtl8188eu/os_dep/ioctl_linux.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ drivers/staging/fbtft/fb_ili9320.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-index c95ae4d6a3b6b..cc14f00947781 100644
---- a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-@@ -224,7 +224,7 @@ static char *translate_scan(struct adapter *padapter,
- 	/* parsing WPA/WPA2 IE */
- 	{
- 		u8 *buf;
--		u8 wpa_ie[255], rsn_ie[255];
-+		u8 *wpa_ie, *rsn_ie;
- 		u16 wpa_len = 0, rsn_len = 0;
- 		u8 *p;
+diff --git a/drivers/staging/fbtft/fb_ili9320.c b/drivers/staging/fbtft/fb_ili9320.c
+index f2e72d14431db..f0ebc40857b34 100644
+--- a/drivers/staging/fbtft/fb_ili9320.c
++++ b/drivers/staging/fbtft/fb_ili9320.c
+@@ -22,11 +22,10 @@
  
-@@ -232,6 +232,14 @@ static char *translate_scan(struct adapter *padapter,
- 		if (!buf)
- 			return start;
+ static unsigned int read_devicecode(struct fbtft_par *par)
+ {
+-	int ret;
+ 	u8 rxbuf[8] = {0, };
  
-+		wpa_ie = kzalloc(255, GFP_ATOMIC);
-+		if (!wpa_ie)
-+			return start;
-+
-+		rsn_ie = kzalloc(255, GFP_ATOMIC);
-+		if (!rsn_ie)
-+			return start;
-+
- 		rtw_get_sec_ie(pnetwork->network.ies, pnetwork->network.ie_length, rsn_ie, &rsn_len, wpa_ie, &wpa_len);
- 		RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("rtw_wx_get_scan: ssid =%s\n", pnetwork->network.ssid.ssid));
- 		RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("rtw_wx_get_scan: wpa_len =%d rsn_len =%d\n", wpa_len, rsn_len));
-@@ -268,6 +276,8 @@ static char *translate_scan(struct adapter *padapter,
- 			start = iwe_stream_add_point(info, start, stop, &iwe, rsn_ie);
- 		}
- 		kfree(buf);
-+		kfree(wpa_ie);
-+		kfree(rsn_ie);
- 	}
+ 	write_reg(par, 0x0000);
+-	ret = par->fbtftops.read(par, rxbuf, 4);
++	par->fbtftops.read(par, rxbuf, 4);
+ 	return (rxbuf[2] << 8) | rxbuf[3];
+ }
  
- 	{/* parsing WPS IE */
 -- 
 2.27.0
 
