@@ -1,126 +1,127 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16226D28
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 14:51:07 +0000 (UTC)
-Received: by mail-qt1-f180.google.com with SMTP id z15so7542975qtj.7
-        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 07:51:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC9F6D28
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 15:36:57 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id v6so30798702ejo.6
+        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 08:36:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=hGtfqo5Bo6cc29ptmRB3Rcvg0AUrNYFdCJJIvwgoZk4=;
-        b=W+wbeZWbrNkJ38iJZGGqvLcGCG5QfT2PDdv9szoQGjlZ/ht5i0k77xTd0wfuWKrnE/
-         vsRJXOeXLzndtAMMkqApYdqssKzVxMCNE7v7tfVZmcESZ+e3IOk8lxHGQr8ZL6Fkt+wT
-         CDHuURFLWlKMpEOVQ77UMNYx1O48RWV7C3DP3gBXyjcLiIchh0eiyVH0zRU7hMBYHwaF
-         U3GA4SiW2Qz3tbK7hRAQj9G0N1Pz4OTqoH2C8JJKmEcxgXYqsgSXHvqhG8XYRA+V8zeP
-         JiehTHXsjqiwCPNZwhNzjQ6LIgFoieaBa9ASFNv5cpRPaGP6rqOoH0oHQAsh5NcQCUzz
-         R5fg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=f1Y5+4VG6CJZgdx4UWOh8zx7QoiyJatpZDoj3QFWUTQ=;
+        b=piifReYeJ7FkLTHElIuXKecxeioDin2ZIZeegb8sFHRXjwXt1JAz67On69HayK6LXp
+         WXnsqQdz0qMTdsYaz13CI4Ps5BUZMZoSo+ctENjK/Msqg3CfNLwgy1l0yGqQX0h3RXr/
+         bar7RE5EEh7Om2DAWmBxCbhpHXRQQvpp0WGF7W+UiN3onvUnaYrGza5MqgJL4vQ2xwrm
+         UF23oOWmUZWXUvuCSV8Vv+PwJJ6l2bHk8N/LurpMl9GqeGYxZJl+M89fltT0zEin7GUW
+         7yjZkoUHPaefPgIiBu8hKc54YgcQExl6vbEdxrwHPGepZyWC7NlIXAyvR07dtK8dQaoG
+         G0rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=hGtfqo5Bo6cc29ptmRB3Rcvg0AUrNYFdCJJIvwgoZk4=;
-        b=kcXqz/3ff55ckMnjpuocDaE/9Vw3DRw0IG2SMmVJfKVuRALwjK2iNxQeHWjucJztwX
-         uvqKJQl9zPeE8wYQqA7v7ivT3sJvCD0U5bsUVs/SD2UWJVTy8Il2UovFuxjQxSz5Arwq
-         4gnQs5s7V+oGSdMDPfMCgJ7dkSP5hOmztvY2e7YA8uERf921+zxiUBFLdW/8MhaNzPzS
-         4A3LWj6dTFqbTTOjlIEyAhrYhA3/POFg8UfSMVtMTFZgRLYCb+T5K+ysLGWJqXbMW3qs
-         cof49LVbT7OirsXCF6Psrt7d+buV61OhXWcGrMpiqTdLDo68qe3UF/NglMhvFzRJdq0O
-         fa7Q==
-X-Gm-Message-State: AOAM531nPIglusWIIk9EGUs5bStuKKjyPNo5QgNfckzHBRhOa8XxeUAj
-	qWdqG0Qgo2/A7HMtC9NYQfA=
-X-Google-Smtp-Source: ABdhPJxxLl/SLPnQiIUj5qukT/Wp0of+NZJZ40B76pC2bad/th4kkBgMUo80bs8aBHs5wqj6Wt9YFA==
-X-Received: by 2002:a05:622a:2d2:: with SMTP id a18mr21067960qtx.146.1618411866781;
-        Wed, 14 Apr 2021 07:51:06 -0700 (PDT)
-Received: from ?IPv6:2001:1284:f016:a037:e514:d03b:27b2:153? ([2001:1284:f016:a037:e514:d03b:27b2:153])
-        by smtp.gmail.com with ESMTPSA id p10sm8688096qtl.17.2021.04.14.07.51.04
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=f1Y5+4VG6CJZgdx4UWOh8zx7QoiyJatpZDoj3QFWUTQ=;
+        b=SOo4/B8ZOEzz8kk27JYGRdwPfY9kn22gaVmx5cv1E3Q5ceUuNw7SNKWCPgP/+/FxZ4
+         zTik+ovFoMm9IehKwIMLQWcN+3K3hGANJVbluwSjMT/UNmXQzqJNSk5p5aGgppVFKZDb
+         TjmgxGMOt8Ah2ldkA5wU+5UpYk0DbHzrkkjHEctzq7JSrIoE8Dm6eisc7oEmuktU7i2O
+         UrH19LRHl3IwlQdkN97CiF1Q9aLBaQKmChe++RkIKz+Qglv+RpJ3wsOt9+inRux++KQR
+         ysPm0Y9JoLCYYRuFhne8gTWrRjciSqR046BmWtpJtz252MbYqf7a3utK9FwBqgQ1BY5+
+         Cpcw==
+X-Gm-Message-State: AOAM530ru7+39rxfUQ22cQFyJo0D0ceoLfjczoB9Ar0VsQcGbxkcmxxM
+	7D1mib3LM53biuoL2zm0xPA=
+X-Google-Smtp-Source: ABdhPJz/ztdQYwfO6w1xd3uWCzCPiq1t76zGTPKMWBjS1uCJxfpa/klwJrm+tbjyMWJ5of0/aiFt+Q==
+X-Received: by 2002:a17:907:629e:: with SMTP id nd30mr38150830ejc.407.1618414616155;
+        Wed, 14 Apr 2021 08:36:56 -0700 (PDT)
+Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
+        by smtp.gmail.com with ESMTPSA id t1sm12190317eds.53.2021.04.14.08.36.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 07:51:06 -0700 (PDT)
-Message-ID: <1ae81e5c2380cf928579d5c62360bdd03a6bbc67.camel@gmail.com>
-Subject: Re: [Outreachy kernel] Re: [PATCH 1/2] staging: media: atomisp:
- pci: Correct identation in block of conditional statements in file
- atomisp_v4l2.c
-From: ascordeiro <alinesantanacordeiro@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>, Julia Lawall
-	 <julia.lawall@inria.fr>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev,  linux-kernel@vger.kernel.org,
- outreachy-kernel@googlegroups.com
-Date: Wed, 14 Apr 2021 11:51:02 -0300
-In-Reply-To: <20210414144502.GW6021@kadam>
-References: <cover.1618409028.git.alinesantanacordeiro@gmail.com>
-	 <0ef18a36d6905628fa596fd5e0a32fdb9c6a8ada.1618409028.git.alinesantanacordeiro@gmail.com>
-	 <20210414143011.GV6021@kadam>
-	 <alpine.DEB.2.22.394.2104141638140.25259@hadrien>
-	 <20210414144502.GW6021@kadam>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.0 (by Flathub.org) 
+        Wed, 14 Apr 2021 08:36:55 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: outreachy-kernel@googlegroups.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>, Julia Lawall <julia.lawall@inria.fr>
+Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8723bs: Remove useless led_blink_hdl()
+Date: Wed, 14 Apr 2021 17:36:54 +0200
+Message-ID: <4318909.BRL0aILv4p@linux.local>
+In-Reply-To: <20210414132414.GE6048@kadam>
+References: <20210414115243.32716-1-fmdefrancesco@gmail.com> <20210414132414.GE6048@kadam>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Em qua, 2021-04-14 às 17:45 +0300, Dan Carpenter escreveu:
-> On Wed, Apr 14, 2021 at 04:39:20PM +0200, Julia Lawall wrote:
+On Wednesday, April 14, 2021 3:24:14 PM CEST Dan Carpenter wrote:
+> On Wed, Apr 14, 2021 at 01:52:43PM +0200, Fabio M. De Francesco wrote:
+> > Removed the led_blink_hdl() function (declaration and definition).
+> > Declared dummy_function() in include/rtw_mlme_ext.h and defined it in
+> > core/rtw_cmd.c. Changed the second parameter of GEN_MLME_EXT_HANDLER
+> > macro to make use of dummy_function().
 > > 
+> > Reported-by: Julia Lawall <julia.lawall@inria.fr>
+> > Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > ---
 > > 
-> > On Wed, 14 Apr 2021, Dan Carpenter wrote:
+> >  drivers/staging/rtl8723bs/core/rtw_cmd.c         | 4 +++-
+> >  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    | 9 ---------
+> >  drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 3 ++-
+> >  3 files changed, 5 insertions(+), 11 deletions(-)
 > > 
-> > > On Wed, Apr 14, 2021 at 11:06:02AM -0300, Aline Santana Cordeiro
-> > > wrote:
-> > > > Correct identation in block of conditional statements.
-> > > > The function "v4l2_device_unregister_subdev()" depends on
-> > > > the results of the macro function "list_for_each_entry_safe()".
-> > > > 
-> > > > Signed-off-by: Aline Santana Cordeiro <
-> > > > alinesantanacordeiro@gmail.com>
-> > > > ---
-> > > >  drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> > > > b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> > > > index 0295e2e..6d853f4 100644
-> > > > --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> > > > +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> > > > @@ -1178,7 +1178,7 @@ static void
-> > > > atomisp_unregister_entities(struct atomisp_device *isp)
-> > > >                 atomisp_mipi_csi2_unregister_entities(&isp-
-> > > > >csi2_port[i]);
-> > > > 
-> > > >         list_for_each_entry_safe(sd, next, &isp-
-> > > > >v4l2_dev.subdevs, list)
-> > > > -       v4l2_device_unregister_subdev(sd);
-> > > > +               v4l2_device_unregister_subdev(sd);
-> > > > 
-> > > 
-> > > It's really more common to use curly braces for list_for_each()
-> > > one
-> > > liners.
-> > > 
-> > >         list_for_each_entry_safe(sd, next, &isp-
-> > > >v4l2_dev.subdevs, list) {
-> > >                 v4l2_device_unregister_subdev(sd);
-> > >         }
+> > diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> > b/drivers/staging/rtl8723bs/core/rtw_cmd.c index
+> > 0297fbad7bce..7b6102a2bb2c 100644
+> > --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> > +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> > @@ -87,6 +87,8 @@ static struct _cmd_callback rtw_cmd_callback[] = {
 > > 
-> > A quick test with grep shows 4000 lines containing list_for_each
-> > that
-> > contain no {, out of 15000 lines containing list_for_each in all.
+> >  	{GEN_CMD_CODE(_RunInThreadCMD), NULL},/*64*/
+> >  
+> >  };
 > > 
+> > +u8 dummy_functioni(struct adapter *var0, u8 *var1) { return 0; }
+> > +
+> > 
+> >  static struct cmd_hdl wlancmds[] = {
+> >  
+> >  	GEN_DRV_CMD_HANDLER(0, NULL) /*0*/
+> >  	GEN_DRV_CMD_HANDLER(0, NULL)
+> > 
+> > @@ -150,7 +152,7 @@ static struct cmd_hdl wlancmds[] = {
+> > 
+> >  	GEN_MLME_EXT_HANDLER(0, h2c_msg_hdl) /*58*/
+> >  	GEN_MLME_EXT_HANDLER(sizeof(struct SetChannelPlan_param),
+> >  	set_chplan_hdl) /*59*/> 
+> > -	GEN_MLME_EXT_HANDLER(sizeof(struct LedBlink_param), 
+led_blink_hdl)
+> > /*60*/ +	GEN_MLME_EXT_HANDLER(sizeof(struct LedBlink_param),
+> > dummy_function) /*60*/
+> No, no.  Don't create a dummy function. Do it like so:
 > 
-> Huh...  You're right.  Never mind then.
+> 	GEN_DRV_CMD_HANDLER(0, NULL) /* 60 */
 > 
 > regards,
 > dan carpenter
-> 
+>
+I'm replying late because I didn't want to blindly use that solution; I 
+mean that I wanted to understand why I can simply put 0 and NULL into that 
+macro. I had seen it made in other lines that initialize wlancmds[] 
+elements, but I wasn't sure if it could work for the specific slot where 
+the pointer to led_blinck_hdl was supposed to be placed.
 
-Ok then :)
+Now I think that it is why, in this case, cmd_hdl would be set to NULL by 
+the call to wlancmds[pcmd->cmdcode].h2cfuns and the cmd_hdl() function 
+wouldn't be called because cmd_hdl is tested within an "if" statement.
 
-Thank you all,
+Therefore a simple GEN_DRV_CMD_HANDLER(0, NULL) at slot number would be the 
+simplest and most obvious solution.
 
-Aline
+Is the above argument sound?
+
+Thanks for your kind help,
+
+Fabio
+
+
 
