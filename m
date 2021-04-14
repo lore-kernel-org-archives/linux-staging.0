@@ -1,111 +1,131 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330336D36
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 18:12:36 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id s15so24840528edd.4
-        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 11:12:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4C06D32
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 18:25:01 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id ba6so24877686edb.1
+        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 11:25:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jmlhXWCJ2XtgAisEDgZm+I/z8Zj5LaHUfk+sYMxcX0w=;
-        b=bOAvcIZAx8MOa6fUzYOC2qnQqsEY/wNrNKN0j9q60ttjRFNTKqOtTPBFvFLk5jMegz
-         I3SBkmJJHF++9ARM3n/hh5FxIiZEtOTb26ZpaL0i37wJvQyzRMM+0UFCtTb5EmabDo6P
-         OaD+/5jPY+KBtLE+9dMZOJJz3c8/XhHnGoBJdXVzScs5hEiPd6OknaLf3uqBW6y4tL9o
-         8CTx+TTOlzGscPKFlBrBmvfoBz91Dt1+x6dyUBbJFEqcE3q0bcTj6X1dlQF0Q+vGZDFz
-         v/BtzKMbVpyCtTgWbrB/CUTI6MzGw5fsiZbwA+0BvFxxjSE1W5Y/2Pbr7vNetMK7oRVs
-         mGHg==
+        bh=FJgpVpnm59KDS8nnKfjN27Nq3KwrEWqv8OFg6Lc4YJw=;
+        b=ZgcjIvGgXnZrjotUEbeEHSlhNMutTh2BNSvbuTopkKY8r7G3Yc2o5Aka5ZSzThp/Ic
+         x+KYKBnWmRQgpkx6N3PTTF+5fqK7UEpyUuFFQkRgHUx22cZZ8DdcnpeR5npwtJm0f8zo
+         9lBMt7QXIIjBL0PeTVxF2t9Xmz3ezKEToR4goabJzF7WoLQjC+t3CDTu6z6J7/LIxrVe
+         d/S386LaiOGR2lTV9mSe9AKkqXoonXf6V5KtdLEQmAd4NdNP6umneNMyhqdaNWYY+i7h
+         GGBSMpL7fVh54Eby4hfzf0qbfZD98fzLLzsu6IgfpDIPhMK5TaDlexwJdD69mq68yxkW
+         rSHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jmlhXWCJ2XtgAisEDgZm+I/z8Zj5LaHUfk+sYMxcX0w=;
-        b=YbnaETirixwXMC50WHq2Qh6uuH53Pawu2/w399Ly40N/6T3xBdBJU5ES3IL38wG/tO
-         ISSBrB+cV7G7XNmKs1vO0PMkbUPU97uSnr/dNi0/TUAX+k4stjeeSeNwhVA2PxHy5T/8
-         OFjDM9uAI8ktVR1Q3tNyh+9f9/1g0/958VVLWGW75xt/rX9LeVvLevjrsQkm2/CtjBir
-         UlFBTj2DG/YlcrGKauxqGUAG9Dzo2TJZtzyQ+sRPlUU6/1Qs/CFWU2+uKOw7ol3jR+fO
-         PdQdv+Ja+aQMjUo4LLoFecBBoZXTySeONQCaNmJxfCXNC2dPsQx8vPE67aRn3Swh9HnT
-         5Z7g==
-X-Gm-Message-State: AOAM530rw/uop/Gm0RWvT8mB6SAyIbZ12ym5wiDC5wNcYYwCnb9B/2P4
-	adaSbHSVF54xfD90qia3UCQKKQ==
-X-Google-Smtp-Source: ABdhPJyu1Xkaqc4ETAAc2G9Mc6AemDVEQqBB8EZH2Dy2YGiwN5k0QZNSXO5TO34emzUN45TL+VNl8A==
-X-Received: by 2002:aa7:c247:: with SMTP id y7mr156227edo.305.1618423954858;
-        Wed, 14 Apr 2021 11:12:34 -0700 (PDT)
-Received: from dell.default ([91.110.221.215])
-        by smtp.gmail.com with ESMTPSA id v1sm279493eds.17.2021.04.14.11.12.33
+        bh=FJgpVpnm59KDS8nnKfjN27Nq3KwrEWqv8OFg6Lc4YJw=;
+        b=ZR5Gjcgbp/Pt3DEUPwH8Nqa1MGJG7B9lza9vN0x7kIu3FjXeGNOQ7maspgUdyUucAv
+         mVjUHFQeDckt9coVfa9+SQ7kD9UlYWliRs2YFiNB5B5At5YTudlALoiiSZTtnaT4yTG5
+         r8wV0sjgYQFDpkeQ6/9DesJVkQLw4dN2eG09Vem9HV8OOdA57/EkLUMIcHx0wjft1H9D
+         jBoekOo2Zq7fvU03mdkP4ZfwZmEYUfKU5SLyb0XVvvT3270UJsndMW7+umH01+ae7S+U
+         AIBoZPglix/2SDASlF3dKl3ImgJBtYwRRR/Y+14BVhRJYOw5W/Xd4WDVIDP0+8Bwbdj9
+         2ZTQ==
+X-Gm-Message-State: AOAM533tRfIALaVUbQMHk9iuZduRvLAeZbzDlV3JZt4JDhifI/MwRU5Z
+	070UUn4yCSA34x2NbOFmiBQ=
+X-Google-Smtp-Source: ABdhPJwcfsVDj6JXMsjkgrz5PpPpYcJgWaqp6S9WoNZZ8u39YQ8ObqA+XYrUrTunr3VGUCINwL/zeA==
+X-Received: by 2002:a50:c004:: with SMTP id r4mr253319edb.192.1618424699994;
+        Wed, 14 Apr 2021 11:24:59 -0700 (PDT)
+Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
+        by smtp.gmail.com with ESMTPSA id ws15sm186274ejb.38.2021.04.14.11.24.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 11:12:34 -0700 (PDT)
-From: Lee Jones <lee.jones@linaro.org>
-To: lee.jones@linaro.org
-Cc: linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	Stanley@BB.SD3,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 57/57] staging: rtl8723bs: hal: sdio_halinit: Remove unused variable 'ret'
-Date: Wed, 14 Apr 2021 19:11:29 +0100
-Message-Id: <20210414181129.1628598-58-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210414181129.1628598-1-lee.jones@linaro.org>
-References: <20210414181129.1628598-1-lee.jones@linaro.org>
+        Wed, 14 Apr 2021 11:24:59 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>, Julia Lawall <julia.lawall@inria.fr>
+Subject: Re: [Outreachy kernel] [PATCH v2] staging: rtl8723bs: Remove useless led_blink_hdl()
+Date: Wed, 14 Apr 2021 20:24:58 +0200
+Message-ID: <3820176.uhjs84E3K9@linux.local>
+In-Reply-To: <7427098.3VjF5iJQtU@linux.local>
+References: <20210414162614.14867-1-fmdefrancesco@gmail.com> <YHcs70RdhaBBZv0i@kroah.com> <7427098.3VjF5iJQtU@linux.local>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Fixes the following W=1 kernel build warning(s):
+On Wednesday, April 14, 2021 8:05:59 PM CEST Fabio M. De Francesco wrote:
+> On Wednesday, April 14, 2021 7:57:03 PM CEST Greg Kroah-Hartman wrote:
+> > On Wed, Apr 14, 2021 at 08:48:09PM +0300, Dan Carpenter wrote:
+> > > On Wed, Apr 14, 2021 at 07:00:41PM +0200, Greg Kroah-Hartman wrote:
+> > > > On Wed, Apr 14, 2021 at 06:26:14PM +0200, Fabio M. De Francesco
+> 
+> wrote:
+> > > > > Removed useless led_blink_hdl() prototype and definition. In
+> > > > > wlancmds[]
+> > > > > the slot #60 is now set to NULL using the macro
+> > > > > GEN_MLME_EXT_HANDLER. This change has not unwanted side effects
+> > > > > because the code in rtw_cmd.c checks if the function pointer is
+> > > > > valid before using it.
+> > > > > 
+> > > > > Reported-by: Julia Lawall <julia.lawall@inria.fr>
+> > > > > Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > > > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > > > > ---
+> > > > > 
+> > > > > Changes since v1: Corrected a bad solution to this issue that
+> > > > > made
+> > > > > use of an unnecessary dummy function.
+> > > > > 
+> > > > >  drivers/staging/rtl8723bs/core/rtw_cmd.c         | 2 +-
+> > > > >  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    | 9 ---------
+> > > > >  drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 1 -
+> > > > >  3 files changed, 1 insertion(+), 11 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> > > > > b/drivers/staging/rtl8723bs/core/rtw_cmd.c index
+> > > > > 0297fbad7bce..f82dbd4f4c3d 100644
+> > > > > --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> > > > > +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> > > > > @@ -150,7 +150,7 @@ static struct cmd_hdl wlancmds[] = {
+> > > > > 
+> > > > >  	GEN_MLME_EXT_HANDLER(0, h2c_msg_hdl) /*58*/
+> > > > >  	GEN_MLME_EXT_HANDLER(sizeof(struct SetChannelPlan_param),
+> > > > >  	set_chplan_hdl) /*59*/> > >
+> > > > > 
+> > > > > -	GEN_MLME_EXT_HANDLER(sizeof(struct LedBlink_param),
+> > > > > led_blink_hdl) /*60*/ +	GEN_MLME_EXT_HANDLER(0, NULL) /
+*60*/
+> > > > 
+> > > > Better, but you really do not need to keep this here, right? 
+> > > > Remove
+> > > > the
+> > > > "led blink command" entirely, you didn't do that here.
+> > > 
+> > > No, this is right.  We have to put a NULL function pointer in the
+> > > array
+> > > or the indexing will be off.  But Fabio is correct that the struct
+> > > type should be removed.
+> > 
+> > The indexing can be off, just remove the other place where the
+> > "command"
+> > is in the index and all is good as rebuilding will fix it.  These are
+> > not external "values" we have to keep stable.
+> > 
+> > This has been done for other drivers exactly like this, there are loads
+> > of "odd" commands in there that should not be.
+> > 
+> > thanks,
+> > 
+> > greg k-h
+> 
+> I'm not sure if this task is so close related to deserve a v3 or if I
+> should make a new v1 patch with a different "Subject".
+> 
+> Thanks,
+> 
+> Fabio
+I'll make a v3 series, submitting this patch again (as 1/2) and adding the 
+above-mentioned changes in another one (as 2/2).
 
- drivers/staging/rtl8723bs/hal/sdio_halinit.c: In function ‘CardDisableRTL8723BSdio’:
- drivers/staging/rtl8723bs/hal/sdio_halinit.c:881:5: warning: variable ‘ret’ set but not used [-Wunused-but-set-variable]
- drivers/staging/rtl8723bs/hal/sdio_halinit.c: In function ‘CardDisableRTL8723BSdio’:
- drivers/staging/rtl8723bs/hal/sdio_halinit.c:881:5: warning: variable ‘ret’ set but not used [-Wunused-but-set-variable]
- drivers/staging/rtl8723bs/hal/sdio_halinit.c: In function ‘CardDisableRTL8723BSdio’:
- drivers/staging/rtl8723bs/hal/sdio_halinit.c:881:5: warning: variable ‘ret’ set but not used [-Wunused-but-set-variable]
- drivers/staging/rtl8723bs/hal/sdio_halinit.c: In function ‘CardDisableRTL8723BSdio’:
- drivers/staging/rtl8723bs/hal/sdio_halinit.c:881:5: warning: variable ‘ret’ set but not used [-Wunused-but-set-variable]
- drivers/staging/rtl8723bs/hal/sdio_halinit.c: In function ‘CardDisableRTL8723BSdio’:
- drivers/staging/rtl8723bs/hal/sdio_halinit.c:881:5: warning: variable ‘ret’ set but not used [-Wunused-but-set-variable]
+Fabio
 
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: Stanley@BB.SD3
-Cc: linux-staging@lists.linux.dev
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/staging/rtl8723bs/hal/sdio_halinit.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-index f6d734dd1a24f..60d3d6d1ba678 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-@@ -878,10 +878,9 @@ static void CardDisableRTL8723BSdio(struct adapter *padapter)
- {
- 	u8 u1bTmp;
- 	u8 bMacPwrCtrlOn;
--	u8 ret = _FAIL;
- 
- 	/*  Run LPS WL RFOFF flow */
--	ret = HalPwrSeqCmdParsing(padapter, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, rtl8723B_enter_lps_flow);
-+	HalPwrSeqCmdParsing(padapter, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, rtl8723B_enter_lps_flow);
- 
- 	/* 	==== Reset digital sequence   ====== */
- 
-@@ -909,9 +908,8 @@ static void CardDisableRTL8723BSdio(struct adapter *padapter)
- 	/* 	==== Reset digital sequence end ====== */
- 
- 	bMacPwrCtrlOn = false;	/*  Disable CMD53 R/W */
--	ret = false;
- 	rtw_hal_set_hwreg(padapter, HW_VAR_APFM_ON_MAC, &bMacPwrCtrlOn);
--	ret = HalPwrSeqCmdParsing(padapter, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, rtl8723B_card_disable_flow);
-+	HalPwrSeqCmdParsing(padapter, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, rtl8723B_card_disable_flow);
- }
- 
- static u32 rtl8723bs_hal_deinit(struct adapter *padapter)
--- 
-2.27.0
 
