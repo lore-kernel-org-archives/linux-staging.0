@@ -1,50 +1,53 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE6F16D13
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 12:54:01 +0000 (UTC)
-Received: by mail-qk1-f179.google.com with SMTP id o5so21265259qkb.0
-        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 05:54:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172AD6D13
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 13:09:43 +0000 (UTC)
+Received: by mail-qt1-f171.google.com with SMTP id t11so6769309qtr.8
+        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 06:09:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition
          :user-agent;
-        bh=jlBCNsKvfBi7veyM4BL9NZbwtWHgYxGRX4dSVfblSNo=;
-        b=fN+hxWgj8eADtHckIAH/XYZ20ZkcHUgU1+yAZgE+OGm2N/fNjOiEoJIq34+61XH/D4
-         eOJD+z/oNqotFpnmZtqg19Z99TF3XL1L/QH9efTnQ1y8e2YmMHqKIQaWjD8XmCzpFcNO
-         Pyg6rHgrjecDHNM3a3dLiE3IVEo8+H98ccPDUZCr2HAtdOcpd2HaQ20Q6zk2mfdPnoJM
-         9qZZqpW6DJb4mWTmOV1cDc9mE4sYy3QsQNgFAgWSctUGMGoageKBvUDMaTAXTjiz/U7b
-         38ugvwu7xDr5bQVNCIBLlm0NL+opyipJ8iH9eQ+SEt1BELiO40cdM2YL3fYdwVw11vd8
-         UYEg==
+        bh=elncytFW+zb3qUFxfSlLsAeQiq/hOBit9WYqXcP+TbM=;
+        b=qQkv9kwMDgVjNDgE8+1XHzGKiVU3D7+1BMbay98l8IO5vpr6gzVdPUqBxyUoufZwpR
+         64BnoOrEnoaJOZLB4/0K3A76+ytyVltzkGa5UPoz+DVmqCtVO4UnmEVeP0yXTTAeDvYk
+         oouF7MpHMsDTJOgsjmKne0JciOMZmKPsfTj9PSg3E4Awjj3UeMP0+nSmAcm8c0Y/Nbeg
+         kPL9C2NyFEmy1ZFHaaol+R8vZg1PRgdtdyedrWz4nvoZxGmirTsltCKRGQWQ9N9e35aa
+         waPCIyNOBn3zZ5vFwQzzxehxjmG1PQYpSml3ygnIh4AHDRHayPc/Cg2xdlauZUT7iJnH
+         x8tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
          :content-disposition:user-agent;
-        bh=jlBCNsKvfBi7veyM4BL9NZbwtWHgYxGRX4dSVfblSNo=;
-        b=mvtd8NLB0I4PTBbqhhxIEkNGLZB+yrMJ0TNIVKuYCCkE5Vec00J3GmpN4W4uLJKxJH
-         qhFdxQRYZjk21mAmYqHpfp136SxLc0DVVtQmQOZVCrGeCA3u4+JTTZbsrTK5qfDZjAhN
-         hmTHZLyAXbU+tBG7oUjZ/MesD/7X/LqN6mecGPrX9clyIQQrZGXrETcfeagcKJOYlOef
-         AK6WD8zHiirDnftsK98LSJ09XMlt7P96E7PQuutn6zV+IIrOA/6Mb0ZtmTdTVwBoySdC
-         OgF+hOrmoq698fDZs4WhaZ1786yIEwCVy2DzwMrrIhhm/KSys0wkQGYtM0ISGUNmxsAW
-         MXtQ==
-X-Gm-Message-State: AOAM533T8Btw5TqWQoBMLuLbSlm/FSH+eA14DPSiQf+QsZQ5Ras/ldZP
-	+BxsmoDyN4lPNolLtNpt5lc=
-X-Google-Smtp-Source: ABdhPJyIpRsaj7QJwaR7PwS3OIeRH8EVgZEPlm8/xomg8OoXYkF7JxrzqzZmH7vFYHgNi+7dqT/naQ==
-X-Received: by 2002:a37:4389:: with SMTP id q131mr24259247qka.255.1618404840937;
-        Wed, 14 Apr 2021 05:54:00 -0700 (PDT)
+        bh=elncytFW+zb3qUFxfSlLsAeQiq/hOBit9WYqXcP+TbM=;
+        b=gD1s7dUWBDoQeRcOkL402x1zFEjo2LTDABdQ4+qF3ZOrccSayvJkDjopml47NK+aHT
+         ULg1yQmcGVxBBdOT6ngb/PV4sLUDjef6eMI1Kpp1cTE7uHHucsMQzXqQVSD72bO2Reir
+         75Lo/xsJ6QS1hciA44ZoezOgAA2aC9ihb9cL/tTmm+IJ2yKG9SIBdqDE9n8eypKbpifk
+         EdqElmdMEUyGd8aPorZzBKlbw5N872fuodGXS6rOYmhBTp01c3Kk/D+DuWQZE1lGiBJC
+         VcJGDNULQbwX5hUuZW7mtlrVI8RJtnp4rGkJ9K7JTqj587slVrOHSxf9oHgumkab/Mna
+         zR2g==
+X-Gm-Message-State: AOAM532Bh2zVcG/cSnOPCxf5BvmcAu25SaAf/edN/oexXRDFjHOr8bCY
+	HRq1wylEjZKapsD6ezbopCA=
+X-Google-Smtp-Source: ABdhPJzFIH2icLx/tD0Vzvjk7b2K2kFlcws0XDy0/f2uGTsedCe1BJf79qi72vxRofLpC3ks19U0YA==
+X-Received: by 2002:ac8:5c0b:: with SMTP id i11mr18904800qti.368.1618405782136;
+        Wed, 14 Apr 2021 06:09:42 -0700 (PDT)
 Received: from focaruja ([2001:1284:f016:a037:7038:c088:ae60:452d])
-        by smtp.gmail.com with ESMTPSA id j129sm12197652qkf.110.2021.04.14.05.53.59
+        by smtp.gmail.com with ESMTPSA id b83sm6523257qkc.97.2021.04.14.06.09.41
         (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Wed, 14 Apr 2021 05:54:00 -0700 (PDT)
-Date: Wed, 14 Apr 2021 09:53:57 -0300
+        Wed, 14 Apr 2021 06:09:41 -0700 (PDT)
+Date: Wed, 14 Apr 2021 10:09:39 -0300
 From: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+To: Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Subject: [PATCH v2] staging: media: omap4iss: Remove unused macro function
-Message-ID: <20210414125357.GA13767@focaruja>
+Subject: [PATCH] staging: media: tegra-video: Align line break to match with
+ the open parenthesis in file vi.c
+Message-ID: <20210414130939.GA15290@focaruja>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -54,27 +57,28 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 User-Agent: Mutt/1.5.24 (2015-08-30)
 
-Remove unused macro function "v4l2_dev_to_iss_device(dev)".
+Align line break to match with the open parenthesis.
+Issue detected by checkpatch.pl.
 
 Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
 ---
- drivers/staging/media/omap4iss/iss.h | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/staging/media/tegra-video/vi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/omap4iss/iss.h b/drivers/staging/media/omap4iss/iss.h
-index b88f952..3f587e0 100644
---- a/drivers/staging/media/omap4iss/iss.h
-+++ b/drivers/staging/media/omap4iss/iss.h
-@@ -119,9 +119,6 @@ struct iss_device {
- 	unsigned int isp_subclk_resources;
- };
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index 7a09061c..9878d1e 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -1813,7 +1813,8 @@ static int tegra_vi_graph_parse_one(struct tegra_vi_channel *chan,
+ 		}
  
--#define v4l2_dev_to_iss_device(dev) \
--	container_of(dev, struct iss_device, v4l2_dev)
--
- int omap4iss_get_external_info(struct iss_pipeline *pipe,
- 			       struct media_link *link);
- 
+ 		tvge = v4l2_async_notifier_add_fwnode_subdev(&chan->notifier,
+-				remote, struct tegra_vi_graph_entity);
++							     remote,
++							     struct tegra_vi_graph_entity);
+ 		if (IS_ERR(tvge)) {
+ 			ret = PTR_ERR(tvge);
+ 			dev_err(vi->dev,
 -- 
 2.7.4
 
