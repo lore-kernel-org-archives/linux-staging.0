@@ -1,49 +1,49 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2CB972
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 06:55:50 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id lt13so917352pjb.1
-        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 23:55:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5186F72
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 06:56:10 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id l76so13724440pga.6
+        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 23:56:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=PcanKz2JI3sv6qcdkfJn/3M37tEs8B/qxfDD8BezmTY=;
-        b=AUC7XDuw1TQ1ZTbpzBOPu7fqFtP5txh9v46VtMvQTctw1GAWRarUdtmQ/5eOBOrHB1
-         SBlSTJWkBxyTyT4ZtAM0vKA/ittgWiSZhGSipQo27TnJJ/z5GXvjMqdlkthGfOiW4rpQ
-         35oPn775XC9E2IQwvgD29RbCy63ATQUaJ0WsJxfUqKBvffiLXYsIe1wq1gIYgN2uiXuv
-         eUYKUVD3ra0NU9iO1fGYieOm1LEFt0O8DR8K8zgrRlIyRdkAU7DWxX9fYZKEzn/zoTpp
-         8l00yccjLSGj7IxapSScQNOKPicP3x3wur9Sies+y/vctusQxr9wjHJQ0awMWaxLZBBB
-         4K7w==
+        bh=jKWFgdob/YlSgZVEF7gL6K3vLHR0vBCSyJL9Ey7fyRQ=;
+        b=kEnkR7Shph4FnLF7lE2LSHNqZIKGyBPPCa2lIDahpz+iDygI+2HL41VNGLE2wsJpOf
+         gXJNb42xBbA/xW5k6ShsNQXwdZXWmZg0E0Z2NxIY4y39l7IilXqdzTrdyDIMHRFHAisQ
+         BaTh0YEywwIThZE5By8pt+GntZsnFRMOfCzLkh2P0wB9LNABAGGCn+anPqt7FuWUYtNM
+         vMBFnhd9iY2bqzVsFgJ8Q0WQon/2ZUS2vZ77rhX51tSyoghTh3GsBDy2UoO8xoyeQc4L
+         bdOtF8cZbSnCF38oqcEjcOMpqgll6nz5UYE84kNrMwyDMrWs3hucRih4G6QZ2wJdBJCy
+         Sa+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=PcanKz2JI3sv6qcdkfJn/3M37tEs8B/qxfDD8BezmTY=;
-        b=uMD9slU6tJJP2efTmvRVKdTIJWmCHIL1ShmBNqeZWFwSHp9hJpW6Plbzz5Ld8cx/5j
-         uZ8NAOPcG7CXMw7U9lRe2gBqJ53gbaA77sZlvzGTzzUpYVawDi+S2JcrWue6Jj4AUpzt
-         XPmgR0bBuWrU4AO07gJ30XbPOlRLtiwROFdAAqu0KYTPSeS8m63HfsBrV078m2DVHs51
-         5VRpxs+7xVoI+aR2ZPqRpSPISY/im7HiPxSjf1dGonsGwvxKrTkmEj1UhCNq/nycDtVe
-         lXDQsVJtJHhrYqXmKYScST/o6wuH7bUAkmSDHA0EoMxqC/dGtKM7WOYj99nHH7Knzzk/
-         pEMw==
-X-Gm-Message-State: AOAM530Um6VAYHy4ld9c9ouM+r9f68h5h2X6ECc/2RDfjGkcjejh8NLU
-	Id6QEX90hwFpO2XKntCrJcI=
-X-Google-Smtp-Source: ABdhPJxCWD/wDaDIetW79z2KKktAfpfDPU2N+11k34hNMq2GvHJoLMR5wU8Sl7SZ6ZLta0zfKiXCbQ==
-X-Received: by 2002:a17:90a:b292:: with SMTP id c18mr2037422pjr.179.1618383350348;
-        Tue, 13 Apr 2021 23:55:50 -0700 (PDT)
+        bh=jKWFgdob/YlSgZVEF7gL6K3vLHR0vBCSyJL9Ey7fyRQ=;
+        b=PFjn47TsG/lGELPMHzdsQnRYlEsSNuI/30THaKfL44CpvLQCven8phdcYZqZCNc3uT
+         ylL82zysCw0qqUSEzn8IL5eaH21lmH5+ndIAVqMe69SlsLl+nNj+iV2aFpjzDl05b8v9
+         WpI7YT5Tvgc8rUMKOK3gydUKYol3a6RRpvhqMrR6nUNJcu5zVRhsan9nr3bsMkvWTq7g
+         XQcJFWxFsnnVl/4KyzeubKfvxrTSSL1qmp6/uW6HEsRIU/pdxLkQT9yKU9ole7yRlC+9
+         1sIWWmQORclEWgf0volSWjdKI7wyIqfKvG5x8ku/+9uY9ktwFl9hzGEiP2u2Bs9nTEnS
+         LhNw==
+X-Gm-Message-State: AOAM5331HW0wYojmuN4RNM65wt5+PxEPqUmg66XcM/ZZ2ix33MEwIv8q
+	jTNSdDnGJaigglWc+Diz8FY=
+X-Google-Smtp-Source: ABdhPJztzHIj9VEny0e41k/MTxEPjFQc24Yxct2UxJdRHtuYJgp8V2hkC+I6+Q5XCFUDtVTctgqLVQ==
+X-Received: by 2002:a63:a0c:: with SMTP id 12mr33479455pgk.247.1618383369750;
+        Tue, 13 Apr 2021 23:56:09 -0700 (PDT)
 Received: from kali ([103.141.87.253])
-        by smtp.gmail.com with ESMTPSA id c129sm14470541pfb.141.2021.04.13.23.55.47
+        by smtp.gmail.com with ESMTPSA id m14sm17566246pgb.0.2021.04.13.23.56.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 23:55:50 -0700 (PDT)
-Date: Wed, 14 Apr 2021 12:25:41 +0530
+        Tue, 13 Apr 2021 23:56:09 -0700 (PDT)
+Date: Wed, 14 Apr 2021 12:26:01 +0530
 From: Mitali Borkar <mitaliborkar810@gmail.com>
 To: gregkh@linuxfoundation.org, davem@davemloft.net, kuba@kernel.org
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: [PATCH v2 3/5] staging: rtl8192e: remove unnecessary blank line
- after close brace
-Message-ID: <40f72a84750f402c342b4685e0a2f15d27875c9a.1618380932.git.mitaliborkar810@gmail.com>
+Subject: [PATCH v2 4/5] staging: rtl8192e: rectified spelling mistake and
+ replace memcmp with ether_oui_equal
+Message-ID: <eda8d3401f2f7ff7a61137b4935c6ccb09112e52.1618380932.git.mitaliborkar810@gmail.com>
 References: <cover.1618380932.git.mitaliborkar810@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,38 +54,117 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1618380932.git.mitaliborkar810@gmail.com>
 
-Removed an extra blank line after close brace '{' as it was not
-necessary.
-Reported by checkpatch
+Added a generic function of static inline bool in
+include/linux/etherdevice.h to replace memcmp with
+ether_oui_equal throughout the execution.
+Corrected the misspelled words in this file.
 
 Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
 ---
  
-Changes from v1:- No changes.
+Changes from v1:- Rectified spelling mistake and replaced memcmp with
+ether_oui_equal.
 
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 48 +++++++++++------------
+ include/linux/etherdevice.h               |  5 +++
+ 2 files changed, 29 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 651441a71646..b6805908bbbd 100644
+index ec6b46166e84..ce58feb2af9a 100644
 --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
 +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -492,7 +492,6 @@ u8 HTGetHighestMCSRate(struct rtllib_device *ieee, u8 *pMCSRateSet,
- static u8 HTFilterMCSRate(struct rtllib_device *ieee, u8 *pSupportMCS,
- 			  u8 *pOperateMCS)
- {
--
- 	u8 i;
+@@ -43,7 +43,7 @@ u16 MCS_DATA_RATE[2][2][77] = {
+ 	 810, 720, 810, 900, 900, 990} }
+ };
  
- 	for (i = 0; i <= 15; i++)
-@@ -685,7 +684,6 @@ void HTInitializeHTInfo(struct rtllib_device *ieee)
+-static u8 UNKNOWN_BORADCOM[3] = {0x00, 0x14, 0xbf};
++static u8 UNKNOWN_BROADCOM[3] = {0x00, 0x14, 0xbf};
  
- void HTInitializeBssDesc(struct bss_ht *pBssHT)
- {
--
- 	pBssHT->bd_support_ht = false;
- 	memset(pBssHT->bd_ht_cap_buf, 0, sizeof(pBssHT->bd_ht_cap_buf));
- 	pBssHT->bd_ht_cap_len = 0;
+ static u8 LINKSYSWRT330_LINKSYSWRT300_BROADCOM[3] = {0x00, 0x1a, 0x70};
+ 
+@@ -146,16 +146,16 @@ bool IsHTHalfNmodeAPs(struct rtllib_device *ieee)
+ 	bool			retValue = false;
+ 	struct rtllib_network *net = &ieee->current_network;
+ 
+-	if ((memcmp(net->bssid, BELKINF5D8233V1_RALINK, 3) == 0) ||
+-	    (memcmp(net->bssid, BELKINF5D82334V3_RALINK, 3) == 0) ||
+-	    (memcmp(net->bssid, PCI_RALINK, 3) == 0) ||
+-	    (memcmp(net->bssid, EDIMAX_RALINK, 3) == 0) ||
+-	    (memcmp(net->bssid, AIRLINK_RALINK, 3) == 0) ||
++	if ((ether_oui_equal(net->bssid, BELKINF5D8233V1_RALINK) == 0) ||
++	    (ether_oui_equal(net->bssid, BELKINF5D82334V3_RALINK) == 0) ||
++	    (ether_oui_equal(net->bssid, PCI_RALINK) == 0) ||
++	    (ether_oui_equal(net->bssid, EDIMAX_RALINK) == 0) ||
++	    (ether_oui_equal(net->bssid, AIRLINK_RALINK) == 0) ||
+ 	    (net->ralink_cap_exist))
+ 		retValue = true;
+-	else if (!memcmp(net->bssid, UNKNOWN_BORADCOM, 3) ||
+-		 !memcmp(net->bssid, LINKSYSWRT330_LINKSYSWRT300_BROADCOM, 3) ||
+-		 !memcmp(net->bssid, LINKSYSWRT350_LINKSYSWRT150_BROADCOM, 3) ||
++	else if (ether_oui_equal(net->bssid, UNKNOWN_BROADCOM) ||
++		 ether_oui_equal(net->bssid, LINKSYSWRT330_LINKSYSWRT300_BROADCOM) ||
++		 ether_oui_equal(net->bssid, LINKSYSWRT350_LINKSYSWRT150_BROADCOM) ||
+ 		 (net->broadcom_cap_exist))
+ 		retValue = true;
+ 	else if (net->bssht.bd_rt2rt_aggregation)
+@@ -179,26 +179,26 @@ static void HTIOTPeerDetermine(struct rtllib_device *ieee)
+ 			pHTInfo->IOTPeer = HT_IOT_PEER_92U_SOFTAP;
+ 	} else if (net->broadcom_cap_exist) {
+ 		pHTInfo->IOTPeer = HT_IOT_PEER_BROADCOM;
+-	} else if (!memcmp(net->bssid, UNKNOWN_BORADCOM, 3) ||
+-		 !memcmp(net->bssid, LINKSYSWRT330_LINKSYSWRT300_BROADCOM, 3) ||
+-		 !memcmp(net->bssid, LINKSYSWRT350_LINKSYSWRT150_BROADCOM, 3)) {
++	} else if (ether_oui_equal(net->bssid, UNKNOWN_BROADCOM) ||
++		   ether_oui_equal(net->bssid, LINKSYSWRT330_LINKSYSWRT300_BROADCOM) ||
++		   ether_oui_equal(net->bssid, LINKSYSWRT350_LINKSYSWRT150_BROADCOM)) {
+ 		pHTInfo->IOTPeer = HT_IOT_PEER_BROADCOM;
+-	} else if ((memcmp(net->bssid, BELKINF5D8233V1_RALINK, 3) == 0) ||
+-		 (memcmp(net->bssid, BELKINF5D82334V3_RALINK, 3) == 0) ||
+-		 (memcmp(net->bssid, PCI_RALINK, 3) == 0) ||
+-		 (memcmp(net->bssid, EDIMAX_RALINK, 3) == 0) ||
+-		 (memcmp(net->bssid, AIRLINK_RALINK, 3) == 0) ||
+-		  net->ralink_cap_exist) {
++	} else if ((ether_oui_equal(net->bssid, BELKINF5D8233V1_RALINK) == 0) ||
++		   (ether_oui_equal(net->bssid, BELKINF5D82334V3_RALINK) == 0) ||
++		   (ether_oui_equal(net->bssid, PCI_RALINK) == 0) ||
++		   (ether_oui_equal(net->bssid, EDIMAX_RALINK) == 0) ||
++		   (ether_oui_equal(net->bssid, AIRLINK_RALINK) == 0) ||
++		   net->ralink_cap_exist) {
+ 		pHTInfo->IOTPeer = HT_IOT_PEER_RALINK;
+ 	} else if ((net->atheros_cap_exist) ||
+-		(memcmp(net->bssid, DLINK_ATHEROS_1, 3) == 0) ||
+-		(memcmp(net->bssid, DLINK_ATHEROS_2, 3) == 0)) {
++		   (ether_oui_equal(net->bssid, DLINK_ATHEROS_1) == 0) ||
++		   (ether_oui_equal(net->bssid, DLINK_ATHEROS_2) == 0)) {
+ 		pHTInfo->IOTPeer = HT_IOT_PEER_ATHEROS;
+-	} else if ((memcmp(net->bssid, CISCO_BROADCOM, 3) == 0) ||
+-		  net->cisco_cap_exist) {
++	} else if ((ether_oui_equal(net->bssid, CISCO_BROADCOM) == 0) ||
++		   net->cisco_cap_exist) {
+ 		pHTInfo->IOTPeer = HT_IOT_PEER_CISCO;
+-	} else if ((memcmp(net->bssid, LINKSYS_MARVELL_4400N, 3) == 0) ||
+-		  net->marvell_cap_exist) {
++	} else if ((ether_oui_equal(net->bssid, LINKSYS_MARVELL_4400N) == 0) ||
++		   net->marvell_cap_exist) {
+ 		pHTInfo->IOTPeer = HT_IOT_PEER_MARVELL;
+ 	} else if (net->airgo_cap_exist) {
+ 		pHTInfo->IOTPeer = HT_IOT_PEER_AIRGO;
+diff --git a/include/linux/etherdevice.h b/include/linux/etherdevice.h
+index 2e5debc0373c..6a1a63168319 100644
+--- a/include/linux/etherdevice.h
++++ b/include/linux/etherdevice.h
+@@ -87,6 +87,11 @@ static inline bool is_link_local_ether_addr(const u8 *addr)
+ #endif
+ }
+ 
++static inline bool ether_oui_equal(const u8 *addr, const u8 *oui)
++{
++return addr[0] == oui[0] && addr[1] == oui[1] && addr[2] == oui[2];
++}
++
+ /**
+  * is_zero_ether_addr - Determine if give Ethernet address is all zeros.
+  * @addr: Pointer to a six-byte array containing the Ethernet address
 -- 
 2.30.2
 
