@@ -1,50 +1,51 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF29D6D32
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 18:11:53 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id l4so32777252ejc.10
-        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 11:11:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA6C6D36
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 18:11:54 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id x4so24862023edd.2
+        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 11:11:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=WsTnlZ0JLtuPnbO60j2rczl2/gLE7x7tVgm20+EM1Dc=;
-        b=v7SNGemTBhWQrAoIapsNidlHLFQnZx+bRnGVs+M17pVLVxst/gNZb3SmwiskAjL8lg
-         ygF1ZxYy+vpP/GQgmtBbIe/A8oz4faap+35tlxfg6yhC2EsaoLFn2bw3qc2sKJs5uO4W
-         HNT3QE++OG9CbZCcW9Wo4ljeZmkpJobpEhaq1Cz7flYijDpgGUl+nYEiuX8zFX0thYOt
-         iOt/aKuDWC/6WtGfEzIsI6KbEtXv2sXF0oB5s4lKuZcBAr+MeH9C9dpWGvCVhyo/x3LV
-         iECHTLWDZakB/vTl7nfioZOhPE98eoXt1dSaXLaYSmliBFmEt5nSm0OXycJB74HD/drA
-         wVOw==
+        bh=/kTlqScRexjxeUZVlgvZgKV7vl/BLWE5sWlAi/z9T+Q=;
+        b=UnX1dURuJBfEb8qiyjhM/mtMEpvTY17r/4dIZB6g9PjoXxxZEEJ3E/3HriGhXCGVV/
+         LPlnEZknw8PnJuKX6LGQCpvU0MhNQQJUd01Mku5TewRTtKvNRC6q25eRtbkdy9nGVvAu
+         K6/gUIzYxnk2/Kmdj5z4FDAI/LKUDMzaIxm0tNzPJMYdMuBWA4gfXFoOmus2ufwG3YdN
+         PIDp/2arTT6BEQBSf6VA5232xLCaLf1HCeWDskwuJzA2+ZqExCcluQeGhJ9Y6H4OzQFo
+         tt5l8TDPQ257xn8sZBGeyqm2I+GPjZKKff0h4UMhb0fCirTEE/Idumnxrrnzm0JunCI8
+         5sXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WsTnlZ0JLtuPnbO60j2rczl2/gLE7x7tVgm20+EM1Dc=;
-        b=frsyPXYkRHE9Sv7mSAwyXVn5vYpuBQ0zbaAupM9lSMQnvsbsYTB7DJHdvM3hNngdOj
-         m27xKegwhQlQAkxf9WO4bM613cWZAmgtHrFcarEEGRlH93qvDctqR58YBwYmgCWHJWQS
-         7dNsH5YZ+arMqnxa/j6EjqaaiiXvRxiWbIQf2l8nGPgSRXUZq6nKqgSo7AoDrF1dtfmk
-         ZWvglsDRIgi3/IpL9wLmysPQl7EHlnMvPUnC2YxQe6Nps3ABSMylZ0GJ3Pbn3DMeJOpX
-         QlwHes13DXvLirNMNpgnXKWwg6Z/r/9SQuzfIdd0iYRGXqdU/bofP51N/4YeYhnZScCi
-         pPeA==
-X-Gm-Message-State: AOAM531h0MyOi/1dKNzUVdwaZHOFDcLbFPy+lwS7vx12xchAJVT2j1cW
-	KNVc5MfRyKJfv/3cXzo/58iANg==
-X-Google-Smtp-Source: ABdhPJyQJ/Sxa/NX2STNIxTSUi4KKDzaHuSnMl08NYq4KrdAtMi3M+xDBFVTkst+RtqDwC4ChkPzzA==
-X-Received: by 2002:a17:906:430f:: with SMTP id j15mr115016ejm.543.1618423912323;
-        Wed, 14 Apr 2021 11:11:52 -0700 (PDT)
+        bh=/kTlqScRexjxeUZVlgvZgKV7vl/BLWE5sWlAi/z9T+Q=;
+        b=IHSQP00BAeSxd4FAwvTGxdZqevkShmeXNRa9HXnECPw2B7ISZ/eOa3JBV48SDMAr5q
+         a5KZMBUvU1sI9vV+tnA2KWRl0HQlhUYOpLFjxXeG6xEBptmnNwOBlvPoSph1dMr0GHD6
+         JR66qkbrRxOipGRO/W6gPS1WfS6geOewQQS3eSs77seJEreoCnsIIYiI4O5SrKsrCGlt
+         eSH/1FlmcftRMeuy3p1TWEAt2wJvVP+4ybfiQugQdL3fbxSAcop/7C8siTUyF3sTo3ZB
+         fQ8tgd2Gr+PKw0yF0BtCUTE+mK0E4gLZCp5km5ifIdhy1EsI7IYIx8BZ4+D39AsAuwiX
+         FEbg==
+X-Gm-Message-State: AOAM532ti6pdXrDS5zG2QzCu7xPfSNc7heEh+fwYUMPC2EGKs50Q4C1j
+	2ykGo9BM8p2lf6MfDoU+y3cDeXI+jnkNRQ==
+X-Google-Smtp-Source: ABdhPJw0i4sbCFot3EhnDxTRytIMAMRuQMtK/zB1BawCSZq+ImOkK0sGSNzD/U1GzoF3XXiOPUff9g==
+X-Received: by 2002:a05:6402:b07:: with SMTP id bm7mr207395edb.82.1618423913409;
+        Wed, 14 Apr 2021 11:11:53 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
-        by smtp.gmail.com with ESMTPSA id v1sm279493eds.17.2021.04.14.11.11.51
+        by smtp.gmail.com with ESMTPSA id v1sm279493eds.17.2021.04.14.11.11.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 11:11:51 -0700 (PDT)
+        Wed, 14 Apr 2021 11:11:52 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
 Cc: linux-kernel@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ross Schmidt <ross.schm.dev@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Kees Cook <keescook@chromium.org>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 17/57] staging: rtl8723bs: core: rtw_sta_mgt: Return error value directly
-Date: Wed, 14 Apr 2021 19:10:49 +0100
-Message-Id: <20210414181129.1628598-18-lee.jones@linaro.org>
+Subject: [PATCH 18/57] staging: octeon: ethernet-tx: Fix formatting issue in function header
+Date: Wed, 14 Apr 2021 19:10:50 +0100
+Message-Id: <20210414181129.1628598-19-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210414181129.1628598-1-lee.jones@linaro.org>
 References: <20210414181129.1628598-1-lee.jones@linaro.org>
@@ -53,52 +54,33 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/staging/rtl8723bs/core/rtw_sta_mgt.c: In function ‘rtw_init_bcmc_stainfo’:
- drivers/staging/rtl8723bs/core/rtw_sta_mgt.c:512:6: warning: variable ‘res’ set but not used [-Wunused-but-set-variable]
+ drivers/staging/octeon/ethernet-tx.c:507: warning: bad line:
 
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Ross Schmidt <ross.schm.dev@gmail.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Kees Cook <keescook@chromium.org>
 Cc: linux-staging@lists.linux.dev
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/staging/rtl8723bs/core/rtw_sta_mgt.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/staging/octeon/ethernet-tx.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-index 7b631a6b258a1..233febc145983 100644
---- a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-@@ -497,7 +497,6 @@ struct sta_info *rtw_get_stainfo(struct sta_priv *pstapriv, u8 *hwaddr)
- u32 rtw_init_bcmc_stainfo(struct adapter *padapter)
- {
- 	struct sta_info *psta;
--	u32 res = _SUCCESS;
- 	NDIS_802_11_MAC_ADDRESS	bcast_addr = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
- 
- 	struct	sta_priv *pstapriv = &padapter->stapriv;
-@@ -505,15 +504,12 @@ u32 rtw_init_bcmc_stainfo(struct adapter *padapter)
- 
- 	psta = rtw_alloc_stainfo(pstapriv, bcast_addr);
- 
--	if (!psta) {
--		res = _FAIL;
--		goto exit;
--	}
-+	if (!psta)
-+		return _FAIL;
- 
- 	/*  default broadcast & multicast use macid 1 */
- 	psta->mac_id = 1;
- 
--exit:
- 	return _SUCCESS;
- }
- 
+diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
+index 9c71ad5af7b98..1ad94c5060b52 100644
+--- a/drivers/staging/octeon/ethernet-tx.c
++++ b/drivers/staging/octeon/ethernet-tx.c
+@@ -504,7 +504,6 @@ int cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
+  * cvm_oct_xmit_pow - transmit a packet to the POW
+  * @skb:    Packet to send
+  * @dev:    Device info structure
+-
+  * Returns Always returns zero
+  */
+ int cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev)
 -- 
 2.27.0
 
