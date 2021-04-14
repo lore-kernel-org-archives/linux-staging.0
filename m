@@ -1,52 +1,50 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47CD76D37
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 18:12:02 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id h10so24795680edt.13
-        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 11:12:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626D86D36
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 18:12:03 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id w3so32851063ejc.4
+        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 11:12:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=a5roCrWCSkmt1RP3Taphq9R1YmlOTY/ma9pHzyYzjyA=;
-        b=MoUMuWuFAAarvGL1AUHSNosCqD4tw/Pqic0xuy7Q+2iF23t1JCt3Vyp2LV2En4tT/s
-         ZLhySDKnh00w5s9Hofv8uGG4YSUrCQJfEIY/6JjRJWi5uxTcBPKcn/1qzGOnWYUy5aBD
-         GYcuxIxHDSxh6L7X2IHS2s6uvfHGZaYW5JvB1+16BkP0unMj8rJONU+mj8T5OXWirqzb
-         p+JZLMSSa4tBhjuFmYOKCk4KpPrUdtBH+0R/nzJPvk1SWqGko6Q+DkYB75Hu4Yu9dADU
-         oRR/zmrG+1FNpReIHC/lVLPLUn5pq6eyaK8EXs2V4WhulXfnwyHkMojT1oBmIr/xW/yD
-         EIXA==
+        bh=eyv+iRJLEcjbZd/LhEPn8OpiX7PAY3puKqYKPby0/Lk=;
+        b=bzPA/e5rxcRDwYB4W/RKUS7MdXft/jZBjQHvDR4BNbzy2iIfbD4C++piw+mlIe4vCZ
+         2Xi434xHZRLkWYl2lTtcA6zRdWHTa6y48dCBmapVWZeC74b9BJR9ixLW2sqI3Pi12IBE
+         CVYxRIvN5s4KxplTxNMCG+ajW9+h6wRpDvTKnrZsw5/78mJ4FWmmrMuYrGFV7Giuk+SG
+         HbE4y0cA9qoPRB10UP/b4FzikEEHIVRzSkJyPIix4/ZJKeErxLAXYkr4WX4nDa+MPNxA
+         y5PQKFBar4Zrfq1aqPm2fquDF2fX+qPZhf1llbXGiNvvKc+apRvVEGEHNNR+xcBp1jyM
+         rWFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=a5roCrWCSkmt1RP3Taphq9R1YmlOTY/ma9pHzyYzjyA=;
-        b=R9HKcDQ/S/EmI4MlqxiklYhQ41cYjIPakzsEsbMIpLnyQhWgLJL5tsh+6haQLVyk7m
-         9yAcjyOjT7rVdhePlMr6D2nwGln9UCLKDojDYwakfK61Z/28vPnGwfgJbguSLxzugNFN
-         H0VcziJeOijNRPJ2ZKrJxiZkf/OA3vKgPJX9iU1xdSmdfNJQA6TFuUj1XUarTKkHAn7Y
-         xuUGv1OmjpR+HqmxMwnyyF9jfyBdI2DWiZMq7GOpoD4trfJHN6PFF3qp2ahkpG7DB6ES
-         hbtnBJdcqanjCJaujdcumvdCIW+WcwzE20n3HMXkeHxvvqiZq9zqC3Ap6bNDO0Hw/sIk
-         MHHg==
-X-Gm-Message-State: AOAM532uPIUAkKTDlMGX1GGIsYWNXxIKaRfZdsw5RzP3Dv3IGRASjwgw
-	o/d+KC8iwRx0qk+kP+0xo1gJ0Q==
-X-Google-Smtp-Source: ABdhPJyR0mBukYZlK9GIkfQp2+J2Vxx6FhpKATTYgN0Ed8PS2LyMu0qvOBL7RPLb8lf9BQSs5wEseg==
-X-Received: by 2002:aa7:ccd0:: with SMTP id y16mr171436edt.101.1618423920890;
-        Wed, 14 Apr 2021 11:12:00 -0700 (PDT)
+        bh=eyv+iRJLEcjbZd/LhEPn8OpiX7PAY3puKqYKPby0/Lk=;
+        b=I7YVDWmOADtKILb+n06bPH0emCb1wWPZjrlug5bFNwPW1lm51NmSk4doyiBEjQ2fCB
+         WGoZnUiUg7FddRLcYYEk9GXrwbsqsLhodj6AsgZm4RQBlo1erQIOouK/J/8TV0jpBm7P
+         aa/33ikpw8c2LW+E589ZdtSEDAALPpu0/dKLEV+012QRzpQ0GFvCABX1r4kpjpB3x2QW
+         oGVr9niE6uFe50JxJFEPmwmYFlNQjrb1k1QFHU3XEDwFvm4yqZQNVyAxQCiKsQjddi+v
+         ZRzyuezy7v6eoJqjL56mRfjPzFBPo9oIQhRWPS8xwciapSmeyFHbARE/Okut3p+PJsG5
+         /9ZQ==
+X-Gm-Message-State: AOAM530HlQYgkKtxCHQK91/1ijb2C64enojJZ7tiGOQn9rPUEb3hrWV1
+	gUUxIJdB4B+bqDY9TyvWYTlDFxXXzjDAPg==
+X-Google-Smtp-Source: ABdhPJzWU45QwP6Lt+RjOuvBVG+9W1IN10pzBUcN2fub7X8rSe7o0vKyauEjD+VDKsua3PTkjKwBgg==
+X-Received: by 2002:a17:906:d555:: with SMTP id cr21mr189857ejc.66.1618423921972;
+        Wed, 14 Apr 2021 11:12:01 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
-        by smtp.gmail.com with ESMTPSA id v1sm279493eds.17.2021.04.14.11.11.59
+        by smtp.gmail.com with ESMTPSA id v1sm279493eds.17.2021.04.14.11.12.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 11:12:00 -0700 (PDT)
+        Wed, 14 Apr 2021 11:12:01 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
 Cc: linux-kernel@vger.kernel.org,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-fbdev@vger.kernel.org,
+	Andrey Shvetsov <andrey.shvetsov@k2l.de>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 25/57] staging: sm750fb: sm750_accel: Provide description for 'accel' and fix function naming
-Date: Wed, 14 Apr 2021 19:10:57 +0100
-Message-Id: <20210414181129.1628598-26-lee.jones@linaro.org>
+Subject: [PATCH 26/57] staging: most: net: Fix some kernel-doc formatting issues
+Date: Wed, 14 Apr 2021 19:10:58 +0100
+Message-Id: <20210414181129.1628598-27-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210414181129.1628598-1-lee.jones@linaro.org>
 References: <20210414181129.1628598-1-lee.jones@linaro.org>
@@ -59,42 +57,35 @@ Content-Transfer-Encoding: 8bit
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/staging/sm750fb/sm750_accel.c:155: warning: Function parameter or member 'accel' not described in 'sm750_hw_copyarea'
- drivers/staging/sm750fb/sm750_accel.c:155: warning: expecting prototype for sm750_hm_copyarea(). Prototype was for sm750_hw_copyarea() instead
- drivers/staging/sm750fb/sm750_accel.c:321: warning: Function parameter or member 'accel' not described in 'sm750_hw_imageblit'
+ drivers/staging/most/net/net.c:548: warning: Function parameter or member 'iface' not described in 'on_netinfo'
+ drivers/staging/most/net/net.c:548: warning: Function parameter or member 'link_stat' not described in 'on_netinfo'
+ drivers/staging/most/net/net.c:548: warning: Function parameter or member 'mac_addr' not described in 'on_netinfo'
 
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Cc: Teddy Wang <teddy.wang@siliconmotion.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-fbdev@vger.kernel.org
+Cc: Andrey Shvetsov <andrey.shvetsov@k2l.de>
 Cc: linux-staging@lists.linux.dev
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/staging/sm750fb/sm750_accel.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/staging/most/net/net.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750fb/sm750_accel.c
-index 8faa601c700b2..24b9077a634a6 100644
---- a/drivers/staging/sm750fb/sm750_accel.c
-+++ b/drivers/staging/sm750fb/sm750_accel.c
-@@ -131,7 +131,8 @@ int sm750_hw_fillrect(struct lynx_accel *accel,
- }
+diff --git a/drivers/staging/most/net/net.c b/drivers/staging/most/net/net.c
+index f125bb6da406f..a5fd14246046e 100644
+--- a/drivers/staging/most/net/net.c
++++ b/drivers/staging/most/net/net.c
+@@ -539,9 +539,9 @@ static void __exit most_net_exit(void)
  
  /**
-- * sm750_hm_copyarea
-+ * sm750_hw_copyarea
-+ * @accel: Acceleration device data
-  * @sBase: Address of source: offset in frame buffer
-  * @sPitch: Pitch value of source surface in BYTE
-  * @sx: Starting x coordinate of source surface
-@@ -298,6 +299,7 @@ static unsigned int deGetTransparency(struct lynx_accel *accel)
- 
- /**
-  * sm750_hw_imageblit
-+ * @accel: Acceleration device data
-  * @pSrcbuf: pointer to start of source buffer in system memory
-  * @srcDelta: Pitch value (in bytes) of the source buffer, +ive means top down
-  *	      and -ive mean button up
+  * on_netinfo - callback for HDM to be informed about HW's MAC
+- * @param iface - most interface instance
+- * @param link_stat - link status
+- * @param mac_addr - MAC address
++ * @iface: most interface instance
++ * @link_stat: link status
++ * @mac_addr: MAC address
+  */
+ static void on_netinfo(struct most_interface *iface,
+ 		       unsigned char link_stat, unsigned char *mac_addr)
 -- 
 2.27.0
 
