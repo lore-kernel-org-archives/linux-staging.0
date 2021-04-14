@@ -1,123 +1,98 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40996D13
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 13:27:06 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id w23so15596333ejb.9
-        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 06:27:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ENoaVUYqcoflF8xWOIWULroGO6u264X9NRgbkfRf5wI=;
-        b=F8sRkgXyBy638AVKUfcQGHQvtUeVt4DOeps/NhbhqPWwPXiCtEmYAZVpuwrm/5l/JZ
-         U5qTGgXQpFc2/gczGUGroXph8hQcYwR9WZajmdQe2EWyifb/ArmEP0Aw53gTdAoX3qMs
-         tNcxkOQq63t25zMocVzm458Tj63pmUvsoIdX0iHvvkl/S96VpW+CuyyC10tl/n09Ci2a
-         F0Bebag7Q7MXDIV1SkTj8PwvT2eWv4nx4l6ISsG6AE8ZK/+t/2mkH7m87OVKCjdQ7iyr
-         HOysRtCyzdBmNa+RJHlt5Mp88QCfAKU1u03LPq1r44+wCZzoQfiXarz6mGn7AGaCafL8
-         NPvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ENoaVUYqcoflF8xWOIWULroGO6u264X9NRgbkfRf5wI=;
-        b=OqGtTT+9kOTRUO0HpoAD3a9no5rxb2ugwpK3xOyA0G95vC91bKuawkc58H0qvt863E
-         5/Zm4G7qrCa2vsUPZQxt/n3zi95HmTJTmwlEE17Kh17BzD+MmfMvkVYJihj9tk0LrWN4
-         8Oog4B4NgkEnSgb4RrgIyWelD8TCGNtU3hRIuZyi9zaE6aHu/q8b2IA5UVXMrysDBs/o
-         I7bscKhp4vYItGuxP/FMhdTX/TfE8KhePrOyRJ1bhFKoHu0yrnl3PJ4gTnki7r6l15X8
-         vR4eOviQ4Q1udoDFmCt/nCwI4EN+C6FGH2vQmiKKYAXDdOeACSVarQw0/EbkpsRzjORs
-         rX4Q==
-X-Gm-Message-State: AOAM532xL8TuZ0iajA70gkqt3FlnJsgiYi/3DzBC/W54Xpkht8BP8jB1
-	kKpdH+Wuls/2r6xEO1Bc1y8=
-X-Google-Smtp-Source: ABdhPJxax/Bq6nQ2WuC3iZhGyolTTsuKDanQIdpR1zpcwIV33FRjGP+S6tyWmsGI9K8Ikw1sRnKJTw==
-X-Received: by 2002:a17:906:37c9:: with SMTP id o9mr19026672ejc.285.1618406825395;
-        Wed, 14 Apr 2021 06:27:05 -0700 (PDT)
-Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
-        by smtp.gmail.com with ESMTPSA id u4sm7999489ejf.11.2021.04.14.06.27.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 06:27:04 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>, Julia Lawall <julia.lawall@inria.fr>, Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8723bs: Remove useless led_blink_hdl()
-Date: Wed, 14 Apr 2021 15:27:03 +0200
-Message-ID: <2135425.qiX1NcrmH6@linux.local>
-In-Reply-To: <YHbdhT8z11rd6okI@kroah.com>
-References: <20210414115243.32716-1-fmdefrancesco@gmail.com> <YHbdhT8z11rd6okI@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723546D13
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 13:28:33 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+	by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13EDNq8I066735;
+	Wed, 14 Apr 2021 13:28:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=jAls2IFDVFZAUsCc/vhOJmMpWwouW7cbvWwf4P2kv2s=;
+ b=zLKUwYqIHql9dsuY3E9V6w7HBmb/bUfTAIdgiyldu2L1xYF59QdOxI2n7Eh0jTrHg4Uy
+ Ggi619zFxFXlue2ynavcitjRIpOeNMlWdbVon+aYMOUvrp2uWfebnH1e3STpDjx6kcij
+ u9NClY0jLSInAezrqyyTHYJRNVd+yDCQL2Te8nUflHOxIIv3s3l6XZdEF4J/up5FhVeK
+ 1sfL7rp6lLWvfrmnEtkpFw3TgF9ANtYzOo5Srjxj9/d5ASEjTUT0fo8m9ainMGH/WwU1
+ I+Dfj2ziEX/YyoMRwKkOmq5w9OPoF6dmcinsQCvGd8HCaK2UVuUPtL2aow9rxRlqaCog zg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by userp2130.oracle.com with ESMTP id 37u3erje4g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 Apr 2021 13:28:31 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13EDPjFh105685;
+	Wed, 14 Apr 2021 13:28:29 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+	by aserp3020.oracle.com with ESMTP id 37unx1aspy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 Apr 2021 13:28:29 +0000
+Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
+	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 13EDSPI6026973;
+	Wed, 14 Apr 2021 13:28:27 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Wed, 14 Apr 2021 06:28:24 -0700
+Date: Wed, 14 Apr 2021 16:28:18 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Ian Abbott <abbotti@mev.co.uk>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-staging@lists.linux.dev,
+        H Hartley Sweeten <hsweeten@visionengravers.com>,
+        "Spencer E . Olson" <olsonse@umich.edu>
+Subject: Re: [PATCH 0/5] staging: comedi: tests: Fix various issues
+Message-ID: <20210414132818.GF6048@kadam>
+References: <20210407140142.447250-1-abbotti@mev.co.uk>
+ <YG3LY0hhDhzeXa1V@kroah.com>
+ <3d70fc39-3c3f-16af-d4bb-e4dc2c9ffc26@mev.co.uk>
+ <YG3rUN0fvyA6HCpf@kroah.com>
+ <20210414100905.GD6048@kadam>
+ <2955bb05-fa59-c35a-b5a2-a5aedb4c96a8@mev.co.uk>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2955bb05-fa59-c35a-b5a2-a5aedb4c96a8@mev.co.uk>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9954 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
+ mlxscore=0 malwarescore=0 adultscore=0 bulkscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104140092
+X-Proofpoint-ORIG-GUID: 6-loLX8KaNMwitshSHu8mjmVGdJGGHF1
+X-Proofpoint-GUID: 6-loLX8KaNMwitshSHu8mjmVGdJGGHF1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9954 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 clxscore=1015
+ adultscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 spamscore=0
+ impostorscore=0 suspectscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104140092
 
-On Wednesday, April 14, 2021 2:18:13 PM CEST Greg Kroah-Hartman wrote:
-> On Wed, Apr 14, 2021 at 01:52:43PM +0200, Fabio M. De Francesco wrote:
-> > Removed the led_blink_hdl() function (declaration and definition).
-> > Declared dummy_function() in include/rtw_mlme_ext.h and defined it in
-> > core/rtw_cmd.c. Changed the second parameter of GEN_MLME_EXT_HANDLER
-> > macro to make use of dummy_function().
+On Wed, Apr 14, 2021 at 01:34:23PM +0100, Ian Abbott wrote:
+> > drivers/staging/comedi/drivers/ni_routes.c:61 ni_find_route_values() warn: 'device_family' sometimes too small '8,11' size = 30
+> >      59          for (i = 0; ni_all_route_values[i]; ++i) {
+> >      60                  if (memcmp(ni_all_route_values[i]->family, device_family,
+> >                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> >      61                             strnlen(device_family, 30)) == 0) {
+> >                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > This whole memcmp() is very strange.  Why not just use:
+> > 
+> > 	if (strncmp(ni_all_route_values[i]->family, device_family, 30) == 0)
 > 
-> No no no.
+> I think even a simple strcmp() would do as well because all the device
+> family strings and board name strings are null terminated.  I don't know why
+> the magic number 30 is used here!
 > 
-> If you want to remove is function declaration and use, then do it
-> properly.
+> The above applies similarly to ni_find_valid_routes() too.
 > 
-> The code is crazy, I agree, but it should not be difficult to just
-> remove this correctly instead of papering over this mess.
-> 
-> Also note that no one actually calls this function if you look at the
-> logic here.  
->
-> It might take some good knowledge of C to unwind this crud,
-> but once done, you should be able to "prove" it's not called
->
-Proving that no one actually calls it it's beyond my 
-current knowledge of programming with C.
 
-Matthew W., who is for sure more experienced than I am , 
-wrote that that function pointer in the array is used somewhere else. 
+I was thinking maybe ni_all_route_values[i]->family has an additional
+string on the end.  For example, it could end in "_bar" and we want
+->family "foo_bar" to match with device_family "foo"?
 
-Copied and pasted here from his message:
-
-"Here's where the driver calls that function:
-$ git grep wlancmds drivers/staging/rtl8723bs/
-drivers/staging/rtl8723bs/core/rtw_cmd.c:static struct cmd_hdl wlancmds[] = {
-drivers/staging/rtl8723bs/core/rtw_cmd.c:               if (pcmd->cmdcode < ARRAY_SIZE(wlancmds)) {
-drivers/staging/rtl8723bs/core/rtw_cmd.c:                       cmd_hdl = wlancmds[pcmd->cmdcode].h2cfuns;
->
-> and how to
-> remove it correctly.
->
-I think that doing it correctly depends on the "prove" which you requested.
-Doesn't it?
-> 
-> And no, I'm not going to say how to do it, that's an exercise best left
-> for the reader.
->
-It sounds perfectly reasonable and I agree in full.
->
-> But I will hint that this was done in the past, in
-> 2014, in another driver in the tree with a codebase much like this one,
-> so it shouldn't be hard to find an example of it.  Only took me a few
-> minutes...
->
-I'm sure it took you only a few minutes. If this can be accomplished by using grep 
-on git log output I need some time to read this command manual again. I suppose 
-that the search should be made by combining "remove", "function", "drivers/staging",
-and "2014". At the moment I don't know how to do that.
-
-Notwithstanding I have said all that you read above, you can be sure that I won't give
-up so easily even if it will take days :) 
-> 
-> good luck!
->
-Thanks, 
-
-Fabio
-> 
-> greg k-h
-
-
+regards,
+dan carpenter
 
