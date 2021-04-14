@@ -1,49 +1,51 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5330B72
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 06:56:29 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id d124so13070435pfa.13
-        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 23:56:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=QAdy8nO8sPO8ys8krsfaC4uTkzbD3JcH3dkMY189rx4=;
-        b=Ps0hH/LUdoDEUpfQpfyZNEhz4kWUppQUJJkxmfLlhtWchAhGJ2f/CfwFFg2cU4cjoF
-         9o8fbNgAkf3X4fcSAxQUoPrRHvHJqSjwCtePv0LgtRqvZEn9/h505kJcgbFVXrJ8RBe+
-         5YwbBYDLpQ1TYbO4baCrVCbZgIW1JKIWnT8hlNWe3gWdk5/UApWTDkRvAXolsCyutQEX
-         K7K9VOrrWpSh+gGdKwNVkFbSaoAgER3O5lkM0wJsmx2UOub45Qc81/vNIzlTag1LDHf7
-         IxW5GYpPBXrfGNYkL0EzHp0GPTgNSTG+ULEFCeuMn/x1aPPbVN5R7iD0nXlX90cXO7A4
-         sNlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=QAdy8nO8sPO8ys8krsfaC4uTkzbD3JcH3dkMY189rx4=;
-        b=HOoqRen3/VAY5NlfKSkY7edApYJvG0zYm+h6KwaL7yZrqcvQST7qYm3+Z2lfprFkNt
-         fceFdwneHO3pNekop2se+CxZcIPigRSFYSD8FC5YG/qVnbc0N7JJ/PFOGzoHejN9FCKu
-         PNNKDho81RTTF4BeYgU5xYHRmCzaixtglMfmZW9fSEsqV2exXkmR/5xrNPiKUXAFoLas
-         Y4Wb89xO3EpmtTsUkepr840yIlpI1O2k41N1Q6sqnkyh1WdaFZnnuPMqiHQ0zIzASkqg
-         bx7rHkIfJwkmY2mHM78tP6aXIRK2ysPDUStOm8nNHG0bqvL1Xo3Wm0bPd8HqM0RyqJm0
-         ERQQ==
-X-Gm-Message-State: AOAM532QlhBVI1rmI5VakSIDL6z+SI8FgIbMuGZtl1nvdhbyTD5dy2uk
-	NFeGB3WCxVlR6FLJDtCX4MU=
-X-Google-Smtp-Source: ABdhPJwiPG5yRCZLBFbsCXflGJceDl1QR/7IpKdmbdRmD4a6kowvdB56Dm10Bc6QLpl4pmd64l54Tw==
-X-Received: by 2002:a65:4887:: with SMTP id n7mr36018509pgs.14.1618383388867;
-        Tue, 13 Apr 2021 23:56:28 -0700 (PDT)
-Received: from kali ([103.141.87.253])
-        by smtp.gmail.com with ESMTPSA id g24sm14123731pgn.18.2021.04.13.23.56.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 23:56:28 -0700 (PDT)
-Date: Wed, 14 Apr 2021 12:26:20 +0530
-From: Mitali Borkar <mitaliborkar810@gmail.com>
-To: gregkh@linuxfoundation.org, davem@davemloft.net, kuba@kernel.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: [PATCH v2 5/5] staging: rtl8192e: removed multiple blank lines
-Message-ID: <2bfe551f152a611cc49a71a4984f41ef7ee69df5.1618380932.git.mitaliborkar810@gmail.com>
-References: <cover.1618380932.git.mitaliborkar810@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C903972
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 07:00:54 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13E6oU9i193686;
+	Wed, 14 Apr 2021 07:00:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=m/BC1PXDIRHi2UEq3219ItPZCDRmPUW6dTcnGRZcjxY=;
+ b=JPZS+leU8X3ymojlV9/FmnKxJQSxThB5TdrHD6eFOJ+MzMzyiz0pPYK8vI2U9tNbr+9p
+ lVeOYnbsdQIW48RPG9kMx8jQzBhF3D9eTv9oD15QlKX4BzkIE2NOZksaieqvJalMVe1h
+ mH0RpL7INo1iCddd62XOxSDV/QxqqbrC/vxZBOQDIM3ENu+7txTWME7J0xnJl+Pu0CrW
+ FjcF3FlljAvxduv8JRp4sDqhAYT1RJ7ctZBvhXIYKw7nfqTSR4E1SvmKMF8W3hqrzm2B
+ amwNoLcZ/AYqZvKwi/h/tvLET8DoQZMLUrr+LMqZXFsVknbDTDhdaydSUsFICNx+tuAw +g== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by aserp2120.oracle.com with ESMTP id 37u3ymha26-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 Apr 2021 07:00:39 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13E6nWMu022173;
+	Wed, 14 Apr 2021 07:00:37 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by userp3020.oracle.com with ESMTP id 37unstgv07-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 Apr 2021 07:00:37 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13E70XIn028227;
+	Wed, 14 Apr 2021 07:00:33 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Wed, 14 Apr 2021 00:00:32 -0700
+Date: Wed, 14 Apr 2021 10:00:25 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Matthew Wilcox <willy@infradead.org>, Julia Lawall <julia.lawall@inria.fr>,
+        outreachy-kernel@googlegroups.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [Outreachy kernel] [PATCH] :staging: rtl8723bs: Remove useless
+ led_blink_hdl()
+Message-ID: <20210414070025.GB6048@kadam>
+References: <20210413155908.8691-1-fmdefrancesco@gmail.com>
+ <3505455.GpAHCVcAZI@linux.local>
+ <20210414052150.GO6021@kadam>
+ <2418632.vfNx7fMs9o@linux.local>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -51,79 +53,138 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1618380932.git.mitaliborkar810@gmail.com>
+In-Reply-To: <2418632.vfNx7fMs9o@linux.local>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
+ malwarescore=0 suspectscore=0 bulkscore=0 mlxscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104140046
+X-Proofpoint-GUID: uhSbYR7RrlWs6VDyQdG19EBzB06XCwT-
+X-Proofpoint-ORIG-GUID: uhSbYR7RrlWs6VDyQdG19EBzB06XCwT-
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=999 spamscore=0
+ impostorscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0
+ bulkscore=0 phishscore=0 suspectscore=0 malwarescore=0 clxscore=1031
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104140046
 
-Removed multiple blank lines to make code better and neater.
-Reported by checkpatch.
+On Wed, Apr 14, 2021 at 08:33:48AM +0200, Fabio M. De Francesco wrote:
+> On Wednesday, April 14, 2021 7:21:50 AM CEST Dan Carpenter wrote:
+> > On Tue, Apr 13, 2021 at 10:08:32PM +0200, Fabio M. De Francesco wrote:
+> > > On Tuesday, April 13, 2021 9:48:44 PM CEST Matthew Wilcox wrote:
+> > > > On Tue, Apr 13, 2021 at 09:45:03PM +0200, Fabio M. De Francesco 
+> wrote:
+> > > > > 1) The driver doesn't call that function from anywhere else than
+> > > > > the
+> > > > > macro. 2) You have explained that the macro add its symbol to a
+> > > > > slot
+> > > > > in an array that would shift all the subsequent elements down if
+> > > > > that
+> > > > > macro is not used exactly in the line where it is.
+> > > > > 3) Dan Carpenter said that that array is full of null functions (or
+> > > > > empty slots?).
+> > > > > 
+> > > > > Unless that function is called anonymously dereferencing its
+> > > > > address
+> > > > > from the position it occupies in the array, I'm not able to see
+> > > > > what
+> > > > > else means can any caller use.
+> > > > > 
+> > > > > I know I have much less experience than you with C: what can go
+> > > > > wrong?
+> > > > 
+> > > > Here's where the driver calls that function:
+> > > > 
+> > > > $ git grep wlancmds drivers/staging/rtl8723bs/
+> > > > drivers/staging/rtl8723bs/core/rtw_cmd.c:static struct cmd_hdl
+> > > > wlancmds[] = { drivers/staging/rtl8723bs/core/rtw_cmd.c:            
+> > > >   if
+> > > > (pcmd->cmdcode < ARRAY_SIZE(wlancmds)) {
+> > > > drivers/staging/rtl8723bs/core/rtw_cmd.c:                      
+> > > > cmd_hdl
+> > > > = wlancmds[pcmd->cmdcode].h2cfuns;
+> > > 
+> > > OK, I had imagined an anonymous call from its location in the array (as
+> > > I wrote in the last phrase of my message). However, I thought that it
+> > > could have been an improbable possibility, not a real one.
+> > > 
+> > > Linux uses a lot of interesting ideas that newcomers like me should
+> > > learn. Things here are trickier than they appear at first sight.
+> > 
+> > One trick would be to build the Smatch cross function database.
+> > 
+> > https://www.spinics.net/lists/smatch/msg00568.html 
+> > 
+> > Then you could do:
+> > 
+> > $ ~/path/to/smatch_data/db/smdb.py led_blink_hdl
+> > file | caller | function | type | parameter | key | value |
+> > drivers/staging/rtl8723bs/core/rtw_cmd.c |       rtw_cmd_thread |
+> > rtw_cmd_thread ptr cmd_hdl |           INTERNAL | -1 |                 |
+> > uchar(*)(struct adapter*, uchar*)
+> > drivers/staging/rtl8188eu/core/rtw_cmd.c |       rtw_cmd_thread |
+> > rtw_cmd_thread ptr cmd_hdl |           INTERNAL | -1 |                 |
+> > uchar(*)(struct adapter*, uchar*)
+> > drivers/staging/rtl8188eu/core/rtw_cmd.c |       rtw_cmd_thread |
+> > rtw_cmd_thread ptr cmd_hdl |           BUF_SIZE |  1 |            pbuf |
+> > 1,4,6,8,12,14,16,19-20,23-24,48,740,884,892,900,960
+> > 
+> > 
+> > Which says that led_blink_hdl() is called as a function pointer called
+> > "cmd_hdl" from rtw_cmd_thread().
+> > 
+> > Hm...  It says it can be called from either rtw_cmd_thread() function
+> > (the rtl8723bs or rtl8188eu version) which is not ideal.  But also
+> > basically harmless so whatever...
+> > 
+> > regards,
+> > dan carpenter
+> >
+> Nice tool, thanks. I'll surely use it when it is needed to find out which  
+> callers use a function pointer.
+> 
+> However I cannot see how it can help in this context. That function *does* 
+> something, even if I cannot understand why someone needs a function to test 
+> the initialization of a pointer. Furthermore it is actually called by 
+> rtw_cmd_thread() (as you found out by using smatch) that expect one of the 
+> two possible values that led_blink_hdl() returns.
+> 
+> That said, what trick could I use for the purpose of getting rid of that 
+> function? At this point I'm not sure it could be made.
 
-Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
----
- 
-Changes from v1:- No changes.
+If you look at how this is called:
 
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 7 -------
- 1 file changed, 7 deletions(-)
+drivers/staging/rtl8723bs/core/rtw_cmd.c
+   449                  memcpy(pcmdbuf, pcmd->parmbuf, pcmd->cmdsz);
+   450  
+   451                  if (pcmd->cmdcode < ARRAY_SIZE(wlancmds)) {
+   452                          cmd_hdl = wlancmds[pcmd->cmdcode].h2cfuns;
+   453  
+   454                          if (cmd_hdl) {
+   455                                  ret = cmd_hdl(pcmd->padapter, pcmdbuf);
+                                                                      ^^^^^^^
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index b11b0054d8cb..955442b95bdc 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -214,7 +214,6 @@ static u8 HTIOTActIsDisableMCS14(struct rtllib_device *ieee, u8 *PeerMacAddr)
- 	return 0;
- }
- 
--
- static bool HTIOTActIsDisableMCS15(struct rtllib_device *ieee)
- {
- 	return false;
-@@ -236,7 +235,6 @@ static u8 HTIOTActIsMgntUseCCK6M(struct rtllib_device *ieee,
- {
- 	u8	retValue = 0;
- 
--
- 	if (ieee->pHTInfo->IOTPeer == HT_IOT_PEER_BROADCOM)
- 		retValue = 1;
- 
-@@ -315,7 +313,6 @@ void HTConstructCapabilityElement(struct rtllib_device *ieee, u8 *posHTCap,
- 	pCapELE->PSMP = 0;
- 	pCapELE->LSigTxopProtect = 0;
- 
--
- 	netdev_dbg(ieee->dev,
- 		   "TX HT cap/info ele BW=%d MaxAMSDUSize:%d DssCCk:%d\n",
- 		   pCapELE->ChlWidth, pCapELE->MaxAMSDUSize, pCapELE->DssCCk);
-@@ -390,7 +387,6 @@ void HTConstructInfoElement(struct rtllib_device *ieee, u8 *posHTInfo,
- 
- 		memset(pHTInfoEle->BasicMSC, 0, 16);
- 
--
- 		*len = 22 + 2;
- 
- 	} else {
-@@ -541,7 +537,6 @@ void HTOnAssocRsp(struct rtllib_device *ieee)
- 	else
- 		pPeerHTInfo = (struct ht_info_ele *)(pHTInfo->PeerHTInfoBuf);
- 
--
- #ifdef VERBOSE_DEBUG
- 	print_hex_dump_bytes("%s: ", __func__, DUMP_PREFIX_NONE,
- 			     pPeerHTCap, sizeof(struct ht_capab_ele));
-@@ -562,7 +557,6 @@ void HTOnAssocRsp(struct rtllib_device *ieee)
- 			       ((pPeerHTCap->DssCCk == 1) ? true :
- 			       false) : false);
- 
--
- 	pHTInfo->bCurrent_AMSDU_Support = pHTInfo->bAMSDU_Support;
- 
- 	nMaxAMSDUSize = (pPeerHTCap->MaxAMSDUSize == 0) ? 3839 : 7935;
-@@ -750,7 +744,6 @@ void HTResetSelfAndSavePeerSetting(struct rtllib_device *ieee,
- 		if (bIOTAction)
- 			pHTInfo->IOTAction |= HT_IOT_ACT_DISABLE_ALL_2SS;
- 
--
- 		bIOTAction = HTIOTActIsDisableEDCATurbo(ieee, pNetwork->bssid);
- 		if (bIOTAction)
- 			pHTInfo->IOTAction |= HT_IOT_ACT_DISABLE_EDCA_TURBO;
--- 
-2.30.2
+   456                                  pcmd->res = ret;
+   457                          }
+   458  
+   459                          pcmdpriv->cmd_seq++;
+   460                  } else {
+   461                          pcmd->res = H2C_PARAMETERS_ERROR;
+   462                  }
+   463  
+   464                  cmd_hdl = NULL;
+
+The led_blink_hdl() function returns success if "pcmdbuf" is non-NULL
+and fail if it's NULL.  "pcmdbuf" is never supposed to be NULL.  (The
+"supposed" caveat is because there may be a race in rtw_sdio_if1_init()
+which briefly allows a NULL "pcmdbuf", but that is an unrelated bug).
+
+Anyway, there is no point to the led_blink_hdl() function.  Likely
+they intended it to do something but never got around to implementing
+it.  Just delete it.
+
+regards,
+dan carpenter
 
