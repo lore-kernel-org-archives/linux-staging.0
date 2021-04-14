@@ -1,127 +1,78 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtprelay.hostedemail.com (smtprelay0243.hostedemail.com [216.40.44.243])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC9F6D28
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 15:36:57 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id v6so30798702ejo.6
-        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 08:36:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=f1Y5+4VG6CJZgdx4UWOh8zx7QoiyJatpZDoj3QFWUTQ=;
-        b=piifReYeJ7FkLTHElIuXKecxeioDin2ZIZeegb8sFHRXjwXt1JAz67On69HayK6LXp
-         WXnsqQdz0qMTdsYaz13CI4Ps5BUZMZoSo+ctENjK/Msqg3CfNLwgy1l0yGqQX0h3RXr/
-         bar7RE5EEh7Om2DAWmBxCbhpHXRQQvpp0WGF7W+UiN3onvUnaYrGza5MqgJL4vQ2xwrm
-         UF23oOWmUZWXUvuCSV8Vv+PwJJ6l2bHk8N/LurpMl9GqeGYxZJl+M89fltT0zEin7GUW
-         7yjZkoUHPaefPgIiBu8hKc54YgcQExl6vbEdxrwHPGepZyWC7NlIXAyvR07dtK8dQaoG
-         G0rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=f1Y5+4VG6CJZgdx4UWOh8zx7QoiyJatpZDoj3QFWUTQ=;
-        b=SOo4/B8ZOEzz8kk27JYGRdwPfY9kn22gaVmx5cv1E3Q5ceUuNw7SNKWCPgP/+/FxZ4
-         zTik+ovFoMm9IehKwIMLQWcN+3K3hGANJVbluwSjMT/UNmXQzqJNSk5p5aGgppVFKZDb
-         TjmgxGMOt8Ah2ldkA5wU+5UpYk0DbHzrkkjHEctzq7JSrIoE8Dm6eisc7oEmuktU7i2O
-         UrH19LRHl3IwlQdkN97CiF1Q9aLBaQKmChe++RkIKz+Qglv+RpJ3wsOt9+inRux++KQR
-         ysPm0Y9JoLCYYRuFhne8gTWrRjciSqR046BmWtpJtz252MbYqf7a3utK9FwBqgQ1BY5+
-         Cpcw==
-X-Gm-Message-State: AOAM530ru7+39rxfUQ22cQFyJo0D0ceoLfjczoB9Ar0VsQcGbxkcmxxM
-	7D1mib3LM53biuoL2zm0xPA=
-X-Google-Smtp-Source: ABdhPJz/ztdQYwfO6w1xd3uWCzCPiq1t76zGTPKMWBjS1uCJxfpa/klwJrm+tbjyMWJ5of0/aiFt+Q==
-X-Received: by 2002:a17:907:629e:: with SMTP id nd30mr38150830ejc.407.1618414616155;
-        Wed, 14 Apr 2021 08:36:56 -0700 (PDT)
-Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
-        by smtp.gmail.com with ESMTPSA id t1sm12190317eds.53.2021.04.14.08.36.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 08:36:55 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: outreachy-kernel@googlegroups.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>, Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8723bs: Remove useless led_blink_hdl()
-Date: Wed, 14 Apr 2021 17:36:54 +0200
-Message-ID: <4318909.BRL0aILv4p@linux.local>
-In-Reply-To: <20210414132414.GE6048@kadam>
-References: <20210414115243.32716-1-fmdefrancesco@gmail.com> <20210414132414.GE6048@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4BD6D28
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 16:11:53 +0000 (UTC)
+Received: from omf16.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+	by smtprelay08.hostedemail.com (Postfix) with ESMTP id 27C7C182CCCA1;
+	Wed, 14 Apr 2021 16:11:47 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf16.hostedemail.com (Postfix) with ESMTPA id 4525E255108;
+	Wed, 14 Apr 2021 16:11:45 +0000 (UTC)
+Message-ID: <c502a48ded02fb681a5978b5af888c74be9625ec.camel@perches.com>
+Subject: Re: [PATCH] staging: greybus: Match parentheses alignment
+From: Joe Perches <joe@perches.com>
+To: Alex Elder <elder@ieee.org>, Greg KH <gregkh@linuxfoundation.org>, 
+	Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>
+Cc: johan@kernel.org, elder@kernel.org, greybus-dev@lists.linaro.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	outreachy-kernel@googlegroups.com, Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Wed, 14 Apr 2021 09:11:40 -0700
+In-Reply-To: <78c88472-9ed9-bade-407c-23bd557f19bb@ieee.org>
+References: <20210406124259.GA96537@zhans> <YGxhrLZPIPjILWUH@kroah.com>
+	 <7d7be8bcc0e80d826083890ed7791070ad25e603.camel@perches.com>
+	 <1607b040-6bc4-9a58-ae81-4ea0adf5885d@ieee.org>
+	 <b22ffa716ee871f7e09ad7321213a897156edab0.camel@perches.com>
+	 <78c88472-9ed9-bade-407c-23bd557f19bb@ieee.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 4525E255108
+X-Spam-Status: No, score=0.10
+X-Stat-Signature: 81yw9jqkbykio1i5aqrot1ef8c8sizcx
+X-Rspamd-Server: rspamout04
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+sMqN7x+9JMu+tt9FlJx5gWwVR7LAVi4o=
+X-HE-Tag: 1618416705-920260
 
-On Wednesday, April 14, 2021 3:24:14 PM CEST Dan Carpenter wrote:
-> On Wed, Apr 14, 2021 at 01:52:43PM +0200, Fabio M. De Francesco wrote:
-> > Removed the led_blink_hdl() function (declaration and definition).
-> > Declared dummy_function() in include/rtw_mlme_ext.h and defined it in
-> > core/rtw_cmd.c. Changed the second parameter of GEN_MLME_EXT_HANDLER
-> > macro to make use of dummy_function().
+On Wed, 2021-04-14 at 09:35 -0500, Alex Elder wrote:
+> On 4/14/21 9:29 AM, Joe Perches wrote:
+> > On Wed, 2021-04-14 at 08:17 -0500, Alex Elder wrote:
+> > > Perhaps (like the -W options for GCC) there
+> > > could be a way to specify in a Makefile which checkpatch
+> > > messages are reported/not reported?  I don't claim that's
+> > > a good suggestion, but if I could optionally indicate
+> > > somewhere that "two consecutive blank lines is OK for
+> > > Greybus" (one example that comes to mind) I might do so.
 > > 
-> > Reported-by: Julia Lawall <julia.lawall@inria.fr>
-> > Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > ---
+> > checkpatch already has --ignore=<list> and --types=<list>
+> > for the various classes of messages it emits.
 > > 
-> >  drivers/staging/rtl8723bs/core/rtw_cmd.c         | 4 +++-
-> >  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    | 9 ---------
-> >  drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 3 ++-
-> >  3 files changed, 5 insertions(+), 11 deletions(-)
+> > see: $ ./scripts/checkpatch.pl --list-types --verbose
 > > 
-> > diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> > b/drivers/staging/rtl8723bs/core/rtw_cmd.c index
-> > 0297fbad7bce..7b6102a2bb2c 100644
-> > --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> > +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> > @@ -87,6 +87,8 @@ static struct _cmd_callback rtw_cmd_callback[] = {
+> > Dwaipayan Ray (cc'd) is supposedly working on expanding
+> > the verbose descriptions of each type.
 > > 
-> >  	{GEN_CMD_CODE(_RunInThreadCMD), NULL},/*64*/
-> >  
-> >  };
-> > 
-> > +u8 dummy_functioni(struct adapter *var0, u8 *var1) { return 0; }
-> > +
-> > 
-> >  static struct cmd_hdl wlancmds[] = {
-> >  
-> >  	GEN_DRV_CMD_HANDLER(0, NULL) /*0*/
-> >  	GEN_DRV_CMD_HANDLER(0, NULL)
-> > 
-> > @@ -150,7 +152,7 @@ static struct cmd_hdl wlancmds[] = {
-> > 
-> >  	GEN_MLME_EXT_HANDLER(0, h2c_msg_hdl) /*58*/
-> >  	GEN_MLME_EXT_HANDLER(sizeof(struct SetChannelPlan_param),
-> >  	set_chplan_hdl) /*59*/> 
-> > -	GEN_MLME_EXT_HANDLER(sizeof(struct LedBlink_param), 
-led_blink_hdl)
-> > /*60*/ +	GEN_MLME_EXT_HANDLER(sizeof(struct LedBlink_param),
-> > dummy_function) /*60*/
-> No, no.  Don't create a dummy function. Do it like so:
 > 
-> 	GEN_DRV_CMD_HANDLER(0, NULL) /* 60 */
+> That's awesome, I wasn't aware of that.
 > 
-> regards,
-> dan carpenter
->
-I'm replying late because I didn't want to blindly use that solution; I 
-mean that I wanted to understand why I can simply put 0 and NULL into that 
-macro. I had seen it made in other lines that initialize wlancmds[] 
-elements, but I wasn't sure if it could work for the specific slot where 
-the pointer to led_blinck_hdl was supposed to be placed.
+> Any suggestions on a standardized way to say "in this
+> subtree, please provide these arguments to checkpatch.pl"?
+> 
+> I can probably stick it in a README file or something,
+> but is there an existing best practice?
 
-Now I think that it is why, in this case, cmd_hdl would be set to NULL by 
-the call to wlancmds[pcmd->cmdcode].h2cfuns and the cmd_hdl() function 
-wouldn't be called because cmd_hdl is tested within an "if" statement.
+There is no standardized mechanism for this checkpatch use.
 
-Therefore a simple GEN_DRV_CMD_HANDLER(0, NULL) at slot number would be the 
-simplest and most obvious solution.
+Putting something in a staging README is in general a good way for
+it to _not_ be read by people doing 'my first kernel patch'.
 
-Is the above argument sound?
+I still think emitting a message for overly long identifiers could
+be a decent checkpatch test.
 
-Thanks for your kind help,
-
-Fabio
-
-
+https://lore.kernel.org/lkml/1518801207.13169.15.camel@perches.com/
 
