@@ -1,41 +1,72 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from smtprelay.hostedemail.com (smtprelay0058.hostedemail.com [216.40.44.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA586D14
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 08:31:51 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B527C61027;
-	Wed, 14 Apr 2021 08:31:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1618389110;
-	bh=UqnrkAY5MJVDS6ANSGLwQ1hvxAhnqyVqlb1wgCE9y8I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=yeS7dj4eSk4apT2HzoxUc+pbEYrUvjYMSx3dzWyn8TsEyjqWQ4pU1pvvfCc0eHGCj
-	 aeUm/eK9RmiZXvYHAJM++d9wKTD5hVCAYWusRYbAPzjf88060nqJA/W33HfRvkPtlZ
-	 TsQy0WudHHFJyEebu07vQ9EGlSLri54T18y0IDgQ=
-Date: Wed, 14 Apr 2021 10:31:47 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Mitali Borkar <mitaliborkar810@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: Re: [PATCH v6 1/2] staging: rtl8192e: remove parentheses around
- boolean expression
-Message-ID: <YHaoc3N2fidI0TQ6@kroah.com>
-References: <cover.1618383684.git.mitaliborkar810@gmail.com>
- <60483f646c16ffd3c19ca8f508a1f1c3a0a13db6.1618383684.git.mitaliborkar810@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1736D6D14
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 08:32:37 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+	by smtpgrave02.hostedemail.com (Postfix) with ESMTP id D57A6180D716C
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 08:32:36 +0000 (UTC)
+Received: from omf05.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+	by smtprelay02.hostedemail.com (Postfix) with ESMTP id EA65B4F9CB8B;
+	Wed, 14 Apr 2021 08:32:29 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf05.hostedemail.com (Postfix) with ESMTPA id 00C88B2798;
+	Wed, 14 Apr 2021 08:32:28 +0000 (UTC)
+Message-ID: <d03e8b4ce25fe9e3b5e5597d83802eea83e7caa2.camel@perches.com>
+Subject: Re: [PATCH 12/19] staging: rtl8723bs: remove unnecessary bracks on
+ DBG_871X removal sites
+From: Joe Perches <joe@perches.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>, Fabio Aiuto
+	 <fabioaiuto83@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Wed, 14 Apr 2021 01:32:27 -0700
+In-Reply-To: <20210413145245.GG6021@kadam>
+References: <cover.1617802415.git.fabioaiuto83@gmail.com>
+	 <35f5edf0f39b717b3de3ad7861cbaa5f4ba60576.1617802415.git.fabioaiuto83@gmail.com>
+	 <20210413145245.GG6021@kadam>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <60483f646c16ffd3c19ca8f508a1f1c3a0a13db6.1618383684.git.mitaliborkar810@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 00C88B2798
+X-Spam-Status: No, score=0.10
+X-Stat-Signature: xd3di5p38fnfpm3u6iu38r85oak485wx
+X-Rspamd-Server: rspamout04
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19OYrLfAlGdjVpbOKSYlKEKzknU7FRL29Q=
+X-HE-Tag: 1618389148-702812
 
-On Wed, Apr 14, 2021 at 12:51:55PM +0530, Mitali Borkar wrote:
-> Removed unnecessary parentheses around '!xyz' boolean expression as '!'
-> has higher precedance than '||'
+On Tue, 2021-04-13 at 17:52 +0300, Dan Carpenter wrote:
+> On Wed, Apr 07, 2021 at 03:49:36PM +0200, Fabio Aiuto wrote:
+> > @@ -2586,11 +2583,9 @@ static int rtw_dbg_port(struct net_device *dev,
+> >  
+> > 
+> >  								plist = get_next(plist);
+> >  
+> > 
+> > -								if (extra_arg == psta->aid) {
+> > -									for (j = 0; j < 16; j++) {
+> > +								if (extra_arg == psta->aid)
+> > +									for (j = 0; j < 16; j++)
+> >  										preorder_ctrl = &psta->recvreorder_ctrl[j];
+> > -									}
+> > -								}
 > 
-> Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
-> ---
+> I think Greg already applied this so no stress (don't bother fixing),
+> but you removed a bit too much on this one.  Multi-line indents normally
+> get curly braces for readability.  In other words:
+> 
+> 				if (extra_arg == psta->aid) {
+> 					for (j = 0; j < 16; j++)
+> 						preorder_ctrl = &psta->recvreorder_ctrl[j];
+> 				}
+> 
+> regards,
+> dan carpenter
+> 
 
-This series does not apply to my tree :(
+
