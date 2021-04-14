@@ -1,103 +1,90 @@
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1BD772
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 14:30:34 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-	by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13EETLUG165847;
-	Wed, 14 Apr 2021 14:30:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=ZLSwH72RjGyG/ruSYBWYRjq6UpSWyIWKtg2qdWALORw=;
- b=elASTvdu58XkYIphcvA+fRFWVyXPyIoCCKHn/JrZnAy35P+vQCQub8rTtfayoHY9tVI7
- ZpABCH8uHkVTNb+ZeGu8AShqtlx1AK37GsyRdTBOIQ0YqXHikfvXG2hm40K7zk0QPU/z
- +MGH7hgwYYxQuLBt3n9SDhFxOzqKmmtP2XNmYrqZR5apmlbHHu79BaBk9EzUZ3bS1tVN
- j+CExStDvs95+Ifxi4C0D31BkhOLB1NQ8eQOtqpYP4vTgU27xFzQuu3TyCJe3ZRI23T1
- E2YTuN1ZoBvZf8F7B9WwS3TNY9nRA/ObZDsPfP6AASyJzIOIoHzsQsvzhlnYSQFRYXN0 yg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-	by userp2120.oracle.com with ESMTP id 37u4nnjkrd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 14 Apr 2021 14:30:22 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-	by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13EEQQ2n072555;
-	Wed, 14 Apr 2021 14:30:20 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by userp3030.oracle.com with ESMTP id 37unxyftgw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 14 Apr 2021 14:30:20 +0000
-Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13EEUJ6s005601;
-	Wed, 14 Apr 2021 14:30:19 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Wed, 14 Apr 2021 07:30:18 -0700
-Date: Wed, 14 Apr 2021 17:30:11 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Subject: Re: [PATCH 1/2] staging: media: atomisp: pci: Correct identation in
- block of conditional statements in file atomisp_v4l2.c
-Message-ID: <20210414143011.GV6021@kadam>
-References: <cover.1618409028.git.alinesantanacordeiro@gmail.com>
- <0ef18a36d6905628fa596fd5e0a32fdb9c6a8ada.1618409028.git.alinesantanacordeiro@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B834B6D28
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 14:35:16 +0000 (UTC)
+Received: by mail-il1-f180.google.com with SMTP id c15so17314702ilj.1
+        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 07:35:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ieee.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=2rbXicCAr8vD+feC/9JhEPaSLkL44d68CS0R7zJKVxY=;
+        b=hEUjns1QGUe9hO2hoejJrRwZPEIjpifBEJDMGjE71lvLMG3wCP4ayf8yeetHwOrBLn
+         SZFrt0tVnp6XeO2vmAN20wXb/LfZEFZH5t62jn/mYvVPBf55tw4UixdpuI4TjimH9QiW
+         THDaF4uAun6+vww12gQSxvamWIYPqGhQzq4Ko=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=2rbXicCAr8vD+feC/9JhEPaSLkL44d68CS0R7zJKVxY=;
+        b=Cnj+kiR3std/1zS78FZu1BNHvCfflIWVor5JIZhCyhNjAYCt0k8Ss+z366dKJRcdd7
+         E2Ur157Yfu4FjEsalZ6vx3uTEHU15mpQT1OCHXtu7n7+/aalZqeBiFnE3Frr5AdFKCAh
+         tydMbWNS/Ozb/OQmsPBSMiwp5AQH2wgTQBLeS0Jbdj9nJXUmyoQOuuYyU+5thBNSkLwn
+         l/yCqscvPMCPa5iSQnnK+H0hTjNoRQ+esq1WanjSHl6xFOz+3/XUDpjOkKMPaZ/7xKKv
+         A+fQsjAUXY1ZfqJp4Md4ol5PpiHa/dJ81TlEOGwQhGkjmDwCfMqKV5FNdcElAGZ+hEw4
+         BBOw==
+X-Gm-Message-State: AOAM533oBlAMfloZPqnvazBlMFo26VQtEGWMtsazH8CMFySjVNNchvGl
+	gXQhMGk+WxWH6UjRVYUcxhVuqg==
+X-Google-Smtp-Source: ABdhPJxgAKwab2DYZQHYvNRaf7til72OiIr8070gbCI5ZDj1UeVcKG4GIweVUT0I9E7hmkBo64gmkw==
+X-Received: by 2002:a92:ab01:: with SMTP id v1mr29484106ilh.230.1618410915925;
+        Wed, 14 Apr 2021 07:35:15 -0700 (PDT)
+Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
+        by smtp.googlemail.com with ESMTPSA id o6sm8257245ioa.21.2021.04.14.07.35.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Apr 2021 07:35:15 -0700 (PDT)
+Subject: Re: [PATCH] staging: greybus: Match parentheses alignment
+To: Joe Perches <joe@perches.com>, Greg KH <gregkh@linuxfoundation.org>,
+ Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>
+Cc: johan@kernel.org, elder@kernel.org, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ outreachy-kernel@googlegroups.com, Dwaipayan Ray <dwaipayanray1@gmail.com>
+References: <20210406124259.GA96537@zhans> <YGxhrLZPIPjILWUH@kroah.com>
+ <7d7be8bcc0e80d826083890ed7791070ad25e603.camel@perches.com>
+ <1607b040-6bc4-9a58-ae81-4ea0adf5885d@ieee.org>
+ <b22ffa716ee871f7e09ad7321213a897156edab0.camel@perches.com>
+From: Alex Elder <elder@ieee.org>
+Message-ID: <78c88472-9ed9-bade-407c-23bd557f19bb@ieee.org>
+Date: Wed, 14 Apr 2021 09:35:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0ef18a36d6905628fa596fd5e0a32fdb9c6a8ada.1618409028.git.alinesantanacordeiro@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9954 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 bulkscore=0 malwarescore=0
- spamscore=0 adultscore=0 phishscore=0 mlxlogscore=999 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104140101
-X-Proofpoint-ORIG-GUID: gPngORM0wg1Q-YZKP8iPkQupiFfcSrZp
-X-Proofpoint-GUID: gPngORM0wg1Q-YZKP8iPkQupiFfcSrZp
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9954 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0
- phishscore=0 suspectscore=0 mlxlogscore=999 priorityscore=1501
- clxscore=1011 lowpriorityscore=0 spamscore=0 impostorscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104140101
+In-Reply-To: <b22ffa716ee871f7e09ad7321213a897156edab0.camel@perches.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 14, 2021 at 11:06:02AM -0300, Aline Santana Cordeiro wrote:
-> Correct identation in block of conditional statements.
-> The function "v4l2_device_unregister_subdev()" depends on
-> the results of the macro function "list_for_each_entry_safe()".
+On 4/14/21 9:29 AM, Joe Perches wrote:
+> On Wed, 2021-04-14 at 08:17 -0500, Alex Elder wrote:
+>> Perhaps (like the -W options for GCC) there
+>> could be a way to specify in a Makefile which checkpatch
+>> messages are reported/not reported?  I don't claim that's
+>> a good suggestion, but if I could optionally indicate
+>> somewhere that "two consecutive blank lines is OK for
+>> Greybus" (one example that comes to mind) I might do so.
 > 
-> Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
-> ---
->  drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> checkpatch already has --ignore=<list> and --types=<list>
+> for the various classes of messages it emits.
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> index 0295e2e..6d853f4 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> @@ -1178,7 +1178,7 @@ static void atomisp_unregister_entities(struct atomisp_device *isp)
->  		atomisp_mipi_csi2_unregister_entities(&isp->csi2_port[i]);
->  
->  	list_for_each_entry_safe(sd, next, &isp->v4l2_dev.subdevs, list)
-> -	v4l2_device_unregister_subdev(sd);
-> +		v4l2_device_unregister_subdev(sd);
->  
+> see: $ ./scripts/checkpatch.pl --list-types --verbose
+> 
+> Dwaipayan Ray (cc'd) is supposedly working on expanding
+> the verbose descriptions of each type.
+> 
 
-It's really more common to use curly braces for list_for_each() one
-liners.
+That's awesome, I wasn't aware of that.
 
-	list_for_each_entry_safe(sd, next, &isp->v4l2_dev.subdevs, list) {
-		v4l2_device_unregister_subdev(sd);
-	}
+Any suggestions on a standardized way to say "in this
+subtree, please provide these arguments to checkpatch.pl"?
 
-regards,
-dan carpenter
+I can probably stick it in a README file or something,
+but is there an existing best practice?
 
+Thanks.
+
+					-Alex
