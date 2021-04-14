@@ -1,251 +1,126 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 648CF6D13
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 04:58:02 +0000 (UTC)
-Received: by mail-oi1-f177.google.com with SMTP id e66so4070941oif.11
-        for <linux-staging@lists.linux.dev>; Tue, 13 Apr 2021 21:58:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6wlThZ4jNN0ioF2MfnY6FzqbFzlJiNHXBqSEAZPxP5c=;
-        b=fkTXcIz5ARD1tpQ3/hc6cpGa2PSlG+mX8CDlC2L9Uyz00nkQrfYB16rA5c0xMOuQEJ
-         7QV9sq23vGqw4A8ScmkCcFwQZoMVgsHAZ/6S38kQ4yJxJK+laZWl/iK/wmRDUgxci4i4
-         +cfRh9g1/SR5IMP7cMB3zOMUiNA5xNMeRmB2RQ3fdmS40kO/lpebbCg+YMA0CVIO0OVc
-         KHimNsOmKfyTgbixW9d1/1xOFHMtcXyRQRq2TMXNEzjpSRTzqb0zGBR5HJHRDe0SBvmn
-         pdKI1ApPqFSoURuQLBReEdBcyQx+Lt0Vlu0f0wGSf8o0hjIXfNiO5iQ1E3QDGnjVBIrt
-         Hm9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6wlThZ4jNN0ioF2MfnY6FzqbFzlJiNHXBqSEAZPxP5c=;
-        b=IePZct+J5nQly8SMSvLlbsr4JdB10zKeq4g/2X7ccFsQgTA8QxIwywIAArP6IJWADO
-         Lv3/bX68gaSkZbIQHDVmNeEfzfZf4ap7P56NLn/4Va5I6uC6gFZMqbb9VkRw84nR/3QK
-         yG9pPPbNh2HuWK/W9jOX5pqspCJMtKN0/fxxUVOuuNUs4vRC3scmlRG/lT3rHpQ9A9KN
-         yBe4A87lTyT2tHJJ0C5jE24F9MYHj2YghKC6OGZKNrCeuFXrrnSA6r2CKB5Sx5gJCyAr
-         xjiheakaS5hVJDsCmxYd7ZAx6hX3wkc9Brvu3NRGIcPMzUWxfhO04Ih+7QI97RhfLKEC
-         ix4w==
-X-Gm-Message-State: AOAM531K5LFhgDvyg8zXO53gdeulJOIuIl92XsN//+CqAZGaoWpWD9c7
-	jiZbQOSJkLIcFNRO8bIoqWaNvPpz+h1weFrgH9k=
-X-Google-Smtp-Source: ABdhPJyflmQuHtPJKfX0BCNH9gEATBADpNyW9Um35LMgFBQF97+cgtCKd9vueR4ADNQEw71QaZojEVvGDDJOU1vep9o=
-X-Received: by 2002:a05:6808:286:: with SMTP id z6mr1022160oic.149.1618376281556;
- Tue, 13 Apr 2021 21:58:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B596D13
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 05:22:42 +0000 (UTC)
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+	by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13E5JgvP102985;
+	Wed, 14 Apr 2021 05:22:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=CZkptgcO3DGKGJ08iwMUHqqcUbf4lj+BxntMCOs7Pgg=;
+ b=LsZPIn9KekMDv6/z7JVklg4qX8brFrq2kGV+fjPr27SCCdagI5oyS20hTRohxbDSKfbV
+ AWjAOSE+pZ56WEjiYUQUM/ggzK/XWHVHVRf4GPYdBVC2S9oOxKZO6H9GvmKxxUI5x64G
+ 9Z09Ot3B1EElFzt9o5CtpNXtc7eX8VoUCyhnGSjkeVpp2qN4zSiOQRLwFawV5pYj8B/o
+ gDql57cbRC3R3iqyeWc4E5WEeQGJEvTdqS/ZTN7cDtpoRWhsPB4ohXD739lcz4HFObUS
+ hFy/z7EerHoRfFo2773Dcb29DLhxUiU4ZJwhbLZgVm4ZmHg3R+SSgKWk1ByGR/BZZWX+ ZQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by aserp2130.oracle.com with ESMTP id 37u1hbh7he-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 Apr 2021 05:22:05 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13E5KVwL169344;
+	Wed, 14 Apr 2021 05:22:04 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by aserp3030.oracle.com with ESMTP id 37unkqgyd7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 Apr 2021 05:22:04 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13E5Lwdd019636;
+	Wed, 14 Apr 2021 05:21:59 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Tue, 13 Apr 2021 22:21:58 -0700
+Date: Wed, 14 Apr 2021 08:21:50 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Matthew Wilcox <willy@infradead.org>, Julia Lawall <julia.lawall@inria.fr>,
+        outreachy-kernel@googlegroups.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [Outreachy kernel] [PATCH] :staging: rtl8723bs: Remove useless
+ led_blink_hdl()
+Message-ID: <20210414052150.GO6021@kadam>
+References: <20210413155908.8691-1-fmdefrancesco@gmail.com>
+ <7008359.Jy8utYDuns@linux.local>
+ <20210413194844.GR2531743@casper.infradead.org>
+ <3505455.GpAHCVcAZI@linux.local>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210410173331.57949-1-ilya.lipnitskiy@gmail.com>
- <CAMhs-H_GVj1DnhutUBo=Sdr38A8h9WnaJ7KX_-ge550qbujP7w@mail.gmail.com> <CALCv0x3qc5MVP0fm3HWD2CF27tX8z=g1A9T+yR15teU3jgOg6Q@mail.gmail.com>
-In-Reply-To: <CALCv0x3qc5MVP0fm3HWD2CF27tX8z=g1A9T+yR15teU3jgOg6Q@mail.gmail.com>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Wed, 14 Apr 2021 06:57:50 +0200
-Message-ID: <CAMhs-H-3+u0emL7oMex3ErgsD5=FtWQSuPXnLJT8axz+2y2oOw@mail.gmail.com>
-Subject: Re: [PATCH] staging: mt7621-pci: stop using of_pci_range_to_resource
-To: Ilya Lipnitskiy <ilya.lipnitskiy@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Siddhant Gupta <siddhantgupta416@gmail.com>, 
-	Selvakumar Elangovan <selvakumar16197@gmail.com>, linux-staging@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3505455.GpAHCVcAZI@linux.local>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
+ adultscore=0 phishscore=0 malwarescore=0 mlxscore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104140036
+X-Proofpoint-GUID: YEzxurop5mggoI9SiG_lYx3jEjcb2yFb
+X-Proofpoint-ORIG-GUID: YEzxurop5mggoI9SiG_lYx3jEjcb2yFb
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9953 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 priorityscore=1501
+ clxscore=1031 adultscore=0 mlxlogscore=999 impostorscore=0 malwarescore=0
+ lowpriorityscore=0 spamscore=0 phishscore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104140036
 
-Hi Illya,
+On Tue, Apr 13, 2021 at 10:08:32PM +0200, Fabio M. De Francesco wrote:
+> On Tuesday, April 13, 2021 9:48:44 PM CEST Matthew Wilcox wrote:
+> > On Tue, Apr 13, 2021 at 09:45:03PM +0200, Fabio M. De Francesco wrote:
+> > > 1) The driver doesn't call that function from anywhere else than the
+> > > macro. 2) You have explained that the macro add its symbol to a slot
+> > > in an array that would shift all the subsequent elements down if that
+> > > macro is not used exactly in the line where it is.
+> > > 3) Dan Carpenter said that that array is full of null functions (or
+> > > empty slots?).
+> > > 
+> > > Unless that function is called anonymously dereferencing its address
+> > > from the position it occupies in the array, I'm not able to see what
+> > > else means can any caller use.
+> > > 
+> > > I know I have much less experience than you with C: what can go wrong?
+> > 
+> > Here's where the driver calls that function:
+> > 
+> > $ git grep wlancmds drivers/staging/rtl8723bs/
+> > drivers/staging/rtl8723bs/core/rtw_cmd.c:static struct cmd_hdl wlancmds[]
+> > = { drivers/staging/rtl8723bs/core/rtw_cmd.c:               if
+> > (pcmd->cmdcode < ARRAY_SIZE(wlancmds)) {
+> > drivers/staging/rtl8723bs/core/rtw_cmd.c:                       cmd_hdl
+> > = wlancmds[pcmd->cmdcode].h2cfuns;
+> >
+> OK, I had imagined an anonymous call from its location in the array (as I 
+> wrote in the last phrase of my message). However, I thought that it could 
+> have been an improbable possibility, not a real one.
+> 
+> Linux uses a lot of interesting ideas that newcomers like me should learn. 
+> Things here are trickier than they appear at first sight.
 
-On Wed, Apr 14, 2021 at 6:10 AM Ilya Lipnitskiy
-<ilya.lipnitskiy@gmail.com> wrote:
->
-> Hi Sergio,
->
-> Just as an aside, are you planning to move staging/mt7621-pci into
-> arch/mips/pci at some point? This driver seems more maintained (by
-> you!) than many in-tree drivers...
+One trick would be to build the Smatch cross function database.
 
-Yes, I am planning to move it and maintain it. There is minor stuff
-that must be changed before that but I hope to give that all a try
-after the next merge window.
+https://www.spinics.net/lists/smatch/msg00568.html
 
-Best regards,
-    Sergio Paracuellos
-> Ilya
->
-> On Sat, Apr 10, 2021 at 12:23 PM Sergio Paracuellos
-> <sergio.paracuellos@gmail.com> wrote:
-> >
-> > Hi Ilya,
-> >
-> > On Sat, Apr 10, 2021 at 7:33 PM Ilya Lipnitskiy
-> > <ilya.lipnitskiy@gmail.com> wrote:
-> > >
-> > > The logic here was already overriding the erroneous IO addresses
-> > > returned from of_pci_range_to_resource, which is the bulk of the logic.
-> > >
-> > > So stop using it altogether and initialize the fields explicitly, as
-> > > done in aeba3731b150 ("powerpc/pci: Fix IO space breakage after
-> > > of_pci_range_to_resource() change").
-> > >
-> > > Signed-off-by: Ilya Lipnitskiy <ilya.lipnitskiy@gmail.com>
-> > > Cc: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> > > ---
-> > >  drivers/staging/mt7621-pci/pci-mt7621.c | 11 ++++++-----
-> > >  1 file changed, 6 insertions(+), 5 deletions(-)
-> >
-> > Looks good to me, thanks! I have also tested this in gnubee pc1
-> > platform with no regressions at all when io bars are assigned:
-> >
-> > [   16.378956] mt7621-pci 1e140000.pcie: host bridge /pcie@1e140000 ranges:
-> > [   16.392405] mt7621-pci 1e140000.pcie:      MEM
-> > 0x0060000000..0x006fffffff -> 0x0000000000
-> > [   16.408796] mt7621-pci 1e140000.pcie:       IO
-> > 0x001e160000..0x001e16ffff -> 0x0000000000
-> > [   16.425264] mt7621-pci-phy 1e149000.pcie-phy: PHY for 0xbe149000
-> > (dual port = 1)
-> > [   16.440452] mt7621-pci-phy 1e14a000.pcie-phy: PHY for 0xbe14a000
-> > (dual port = 0)
-> > [   16.678713] mt7621-pci 1e140000.pcie: PCIE0 enabled
-> > [   16.688435] mt7621-pci 1e140000.pcie: PCIE1 enabled
-> > [   16.698160] mt7621-pci 1e140000.pcie: PCIE2 enabled
-> > [   16.707886] mt7621-pci 1e140000.pcie: PCI coherence region base:
-> > 0x60000000, mask/settings: 0xf0000002
-> > [   16.726623] mt7621-pci 1e140000.pcie: PCI host bridge to bus 0000:00
-> > [   16.739309] pci_bus 0000:00: root bus resource [io  0x1e160000-0x1e16ffff]
-> > [   16.753008] pci_bus 0000:00: root bus resource [mem 0x60000000-0x6fffffff]
-> > [   16.766709] pci_bus 0000:00: root bus resource [bus 00-ff]
-> > [   16.777649] pci_bus 0000:00: root bus resource [mem
-> > 0x60000000-0x6fffffff] (bus address [0x00000000-0x0fffffff])
-> > [   16.797986] pci 0000:00:00.0: [0e8d:0801] type 01 class 0x060400
-> > [   16.809973] pci 0000:00:00.0: reg 0x10: [mem 0x00000000-0x7fffffff]
-> > [   16.822467] pci 0000:00:00.0: reg 0x14: initial BAR value 0x00000000 invalid
-> > [   16.836511] pci 0000:00:00.0: reg 0x14: [mem size 0x00010000]
-> > [   16.848048] pci 0000:00:00.0: supports D1
-> > [   16.856051] pci 0000:00:00.0: PME# supported from D0 D1 D3hot
-> > [   16.867943] pci 0000:00:01.0: [0e8d:0801] type 01 class 0x060400
-> > [   16.879960] pci 0000:00:01.0: reg 0x10: [mem 0x00000000-0x7fffffff]
-> > [   16.892454] pci 0000:00:01.0: reg 0x14: initial BAR value 0x00000000 invalid
-> > [   16.906497] pci 0000:00:01.0: reg 0x14: [mem size 0x00010000]
-> > [   16.918040] pci 0000:00:01.0: supports D1
-> > [   16.926031] pci 0000:00:01.0: PME# supported from D0 D1 D3hot
-> > [   16.937903] pci 0000:00:02.0: [0e8d:0801] type 01 class 0x060400
-> > [   16.949915] pci 0000:00:02.0: reg 0x10: [mem 0x00000000-0x7fffffff]
-> > [   16.962412] pci 0000:00:02.0: reg 0x14: initial BAR value 0x00000000 invalid
-> > [   16.976466] pci 0000:00:02.0: reg 0x14: [mem size 0x00010000]
-> > [   16.987991] pci 0000:00:02.0: supports D1
-> > [   16.995986] pci 0000:00:02.0: PME# supported from D0 D1 D3hot
-> > [   17.008716] pci 0000:00:00.0: bridge configuration invalid ([bus
-> > 00-00]), reconfiguring
-> > [   17.024695] pci 0000:00:01.0: bridge configuration invalid ([bus
-> > 00-00]), reconfiguring
-> > [   17.040654] pci 0000:00:02.0: bridge configuration invalid ([bus
-> > 00-00]), reconfiguring
-> > [   17.056868] pci 0000:01:00.0: [1b21:0611] type 00 class 0x010185
-> > [   17.068882] pci 0000:01:00.0: reg 0x10: [io  0x0000-0x0007]
-> > [   17.080003] pci 0000:01:00.0: reg 0x14: [io  0x0000-0x0003]
-> > [   17.091115] pci 0000:01:00.0: reg 0x18: [io  0x0000-0x0007]
-> > [   17.102238] pci 0000:01:00.0: reg 0x1c: [io  0x0000-0x0003]
-> > [   17.113350] pci 0000:01:00.0: reg 0x20: [io  0x0000-0x000f]
-> > [   17.124463] pci 0000:01:00.0: reg 0x24: initial BAR value 0x00000000 invalid
-> > [   17.138508] pci 0000:01:00.0: reg 0x24: [mem size 0x00000200]
-> > [   17.150115] pci 0000:01:00.0: 2.000 Gb/s available PCIe bandwidth,
-> > limited by 2.5 GT/s PCIe x1 link at 0000:00:00.0 (capable of 4.000
-> > Gb/s with 5.0 GT/s PCIe x1 link)
-> > [   17.204594] pci 0000:00:00.0: PCI bridge to [bus 01-ff]
-> > [   17.215109] pci 0000:00:00.0:   bridge window [io  0x0000-0x0fff]
-> > [   17.227257] pci 0000:00:00.0:   bridge window [mem 0x60000000-0x600fffff]
-> > [   17.240785] pci 0000:00:00.0:   bridge window [mem
-> > 0x60000000-0x600fffff pref]
-> > [   17.255183] pci_bus 0000:01: busn_res: [bus 01-ff] end is updated to 01
-> > [   17.268648] pci 0000:02:00.0: [1b21:0611] type 00 class 0x010185
-> > [   17.280671] pci 0000:02:00.0: reg 0x10: [io  0x0000-0x0007]
-> > [   17.291785] pci 0000:02:00.0: reg 0x14: [io  0x0000-0x0003]
-> > [   17.302898] pci 0000:02:00.0: reg 0x18: [io  0x0000-0x0007]
-> > [   17.314012] pci 0000:02:00.0: reg 0x1c: [io  0x0000-0x0003]
-> > [   17.325127] pci 0000:02:00.0: reg 0x20: [io  0x0000-0x000f]
-> > [   17.336241] pci 0000:02:00.0: reg 0x24: initial BAR value 0x00000000 invalid
-> > [   17.350279] pci 0000:02:00.0: reg 0x24: [mem size 0x00000200]
-> > [   17.361893] pci 0000:02:00.0: 2.000 Gb/s available PCIe bandwidth,
-> > limited by 2.5 GT/s PCIe x1 link at 0000:00:01.0 (capable of 4.000
-> > Gb/s with 5.0 GT/s PCIe x1 link)
-> > [   17.414591] pci 0000:00:01.0: PCI bridge to [bus 02-ff]
-> > [   17.425063] pci 0000:00:01.0:   bridge window [io  0x0000-0x0fff]
-> > [   17.437206] pci 0000:00:01.0:   bridge window [mem 0x60000000-0x600fffff]
-> > [   17.450733] pci 0000:00:01.0:   bridge window [mem
-> > 0x60000000-0x600fffff pref]
-> > [   17.465130] pci_bus 0000:02: busn_res: [bus 02-ff] end is updated to 02
-> > [   17.478583] pci 0000:03:00.0: [1b21:0611] type 00 class 0x010185
-> > [   17.490604] pci 0000:03:00.0: reg 0x10: [io  0x0000-0x0007]
-> > [   17.501717] pci 0000:03:00.0: reg 0x14: [io  0x0000-0x0003]
-> > [   17.512831] pci 0000:03:00.0: reg 0x18: [io  0x0000-0x0007]
-> > [   17.523945] pci 0000:03:00.0: reg 0x1c: [io  0x0000-0x0003]
-> > [   17.535060] pci 0000:03:00.0: reg 0x20: [io  0x0000-0x000f]
-> > [   17.546174] pci 0000:03:00.0: reg 0x24: initial BAR value 0x00000000 invalid
-> > [   17.560211] pci 0000:03:00.0: reg 0x24: [mem size 0x00000200]
-> > [   17.571825] pci 0000:03:00.0: 2.000 Gb/s available PCIe bandwidth,
-> > limited by 2.5 GT/s PCIe x1 link at 0000:00:02.0 (capable of 4.000
-> > Gb/s with 5.0 GT/s PCIe x1 link)
-> > [   17.624582] pci 0000:00:02.0: PCI bridge to [bus 03-ff]
-> > [   17.635043] pci 0000:00:02.0:   bridge window [io  0x0000-0x0fff]
-> > [   17.647188] pci 0000:00:02.0:   bridge window [mem 0x60000000-0x600fffff]
-> > [   17.660710] pci 0000:00:02.0:   bridge window [mem
-> > 0x60000000-0x600fffff pref]
-> > [   17.675104] pci_bus 0000:03: busn_res: [bus 03-ff] end is updated to 03
-> > [   17.688358] pci 0000:00:00.0: BAR 0: no space for [mem size 0x80000000]
-> > [   17.701534] pci 0000:00:00.0: BAR 0: failed to assign [mem size 0x80000000]
-> > [   17.715406] pci 0000:00:01.0: BAR 0: no space for [mem size 0x80000000]
-> > [   17.728585] pci 0000:00:01.0: BAR 0: failed to assign [mem size 0x80000000]
-> > [   17.742456] pci 0000:00:02.0: BAR 0: no space for [mem size 0x80000000]
-> > [   17.755638] pci 0000:00:02.0: BAR 0: failed to assign [mem size 0x80000000]
-> > [   17.769514] pci 0000:00:00.0: BAR 8: assigned [mem 0x60000000-0x600fffff]
-> > [   17.783039] pci 0000:00:00.0: BAR 9: assigned [mem
-> > 0x60100000-0x601fffff pref]
-> > [   17.797429] pci 0000:00:01.0: BAR 8: assigned [mem 0x60200000-0x602fffff]
-> > [   17.810958] pci 0000:00:01.0: BAR 9: assigned [mem
-> > 0x60300000-0x603fffff pref]
-> > [   17.825360] pci 0000:00:02.0: BAR 8: assigned [mem 0x60400000-0x604fffff]
-> > [   17.838886] pci 0000:00:02.0: BAR 9: assigned [mem
-> > 0x60500000-0x605fffff pref]
-> > [   17.853279] pci 0000:00:00.0: BAR 1: assigned [mem 0x60600000-0x6060ffff]
-> > [   17.866814] pci 0000:00:01.0: BAR 1: assigned [mem 0x60610000-0x6061ffff]
-> > [   17.880346] pci 0000:00:02.0: BAR 1: assigned [mem 0x60620000-0x6062ffff]
-> > [   17.893880] pci 0000:00:00.0: BAR 7: assigned [io  0x1e160000-0x1e160fff]
-> > [   17.907410] pci 0000:00:01.0: BAR 7: assigned [io  0x1e161000-0x1e161fff]
-> > [   17.920935] pci 0000:00:02.0: BAR 7: assigned [io  0x1e162000-0x1e162fff]
-> > [   17.934474] pci 0000:01:00.0: BAR 5: assigned [mem 0x60000000-0x600001ff]
-> > [   17.948008] pci 0000:01:00.0: BAR 4: assigned [io  0x1e160000-0x1e16000f]
-> > [   17.961542] pci 0000:01:00.0: BAR 0: assigned [io  0x1e160010-0x1e160017]
-> > [   17.975072] pci 0000:01:00.0: BAR 2: assigned [io  0x1e160018-0x1e16001f]
-> > [   17.988605] pci 0000:01:00.0: BAR 1: assigned [io  0x1e160020-0x1e160023]
-> > [   18.002138] pci 0000:01:00.0: BAR 3: assigned [io  0x1e160024-0x1e160027]
-> > [   18.015673] pci 0000:00:00.0: PCI bridge to [bus 01]
-> > [   18.025572] pci 0000:00:00.0:   bridge window [io  0x1e160000-0x1e160fff]
-> > [   18.039096] pci 0000:00:00.0:   bridge window [mem 0x60000000-0x600fffff]
-> > [   18.052623] pci 0000:00:00.0:   bridge window [mem
-> > 0x60100000-0x601fffff pref]
-> > [   18.067026] pci 0000:02:00.0: BAR 5: assigned [mem 0x60200000-0x602001ff]
-> > [   18.080562] pci 0000:02:00.0: BAR 4: assigned [io  0x1e161000-0x1e16100f]
-> > [   18.094092] pci 0000:02:00.0: BAR 0: assigned [io  0x1e161010-0x1e161017]
-> > [   18.107625] pci 0000:02:00.0: BAR 2: assigned [io  0x1e161018-0x1e16101f]
-> > [   18.121158] pci 0000:02:00.0: BAR 1: assigned [io  0x1e161020-0x1e161023]
-> > [   18.134694] pci 0000:02:00.0: BAR 3: assigned [io  0x1e161024-0x1e161027]
-> > [   18.148225] pci 0000:00:01.0: PCI bridge to [bus 02]
-> > [   18.158117] pci 0000:00:01.0:   bridge window [io  0x1e161000-0x1e161fff]
-> > [   18.171643] pci 0000:00:01.0:   bridge window [mem 0x60200000-0x602fffff]
-> > [   18.185170] pci 0000:00:01.0:   bridge window [mem
-> > 0x60300000-0x603fffff pref]
-> > [   18.199591] pci 0000:03:00.0: BAR 5: assigned [mem 0x60400000-0x604001ff]
-> > [   18.213127] pci 0000:03:00.0: BAR 4: assigned [io  0x1e162000-0x1e16200f]
-> > [   18.226664] pci 0000:03:00.0: BAR 0: assigned [io  0x1e162010-0x1e162017]
-> > [   18.240199] pci 0000:03:00.0: BAR 2: assigned [io  0x1e162018-0x1e16201f]
-> > [   18.253751] pci 0000:03:00.0: BAR 1: assigned [io  0x1e162020-0x1e162023]
-> > [   18.267286] pci 0000:03:00.0: BAR 3: assigned [io  0x1e162024-0x1e162027]
-> > [   18.280814] pci 0000:00:02.0: PCI bridge to [bus 03]
-> > [   18.290713] pci 0000:00:02.0:   bridge window [io  0x1e162000-0x1e162fff]
-> > [   18.304243] pci 0000:00:02.0:   bridge window [mem 0x60400000-0x604fffff]
-> > [   18.317773] pci 0000:00:02.0:   bridge window [mem
-> > 0x60500000-0x605fffff pref]
-> >
-> > Reviewed-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> >
-> > Best regards,
-> >     Sergio Paracuellos
+Then you could do:
+
+$ ~/path/to/smatch_data/db/smdb.py led_blink_hdl
+file | caller | function | type | parameter | key | value |
+drivers/staging/rtl8723bs/core/rtw_cmd.c |       rtw_cmd_thread | rtw_cmd_thread ptr cmd_hdl |           INTERNAL | -1 |                 | uchar(*)(struct adapter*, uchar*)
+drivers/staging/rtl8188eu/core/rtw_cmd.c |       rtw_cmd_thread | rtw_cmd_thread ptr cmd_hdl |           INTERNAL | -1 |                 | uchar(*)(struct adapter*, uchar*)
+drivers/staging/rtl8188eu/core/rtw_cmd.c |       rtw_cmd_thread | rtw_cmd_thread ptr cmd_hdl |           BUF_SIZE |  1 |            pbuf | 1,4,6,8,12,14,16,19-20,23-24,48,740,884,892,900,960
+
+
+Which says that led_blink_hdl() is called as a function pointer called
+"cmd_hdl" from rtw_cmd_thread().
+
+Hm...  It says it can be called from either rtw_cmd_thread() function
+(the rtl8723bs or rtl8188eu version) which is not ideal.  But also
+basically harmless so whatever...
+
+regards,
+dan carpenter
