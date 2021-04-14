@@ -1,86 +1,87 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B1E6D13
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 14:06:10 +0000 (UTC)
-Received: by mail-qk1-f177.google.com with SMTP id b139so16068342qkc.10
-        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 07:06:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D476D13
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 14:29:35 +0000 (UTC)
+Received: by mail-qk1-f179.google.com with SMTP id d23so9511512qko.12
+        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 07:29:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=24C4YPPmvpQq0WpQR0fbdbp9ZiV7j5vDcMjzvvE1mNk=;
-        b=uBrTXX9Zjwe3GGx4+r+nd5zq18AbmlA/vprUL1ffl6e5521M0Khm/LR9QaX+SQdOop
-         IE00povsaMQW7lrQKqzg32f1hno2HBrxx1hijK+5dl46EwqMBNJg4ckqw9W7V9HRIHCA
-         fsJIuoFvSrqBVoXsubEVIc5d+8IMGJG3vNENDPpjjFkT1YcuHYYy3EInYyczsOsT8o7F
-         ngqET7waO9GGkZNpkAS/I6TwjOL4kKb4/EC9+p0kI41mvqabdR5kspUivquVMRaX4Ezd
-         UalhTACn0GTdU5/mKk+a/wHJTZqhPzb6vtQPAP3R2VJESiKskPwi+L0PetpIK9OFajW/
-         o4ug==
+        d=umich.edu; s=google-2016-06-03;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=V6KhdAZ2tzFo9oLqI7bZ8iL33fDy7jc/fnORudNCgxI=;
+        b=fK1+pRCKuWzr2JUK73+b89nC3AY5FcfBim+0fgWHLu+fPdurwORSamhttLody2zp4u
+         HMQIYKQBYpz3fSI85IQQPz3DKJYW2WJ8GYT1j7uY04GxiA1NsE95YSrA9Bp3yYvtR7Kc
+         /yNEDCBqTUe5F/lwkrhPHp2+wymzgsPm0iVY8pxx1Ri4VNB/sZUXDflcdHPrFSbYYTYy
+         spfklwMtgaRKqTphGy81PTX82CUcs7S3G0UpGMa22SMDn5//3FJQFmsALaBh1ruz5NQv
+         RJo/Q2SLMggpPLRNrBv3WWfIcuknELu1SIW/iNeF7r14lQH7cAmxgqUtTGQgyXUIguI7
+         GSZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=24C4YPPmvpQq0WpQR0fbdbp9ZiV7j5vDcMjzvvE1mNk=;
-        b=g3WcuwAIAOetYNBHZPMLvthBXNEyZdNLGyABhlCHiTWQE38lu+W0c059/g8cRb6IY9
-         VXJMS79b+DUVj3qCTRUBCzrwjgQeoVjM/FV/ozlOKvD4A0wNuHVWRFSiiGBdMlw9ORBg
-         OjJpMrLK7JYc24ur2Uiev4u6/aGI5gxnHV8D9duFtmHK9byn4ZP27oWcYLw1I3KL0eoT
-         wgfmpqVzGem2rAzB1qUPVLZrJgir+T7gJ3BROMeU18JOG2jU/YzI3KEuB5mk3MzGBQup
-         caQPCyXUeXqEozB1pUc8jmeMBbL+rw12vDTglB7KQeEN2p6JG39k8quxwXRP86TJhuir
-         pHcQ==
-X-Gm-Message-State: AOAM532AYWgKTWj9cwHkmpyEfRFi2MPqik3cVG1jysMcvhY5JUV55hDy
-	fea2UWDnz2J768yyTE97QAo=
-X-Google-Smtp-Source: ABdhPJz0YLmFaj8lbliQzWO++Oj3bm/NtRjyADbV+kCcQnuBIbmXmHmReHgD6A2sdRpWL+o0a+EE+g==
-X-Received: by 2002:a37:611:: with SMTP id 17mr22627564qkg.206.1618409169418;
-        Wed, 14 Apr 2021 07:06:09 -0700 (PDT)
-Received: from focaruja ([2001:1284:f016:a037:7038:c088:ae60:452d])
-        by smtp.gmail.com with ESMTPSA id l16sm7420069qtr.65.2021.04.14.07.06.08
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Wed, 14 Apr 2021 07:06:09 -0700 (PDT)
-Date: Wed, 14 Apr 2021 11:06:06 -0300
-From: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Subject: [PATCH 2/2] staging: media: atomisp: pci: Correct identation in
- block of conditional statements in file atomisp_acc.c
-Message-ID: <dd0b898b26f1bcc6563b7ed33670c801c0d4988f.1618409028.git.alinesantanacordeiro@gmail.com>
-References: <cover.1618409028.git.alinesantanacordeiro@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=V6KhdAZ2tzFo9oLqI7bZ8iL33fDy7jc/fnORudNCgxI=;
+        b=s++EMx2fksfQTQuNSDihKm95qMKWhhNzuOO2mKfVTt6XROrbpGuXDvj2z/fqtgtcof
+         hA+C7IvsOORCkR32zseNxru1b9eG4FpGWrHBXCzm1pZXwetorIBzI4wPnODhrruPt3tz
+         7hJ8FPFlmAgqGR+OhcD1uhG2DgQAR9gozvOM79WZDRWQIJnV0jDUnTJObHCxpyGKPHPZ
+         hnPN7vSx0enUveqCZWMCETTq8J8w5pfOxHYfKrVC1gyK4dKLYmGrBYzzbQxZIJZXun1p
+         GcFClWGUIsc6sqz9kLcsjGHdgOOxWutyeBTuGal2m65qLf0MBQ6BF6Yeub6pF2i/ROxV
+         IvBg==
+X-Gm-Message-State: AOAM530i3UAT/PsWVZEKljQ5zRRSza/VeiwHMCFVIYtxpKHFfmARNjFS
+	z4ZaTvKv0ug/jvMzDhyZnEHjUIW48yexLSXl6JJsQLj257c=
+X-Google-Smtp-Source: ABdhPJwIxa1W1QxCZ71HhuSy6JDiS+L1TFNkHGbxOr8EKCQ8XRJaMsbvBqZgONBSfMLkTgzeLJxjsz6OHmt3O9+lPyg=
+X-Received: by 2002:a37:414:: with SMTP id 20mr30311565qke.11.1618410574145;
+ Wed, 14 Apr 2021 07:29:34 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1618409028.git.alinesantanacordeiro@gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20210407140142.447250-1-abbotti@mev.co.uk> <YG3LY0hhDhzeXa1V@kroah.com>
+ <3d70fc39-3c3f-16af-d4bb-e4dc2c9ffc26@mev.co.uk> <YG3rUN0fvyA6HCpf@kroah.com>
+ <20210414100905.GD6048@kadam> <2955bb05-fa59-c35a-b5a2-a5aedb4c96a8@mev.co.uk>
+In-Reply-To: <2955bb05-fa59-c35a-b5a2-a5aedb4c96a8@mev.co.uk>
+From: Spencer Olson <olsonse@umich.edu>
+Date: Wed, 14 Apr 2021 08:29:23 -0600
+Message-ID: <CAOx9PegwL50fZfxG3D8ePEqcyPNJHWeF=T65ubv2SFoW2Yq2ow@mail.gmail.com>
+Subject: Re: [PATCH 0/5] staging: comedi: tests: Fix various issues
+To: Ian Abbott <abbotti@mev.co.uk>
+Cc: Dan Carpenter <dan.carpenter@oracle.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
+	H Hartley Sweeten <hsweeten@visionengravers.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Correct identation in block of conditional statements.
-The conditional statement depends on the results of the
-macro function "list_for_each_entry()".
+On Wed, Apr 14, 2021 at 6:34 AM Ian Abbott <abbotti@mev.co.uk> wrote:
+>
+> On 14/04/2021 11:09, Dan Carpenter wrote:
+> > The test_ni_get_reg_value() function calls
+> >       unittest(ni_get_reg_value_roffs(-1, O(0), T, 1) == -1,
+> >                "check bad direct trigger arg for first reg->dest w/offs\n");
+> > The -1 is type promoted to a high positive value so src is greater than
+> > NI_NAMES_BASE.  It's not clear that that was intentional.
+> > drivers/staging/comedi/drivers/tests/../ni_routes.h:269 ni_get_reg_value_roffs() warn: 'src' possible negative type promoted to high
+>
+> I agree that it appears that ni_get_reg_value_roffs() will be returning
+> -1 as expected, but for the wrong reason.  I think the intention was for
+> ni_get_reg_value_roffs() to call route_register_is_valid() with src=0 in
+> this case, but it actually calls ni_route_to_register() with src=-1
+> (because -1 gets converted to 0xffffffff in the test `if (src <
+> NI_NAMES_BASE)` where NI_NAMES_BASE is defined as 0x8000u).
+>
 
-Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
----
- drivers/staging/media/atomisp/pci/atomisp_acc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Good catch.  Based on the error message that for the unittest failure,
+I would agree that my intention had been to test when src is indeed <
+NI_NAMES_BASE so that we could test for a bad direct register value.
+It does indeed look like sending in 0 for the src would have worked,
+since the first row in private table RV in ni_routes_test.c (the row
+for destination passed in as "O(0)") does not have a "register value"
+equal to 0.  It would be nice to compile and test this code though,
+but I can't do it for another couple of weeks.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_acc.c b/drivers/staging/media/atomisp/pci/atomisp_acc.c
-index f638d0b..5e5faa4 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_acc.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_acc.c
-@@ -77,8 +77,8 @@ acc_get_fw(struct atomisp_sub_device *asd, unsigned int handle)
- 	struct atomisp_acc_fw *acc_fw;
- 
- 	list_for_each_entry(acc_fw, &asd->acc.fw, list)
--	if (acc_fw->handle == handle)
--		return acc_fw;
-+		if (acc_fw->handle == handle)
-+			return acc_fw;
- 
- 	return NULL;
- }
--- 
-2.7.4
-
+Actually, looking a little further, I don't think that src=0 will work
+here.  There is another argument for ni_get_reg_value_roffs,
+direct_reg_offset, that gets added to src before sending to
+route_register_is_valid.  I think this was provided to fix an offset
+mismatch that was in the original approach to handling signal routing
+values (i.e. to provide backwards compatibility).  But, I do think
+that value greater or equal to 9 will actually work.
