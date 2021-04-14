@@ -1,135 +1,112 @@
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 202416D13
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 13:17:40 +0000 (UTC)
-Received: by mail-il1-f171.google.com with SMTP id c15so17081964ilj.1
-        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 06:17:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=KR5tUi2Pjym92G8VJBGTvp1Vw9Vmq14ckbna/IAfvxY=;
-        b=LXpcpQcBz4zfAoS3GCoj2F36fqCg83/wkDUE/2flZ4QY/NLdrXBzUHPJp5syo5f+uV
-         NzYemHAM0XS0+RWtXiKoERGidOZnVfMZtnV86xTUC6CWr1B5ykeho2l7NbBK+IJbfzXk
-         p5D7/PA7yRi9D1nhZy78UuT+H1i2dXHhIiOZA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=KR5tUi2Pjym92G8VJBGTvp1Vw9Vmq14ckbna/IAfvxY=;
-        b=Tipe7fMYUc6IWVh6UOE4LEx/htEjACHc/sEm53VPugBrPqyGazAbpOV1a5QyfFpTr5
-         +8lyxE4EMXrj1nwnVq8QYStzPXWFYGwxRWTcjkMbHgexDB4SJk3UcPn2PYq+8jBLfFkH
-         MpF6JmER63E3vfIOdcTxrOuPmyhic+IUwR6rT70ptBQ5TlrNZ3c0SbLsP5jklS5DH5+O
-         WFCeW+IbSxPULgSMrhk04oz9Di1zGwkJbWyjtvce81iLYMfMhUO70TjYjk6v15/a58AQ
-         skRD+sa8VKpziESPexBb3DimWGLkAizV3fPKw5QxsTV08GjLVz9B4oQXyTYruED8RTIq
-         0pEQ==
-X-Gm-Message-State: AOAM533522DgDhF3WesVEiGJQR1+vYc/HmbQ2OYc0YID9+zmGMSQlm/d
-	1+5yoHRJzlBf38bQrcGmWlOJTg==
-X-Google-Smtp-Source: ABdhPJyb+zve3gy2tS0pVuePobkDcZJ6i03AHQgQ4GPnJtCEoPevEY/e3ov0ozoSq1Yrkb46lfVeqA==
-X-Received: by 2002:a92:7f0c:: with SMTP id a12mr16080857ild.54.1618406260271;
-        Wed, 14 Apr 2021 06:17:40 -0700 (PDT)
-Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
-        by smtp.googlemail.com with ESMTPSA id h17sm3621738ilh.55.2021.04.14.06.17.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Apr 2021 06:17:39 -0700 (PDT)
-Subject: Re: [PATCH] staging: greybus: Match parentheses alignment
-To: Joe Perches <joe@perches.com>, Greg KH <gregkh@linuxfoundation.org>,
- Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>
-Cc: johan@kernel.org, elder@kernel.org, greybus-dev@lists.linaro.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- outreachy-kernel@googlegroups.com
-References: <20210406124259.GA96537@zhans> <YGxhrLZPIPjILWUH@kroah.com>
- <7d7be8bcc0e80d826083890ed7791070ad25e603.camel@perches.com>
-From: Alex Elder <elder@ieee.org>
-Message-ID: <1607b040-6bc4-9a58-ae81-4ea0adf5885d@ieee.org>
-Date: Wed, 14 Apr 2021 08:17:38 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA77C6D13
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 13:24:45 +0000 (UTC)
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+	by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13EDNjjr028959;
+	Wed, 14 Apr 2021 13:24:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=QG+ETTa5+7MrCPV6Jb0N5h1kmH0uaW+IKUcdij7mO9A=;
+ b=h78lQwZ1FxM31/tuhyxZ+ZU7h6bexYUp5dvP6HO+6s5viux8AJ0F7/ItpsgkXvHLzKda
+ +amICd2TNILAaxllMB14vdcfn6/0gEKtCqN7bdZ2syExnhkJKQrk+lt0ESs5TeunWUOI
+ cHaG2MKkmFa2wNa8c8pssqn/3Ag9lrGcndcXgenVyqSkERvTsiMFUQjLk0N1xZY9OXkZ
+ OoJJmr/Zco1Hv26cWSBfVHb4FWxMN3ZdQiBu/DE6G41QTaHmfm/hfpX8Ndq1tep3vV+c
+ NLFfgTAtplYNgR1ckKHugoskZk+zu21tFM+4x78aitkskh9BfpkfFwG12ybWRlmVpqWu 2w== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by aserp2130.oracle.com with ESMTP id 37u1hbjh7n-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 Apr 2021 13:24:30 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13EDLcAB074613;
+	Wed, 14 Apr 2021 13:24:27 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+	by userp3020.oracle.com with ESMTP id 37unsty88w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 Apr 2021 13:24:27 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 13EDOL0x026035;
+	Wed, 14 Apr 2021 13:24:21 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Wed, 14 Apr 2021 06:24:21 -0700
+Date: Wed, 14 Apr 2021 16:24:14 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: outreachy-kernel@googlegroups.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Matthew Wilcox <willy@infradead.org>,
+        Julia Lawall <julia.lawall@inria.fr>
+Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8723bs: Remove useless
+ led_blink_hdl()
+Message-ID: <20210414132414.GE6048@kadam>
+References: <20210414115243.32716-1-fmdefrancesco@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <7d7be8bcc0e80d826083890ed7791070ad25e603.camel@perches.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210414115243.32716-1-fmdefrancesco@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9954 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
+ malwarescore=0 suspectscore=0 bulkscore=0 mlxscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104140091
+X-Proofpoint-GUID: VW4z5hvcMF_GoM0KuAk3vaqp9tiOWZ_y
+X-Proofpoint-ORIG-GUID: VW4z5hvcMF_GoM0KuAk3vaqp9tiOWZ_y
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9954 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 priorityscore=1501
+ clxscore=1031 adultscore=0 mlxlogscore=999 impostorscore=0 malwarescore=0
+ lowpriorityscore=0 spamscore=0 phishscore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104140092
 
-On 4/6/21 12:21 PM, Joe Perches wrote:
-> On Tue, 2021-04-06 at 15:27 +0200, Greg KH wrote:
->> On Tue, Apr 06, 2021 at 06:42:59PM +0600, Zhansaya Bagdauletkyzy wrote:
->>> Match next line with open parentheses by adding tabs/spaces
->>> to conform with Linux kernel coding style.
->>> Reported by checkpatch.
-> []
->>> diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
-> []
->>> @@ -378,8 +378,8 @@ struct ap_csi_config_request {
->>>   #define GB_CAMERA_CSI_CLK_FREQ_MARGIN		150000000U
->>>   
->>>
->>>   static int gb_camera_setup_data_connection(struct gb_camera *gcam,
->>> -		struct gb_camera_configure_streams_response *resp,
->>> -		struct gb_camera_csi_params *csi_params)
->>> +					   struct gb_camera_configure_streams_response *resp,
->>> +					   struct gb_camera_csi_params *csi_params)
->>
->> And now you violate another coding style requirement, which means
->> someone will send another patch to fix that up and around and around it
->> goes...
+On Wed, Apr 14, 2021 at 01:52:43PM +0200, Fabio M. De Francesco wrote:
+> Removed the led_blink_hdl() function (declaration and definition).
+> Declared dummy_function() in include/rtw_mlme_ext.h and defined it in
+> core/rtw_cmd.c. Changed the second parameter of GEN_MLME_EXT_HANDLER
+> macro to make use of dummy_function().
 > 
-> None of the coding style document is an actual requirement Greg.
-> It's all rules of thumb.  Useful rules, but not hard and fast right?
-
-I agree with this, but this ambiguity causes some problems.
-
-Greybus is a go-to place for just-starting developers to
-work with some reasonably good "real" code.  But someone
-just starting has no way of judging whether the warnings
-issued by checkpatch are real or not.  Even experienced
-developers will lack the insight to judge this if they
-are modifying on a less-familiar part of the kernel.
-
-The result--for Greybus certainly--is fairly regular
-stream patches that suggest making trivial changes based
-on checkpatch recommendations.  And unfortunately each
-one is destined to be rejected by the maintainers.  This
-is no good for anybody.
-
-Can you think of a way to try to further characterize
-how "serious" a warning message is?  I recognize that
-even if (for example) you had something like 1-10 severity
-scale, the scale might not be uniform across the whole
-kernel tree.  Perhaps (like the -W options for GCC) there
-could be a way to specify in a Makefile which checkpatch
-messages are reported/not reported?  I don't claim that's
-a good suggestion, but if I could optionally indicate
-somewhere that "two consecutive blank lines is OK for
-Greybus" (one example that comes to mind) I might do so.
-
-> To me, the biggest issue with this code isn't whether or not the
-> code is aligned at open parentheses or stays within 80 columns,
-> but is the use of 30+ character length identifiers.
-
-I agree with you on this one...  I've worked with code
-like that and it's very difficult to make it readable.
-I've made a mental note to go look at this and see if
-I can make it better.  I can't say when I'll get to it
-but I think it's a good suggestion.
-
-					-Alex
-
-> Using identifiers of that length makes using 80 column, or even
-> 100 column length lines infeasible.
+> Reported-by: Julia Lawall <julia.lawall@inria.fr>
+> Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_cmd.c         | 4 +++-
+>  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    | 9 ---------
+>  drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 3 ++-
+>  3 files changed, 5 insertions(+), 11 deletions(-)
 > 
-> Perhaps seeing if include/linux/greybus/greybus_protocols.h
-> could be updated to use shorter length identifiers might be useful.
-> 
-> The median length identifier there is ~25 chars long and the
-> maximum length identifier is ~50 chars.
-> 
-> 
-> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> index 0297fbad7bce..7b6102a2bb2c 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> @@ -87,6 +87,8 @@ static struct _cmd_callback rtw_cmd_callback[] = {
+>  	{GEN_CMD_CODE(_RunInThreadCMD), NULL},/*64*/
+>  };
+>  
+> +u8 dummy_functioni(struct adapter *var0, u8 *var1) { return 0; }
+> +
+>  static struct cmd_hdl wlancmds[] = {
+>  	GEN_DRV_CMD_HANDLER(0, NULL) /*0*/
+>  	GEN_DRV_CMD_HANDLER(0, NULL)
+> @@ -150,7 +152,7 @@ static struct cmd_hdl wlancmds[] = {
+>  
+>  	GEN_MLME_EXT_HANDLER(0, h2c_msg_hdl) /*58*/
+>  	GEN_MLME_EXT_HANDLER(sizeof(struct SetChannelPlan_param), set_chplan_hdl) /*59*/
+> -	GEN_MLME_EXT_HANDLER(sizeof(struct LedBlink_param), led_blink_hdl) /*60*/
+> +	GEN_MLME_EXT_HANDLER(sizeof(struct LedBlink_param), dummy_function) /*60*/
+
+No, no.  Don't create a dummy function. Do it like so:
+
+	GEN_DRV_CMD_HANDLER(0, NULL) /* 60 */
+
+regards,
+dan carpenter
 
