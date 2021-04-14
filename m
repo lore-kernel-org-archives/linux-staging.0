@@ -1,50 +1,50 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626D86D36
-	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 18:12:03 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id w3so32851063ejc.4
-        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 11:12:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6258A6D36
+	for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 18:12:04 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id d21so4716458edv.9
+        for <linux-staging@lists.linux.dev>; Wed, 14 Apr 2021 11:12:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=eyv+iRJLEcjbZd/LhEPn8OpiX7PAY3puKqYKPby0/Lk=;
-        b=bzPA/e5rxcRDwYB4W/RKUS7MdXft/jZBjQHvDR4BNbzy2iIfbD4C++piw+mlIe4vCZ
-         2Xi434xHZRLkWYl2lTtcA6zRdWHTa6y48dCBmapVWZeC74b9BJR9ixLW2sqI3Pi12IBE
-         CVYxRIvN5s4KxplTxNMCG+ajW9+h6wRpDvTKnrZsw5/78mJ4FWmmrMuYrGFV7Giuk+SG
-         HbE4y0cA9qoPRB10UP/b4FzikEEHIVRzSkJyPIix4/ZJKeErxLAXYkr4WX4nDa+MPNxA
-         y5PQKFBar4Zrfq1aqPm2fquDF2fX+qPZhf1llbXGiNvvKc+apRvVEGEHNNR+xcBp1jyM
-         rWFw==
+        bh=w6SQ1ybYGNpR6i4fr50V/uxRLezTq7QfUcLspczsFwM=;
+        b=BPh/W2h09sfAbzXDVjDliOibJ6rwIUqN0B5SFn3EJIdLmX9uqG61r+XJvhMBSOPU5s
+         G8zFb8m4CYmpINkN7bCqrdMuACfx2YZ/75NhJLW8abHHj4xUyci8tRJgTs6YIlYBOzbr
+         h8SADpWUxODr78OE8z0OhPklEPvO4CszUPcpGxgkc0EZ7L4pE1AZPd2QYvWASJeubV7V
+         zFcd5GirlLTP2z4oEHd93p2ZeDqy+1QQG6MwGldW72yuj6nCi7krvbVaomyIx0XwcVW1
+         pwldw8u0DFZMtQMYQVnzQRRWlOad0BGlCna7sDpQOyG8aoOlfGGH+AreVfYsjXOUnai3
+         QBnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=eyv+iRJLEcjbZd/LhEPn8OpiX7PAY3puKqYKPby0/Lk=;
-        b=I7YVDWmOADtKILb+n06bPH0emCb1wWPZjrlug5bFNwPW1lm51NmSk4doyiBEjQ2fCB
-         WGoZnUiUg7FddRLcYYEk9GXrwbsqsLhodj6AsgZm4RQBlo1erQIOouK/J/8TV0jpBm7P
-         aa/33ikpw8c2LW+E589ZdtSEDAALPpu0/dKLEV+012QRzpQ0GFvCABX1r4kpjpB3x2QW
-         oGVr9niE6uFe50JxJFEPmwmYFlNQjrb1k1QFHU3XEDwFvm4yqZQNVyAxQCiKsQjddi+v
-         ZRzyuezy7v6eoJqjL56mRfjPzFBPo9oIQhRWPS8xwciapSmeyFHbARE/Okut3p+PJsG5
-         /9ZQ==
-X-Gm-Message-State: AOAM530HlQYgkKtxCHQK91/1ijb2C64enojJZ7tiGOQn9rPUEb3hrWV1
-	gUUxIJdB4B+bqDY9TyvWYTlDFxXXzjDAPg==
-X-Google-Smtp-Source: ABdhPJzWU45QwP6Lt+RjOuvBVG+9W1IN10pzBUcN2fub7X8rSe7o0vKyauEjD+VDKsua3PTkjKwBgg==
-X-Received: by 2002:a17:906:d555:: with SMTP id cr21mr189857ejc.66.1618423921972;
-        Wed, 14 Apr 2021 11:12:01 -0700 (PDT)
+        bh=w6SQ1ybYGNpR6i4fr50V/uxRLezTq7QfUcLspczsFwM=;
+        b=ABI0XVTW1K99+wfNi6JvHEwq891+2bENNUUgzFv+IShXTO1Px945os/3oaLQIy5FKu
+         lGzfX15Ikq1msCSffaQywAWbqZyjoEKhLWuxsqx3L78eNeTX2kXVTBIsZTP1WRDUV1qI
+         x42elawUQXqlMt6TNpXN+quWg1CPXa674a55Exyw23XL/z+9gWesAHnuzU8YNQwCe0mC
+         jpypRMeoEjSN+qhIX2+CnEuOTVJjG3zzkoLLJTazuSDetTPqhbDv6f0R9Wa4WJheFD5Q
+         lAbchtQbmc0MFfx0gnoW01eBKJnNqdEQM1C19c43PpcVTl/yE3P0wsmc1IB4G+MeT5wE
+         OIgA==
+X-Gm-Message-State: AOAM533qeZ1qfBnUHvNL4RbyyzH0jWSNai+ctIok+7h59/ztQOIncwx1
+	S4oeHVOVdg0n8rYQN7oPP8EQXA==
+X-Google-Smtp-Source: ABdhPJygVibirgTJ1RiC2e4eJvM3HIYbtUFSnBlMnCCBZgdSfZVytcFRS5B/KEwIJ79Blm7CyncBqQ==
+X-Received: by 2002:a05:6402:104c:: with SMTP id e12mr204936edu.108.1618423923032;
+        Wed, 14 Apr 2021 11:12:03 -0700 (PDT)
 Received: from dell.default ([91.110.221.215])
-        by smtp.gmail.com with ESMTPSA id v1sm279493eds.17.2021.04.14.11.12.00
+        by smtp.gmail.com with ESMTPSA id v1sm279493eds.17.2021.04.14.11.12.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 11:12:01 -0700 (PDT)
+        Wed, 14 Apr 2021 11:12:02 -0700 (PDT)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
 Cc: linux-kernel@vger.kernel.org,
+	Forest Bond <forest@alittletooquiet.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrey Shvetsov <andrey.shvetsov@k2l.de>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 26/57] staging: most: net: Fix some kernel-doc formatting issues
-Date: Wed, 14 Apr 2021 19:10:58 +0100
-Message-Id: <20210414181129.1628598-27-lee.jones@linaro.org>
+Subject: [PATCH 27/57] staging: vt6655: upc: Suppress set but not used warning in macro
+Date: Wed, 14 Apr 2021 19:10:59 +0100
+Message-Id: <20210414181129.1628598-28-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210414181129.1628598-1-lee.jones@linaro.org>
 References: <20210414181129.1628598-1-lee.jones@linaro.org>
@@ -53,39 +53,36 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+
+The variable is used in the function using the macro.
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/staging/most/net/net.c:548: warning: Function parameter or member 'iface' not described in 'on_netinfo'
- drivers/staging/most/net/net.c:548: warning: Function parameter or member 'link_stat' not described in 'on_netinfo'
- drivers/staging/most/net/net.c:548: warning: Function parameter or member 'mac_addr' not described in 'on_netinfo'
+ drivers/staging/vt6655/upc.h:45:16: warning: variable ‘byData’ set but not used [-Wunused-but-set-variable]
 
+Cc: Forest Bond <forest@alittletooquiet.net>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andrey Shvetsov <andrey.shvetsov@k2l.de>
 Cc: linux-staging@lists.linux.dev
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/staging/most/net/net.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/vt6655/upc.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/most/net/net.c b/drivers/staging/most/net/net.c
-index f125bb6da406f..a5fd14246046e 100644
---- a/drivers/staging/most/net/net.c
-+++ b/drivers/staging/most/net/net.c
-@@ -539,9 +539,9 @@ static void __exit most_net_exit(void)
+diff --git a/drivers/staging/vt6655/upc.h b/drivers/staging/vt6655/upc.h
+index e086ec6e77f73..8608693ae9c3e 100644
+--- a/drivers/staging/vt6655/upc.h
++++ b/drivers/staging/vt6655/upc.h
+@@ -42,7 +42,7 @@
  
- /**
-  * on_netinfo - callback for HDM to be informed about HW's MAC
-- * @param iface - most interface instance
-- * @param link_stat - link status
-- * @param mac_addr - MAC address
-+ * @iface: most interface instance
-+ * @link_stat: link status
-+ * @mac_addr: MAC address
-  */
- static void on_netinfo(struct most_interface *iface,
- 		       unsigned char link_stat, unsigned char *mac_addr)
+ #define PCAvDelayByIO(uDelayUnit)				\
+ do {								\
+-	unsigned char byData;					\
++	unsigned char __maybe_unused byData;			\
+ 	unsigned long ii;					\
+ 								\
+ 	if (uDelayUnit <= 50) {					\
 -- 
 2.27.0
 
