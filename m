@@ -1,49 +1,57 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B456D32
-	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 18:06:48 +0000 (UTC)
-Received: by mail-qk1-f172.google.com with SMTP id 130so11947606qkm.4
-        for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 11:06:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6A96D32
+	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 18:09:59 +0000 (UTC)
+Received: by mail-qt1-f172.google.com with SMTP id c6so18880620qtc.1
+        for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 11:09:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1IOBf4Rkhwj6PE+3jdS6mZV2iKsIDxZ6UCVlFQCFR0Y=;
-        b=s0EDeQdYnqErngF1nEmE3311Hy7J+dz5NQjNys2dVGlh7do1ngGwB1c4gbu+DCS5AE
-         5jAUPWMCtzD/PxeCMsDAg/+b7mAyb985FApn3gTDNeJZPwxeUEl0s2+e6t+iOkgJHfLB
-         56Wd5n1Xf/2LfwxL4VN58Uu9dSBNx/o1AfqUgi0iJL9b545LK74n7uZ1ENmUtCgEsN8K
-         5qoMV+xuWbm/uwVCRwHI84GVON2ZxMvqPoe3ivwFRedk1WqCrPSNfkNeKddKSS/ba1nz
-         PIJKPuRPY/Nve+i7KkALhaO9PqU4KJnqG0hj+2NkS1VTuQ1i1caPRGnm9KEfCo/zP+RN
-         z9KQ==
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=Z8o2eF8WW0GN2VLTkAq3OumygwjQqYyVi3fNlIvWwiI=;
+        b=Duv85+DYznnAFwi/q+Zxi2c5YnmcJKrf+XUB68Byd2A15FYncD2i+j5jJxy6U6EdSF
+         lfwKRbEJ0dZC67j0WWswopaUjbvqC7Z7C1Fx6a5BoertXUsnykzmeClaU+kyhp9CBYs8
+         1I5ftmCsHx35smzynbGEP5c2TBhIrNzYR8VFsta3vGLDyTeVTay4e1QXgUHFAScGzOM8
+         XHJtBYHevxCfyAhrHF4ianLU1OyetPIO50/IUupmE6i9MH6vK8d0h1GqnsCdF8l9oF4W
+         ql1kY2WbAm2G6eJGeQGt39vHbfzivZIe6HY8tbe9jywU/r7ykmzmzQYh8jEIjdQGEI8V
+         N14g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1IOBf4Rkhwj6PE+3jdS6mZV2iKsIDxZ6UCVlFQCFR0Y=;
-        b=pgCD/25zgrq38LiCTeYGCbcGaPmZYJosFj0z2EPMDPwR3eQFGoCi5GDcjlRSNTmR4q
-         4/KmuQMByU+7tN6jyDyT8mjSvlEF/wqRdI2zv/fYar9qo9XZUCmCvDZGARZ3B63xzY1j
-         Vh0ibdtDi6muapdJV3V2IMM/xAJfHExA5XLaZkHGPNNH7Oav6/G5Dj2FGwxWtMgjEPLO
-         SvGC64gAtnZ7mCduaSwHYmfittLaLOmq19rodzcr1O07IvuAalYIPlm5c8nVhmoLhkgo
-         YW+53GBYj8YEGH5jvr6dmhWcdmmwnGrsKCZQ1uVq+J3fd8MCVMwRjjNlu2YLg3lcc0Ou
-         R1kg==
-X-Gm-Message-State: AOAM532nDp/VUl0Xmc7hMlZNIoeByTSSpYfpcikEaBPvSBjBZJNyeDSt
-	R4jUczpHe3o0ldiCSP9Ww7g=
-X-Google-Smtp-Source: ABdhPJyjz1cmQf5R7k4Rbio5OpNnorzm0Ith8awPs9DswVhEIFC4/NAf1+0/MVrR91i+mUcafEG4Qg==
-X-Received: by 2002:a37:9e0c:: with SMTP id h12mr4622078qke.398.1618510007694;
-        Thu, 15 Apr 2021 11:06:47 -0700 (PDT)
-Received: from laptop.attlocal.net ([2600:1702:1050:6b80:8429:e77a:40fa:a57d])
-        by smtp.gmail.com with ESMTPSA id j15sm2394005qtl.88.2021.04.15.11.06.46
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Z8o2eF8WW0GN2VLTkAq3OumygwjQqYyVi3fNlIvWwiI=;
+        b=LpxBBldY6FsEgTVA9FGbWIncP3XE5yuSBhrs7guhv73rmeVGVrxYcc2df48kT8DIqt
+         S3MF8+N/QEI2vqh02jdmGKyDVSOYpvWR9awTkD5iaCISeaCou45xOEftbZYaDvKPOWSe
+         PGCwI/O5b9vvDHPNwvIwSDc96VCZSw/Q8v7kErc9eRK4/6ldQ2VEgz7b34Z7vGh5OCdS
+         yIxyDSycf0hSSitvab6DNYm/pMMsmxLsrlB5Xf56k5A2BswILBGST5L7aqacy7dqKRDI
+         WvL+vtUxRZQQ94SWc3ugmQFQApZkb4aOofamXPzVVXiPM9POMW5LZYB8nKGPbDMgSzOG
+         4CHw==
+X-Gm-Message-State: AOAM530hYORFKdaXQbvsLbba1jrwQeWFUiwah1ItDyyyoll5Q6CQ0jFv
+	0eovI3TaWm8dp1MXeXZBfdw=
+X-Google-Smtp-Source: ABdhPJy+SV3+lHg4xIpApam1jIImVhMJPVyBAuCeN8GIR+uE6lNYBWEYSLKqqbWVwZthy43uopci0g==
+X-Received: by 2002:ac8:7d03:: with SMTP id g3mr4391644qtb.330.1618510198723;
+        Thu, 15 Apr 2021 11:09:58 -0700 (PDT)
+Received: from [192.168.100.7] ([138.204.24.234])
+        by smtp.gmail.com with ESMTPSA id p21sm405918qkp.95.2021.04.15.11.09.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Apr 2021 11:06:46 -0700 (PDT)
-From: iankewish@gmail.com
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	Ian Kewish <iankewish@gmail.com>
-Subject: [PATCH] staging: rtl8192e: indent statement properly
-Date: Thu, 15 Apr 2021 13:06:45 -0500
-Message-Id: <20210415180645.65699-1-iankewish@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 15 Apr 2021 11:09:58 -0700 (PDT)
+Message-ID: <74c59fd225b7b107662ce045086cdd8560e3e08f.camel@gmail.com>
+Subject: Re: [Outreachy kernel] [PATCH v2] staging: media: atomisp: pci:
+ Change line break to avoid an open parenthesis at the end of the line
+From: ascordeiro <alinesantanacordeiro@gmail.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,  linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev,  linux-kernel@vger.kernel.org,
+ outreachy-kernel@googlegroups.com
+Date: Thu, 15 Apr 2021 15:09:54 -0300
+In-Reply-To: <20210415171409.GC2531743@casper.infradead.org>
+References: <20210415170819.GA17534@focaruja>
+	 <20210415171409.GC2531743@casper.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.0 (by Flathub.org) 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -51,30 +59,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Ian Kewish <iankewish@gmail.com>
+Em qui, 2021-04-15 às 18:14 +0100, Matthew Wilcox escreveu:
+> On Thu, Apr 15, 2021 at 02:08:19PM -0300, Aline Santana Cordeiro
+> wrote:
+> > -const struct atomisp_format_bridge
+> > *get_atomisp_format_bridge_from_mbus(
+> > -    u32 mbus_code);
+> > +const struct atomisp_format_bridge*
+> > +get_atomisp_format_bridge_from_mbus(u32 mbus_code);
+> 
+> No, this does not match coding style.  Probably best to break the
+> 80-column guideline in this instance.  Best would be to have a
+> function
+> and/or struct name that isn't so ridiculously long, but that would
+> require some in-depth thinking.
+> 
 
-Indent statement in an else branch.  Reported by checkpatch:
-WARNING:SUSPECT_CODE_INDENT: suspect code indent for
-conditional statements (8, 8)
+I left the type of function and its name with the parameters in
+different lines, following up some examples of other files, such as
+atomisp_acc.c.
 
-Signed-off-by: Ian Kewish <iankewish@gmail.com>
----
- drivers/staging/rtl8192e/rtllib_crypt_tkip.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+But I didn't pay attention and left the pointer with the function name
+instead of left it with the type of the function in v1, so Hans
+suggested it to a v2, as I did.
 
-diff --git a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
-index 238387d62..4a760ecbc 100644
---- a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
-+++ b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
-@@ -291,7 +291,7 @@ static int rtllib_tkip_encrypt(struct sk_buff *skb, int hdr_len, void *priv)
- 		tkip_mixing_phase2(rc4key, tkey->key, tkey->tx_ttak,
- 				   tkey->tx_iv16);
- 	} else
--	tkey->tx_phase1_done = 1;
-+		tkey->tx_phase1_done = 1;
- 
- 
- 	len = skb->len - hdr_len;
--- 
-2.25.1
+What should I do in this case?
+
+Thank you in advance,
+Aline
+
+> > -void atomisp_apply_css_parameters(
+> > -    struct atomisp_sub_device *asd,
+> > -    struct atomisp_css_params *css_param);
+> > +void atomisp_apply_css_parameters(struct atomisp_sub_device *asd,
+> > +                                 struct atomisp_css_params
+> > *css_param);
+> > +
+> 
+> Good.
+> 
+
 
