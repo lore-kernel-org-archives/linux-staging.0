@@ -1,48 +1,48 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C2B6D32
-	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 10:07:43 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id y20-20020a1c4b140000b029011f294095d3so14263642wma.3
-        for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 03:07:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D31026D32
+	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 10:07:44 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id r7so10717494wrm.1
+        for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 03:07:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=873gk6pELNZLFerjSZqmlNlTvV/hjDYlASHgozHzVZ0=;
-        b=n0oaecMjObdX0MGX9l3Q7lO0EHAoDhTwFPyj9xJhVjpEh5hulNm8WvA06vxCS68nzP
-         xIThcU369Y17gZNQOX/7ZpQ+JI3zjR1MLdqT5NwFZKimsHgwFK7Tovj6WPQQi55UrWoB
-         PU8KJUPuRkRvbIh1GhGJJDzQi+SJE0EXjKGayOt7M8XSH9Iv5y4YjUq3q9AgmJneFrUg
-         nS1VE1k80xmSmTJHwEBCkeDr9rmpW71jqQ8qqH9vSrjj/np/LncAFEw8+lD9L8xJ0jn+
-         EyCVmSgZv3g4Y3tx6Kyeb2K8plaKFyrC/4QuOTFS8IXRGfSslw3Prz8pwUDdGZrTY1hi
-         1StQ==
+        bh=ggLldia6CekOvY/WIKEl4n4MVtuqBFto21z/p6tICc0=;
+        b=Xy6W3Sc8SKGwsEPHocd8YFc66ryEpSeUQYGBv0gCYzk2Y1iuW2rDBZBVXObh5j/gWJ
+         jcGEs+I08d/jxqFIcBd0pzjYwPtya83cuafr5jOLQddDPPk2cloiuW7jK8xo1bIds/aC
+         s9c15+a8/RLwgYD+D3I9VQeYZCVlat94TtFnWEJdpwYJvk9BXEictvx1BmjT0qjwZJW/
+         Y0Isau3VXG3ehvOmK6XKfYlB5FZ6RYW8f3B8DgFvmrMdnwByBZjdT8NDQhmw+C5sd6HE
+         LXmFW8vzXQecaSp91Xrng9sZEcyQOiTPUq1bD1ySEzPu3zcvbcz01HQcHgduNOKm7Asy
+         77fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=873gk6pELNZLFerjSZqmlNlTvV/hjDYlASHgozHzVZ0=;
-        b=XxBRFitHULnh634OTU3HlteEegTS+dv53X14vMOYOEUTLUev7JKf2fYQFVN2PgIcHw
-         8eUk/xPtSNwpQ6Pbx3Zvd/FdfzpIO4+h4I40Eso5raKTf/R7b2wTSSZGueMAUztOHufN
-         JsvvDOZdk3SNPJqbJOG7it11Ww1hrIi9/AQwc4lM+OLCS7SsXUEB0h/fTAamVuQ+yoNJ
-         reTafd9+kSCvsjLD1tWNEmS0XNEhekfpnNah/E3S+BNRTDH/1S3G3GqGKH1wBaAxhXlu
-         fs6YKgWiv2DgK5/UqXEpVEW0F/kOMIoxjKzeJ+vifA2386N3sg7MG63cW5a8/5xZRf8i
-         kuAg==
-X-Gm-Message-State: AOAM533ZNOIOpiXPpyx1f01eZkZpgSs22lr74pBoswGs/OnY5xJpwxvl
-	LJ8GNwagYUVEReuTaiB4CvA=
-X-Google-Smtp-Source: ABdhPJwjwjgBnAt8qFrrT1F9oBmScy3DlpE4Yjnafd/HxxgUyHhJicBN5T638mFNMLI9gHQM2GSXRQ==
-X-Received: by 2002:a7b:c769:: with SMTP id x9mr2368517wmk.124.1618481261936;
-        Thu, 15 Apr 2021 03:07:41 -0700 (PDT)
+        bh=ggLldia6CekOvY/WIKEl4n4MVtuqBFto21z/p6tICc0=;
+        b=jbHuIRj7dEzAObedgtadCZTgfxL2dy5wAviLyD/uzlIxyMEwKvUMiet9T/E067T4Rn
+         oS4pFgykfQ+UNCQdEU6lFDVFpVyxEvKF/rX+nLSxyq9SiSXdgLU0r0P/8Tsfsbo5Sdh2
+         q5t+7C2YKpuRnZPM8aC5GOTuMFZuzwQeO6/YZPqonDqk5PiIUr51tFMAIqvFqsUR4avF
+         oAp0ygWwEzHsj0Bi1NCkbXjaeNCWjvVDCAwM8UP9/TOZ2yYycrWyEfftzT1Baooj/6vh
+         RbbXrytpE85Ln3VRRyKEzxPd5/DyA9voEd3paeaD5PDAw1q+r9nUkr4JJ+3/ZLdi6pd5
+         mL5g==
+X-Gm-Message-State: AOAM531q846xvMSHzzcNJo3s007EtNFpUHQODrg4xSz0Yvr6/vPWGRMA
+	eOP3t3IZTgMQIrmM33ioezg+wYGJR7g=
+X-Google-Smtp-Source: ABdhPJyniNcfSUS9tZjV3hpRH2Tnaw5KFZior4AifmoJmunogoiTE7Vjo+cpsZPGbMlOh6grLFNYWw==
+X-Received: by 2002:adf:e60e:: with SMTP id p14mr2495139wrm.427.1618481263456;
+        Thu, 15 Apr 2021 03:07:43 -0700 (PDT)
 Received: from agape ([5.171.72.223])
-        by smtp.gmail.com with ESMTPSA id n2sm2181383wmb.32.2021.04.15.03.07.39
+        by smtp.gmail.com with ESMTPSA id f6sm2151415wrt.19.2021.04.15.03.07.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Apr 2021 03:07:41 -0700 (PDT)
+        Thu, 15 Apr 2021 03:07:43 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 5/6] staging: rtl8723bs: remove unused DBG_871X_LEVEL macro declarations
-Date: Thu, 15 Apr 2021 12:07:23 +0200
-Message-Id: <ec371fd8a4e53b4730b45f0a1c9210106b2914f2.1618480688.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 6/6] staging: rtl8723bs: remove empty #ifdef block
+Date: Thu, 15 Apr 2021 12:07:24 +0200
+Message-Id: <c2600c9a71d4e222963cbc600b2e703fe2b1289f.1618480688.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1618480688.git.fabioaiuto83@gmail.com>
 References: <cover.1618480688.git.fabioaiuto83@gmail.com>
@@ -53,49 +53,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove unused DBG_871X_LEVEL macro declarations.
-
-DBG_871X_LEVEL macro wraps a raw printk call which is not
-recommended in a device driver context, prefer using
-netdev_*() log functions.
+remove #ifdef block left empty after DBG_871X_LEVEL
+deletion.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/rtw_debug.h | 14 --------------
- 1 file changed, 14 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_debug.h b/drivers/staging/rtl8723bs/include/rtw_debug.h
-index 12873c3d801d..23f4cb4711d4 100644
---- a/drivers/staging/rtl8723bs/include/rtw_debug.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_debug.h
-@@ -131,8 +131,6 @@
- 	#define	_MODULE_DEFINE_	_module_efuse_
- #endif
+diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+index c767651e2134..d2bf444117b8 100644
+--- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
++++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+@@ -487,10 +487,6 @@ static int __init rtw_drv_entry(void)
+ {
+ 	int ret;
  
--#define DBG_871X_LEVEL(x, ...) do {} while (0)
+-#ifdef BTCOEXVERSION
+-#endif /*  BTCOEXVERSION */
 -
- #undef _dbgdump
- 
- #ifndef _RTL871X_DEBUG_C_
-@@ -146,18 +144,6 @@
- 
- #if defined(_dbgdump)
- 
--/* with driver-defined prefix */
--#undef DBG_871X_LEVEL
--#define DBG_871X_LEVEL(level, fmt, arg...)     \
--	do {\
--		if (level <= GlobalDebugLevel) {\
--			if (level <= _drv_err_ && level > _drv_always_) \
--				_dbgdump(DRIVER_PREFIX"ERROR " fmt, ##arg);\
--			else \
--				_dbgdump(DRIVER_PREFIX fmt, ##arg);\
--		} \
--	} while (0)
 -
- /* without driver-defined prefix */
- #undef _DBG_871X_LEVEL
- #define _DBG_871X_LEVEL(level, fmt, arg...)	   \
+ 	ret = sdio_register_driver(&rtl8723bs_sdio_driver);
+ 	if (ret != 0)
+ 		rtw_ndev_notifier_unregister();
 -- 
 2.20.1
 
