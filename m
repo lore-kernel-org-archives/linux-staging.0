@@ -1,103 +1,87 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp78.ord1d.emailsrvr.com (smtp78.ord1d.emailsrvr.com [184.106.54.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ADCF6D32
-	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 09:49:13 +0000 (UTC)
-Received: by mail-pg1-f175.google.com with SMTP id t22so16574525pgu.0
-        for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 02:49:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-disposition:content-transfer-encoding;
-        bh=MLJSeXjPoZhwM9OSDgG8lC1iJnB13aPm/yKl+/yfCV4=;
-        b=pRp6PcDwdUPowwS48+n5Vcn7b/Qu7Q0Bq2YvCP3A8ZlqeThBV3w1DUWLE2e8USg8pm
-         p56e0NTf8FPp/4keeaxSxU8itqoXcygZWccJHjzPYw6twkrPCaCeIa7t8UWAaOi13xiX
-         Ve6vDa0hTMEKVIEsbLjuxRulV/n9kQ+m5aOD6Vkf6r2/Bwusr+eQ/S2dwwn2oMFwp3Lc
-         2GkmtQYNPNgQcVe/+isx2vnEXxpY4KB3qC1LUVEX/QDmUFhh3+H3Qlnrawi6wO8qPSXX
-         n9LXQW/2cwdJBiHYuTEtqQ1QFQjXIxdEl7Z+WptTF8OVwNjIWlQO0gCPwfl0HQmBLn9z
-         KTxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-disposition
-         :content-transfer-encoding;
-        bh=MLJSeXjPoZhwM9OSDgG8lC1iJnB13aPm/yKl+/yfCV4=;
-        b=rnlrDKX/G1OHZTnQWut5TxbZGKUGRid6IEa/72f6SpZr0fE0UfRMEpa8swZyA0upRP
-         x34BmHCPstW9WQjwebiHONAyX18+gsrqb5rzjwkMlbFfRtmEzjufAFdgxnMYMJ6E7q58
-         Y5NPPmwtjwEKUC9blWnEY3+5rhzTXhsCwnSBMAV+utlripYYLvENCX+dnOa3lMncGIfj
-         ShwoJwlbrU32au0D5SoUJRnmmmA7cgKWIpgtyH+9Yxs5ERgs5+VXd0GstYvoJkOrs5Bz
-         6R1aRPQJIGoaj81I8/wBHbeThDt7+wNO3oVzZei54t4yp52jc4QvzaKuTSGPa8wLjKaq
-         eE/A==
-X-Gm-Message-State: AOAM531FnbugvaG5qCcwDudVmp49QbLN6AFmYNplh7d8V64VJZO5Xc3t
-	bhftaxppzNSFl6FCa4BTi+Y=
-X-Google-Smtp-Source: ABdhPJz/296Ukvru+pRPqrOVz6BD93FwhsGWGwnliuGvZd2ixls4Ij1dvumbp8/IpFDe3RglPXeWtw==
-X-Received: by 2002:a62:7d07:0:b029:21b:d1bc:f6c8 with SMTP id y7-20020a627d070000b029021bd1bcf6c8mr2278450pfc.45.1618480152634;
-        Thu, 15 Apr 2021 02:49:12 -0700 (PDT)
-Received: from localhost.localdomain ([138.197.212.246])
-        by smtp.gmail.com with ESMTPSA id g10sm1581765pfj.137.2021.04.15.02.49.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Apr 2021 02:49:11 -0700 (PDT)
-From: DENG Qingfang <dqfext@gmail.com>
-To: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-Cc: =?iso-8859-1?Q?Ren=E9?= van Dorst <opensource@vdorst.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Landen Chao <Landen.Chao@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Vivien Didelot <vivien.didelot@gmail.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	netdev@vger.kernel.org,
-	Weijie Gao <weijie.gao@mediatek.com>,
-	Chuanhong Guo <gch981213@gmail.com>,
-	Frank Wunderlich <frank-w@public-files.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Marc Zyngier <maz@kernel.org>
-Subject: Re: [RFC v4 net-next 1/4] net: phy: add MediaTek PHY driver
-Date: Thu, 15 Apr 2021 17:49:02 +0800
-Message-Id: <20210415094902.2946-1-dqfext@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210413131259.GP1463@shell.armlinux.org.uk>
-References: <20210412034237.2473017-1-dqfext@gmail.com> <20210412034237.2473017-2-dqfext@gmail.com> <20210412070449.Horde.wg9CWXW8V9o0P-heKYtQpVh@www.vdorst.com> <20210412150836.929610-1-dqfext@gmail.com> <20210413035920.1422364-1-dqfext@gmail.com> <20210413131259.GP1463@shell.armlinux.org.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D04176D32
+	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 09:51:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
+	s=20190130-41we5z8j; t=1618479208;
+	bh=9ZxMqQGHg/U+iZDqYJkCnUEhtfcxjaaIwoqqzMJU6Ag=;
+	h=Subject:To:From:Date:From;
+	b=h54RIO7dDPt/I6rz88luIy4DNP2NUm8kwWzbpm0WIOxChA9SKU7E3bA3EQQ1FQQ7Q
+	 lk3ZLW/4Q/VbGk3TAV2zREzbD/gZVn8hRL6jd/Fhf1/kOVb3F4NCyJKUvrgglmUYPw
+	 WxFqZZHHAipmHcq4ZI79KE4ffb136tDNwYemf5Us=
+X-Auth-ID: abbotti@mev.co.uk
+Received: by smtp2.relay.ord1d.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id 046B72006B;
+	Thu, 15 Apr 2021 05:33:26 -0400 (EDT)
+Subject: Re: [PATCH 48/57] staging: comedi: drivers: jr3_pci: Remove set but
+ unused variable 'min_full_scale'
+To: Lee Jones <lee.jones@linaro.org>
+Cc: linux-kernel@vger.kernel.org,
+ H Hartley Sweeten <hsweeten@visionengravers.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+ Anders Blomdell <anders.blomdell@control.lth.se>,
+ linux-staging@lists.linux.dev
+References: <20210414181129.1628598-1-lee.jones@linaro.org>
+ <20210414181129.1628598-49-lee.jones@linaro.org>
+From: Ian Abbott <abbotti@mev.co.uk>
+Organization: MEV Ltd.
+Message-ID: <9ccd6fe2-91ce-3a0d-d652-567ecf6b8b0a@mev.co.uk>
+Date: Thu, 15 Apr 2021 10:33:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <20210414181129.1628598-49-lee.jones@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
+X-Classification-ID: 84ebef2c-bc97-4c86-ad8d-95289a422c21-1-1
 
-On Tue, Apr 13, 2021 at 02:12:59PM +0100, Russell King - ARM Linux admin wrote:
-> On Tue, Apr 13, 2021 at 11:59:20AM +0800, DENG Qingfang wrote:
-> > Within 12 hours, I got some spontaneous link down/ups when EEE is enabled:
-> > 
-> > [16334.236233] mt7530 mdio-bus:1f wan: Link is Down
-> > [16334.241340] br-lan: port 3(wan) entered disabled state
-> > [16337.355988] mt7530 mdio-bus:1f wan: Link is Up - 1Gbps/Full - flow control rx/tx
-> > [16337.363468] br-lan: port 3(wan) entered blocking state
-> > [16337.368638] br-lan: port 3(wan) entered forwarding state
-> > 
-> > The cable is a 30m Cat.6 and never has such issue when EEE is disabled.
-> > Perhaps WAKEUP_TIME_1000/100 or some PHY registers need to be fine-tuned,
-> > but for now I think it should be disabled by default.
+On 14/04/2021 19:11, Lee Jones wrote:
+> Fixes the following W=1 kernel build warning(s):
 > 
-> Experience with Atheros AR8035 which has a very similar issue would
-> suggest that before resorting to the blunt hammer of disabling
-> SmartEEE, one should definitely experiment with the 1G Tw settings.
+>   drivers/staging/comedi/drivers/jr3_pci.c: In function ‘jr3_pci_poll_subdevice’:
+>   drivers/staging/comedi/drivers/jr3_pci.c:507:22: warning: variable ‘min_full_scale’ set but not used [-Wunused-but-set-variable]
 > 
-> Using 24us for 1G speeds on AR8035 helps a great deal, whereas the PHY
-> defaults to 17us for 1G and 23us for 100M.
+> Cc: Ian Abbott <abbotti@mev.co.uk>
+> Cc: H Hartley Sweeten <hsweeten@visionengravers.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: "Alexander A. Klimov" <grandmaster@al2klimov.de>
+> Cc: Anders Blomdell <anders.blomdell@control.lth.se>
+> Cc: linux-staging@lists.linux.dev
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> ---
+>   drivers/staging/comedi/drivers/jr3_pci.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/comedi/drivers/jr3_pci.c b/drivers/staging/comedi/drivers/jr3_pci.c
+> index 7a02c4fa3cda8..afa2f8d5c8c0c 100644
+> --- a/drivers/staging/comedi/drivers/jr3_pci.c
+> +++ b/drivers/staging/comedi/drivers/jr3_pci.c
+> @@ -504,10 +504,9 @@ jr3_pci_poll_subdevice(struct comedi_subdevice *s)
+>   			result = poll_delay_min_max(20, 100);
+>   		} else {
+>   			/* Set full scale */
+> -			struct six_axis_t min_full_scale;
+>   			struct six_axis_t max_full_scale;
+>   
+> -			min_full_scale = get_min_full_scales(sensor);
+> +			get_min_full_scales(sensor);
+>   			max_full_scale = get_max_full_scales(sensor);
+>   			set_full_scales(sensor, max_full_scale);
+>   
+> 
 
-I set the 1G Tw to maximum 255us and still got the link issue..
+get_min_full_scales() could be removed altogether.  It was only being 
+called originally so the driver could printk the values, but those 
+printks have since been removed.
+
+-- 
+-=( Ian Abbott <abbotti@mev.co.uk> || MEV Ltd. is a company  )=-
+-=( registered in England & Wales.  Regd. number: 02862268.  )=-
+-=( Regd. addr.: S11 & 12 Building 67, Europa Business Park, )=-
+-=( Bird Hall Lane, STOCKPORT, SK3 0XA, UK. || www.mev.co.uk )=-
