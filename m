@@ -1,119 +1,82 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lb3-smtp-cloud8.xs4all.net (lb3-smtp-cloud8.xs4all.net [194.109.24.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76BF6D28
-	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 14:04:05 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id y32so16965423pga.11
-        for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 07:04:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=5XPT6W5he0UfMYjZNPGLkFire9o8RBMsN2S/bCzx5Ng=;
-        b=cleochVxryEm6n+xPLdbi6rWCiJMx6jse9wDAZ2S6KURoNsWa8shkEYnqJ3kerW42j
-         aEoddADtBA7Je9fqWlaPShWFbBRSsrqjiFJlKDF1d95merOtepfBt0qOsNOw/vsfS5nL
-         tu+zjwAb4PDxVVsaJHws0sN7ld6LlZna6zZlwi3a/wwPIzmb22qvQIBBZKDUv5hhbZqB
-         hnNDSD+Wfd0Ps9LdLRQx30WNR/orJZjOCiDSB8EI8TvwtgE69qaWXUiKCJ9R/+O3XSYH
-         hbEZo9IJAzM7u9euVsmHGqSqZfPUS9MGhxZqOwNBnq8LDgTrRP3+lD6I8CqpAIOTRW0f
-         3tdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=5XPT6W5he0UfMYjZNPGLkFire9o8RBMsN2S/bCzx5Ng=;
-        b=PZc0l858yLfxJbpVeJRQSF030K3Wv2hRm9JuFvywmCcqGtYPcZs/FpYnjl5CJvUIqq
-         YhXUXjm9tcycKf4k7GrQQzLKJ0CQMw31+PJsildLhj4VL4yNhM+rXeQ40Ed9yOIUFTYK
-         SZeFhBEOdtzKnxIcQcqu7i5YlLy7CXFrW/lB9IKLPs0Ow39+hQZVh7s/mjKEPuwoQfnG
-         /bJcd0o/b+dOvxl26/165du7Z8Ulcdv+7mKuDqoeRtSyayUn4TqHj3b5rlqnz/JjH6xG
-         dBYKQP7GEXCBIORvREtTjbgUfybUr3bn9DHKRodCLgqpmJkr1O463WC841mmw4gRIX9y
-         IYZA==
-X-Gm-Message-State: AOAM533VX/zdvgEOKvSuXxNsanF9L/jxyNQ7i5eSgpD7t8cN4Jckff5e
-	ls1edQWRcKTkQs+OjWPHhDc=
-X-Google-Smtp-Source: ABdhPJyMP6bMC6WgV254N+iBiedsV3xkfAipyYakF41kVP+RuG4kDZOc8dkzUNLtk5qCeK+hGhw2xA==
-X-Received: by 2002:a62:52c7:0:b029:255:e78e:5069 with SMTP id g190-20020a6252c70000b0290255e78e5069mr3227022pfb.45.1618495444989;
-        Thu, 15 Apr 2021 07:04:04 -0700 (PDT)
-Received: from kali ([103.141.87.254])
-        by smtp.gmail.com with ESMTPSA id y187sm2330633pfb.109.2021.04.15.07.04.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Apr 2021 07:04:04 -0700 (PDT)
-Date: Thu, 15 Apr 2021 19:33:56 +0530
-From: Mitali Borkar <mitaliborkar810@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: gregkh@linuxfoundation.org, davem@davemloft.net, kuba@kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy-kernel@googlegroups.com, mitali_s@me.iitr.ac.in
-Subject: Re: [PATCH v2 4/5] staging: rtl8192e: rectified spelling mistake and
- replace memcmp with ether_oui_equal
-Message-ID: <YHhHzF6A2Syfbxpi@kali>
-References: <cover.1618380932.git.mitaliborkar810@gmail.com>
- <eda8d3401f2f7ff7a61137b4935c6ccb09112e52.1618380932.git.mitaliborkar810@gmail.com>
- <20210414075525.GR6021@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D70F6D28
+	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 14:04:44 +0000 (UTC)
+Received: from [192.168.2.10] ([84.202.3.209])
+	by smtp.xs4all.nl with ESMTPA
+	id X2bnl3mgIsMyaX2bqlUPit; Thu, 15 Apr 2021 16:04:43 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+	t=1618495483; bh=KzRZVFNb/tVjZ4zVD8dN9LPR+RtfZo+UyOgJpDh0Z4s=;
+	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+	 Subject;
+	b=TDecdCDCnvBoJTXlUHSwQF8Md5dtl6+yBQGGnhr5XIoX9KijaCJnxt9TrGkZiekpj
+	 eBiEXJMoTZPsS6be4+fI+xZPF6lBXLtU0bMDYJA5wTwvHvHCfnsy7PXwZxBOjGiPiu
+	 juPf0rMUJ7fWyjS8d/g1OwEBR8sngKtx4a55bvEi5/M7zu8dZR7PNq0Tn5XnE95XBZ
+	 uPGqNXzgdPK0YNG+LhEio2CQqDBca40WoJQ2IjCLD1Ps/RQ1QyEz69gM7QctVuxM1u
+	 wHFT6vURMtdVZo9edRhdNV6FGRGtdUDIX+s4ZU729IzPnBQvw+GrNgm6Km2CXfEepi
+	 818TJWQtd2zoA==
+Subject: Re: [PATCH] staging: media: tegra-video: Align line break to match
+ with the open parenthesis in file vi.c
+To: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+References: <20210414130939.GA15290@focaruja>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <72418471-9cd9-e271-e125-3196ff589891@xs4all.nl>
+Date: Thu, 15 Apr 2021 16:04:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210414075525.GR6021@kadam>
+In-Reply-To: <20210414130939.GA15290@focaruja>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfO+qT6QUSM93GsLUJm9b5upqI50NiYAuIw6wYQFkThBjMjREGCEovLzuZoCyvenBZwSjvIvFDDYW7nBu5t947gzu89ScMktX/5dgZWcF0re6VWYHh1II
+ YG5YEXGqHOpcRvg0RrlLgO2xaZIYnCPkcazYplsdBCrE0F4NPBeBTWLt/K2zqDOkVWPrNyNVIPKQnvr3llObyKUm6umX5vS15SoYT65olJSAmcOzBfgH3Bqa
+ dZILwEJIKuOLLQZ1/zGfjCLldcAAHsIBR6kCA5b78Y0Y0kIv0WH0EH8zTrep+MucdNV2Nop8HJpK597kIbAznJabRoy14KyqbjQTGew4GxzlLIyrsVnXMZXL
+ Jbio8qF1plTUK6RWIkYR47DuvXLmV65cBOVyI6Phla5+Ac3Y4zF/a1FIFy2grdZ8erBCgQeez9AJLIUPGfSiNCHqsFzkcHXgmemkhZUvAykuvmaSz7ecQF9/
+ gZKe2cRlzY84a0zY5miuS6N2WTtXimapfues0oURDOZ7C5eeZvBwW0vJQOXjZDIQD6EUdr8yy8BkhxcJ
 
-On Wed, Apr 14, 2021 at 10:55:25AM +0300, Dan Carpenter wrote:
-> On Wed, Apr 14, 2021 at 12:26:01PM +0530, Mitali Borkar wrote:
-> > Added a generic function of static inline bool in
-> > include/linux/etherdevice.h to replace memcmp with
-> > ether_oui_equal throughout the execution.
-> > Corrected the misspelled words in this file.
-> > 
-> > Signed-off-by: Mitali Borkar <mitaliborkar810@gmail.com>
-> > ---
-> >  
-> > Changes from v1:- Rectified spelling mistake and replaced memcmp with
-> > ether_oui_equal.
-> > 
-> >  drivers/staging/rtl8192e/rtl819x_HTProc.c | 48 +++++++++++------------
-> >  include/linux/etherdevice.h               |  5 +++
->    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> This is networking code and not staging code, but the netdev mailing
-> list isn't CC'd.
->
-I didn't knew mail id then, I will look into this,
+On 14/04/2021 15:09, Aline Santana Cordeiro wrote:
+> Align line break to match with the open parenthesis.
+> Issue detected by checkpatch.pl.
+> 
+> Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+> ---
+>  drivers/staging/media/tegra-video/vi.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+> index 7a09061c..9878d1e 100644
+> --- a/drivers/staging/media/tegra-video/vi.c
+> +++ b/drivers/staging/media/tegra-video/vi.c
+> @@ -1813,7 +1813,8 @@ static int tegra_vi_graph_parse_one(struct tegra_vi_channel *chan,
+>  		}
+>  
+>  		tvge = v4l2_async_notifier_add_fwnode_subdev(&chan->notifier,
+> -				remote, struct tegra_vi_graph_entity);
+> +							     remote,
 
-> >  2 files changed, 29 insertions(+), 24 deletions(-)
-> > 
-> > diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> > index ec6b46166e84..ce58feb2af9a 100644
-> > --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> > +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> > @@ -43,7 +43,7 @@ u16 MCS_DATA_RATE[2][2][77] = {
-> >  	 810, 720, 810, 900, 900, 990} }
-> >  };
-> >  
-> > -static u8 UNKNOWN_BORADCOM[3] = {0x00, 0x14, 0xbf};
-> > +static u8 UNKNOWN_BROADCOM[3] = {0x00, 0x14, 0xbf};
-> 
-> Please pull this spelling fix into its own patch.
-> 
-Okay Sir.
+Add this line to the previous line. That looks a bit better and is one line
+shorter.
 
-> [ snip ]
-> 
-> > diff --git a/include/linux/etherdevice.h b/include/linux/etherdevice.h
-> > index 2e5debc0373c..6a1a63168319 100644
-> > --- a/include/linux/etherdevice.h
-> > +++ b/include/linux/etherdevice.h
-> > @@ -87,6 +87,11 @@ static inline bool is_link_local_ether_addr(const u8 *addr)
-> >  #endif
-> >  }
-> >  
-> > +static inline bool ether_oui_equal(const u8 *addr, const u8 *oui)
-> > +{
-> > +return addr[0] == oui[0] && addr[1] == oui[1] && addr[2] == oui[2];
-> > +}
-> 
-> The indenting is messed up on this.
->
-OKay Sir, I am looking into this.
+Regards,
 
-> regards,
-> dan carpenter
+	Hans
+
+> +							     struct tegra_vi_graph_entity);
+>  		if (IS_ERR(tvge)) {
+>  			ret = PTR_ERR(tvge);
+>  			dev_err(vi->dev,
 > 
+
