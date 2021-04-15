@@ -1,49 +1,49 @@
 Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41CE56D28
-	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 05:49:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE38F6D28
+	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 05:53:44 +0000 (UTC)
 Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-	by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13F5k0V1088198;
-	Thu, 15 Apr 2021 05:49:02 GMT
+	by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13F5nTTs090676;
+	Thu, 15 Apr 2021 05:53:39 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
  : subject : message-id : references : mime-version : content-type :
  in-reply-to; s=corp-2020-01-29;
- bh=UKh2oMINkAlsBGjPrGn33bQfhhfZDzZzi4ZAtWpYPc0=;
- b=fjw1FNNr1MfNeFsutgK/MLCa5vv+we9TUYibZa32Xst2f8Mtee+uh9NARwlXwPdD7x+N
- W4VpR72o7+sFgK0uo/rFAyFbNsVp+Ff0ErsSyfnsRAFEhxuND2/iyapBYW8qWvWYd19W
- hQgFf3qQ7yzAoed1rTMGQsrGftKfNmA/vdgILaQh22RWrESZ/ShSPdldGoFQ1+49ejvk
- ssrtFOsl3y5Vw8TQeEz3xloYx+lSa+rMLcgHQ67mtkyfSnOLg1RRD91hcuR+T4e9Hway
- snRJkTlvjrrvVKwO/U6jhfQhT8pzrQdZ8+Mber9hJR/0ElDW2s+xwzETjV8go73025bU BQ== 
+ bh=m+RmyZkUcYyQTut8sn7lsS+x9pyqvIN7BnQZHbt2PXE=;
+ b=IzBpvef0lIV/PdKLXHED0llLKFaIz0M2QOUupEREqT/zNTdf3TBRcEHIL3SynsHEsRES
+ D+pLlrYce7GuYe+z0O+tKLjzOkhMBXdaRs12Kd+1czC3kkteuJUgQsFeGpSGrB7AwTMU
+ hHPfen8CCm9F9Xc885S87YAQaoz1RlqlLzBRuWviEQOkT5QPYUhnpvtPk9RH/q0+rRE4
+ 6v0iFmW2h4Fgzy8CHCL6Cc6hC1EL08dcfBhrbePOVzStet+VrnuFgmOSJZsud0Cs3KHA
+ IPnHn9d5G/YGWXBc/kyCNwfGs2gCNyXH7K+phNmNlbKYon8I3IThIVjuBYHgn42udMBj dA== 
 Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by aserp2130.oracle.com with ESMTP id 37u1hbmpgd-1
+	by aserp2130.oracle.com with ESMTP id 37u1hbmpxa-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 15 Apr 2021 05:49:02 +0000
+	Thu, 15 Apr 2021 05:53:39 +0000
 Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13F5dY6M029293;
-	Thu, 15 Apr 2021 05:49:00 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by userp3020.oracle.com with ESMTP id 37unsv20mr-1
+	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13F5paKa071140;
+	Thu, 15 Apr 2021 05:53:37 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+	by userp3020.oracle.com with ESMTP id 37unsv26uh-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 15 Apr 2021 05:49:00 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13F5mwQx020490;
-	Thu, 15 Apr 2021 05:48:59 GMT
+	Thu, 15 Apr 2021 05:53:37 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 13F5rWIm006977;
+	Thu, 15 Apr 2021 05:53:32 GMT
 Received: from kadam (/102.36.221.92)
 	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Wed, 14 Apr 2021 22:48:58 -0700
-Date: Thu, 15 Apr 2021 08:48:51 +0300
+	with ESMTP ; Wed, 14 Apr 2021 22:53:31 -0700
+Date: Thu, 15 Apr 2021 08:53:25 +0300
 From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+To: Lee Jones <lee.jones@linaro.org>, Arnd Bergmann <arnd@arndb.de>
+Cc: linux-kernel@vger.kernel.org, Larry Finger <Larry.Finger@lwfinger.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Subject: Re: [PATCH v2] staging: media: atomisp: pci: Format comments
- according to coding-style in file atomisp_cmd.c
-Message-ID: <20210415054851.GA6021@kadam>
-References: <20210414204244.GA8287@focaruja>
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH 37/57] staging: rtl8188eu: os_dep: ioctl_linux: Move 2
+ large data buffers into the heap
+Message-ID: <20210415055325.GB6021@kadam>
+References: <20210414181129.1628598-1-lee.jones@linaro.org>
+ <20210414181129.1628598-38-lee.jones@linaro.org>
+ <20210415051835.GY6021@kadam>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -51,122 +51,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210414204244.GA8287@focaruja>
+In-Reply-To: <20210415051835.GY6021@kadam>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Proofpoint-IMR: 1
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9954 signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
  malwarescore=0 suspectscore=0 bulkscore=0 mlxscore=0 spamscore=0
  phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104150040
-X-Proofpoint-GUID: dKV2ZxJwBAw6Zd8HVB_vpCGW5vrpRtn_
-X-Proofpoint-ORIG-GUID: dKV2ZxJwBAw6Zd8HVB_vpCGW5vrpRtn_
+ engine=8.12.0-2104060000 definitions=main-2104150041
+X-Proofpoint-GUID: 4XgdQG5-IRouO1FFQEjCpnMpLc_c4Asq
+X-Proofpoint-ORIG-GUID: 4XgdQG5-IRouO1FFQEjCpnMpLc_c4Asq
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9954 signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 priorityscore=1501
  clxscore=1015 adultscore=0 mlxlogscore=999 impostorscore=0 malwarescore=0
  lowpriorityscore=0 spamscore=0 phishscore=0 bulkscore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104150040
+ definitions=main-2104150041
 
-On Wed, Apr 14, 2021 at 05:42:44PM -0300, Aline Santana Cordeiro wrote:
-> @@ -90,18 +92,14 @@ struct camera_mipi_info *atomisp_to_sensor_mipi_info(struct v4l2_subdev *sd)
->  	return (struct camera_mipi_info *)v4l2_get_subdev_hostdata(sd);
->  }
->  
-> -/*
-> - * get struct atomisp_video_pipe from v4l2 video_device
-> - */
-> +/* get struct atomisp_video_pipe from v4l2 video_device */
+I screwed up my last email and dropped Lee and Arnd from the To: headers.
+Resending.
 
-This code is obvious and the comment doesn't add anything except noise.
-Just delete it.  Same for a lot of the other one line comments
-describing functions in this patch.
+On Thu, Apr 15, 2021 at 08:20:16AM +0300, Dan Carpenter wrote:
+> On Wed, Apr 14, 2021 at 07:11:09PM +0100, Lee Jones wrote:
+> > ---
+> >  drivers/staging/rtl8188eu/os_dep/ioctl_linux.c | 12 +++++++++++-
+> >  1 file changed, 11 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+> > index c95ae4d6a3b6b..cc14f00947781 100644
+> > --- a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+> > +++ b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+> > @@ -224,7 +224,7 @@ static char *translate_scan(struct adapter *padapter,
+> >  	/* parsing WPA/WPA2 IE */
+> >  	{
+> >  		u8 *buf;
+> > -		u8 wpa_ie[255], rsn_ie[255];
+> > +		u8 *wpa_ie, *rsn_ie;
+> >  		u16 wpa_len = 0, rsn_len = 0;
+> >  		u8 *p;
+> >  
+> > @@ -232,6 +232,14 @@ static char *translate_scan(struct adapter *padapter,
+> >  		if (!buf)
+> >  			return start;
 
+Arnd added this return.  I think it should be -ENOMEM, though?
 
->  struct atomisp_video_pipe *atomisp_to_video_pipe(struct video_device *dev)
->  {
->  	return (struct atomisp_video_pipe *)
->  	       container_of(dev, struct atomisp_video_pipe, vdev);
->  }
->  
-> -/*
-> - * get struct atomisp_acc_pipe from v4l2 video_device
-> - */
-> +/* get struct atomisp_acc_pipe from v4l2 video_device */
->  struct atomisp_acc_pipe *atomisp_to_acc_pipe(struct video_device *dev)
->  {
->  	return (struct atomisp_acc_pipe *)
-> @@ -269,7 +267,7 @@ int atomisp_freq_scaling(struct atomisp_device *isp,
->  			    ATOMISP_RUN_MODE_CONTINUOUS_CAPTURE;
->  	}
->  
-> -	/* search for the target frequency by looping freq rules*/
-> +	/* search for the target frequency by looping freq rules */
->  	for (i = 0; i < dfs->dfs_table_size; i++) {
->  		if (curr_rules.width != dfs->dfs_table[i].width &&
->  		    dfs->dfs_table[i].width != ISP_FREQ_RULE_ANY)
-> @@ -307,9 +305,7 @@ int atomisp_freq_scaling(struct atomisp_device *isp,
->  	return ret;
->  }
->  
-> -/*
-> - * reset and restore ISP
-> - */
-> +/* reset and restore ISP */
-
-Obvious
-
->  int atomisp_reset(struct atomisp_device *isp)
->  {
->  	/* Reset ISP by power-cycling it */
-> @@ -338,9 +334,7 @@ int atomisp_reset(struct atomisp_device *isp)
->  	return ret;
->  }
->  
-> -/*
-> - * interrupt disable functions
-> - */
-> +/* interrupt disable functions */
-
-Obvious
-
->  static void disable_isp_irq(enum hrt_isp_css_irq irq)
->  {
->  	irq_disable_channel(IRQ0_ID, irq);
-> @@ -351,9 +345,7 @@ static void disable_isp_irq(enum hrt_isp_css_irq irq)
->  	cnd_sp_irq_enable(SP0_ID, false);
->  }
->  
-> -/*
-> - * interrupt clean function
-> - */
-> +/* interrupt clean function */
-
-Obvious
-
->  static void clear_isp_irq(enum hrt_isp_css_irq irq)
->  {
->  	irq_clear_all(IRQ0_ID);
-
-[ snip ]
-
-> @@ -1918,10 +1914,7 @@ irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr)
->  	return IRQ_HANDLED;
->  }
->  
-> -/*
-> - * utils for buffer allocation/free
-> - */
-> -
-> +/* utils for buffer allocation/free */
-
-What?  This one seems actively wrong.
-
->  int atomisp_get_frame_pgnr(struct atomisp_device *isp,
->  			   const struct ia_css_frame *frame, u32 *p_pgnr)
->  {
-
-etc.
+> >  
+> > +		wpa_ie = kzalloc(255, GFP_ATOMIC);
+> > +		if (!wpa_ie)
+> > +			return start;
+> 
+> kfree(buf);
+> 
+> > +
+> > +		rsn_ie = kzalloc(255, GFP_ATOMIC);
+> > +		if (!rsn_ie)
+> > +			return start;
+> 
 
 regards,
 dan carpenter
