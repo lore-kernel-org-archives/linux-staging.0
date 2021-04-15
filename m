@@ -1,81 +1,121 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp109.ord1d.emailsrvr.com (smtp109.ord1d.emailsrvr.com [184.106.54.109])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D31026D32
-	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 10:07:44 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id r7so10717494wrm.1
-        for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 03:07:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ggLldia6CekOvY/WIKEl4n4MVtuqBFto21z/p6tICc0=;
-        b=Xy6W3Sc8SKGwsEPHocd8YFc66ryEpSeUQYGBv0gCYzk2Y1iuW2rDBZBVXObh5j/gWJ
-         jcGEs+I08d/jxqFIcBd0pzjYwPtya83cuafr5jOLQddDPPk2cloiuW7jK8xo1bIds/aC
-         s9c15+a8/RLwgYD+D3I9VQeYZCVlat94TtFnWEJdpwYJvk9BXEictvx1BmjT0qjwZJW/
-         Y0Isau3VXG3ehvOmK6XKfYlB5FZ6RYW8f3B8DgFvmrMdnwByBZjdT8NDQhmw+C5sd6HE
-         LXmFW8vzXQecaSp91Xrng9sZEcyQOiTPUq1bD1ySEzPu3zcvbcz01HQcHgduNOKm7Asy
-         77fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ggLldia6CekOvY/WIKEl4n4MVtuqBFto21z/p6tICc0=;
-        b=jbHuIRj7dEzAObedgtadCZTgfxL2dy5wAviLyD/uzlIxyMEwKvUMiet9T/E067T4Rn
-         oS4pFgykfQ+UNCQdEU6lFDVFpVyxEvKF/rX+nLSxyq9SiSXdgLU0r0P/8Tsfsbo5Sdh2
-         q5t+7C2YKpuRnZPM8aC5GOTuMFZuzwQeO6/YZPqonDqk5PiIUr51tFMAIqvFqsUR4avF
-         oAp0ygWwEzHsj0Bi1NCkbXjaeNCWjvVDCAwM8UP9/TOZ2yYycrWyEfftzT1Baooj/6vh
-         RbbXrytpE85Ln3VRRyKEzxPd5/DyA9voEd3paeaD5PDAw1q+r9nUkr4JJ+3/ZLdi6pd5
-         mL5g==
-X-Gm-Message-State: AOAM531q846xvMSHzzcNJo3s007EtNFpUHQODrg4xSz0Yvr6/vPWGRMA
-	eOP3t3IZTgMQIrmM33ioezg+wYGJR7g=
-X-Google-Smtp-Source: ABdhPJyniNcfSUS9tZjV3hpRH2Tnaw5KFZior4AifmoJmunogoiTE7Vjo+cpsZPGbMlOh6grLFNYWw==
-X-Received: by 2002:adf:e60e:: with SMTP id p14mr2495139wrm.427.1618481263456;
-        Thu, 15 Apr 2021 03:07:43 -0700 (PDT)
-Received: from agape ([5.171.72.223])
-        by smtp.gmail.com with ESMTPSA id f6sm2151415wrt.19.2021.04.15.03.07.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Apr 2021 03:07:43 -0700 (PDT)
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 6/6] staging: rtl8723bs: remove empty #ifdef block
-Date: Thu, 15 Apr 2021 12:07:24 +0200
-Message-Id: <c2600c9a71d4e222963cbc600b2e703fe2b1289f.1618480688.git.fabioaiuto83@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1618480688.git.fabioaiuto83@gmail.com>
-References: <cover.1618480688.git.fabioaiuto83@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E4E6D38
+	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 10:16:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
+	s=20190130-41we5z8j; t=1618479564;
+	bh=sdlyLj6d3Jci9vL6n3SdCe0jc0zXhGFiWjpE4Y8KIzU=;
+	h=Subject:To:From:Date:From;
+	b=R5Pt5Hn2Hqqi8pXd+WnWja8/DOi4OhXCXPZtEDSwlJ2uXqL1sPGkZOb+czdsXOnyX
+	 QfLAkHIyxHqBH+ar5hBAa6sYqAd5G8CN2lX7e7DyzC+cz1nKr+l/qn26Ux5GpC5qf+
+	 AC1bSo/ucMyXToTyGQlLZq+w+rgOtRmaEXCtAeAI=
+X-Auth-ID: abbotti@mev.co.uk
+Received: by smtp6.relay.ord1d.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id 09B9EE01DE;
+	Thu, 15 Apr 2021 05:39:22 -0400 (EDT)
+Subject: Re: [PATCH 55/57] staging: comedi: drivers: ni_mio_common: Move
+ 'range_ni_E_ao_ext' to where it is used
+To: Lee Jones <lee.jones@linaro.org>
+Cc: linux-kernel@vger.kernel.org,
+ H Hartley Sweeten <hsweeten@visionengravers.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ "David A. Schleef" <ds@schleef.org>, Mori Hess
+ <fmhess@users.sourceforge.net>, Truxton Fulton <trux@truxton.com>,
+ linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org
+References: <20210414181129.1628598-1-lee.jones@linaro.org>
+ <20210414181129.1628598-56-lee.jones@linaro.org>
+From: Ian Abbott <abbotti@mev.co.uk>
+Organization: MEV Ltd.
+Message-ID: <fd880e8e-a5fc-67ef-6ba4-f59592dee71d@mev.co.uk>
+Date: Thu, 15 Apr 2021 10:39:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <20210414181129.1628598-56-lee.jones@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
+X-Classification-ID: 57b37ea6-05b9-4e64-8263-c6605ab5306c-1-1
 
-remove #ifdef block left empty after DBG_871X_LEVEL
-deletion.
+On 14/04/2021 19:11, Lee Jones wrote:
+> ... and mark it as __maybe_unused since not all users of the
+> header file reference it.
+> 
+> Fixes the following W=1 kernel build warning(s):
+> 
+>   drivers/staging/comedi/drivers/ni_mio_common.c:163:35: warning: ‘range_ni_E_ao_ext’ defined but not used [-Wunused-const-variable=]
+> 
+> Cc: Ian Abbott <abbotti@mev.co.uk>
+> Cc: H Hartley Sweeten <hsweeten@visionengravers.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: "David A. Schleef" <ds@schleef.org>
+> Cc: Mori Hess <fmhess@users.sourceforge.net>
+> Cc: Truxton Fulton <trux@truxton.com>
+> Cc: linux-staging@lists.linux.dev
+> Cc: linux-pwm@vger.kernel.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> ---
+>   drivers/staging/comedi/drivers/ni_mio_common.c | 9 ---------
+>   drivers/staging/comedi/drivers/ni_stc.h        | 9 ++++++++-
+>   2 files changed, 8 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/staging/comedi/drivers/ni_mio_common.c b/drivers/staging/comedi/drivers/ni_mio_common.c
+> index 4f80a4991f953..37615b4e2c10d 100644
+> --- a/drivers/staging/comedi/drivers/ni_mio_common.c
+> +++ b/drivers/staging/comedi/drivers/ni_mio_common.c
+> @@ -160,15 +160,6 @@ static const struct comedi_lrange range_ni_M_ai_628x = {
+>   	}
+>   };
+>   
+> -static const struct comedi_lrange range_ni_E_ao_ext = {
+> -	4, {
+> -		BIP_RANGE(10),
+> -		UNI_RANGE(10),
+> -		RANGE_ext(-1, 1),
+> -		RANGE_ext(0, 1)
+> -	}
+> -};
+> -
+>   static const struct comedi_lrange *const ni_range_lkup[] = {
+>   	[ai_gain_16] = &range_ni_E_ai,
+>   	[ai_gain_8] = &range_ni_E_ai_limited,
+> diff --git a/drivers/staging/comedi/drivers/ni_stc.h b/drivers/staging/comedi/drivers/ni_stc.h
+> index fbc0b753a0f59..0822e65f709dd 100644
+> --- a/drivers/staging/comedi/drivers/ni_stc.h
+> +++ b/drivers/staging/comedi/drivers/ni_stc.h
+> @@ -1137,6 +1137,13 @@ struct ni_private {
+>   	u8 rgout0_usage;
+>   };
+>   
+> -static const struct comedi_lrange range_ni_E_ao_ext;
+> +static const struct comedi_lrange __maybe_unused range_ni_E_ao_ext = {
+> +	4, {
+> +		BIP_RANGE(10),
+> +		UNI_RANGE(10),
+> +		RANGE_ext(-1, 1),
+> +		RANGE_ext(0, 1)
+> +	}
+> +};
+>   
+>   #endif /* _COMEDI_NI_STC_H */
+> 
 
-Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
----
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 4 ----
- 1 file changed, 4 deletions(-)
+I think it is better where it is for now with its fellow struct 
+comedi_lrange variables, but feel free to mark it as __maybe_unused.
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index c767651e2134..d2bf444117b8 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -487,10 +487,6 @@ static int __init rtw_drv_entry(void)
- {
- 	int ret;
- 
--#ifdef BTCOEXVERSION
--#endif /*  BTCOEXVERSION */
--
--
- 	ret = sdio_register_driver(&rtl8723bs_sdio_driver);
- 	if (ret != 0)
- 		rtw_ndev_notifier_unregister();
+(Really, the #include "ni_mio_common.c" mess needs sorting out sometime.)
+
 -- 
-2.20.1
-
+-=( Ian Abbott <abbotti@mev.co.uk> || MEV Ltd. is a company  )=-
+-=( registered in England & Wales.  Regd. number: 02862268.  )=-
+-=( Regd. addr.: S11 & 12 Building 67, Europa Business Park, )=-
+-=( Bird Hall Lane, STOCKPORT, SK3 0XA, UK. || www.mev.co.uk )=-
