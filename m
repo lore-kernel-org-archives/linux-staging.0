@@ -1,98 +1,125 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34B226D32
-	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 16:31:01 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id z8so27771386ljm.12
-        for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 09:31:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B10B6D32
+	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 16:54:27 +0000 (UTC)
+Received: by mail-qk1-f182.google.com with SMTP id f19so8192340qka.8
+        for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 09:54:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=1c68GAsslZ29ILy/hAq4PKTci1jWy3eoAhYN5bcDknI=;
-        b=L39UNpvvEEVyaaUZM1BPvSN/8jkX0FwrjhVW815znGAEEtsb9DStzqBCuB56kxdp4X
-         +wxCjj/xJO+lCUSM3Bs5kKFirREt07vRFPK0WvkdaEV1/iQkGz8ZSf8qpig5/Y65bTDs
-         //2QVAFJIQDWistly1sP0bUIhsoboe0pTIT72ru3X3Skeoi0N4cDYpSpmAKN7MftVT15
-         +dw0mgXkxGkkyTuvSxVxquwIlObkOmSuwcbv/SkSC93Qr89DWoCMq6vO1hRWiFosA26C
-         T2OMtLxw5ZQeCYF0pzkemvwWL0ehpbN2IyZONGeREikuAkIMMEwU+2sh9kMX97W4ZS5y
-         kiTg==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=dx1/r/N68A6cT3i6PlmlaAahaUCvbfGXrjCcPAhDBzw=;
+        b=YgHNKnOsdv0YMHXZW8RrF1EPzF/UsNnC5njhIrZcZTbUN0jevFraJl6ifAxPsgKZjH
+         ZCAV0uJCXeFnk5xyFdC7DYU164c7z/sU8pqN6lMflO6OQihEMJsIuR+oJ8ffhKvgBXDj
+         FvjbVgdBAV8rotE0N6UyQVy6/K0m4U5J3ktzAi9lY2f6L/9p4xjkOp9eeu1ME50WeefW
+         r6IqTFdMyDsrithLZWyTKicveeH24ji1HFeofN5lPWL7oOkK6W5VvB+tXwfiWC2LlZ2w
+         gyGxmw7LgYqXHpGiK44NpJ0VJ7NixccMrA0nAc9oUZQumH6BZZf/QKYz9XGGoTuh9En0
+         mulA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=1c68GAsslZ29ILy/hAq4PKTci1jWy3eoAhYN5bcDknI=;
-        b=J3hBjpC3XbPWiDa3lmB8fMRsBTqfSEKwnGDF+pdy/1rPlTONO26I6GvNH+VNDwTzWw
-         HnZluiGIc0n3PDhYHXTz0Z2EF94qi15zEyD8dT4OFOiGZuYzqYfbprHwmL4ClLJ4aVtv
-         +mgWYNGKHd+/71txEZAG5BsU2uBFdI8d5Baxl1OdU0KRLySSC8xUgCMxklKPYNbF9unD
-         VJeWAKkLX/b3kmHPeEozdN6OdetFRGmpBjU8XXMCTCe65dykOB3JQPcTr+3Dw3I0gCbC
-         6scPvDBtc1MukOPLBwzinnXUQXJyscfXkucn9KTqEx/8UcMTuvP2rK41txQVP629nZA7
-         G2xA==
-X-Gm-Message-State: AOAM533DYyScnHmOznKqtN/q82HJeSysOljPh9oPHFSRwo/xNzIDSZ2b
-	u2zHeo99WEkJltuacmRrgcwXf/D3rhdD5A/kkhUmlQ==
-X-Google-Smtp-Source: ABdhPJwxH4n8OeuFIgmlVhv7TMkBsupTtrRj9EP6uoOhs2dxadpbtA/csZWJbmKXquP0elmZCkX8+i9H1m2gmGlzGx8=
-X-Received: by 2002:a2e:90c2:: with SMTP id o2mr33947ljg.188.1618504259211;
- Thu, 15 Apr 2021 09:30:59 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=dx1/r/N68A6cT3i6PlmlaAahaUCvbfGXrjCcPAhDBzw=;
+        b=NpF2GEtZqDDnOvWN5mllrCxcxr5KG87+PCO8DzWEmnOolZT/E6y0V0lfm5iioW916k
+         x3Wzt744pQvQ+UHt1t2aUTqwAAz7W8Ili/y157x2OJuod5C2+f5BSym/B3IdjzKq3f7L
+         XC23xulYNHeCwVj8xvsX6WJgGl0JmHADuQI569GFhqw/ujqDjDxdvd5U956hbm7ccxx2
+         Xq4mw4QVPpINW4rtF2MCGPJRB6UyvKDwRXXx46GA/3FOT8KJMr/r7nTMWl/4y2aarqrF
+         ND/IELQRdbSbrbLhE1bRHYI/utSey7Z5PNEdIyRup8RuQKK3/3ocRYuZbG2k6ykstZew
+         neSg==
+X-Gm-Message-State: AOAM530gK3AJNvN1+oqUJiM/fGNOEEt6KyqqnESnd60AewR8C8LiHC+d
+	RVlc4C8VU+1EHJL13Nd+WHY=
+X-Google-Smtp-Source: ABdhPJzESx6Ae1ersyawFYdb9u/Qx2IzcBGRiCY8/MVLLoXmx+Fnv11A4g1FnfXWZsXN3Sl8+cPq+g==
+X-Received: by 2002:a05:620a:1432:: with SMTP id k18mr4316365qkj.151.1618505666414;
+        Thu, 15 Apr 2021 09:54:26 -0700 (PDT)
+Received: from focaruja ([138.204.24.234])
+        by smtp.gmail.com with ESMTPSA id 7sm2416170qkl.107.2021.04.15.09.54.25
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Thu, 15 Apr 2021 09:54:26 -0700 (PDT)
+Date: Thu, 15 Apr 2021 13:54:23 -0300
+From: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+Subject: [PATCH 1/4] staging: media: atomisp: pci: Balance braces around
+ conditional statements in file atomisp_cmd.c
+Message-ID: <2e1b53962aab474ab092b1cf09afeb05de7eeabc.1618505476.git.alinesantanacordeiro@gmail.com>
+References: <cover.1618505476.git.alinesantanacordeiro@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210414181129.1628598-1-lee.jones@linaro.org> <20210414181129.1628598-3-lee.jones@linaro.org>
-In-Reply-To: <20210414181129.1628598-3-lee.jones@linaro.org>
-From: Todd Kjos <tkjos@google.com>
-Date: Thu, 15 Apr 2021 09:30:47 -0700
-Message-ID: <CAHRSSEw94qmnRnSdadpFS62WLm7n+7tqSnjPKmaKYVaza2=v9g@mail.gmail.com>
-Subject: Re: [PATCH 02/57] staging: android: ashmem: Supply description for 'new_range'
-To: Lee Jones <lee.jones@linaro.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
-	Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>, 
-	Joel Fernandes <joel@joelfernandes.org>, Christian Brauner <christian@brauner.io>, 
-	Hridya Valsaraju <hridya@google.com>, Suren Baghdasaryan <surenb@google.com>, Robert Love <rlove@google.com>, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1618505476.git.alinesantanacordeiro@gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 
-On Wed, Apr 14, 2021 at 11:11 AM Lee Jones <lee.jones@linaro.org> wrote:
->
-> Fixes the following W=3D1 kernel build warning(s):
->
->  drivers/staging/android/ashmem.c:189: warning: Function parameter or mem=
-ber 'new_range' not described in 'range_alloc'
->
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: "Arve Hj=C3=B8nnev=C3=A5g" <arve@android.com>
-> Cc: Todd Kjos <tkjos@android.com>
-> Cc: Martijn Coenen <maco@android.com>
-> Cc: Joel Fernandes <joel@joelfernandes.org>
-> Cc: Christian Brauner <christian@brauner.io>
-> Cc: Hridya Valsaraju <hridya@google.com>
-> Cc: Suren Baghdasaryan <surenb@google.com>
-> Cc: Robert Love <rlove@google.com>
-> Cc: linux-staging@lists.linux.dev
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+Balance braces around conditional statements.
+Issue detected by checkpatch.pl.
+It happens in if-else statements where one of the commands
+uses braces around a block of code and the other command
+does not since it has just a single line of code.
 
-Acked-by: Todd Kjos <tkjos@google.com>
+Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-> ---
->  drivers/staging/android/ashmem.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/staging/android/ashmem.c b/drivers/staging/android/a=
-shmem.c
-> index d66a64e42273a..8ee4320a5dc6d 100644
-> --- a/drivers/staging/android/ashmem.c
-> +++ b/drivers/staging/android/ashmem.c
-> @@ -179,6 +179,7 @@ static inline void lru_del(struct ashmem_range *range=
-)
->   * @purged:       Initial purge status (ASMEM_NOT_PURGED or ASHMEM_WAS_P=
-URGED)
->   * @start:        The starting page (inclusive)
->   * @end:          The ending page (inclusive)
-> + * @new_range:    The placeholder for the new range
->   *
->   * This function is protected by ashmem_mutex.
->   */
-> --
-> 2.27.0
->
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index abc17ec..8a5796e 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -1132,9 +1132,10 @@ void atomisp_buf_done(struct atomisp_sub_device *asd, int error,
+ 					asd->frame_status[vb->i] =
+ 					    ATOMISP_FRAME_STATUS_OK;
+ 				}
+-			} else
++			} else {
+ 				asd->frame_status[vb->i] =
+ 				    ATOMISP_FRAME_STATUS_OK;
++			}
+ 		} else {
+ 			asd->frame_status[vb->i] = ATOMISP_FRAME_STATUS_OK;
+ 		}
+@@ -4898,9 +4899,9 @@ atomisp_try_fmt_file(struct atomisp_device *isp, struct v4l2_format *f)
+ 
+ 	depth = get_pixel_depth(pixelformat);
+ 
+-	if (field == V4L2_FIELD_ANY)
++	if (field == V4L2_FIELD_ANY) {
+ 		field = V4L2_FIELD_NONE;
+-	else if (field != V4L2_FIELD_NONE) {
++	} else if (field != V4L2_FIELD_NONE) {
+ 		dev_err(isp->dev, "Wrong output field\n");
+ 		return -EINVAL;
+ 	}
+@@ -6548,17 +6549,17 @@ static int atomisp_get_pipe_id(struct atomisp_video_pipe *pipe)
+ {
+ 	struct atomisp_sub_device *asd = pipe->asd;
+ 
+-	if (ATOMISP_USE_YUVPP(asd))
++	if (ATOMISP_USE_YUVPP(asd)) {
+ 		return IA_CSS_PIPE_ID_YUVPP;
+-	else if (asd->vfpp->val == ATOMISP_VFPP_DISABLE_SCALER)
++	} else if (asd->vfpp->val == ATOMISP_VFPP_DISABLE_SCALER) {
+ 		return IA_CSS_PIPE_ID_VIDEO;
+-	else if (asd->vfpp->val == ATOMISP_VFPP_DISABLE_LOWLAT)
++	} else if (asd->vfpp->val == ATOMISP_VFPP_DISABLE_LOWLAT) {
+ 		return IA_CSS_PIPE_ID_CAPTURE;
+-	else if (pipe == &asd->video_out_video_capture)
++	} else if (pipe == &asd->video_out_video_capture) {
+ 		return IA_CSS_PIPE_ID_VIDEO;
+-	else if (pipe == &asd->video_out_vf)
++	} else if (pipe == &asd->video_out_vf) {
+ 		return IA_CSS_PIPE_ID_CAPTURE;
+-	else if (pipe == &asd->video_out_preview) {
++	} else if (pipe == &asd->video_out_preview) {
+ 		if (asd->run_mode->val == ATOMISP_RUN_MODE_VIDEO)
+ 			return IA_CSS_PIPE_ID_VIDEO;
+ 		else
+-- 
+2.7.4
+
