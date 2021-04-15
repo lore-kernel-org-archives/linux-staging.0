@@ -1,153 +1,191 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BAF56D13
-	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 06:55:45 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1lWvub-000396-V3; Thu, 15 Apr 2021 08:55:37 +0200
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1lWvuZ-0006W1-P5; Thu, 15 Apr 2021 08:55:35 +0200
-Date: Thu, 15 Apr 2021 08:55:35 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Lee Jones <lee.jones@linaro.org>
-Cc: linux-kernel@vger.kernel.org, Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A2ED6D13
+	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 07:17:39 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id x12so14504987ejc.1
+        for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 00:17:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Qel2OPZGhx5lJbWSQUP/ydunsj2txfHm1wL988zsXDA=;
+        b=i+DP25U6FJ2GdBJemsuVFT4rvEgX3pk41eJ97a3jwL56mNNOgPQe/6GDBtH+FpaLuq
+         AbEdYBI96LtpadsR8Xf18OxHzBhMOqFK27Ceg3Q8G2qn05+a0zASoTE40J7W9ejQVNUd
+         NlqI2clmxLx9vo7i9yTQ3CnRUS9NFA0ONLlWXV2oawpIHO+rZfMI22z3C+ySFImlelMU
+         D3Q9QPYJin8Q/j3NnJAoTlGNW35z5HX3PjfGuzfh3R75P58hm5/+i2nY22KGuJ0NE3Gw
+         SsoPnOulBvYPr9Krz3t3ubALVGM1IBzGhkdwJUc3k+U6V718lM/kxi8NnoisQhWW93H0
+         Affw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Qel2OPZGhx5lJbWSQUP/ydunsj2txfHm1wL988zsXDA=;
+        b=NbcXAZYrwSeL/mVu15tbnIIAOJFAdfYZlrFTQloYVg76IaCgYVIstVsQ9KpVkcnP/P
+         usDbScsM05ZxbLw/xdPPNRko1xrIHVAHRDR82OcHRddoCONOlLnqlVisrTOi3uFY9erF
+         YtEspLvYsXBUtvYdlQsb25qtJkdbdhQ2fWVOyHDU3YuEMqAP5+6DC642zY/bFM5IXFcd
+         FKWJYHGF5Po1bSdPnQOOZsETpfNCcpLvS9Eh9AXaXm9s9PXD5IXqYfc81xWw+gT3RTmN
+         jZfbUTfkrQX5lGIbvFrHabW+2RWV919VEtdZ/E9nISlwInrh2VjV8Lmup9SLuMZOF889
+         fRtg==
+X-Gm-Message-State: AOAM531WjKuK7PcXrWY/Aml1G49/knI4A3Wb9RJ0Xe+iXJTZr/gYvXlk
+	Fu3n2MZb7NSfnunDkS5mPM8=
+X-Google-Smtp-Source: ABdhPJwEMfSMl9tZaJHUYW6ZGaTBoRVpJqYg9ZmjSFWEZmOyrmWztHkGr/5X0NMKgzCs0l4Ns3qjvQ==
+X-Received: by 2002:a17:906:3018:: with SMTP id 24mr2003959ejz.186.1618471057647;
+        Thu, 15 Apr 2021 00:17:37 -0700 (PDT)
+Received: from linux.local (host-95-237-55-30.retail.telecomitalia.it. [95.237.55.30])
+        by smtp.gmail.com with ESMTPSA id d15sm1237733ejj.42.2021.04.15.00.17.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Apr 2021 00:17:37 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: outreachy-kernel@googlegroups.com,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	"David A. Schleef" <ds@schleef.org>,
-	Mori Hess <fmhess@users.sourceforge.net>,
-	Truxton Fulton <trux@truxton.com>, linux-staging@lists.linux.dev,
-	linux-pwm@vger.kernel.org
-Subject: Re: [PATCH 55/57] staging: comedi: drivers: ni_mio_common: Move
- 'range_ni_E_ao_ext' to where it is used
-Message-ID: <20210415065535.eff56u7nhfhrcnl3@pengutronix.de>
-References: <20210414181129.1628598-1-lee.jones@linaro.org>
- <20210414181129.1628598-56-lee.jones@linaro.org>
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Matthew Wilcox <willy@infradead.org>,
+	Julia Lawall <julia.lawall@inria.fr>,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [Outreachy kernel] [PATCH v4] staging: rtl8723bs: Remove led_blink_hdl() and everything related
+Date: Thu, 15 Apr 2021 09:17:31 +0200
+Message-Id: <20210415071731.25725-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="f4boi5bpfqf5gex7"
-Content-Disposition: inline
-In-Reply-To: <20210414181129.1628598-56-lee.jones@linaro.org>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+Content-Transfer-Encoding: 8bit
 
+Removed useless led_blink_hdl() prototype and definition.
+Removed struct LedBlink_param. Removed LedBlink entries in
+rtw_cmd_callback[] and in wlancmds[]. Everything related to LedBlink is
+not anymore needed. Index of slots changed in arrays comments to reflect
+current positions.
 
---f4boi5bpfqf5gex7
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reported-by: Julia Lawall <julia.lawall@inria.fr>
+Reported-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+Reported-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Suggested-by: Matthew Wilcox <willy@infradead.org>
+Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
 
-Hello Lee,
+Changes from v3: Merged the series into one single patch for avoiding
+unnecessary intermediate stages.
+Changes from v2: Made a series and added another patch (2/2).
+Changes from v1: Corrected a bad solution to this issue that made use of
+an unnecessary dummy function.
 
-nitpick: You move range_ni_E_ao_ext to the header. However that header
-doesn't use range_ni_E_ao_ext, so the subject is technically wrong.
+ drivers/staging/rtl8723bs/core/rtw_cmd.c         | 16 +++++++---------
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    |  9 ---------
+ drivers/staging/rtl8723bs/include/rtw_cmd.h      | 14 ++++----------
+ drivers/staging/rtl8723bs/include/rtw_mlme_ext.h |  1 -
+ 4 files changed, 11 insertions(+), 29 deletions(-)
 
-On Wed, Apr 14, 2021 at 07:11:27PM +0100, Lee Jones wrote:
-> ... and mark it as __maybe_unused since not all users of the
-> header file reference it.
->=20
-> Fixes the following W=3D1 kernel build warning(s):
->=20
->  drivers/staging/comedi/drivers/ni_mio_common.c:163:35: warning: =E2=80=
-=98range_ni_E_ao_ext=E2=80=99 defined but not used [-Wunused-const-variable=
-=3D]
->=20
-> Cc: Ian Abbott <abbotti@mev.co.uk>
-> Cc: H Hartley Sweeten <hsweeten@visionengravers.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: "Uwe Kleine-K=C3=B6nig" <u.kleine-koenig@pengutronix.de>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: "David A. Schleef" <ds@schleef.org>
-> Cc: Mori Hess <fmhess@users.sourceforge.net>
-> Cc: Truxton Fulton <trux@truxton.com>
-> Cc: linux-staging@lists.linux.dev
-> Cc: linux-pwm@vger.kernel.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> ---
->  drivers/staging/comedi/drivers/ni_mio_common.c | 9 ---------
->  drivers/staging/comedi/drivers/ni_stc.h        | 9 ++++++++-
->  2 files changed, 8 insertions(+), 10 deletions(-)
->=20
-> diff --git a/drivers/staging/comedi/drivers/ni_mio_common.c b/drivers/sta=
-ging/comedi/drivers/ni_mio_common.c
-> index 4f80a4991f953..37615b4e2c10d 100644
-> --- a/drivers/staging/comedi/drivers/ni_mio_common.c
-> +++ b/drivers/staging/comedi/drivers/ni_mio_common.c
-> @@ -160,15 +160,6 @@ static const struct comedi_lrange range_ni_M_ai_628x=
- =3D {
->  	}
->  };
-> =20
-> -static const struct comedi_lrange range_ni_E_ao_ext =3D {
-> -	4, {
-> -		BIP_RANGE(10),
-> -		UNI_RANGE(10),
-> -		RANGE_ext(-1, 1),
-> -		RANGE_ext(0, 1)
-> -	}
-> -};
-> -
->  static const struct comedi_lrange *const ni_range_lkup[] =3D {
->  	[ai_gain_16] =3D &range_ni_E_ai,
->  	[ai_gain_8] =3D &range_ni_E_ai_limited,
-> diff --git a/drivers/staging/comedi/drivers/ni_stc.h b/drivers/staging/co=
-medi/drivers/ni_stc.h
-> index fbc0b753a0f59..0822e65f709dd 100644
-> --- a/drivers/staging/comedi/drivers/ni_stc.h
-> +++ b/drivers/staging/comedi/drivers/ni_stc.h
-> @@ -1137,6 +1137,13 @@ struct ni_private {
->  	u8 rgout0_usage;
->  };
-> =20
-> -static const struct comedi_lrange range_ni_E_ao_ext;
-> +static const struct comedi_lrange __maybe_unused range_ni_E_ao_ext =3D {
-> +	4, {
-> +		BIP_RANGE(10),
-> +		UNI_RANGE(10),
-> +		RANGE_ext(-1, 1),
-> +		RANGE_ext(0, 1)
-> +	}
-> +};
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index 0297fbad7bce..d834a82aaf55 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -78,13 +78,12 @@ static struct _cmd_callback rtw_cmd_callback[] = {
+ 	{GEN_CMD_CODE(_Set_Drv_Extra), NULL},/*57*/
+ 	{GEN_CMD_CODE(_Set_H2C_MSG), NULL},/*58*/
+ 	{GEN_CMD_CODE(_SetChannelPlan), NULL},/*59*/
+-	{GEN_CMD_CODE(_LedBlink), NULL},/*60*/
+ 
+-	{GEN_CMD_CODE(_SetChannelSwitch), NULL},/*61*/
+-	{GEN_CMD_CODE(_TDLS), NULL},/*62*/
+-	{GEN_CMD_CODE(_ChkBMCSleepq), NULL}, /*63*/
++	{GEN_CMD_CODE(_SetChannelSwitch), NULL},/*60*/
++	{GEN_CMD_CODE(_TDLS), NULL},/*61*/
++	{GEN_CMD_CODE(_ChkBMCSleepq), NULL}, /*62*/
+ 
+-	{GEN_CMD_CODE(_RunInThreadCMD), NULL},/*64*/
++	{GEN_CMD_CODE(_RunInThreadCMD), NULL},/*63*/
+ };
+ 
+ static struct cmd_hdl wlancmds[] = {
+@@ -150,11 +149,10 @@ static struct cmd_hdl wlancmds[] = {
+ 
+ 	GEN_MLME_EXT_HANDLER(0, h2c_msg_hdl) /*58*/
+ 	GEN_MLME_EXT_HANDLER(sizeof(struct SetChannelPlan_param), set_chplan_hdl) /*59*/
+-	GEN_MLME_EXT_HANDLER(sizeof(struct LedBlink_param), led_blink_hdl) /*60*/
+ 
+-	GEN_MLME_EXT_HANDLER(sizeof(struct SetChannelSwitch_param), set_csa_hdl) /*61*/
+-	GEN_MLME_EXT_HANDLER(sizeof(struct TDLSoption_param), tdls_hdl) /*62*/
+-	GEN_MLME_EXT_HANDLER(0, chk_bmc_sleepq_hdl) /*63*/
++	GEN_MLME_EXT_HANDLER(sizeof(struct SetChannelSwitch_param), set_csa_hdl) /*60*/
++	GEN_MLME_EXT_HANDLER(sizeof(struct TDLSoption_param), tdls_hdl) /*61*/
++	GEN_MLME_EXT_HANDLER(0, chk_bmc_sleepq_hdl) /*62*/
+ 	GEN_MLME_EXT_HANDLER(sizeof(struct RunInThread_param), run_in_thread_hdl) /*63*/
+ };
+ 
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 873d3792ac8e..963ea80083c8 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -6189,15 +6189,6 @@ u8 set_chplan_hdl(struct adapter *padapter, unsigned char *pbuf)
+ 	return	H2C_SUCCESS;
+ }
+ 
+-u8 led_blink_hdl(struct adapter *padapter, unsigned char *pbuf)
+-{
+-
+-	if (!pbuf)
+-		return H2C_PARAMETERS_ERROR;
+-
+-	return	H2C_SUCCESS;
+-}
+-
+ u8 set_csa_hdl(struct adapter *padapter, unsigned char *pbuf)
+ {
+ 	return	H2C_REJECTED;
+diff --git a/drivers/staging/rtl8723bs/include/rtw_cmd.h b/drivers/staging/rtl8723bs/include/rtw_cmd.h
+index 517ae3b51386..28d2d2732374 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_cmd.h
++++ b/drivers/staging/rtl8723bs/include/rtw_cmd.h
+@@ -537,11 +537,6 @@ struct SetChannelPlan_param {
+ 	u8 channel_plan;
+ };
+ 
+-/*H2C Handler index: 60 */
+-struct LedBlink_param {
+-	void *pLed;
+-};
+-
+ /*H2C Handler index: 61 */
+ struct SetChannelSwitch_param {
+ 	u8 new_ch_no;
+@@ -709,13 +704,12 @@ enum {
+ 	GEN_CMD_CODE(_Set_H2C_MSG), /*58*/
+ 
+ 	GEN_CMD_CODE(_SetChannelPlan), /*59*/
+-	GEN_CMD_CODE(_LedBlink), /*60*/
+ 
+-	GEN_CMD_CODE(_SetChannelSwitch), /*61*/
+-	GEN_CMD_CODE(_TDLS), /*62*/
+-	GEN_CMD_CODE(_ChkBMCSleepq), /*63*/
++	GEN_CMD_CODE(_SetChannelSwitch), /*60*/
++	GEN_CMD_CODE(_TDLS), /*61*/
++	GEN_CMD_CODE(_ChkBMCSleepq), /*62*/
+ 
+-	GEN_CMD_CODE(_RunInThreadCMD), /*64*/
++	GEN_CMD_CODE(_RunInThreadCMD), /*63*/
+ 
+ 	MAX_H2CCMD
+ };
+diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+index 5e6cf63956b8..472818c5fd83 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
++++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+@@ -745,7 +745,6 @@ u8 chk_bmc_sleepq_hdl(struct adapter *padapter, unsigned char *pbuf);
+ u8 tx_beacon_hdl(struct adapter *padapter, unsigned char *pbuf);
+ u8 set_ch_hdl(struct adapter *padapter, u8 *pbuf);
+ u8 set_chplan_hdl(struct adapter *padapter, unsigned char *pbuf);
+-u8 led_blink_hdl(struct adapter *padapter, unsigned char *pbuf);
+ u8 set_csa_hdl(struct adapter *padapter, unsigned char *pbuf);	/* Kurt: Handling DFS channel switch announcement ie. */
+ u8 tdls_hdl(struct adapter *padapter, unsigned char *pbuf);
+ u8 run_in_thread_hdl(struct adapter *padapter, u8 *pbuf);
+-- 
+2.31.1
 
-I think a downside of this solution is that range_ni_E_ao_ext might be
-duplicated in the object files. (Ditto for the status quo BTW.)
-
-I think the right approach to fix the compiler warning and the
-duplication is to declare range_ni_E_ao_ext external in the header and
-keep the definition in ni_mio_common.c.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---f4boi5bpfqf5gex7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmB342QACgkQwfwUeK3K
-7AmX5gf/dIlnwiXhI52/OOiPEZTsrfSg1t8iPwITw1Kexfp+BiH0njLzCaDtiQSB
-GrD7qoOw2/YCKCrJTErs+OJ+8dRmXWV7ynsFAf9vvDuNsnF+Mef9++t92If64pIu
-DNf/VSorofSmfYgMrizczIi6qBufr3Of1s3ebBmrQbDiM8KHNwZTC60Fy6knnE95
-3Pln3knZecUShJgGgilFyXLuPEl+lmgDD+X0tWNdRXkxY1HmeC07SlgRXYO+fPAk
-TzqO62RJG6dM/nawDHT1VjucYmUknbr6bta8rbDJauKtDn2Hshb04dIyaDJNXCuB
-cyhjtvS8nFxTR/rba97wd7Df8Wkmaw==
-=lG+K
------END PGP SIGNATURE-----
-
---f4boi5bpfqf5gex7--
