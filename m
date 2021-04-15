@@ -1,56 +1,54 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 959396D32
-	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 08:38:39 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id c15so13504031wro.13
-        for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 01:38:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48AB16D32
+	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 09:16:28 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id f195-20020a1c1fcc0000b029012eb88126d7so1992122wmf.3
+        for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 02:16:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
          :user-agent;
-        bh=FNwALlxwzocopn/d194FfhrN/a/el0rTE18i45yvvJk=;
-        b=SXEMRPO2kYZAuE1b0FmXDIzOJQ9EZCMKj8qpru1CIZkUMoiIK7d3mIFPyJ77CtJDEz
-         /j/G0KSVwBw0qtbNcXvjBtSbX+6D3SR23dYtSAiZoxhQc+N4FW+eK9NDUvSflDv1i6Lp
-         R1Cl5v2TGgsUCBO4cRETJwll7qhRBLuUgRaAu89CVLcuEnX2JzF8ohvj6UzO5wUCY+Kn
-         wekV6ZxuTCnCHkjwZmNl82YHok2dlanIicGF9HH71w/ZuCNxCYMI42LFyP0ggvv0jmf6
-         5Dp0/XdEY7z6gbjmuzYHDIOLBNymuF8zMpq0+ASxg7MGYn+THkFv8asa1xMAWNvAffba
-         u+3w==
+        bh=DeXDeXRzRy6XeBITm1wvQ0gcDeECEHBICqvLtdhOGSI=;
+        b=ULxk+4yqlbHmpoJ3Qp2um9iggnfyBOrzKWB7u1KSZhsBa65PQnGBDN6jN7SH1iMOfk
+         QtZHd4OazysP8bnTLU8AckxlKctvNP6DH4sfHDiIaaPrlT4QOb3voDfAFCMWjzxGh4VA
+         1PS5mF0xyWCxvTcjornEABaPoCm3jXPrNW5uxDoZcgq4OXbZXTG8Rr6t6CEnAewDhoIg
+         8lfz7jfWml9d1IbP+aiU0f9pw6XoEkLGgLLbVqggUwexYBAL+f6DPezbyrCBLaOWeJRj
+         DEYIc7DNUiaJ824nyU+2psNISzyXIQ5u8aVVZIrq6WnRTX4Im+g7AWiz0vb05qBYMF0k
+         dNTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to:user-agent;
-        bh=FNwALlxwzocopn/d194FfhrN/a/el0rTE18i45yvvJk=;
-        b=mrluPAqNK9ic4P6VoY7+4E/tnynX+VVtvd/Wkh/Evn9V0QVpABz3GdJCeF2MwQ55FF
-         biR3YqL6kkZwLotMandXQzEMC0aPmUc/LTvuRcmRb302x0u4rbynv7jJRSWlWzMSYvlm
-         lGp/Ap6aN3jG28gC0Z2zy85xF1TLF6KhzCecQUhR6ckQFfrTE5N5h4mBjsBcXohjRv/w
-         b5cbHaVkkPmBhqZOThhJDtx9J4YG0O2k0WLfCvIyRe/Jb2naNCGLpYxuscZdKfjEbZjL
-         mEFr/0VhIiGV8OOl4vZPDJd33wTRadZ/JGxxiuy4DAqgVcTfRXHsqypX2fBlLTZAWHXJ
-         YStg==
-X-Gm-Message-State: AOAM533xYdbpKz/n7G2JthgjIL/XALSPaqMxRC/Nm68FSdN/hCflRZnd
-	ahaIOnkwRPXVRl0nCQ3gr6WkiTziPys=
-X-Google-Smtp-Source: ABdhPJw7HvS/3A53Z/DCPvk73sL2uNGOFXh3SnPCFUQ1tKHCN3cpZjWVze3HPyybtj9ndPYSIkDCXA==
-X-Received: by 2002:a5d:66cf:: with SMTP id k15mr2259143wrw.404.1618475918186;
-        Thu, 15 Apr 2021 01:38:38 -0700 (PDT)
+        bh=DeXDeXRzRy6XeBITm1wvQ0gcDeECEHBICqvLtdhOGSI=;
+        b=hP5YCC3LOpRNagAt942YFSGUyYsD3j3YtRPDhtm8HQTc5jJrBGjk4sMjFeG4laWxiX
+         n6wYe7EyXtinGdXDMDSq5gHLr9sRMbXLkjrEo+uRnnXHNwgnaXEgUo5zJ6STj7qg/q3d
+         YBBXnRaqvYy9z0jYLgP0iS5OFh2ZeUla8tEHPfj4MMjndYkZTMlu8WG8Ffhoi2n90cmc
+         Rr3MSX/VRn8EhTuYXsqjyYAyjJ16W7FQ+TOaczKUG2YXYkBy5qRRCpK6CgLvN6m1shPw
+         g0O+mvYUH410fD3/dwdxWxRAoAQryKAqeDh9Vw4Ku/IUHxBl+xRG5ENM9SR9iP/OVSQh
+         GV2w==
+X-Gm-Message-State: AOAM530ecipOsMQTIGXcqqHKVuwvofIc4QBCnRVwuWYt6qDDNvcGPpIa
+	K/J1FFAD1YNaTQaQKS/t7gE=
+X-Google-Smtp-Source: ABdhPJwCZ9qaO20cLQTF7H4S2efkWPm+h/6++I/OvtzI19nUe/EehNvLrSrEm06Aaf37GZ6NLN/cNQ==
+X-Received: by 2002:a05:600c:25ca:: with SMTP id 10mr2223182wml.0.1618478186813;
+        Thu, 15 Apr 2021 02:16:26 -0700 (PDT)
 Received: from agape.jhs ([5.171.72.223])
-        by smtp.gmail.com with ESMTPSA id q20sm7465639wmq.2.2021.04.15.01.38.37
+        by smtp.gmail.com with ESMTPSA id 3sm1993895wma.45.2021.04.15.02.16.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Apr 2021 01:38:37 -0700 (PDT)
-Date: Thu, 15 Apr 2021 10:38:35 +0200
+        Thu, 15 Apr 2021 02:16:26 -0700 (PDT)
+Date: Thu, 15 Apr 2021 11:16:23 +0200
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: Lee Jones <lee.jones@linaro.org>
 Cc: linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Stanley@BB.SD3,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 15/57] staging: rtl8723bs: core: rtw_security: Demote
- non-conformant kernel-doc header
-Message-ID: <20210415083834.GB1431@agape.jhs>
+Subject: Re: [PATCH 57/57] staging: rtl8723bs: hal: sdio_halinit: Remove
+ unused variable 'ret'
+Message-ID: <20210415091622.GC1431@agape.jhs>
 References: <20210414181129.1628598-1-lee.jones@linaro.org>
- <20210414181129.1628598-16-lee.jones@linaro.org>
- <20210415080928.GA1431@agape.jhs>
- <20210415083134.GT4869@dell>
+ <20210414181129.1628598-58-lee.jones@linaro.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -59,58 +57,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210415083134.GT4869@dell>
+In-Reply-To: <20210414181129.1628598-58-lee.jones@linaro.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Thu, Apr 15, 2021 at 09:31:34AM +0100, Lee Jones wrote:
-> On Thu, 15 Apr 2021, Fabio Aiuto wrote:
+On Wed, Apr 14, 2021 at 07:11:29PM +0100, Lee Jones wrote:
+> Fixes the following W=1 kernel build warning(s):
 > 
-> > On Wed, Apr 14, 2021 at 07:10:47PM +0100, Lee Jones wrote:
-> > > Fixes the following W=1 kernel build warning(s):
-> > > 
-> > >  from drivers/staging/rtl8188eu/core/rtw_security.c:10:
-> > >  drivers/staging/rtl8188eu/core/rtw_security.c:478: warning: Function parameter or member 'p1k' not described in 'phase1'
-> > >  drivers/staging/rtl8188eu/core/rtw_security.c:478: warning: Function parameter or member 'tk' not described in 'phase1'
-> > >  drivers/staging/rtl8188eu/core/rtw_security.c:478: warning: Function parameter or member 'ta' not described in 'phase1'
-> > >  drivers/staging/rtl8188eu/core/rtw_security.c:517: warning: Function parameter or member 'rc4key' not described in 'phase2'
-> > >  drivers/staging/rtl8188eu/core/rtw_security.c:517: warning: Function parameter or member 'tk' not described in 'phase2'
-> > >  drivers/staging/rtl8188eu/core/rtw_security.c:517: warning: Function parameter or member 'p1k' not described in 'phase2'
-> > >  drivers/staging/rtl8723bs/core/rtw_security.c:1937: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-> > > 
-> > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > Cc: linux-staging@lists.linux.dev
-> > > Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> > > ---
-> > >  drivers/staging/rtl8723bs/core/rtw_security.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-> > > index 9587d89a6b24e..60b724729900e 100644
-> > > --- a/drivers/staging/rtl8723bs/core/rtw_security.c
-> > > +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-> > > @@ -1921,7 +1921,7 @@ const u8 rcons[] = {
-> > >  	/* for 128-bit blocks, Rijndael never uses more than 10 rcon values */
-> > >  };
-> > >  
-> > > -/**
-> > > +/*
-> > >   * Expand the cipher key into the encryption key schedule.
-> > >   *
-> > >   * @return	the number of rounds for the given cipher key size.
-> > 
-> > Hi,
-> > 
-> > did you mean 'demote' in subject line?
+>  drivers/staging/rtl8723bs/hal/sdio_halinit.c: In function ‘CardDisableRTL8723BSdio’:
+>  drivers/staging/rtl8723bs/hal/sdio_halinit.c:881:5: warning: variable ‘ret’ set but not used [-Wunused-but-set-variable]
+>  drivers/staging/rtl8723bs/hal/sdio_halinit.c: In function ‘CardDisableRTL8723BSdio’:
+>  drivers/staging/rtl8723bs/hal/sdio_halinit.c:881:5: warning: variable ‘ret’ set but not used [-Wunused-but-set-variable]
+>  drivers/staging/rtl8723bs/hal/sdio_halinit.c: In function ‘CardDisableRTL8723BSdio’:
+>  drivers/staging/rtl8723bs/hal/sdio_halinit.c:881:5: warning: variable ‘ret’ set but not used [-Wunused-but-set-variable]
+>  drivers/staging/rtl8723bs/hal/sdio_halinit.c: In function ‘CardDisableRTL8723BSdio’:
+>  drivers/staging/rtl8723bs/hal/sdio_halinit.c:881:5: warning: variable ‘ret’ set but not used [-Wunused-but-set-variable]
+>  drivers/staging/rtl8723bs/hal/sdio_halinit.c: In function ‘CardDisableRTL8723BSdio’:
+>  drivers/staging/rtl8723bs/hal/sdio_halinit.c:881:5: warning: variable ‘ret’ set but not used [-Wunused-but-set-variable]
 > 
-> I did.  Did I spell it incorrectly?
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Fabio Aiuto <fabioaiuto83@gmail.com>
+> Cc: Stanley@BB.SD3
+> Cc: linux-staging@lists.linux.dev
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> ---
+>  drivers/staging/rtl8723bs/hal/sdio_halinit.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 > 
+> diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> index f6d734dd1a24f..60d3d6d1ba678 100644
+> --- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> +++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> @@ -878,10 +878,9 @@ static void CardDisableRTL8723BSdio(struct adapter *padapter)
+>  {
+>  	u8 u1bTmp;
+>  	u8 bMacPwrCtrlOn;
+> -	u8 ret = _FAIL;
+>  
+>  	/*  Run LPS WL RFOFF flow */
+> -	ret = HalPwrSeqCmdParsing(padapter, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, rtl8723B_enter_lps_flow);
+> +	HalPwrSeqCmdParsing(padapter, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, rtl8723B_enter_lps_flow);
+>  
+>  	/* 	==== Reset digital sequence   ====== */
+>  
+> @@ -909,9 +908,8 @@ static void CardDisableRTL8723BSdio(struct adapter *padapter)
+>  	/* 	==== Reset digital sequence end ====== */
+>  
+>  	bMacPwrCtrlOn = false;	/*  Disable CMD53 R/W */
+> -	ret = false;
+>  	rtw_hal_set_hwreg(padapter, HW_VAR_APFM_ON_MAC, &bMacPwrCtrlOn);
+> -	ret = HalPwrSeqCmdParsing(padapter, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, rtl8723B_card_disable_flow);
+> +	HalPwrSeqCmdParsing(padapter, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, rtl8723B_card_disable_flow);
+>  }
+>  
+>  static u32 rtl8723bs_hal_deinit(struct adapter *padapter)
 > -- 
-> Lee Jones [李琼斯]
-> Senior Technical Lead - Developer Services
-> Linaro.org │ Open source software for Arm SoCs
-> Follow Linaro: Facebook | Twitter | Blog
+> 2.27.0
+> 
 
-that's good, sorry for noise.
+perhaps it's better to check the return value and return it
+to the caller if something goes wrong,
+
+https://lore.kernel.org/linux-staging/YHQVKPOoGS3auAeQ@kroah.com/
 
 thank you,
 
