@@ -1,59 +1,56 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC356D32
-	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 08:34:25 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id bx20so25865254edb.12
-        for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 01:34:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 959396D32
+	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 08:38:39 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id c15so13504031wro.13
+        for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 01:38:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=ZyVMtB+Nhk/j05dUGtiYl/caXyuaDDioIx3PMH1ZaCA=;
-        b=naLW0P4Ai2XWFnG907DDslAfgqi9342d+6FeiQJtUOyeSNRjrH5JAohGjPG0vAIggy
-         5Qc08B71vRYqy2ThHwu2Weat4a+ue/4GPnjsOMmjxL80uzNBL9BUYvfH3pRT/BmxEseS
-         w96N1g5ikdayQRR5+tASLuh+MfPmeh4cOPQE1VMgHxqa29Yc/ZR9mOJFzRUrlLUj+l0b
-         wIYV+X9mfzbBVRGihlNs1vPdVAaD32FnS5YQPq6IZr3Twhr4/okgEaosoFrXDJHWNXdB
-         mbjCrnF05ThBG3U0a3FXnCFU/nc25cFAJjJT7k8raSYl5KqEjmN6yxHPI0eajix+AVL0
-         AYRg==
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=FNwALlxwzocopn/d194FfhrN/a/el0rTE18i45yvvJk=;
+        b=SXEMRPO2kYZAuE1b0FmXDIzOJQ9EZCMKj8qpru1CIZkUMoiIK7d3mIFPyJ77CtJDEz
+         /j/G0KSVwBw0qtbNcXvjBtSbX+6D3SR23dYtSAiZoxhQc+N4FW+eK9NDUvSflDv1i6Lp
+         R1Cl5v2TGgsUCBO4cRETJwll7qhRBLuUgRaAu89CVLcuEnX2JzF8ohvj6UzO5wUCY+Kn
+         wekV6ZxuTCnCHkjwZmNl82YHok2dlanIicGF9HH71w/ZuCNxCYMI42LFyP0ggvv0jmf6
+         5Dp0/XdEY7z6gbjmuzYHDIOLBNymuF8zMpq0+ASxg7MGYn+THkFv8asa1xMAWNvAffba
+         u+3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=ZyVMtB+Nhk/j05dUGtiYl/caXyuaDDioIx3PMH1ZaCA=;
-        b=h8r35F00F0JRgDeczChlLv3YkhHCC3RtyJjL+bZu2TU/tgVWrbMtomvKE2PiMdec/p
-         oAvtKoKLkFD7sMJvL/uIUBYMvYVKgUG/Wo+TmT//msVXQ211/1RvMAR1hvA92r2heyVT
-         /jM+v+RvKnSvQP6/5vXgIXv8G0Miwfx1iLZqjCTvsa3wYwHYQv6BvY/mKvO9JvAJUlil
-         2MrpF2qCLAkfsrKo0VeiT3s+YNZ68cVab9GbbghKWGdp2VafB6S2WZ1+wTfxMK2e+ItC
-         FewpGnomJUBjQPf421dG5VWCbBynFGMqhALiNUAUNPl6IOEDijSVFc+DaitHCO5Dwqmb
-         QDSA==
-X-Gm-Message-State: AOAM532egYMAYRvBgmCc4qk+jlxpjxTAPi2DdpN0jmVoaNSbW3SnD31r
-	iBQagfzWroDYnEnB+hXAiDZ06X/Irpw7IA==
-X-Google-Smtp-Source: ABdhPJwLmMWmf+ln8LvRE/mNvq23RtHXHlEDyfNtjD/7wInU0hwZ7xbtoSw2dnp+tn/FZturSlY2SQ==
-X-Received: by 2002:a05:6402:485:: with SMTP id k5mr2721724edv.211.1618475663896;
-        Thu, 15 Apr 2021 01:34:23 -0700 (PDT)
-Received: from dell ([91.110.221.215])
-        by smtp.gmail.com with ESMTPSA id t14sm1358659ejj.77.2021.04.15.01.34.22
+         :in-reply-to:user-agent;
+        bh=FNwALlxwzocopn/d194FfhrN/a/el0rTE18i45yvvJk=;
+        b=mrluPAqNK9ic4P6VoY7+4E/tnynX+VVtvd/Wkh/Evn9V0QVpABz3GdJCeF2MwQ55FF
+         biR3YqL6kkZwLotMandXQzEMC0aPmUc/LTvuRcmRb302x0u4rbynv7jJRSWlWzMSYvlm
+         lGp/Ap6aN3jG28gC0Z2zy85xF1TLF6KhzCecQUhR6ckQFfrTE5N5h4mBjsBcXohjRv/w
+         b5cbHaVkkPmBhqZOThhJDtx9J4YG0O2k0WLfCvIyRe/Jb2naNCGLpYxuscZdKfjEbZjL
+         mEFr/0VhIiGV8OOl4vZPDJd33wTRadZ/JGxxiuy4DAqgVcTfRXHsqypX2fBlLTZAWHXJ
+         YStg==
+X-Gm-Message-State: AOAM533xYdbpKz/n7G2JthgjIL/XALSPaqMxRC/Nm68FSdN/hCflRZnd
+	ahaIOnkwRPXVRl0nCQ3gr6WkiTziPys=
+X-Google-Smtp-Source: ABdhPJw7HvS/3A53Z/DCPvk73sL2uNGOFXh3SnPCFUQ1tKHCN3cpZjWVze3HPyybtj9ndPYSIkDCXA==
+X-Received: by 2002:a5d:66cf:: with SMTP id k15mr2259143wrw.404.1618475918186;
+        Thu, 15 Apr 2021 01:38:38 -0700 (PDT)
+Received: from agape.jhs ([5.171.72.223])
+        by smtp.gmail.com with ESMTPSA id q20sm7465639wmq.2.2021.04.15.01.38.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Apr 2021 01:34:23 -0700 (PDT)
-Date: Thu, 15 Apr 2021 09:34:21 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: linux-kernel@vger.kernel.org, Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
+        Thu, 15 Apr 2021 01:38:37 -0700 (PDT)
+Date: Thu, 15 Apr 2021 10:38:35 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Lee Jones <lee.jones@linaro.org>
+Cc: linux-kernel@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	"David A. Schleef" <ds@schleef.org>,
-	Mori Hess <fmhess@users.sourceforge.net>,
-	Truxton Fulton <trux@truxton.com>, linux-staging@lists.linux.dev,
-	linux-pwm@vger.kernel.org
-Subject: Re: [PATCH 55/57] staging: comedi: drivers: ni_mio_common: Move
- 'range_ni_E_ao_ext' to where it is used
-Message-ID: <20210415083421.GV4869@dell>
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 15/57] staging: rtl8723bs: core: rtw_security: Demote
+ non-conformant kernel-doc header
+Message-ID: <20210415083834.GB1431@agape.jhs>
 References: <20210414181129.1628598-1-lee.jones@linaro.org>
- <20210414181129.1628598-56-lee.jones@linaro.org>
- <20210415065535.eff56u7nhfhrcnl3@pengutronix.de>
+ <20210414181129.1628598-16-lee.jones@linaro.org>
+ <20210415080928.GA1431@agape.jhs>
+ <20210415083134.GT4869@dell>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -62,48 +59,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210415065535.eff56u7nhfhrcnl3@pengutronix.de>
+In-Reply-To: <20210415083134.GT4869@dell>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Thu, 15 Apr 2021, Uwe Kleine-König wrote:
-
-> Hello Lee,
+On Thu, Apr 15, 2021 at 09:31:34AM +0100, Lee Jones wrote:
+> On Thu, 15 Apr 2021, Fabio Aiuto wrote:
 > 
-> nitpick: You move range_ni_E_ao_ext to the header. However that header
-> doesn't use range_ni_E_ao_ext, so the subject is technically wrong.
-
-It's implicitly used by the users of the header.
-
-But I know what you mean.
-
-I'll see if I can make the subject line a little more clear.
-
-> On Wed, Apr 14, 2021 at 07:11:27PM +0100, Lee Jones wrote:
-> > ... and mark it as __maybe_unused since not all users of the
-> > header file reference it.
+> > On Wed, Apr 14, 2021 at 07:10:47PM +0100, Lee Jones wrote:
+> > > Fixes the following W=1 kernel build warning(s):
+> > > 
+> > >  from drivers/staging/rtl8188eu/core/rtw_security.c:10:
+> > >  drivers/staging/rtl8188eu/core/rtw_security.c:478: warning: Function parameter or member 'p1k' not described in 'phase1'
+> > >  drivers/staging/rtl8188eu/core/rtw_security.c:478: warning: Function parameter or member 'tk' not described in 'phase1'
+> > >  drivers/staging/rtl8188eu/core/rtw_security.c:478: warning: Function parameter or member 'ta' not described in 'phase1'
+> > >  drivers/staging/rtl8188eu/core/rtw_security.c:517: warning: Function parameter or member 'rc4key' not described in 'phase2'
+> > >  drivers/staging/rtl8188eu/core/rtw_security.c:517: warning: Function parameter or member 'tk' not described in 'phase2'
+> > >  drivers/staging/rtl8188eu/core/rtw_security.c:517: warning: Function parameter or member 'p1k' not described in 'phase2'
+> > >  drivers/staging/rtl8723bs/core/rtw_security.c:1937: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+> > > 
+> > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > Cc: linux-staging@lists.linux.dev
+> > > Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> > > ---
+> > >  drivers/staging/rtl8723bs/core/rtw_security.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+> > > index 9587d89a6b24e..60b724729900e 100644
+> > > --- a/drivers/staging/rtl8723bs/core/rtw_security.c
+> > > +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+> > > @@ -1921,7 +1921,7 @@ const u8 rcons[] = {
+> > >  	/* for 128-bit blocks, Rijndael never uses more than 10 rcon values */
+> > >  };
+> > >  
+> > > -/**
+> > > +/*
+> > >   * Expand the cipher key into the encryption key schedule.
+> > >   *
+> > >   * @return	the number of rounds for the given cipher key size.
 > > 
-> > Fixes the following W=1 kernel build warning(s):
+> > Hi,
 > > 
-> >  drivers/staging/comedi/drivers/ni_mio_common.c:163:35: warning: ‘range_ni_E_ao_ext’ defined but not used [-Wunused-const-variable=]
-> > 
-> > Cc: Ian Abbott <abbotti@mev.co.uk>
-> > Cc: H Hartley Sweeten <hsweeten@visionengravers.com>
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > Cc: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
-> > Cc: Lee Jones <lee.jones@linaro.org>
-> > Cc: "David A. Schleef" <ds@schleef.org>
-> > Cc: Mori Hess <fmhess@users.sourceforge.net>
-> > Cc: Truxton Fulton <trux@truxton.com>
-> > Cc: linux-staging@lists.linux.dev
-> > Cc: linux-pwm@vger.kernel.org
-> > Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> > ---
-> >  drivers/staging/comedi/drivers/ni_mio_common.c | 9 ---------
-> >  drivers/staging/comedi/drivers/ni_stc.h        | 9 ++++++++-
-> >  2 files changed, 8 insertions(+), 10 deletions(-)
+> > did you mean 'demote' in subject line?
+> 
+> I did.  Did I spell it incorrectly?
+> 
+> -- 
+> Lee Jones [李琼斯]
+> Senior Technical Lead - Developer Services
+> Linaro.org │ Open source software for Arm SoCs
+> Follow Linaro: Facebook | Twitter | Blog
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+that's good, sorry for noise.
+
+thank you,
+
+fabio
