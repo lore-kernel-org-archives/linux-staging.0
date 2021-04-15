@@ -1,54 +1,56 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D116D32
-	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 08:31:38 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id l4so35550561ejc.10
-        for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 01:31:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E4C6D32
+	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 08:33:03 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id u17so35616899ejk.2
+        for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 01:33:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=o4Zea2wZG0jsu5G4k3ezpPKmStFjRBdkRPNkdtX1oDw=;
-        b=s9K8XEuceZ5R1z9qNS5SQi1MT87F79SgDGa62gWJ7QjVHk+u3VvCeNh1thLKc+5NCy
-         ku1l5flgVEbncxwZtj9rafq5SuiSqAGEMH4duYsTqBYYlBx8hGE6HIntXU5CVdoDWu4D
-         uOSKUucL+BxsrmS/Mi2iRwrL/1MX3SxvyqumCiMFWxHWgx35Ar6GeQweKxVdMBIzQRlq
-         /xwqI39SgMkk9AD+ogtmx2Uvrs/GOBhdDPkEHHlT7jRSnCOcV4mAoVy1TKaqD8VwYKUG
-         Mgh7VkJS8uHW338xAeVywx3w019jDOcZY2v5g0cxFqgZlRYxV9dT+DZKiae9yAOPFR4m
-         2hgg==
+        bh=ta4DOoQfotI6/6OYzxK4iRgaCenuWMEwER+QwKb27qA=;
+        b=F83TF5UgmXH8ivsdcLN2gbs3xtBscWEMTQCnizq3HWS6u9a9X5wRqabTv2sr5uyuo8
+         aJmAYtq1T9GF/Cbi933SJ8Y1Z3h3SGaSjqeU1mIBqcSu3tgaL9I7fR1Sd5Rg32a4j0ob
+         ukKyF/gAFhHDGY55WYrGn17n46t0WVfj5Fw6/4xElg+PCkoBo0SUgrrzRCzhUm39E2fL
+         a5avRb+ysVoVNUhn50tWzZvfzRjNU6ymEVd5JiAuUyozuy+DfqXoab8MPqyrGkai1VEY
+         Dk8KKBsii2E6jCTcX1urvtWoK28zVBXB+rqzOk9XqshTdIHUPmTLceBBz1hCIQY2WGfV
+         KSpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=o4Zea2wZG0jsu5G4k3ezpPKmStFjRBdkRPNkdtX1oDw=;
-        b=G2BeryMRRCSPkxPJjhi11FhcqPVT2xNxe0S5qttKCs39tg0MiUM2jFgRJDBkNY2+Cx
-         CQodUd1QffBomtRYfiIV/qjdd5/zGg4GqOGhy0SW49n5Li/UGu9JuoVeQVzuw8BhF3jL
-         uSFcqQaE4TpdI1h+aKoU4Z0PGmcrwykCx+rPUvHK8HmGvwJ1Yo70izTVXCb2YeOsAjwI
-         zw9gSo3Sup9NUpSoZjPaikjHA1smuIFbZZVHxjvrG2kM4S0TGPM3eUNNssD2aMS1FccE
-         zaR4+ygD7qYNAA1AZFZpSJdSB4ng1IUzKQGLwgGOz7SM4k/tR+sFey3+QGuV27sOyLOq
-         pfKg==
-X-Gm-Message-State: AOAM532/yTqouhNlPb6i0uJLV+t/r5NlarTLkWUiqZrHrNPInq9T88GF
-	s7+WqYrGsHV6d4GfsKkpzkAyvQ==
-X-Google-Smtp-Source: ABdhPJx4EvV1oS5tj/RnxbrOBT69mWMFa9GhvAHb+keKtV3i1VU7aqlMhMwlaGlO2SJTqq3s6sjG4w==
-X-Received: by 2002:a17:906:bd2:: with SMTP id y18mr2254929ejg.482.1618475496804;
-        Thu, 15 Apr 2021 01:31:36 -0700 (PDT)
+        bh=ta4DOoQfotI6/6OYzxK4iRgaCenuWMEwER+QwKb27qA=;
+        b=KY3RybYF22XdoSThiMek7wzPUmZhhWRUA3ZktlF/dd+TPRs+34FPfZvxwb4rB70Tje
+         pi4BhHX/Xt4dNzEvnfyDSK6q5600fuY/+mQtriZ8lFusv4sDG9+beZ70dHzBMpBFANxQ
+         eyGJGHUK/rlbOqvfWL4UGI4FvlLdFwH3FHLwJ+lRpsDdYAyLSP1P7CdG4NModCRayPuS
+         PfNFlB7hInNpH0odrR/XYEmtROXZFDTxUYaJDDwN2YnHB4DlG9tjfPB63UbXMcorcWUt
+         wHYQunnsdbs3tZuqbMU/+buO+4m3IxlcnlumxAqbRMU4+fY/FDYa+cqJxWcOKVA63BsE
+         +xRQ==
+X-Gm-Message-State: AOAM533azGi7zLKVE4svtOfUuQRNEDl9fVT8JVW9cVlA+ZxHjMAmGi2J
+	2FV4YmWu9YtzPjqiJTFN8ySB9Q==
+X-Google-Smtp-Source: ABdhPJxY/zx/kTydsS38v9oJRlLcTDz7PLq/ACTkPxUT9u7QhsMMiJi2oheRDyCOuzA3Xwbg/5XIHg==
+X-Received: by 2002:a17:906:37da:: with SMTP id o26mr2323866ejc.413.1618475582234;
+        Thu, 15 Apr 2021 01:33:02 -0700 (PDT)
 Received: from dell ([91.110.221.215])
-        by smtp.gmail.com with ESMTPSA id g26sm1376062ejz.70.2021.04.15.01.31.36
+        by smtp.gmail.com with ESMTPSA id cz2sm1802839edb.13.2021.04.15.01.33.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Apr 2021 01:31:36 -0700 (PDT)
-Date: Thu, 15 Apr 2021 09:31:34 +0100
+        Thu, 15 Apr 2021 01:33:01 -0700 (PDT)
+Date: Thu, 15 Apr 2021 09:32:59 +0100
 From: Lee Jones <lee.jones@linaro.org>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: linux-kernel@vger.kernel.org,
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+	Larry Finger <Larry.Finger@lwfinger.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 15/57] staging: rtl8723bs: core: rtw_security: Demote
- non-conformant kernel-doc header
-Message-ID: <20210415083134.GT4869@dell>
+Subject: Re: [PATCH 37/57] staging: rtl8188eu: os_dep: ioctl_linux: Move 2
+ large data buffers into the heap
+Message-ID: <20210415083259.GU4869@dell>
 References: <20210414181129.1628598-1-lee.jones@linaro.org>
- <20210414181129.1628598-16-lee.jones@linaro.org>
- <20210415080928.GA1431@agape.jhs>
+ <20210414181129.1628598-38-lee.jones@linaro.org>
+ <20210415051835.GY6021@kadam>
+ <20210415055325.GB6021@kadam>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -57,48 +59,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210415080928.GA1431@agape.jhs>
+In-Reply-To: <20210415055325.GB6021@kadam>
 
-On Thu, 15 Apr 2021, Fabio Aiuto wrote:
+On Thu, 15 Apr 2021, Dan Carpenter wrote:
 
-> On Wed, Apr 14, 2021 at 07:10:47PM +0100, Lee Jones wrote:
-> > Fixes the following W=1 kernel build warning(s):
-> > 
-> >  from drivers/staging/rtl8188eu/core/rtw_security.c:10:
-> >  drivers/staging/rtl8188eu/core/rtw_security.c:478: warning: Function parameter or member 'p1k' not described in 'phase1'
-> >  drivers/staging/rtl8188eu/core/rtw_security.c:478: warning: Function parameter or member 'tk' not described in 'phase1'
-> >  drivers/staging/rtl8188eu/core/rtw_security.c:478: warning: Function parameter or member 'ta' not described in 'phase1'
-> >  drivers/staging/rtl8188eu/core/rtw_security.c:517: warning: Function parameter or member 'rc4key' not described in 'phase2'
-> >  drivers/staging/rtl8188eu/core/rtw_security.c:517: warning: Function parameter or member 'tk' not described in 'phase2'
-> >  drivers/staging/rtl8188eu/core/rtw_security.c:517: warning: Function parameter or member 'p1k' not described in 'phase2'
-> >  drivers/staging/rtl8723bs/core/rtw_security.c:1937: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-> > 
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: linux-staging@lists.linux.dev
-> > Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> > ---
-> >  drivers/staging/rtl8723bs/core/rtw_security.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-> > index 9587d89a6b24e..60b724729900e 100644
-> > --- a/drivers/staging/rtl8723bs/core/rtw_security.c
-> > +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-> > @@ -1921,7 +1921,7 @@ const u8 rcons[] = {
-> >  	/* for 128-bit blocks, Rijndael never uses more than 10 rcon values */
-> >  };
-> >  
-> > -/**
-> > +/*
-> >   * Expand the cipher key into the encryption key schedule.
-> >   *
-> >   * @return	the number of rounds for the given cipher key size.
+> I screwed up my last email and dropped Lee and Arnd from the To: headers.
+> Resending.
 > 
-> Hi,
+> On Thu, Apr 15, 2021 at 08:20:16AM +0300, Dan Carpenter wrote:
+> > On Wed, Apr 14, 2021 at 07:11:09PM +0100, Lee Jones wrote:
+> > > ---
+> > >  drivers/staging/rtl8188eu/os_dep/ioctl_linux.c | 12 +++++++++++-
+> > >  1 file changed, 11 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+> > > index c95ae4d6a3b6b..cc14f00947781 100644
+> > > --- a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+> > > +++ b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+> > > @@ -224,7 +224,7 @@ static char *translate_scan(struct adapter *padapter,
+> > >  	/* parsing WPA/WPA2 IE */
+> > >  	{
+> > >  		u8 *buf;
+> > > -		u8 wpa_ie[255], rsn_ie[255];
+> > > +		u8 *wpa_ie, *rsn_ie;
+> > >  		u16 wpa_len = 0, rsn_len = 0;
+> > >  		u8 *p;
+> > >  
+> > > @@ -232,6 +232,14 @@ static char *translate_scan(struct adapter *padapter,
+> > >  		if (!buf)
+> > >  			return start;
 > 
-> did you mean 'demote' in subject line?
+> Arnd added this return.  I think it should be -ENOMEM, though?
 
-I did.  Did I spell it incorrectly?
+Will fix, thanks.
 
 -- 
 Lee Jones [李琼斯]
