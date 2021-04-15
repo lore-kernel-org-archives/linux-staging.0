@@ -1,49 +1,30 @@
-Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE38F6D28
-	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 05:53:44 +0000 (UTC)
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-	by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13F5nTTs090676;
-	Thu, 15 Apr 2021 05:53:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=m+RmyZkUcYyQTut8sn7lsS+x9pyqvIN7BnQZHbt2PXE=;
- b=IzBpvef0lIV/PdKLXHED0llLKFaIz0M2QOUupEREqT/zNTdf3TBRcEHIL3SynsHEsRES
- D+pLlrYce7GuYe+z0O+tKLjzOkhMBXdaRs12Kd+1czC3kkteuJUgQsFeGpSGrB7AwTMU
- hHPfen8CCm9F9Xc885S87YAQaoz1RlqlLzBRuWviEQOkT5QPYUhnpvtPk9RH/q0+rRE4
- 6v0iFmW2h4Fgzy8CHCL6Cc6hC1EL08dcfBhrbePOVzStet+VrnuFgmOSJZsud0Cs3KHA
- IPnHn9d5G/YGWXBc/kyCNwfGs2gCNyXH7K+phNmNlbKYon8I3IThIVjuBYHgn42udMBj dA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by aserp2130.oracle.com with ESMTP id 37u1hbmpxa-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 15 Apr 2021 05:53:39 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13F5paKa071140;
-	Thu, 15 Apr 2021 05:53:37 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-	by userp3020.oracle.com with ESMTP id 37unsv26uh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 15 Apr 2021 05:53:37 +0000
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
-	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 13F5rWIm006977;
-	Thu, 15 Apr 2021 05:53:32 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Wed, 14 Apr 2021 22:53:31 -0700
-Date: Thu, 15 Apr 2021 08:53:25 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Lee Jones <lee.jones@linaro.org>, Arnd Bergmann <arnd@arndb.de>
-Cc: linux-kernel@vger.kernel.org, Larry Finger <Larry.Finger@lwfinger.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH 37/57] staging: rtl8188eu: os_dep: ioctl_linux: Move 2
- large data buffers into the heap
-Message-ID: <20210415055325.GB6021@kadam>
-References: <20210414181129.1628598-1-lee.jones@linaro.org>
- <20210414181129.1628598-38-lee.jones@linaro.org>
- <20210415051835.GY6021@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 996B46D28
+	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 06:18:59 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6E10A6161E;
+	Thu, 15 Apr 2021 06:18:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1618467539;
+	bh=yAwJdgvdGo1K4qqIU8Iah7hDuZCsGWgH2RBATLQes5k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=t2WWrQ8l4666zQUTM5rMqNGnBw3n6ZmtJK/oE6OgYFnyUlMdliktavfoRiaZNnOCG
+	 rYA/P2rXmJstL3CsTT+s/MCKYYst7X0HGQEjTWaqZJJ3TekiI/raTg8t665IFPb/Hr
+	 iLuwJS0VlRshgBK2a+Otmzaz805XL1g1F8Ep7jWc=
+Date: Thu, 15 Apr 2021 08:18:54 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+	Julia Lawall <julia.lawall@inria.fr>,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [Outreachy kernel] [PATCH v3 2/2] staging: rtl8723bs: Remove
+ everything related with LedBlink
+Message-ID: <YHfazks3NlaUE8tg@kroah.com>
+References: <20210414192750.4974-1-fmdefrancesco@gmail.com>
+ <20210414192750.4974-3-fmdefrancesco@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -51,64 +32,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210415051835.GY6021@kadam>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9954 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
- malwarescore=0 suspectscore=0 bulkscore=0 mlxscore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104150041
-X-Proofpoint-GUID: 4XgdQG5-IRouO1FFQEjCpnMpLc_c4Asq
-X-Proofpoint-ORIG-GUID: 4XgdQG5-IRouO1FFQEjCpnMpLc_c4Asq
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9954 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 priorityscore=1501
- clxscore=1015 adultscore=0 mlxlogscore=999 impostorscore=0 malwarescore=0
- lowpriorityscore=0 spamscore=0 phishscore=0 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104150041
+In-Reply-To: <20210414192750.4974-3-fmdefrancesco@gmail.com>
 
-I screwed up my last email and dropped Lee and Arnd from the To: headers.
-Resending.
-
-On Thu, Apr 15, 2021 at 08:20:16AM +0300, Dan Carpenter wrote:
-> On Wed, Apr 14, 2021 at 07:11:09PM +0100, Lee Jones wrote:
-> > ---
-> >  drivers/staging/rtl8188eu/os_dep/ioctl_linux.c | 12 +++++++++++-
-> >  1 file changed, 11 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-> > index c95ae4d6a3b6b..cc14f00947781 100644
-> > --- a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-> > +++ b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-> > @@ -224,7 +224,7 @@ static char *translate_scan(struct adapter *padapter,
-> >  	/* parsing WPA/WPA2 IE */
-> >  	{
-> >  		u8 *buf;
-> > -		u8 wpa_ie[255], rsn_ie[255];
-> > +		u8 *wpa_ie, *rsn_ie;
-> >  		u16 wpa_len = 0, rsn_len = 0;
-> >  		u8 *p;
-> >  
-> > @@ -232,6 +232,14 @@ static char *translate_scan(struct adapter *padapter,
-> >  		if (!buf)
-> >  			return start;
-
-Arnd added this return.  I think it should be -ENOMEM, though?
-
-> >  
-> > +		wpa_ie = kzalloc(255, GFP_ATOMIC);
-> > +		if (!wpa_ie)
-> > +			return start;
+On Wed, Apr 14, 2021 at 09:27:50PM +0200, Fabio M. De Francesco wrote:
+> Removed struct LedBlink_param. Removed LedBlink entries in
+> rtw_cmd_callback[] and in wlancmds[]. Everything related to LedBlink is
+> not anymore needed. Removed extra blank lines in the two mentioned
+> arrays and changend the numbers set in comments for having them in line
+> with the shift.
 > 
-> kfree(buf);
+> Reported-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+> Reported-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> ---
 > 
-> > +
-> > +		rsn_ie = kzalloc(255, GFP_ATOMIC);
-> > +		if (!rsn_ie)
-> > +			return start;
+> Changes from v2: Added this patch as 2/2.
+> Changes from v1: No changes.
 > 
+>  drivers/staging/rtl8723bs/core/rtw_cmd.c    | 27 ++++++---------------
+>  drivers/staging/rtl8723bs/include/rtw_cmd.h | 14 +++--------
+>  2 files changed, 11 insertions(+), 30 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> index f82dbd4f4c3d..a74e6846f2df 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> @@ -22,7 +22,6 @@ static struct _cmd_callback rtw_cmd_callback[] = {
+>  	{GEN_CMD_CODE(_Write_EEPROM), NULL},
+>  	{GEN_CMD_CODE(_Read_EFUSE), NULL},
+>  	{GEN_CMD_CODE(_Write_EFUSE), NULL},
+> -
+>  	{GEN_CMD_CODE(_Read_CAM),	NULL},	/*10*/
+>  	{GEN_CMD_CODE(_Write_CAM),	 NULL},
+>  	{GEN_CMD_CODE(_setBCNITV), NULL},
 
-regards,
-dan carpenter
+These blank lines are there for a reason, please do not remove them.
 
+thanks,
+
+gre gk-h
