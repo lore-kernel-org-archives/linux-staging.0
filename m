@@ -1,48 +1,49 @@
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFF96D28
-	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 05:26:14 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-	by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13F5K4wW114359;
-	Thu, 15 Apr 2021 05:26:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : cc :
- subject : message-id : references : mime-version : content-type :
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41CE56D28
+	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 05:49:09 +0000 (UTC)
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+	by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13F5k0V1088198;
+	Thu, 15 Apr 2021 05:49:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
  in-reply-to; s=corp-2020-01-29;
- bh=u1HGY2pdiUJpZnVn7iUNNrPvZ0VUQmj8sncbkjdtkWI=;
- b=JuHbIj78j45980ej6OquW305F61Ve91x3TL1DIfMgFv0mG6VPsffq8M7HaIQ/0eRwrAM
- aG1ZgNXuiio8pc6GGwmPKsOuCI4BW54Urro0yavfXCp8Y1oFmKY9eDpaTtaRs0gw45Fj
- yhEP/OE4CzzIvNlTTxub7gcq2IdkwuirZxhQOTfcqyzsn+ipjrWpyHUt9AIjug9wP0tl
- B7JB7+Wnn/ishOv1IJS5Ui49yz4024/LhH6GRAPWHspyW9U7DDA89rAi6PPOTMixBeli
- oUY6db/Fjpz9zVljUDg7WcmbiLpr8RHoSH/evy8lW16eRMSa3Lqq3IczpY6Uk/yxr8XD yg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by userp2130.oracle.com with ESMTP id 37u3ermjfa-1
+ bh=UKh2oMINkAlsBGjPrGn33bQfhhfZDzZzi4ZAtWpYPc0=;
+ b=fjw1FNNr1MfNeFsutgK/MLCa5vv+we9TUYibZa32Xst2f8Mtee+uh9NARwlXwPdD7x+N
+ W4VpR72o7+sFgK0uo/rFAyFbNsVp+Ff0ErsSyfnsRAFEhxuND2/iyapBYW8qWvWYd19W
+ hQgFf3qQ7yzAoed1rTMGQsrGftKfNmA/vdgILaQh22RWrESZ/ShSPdldGoFQ1+49ejvk
+ ssrtFOsl3y5Vw8TQeEz3xloYx+lSa+rMLcgHQ67mtkyfSnOLg1RRD91hcuR+T4e9Hway
+ snRJkTlvjrrvVKwO/U6jhfQhT8pzrQdZ8+Mber9hJR/0ElDW2s+xwzETjV8go73025bU BQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by aserp2130.oracle.com with ESMTP id 37u1hbmpgd-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 15 Apr 2021 05:26:06 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13F5OZxu189813;
-	Thu, 15 Apr 2021 05:26:04 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-	by aserp3030.oracle.com with ESMTP id 37unks2ajd-1
+	Thu, 15 Apr 2021 05:49:02 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13F5dY6M029293;
+	Thu, 15 Apr 2021 05:49:00 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by userp3020.oracle.com with ESMTP id 37unsv20mr-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 15 Apr 2021 05:26:04 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
-	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13F5Q4Ut017954;
-	Thu, 15 Apr 2021 05:26:04 GMT
+	Thu, 15 Apr 2021 05:49:00 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13F5mwQx020490;
+	Thu, 15 Apr 2021 05:48:59 GMT
 Received: from kadam (/102.36.221.92)
 	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Thu, 15 Apr 2021 05:26:03 +0000
-Date: Thu, 15 Apr 2021 08:25:56 +0300
+	with ESMTP ; Wed, 14 Apr 2021 22:48:58 -0700
+Date: Thu, 15 Apr 2021 08:48:51 +0300
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: linux-kernel@vger.kernel.org, Larry Finger <Larry.Finger@lwfinger.net>,
+To: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH 37/57] staging: rtl8188eu: os_dep: ioctl_linux: Move 2
- large data buffers into the heap
-Message-ID: <20210415052556.GZ6021@kadam>
-References: <20210414181129.1628598-1-lee.jones@linaro.org>
- <20210414181129.1628598-38-lee.jones@linaro.org>
- <20210415051835.GY6021@kadam>
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+Subject: Re: [PATCH v2] staging: media: atomisp: pci: Format comments
+ according to coding-style in file atomisp_cmd.c
+Message-ID: <20210415054851.GA6021@kadam>
+References: <20210414204244.GA8287@focaruja>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -50,61 +51,122 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210415051835.GY6021@kadam>
+In-Reply-To: <20210414204244.GA8287@focaruja>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Proofpoint-IMR: 1
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9954 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
- adultscore=0 phishscore=0 malwarescore=0 mlxscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104150038
-X-Proofpoint-ORIG-GUID: rDoebdlzTrhoDEkwAfrnVev4-GCD-9bq
-X-Proofpoint-GUID: rDoebdlzTrhoDEkwAfrnVev4-GCD-9bq
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
+ malwarescore=0 suspectscore=0 bulkscore=0 mlxscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104150040
+X-Proofpoint-GUID: dKV2ZxJwBAw6Zd8HVB_vpCGW5vrpRtn_
+X-Proofpoint-ORIG-GUID: dKV2ZxJwBAw6Zd8HVB_vpCGW5vrpRtn_
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9954 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 clxscore=1015
- adultscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 spamscore=0
- impostorscore=0 suspectscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 priorityscore=1501
+ clxscore=1015 adultscore=0 mlxlogscore=999 impostorscore=0 malwarescore=0
+ lowpriorityscore=0 spamscore=0 phishscore=0 bulkscore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104150037
+ definitions=main-2104150040
 
-On Thu, Apr 15, 2021 at 08:20:16AM +0300, Dan Carpenter wrote:
-> On Wed, Apr 14, 2021 at 07:11:09PM +0100, Lee Jones wrote:
-> > ---
-> >  drivers/staging/rtl8188eu/os_dep/ioctl_linux.c | 12 +++++++++++-
-> >  1 file changed, 11 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-> > index c95ae4d6a3b6b..cc14f00947781 100644
-> > --- a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-> > +++ b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-> > @@ -224,7 +224,7 @@ static char *translate_scan(struct adapter *padapter,
-> >  	/* parsing WPA/WPA2 IE */
-> >  	{
-> >  		u8 *buf;
-> > -		u8 wpa_ie[255], rsn_ie[255];
-> > +		u8 *wpa_ie, *rsn_ie;
-> >  		u16 wpa_len = 0, rsn_len = 0;
-> >  		u8 *p;
-> >  
-> > @@ -232,6 +232,14 @@ static char *translate_scan(struct adapter *padapter,
-> >  		if (!buf)
-> >  			return start;
+On Wed, Apr 14, 2021 at 05:42:44PM -0300, Aline Santana Cordeiro wrote:
+> @@ -90,18 +92,14 @@ struct camera_mipi_info *atomisp_to_sensor_mipi_info(struct v4l2_subdev *sd)
+>  	return (struct camera_mipi_info *)v4l2_get_subdev_hostdata(sd);
+>  }
+>  
+> -/*
+> - * get struct atomisp_video_pipe from v4l2 video_device
+> - */
+> +/* get struct atomisp_video_pipe from v4l2 video_device */
 
-Arnd, added this return...  I don't understand why we aren't returning
--ENOMEM here.
+This code is obvious and the comment doesn't add anything except noise.
+Just delete it.  Same for a lot of the other one line comments
+describing functions in this patch.
 
-> >  
-> > +		wpa_ie = kzalloc(255, GFP_ATOMIC);
-> > +		if (!wpa_ie)
-> > +			return start;
-> 
-> kfree(buf);
-> 
-> > +
-> > +		rsn_ie = kzalloc(255, GFP_ATOMIC);
-> > +		if (!rsn_ie)
-> > +			return start;
-> 
+
+>  struct atomisp_video_pipe *atomisp_to_video_pipe(struct video_device *dev)
+>  {
+>  	return (struct atomisp_video_pipe *)
+>  	       container_of(dev, struct atomisp_video_pipe, vdev);
+>  }
+>  
+> -/*
+> - * get struct atomisp_acc_pipe from v4l2 video_device
+> - */
+> +/* get struct atomisp_acc_pipe from v4l2 video_device */
+>  struct atomisp_acc_pipe *atomisp_to_acc_pipe(struct video_device *dev)
+>  {
+>  	return (struct atomisp_acc_pipe *)
+> @@ -269,7 +267,7 @@ int atomisp_freq_scaling(struct atomisp_device *isp,
+>  			    ATOMISP_RUN_MODE_CONTINUOUS_CAPTURE;
+>  	}
+>  
+> -	/* search for the target frequency by looping freq rules*/
+> +	/* search for the target frequency by looping freq rules */
+>  	for (i = 0; i < dfs->dfs_table_size; i++) {
+>  		if (curr_rules.width != dfs->dfs_table[i].width &&
+>  		    dfs->dfs_table[i].width != ISP_FREQ_RULE_ANY)
+> @@ -307,9 +305,7 @@ int atomisp_freq_scaling(struct atomisp_device *isp,
+>  	return ret;
+>  }
+>  
+> -/*
+> - * reset and restore ISP
+> - */
+> +/* reset and restore ISP */
+
+Obvious
+
+>  int atomisp_reset(struct atomisp_device *isp)
+>  {
+>  	/* Reset ISP by power-cycling it */
+> @@ -338,9 +334,7 @@ int atomisp_reset(struct atomisp_device *isp)
+>  	return ret;
+>  }
+>  
+> -/*
+> - * interrupt disable functions
+> - */
+> +/* interrupt disable functions */
+
+Obvious
+
+>  static void disable_isp_irq(enum hrt_isp_css_irq irq)
+>  {
+>  	irq_disable_channel(IRQ0_ID, irq);
+> @@ -351,9 +345,7 @@ static void disable_isp_irq(enum hrt_isp_css_irq irq)
+>  	cnd_sp_irq_enable(SP0_ID, false);
+>  }
+>  
+> -/*
+> - * interrupt clean function
+> - */
+> +/* interrupt clean function */
+
+Obvious
+
+>  static void clear_isp_irq(enum hrt_isp_css_irq irq)
+>  {
+>  	irq_clear_all(IRQ0_ID);
+
+[ snip ]
+
+> @@ -1918,10 +1914,7 @@ irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr)
+>  	return IRQ_HANDLED;
+>  }
+>  
+> -/*
+> - * utils for buffer allocation/free
+> - */
+> -
+> +/* utils for buffer allocation/free */
+
+What?  This one seems actively wrong.
+
+>  int atomisp_get_frame_pgnr(struct atomisp_device *isp,
+>  			   const struct ia_css_frame *frame, u32 *p_pgnr)
+>  {
+
+etc.
 
 regards,
 dan carpenter
