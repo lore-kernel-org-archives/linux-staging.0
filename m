@@ -1,90 +1,80 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619D16D32
-	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 17:18:22 +0000 (UTC)
-Received: by mail-qk1-f180.google.com with SMTP id x11so25930183qkp.11
-        for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 10:18:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B456D32
+	for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 18:06:48 +0000 (UTC)
+Received: by mail-qk1-f172.google.com with SMTP id 130so11947606qkm.4
+        for <linux-staging@lists.linux.dev>; Thu, 15 Apr 2021 11:06:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=Q96K00hD2NjD86HPQFbde/I+2OWvsg2PMKdChk2z1WQ=;
-        b=ddvqhdSlR4JBrqD26ZAbHTyS/jISDCdj0isRUj+pXvidKnZWtAKeoAweWjGkUGyXre
-         8QrqI69VUqRxqTjbm4P/4j8oWMQK3J1+D583o1BReRErogmSzebk8tnUQdu8VfD1N9Qw
-         tfLUtjGTeXpkH2T/HKpZfODuzUCJeXWJ1gFOarOr4JUFKWANjLr07cuGNyQCuS68kfeb
-         6ZFijZIXXpGNRPLycR4T97CaAG7lwXcZ0gkhHozZbRFEyjrFhDZ1WmAKw3CUUllwhlvm
-         xKzpfOXQ+R93vvDW0/R4HVtcbl9Av/+6E4CYVaZK0C2n1XHD6kD6kYKfi7nFsZtiHFk7
-         upUQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1IOBf4Rkhwj6PE+3jdS6mZV2iKsIDxZ6UCVlFQCFR0Y=;
+        b=s0EDeQdYnqErngF1nEmE3311Hy7J+dz5NQjNys2dVGlh7do1ngGwB1c4gbu+DCS5AE
+         5jAUPWMCtzD/PxeCMsDAg/+b7mAyb985FApn3gTDNeJZPwxeUEl0s2+e6t+iOkgJHfLB
+         56Wd5n1Xf/2LfwxL4VN58Uu9dSBNx/o1AfqUgi0iJL9b545LK74n7uZ1ENmUtCgEsN8K
+         5qoMV+xuWbm/uwVCRwHI84GVON2ZxMvqPoe3ivwFRedk1WqCrPSNfkNeKddKSS/ba1nz
+         PIJKPuRPY/Nve+i7KkALhaO9PqU4KJnqG0hj+2NkS1VTuQ1i1caPRGnm9KEfCo/zP+RN
+         z9KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=Q96K00hD2NjD86HPQFbde/I+2OWvsg2PMKdChk2z1WQ=;
-        b=JIYAEyMb9Cpy3y35dMmKoSX+qPoh1rc61yYOAI0KIyrlNo8dRCqReNECbizja5kBoD
-         2sqSoALAsouyKhkBnAqFM/ekARrWlKxE8zwjobVEpF0/AzBiXIbYoBDYBTk2Kmk7TQwf
-         xGB3Xbg/Euf8a3w+r/Bd97b9RizGQaVpsZuhfbrATBiGHlDJbY//5c5i31fuGUSPTuAh
-         GnvuTw9jV32/sQLpDgebfa+VlvQp4ybdO/2dkooPop3aJ3PYQRQ3DGKMt2YLw4wkMFTg
-         X2YVjtzruJgLrU+gXkSf/Q3XcKbAcR90lS4cBuB5FoN6RUPU5wOZvick/i9mDdB7Mdpa
-         qlzw==
-X-Gm-Message-State: AOAM532883rKTbjrUS+vwGpQfHYC6MjWRtgTIWtAqc/aH+aC7O9nwusD
-	C/WrIcOb49TaHJ6OsDkQ+KI=
-X-Google-Smtp-Source: ABdhPJzEeoGFvRA6C2GrN3MyutBLywjuX4YWpzv3eENExAZSRapqgaY2CO4cYEJvd2bDOBxm0Pjy8Q==
-X-Received: by 2002:a05:620a:a4b:: with SMTP id j11mr4754516qka.19.1618507101535;
-        Thu, 15 Apr 2021 10:18:21 -0700 (PDT)
-Received: from focaruja ([2001:1284:f016:a037:fda3:4e59:60ec:90e5])
-        by smtp.gmail.com with ESMTPSA id c27sm2417598qtg.97.2021.04.15.10.18.20
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Thu, 15 Apr 2021 10:18:21 -0700 (PDT)
-Date: Thu, 15 Apr 2021 14:18:18 -0300
-From: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Subject: [PATCH v2] staging: media: tegra-video: Align line break to match
- with the open parenthesis in file vi.c
-Message-ID: <20210415171818.GA18601@focaruja>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1IOBf4Rkhwj6PE+3jdS6mZV2iKsIDxZ6UCVlFQCFR0Y=;
+        b=pgCD/25zgrq38LiCTeYGCbcGaPmZYJosFj0z2EPMDPwR3eQFGoCi5GDcjlRSNTmR4q
+         4/KmuQMByU+7tN6jyDyT8mjSvlEF/wqRdI2zv/fYar9qo9XZUCmCvDZGARZ3B63xzY1j
+         Vh0ibdtDi6muapdJV3V2IMM/xAJfHExA5XLaZkHGPNNH7Oav6/G5Dj2FGwxWtMgjEPLO
+         SvGC64gAtnZ7mCduaSwHYmfittLaLOmq19rodzcr1O07IvuAalYIPlm5c8nVhmoLhkgo
+         YW+53GBYj8YEGH5jvr6dmhWcdmmwnGrsKCZQ1uVq+J3fd8MCVMwRjjNlu2YLg3lcc0Ou
+         R1kg==
+X-Gm-Message-State: AOAM532nDp/VUl0Xmc7hMlZNIoeByTSSpYfpcikEaBPvSBjBZJNyeDSt
+	R4jUczpHe3o0ldiCSP9Ww7g=
+X-Google-Smtp-Source: ABdhPJyjz1cmQf5R7k4Rbio5OpNnorzm0Ith8awPs9DswVhEIFC4/NAf1+0/MVrR91i+mUcafEG4Qg==
+X-Received: by 2002:a37:9e0c:: with SMTP id h12mr4622078qke.398.1618510007694;
+        Thu, 15 Apr 2021 11:06:47 -0700 (PDT)
+Received: from laptop.attlocal.net ([2600:1702:1050:6b80:8429:e77a:40fa:a57d])
+        by smtp.gmail.com with ESMTPSA id j15sm2394005qtl.88.2021.04.15.11.06.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Apr 2021 11:06:46 -0700 (PDT)
+From: iankewish@gmail.com
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	Ian Kewish <iankewish@gmail.com>
+Subject: [PATCH] staging: rtl8192e: indent statement properly
+Date: Thu, 15 Apr 2021 13:06:45 -0500
+Message-Id: <20210415180645.65699-1-iankewish@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Transfer-Encoding: 8bit
 
-Align line break to match with the open parenthesis.
-Issue detected by checkpatch.pl.
+From: Ian Kewish <iankewish@gmail.com>
 
-Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+Indent statement in an else branch.  Reported by checkpatch:
+WARNING:SUSPECT_CODE_INDENT: suspect code indent for
+conditional statements (8, 8)
+
+Signed-off-by: Ian Kewish <iankewish@gmail.com>
 ---
+ drivers/staging/rtl8192e/rtllib_crypt_tkip.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes since v1:
- - Move short argument to the previous line in function call
-   since it didn't exceeded 80 characters in line
-
- drivers/staging/media/tegra-video/vi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 7a09061c..3f06d69 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -1812,8 +1812,8 @@ static int tegra_vi_graph_parse_one(struct tegra_vi_channel *chan,
- 			continue;
- 		}
+diff --git a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
+index 238387d62..4a760ecbc 100644
+--- a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
++++ b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
+@@ -291,7 +291,7 @@ static int rtllib_tkip_encrypt(struct sk_buff *skb, int hdr_len, void *priv)
+ 		tkip_mixing_phase2(rc4key, tkey->key, tkey->tx_ttak,
+ 				   tkey->tx_iv16);
+ 	} else
+-	tkey->tx_phase1_done = 1;
++		tkey->tx_phase1_done = 1;
  
--		tvge = v4l2_async_notifier_add_fwnode_subdev(&chan->notifier,
--				remote, struct tegra_vi_graph_entity);
-+		tvge = v4l2_async_notifier_add_fwnode_subdev(&chan->notifier, remote,
-+							     struct tegra_vi_graph_entity);
- 		if (IS_ERR(tvge)) {
- 			ret = PTR_ERR(tvge);
- 			dev_err(vi->dev,
+ 
+ 	len = skb->len - hdr_len;
 -- 
-2.7.4
+2.25.1
 
