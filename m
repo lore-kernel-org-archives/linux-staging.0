@@ -1,136 +1,531 @@
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B0F6D13
-	for <linux-staging@lists.linux.dev>; Fri, 16 Apr 2021 09:13:58 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13G995Ta036648;
-	Fri, 16 Apr 2021 09:13:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=op45Vt9QNCZlrOsT0yNWkAC1F6euLT9Icbvg5SmZawc=;
- b=Xhln4dkC8kBM8Y0iUi4mrzZJOYzqas0G0hxht1MmWO5m9xqYAJ6QzMqR7G1Dq5xaaa3n
- tW9LgDUZUsVDdnzgjQVbToCKuK9lGo7vNO8e1OScgu+1ZNM9J4oHbdQu0vp1IVJtW2jf
- Dluh9FlhjtD8O8jqt3gQTVOG1s0+nxQSHy15lOlLA5axuHcobOBACD5m9Lhvp5/rep8E
- kjiAFE3FFNjefJNYyimYM6PbYF9nSMkj9wotfvR7mCa3TkzkdAhRsKWC7MR74bUmscAu
- qqD/L4eiBO64yISmUUyMLwZiaql3JF2HwncJ/09cGZWLQqUjeRGGymbJR/v9Enl3NRvH kQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by aserp2120.oracle.com with ESMTP id 37u3ymrhpx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 16 Apr 2021 09:13:44 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13G99oot089563;
-	Fri, 16 Apr 2021 09:13:43 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-	by aserp3020.oracle.com with ESMTP id 37unx47fy3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 16 Apr 2021 09:13:43 +0000
-Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
-	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 13G9Dc9g015177;
-	Fri, 16 Apr 2021 09:13:39 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Fri, 16 Apr 2021 02:13:38 -0700
-Date: Fri, 16 Apr 2021 12:13:31 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Matthew Wilcox <willy@infradead.org>,
-        Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-Subject: Re: [Outreachy kernel] [PATCH v2] staging: media: atomisp: pci:
- Change line break to avoid an open parenthesis at the end of the line
-Message-ID: <20210416091331.GG6021@kadam>
-References: <20210415170819.GA17534@focaruja>
- <20210415171409.GC2531743@casper.infradead.org>
- <20210415194955.GI3@paasikivi.fi.intel.com>
- <20210415195704.GE2531743@casper.infradead.org>
- <20210415195941.GF2531743@casper.infradead.org>
- <20210415212158.GK3@paasikivi.fi.intel.com>
- <20210416054941.GF6021@kadam>
- <20210416083728.GL3@paasikivi.fi.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34AD717F
+	for <linux-staging@lists.linux.dev>; Fri, 16 Apr 2021 12:31:16 +0000 (UTC)
+IronPort-SDR: pbqGCzmKhNLsjfrYJc1HAjZccWYo3NkNrSEydt2yO5ytUMGSR0K34eeqStohw+B+fToVgtLel4
+ x3tTiVLfd3uQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9955"; a="191842748"
+X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; 
+   d="scan'208";a="191842748"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2021 05:31:15 -0700
+IronPort-SDR: WmABmm2ut6skF+lztrUQT0asbI2U9xXaMF4B2GRY7rYNerUxnL0/CVB0ZrIu8zSgrgGiV1HzdX
+ MTCOQ4kWPvkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; 
+   d="scan'208";a="419100817"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga008.fm.intel.com with ESMTP; 16 Apr 2021 05:31:13 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 140C9BA; Fri, 16 Apr 2021 15:31:29 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	=?UTF-8?q?Jan=20Sebastian=20G=C3=B6tte?= <linux@jaseg.net>,
+	Phil Reid <preid@electromag.com.au>,
+	Nishad Kamdar <nishadkamdar@gmail.com>
+Subject: [PATCH v1 1/2] fbtft: Rectify GPIO handling
+Date: Fri, 16 Apr 2021 15:31:16 +0300
+Message-Id: <20210416123117.4993-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210416083728.GL3@paasikivi.fi.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9955 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
- mlxscore=0 malwarescore=0 adultscore=0 bulkscore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104160070
-X-Proofpoint-GUID: TZZwkd1UcLjdaWLo9Gwz4W7eEvpQrFSZ
-X-Proofpoint-ORIG-GUID: TZZwkd1UcLjdaWLo9Gwz4W7eEvpQrFSZ
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9955 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=999 spamscore=0
- impostorscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0
- bulkscore=0 phishscore=0 suspectscore=0 malwarescore=0 clxscore=1031
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104160070
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 16, 2021 at 11:37:28AM +0300, Sakari Ailus wrote:
-> Hi Dan,
-> 
-> On Fri, Apr 16, 2021 at 08:49:41AM +0300, Dan Carpenter wrote:
-> > On Fri, Apr 16, 2021 at 12:21:58AM +0300, Sakari Ailus wrote:
-> > > On Thu, Apr 15, 2021 at 08:59:41PM +0100, Matthew Wilcox wrote:
-> > > > On Thu, Apr 15, 2021 at 08:57:04PM +0100, Matthew Wilcox wrote:
-> > > > > On Thu, Apr 15, 2021 at 10:49:55PM +0300, Sakari Ailus wrote:
-> > > > > > On Thu, Apr 15, 2021 at 06:14:09PM +0100, Matthew Wilcox wrote:
-> > > > > > > On Thu, Apr 15, 2021 at 02:08:19PM -0300, Aline Santana Cordeiro wrote:
-> > > > > > > > -const struct atomisp_format_bridge *get_atomisp_format_bridge_from_mbus(
-> > > > > > > > -    u32 mbus_code);
-> > > > > > > > +const struct atomisp_format_bridge*
-> > > > > > > > +get_atomisp_format_bridge_from_mbus(u32 mbus_code);
-> > > > > > > 
-> > > > > > > No, this does not match coding style.  Probably best to break the
-> > > > > > > 80-column guideline in this instance.  Best would be to have a function
-> > > > > > 
-> > > > > > Having the return type on the previous line is perfectly fine. There should
-> > > > > > be a space before the asterisk though.
-> > > > > 
-> > > > > No, it's not.  Linus has ranted about that before.
-> > > > 
-> > > > Found it.  https://lore.kernel.org/lkml/1054519757.161606@palladium.transmeta.com/
-> > > 
-> > > Two decades ago, really?
-> > > 
-> > > This is simply one of the practical means how you split long function
-> > > declarations and avoid overly long lines. Not my favourite though, but
-> > > still better than those long lines.
-> > 
-> > I've always thought we allow either style, but it has to be done
-> > consistently within the file.  I was pretty sure that was policy but
-> > it's another thing that goes back decades so I don't have a reference.
-> > It shouldn't be about breaking up long lines.
-> > 
-> > > 
-> > > My personal preference would be to wrap at the opening parenthesis and
-> > > indent by just a tab, but I know many people who disagree with that...
-> > 
-> > If you're running into the 80 character limit, then it's fine to use
-> > two tabs.  I think we have been rejecting patches that push align the
-> > parameters but push past the 80 character limit.  Using one tab is
-> > confusing because it makes the decalarations line up with the code.
-> 
-> Interesting. Do you have an example of this? I've thought checkpatch.pl
-> gave a warning if the line ended with an opening parenthesis no matter
-> what.
+The infamous commit c440eee1a7a1 ("Staging: fbtft: Switch to
+the GPIO descriptor interface") broke GPIO handling completely.
+It has already four commits to rectify and it seems not enough.
+In order to fix the mess here we:
 
-The prefered style is still aligning with the parentheses but if you
-have to choose between a warning about going over the limit or a warning
-about aligning then probably it's fine to not align.
+  1) Set default to "inactive" for all requested pins
 
-I can't find an example, but I'm pretty sure we've been rejecting
-patches that align the parameters but now go over the 80/100 char limit.
+  2) Fix CS, RD, and WR pins polarity since it's active low and
+     GPIO descriptor interface takes it into consideration from
+     the Device Tree or ACPI
 
-regards,
-dan carpenter
+  3) Fix RESET pin polarity in the places missed by the commit
+     b918d1c27066 ("Staging: fbtft: Fix reset assertion when using gpio descriptor")
+
+  4) Consolidate chip activation (CS assert) under default
+     ->reset() callback
+
+To summarize the expectations about polarity for GPIOs:
+
+   #RD			Low
+   #WR			Low
+   #CS			Low
+   #RESET		Low
+   DC or RS		High
+   RW			High
+   Data	0..15		High
+
+See also Adafruit learning course [1] for the example of the schematics.
+
+While at it, drop unneeded NULL checks, since GPIO API is tolerant to that.
+At the end, update TODO to mark this job eventually done.
+
+[1]: https://learn.adafruit.com/adafruit-2-8-and-3-2-color-tft-touchscreen-breakout-v2/downloads
+
+Fixes: 92e3e884887c ("Staging: fbtft: Fix GPIO handling")
+Fixes: b918d1c27066 ("Staging: fbtft: Fix reset assertion when using gpio descriptor")
+Fixes: dbc4f989c878 ("Staging: fbtft: Fix probing of gpio descriptor")
+Fixes: c440eee1a7a1 ("Staging: fbtft: Switch to the gpio descriptor interface")
+Cc: Jan Sebastian Götte <linux@jaseg.net>
+Cc: Phil Reid <preid@electromag.com.au>
+Cc: Nishad Kamdar <nishadkamdar@gmail.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/staging/fbtft/TODO             |  5 -----
+ drivers/staging/fbtft/fb_agm1264k-fl.c | 20 ++++++++++----------
+ drivers/staging/fbtft/fb_bd663474.c    |  4 ----
+ drivers/staging/fbtft/fb_ili9163.c     |  4 ----
+ drivers/staging/fbtft/fb_ili9320.c     |  1 -
+ drivers/staging/fbtft/fb_ili9325.c     |  4 ----
+ drivers/staging/fbtft/fb_ili9340.c     |  1 -
+ drivers/staging/fbtft/fb_s6d1121.c     |  4 ----
+ drivers/staging/fbtft/fb_sh1106.c      |  1 -
+ drivers/staging/fbtft/fb_ssd1289.c     |  4 ----
+ drivers/staging/fbtft/fb_ssd1325.c     |  2 --
+ drivers/staging/fbtft/fb_ssd1331.c     |  6 ++----
+ drivers/staging/fbtft/fb_ssd1351.c     |  1 -
+ drivers/staging/fbtft/fb_upd161704.c   |  4 ----
+ drivers/staging/fbtft/fb_watterott.c   |  1 -
+ drivers/staging/fbtft/fbtft-bus.c      |  3 +--
+ drivers/staging/fbtft/fbtft-core.c     | 13 ++++++-------
+ drivers/staging/fbtft/fbtft-io.c       | 12 ++++++------
+ 18 files changed, 25 insertions(+), 65 deletions(-)
+
+diff --git a/drivers/staging/fbtft/TODO b/drivers/staging/fbtft/TODO
+index a9f4802bb6be..e72a08bf221c 100644
+--- a/drivers/staging/fbtft/TODO
++++ b/drivers/staging/fbtft/TODO
+@@ -1,8 +1,3 @@
+-* convert all uses of the old GPIO API from <linux/gpio.h> to the
+-  GPIO descriptor API in <linux/gpio/consumer.h> and look up GPIO
+-  lines from device tree, ACPI or board files, board files should
+-  use <linux/gpio/machine.h>
+-
+ * convert all these over to drm_simple_display_pipe and submit for inclusion
+   into the DRM subsystem under drivers/gpu/drm - fbdev doesn't take any new
+   drivers anymore.
+diff --git a/drivers/staging/fbtft/fb_agm1264k-fl.c b/drivers/staging/fbtft/fb_agm1264k-fl.c
+index eeeeec97ad27..b545c2ca80a4 100644
+--- a/drivers/staging/fbtft/fb_agm1264k-fl.c
++++ b/drivers/staging/fbtft/fb_agm1264k-fl.c
+@@ -84,9 +84,9 @@ static void reset(struct fbtft_par *par)
+ 
+ 	dev_dbg(par->info->device, "%s()\n", __func__);
+ 
+-	gpiod_set_value(par->gpio.reset, 0);
+-	udelay(20);
+ 	gpiod_set_value(par->gpio.reset, 1);
++	udelay(20);
++	gpiod_set_value(par->gpio.reset, 0);
+ 	mdelay(120);
+ }
+ 
+@@ -194,12 +194,12 @@ static void write_reg8_bus8(struct fbtft_par *par, int len, ...)
+ 	/* select chip */
+ 	if (*buf) {
+ 		/* cs1 */
+-		gpiod_set_value(par->CS0, 1);
+-		gpiod_set_value(par->CS1, 0);
+-	} else {
+-		/* cs0 */
+ 		gpiod_set_value(par->CS0, 0);
+ 		gpiod_set_value(par->CS1, 1);
++	} else {
++		/* cs0 */
++		gpiod_set_value(par->CS0, 1);
++		gpiod_set_value(par->CS1, 0);
+ 	}
+ 
+ 	gpiod_set_value(par->RS, 0); /* RS->0 (command mode) */
+@@ -397,8 +397,8 @@ static int write_vmem(struct fbtft_par *par, size_t offset, size_t len)
+ 	}
+ 	kfree(convert_buf);
+ 
+-	gpiod_set_value(par->CS0, 1);
+-	gpiod_set_value(par->CS1, 1);
++	gpiod_set_value(par->CS0, 0);
++	gpiod_set_value(par->CS1, 0);
+ 
+ 	return ret;
+ }
+@@ -419,10 +419,10 @@ static int write(struct fbtft_par *par, void *buf, size_t len)
+ 		for (i = 0; i < 8; ++i)
+ 			gpiod_set_value(par->gpio.db[i], data & (1 << i));
+ 		/* set E */
+-		gpiod_set_value(par->EPIN, 1);
++		gpiod_set_value(par->EPIN, 0);
+ 		udelay(5);
+ 		/* unset E - write */
+-		gpiod_set_value(par->EPIN, 0);
++		gpiod_set_value(par->EPIN, 1);
+ 		udelay(1);
+ 	}
+ 
+diff --git a/drivers/staging/fbtft/fb_bd663474.c b/drivers/staging/fbtft/fb_bd663474.c
+index e2c7646588f8..1629c2c440a9 100644
+--- a/drivers/staging/fbtft/fb_bd663474.c
++++ b/drivers/staging/fbtft/fb_bd663474.c
+@@ -12,7 +12,6 @@
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/init.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/delay.h>
+ 
+ #include "fbtft.h"
+@@ -24,9 +23,6 @@
+ 
+ static int init_display(struct fbtft_par *par)
+ {
+-	if (par->gpio.cs)
+-		gpiod_set_value(par->gpio.cs, 0);  /* Activate chip */
+-
+ 	par->fbtftops.reset(par);
+ 
+ 	/* Initialization sequence from Lib_UTFT */
+diff --git a/drivers/staging/fbtft/fb_ili9163.c b/drivers/staging/fbtft/fb_ili9163.c
+index 05648c3ffe47..6582a2c90aaf 100644
+--- a/drivers/staging/fbtft/fb_ili9163.c
++++ b/drivers/staging/fbtft/fb_ili9163.c
+@@ -11,7 +11,6 @@
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/init.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/delay.h>
+ #include <video/mipi_display.h>
+ 
+@@ -77,9 +76,6 @@ static int init_display(struct fbtft_par *par)
+ {
+ 	par->fbtftops.reset(par);
+ 
+-	if (par->gpio.cs)
+-		gpiod_set_value(par->gpio.cs, 0);  /* Activate chip */
+-
+ 	write_reg(par, MIPI_DCS_SOFT_RESET); /* software reset */
+ 	mdelay(500);
+ 	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE); /* exit sleep */
+diff --git a/drivers/staging/fbtft/fb_ili9320.c b/drivers/staging/fbtft/fb_ili9320.c
+index f2e72d14431d..a8f4c618b754 100644
+--- a/drivers/staging/fbtft/fb_ili9320.c
++++ b/drivers/staging/fbtft/fb_ili9320.c
+@@ -8,7 +8,6 @@
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/init.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/spi/spi.h>
+ #include <linux/delay.h>
+ 
+diff --git a/drivers/staging/fbtft/fb_ili9325.c b/drivers/staging/fbtft/fb_ili9325.c
+index c9aa4cb43123..16d3b17ca279 100644
+--- a/drivers/staging/fbtft/fb_ili9325.c
++++ b/drivers/staging/fbtft/fb_ili9325.c
+@@ -10,7 +10,6 @@
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/init.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/delay.h>
+ 
+ #include "fbtft.h"
+@@ -85,9 +84,6 @@ static int init_display(struct fbtft_par *par)
+ {
+ 	par->fbtftops.reset(par);
+ 
+-	if (par->gpio.cs)
+-		gpiod_set_value(par->gpio.cs, 0);  /* Activate chip */
+-
+ 	bt &= 0x07;
+ 	vc &= 0x07;
+ 	vrh &= 0x0f;
+diff --git a/drivers/staging/fbtft/fb_ili9340.c b/drivers/staging/fbtft/fb_ili9340.c
+index 415183c7054a..704236bcaf3f 100644
+--- a/drivers/staging/fbtft/fb_ili9340.c
++++ b/drivers/staging/fbtft/fb_ili9340.c
+@@ -8,7 +8,6 @@
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/init.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/delay.h>
+ #include <video/mipi_display.h>
+ 
+diff --git a/drivers/staging/fbtft/fb_s6d1121.c b/drivers/staging/fbtft/fb_s6d1121.c
+index 8c7de3290343..62f27172f844 100644
+--- a/drivers/staging/fbtft/fb_s6d1121.c
++++ b/drivers/staging/fbtft/fb_s6d1121.c
+@@ -12,7 +12,6 @@
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/init.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/delay.h>
+ 
+ #include "fbtft.h"
+@@ -29,9 +28,6 @@ static int init_display(struct fbtft_par *par)
+ {
+ 	par->fbtftops.reset(par);
+ 
+-	if (par->gpio.cs)
+-		gpiod_set_value(par->gpio.cs, 0);  /* Activate chip */
+-
+ 	/* Initialization sequence from Lib_UTFT */
+ 
+ 	write_reg(par, 0x0011, 0x2004);
+diff --git a/drivers/staging/fbtft/fb_sh1106.c b/drivers/staging/fbtft/fb_sh1106.c
+index 6f7249493ea3..7b9ab39e1c1a 100644
+--- a/drivers/staging/fbtft/fb_sh1106.c
++++ b/drivers/staging/fbtft/fb_sh1106.c
+@@ -9,7 +9,6 @@
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/init.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/delay.h>
+ 
+ #include "fbtft.h"
+diff --git a/drivers/staging/fbtft/fb_ssd1289.c b/drivers/staging/fbtft/fb_ssd1289.c
+index 7a3fe022cc69..f27bab38b3ec 100644
+--- a/drivers/staging/fbtft/fb_ssd1289.c
++++ b/drivers/staging/fbtft/fb_ssd1289.c
+@@ -10,7 +10,6 @@
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/init.h>
+-#include <linux/gpio/consumer.h>
+ 
+ #include "fbtft.h"
+ 
+@@ -28,9 +27,6 @@ static int init_display(struct fbtft_par *par)
+ {
+ 	par->fbtftops.reset(par);
+ 
+-	if (par->gpio.cs)
+-		gpiod_set_value(par->gpio.cs, 0);  /* Activate chip */
+-
+ 	write_reg(par, 0x00, 0x0001);
+ 	write_reg(par, 0x03, 0xA8A4);
+ 	write_reg(par, 0x0C, 0x0000);
+diff --git a/drivers/staging/fbtft/fb_ssd1325.c b/drivers/staging/fbtft/fb_ssd1325.c
+index 8a3140d41d8b..796a2ac3e194 100644
+--- a/drivers/staging/fbtft/fb_ssd1325.c
++++ b/drivers/staging/fbtft/fb_ssd1325.c
+@@ -35,8 +35,6 @@ static int init_display(struct fbtft_par *par)
+ {
+ 	par->fbtftops.reset(par);
+ 
+-	gpiod_set_value(par->gpio.cs, 0);
+-
+ 	write_reg(par, 0xb3);
+ 	write_reg(par, 0xf0);
+ 	write_reg(par, 0xae);
+diff --git a/drivers/staging/fbtft/fb_ssd1331.c b/drivers/staging/fbtft/fb_ssd1331.c
+index 37622c9462aa..ec5eced7f8cb 100644
+--- a/drivers/staging/fbtft/fb_ssd1331.c
++++ b/drivers/staging/fbtft/fb_ssd1331.c
+@@ -81,8 +81,7 @@ static void write_reg8_bus8(struct fbtft_par *par, int len, ...)
+ 	va_start(args, len);
+ 
+ 	*buf = (u8)va_arg(args, unsigned int);
+-	if (par->gpio.dc)
+-		gpiod_set_value(par->gpio.dc, 0);
++	gpiod_set_value(par->gpio.dc, 0);
+ 	ret = par->fbtftops.write(par, par->buf, sizeof(u8));
+ 	if (ret < 0) {
+ 		va_end(args);
+@@ -104,8 +103,7 @@ static void write_reg8_bus8(struct fbtft_par *par, int len, ...)
+ 			return;
+ 		}
+ 	}
+-	if (par->gpio.dc)
+-		gpiod_set_value(par->gpio.dc, 1);
++	gpiod_set_value(par->gpio.dc, 1);
+ 	va_end(args);
+ }
+ 
+diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
+index 900b28d826b2..cf263a58a148 100644
+--- a/drivers/staging/fbtft/fb_ssd1351.c
++++ b/drivers/staging/fbtft/fb_ssd1351.c
+@@ -2,7 +2,6 @@
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/init.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/spi/spi.h>
+ #include <linux/delay.h>
+ 
+diff --git a/drivers/staging/fbtft/fb_upd161704.c b/drivers/staging/fbtft/fb_upd161704.c
+index c77832ae5e5b..c680160d6380 100644
+--- a/drivers/staging/fbtft/fb_upd161704.c
++++ b/drivers/staging/fbtft/fb_upd161704.c
+@@ -12,7 +12,6 @@
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/init.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/delay.h>
+ 
+ #include "fbtft.h"
+@@ -26,9 +25,6 @@ static int init_display(struct fbtft_par *par)
+ {
+ 	par->fbtftops.reset(par);
+ 
+-	if (par->gpio.cs)
+-		gpiod_set_value(par->gpio.cs, 0);  /* Activate chip */
+-
+ 	/* Initialization sequence from Lib_UTFT */
+ 
+ 	/* register reset */
+diff --git a/drivers/staging/fbtft/fb_watterott.c b/drivers/staging/fbtft/fb_watterott.c
+index 76b25df376b8..a57e1f4feef3 100644
+--- a/drivers/staging/fbtft/fb_watterott.c
++++ b/drivers/staging/fbtft/fb_watterott.c
+@@ -8,7 +8,6 @@
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/init.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/delay.h>
+ 
+ #include "fbtft.h"
+diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
+index 63c65dd67b17..3d422bc11641 100644
+--- a/drivers/staging/fbtft/fbtft-bus.c
++++ b/drivers/staging/fbtft/fbtft-bus.c
+@@ -135,8 +135,7 @@ int fbtft_write_vmem16_bus8(struct fbtft_par *par, size_t offset, size_t len)
+ 	remain = len / 2;
+ 	vmem16 = (u16 *)(par->info->screen_buffer + offset);
+ 
+-	if (par->gpio.dc)
+-		gpiod_set_value(par->gpio.dc, 1);
++	gpiod_set_value(par->gpio.dc, 1);
+ 
+ 	/* non buffered write */
+ 	if (!par->txbuf.buf)
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index 4f362dad4436..67c3b1975a4d 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -38,8 +38,7 @@ int fbtft_write_buf_dc(struct fbtft_par *par, void *buf, size_t len, int dc)
+ {
+ 	int ret;
+ 
+-	if (par->gpio.dc)
+-		gpiod_set_value(par->gpio.dc, dc);
++	gpiod_set_value(par->gpio.dc, dc);
+ 
+ 	ret = par->fbtftops.write(par, buf, len);
+ 	if (ret < 0)
+@@ -79,7 +78,7 @@ static int fbtft_request_one_gpio(struct fbtft_par *par,
+ 	int ret = 0;
+ 
+ 	*gpiop = devm_gpiod_get_index_optional(dev, name, index,
+-					       GPIOD_OUT_HIGH);
++					       GPIOD_OUT_LOW);
+ 	if (IS_ERR(*gpiop)) {
+ 		ret = PTR_ERR(*gpiop);
+ 		dev_err(dev,
+@@ -226,11 +225,15 @@ static void fbtft_reset(struct fbtft_par *par)
+ {
+ 	if (!par->gpio.reset)
+ 		return;
++
+ 	fbtft_par_dbg(DEBUG_RESET, par, "%s()\n", __func__);
++
+ 	gpiod_set_value_cansleep(par->gpio.reset, 1);
+ 	usleep_range(20, 40);
+ 	gpiod_set_value_cansleep(par->gpio.reset, 0);
+ 	msleep(120);
++
++	gpiod_set_value_cansleep(par->gpio.cs, 1);  /* Activate chip */
+ }
+ 
+ static void fbtft_update_display(struct fbtft_par *par, unsigned int start_line,
+@@ -922,8 +925,6 @@ static int fbtft_init_display_from_property(struct fbtft_par *par)
+ 		goto out_free;
+ 
+ 	par->fbtftops.reset(par);
+-	if (par->gpio.cs)
+-		gpiod_set_value(par->gpio.cs, 0);  /* Activate chip */
+ 
+ 	index = -1;
+ 	val = values[++index];
+@@ -1018,8 +1019,6 @@ int fbtft_init_display(struct fbtft_par *par)
+ 	}
+ 
+ 	par->fbtftops.reset(par);
+-	if (par->gpio.cs)
+-		gpiod_set_value(par->gpio.cs, 0);  /* Activate chip */
+ 
+ 	i = 0;
+ 	while (i < FBTFT_MAX_INIT_SEQUENCE) {
+diff --git a/drivers/staging/fbtft/fbtft-io.c b/drivers/staging/fbtft/fbtft-io.c
+index 0863d257d762..de1904a443c2 100644
+--- a/drivers/staging/fbtft/fbtft-io.c
++++ b/drivers/staging/fbtft/fbtft-io.c
+@@ -142,12 +142,12 @@ int fbtft_write_gpio8_wr(struct fbtft_par *par, void *buf, size_t len)
+ 		data = *(u8 *)buf;
+ 
+ 		/* Start writing by pulling down /WR */
+-		gpiod_set_value(par->gpio.wr, 0);
++		gpiod_set_value(par->gpio.wr, 1);
+ 
+ 		/* Set data */
+ #ifndef DO_NOT_OPTIMIZE_FBTFT_WRITE_GPIO
+ 		if (data == prev_data) {
+-			gpiod_set_value(par->gpio.wr, 0); /* used as delay */
++			gpiod_set_value(par->gpio.wr, 1); /* used as delay */
+ 		} else {
+ 			for (i = 0; i < 8; i++) {
+ 				if ((data & 1) != (prev_data & 1))
+@@ -165,7 +165,7 @@ int fbtft_write_gpio8_wr(struct fbtft_par *par, void *buf, size_t len)
+ #endif
+ 
+ 		/* Pullup /WR */
+-		gpiod_set_value(par->gpio.wr, 1);
++		gpiod_set_value(par->gpio.wr, 0);
+ 
+ #ifndef DO_NOT_OPTIMIZE_FBTFT_WRITE_GPIO
+ 		prev_data = *(u8 *)buf;
+@@ -192,12 +192,12 @@ int fbtft_write_gpio16_wr(struct fbtft_par *par, void *buf, size_t len)
+ 		data = *(u16 *)buf;
+ 
+ 		/* Start writing by pulling down /WR */
+-		gpiod_set_value(par->gpio.wr, 0);
++		gpiod_set_value(par->gpio.wr, 1);
+ 
+ 		/* Set data */
+ #ifndef DO_NOT_OPTIMIZE_FBTFT_WRITE_GPIO
+ 		if (data == prev_data) {
+-			gpiod_set_value(par->gpio.wr, 0); /* used as delay */
++			gpiod_set_value(par->gpio.wr, 1); /* used as delay */
+ 		} else {
+ 			for (i = 0; i < 16; i++) {
+ 				if ((data & 1) != (prev_data & 1))
+@@ -215,7 +215,7 @@ int fbtft_write_gpio16_wr(struct fbtft_par *par, void *buf, size_t len)
+ #endif
+ 
+ 		/* Pullup /WR */
+-		gpiod_set_value(par->gpio.wr, 1);
++		gpiod_set_value(par->gpio.wr, 0);
+ 
+ #ifndef DO_NOT_OPTIMIZE_FBTFT_WRITE_GPIO
+ 		prev_data = *(u16 *)buf;
+-- 
+2.30.2
+
