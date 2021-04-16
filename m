@@ -1,24 +1,24 @@
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC26F6D3D
-	for <linux-staging@lists.linux.dev>; Fri, 16 Apr 2021 14:20:41 +0000 (UTC)
-IronPort-SDR: 8zAC1Ls78Ax8J88iU4IcC4ubt4Uv8omTghTR+vslnlcfo1RknrKX96yzZV7sC1lRmM5le+qdtw
- HfauUTjL0aVQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9956"; a="256360184"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31B2B6D3D
+	for <linux-staging@lists.linux.dev>; Fri, 16 Apr 2021 14:20:43 +0000 (UTC)
+IronPort-SDR: Q5P4A34kAbywcMHqJ5m8jO+AdreQnJPlqoO16fejGzEzjs/RkbbDZSazuhMZLNDZmO/MP8Qs1E
+ TNRIezeFd7lQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9956"; a="256360186"
 X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; 
-   d="scan'208";a="256360184"
+   d="scan'208";a="256360186"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
   by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2021 07:20:41 -0700
-IronPort-SDR: GYu6JtG5Ljri3illY5pAkNqdRIMGeZB9jA00ZkEx+9ITdC1xn+Vlv7jzTeS4pwIlrFa0ARbQ02
- GCpT6BWm5VAg==
+IronPort-SDR: B7Ib3nZkSHvV9A+S3y+55TbrrjAUe0wBDXBvsv5N1anIo+a7dYHaSg6HUm7bj65D/3U4205g+5
+ DemFaL/Q9pbg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.82,226,1613462400"; 
-   d="scan'208";a="522722965"
+   d="scan'208";a="522722964"
 Received: from black.fi.intel.com ([10.237.72.28])
   by fmsmga001.fm.intel.com with ESMTP; 16 Apr 2021 07:20:30 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 2E488147; Fri, 16 Apr 2021 17:20:47 +0300 (EEST)
+	id 14D9D12A; Fri, 16 Apr 2021 17:20:46 +0300 (EEST)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	dri-devel@lists.freedesktop.org,
@@ -26,12 +26,10 @@ To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v2 3/4] fbtft: Don't spam logs when probe is deferred
-Date: Fri, 16 Apr 2021 17:20:43 +0300
-Message-Id: <20210416142044.17766-3-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 1/4] fbtft: Replace custom ->reset() with generic one
+Date: Fri, 16 Apr 2021 17:20:41 +0300
+Message-Id: <20210416142044.17766-1-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210416142044.17766-1-andriy.shevchenko@linux.intel.com>
-References: <20210416142044.17766-1-andriy.shevchenko@linux.intel.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -39,45 +37,52 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When requesting GPIO line the probe can be deferred.
-In such case don't spam logs with an error message.
-This can be achieved by switching to dev_err_probe().
+The custom ->reset() repeats the generic one, replace it.
 
+Note, in newer kernels the context of the function is a sleeping one,
+it's fine to switch over to the sleeping functions. Keeping the reset
+line asserted longer than 20 microseconds is also okay, it's an idling
+state of the hardware.
+
+Fixes: b2ebd4be6fa1 ("staging: fbtft: add fb_agm1264k-fl driver")
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
-v2: no changes
- drivers/staging/fbtft/fbtft-core.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+v2: new patch split from the bigger fix (Greg)
+ drivers/staging/fbtft/fb_agm1264k-fl.c | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 67c3b1975a4d..a564907c4fa1 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -75,20 +75,16 @@ static int fbtft_request_one_gpio(struct fbtft_par *par,
- 				  struct gpio_desc **gpiop)
- {
- 	struct device *dev = par->info->device;
--	int ret = 0;
- 
- 	*gpiop = devm_gpiod_get_index_optional(dev, name, index,
- 					       GPIOD_OUT_LOW);
--	if (IS_ERR(*gpiop)) {
--		ret = PTR_ERR(*gpiop);
--		dev_err(dev,
--			"Failed to request %s GPIO: %d\n", name, ret);
--		return ret;
--	}
-+	if (IS_ERR(*gpiop))
-+		dev_err_probe(dev, PTR_ERR(*gpiop), "Failed to request %s GPIO\n", name);
-+
- 	fbtft_par_dbg(DEBUG_REQUEST_GPIOS, par, "%s: '%s' GPIO\n",
- 		      __func__, name);
- 
--	return ret;
-+	return 0;
+diff --git a/drivers/staging/fbtft/fb_agm1264k-fl.c b/drivers/staging/fbtft/fb_agm1264k-fl.c
+index eeeeec97ad27..4dfc22d05a40 100644
+--- a/drivers/staging/fbtft/fb_agm1264k-fl.c
++++ b/drivers/staging/fbtft/fb_agm1264k-fl.c
+@@ -77,19 +77,6 @@ static int init_display(struct fbtft_par *par)
+ 	return 0;
  }
  
- static int fbtft_request_gpios(struct fbtft_par *par)
+-static void reset(struct fbtft_par *par)
+-{
+-	if (!par->gpio.reset)
+-		return;
+-
+-	dev_dbg(par->info->device, "%s()\n", __func__);
+-
+-	gpiod_set_value(par->gpio.reset, 0);
+-	udelay(20);
+-	gpiod_set_value(par->gpio.reset, 1);
+-	mdelay(120);
+-}
+-
+ /* Check if all necessary GPIOS defined */
+ static int verify_gpios(struct fbtft_par *par)
+ {
+@@ -439,7 +426,6 @@ static struct fbtft_display display = {
+ 		.set_addr_win = set_addr_win,
+ 		.verify_gpios = verify_gpios,
+ 		.request_gpios_match = request_gpios_match,
+-		.reset = reset,
+ 		.write = write,
+ 		.write_register = write_reg8_bus8,
+ 		.write_vmem = write_vmem,
 -- 
 2.30.2
 
