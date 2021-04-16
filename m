@@ -1,176 +1,120 @@
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 813E317F
-	for <linux-staging@lists.linux.dev>; Fri, 16 Apr 2021 04:06:01 +0000 (UTC)
-Received: from ip6-localhost (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 13G3Onft032125;
-	Thu, 15 Apr 2021 22:24:50 -0500
-Message-ID: <730d603b12e590c56770309b4df2bd668f7afbe3.camel@kernel.crashing.org>
-Subject: Re: [PATCH net-next v4 2/2] of: net: fix of_get_mac_addr_nvmem()
- for non-platform devices
-From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-To: Michael Walle <michael@walle.cc>, ath9k-devel@qca.qualcomm.com,
-        UNGLinuxDriver@microchip.com, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        netdev@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-amlogic@lists.infradead.org, linux-oxnas@groups.io,
-        linux-omap@vger.kernel.org, linux-wireless@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-staging@lists.linux.dev
-Cc: Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement
- <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth
- <sebastian.hesselbarth@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul Mackerras <paulus@samba.org>,
-        Andreas Larsson <andreas@gaisler.com>,
-        "David S . Miller"
- <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, Maxime Ripard
- <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec
- <jernej.skrabec@siol.net>,
-        Joyce Ooi <joyce.ooi@intel.com>, Chris Snook
- <chris.snook@gmail.com>,
-        =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?=
- <rafal@milecki.pl>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Florian Fainelli
- <f.fainelli@gmail.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Sunil Goutham
- <sgoutham@marvell.com>,
-        Fugang Duan <fugang.duan@nxp.com>,
-        Madalin Bucur
- <madalin.bucur@nxp.com>,
-        Pantelis Antoniou <pantelis.antoniou@gmail.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>, Li Yang <leoyang.li@nxp.com>,
-        Yisen Zhuang <yisen.zhuang@huawei.com>,
-        Salil Mehta
- <salil.mehta@huawei.com>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>,
-        Vadym Kochan
- <vkochan@marvell.com>,
-        Taras Chornyi <tchornyi@marvell.com>,
-        Mirko Lindner
- <mlindner@marvell.com>,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>,
-        Sean Wang
- <sean.wang@mediatek.com>,
-        Mark Lee <Mark-MC.Lee@mediatek.com>,
-        Matthias
- Brugger <matthias.bgg@gmail.com>,
-        Bryan Whitehead
- <bryan.whitehead@microchip.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sergei
- Shtylyov <sergei.shtylyov@gmail.com>,
-        Byungho An <bh74.an@samsung.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Giuseppe Cavallaro
- <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Jose
- Abreu <joabreu@synopsys.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam
- <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Kevin Hilman
- <khilman@baylibre.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Jerome
- Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        Grygorii Strashko
- <grygorii.strashko@ti.com>,
-        Wingman Kwok <w-kwok2@ti.com>, Murali Karicheri
- <m-karicheri2@ti.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Radhey Shyam
- Pandey <radhey.shyam.pandey@xilinx.com>,
-        Kalle Valo
- <kvalo@codeaurora.org>,
-        Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>,
-        Ryder Lee <ryder.lee@mediatek.com>, Stanislaw Gruszka <stf_xl@wp.pl>,
-        Helmut Schaa <helmut.schaa@googlemail.com>,
-        Heiner Kallweit
- <hkallweit1@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand
- <frowand.list@gmail.com>,
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A53F71
+	for <linux-staging@lists.linux.dev>; Fri, 16 Apr 2021 05:51:27 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13G5ia0h094659;
+	Fri, 16 Apr 2021 05:49:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=kRy8guf9ADEaLVne8vD5aYowdOf903zCbD0a8Uul56I=;
+ b=OpiahsKZ7BS593zzzc1sX6x++7/hUb2U/9g3VD0sUKfzRO1PQlpN6tCjsrRjf+2tl1s5
+ /iDtNVYj0TqlH5tn7cXVy78tUsjqwbWO45dv3tjKI80R6R8YBNllV57GauvhzNBCseaU
+ ejxb5ChkpR6nOQy//UAWorG7BSFSrWEhXJPj8+yul4cFGBq/LUB6HeZt8oFQOjXvtzaF
+ PU/litZdvJzBqAok1sc3QzHTuxKhb1SOXMC1Z6yINuMez+PMTiNoY+TVPqhXGvnoAWw4
+ Hd/L4Et3RD51nTF21FjvPp7TfSoFGZJKA0UY1p5oOjucdfa0AHIlcDpgxKHXQxOkENmH ow== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by aserp2120.oracle.com with ESMTP id 37u3ymqw8n-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 16 Apr 2021 05:49:57 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13G5jd98014616;
+	Fri, 16 Apr 2021 05:49:55 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+	by userp3020.oracle.com with ESMTP id 37unswq0xd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 16 Apr 2021 05:49:55 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 13G5nn50027730;
+	Fri, 16 Apr 2021 05:49:50 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Thu, 15 Apr 2021 22:49:49 -0700
+Date: Fri, 16 Apr 2021 08:49:41 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Matthew Wilcox <willy@infradead.org>,
+        Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?ISO-8859-1?Q?J=E9r=F4me?= Pouiller <jerome.pouiller@silabs.com>,
-        Vivien
- Didelot <vivien.didelot@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>
-Date: Fri, 16 Apr 2021 13:24:49 +1000
-In-Reply-To: <20210412174718.17382-3-michael@walle.cc>
-References: <20210412174718.17382-1-michael@walle.cc>
-	 <20210412174718.17382-3-michael@walle.cc>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+Subject: Re: [Outreachy kernel] [PATCH v2] staging: media: atomisp: pci:
+ Change line break to avoid an open parenthesis at the end of the line
+Message-ID: <20210416054941.GF6021@kadam>
+References: <20210415170819.GA17534@focaruja>
+ <20210415171409.GC2531743@casper.infradead.org>
+ <20210415194955.GI3@paasikivi.fi.intel.com>
+ <20210415195704.GE2531743@casper.infradead.org>
+ <20210415195941.GF2531743@casper.infradead.org>
+ <20210415212158.GK3@paasikivi.fi.intel.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210415212158.GK3@paasikivi.fi.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9955 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
+ malwarescore=0 suspectscore=0 bulkscore=0 mlxscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104160044
+X-Proofpoint-GUID: UBL0ZxRfGNz-BqCCz60MCMCNixHxWPlj
+X-Proofpoint-ORIG-GUID: UBL0ZxRfGNz-BqCCz60MCMCNixHxWPlj
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9955 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=999 spamscore=0
+ impostorscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0
+ bulkscore=0 phishscore=0 suspectscore=0 malwarescore=0 clxscore=1031
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104160044
 
-On Mon, 2021-04-12 at 19:47 +0200, Michael Walle wrote:
+On Fri, Apr 16, 2021 at 12:21:58AM +0300, Sakari Ailus wrote:
+> On Thu, Apr 15, 2021 at 08:59:41PM +0100, Matthew Wilcox wrote:
+> > On Thu, Apr 15, 2021 at 08:57:04PM +0100, Matthew Wilcox wrote:
+> > > On Thu, Apr 15, 2021 at 10:49:55PM +0300, Sakari Ailus wrote:
+> > > > On Thu, Apr 15, 2021 at 06:14:09PM +0100, Matthew Wilcox wrote:
+> > > > > On Thu, Apr 15, 2021 at 02:08:19PM -0300, Aline Santana Cordeiro wrote:
+> > > > > > -const struct atomisp_format_bridge *get_atomisp_format_bridge_from_mbus(
+> > > > > > -    u32 mbus_code);
+> > > > > > +const struct atomisp_format_bridge*
+> > > > > > +get_atomisp_format_bridge_from_mbus(u32 mbus_code);
+> > > > > 
+> > > > > No, this does not match coding style.  Probably best to break the
+> > > > > 80-column guideline in this instance.  Best would be to have a function
+> > > > 
+> > > > Having the return type on the previous line is perfectly fine. There should
+> > > > be a space before the asterisk though.
+> > > 
+> > > No, it's not.  Linus has ranted about that before.
+> > 
+> > Found it.  https://lore.kernel.org/lkml/1054519757.161606@palladium.transmeta.com/
 > 
->  /**
->   * of_get_phy_mode - Get phy mode for given device_node
-> @@ -59,15 +60,39 @@ static int of_get_mac_addr(struct device_node *np, const char *name, u8 *addr)
->  static int of_get_mac_addr_nvmem(struct device_node *np, u8 *addr)
->  {
->         struct platform_device *pdev = of_find_device_by_node(np);
-> +       struct nvmem_cell *cell;
-> +       const void *mac;
-> +       size_t len;
->         int ret;
->  
-> -       if (!pdev)
-> -               return -ENODEV;
-> +       /* Try lookup by device first, there might be a nvmem_cell_lookup
-> +        * associated with a given device.
-> +        */
-> +       if (pdev) {
-> +               ret = nvmem_get_mac_address(&pdev->dev, addr);
-> +               put_device(&pdev->dev);
-> +               return ret;
-> +       }
-> +
+> Two decades ago, really?
+> 
+> This is simply one of the practical means how you split long function
+> declarations and avoid overly long lines. Not my favourite though, but
+> still better than those long lines.
 
-This smells like the wrong band aid :)
+I've always thought we allow either style, but it has to be done
+consistently within the file.  I was pretty sure that was policy but
+it's another thing that goes back decades so I don't have a reference.
+It shouldn't be about breaking up long lines.
 
-Any struct device can contain an OF node pointer these days.
+> 
+> My personal preference would be to wrap at the opening parenthesis and
+> indent by just a tab, but I know many people who disagree with that...
 
-This seems all backwards. I think we are dealing with bad evolution.
+If you're running into the 80 character limit, then it's fine to use
+two tabs.  I think we have been rejecting patches that push align the
+parameters but push past the 80 character limit.  Using one tab is
+confusing because it makes the decalarations line up with the code.
 
-We need to do a lookup for the device because we get passed an of_node.
-We should just get passed a device here... or rather stop calling
-of_get_mac_addr() from all those drivers and instead call
-eth_platform_get_mac_address() which in turns calls of_get_mac_addr().
-
-Then the nvmem stuff gets put in eth_platform_get_mac_address().
-
-of_get_mac_addr() becomes a low-level thingy that most drivers don't
-care about.
-
-Cheers,
-Ben.
-
+regards,
+dan carpenter
 
