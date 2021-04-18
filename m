@@ -1,50 +1,50 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E54871
-	for <linux-staging@lists.linux.dev>; Sun, 18 Apr 2021 16:48:22 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id c3so2800873pfo.3
-        for <linux-staging@lists.linux.dev>; Sun, 18 Apr 2021 09:48:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DFA71
+	for <linux-staging@lists.linux.dev>; Sun, 18 Apr 2021 17:32:41 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id q10so22627161pgj.2
+        for <linux-staging@lists.linux.dev>; Sun, 18 Apr 2021 10:32:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:date:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=jAaKUfUcTBzN1eaNKA5kBWKVSugP5XYulKpJt/IIaLw=;
-        b=a4VUMesj+ViRkIufmRfiVXZJ1iH/1y5wMI8p2r0h3dGgMtlbMlo7//DMGEqc8EdfjM
-         zlgD0wxQ1MsskRWXAuUlfPHcT/DXf0qbOgbalqPE28IGHbH9+bgiRse6FiW2ZUyvsRDX
-         5deZqtnrAZVQQXuzCfTPvQZcdkufY8kw/ATngw5v9404GEsf91qC2JL5jORmVfsRHmJK
-         k7H62jdm/+uZtheuLkE8gJRqaPiRq1P6/eS0ZO7H/8I4DZ0C+61lDppbP1VMwLSqN3l4
-         JqeMs2CWtBjtQIZ9cgULOJfRI5i/SWNQKQRFPjqAE6LS9iK5wRP3ZLuUwPoR6TwW44zz
-         tDlg==
+        bh=AOU4sFlQzuUDId/4lsftUubI13w4y5BA/4YL9lGoNIE=;
+        b=UDOWUj/BNmeQSx/IgyaGqDTmjZZszrVkDuNdr4y66X9r562Y+OY1cj1s5J936A/huy
+         HSN5s1Cnru8Wu0vRluiQoRVnI30VApfE7lJFeTjHz1d0qbWv/oeAXtp6nJSwM7zJJoYg
+         PCbwG8eVjPAtz9nbASXV2Uk7/pJnMsqyK9VzADmdyykFiCwHJ/LEX2knOiNBEwPzxYSt
+         3dbv3vs3ms4DTQ6dT90qU1cXffjeTRcIX8LPEBn7rXnTkHPKSAqeCepJOEt9Z+44+Yw9
+         YDhCy9zRTJKmMI+P+jRJCP+YW96FOZ7FpUzeMcJ4VEIlFmH9u9w45bH5JcmQt9kGjgAx
+         lKSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:date:to:cc:subject:message-id:mime-version
          :content-disposition;
-        bh=jAaKUfUcTBzN1eaNKA5kBWKVSugP5XYulKpJt/IIaLw=;
-        b=UVUs7VJzLGnxN/5v1/7RztMIczT8aRBPbbNNNnfBWwmsWLwzIce5u4+Ly9zc4+lXCX
-         +z9cQN9RxPIn8GyPK6gdM7I36jsGumgyLAemMyZ3+wRX83Y+9HKPD2+Lq65h3KjcS5VT
-         0vQSsWapKerHpd5iKga8knS9gvi3k3sYcA2PaQX7gDZtsbTFZUqqQjtN5UPs8qfnjF92
-         dI8IItNeC4l7Ppkp+c41SGbZesfzCltLWvvX8MgCQ3YslYrOxsuzqlvFPJq5MgXHtNTM
-         NAwq0IRefjABg6yLMg4PaXC78Qt/JMzLaPILP7OOuOQZ/z6uQtY0QpcCy4pk8+/vY1Pm
-         oNjQ==
-X-Gm-Message-State: AOAM5321Xhs1NuBZFvxmW9cwDVXbaPPK7P2e4OCPDB/EC4DOdVngHZKx
-	6p/AquvG2HW+bSUvLjubNzw=
-X-Google-Smtp-Source: ABdhPJwT6b8Z5YM57KwecCttty/jNOlzjGmIpvYV4XVZuoyF/ASzfgfDLDFf3OYx+ylAFz0UryylnQ==
-X-Received: by 2002:a62:3892:0:b029:250:4fac:7e30 with SMTP id f140-20020a6238920000b02902504fac7e30mr16436281pfa.81.1618764501691;
-        Sun, 18 Apr 2021 09:48:21 -0700 (PDT)
+        bh=AOU4sFlQzuUDId/4lsftUubI13w4y5BA/4YL9lGoNIE=;
+        b=bQ+SsppUyKscP6Z0IxVZ4HAM8FtjEVvIy7gShZUp5PeVGAGLJJvg2Gw+qKQJfvk66j
+         fk4Nb2/j2TXua7Jz7O733O48/PAtaFPMUbNsyYeTTY0nirfXP3lQwkdocBFWkqlqI6tb
+         jTCTiK5fzqEfLokb4oOCiQva1Mywg5BmP+bvdH3iqg0EtMcIReo+FBwwu8t1pCJuHgVX
+         dKWWiU8OZKT9kunMM9xnuuZnt/HLFgGlVFrNzro8V9Ukna74epwOHqH36fxIN+6m74lN
+         wDWhhUdfoUO1UBuocFVQX9lMhvAlaJ7I/yD+LHOQ9kjzkmyG4K/AujDorEWzErHhcRUn
+         hK3Q==
+X-Gm-Message-State: AOAM533sBSrGsAaQSGbEOprWGGw5Y3iJd+d3bIdP62uobpvlMRbBD5jJ
+	y2aHOyaUNED5qNfL8ykLvLo=
+X-Google-Smtp-Source: ABdhPJwYtFD5FMK8qCddAiscQgeKoiR6Bcb9l4vBJZaJ2WSQjn0NaD71yQrqcqB8shkmFR89ZoS4Cg==
+X-Received: by 2002:a05:6a00:1585:b029:203:6bc9:3ca6 with SMTP id u5-20020a056a001585b02902036bc93ca6mr16579043pfk.79.1618767161520;
+        Sun, 18 Apr 2021 10:32:41 -0700 (PDT)
 Received: from user ([2001:4490:4409:d07c:b4ac:39e7:e05c:f39b])
-        by smtp.gmail.com with ESMTPSA id n52sm10354260pfv.13.2021.04.18.09.48.18
+        by smtp.gmail.com with ESMTPSA id s40sm9411038pfw.100.2021.04.18.10.32.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Apr 2021 09:48:21 -0700 (PDT)
+        Sun, 18 Apr 2021 10:32:41 -0700 (PDT)
 From: Saurav Girepunje <saurav.girepunje@gmail.com>
 X-Google-Original-From: Saurav Girepunje <saurav.girepunje@google.com>
-Date: Sun, 18 Apr 2021 22:18:13 +0530
+Date: Sun, 18 Apr 2021 23:02:33 +0530
 To: gregkh@linuxfoundation.org, fabioaiuto83@gmail.com,
-	john.oldman@polehill.co.uk, ross.schm.dev@gmail.com,
-	marcocesati@gmail.com, insafonov@gmail.com,
+	hello@bryanbrattlof.com, hdegoede@redhat.com,
+	saurav.girepunje@google.com, john.oldman@polehill.co.uk,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Cc: saurav.girepunje@hotmail.com
-Subject: [PATCH] staging: rtl8723bs: os_dep: remove unneeded variable ret
-Message-ID: <20210418164813.GA57451@user>
+Subject: [PATCH] staging: rtl8723bs: os_dep: remove multiple return
+Message-ID: <20210418173233.GA59153@user>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -53,37 +53,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Fix the following coccicheck warning:
-
-drivers/staging/rtl8723bs/os_dep/os_intfs.c:1156:5-8:
-Unneeded variable: "ret". Return "0" on line 1199
+on sdio_intf.c rtw_sdio_suspend call we have multiple
+return which can replace by goto exit. As in all the places
+return value is 0.
 
 Signed-off-by: Saurav Girepunje <saurav.girepunje@google.com>
 ---
- drivers/staging/rtl8723bs/os_dep/os_intfs.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index 1f34cb2e367c..920ec25c9a4f 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -1153,7 +1153,6 @@ int rtw_suspend_common(struct adapter *padapter)
- 	struct pwrctrl_priv *pwrpriv = dvobj_to_pwrctl(psdpriv);
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+index a9a9631dd23c..3e566cf97f6e 100644
+--- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
++++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+@@ -445,14 +445,17 @@ static int rtw_sdio_suspend(struct device *dev)
+ 	struct debug_priv *pdbgpriv = &psdpriv->drv_dbg;
  
--	int ret = 0;
- 	unsigned long start_time = jiffies;
+ 	if (padapter->bDriverStopped)
+-		return 0;
++		goto exit;
  
- 	DBG_871X_LEVEL(_drv_always_, " suspend start\n");
-@@ -1196,7 +1195,7 @@ int rtw_suspend_common(struct adapter *padapter)
+ 	if (pwrpriv->bInSuspend) {
+ 		pdbgpriv->dbg_suspend_error_cnt++;
+-		return 0;
++		goto exit;
+ 	}
  
- exit:
- 
--	return ret;
+-	return rtw_suspend_common(padapter);
++	rtw_suspend_common(padapter);
++exit:
++
 +	return 0;
  }
  
- static int rtw_resume_process_normal(struct adapter *padapter)
+ static int rtw_resume_process(struct adapter *padapter)
 -- 
 2.25.1
 
