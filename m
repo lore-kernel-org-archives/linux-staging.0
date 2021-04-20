@@ -1,19 +1,27 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C71771
-	for <linux-staging@lists.linux.dev>; Tue, 20 Apr 2021 09:07:44 +0000 (UTC)
-Received: from mail-ed1-f49.google.com ([209.85.208.49]) by
- mrelayeu.kundenserver.de (mreue108 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MBlpC-1lMi4h1Pmm-00C8aR for <linux-staging@lists.linux.dev>; Tue, 20 Apr
- 2021 11:07:43 +0200
-Received: by mail-ed1-f49.google.com with SMTP id d21so24031326edv.9
-        for <linux-staging@lists.linux.dev>; Tue, 20 Apr 2021 02:07:43 -0700 (PDT)
-X-Gm-Message-State: AOAM533s1tNgP4zlcdNuwmKdKII2xlsgnxYu4Yw6hl13oaaxqYodRqzl
-	3TOO19Uj1b1Er0KLjJOR5o4ztRbbbORSIrqfiek=
-X-Google-Smtp-Source: ABdhPJwSiNwlZ27l6d0oeVOJMjBIBpaEf6fV+Kr02yQOCGa6DdHdokE+eIs4+TiyDD+ybgS8jO4hGYikHl0QAhmuRDs=
-X-Received: by 2002:adf:db4f:: with SMTP id f15mr19571156wrj.99.1618909652608;
- Tue, 20 Apr 2021 02:07:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA53F71
+	for <linux-staging@lists.linux.dev>; Tue, 20 Apr 2021 09:11:09 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3CB2C613B0
+	for <linux-staging@lists.linux.dev>; Tue, 20 Apr 2021 09:11:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1618909869;
+	bh=DeGQ9vUDRCVhA8t5Ph+0N53DtPOXi7alQM8lRrwQwKo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=p0qaMXJByFvnmnNzygjG+wVqrEysTLgHvDiIGpK52K9aQUKK6M3BGjSLyePqEb3Qf
+	 oR3oMBtOgJOCh7RcSvkCcBVicfY9CiiXQqSuj3vuq6dpjOGhCmYNVuVfPR+/WjSa8y
+	 OjKCkD+Jeiy0rF7z8u1J4LpfnlrCGE/G9N0ySag4aO+wDqsFogGqXT9eHwLSIlfmwd
+	 swm8rATrWZ8IwfA14qwCGkgWO/i7lHh6bqTFbABgi05Ale1G4PAajc6jL8bk5XXXNG
+	 JygWwRlWhDmLm13ceBOy+pmk9GoTtnNMy2CUIErVU0FqckDVw6S1F+GjMgloAzJarS
+	 aElCDGbhH7RTw==
+Received: by mail-ej1-f46.google.com with SMTP id w23so41347444ejb.9
+        for <linux-staging@lists.linux.dev>; Tue, 20 Apr 2021 02:11:09 -0700 (PDT)
+X-Gm-Message-State: AOAM533gDu969Ute4FSWkzVCVaLiGxfvf9WGnq4ild/yYsTTZg9p1fsO
+	8OtvfKEFqLyisJXIXZQvMXFLIHHdIHu5z4V+K7k=
+X-Google-Smtp-Source: ABdhPJyHjUN6C0/sUkUlP+4nedtBBPWCDMG4VnGKqPhVa1uJB5nLQGViYOHp7TNdMb76BpIs8GkQPbFl+yNnVewK4NU=
+X-Received: by 2002:a5d:6dc4:: with SMTP id d4mr20219548wrz.105.1618909856639;
+ Tue, 20 Apr 2021 02:10:56 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -24,10 +32,10 @@ References: <20210419042722.27554-1-alice.guo@oss.nxp.com> <20210419042722.27554
  <YH1OeFy+SepIYYG0@atmark-techno.com> <CAK8P3a1Mu2F0irDDCL-50HiHth29iYFL5b7WHZ=UX6W7zzoxAg@mail.gmail.com>
  <YH4VdPNO9cdzc5MD@atmark-techno.com>
 In-Reply-To: <YH4VdPNO9cdzc5MD@atmark-techno.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 20 Apr 2021 11:07:16 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1GjeHyMCworQYVtp5U0uu2B9VBHmf9y0hGn-o8aKSJZw@mail.gmail.com>
-Message-ID: <CAK8P3a1GjeHyMCworQYVtp5U0uu2B9VBHmf9y0hGn-o8aKSJZw@mail.gmail.com>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Tue, 20 Apr 2021 11:10:40 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1tPQm1Qj2KZu2jOM=TUP0dJgP4G9eKkWfv-PZEAWEhyA@mail.gmail.com>
+Message-ID: <CAK8P3a1tPQm1Qj2KZu2jOM=TUP0dJgP4G9eKkWfv-PZEAWEhyA@mail.gmail.com>
 Subject: Re: [RFC v1 PATCH 3/3] driver: update all the code that use soc_device_match
 To: Dominique MARTINET <dominique.martinet@atmark-techno.com>
 Cc: Geert Uytterhoeven <geert@linux-m68k.org>, "Alice Guo (OSS)" <alice.guo@oss.nxp.com>, 
@@ -64,22 +72,6 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>, "Alice Guo (OSS)" <alice.guo@oss.
 	Linux PM list <linux-pm@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>, 
 	LINUXWATCHDOG <linux-watchdog@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:SAlJE9KoS//h67ozN5m2eNFs/Sp7dBtfdXI0WUJuOOeBcs5H9c3
- jvciUP+jjeP+eA3hHT2jMKcbjACBKquuHmogZ4r3HouVk07Vc9BAb+l/MENBLZi/4Z5D6AD
- +1P/iDsiROPis0GGHd6iPuEuONXjLGEte2r6yN0T5WKqAr8NcxjAXaEVUH9o2mgLSYjiHI9
- 2b0ktEqLhXW4h6EPRATtQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Ic9zOYm76io=:oMsXvk+nxVT0IeGEgwF4m1
- MA1EyE1uCEQCz5B4WcvVgedF/ypHnc9cxWywItai9M2uvdkGqSif0gkqk3YyMsYbOXd0CkWJG
- Ipxb6I613j37FOsD7RSir5j8pG9MSb8VMFKOGvo0IBs3QDtTLDiwXnCLT9uCxpLppH4ZowOgI
- gZfjX8qRq5W0mDamweZ5UOCIf/M5GfKLeNw33zBgONaJjn24bpsJ7+9RfzVREAIqBS/FI7VQ+
- zku2HwNy0rE0YW2Nm9EL1TG70IgcXGUBozJIinSlxOBcSR4gmpKQ/InZAQJWuhRas5d8IfSLV
- 1UWBD00euEyhE88XDOcAAhEQkJpRZalIqOrXndbiAB2Bk5Yd1PbVYyP8WnCZBlvTQV10Mk9U1
- LyeSftvIXmjkhUvm+5G1Y7seUSwUvL2RivaTwv5cg0M5c/sExz4dAKvQyUFzPRe8N7Sz6/HFd
- l+BOhNTXfUrV8qb68y93kTNW6NUy7LWgVt6y/MVeDlC/6M67YecOHWrqmvlbHVKmN4YV6nMKY
- KPOb24+pvNhtls1IK4otHP7rLqQG8nlmNMf5lL2rekkNoBsvw2u6gLW8L1TC8mOi4r379pFi4
- ZXliW1nlJm1tQ8hilHSQd1nk5+ZtyVtf64Z8tIXOPg4PtLyEKk/9ryCoiPDdnr4oHNW8dcrKP
- Nk0U=
 
 On Tue, Apr 20, 2021 at 1:44 AM Dominique MARTINET
 <dominique.martinet@atmark-techno.com> wrote:
