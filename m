@@ -1,78 +1,60 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54C62F83
-	for <linux-staging@lists.linux.dev>; Tue, 20 Apr 2021 11:26:55 +0000 (UTC)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 13KAuvAJ017452;
-	Tue, 20 Apr 2021 11:03:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=LtV7CncGgWbczJ5pJS0aGf6xtVkvJ4n6Wcq3KI7t+hs=;
- b=kp7saIAdK7NOIsggePDlhd5CGL274IiUz/IQRMpHsfAJ+vrAEpQ1tTiqgwTGddbaEqah
- 21h9NK4melT/Bei/pbn/KsO435G58VPBUUhj8d9EzULc4OYCODpGdNQgZw+IYWEACQQ7
- hHU6FwHnELr4p55HpEZI+/zsYoRPIbtr3n4wHApviXnPmabQACAbvuOkz0IIfrwSoAuc
- cO8utFjhOvpF+9b+VqRoQC28o476a0JhSiirFbpwWZbrKwnVIPkrfA7oP2PTfspM51Dz
- H2yR2zD5PyckJWSPrIIOxkobh19625cZXx1spLZPxpxCh/aBmYSTljw7deNWjO6LtR7D Ow== 
-Received: from oracle.com (userp3020.oracle.com [156.151.31.79])
-	by mx0b-00069f02.pphosted.com with ESMTP id 381dum85tx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 20 Apr 2021 11:03:59 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
-	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 13KB3wIi139551;
-	Tue, 20 Apr 2021 11:03:58 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by userp3020.oracle.com with ESMTP id 3809esejed-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 20 Apr 2021 11:03:58 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13KB2xcZ136786;
-	Tue, 20 Apr 2021 11:03:57 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by userp3020.oracle.com with ESMTP id 3809esejdk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 20 Apr 2021 11:03:57 +0000
-Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13KB3uTl016024;
-	Tue, 20 Apr 2021 11:03:56 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Tue, 20 Apr 2021 11:03:55 +0000
-Date: Tue, 20 Apr 2021 14:03:48 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Saurav Girepunje <saurav.girepunje@gmail.com>
-Cc: gregkh@linuxfoundation.org, fabioaiuto83@gmail.com,
-        hello@bryanbrattlof.com, hdegoede@redhat.com,
-        saurav.girepunje@google.com, john.oldman@polehill.co.uk,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        saurav.girepunje@hotmail.com
-Subject: Re: [PATCH] staging: rtl8723bs: os_dep: remove multiple return
-Message-ID: <20210420110348.GC1981@kadam>
-References: <20210418173233.GA59153@user>
+Received: from smtp.smtpout.orange.fr (smtp07.smtpout.orange.fr [80.12.242.129])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 324892F83
+	for <linux-staging@lists.linux.dev>; Tue, 20 Apr 2021 12:12:50 +0000 (UTC)
+Received: from localhost.localdomain ([86.243.172.93])
+	by mwinf5d66 with ME
+	id v05C2400Q21Fzsu0305CQX; Tue, 20 Apr 2021 14:05:13 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Tue, 20 Apr 2021 14:05:13 +0200
+X-ME-IP: 86.243.172.93
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] staging: octeon: Use 'for_each_child_of_node'
+Date: Tue, 20 Apr 2021 14:05:10 +0200
+Message-Id: <eaffe388e6c51e97caf3e8fa474de74428575455.1618920182.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.27.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210418173233.GA59153@user>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: CeLZ5r5Xrtp8QxoMCXPX-79OtMGQyNj4
-X-Proofpoint-GUID: CeLZ5r5Xrtp8QxoMCXPX-79OtMGQyNj4
+Content-Transfer-Encoding: 8bit
 
-On Sun, Apr 18, 2021 at 11:02:33PM +0530, Saurav Girepunje wrote:
-> on sdio_intf.c rtw_sdio_suspend call we have multiple
-> return which can replace by goto exit. As in all the places
-> return value is 0.
-> 
+Use 'for_each_child_of_node' instead of hand writing it.
+This saves a few line of code.
 
-Why?
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/staging/octeon/ethernet.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-Do nothing gotos just make the code harder to read and introduce forgot
-to set the error code bugs.
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
+index da7c2cd8ebb8..dcbba9621b21 100644
+--- a/drivers/staging/octeon/ethernet.c
++++ b/drivers/staging/octeon/ethernet.c
+@@ -610,14 +610,11 @@ static const struct net_device_ops cvm_oct_pow_netdev_ops = {
+ static struct device_node *cvm_oct_of_get_child
+ 				(const struct device_node *parent, int reg_val)
+ {
+-	struct device_node *node = NULL;
+-	int size;
++	struct device_node *node;
+ 	const __be32 *addr;
++	int size;
+ 
+-	for (;;) {
+-		node = of_get_next_child(parent, node);
+-		if (!node)
+-			break;
++	for_each_child_of_node(parent, node) {
+ 		addr = of_get_property(node, "reg", &size);
+ 		if (addr && (be32_to_cpu(*addr) == reg_val))
+ 			break;
+-- 
+2.27.0
 
