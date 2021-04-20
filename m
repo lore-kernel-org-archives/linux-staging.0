@@ -1,53 +1,55 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56BD871
-	for <linux-staging@lists.linux.dev>; Tue, 20 Apr 2021 08:44:53 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id g5so50340785ejx.0
-        for <linux-staging@lists.linux.dev>; Tue, 20 Apr 2021 01:44:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7CC171
+	for <linux-staging@lists.linux.dev>; Tue, 20 Apr 2021 09:01:49 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id h20so19331235plr.4
+        for <linux-staging@lists.linux.dev>; Tue, 20 Apr 2021 02:01:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=wvaxkpeSGZzWlZGg7ax8Z6wOqFvxPkE1sOA1pAgV7dg=;
-        b=E7O7p29eOelCDzJhhlQ3n/LvzhWb8tSdn0chkFsLvC8EjTfobeMJmKYtmLI5pOGfli
-         f1Pm/u06zMx0CJmq59GV8+oqPw814WILdnzMBeP8LhvdebVKDhPUsOytJp8kOdeuYFN1
-         YiWMc9cxcgsMC7XwMjV1X5Q0kYE0AE/kwxw204DQdBH7SgLxMK7q8Gk6T3rJCDhLjbT9
-         2SSPGcOff0f6BJ/wySijsiCdlrdqcxtQ2hi7SCI7bl9uYsLwTuRXaZXaEr6T/sAEd6pR
-         293LKwDMs4qoph0yJTFUnEpe+3LsXgqCeaOUEpa/F7oD6v9uV+WgTW9V3MwCenCHLAUj
-         KgXQ==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=nUTxD83tk99lAvG8V7zJLQuPHa5YvvReXL8ln/DNe9Y=;
+        b=UXB94sY2D5CrMsl/iyK72EuZFmC2BeVYULg6Jqcf1+ZBz65O7ld1bEnRlB27uBFlg7
+         WrlJCEIHwR6kfZQBU8v42GlPUDNkoxZ4OduJbGFNz1DLGBld7Tg/mAGBKGjaOfv7DsAe
+         ZGiIw9KvjY8XTElYID/+3+iYRz4fqLopaveo3Hzshp00TDPjMaV2BuFFypHt6o4aRkz1
+         McAGrnGAbP81yu1bxXPDHQNnrKUGwz2NXCk5OXhMr31PALMwZ9z8HLRRPTmWXmxQLHuj
+         kDQ4DXfv4ONi06CkLxJND+i5uqln2GJk8tzrfD0E/TAmoohjeKBMvfQJCQfkgLXx8I9I
+         qYnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=wvaxkpeSGZzWlZGg7ax8Z6wOqFvxPkE1sOA1pAgV7dg=;
-        b=nAJ5vbJNCrQItJEso8LDw6ENzT+zFyQWLUlQegQ1APrqQBZ2G+55YxvNZIKF9GWnkM
-         2Lf+WQgrkfYn7c5JBKeoC9yHu1yxswlrZ4aidqjhQJ3QyziPk/MmwGFmo26NfE3NDMNX
-         /TVNE5sbAh9ObFiSseKtj6rpUNzMikFuoTjl0Y+owvARIsvrG2aVQuToHhvrQt1rIbFL
-         GeXe+UH9JJnfBVLWUsGgw2WkvIpmgl4S0XcZ74SGlJBt9rtPXXGcEA0P4Lg0FdVCqIj4
-         SjHlweARe3xYjbkr0zJySCuBbMyv/tOu7GjCNFFY9bpxR6UUTVaHvUy72xOTYOqlVABQ
-         G3Jw==
-X-Gm-Message-State: AOAM530YZDLKmLPYb+gbi8gqfNy5USCXRKLPId7CVU/KK+0JwSj2kiHu
-	a1//oZMVn9DgDUkxF1YIuzM=
-X-Google-Smtp-Source: ABdhPJwoWqZ2ieZIutUTyBW85vvyDH5D+Tok3hiR2DzIx24ZkPw3Ele00WzvVcOwf0LhTZC3FxEB1w==
-X-Received: by 2002:a17:906:1e49:: with SMTP id i9mr20104612ejj.536.1618908291807;
-        Tue, 20 Apr 2021 01:44:51 -0700 (PDT)
-Received: from agape.jhs ([5.171.72.235])
-        by smtp.gmail.com with ESMTPSA id q10sm11484065eds.26.2021.04.20.01.44.50
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=nUTxD83tk99lAvG8V7zJLQuPHa5YvvReXL8ln/DNe9Y=;
+        b=CEic2Rr67xD1FJeCHPDQFMUUN3ayzTcR5MetodV/J9V72zMNlg1KvcKZ7Mq6FCHOTT
+         bnLA3yIOEpj0zxRQZ5bHLM2PPcYX+aQlHUp9oXqbjYJGUrXi6An1EeLYjFZzw9CM9R/s
+         3qkax7a/enjS1LOMu3aKFCro2S3/M1OSDGpn5aIqevo5Xs3EVG+U86ecL1yRIlhegMTS
+         D7lVgHdtE2Wux9wgVNHrow7pOGw3RqpxmOR/B8KDeTARmYjerbi/95PV4IAluctLFCY5
+         M+0D2b9LZjJMFRcOxd9j4QFTFJpnT+5gnkqvCZJMdzYJ7aQQapwoS55eFh9SK8pPqxz4
+         RZJg==
+X-Gm-Message-State: AOAM532UV1qT+FxWwBkBT45BQ2JzrF4SsDRMKtc3iCcvEZ9pf45KKA2r
+	XTrQokAIAjc8tAJPRcPh1W8=
+X-Google-Smtp-Source: ABdhPJxF52UkL+Rb6yGN0+lwvAFPPmWOvFjz9PeYVIProM8YegqdIpLfmPnMRbD23utLBh+ZtfEk8g==
+X-Received: by 2002:a17:90b:4b86:: with SMTP id lr6mr3872498pjb.77.1618909309084;
+        Tue, 20 Apr 2021 02:01:49 -0700 (PDT)
+Received: from ashish-NUC8i5BEH ([182.77.14.23])
+        by smtp.gmail.com with ESMTPSA id n20sm14733914pgv.15.2021.04.20.02.01.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Apr 2021 01:44:51 -0700 (PDT)
-Date: Tue, 20 Apr 2021 10:44:48 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Deepak R Varma <mh12gx2825@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/6] staging: media: atomisp: reformat code comment blocks
-Message-ID: <20210420084448.GC1411@agape.jhs>
-References: <cover.1618859059.git.drv@mailo.com>
- <7cf7b8253550460e7273c94bae005939000679fd.1618859059.git.drv@mailo.com>
+        Tue, 20 Apr 2021 02:01:48 -0700 (PDT)
+Date: Tue, 20 Apr 2021 14:31:42 +0530
+From: Ashish Kalra <eashishkalra@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Abheek Dhawan <adawesomeguy222@gmail.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Romain Perier <romain.perier@gmail.com>,
+	Waiman Long <longman@redhat.com>,
+	Allen Pais <apais@linux.microsoft.com>,
+	Ivan Safonov <insafonov@gmail.com>,
+	Ashish Kalra <eashishkalra@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: eashishkalra@gmail.com
+Subject: [PATCH] staging: wlan-ng: silence incorrect type in argument 1
+ (different address spaces) warning
+Message-ID: <20210420090142.GA4086@ashish-NUC8i5BEH>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -55,164 +57,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7cf7b8253550460e7273c94bae005939000679fd.1618859059.git.drv@mailo.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Tue, Apr 20, 2021 at 12:45:04AM +0530, Deepak R Varma wrote:
-> Reformat code comment blocks according to the coding style guidelines.
-> This resolves different checkpatch script WARNINGs around block comments.
-> 
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
-> ---
->  .../media/atomisp/i2c/atomisp-gc2235.c        |  8 +++----
->  .../atomisp/i2c/atomisp-libmsrlisthelper.c    |  3 ++-
->  .../media/atomisp/i2c/atomisp-mt9m114.c       | 22 +++++++++++--------
->  .../media/atomisp/i2c/atomisp-ov2680.c        |  3 ++-
->  4 files changed, 21 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> index 548c572d3b57..a585d73665a6 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> @@ -747,10 +747,10 @@ static int startup(struct v4l2_subdev *sd)
->  
->  	if (is_init == 0) {
->  		/* force gc2235 to do a reset in res change, otherwise it
-> -		* can not output normal after switching res. and it is not
-> -		* necessary for first time run up after power on, for the sack
-> -		* of performance
-> -		*/
-> +		 * can not output normal after switching res. and it is not
-> +		 * necessary for first time run up after power on, for the sack
-> +		 * of performance
-> +		 */
->  		power_down(sd);
->  		power_up(sd);
->  		gc2235_write_reg_array(client, gc2235_init_settings);
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c b/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c
-> index b93c80471f22..750b3484eb19 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c
-> @@ -57,7 +57,8 @@ static int set_msr_configuration(struct i2c_client *client, uint8_t *bufptr,
->  	 * By convention, the first two bytes of actual data should be
->  	 * understood as an address in the sensor address space (hibyte
->  	 * followed by lobyte) where the remaining data in the sequence
-> -	 * will be written. */
-> +	 * will be written.
-> +	 */
->  
->  	u8 *ptr = bufptr;
->  
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> index 465fc4468442..160bb58ce708 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> @@ -478,7 +478,8 @@ static int gpio_ctrl(struct v4l2_subdev *sd, bool flag)
->  	/* Note: current modules wire only one GPIO signal (RESET#),
->  	 * but the schematic wires up two to the connector.  BIOS
->  	 * versions have been unfortunately inconsistent with which
-> -	 * ACPI index RESET# is on, so hit both */
-> +	 * ACPI index RESET# is on, so hit both
-> +	 */
->  
->  	if (flag) {
->  		ret = dev->platform_data->gpio0_ctrl(sd, 0);
-> @@ -1019,8 +1020,8 @@ static long mt9m114_s_exposure(struct v4l2_subdev *sd,
->  		dev->first_gain = AnalogGain;
->  		dev->first_diggain = DigitalGain;
->  	}
-> -	/* DigitalGain = 0x400 * (((u16) DigitalGain) >> 8) +
-> -	((unsigned int)(0x400 * (((u16) DigitalGain) & 0xFF)) >>8); */
-> +	/* DigitalGain = 0x400 * (((u16) DigitalGain) >> 8) +		*/
-> +	/* ((unsigned int)(0x400 * (((u16) DigitalGain) & 0xFF)) >>8);	*/
->  
->  	/* set frame length */
->  	if (FLines < coarse_integration + 6)
-> @@ -1035,7 +1036,8 @@ static long mt9m114_s_exposure(struct v4l2_subdev *sd,
->  
->  	/* set coarse integration */
->  	/* 3A provide real exposure time.
-> -		should not translate to any value here. */
-> +	 * should not translate to any value here.
-> +	 */
->  	ret = mt9m114_write_reg(client, MISENSOR_16BIT,
->  				REG_EXPO_COARSE, (u16)(coarse_integration));
->  	if (ret) {
-> @@ -1044,7 +1046,7 @@ static long mt9m114_s_exposure(struct v4l2_subdev *sd,
->  	}
->  
->  	/*
-> -	// set analog/digital gain
-> +	 * set analog/digital gain
->  	switch(AnalogGain)
->  	{
->  	case 0:
-> @@ -1069,8 +1071,9 @@ static long mt9m114_s_exposure(struct v4l2_subdev *sd,
->  	*/
->  	if (DigitalGain >= 16 || DigitalGain <= 1)
->  		DigitalGain = 1;
-> -	/* AnalogGainToWrite =
-> -		(u16)((DigitalGain << 12) | AnalogGainToWrite); */
-> +
-> +	/* AnalogGainToWrite = (u16)((DigitalGain << 12) | AnalogGainToWrite);
-> +	 */
+Upon running sparse, "warning: incorrect type in argument 1 (different address spaces)
+is brought to notice for this file.let's add correct typecast to make it cleaner and
+silence the Sparse warning.
 
-this is best recommended for one line comment:
+Signed-off-by: Ashish Kalra <eashishkalra@gmail.com>
+---
+ drivers/staging/wlan-ng/p80211netdev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-/* AnalogGainToWrite = (u16)((DigitalGain << 12) | AnalogGainToWrite); */
+diff --git a/drivers/staging/wlan-ng/p80211netdev.c b/drivers/staging/wlan-ng/p80211netdev.c
+index 6f9666dc0277..70570e8a5ad2 100644
+--- a/drivers/staging/wlan-ng/p80211netdev.c
++++ b/drivers/staging/wlan-ng/p80211netdev.c
+@@ -569,7 +569,7 @@ static int p80211knetdev_do_ioctl(struct net_device *dev,
+ 		goto bail;
+ 	}
+ 
+-	msgbuf = memdup_user(req->data, req->len);
++	msgbuf = memdup_user((void __user *)req->data, req->len);
+ 	if (IS_ERR(msgbuf)) {
+ 		result = PTR_ERR(msgbuf);
+ 		goto bail;
+-- 
+2.25.1
 
-
-
->  	AnalogGainToWrite = (u16)((DigitalGain << 12) | (u16)AnalogGain);
->  	ret = mt9m114_write_reg(client, MISENSOR_16BIT,
->  				REG_GAIN, AnalogGainToWrite);
-> @@ -1096,7 +1099,8 @@ static long mt9m114_ioctl(struct v4l2_subdev *sd, unsigned int cmd, void *arg)
->  }
->  
->  /* This returns the exposure time being used. This should only be used
-> -   for filling in EXIF data, not for actual image processing. */
-> + * for filling in EXIF data, not for actual image processing.
-> + */
->  static int mt9m114_g_exposure(struct v4l2_subdev *sd, s32 *value)
->  {
->  	struct i2c_client *client = v4l2_get_subdevdata(sd);
-> @@ -1297,7 +1301,7 @@ static int mt9m114_g_ev(struct v4l2_subdev *sd, s32 *val)
->  
->  /* Fake interface
->   * mt9m114 now can not support 3a_lock
-> -*/
-> + */
->  static int mt9m114_s_3a_lock(struct v4l2_subdev *sd, s32 val)
->  {
->  	aaalock = val;
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> index c17615149f46..91dca275a08e 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> @@ -732,7 +732,8 @@ static int gpio_ctrl(struct v4l2_subdev *sd, bool flag)
->  	 * existing integrations often wire two (reset/power_down)
->  	 * because that is the way other sensors work.  There is no
->  	 * way to tell how it is wired internally, so existing
-> -	 * firmwares expose both and we drive them symmetrically. */
-> +	 * firmwares expose both and we drive them symmetrically.
-> +	 */
->  	if (flag) {
->  		ret = dev->platform_data->gpio0_ctrl(sd, 1);
->  		usleep_range(10000, 15000);
-> -- 
-> 2.25.1
-> 
-> 
-
-multiline comment format should appear this way:
-
-	/*
-	 * This is a comment, a
-	 * multiline one.
-	 */
-
-with the first line of the comment empty.
-
-thank you,
-
-fabio
