@@ -1,155 +1,138 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lb3-smtp-cloud9.xs4all.net (lb3-smtp-cloud9.xs4all.net [194.109.24.30])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C1E2F83
-	for <linux-staging@lists.linux.dev>; Tue, 20 Apr 2021 19:37:48 +0000 (UTC)
-Received: by mail-oi1-f172.google.com with SMTP id u80so6517720oia.0
-        for <linux-staging@lists.linux.dev>; Tue, 20 Apr 2021 12:37:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Y2BpotxAReH+14W0XNHlls+cgG6EVIk6Cecdi206lYo=;
-        b=JEtb0oHfcI1YURmNpXbFahY2ylOGQbda7Y0ZiSygyoVbwcr161iKGihl1vB8KpyqUD
-         FaqFl8YIjJPLVOcODMUEFKrLNj40GgZfiErp8SbHpyh3J+8Uem2nQaohwyT4e4UW6VRf
-         iokW37EIq/2hFjwvVq0lkzeQUwnspuilMIiw1F+bSQdQykQTUPJDofgcMDSI7y4kFQbE
-         9tZ8kOkxtSqF2lxejHHXHsGsmDJmi96cl/ioyrBL2KC/4ZlGhpsi1I/e/nbTAbVaAJWR
-         1waYBMiJkYPeUe3RCmTrgqOoW4XXpIDZtNIgyMTxmdxds+xP3mJrGEKmBYiBqVhhONOw
-         sWDg==
-X-Gm-Message-State: AOAM530ABdDrC0r1ed7F90p33yQN7h2DlHL6SlnCBo++VVDWwzONPAMg
-	jj6HVsNniTa3aUgX2FTCVA==
-X-Google-Smtp-Source: ABdhPJyYaKWvPGHWzWpZ5aOhL3B5gXbb40vd1L0fhx2/v9KRHo1ivKyL7LrVtMqs09gmFu4rhzZoSw==
-X-Received: by 2002:aca:d513:: with SMTP id m19mr4115453oig.111.1618947467961;
-        Tue, 20 Apr 2021 12:37:47 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id r14sm3741562oth.3.2021.04.20.12.37.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Apr 2021 12:37:47 -0700 (PDT)
-Received: (nullmailer pid 3686765 invoked by uid 1000);
-	Tue, 20 Apr 2021 19:37:46 -0000
-Date: Tue, 20 Apr 2021 14:37:46 -0500
-From: Rob Herring <robh@kernel.org>
-To: Lucas Stankus <lucas.p.stankus@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org, gregkh@linuxfoundation.org, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: staging: iio: cdc: ad7746: add
- binding documentation for AD7746
-Message-ID: <20210420193746.GA3632576@robh.at.kernel.org>
-References: <cover.1618785336.git.lucas.p.stankus@gmail.com>
- <54a9eaeaa42d47037b2a07bd933e6dfade745d02.1618785336.git.lucas.p.stankus@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC4C2F81
+	for <linux-staging@lists.linux.dev>; Tue, 20 Apr 2021 21:00:28 +0000 (UTC)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+	by smtp-cloud9.xs4all.net with ESMTPA
+	id YxSmlcYTVvTEDYxSplSDa7; Tue, 20 Apr 2021 22:59:20 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+	t=1618952360; bh=Dx9z4m+tcq77Y2QWeVSRtkdtMnqt9hD1nYc+JsLKuEc=;
+	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+	 Subject;
+	b=c+745kh6jG77urYLBBImE/CtrtVcIuBSWvMCjWwzdlsEW8uAbTvbvDv4UFAdBaIem
+	 8c5NepcEmgb4lDmm/LWLad6Y2lbCrAONQbH7/pD3UReP2jyalYhJy2HJRGTyloXbf6
+	 vZdyFywjkJ6nMq7NTA8M3NvBtd3U1VD51qIfkbThM4FD0l0EarBoW8EbbD2tRL4AKC
+	 8sliQK/FbROyo79eWNRprMCSdWWPiIkQ710+24jNxmFZ2QtuP6sn8XJV4OZ0vbh/Bn
+	 6yAt/kh3IiTIiwokzv+7fy/qGaSeFW1EVdo6Fuyl1A93HpNeLf34QBRuj2SdZHg7nW
+	 2HqAwwqhmo1eg==
+Subject: Re: [PATCH 1/6] staging: media: atomisp: improve function argument
+ alignment
+To: Deepak R Varma <mh12gx2825@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <cover.1618859059.git.drv@mailo.com>
+ <9b517e04d1a9b56dc14494a246d70915d51b1839.1618859059.git.drv@mailo.com>
+ <401d7d5a-70b7-3443-8612-eb4812e22af1@xs4all.nl>
+ <20210420171943.GC193332@localhost>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <2b4bffc8-7851-45aa-eb64-8f8d2d5928eb@xs4all.nl>
+Date: Tue, 20 Apr 2021 22:59:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <54a9eaeaa42d47037b2a07bd933e6dfade745d02.1618785336.git.lucas.p.stankus@gmail.com>
+In-Reply-To: <20210420171943.GC193332@localhost>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfIYrcPqvrIctGROFUKWmQNc4N7HaEWpsfcbuL6ABHxHIlnKw7FyPNfcQxmECSxMuJ3bLBKYLfquMFeocMYtCzH5erb4GnK2Jo1hGujq6UFxCcxeTilj+
+ MIOD36G7RSMqdFbPUDX+cpVQLpmjxnPDzZWcBTdkqqUcl6emL5JsITajfLxkW6Wg8f2ReCfKsfxAXyXWwwb7DCUKs3MRkJ1ouTXu2bw2H+6B7Z6mG0ONkhn1
+ V1pn/2vhdYWu6NryoAnFAHG331ZbljUFC1DXEGSOT8Gg4NL7ZKpvGyaLABpHOG+w2HmYez/eX42EX1XNi5r/y5GiQiiecP5DHNEv+jJQXfS1IelgKuctAvuF
+ 7UuG0NaiaMfMYFHrKIE1MODSoFY5FMAjl3FChcTV2RzfbPAjD6ZHtx8erj0jaImbLsjaHfKb
 
-On Sun, Apr 18, 2021 at 07:49:51PM -0300, Lucas Stankus wrote:
-> Add device tree binding documentation for AD7746 cdc in YAML format.
+On 20/04/2021 19:19, Deepak R Varma wrote:
+> On Tue, Apr 20, 2021 at 03:24:32PM +0200, Hans Verkuil wrote:
+>> On 19/04/2021 21:12, Deepak R Varma wrote:
+>>> Improve multi-line function argument alignment according to the code style
+>>> guidelines. Resolves checkpatch feedback: "Alignment should match
+>>> open parenthesis".
+>>>
+>>> Signed-off-by: Deepak R Varma <drv@mailo.com>
+>>
+>> WARNING: From:/Signed-off-by: email address mismatch: 'From: Deepak R Varma <mh12gx2825@gmail.com>' != 'Signed-off-by: Deepak R Varma
+>> <drv@mailo.com>'
+>>
+>> Which email should I use? Ideally you should post from the same email
+>> as the Signed-off-by.
 > 
-> Signed-off-by: Lucas Stankus <lucas.p.stankus@gmail.com>
-> ---
-> 
-> A minor note about the adi,excitation-vdd-permille property. Jonathan
-> suggested the name to be adi,excitation-vdd-milicent, but I was unsure of
-> the milicent naming. With a quick search I found out that the common way to
-> call a thousandth is 'per mille'[1], but I didn't find any use of it in the
-> kernel documentation. Any thoughts about it?
+> I am really sorry for this. I was trying to set up mutt to handle both
+> my accounts and guess that led to this issue. I will resubmit the patch
+> set with the appropriate email match. Will that be okay?
 
-Seems okay to me.
+It is sufficient to just let me know which email I should use. I can edit
+it so it shows the correct author email.
 
-> [1] https://en.wikipedia.org/wiki/Per_mille
-> 
->  .../bindings/iio/cdc/adi,ad7746.yaml          | 73 +++++++++++++++++++
->  1 file changed, 73 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml b/Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml
-> new file mode 100644
-> index 000000000000..a2a7eee674ba
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml
-> @@ -0,0 +1,73 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/iio/cdc/adi,ad7746.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: AD7746 24-Bit Capacitance-to-Digital Converter with Temperature Sensor
-> +
-> +maintainers:
-> +  - Michael Hennerich <michael.hennerich@analog.com>
-> +
-> +description: |
-> +  AD7746 24-Bit Capacitance-to-Digital Converter with Temperature Sensor
-> +
-> +  Specifications about the part can be found at:
-> +  https://www.analog.com/media/en/technical-documentation/data-sheets/ad7291.pdf
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - adi,ad7745
-> +      - adi,ad7746
-> +      - adi,ad7747
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  adi,excitation-vdd-permille:
-> +    description: |
-> +      Set VDD per mille to be used as the excitation voltage.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [125, 250, 375, 500]
-> +
-> +  adi,exca-output-en:
-> +    description: Enables the EXCA pin as the excitation output.
-> +    type: boolean
-> +
-> +  adi,exca-output-invert:
-> +    description: Inverts the excitation output in the EXCA pin.
-> +    type: boolean
+Regards,
 
-'invert' assumes I know what the non-inverted signal is. Sometimes that 
-makes sense, but if you can define in terms of the inverse that would be 
-better. For example, for a normally active low signal, name the property 
-'foo-active-high'.
+	Hans
 
-> +
-> +  adi,excb-output-en:
-> +    description: Enables the EXCB pin as the excitation output.
-> +    type: boolean
-> +
-> +  adi,excb-output-invert:
-> +    description: Inverts the excitation output in the EXCB pin.
-> +    type: boolean
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      ad7746: cdc@48 {
-> +        compatible = "adi,ad7746";
-> +        reg = <0x48>;
-> +        adi,excitation-vdd-permille = <125>;
-> +
-> +        adi,exca-output-en;
-> +        adi,exca-output-invert;
-> +        adi,excb-output-en;
-> +        adi,excb-output-invert;
-> +      };
-> +    };
-> +...
-> -- 
-> 2.31.1
 > 
+> Thank you,
+> deepak.
+> 
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+>>> ---
+>>>  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c | 4 ++--
+>>>  drivers/staging/media/atomisp/i2c/atomisp-gc2235.c | 4 ++--
+>>>  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c | 4 ++--
+>>>  3 files changed, 6 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+>>> index 2b71de722ec3..6be3ee1d93a5 100644
+>>> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+>>> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+>>> @@ -192,8 +192,8 @@ static int __gc0310_buf_reg_array(struct i2c_client *client,
+>>>  }
+>>>  
+>>>  static int __gc0310_write_reg_is_consecutive(struct i2c_client *client,
+>>> -	struct gc0310_write_ctrl *ctrl,
+>>> -	const struct gc0310_reg *next)
+>>> +					     struct gc0310_write_ctrl *ctrl,
+>>> +					     const struct gc0310_reg *next)
+>>>  {
+>>>  	if (ctrl->index == 0)
+>>>  		return 1;
+>>> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+>>> index 78147ffb6099..6ba4a8adff7c 100644
+>>> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+>>> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+>>> @@ -171,8 +171,8 @@ static int __gc2235_buf_reg_array(struct i2c_client *client,
+>>>  }
+>>>  
+>>>  static int __gc2235_write_reg_is_consecutive(struct i2c_client *client,
+>>> -	struct gc2235_write_ctrl *ctrl,
+>>> -	const struct gc2235_reg *next)
+>>> +					     struct gc2235_write_ctrl *ctrl,
+>>> +					     const struct gc2235_reg *next)
+>>>  {
+>>>  	if (ctrl->index == 0)
+>>>  		return 1;
+>>> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+>>> index eecefcd734d0..aec7392fd1de 100644
+>>> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+>>> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+>>> @@ -212,8 +212,8 @@ static int __ov2722_buf_reg_array(struct i2c_client *client,
+>>>  }
+>>>  
+>>>  static int __ov2722_write_reg_is_consecutive(struct i2c_client *client,
+>>> -	struct ov2722_write_ctrl *ctrl,
+>>> -	const struct ov2722_reg *next)
+>>> +					     struct ov2722_write_ctrl *ctrl,
+>>> +					     const struct ov2722_reg *next)
+>>>  {
+>>>  	if (ctrl->index == 0)
+>>>  		return 1;
+>>>
+>>
+
