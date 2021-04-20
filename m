@@ -1,33 +1,34 @@
-Received: from lb3-smtp-cloud7.xs4all.net (lb3-smtp-cloud7.xs4all.net [194.109.24.31])
+Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [194.109.24.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E632F81
-	for <linux-staging@lists.linux.dev>; Tue, 20 Apr 2021 12:41:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A9E2F81
+	for <linux-staging@lists.linux.dev>; Tue, 20 Apr 2021 13:24:43 +0000 (UTC)
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
 	by smtp-cloud7.xs4all.net with ESMTPA
-	id YpgzlXqG48K3KYph2lzdcz; Tue, 20 Apr 2021 14:41:28 +0200
+	id YqMilY68X8K3KYqMllzmro; Tue, 20 Apr 2021 15:24:35 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1618922488; bh=LmpPnPkn3X5VabNM+R3RACjye7cXzYGW2T06bu5PJOk=;
+	t=1618925075; bh=H6wnEcKeZ+8/tOf0g5ZRihQj8kY6LqmYDHCwodi5Or4=;
 	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
 	 Subject;
-	b=n1KlLas/k8Ebog/po1csc3m+nORAZ3CBYWh7BZIl+OR0aJrCDMcFEwDFYftt+7cg/
-	 2Y2nw7fQmj7+VXokr5Fi7sOwcQNbHN2vNj6ulwP0pLgvluMpRPiT1/mqL29tUkhSpB
-	 FRwlnPJUQZiDpRccP/YTdJ76WWXUv46Ut758oLZKlJtNcg8LoCx57jCkpBB2x3wck8
-	 6MtrV3+xjuf4GvDBN032IH9Tkdt4xbj7z9tD/+H8LcOu4VEZ5g3+1yBUMNsyoqxhkU
-	 y6S5NY3Ul5whKry7TBs2fb7lnaEx21uVw8a4E1RiCxxwRAJWY/SUZmfW52aCcbckT/
-	 VpYQhFcB8oe0Q==
-Subject: Re: [PATCH v2] staging: media: atomisp: pci: Change line break to
- avoid an open parenthesis at the end of the line
-To: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+	b=BxWGcQI11dCDZIo6rEYJd75xkcjX83WxkBh1pir48ranKpteycux14t2tz26RwXff
+	 R3vW6DnKBvSnu9joVEhJCmRxzDp9icVTYhrHl/qMpSWPuHGHiH2tN04sQpJ/DgdGNc
+	 ApdDKO8KjK4y70QN9STeiv0kwtv3Tdym5qFPVpW3LroJJ5Y9HymzJk1A6TKIfDTLDL
+	 xaksgg+48es3wvvnZm/poxPiToiY+FmBuDHVOsrIQf7AkPy2kF1Eoo7W5fL0xuFZMb
+	 zIWdkheF2vOicU/mYVgusCm7GgAjIR+8VLEZZLd4B+3RcXkjcbn9t9Myze1dl5lT1L
+	 9CDCJA6R486Jw==
+Subject: Re: [PATCH 1/6] staging: media: atomisp: improve function argument
+ alignment
+To: Deepak R Varma <mh12gx2825@gmail.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
-References: <20210415170819.GA17534@focaruja>
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <cover.1618859059.git.drv@mailo.com>
+ <9b517e04d1a9b56dc14494a246d70915d51b1839.1618859059.git.drv@mailo.com>
 From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <fd8eb0f1-aab4-17d8-f590-3e574799c9f5@xs4all.nl>
-Date: Tue, 20 Apr 2021 14:41:24 +0200
+Message-ID: <401d7d5a-70b7-3443-8612-eb4812e22af1@xs4all.nl>
+Date: Tue, 20 Apr 2021 15:24:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.9.0
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -35,65 +36,82 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210415170819.GA17534@focaruja>
+In-Reply-To: <9b517e04d1a9b56dc14494a246d70915d51b1839.1618859059.git.drv@mailo.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfJ+6TMWQZxkOW4WJICtb/CBRSGKDps49iYq/fH2/dS8SOcQjxwOncdgX0YfG0KSRgNNjBbbmYoz/Lzfs8wf8R3Dndf+foDpsLNdL+yHb6CYw5uixsER7
- XvKZUNSw/hRLlCHq1axRttZzRL/NJ9ArAu082BsIDoCwTj6XHwj8wzZHCVU1a+zb+8X3Ti9e/yJB/gPPg1BlfGRjWt5MhWAGEyR45eV8Lirk1QIDQdCoz5H5
- SqPUbAoSniEjRTcxu70VAfBpWkARgkHtTjDDduuoUQjR+6m/FwgNdvJppHQhVxwScCQazYlW/cwLg7vcORUAupf1zsW3/LvpeDBAq0bQvJgkzj84FnuhdDnh
- cvRowUQmylFXQ0zkmDyq1h5DaYzcMKNlNnnKiHxX5FqI2njH6noqmI6wASmVrHYQuuxySMWV+olkTe3OZezwTpdk40h8X+0nIOD9N/HxZ+qJjXgQenbMXYAI
- 6gfacz9j85iKKlUQ
+X-CMAE-Envelope: MS4xfJIFED2aVn04IwaztxkGJ1BQIM74DfjRPx0fZbZVAxOSm3NS6cl9drhoJaytTzJobL7jeP9OjjQjpAN4nd5iskNpGcNPHWRtWWEFNNsr8gJTlCelelnX
+ kzBQHEkf1K/7WxC6gh1I+aoG/odu0JVOmtPro8XlN49Cd1beXO3ADh+HQHVMbV6hOsZGAah7wSPKOvWoMkXE+Nlxs7vZs0vTzKuMlJcZmKZJEnWb24GnU+uK
+ Et6EMYnNs9sdw5Puvdlyz/bL7kl3tM8YgNkBM3FhDYf+zSsquZxOystKo0hEt89brvhhKCudiUC3wjb/z0Mbp7Vffdsrv27GIcepdCAR9nMQCOSv2W+V9g/f
+ IEyBwyHLvpBzbo73q/rfcFw/4sB3gOfbVWREYhXsa8R7ibXDdoIU/GLlFCXTns76EozAXzHT
 
-On 15/04/2021 19:08, Aline Santana Cordeiro wrote:
-> Change line break to avoid an open parenthesis at the end of the line.
-> It consequently removed spaces at the start of the subsequent line.
-> Both issues detected by checkpatch.pl.
+On 19/04/2021 21:12, Deepak R Varma wrote:
+> Improve multi-line function argument alignment according to the code style
+> guidelines. Resolves checkpatch feedback: "Alignment should match
+> open parenthesis".
 > 
-> Signed-off-by: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
-> ---
-> 
-> Changes since v1:
->  - Keep the * with the function return type 
->    instead of left it with the function name
-> 
->  drivers/staging/media/atomisp/pci/atomisp_cmd.h | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-> index 1c0d464..e2b36fa 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-> @@ -75,8 +75,8 @@ void atomisp_wdt(struct timer_list *t);
->  void atomisp_setup_flash(struct atomisp_sub_device *asd);
->  irqreturn_t atomisp_isr(int irq, void *dev);
->  irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr);
-> -const struct atomisp_format_bridge *get_atomisp_format_bridge_from_mbus(
-> -    u32 mbus_code);
-> +const struct atomisp_format_bridge*
+> Signed-off-by: Deepak R Varma <drv@mailo.com>
 
-Keep the space before the *!
+WARNING: From:/Signed-off-by: email address mismatch: 'From: Deepak R Varma <mh12gx2825@gmail.com>' != 'Signed-off-by: Deepak R Varma
+<drv@mailo.com>'
+
+Which email should I use? Ideally you should post from the same email
+as the Signed-off-by.
 
 Regards,
 
 	Hans
 
-> +get_atomisp_format_bridge_from_mbus(u32 mbus_code);
->  bool atomisp_is_mbuscode_raw(uint32_t code);
->  int atomisp_get_frame_pgnr(struct atomisp_device *isp,
->  			   const struct ia_css_frame *frame, u32 *p_pgnr);
-> @@ -381,9 +381,9 @@ enum mipi_port_id __get_mipi_port(struct atomisp_device *isp,
+> ---
+>  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c | 4 ++--
+>  drivers/staging/media/atomisp/i2c/atomisp-gc2235.c | 4 ++--
+>  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c | 4 ++--
+>  3 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> index 2b71de722ec3..6be3ee1d93a5 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> @@ -192,8 +192,8 @@ static int __gc0310_buf_reg_array(struct i2c_client *client,
+>  }
 >  
->  bool atomisp_is_vf_pipe(struct atomisp_video_pipe *pipe);
+>  static int __gc0310_write_reg_is_consecutive(struct i2c_client *client,
+> -	struct gc0310_write_ctrl *ctrl,
+> -	const struct gc0310_reg *next)
+> +					     struct gc0310_write_ctrl *ctrl,
+> +					     const struct gc0310_reg *next)
+>  {
+>  	if (ctrl->index == 0)
+>  		return 1;
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> index 78147ffb6099..6ba4a8adff7c 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> @@ -171,8 +171,8 @@ static int __gc2235_buf_reg_array(struct i2c_client *client,
+>  }
 >  
-> -void atomisp_apply_css_parameters(
-> -    struct atomisp_sub_device *asd,
-> -    struct atomisp_css_params *css_param);
-> +void atomisp_apply_css_parameters(struct atomisp_sub_device *asd,
-> +				  struct atomisp_css_params *css_param);
-> +
->  void atomisp_free_css_parameters(struct atomisp_css_params *css_param);
+>  static int __gc2235_write_reg_is_consecutive(struct i2c_client *client,
+> -	struct gc2235_write_ctrl *ctrl,
+> -	const struct gc2235_reg *next)
+> +					     struct gc2235_write_ctrl *ctrl,
+> +					     const struct gc2235_reg *next)
+>  {
+>  	if (ctrl->index == 0)
+>  		return 1;
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+> index eecefcd734d0..aec7392fd1de 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+> @@ -212,8 +212,8 @@ static int __ov2722_buf_reg_array(struct i2c_client *client,
+>  }
 >  
->  void atomisp_handle_parameter_and_buffer(struct atomisp_video_pipe *pipe);
+>  static int __ov2722_write_reg_is_consecutive(struct i2c_client *client,
+> -	struct ov2722_write_ctrl *ctrl,
+> -	const struct ov2722_reg *next)
+> +					     struct ov2722_write_ctrl *ctrl,
+> +					     const struct ov2722_reg *next)
+>  {
+>  	if (ctrl->index == 0)
+>  		return 1;
 > 
 
