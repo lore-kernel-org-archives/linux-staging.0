@@ -1,28 +1,33 @@
-Received: from msg-4.mailo.com (ip-15.mailobj.net [213.182.54.15])
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63DAD71
-	for <linux-staging@lists.linux.dev>; Wed, 21 Apr 2021 17:19:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0344C71
+	for <linux-staging@lists.linux.dev>; Wed, 21 Apr 2021 17:54:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1619023739; bh=kO86EZ56z9kx93HN97W2Kc1jw38KW2HRp30zM/cXH9w=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
-	 Content-Type;
-	b=NRrZivBf9mEo8IpEJsWK2MD6Q1gGxq0LmaAWj+gS37fvI/NLvV/ObRDNveUucf6Gz
-	 TBQznhE9UPhul8lUKZTIrpG4w0R3Y6qYIMJ0fYtnliZ9nuS82O/Ec+j3UK6Ez738yn
-	 5cGq3AehrFmz+4CfSJuj2dcoUSfvG17gbCaOoEDY=
-Received: by 192.168.90.12 [192.168.90.12] with ESMTP
+	t=1619027511; bh=KmEs2Jw6W/Sa4tMaUwVQoGqFAg9/D9hlUcgxz6/4Ibk=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=GPdsuvzdILH348+ILnSMZVmzUPuy1UDE9Q05gp16riuDrm/MEcaI4tgHuiVgznDnZ
+	 GZNRZ3ZZRybuH2/3JGVpHQoYAXNNpWMvhJyVW42bv+JUf1g3NSG/B4lj62rXYPoXUL
+	 IAUQYHDOZVpSn5IFFZolzidrL9hIvj7GHReHfUOQ=
+Received: by 192.168.90.13 [192.168.90.13] with ESMTP
 	via ip-206.mailobj.net [213.182.55.206]
-	Wed, 21 Apr 2021 18:48:58 +0200 (CEST)
-X-EA-Auth: CWc/7tw3YHir2Ke1oWYL2f9zDXPAUWn8mA3hQHW2H4Gu7pXtxIju5Qr6a38k3Fj3kS7CuNmt2Un3wOTfG90G4eeGOs3TFHHy
-Date: Wed, 21 Apr 2021 22:18:49 +0530
+	Wed, 21 Apr 2021 19:51:50 +0200 (CEST)
+X-EA-Auth: cOEA2r8N0tvh3q22alNot4CePdoQ85+cXUuZoHT8f0oww9NMENQ2f4wp0ZpWxPGTUsiffL2YbcygWEFaYFaNOX6tRmtGwkFE
+Date: Wed, 21 Apr 2021 23:21:44 +0530
 From: Deepak R Varma <drv@mailo.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, mh12gx2825@gmail.com, drv@mailo.com
-Subject: [PATCH v1 0/6] staging: media: atomisp: code cleanup fixes
-Message-ID: <cover.1619022192.git.drv@mailo.com>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, mh12gx2825@gmail.com
+Subject: Re: [PATCH v1 4/6] staging: media: atomisp: reformat code comment
+ blocks
+Message-ID: <20210421175144.GA224467@localhost>
+References: <cover.1619022192.git.drv@mailo.com>
+ <efdd8910b519dd55838570c72e3ce35e063f4a11.1619022192.git.drv@mailo.com>
+ <20210421171045.GB1414@agape.jhs>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -30,51 +35,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20210421171045.GB1414@agape.jhs>
 
-This patch set addresses different kinds of checkpatch WARNING and
-CHECK complaints.
+On Wed, Apr 21, 2021 at 07:10:46PM +0200, Fabio Aiuto wrote:
+> On Wed, Apr 21, 2021 at 10:26:09PM +0530, Deepak R Varma wrote:
+> > Reformat code comment blocks according to the coding style guidelines.
+> > This resolves different checkpatch script WARNINGs around block comments.
+> > 
+> > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> > ---
+> > 
+> > Changes in v1:
+> >    - implement following changes suggested by Fabio Aiuto                              
+> >        a. Corrected commenting style                                                               
+> >        b. Similar style implemented for other comment blocks in                                    
+> >           the same files.                                       
+> 
+> If you want to tag me you should add the Suggested-by: tag in commit message
+> before Signed-off-by tag...
+> 
+> $ vim +485 Documentation/process/submitting-patches.rst
 
-Note: The patches should be applied in the ascending order.
+Yes, perfect. I will tag you in v3 accordingly.
 
-Changes in v1:
-   Generic change:
-   1. The patch set is being resent from an email account that matches with
-      the patch signed-of-by tag. Issue highlighted by Hans Verkuil.
+Thank you.
+deepak.
 
-   Patch specific changes:
-   1. patch 1/6 : none
-   2. patch 2/6 : none
-   3. patch 3/6 : none
-   4. patch 4/6 : implement following changes suggested by Fabio Aiuto
-	a. Corrected commenting style
-	b. Similar style implemented for other comment blocks in
-	   the same files.
-   5. patch 5/6 : none
-   6. patch 6/6: implement following changes suggested by Fabio Aiuto
-	a. use dev_info instead of pr_info
-	b. update patch log message accordingly
-
-
-
-Deepak R Varma (6):
-  staging: media: atomisp: improve function argument alignment
-  staging: media: atomisp: balance braces around if...else block
-  staging: media: atomisp: use __func__ over function names
-  staging: media: atomisp: reformat code comment blocks
-  staging: media: atomisp: fix CamelCase variable naming
-  staging: media: atomisp: replace raw printk() by dev_info()
-
- .../media/atomisp/i2c/atomisp-gc0310.c        |  14 +--
- .../media/atomisp/i2c/atomisp-gc2235.c        |  29 ++---
- .../atomisp/i2c/atomisp-libmsrlisthelper.c    |   6 +-
- .../media/atomisp/i2c/atomisp-lm3554.c        |   2 +-
- .../media/atomisp/i2c/atomisp-mt9m114.c       | 106 ++++++++++--------
- .../media/atomisp/i2c/atomisp-ov2680.c        |  43 ++++---
- .../media/atomisp/i2c/atomisp-ov2722.c        |  10 +-
- 7 files changed, 116 insertions(+), 94 deletions(-)
-
--- 
-2.25.1
-
+> 
+> thank you,
+> 
+> fabio
 
 
