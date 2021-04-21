@@ -1,138 +1,376 @@
-Received: from lb3-smtp-cloud9.xs4all.net (lb3-smtp-cloud9.xs4all.net [194.109.24.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC4C2F81
-	for <linux-staging@lists.linux.dev>; Tue, 20 Apr 2021 21:00:28 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud9.xs4all.net with ESMTPA
-	id YxSmlcYTVvTEDYxSplSDa7; Tue, 20 Apr 2021 22:59:20 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1618952360; bh=Dx9z4m+tcq77Y2QWeVSRtkdtMnqt9hD1nYc+JsLKuEc=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=c+745kh6jG77urYLBBImE/CtrtVcIuBSWvMCjWwzdlsEW8uAbTvbvDv4UFAdBaIem
-	 8c5NepcEmgb4lDmm/LWLad6Y2lbCrAONQbH7/pD3UReP2jyalYhJy2HJRGTyloXbf6
-	 vZdyFywjkJ6nMq7NTA8M3NvBtd3U1VD51qIfkbThM4FD0l0EarBoW8EbbD2tRL4AKC
-	 8sliQK/FbROyo79eWNRprMCSdWWPiIkQ710+24jNxmFZ2QtuP6sn8XJV4OZ0vbh/Bn
-	 6yAt/kh3IiTIiwokzv+7fy/qGaSeFW1EVdo6Fuyl1A93HpNeLf34QBRuj2SdZHg7nW
-	 2HqAwwqhmo1eg==
-Subject: Re: [PATCH 1/6] staging: media: atomisp: improve function argument
- alignment
-To: Deepak R Varma <mh12gx2825@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <cover.1618859059.git.drv@mailo.com>
- <9b517e04d1a9b56dc14494a246d70915d51b1839.1618859059.git.drv@mailo.com>
- <401d7d5a-70b7-3443-8612-eb4812e22af1@xs4all.nl>
- <20210420171943.GC193332@localhost>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <2b4bffc8-7851-45aa-eb64-8f8d2d5928eb@xs4all.nl>
-Date: Tue, 20 Apr 2021 22:59:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668132F81
+	for <linux-staging@lists.linux.dev>; Wed, 21 Apr 2021 05:44:57 +0000 (UTC)
+Received: by mail-oi1-f173.google.com with SMTP id n184so15336673oia.12
+        for <linux-staging@lists.linux.dev>; Tue, 20 Apr 2021 22:44:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=U7V0MlLQiJe5sshBFw+/s4JiO4Nt98J/TU5pdZXAe00=;
+        b=R/N6y1bEgi/d7JlhxRhAcZ8KPKbypTLeHLworeIlhnFmrqNIZbjHmok1c0Pwmjpoo4
+         Vpe2mM94dBtm4YgnF25/n5JYhaoCEYcuRGwa2LEyRoRUZ4Ht91QZmOu2UbRH7AU27qs0
+         ZyO4891HEsvXW9LiMPGmUnjFVPceZbeiBDhWAk1E6hrQS370OwmF2UQM+sRJpxgd27YF
+         IvpjnvYF6KrLL3o35BMYJwwjEjywqVhYT9tLAgq7T+2hYtotm01/tawpR2minoxzqMCB
+         /SRbyDe8kqAzekEc+mWTlnsG8dANeKJNbBHGMjSIBgxKCHp1Y+cV/pfxdY33AjnuCts5
+         b+GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=U7V0MlLQiJe5sshBFw+/s4JiO4Nt98J/TU5pdZXAe00=;
+        b=PXar8Bu0+Gm94RT+OYJzXewm0H88DpyvmXZ1+Nw77s3TzQ9Cv/wSGPKRV/u0qoLMV0
+         tv+QmjSYEzCS52VmjZSn8B0qL3+58a770a+t0BsZD5kea3AgCGN85z/mi9F59qUuXPnT
+         SQ2YQA814UUqmbUpKwJF9h6n8WAIJzDjF7enoV+Amei+AL1y/TMjx4AgZYunfl4lCtMH
+         755Su+gfwYUOIv0t43g/lUxoRPKlSq8HN1nPsvVl5389/zEOMtd1Q7x/fGkMDXCMPGgx
+         pivQ4i7RF127fCmdGyM7+013f0pD9TcMczSsSjTP3YSEC7fxgME8r/EDIzCVwU+lKpHT
+         Zk2g==
+X-Gm-Message-State: AOAM533trrV70jeqZoZx3s14Zuyn8kcILoJfKiEz0y4Vjvoe5FCkgrcn
+	XkrUCv6X1mmZn3D6/6EfZEextW4qPJjWD4delJL8Sx92jQ0kJA==
+X-Google-Smtp-Source: ABdhPJxT/svrkD7zGz8HB7KxMh2+pkpFs+0Rzt5aZeyoCxEE6Yvr3yptvBTDiaWpBVFkyHpKq4rlqx6R2RDje52D1xI=
+X-Received: by 2002:aca:2813:: with SMTP id 19mr5828893oix.23.1618983896388;
+ Tue, 20 Apr 2021 22:44:56 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210420171943.GC193332@localhost>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfIYrcPqvrIctGROFUKWmQNc4N7HaEWpsfcbuL6ABHxHIlnKw7FyPNfcQxmECSxMuJ3bLBKYLfquMFeocMYtCzH5erb4GnK2Jo1hGujq6UFxCcxeTilj+
- MIOD36G7RSMqdFbPUDX+cpVQLpmjxnPDzZWcBTdkqqUcl6emL5JsITajfLxkW6Wg8f2ReCfKsfxAXyXWwwb7DCUKs3MRkJ1ouTXu2bw2H+6B7Z6mG0ONkhn1
- V1pn/2vhdYWu6NryoAnFAHG331ZbljUFC1DXEGSOT8Gg4NL7ZKpvGyaLABpHOG+w2HmYez/eX42EX1XNi5r/y5GiQiiecP5DHNEv+jJQXfS1IelgKuctAvuF
- 7UuG0NaiaMfMYFHrKIE1MODSoFY5FMAjl3FChcTV2RzfbPAjD6ZHtx8erj0jaImbLsjaHfKb
+References: <20210411081818.26926-1-sergio.paracuellos@gmail.com>
+In-Reply-To: <20210411081818.26926-1-sergio.paracuellos@gmail.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Wed, 21 Apr 2021 07:44:45 +0200
+Message-ID: <CAMhs-H8+CjWFB8NB2ZJgC0Bf5s1CAaeGzoOUKML_BPbRb5a=ug@mail.gmail.com>
+Subject: Re: [PATCH] staging: mt7621-pci: dt-bindings: update bindings to yaml format
+To: linux-staging@lists.linux.dev
+Cc: Rob Herring <robh+dt@kernel.org>, Greg KH <gregkh@linuxfoundation.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, NeilBrown <neil@brown.name>, 
+	linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 20/04/2021 19:19, Deepak R Varma wrote:
-> On Tue, Apr 20, 2021 at 03:24:32PM +0200, Hans Verkuil wrote:
->> On 19/04/2021 21:12, Deepak R Varma wrote:
->>> Improve multi-line function argument alignment according to the code style
->>> guidelines. Resolves checkpatch feedback: "Alignment should match
->>> open parenthesis".
->>>
->>> Signed-off-by: Deepak R Varma <drv@mailo.com>
->>
->> WARNING: From:/Signed-off-by: email address mismatch: 'From: Deepak R Varma <mh12gx2825@gmail.com>' != 'Signed-off-by: Deepak R Varma
->> <drv@mailo.com>'
->>
->> Which email should I use? Ideally you should post from the same email
->> as the Signed-off-by.
-> 
-> I am really sorry for this. I was trying to set up mutt to handle both
-> my accounts and guess that led to this issue. I will resubmit the patch
-> set with the appropriate email match. Will that be okay?
+Hi Rob,
 
-It is sufficient to just let me know which email I should use. I can edit
-it so it shows the correct author email.
+On Sun, Apr 11, 2021 at 10:18 AM Sergio Paracuellos
+<sergio.paracuellos@gmail.com> wrote:
+>
+> Update bindings for this pci controller according to the current
+> device tree and driver code and prepare them to be mainlined
+> porting it to the YAML format.
+>
+> Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> ---
+>
+> Hi Rob,
+>
+> Some concerns here. I was not be able to found any case similar to
+> this binding where sub-nodes describing each pcie port interface
+> are needed. I added them to the 'examples' directly without saying
+> nothing about properties in any other place since its properties
+> seems to be covered in 'pci-bus.yaml' schema definition. I don't
+> know if this is the way, I have copied them to its correct future
+> place in Documentation folder and check against schema and I noticed
+> I am forced to add 'device_type' property in each subnode because
+> schema checker complains that this is mandatory. So I have added
+> it and schema is properly being validated:
+>
+> Before add the 'device_type' in each subnode:
+> /home/sergio/staging/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dt.yaml: pcie@0,0: 'device_type' is a required property
+> From schema: /home/sergio/.local/lib/python3.9/site-packages/dtschema/schemas/pci/pci-bus.yaml
+> /home/sergio/staging/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dt.yaml: pcie@1,0: 'device_type' is a required property
+> From schema: /home/sergio/.local/lib/python3.9/site-packages/dtschema/schemas/pci/pci-bus.yaml
+> /home/sergio/staging/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dt.yaml: pcie@2,0: 'device_type' is a required property
+> From schema: /home/sergio/.local/lib/python3.9/site-packages/dtschema/schemas/pci/pci-bus.yaml
+>
+> After adding it:
+> CHKDT   Documentation/devicetree/bindings/processed-schema-examples.json
+> SCHEMA  Documentation/devicetree/bindings/processed-schema-examples.json
+> DTEX    Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dts
+> DTC     Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dt.yaml
+> CHECK   Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dt.yaml
+>
+> Looks a bit redundant and maybe I am doing somethng wrong...
+>
+> Thanks in advance for clarification.
+>
+> Best regards,
+>     Sergio Paracuellos
 
-Regards,
+Any comments on this?? I don't know if with this subject not starting
+with dt-bindings, patches end up in your review list...
 
-	Hans
+Thanks in advance for your time and sorry for bothering you.
 
-> 
-> Thank you,
-> deepak.
-> 
->>
->> Regards,
->>
->> 	Hans
->>
->>> ---
->>>  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c | 4 ++--
->>>  drivers/staging/media/atomisp/i2c/atomisp-gc2235.c | 4 ++--
->>>  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c | 4 ++--
->>>  3 files changed, 6 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
->>> index 2b71de722ec3..6be3ee1d93a5 100644
->>> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
->>> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
->>> @@ -192,8 +192,8 @@ static int __gc0310_buf_reg_array(struct i2c_client *client,
->>>  }
->>>  
->>>  static int __gc0310_write_reg_is_consecutive(struct i2c_client *client,
->>> -	struct gc0310_write_ctrl *ctrl,
->>> -	const struct gc0310_reg *next)
->>> +					     struct gc0310_write_ctrl *ctrl,
->>> +					     const struct gc0310_reg *next)
->>>  {
->>>  	if (ctrl->index == 0)
->>>  		return 1;
->>> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
->>> index 78147ffb6099..6ba4a8adff7c 100644
->>> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
->>> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
->>> @@ -171,8 +171,8 @@ static int __gc2235_buf_reg_array(struct i2c_client *client,
->>>  }
->>>  
->>>  static int __gc2235_write_reg_is_consecutive(struct i2c_client *client,
->>> -	struct gc2235_write_ctrl *ctrl,
->>> -	const struct gc2235_reg *next)
->>> +					     struct gc2235_write_ctrl *ctrl,
->>> +					     const struct gc2235_reg *next)
->>>  {
->>>  	if (ctrl->index == 0)
->>>  		return 1;
->>> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
->>> index eecefcd734d0..aec7392fd1de 100644
->>> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
->>> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
->>> @@ -212,8 +212,8 @@ static int __ov2722_buf_reg_array(struct i2c_client *client,
->>>  }
->>>  
->>>  static int __ov2722_write_reg_is_consecutive(struct i2c_client *client,
->>> -	struct ov2722_write_ctrl *ctrl,
->>> -	const struct ov2722_reg *next)
->>> +					     struct ov2722_write_ctrl *ctrl,
->>> +					     const struct ov2722_reg *next)
->>>  {
->>>  	if (ctrl->index == 0)
->>>  		return 1;
->>>
->>
-
+Best regards,
+    Sergio Paracuellos
+>
+>
+>  .../mt7621-pci/mediatek,mt7621-pci.txt        | 104 -------------
+>  .../mt7621-pci/mediatek,mt7621-pci.yaml       | 144 ++++++++++++++++++
+>  2 files changed, 144 insertions(+), 104 deletions(-)
+>  delete mode 100644 drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt
+>  create mode 100644 drivers/staging/mt7621-pci/mediatek,mt7621-pci.yaml
+>
+> diff --git a/drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt b/drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt
+> deleted file mode 100644
+> index 327a68267309..000000000000
+> --- a/drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt
+> +++ /dev/null
+> @@ -1,104 +0,0 @@
+> -MediaTek MT7621 PCIe controller
+> -
+> -Required properties:
+> -- compatible: "mediatek,mt7621-pci"
+> -- device_type: Must be "pci"
+> -- reg: Base addresses and lengths of the PCIe subsys and root ports.
+> -- bus-range: Range of bus numbers associated with this controller.
+> -- #address-cells: Address representation for root ports (must be 3)
+> -- pinctrl-names : The pin control state names.
+> -- pinctrl-0: The "default" pinctrl state.
+> -- #size-cells: Size representation for root ports (must be 2)
+> -- ranges: Ranges for the PCI memory and I/O regions.
+> -- #interrupt-cells: Must be 1
+> -- interrupt-map-mask and interrupt-map: Standard PCI IRQ mapping properties.
+> -  Please refer to the standard PCI bus binding document for a more detailed
+> -  explanation.
+> -- status: either "disabled" or "okay".
+> -- resets: Must contain an entry for each entry in reset-names.
+> -  See ../reset/reset.txt for details.
+> -- reset-names: Must be "pcie0", "pcie1", "pcieN"... based on the number of
+> -  root ports.
+> -- clocks: Must contain an entry for each entry in clock-names.
+> -  See ../clocks/clock-bindings.txt for details.
+> -- clock-names: Must be "pcie0", "pcie1", "pcieN"... based on the number of
+> -  root ports.
+> -- reset-gpios: GPIO specs for the reset pins.
+> -
+> -In addition, the device tree node must have sub-nodes describing each PCIe port
+> -interface, having the following mandatory properties:
+> -
+> -Required properties:
+> -- reg: Only the first four bytes are used to refer to the correct bus number
+> -      and device number.
+> -- #address-cells: Must be 3
+> -- #size-cells: Must be 2
+> -- ranges: Sub-ranges distributed from the PCIe controller node. An empty
+> -  property is sufficient.
+> -- bus-range: Range of bus numbers associated with this port.
+> -
+> -Example for MT7621:
+> -
+> -       pcie: pcie@1e140000 {
+> -               compatible = "mediatek,mt7621-pci";
+> -        reg = <0x1e140000 0x100    /* host-pci bridge registers */
+> -               0x1e142000 0x100    /* pcie port 0 RC control registers */
+> -               0x1e143000 0x100    /* pcie port 1 RC control registers */
+> -               0x1e144000 0x100>;  /* pcie port 2 RC control registers */
+> -
+> -               #address-cells = <3>;
+> -               #size-cells = <2>;
+> -
+> -               pinctrl-names = "default";
+> -               pinctrl-0 = <&pcie_pins>;
+> -
+> -               device_type = "pci";
+> -
+> -               bus-range = <0 255>;
+> -               ranges = <
+> -                       0x02000000 0 0x00000000 0x60000000 0 0x10000000 /* pci memory */
+> -                       0x01000000 0 0x00000000 0x1e160000 0 0x00010000 /* io space */
+> -               >;
+> -
+> -               #interrupt-cells = <1>;
+> -               interrupt-map-mask = <0xF0000 0 0 1>;
+> -               interrupt-map = <0x10000 0 0 1 &gic GIC_SHARED 4 IRQ_TYPE_LEVEL_HIGH>,
+> -                               <0x20000 0 0 1 &gic GIC_SHARED 24 IRQ_TYPE_LEVEL_HIGH>,
+> -                               <0x30000 0 0 1 &gic GIC_SHARED 25 IRQ_TYPE_LEVEL_HIGH>;
+> -
+> -               status = "disabled";
+> -
+> -               resets = <&rstctrl 24 &rstctrl 25 &rstctrl 26>;
+> -               reset-names = "pcie0", "pcie1", "pcie2";
+> -               clocks = <&clkctrl 24 &clkctrl 25 &clkctrl 26>;
+> -               clock-names = "pcie0", "pcie1", "pcie2";
+> -
+> -               reset-gpios = <&gpio 19 GPIO_ACTIVE_LOW>,
+> -                               <&gpio 8 GPIO_ACTIVE_LOW>,
+> -                               <&gpio 7 GPIO_ACTIVE_LOW>;
+> -
+> -               pcie@0,0 {
+> -                       reg = <0x0000 0 0 0 0>;
+> -                       #address-cells = <3>;
+> -                       #size-cells = <2>;
+> -                       ranges;
+> -                       bus-range = <0x00 0xff>;
+> -               };
+> -
+> -               pcie@1,0 {
+> -                       reg = <0x0800 0 0 0 0>;
+> -                       #address-cells = <3>;
+> -                       #size-cells = <2>;
+> -                       ranges;
+> -                       bus-range = <0x00 0xff>;
+> -               };
+> -
+> -               pcie@2,0 {
+> -                       reg = <0x1000 0 0 0 0>;
+> -                       #address-cells = <3>;
+> -                       #size-cells = <2>;
+> -                       ranges;
+> -                       bus-range = <0x00 0xff>;
+> -               };
+> -       };
+> -
+> diff --git a/drivers/staging/mt7621-pci/mediatek,mt7621-pci.yaml b/drivers/staging/mt7621-pci/mediatek,mt7621-pci.yaml
+> new file mode 100644
+> index 000000000000..9c1d05d929a2
+> --- /dev/null
+> +++ b/drivers/staging/mt7621-pci/mediatek,mt7621-pci.yaml
+> @@ -0,0 +1,144 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/pci/mediatek,mt7621-pci.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek MT7621 PCIe controller
+> +
+> +maintainers:
+> +  - Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> +
+> +description: |+
+> +  MediaTek MT7621 PCIe subsys supports single Root complex (RC)
+> +  with 3 Root Ports. Each Root Ports supports a Gen1 1-lane Link
+> +
+> +allOf:
+> +  - $ref: /schemas/pci/pci-bus.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: mediatek,mt7621-pci
+> +
+> +  reg:
+> +    items:
+> +      - description: host-pci bridge registers
+> +      - description: pcie port 0 RC control registers
+> +      - description: pcie port 1 RC control registers
+> +      - description: pcie port 2 RC control registers
+> +
+> +  ranges:
+> +    maxItems: 2
+> +
+> +  interrupts:
+> +    maxItems: 3
+> +
+> +  resets:
+> +    items:
+> +      - description: pcie port 0 reset.
+> +      - description: pcie port 1 reset.
+> +      - description: pcie port 2 reset.
+> +
+> +  reset-names:
+> +    items:
+> +      - const: pcie0
+> +      - const: pcie1
+> +      - const: pcie2
+> +
+> +  clocks:
+> +    items:
+> +      - description: pcie port 0 clock.
+> +      - description: pcie port 1 clock.
+> +      - description: pcie port 2 clock.
+> +
+> +  clock-names:
+> +    items:
+> +      - const: pcie0
+> +      - const: pcie1
+> +      - const: pcie2
+> +
+> +  phys:
+> +    items:
+> +      - description: Dual-ported phy for pcie port 0 and 1.
+> +      - description: Phy for pcie port 2.
+> +
+> +  phy-names:
+> +    items:
+> +      - const: pcie-phy0
+> +      - const: pcie-phy2
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - ranges
+> +  - interrupts
+> +  - resets
+> +  - reset-names
+> +  - clocks
+> +  - clock-names
+> +  - phys
+> +  - phy-names
+> +  - reset-gpios
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/mips-gic.h>
+> +
+> +    pcie: pcie@1e140000 {
+> +        compatible = "mediatek,mt7621-pci";
+> +        reg = <0x1e140000 0x100>,
+> +              <0x1e142000 0x100>,
+> +              <0x1e143000 0x100>,
+> +              <0x1e144000 0x100>;
+> +
+> +        #address-cells = <3>;
+> +        #size-cells = <2>;
+> +        pinctrl-names = "default";
+> +        pinctrl-0 = <&pcie_pins>;
+> +        device_type = "pci";
+> +        bus-range = <0 255>;
+> +        ranges = <0x02000000 0 0x00000000 0x60000000 0 0x10000000>,  /* pci memory */
+> +                 <0x01000000 0 0x00000000 0x1e160000 0 0x00010000>;  /* io space */
+> +        interrupt-parent = <&gic>;
+> +        interrupts = <GIC_SHARED 4 IRQ_TYPE_LEVEL_HIGH>,
+> +                     <GIC_SHARED 24 IRQ_TYPE_LEVEL_HIGH>,
+> +                     <GIC_SHARED 25 IRQ_TYPE_LEVEL_HIGH>;
+> +        resets = <&rstctrl 24>, <&rstctrl 25>, <&rstctrl 26>;
+> +        reset-names = "pcie0", "pcie1", "pcie2";
+> +        clocks = <&clkctrl 24>, <&clkctrl 25>, <&clkctrl 26>;
+> +        clock-names = "pcie0", "pcie1", "pcie2";
+> +        phys = <&pcie0_phy 1>, <&pcie2_phy 0>;
+> +        phy-names = "pcie-phy0", "pcie-phy2";
+> +        reset-gpios = <&gpio 19 GPIO_ACTIVE_LOW>;
+> +
+> +        pcie@0,0 {
+> +            reg = <0x0000 0 0 0 0>;
+> +            #address-cells = <3>;
+> +            #size-cells = <2>;
+> +            device_type = "pci";
+> +            ranges;
+> +            bus-range = <0x00 0xff>;
+> +        };
+> +
+> +        pcie@1,0 {
+> +            reg = <0x0800 0 0 0 0>;
+> +            #address-cells = <3>;
+> +            #size-cells = <2>;
+> +            device_type = "pci";
+> +            ranges;
+> +            bus-range = <0x00 0xff>;
+> +        };
+> +
+> +        pcie@2,0 {
+> +            reg = <0x1000 0 0 0 0>;
+> +            #address-cells = <3>;
+> +            #size-cells = <2>;
+> +            device_type = "pci";
+> +            ranges;
+> +            bus-range = <0x00 0xff>;
+> +        };
+> +    };
+> +...
+> --
+> 2.25.1
+>
