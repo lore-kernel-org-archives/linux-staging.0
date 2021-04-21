@@ -1,57 +1,57 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D4571
-	for <linux-staging@lists.linux.dev>; Wed, 21 Apr 2021 10:16:37 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id v13so7778874ple.9
-        for <linux-staging@lists.linux.dev>; Wed, 21 Apr 2021 03:16:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC98D71
+	for <linux-staging@lists.linux.dev>; Wed, 21 Apr 2021 10:19:48 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id i190so28322149pfc.12
+        for <linux-staging@lists.linux.dev>; Wed, 21 Apr 2021 03:19:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=gDa9oTZfQRTnJaBXZvLtLg6d8IpAGa0lj0v6OYQNJ+c=;
-        b=Wc/13pNsNqjLw2uUxT/IpQG7jmfX5ju7StOQiMj8ICk6WUZYtFoEBoi40Fjf9Z+CHM
-         XpFEVCU675SZG87WERMj4bE/xUFPDHQTCyAjoFlszEp1DD/pRzS+qpqbnQPqDDNYsCWM
-         3RnA650cqSQv5uUxCjjQiX2k1kRLhs89y8yh7ouWjcelPHkaNqmH2Q+s+aACbSQjO78F
-         smArAeU2pAIZAO1rMWUzVNnRRzhDKmdrjspik1xiQTB5KSKJveWGo3NvwFaRIp/BlPPk
-         V9ocAzbP5s2YKv7wGtEX16gjgTA3aM+1kt7VsO0yg32SExFOUvgs9oyAJEyY7xUL6Ofl
-         +Keg==
+        bh=ylladbiTopcCyoXO4jOFp9Ii8KfnOOHraMMblBLFicM=;
+        b=OWDsWwBDAuF4SIvUrvFW4ufmity0sndjZWQGhx5mx6GCYXWfZ4Lcff8XElWixG4GgE
+         QP2uWUk8pHXCPXc3xwXUGbErmvvz+QdYd877e7oz0ZAuj7qIVWtVDrA3PYWD1xvxqww7
+         lfgQ7T32Q/H4adFj/cNihWU1ThFj0WiD2VBwBapW7h4ugEwNiVb9R11l2FuwEaFODTt5
+         OIOuw/gR+5UYGlTZlmoIpD77tjfJ/Btfnzlw4logMWCDbz8PLn4UkFSZfRO/8RTXTETk
+         w3F0CrUdKPi/7Fx6fxlkYZYYQzFiJFtpxSLzHR2wBpmq/O7ehw/cks2M/q1JNCbr0kmJ
+         +etg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=gDa9oTZfQRTnJaBXZvLtLg6d8IpAGa0lj0v6OYQNJ+c=;
-        b=UKWrvURD6Ms42VadqlkaOo95fb9pXLjm8tONGIcx2cqec59EKgJeex2OWJGS+N5SjO
-         KwFO5WwH/jKjQQr0kb+9O3qPGMFdjzZEpqtBc+cHCPqMgtwDBapnG9Zl2hIkVs3GoyD3
-         akMBA/lJt59ITD/Gr6ibwF/mMG8Ul4LaF/Nh3nAYQgnFiaTxyp8QLb+kFanHupcv8L7W
-         oIeJXyRhjvkH1LiOZivIh27zZPIlxarRmgiq1GX0NK2aveEfJd7Fr37zXV70xiEgVnbr
-         DFFR9+DaNdciopSgrmZ8k///chea0u94Mh210Hc639ntpPB9QTVJYANwOVtCg3YX2Jjc
-         6w1w==
-X-Gm-Message-State: AOAM533dWjgQn4cvXElfrjagVxjtMFbvaUE/HMRTpWOZ0qRuMhQqpCuI
-	DRRoC1LLkhrc3KovXdLSZTk=
-X-Google-Smtp-Source: ABdhPJycbAW/PUelPvUga866z6t6lXrR4uZfmFlYhqJvktcROY5zeLT0hwCQ3UrjSYma05M7qR72RA==
-X-Received: by 2002:a17:902:8b81:b029:eb:5a4:9cae with SMTP id ay1-20020a1709028b81b02900eb05a49caemr33659303plb.13.1619000196723;
-        Wed, 21 Apr 2021 03:16:36 -0700 (PDT)
+        bh=ylladbiTopcCyoXO4jOFp9Ii8KfnOOHraMMblBLFicM=;
+        b=AaYIPaK/QDGhT6dSZ59F8mbs/Eu2rpDV2CgwqYawIJcvjZg4HCAgfa/JMqTWAvWt7t
+         Dx75UVctbOJ13SP7kPHpFQXz2dnwEKAtKR1K8iEyeeCfgfc4PJwwTzIPFx6cnxEkUAzE
+         isC6jXBmKn9SQ2GcivqAxHi9gMcdEfW2AHThBw2ziSRlWOhRYObE2JEOPGkLnAd6KaaY
+         8fJKUagH4RH5ohZUMmILgo58RK6UVi4fPv4iEIEhGE0U89cNwYiv8jIckAfVwgkT9v6c
+         FzZBsse4Cw6YgWueLBKwuGviz/maa9NeGTZodQJIBS+rFB7LnW4NvCchTj1XEaFuvQ/G
+         tM/Q==
+X-Gm-Message-State: AOAM532irZuJf5BH8d6LNWLpPeeLgZbw3rP5P71IfIIgn4i61cPgqJS4
+	2Wz8uHYmg+FyFDPr48ddbNY=
+X-Google-Smtp-Source: ABdhPJw4ERkZzW1Qx0BYp+QfkfKbY1lNtKYZRzKP4OPU+utmZIW7QnMojPCClgnRp4iv6m/7G4j6Tg==
+X-Received: by 2002:a17:90a:8548:: with SMTP id a8mr10210512pjw.48.1619000388351;
+        Wed, 21 Apr 2021 03:19:48 -0700 (PDT)
 Received: from localhost ([103.241.225.98])
-        by smtp.gmail.com with ESMTPSA id n11sm1584135pff.96.2021.04.21.03.16.33
+        by smtp.gmail.com with ESMTPSA id y193sm1488278pfc.72.2021.04.21.03.19.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Apr 2021 03:16:36 -0700 (PDT)
-Date: Wed, 21 Apr 2021 15:46:30 +0530
+        Wed, 21 Apr 2021 03:19:48 -0700 (PDT)
+Date: Wed, 21 Apr 2021 15:49:42 +0530
 From: Deepak R Varma <mh12gx2825@gmail.com>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/6] staging: media: atomisp: use printk with KERN
- facility level
-Message-ID: <20210421101630.GA216321@localhost>
+Subject: Re: [PATCH 1/6] staging: media: atomisp: improve function argument
+ alignment
+Message-ID: <20210421101942.GB216321@localhost>
 References: <cover.1618859059.git.drv@mailo.com>
- <4947abeebc2cecca43137675519a2fb48577d3e5.1618859059.git.drv@mailo.com>
- <20210420083522.GA1411@agape.jhs>
- <20210420171353.GA193332@localhost>
- <20210421072216.GB1418@agape.jhs>
+ <9b517e04d1a9b56dc14494a246d70915d51b1839.1618859059.git.drv@mailo.com>
+ <401d7d5a-70b7-3443-8612-eb4812e22af1@xs4all.nl>
+ <20210420171943.GC193332@localhost>
+ <2b4bffc8-7851-45aa-eb64-8f8d2d5928eb@xs4all.nl>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -59,76 +59,106 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210421072216.GB1418@agape.jhs>
+In-Reply-To: <2b4bffc8-7851-45aa-eb64-8f8d2d5928eb@xs4all.nl>
 
-On Wed, Apr 21, 2021 at 09:22:17AM +0200, Fabio Aiuto wrote:
-> On Tue, Apr 20, 2021 at 10:43:53PM +0530, Deepak R Varma wrote:
-> > On Tue, Apr 20, 2021 at 10:35:23AM +0200, Fabio Aiuto wrote:
-> > > Hi Deepak,
-> > > 
-> > > On Tue, Apr 20, 2021 at 12:46:40AM +0530, Deepak R Varma wrote:
-> > > > printk() without KERN_<LEVEL> facility is flagged by checkpatch as a
-> > > > warning. It is better to use pr_info() which comes with an
-> > > > inbuilt KERN_INFO level.
-> > > > 
-> > > > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > > > ---
-> > > >  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > > > index b572551f1a0d..a0f3c5c32f94 100644
-> > > > --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > > > +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > > > @@ -1020,7 +1020,7 @@ static int gc0310_set_fmt(struct v4l2_subdev *sd,
-> > > >  		return -EINVAL;
-> > > >  	}
-> > > >  
-> > > > -	printk("%s: before gc0310_write_reg_array %s\n", __func__,
-> > > > +	pr_info("%s: before gc0310_write_reg_array %s\n", __func__,
-> > > >  	       gc0310_res[dev->fmt_idx].desc);
-> > > 
-> > > in a driver is best recommended to replace a raw printk call
-> > > with a dev_*() log. Check few lines above here to see
-> > > how it is done.
+On Tue, Apr 20, 2021 at 10:59:16PM +0200, Hans Verkuil wrote:
+> On 20/04/2021 19:19, Deepak R Varma wrote:
+> > On Tue, Apr 20, 2021 at 03:24:32PM +0200, Hans Verkuil wrote:
+> >> On 19/04/2021 21:12, Deepak R Varma wrote:
+> >>> Improve multi-line function argument alignment according to the code style
+> >>> guidelines. Resolves checkpatch feedback: "Alignment should match
+> >>> open parenthesis".
+> >>>
+> >>> Signed-off-by: Deepak R Varma <drv@mailo.com>
+> >>
+> >> WARNING: From:/Signed-off-by: email address mismatch: 'From: Deepak R Varma <mh12gx2825@gmail.com>' != 'Signed-off-by: Deepak R Varma
+> >> <drv@mailo.com>'
+> >>
+> >> Which email should I use? Ideally you should post from the same email
+> >> as the Signed-off-by.
 > > 
-> > Hello Fabio,
-> > thank you for the feedback. Should I resubmit this patch with additional
-> > printk() / pr_info() replacement by dev_*()? OR send in a new patch with
-> > this change? Just want to make sure I am not including more than one
-> > change type in the patch.
-> > 
-> > deepak.
-> > 
+> > I am really sorry for this. I was trying to set up mutt to handle both
+> > my accounts and guess that led to this issue. I will resubmit the patch
+> > set with the appropriate email match. Will that be okay?
 > 
-> Hi Deepak,
-> 
-> what I would do is to just resend this patch with replacement by dev_*(),
-> which is just one change. Then if you want to replace all other
-> raw printk/pr_*() occurrences is matter of another separate
-> patch/series.
-> 
-Hi Fabio,
-That sounds good. Thank you for your comments. I will resubmit the patch
-set according to the feedbacks received.
+> It is sufficient to just let me know which email I should use. I can edit
+> it so it shows the correct author email.
 
-Have a good day.
+Hello Hans,
+You can use drv@mailo.com as the signed off email id.
+
+I have received feedback on other patches of this set, so I am going to
+resubmit the patch set v1 from the correct email ID.
+
+Thank you,
 deepak.
 
-> > > 
-> > > 
-> > > >  	ret = startup(sd);
-> > > >  	if (ret) {
-> > > > -- 
-> > > > 2.25.1
-> > > > 
-> > > > 
-> > > 
-> > > 
-> > > thank you,
-> > > 
-> > > fabio
+
 > 
-> thank you,
+> Regards,
 > 
-> fabio
+> 	Hans
+> 
+> > 
+> > Thank you,
+> > deepak.
+> > 
+> >>
+> >> Regards,
+> >>
+> >> 	Hans
+> >>
+> >>> ---
+> >>>  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c | 4 ++--
+> >>>  drivers/staging/media/atomisp/i2c/atomisp-gc2235.c | 4 ++--
+> >>>  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c | 4 ++--
+> >>>  3 files changed, 6 insertions(+), 6 deletions(-)
+> >>>
+> >>> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> >>> index 2b71de722ec3..6be3ee1d93a5 100644
+> >>> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> >>> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> >>> @@ -192,8 +192,8 @@ static int __gc0310_buf_reg_array(struct i2c_client *client,
+> >>>  }
+> >>>  
+> >>>  static int __gc0310_write_reg_is_consecutive(struct i2c_client *client,
+> >>> -	struct gc0310_write_ctrl *ctrl,
+> >>> -	const struct gc0310_reg *next)
+> >>> +					     struct gc0310_write_ctrl *ctrl,
+> >>> +					     const struct gc0310_reg *next)
+> >>>  {
+> >>>  	if (ctrl->index == 0)
+> >>>  		return 1;
+> >>> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> >>> index 78147ffb6099..6ba4a8adff7c 100644
+> >>> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> >>> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> >>> @@ -171,8 +171,8 @@ static int __gc2235_buf_reg_array(struct i2c_client *client,
+> >>>  }
+> >>>  
+> >>>  static int __gc2235_write_reg_is_consecutive(struct i2c_client *client,
+> >>> -	struct gc2235_write_ctrl *ctrl,
+> >>> -	const struct gc2235_reg *next)
+> >>> +					     struct gc2235_write_ctrl *ctrl,
+> >>> +					     const struct gc2235_reg *next)
+> >>>  {
+> >>>  	if (ctrl->index == 0)
+> >>>  		return 1;
+> >>> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+> >>> index eecefcd734d0..aec7392fd1de 100644
+> >>> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+> >>> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+> >>> @@ -212,8 +212,8 @@ static int __ov2722_buf_reg_array(struct i2c_client *client,
+> >>>  }
+> >>>  
+> >>>  static int __ov2722_write_reg_is_consecutive(struct i2c_client *client,
+> >>> -	struct ov2722_write_ctrl *ctrl,
+> >>> -	const struct ov2722_reg *next)
+> >>> +					     struct ov2722_write_ctrl *ctrl,
+> >>> +					     const struct ov2722_reg *next)
+> >>>  {
+> >>>  	if (ctrl->index == 0)
+> >>>  		return 1;
+> >>>
+> >>
+> 
