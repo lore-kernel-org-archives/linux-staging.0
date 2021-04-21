@@ -1,219 +1,141 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A382F81
-	for <linux-staging@lists.linux.dev>; Wed, 21 Apr 2021 14:21:34 +0000 (UTC)
-Received: by mail-qt1-f176.google.com with SMTP id y12so31324779qtx.11
-        for <linux-staging@lists.linux.dev>; Wed, 21 Apr 2021 07:21:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=T3BKxRMqJzIdOU4CdBKsrHei5q74d7jiI80D7aUMewQ=;
-        b=qOm98+y6a5GG6MOsYPlzs73vfKSkBtcoFn1tYwWw4GYyb0/80CrRIP2ZOlLlOoRzmh
-         q1U/uF2B+QiDHi1UR13SxkaPXZegOQIK/Zqn0TEF+gojqLHwGq0YlTgpMzLBG0WrouIe
-         ML/Yh8qZl1nAgaLSmCTG0mYXldmVfvVrw52aY1zDCjzObcPefk6ooWDnijlrHC21Zvol
-         ec91BErgQtta8/RxlZOf51gGs6jAMuqg0KgipHP5W9lbuu79ncL6yYLyTyaQrE+lAaW7
-         q39X4SDJIL7ZzixmEpCwD+H3IXxJr0YRyLOxY1hMY5XRjh+MwkBHsTJljcN0/1EiFq1r
-         av1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=T3BKxRMqJzIdOU4CdBKsrHei5q74d7jiI80D7aUMewQ=;
-        b=eXe2Gz+ozh8Q9m6du6v4hQEHHe5TwtoSVMZQXB3P+o3I0ye5JjqYD/Qmr9E3KehQco
-         ISr5MmFjeErJUSO/vWiYTY+OwcPP/Ud8ZwHGbx+caEXYbYvYlT8HR3e/OdUOlKrSOE+q
-         p2g/9OYbfdTYeoFgSi6V0p4QUj+JUkEu2Bbjt3UebloyH6jx3+WouLoa/tAv9ph+UIMX
-         1UcYCh5T292TL8hpuWb/5kNj0OMNRt1xSdMYe96SNnlo1sO7E/qo4GkAQT/uC/vyfN/x
-         GEjBJCaFqFFyKfyzW4WSgorK3nSGIz1CRZzU28vZevvbuxJ7gZ+qg2m9dKBgotFejJhj
-         iikA==
-X-Gm-Message-State: AOAM532PlpAyBYDekWsS42jsbOdR/BePV9+H2V3tLg3hyn/ran1BUTjh
-	sHvAJtAu16QnVu8lCxhh2Os=
-X-Google-Smtp-Source: ABdhPJxkFhj4gZcSqnX5RZT8f7Fk1A7i8vP0dIniCHZMju5F98bltT2QG69JQZhrP6wCYH+R9ScZhA==
-X-Received: by 2002:a05:622a:110e:: with SMTP id e14mr22314324qty.335.1619014893891;
-        Wed, 21 Apr 2021 07:21:33 -0700 (PDT)
-Received: from [192.168.100.7] ([138.204.24.234])
-        by smtp.gmail.com with ESMTPSA id j129sm2157129qkf.110.2021.04.21.07.21.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Apr 2021 07:21:33 -0700 (PDT)
-Message-ID: <16dd7a16a8cc69aa0f81dd6bf47f09e878c71a6b.camel@gmail.com>
-Subject: Re: [Outreachy kernel] [PATCH v3] staging: media: atomisp: pci:
- Change line break to avoid an open parenthesis at the end of the line
-From: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
-To: Julia Lawall <julia.lawall@inria.fr>, Matthew Wilcox
- <willy@infradead.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev,  linux-kernel@vger.kernel.org,
- outreachy-kernel@googlegroups.com
-Date: Wed, 21 Apr 2021 11:21:29 -0300
-In-Reply-To: <alpine.DEB.2.22.394.2104211555040.9436@hadrien>
-References: <20210421123718.GA4597@focaruja>
-	  <alpine.DEB.2.22.394.2104211507280.9436@hadrien>
-	 <7aeac7041a6f6d7b3d8563f0d0bf0a4d31f379b0.camel@gmail.com>
-	 <alpine.DEB.2.22.394.2104211555040.9436@hadrien>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.0 (by Flathub.org) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA8571
+	for <linux-staging@lists.linux.dev>; Wed, 21 Apr 2021 16:52:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1619023944; bh=LKtMoR4lsluuaw9UOiUUQQGDhk1e0PTaigauOMlSMHQ=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=fJkDjDYAsrl0pDfTdLjNf1xKlQCTUNMLfC8kER6o1hc14YS73hymtNxZDBoVusUd9
+	 WTei8J0a1gUrTo8D8NxrfeTXA6OwZHW7a7O0spGBhx9y0D5I90SDLAFFVwEcgxP/bl
+	 f809t/ijOLWrTu7zqu72wVtDxmQOSQCPoBt35tQk=
+Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
+	via ip-206.mailobj.net [213.182.55.206]
+	Wed, 21 Apr 2021 18:52:24 +0200 (CEST)
+X-EA-Auth: lgo6EQFlf5F1cWIR3PxDR5L0JVX/v/z4oWqmwf74AXAClxDNJu6PKIZhTifq5qe0/7QYSQAWGfvnmvxm6CjWvpn2n3/V599d
+Date: Wed, 21 Apr 2021 22:22:19 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, mh12gx2825@gmail.com, drv@mailo.com
+Subject: [PATCH v1 2/6] staging: media: atomisp: balance braces around
+ if...else block
+Message-ID: <71220662c5facd746e56288cc74786c96fa3c5a7.1619022192.git.drv@mailo.com>
+References: <cover.1619022192.git.drv@mailo.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1619022192.git.drv@mailo.com>
 
-Em qua, 2021-04-21 às 15:56 +0200, Julia Lawall escreveu:
-> 
-> 
-> On Wed, 21 Apr 2021, Aline Santana Cordeiro wrote:
-> 
-> > Em qua, 2021-04-21 às 15:08 +0200, Julia Lawall escreveu:
-> > > 
-> > > 
-> > > On Wed, 21 Apr 2021, Aline Santana Cordeiro wrote:
-> > > 
-> > > > Change line break to avoid an open parenthesis at the end of
-> > > > the
-> > > > line.
-> > > > It consequently removed spaces at the start of the subsequent
-> > > > line.
-> > > 
-> > > The message is hard to understand.  There are a lot of singular
-> > > nouns, but
-> > > actually there are two changes.  Which change is being described
-> > > by
-> > > the
-> > > above message?  What does "It" refer to?
-> > > 
-> > > julia
-> > 
-> > Checkpatch indicated two problems with this function declaration:
-> > 1) The line ending with an open parenthesis, and
-> > 2) The following line - with the function parameters - has spaces
-> > in
-> > its identation.
-> > 
-> > When I changed the line break to put the function name and its
-> > parameter in the following line, both checkpath checks were
-> > eliminated.
-> > 
-> > So, the main change was the line break and, also, the line break
-> > (it)
-> > removed the space in the following line.
-> > 
-> > Is it better to change the message and explain only about the line
-> > break?
-> 
-> The message should explain about the whole patch.  So if you change
-> two
-> things, it should be clear that what you are saying covers both of
-> them.
+Balance braces around the if else blocks as per the code style guidelines.
+Resolves checkpatch script CHECK / WARNING feedback messages.
 
-Ok, I can do that. In the commit message I described just one issue
-because it is only one patch, I didn't want it to look like I was
-changing different issues in just one patch.
+Signed-off-by: Deepak R Varma <drv@mailo.com>
+---
 
-> 
-> But it seems that Matthew doesn't think that the line break is a good
-> idea
-> anyway.
+Changes in v1:
+   - None.
 
-Yes, I'm sending this email to Matthew too, because I don't know
-exactly how to proceed as Hans asked me to made some corrections too. 
-I've made these changes because checkpatch has indicated and with this
-line break, checkpatch does not indicate any check or warning anymore.
-But I can undo that too, I just don't know what I'm supposed to do with
-so many opposite opinions. 
+ drivers/staging/media/atomisp/i2c/atomisp-gc0310.c  | 4 ++--
+ drivers/staging/media/atomisp/i2c/atomisp-gc2235.c  | 4 ++--
+ drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 4 ++--
+ drivers/staging/media/atomisp/i2c/atomisp-ov2680.c  | 7 ++++---
+ drivers/staging/media/atomisp/i2c/atomisp-ov2722.c  | 4 ++--
+ 5 files changed, 12 insertions(+), 11 deletions(-)
 
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+index 6be3ee1d93a5..d68a2bcc9ae1 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+@@ -872,9 +872,9 @@ static int gc0310_s_power(struct v4l2_subdev *sd, int on)
+ {
+ 	int ret;
+ 
+-	if (on == 0)
++	if (on == 0) {
+ 		return power_down(sd);
+-	else {
++	} else {
+ 		ret = power_up(sd);
+ 		if (!ret)
+ 			return gc0310_init(sd);
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+index 6ba4a8adff7c..e722c639b60d 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+@@ -658,9 +658,9 @@ static int gc2235_s_power(struct v4l2_subdev *sd, int on)
+ {
+ 	int ret;
+ 
+-	if (on == 0)
++	if (on == 0) {
+ 		ret = power_down(sd);
+-	else {
++	} else {
+ 		ret = power_up(sd);
+ 		if (!ret)
+ 			ret = __gc2235_init(sd);
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+index f5de81132177..465fc4468442 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+@@ -568,9 +568,9 @@ static int power_down(struct v4l2_subdev *sd)
+ 
+ static int mt9m114_s_power(struct v4l2_subdev *sd, int power)
+ {
+-	if (power == 0)
++	if (power == 0) {
+ 		return power_down(sd);
+-	else {
++	} else {
+ 		if (power_up(sd))
+ 			return -EINVAL;
+ 
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+index c90730513438..92c52431bd8f 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+@@ -461,11 +461,12 @@ static int ov2680_v_flip(struct v4l2_subdev *sd, s32 value)
+ 	ret = ov2680_read_reg(client, 1, OV2680_FLIP_REG, &val);
+ 	if (ret)
+ 		return ret;
+-	if (value) {
++
++	if (value)
+ 		val |= OV2680_FLIP_MIRROR_BIT_ENABLE;
+-	} else {
++	else
+ 		val &= ~OV2680_FLIP_MIRROR_BIT_ENABLE;
+-	}
++
+ 	ret = ov2680_write_reg(client, 1,
+ 			       OV2680_FLIP_REG, val);
+ 	if (ret)
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+index aec7392fd1de..d046a9804f63 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+@@ -772,9 +772,9 @@ static int ov2722_s_power(struct v4l2_subdev *sd, int on)
+ {
+ 	int ret;
+ 
+-	if (on == 0)
++	if (on == 0) {
+ 		return power_down(sd);
+-	else {
++	} else {
+ 		ret = power_up(sd);
+ 		if (!ret)
+ 			return ov2722_init(sd);
+-- 
+2.25.1
 
-Thank you all,
-Aline 
-> 
-> julia
-> 
-> > 
-> > Thank you,
-> > Aline
-> > > 
-> > > 
-> > > > Both issues detected by checkpatch.pl.
-> > > > 
-> > > > Signed-off-by: Aline Santana Cordeiro <
-> > > > alinesantanacordeiro@gmail.com>
-> > > > ---
-> > > > 
-> > > > Changes since v2:
-> > > >  - Insert a space between the function type and pointer
-> > > > 
-> > > > Changes since v1:
-> > > >  - Keep the pointer with the function return type
-> > > >    instead of left it with the function name
-> > > > 
-> > > >  drivers/staging/media/atomisp/pci/atomisp_cmd.h | 10 +++++----
-> > > > -
-> > > >  1 file changed, 5 insertions(+), 5 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-> > > > b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-> > > > index 1c0d464..639eca3 100644
-> > > > --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-> > > > +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-> > > > @@ -75,8 +75,8 @@ void atomisp_wdt(struct timer_list *t);
-> > > >  void atomisp_setup_flash(struct atomisp_sub_device *asd);
-> > > >  irqreturn_t atomisp_isr(int irq, void *dev);
-> > > >  irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr);
-> > > > -const struct atomisp_format_bridge
-> > > > *get_atomisp_format_bridge_from_mbus(
-> > > > -    u32 mbus_code);
-> > > > +const struct atomisp_format_bridge *
-> > > > +get_atomisp_format_bridge_from_mbus(u32 mbus_code);
-> > > >  bool atomisp_is_mbuscode_raw(uint32_t code);
-> > > >  int atomisp_get_frame_pgnr(struct atomisp_device *isp,
-> > > >                            const struct ia_css_frame *frame,
-> > > > u32
-> > > > *p_pgnr);
-> > > > @@ -381,9 +381,9 @@ enum mipi_port_id __get_mipi_port(struct
-> > > > atomisp_device *isp,
-> > > > 
-> > > >  bool atomisp_is_vf_pipe(struct atomisp_video_pipe *pipe);
-> > > > 
-> > > > -void atomisp_apply_css_parameters(
-> > > > -    struct atomisp_sub_device *asd,
-> > > > -    struct atomisp_css_params *css_param);
-> > > > +void atomisp_apply_css_parameters(struct atomisp_sub_device
-> > > > *asd,
-> > > > +                                 struct atomisp_css_params
-> > > > *css_param);
-> > > > +
-> > > >  void atomisp_free_css_parameters(struct atomisp_css_params
-> > > > *css_param);
-> > > > 
-> > > >  void atomisp_handle_parameter_and_buffer(struct
-> > > > atomisp_video_pipe
-> > > > *pipe);
-> > > > --
-> > > > 2.7.4
-> > > > 
-> > > > --
-> > > > You received this message because you are subscribed to the
-> > > > Google
-> > > > Groups "outreachy-kernel" group.
-> > > > To unsubscribe from this group and stop receiving emails from
-> > > > it,
-> > > > send an email to outreachy-kernel+unsubscribe@googlegroups.com.
-> > > > To view this discussion on the web visit
-> > > > https://groups.google.com/d/msgid/outreachy-kernel/20210421123718.GA4597%40focaruja
-> > > > .
-> > > > 
-> > 
-> > 
-> > --
-> > You received this message because you are subscribed to the Google
-> > Groups "outreachy-kernel" group.
-> > To unsubscribe from this group and stop receiving emails from it,
-> > send an email to outreachy-kernel+unsubscribe@googlegroups.com.
-> > To view this discussion on the web visit    
-> > https://groups.google.com/d/msgid/outreachy-kernel/7aeac7041a6f6d7b3d8563f0d0bf0a4d31f379b0.camel%40gmail.com
-> > .
 
 
