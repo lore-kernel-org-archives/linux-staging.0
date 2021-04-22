@@ -1,97 +1,64 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3EF770
-	for <linux-staging@lists.linux.dev>; Thu, 22 Apr 2021 15:18:07 +0000 (UTC)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 13MF0mV9014176;
-	Thu, 22 Apr 2021 15:17:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=Rek5ib4KVkGbLgWvvgyJ8gG8LHrGGTA42+yAkTTjZB8=;
- b=Lp5D/9zDRUNAd17IvFiGGCilm6fRBIoIpwsCA32ni0624BekcnXwxd2dHIu4Du7zpRMG
- KvDjBCbqtGGBCjWJ+SPT7RrSvZf7Sa4sDg542lOAVLe5i6ZNQbzjQhCgxVbFM1jBr1wN
- POw1UT63GuorRIsuPSxZDA/T2tGPSa/+tsLclCvrh+nbz2cOyXbFrnw3As4S5h2S5ghO
- WNvz+7sX/B0RIE0dkOOwxaUsjVSKMfwxp2DixGh8x2iXO7At3T45i7E1uavMULERoAd2
- ou25zuhgPJ5fboP9RdWqgmmPsXtj8Ou/8PttD2tOVW3wgYZ2shHls0IuIzpwhL9gekls UA== 
-Received: from oracle.com (userp3030.oracle.com [156.151.31.80])
-	by mx0b-00069f02.pphosted.com with ESMTP id 382uth0bfc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 22 Apr 2021 15:17:53 +0000
-Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
-	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 13MFHrZT192830;
-	Thu, 22 Apr 2021 15:17:53 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by userp3030.oracle.com with ESMTP id 3809m2ekqh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 22 Apr 2021 15:17:53 +0000
-Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13MFGMdT184396;
-	Thu, 22 Apr 2021 15:17:52 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-	by userp3030.oracle.com with ESMTP id 3809m2ekq5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 22 Apr 2021 15:17:52 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
-	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 13MFHmuR002595;
-	Thu, 22 Apr 2021 15:17:48 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Thu, 22 Apr 2021 08:17:48 -0700
-Date: Thu, 22 Apr 2021 18:17:40 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        Ross Schmidt <ross.schm.dev@gmail.com>,
-        Marco Cesati <marcocesati@gmail.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Ivan Safonov <insafonov@gmail.com>, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: avoid bogus gcc warning
-Message-ID: <20210422151740.GI1981@kadam>
-References: <20210422133219.1689027-1-arnd@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE8670
+	for <linux-staging@lists.linux.dev>; Thu, 22 Apr 2021 15:26:07 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C661F61425
+	for <linux-staging@lists.linux.dev>; Thu, 22 Apr 2021 15:26:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1619105166;
+	bh=cNV6IkI3EWzn8eh94ZL3mGzZvUvtIXIKPP3ff/Wu2r0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=WJZxSKgRGaYojFqnI5Xw3j6lv7JhY7L98wi+C+a1WMBbFsFJ1H7l3zaqGAqDdwzS+
+	 IleJy4AsqgKVCCRwk1Z3sp72pXPeTTQnrtzW+RPNrizfomALb5atfy2nZg/rLhKuB/
+	 gW1K0myY7rh//GXDX4NPFFfZSpExnTWLiXIRYz3KEottrfk+4LNZ+X55vjxQMm2FiU
+	 YAprcp304ebdB5zm43yXtykwrFoaoT8qBblOSPgbW7jMLt6GcYNyjIUFb8gXrjQW9S
+	 lmVaXl202s2MrcE5HvT8Lte0ENIrNQpUTz4svtsy/QXoGzGWOJtVxZ2ZOsSK8B2Vd9
+	 cjCJeZmPJaUgQ==
+Received: by mail-wm1-f52.google.com with SMTP id o9-20020a1c41090000b029012c8dac9d47so3499058wma.1
+        for <linux-staging@lists.linux.dev>; Thu, 22 Apr 2021 08:26:06 -0700 (PDT)
+X-Gm-Message-State: AOAM533vx0+G/rU2RAke6kS36U+FNO7TuTABH4WVp8rt+o0VGJfmwGJN
+	c9s90p3JaWVb5Df+mY8UVOP2C2yG+dH3Ww0B3o4=
+X-Google-Smtp-Source: ABdhPJw0ywSPUuI3ypsEpkKqT93BmtVIDmqQz9BrkPsEzaNRiU2utOqsHbURvWDUj66X33ir670K0POBCVRbOl/79Mk=
+X-Received: by 2002:a7b:c344:: with SMTP id l4mr610378wmj.120.1619105165273;
+ Thu, 22 Apr 2021 08:26:05 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210422133219.1689027-1-arnd@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: Evf3bBxuuGAjpX92Ko6vLzYXNqckTjTo
-X-Proofpoint-GUID: Evf3bBxuuGAjpX92Ko6vLzYXNqckTjTo
+References: <20210422133219.1689027-1-arnd@kernel.org> <20210422151740.GI1981@kadam>
+In-Reply-To: <20210422151740.GI1981@kadam>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Thu, 22 Apr 2021 17:25:44 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0mMFesdg14s2WjL7txpryev7Jm0VN1Uy3c9vTDOybqaQ@mail.gmail.com>
+Message-ID: <CAK8P3a0mMFesdg14s2WjL7txpryev7Jm0VN1Uy3c9vTDOybqaQ@mail.gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: avoid bogus gcc warning
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Fabio Aiuto <fabioaiuto83@gmail.com>, 
+	Ross Schmidt <ross.schm.dev@gmail.com>, Marco Cesati <marcocesati@gmail.com>, 
+	Johannes Berg <johannes.berg@intel.com>, Ivan Safonov <insafonov@gmail.com>, 
+	linux-staging@lists.linux.dev, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Apr 22, 2021 at 03:32:04PM +0200, Arnd Bergmann wrote:
-> @@ -762,7 +764,6 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
->  		}
->  
->  	}
-> -
+On Thu, Apr 22, 2021 at 5:19 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+> On Thu, Apr 22, 2021 at 03:32:04PM +0200, Arnd Bergmann wrote:
+> > @@ -762,7 +764,6 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
+> >               }
+> >
+> >       }
+> > -
+>
+> Since you're going to need to redo this, then please don't do this
+> unrelated whitespace change.
+>
+> > +#if 1
+>
+> These seems unintetional?
+>
 
-Since you're going to need to redo this, then please don't do this
-unrelated whitespace change.
+Indeed, both (and another removed line) are artifacts from debugging
+that ended up making it into the commit by accident. Sending v2 now.
 
->  exit:
->  
->  	return ret;
-> @@ -885,8 +886,10 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
->  					if (strcmp(param->u.crypt.alg, "TKIP") == 0 || strcmp(param->u.crypt.alg, "CCMP") == 0)
->  					{
->  						memcpy(padapter->securitypriv.dot118021XGrpKey[param->u.crypt.idx].skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
-> +#if 1
-
-These seems unintetional?
-
->  						memcpy(padapter->securitypriv.dot118021XGrptxmickey[param->u.crypt.idx].skey, &(param->u.crypt.key[16]), 8);
->  						memcpy(padapter->securitypriv.dot118021XGrprxmickey[param->u.crypt.idx].skey, &(param->u.crypt.key[24]), 8);
-> +#endif
->  	                                        padapter->securitypriv.binstallGrpkey = true;
->  
->  						padapter->securitypriv.dot118021XGrpKeyid = param->u.crypt.idx;
-
-regards,
-dan carpenter
-
+       Arnd
