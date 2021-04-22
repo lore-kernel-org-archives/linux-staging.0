@@ -1,160 +1,123 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB692F83
-	for <linux-staging@lists.linux.dev>; Thu, 22 Apr 2021 20:08:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B0F2FA2
+	for <linux-staging@lists.linux.dev>; Thu, 22 Apr 2021 20:08:44 +0000 (UTC)
 Received: from localhost.localdomain ([37.4.249.124]) by
  mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Mate1-1l2oaD3nK7-00cMY8; Thu, 22 Apr 2021 22:08:39 +0200
+ id 1M3DFj-1lchMb118X-003a1q; Thu, 22 Apr 2021 22:08:40 +0200
 From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Nicolas Saenz Julienne <nsaenz@kernel.org>
 Cc: linux-staging@lists.linux.dev,
 	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH 04/10] staging: vchiq_core: Drop unnecessary check in notify_bulks
-Date: Thu, 22 Apr 2021 22:07:50 +0200
-Message-Id: <1619122076-31785-5-git-send-email-stefan.wahren@i2se.com>
+Subject: [PATCH 09/10] staging: vchiq_core: drop vchiq_status from vchiq_initialise
+Date: Thu, 22 Apr 2021 22:07:55 +0200
+Message-Id: <1619122076-31785-10-git-send-email-stefan.wahren@i2se.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1619122076-31785-1-git-send-email-stefan.wahren@i2se.com>
 References: <1619122076-31785-1-git-send-email-stefan.wahren@i2se.com>
-X-Provags-ID: V03:K1:Rf+DMhJ/ci47OjGJL9efSNZB3BfI/TILmu5Hb1dhRGXyHSP5wZW
- NOaBJH+Yj5jWD+r8RgJFM5uPX8YQum7QYXSJPqaentqaM7uWduSVb99sP7mdbDN53JSnUN2
- zsBdpAHdwzFU7fPNItxcITzwLQVV2eH9m4am52aNX4jwJ/8pXcao2yRFUZ8OfQ/7Pr/ad4a
- VmS7hJM7LoVo86YnyHr+A==
+X-Provags-ID: V03:K1:lEI+MMZmqA6hHlQSsGRqWRE9IkVvmdt2z7+ZYKn076tht9aJY1K
+ 9jYGKmmL02ZUvPW77KoSfeoOw2LQdkwR/O4R4Z+SPFR9qq5c2zINeVHTck2+tKRJ4M1Tn8B
+ EbAChIJxh1nL+j448ShCxEXIhMg4B2lVaoc6j8m3xi9LLPcugPx43oBfDAIsRwPSpOXOmno
+ PIDFCo2Tcny4z0PoKV3FA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dIOSUIpmsTQ=:OJ0Y43JnNXkUkrTZ/MY66t
- OIkKd4xCwWC0Jznt8xIos9KzbseIGPAMqPPMLqgtvq+W7PQ6tUjK7jLjk3BKuI8S+aGxoA/q7
- kPw6CiGu0HyT0sYsPffY0apwQjL0NHvJ3wg1vFuufKL4rgqmcCrDEPnG825dE3QOBoxVRhk6h
- yvgwKXqAE4e5hyuOpP/9YumQDaXUyPQa7oOtFgpypB6N6jndb8q/oR7ZhehcHEZwyHri0Q/Rg
- lsIHg5twptUid36TrE8WihWNT/zL8L1ZCAZbYSjNtZzbxa2D3Mscfz3IKmg3CH7Jj58U8W7AV
- vMk8OHFPH3f65dPWa7W/n9Aw3ku9M+8hYCWnifFozl6MVprcgLuqQleoYNIhHDsENAULpeaV5
- Jcm+ymdmQKqcOIGGyxnWENlXEFJxTO/RUmZIXfFLq1O/S/SeVwcKoOcCIU2W/pMCNJKCFMuoD
- A41hO72jTrspOK/2GVHYPEZSDcbbobiZWO8cXjhjnWsEDNrFRDyfDs6edoXawSUnZTPT5ogQs
- M9JEQtH3eWYiCXnkkOSYfI=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Ewk2jAoDAqg=:i8JX7ftk5RX1onySDOjBFW
+ UDKMFNhkgHNRVu63tWEtIwp2/pRtEq2cLQVv6Ykr1vIqc58NwK4ppy71J/zc8cAg3pa07/S/g
+ w80r6O5DYqEeSVfyfRzuET391c45BKYRLWpIU8PCA06C3zeGwSe4dp/bgFFMZke7+N2/hFJO5
+ vV9phXIPKQuM552glDI0P0CDFFv7vKyUf6fvtIFGpXvsmYaOUYNRNdg3ZwrMatGxUpM3r0VGO
+ 4d0woSGVcwwCiYZ0fxidSSrtqmo/NvtlloJVp4LpGf7ctMyODwd7iY4q+n1J0txJ7F7n2kC6V
+ 34BuNhVYPSvHqhQQvAdDahjv0MlROjuTDsIF8i0yiUT60BhsGT+5dhFPiJBpP8DTlSf94Jce7
+ 3GNf9Kz2tx2XI5MWT+d6D4YQ2Olil9Ri2iFfa+iiAu/8qp+3DdYliyWj61jtuyck6g23NKjTb
+ k6HIzSD0U+YA4IlXaQAIo8qTqil23sCqj/PpyGxemm1E63Ufu1E0t4r5Do6rSMrlXHmDIMZDO
+ Gt9HCUC017JabPLtc9YleQ=
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-There is no modification to the vchiq_status before the first if, so drop
-this unnecessary check.
+Replace the custom set of return values with proper Linux error codes for
+vchiq_initialise().
 
 Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 ---
- .../vc04_services/interface/vchiq_arm/vchiq_core.c | 92 +++++++++++-----------
- 1 file changed, 45 insertions(+), 47 deletions(-)
+ .../vc04_services/interface/vchiq_arm/vchiq_arm.c    | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 3a72c36..9dc9a6a 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -1257,61 +1257,59 @@ notify_bulks(struct vchiq_service *service, struct vchiq_bulk_queue *queue,
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index ab2ce07..04a72d4 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -147,12 +147,11 @@ vchiq_blocking_bulk_transfer(unsigned int handle, void *data,
+ 	unsigned int size, enum vchiq_bulk_dir dir);
  
- 	queue->remote_notify = queue->process;
+ #define VCHIQ_INIT_RETRIES 10
+-enum vchiq_status vchiq_initialise(struct vchiq_instance **instance_out)
++int vchiq_initialise(struct vchiq_instance **instance_out)
+ {
+-	enum vchiq_status status = VCHIQ_ERROR;
+ 	struct vchiq_state *state;
+ 	struct vchiq_instance *instance = NULL;
+-	int i;
++	int i, ret;
  
--	if (status == VCHIQ_SUCCESS) {
--		while (queue->remove != queue->remote_notify) {
--			struct vchiq_bulk *bulk =
--				&queue->bulks[BULK_INDEX(queue->remove)];
-+	while (queue->remove != queue->remote_notify) {
-+		struct vchiq_bulk *bulk =
-+			&queue->bulks[BULK_INDEX(queue->remove)];
+ 	vchiq_log_trace(vchiq_core_log_level, "%s called", __func__);
  
--			/*
--			 * Only generate callbacks for non-dummy bulk
--			 * requests, and non-terminated services
--			 */
--			if (bulk->data && service->instance) {
--				if (bulk->actual != VCHIQ_BULK_ACTUAL_ABORTED) {
--					if (bulk->dir == VCHIQ_BULK_TRANSMIT) {
--						VCHIQ_SERVICE_STATS_INC(service,
--							bulk_tx_count);
--						VCHIQ_SERVICE_STATS_ADD(service,
--							bulk_tx_bytes,
--							bulk->actual);
--					} else {
--						VCHIQ_SERVICE_STATS_INC(service,
--							bulk_rx_count);
--						VCHIQ_SERVICE_STATS_ADD(service,
--							bulk_rx_bytes,
--							bulk->actual);
--					}
-+		/*
-+		 * Only generate callbacks for non-dummy bulk
-+		 * requests, and non-terminated services
-+		 */
-+		if (bulk->data && service->instance) {
-+			if (bulk->actual != VCHIQ_BULK_ACTUAL_ABORTED) {
-+				if (bulk->dir == VCHIQ_BULK_TRANSMIT) {
-+					VCHIQ_SERVICE_STATS_INC(service,
-+						bulk_tx_count);
-+					VCHIQ_SERVICE_STATS_ADD(service,
-+						bulk_tx_bytes,
-+						bulk->actual);
- 				} else {
- 					VCHIQ_SERVICE_STATS_INC(service,
--						bulk_aborted_count);
-+						bulk_rx_count);
-+					VCHIQ_SERVICE_STATS_ADD(service,
-+						bulk_rx_bytes,
-+						bulk->actual);
- 				}
--				if (bulk->mode == VCHIQ_BULK_MODE_BLOCKING) {
--					struct bulk_waiter *waiter;
--
--					spin_lock(&bulk_waiter_spinlock);
--					waiter = bulk->userdata;
--					if (waiter) {
--						waiter->actual = bulk->actual;
--						complete(&waiter->event);
--					}
--					spin_unlock(&bulk_waiter_spinlock);
--				} else if (bulk->mode ==
--					VCHIQ_BULK_MODE_CALLBACK) {
--					enum vchiq_reason reason =
--							get_bulk_reason(bulk);
--					status = make_service_callback(service,
--						reason,	NULL, bulk->userdata);
--					if (status == VCHIQ_RETRY)
--						break;
-+			} else {
-+				VCHIQ_SERVICE_STATS_INC(service,
-+					bulk_aborted_count);
-+			}
-+			if (bulk->mode == VCHIQ_BULK_MODE_BLOCKING) {
-+				struct bulk_waiter *waiter;
-+
-+				spin_lock(&bulk_waiter_spinlock);
-+				waiter = bulk->userdata;
-+				if (waiter) {
-+					waiter->actual = bulk->actual;
-+					complete(&waiter->event);
- 				}
-+				spin_unlock(&bulk_waiter_spinlock);
-+			} else if (bulk->mode ==
-+				VCHIQ_BULK_MODE_CALLBACK) {
-+				enum vchiq_reason reason =
-+						get_bulk_reason(bulk);
-+				status = make_service_callback(service,
-+					reason,	NULL, bulk->userdata);
-+				if (status == VCHIQ_RETRY)
-+					break;
- 			}
--
--			queue->remove++;
--			complete(&service->bulk_remove_event);
- 		}
--		if (!retry_poll)
--			status = VCHIQ_SUCCESS;
-+
-+		queue->remove++;
-+		complete(&service->bulk_remove_event);
+@@ -170,6 +169,7 @@ enum vchiq_status vchiq_initialise(struct vchiq_instance **instance_out)
+ 	if (i == VCHIQ_INIT_RETRIES) {
+ 		vchiq_log_error(vchiq_core_log_level,
+ 			"%s: videocore not initialized\n", __func__);
++		ret = -ENOTCONN;
+ 		goto failed;
+ 	} else if (i > 0) {
+ 		vchiq_log_warning(vchiq_core_log_level,
+@@ -181,6 +181,7 @@ enum vchiq_status vchiq_initialise(struct vchiq_instance **instance_out)
+ 	if (!instance) {
+ 		vchiq_log_error(vchiq_core_log_level,
+ 			"%s: error allocating vchiq instance\n", __func__);
++		ret = -ENOMEM;
+ 		goto failed;
  	}
-+	if (!retry_poll)
-+		status = VCHIQ_SUCCESS;
  
- 	if (status == VCHIQ_RETRY)
- 		request_poll(service->state, service,
+@@ -191,13 +192,13 @@ enum vchiq_status vchiq_initialise(struct vchiq_instance **instance_out)
+ 
+ 	*instance_out = instance;
+ 
+-	status = VCHIQ_SUCCESS;
++	ret = 0;
+ 
+ failed:
+ 	vchiq_log_trace(vchiq_core_log_level,
+-		"%s(%p): returning %d", __func__, instance, status);
++		"%s(%p): returning %d", __func__, instance, ret);
+ 
+-	return status;
++	return ret;
+ }
+ EXPORT_SYMBOL(vchiq_initialise);
+ 
+@@ -2236,6 +2237,7 @@ vchiq_keepalive_thread_func(void *v)
+ 	enum vchiq_status status;
+ 	struct vchiq_instance *instance;
+ 	unsigned int ka_handle;
++	int ret;
+ 
+ 	struct vchiq_service_params_kernel params = {
+ 		.fourcc      = VCHIQ_MAKE_FOURCC('K', 'E', 'E', 'P'),
+@@ -2244,10 +2246,10 @@ vchiq_keepalive_thread_func(void *v)
+ 		.version_min = KEEPALIVE_VER_MIN
+ 	};
+ 
+-	status = vchiq_initialise(&instance);
+-	if (status != VCHIQ_SUCCESS) {
++	ret = vchiq_initialise(&instance);
++	if (ret) {
+ 		vchiq_log_error(vchiq_susp_log_level,
+-			"%s vchiq_initialise failed %d", __func__, status);
++			"%s vchiq_initialise failed %d", __func__, ret);
+ 		goto exit;
+ 	}
+ 
 -- 
 2.7.4
 
