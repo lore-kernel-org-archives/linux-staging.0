@@ -1,234 +1,171 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA57070
-	for <linux-staging@lists.linux.dev>; Thu, 22 Apr 2021 15:26:59 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 599BE61425;
-	Thu, 22 Apr 2021 15:26:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1619105219;
-	bh=D7KfCFzGAXfSiVjykaMhGcZeZD8ao0rmc2lGUMULQ/8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=t16c5KWvSSMCty9AWGC3U/3TurriqOBPUDvaAY9Ttk2mUQzTnvMHpkdOte1TRMhKr
-	 ZzYgwI4889QgG23HmuHzhE3TxmFhHthrAkuXMNzV7bd6Ga+kyKahXRvAZc3H3ZueRY
-	 mvKOVcg4YAz27o8Wlz/yEZ5D+dxSvMNWBTHyPG6Cvq791cjXmFj1z6zRyKoWKW+70w
-	 EYwOuLf6fyqPUuVzupCMrmSoVArEgr6GP0Nm8S+NcLzdaK9xL3taC5B10puD2x/v17
-	 TrqCRM1daPV7GKsFeeDbAte+tweD/VYIvBbtsTN44W7atwM1q1hWi+u/6Oon+2HMuY
-	 DXS0CQypwYgmg==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	Ross Schmidt <ross.schm.dev@gmail.com>,
-	Marco Cesati <marcocesati@gmail.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Ivan Safonov <insafonov@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] [v2] staging: rtl8723bs: avoid bogus gcc warning
-Date: Thu, 22 Apr 2021 17:26:19 +0200
-Message-Id: <20210422152648.2891996-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B1E92F81
+	for <linux-staging@lists.linux.dev>; Thu, 22 Apr 2021 19:16:58 +0000 (UTC)
+Received: by mail-ot1-f49.google.com with SMTP id c8-20020a9d78480000b0290289e9d1b7bcso29136180otm.4
+        for <linux-staging@lists.linux.dev>; Thu, 22 Apr 2021 12:16:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WFKHkdJ/TiTXIjZ61s8CUp/eOXsXcoYTAeerWwPKQQc=;
+        b=KKmpmScmGCnRb2n5yZnt15wSgZqeNc0MwejlDkH9XKIhana5b62yO9zea7aBu+wZLe
+         tSy29MfzGcHaZSEHJfUP0SlldG5v9kKvlBv8hHNLVEg0aePS9OSgN82ubHM27kFri9Hb
+         tbQJq/Wq09mPvKoLP6NyG9tw68Z+rhdbvDDxgWRqEyJXvrnCVGm5mQbgGmvqhQcxvoLO
+         E8g/3KaZUhJAbNTwQfZz9wkxCNuyXngN/tnsGSnfgD8yv46FF6QbGzGd2sElgL19Fvju
+         fIVs9QsTftssrkCQ72Yvq3521HCcXwPoMfdXzyUQPBwXUP/xELiCjtGmBKOIC1A63Qvm
+         LEAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WFKHkdJ/TiTXIjZ61s8CUp/eOXsXcoYTAeerWwPKQQc=;
+        b=LBXrKAlw1dsZQe03MTCzofXXXHn+jnxfFck6o0QKT4gz78NfmzD9ZK4XnVxzrBKyZv
+         ZqN7JRdlxa+yzJWXU0gKecf8pYSu07SLHKkrkjCUXx8U9gyRp4pLcyugsrL1GVI6GqFL
+         c5Vfm5fyEb6TeGs8+ejUxsWH+P69vnO9DQ4hHmc1xvKOJR4lU0pgwgXYgyF7q/wLnbAr
+         FSgvhydRWJeiM2PTeCaWSpysjyowWMb/lcqwqlE1bYZ++O2X3bB3ps3vLMG0+7ukzmZP
+         rg5hR6PEseqCX70Uh6OhSUrHQ+iq+lN2GSAVMoawFXfRy81TvW3vtN4vhIm30qdo9C0V
+         nJaQ==
+X-Gm-Message-State: AOAM533Q8xNVAr+hY1QxG0OcCbO3HqFNJY8iBR/DNrG3VOzC/K2kK6dB
+	xp035+Oi+q2IylTkEq6cEZ0/F/tsu3wWtA4Hl94=
+X-Google-Smtp-Source: ABdhPJxuiqTLKR0jY2x7Mzae5sGw4GmHH/gcF0XZOd5CvZE0EHQQZPlFqR+JmcV96hu0Lu53i3715OdCAgAsmxky9Ak=
+X-Received: by 2002:a9d:3e4a:: with SMTP id h10mr88230otg.252.1619119017805;
+ Thu, 22 Apr 2021 12:16:57 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1618785336.git.lucas.p.stankus@gmail.com>
+ <54a9eaeaa42d47037b2a07bd933e6dfade745d02.1618785336.git.lucas.p.stankus@gmail.com>
+ <20210420193746.GA3632576@robh.at.kernel.org>
+In-Reply-To: <20210420193746.GA3632576@robh.at.kernel.org>
+From: Lucas Stankus <lucas.p.stankus@gmail.com>
+Date: Thu, 22 Apr 2021 16:16:21 -0300
+Message-ID: <CACKVXZDtUync4HnScJnMEj=Gh7bukUUpnPrtE0w1PPgCZOHORg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: staging: iio: cdc: ad7746: add
+ binding documentation for AD7746
+To: Rob Herring <robh@kernel.org>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org, 
+	gregkh@linuxfoundation.org, linux-iio@vger.kernel.org, 
+	linux-staging@lists.linux.dev, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Tue, Apr 20, 2021 at 4:37 PM Rob Herring <robh@kernel.org> wrote:
+>
+> On Sun, Apr 18, 2021 at 07:49:51PM -0300, Lucas Stankus wrote:
+> > Add device tree binding documentation for AD7746 cdc in YAML format.
+> >
+> > Signed-off-by: Lucas Stankus <lucas.p.stankus@gmail.com>
+> > ---
+> >
+> > A minor note about the adi,excitation-vdd-permille property. Jonathan
+> > suggested the name to be adi,excitation-vdd-milicent, but I was unsure of
+> > the milicent naming. With a quick search I found out that the common way to
+> > call a thousandth is 'per mille'[1], but I didn't find any use of it in the
+> > kernel documentation. Any thoughts about it?
+>
+> Seems okay to me.
+>
+> > [1] https://en.wikipedia.org/wiki/Per_mille
+> >
+> >  .../bindings/iio/cdc/adi,ad7746.yaml          | 73 +++++++++++++++++++
+> >  1 file changed, 73 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml b/Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml
+> > new file mode 100644
+> > index 000000000000..a2a7eee674ba
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml
+> > @@ -0,0 +1,73 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/iio/cdc/adi,ad7746.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: AD7746 24-Bit Capacitance-to-Digital Converter with Temperature Sensor
+> > +
+> > +maintainers:
+> > +  - Michael Hennerich <michael.hennerich@analog.com>
+> > +
+> > +description: |
+> > +  AD7746 24-Bit Capacitance-to-Digital Converter with Temperature Sensor
+> > +
+> > +  Specifications about the part can be found at:
+> > +  https://www.analog.com/media/en/technical-documentation/data-sheets/ad7291.pdf
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - adi,ad7745
+> > +      - adi,ad7746
+> > +      - adi,ad7747
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  adi,excitation-vdd-permille:
+> > +    description: |
+> > +      Set VDD per mille to be used as the excitation voltage.
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    enum: [125, 250, 375, 500]
+> > +
+> > +  adi,exca-output-en:
+> > +    description: Enables the EXCA pin as the excitation output.
+> > +    type: boolean
+> > +
+> > +  adi,exca-output-invert:
+> > +    description: Inverts the excitation output in the EXCA pin.
+> > +    type: boolean
+>
+> 'invert' assumes I know what the non-inverted signal is. Sometimes that
+> makes sense, but if you can define in terms of the inverse that would be
+> better. For example, for a normally active low signal, name the property
+> 'foo-active-high'.
 
-gcc gets confused by some of the type casts and produces an
-apparently senseless warning about an out-of-bound memcpy to
-an unrelated array in the same structure:
+Thanks for the feedback!
+From reading the data sheet I couldn't quite grasp what would be an inverted
+excitation output, but I don't have a lot of experience with CDCs. Maybe someone
+with more experience could help out with a better suggestion.
 
-drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c: In function 'rtw_cfg80211_ap_set_encryption':
-cc1: error: writing 8 bytes into a region of size 0 [-Werror=stringop-overflow=]
-In file included from drivers/staging/rtl8723bs/include/drv_types.h:32,
-                 from drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:10:
-drivers/staging/rtl8723bs/include/rtw_security.h:98:15: note: at offset [184, 4264] into destination object 'dot11AuthAlgrthm' of size 4
-   98 |         u32   dot11AuthAlgrthm;         /*  802.11 auth, could be open, shared, 8021x and authswitch */
-      |               ^~~~~~~~~~~~~~~~
-cc1: error: writing 8 bytes into a region of size 0 [-Werror=stringop-overflow=]
-drivers/staging/rtl8723bs/include/rtw_security.h:98:15: note: at offset [264, 4344] into destination object 'dot11AuthAlgrthm' of size 4
-
-This is a known gcc bug, and the patch here is only a workaround,
-but the approach of using a temporary variable to hold a pointer
-to the key also improves readability in addition to avoiding the
-warning, so overall this should still help.
-
-Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=99673
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
-v2: revert unrelated changes in the patch, pointed out by
-    Dan Carpenter
----
- .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 23 +++++++++++--------
- .../staging/rtl8723bs/os_dep/ioctl_linux.c    | 21 +++++++++--------
- 2 files changed, 25 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 89a21eb63c0a..98cbd2fce5cf 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -523,6 +523,9 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct security_priv *psecuritypriv =  &(padapter->securitypriv);
- 	struct sta_priv *pstapriv = &padapter->stapriv;
-+	char *grpkey = padapter->securitypriv.dot118021XGrpKey[param->u.crypt.idx].skey;
-+	char *txkey = padapter->securitypriv.dot118021XGrptxmickey[param->u.crypt.idx].skey;
-+	char *rxkey = padapter->securitypriv.dot118021XGrprxmickey[param->u.crypt.idx].skey;
- 
- 	param->u.crypt.err = 0;
- 	param->u.crypt.alg[IEEE_CRYPT_ALG_NAME_LEN - 1] = '\0';
-@@ -605,7 +608,7 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
- 		{
- 			if (strcmp(param->u.crypt.alg, "WEP") == 0)
- 			{
--				memcpy(psecuritypriv->dot118021XGrpKey[param->u.crypt.idx].skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
-+				memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
- 
- 				psecuritypriv->dot118021XGrpPrivacy = _WEP40_;
- 				if (param->u.crypt.key_len == 13)
-@@ -618,12 +621,12 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
- 			{
- 				psecuritypriv->dot118021XGrpPrivacy = _TKIP_;
- 
--				memcpy(psecuritypriv->dot118021XGrpKey[param->u.crypt.idx].skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
-+				memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
- 
- 				/* DEBUG_ERR("set key length :param->u.crypt.key_len =%d\n", param->u.crypt.key_len); */
- 				/* set mic key */
--				memcpy(psecuritypriv->dot118021XGrptxmickey[param->u.crypt.idx].skey, &(param->u.crypt.key[16]), 8);
--				memcpy(psecuritypriv->dot118021XGrprxmickey[param->u.crypt.idx].skey, &(param->u.crypt.key[24]), 8);
-+				memcpy(txkey, &(param->u.crypt.key[16]), 8);
-+				memcpy(rxkey, &(param->u.crypt.key[24]), 8);
- 
- 				psecuritypriv->busetkipkey = true;
- 
-@@ -632,7 +635,7 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
- 			{
- 				psecuritypriv->dot118021XGrpPrivacy = _AES_;
- 
--				memcpy(psecuritypriv->dot118021XGrpKey[param->u.crypt.idx].skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
-+				memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
- 			}
- 			else
- 			{
-@@ -709,7 +712,7 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
- 			{
- 				if (strcmp(param->u.crypt.alg, "WEP") == 0)
- 				{
--					memcpy(psecuritypriv->dot118021XGrpKey[param->u.crypt.idx].skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
-+					memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
- 
- 					psecuritypriv->dot118021XGrpPrivacy = _WEP40_;
- 					if (param->u.crypt.key_len == 13)
-@@ -721,12 +724,12 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
- 				{
- 					psecuritypriv->dot118021XGrpPrivacy = _TKIP_;
- 
--					memcpy(psecuritypriv->dot118021XGrpKey[param->u.crypt.idx].skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
-+					memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
- 
- 					/* DEBUG_ERR("set key length :param->u.crypt.key_len =%d\n", param->u.crypt.key_len); */
- 					/* set mic key */
--					memcpy(psecuritypriv->dot118021XGrptxmickey[param->u.crypt.idx].skey, &(param->u.crypt.key[16]), 8);
--					memcpy(psecuritypriv->dot118021XGrprxmickey[param->u.crypt.idx].skey, &(param->u.crypt.key[24]), 8);
-+					memcpy(txkey, &(param->u.crypt.key[16]), 8);
-+					memcpy(rxkey, &(param->u.crypt.key[24]), 8);
- 
- 					psecuritypriv->busetkipkey = true;
- 
-@@ -735,7 +738,7 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
- 				{
- 					psecuritypriv->dot118021XGrpPrivacy = _AES_;
- 
--					memcpy(psecuritypriv->dot118021XGrpKey[param->u.crypt.idx].skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
-+					memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
- 				}
- 				else
- 				{
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-index 816033b6847c..af77f03df7d0 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-@@ -2963,6 +2963,9 @@ static int rtw_set_encryption(struct net_device *dev, struct ieee_param *param,
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct security_priv *psecuritypriv = &(padapter->securitypriv);
- 	struct sta_priv *pstapriv = &padapter->stapriv;
-+	char *txkey = padapter->securitypriv.dot118021XGrptxmickey[param->u.crypt.idx].skey;
-+	char *rxkey = padapter->securitypriv.dot118021XGrprxmickey[param->u.crypt.idx].skey;
-+	char *grpkey = psecuritypriv->dot118021XGrpKey[param->u.crypt.idx].skey;
- 
- 	param->u.crypt.err = 0;
- 	param->u.crypt.alg[IEEE_CRYPT_ALG_NAME_LEN - 1] = '\0';
-@@ -3064,7 +3067,7 @@ static int rtw_set_encryption(struct net_device *dev, struct ieee_param *param,
- 	if (!psta && check_fwstate(pmlmepriv, WIFI_AP_STATE)) { /*  group key */
- 		if (param->u.crypt.set_tx == 1) {
- 			if (strcmp(param->u.crypt.alg, "WEP") == 0) {
--				memcpy(psecuritypriv->dot118021XGrpKey[param->u.crypt.idx].skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
-+				memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
- 
- 				psecuritypriv->dot118021XGrpPrivacy = _WEP40_;
- 				if (param->u.crypt.key_len == 13)
-@@ -3073,11 +3076,11 @@ static int rtw_set_encryption(struct net_device *dev, struct ieee_param *param,
- 			} else if (strcmp(param->u.crypt.alg, "TKIP") == 0) {
- 				psecuritypriv->dot118021XGrpPrivacy = _TKIP_;
- 
--				memcpy(psecuritypriv->dot118021XGrpKey[param->u.crypt.idx].skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
-+				memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
- 
- 				/* DEBUG_ERR("set key length :param->u.crypt.key_len =%d\n", param->u.crypt.key_len); */
- 				/* set mic key */
--				memcpy(psecuritypriv->dot118021XGrptxmickey[param->u.crypt.idx].skey, &(param->u.crypt.key[16]), 8);
-+				memcpy(txkey, &(param->u.crypt.key[16]), 8);
- 				memcpy(psecuritypriv->dot118021XGrprxmickey[param->u.crypt.idx].skey, &(param->u.crypt.key[24]), 8);
- 
- 				psecuritypriv->busetkipkey = true;
-@@ -3086,7 +3089,7 @@ static int rtw_set_encryption(struct net_device *dev, struct ieee_param *param,
- 			else if (strcmp(param->u.crypt.alg, "CCMP") == 0) {
- 				psecuritypriv->dot118021XGrpPrivacy = _AES_;
- 
--				memcpy(psecuritypriv->dot118021XGrpKey[param->u.crypt.idx].skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
-+				memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
- 			} else {
- 				psecuritypriv->dot118021XGrpPrivacy = _NO_PRIVACY_;
- 			}
-@@ -3142,7 +3145,7 @@ static int rtw_set_encryption(struct net_device *dev, struct ieee_param *param,
- 
- 			} else { /* group key??? */
- 				if (strcmp(param->u.crypt.alg, "WEP") == 0) {
--					memcpy(psecuritypriv->dot118021XGrpKey[param->u.crypt.idx].skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
-+					memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
- 
- 					psecuritypriv->dot118021XGrpPrivacy = _WEP40_;
- 					if (param->u.crypt.key_len == 13)
-@@ -3150,19 +3153,19 @@ static int rtw_set_encryption(struct net_device *dev, struct ieee_param *param,
- 				} else if (strcmp(param->u.crypt.alg, "TKIP") == 0) {
- 					psecuritypriv->dot118021XGrpPrivacy = _TKIP_;
- 
--					memcpy(psecuritypriv->dot118021XGrpKey[param->u.crypt.idx].skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
-+					memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
- 
- 					/* DEBUG_ERR("set key length :param->u.crypt.key_len =%d\n", param->u.crypt.key_len); */
- 					/* set mic key */
--					memcpy(psecuritypriv->dot118021XGrptxmickey[param->u.crypt.idx].skey, &(param->u.crypt.key[16]), 8);
--					memcpy(psecuritypriv->dot118021XGrprxmickey[param->u.crypt.idx].skey, &(param->u.crypt.key[24]), 8);
-+					memcpy(txkey, &(param->u.crypt.key[16]), 8);
-+					memcpy(rxkey, &(param->u.crypt.key[24]), 8);
- 
- 					psecuritypriv->busetkipkey = true;
- 
- 				} else if (strcmp(param->u.crypt.alg, "CCMP") == 0) {
- 					psecuritypriv->dot118021XGrpPrivacy = _AES_;
- 
--					memcpy(psecuritypriv->dot118021XGrpKey[param->u.crypt.idx].skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
-+					memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
- 				} else {
- 					psecuritypriv->dot118021XGrpPrivacy = _NO_PRIVACY_;
- 				}
--- 
-2.29.2
-
+>
+> > +
+> > +  adi,excb-output-en:
+> > +    description: Enables the EXCB pin as the excitation output.
+> > +    type: boolean
+> > +
+> > +  adi,excb-output-invert:
+> > +    description: Inverts the excitation output in the EXCB pin.
+> > +    type: boolean
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    i2c {
+> > +      #address-cells = <1>;
+> > +      #size-cells = <0>;
+> > +
+> > +      ad7746: cdc@48 {
+> > +        compatible = "adi,ad7746";
+> > +        reg = <0x48>;
+> > +        adi,excitation-vdd-permille = <125>;
+> > +
+> > +        adi,exca-output-en;
+> > +        adi,exca-output-invert;
+> > +        adi,excb-output-en;
+> > +        adi,excb-output-invert;
+> > +      };
+> > +    };
+> > +...
+> > --
+> > 2.31.1
+> >
