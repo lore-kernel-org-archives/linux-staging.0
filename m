@@ -1,30 +1,27 @@
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 910EF71
-	for <linux-staging@lists.linux.dev>; Wed, 21 Apr 2021 18:20:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1619029209; bh=mZnxdG84RRgD3doQgt/M+qgDTr7390pGKjmBDLlLYDs=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=jTO+r3xj7cYu4W2rST0PC7+ytRcoYJ811v7VUFkGlzL3ngJSKYQw/cajdLWzdxmnS
-	 a2HPswovf1698LtrghzGFSaF6Dyk49xdE0ZaBA9U7agPrXLJpZqYg1pXCX6ugLWJNi
-	 uWBi+5R1hyWJlPNyhjuDXVwdfoadjKYbnTo5xt74=
-Received: by 192.168.90.14 [192.168.90.14] with ESMTP
-	via ip-206.mailobj.net [213.182.55.206]
-	Wed, 21 Apr 2021 20:20:09 +0200 (CEST)
-X-EA-Auth: 3cyjx2v04dwYoAi4F17rhRnojjHVoYGP0HjO81rWIP2FYzwecIpm0t/Ke1JUPgHtDp68sXkrVkv9p8tGDHwpfc8avPFclp4p
-Date: Wed, 21 Apr 2021 23:50:04 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, mh12gx2825@gmail.com, drv@mailo.com
-Subject: [PATCH v3 6/6] staging: media: atomisp: replace raw printk() by
- dev_info()
-Message-ID: <091f7989226169722220e95e0e838d2d139eb286.1619022192.git.drv@mailo.com>
-References: <cover.1619022192.git.drv@mailo.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8603A71
+	for <linux-staging@lists.linux.dev>; Thu, 22 Apr 2021 08:41:11 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 05FD06144A;
+	Thu, 22 Apr 2021 08:41:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1619080871;
+	bh=2yGywPrUo03vY3xZ2R6XXxLg61x7f9ucCEmvSGTQvq0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kpRtIyWz2n6iB1jjXRjLpP1DajsQ3Lz8VfrJBWbhqOoMRB9llhX4IlZGOleZV+649
+	 hUUr6WxQ0Xe1jIYobqaK3SfDtPy6Di5vWq0/XhDlLon9Y+JOXaNvQafLI4BAXZaubA
+	 3XuUN8sP5rtLTXjLoWzEIHtQa8VYCTxp1PEBuBcg=
+Date: Thu, 22 Apr 2021 10:41:07 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Saurav Girepunje <saurav.girepunje@gmail.com>
+Cc: fabioaiuto83@gmail.com, john.oldman@polehill.co.uk,
+	ross.schm.dev@gmail.com, marcocesati@gmail.com, insafonov@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	saurav.girepunje@hotmail.com
+Subject: Re: [PATCH] staging: rtl8723bs: os_dep: remove unneeded variable ret
+Message-ID: <YIE2o/T9rKgm7TWm@kroah.com>
+References: <20210418164813.GA57451@user>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -32,46 +29,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1619022192.git.drv@mailo.com>
-Message-ID: <20210421182004.tY_LKyC8E6txv8f_QkCYJ82fA31IJsZQd4iXeRj5ews@z>
+In-Reply-To: <20210418164813.GA57451@user>
 
-It is better to use dev_info() instead of raw printk() call. This
-addresses the checkpatch complain for not using KERN_<LEVEL> facility in
-printk() call.
+On Sun, Apr 18, 2021 at 10:18:13PM +0530, Saurav Girepunje wrote:
+> Fix the following coccicheck warning:
+> 
+> drivers/staging/rtl8723bs/os_dep/os_intfs.c:1156:5-8:
+> Unneeded variable: "ret". Return "0" on line 1199
+> 
+> Signed-off-by: Saurav Girepunje <saurav.girepunje@google.com>
+> ---
+>  drivers/staging/rtl8723bs/os_dep/os_intfs.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+> index 1f34cb2e367c..920ec25c9a4f 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+> @@ -1153,7 +1153,6 @@ int rtw_suspend_common(struct adapter *padapter)
+>  	struct pwrctrl_priv *pwrpriv = dvobj_to_pwrctl(psdpriv);
+>  	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+>  
+> -	int ret = 0;
+>  	unsigned long start_time = jiffies;
+>  
+>  	DBG_871X_LEVEL(_drv_always_, " suspend start\n");
+> @@ -1196,7 +1195,7 @@ int rtw_suspend_common(struct adapter *padapter)
+>  
+>  exit:
+>  
+> -	return ret;
+> +	return 0;
+>  }
+>  
+>  static int rtw_resume_process_normal(struct adapter *padapter)
+> -- 
+> 2.25.1
+> 
+> 
 
-Suggested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
-Signed-off-by: Deepak R Varma <drv@mailo.com>
----
+If this function can only ever return 0, why is it returning anything at
+all?  Please fix it up to not do that.
 
-Changes since v2:
-   - Tag Fabio Auito for the patch suggestion
+thanks,
 
-Changes in v1:
-   - implement following changes suggested by Fabio Aiuto
-       a. use dev_info instead of pr_info
-       b. update patch log message accordingly
-
-
- drivers/staging/media/atomisp/i2c/atomisp-gc0310.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-index b572551f1a0d..7e4e123fdb52 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-@@ -1020,8 +1020,8 @@ static int gc0310_set_fmt(struct v4l2_subdev *sd,
- 		return -EINVAL;
- 	}
- 
--	printk("%s: before gc0310_write_reg_array %s\n", __func__,
--	       gc0310_res[dev->fmt_idx].desc);
-+	dev_info(&client->dev, "%s: before gc0310_write_reg_array %s\n",
-+		 __func__, gc0310_res[dev->fmt_idx].desc);
- 	ret = startup(sd);
- 	if (ret) {
- 		dev_err(&client->dev, "gc0310 startup err\n");
--- 
-2.25.1
-
-
-
+greg k-h
