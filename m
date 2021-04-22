@@ -1,52 +1,57 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68912F9B
-	for <linux-staging@lists.linux.dev>; Thu, 22 Apr 2021 13:43:09 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id i3so27829620edt.1
-        for <linux-staging@lists.linux.dev>; Thu, 22 Apr 2021 06:43:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=/X+gdpa7nitmW2LfUzsCx+59dgi99zMR2DugLsgYeVY=;
-        b=r6lLcdebfCTFu2pd9lwHbs5JefCnwomGDE9DWqi02d0FlvcgrAdgFei4gyN/l4l3DM
-         Z6UveAIULr/vdBT1XOOYKMn0ZLPA9ndTj456Va2XnM0COfIaYdof/AOGH++/PYKX96QX
-         lMtucwWwqedRrVOfMxMrOCTY6alMO1JvDK5da0gX4iYmuFGpUj1va5GWG4ukBwMgCj6l
-         +td0fxi3r2K8ICwb1k+L80907KZPKnksmc/r3Zc2nU1rx+uF5PkNsX61BtsFkuaIOlWZ
-         NZawvZ1qXxpQfV8j/+36qIMqUSUbTKe4BTrnhzsVH5rNSjX2bjaoXxRe5s/YRNfKdCYi
-         /fbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=/X+gdpa7nitmW2LfUzsCx+59dgi99zMR2DugLsgYeVY=;
-        b=uEoopwYYTiBZY0bDGQ/YqVajDdX/x+cR1/pyYMx1k0ILGJbXZkr24bAS5F7z1YbctZ
-         oWt8KeAeURkRHaPlnAbosK908DC5spqlTF1+F6dBT6xaH0imZFcFXc9GNgPT8ZuE765Q
-         Oux417OhSiZLjoDCEc9YKCvFBnvQaxgRtpyfPLNd6y3KdsE8ZUkrA241mqD8EEGPTWCY
-         xtVXCMvwA+IwxFExxl6v2HgX9Va7G10Ws4LrbjAmYXy6pUWs/pIeCNxxipNtk3PoIPVJ
-         nQLYvxF+wvMubQOty2c08ywZSSHE24d3cI83D3seHslSh+eIdLJT9dHavpXQISnJt6fF
-         jGtQ==
-X-Gm-Message-State: AOAM5328bvbkgLIGNtcDFsRt8nDapT2J/39l7MlWA1vRpPFsOmzWSJ3V
-	4Tjt55kLsWOwnhWi5JAySBs=
-X-Google-Smtp-Source: ABdhPJxni7A19BFMdj/QOaNYmYXKzoN9GGJkUu7R1VHY8fFW0VN7v9e3beuiEtbxdpyntwIAaKM2TQ==
-X-Received: by 2002:a05:6402:4314:: with SMTP id m20mr3862131edc.5.1619098988214;
-        Thu, 22 Apr 2021 06:43:08 -0700 (PDT)
-Received: from agape.jhs (na-19-64-241.service.infuturo.it. [151.19.64.241])
-        by smtp.gmail.com with ESMTPSA id hg19sm1931269ejc.24.2021.04.22.06.43.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Apr 2021 06:43:07 -0700 (PDT)
-Date: Thu, 22 Apr 2021 15:43:04 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Deepak R Varma <drv@mailo.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, mh12gx2825@gmail.com
-Subject: Re: [PATCH] staging: media: atomisp: replace pr_info() by dev_info()
-Message-ID: <20210422134302.GA1388@agape.jhs>
-References: <20210422103037.GA239298@localhost>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3EF770
+	for <linux-staging@lists.linux.dev>; Thu, 22 Apr 2021 15:18:07 +0000 (UTC)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 13MF0mV9014176;
+	Thu, 22 Apr 2021 15:17:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=Rek5ib4KVkGbLgWvvgyJ8gG8LHrGGTA42+yAkTTjZB8=;
+ b=Lp5D/9zDRUNAd17IvFiGGCilm6fRBIoIpwsCA32ni0624BekcnXwxd2dHIu4Du7zpRMG
+ KvDjBCbqtGGBCjWJ+SPT7RrSvZf7Sa4sDg542lOAVLe5i6ZNQbzjQhCgxVbFM1jBr1wN
+ POw1UT63GuorRIsuPSxZDA/T2tGPSa/+tsLclCvrh+nbz2cOyXbFrnw3As4S5h2S5ghO
+ WNvz+7sX/B0RIE0dkOOwxaUsjVSKMfwxp2DixGh8x2iXO7At3T45i7E1uavMULERoAd2
+ ou25zuhgPJ5fboP9RdWqgmmPsXtj8Ou/8PttD2tOVW3wgYZ2shHls0IuIzpwhL9gekls UA== 
+Received: from oracle.com (userp3030.oracle.com [156.151.31.80])
+	by mx0b-00069f02.pphosted.com with ESMTP id 382uth0bfc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 22 Apr 2021 15:17:53 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 13MFHrZT192830;
+	Thu, 22 Apr 2021 15:17:53 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by userp3030.oracle.com with ESMTP id 3809m2ekqh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 22 Apr 2021 15:17:53 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13MFGMdT184396;
+	Thu, 22 Apr 2021 15:17:52 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+	by userp3030.oracle.com with ESMTP id 3809m2ekq5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 22 Apr 2021 15:17:52 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 13MFHmuR002595;
+	Thu, 22 Apr 2021 15:17:48 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Thu, 22 Apr 2021 08:17:48 -0700
+Date: Thu, 22 Apr 2021 18:17:40 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        Ross Schmidt <ross.schm.dev@gmail.com>,
+        Marco Cesati <marcocesati@gmail.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Ivan Safonov <insafonov@gmail.com>, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: avoid bogus gcc warning
+Message-ID: <20210422151740.GI1981@kadam>
+References: <20210422133219.1689027-1-arnd@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -54,36 +59,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210422103037.GA239298@localhost>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210422133219.1689027-1-arnd@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-ORIG-GUID: Evf3bBxuuGAjpX92Ko6vLzYXNqckTjTo
+X-Proofpoint-GUID: Evf3bBxuuGAjpX92Ko6vLzYXNqckTjTo
 
-On Thu, Apr 22, 2021 at 04:00:37PM +0530, Deepak R Varma wrote:
-> It is recommended to use driver model diagnostic macros dev_*() instead
-> of pr_*() since the former ensures that the log messages are always
-> associated with the corresponding device and driver.
-> 
-> Suggested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
-> ---
-> 
-> Note: There are few more pr_into() calls that I have not replaced since
-> they are very basic (entry and exit) and temporary. They can be removed 
-> if the APIs are fully tested. See this example:
-> 	pr_info("%s S\n", __func__);
-> 
-> Let me know if I should remove them and resubmit this patch.
-> 
+On Thu, Apr 22, 2021 at 03:32:04PM +0200, Arnd Bergmann wrote:
+> @@ -762,7 +764,6 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
+>  		}
+>  
+>  	}
+> -
 
-Hi Deepak,
+Since you're going to need to redo this, then please don't do this
+unrelated whitespace change.
 
-usually log functions saying "we are here in the code" are not needed,
-ftrace is designed for function tracing and other useful things.
+>  exit:
+>  
+>  	return ret;
+> @@ -885,8 +886,10 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
+>  					if (strcmp(param->u.crypt.alg, "TKIP") == 0 || strcmp(param->u.crypt.alg, "CCMP") == 0)
+>  					{
+>  						memcpy(padapter->securitypriv.dot118021XGrpKey[param->u.crypt.idx].skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
+> +#if 1
 
-I think this patch is aimed for substitution which is logically
-different from deletion of function calls.
+These seems unintetional?
 
-pr_info deletions can be provided in a separate patch.
+>  						memcpy(padapter->securitypriv.dot118021XGrptxmickey[param->u.crypt.idx].skey, &(param->u.crypt.key[16]), 8);
+>  						memcpy(padapter->securitypriv.dot118021XGrprxmickey[param->u.crypt.idx].skey, &(param->u.crypt.key[24]), 8);
+> +#endif
+>  	                                        padapter->securitypriv.binstallGrpkey = true;
+>  
+>  						padapter->securitypriv.dot118021XGrpKeyid = param->u.crypt.idx;
 
-Thank you,
+regards,
+dan carpenter
 
-fabio
