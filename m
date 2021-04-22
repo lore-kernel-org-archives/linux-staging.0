@@ -1,153 +1,166 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E4DB2FA1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3644B2FA2
 	for <linux-staging@lists.linux.dev>; Thu, 22 Apr 2021 20:08:50 +0000 (UTC)
 Received: from localhost.localdomain ([37.4.249.124]) by
  mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MMoT4-1lsIPD401c-00ImQd; Thu, 22 Apr 2021 22:08:40 +0200
+ id 1M89TB-1leKCC1cId-005Fn2; Thu, 22 Apr 2021 22:08:39 +0200
 From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Nicolas Saenz Julienne <nsaenz@kernel.org>
 Cc: linux-staging@lists.linux.dev,
 	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH 08/10] staging: vchiq_core: drop vchiq_status from vchiq_set_service_option
-Date: Thu, 22 Apr 2021 22:07:54 +0200
-Message-Id: <1619122076-31785-9-git-send-email-stefan.wahren@i2se.com>
+Subject: [PATCH 06/10] staging: vchiq_2835_arm: drop enum vchiq_status
+Date: Thu, 22 Apr 2021 22:07:52 +0200
+Message-Id: <1619122076-31785-7-git-send-email-stefan.wahren@i2se.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1619122076-31785-1-git-send-email-stefan.wahren@i2se.com>
 References: <1619122076-31785-1-git-send-email-stefan.wahren@i2se.com>
-X-Provags-ID: V03:K1:ZlKKey7ATHNDpYH3tu9m+XhraJBmUFGln690RCNKjMLobMcSzy/
- nIGWg+gk4ogGHIMEOLJCKUoUR1PB+54nIrqf7YUjbNaSuLR/99UsxJKcVLCnTKPQgRCzOCp
- LoO6pK1z/vt0M7TR8mA+VyNykA2Cwfq2H+Sy+JXliUOK3nXI5p94soE+YbiW7zy9BVlOclP
- rEWpwH4ge3ENpQlvN+kmw==
+X-Provags-ID: V03:K1:T5eBLHizv0yg92RAi8czdqJuTUk2gAeEC8mROli80JSu6GD0i2K
+ NLtoiktcgsBFftqAmrLU2ozOx8vWcjo3tC7kJBCXefG9zzeijyxvwLrgyEHmubZJqvBGdK7
+ 3IArFadFDFlHCORDXWKZfgBQ0ADg+LQ01c7OPbhdRi4H0ckF3LqVsmpbjojdOMvbCl69K0B
+ W6ck6/ExVtXfROwbkE/6g==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:tXkNLHmQTUU=:6GtStPL0AqZmAGtGR1YUh9
- KVVeYwwI0vyoGf2HyW3nOBHaxYF8NL9hrCayuTliCtoRpoYyyjrAU549gf+ajNj6SG/uCbJv9
- /3kvIocuxJAQKB0X2Rlgpar0Q6gkhgbCFjqYwY+pbsCkjP4p7wPcu4aoz4rGlqPvSr+9SF0iL
- lJWmhmjr0LRlmU2hkGUFpHlo7BhVGBe2w+C7Dd1u6QYkJ6qCmKR9h49umXHfkUGrlhKp9JVAV
- PrAArVqGWn4stEEOJJ7up7WDGnjUzqgnelhcpjN2Z54/tj0EolAfVT37WgA18Ia7QLx3XHJuC
- 0Q4yD7Pgu0Xsnji+qemqMYbJyUZ6K4Kw2TnTCQsdFkgUty7YkVaIUYnvlFIM0k0h6fZVzyywZ
- LyzvcC2MQtsDp8UG0R104+nHLtcHM0/VB98giLdfnmNWHqL0ye24j6omtxx/cSkjrLXZe9YSR
- yjE3uJ/QSmdGXEETS0wNfApiMVWeLZ7JlLmiI3sNEERvVoJUF1KPLxw9pReJQcWCeC8pzg9Oi
- vSK7HLau7ul73Yap6bWW7o=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:yNlFDUjeac4=:bEoYRBL/YtNXxPCoyAw7n6
+ uZj4aYiBXelORYYrOVRqKY9FOPJPA1fDTihMqcAWGbg4NOLTJVRqVo4AjW4tdVWlk7DmHHRZP
+ 57nYFY/KiIbo/qlyOwdR+FiN9EypKioEwO5BsYObsxtBjeU4610z1WeGsj9KbOp0FXn7djf2K
+ d97qf3Imn3YCCdKvbKk65zO/QjV4QSwt3xvlql9yQB5pVl5Vq/LqKMapC47sNKr3ANLRJg/TR
+ fiitKF2R7rIuVLRHpzuK5YpkNEtuIRLRtvrxC1UekML9bH6tDRcNPS40tLTErmA/vXPTfH6KY
+ mMuXIsJS9f4sTOpff7BozGbri/Y+NyTb0SEBovmtEnjd6JEAnsBL24rzicMYStI5s7Rpp9z79
+ vvgwCduuo+XtP6pxHYjFO8DqcTW52iq5ZwyMR7HGvy9HwgSoIB6WezBdmqmzGXXAOpSUlLJAP
+ yvRqbI+b9YJBvTiwxHtkYACmCVI2m5500rDGjlp9uUaCl49r+Dd2Yh7yoDKt66jrNjbktwpDh
+ 0WeEv8OyCqlyJ7D2hPmpCw=
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-Replace the custom set of return values with proper Linux error codes for
-vchiq_set_service_option(). Now we can use the result directly as return
-value for vchiq_ioctl().
+Replace the custom set of return values with proper Linux error codes.
+As a result we need to initialize vchiq_status in vchiq_init_state.
 
 Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 ---
- .../vc04_services/interface/vchiq_arm/vchiq_arm.c      |  4 ++--
- .../vc04_services/interface/vchiq_arm/vchiq_core.c     | 18 +++++++++---------
- .../vc04_services/interface/vchiq_arm/vchiq_core.h     |  2 +-
- 3 files changed, 12 insertions(+), 12 deletions(-)
+ .../vc04_services/interface/vchiq_arm/vchiq_2835_arm.c       | 12 ++++++------
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_core.c   | 11 +++++------
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_core.h   |  4 ++--
+ 3 files changed, 13 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 3395201..ab2ce07 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -1517,8 +1517,8 @@ vchiq_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
- 			break;
- 		}
- 
--		status = vchiq_set_service_option(
--				args.handle, args.option, args.value);
-+		ret = vchiq_set_service_option(args.handle, args.option,
-+					       args.value);
- 	} break;
- 
- 	case VCHIQ_IOC_LIB_VERSION: {
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 9f9677a..31c1c1a 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -3371,21 +3371,21 @@ void vchiq_get_config(struct vchiq_config *config)
- 	config->version_min            = VCHIQ_VERSION_MIN;
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_2835_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_2835_arm.c
+index 7c336d0..a644fe6 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_2835_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_2835_arm.c
+@@ -169,21 +169,21 @@ int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
+ 	return 0;
  }
  
 -enum vchiq_status
 +int
- vchiq_set_service_option(unsigned int handle,
- 	enum vchiq_service_option option, int value)
+ vchiq_platform_init_state(struct vchiq_state *state)
  {
- 	struct vchiq_service *service = find_service_by_handle(handle);
--	enum vchiq_status status = VCHIQ_ERROR;
- 	struct vchiq_service_quota *quota;
-+	int ret = -EIO;
+ 	struct vchiq_2835_state *platform_state;
  
- 	if (!service)
+ 	state->platform_state = kzalloc(sizeof(*platform_state), GFP_KERNEL);
+ 	if (!state->platform_state)
 -		return VCHIQ_ERROR;
-+		return -EINVAL;
++		return -ENOMEM;
  
- 	switch (option) {
- 	case VCHIQ_SERVICE_OPTION_AUTOCLOSE:
- 		service->auto_close = value;
--		status = VCHIQ_SUCCESS;
-+		ret = 0;
- 		break;
+ 	platform_state = (struct vchiq_2835_state *)state->platform_state;
  
- 	case VCHIQ_SERVICE_OPTION_SLOT_QUOTA:
-@@ -3402,7 +3402,7 @@ vchiq_set_service_option(unsigned int handle,
- 				 * dropped below its quota
- 				 */
- 				complete(&quota->quota_event);
--			status = VCHIQ_SUCCESS;
-+			ret = 0;
- 		}
- 		break;
+ 	platform_state->inited = 1;
+ 	vchiq_arm_init_state(state, &platform_state->arm_state);
  
-@@ -3420,7 +3420,7 @@ vchiq_set_service_option(unsigned int handle,
- 				 * dropped below its quota
- 				 */
- 				complete(&quota->quota_event);
--			status = VCHIQ_SUCCESS;
-+			ret = 0;
- 		}
- 		break;
- 
-@@ -3428,13 +3428,13 @@ vchiq_set_service_option(unsigned int handle,
- 		if ((service->srvstate == VCHIQ_SRVSTATE_HIDDEN) ||
- 		    (service->srvstate == VCHIQ_SRVSTATE_LISTENING)) {
- 			service->sync = value;
--			status = VCHIQ_SUCCESS;
-+			ret = 0;
- 		}
- 		break;
- 
- 	case VCHIQ_SERVICE_OPTION_TRACE:
- 		service->trace = value;
--		status = VCHIQ_SUCCESS;
-+		ret = 0;
- 		break;
- 
- 	default:
-@@ -3442,7 +3442,7 @@ vchiq_set_service_option(unsigned int handle,
- 	}
- 	unlock_service(service);
- 
--	return status;
-+	return ret;
+-	return VCHIQ_SUCCESS;
++	return 0;
  }
  
- static int
+ struct vchiq_arm_state*
+@@ -211,7 +211,7 @@ remote_event_signal(struct remote_event *event)
+ 		writel(0, g_regs + BELL2); /* trigger vc interrupt */
+ }
+ 
+-enum vchiq_status
++int
+ vchiq_prepare_bulk_data(struct vchiq_bulk *bulk, void *offset,
+ 			void __user *uoffset, int size, int dir)
+ {
+@@ -223,7 +223,7 @@ vchiq_prepare_bulk_data(struct vchiq_bulk *bulk, void *offset,
+ 				       : PAGELIST_WRITE);
+ 
+ 	if (!pagelistinfo)
+-		return VCHIQ_ERROR;
++		return -ENOMEM;
+ 
+ 	bulk->data = pagelistinfo->dma_addr;
+ 
+@@ -233,7 +233,7 @@ vchiq_prepare_bulk_data(struct vchiq_bulk *bulk, void *offset,
+ 	 */
+ 	bulk->remote_data = pagelistinfo;
+ 
+-	return VCHIQ_SUCCESS;
++	return 0;
+ }
+ 
+ void
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+index 9dc9a6a..9f9677a 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+@@ -2162,9 +2162,9 @@ vchiq_init_state(struct vchiq_state *state, struct vchiq_slot_zero *slot_zero)
+ {
+ 	struct vchiq_shared_state *local;
+ 	struct vchiq_shared_state *remote;
+-	enum vchiq_status status;
++	enum vchiq_status status = VCHIQ_SUCCESS;
+ 	char threadname[16];
+-	int i;
++	int i, ret;
+ 
+ 	if (vchiq_states[0]) {
+ 		pr_err("%s: VCHIQ state already initialized\n", __func__);
+@@ -2246,8 +2246,8 @@ vchiq_init_state(struct vchiq_state *state, struct vchiq_slot_zero *slot_zero)
+ 
+ 	local->debug[DEBUG_ENTRIES] = DEBUG_MAX;
+ 
+-	status = vchiq_platform_init_state(state);
+-	if (status != VCHIQ_SUCCESS)
++	ret = vchiq_platform_init_state(state);
++	if (ret)
+ 		return VCHIQ_ERROR;
+ 
+ 	/*
+@@ -3141,8 +3141,7 @@ enum vchiq_status vchiq_bulk_transfer(unsigned int handle,
+ 	bulk->size = size;
+ 	bulk->actual = VCHIQ_BULK_ACTUAL_ABORTED;
+ 
+-	if (vchiq_prepare_bulk_data(bulk, offset, uoffset, size, dir)
+-			!= VCHIQ_SUCCESS)
++	if (vchiq_prepare_bulk_data(bulk, offset, uoffset, size, dir))
+ 		goto unlock_error_exit;
+ 
+ 	wmb();
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-index aad1c5c..bd1f590 100644
+index b817097..6b3a907 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-@@ -712,7 +712,7 @@ extern int vchiq_get_client_id(unsigned int service);
- 
- extern void vchiq_get_config(struct vchiq_config *config);
+@@ -644,7 +644,7 @@ vchiq_queue_message(unsigned int handle,
+  * implementations must be provided.
+  */
  
 -extern enum vchiq_status
 +extern int
- vchiq_set_service_option(unsigned int service, enum vchiq_service_option option,
- 			 int value);
+ vchiq_prepare_bulk_data(struct vchiq_bulk *bulk, void *offset,
+ 			void __user *uoffset, int size, int dir);
  
+@@ -679,7 +679,7 @@ vchiq_on_remote_use(struct vchiq_state *state);
+ extern void
+ vchiq_on_remote_release(struct vchiq_state *state);
+ 
+-extern enum vchiq_status
++extern int
+ vchiq_platform_init_state(struct vchiq_state *state);
+ 
+ extern enum vchiq_status
 -- 
 2.7.4
 
