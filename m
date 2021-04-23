@@ -1,254 +1,189 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 760A872
-	for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 11:03:22 +0000 (UTC)
-Received: from [192.168.1.107] ([37.4.249.124]) by mrelayeu.kundenserver.de
- (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MBUyX-1llgM60hAN-00Cxns; Fri, 23 Apr 2021 13:03:17 +0200
-Subject: Re: [PATCH 08/10] staging: vchiq_core: drop vchiq_status from
- vchiq_set_service_option
-To: nicolas saenz julienne <nsaenz@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev
-References: <1619122076-31785-1-git-send-email-stefan.wahren@i2se.com>
- <1619122076-31785-9-git-send-email-stefan.wahren@i2se.com>
- <3731e98b81eac97f2bdbe9a24fa7cfef59b07581.camel@kernel.org>
-From: Stefan Wahren <stefan.wahren@i2se.com>
-Autocrypt: addr=stefan.wahren@i2se.com; keydata=
- LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
- CgptUUlOQkZ0NmdCTUJFQUN1Yi9wQmV2SHhidkplZnlaRzMySklObW4yYnNFUFgyNVY2ZmVq
- bXlZd21DR0tqRnRMCi9Eb1VNRVZIRHhDSjQ3Qk1YbzM0NGZIVjFDM0FudWRnTjFCZWhMb0J0
- TEh4bW5lQ3pnSDNLY1B0V1c3cHRqNEcKdEp2OUNRRFp5MjdTS29FUHh5YUk4Q0YweWdSeEpj
- NzJNOUk5d21zUFo1YlVIc0x1WVdNcVE3SmNSbVBzNkQ4ZwpCa2srOC95bmdFeU5FeHd4SnBS
- MXlsajVianhXREh5WVF2dUo1THpaS3VPOUxCM2xYVnNjNGJxWEVqYzZWRnVaCkZDQ2svc3lp
- by9ZaHNlOE4rUXN4N01RYWd6NHdLVWtRUWJmWGcxVnFrVG5BaXZYczQyVm5Ja211NWd6SXcv
- MHQKUkp2NTBGUmhIaHhweUtBSThCOG5oTjhRdng3TVZrUGM1dkRmZDN1R1lXNDdKUGhWUUJj
- VXdKd05rLzQ5RjllQQp2ZzJtdE1QRm5GT1JrV1VSdlArRzZGSmZtNitDdk92N1lmUDF1ZXdB
- aTRsbitKTzFnK2dqVklXbC9XSnB5MG5UCmlwZGZlSDlkSGtnU2lmUXVuWWN1Y2lzTXlvUmJG
- OTU1dENna0VZOUVNRWRZMXQ4aUdEaUNnWDZzNTBMSGJpM2sKNDUzdWFjcHhmUVhTYUF3UGtz
- bDhNa0NPc3YyZUVyNElOQ0hZUUR5WmljbEJ1dUNnOEVOYlI2QUdWdFpTUGNRYgplbnpTektS
- Wm9POUNhcUlEK2ZhdkxpQi9kaHptSEErOWJnSWhtWGZ2WFJMRFp6ZThwbzFkeXQzRTFzaFhp
- ZGRaClBBOE51SlZ6RUl0MmxtSTZWOHBaRHBuMjIxcmZLaml2UlFpYW9zNTRUZ1pqak1ZSTdu
- bko3ZTZ4endBUkFRQUIKdENCVGRHVm1ZVzRnVjJGb2NtVnVJRHgzWVdoeVpXNXpkRUJuYlhn
- dWJtVjBQb2tDTndRVEFRZ0FJUVVDWElkYwo0Z0liQXdVTENRZ0hBZ1lWQ0FrS0N3SUVGZ0lE
- QVFJZUFRSVhnQUFLQ1JDVWdld1BFWkR5MjFPVEQvOUdpWkxkCnRSWWNteVJKZ2x0aVFRekFp
- UWRjSUQ3OGxHb1dwL3grci92Y1U2YjZqdVl1ZVR3Z1Iwclc3djdsMklSQnlEN24KSEp4YSt0
- SVNvUVpCZ2hvbE1JZmI5TXRoR09KTENZNzdrL1FoQWhuMzJOR1prZWp3OXR6a3MvNDBtclpT
- VVQ4NApaeWJzUVhyTE0vSFI2VElJL0RlUEIwbktEM0ppcHBzMlVIUUQ5cUQySWpFd1NRUGxI
- akNPckVaaDQ1UFo3bTkrClo5M0x6aVRlc1dabFlRdUxpSndzNHJLcHRIVzFkL3dSZWxzaG1t
- NlFxY0wybDRDL2U0MGVEQjlncTRkU1poOVgKUEVZbGxpeU5RaDdhMkxTZHVtRTFyK2NTd0lq
- RS91ZHRSdmRPOWFLb0psT2JVSzVkTmpTUEg3d0tUYndkWGRZRApHUHdEaFhkNThOQXdyK1BY
- QmxQajB0STFMQ3ErTEJ4ZUt6aFdYK0dWcTlEb2pWanlVREV4Rk5Ga1h1b0M3ZzhtClY5VDB0
- ZUJpdVpSbm91WEt3VjJGcHRaT0hIN0JVRVd0a0t0aGgxZXRmT1dwaWdCemtVN2JQc2ZJWVQr
- cnk5dGIKMW9KK3Y0MVBOYXFaRW1QVXBKeHZmek5UN3Ayd01lRDdaajlmMHJ1YlJQdExBSjJR
- R2pyRkhzdVh3QU9xcHl6ZQoxOEVidHNZazBOMHp1SEVoY2orUEJJQmZoMFlJWWQ1MW9mNkdJ
- aU95UjlxMFhYdHBsVUo3VDIvSDF1UXFrWGxwCitnVzRWa2lmc2NJckl1eWZueFpXMTJlSXZq
- NnlicVdMN2FZS0dZbVQ2aUxDUGJIWXlZY2F5bDRFa0ZjckNGN0UKZTBXVC9zY1ZNaE8vNVgv
- SGFOQTVIQngvcjUycGdMY3Y0aTlNeExRbVUzUmxabUZ1SUZkaGFISmxiaUE4YzNSbApabUZ1
- TG5kaGFISmxia0JwTW5ObExtTnZiVDZKQWpnRUV3RUNBQ0lGQWx0NmdCTUNHd01HQ3drSUJ3
- TUNCaFVJCkFna0tDd1FXQWdNQkFoNEJBaGVBQUFvSkVKU0I3QThSa1BMYmpic1AvamdqYVNz
- NUh0bGtBSXZXUytGcm15N2MKaG5jT0F4TFRWL0Q2UkV3SU95R0poRkt3d29pck55UTJnOXZV
- YTNZQ1lDZjFmSjh3RWhhS09COWQwTHBNUm5MNApkRVQ4ZDgyMzhFL3BLK0hxTktpSXNKaHM2
- SnNLOFpnalZRR3JtbWZua0dyWisxdjBIQnV4ZGljZ0duUC9XdHVBClVsOGw2Mi9BTGJheXlq
- KzYxQ2xyc0V0UklhcU82N0xJWXdQaVBEUkkrWGlNek5pR3pIRi8xUTZHUjAyUkg2YTMKRjg5
- ejhhUHhjSGkxWnZDdDJ5a3o2VUVjaHpQMHI1Z3FGSisvTC9VcHU4ME1YaVk0djVlSWFCNTJn
- VlBnaXlNQQpsTDJkRHMxbUladm5yUkxSWTJ0YjNtQVlOa1Y1QjVJRFQzcGtXeTZrS281T0Nn
- SytZZFlPUjhGTloyb04ydDhPCnJLK1ZudGFLN01NU0tIbG1ZL3NPd3RSbEVoMU9CbXJjQ3dH
- d21wLzA1R2tSNDZmL0lzaFJWZUZPUmF3K0dBcXQKUDIrQ0ZhMkNOQS9JSG5aTm95aWtsRHpQ
- UUhVVUdzck5wcERyaFg5Sm1oQm1nMXYyeXdIMU5YdTFpRGZQMUJBdwpLZ29rdDVmNVVhUkY5
- c0FBNTN2V0V2YlVVTjllZXNGR0x6UFdkSkdRNWhwZC9WSDVJUXk5U0JyaC93SWNla3E1Cm4w
- a042cGJUSHhHRTUyU2kvTVZJa05UdURaM2FwbjJqbERaNHBPdHBCWEkydlAzYlBPK05pcUJa
- anNVM3R4TGkKV2R2MkZqeXp6NlhMUndlV1JZVkw1SGE2TER0eG9yMnZ1NlVQMDdwOXh6MXhS
- WmFPRFczb1lsSEZ6WXBhNFc1ZwpMSGIybEVrSXVVZlNjaWNHYmpqQXRDbFRkR1ZtWVc0Z1Yy
- Rm9jbVZ1SUR4emRHVm1ZVzR1ZDJGb2NtVnVRR2x1CkxYUmxZMmd1WTI5dFBva0NOd1FUQVFn
- QUlRVUNYSWRlaHdJYkF3VUxDUWdIQWdZVkNBa0tDd0lFRmdJREFRSWUKQVFJWGdBQUtDUkNV
- Z2V3UEVaRHkyeUhURC85VUY3UWxEa0d4elE3QWFDSTZOOTVpUWY4LzFvU1VhRE51Mlk2SQpL
- K0R6UXBiMVRiVE9yM1ZKd3dZOGEzT1d6NU5MU09MTVdlVnh0K29zTW1sUUlHdWJEM09EWko4
- aXpQbEcvSnJOCnQ1elNkbU41SUE1ZjNlc1dXUVZLdmdoWkFnVERxZHB2K1pIVzJFbXhuQUox
- dUxGWFhlUWQzVVpjQzVyMy9nL3YKU2FNbzl4ZWszSjVtTnVEbTcxbEVXc0FzL0JBY0ZjK3lu
- TGh4d0JXQld3c3Z3UjhiSHRKNURPTVd2YUt1RHNrcApJR0ZVZS9LYjJCK2pyYXZRM1RuNnMv
- SHFKTTBjZXhTSHo1cGUrMHNHdlArdDlKNzIzNEJGUXdlRkV4cmlleThVCkl4T3I0WEFiYWFi
- U3J5WW5VL3pWSDlVMWkyQUlRWk1XSkFldkN2VmdRL1UrTmVSaFh1ZGU5WVVtRE1EbzJzQjIK
- VkFGRUFxaUYyUVVIUEEybThhN0VPM3lmTDRyTWswaUh6TElLdmg2L3JIOFFDWThpM1h4VE5M
- OWlDTHpCV3UvTgpPbkNBYlMremx2TFphaVNNaDVFZnV4VHR2NFBsVmRFamY2MlArWkhJRDE2
- Z1VEd0VtYXpMQU1yeDY2NmpINWt1ClVDVFZ5bWJMMFR2Qis2TDZBUmw4QU55TTRBRG1rV2tw
- eU0yMmtDdUlTWUFFZlFSM3VXWFo5WWd4YVBNcWJWK3cKQnJoSmc0SGFONkM2eFRxR3YzcjRC
- MmFxYjc3L0NWb1JKMVo5Y3BIQ3dpT3pJYUFtdnl6UFU2TXhDRFhaOEZnWQpsVDR2MjNHNWlt
- SlAyemdYNXMrRjZBQ1VKOVVRUEQwdVRmK0o5RGEycitza2gvc1dPbloreWNvSE5CUXZvY1pF
- Ck5BSFFmN2tDRFFSYmVvQVRBUkFBMkhkMGZzRFZLNzJSTFNESGJ5ME9oZ0RjRGxWQk0yTSto
- WVlwTzNmWDFyKysKc2hpcVBLQ0hWQXNRNWJ4ZTdIbUppbUhhNEtLWXMya3YvbWx0L0NhdUNK
- Ly9wbWN5Y0JNN0d2d25Lem11WHp1QQpHbVZUWkM2V1I1TGtha0ZydEhPelZtc0VHcE52NVJj
- OWw2SFlGcExrYlNrVmk1U1BRWkp5K0VNZ01DRmdqclpmClZGNnlvdHdFMWFmN0hOdE1oTlBh
- TEROMW9VS0Y1aitSeVJnNWl3SnVDRGtuSGp3QlFWNHBndzIvNXZTOEE3WlEKdjJNYlcvVExF
- eXBLWGlmNzhJaGdBelh0RTJYck0xbi9vNlpINzFvUkZGS096NDJsRmR6ZHJTWDBZc3FYZ0hD
- WAo1Z0l0TGZxemoxcHNNYTlvMWVpTlRFbTFkVlFyVHFueXMwbDE4b2FsUk5zd1lsUW1uWUJ3
- cHdDa2FUSExNSHdLCmZHQmJvNWRMUEVzaHRWb3dJNm5zZ3FMVHlRSG1xSFlxVVpZSXBpZ21t
- QzNTd0JXWTFWNmZmVUVta3FwQUFDRW4KTDQvZ1Vnbjd5US81ZDBzZXFuQXEycFNCSE1VVW9D
- Y1R6RVFVV1ZraUR2M1JrN2hURm1oVHNNcTc4eHYyWFJzWApNUjZ5UWhTVFBGWkNZRFVFeEVs
- RXNTbzlGV0hXcjZ6SHlZY2M4cURMRnZHOUZQaG1RdVQyczlCbHg2Z0kzMjNHCm5FcTFsd1dQ
- SlZ6UDRqUWtKS0lBWHdGcHYrVzhDV0xxekRXT3ZkbHJEYVRhVk1zY0ZUZUg1VzZVcHJsNjVq
- cUYKUUdNcGNSR0NzOEdDVVcxM0gwSXlPdFF0d1dYQTRueStTTDgxcHZpQW1hU1hVOGxhS2FS
- dTkxVk9WYUY5ZjRzQQpFUUVBQVlrQ0h3UVlBUUlBQ1FVQ1czcUFFd0liREFBS0NSQ1VnZXdQ
- RVpEeTIrb1hELzljSEhSa0JaT2ZrbVNxCjE0U3Z4MDYyUHRVMEtWNDcwVFNucC9qV29ZSm5L
- SXczRzBtWElSZ3J0SDJkUHdwSWdWanNZeVJTVk1LbVNwdDUKWnJEZjlOdFRiTldnazhWb0xl
- WnpZRW8rSjNvUHFGclRNczNhWVl2N2U0K0pLNjk1WW5tUSttT0Q5bmlhOTE1dApyNUFaajk1
- VWZTVGx5VW15aWMxZDhvdnNmMWZQN1hDVVZSRmNSamZOZkRGMW9ML3BEZ01QNUdaMk93YVRl
- am15CkN1SGpNOElSMUNpYXZCcFlEbUJuVFlrN1B0aHk2YXRXdllsMGZ5L0NxYWpUS3N4Nytw
- OXh6aXU4WmZWWCtpS0IKQ2MrSGUrRURFZEdJRGh2TlovSVFIZk9CMlBVWFdHUytzOUZOVHhy
- L0E2bkxHWG5BOVk2dzkzaVBkWUl3eFM3SwpYTG9LSmVlMTBEamx6c1lzUmZsRk9XMFpPaVNp
- aElDWGlRVjF1cU02dHpGRzlndFJjaXVzNVVBdGhXYU8xT3dVClNDUW1mQ09tNGZ2TUlKSUE5
- cnh0b1M2T3FSUWNpRjNjcm1vMHJKQ3ROMmF3WmZnaThYRWlmN2Q2aGp2MEVLTTkKWFpvaUFa
- WVpEKy9pTG01VGFLV042b0dJdGkwVmpKdjhaWk9aT2ZDYjZ2cUZJa0pXK2FPdTRvclRMRk16
- MjhhbwpVM1F5V3BOQzhGRm1kWXNWdWE4czZnTjFOSWE2eTNxYS9aQjhiQS9pa3k1OUFFejRp
- RElScmdVek1FZzhBazdUCmZtMUtpWWVpVHRCRENvMjVCdlhqYnFzeXhrUUQxbmtSbTZGQVZ6
- RXVPUEllOEp1cVcyeEQ5aXhHWXZqVTVoa1IKZ0pwM2dQNWIrY25HM0xQcXF1UTJFNmdvS1VN
- TEFia0NEUVJiZmw5REFSQUFzRExjYStMbFAydm5mdEVHaHBjQQpCR1ZOUUVGbkdQckNhdVU2
- SGhOODA1V3RQVHRtc1JPdUp6cWdVVDBtcHFXSWZacTZzTXd5dkhLOVRzL0tIM0paClVWYlJD
- M3oyaDNLZmhIL0RhZjk1cGQ2bVBjL2g5dkYvT3kzK2VUV2hnR25QNmNBNWtsUitmTzFXaEc4
- VnJpWHYKck5lUkcyMHN6emplSG9jblNJY1Q1WHVaUjB1REhPaUd4T2l6MXNNUkZUR3h6R095
- MTlSOXJ2dTYzdGlJM2Q3dgpnYzc1T0NBZGtlQi9TZUNFbGFSdzBUZjdMWmJQampzRjI2M0JZ
- bk1mNGtrTkVLdnFXY1UyaWNNcCtxZXpqeW5CCnB2ZXVlMHJDVFFCWUFRbG9GQ1ZUR0hyV1dB
- NkQ0VzVPMkFmSWRJYzF1MUpDWnAyZjVMV1ZvVUZUVklyUW5RUVUKU0hDaWZyOU1aeExUdFBK
- ZFU1Mm9TUHczZGs0aExQOGlKSUx1dnYvYXZhakNzUVlIRXR3WXNiZUZaeGl1TGdscApBN1lj
- Sk5ObXBnQ3BNRDR3VWh2bEN0QUtOQlFXeXIyOTc2OThFUVRuNDZlQmVVNkttMkNpaFhrZ3dD
- eWY4ZXlLCkxFM3NYZXdhcTVrZ1pXdk5xNml1NXFZSVJCOXl3K2NYYzYwZE9aRE9scTkzWDVT
- QVJZemFvZXBrSHo0cmtMa1AKUG8rdENIeUhRUHNHblBYYzlXVDgwREM5Tm5KR2R2VWx5NXJk
- TUk0eHBaeWdlb2tqd293VlFsUFV1Y1M2TXluNwpmOHc4Y2dmQjdDMklBSWNEeDJwUC9IendY
- dmtDT1FOQTdtVjFsTTA4bitnVmtUcnpweGlwNURicTRDSW9ZeDJNCkpaVDhiR1JINlhqY1VE
- S2EwOVFoeVpzQUVRRUFBWWtFUkFRWUFRZ0FEd1VDVzM1ZlF3SWJBZ1VKQThKbkFBSXAKQ1JD
- VWdld1BFWkR5MjhGZElBUVpBUWdBQmdVQ1czNWZRd0FLQ1JCVnhETFBjVk1NamNkc0QvMFJo
- QXN1UVlPeQpyMTNCbDNOaFhrWUFaR3AyWkZER3VrZTdPU2tWOG9qT09UZFR5ei9jT1JHQ2J5
- ZEQrRGd2cUZ5VmRuT1hLZ08wCmxKbUd3ckdlTGRnZ0F2aDBpaHJwNU8wWVVKOWJCU1htR01t
- UVRZSC9BbUxUR2FkYnVqQ1dqNWZGVWtDeXd4aW0KSHV5MFBiMjRwelR2UzUwR1k1WStxSDBG
- SE5haWdka2tpV04zcnVnN0haRXUvQ3lsUFpqT1h6K0QxUVBNckV4dwo3ZC9NS2FiVis5YU5i
- UVlabGRJajk4UXd2VUYxS1N6YThqbFVJdnBoUnEyN0FUOGZER1lHUGZERU1nMmNCT2FlCkty
- N29uUXM0YjdhV082aWZEbHhRVHB6c3pvK0FuODA3Tk1TdFZFRmYrczNBaFZEM2U3bmY4SkJh
- dmJWckFlMGsKb20yNm96elBubnh6K2xxVlZ0dzZVazRYTUl6dGl4L0h3SFl3dUNuY1VYWndL
- MEkzeUFKd2pZd29vck9DaEozUwpFVWJKUVB0R3NneFJERXhWQkZlNk5MUC82MnhQOU82dGFj
- d09kYjBNbVAxYjM5cFJBVEM3YmdkMWxkVUxpNzVaCmxKckowL1NpVkVyb3FOWXk3OXRmbWdB
- WjJVeFptczlTckV5Nm85UVNmc24xYVh2K01QTDlKYUNHbWtQNnpiTFEKTm5kajBKY2FRbmtD
- MHZneWRPMUJtNk11OTZQOXVmbEtaY0FTNndtTE01SWRIT3lqTDg4d0h3anVjakFPQnRjdwpw
- MG9HVG5WT25Sc05ZU084VzhZWi9LZGJ1Nzg1ZGF6TXFKMmlOakFEdUJiZG02TjRqNUVkTW5r
- TG4wQklmUEpwCmRnbTR2bDJVcExqd1JHci9NM3dtbTVwdnMrNnVCN2hrL0ZKaUQvNGxsRU5Q
- NGVNMWg3U200aitWcTZOMSt6VEIKSVhKQWViSXFhc0RwNXlaUzdYcnk0STM2bjg1WEVZZkcw
- MWx0QXlob05WMkRPOFNJUlFwdWkydHErOVJQM1JLMQpKREJ4eEVKWTJFTzVKWjhNeGFQSFEw
- RFQwNWxSRmpLMkFsaGRFSXRqTGpwSjNmVW05c3FMeE1XeHpQNlV6M2lpCjJ1YTR1bnJ0Nk9D
- VHFRd2lqRi8zYlRXaXd2VkFBSG5NRlVpb1hzaEhhb2hWRGNWZm5lSU1mVjBiUUNYWWkzTnAK
- WTB2MFp3Y2lGSCtnU0M3cUQ2WE51aHBWR1NMNElpbGlGeS9TemNhSkV6QUhlTERTaFpQMkNX
- ZG5DNHZnbDM3dApocHg4aDU1WWhKbjZIU3VVelBnaGFLdFZCMmsrajdaZXlaK1NGeHA3SXVi
- SEN3TEhsUWhUNzVSd1EzaUF4S242CjBxajUxY1lUbnF4ZFpYVzZmSDNQa3VNellVNUdwcVIv
- MU9sNWMvd2ZJNmc2QW04eUtXLzBFVUx0K0tuNExGc1MKbTdZM201SDV2MTJVNkpCWXZWK3Ix
- M2paaW9zNEVFREU5M0Q1c05IMk1JeVJ6Q0RxMXpkZHQ0WHV5S0ZqUEtXMQo5aWJaRGZGVjdL
- dUNzdnVMMjNzQmMxc0NNb3ArRTFtVC9ReE9JQTZvRFQxTVFzdHdPVnVReURDdi9PdktTZ2Z6
- CjhGWEdMNkFQY2xqQ3FqOEFKaHhReXN4ZG9pUVA4bS92dStialdHR3Z4dzVzMWxncGlSRFRS
- VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
- bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
- LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
-Message-ID: <e60363d6-49eb-ad11-77e6-67ac283168bf@i2se.com>
-Date: Fri, 23 Apr 2021 13:03:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFCAA70
+	for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 14:58:43 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id p10-20020a1c544a0000b02901387e17700fso1397042wmi.2
+        for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 07:58:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Cgl8/i7gQs6yxgkvwobatiYWLGXODMXAcvLmSXV9bcg=;
+        b=KIDPzoPzCXnEjke2W6kmWSqnfFGqG72dl8OncSLk5AODjpqcyieaAn7POj7SWXTW3G
+         em/lCuQ9LCaEZ5NW+Cmw96VHE21Bx6oO+dCpPHKzzUZvv5b4n2jAjIx7A2n3M7tCBPlK
+         DV5dcrXIAcbsg/VGvmJu13BuW8lTZtrNgHQQYpsLtj2e+569jBYMbO4UbSHhGhid76Rf
+         VX3T6kHvbXH8yK3H7AVNcbQ5nTYWfcMkZf9n+2k3PQ3iNovlUrSwswZpWsO9dyag82Kp
+         mv3xTsDskYu9Fj+QY7k1MN/2ca1PG9CrDeudONxukdNx5rEcyqxLtQodLZCxShLTh2Kx
+         ykcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Cgl8/i7gQs6yxgkvwobatiYWLGXODMXAcvLmSXV9bcg=;
+        b=YbuLYjb20tNwqRCEPJpKoLaGW2r39WT3jkdfY7aBn2L0d6yHmkszbzdsMPvP5oE/+Z
+         FnywTxPDSfzCkDwhCkt1YSpy5x3LKjqVs6CNS2e1aTIIR2XJvrG/KbG7sfrzeI8LeRsc
+         E55N2SbsZkfF9SFeAB3IgtVMQrjJ9AcMrz43XtG5+k7H5yI5QvweIltjNjWnQjBxxGzq
+         EdOV4RmVolBQeH1h/S+o17nO6xqtIJN8SkUYLSATUdqkrBl3kwfGtOMUduIUcxhqISsT
+         iEFirAQ4SrULYB3WH0hzcr7hE5wyg9UKgvtObFS43L62UdpKTbHnR0ELKeZlFX+6zYi4
+         BrFQ==
+X-Gm-Message-State: AOAM5316fFqPYf8XELYQbFmRXTF8Tk6Ecqoa6r8nxAnUM2yi2Uh6407q
+	vapHIf3ZLJZsVRzBip/Ur24=
+X-Google-Smtp-Source: ABdhPJwcuVzhib37Sdj2Gl65PK5C/Cg5T9Io2Y2K3huCMlHvhCt4Mujt/pN/fqc6YyUlJHVgX3+Fgw==
+X-Received: by 2002:a1c:e3c3:: with SMTP id a186mr5847197wmh.81.1619189922359;
+        Fri, 23 Apr 2021 07:58:42 -0700 (PDT)
+Received: from agape ([5.171.72.99])
+        by smtp.gmail.com with ESMTPSA id y125sm8076731wmy.34.2021.04.23.07.58.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Apr 2021 07:58:42 -0700 (PDT)
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 00/49] staging: rtl8723bs: remove all remaining debug macros in rtw_debug.h
+Date: Fri, 23 Apr 2021 16:57:51 +0200
+Message-Id: <cover.1619189489.git.fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <3731e98b81eac97f2bdbe9a24fa7cfef59b07581.camel@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-X-Provags-ID: V03:K1:DUTfZFbZx0J8+nYE6of5gAvW9lCl6j1zHnDQ4D6KJHyNTlrUOP4
- sRSsPqqJHcZdw4wUVe8iVnEvJwzyWRNxyuH+6KtC3KI0B1xU9G7RSQERxEf9g7N0MYEYOZZ
- C3bNpI1DtA/7fzuhZD+njGVMVIo+Re+nt5IegrLRg3u3GSb2oDLSPg/mt11XlV7UWIO4eP2
- Plt5ZPFQTGABuaKXQE5nQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Tb95NoN/Jsw=:zjAY1FCyKtOHfnVFBgZg4v
- 95wywFAsxoaxQ9wFuM+k/GQ2EmtuGYP43bKiSN1UzOJcQPAphuH4dXt6hsA2jXPMLVffbgiT5
- /dRDUAtqpZFYkl1z/Hk7kd7M5MP6cP80/c0iM1sh/smHbt4L1LBsP4hgzx/+gRG325SbK9sRd
- wsMg21I51mN26oLWoPINPhdCdF2Po+l1T1h72OdQmfmaTL+c6WeR3rF6j1kucKBOtjMnsQLhM
- LAlgy1u8upXdGM60feFWXq1kZ0S/esJzJv4ZoEXb4KxApiiMDdKYwAEvmUfCzYuFXIobEw7tU
- /ACjZVh7XIXOpcHgPMj2oven+lg8pbdYXkovnU7cENFZAcIV2DQlqop1Gb9LVNG0ciG0Ooo7a
- 7Avc/VkHRVjgQWYSZv7WUU/4LTvYcvwCKz0HOrZTvEk50TLlGp9RyQnmcKa9gx0nVkqh4JlGF
- /1wzeJE0lPHJZqrGw7nrQdqaGYH99s4I9sCdP2Rla0cX9R8m3l0vN7IhmYUNhIChqvRjjYtxo
- YR8/qzyw7Ps8z/y5cMnk6M=
+Content-Transfer-Encoding: 8bit
 
-Am 23.04.21 um 11:59 schrieb nicolas saenz julienne:
-> On Thu, 2021-04-22 at 22:07 +0200, Stefan Wahren wrote:
->> Replace the custom set of return values with proper Linux error codes =
-for
->> vchiq_set_service_option(). Now we can use the result directly as retu=
-rn
->> value for vchiq_ioctl().
->>
->> Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
->> ---
->> =C2=A0.../vc04_services/interface/vchiq_arm/vchiq_arm.c      |  4 ++--=
+This patchset removes all remaining debug macros in rtw_debug.h
 
->> =C2=A0.../vc04_services/interface/vchiq_arm/vchiq_core.c     | 18 ++++=
-+++++---------
->> =C2=A0.../vc04_services/interface/vchiq_arm/vchiq_core.h     |  2 +-
->> =C2=A03 files changed, 12 insertions(+), 12 deletions(-)
->>
->> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_a=
-rm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
->> index 3395201..ab2ce07 100644
->> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
->> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
->> @@ -1517,8 +1517,8 @@ vchiq_ioctl(struct file *file, unsigned int cmd,=
- unsigned long arg)
->> =C2=A0			break;
->> =C2=A0		}
->> =C2=A0
->>
->> -		status =3D vchiq_set_service_option(
->> -				args.handle, args.option, args.value);
->> +		ret =3D vchiq_set_service_option(args.handle, args.option,
->> +					       args.value);
->> =C2=A0	} break;
->> =C2=A0
->>
->> =C2=A0	case VCHIQ_IOC_LIB_VERSION: {
->> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_c=
-ore.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
->> index 9f9677a..31c1c1a 100644
->> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
->> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
->> @@ -3371,21 +3371,21 @@ void vchiq_get_config(struct vchiq_config *con=
-fig)
->> =C2=A0	config->version_min            =3D VCHIQ_VERSION_MIN;
->> =C2=A0}
->> =C2=A0
->>
->> -enum vchiq_status
->> +int
->> =C2=A0vchiq_set_service_option(unsigned int handle,
->> =C2=A0	enum vchiq_service_option option, int value)
->> =C2=A0{
->> =C2=A0	struct vchiq_service *service =3D find_service_by_handle(handle=
-);
->> -	enum vchiq_status status =3D VCHIQ_ERROR;
->> =C2=A0	struct vchiq_service_quota *quota;
->> +	int ret =3D -EIO;
-> Due to the nature of the driver it's hard to make a clear distinction, =
-but is
-> -EIO really the best error for the function? I don't see error paths th=
-at
-> really depend on communication with VC4. I see it more aligned with -EI=
-NVAL.
+DBG_871X_SEL macro is replaced with netdev_dbg() for it does
+a raw printk call which is not best recommended for a driver.
 
-In general i totally agree with you. I just wanted to the keep the
-o(l)dd behavior, because vchiq_ioctl() has a catch all for VCHIQ_ERROR
--> -EIO
+@@
+expression sel;
+expression list args;
+identifier padapter;
+identifier func;
+@@
 
-I'm not sure if any user application relies on the error code of
-vchiq_ioctl(). Otherwise this isn't argument for all the other patches ;-=
-)
+func(..., struct adapter *padapter, ...) {
+	<...
+-	DBG_871X_SEL(sel, args);
++	netdev_dbg(padapter->pnetdev, args);
+	...>
 
-I will change it to -EINVAL.
+unused _DBG_871X_LEVEL macro declaration is removed.
 
->
-> Regards,
-> Nicolas
->
+Some code cleaning is done and all other private component tracing
+macros are removed.
+
+Fabio Aiuto (49):
+  staging: rtl8723bs: remove unused log function
+  staging: rtl8723bs: replace DBG_871X_SEL log macro with netdev_dbg()
+  staging: rtl8723bs: remove DBG_871X_SEL macro declaration
+  staging: rtl8723bs: remove unused _DBG_871X_LEVEL macro
+  staging: rtl8723bs: remove unused mac_reg_dump() function argument
+  staging: rtl8723bs: remove unused bb_reg_dump() function argument
+  staging: rtl8723bs: remove unused rf_reg_dump() function argument
+  staging: rtl8723bs: remove unused RTW_DBGDUMP macro definition
+  staging: rtl8723bs: remove all defs related to _dbgdump macro
+  staging: rtl8723bs: remove unused debug variables declarations and
+    initialization
+  staging: rtl8723bs: remove unneeded header file
+  staging: rtl8723bs: remove unused debug macro definitions
+  staging: rtl8723bs: remove debug macros related to core/rtw_xmit.c
+    tracing
+  staging: rtl8723bs: remove debug macros related to os_dep/xmit_linux.c
+    tracing
+  staging: rtl8723bs: remove debug macros related to core/rtw_recv.c
+    tracing
+  staging: rtl8723bs: remove debug macros related to os_dep/recv_linux.c
+    tracing
+  staging: rtl8723bs: remove debug macros related to core/rtw_mlme.c
+    tracing
+  staging: rtl8723bs: remove debug macros related to os_dep/mlme_linux.c
+    tracing
+  staging: rtl8723bs: move static array definition from header to .c
+    file
+  staging: rtl8723bs: remove debug macros related to core/rtw_mlme_ext.c
+    tracing
+  staging: rtl8723bs: remove debug macros related to core/rtw_sta_mgt.c
+    tracing
+  staging: rtl8723bs: remove debug macros related to core/rtw_cmd.c
+    tracing
+  staging: rtl8723bs: remove obsolete debug macro definitions
+  staging: rtl8723bs: remove debug macros related to core/rtw_io.c
+    tracing
+  staging: rtl8723bs: remove obsolete _IO_OSDEP_C_ debug macro
+    definition
+  staging: rtl8723bs: remove debug macros related to os_dep/os_intfs.c
+    tracing
+  staging: rtl8723bs: remove debug macros related to core/rtw_security.c
+    tracing
+  staging: rtl8723bs: remove debug macros related to core/rtw_eeprom.c
+    tracing
+  staging: rtl8723bs: remove debug macros related to hal/hal_intf.c
+    tracing
+  staging: rtl8723bs: remove debug macros related to hal/sdio_halinit.c
+    tracing
+  staging: rtl8723bs: remove unused debug macros tied to
+    _RTL871X_IOCTL_C_ definition
+  staging: rtl8723bs: remove unused debug macros tied to
+    _RTL871X_IOCTL_SET_C_ definition
+  staging: rtl8723bs: remove unused debug macros tied to
+    _RTL871X_IOCTL_QUERY_C_ definition
+  staging: rtl8723bs: remove unused debug macros tied to
+    _RTL871X_PWRCTRL_C_ definition
+  staging: rtl8723bs: remove unused macros tied to core/rtw_pwrctrl.c
+    debug
+  staging: rtl8723bs: remove unused macros tied to os_dep/sdio_intf.c
+    debug
+  staging: rtl8723bs: remove unused debug macros tied to _HCI_OPS_C_
+    definition
+  staging: rtl8723bs: remove unused debug macros tied to hal/sdio_ops.c
+    debug
+  staging: rtl8723bs: remove unused debug macros tied to
+    os_dep/osdep_service.c debug
+  staging: rtl8723bs: remove unused _module_mp_ def
+  staging: rtl8723bs: remove unused macros tied to _HCI_OPS_OS_C_
+    definition
+  staging: rtl8723bs: remove unused macros tied to
+    _RTL871X_IOCTL_LINUX_C definition
+  staging: rtl8723bs: remove unused macros tied to _RTL8712_CMD_C_
+    definition
+  staging: rtl8723bs: remove commented out macro definition
+  staging: rtl8723bs: remove unused debug macro definitions
+  staging: rtl8723bs: remove unused macros tied to core/rtw_efuse.c
+    debug
+  staging: rtl8723bs: remove unsed debug macros tied to no particular
+    code debug
+  staging: rtl8723bs: remove last unused debug macros
+  staging: rtl8723bs: macro DRIVER_PREFIX expands to lowercase driver
+    name
+
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      |   2 -
+ drivers/staging/rtl8723bs/core/rtw_debug.c    |  39 ++--
+ drivers/staging/rtl8723bs/core/rtw_eeprom.c   |   2 -
+ drivers/staging/rtl8723bs/core/rtw_efuse.c    |   2 -
+ drivers/staging/rtl8723bs/core/rtw_io.c       |   2 -
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     |   2 -
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  32 +++-
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  |   2 -
+ drivers/staging/rtl8723bs/core/rtw_recv.c     |   2 -
+ drivers/staging/rtl8723bs/core/rtw_security.c |   2 -
+ drivers/staging/rtl8723bs/core/rtw_sta_mgt.c  |   2 -
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     |   2 -
+ drivers/staging/rtl8723bs/hal/hal_intf.c      |   3 -
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  |   2 -
+ drivers/staging/rtl8723bs/hal/sdio_ops.c      |   2 -
+ drivers/staging/rtl8723bs/include/rtw_debug.h | 170 +-----------------
+ .../staging/rtl8723bs/include/rtw_mlme_ext.h  |  32 ----
+ .../staging/rtl8723bs/os_dep/ioctl_linux.c    |   6 +-
+ drivers/staging/rtl8723bs/os_dep/mlme_linux.c |   4 -
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   |   2 -
+ .../staging/rtl8723bs/os_dep/osdep_service.c  |   4 -
+ drivers/staging/rtl8723bs/os_dep/recv_linux.c |   2 -
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c  |   2 -
+ drivers/staging/rtl8723bs/os_dep/xmit_linux.c |   2 -
+ 24 files changed, 48 insertions(+), 274 deletions(-)
+
+-- 
+2.20.1
 
