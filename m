@@ -1,48 +1,48 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570D52FA1
-	for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 14:59:44 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id s7so48628230wru.6
-        for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 07:59:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1F62FA1
+	for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 14:59:46 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id y124-20020a1c32820000b029010c93864955so1391996wmy.5
+        for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 07:59:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=AedyWXn8rMwjV4hec6YOWAkym+19jwGe7xRprf/SrlY=;
-        b=VR2/iVh+OKq5WiGouAt5aXvKhf5vcMLxXKHFMo9pfEiVt3aMXHbNgtZY3AytegT6m1
-         gkEWfZHR0epxqkTPSOg3NS6D/P5OlzJe1QqOSXhU6vAldKw0qUpnvbXXL0Ro126tfuOu
-         H6YUSryQo51LErS44nTQbgypr8JpnuOivY2+v+aouhJoSU9ND/CX7Rvmcu+LKVJhRXzC
-         ttBXrFcJOA+9w4bZiMWUB2gbTZ8db97j3GuJnqHVks0BGxajcZ/kGpEgh4r4JnlmsxZa
-         eGn7BJaH5gd7ZmjgogVyGTvE9SksTb3FKQnknehVNKm8Q8DOPYlZM0LNxbaVHpUBSPdE
-         OH6g==
+        bh=+j7lRegxzNVtgM/b7Sy9jh8N/GGtG6h5FSr8oPr7oJ4=;
+        b=qxo/PTIF85lLgEg4lYW4gRt1e/iyQjhNRbgA99W4Q/M/og4zHxymfxOQgPz2NyhI2T
+         QPp9E6+27qNJ8zUq1OZQ3Qsqpx9+C4xrhMMETWQp0NgO4JtitrfLxAkhvVO2okBaMU22
+         3mWeyu55x6GTv2zSo0PY2Qm03glCXzD3w5Os+eABAxxY4S5uUllc1vCxFbNrMaMQZYZ3
+         Z+HpQUJQBiJ4qh2+JtvsN/B5sKzgJ+Ekb5D8cU0kndKMznI2096chsix6nK86ln/sLpa
+         anxMwXyjQvNbHenmnoiiwqVzGvUM5vNzrK99XQuyT+I3aP/FBHIcGeqIJkqAwE+Tbo7L
+         NqeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=AedyWXn8rMwjV4hec6YOWAkym+19jwGe7xRprf/SrlY=;
-        b=iXzl/zO8D6cGdFsw4k7z8sB1PDrkJ7MLUB2LxKGfFxH+JbjdHNkbJdwuQCg/K+phC/
-         jnewXBSq3/yZiutBalV49cTyGIAjWu748uZhCA+hAzK92TFgnATv6elr4NhnlkuiHQfK
-         ew9dB3u4ASitHWMvwUKw76LvrZSYwhGvicycTMyrtC1qlDnAkSr31SP5roHIrGuX3wMV
-         9DCtkK5J9mBtO9uNqdPD30bLczAd0+F6NQnpBcbXzWjFWgtLbXuEncUhkSHmtrh0QYoO
-         eK5d9AarxJvTWm+noHI/wt3jvNmvldr9jKHHCve9Fy8cZ7XlGu1aynQrKlzgePMbV3hH
-         vi+w==
-X-Gm-Message-State: AOAM531HU4ts33NWkzSIwhHK5no7XJ0AAm2G/9+MLeIzQ0bGdJPHYmbq
-	T/3t5JfglTqMkbS0Y9gGS/o=
-X-Google-Smtp-Source: ABdhPJxh5AACHSLvbosz1i/MgdiUIrD9Ja44VesSJQeHn8ZB3FHg/wRDX84/E5ikZ50v/IQERVBH2g==
-X-Received: by 2002:adf:d1ce:: with SMTP id b14mr5404617wrd.159.1619189982965;
-        Fri, 23 Apr 2021 07:59:42 -0700 (PDT)
+        bh=+j7lRegxzNVtgM/b7Sy9jh8N/GGtG6h5FSr8oPr7oJ4=;
+        b=hxjqXfjkXPy1/fpxXv/M+VXVqmG34S1JJYmPXTZPoOudW7IMBTau3CB1zUaEDUhCan
+         ivW8spnFGKxWCFz/l7D+cUk966An96c8jO+oneMJI5oo7Us1iB/oj250V+VIlks2hTfD
+         QTqWdrdvVEWxtWEDLdFADSw3f+sLTkaVeNllmYSXWZ85c5sIImL2Lte44EaZm5G99gru
+         X9zvpkFKxY5Jg4f+4zmyocD6E3xkVYt8FeYuS/GZYPZ+y98LiIe/yqvmETnJPZzC0s/j
+         65vd4ut+ceYcaT0P7Lpra7T0UpEn+faZ74D3uT+CdtQpn4h2qOVA6o9sjUNNMApi5uVd
+         Vgog==
+X-Gm-Message-State: AOAM531BsMdrBT5gswzKSpKTHdyz+WJ6I6ep40wJhcFdjUvfuUeumfs8
+	wFD+JqM/jsqkQuudFUnSGyI=
+X-Google-Smtp-Source: ABdhPJzPuG0XtlVxSEWjPfZOdCnfzAoRIpjKRGdiorgLkxNVGjgjIPM4R+e6Xr8/EbwY9OGqZ9sevw==
+X-Received: by 2002:a1c:9853:: with SMTP id a80mr4724814wme.44.1619189984763;
+        Fri, 23 Apr 2021 07:59:44 -0700 (PDT)
 Received: from agape ([5.171.72.99])
-        by smtp.gmail.com with ESMTPSA id c77sm8014287wme.37.2021.04.23.07.59.42
+        by smtp.gmail.com with ESMTPSA id z14sm9258507wrs.96.2021.04.23.07.59.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Apr 2021 07:59:42 -0700 (PDT)
+        Fri, 23 Apr 2021 07:59:44 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 37/49] staging: rtl8723bs: remove unused debug macros tied to _HCI_OPS_C_ definition
-Date: Fri, 23 Apr 2021 16:58:28 +0200
-Message-Id: <67c04ee5a9f5b0651369abe7284aa188c4e05301.1619189489.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 38/49] staging: rtl8723bs: remove unused debug macros tied to hal/sdio_ops.c debug
+Date: Fri, 23 Apr 2021 16:58:29 +0200
+Message-Id: <6789381e398082317ba9d442091439db74f52626.1619189489.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1619189489.git.fabioaiuto83@gmail.com>
 References: <cover.1619189489.git.fabioaiuto83@gmail.com>
@@ -54,36 +54,42 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 remove unused debug macros tied to
-_HCI_OPS_C_ definition.
+hal/sdio_ops.c debug.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/rtw_debug.h | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/staging/rtl8723bs/hal/sdio_ops.c      | 2 --
+ drivers/staging/rtl8723bs/include/rtw_debug.h | 4 +---
+ 2 files changed, 1 insertion(+), 5 deletions(-)
 
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+index a31694525bc1..b5434ab71578 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+@@ -4,8 +4,6 @@
+  * Copyright(c) 2007 - 2012 Realtek Corporation. All rights reserved.
+  *
+  *******************************************************************************/
+-#define _SDIO_OPS_C_
+-
+ #include <drv_types.h>
+ #include <rtw_debug.h>
+ #include <rtl8723b_hal.h>
 diff --git a/drivers/staging/rtl8723bs/include/rtw_debug.h b/drivers/staging/rtl8723bs/include/rtw_debug.h
-index 130cfe3d2032..3becb1b8d15e 100644
+index 3becb1b8d15e..c061d874f4e6 100644
 --- a/drivers/staging/rtl8723bs/include/rtw_debug.h
 +++ b/drivers/staging/rtl8723bs/include/rtw_debug.h
-@@ -7,7 +7,6 @@
- #ifndef __RTW_DEBUG_H__
- #define __RTW_DEBUG_H__
- 
--#define _module_hci_ops_c_			BIT(21)
- #define _module_osdep_service_c_			BIT(22)
- #define _module_mp_			BIT(23)
- #define _module_hci_ops_os_c_			BIT(24)
-@@ -22,9 +21,7 @@
+@@ -21,9 +21,7 @@
  
  #undef _MODULE_DEFINE_
  
--#if defined _HCI_OPS_C_
--	#define	_MODULE_DEFINE_	_module_hci_ops_c_
--#elif defined _SDIO_OPS_C_
-+#if defined _SDIO_OPS_C_
- 	#define	_MODULE_DEFINE_ 1
- #elif defined _OSDEP_SERVICE_C_
+-#if defined _SDIO_OPS_C_
+-	#define	_MODULE_DEFINE_ 1
+-#elif defined _OSDEP_SERVICE_C_
++#if defined _OSDEP_SERVICE_C_
  	#define	_MODULE_DEFINE_	_module_osdep_service_c_
+ #elif defined _HCI_OPS_OS_C_
+ 	#define	_MODULE_DEFINE_	_module_hci_ops_os_c_
 -- 
 2.20.1
 
