@@ -1,120 +1,76 @@
-Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [194.109.24.26])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A36A671
-	for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 09:09:14 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud9.xs4all.net with ESMTPA
-	id ZroClzuR6vTEDZroFlcj4K; Fri, 23 Apr 2021 11:09:12 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1619168952; bh=x7ozyh8hBJlw/CZeD3L7ZTwGiLAUQCebajl7PyHbRo4=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=MmD07osS3QZbgeS68ODZUGbZWrDNrIoLF669aPAPIJiGuPPFTFy53GLDUMhNjdiwx
-	 pS31ly+/jPVC3rjGE71zhrWLnx6RTtHFikvhdP64/dj/XRFiC9gn+AdqBgFEC2y3og
-	 6Ve1YgRmp6XATK4Vt35DmeordE46pyqQgdWQzUBWjbsmfgQwu7jwTX4nWRfSIVR7DJ
-	 yZ+KZXLEm/fTxJaLMgiUayD4TcA+Ex4XuItqTcpms+gaP2GFXeyNVi00RvzFdm49HN
-	 gxl+Ip3JFPh5dk+ESSRiSgb8tePfdQjqftsN4tIJygypLV2tUsoHxeQ0LjIhqz2iQq
-	 nmd7LkY9Uta5A==
-Subject: Re: [PATCH v3 0/6] staging: media: atomisp: code cleanup fixes
-To: Deepak R Varma <drv@mailo.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, mh12gx2825@gmail.com
-References: <cover.1619022192.git.drv@mailo.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <449f49fa-f19b-70bc-5ee9-3187ac43a376@xs4all.nl>
-Date: Fri, 23 Apr 2021 11:09:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E56071
+	for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 09:10:26 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 25C0C6144A;
+	Fri, 23 Apr 2021 09:10:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1619169026;
+	bh=T1FMrfZRjJR2z6yAggNFi78L9C7Xe8lmTb8JsXewe74=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=Je8HKpz+8jxYnnmSDqVuEvtNDYiVtacU1EDMWcIABO6KSObG6+UnCwpyTa1X0TlG9
+	 J3qTfI+/HQaOtB6USoujzpRuWfU1YGV0ienWpO5vDa7Pn4ySWRup2ciZDvy/Cz6X6G
+	 dy11veKr08XhJEjP9m+S/Rj0KdrTkUaDXmcs01y4hrYQygdsOq74exhTVD83DnPIba
+	 uRRiktp+A+5I23uv0NSudaoIpNrJ4/D5I+DyIuj0/h5QQf4hI+i7vWoOCZaRZo7rDn
+	 zr2hirRr1gCFVjZE94G0ndW3un0ei3JactiTeev8YNZk5mNcsmyZyvvnCMqVAVe2DW
+	 1tvqG7JuCgh9Q==
+Message-ID: <66c1f2bc615d5c40ba129d54e05bf7d785851b68.camel@kernel.org>
+Subject: Re: [PATCH 02/10] staging: vchiq_core: break early in
+ vchiq_close_service_internal
+From: nicolas saenz julienne <nsaenz@kernel.org>
+To: Stefan Wahren <stefan.wahren@i2se.com>, Greg Kroah-Hartman
+	 <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev
+Date: Fri, 23 Apr 2021 11:10:22 +0200
+In-Reply-To: <1619122076-31785-3-git-send-email-stefan.wahren@i2se.com>
+References: <1619122076-31785-1-git-send-email-stefan.wahren@i2se.com>
+	 <1619122076-31785-3-git-send-email-stefan.wahren@i2se.com>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-RwTyxXl/DtAukT84Uxtk"
+User-Agent: Evolution 3.40.0 (3.40.0-1.fc34) 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <cover.1619022192.git.drv@mailo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+
+
+--=-RwTyxXl/DtAukT84Uxtk
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, 2021-04-22 at 22:07 +0200, Stefan Wahren wrote:
+> The logic in VCHIQ_SRVSTATE_OPEN* is unnecessary complex. Handle the erro=
+r
+> case of queue_message() first makes it easier to read.
+>=20
+> Btw we get the rid of the checkpatch warning:
+> WARNING: else is not generally useful after a break or return
+>=20
+> Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
+> ---
+Reviewed-by: Nicolas Saenz Julienne <nsaenz@kernel.org>
+
+Thanks!
+Nicolas
+
+--=-RwTyxXl/DtAukT84Uxtk
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfHNySfGwsTTOcRms+3SBdITadTlRgErLy0mQDD6ZG/F4PHxVt8zWdXknP61qZtztPHWTQhZPQKrdZ/hO3m7RYdXefQEPtn/6kAPUY8+Xi5hOyOg12dBZ
- TkRRkbDB8wkv6R+YhikXU8wjbabOLJDX4DORS5GWk0CAD4D+kFMlwqWPcWg0+AaCKw3enQaODkNOg8wKa5igBvYrQ1aLZwl4YrQMLqPqfSJ+3YR6nthmutHx
- 8MGdB/4UYGLmB7dq/AUvL2BcdYtk4AgeGbSdVKLHxXnV4u12UWvKEE+oabt16fvBOYbaBMjlciY5sCG0nq+edihxWPUS4YdOhQoro0k6uZic+ifdRvsmtXCR
- RP060o+/NknC4EWjyJKqpW2wRslr2el57h1WrIESMB1qdF9pTpH89x07LXcTMa4gaiibvLQo2zBbSqIMXMP2ZodDGPS9qA==
 
-Hi Deepak,
+-----BEGIN PGP SIGNATURE-----
 
-Something weird is going on. This series didn't appear in patchwork
-(https://patchwork.linuxtv.org/) and looking at lore.kernel.org:
+iQFGBAABCAAwFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAmCCjv4SHG5zYWVuekBr
+ZXJuZWwub3JnAAoJEJX2Zh56PMf+Mv0H/1JqB2nvoTwPMxjMo26r7fV0anHuV3/0
+McPa9O+5gEYvrrb060UsAdCGzzk8nwcE0fIL2nzWLdKhtcfjkdtnVZ8YLPAcpC3F
+Z1BnOadncx3hNnX3XcrFRL8bvrVUYRzUJRvUy3mtbGTGD+aaev8NpuhgBGGiD818
+OpVSJRDcvyFSUvf8UgBs8swUptOqU4nD3VRf8JIaFRfwv1c6xX7dERK8V+b6d4gx
+rgr41PiwM8hkQgBoryb+FPYS8MmaglpZnpaYcxFhbLkhKsdxJr4XsKDEy1KYOYlT
++LRHXcwmjuEzYvYCcHVA02LlsION38d2qn+gYG3DWyBKp6NoB0BtFeA=
+=MWgH
+-----END PGP SIGNATURE-----
 
-https://lore.kernel.org/linux-media/20210421181101.JySzrynV5EUsi4N5Dh97QA9VUOQjMutu0mNTW7capUw@z/T/#r4d9987c800c28c26c96464bb56916bf0408b4738
-
-it appears v3 was seen as replied to the v1 posts instead of a new thread.
-
-It's probably related to the Message-Id field, which is the same for the
-v1 and v3 posts. Not really sure how you managed that :-)
-
-Please repost so that the v3 series is picked up by patchwork.
-
-Regards,
-
-	Hans
-
-On 21/04/2021 20:11, Deepak R Varma wrote:
-> This patch set addresses different kinds of checkpatch WARNING and
-> CHECK complaints.
-> 
-> Note: The patches should be applied in the ascending order.
-> 
-> Changes since v2:
->    Generic change:
->    1. Correct patch versioning in patch subject
-> 
->    Patch Specific change:
->    1. patch 1/6 : none
->    2. patch 2/6 : none
->    3. patch 3/6 : none
->    4. patch 4/6 :
->         a. Tag Fabio Auito for the patch suggestion
-> 
->    5. patch 5/6 : none
->    6. patch 6/6:
->         a. Tag Fabio Auito for the patch suggestion
-> 
-> Changes since v1:
->    Generic change:
->    1. The patch set is being resent from an email account that matches with
->       the patch signed-of-by tag. Issue highlighted by Hans Verkuil.
-> 
->    Patch specific changes:
->    1. patch 1/6 : none
->    2. patch 2/6 : none
->    3. patch 3/6 : none
->    4. patch 4/6 : implement following changes suggested by Fabio Aiuto
->         a. Corrected commenting style
->         b. Similar style implemented for other comment blocks in
->            the same files.
->    5. patch 5/6 : none
->    6. patch 6/6: implement following changes suggested by Fabio Aiuto
->         a. use dev_info instead of pr_info
->         b. update patch log message accordingly
-> 
-> 
-> Deepak R Varma (6):
->   staging: media: atomisp: improve function argument alignment
->   staging: media: atomisp: balance braces around if...else block
->   staging: media: atomisp: use __func__ over function names
->   staging: media: atomisp: reformat code comment blocks
->   staging: media: atomisp: fix CamelCase variable naming
->   staging: media: atomisp: replace raw printk() by dev_info()
-> 
->  .../media/atomisp/i2c/atomisp-gc0310.c        |  14 +--
->  .../media/atomisp/i2c/atomisp-gc2235.c        |  29 ++---
->  .../atomisp/i2c/atomisp-libmsrlisthelper.c    |   6 +-
->  .../media/atomisp/i2c/atomisp-lm3554.c        |   2 +-
->  .../media/atomisp/i2c/atomisp-mt9m114.c       | 106 ++++++++++--------
->  .../media/atomisp/i2c/atomisp-ov2680.c        |  43 ++++---
->  .../media/atomisp/i2c/atomisp-ov2722.c        |  10 +-
->  7 files changed, 116 insertions(+), 94 deletions(-)
-> 
+--=-RwTyxXl/DtAukT84Uxtk--
 
