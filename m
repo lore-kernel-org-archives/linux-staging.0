@@ -1,139 +1,141 @@
-Received: from www381.your-server.de (www381.your-server.de [78.46.137.84])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56732FA1
-	for <linux-staging@lists.linux.dev>; Thu, 22 Apr 2021 21:23:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=metafoo.de;
-	 s=default2002; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-	MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=WdiGJiqeCQo6kCNVn3p2IvtMh4cnlFUEy/FrSR2EMxM=; b=B2dnbdjSU8rDIkoOCQpXNImKcW
-	ehajtmNXV5s/sc93ARWn2bXc/B08D6XHIb2cJBth88zUnVNPTxEUXOKslgV9KwVxOdTbHbYvfkK3N
-	nJChha9ghtyDLI/svr6zcS+LQ+/xTtAG5FtFtfAaSvZhEbnHQQkWsOq4ZgZ7l1gD1LPSTWZKdmWiE
-	7iHNTdoYLonXHrMg2XyvEvj5kkK5iCF+Cj9y+PLYGWxyNUiaZbNuD3k4KpYf6E68uWXBHrG+hXQIQ
-	zZgIWxfF4N+6Vpd+PwjL2Em43lcZuqu2URajbKWF3e6nOJWAF+cAkj5n3S46YWEdJuCqOKLc2fP7f
-	4oGPe3CQ==;
-Received: from sslproxy05.your-server.de ([78.46.172.2])
-	by www381.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92.3)
-	(envelope-from <lars@metafoo.de>)
-	id 1lZgNL-000Cxn-Ul; Thu, 22 Apr 2021 22:56:40 +0200
-Received: from [2001:a61:2a42:9501:9e5c:8eff:fe01:8578]
-	by sslproxy05.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <lars@metafoo.de>)
-	id 1lZgNL-000Ude-Ai; Thu, 22 Apr 2021 22:56:39 +0200
-Subject: Re: [PATCH v2 1/2] dt-bindings: staging: iio: cdc: ad7746: add
- binding documentation for AD7746
-To: Lucas Stankus <lucas.p.stankus@gmail.com>, Rob Herring <robh@kernel.org>
-Cc: Michael.Hennerich@analog.com, jic23@kernel.org,
- gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- devicetree@vger.kernel.org
-References: <cover.1618785336.git.lucas.p.stankus@gmail.com>
- <54a9eaeaa42d47037b2a07bd933e6dfade745d02.1618785336.git.lucas.p.stankus@gmail.com>
- <20210420193746.GA3632576@robh.at.kernel.org>
- <CACKVXZDtUync4HnScJnMEj=Gh7bukUUpnPrtE0w1PPgCZOHORg@mail.gmail.com>
-From: Lars-Peter Clausen <lars@metafoo.de>
-Message-ID: <8b2c672a-f260-fe19-5baf-adf6ce6fabf2@metafoo.de>
-Date: Thu, 22 Apr 2021 22:56:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A54D70
+	for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 07:23:29 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id r9so72461892ejj.3
+        for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 00:23:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=WIX5TU+Qdtin5MeNZ6xb7hSaRJuEkL/NWgbQmjBPH80=;
+        b=tXZVYJDqtFhFMMsrJeSiUMilYcr2JiJJOEfvkB5fjWZBDtqu9SMlxTRguNEVHhaszT
+         r/qBSFPqQoq8fqDUWnghIJ33bZa52xtcLlPRM1BZLkBepPp+V8MR+9e+O5KeAGlaWQvR
+         ScCQSp2yUWgwx56qgDiPefBxYXLXgvUEUD6ZuZuM/cteseDHHFV9FTzlbEy0OgsUbp/r
+         F6dbtFylwjIllwVNgUhRpUXs6iPIulfvLqTD+l1JB5IbrVw6j891jZhBS5NWa60mUluA
+         Keg5OCL0Bel3go34KWJBgkK0QzRWSmP+6CwFlMP3INvx+dARf+8rAKDoqbOBA67iEd1I
+         vVnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=WIX5TU+Qdtin5MeNZ6xb7hSaRJuEkL/NWgbQmjBPH80=;
+        b=WLVzDi74Rym6BxcS1lpkQedaTBQS+xRFzIFQJ8YKokmdVUZdnavewr6YRlXBhOsEqY
+         B39SX4Sg0A8t290KnSnLcoMevyWXZ3mO1/OP9T+bov6P1Vi11YvjVPSkjfWyfLDiTMGk
+         g7Xjv1SrGIeIYjp6qVrYhDwIqhI6kX+vzfJ/UCdnUwGUYfIJZuc3h7ll7LwhI+j02iIm
+         aXAu0Sowykz2Og1gM1AwAJJZwJBULEr9FL26xgu7mc0ajP5vKrFSkgd5W7+isjCC0FeY
+         WVNLFv++b/3jHjMrOWAXT2Z+owzJ3OlzgSMD4/pu3N02fUcp3nsxigNGZ17QBxRa0NWu
+         PV0Q==
+X-Gm-Message-State: AOAM5321oC10mAiRF7SfMq6MRCueiVGH51KIeuzoYBitpgLlQJRIac7A
+	Qa5CP0+AbbMVpdUSX4C2QAxlwUOQvrU=
+X-Google-Smtp-Source: ABdhPJytz2mVM37WIClWsaXNQSaugbRkF8ICDEjiRUEEuCjCBfIh/iq5Ctu825godIeAe+kzmkH5sQ==
+X-Received: by 2002:a17:906:840a:: with SMTP id n10mr2724654ejx.59.1619162608232;
+        Fri, 23 Apr 2021 00:23:28 -0700 (PDT)
+Received: from agape.jhs ([5.171.80.34])
+        by smtp.gmail.com with ESMTPSA id lj21sm3292038ejb.74.2021.04.23.00.23.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Apr 2021 00:23:27 -0700 (PDT)
+Date: Fri, 23 Apr 2021 09:23:25 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Stefan Wahren <stefan.wahren@i2se.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 03/10] staging: vchiq_core: introduce get_bulk_reason
+Message-ID: <20210423072324.GA1442@agape.jhs>
+References: <1619122076-31785-1-git-send-email-stefan.wahren@i2se.com>
+ <1619122076-31785-4-git-send-email-stefan.wahren@i2se.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CACKVXZDtUync4HnScJnMEj=Gh7bukUUpnPrtE0w1PPgCZOHORg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Authenticated-Sender: lars@metafoo.de
-X-Virus-Scanned: Clear (ClamAV 0.102.4/26148/Thu Apr 22 13:06:46 2021)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1619122076-31785-4-git-send-email-stefan.wahren@i2se.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On 4/22/21 9:16 PM, Lucas Stankus wrote:
-> On Tue, Apr 20, 2021 at 4:37 PM Rob Herring <robh@kernel.org> wrote:
->> On Sun, Apr 18, 2021 at 07:49:51PM -0300, Lucas Stankus wrote:
->>> Add device tree binding documentation for AD7746 cdc in YAML format.
->>>
->>> Signed-off-by: Lucas Stankus <lucas.p.stankus@gmail.com>
->>> ---
->>>
->>> A minor note about the adi,excitation-vdd-permille property. Jonathan
->>> suggested the name to be adi,excitation-vdd-milicent, but I was unsure of
->>> the milicent naming. With a quick search I found out that the common way to
->>> call a thousandth is 'per mille'[1], but I didn't find any use of it in the
->>> kernel documentation. Any thoughts about it?
->> Seems okay to me.
->>
->>> [1] https://en.wikipedia.org/wiki/Per_mille
->>>
->>>   .../bindings/iio/cdc/adi,ad7746.yaml          | 73 +++++++++++++++++++
->>>   1 file changed, 73 insertions(+)
->>>   create mode 100644 Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml b/Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml
->>> new file mode 100644
->>> index 000000000000..a2a7eee674ba
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml
->>> @@ -0,0 +1,73 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/iio/cdc/adi,ad7746.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: AD7746 24-Bit Capacitance-to-Digital Converter with Temperature Sensor
->>> +
->>> +maintainers:
->>> +  - Michael Hennerich <michael.hennerich@analog.com>
->>> +
->>> +description: |
->>> +  AD7746 24-Bit Capacitance-to-Digital Converter with Temperature Sensor
->>> +
->>> +  Specifications about the part can be found at:
->>> +  https://www.analog.com/media/en/technical-documentation/data-sheets/ad7291.pdf
->>> +
->>> +properties:
->>> +  compatible:
->>> +    enum:
->>> +      - adi,ad7745
->>> +      - adi,ad7746
->>> +      - adi,ad7747
->>> +
->>> +  reg:
->>> +    maxItems: 1
->>> +
->>> +  adi,excitation-vdd-permille:
->>> +    description: |
->>> +      Set VDD per mille to be used as the excitation voltage.
->>> +    $ref: /schemas/types.yaml#/definitions/uint32
->>> +    enum: [125, 250, 375, 500]
->>> +
->>> +  adi,exca-output-en:
->>> +    description: Enables the EXCA pin as the excitation output.
->>> +    type: boolean
->>> +
->>> +  adi,exca-output-invert:
->>> +    description: Inverts the excitation output in the EXCA pin.
->>> +    type: boolean
->> 'invert' assumes I know what the non-inverted signal is. Sometimes that
->> makes sense, but if you can define in terms of the inverse that would be
->> better. For example, for a normally active low signal, name the property
->> 'foo-active-high'.
-> Thanks for the feedback!
->  From reading the data sheet I couldn't quite grasp what would be an inverted
-> excitation output, but I don't have a lot of experience with CDCs. Maybe someone
-> with more experience could help out with a better suggestion.
+On Thu, Apr 22, 2021 at 10:07:49PM +0200, Stefan Wahren wrote:
+> Nesting multiple ternary operators over multiple lines isn't easy to
+> read. Move this logic into a separate inline function.
+> 
+> Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
+> ---
+>  .../vc04_services/interface/vchiq_arm/vchiq_core.c | 35 ++++++++++++++--------
+>  1 file changed, 22 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> index 8a1e6f5..3a72c36 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> @@ -1226,6 +1226,22 @@ release_slot(struct vchiq_state *state, struct vchiq_slot_info *slot_info,
+>  	mutex_unlock(&state->recycle_mutex);
+>  }
+>  
+> +static inline enum vchiq_reason
+> +get_bulk_reason(struct vchiq_bulk *bulk)
+> +{
+> +	if (bulk->dir == VCHIQ_BULK_TRANSMIT) {
+> +		if (bulk->actual == VCHIQ_BULK_ACTUAL_ABORTED)
+> +			return VCHIQ_BULK_TRANSMIT_ABORTED;
+> +
+> +		return VCHIQ_BULK_TRANSMIT_DONE;
+> +	}
+> +
+> +	if (bulk->actual == VCHIQ_BULK_ACTUAL_ABORTED)
+> +		return VCHIQ_BULK_RECEIVE_ABORTED;
+> +
+> +	return VCHIQ_BULK_RECEIVE_DONE;
+> +}
+> +
+>  /* Called by the slot handler - don't hold the bulk mutex */
+>  static enum vchiq_status
+>  notify_bulks(struct vchiq_service *service, struct vchiq_bulk_queue *queue,
+> @@ -1281,16 +1297,8 @@ notify_bulks(struct vchiq_service *service, struct vchiq_bulk_queue *queue,
+>  					spin_unlock(&bulk_waiter_spinlock);
+>  				} else if (bulk->mode ==
+>  					VCHIQ_BULK_MODE_CALLBACK) {
+> -					enum vchiq_reason reason = (bulk->dir ==
+> -						VCHIQ_BULK_TRANSMIT) ?
+> -						((bulk->actual ==
+> -						VCHIQ_BULK_ACTUAL_ABORTED) ?
+> -						VCHIQ_BULK_TRANSMIT_ABORTED :
+> -						VCHIQ_BULK_TRANSMIT_DONE) :
+> -						((bulk->actual ==
+> -						VCHIQ_BULK_ACTUAL_ABORTED) ?
+> -						VCHIQ_BULK_RECEIVE_ABORTED :
+> -						VCHIQ_BULK_RECEIVE_DONE);
+> +					enum vchiq_reason reason =
+> +							get_bulk_reason(bulk);
+>  					status = make_service_callback(service,
+>  						reason,	NULL, bulk->userdata);
+>  					if (status == VCHIQ_RETRY)
+> @@ -2622,9 +2630,10 @@ do_abort_bulks(struct vchiq_service *service)
+>  	mutex_unlock(&service->bulk_mutex);
+>  
+>  	status = notify_bulks(service, &service->bulk_tx, 0/*!retry_poll*/);
+> -	if (status == VCHIQ_SUCCESS)
+> -		status = notify_bulks(service, &service->bulk_rx,
+> -			0/*!retry_poll*/);
+> +	if (status != VCHIQ_SUCCESS)
+> +		return 0;
+> +
+> +	status = notify_bulks(service, &service->bulk_rx, 0/*!retry_poll*/);
+>  	return (status == VCHIQ_SUCCESS);
+>  }
 
-This is the only thing I could find 
-https://www.analog.com/media/en/technical-documentation/application-notes/AN-1585.pdf.
+Hi Stefan,
 
-The datasheet also says that only at most one of them should be 
-inverted. So maybe only a single property which selects which of the two 
-is inverted.
+this change seem to be unrelated ti what's pointed out in changelog.
+Should it be put in a separate patch?
 
+>  
+> -- 
+> 2.7.4
+> 
+> 
 
+thank you,
+
+fabio
