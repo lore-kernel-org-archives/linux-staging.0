@@ -1,48 +1,48 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF25E70
-	for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 15:00:03 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id h4so39666688wrt.12
-        for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 08:00:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882BE70
+	for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 15:00:05 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id d200-20020a1c1dd10000b02901384767d4a5so1398740wmd.3
+        for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 08:00:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Rd5Skrnm1vG8IFRdylWE6XpRaE/YvS+Wl0BTfIy1QHc=;
-        b=EBk4guBPLEelq5ApCOjqajr+6ws6JUKGAI23EF8XEsT4fajlacff5S28eiw91h91xc
-         M9HQDRUGaT8vbq2HsLrCtlLQ9zLYJU0FuiMW4pGcm4hSDsh9qGv7UHD4VL13b7qco8kB
-         oxdg822+NOCHyFWKP8XKQe3mZExRRZJUuB77uvkBhjI8DdTuClj8kR0a26YWyl4xMcMz
-         d1CoNLE2fHRfGlUa7BX4Btu6SBXCQOd25MzOLrUDC21ZUzRhnpLLiKz4oLesQ5wYHq1p
-         S1fnPajZQTqxa/VY0jN4/4Ln+4R4Ikbmanasrp8X7lJt7d/j8PxgPVxcd5xEjINDkXcg
-         VKYg==
+        bh=Ck3YsdNSVP0rZ1FtHCUQWW2VZt87Mqq7djATO4TUkHY=;
+        b=K1qYfSKbFKzLKwOhZocXaIMZGX25TTmnWPkjp2V63mjSrE6u8r+Hea9puG7453dsOr
+         Zvtqb5BSFfAYGe2cTW2T9kczdOShsIj354QoTQyzxCJH4pBDSAaClpm6XydB7tA8zdw+
+         qa3YbmXpFYPvR3/MLCoZFQDOPOFSJbNFU920OHVvfS2VsifXq8l8RbjQcX4zpfnv72kE
+         UWph23+zmnSOxANksvkTFWrtrXEzi6f+TuSsfD03vBCWQET6gsy2RYwWKjJ2Iy76GNcX
+         ApVaf3RtiW1on4Dz+ULcJ8a1fYAbKt6u0vd/TNYjl72UL/GzFgvsKUPtP55BfYr8x1o8
+         v/Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Rd5Skrnm1vG8IFRdylWE6XpRaE/YvS+Wl0BTfIy1QHc=;
-        b=CTm6hwjFXasYWobqrh4w5wwbBWngU3ie4Y9NM/QFGWRbB0Av3GKOWJ8Q84bKegcvKG
-         6HE80O0Lp+fhnO551qqwwNqfBd7Fn0ZCBoe7W4sKHvHkU2OhD28qtbMrkqnOI+ukTEvH
-         zAtnJD1+FQmDsZ3XkCv4D3/Bd0yQjdpxlr87E4ZF+6EefPkXMaNVyo8uJFLKnLDUbEN4
-         /c9UrR751oWPCpqrTrq0zyKNO6uCJ30XvqiD2SapcQmWHKngsmuGR8QiHQokm6zi58oT
-         tWhyUo/yB4CSrbLWAK8Cl91G0oFa/9hHoD8N3dqRvOvVJuiuEVWLTu5rOcN9/B7bHmOR
-         ywgA==
-X-Gm-Message-State: AOAM532I6F7UItnvilJ/JqKbLFjdNQhKouwTQPz9qSX6o5HWU3BUzEyR
-	tihHlgiegjz17Q+q4KmbygkU9w0O7Hg=
-X-Google-Smtp-Source: ABdhPJx6ECOX5tnYJNQpCLNqoN+yy4S5mIiDF5s/7wu7P0iVWlEDuBAeMJCfpL/hN89Wcxb2QvS4og==
-X-Received: by 2002:adf:dd50:: with SMTP id u16mr5360504wrm.380.1619190002618;
-        Fri, 23 Apr 2021 08:00:02 -0700 (PDT)
+        bh=Ck3YsdNSVP0rZ1FtHCUQWW2VZt87Mqq7djATO4TUkHY=;
+        b=B5e1OqyxscT3vnUjDZ0OYftyX4PYTuUxqgRLE4rEzJCeHiX1PwyaEUSt1CyRfG7e0f
+         9IhYTFMj+Zxq8vEFtQkDclM2mA1agYq3Ne9ITb0B/QzyZ20/AG/VHDih7MpABb4dAdsv
+         smrbqSVaJSkSHPsKAzfr/Zb3zgU3/ayNbbvaZkDCutHPZ4kU/76xBhegfSd35ONBGPTg
+         7k2ruxZqu2wQIwJNBfOQwq6IJljZpdah2UxF2kxYP3EWpoXnB71iLhUro1WQlTNf+sXD
+         4th5tnNv3fyylagGVBPlNrl1IFnaesUk8hKzXukf+Ea0JXytREcDxLjjgERKbH0kZCqn
+         tIhw==
+X-Gm-Message-State: AOAM531GwnAGaLDdp00y0gQqwlvaYC147g5GQRbLhLTurt4KkzPRMWrZ
+	hEudWB0Qk8QVu0QtHspgZxw=
+X-Google-Smtp-Source: ABdhPJzG2BYuuphqrqCyCTP5ACW+0ED1Xeg1kgv59UWtZ4nNL6N2F5/SAg/pPp6CbRFz0R4H47URBg==
+X-Received: by 2002:a05:600c:350f:: with SMTP id h15mr4832362wmq.181.1619190004217;
+        Fri, 23 Apr 2021 08:00:04 -0700 (PDT)
 Received: from agape ([5.171.72.99])
-        by smtp.gmail.com with ESMTPSA id h17sm9553127wru.67.2021.04.23.08.00.02
+        by smtp.gmail.com with ESMTPSA id h2sm8731913wmc.24.2021.04.23.08.00.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Apr 2021 08:00:02 -0700 (PDT)
+        Fri, 23 Apr 2021 08:00:03 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 48/49] staging: rtl8723bs: remove last unused debug macros
-Date: Fri, 23 Apr 2021 16:58:39 +0200
-Message-Id: <90fdb9b1c98052f5121491b18ed5782a83c1e848.1619189489.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 49/49] staging: rtl8723bs: macro DRIVER_PREFIX expands to lowercase driver name
+Date: Fri, 23 Apr 2021 16:58:40 +0200
+Message-Id: <612c1e599b15404c76463d642102985b3ca1470a.1619189489.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1619189489.git.fabioaiuto83@gmail.com>
 References: <cover.1619189489.git.fabioaiuto83@gmail.com>
@@ -53,36 +53,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove last unused debug macros.
+macro DRIVER_PREFIX expands to lowercase driver name.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/rtw_debug.h | 12 ------------
- 1 file changed, 12 deletions(-)
+ drivers/staging/rtl8723bs/include/rtw_debug.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8723bs/include/rtw_debug.h b/drivers/staging/rtl8723bs/include/rtw_debug.h
-index c9f53c08efbb..189f02a8300a 100644
+index 189f02a8300a..3a5b083e95a1 100644
 --- a/drivers/staging/rtl8723bs/include/rtw_debug.h
 +++ b/drivers/staging/rtl8723bs/include/rtw_debug.h
-@@ -7,18 +7,6 @@
+@@ -7,7 +7,7 @@
  #ifndef __RTW_DEBUG_H__
  #define __RTW_DEBUG_H__
  
--#define _module_rtl8712_recv_c_		BIT(30)
--
--#undef _MODULE_DEFINE_
--
--#if defined _RTL8712_RECV_C_
--	#define	_MODULE_DEFINE_	_module_rtl8712_recv_c_
--#elif defined _RTL8192CU_RECV_C_
--	#define	_MODULE_DEFINE_	_module_rtl8712_recv_c_
--#elif defined _RTL871X_MLME_EXT_C_
--	#define _MODULE_DEFINE_	_module_mlme_osdep_c_
--#endif
--
- #define DRIVER_PREFIX "RTL8723BS: "
+-#define DRIVER_PREFIX "RTL8723BS: "
++#define DRIVER_PREFIX "rtl8723bs: "
  
  void mac_reg_dump(struct adapter *adapter);
+ void bb_reg_dump(struct adapter *adapter);
 -- 
 2.20.1
 
