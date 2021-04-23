@@ -1,18 +1,19 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D7772
-	for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 10:54:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 760A872
+	for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 11:03:22 +0000 (UTC)
 Received: from [192.168.1.107] ([37.4.249.124]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MGi6m-1lmWVE2MOQ-00Dn6O; Fri, 23 Apr 2021 12:54:10 +0200
-Subject: Re: [PATCH 03/10] staging: vchiq_core: introduce get_bulk_reason
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>, linux-staging@lists.linux.dev
+ (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MBUyX-1llgM60hAN-00Cxns; Fri, 23 Apr 2021 13:03:17 +0200
+Subject: Re: [PATCH 08/10] staging: vchiq_core: drop vchiq_status from
+ vchiq_set_service_option
+To: nicolas saenz julienne <nsaenz@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev
 References: <1619122076-31785-1-git-send-email-stefan.wahren@i2se.com>
- <1619122076-31785-4-git-send-email-stefan.wahren@i2se.com>
- <20210423072324.GA1442@agape.jhs>
+ <1619122076-31785-9-git-send-email-stefan.wahren@i2se.com>
+ <3731e98b81eac97f2bdbe9a24fa7cfef59b07581.camel@kernel.org>
 From: Stefan Wahren <stefan.wahren@i2se.com>
 Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
@@ -144,8 +145,8 @@ Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
  bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
  LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
-Message-ID: <934794de-3b45-7057-7a63-1f0851c9cc14@i2se.com>
-Date: Fri, 23 Apr 2021 12:54:09 +0200
+Message-ID: <e60363d6-49eb-ad11-77e6-67ac283168bf@i2se.com>
+Date: Fri, 23 Apr 2021 13:03:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -153,63 +154,101 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210423072324.GA1442@agape.jhs>
+In-Reply-To: <3731e98b81eac97f2bdbe9a24fa7cfef59b07581.camel@kernel.org>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
-X-Provags-ID: V03:K1:Tfmt2mPTdna8GMD88tdSFA4nPIk5E1LDPrKpe0z4jwOj6A0hXvg
- MSf6Pb3s8qZIs4T8ANMjtG2kiBKPsEQWMvSwqkN2uN+Ddn4Ss7AtbmusE0q6OxhavVYIehR
- iI4ltJeLn5az3K6UbQ59n02y/cvdq5gWaSDpzpOZgRu6QUN5hyPDv1HzyDBET4IY4tK5jVz
- 4v9KgOxgDo75SGmO88+Cw==
+X-Provags-ID: V03:K1:DUTfZFbZx0J8+nYE6of5gAvW9lCl6j1zHnDQ4D6KJHyNTlrUOP4
+ sRSsPqqJHcZdw4wUVe8iVnEvJwzyWRNxyuH+6KtC3KI0B1xU9G7RSQERxEf9g7N0MYEYOZZ
+ C3bNpI1DtA/7fzuhZD+njGVMVIo+Re+nt5IegrLRg3u3GSb2oDLSPg/mt11XlV7UWIO4eP2
+ Plt5ZPFQTGABuaKXQE5nQ==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:51WrowHOwUE=:8T1G41JQ1yjEYNG8Vlkr61
- pWdvTuktKHJM1p/ThcePA70vshLyE57J9XZyC2SUOZKuneqd6F0My+2nNyH/vofwT196VQG8X
- XdrI364W+K61eICrS30zb2T6YpFfdHOTH8u3t3TrbQeWwbpUvL2kb0vhI0QDcjiStYZyZNPW2
- PCs+T4oxQK0naP4TQ2X5b5pKpHz2SuPdkMogT50GcW+QmePLms5qf9ZQa5uCUgSATWlFQq+sD
- LDvJK5QrKNdlkKWjv/veTWRHE/Fa4gclJbM7D7yBeQ4tpubvG970N1zDQ/pqKqXyzfVVddgRk
- S2jGpfem3nLG9Oj1CuTYhCBd5pt0SQK/VDiB9CWo1eMraqh18HCxjWAcGIc2jO0Ogke8fA+fN
- j+F/0zxs2cGLkTKJcCOTOM7bN5Auv0O4CoUkBEPJL4UPEhd8XfWDeRJIvz63FyLdzB6SZag8z
- Ep1r12trQiEQOhXbTcVzUN5BtWjBQSCvQC3ei4jVeNNYUkt+uwoi1yoyBzxKEZerW6qt6K32H
- 54Lgzf4Ed/+62nT32CtGgE=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Tb95NoN/Jsw=:zjAY1FCyKtOHfnVFBgZg4v
+ 95wywFAsxoaxQ9wFuM+k/GQ2EmtuGYP43bKiSN1UzOJcQPAphuH4dXt6hsA2jXPMLVffbgiT5
+ /dRDUAtqpZFYkl1z/Hk7kd7M5MP6cP80/c0iM1sh/smHbt4L1LBsP4hgzx/+gRG325SbK9sRd
+ wsMg21I51mN26oLWoPINPhdCdF2Po+l1T1h72OdQmfmaTL+c6WeR3rF6j1kucKBOtjMnsQLhM
+ LAlgy1u8upXdGM60feFWXq1kZ0S/esJzJv4ZoEXb4KxApiiMDdKYwAEvmUfCzYuFXIobEw7tU
+ /ACjZVh7XIXOpcHgPMj2oven+lg8pbdYXkovnU7cENFZAcIV2DQlqop1Gb9LVNG0ciG0Ooo7a
+ 7Avc/VkHRVjgQWYSZv7WUU/4LTvYcvwCKz0HOrZTvEk50TLlGp9RyQnmcKa9gx0nVkqh4JlGF
+ /1wzeJE0lPHJZqrGw7nrQdqaGYH99s4I9sCdP2Rla0cX9R8m3l0vN7IhmYUNhIChqvRjjYtxo
+ YR8/qzyw7Ps8z/y5cMnk6M=
 
-Am 23.04.21 um 09:23 schrieb Fabio Aiuto:
-> On Thu, Apr 22, 2021 at 10:07:49PM +0200, Stefan Wahren wrote:
->> Nesting multiple ternary operators over multiple lines isn't easy to
->> read. Move this logic into a separate inline function.
+Am 23.04.21 um 11:59 schrieb nicolas saenz julienne:
+> On Thu, 2021-04-22 at 22:07 +0200, Stefan Wahren wrote:
+>> Replace the custom set of return values with proper Linux error codes =
+for
+>> vchiq_set_service_option(). Now we can use the result directly as retu=
+rn
+>> value for vchiq_ioctl().
 >>
 >> Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 >> ---
->>  .../vc04_services/interface/vchiq_arm/vchiq_core.c | 35 ++++++++++++++--------
->>  1 file changed, 22 insertions(+), 13 deletions(-)
+>> =C2=A0.../vc04_services/interface/vchiq_arm/vchiq_arm.c      |  4 ++--=
+
+>> =C2=A0.../vc04_services/interface/vchiq_arm/vchiq_core.c     | 18 ++++=
++++++---------
+>> =C2=A0.../vc04_services/interface/vchiq_arm/vchiq_core.h     |  2 +-
+>> =C2=A03 files changed, 12 insertions(+), 12 deletions(-)
 >>
->> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
->> index 8a1e6f5..3a72c36 100644
+>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_a=
+rm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>> index 3395201..ab2ce07 100644
+>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>> @@ -1517,8 +1517,8 @@ vchiq_ioctl(struct file *file, unsigned int cmd,=
+ unsigned long arg)
+>> =C2=A0			break;
+>> =C2=A0		}
+>> =C2=A0
+>>
+>> -		status =3D vchiq_set_service_option(
+>> -				args.handle, args.option, args.value);
+>> +		ret =3D vchiq_set_service_option(args.handle, args.option,
+>> +					       args.value);
+>> =C2=A0	} break;
+>> =C2=A0
+>>
+>> =C2=A0	case VCHIQ_IOC_LIB_VERSION: {
+>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_c=
+ore.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+>> index 9f9677a..31c1c1a 100644
 >> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
 >> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
->> @@ -2622,9 +2630,10 @@ do_abort_bulks(struct vchiq_service *service)
->>  	mutex_unlock(&service->bulk_mutex);
->>  
->>  	status = notify_bulks(service, &service->bulk_tx, 0/*!retry_poll*/);
->> -	if (status == VCHIQ_SUCCESS)
->> -		status = notify_bulks(service, &service->bulk_rx,
->> -			0/*!retry_poll*/);
->> +	if (status != VCHIQ_SUCCESS)
->> +		return 0;
->> +
->> +	status = notify_bulks(service, &service->bulk_rx, 0/*!retry_poll*/);
->>  	return (status == VCHIQ_SUCCESS);
->>  }
-> Hi Stefan,
->
-> this change seem to be unrelated ti what's pointed out in changelog.
-> Should it be put in a separate patch?
-Oops, yes this should be a separate patch.
->
->>  
->> -- 
->> 2.7.4
+>> @@ -3371,21 +3371,21 @@ void vchiq_get_config(struct vchiq_config *con=
+fig)
+>> =C2=A0	config->version_min            =3D VCHIQ_VERSION_MIN;
+>> =C2=A0}
+>> =C2=A0
 >>
->>
-> thank you,
+>> -enum vchiq_status
+>> +int
+>> =C2=A0vchiq_set_service_option(unsigned int handle,
+>> =C2=A0	enum vchiq_service_option option, int value)
+>> =C2=A0{
+>> =C2=A0	struct vchiq_service *service =3D find_service_by_handle(handle=
+);
+>> -	enum vchiq_status status =3D VCHIQ_ERROR;
+>> =C2=A0	struct vchiq_service_quota *quota;
+>> +	int ret =3D -EIO;
+> Due to the nature of the driver it's hard to make a clear distinction, =
+but is
+> -EIO really the best error for the function? I don't see error paths th=
+at
+> really depend on communication with VC4. I see it more aligned with -EI=
+NVAL.
+
+In general i totally agree with you. I just wanted to the keep the
+o(l)dd behavior, because vchiq_ioctl() has a catch all for VCHIQ_ERROR
+-> -EIO
+
+I'm not sure if any user application relies on the error code of
+vchiq_ioctl(). Otherwise this isn't argument for all the other patches ;-=
+)
+
+I will change it to -EINVAL.
+
 >
-> fabio
+> Regards,
+> Nicolas
+>
+
