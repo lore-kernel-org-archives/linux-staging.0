@@ -1,94 +1,222 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lb3-smtp-cloud9.xs4all.net (lb3-smtp-cloud9.xs4all.net [194.109.24.30])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C6671
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 291B729CA
 	for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 09:22:02 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id k128so25592503wmk.4
-        for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 02:22:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version;
-        bh=PKT4zkxJMqPYfA9QsNLhQ+bzLMVY8a1pdeHnZ0lb8vc=;
-        b=vJps+xMHcJTJQGZCBcI1vI87JXm/2LWqlw+9gA6G+16Lej7YSMcjCFuMu/3dAt5lFQ
-         PkVhTtshYyBAEXJh1Mw8fx0Cede+TD30Zy/Pi+VgWH1Umuqq1CWGU0OL0oqm25/mPdEk
-         i5nsa9yPJYPjtU18h3mRSnHrbXZQGM5o6ZzKuh0da+0Dsw00nVV6AKenmN0SL2cHj/Rb
-         D6VtvZfAb5fCbd3akwwsRXmSgsHNkA3nl8LvSsPYjfap2nGXsdLvunEykHv/5IFqBNLa
-         34KYmfYtdSf01S3ViMd96Tk1SU/CzxEpC99kMcjh8BPYDinRhDrwFWbzXYSE22G1MoY+
-         yTzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version;
-        bh=PKT4zkxJMqPYfA9QsNLhQ+bzLMVY8a1pdeHnZ0lb8vc=;
-        b=UR5EUCtYvFj4B46z76mMILck53sG7MbFyaffWdfp5O3GUf57cHtjUFWphrtCn/6AJs
-         9JjKDGzeYfc2Nu067wxFfoS1nzE4/PzAL27//0ISHDuIh7IAoipFDvj7pc4Q8AI/uGN6
-         UF1q91Okxn0xIeISenw0Tf6LdsJBzFt9zAquth/0MF7dOvZq8ogAwo04OusnnqC4p69y
-         wl6TBpTEq7nF3xr1qLb3Vn3BHQOzOxkCWLdmh12RwEMTMnq4hkgf2kkBGbNE0io4OAty
-         qeXGz3411URAQJI2kBnsoJJwLiF1Zgk1qJZwxrkYw0j5Di3odP33CDEZbBQ5UsdyE7Ck
-         DZsg==
-X-Gm-Message-State: AOAM532qsGUVUonhcEiU4PkuVTW5S/lnu8qcClY+Nw4VySLkG7FM4hbb
-	OO7Z/8vOFyYe8tMGh2koq9w=
-X-Google-Smtp-Source: ABdhPJy+LoUpv1++f/Sm0DrpwQHIlIXUPiOhShagxZJ1aGaUIxHpwksIROn5Zc74Z+P4SuT+p8PD+w==
-X-Received: by 2002:a05:600c:2247:: with SMTP id a7mr3235552wmm.133.1619169721348;
-        Fri, 23 Apr 2021 02:22:01 -0700 (PDT)
-Received: from ?IPv6:2a0c:5a80:3108:4700:8d94:f633:2343:f95c? ([2a0c:5a80:3108:4700:8d94:f633:2343:f95c])
-        by smtp.gmail.com with ESMTPSA id o17sm7926548wrv.16.2021.04.23.02.22.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Apr 2021 02:22:00 -0700 (PDT)
-Message-ID: <9528f276fab33fc3da617e4b5c3ee0a7c34bf6c8.camel@gmail.com>
-Subject: Re: [PATCH 04/10] staging: vchiq_core: Drop unnecessary check in
- notify_bulks
-From: nicolassaenzj@gmail.com
-To: Stefan Wahren <stefan.wahren@i2se.com>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev
-Date: Fri, 23 Apr 2021 11:22:00 +0200
-In-Reply-To: <1619122076-31785-5-git-send-email-stefan.wahren@i2se.com>
-References: <1619122076-31785-1-git-send-email-stefan.wahren@i2se.com>
-	 <1619122076-31785-5-git-send-email-stefan.wahren@i2se.com>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-qpF3UNpN2Tt/lTnr6BFy"
-User-Agent: Evolution 3.40.0 (3.40.0-1.fc34) 
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+	by smtp-cloud9.xs4all.net with ESMTPA
+	id Zs0bl016nvTEDZs0elcmaK; Fri, 23 Apr 2021 11:22:01 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+	t=1619169721; bh=4i33cPq5YRlrGpo3f6T0iY7nVs8xwHxqgZTcEaiRlys=;
+	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+	 Subject;
+	b=VcdX/Zz6wZ64cvFSuzuAlo9UFk+M6yQ3OCgXaTotMPNTW7MkbmioqFoz1CnCbDH2y
+	 GBodOuefqbocRUS73rET96GqNq7TgAQhG91Eq48Nc9YUVTkuPGUw8/erAMlKFyo29i
+	 Wx1cj3hsj6wuBY4Y6lU2Oh0cb4i7yt9UcaTUtXwTJAxlZNeNEzWdqh2sXh/TlfW+Y2
+	 t5jMvFDDW74An57jEksIFtSl9tUQrAltAGG76H5YH9Pf2XNu0XGrCIkWm1WBPEvtLc
+	 KfWJ9cIZ3+yDLeX07krnawJqcPxwlLrZkVMpwThl+/G2M6R1FRrMLxS9iY6kdjKIVP
+	 JGqIIPNlbppLw==
+Subject: Re: [Outreachy kernel] [PATCH v3] staging: media: atomisp: pci:
+ Change line break to avoid an open parenthesis at the end of the line
+To: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+ Julia Lawall <julia.lawall@inria.fr>, Matthew Wilcox <willy@infradead.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+References: <20210421123718.GA4597@focaruja>
+ <alpine.DEB.2.22.394.2104211507280.9436@hadrien>
+ <7aeac7041a6f6d7b3d8563f0d0bf0a4d31f379b0.camel@gmail.com>
+ <alpine.DEB.2.22.394.2104211555040.9436@hadrien>
+ <16dd7a16a8cc69aa0f81dd6bf47f09e878c71a6b.camel@gmail.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <d2cfc472-d3ac-fd47-aa0c-ed6414f671fc@xs4all.nl>
+Date: Fri, 23 Apr 2021 11:21:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <16dd7a16a8cc69aa0f81dd6bf47f09e878c71a6b.camel@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfFg8zDW66Qc5exL+94pEGtwkZUK5dwl/4XxeSs55yNAO6xWqR6mWZzZxIkspH6Guqm1cswU2CpzcvkW9A+Itu/Bl/G1ivMjMGof/wUNYGzQtggjQOKdD
+ obs180G+1O3b2etGFhbUHB+9hIIy9IpLRm1KGjB+IFYEX2//A7j1AAoYjs0zP2zOiHJfu+VPF4wMM64vlgEPsfkoSDC9qFB0LaEtdVkiLX6vxL2XXXew46Vz
+ nPvtdKhi3hEtq/mRlErtXYL8Wa2zBj0IQsFx/+FG6oeXstucdzue3EnvdVuCK13FklJQLnyUxdGtnWkI997RQtVU7hGjbY6V41xpb1B+ECdokuS4+tELyAED
+ s95knAHpKcFaxpF74A8ZxQ+uvn9MCeZ8Kc/p1GFsuMqPMVNd3BM0fvOnG5rbYVsr7usBd7gkY1ewUxE3+DbkaF+UXW294gY5FFRO4GfkTRtkaV0aYDThbfne
+ oou6K0Vt0T1IeGPYXVF4F2g2aq/gdUHzKiaua8cD3KVo3qvKOackHxrUM0dHige6M5CwD86WL0C+htyu
 
+On 21/04/2021 16:21, Aline Santana Cordeiro wrote:
+> Em qua, 2021-04-21 às 15:56 +0200, Julia Lawall escreveu:
+>>
+>>
+>> On Wed, 21 Apr 2021, Aline Santana Cordeiro wrote:
+>>
+>>> Em qua, 2021-04-21 às 15:08 +0200, Julia Lawall escreveu:
+>>>>
+>>>>
+>>>> On Wed, 21 Apr 2021, Aline Santana Cordeiro wrote:
+>>>>
+>>>>> Change line break to avoid an open parenthesis at the end of
+>>>>> the
+>>>>> line.
+>>>>> It consequently removed spaces at the start of the subsequent
+>>>>> line.
+>>>>
+>>>> The message is hard to understand.  There are a lot of singular
+>>>> nouns, but
+>>>> actually there are two changes.  Which change is being described
+>>>> by
+>>>> the
+>>>> above message?  What does "It" refer to?
+>>>>
+>>>> julia
+>>>
+>>> Checkpatch indicated two problems with this function declaration:
+>>> 1) The line ending with an open parenthesis, and
+>>> 2) The following line - with the function parameters - has spaces
+>>> in
+>>> its identation.
+>>>
+>>> When I changed the line break to put the function name and its
+>>> parameter in the following line, both checkpath checks were
+>>> eliminated.
+>>>
+>>> So, the main change was the line break and, also, the line break
+>>> (it)
+>>> removed the space in the following line.
+>>>
+>>> Is it better to change the message and explain only about the line
+>>> break?
+>>
+>> The message should explain about the whole patch.  So if you change
+>> two
+>> things, it should be clear that what you are saying covers both of
+>> them.
+> 
+> Ok, I can do that. In the commit message I described just one issue
+> because it is only one patch, I didn't want it to look like I was
+> changing different issues in just one patch.
+> 
+>>
+>> But it seems that Matthew doesn't think that the line break is a good
+>> idea
+>> anyway.
+> 
+> Yes, I'm sending this email to Matthew too, because I don't know
+> exactly how to proceed as Hans asked me to made some corrections too. 
+> I've made these changes because checkpatch has indicated and with this
+> line break, checkpatch does not indicate any check or warning anymore.
+> But I can undo that too, I just don't know what I'm supposed to do with
+> so many opposite opinions. 
 
---=-qpF3UNpN2Tt/lTnr6BFy
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+As one of the media maintainers I can say that in this case the preference
+would be to split it up in two lines. It's one of those areas where
+different maintainers have different opinions.
 
-On Thu, 2021-04-22 at 22:07 +0200, Stefan Wahren wrote:
-> There is no modification to the vchiq_status before the first if, so drop
-> this unnecessary check.
->=20
-> Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
-> ---
+Just keep in mind that this is all nitpicking and normally we probably
+wouldn't bother with this at all, but it is a good exercise to learn
+about patches and contributing :-)
 
-Reviewed-by: Nicolas Saenz Julienne <nsaenz@kernel.org>
+Regards,
 
-Thanks,
-Nicolas
+	Hans
 
---=-qpF3UNpN2Tt/lTnr6BFy
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAmCCkbgACgkQlfZmHno8
-x/6cFwgAnlvWFfm/czTv3ehbqhIjk5fBNdW2rch1PK3+6Qq38GNu1pzGLLGku655
-Wx/42xTyac8iTvIPL1A3BYfFqgXB4WnzVv8ePV5X4Fg9SUvNQFYumyWQAxEabo7z
-MMoxrssrsxjyqn3jqmb9ICm5E5gTmtEM1OHMe82JHnFPv0c/khAeKRjJ7bPl8Sg1
-C6klejW+a4YS5jxzRviVHlG0N87lvyjUl07JlcqmuYdjAVRXm5LDhy9HPhZ17/sd
-xVapuyPmRzbcGRZXJTG3qUQrTyT6p69eZ/qFgyaeVQKZ1I/Ra5owuII24S7nJsxT
-BJ03nSCWIBLlC75j3Q5mxN/fSgN3SA==
-=m3pO
------END PGP SIGNATURE-----
-
---=-qpF3UNpN2Tt/lTnr6BFy--
+> 
+> 
+> Thank you all,
+> Aline 
+>>
+>> julia
+>>
+>>>
+>>> Thank you,
+>>> Aline
+>>>>
+>>>>
+>>>>> Both issues detected by checkpatch.pl.
+>>>>>
+>>>>> Signed-off-by: Aline Santana Cordeiro <
+>>>>> alinesantanacordeiro@gmail.com>
+>>>>> ---
+>>>>>
+>>>>> Changes since v2:
+>>>>>  - Insert a space between the function type and pointer
+>>>>>
+>>>>> Changes since v1:
+>>>>>  - Keep the pointer with the function return type
+>>>>>    instead of left it with the function name
+>>>>>
+>>>>>  drivers/staging/media/atomisp/pci/atomisp_cmd.h | 10 +++++----
+>>>>> -
+>>>>>  1 file changed, 5 insertions(+), 5 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+>>>>> b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+>>>>> index 1c0d464..639eca3 100644
+>>>>> --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+>>>>> +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+>>>>> @@ -75,8 +75,8 @@ void atomisp_wdt(struct timer_list *t);
+>>>>>  void atomisp_setup_flash(struct atomisp_sub_device *asd);
+>>>>>  irqreturn_t atomisp_isr(int irq, void *dev);
+>>>>>  irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr);
+>>>>> -const struct atomisp_format_bridge
+>>>>> *get_atomisp_format_bridge_from_mbus(
+>>>>> -    u32 mbus_code);
+>>>>> +const struct atomisp_format_bridge *
+>>>>> +get_atomisp_format_bridge_from_mbus(u32 mbus_code);
+>>>>>  bool atomisp_is_mbuscode_raw(uint32_t code);
+>>>>>  int atomisp_get_frame_pgnr(struct atomisp_device *isp,
+>>>>>                            const struct ia_css_frame *frame,
+>>>>> u32
+>>>>> *p_pgnr);
+>>>>> @@ -381,9 +381,9 @@ enum mipi_port_id __get_mipi_port(struct
+>>>>> atomisp_device *isp,
+>>>>>
+>>>>>  bool atomisp_is_vf_pipe(struct atomisp_video_pipe *pipe);
+>>>>>
+>>>>> -void atomisp_apply_css_parameters(
+>>>>> -    struct atomisp_sub_device *asd,
+>>>>> -    struct atomisp_css_params *css_param);
+>>>>> +void atomisp_apply_css_parameters(struct atomisp_sub_device
+>>>>> *asd,
+>>>>> +                                 struct atomisp_css_params
+>>>>> *css_param);
+>>>>> +
+>>>>>  void atomisp_free_css_parameters(struct atomisp_css_params
+>>>>> *css_param);
+>>>>>
+>>>>>  void atomisp_handle_parameter_and_buffer(struct
+>>>>> atomisp_video_pipe
+>>>>> *pipe);
+>>>>> --
+>>>>> 2.7.4
+>>>>>
+>>>>> --
+>>>>> You received this message because you are subscribed to the
+>>>>> Google
+>>>>> Groups "outreachy-kernel" group.
+>>>>> To unsubscribe from this group and stop receiving emails from
+>>>>> it,
+>>>>> send an email to outreachy-kernel+unsubscribe@googlegroups.com.
+>>>>> To view this discussion on the web visit
+>>>>> https://groups.google.com/d/msgid/outreachy-kernel/20210421123718.GA4597%40focaruja
+>>>>> .
+>>>>>
+>>>
+>>>
+>>> --
+>>> You received this message because you are subscribed to the Google
+>>> Groups "outreachy-kernel" group.
+>>> To unsubscribe from this group and stop receiving emails from it,
+>>> send an email to outreachy-kernel+unsubscribe@googlegroups.com.
+>>> To view this discussion on the web visit    
+>>> https://groups.google.com/d/msgid/outreachy-kernel/7aeac7041a6f6d7b3d8563f0d0bf0a4d31f379b0.camel%40gmail.com
+>>> .
+> 
+> 
 
