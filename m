@@ -1,53 +1,54 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925BB71
-	for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 09:17:18 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id w4so43906113wrt.5
-        for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 02:17:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C6671
+	for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 09:22:02 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id k128so25592503wmk.4
+        for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 02:22:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version;
-        bh=zQzYGKwmer8FO3Nvs7yQ2PVsO3p5HZ2iuVDa85Jrybs=;
-        b=EEb08Eo1vBkqYFi5Inv4M4Pce+uwawzwy3mlZS11DSQZ3jaPZo+GVpFQR1OAakPMc9
-         rkmGi6nxDCEhqaVikGKZBoD9zEw2vO8d4s08UEDvxW6Coui9iECljYCUvS6xyqz8x0Ra
-         eN2sfAaWEKRevtXjuotFynJSkD01NIhSjSO3LDLnz4fCm5ZoQ7DH4TpWSRAjAVng/2lI
-         skDXFn/PycVcU9UnrCXMjh0b2gUp/nnvwrhm5PY1an5o0yDbPvoSPkT3UsgSGD5KzBZj
-         ukBZFcLhanG6onuq9THa5RE8qLyLcx3oEuy+IrD1X3e5Qd6L1y0yJb7h/Vqw4OulZ77A
-         3N0g==
+        bh=PKT4zkxJMqPYfA9QsNLhQ+bzLMVY8a1pdeHnZ0lb8vc=;
+        b=vJps+xMHcJTJQGZCBcI1vI87JXm/2LWqlw+9gA6G+16Lej7YSMcjCFuMu/3dAt5lFQ
+         PkVhTtshYyBAEXJh1Mw8fx0Cede+TD30Zy/Pi+VgWH1Umuqq1CWGU0OL0oqm25/mPdEk
+         i5nsa9yPJYPjtU18h3mRSnHrbXZQGM5o6ZzKuh0da+0Dsw00nVV6AKenmN0SL2cHj/Rb
+         D6VtvZfAb5fCbd3akwwsRXmSgsHNkA3nl8LvSsPYjfap2nGXsdLvunEykHv/5IFqBNLa
+         34KYmfYtdSf01S3ViMd96Tk1SU/CzxEpC99kMcjh8BPYDinRhDrwFWbzXYSE22G1MoY+
+         yTzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version;
-        bh=zQzYGKwmer8FO3Nvs7yQ2PVsO3p5HZ2iuVDa85Jrybs=;
-        b=khE75fXCyiTSh9q6kQ5gfamP8e9i9zU/lbgyX+SkyU5zXNgyZjCgpMDNWcb8W0a2aW
-         9Du0NCrhQLt5tm/shCEWcvpHu4cUTpEQjoGvt15IoMXmnwvQwryg0Ivp0XpEP1vGN5Wi
-         xGJpGn7Xt7CYdkc6rjbciH1f6pkKelZR0Bq1A2HA67fIQxlj4w+10eYqSQijzeAFA/jq
-         uKYmPqLIWStJoxVAIBi4r+PVAVTR9yFiv9wbRcFZihH6lZucZctWlognS63D6/PD+d7o
-         3QG5GGJYCb8j3vZ8PGhGjwxyeRmElrDIGHYnhBU0JRxlO5+fRi5feHsC0OoVZRVhhCdm
-         vJrg==
-X-Gm-Message-State: AOAM533tuOX+ww5+bvX2jQycanDBE+y/a2+IZtjFoqsAiHqxZCTTpTpU
-	8lz6XeyBocpzoLg7rGJw6MXaVxTi9cpi4g==
-X-Google-Smtp-Source: ABdhPJzJAPWRx2x73WmUkyhlkZDcEiHLZ0PyQAkdOtudicsOsd9GwA7YtziwHUUws4yKCnTJK6XSFQ==
-X-Received: by 2002:adf:fbcc:: with SMTP id d12mr3389389wrs.151.1619169437151;
-        Fri, 23 Apr 2021 02:17:17 -0700 (PDT)
+        bh=PKT4zkxJMqPYfA9QsNLhQ+bzLMVY8a1pdeHnZ0lb8vc=;
+        b=UR5EUCtYvFj4B46z76mMILck53sG7MbFyaffWdfp5O3GUf57cHtjUFWphrtCn/6AJs
+         9JjKDGzeYfc2Nu067wxFfoS1nzE4/PzAL27//0ISHDuIh7IAoipFDvj7pc4Q8AI/uGN6
+         UF1q91Okxn0xIeISenw0Tf6LdsJBzFt9zAquth/0MF7dOvZq8ogAwo04OusnnqC4p69y
+         wl6TBpTEq7nF3xr1qLb3Vn3BHQOzOxkCWLdmh12RwEMTMnq4hkgf2kkBGbNE0io4OAty
+         qeXGz3411URAQJI2kBnsoJJwLiF1Zgk1qJZwxrkYw0j5Di3odP33CDEZbBQ5UsdyE7Ck
+         DZsg==
+X-Gm-Message-State: AOAM532qsGUVUonhcEiU4PkuVTW5S/lnu8qcClY+Nw4VySLkG7FM4hbb
+	OO7Z/8vOFyYe8tMGh2koq9w=
+X-Google-Smtp-Source: ABdhPJy+LoUpv1++f/Sm0DrpwQHIlIXUPiOhShagxZJ1aGaUIxHpwksIROn5Zc74Z+P4SuT+p8PD+w==
+X-Received: by 2002:a05:600c:2247:: with SMTP id a7mr3235552wmm.133.1619169721348;
+        Fri, 23 Apr 2021 02:22:01 -0700 (PDT)
 Received: from ?IPv6:2a0c:5a80:3108:4700:8d94:f633:2343:f95c? ([2a0c:5a80:3108:4700:8d94:f633:2343:f95c])
-        by smtp.gmail.com with ESMTPSA id h17sm8282318wru.67.2021.04.23.02.17.16
+        by smtp.gmail.com with ESMTPSA id o17sm7926548wrv.16.2021.04.23.02.22.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Apr 2021 02:17:16 -0700 (PDT)
-Message-ID: <64ca0bdb9f93b33a80045b207a275fd7328c89d4.camel@gmail.com>
-Subject: Re: [PATCH 03/10] staging: vchiq_core: introduce get_bulk_reason
+        Fri, 23 Apr 2021 02:22:00 -0700 (PDT)
+Message-ID: <9528f276fab33fc3da617e4b5c3ee0a7c34bf6c8.camel@gmail.com>
+Subject: Re: [PATCH 04/10] staging: vchiq_core: Drop unnecessary check in
+ notify_bulks
 From: nicolassaenzj@gmail.com
 To: Stefan Wahren <stefan.wahren@i2se.com>, Greg Kroah-Hartman
 	 <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev
-Date: Fri, 23 Apr 2021 11:17:15 +0200
-In-Reply-To: <1619122076-31785-4-git-send-email-stefan.wahren@i2se.com>
+Date: Fri, 23 Apr 2021 11:22:00 +0200
+In-Reply-To: <1619122076-31785-5-git-send-email-stefan.wahren@i2se.com>
 References: <1619122076-31785-1-git-send-email-stefan.wahren@i2se.com>
-	 <1619122076-31785-4-git-send-email-stefan.wahren@i2se.com>
+	 <1619122076-31785-5-git-send-email-stefan.wahren@i2se.com>
 Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-0vSoPR9OFqTZZ8nUJ5JS"
+	protocol="application/pgp-signature"; boundary="=-qpF3UNpN2Tt/lTnr6BFy"
 User-Agent: Evolution 3.40.0 (3.40.0-1.fc34) 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,37 +57,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 
 
---=-0vSoPR9OFqTZZ8nUJ5JS
+--=-qpF3UNpN2Tt/lTnr6BFy
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Thu, 2021-04-22 at 22:07 +0200, Stefan Wahren wrote:
-> Nesting multiple ternary operators over multiple lines isn't easy to
-> read. Move this logic into a separate inline function.
+> There is no modification to the vchiq_status before the first if, so drop
+> this unnecessary check.
 >=20
 > Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 > ---
 
-Looks good to me modulo Fabio's comment.
+Reviewed-by: Nicolas Saenz Julienne <nsaenz@kernel.org>
 
+Thanks,
 Nicolas
 
---=-0vSoPR9OFqTZZ8nUJ5JS
+--=-qpF3UNpN2Tt/lTnr6BFy
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAmCCkJsACgkQlfZmHno8
-x/5hkQf+JzlTUWKBHN8SQRtc368EY3lMXvfpUlZpMMZm+9Jtr9ZNGWD+AQGEauXs
-Z1QyntVnYoFhgU3ftncUn4BUbWM8gifQJAe6H/qBpE3haFvMokSCgFk+s58dGkV4
-EetMmw2ESUPNokbpgBUg0m+vJ7RfToT7HJ/hRpT8st+/fk+srW2nceRFy9TTzMWz
-+0aAzb0apiELHjBfxT63KlHb0LPvvH4yJyzCObX5uQlNV9C3f9SD4QEqYG48yFfq
-8wdeJUhW5sytFfSvSIc9qIOfpzwvjkoLnqbyx0pmHfLlmSXQ+e5mWeAfeeBXnmZm
-U9KmFU4UOrnGjHY2rVmYhek0Gj6LOw==
-=eSee
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAmCCkbgACgkQlfZmHno8
+x/6cFwgAnlvWFfm/czTv3ehbqhIjk5fBNdW2rch1PK3+6Qq38GNu1pzGLLGku655
+Wx/42xTyac8iTvIPL1A3BYfFqgXB4WnzVv8ePV5X4Fg9SUvNQFYumyWQAxEabo7z
+MMoxrssrsxjyqn3jqmb9ICm5E5gTmtEM1OHMe82JHnFPv0c/khAeKRjJ7bPl8Sg1
+C6klejW+a4YS5jxzRviVHlG0N87lvyjUl07JlcqmuYdjAVRXm5LDhy9HPhZ17/sd
+xVapuyPmRzbcGRZXJTG3qUQrTyT6p69eZ/qFgyaeVQKZ1I/Ra5owuII24S7nJsxT
+BJ03nSCWIBLlC75j3Q5mxN/fSgN3SA==
+=m3pO
 -----END PGP SIGNATURE-----
 
---=-0vSoPR9OFqTZZ8nUJ5JS--
+--=-qpF3UNpN2Tt/lTnr6BFy--
 
