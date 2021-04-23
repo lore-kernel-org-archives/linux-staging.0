@@ -1,48 +1,48 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E207F70
-	for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 14:58:49 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id c15so39764097wro.13
-        for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 07:58:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8192D70
+	for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 14:58:51 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id r7so36706297wrm.1
+        for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 07:58:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=vK3QxmyEJ/kAAhKM5dk61kp8P7/wFJS5mqiWEFDpYHk=;
-        b=q4O46DWrQFNNffaoApkG0va+H+yW1aKCf1ly25izBSn1Ce19n6zgAOEuMHCHDKPvaJ
-         cv52vVY1LEJcWFWU6zWnz9fH81g9/YvNlGzNxEblBt4XxDCvk4Q35xujPRPqlMUNyqVm
-         DLUaqLZqr3UeoXKSLyWQuwv1KnI3Uft6gwaLwba7bhs65pDDXrF8D4HWXxEnkbMeeyXV
-         Ru4sZMkQDUWjsOt8Pl/2v5MNeznHaIlcYk1Q6K0VS19/hjgK7UWozKg/+gqBF9XwW8uE
-         jtLSIdkiqOoFQ5vHnXupex8BC1g7PALcQ0B5NYx9hBJnbzBUlU23L6kGUl+VFCauK8qN
-         iIiQ==
+        bh=vNBjMQOLUQhncE75aINBlrH8zAP/gk/+qkzR/90Pdxs=;
+        b=uLmYnd8Y9EC4ltHjNtv5xgl+L5y2HseUsZrqa/6zSy0SJWNYWLT20nQi6enSPS+VAg
+         dDJo1z4Z6Bgt7g0v0IzFZouYvD7QsBWmQ4oIn8L/Z9pkXjRz6lieRNOmcglss0a4+lJC
+         G3UqD7JhcvA/m9S2HPxERlMI1RHL0a2dBnMH6nKcy6VkULNEwMITXZ9zdyUXmU7WNRgx
+         ctuTt28QDkpjIyhGhOyIjukBev2HcdjQ/3mJ1ABWzmNzceAqcCaePwrNNsiJ+dmhLv0p
+         ZePKqYwFlh2Iy58hr9DUgyFnWlP2j0+W+G10oSSPqVxdIS1Tv8dRcRyALrELXM5opUSZ
+         W14Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vK3QxmyEJ/kAAhKM5dk61kp8P7/wFJS5mqiWEFDpYHk=;
-        b=FF+vH6JyeJWgp0zg1qtxLDiONMQI1hgrjOKmIviS7EWpT4GDjLa+I4Qsv/xxOmELYA
-         VYHIOOEnqHtDlUVmGQxMjJOy7MTT28w/UXtczZ1nEFqXJGbjyxXZ2KHWWg2efLFs0MhU
-         DtDUA+08mMq40ifj4XkF7stYd605mhRPYIScsOs4w8sHI+VW525vYviUTSz7RWUshn3z
-         mFgQv0IfWZ1ME3m5SaHWfyt6+rj7bSJpzUIlFwGgQWjhuNo+DxM5Tu5VH2xj8rDta9Gh
-         yiWGjA/eWy8kKE6kW6AZ7hsXqkGejuFz7hndXnbeAQAhKvvegqfJ8skF+0LPsGy3MBnv
-         DRUg==
-X-Gm-Message-State: AOAM533pyKewa5nULizNE+6yUC3H4LkwYs34eAcPUzLBlnmzjZsxReMi
-	F30CFqYQMoT2S8+dBQvXSDg=
-X-Google-Smtp-Source: ABdhPJz6yNPSyEmjK1Z8PkYydHS1u95chhhcoiyU2fl62/TpbeTEn/CTh9J2B4AHPUhI5GcZJEB32Q==
-X-Received: by 2002:adf:e8c4:: with SMTP id k4mr5365706wrn.262.1619189928585;
-        Fri, 23 Apr 2021 07:58:48 -0700 (PDT)
+        bh=vNBjMQOLUQhncE75aINBlrH8zAP/gk/+qkzR/90Pdxs=;
+        b=UNI1sbHgdoOA+uAaB6/r03Yg9NQf6bZp4LLDxyc+HgBbEtFRYrfNIDKBufdEMkA2cf
+         FFjz77DfT7efWsZq5gmVX8S7peN/yqCMR4UxdELKALBk9pbsmWilmSAoSzF05Eze9wkM
+         FxccO4Bfb7oLgR7gRCsdv23nnhLk0fA+OrtzzSI8iVOj/HWoTun0BCCTJdlQHRpUlLWh
+         QrOCV8biHyLqOwinQ7lFfSAyYjjMm0hsURNZcXvgTEuarwXV4sWM6FHpOwOwhg+GJ1iP
+         7bIX2MEztKvJnU9sKKudjw+7KRs1vm+eQ7dg1CcxD3yjk5ulnOg/AM0+vR1Yl4HwjOhi
+         22qQ==
+X-Gm-Message-State: AOAM533gvcHF8dtdQIbIsjBikReHiueIGLjp2LHlnqeh+j/VP2+gRwJr
+	2wJDUMH5tIxiud7gEFTqfds=
+X-Google-Smtp-Source: ABdhPJyLD+za+u0I/c0ixqStEHmcYT3Doy66ZcQNbU34n7Qj5aAt6BKs4umehciuT1y55cWjXJEDyA==
+X-Received: by 2002:adf:d1cc:: with SMTP id b12mr5396260wrd.131.1619189930141;
+        Fri, 23 Apr 2021 07:58:50 -0700 (PDT)
 Received: from agape ([5.171.72.99])
-        by smtp.gmail.com with ESMTPSA id l9sm9561642wrz.7.2021.04.23.07.58.48
+        by smtp.gmail.com with ESMTPSA id f7sm9713039wrp.48.2021.04.23.07.58.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Apr 2021 07:58:48 -0700 (PDT)
+        Fri, 23 Apr 2021 07:58:49 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 04/49] staging: rtl8723bs: remove unused _DBG_871X_LEVEL macro
-Date: Fri, 23 Apr 2021 16:57:55 +0200
-Message-Id: <b3ce80406969921cde889f9f082ef9c858c3a3a8.1619189489.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 05/49] staging: rtl8723bs: remove unused mac_reg_dump() function argument
+Date: Fri, 23 Apr 2021 16:57:56 +0200
+Message-Id: <f8327daed6efcf5afbb8e09c58a5a9591aba0b33.1619189489.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1619189489.git.fabioaiuto83@gmail.com>
 References: <cover.1619189489.git.fabioaiuto83@gmail.com>
@@ -53,37 +53,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove unused _DBG_871X_LEVEL macro,
-after DBG_871X_SEL deletion.
+remove unused function argument void *sel from mac_reg_dump.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/rtw_debug.h | 12 ------------
- 1 file changed, 12 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_debug.c     | 2 +-
+ drivers/staging/rtl8723bs/include/rtw_debug.h  | 2 +-
+ drivers/staging/rtl8723bs/os_dep/ioctl_linux.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/staging/rtl8723bs/core/rtw_debug.c b/drivers/staging/rtl8723bs/core/rtw_debug.c
+index a43fa38cae62..fb12614a2bad 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_debug.c
++++ b/drivers/staging/rtl8723bs/core/rtw_debug.c
+@@ -14,7 +14,7 @@ u32 GlobalDebugLevel = _drv_err_;
+ 
+ #include <rtw_version.h>
+ 
+-void mac_reg_dump(void *sel, struct adapter *adapter)
++void mac_reg_dump(struct adapter *adapter)
+ {
+ 	int i, j = 1;
+ 
 diff --git a/drivers/staging/rtl8723bs/include/rtw_debug.h b/drivers/staging/rtl8723bs/include/rtw_debug.h
-index fbae0d3b168c..fdd5933a3d5a 100644
+index fdd5933a3d5a..eabc21d2b689 100644
 --- a/drivers/staging/rtl8723bs/include/rtw_debug.h
 +++ b/drivers/staging/rtl8723bs/include/rtw_debug.h
-@@ -144,18 +144,6 @@
- 
- #if defined(_dbgdump)
- 
--/* without driver-defined prefix */
--#undef _DBG_871X_LEVEL
--#define _DBG_871X_LEVEL(level, fmt, arg...)	   \
--	do {\
--		if (level <= GlobalDebugLevel) {\
--			if (level <= _drv_err_ && level > _drv_always_) \
--				_dbgdump("ERROR " fmt, ##arg);\
--			else \
--				_dbgdump(fmt, ##arg);\
--		} \
--	} while (0)
--
- #define RTW_DBGDUMP NULL /* 'stream' for _dbgdump */
+@@ -148,7 +148,7 @@
  
  #endif /* defined(_dbgdump) */
+ 
+-void mac_reg_dump(void *sel, struct adapter *adapter);
++void mac_reg_dump(struct adapter *adapter);
+ void bb_reg_dump(void *sel, struct adapter *adapter);
+ void rf_reg_dump(void *sel, struct adapter *adapter);
+ 
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+index e98e5388d5c7..7951c362d664 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+@@ -2734,7 +2734,7 @@ static int rtw_dbg_port(struct net_device *dev,
+ 				case 0xdd:/* registers dump , 0 for mac reg, 1 for bb reg, 2 for rf reg */
+ 					{
+ 						if (extra_arg == 0)
+-							mac_reg_dump(RTW_DBGDUMP, padapter);
++							mac_reg_dump(padapter);
+ 						else if (extra_arg == 1)
+ 							bb_reg_dump(RTW_DBGDUMP, padapter);
+ 						else if (extra_arg == 2)
 -- 
 2.20.1
 
