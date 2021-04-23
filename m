@@ -1,141 +1,120 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [194.109.24.26])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A54D70
-	for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 07:23:29 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id r9so72461892ejj.3
-        for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 00:23:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=WIX5TU+Qdtin5MeNZ6xb7hSaRJuEkL/NWgbQmjBPH80=;
-        b=tXZVYJDqtFhFMMsrJeSiUMilYcr2JiJJOEfvkB5fjWZBDtqu9SMlxTRguNEVHhaszT
-         r/qBSFPqQoq8fqDUWnghIJ33bZa52xtcLlPRM1BZLkBepPp+V8MR+9e+O5KeAGlaWQvR
-         ScCQSp2yUWgwx56qgDiPefBxYXLXgvUEUD6ZuZuM/cteseDHHFV9FTzlbEy0OgsUbp/r
-         F6dbtFylwjIllwVNgUhRpUXs6iPIulfvLqTD+l1JB5IbrVw6j891jZhBS5NWa60mUluA
-         Keg5OCL0Bel3go34KWJBgkK0QzRWSmP+6CwFlMP3INvx+dARf+8rAKDoqbOBA67iEd1I
-         vVnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=WIX5TU+Qdtin5MeNZ6xb7hSaRJuEkL/NWgbQmjBPH80=;
-        b=WLVzDi74Rym6BxcS1lpkQedaTBQS+xRFzIFQJ8YKokmdVUZdnavewr6YRlXBhOsEqY
-         B39SX4Sg0A8t290KnSnLcoMevyWXZ3mO1/OP9T+bov6P1Vi11YvjVPSkjfWyfLDiTMGk
-         g7Xjv1SrGIeIYjp6qVrYhDwIqhI6kX+vzfJ/UCdnUwGUYfIJZuc3h7ll7LwhI+j02iIm
-         aXAu0Sowykz2Og1gM1AwAJJZwJBULEr9FL26xgu7mc0ajP5vKrFSkgd5W7+isjCC0FeY
-         WVNLFv++b/3jHjMrOWAXT2Z+owzJ3OlzgSMD4/pu3N02fUcp3nsxigNGZ17QBxRa0NWu
-         PV0Q==
-X-Gm-Message-State: AOAM5321oC10mAiRF7SfMq6MRCueiVGH51KIeuzoYBitpgLlQJRIac7A
-	Qa5CP0+AbbMVpdUSX4C2QAxlwUOQvrU=
-X-Google-Smtp-Source: ABdhPJytz2mVM37WIClWsaXNQSaugbRkF8ICDEjiRUEEuCjCBfIh/iq5Ctu825godIeAe+kzmkH5sQ==
-X-Received: by 2002:a17:906:840a:: with SMTP id n10mr2724654ejx.59.1619162608232;
-        Fri, 23 Apr 2021 00:23:28 -0700 (PDT)
-Received: from agape.jhs ([5.171.80.34])
-        by smtp.gmail.com with ESMTPSA id lj21sm3292038ejb.74.2021.04.23.00.23.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Apr 2021 00:23:27 -0700 (PDT)
-Date: Fri, 23 Apr 2021 09:23:25 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 03/10] staging: vchiq_core: introduce get_bulk_reason
-Message-ID: <20210423072324.GA1442@agape.jhs>
-References: <1619122076-31785-1-git-send-email-stefan.wahren@i2se.com>
- <1619122076-31785-4-git-send-email-stefan.wahren@i2se.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A36A671
+	for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 09:09:14 +0000 (UTC)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+	by smtp-cloud9.xs4all.net with ESMTPA
+	id ZroClzuR6vTEDZroFlcj4K; Fri, 23 Apr 2021 11:09:12 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+	t=1619168952; bh=x7ozyh8hBJlw/CZeD3L7ZTwGiLAUQCebajl7PyHbRo4=;
+	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+	 Subject;
+	b=MmD07osS3QZbgeS68ODZUGbZWrDNrIoLF669aPAPIJiGuPPFTFy53GLDUMhNjdiwx
+	 pS31ly+/jPVC3rjGE71zhrWLnx6RTtHFikvhdP64/dj/XRFiC9gn+AdqBgFEC2y3og
+	 6Ve1YgRmp6XATK4Vt35DmeordE46pyqQgdWQzUBWjbsmfgQwu7jwTX4nWRfSIVR7DJ
+	 yZ+KZXLEm/fTxJaLMgiUayD4TcA+Ex4XuItqTcpms+gaP2GFXeyNVi00RvzFdm49HN
+	 gxl+Ip3JFPh5dk+ESSRiSgb8tePfdQjqftsN4tIJygypLV2tUsoHxeQ0LjIhqz2iQq
+	 nmd7LkY9Uta5A==
+Subject: Re: [PATCH v3 0/6] staging: media: atomisp: code cleanup fixes
+To: Deepak R Varma <drv@mailo.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, mh12gx2825@gmail.com
+References: <cover.1619022192.git.drv@mailo.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <449f49fa-f19b-70bc-5ee9-3187ac43a376@xs4all.nl>
+Date: Fri, 23 Apr 2021 11:09:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.9.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1619122076-31785-4-git-send-email-stefan.wahren@i2se.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <cover.1619022192.git.drv@mailo.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfHNySfGwsTTOcRms+3SBdITadTlRgErLy0mQDD6ZG/F4PHxVt8zWdXknP61qZtztPHWTQhZPQKrdZ/hO3m7RYdXefQEPtn/6kAPUY8+Xi5hOyOg12dBZ
+ TkRRkbDB8wkv6R+YhikXU8wjbabOLJDX4DORS5GWk0CAD4D+kFMlwqWPcWg0+AaCKw3enQaODkNOg8wKa5igBvYrQ1aLZwl4YrQMLqPqfSJ+3YR6nthmutHx
+ 8MGdB/4UYGLmB7dq/AUvL2BcdYtk4AgeGbSdVKLHxXnV4u12UWvKEE+oabt16fvBOYbaBMjlciY5sCG0nq+edihxWPUS4YdOhQoro0k6uZic+ifdRvsmtXCR
+ RP060o+/NknC4EWjyJKqpW2wRslr2el57h1WrIESMB1qdF9pTpH89x07LXcTMa4gaiibvLQo2zBbSqIMXMP2ZodDGPS9qA==
 
-On Thu, Apr 22, 2021 at 10:07:49PM +0200, Stefan Wahren wrote:
-> Nesting multiple ternary operators over multiple lines isn't easy to
-> read. Move this logic into a separate inline function.
+Hi Deepak,
+
+Something weird is going on. This series didn't appear in patchwork
+(https://patchwork.linuxtv.org/) and looking at lore.kernel.org:
+
+https://lore.kernel.org/linux-media/20210421181101.JySzrynV5EUsi4N5Dh97QA9VUOQjMutu0mNTW7capUw@z/T/#r4d9987c800c28c26c96464bb56916bf0408b4738
+
+it appears v3 was seen as replied to the v1 posts instead of a new thread.
+
+It's probably related to the Message-Id field, which is the same for the
+v1 and v3 posts. Not really sure how you managed that :-)
+
+Please repost so that the v3 series is picked up by patchwork.
+
+Regards,
+
+	Hans
+
+On 21/04/2021 20:11, Deepak R Varma wrote:
+> This patch set addresses different kinds of checkpatch WARNING and
+> CHECK complaints.
 > 
-> Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
-> ---
->  .../vc04_services/interface/vchiq_arm/vchiq_core.c | 35 ++++++++++++++--------
->  1 file changed, 22 insertions(+), 13 deletions(-)
+> Note: The patches should be applied in the ascending order.
 > 
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> index 8a1e6f5..3a72c36 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> @@ -1226,6 +1226,22 @@ release_slot(struct vchiq_state *state, struct vchiq_slot_info *slot_info,
->  	mutex_unlock(&state->recycle_mutex);
->  }
->  
-> +static inline enum vchiq_reason
-> +get_bulk_reason(struct vchiq_bulk *bulk)
-> +{
-> +	if (bulk->dir == VCHIQ_BULK_TRANSMIT) {
-> +		if (bulk->actual == VCHIQ_BULK_ACTUAL_ABORTED)
-> +			return VCHIQ_BULK_TRANSMIT_ABORTED;
-> +
-> +		return VCHIQ_BULK_TRANSMIT_DONE;
-> +	}
-> +
-> +	if (bulk->actual == VCHIQ_BULK_ACTUAL_ABORTED)
-> +		return VCHIQ_BULK_RECEIVE_ABORTED;
-> +
-> +	return VCHIQ_BULK_RECEIVE_DONE;
-> +}
-> +
->  /* Called by the slot handler - don't hold the bulk mutex */
->  static enum vchiq_status
->  notify_bulks(struct vchiq_service *service, struct vchiq_bulk_queue *queue,
-> @@ -1281,16 +1297,8 @@ notify_bulks(struct vchiq_service *service, struct vchiq_bulk_queue *queue,
->  					spin_unlock(&bulk_waiter_spinlock);
->  				} else if (bulk->mode ==
->  					VCHIQ_BULK_MODE_CALLBACK) {
-> -					enum vchiq_reason reason = (bulk->dir ==
-> -						VCHIQ_BULK_TRANSMIT) ?
-> -						((bulk->actual ==
-> -						VCHIQ_BULK_ACTUAL_ABORTED) ?
-> -						VCHIQ_BULK_TRANSMIT_ABORTED :
-> -						VCHIQ_BULK_TRANSMIT_DONE) :
-> -						((bulk->actual ==
-> -						VCHIQ_BULK_ACTUAL_ABORTED) ?
-> -						VCHIQ_BULK_RECEIVE_ABORTED :
-> -						VCHIQ_BULK_RECEIVE_DONE);
-> +					enum vchiq_reason reason =
-> +							get_bulk_reason(bulk);
->  					status = make_service_callback(service,
->  						reason,	NULL, bulk->userdata);
->  					if (status == VCHIQ_RETRY)
-> @@ -2622,9 +2630,10 @@ do_abort_bulks(struct vchiq_service *service)
->  	mutex_unlock(&service->bulk_mutex);
->  
->  	status = notify_bulks(service, &service->bulk_tx, 0/*!retry_poll*/);
-> -	if (status == VCHIQ_SUCCESS)
-> -		status = notify_bulks(service, &service->bulk_rx,
-> -			0/*!retry_poll*/);
-> +	if (status != VCHIQ_SUCCESS)
-> +		return 0;
-> +
-> +	status = notify_bulks(service, &service->bulk_rx, 0/*!retry_poll*/);
->  	return (status == VCHIQ_SUCCESS);
->  }
-
-Hi Stefan,
-
-this change seem to be unrelated ti what's pointed out in changelog.
-Should it be put in a separate patch?
-
->  
-> -- 
-> 2.7.4
+> Changes since v2:
+>    Generic change:
+>    1. Correct patch versioning in patch subject
+> 
+>    Patch Specific change:
+>    1. patch 1/6 : none
+>    2. patch 2/6 : none
+>    3. patch 3/6 : none
+>    4. patch 4/6 :
+>         a. Tag Fabio Auito for the patch suggestion
+> 
+>    5. patch 5/6 : none
+>    6. patch 6/6:
+>         a. Tag Fabio Auito for the patch suggestion
+> 
+> Changes since v1:
+>    Generic change:
+>    1. The patch set is being resent from an email account that matches with
+>       the patch signed-of-by tag. Issue highlighted by Hans Verkuil.
+> 
+>    Patch specific changes:
+>    1. patch 1/6 : none
+>    2. patch 2/6 : none
+>    3. patch 3/6 : none
+>    4. patch 4/6 : implement following changes suggested by Fabio Aiuto
+>         a. Corrected commenting style
+>         b. Similar style implemented for other comment blocks in
+>            the same files.
+>    5. patch 5/6 : none
+>    6. patch 6/6: implement following changes suggested by Fabio Aiuto
+>         a. use dev_info instead of pr_info
+>         b. update patch log message accordingly
 > 
 > 
+> Deepak R Varma (6):
+>   staging: media: atomisp: improve function argument alignment
+>   staging: media: atomisp: balance braces around if...else block
+>   staging: media: atomisp: use __func__ over function names
+>   staging: media: atomisp: reformat code comment blocks
+>   staging: media: atomisp: fix CamelCase variable naming
+>   staging: media: atomisp: replace raw printk() by dev_info()
+> 
+>  .../media/atomisp/i2c/atomisp-gc0310.c        |  14 +--
+>  .../media/atomisp/i2c/atomisp-gc2235.c        |  29 ++---
+>  .../atomisp/i2c/atomisp-libmsrlisthelper.c    |   6 +-
+>  .../media/atomisp/i2c/atomisp-lm3554.c        |   2 +-
+>  .../media/atomisp/i2c/atomisp-mt9m114.c       | 106 ++++++++++--------
+>  .../media/atomisp/i2c/atomisp-ov2680.c        |  43 ++++---
+>  .../media/atomisp/i2c/atomisp-ov2722.c        |  10 +-
+>  7 files changed, 116 insertions(+), 94 deletions(-)
+> 
 
-thank you,
-
-fabio
