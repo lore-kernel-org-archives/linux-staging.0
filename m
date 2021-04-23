@@ -1,117 +1,177 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BBE71
-	for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 16:52:54 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id c15so40082280wro.13
-        for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 09:52:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=9tb7u/DpAkV0Suiokby9iWVlYLDwOXtPXfFXKs/iF3c=;
-        b=aznGAWk5e294SbU2cMMw/mNdZng6zwqph1PWWlygg2hb6DaDD2veMhcyn03CpU0lbb
-         lezjXJWfi8PriUYUEDvwWLY9jyzhWTAY2NvBV/IvNy7i3hkq1/VZMQS0qneaPJf3wvh1
-         vjqRrNPGdLNWGBDk3JiZkztlkLsdOhuOmqd7glheHEMGjV8x9vFm+iV+M4jEoPraKNB8
-         eRrXNdKwabUvPVzFQgT4cMmUSWufNKpx8z2KQKN/HGstJnhLZ0x3JhvFIBu6pQea0FnH
-         qUXbzA214WBtdcPvv3CcA8hA/80anbIylW2HMhgAOMQntnSoi+n4mGwn2RPJq9K/6hG8
-         zHrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=9tb7u/DpAkV0Suiokby9iWVlYLDwOXtPXfFXKs/iF3c=;
-        b=oGxIaCRtr58Fc/c/eZpxOlbJ+uQw6Zwpq5cig8g+1WXlC0sxxCuAi6FRJYlLsBSuBN
-         xS3iFKFreMCMd+5LWm2StDlD6FudGygrKIbl4L8WJSjuiN7UtE3ehkB5R5KELhES2gMk
-         vZUM0bY1Y9LZXj4yUgFtf5RtUDApo4GKzMUf9YxcUiijsYVaThDRvthyVlPD5FlhbZDy
-         C3rbFkfUEXByhJlIa9HfPcacuialOYWlVig2aVNTFd9pYZql77ZIMmYgJJanEbJoKAp0
-         R+lzwQJ1ytnXA1ljgNhsYVbLhl0/WfD+gbRM0D+upPBAyMNq1bmfO3CcUNlZUlk0sWY9
-         DF8g==
-X-Gm-Message-State: AOAM5325Rkt5jstV7Mc9gXh2WyRG7jdRl4H4lUFhwmug4YVDOOiNRL+s
-	vLuX6dOMqhzsdfx4qK/q/To=
-X-Google-Smtp-Source: ABdhPJy2J+JRVR6CxxPl3+91w9mwKINYMfv4HSPJYB99mp0TeatcSk5rYYe7PTz7gcm7hCstYjqUqg==
-X-Received: by 2002:a5d:60d0:: with SMTP id x16mr6005051wrt.0.1619196772627;
-        Fri, 23 Apr 2021 09:52:52 -0700 (PDT)
-Received: from agape.jhs ([109.52.244.233])
-        by smtp.gmail.com with ESMTPSA id x23sm8089171wmj.43.2021.04.23.09.52.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Apr 2021 09:52:52 -0700 (PDT)
-Date: Fri, 23 Apr 2021 18:52:49 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Joe Perches <joe@perches.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 02/49] staging: rtl8723bs: replace DBG_871X_SEL log macro
- with netdev_dbg()
-Message-ID: <20210423165249.GA1419@agape.jhs>
-References: <cover.1619189489.git.fabioaiuto83@gmail.com>
- <9e6a1e4dc8962bfd58375be98619c76e8e28febe.1619189489.git.fabioaiuto83@gmail.com>
- <0a68fbfffba4cc801814e3af1e3a7571928c1921.camel@perches.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859A771
+	for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 17:21:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1619198495; bh=LgpkOvFvmcmXcGSrGpy9msoiAABCTUj0nQBsge9ToWc=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
+	 Content-Type;
+	b=WekUFerUiBJAulUDj0hrZcaZKert1p2mX2ykwij4+rVK1NiMQYpi8Y75ZdppM09EO
+	 wTE6zAcNzWF3WkEzkYPDIF91az3upnVYQpWwBTiXuzL6xfhHaX0FJTvsP4qdlnAan0
+	 g+HApZ7BTMfNdrNlS9cbpHXx0I5k2xuQHvbJ9zvw=
+Received: by 192.168.90.13 [192.168.90.13] with ESMTP
+	via ip-206.mailobj.net [213.182.55.206]
+	Fri, 23 Apr 2021 19:21:34 +0200 (CEST)
+X-EA-Auth: Dkcvxco0i4h7kVEoj7fTqHCAo2uCS9jyLzFkinpHTGwumy6YoDofoCajKGLBEBKNxbBou9l0Ictitp2Jnwg1Vbf5uTjNbY5q
+Date: Fri, 23 Apr 2021 22:51:29 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, mh12gx2825@gmail.com, drv@mailo.com
+Subject: [PATCH v2] staging: media: atomisp: replace [pr|dev]_info() by
+ dev_dbg()
+Message-ID: <20210423172129.GA254325@localhost>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0a68fbfffba4cc801814e3af1e3a7571928c1921.camel@perches.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Fri, Apr 23, 2021 at 08:27:58AM -0700, Joe Perches wrote:
-> On Fri, 2021-04-23 at 16:57 +0200, Fabio Aiuto wrote:
-> > replace DBG_871X_SEL log macro with the net device driver
-> > recommended netdev_dbg().
-> > 
-> > This macro by default does a raw printk, and the alternative
-> > behaviour, never triggered is a seq_print() call.
-> []
-> > diff --git a/drivers/staging/rtl8723bs/core/rtw_debug.c b/drivers/staging/rtl8723bs/core/rtw_debug.c
-> []
-> > @@ -23,9 +23,10 @@ void mac_reg_dump(void *sel, struct adapter *adapter)
-> >  	for (i = 0x0; i < 0x800; i += 4) {
-> >  		if (j%4 == 1)
-> >  			netdev_dbg(adapter->pnetdev, "0x%03x", i);
-> > -		DBG_871X_SEL(sel, " 0x%08x ", rtw_read32(adapter, i));
-> > +		netdev_dbg(adapter->pnetdev, " 0x%08x ",
-> > +			   rtw_read32(adapter, i));
-> >  		if ((j++)%4 == 0)
-> > -			DBG_871X_SEL(sel, "\n");
-> > +			netdev_dbg(adapter->pnetdev, "\n");
-> >  	}
-> 
-> This makes a mess of the output as each netdev_dbg call
-> is a separate line.
-> 
-> Dumping 1000 register lines into output logs seems impolite
-> at best, even for debugging.
-> 
-> This _might_ be rewritten to something like:
-> 
-> void dump_4_regs(struct adapter *adapter, int offset)
-> {
-> 	u32 reg[4];
-> 	int i;
-> 
-> 	for (i = 0; i < 4; i++)
-> 		reg[i] = rtw_read32(adapter, offset + i);
-> 
-> 	netdev_dbg(adapter->pnetdev, "0x%03x 0x%08x 0x%08x 0x%08x 0x%08x\n",
-> 		   i, reg[0], reg[1], reg[2], reg[3]);
-> }
-> 
-> void mac_reg_dump(...)
-> {
-> 	...
-> 
-> 	for (i = 0; i < 0x800; i += 4)
-> 		dump_4_regs(adapter, i);
-> 
-> 
-> 
+It is recommended to use driver model diagnostic macros dev_*() instead
+of pr_*() since the former ensures that the log messages are always
+associated with the corresponding device and driver. Also, using
+dev_dbg() is less log spamming as against dev_info().
 
-interesting, sure that will be matter of another patch series,
-the ugly output was already there, old macro used to wrap a raw
-printk...
+Suggested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+Signed-off-by: Deepak R Varma <drv@mailo.com>
+---
+
+Changes in v2:
+   - use dev_dbg() instead of dev_info(). Feedback from Hans Verkuil.
+   - update patch summary and description accordingly.
+
+
+ .../media/atomisp/i2c/atomisp-gc0310.c        | 30 +++++++++----------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+index 7e4e123fdb52..bb75d077ad63 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+@@ -300,7 +300,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
+ 	/* pixel clock calculattion */
+ 	dev->vt_pix_clk_freq_mhz = 14400000; // 16.8MHz
+ 	buf->vt_pix_clk_freq_mhz = dev->vt_pix_clk_freq_mhz;
+-	pr_info("vt_pix_clk_freq_mhz=%d\n", buf->vt_pix_clk_freq_mhz);
++	dev_dbg(&client->dev, "vt_pix_clk_freq_mhz=%d\n", buf->vt_pix_clk_freq_mhz);
+ 
+ 	/* get integration time */
+ 	buf->coarse_integration_time_min = GC0310_COARSE_INTG_TIME_MIN;
+@@ -326,7 +326,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
+ 	if (ret)
+ 		return ret;
+ 	buf->crop_horizontal_start = val | (reg_val & 0xFF);
+-	pr_info("crop_horizontal_start=%d\n", buf->crop_horizontal_start);
++	dev_dbg(&client->dev, "crop_horizontal_start=%d\n", buf->crop_horizontal_start);
+ 
+ 	/* Getting crop_vertical_start */
+ 	ret =  gc0310_read_reg(client, GC0310_8BIT,
+@@ -339,7 +339,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
+ 	if (ret)
+ 		return ret;
+ 	buf->crop_vertical_start = val | (reg_val & 0xFF);
+-	pr_info("crop_vertical_start=%d\n", buf->crop_vertical_start);
++	dev_dbg(&client->dev, "crop_vertical_start=%d\n", buf->crop_vertical_start);
+ 
+ 	/* Getting output_width */
+ 	ret = gc0310_read_reg(client, GC0310_8BIT,
+@@ -352,7 +352,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
+ 	if (ret)
+ 		return ret;
+ 	buf->output_width = val | (reg_val & 0xFF);
+-	pr_info("output_width=%d\n", buf->output_width);
++	dev_dbg(&client->dev, "output_width=%d\n", buf->output_width);
+ 
+ 	/* Getting output_height */
+ 	ret = gc0310_read_reg(client, GC0310_8BIT,
+@@ -365,12 +365,12 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
+ 	if (ret)
+ 		return ret;
+ 	buf->output_height = val | (reg_val & 0xFF);
+-	pr_info("output_height=%d\n", buf->output_height);
++	dev_dbg(&client->dev, "output_height=%d\n", buf->output_height);
+ 
+ 	buf->crop_horizontal_end = buf->crop_horizontal_start + buf->output_width - 1;
+ 	buf->crop_vertical_end = buf->crop_vertical_start + buf->output_height - 1;
+-	pr_info("crop_horizontal_end=%d\n", buf->crop_horizontal_end);
+-	pr_info("crop_vertical_end=%d\n", buf->crop_vertical_end);
++	dev_dbg(&client->dev, "crop_horizontal_end=%d\n", buf->crop_horizontal_end);
++	dev_dbg(&client->dev, "crop_vertical_end=%d\n", buf->crop_vertical_end);
+ 
+ 	/* Getting line_length_pck */
+ 	ret = gc0310_read_reg(client, GC0310_8BIT,
+@@ -389,7 +389,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
+ 		return ret;
+ 	sh_delay = reg_val;
+ 	buf->line_length_pck = buf->output_width + hori_blanking + sh_delay + 4;
+-	pr_info("hori_blanking=%d sh_delay=%d line_length_pck=%d\n", hori_blanking,
++	dev_dbg(&client->dev, "hori_blanking=%d sh_delay=%d line_length_pck=%d\n", hori_blanking,
+ 		sh_delay, buf->line_length_pck);
+ 
+ 	/* Getting frame_length_lines */
+@@ -404,7 +404,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
+ 		return ret;
+ 	vert_blanking = val | (reg_val & 0xFF);
+ 	buf->frame_length_lines = buf->output_height + vert_blanking;
+-	pr_info("vert_blanking=%d frame_length_lines=%d\n", vert_blanking,
++	dev_dbg(&client->dev, "vert_blanking=%d frame_length_lines=%d\n", vert_blanking,
+ 		buf->frame_length_lines);
+ 
+ 	buf->binning_factor_x = res->bin_factor_x ?
+@@ -434,7 +434,7 @@ static int gc0310_set_gain(struct v4l2_subdev *sd, int gain)
+ 		dgain = gain / 2;
+ 	}
+ 
+-	pr_info("gain=0x%x again=0x%x dgain=0x%x\n", gain, again, dgain);
++	dev_dbg(&client->dev, "gain=0x%x again=0x%x dgain=0x%x\n", gain, again, dgain);
+ 
+ 	/* set analog gain */
+ 	ret = gc0310_write_reg(client, GC0310_8BIT,
+@@ -458,7 +458,7 @@ static int __gc0310_set_exposure(struct v4l2_subdev *sd, int coarse_itg,
+ 	struct i2c_client *client = v4l2_get_subdevdata(sd);
+ 	int ret;
+ 
+-	pr_info("coarse_itg=%d gain=%d digitgain=%d\n", coarse_itg, gain, digitgain);
++	dev_dbg(&client->dev, "coarse_itg=%d gain=%d digitgain=%d\n", coarse_itg, gain, digitgain);
+ 
+ 	/* set exposure */
+ 	ret = gc0310_write_reg(client, GC0310_8BIT,
+@@ -1020,8 +1020,8 @@ static int gc0310_set_fmt(struct v4l2_subdev *sd,
+ 		return -EINVAL;
+ 	}
+ 
+-	dev_info(&client->dev, "%s: before gc0310_write_reg_array %s\n",
+-		 __func__, gc0310_res[dev->fmt_idx].desc);
++	dev_dbg(&client->dev, "%s: before gc0310_write_reg_array %s\n",
++		__func__, gc0310_res[dev->fmt_idx].desc);
+ 	ret = startup(sd);
+ 	if (ret) {
+ 		dev_err(&client->dev, "gc0310 startup err\n");
+@@ -1085,7 +1085,7 @@ static int gc0310_detect(struct i2c_client *client)
+ 		return -ENODEV;
+ 	}
+ 	id = ((((u16)high) << 8) | (u16)low);
+-	pr_info("sensor ID = 0x%x\n", id);
++	dev_dbg(&client->dev, "sensor ID = 0x%x\n", id);
+ 
+ 	if (id != GC0310_ID) {
+ 		dev_err(&client->dev, "sensor ID error, read id = 0x%x, target id = 0x%x\n", id,
+@@ -1106,7 +1106,7 @@ static int gc0310_s_stream(struct v4l2_subdev *sd, int enable)
+ 	struct i2c_client *client = v4l2_get_subdevdata(sd);
+ 	int ret;
+ 
+-	pr_info("%s S enable=%d\n", __func__, enable);
++	dev_dbg(&client->dev, "%s S enable=%d\n", __func__, enable);
+ 	mutex_lock(&dev->input_lock);
+ 
+ 	if (enable) {
+-- 
+2.25.1
+
+
+
