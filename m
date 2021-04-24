@@ -1,18 +1,18 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49CA52F83
-	for <linux-staging@lists.linux.dev>; Sat, 24 Apr 2021 05:59:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F2B7761476;
-	Sat, 24 Apr 2021 05:59:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E602F83
+	for <linux-staging@lists.linux.dev>; Sat, 24 Apr 2021 06:00:16 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 652086137D;
+	Sat, 24 Apr 2021 06:00:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1619243989;
-	bh=Ni5d0JFTtplCZtSRb+Wqkkju1qYBWYjLXRgjMgmIFyY=;
+	s=korg; t=1619244016;
+	bh=5y+JNpXhdcfwvkMSZyc1L+mhCIh3vzIaCOc/xaucCOk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=InGnb4K6jRYCpaXeCghwec/WL0SusiCBRgQ5c724yz2h8z0rCgtur+RxbVa+m0yH5
-	 k7AttLi405RJ2xAOMHEJTNSEwrb8IfUvcW3EM+vvawhe5y2ETuVXrGXRQImbbq8oOi
-	 IMaxMiy3c0aH/2QCzqYMIWtrxRptSfZX88Flc5fQ=
-Date: Sat, 24 Apr 2021 07:59:44 +0200
+	b=rIIzwE/f2Z1g/HvP86RIhBhxWazNn9/1G1J7uaQXCDlT5QcRqDTdG0Bh6CEH5mHfk
+	 PnoqjNrOVbg7b6ixi8Fz0+qwstkc1iIeOHJu4AWD9dZ2t1YjCE/PX9Jd4ezokXZT+4
+	 zUIyw2QyKZVAGPZ8M7S9DGNmPpP8U9WQlvI6AQZI=
+Date: Sat, 24 Apr 2021 08:00:10 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Ashish Kalra <eashishkalra@gmail.com>
 Cc: Abheek Dhawan <adawesomeguy222@gmail.com>,
@@ -24,7 +24,7 @@ Cc: Abheek Dhawan <adawesomeguy222@gmail.com>,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: wlan-ng: silence incorrect type in argument 1
  (different address spaces) warning
-Message-ID: <YIOz0LwSP5mmPYIg@kroah.com>
+Message-ID: <YIOz6o8gwHv+cAN7@kroah.com>
 References: <20210420090142.GA4086@ashish-NUC8i5BEH>
  <YIE3IffGcjrkz4ZE@kroah.com>
  <20210423152619.GA2469@ashish-NUC8i5BEH>
@@ -84,8 +84,4 @@ On Fri, Apr 23, 2021 at 08:56:19PM +0530, Ashish Kalra wrote:
 > 
 > Does this looks ok to you and is there any other check possible if this is ok?
 
-THat looks better.  What does running sparse on that change show?
-
-thanks,
-
-greg k-h
+Wait, what is "caddr_t"?  Try unwinding that mess first...
