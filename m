@@ -1,271 +1,91 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05DE071
-	for <linux-staging@lists.linux.dev>; Sat, 24 Apr 2021 02:10:15 +0000 (UTC)
-Received: by mail-qv1-f41.google.com with SMTP id d1so13182091qvy.11
-        for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 19:10:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=kcIelX1EsGDmdwC3ocBtd0zMhNA8a0bphR97MMdWuis=;
-        b=GtqXz/xQNMqRVwYlcLPVUMocoqdYzVUPJWUnA23leuh4I/iob899wcJIyWdkjD1pLT
-         HzYG8pOXtESdV3CWhiLV1RQBT7XKsjIYNOrNE5sIYbsN9cgiJBFGEH/x77PIH4hx2i8V
-         kUyhiunfmiGTNSu4QeBawS4JGhK+gqsANyvi2tHNvs5lxzPjAO06HwR29IcltnnombrW
-         UPwqtt+5fT1hrpvYgyFSXna8oKgoWT2Xec/W01S1aW6E9KFAVcfc3T9/BLdKoCz9Tkmq
-         mZ7V3UPFXEWDfbBqgwEff9i8ljBLuLmG+ozHTxzAmyh0DXkO430fwklCdE4KmMKXETSr
-         /P0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=kcIelX1EsGDmdwC3ocBtd0zMhNA8a0bphR97MMdWuis=;
-        b=L+O9ULcC27QxR6jAoHsAwaRd/LCz6GiB5m4QF2Gc/ZDYi2yoAAtU5dYYY0Zgbhjx9F
-         V+ajqiid6a+ShE/w4s0uSmUZVS+EpCypDlBRNICugXEDrzcqm6nutn0EKJyxAxhLzgwO
-         jL7hEZVWWwE1hY1C5YYnNk+gIoC+hVXnM6oHxDWNyycjtv16qe7O+Em25KUCo1IpTaaU
-         lBEeiXta0JKF4CgzEgCFCM3T/C1eMmNoihy863UETrkoLKEN26BTV0ta5kmJsMnYY3uq
-         oCFAeP0okD8CXrrcHTlwKbedz6ocbYb3HMNo9QkaWK+LbJEnrTAN7uMXjAD3RBxW20Dx
-         n4Jg==
-X-Gm-Message-State: AOAM533yeWals2pdR4BaO9wZjgiQVqBUdL3U6b8GkwMS2EzgBkqA3eIE
-	AVctK+N7k3O+BBPkHLz1pm8=
-X-Google-Smtp-Source: ABdhPJxGNuD8Q0uexHAd2IERDSyUQL8artcvLH0hyQwEglMOZTYRD82ofp1LixQt+TEdr8EVqzALWQ==
-X-Received: by 2002:ad4:4c86:: with SMTP id bs6mr7796941qvb.39.1619230215035;
-        Fri, 23 Apr 2021 19:10:15 -0700 (PDT)
-Received: from ?IPv6:2001:1284:f013:744e:ffa4:164a:a3e9:c671? ([2001:1284:f013:744e:ffa4:164a:a3e9:c671])
-        by smtp.gmail.com with ESMTPSA id l12sm5502413qth.72.2021.04.23.19.10.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Apr 2021 19:10:13 -0700 (PDT)
-Message-ID: <3ce3294c173c954381b26ab049222c186f81ddf4.camel@gmail.com>
-Subject: Re: [Outreachy kernel] [PATCH v3] staging: media: atomisp: pci:
- Change line break to avoid an open parenthesis at the end of the line
-From: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>, Julia Lawall <julia.lawall@inria.fr>,
-  Matthew Wilcox <willy@infradead.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev,  linux-kernel@vger.kernel.org,
- outreachy-kernel@googlegroups.com
-Date: Fri, 23 Apr 2021 23:10:09 -0300
-In-Reply-To: <d2cfc472-d3ac-fd47-aa0c-ed6414f671fc@xs4all.nl>
-References: <20210421123718.GA4597@focaruja>
-	 <alpine.DEB.2.22.394.2104211507280.9436@hadrien>
-	 <7aeac7041a6f6d7b3d8563f0d0bf0a4d31f379b0.camel@gmail.com>
-	 <alpine.DEB.2.22.394.2104211555040.9436@hadrien>
-	 <16dd7a16a8cc69aa0f81dd6bf47f09e878c71a6b.camel@gmail.com>
-	 <d2cfc472-d3ac-fd47-aa0c-ed6414f671fc@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.0 (by Flathub.org) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49CA52F83
+	for <linux-staging@lists.linux.dev>; Sat, 24 Apr 2021 05:59:50 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F2B7761476;
+	Sat, 24 Apr 2021 05:59:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1619243989;
+	bh=Ni5d0JFTtplCZtSRb+Wqkkju1qYBWYjLXRgjMgmIFyY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=InGnb4K6jRYCpaXeCghwec/WL0SusiCBRgQ5c724yz2h8z0rCgtur+RxbVa+m0yH5
+	 k7AttLi405RJ2xAOMHEJTNSEwrb8IfUvcW3EM+vvawhe5y2ETuVXrGXRQImbbq8oOi
+	 IMaxMiy3c0aH/2QCzqYMIWtrxRptSfZX88Flc5fQ=
+Date: Sat, 24 Apr 2021 07:59:44 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Ashish Kalra <eashishkalra@gmail.com>
+Cc: Abheek Dhawan <adawesomeguy222@gmail.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Romain Perier <romain.perier@gmail.com>,
+	Waiman Long <longman@redhat.com>,
+	Allen Pais <apais@linux.microsoft.com>,
+	Ivan Safonov <insafonov@gmail.com>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: wlan-ng: silence incorrect type in argument 1
+ (different address spaces) warning
+Message-ID: <YIOz0LwSP5mmPYIg@kroah.com>
+References: <20210420090142.GA4086@ashish-NUC8i5BEH>
+ <YIE3IffGcjrkz4ZE@kroah.com>
+ <20210423152619.GA2469@ashish-NUC8i5BEH>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210423152619.GA2469@ashish-NUC8i5BEH>
 
-Em sex, 2021-04-23 às 11:21 +0200, Hans Verkuil escreveu:
-> On 21/04/2021 16:21, Aline Santana Cordeiro wrote:
-> > Em qua, 2021-04-21 às 15:56 +0200, Julia Lawall escreveu:
+On Fri, Apr 23, 2021 at 08:56:19PM +0530, Ashish Kalra wrote:
+> On Thu, Apr 22, 2021 at 10:43:13AM +0200, Greg Kroah-Hartman wrote:
+> > On Tue, Apr 20, 2021 at 02:31:42PM +0530, Ashish Kalra wrote:
+> > > Upon running sparse, "warning: incorrect type in argument 1 (different address spaces)
+> > > is brought to notice for this file.let's add correct typecast to make it cleaner and
+> > > silence the Sparse warning.
 > > > 
+> > > Signed-off-by: Ashish Kalra <eashishkalra@gmail.com>
+> > > ---
+> > >  drivers/staging/wlan-ng/p80211netdev.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
 > > > 
-> > > On Wed, 21 Apr 2021, Aline Santana Cordeiro wrote:
-> > > 
-> > > > Em qua, 2021-04-21 às 15:08 +0200, Julia Lawall escreveu:
-> > > > > 
-> > > > > 
-> > > > > On Wed, 21 Apr 2021, Aline Santana Cordeiro wrote:
-> > > > > 
-> > > > > > Change line break to avoid an open parenthesis at the end
-> > > > > > of
-> > > > > > the
-> > > > > > line.
-> > > > > > It consequently removed spaces at the start of the
-> > > > > > subsequent
-> > > > > > line.
-> > > > > 
-> > > > > The message is hard to understand.  There are a lot of
-> > > > > singular
-> > > > > nouns, but
-> > > > > actually there are two changes.  Which change is being
-> > > > > described
-> > > > > by
-> > > > > the
-> > > > > above message?  What does "It" refer to?
-> > > > > 
-> > > > > julia
-> > > > 
-> > > > Checkpatch indicated two problems with this function
-> > > > declaration:
-> > > > 1) The line ending with an open parenthesis, and
-> > > > 2) The following line - with the function parameters - has
-> > > > spaces
-> > > > in
-> > > > its identation.
-> > > > 
-> > > > When I changed the line break to put the function name and its
-> > > > parameter in the following line, both checkpath checks were
-> > > > eliminated.
-> > > > 
-> > > > So, the main change was the line break and, also, the line
-> > > > break
-> > > > (it)
-> > > > removed the space in the following line.
-> > > > 
-> > > > Is it better to change the message and explain only about the
-> > > > line
-> > > > break?
-> > > 
-> > > The message should explain about the whole patch.  So if you
-> > > change
-> > > two
-> > > things, it should be clear that what you are saying covers both
-> > > of
-> > > them.
+> > > diff --git a/drivers/staging/wlan-ng/p80211netdev.c b/drivers/staging/wlan-ng/p80211netdev.c
+> > > index 6f9666dc0277..70570e8a5ad2 100644
+> > > --- a/drivers/staging/wlan-ng/p80211netdev.c
+> > > +++ b/drivers/staging/wlan-ng/p80211netdev.c
+> > > @@ -569,7 +569,7 @@ static int p80211knetdev_do_ioctl(struct net_device *dev,
+> > >  		goto bail;
+> > >  	}
+> > >  
+> > > -	msgbuf = memdup_user(req->data, req->len);
+> > > +	msgbuf = memdup_user((void __user *)req->data, req->len);
 > > 
-> > Ok, I can do that. In the commit message I described just one issue
-> > because it is only one patch, I didn't want it to look like I was
-> > changing different issues in just one patch.
+> > Why isn't data being declared as a __user pointer to start with?  Why is
+> > the cast needed here?
 > > 
-> > > 
-> > > But it seems that Matthew doesn't think that the line break is a
-> > > good
-> > > idea
-> > > anyway.
+> > This feels wrong as if it is papering over the real problem.
 > > 
-> > Yes, I'm sending this email to Matthew too, because I don't know
-> > exactly how to proceed as Hans asked me to made some corrections
-> > too. 
-> > I've made these changes because checkpatch has indicated and with
-> > this
-> > line break, checkpatch does not indicate any check or warning
-> > anymore.
-> > But I can undo that too, I just don't know what I'm supposed to do
-> > with
-> > so many opposite opinions. 
+> > thanks,
+> > 
+> > greg k-h
+> Thanks for your inputs
+> variable data in structure p80211ioctl_req is used only inside this function and is 
+> already casted to void __user * for copy_to_user. Should it be changed 
+> to void __user from caadr_t inside p80211ioctl.h. it should be same at runtime
 > 
-> As one of the media maintainers I can say that in this case the
-> preference
-> would be to split it up in two lines. It's one of those areas where
-> different maintainers have different opinions.
+> --- a/drivers/staging/wlan-ng/p80211ioctl.h
+> +++ b/drivers/staging/wlan-ng/p80211ioctl.h
+> @@ -81,7 +81,7 @@
+>  
+>  struct p80211ioctl_req {
+>         char name[WLAN_DEVNAMELEN_MAX];
+> -       caddr_t data;
+> +       void __user *data;
 > 
-> Just keep in mind that this is all nitpicking and normally we
-> probably
-> wouldn't bother with this at all, but it is a good exercise to learn
-> about patches and contributing :-)
-> 
-> Regards,
-> 
->         Hans
+> Does this looks ok to you and is there any other check possible if this is ok?
 
-I really appreciate all the feedbacks I've received :)
-Indeed we can learn a lot about all the contributing process.
+THat looks better.  What does running sparse on that change show?
 
-Thank you,
-Aline
-> 
-> > 
-> > 
-> > Thank you all,
-> > Aline 
-> > > 
-> > > julia
-> > > 
-> > > > 
-> > > > Thank you,
-> > > > Aline
-> > > > > 
-> > > > > 
-> > > > > > Both issues detected by checkpatch.pl.
-> > > > > > 
-> > > > > > Signed-off-by: Aline Santana Cordeiro <
-> > > > > > alinesantanacordeiro@gmail.com>
-> > > > > > ---
-> > > > > > 
-> > > > > > Changes since v2:
-> > > > > >  - Insert a space between the function type and pointer
-> > > > > > 
-> > > > > > Changes since v1:
-> > > > > >  - Keep the pointer with the function return type
-> > > > > >    instead of left it with the function name
-> > > > > > 
-> > > > > >  drivers/staging/media/atomisp/pci/atomisp_cmd.h | 10
-> > > > > > +++++----
-> > > > > > -
-> > > > > >  1 file changed, 5 insertions(+), 5 deletions(-)
-> > > > > > 
-> > > > > > diff --git
-> > > > > > a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-> > > > > > b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-> > > > > > index 1c0d464..639eca3 100644
-> > > > > > --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-> > > > > > +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-> > > > > > @@ -75,8 +75,8 @@ void atomisp_wdt(struct timer_list *t);
-> > > > > >  void atomisp_setup_flash(struct atomisp_sub_device *asd);
-> > > > > >  irqreturn_t atomisp_isr(int irq, void *dev);
-> > > > > >  irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr);
-> > > > > > -const struct atomisp_format_bridge
-> > > > > > *get_atomisp_format_bridge_from_mbus(
-> > > > > > -    u32 mbus_code);
-> > > > > > +const struct atomisp_format_bridge *
-> > > > > > +get_atomisp_format_bridge_from_mbus(u32 mbus_code);
-> > > > > >  bool atomisp_is_mbuscode_raw(uint32_t code);
-> > > > > >  int atomisp_get_frame_pgnr(struct atomisp_device *isp,
-> > > > > >                            const struct ia_css_frame
-> > > > > > *frame,
-> > > > > > u32
-> > > > > > *p_pgnr);
-> > > > > > @@ -381,9 +381,9 @@ enum mipi_port_id
-> > > > > > __get_mipi_port(struct
-> > > > > > atomisp_device *isp,
-> > > > > > 
-> > > > > >  bool atomisp_is_vf_pipe(struct atomisp_video_pipe *pipe);
-> > > > > > 
-> > > > > > -void atomisp_apply_css_parameters(
-> > > > > > -    struct atomisp_sub_device *asd,
-> > > > > > -    struct atomisp_css_params *css_param);
-> > > > > > +void atomisp_apply_css_parameters(struct
-> > > > > > atomisp_sub_device
-> > > > > > *asd,
-> > > > > > +                                 struct atomisp_css_params
-> > > > > > *css_param);
-> > > > > > +
-> > > > > >  void atomisp_free_css_parameters(struct atomisp_css_params
-> > > > > > *css_param);
-> > > > > > 
-> > > > > >  void atomisp_handle_parameter_and_buffer(struct
-> > > > > > atomisp_video_pipe
-> > > > > > *pipe);
-> > > > > > --
-> > > > > > 2.7.4
-> > > > > > 
-> > > > > > --
-> > > > > > You received this message because you are subscribed to the
-> > > > > > Google
-> > > > > > Groups "outreachy-kernel" group.
-> > > > > > To unsubscribe from this group and stop receiving emails
-> > > > > > from
-> > > > > > it,
-> > > > > > send an email to 
-> > > > > > outreachy-kernel+unsubscribe@googlegroups.com.
-> > > > > > To view this discussion on the web visit
-> > > > > > https://groups.google.com/d/msgid/outreachy-kernel/20210421123718.GA4597%40focaruja
-> > > > > > .
-> > > > > > 
-> > > > 
-> > > > 
-> > > > --
-> > > > You received this message because you are subscribed to the
-> > > > Google
-> > > > Groups "outreachy-kernel" group.
-> > > > To unsubscribe from this group and stop receiving emails from
-> > > > it,
-> > > > send an email to outreachy-kernel+unsubscribe@googlegroups.com.
-> > > > To view this discussion on the web visit    
-> > > > https://groups.google.com/d/msgid/outreachy-kernel/7aeac7041a6f6d7b3d8563f0d0bf0a4d31f379b0.camel%40gmail.com
-> > > > .
-> > 
-> > 
-> 
+thanks,
 
-
+greg k-h
