@@ -1,186 +1,100 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5299772
-	for <linux-staging@lists.linux.dev>; Sat, 24 Apr 2021 12:10:33 +0000 (UTC)
-Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id A938861422;
-	Sat, 24 Apr 2021 12:10:30 +0000 (UTC)
-Date: Sat, 24 Apr 2021 13:11:10 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Lucas Stankus <lucas.p.stankus@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com,
- gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] staging: iio: cdc: ad7746: use dt for capacitive
- channel setup.
-Message-ID: <20210424131110.640cc152@jic23-huawei>
-In-Reply-To: <b0132613b82b17d63c8a91556c2c424015f202db.1618785336.git.lucas.p.stankus@gmail.com>
-References: <cover.1618785336.git.lucas.p.stankus@gmail.com>
-	<b0132613b82b17d63c8a91556c2c424015f202db.1618785336.git.lucas.p.stankus@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2782171
+	for <linux-staging@lists.linux.dev>; Sat, 24 Apr 2021 18:19:42 +0000 (UTC)
+Received: by mail-qt1-f177.google.com with SMTP id 18so25320809qtz.6
+        for <linux-staging@lists.linux.dev>; Sat, 24 Apr 2021 11:19:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8RXOlSm03VbeMbySXyCFRFEgeMcD59AdNwl/nJLNOYw=;
+        b=eFNW4N0ao0mYhI2AqP1eZXrblovrzgcVjtokOMYUpvRnR9Nes8Qn75ap3G+Iu2v8wr
+         TtiXtZnkQssUx5nqkAAtogoZjOPIVivEsg1K1Yb69odrA1+/6RLpKG+Y3bof5GV/tp3l
+         7pu+tzkU2nw/WXZ11LR6mtX1gBGdMEyF5LTrO/STURUa4+ZsylpHTC79q8nblQ0mmBDT
+         BQRc2tL4r9AtN2TiE31Xm2wegcROcxYaqIc2wKEroFbo6mCPFjaEKaRVm2mgmD+LnGUB
+         6c7j/GkQrSgjok9Dc+OOClJBpe/Q1+RsjYrl3zhU+ObJylBnuTTFn+cjXglTFP1UphH8
+         wnHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8RXOlSm03VbeMbySXyCFRFEgeMcD59AdNwl/nJLNOYw=;
+        b=BjgUITG3Evkrjx/XuLEVYMC7Eujmy/quVBthE1ulvrW8nIlXgumAul7pZrKQjF1Inm
+         q5BWkCBlUL9Pqbk3VoQGaMK7Ayx7gRnxmrQurMfjyCPpwd/YZvfDEQOpryTaw99L5sWZ
+         ZPTDINuhK+2ekR03lBETKYnyt2ciOJIRBSz0qgBm9PG0dCEt39r6CFlZbep23J07Ab1S
+         +DpKP5PVdfAKJmPF/HiE4IgG2C/oPEZPkV7E/5JS/nJZhuTfFcU0ejcE5g2Fzg5hHnNW
+         WicS/MMnrQ1BpeRccsBHjWWHzUCjQkQ6lJlz31sFaHHde84W/a9gIr69NAyiLYnXr/J+
+         4ehQ==
+X-Gm-Message-State: AOAM532TQ93RUTcsqLXes2TnMvolMjKIZRwnAKenhULdHWFrM9e9jSl9
+	E2DrkZIoFw9rX1XHEkBrfko=
+X-Google-Smtp-Source: ABdhPJxNt9CR9bI1aojKn6K6sSFRLVkrcTpKc47KQYxuIxRTaeKPGkF03kQgZE0MXY8J+gK9pnl2/Q==
+X-Received: by 2002:aed:2043:: with SMTP id 61mr2163587qta.308.1619288381155;
+        Sat, 24 Apr 2021 11:19:41 -0700 (PDT)
+Received: from localhost.localdomain ([187.74.38.55])
+        by smtp.googlemail.com with ESMTPSA id i21sm6355041qtr.94.2021.04.24.11.19.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 24 Apr 2021 11:19:40 -0700 (PDT)
+From: Rodrigo Figueiredo Zaiden <rodrigoffzz@gmail.com>
+To: mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	rodrigoffzz@gmail.com
+Subject: [PATCH] media: atomisp: add ibuf_ctrl_rmgr.c to ISP2401 build only
+Date: Sat, 24 Apr 2021 15:18:52 -0300
+Message-Id: <20210424181852.64472-1-rodrigoffzz@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sun, 18 Apr 2021 19:50:10 -0300
-Lucas Stankus <lucas.p.stankus@gmail.com> wrote:
+When CONFIG_VIDEO_ATOMISP_ISP2401 is not set, sparse shows
+the following warnings:
 
-> Ditch platform_data fields in favor of device tree properties for
-> configuring EXCA and EXCB output pins and setting the capacitive channel
-> excitation level.
-> 
-> As this covers all current use cases for the platform_data struct, remove
-> ad7746.h header file since it's no longer needed.
-> 
-> Signed-off-by: Lucas Stankus <lucas.p.stankus@gmail.com>
-Hi Lucas,
+drivers/staging/media/atomisp/pci/runtime/isys/src/ibuf_ctrl_rmgr.c:34:6: warning: symbol 'ia_css_isys_ibuf_rmgr_init' was not declared. Should it be static?
+drivers/staging/media/atomisp/pci/runtime/isys/src/ibuf_ctrl_rmgr.c:40:6: warning: symbol 'ia_css_isys_ibuf_rmgr_uninit' was not declared. Should it be static?
+drivers/staging/media/atomisp/pci/runtime/isys/src/ibuf_ctrl_rmgr.c:46:6: warning: symbol 'ia_css_isys_ibuf_rmgr_acquire' was not declared. Should it be static?
+drivers/staging/media/atomisp/pci/runtime/isys/src/ibuf_ctrl_rmgr.c:106:6: warning: symbol 'ia_css_isys_ibuf_rmgr_release' was not declared. Should it be static?
 
-Just one comment which is that the permille to register value
-is a bit opaque so I think I'd prefer a simple lookup table even though it
-is a bit more code.
+The symbols stated as not declared are actually declared
+under ISP2401 definition in ia_css_isys.h.
+So, the file ibuf_ctrl_rmgr.c should be compiled only when
+ISP2401 is enabled.
 
-Otherwise looks good to me.
+Signed-off-by: Rodrigo Figueiredo Zaiden <rodrigoffzz@gmail.com>
+---
+ drivers/staging/media/atomisp/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks,
-
-Jonathan
-> ---
-> 
-> Changes in v2:
-> Previously this change set was composed of two patches, but it lead to
-> regressions between the two. Merging them avoids the unwanted behaviour
-> without having to deal with the special cases.
-> 
->  drivers/staging/iio/cdc/ad7746.c | 42 +++++++++++++++-----------------
->  drivers/staging/iio/cdc/ad7746.h | 28 ---------------------
->  2 files changed, 19 insertions(+), 51 deletions(-)
->  delete mode 100644 drivers/staging/iio/cdc/ad7746.h
-> 
-> diff --git a/drivers/staging/iio/cdc/ad7746.c b/drivers/staging/iio/cdc/ad7746.c
-> index dfd71e99e872..c0e84c1cf4f1 100644
-> --- a/drivers/staging/iio/cdc/ad7746.c
-> +++ b/drivers/staging/iio/cdc/ad7746.c
-> @@ -18,8 +18,6 @@
->  #include <linux/iio/iio.h>
->  #include <linux/iio/sysfs.h>
->  
-> -#include "ad7746.h"
-> -
->  /*
->   * AD7746 Register Definition
->   */
-> @@ -66,7 +64,7 @@
->  #define AD7746_EXCSETUP_NEXCB		BIT(4)
->  #define AD7746_EXCSETUP_EXCA		BIT(3)
->  #define AD7746_EXCSETUP_NEXCA		BIT(2)
-> -#define AD7746_EXCSETUP_EXCLVL(x)	(((x) & 0x3) << 0)
-> +#define AD7746_EXCSETUP_EXCLVL(x)	(((x) >> 7) & 0x3)
-
-I'd like a comment on this maths, or just use a lookup table instead so
-we don't have to think about it and also enforce exact matches.
-The rounding this results in is a bit odd
-
->  
->  /* Config Register Bit Designations (AD7746_REG_CFG) */
->  #define AD7746_CONF_VTFS_SHIFT		6
-> @@ -676,10 +674,11 @@ static const struct iio_info ad7746_info = {
->  static int ad7746_probe(struct i2c_client *client,
->  			const struct i2c_device_id *id)
->  {
-> -	struct ad7746_platform_data *pdata = client->dev.platform_data;
-> +	struct device *dev = &client->dev;
->  	struct ad7746_chip_info *chip;
->  	struct iio_dev *indio_dev;
->  	unsigned char regval = 0;
-> +	unsigned int vdd_permille;
->  	int ret = 0;
->  
->  	indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*chip));
-> @@ -703,28 +702,25 @@ static int ad7746_probe(struct i2c_client *client,
->  	indio_dev->num_channels = ARRAY_SIZE(ad7746_channels);
->  	indio_dev->modes = INDIO_DIRECT_MODE;
->  
-> -	if (pdata) {
-> -		if (pdata->exca_en) {
-> -			if (pdata->exca_inv_en)
-> -				regval |= AD7746_EXCSETUP_NEXCA;
-> -			else
-> -				regval |= AD7746_EXCSETUP_EXCA;
-> -		}
-> -
-> -		if (pdata->excb_en) {
-> -			if (pdata->excb_inv_en)
-> -				regval |= AD7746_EXCSETUP_NEXCB;
-> -			else
-> -				regval |= AD7746_EXCSETUP_EXCB;
-> -		}
-> +	if (device_property_read_bool(dev, "adi,exca-output-en")) {
-> +		if (device_property_read_bool(dev, "adi,exca-output-invert"))
-> +			regval |= AD7746_EXCSETUP_NEXCA;
-> +		else
-> +			regval |= AD7746_EXCSETUP_EXCA;
-> +	}
->  
-> -		regval |= AD7746_EXCSETUP_EXCLVL(pdata->exclvl);
-> -	} else {
-> -		dev_warn(&client->dev, "No platform data? using default\n");
-> -		regval = AD7746_EXCSETUP_EXCA | AD7746_EXCSETUP_EXCB |
-> -			AD7746_EXCSETUP_EXCLVL(3);
-> +	if (device_property_read_bool(dev, "adi,excb-output-en")) {
-> +		if (device_property_read_bool(dev, "adi,excb-output-invert"))
-> +			regval |= AD7746_EXCSETUP_NEXCB;
-> +		else
-> +			regval |= AD7746_EXCSETUP_EXCB;
->  	}
->  
-> +	ret = device_property_read_u32(dev, "adi,excitation-vdd-permille",
-> +				       &vdd_permille);
-> +	if (!ret)
-> +		regval |= AD7746_EXCSETUP_EXCLVL(vdd_permille);
-> +
->  	ret = i2c_smbus_write_byte_data(chip->client,
->  					AD7746_REG_EXC_SETUP, regval);
->  	if (ret < 0)
-> diff --git a/drivers/staging/iio/cdc/ad7746.h b/drivers/staging/iio/cdc/ad7746.h
-> deleted file mode 100644
-> index 8bdbd732dbbd..000000000000
-> --- a/drivers/staging/iio/cdc/ad7746.h
-> +++ /dev/null
-> @@ -1,28 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0 */
-> -/*
-> - * AD7746 capacitive sensor driver supporting AD7745, AD7746 and AD7747
-> - *
-> - * Copyright 2011 Analog Devices Inc.
-> - */
-> -
-> -#ifndef IIO_CDC_AD7746_H_
-> -#define IIO_CDC_AD7746_H_
-> -
-> -/*
-> - * TODO: struct ad7746_platform_data needs to go into include/linux/iio
-> - */
-> -
-> -#define AD7466_EXCLVL_0		0 /* +-VDD/8 */
-> -#define AD7466_EXCLVL_1		1 /* +-VDD/4 */
-> -#define AD7466_EXCLVL_2		2 /* +-VDD * 3/8 */
-> -#define AD7466_EXCLVL_3		3 /* +-VDD/2 */
-> -
-> -struct ad7746_platform_data {
-> -	unsigned char exclvl;	/*Excitation Voltage Level */
-> -	bool exca_en;		/* enables EXCA pin as the excitation output */
-> -	bool exca_inv_en;	/* enables /EXCA pin as the excitation output */
-> -	bool excb_en;		/* enables EXCB pin as the excitation output */
-> -	bool excb_inv_en;	/* enables /EXCB pin as the excitation output */
-> -};
-> -
-> -#endif /* IIO_CDC_AD7746_H_ */
+diff --git a/drivers/staging/media/atomisp/Makefile b/drivers/staging/media/atomisp/Makefile
+index 1dfad0dd02d0..555f2efa35b7 100644
+--- a/drivers/staging/media/atomisp/Makefile
++++ b/drivers/staging/media/atomisp/Makefile
+@@ -126,7 +126,6 @@ atomisp-objs += \
+ 	pci/runtime/inputfifo/src/inputfifo.o \
+ 	pci/runtime/isp_param/src/isp_param.o \
+ 	pci/runtime/isys/src/csi_rx_rmgr.o \
+-	pci/runtime/isys/src/ibuf_ctrl_rmgr.o \
+ 	pci/runtime/isys/src/isys_dma_rmgr.o \
+ 	pci/runtime/isys/src/isys_init.o \
+ 	pci/runtime/isys/src/isys_stream2mmio_rmgr.o \
+@@ -175,7 +174,8 @@ obj-cht = \
+ 	pci/css_2401_system/host/ibuf_ctrl.o \
+ 	pci/css_2401_system/host/isys_dma.o \
+ 	pci/css_2401_system/host/isys_irq.o \
+-	pci/css_2401_system/host/isys_stream2mmio.o
++	pci/css_2401_system/host/isys_stream2mmio.o \
++	pci/runtime/isys/src/ibuf_ctrl_rmgr.o
+ 
+ INCLUDES += \
+ 	-I$(atomisp)/ \
+-- 
+2.25.1
 
