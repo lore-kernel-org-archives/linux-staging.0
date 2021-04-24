@@ -1,177 +1,271 @@
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859A771
-	for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 17:21:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1619198495; bh=LgpkOvFvmcmXcGSrGpy9msoiAABCTUj0nQBsge9ToWc=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
-	 Content-Type;
-	b=WekUFerUiBJAulUDj0hrZcaZKert1p2mX2ykwij4+rVK1NiMQYpi8Y75ZdppM09EO
-	 wTE6zAcNzWF3WkEzkYPDIF91az3upnVYQpWwBTiXuzL6xfhHaX0FJTvsP4qdlnAan0
-	 g+HApZ7BTMfNdrNlS9cbpHXx0I5k2xuQHvbJ9zvw=
-Received: by 192.168.90.13 [192.168.90.13] with ESMTP
-	via ip-206.mailobj.net [213.182.55.206]
-	Fri, 23 Apr 2021 19:21:34 +0200 (CEST)
-X-EA-Auth: Dkcvxco0i4h7kVEoj7fTqHCAo2uCS9jyLzFkinpHTGwumy6YoDofoCajKGLBEBKNxbBou9l0Ictitp2Jnwg1Vbf5uTjNbY5q
-Date: Fri, 23 Apr 2021 22:51:29 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, mh12gx2825@gmail.com, drv@mailo.com
-Subject: [PATCH v2] staging: media: atomisp: replace [pr|dev]_info() by
- dev_dbg()
-Message-ID: <20210423172129.GA254325@localhost>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05DE071
+	for <linux-staging@lists.linux.dev>; Sat, 24 Apr 2021 02:10:15 +0000 (UTC)
+Received: by mail-qv1-f41.google.com with SMTP id d1so13182091qvy.11
+        for <linux-staging@lists.linux.dev>; Fri, 23 Apr 2021 19:10:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=kcIelX1EsGDmdwC3ocBtd0zMhNA8a0bphR97MMdWuis=;
+        b=GtqXz/xQNMqRVwYlcLPVUMocoqdYzVUPJWUnA23leuh4I/iob899wcJIyWdkjD1pLT
+         HzYG8pOXtESdV3CWhiLV1RQBT7XKsjIYNOrNE5sIYbsN9cgiJBFGEH/x77PIH4hx2i8V
+         kUyhiunfmiGTNSu4QeBawS4JGhK+gqsANyvi2tHNvs5lxzPjAO06HwR29IcltnnombrW
+         UPwqtt+5fT1hrpvYgyFSXna8oKgoWT2Xec/W01S1aW6E9KFAVcfc3T9/BLdKoCz9Tkmq
+         mZ7V3UPFXEWDfbBqgwEff9i8ljBLuLmG+ozHTxzAmyh0DXkO430fwklCdE4KmMKXETSr
+         /P0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=kcIelX1EsGDmdwC3ocBtd0zMhNA8a0bphR97MMdWuis=;
+        b=L+O9ULcC27QxR6jAoHsAwaRd/LCz6GiB5m4QF2Gc/ZDYi2yoAAtU5dYYY0Zgbhjx9F
+         V+ajqiid6a+ShE/w4s0uSmUZVS+EpCypDlBRNICugXEDrzcqm6nutn0EKJyxAxhLzgwO
+         jL7hEZVWWwE1hY1C5YYnNk+gIoC+hVXnM6oHxDWNyycjtv16qe7O+Em25KUCo1IpTaaU
+         lBEeiXta0JKF4CgzEgCFCM3T/C1eMmNoihy863UETrkoLKEN26BTV0ta5kmJsMnYY3uq
+         oCFAeP0okD8CXrrcHTlwKbedz6ocbYb3HMNo9QkaWK+LbJEnrTAN7uMXjAD3RBxW20Dx
+         n4Jg==
+X-Gm-Message-State: AOAM533yeWals2pdR4BaO9wZjgiQVqBUdL3U6b8GkwMS2EzgBkqA3eIE
+	AVctK+N7k3O+BBPkHLz1pm8=
+X-Google-Smtp-Source: ABdhPJxGNuD8Q0uexHAd2IERDSyUQL8artcvLH0hyQwEglMOZTYRD82ofp1LixQt+TEdr8EVqzALWQ==
+X-Received: by 2002:ad4:4c86:: with SMTP id bs6mr7796941qvb.39.1619230215035;
+        Fri, 23 Apr 2021 19:10:15 -0700 (PDT)
+Received: from ?IPv6:2001:1284:f013:744e:ffa4:164a:a3e9:c671? ([2001:1284:f013:744e:ffa4:164a:a3e9:c671])
+        by smtp.gmail.com with ESMTPSA id l12sm5502413qth.72.2021.04.23.19.10.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Apr 2021 19:10:13 -0700 (PDT)
+Message-ID: <3ce3294c173c954381b26ab049222c186f81ddf4.camel@gmail.com>
+Subject: Re: [Outreachy kernel] [PATCH v3] staging: media: atomisp: pci:
+ Change line break to avoid an open parenthesis at the end of the line
+From: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>, Julia Lawall <julia.lawall@inria.fr>,
+  Matthew Wilcox <willy@infradead.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,  linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev,  linux-kernel@vger.kernel.org,
+ outreachy-kernel@googlegroups.com
+Date: Fri, 23 Apr 2021 23:10:09 -0300
+In-Reply-To: <d2cfc472-d3ac-fd47-aa0c-ed6414f671fc@xs4all.nl>
+References: <20210421123718.GA4597@focaruja>
+	 <alpine.DEB.2.22.394.2104211507280.9436@hadrien>
+	 <7aeac7041a6f6d7b3d8563f0d0bf0a4d31f379b0.camel@gmail.com>
+	 <alpine.DEB.2.22.394.2104211555040.9436@hadrien>
+	 <16dd7a16a8cc69aa0f81dd6bf47f09e878c71a6b.camel@gmail.com>
+	 <d2cfc472-d3ac-fd47-aa0c-ed6414f671fc@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.0 (by Flathub.org) 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-It is recommended to use driver model diagnostic macros dev_*() instead
-of pr_*() since the former ensures that the log messages are always
-associated with the corresponding device and driver. Also, using
-dev_dbg() is less log spamming as against dev_info().
+Em sex, 2021-04-23 às 11:21 +0200, Hans Verkuil escreveu:
+> On 21/04/2021 16:21, Aline Santana Cordeiro wrote:
+> > Em qua, 2021-04-21 às 15:56 +0200, Julia Lawall escreveu:
+> > > 
+> > > 
+> > > On Wed, 21 Apr 2021, Aline Santana Cordeiro wrote:
+> > > 
+> > > > Em qua, 2021-04-21 às 15:08 +0200, Julia Lawall escreveu:
+> > > > > 
+> > > > > 
+> > > > > On Wed, 21 Apr 2021, Aline Santana Cordeiro wrote:
+> > > > > 
+> > > > > > Change line break to avoid an open parenthesis at the end
+> > > > > > of
+> > > > > > the
+> > > > > > line.
+> > > > > > It consequently removed spaces at the start of the
+> > > > > > subsequent
+> > > > > > line.
+> > > > > 
+> > > > > The message is hard to understand.  There are a lot of
+> > > > > singular
+> > > > > nouns, but
+> > > > > actually there are two changes.  Which change is being
+> > > > > described
+> > > > > by
+> > > > > the
+> > > > > above message?  What does "It" refer to?
+> > > > > 
+> > > > > julia
+> > > > 
+> > > > Checkpatch indicated two problems with this function
+> > > > declaration:
+> > > > 1) The line ending with an open parenthesis, and
+> > > > 2) The following line - with the function parameters - has
+> > > > spaces
+> > > > in
+> > > > its identation.
+> > > > 
+> > > > When I changed the line break to put the function name and its
+> > > > parameter in the following line, both checkpath checks were
+> > > > eliminated.
+> > > > 
+> > > > So, the main change was the line break and, also, the line
+> > > > break
+> > > > (it)
+> > > > removed the space in the following line.
+> > > > 
+> > > > Is it better to change the message and explain only about the
+> > > > line
+> > > > break?
+> > > 
+> > > The message should explain about the whole patch.  So if you
+> > > change
+> > > two
+> > > things, it should be clear that what you are saying covers both
+> > > of
+> > > them.
+> > 
+> > Ok, I can do that. In the commit message I described just one issue
+> > because it is only one patch, I didn't want it to look like I was
+> > changing different issues in just one patch.
+> > 
+> > > 
+> > > But it seems that Matthew doesn't think that the line break is a
+> > > good
+> > > idea
+> > > anyway.
+> > 
+> > Yes, I'm sending this email to Matthew too, because I don't know
+> > exactly how to proceed as Hans asked me to made some corrections
+> > too. 
+> > I've made these changes because checkpatch has indicated and with
+> > this
+> > line break, checkpatch does not indicate any check or warning
+> > anymore.
+> > But I can undo that too, I just don't know what I'm supposed to do
+> > with
+> > so many opposite opinions. 
+> 
+> As one of the media maintainers I can say that in this case the
+> preference
+> would be to split it up in two lines. It's one of those areas where
+> different maintainers have different opinions.
+> 
+> Just keep in mind that this is all nitpicking and normally we
+> probably
+> wouldn't bother with this at all, but it is a good exercise to learn
+> about patches and contributing :-)
+> 
+> Regards,
+> 
+>         Hans
 
-Suggested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
-Signed-off-by: Deepak R Varma <drv@mailo.com>
----
+I really appreciate all the feedbacks I've received :)
+Indeed we can learn a lot about all the contributing process.
 
-Changes in v2:
-   - use dev_dbg() instead of dev_info(). Feedback from Hans Verkuil.
-   - update patch summary and description accordingly.
-
-
- .../media/atomisp/i2c/atomisp-gc0310.c        | 30 +++++++++----------
- 1 file changed, 15 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-index 7e4e123fdb52..bb75d077ad63 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-@@ -300,7 +300,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
- 	/* pixel clock calculattion */
- 	dev->vt_pix_clk_freq_mhz = 14400000; // 16.8MHz
- 	buf->vt_pix_clk_freq_mhz = dev->vt_pix_clk_freq_mhz;
--	pr_info("vt_pix_clk_freq_mhz=%d\n", buf->vt_pix_clk_freq_mhz);
-+	dev_dbg(&client->dev, "vt_pix_clk_freq_mhz=%d\n", buf->vt_pix_clk_freq_mhz);
- 
- 	/* get integration time */
- 	buf->coarse_integration_time_min = GC0310_COARSE_INTG_TIME_MIN;
-@@ -326,7 +326,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
- 	if (ret)
- 		return ret;
- 	buf->crop_horizontal_start = val | (reg_val & 0xFF);
--	pr_info("crop_horizontal_start=%d\n", buf->crop_horizontal_start);
-+	dev_dbg(&client->dev, "crop_horizontal_start=%d\n", buf->crop_horizontal_start);
- 
- 	/* Getting crop_vertical_start */
- 	ret =  gc0310_read_reg(client, GC0310_8BIT,
-@@ -339,7 +339,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
- 	if (ret)
- 		return ret;
- 	buf->crop_vertical_start = val | (reg_val & 0xFF);
--	pr_info("crop_vertical_start=%d\n", buf->crop_vertical_start);
-+	dev_dbg(&client->dev, "crop_vertical_start=%d\n", buf->crop_vertical_start);
- 
- 	/* Getting output_width */
- 	ret = gc0310_read_reg(client, GC0310_8BIT,
-@@ -352,7 +352,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
- 	if (ret)
- 		return ret;
- 	buf->output_width = val | (reg_val & 0xFF);
--	pr_info("output_width=%d\n", buf->output_width);
-+	dev_dbg(&client->dev, "output_width=%d\n", buf->output_width);
- 
- 	/* Getting output_height */
- 	ret = gc0310_read_reg(client, GC0310_8BIT,
-@@ -365,12 +365,12 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
- 	if (ret)
- 		return ret;
- 	buf->output_height = val | (reg_val & 0xFF);
--	pr_info("output_height=%d\n", buf->output_height);
-+	dev_dbg(&client->dev, "output_height=%d\n", buf->output_height);
- 
- 	buf->crop_horizontal_end = buf->crop_horizontal_start + buf->output_width - 1;
- 	buf->crop_vertical_end = buf->crop_vertical_start + buf->output_height - 1;
--	pr_info("crop_horizontal_end=%d\n", buf->crop_horizontal_end);
--	pr_info("crop_vertical_end=%d\n", buf->crop_vertical_end);
-+	dev_dbg(&client->dev, "crop_horizontal_end=%d\n", buf->crop_horizontal_end);
-+	dev_dbg(&client->dev, "crop_vertical_end=%d\n", buf->crop_vertical_end);
- 
- 	/* Getting line_length_pck */
- 	ret = gc0310_read_reg(client, GC0310_8BIT,
-@@ -389,7 +389,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
- 		return ret;
- 	sh_delay = reg_val;
- 	buf->line_length_pck = buf->output_width + hori_blanking + sh_delay + 4;
--	pr_info("hori_blanking=%d sh_delay=%d line_length_pck=%d\n", hori_blanking,
-+	dev_dbg(&client->dev, "hori_blanking=%d sh_delay=%d line_length_pck=%d\n", hori_blanking,
- 		sh_delay, buf->line_length_pck);
- 
- 	/* Getting frame_length_lines */
-@@ -404,7 +404,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
- 		return ret;
- 	vert_blanking = val | (reg_val & 0xFF);
- 	buf->frame_length_lines = buf->output_height + vert_blanking;
--	pr_info("vert_blanking=%d frame_length_lines=%d\n", vert_blanking,
-+	dev_dbg(&client->dev, "vert_blanking=%d frame_length_lines=%d\n", vert_blanking,
- 		buf->frame_length_lines);
- 
- 	buf->binning_factor_x = res->bin_factor_x ?
-@@ -434,7 +434,7 @@ static int gc0310_set_gain(struct v4l2_subdev *sd, int gain)
- 		dgain = gain / 2;
- 	}
- 
--	pr_info("gain=0x%x again=0x%x dgain=0x%x\n", gain, again, dgain);
-+	dev_dbg(&client->dev, "gain=0x%x again=0x%x dgain=0x%x\n", gain, again, dgain);
- 
- 	/* set analog gain */
- 	ret = gc0310_write_reg(client, GC0310_8BIT,
-@@ -458,7 +458,7 @@ static int __gc0310_set_exposure(struct v4l2_subdev *sd, int coarse_itg,
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 	int ret;
- 
--	pr_info("coarse_itg=%d gain=%d digitgain=%d\n", coarse_itg, gain, digitgain);
-+	dev_dbg(&client->dev, "coarse_itg=%d gain=%d digitgain=%d\n", coarse_itg, gain, digitgain);
- 
- 	/* set exposure */
- 	ret = gc0310_write_reg(client, GC0310_8BIT,
-@@ -1020,8 +1020,8 @@ static int gc0310_set_fmt(struct v4l2_subdev *sd,
- 		return -EINVAL;
- 	}
- 
--	dev_info(&client->dev, "%s: before gc0310_write_reg_array %s\n",
--		 __func__, gc0310_res[dev->fmt_idx].desc);
-+	dev_dbg(&client->dev, "%s: before gc0310_write_reg_array %s\n",
-+		__func__, gc0310_res[dev->fmt_idx].desc);
- 	ret = startup(sd);
- 	if (ret) {
- 		dev_err(&client->dev, "gc0310 startup err\n");
-@@ -1085,7 +1085,7 @@ static int gc0310_detect(struct i2c_client *client)
- 		return -ENODEV;
- 	}
- 	id = ((((u16)high) << 8) | (u16)low);
--	pr_info("sensor ID = 0x%x\n", id);
-+	dev_dbg(&client->dev, "sensor ID = 0x%x\n", id);
- 
- 	if (id != GC0310_ID) {
- 		dev_err(&client->dev, "sensor ID error, read id = 0x%x, target id = 0x%x\n", id,
-@@ -1106,7 +1106,7 @@ static int gc0310_s_stream(struct v4l2_subdev *sd, int enable)
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 	int ret;
- 
--	pr_info("%s S enable=%d\n", __func__, enable);
-+	dev_dbg(&client->dev, "%s S enable=%d\n", __func__, enable);
- 	mutex_lock(&dev->input_lock);
- 
- 	if (enable) {
--- 
-2.25.1
-
+Thank you,
+Aline
+> 
+> > 
+> > 
+> > Thank you all,
+> > Aline 
+> > > 
+> > > julia
+> > > 
+> > > > 
+> > > > Thank you,
+> > > > Aline
+> > > > > 
+> > > > > 
+> > > > > > Both issues detected by checkpatch.pl.
+> > > > > > 
+> > > > > > Signed-off-by: Aline Santana Cordeiro <
+> > > > > > alinesantanacordeiro@gmail.com>
+> > > > > > ---
+> > > > > > 
+> > > > > > Changes since v2:
+> > > > > >  - Insert a space between the function type and pointer
+> > > > > > 
+> > > > > > Changes since v1:
+> > > > > >  - Keep the pointer with the function return type
+> > > > > >    instead of left it with the function name
+> > > > > > 
+> > > > > >  drivers/staging/media/atomisp/pci/atomisp_cmd.h | 10
+> > > > > > +++++----
+> > > > > > -
+> > > > > >  1 file changed, 5 insertions(+), 5 deletions(-)
+> > > > > > 
+> > > > > > diff --git
+> > > > > > a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+> > > > > > b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+> > > > > > index 1c0d464..639eca3 100644
+> > > > > > --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+> > > > > > +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+> > > > > > @@ -75,8 +75,8 @@ void atomisp_wdt(struct timer_list *t);
+> > > > > >  void atomisp_setup_flash(struct atomisp_sub_device *asd);
+> > > > > >  irqreturn_t atomisp_isr(int irq, void *dev);
+> > > > > >  irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr);
+> > > > > > -const struct atomisp_format_bridge
+> > > > > > *get_atomisp_format_bridge_from_mbus(
+> > > > > > -    u32 mbus_code);
+> > > > > > +const struct atomisp_format_bridge *
+> > > > > > +get_atomisp_format_bridge_from_mbus(u32 mbus_code);
+> > > > > >  bool atomisp_is_mbuscode_raw(uint32_t code);
+> > > > > >  int atomisp_get_frame_pgnr(struct atomisp_device *isp,
+> > > > > >                            const struct ia_css_frame
+> > > > > > *frame,
+> > > > > > u32
+> > > > > > *p_pgnr);
+> > > > > > @@ -381,9 +381,9 @@ enum mipi_port_id
+> > > > > > __get_mipi_port(struct
+> > > > > > atomisp_device *isp,
+> > > > > > 
+> > > > > >  bool atomisp_is_vf_pipe(struct atomisp_video_pipe *pipe);
+> > > > > > 
+> > > > > > -void atomisp_apply_css_parameters(
+> > > > > > -    struct atomisp_sub_device *asd,
+> > > > > > -    struct atomisp_css_params *css_param);
+> > > > > > +void atomisp_apply_css_parameters(struct
+> > > > > > atomisp_sub_device
+> > > > > > *asd,
+> > > > > > +                                 struct atomisp_css_params
+> > > > > > *css_param);
+> > > > > > +
+> > > > > >  void atomisp_free_css_parameters(struct atomisp_css_params
+> > > > > > *css_param);
+> > > > > > 
+> > > > > >  void atomisp_handle_parameter_and_buffer(struct
+> > > > > > atomisp_video_pipe
+> > > > > > *pipe);
+> > > > > > --
+> > > > > > 2.7.4
+> > > > > > 
+> > > > > > --
+> > > > > > You received this message because you are subscribed to the
+> > > > > > Google
+> > > > > > Groups "outreachy-kernel" group.
+> > > > > > To unsubscribe from this group and stop receiving emails
+> > > > > > from
+> > > > > > it,
+> > > > > > send an email to 
+> > > > > > outreachy-kernel+unsubscribe@googlegroups.com.
+> > > > > > To view this discussion on the web visit
+> > > > > > https://groups.google.com/d/msgid/outreachy-kernel/20210421123718.GA4597%40focaruja
+> > > > > > .
+> > > > > > 
+> > > > 
+> > > > 
+> > > > --
+> > > > You received this message because you are subscribed to the
+> > > > Google
+> > > > Groups "outreachy-kernel" group.
+> > > > To unsubscribe from this group and stop receiving emails from
+> > > > it,
+> > > > send an email to outreachy-kernel+unsubscribe@googlegroups.com.
+> > > > To view this discussion on the web visit    
+> > > > https://groups.google.com/d/msgid/outreachy-kernel/7aeac7041a6f6d7b3d8563f0d0bf0a4d31f379b0.camel%40gmail.com
+> > > > .
+> > 
+> > 
+> 
 
 
