@@ -1,49 +1,49 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D00A71
-	for <linux-staging@lists.linux.dev>; Sat, 24 Apr 2021 09:03:08 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id f195-20020a1c1fcc0000b029012eb88126d7so2411419wmf.3
-        for <linux-staging@lists.linux.dev>; Sat, 24 Apr 2021 02:03:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 320EC71
+	for <linux-staging@lists.linux.dev>; Sat, 24 Apr 2021 09:03:10 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id n84so62793wma.0
+        for <linux-staging@lists.linux.dev>; Sat, 24 Apr 2021 02:03:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=YcuffsLTjuFNEp9yR3yPCxH/1v2srf0L4WVCdD7zdno=;
-        b=CJ9mKAMpzy7MUH9uhgfTxXTlSCr+jWPT+/RS8UYrVxaFrtoGWas3/57aCvthmduj8Z
-         F3fs2Y80I5qnx8Uenkou0srjSlZsgG6eED9UmBr4YYJF+sF8AMM924H9/mdyAM+S8Zpy
-         yxBC/TPEHhoS20Lq8/KIurftk02qmSau5vnYU/nzYrWdM0vW8t2va399HW0Ezz4kF954
-         ZcWp1nzOUD/FwlaqzlHF5+86b4VWJ/6/Eagj7NlzgfrWy8Dnszmbcj+tldaRdGx4APC7
-         rE7/t5r/Y43sABwwu57ZbEsrgda1wB6+ln5hIccurU5g5Yva88MSW+kEo9Heho7e7I9g
-         gKsA==
+        bh=91fZeTranZX1H5Z/+RUWnPue6CJoyhVbwkd9ov6Mo+w=;
+        b=WjqZ+JXxwky7sNEd45JSuQPTOUkBZWVKSHBHWCu+FNIPfbJnu9kelvno/DmXTOJdxz
+         1giyV3udda7TJIAt6yX39HudcZ1fGk2k1N/QjiuQ8/hZSLWqKOqJK0OZf2/KMIxhR6db
+         VMovgEb3HprszHr2QIBUfqJm5Cmi3DQflaHi23T0DXt9Vg/L9VtBn8xOe/X8dkq4YYSQ
+         nq37u9wTxgNdMz7bnV1MG0R19QWW2Kq3uosLgD/oXvAtyG5wyzId6m0G7PbkmfyNjzrw
+         z/2tv1DBiqguJHUVMLNPgC3CG+ZcO4A/yn87U0L0YyCuiVeK4cLjo3YvRQwWtf3yF3Ph
+         6K4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=YcuffsLTjuFNEp9yR3yPCxH/1v2srf0L4WVCdD7zdno=;
-        b=YYt4gVVevuZOVYc+UWUg2YFUSMpHfV+z3uD8ZGOug+DqEnJj1bjVNSrnZ/xHCK9SVf
-         ulEM8b5tGuekBUd/yaXH2Yjg8zsjOJTWcDXnsnKL/1pyE2iehUdXofxbBYqGJKj0qFZv
-         fsBS7oyAagUn7mRetwKZnoK4+zj/0edIQmH/LulQm1Wjt2f0SPIVSiIqStArUQPBs39K
-         9IT9GUqaCxVGZ+C5ond044rhr5+4h4t2zTwI0lQjaynzB8IK+wGjZqMo/ipGUjAQK6AL
-         ECP5EYVYn8ecyKhrZu6IJ/DJZDq1jm11Q7dvjBLGG8oQAvI+wJ8xDdjrPsJCV8nERbZa
-         3HPg==
-X-Gm-Message-State: AOAM531x+X3G6LORGNMWvldCXm4D3asEX8RDjV5ZXtNvnwSHslw7EIOt
-	oFqFBcdGw9BEZzySnSO1tDc=
-X-Google-Smtp-Source: ABdhPJwGFooaZC7dZCtqbqYT9pIBFRzOUYNj9wwrtCHVtcshN+4CaLYhIJQPUg+hflxdlrwt//C4+w==
-X-Received: by 2002:a7b:ce09:: with SMTP id m9mr8492947wmc.150.1619254987199;
-        Sat, 24 Apr 2021 02:03:07 -0700 (PDT)
+        bh=91fZeTranZX1H5Z/+RUWnPue6CJoyhVbwkd9ov6Mo+w=;
+        b=Vl1muWrUCKz3qnf2IU7TDsICvaQymbcf/3nN5A60E3lR40HKX3Y0QheENqEna2twhp
+         Lfpezd4US43DjzEPQbx31ebe1rbZAnKCQ2EHK6CJISu8mdDGTNX0ISp2sxsbuZfW5jaf
+         5jwd5LdECuAUsNd9LXbOmIpa0auRPE335Xuaom/I0gePlj//Lbv0RJcJTrlg4kSA8Bom
+         ANrMM0mnVTuShXYvWqQZ3CQFOIkn2v9gNSih1OImrGd4h3opXn6GBAsAIK+uFJova8hd
+         +ddc044mBQdnCcqw+Ee+LTAdBhFQILjG+zJBGUuE86XC2cMVzt29I96Jb94XqmyXmbdc
+         cphg==
+X-Gm-Message-State: AOAM5326NhRGaB0oeABuWxkkNAaWMBeJXJFNarGGafUrCZpRKASRdghN
+	+o1g+LV7gp1zbwxrOJ6NDKHKzWChM+qCbA==
+X-Google-Smtp-Source: ABdhPJwYZKgcXzNtwHX63bsJ6nlgTuNlHAoCqJkEDSWlNPwsfRJ6qRM3LB57/BCKJNl1gZ2shAsymg==
+X-Received: by 2002:a1c:1cf:: with SMTP id 198mr6373505wmb.114.1619254988853;
+        Sat, 24 Apr 2021 02:03:08 -0700 (PDT)
 Received: from agape ([5.171.80.252])
-        by smtp.gmail.com with ESMTPSA id i12sm12301839wrm.77.2021.04.24.02.03.06
+        by smtp.gmail.com with ESMTPSA id p13sm13578093wrt.0.2021.04.24.02.03.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Apr 2021 02:03:06 -0700 (PDT)
+        Sat, 24 Apr 2021 02:03:08 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: joe@perches.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 19/50] staging: rtl8723bs: remove debug macros related to os_dep/mlme_linux.c tracing
-Date: Sat, 24 Apr 2021 11:02:02 +0200
-Message-Id: <2528845d21764e95ab03d9245999b79acb2febd8.1619254603.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v2 20/50] staging: rtl8723bs: move static array definition from header to .c file
+Date: Sat, 24 Apr 2021 11:02:03 +0200
+Message-Id: <665c9d33a97954508ca9257850a5690afcf0a9a9.1619254603.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1619254603.git.fabioaiuto83@gmail.com>
 References: <cover.1619254603.git.fabioaiuto83@gmail.com>
@@ -54,53 +54,100 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove debug macro definitions related to os_dep/mlme_linux.c
-obsolete tracing.
+move static array definition from header to .c file.
+This prepare removal of a conditional compile block
+_RTW_MLME_EXT_C_.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/rtw_debug.h | 5 +----
- drivers/staging/rtl8723bs/os_dep/mlme_linux.c | 4 ----
- 2 files changed, 1 insertion(+), 8 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 30 +++++++++++++++++
+ .../staging/rtl8723bs/include/rtw_mlme_ext.h  | 32 -------------------
+ 2 files changed, 30 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_debug.h b/drivers/staging/rtl8723bs/include/rtw_debug.h
-index 01d723268254..7f5b98578d60 100644
---- a/drivers/staging/rtl8723bs/include/rtw_debug.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_debug.h
-@@ -7,7 +7,6 @@
- #ifndef __RTW_DEBUG_H__
- #define __RTW_DEBUG_H__
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 9031cf7657ae..1ff2b3a28bab 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -5997,6 +5997,36 @@ u8 set_tx_beacon_cmd(struct adapter *padapter)
+ 	return res;
+ }
  
--#define _module_mlme_osdep_c_		BIT(5)
- #define _module_rtl871x_sta_mgt_c_		BIT(6)
- #define _module_rtl871x_cmd_c_			BIT(7)
- #define _module_cmd_osdep_c_		BIT(8)
-@@ -38,9 +37,7 @@
++static struct fwevent wlanevents[] = {
++	{0, rtw_dummy_event_callback},	/*0*/
++	{0, NULL},
++	{0, NULL},
++	{0, NULL},
++	{0, NULL},
++	{0, NULL},
++	{0, NULL},
++	{0, NULL},
++	{0, &rtw_survey_event_callback},		/*8*/
++	{sizeof(struct surveydone_event), &rtw_surveydone_event_callback},	/*9*/
++
++	{0, &rtw_joinbss_event_callback},		/*10*/
++	{sizeof(struct stassoc_event), &rtw_stassoc_event_callback},
++	{sizeof(struct stadel_event), &rtw_stadel_event_callback},
++	{0, &rtw_atimdone_event_callback},
++	{0, rtw_dummy_event_callback},
++	{0, NULL},	/*15*/
++	{0, NULL},
++	{0, NULL},
++	{0, NULL},
++	{0, rtw_fwdbg_event_callback},
++	{0, NULL},	 /*20*/
++	{0, NULL},
++	{0, NULL},
++	{0, &rtw_cpwm_event_callback},
++	{0, NULL},
++	{0, &rtw_wmm_event_callback},
++
++};
  
- #undef _MODULE_DEFINE_
+ u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
+ {
+diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+index 472818c5fd83..0248b91b4525 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
++++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+@@ -805,38 +805,6 @@ enum {
  
--#if defined _MLME_OSDEP_C_
--	#define _MODULE_DEFINE_	_module_mlme_osdep_c_
--#elif defined _RTW_MLME_EXT_C_
-+#if defined _RTW_MLME_EXT_C_
- 	#define _MODULE_DEFINE_ 1
- #elif defined _RTW_STA_MGT_C_
- 	#define _MODULE_DEFINE_	_module_rtl871x_sta_mgt_c_
-diff --git a/drivers/staging/rtl8723bs/os_dep/mlme_linux.c b/drivers/staging/rtl8723bs/os_dep/mlme_linux.c
-index 0a16752f805b..a4560ba22db1 100644
---- a/drivers/staging/rtl8723bs/os_dep/mlme_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/mlme_linux.c
-@@ -4,10 +4,6 @@
-  * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
-  *
-  ******************************************************************************/
+ #ifdef _RTW_MLME_EXT_C_
+ 
+-static struct fwevent wlanevents[] =
+-{
+-	{0, rtw_dummy_event_callback},	/*0*/
+-	{0, NULL},
+-	{0, NULL},
+-	{0, NULL},
+-	{0, NULL},
+-	{0, NULL},
+-	{0, NULL},
+-	{0, NULL},
+-	{0, &rtw_survey_event_callback},		/*8*/
+-	{sizeof(struct surveydone_event), &rtw_surveydone_event_callback},	/*9*/
 -
+-	{0, &rtw_joinbss_event_callback},		/*10*/
+-	{sizeof(struct stassoc_event), &rtw_stassoc_event_callback},
+-	{sizeof(struct stadel_event), &rtw_stadel_event_callback},
+-	{0, &rtw_atimdone_event_callback},
+-	{0, rtw_dummy_event_callback},
+-	{0, NULL},	/*15*/
+-	{0, NULL},
+-	{0, NULL},
+-	{0, NULL},
+-	{0, rtw_fwdbg_event_callback},
+-	{0, NULL},	 /*20*/
+-	{0, NULL},
+-	{0, NULL},
+-	{0, &rtw_cpwm_event_callback},
+-	{0, NULL},
+-	{0, &rtw_wmm_event_callback},
 -
--#define _MLME_OSDEP_C_
+-};
 -
- #include <drv_types.h>
- #include <rtw_debug.h>
+ #endif/* _RTL8192C_CMD_C_ */
  
+ #endif
 -- 
 2.20.1
 
