@@ -1,49 +1,49 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9871271
-	for <linux-staging@lists.linux.dev>; Sat, 24 Apr 2021 09:02:43 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id a4so50701908wrr.2
-        for <linux-staging@lists.linux.dev>; Sat, 24 Apr 2021 02:02:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D1E71
+	for <linux-staging@lists.linux.dev>; Sat, 24 Apr 2021 09:02:45 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id r7so38680899wrm.1
+        for <linux-staging@lists.linux.dev>; Sat, 24 Apr 2021 02:02:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=DAeg4inHkDxK0M8FI/mGa+6PBLw6yGrM2ERnE7fCtjI=;
-        b=FJ0LmHVp61HQB1frczRqCYs8dvGxgUeD1hHbuvptty/aH0ql8qhBg8784TWDGdIN0i
-         XIXYXiOFqNEjF95GM99G1MkxTg9+0AGKjlZwEdGaq1hgXOia2M5PsTaJEKPkoAeO0ccE
-         +YzBPim/dEWkECBBKq08mr6mXspvdkYZD4/ZumZrJRsX9DZCCFm1FEbQVAru+72O2cg/
-         PLT7U8wwIri1E6/qlDoduq1a9OkDEnOa9HALWf3K6MCEbGI0Ak6XCc8oJpVXsIKG/ap6
-         uIvnYXf+OH3vllbt6kHk96QrZtwiYfOdEXWL6H3lSICzmS/KiXzJPGCwQL2cywEwKG+m
-         dFwQ==
+        bh=vK3QxmyEJ/kAAhKM5dk61kp8P7/wFJS5mqiWEFDpYHk=;
+        b=aSqkcTD1MBNSxHVEflx3Cc2Ng72YamIFkOHC6F1H6VNu+T1pu1sidBhjvWc2t4YcB1
+         TAONYeh7YNW2EqS7ZHKfvdZJIxYukcX2hknimdr7J8ropJWhDcV5ibv8ZL7FIDrW28bI
+         mLKHxS77tflgRx46VHpaIDW0a3PJTacoctIFgR3asPn4XkJt9umb1HCRYDVHb5yr/eGz
+         q6wUwRaGTvKj28WnuRgFUgs7PQ4ygSS1hPFkI8MhGOc7QP/mMOK/Euj8vzqGi5LM9xk1
+         zns+OoKktUXOstmXqpXSatS/06S993fHeaC2i3HU8e/ZwzDv7Cewf+zZtAJRrBi+3G4H
+         abHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=DAeg4inHkDxK0M8FI/mGa+6PBLw6yGrM2ERnE7fCtjI=;
-        b=rFsSKzae+2DixOZjxfe1B9FF4u9RThSURpyXSALjjtWi7VvGFn90npakEFmawKAjhX
-         Xx4cNapTpjBvY0Q/AVuChJ1oetTAWjxjuA+4tvl+VJ8rPaSx/JqOc1JNbinJt8xUE4vs
-         JWJXsEZRkxIya3B0FyqgbaydtiRUckTzd3o0YpLvuD/uGLGjbtdmt4YJdsZNafdBE5hj
-         Hrp1rcOtU6+oCu9fl4aZ+YiadSkWBr3Eos8x4m5s6LorHw+UBvh3KsCY4/UjD5ceHAUC
-         KOok3a5ebImpPhcGfMGBV1Iapi1o9w06wAHQm1OZ+VGc7ZfbiBq38o36vCamYj1k6fHk
-         Z53Q==
-X-Gm-Message-State: AOAM5301zOJfGTRMp38XehdZ38rciA7x/kN8d47ZYwMDPPf1e9GbDUtx
-	N4/PVtHvG6+8HrZF+BEj4Ps=
-X-Google-Smtp-Source: ABdhPJwKoOp1mrEhDd56ZWIWP0r5t+qVFKHzcOOxf//UTIvz8e8gebk/0Oe+gg+2TyCrL8FglIrWBQ==
-X-Received: by 2002:a5d:5091:: with SMTP id a17mr9780083wrt.60.1619254962245;
-        Sat, 24 Apr 2021 02:02:42 -0700 (PDT)
+        bh=vK3QxmyEJ/kAAhKM5dk61kp8P7/wFJS5mqiWEFDpYHk=;
+        b=P2jIRpHue4aDJQGt1LaEp/RmJy1kCKrT8oxVurJvJxTUhURKKFKOUWu+CnsGlh0TSA
+         fDQALcs22P16PI5wlHtHB9WJzcNTMB0UegOwkJstcEHB1YqI31VFl7Wn9/xblPAYfxAz
+         mF3yPUz0EqURcaomtWwTcLMuqc0KcTxpxjswfn4tiPNnL/pRL+E+H0yZeVlMj0N2cNML
+         v+YU1go74D7OR32GeWay2x518rzbRysLpjTcddoHdv5J3LDff05YCnzgTd1iZbVwiC4b
+         C7srIncLLQNrcSh+eISITY3EWjaTgAvHlRtZnEnhAGEg6j/jS2LsyCl8s611Qd6YGo9G
+         rA+g==
+X-Gm-Message-State: AOAM530j6YCUs0H+O1Ms7KH7iTHG3ReRMTs5PekgjSpEpXdC/Ok+yMS6
+	/3tATsp3lfuK+16nrgQ2HYs=
+X-Google-Smtp-Source: ABdhPJzTzbWqAjrG6MtNiFLG4UcKdH2q1gkOWLaE0PNBKxP5xzls41Av6F9KFM0D3TJrrJgHw0SSlA==
+X-Received: by 2002:adf:ef8b:: with SMTP id d11mr9619707wro.107.1619254963938;
+        Sat, 24 Apr 2021 02:02:43 -0700 (PDT)
 Received: from agape ([5.171.80.252])
-        by smtp.gmail.com with ESMTPSA id i9sm12674061wmg.2.2021.04.24.02.02.41
+        by smtp.gmail.com with ESMTPSA id b14sm12556480wrf.75.2021.04.24.02.02.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Apr 2021 02:02:42 -0700 (PDT)
+        Sat, 24 Apr 2021 02:02:43 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: joe@perches.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 04/50] staging: rtl8723bs: remove DBG_871X_SEL macro declaration
-Date: Sat, 24 Apr 2021 11:01:47 +0200
-Message-Id: <1a0949adfc352d2560e9a68d340df386d94a79e8.1619254603.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v2 05/50] staging: rtl8723bs: remove unused _DBG_871X_LEVEL macro
+Date: Sat, 24 Apr 2021 11:01:48 +0200
+Message-Id: <83ff6acd438ad2107a9a1c9446cabb22a6c77f0a.1619254603.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1619254603.git.fabioaiuto83@gmail.com>
 References: <cover.1619254603.git.fabioaiuto83@gmail.com>
@@ -54,33 +54,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove DBG_871X_SEL macro declaration.
+remove unused _DBG_871X_LEVEL macro,
+after DBG_871X_SEL deletion.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/rtw_debug.h | 9 ---------
- 1 file changed, 9 deletions(-)
+ drivers/staging/rtl8723bs/include/rtw_debug.h | 12 ------------
+ 1 file changed, 12 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/include/rtw_debug.h b/drivers/staging/rtl8723bs/include/rtw_debug.h
-index ed75db1b16f8..fbae0d3b168c 100644
+index fbae0d3b168c..fdd5933a3d5a 100644
 --- a/drivers/staging/rtl8723bs/include/rtw_debug.h
 +++ b/drivers/staging/rtl8723bs/include/rtw_debug.h
-@@ -158,15 +158,6 @@
+@@ -144,18 +144,6 @@
  
- #define RTW_DBGDUMP NULL /* 'stream' for _dbgdump */
+ #if defined(_dbgdump)
  
--/* dump message to selected 'stream' */
--#define DBG_871X_SEL(sel, fmt, arg...)					\
--	do {								\
--		if (sel == RTW_DBGDUMP)					\
--			_DBG_871X_LEVEL(_drv_always_, fmt, ##arg);	\
--		else							\
--			seq_printf(sel, fmt, ##arg);			\
+-/* without driver-defined prefix */
+-#undef _DBG_871X_LEVEL
+-#define _DBG_871X_LEVEL(level, fmt, arg...)	   \
+-	do {\
+-		if (level <= GlobalDebugLevel) {\
+-			if (level <= _drv_err_ && level > _drv_always_) \
+-				_dbgdump("ERROR " fmt, ##arg);\
+-			else \
+-				_dbgdump(fmt, ##arg);\
+-		} \
 -	} while (0)
 -
- #endif /* defined(_dbgdump) */
+ #define RTW_DBGDUMP NULL /* 'stream' for _dbgdump */
  
- void mac_reg_dump(void *sel, struct adapter *adapter);
+ #endif /* defined(_dbgdump) */
 -- 
 2.20.1
 
