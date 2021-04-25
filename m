@@ -1,100 +1,97 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2782171
-	for <linux-staging@lists.linux.dev>; Sat, 24 Apr 2021 18:19:42 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id 18so25320809qtz.6
-        for <linux-staging@lists.linux.dev>; Sat, 24 Apr 2021 11:19:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8RXOlSm03VbeMbySXyCFRFEgeMcD59AdNwl/nJLNOYw=;
-        b=eFNW4N0ao0mYhI2AqP1eZXrblovrzgcVjtokOMYUpvRnR9Nes8Qn75ap3G+Iu2v8wr
-         TtiXtZnkQssUx5nqkAAtogoZjOPIVivEsg1K1Yb69odrA1+/6RLpKG+Y3bof5GV/tp3l
-         7pu+tzkU2nw/WXZ11LR6mtX1gBGdMEyF5LTrO/STURUa4+ZsylpHTC79q8nblQ0mmBDT
-         BQRc2tL4r9AtN2TiE31Xm2wegcROcxYaqIc2wKEroFbo6mCPFjaEKaRVm2mgmD+LnGUB
-         6c7j/GkQrSgjok9Dc+OOClJBpe/Q1+RsjYrl3zhU+ObJylBnuTTFn+cjXglTFP1UphH8
-         wnHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8RXOlSm03VbeMbySXyCFRFEgeMcD59AdNwl/nJLNOYw=;
-        b=BjgUITG3Evkrjx/XuLEVYMC7Eujmy/quVBthE1ulvrW8nIlXgumAul7pZrKQjF1Inm
-         q5BWkCBlUL9Pqbk3VoQGaMK7Ayx7gRnxmrQurMfjyCPpwd/YZvfDEQOpryTaw99L5sWZ
-         ZPTDINuhK+2ekR03lBETKYnyt2ciOJIRBSz0qgBm9PG0dCEt39r6CFlZbep23J07Ab1S
-         +DpKP5PVdfAKJmPF/HiE4IgG2C/oPEZPkV7E/5JS/nJZhuTfFcU0ejcE5g2Fzg5hHnNW
-         WicS/MMnrQ1BpeRccsBHjWWHzUCjQkQ6lJlz31sFaHHde84W/a9gIr69NAyiLYnXr/J+
-         4ehQ==
-X-Gm-Message-State: AOAM532TQ93RUTcsqLXes2TnMvolMjKIZRwnAKenhULdHWFrM9e9jSl9
-	E2DrkZIoFw9rX1XHEkBrfko=
-X-Google-Smtp-Source: ABdhPJxNt9CR9bI1aojKn6K6sSFRLVkrcTpKc47KQYxuIxRTaeKPGkF03kQgZE0MXY8J+gK9pnl2/Q==
-X-Received: by 2002:aed:2043:: with SMTP id 61mr2163587qta.308.1619288381155;
-        Sat, 24 Apr 2021 11:19:41 -0700 (PDT)
-Received: from localhost.localdomain ([187.74.38.55])
-        by smtp.googlemail.com with ESMTPSA id i21sm6355041qtr.94.2021.04.24.11.19.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Apr 2021 11:19:40 -0700 (PDT)
-From: Rodrigo Figueiredo Zaiden <rodrigoffzz@gmail.com>
-To: mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	rodrigoffzz@gmail.com
-Subject: [PATCH] media: atomisp: add ibuf_ctrl_rmgr.c to ISP2401 build only
-Date: Sat, 24 Apr 2021 15:18:52 -0300
-Message-Id: <20210424181852.64472-1-rodrigoffzz@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F47071
+	for <linux-staging@lists.linux.dev>; Sun, 25 Apr 2021 08:40:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1619340015; bh=5liUc+da+ixTCoXc9F2Wovsz5zapQhdjMTOmkF7fQAU=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
+	 Content-Type;
+	b=YnBJPcdf/Af42jGadmL9TIb9IzOIHsjVBLHgvIpFYwSaUyYWqdCzmmGFke9Uzmk/Y
+	 RO+sYQbH/PhBTSFJ+f3W+qMqwKMFJnGB3dmL/NtwbYWjpO78vVZYYw/nFINz5bX+V8
+	 cSqfof7Va2q550wjFLdrURI1S4IP9ev2nuPy0RWE=
+Received: by 192.168.90.16 [192.168.90.16] with ESMTP
+	via ip-206.mailobj.net [213.182.55.206]
+	Sun, 25 Apr 2021 10:40:15 +0200 (CEST)
+X-EA-Auth: HV6lrtq01prdfPlae/6UoMtV+bXHYWao8X0BG04YPCQb0xECfOR6ALwaUhRxevAF5dFXed6CDuVbiimgnnsitW1j7dOQD+J9
+Date: Sun, 25 Apr 2021 14:10:09 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, drv@mailo.com
+Subject: [PATCH RESEND v3 0/6] staging: media: atomisp: code cleanup fixes
+Message-ID: <cover.1619199344.git.drv@mailo.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-When CONFIG_VIDEO_ATOMISP_ISP2401 is not set, sparse shows
-the following warnings:
+This patch set addresses different kinds of checkpatch WARNING and
+CHECK complaints.
 
-drivers/staging/media/atomisp/pci/runtime/isys/src/ibuf_ctrl_rmgr.c:34:6: warning: symbol 'ia_css_isys_ibuf_rmgr_init' was not declared. Should it be static?
-drivers/staging/media/atomisp/pci/runtime/isys/src/ibuf_ctrl_rmgr.c:40:6: warning: symbol 'ia_css_isys_ibuf_rmgr_uninit' was not declared. Should it be static?
-drivers/staging/media/atomisp/pci/runtime/isys/src/ibuf_ctrl_rmgr.c:46:6: warning: symbol 'ia_css_isys_ibuf_rmgr_acquire' was not declared. Should it be static?
-drivers/staging/media/atomisp/pci/runtime/isys/src/ibuf_ctrl_rmgr.c:106:6: warning: symbol 'ia_css_isys_ibuf_rmgr_release' was not declared. Should it be static?
+Note: 
+   - Patch set being resent due a email messageID issue in the earlier
+     patch set.
+   - The patches should be applied in the ascending order.
 
-The symbols stated as not declared are actually declared
-under ISP2401 definition in ia_css_isys.h.
-So, the file ibuf_ctrl_rmgr.c should be compiled only when
-ISP2401 is enabled.
+Changes since v2:
+   Generic change:
+   1. Correct patch versioning in patch subject
 
-Signed-off-by: Rodrigo Figueiredo Zaiden <rodrigoffzz@gmail.com>
----
- drivers/staging/media/atomisp/Makefile | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+   Patch Specific change:
+   1. patch 1/6 : none
+   2. patch 2/6 : none
+   3. patch 3/6 : none
+   4. patch 4/6 :
+        a. Tag Fabio Auito for the patch suggestion
 
-diff --git a/drivers/staging/media/atomisp/Makefile b/drivers/staging/media/atomisp/Makefile
-index 1dfad0dd02d0..555f2efa35b7 100644
---- a/drivers/staging/media/atomisp/Makefile
-+++ b/drivers/staging/media/atomisp/Makefile
-@@ -126,7 +126,6 @@ atomisp-objs += \
- 	pci/runtime/inputfifo/src/inputfifo.o \
- 	pci/runtime/isp_param/src/isp_param.o \
- 	pci/runtime/isys/src/csi_rx_rmgr.o \
--	pci/runtime/isys/src/ibuf_ctrl_rmgr.o \
- 	pci/runtime/isys/src/isys_dma_rmgr.o \
- 	pci/runtime/isys/src/isys_init.o \
- 	pci/runtime/isys/src/isys_stream2mmio_rmgr.o \
-@@ -175,7 +174,8 @@ obj-cht = \
- 	pci/css_2401_system/host/ibuf_ctrl.o \
- 	pci/css_2401_system/host/isys_dma.o \
- 	pci/css_2401_system/host/isys_irq.o \
--	pci/css_2401_system/host/isys_stream2mmio.o
-+	pci/css_2401_system/host/isys_stream2mmio.o \
-+	pci/runtime/isys/src/ibuf_ctrl_rmgr.o
- 
- INCLUDES += \
- 	-I$(atomisp)/ \
+   5. patch 5/6 : none
+   6. patch 6/6:
+        a. Tag Fabio Auito for the patch suggestion
+
+Changes since v1:
+   Generic change:
+   1. The patch set is being resent from an email account that matches with
+      the patch signed-of-by tag. Issue highlighted by Hans Verkuil.
+
+   Patch specific changes:
+   1. patch 1/6 : none
+   2. patch 2/6 : none
+   3. patch 3/6 : none
+   4. patch 4/6 : implement following changes suggested by Fabio Aiuto
+        a. Corrected commenting style
+        b. Similar style implemented for other comment blocks in
+           the same files.
+   5. patch 5/6 : none
+   6. patch 6/6: implement following changes suggested by Fabio Aiuto
+        a. use dev_info instead of pr_info
+        b. update patch log message accordingly
+
+
+Deepak R Varma (6):
+  staging: media: atomisp: improve function argument alignment
+  staging: media: atomisp: balance braces around if...else block
+  staging: media: atomisp: use __func__ over function names
+  staging: media: atomisp: reformat code comment blocks
+  staging: media: atomisp: fix CamelCase variable naming
+  staging: media: atomisp: replace raw printk() by dev_info()
+
+ .../media/atomisp/i2c/atomisp-gc0310.c        |  14 +--
+ .../media/atomisp/i2c/atomisp-gc2235.c        |  29 ++---
+ .../atomisp/i2c/atomisp-libmsrlisthelper.c    |   6 +-
+ .../media/atomisp/i2c/atomisp-lm3554.c        |   2 +-
+ .../media/atomisp/i2c/atomisp-mt9m114.c       | 106 ++++++++++--------
+ .../media/atomisp/i2c/atomisp-ov2680.c        |  43 ++++---
+ .../media/atomisp/i2c/atomisp-ov2722.c        |  10 +-
+ 7 files changed, 116 insertions(+), 94 deletions(-)
+
 -- 
 2.25.1
+
+
 
