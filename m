@@ -1,67 +1,92 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CC72F83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7F5B72
 	for <linux-staging@lists.linux.dev>; Sun, 25 Apr 2021 10:51:33 +0000 (UTC)
 Received: from localhost.localdomain ([37.4.249.137]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MYvLi-1m5Om83T8a-00UuNM; Sun, 25 Apr 2021 12:51:28 +0200
+ id 1MLQgv-1lsQMN1P3j-00IVul; Sun, 25 Apr 2021 12:51:28 +0200
 From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Nicolas Saenz Julienne <nsaenz@kernel.org>
 Cc: Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-staging@lists.linux.dev,
 	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH V2 03/11] staging: vchiq_core: return early in do_abort_bulks
-Date: Sun, 25 Apr 2021 12:50:55 +0200
-Message-Id: <1619347863-16080-4-git-send-email-stefan.wahren@i2se.com>
+Subject: [PATCH V2 01/11] staging: vchiq_arm: avoid crashing the kernel
+Date: Sun, 25 Apr 2021 12:50:53 +0200
+Message-Id: <1619347863-16080-2-git-send-email-stefan.wahren@i2se.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1619347863-16080-1-git-send-email-stefan.wahren@i2se.com>
 References: <1619347863-16080-1-git-send-email-stefan.wahren@i2se.com>
-X-Provags-ID: V03:K1:9e43woZZ7z33KyJWlyqn/UT+FJVwtFGzgHEZFjLlA43N8GCBm+R
- Ec3rFztVZOfBIy4CaBU3iYY/lTb98BzISY5AM5xdB8bEa2zInBk6wEWTnJ/fyjyUd3HVPxL
- azS4deH2VcosDrZdoAJr6sUuh43vQiUBwyp2kj27VZ7CdO/TWiOENPDyf+/FBrAjkrLsbcP
- lrNf75thi1DC4BV8zI/gA==
+X-Provags-ID: V03:K1:RN9fEASRYzYQ9bwxMiuGhpj6C0mIde7B7dAuL5LHsnNtl9PrEPO
+ 8P5jcJpw+vyHOblMz0rlgSVXLEEhxgQnxuKt5wn1QDIdDq/1jcgcErkoez0O5xsjhrrjl0T
+ Nt5KzTwcIHYXp0gE4t8SAKd5/myIsiVVecmYpGxYsOdmAE1fK3z89D4ZxJnWjoDX02wDBOx
+ 4USYcL6l26aTNLycwAZvg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7n8HqMtpGg0=:ClZuRAYM+/oR2P8dWRqk5R
- K2htyomVCUyxqX+ZqkjJr1iG2kFxYfVvFP5ospWCAQbDByZi63mQXCIyAYF8qPYV1WUspsqtN
- SNJUNcd+Bh3YwAkyqTo+tKysjbz6lFXOGGrsNKt2JrOd3ggj7GqFetlz31De6n5O1CRT0Ke2U
- q3MwgkgR1eMTWbbzzDRXSl0FYiyBcDHXMGNhDGuMTD2rch7hxLM+yIyYs+dDuM472MoSxQCTx
- H/s2zHjGpzvXmAxTSziepVRsqKUkCtx9DdkwLZnR+ya/+PYBYpyX0FUtMiNF63AGF0IYkrxBW
- 8FQHAPPxMY8AYaEWUb4fvPAk2+A3BWIfQjyIGOxkoVynwyia1xst4CeTnOZVIVM1zuP5HihDA
- +vNt7lXD9mgqwLH8VXfyjA0Nj7kJ1hlAaMBp3+lyMvRKOEkqloDqrmxQs/EJpg8q9hNd1Ebpy
- 3Ij/mkgew0Y87+B2L498GiiMKNxv1pSotVxH4u9jZ2qOekfAFvn5Q0sqbOnxvc9+Qh3B8NI5X
- xl1GH9BYf9EZBkriQEIyYw=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:FXzSV+WiwtA=:6yd4u25M64GBPrE1dMqHSr
+ eBfjYkZC91OCa0TOKfMtmGgN+zDwoTSmyqXdwZlhccdxeTqo0FQt1hS2wshwMKcRzC/nHEBr0
+ 0DjT5UvF0yJD5B6A85fNY6MnvBatfEfHcoZYH41ktQwGHZDjCKZw6wuPc5cdUADtdfVbRVJWg
+ cS2tS1GXThDBdBWXGilLbNMQsZtSrFyo59Nj0Ckpeza8322kJsWYAlyrWLTnl0CA8wQfvkiO1
+ k/IFlegtjZOc4KShM160RwpkooWMvtM202RO6sfFNjtLigc5ddPdiTAESCbgHFasbAl1X6D3C
+ IegtwMRrXuU6cZHtiwHw8/t+J9fBWLszC0y++Dkmmn/Fv2mns9GZpxw49pcrt+k0BDCKBT7Qg
+ pqnBOhtBQTOCGN/Z1IHd03v1+3msNvPB5SVEiiSxVFv8Gzk8aGmhMJm5rHImTKvsrO16d44B7
+ e+ftytybHEna6oXlZikq73RZ/lVcW7vVfEewFaRF82m8zV2Gt74m8Uwt2sK6S7k9BI4MY3tao
+ JTF6idpuq0fRweXM7fvkgg=
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-Avoid the multiline statement for notify_bulks by return early in
-error case.
+Using BUG_ON in a non-essential driver isn't recommend. So better
+trigger a stacktrace and bailout.
 
 Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
+Reviewed-by: Nicolas Saenz Julienne <nsaenz@kernel.org>
 ---
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ .../vc04_services/interface/vchiq_arm/vchiq_arm.c       | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 8a1e6f5..f13d573 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -2622,9 +2622,10 @@ do_abort_bulks(struct vchiq_service *service)
- 	mutex_unlock(&service->bulk_mutex);
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index 8b2b477..c51840a 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -602,7 +602,9 @@ service_callback(enum vchiq_reason reason, struct vchiq_header *header,
+ 	DEBUG_TRACE(SERVICE_CALLBACK_LINE);
  
- 	status = notify_bulks(service, &service->bulk_tx, 0/*!retry_poll*/);
--	if (status == VCHIQ_SUCCESS)
--		status = notify_bulks(service, &service->bulk_rx,
--			0/*!retry_poll*/);
-+	if (status != VCHIQ_SUCCESS)
-+		return 0;
+ 	service = handle_to_service(handle);
+-	BUG_ON(!service);
++	if (WARN_ON(!service))
++		return VCHIQ_SUCCESS;
 +
-+	status = notify_bulks(service, &service->bulk_rx, 0/*!retry_poll*/);
- 	return (status == VCHIQ_SUCCESS);
- }
+ 	user_service = (struct user_service *)service->base.userdata;
+ 	instance = user_service->instance;
+ 
+@@ -918,8 +920,12 @@ static int vchiq_ioc_dequeue_message(struct vchiq_instance *instance,
+ 			goto out;
+ 	}
+ 
+-	BUG_ON((int)(user_service->msg_insert -
+-		user_service->msg_remove) < 0);
++	if (WARN_ON_ONCE((int)(user_service->msg_insert -
++			 user_service->msg_remove) < 0)) {
++		spin_unlock(&msg_queue_spinlock);
++		ret = -EINVAL;
++		goto out;
++	}
+ 
+ 	header = user_service->msg_queue[user_service->msg_remove &
+ 		(MSG_QUEUE_SIZE - 1)];
+@@ -1937,7 +1943,10 @@ static int vchiq_release(struct inode *inode, struct file *file)
+ 
+ 		wait_for_completion(&service->remove_event);
+ 
+-		BUG_ON(service->srvstate != VCHIQ_SRVSTATE_FREE);
++		if (WARN_ON(service->srvstate != VCHIQ_SRVSTATE_FREE)) {
++			unlock_service(service);
++			break;
++		}
+ 
+ 		spin_lock(&msg_queue_spinlock);
  
 -- 
 2.7.4
