@@ -1,191 +1,300 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC17271
-	for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 09:21:30 +0000 (UTC)
-IronPort-SDR: b2Vv27POt2iEacKqbi+wWCdt14H13Lk5totB/gVCGteiGc6XHMRY+B1EXETufa+MVZLZvhxAow
- TRvGVoHLGNgQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="281636295"
-X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; 
-   d="scan'208";a="281636295"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2021 02:21:30 -0700
-IronPort-SDR: V36vqNipvCb4hLh8Agj1I/onW7FoBa41BGbkDhZJYgKIMsa7LyJqlCgaVCY1H8xd0AmRMNrKX7
- OXd4qxOQBHHQ==
-X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; 
-   d="scan'208";a="424858152"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2021 02:21:28 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-	by paasikivi.fi.intel.com (Postfix) with SMTP id 1B2AF203BC;
-	Mon, 26 Apr 2021 12:21:26 +0300 (EEST)
-Date: Mon, 26 Apr 2021 12:21:26 +0300
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Deepak R Varma <drv@mailo.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8678871
+	for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 09:50:21 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id u17so83570415ejk.2
+        for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 02:50:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ShMo62waoXdZPA8Pjv746uYpSuq7bJJgFSuovFSewxU=;
+        b=flm3mKB/uF+WoPuFwxRs3v9CquC6FJr/cB7imk2AZkiyc3PO5quJP1/ojpF16RKFig
+         p8DP7Gmvc6eAmK+gd/FxZpHtyIQZn+nN+dqbe2ceq6ISC9blBSZqWr6dysGljEbHNI4M
+         2RXqsV1bkKoI4jcE7Hx0RQfItyQf2DsAO2JGXy5BkMHFeqwTdQmtRC6flMot2/xN7XpP
+         370VdV3UnXBiRI1+EPtATsJE4akgRRGZfFYG9CoO2r6GFnFlNSZ6yOokYSgMWs7JtwKd
+         AwqycfHY5pL2rJOWqaPz/11ByAOi5TWAcu2mVKpb2F/dc21+afhSf8iA7cp/SOinfaNH
+         32Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ShMo62waoXdZPA8Pjv746uYpSuq7bJJgFSuovFSewxU=;
+        b=snmYW/SzBYJ69PGFK+0vIuAmhO2v71YBbQ59+H1a+nw71URHX39WvsCfGiUDYefRF8
+         FX9yWKXa5ukKfuFse7GSvbiyquc691FGG5eFA3DKC5vLkzEsXZy7zZGQU1Y39gu7Kd2Y
+         EL5U4BEN4s6C6vsiUZDypfVeNAvWfQDU99dRRp1SdOMijeihZWZvAqo7l2PNnsO25I2p
+         DSzi6xZcVLNktp9mLi28zBtZ4Y8yiDJxIQzJ7vTHA/4G2sPP0cvfR8nRWuQajrRRODVm
+         M+OxayIYbN3Lm/iBigz2nBlZgcCedC8wx8vyLp+63JGtWc3aQPRh2zFQpiS0oAUaIPkc
+         2Ehg==
+X-Gm-Message-State: AOAM533EsMIp/gi3B9xwDIzfDbCZ+eUsNOT11O35TXlNyqBUaA+0ic6y
+	zWgTI4U9sTm0gRgmtWF7ll8=
+X-Google-Smtp-Source: ABdhPJyRP058z246jmUNjWq8wucx1uHsZYLfjJdekeAElr2pD5A1klCMMH2YqAXgzV/brtKz+jwF4A==
+X-Received: by 2002:a17:906:5949:: with SMTP id g9mr17773082ejr.356.1619430619985;
+        Mon, 26 Apr 2021 02:50:19 -0700 (PDT)
+Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
+        by smtp.gmail.com with ESMTPSA id g11sm776817eje.7.2021.04.26.02.50.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Apr 2021 02:50:19 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: outreachy-kernel@googlegroups.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	David Kershner <david.kershner@unisys.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, mh12gx2825@gmail.com
-Subject: Re: [PATCH] staging: media: atomisp: replace pr_info() by dev_info()
-Message-ID: <20210426092125.GU3@paasikivi.fi.intel.com>
-References: <20210422103037.GA239298@localhost>
+	Matthew Wilcox <willy@infradead.org>,
+	Daniel Vetter <daniel@ffwll.ch>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [Outreachy kernel] [RFC PATCH] staging: unisys: visorhba: Convert module from IDR to XArray
+Date: Mon, 26 Apr 2021 11:50:15 +0200
+Message-Id: <20210426095015.18556-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210422103037.GA239298@localhost>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 
-Hi Deepak,
+Converted visorhba from IDR to XArray. The abstract data type XArray is
+more memory-efficient, parallelisable and cache friendly. It takes 
+advantage of RCU to perform lookups without locking.
 
-Thanks for the patch.
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ .../staging/unisys/visorhba/visorhba_main.c   | 107 +++++++-----------
+ 1 file changed, 44 insertions(+), 63 deletions(-)
 
-On Thu, Apr 22, 2021 at 04:00:37PM +0530, Deepak R Varma wrote:
-> It is recommended to use driver model diagnostic macros dev_*() instead
-> of pr_*() since the former ensures that the log messages are always
-> associated with the corresponding device and driver.
-> 
-> Suggested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
-> ---
-> 
-> Note: There are few more pr_into() calls that I have not replaced since
-> they are very basic (entry and exit) and temporary. They can be removed 
-> if the APIs are fully tested. See this example:
-> 	pr_info("%s S\n", __func__);
-> 
-> Let me know if I should remove them and resubmit this patch.
-
-Most probably leftovers from development time. I think these could be
-removed but perhaps by a separate patch.
-
-> 
-> 
->  .../media/atomisp/i2c/atomisp-gc0310.c        | 30 +++++++++----------
->  1 file changed, 15 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> index 7e4e123fdb52..27153ec6f65e 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> @@ -300,7 +300,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
->  	/* pixel clock calculattion */
->  	dev->vt_pix_clk_freq_mhz = 14400000; // 16.8MHz
->  	buf->vt_pix_clk_freq_mhz = dev->vt_pix_clk_freq_mhz;
-> -	pr_info("vt_pix_clk_freq_mhz=%d\n", buf->vt_pix_clk_freq_mhz);
-> +	dev_info(&client->dev, "vt_pix_clk_freq_mhz=%d\n", buf->vt_pix_clk_freq_mhz);
-
-Over 80; please wrap. The same for the rest of such lines.
-
->  
->  	/* get integration time */
->  	buf->coarse_integration_time_min = GC0310_COARSE_INTG_TIME_MIN;
-> @@ -326,7 +326,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
->  	if (ret)
->  		return ret;
->  	buf->crop_horizontal_start = val | (reg_val & 0xFF);
-> -	pr_info("crop_horizontal_start=%d\n", buf->crop_horizontal_start);
-> +	dev_info(&client->dev, "crop_horizontal_start=%d\n", buf->crop_horizontal_start);
->  
->  	/* Getting crop_vertical_start */
->  	ret =  gc0310_read_reg(client, GC0310_8BIT,
-> @@ -339,7 +339,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
->  	if (ret)
->  		return ret;
->  	buf->crop_vertical_start = val | (reg_val & 0xFF);
-> -	pr_info("crop_vertical_start=%d\n", buf->crop_vertical_start);
-> +	dev_info(&client->dev, "crop_vertical_start=%d\n", buf->crop_vertical_start);
->  
->  	/* Getting output_width */
->  	ret = gc0310_read_reg(client, GC0310_8BIT,
-> @@ -352,7 +352,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
->  	if (ret)
->  		return ret;
->  	buf->output_width = val | (reg_val & 0xFF);
-> -	pr_info("output_width=%d\n", buf->output_width);
-> +	dev_info(&client->dev, "output_width=%d\n", buf->output_width);
->  
->  	/* Getting output_height */
->  	ret = gc0310_read_reg(client, GC0310_8BIT,
-> @@ -365,12 +365,12 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
->  	if (ret)
->  		return ret;
->  	buf->output_height = val | (reg_val & 0xFF);
-> -	pr_info("output_height=%d\n", buf->output_height);
-> +	dev_info(&client->dev, "output_height=%d\n", buf->output_height);
->  
->  	buf->crop_horizontal_end = buf->crop_horizontal_start + buf->output_width - 1;
->  	buf->crop_vertical_end = buf->crop_vertical_start + buf->output_height - 1;
-> -	pr_info("crop_horizontal_end=%d\n", buf->crop_horizontal_end);
-> -	pr_info("crop_vertical_end=%d\n", buf->crop_vertical_end);
-> +	dev_info(&client->dev, "crop_horizontal_end=%d\n", buf->crop_horizontal_end);
-> +	dev_info(&client->dev, "crop_vertical_end=%d\n", buf->crop_vertical_end);
->  
->  	/* Getting line_length_pck */
->  	ret = gc0310_read_reg(client, GC0310_8BIT,
-> @@ -389,8 +389,8 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
->  		return ret;
->  	sh_delay = reg_val;
->  	buf->line_length_pck = buf->output_width + hori_blanking + sh_delay + 4;
-> -	pr_info("hori_blanking=%d sh_delay=%d line_length_pck=%d\n", hori_blanking,
-> -		sh_delay, buf->line_length_pck);
-> +	dev_info(&client->dev, "hori_blanking=%d sh_delay=%d line_length_pck=%d\n", hori_blanking,
-> +		 sh_delay, buf->line_length_pck);
->  
->  	/* Getting frame_length_lines */
->  	ret = gc0310_read_reg(client, GC0310_8BIT,
-> @@ -404,8 +404,8 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
->  		return ret;
->  	vert_blanking = val | (reg_val & 0xFF);
->  	buf->frame_length_lines = buf->output_height + vert_blanking;
-> -	pr_info("vert_blanking=%d frame_length_lines=%d\n", vert_blanking,
-> -		buf->frame_length_lines);
-> +	dev_info(&client->dev, "vert_blanking=%d frame_length_lines=%d\n", vert_blanking,
-> +		 buf->frame_length_lines);
->  
->  	buf->binning_factor_x = res->bin_factor_x ?
->  				res->bin_factor_x : 1;
-> @@ -434,7 +434,7 @@ static int gc0310_set_gain(struct v4l2_subdev *sd, int gain)
->  		dgain = gain / 2;
->  	}
->  
-> -	pr_info("gain=0x%x again=0x%x dgain=0x%x\n", gain, again, dgain);
-> +	dev_info(&client->dev, "gain=0x%x again=0x%x dgain=0x%x\n", gain, again, dgain);
->  
->  	/* set analog gain */
->  	ret = gc0310_write_reg(client, GC0310_8BIT,
-> @@ -458,7 +458,7 @@ static int __gc0310_set_exposure(struct v4l2_subdev *sd, int coarse_itg,
->  	struct i2c_client *client = v4l2_get_subdevdata(sd);
->  	int ret;
->  
-> -	pr_info("coarse_itg=%d gain=%d digitgain=%d\n", coarse_itg, gain, digitgain);
-> +	dev_info(&client->dev, "coarse_itg=%d gain=%d digitgain=%d\n", coarse_itg, gain, digitgain);
->  
->  	/* set exposure */
->  	ret = gc0310_write_reg(client, GC0310_8BIT,
-> @@ -1085,7 +1085,7 @@ static int gc0310_detect(struct i2c_client *client)
->  		return -ENODEV;
->  	}
->  	id = ((((u16)high) << 8) | (u16)low);
-> -	pr_info("sensor ID = 0x%x\n", id);
-> +	dev_info(&client->dev, "sensor ID = 0x%x\n", id);
->  
->  	if (id != GC0310_ID) {
->  		dev_err(&client->dev, "sensor ID error, read id = 0x%x, target id = 0x%x\n", id,
-> @@ -1106,7 +1106,7 @@ static int gc0310_s_stream(struct v4l2_subdev *sd, int enable)
->  	struct i2c_client *client = v4l2_get_subdevdata(sd);
->  	int ret;
->  
-> -	pr_info("%s S enable=%d\n", __func__, enable);
-> +	dev_info(&client->dev, "%s S enable=%d\n", __func__, enable);
->  	mutex_lock(&dev->input_lock);
->  
->  	if (enable) {
-
+diff --git a/drivers/staging/unisys/visorhba/visorhba_main.c b/drivers/staging/unisys/visorhba/visorhba_main.c
+index 4455d26f7c96..851e60ab0c46 100644
+--- a/drivers/staging/unisys/visorhba/visorhba_main.c
++++ b/drivers/staging/unisys/visorhba/visorhba_main.c
+@@ -6,10 +6,10 @@
+ 
+ #include <linux/debugfs.h>
+ #include <linux/kthread.h>
+-#include <linux/idr.h>
+ #include <linux/module.h>
+ #include <linux/seq_file.h>
+ #include <linux/visorbus.h>
++#include <linux/xarray.h>
+ #include <scsi/scsi.h>
+ #include <scsi/scsi_host.h>
+ #include <scsi/scsi_cmnd.h>
+@@ -23,6 +23,8 @@
+ #define MAX_PENDING_REQUESTS (MIN_NUMSIGNALS * 2)
+ #define VISORHBA_ERROR_COUNT 30
+ 
++static DEFINE_XARRAY_ALLOC(xa_dtstr);
++
+ static struct dentry *visorhba_debugfs_dir;
+ 
+ /* GUIDS for HBA channel type supported by this driver */
+@@ -78,12 +80,6 @@ struct visorhba_devdata {
+ 	unsigned int max_buff_len;
+ 	int devnum;
+ 	struct uiscmdrsp *cmdrsp;
+-	/*
+-	 * allows us to pass int handles back-and-forth between us and
+-	 * iovm, instead of raw pointers
+-	 */
+-	struct idr idr;
+-
+ 	struct dentry *debugfs_dir;
+ 	struct dentry *debugfs_info;
+ };
+@@ -183,32 +179,16 @@ static struct uiscmdrsp *get_scsipending_cmdrsp(struct visorhba_devdata *ddata,
+ }
+ 
+ /*
+- * simple_idr_get - Associate a provided pointer with an int value
+- *		    1 <= value <= INT_MAX, and return this int value;
+- *		    the pointer value can be obtained later by passing
+- *		    this int value to idr_find()
+- * @idrtable: The data object maintaining the pointer<-->int mappings
+- * @p:	      The pointer value to be remembered
+- * @lock:     A spinlock used when exclusive access to idrtable is needed
+- *
+- * Return: The id number mapped to pointer 'p', 0 on failure
++ * simple_xa_dtstr_get - Store a pointer to xa_dtstr xarray
++ * @id: Pointer to ID
++ * @entry: New entry
+  */
+-static unsigned int simple_idr_get(struct idr *idrtable, void *p,
+-				   spinlock_t *lock)
++static int simple_xa_dtstr_get(u32 *id, void *entry)
+ {
+-	int id;
+-	unsigned long flags;
++	int ret = xa_alloc_irq(&xa_dtstr, id, entry, xa_limit_32b, GFP_NOWAIT);
++	/* TODO: check for and manage errors */
+ 
+-	idr_preload(GFP_KERNEL);
+-	spin_lock_irqsave(lock, flags);
+-	id = idr_alloc(idrtable, p, 1, INT_MAX, GFP_NOWAIT);
+-	spin_unlock_irqrestore(lock, flags);
+-	idr_preload_end();
+-	/* failure */
+-	if (id < 0)
+-		return 0;
+-	/* idr_alloc() guarantees > 0 */
+-	return (unsigned int)(id);
++	return ret;
+ }
+ 
+ /*
+@@ -216,22 +196,25 @@ static unsigned int simple_idr_get(struct idr *idrtable, void *p,
+  *				completion processing logic for a taskmgmt
+  *				cmd will be able to find who to wake up
+  *				and where to stash the result
+- * @idrtable: The data object maintaining the pointer<-->int mappings
+- * @lock:     A spinlock used when exclusive access to idrtable is needed
++ * @xa_dtstr: The data object maintaining the pointer<-->int mappings
+  * @cmdrsp:   Response from the IOVM
+  * @event:    The event handle to associate with an id
+  * @result:   The location to place the result of the event handle into
+  */
+-static void setup_scsitaskmgmt_handles(struct idr *idrtable, spinlock_t *lock,
+-				       struct uiscmdrsp *cmdrsp,
+-				       wait_queue_head_t *event, int *result)
++static void setup_scsitaskmgmt_handles(struct uiscmdrsp *cmdrsp,
++				       wait_queue_head_t *event, u32 *result)
+ {
+-	/* specify the event that has to be triggered when this */
+-	/* cmd is complete */
+-	cmdrsp->scsitaskmgmt.notify_handle =
+-		simple_idr_get(idrtable, event, lock);
+-	cmdrsp->scsitaskmgmt.notifyresult_handle =
+-		simple_idr_get(idrtable, result, lock);
++	void *entry;
++	int ret;
++
++	/* specify the event that has to be triggered when this cmd is complete */
++	entry = &cmdrsp->scsitaskmgmt.notify_handle;
++	ret = simple_xa_dtstr_get(result, entry);
++	/* TODO: Check for and manage errors */
++
++	entry = &cmdrsp->scsitaskmgmt.notifyresult_handle;
++	ret = simple_xa_dtstr_get(result, entry);
++	/* TODO: Check for and manage errors */
+ }
+ 
+ /*
+@@ -240,13 +223,17 @@ static void setup_scsitaskmgmt_handles(struct idr *idrtable, spinlock_t *lock,
+  * @idrtable: The data object maintaining the pointer<-->int mappings
+  * @cmdrsp:   Response from the IOVM
+  */
+-static void cleanup_scsitaskmgmt_handles(struct idr *idrtable,
+-					 struct uiscmdrsp *cmdrsp)
++static void cleanup_scsitaskmgmt_handles(struct uiscmdrsp_scsitaskmgmt *scsitaskmgmt)
+ {
+-	if (cmdrsp->scsitaskmgmt.notify_handle)
+-		idr_remove(idrtable, cmdrsp->scsitaskmgmt.notify_handle);
+-	if (cmdrsp->scsitaskmgmt.notifyresult_handle)
+-		idr_remove(idrtable, cmdrsp->scsitaskmgmt.notifyresult_handle);
++	struct uiscmdrsp *cmdrsp;
++	unsigned long index;
++
++	xa_for_each(&xa_dtstr, index, cmdrsp) {
++		if (&cmdrsp->scsitaskmgmt != scsitaskmgmt)
++			continue;
++		xa_erase(&xa_dtstr, index);
++		kfree(cmdrsp);
++	}
+ }
+ 
+ /*
+@@ -273,8 +260,7 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
+ 	if (devdata->serverdown || devdata->serverchangingstate)
+ 		return FAILED;
+ 
+-	scsicmd_id = add_scsipending_entry(devdata, CMD_SCSITASKMGMT_TYPE,
+-					   NULL);
++	scsicmd_id = add_scsipending_entry(devdata, CMD_SCSITASKMGMT_TYPE, NULL);
+ 	if (scsicmd_id < 0)
+ 		return FAILED;
+ 
+@@ -284,8 +270,7 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
+ 
+ 	/* issue TASK_MGMT_ABORT_TASK */
+ 	cmdrsp->cmdtype = CMD_SCSITASKMGMT_TYPE;
+-	setup_scsitaskmgmt_handles(&devdata->idr, &devdata->privlock, cmdrsp,
+-				   &notifyevent, &notifyresult);
++	setup_scsitaskmgmt_handles(cmdrsp, &notifyevent, &notifyresult);
+ 
+ 	/* save destination */
+ 	cmdrsp->scsitaskmgmt.tasktype = tasktype;
+@@ -311,14 +296,14 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
+ 	dev_dbg(&scsidev->sdev_gendev,
+ 		"visorhba: taskmgmt type=%d success; result=0x%x\n",
+ 		 tasktype, notifyresult);
+-	cleanup_scsitaskmgmt_handles(&devdata->idr, cmdrsp);
++	cleanup_scsitaskmgmt_handles(&cmdrsp->scsitaskmgmt);
+ 	return SUCCESS;
+ 
+ err_del_scsipending_ent:
+ 	dev_dbg(&scsidev->sdev_gendev,
+ 		"visorhba: taskmgmt type=%d not executed\n", tasktype);
+ 	del_scsipending_ent(devdata, scsicmd_id);
+-	cleanup_scsitaskmgmt_handles(&devdata->idr, cmdrsp);
++	cleanup_scsitaskmgmt_handles(&cmdrsp->scsitaskmgmt);
+ 	return FAILED;
+ }
+ 
+@@ -654,13 +639,12 @@ DEFINE_SHOW_ATTRIBUTE(info_debugfs);
+  * Service Partition returned the result of the task management
+  * command. Wake up anyone waiting for it.
+  */
+-static void complete_taskmgmt_command(struct idr *idrtable,
+-				      struct uiscmdrsp *cmdrsp, int result)
++static void complete_taskmgmt_command(struct uiscmdrsp *cmdrsp, int result)
+ {
+ 	wait_queue_head_t *wq =
+-		idr_find(idrtable, cmdrsp->scsitaskmgmt.notify_handle);
++		xa_load(&xa_dtstr, cmdrsp->scsitaskmgmt.notify_handle);
+ 	int *scsi_result_ptr =
+-		idr_find(idrtable, cmdrsp->scsitaskmgmt.notifyresult_handle);
++		xa_load(&xa_dtstr, cmdrsp->scsitaskmgmt.notifyresult_handle);
+ 	if (unlikely(!(wq && scsi_result_ptr))) {
+ 		pr_err("visorhba: no completion context; cmd will time out\n");
+ 		return;
+@@ -708,8 +692,7 @@ static void visorhba_serverdown_complete(struct visorhba_devdata *devdata)
+ 			break;
+ 		case CMD_SCSITASKMGMT_TYPE:
+ 			cmdrsp = pendingdel->sent;
+-			complete_taskmgmt_command(&devdata->idr, cmdrsp,
+-						  TASK_MGMT_FAILED);
++			complete_taskmgmt_command(cmdrsp, TASK_MGMT_FAILED);
+ 			break;
+ 		default:
+ 			break;
+@@ -905,7 +888,7 @@ static void drain_queue(struct uiscmdrsp *cmdrsp,
+ 			if (!del_scsipending_ent(devdata,
+ 						 cmdrsp->scsitaskmgmt.handle))
+ 				break;
+-			complete_taskmgmt_command(&devdata->idr, cmdrsp,
++			complete_taskmgmt_command(cmdrsp,
+ 						  cmdrsp->scsitaskmgmt.result);
+ 		} else if (cmdrsp->cmdtype == CMD_NOTIFYGUEST_TYPE)
+ 			dev_err_once(&devdata->dev->device,
+@@ -1053,8 +1036,6 @@ static int visorhba_probe(struct visor_device *dev)
+ 	if (err)
+ 		goto err_debugfs_info;
+ 
+-	idr_init(&devdata->idr);
+-
+ 	devdata->cmdrsp = kmalloc(sizeof(*devdata->cmdrsp), GFP_ATOMIC);
+ 	visorbus_enable_channel_interrupts(dev);
+ 
+@@ -1096,7 +1077,7 @@ static void visorhba_remove(struct visor_device *dev)
+ 	scsi_remove_host(scsihost);
+ 	scsi_host_put(scsihost);
+ 
+-	idr_destroy(&devdata->idr);
++	xa_destroy(&xa_dtstr);
+ 
+ 	dev_set_drvdata(&dev->device, NULL);
+ 	debugfs_remove(devdata->debugfs_info);
 -- 
-Kind regards,
+2.31.1
 
-Sakari Ailus
