@@ -1,279 +1,72 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1747C72
-	for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 18:42:51 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id l4so85912244ejc.10
-        for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 11:42:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/oHzY7EFmjXmbACcqlKjXXYBIu0vYraMFUksRGGqX5E=;
-        b=o7dc2KZctRLIt6MSgzsov3bvXxNCEw9okaGaWSiX1juvDf0KRbwD6SKGy/NjBbNWhD
-         oKUfynXkYHC0+tU4Ti4+OtWg85aiI9hQy5hm+lupD93K96MHfOzr3g8//Bzv1AwtsRxf
-         MK5IgFjT8VDunSN94j4bdZvZHQ/JDd3pvDy1D3cWxAAZKVfe1I2EopEbRkmMEDMyiwGf
-         1o93sVlVbYNeR6BmpMxrR9GeGl6mHnO2boSDmwPqeJmebhFJfeT24PNGjqFPPiwRCpSh
-         uAjNFfqXVfSI5tlClZ2SjJOtT/p3Vtk9ooiMWdjocm4Y+R2kMwFVFeqRd6RIjGAri7en
-         juKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/oHzY7EFmjXmbACcqlKjXXYBIu0vYraMFUksRGGqX5E=;
-        b=NYn7mWCwHU9LCdOxMLOVbB0dKuPYvIzPNzp+DCdokgknyyNUlLgb4Hx9UUpH6yvb+W
-         Nmlz+OlPwl0POXuOysIknhx9gqHgyF571csIHj3rtqtlIwiMGlG5xyKYOnVX2yd7D3hT
-         yFsxA5K5SG4ds/Lj2+de5sWBhM/XsZ6XwliwXFxB8V7uOqx8fuZwVH9FtRmypPQ7d/h1
-         dP1KaWVt5mxrjyNYzUi4jJH9ElaB6oGoBd73xWxbVmRVqNu/LKRpJ9w8t6DhjwrdGEXK
-         DgEISPCKbJiK7t4sD8a/34/kyPbqGB4tihjBjZ/+WCWeyYaE1m4uCQU0O+srL1G/FQ32
-         NPNg==
-X-Gm-Message-State: AOAM531NW8QQzcq9czLGQCjDCDhz39WEWqwV6Ok2k2ADVups5aqrkYJ7
-	3DBF+Em+nhrCu5Sn/tWf8hY=
-X-Google-Smtp-Source: ABdhPJwsTbNTz8PNm+qJY1E7LQZUWJpgqKAJZpykcDUcH7PRF0lia3p4nUhaej0CaLLVK1x10UIt1g==
-X-Received: by 2002:a17:906:37c9:: with SMTP id o9mr19716700ejc.285.1619462569599;
-        Mon, 26 Apr 2021 11:42:49 -0700 (PDT)
-Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
-        by smtp.gmail.com with ESMTPSA id l15sm417273edb.48.2021.04.26.11.42.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Apr 2021 11:42:48 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: outreachy-kernel@googlegroups.com,
-	linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642DC72
+	for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 19:21:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=5LaqQeBsNBHU9D9jZgjWkNwbT7whKdIcOp7Scece9yQ=; b=ZlCvedhhe+0hN8sK0mbS6kAgvL
+	+GPvZWgvOyaFM8lynXHsvjoIOKX0H3LR0Rw/IHh4vf/MDNJbypiFUjVTUWXbA+dti2wnCzteYyOf5
+	NFRCWV+oAX0yzXfXp+S33CFFw5uTtlbRMOmKki+D89ne/gzmrfeWzFIYrlfJSvTAYVbnLOia0ghnw
+	7Xf3wp8J2YMpgp0N756wucqRhoRlku1NqP5CVVKyGQMfmVXVnMCOV2rd3/TzD1UI6K098/yUksab/
+	sx9wdnbzinoSkEj3GB48lsRBDHlFgVIJkyoYRwXHui3yBDqNSgZOld8MDNhP2DSziy/Hbi+Voh3rQ
+	QV7ZfNbw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+	id 1lb6mz-0060Kk-Fr; Mon, 26 Apr 2021 19:21:05 +0000
+Date: Mon, 26 Apr 2021 20:21:01 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	David Kershner <david.kershner@unisys.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Matthew Wilcox <willy@infradead.org>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [Outreachy kernel] [PATCH v3] staging: unisys: visorhba: Convert module from IDR to XArray
-Date: Mon, 26 Apr 2021 20:42:45 +0200
-Message-Id: <20210426184245.12269-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.31.1
+	Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [Outreachy kernel] [PATCH v3] staging: unisys: visorhba: Convert
+ module from IDR to XArray
+Message-ID: <20210426192101.GQ235567@casper.infradead.org>
+References: <20210426184245.12269-1-fmdefrancesco@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210426184245.12269-1-fmdefrancesco@gmail.com>
 
-Converted visorhba from IDR to XArray. The abstract data type XArray is
-more memory-efficient, parallelisable and cache friendly. It takes
-advantage of RCU to perform lookups without locking.
+On Mon, Apr 26, 2021 at 08:42:45PM +0200, Fabio M. De Francesco wrote:
+> +static void setup_scsitaskmgmt_handles(struct xarray *xa, struct uiscmdrsp *cmdrsp,
+>  				       wait_queue_head_t *event, int *result)
+>  {
+> -	/* specify the event that has to be triggered when this */
+> -	/* cmd is complete */
+> -	cmdrsp->scsitaskmgmt.notify_handle =
+> -		simple_idr_get(idrtable, event, lock);
+> -	cmdrsp->scsitaskmgmt.notifyresult_handle =
+> -		simple_idr_get(idrtable, result, lock);
+> +	u32 id;
+> +	int ret;
+> +
+> +	/* specify the event that has to be triggered when this cmd is complete */
+> +	id = (u32)cmdrsp->scsitaskmgmt.notify_handle;
+> +	ret = xa_alloc_irq(xa, &id, event, XA_LIMIT(1, INT_MAX), GFP_KERNEL);
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
+OK, think this one through a bit.  When xa_alloc_irq() stores the ID that
+it assigned into 'id', what happens to it next?
 
-Changes from v2: Some residual errors from v1 were not fixed in v2. Now
-they have been removed.
-Changes from v1: After a first review by Matthew Wilcox, who found a
-series of errors and gave suggestions on how to fix them, I rewrote a
-larger part of the patch.
+> +	id = (u32)cmdrsp->scsitaskmgmt.notifyresult_handle;
+> +	ret = xa_alloc_irq(xa, &id, result, XA_LIMIT(1, INT_MAX), GFP_KERNEL);
+>  }
 
- .../staging/unisys/visorhba/visorhba_main.c   | 89 ++++++-------------
- 1 file changed, 25 insertions(+), 64 deletions(-)
+> @@ -1053,8 +1018,6 @@ static int visorhba_probe(struct visor_device *dev)
+>  	if (err)
+>  		goto err_debugfs_info;
+>  
+> -	idr_init(&devdata->idr);
 
-diff --git a/drivers/staging/unisys/visorhba/visorhba_main.c b/drivers/staging/unisys/visorhba/visorhba_main.c
-index 4455d26f7c96..938a5081b835 100644
---- a/drivers/staging/unisys/visorhba/visorhba_main.c
-+++ b/drivers/staging/unisys/visorhba/visorhba_main.c
-@@ -6,10 +6,10 @@
- 
- #include <linux/debugfs.h>
- #include <linux/kthread.h>
--#include <linux/idr.h>
- #include <linux/module.h>
- #include <linux/seq_file.h>
- #include <linux/visorbus.h>
-+#include <linux/xarray.h>
- #include <scsi/scsi.h>
- #include <scsi/scsi_host.h>
- #include <scsi/scsi_cmnd.h>
-@@ -82,7 +82,7 @@ struct visorhba_devdata {
- 	 * allows us to pass int handles back-and-forth between us and
- 	 * iovm, instead of raw pointers
- 	 */
--	struct idr idr;
-+	struct xarray xa;
- 
- 	struct dentry *debugfs_dir;
- 	struct dentry *debugfs_info;
-@@ -182,71 +182,40 @@ static struct uiscmdrsp *get_scsipending_cmdrsp(struct visorhba_devdata *ddata,
- 	return NULL;
- }
- 
--/*
-- * simple_idr_get - Associate a provided pointer with an int value
-- *		    1 <= value <= INT_MAX, and return this int value;
-- *		    the pointer value can be obtained later by passing
-- *		    this int value to idr_find()
-- * @idrtable: The data object maintaining the pointer<-->int mappings
-- * @p:	      The pointer value to be remembered
-- * @lock:     A spinlock used when exclusive access to idrtable is needed
-- *
-- * Return: The id number mapped to pointer 'p', 0 on failure
-- */
--static unsigned int simple_idr_get(struct idr *idrtable, void *p,
--				   spinlock_t *lock)
--{
--	int id;
--	unsigned long flags;
--
--	idr_preload(GFP_KERNEL);
--	spin_lock_irqsave(lock, flags);
--	id = idr_alloc(idrtable, p, 1, INT_MAX, GFP_NOWAIT);
--	spin_unlock_irqrestore(lock, flags);
--	idr_preload_end();
--	/* failure */
--	if (id < 0)
--		return 0;
--	/* idr_alloc() guarantees > 0 */
--	return (unsigned int)(id);
--}
--
- /*
-  * setup_scsitaskmgmt_handles - Stash the necessary handles so that the
-  *				completion processing logic for a taskmgmt
-  *				cmd will be able to find who to wake up
-  *				and where to stash the result
-- * @idrtable: The data object maintaining the pointer<-->int mappings
-- * @lock:     A spinlock used when exclusive access to idrtable is needed
-+ * @xa:       The data object maintaining the pointer<-->int mappings
-  * @cmdrsp:   Response from the IOVM
-  * @event:    The event handle to associate with an id
-  * @result:   The location to place the result of the event handle into
-  */
--static void setup_scsitaskmgmt_handles(struct idr *idrtable, spinlock_t *lock,
--				       struct uiscmdrsp *cmdrsp,
-+static void setup_scsitaskmgmt_handles(struct xarray *xa, struct uiscmdrsp *cmdrsp,
- 				       wait_queue_head_t *event, int *result)
- {
--	/* specify the event that has to be triggered when this */
--	/* cmd is complete */
--	cmdrsp->scsitaskmgmt.notify_handle =
--		simple_idr_get(idrtable, event, lock);
--	cmdrsp->scsitaskmgmt.notifyresult_handle =
--		simple_idr_get(idrtable, result, lock);
-+	u32 id;
-+	int ret;
-+
-+	/* specify the event that has to be triggered when this cmd is complete */
-+	id = (u32)cmdrsp->scsitaskmgmt.notify_handle;
-+	ret = xa_alloc_irq(xa, &id, event, XA_LIMIT(1, INT_MAX), GFP_KERNEL);
-+	id = (u32)cmdrsp->scsitaskmgmt.notifyresult_handle;
-+	ret = xa_alloc_irq(xa, &id, result, XA_LIMIT(1, INT_MAX), GFP_KERNEL);
- }
- 
- /*
-  * cleanup_scsitaskmgmt_handles - Forget handles created by
-  *				  setup_scsitaskmgmt_handles()
-- * @idrtable: The data object maintaining the pointer<-->int mappings
-+ * @xa: The data object maintaining the pointer<-->int mappings
-  * @cmdrsp:   Response from the IOVM
-  */
--static void cleanup_scsitaskmgmt_handles(struct idr *idrtable,
-+static void cleanup_scsitaskmgmt_handles(struct xarray *xa,
- 					 struct uiscmdrsp *cmdrsp)
- {
--	if (cmdrsp->scsitaskmgmt.notify_handle)
--		idr_remove(idrtable, cmdrsp->scsitaskmgmt.notify_handle);
--	if (cmdrsp->scsitaskmgmt.notifyresult_handle)
--		idr_remove(idrtable, cmdrsp->scsitaskmgmt.notifyresult_handle);
-+	xa_erase(xa, cmdrsp->scsitaskmgmt.notify_handle);
-+	xa_erase(xa, cmdrsp->scsitaskmgmt.notifyresult_handle);
- }
- 
- /*
-@@ -273,8 +242,7 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
- 	if (devdata->serverdown || devdata->serverchangingstate)
- 		return FAILED;
- 
--	scsicmd_id = add_scsipending_entry(devdata, CMD_SCSITASKMGMT_TYPE,
--					   NULL);
-+	scsicmd_id = add_scsipending_entry(devdata, CMD_SCSITASKMGMT_TYPE, NULL);
- 	if (scsicmd_id < 0)
- 		return FAILED;
- 
-@@ -284,8 +252,7 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
- 
- 	/* issue TASK_MGMT_ABORT_TASK */
- 	cmdrsp->cmdtype = CMD_SCSITASKMGMT_TYPE;
--	setup_scsitaskmgmt_handles(&devdata->idr, &devdata->privlock, cmdrsp,
--				   &notifyevent, &notifyresult);
-+	setup_scsitaskmgmt_handles(&devdata->xa, cmdrsp, &notifyevent, &notifyresult);
- 
- 	/* save destination */
- 	cmdrsp->scsitaskmgmt.tasktype = tasktype;
-@@ -311,14 +278,14 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
- 	dev_dbg(&scsidev->sdev_gendev,
- 		"visorhba: taskmgmt type=%d success; result=0x%x\n",
- 		 tasktype, notifyresult);
--	cleanup_scsitaskmgmt_handles(&devdata->idr, cmdrsp);
-+	cleanup_scsitaskmgmt_handles(&devdata->xa, cmdrsp);
- 	return SUCCESS;
- 
- err_del_scsipending_ent:
- 	dev_dbg(&scsidev->sdev_gendev,
- 		"visorhba: taskmgmt type=%d not executed\n", tasktype);
- 	del_scsipending_ent(devdata, scsicmd_id);
--	cleanup_scsitaskmgmt_handles(&devdata->idr, cmdrsp);
-+	cleanup_scsitaskmgmt_handles(&devdata->xa, cmdrsp);
- 	return FAILED;
- }
- 
-@@ -654,13 +621,12 @@ DEFINE_SHOW_ATTRIBUTE(info_debugfs);
-  * Service Partition returned the result of the task management
-  * command. Wake up anyone waiting for it.
-  */
--static void complete_taskmgmt_command(struct idr *idrtable,
--				      struct uiscmdrsp *cmdrsp, int result)
-+static void complete_taskmgmt_command(struct xarray *xa, struct uiscmdrsp *cmdrsp, int result)
- {
- 	wait_queue_head_t *wq =
--		idr_find(idrtable, cmdrsp->scsitaskmgmt.notify_handle);
-+		xa_load(xa, cmdrsp->scsitaskmgmt.notify_handle);
- 	int *scsi_result_ptr =
--		idr_find(idrtable, cmdrsp->scsitaskmgmt.notifyresult_handle);
-+		xa_load(xa, cmdrsp->scsitaskmgmt.notifyresult_handle);
- 	if (unlikely(!(wq && scsi_result_ptr))) {
- 		pr_err("visorhba: no completion context; cmd will time out\n");
- 		return;
-@@ -708,8 +674,7 @@ static void visorhba_serverdown_complete(struct visorhba_devdata *devdata)
- 			break;
- 		case CMD_SCSITASKMGMT_TYPE:
- 			cmdrsp = pendingdel->sent;
--			complete_taskmgmt_command(&devdata->idr, cmdrsp,
--						  TASK_MGMT_FAILED);
-+			complete_taskmgmt_command(&devdata->xa, cmdrsp, TASK_MGMT_FAILED);
- 			break;
- 		default:
- 			break;
-@@ -905,7 +870,7 @@ static void drain_queue(struct uiscmdrsp *cmdrsp,
- 			if (!del_scsipending_ent(devdata,
- 						 cmdrsp->scsitaskmgmt.handle))
- 				break;
--			complete_taskmgmt_command(&devdata->idr, cmdrsp,
-+			complete_taskmgmt_command(&devdata->xa, cmdrsp,
- 						  cmdrsp->scsitaskmgmt.result);
- 		} else if (cmdrsp->cmdtype == CMD_NOTIFYGUEST_TYPE)
- 			dev_err_once(&devdata->dev->device,
-@@ -1053,8 +1018,6 @@ static int visorhba_probe(struct visor_device *dev)
- 	if (err)
- 		goto err_debugfs_info;
- 
--	idr_init(&devdata->idr);
--
- 	devdata->cmdrsp = kmalloc(sizeof(*devdata->cmdrsp), GFP_ATOMIC);
- 	visorbus_enable_channel_interrupts(dev);
- 
-@@ -1096,8 +1059,6 @@ static void visorhba_remove(struct visor_device *dev)
- 	scsi_remove_host(scsihost);
- 	scsi_host_put(scsihost);
- 
--	idr_destroy(&devdata->idr);
--
- 	dev_set_drvdata(&dev->device, NULL);
- 	debugfs_remove(devdata->debugfs_info);
- 	debugfs_remove_recursive(devdata->debugfs_dir);
--- 
-2.31.1
+You still need to initialise the XArray, either with xa_init() or by
+using DEFINE_XARRAY.  Since it's dynamically allocated, the former is
+correct.
 
