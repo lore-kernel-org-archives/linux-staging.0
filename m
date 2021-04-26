@@ -1,97 +1,173 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A2B2F82
-	for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 22:03:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=uQLYYr2tQMTLi+1p5HJHiiRrQ6/VqapV2NJisyQBKv0=; b=MadCHfvGq7kKDKX/4If3veG0eF
-	qB5PNuZ2Hc4sm7hmLD4n7DAGIuXbLZNWvWyjNmYk1UsmujYYWeq7Vjqu3DgDv11ShYQQDQ1ND2nBn
-	9sIAmQJndesSMORlygBVI5dkNkMJUaIc5DOQ4zB8nbG5HSY4YLn4nEZ0hzidpv50/FHTafibOIi58
-	jmW8a3dAIdcnQhvmVsAAwkMEM0/wBOvJHZTV6zQycK8GVqA7oXPD5Yhd5IOSujcqXtFaA+DCc4lWc
-	csxSAebO8bv643PG1CTbbSFpksLgMHg3Hu841+qBhltg8BGYs/vDY/pl2vji0uidmlNp1PCM22ETA
-	MGAnmn2A==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-	id 1lb9KB-0069Pn-KL; Mon, 26 Apr 2021 22:03:31 +0000
-Date: Mon, 26 Apr 2021 23:03:27 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	David Kershner <david.kershner@unisys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [Outreachy kernel] [PATCH v3] staging: unisys: visorhba: Convert
- module from IDR to XArray
-Message-ID: <20210426220327.GT235567@casper.infradead.org>
-References: <20210426184245.12269-1-fmdefrancesco@gmail.com>
- <20210426192101.GQ235567@casper.infradead.org>
- <107967147.Ip005GxVp3@linux.local>
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D8792F80
+	for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 00:08:35 +0000 (UTC)
+Received: from ip6-localhost (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 13QNi8nL025548;
+	Mon, 26 Apr 2021 18:44:08 -0500
+Message-ID: <3677398ebb77f334abb4899770db633d9658fe82.camel@kernel.crashing.org>
+Subject: Re: [PATCH net-next v4 2/2] of: net: fix of_get_mac_addr_nvmem()
+ for non-platform devices
+From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+To: Michael Walle <michael@walle.cc>, Rob Herring <robh+dt@kernel.org>
+Cc: QCA ath9k Development <ath9k-devel@qca.qualcomm.com>,
+        Microchip Linux
+ Driver Support <UNGLinuxDriver@microchip.com>,
+        linux-arm-kernel
+ <linux-arm-kernel@lists.infradead.org>,
+        linux-kernel@vger.kernel.org,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        netdev
+ <netdev@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support"
+ <linux-mediatek@lists.infradead.org>,
+        "open list:MEDIA DRIVERS FOR RENESAS
+ - FCP" <linux-renesas-soc@vger.kernel.org>,
+        "moderated list:ARM/STM32
+ ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>,
+        "open
+ list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+        linux-oxnas@groups.io, linux-omap <linux-omap@vger.kernel.org>,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+        Andrew Lunn
+ <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian
+ Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Russell King
+ <linux@armlinux.org.uk>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul
+ Mackerras <paulus@samba.org>,
+        Andreas Larsson <andreas@gaisler.com>,
+        "David
+ S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, Maxime
+ Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec
+ <jernej.skrabec@siol.net>,
+        Joyce Ooi <joyce.ooi@intel.com>, Chris Snook
+ <chris.snook@gmail.com>,
+        =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?=
+ <rafal@milecki.pl>,
+        "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
+ <bcm-kernel-feedback-list@broadcom.com>,
+        Florian Fainelli
+ <f.fainelli@gmail.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Sunil Goutham
+ <sgoutham@marvell.com>,
+        Fugang Duan <fugang.duan@nxp.com>,
+        Madalin Bucur
+ <madalin.bucur@nxp.com>,
+        Pantelis Antoniou <pantelis.antoniou@gmail.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>, Li Yang <leoyang.li@nxp.com>,
+        Yisen Zhuang <yisen.zhuang@huawei.com>,
+        Salil Mehta
+ <salil.mehta@huawei.com>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>,
+        Vadym Kochan
+ <vkochan@marvell.com>,
+        Taras Chornyi <tchornyi@marvell.com>,
+        Mirko Lindner
+ <mlindner@marvell.com>,
+        Stephen Hemminger <stephen@networkplumber.org>,
+        Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>,
+        Sean Wang
+ <sean.wang@mediatek.com>,
+        Mark Lee <Mark-MC.Lee@mediatek.com>,
+        Matthias
+ Brugger <matthias.bgg@gmail.com>,
+        Bryan Whitehead
+ <bryan.whitehead@microchip.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sergei
+ Shtylyov <sergei.shtylyov@gmail.com>,
+        Byungho An <bh74.an@samsung.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Giuseppe Cavallaro
+ <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Jose
+ Abreu <joabreu@synopsys.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam
+ <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Kevin Hilman
+ <khilman@baylibre.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Jerome
+ Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+        Grygorii Strashko
+ <grygorii.strashko@ti.com>,
+        Wingman Kwok <w-kwok2@ti.com>, Murali Karicheri
+ <m-karicheri2@ti.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Radhey Shyam
+ Pandey <radhey.shyam.pandey@xilinx.com>,
+        Kalle Valo
+ <kvalo@codeaurora.org>,
+        Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>,
+        Ryder Lee <ryder.lee@mediatek.com>, Stanislaw Gruszka <stf_xl@wp.pl>,
+        Helmut Schaa <helmut.schaa@googlemail.com>,
+        Heiner Kallweit
+ <hkallweit1@gmail.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?ISO-8859-1?Q?J=E9r=F4me?=
+ Pouiller <jerome.pouiller@silabs.com>,
+        Vivien Didelot
+ <vivien.didelot@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>
+Date: Tue, 27 Apr 2021 09:44:07 +1000
+In-Reply-To: <108f268a35843368466004f7fe5f9f88@walle.cc>
+References: <20210412174718.17382-1-michael@walle.cc>
+	 <20210412174718.17382-3-michael@walle.cc>
+	 <730d603b12e590c56770309b4df2bd668f7afbe3.camel@kernel.crashing.org>
+	 <8157eba9317609294da80472622deb28@walle.cc>
+	 <CAL_JsqLrx6nFZrKiEtm2a1vDvQGG+FkpGtJCG2osM8hhGo3P=Q@mail.gmail.com>
+	 <108f268a35843368466004f7fe5f9f88@walle.cc>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.4-0ubuntu1 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <107967147.Ip005GxVp3@linux.local>
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 26, 2021 at 11:15:40PM +0200, Fabio M. De Francesco wrote:
-> On Monday, April 26, 2021 9:21:01 PM CEST Matthew Wilcox wrote:
-> > On Mon, Apr 26, 2021 at 08:42:45PM +0200, Fabio M. De Francesco wrote:
-> > > +static void setup_scsitaskmgmt_handles(struct xarray *xa, struct 
-> uiscmdrsp *cmdrsp,
-> > > 
-> > >  				       wait_queue_head_t *event, 
-> int *result)
-> > >  
-> > >  {
-> > > 
-> > > -	/* specify the event that has to be triggered when this */
-> > > -	/* cmd is complete */
-> > > -	cmdrsp->scsitaskmgmt.notify_handle =
-> > > -		simple_idr_get(idrtable, event, lock);
-> > > -	cmdrsp->scsitaskmgmt.notifyresult_handle =
-> > > -		simple_idr_get(idrtable, result, lock);
-> > > +	u32 id;
-> > > +	int ret;
-> > > +
-> > > +	/* specify the event that has to be triggered when this cmd is 
-> complete */
-> > > +	id = (u32)cmdrsp->scsitaskmgmt.notify_handle;
-> > > +	ret = xa_alloc_irq(xa, &id, event, XA_LIMIT(1, INT_MAX), 
-> GFP_KERNEL);
-> > 
-> > OK, think this one through a bit.  When xa_alloc_irq() stores the ID that
-> > it assigned into 'id', what happens to it next?
-> >
-> Oh, I overlooked that... The ID in 'id' is lost when the function exits and 
-> the stack frame is unwound.
+On Mon, 2021-04-26 at 12:54 +0200, Michael Walle wrote:
+> Before I'll try to come up with a patch for this, I'd like to get
+> your opinion on it.
 > 
-> Now I have another problem: xa_alloc_irq() writes id u32* but I have an u64* 
-> in 'id'. What happens if I cast 'id' to an u32* when passing it to 
-> xa_alloc_irq()?
+> (1) replacing of_get_mac_address(node) with eth_get_mac_address(dev)
+>      might sometimes lead to confusing comments like in
+>      drivers/net/ethernet/allwinner/sun4i-emac.c:
 > 
-> u64 *id;
-> int ret;
-> id = &cmdrsp->scsitaskmgmt.notify_handle;
-> ret = xa_alloc_irq(xa, (u32 *)id, event, XA_LIMIT(1, INT_MAX), GFP_KERNEL);
-> 
-> Do I destroy the information stored in 'id' with that cast?
+>      /* Read MAC-address from DT */
+>      ret = of_get_mac_address(np, ndev->dev_addr);
 
-That is a great question!  That would be a really serious bug because
-it behaves differently on big and little endian systems.  That is, on a
-little endian system, a pointer to a u64 can be treated as a pointer to a
-u32 and it will write to the bottom 32 bits of the u64.  On a big endian
-system, treating a pointer to a u64 as if it's a pointer to a u32 means
-you write to the _top_ 32 bits of the u64, and things go wrong from there!
+You could leave it or turn it into "from platform", doesn't matter...
 
-Similarly, if you have a u16, you can't pass a pointer to it, because
-the called function has no idea that it's only 16 bits, and will do a
-32-bit store to it, overwriting the 16 bits after it.
+> (2) What do you think of eth_get_mac_address(ndev). That is, the
 
-So you need to pass a pointer to a u32 on the stack, and then copy the
-id out of it afterwards.
+Not sure what you mean, eth_platform_get_mac_address() takes the
+address as an argument. I think what you want is a consolidated
+nvmem_get_mac_address + eth_platform_get_mac_address that takes a
+device, which would have no requirement of the bus_type at all.
+
+Cheers,
+Ben.
 
