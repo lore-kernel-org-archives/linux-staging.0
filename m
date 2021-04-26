@@ -1,171 +1,85 @@
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+Received: from gimli.rothwell.id.au (gimli.rothwell.id.au [103.230.158.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DA52F80
-	for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 14:30:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1619447429; bh=Inbt0Id184HS+3SGiT3lLvjT+nH9YAUuSWJJoO9mhDY=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=GRITIFBS7qBNvRhBKjagHeWEfp4XWGKuEDBxVSAtONY/hGZbTy23i8VwtQl3hzoDL
-	 sFePlnm4NLWaiSByVrcYskAfGjk8AEetyCiJ0cv4+hoIN4ms6mDCouPCS+rQSZoT6v
-	 Dj/0vtpp62d1OAKmnH8e9gA8tuD4CeA8ILxB1Yko=
-Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
-	via ip-206.mailobj.net [213.182.55.206]
-	Mon, 26 Apr 2021 16:30:29 +0200 (CEST)
-X-EA-Auth: UsphZN1IEXvgssBLQ4zn+KLQbV+3wb6p+AFcq6FCeKZHKKwEhG+OjvXxBnXXB3REz0dnhkxjtwH4iz8wk7aqWiIlmkkbGp0P
-Date: Mon, 26 Apr 2021 20:00:22 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v3 2/6] staging: media: atomisp: balance braces
- around if...else block
-Message-ID: <YIbOfjrPG+NIH4wV@192.168.1.8>
-References: <cover.1619199344.git.drv@mailo.com>
- <71220662c5facd746e56288cc74786c96fa3c5a7.1619199344.git.drv@mailo.com>
- <20210426095610.GA1418@agape.jhs>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E3EB2F80
+	for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 14:37:07 +0000 (UTC)
+Received: from authenticated.rothwell.id.au (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.rothwell.id.au (Postfix) with ESMTPSA id 4FTRzY6r3wzymk;
+	Tue, 27 Apr 2021 00:26:49 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rothwell.id.au;
+	s=201702; t=1619447216;
+	bh=M7hahHb9ZVwRs1gsNFLeF9qcPe2Uxmrhxr11CvVxURM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=YYMNZxTKWf3mGo7kZl2wPMlKKQmoso7z0n0aDHoxjFybRBwYdcVd7My4Q9m7TOcEt
+	 11V9ZZXlnS9siZy9ZEblHBCne2XvpgHifgHpvLuWdkv4p0Ojlo7MDEhAmQIudSpirF
+	 vGymv+zPH/13rTs4bahKRBlEi6iBawq0EJBuxZ0UAfhrVwW+5OaJghGTmVFqt6CguW
+	 IuWP+OtZZA2TU1BW5miw/ZJXD505o+I60jvcf1xUd8f3qWCl16boFlpWmAiXWnedWf
+	 BafxNcY/grUUJRXTYFSohRZ0l1Yc41kmHWhx+TJik3gCTjPWpYpkA4o9isityHAmjC
+	 eXi2l0nWQpblA==
+Date: Tue, 27 Apr 2021 00:26:48 +1000
+From: Stephen Rothwell <sfr@rothwell.id.au>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton
+ <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ devel@linuxdriverproject.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, Mark Brown <broonie@kernel.org>, Sudeep
+ Holla <sudeep.holla@arm.com>, Olof Johansson <olof@lixom.net>, Arnd
+ Bergmann <arnd@arndb.de>, ARM <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [GIT PULL] Staging/IIO driver updates for 5.13-rc1
+Message-ID: <20210427002648.22459fa7@elm.ozlabs.ibm.com>
+In-Reply-To: <YIa2ErYuJyCfSkS+@kroah.com>
+References: <YIa2ErYuJyCfSkS+@kroah.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210426095610.GA1418@agape.jhs>
+Content-Type: multipart/signed; boundary="Sig_/LIWecum9MUpAsQRxcfBxnbs";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-On Mon, Apr 26, 2021 at 11:56:11AM +0200, Fabio Aiuto wrote:
-> On Sun, Apr 25, 2021 at 02:12:20PM +0530, Deepak R Varma wrote:
-> > Balance braces around the if else blocks as per the code style guidelines.
-> > Resolves checkpatch script CHECK / WARNING feedback messages.
-> > 
-> > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > ---
-> > 
-> > Changes since v2:
-> >    - None.
-> > Changes since v1:
-> >    - None.
-> > 
-> >  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c  | 4 ++--
-> >  drivers/staging/media/atomisp/i2c/atomisp-gc2235.c  | 4 ++--
-> >  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 4 ++--
-> >  drivers/staging/media/atomisp/i2c/atomisp-ov2680.c  | 7 ++++---
-> >  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c  | 4 ++--
-> >  5 files changed, 12 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > index 6be3ee1d93a5..d68a2bcc9ae1 100644
-> > --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > @@ -872,9 +872,9 @@ static int gc0310_s_power(struct v4l2_subdev *sd, int on)
-> >  {
-> >  	int ret;
-> >  
-> > -	if (on == 0)
-> > +	if (on == 0) {
-> >  		return power_down(sd);
-> > -	else {
-> > +	} else {
-> >  		ret = power_up(sd);
-> >  		if (!ret)
-> >  			return gc0310_init(sd);
-> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> > index 6ba4a8adff7c..e722c639b60d 100644
-> > --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> > @@ -658,9 +658,9 @@ static int gc2235_s_power(struct v4l2_subdev *sd, int on)
-> >  {
-> >  	int ret;
-> >  
-> > -	if (on == 0)
-> > +	if (on == 0) {
-> >  		ret = power_down(sd);
-> > -	else {
-> > +	} else {
-> >  		ret = power_up(sd);
-> >  		if (!ret)
-> >  			ret = __gc2235_init(sd);
-> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> > index f5de81132177..465fc4468442 100644
-> > --- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> > @@ -568,9 +568,9 @@ static int power_down(struct v4l2_subdev *sd)
-> >  
-> >  static int mt9m114_s_power(struct v4l2_subdev *sd, int power)
-> >  {
-> > -	if (power == 0)
-> > +	if (power == 0) {
-> >  		return power_down(sd);
-> > -	else {
-> > +	} else {
-> >  		if (power_up(sd))
-> >  			return -EINVAL;
-> >  
-> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> > index c90730513438..92c52431bd8f 100644
-> > --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> > @@ -461,11 +461,12 @@ static int ov2680_v_flip(struct v4l2_subdev *sd, s32 value)
-> >  	ret = ov2680_read_reg(client, 1, OV2680_FLIP_REG, &val);
-> >  	if (ret)
-> >  		return ret;
-> > -	if (value) {
-> > +
-> > +	if (value)
-> >  		val |= OV2680_FLIP_MIRROR_BIT_ENABLE;
-> > -	} else {
-> > +	else
-> >  		val &= ~OV2680_FLIP_MIRROR_BIT_ENABLE;
-> > -	}
-> > +
-> 
-> Hi Deepak,
-> 
-> what you did above is not what is written in the commit message
-> description about. Here unneeded bracks are removed in both
-> branches, is not a matter of braces balancing.
+--Sig_/LIWecum9MUpAsQRxcfBxnbs
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Okay. I was thinking adding where necessary and removing where not
-would lead to expected balancing.
-I will send this as a separate patch in this patch set. Is it okay to
-add a new patch to the set now?
+Hi Greg,
 
-Thank you,
-deepak.
+On Mon, 26 Apr 2021 14:46:10 +0200 Greg KH <gregkh@linuxfoundation.org> wro=
+te:
+>
+> All of these have been in linux-next for a while with no reported
+> issues.
 
-> 
-> thank you,
-> 
-> fabio 
-> 
-> >  	ret = ov2680_write_reg(client, 1,
-> >  			       OV2680_FLIP_REG, val);
-> >  	if (ret)
-> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> > index aec7392fd1de..d046a9804f63 100644
-> > --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> > @@ -772,9 +772,9 @@ static int ov2722_s_power(struct v4l2_subdev *sd, int on)
-> >  {
-> >  	int ret;
-> >  
-> > -	if (on == 0)
-> > +	if (on == 0) {
-> >  		return power_down(sd);
-> > -	else {
-> > +	} else {
-> >  		ret = power_up(sd);
-> >  		if (!ret)
-> >  			return ov2722_init(sd);
-> > -- 
-> > 2.25.1
-> > 
-> > 
-> > 
-> > 
+There was just these:
 
+https://lore.kernel.org/linux-next/20210329165525.32d51a3a@canb.auug.org.au/
 
+https://lore.kernel.org/linux-next/20210331175151.67fcfe4d@canb.auug.org.au/
+
+(the scmi tree commit mentioned in the latter is now in the arm-soc tree)
+
+Not issues as such, but worth mentioning the conflicts and resolutions.
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/LIWecum9MUpAsQRxcfBxnbs
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmCGzakACgkQAVBC80lX
+0GyzKAgAobiMi+YHh7vVuIiLauo/vRee40i+Lm+a+SJSKfhdPXDBuvPnOxrtIHqr
+6LUTkJ1yNu9Ne28RAeucxkkoQXnK9j2euF/NlUA/Yxg8ISgMbLkvy0k7lNBayZdj
+TIR+0b//4ZhMR37vn2EpO+INCK1OUx42L4hGboUgxrTo0Io/8r4Cn3ZLfTC2UQO5
+IYXjpZBNRsVqs63+BliOa8gZvZ3d4bVGVeITlR2nQZUlP6cGJHSkxp0pZcYAvSi9
+Iu7rCpxkR1PrTH4U6PR5xsMVREzUNUk5YcKLfj/hgjKmLJHAOTw0IKaz3L9rY+u2
+5Lm1vdd76PsfuVNRPT0iSxFxxhbcSA==
+=LO1A
+-----END PGP SIGNATURE-----
+
+--Sig_/LIWecum9MUpAsQRxcfBxnbs--
