@@ -1,30 +1,33 @@
 Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3BD2F82
-	for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 14:23:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DA52F80
+	for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 14:30:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1619446996; bh=qLIEQUlgVaVlvxyYH9GXN75xqc+053qIC7Vi4/7g2gE=;
+	t=1619447429; bh=Inbt0Id184HS+3SGiT3lLvjT+nH9YAUuSWJJoO9mhDY=;
 	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
 	 MIME-Version:Content-Type:In-Reply-To;
-	b=b5lbyA2nYksKhRDDI1B8UPskROEfYZYrjH/IlOLk3WV8fFrA1YMqUw2M5xmCuqv5/
-	 fCN39ZezJi+hU98eFSXjGIzpgF+MV6gdOSY/zguDNn8RqaeKbXYVshFEWdc23XaWN4
-	 knP9lXnPjD2hKCixYmruiNXxnW3x3r+RfLMKlm50=
-Received: by 192.168.90.14 [192.168.90.14] with ESMTP
+	b=GRITIFBS7qBNvRhBKjagHeWEfp4XWGKuEDBxVSAtONY/hGZbTy23i8VwtQl3hzoDL
+	 sFePlnm4NLWaiSByVrcYskAfGjk8AEetyCiJ0cv4+hoIN4ms6mDCouPCS+rQSZoT6v
+	 Dj/0vtpp62d1OAKmnH8e9gA8tuD4CeA8ILxB1Yko=
+Received: by b-5.in.mailobj.net [192.168.90.15] with ESMTP
 	via ip-206.mailobj.net [213.182.55.206]
-	Mon, 26 Apr 2021 16:23:16 +0200 (CEST)
-X-EA-Auth: 2/nJR6gMP/fq7ocmepPRQYccRlg/10OG6f7N+h7IU08n9RQvtmCxSJeZvB53v8u8S9twUQN2UvZbbDpn9AUI9JEL78wf2WM6
-Date: Mon, 26 Apr 2021 19:53:09 +0530
+	Mon, 26 Apr 2021 16:30:29 +0200 (CEST)
+X-EA-Auth: UsphZN1IEXvgssBLQ4zn+KLQbV+3wb6p+AFcq6FCeKZHKKwEhG+OjvXxBnXXB3REz0dnhkxjtwH4iz8wk7aqWiIlmkkbGp0P
+Date: Mon, 26 Apr 2021 20:00:22 +0530
 From: Deepak R Varma <drv@mailo.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, mh12gx2825@gmail.com
-Subject: Re: [PATCH] staging: media: atomisp: replace pr_info() by dev_info()
-Message-ID: <YIbMzXTkvNicI0z3@192.168.1.8>
-References: <20210422103037.GA239298@localhost>
- <20210426092125.GU3@paasikivi.fi.intel.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND v3 2/6] staging: media: atomisp: balance braces
+ around if...else block
+Message-ID: <YIbOfjrPG+NIH4wV@192.168.1.8>
+References: <cover.1619199344.git.drv@mailo.com>
+ <71220662c5facd746e56288cc74786c96fa3c5a7.1619199344.git.drv@mailo.com>
+ <20210426095610.GA1418@agape.jhs>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -32,169 +35,137 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210426092125.GU3@paasikivi.fi.intel.com>
+In-Reply-To: <20210426095610.GA1418@agape.jhs>
 
-On Mon, Apr 26, 2021 at 12:21:26PM +0300, Sakari Ailus wrote:
-> Hi Deepak,
-> 
-> Thanks for the patch.
-> 
-> On Thu, Apr 22, 2021 at 04:00:37PM +0530, Deepak R Varma wrote:
-> > It is recommended to use driver model diagnostic macros dev_*() instead
-> > of pr_*() since the former ensures that the log messages are always
-> > associated with the corresponding device and driver.
+On Mon, Apr 26, 2021 at 11:56:11AM +0200, Fabio Aiuto wrote:
+> On Sun, Apr 25, 2021 at 02:12:20PM +0530, Deepak R Varma wrote:
+> > Balance braces around the if else blocks as per the code style guidelines.
+> > Resolves checkpatch script CHECK / WARNING feedback messages.
 > > 
-> > Suggested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 > > Signed-off-by: Deepak R Varma <drv@mailo.com>
 > > ---
 > > 
-> > Note: There are few more pr_into() calls that I have not replaced since
-> > they are very basic (entry and exit) and temporary. They can be removed 
-> > if the APIs are fully tested. See this example:
-> > 	pr_info("%s S\n", __func__);
+> > Changes since v2:
+> >    - None.
+> > Changes since v1:
+> >    - None.
 > > 
-> > Let me know if I should remove them and resubmit this patch.
-> 
-> Most probably leftovers from development time. I think these could be
-> removed but perhaps by a separate patch.
-
-Yes, sure. Will send in a separate patch. In fact, I will include this
-and the other patch and send those in the earlier clear up patch set. It
-all does the same thing for this driver.
-
-> 
-> > 
-> > 
-> >  .../media/atomisp/i2c/atomisp-gc0310.c        | 30 +++++++++----------
-> >  1 file changed, 15 insertions(+), 15 deletions(-)
+> >  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c  | 4 ++--
+> >  drivers/staging/media/atomisp/i2c/atomisp-gc2235.c  | 4 ++--
+> >  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 4 ++--
+> >  drivers/staging/media/atomisp/i2c/atomisp-ov2680.c  | 7 ++++---
+> >  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c  | 4 ++--
+> >  5 files changed, 12 insertions(+), 11 deletions(-)
 > > 
 > > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > index 7e4e123fdb52..27153ec6f65e 100644
+> > index 6be3ee1d93a5..d68a2bcc9ae1 100644
 > > --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
 > > +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > @@ -300,7 +300,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
-> >  	/* pixel clock calculattion */
-> >  	dev->vt_pix_clk_freq_mhz = 14400000; // 16.8MHz
-> >  	buf->vt_pix_clk_freq_mhz = dev->vt_pix_clk_freq_mhz;
-> > -	pr_info("vt_pix_clk_freq_mhz=%d\n", buf->vt_pix_clk_freq_mhz);
-> > +	dev_info(&client->dev, "vt_pix_clk_freq_mhz=%d\n", buf->vt_pix_clk_freq_mhz);
-> 
-> Over 80; please wrap. The same for the rest of such lines.
-
-My apologies for the over sight. I will review and correct these.
-
-> 
-> >  
-> >  	/* get integration time */
-> >  	buf->coarse_integration_time_min = GC0310_COARSE_INTG_TIME_MIN;
-> > @@ -326,7 +326,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
-> >  	if (ret)
-> >  		return ret;
-> >  	buf->crop_horizontal_start = val | (reg_val & 0xFF);
-> > -	pr_info("crop_horizontal_start=%d\n", buf->crop_horizontal_start);
-> > +	dev_info(&client->dev, "crop_horizontal_start=%d\n", buf->crop_horizontal_start);
-> >  
-> >  	/* Getting crop_vertical_start */
-> >  	ret =  gc0310_read_reg(client, GC0310_8BIT,
-> > @@ -339,7 +339,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
-> >  	if (ret)
-> >  		return ret;
-> >  	buf->crop_vertical_start = val | (reg_val & 0xFF);
-> > -	pr_info("crop_vertical_start=%d\n", buf->crop_vertical_start);
-> > +	dev_info(&client->dev, "crop_vertical_start=%d\n", buf->crop_vertical_start);
-> >  
-> >  	/* Getting output_width */
-> >  	ret = gc0310_read_reg(client, GC0310_8BIT,
-> > @@ -352,7 +352,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
-> >  	if (ret)
-> >  		return ret;
-> >  	buf->output_width = val | (reg_val & 0xFF);
-> > -	pr_info("output_width=%d\n", buf->output_width);
-> > +	dev_info(&client->dev, "output_width=%d\n", buf->output_width);
-> >  
-> >  	/* Getting output_height */
-> >  	ret = gc0310_read_reg(client, GC0310_8BIT,
-> > @@ -365,12 +365,12 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
-> >  	if (ret)
-> >  		return ret;
-> >  	buf->output_height = val | (reg_val & 0xFF);
-> > -	pr_info("output_height=%d\n", buf->output_height);
-> > +	dev_info(&client->dev, "output_height=%d\n", buf->output_height);
-> >  
-> >  	buf->crop_horizontal_end = buf->crop_horizontal_start + buf->output_width - 1;
-> >  	buf->crop_vertical_end = buf->crop_vertical_start + buf->output_height - 1;
-> > -	pr_info("crop_horizontal_end=%d\n", buf->crop_horizontal_end);
-> > -	pr_info("crop_vertical_end=%d\n", buf->crop_vertical_end);
-> > +	dev_info(&client->dev, "crop_horizontal_end=%d\n", buf->crop_horizontal_end);
-> > +	dev_info(&client->dev, "crop_vertical_end=%d\n", buf->crop_vertical_end);
-> >  
-> >  	/* Getting line_length_pck */
-> >  	ret = gc0310_read_reg(client, GC0310_8BIT,
-> > @@ -389,8 +389,8 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
-> >  		return ret;
-> >  	sh_delay = reg_val;
-> >  	buf->line_length_pck = buf->output_width + hori_blanking + sh_delay + 4;
-> > -	pr_info("hori_blanking=%d sh_delay=%d line_length_pck=%d\n", hori_blanking,
-> > -		sh_delay, buf->line_length_pck);
-> > +	dev_info(&client->dev, "hori_blanking=%d sh_delay=%d line_length_pck=%d\n", hori_blanking,
-> > +		 sh_delay, buf->line_length_pck);
-> >  
-> >  	/* Getting frame_length_lines */
-> >  	ret = gc0310_read_reg(client, GC0310_8BIT,
-> > @@ -404,8 +404,8 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
-> >  		return ret;
-> >  	vert_blanking = val | (reg_val & 0xFF);
-> >  	buf->frame_length_lines = buf->output_height + vert_blanking;
-> > -	pr_info("vert_blanking=%d frame_length_lines=%d\n", vert_blanking,
-> > -		buf->frame_length_lines);
-> > +	dev_info(&client->dev, "vert_blanking=%d frame_length_lines=%d\n", vert_blanking,
-> > +		 buf->frame_length_lines);
-> >  
-> >  	buf->binning_factor_x = res->bin_factor_x ?
-> >  				res->bin_factor_x : 1;
-> > @@ -434,7 +434,7 @@ static int gc0310_set_gain(struct v4l2_subdev *sd, int gain)
-> >  		dgain = gain / 2;
-> >  	}
-> >  
-> > -	pr_info("gain=0x%x again=0x%x dgain=0x%x\n", gain, again, dgain);
-> > +	dev_info(&client->dev, "gain=0x%x again=0x%x dgain=0x%x\n", gain, again, dgain);
-> >  
-> >  	/* set analog gain */
-> >  	ret = gc0310_write_reg(client, GC0310_8BIT,
-> > @@ -458,7 +458,7 @@ static int __gc0310_set_exposure(struct v4l2_subdev *sd, int coarse_itg,
-> >  	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> > @@ -872,9 +872,9 @@ static int gc0310_s_power(struct v4l2_subdev *sd, int on)
+> >  {
 > >  	int ret;
 > >  
-> > -	pr_info("coarse_itg=%d gain=%d digitgain=%d\n", coarse_itg, gain, digitgain);
-> > +	dev_info(&client->dev, "coarse_itg=%d gain=%d digitgain=%d\n", coarse_itg, gain, digitgain);
-> >  
-> >  	/* set exposure */
-> >  	ret = gc0310_write_reg(client, GC0310_8BIT,
-> > @@ -1085,7 +1085,7 @@ static int gc0310_detect(struct i2c_client *client)
-> >  		return -ENODEV;
-> >  	}
-> >  	id = ((((u16)high) << 8) | (u16)low);
-> > -	pr_info("sensor ID = 0x%x\n", id);
-> > +	dev_info(&client->dev, "sensor ID = 0x%x\n", id);
-> >  
-> >  	if (id != GC0310_ID) {
-> >  		dev_err(&client->dev, "sensor ID error, read id = 0x%x, target id = 0x%x\n", id,
-> > @@ -1106,7 +1106,7 @@ static int gc0310_s_stream(struct v4l2_subdev *sd, int enable)
-> >  	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> > -	if (on == 0)
+> > +	if (on == 0) {
+> >  		return power_down(sd);
+> > -	else {
+> > +	} else {
+> >  		ret = power_up(sd);
+> >  		if (!ret)
+> >  			return gc0310_init(sd);
+> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> > index 6ba4a8adff7c..e722c639b60d 100644
+> > --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> > @@ -658,9 +658,9 @@ static int gc2235_s_power(struct v4l2_subdev *sd, int on)
+> >  {
 > >  	int ret;
 > >  
-> > -	pr_info("%s S enable=%d\n", __func__, enable);
-> > +	dev_info(&client->dev, "%s S enable=%d\n", __func__, enable);
-> >  	mutex_lock(&dev->input_lock);
+> > -	if (on == 0)
+> > +	if (on == 0) {
+> >  		ret = power_down(sd);
+> > -	else {
+> > +	} else {
+> >  		ret = power_up(sd);
+> >  		if (!ret)
+> >  			ret = __gc2235_init(sd);
+> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+> > index f5de81132177..465fc4468442 100644
+> > --- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+> > @@ -568,9 +568,9 @@ static int power_down(struct v4l2_subdev *sd)
 > >  
-> >  	if (enable) {
+> >  static int mt9m114_s_power(struct v4l2_subdev *sd, int power)
+> >  {
+> > -	if (power == 0)
+> > +	if (power == 0) {
+> >  		return power_down(sd);
+> > -	else {
+> > +	} else {
+> >  		if (power_up(sd))
+> >  			return -EINVAL;
+> >  
+> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+> > index c90730513438..92c52431bd8f 100644
+> > --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+> > @@ -461,11 +461,12 @@ static int ov2680_v_flip(struct v4l2_subdev *sd, s32 value)
+> >  	ret = ov2680_read_reg(client, 1, OV2680_FLIP_REG, &val);
+> >  	if (ret)
+> >  		return ret;
+> > -	if (value) {
+> > +
+> > +	if (value)
+> >  		val |= OV2680_FLIP_MIRROR_BIT_ENABLE;
+> > -	} else {
+> > +	else
+> >  		val &= ~OV2680_FLIP_MIRROR_BIT_ENABLE;
+> > -	}
+> > +
 > 
-> -- 
-> Kind regards,
+> Hi Deepak,
 > 
-> Sakari Ailus
+> what you did above is not what is written in the commit message
+> description about. Here unneeded bracks are removed in both
+> branches, is not a matter of braces balancing.
 
-Thank you Sakari.
+Okay. I was thinking adding where necessary and removing where not
+would lead to expected balancing.
+I will send this as a separate patch in this patch set. Is it okay to
+add a new patch to the set now?
+
+Thank you,
 deepak.
+
+> 
+> thank you,
+> 
+> fabio 
+> 
+> >  	ret = ov2680_write_reg(client, 1,
+> >  			       OV2680_FLIP_REG, val);
+> >  	if (ret)
+> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+> > index aec7392fd1de..d046a9804f63 100644
+> > --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+> > @@ -772,9 +772,9 @@ static int ov2722_s_power(struct v4l2_subdev *sd, int on)
+> >  {
+> >  	int ret;
+> >  
+> > -	if (on == 0)
+> > +	if (on == 0) {
+> >  		return power_down(sd);
+> > -	else {
+> > +	} else {
+> >  		ret = power_up(sd);
+> >  		if (!ret)
+> >  			return ov2722_init(sd);
+> > -- 
+> > 2.25.1
+> > 
+> > 
+> > 
+> > 
 
 
