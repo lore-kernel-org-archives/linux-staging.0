@@ -1,77 +1,286 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E51371
-	for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 18:19:09 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id a25so51948899ljm.11
-        for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 11:19:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B16A71
+	for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 18:29:34 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id i24so7311811edy.8
+        for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 11:29:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9fj9vMd+buFku6gAKT/mPMkFnjXdzojSDejPQup/S60=;
-        b=Q01kOhUGWWIKHSVb/Zmh7lArlQYPc2ZrxW136Xdk0xLgCmuKsigWhmNvvDMqT65qWy
-         e9ITGeuPpHw69XYPQQcDHkqr06DiQicWPqFFYOIzn5mTzjm2rCYlRZxNsv4X9Bj9Flc3
-         EdcMBIO6JHLIZbaK906r4a/KKC399U9peqTfM=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=f7ZXVzn+VwWaqoOcZCoYEc2Yu6e50odlU9CTClFPTX4=;
+        b=ZZtyyIHo2gn0Hqp+W9ywQtOJmX6cs6GomQUwy2RJ72c/8v2QLcm+EkcsY41riJOjWR
+         FzzQpxLdX5RCz1T9nQ//4T7DsNrKOqDG+cWUjmS+quUl/EyK2mTeAhLx+wJn7L9k3JKL
+         nwH60egoPVAW0FCPnfbMopB3g23RwSoQKhoc7iBZVbisP5HY0q9VTK+vert9gqQ46g8P
+         K9dIwJ8DqxKiTKghVVBlbfcBKF8tkzemt4nyPckfaFhX1G5pnwbFh6RVTDG0XVY2qd4l
+         qVLu20EMdupt/HGuV4XRn4wOnkyCCA/6Vpfg9bn+KTvmJGO4US/qF3iXfbnnKWw7Xth4
+         LSew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9fj9vMd+buFku6gAKT/mPMkFnjXdzojSDejPQup/S60=;
-        b=DayhocmidMXmdaxmzmyplMRECb09CemybE1f28zMb9aNejXiA1FftRsdatswSZo+xg
-         3UHO0oaMSRaE6A/4awXg1zubg0P7dMve53ZEYDi/NxUv9bq6m/7D27MnMas23lz28yM7
-         7yFcXCJu10MgKl6l6GMLfqQkZNs2sYZzFaqnHngXsHA+DHv/4iUizVGC8vPiLRSwh/5W
-         PBicAiRlqSzRBUYGOanX3qfzWeMM9XB5K2edVQDuNRQ5dz0I32SBRGNoeRjHqePyWKmZ
-         Z/jHCtEdKImgfYCYkcnHMcevsJlgosZDgiI9rjsDryB3YIasdyq7KQx+SvgvxAOJiwEV
-         bOoA==
-X-Gm-Message-State: AOAM531ZJ3FYouhNj+Bwsz6jtAKByhrrfLSnDfh0VoHW6rhg7ujxN4g4
-	Zif8Zw3/I2RTcjmYzmPZ61T92FjlTEbNbiCL
-X-Google-Smtp-Source: ABdhPJyDKNnTietczJjGlfx4Rn9pU9EeJz6UnoPCkpdzCcR9bqXt/iAuhu1Xz7FrP5XQolwlcVDrgw==
-X-Received: by 2002:a05:651c:612:: with SMTP id k18mr13973513lje.445.1619461147100;
-        Mon, 26 Apr 2021 11:19:07 -0700 (PDT)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com. [209.85.167.43])
-        by smtp.gmail.com with ESMTPSA id 200sm83522ljj.11.2021.04.26.11.19.06
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Apr 2021 11:19:06 -0700 (PDT)
-Received: by mail-lf1-f43.google.com with SMTP id z13so8678401lft.1
-        for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 11:19:06 -0700 (PDT)
-X-Received: by 2002:a05:6512:a90:: with SMTP id m16mr13314098lfu.201.1619461146259;
- Mon, 26 Apr 2021 11:19:06 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=f7ZXVzn+VwWaqoOcZCoYEc2Yu6e50odlU9CTClFPTX4=;
+        b=I06nUtl3xImzZnCF4B2+9F3bOzrSoYuqPLVVLJI1zp0qur9G0/ouJl60+yvgfxWydg
+         N8hvmUalY8ex0gpaDy+l7rNL5W2+wwJ1TzhY8nC0p007jTJbyO+k4s/yTi1O4AKuLJUA
+         DWn1HDVxS3YaiwBs8V0H3i9uHoUi+tfgoT4oN7y5tTCI+r1gPQF4OtTFlOUFH1nsV8HR
+         zdHWqBMbKiNfyACJ/KDxACTvyZTZ0fMseR0qMtdL8hiPaSntDFNDDwgffJybyBNTCnrn
+         M1JnvPaHRZJk1fqRPxP/tp2hh22R6q7f2JKNal/vcx5etBHK+Via9+NA9GU2ZjjcZGn+
+         eo7A==
+X-Gm-Message-State: AOAM531k2/7whlfn4KNRmpqKw82cGzojM28sEJ6RzxOPWpHVTPOGIgZ4
+	Oy8JFpCZUkTt1zBwLT5seE0=
+X-Google-Smtp-Source: ABdhPJxYsKEy8NTXaWD/pIebiwCzFxw5s+0i1CCSawJccHSUCdR3Y8TicGuoNqYVYEjFPlWr2AeeEw==
+X-Received: by 2002:a50:ed0c:: with SMTP id j12mr65512eds.12.1619461772851;
+        Mon, 26 Apr 2021 11:29:32 -0700 (PDT)
+Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
+        by smtp.gmail.com with ESMTPSA id ck29sm450910edb.47.2021.04.26.11.29.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Apr 2021 11:29:32 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: outreachy-kernel@googlegroups.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	David Kershner <david.kershner@unisys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Matthew Wilcox <willy@infradead.org>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [Outreachy kernel] [PATCH v2] staging: unisys: visorhba: Convert module from IDR to XArray
+Date: Mon, 26 Apr 2021 20:29:28 +0200
+Message-Id: <20210426182928.31004-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <YIa2ErYuJyCfSkS+@kroah.com> <20210427002648.22459fa7@elm.ozlabs.ibm.com>
- <YIbYI2825E4Z2b/3@kroah.com>
-In-Reply-To: <YIbYI2825E4Z2b/3@kroah.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 26 Apr 2021 11:18:49 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgWLrNQeV20DiCnJVQpfKFkbtC+8=rAqt-wyBFMrHToEw@mail.gmail.com>
-Message-ID: <CAHk-=wgWLrNQeV20DiCnJVQpfKFkbtC+8=rAqt-wyBFMrHToEw@mail.gmail.com>
-Subject: Re: [GIT PULL] Staging/IIO driver updates for 5.13-rc1
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Stephen Rothwell <sfr@rothwell.id.au>, Andrew Morton <akpm@linux-foundation.org>, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, devel@linuxdriverproject.org, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev, 
-	Mark Brown <broonie@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, 
-	Olof Johansson <olof@lixom.net>, Arnd Bergmann <arnd@arndb.de>, 
-	ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 26, 2021 at 8:11 AM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> Yeah, merge issues with other trees are hard to resolve in the single
-> tree here, not much I can just yet, have to wait for them to hit Linus's
-> tree.
+Converted visorhba from IDR to XArray. The abstract data type XArray is
+more memory-efficient, parallelisable and cache friendly. It takes
+advantage of RCU to perform lookups without locking.
 
-It's generally a good idea to mention these things if you know about
-them, just in case the other tree had come in in the meantime and I
-had merged it first.
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
 
-That didn't happen this time, and I do generally catch these things
-anyway as long as they at least trigger problems for my usual x86-64
-allmodconfig builds (but not everything does trigger that).
+Changes from v1: After a first review by Matthew Wilcox, who found a
+series of errors and gave suggestions on how to fix them, I rewrote a
+larger part of the patch.
 
-              Linus
+ .../staging/unisys/visorhba/visorhba_main.c   | 91 ++++++-------------
+ 1 file changed, 28 insertions(+), 63 deletions(-)
+
+diff --git a/drivers/staging/unisys/visorhba/visorhba_main.c b/drivers/staging/unisys/visorhba/visorhba_main.c
+index 4455d26f7c96..426badcffb68 100644
+--- a/drivers/staging/unisys/visorhba/visorhba_main.c
++++ b/drivers/staging/unisys/visorhba/visorhba_main.c
+@@ -6,10 +6,10 @@
+ 
+ #include <linux/debugfs.h>
+ #include <linux/kthread.h>
+-#include <linux/idr.h>
+ #include <linux/module.h>
+ #include <linux/seq_file.h>
+ #include <linux/visorbus.h>
++#include <linux/xarray.h>
+ #include <scsi/scsi.h>
+ #include <scsi/scsi_host.h>
+ #include <scsi/scsi_cmnd.h>
+@@ -23,6 +23,8 @@
+ #define MAX_PENDING_REQUESTS (MIN_NUMSIGNALS * 2)
+ #define VISORHBA_ERROR_COUNT 30
+ 
++static DEFINE_XARRAY_ALLOC(xa_dtstr);
++
+ static struct dentry *visorhba_debugfs_dir;
+ 
+ /* GUIDS for HBA channel type supported by this driver */
+@@ -82,7 +84,7 @@ struct visorhba_devdata {
+ 	 * allows us to pass int handles back-and-forth between us and
+ 	 * iovm, instead of raw pointers
+ 	 */
+-	struct idr idr;
++	struct xarray xa;
+ 
+ 	struct dentry *debugfs_dir;
+ 	struct dentry *debugfs_info;
+@@ -182,71 +184,40 @@ static struct uiscmdrsp *get_scsipending_cmdrsp(struct visorhba_devdata *ddata,
+ 	return NULL;
+ }
+ 
+-/*
+- * simple_idr_get - Associate a provided pointer with an int value
+- *		    1 <= value <= INT_MAX, and return this int value;
+- *		    the pointer value can be obtained later by passing
+- *		    this int value to idr_find()
+- * @idrtable: The data object maintaining the pointer<-->int mappings
+- * @p:	      The pointer value to be remembered
+- * @lock:     A spinlock used when exclusive access to idrtable is needed
+- *
+- * Return: The id number mapped to pointer 'p', 0 on failure
+- */
+-static unsigned int simple_idr_get(struct idr *idrtable, void *p,
+-				   spinlock_t *lock)
+-{
+-	int id;
+-	unsigned long flags;
+-
+-	idr_preload(GFP_KERNEL);
+-	spin_lock_irqsave(lock, flags);
+-	id = idr_alloc(idrtable, p, 1, INT_MAX, GFP_NOWAIT);
+-	spin_unlock_irqrestore(lock, flags);
+-	idr_preload_end();
+-	/* failure */
+-	if (id < 0)
+-		return 0;
+-	/* idr_alloc() guarantees > 0 */
+-	return (unsigned int)(id);
+-}
+-
+ /*
+  * setup_scsitaskmgmt_handles - Stash the necessary handles so that the
+  *				completion processing logic for a taskmgmt
+  *				cmd will be able to find who to wake up
+  *				and where to stash the result
+- * @idrtable: The data object maintaining the pointer<-->int mappings
+- * @lock:     A spinlock used when exclusive access to idrtable is needed
++ * @xa:       The data object maintaining the pointer<-->int mappings
+  * @cmdrsp:   Response from the IOVM
+  * @event:    The event handle to associate with an id
+  * @result:   The location to place the result of the event handle into
+  */
+-static void setup_scsitaskmgmt_handles(struct idr *idrtable, spinlock_t *lock,
+-				       struct uiscmdrsp *cmdrsp,
++static void setup_scsitaskmgmt_handles(struct xarray *xa, struct uiscmdrsp *cmdrsp,
+ 				       wait_queue_head_t *event, int *result)
+ {
+-	/* specify the event that has to be triggered when this */
+-	/* cmd is complete */
+-	cmdrsp->scsitaskmgmt.notify_handle =
+-		simple_idr_get(idrtable, event, lock);
+-	cmdrsp->scsitaskmgmt.notifyresult_handle =
+-		simple_idr_get(idrtable, result, lock);
++	u32 id;
++	int ret;
++
++	/* specify the event that has to be triggered when this cmd is complete */
++	id = (u32)cmdrsp->scsitaskmgmt.notify_handle;
++	ret = xa_alloc_irq(xa, &id, event, XA_LIMIT(1, INT_MAX), GFP_KERNEL);
++	id = (u32)cmdrsp->scsitaskmgmt.notifyresult_handle;
++	ret = xa_alloc_irq(xa, &id, result, XA_LIMIT(1, INT_MAX), GFP_KERNEL);
+ }
+ 
+ /*
+  * cleanup_scsitaskmgmt_handles - Forget handles created by
+  *				  setup_scsitaskmgmt_handles()
+- * @idrtable: The data object maintaining the pointer<-->int mappings
++ * @xa: The data object maintaining the pointer<-->int mappings
+  * @cmdrsp:   Response from the IOVM
+  */
+-static void cleanup_scsitaskmgmt_handles(struct idr *idrtable,
++static void cleanup_scsitaskmgmt_handles(struct xarray *xa,
+ 					 struct uiscmdrsp *cmdrsp)
+ {
+-	if (cmdrsp->scsitaskmgmt.notify_handle)
+-		idr_remove(idrtable, cmdrsp->scsitaskmgmt.notify_handle);
+-	if (cmdrsp->scsitaskmgmt.notifyresult_handle)
+-		idr_remove(idrtable, cmdrsp->scsitaskmgmt.notifyresult_handle);
++	xa_erase(xa, cmdrsp->scsitaskmgmt.notify_handle);
++	xa_erase(xa, cmdrsp->scsitaskmgmt.notifyresult_handle);
+ }
+ 
+ /*
+@@ -273,8 +244,7 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
+ 	if (devdata->serverdown || devdata->serverchangingstate)
+ 		return FAILED;
+ 
+-	scsicmd_id = add_scsipending_entry(devdata, CMD_SCSITASKMGMT_TYPE,
+-					   NULL);
++	scsicmd_id = add_scsipending_entry(devdata, CMD_SCSITASKMGMT_TYPE, NULL);
+ 	if (scsicmd_id < 0)
+ 		return FAILED;
+ 
+@@ -284,8 +254,7 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
+ 
+ 	/* issue TASK_MGMT_ABORT_TASK */
+ 	cmdrsp->cmdtype = CMD_SCSITASKMGMT_TYPE;
+-	setup_scsitaskmgmt_handles(&devdata->idr, &devdata->privlock, cmdrsp,
+-				   &notifyevent, &notifyresult);
++	setup_scsitaskmgmt_handles(&devdata->xa, cmdrsp, &notifyevent, &notifyresult);
+ 
+ 	/* save destination */
+ 	cmdrsp->scsitaskmgmt.tasktype = tasktype;
+@@ -311,14 +280,14 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
+ 	dev_dbg(&scsidev->sdev_gendev,
+ 		"visorhba: taskmgmt type=%d success; result=0x%x\n",
+ 		 tasktype, notifyresult);
+-	cleanup_scsitaskmgmt_handles(&devdata->idr, cmdrsp);
++	cleanup_scsitaskmgmt_handles(&devdata->xa, cmdrsp);
+ 	return SUCCESS;
+ 
+ err_del_scsipending_ent:
+ 	dev_dbg(&scsidev->sdev_gendev,
+ 		"visorhba: taskmgmt type=%d not executed\n", tasktype);
+ 	del_scsipending_ent(devdata, scsicmd_id);
+-	cleanup_scsitaskmgmt_handles(&devdata->idr, cmdrsp);
++	cleanup_scsitaskmgmt_handles(&devdata->xa, cmdrsp);
+ 	return FAILED;
+ }
+ 
+@@ -654,13 +623,12 @@ DEFINE_SHOW_ATTRIBUTE(info_debugfs);
+  * Service Partition returned the result of the task management
+  * command. Wake up anyone waiting for it.
+  */
+-static void complete_taskmgmt_command(struct idr *idrtable,
+-				      struct uiscmdrsp *cmdrsp, int result)
++static void complete_taskmgmt_command(struct uiscmdrsp *cmdrsp, int result)
+ {
+ 	wait_queue_head_t *wq =
+-		idr_find(idrtable, cmdrsp->scsitaskmgmt.notify_handle);
++		xa_load(&xa_dtstr, cmdrsp->scsitaskmgmt.notify_handle);
+ 	int *scsi_result_ptr =
+-		idr_find(idrtable, cmdrsp->scsitaskmgmt.notifyresult_handle);
++		xa_load(&xa_dtstr, cmdrsp->scsitaskmgmt.notifyresult_handle);
+ 	if (unlikely(!(wq && scsi_result_ptr))) {
+ 		pr_err("visorhba: no completion context; cmd will time out\n");
+ 		return;
+@@ -708,8 +676,7 @@ static void visorhba_serverdown_complete(struct visorhba_devdata *devdata)
+ 			break;
+ 		case CMD_SCSITASKMGMT_TYPE:
+ 			cmdrsp = pendingdel->sent;
+-			complete_taskmgmt_command(&devdata->idr, cmdrsp,
+-						  TASK_MGMT_FAILED);
++			complete_taskmgmt_command(cmdrsp, TASK_MGMT_FAILED);
+ 			break;
+ 		default:
+ 			break;
+@@ -905,7 +872,7 @@ static void drain_queue(struct uiscmdrsp *cmdrsp,
+ 			if (!del_scsipending_ent(devdata,
+ 						 cmdrsp->scsitaskmgmt.handle))
+ 				break;
+-			complete_taskmgmt_command(&devdata->idr, cmdrsp,
++			complete_taskmgmt_command(cmdrsp,
+ 						  cmdrsp->scsitaskmgmt.result);
+ 		} else if (cmdrsp->cmdtype == CMD_NOTIFYGUEST_TYPE)
+ 			dev_err_once(&devdata->dev->device,
+@@ -1053,8 +1020,6 @@ static int visorhba_probe(struct visor_device *dev)
+ 	if (err)
+ 		goto err_debugfs_info;
+ 
+-	idr_init(&devdata->idr);
+-
+ 	devdata->cmdrsp = kmalloc(sizeof(*devdata->cmdrsp), GFP_ATOMIC);
+ 	visorbus_enable_channel_interrupts(dev);
+ 
+@@ -1096,7 +1061,7 @@ static void visorhba_remove(struct visor_device *dev)
+ 	scsi_remove_host(scsihost);
+ 	scsi_host_put(scsihost);
+ 
+-	idr_destroy(&devdata->idr);
++	xa_destroy(&xa_dtstr);
+ 
+ 	dev_set_drvdata(&dev->device, NULL);
+ 	debugfs_remove(devdata->debugfs_info);
+-- 
+2.31.1
+
