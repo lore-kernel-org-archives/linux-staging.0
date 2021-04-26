@@ -1,122 +1,200 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2797D2F82
-	for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 13:50:10 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id w3so84598468ejc.4
-        for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 06:50:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=WNnvA9/2jBDYMEDC1w1C/VHcqT7vK38Vp7qzF/BVp38=;
-        b=EfOYkhreFsfsXRF64hm7fSGQAbrmc4om/PWG9R/5+Op3S+UGlQiANlGfBAznabRs0h
-         0iuWynP9DmNFyzIcz7lzfH6FLdVYt3zZdh09AWJkp0Ygl6h9Vd22yBSO2NbFBEEpGlf3
-         uDJAFpUp7ru4xrmtdvUOLq8BlZJWq+IMmpDybw9PP0lX18oDECML2VQUjdd6DDvSoRGs
-         QGBiYJ+4YLL1vFUaFFI8iNtmdgPe3eIOQAd2RZI7iRsQIMf6NIjAO+UqHMz5gqQEAvmH
-         HIs2JH5L9xAPb3+BQXkEY6y7XXmFjMUs3YtLFOe732bU8q1vCpyBmGw/D5Y9aHRlt7kW
-         w7TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=WNnvA9/2jBDYMEDC1w1C/VHcqT7vK38Vp7qzF/BVp38=;
-        b=bzSCJj6RnGYLd//WFsBWkCi5/d9MKV2uJcl9pgnON1wEO+2TEUlSlIXm14l9pom7kt
-         zHAFgROMk1f/yu/xF9s/LWoLfZgE4Rzakn7hpJhqfl0zRevLkqQEih4LbchVfG+mfj1T
-         ybuYCppA5IC56m319Ns2YSIUeTOYeI8rTiFvgmtOpwnJYjtonI6K3BpvjQIAmialHMTQ
-         2F/1eRE8j18+t54ZJbVzck0I+TF9xQuEPZUWF0TVEvY5ww0C1db9KnPCl/Izkoujfdmi
-         tZFCWTy+8YjwwdmD515nHeRLAdGTEs6MOVujKv7pF+opKEHTQqBcoxklOXWtGOtpUliE
-         B6lg==
-X-Gm-Message-State: AOAM532jjk3UWPnkIehlp9YsbqJ39RyPJtzFm79/0Uyz4PEWgE3f6na0
-	MkVGk/S/8WH0t2AAycDKv2Q=
-X-Google-Smtp-Source: ABdhPJyS70pfKecNihEcCvlQZrTAzeE0Edi7bSj7WmzB9CaxqQs+xCg7H/LK7mu3o4a4eT4lAKoOUQ==
-X-Received: by 2002:a17:907:9811:: with SMTP id ji17mr19196220ejc.188.1619445008593;
-        Mon, 26 Apr 2021 06:50:08 -0700 (PDT)
-Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
-        by smtp.gmail.com with ESMTPSA id s8sm14988990edj.25.2021.04.26.06.50.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Apr 2021 06:50:07 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, David Kershner <david.kershner@unisys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [Outreachy kernel] [RFC PATCH] staging: unisys: visorhba: Convert module from IDR to XArray
-Date: Mon, 26 Apr 2021 15:50:06 +0200
-Message-ID: <2352794.1zacegZ1vs@linux.local>
-In-Reply-To: <20210426132928.GL235567@casper.infradead.org>
-References: <20210426095015.18556-1-fmdefrancesco@gmail.com> <2833559.jtDpNxbUmt@linux.local> <20210426132928.GL235567@casper.infradead.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3BD2F82
+	for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 14:23:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1619446996; bh=qLIEQUlgVaVlvxyYH9GXN75xqc+053qIC7Vi4/7g2gE=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=b5lbyA2nYksKhRDDI1B8UPskROEfYZYrjH/IlOLk3WV8fFrA1YMqUw2M5xmCuqv5/
+	 fCN39ZezJi+hU98eFSXjGIzpgF+MV6gdOSY/zguDNn8RqaeKbXYVshFEWdc23XaWN4
+	 knP9lXnPjD2hKCixYmruiNXxnW3x3r+RfLMKlm50=
+Received: by 192.168.90.14 [192.168.90.14] with ESMTP
+	via ip-206.mailobj.net [213.182.55.206]
+	Mon, 26 Apr 2021 16:23:16 +0200 (CEST)
+X-EA-Auth: 2/nJR6gMP/fq7ocmepPRQYccRlg/10OG6f7N+h7IU08n9RQvtmCxSJeZvB53v8u8S9twUQN2UvZbbDpn9AUI9JEL78wf2WM6
+Date: Mon, 26 Apr 2021 19:53:09 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, mh12gx2825@gmail.com
+Subject: Re: [PATCH] staging: media: atomisp: replace pr_info() by dev_info()
+Message-ID: <YIbMzXTkvNicI0z3@192.168.1.8>
+References: <20210422103037.GA239298@localhost>
+ <20210426092125.GU3@paasikivi.fi.intel.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210426092125.GU3@paasikivi.fi.intel.com>
 
-On Monday, April 26, 2021 3:29:28 PM CEST Matthew Wilcox wrote:
-> On Mon, Apr 26, 2021 at 03:14:42PM +0200, Fabio M. De Francesco wrote:
-> > > > -	int id;
-> > > > -	unsigned long flags;
-> > > > 
-> > > > -	idr_preload(GFP_KERNEL);
-> > > > -	spin_lock_irqsave(lock, flags);
-> > > > -	id = idr_alloc(idrtable, p, 1, INT_MAX, GFP_NOWAIT);
-> > > > -	spin_unlock_irqrestore(lock, flags);
-> > > > -	idr_preload_end();
-> > > > -	/* failure */
-> > > > -	if (id < 0)
-> > > > -		return 0;
-> > > > -	/* idr_alloc() guarantees > 0 */
-> > > > -	return (unsigned int)(id);
-> > > 
-> > > And it shouldn't be using GFP_NOWAIT, but GFP_KERNEL, like the IDR code
-> > > used to do.
+On Mon, Apr 26, 2021 at 12:21:26PM +0300, Sakari Ailus wrote:
+> Hi Deepak,
+> 
+> Thanks for the patch.
+> 
+> On Thu, Apr 22, 2021 at 04:00:37PM +0530, Deepak R Varma wrote:
+> > It is recommended to use driver model diagnostic macros dev_*() instead
+> > of pr_*() since the former ensures that the log messages are always
+> > associated with the corresponding device and driver.
 > > 
-> > I'm not sure to understand why idr_preload() uses GFP_KERNEL and instead
-> > idr_alloc() uses GFP_NOWAIT. I'd better read anew the documentation of the
-> > above-mentioned functions
-> 
-> If you're holding a spinlock, you can't do a GFP_KERNEL allocation,
-> because it can sleep, and sleeping while holding a spinlock isn't allowed.
->
-I know that since a long time... that is last week, day more day less  :) 
-
-I've just started to read R.Love's LKD 3rd ed. I don't have enough time to 
-read it at the moment, however I skipped a few chapters and read "Kernel 
-synchronization methods" and "Memory management".
-> 
-> The IDR and radix tree have an approach where you first preallocate
-> memory using GFP_KERNEL and then use GFP_NOWAIT or GFP_ATOMIC after
-> you've taken the spinlock.  XArray doesn't do that; it takes the spinlock
-> and does a GFP_NOWAIT allocation.  If it fails, it drops the spinlock,
-> allocates the memory using GFP_KERNEL, and retries.
->
-This is something one cannot find in Love's book, unless I overlooked that.
-> 
-> > This will not be anymore a problem when I'll restore the use of one 
-namespace
-> > per HBA. It's correct?
-> 
-> true ...
-> 
-> > > More generally, the IDR required you call idr_destroy() to avoid leaking
-> > > preallocated memory.  I changed that, but there are still many drivers
-> > > that have unnecessary calls to idr_destroy().  It's good form to just
-> > > delete them and not turn them into calls to xa_destroy().
+> > Suggested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+> > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> > ---
 > > 
-> > This one is a bit obscure to me. I have to look into it more carefully. 
-Maybe
-> > I'll ask for some further help.
+> > Note: There are few more pr_into() calls that I have not replaced since
+> > they are very basic (entry and exit) and temporary. They can be removed 
+> > if the APIs are fully tested. See this example:
+> > 	pr_info("%s S\n", __func__);
+> > 
+> > Let me know if I should remove them and resubmit this patch.
 > 
-> The IDR used to have a per-idr preallocation, so you had to destroy it
-> in order to make sure they were freed.  I got rid of that about five
-> years ago because most IDR users weren't calling idr_destroy().
->
-OK, I think I got it.
->
-Thanks again,
+> Most probably leftovers from development time. I think these could be
+> removed but perhaps by a separate patch.
 
-Fabio
+Yes, sure. Will send in a separate patch. In fact, I will include this
+and the other patch and send those in the earlier clear up patch set. It
+all does the same thing for this driver.
 
+> 
+> > 
+> > 
+> >  .../media/atomisp/i2c/atomisp-gc0310.c        | 30 +++++++++----------
+> >  1 file changed, 15 insertions(+), 15 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> > index 7e4e123fdb52..27153ec6f65e 100644
+> > --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> > @@ -300,7 +300,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
+> >  	/* pixel clock calculattion */
+> >  	dev->vt_pix_clk_freq_mhz = 14400000; // 16.8MHz
+> >  	buf->vt_pix_clk_freq_mhz = dev->vt_pix_clk_freq_mhz;
+> > -	pr_info("vt_pix_clk_freq_mhz=%d\n", buf->vt_pix_clk_freq_mhz);
+> > +	dev_info(&client->dev, "vt_pix_clk_freq_mhz=%d\n", buf->vt_pix_clk_freq_mhz);
+> 
+> Over 80; please wrap. The same for the rest of such lines.
 
+My apologies for the over sight. I will review and correct these.
+
+> 
+> >  
+> >  	/* get integration time */
+> >  	buf->coarse_integration_time_min = GC0310_COARSE_INTG_TIME_MIN;
+> > @@ -326,7 +326,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
+> >  	if (ret)
+> >  		return ret;
+> >  	buf->crop_horizontal_start = val | (reg_val & 0xFF);
+> > -	pr_info("crop_horizontal_start=%d\n", buf->crop_horizontal_start);
+> > +	dev_info(&client->dev, "crop_horizontal_start=%d\n", buf->crop_horizontal_start);
+> >  
+> >  	/* Getting crop_vertical_start */
+> >  	ret =  gc0310_read_reg(client, GC0310_8BIT,
+> > @@ -339,7 +339,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
+> >  	if (ret)
+> >  		return ret;
+> >  	buf->crop_vertical_start = val | (reg_val & 0xFF);
+> > -	pr_info("crop_vertical_start=%d\n", buf->crop_vertical_start);
+> > +	dev_info(&client->dev, "crop_vertical_start=%d\n", buf->crop_vertical_start);
+> >  
+> >  	/* Getting output_width */
+> >  	ret = gc0310_read_reg(client, GC0310_8BIT,
+> > @@ -352,7 +352,7 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
+> >  	if (ret)
+> >  		return ret;
+> >  	buf->output_width = val | (reg_val & 0xFF);
+> > -	pr_info("output_width=%d\n", buf->output_width);
+> > +	dev_info(&client->dev, "output_width=%d\n", buf->output_width);
+> >  
+> >  	/* Getting output_height */
+> >  	ret = gc0310_read_reg(client, GC0310_8BIT,
+> > @@ -365,12 +365,12 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
+> >  	if (ret)
+> >  		return ret;
+> >  	buf->output_height = val | (reg_val & 0xFF);
+> > -	pr_info("output_height=%d\n", buf->output_height);
+> > +	dev_info(&client->dev, "output_height=%d\n", buf->output_height);
+> >  
+> >  	buf->crop_horizontal_end = buf->crop_horizontal_start + buf->output_width - 1;
+> >  	buf->crop_vertical_end = buf->crop_vertical_start + buf->output_height - 1;
+> > -	pr_info("crop_horizontal_end=%d\n", buf->crop_horizontal_end);
+> > -	pr_info("crop_vertical_end=%d\n", buf->crop_vertical_end);
+> > +	dev_info(&client->dev, "crop_horizontal_end=%d\n", buf->crop_horizontal_end);
+> > +	dev_info(&client->dev, "crop_vertical_end=%d\n", buf->crop_vertical_end);
+> >  
+> >  	/* Getting line_length_pck */
+> >  	ret = gc0310_read_reg(client, GC0310_8BIT,
+> > @@ -389,8 +389,8 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
+> >  		return ret;
+> >  	sh_delay = reg_val;
+> >  	buf->line_length_pck = buf->output_width + hori_blanking + sh_delay + 4;
+> > -	pr_info("hori_blanking=%d sh_delay=%d line_length_pck=%d\n", hori_blanking,
+> > -		sh_delay, buf->line_length_pck);
+> > +	dev_info(&client->dev, "hori_blanking=%d sh_delay=%d line_length_pck=%d\n", hori_blanking,
+> > +		 sh_delay, buf->line_length_pck);
+> >  
+> >  	/* Getting frame_length_lines */
+> >  	ret = gc0310_read_reg(client, GC0310_8BIT,
+> > @@ -404,8 +404,8 @@ static int gc0310_get_intg_factor(struct i2c_client *client,
+> >  		return ret;
+> >  	vert_blanking = val | (reg_val & 0xFF);
+> >  	buf->frame_length_lines = buf->output_height + vert_blanking;
+> > -	pr_info("vert_blanking=%d frame_length_lines=%d\n", vert_blanking,
+> > -		buf->frame_length_lines);
+> > +	dev_info(&client->dev, "vert_blanking=%d frame_length_lines=%d\n", vert_blanking,
+> > +		 buf->frame_length_lines);
+> >  
+> >  	buf->binning_factor_x = res->bin_factor_x ?
+> >  				res->bin_factor_x : 1;
+> > @@ -434,7 +434,7 @@ static int gc0310_set_gain(struct v4l2_subdev *sd, int gain)
+> >  		dgain = gain / 2;
+> >  	}
+> >  
+> > -	pr_info("gain=0x%x again=0x%x dgain=0x%x\n", gain, again, dgain);
+> > +	dev_info(&client->dev, "gain=0x%x again=0x%x dgain=0x%x\n", gain, again, dgain);
+> >  
+> >  	/* set analog gain */
+> >  	ret = gc0310_write_reg(client, GC0310_8BIT,
+> > @@ -458,7 +458,7 @@ static int __gc0310_set_exposure(struct v4l2_subdev *sd, int coarse_itg,
+> >  	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> >  	int ret;
+> >  
+> > -	pr_info("coarse_itg=%d gain=%d digitgain=%d\n", coarse_itg, gain, digitgain);
+> > +	dev_info(&client->dev, "coarse_itg=%d gain=%d digitgain=%d\n", coarse_itg, gain, digitgain);
+> >  
+> >  	/* set exposure */
+> >  	ret = gc0310_write_reg(client, GC0310_8BIT,
+> > @@ -1085,7 +1085,7 @@ static int gc0310_detect(struct i2c_client *client)
+> >  		return -ENODEV;
+> >  	}
+> >  	id = ((((u16)high) << 8) | (u16)low);
+> > -	pr_info("sensor ID = 0x%x\n", id);
+> > +	dev_info(&client->dev, "sensor ID = 0x%x\n", id);
+> >  
+> >  	if (id != GC0310_ID) {
+> >  		dev_err(&client->dev, "sensor ID error, read id = 0x%x, target id = 0x%x\n", id,
+> > @@ -1106,7 +1106,7 @@ static int gc0310_s_stream(struct v4l2_subdev *sd, int enable)
+> >  	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> >  	int ret;
+> >  
+> > -	pr_info("%s S enable=%d\n", __func__, enable);
+> > +	dev_info(&client->dev, "%s S enable=%d\n", __func__, enable);
+> >  	mutex_lock(&dev->input_lock);
+> >  
+> >  	if (enable) {
+> 
+> -- 
+> Kind regards,
+> 
+> Sakari Ailus
+
+Thank you Sakari.
+deepak.
 
 
