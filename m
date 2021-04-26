@@ -1,50 +1,60 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77B371
-	for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 08:39:06 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6C5EF60C3F;
-	Mon, 26 Apr 2021 08:39:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1619426346;
-	bh=RumY+jyF6jcMyh9l5y9E6ie9Qtj7V7yjCUq7pi5xK5k=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=AftkwppSUuE75DLGajXEcIwYCJog20552wSgttppeDrE0qQZUbDiZQJf4YbIzML3M
-	 FVI8Lzjb3tYx4/mlaUE1sqXjqIG8vUQme6Gp3/hk6Veucziw4aD/h2Bf22ASGabjHt
-	 yNq51d6dTqM7puIoIi8ZXq32r8NC7yDCPlKF6cBfErp9UDLX3F5LN7xRsyl9PUy4Jx
-	 eEVWC9hFnkmKcaL2UGodQ/jnT57bnS5Yw7mjoabQ+xcFyq4elGBt1Uukj9dQLk4EJ6
-	 vSNPSWwa+G2AeYAp0gpw039cfCCXxo6b0+aA1N5H8YYPgioRKAYVwQlaTh1pr5eNKL
-	 eqmfh8I3YahGQ==
-Message-ID: <4ad9f719e90bc4c665f80470525592932a0c2c84.camel@kernel.org>
-Subject: Re: [PATCH V2 09/11] staging: vchiq_core: drop vchiq_status from
- vchiq_set_service_option
-From: nicolas saenz julienne <nsaenz@kernel.org>
-To: Stefan Wahren <stefan.wahren@i2se.com>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>
-Cc: Fabio Aiuto <fabioaiuto83@gmail.com>, linux-staging@lists.linux.dev
-Date: Mon, 26 Apr 2021 10:39:03 +0200
-In-Reply-To: <1619347863-16080-10-git-send-email-stefan.wahren@i2se.com>
-References: <1619347863-16080-1-git-send-email-stefan.wahren@i2se.com>
-	 <1619347863-16080-10-git-send-email-stefan.wahren@i2se.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.0 (3.40.0-1.fc34) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30A971
+	for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 09:19:01 +0000 (UTC)
+IronPort-SDR: SgKCRFdzJb+GLU4CrqiYGkxCLQOy9RuvgdqdirE+w7yYIK/obrRVAQmDWO9c8yd5dvvX6UgMI0
+ t08UMlLoPVcg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9965"; a="195858627"
+X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; 
+   d="scan'208";a="195858627"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2021 02:18:59 -0700
+IronPort-SDR: gUc7e3gkI8Fyv0bXaNY1wSQeG2wcpR4s1OBErdbZZRNtUf088ofFUROUULEAZ3mHmbwcgZQ8tU
+ YMeuNiiax4+w==
+X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; 
+   d="scan'208";a="615320703"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2021 02:18:57 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+	by paasikivi.fi.intel.com (Postfix) with SMTP id 2EAEB203BC;
+	Mon, 26 Apr 2021 12:18:55 +0300 (EEST)
+Date: Mon, 26 Apr 2021 12:18:55 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com
+Subject: Re: [Outreachy kernel] [PATCH v3] staging: media: atomisp: pci:
+ Change line break to avoid an open parenthesis at the end of the line
+Message-ID: <20210426091855.GT3@paasikivi.fi.intel.com>
+References: <20210421123718.GA4597@focaruja>
+ <20210421131522.GI3596236@casper.infradead.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210421131522.GI3596236@casper.infradead.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Sun, 2021-04-25 at 12:51 +0200, Stefan Wahren wrote:
-> Replace the custom set of return values with proper Linux error codes for
-> vchiq_set_service_option(). Now we can use the result directly as return
-> value for vchiq_ioctl().
+On Wed, Apr 21, 2021 at 02:15:22PM +0100, Matthew Wilcox wrote:
+> On Wed, Apr 21, 2021 at 09:37:18AM -0300, Aline Santana Cordeiro wrote:
+> > -const struct atomisp_format_bridge *get_atomisp_format_bridge_from_mbus(
+> > -    u32 mbus_code);
+> > +const struct atomisp_format_bridge *
+> > +get_atomisp_format_bridge_from_mbus(u32 mbus_code);
 > 
-> Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
-> ---
+> As I said, better to break the 80 column rule than do this.
 
-Reviewed-by: Nicolas Saenz Julienne <nsaenz@kernel.org>
+May depend on the maintainer, as well as other reviewers. It's a question
+of priorities.
 
-Regards,
-Nicolas
+I'd suggest otherwise.
 
+-- 
+Sakari Ailus
