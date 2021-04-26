@@ -1,72 +1,63 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from sipsolutions.net (s3.sipsolutions.net [144.76.43.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642DC72
-	for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 19:21:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=5LaqQeBsNBHU9D9jZgjWkNwbT7whKdIcOp7Scece9yQ=; b=ZlCvedhhe+0hN8sK0mbS6kAgvL
-	+GPvZWgvOyaFM8lynXHsvjoIOKX0H3LR0Rw/IHh4vf/MDNJbypiFUjVTUWXbA+dti2wnCzteYyOf5
-	NFRCWV+oAX0yzXfXp+S33CFFw5uTtlbRMOmKki+D89ne/gzmrfeWzFIYrlfJSvTAYVbnLOia0ghnw
-	7Xf3wp8J2YMpgp0N756wucqRhoRlku1NqP5CVVKyGQMfmVXVnMCOV2rd3/TzD1UI6K098/yUksab/
-	sx9wdnbzinoSkEj3GB48lsRBDHlFgVIJkyoYRwXHui3yBDqNSgZOld8MDNhP2DSziy/Hbi+Voh3rQ
-	QV7ZfNbw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-	id 1lb6mz-0060Kk-Fr; Mon, 26 Apr 2021 19:21:05 +0000
-Date: Mon, 26 Apr 2021 20:21:01 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	David Kershner <david.kershner@unisys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [Outreachy kernel] [PATCH v3] staging: unisys: visorhba: Convert
- module from IDR to XArray
-Message-ID: <20210426192101.GQ235567@casper.infradead.org>
-References: <20210426184245.12269-1-fmdefrancesco@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9BA72
+	for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 19:28:17 +0000 (UTC)
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94)
+	(envelope-from <johannes@sipsolutions.net>)
+	id 1lb6tt-000MUa-Of; Mon, 26 Apr 2021 21:28:09 +0200
+From: Johannes Berg <johannes@sipsolutions.net>
+To: linux-wireless@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Harald Arnesen <harald@skogtun.org>,
+	Johannes Berg <johannes.berg@intel.com>
+Subject: [PATCH] staging: rtl8723bs: fix monitor netdev register/unregister
+Date: Mon, 26 Apr 2021 21:28:02 +0200
+Message-Id: <20210426212801.3d902cc9e6f4.Ie0b1e0c545920c61400a4b7d0f384ea61feb645a@changeid>
+X-Mailer: git-send-email 2.30.2
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210426184245.12269-1-fmdefrancesco@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 26, 2021 at 08:42:45PM +0200, Fabio M. De Francesco wrote:
-> +static void setup_scsitaskmgmt_handles(struct xarray *xa, struct uiscmdrsp *cmdrsp,
->  				       wait_queue_head_t *event, int *result)
->  {
-> -	/* specify the event that has to be triggered when this */
-> -	/* cmd is complete */
-> -	cmdrsp->scsitaskmgmt.notify_handle =
-> -		simple_idr_get(idrtable, event, lock);
-> -	cmdrsp->scsitaskmgmt.notifyresult_handle =
-> -		simple_idr_get(idrtable, result, lock);
-> +	u32 id;
-> +	int ret;
-> +
-> +	/* specify the event that has to be triggered when this cmd is complete */
-> +	id = (u32)cmdrsp->scsitaskmgmt.notify_handle;
-> +	ret = xa_alloc_irq(xa, &id, event, XA_LIMIT(1, INT_MAX), GFP_KERNEL);
+From: Johannes Berg <johannes.berg@intel.com>
 
-OK, think this one through a bit.  When xa_alloc_irq() stores the ID that
-it assigned into 'id', what happens to it next?
+Due to the locking changes and callbacks happening inside
+cfg80211, we need to use cfg80211 versions of the register
+and unregister functions if called within cfg80211 methods,
+otherwise deadlocks occur.
 
-> +	id = (u32)cmdrsp->scsitaskmgmt.notifyresult_handle;
-> +	ret = xa_alloc_irq(xa, &id, result, XA_LIMIT(1, INT_MAX), GFP_KERNEL);
->  }
+Fixes: a05829a7222e ("cfg80211: avoid holding the RTNL when calling the driver")
+Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+---
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> @@ -1053,8 +1018,6 @@ static int visorhba_probe(struct visor_device *dev)
->  	if (err)
->  		goto err_debugfs_info;
->  
-> -	idr_init(&devdata->idr);
-
-You still need to initialise the XArray, either with xa_init() or by
-using DEFINE_XARRAY.  Since it's dynamically allocated, the former is
-correct.
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index ff164a8c8679..0619a7510e83 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -2579,7 +2579,7 @@ static int rtw_cfg80211_add_monitor_if(struct adapter *padapter, char *name, str
+ 	mon_wdev->iftype = NL80211_IFTYPE_MONITOR;
+ 	mon_ndev->ieee80211_ptr = mon_wdev;
+ 
+-	ret = register_netdevice(mon_ndev);
++	ret = cfg80211_register_netdevice(mon_ndev);
+ 	if (ret) {
+ 		goto out;
+ 	}
+@@ -2661,7 +2661,7 @@ static int cfg80211_rtw_del_virtual_intf(struct wiphy *wiphy,
+ 	adapter = rtw_netdev_priv(ndev);
+ 	pwdev_priv = adapter_wdev_data(adapter);
+ 
+-	unregister_netdevice(ndev);
++	cfg80211_unregister_netdevice(ndev);
+ 
+ 	if (ndev == pwdev_priv->pmon_ndev) {
+ 		pwdev_priv->pmon_ndev = NULL;
+-- 
+2.30.2
 
