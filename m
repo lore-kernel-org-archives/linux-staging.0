@@ -1,300 +1,181 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8678871
-	for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 09:50:21 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id u17so83570415ejk.2
-        for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 02:50:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97D971
+	for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 09:56:15 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id j5so54209638wrn.4
+        for <linux-staging@lists.linux.dev>; Mon, 26 Apr 2021 02:56:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ShMo62waoXdZPA8Pjv746uYpSuq7bJJgFSuovFSewxU=;
-        b=flm3mKB/uF+WoPuFwxRs3v9CquC6FJr/cB7imk2AZkiyc3PO5quJP1/ojpF16RKFig
-         p8DP7Gmvc6eAmK+gd/FxZpHtyIQZn+nN+dqbe2ceq6ISC9blBSZqWr6dysGljEbHNI4M
-         2RXqsV1bkKoI4jcE7Hx0RQfItyQf2DsAO2JGXy5BkMHFeqwTdQmtRC6flMot2/xN7XpP
-         370VdV3UnXBiRI1+EPtATsJE4akgRRGZfFYG9CoO2r6GFnFlNSZ6yOokYSgMWs7JtwKd
-         AwqycfHY5pL2rJOWqaPz/11ByAOi5TWAcu2mVKpb2F/dc21+afhSf8iA7cp/SOinfaNH
-         32Zg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=fFrpLw8QRN6vigSnYp4kRiIX6O8iZ1qdCoLeSD99j/E=;
+        b=UiEbq31xW2yfzewFdiGOSvdnzzU6gwgQVDxyFgADH4SPXqxFMyLJixhfCzNDXTtDfc
+         pwWWi6aH52QE6G0CbN9XhZJPUUD8Aifh8hnJBWgr9qWp+TDxtPWc/dGnZBJrATrd+ziY
+         sEIFzL32gpG0FuhVgMyAhl+cDBceXNQAhTYs7SSKpT1d1NI+pXSSZbEudhuXA7f5t1Ac
+         PXiifXApotpnd5iPe8KL5/cLQo/OpN3lVFTTTatB+GL5QjzItLhOga6tt4HlFgaCp6Cp
+         XoI4FTTrBBjxmL+MqNR5kSEg/7akCSPUBNCHa5W5lQLiTI67ZbWoadBO6Vs+FFsUzbv3
+         ctkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ShMo62waoXdZPA8Pjv746uYpSuq7bJJgFSuovFSewxU=;
-        b=snmYW/SzBYJ69PGFK+0vIuAmhO2v71YBbQ59+H1a+nw71URHX39WvsCfGiUDYefRF8
-         FX9yWKXa5ukKfuFse7GSvbiyquc691FGG5eFA3DKC5vLkzEsXZy7zZGQU1Y39gu7Kd2Y
-         EL5U4BEN4s6C6vsiUZDypfVeNAvWfQDU99dRRp1SdOMijeihZWZvAqo7l2PNnsO25I2p
-         DSzi6xZcVLNktp9mLi28zBtZ4Y8yiDJxIQzJ7vTHA/4G2sPP0cvfR8nRWuQajrRRODVm
-         M+OxayIYbN3Lm/iBigz2nBlZgcCedC8wx8vyLp+63JGtWc3aQPRh2zFQpiS0oAUaIPkc
-         2Ehg==
-X-Gm-Message-State: AOAM533EsMIp/gi3B9xwDIzfDbCZ+eUsNOT11O35TXlNyqBUaA+0ic6y
-	zWgTI4U9sTm0gRgmtWF7ll8=
-X-Google-Smtp-Source: ABdhPJyRP058z246jmUNjWq8wucx1uHsZYLfjJdekeAElr2pD5A1klCMMH2YqAXgzV/brtKz+jwF4A==
-X-Received: by 2002:a17:906:5949:: with SMTP id g9mr17773082ejr.356.1619430619985;
-        Mon, 26 Apr 2021 02:50:19 -0700 (PDT)
-Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
-        by smtp.gmail.com with ESMTPSA id g11sm776817eje.7.2021.04.26.02.50.18
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=fFrpLw8QRN6vigSnYp4kRiIX6O8iZ1qdCoLeSD99j/E=;
+        b=d0r8FkOG3L4ruaxR7Mg2zdDALMB9JCcVuj4aurYimnzX64AVQzTGQiVZb51v2PhntL
+         80vj6UQRC8Hn5NsIu51vObj2HoebFSxTOJQRaqERrAO4nuZV6ePEx2JFvF+tMncxtK07
+         CX09wqF4vaqNvEJvkSmt/0XKbFCY46LW9rmXT2S40aG16oE3HXFE4R1y8jOyTbd9Ygv2
+         3/jqEDpFyeIxDx8MEav0N55BjyRMqfLZ7SphAYAQ8HAzMQqFkAevlB/6dnEqnms6JxgT
+         9D7TTR8orMMk2xZ1hwx0VEgIEua/Nz2WXGJS8M5l1YI44KTfTPqS8t8ehlXW6065KdUk
+         s1Mw==
+X-Gm-Message-State: AOAM5307x0zzbnRaCukSHWjT7pMgNQEzsFDB3ABwgO2PhGKkXzAcYa+D
+	GKeYBY8DF6lxQYqF3VDM6Y0=
+X-Google-Smtp-Source: ABdhPJwyZo7M9v9oTq0MC2DAArmuW17pnDqMMx5MQN3viGqRyyswS0Esyw61bJbNTggDDszdzo8IYA==
+X-Received: by 2002:a5d:414c:: with SMTP id c12mr21939668wrq.392.1619430974371;
+        Mon, 26 Apr 2021 02:56:14 -0700 (PDT)
+Received: from agape.jhs ([5.171.73.32])
+        by smtp.gmail.com with ESMTPSA id l20sm18251702wmg.33.2021.04.26.02.56.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Apr 2021 02:50:19 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: outreachy-kernel@googlegroups.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	David Kershner <david.kershner@unisys.com>,
+        Mon, 26 Apr 2021 02:56:14 -0700 (PDT)
+Date: Mon, 26 Apr 2021 11:56:11 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Deepak R Varma <drv@mailo.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Daniel Vetter <daniel@ffwll.ch>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [Outreachy kernel] [RFC PATCH] staging: unisys: visorhba: Convert module from IDR to XArray
-Date: Mon, 26 Apr 2021 11:50:15 +0200
-Message-Id: <20210426095015.18556-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.31.1
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND v3 2/6] staging: media: atomisp: balance braces
+ around if...else block
+Message-ID: <20210426095610.GA1418@agape.jhs>
+References: <cover.1619199344.git.drv@mailo.com>
+ <71220662c5facd746e56288cc74786c96fa3c5a7.1619199344.git.drv@mailo.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <71220662c5facd746e56288cc74786c96fa3c5a7.1619199344.git.drv@mailo.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Converted visorhba from IDR to XArray. The abstract data type XArray is
-more memory-efficient, parallelisable and cache friendly. It takes 
-advantage of RCU to perform lookups without locking.
+On Sun, Apr 25, 2021 at 02:12:20PM +0530, Deepak R Varma wrote:
+> Balance braces around the if else blocks as per the code style guidelines.
+> Resolves checkpatch script CHECK / WARNING feedback messages.
+> 
+> Signed-off-by: Deepak R Varma <drv@mailo.com>
+> ---
+> 
+> Changes since v2:
+>    - None.
+> Changes since v1:
+>    - None.
+> 
+>  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c  | 4 ++--
+>  drivers/staging/media/atomisp/i2c/atomisp-gc2235.c  | 4 ++--
+>  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 4 ++--
+>  drivers/staging/media/atomisp/i2c/atomisp-ov2680.c  | 7 ++++---
+>  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c  | 4 ++--
+>  5 files changed, 12 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> index 6be3ee1d93a5..d68a2bcc9ae1 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> @@ -872,9 +872,9 @@ static int gc0310_s_power(struct v4l2_subdev *sd, int on)
+>  {
+>  	int ret;
+>  
+> -	if (on == 0)
+> +	if (on == 0) {
+>  		return power_down(sd);
+> -	else {
+> +	} else {
+>  		ret = power_up(sd);
+>  		if (!ret)
+>  			return gc0310_init(sd);
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> index 6ba4a8adff7c..e722c639b60d 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> @@ -658,9 +658,9 @@ static int gc2235_s_power(struct v4l2_subdev *sd, int on)
+>  {
+>  	int ret;
+>  
+> -	if (on == 0)
+> +	if (on == 0) {
+>  		ret = power_down(sd);
+> -	else {
+> +	} else {
+>  		ret = power_up(sd);
+>  		if (!ret)
+>  			ret = __gc2235_init(sd);
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+> index f5de81132177..465fc4468442 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+> @@ -568,9 +568,9 @@ static int power_down(struct v4l2_subdev *sd)
+>  
+>  static int mt9m114_s_power(struct v4l2_subdev *sd, int power)
+>  {
+> -	if (power == 0)
+> +	if (power == 0) {
+>  		return power_down(sd);
+> -	else {
+> +	} else {
+>  		if (power_up(sd))
+>  			return -EINVAL;
+>  
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+> index c90730513438..92c52431bd8f 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+> @@ -461,11 +461,12 @@ static int ov2680_v_flip(struct v4l2_subdev *sd, s32 value)
+>  	ret = ov2680_read_reg(client, 1, OV2680_FLIP_REG, &val);
+>  	if (ret)
+>  		return ret;
+> -	if (value) {
+> +
+> +	if (value)
+>  		val |= OV2680_FLIP_MIRROR_BIT_ENABLE;
+> -	} else {
+> +	else
+>  		val &= ~OV2680_FLIP_MIRROR_BIT_ENABLE;
+> -	}
+> +
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- .../staging/unisys/visorhba/visorhba_main.c   | 107 +++++++-----------
- 1 file changed, 44 insertions(+), 63 deletions(-)
+Hi Deepak,
 
-diff --git a/drivers/staging/unisys/visorhba/visorhba_main.c b/drivers/staging/unisys/visorhba/visorhba_main.c
-index 4455d26f7c96..851e60ab0c46 100644
---- a/drivers/staging/unisys/visorhba/visorhba_main.c
-+++ b/drivers/staging/unisys/visorhba/visorhba_main.c
-@@ -6,10 +6,10 @@
- 
- #include <linux/debugfs.h>
- #include <linux/kthread.h>
--#include <linux/idr.h>
- #include <linux/module.h>
- #include <linux/seq_file.h>
- #include <linux/visorbus.h>
-+#include <linux/xarray.h>
- #include <scsi/scsi.h>
- #include <scsi/scsi_host.h>
- #include <scsi/scsi_cmnd.h>
-@@ -23,6 +23,8 @@
- #define MAX_PENDING_REQUESTS (MIN_NUMSIGNALS * 2)
- #define VISORHBA_ERROR_COUNT 30
- 
-+static DEFINE_XARRAY_ALLOC(xa_dtstr);
-+
- static struct dentry *visorhba_debugfs_dir;
- 
- /* GUIDS for HBA channel type supported by this driver */
-@@ -78,12 +80,6 @@ struct visorhba_devdata {
- 	unsigned int max_buff_len;
- 	int devnum;
- 	struct uiscmdrsp *cmdrsp;
--	/*
--	 * allows us to pass int handles back-and-forth between us and
--	 * iovm, instead of raw pointers
--	 */
--	struct idr idr;
--
- 	struct dentry *debugfs_dir;
- 	struct dentry *debugfs_info;
- };
-@@ -183,32 +179,16 @@ static struct uiscmdrsp *get_scsipending_cmdrsp(struct visorhba_devdata *ddata,
- }
- 
- /*
-- * simple_idr_get - Associate a provided pointer with an int value
-- *		    1 <= value <= INT_MAX, and return this int value;
-- *		    the pointer value can be obtained later by passing
-- *		    this int value to idr_find()
-- * @idrtable: The data object maintaining the pointer<-->int mappings
-- * @p:	      The pointer value to be remembered
-- * @lock:     A spinlock used when exclusive access to idrtable is needed
-- *
-- * Return: The id number mapped to pointer 'p', 0 on failure
-+ * simple_xa_dtstr_get - Store a pointer to xa_dtstr xarray
-+ * @id: Pointer to ID
-+ * @entry: New entry
-  */
--static unsigned int simple_idr_get(struct idr *idrtable, void *p,
--				   spinlock_t *lock)
-+static int simple_xa_dtstr_get(u32 *id, void *entry)
- {
--	int id;
--	unsigned long flags;
-+	int ret = xa_alloc_irq(&xa_dtstr, id, entry, xa_limit_32b, GFP_NOWAIT);
-+	/* TODO: check for and manage errors */
- 
--	idr_preload(GFP_KERNEL);
--	spin_lock_irqsave(lock, flags);
--	id = idr_alloc(idrtable, p, 1, INT_MAX, GFP_NOWAIT);
--	spin_unlock_irqrestore(lock, flags);
--	idr_preload_end();
--	/* failure */
--	if (id < 0)
--		return 0;
--	/* idr_alloc() guarantees > 0 */
--	return (unsigned int)(id);
-+	return ret;
- }
- 
- /*
-@@ -216,22 +196,25 @@ static unsigned int simple_idr_get(struct idr *idrtable, void *p,
-  *				completion processing logic for a taskmgmt
-  *				cmd will be able to find who to wake up
-  *				and where to stash the result
-- * @idrtable: The data object maintaining the pointer<-->int mappings
-- * @lock:     A spinlock used when exclusive access to idrtable is needed
-+ * @xa_dtstr: The data object maintaining the pointer<-->int mappings
-  * @cmdrsp:   Response from the IOVM
-  * @event:    The event handle to associate with an id
-  * @result:   The location to place the result of the event handle into
-  */
--static void setup_scsitaskmgmt_handles(struct idr *idrtable, spinlock_t *lock,
--				       struct uiscmdrsp *cmdrsp,
--				       wait_queue_head_t *event, int *result)
-+static void setup_scsitaskmgmt_handles(struct uiscmdrsp *cmdrsp,
-+				       wait_queue_head_t *event, u32 *result)
- {
--	/* specify the event that has to be triggered when this */
--	/* cmd is complete */
--	cmdrsp->scsitaskmgmt.notify_handle =
--		simple_idr_get(idrtable, event, lock);
--	cmdrsp->scsitaskmgmt.notifyresult_handle =
--		simple_idr_get(idrtable, result, lock);
-+	void *entry;
-+	int ret;
-+
-+	/* specify the event that has to be triggered when this cmd is complete */
-+	entry = &cmdrsp->scsitaskmgmt.notify_handle;
-+	ret = simple_xa_dtstr_get(result, entry);
-+	/* TODO: Check for and manage errors */
-+
-+	entry = &cmdrsp->scsitaskmgmt.notifyresult_handle;
-+	ret = simple_xa_dtstr_get(result, entry);
-+	/* TODO: Check for and manage errors */
- }
- 
- /*
-@@ -240,13 +223,17 @@ static void setup_scsitaskmgmt_handles(struct idr *idrtable, spinlock_t *lock,
-  * @idrtable: The data object maintaining the pointer<-->int mappings
-  * @cmdrsp:   Response from the IOVM
-  */
--static void cleanup_scsitaskmgmt_handles(struct idr *idrtable,
--					 struct uiscmdrsp *cmdrsp)
-+static void cleanup_scsitaskmgmt_handles(struct uiscmdrsp_scsitaskmgmt *scsitaskmgmt)
- {
--	if (cmdrsp->scsitaskmgmt.notify_handle)
--		idr_remove(idrtable, cmdrsp->scsitaskmgmt.notify_handle);
--	if (cmdrsp->scsitaskmgmt.notifyresult_handle)
--		idr_remove(idrtable, cmdrsp->scsitaskmgmt.notifyresult_handle);
-+	struct uiscmdrsp *cmdrsp;
-+	unsigned long index;
-+
-+	xa_for_each(&xa_dtstr, index, cmdrsp) {
-+		if (&cmdrsp->scsitaskmgmt != scsitaskmgmt)
-+			continue;
-+		xa_erase(&xa_dtstr, index);
-+		kfree(cmdrsp);
-+	}
- }
- 
- /*
-@@ -273,8 +260,7 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
- 	if (devdata->serverdown || devdata->serverchangingstate)
- 		return FAILED;
- 
--	scsicmd_id = add_scsipending_entry(devdata, CMD_SCSITASKMGMT_TYPE,
--					   NULL);
-+	scsicmd_id = add_scsipending_entry(devdata, CMD_SCSITASKMGMT_TYPE, NULL);
- 	if (scsicmd_id < 0)
- 		return FAILED;
- 
-@@ -284,8 +270,7 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
- 
- 	/* issue TASK_MGMT_ABORT_TASK */
- 	cmdrsp->cmdtype = CMD_SCSITASKMGMT_TYPE;
--	setup_scsitaskmgmt_handles(&devdata->idr, &devdata->privlock, cmdrsp,
--				   &notifyevent, &notifyresult);
-+	setup_scsitaskmgmt_handles(cmdrsp, &notifyevent, &notifyresult);
- 
- 	/* save destination */
- 	cmdrsp->scsitaskmgmt.tasktype = tasktype;
-@@ -311,14 +296,14 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
- 	dev_dbg(&scsidev->sdev_gendev,
- 		"visorhba: taskmgmt type=%d success; result=0x%x\n",
- 		 tasktype, notifyresult);
--	cleanup_scsitaskmgmt_handles(&devdata->idr, cmdrsp);
-+	cleanup_scsitaskmgmt_handles(&cmdrsp->scsitaskmgmt);
- 	return SUCCESS;
- 
- err_del_scsipending_ent:
- 	dev_dbg(&scsidev->sdev_gendev,
- 		"visorhba: taskmgmt type=%d not executed\n", tasktype);
- 	del_scsipending_ent(devdata, scsicmd_id);
--	cleanup_scsitaskmgmt_handles(&devdata->idr, cmdrsp);
-+	cleanup_scsitaskmgmt_handles(&cmdrsp->scsitaskmgmt);
- 	return FAILED;
- }
- 
-@@ -654,13 +639,12 @@ DEFINE_SHOW_ATTRIBUTE(info_debugfs);
-  * Service Partition returned the result of the task management
-  * command. Wake up anyone waiting for it.
-  */
--static void complete_taskmgmt_command(struct idr *idrtable,
--				      struct uiscmdrsp *cmdrsp, int result)
-+static void complete_taskmgmt_command(struct uiscmdrsp *cmdrsp, int result)
- {
- 	wait_queue_head_t *wq =
--		idr_find(idrtable, cmdrsp->scsitaskmgmt.notify_handle);
-+		xa_load(&xa_dtstr, cmdrsp->scsitaskmgmt.notify_handle);
- 	int *scsi_result_ptr =
--		idr_find(idrtable, cmdrsp->scsitaskmgmt.notifyresult_handle);
-+		xa_load(&xa_dtstr, cmdrsp->scsitaskmgmt.notifyresult_handle);
- 	if (unlikely(!(wq && scsi_result_ptr))) {
- 		pr_err("visorhba: no completion context; cmd will time out\n");
- 		return;
-@@ -708,8 +692,7 @@ static void visorhba_serverdown_complete(struct visorhba_devdata *devdata)
- 			break;
- 		case CMD_SCSITASKMGMT_TYPE:
- 			cmdrsp = pendingdel->sent;
--			complete_taskmgmt_command(&devdata->idr, cmdrsp,
--						  TASK_MGMT_FAILED);
-+			complete_taskmgmt_command(cmdrsp, TASK_MGMT_FAILED);
- 			break;
- 		default:
- 			break;
-@@ -905,7 +888,7 @@ static void drain_queue(struct uiscmdrsp *cmdrsp,
- 			if (!del_scsipending_ent(devdata,
- 						 cmdrsp->scsitaskmgmt.handle))
- 				break;
--			complete_taskmgmt_command(&devdata->idr, cmdrsp,
-+			complete_taskmgmt_command(cmdrsp,
- 						  cmdrsp->scsitaskmgmt.result);
- 		} else if (cmdrsp->cmdtype == CMD_NOTIFYGUEST_TYPE)
- 			dev_err_once(&devdata->dev->device,
-@@ -1053,8 +1036,6 @@ static int visorhba_probe(struct visor_device *dev)
- 	if (err)
- 		goto err_debugfs_info;
- 
--	idr_init(&devdata->idr);
--
- 	devdata->cmdrsp = kmalloc(sizeof(*devdata->cmdrsp), GFP_ATOMIC);
- 	visorbus_enable_channel_interrupts(dev);
- 
-@@ -1096,7 +1077,7 @@ static void visorhba_remove(struct visor_device *dev)
- 	scsi_remove_host(scsihost);
- 	scsi_host_put(scsihost);
- 
--	idr_destroy(&devdata->idr);
-+	xa_destroy(&xa_dtstr);
- 
- 	dev_set_drvdata(&dev->device, NULL);
- 	debugfs_remove(devdata->debugfs_info);
--- 
-2.31.1
+what you did above is not what is written in the commit message
+description about. Here unneeded bracks are removed in both
+branches, is not a matter of braces balancing.
 
+thank you,
+
+fabio 
+
+>  	ret = ov2680_write_reg(client, 1,
+>  			       OV2680_FLIP_REG, val);
+>  	if (ret)
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+> index aec7392fd1de..d046a9804f63 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+> @@ -772,9 +772,9 @@ static int ov2722_s_power(struct v4l2_subdev *sd, int on)
+>  {
+>  	int ret;
+>  
+> -	if (on == 0)
+> +	if (on == 0) {
+>  		return power_down(sd);
+> -	else {
+> +	} else {
+>  		ret = power_up(sd);
+>  		if (!ret)
+>  			return ov2722_init(sd);
+> -- 
+> 2.25.1
+> 
+> 
+> 
+> 
