@@ -1,96 +1,114 @@
-Received: from ustc.edu.cn (smtp2.ustc.edu.cn [202.38.64.46])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEE792F82
-	for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 14:18:08 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013D52F82
+	for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 14:26:04 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id j5so58723240wrn.4
+        for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 07:26:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mail.ustc.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-Id:MIME-Version:Content-Transfer-Encoding; bh=3kRlgrHU/R
-	zKvWpF9JGNE04REd3B6WRhvxi8qVtWdng=; b=mg8Mkadpd2f97VqjjF3KO0CVQ0
-	XrZrVP2tvXeAF3ufnjCbKuOMp7msOawu4NtOeF+Vu9vwXOMEwUCkJaMFUEQQm8Zz
-	wy4JyTmoz6VTd/o55sdVb5pDiuBCxdpICYWUFuoaHjfutuNR6cwBl+6vrcHq47W4
-	a++AlC2H2v0RGjT4Y=
-Received: from ubuntu.localdomain (unknown [202.38.69.14])
-	by newmailweb.ustc.edu.cn (Coremail) with SMTP id LkAmygDHzDSZG4hgy6tTAA--.6149S4;
-	Tue, 27 Apr 2021 22:11:37 +0800 (CST)
-From: Lv Yunlong <lyl2019@mail.ustc.edu.cn>
-To: rspringer@google.com,
-	toddpoynor@google.com,
-	benchan@chromium.org,
-	rcy@google.com,
-	gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Lv Yunlong <lyl2019@mail.ustc.edu.cn>
-Subject: [PATCH] Staging:gasket:core: Fix a double free in gasket_enable_device
-Date: Tue, 27 Apr 2021 07:11:29 -0700
-Message-Id: <20210427141129.6207-1-lyl2019@mail.ustc.edu.cn>
-X-Mailer: git-send-email 2.25.1
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=RwMvEObyLlKjSGQB/9hmAtzJSE09xxj6MxSNgN4PmDg=;
+        b=agw3pihNfoQx/rmG9lGzHPRnpPYrXsNJpXdMOjbVUrgEvLtwFuHTcLG/Sfu43S8NBu
+         nvBbsuzaPjVoYOG+SJ+dVtTSdPN9fLNrfAULOBwFmVUvZCvMjPOfOByQJCzOldf+issf
+         7/tOx35F9DuZZJ+Q3T/4qYAPalHVxeYaNJPEvtrrmgw+DoX9Hty1rBdNgDfV8nQekwdJ
+         wgcO4IYJrXCH1m1X0u5vTuCHeQYufzi499D6xFPXFhQLVRk3sJh2ZnIaceBGm/zsqNLU
+         joy+IaBjekSq5EIx9r90YBcHNel+cn0r1JgvRfRFHGX2y66eauywKyGOqlwqizVpt2cW
+         TTJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=RwMvEObyLlKjSGQB/9hmAtzJSE09xxj6MxSNgN4PmDg=;
+        b=JaCpE3lI5D4lkU+YuX34wjGvc5WZ4upP9zCNgn+EGA+yzq7c1FophOpNMRlxlMv5ub
+         rTd2/BrAHW2z5rLqgr+whIYADN0bPUeF/6w/x/cZOGEhSI0Z1vZw1PgWZ8PyHcZWi7oe
+         P8IE3WZMNhhy3ae+qS7V6gIqmouL7wXocSYTch4ntrVeXdtbKktrf9/2GP3SyU3pIbHe
+         ShFLtpefKiJXX4bf1t7rJBCthvK1bTYxhe6sPTcN0N0+T6WswP4UT6BW3dwkvgtsQOWS
+         Av/f5uAWw0x6AyfJWl1nBMMJ4QdAMkZCkuB1Hl0Hz/h7ezwH0c0kCxi19QVKZTvVU12Q
+         0hyw==
+X-Gm-Message-State: AOAM530cSIgcX1WXc0tuetqdEW6cuveCzvwnG3TB6VbTChsziVwn+WMI
+	zit55vbY3Yiim9mUY5fGdVg=
+X-Google-Smtp-Source: ABdhPJwO1y9ZUdpol4SaeaOvTVLho4jSt7rEK8qX01Ic5QLYtfAmkg67iQrVra9g3IPmDXAJH/Jn6A==
+X-Received: by 2002:adf:ea06:: with SMTP id q6mr5891373wrm.34.1619533563597;
+        Tue, 27 Apr 2021 07:26:03 -0700 (PDT)
+Received: from agape.jhs ([5.171.81.92])
+        by smtp.gmail.com with ESMTPSA id d5sm4182448wrv.43.2021.04.27.07.26.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Apr 2021 07:26:03 -0700 (PDT)
+Date: Tue, 27 Apr 2021 16:26:00 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Lv Yunlong <lyl2019@mail.ustc.edu.cn>
+Cc: rspringer@google.com, toddpoynor@google.com, benchan@chromium.org,
+	rcy@google.com, gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Staging:gasket:core: Fix a double free in
+ gasket_enable_device
+Message-ID: <20210427142559.GD1399@agape.jhs>
+References: <20210427141129.6207-1-lyl2019@mail.ustc.edu.cn>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:LkAmygDHzDSZG4hgy6tTAA--.6149S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7AF15Gr4rAw4xJr4UGFW3Jrb_yoW8CFy5pF
-	W8Cas8XrZrtw1Iyw4UJFW0yrs8Xrn8CryYka1vy3yUAr4DK348Xry7JFyUAFWYkFW3A3W3
-	ZrnYy3y5Z3yDJr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
-	F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
-	4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I
-	648v4I1lc2xSY4AK67AK6ry5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r
-	4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
-	67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
-	x0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAI
-	cVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
-	nxnUUI43ZEXa7VUbSdgPUUUUU==
-X-CM-SenderInfo: ho1ojiyrz6zt1loo32lwfovvfxof0/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210427141129.6207-1-lyl2019@mail.ustc.edu.cn>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-In gasket_enable_device, it calls gasket_interrupt_init().
-Inside gasket_interrupt_init, interrupt_data is allocated via
-kzalloc() and then is assigned to gasket_dev->interrupt_data.
-If the later two kzalloc() failed, interrupt_data will be freed
-and gasket_dev->interrupt_data will point to a freed memory.
+Hi Lv,
 
-After gasket_enable_device received the error, the freed
-gasket_dev->interrupt_data is freed again in
-gasket_interrupt_cleanup(gasket_dev).
+I fear gasket is no more on staging tree, I think it's no more on
+kernel. Try fetch again from remote.
 
-My patch moves the "gasket_dev->interrupt_data = interrupt_data"
-assignment behind the later kzalloc() all successd, to avoid
-gasket_dev->interrupt_data pointing to a freed memory
+On Tue, Apr 27, 2021 at 07:11:29AM -0700, Lv Yunlong wrote:
+> In gasket_enable_device, it calls gasket_interrupt_init().
+> Inside gasket_interrupt_init, interrupt_data is allocated via
+> kzalloc() and then is assigned to gasket_dev->interrupt_data.
+> If the later two kzalloc() failed, interrupt_data will be freed
+> and gasket_dev->interrupt_data will point to a freed memory.
+> 
+> After gasket_enable_device received the error, the freed
+> gasket_dev->interrupt_data is freed again in
+> gasket_interrupt_cleanup(gasket_dev).
+> 
+> My patch moves the "gasket_dev->interrupt_data = interrupt_data"
+> assignment behind the later kzalloc() all successd, to avoid
+> gasket_dev->interrupt_data pointing to a freed memory
+> 
+> Fixes: 80666096eb78f ("staging: gasket: core: remove static function forward declarations")
+> Signed-off-by: Lv Yunlong <lyl2019@mail.ustc.edu.cn>
+> ---
+>  drivers/staging/gasket/gasket_interrupt.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/gasket/gasket_interrupt.c b/drivers/staging/gasket/gasket_interrupt.c
+> index 864342acfd86..d4993d7abb87 100644
+> --- a/drivers/staging/gasket/gasket_interrupt.c
+> +++ b/drivers/staging/gasket/gasket_interrupt.c
+> @@ -322,7 +322,6 @@ int gasket_interrupt_init(struct gasket_dev *gasket_dev)
+>  	interrupt_data = kzalloc(sizeof(*interrupt_data), GFP_KERNEL);
+>  	if (!interrupt_data)
+>  		return -ENOMEM;
+> -	gasket_dev->interrupt_data = interrupt_data;
+>  	interrupt_data->name = driver_desc->name;
+>  	interrupt_data->type = driver_desc->interrupt_type;
+>  	interrupt_data->pci_dev = gasket_dev->pci_dev;
+> @@ -349,6 +348,8 @@ int gasket_interrupt_init(struct gasket_dev *gasket_dev)
+>  		return -ENOMEM;
+>  	}
+>  
+> +	gasket_dev->interrupt_data = interrupt_data;
+> +
+>  	switch (interrupt_data->type) {
+>  	case PCI_MSIX:
+>  		ret = gasket_interrupt_msix_init(interrupt_data);
+> -- 
+> 2.25.1
+> 
+> 
+> 
 
-Fixes: 80666096eb78f ("staging: gasket: core: remove static function forward declarations")
-Signed-off-by: Lv Yunlong <lyl2019@mail.ustc.edu.cn>
----
- drivers/staging/gasket/gasket_interrupt.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+thank you,
 
-diff --git a/drivers/staging/gasket/gasket_interrupt.c b/drivers/staging/gasket/gasket_interrupt.c
-index 864342acfd86..d4993d7abb87 100644
---- a/drivers/staging/gasket/gasket_interrupt.c
-+++ b/drivers/staging/gasket/gasket_interrupt.c
-@@ -322,7 +322,6 @@ int gasket_interrupt_init(struct gasket_dev *gasket_dev)
- 	interrupt_data = kzalloc(sizeof(*interrupt_data), GFP_KERNEL);
- 	if (!interrupt_data)
- 		return -ENOMEM;
--	gasket_dev->interrupt_data = interrupt_data;
- 	interrupt_data->name = driver_desc->name;
- 	interrupt_data->type = driver_desc->interrupt_type;
- 	interrupt_data->pci_dev = gasket_dev->pci_dev;
-@@ -349,6 +348,8 @@ int gasket_interrupt_init(struct gasket_dev *gasket_dev)
- 		return -ENOMEM;
- 	}
- 
-+	gasket_dev->interrupt_data = interrupt_data;
-+
- 	switch (interrupt_data->type) {
- 	case PCI_MSIX:
- 		ret = gasket_interrupt_msix_init(interrupt_data);
--- 
-2.25.1
-
-
+fabio
