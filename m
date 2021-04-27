@@ -1,48 +1,55 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8459F71
-	for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 16:58:52 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id s14so24418314pjl.5
-        for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 09:58:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1DE71
+	for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 17:22:46 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id s20so15427507plr.13
+        for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 10:22:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=1AGNuGHLiEZNEotvrW58K2H0R4feS2Mkobtfjgal6GU=;
-        b=fp3frHUFgW560Gvtc++SA6hXUnivhNELQJwkkzBLrc4kWLEbnNc7rEWa1jhwCb8Qk/
-         mTdkMOF4iACKWRVyjtoHayCy0lp/hy/Q/gy10W3kvqRCSdMVYVQxTOFco03UjLDuFhtq
-         1FYRsqEGElRiPsZBC2wG1pZ5Fqt5HgHgbCHH41aZyUCBDoI8OWRRKsfWYeyGK/PLdU5j
-         uRP0GfNLNpLC7pAmrwN9dR5x2zKwtMs/zT8cnJXt341ReeM078MBOf2U3aMVkr/qu6h3
-         Jbokw9Skat/wThbVnw6tTplxs5AKdZONrxvu3WMBlBRqi+z3rU0s4VVx0RM4KDNAHc7M
-         gp3g==
+        h=date:from:to:subject:message-id:reply-to:mime-version
+         :content-disposition;
+        bh=4aQcJ05qM8Bj1O99QnqWNUcSrtGTjkQQ9E6tg2L5a0M=;
+        b=eh487a0QFxf8+o2uBd5ApLOBCOSWbky45t2rhevKHrsCawD4OZ+fQoTAZyRv/e3W4I
+         JsFJdtNsorT5QcFZ3rJof+7apwxKjIJlhsJB1RHpkPwCTSGKsjx8OT5DWuRa8JmoGwdl
+         rr04iiji3RNYB86ksvG2rvLmd5ZPkvbDxpBESeaLj4zk79oEzBfLe/eXQwHs/ZxMi+Fy
+         KB7JXe6zfygiBuCo6ruGDcsmRUJAPrTvvQbkvUgV914FiUzb+IatXmKSSNvGWbrX5HH5
+         C+Zuhyy3iVVbrWXZBVrMtZZJMzv0f1bEbz+ypKoxMlRMO8H0sMPUsueYTl/4UgQNBy3A
+         Ti0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=1AGNuGHLiEZNEotvrW58K2H0R4feS2Mkobtfjgal6GU=;
-        b=BGBp5ssBK8rh9Bbij01MwxHVXEnZK7+IKmEbQoLr8eJ9Y7T0DD0UXsFo4KBbhxNdv/
-         zUy/478avUT1VhaSGNyJ8P1w05j4R+k5W2gtAaaijd2TbEEFXiDm6+B8YmiaIbrw8q7t
-         NsKyV54Ao0RGOkTxdS59kbw2GUC5hP5/67htk6H4VxctmO+QTKtwq/aKhv1w1rVQkBc1
-         V1Q9hjGZd9S/FdHydcC2auB8OUQR3tgldupIFQ3ZrvcCzu8lM4XiAhQr5X9GVpF1rMY2
-         u+uhpqcrNYqraOJXPity8kS/ZKX/OKb4EmwszKW+zqzF9u1xtBCU0dovRipOfcfyxOyM
-         NJFA==
-X-Gm-Message-State: AOAM530B66W//rMDvH/rwF/iN0kl4jKX/mN2cB/sc/8R0Wo9j6Whv0yb
-	QiuDI1mHvhto22UCEMF78aI=
-X-Google-Smtp-Source: ABdhPJx2oPd9GXcOgE+fgMaSbmoib0o3LyMBDpfz8ri4R+tmB4CUOlFF7ojgEOx6CGp6REYG0p49ow==
-X-Received: by 2002:a17:90a:3f08:: with SMTP id l8mr5898720pjc.136.1619542731876;
-        Tue, 27 Apr 2021 09:58:51 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:subject:message-id:reply-to
+         :mime-version:content-disposition;
+        bh=4aQcJ05qM8Bj1O99QnqWNUcSrtGTjkQQ9E6tg2L5a0M=;
+        b=ioU6Sulif42GklaOfJA/wreAFH1fDkLbkF3DW2NZQHTGuTWjudDFGvecGf5LPaXATm
+         kzWiXWh+CgogIYjkM1jcUyZzPZ+Kl53a4kR4cEebD7DD83iJkjClp6zp2yoG0DXBSuZ5
+         EiyrGVev9c8I80HlbIcSjSrd4qzU9pZOje2BpW4X2nNi6ReqSwq54PYLh+lCFf1EZq0/
+         oQXpNiS7ceW/JmuwE7L9gpNUSrKf52F0ETyzmEtyY36nlnJIEDOLtOKrqfkB1fQ5YO4y
+         OGtxoSVJd+pZuVTSSbiKzXVXoew7g4SWs3yptYTJMZuSvPu+KJNyntjOksV+5Pu+RAQn
+         o19Q==
+X-Gm-Message-State: AOAM530Ub25fAo6wfWFJdhVVqn/KqrB37aK/UYg6IB1lQl8xhu4VqqA1
+	EjL8jbWr+L1T4nDef6Vk2G8=
+X-Google-Smtp-Source: ABdhPJzmrkvDiStAmtd7+VGvZsI9pYupESy16PFw+F9Kq3HKRKavCuP0bioUmlFpVo2aME8RSxiWhw==
+X-Received: by 2002:a17:902:8d84:b029:eb:37bd:a3f7 with SMTP id v4-20020a1709028d84b02900eb37bda3f7mr25339714plo.26.1619544165761;
+        Tue, 27 Apr 2021 10:22:45 -0700 (PDT)
 Received: from ashish ([182.77.14.23])
-        by smtp.gmail.com with ESMTPSA id z17sm2840745pfe.181.2021.04.27.09.58.47
+        by smtp.gmail.com with ESMTPSA id i10sm2746126pjj.16.2021.04.27.10.22.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Apr 2021 09:58:48 -0700 (PDT)
-Date: Tue, 27 Apr 2021 16:58:44 +0000
+        Tue, 27 Apr 2021 10:22:45 -0700 (PDT)
+Date: Tue, 27 Apr 2021 17:22:40 +0000
 From: Ashish Kalra <eashishkalra@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ashish Kalra <eashishkalra@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+	Abheek Dhawan <adawesomeguy222@gmail.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Romain Perier <romain.perier@gmail.com>,
+	Waiman Long <longman@redhat.com>,
+	Allen Pais <apais@linux.microsoft.com>,
+	Ivan Safonov <insafonov@gmail.com>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
 Subject: [PATCH v2] staging: wlan-ng: silence incorrect type in argument 1
  (different address spaces)
-Message-ID: <20210427165844.GA35857@ashish>
+Message-ID: <20210427172240.GA36694@ashish>
+Reply-To: YIg3UcWgwElAsUnI@kroah.com
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -56,8 +63,8 @@ Corrected data type for variable data adding __user to make it cleaner and silen
 Signed-off-by: Ashish Kalra <eashishkalra@gmail.com>
 ---
 
-Changes from v1: removed type casting of (void __user *) for req->data and corrected type for data to include __user
----
+Changes from v1: removed type casting of (void __user *) for req->data and corrected type for data to include __user.
+
  drivers/staging/wlan-ng/p80211ioctl.h  | 2 +-
  drivers/staging/wlan-ng/p80211netdev.c | 4 ++--
  2 files changed, 3 insertions(+), 3 deletions(-)
