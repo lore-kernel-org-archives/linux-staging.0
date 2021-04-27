@@ -1,26 +1,25 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B06172
-	for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 11:06:26 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D2870613BD;
-	Tue, 27 Apr 2021 11:06:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6430A72
+	for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 11:07:23 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 14609613BF;
+	Tue, 27 Apr 2021 11:07:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1619521586;
-	bh=3JPNz4QHvRgaT51rdG6M27l4WPls5bAceUeZJjjnBPE=;
+	s=korg; t=1619521642;
+	bh=BRo/eDbvQlGm4UOtynp97IJmtV6Q9jckxoge1aD3P8U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ab5vCK9D+ZsU5FLMMOj3qRzZq/mkMGsgyw9ZpNNpPLhd1AiBZLqBcmNumHuUUSVAD
-	 SAu9oRf0wjQDfw2/MG0drcmBJdrzSESZK9R+qR7hfy0oo7/vV9dDfH9ij4+/RVb9xF
-	 6PccCR7OZoOk5nuGOrYuOPRAOFIqTrHhSuIxyAGw=
-Date: Tue, 27 Apr 2021 13:06:23 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: joe@perches.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 00/50] staging: rtl8723bs: remove all remaining debug
- macros in rtw_debug.h
-Message-ID: <YIfwL3s5hdRTCNrm@kroah.com>
-References: <cover.1619254603.git.fabioaiuto83@gmail.com>
+	b=jh9JnGp093zCnvaYasdWoryRUgj3/L5MRDmtQuQg+BjWAOQ5OEKlzlzlPzObTz7JH
+	 VbDJ1wAQrKlzmrXhiU8SgoM45udYfooPBeyhxbiU1X+pP71xcuOFSxzRHtud+Rj1Yz
+	 hgjA3Lg0mDE/PVEvfTG0zXZmwOvFuEt3V2SijFM0=
+Date: Tue, 27 Apr 2021 13:07:19 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] fbtft: Replace custom ->reset() with generic one
+Message-ID: <YIfwZ/oPVB9splQq@kroah.com>
+References: <20210416142044.17766-1-andriy.shevchenko@linux.intel.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -28,34 +27,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1619254603.git.fabioaiuto83@gmail.com>
+In-Reply-To: <20210416142044.17766-1-andriy.shevchenko@linux.intel.com>
 
-On Sat, Apr 24, 2021 at 11:01:43AM +0200, Fabio Aiuto wrote:
-> This patchset removes all remaining debug macros in rtw_debug.h
+On Fri, Apr 16, 2021 at 05:20:41PM +0300, Andy Shevchenko wrote:
+> The custom ->reset() repeats the generic one, replace it.
 > 
-> DBG_871X_SEL macro is replaced with netdev_dbg() for it does
-> a raw printk call which is not best recommended for a driver.
+> Note, in newer kernels the context of the function is a sleeping one,
+> it's fine to switch over to the sleeping functions. Keeping the reset
+> line asserted longer than 20 microseconds is also okay, it's an idling
+> state of the hardware.
 > 
-> @@
-> expression sel;
-> expression list args;
-> identifier padapter;
-> identifier func;
-> @@
-> 
-> func(..., struct adapter *padapter, ...) {
->         <...
-> -       DBG_871X_SEL(sel, args);
-> +       netdev_dbg(padapter->pnetdev, args);
->         ...>
-> 
-> unused _DBG_871X_LEVEL macro declaration is removed.
-> 
-> Beautified register dump in core/rtw_debug.c 
-> 
-> Some code cleaning is done and all other private component tracing
-> macros are removed.
+> Fixes: b2ebd4be6fa1 ("staging: fbtft: add fb_agm1264k-fl driver")
 
-Nice work, thanks for doing all of this!  Now queued up for 5.14-rc1.
+What does this "fix"?  A bug or just a "it shouldn't have been done this
+way"?
+
+And as others pointed out, if you could put "staging: fbtft:" as a
+prefix here, that would be much better.
+
+thanks,
 
 greg k-h
