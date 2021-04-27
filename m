@@ -1,118 +1,92 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95C172F80
-	for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 14:46:04 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id s20so15149977plr.13
-        for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 07:46:04 -0700 (PDT)
+Received: from ustc.edu.cn (smtp2.ustc.edu.cn [202.38.64.46])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AFA42F80
+	for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 15:02:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=2xFujiKNAg6k8WiwS+GsUKGoyhfviAT6MrFMuV7g0VY=;
-        b=W9bX/yQROiVEU3xK/9vtl2mZLT98Kf4hlhcJHT17XauZB0OobUBtWOaqq8wJa1NlXQ
-         ib1BezYVzqVtSsChKSGdWHq1fNK9XeMcnvEdY+Ol//OwKa6dqE/gqrJ2O3UkY7ydHHzd
-         4rnD+QGh3SAnIj/tzAFpm+hitGY0bug/yVgHKumed7qHGCmP6KOhxV1S1ecFZMNmDvjV
-         sIZ5Suh9mvggueaJ8s+V8VVdClx1yiuxnqohMQuqlQRarT9y6RioOa7u7lL0GVK/P9/e
-         yrzjO1nMMmMMz/+wH0L1mY7OVQ8k1SEDilBi34w5HTlOtAd5C7CsOvmcRKUbeXZ8+6Xo
-         6jTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=2xFujiKNAg6k8WiwS+GsUKGoyhfviAT6MrFMuV7g0VY=;
-        b=Slrv4rU0d1/TKN3TiMahJbhXG9K2QrqHm9QMpbtanPSs4C7aGt/n1xuTgPHBpotng0
-         me6b66QneIPCPvaNMZMbixPqtRyTOE5F1el0zY5buXuRfmHaTEP9euXmC2HkaJU0cKBe
-         mLbrMFfiK365yOBiz1NLb46ZYIGXwdYxp/uhCxO7i9ydSSKS8Q7wU9FqEKUXldCLdqro
-         UDJtEgxWfpmXXotqxCNk5fdc56faQzFUnUXaEqaoFRqkyTBsCgahZFsXB3LdldYy/PSG
-         z3rW8lkHMqmkmZPeD8Q/r7o7MSX0gzTTVAKBL9Sj9s0zvF+3gO9ogkW7IMMCczBQGdYy
-         7BBQ==
-X-Gm-Message-State: AOAM530Z9mXK7/GUCTHoouV63N4TT72ZMyl35nsn0odl/u6bm/X1e1W8
-	RHRJHY3iJJfH3Sc/nlGwv8U=
-X-Google-Smtp-Source: ABdhPJxtXvWCa9hLb5LLDNJ/OtEomusxQ80BJn1FFpa3wF54twM45iN+8HfzeIfYVJngMdxspzrk0Q==
-X-Received: by 2002:a17:90b:3686:: with SMTP id mj6mr5330388pjb.116.1619534763867;
-        Tue, 27 Apr 2021 07:46:03 -0700 (PDT)
-Received: from ashish ([182.77.14.23])
-        by smtp.gmail.com with ESMTPSA id o4sm2838199pfk.15.2021.04.27.07.45.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Apr 2021 07:46:02 -0700 (PDT)
-Date: Tue, 27 Apr 2021 14:45:56 +0000
-From: Ashish Kalra <eashishkalra@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Joe Perches <joe@perches.com>,
-	Abheek Dhawan <adawesomeguy222@gmail.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Romain Perier <romain.perier@gmail.com>,
-	Waiman Long <longman@redhat.com>,
-	Allen Pais <apais@linux.microsoft.com>,
-	Ivan Safonov <insafonov@gmail.com>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: eashishkalra@gmail.com
-Subject: [PATCH v2] staging: wlan-ng: silence incorrect type in argument 1
- (different address spaces) warningJoe Perches <joe@perches.com>,
-Message-ID: <20210427144556.GA19024@ashish>
+	d=mail.ustc.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
+	In-Reply-To:References:Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Message-ID; bh=Gkvpw9k4C4R5WqtmSRQWaLtw2u/7sFE8mz9z
+	xjVU/wU=; b=IKZ5BF2uZRMwJ5b/Cs3zoPS77fvlQdPpLcVPJNG4b+xkRKMmMZcD
+	5dKAKuTx3CBMnHBg9dM3Mt+uxpgKSHtQbiRhJ50UbEQ/uSYeM2izcSwg3X5kv9ds
+	SVM2MxXMUzyQhzO40iegM9ywpP/lM/IZ73vWrgOiwj0uOP5DhrLuZ5s=
+Received: by ajax-webmail-newmailweb.ustc.edu.cn (Coremail) ; Tue, 27 Apr
+ 2021 23:02:24 +0800 (GMT+08:00)
+X-Originating-IP: [202.38.69.14]
+Date: Tue, 27 Apr 2021 23:02:24 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: lyl2019@mail.ustc.edu.cn
+To: "Fabio Aiuto" <fabioaiuto83@gmail.com>
+Cc: rspringer@google.com, toddpoynor@google.com, benchan@chromium.org, 
+	rcy@google.com, gregkh@linuxfoundation.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: Re: [PATCH] Staging:gasket:core: Fix a double free in
+ gasket_enable_device
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT3.0.8 dev build
+ 20190610(cb3344cf) Copyright (c) 2002-2021 www.mailtech.cn ustc-xl
+In-Reply-To: <20210427142559.GD1399@agape.jhs>
+References: <20210427141129.6207-1-lyl2019@mail.ustc.edu.cn>
+ <20210427142559.GD1399@agape.jhs>
+X-SendMailWithSms: false
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Message-ID: <36b65d1b.64610.17913da4e10.Coremail.lyl2019@mail.ustc.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:LkAmygCnrpaAJ4hgKgxUAA--.4W
+X-CM-SenderInfo: ho1ojiyrz6zt1loo32lwfovvfxof0/1tbiAQsEBlQhn6cqjwAMss
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
 
-Abheek Dhawan <adawesomeguy222@gmail.com>,
-Johannes Weiner <hannes@cmpxchg.org>,
-Romain Perier <romain.perier@gmail.com>,
-Waiman Long <longman@redhat.com>,
-Allen Pais <apais@linux.microsoft.com>,
-Ivan Safonov <insafonov@gmail.com>,
-linux-staging@lists.linux.dev,
-linux-kernel@vger.kernel.org
-Upon running sparse, "warning: incorrect type in argument 1 (different
-address spaces) is brought to notice for this file.let's correct data type for
-variable data adding __user to make it cleaner and silence the Sparse
-warning. This is version 2 of the patch, version 1 can be found at
-https://lkml.org/lkml/2021/4/20/203
-
-Signed-off-by: Ashish Kalra <eashishkalra@gmail.com>
----
- drivers/staging/wlan-ng/p80211ioctl.h  | 2 +-
- drivers/staging/wlan-ng/p80211netdev.c | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/wlan-ng/p80211ioctl.h b/drivers/staging/wlan-ng/p80211ioctl.h
-index ed65ac57a..77e8d2913 100644
---- a/drivers/staging/wlan-ng/p80211ioctl.h
-+++ b/drivers/staging/wlan-ng/p80211ioctl.h
-@@ -81,7 +81,7 @@
- 
- struct p80211ioctl_req {
- 	char name[WLAN_DEVNAMELEN_MAX];
--	caddr_t data;
-+	char __user *data;
- 	u32 magic;
- 	u16 len;
- 	u32 result;
-diff --git a/drivers/staging/wlan-ng/p80211netdev.c b/drivers/staging/wlan-ng/p80211netdev.c
-index 70570e8a5..dfb2d2832 100644
---- a/drivers/staging/wlan-ng/p80211netdev.c
-+++ b/drivers/staging/wlan-ng/p80211netdev.c
-@@ -569,7 +569,7 @@ static int p80211knetdev_do_ioctl(struct net_device *dev,
- 		goto bail;
- 	}
- 
--	msgbuf = memdup_user((void __user *)req->data, req->len);
-+	msgbuf = memdup_user(req->data, req->len);
- 	if (IS_ERR(msgbuf)) {
- 		result = PTR_ERR(msgbuf);
- 		goto bail;
-@@ -579,7 +579,7 @@ static int p80211knetdev_do_ioctl(struct net_device *dev,
- 
- 	if (result == 0) {
- 		if (copy_to_user
--		    ((void __user *)req->data, msgbuf, req->len)) {
-+		    (req->data, msgbuf, req->len)) {
- 			result = -EFAULT;
- 		}
- 	}
--- 
-2.25.1
-
+DQoNCg0KPiAtLS0tLeWOn+Wni+mCruS7ti0tLS0tDQo+IOWPkeS7tuS6ujogIkZhYmlvIEFpdXRv
+IiA8ZmFiaW9haXV0bzgzQGdtYWlsLmNvbT4NCj4g5Y+R6YCB5pe26Ze0OiAyMDIxLTA0LTI3IDIy
+OjI2OjAwICjmmJ/mnJ/kuowpDQo+IOaUtuS7tuS6ujogIkx2IFl1bmxvbmciIDxseWwyMDE5QG1h
+aWwudXN0Yy5lZHUuY24+DQo+IOaKhOmAgTogcnNwcmluZ2VyQGdvb2dsZS5jb20sIHRvZGRwb3lu
+b3JAZ29vZ2xlLmNvbSwgYmVuY2hhbkBjaHJvbWl1bS5vcmcsIHJjeUBnb29nbGUuY29tLCBncmVn
+a2hAbGludXhmb3VuZGF0aW9uLm9yZywgbGludXgtc3RhZ2luZ0BsaXN0cy5saW51eC5kZXYsIGxp
+bnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcNCj4g5Li76aKYOiBSZTogW1BBVENIXSBTdGFnaW5n
+Omdhc2tldDpjb3JlOiBGaXggYSBkb3VibGUgZnJlZSBpbiBnYXNrZXRfZW5hYmxlX2RldmljZQ0K
+PiANCj4gSGkgTHYsDQo+IA0KPiBJIGZlYXIgZ2Fza2V0IGlzIG5vIG1vcmUgb24gc3RhZ2luZyB0
+cmVlLCBJIHRoaW5rIGl0J3Mgbm8gbW9yZSBvbg0KPiBrZXJuZWwuIFRyeSBmZXRjaCBhZ2FpbiBm
+cm9tIHJlbW90ZS4NCj4gDQo+IE9uIFR1ZSwgQXByIDI3LCAyMDIxIGF0IDA3OjExOjI5QU0gLTA3
+MDAsIEx2IFl1bmxvbmcgd3JvdGU6DQo+ID4gSW4gZ2Fza2V0X2VuYWJsZV9kZXZpY2UsIGl0IGNh
+bGxzIGdhc2tldF9pbnRlcnJ1cHRfaW5pdCgpLg0KPiA+IEluc2lkZSBnYXNrZXRfaW50ZXJydXB0
+X2luaXQsIGludGVycnVwdF9kYXRhIGlzIGFsbG9jYXRlZCB2aWENCj4gPiBremFsbG9jKCkgYW5k
+IHRoZW4gaXMgYXNzaWduZWQgdG8gZ2Fza2V0X2Rldi0+aW50ZXJydXB0X2RhdGEuDQo+ID4gSWYg
+dGhlIGxhdGVyIHR3byBremFsbG9jKCkgZmFpbGVkLCBpbnRlcnJ1cHRfZGF0YSB3aWxsIGJlIGZy
+ZWVkDQo+ID4gYW5kIGdhc2tldF9kZXYtPmludGVycnVwdF9kYXRhIHdpbGwgcG9pbnQgdG8gYSBm
+cmVlZCBtZW1vcnkuDQo+ID4gDQo+ID4gQWZ0ZXIgZ2Fza2V0X2VuYWJsZV9kZXZpY2UgcmVjZWl2
+ZWQgdGhlIGVycm9yLCB0aGUgZnJlZWQNCj4gPiBnYXNrZXRfZGV2LT5pbnRlcnJ1cHRfZGF0YSBp
+cyBmcmVlZCBhZ2FpbiBpbg0KPiA+IGdhc2tldF9pbnRlcnJ1cHRfY2xlYW51cChnYXNrZXRfZGV2
+KS4NCj4gPiANCj4gPiBNeSBwYXRjaCBtb3ZlcyB0aGUgImdhc2tldF9kZXYtPmludGVycnVwdF9k
+YXRhID0gaW50ZXJydXB0X2RhdGEiDQo+ID4gYXNzaWdubWVudCBiZWhpbmQgdGhlIGxhdGVyIGt6
+YWxsb2MoKSBhbGwgc3VjY2Vzc2QsIHRvIGF2b2lkDQo+ID4gZ2Fza2V0X2Rldi0+aW50ZXJydXB0
+X2RhdGEgcG9pbnRpbmcgdG8gYSBmcmVlZCBtZW1vcnkNCj4gPiANCj4gPiBGaXhlczogODA2NjYw
+OTZlYjc4ZiAoInN0YWdpbmc6IGdhc2tldDogY29yZTogcmVtb3ZlIHN0YXRpYyBmdW5jdGlvbiBm
+b3J3YXJkIGRlY2xhcmF0aW9ucyIpDQo+ID4gU2lnbmVkLW9mZi1ieTogTHYgWXVubG9uZyA8bHls
+MjAxOUBtYWlsLnVzdGMuZWR1LmNuPg0KPiA+IC0tLQ0KPiA+ICBkcml2ZXJzL3N0YWdpbmcvZ2Fz
+a2V0L2dhc2tldF9pbnRlcnJ1cHQuYyB8IDMgKystDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAyIGlu
+c2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9zdGFnaW5nL2dhc2tldC9nYXNrZXRfaW50ZXJydXB0LmMgYi9kcml2ZXJzL3N0YWdpbmcvZ2Fz
+a2V0L2dhc2tldF9pbnRlcnJ1cHQuYw0KPiA+IGluZGV4IDg2NDM0MmFjZmQ4Ni4uZDQ5OTNkN2Fi
+Yjg3IDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvc3RhZ2luZy9nYXNrZXQvZ2Fza2V0X2ludGVy
+cnVwdC5jDQo+ID4gKysrIGIvZHJpdmVycy9zdGFnaW5nL2dhc2tldC9nYXNrZXRfaW50ZXJydXB0
+LmMNCj4gPiBAQCAtMzIyLDcgKzMyMiw2IEBAIGludCBnYXNrZXRfaW50ZXJydXB0X2luaXQoc3Ry
+dWN0IGdhc2tldF9kZXYgKmdhc2tldF9kZXYpDQo+ID4gIAlpbnRlcnJ1cHRfZGF0YSA9IGt6YWxs
+b2Moc2l6ZW9mKCppbnRlcnJ1cHRfZGF0YSksIEdGUF9LRVJORUwpOw0KPiA+ICAJaWYgKCFpbnRl
+cnJ1cHRfZGF0YSkNCj4gPiAgCQlyZXR1cm4gLUVOT01FTTsNCj4gPiAtCWdhc2tldF9kZXYtPmlu
+dGVycnVwdF9kYXRhID0gaW50ZXJydXB0X2RhdGE7DQo+ID4gIAlpbnRlcnJ1cHRfZGF0YS0+bmFt
+ZSA9IGRyaXZlcl9kZXNjLT5uYW1lOw0KPiA+ICAJaW50ZXJydXB0X2RhdGEtPnR5cGUgPSBkcml2
+ZXJfZGVzYy0+aW50ZXJydXB0X3R5cGU7DQo+ID4gIAlpbnRlcnJ1cHRfZGF0YS0+cGNpX2RldiA9
+IGdhc2tldF9kZXYtPnBjaV9kZXY7DQo+ID4gQEAgLTM0OSw2ICszNDgsOCBAQCBpbnQgZ2Fza2V0
+X2ludGVycnVwdF9pbml0KHN0cnVjdCBnYXNrZXRfZGV2ICpnYXNrZXRfZGV2KQ0KPiA+ICAJCXJl
+dHVybiAtRU5PTUVNOw0KPiA+ICAJfQ0KPiA+ICANCj4gPiArCWdhc2tldF9kZXYtPmludGVycnVw
+dF9kYXRhID0gaW50ZXJydXB0X2RhdGE7DQo+ID4gKw0KPiA+ICAJc3dpdGNoIChpbnRlcnJ1cHRf
+ZGF0YS0+dHlwZSkgew0KPiA+ICAJY2FzZSBQQ0lfTVNJWDoNCj4gPiAgCQlyZXQgPSBnYXNrZXRf
+aW50ZXJydXB0X21zaXhfaW5pdChpbnRlcnJ1cHRfZGF0YSk7DQo+ID4gLS0gDQo+ID4gMi4yNS4x
+DQo+ID4gDQo+ID4gDQo+ID4gDQo+IA0KPiB0aGFuayB5b3UsDQo+IA0KPiBmYWJpbw0KDQoNClRo
+YW5rcyBmb3IgeW91ciByZW1pbmRlci4NCg==
