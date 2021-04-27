@@ -1,32 +1,29 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08CC32F82
-	for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 13:57:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=2EZ9wMn5IsrCWzyEdIPf+KOdPnl6OIWHe1m9e0dWRa8=; b=kBL8O9EWg/3wmo7Rz/ngkPBWvv
-	/lDdibrv2XDWvOvRxeCuN6GBui4ZCegmuOEt0hj4oRbjRSHiTPOYscLy22+WWBpi1LG0CIpEEPe/7
-	PE/hqkFuZJMa5lxF32I8uQp7pKtZP1a0AEIHL2W5P3KUOVoozDSosJw+GVBzTpzEn6JcTEEe0suNG
-	WnbpyRZEhUIpLmlyraJE3EoJ/VQIt2/S/9h/6uxmSQ52AvaIzhBVgkQPwgHaB+ARVtkYARELujmYf
-	BbW9WvwIPcb5CTXNnHIIljHUtpXGDHSXlmh/kXYAdlQfueNAJ+Xf/oUBv5I+WzIPJmfHIzVcIJRkZ
-	zZe9U5nA==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-	id 1lbOC6-006zBS-0S; Tue, 27 Apr 2021 13:56:33 +0000
-Date: Tue, 27 Apr 2021 14:56:05 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: outreachy-kernel@googlegroups.com,
-	David Kershner <david.kershner@unisys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [Outreachy kernel] [PATCH v4] staging: unisys: visorhba: Convert
- module from IDR to XArray
-Message-ID: <20210427135605.GZ235567@casper.infradead.org>
-References: <20210427132522.14547-1-fmdefrancesco@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252352F82
+	for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 14:03:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 063CD61001;
+	Tue, 27 Apr 2021 14:03:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1619532187;
+	bh=/oRC6bU/WlpKeL0v44CHbiXsIRtQhAw5FoWqv7sbxi4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=y0whrowBP4F3bTfk9npzU6Qub6BIsl7Y0U3P8/e4EjxyHrUqoYVyrbrCFXdEbyaLS
+	 7e6o58/riAmhZkpGSKxvwo2FsImDCNEBJw9NrVrHdpOi3QrPrMbC42czl1l/XPjZYe
+	 S8IF09ipjqT1Igu3cBUjPS85xBFgdmP2w9NnOXwg=
+Date: Tue, 27 Apr 2021 16:03:04 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc: joe@perches.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 50/50] staging: rtl8723bs: macro DRIVER_PREFIX expands
+ to lowercase driver name
+Message-ID: <YIgZmPf9JckEyEpI@kroah.com>
+References: <cover.1619254603.git.fabioaiuto83@gmail.com>
+ <c986e9a3c9b2f73cb784bd5dc7c877eb9a669c89.1619254603.git.fabioaiuto83@gmail.com>
+ <YIfvqU2bEpDSj/hK@kroah.com>
+ <20210427124134.GA1399@agape.jhs>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -34,45 +31,55 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210427132522.14547-1-fmdefrancesco@gmail.com>
+In-Reply-To: <20210427124134.GA1399@agape.jhs>
 
-On Tue, Apr 27, 2021 at 03:25:22PM +0200, Fabio M. De Francesco wrote:
-> +++ b/drivers/staging/unisys/include/iochannel.h
-> @@ -474,8 +474,8 @@ struct uiscmdrsp_scsitaskmgmt {
->  	enum task_mgmt_types tasktype;
->  	struct uisscsi_dest vdest;
->  	u64 handle;
-> -	u64 notify_handle;
-> -	u64 notifyresult_handle;
-> +	u32 notify_handle;
-> +	u32 notifyresult_handle;
->  	char result;
->  
->  #define TASK_MGMT_FAILED 0
+On Tue, Apr 27, 2021 at 02:41:35PM +0200, Fabio Aiuto wrote:
+> On Tue, Apr 27, 2021 at 01:04:09PM +0200, Greg KH wrote:
+> > On Sat, Apr 24, 2021 at 11:02:33AM +0200, Fabio Aiuto wrote:
+> > > macro DRIVER_PREFIX expands to lowercase driver name.
+> > > 
+> > > Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+> > > ---
+> > >  drivers/staging/rtl8723bs/include/rtw_debug.h | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/staging/rtl8723bs/include/rtw_debug.h b/drivers/staging/rtl8723bs/include/rtw_debug.h
+> > > index 189f02a8300a..3a5b083e95a1 100644
+> > > --- a/drivers/staging/rtl8723bs/include/rtw_debug.h
+> > > +++ b/drivers/staging/rtl8723bs/include/rtw_debug.h
+> > > @@ -7,7 +7,7 @@
+> > >  #ifndef __RTW_DEBUG_H__
+> > >  #define __RTW_DEBUG_H__
+> > >  
+> > > -#define DRIVER_PREFIX "RTL8723BS: "
+> > > +#define DRIVER_PREFIX "rtl8723bs: "
+> > 
+> > KBUILD_MODNAME should be used here, in the future.
+> 
+> ok, got it
+> 
+> > 
+> > But really, this shouldn't be needed at all, it's kind of pointless (if
+> > it is being used, then odds are the places it is being used is wrong...)
+> > 
+> > thanks,
+> > 
+> > greg k-h
+> 
+> fabio@agape:~/src/git/kernels/staging$ grep -r DRIVER_PREFIX drivers/staging/rtl8723bs/
+> drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c:	print_hex_dump_debug(DRIVER_PREFIX ": u1H2CRsvdPageParm:", DUMP_PREFIX_NONE,
+> drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c:	print_hex_dump_debug(DRIVER_PREFIX ": u1H2CMediaStatusRptParm:", DUMP_PREFIX_NONE,
+> drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c:	print_hex_dump_debug(DRIVER_PREFIX ": u1H2CMacIdConfigParm:", DUMP_PREFIX_NONE,
+> drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c:	print_hex_dump_debug(DRIVER_PREFIX ": u1H2CRssiSettingParm:", DUMP_PREFIX_NONE,
+> drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c:	print_hex_dump_debug(DRIVER_PREFIX ": u1H2CPwrModeParm:", DUMP_PREFIX_NONE,
+> drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c:	print_hex_dump_debug(DRIVER_PREFIX ": u1H2CPsTuneParm:", DUMP_PREFIX_NONE,
+> drivers/staging/rtl8723bs/hal/hal_com.c:	print_hex_dump_debug(DRIVER_PREFIX ": c2h_evt_read(): ", DUMP_PREFIX_NONE,
+> drivers/staging/rtl8723bs/hal/hal_com.c:	print_hex_dump_debug(DRIVER_PREFIX ": c2h_evt_read(): Command Content:\n",
+> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:	print_hex_dump_debug(DRIVER_PREFIX ": C2HPacketHandler_8723B(): Command Content:\n",
 
-I'm scared of this change.  Read the top of the file:
+Drivers should not be dumping hex data like this to the kernel log, I
+bet they can all be removed :)
 
- * Everything needed for IOPart-GuestPart communication is define in
- * this file. Note: Everything is OS-independent because this file is
- * used by Windows, Linux and possible EFI drivers.
+thanks,
 
-I don't know that you can make any changes to this file.
-
-> +static void setup_scsitaskmgmt_handles(struct xarray *xa, struct uiscmdrsp *cmdrsp,
->  				       wait_queue_head_t *event, int *result)
->  {
-> -	/* specify the event that has to be triggered when this */
-> -	/* cmd is complete */
-> -	cmdrsp->scsitaskmgmt.notify_handle =
-> -		simple_idr_get(idrtable, event, lock);
-> -	cmdrsp->scsitaskmgmt.notifyresult_handle =
-> -		simple_idr_get(idrtable, result, lock);
-> +	int ret;
-> +	u32 *id;
-> +
-> +	/* specify the event that has to be triggered when this cmd is complete */
-> +	id = &cmdrsp->scsitaskmgmt.notify_handle;
-> +	ret = xa_alloc_irq(xa, id, event, XA_LIMIT(1, INT_MAX), GFP_KERNEL);
-
-You're still not handling the error here.
-
+greg k-h
