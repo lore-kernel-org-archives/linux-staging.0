@@ -1,173 +1,62 @@
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D8792F80
-	for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 00:08:35 +0000 (UTC)
-Received: from ip6-localhost (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 13QNi8nL025548;
-	Mon, 26 Apr 2021 18:44:08 -0500
-Message-ID: <3677398ebb77f334abb4899770db633d9658fe82.camel@kernel.crashing.org>
-Subject: Re: [PATCH net-next v4 2/2] of: net: fix of_get_mac_addr_nvmem()
- for non-platform devices
-From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-To: Michael Walle <michael@walle.cc>, Rob Herring <robh+dt@kernel.org>
-Cc: QCA ath9k Development <ath9k-devel@qca.qualcomm.com>,
-        Microchip Linux
- Driver Support <UNGLinuxDriver@microchip.com>,
-        linux-arm-kernel
- <linux-arm-kernel@lists.infradead.org>,
-        linux-kernel@vger.kernel.org,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        netdev
- <netdev@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support"
- <linux-mediatek@lists.infradead.org>,
-        "open list:MEDIA DRIVERS FOR RENESAS
- - FCP" <linux-renesas-soc@vger.kernel.org>,
-        "moderated list:ARM/STM32
- ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>,
-        "open
- list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
-        linux-oxnas@groups.io, linux-omap <linux-omap@vger.kernel.org>,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
-        Andrew Lunn
- <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian
- Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Russell King
- <linux@armlinux.org.uk>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul
- Mackerras <paulus@samba.org>,
-        Andreas Larsson <andreas@gaisler.com>,
-        "David
- S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, Maxime
- Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec
- <jernej.skrabec@siol.net>,
-        Joyce Ooi <joyce.ooi@intel.com>, Chris Snook
- <chris.snook@gmail.com>,
-        =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?=
- <rafal@milecki.pl>,
-        "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
- <bcm-kernel-feedback-list@broadcom.com>,
-        Florian Fainelli
- <f.fainelli@gmail.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Sunil Goutham
- <sgoutham@marvell.com>,
-        Fugang Duan <fugang.duan@nxp.com>,
-        Madalin Bucur
- <madalin.bucur@nxp.com>,
-        Pantelis Antoniou <pantelis.antoniou@gmail.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>, Li Yang <leoyang.li@nxp.com>,
-        Yisen Zhuang <yisen.zhuang@huawei.com>,
-        Salil Mehta
- <salil.mehta@huawei.com>,
-        Hauke Mehrtens <hauke@hauke-m.de>,
-        Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>,
-        Vadym Kochan
- <vkochan@marvell.com>,
-        Taras Chornyi <tchornyi@marvell.com>,
-        Mirko Lindner
- <mlindner@marvell.com>,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>,
-        Sean Wang
- <sean.wang@mediatek.com>,
-        Mark Lee <Mark-MC.Lee@mediatek.com>,
-        Matthias
- Brugger <matthias.bgg@gmail.com>,
-        Bryan Whitehead
- <bryan.whitehead@microchip.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sergei
- Shtylyov <sergei.shtylyov@gmail.com>,
-        Byungho An <bh74.an@samsung.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Giuseppe Cavallaro
- <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Jose
- Abreu <joabreu@synopsys.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam
- <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Kevin Hilman
- <khilman@baylibre.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Jerome
- Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        Grygorii Strashko
- <grygorii.strashko@ti.com>,
-        Wingman Kwok <w-kwok2@ti.com>, Murali Karicheri
- <m-karicheri2@ti.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Radhey Shyam
- Pandey <radhey.shyam.pandey@xilinx.com>,
-        Kalle Valo
- <kvalo@codeaurora.org>,
-        Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>,
-        Ryder Lee <ryder.lee@mediatek.com>, Stanislaw Gruszka <stf_xl@wp.pl>,
-        Helmut Schaa <helmut.schaa@googlemail.com>,
-        Heiner Kallweit
- <hkallweit1@gmail.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?ISO-8859-1?Q?J=E9r=F4me?=
- Pouiller <jerome.pouiller@silabs.com>,
-        Vivien Didelot
- <vivien.didelot@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>
-Date: Tue, 27 Apr 2021 09:44:07 +1000
-In-Reply-To: <108f268a35843368466004f7fe5f9f88@walle.cc>
-References: <20210412174718.17382-1-michael@walle.cc>
-	 <20210412174718.17382-3-michael@walle.cc>
-	 <730d603b12e590c56770309b4df2bd668f7afbe3.camel@kernel.crashing.org>
-	 <8157eba9317609294da80472622deb28@walle.cc>
-	 <CAL_JsqLrx6nFZrKiEtm2a1vDvQGG+FkpGtJCG2osM8hhGo3P=Q@mail.gmail.com>
-	 <108f268a35843368466004f7fe5f9f88@walle.cc>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.4-0ubuntu1 
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C762F82
+	for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 06:22:10 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0536A610FB;
+	Tue, 27 Apr 2021 06:22:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1619504530;
+	bh=gyRZOb++YF8JYaY69vWwYHNhGdItpAOrKimCZDl4mes=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qZdLuYmn9kiKr7NHOGuUopAOCVVH3RCLBD08HrgyPV6fYI2eERpGcheCgXGOnZUJq
+	 B0iUJDofrajN2dY9TlIfn+BQtd7sNqOaCA5ZB0dyY1hZe/mwdy3zToPnJF6qlUwt0S
+	 YrFecd+c+P9tf0qvzfawuyyLxAVcUoMNG8obDn+E=
+Date: Tue, 27 Apr 2021 08:22:04 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Stephen Rothwell <sfr@rothwell.id.au>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	devel@linuxdriverproject.org,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-staging@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Olof Johansson <olof@lixom.net>, Arnd Bergmann <arnd@arndb.de>,
+	ARM <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [GIT PULL] Staging/IIO driver updates for 5.13-rc1
+Message-ID: <YIetjCa11gzUPos7@kroah.com>
+References: <YIa2ErYuJyCfSkS+@kroah.com>
+ <20210427002648.22459fa7@elm.ozlabs.ibm.com>
+ <YIbYI2825E4Z2b/3@kroah.com>
+ <CAHk-=wgWLrNQeV20DiCnJVQpfKFkbtC+8=rAqt-wyBFMrHToEw@mail.gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wgWLrNQeV20DiCnJVQpfKFkbtC+8=rAqt-wyBFMrHToEw@mail.gmail.com>
 
-On Mon, 2021-04-26 at 12:54 +0200, Michael Walle wrote:
-> Before I'll try to come up with a patch for this, I'd like to get
-> your opinion on it.
+On Mon, Apr 26, 2021 at 11:18:49AM -0700, Linus Torvalds wrote:
+> On Mon, Apr 26, 2021 at 8:11 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+> >
+> > Yeah, merge issues with other trees are hard to resolve in the single
+> > tree here, not much I can just yet, have to wait for them to hit Linus's
+> > tree.
 > 
-> (1) replacing of_get_mac_address(node) with eth_get_mac_address(dev)
->      might sometimes lead to confusing comments like in
->      drivers/net/ethernet/allwinner/sun4i-emac.c:
+> It's generally a good idea to mention these things if you know about
+> them, just in case the other tree had come in in the meantime and I
+> had merged it first.
 > 
->      /* Read MAC-address from DT */
->      ret = of_get_mac_address(np, ndev->dev_addr);
+> That didn't happen this time, and I do generally catch these things
+> anyway as long as they at least trigger problems for my usual x86-64
+> allmodconfig builds (but not everything does trigger that).
 
-You could leave it or turn it into "from platform", doesn't matter...
+Sorry, will mention it next time when I know it's going to happen with
+another tree like this.
 
-> (2) What do you think of eth_get_mac_address(ndev). That is, the
+Thanks for pulling,
 
-Not sure what you mean, eth_platform_get_mac_address() takes the
-address as an argument. I think what you want is a consolidated
-nvmem_get_mac_address + eth_platform_get_mac_address that takes a
-device, which would have no requirement of the bus_type at all.
-
-Cheers,
-Ben.
-
+greg k-h
