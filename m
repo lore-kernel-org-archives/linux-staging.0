@@ -1,29 +1,54 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252352F82
-	for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 14:03:08 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 063CD61001;
-	Tue, 27 Apr 2021 14:03:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1619532187;
-	bh=/oRC6bU/WlpKeL0v44CHbiXsIRtQhAw5FoWqv7sbxi4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=y0whrowBP4F3bTfk9npzU6Qub6BIsl7Y0U3P8/e4EjxyHrUqoYVyrbrCFXdEbyaLS
-	 7e6o58/riAmhZkpGSKxvwo2FsImDCNEBJw9NrVrHdpOi3QrPrMbC42czl1l/XPjZYe
-	 S8IF09ipjqT1Igu3cBUjPS85xBFgdmP2w9NnOXwg=
-Date: Tue, 27 Apr 2021 16:03:04 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: joe@perches.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 50/50] staging: rtl8723bs: macro DRIVER_PREFIX expands
- to lowercase driver name
-Message-ID: <YIgZmPf9JckEyEpI@kroah.com>
-References: <cover.1619254603.git.fabioaiuto83@gmail.com>
- <c986e9a3c9b2f73cb784bd5dc7c877eb9a669c89.1619254603.git.fabioaiuto83@gmail.com>
- <YIfvqU2bEpDSj/hK@kroah.com>
- <20210427124134.GA1399@agape.jhs>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05BD02F82
+	for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 14:08:00 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id l189-20020a1cbbc60000b0290140319ad207so4782860wmf.2
+        for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 07:08:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=7Q/mc/Y2PzEj5PN7I4tb88G1KP3ZWJC6W+8h1Wpk2zc=;
+        b=baqUJSe0fLPvv9QSK+p2gIz7kavSCr6+Yj83eHHyT5zaLeRQvIlRFS19rsLshC+ZSM
+         kv+zGMJio0NFyFFJfo6kGJH1iTOxBrrSBDH42qZA1k+/pj9gRsLkA8MlsKQxmvCmNMnw
+         esk3Mmxi/HpSyuakgaT4xuB+Mi2VzFGAa7mkGN8E8FXiat2QozC0/hb9i13XfOG0tBIh
+         rsD5uZCIetfQicGhurM9NtLZWP4Nu1MtDXw7+P1gSV1Zx6mQM+k/p2KTbE7iiX6IyHUD
+         wdzCYPkqY/7a3vRyXE2HR37jJ3DzGYGKhsAJCk5/jEVMGjrYGjLHTS/G6IGKn0ERJI8y
+         ZgTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=7Q/mc/Y2PzEj5PN7I4tb88G1KP3ZWJC6W+8h1Wpk2zc=;
+        b=s1rXsY7Ve34bSJYSVbHtxi2021axsSXgBNW+px3A2wxXd8Qy33KF/MZkRll4teCf0M
+         9k8BIDo7EXf2zX+/3KJLygrqutkQnfnzTPc23BL76sAcnRBowa2YK1zeUygkXtioCAID
+         APUl7PDPQQaC80wxiqzZHkzCaamhPRgdJFETWfXEKRixcFlFPab8+C4tTfHBTI6VyhNG
+         KqZMoH/hwIKoJ/8UA6h7E+gp2atSoLUAhI+bz/KIuKYifH4Gdk5PPnpQOroxxGdQ+G4a
+         AHDPayR6/M4Y6v9YjtLSCGCAk1d/95DcKlmYfgV2YQB9DL0JszZ44CEP6F5NXeiRCkSu
+         ZOdw==
+X-Gm-Message-State: AOAM530by66GA9iCn2g2EKYQi2d9LboMksEpldh6Hf2R7AJRRrMWt7ly
+	4ONynrBeqLojdOu90k69BT8=
+X-Google-Smtp-Source: ABdhPJwLH5LV1+Ty0TskxsPeZka3eDSYQK9hjrAn6aBXvDU9nT3ebWt+5tmo+9mpqv7PkroAUKGhlQ==
+X-Received: by 2002:a1c:4954:: with SMTP id w81mr4684636wma.49.1619532479530;
+        Tue, 27 Apr 2021 07:07:59 -0700 (PDT)
+Received: from agape.jhs ([5.171.81.92])
+        by smtp.gmail.com with ESMTPSA id f4sm4270152wrz.33.2021.04.27.07.07.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Apr 2021 07:07:59 -0700 (PDT)
+Date: Tue, 27 Apr 2021 16:07:56 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: outreachy-kernel@googlegroups.com,
+	David Kershner <david.kershner@unisys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [Outreachy kernel] [PATCH v4] staging: unisys: visorhba: Convert
+ module from IDR to XArray
+Message-ID: <20210427140755.GC1399@agape.jhs>
+References: <20210427132522.14547-1-fmdefrancesco@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -31,55 +56,261 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210427124134.GA1399@agape.jhs>
+In-Reply-To: <20210427132522.14547-1-fmdefrancesco@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Tue, Apr 27, 2021 at 02:41:35PM +0200, Fabio Aiuto wrote:
-> On Tue, Apr 27, 2021 at 01:04:09PM +0200, Greg KH wrote:
-> > On Sat, Apr 24, 2021 at 11:02:33AM +0200, Fabio Aiuto wrote:
-> > > macro DRIVER_PREFIX expands to lowercase driver name.
-> > > 
-> > > Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
-> > > ---
-> > >  drivers/staging/rtl8723bs/include/rtw_debug.h | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/staging/rtl8723bs/include/rtw_debug.h b/drivers/staging/rtl8723bs/include/rtw_debug.h
-> > > index 189f02a8300a..3a5b083e95a1 100644
-> > > --- a/drivers/staging/rtl8723bs/include/rtw_debug.h
-> > > +++ b/drivers/staging/rtl8723bs/include/rtw_debug.h
-> > > @@ -7,7 +7,7 @@
-> > >  #ifndef __RTW_DEBUG_H__
-> > >  #define __RTW_DEBUG_H__
-> > >  
-> > > -#define DRIVER_PREFIX "RTL8723BS: "
-> > > +#define DRIVER_PREFIX "rtl8723bs: "
-> > 
-> > KBUILD_MODNAME should be used here, in the future.
+Hi Fabio,
+
+On Tue, Apr 27, 2021 at 03:25:22PM +0200, Fabio M. De Francesco wrote:
+> Converted visorhba from IDR to XArray. The abstract data type XArray is
+> more memory-efficient, parallelisable and cache friendly. It takes
+> advantage of RCU to perform lookups without locking.
 > 
-> ok, got it
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> ---
 > 
-> > 
-> > But really, this shouldn't be needed at all, it's kind of pointless (if
-> > it is being used, then odds are the places it is being used is wrong...)
-> > 
-> > thanks,
-> > 
-> > greg k-h
+> Changes from v3: Matthew Wilcox found that the XArray was not
+> initialized: now it is. Changed types handles from u64 to u32 because
+> they can't work as arguments of xa_alloc_irq() and u32 is enough large
+> for storing XArray indexes.
+> Changes from v2: Some residual errors from v1 were not fixed in v2. Now
+> they have been removed.
+> Changes from v1: After a first review by Matthew Wilcox, who found a
+> series of errors and gave suggestions on how to fix them, I rewrote a
+> larger part of the patch.
 > 
-> fabio@agape:~/src/git/kernels/staging$ grep -r DRIVER_PREFIX drivers/staging/rtl8723bs/
-> drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c:	print_hex_dump_debug(DRIVER_PREFIX ": u1H2CRsvdPageParm:", DUMP_PREFIX_NONE,
-> drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c:	print_hex_dump_debug(DRIVER_PREFIX ": u1H2CMediaStatusRptParm:", DUMP_PREFIX_NONE,
-> drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c:	print_hex_dump_debug(DRIVER_PREFIX ": u1H2CMacIdConfigParm:", DUMP_PREFIX_NONE,
-> drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c:	print_hex_dump_debug(DRIVER_PREFIX ": u1H2CRssiSettingParm:", DUMP_PREFIX_NONE,
-> drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c:	print_hex_dump_debug(DRIVER_PREFIX ": u1H2CPwrModeParm:", DUMP_PREFIX_NONE,
-> drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c:	print_hex_dump_debug(DRIVER_PREFIX ": u1H2CPsTuneParm:", DUMP_PREFIX_NONE,
-> drivers/staging/rtl8723bs/hal/hal_com.c:	print_hex_dump_debug(DRIVER_PREFIX ": c2h_evt_read(): ", DUMP_PREFIX_NONE,
-> drivers/staging/rtl8723bs/hal/hal_com.c:	print_hex_dump_debug(DRIVER_PREFIX ": c2h_evt_read(): Command Content:\n",
-> drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:	print_hex_dump_debug(DRIVER_PREFIX ": C2HPacketHandler_8723B(): Command Content:\n",
+>  drivers/staging/unisys/include/iochannel.h    |  4 +-
+>  .../staging/unisys/visorhba/visorhba_main.c   | 89 ++++++-------------
+>  2 files changed, 28 insertions(+), 65 deletions(-)
+> 
+> diff --git a/drivers/staging/unisys/include/iochannel.h b/drivers/staging/unisys/include/iochannel.h
+> index 9ef812c0bc42..fac89eac148b 100644
+> --- a/drivers/staging/unisys/include/iochannel.h
+> +++ b/drivers/staging/unisys/include/iochannel.h
+> @@ -474,8 +474,8 @@ struct uiscmdrsp_scsitaskmgmt {
+>  	enum task_mgmt_types tasktype;
+>  	struct uisscsi_dest vdest;
+>  	u64 handle;
+> -	u64 notify_handle;
+> -	u64 notifyresult_handle;
+> +	u32 notify_handle;
+> +	u32 notifyresult_handle;
+>  	char result;
+>  
+>  #define TASK_MGMT_FAILED 0
+> diff --git a/drivers/staging/unisys/visorhba/visorhba_main.c b/drivers/staging/unisys/visorhba/visorhba_main.c
+> index 4455d26f7c96..2b6cde254f17 100644
+> --- a/drivers/staging/unisys/visorhba/visorhba_main.c
+> +++ b/drivers/staging/unisys/visorhba/visorhba_main.c
+> @@ -6,10 +6,10 @@
+>  
+>  #include <linux/debugfs.h>
+>  #include <linux/kthread.h>
+> -#include <linux/idr.h>
+>  #include <linux/module.h>
+>  #include <linux/seq_file.h>
+>  #include <linux/visorbus.h>
+> +#include <linux/xarray.h>
+>  #include <scsi/scsi.h>
+>  #include <scsi/scsi_host.h>
+>  #include <scsi/scsi_cmnd.h>
+> @@ -82,7 +82,7 @@ struct visorhba_devdata {
+>  	 * allows us to pass int handles back-and-forth between us and
+>  	 * iovm, instead of raw pointers
+>  	 */
+> -	struct idr idr;
+> +	struct xarray xa;
+>  
+>  	struct dentry *debugfs_dir;
+>  	struct dentry *debugfs_info;
+> @@ -182,71 +182,40 @@ static struct uiscmdrsp *get_scsipending_cmdrsp(struct visorhba_devdata *ddata,
+>  	return NULL;
+>  }
+>  
+> -/*
+> - * simple_idr_get - Associate a provided pointer with an int value
+> - *		    1 <= value <= INT_MAX, and return this int value;
+> - *		    the pointer value can be obtained later by passing
+> - *		    this int value to idr_find()
+> - * @idrtable: The data object maintaining the pointer<-->int mappings
+> - * @p:	      The pointer value to be remembered
+> - * @lock:     A spinlock used when exclusive access to idrtable is needed
+> - *
+> - * Return: The id number mapped to pointer 'p', 0 on failure
+> - */
+> -static unsigned int simple_idr_get(struct idr *idrtable, void *p,
+> -				   spinlock_t *lock)
+> -{
+> -	int id;
+> -	unsigned long flags;
+> -
+> -	idr_preload(GFP_KERNEL);
+> -	spin_lock_irqsave(lock, flags);
+> -	id = idr_alloc(idrtable, p, 1, INT_MAX, GFP_NOWAIT);
+> -	spin_unlock_irqrestore(lock, flags);
+> -	idr_preload_end();
+> -	/* failure */
+> -	if (id < 0)
+> -		return 0;
+> -	/* idr_alloc() guarantees > 0 */
+> -	return (unsigned int)(id);
+> -}
+> -
+>  /*
+>   * setup_scsitaskmgmt_handles - Stash the necessary handles so that the
+>   *				completion processing logic for a taskmgmt
+>   *				cmd will be able to find who to wake up
+>   *				and where to stash the result
+> - * @idrtable: The data object maintaining the pointer<-->int mappings
+> - * @lock:     A spinlock used when exclusive access to idrtable is needed
+> + * @xa:       The data object maintaining the pointer<-->int mappings
+>   * @cmdrsp:   Response from the IOVM
+>   * @event:    The event handle to associate with an id
+>   * @result:   The location to place the result of the event handle into
+>   */
+> -static void setup_scsitaskmgmt_handles(struct idr *idrtable, spinlock_t *lock,
+> -				       struct uiscmdrsp *cmdrsp,
+> +static void setup_scsitaskmgmt_handles(struct xarray *xa, struct uiscmdrsp *cmdrsp,
+>  				       wait_queue_head_t *event, int *result)
+>  {
+> -	/* specify the event that has to be triggered when this */
+> -	/* cmd is complete */
+> -	cmdrsp->scsitaskmgmt.notify_handle =
+> -		simple_idr_get(idrtable, event, lock);
+> -	cmdrsp->scsitaskmgmt.notifyresult_handle =
+> -		simple_idr_get(idrtable, result, lock);
+> +	int ret;
+> +	u32 *id;
+> +
+> +	/* specify the event that has to be triggered when this cmd is complete */
+> +	id = &cmdrsp->scsitaskmgmt.notify_handle;
+> +	ret = xa_alloc_irq(xa, id, event, XA_LIMIT(1, INT_MAX), GFP_KERNEL);
+> +	id = &cmdrsp->scsitaskmgmt.notifyresult_handle;
+> +	ret = xa_alloc_irq(xa, id, result, XA_LIMIT(1, INT_MAX), GFP_KERNEL);
+>  }
+>  
+>  /*
+>   * cleanup_scsitaskmgmt_handles - Forget handles created by
+>   *				  setup_scsitaskmgmt_handles()
+> - * @idrtable: The data object maintaining the pointer<-->int mappings
+> + * @xa: The data object maintaining the pointer<-->int mappings
+>   * @cmdrsp:   Response from the IOVM
+>   */
+> -static void cleanup_scsitaskmgmt_handles(struct idr *idrtable,
+> +static void cleanup_scsitaskmgmt_handles(struct xarray *xa,
+>  					 struct uiscmdrsp *cmdrsp)
+>  {
+> -	if (cmdrsp->scsitaskmgmt.notify_handle)
+> -		idr_remove(idrtable, cmdrsp->scsitaskmgmt.notify_handle);
+> -	if (cmdrsp->scsitaskmgmt.notifyresult_handle)
+> -		idr_remove(idrtable, cmdrsp->scsitaskmgmt.notifyresult_handle);
+> +	xa_erase(xa, cmdrsp->scsitaskmgmt.notify_handle);
+> +	xa_erase(xa, cmdrsp->scsitaskmgmt.notifyresult_handle);
+>  }
 
-Drivers should not be dumping hex data like this to the kernel log, I
-bet they can all be removed :)
+why were the conditions removed before each entry deletion?
 
-thanks,
+>  
+>  /*
+> @@ -273,8 +242,7 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
+>  	if (devdata->serverdown || devdata->serverchangingstate)
+>  		return FAILED;
+>  
+> -	scsicmd_id = add_scsipending_entry(devdata, CMD_SCSITASKMGMT_TYPE,
+> -					   NULL);
+> +	scsicmd_id = add_scsipending_entry(devdata, CMD_SCSITASKMGMT_TYPE, NULL);
+>  	if (scsicmd_id < 0)
+>  		return FAILED;
+>  
 
-greg k-h
+this is a code format change, maybe this go in a separate patch?
+
+> @@ -284,8 +252,7 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
+>  
+>  	/* issue TASK_MGMT_ABORT_TASK */
+>  	cmdrsp->cmdtype = CMD_SCSITASKMGMT_TYPE;
+> -	setup_scsitaskmgmt_handles(&devdata->idr, &devdata->privlock, cmdrsp,
+> -				   &notifyevent, &notifyresult);
+> +	setup_scsitaskmgmt_handles(&devdata->xa, cmdrsp, &notifyevent, &notifyresult);
+>  
+>  	/* save destination */
+>  	cmdrsp->scsitaskmgmt.tasktype = tasktype;
+> @@ -311,14 +278,14 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
+>  	dev_dbg(&scsidev->sdev_gendev,
+>  		"visorhba: taskmgmt type=%d success; result=0x%x\n",
+>  		 tasktype, notifyresult);
+> -	cleanup_scsitaskmgmt_handles(&devdata->idr, cmdrsp);
+> +	cleanup_scsitaskmgmt_handles(&devdata->xa, cmdrsp);
+>  	return SUCCESS;
+>  
+>  err_del_scsipending_ent:
+>  	dev_dbg(&scsidev->sdev_gendev,
+>  		"visorhba: taskmgmt type=%d not executed\n", tasktype);
+>  	del_scsipending_ent(devdata, scsicmd_id);
+> -	cleanup_scsitaskmgmt_handles(&devdata->idr, cmdrsp);
+> +	cleanup_scsitaskmgmt_handles(&devdata->xa, cmdrsp);
+>  	return FAILED;
+>  }
+>  
+> @@ -654,13 +621,12 @@ DEFINE_SHOW_ATTRIBUTE(info_debugfs);
+>   * Service Partition returned the result of the task management
+>   * command. Wake up anyone waiting for it.
+>   */
+> -static void complete_taskmgmt_command(struct idr *idrtable,
+> -				      struct uiscmdrsp *cmdrsp, int result)
+> +static void complete_taskmgmt_command(struct xarray *xa, struct uiscmdrsp *cmdrsp, int result)
+>  {
+>  	wait_queue_head_t *wq =
+> -		idr_find(idrtable, cmdrsp->scsitaskmgmt.notify_handle);
+> +		xa_load(xa, cmdrsp->scsitaskmgmt.notify_handle);
+>  	int *scsi_result_ptr =
+> -		idr_find(idrtable, cmdrsp->scsitaskmgmt.notifyresult_handle);
+> +		xa_load(xa, cmdrsp->scsitaskmgmt.notifyresult_handle);
+>  	if (unlikely(!(wq && scsi_result_ptr))) {
+>  		pr_err("visorhba: no completion context; cmd will time out\n");
+>  		return;
+> @@ -708,8 +674,7 @@ static void visorhba_serverdown_complete(struct visorhba_devdata *devdata)
+>  			break;
+>  		case CMD_SCSITASKMGMT_TYPE:
+>  			cmdrsp = pendingdel->sent;
+> -			complete_taskmgmt_command(&devdata->idr, cmdrsp,
+> -						  TASK_MGMT_FAILED);
+> +			complete_taskmgmt_command(&devdata->xa, cmdrsp, TASK_MGMT_FAILED);
+>  			break;
+>  		default:
+>  			break;
+> @@ -905,7 +870,7 @@ static void drain_queue(struct uiscmdrsp *cmdrsp,
+>  			if (!del_scsipending_ent(devdata,
+>  						 cmdrsp->scsitaskmgmt.handle))
+>  				break;
+> -			complete_taskmgmt_command(&devdata->idr, cmdrsp,
+> +			complete_taskmgmt_command(&devdata->xa, cmdrsp,
+>  						  cmdrsp->scsitaskmgmt.result);
+>  		} else if (cmdrsp->cmdtype == CMD_NOTIFYGUEST_TYPE)
+>  			dev_err_once(&devdata->dev->device,
+> @@ -1053,7 +1018,7 @@ static int visorhba_probe(struct visor_device *dev)
+>  	if (err)
+>  		goto err_debugfs_info;
+>  
+> -	idr_init(&devdata->idr);
+> +	xa_init(&devdata->xa);
+>  
+>  	devdata->cmdrsp = kmalloc(sizeof(*devdata->cmdrsp), GFP_ATOMIC);
+>  	visorbus_enable_channel_interrupts(dev);
+> @@ -1096,8 +1061,6 @@ static void visorhba_remove(struct visor_device *dev)
+>  	scsi_remove_host(scsihost);
+>  	scsi_host_put(scsihost);
+>  
+> -	idr_destroy(&devdata->idr);
+> -
+>  	dev_set_drvdata(&dev->device, NULL);
+>  	debugfs_remove(devdata->debugfs_info);
+>  	debugfs_remove_recursive(devdata->debugfs_dir);
+> -- 
+> 2.31.1
+> 
+> 
+
+thank you,
+
+fabio
