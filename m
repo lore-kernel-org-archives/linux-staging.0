@@ -1,53 +1,53 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249DA72
-	for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 19:45:42 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id w20so4210736pge.13
-        for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 12:45:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C992F82
+	for <linux-staging@lists.linux.dev>; Wed, 28 Apr 2021 04:55:03 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id e2so27807755plh.8
+        for <linux-staging@lists.linux.dev>; Tue, 27 Apr 2021 21:55:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=POiC7h/F8qpkmD5ylKPAvYAOcZ8fi4a52UGHvA+ZtQ4=;
-        b=TeJuSOXojjbA1rVQyoZwAOnynby0MYLM2ZDasr1NI4HtlJ0bAOOggGnpJkFpmAidHM
-         BNmz4OwVy5fQbJBJ3VBLTcUNUdNg+RtN8KrvMoKILiN/Qa5AJAvd0ejQBKL2n5YQARxM
-         zAocbM+Ji7OLgNvuVRKqJsONC9x5DGCDy5eXIE8JeY96PqdvcZjdUsGGtNkIE0+926QF
-         5UH7J6Icn6E3WPSfvn6LlmVvg1+Uj5OfK5hIVXQILATxLKsHv5yEZk8nfHme7AGBb5tK
-         lqw4T4ae9B307cVNcykwyeGQE88RVwL674HBbl0A/261/FYpWsoiFlKcFq1g2x8mEF+/
-         ZXBQ==
+        bh=ZqQhFHRMnmMXoEihqnFM23lMTpYQSELleFFBsJcFYD4=;
+        b=Mn0g2d6TBQgvNBBugzJ12Rd8D2+Da73PlHED8xTrQDst2DdIAdoTo5V+zNTbbvcuKa
+         h007sxdALGnSpvlCLQfOKVuY0udIEE1eHvoEZhJj6WmwTW4JDUUaqgei01i1qNDtjv+S
+         Zt2saGW5VbQL91wYWFfzmYwbUd7JszCGM4H/+gg+Ck27iOWQIhRaNNSXDkvPrghBcgEr
+         1sdhlx8oR0ChMKiuUbTm3jxYi/dGcjd1y9TSugQrO67+Oyaz9AeuLFckWLMa8VFA9vzK
+         j1aujKebpFlYSmBEjB9uOytL5uuYTVvxMCYIeguy/d3jeRswbDzJ2KNT+QS3ir/rYKSr
+         hFXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=POiC7h/F8qpkmD5ylKPAvYAOcZ8fi4a52UGHvA+ZtQ4=;
-        b=t60cKOAx6p26NX80e33/Szn9QMtDBXO2wFy4LzgZAfeLxc7EFYBALlxZaNd6FbmnTL
-         KWJa3MRjcfZLJKRAgda9nNRJA672Zbk7va/+288dJ/uMRN6voICmE52XRPJ4gklUx3bs
-         /PPErooay6gWGSEgYbBNFYLNKJAab8L1nvUqftnO6sqm/sJNbPziVNU8pDWUHHkzJVip
-         9h+MLPmVVuRGNczdTOlV43S8qkugKjWsRWtu9kWedoWIuJwiC0mjc38hBHdsALSHU6QS
-         Q7Urrhgtzhu8kp8W1DF5MFIU3K9DTA0tfqUjj8/E+daWFOyO7+uxtfspI0JKVMgXeMie
-         vyvw==
-X-Gm-Message-State: AOAM5317H6Rf+hhAyWL0kWXZq7yBZK2kDm4KeJrN9rRKsC/i3U4q6A2Q
-	jt2av8VMTuRgsPFZ1tp928M=
-X-Google-Smtp-Source: ABdhPJzvWZFCer3sa4EycqmukaIrqOzHyO/TpDSj7iuOddThtjgV7E5pj7tkfJu+kXwrYC8GLg9ryw==
-X-Received: by 2002:a05:6a00:24cd:b029:27c:bbd5:1660 with SMTP id d13-20020a056a0024cdb029027cbbd51660mr296433pfv.40.1619552741431;
-        Tue, 27 Apr 2021 12:45:41 -0700 (PDT)
-Received: from user ([2001:4490:4409:fe15:9fd0:fa2c:4efc:28b5])
-        by smtp.gmail.com with ESMTPSA id n11sm3392269pff.96.2021.04.27.12.45.37
+        bh=ZqQhFHRMnmMXoEihqnFM23lMTpYQSELleFFBsJcFYD4=;
+        b=AU9pCALAVsZEAFZlIY3H3EY8gN5zI2moNXAnp75EpEYfSz45Wgi0cNP5+5lHV/9yjC
+         Xh0XPOjkZU8r1g/3csn7i+fj0LYzDKdWjlkewvUteaASQmxZWAoX9kRzSyIoj8bnoY3a
+         jSXUKnLMGQmVoqqLH8lZRv8+TiIKlj+9CTlSjSdR0nYTEURvtsy+sTKA8rNyxk3AARx0
+         kokwtsTqVnw/YTpR4UNEbr69TC5IiZnWHk3G5EvuhDr8JIgzaFWgiGybIaybmwGCOB4j
+         fqVmFzqO/Iqu21sb1dqUWUQKKZ0CiEyNgKczbs4msYSegPcU95XKSm8abpwNOYTRl4E9
+         a9Jw==
+X-Gm-Message-State: AOAM531dShrYVAZBsAUk5QSe2+xkSCyFNDmMpo0/q+Ai8eAtDtpgACYP
+	aKwgcG9O/yzs4pe+ChZ8474=
+X-Google-Smtp-Source: ABdhPJz8oJFhCYn5LUB6Qaby3t57HY4RYtUP5dfQtRFujwTzA4n2v+vGhY8p9o6GKiOJe1ItGhiPLQ==
+X-Received: by 2002:a17:90a:ad84:: with SMTP id s4mr2004969pjq.162.1619585703052;
+        Tue, 27 Apr 2021 21:55:03 -0700 (PDT)
+Received: from user ([2001:4490:4409:14a:1c7f:16a3:e48a:fdc2])
+        by smtp.gmail.com with ESMTPSA id o127sm3973433pfd.147.2021.04.27.21.54.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Apr 2021 12:45:40 -0700 (PDT)
-Date: Wed, 28 Apr 2021 01:15:33 +0530
+        Tue, 27 Apr 2021 21:55:02 -0700 (PDT)
+Date: Wed, 28 Apr 2021 10:24:54 +0530
 From: SAURAV GIREPUNJE <saurav.girepunje@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: gregkh@linuxfoundation.org, fabioaiuto83@gmail.com,
-	hello@bryanbrattlof.com, hdegoede@redhat.com,
-	saurav.girepunje@google.com, john.oldman@polehill.co.uk,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	saurav.girepunje@hotmail.com
-Subject: Re: [PATCH] staging: rtl8723bs: os_dep: remove multiple return
-Message-ID: <20210427194533.GC11046@user>
-References: <20210418173233.GA59153@user>
- <20210420110609.GD1981@kadam>
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc: mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org, saurav.girepunje@gmail.com,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, saurav.girepunje@hotmail.com
+Subject: Re: [PATCH] media: atomisp: pci: remove unneeded variable
+ 'err'akari.ailus@linux.intel.com,
+Message-ID: <20210428045454.GA20682@user>
+References: <20210418144323.GA54920@user>
+ <20210418150708.GA1402@agape.jhs>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -55,51 +55,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210420110609.GD1981@kadam>
+In-Reply-To: <20210418150708.GA1402@agape.jhs>
 
-On Tue, Apr 20, 2021 at 02:06:09PM +0300, Dan Carpenter wrote:
-> On Sun, Apr 18, 2021 at 11:02:33PM +0530, Saurav Girepunje wrote:
-> > on sdio_intf.c rtw_sdio_suspend call we have multiple
-> > return which can replace by goto exit. As in all the places
-> > return value is 0.
+On Sun, Apr 18, 2021 at 05:07:09PM +0200, Fabio Aiuto wrote:
+> On Sun, Apr 18, 2021 at 08:13:23PM +0530, Saurav Girepunje wrote:
+> > Fix the following coccicheck warning:
+> > 
+> > drivers/staging/media/atomisp/pci/sh_css_mipi.c:39:5-8:
+> > Unneeded variable: "err". Return "0" on line 44
 > > 
 > > Signed-off-by: Saurav Girepunje <saurav.girepunje@google.com>
 > > ---
-> >  drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 9 ++++++---
-> >  1 file changed, 6 insertions(+), 3 deletions(-)
+> >  drivers/staging/media/atomisp/pci/sh_css_mipi.c | 3 +--
+> >  1 file changed, 1 insertion(+), 2 deletions(-)
 > > 
-> > diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-> > index a9a9631dd23c..3e566cf97f6e 100644
-> > --- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-> > +++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-> > @@ -445,14 +445,17 @@ static int rtw_sdio_suspend(struct device *dev)
-> >  	struct debug_priv *pdbgpriv = &psdpriv->drv_dbg;
+> > diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> > index d5ae7f0b5864..708903a31b08 100644
+> > --- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> > +++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> > @@ -36,12 +36,11 @@ ref_count_mipi_allocation[N_CSI_PORTS]; /* Initialized in mipi_init */
+> >  int
+> >  ia_css_mipi_frame_specify(const unsigned int size_mem_words,
+> >  			  const bool contiguous) {
+> > -	int err = 0;
 > >  
-> >  	if (padapter->bDriverStopped)
-> > -		return 0;
-> > +		goto exit;
+> >  	my_css.size_mem_words = size_mem_words;
+> >  	(void)contiguous;
 > >  
-> >  	if (pwrpriv->bInSuspend) {
-> >  		pdbgpriv->dbg_suspend_error_cnt++;
-> > -		return 0;
-> > +		goto exit;
-> >  	}
+> > -	return err;
+> > +	return 0;
+> >  }
 > >  
-> > -	return rtw_suspend_common(padapter);
-> > +	rtw_suspend_common(padapter);
+> >  /*
+> > -- 
+> > 2.25.1
+> > 
+> > 
 > 
-> Also it's weird that your previous patch made rtw_suspend_common()
-> return zero unconditionally.  But now we're modifying the only caller to
-> not check the return.  Just make rtw_suspend_common() void and change
-> this to:
+> Hi Saurav,
 > 
-> 	rtw_suspend_common(padapter);
+> this ia_css_mipi_frame_specify seems to be unused. On
+> header file, before the prototype it is said that it could
+> be removed only when all drivers moved to a new API.
 > 
-> 	return 0;
+> Is that comment obsolete?
 > 
-> regards,
-> dan carpenter
->
+> thank you,
+> 
+> fabio
 
-Sure, rtw_suspend_common always return 0. It should be void.
-I will merge and resend the patch.
+yes this ia_css_mipi_frame_specify is unused. On header file 
+
+/* Backward compatible for CSS API 2.0 only
+ * TO BE REMOVED when all drivers move to CSS API 2.1.
+ */
+
+ deprecated{Use ia_css_mipi_buffer_config instead.}
+
+new api also suggested on comment.
+
+saurav
