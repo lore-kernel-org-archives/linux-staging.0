@@ -1,134 +1,123 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0053E71
-	for <linux-staging@lists.linux.dev>; Wed, 28 Apr 2021 09:47:38 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id y124-20020a1c32820000b029010c93864955so8792189wmy.5
-        for <linux-staging@lists.linux.dev>; Wed, 28 Apr 2021 02:47:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=kCEJkDjUldkGqpI2Ey6ungf76uryF6iJHDXmu3GitbA=;
-        b=V488IdhAmD7JJk26f2oLEFm5EDhW/yMdOp5MGvjrv8vSXbLvV0uUVxRmvTBEA/ZzK/
-         BuQ5pyb07laXNxWGyuyxXNYqr0XBxghg1iP+3WsvaGqEj9nZ0/mbhTr9qNr2rPNw0WsE
-         m6i8/hNY0iyDu9MT/2oandgCKiK09Bw8dcB39RvymMINFM3BiGsHKx1EnUickpRyptb1
-         BDHakCr5h3yvJkrRqvEMUiVJPZ5iKsS/x89hdgkt1zGuRIHIrQdmoPZo64JucMGZOpWV
-         C4qfwskeT85Gcfif1LhyOFc7qdXkV2n2GOfjoKqZaZQTwDDWe0lsuLs9PiE5kR3Je/la
-         hdvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=kCEJkDjUldkGqpI2Ey6ungf76uryF6iJHDXmu3GitbA=;
-        b=cF2dVDntRpme1p4lGbwg+BaNTMVv8Dh6R1JNtio155g0wdhsjG9dBOJnyjzsh1+L9K
-         P9Pl5UUs9GgA2Bc//K0yopsgCMYUtNA6NgQMcv4hN7y3nSo6dtvpujWfhX1PJhF7sYEJ
-         VNGyR6nNgU+2+zB4wiM49pLajBNH6UVfCQUp1x/qk410GUEPsGgMRMCSy6fBZXGIkjsT
-         1tvcy+/mhdovv8Geik2Zs1FUWlIRVaZLMW5V0n6wePkzhbrpO687oZkXYpRFvPT3ozrL
-         mzGvJDbC+T74sYj857kTahyTduXs6Hqde5JxkyZX/iXO6TK1YyGVKzX9FZVeDkvTK5Cj
-         4Lsw==
-X-Gm-Message-State: AOAM5320tRwauEh0h4Y+IDddYVh7wylKojUpM6gRN581lgt/rPVsVYU4
-	1XXn2SgrVeq/ywS8lL8GAh4=
-X-Google-Smtp-Source: ABdhPJzh7DMabp5UV8qga875WMkAqhF4SIchYnA/7/qnzV8GDCDZa8XIhpZs+qS11n5mR7seS7CnmA==
-X-Received: by 2002:a7b:c047:: with SMTP id u7mr3494159wmc.98.1619603257592;
-        Wed, 28 Apr 2021 02:47:37 -0700 (PDT)
-Received: from agape.jhs ([5.171.72.119])
-        by smtp.gmail.com with ESMTPSA id m11sm7609619wri.44.2021.04.28.02.47.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Apr 2021 02:47:37 -0700 (PDT)
-Date: Wed, 28 Apr 2021 11:47:34 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Joe Perches <joe@perches.com>, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 02/49] staging: rtl8723bs: replace DBG_871X_SEL log macro
- with netdev_dbg()
-Message-ID: <20210428094733.GA1427@agape.jhs>
-References: <cover.1619189489.git.fabioaiuto83@gmail.com>
- <9e6a1e4dc8962bfd58375be98619c76e8e28febe.1619189489.git.fabioaiuto83@gmail.com>
- <0a68fbfffba4cc801814e3af1e3a7571928c1921.camel@perches.com>
- <20210423165249.GA1419@agape.jhs>
- <20210428092842.GQ1981@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB8E71
+	for <linux-staging@lists.linux.dev>; Wed, 28 Apr 2021 10:27:38 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+	by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13SAJgHG028469;
+	Wed, 28 Apr 2021 10:27:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=/9bdy+kzg4LBC9GOs35QE7gzX2rzLE0q9ZrYqic5tDo=;
+ b=OgLS7bCQgAPFUiyCwHu5yDfZ3ERgdb670Eu/+07vdlZZEs1GG1sGux40nTY01MWjfjDL
+ SXapLXlJQ7X3pJcLMmycToHbymzCkaITANGVRG32ocini3T5u/ZfzHVsRJQNi2PgzlvC
+ mJiwKE7X2QBSpfbiHY+/ZGiWI84G3L9KrZauBDWNG5x54iRwJFc5stTQ8IFu3ayyHLTw
+ JIWJT5YYu53hYbM6edt5hyNunkv3j5b/xbGmbfIbEJPxrg4AMhJPVbuUbjCHHgZ2M4Gf
+ NmY03XSjvmZrshMSvRV6LiVjCyeR62HHGbiGrJHNJZ7zFzpvincOYZe4/dswChZWwJhX Nw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by userp2120.oracle.com with ESMTP id 385aeq0bgk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 28 Apr 2021 10:27:27 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13SAPpbU103461;
+	Wed, 28 Apr 2021 10:27:27 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3020.oracle.com with ESMTP id 384b588r27-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 28 Apr 2021 10:27:27 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13SARQOM109362;
+	Wed, 28 Apr 2021 10:27:26 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+	by aserp3020.oracle.com with ESMTP id 384b588r1m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 28 Apr 2021 10:27:26 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 13SARO44030660;
+	Wed, 28 Apr 2021 10:27:25 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Wed, 28 Apr 2021 03:27:24 -0700
+Date: Wed, 28 Apr 2021 13:27:17 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Deepak R Varma <drv@mailo.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND v3 3/6] staging: media: atomisp: use __func__ over
+ function names
+Message-ID: <20210428102717.GT1981@kadam>
+References: <cover.1619199344.git.drv@mailo.com>
+ <2cb42846abb7cab5e64bc29d5e496766f5df169b.1619199344.git.drv@mailo.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210428092842.GQ1981@kadam>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <2cb42846abb7cab5e64bc29d5e496766f5df169b.1619199344.git.drv@mailo.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-ORIG-GUID: i1J6sYWtyRlk7DSJCKfE0jF4h4WvARt-
+X-Proofpoint-GUID: i1J6sYWtyRlk7DSJCKfE0jF4h4WvARt-
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9967 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 impostorscore=0
+ phishscore=0 spamscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0
+ clxscore=1011 suspectscore=0 malwarescore=0 mlxlogscore=999
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104280068
 
-On Wed, Apr 28, 2021 at 12:28:42PM +0300, Dan Carpenter wrote:
-> On Fri, Apr 23, 2021 at 06:52:49PM +0200, Fabio Aiuto wrote:
-> > On Fri, Apr 23, 2021 at 08:27:58AM -0700, Joe Perches wrote:
-> > > On Fri, 2021-04-23 at 16:57 +0200, Fabio Aiuto wrote:
-> > > > replace DBG_871X_SEL log macro with the net device driver
-> > > > recommended netdev_dbg().
-> > > > 
-> > > > This macro by default does a raw printk, and the alternative
-> > > > behaviour, never triggered is a seq_print() call.
-> > > []
-> > > > diff --git a/drivers/staging/rtl8723bs/core/rtw_debug.c b/drivers/staging/rtl8723bs/core/rtw_debug.c
-> > > []
-> > > > @@ -23,9 +23,10 @@ void mac_reg_dump(void *sel, struct adapter *adapter)
-> > > >  	for (i = 0x0; i < 0x800; i += 4) {
-> > > >  		if (j%4 == 1)
-> > > >  			netdev_dbg(adapter->pnetdev, "0x%03x", i);
-> > > > -		DBG_871X_SEL(sel, " 0x%08x ", rtw_read32(adapter, i));
-> > > > +		netdev_dbg(adapter->pnetdev, " 0x%08x ",
-> > > > +			   rtw_read32(adapter, i));
-> > > >  		if ((j++)%4 == 0)
-> > > > -			DBG_871X_SEL(sel, "\n");
-> > > > +			netdev_dbg(adapter->pnetdev, "\n");
-> > > >  	}
-> > > 
-> > > This makes a mess of the output as each netdev_dbg call
-> > > is a separate line.
-> > > 
-> > > Dumping 1000 register lines into output logs seems impolite
-> > > at best, even for debugging.
-> > > 
-> > > This _might_ be rewritten to something like:
-> > > 
-> > > void dump_4_regs(struct adapter *adapter, int offset)
-> > > {
-> > > 	u32 reg[4];
-> > > 	int i;
-> > > 
-> > > 	for (i = 0; i < 4; i++)
-> > > 		reg[i] = rtw_read32(adapter, offset + i);
-> > > 
-> > > 	netdev_dbg(adapter->pnetdev, "0x%03x 0x%08x 0x%08x 0x%08x 0x%08x\n",
-> > > 		   i, reg[0], reg[1], reg[2], reg[3]);
-> > > }
-> > > 
-> > > void mac_reg_dump(...)
-> > > {
-> > > 	...
-> > > 
-> > > 	for (i = 0; i < 0x800; i += 4)
-> > > 		dump_4_regs(adapter, i);
-> > > 
-> > > 
-> > > 
-> > 
-> > interesting, sure that will be matter of another patch series,
-> > the ugly output was already there, old macro used to wrap a raw
-> > printk...
+On Sun, Apr 25, 2021 at 02:13:15PM +0530, Deepak R Varma wrote:
+> Replace hard coded function names from the debug print strings by
+> standard __func__ predefined identifier. This resolves following
+> checkpatch script WARNING:
+> Prefer using '"%s...", __func__' to using function's name, in a string.
 > 
-> The raw printk doesn't automatically add a new line at the end but a
-> netdev_dbg() does.  (You're still supposed to add a manual \n to those
-> but if you don't the lower layers will do it automatically.)
+> Signed-off-by: Deepak R Varma <drv@mailo.com>
+> ---
 > 
-> regards,
-> dan carpenter
+> Changes since v2:
+>    - None.
+> Changes since v1:
+>    - None.
+> 
+>  .../staging/media/atomisp/i2c/atomisp-gc0310.c   |  2 +-
+>  .../staging/media/atomisp/i2c/atomisp-gc2235.c   |  2 +-
+>  .../staging/media/atomisp/i2c/atomisp-lm3554.c   |  2 +-
+>  .../staging/media/atomisp/i2c/atomisp-ov2680.c   | 16 ++++++++--------
+>  .../staging/media/atomisp/i2c/atomisp-ov2722.c   |  2 +-
+>  5 files changed, 12 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> index d68a2bcc9ae1..b572551f1a0d 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> @@ -1292,7 +1292,7 @@ static int gc0310_remove(struct i2c_client *client)
+>  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+>  	struct gc0310_device *dev = to_gc0310_sensor(sd);
+>  
+> -	dev_dbg(&client->dev, "gc0310_remove...\n");
+> +	dev_dbg(&client->dev, "%s...\n", __func__);
+>  
+>  	dev->platform_data->csi_cfg(sd, 0);
+>  
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> index e722c639b60d..548c572d3b57 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+> @@ -1034,7 +1034,7 @@ static int gc2235_remove(struct i2c_client *client)
+>  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+>  	struct gc2235_device *dev = to_gc2235_sensor(sd);
+>  
+> -	dev_dbg(&client->dev, "gc2235_remove...\n");
+> +	dev_dbg(&client->dev, "%s...\n", __func__);
 
-got it,
+Just delete printks that only print the function name.  We have ftrace
+for that.  There are several others below.
 
-thank you,
+regards,
+dan carpenter
 
-fabio
