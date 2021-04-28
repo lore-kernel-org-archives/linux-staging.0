@@ -1,123 +1,68 @@
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB8E71
-	for <linux-staging@lists.linux.dev>; Wed, 28 Apr 2021 10:27:38 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-	by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13SAJgHG028469;
-	Wed, 28 Apr 2021 10:27:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=/9bdy+kzg4LBC9GOs35QE7gzX2rzLE0q9ZrYqic5tDo=;
- b=OgLS7bCQgAPFUiyCwHu5yDfZ3ERgdb670Eu/+07vdlZZEs1GG1sGux40nTY01MWjfjDL
- SXapLXlJQ7X3pJcLMmycToHbymzCkaITANGVRG32ocini3T5u/ZfzHVsRJQNi2PgzlvC
- mJiwKE7X2QBSpfbiHY+/ZGiWI84G3L9KrZauBDWNG5x54iRwJFc5stTQ8IFu3ayyHLTw
- JIWJT5YYu53hYbM6edt5hyNunkv3j5b/xbGmbfIbEJPxrg4AMhJPVbuUbjCHHgZ2M4Gf
- NmY03XSjvmZrshMSvRV6LiVjCyeR62HHGbiGrJHNJZ7zFzpvincOYZe4/dswChZWwJhX Nw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by userp2120.oracle.com with ESMTP id 385aeq0bgk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 28 Apr 2021 10:27:27 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13SAPpbU103461;
-	Wed, 28 Apr 2021 10:27:27 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3020.oracle.com with ESMTP id 384b588r27-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 28 Apr 2021 10:27:27 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13SARQOM109362;
-	Wed, 28 Apr 2021 10:27:26 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-	by aserp3020.oracle.com with ESMTP id 384b588r1m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 28 Apr 2021 10:27:26 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
-	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 13SARO44030660;
-	Wed, 28 Apr 2021 10:27:25 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Wed, 28 Apr 2021 03:27:24 -0700
-Date: Wed, 28 Apr 2021 13:27:17 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Deepak R Varma <drv@mailo.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v3 3/6] staging: media: atomisp: use __func__ over
- function names
-Message-ID: <20210428102717.GT1981@kadam>
-References: <cover.1619199344.git.drv@mailo.com>
- <2cb42846abb7cab5e64bc29d5e496766f5df169b.1619199344.git.drv@mailo.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE1772
+	for <linux-staging@lists.linux.dev>; Wed, 28 Apr 2021 11:33:51 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id c22so10122739edn.7
+        for <linux-staging@lists.linux.dev>; Wed, 28 Apr 2021 04:33:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SRL7LAkBzsLUShMKaYemtSvs+IVP4TH25c50jQgyGbc=;
+        b=H22f8cenNNUgyJ6uU1FRqxyvANwieddNRC0SaSE9AWvvRIu/qY9xgul+uvp/EZ1jab
+         6OxfuFXHEtQvscV9yZTCaK3gyXP3Us4OXlyRDmnPwCPvj3+jonhU78rdVHGuSY78FyIH
+         icOWJ0nSmxenTalBCqaBaft4/j3eLuqK44WiMwPcIgCpX7qXVAhO8q8xkGk2vu1PjqJU
+         Jl7YRdTUbtnxjLgAKXfYt7EuvXU/+qImrFu32lNNe4HYl/BtGIsPibtE5lU2Wc1EhTBA
+         dJcgQ+XtQaHnsCPGbzk6N0fesutFyOHwAOUOhZqnt4WjgRPp1citkMhU5TgFHeNtXyFo
+         2FrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SRL7LAkBzsLUShMKaYemtSvs+IVP4TH25c50jQgyGbc=;
+        b=Qk9dG0r8UW6gZuiBxshIw46Mygk5tdELYtlaOEDIgK1HryuuOsnejzPlGcqVrFISqI
+         W5RCrACNN3YqhngFk7e8PA3JV8eQ482K9DHAWGkhbeJrYS4HJdweShWfeATZwTTCqtHQ
+         d/qAomdiHr7XFOEBQIo7mQIabCBNvMWfYvW+X0PasX4p+lyvynXZt1kmfCDikrRZOjoX
+         w2Cc/3TTwWF9P+ZTjr8CvzeZobjC3gFyl1peBL0C5RJj/g9KB3lcBzLa0gCcQbI1kgBz
+         vy1sgUXQGIRSJtAEpuvA/xOAXabPW70DCfJT1I9mYuI8J72gS+e3HfI1yOviD1j9qCUw
+         UNww==
+X-Gm-Message-State: AOAM533zqlLvxYRwHTGDEDpSwccFpBK3Zzg58teQNX1yM0yfco1rW0Db
+	jukYYcRjA8sHkghACMA28g8=
+X-Google-Smtp-Source: ABdhPJzYnYVJv0HaNf5CJzsCVTYjnZ6cQLmgLajSsTiPi+o3b8ZVk3e+EHb2xL0Yu+Z4JXatJuuM0Q==
+X-Received: by 2002:a50:fc99:: with SMTP id f25mr10711029edq.147.1619609630443;
+        Wed, 28 Apr 2021 04:33:50 -0700 (PDT)
+Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
+        by smtp.gmail.com with ESMTPSA id u19sm4677187edy.23.2021.04.28.04.33.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Apr 2021 04:33:49 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: outreachy-kernel@googlegroups.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [Outreachy kernel] [PATCH 0/2] Removed set but unused variables
+Date: Wed, 28 Apr 2021 13:33:44 +0200
+Message-Id: <20210428113346.28305-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2cb42846abb7cab5e64bc29d5e496766f5df169b.1619199344.git.drv@mailo.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: i1J6sYWtyRlk7DSJCKfE0jF4h4WvARt-
-X-Proofpoint-GUID: i1J6sYWtyRlk7DSJCKfE0jF4h4WvARt-
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9967 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 impostorscore=0
- phishscore=0 spamscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0
- clxscore=1011 suspectscore=0 malwarescore=0 mlxlogscore=999
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104280068
+Content-Transfer-Encoding: 8bit
 
-On Sun, Apr 25, 2021 at 02:13:15PM +0530, Deepak R Varma wrote:
-> Replace hard coded function names from the debug print strings by
-> standard __func__ predefined identifier. This resolves following
-> checkpatch script WARNING:
-> Prefer using '"%s...", __func__' to using function's name, in a string.
-> 
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
-> ---
-> 
-> Changes since v2:
->    - None.
-> Changes since v1:
->    - None.
-> 
->  .../staging/media/atomisp/i2c/atomisp-gc0310.c   |  2 +-
->  .../staging/media/atomisp/i2c/atomisp-gc2235.c   |  2 +-
->  .../staging/media/atomisp/i2c/atomisp-lm3554.c   |  2 +-
->  .../staging/media/atomisp/i2c/atomisp-ov2680.c   | 16 ++++++++--------
->  .../staging/media/atomisp/i2c/atomisp-ov2722.c   |  2 +-
->  5 files changed, 12 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> index d68a2bcc9ae1..b572551f1a0d 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> @@ -1292,7 +1292,7 @@ static int gc0310_remove(struct i2c_client *client)
->  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
->  	struct gc0310_device *dev = to_gc0310_sensor(sd);
->  
-> -	dev_dbg(&client->dev, "gc0310_remove...\n");
-> +	dev_dbg(&client->dev, "%s...\n", __func__);
->  
->  	dev->platform_data->csi_cfg(sd, 0);
->  
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> index e722c639b60d..548c572d3b57 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> @@ -1034,7 +1034,7 @@ static int gc2235_remove(struct i2c_client *client)
->  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
->  	struct gc2235_device *dev = to_gc2235_sensor(sd);
->  
-> -	dev_dbg(&client->dev, "gc2235_remove...\n");
-> +	dev_dbg(&client->dev, "%s...\n", __func__);
+Removed set but unused variables. Issue detected by gcc.
 
-Just delete printks that only print the function name.  We have ftrace
-for that.  There are several others below.
+Fabio M. De Francesco (2):
+  staging: rtl8723bs: hal: Remove set but unused variables.
+  staging: rtl8723bs: core: Removed set but unused variable.
 
-regards,
-dan carpenter
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c     | 4 +---
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 5 -----
+ 2 files changed, 1 insertion(+), 8 deletions(-)
+
+-- 
+2.31.1
 
