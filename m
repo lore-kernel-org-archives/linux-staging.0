@@ -1,33 +1,47 @@
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9672F82
-	for <linux-staging@lists.linux.dev>; Wed, 28 Apr 2021 13:50:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1619617802; bh=ZPs87O1n7Rs/FVtu7HFdEuudG0Tivg2EA2GXHVtcliI=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=otMphzDJWyG52ZJy7k0k86mo95Z3lYnyIYucaEAObvqTvzZBNdACO/Ta8jJ+dgMLq
-	 H+n6HPHAeoDJFHTH2BjoXu/CFgGmrhFSYArkYg1b5kzXdztvgohKHmlQcDP4zJBBgg
-	 qsfN/eeaiyxMxlgxiCdYtM+pQYwfSYbc3s9C76Qg=
-Received: by 192.168.90.16 [192.168.90.16] with ESMTP
-	via ip-206.mailobj.net [213.182.55.206]
-	Wed, 28 Apr 2021 15:50:01 +0200 (CEST)
-X-EA-Auth: bXkCzuHGuhGacUeC5FPCllNutghnTzfxiQwSGipTFrOvV821Mse6zHDinLc0dKcKA2Ndxh4gj0Y2B1wQExvVPNMaypzVT9Ll
-Date: Wed, 28 Apr 2021 19:19:50 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v3 3/6] staging: media: atomisp: use __func__ over
- function names
-Message-ID: <YIln/vE6dbX5NZun@192.168.1.8>
-References: <cover.1619199344.git.drv@mailo.com>
- <2cb42846abb7cab5e64bc29d5e496766f5df169b.1619199344.git.drv@mailo.com>
- <20210428102717.GT1981@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF602F82
+	for <linux-staging@lists.linux.dev>; Wed, 28 Apr 2021 14:17:37 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id i21-20020a05600c3555b029012eae2af5d4so9357624wmq.4
+        for <linux-staging@lists.linux.dev>; Wed, 28 Apr 2021 07:17:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=ex4CEdE8hQUW3fUsf4MvYL21WztkQ++yVoCYzJV0AXY=;
+        b=pLZqUW2joYuzGt0PK18OTNbsMpZYGuHV40Wc1naiNwNdyS7FLAcD8K258bf7QWiVkd
+         QJ7AdPbUohXQ4tM+4ENaWSPjsa5jFWCiy2rwHD5q1WVpf7njN2ThkU9niig8uM4BQQEV
+         R7ow0a9i9X4t6bJiCp0o9F/+6zSaKibkRCLOuip8ShyXj0D/ux/BDxBjM/GynjS6HKAw
+         BwUGi7dYO2vZHotSntWIo6Q07S48iPC+nnzNkSJ/Y+UOLbx/ACydFpSHnO0NiCIbz3hj
+         AdpwcR6MBEAINQCKKIij+D73G/DQ31CC1rpanWAbi+KRgzCExOMT6stoCv6avv8VMvdG
+         H7qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=ex4CEdE8hQUW3fUsf4MvYL21WztkQ++yVoCYzJV0AXY=;
+        b=nRBhnjZR/D3o5daNoXz4mwi8oC/WuaoE2hT4WuzxBip3RXaA5blAcvlHyOPux8LlEN
+         PA3ihVVWZ8FEetYHFAdzPXzXJmDqdWVFPYL+1w7kK4ZTOAsfIriWC5y75o4CogIMAUwb
+         AmIxR3mfDV3kSJootw7YbhoaSI4lrm6D4RxP2oYXxcYi2XOmMXM7VMEDl+U26g5InShx
+         JkoIpQ84U3wHFKKN8NrIMILmzELPEycK9Qg6xtasiEEru8HEAznpFvQSxCdaeNhsLbKf
+         0MI0bOdxUmlrg3bLafXhjMVj89Skk6/ch2DLDMuXoxgwioB1DVyn8GI1QjKrxpIjZ/gv
+         xueg==
+X-Gm-Message-State: AOAM533HEbDvWF2dahnoWsrebVEgYM+ivVH5qgt4ObR3wguI/rnoHBFB
+	/5eGSQKeeDfktfrbzFBxFA93eFaA8GH8U3NU
+X-Google-Smtp-Source: ABdhPJy+F97zTGSMU9h/tJrR7nb3es1f0JLICj7YwbNp6NYsD38PRormihS5bak5KFaZgfmqaVuQrw==
+X-Received: by 2002:a1c:5454:: with SMTP id p20mr4940590wmi.187.1619619456104;
+        Wed, 28 Apr 2021 07:17:36 -0700 (PDT)
+Received: from ubuntu (host86-178-35-221.range86-178.btcentralplus.com. [86.178.35.221])
+        by smtp.gmail.com with ESMTPSA id p8sm142540wrm.14.2021.04.28.07.17.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Apr 2021 07:17:35 -0700 (PDT)
+Date: Wed, 28 Apr 2021 07:17:34 -0700
+From: Iain Craig <coldcity@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrea Merello <andrea.merello@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8192u: fix typos in comments
+Message-ID: <20210428141734.GA2498@ubuntu>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -35,67 +49,78 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210428102717.GT1981@kadam>
 
-On Wed, Apr 28, 2021 at 01:27:17PM +0300, Dan Carpenter wrote:
-> On Sun, Apr 25, 2021 at 02:13:15PM +0530, Deepak R Varma wrote:
-> > Replace hard coded function names from the debug print strings by
-> > standard __func__ predefined identifier. This resolves following
-> > checkpatch script WARNING:
-> > Prefer using '"%s...", __func__' to using function's name, in a string.
-> > 
-> > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > ---
-> > 
-> > Changes since v2:
-> >    - None.
-> > Changes since v1:
-> >    - None.
-> > 
-> >  .../staging/media/atomisp/i2c/atomisp-gc0310.c   |  2 +-
-> >  .../staging/media/atomisp/i2c/atomisp-gc2235.c   |  2 +-
-> >  .../staging/media/atomisp/i2c/atomisp-lm3554.c   |  2 +-
-> >  .../staging/media/atomisp/i2c/atomisp-ov2680.c   | 16 ++++++++--------
-> >  .../staging/media/atomisp/i2c/atomisp-ov2722.c   |  2 +-
-> >  5 files changed, 12 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > index d68a2bcc9ae1..b572551f1a0d 100644
-> > --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > @@ -1292,7 +1292,7 @@ static int gc0310_remove(struct i2c_client *client)
-> >  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> >  	struct gc0310_device *dev = to_gc0310_sensor(sd);
-> >  
-> > -	dev_dbg(&client->dev, "gc0310_remove...\n");
-> > +	dev_dbg(&client->dev, "%s...\n", __func__);
-> >  
-> >  	dev->platform_data->csi_cfg(sd, 0);
-> >  
-> > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> > index e722c639b60d..548c572d3b57 100644
-> > --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> > +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> > @@ -1034,7 +1034,7 @@ static int gc2235_remove(struct i2c_client *client)
-> >  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> >  	struct gc2235_device *dev = to_gc2235_sensor(sd);
-> >  
-> > -	dev_dbg(&client->dev, "gc2235_remove...\n");
-> > +	dev_dbg(&client->dev, "%s...\n", __func__);
-> 
-> Just delete printks that only print the function name.  We have ftrace
-> for that.  There are several others below.
+correct spelling errors across 8 lines of comments.
 
-Thank you Dan, Hans, Fabio, Sakari and everyone for your review and comments.
-I have received feedback and suggestions on the patch set.
-I am going to rebuild the patch set according to the feedback and send as v4.
+Signed-off-by: Iain Craig <coldcity@gmail.com>
+---
+ .../rtl8192u/ieee80211/ieee80211_softmac.c       | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Appreciate your comments and time,
-deepak.
-
-> 
-> regards,
-> dan carpenter
-> 
-
+diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+index 965fa1fb5e1b..ab885353f668 100644
+--- a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
++++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+@@ -33,9 +33,9 @@ short ieee80211_is_shortslot(const struct ieee80211_network *net)
+ }
+ EXPORT_SYMBOL(ieee80211_is_shortslot);
+ 
+-/* returns the total length needed for pleacing the RATE MFIE
++/* returns the total length needed for placing the RATE MFIE
+  * tag and the EXTENDED RATE MFIE tag if needed.
+- * It encludes two bytes per tag for the tag itself and its len
++ * It includes two bytes per tag for the tag itself and its len
+  */
+ static unsigned int ieee80211_MFIE_rate_len(struct ieee80211_device *ieee)
+ {
+@@ -50,7 +50,7 @@ static unsigned int ieee80211_MFIE_rate_len(struct ieee80211_device *ieee)
+ 	return rate_len;
+ }
+ 
+-/* pleace the MFIE rate, tag to the memory (double) poined.
++/* place the MFIE rate, tag to the memory (double) pointer.
+  * Then it updates the pointer so that
+  * it points after the new MFIE tag added.
+  */
+@@ -436,7 +436,7 @@ void ieee80211_softmac_scan_syncro(struct ieee80211_device *ieee)
+ 		 *    So we switch to IEEE80211_LINKED_SCANNING to remember
+ 		 *    that we are still logically linked (not interested in
+ 		 *    new network events, despite for updating the net list,
+-		 *    but we are temporarly 'unlinked' as the driver shall
++		 *    but we are temporarily 'unlinked' as the driver shall
+ 		 *    not filter RX frames and the channel is changing.
+ 		 * So the only situation in witch are interested is to check
+ 		 * if the state become LINKED because of the #1 situation
+@@ -1162,7 +1162,7 @@ void ieee80211_associate_abort(struct ieee80211_device *ieee)
+ 
+ 	ieee->associate_seq++;
+ 
+-	/* don't scan, and avoid to have the RX path possibily
++	/* don't scan, and avoid having the RX path possibly
+ 	 * try again to associate. Even do not react to AUTH or
+ 	 * ASSOC response. Just wait for the retry wq to be scheduled.
+ 	 * Here we will check if there are good nets to associate
+@@ -1373,7 +1373,7 @@ inline void ieee80211_softmac_new_net(struct ieee80211_device *ieee, struct ieee
+ 		/* if the user set the AP check if match.
+ 		 * if the network does not broadcast essid we check the user supplyed ANY essid
+ 		 * if the network does broadcast and the user does not set essid it is OK
+-		 * if the network does broadcast and the user did set essid chech if essid match
++		 * if the network does broadcast and the user did set essid check if essid match
+ 		 */
+ 		if ((apset && apmatch &&
+ 		     ((ssidset && ssidbroad && ssidmatch) || (ssidbroad && !ssidset) || (!ssidbroad && ssidset))) ||
+@@ -2243,9 +2243,9 @@ static void ieee80211_start_ibss_wq(struct work_struct *work)
+ 	 * time to scan all the chans..) or we have just run up the iface
+ 	 * after setting ad-hoc mode. So we have to give another try..
+ 	 * Here, in ibss mode, should be safe to do this without extra care
+-	 * (in bss mode we had to make sure no-one tryed to associate when
++	 * (in bss mode we had to make sure no-one tried to associate when
+ 	 * we had just checked the ieee->state and we was going to start the
+-	 * scan) beacause in ibss mode the ieee80211_new_net function, when
++	 * scan) because in ibss mode the ieee80211_new_net function, when
+ 	 * finds a good net, just set the ieee->state to IEEE80211_LINKED,
+ 	 * so, at worst, we waste a bit of time to initiate an unneeded syncro
+ 	 * scan, that will stop at the first round because it sees the state
+-- 
+2.25.1
 
