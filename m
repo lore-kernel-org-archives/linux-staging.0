@@ -1,79 +1,94 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8902F80
-	for <linux-staging@lists.linux.dev>; Wed, 28 Apr 2021 07:28:12 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id 26-20020a05600c22dab029013efd7879b8so6617634wmg.0
-        for <linux-staging@lists.linux.dev>; Wed, 28 Apr 2021 00:28:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=inaZ11OshVUyUcdzLFDTaYvVRptIXVcvuczMgFqs544=;
-        b=AAXaIywtb66F4KWBO70Z+UEAm60DjqqIOzhYSEdJGLLCQ1d852aL5f3kzf+TSFOAgL
-         6MYs/4ZmDWlhHFhp23W90MudYErdst7mwA7+OnSwBp9ULeDcfpT410N7nH8/YDXPCk6j
-         CeS/fBeKXzBB8CJenjGxup1Nrcwf+d33j4z+x6OHULrs8tfJXoBwJAV3Ux5kIce066rO
-         HUcyz8Ma7m9Mp9LB3/dC1N2il7//zpCy72V/2/0VH8DzUO1deuoq07emLDoP0y49wcL7
-         B7lBy4QuKPwhpApCMeq7y+MV6fx14VLStphAm7jl5LQV8li3O0Fq0R9ria8u790BgxES
-         9pnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=inaZ11OshVUyUcdzLFDTaYvVRptIXVcvuczMgFqs544=;
-        b=aKctl5s9bi2yYxA5ya8a//dJ8mvljdWBYhKNBtYkXmLz7rYZoz8+cOy8WvPTBkRdEb
-         TMgOLJ6lJOOW9yywLWOohcLyH4OewczVFO5HJSynFCnGkrTcsZx693PlaQfWRKiqWT3C
-         OSdSsVHRzRdmElh/JmK3HckYjN0Bi6OcC1eR4GjxPmfA14giKLKTMOHvdqW7+rzOdCqY
-         hyyhkkCHZrw+rKz9JWrd1j4nver8VZJmSCb3js3aI53ozAANQ+QOahc9SIa13U8BAQE6
-         uWvlrz9ZokSGiSRTx22hfuXUO7Vq7gM7JXSn1woTiyDgMr7runEjvRmwx3ftIY8tBFE5
-         3fyQ==
-X-Gm-Message-State: AOAM531dkHaYzCNKVslRWZ8rHK6nj726Ql1Q9xQfZhPCD+UoX8MBxlVB
-	IE9iDsAzyjZIFB/mvWj0iJU=
-X-Google-Smtp-Source: ABdhPJyPItVQLktV27LqfZnn2D+AHVpgGd//euZ4qsJYX6704Hm6HN17zQwChv89MIb2AuZRvz/1fA==
-X-Received: by 2002:a1c:7707:: with SMTP id t7mr2689822wmi.76.1619594890782;
-        Wed, 28 Apr 2021 00:28:10 -0700 (PDT)
-Received: from agape ([5.171.72.119])
-        by smtp.gmail.com with ESMTPSA id a2sm7315785wrt.82.2021.04.28.00.28.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Apr 2021 00:28:10 -0700 (PDT)
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: joe@perches.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] staging: rtl8723bs: remove unused macro DRIVER_PREFIX
-Date: Wed, 28 Apr 2021 09:28:05 +0200
-Message-Id: <2fac5d7f2334f0a9765f2ddfb31502323e49fce1.1619594707.git.fabioaiuto83@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1619594707.git.fabioaiuto83@gmail.com>
-References: <cover.1619594707.git.fabioaiuto83@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB442F80
+	for <linux-staging@lists.linux.dev>; Wed, 28 Apr 2021 07:58:55 +0000 (UTC)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 13S7rL8e002509;
+	Wed, 28 Apr 2021 07:53:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=AKjr5Mo/adx/g8/qcHycfBQ5/KxoVEwsWbF6MXeqaAY=;
+ b=GC+7KIp40xm5AzbROZ8bEHHNTSgU+5byZl9+xLkFtXSL5nMpjIC1zIzYnLbuuMc3cCDq
+ RzbB73PtCZisn9hRiVf4OtrpMCV2v0ZBoM69EGFk5YM6YJ2XK/6OsauCgtuH4fEL8rZQ
+ bZEd/xH77HzllDFsnzzJVb0bMhBL8fs5ecRMG4kboXQ9vaIGGa5HE5SEov6eFvyvFWOl
+ C4S+eLvpheT5yJXdovaVNxjxw8RHqZCj02nGT4qZaq3YKCe5PQyoAuamolJlXa8eB278
+ 01GNiQnzvzKwO5k/Gma97C4X5BUllF1mGlofJ2k3vBNOE2G7OK6MDKAUB4LvF92CILIE vQ== 
+Received: from oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by mx0b-00069f02.pphosted.com with ESMTP id 385sgq91tf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 28 Apr 2021 07:53:33 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 13S7p1qf156396;
+	Wed, 28 Apr 2021 07:53:32 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3020.oracle.com with ESMTP id 384b58238h-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 28 Apr 2021 07:53:32 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13S7rW2R166987;
+	Wed, 28 Apr 2021 07:53:32 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+	by aserp3020.oracle.com with ESMTP id 384b582384-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 28 Apr 2021 07:53:32 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13S7rUdk023886;
+	Wed, 28 Apr 2021 07:53:31 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Wed, 28 Apr 2021 00:53:30 -0700
+Date: Wed, 28 Apr 2021 10:53:23 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc: Deepak R Varma <mh12gx2825@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/6] staging: media: atomisp: reformat code comment blocks
+Message-ID: <20210428075323.GP1981@kadam>
+References: <cover.1618859059.git.drv@mailo.com>
+ <7cf7b8253550460e7273c94bae005939000679fd.1618859059.git.drv@mailo.com>
+ <20210420084448.GC1411@agape.jhs>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210420084448.GC1411@agape.jhs>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: d1KBNGNDMsVudIB_tINeTfsVoRLkojPf
+X-Proofpoint-ORIG-GUID: d1KBNGNDMsVudIB_tINeTfsVoRLkojPf
 
-remove unused macro DRIVER_PREFIX.
+On Tue, Apr 20, 2021 at 10:44:48AM +0200, Fabio Aiuto wrote:
+> On Tue, Apr 20, 2021 at 12:45:04AM +0530, Deepak R Varma wrote:
+> >  	switch(AnalogGain)
+> >  	{
+> >  	case 0:
+> > @@ -1069,8 +1071,9 @@ static long mt9m114_s_exposure(struct v4l2_subdev *sd,
+> >  	*/
+> >  	if (DigitalGain >= 16 || DigitalGain <= 1)
+> >  		DigitalGain = 1;
+> > -	/* AnalogGainToWrite =
+> > -		(u16)((DigitalGain << 12) | AnalogGainToWrite); */
+> > +
+> > +	/* AnalogGainToWrite = (u16)((DigitalGain << 12) | AnalogGainToWrite);
+> > +	 */
+> 
+> this is best recommended for one line comment:
+> 
+> /* AnalogGainToWrite = (u16)((DigitalGain << 12) | AnalogGainToWrite); */
+> 
 
-Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
----
- drivers/staging/rtl8723bs/include/rtw_debug.h | 2 --
- 1 file changed, 2 deletions(-)
+I'm going through old emails...
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_debug.h b/drivers/staging/rtl8723bs/include/rtw_debug.h
-index 3a5b083e95a1..7f96ff66915f 100644
---- a/drivers/staging/rtl8723bs/include/rtw_debug.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_debug.h
-@@ -7,8 +7,6 @@
- #ifndef __RTW_DEBUG_H__
- #define __RTW_DEBUG_H__
- 
--#define DRIVER_PREFIX "rtl8723bs: "
--
- void mac_reg_dump(struct adapter *adapter);
- void bb_reg_dump(struct adapter *adapter);
- void rf_reg_dump(struct adapter *adapter);
--- 
-2.20.1
+Just delete all commented out code.
+
+regards,
+dan carpenter
 
