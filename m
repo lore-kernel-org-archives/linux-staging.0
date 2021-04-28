@@ -1,120 +1,89 @@
-Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [194.109.24.22])
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A0572
-	for <linux-staging@lists.linux.dev>; Wed, 28 Apr 2021 11:39:20 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud9.xs4all.net with ESMTPA
-	id biW6lVBsZk1MGbiW9lOAqa; Wed, 28 Apr 2021 13:38:11 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1619609891; bh=Zr6Rfum8iWwkboYZL48b5BsLX8JH1sDdHNd4md0GZqU=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=VZ4S4xu8It6p1lqcYdRG80cJwIxuWfiz1EEjXbcEKtsVKC2rbhWaF0gFIGRntYFL1
-	 lJqWod96dC+e8L8jBL6WZ4iMdpgvsuQUWl5RnQi92be3W+T04mRoGBVJVqi77Gznpv
-	 8pqpTkf2liRE5+ITO4h/pfjhJ1Sshit4yc1Ye2k7gH2u5TR/uVANfGpzPl+Rds2S8w
-	 V1TzIeeiHGREIF9ruJkZCyp1ltxX6MNnYbKBX9PEPF3GQJXlZgbTwBnRj75Ojr2EUV
-	 TRAK2+blYqJtQqI6Jub4h++sIgjt01j2MkWBRqdHHPxuORJbq6TCBbUU85ptXqboM3
-	 fNCuK64v7Mg0A==
-Subject: Re: [PATCH RESEND v3 1/6] staging: media: atomisp: improve function
- argument alignment
-To: Deepak R Varma <drv@mailo.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <cover.1619199344.git.drv@mailo.com>
- <9b517e04d1a9b56dc14494a246d70915d51b1839.1619199344.git.drv@mailo.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <6711378d-9769-c4da-3210-b381e67d3320@xs4all.nl>
-Date: Wed, 28 Apr 2021 13:38:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9262F82
+	for <linux-staging@lists.linux.dev>; Wed, 28 Apr 2021 13:04:08 +0000 (UTC)
+IronPort-SDR: s3w1CWTTS4jjdcoCvrQGILaw/ffli49gQlkYPQ5TaST/hSqxDxJhx+kk626sQjJVP0wl9w7jmV
+ fZpCz4MAHcoA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9968"; a="258033713"
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; 
+   d="scan'208";a="258033713"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2021 06:04:07 -0700
+IronPort-SDR: LCb8ytZ5DpUUp6TqZ49kybIvrXvBLwhl5TPK//VQtD7kncGDp8hBVtff6CyvaO3R9ZAomrD/1i
+ jjYn9d59PM+A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,258,1613462400"; 
+   d="scan'208";a="423528754"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga008.fm.intel.com with ESMTP; 28 Apr 2021 06:04:04 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id C75AC425; Wed, 28 Apr 2021 16:04:22 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Phil Reid <preid@electromag.com.au>,
+	dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v3 2/4] staging: fbtft: Replace custom ->reset() with generic one
+Date: Wed, 28 Apr 2021 16:04:13 +0300
+Message-Id: <20210428130415.55406-3-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210428130415.55406-1-andriy.shevchenko@linux.intel.com>
+References: <20210428130415.55406-1-andriy.shevchenko@linux.intel.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <9b517e04d1a9b56dc14494a246d70915d51b1839.1619199344.git.drv@mailo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfHuEPMoUNg08xVKfb5qzjnEzDNLWinUEB+iBdcVW8ACisAfMggJm6E+JwT0PEAd/m8HhdFwVEsDTI+S1xa+AQeHwBOrMfIDwvxFvejyLTJzGPkISTOXw
- 7p9d7kUzOcUt7tHPGnZM1IW9SLlO323UCOqT+GAKgw7Oyvzucusq6KtMMHGL/og0tuq/rrn9HfSrGsgAi5RHVgDOgVMcAcp2zWv9xXHv6j6Vnq63rgPQ8SFK
- 9huNb8RfwgYmhA/+HDfXLuts8kz742SgUKfZgyCUD30TKoxthaOPCGuUzzr3u7j4+y2Oi6IV7gZjia31bU9B7tf8ps316vVv8hdqytTl75MoGAcjoTjqTYMV
- Va0S8dc3HBAO08uf2Xl87NykGRRVrkxq+CC9NzOijJlYNoo036vcL2ZEwdC6BEBa62e+IMyD
+Content-Transfer-Encoding: 8bit
 
-Hi Deepak,
+The custom ->reset() repeats the generic one, replace it.
 
-I'm dropping this patch since others have fixed this already.
+Note, in newer kernels the context of the function is a sleeping one,
+it's fine to switch over to the sleeping functions. Keeping the reset
+line asserted longer than 20 microseconds is also okay, it's an idling
+state of the hardware.
 
-Regards,
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/staging/fbtft/fb_agm1264k-fl.c | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-	Hans
-
-On 25/04/2021 10:41, Deepak R Varma wrote:
-> Improve multi-line function argument alignment according to the code style
-> guidelines. Resolves checkpatch feedback: "Alignment should match
-> open parenthesis".
-> 
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
-> ---
-> 
-> Changes since v2:
->    - None.
-> Changes since v1:
->    - None.
-> 
-> 
->  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c | 4 ++--
->  drivers/staging/media/atomisp/i2c/atomisp-gc2235.c | 4 ++--
->  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c | 4 ++--
->  3 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> index 2b71de722ec3..6be3ee1d93a5 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> @@ -192,8 +192,8 @@ static int __gc0310_buf_reg_array(struct i2c_client *client,
->  }
->  
->  static int __gc0310_write_reg_is_consecutive(struct i2c_client *client,
-> -	struct gc0310_write_ctrl *ctrl,
-> -	const struct gc0310_reg *next)
-> +					     struct gc0310_write_ctrl *ctrl,
-> +					     const struct gc0310_reg *next)
->  {
->  	if (ctrl->index == 0)
->  		return 1;
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> index 78147ffb6099..6ba4a8adff7c 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> @@ -171,8 +171,8 @@ static int __gc2235_buf_reg_array(struct i2c_client *client,
->  }
->  
->  static int __gc2235_write_reg_is_consecutive(struct i2c_client *client,
-> -	struct gc2235_write_ctrl *ctrl,
-> -	const struct gc2235_reg *next)
-> +					     struct gc2235_write_ctrl *ctrl,
-> +					     const struct gc2235_reg *next)
->  {
->  	if (ctrl->index == 0)
->  		return 1;
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> index eecefcd734d0..aec7392fd1de 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> @@ -212,8 +212,8 @@ static int __ov2722_buf_reg_array(struct i2c_client *client,
->  }
->  
->  static int __ov2722_write_reg_is_consecutive(struct i2c_client *client,
-> -	struct ov2722_write_ctrl *ctrl,
-> -	const struct ov2722_reg *next)
-> +					     struct ov2722_write_ctrl *ctrl,
-> +					     const struct ov2722_reg *next)
->  {
->  	if (ctrl->index == 0)
->  		return 1;
-> 
+diff --git a/drivers/staging/fbtft/fb_agm1264k-fl.c b/drivers/staging/fbtft/fb_agm1264k-fl.c
+index b545c2ca80a4..207d578547cd 100644
+--- a/drivers/staging/fbtft/fb_agm1264k-fl.c
++++ b/drivers/staging/fbtft/fb_agm1264k-fl.c
+@@ -77,19 +77,6 @@ static int init_display(struct fbtft_par *par)
+ 	return 0;
+ }
+ 
+-static void reset(struct fbtft_par *par)
+-{
+-	if (!par->gpio.reset)
+-		return;
+-
+-	dev_dbg(par->info->device, "%s()\n", __func__);
+-
+-	gpiod_set_value(par->gpio.reset, 1);
+-	udelay(20);
+-	gpiod_set_value(par->gpio.reset, 0);
+-	mdelay(120);
+-}
+-
+ /* Check if all necessary GPIOS defined */
+ static int verify_gpios(struct fbtft_par *par)
+ {
+@@ -439,7 +426,6 @@ static struct fbtft_display display = {
+ 		.set_addr_win = set_addr_win,
+ 		.verify_gpios = verify_gpios,
+ 		.request_gpios_match = request_gpios_match,
+-		.reset = reset,
+ 		.write = write,
+ 		.write_register = write_reg8_bus8,
+ 		.write_vmem = write_vmem,
+-- 
+2.30.2
 
