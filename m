@@ -1,51 +1,28 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B1A71
-	for <linux-staging@lists.linux.dev>; Wed, 28 Apr 2021 17:55:29 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id t22so10040279pgu.0
-        for <linux-staging@lists.linux.dev>; Wed, 28 Apr 2021 10:55:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=EOlR2LB50FEmXOIlb44UF+AW0LxIYM4DBDtW/EDmbM4=;
-        b=UsmH3lJn+uVfWZiEIV0TIdAUxseTWvlwBFpLL2BwHQ1/GsavFQseePn0nZrQqS4277
-         xyfqvnLp9srT9Vb5O+1a3ZNC415j4NZaqW63A7nNy+1E7nKqEUx0M+/4nyRd3nRE8N/T
-         7hX0yRYnBIIudzCxaLsdyM7OAGSJvbkN8cbWUHrZ2HbXMkhxnxMkXiefJAupFRk1csy4
-         rgmr25F07/ranBJOjSTqH0BcPTlpbZOJ4DbwWZeE5rr0o9r4jN6ttu7xOIRPEqZt4u9J
-         YnrfnElG10KQibLawwRgHlT4Fu8izjuvEmIpmH5LtaTAaNssfbFeolYhEhhOnG99iVwE
-         tr6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=EOlR2LB50FEmXOIlb44UF+AW0LxIYM4DBDtW/EDmbM4=;
-        b=a2mPvysPS6bSSRPufRLCGfFS1p1DF2jdefrRDmmIHj4hrSALVuUpoyFacD5gB1mfnA
-         IPEt0XnEisfCIOdUoCY+lri3vKMSn4/yEAJqOnPuntrYE80q4cFddwsbB0lOT6gx5HdC
-         rKCfgmDl7fqGRQUF22hQGzkcB3rmn44ljKV57W1rekJhOQHli6rQR5F4LTdq9t66P9lL
-         WgcPPyX1jkLnLzg+++5h/5ipO0/0w5Uf/5sOUkyU4EK/44Vx7ZH56xRILjGAj2wgqZM6
-         fjd8IKLUdpiJ3ax+fbRsRjT9d7Sy7vRmwbDEQWfhsuJEemPG0lHhDviJ7cQP9abiWmHD
-         le5w==
-X-Gm-Message-State: AOAM531JuZeM1a2JYmAU1PSOFHXPOT7BMWhVbJ1KVjbRdnZRArWnrAf6
-	x39c2f3/W3THq8fxB3X9kls=
-X-Google-Smtp-Source: ABdhPJwOTdy/HQ6OjYlOdx8j35mKQEpMtqo1lvVwZ/Hh6rXjztHurrAJfAG3Hrhl5Zpcceh3L2iuuQ==
-X-Received: by 2002:a62:be16:0:b029:25a:e1b4:5deb with SMTP id l22-20020a62be160000b029025ae1b45debmr28574499pff.66.1619632529191;
-        Wed, 28 Apr 2021 10:55:29 -0700 (PDT)
-Received: from user ([2001:4490:4409:14a:3c1e:9a4c:c5d6:1dec])
-        by smtp.gmail.com with ESMTPSA id gn24sm190185pjb.13.2021.04.28.10.55.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Apr 2021 10:55:28 -0700 (PDT)
-Date: Wed, 28 Apr 2021 23:25:20 +0530
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-To: gregkh@linuxfoundation.org, marcocesati@gmail.com,
-	fabioaiuto83@gmail.com, dan.carpenter@oracle.com,
-	saurav.girepunje@gmail.com, john.oldman@polehill.co.uk,
-	ross.schm.dev@gmail.com, insafonov@gmail.com,
-	hello@bryanbrattlof.com, hdegoede@redhat.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-Subject: [PATCH] staging: rtl8723bs: Change the return type
-Message-ID: <20210428175520.GA8921@user>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11AC71
+	for <linux-staging@lists.linux.dev>; Wed, 28 Apr 2021 18:07:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1619633077; bh=7hlgpWxI8RDOAaTiJXMHJmjusAlSxGAIvuavLSm+NJs=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
+	 Content-Type;
+	b=M6BMEs62PGRC8fOjrqKiYPGjER2VRGY69XZKigMrh9r3fzSIiEYBMkGyjtUN4yHBv
+	 RyX8DqGRtz2RJbDzWSpSlSPYWTY1cki+0rTzZ+0q0kpK3Sl9AxuMZpew+UVNMO/opt
+	 ++oFNJPw8cXjmYX26gQSIu97WaVOXHi1BjA6KqE0=
+Received: by 192.168.90.11 [192.168.90.11] with ESMTP
+	via ip-206.mailobj.net [213.182.55.206]
+	Wed, 28 Apr 2021 20:04:37 +0200 (CEST)
+X-EA-Auth: D9acU+5VrOCUhvF5ajQTKCNpZFfSNXGn1i367EQfYqGFv32RsQo9pSqkrlja6tz07PCkVuXSgVy+sorgw26MzkxjFXcamVCk
+Date: Wed, 28 Apr 2021 23:34:29 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, drv@mailo.com
+Subject: [PATCH v4 0/9] staging: media: atomisp: code cleanup fixes
+Message-ID: <cover.1619628317.git.drv@mailo.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -54,74 +31,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Remove the ret variable in rtw_suspend_common() and change
-the return type from int to void as rtw_suspend_common()
-always return zero unconditionally.
+This patch set addresses multiple issues reported by  of checkpatch script as
+WARNING and CHECK complaints. Other feedback received from the
+maintainers is incorporated as well.
 
-Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
----
- drivers/staging/rtl8723bs/include/osdep_intf.h | 2 +-
- drivers/staging/rtl8723bs/os_dep/os_intfs.c    | 5 ++---
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c   | 4 +++-
- 3 files changed, 6 insertions(+), 5 deletions(-)
+Note:
+   - The patches should be applied in the ascending order.
+   - Patch count revised to 9 from 6
+   - patch 1/9 is not being sent since it was already submitted by
+     another developer.
 
-diff --git a/drivers/staging/rtl8723bs/include/osdep_intf.h b/drivers/staging/rtl8723bs/include/osdep_intf.h
-index 48c90f00cc2e..111e0179712a 100644
---- a/drivers/staging/rtl8723bs/include/osdep_intf.h
-+++ b/drivers/staging/rtl8723bs/include/osdep_intf.h
-@@ -66,7 +66,7 @@ void rtw_ips_pwr_down(struct adapter *padapter);
- int rtw_drv_register_netdev(struct adapter *padapter);
- void rtw_ndev_destructor(struct net_device *ndev);
- 
--int rtw_suspend_common(struct adapter *padapter);
-+void rtw_suspend_common(struct adapter *padapter);
- int rtw_resume_common(struct adapter *padapter);
- 
- int netdev_open(struct net_device *pnetdev);
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index 1f34cb2e367c..724909078d80 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -1146,14 +1146,13 @@ static void rtw_suspend_normal(struct adapter *padapter)
- 		padapter->intf_deinit(adapter_to_dvobj(padapter));
- }
- 
--int rtw_suspend_common(struct adapter *padapter)
-+void rtw_suspend_common(struct adapter *padapter)
- {
- 	struct dvobj_priv *psdpriv = padapter->dvobj;
- 	struct debug_priv *pdbgpriv = &psdpriv->drv_dbg;
- 	struct pwrctrl_priv *pwrpriv = dvobj_to_pwrctl(psdpriv);
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 
--	int ret = 0;
- 	unsigned long start_time = jiffies;
- 
- 	DBG_871X_LEVEL(_drv_always_, " suspend start\n");
-@@ -1196,7 +1195,7 @@ int rtw_suspend_common(struct adapter *padapter)
- 
- exit:
- 
--	return ret;
-+	return;
- }
- 
- static int rtw_resume_process_normal(struct adapter *padapter)
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index a9a9631dd23c..84c16925c4f5 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -452,7 +452,9 @@ static int rtw_sdio_suspend(struct device *dev)
- 		return 0;
- 	}
- 
--	return rtw_suspend_common(padapter);
-+	rtw_suspend_common(padapter);
-+
-+	return 0;
- }
- 
- static int rtw_resume_process(struct adapter *padapter)
+Changes since v3:
+   Generic change:
+   1. Dropped patch 1/9 since it was already submitted to Hans by
+      another developer.
+   2. Split patch 2 into patch 2 & 3 since they are doing two different
+      things.
+   3. Added patch 8 & 9 for extended clean up based on patch set feedback
+      received.
+
+   Patch Specific change:
+   1. patch 1/9 : dropped
+   2. patch 2/9 : split into patch 2 & 3
+   3. patch 3/9 : introduced
+   4. patch 4/9 : none
+   5. patch 5/9 : include header file in the clean up
+   6. patch 6/9 : none 
+   7. patch 7/9 : include dev_info() for replacements 
+   8. patch 8/9 : introduced 
+   9. patch 9/9 : introduced
+
+Changes since v2:
+   Generic change:
+   1. Correct patch versioning in patch subject
+
+   Patch Specific change:
+   1. patch 1/6 : none
+   2. patch 2/6 : none
+   3. patch 3/6 : none
+   4. patch 4/6 :
+        a. Tag Fabio Auito for the patch suggestion
+
+   5. patch 5/6 : none
+   6. patch 6/6:
+        a. Tag Fabio Auito for the patch suggestion
+
+Changes since v1:
+   Generic change:
+   1. The patch set is being resent from an email account that matches with
+      the patch signed-of-by tag. Issue highlighted by Hans Verkuil.
+
+   Patch specific changes:
+   1. patch 1/6 : none
+   2. patch 2/6 : none
+   3. patch 3/6 : none
+   4. patch 4/6 : implement following changes suggested by Fabio Aiuto
+        a. Corrected commenting style
+        b. Similar style implemented for other comment blocks in
+           the same files.
+   5. patch 5/6 : none
+   6. patch 6/6: implement following changes suggested by Fabio Aiuto
+        a. use dev_info instead of pr_info
+        b. update patch log message accordingly
+
+
+Deepak R Varma (9):
+  staging: media: atomisp: improve function argument alignment
+  staging: media: atomisp: balance braces around if...else block
+  staging: media: atomisp: remove unnecessary braces
+  staging: media: atomisp: use __func__ over function names
+  staging: media: atomisp: reformat code comment blocks
+  staging: media: atomisp: fix CamelCase variable naming
+  staging: media: atomisp: replace raw pr_*() by dev_dbg()
+  staging: media: atomisp: remove unnecessary pr_info calls
+  staging: media: atomisp: remove unwanted dev_*() calls
+
+ .../media/atomisp/i2c/atomisp-gc0310.c        |  57 +++------
+ .../media/atomisp/i2c/atomisp-gc2235.c        |  29 ++---
+ .../atomisp/i2c/atomisp-libmsrlisthelper.c    |   6 +-
+ .../media/atomisp/i2c/atomisp-lm3554.c        |   2 +-
+ .../media/atomisp/i2c/atomisp-mt9m114.c       | 108 ++++++++++--------
+ .../media/atomisp/i2c/atomisp-ov2680.c        |  41 ++++---
+ .../media/atomisp/i2c/atomisp-ov2722.c        |  10 +-
+ drivers/staging/media/atomisp/i2c/mt9m114.h   |   3 +-
+ drivers/staging/media/atomisp/i2c/ov2680.h    |  10 +-
+ 9 files changed, 130 insertions(+), 136 deletions(-)
+
 -- 
-2.25.1
+2.31.1
+
+
 
