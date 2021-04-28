@@ -1,94 +1,122 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from ssl.serverraum.org (ssl.serverraum.org [176.9.125.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB442F80
-	for <linux-staging@lists.linux.dev>; Wed, 28 Apr 2021 07:58:55 +0000 (UTC)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 13S7rL8e002509;
-	Wed, 28 Apr 2021 07:53:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=AKjr5Mo/adx/g8/qcHycfBQ5/KxoVEwsWbF6MXeqaAY=;
- b=GC+7KIp40xm5AzbROZ8bEHHNTSgU+5byZl9+xLkFtXSL5nMpjIC1zIzYnLbuuMc3cCDq
- RzbB73PtCZisn9hRiVf4OtrpMCV2v0ZBoM69EGFk5YM6YJ2XK/6OsauCgtuH4fEL8rZQ
- bZEd/xH77HzllDFsnzzJVb0bMhBL8fs5ecRMG4kboXQ9vaIGGa5HE5SEov6eFvyvFWOl
- C4S+eLvpheT5yJXdovaVNxjxw8RHqZCj02nGT4qZaq3YKCe5PQyoAuamolJlXa8eB278
- 01GNiQnzvzKwO5k/Gma97C4X5BUllF1mGlofJ2k3vBNOE2G7OK6MDKAUB4LvF92CILIE vQ== 
-Received: from oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by mx0b-00069f02.pphosted.com with ESMTP id 385sgq91tf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 28 Apr 2021 07:53:33 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 13S7p1qf156396;
-	Wed, 28 Apr 2021 07:53:32 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3020.oracle.com with ESMTP id 384b58238h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 28 Apr 2021 07:53:32 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13S7rW2R166987;
-	Wed, 28 Apr 2021 07:53:32 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-	by aserp3020.oracle.com with ESMTP id 384b582384-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 28 Apr 2021 07:53:32 +0000
-Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
-	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13S7rUdk023886;
-	Wed, 28 Apr 2021 07:53:31 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Wed, 28 Apr 2021 00:53:30 -0700
-Date: Wed, 28 Apr 2021 10:53:23 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: Deepak R Varma <mh12gx2825@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/6] staging: media: atomisp: reformat code comment blocks
-Message-ID: <20210428075323.GP1981@kadam>
-References: <cover.1618859059.git.drv@mailo.com>
- <7cf7b8253550460e7273c94bae005939000679fd.1618859059.git.drv@mailo.com>
- <20210420084448.GC1411@agape.jhs>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B16D2F80
+	for <linux-staging@lists.linux.dev>; Wed, 28 Apr 2021 08:09:39 +0000 (UTC)
+Received: from ssl.serverraum.org (web.serverraum.org [172.16.0.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ssl.serverraum.org (Postfix) with ESMTPSA id 3392E2224F;
+	Wed, 28 Apr 2021 10:09:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2016061301;
+	t=1619597371;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=M9NlOCpW1MZNsl/vA/TRzY5PiytDAsgS7p11KntpwDc=;
+	b=TeuOHOIozerVUFBEq+kXl+E4fsEw1MWqgROl2oA8Sc/xKOT0oXpynCQIkw1papfFwz22RM
+	ZqopdTbGj/RRv3+sDFrM+3v84W6DRuM04o8XbE5Tyx09iWpSYtyaTodlAwmk1PVwQpm/hS
+	zB6aEh6Z4dXpMFJB4kyQVt3Zk/Jvibs=
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210420084448.GC1411@agape.jhs>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: d1KBNGNDMsVudIB_tINeTfsVoRLkojPf
-X-Proofpoint-ORIG-GUID: d1KBNGNDMsVudIB_tINeTfsVoRLkojPf
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Wed, 28 Apr 2021 10:09:17 +0200
+From: Michael Walle <michael@walle.cc>
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Rob Herring <robh+dt@kernel.org>, QCA ath9k Development
+ <ath9k-devel@qca.qualcomm.com>, Microchip Linux Driver Support
+ <UNGLinuxDriver@microchip.com>, linux-arm-kernel
+ <linux-arm-kernel@lists.infradead.org>, linux-kernel@vger.kernel.org,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, netdev
+ <netdev@vger.kernel.org>, "moderated list:ARM/Mediatek SoC support"
+ <linux-mediatek@lists.infradead.org>, "open list:MEDIA DRIVERS FOR RENESAS -
+ FCP" <linux-renesas-soc@vger.kernel.org>, "moderated list:ARM/STM32
+ ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>, "open
+ list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+ linux-oxnas@groups.io, linux-omap <linux-omap@vger.kernel.org>,
+ linux-wireless <linux-wireless@vger.kernel.org>, devicetree@vger.kernel.org,
+ linux-staging@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>, Gregory Clement
+ <gregory.clement@bootlin.com>, Sebastian Hesselbarth
+ <sebastian.hesselbarth@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ Michael Ellerman <mpe@ellerman.id.au>, Paul Mackerras <paulus@samba.org>,
+ Andreas Larsson <andreas@gaisler.com>, "David S . Miller"
+ <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Maxime Ripard
+ <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@siol.net>, Joyce Ooi <joyce.ooi@intel.com>, Chris Snook
+ <chris.snook@gmail.com>, =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?=
+ <rafal@milecki.pl>, "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
+ <bcm-kernel-feedback-list@broadcom.com>, Florian Fainelli
+ <f.fainelli@gmail.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, Claudiu
+ Beznea <claudiu.beznea@microchip.com>, Sunil Goutham <sgoutham@marvell.com>,
+ Fugang Duan <fugang.duan@nxp.com>, Madalin Bucur <madalin.bucur@nxp.com>,
+ Pantelis Antoniou <pantelis.antoniou@gmail.com>, Claudiu Manoil
+ <claudiu.manoil@nxp.com>, Li Yang <leoyang.li@nxp.com>, Yisen Zhuang
+ <yisen.zhuang@huawei.com>, Salil Mehta <salil.mehta@huawei.com>, Hauke
+ Mehrtens <hauke@hauke-m.de>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, Vadym Kochan <vkochan@marvell.com>, Taras
+ Chornyi <tchornyi@marvell.com>, Mirko Lindner <mlindner@marvell.com>,
+ Stephen Hemminger <stephen@networkplumber.org>, Felix Fietkau
+ <nbd@nbd.name>, John Crispin <john@phrozen.org>, Sean Wang
+ <sean.wang@mediatek.com>, Mark Lee <Mark-MC.Lee@mediatek.com>, Matthias
+ Brugger <matthias.bgg@gmail.com>, Bryan Whitehead
+ <bryan.whitehead@microchip.com>, Vladimir Zapolskiy <vz@mleia.com>, Sergei
+ Shtylyov <sergei.shtylyov@gmail.com>, Byungho An <bh74.an@samsung.com>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Giuseppe Cavallaro
+ <peppe.cavallaro@st.com>, Alexandre Torgue <alexandre.torgue@st.com>, Jose
+ Abreu <joabreu@synopsys.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
+ <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Kevin Hilman
+ <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>, Jerome
+ Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Vinod Koul <vkoul@kernel.org>,
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, Grygorii Strashko
+ <grygorii.strashko@ti.com>, Wingman Kwok <w-kwok2@ti.com>, Murali Karicheri
+ <m-karicheri2@ti.com>, Michal Simek <michal.simek@xilinx.com>, Radhey Shyam
+ Pandey <radhey.shyam.pandey@xilinx.com>, Kalle Valo <kvalo@codeaurora.org>,
+ Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>, Ryder Lee
+ <ryder.lee@mediatek.com>, Stanislaw Gruszka <stf_xl@wp.pl>, Helmut Schaa
+ <helmut.schaa@googlemail.com>, Heiner Kallweit <hkallweit1@gmail.com>, Frank
+ Rowand <frowand.list@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, =?UTF-8?Q?J=C3=A9r=C3=B4me_Pouiller?=
+ <jerome.pouiller@silabs.com>, Vivien Didelot <vivien.didelot@gmail.com>,
+ Vladimir Oltean <olteanv@gmail.com>
+Subject: Re: [PATCH net-next v4 2/2] of: net: fix of_get_mac_addr_nvmem() for
+ non-platform devices
+In-Reply-To: <3677398ebb77f334abb4899770db633d9658fe82.camel@kernel.crashing.org>
+References: <20210412174718.17382-1-michael@walle.cc>
+ <20210412174718.17382-3-michael@walle.cc>
+ <730d603b12e590c56770309b4df2bd668f7afbe3.camel@kernel.crashing.org>
+ <8157eba9317609294da80472622deb28@walle.cc>
+ <CAL_JsqLrx6nFZrKiEtm2a1vDvQGG+FkpGtJCG2osM8hhGo3P=Q@mail.gmail.com>
+ <108f268a35843368466004f7fe5f9f88@walle.cc>
+ <3677398ebb77f334abb4899770db633d9658fe82.camel@kernel.crashing.org>
+User-Agent: Roundcube Webmail/1.4.11
+Message-ID: <452795c5254b65cfba6e52cfc94d92bd@walle.cc>
+X-Sender: michael@walle.cc
 
-On Tue, Apr 20, 2021 at 10:44:48AM +0200, Fabio Aiuto wrote:
-> On Tue, Apr 20, 2021 at 12:45:04AM +0530, Deepak R Varma wrote:
-> >  	switch(AnalogGain)
-> >  	{
-> >  	case 0:
-> > @@ -1069,8 +1071,9 @@ static long mt9m114_s_exposure(struct v4l2_subdev *sd,
-> >  	*/
-> >  	if (DigitalGain >= 16 || DigitalGain <= 1)
-> >  		DigitalGain = 1;
-> > -	/* AnalogGainToWrite =
-> > -		(u16)((DigitalGain << 12) | AnalogGainToWrite); */
-> > +
-> > +	/* AnalogGainToWrite = (u16)((DigitalGain << 12) | AnalogGainToWrite);
-> > +	 */
+Am 2021-04-27 01:44, schrieb Benjamin Herrenschmidt:
+> On Mon, 2021-04-26 at 12:54 +0200, Michael Walle wrote:
+>> (2) What do you think of eth_get_mac_address(ndev). That is, the
 > 
-> this is best recommended for one line comment:
-> 
-> /* AnalogGainToWrite = (u16)((DigitalGain << 12) | AnalogGainToWrite); */
-> 
+> Not sure what you mean, eth_platform_get_mac_address() takes the
+> address as an argument. I think what you want is a consolidated
+> nvmem_get_mac_address + eth_platform_get_mac_address that takes a
+> device, which would have no requirement of the bus_type at all.
 
-I'm going through old emails...
+Sure. What I meant was the following:
 
-Just delete all commented out code.
+  eth_get_mac_address(struct net_device *ndev)
+vs.
+  eth_get_mac_address(struct device *dev, u8 *mac_buf)
 
-regards,
-dan carpenter
+The first would assume the destination is ndev->dev_addr (which
+is true for most of the calls, but not all).
 
+-michael
