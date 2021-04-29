@@ -1,54 +1,61 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F5272
-	for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 12:07:35 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id i24so18651130edy.8
-        for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 05:07:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=E/qBmN3w5ra6vzERr1tAnJ+lRCifYP6wOJclMHfbmgA=;
-        b=lga51PiHQT8AXJaHF9E+Rcm2L7rBLdrZM+LDIobxpUfFnTW7kT866PFjvaeamdIvSy
-         oBD2mFz5kUbvDDg4P1Cg8yPYTBWvdZXO8RsJJc4oXIOxDg45gU7vEzM++OrTbHtzNBQe
-         rC2SSb7iC4kcW17d3a11uA/rozz2QvFI0F4cEh0FnZAyP5OZleb0yDhj4BCF+ftMk3Z2
-         byiuS7kh6koeNRV86e+Fxnw26SAom3jTRnzAe7a1jiU//Uxf7d/j2wCkKENOuPXiF9NE
-         sQo2naXTvrxYe3K2YjKBJZmVXEjw0DZOLtjyFBFtm43mMQaypu7hcZmaQQTtedC9OPKp
-         4onw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=E/qBmN3w5ra6vzERr1tAnJ+lRCifYP6wOJclMHfbmgA=;
-        b=VAnCaOVbkTvYGv2SLGUADehvTfdDpQU/kb22yZk3EqrI83PcfqoIQG8mVhWrKZvDp6
-         0/r++/LVHr2Kn2hon9Ej4dWDYOEkPROyyQ41xd7N7SzWgg9oPja0vsHo8hsLdd6hDdlc
-         tfjaOiEBZOz1bZD1PGUKk12Mqjpm4MTxxVa3aAkjITWI5g6Bv0wNF0Y2QLBG0tZ4yJ1z
-         Ksmlbqtr3EGIeNjTu+rM8gAH0jWSnenUnzg/QbDCmPOu1rLV4aujkD8jCtcuDwraW6dy
-         BjHGJA6l+bRqox70FxBGII4vVqtcqjdeDZiBgGumGMHvjY7Uv1OetlNWhG29/e95f7rB
-         OhNA==
-X-Gm-Message-State: AOAM532gpHvMTnPGVz1hzkNybleE3MccdGCxAp4gLFRIiOCqyQObk2Ne
-	e9jjyC0yyGpePdFjVYVbMPo=
-X-Google-Smtp-Source: ABdhPJw4JTYkFThXioPmy2z8+WuiLOKSdz69LpPJsZTBZxAQhtylaDEIj8mQzdkT/FBSuMgnjrWcJA==
-X-Received: by 2002:a05:6402:78b:: with SMTP id d11mr10066481edy.257.1619698053629;
-        Thu, 29 Apr 2021 05:07:33 -0700 (PDT)
-Received: from agape.jhs ([5.171.72.170])
-        by smtp.gmail.com with ESMTPSA id c25sm2184909edt.43.2021.04.29.05.07.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Apr 2021 05:07:33 -0700 (PDT)
-Date: Thu, 29 Apr 2021 14:07:30 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH 1/2] staging: rtl8723bs: hal: Remove
- set but unused variables
-Message-ID: <20210429120729.GA1393@agape.jhs>
-References: <20210428113346.28305-1-fmdefrancesco@gmail.com>
- <YIqECQk/1Zb4JRjb@kroah.com>
- <20210429102201.GF1409@agape.jhs>
- <1870536.WTzYeaBcXf@linux.local>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 217C22F82
+	for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 12:55:14 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13TCrjmq067316;
+	Thu, 29 Apr 2021 12:55:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=/v0hnkc5VQ//MlMo9LHLiozP+/cPjSQg2GVarccDiBc=;
+ b=muXDhUBJWUKqel/l12/uolsHfdylq2i+gzgVIYkcwBKq0WHRW2kQI44zHj+rBF1VPLUF
+ oDUTlM3IaIXogzpnvaf4aJawf3YdV/W8qDG5ikcqqha5ZL5daMlrKYLiAJPE7YHeFVSr
+ hiiF24W4VW7qavJR3wUcU3M0uC02MGyh7VRhlbvoZN/1+4BL9q+dpMPnKVxz+53bnzL6
+ ewik1GKWPw8Dc6OiKQw7DQeb25HX3IeYmHrkCKFylA7joee8shecz9LZb1PF+CKkHTf4
+ n5ZcRWCwfLYXlwvP/qa/WNk/fgvkuMpBK+fJgj2kr9DQ+j4+4oJnVy6aqIA/BCqgde06 /g== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by aserp2120.oracle.com with ESMTP id 385ahbv8ug-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 29 Apr 2021 12:55:09 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13TCsgtu034819;
+	Thu, 29 Apr 2021 12:55:08 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by userp3020.oracle.com with ESMTP id 384w3w7atu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 29 Apr 2021 12:55:08 +0000
+Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13TCt7Xb037433;
+	Thu, 29 Apr 2021 12:55:07 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+	by userp3020.oracle.com with ESMTP id 384w3w7atc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 29 Apr 2021 12:55:07 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13TCt5PA020098;
+	Thu, 29 Apr 2021 12:55:05 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Thu, 29 Apr 2021 05:55:05 -0700
+Date: Thu, 29 Apr 2021 15:54:56 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Deepak R Varma <drv@mailo.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, mh12gx2825@gmail.com
+Subject: Re: [PATCH v1 4/6] staging: media: atomisp: reformat code comment
+ blocks
+Message-ID: <20210429125456.GD21598@kadam>
+References: <cover.1619022192.git.drv@mailo.com>
+ <efdd8910b519dd55838570c72e3ce35e063f4a11.1619022192.git.drv@mailo.com>
+ <20210429100808.GZ1981@kadam>
+ <YIqZHWkHi8HWnF0C@192.168.1.8>
+ <20210429114304.GC21598@kadam>
+ <YIqesrvl3lFwWDhV@192.168.1.8>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -56,64 +63,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1870536.WTzYeaBcXf@linux.local>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <YIqesrvl3lFwWDhV@192.168.1.8>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: N2_4Q6ChWtfiM-SugcsYx30q84eG2wU0
+X-Proofpoint-ORIG-GUID: N2_4Q6ChWtfiM-SugcsYx30q84eG2wU0
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9969 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 bulkscore=0 mlxlogscore=999
+ priorityscore=1501 clxscore=1015 adultscore=0 suspectscore=0 spamscore=0
+ phishscore=0 malwarescore=0 lowpriorityscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104290088
 
-> > > Yes, but many types of hardware _REQUIRE_ reads to do something.  So
-> > > "read that does nothing" is a requirement for some operations.
+On Thu, Apr 29, 2021 at 05:25:30PM +0530, Deepak R Varma wrote:
+> On Thu, Apr 29, 2021 at 02:43:04PM +0300, Dan Carpenter wrote:
+> > On Thu, Apr 29, 2021 at 05:01:41PM +0530, Deepak R Varma wrote:
+> > > On Thu, Apr 29, 2021 at 01:08:09PM +0300, Dan Carpenter wrote:
+> > > > On Wed, Apr 21, 2021 at 10:26:09PM +0530, Deepak R Varma wrote:
+> > > > > @@ -1044,7 +1048,7 @@ static long mt9m114_s_exposure(struct v4l2_subdev *sd,
+> > > > >  	}
+> > > > >  
+> > > > >  	/*
+> > > > > -	// set analog/digital gain
+> > > > > +	 * set analog/digital gain
+> > > > >  	switch(AnalogGain)
+> > > > >  	{
+> > > > >  	case 0:
+> > > > 
+> > > > How on earth does this compile?
 > > > 
-> > > As an example, a write is only guaranteed to have been finished if you
-> > > do a read of the same location back from it on some hardware busses.
-> > > The bus can reorder things, but a write/read of the same location can
-> > > not be reordered.
-> > > 
-> > > Sometimes you have to do reads multiple times to get things to "stick".
-> > > 
-> > > Other times reading from a location changes a state in the hardware
-> > > (horrid but HW designers aren't the brightest at times...)
-> > > 
-> > > So you can NOT just remove reads without knowing that the hardware does
-> > > not require this.  This is an issue where GCC "warnings" mean nothing as
-> > > gcc does not actually know what hardware does, or does not, do for many
-> > > things.
-> > > 
-> > > thanks,
-> > > 
-> > > greg k-h
+> > > There is a closing */ down under after the entire switch block. The
+> > > change I made is within the comment block. I have compiled the built the
+> > > driver successfully.
 > > 
-> > thank you for explanation, my hardware knowledge is poor:(
-> > Sorry for noise.
-> > 
-> > fabio
-> >
-> I suspected that removing those variables could have been a source of troubles 
-> (but I was thinking of possible side effects on internal kernel's data, not of 
-> hardware related idiosyncrasies), however I think that you did well to point 
-> it out because:
+> > Oh...  Duh.  I thought you converted the // to /*.  This patch doesn't
+> > make any sense though because originally it was commented out code, but
+> > now it's a commented out ball of code and notes.
 > 
-> 1) We learned something new from Greg;
-
-yes that's been very good for me
-
-> 2) I learned that, for the purpose of finding definitions, vim's ctrl-] is not 
-> the right way to work out the problem.
-
-3) I learned that with ctrl-] in vim one could (in some misterious conditions)
-   see a function definition :-D
-
-It seems that you know more than me about vim, I make intensive use of grep
-for finding function defs and usages in code.
-
-> 
-> If you have time, I'd appreciate some comments on the topic of line (2).
-> 
-> Thanks,
-> 
-> Fabio
-> 
-> 
+> No problem. It looks wrong with the limited lines in diff. Appreciate
+> you looking at it though.
 > 
 
-thank you,
+Yeah.  That's fine by me.
 
-fabio
+> Is it okay if I send in a separate patch with comment clean up? There
+> are several #if 0 code block directives for this driver that I believe can
+> be taken off as well. Should I clean those up as well?
+
+Yep.  Delete those as well.
+
+regards,
+dan carpenter
+
