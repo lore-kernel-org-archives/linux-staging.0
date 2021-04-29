@@ -1,35 +1,54 @@
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8327072
-	for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 11:56:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1619697337; bh=EDodJBjFB3DQAxPXQjc9/lyJzoAH5vHWFKGP+cWp5Cw=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=PMcwewS9jJs/xe16lbhanLuCXKbwsgk2tpXw8CD58VNUgrh3QihuEfUskHjXGvcDo
-	 YscogBvsi/zoiu90mjxVqfNw2x1kivo0wQZGTJx/OVWA7YCNhSfPHiNapfF6MOLBNO
-	 4blcMauAcuzRsVgfy39EKZ/eORv1KZ4N+kH8eABw=
-Received: by 192.168.90.11 [192.168.90.11] with ESMTP
-	via ip-206.mailobj.net [213.182.55.206]
-	Thu, 29 Apr 2021 13:55:37 +0200 (CEST)
-X-EA-Auth: cJOQOLANNKlBzEu2daIqW4bACv6qvrxU/vXGYSh8PQf4qW+uEs1ZyrV9jbACe8RylP4MiN8XQLbjiYmvM0/i1v18h2xAnE/j
-Date: Thu, 29 Apr 2021 17:25:30 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, mh12gx2825@gmail.com
-Subject: Re: [PATCH v1 4/6] staging: media: atomisp: reformat code comment
- blocks
-Message-ID: <YIqesrvl3lFwWDhV@192.168.1.8>
-References: <cover.1619022192.git.drv@mailo.com>
- <efdd8910b519dd55838570c72e3ce35e063f4a11.1619022192.git.drv@mailo.com>
- <20210429100808.GZ1981@kadam>
- <YIqZHWkHi8HWnF0C@192.168.1.8>
- <20210429114304.GC21598@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F5272
+	for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 12:07:35 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id i24so18651130edy.8
+        for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 05:07:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=E/qBmN3w5ra6vzERr1tAnJ+lRCifYP6wOJclMHfbmgA=;
+        b=lga51PiHQT8AXJaHF9E+Rcm2L7rBLdrZM+LDIobxpUfFnTW7kT866PFjvaeamdIvSy
+         oBD2mFz5kUbvDDg4P1Cg8yPYTBWvdZXO8RsJJc4oXIOxDg45gU7vEzM++OrTbHtzNBQe
+         rC2SSb7iC4kcW17d3a11uA/rozz2QvFI0F4cEh0FnZAyP5OZleb0yDhj4BCF+ftMk3Z2
+         byiuS7kh6koeNRV86e+Fxnw26SAom3jTRnzAe7a1jiU//Uxf7d/j2wCkKENOuPXiF9NE
+         sQo2naXTvrxYe3K2YjKBJZmVXEjw0DZOLtjyFBFtm43mMQaypu7hcZmaQQTtedC9OPKp
+         4onw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=E/qBmN3w5ra6vzERr1tAnJ+lRCifYP6wOJclMHfbmgA=;
+        b=VAnCaOVbkTvYGv2SLGUADehvTfdDpQU/kb22yZk3EqrI83PcfqoIQG8mVhWrKZvDp6
+         0/r++/LVHr2Kn2hon9Ej4dWDYOEkPROyyQ41xd7N7SzWgg9oPja0vsHo8hsLdd6hDdlc
+         tfjaOiEBZOz1bZD1PGUKk12Mqjpm4MTxxVa3aAkjITWI5g6Bv0wNF0Y2QLBG0tZ4yJ1z
+         Ksmlbqtr3EGIeNjTu+rM8gAH0jWSnenUnzg/QbDCmPOu1rLV4aujkD8jCtcuDwraW6dy
+         BjHGJA6l+bRqox70FxBGII4vVqtcqjdeDZiBgGumGMHvjY7Uv1OetlNWhG29/e95f7rB
+         OhNA==
+X-Gm-Message-State: AOAM532gpHvMTnPGVz1hzkNybleE3MccdGCxAp4gLFRIiOCqyQObk2Ne
+	e9jjyC0yyGpePdFjVYVbMPo=
+X-Google-Smtp-Source: ABdhPJw4JTYkFThXioPmy2z8+WuiLOKSdz69LpPJsZTBZxAQhtylaDEIj8mQzdkT/FBSuMgnjrWcJA==
+X-Received: by 2002:a05:6402:78b:: with SMTP id d11mr10066481edy.257.1619698053629;
+        Thu, 29 Apr 2021 05:07:33 -0700 (PDT)
+Received: from agape.jhs ([5.171.72.170])
+        by smtp.gmail.com with ESMTPSA id c25sm2184909edt.43.2021.04.29.05.07.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Apr 2021 05:07:33 -0700 (PDT)
+Date: Thu, 29 Apr 2021 14:07:30 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [Outreachy kernel] [PATCH 1/2] staging: rtl8723bs: hal: Remove
+ set but unused variables
+Message-ID: <20210429120729.GA1393@agape.jhs>
+References: <20210428113346.28305-1-fmdefrancesco@gmail.com>
+ <YIqECQk/1Zb4JRjb@kroah.com>
+ <20210429102201.GF1409@agape.jhs>
+ <1870536.WTzYeaBcXf@linux.local>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -37,47 +56,64 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210429114304.GC21598@kadam>
+In-Reply-To: <1870536.WTzYeaBcXf@linux.local>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Thu, Apr 29, 2021 at 02:43:04PM +0300, Dan Carpenter wrote:
-> On Thu, Apr 29, 2021 at 05:01:41PM +0530, Deepak R Varma wrote:
-> > On Thu, Apr 29, 2021 at 01:08:09PM +0300, Dan Carpenter wrote:
-> > > On Wed, Apr 21, 2021 at 10:26:09PM +0530, Deepak R Varma wrote:
-> > > > @@ -1044,7 +1048,7 @@ static long mt9m114_s_exposure(struct v4l2_subdev *sd,
-> > > >  	}
-> > > >  
-> > > >  	/*
-> > > > -	// set analog/digital gain
-> > > > +	 * set analog/digital gain
-> > > >  	switch(AnalogGain)
-> > > >  	{
-> > > >  	case 0:
+> > > Yes, but many types of hardware _REQUIRE_ reads to do something.  So
+> > > "read that does nothing" is a requirement for some operations.
 > > > 
-> > > How on earth does this compile?
+> > > As an example, a write is only guaranteed to have been finished if you
+> > > do a read of the same location back from it on some hardware busses.
+> > > The bus can reorder things, but a write/read of the same location can
+> > > not be reordered.
+> > > 
+> > > Sometimes you have to do reads multiple times to get things to "stick".
+> > > 
+> > > Other times reading from a location changes a state in the hardware
+> > > (horrid but HW designers aren't the brightest at times...)
+> > > 
+> > > So you can NOT just remove reads without knowing that the hardware does
+> > > not require this.  This is an issue where GCC "warnings" mean nothing as
+> > > gcc does not actually know what hardware does, or does not, do for many
+> > > things.
+> > > 
+> > > thanks,
+> > > 
+> > > greg k-h
 > > 
-> > There is a closing */ down under after the entire switch block. The
-> > change I made is within the comment block. I have compiled the built the
-> > driver successfully.
+> > thank you for explanation, my hardware knowledge is poor:(
+> > Sorry for noise.
+> > 
+> > fabio
+> >
+> I suspected that removing those variables could have been a source of troubles 
+> (but I was thinking of possible side effects on internal kernel's data, not of 
+> hardware related idiosyncrasies), however I think that you did well to point 
+> it out because:
 > 
-> Oh...  Duh.  I thought you converted the // to /*.  This patch doesn't
-> make any sense though because originally it was commented out code, but
-> now it's a commented out ball of code and notes.
+> 1) We learned something new from Greg;
 
-No problem. It looks wrong with the limited lines in diff. Appreciate
-you looking at it though.
+yes that's been very good for me
 
-Is it okay if I send in a separate patch with comment clean up? There
-are several #if 0 code block directives for this driver that I believe can
-be taken off as well. Should I clean those up as well?
+> 2) I learned that, for the purpose of finding definitions, vim's ctrl-] is not 
+> the right way to work out the problem.
 
-Regards,
-deepak.
+3) I learned that with ctrl-] in vim one could (in some misterious conditions)
+   see a function definition :-D
+
+It seems that you know more than me about vim, I make intensive use of grep
+for finding function defs and usages in code.
 
 > 
-> Just delete any commented out code.
+> If you have time, I'd appreciate some comments on the topic of line (2).
 > 
-> regards,
-> dan carpenter
+> Thanks,
+> 
+> Fabio
+> 
+> 
 > 
 
+thank you,
 
+fabio
