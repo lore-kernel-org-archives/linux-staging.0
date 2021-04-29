@@ -1,55 +1,56 @@
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE5A2F80
-	for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 14:35:53 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13TEGATE007742;
-	Thu, 29 Apr 2021 14:35:47 GMT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 858D52F80
+	for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 14:43:09 +0000 (UTC)
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+	by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13TEcpRC170468;
+	Thu, 29 Apr 2021 14:42:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
  : subject : message-id : references : mime-version : content-type :
  in-reply-to; s=corp-2020-01-29;
- bh=OZcICzs7p+CNORIipbTD7WjNxFxyZPDdbnWZ3TzgtYQ=;
- b=YqIFGPBI9ME/+a2PoaA9CyZ3roMe9zeNWHB/VjPEqqH3KIsPHX+BnmUjsVgBl4kAbwkG
- 4bFcc3OY2Qe7dJAMIn0YY4euZWVVCxsc8LULqX3Riky5CI3sK1UxzskHWD3LvxR23maf
- JTU4ht8seluxEHUSEZYPqnXJdzjHjHtPnaAZTF5BgTN42D0gjjIUsX63isdV1dUJd/cR
- a+h46WP4JJpz24Nl6rEWSmH3r28CtIKxSmT2t1Pz8WXf2UgNHGUVk8XqYtmk/Uvab8/0
- f1Y8CzfapZGX2IUrQXPKS9xULg/lOcBxihXgKHDALOnztxKK39gVBk1561gA2HM6yRsI sA== 
+ bh=0TxSLY2kK7MRYTK3OCHRP+D+iyiLTYfTm+JrDkZiRAo=;
+ b=RaDqu3/sPl10o4gzt+6L/q9Zc3rm2lM/kSHtQzetaHGVDP9XlObX15NNDL1gWs7iAM9Y
+ NI1p7sc0FiRIk5tRsn+/CnQZFt7kBWbyVGJqUmpnpjLP8SHCFFV7Rv1kZKzOqpnhjkH9
+ VcvmnjgWsg05xuMO3iUQq4ZQ8wE/mPM4CA5004rdtQTYD/veC3kgeXhFsLSMNDrM4Ogp
+ LIs/em2WTvR6oY65gRbOVc/cn+CaVpZozNcl1EsOkWPH3KNEAFarVcKSaiZZ8X7DonCl
+ Qcl5urAs5T9c3bu8fiZ5f/pstjAbAQxO1xAMI19lzDwh2wu1Nxv/8459oeQUx/KVX0gQ Zg== 
 Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-	by aserp2120.oracle.com with ESMTP id 385ahbvkva-1
+	by aserp2130.oracle.com with ESMTP id 385afq4pmk-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 29 Apr 2021 14:35:46 +0000
+	Thu, 29 Apr 2021 14:42:55 +0000
 Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-	by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13TEYu23142485;
-	Thu, 29 Apr 2021 14:35:46 GMT
+	by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13TEYvFc142941;
+	Thu, 29 Apr 2021 14:42:55 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by userp3030.oracle.com with ESMTP id 3848f1653h-1
+	by userp3030.oracle.com with ESMTP id 3848f16duu-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 29 Apr 2021 14:35:46 +0000
+	Thu, 29 Apr 2021 14:42:55 +0000
 Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13TEZj0t147341;
-	Thu, 29 Apr 2021 14:35:45 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by userp3030.oracle.com with ESMTP id 3848f16538-1
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13TEeBXe167217;
+	Thu, 29 Apr 2021 14:42:54 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+	by userp3030.oracle.com with ESMTP id 3848f16du8-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 29 Apr 2021 14:35:45 +0000
-Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13TEZiX6032445;
-	Thu, 29 Apr 2021 14:35:44 GMT
+	Thu, 29 Apr 2021 14:42:54 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 13TEgp3s016029;
+	Thu, 29 Apr 2021 14:42:52 GMT
 Received: from kadam (/102.36.221.92)
 	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Thu, 29 Apr 2021 07:35:43 -0700
-Date: Thu, 29 Apr 2021 17:35:36 +0300
+	with ESMTP ; Thu, 29 Apr 2021 07:42:50 -0700
+Date: Thu, 29 Apr 2021 17:42:44 +0300
 From: Dan Carpenter <dan.carpenter@oracle.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: outreachy-kernel@googlegroups.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH 2/2] staging: rtl8723bs: core: Removed
- set but unused variable.
-Message-ID: <20210429143536.GD1981@kadam>
-References: <20210428113346.28305-1-fmdefrancesco@gmail.com>
- <20210428113346.28305-3-fmdefrancesco@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Phil Reid <preid@electromag.com.au>, dri-devel@lists.freedesktop.org,
+        linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v3 3/4] staging: fbtft: Don't spam logs when probe is
+ deferred
+Message-ID: <20210429144244.GE1981@kadam>
+References: <20210428130415.55406-1-andriy.shevchenko@linux.intel.com>
+ <20210428130415.55406-4-andriy.shevchenko@linux.intel.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -57,51 +58,46 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210428113346.28305-3-fmdefrancesco@gmail.com>
+In-Reply-To: <20210428130415.55406-4-andriy.shevchenko@linux.intel.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: 3I-WfEfnF7HtXKDJ1_iqrugYLeTgwa2h
-X-Proofpoint-ORIG-GUID: 3I-WfEfnF7HtXKDJ1_iqrugYLeTgwa2h
+X-Proofpoint-ORIG-GUID: vRDhrSXBtS_W24wT_EvXu4bM1w9PI0VE
+X-Proofpoint-GUID: vRDhrSXBtS_W24wT_EvXu4bM1w9PI0VE
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9969 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 bulkscore=0 mlxlogscore=999
- priorityscore=1501 clxscore=1031 adultscore=0 suspectscore=0 spamscore=0
- phishscore=0 malwarescore=0 lowpriorityscore=0 impostorscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 phishscore=0
+ clxscore=1011 suspectscore=0 lowpriorityscore=0 mlxlogscore=999 mlxscore=0
+ adultscore=0 malwarescore=0 impostorscore=0 priorityscore=1501
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104290094
+ definitions=main-2104290095
 
-On Wed, Apr 28, 2021 at 01:33:46PM +0200, Fabio M. De Francesco wrote:
-> Removed set but unused variable. Issue detected by gcc.
-> 
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> index a2fdd5ea5fc4..b0d2ba5ed129 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> @@ -1019,7 +1019,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
->  	u16 capab_info;
->  	struct rtw_ieee802_11_elems elems;
->  	struct sta_info *pstat;
-> -	unsigned char 	reassoc, *p, *pos, *wpa_ie;
-> +	unsigned char 	*p, *pos, *wpa_ie;
->  	unsigned char WMM_IE[] = {0x00, 0x50, 0xf2, 0x02, 0x00, 0x01};
->  	int		i, ie_len, wpa_ie_len, left;
->  	unsigned char 	supportRate[16];
-> @@ -1040,10 +1040,8 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+On Wed, Apr 28, 2021 at 04:04:14PM +0300, Andy Shevchenko wrote:
+> @@ -75,20 +75,16 @@ static int fbtft_request_one_gpio(struct fbtft_par *par,
+>  				  struct gpio_desc **gpiop)
+>  {
+>  	struct device *dev = par->info->device;
+> -	int ret = 0;
 >  
->  	frame_type = GetFrameSubType(pframe);
->  	if (frame_type == WIFI_ASSOCREQ) {
-> -		reassoc = 0;
->  		ie_offset = _ASOCREQ_IE_OFFSET_;
->  	} else { /*  WIFI_REASSOCREQ */
-> -		reassoc = 1;
->  		ie_offset = _REASOCREQ_IE_OFFSET_;
->  	}
+>  	*gpiop = devm_gpiod_get_index_optional(dev, name, index,
+>  					       GPIOD_OUT_LOW);
+> -	if (IS_ERR(*gpiop)) {
+> -		ret = PTR_ERR(*gpiop);
+> -		dev_err(dev,
+> -			"Failed to request %s GPIO: %d\n", name, ret);
+> -		return ret;
+> -	}
+> +	if (IS_ERR(*gpiop))
+> +		dev_err_probe(dev, PTR_ERR(*gpiop), "Failed to request %s GPIO\n", name);
 
-Get rid of the curly braces as well, otherwise the patch introduces a
-checkpatch warning.
+This should be a return statement:
+
+		return dev_err_probe(dev, PTR_ERR(*gpiop), "Failed to request %s GPIO\n", name);
+
+> +
+>  	fbtft_par_dbg(DEBUG_REQUEST_GPIOS, par, "%s: '%s' GPIO\n",
+>  		      __func__, name);
+>  
+> -	return ret;
+> +	return 0;
+>  }
 
 regards,
 dan carpenter
