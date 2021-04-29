@@ -1,27 +1,39 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E4B71
-	for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 17:03:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E3819613ED;
-	Thu, 29 Apr 2021 17:02:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1619715780;
-	bh=86ih1Pwmgv0YL5x9tywf55q61EjjUm4JVP9sqao1QdI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hV6N0ssirvcFMAC4nHeJ3RI7CHxhtr7a5qHAQOrRyb/zArTto/mbpT8EeExaeEnXR
-	 GzNuFWCxbWLrkkxQ2yNnqd4EKPzrgtJdt3hS5zb+yMQzFsxirhBzNb72a8J5rQduhh
-	 fON0mlhKvxGlVF8bM4UE0WmraBKNtG1UKLtZGqXs=
-Date: Thu, 29 Apr 2021 19:02:57 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Deepak R Varma <drv@mailo.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: code clean up confirmation => staging: media: atomisp: pci driver
-Message-ID: <YIrmwYeSU0Clt7U4@kroah.com>
-References: <YIrfVFhW8ufjm/tB@192.168.1.8>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACB32F82
+	for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 21:30:03 +0000 (UTC)
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
+	(envelope-from <andrew@lunn.ch>)
+	id 1lcEEQ-001iLp-4X; Thu, 29 Apr 2021 23:29:58 +0200
+Date: Thu, 29 Apr 2021 23:29:58 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: DENG Qingfang <dqfext@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Landen Chao <Landen.Chao@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Vivien Didelot <vivien.didelot@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-staging@lists.linux.dev, devicetree@vger.kernel.org,
+	netdev@vger.kernel.org, Weijie Gao <weijie.gao@mediatek.com>,
+	Chuanhong Guo <gch981213@gmail.com>,
+	=?iso-8859-1?Q?Ren=E9?= van Dorst <opensource@vdorst.com>,
+	Frank Wunderlich <frank-w@public-files.de>,
+	Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>
+Subject: Re: [PATCH net-next 2/4] net: dsa: mt7530: add interrupt support
+Message-ID: <YIslVil/EmynAUxa@lunn.ch>
+References: <20210429062130.29403-1-dqfext@gmail.com>
+ <20210429062130.29403-3-dqfext@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -29,22 +41,15 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YIrfVFhW8ufjm/tB@192.168.1.8>
+In-Reply-To: <20210429062130.29403-3-dqfext@gmail.com>
 
-On Thu, Apr 29, 2021 at 10:01:16PM +0530, Deepak R Varma wrote:
-> Hello All,
-> Is anyone already working on code clean up of the following driver
-> /files? I am specifically targeting addressing the checkpatch
-> complaints. Let me know.
+On Thu, Apr 29, 2021 at 02:21:28PM +0800, DENG Qingfang wrote:
+> Add support for MT7530 interrupt controller to handle internal PHYs.
+> In order to assign an IRQ number to each PHY, the registration of MDIO bus
+> is also done in this driver.
 > 
-> 	drivers/staging/media/atomisp/pci
+> Signed-off-by: DENG Qingfang <dqfext@gmail.com>
 
-There's no need to ask, just do the work and submit the patches.
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-We do not "claim" work ahead of time in the kernel, that is what has
-killed other open source projects numerous times in the past.  We know
-to learn from other's mistakes. :)
-
-thanks,
-
-greg k-h
+    Andrew
