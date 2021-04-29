@@ -1,144 +1,106 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CABDB29CA
-	for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 14:51:02 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id x5so16964542wrv.13
-        for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 07:51:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kynesim-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:references:in-reply-to
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=0snjfriunXokbhjSMJ9Eyiap4guJwiDtJ6KT7smyyik=;
-        b=zZuvgHd91qgQwjw10MKn4hrMbBJwZ/VIUK2nLx6HRcitCkkzaZtGkyAJUgUI4Aet1g
-         wyTdxhA2NL7uTPT2v3OoLOQTp+Uw+KBC13mIBQb07A7NfrpOiECd/kO4dDlwwr3jpNwv
-         5Y44aLLZ0lheYTLUioJBmD5//UBatavi2PwfoPIk/0LkFx25xI3gGo+EqwTFElyrot6S
-         Pe4kotbwcdBCM4az9Ak0Lvcc4un9xQOc7na5Z2Vq5cK4YhWgcv2Y8Zt92uI+l7rEVkES
-         uWFEby+By7MjeuLaNm7ruUSy7Kx3V3ilZYyVuUKVLZO075FXuHGOXQQvTx8riRiZR03Z
-         /sjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:references
-         :in-reply-to:user-agent:mime-version:content-transfer-encoding;
-        bh=0snjfriunXokbhjSMJ9Eyiap4guJwiDtJ6KT7smyyik=;
-        b=VaIdQrd/xHnMxC1jYjHyushnKLwkcd1b8Q/x3o35Hh4EKbEY6bQOwFCs4e/lYGL2pS
-         HoF2ZoSVH9bSAyTgOSjd9LZngpzWvpYfTlQskWgm1JrrwMq5x39EQnwRqVW7ODJG+eEg
-         kkNIql4aG8fXArV8+BpKwIX2o2Y/43H3R3d0EHbP+ieXQPbYloUjt76wu6zvCr8yUZAO
-         kd5c+nXcR3gKJJxK3nCvJHpdelsVG+ExfJ5m28foZiEu4X1JCfo5lK6B7KKcULH6tuWL
-         HWnJVkK+MBFnv+DIQ29pt/8rg3X1pW2ZsSMb983osCltfjXgDdeqgx6FmU+qq/UlrYue
-         NI+Q==
-X-Gm-Message-State: AOAM5317A9pukO6orGeBFLUB8HV8Esxom5IsfQTNcw+Vicf7Byb8MCF7
-	9rwZ7gXhiMmgYYrB9fu2pXm/dw==
-X-Google-Smtp-Source: ABdhPJzj4vvtS0ITy4N2nOoIEmto/xNvRB0C1X+g/W+l+SSz8bMWSXmMg681Oss3TiWJNDLomY4WSA==
-X-Received: by 2002:a5d:6d48:: with SMTP id k8mr155304wri.93.1619707861191;
-        Thu, 29 Apr 2021 07:51:01 -0700 (PDT)
-Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
-        by smtp.gmail.com with ESMTPSA id n7sm3245336wri.14.2021.04.29.07.51.00
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Thu, 29 Apr 2021 07:51:00 -0700 (PDT)
-From: John Cox <jc@kynesim.co.uk>
-To: Jernej Skrabec <jernej.skrabec@siol.net>
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, ezequiel@collabora.com, benjamin.gaignard@collabora.com, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] media: hevc: Fix dependent slice segment flags
-Date: Thu, 29 Apr 2021 15:51:00 +0100
-Message-ID: <lrhl8gl392tcpss5rcpkqr1cahujnlqq9k@4ax.com>
-References: <20210427071554.2222625-1-jernej.skrabec@siol.net>
-In-Reply-To: <20210427071554.2222625-1-jernej.skrabec@siol.net>
-User-Agent: ForteAgent/8.00.32.1272
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED932F80
+	for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 15:40:26 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+	by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13TFKUW4076424;
+	Thu, 29 Apr 2021 15:40:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=BQbkytA+PXtTY5YfGP8M5DIYUuBz3K7V5eP2VQDmhNM=;
+ b=S9FvGfccgLwiYVaHfVT6jvYI9xpZP3PWhPZeOaPVxfS3KNgYbpuPJI2hbw3XraqSnlyZ
+ 505RkaClU9/iT4OKzTQ+bczYv+vuWzeaRFjuhq2fmVFED06dzd/eeSqY9SuPEFcM/3MS
+ ERuk9MX5h8FdEkgC/Kr+/xCjP9neVJ77JuoK5y731Wr7wGmQsr2F4kEAXslZKd76GOSp
+ 9MvMREJ777cCo/B9Mf3X/o1koMgac30wg/QmrFyrwm+ecG4h0NZgIwNU+0JVm+LiECek
+ pktom7ZUB3L7zljVNBR46D79YXmni3Rp6+sgziRygTzJE1IWbuuyhZG6ln3IogIs75HN Hg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by userp2120.oracle.com with ESMTP id 385aeq4uva-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 29 Apr 2021 15:40:12 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13TFEule086153;
+	Thu, 29 Apr 2021 15:40:11 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3030.oracle.com with ESMTP id 3874d3pt3x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 29 Apr 2021 15:40:11 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13TFYBrO173166;
+	Thu, 29 Apr 2021 15:40:10 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+	by aserp3030.oracle.com with ESMTP id 3874d3pt3a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 29 Apr 2021 15:40:10 +0000
+Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
+	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 13TFe9MK014179;
+	Thu, 29 Apr 2021 15:40:09 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Thu, 29 Apr 2021 08:40:08 -0700
+Date: Thu, 29 Apr 2021 18:40:02 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Phil Reid <preid@electromag.com.au>, dri-devel@lists.freedesktop.org,
+        linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v3 3/4] staging: fbtft: Don't spam logs when probe is
+ deferred
+Message-ID: <20210429154002.GF21598@kadam>
+References: <20210428130415.55406-1-andriy.shevchenko@linux.intel.com>
+ <20210428130415.55406-4-andriy.shevchenko@linux.intel.com>
+ <20210429144244.GE1981@kadam>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+In-Reply-To: <20210429144244.GE1981@kadam>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-ORIG-GUID: rKOQ23DLMGvFxRqmwpwTIydtrzopqg3E
+X-Proofpoint-GUID: rKOQ23DLMGvFxRqmwpwTIydtrzopqg3E
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9969 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 impostorscore=0
+ phishscore=0 spamscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0
+ clxscore=1015 suspectscore=0 malwarescore=0 mlxlogscore=999
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104290097
 
->Dependent slice segment flag for PPS control is misnamed. It should have
->"enabled" at the end. It only tells if this flag is present in slice
->header or not and not the actual value.
->
->Fix this by renaming the PPS flag and introduce another flag for slice
->control which tells actual value.
->
->Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
->---
-> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 5 ++++-
-> drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 4 ++--
-> include/media/hevc-ctrls.h                                | 3 ++-
-> 3 files changed, 8 insertions(+), 4 deletions(-)
->
->diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst =
-b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->index 7b90cb939e9d..5ed343ddd1ea 100644
->--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->@@ -3059,7 +3059,7 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->     :stub-columns: 0
->     :widths:       1 1 2
->=20
->-    * - ``V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT``
->+    * - ``V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED``
->       - 0x00000001
->       -
->     * - ``V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT``
->@@ -3274,6 +3274,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->     * - =
-``V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENABLED``
->       - 0x00000100
->       -
->+    * - ``V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT``
->+      - 0x00000200
->+      -
->=20
-> .. raw:: latex
->=20
->diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c =
-b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->index 397a4ba5df4c..6821e3d05d34 100644
->--- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->@@ -479,8 +479,8 @@ static void cedrus_h265_setup(struct cedrus_ctx =
-*ctx,
-> 				slice_params->flags);
->=20
-> 	reg |=3D =
-VE_DEC_H265_FLAG(VE_DEC_H265_DEC_SLICE_HDR_INFO0_FLAG_DEPENDENT_SLICE_SEG=
-MENT,
->-				V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT,
->-				pps->flags);
->+				V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT,
->+				slice_params->flags);
->=20
-> 	/* FIXME: For multi-slice support. */
-> 	reg |=3D =
-VE_DEC_H265_DEC_SLICE_HDR_INFO0_FLAG_FIRST_SLICE_SEGMENT_IN_PIC;
->diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->index b713eeed1915..dc964ff7cd29 100644
->--- a/include/media/hevc-ctrls.h
->+++ b/include/media/hevc-ctrls.h
->@@ -83,7 +83,7 @@ struct v4l2_ctrl_hevc_sps {
-> 	__u64	flags;
-> };
->=20
->-#define V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT		(1ULL << 0)
->+#define V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED	(1ULL << 0)
-> #define V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT			(1ULL << 1)
-> #define V4L2_HEVC_PPS_FLAG_SIGN_DATA_HIDING_ENABLED		(1ULL << 2)
-> #define V4L2_HEVC_PPS_FLAG_CABAC_INIT_PRESENT			(1ULL << 3)
->@@ -166,6 +166,7 @@ struct v4l2_hevc_pred_weight_table {
-> #define V4L2_HEVC_SLICE_PARAMS_FLAG_USE_INTEGER_MV		(1ULL << 6)
-> #define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_DEBLOCKING_FILTER_DISABLED =
-(1ULL << 7)
-> #define =
-V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENABLED (1ULL=
- << 8)
->+#define V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT	(1ULL << 9)
->=20
-> struct v4l2_ctrl_hevc_slice_params {
-> 	__u32	bit_size;
+On Thu, Apr 29, 2021 at 05:42:44PM +0300, Dan Carpenter wrote:
+> On Wed, Apr 28, 2021 at 04:04:14PM +0300, Andy Shevchenko wrote:
+> > @@ -75,20 +75,16 @@ static int fbtft_request_one_gpio(struct fbtft_par *par,
+> >  				  struct gpio_desc **gpiop)
+> >  {
+> >  	struct device *dev = par->info->device;
+> > -	int ret = 0;
+> >  
+> >  	*gpiop = devm_gpiod_get_index_optional(dev, name, index,
+> >  					       GPIOD_OUT_LOW);
+> > -	if (IS_ERR(*gpiop)) {
+> > -		ret = PTR_ERR(*gpiop);
+> > -		dev_err(dev,
+> > -			"Failed to request %s GPIO: %d\n", name, ret);
+> > -		return ret;
+> > -	}
+> > +	if (IS_ERR(*gpiop))
+> > +		dev_err_probe(dev, PTR_ERR(*gpiop), "Failed to request %s GPIO\n", name);
+> 
+> This should be a return statement:
+> 
+> 		return dev_err_probe(dev, PTR_ERR(*gpiop), "Failed to request %s GPIO\n", name);
+> 
 
-Happy to see this flag finally making it
+I've created a new Smatch check for these:
 
-Many thanks
+drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c:2890 mcp251xfd_probe() warn: pointer error 'PTR_ERR(clk)' not handled
 
-John Cox
+There aren't that many bugs...  Anyway, I'm running a test now and I
+guess we'll see tomorrow how it goes.
+
+regards,
+dan carpenter
+
