@@ -1,63 +1,132 @@
-Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+Received: from mail-41104.protonmail.ch (mail-41104.protonmail.ch [185.70.41.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B952F82
-	for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 22:15:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1619734382; bh=fqVkx3TPT2hzWCKBQXOQPX3j7Tp/i9ftQf4QckfR9jw=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=TfgP1zmnQpIeBk4GhCUEnowGIWyTg+lHHP7BB5dE2DLN2tzaz8NjNu64VRoRL0Wn/
-	 2f8ivAXa+3rYeOdJ6HB/3WOjbZzv33N7lpuPXFlByo91axybr8YpKJXEHBHOdh5Ij5
-	 fRx8BXz0KOA4rXosl/47xJmJsuKpFI1EckrC/wgU=
-Received: by 192.168.90.13 [192.168.90.13] with ESMTP
-	via ip-206.mailobj.net [213.182.55.206]
-	Fri, 30 Apr 2021 00:13:01 +0200 (CEST)
-X-EA-Auth: FGh2PRfjIk7MPz+rAvHCky0S4v4blJapa6WZTmW7IuCPXm1pW1kq24GIKw0REpzL7qNl0raovijQQu6jMgDT+5ScuxVTW+CF
-Date: Fri, 30 Apr 2021 03:42:58 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: code clean up confirmation => staging: media: atomisp: pci driver
-Message-ID: <YIsvamW5HT+PkJMB@dU2104>
-References: <YIrfVFhW8ufjm/tB@192.168.1.8>
- <YIrmwYeSU0Clt7U4@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86FAE2F82
+	for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 22:27:59 +0000 (UTC)
+Received: from mail-02.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	by mail-41104.protonmail.ch (Postfix) with ESMTPS id 4FWVWC66J6z5XGJr
+	for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 22:27:51 +0000 (UTC)
+Authentication-Results: mail-41104.protonmail.ch;
+	dkim=pass (2048-bit key) header.d=bryanbrattlof.com header.i=@bryanbrattlof.com header.b="b889kpQs"
+Date: Thu, 29 Apr 2021 22:27:33 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
+	s=protonmail3; t=1619735255;
+	bh=4Xd3/yJD4QqhdhJkdT5Ia1FGfkBKb1yCAXSC+nOxr7k=;
+	h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+	b=b889kpQsLHe+ddqjLbaknQqMdg+a6fyCMljqMR8P6euZfE7JwK4r+CP6BB7SjSeUL
+	 ftq90v6y6sI8tM4gBhq0aBEnVb7s52Xbed1aJvSctFmFXYL0ISB0YGSDn9RwoyZrtH
+	 t6LApGzVHESeJnhdzro0cXvWij+HP1P21LOtGn3R85gMsp2GMP9CRcMt2chJrVUtP4
+	 DkGIMT4try6EEiE+QdXeEgqQt6+wI0gsFBqjccB7AwuN8ASWtZqI/23fVnj6zUzSz/
+	 AhybAl9JLnH4olrn9LEiwu1BmRO8tvY38aEq2bWXlDidluyv4tOj+MzQfvU6WL4WkR
+	 NHo5VF7ouJ1WA==
+To: Saurav Girepunje <saurav.girepunje@gmail.com>
+From: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: gregkh@linuxfoundation.org, marcocesati@gmail.com, fabioaiuto83@gmail.com, dan.carpenter@oracle.com, john.oldman@polehill.co.uk, ross.schm.dev@gmail.com, insafonov@gmail.com, hdegoede@redhat.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, saurav.girepunje@hotmail.com
+Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
+Subject: Re: [PATCH] staging: rtl8723bs: Change the return type
+Message-ID: <20210429222721.rudewp22t55fkmgf@bryanbrattlof.com>
+In-Reply-To: <20210428175520.GA8921@user>
+References: <20210428175520.GA8921@user>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YIrmwYeSU0Clt7U4@kroah.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+	autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	mailout.protonmail.ch
 
-On Thu, Apr 29, 2021 at 07:02:57PM +0200, Greg Kroah-Hartman wrote:
-> On Thu, Apr 29, 2021 at 10:01:16PM +0530, Deepak R Varma wrote:
-> > Hello All,
-> > Is anyone already working on code clean up of the following driver
-> > /files? I am specifically targeting addressing the checkpatch
-> > complaints. Let me know.
-> > 
-> > 	drivers/staging/media/atomisp/pci
-> 
-> There's no need to ask, just do the work and submit the patches.
-> 
-> We do not "claim" work ahead of time in the kernel, that is what has
-> killed other open source projects numerous times in the past.  We know
-> to learn from other's mistakes. :)
-> 
-Hello Greg,
-Thank you for the guidance. Just wanted to make sure I am not overstepping on someone else's
-work. I will go ahead and work on the clean up.
+On Wed, Apr 28, 2021 at 11:25:20PM +0530, Saurav Girepunje wrote:
+>Remove the ret variable in rtw_suspend_common() and change
+>the return type from int to void as rtw_suspend_common()
+>always return zero unconditionally.
+>
+>Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+>---
+> drivers/staging/rtl8723bs/include/osdep_intf.h | 2 +-
+> drivers/staging/rtl8723bs/os_dep/os_intfs.c    | 5 ++---
+> drivers/staging/rtl8723bs/os_dep/sdio_intf.c   | 4 +++-
+> 3 files changed, 6 insertions(+), 5 deletions(-)
+>
+>diff --git a/drivers/staging/rtl8723bs/include/osdep_intf.h b/drivers/stag=
+ing/rtl8723bs/include/osdep_intf.h
+>index 48c90f00cc2e..111e0179712a 100644
+>--- a/drivers/staging/rtl8723bs/include/osdep_intf.h
+>+++ b/drivers/staging/rtl8723bs/include/osdep_intf.h
+>@@ -66,7 +66,7 @@ void rtw_ips_pwr_down(struct adapter *padapter);
+> int rtw_drv_register_netdev(struct adapter *padapter);
+> void rtw_ndev_destructor(struct net_device *ndev);
+>
+>-int rtw_suspend_common(struct adapter *padapter);
+>+void rtw_suspend_common(struct adapter *padapter);
+> int rtw_resume_common(struct adapter *padapter);
+>
+> int netdev_open(struct net_device *pnetdev);
+>diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging=
+/rtl8723bs/os_dep/os_intfs.c
+>index 1f34cb2e367c..724909078d80 100644
+>--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+>+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+>@@ -1146,14 +1146,13 @@ static void rtw_suspend_normal(struct adapter *pad=
+apter)
+> =09=09padapter->intf_deinit(adapter_to_dvobj(padapter));
+> }
+>
+>-int rtw_suspend_common(struct adapter *padapter)
+>+void rtw_suspend_common(struct adapter *padapter)
+> {
+> =09struct dvobj_priv *psdpriv =3D padapter->dvobj;
+> =09struct debug_priv *pdbgpriv =3D &psdpriv->drv_dbg;
+> =09struct pwrctrl_priv *pwrpriv =3D dvobj_to_pwrctl(psdpriv);
+> =09struct mlme_priv *pmlmepriv =3D &padapter->mlmepriv;
+>
+>-=09int ret =3D 0;
+> =09unsigned long start_time =3D jiffies;
+>
+> =09DBG_871X_LEVEL(_drv_always_, " suspend start\n");
+>@@ -1196,7 +1195,7 @@ int rtw_suspend_common(struct adapter *padapter)
+>
+> exit:
+>
+>-=09return ret;
+>+=09return;
+> }
+>
 
-Thank you,
-deepak.
+Hi Saurav
 
-> thanks,
-> 
-> greg k-h
+Now that this function doesn't return anything, we can also remove the
+`exit:` jump by replacing the `goto exit` on line 1175 with this
+return.
 
+--
+~Bryan
+>
+> static int rtw_resume_process_normal(struct adapter *padapter)
+>diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/stagin=
+g/rtl8723bs/os_dep/sdio_intf.c
+>index a9a9631dd23c..84c16925c4f5 100644
+>--- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+>+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+>@@ -452,7 +452,9 @@ static int rtw_sdio_suspend(struct device *dev)
+> =09=09return 0;
+> =09}
+>
+>-=09return rtw_suspend_common(padapter);
+>+=09rtw_suspend_common(padapter);
+>+
+>+=09return 0;
+> }
+>
+> static int rtw_resume_process(struct adapter *padapter)
+>--
+>2.25.1
+>
 
