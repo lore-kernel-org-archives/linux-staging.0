@@ -1,66 +1,46 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0727572
-	for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 10:38:12 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id f24so568009ejc.6
-        for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 03:38:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=xBV6M/QLKgL1OTP6r+L+BbrDYnsW4IUCG6lLR9TSS8w=;
-        b=sKr/Kn7wUKTLtfehYj5i1e+mIEGUL3B802GQEYYq34jQWkB+HJVksRpCbJ5hMoHI4b
-         +jslrzMdQqypeweXRvNbjWCzY31Xo9pK9Awoit1Dbp1ZU++UH9e54etWutZVAeWnRHdL
-         wZmtPEie5+//gLPg5mmMSLYLTJMws/WW+Q7C4YpVCbclF3UGYhxBbS4EGTB5S9m+t2at
-         jzIQWJw67TUeOEcw66xvHgFAHhDoBkpCvR4nIujRMqp4GCliBQvktTNpjUTlOIKdXoks
-         J1qHwm1BrykEH3zdFEG/KZsDIJBB+k2eIVkWkUAtNLTSjSgmTDncM/gfTVA7rHpspzUM
-         5W5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=xBV6M/QLKgL1OTP6r+L+BbrDYnsW4IUCG6lLR9TSS8w=;
-        b=izIqIvBBibo3TWYbZ7wlGPL6xOaLmVz+JGD/cCq3UJGV5qirkg+TfdLXW6n9aRO1Sl
-         de47dHgIv10+DQpaGz6zTC3sF7uIBgSb6Sybjrr8Yl5XtgMmogzLYF+qoeaep1iEfx1P
-         9k3LvgG8l9+DuqVjhRCDiI2fTvdRkSPKGWFiuCKOawmEAaQ5yFnP/WGuj0aw8crh/X57
-         df5GxQLCb65qQ22iDU9T7f738U7mXuu+CSQyJCeRd82f9MiftNiWuQDb9uEgOmJ62dxB
-         KrZOdUvKHmq1vsfT++jmLpTx6UiU/V5pn9w4A6Hm03za0tTAuR1yMmfBDuY8kCZ2ZB0M
-         geDA==
-X-Gm-Message-State: AOAM5337l4yLTAOZtb60orMic6DEKzQ2dekEe6tLaFXHjL6kpIZMPXDO
-	MlzPeHdxt6l5D+u0qOZ2F9c=
-X-Google-Smtp-Source: ABdhPJwazXQlIHucaq0nTJJrjWVh0nr/QBcmFfuk8xOoY82YIXBFTMCQhkZXzUg7pXPjzieHPA1I2A==
-X-Received: by 2002:a17:907:2628:: with SMTP id aq8mr16761560ejc.64.1619692691505;
-        Thu, 29 Apr 2021 03:38:11 -0700 (PDT)
-Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
-        by smtp.gmail.com with ESMTPSA id cr21sm1534995ejc.2.2021.04.29.03.38.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Apr 2021 03:38:10 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: outreachy-kernel@googlegroups.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH 1/2] staging: rtl8723bs: hal: Remove set but unused variables
-Date: Thu, 29 Apr 2021 12:38:09 +0200
-Message-ID: <1870536.WTzYeaBcXf@linux.local>
-In-Reply-To: <20210429102201.GF1409@agape.jhs>
-References: <20210428113346.28305-1-fmdefrancesco@gmail.com> <YIqECQk/1Zb4JRjb@kroah.com> <20210429102201.GF1409@agape.jhs>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3810372
+	for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 11:21:24 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 050CF613D9;
+	Thu, 29 Apr 2021 11:21:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1619695283;
+	bh=jKlpm3G7PbB50Ez26v5YugL6swUDAvRxbWGy6pq6Nms=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ydnohWks5nj3hC2Qt+4gPELzNLDZCjraOeIIVrrLsuAKm+3asmdsCqmVEacIyVTA5
+	 n/5PPvo9ej7R2lvw6jfNZMOuQRlnGU8dx1RcZVXgXY8tArErw+LYtDiyBKqnUdXYNC
+	 7mNiojGy3pg8emJ3hz2aMGKOqKtQ//omq7QlBvvM=
+Date: Thu, 29 Apr 2021 13:21:21 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Fabio Aiuto <fabioaiuto83@gmail.com>, outreachy-kernel@googlegroups.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [Outreachy kernel] [PATCH 1/2] staging: rtl8723bs: hal: Remove
+ set but unused variables
+Message-ID: <YIqWsbTO8Zv1qFmT@kroah.com>
+References: <20210428113346.28305-1-fmdefrancesco@gmail.com>
+ <20210429082552.GC1409@agape.jhs>
+ <YIqECQk/1Zb4JRjb@kroah.com>
+ <4187627.69DiqvND7d@linux.local>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4187627.69DiqvND7d@linux.local>
 
-On Thursday, April 29, 2021 12:22:02 PM CEST Fabio Aiuto wrote:
-> On Thu, Apr 29, 2021 at 12:01:45PM +0200, Greg Kroah-Hartman wrote:
+On Thu, Apr 29, 2021 at 12:15:40PM +0200, Fabio M. De Francesco wrote:
+> On Thursday, April 29, 2021 12:01:45 PM CEST Greg Kroah-Hartman wrote:
 > > On Thu, Apr 29, 2021 at 10:25:53AM +0200, Fabio Aiuto wrote:
 > > > On Thu, Apr 29, 2021 at 09:44:47AM +0200, Fabio M. De Francesco wrote:
 > > > > On Thursday, April 29, 2021 9:26:20 AM CEST Fabio Aiuto wrote:
 > > > > > Hi Fabio,
 > > > > > 
-> > > > > On Wed, Apr 28, 2021 at 01:33:45PM +0200, Fabio M. De Francesco 
-wrote:
+> > > > > On Wed, Apr 28, 2021 at 01:33:45PM +0200, Fabio M. De Francesco wrote:
 > > > > > > Removed four set but unused variables. Issue detected by gcc.
 > > > > > > 
 > > > > > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
@@ -78,7 +58,7 @@ wrote:
 > > > > > > --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
 > > > > > > +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
 > > > > > > @@ -3900,14 +3900,11 @@ u8 GetHalDefVar8723B(struct adapter 
-*padapter,
+> *padapter,
 > > > > 
 > > > > enum
 > > > > 
@@ -108,8 +88,8 @@ wrote:
 > > > > 
 > > > > REG_HMEBOX_DBG_2_8723B, cmd);
 > > > > 
-> > > > > > @@ -3916,8 +3913,6 @@ u8 GetHalDefVar8723B(struct adapter 
-*padapter, enum
+> > > > > > @@ -3916,8 +3913,6 @@ u8 GetHalDefVar8723B(struct adapter *padapter, 
+> enum
 > > > > > > hal_def_variable variable, v>
 > > > > > > 
 > > > > > >  			ra_info2 = rtw_read32(padapter, 0x2F4);
@@ -131,14 +111,13 @@ wrote:
 > > > > Hello Fabio,
 > > > > 
 > > > > I'm not sure about it: rtw_read32 calls a pointer to a function. I'm 
-don't
+> don't
 > > > > know drivers programming, however that function looks like an 
-implementation
-> > > > of a read() system call. So I wouldn't be so sure to remove those 
-calls.
+> implementation
+> > > > of a read() system call. So I wouldn't be so sure to remove those calls.
 > > > > 
-> > > > Could calling a (*read) method have side effects on subsequent read()? 
-I mean:
+> > > > Could calling a (*read) method have side effects on subsequent read()? I 
+> mean:
 > > > > could it update some internal data structure? If not I can remove the
 > > > > variables you mentioned above and the calls to read32.
 > > > > 
@@ -150,8 +129,8 @@ I mean:
 > > > 
 > > > hi Fabio,
 > > > 
-> > > rtw_read32 is a macro wrapping _rtw_read32() defined as follows (in 
-core/rtw_io.c):
+> > > rtw_read32 is a macro wrapping _rtw_read32() defined as follows (in core/
+> rtw_io.c):
 > > > 
 > > > u32 _rtw_read32(struct adapter *adapter, u32 addr)
 > > > {
@@ -179,14 +158,14 @@ core/rtw_io.c):
 > > > $ grep -r '\b_read32' drivers/staging/rtl8723bs/
 > > > 
 > > > drivers/staging/rtl8723bs/hal/sdio_ops.c:	ops->_read32 = 
-&sdio_read32;
+> &sdio_read32;
 > > > 
 > > > this is the place where _read32 is stored with sdio_read32 reference...
 > > > 
 > > > drivers/staging/rtl8723bs/core/rtw_io.c:	u32 (*_read32)(struct 
-intf_hdl *pintfhdl,
-> > > u32 addr); drivers/staging/rtl8723bs/core/rtw_io.c:	_read32 =
-> > > pintfhdl->io_ops._read32;
+> intf_hdl *pintfhdl, u32
+> > > addr); drivers/staging/rtl8723bs/core/rtw_io.c:	_read32 = pintfhdl-
+> >io_ops._read32;
 > > > ...
 > > > 
 > > > if you check it in hal/sdio_ops.c, nothing is written, just reads are
@@ -214,26 +193,11 @@ intf_hdl *pintfhdl,
 > > thanks,
 > > 
 > > greg k-h
-> 
-> thank you for explanation, my hardware knowledge is poor:(
-> Sorry for noise.
-> 
-> fabio
->
-I suspected that removing those variables could have been a source of troubles 
-(but I was thinking of possible side effects on internal kernel's data, not of 
-hardware related idiosyncrasies), however I think that you did well to point 
-it out because:
+> >
+> Just to be sure... does it mean that v1 can be applied as-is?
 
-1) We learned something new from Greg;
-2) I learned that, for the purpose of finding definitions, vim's ctrl-] is not 
-the right way to work out the problem.
+I will review it when I get the time...
 
-If you have time, I'd appreciate some comments on the topic of line (2).
+thanks,
 
-Thanks,
-
-Fabio
-
-
-
+greg k-h
