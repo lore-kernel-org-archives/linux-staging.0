@@ -1,57 +1,55 @@
 Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF322F82
-	for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 13:55:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE5A2F80
+	for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 14:35:53 +0000 (UTC)
 Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13T9rjSf187179;
-	Thu, 29 Apr 2021 10:08:19 GMT
+	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13TEGATE007742;
+	Thu, 29 Apr 2021 14:35:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
  : subject : message-id : references : mime-version : content-type :
  in-reply-to; s=corp-2020-01-29;
- bh=RhR1xbKgQZabcBpM0ZPa86+NpTyKGU7t9CqRoOe65cY=;
- b=m9u0elMcbxEn5/HarR5N9RBuP4G9vJEmSWrfGgChCe8nBzJY0mQ4yUiJU4WZ+RsKeTbU
- 3sVrrFtEdQXHMQ7U/bWHSnavtxAYeeWg2ESPWRf8poanZqH0lMulpHzgwkJDk6nwxFVW
- 0c/gqzwbWsh+0BIw5E+CERHuC/ynpX0EuU0IFK63TiobwhsmjfU4gHTSx6haBIlgiOJh
- QWrcabygV8zP21zaI/N51rPSwK8rh3wZWPrxJqXIV8vZbS27iHOWgtjrxoiCHc5Sxdpl
- wVQlPNwwqqDXPr9e3oMWgD8CnmJ2HQLBN9yLnXf6Ckg4KjqfKu2V7zE15Sb7wzDjQ+oH +g== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by aserp2120.oracle.com with ESMTP id 385ahbuty4-1
+ bh=OZcICzs7p+CNORIipbTD7WjNxFxyZPDdbnWZ3TzgtYQ=;
+ b=YqIFGPBI9ME/+a2PoaA9CyZ3roMe9zeNWHB/VjPEqqH3KIsPHX+BnmUjsVgBl4kAbwkG
+ 4bFcc3OY2Qe7dJAMIn0YY4euZWVVCxsc8LULqX3Riky5CI3sK1UxzskHWD3LvxR23maf
+ JTU4ht8seluxEHUSEZYPqnXJdzjHjHtPnaAZTF5BgTN42D0gjjIUsX63isdV1dUJd/cR
+ a+h46WP4JJpz24Nl6rEWSmH3r28CtIKxSmT2t1Pz8WXf2UgNHGUVk8XqYtmk/Uvab8/0
+ f1Y8CzfapZGX2IUrQXPKS9xULg/lOcBxihXgKHDALOnztxKK39gVBk1561gA2HM6yRsI sA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+	by aserp2120.oracle.com with ESMTP id 385ahbvkva-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 29 Apr 2021 10:08:19 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13T9tsww124394;
-	Thu, 29 Apr 2021 10:08:19 GMT
+	Thu, 29 Apr 2021 14:35:46 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+	by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13TEYu23142485;
+	Thu, 29 Apr 2021 14:35:46 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3020.oracle.com with ESMTP id 384b5a238q-1
+	by userp3030.oracle.com with ESMTP id 3848f1653h-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 29 Apr 2021 10:08:19 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13TA62mT176918;
-	Thu, 29 Apr 2021 10:08:18 GMT
+	Thu, 29 Apr 2021 14:35:46 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13TEZj0t147341;
+	Thu, 29 Apr 2021 14:35:45 GMT
 Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by aserp3020.oracle.com with ESMTP id 384b5a237u-1
+	by userp3030.oracle.com with ESMTP id 3848f16538-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 29 Apr 2021 10:08:18 +0000
+	Thu, 29 Apr 2021 14:35:45 +0000
 Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13TA8G6M020884;
-	Thu, 29 Apr 2021 10:08:16 GMT
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 13TEZiX6032445;
+	Thu, 29 Apr 2021 14:35:44 GMT
 Received: from kadam (/102.36.221.92)
 	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Thu, 29 Apr 2021 03:08:15 -0700
-Date: Thu, 29 Apr 2021 13:08:09 +0300
+	with ESMTP ; Thu, 29 Apr 2021 07:35:43 -0700
+Date: Thu, 29 Apr 2021 17:35:36 +0300
 From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Deepak R Varma <drv@mailo.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: outreachy-kernel@googlegroups.com,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, mh12gx2825@gmail.com
-Subject: Re: [PATCH v1 4/6] staging: media: atomisp: reformat code comment
- blocks
-Message-ID: <20210429100808.GZ1981@kadam>
-References: <cover.1619022192.git.drv@mailo.com>
- <efdd8910b519dd55838570c72e3ce35e063f4a11.1619022192.git.drv@mailo.com>
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [Outreachy kernel] [PATCH 2/2] staging: rtl8723bs: core: Removed
+ set but unused variable.
+Message-ID: <20210429143536.GD1981@kadam>
+References: <20210428113346.28305-1-fmdefrancesco@gmail.com>
+ <20210428113346.28305-3-fmdefrancesco@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -59,32 +57,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <efdd8910b519dd55838570c72e3ce35e063f4a11.1619022192.git.drv@mailo.com>
+In-Reply-To: <20210428113346.28305-3-fmdefrancesco@gmail.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: EK4M0k6gYkIgZwQ5Z98dreIdNf-IHnuO
-X-Proofpoint-ORIG-GUID: EK4M0k6gYkIgZwQ5Z98dreIdNf-IHnuO
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9968 signatures=668683
+X-Proofpoint-GUID: 3I-WfEfnF7HtXKDJ1_iqrugYLeTgwa2h
+X-Proofpoint-ORIG-GUID: 3I-WfEfnF7HtXKDJ1_iqrugYLeTgwa2h
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9969 signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 bulkscore=0 mlxlogscore=999
- priorityscore=1501 clxscore=1015 adultscore=0 suspectscore=0 spamscore=0
+ priorityscore=1501 clxscore=1031 adultscore=0 suspectscore=0 spamscore=0
  phishscore=0 malwarescore=0 lowpriorityscore=0 impostorscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104290068
+ definitions=main-2104290094
 
-On Wed, Apr 21, 2021 at 10:26:09PM +0530, Deepak R Varma wrote:
-> @@ -1044,7 +1048,7 @@ static long mt9m114_s_exposure(struct v4l2_subdev *sd,
->  	}
+On Wed, Apr 28, 2021 at 01:33:46PM +0200, Fabio M. De Francesco wrote:
+> Removed set but unused variable. Issue detected by gcc.
+> 
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> index a2fdd5ea5fc4..b0d2ba5ed129 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> @@ -1019,7 +1019,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+>  	u16 capab_info;
+>  	struct rtw_ieee802_11_elems elems;
+>  	struct sta_info *pstat;
+> -	unsigned char 	reassoc, *p, *pos, *wpa_ie;
+> +	unsigned char 	*p, *pos, *wpa_ie;
+>  	unsigned char WMM_IE[] = {0x00, 0x50, 0xf2, 0x02, 0x00, 0x01};
+>  	int		i, ie_len, wpa_ie_len, left;
+>  	unsigned char 	supportRate[16];
+> @@ -1040,10 +1040,8 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
 >  
->  	/*
-> -	// set analog/digital gain
-> +	 * set analog/digital gain
->  	switch(AnalogGain)
->  	{
->  	case 0:
+>  	frame_type = GetFrameSubType(pframe);
+>  	if (frame_type == WIFI_ASSOCREQ) {
+> -		reassoc = 0;
+>  		ie_offset = _ASOCREQ_IE_OFFSET_;
+>  	} else { /*  WIFI_REASSOCREQ */
+> -		reassoc = 1;
+>  		ie_offset = _REASOCREQ_IE_OFFSET_;
+>  	}
 
-How on earth does this compile?
-
-> @@ -1069,8 +1073,10 @@ static long mt9m114_s_exposure(struct v4l2_subdev *sd,
-
+Get rid of the curly braces as well, otherwise the patch introduces a
+checkpatch warning.
 
 regards,
 dan carpenter
