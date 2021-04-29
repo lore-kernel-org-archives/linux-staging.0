@@ -1,12 +1,12 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A169D2F82
-	for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 21:30:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6712F82
+	for <linux-staging@lists.linux.dev>; Thu, 29 Apr 2021 21:34:32 +0000 (UTC)
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
 	(envelope-from <andrew@lunn.ch>)
-	id 1lcEFG-001iMo-7I; Thu, 29 Apr 2021 23:30:50 +0200
-Date: Thu, 29 Apr 2021 23:30:50 +0200
+	id 1lcEAg-001iK5-7t; Thu, 29 Apr 2021 23:26:06 +0200
+Date: Thu, 29 Apr 2021 23:26:06 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: DENG Qingfang <dqfext@gmail.com>
 Cc: "David S. Miller" <davem@davemloft.net>,
@@ -30,11 +30,10 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	=?iso-8859-1?Q?Ren=E9?= van Dorst <opensource@vdorst.com>,
 	Frank Wunderlich <frank-w@public-files.de>,
 	Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>
-Subject: Re: [PATCH net-next 4/4] staging: mt7621-dts: enable MT7530
- interrupt controller
-Message-ID: <YIslin0UThINIe+Z@lunn.ch>
+Subject: Re: [PATCH net-next 1/4] net: phy: add MediaTek PHY driver
+Message-ID: <YIskbqKwhZA3n1Av@lunn.ch>
 References: <20210429062130.29403-1-dqfext@gmail.com>
- <20210429062130.29403-5-dqfext@gmail.com>
+ <20210429062130.29403-2-dqfext@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -42,13 +41,22 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210429062130.29403-5-dqfext@gmail.com>
+In-Reply-To: <20210429062130.29403-2-dqfext@gmail.com>
 
-On Thu, Apr 29, 2021 at 02:21:30PM +0800, DENG Qingfang wrote:
-> Enable MT7530 interrupt controller in the MT7621 SoC.
+On Thu, Apr 29, 2021 at 02:21:27PM +0800, DENG Qingfang wrote:
+> Add support for MediaTek PHYs found in MT7530 and MT7531 switches.
+> The initialization procedure is from the vendor driver, but due to lack
+> of documentation, the function of some register values remains unknown.
 > 
 > Signed-off-by: DENG Qingfang <dqfext@gmail.com>
 
 Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+
+> +
+> +	/* Enable HW auto downshift */
+> +	phy_modify_paged(phydev, MTK_PHY_PAGE_EXTENDED, 0x14, 0, BIT(4));
+
+As a follow up patch, you could add support for controlling this via a
+PHY tunable.
 
     Andrew
