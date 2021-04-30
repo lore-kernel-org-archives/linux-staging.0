@@ -1,30 +1,37 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E56972
-	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 12:24:26 +0000 (UTC)
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
-	(envelope-from <andrew@lunn.ch>)
-	id 1lcSBs-001oHb-52; Fri, 30 Apr 2021 14:24:16 +0200
-Date: Fri, 30 Apr 2021 14:24:16 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: DENG Qingfang <dqfext@gmail.com>
-Cc: David Miller <davem@davemloft.net>, f.fainelli@gmail.com,
-	hkallweit1@gmail.com, kuba@kernel.org, Landen.Chao@mediatek.com,
-	matthias.bgg@gmail.com, linux@armlinux.org.uk,
-	sean.wang@mediatek.com, vivien.didelot@gmail.com, olteanv@gmail.com,
-	robh+dt@kernel.org, linus.walleij@linaro.org,
-	gregkh@linuxfoundation.org, sergio.paracuellos@gmail.com,
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	linux-staging@lists.linux.dev, devicetree@vger.kernel.org,
-	netdev@vger.kernel.org, weijie.gao@mediatek.com,
-	gch981213@gmail.com, opensource@vdorst.com, frank-w@public-files.de,
-	tglx@linutronix.de, maz@kernel.org
-Subject: Re: [PATCH net-next 0/4] MT7530 interrupt support
-Message-ID: <YIv28APpOP9tnuO+@lunn.ch>
-References: <20210429062130.29403-1-dqfext@gmail.com>
- <20210429.170815.956010543291313915.davem@davemloft.net>
- <20210430023839.246447-1-dqfext@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 833D072
+	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 12:27:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1619785625; bh=2HIgowVCeeS0VSBy4mZ1r3TtIT+EekDnKb318+ZW250=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=CuyXQ0DH9TpisKyDUcPiqQdq2o2D4FM8/q781u+fAH6lfTK7KNKDPANEwFukBezem
+	 fJ2z+Lfn1PsqgV/YVZ49Apho8vye1AmE03f0K3/W1KYUZgfEG1RtwblA0WhoZzOiEU
+	 aO3nKkhoWf4n/jSnIBFNWXsaTGKfVIGDl56/C2Es=
+Received: by 192.168.90.16 [192.168.90.16] with ESMTP
+	via ip-206.mailobj.net [213.182.55.206]
+	Fri, 30 Apr 2021 14:27:05 +0200 (CEST)
+X-EA-Auth: ShcEcij6R581OKL0kHBcfmQVUrY5LT0DiOcT6LDwen/2s9qMz+pqzjfVcOIVzQf6B4lON2Ga3UJC1mQTGAFINdq0K3da5cpV
+Date: Fri, 30 Apr 2021 17:57:00 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Fabio Aiuto <fabioaiuto83@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 5/9] staging: media: atomisp: reformat code comment
+ blocks
+Message-ID: <YIv3lEAC8d8LsCb+@dU2104>
+References: <cover.1619630709.git.drv@mailo.com>
+ <034c3cc993191feb8fda719dd1b2adc9e2074e78.1619630709.git.drv@mailo.com>
+ <20210429070611.GA1409@agape.jhs>
+ <YIqdT6wsrlNP/cEo@192.168.1.8>
+ <693e054f-6a7b-d9e7-a72a-07d7fa295487@xs4all.nl>
+ <YIvm4M0Gru+RpV5O@dU2104>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -32,24 +39,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210430023839.246447-1-dqfext@gmail.com>
+In-Reply-To: <YIvm4M0Gru+RpV5O@dU2104>
 
-On Fri, Apr 30, 2021 at 10:38:39AM +0800, DENG Qingfang wrote:
-> On Thu, Apr 29, 2021 at 05:08:15PM -0700, David Miller wrote:
+On Fri, Apr 30, 2021 at 04:45:56PM +0530, Deepak R Varma wrote:
+> On Fri, Apr 30, 2021 at 12:04:33PM +0200, Hans Verkuil wrote:
+> > On 29/04/2021 13:49, Deepak R Varma wrote:
+> > > On Thu, Apr 29, 2021 at 09:06:12AM +0200, Fabio Aiuto wrote:
+> > >> Hi Deepak,
+> > >>>  	{MISENSOR_16BIT, 0xC868, 0x0280}, /* cam_output_width = 952 */
+> > >>>  	{MISENSOR_16BIT, 0xC86A, 0x01E0}, /* cam_output_height = 538 */
+> > >>>  	/* LOAD = Step3-Recommended
+> > >>> -	 * Patch,Errata and Sensor optimization Setting */
+> > >>> +	 * Patch,Errata and Sensor optimization Setting
+> > >>> +	 */
+> > >>
+> > >> 	/*
+> > >> 	 * LOAD = Step3-Recommended
+> > >>
+> > >> :(
+> > > 
+> > > oops... sorry for the oversight. Not sure how I missed it.
+> > > I will wait for any other feedback on other patches and send
+> > > in a corrected version shortly.
 > > 
-> > Please fix this:
+> > I've fixed this up myself.
 > > 
-> > error: the following would cause module name conflict:
-> >   drivers/net/phy/mediatek.ko
-> >   drivers/usb/musb/mediatek.ko
+> > I'm taking this series and make a PR for this, wrapping up these
+> > atomisp cleanups.
+> > 
+> > If you plan any more cleanups, then please do this on top of this
+> > branch: https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=for-v5.14-out1
+> > 
+> > That contains all pending cleanups for staging/media.
 > 
-> So I still have to rename the PHY driver..
-> Andrew, what is your suggestion? Is mediatek_phy.c okay?
+> Thank you Hans and everyone. Appreciate your time, comments and patience. I
+> understand this entire patch series is acceptable for your consideration and
+> that I can now move on to other changes.
+> 
+> I will be sending additional clean up patches and I will base those on top of the
+> mentioned branch.
 
-mediatek_phy.c gets you into trouble with the generic PHY drivers.
-Most Ethernet PHY drivers have the model number in the file name. Does
-the PHY have its own name/numbering, or is it always considered part
-of the switch?  If the PHY has an identity of its own, use
-that. Otherwise maybe mediatek75xx.c?
+Hello Hans,
+I have cloned media_tree repository and checked out branch for-v5.14-out1
 
-      Andrew
+Is it okay for me to start my next patch in this branch? I do not need for
+you the last patch set to be applied to the git tree, correct?
+
+Thank you,
+deepak.
+
+> 
+> Have a good one.
+> deepak.
+> 
+> > 
+> > Regards,
+> > 
+> > 	Hans
+> > 
+
+
