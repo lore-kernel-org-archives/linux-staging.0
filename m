@@ -1,48 +1,48 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E142C2F9C
-	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 14:57:37 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id i3so57283033edt.1
-        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:57:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787992F9C
+	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 14:57:39 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id w3so105738868ejc.4
+        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:57:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=mJJ61W3+Iu0fr3sRea0FAmFrj9yp9rKb5qGmB+mhT84=;
-        b=jqbhyGlEplZP2BMKcNrr+U+vZCKqEx2sISPjS6uHVvsTF1irqNokECckUgPlPfIhYc
-         O1g6zY3WhIOmp7gn7RG+UPQebY8+da2W6G/oUZ9sUEMYqXll/rzswToju9xOK3t9kzEu
-         8apCglVqr+k7I5fxH7tSrN9e7mipi3eAcpilDrfZyKBnKCxK+sApgkYKJspVGNDT/WTj
-         QRQAXcg4/mh8pheLO8wzm7yKP/NlZn15+e4/mkKXbXcc8Q5mWfUx5wLPTd/5VJphFCpj
-         Q9RWhGjKTXUSSZJ89IHffWm9ucohu3u9gqVplEXR9/7cNitSVDjgnXnemh67vhMEaIOX
-         349Q==
+        bh=kxnsY7XxgR5LPkLt/HzBZqQVJx7TOeoHfiVCxdpmUW4=;
+        b=j4JGWIvbwXGC57+Mfn3DaUM/wuFL0F6FTYluNcYgq6ICmQV9eGJSxxSjJlo9MNDFdG
+         S+3MQ3rtjIBwVEGllK+3HzJRfdVd1rIoaZAIufvdirOiEbj9EcG1DERcOHlWB1oSa87s
+         3PKQ3hkS8eW7cstLQQeSN0qd2MetUbLdhbTY1j1hZT7zVs+1rs1dOoNyOqt/0Y82Y1a8
+         4QRaXDSzffIBbRw6nZ2ETTzZ02QvvssHJBEvJT02SlrhD9okw4xX+MKj1yugihv2BWJu
+         NlDcv9y4wpuzYXVCKVzQ4Kiv8zp4YPL8+7wiTzlsVdDaz75JWmt/ADuZLeuLrrikCVtl
+         Pzwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mJJ61W3+Iu0fr3sRea0FAmFrj9yp9rKb5qGmB+mhT84=;
-        b=iNK9HFvBNZ0Oq6S0wOuXj9Is3yDMijn2ALvVLlNtPlat491DUxwqFJx+bvzzbjPlwE
-         LSR33XNoume3VAjoQWeQJqHDS6ANIWplRgAWxTBL5jxnlUZUE+JJoICrr1Pfk0Y38S/A
-         rlG2myml+B1J+Wlwsyg0AtzPoSJKThpFCAT68WwV7fyzcG/Tzz5fZB23TtQSaDYNdyDd
-         ivWsy9/aauwAHVQ4KGpacaa6JyhqF6B/vVB9Q8ndQm0254RAYBrcMblL/OmtId3OI8Dv
-         jaR6hypapCt3VWF+zCVU9u9NIWrXpNS33XDSLr/6jCQmeikRe72u6JG4YDEZO35qZC1y
-         3gLQ==
-X-Gm-Message-State: AOAM532FHMT25iZJCoCk82t/fPdIWzFzUYdQLR+zCZXn2j4uW8YdpSnl
-	qU7awF0eAWobLExZcVFvmuU=
-X-Google-Smtp-Source: ABdhPJzey6mlFSVJ1otmpLoZRWKYm6CewmGTTps93wnKwfAAkT4EmZzEZETKFQZu0M2ajPk/sYfdIQ==
-X-Received: by 2002:a05:6402:1c0b:: with SMTP id ck11mr6500268edb.264.1619794656532;
-        Fri, 30 Apr 2021 07:57:36 -0700 (PDT)
+        bh=kxnsY7XxgR5LPkLt/HzBZqQVJx7TOeoHfiVCxdpmUW4=;
+        b=PdBrcsIaHPXMLmtGb5lB4SOAlGuEi4ELFctBcdfGdXyJi+mj4IdeUdnhUm2cTChGCc
+         JWWowYvbJ7z9Yk3n3GpbRUL/DOurvUxNW6KW6LV5aWoNBzPIotpAv6XEZMTlbyQgDZ9i
+         K8IzQ728YqMgiWhSV9RsTf9wLNRugiZFshMF3XQGqlVoditotGhE6e49SA9yOEezoLYG
+         S2G+YgUniG1/gWXqPOIAfegyVx2Z7EcxMz0mK25IsPU7zf0kMcYI5Y+Jx6/PK8Bpn94Z
+         JhTNZLpFyfZvS1OyQgcAQNzXbZR7VLV5zemIBqnyiXDcXZCmh8k8MAH6WRnOMxKt+uim
+         dZPA==
+X-Gm-Message-State: AOAM531pk6TiG3XKKk1S/juH43J1Iz0v0ISwzjdqqV2UEwteUUHemScI
+	dPltjYlq1zHxqQDiUJZQjtc=
+X-Google-Smtp-Source: ABdhPJyi7EtRhj0YeM8fWzfhkdUBdWEQCASJEQYZYPo9pD8ZPOlca7k+9cxRIIz53BQxwlfvNnd79g==
+X-Received: by 2002:a17:907:3e1f:: with SMTP id hp31mr4749102ejc.163.1619794658138;
+        Fri, 30 Apr 2021 07:57:38 -0700 (PDT)
 Received: from agape ([109.52.244.36])
-        by smtp.gmail.com with ESMTPSA id 9sm2085515ejv.73.2021.04.30.07.57.35
+        by smtp.gmail.com with ESMTPSA id p24sm1495441edt.5.2021.04.30.07.57.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Apr 2021 07:57:36 -0700 (PDT)
+        Fri, 30 Apr 2021 07:57:37 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 18/43] staging: rtl8723bs: remove commented out RT_ASSERT occurrences
-Date: Fri, 30 Apr 2021 16:56:40 +0200
-Message-Id: <3ee98d7bf1685af627e625f413de355fce58d52d.1619794331.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v3 19/43] staging: rtl8723bs: remove unused RT_PRINTK macro
+Date: Fri, 30 Apr 2021 16:56:41 +0200
+Message-Id: <edf86e39fce8a53f52c8c8463d134ea426f58b60.1619794331.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1619794331.git.fabioaiuto83@gmail.com>
 References: <cover.1619794331.git.fabioaiuto83@gmail.com>
@@ -53,84 +53,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove commented out obsoete RT_ASSERT macro occurences.
+remove unused RT_PRINTK macro definition.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_recv.c         | 2 --
- drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 1 -
- drivers/staging/rtl8723bs/hal/sdio_halinit.c      | 5 -----
- 3 files changed, 8 deletions(-)
+ drivers/staging/rtl8723bs/hal/odm_debug.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index 3e671cba6b94..c0689a4b7cb1 100644
---- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -1794,8 +1794,6 @@ static int recv_indicatepkts_in_order(struct adapter *padapter, struct recv_reor
- 			/* pTS->RxIndicateState = RXTS_INDICATE_PROCESSING; */
+diff --git a/drivers/staging/rtl8723bs/hal/odm_debug.h b/drivers/staging/rtl8723bs/hal/odm_debug.h
+index 3faf4da42bd7..5c4412bf6fbd 100644
+--- a/drivers/staging/rtl8723bs/hal/odm_debug.h
++++ b/drivers/staging/rtl8723bs/hal/odm_debug.h
+@@ -87,8 +87,6 @@
  
- 			/*  Indicate packets */
--			/* RT_ASSERT((index<=REORDER_WIN_SIZE), ("RxReorderIndicatePacket(): Rx Reorder buffer full!!\n")); */
--
+ /*------------------------Export Marco Definition---------------------------*/
+ 	#define DbgPrint printk
+-	#define RT_PRINTK(fmt, args...)\
+-		DbgPrint("%s(): " fmt, __func__, ## args)
+ 	#define RT_DISP(dbgtype, dbgflag, printstr)
  
- 			/* indicate this recv_frame */
- 			/* DbgPrint("recv_indicatepkts_in_order, indicate_seq =%d, seq_num =%d\n", precvpriv->indicate_seq, pattrib->seq_num); */
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index 082448557b53..4e21d98f7414 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -122,7 +122,6 @@ static int _WriteFW(struct adapter *padapter, void *buffer, u32 size)
- 	u8 *bufferPtr = buffer;
- 
- 	pageNums = size / MAX_DLFW_PAGE_SIZE;
--	/* RT_ASSERT((pageNums <= 4), ("Page numbers should not greater then 4\n")); */
- 	remainSize = size % MAX_DLFW_PAGE_SIZE;
- 
- 	for (page = 0; page < pageNums; page++) {
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-index fa285003b427..fd060cf7bc57 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-@@ -226,7 +226,6 @@ static void _InitNormalChipOneOutEpPriority(struct adapter *Adapter)
- 		value = QUEUE_NORMAL;
- 		break;
- 	default:
--		/* RT_ASSERT(false, ("Shall not reach here!\n")); */
- 		break;
- 	}
- 
-@@ -260,7 +259,6 @@ static void _InitNormalChipTwoOutEpPriority(struct adapter *Adapter)
- 		valueLow = QUEUE_NORMAL;
- 		break;
- 	default:
--		/* RT_ASSERT(false, ("Shall not reach here!\n")); */
- 		break;
- 	}
- 
-@@ -325,7 +323,6 @@ static void _InitQueuePriority(struct adapter *Adapter)
- 		_InitNormalChipThreeOutEpPriority(Adapter);
- 		break;
- 	default:
--		/* RT_ASSERT(false, ("Shall not reach here!\n")); */
- 		break;
- 	}
- 
-@@ -516,7 +513,6 @@ static void _InitOperationMode(struct adapter *padapter)
- 		regBwOpMode = BW_OPMODE_20MHZ;
- 		break;
- 	case WIRELESS_MODE_A:
--/* 			RT_ASSERT(false, ("Error wireless a mode\n")); */
- 		break;
- 	case WIRELESS_MODE_G:
- 		regBwOpMode = BW_OPMODE_20MHZ;
-@@ -530,7 +526,6 @@ static void _InitOperationMode(struct adapter *padapter)
- 		regBwOpMode = BW_OPMODE_20MHZ;
- 		break;
- 	case WIRELESS_MODE_N_5G:
--/* 			RT_ASSERT(false, ("Error wireless mode")); */
- 		regBwOpMode = BW_OPMODE_5G;
- 		break;
- 
+ void ODM_InitDebugSetting(struct dm_odm_t *pDM_Odm);
 -- 
 2.20.1
 
