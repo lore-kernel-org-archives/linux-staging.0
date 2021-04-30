@@ -1,110 +1,70 @@
-Received: from lucky1.263xmail.com (lucky1.263xmail.com [211.157.147.134])
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52C82F80
-	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 13:00:05 +0000 (UTC)
-Received: from localhost (unknown [192.168.167.235])
-	by lucky1.263xmail.com (Postfix) with ESMTP id 1DEE7C82DC;
-	Fri, 30 Apr 2021 20:56:58 +0800 (CST)
-X-MAIL-GRAY:0
-X-MAIL-DELIVERY:1
-X-ADDR-CHECKED:0
-X-ANTISPAM-LEVEL:2
-X-ABS-CHECKED:0
-Received: from localhost.localdomain (unknown [124.126.19.250])
-	by smtp.263.net (postfix) whith ESMTP id P2752T140649378854656S1619787419291419_;
-	Fri, 30 Apr 2021 20:56:59 +0800 (CST)
-X-IP-DOMAINF:1
-X-UNIQUE-TAG:<faaab3fc9c4af8ee053cd0c3f1db78c4>
-X-RL-SENDER:zhaoxiao@uniontech.com
-X-SENDER:zhaoxiao@uniontech.com
-X-LOGIN-NAME:zhaoxiao@uniontech.com
-X-FST-TO:gregkh@linuxfoundation.org
-X-RCPT-COUNT:9
-X-SENDER-IP:124.126.19.250
-X-ATTACHMENT-NUM:0
-X-System-Flag:0
-From: zhaoxiao <zhaoxiao@uniontech.com>
-To: gregkh@linuxfoundation.org,
-	john.oldman@polehill.co.uk,
-	eduard.vintila47@gmail.com
-Cc: will+git@drnd.me,
-	dan.carpenter@oracle.com,
-	mitaliborkar810@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	zhaoxiao <zhaoxiao@uniontech.com>
-Subject: [PATCH] staging: rtl8192e: replace comparison to NULL by bool
-Date: Fri, 30 Apr 2021 20:56:57 +0800
-Message-Id: <20210430125657.18264-1-zhaoxiao@uniontech.com>
-X-Mailer: git-send-email 2.20.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC6A2F80
+	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 13:14:07 +0000 (UTC)
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
+	(envelope-from <andrew@lunn.ch>)
+	id 1lcSxy-001obc-OV; Fri, 30 Apr 2021 15:13:58 +0200
+Date: Fri, 30 Apr 2021 15:13:58 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: DENG Qingfang <dqfext@gmail.com>, David Miller <davem@davemloft.net>,
+	f.fainelli@gmail.com, hkallweit1@gmail.com, kuba@kernel.org,
+	Landen.Chao@mediatek.com, matthias.bgg@gmail.com,
+	linux@armlinux.org.uk, sean.wang@mediatek.com,
+	vivien.didelot@gmail.com, olteanv@gmail.com, robh+dt@kernel.org,
+	linus.walleij@linaro.org, gregkh@linuxfoundation.org,
+	sergio.paracuellos@gmail.com, linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-staging@lists.linux.dev,
+	devicetree@vger.kernel.org, netdev@vger.kernel.org,
+	weijie.gao@mediatek.com, gch981213@gmail.com, opensource@vdorst.com,
+	tglx@linutronix.de, maz@kernel.org
+Subject: Re: Re: Re: [PATCH net-next 0/4] MT7530 interrupt support
+Message-ID: <YIwCliT5NZT713WD@lunn.ch>
+References: <20210429062130.29403-1-dqfext@gmail.com>
+ <20210429.170815.956010543291313915.davem@davemloft.net>
+ <20210430023839.246447-1-dqfext@gmail.com>
+ <YIv28APpOP9tnuO+@lunn.ch>
+ <trinity-843c99ce-952a-434e-95e4-4ece3ba6b9bd-1619786236765@3c-app-gmx-bap03>
+ <YIv7w8Wy81fmU5A+@lunn.ch>
+ <trinity-611ff023-c337-4148-a215-98fd5604eac2-1619787382934@3c-app-gmx-bap03>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <trinity-611ff023-c337-4148-a215-98fd5604eac2-1619787382934@3c-app-gmx-bap03>
 
-Fixed Comparison to NULL can be written as '!...' by replacing it with
-simpler form i.e boolean expression. This makes code more readable alternative.
-Reported by checkpatch.
+On Fri, Apr 30, 2021 at 02:56:22PM +0200, Frank Wunderlich wrote:
+> Hi
+> 
+> which ethernet-phy drivers do you mean?
 
-Signed-off-by: zhaoxiao <zhaoxiao@uniontech.com>
----
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+drivers/net/phy.
 
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 48d28c7d870b..3b8efaf9b88c 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -276,7 +276,7 @@ void HTConstructCapabilityElement(struct rtllib_device *ieee, u8 *posHTCap,
- 	struct rt_hi_throughput *pHT = ieee->pHTInfo;
- 	struct ht_capab_ele *pCapELE = NULL;
- 
--	if ((posHTCap == NULL) || (pHT == NULL)) {
-+	if (!posHTCap || !pHT) {
- 		netdev_warn(ieee->dev,
- 			    "%s(): posHTCap and pHTInfo are null\n", __func__);
- 		return;
-@@ -357,7 +357,7 @@ void HTConstructInfoElement(struct rtllib_device *ieee, u8 *posHTInfo,
- 	struct rt_hi_throughput *pHT = ieee->pHTInfo;
- 	struct ht_info_ele *pHTInfoEle = (struct ht_info_ele *)posHTInfo;
- 
--	if ((posHTInfo == NULL) || (pHTInfoEle == NULL)) {
-+	if (!posHTInfo || !pHTInfoEle) {
- 		netdev_warn(ieee->dev,
- 			    "%s(): posHTInfo and pHTInfoEle are null\n",
- 			    __func__);
-@@ -397,7 +397,7 @@ void HTConstructInfoElement(struct rtllib_device *ieee, u8 *posHTInfo,
- void HTConstructRT2RTAggElement(struct rtllib_device *ieee, u8 *posRT2RTAgg,
- 				u8 *len)
- {
--	if (posRT2RTAgg == NULL) {
-+	if (!posRT2RTAgg) {
- 		netdev_warn(ieee->dev, "%s(): posRT2RTAgg is null\n", __func__);
- 		return;
- 	}
-@@ -420,7 +420,7 @@ static u8 HT_PickMCSRate(struct rtllib_device *ieee, u8 *pOperateMCS)
- {
- 	u8 i;
- 
--	if (pOperateMCS == NULL) {
-+	if (!pOperateMCS) {
- 		netdev_warn(ieee->dev, "%s(): pOperateMCS is null\n", __func__);
- 		return false;
- 	}
-@@ -453,7 +453,7 @@ u8 HTGetHighestMCSRate(struct rtllib_device *ieee, u8 *pMCSRateSet,
- 	u8		mcsRate = 0;
- 	u8		availableMcsRate[16];
- 
--	if (pMCSRateSet == NULL || pMCSFilter == NULL) {
-+	if (!pMCSRateSet || !pMCSFilter) {
- 		netdev_warn(ieee->dev,
- 			    "%s(): pMCSRateSet and pMCSFilter are null\n",
- 			    __func__);
--- 
-2.20.1
+> i found only combined phy-drivers with ethernet-handling (marvell,xilinx,mscc,ti) having the "phy-" prefix too
+> 
+> as i see something like this in drivers/phy/intel/
+> 
+> phy-intel-keembay-emmc.c
+> phy-intel-keembay-usb.c
+> 
+> maybe this in drivers/phy/mediatek/
+> 
+> phy-mediatek-mt753x.c
+> 
+> ? maybe with additional -eth, but this seems redundant, as mt753x is an ethernet-switch
+> 
+> or like the other mtk-phys
+> 
+> phy-mtk-eth-mt7531.c (like phy-mtk-mipi-dsi.c,phy-mtk-hdmi.c,phy-mtk-hdmi-mt8173.c)
 
+These are all examples of generic PHY drivers, not PHY drivers.
 
+There is a lot of confusion between PHY drivers and generic PHY
+drivers :-(
 
+	Andrew
