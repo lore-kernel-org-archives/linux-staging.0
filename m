@@ -1,48 +1,48 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438D82F9C
-	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 14:45:02 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id y26so3304206eds.4
-        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:45:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92042F9A
+	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 14:45:03 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id i24so23351810edy.8
+        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:45:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Qqo23BBWvfRPpInFMgEIGt2hEIbFItq/UvhQi520Ig0=;
-        b=CtDfXUHcX+Qm5zTyOpykjdR4PMjU5KKLt5GtEZToPKqy9kJUMHZfXndwJSrqQBzWDz
-         kZPZBCgz3LvIiUlPB4iwBuKIBPvelvI/dj3AH2SOB9gBJJxknFs7tE+H371Qxj4mpphT
-         oNbkDAKJrOBP45ivmRycppvuHO9xYR7C0w54h2a9YC2aLhgpYnfaNcKNVyZ4nMtVwW9f
-         iqt9xuiUgh4ViD7uXm7Y5R2FNXR5vWSEUzkTxwPm9GlEOuJLH+XvLIhFgB3veRkEwINo
-         H3d2UYamUAulqKBwtie7yofaazBc/Lm22cEs7ey7UQCLo4259hfHsLK6LhXCCaEqOUUQ
-         JvWg==
+        bh=oXNpztwSPie87ZGBOUIq/Wsi+dyDvcyo8iFcSTDhBAs=;
+        b=it3wxcs4z3lCcDg9KH0JPpS7cY+24Jp2wtkMEnjN8IEaYUh8fsJnz85RUOIvpf+nVy
+         chTVdAb3ylt4rNn8qGNQ29+NRTuaSa/js9hAjEzgVBTrBd8b/WZ0IHurzPp/V9sLcBVE
+         f0bNG0PA9EP3YzDnFHg7wvYkdkbXdl1JLlRLa4c6Q0zSK23fUMUkT3X6olevdtIG3erI
+         VV+MtXmTKh1h32OhH20bJS9LMLH3VFMXVKtV2PRTthzCltUKtyP1U5k85v7fLVptyZh5
+         M5q3Z1HW/zvvnCKynkG5BSLfql4weHQeoDR0rUWhkqQ4cCF6Dq6qw2Jn5dwLdEAC4XhH
+         MZkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Qqo23BBWvfRPpInFMgEIGt2hEIbFItq/UvhQi520Ig0=;
-        b=QP2Ax49dDuuzf9k4G4b8xt7z5D2HCEPH1gWM1DOcPVlIj+uQIlioFQ6xnBOfR+wi2j
-         W86xRpBWRD9+yRcdF0tV/RmMuUxfCxiEYFowvPk6IzUiPqe+9ZfpHycvxmUVG7fkcjkg
-         HqtrO8oP8Bh9PtwIq6XrHtAtEWpRHJQF8VMuaR3pwcpgMSCpsyKPzwCHNIUDc0C+pFaT
-         Wda2coKgdRnlde17Um5mjBXhq94r2T398v66vpqvg7D7MuP5dOpy0BebMC6Zxb/nJ4c7
-         eDOWLTnRBd/QTVVQu5fK0+BMoN9z/WzKFdIJH/N1vcOQRVsIh/w4y9BGOXapHgt4bsBk
-         1ErQ==
-X-Gm-Message-State: AOAM532rONINiDPnnWikFEoOu+gFyBcmaBMNA7WL0fVnHFoD4erDS1gQ
-	GlM/cuwtc4RVeA3HmqLzFVk=
-X-Google-Smtp-Source: ABdhPJzj29/Rm6sLatUfUel+aNNEcHBpFliH+FcYtD5E2lpt+F1HDHEK8RxkmGwy/C2W9KzvY+sniA==
-X-Received: by 2002:a05:6402:c1:: with SMTP id i1mr6297905edu.315.1619793900923;
-        Fri, 30 Apr 2021 07:45:00 -0700 (PDT)
+        bh=oXNpztwSPie87ZGBOUIq/Wsi+dyDvcyo8iFcSTDhBAs=;
+        b=hOW0snsRF6r4SikaCC+o2jtCTJ7k+1rZgkTlp8yPLwMpxGoizIMHo3c0n266yg2VwM
+         Tqe76jkbPiv9XTRL/T473mbqICGyNu2V04wZ2WgEub8d5FD4LB3L7vDvSu/8Lqy4E0fQ
+         4217Ulss5sqBLF1Mba0qLrcVKgUs3tIKYWeLYmOr2e7BLMaYso7tNSZfDwkTac8I8EsZ
+         IOegQldAkotb67Y3J41Yr3KMjCjATNacnrHSEj2HyB4isbgQXj4OUsu7AOn3r6P4x3Ij
+         Od/hUNLJxEIIN0tygaTFlz9rdcv/55nksgA6BYzeCDcS65atGniBrXLfyi3jbS0FzNDz
+         FtzA==
+X-Gm-Message-State: AOAM531RmRthM1fg2t6eTKxz3MVgkVRWVlP/ZTDCdkSt88oLqhpRxWwt
+	umlya+7ODUGAaKt+1LQlSuI=
+X-Google-Smtp-Source: ABdhPJxzuIEWNywo9Wz+PZyLnlRDvD6ajM+z5KebZgnINBBheAnlk1auIlVeO1IFsA4bpCnsxjjHhQ==
+X-Received: by 2002:aa7:ce17:: with SMTP id d23mr6377068edv.47.1619793902398;
+        Fri, 30 Apr 2021 07:45:02 -0700 (PDT)
 Received: from agape ([109.52.244.36])
-        by smtp.gmail.com with ESMTPSA id p24sm1461327edt.5.2021.04.30.07.45.00
+        by smtp.gmail.com with ESMTPSA id g11sm1456923edt.35.2021.04.30.07.45.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Apr 2021 07:45:00 -0700 (PDT)
+        Fri, 30 Apr 2021 07:45:02 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 31/43] staging: rtl8723bs: remove unnecessary halbtcoutsrc_DbgInit() function
-Date: Fri, 30 Apr 2021 16:44:01 +0200
-Message-Id: <2b2a35c7729314ef72df93427c017760daa58942.1619793406.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v2 32/43] staging: rtl8723bs: remove obsolete GLBtcDbgType array declarations
+Date: Fri, 30 Apr 2021 16:44:02 +0200
+Message-Id: <83cc0a8d2128e3d22a385d247667fb4865612507.1619793406.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1619793405.git.fabioaiuto83@gmail.com>
 References: <cover.1619793405.git.fabioaiuto83@gmail.com>
@@ -53,62 +53,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-halbtcoutsrc_DbgInit() static function was intended for
-manual activation of private tracing facilities.
-
-So remove it.
+remove obsolete GLBtcDbgType declarations for it was intended
+for private debug facilities.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/hal_btcoex.c | 28 ----------------------
- 1 file changed, 28 deletions(-)
+ drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h | 1 -
+ drivers/staging/rtl8723bs/hal/hal_btcoex.c   | 1 -
+ 2 files changed, 2 deletions(-)
 
+diff --git a/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h b/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
+index f2793d5d9a30..c5444f965699 100644
+--- a/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
++++ b/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
+@@ -83,7 +83,6 @@ enum {
+ 	BTC_MSG_ALGORITHM	= 0x1,
+ 	BTC_MSG_MAX
+ };
+-extern u32 		GLBtcDbgType[];
+ 
+ /*  following is for BTC_MSG_INTERFACE */
+ #define INTF_INIT	BIT0
 diff --git a/drivers/staging/rtl8723bs/hal/hal_btcoex.c b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-index 02d9997094f2..fd26187a976a 100644
+index fd26187a976a..da545c4eaac0 100644
 --- a/drivers/staging/rtl8723bs/hal/hal_btcoex.c
 +++ b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-@@ -75,32 +75,6 @@ static u8 halbtcoutsrc_IsBtCoexistAvailable(struct btc_coexist *pBtCoexist)
- 	return true;
- }
+@@ -17,7 +17,6 @@ struct btc_coexist GLBtCoexist;
+ static u8 GLBtcWiFiInScanState;
+ static u8 GLBtcWiFiInIQKState;
  
--static void halbtcoutsrc_DbgInit(void)
--{
--	u8 i;
--
--	for (i = 0; i < BTC_MSG_MAX; i++)
--		GLBtcDbgType[i] = 0;
--
--	GLBtcDbgType[BTC_MSG_INTERFACE]			=	\
--/* 			INTF_INIT								| */
--/* 			INTF_NOTIFY							| */
--			0;
--
--	GLBtcDbgType[BTC_MSG_ALGORITHM]			=	\
--/* 			ALGO_BT_RSSI_STATE					| */
--/* 			ALGO_WIFI_RSSI_STATE					| */
--/* 			ALGO_BT_MONITOR						| */
--/* 			ALGO_TRACE							| */
--/* 			ALGO_TRACE_FW						| */
--/* 			ALGO_TRACE_FW_DETAIL				| */
--/* 			ALGO_TRACE_FW_EXEC					| */
--/* 			ALGO_TRACE_SW						| */
--/* 			ALGO_TRACE_SW_DETAIL				| */
--/* 			ALGO_TRACE_SW_EXEC					| */
--			0;
--}
--
- static void halbtcoutsrc_LeaveLps(struct btc_coexist *pBtCoexist)
- {
- 	struct adapter *padapter;
-@@ -919,8 +893,6 @@ void hal_btcoex_Initialize(void *padapter)
+-u32 GLBtcDbgType[BTC_MSG_MAX];
+ static u8 GLBtcDbgBuf[BT_TMP_BUF_SIZE];
  
- 	/* pBtCoexist->statistics.cntBind++; */
- 
--	halbtcoutsrc_DbgInit();
--
- 	pBtCoexist->chipInterface = BTC_INTF_SDIO;
- 
- 	EXhalbtcoutsrc_BindBtCoexWithAdapter(padapter);
+ struct btcdbginfo { /* _btcoexdbginfo */
 -- 
 2.20.1
 
