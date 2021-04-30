@@ -1,48 +1,48 @@
 Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 586D32F9A
-	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:44:24 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id u3so25136194eja.12
-        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 00:44:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D482F9A
+	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:44:25 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id t4so20533483ejo.0
+        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 00:44:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=5KtDzlglqZBamkEg3baS39llf/wufOaHK1MWrZxa8uQ=;
-        b=d3/pUR2Nqt+W28OZ2lCM5Uzhw66hGJis+TaE54rQAq8K2vp0SsA4z99DVqfeozCkSs
-         v29xslHPgu85UMHNfTd89VEwnsuomP+KJbPLNg3rweRqBK1b9uA+BaDGlRr9jJV+6dNF
-         RUsZQCbz8b4qU0foo/MNWgUkPSI11BCeTYK4Ucys40WyrmzchQM53xba/UKE0dGbOwIy
-         8yInow2klFYNZtzUDqXTu/TsKD5l1eqmDEUdNrJv+VGiU3h4uGwA1AGU+eOWTIIaMtrx
-         Mkytl2aiWjf5pXdo+HzchGHO7yWVewkYLEw2ojYEs3HIJUN3gPs6FNEW+TIAg3lP7s0a
-         EH7g==
+        bh=CBMRL9okd6exFYzTetsEZ3MsVPUnPB4cIvHOO2Zf8iE=;
+        b=gR8QCiv4DsNCkhpvliRh2repO+rv/67cRocKOSqQvp7PByEaOkkkiakifFoXYtvrSy
+         KisK/LLhWh7HRsS4evkf/DBYfs4k9A5oQeaRxXpcykl57tkyVpBtz0OCvDKQyiOXmif7
+         Fi2nqsWyhghVM/q440OyNUjo888IA1kOXoNiLZD2AHrF6vynj4/utspkUPX3DG60TxhM
+         Uf7mwq/d6pOLvPxr0BSjGpQm08aMdnmRXTCY57HH+pEsn/oBbON/1p8ZQeRylyOi27N5
+         YRkNzVIaRV4APXb+lJ8wjoit9ib7VnTo4W/ggmO4dGggi5Y5YuzxVdyCli9/WUYaYHiq
+         6XKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=5KtDzlglqZBamkEg3baS39llf/wufOaHK1MWrZxa8uQ=;
-        b=ssodg5EsMs8MCGm/ZPRXtL7GoISu2l+SPbZklLohDecbkitTczRFjTS+z4rSU/uCHa
-         rWyXinNTbLc9Riua/+j08XyUnzUoC/BfSn0S2EsxsANvI/4Wvj4pUtg8sMkJLdjss3Ge
-         ZxTAzdKZ5VC5XN9WBBolIqIY74RwdhvKNQUTXfxMSflw0XWBcRhDel8xJqmyampbNJ0J
-         AWTtx48XaPiUpBf7lMgOtx+HdoKeL9d1JHMCjbDLgI7TUHYg7dyekjDaJ+gRqY3eVI7F
-         HQrQxQkVsI8SPf2sv4VQq40QY5dQiCYWCFWhUyI2GR/gojJr55I15bwNd34Xol3hMpf7
-         MgyA==
-X-Gm-Message-State: AOAM531ddALXMcuAF4Vhq4X0jS6wQRt4nyHwwnTGz5sUG3j+CPmkjamx
-	8qyBAmGQQbVL17VLETrq6Z3KOr/QWq751w==
-X-Google-Smtp-Source: ABdhPJwVIF8ITMhVb8X8Em+35NkKrPoysMsTYu0Gd8AgstVPCStRMqwR0u6NikdMwS6CCvWgUwej6g==
-X-Received: by 2002:a17:906:11cc:: with SMTP id o12mr2846392eja.85.1619768662943;
-        Fri, 30 Apr 2021 00:44:22 -0700 (PDT)
+        bh=CBMRL9okd6exFYzTetsEZ3MsVPUnPB4cIvHOO2Zf8iE=;
+        b=p6KQ7Jio0lHke7J9SXNhZcakTBakTlgfRPAdKbPWyypNkip1Euy54UpLWKo/VGGRtM
+         jCJZFCLcjyic08dzKKzYuqR3QAKjSs3/4/EqJuFKdUiBrbWMuRa2P833ivIFWDs42TU0
+         CZuGhd/hhgBywQ7kTaZd3xHHnZBwFAaG//06HdPvtX6wOIMJLaePD3Jr5fSd4JaTPmDb
+         BCwR6u3B8jN010cwvtbhGsZlXLt2tqshIIFtrYop8hLk/MAUCGWF+wG/Ljkx0CDSubFZ
+         +NLXsnJLYu+y9KQPvoGDdaxACJPgxa7rw5lk6KuWlgveD2cQL1hX73X9xHXtl0S6vfhi
+         /R5w==
+X-Gm-Message-State: AOAM532vmt+RfDqfQMDJIqluHSG92AjRImNYqrTlHPmIUrKACrON/PIl
+	C2CueBm8IPi00DtStxx1nU4=
+X-Google-Smtp-Source: ABdhPJzKo7X5KfG+V7g1JhtrVbUmWWo3xAnineM3BRSuH/4cbReedk9VqWXDy7p4ETXRczVszXjM8Q==
+X-Received: by 2002:a17:906:5855:: with SMTP id h21mr2852043ejs.522.1619768664606;
+        Fri, 30 Apr 2021 00:44:24 -0700 (PDT)
 Received: from agape ([5.171.81.86])
-        by smtp.gmail.com with ESMTPSA id kt21sm844481ejb.5.2021.04.30.00.44.22
+        by smtp.gmail.com with ESMTPSA id bh14sm1437662ejb.104.2021.04.30.00.44.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Apr 2021 00:44:22 -0700 (PDT)
+        Fri, 30 Apr 2021 00:44:24 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 11/43] staging: rtl8723bs: remove unused ODM_PRINT_ADDR macro
-Date: Fri, 30 Apr 2021 09:43:29 +0200
-Message-Id: <a306d9db52e6d91cc5462e8482ab5ea002b65f91.1619768150.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 12/43] staging: rtl8723bs: remove unused ODM_dbg_trace macro
+Date: Fri, 30 Apr 2021 09:43:30 +0200
+Message-Id: <7ea9367680c709edeec463111ddb2f7284cc11c2.1619768150.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1619768150.git.fabioaiuto83@gmail.com>
 References: <cover.1619768150.git.fabioaiuto83@gmail.com>
@@ -53,44 +53,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove unused ODM_PRINT_ADDR macro definitions.
+remove unused ODM_dbg_trace macro definitions.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/odm_debug.h | 19 -------------------
- 1 file changed, 19 deletions(-)
+ drivers/staging/rtl8723bs/hal/odm_debug.h | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/odm_debug.h b/drivers/staging/rtl8723bs/hal/odm_debug.h
-index b4fc247242fe..58de4d16335e 100644
+index 58de4d16335e..cd68c583699a 100644
 --- a/drivers/staging/rtl8723bs/hal/odm_debug.h
 +++ b/drivers/staging/rtl8723bs/hal/odm_debug.h
-@@ -97,29 +97,10 @@
+@@ -96,11 +96,9 @@
+ #endif
  
  #if DBG
- #define ODM_dbg_trace(str) { DbgPrint("%s:%s\n", __func__, str); }
--
--#define ODM_PRINT_ADDR(pDM_Odm, comp, level, title_str, ptr)\
--	do {\
--		if (\
--			(comp & pDM_Odm->DebugComponents) &&\
--			(level <= pDM_Odm->DebugLevel)\
--		) {\
--			int __i;\
--			u8 *__ptr = (u8 *)ptr;\
--			DbgPrint("[ODM] ");\
--			DbgPrint(title_str);\
--			DbgPrint(" ");\
--			for (__i = 0; __i < 6; __i++)\
--				DbgPrint("%02X%s", __ptr[__i], (__i == 5) ? "" : "-");\
--			DbgPrint("\n");\
--		} \
--	} while (0)
+-#define ODM_dbg_trace(str) { DbgPrint("%s:%s\n", __func__, str); }
  #else
  #define ODM_dbg_enter()					do {} while (0)
  #define ODM_dbg_exit()					do {} while (0)
- #define ODM_dbg_trace(str)				no_printk("%s", str)
--#define ODM_PRINT_ADDR(pDM_Odm, comp, level, title_str, ptr) \
--	no_printk("%s %p", title_str, ptr)
+-#define ODM_dbg_trace(str)				no_printk("%s", str)
  #endif
  
  void ODM_InitDebugSetting(struct dm_odm_t *pDM_Odm);
