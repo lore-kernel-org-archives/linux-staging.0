@@ -1,173 +1,87 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134BE2F9C
-	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:45:18 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id i3so55808324edt.1
-        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 00:45:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=EOZa0FsLTNmXREG+LfKtNmgMKRo0KsphLPysLx3lCcw=;
-        b=KqHuyebzBPX8Q1EmBcM+/0HAfjIwC5HLFaGtMUKD6rmcFh70RawmBPW+Jn/kZAH4IZ
-         tnPQzztUe8zhWVzdf3eClydsajMxC/s9nfsk4ofxzrCTZV4rXkr+5S3RLS06YxQVOaee
-         5fJDJib9ywPgG669J4NihGEaMJLk/lCebvo4tTgFQ1ISUKM8FNKfgTjfF4yd6N1iCTQT
-         QcOlkXVQCqXj/I9V9iRUH/SkLjc+GVEpMi/9CrMNforIq1ZrDTQTnnjVsuLz4oo2LT4p
-         +poQU8W/qrNJSJrW5xkztQMInKqb2oVaS+avDwVCWB8lf58lvqFNdF5BkYrV2YIo9YlW
-         GYrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=EOZa0FsLTNmXREG+LfKtNmgMKRo0KsphLPysLx3lCcw=;
-        b=HRE5ty8k501vBfvnlBW/Ljnhnk4Xoxe07KFuPRLQRAFbk0/RMTrBMJA9DYyhqcCw2Y
-         Hy+LGxIFWS/jjWHG4WBhr4z6QusDk0rfZ90b1I9wLN/jFmlrQ5zi1gb2v1zegjNDUhSc
-         8jk1o5bRY+00gCDP/aQkFg3ENFqRZ8k70Lb/i48rbi3IYZ+Da6JrD3WQ1X03MQCsIdKF
-         QRDnxAC8qXkdPxeWVIyZvSzehKXcgjZMtXYneXantZ0SoRah//X9H4hc3Jn1nBTz+55v
-         nL6Lg0rouTqU3tZil3DQHKuekWXZitG+gHGHx/vv8k/icd8vy/nlv86yRerjt+R/FWSX
-         U/Zg==
-X-Gm-Message-State: AOAM531irtwu58TutyNooaFsNyS/uEId3sH1HyuMMwKwCZzzRcbwL83a
-	/FPEJdLMni3InFIASAmVA/Y=
-X-Google-Smtp-Source: ABdhPJzPkM33ALnbJYAPg8n6krD2GGDvhIM+FofXnsHfaW/rH3pjXtmlC5c18yKXhx1urj+076Zltw==
-X-Received: by 2002:a05:6402:10d8:: with SMTP id p24mr4089217edu.337.1619768717634;
-        Fri, 30 Apr 2021 00:45:17 -0700 (PDT)
-Received: from agape ([5.171.81.86])
-        by smtp.gmail.com with ESMTPSA id t15sm643651edr.55.2021.04.30.00.45.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Apr 2021 00:45:17 -0700 (PDT)
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 43/43] staging: rtl8723bs: remove odm_debug.h header file
-Date: Fri, 30 Apr 2021 09:44:01 +0200
-Message-Id: <5a3088091c7ab8789bdfba2ef3cb86236d330130.1619768150.git.fabioaiuto83@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1619768150.git.fabioaiuto83@gmail.com>
-References: <cover.1619768150.git.fabioaiuto83@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B07A2F9A
+	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 08:00:00 +0000 (UTC)
+Received: from hillosipuli.retiisi.eu (unknown [IPv6:2001:2003:f75d:b010:afd2:773e:79db:477b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 7EFB41B00F45;
+	Fri, 30 Apr 2021 10:54:23 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1619769263;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3U4TwvCNSP5Ieq1hIP9Sa1BflL5QZOrUpAEsHU6H8XU=;
+	b=fQCCSlco6qa44izNHBA8d6fDLU9t/oi2ULCR2mpTIUnI8WD5pF/V5vavZhfYVjC9p15sH1
+	9BtgdYULvBNWGvSTuZNlbB8d0/PHOyobFxekhHhly2G26/V5QhIvV3vFy6KMa/0HdNFKCy
+	4bz/EXrQiUUIqCatEJ6KFfGMb4H7xRUswi27AixmUqrORYO4pB6VEn3AL0a9G9CQET5LQK
+	MBn7JEc86MMEerTgZUkqeGQ7lSi8bWKjAoeVGCnWNhBWp+YYrBaK61OxCam0rBTML2Ytcv
+	ThPbxUp1z9q0e7PJoHzbViQbkBq+XcKESJ6KIQCxrzOJ29Cy27CNDuEU7TwMFg==
+Received: from valkosipuli.localdomain (valkosipuli.localdomain [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 63E7D634C89;
+	Fri, 30 Apr 2021 10:52:19 +0300 (EEST)
+Received: from localhost ([127.0.0.1] helo=valkosipuli.retiisi.eu)
+	by valkosipuli.localdomain with esmtp (Exim 4.92)
+	(envelope-from <sakari.ailus@iki.fi>)
+	id 1lcNyh-0004yu-FC; Fri, 30 Apr 2021 10:54:23 +0300
+Date: Fri, 30 Apr 2021 10:54:23 +0300
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: dev.dragon@bk.ru
+Cc: mchehab@kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Staging: media: atomisp: pci: fixed a curly bracket
+ coding style issue.
+Message-ID: <20210430075423.GZ3@valkosipuli.retiisi.eu>
+References: <20210410191655.32719-1-dev.dragon@bk.ru>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210410191655.32719-1-dev.dragon@bk.ru>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1619769263;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3U4TwvCNSP5Ieq1hIP9Sa1BflL5QZOrUpAEsHU6H8XU=;
+	b=XOMJlrwMJpx77f+GpeWh1bZkXtNUdzBvR+QqAnadcBRqpum+y0nCjzIQwhcv4El0008hqS
+	IvSkwNdhwtb6sju3F/V3ydQMVTTjqDdhe0+jAgy3KacacD40IzemGL41qJxBP+cP25/asT
+	Ij0Odol5TENjs5ad3zeckhIRwsBTHu0PyWDUlxaMGYE+oInCKgL00T4Z9RtQtbue1OPk4T
+	S/ryC5e8Jyg1zEMlsdVD6V02I3Rkeyxlr3eDWqCn4O7g2pxe0moCnhRraU93dAbl1Vy7y1
+	+Xf1cXSD3rilbGnSWRqGVWC0xKdsKrBQfpQDbnNhtGzisNY1HZoF3V1tD+69Dg==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1619769263; a=rsa-sha256;
+	cv=none;
+	b=BFrqSDwPkn5EbbJtfrVtJiSc1M9WAM2aBT5amM+NaiWSAy8DaZUrQV+3TmliHO9IHpSAji
+	AMS9uKDNSHL/kfg8NIt0sNhUBCsH0JyV+0P15F5nfX7bqHJX+ELWcN+k7zFWJdwZB3vNIC
+	2XNTtnyllzcD0WGOhxHbBUfwkzIN4inNZHTJJYmjUdrEHY/4Cb+jrU7ANjX6eoiRN9857a
+	umkwwqVrwPXR2El3RD6zazX+X0cxOGt171Jr/F4WLGCg5NSZr11o5oR2UMk90+uLzZ5vSH
+	MNA6V+JlUXAXg/4oZeEHCfKCxVM3ybnwr0NufdRPspVJ7MmLS4KGBMEsNrR5bg==
 
-remove obsolete odm_debug.h header file.
+Hi Dmitrii,
 
-Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
----
- drivers/staging/rtl8723bs/hal/odm_debug.h   | 88 ---------------------
- drivers/staging/rtl8723bs/hal/odm_precomp.h |  1 -
- 2 files changed, 89 deletions(-)
- delete mode 100644 drivers/staging/rtl8723bs/hal/odm_debug.h
+On Sat, Apr 10, 2021 at 10:16:56PM +0300, dev.dragon@bk.ru wrote:
+> From: Dmitrii Wolf <dev.dragon@bk.ru>
+> 
+> Fixed a coding style issue.
 
-diff --git a/drivers/staging/rtl8723bs/hal/odm_debug.h b/drivers/staging/rtl8723bs/hal/odm_debug.h
-deleted file mode 100644
-index 94011343f7e7..000000000000
---- a/drivers/staging/rtl8723bs/hal/odm_debug.h
-+++ /dev/null
-@@ -1,88 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/******************************************************************************
-- *
-- * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
-- *
-- ******************************************************************************/
--
--#ifndef __ODM_DBG_H__
--#define __ODM_DBG_H__
--
--
--/*  */
--/* Define the debug levels */
--/*  */
--/* 1.	DBG_TRACE and DBG_LOUD are used for normal cases. */
--/* So that, they can help SW engineer to developed or trace states changed */
--/* and also help HW enginner to trace every operation to and from HW, */
--/* e.g IO, Tx, Rx. */
--/*  */
--/* 2.	DBG_WARNNING and DBG_SERIOUS are used for unusual or error cases, */
--/* which help us to debug SW or HW. */
--/*  */
--/*  */
--/*  */
--/* Never used in a call to ODM_RT_TRACE()! */
--/*  */
--#define ODM_DBG_OFF					1
--
--/*  */
--/* Fatal bug. */
--/* For example, Tx/Rx/IO locked up, OS hangs, memory access violation, */
--/* resource allocation failed, unexpected HW behavior, HW BUG and so on. */
--/*  */
--#define ODM_DBG_SERIOUS				2
--
--/*  */
--/* Abnormal, rare, or unexpected cases. */
--/* For example, */
--/* IRP/Packet/OID canceled, */
--/* device suprisely unremoved and so on. */
--/*  */
--#define ODM_DBG_WARNING				3
--
--/*  */
--/* Normal case with useful information about current SW or HW state. */
--/* For example, Tx/Rx descriptor to fill, Tx/Rx descriptor completed status, */
--/* SW protocol state change, dynamic mechanism state change and so on. */
--/*  */
--#define ODM_DBG_LOUD				4
--
--/*  */
--/* Normal case with detail execution flow or information. */
--/*  */
--#define ODM_DBG_TRACE				5
--
--/*  */
--/*  Define the tracing components */
--/*  */
--/*  */
--/* BB Functions */
--#define ODM_COMP_DIG				BIT0
--#define ODM_COMP_RA_MASK			BIT1
--#define ODM_COMP_DYNAMIC_TXPWR		BIT2
--#define ODM_COMP_FA_CNT				BIT3
--#define ODM_COMP_RSSI_MONITOR		BIT4
--#define ODM_COMP_CCK_PD				BIT5
--#define ODM_COMP_ANT_DIV			BIT6
--#define ODM_COMP_PWR_SAVE			BIT7
--#define ODM_COMP_PWR_TRAIN			BIT8
--#define ODM_COMP_RATE_ADAPTIVE		BIT9
--#define ODM_COMP_PATH_DIV			BIT10
--#define ODM_COMP_PSD				BIT11
--#define ODM_COMP_DYNAMIC_PRICCA		BIT12
--#define ODM_COMP_RXHP				BIT13
--#define ODM_COMP_MP					BIT14
--#define ODM_COMP_CFO_TRACKING		BIT15
--/* MAC Functions */
--#define ODM_COMP_EDCA_TURBO			BIT16
--#define ODM_COMP_EARLY_MODE			BIT17
--/* RF Functions */
--#define ODM_COMP_TX_PWR_TRACK		BIT24
--#define ODM_COMP_RX_GAIN_TRACK		BIT25
--#define ODM_COMP_CALIBRATION		BIT26
--/* Common Functions */
--#define ODM_COMP_COMMON				BIT30
--#define ODM_COMP_INIT				BIT31
--
--#endif	/*  __ODM_DBG_H__ */
-diff --git a/drivers/staging/rtl8723bs/hal/odm_precomp.h b/drivers/staging/rtl8723bs/hal/odm_precomp.h
-index 440a549bffc7..5041c9535e9a 100644
---- a/drivers/staging/rtl8723bs/hal/odm_precomp.h
-+++ b/drivers/staging/rtl8723bs/hal/odm_precomp.h
-@@ -27,7 +27,6 @@
- 
- #include "odm.h"
- #include "odm_HWConfig.h"
--#include "odm_debug.h"
- #include "odm_RegDefine11N.h"
- #include "odm_EdcaTurboCheck.h"
- #include "odm_DIG.h"
+You'll need a Signed-off-by: line here. Please see
+Documentation/process/submitting-patches.rst .
+
 -- 
-2.20.1
+Kind regards,
 
+Sakari Ailus
