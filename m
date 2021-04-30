@@ -1,116 +1,87 @@
-Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [194.109.24.26])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A106472
-	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 12:29:47 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud9.xs4all.net with ESMTPA
-	id cSH0lhkiPk1MGcSH3lSka0; Fri, 30 Apr 2021 14:29:39 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1619785779; bh=eBuGDvP6jpprI9FvAwTsQdzOtYN2UUA2sHz6ab5qJNA=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=Il3ErgOfd9uzygMgnhXCOtz8E/sK/5y7Pj2R2whHUbgcLJu7XjRUWP3UlozzIPNcy
-	 qpBOInO/kJ8ERCDvzHZOR+uHi/0IO206zXhFDIR0RM+xqlygEr7BhCcISqLEpWnYXq
-	 2+e/d8O7+QAGKw3RlFijJq9Wo5qiOslOZSi/KZ8ndAjEKMxZbia5AApeLXlaAqrzej
-	 Wug0s7T3KyVQurG7OGRq9S+bnfvfmdICKZXewwOOO7htCJL1YhdrarVM7q5ZEXYm8R
-	 td1lz6ZMs8wriMyeoqyPUB/yshd7yg9H5cshTP6Wwu6bTpp3Y8tQ8cH8dD3bEAt2Sh
-	 zu1kIUmV2yWFw==
-Subject: Re: [PATCH v4 5/9] staging: media: atomisp: reformat code comment
- blocks
-To: Deepak R Varma <drv@mailo.com>
-Cc: Fabio Aiuto <fabioaiuto83@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <cover.1619630709.git.drv@mailo.com>
- <034c3cc993191feb8fda719dd1b2adc9e2074e78.1619630709.git.drv@mailo.com>
- <20210429070611.GA1409@agape.jhs> <YIqdT6wsrlNP/cEo@192.168.1.8>
- <693e054f-6a7b-d9e7-a72a-07d7fa295487@xs4all.nl> <YIvm4M0Gru+RpV5O@dU2104>
- <YIv3lEAC8d8LsCb+@dU2104>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <40bd5f58-9561-89bb-ada5-1cdf56d62ef8@xs4all.nl>
-Date: Fri, 30 Apr 2021 14:29:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5562F80
+	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 12:37:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=badeba3b8450; t=1619786236;
+	bh=aWA0qZW6OIJpsght0sPtlyAsUnhdMUN05yqm1M8XjsQ=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=g13+7uC+M2sTr28mFWdno+u9YNLBBvuAxHyhLqURCyV631eiTuzCxC50heLLwvlmZ
+	 pgUKvHQYRW6d8nmkZ3OfmJNEm5syhOy4tUDmbTuP7Ldbo02DgRB4dbP0GuR4qx06ou
+	 XetKgIDOAEjC8VCEsDvnnNyPs3WISEjzrlHJMuvg=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [157.180.225.50] ([157.180.225.50]) by web-mail.gmx.net
+ (3c-app-gmx-bap03.server.lan [172.19.172.73]) (via HTTP); Fri, 30 Apr 2021
+ 14:37:16 +0200
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YIv3lEAC8d8LsCb+@dU2104>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfCkufyEQC7jnUiXS982vLsX1k+5Kg/nzRnpDkoYysb3JC3f9DlrsvjRoPNJ64qbNckX0AQ2z4fNWbRNbVx+ToE/ZKfGCsZQdTccc+GzJp5M4FI32mPR/
- lhfFM8arSlu1b4V3BrYHio+moWDryIVAlV+g0nSTOSW5so+c0L4c06iJCJPi2IrZJSRpmnXU96C2BjzSyUBCRZz0jDxms31G7hb2ip6k54tFCpN1Tk7eE9k+
- K5MbsSA058yolQ1RNrmLC/knotAXWwwfs9tg7OeTbMjAaMYt9EYlGPilpNmNBjm/vDvPcHUwnxDuEmS1gBzQFZ1TSyW7jO4PNljhs5BVUq1Om6VEiCETG9ph
- 1mgbcZw6n6Pu/Acv+RSPfZRPS1ajGF9sZkgjbyiDBKtBlfSn/UXuq/1G73y85C1LYjBPBrUxyebiSTXW0MnKo9+jBiPJkfFzQQGaCq1DVWd0G+grHrs=
+Message-ID: <trinity-843c99ce-952a-434e-95e4-4ece3ba6b9bd-1619786236765@3c-app-gmx-bap03>
+From: Frank Wunderlich <frank-w@public-files.de>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: DENG Qingfang <dqfext@gmail.com>, David Miller <davem@davemloft.net>,
+ f.fainelli@gmail.com, hkallweit1@gmail.com, kuba@kernel.org,
+ Landen.Chao@mediatek.com, matthias.bgg@gmail.com, linux@armlinux.org.uk,
+ sean.wang@mediatek.com, vivien.didelot@gmail.com, olteanv@gmail.com,
+ robh+dt@kernel.org, linus.walleij@linaro.org, gregkh@linuxfoundation.org,
+ sergio.paracuellos@gmail.com, linux-kernel@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-staging@lists.linux.dev,
+ devicetree@vger.kernel.org, netdev@vger.kernel.org,
+ weijie.gao@mediatek.com, gch981213@gmail.com, opensource@vdorst.com,
+ tglx@linutronix.de, maz@kernel.org
+Subject: Aw: Re: [PATCH net-next 0/4] MT7530 interrupt support
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 30 Apr 2021 14:37:16 +0200
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <YIv28APpOP9tnuO+@lunn.ch>
+References: <20210429062130.29403-1-dqfext@gmail.com>
+ <20210429.170815.956010543291313915.davem@davemloft.net>
+ <20210430023839.246447-1-dqfext@gmail.com> <YIv28APpOP9tnuO+@lunn.ch>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:ylYnjWFNykRWOKSx3UIDDPiFuY/keJ+N0BZCO5sR80bsR6BBg02Q7LKHjtxineS3ctVz8
+ sKaSAYh8o0agfbR2GR5smR5BnugCP1hWi/3SsM3xO/F1/R+7J/y6IP1o4QgzsineKPNdp0LU+TX4
+ jJQ9bqN1WylsDcDM7n63ojCcDg0IRCUOy62U1wsSaHKK7OrTS+bs77EVP30nb68bPCRdIEzuQ1un
+ KQZ4kyxNx2g15X3fGyAhb2XEIUXdpOrJQrQHTR+CCGpZ17u4HJL+b9P12g0coHlVgizLCzZAUZy4
+ w4=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zbwz7g5Ns4I=:rTQz1sgb1ya6Byjhnt47jG
+ TDzlj/YX2nWyScSkr4eWxd0MAAevy3Zk2kWZhtyInMwNXQOY53v6Trz1pK7GmjEhMfbcS0gf4
+ PV28WlwT6EdY1LS/2W4fJ7YVdvMpLKLH8dzPv2hFnfKzKjCydHLzBEQaO9QujQNuTi4KL6NuN
+ Bb6zbFxR4mEzehanDp5ErAh+SxaCcsC/I9avKkSTiemAgYoC1ZUmKl+p1NqAa9I2oFoeZkJxV
+ gUhg9tecgwq3Lc/Yh69hQt5CtugbbC34BVwyIw0klB2tAaWi4GqeIEy5K9OkrLLa1fcWZ5ru1
+ 9i51QvmVQ2oBBgGNiXqPz0yb1ybve10MGpTQOgAVSU+KcMjv2jyOJevrMrzHU5zgS+PTcJXuz
+ yZC12UqX0mjetuotnLhUboWGfnUW0eoBvssVJUNgKBA56802cLwBjM/24wM8TWwCKg/8Zde+U
+ RMj99LAGYCTE12lX7y4nCE/F7tHCKghnQTqIEdvKVloDIJybWwnRiZJbUpJC7BbWRQJLQZVJY
+ YtUCtg1asMEptdUwjFtxQL7bZk/88dJSetCX+5TxQuLOkmYzLDMz2Ynvwfd5BoTJUwyQ/uoiT
+ U/N1Bv/wjCZJJFysR7/eW+a3FKUiVoB5wZedu5+DsDD3iGJePZ41IQNqfXuQ4gcjbDTJx/pdW
+ ych1QqWvel1+yRuWjEPRjRpymj4/Oh2owYa+WnTWh2rAlEiHvcLb2nA7LaRWKcHOUWfYQMIZI
+ vQHG7uSHKKTz1OiHCBs09Go7K23U9AxMaviVaky/MANc7PJn9UAa1WH8QUhEAl3N+n2lwUiFP
+ pBMCYv78cII6ke6dm5phsO0gNZIqkigcAmP13jOiE+zsr5GOdV4p+UhV0n3karEKIwhmzb+F/
+ dzcqdyvdwSYweBTXanMAe0Yo/r06mjZspbOftVuxWZVk/VqBZgd3rZcjpX1nGC7HA7Y05/Y2Z
+ sFe6Otyc0hQ==
 
-On 30/04/2021 14:27, Deepak R Varma wrote:
-> On Fri, Apr 30, 2021 at 04:45:56PM +0530, Deepak R Varma wrote:
->> On Fri, Apr 30, 2021 at 12:04:33PM +0200, Hans Verkuil wrote:
->>> On 29/04/2021 13:49, Deepak R Varma wrote:
->>>> On Thu, Apr 29, 2021 at 09:06:12AM +0200, Fabio Aiuto wrote:
->>>>> Hi Deepak,
->>>>>>  	{MISENSOR_16BIT, 0xC868, 0x0280}, /* cam_output_width = 952 */
->>>>>>  	{MISENSOR_16BIT, 0xC86A, 0x01E0}, /* cam_output_height = 538 */
->>>>>>  	/* LOAD = Step3-Recommended
->>>>>> -	 * Patch,Errata and Sensor optimization Setting */
->>>>>> +	 * Patch,Errata and Sensor optimization Setting
->>>>>> +	 */
->>>>>
->>>>> 	/*
->>>>> 	 * LOAD = Step3-Recommended
->>>>>
->>>>> :(
->>>>
->>>> oops... sorry for the oversight. Not sure how I missed it.
->>>> I will wait for any other feedback on other patches and send
->>>> in a corrected version shortly.
->>>
->>> I've fixed this up myself.
->>>
->>> I'm taking this series and make a PR for this, wrapping up these
->>> atomisp cleanups.
->>>
->>> If you plan any more cleanups, then please do this on top of this
->>> branch: https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=for-v5.14-out1
->>>
->>> That contains all pending cleanups for staging/media.
->>
->> Thank you Hans and everyone. Appreciate your time, comments and patience. I
->> understand this entire patch series is acceptable for your consideration and
->> that I can now move on to other changes.
->>
->> I will be sending additional clean up patches and I will base those on top of the
->> mentioned branch.
-> 
-> Hello Hans,
-> I have cloned media_tree repository and checked out branch for-v5.14-out1
-> 
-> Is it okay for me to start my next patch in this branch? I do not need for
-> you the last patch set to be applied to the git tree, correct?
-> 
+Hi,
 
-Correct.
+i prepare rename of musb-driver to musb_mtk.ko as this is also not the best name.
 
-	Hans
+if this module does only handle mt753x i would suggest
 
-> Thank you,
-> deepak.
-> 
->>
->> Have a good one.
->> deepak.
->>
->>>
->>> Regards,
->>>
->>> 	Hans
->>>
-> 
-> 
+phy_mt753x.{c,ko}
+
+regards Frank
+
+
+> Gesendet: Freitag, 30. April 2021 um 14:24 Uhr
+> Von: "Andrew Lunn" <andrew@lunn.ch>
+
+> mediatek_phy.c gets you into trouble with the generic PHY drivers.
+> Most Ethernet PHY drivers have the model number in the file name. Does
+> the PHY have its own name/numbering, or is it always considered part
+> of the switch?  If the PHY has an identity of its own, use
+> that. Otherwise maybe mediatek75xx.c?
 
