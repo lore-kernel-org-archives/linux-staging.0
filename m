@@ -1,48 +1,48 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB112F9C
-	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 14:58:03 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id n25so10886014edr.5
-        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:58:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359212F9A
+	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 14:58:04 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id r9so105689980ejj.3
+        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:58:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jMN4zuhUHvB3cXnh9Uh5ILIZdfR0r9cSa/aL/onWxjs=;
-        b=M4so35V9e6pXbfA5i2+DQ4FzZ0sd0sCQtzTPA1x2FL94sf8Y16CTjHMBzIZsyEYPyr
-         hiiq8+4ncAD/bN2OVT6mqmvchJumirbal5ANDQktGkchNDKo9qOZfWbSs6eK6X2BvyXu
-         2f6hdjN2oZgf7mlBvH33veMWHvDNfWfesgl3i2gi9fceO5kKLYmx4KqKNYQoVricglmF
-         Ek9hc6bTCzKjeZJ+9An7lik10uGlZKurLZxKb0QVTnpRIZ5KWmYVmDDKvQHYSDqAkgAx
-         Ad15WfQpOdJViYgNyNUNSd7h6Zd1GeVY/5lr7ta1Gk/leLLXz0dzEGpsxJMymVjUbb80
-         CrSA==
+        bh=ge3P0WNdYY2EQIE5X7at+1ZyKJ0Q7vBILrEN41L9FQE=;
+        b=Hgx8hyy1cFZC3mkpVqjAytfUa89t/CaL1Hx/fiJvH8fUM8xI1mdh03bZIGjoE381dU
+         GY+QvbYVx30NkVeUJqsK1RM9/jquRDPhF9vf6txUrE552+q7DkignXyVxNiYoOLnNLGb
+         pB9slh4tikJwPCKeJNJ9876sbOX+OlxLEhLtOIhMz1ulIQUnf//Bg2ODWEV9WLD/LLyn
+         kG4RKmFjRD0DDfs3tnAues4wNYbS5ogmFvihSlSeALod7cVnwKxS6zaZ1DDg1GSul3YM
+         aqPVDLhyx3zRCz+AYrV9zfz+R0DSzno9CtwBEgCA5k2UU73ROkkY4vS8bOC38z83lb4h
+         zW1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jMN4zuhUHvB3cXnh9Uh5ILIZdfR0r9cSa/aL/onWxjs=;
-        b=nFRC0bKHUTMnw7+W1vlmMiCtIRXcQdcefzwUcQgzSr1BBhVKkMhxXZGRCrFD3MITNW
-         6nh/P9IwKs4ZXPIkd7NPveUALiuJC5RZB0T4ArNApMk9XN+XIZH0Uhhy1mdO1cIrXTSt
-         eELTq8jceiJFsxDhrJZx6qTf3YiSs6FC049aoSqtwSgtAtZcHKemh+zc3R+k9IEVpZkl
-         hzio/cuCVPBLNEebDGjD6fr//akIcORzT/SqZXK44MW+yXIdIZV2XeieHFNbrel2E9Bs
-         McvqbZ21nhiMsHHZ2cwmu6JKtUldRy9k+zfu0LTBjBQLxtna20hiIFxtAPEoVTAsslCD
-         ld3A==
-X-Gm-Message-State: AOAM531zFwBWcACIbCLkB+Ax47uZaXWFbe0/DgNkYaJa72wuWbZm+uO4
-	BMyMVIbMYjLk+r2o+ko//4TV71kERDA=
-X-Google-Smtp-Source: ABdhPJyCgdf1UNKS1T/v6bMP5wgdU1JKS/rGDVNAWPz6bCLMdDLtnxLqq+WqF1nh9W9j2KMOhYBpvg==
-X-Received: by 2002:a17:907:e87:: with SMTP id ho7mr4729992ejc.2.1619794671844;
-        Fri, 30 Apr 2021 07:57:51 -0700 (PDT)
+        bh=ge3P0WNdYY2EQIE5X7at+1ZyKJ0Q7vBILrEN41L9FQE=;
+        b=G/RwStka2vZMNrhOge4rbm9PYaCLKG4KIA+HL+cHuJOmz2y5r/ZH4lGQQJStKW8+0i
+         t2Qed0ppaULXwfnld16wlgOuVftqM3rexE+W4urH3jcV95YHNXphCfuePTFHdlmHtiCw
+         /a2vykV6XAMNpHA9R1q72pE+cCcd4RsJDyI0Z4ei2aQJyHp79fJHPpwGazBn9pw/Uvgw
+         9h991qniGfnbpp7Fhx3cK8zlLItM/yt5dmLUaRAHxWUJfQcxCECzwDrHFeerpVcnt+Iz
+         jTTfZR8NDL0jk5sZbtTy/0HZkiiziRBtMlUCx8KVnALWrPL+mrWXDbyYXAdko+/LRg9E
+         bFqQ==
+X-Gm-Message-State: AOAM530dMgwKHjnxKH0jBh0qnPKyG15c1tzjFMWJvOm6r7CmA5+5Q58C
+	e2FLIP4nrtuuvCwiOYJPPko=
+X-Google-Smtp-Source: ABdhPJxkSW0Pip1PO3Lpt5wxsfTps9tLXXV2Rp0WEhe+yQ2Jw7AtVL2+8f30d/t42yUOfmtuO3Bw2A==
+X-Received: by 2002:a17:906:e28c:: with SMTP id gg12mr4779417ejb.483.1619794682862;
+        Fri, 30 Apr 2021 07:58:02 -0700 (PDT)
 Received: from agape ([109.52.244.36])
-        by smtp.gmail.com with ESMTPSA id e5sm2155884ejq.85.2021.04.30.07.57.51
+        by smtp.gmail.com with ESMTPSA id d12sm2057180ejd.8.2021.04.30.07.58.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Apr 2021 07:57:51 -0700 (PDT)
+        Fri, 30 Apr 2021 07:58:02 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 27/43] staging: rtl8723bs: remove BTC_PRINT_F macro definition
-Date: Fri, 30 Apr 2021 16:56:49 +0200
-Message-Id: <503423caee1cc2b7a8fe321e0efb546556f2887f.1619794331.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v3 34/43] staging: rtl8723bs: remove obsolete debug macros
+Date: Fri, 30 Apr 2021 16:56:56 +0200
+Message-Id: <a35b084444ca423ba3b8a212c38b974535a7048c.1619794331.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1619794331.git.fabioaiuto83@gmail.com>
 References: <cover.1619794331.git.fabioaiuto83@gmail.com>
@@ -53,25 +53,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove unused BTC_PRINT_F macro definition.
+remove obsolete debug macros.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h b/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
-index 36636ad62aac..9c9ad29870e2 100644
+index c4616a69425d..db9d8a529877 100644
 --- a/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
 +++ b/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
-@@ -115,7 +115,6 @@ extern u32 		GLBtcDbgType[];
- /*  The following is for dbgview print */
- #if DBG
- #else
--#define BTC_PRINT_F(dbgtype, dbgflag, printstr)		 no_printk printstr
- #endif
+@@ -78,22 +78,6 @@ enum {
+ 	BTC_CHIP_MAX
+ };
  
- struct btc_board_info {
+-/*  following is for BTC_MSG_INTERFACE */
+-#define INTF_INIT	BIT0
+-#define INTF_NOTIFY	BIT2
+-
+-/*  following is for BTC_ALGORITHM */
+-#define ALGO_BT_RSSI_STATE				BIT0
+-#define ALGO_WIFI_RSSI_STATE			BIT1
+-#define ALGO_BT_MONITOR					BIT2
+-#define ALGO_TRACE						BIT3
+-#define ALGO_TRACE_FW					BIT4
+-#define ALGO_TRACE_FW_DETAIL			BIT5
+-#define ALGO_TRACE_FW_EXEC				BIT6
+-#define ALGO_TRACE_SW					BIT7
+-#define ALGO_TRACE_SW_DETAIL			BIT8
+-#define ALGO_TRACE_SW_EXEC				BIT9
+-
+ /*  following is for wifi link status */
+ #define WIFI_STA_CONNECTED				BIT0
+ #define WIFI_AP_CONNECTED				BIT1
 -- 
 2.20.1
 
