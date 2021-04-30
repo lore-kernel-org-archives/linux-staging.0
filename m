@@ -1,70 +1,53 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+Received: from mail-03.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC6A2F80
-	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 13:14:07 +0000 (UTC)
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
-	(envelope-from <andrew@lunn.ch>)
-	id 1lcSxy-001obc-OV; Fri, 30 Apr 2021 15:13:58 +0200
-Date: Fri, 30 Apr 2021 15:13:58 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: DENG Qingfang <dqfext@gmail.com>, David Miller <davem@davemloft.net>,
-	f.fainelli@gmail.com, hkallweit1@gmail.com, kuba@kernel.org,
-	Landen.Chao@mediatek.com, matthias.bgg@gmail.com,
-	linux@armlinux.org.uk, sean.wang@mediatek.com,
-	vivien.didelot@gmail.com, olteanv@gmail.com, robh+dt@kernel.org,
-	linus.walleij@linaro.org, gregkh@linuxfoundation.org,
-	sergio.paracuellos@gmail.com, linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-staging@lists.linux.dev,
-	devicetree@vger.kernel.org, netdev@vger.kernel.org,
-	weijie.gao@mediatek.com, gch981213@gmail.com, opensource@vdorst.com,
-	tglx@linutronix.de, maz@kernel.org
-Subject: Re: Re: Re: [PATCH net-next 0/4] MT7530 interrupt support
-Message-ID: <YIwCliT5NZT713WD@lunn.ch>
-References: <20210429062130.29403-1-dqfext@gmail.com>
- <20210429.170815.956010543291313915.davem@davemloft.net>
- <20210430023839.246447-1-dqfext@gmail.com>
- <YIv28APpOP9tnuO+@lunn.ch>
- <trinity-843c99ce-952a-434e-95e4-4ece3ba6b9bd-1619786236765@3c-app-gmx-bap03>
- <YIv7w8Wy81fmU5A+@lunn.ch>
- <trinity-611ff023-c337-4148-a215-98fd5604eac2-1619787382934@3c-app-gmx-bap03>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36B132F9A
+	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 14:31:27 +0000 (UTC)
+Date: Fri, 30 Apr 2021 14:31:08 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
+	s=protonmail3; t=1619793071;
+	bh=M/iHqicJNA39pyXoMmPq3hC9gdjdt8s3Boy91m6KHm8=;
+	h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+	b=dhinYSfNarUJDsNnzBp9083R8RJ9YfIpbPdIQ6a0dPEtFActPGm20xP0d4+G7Dl1C
+	 B1Yf1jIW8FqT3A63zujg8eDRFCBZklATK+QJZdxNzIBF8a7aOg8Bs7Y7d2/eSetaN5
+	 Lt1vHFhAgnvgdSxkmotVYolPmMjIAxEhRjTf8SPOkPzYe//aLcRQ4aolDCfjdvumGl
+	 of8Ls1PY78t/SgFPyduMb4ND3ltngKX8HGUTLfUa/I2h5n/ChHZkWo+Fztw3+6s9zU
+	 D3993gXMPTGmwOsD44AjoTxHm/gsMnl0eQV7QHa+ysFUckrVEfOXvi+8o+viJ7efd6
+	 ZtqZ1vWs97BtQ==
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+From: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
+Subject: Re: [PATCH 02/43] staging: rlt8723bs: remove if-else blocks left empty by ODM_RT_TRACE deletion
+Message-ID: <20210430143100.jfdaitqlqaclmajp@bryanbrattlof.com>
+In-Reply-To: <646608de41fb1ef915834a33453b0a99907d46b0.1619768150.git.fabioaiuto83@gmail.com>
+References: <cover.1619768150.git.fabioaiuto83@gmail.com> <646608de41fb1ef915834a33453b0a99907d46b0.1619768150.git.fabioaiuto83@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <trinity-611ff023-c337-4148-a215-98fd5604eac2-1619787382934@3c-app-gmx-bap03>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+	autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	mailout.protonmail.ch
 
-On Fri, Apr 30, 2021 at 02:56:22PM +0200, Frank Wunderlich wrote:
-> Hi
-> 
-> which ethernet-phy drivers do you mean?
+On Fri, Apr 30, 2021 at 09:43:20AM +0200, Fabio Aiuto wrote:
+>remove if-else blocks left empty by ODM_RT_TRACE deletion.
+>remove unused variables to suppress compiler warnings.
+>
+>Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+>
 
-drivers/net/phy.
+Hi Fabio!
 
-> i found only combined phy-drivers with ethernet-handling (marvell,xilinx,mscc,ti) having the "phy-" prefix too
-> 
-> as i see something like this in drivers/phy/intel/
-> 
-> phy-intel-keembay-emmc.c
-> phy-intel-keembay-usb.c
-> 
-> maybe this in drivers/phy/mediatek/
-> 
-> phy-mediatek-mt753x.c
-> 
-> ? maybe with additional -eth, but this seems redundant, as mt753x is an ethernet-switch
-> 
-> or like the other mtk-phys
-> 
-> phy-mtk-eth-mt7531.c (like phy-mtk-mipi-dsi.c,phy-mtk-hdmi.c,phy-mtk-hdmi-mt8173.c)
+I just wanted to point out a spelling mistake in the title 'rlt8723bs'
+in the off chance you submit a v2.
 
-These are all examples of generic PHY drivers, not PHY drivers.
+Way to go switching this over to netdev btw.
+--
+~Bryan
 
-There is a lot of confusion between PHY drivers and generic PHY
-drivers :-(
-
-	Andrew
