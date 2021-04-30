@@ -1,54 +1,36 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E1E2F9A
-	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 15:08:24 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id bf4so3288413edb.11
-        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 08:08:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Mu0mYNOEV277bg0pTpOqMEzxYQPlgVYLrj4Fpbo0+Eo=;
-        b=OSQgSLNVKb92/jcqxVrqvKp6nr43WRw7jGm8vkbdIiLo0d5yvhctFCfb45FW4M15S6
-         RL9w4tSdEufazZuYoaGhWF6uOBuv2VUiWrLR/bvTfnoYSiMV6AG1Wq0cR0lluaepBicq
-         BCEYSb4cTfONm2tY6m/11YxvtZln74IPQHeu+wre6YoL/5/Ds1AQwa7P0gGY68NO8kOx
-         ayRkWRfHsnIYFJO9TJNi+qo27kQiqJxxxlbwKpEfxJnQd2y3YAHcVOZdMB5SCXwUsYLj
-         P8LabYkDZ2CLcLH2mfOIlDTUnhjNez1AZNCptWsKnG8tbzRuIUjrVqFonc9lLz5EIXTX
-         chew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Mu0mYNOEV277bg0pTpOqMEzxYQPlgVYLrj4Fpbo0+Eo=;
-        b=LCw4By2NEN9puuiVzSrH/oak2ITzZv36awOVU0NEj6ZRd3exV1Gd8Kpbl0ooaLk1xp
-         dcZn2pEWL9sS/4A5CPGANEcTSsjdmCS60m9W0xpACkQdHbo3jHGoZnee9GxBfO3tRAog
-         QQwZ/bMtKh03SHYZyNCwJc0wc9+GCDvmN1cJ0UREx+wTZiJ+kGj1Xn+D/f9flfMzxvjH
-         1miepzkiwlgsCTr7AzZWZRO3o+nCuVlZ43YvBdudMSKHEYLTJkjCqEmh6iWmOgrMFihe
-         ET2oFcyDD59Nv3cjqYj8ygbvBEYbbKdCAVY6K/y8+PbERprmmHD0U76ueUadkWVTFKdi
-         lK/Q==
-X-Gm-Message-State: AOAM533W77LNTa3q7SJ74awO2DDO/9aDL8VuBUI/ohrOdpvyK3DIDAfM
-	J5c4gxlTiyD7S8ZFwvKnohI=
-X-Google-Smtp-Source: ABdhPJyDUWhDuw0gu3nc7UjxMS5wiA2bqgX0qEl+zsc60tfJL3ITdmyzzJ5WAVomA0wiSPDQ6qYJcg==
-X-Received: by 2002:a05:6402:1c0b:: with SMTP id ck11mr6562801edb.264.1619795303279;
-        Fri, 30 Apr 2021 08:08:23 -0700 (PDT)
-Received: from agape.jhs ([109.52.244.36])
-        by smtp.gmail.com with ESMTPSA id r25sm1460727edv.78.2021.04.30.08.08.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Apr 2021 08:08:22 -0700 (PDT)
-Date: Fri, 30 Apr 2021 17:08:20 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 02/43] staging: rlt8723bs: remove if-else blocks left
- empty by ODM_RT_TRACE deletion
-Message-ID: <20210430150819.GB1387@agape.jhs>
-References: <cover.1619768150.git.fabioaiuto83@gmail.com>
- <646608de41fb1ef915834a33453b0a99907d46b0.1619768150.git.fabioaiuto83@gmail.com>
- <20210430143100.jfdaitqlqaclmajp@bryanbrattlof.com>
- <20210430144959.GA1387@agape.jhs>
- <20210430150232.23extupxlsweecrg@bryanbrattlof.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 847F771
+	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 16:34:54 +0000 (UTC)
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
+	(envelope-from <andrew@lunn.ch>)
+	id 1lcW6H-001pzm-9A; Fri, 30 Apr 2021 18:34:45 +0200
+Date: Fri, 30 Apr 2021 18:34:45 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: DENG Qingfang <dqfext@gmail.com>, David Miller <davem@davemloft.net>,
+	f.fainelli@gmail.com, hkallweit1@gmail.com, kuba@kernel.org,
+	Landen.Chao@mediatek.com, matthias.bgg@gmail.com,
+	linux@armlinux.org.uk, sean.wang@mediatek.com,
+	vivien.didelot@gmail.com, olteanv@gmail.com, robh+dt@kernel.org,
+	linus.walleij@linaro.org, gregkh@linuxfoundation.org,
+	sergio.paracuellos@gmail.com, linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-staging@lists.linux.dev,
+	devicetree@vger.kernel.org, netdev@vger.kernel.org,
+	weijie.gao@mediatek.com, gch981213@gmail.com, opensource@vdorst.com,
+	tglx@linutronix.de, maz@kernel.org
+Subject: Re: Re: Re: Re: [PATCH net-next 0/4] MT7530 interrupt support
+Message-ID: <YIwxpYD1jnFMPQz+@lunn.ch>
+References: <20210429062130.29403-1-dqfext@gmail.com>
+ <20210429.170815.956010543291313915.davem@davemloft.net>
+ <20210430023839.246447-1-dqfext@gmail.com>
+ <YIv28APpOP9tnuO+@lunn.ch>
+ <trinity-843c99ce-952a-434e-95e4-4ece3ba6b9bd-1619786236765@3c-app-gmx-bap03>
+ <YIv7w8Wy81fmU5A+@lunn.ch>
+ <trinity-611ff023-c337-4148-a215-98fd5604eac2-1619787382934@3c-app-gmx-bap03>
+ <YIwCliT5NZT713WD@lunn.ch>
+ <trinity-c45bbeec-5b7c-43a2-8e86-7cb22ad61558-1619794787680@3c-app-gmx-bap03>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -56,56 +38,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210430150232.23extupxlsweecrg@bryanbrattlof.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <trinity-c45bbeec-5b7c-43a2-8e86-7cb22ad61558-1619794787680@3c-app-gmx-bap03>
 
-On Fri, Apr 30, 2021 at 03:02:38PM +0000, Bryan Brattlof wrote:
-> On Fri, Apr 30, 2021 at 04:50:00PM +0200, Fabio Aiuto wrote:
-> >On Fri, Apr 30, 2021 at 02:31:08PM +0000, Bryan Brattlof wrote:
-> >> On Fri, Apr 30, 2021 at 09:43:20AM +0200, Fabio Aiuto wrote:
-> >> >remove if-else blocks left empty by ODM_RT_TRACE deletion.
-> >> >remove unused variables to suppress compiler warnings.
-> >> >
-> >> >Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
-> >> >
-> >>
-> >> Hi Fabio!
-> >>
-> >> I just wanted to point out a spelling mistake in the title 'rlt8723bs'
-> >> in the off chance you submit a v2.
-> >>
-> >> Way to go switching this over to netdev btw.
-> >
-> >what do you mean exactly?
-> >
+> mhm, maybe the naming should differ if generic phy and net-phy are
+> that different. i guess there is no way to merge the net phys to the
+> generic phys (due to linking to the net device drivers) to have only
+> 1 phy section, right?
+
+phys and generic PHYs are very different things, completely different
+API etc. They cannot be merged.
+
+> but if phy- prefix is used by generic phys, maybe eth- or net- can be used here (maybe with "phy" added)
 > 
-> I was just praising you for all the work you are putting into this
-> driver. :)
-
-thank you Bryan, I'm not to praise for my english :-D
-
+> something like
 > 
-> >
-> >> --
-> >> ~Bryan
-> >>
-> >
-> >Hi Brian,
-> >
-> >thank you! Ouch I've just sent a v2 for other issues...
-> >no problem I will send a v3, sorry all for spamming.
-> >
+> eth-phy-mt753x.ko
 > 
-> Don't worry about me. I would wait until Greg and others have feedback
-> on your v2 before sending a v3 with this minor nitpick.
-> 
-> --
-> ~Bryan
-> 
+> else i have no idea now...my patch renaming the musb-module seems not
+> to be accepted due to possible breakage
 
-too late, v3 submitted:(. But I understand what you say and agreed.
-So let's wait a little more next time.
+The usb module has been around for a long time, so it cannot be
+changed. The phy driver is new, not in a released kernel. So we can
+still rename it without causing problems.
 
-thank you,
+I still want to understand the naming here. If you look at most
+Ethernet switches with integrated PHYs, the PHYs have their own naming
+scheme, separate from the switch, because they are independent IP. So
+i would prefer this driver by named after the PHY name, not the switch
+name. That might solve the naming conflict, mt123x for the PHY, mt7530
+for the switch driver.
 
-fabio. 
+	Andrew
