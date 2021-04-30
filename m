@@ -1,48 +1,48 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 842CB2F9A
-	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 14:58:02 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id a4so12350042ejk.1
-        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:58:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB112F9C
+	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 14:58:03 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id n25so10886014edr.5
+        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:58:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=esklRFhcv92jAvcOLhHGS3GTMlKhQ0QkDSmO8wy1pRY=;
-        b=nKeBhsTC/8rjGBpua0mTmIOPgSdF7/aB8EqOb2PFCUFMRIB1troydDdf1jYXXhfYKA
-         4pqT8IW9I7kxoGJB4qHsN78lubfr05xIaz/jkWaotu4qCVgs4TcE5bUdPLR1nqJlX8hY
-         N/KkYsncX69e9vhen3jecNx9m9sTPpwTl+Fyy7e7DBlfWsilQr134oFcmdURIzQg9JYq
-         wgf9DgLBNOWHocjmZioP8nEZS011mxTXmrayYr0gkmF2cbr52VH26LioMbcN7XNXxTpE
-         tn3LWQOmaDZ9VcOo0uG1Q/2IaVUQSHOW09kpOVLukIKMj0EdtsCCGZDm7ZZWsicOO5Qf
-         v40g==
+        bh=jMN4zuhUHvB3cXnh9Uh5ILIZdfR0r9cSa/aL/onWxjs=;
+        b=M4so35V9e6pXbfA5i2+DQ4FzZ0sd0sCQtzTPA1x2FL94sf8Y16CTjHMBzIZsyEYPyr
+         hiiq8+4ncAD/bN2OVT6mqmvchJumirbal5ANDQktGkchNDKo9qOZfWbSs6eK6X2BvyXu
+         2f6hdjN2oZgf7mlBvH33veMWHvDNfWfesgl3i2gi9fceO5kKLYmx4KqKNYQoVricglmF
+         Ek9hc6bTCzKjeZJ+9An7lik10uGlZKurLZxKb0QVTnpRIZ5KWmYVmDDKvQHYSDqAkgAx
+         Ad15WfQpOdJViYgNyNUNSd7h6Zd1GeVY/5lr7ta1Gk/leLLXz0dzEGpsxJMymVjUbb80
+         CrSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=esklRFhcv92jAvcOLhHGS3GTMlKhQ0QkDSmO8wy1pRY=;
-        b=HcWkgaPKx41fIBn/6y02GanBnq91OcGar0ztmKWCwWaBgcJ/aI4tS/Gu675bSM2pAJ
-         hEIP05ttV3BDkYig92s4cY+td+kb3nJbTKiOtxHNdZwkn+/ShV3kdfvLgxIzyaLTdWo7
-         5dOoMcj4uLHD/RLXr8U8TlBoSVnqcPoUB6lh6YKBbE7z+J9QW0QoFkhLBh29kNbp9mYC
-         4ANNgR0EC9mRi1V83yjZP2wuUbDRgPXw49ssdvhLA/2aB+nwsuCIegRLfDrCDecOYwH4
-         cx4SetETopzq4I+YoeVcquDsB/VuldMwAEZUgHyzESUEkKTTgzvI4GxioiuUU4HAOjY+
-         W5Lg==
-X-Gm-Message-State: AOAM5324rm/+N/r+Tbp7A/lFV0zGpZvZNIgHbyHXPgdnnABOUkdpoCyO
-	wMrzxhiJSMzaqsJnnUWhcvU=
-X-Google-Smtp-Source: ABdhPJzhe2S0b7ukQqof4118OOSqK5krVjl2deH+lVNCH9hNQ7d4C/JICbudXA5gyvNPrW+ZzbaBBA==
-X-Received: by 2002:a17:907:2623:: with SMTP id aq3mr4719540ejc.262.1619794681187;
-        Fri, 30 Apr 2021 07:58:01 -0700 (PDT)
+        bh=jMN4zuhUHvB3cXnh9Uh5ILIZdfR0r9cSa/aL/onWxjs=;
+        b=nFRC0bKHUTMnw7+W1vlmMiCtIRXcQdcefzwUcQgzSr1BBhVKkMhxXZGRCrFD3MITNW
+         6nh/P9IwKs4ZXPIkd7NPveUALiuJC5RZB0T4ArNApMk9XN+XIZH0Uhhy1mdO1cIrXTSt
+         eELTq8jceiJFsxDhrJZx6qTf3YiSs6FC049aoSqtwSgtAtZcHKemh+zc3R+k9IEVpZkl
+         hzio/cuCVPBLNEebDGjD6fr//akIcORzT/SqZXK44MW+yXIdIZV2XeieHFNbrel2E9Bs
+         McvqbZ21nhiMsHHZ2cwmu6JKtUldRy9k+zfu0LTBjBQLxtna20hiIFxtAPEoVTAsslCD
+         ld3A==
+X-Gm-Message-State: AOAM531zFwBWcACIbCLkB+Ax47uZaXWFbe0/DgNkYaJa72wuWbZm+uO4
+	BMyMVIbMYjLk+r2o+ko//4TV71kERDA=
+X-Google-Smtp-Source: ABdhPJyCgdf1UNKS1T/v6bMP5wgdU1JKS/rGDVNAWPz6bCLMdDLtnxLqq+WqF1nh9W9j2KMOhYBpvg==
+X-Received: by 2002:a17:907:e87:: with SMTP id ho7mr4729992ejc.2.1619794671844;
+        Fri, 30 Apr 2021 07:57:51 -0700 (PDT)
 Received: from agape ([109.52.244.36])
-        by smtp.gmail.com with ESMTPSA id u1sm1425763edv.90.2021.04.30.07.58.00
+        by smtp.gmail.com with ESMTPSA id e5sm2155884ejq.85.2021.04.30.07.57.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Apr 2021 07:58:00 -0700 (PDT)
+        Fri, 30 Apr 2021 07:57:51 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 33/43] staging: rtl8723bs: remove unused enum
-Date: Fri, 30 Apr 2021 16:56:55 +0200
-Message-Id: <029a9639ef046e44defc59854d6bb9a86dd3db4f.1619794331.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v3 27/43] staging: rtl8723bs: remove BTC_PRINT_F macro definition
+Date: Fri, 30 Apr 2021 16:56:49 +0200
+Message-Id: <503423caee1cc2b7a8fe321e0efb546556f2887f.1619794331.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1619794331.git.fabioaiuto83@gmail.com>
 References: <cover.1619794331.git.fabioaiuto83@gmail.com>
@@ -53,30 +53,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove unused enum.
+remove unused BTC_PRINT_F macro definition.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h | 6 ------
- 1 file changed, 6 deletions(-)
+ drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h b/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
-index c5444f965699..c4616a69425d 100644
+index 36636ad62aac..9c9ad29870e2 100644
 --- a/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
 +++ b/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
-@@ -78,12 +78,6 @@ enum {
- 	BTC_CHIP_MAX
- };
+@@ -115,7 +115,6 @@ extern u32 		GLBtcDbgType[];
+ /*  The following is for dbgview print */
+ #if DBG
+ #else
+-#define BTC_PRINT_F(dbgtype, dbgflag, printstr)		 no_printk printstr
+ #endif
  
--enum {
--	BTC_MSG_INTERFACE	= 0x0,
--	BTC_MSG_ALGORITHM	= 0x1,
--	BTC_MSG_MAX
--};
--
- /*  following is for BTC_MSG_INTERFACE */
- #define INTF_INIT	BIT0
- #define INTF_NOTIFY	BIT2
+ struct btc_board_info {
 -- 
 2.20.1
 
