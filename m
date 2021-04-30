@@ -1,53 +1,159 @@
-Received: from mail-03.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36B132F9A
-	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 14:31:27 +0000 (UTC)
-Date: Fri, 30 Apr 2021 14:31:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail3; t=1619793071;
-	bh=M/iHqicJNA39pyXoMmPq3hC9gdjdt8s3Boy91m6KHm8=;
-	h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-	b=dhinYSfNarUJDsNnzBp9083R8RJ9YfIpbPdIQ6a0dPEtFActPGm20xP0d4+G7Dl1C
-	 B1Yf1jIW8FqT3A63zujg8eDRFCBZklATK+QJZdxNzIBF8a7aOg8Bs7Y7d2/eSetaN5
-	 Lt1vHFhAgnvgdSxkmotVYolPmMjIAxEhRjTf8SPOkPzYe//aLcRQ4aolDCfjdvumGl
-	 of8Ls1PY78t/SgFPyduMb4ND3ltngKX8HGUTLfUa/I2h5n/ChHZkWo+Fztw3+6s9zU
-	 D3993gXMPTGmwOsD44AjoTxHm/gsMnl0eQV7QHa+ysFUckrVEfOXvi+8o+viJ7efd6
-	 ZtqZ1vWs97BtQ==
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-From: Bryan Brattlof <hello@bryanbrattlof.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: Re: [PATCH 02/43] staging: rlt8723bs: remove if-else blocks left empty by ODM_RT_TRACE deletion
-Message-ID: <20210430143100.jfdaitqlqaclmajp@bryanbrattlof.com>
-In-Reply-To: <646608de41fb1ef915834a33453b0a99907d46b0.1619768150.git.fabioaiuto83@gmail.com>
-References: <cover.1619768150.git.fabioaiuto83@gmail.com> <646608de41fb1ef915834a33453b0a99907d46b0.1619768150.git.fabioaiuto83@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667842F9A
+	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 14:44:16 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id g10so14986583edb.0
+        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:44:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+CUfqVofGwbRg/bO3ni01EmvXazMrFhVhTH1nGz/NcM=;
+        b=Wvouzm3vXmO6Km0zEjIqI5S2mCQBesiA8zlFv/Vj7gP8l1njEfqH1I2AelaEN1+W5G
+         Qux7hClYi53A1/XAefQzS/sI0lvRu3d4gnzB63T9bqPmbiDAYpmApRBIKu12nH3RsyEu
+         x0Y+kjg5cS5XuPBSn92c8zODVivEch0UbgeBPr+xJWbB8jqN39UNmkxv6eWrIwbyu8N4
+         2ZZKb/uWEDRpsEVizsPuqRdaqgqTHxvhWGktCtCO5E6nqRDs5IvxDhAuo7GTBVZKpMul
+         F31yel9H41P0qfYdDMP3534MW8aCqG8KPatJOiilYApEjRdr8Ta0fv/gszsPMEJt+50X
+         N/5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+CUfqVofGwbRg/bO3ni01EmvXazMrFhVhTH1nGz/NcM=;
+        b=OnQqIqgWrhqFFsU/xYnmP+k65evBHWh/LToiczQ5AoygQc3DqYw1qoQ+VsN/zFeHss
+         DpPOJUm4JDygieEwyguntmg9exu30aNugx8qNlpT18Nt+53wAKfnXdp32oNqf+fX4Z5Y
+         9u5Vp3f00OMmReKZyavK5pGq0DHxN+AVaERw+1dEgxWdNPgGu8KfdplD5VEVC7Xy2Xwt
+         gqNqydO1buRsCJXZTVjcVIL4XeShH57d4srtoj6jWxYmxdsaKdn0mwOWvA3SgZ4MgI0S
+         uNsbKCA46vX5AVbUclTi2/1UOS+lGIp34aVLHddFOFW1S1Bm84FDEHav58E2Bqc7BjU9
+         h/0A==
+X-Gm-Message-State: AOAM530V/T0ODaelIW0mbZf6l7xBVgxGJJ2i235RYoTzG+Ych53ZfenH
+	Bq85XjiR0eypCLtKKJY4y6Y=
+X-Google-Smtp-Source: ABdhPJyT9EWc2lhPSRcBW82ovVmzx2l0yhraOi6chwA+lo9qHr8fd4Pw5xevMoS7wOaUXl+ltm9P0A==
+X-Received: by 2002:aa7:d413:: with SMTP id z19mr6450861edq.37.1619793854934;
+        Fri, 30 Apr 2021 07:44:14 -0700 (PDT)
+Received: from agape ([109.52.244.36])
+        by smtp.gmail.com with ESMTPSA id b9sm1442091edt.2.2021.04.30.07.44.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Apr 2021 07:44:14 -0700 (PDT)
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 00/43] staging: rtl8723bs: clean up driver from private debug facilities
+Date: Fri, 30 Apr 2021 16:43:30 +0200
+Message-Id: <cover.1619793405.git.fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-	autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-	mailout.protonmail.ch
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 30, 2021 at 09:43:20AM +0200, Fabio Aiuto wrote:
->remove if-else blocks left empty by ODM_RT_TRACE deletion.
->remove unused variables to suppress compiler warnings.
->
->Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
->
+This patchset remove all private debug facilities.
+It removes unused macros and _do nothing_ ones (i.e. macros
+whose behaviour is activated by manual code update).
+Replace tracing macros wrapping raw printk calls by
+netdev_dbg() calls which is best suited for a network
+driver.
 
-Hi Fabio!
+Remove all unused macros and function definition tied to
+the whole private tracing facility.
 
-I just wanted to point out a spelling mistake in the title 'rlt8723bs'
-in the off chance you submit a v2.
+------------------------------------------------
+Changes in v2:
+	- fix patch 4 did not compile due to missing removal
+	  of target file in Makefile (as reported by
+	  kernel test robot). Remove deleted file target.
+	- patch 40 did not compile due to missing removal
+	  of target file in Makefile. Remove deleted file
+	  taget.
+	- reword of both patches 4 and 40.
 
-Way to go switching this over to netdev btw.
---
-~Bryan
+Fabio Aiuto (43):
+  staging: rtl8723bs: remove ODM_RT_TRACE logs
+  staging: rlt8723bs: remove if-else blocks left empty by ODM_RT_TRACE
+    deletion
+  staging: rtl8723bs: remove empty functions
+  staging: rtl8723bs: remove empty hal/odm_PathDiv.c source file
+  staging: rtl8723bs: remove undefined function prototypes
+  staging: rtl8723bs: remove empty header file
+  staging: rtl8723bs: remove ODM_RT_TRACE* unused macro defs
+  staging: rtl8723bs: remove all commented out ODM_RT_TRACE logs
+  staging: rtl8723bs: replace ODM_RT_ASSERT with netdev_dbg()
+  staging: rtl8723bs: remove unused ODM_RT_ASSERT macro
+  staging: rtl8723bs: remove unused ODM_PRINT_ADDR macro
+  staging: rtl8723bs: remove unused ODM_dbg_trace macro
+  staging: rtl8723bs: remove unused ODM_dbg_enter
+  staging: rtl8723bs: remove unused ODM_dbg_exit macro
+  staging: rtl8723bs: remove empty ifdef block
+  staging: rtl8723bs: remove unused ASSERT macro
+  staging: rtl8723bs: remove empty #ifndef block
+  staging: rtl8723bs: remove commented out RT_ASSERT occurrences
+  staging: rtl8723bs: remove unused RT_PRINTK macro
+  staging: rtl8723bs: remove BTC_PRINT logs
+  staging: rtl8723bs: remove empty if-else blocks after BTC_PRINT
+    removal
+  staging: rtl8723bs: remove braces around single statement in if block
+  staging: rtl8723bs: remove commented out BTC_PRINT logs
+  staging: rtl8723bs: remove BTC_PRINT macro definitions
+  staging: rtl8723bs: remove BTC_PRINT_ADDR macro definitions
+  staging: rtl8723bs: remove BTC_PRINT_DATA definitions
+  staging: rtl8723bs: remove BTC_PRINT_F macro definition
+  staging: rtl8723bs: remove empty #ifdef block
+  staging: rtl8723bs: remove unsed hal_btcoex_SetDBG() function
+  staging: rtl8723bs: remove hal_btcoex_GetDBG() function
+  staging: rtl8723bs: remove unnecessary halbtcoutsrc_DbgInit() function
+  staging: rtl8723bs: remove obsolete GLBtcDbgType array declarations
+  staging: rtl8723bs: remove unused enum
+  staging: rtl8723bs: remove obsolete debug macros
+  staging: rtl8723bs: remove commented out DbgPrint logs
+  staging: rtl8723bs: remove unused DbgPrint macro
+  staging: rtl8723bs: remove commented out *RT_DISP logs
+  staging: rtl8723bs: remove RT_DISP macro definition
+  staging: rtl8723bs: remove ODM_InitDebugSetting() function
+  staging: rtl8723bs: remove empty hal/odm_debug.c file
+  staging: rtl8723bs: remove member in dm_odm_t struct
+  staging: rtl8723bs: remove DebugLevel member in dm_odm_t struct
+  staging: rtl8723bs: remove odm_debug.h header file
+
+ drivers/staging/rtl8723bs/Makefile            |   2 -
+ drivers/staging/rtl8723bs/core/rtw_efuse.c    |   1 -
+ drivers/staging/rtl8723bs/core/rtw_recv.c     |  22 -
+ .../staging/rtl8723bs/hal/HalBtc8723b1Ant.c   | 604 +-----------------
+ .../staging/rtl8723bs/hal/HalBtc8723b2Ant.c   | 502 +--------------
+ drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h  |  67 --
+ .../staging/rtl8723bs/hal/HalHWImg8723B_BB.c  |  62 --
+ .../staging/rtl8723bs/hal/HalHWImg8723B_MAC.c |  49 --
+ .../staging/rtl8723bs/hal/HalHWImg8723B_RF.c  |  63 --
+ drivers/staging/rtl8723bs/hal/HalPhyRf.c      | 332 ----------
+ .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    | 177 +----
+ drivers/staging/rtl8723bs/hal/hal_btcoex.c    | 171 -----
+ drivers/staging/rtl8723bs/hal/hal_com.c       |  14 -
+ drivers/staging/rtl8723bs/hal/odm.c           |  53 +-
+ drivers/staging/rtl8723bs/hal/odm.h           |   4 -
+ .../staging/rtl8723bs/hal/odm_CfoTracking.c   | 107 ----
+ drivers/staging/rtl8723bs/hal/odm_DIG.c       | 320 ----------
+ .../rtl8723bs/hal/odm_EdcaTurboCheck.c        |  18 -
+ drivers/staging/rtl8723bs/hal/odm_HWConfig.c  |  38 --
+ .../staging/rtl8723bs/hal/odm_NoiseMonitor.c  |  27 -
+ drivers/staging/rtl8723bs/hal/odm_PathDiv.c   |  34 -
+ drivers/staging/rtl8723bs/hal/odm_PathDiv.h   |  21 -
+ drivers/staging/rtl8723bs/hal/odm_RTL8723B.c  |   1 -
+ .../rtl8723bs/hal/odm_RegConfig8723B.c        |  66 --
+ drivers/staging/rtl8723bs/hal/odm_debug.c     |  44 --
+ drivers/staging/rtl8723bs/hal/odm_debug.h     | 165 -----
+ drivers/staging/rtl8723bs/hal/odm_precomp.h   |   2 -
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |   3 -
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  |   7 -
+ .../staging/rtl8723bs/include/hal_btcoex.h    |   2 -
+ 30 files changed, 6 insertions(+), 2972 deletions(-)
+ delete mode 100644 drivers/staging/rtl8723bs/hal/odm_PathDiv.c
+ delete mode 100644 drivers/staging/rtl8723bs/hal/odm_PathDiv.h
+ delete mode 100644 drivers/staging/rtl8723bs/hal/odm_debug.c
+ delete mode 100644 drivers/staging/rtl8723bs/hal/odm_debug.h
+
+-- 
+2.20.1
 
