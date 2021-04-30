@@ -1,48 +1,48 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA25D2F9A
-	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:44:10 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id u21so103856785ejo.13
-        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 00:44:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DBA2F9A
+	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:44:12 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id q6so22234881edr.3
+        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 00:44:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=NRDjGF5wjUwRiaPQw2H+cRKReTA8UwpiAU5+UbMDALU=;
-        b=hZfi9rYGI+nQ2waZXjTb6RNKNbcx6EmpoMwJ6Gjgx2XHJ91AZGF3q1xQqhOT/ug3d5
-         tOsQAWYkSlMpmfPf1Oe1yq6Z+vyxOVM+A5nQdxNvd+7esNSNIjBPc5Uak9eOSjyT9A5k
-         Kwl50WtNJXjGHZhFcLV52sRg/heeGWrSkiv12Q05YkWET+mBTvKBhC1UsFGupyBM/16z
-         t9G3yMpM1SUla8ll9suTOU495SoHn5GCz97jdHJwDby90QVczdkXrbz7OaUuGs++dyA6
-         NFhonIriLLJCPl3fOolNAr/4lXvZVQMg4f/bk3bMrzXSdv7aSeS025TLz6Th5d0wymMS
-         8moQ==
+        bh=iaLBLpH1bRJTkz16FdRyEIFEY11hvtpkxH7HSb/2I3Y=;
+        b=ufIAW6qRw+IA2RpZfT2f3DQvRlscC2HVXeXgI2PO6Y9ze/bpdPAuY+nIzmbtUHQF2t
+         XAh+JJaO1Sov75y8DTHaRh5jToN3YU7r1Utja7muGzQj2+DhFU5h6IDcdEvcxqy2G327
+         j13M1nGP1K/rH37mvisDi3X0/xN3TaSNMXJHxnmpWNTMdp9h31vtpUmD47a7SQ9W8EQz
+         7uzcznl4T/sxmUI+UW+pHYuiiGwv/JTnR1MAppbt3n+ip0gd9mkrHCPDkzRW3wf2FAkn
+         VbirTK2UbMG/EsKEFV24SkdLeBDVpwngJt+od5vTTpM6q8JuhuYd9wv8nnYQTPrtOzJ2
+         iEsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=NRDjGF5wjUwRiaPQw2H+cRKReTA8UwpiAU5+UbMDALU=;
-        b=U+2wOtTSosuiJJYQedbV3/rljyidcERY8+giOsRgVfPcQ7Exlq/0MrSjjsassSqB/s
-         olmLsyQKOS47KRpCySsOeK15fPdkW8AlEyh1hBjg1RvZwTigSUTrwF3SMdjM/BzT0EnB
-         CPtj/rVpWnEylwdCYf04fK5+g6fuPE5ZQbXSs58Tw9As9b19d9JvQ3GNUCS5E6kpsKkU
-         y9xPawSe2krJHSZkkY1bOawllk1+fQlYQJyTIfiPIThidBA8NBkSx0H0YAE+Hay+Maco
-         EROm1RWYtltGPJXVNrP5hRnK5ctHHZwDzxo7tqA23wVwOmHa35EjdrbK7b2pfMUJACOo
-         QSMA==
-X-Gm-Message-State: AOAM530OCAZ6gArZAKIwdvqGqFAUGM0Koq6sFKkImYYiJhTFAXNR1G+D
-	iXZuiE8vnPjqzY5ajc/lcEM=
-X-Google-Smtp-Source: ABdhPJxwFmzIXdn6RjRvhfXdp7xShW+L3S2IAFYoB9lT0mEdEyZIDSdRy25J5gf7eyDjdCnikP8Fkg==
-X-Received: by 2002:a17:906:fa81:: with SMTP id lt1mr351308ejb.277.1619768649574;
-        Fri, 30 Apr 2021 00:44:09 -0700 (PDT)
+        bh=iaLBLpH1bRJTkz16FdRyEIFEY11hvtpkxH7HSb/2I3Y=;
+        b=VqaKTFkjSPD77VYdar3HC6/7mWTWcTTgNpqH+leCG7ZkBRSNC/64p8ghxnXHEVPgN/
+         N7f9ZC6MOMyilnKBz1wfFRUFBjkXHeZBehg6+/sjwha6S53rmbud+T5ACPqf951e/+tE
+         WZFVXL3VDn5XoBiC1h0b6tHicvfh27cuWwpzh7BT+XWeRKUuoIM5v78bwz6Ejop47J/J
+         VpvMXfYtF8mr6K+PVzEbM+lnQvVvWcoq96Hx1wA0q21g7VdAuliF2wjS0r3InufvH66B
+         bEaz3eaK0TcvOUfjK0Az1TBTn85thz73ddeTkxq84k+CwvqQZl80iDF2cX4waHYz3dZM
+         983A==
+X-Gm-Message-State: AOAM532uRCT2DDZ9MHGqPyHEla28kLOZfGXiHMj7Cf/pElVBHB0QLvae
+	ifPeMD+JIh6ZOyiECHxX0ZIV3gEPn3BNtQ==
+X-Google-Smtp-Source: ABdhPJxYe9GTHG+HnO9RLlPtInwomwT/e/wwWc73hRW5at5cmZx2BA9foZUkHidBXUhmhXM3XW62EQ==
+X-Received: by 2002:a05:6402:5113:: with SMTP id m19mr4249524edd.78.1619768651339;
+        Fri, 30 Apr 2021 00:44:11 -0700 (PDT)
 Received: from agape ([5.171.81.86])
-        by smtp.gmail.com with ESMTPSA id z14sm628725edc.62.2021.04.30.00.44.08
+        by smtp.gmail.com with ESMTPSA id bu8sm671926edb.77.2021.04.30.00.44.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Apr 2021 00:44:09 -0700 (PDT)
+        Fri, 30 Apr 2021 00:44:10 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 03/43] staging: rtl8723bs: remove empty functions
-Date: Fri, 30 Apr 2021 09:43:21 +0200
-Message-Id: <1430232d3b907ee4d286cc495429230a0dd4dce2.1619768150.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 04/43] staging: rtl8723bs: remove empty .c source file
+Date: Fri, 30 Apr 2021 09:43:22 +0200
+Message-Id: <64216680513f7876ea26bf95481c2ef35d7cf60a.1619768150.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1619768150.git.fabioaiuto83@gmail.com>
 References: <cover.1619768150.git.fabioaiuto83@gmail.com>
@@ -53,51 +53,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove functions left empty after ODM_RT_TRACE deletion.
+remove empty .c source file
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/odm.c         | 4 ----
- drivers/staging/rtl8723bs/hal/odm_PathDiv.c | 7 -------
- 2 files changed, 11 deletions(-)
+ drivers/staging/rtl8723bs/hal/odm_PathDiv.c | 9 ---------
+ 1 file changed, 9 deletions(-)
+ delete mode 100644 drivers/staging/rtl8723bs/hal/odm_PathDiv.c
 
-diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
-index a9f8d6a4a62c..73068a1681a9 100644
---- a/drivers/staging/rtl8723bs/hal/odm.c
-+++ b/drivers/staging/rtl8723bs/hal/odm.c
-@@ -807,9 +807,6 @@ void ODM_DMInit(struct dm_odm_t *pDM_Odm)
- 
- 	ODM_ClearTxPowerTrackingState(pDM_Odm);
- 
--	if (*(pDM_Odm->mp_mode) != 1)
--		odm_PathDiversityInit(pDM_Odm);
--
- 	odm_DynamicBBPowerSavingInit(pDM_Odm);
- 	odm_DynamicTxPowerInit(pDM_Odm);
- 
-@@ -857,7 +854,6 @@ void ODM_DMWatchdog(struct dm_odm_t *pDM_Odm)
- 
- 	odm_RefreshRateAdaptiveMask(pDM_Odm);
- 	odm_EdcaTurboCheck(pDM_Odm);
--	odm_PathDiversity(pDM_Odm);
- 	ODM_CfoTracking(pDM_Odm);
- 
- 	ODM_TXPowerTrackingCheck(pDM_Odm);
 diff --git a/drivers/staging/rtl8723bs/hal/odm_PathDiv.c b/drivers/staging/rtl8723bs/hal/odm_PathDiv.c
-index bedce2c10b22..1a2e367bb306 100644
+deleted file mode 100644
+index 1a2e367bb306..000000000000
 --- a/drivers/staging/rtl8723bs/hal/odm_PathDiv.c
-+++ b/drivers/staging/rtl8723bs/hal/odm_PathDiv.c
-@@ -7,10 +7,3 @@
- 
- #include "odm_precomp.h"
- 
--void odm_PathDiversityInit(void *pDM_VOID)
--{
--}
++++ /dev/null
+@@ -1,9 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/******************************************************************************
+- *
+- * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
+- *
+- ******************************************************************************/
 -
--void odm_PathDiversity(void *pDM_VOID)
--{
--}
+-#include "odm_precomp.h"
+-
 -- 
 2.20.1
 
