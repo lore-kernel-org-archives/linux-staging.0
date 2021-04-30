@@ -1,48 +1,48 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A862F9C
-	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 14:44:26 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id di13so672363edb.2
-        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:44:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 800EB2F9C
+	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 14:44:28 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id u21so105667773ejo.13
+        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:44:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=To5Vs4KwxhQBIQUiXfT+kEa1NbW/RrIHm/UCYNTGQs4=;
-        b=d3GVzqh3cIJ2kTDbiFmWkIxu0xae8TF50ikxxDLwKh20iUeyObjynelbULg/cNaGg/
-         iFjbvcDpaN0jkSXYte0or8ZMVdZCYuftG0Hw7FMcADdyZ7KwuXhwmqBXP98on09Qxgrl
-         HOsHIp71figOvAnRwRRCc6jVzV9AwyxVW10PH1WF4LaokpwzaSH4z0GrMkTNsEBnSxm0
-         tIyt98mhsocFiqaY6A/TAie5CDM0TcLnFqvo3CjkjkRdbvGKT3DOb/gF18nNtSbTxW2R
-         EJcHaDf/KzxB5axT2FjHmXXMzgdH6xMsZIkB3dXDnn8gSFkEqi63cAc2wEpqstxaV79U
-         q3ig==
+        bh=w+yrfynC+yLmvEikp4y3xNtT3nwDVrsgYVC2eYbSqLM=;
+        b=uMlG245kfgQ6dR4ko8Z7OWsG22iZthWfTbsL2ZJhEzVtIodX4dgSW/SQIsQdVAeQ4N
+         VeD28Jx9Fm0suDzZPp2LWiKJRLqWUBhOGids2ZRwcf3V7W+PPz6sit1E2NMZwllr0ItX
+         Q/YgCQJQjITcPoLXbN10q3i+2jips5FcBdpsTAvSKh39Zb10GzNKUxapYMM6sSUrbV4O
+         9i4fg5n/tf6drzOvISJuL0qCYvdek5nWAPt3wFosWR8/qVF1dtYN/vZ5qcwtOavlC6WH
+         fuYibhqg3/AA+ioBS4GQNa5xTMOsbpYYUxl2rmeNz1G7QuuUPgAgMiyRFkHVB7DlhEPM
+         5Zyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=To5Vs4KwxhQBIQUiXfT+kEa1NbW/RrIHm/UCYNTGQs4=;
-        b=jMQjMvgi/yg0aAdwD2mh5bFJy+fpU+7ydjFe/xEaLZgHIwpAM51CTttGaeTC4PjTn2
-         3NHlOKj33F2fwig5EgOOx+RYicN5XJkIgpUwJoScOMDBA0cJilscliBpVUM9gekoIV/m
-         15DWGR1JiITi7+285fyQABoxoy66y+vfsBivqImS9Kb314R21q9DHOE9EoD8kGgwpZ6j
-         6B8K7MPpJQrpKVhgmFJ6Yu0ZPoXt9jicCO2H74T1rRcO6iw7hX+2YJPdxClFEh6uZnnm
-         onf1MRPvTRITDsXju88iDVO6K2d4YYIzlo6J9cu5ugtnJJ/8xQKG7Kv2yQCQOEQxddiY
-         BqIw==
-X-Gm-Message-State: AOAM532IM0rHZgiFEZCSQ8VRkWFD0fIKOwfxgZCb0sBrAz9dXEb4LxvQ
-	TLB0MpDiCFE63PC/Df/WIKWBctxvzNM=
-X-Google-Smtp-Source: ABdhPJz1Rfs7uU1+aRUA3Nj7Mijwp2I2I6Hx3L+G+bdFHtuu1Wj85wJZBKoETBhbF3J6GKPYanUQQw==
-X-Received: by 2002:aa7:d513:: with SMTP id y19mr6287666edq.9.1619793865431;
-        Fri, 30 Apr 2021 07:44:25 -0700 (PDT)
+        bh=w+yrfynC+yLmvEikp4y3xNtT3nwDVrsgYVC2eYbSqLM=;
+        b=durirzb8xW57NMIda2wtDH+JAuE6DLxCF3o0ZUDT0QHdbhQG2yJlodM/fjzdkXQuC1
+         mA/RkQJRLxnaM/VB9bq+yDSJMeK8+0qIuxhZ7OFb0V2nDXuJqy6xbCVFnaBMwxPQblR5
+         hHWOUe0Y1JEZlro+TCIiKWUsnYcTsapl5/JFdtBmmZDB/DzxkH9UgY2pJpS99RYE3t63
+         soCafoH3nSgbiASqadxiGq3Ph/ui0kEB/VNpXzyqEzllfwULFntqLO9QNv4DkZVkeVEb
+         KXKqgpCNMhCf4FysTLyX4jBsGowbugXQUVnOfZ0CMZkgwK2q/ieNGO+TAkigpbfgFxPZ
+         3yWQ==
+X-Gm-Message-State: AOAM530mQ5HzXQDFMah28vjq1YLz6YCXYPiT7k+ehJFnI3tvMpQAtBet
+	E+1Rcjkd/KYMVWn+sdbzANc=
+X-Google-Smtp-Source: ABdhPJy9cpSHE9dlGB1a3LurU/wNGWQRydl6kCe6Eo/hB++DYgyAz9R8urrLjvIMC1iCbGskPGWITg==
+X-Received: by 2002:a17:906:3949:: with SMTP id g9mr4791604eje.7.1619793866985;
+        Fri, 30 Apr 2021 07:44:26 -0700 (PDT)
 Received: from agape ([109.52.244.36])
-        by smtp.gmail.com with ESMTPSA id w1sm1487670edt.89.2021.04.30.07.44.24
+        by smtp.gmail.com with ESMTPSA id w6sm2019988eje.107.2021.04.30.07.44.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Apr 2021 07:44:25 -0700 (PDT)
+        Fri, 30 Apr 2021 07:44:26 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 07/43] staging: rtl8723bs: remove ODM_RT_TRACE* unused macro defs
-Date: Fri, 30 Apr 2021 16:43:37 +0200
-Message-Id: <c3e116d07fadbba86e61eafe77dd5f3faae66c26.1619793405.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v2 08/43] staging: rtl8723bs: remove all commented out ODM_RT_TRACE logs
+Date: Fri, 30 Apr 2021 16:43:38 +0200
+Message-Id: <7d853d6b9821442b0b35a4fff70946d1482e86f6.1619793405.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1619793405.git.fabioaiuto83@gmail.com>
 References: <cover.1619793405.git.fabioaiuto83@gmail.com>
@@ -53,54 +53,253 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove unused ODM_RT_TRACE* macro defs.
+remove all commented out ODM_RT_TRACE logs.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/odm_debug.h | 23 -----------------------
- 1 file changed, 23 deletions(-)
+ .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    | 32 -------------------
+ drivers/staging/rtl8723bs/hal/odm.c           |  3 --
+ drivers/staging/rtl8723bs/hal/odm_HWConfig.c  |  1 -
+ 3 files changed, 36 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/odm_debug.h b/drivers/staging/rtl8723bs/hal/odm_debug.h
-index be0d4c49a747..09e8bfec7664 100644
---- a/drivers/staging/rtl8723bs/hal/odm_debug.h
-+++ b/drivers/staging/rtl8723bs/hal/odm_debug.h
-@@ -96,27 +96,6 @@
- #endif
+diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+index 858aafc24931..c42fd36c88ef 100644
+--- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
++++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+@@ -421,7 +421,6 @@ static u8 phy_PathA_IQK_8723B(
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rTx_IQK, bMaskDWord, 0x01007c00);
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rRx_IQK, bMaskDWord, 0x01004800);
+ 	/* path-A IQK setting */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("Path-A IQK setting!\n")); */
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rTx_IQK_Tone_A, bMaskDWord, 0x18008c1c);
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rRx_IQK_Tone_A, bMaskDWord, 0x38008c1c);
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rTx_IQK_Tone_B, bMaskDWord, 0x38008c1c);
+@@ -433,7 +432,6 @@ static u8 phy_PathA_IQK_8723B(
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rRx_IQK_PI_B, bMaskDWord, 0x28110000);
  
- #if DBG
--#define ODM_RT_TRACE(pDM_Odm, comp, level, fmt)\
--	do {\
--		if (\
--			(comp & pDM_Odm->DebugComponents) &&\
--			(level <= pDM_Odm->DebugLevel ||\
--			 level == ODM_DBG_SERIOUS)\
--		) {\
--			RT_PRINTK fmt;\
--		} \
--	} while (0)
+ 	/* LO calibration setting */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("LO calibration setting!\n")); */
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rIQK_AGC_Rsp, bMaskDWord, 0x00462911);
+ 
+ 	/* enter IQK mode */
+@@ -451,12 +449,10 @@ static u8 phy_PathA_IQK_8723B(
+ 	PHY_SetBBReg(pDM_Odm->Adapter, 0x764, bMaskDWord, 0x00000800);
+ 
+ 	/* One shot, path A LOK & IQK */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("One shot, path A LOK & IQK!\n")); */
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rIQK_AGC_Pts, bMaskDWord, 0xf9000000);
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rIQK_AGC_Pts, bMaskDWord, 0xf8000000);
+ 
+ 	/*  delay x ms */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("Delay %d ms for One shot, path A LOK & IQK.\n", IQK_DELAY_TIME_8723B)); */
+ 	/* PlatformStallExecution(IQK_DELAY_TIME_8723B*1000); */
+ 	mdelay(IQK_DELAY_TIME_8723B);
+ 
+@@ -505,8 +501,6 @@ static u8 phy_PathA_RxIQK8723B(
+ 	struct hal_com_data *pHalData = GET_HAL_DATA(padapter);
+ 	struct dm_odm_t *pDM_Odm = &pHalData->odmpriv;
+ 
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("Path A Rx IQK!\n")); */
 -
--#define ODM_RT_TRACE_F(pDM_Odm, comp, level, fmt)\
--	do {\
--		if (\
--			(comp & pDM_Odm->DebugComponents) &&\
--			(level <= pDM_Odm->DebugLevel)\
--		) {\
--			RT_PRINTK fmt;\
--		} \
--	} while (0)
+ 	/*  Save RF Path */
+ 	Path_SEL_BB = PHY_QueryBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord);
+ 
+@@ -514,7 +508,6 @@ static u8 phy_PathA_RxIQK8723B(
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rFPGA0_IQK, bMaskH3Bytes, 0x000000);
+ 	/* 1 Get TXIMR setting */
+ 	/* modify RXIQK mode table */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("Path-A Rx IQK modify RXIQK mode table!\n")); */
+ 	PHY_SetRFReg(pDM_Odm->Adapter, ODM_RF_PATH_A, RF_WE_LUT, 0x80000, 0x1);
+ 	PHY_SetRFReg(pDM_Odm->Adapter, ODM_RF_PATH_A, RF_RCK_OS, bRFRegOffsetMask, 0x18000);
+ 	PHY_SetRFReg(pDM_Odm->Adapter, ODM_RF_PATH_A, RF_TXPA_G1, bRFRegOffsetMask, 0x0001f);
+@@ -540,7 +533,6 @@ static u8 phy_PathA_RxIQK8723B(
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rRx_IQK_PI_B, bMaskDWord, 0x28110000);
+ 
+ 	/* LO calibration setting */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("LO calibration setting!\n")); */
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rIQK_AGC_Rsp, bMaskDWord, 0x0046a911);
+ 
+ 	/* enter IQK mode */
+@@ -558,12 +550,10 @@ static u8 phy_PathA_RxIQK8723B(
+ 	PHY_SetBBReg(pDM_Odm->Adapter, 0x764, bMaskDWord, 0x00000800);
+ 
+ 	/* One shot, path A LOK & IQK */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("One shot, path A LOK & IQK!\n")); */
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rIQK_AGC_Pts, bMaskDWord, 0xf9000000);
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rIQK_AGC_Pts, bMaskDWord, 0xf8000000);
+ 
+ 	/*  delay x ms */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("Delay %d ms for One shot, path A LOK & IQK.\n", IQK_DELAY_TIME_8723B)); */
+ 	/* PlatformStallExecution(IQK_DELAY_TIME_8723B*1000); */
+ 	mdelay(IQK_DELAY_TIME_8723B);
+ 
+@@ -601,7 +591,6 @@ static u8 phy_PathA_RxIQK8723B(
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rTx_IQK, bMaskDWord, u4tmp);
+ 
+ 	/* modify RXIQK mode table */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("Path-A Rx IQK modify RXIQK mode table 2!\n")); */
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rFPGA0_IQK, bMaskH3Bytes, 0x000000);
+ 	PHY_SetRFReg(pDM_Odm->Adapter, ODM_RF_PATH_A, RF_WE_LUT, 0x80000, 0x1);
+ 	PHY_SetRFReg(pDM_Odm->Adapter, ODM_RF_PATH_A, RF_RCK_OS, bRFRegOffsetMask, 0x18000);
+@@ -631,7 +620,6 @@ static u8 phy_PathA_RxIQK8723B(
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rRx_IQK_PI_B, bMaskDWord, 0x28110000);
+ 
+ 	/* LO calibration setting */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("LO calibration setting!\n")); */
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rIQK_AGC_Rsp, bMaskDWord, 0x0046a8d1);
+ 
+ 	/* enter IQK mode */
+@@ -649,12 +637,10 @@ static u8 phy_PathA_RxIQK8723B(
+ 	PHY_SetBBReg(pDM_Odm->Adapter, 0x764, bMaskDWord, 0x00000800);
+ 
+ 	/* One shot, path A LOK & IQK */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("One shot, path A LOK & IQK!\n")); */
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rIQK_AGC_Pts, bMaskDWord, 0xf9000000);
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rIQK_AGC_Pts, bMaskDWord, 0xf8000000);
+ 
+ 	/*  delay x ms */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("Delay %d ms for One shot, path A LOK & IQK.\n", IQK_DELAY_TIME_88E)); */
+ 	/* PlatformStallExecution(IQK_DELAY_TIME_8723B*1000); */
+ 	mdelay(IQK_DELAY_TIME_8723B);
+ 
+@@ -723,7 +709,6 @@ static u8 phy_PathB_IQK_8723B(struct adapter *padapter)
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rTx_IQK, bMaskDWord, 0x01007c00);
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rRx_IQK, bMaskDWord, 0x01004800);
+ 	/* path-A IQK setting */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("Path-B IQK setting!\n")); */
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rTx_IQK_Tone_A, bMaskDWord, 0x18008c1c);
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rRx_IQK_Tone_A, bMaskDWord, 0x38008c1c);
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rTx_IQK_Tone_B, bMaskDWord, 0x38008c1c);
+@@ -736,7 +721,6 @@ static u8 phy_PathB_IQK_8723B(struct adapter *padapter)
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rRx_IQK_PI_B, bMaskDWord, 0x28110000);
+ 
+ 	/* LO calibration setting */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("LO calibration setting!\n")); */
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rIQK_AGC_Rsp, bMaskDWord, 0x00462911);
+ 
+ 	/* enter IQK mode */
+@@ -750,12 +734,10 @@ static u8 phy_PathB_IQK_8723B(struct adapter *padapter)
+ 	PHY_SetBBReg(pDM_Odm->Adapter, 0x764, bMaskDWord, 0x00000800);
+ 
+ 	/* One shot, path B LOK & IQK */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("One shot, path B LOK & IQK!\n")); */
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rIQK_AGC_Pts, bMaskDWord, 0xf9000000);
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rIQK_AGC_Pts, bMaskDWord, 0xf8000000);
+ 
+ 	/*  delay x ms */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("Delay %d ms for One shot, path B LOK & IQK.\n", IQK_DELAY_TIME_88E)); */
+ 	/* PlatformStallExecution(IQK_DELAY_TIME_88E*1000); */
+ 	mdelay(IQK_DELAY_TIME_8723B);
+ 
+@@ -767,9 +749,6 @@ static u8 phy_PathB_IQK_8723B(struct adapter *padapter)
+     /* leave IQK mode */
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rFPGA0_IQK, bMaskH3Bytes, 0x000000);
+ 
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("0x948 = 0x%x\n", PHY_QueryBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord))); */
 -
- #define ODM_RT_ASSERT(pDM_Odm, expr, fmt)\
- 	do {\
- 		if (!expr) {\
-@@ -150,8 +129,6 @@
- 		} \
- 	} while (0)
- #else
--#define ODM_RT_TRACE(pDM_Odm, comp, level, fmt)		no_printk fmt
--#define ODM_RT_TRACE_F(pDM_Odm, comp, level, fmt)	no_printk fmt
- #define ODM_RT_ASSERT(pDM_Odm, expr, fmt)		no_printk fmt
- #define ODM_dbg_enter()					do {} while (0)
- #define ODM_dbg_exit()					do {} while (0)
+-
+ 	/*  Check failed */
+ 	regEAC = PHY_QueryBBReg(pDM_Odm->Adapter, rRx_Power_After_IQK_A_2, bMaskDWord);
+ 	regE94 = PHY_QueryBBReg(pDM_Odm->Adapter, rTx_Power_Before_IQK_A, bMaskDWord);
+@@ -801,8 +780,6 @@ static u8 phy_PathB_RxIQK8723B(struct adapter *padapter, bool configPathB)
+ 	struct hal_com_data *pHalData = GET_HAL_DATA(padapter);
+ 	struct dm_odm_t *pDM_Odm = &pHalData->odmpriv;
+ 
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("Path B Rx IQK!\n")); */
+-
+ 	/*  Save RF Path */
+ 	Path_SEL_BB = PHY_QueryBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord);
+     /* leave IQK mode */
+@@ -811,7 +788,6 @@ static u8 phy_PathB_RxIQK8723B(struct adapter *padapter, bool configPathB)
+ 	/* switch to path B */
+ 	PHY_SetBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord, 0x00000280);
+ 	/* modify RXIQK mode table */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("Path-A Rx IQK modify RXIQK mode table!\n")); */
+ 	PHY_SetRFReg(pDM_Odm->Adapter, ODM_RF_PATH_A, RF_WE_LUT, 0x80000, 0x1);
+ 	PHY_SetRFReg(pDM_Odm->Adapter, ODM_RF_PATH_A, RF_RCK_OS, bRFRegOffsetMask, 0x18000);
+ 	PHY_SetRFReg(pDM_Odm->Adapter, ODM_RF_PATH_A, RF_TXPA_G1, bRFRegOffsetMask, 0x0001f);
+@@ -839,7 +815,6 @@ static u8 phy_PathB_RxIQK8723B(struct adapter *padapter, bool configPathB)
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rRx_IQK_PI_B, bMaskDWord, 0x28110000);
+ 
+ 	/* LO calibration setting */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("LO calibration setting!\n")); */
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rIQK_AGC_Rsp, bMaskDWord, 0x0046a911);
+ 
+     /* enter IQK mode */
+@@ -853,13 +828,11 @@ static u8 phy_PathB_RxIQK8723B(struct adapter *padapter, bool configPathB)
+ 	PHY_SetBBReg(pDM_Odm->Adapter, 0x764, bMaskDWord, 0x00000800);
+ 
+ 	/* One shot, path B TXIQK @ RXIQK */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("One shot, path B LOK & IQK!\n")); */
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rIQK_AGC_Pts, bMaskDWord, 0xf9000000);
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rIQK_AGC_Pts, bMaskDWord, 0xf8000000);
+ 
+ 
+ 	/*  delay x ms */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("Delay %d ms for One shot, path A LOK & IQK.\n", IQK_DELAY_TIME_88E)); */
+ 	/* PlatformStallExecution(IQK_DELAY_TIME_88E*1000); */
+ 	mdelay(IQK_DELAY_TIME_8723B);
+ 
+@@ -878,10 +851,8 @@ static u8 phy_PathB_RxIQK8723B(struct adapter *padapter, bool configPathB)
+ 
+ 	/* Allen 20131125 */
+ 	tmp = (regE9C & 0x03FF0000)>>16;
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD,  ("tmp1 = 0x%x\n", tmp)); */
+ 	if ((tmp & 0x200) > 0)
+ 		tmp = 0x400 - tmp;
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD,  ("tmp2 = 0x%x\n", tmp)); */
+ 
+ 	if (
+ 		!(regEAC & BIT28) &&
+@@ -931,7 +902,6 @@ static u8 phy_PathB_RxIQK8723B(struct adapter *padapter, bool configPathB)
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rRx_IQK_PI_B, bMaskDWord, 0x28110000);
+ 
+ 	/* LO calibration setting */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("LO calibration setting!\n")); */
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rIQK_AGC_Rsp, bMaskDWord, 0x0046a8d1);
+ 
+     /* enter IQK mode */
+@@ -945,12 +915,10 @@ static u8 phy_PathB_RxIQK8723B(struct adapter *padapter, bool configPathB)
+ 	PHY_SetBBReg(pDM_Odm->Adapter, 0x764, bMaskDWord, 0x00000800);
+ 
+ 	/* One shot, path B LOK & IQK */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("One shot, path B LOK & IQK!\n")); */
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rIQK_AGC_Pts, bMaskDWord, 0xf9000000);
+ 	PHY_SetBBReg(pDM_Odm->Adapter, rIQK_AGC_Pts, bMaskDWord, 0xf8000000);
+ 
+ 	/*  delay x ms */
+-/* 	ODM_RT_TRACE(pDM_Odm, ODM_COMP_CALIBRATION, ODM_DBG_LOUD, ("Delay %d ms for One shot, path A LOK & IQK.\n", IQK_DELAY_TIME_88E)); */
+ 	/* PlatformStallExecution(IQK_DELAY_TIME_88E*1000); */
+ 	mdelay(IQK_DELAY_TIME_8723B);
+ 
+diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
+index 73068a1681a9..0027ce211619 100644
+--- a/drivers/staging/rtl8723bs/hal/odm.c
++++ b/drivers/staging/rtl8723bs/hal/odm.c
+@@ -600,11 +600,8 @@ static void FindMinimumRSSI(struct adapter *padapter)
+ 		(pdmpriv->EntryMinUndecoratedSmoothedPWDB == 0)
+ 	) {
+ 		pdmpriv->MinUndecoratedPWDBForDM = 0;
+-		/* ODM_RT_TRACE(pDM_Odm, COMP_BB_POWERSAVING, DBG_LOUD, ("Not connected to any\n")); */
+ 	} else
+ 		pdmpriv->MinUndecoratedPWDBForDM = pdmpriv->EntryMinUndecoratedSmoothedPWDB;
+-
+-	/* ODM_RT_TRACE(pDM_Odm, COMP_DIG, DBG_LOUD, ("MinUndecoratedPWDBForDM =%d\n", pHalData->MinUndecoratedPWDBForDM)); */
+ }
+ 
+ static void odm_RSSIMonitorCheckCE(struct dm_odm_t *pDM_Odm)
+diff --git a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
+index c7010015b334..db703a3b1b25 100644
+--- a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
++++ b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
+@@ -186,7 +186,6 @@ static void odm_RxPhyStatus92CSeries_Parsing(
+ 		/* RT_DISP(FRX, RX_PHY_SS, ("PWDB_ALL =%d\n", PWDB_ALL)); */
+ 
+ 		pPhyInfo->rx_pwd_ba11 = PWDB_ALL;
+-		/* ODM_RT_TRACE(pDM_Odm, ODM_COMP_RSSI_MONITOR, ODM_DBG_LOUD, ("ODM OFDM RSSI =%d\n", pPhyInfo->rx_pwd_ba11)); */
+ 		pPhyInfo->bt_rx_rssi_percentage = PWDB_ALL_BT;
+ 		pPhyInfo->rx_power = rx_pwr_all;
+ 		pPhyInfo->recv_signal_power = rx_pwr_all;
 -- 
 2.20.1
 
