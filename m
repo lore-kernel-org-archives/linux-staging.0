@@ -1,48 +1,48 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024812F9A
-	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:44:29 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id r9so103823582ejj.3
-        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 00:44:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC802F9A
+	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:44:30 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id n25so9410722edr.5
+        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 00:44:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8g9oz5Ic1TCmyXqC+DaCK2PY+uamXld+Xrd0WiL5ARM=;
-        b=jtWasIzfeB3HThE5WNkVGBjNzzs/ezVGmm/nfnq96q7DwYlnKK6FX0vtjsZjujgoSU
-         A+KkZQAPP9HHxv3N2ioO5sIimY5WmVi92tWSVV93cB0FEGV4mprz9uHD5vdYibmqN3oe
-         MDdGtUvW7GAnyklEj435kjY5Vf1+p1CG4dI/PtUTGC/ZMRteZn0iI6gujuvQue6ngrrC
-         t20t9skmco3LMPgxOnoJRze94oLJnuozp/QGCUmbOVe1babL2y9l0bZVUAQBLV1N3a7r
-         qq/HqZPg8I1HZPOuDveZKD/DZBPrF2UBjNKQTj3qgiBQ3Oyqci+DAheKrHtsDgA5/BG6
-         Gj7A==
+        bh=Y6sZe3osaLDDSPNYI5JYp+0cY5GbbYZW8NCqEYTYFpk=;
+        b=BONAVKhuvsiBzo1U1aG0am/ap2s1ljf2D+UpwoEyYvtskQSzCTZIMofkJj4BhBcmy2
+         5EOD4HyQHgHhH9qAEWZmsBAA7T3eBecuCRkCczlx45HcF5kHKZZHGDuKyR5UyknCW2J7
+         HdELqgsn38jgfkC9SUNksO0MXEhB+WPAp+zLcHkmG7IBN86gbRBIXr6CVEOePAb5R5qD
+         B+J/zknZxdry8S/l9wgpE1GjSr9X7NREXRvtpZ10wn4z+6WiRlTAHzmoMxb9FjgBjhdo
+         KZ1AUTraKByDjbrZyMkStaEhYt7p/vE9exLj8pGdNTMjyOiJjicJlkbzxnKj8MjLZb3M
+         dIYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8g9oz5Ic1TCmyXqC+DaCK2PY+uamXld+Xrd0WiL5ARM=;
-        b=RcKFiMb3kZ5s+n9J51kHSK3JAoYCEm/u48K1SeABaY4lik9fIkmTBb3tJZgxH+oaQ1
-         Xk74qEco1V6nm4/9ztf685KhkjSJhngvd3rStK5eogMCT/uZUxpAjyGmdLUrfapOzvRf
-         +g82GjQY5nCbdcPvbCZe5vVWHArK7SSY1mSWkBvrTjEt15gEeTJa2g2nZNlat20F20L+
-         cfkXbet4DAIXvUIo/Hf+vZPuvfCvEJeXsi+a4NCw7txW2GO7LpUpgv4fHkG5JiXe55TS
-         J1CGf/EPEGH+JrKIxd0WpdMLEgtGTd9OoUkdzvkg2kJGIj82vtovjoOD7YNDjTLwifGX
-         qRaQ==
-X-Gm-Message-State: AOAM5317zZZqyke9pZe9aSUythurtyasAvE2parJiaZKFw5tZfoN3wFZ
-	9859xz9AtPZKrh/JmN1643s=
-X-Google-Smtp-Source: ABdhPJwM4pBUsPyTlUtgxhGjYASUNYxYBZNtL0l0pcU7pqA5UqTNKGOzotW5oybvmPaPivDG6E4nKw==
-X-Received: by 2002:a17:906:cb1:: with SMTP id k17mr2771315ejh.307.1619768667663;
-        Fri, 30 Apr 2021 00:44:27 -0700 (PDT)
+        bh=Y6sZe3osaLDDSPNYI5JYp+0cY5GbbYZW8NCqEYTYFpk=;
+        b=kR+LCaT9wtyF+Q7hFmOJVBa3Dkm0mng7IKE4fqg6Qz9j77zE7jrMfxzxZVWYFgDpCp
+         f+WgTf9kRF1sqn+zdxaQWTT4+n7/QSH8DJchpRUwtZA/CbR9q5sr+jf8EuYMpX5robb9
+         eDYUsbLMIxgJX5kVJPMP5Tm9xqwMA3DN1WhNRz/JCRqfEUSErGWt3aR1aQuwqhtIRwyY
+         UKrOjS40PhxArJTqYWlPcc8/jho9URR4UGfuwp8DHDYvmyVokG7ncmvmdM400CPAmF3B
+         VJPgvqmRQHpwF0y/0KZzMzdZopEy3Xj4Z1xNqJXoCA5JTnmnt1ihITNoL0T/dachuZ6N
+         WcKA==
+X-Gm-Message-State: AOAM532uiChvvLIoR0q6D0YdVaaeMyZdQ4zYFVnxehS1tc6+e2CIccrH
+	1rPXn9whIb77Oub62D+zbas=
+X-Google-Smtp-Source: ABdhPJz2IvIATmKxe3qWO1+dIup+hKj1AYfuRyCy70ca3SxU0s+mtQa12nmAOlqe4ZVPQHYnsh5UYQ==
+X-Received: by 2002:aa7:d5c7:: with SMTP id d7mr4199146eds.114.1619768669368;
+        Fri, 30 Apr 2021 00:44:29 -0700 (PDT)
 Received: from agape ([5.171.81.86])
-        by smtp.gmail.com with ESMTPSA id f25sm649547eds.73.2021.04.30.00.44.27
+        by smtp.gmail.com with ESMTPSA id rv15sm1426820ejb.83.2021.04.30.00.44.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Apr 2021 00:44:27 -0700 (PDT)
+        Fri, 30 Apr 2021 00:44:29 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 14/43] staging: rtl8723bs: remove unused ODM_dbg_exit macro
-Date: Fri, 30 Apr 2021 09:43:32 +0200
-Message-Id: <b460dc555a70a80ed0ce9aceae7cf266c549bfb2.1619768150.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 15/43] staging: rtl8723bs: remove empty ifdef block
+Date: Fri, 30 Apr 2021 09:43:33 +0200
+Message-Id: <edeea4e312d7efe459d89f8e6674962470db3f98.1619768150.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1619768150.git.fabioaiuto83@gmail.com>
 References: <cover.1619768150.git.fabioaiuto83@gmail.com>
@@ -53,25 +53,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove unused ODM_dbg_exit macro definition.
+remove empty ifdef block
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/odm_debug.h | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/rtl8723bs/hal/odm_debug.h | 4 ----
+ 1 file changed, 4 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/odm_debug.h b/drivers/staging/rtl8723bs/hal/odm_debug.h
-index 7c9a87fb8e51..c359eabebb67 100644
+index c359eabebb67..8ae9948fb0c6 100644
 --- a/drivers/staging/rtl8723bs/hal/odm_debug.h
 +++ b/drivers/staging/rtl8723bs/hal/odm_debug.h
-@@ -97,7 +97,6 @@
- 
- #if DBG
- #else
--#define ODM_dbg_exit()					do {} while (0)
+@@ -95,10 +95,6 @@
+ 	#define ASSERT(expr)
  #endif
  
+-#if DBG
+-#else
+-#endif
+-
  void ODM_InitDebugSetting(struct dm_odm_t *pDM_Odm);
+ 
+ #endif	/*  __ODM_DBG_H__ */
 -- 
 2.20.1
 
