@@ -1,48 +1,48 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2AA2F9C
-	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 14:44:59 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id q6so23659907edr.3
-        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:44:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE312F9C
+	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 14:45:00 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id u3so26945605eja.12
+        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:45:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=h0VrDyabi3mV4M4fhUFp6n3KhHlZMOtcz1Nzpn72r40=;
-        b=eX2FTUUqCF9IJcSgsL2f0pytSl95/5JIUnBu1KYeeE9BF8lc2nor+zv5dnlXJF0MCb
-         EMePxEZ1jOC/G9wnIk92xoKa1yLVzcPPJ1imFcfjoo6OVrIjMked7IVqamvR+Wehc2H0
-         NaAVp6PIYITypPiJ2MM/3QgR2H825B5F0b0ZSXi5LoKsAZp0Ks830wRm36350MHGQELE
-         wKmzLZpQqV3L54OMvXQfth+uGK3Q8Gk7YUlvvSmiQRjHd1IDqNFNlQ/51X9lbzKZgdnZ
-         qTdMYEgEUxXE7kqeZbymyKzzMbBrNcZYd+Up4GL0HpoAfeDkldwDcv/p3xhuORWYk7o2
-         HD9w==
+        bh=vUdMFn0pzx+qCKX4tOp46p2P1z+8kq23wVz0Evq/QVQ=;
+        b=LVBMMg67l4taR31IN3XgjFIOVq1N4KNMj2Vf42zt7IaRmgo/cGx3wdlrzv/mvAa6Kv
+         pmTOf87VHJMrXdt2fXZTupNOc/fXv3IU/TSuzX3PCaZNARrrK6IpwNY4OVANRx2FYfOy
+         UQkOzT1IbYavyW7MrpynWssgx2AYNGe1pJiokIqoXy2inMriTxUaaTv7mp+E93FIP+At
+         jASGMQiSCIeQDBoN1uy7M1tAZSgga/ermg7OVrxtqVDh7wh4LBCcygcbfOAnKVst0Z9L
+         mI+y81O0rvBDlVy4qenCb4cjzLcjb9LNZi/3kAGT3eFliHb9BcU92pUVfJakeaBMgiB4
+         CsNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=h0VrDyabi3mV4M4fhUFp6n3KhHlZMOtcz1Nzpn72r40=;
-        b=RLe5Qxlnn0WjAma+gt5btUnvWg7OISAvfP2R8nbYBzcU7H0mfSNkV8p49MrHOKKRNF
-         QM5hbHErf1/0MOkwKorniX/M5hFIiltrM+1dI+AaU7TdHu2nSWpt8I4ficBX+W4SejZr
-         22phX6PvKKNnwmfWuLQ4fuw31WM24fKor5nyaE36+/x3vjuCPmQ3r9yHODo0I7zJhDOl
-         FV53FjMp+TOsEdGlPuRrtDXeVYycL1nPOpHLCn7EbSXj2cJ34GuRNu6OPx5y8VAeSvTL
-         y7L9uNEGr6OHidHhBymRVpu8Y/JkQSV5hCaX+LCfy66D+8WRCZ5m2lBcUnt8KnBUmZh6
-         GcoQ==
-X-Gm-Message-State: AOAM531cwQ7t+hH4SknlarcdYD41kGEmvFAohf8AjjRSwB3fK4CbX/dl
-	e+C7YFYQj2dJXcWhmB06uPU=
-X-Google-Smtp-Source: ABdhPJxuRNHKC615TCh2qI2M9ZeHFvHxYNv1so7Sz8ft1jWVy0jWMdYEbLc/JfcnrQe79VCEgE0niw==
-X-Received: by 2002:a50:82e2:: with SMTP id 89mr6409983edg.0.1619793897987;
-        Fri, 30 Apr 2021 07:44:57 -0700 (PDT)
+        bh=vUdMFn0pzx+qCKX4tOp46p2P1z+8kq23wVz0Evq/QVQ=;
+        b=Y1NmdUXjTYhbou9xZaCQSzwCXB9p3bZtUVkshhgASHFT+JHMFuhjmNh4QfrdN3jzDD
+         ohtfwbzXCOxzp6q7n67xvE400AZqV8+IGLKo09Usk6kOYo2lIcs48gAo3NZaZqxQi0ag
+         UBdHzzXk6RgMBSfPSLx/Uz2wbJbKtBDVfCCx+R8yWitM0q9UQF5Ebto8bbYZF0QJnWEb
+         8Jz1g6VYNvMEEzRm0nHHAmQ7ZdB3WkCmgSFEpsGX9mxSi1BxjFzt1fQXmIBbklqBBIYZ
+         6Z3o61VLzjwVyD9fBI4OTPqMbP0xUZ9CasHS4DApWDEQZOMETYS/TlgM9F/WAdaltBax
+         Rb2A==
+X-Gm-Message-State: AOAM531a0iXgQxBEjufHH6rs6mdGW2v+K4vIHYFXBNT6VWUqM0gh80w6
+	GTmZxaw3mdSs81h/jKzPVbwXpJ+8ewU=
+X-Google-Smtp-Source: ABdhPJwBgYegRmG+ormUkzCwY7kLd0s8u2MGMB4YbhbHi4H7uD46DguquufNey5K/doP2g5S0OgzMw==
+X-Received: by 2002:a17:907:f81:: with SMTP id kb1mr4881058ejc.476.1619793899527;
+        Fri, 30 Apr 2021 07:44:59 -0700 (PDT)
 Received: from agape ([109.52.244.36])
-        by smtp.gmail.com with ESMTPSA id dk13sm1522287edb.34.2021.04.30.07.44.57
+        by smtp.gmail.com with ESMTPSA id a22sm1448234edu.14.2021.04.30.07.44.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Apr 2021 07:44:57 -0700 (PDT)
+        Fri, 30 Apr 2021 07:44:59 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 29/43] staging: rtl8723bs: remove unsed hal_btcoex_SetDBG() function
-Date: Fri, 30 Apr 2021 16:43:59 +0200
-Message-Id: <c0e39a96c48a62fa79609f51de1d15abfee92061.1619793406.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v2 30/43] staging: rtl8723bs: remove hal_btcoex_GetDBG() function
+Date: Fri, 30 Apr 2021 16:44:00 +0200
+Message-Id: <cfac6fa149e983377f9fdba798103d432b103486.1619793406.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1619793405.git.fabioaiuto83@gmail.com>
 References: <cover.1619793405.git.fabioaiuto83@gmail.com>
@@ -53,48 +53,155 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove unused hal_btcoex_SetDBG() function definition and
+remove unused hal_btcoex_GetDBG() function definition and
 prototype.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/hal_btcoex.c     | 12 ------------
- drivers/staging/rtl8723bs/include/hal_btcoex.h |  1 -
- 2 files changed, 13 deletions(-)
+ drivers/staging/rtl8723bs/hal/hal_btcoex.c    | 123 ------------------
+ .../staging/rtl8723bs/include/hal_btcoex.h    |   1 -
+ 2 files changed, 124 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/hal_btcoex.c b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-index 30d763b48349..cac2d6077403 100644
+index cac2d6077403..02d9997094f2 100644
 --- a/drivers/staging/rtl8723bs/hal/hal_btcoex.c
 +++ b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-@@ -1492,18 +1492,6 @@ void hal_btcoex_DisplayBtCoexInfo(struct adapter *padapter, u8 *pbuf, u32 bufsiz
+@@ -1492,126 +1492,3 @@ void hal_btcoex_DisplayBtCoexInfo(struct adapter *padapter, u8 *pbuf, u32 bufsiz
  	DBG_BT_INFO_INIT(pinfo, NULL, 0);
  }
  
--void hal_btcoex_SetDBG(struct adapter *padapter, u32 *pDbgModule)
+-u32 hal_btcoex_GetDBG(struct adapter *padapter, u8 *pStrBuf, u32 bufSize)
 -{
--	u32 i;
+-	s32 count;
+-	u8 *pstr;
+-	u32 leftSize;
 -
 -
--	if (!pDbgModule)
--		return;
+-	if (!pStrBuf || bufSize == 0)
+-		return 0;
 -
--	for (i = 0; i < BTC_MSG_MAX; i++)
--		GLBtcDbgType[i] = pDbgModule[i];
+-	pstr = pStrBuf;
+-	leftSize = bufSize;
+-
+-	count = rtw_sprintf(pstr, leftSize, "#define DBG\t%d\n", DBG);
+-	if ((count < 0) || (count >= leftSize))
+-		goto exit;
+-	pstr += count;
+-	leftSize -= count;
+-
+-	count = rtw_sprintf(pstr, leftSize, "BTCOEX Debug Setting:\n");
+-	if ((count < 0) || (count >= leftSize))
+-		goto exit;
+-	pstr += count;
+-	leftSize -= count;
+-
+-	count = rtw_sprintf(pstr, leftSize,
+-		"INTERFACE / ALGORITHM: 0x%08X / 0x%08X\n\n",
+-		GLBtcDbgType[BTC_MSG_INTERFACE],
+-		GLBtcDbgType[BTC_MSG_ALGORITHM]);
+-	if ((count < 0) || (count >= leftSize))
+-		goto exit;
+-	pstr += count;
+-	leftSize -= count;
+-
+-	count = rtw_sprintf(pstr, leftSize, "INTERFACE Debug Setting Definition:\n");
+-	if ((count < 0) || (count >= leftSize))
+-		goto exit;
+-	pstr += count;
+-	leftSize -= count;
+-	count = rtw_sprintf(pstr, leftSize, "\tbit[0]=%d for INTF_INIT\n",
+-		(GLBtcDbgType[BTC_MSG_INTERFACE] & INTF_INIT) ? 1 : 0);
+-	if ((count < 0) || (count >= leftSize))
+-		goto exit;
+-	pstr += count;
+-	leftSize -= count;
+-	count = rtw_sprintf(pstr, leftSize, "\tbit[2]=%d for INTF_NOTIFY\n\n",
+-		(GLBtcDbgType[BTC_MSG_INTERFACE] & INTF_NOTIFY) ? 1 : 0);
+-	if ((count < 0) || (count >= leftSize))
+-		goto exit;
+-	pstr += count;
+-	leftSize -= count;
+-
+-	count = rtw_sprintf(pstr, leftSize, "ALGORITHM Debug Setting Definition:\n");
+-	if ((count < 0) || (count >= leftSize))
+-		goto exit;
+-	pstr += count;
+-	leftSize -= count;
+-	count = rtw_sprintf(pstr, leftSize, "\tbit[0]=%d for BT_RSSI_STATE\n",
+-		(GLBtcDbgType[BTC_MSG_ALGORITHM] & ALGO_BT_RSSI_STATE) ? 1 : 0);
+-	if ((count < 0) || (count >= leftSize))
+-		goto exit;
+-	pstr += count;
+-	leftSize -= count;
+-	count = rtw_sprintf(pstr, leftSize, "\tbit[1]=%d for WIFI_RSSI_STATE\n",
+-		(GLBtcDbgType[BTC_MSG_ALGORITHM] & ALGO_WIFI_RSSI_STATE) ? 1 : 0);
+-	if ((count < 0) || (count >= leftSize))
+-		goto exit;
+-	pstr += count;
+-	leftSize -= count;
+-	count = rtw_sprintf(pstr, leftSize, "\tbit[2]=%d for BT_MONITOR\n",
+-		(GLBtcDbgType[BTC_MSG_ALGORITHM] & ALGO_BT_MONITOR) ? 1 : 0);
+-	if ((count < 0) || (count >= leftSize))
+-		goto exit;
+-	pstr += count;
+-	leftSize -= count;
+-	count = rtw_sprintf(pstr, leftSize, "\tbit[3]=%d for TRACE\n",
+-		(GLBtcDbgType[BTC_MSG_ALGORITHM] & ALGO_TRACE) ? 1 : 0);
+-	if ((count < 0) || (count >= leftSize))
+-		goto exit;
+-	pstr += count;
+-	leftSize -= count;
+-	count = rtw_sprintf(pstr, leftSize, "\tbit[4]=%d for TRACE_FW\n",
+-		(GLBtcDbgType[BTC_MSG_ALGORITHM] & ALGO_TRACE_FW) ? 1 : 0);
+-	if ((count < 0) || (count >= leftSize))
+-		goto exit;
+-	pstr += count;
+-	leftSize -= count;
+-	count = rtw_sprintf(pstr, leftSize, "\tbit[5]=%d for TRACE_FW_DETAIL\n",
+-		(GLBtcDbgType[BTC_MSG_ALGORITHM] & ALGO_TRACE_FW_DETAIL) ? 1 : 0);
+-	if ((count < 0) || (count >= leftSize))
+-		goto exit;
+-	pstr += count;
+-	leftSize -= count;
+-	count = rtw_sprintf(pstr, leftSize, "\tbit[6]=%d for TRACE_FW_EXEC\n",
+-		(GLBtcDbgType[BTC_MSG_ALGORITHM] & ALGO_TRACE_FW_EXEC) ? 1 : 0);
+-	if ((count < 0) || (count >= leftSize))
+-		goto exit;
+-	pstr += count;
+-	leftSize -= count;
+-	count = rtw_sprintf(pstr, leftSize, "\tbit[7]=%d for TRACE_SW\n",
+-		(GLBtcDbgType[BTC_MSG_ALGORITHM] & ALGO_TRACE_SW) ? 1 : 0);
+-	if ((count < 0) || (count >= leftSize))
+-		goto exit;
+-	pstr += count;
+-	leftSize -= count;
+-	count = rtw_sprintf(pstr, leftSize, "\tbit[8]=%d for TRACE_SW_DETAIL\n",
+-		(GLBtcDbgType[BTC_MSG_ALGORITHM] & ALGO_TRACE_SW_DETAIL) ? 1 : 0);
+-	if ((count < 0) || (count >= leftSize))
+-		goto exit;
+-	pstr += count;
+-	leftSize -= count;
+-	count = rtw_sprintf(pstr, leftSize, "\tbit[9]=%d for TRACE_SW_EXEC\n",
+-		(GLBtcDbgType[BTC_MSG_ALGORITHM] & ALGO_TRACE_SW_EXEC) ? 1 : 0);
+-	if ((count < 0) || (count >= leftSize))
+-		goto exit;
+-	pstr += count;
+-	leftSize -= count;
+-
+-exit:
+-	count = pstr - pStrBuf;
+-
+-	return count;
 -}
--
- u32 hal_btcoex_GetDBG(struct adapter *padapter, u8 *pStrBuf, u32 bufSize)
- {
- 	s32 count;
 diff --git a/drivers/staging/rtl8723bs/include/hal_btcoex.h b/drivers/staging/rtl8723bs/include/hal_btcoex.h
-index 3c03be210d87..9048499e756a 100644
+index 9048499e756a..eb9d0ba861a5 100644
 --- a/drivers/staging/rtl8723bs/include/hal_btcoex.h
 +++ b/drivers/staging/rtl8723bs/include/hal_btcoex.h
-@@ -53,7 +53,6 @@ u8 hal_btcoex_LpsVal(struct adapter *);
+@@ -53,6 +53,5 @@ u8 hal_btcoex_LpsVal(struct adapter *);
  u32 hal_btcoex_GetRaMask(struct adapter *);
  void hal_btcoex_RecordPwrMode(struct adapter *padapter, u8 *pCmdBuf, u8 cmdLen);
  void hal_btcoex_DisplayBtCoexInfo(struct adapter *, u8 *pbuf, u32 bufsize);
--void hal_btcoex_SetDBG(struct adapter *, u32 *pDbgModule);
- u32 hal_btcoex_GetDBG(struct adapter *, u8 *pStrBuf, u32 bufSize);
+-u32 hal_btcoex_GetDBG(struct adapter *, u8 *pStrBuf, u32 bufSize);
  
  #endif /*  !__HAL_BTCOEX_H__ */
 -- 
