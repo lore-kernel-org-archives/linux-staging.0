@@ -1,120 +1,128 @@
-Received: from lb3-smtp-cloud8.xs4all.net (lb3-smtp-cloud8.xs4all.net [194.109.24.29])
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A864771
-	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 10:05:46 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud8.xs4all.net with ESMTPA
-	id cQ0flz9J4iDzScQ0ilpTHh; Fri, 30 Apr 2021 12:04:38 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1619777078; bh=ks5//nsbY4IUJklzOoYqyw4PJOvSbdi7HJh52A5cUF4=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=GBhCHuBCr7Vh8TMi4K6lW3rslbTRu7/vl07evAY9X+XlJDhkrEy0v9egsX2r0qgaP
-	 spRJHb9zh/30xFS22SE9Ld3Gk9LW15B0CHO48HEGY9uqk0/AYf9kvRyw8cxPFDa/I3
-	 hfPyWy9/Ul9IpawjfbWJwEGO6uSlU1iVOddynrOYf/bcnX27ckek7q8IDBr9B7wm6Q
-	 9fJLNq7T5m2WvhqX5OClxDGNTpzE6k8+W7Td8RdNo5vBW1yROl17yHGw1uZFTuhVal
-	 0B3GL50lLArg5b2/Ergev3Ad8xKfBrQeIzB3XxyxMI2Ut14Pecgs+2zWkkWfvzsiMW
-	 VMi9Chyi0D3Eg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322A072
+	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 11:16:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+	t=1619781352; bh=1A9xugSi8dzriGXM3Bh1afWQ+qsOl8QuZQW0kkzn40A=;
+	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To;
+	b=g1OQzwh+k4j+j86Ea2+Z/6qPgaoXqHhFEqC8cD8VeZ1DAO4ThMkAPExSBgjZztFXt
+	 MPNgYtbEv/gD8JzhT3bF5hqwYD0IOJqXm4X+FOh4f741B+ljK6KURjWWbqzb4rRTII
+	 v/LtsFy6TTbeRhBuSCvj2a++OxfPyS3dGVz47WVg=
+Received: by 192.168.90.13 [192.168.90.13] with ESMTP
+	via ip-206.mailobj.net [213.182.55.206]
+	Fri, 30 Apr 2021 13:15:51 +0200 (CEST)
+X-EA-Auth: Nhd7YcevGYtiOWwz05vY70n6fQirNtfkI4paUVkpiMDQpDpswVj2Hfh7sZKO3YFpZO7Xp+AfLeufe24ONKHSo2JJ4rhmNaOc
+Date: Fri, 30 Apr 2021 16:45:44 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Fabio Aiuto <fabioaiuto83@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v4 5/9] staging: media: atomisp: reformat code comment
  blocks
-To: Deepak R Varma <drv@mailo.com>, Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
+Message-ID: <YIvm4M0Gru+RpV5O@dU2104>
 References: <cover.1619630709.git.drv@mailo.com>
  <034c3cc993191feb8fda719dd1b2adc9e2074e78.1619630709.git.drv@mailo.com>
- <20210429070611.GA1409@agape.jhs> <YIqdT6wsrlNP/cEo@192.168.1.8>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <693e054f-6a7b-d9e7-a72a-07d7fa295487@xs4all.nl>
-Date: Fri, 30 Apr 2021 12:04:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+ <20210429070611.GA1409@agape.jhs>
+ <YIqdT6wsrlNP/cEo@192.168.1.8>
+ <693e054f-6a7b-d9e7-a72a-07d7fa295487@xs4all.nl>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YIqdT6wsrlNP/cEo@192.168.1.8>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfGCHXKh7uC75znIjT/4+e+hkPHcw11bfPLpGPToLoXiXCKDbOKgsRGMbJJlr/kj/L2ESWNHlsACJF11zQPEzx9cnDt8f4SA18By6iALUYpICUkAiDZh2
- d5wIK2ivnu1qVQSyliNKWtM2fWQ7b3wdAWvUZ0P/LlJ87YELOIMnS+MZgteQI3phFc+Ig0jKX7o7qk5rcUwVYzFZSDo2jFIXsdzdbJfl+9r8LeD7p47NBD/r
- 8xlNn3FnMguwGoN+RHtQlIWmFrpXI9T9XOZQruxf9XXuh2EibZ6ldegrgZ4tdh8m9rUeixDDSks2OjiMgxZSGnTtmC8zISqIyLC81WK0kjLj2fz37DptPkRY
- 7s04vXkX45YGEulzB7c3bHz1JNrzSQ3W5a5vdDP4cRgcF2t13ueGzVN8/oBxXIWcDu5uzWWWOIWPLFBGVW3aekDRcgQp18hBRAgSGchZpCAIa/ouK/A=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <693e054f-6a7b-d9e7-a72a-07d7fa295487@xs4all.nl>
 
-On 29/04/2021 13:49, Deepak R Varma wrote:
-> On Thu, Apr 29, 2021 at 09:06:12AM +0200, Fabio Aiuto wrote:
->> Hi Deepak,
+On Fri, Apr 30, 2021 at 12:04:33PM +0200, Hans Verkuil wrote:
+> On 29/04/2021 13:49, Deepak R Varma wrote:
+> > On Thu, Apr 29, 2021 at 09:06:12AM +0200, Fabio Aiuto wrote:
+> >> Hi Deepak,
+> > 
+> > Hello Fabio :)
+> > 
+> >>
+> >> On Wed, Apr 28, 2021 at 11:38:45PM +0530, Deepak R Varma wrote:
+> >>> Reformat code comment blocks according to the coding style guidelines.
+> >>> This resolves different checkpatch script WARNINGs around block comments.
+> >>>
+> >>> Suggested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+> >>> Signed-off-by: Deepak R Varma <drv@mailo.com>
+> >>> ---
+> >>>
+> >>> Changes since v3:
+> >>>    - Include additional header files in the clean up
+> >>> Changes since v2:
+> >>>    - Tag Fabio Auito for the patch suggestion
+> >>>
+> >>> diff --git a/drivers/staging/media/atomisp/i2c/mt9m114.h b/drivers/staging/media/atomisp/i2c/mt9m114.h
+> >>> index 787bbf59e895..aad98f37aaa6 100644
+> >>> --- a/drivers/staging/media/atomisp/i2c/mt9m114.h
+> >>> +++ b/drivers/staging/media/atomisp/i2c/mt9m114.h
+> >>> @@ -765,7 +765,8 @@ static struct misensor_reg const mt9m114_common[] = {
+> >>>  	{MISENSOR_16BIT, 0xC868, 0x0280}, /* cam_output_width = 952 */
+> >>>  	{MISENSOR_16BIT, 0xC86A, 0x01E0}, /* cam_output_height = 538 */
+> >>>  	/* LOAD = Step3-Recommended
+> >>> -	 * Patch,Errata and Sensor optimization Setting */
+> >>> +	 * Patch,Errata and Sensor optimization Setting
+> >>> +	 */
+> >>
+> >> 	/*
+> >> 	 * LOAD = Step3-Recommended
+> >>
+> >> :(
+> > 
+> > oops... sorry for the oversight. Not sure how I missed it.
+> > I will wait for any other feedback on other patches and send
+> > in a corrected version shortly.
 > 
-> Hello Fabio :)
+> I've fixed this up myself.
 > 
->>
->> On Wed, Apr 28, 2021 at 11:38:45PM +0530, Deepak R Varma wrote:
->>> Reformat code comment blocks according to the coding style guidelines.
->>> This resolves different checkpatch script WARNINGs around block comments.
->>>
->>> Suggested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
->>> Signed-off-by: Deepak R Varma <drv@mailo.com>
->>> ---
->>>
->>> Changes since v3:
->>>    - Include additional header files in the clean up
->>> Changes since v2:
->>>    - Tag Fabio Auito for the patch suggestion
->>>
->>> diff --git a/drivers/staging/media/atomisp/i2c/mt9m114.h b/drivers/staging/media/atomisp/i2c/mt9m114.h
->>> index 787bbf59e895..aad98f37aaa6 100644
->>> --- a/drivers/staging/media/atomisp/i2c/mt9m114.h
->>> +++ b/drivers/staging/media/atomisp/i2c/mt9m114.h
->>> @@ -765,7 +765,8 @@ static struct misensor_reg const mt9m114_common[] = {
->>>  	{MISENSOR_16BIT, 0xC868, 0x0280}, /* cam_output_width = 952 */
->>>  	{MISENSOR_16BIT, 0xC86A, 0x01E0}, /* cam_output_height = 538 */
->>>  	/* LOAD = Step3-Recommended
->>> -	 * Patch,Errata and Sensor optimization Setting */
->>> +	 * Patch,Errata and Sensor optimization Setting
->>> +	 */
->>
->> 	/*
->> 	 * LOAD = Step3-Recommended
->>
->> :(
+> I'm taking this series and make a PR for this, wrapping up these
+> atomisp cleanups.
 > 
-> oops... sorry for the oversight. Not sure how I missed it.
-> I will wait for any other feedback on other patches and send
-> in a corrected version shortly.
+> If you plan any more cleanups, then please do this on top of this
+> branch: https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=for-v5.14-out1
+> 
+> That contains all pending cleanups for staging/media.
 
-I've fixed this up myself.
+Thank you Hans and everyone. Appreciate your time, comments and patience. I
+understand this entire patch series is acceptable for your consideration and
+that I can now move on to other changes.
 
-I'm taking this series and make a PR for this, wrapping up these
-atomisp cleanups.
+I will be sending additional clean up patches and I will base those on top of the
+mentioned branch.
 
-If you plan any more cleanups, then please do this on top of this
-branch: https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=for-v5.14-out1
-
-That contains all pending cleanups for staging/media.
-
-Regards,
-
-	Hans
+Have a good one.
+deepak.
 
 > 
-> Thank you,
-> deepak.
+> Regards,
 > 
+> 	Hans
 > 
+> > 
+> > Thank you,
+> > deepak.
+> > 
+> > 
+> > 
+> >>
+> >>
+> >>>  	{MISENSOR_16BIT, 0x316A, 0x8270}, /* DAC_TXLO_ROW */
+> >>>
+> >>
+> >> thank you,
+> >>
+> >> fabio
+> > 
+> > 
 > 
->>
->>
->>>  	{MISENSOR_16BIT, 0x316A, 0x8270}, /* DAC_TXLO_ROW */
->>>
->>
->> thank you,
->>
->> fabio
-> 
-> 
+
 
