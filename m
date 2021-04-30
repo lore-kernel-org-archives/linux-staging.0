@@ -1,48 +1,48 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE5F2F9A
-	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 14:58:14 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id u3so27009028eja.12
-        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:58:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783FC2F9A
+	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 14:58:16 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id l4so105671725ejc.10
+        for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 07:58:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=221EpUeP2nbQrzcZn2qyIAnSOKrHvxfj40S2UXto0Rc=;
-        b=YYseqk10cNcidXmweDjz74Grq1Wq/QPYtIcxVPodLd5utppbQS73tnITLPBloYtuvb
-         3nQVJ5DOTFrQKKr8nJWpmJhgJfI/Q1EG88qVTdM8Op+WkSjQOgnDCphwV+4MOGiCeQoA
-         rZWn6Z3afSG703phpnN122fG7HkmVrrah9UajNIv1Pk+kk6VBcWCe9XYnIvuE/fOk6ZI
-         wYe+Ptwulob188QYxXCjDKqm4o8Wjljuq/Pi+bGwCX5X+SlqAKZJTUtgHsC3S5qDRocc
-         L5C5bx4RR/2NZ9ddZZEJeDw1st3++p/FxhoJWPMiVVxeU3BEIS+VbTLWpNNLj7+qlD7N
-         PgrA==
+        bh=O0vgVpcNkS4mAjfiGNcrsQkfchPH8sG7BBuJp5aFS/s=;
+        b=MxohnjtG4Zit/GrLrEHFDEM30Ex/Y29dnnNb6kclsj47wQVh7406niOegbn/m9s5Fx
+         M4bd51RPknWNqmnFTKBgeIFttqGpxJM1qUUe1H8Hc04dZ2wkWpoJLhUOjeJlNxokwZbC
+         dEoJEFVV+x2uG8MyL8RXRJ2fbx/PUWqvLFhz5+alg+o5P+5tUTFxhDIhG8g4BqOB/453
+         GHqmwD0q+kdfcs0CU8QWLYEpmRwGF11oV1DcXOxoPW+Qtp3yD2cTFovny3quGAtPkEFD
+         4eFXctnkVdUullwFoz2zQplEReWxRevEAUlf6L4DU6M7IFY33YPsEl0JE7mZlnFH8I/i
+         T8Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=221EpUeP2nbQrzcZn2qyIAnSOKrHvxfj40S2UXto0Rc=;
-        b=Upmqd+HhQFHmOq02MfruYXhxxaY3ngay10nDkivuStzi16B/EOLzKokAMfO4PPPuCt
-         Hyfv2aezMzG2+oFJsJ3CsZAdoCbT4jl45XJWXfGOkyB9R6NWtgodF3N/a+5/iQFGAcba
-         6jDDKmMo5isvPImTyebOyPgTxaSx7HWNPIYsplDMzF2zveyl/TdKHu34jGaU9XF5WoJT
-         uAoAUOgOztqAM3w87vGAzSb4UQSL/lyQpxJAqw7brPNb2xeUD800FIIJ0cDtdwccdTjJ
-         i7JXbnf9Iy0f1WQmDw2Y4PLuGsWzahehrkoXK/5QZVvAxZvTSx/E91Nq3+qLNv2QXWiZ
-         Wy0w==
-X-Gm-Message-State: AOAM533OzJc+3FJ9E45ewht0zN0hG5nDe9xHncaqbyjKJDKGNGx9dcAS
-	YAdR0/nVvnbcECsNITnw13w=
-X-Google-Smtp-Source: ABdhPJxxaHzWELz6JfC5Ut6JU83xC91WcFNeYGiMACtZaUl8wwz/mjZzjxnHBgYSaGZ/tV4hlXhw4w==
-X-Received: by 2002:a17:906:151a:: with SMTP id b26mr4881392ejd.492.1619794693546;
-        Fri, 30 Apr 2021 07:58:13 -0700 (PDT)
+        bh=O0vgVpcNkS4mAjfiGNcrsQkfchPH8sG7BBuJp5aFS/s=;
+        b=TIUjfCYUglmh2Gypdq5bebml6B/DQG+qTND8lvG4pqMOGDCadAqHHeMvNDOziX6JQG
+         zFPBE9diJtYcURs/h/Bds/npx/9k26TtXp3bpMtAySX03MKbbCZsAKxuol3s12wKNDwo
+         JKjKmgLtfVvCEwe6neZ/StLqN7c80jaxD+hjOP5iIt1bF9Wzf3DAMeeo9avSd+zqMMVX
+         DZ2jA2MbJU6PER7i/Zmyp6SOqTmtDU/rjtMERRFGs+enOQ+Cubf+8GW1Fa5Aq4yV3SeQ
+         kJyp40hwxjWGCoF+CFJcsAcA4Ig5PQx4ogzx6fHdLAdnDUe2fg6AMRIsL+NIg3XHR64n
+         rJHw==
+X-Gm-Message-State: AOAM532ENcF34DYATGgxzes7CG7NBMhgCw8QEqMt6pIZwBNyw5fq7F9s
+	IZNs897zlrZEfGmfjibfA+o=
+X-Google-Smtp-Source: ABdhPJxjGJ+Cca5lrtlEYXQLOBZWEVo/PjN4r1xsZLkefMs/OfhcBqgjJ36e1XF8a95Mupf7xlBJ+g==
+X-Received: by 2002:a17:906:1e44:: with SMTP id i4mr4826580ejj.61.1619794695142;
+        Fri, 30 Apr 2021 07:58:15 -0700 (PDT)
 Received: from agape ([109.52.244.36])
-        by smtp.gmail.com with ESMTPSA id d15sm1516981edu.86.2021.04.30.07.58.12
+        by smtp.gmail.com with ESMTPSA id mp36sm2014260ejc.48.2021.04.30.07.58.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Apr 2021 07:58:13 -0700 (PDT)
+        Fri, 30 Apr 2021 07:58:14 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 41/43] staging: rtl8723bs: remove member in dm_odm_t struct
-Date: Fri, 30 Apr 2021 16:57:03 +0200
-Message-Id: <313d08514d2105c826ef3c92555fa557def2b9c2.1619794331.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v3 42/43] staging: rtl8723bs: remove DebugLevel member in dm_odm_t struct
+Date: Fri, 30 Apr 2021 16:57:04 +0200
+Message-Id: <ac4afb00f904511e0cbb23136f8e7a3e204ad7ed.1619794331.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1619794331.git.fabioaiuto83@gmail.com>
 References: <cover.1619794331.git.fabioaiuto83@gmail.com>
@@ -53,71 +53,67 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove DebugComponent in dm_odm_t struct,
-remove private debug component tracing.
+remove DebugLevel in dm_odm_t struct,
+remove private debug level tracing.
+
+remove unused variable as well to suppress compiler warning.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/hal_com.c | 10 ----------
- drivers/staging/rtl8723bs/hal/odm.c     |  4 ----
- drivers/staging/rtl8723bs/hal/odm.h     |  1 -
- 3 files changed, 15 deletions(-)
+ drivers/staging/rtl8723bs/hal/hal_com.c | 4 ----
+ drivers/staging/rtl8723bs/hal/odm.c     | 3 ---
+ drivers/staging/rtl8723bs/hal/odm.h     | 2 --
+ 3 files changed, 9 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
-index e82f59fc5e9b..8d1a18b5f914 100644
+index 8d1a18b5f914..5eb3bd45a959 100644
 --- a/drivers/staging/rtl8723bs/hal/hal_com.c
 +++ b/drivers/staging/rtl8723bs/hal/hal_com.c
-@@ -1093,13 +1093,6 @@ u8 SetHalDefVar(
+@@ -1159,7 +1159,6 @@ u8 GetHalDefVar(
+ )
+ {
+ 	struct hal_com_data *hal_data = GET_HAL_DATA(adapter);
+-	struct dm_odm_t *odm = &(hal_data->odmpriv);
  	u8 bResult = _SUCCESS;
  
  	switch (variable) {
--	case HW_DEF_FA_CNT_DUMP:
--		/* ODM_COMP_COMMON */
--		if (*((u8 *)value))
--			odm->DebugComponents |= (ODM_COMP_DIG | ODM_COMP_FA_CNT);
--		else
--			odm->DebugComponents &= ~(ODM_COMP_DIG | ODM_COMP_FA_CNT);
--		break;
- 	case HAL_DEF_DBG_RX_INFO_DUMP:
- 
- 		if (odm->bLinked) {
-@@ -1183,9 +1176,6 @@ u8 GetHalDefVar(
+@@ -1176,9 +1175,6 @@ u8 GetHalDefVar(
  				*((int *)value) = psta->rssi_stat.UndecoratedSmoothedPWDB;
  		}
  		break;
--	case HW_DEF_ODM_DBG_FLAG:
--		*((u64 *)value) = odm->DebugComponents;
+-	case HW_DEF_ODM_DBG_LEVEL:
+-		*((u32 *)value) = odm->DebugLevel;
 -		break;
- 	case HW_DEF_ODM_DBG_LEVEL:
- 		*((u32 *)value) = odm->DebugLevel;
+ 	case HAL_DEF_DBG_DM_FUNC:
+ 		*((u32 *)value) = hal_data->odmpriv.SupportAbility;
  		break;
 diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
-index 45e4038530c0..b867629a577b 100644
+index b867629a577b..fa275138c983 100644
 --- a/drivers/staging/rtl8723bs/hal/odm.c
 +++ b/drivers/staging/rtl8723bs/hal/odm.c
-@@ -1172,10 +1172,6 @@ void ODM_CmnInfoUpdate(struct dm_odm_t *pDM_Odm, u32 CmnInfo, u64 Value)
+@@ -1172,9 +1172,6 @@ void ODM_CmnInfoUpdate(struct dm_odm_t *pDM_Odm, u32 CmnInfo, u64 Value)
  		pDM_Odm->RSSI_Min = (u8)Value;
  		break;
  
--	case ODM_CMNINFO_DBG_COMP:
--		pDM_Odm->DebugComponents = Value;
+-	case ODM_CMNINFO_DBG_LEVEL:
+-		pDM_Odm->DebugLevel = (u32)Value;
 -		break;
--
- 	case ODM_CMNINFO_DBG_LEVEL:
- 		pDM_Odm->DebugLevel = (u32)Value;
+ 	case ODM_CMNINFO_RA_THRESHOLD_HIGH:
+ 		pDM_Odm->RateAdaptive.HighRSSIThresh = (u8)Value;
  		break;
 diff --git a/drivers/staging/rtl8723bs/hal/odm.h b/drivers/staging/rtl8723bs/hal/odm.h
-index ba723ed7aa96..6b9865f5f283 100644
+index 6b9865f5f283..950e7850bac2 100644
 --- a/drivers/staging/rtl8723bs/hal/odm.h
 +++ b/drivers/staging/rtl8723bs/hal/odm.h
-@@ -709,7 +709,6 @@ struct dm_odm_t { /* DM_Out_Source_Dynamic_Mechanism_Structure */
+@@ -709,8 +709,6 @@ struct dm_odm_t { /* DM_Out_Source_Dynamic_Mechanism_Structure */
  	enum phy_reg_pg_type PhyRegPgValueType;
  	u8 PhyRegPgVersion;
  
--	u64	DebugComponents;
- 	u32 DebugLevel;
- 
+-	u32 DebugLevel;
+-
  	u32 NumQryPhyStatusAll;	/* CCK + OFDM */
+ 	u32 LastNumQryPhyStatusAll;
+ 	u32 RxPWDBAve;
 -- 
 2.20.1
 
