@@ -1,36 +1,53 @@
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322A072
-	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 11:16:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-	t=1619781352; bh=1A9xugSi8dzriGXM3Bh1afWQ+qsOl8QuZQW0kkzn40A=;
-	h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To;
-	b=g1OQzwh+k4j+j86Ea2+Z/6qPgaoXqHhFEqC8cD8VeZ1DAO4ThMkAPExSBgjZztFXt
-	 MPNgYtbEv/gD8JzhT3bF5hqwYD0IOJqXm4X+FOh4f741B+ljK6KURjWWbqzb4rRTII
-	 v/LtsFy6TTbeRhBuSCvj2a++OxfPyS3dGVz47WVg=
-Received: by 192.168.90.13 [192.168.90.13] with ESMTP
-	via ip-206.mailobj.net [213.182.55.206]
-	Fri, 30 Apr 2021 13:15:51 +0200 (CEST)
-X-EA-Auth: Nhd7YcevGYtiOWwz05vY70n6fQirNtfkI4paUVkpiMDQpDpswVj2Hfh7sZKO3YFpZO7Xp+AfLeufe24ONKHSo2JJ4rhmNaOc
-Date: Fri, 30 Apr 2021 16:45:44 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Fabio Aiuto <fabioaiuto83@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 5/9] staging: media: atomisp: reformat code comment
- blocks
-Message-ID: <YIvm4M0Gru+RpV5O@dU2104>
-References: <cover.1619630709.git.drv@mailo.com>
- <034c3cc993191feb8fda719dd1b2adc9e2074e78.1619630709.git.drv@mailo.com>
- <20210429070611.GA1409@agape.jhs>
- <YIqdT6wsrlNP/cEo@192.168.1.8>
- <693e054f-6a7b-d9e7-a72a-07d7fa295487@xs4all.nl>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93AE572
+	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 11:43:06 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13UBe3xB180347;
+	Fri, 30 Apr 2021 11:42:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=q2xPT9aYNv3n8ZfbCyQkPK3lG0v/KfOw17OG2y43ouA=;
+ b=ck81vHbwT+kff9rhvQxC8WfN0IuhY8ecu+MlA/uIllxtfrX1rskcEhCMY3Z2UVXXHfdX
+ FtnqPQgrgCxUrptSWVpe2MiNOi8tKbZ9GABCONUvQv1aGCEZ4TZ+39W5VdGpMORCBo5f
+ I99hYDFuvgayYoIdl05ZTUBrmqiie66uIX/UR3jSfXos0Vl2TI/hetDVGozBtmfmC8Yy
+ xlr4tSKJSpiinPzzVrdks/S4Y6xWBBn04pE6BbHNNw6dh/l1Dzu94TLMgeawr1UQYKUv
+ /5VcYs0Ag3SVPDhXPZiVjNFzTDgQcC33I+/QW7AKsfDMdVOh/Lfa8l5gw5pEQtfA6mbC eg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by aserp2120.oracle.com with ESMTP id 385ahbydpj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 30 Apr 2021 11:42:58 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13UBexpU108326;
+	Fri, 30 Apr 2021 11:42:57 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3030.oracle.com with ESMTP id 3874d4ujk2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 30 Apr 2021 11:42:57 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13UBfSF3109448;
+	Fri, 30 Apr 2021 11:42:57 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+	by aserp3030.oracle.com with ESMTP id 3874d4ujjp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 30 Apr 2021 11:42:57 +0000
+Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
+	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 13UBgtDo010320;
+	Fri, 30 Apr 2021 11:42:56 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Fri, 30 Apr 2021 11:42:55 +0000
+Date: Fri, 30 Apr 2021 14:42:48 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: outreachy-kernel@googlegroups.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [Outreachy kernel] [PATCH v2 0/2] Remove set but unused variables
+Message-ID: <20210430114248.GG1981@kadam>
+References: <20210430095319.23226-1-fmdefrancesco@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -38,91 +55,21 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <693e054f-6a7b-d9e7-a72a-07d7fa295487@xs4all.nl>
+In-Reply-To: <20210430095319.23226-1-fmdefrancesco@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: 7jt3cVUlJhaSTyRYOjhOLylwtiAP5GYz
+X-Proofpoint-ORIG-GUID: 7jt3cVUlJhaSTyRYOjhOLylwtiAP5GYz
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9969 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 bulkscore=0 mlxlogscore=999
+ priorityscore=1501 clxscore=1031 adultscore=0 suspectscore=0 spamscore=0
+ phishscore=0 malwarescore=0 lowpriorityscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104300085
 
-On Fri, Apr 30, 2021 at 12:04:33PM +0200, Hans Verkuil wrote:
-> On 29/04/2021 13:49, Deepak R Varma wrote:
-> > On Thu, Apr 29, 2021 at 09:06:12AM +0200, Fabio Aiuto wrote:
-> >> Hi Deepak,
-> > 
-> > Hello Fabio :)
-> > 
-> >>
-> >> On Wed, Apr 28, 2021 at 11:38:45PM +0530, Deepak R Varma wrote:
-> >>> Reformat code comment blocks according to the coding style guidelines.
-> >>> This resolves different checkpatch script WARNINGs around block comments.
-> >>>
-> >>> Suggested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
-> >>> Signed-off-by: Deepak R Varma <drv@mailo.com>
-> >>> ---
-> >>>
-> >>> Changes since v3:
-> >>>    - Include additional header files in the clean up
-> >>> Changes since v2:
-> >>>    - Tag Fabio Auito for the patch suggestion
-> >>>
-> >>> diff --git a/drivers/staging/media/atomisp/i2c/mt9m114.h b/drivers/staging/media/atomisp/i2c/mt9m114.h
-> >>> index 787bbf59e895..aad98f37aaa6 100644
-> >>> --- a/drivers/staging/media/atomisp/i2c/mt9m114.h
-> >>> +++ b/drivers/staging/media/atomisp/i2c/mt9m114.h
-> >>> @@ -765,7 +765,8 @@ static struct misensor_reg const mt9m114_common[] = {
-> >>>  	{MISENSOR_16BIT, 0xC868, 0x0280}, /* cam_output_width = 952 */
-> >>>  	{MISENSOR_16BIT, 0xC86A, 0x01E0}, /* cam_output_height = 538 */
-> >>>  	/* LOAD = Step3-Recommended
-> >>> -	 * Patch,Errata and Sensor optimization Setting */
-> >>> +	 * Patch,Errata and Sensor optimization Setting
-> >>> +	 */
-> >>
-> >> 	/*
-> >> 	 * LOAD = Step3-Recommended
-> >>
-> >> :(
-> > 
-> > oops... sorry for the oversight. Not sure how I missed it.
-> > I will wait for any other feedback on other patches and send
-> > in a corrected version shortly.
-> 
-> I've fixed this up myself.
-> 
-> I'm taking this series and make a PR for this, wrapping up these
-> atomisp cleanups.
-> 
-> If you plan any more cleanups, then please do this on top of this
-> branch: https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=for-v5.14-out1
-> 
-> That contains all pending cleanups for staging/media.
+Thanks!
 
-Thank you Hans and everyone. Appreciate your time, comments and patience. I
-understand this entire patch series is acceptable for your consideration and
-that I can now move on to other changes.
+Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-I will be sending additional clean up patches and I will base those on top of the
-mentioned branch.
-
-Have a good one.
-deepak.
-
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> > 
-> > Thank you,
-> > deepak.
-> > 
-> > 
-> > 
-> >>
-> >>
-> >>>  	{MISENSOR_16BIT, 0x316A, 0x8270}, /* DAC_TXLO_ROW */
-> >>>
-> >>
-> >> thank you,
-> >>
-> >> fabio
-> > 
-> > 
-> 
-
+regards,
+dan carpenter
 
