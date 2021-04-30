@@ -1,104 +1,76 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51BD52F9A
-	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 15:00:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1619794787;
-	bh=qjlBXZHE04sQy7D1Xhx0X5DzOE6ZA7NOBM8me5C/R/Q=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=YuibwIj8NQPoSbvYknLciWwyHkkOVtMPD/vRJBolyeRU1akGioJNzyOYWWBxiKQGZ
-	 rNuw5G8UzMcp/wh7KNWKzuBcA4QJ5FH7/u1I7EUHsUK9U8sDJG5G8qEbB0TCy1Bf1A
-	 9FzYABsuAAAAC0RnjHXZRMic4Y2Nv2fAm31O3zFM=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [157.180.225.50] ([157.180.225.50]) by web-mail.gmx.net
- (3c-app-gmx-bap03.server.lan [172.19.172.73]) (via HTTP); Fri, 30 Apr 2021
- 16:59:47 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329762F9A
+	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 15:02:46 +0000 (UTC)
+Date: Fri, 30 Apr 2021 15:02:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
+	s=protonmail3; t=1619794963;
+	bh=uJ93FdzeuJKlxGtUoTvmmv9JTpBe/uRISripULjHqKk=;
+	h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+	b=iA0mM7dZx+F/e6N0MLncIGmmeSoVrOKRIWfwHZwkCbu1Tgkn7hQ1zcTQfED1BAqBZ
+	 pInf54OJYaSsadqggbAOQ6hkycCOTehlYoLSqE30dTmgPJsKXe9c+/mNOH6zPY2c1J
+	 UNvrpzQk9HRRDSzh02aBkL3GWlwBgDhBG2IDCPQoZh0gojNbXOzc6xZNawOgsSUij9
+	 c5ZwjeDT09CrfOGezjsmlupM/EB7yNpDYfLnRIyhGUihFi3KBtZCjnIatRc4Yr4tBG
+	 LJ+BdIL+4kUpRWSyc+O53b65OwNW/F/BN+pdNwY4C2fRQ5KE/wrdUj0fdnw4adbEWl
+	 YHgDHS7R2aBtA==
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+From: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
+Subject: Re: [PATCH 02/43] staging: rlt8723bs: remove if-else blocks left empty by ODM_RT_TRACE deletion
+Message-ID: <20210430150232.23extupxlsweecrg@bryanbrattlof.com>
+In-Reply-To: <20210430144959.GA1387@agape.jhs>
+References: <cover.1619768150.git.fabioaiuto83@gmail.com> <646608de41fb1ef915834a33453b0a99907d46b0.1619768150.git.fabioaiuto83@gmail.com> <20210430143100.jfdaitqlqaclmajp@bryanbrattlof.com> <20210430144959.GA1387@agape.jhs>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <trinity-c45bbeec-5b7c-43a2-8e86-7cb22ad61558-1619794787680@3c-app-gmx-bap03>
-From: Frank Wunderlich <frank-w@public-files.de>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: DENG Qingfang <dqfext@gmail.com>, David Miller <davem@davemloft.net>,
- f.fainelli@gmail.com, hkallweit1@gmail.com, kuba@kernel.org,
- Landen.Chao@mediatek.com, matthias.bgg@gmail.com, linux@armlinux.org.uk,
- sean.wang@mediatek.com, vivien.didelot@gmail.com, olteanv@gmail.com,
- robh+dt@kernel.org, linus.walleij@linaro.org, gregkh@linuxfoundation.org,
- sergio.paracuellos@gmail.com, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-staging@lists.linux.dev,
- devicetree@vger.kernel.org, netdev@vger.kernel.org,
- weijie.gao@mediatek.com, gch981213@gmail.com, opensource@vdorst.com,
- tglx@linutronix.de, maz@kernel.org
-Subject: Aw: Re: Re: Re: [PATCH net-next 0/4] MT7530 interrupt support
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 30 Apr 2021 16:59:47 +0200
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <YIwCliT5NZT713WD@lunn.ch>
-References: <20210429062130.29403-1-dqfext@gmail.com>
- <20210429.170815.956010543291313915.davem@davemloft.net>
- <20210430023839.246447-1-dqfext@gmail.com> <YIv28APpOP9tnuO+@lunn.ch>
- <trinity-843c99ce-952a-434e-95e4-4ece3ba6b9bd-1619786236765@3c-app-gmx-bap03>
- <YIv7w8Wy81fmU5A+@lunn.ch>
- <trinity-611ff023-c337-4148-a215-98fd5604eac2-1619787382934@3c-app-gmx-bap03>
- <YIwCliT5NZT713WD@lunn.ch>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:3W+2QeaDTZFi/muqkfARvOhkLYrfVFz6/YVDrpYyaSJgd2OdhBIyrcphMnEtviWnmP/1u
- s5AYUR9c0SH+PgDXagUi7Kao7l2UahPWHQbZpqfmebwjqN7gBDm7smwdJMvVmwtsQDwVqzhpvxTn
- pgiYQ5gpZ6rJEZ6/CBeBMEgcbvITDsVKT5Hz8hEFm9VGnEHhavg18a/ZMOJawUMyp+6BXvIbHqV2
- aAnC+GPjuUd+7or8EEqNWjVoSXvrcoCxKX5xFYeSSry1Pksv7GmiuuLSy63A75FrJRe62XHOUhIr
- Ys=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:EvyB3StFiq8=:LPmpx5r97csHQm8hjDY+5O
- xlx8rs4bLm4jaxPAppd2FQ2Dmv5INaOH2Lwi75dJJWMJbrS+Rr6HKRJkM1MtNhjLSnyt1Foc6
- AyMN3t+sTZumrhxx3iXvmUHMB9yJwT3l9gqPePgXd6Sl348MmbcqOorf0LNYFAryc+kdVP7Sj
- GnN3XwC6sA0wTWZ9SvaExv/YplOSzc+YZiQvVaGZ8fVlA7ImHLMJQRw9IahRH+tUGEYFVtD06
- iEDU4oKEQ64dFZU4+ZXH165pHBEvGGtJWeqm9cZO6p0xL+CtGwWC7/XCbJ9xZBt9BihRGAsel
- yNU/INVnTExmhKdiYwO00HpBlahz+CvzpSGr9AaUcpmMQ11Ts9a7vpc1TCi72KIwxGw6GFGMJ
- 0X8+T/pZhiEY90ay/mG2E/cl2iLjgqiFqr/EUU3nS7AVKSYv+wJSqq0cnzkWTKaIMY6ywTL+q
- xerays+V32MfIXUQDUDjWinbEB6MVFrRKLKPbKNhvpgFqaXQ0dNeUwbWWy4toFQxOm0C8BZtS
- pFU5kA7oWHXDuXmjSADoPnzG7EZ+mZ+tV4gqTw9YlWBQVYp9fBdYcwzGzznGzEL2yP//uqeAz
- LjZx/GTrKZZZiuc87jmeENrlca2Fx9/vZMed7cwDmFT729gNzJnLJUUM3hFUvGSQmDRigVdq6
- 5mmWcJ26KwHmlsU/Sz9st5wO4PCFO1EblJ/lWZfL0ouPbotApgKE71fiDXz571/eaJeVdJElY
- oUaOqlBZSV3myH/urs5LrbdIfUjZiiYh2hbRQQ3DjXODMKOx6/ymjT4LN6lkp2NjQQPaYOBOT
- nlEMbbekVVESdqR5hYb1gt6reVN2JlWuWK1rRyBfqzU+Nb5J3Dww+NQpPwK03qmveEVo7Dqcj
- 0WrCd0JYpmH3oShRDqlgBa1FtQq5Rf+AyX0W1SJxJsKi7EFo01n0/WEEwWGzxvuo0ay3EvS7D
- mbX+f5dKa8w==
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+	autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	mailout.protonmail.ch
 
-> Gesendet: Freitag, 30. April 2021 um 15:13 Uhr
-> Von: "Andrew Lunn" <andrew@lunn.ch>
-> > which ethernet-phy drivers do you mean?
+On Fri, Apr 30, 2021 at 04:50:00PM +0200, Fabio Aiuto wrote:
+>On Fri, Apr 30, 2021 at 02:31:08PM +0000, Bryan Brattlof wrote:
+>> On Fri, Apr 30, 2021 at 09:43:20AM +0200, Fabio Aiuto wrote:
+>> >remove if-else blocks left empty by ODM_RT_TRACE deletion.
+>> >remove unused variables to suppress compiler warnings.
+>> >
+>> >Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+>> >
+>>
+>> Hi Fabio!
+>>
+>> I just wanted to point out a spelling mistake in the title 'rlt8723bs'
+>> in the off chance you submit a v2.
+>>
+>> Way to go switching this over to netdev btw.
 >
-> drivers/net/phy.
+>what do you mean exactly?
+>
 
-ok, sorry :)
+I was just praising you for all the work you are putting into this
+driver. :)
 
-> These are all examples of generic PHY drivers, not PHY drivers.
+>
+>> --
+>> ~Bryan
+>>
+>
+>Hi Brian,
+>
+>thank you! Ouch I've just sent a v2 for other issues...
+>no problem I will send a v3, sorry all for spamming.
+>
 
-> There is a lot of confusion between PHY drivers and generic PHY
-> drivers :-(
+Don't worry about me. I would wait until Greg and others have feedback
+on your v2 before sending a v3 with this minor nitpick.
 
-right, there is (at least by me) a confusion about generic phy and phy (he=
-re net-only phy) drivers.
+--
+~Bryan
 
-mhm, maybe the naming should differ if generic phy and net-phy are that di=
-fferent. i guess there is no way to merge the net phys to the generic phys=
- (due to linking to the net device drivers) to have only 1 phy section, ri=
-ght?
-
-but if phy- prefix is used by generic phys, maybe eth- or net- can be used=
- here (maybe with "phy" added)
-
-something like
-
-eth-phy-mt753x.ko
-
-else i have no idea now...my patch renaming the musb-module seems not to b=
-e accepted due to possible breakage
-
-regards Frank
