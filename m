@@ -1,41 +1,41 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FEA02F80
-	for <linux-staging@lists.linux.dev>; Sat,  1 May 2021 13:36:50 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id a4so901995wrr.2
-        for <linux-staging@lists.linux.dev>; Sat, 01 May 2021 06:36:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63DD32F80
+	for <linux-staging@lists.linux.dev>; Sat,  1 May 2021 13:40:19 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id y124-20020a1c32820000b029010c93864955so3124194wmy.5
+        for <linux-staging@lists.linux.dev>; Sat, 01 May 2021 06:40:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=9fJDEPRtx8F0wZgIPBQTd/NyWgsYPwm8Q8r9gpufr/o=;
-        b=er9cKr/IQsFG034YhVXSb/SmzkXnlFOMpsB2sHvJ/SiwrzvrL3/MEKSSkBENOUkX0m
-         eYCep3nNO+/6fo3OATnnbcUtQ0cM0g6RutU/iBXg2X02tO1MVWpaGy79+9yroVy8aFtx
-         yfP1P3XsAeQag3Rqu2vuapVvlmhhXE1iWNkFEiAlwXSjQA8ob6NekwMYWi94Wr+LAUCt
-         VVUwrS8K7bQAY/eM13qWDMEvld3snLeU2cOAXbbfpwFoYrjO7+phsIQBTSHhdKb8jrVb
-         eQoluzMC7vM48ZYP4kviOfWURuaqL6Oa6ml2pnWMiLE3UAD3uxUdOZyzQF5obkOPkalA
-         MO/A==
+        bh=pVoCWrgBRL3LkewGRMX31zlnWZpo67hre0Kc6JXmaxc=;
+        b=obiSUlmz0WRPZD/j596L2tpSH48VenhCbXqd3AjuXNt9c6Eu69NykoQFtK8V20Ezwg
+         qlmG94HnCKNPw6PBwQ7K/7Rk1sM1GLaz9E90egu++WPvuZRQ3TCd6SnRIa44XCYcmAuh
+         LJ6bT+hXXo3d0fuOJyCa5Kx/ZgT9de4+ij9qSKQ9cjflk+B/bnCy8CGyK9JnG9izXLgp
+         MWpL9EusfYqPAR0D43K83c7/cpk5inhe3A2oc/kovQ02GigkujGrIv+2wFe4mJLilRXC
+         H0MiiigzuaHHk5fYSm5CsaSc652lT3U2iCMYtEfwfT4zZnQsIjq8DZARH1BhxzGLlgmO
+         NVCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=9fJDEPRtx8F0wZgIPBQTd/NyWgsYPwm8Q8r9gpufr/o=;
-        b=nTPtzj/jzV91nilePeCSIhB7L4xiwISVxb4UT7lp9arf77HkjKyU9VAH+0iPOhWL7O
-         2ieLR4fF5GIW1bgIxrsU748XteOJIdAxukPLT0G4XcpunYS4M82W499wlvdJyTpiG1GW
-         +/Hh77cQIQeKMKGLq3Z6r94IMLWI5mRTPoFl0PwVPbfCnX+Pz2e8WHGEm4UfuEuMsd4C
-         X3j26ZZXqrsiuSdW5IAjcGrymt3xEFnk/3OIWt/rDcD3y22HEsqAkezIBNG7PIXxZdao
-         4J3NCdJRVGr3hLxABwoWps5ymy2+uzXXpgSUM9JnAl9+NhhDdPNPnDkTQ4jzepgM/Up+
-         9YLw==
-X-Gm-Message-State: AOAM532+WHJJMBzKq/K/JExIoi2gTzM2pKAmBGpfy2Ux8zkFewad0WXr
-	XbcbZiPB7jQxIJI5nkwepvM=
-X-Google-Smtp-Source: ABdhPJxRYg56zr6yeVYypa5NzAPpIIGo25jRB2O7FyfSYqzvVc9MCesv94maKgpnoxK1+pvUHZMjxw==
-X-Received: by 2002:a5d:47cc:: with SMTP id o12mr13920490wrc.227.1619876209048;
-        Sat, 01 May 2021 06:36:49 -0700 (PDT)
+        bh=pVoCWrgBRL3LkewGRMX31zlnWZpo67hre0Kc6JXmaxc=;
+        b=GM3asVZlqlNhKCBeCjmEwBUytZNyfloJAvNbvAg715uschoyq6/PBEnLhZRinUoXPZ
+         m7fOb23bptu7N6A0lULpTMOfQJUMyzMnk3zFjmhYxbIMls+77mcVc6jDFmBfo9ySJYDU
+         4+eUWwJUYtTIbOIa2EMLWC1X90qHvZBKzItyyduiJ4i/Urz7qe1kSs98tirZ4epCRH/V
+         DN1L8t1CUK2wybLXLU9JIuInF9eNmbUEhZ/QEmgHzWHItM2SzI/AhB2O94jTLqIy/9yE
+         QtdV6En+7eieBIOC0sSWvlj8EL+BRcYW7+UR2ifh1/UBj0tXOfEMUf8gazBsTht7yO9t
+         LWVw==
+X-Gm-Message-State: AOAM53100tbjo+AgKO7/9L/rjgWrw6tShapctUOO4BsK/StlHopfZakP
+	5ltSidKKfEsxgk3yn1QF9aU=
+X-Google-Smtp-Source: ABdhPJxKPDi9Yvanv/GMo33Uoo9lKEOqXho6OHjtlru+BZo2Nhh+EgQ94P0gEoudVuYKfW2qVxdDqw==
+X-Received: by 2002:a7b:c145:: with SMTP id z5mr8061095wmi.77.1619876417930;
+        Sat, 01 May 2021 06:40:17 -0700 (PDT)
 Received: from localhost.localdomain (225.red-83-57-119.dynamicip.rima-tde.net. [83.57.119.225])
-        by smtp.gmail.com with ESMTPSA id q4sm5821425wrs.21.2021.05.01.06.36.48
+        by smtp.gmail.com with ESMTPSA id f6sm6958680wru.72.2021.05.01.06.40.17
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 01 May 2021 06:36:48 -0700 (PDT)
+        Sat, 01 May 2021 06:40:17 -0700 (PDT)
 From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 To: devicetree@vger.kernel.org
 Cc: linux-staging@lists.linux.dev,
@@ -43,9 +43,9 @@ Cc: linux-staging@lists.linux.dev,
 	gregkh@linuxfoundation.org,
 	neil@brown.name,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] dt-bindings: staging: mt7621-pci: PCIe binding documentation for MT76721 SoCs
-Date: Sat,  1 May 2021 15:36:46 +0200
-Message-Id: <20210501133647.14350-1-sergio.paracuellos@gmail.com>
+Subject: [PATCH v2] dt-bindings: staging: mt7621-pci: PCIe binding documentation for MT7621 SoCs
+Date: Sat,  1 May 2021 15:40:16 +0200
+Message-Id: <20210501134016.14516-1-sergio.paracuellos@gmail.com>
 X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,6 +58,9 @@ Add device tree binding documentation for PCIe in MT7621 SoCs.
 
 Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 ---
+
+Changes in v2:
+    - Correct SoC name in subject.
 
 Hi Rob,
 
