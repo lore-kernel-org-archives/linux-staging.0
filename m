@@ -1,192 +1,365 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 454B72F80
-	for <linux-staging@lists.linux.dev>; Sat,  1 May 2021 12:32:58 +0000 (UTC)
-Received: by mail-qk1-f170.google.com with SMTP id u20so863309qku.10
-        for <linux-staging@lists.linux.dev>; Sat, 01 May 2021 05:32:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FEA02F80
+	for <linux-staging@lists.linux.dev>; Sat,  1 May 2021 13:36:50 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id a4so901995wrr.2
+        for <linux-staging@lists.linux.dev>; Sat, 01 May 2021 06:36:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=kPtNXjXvjkrqon+4H86GtiLH1axTObT0uyPlkm/H220=;
-        b=tLA24VRrlFrINRcCb6JlqNKPNqPq4XNfYV4R7Cu5bIWw6YCQNtHM/LZmejRf+Hyrcc
-         zNubA9mAH34e/RhVcuyHeUXWzSNi1bnFj/aOdp7TOGV4rzgxYH54A4PdqEmBm99/EnXC
-         BUbE0qpnJsrgaMF0IZjFVwBPYpdc9Rcg1jDEjrj4pYq7o/s5j3btKzr0gVdmmrtojqEx
-         8wbKkZpBByN0d/iMn3s3cFrJKWVSOuFJKuOPFnQY5o+tm346Rr0yv7mpVb9sWeT8x1U9
-         SPAttUFz8BqJ3E7NjYIkOylngZ0pqH4z8X7gtysbf6R2yZQ+9aISpIMTcRFqDKoM6dB0
-         pL/g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9fJDEPRtx8F0wZgIPBQTd/NyWgsYPwm8Q8r9gpufr/o=;
+        b=er9cKr/IQsFG034YhVXSb/SmzkXnlFOMpsB2sHvJ/SiwrzvrL3/MEKSSkBENOUkX0m
+         eYCep3nNO+/6fo3OATnnbcUtQ0cM0g6RutU/iBXg2X02tO1MVWpaGy79+9yroVy8aFtx
+         yfP1P3XsAeQag3Rqu2vuapVvlmhhXE1iWNkFEiAlwXSjQA8ob6NekwMYWi94Wr+LAUCt
+         VVUwrS8K7bQAY/eM13qWDMEvld3snLeU2cOAXbbfpwFoYrjO7+phsIQBTSHhdKb8jrVb
+         eQoluzMC7vM48ZYP4kviOfWURuaqL6Oa6ml2pnWMiLE3UAD3uxUdOZyzQF5obkOPkalA
+         MO/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=kPtNXjXvjkrqon+4H86GtiLH1axTObT0uyPlkm/H220=;
-        b=RXBqCGyTqkIMgpTiURRaMlNMDBUhyD7VYnVvU2WzXwm3EN4c7wrgaSa0yizMlgLVsX
-         GsxthhvMyDmW0U0Z8T7sHGmeN1IVzGmRRJ1yB5XVFzKi492Ehio9On/vr72OKyJ4VDtU
-         g/u4klG59WUg5MG9go5k+GJA+nOjg6LtFiwIXwTudMDQ1i5EoKW4dNgaQF4Kiq1EspQx
-         6fhtOg7j3oLXDL0ZDHN33J52m5hFl6x+Di6LtnPcT81TtCZb4/rTgAwaErN9OImk7/ee
-         gL3WYZYpGDrwb2VNOv4uAVqfOnNhVDd4wgCOdRZgQukyBuHbjbSyW/cdxVV2f9zQUO1A
-         HR4Q==
-X-Gm-Message-State: AOAM531C2ntdhykS2+A5HSCtQpA0+7Oeno5zzlFrmOEYPgLqOfMsRywt
-	AqMu34UktMr8+dJKkOajQjE=
-X-Google-Smtp-Source: ABdhPJy6LjkvImlLa098W6SbeaZfLI6+Z3nKozTVLO/pDe82cTZtDLc0bqx7C0Y+JXWHbOIXERuGbw==
-X-Received: by 2002:a05:620a:389:: with SMTP id q9mr1279091qkm.16.1619872377484;
-        Sat, 01 May 2021 05:32:57 -0700 (PDT)
-Received: from smtp.gmail.com ([2804:14c:73:9a01::1001])
-        by smtp.gmail.com with ESMTPSA id f7sm4275201qtv.53.2021.05.01.05.32.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 May 2021 05:32:57 -0700 (PDT)
-Date: Sat, 1 May 2021 09:32:53 -0300
-From: Lucas Stankus <lucas.p.stankus@gmail.com>
-To: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH v3 2/2] staging: iio: cdc: ad7746: use dt for capacitive
- channel setup.
-Message-ID: <3e7f2a0a8960cece185f518ff2b7ceb87891edcd.1619841953.git.lucas.p.stankus@gmail.com>
-References: <cover.1619841953.git.lucas.p.stankus@gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9fJDEPRtx8F0wZgIPBQTd/NyWgsYPwm8Q8r9gpufr/o=;
+        b=nTPtzj/jzV91nilePeCSIhB7L4xiwISVxb4UT7lp9arf77HkjKyU9VAH+0iPOhWL7O
+         2ieLR4fF5GIW1bgIxrsU748XteOJIdAxukPLT0G4XcpunYS4M82W499wlvdJyTpiG1GW
+         +/Hh77cQIQeKMKGLq3Z6r94IMLWI5mRTPoFl0PwVPbfCnX+Pz2e8WHGEm4UfuEuMsd4C
+         X3j26ZZXqrsiuSdW5IAjcGrymt3xEFnk/3OIWt/rDcD3y22HEsqAkezIBNG7PIXxZdao
+         4J3NCdJRVGr3hLxABwoWps5ymy2+uzXXpgSUM9JnAl9+NhhDdPNPnDkTQ4jzepgM/Up+
+         9YLw==
+X-Gm-Message-State: AOAM532+WHJJMBzKq/K/JExIoi2gTzM2pKAmBGpfy2Ux8zkFewad0WXr
+	XbcbZiPB7jQxIJI5nkwepvM=
+X-Google-Smtp-Source: ABdhPJxRYg56zr6yeVYypa5NzAPpIIGo25jRB2O7FyfSYqzvVc9MCesv94maKgpnoxK1+pvUHZMjxw==
+X-Received: by 2002:a5d:47cc:: with SMTP id o12mr13920490wrc.227.1619876209048;
+        Sat, 01 May 2021 06:36:49 -0700 (PDT)
+Received: from localhost.localdomain (225.red-83-57-119.dynamicip.rima-tde.net. [83.57.119.225])
+        by smtp.gmail.com with ESMTPSA id q4sm5821425wrs.21.2021.05.01.06.36.48
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 01 May 2021 06:36:48 -0700 (PDT)
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+To: devicetree@vger.kernel.org
+Cc: linux-staging@lists.linux.dev,
+	robh+dt@kernel.org,
+	gregkh@linuxfoundation.org,
+	neil@brown.name,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] dt-bindings: staging: mt7621-pci: PCIe binding documentation for MT76721 SoCs
+Date: Sat,  1 May 2021 15:36:46 +0200
+Message-Id: <20210501133647.14350-1-sergio.paracuellos@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1619841953.git.lucas.p.stankus@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Ditch platform_data fields in favor of device tree properties for
-configuring EXCA and EXCB output pins and setting the capacitive channel
-excitation level.
+Add device tree binding documentation for PCIe in MT7621 SoCs.
 
-As this covers all current use cases for the platform_data struct, remove
-ad7746.h header file since it's no longer needed.
-
-Signed-off-by: Lucas Stankus <lucas.p.stankus@gmail.com>
+Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 ---
- drivers/staging/iio/cdc/ad7746.c | 54 +++++++++++++++++++-------------
- drivers/staging/iio/cdc/ad7746.h | 28 -----------------
- 2 files changed, 33 insertions(+), 49 deletions(-)
- delete mode 100644 drivers/staging/iio/cdc/ad7746.h
 
-diff --git a/drivers/staging/iio/cdc/ad7746.c b/drivers/staging/iio/cdc/ad7746.c
-index dfd71e99e872..531f1b96dea2 100644
---- a/drivers/staging/iio/cdc/ad7746.c
-+++ b/drivers/staging/iio/cdc/ad7746.c
-@@ -18,8 +18,6 @@
- #include <linux/iio/iio.h>
- #include <linux/iio/sysfs.h>
- 
--#include "ad7746.h"
--
- /*
-  * AD7746 Register Definition
-  */
-@@ -676,10 +674,11 @@ static const struct iio_info ad7746_info = {
- static int ad7746_probe(struct i2c_client *client,
- 			const struct i2c_device_id *id)
- {
--	struct ad7746_platform_data *pdata = client->dev.platform_data;
-+	struct device *dev = &client->dev;
- 	struct ad7746_chip_info *chip;
- 	struct iio_dev *indio_dev;
- 	unsigned char regval = 0;
-+	unsigned int vdd_permille;
- 	int ret = 0;
- 
- 	indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*chip));
-@@ -703,26 +702,39 @@ static int ad7746_probe(struct i2c_client *client,
- 	indio_dev->num_channels = ARRAY_SIZE(ad7746_channels);
- 	indio_dev->modes = INDIO_DIRECT_MODE;
- 
--	if (pdata) {
--		if (pdata->exca_en) {
--			if (pdata->exca_inv_en)
--				regval |= AD7746_EXCSETUP_NEXCA;
--			else
--				regval |= AD7746_EXCSETUP_EXCA;
--		}
-+	if (device_property_read_bool(dev, "adi,exca-output-en")) {
-+		if (device_property_read_bool(dev, "adi,exca-output-invert"))
-+			regval |= AD7746_EXCSETUP_NEXCA;
-+		else
-+			regval |= AD7746_EXCSETUP_EXCA;
-+	}
- 
--		if (pdata->excb_en) {
--			if (pdata->excb_inv_en)
--				regval |= AD7746_EXCSETUP_NEXCB;
--			else
--				regval |= AD7746_EXCSETUP_EXCB;
--		}
-+	if (device_property_read_bool(dev, "adi,excb-output-en")) {
-+		if (device_property_read_bool(dev, "adi,excb-output-invert"))
-+			regval |= AD7746_EXCSETUP_NEXCB;
-+		else
-+			regval |= AD7746_EXCSETUP_EXCB;
-+	}
- 
--		regval |= AD7746_EXCSETUP_EXCLVL(pdata->exclvl);
--	} else {
--		dev_warn(&client->dev, "No platform data? using default\n");
--		regval = AD7746_EXCSETUP_EXCA | AD7746_EXCSETUP_EXCB |
--			AD7746_EXCSETUP_EXCLVL(3);
-+	ret = device_property_read_u32(dev, "adi,excitation-vdd-permille",
-+				       &vdd_permille);
-+	if (!ret) {
-+		switch (vdd_permille) {
-+		case 125:
-+			regval |= AD7746_EXCSETUP_EXCLVL(0);
-+			break;
-+		case 250:
-+			regval |= AD7746_EXCSETUP_EXCLVL(1);
-+			break;
-+		case 375:
-+			regval |= AD7746_EXCSETUP_EXCLVL(2);
-+			break;
-+		case 500:
-+			regval |= AD7746_EXCSETUP_EXCLVL(3);
-+			break;
-+		default:
-+			break;
-+		}
- 	}
- 
- 	ret = i2c_smbus_write_byte_data(chip->client,
-diff --git a/drivers/staging/iio/cdc/ad7746.h b/drivers/staging/iio/cdc/ad7746.h
+Hi Rob,
+
+Some concerns here. I was not be able to found any case similar to
+this binding where sub-nodes describing each pcie port interface
+are needed. I added them to the 'examples' directly without saying
+anything about properties in any other place since its properties
+seems to be covered in 'pci-bus.yaml' schema definition. I don't
+know if this is the way, I have checked against schema and I noticed
+I am forced to add 'device_type' property in each subnode because
+schema checker complains that this is mandatory. So I have added
+it and schema is properly being validated:
+
+Before add the 'device_type' in each subnode:
+/home/sergio/staging/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dt.yaml: pcie@0,0: 'device_type' is a required property
+From schema: /home/sergio/.local/lib/python3.9/site-packages/dtschema/schemas/pci/pci-bus.yaml
+/home/sergio/staging/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dt.yaml: pcie@1,0: 'device_type' is a required property
+From schema: /home/sergio/.local/lib/python3.9/site-packages/dtschema/schemas/pci/pci-bus.yaml
+/home/sergio/staging/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dt.yaml: pcie@2,0: 'device_type' is a required property
+From schema: /home/sergio/.local/lib/python3.9/site-packages/dtschema/schemas/pci/pci-bus.yaml
+
+After adding it:
+CHKDT   Documentation/devicetree/bindings/processed-schema-examples.json
+SCHEMA  Documentation/devicetree/bindings/processed-schema-examples.json
+DTEX    Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dts
+DTC     Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dt.yaml
+CHECK   Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dt.yaml
+
+Looks a bit redundant and maybe I am doing something wrong...
+
+Thanks in advance for clarification.
+
+Best regards,
+    Sergio Paracuellos
+
+
+ .../bindings/pci/mediatek,mt7621-pci.yaml     | 144 ++++++++++++++++++
+ .../mt7621-pci/mediatek,mt7621-pci.txt        | 104 -------------
+ 2 files changed, 144 insertions(+), 104 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml
+ delete mode 100644 drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt
+
+diff --git a/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml b/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml
+new file mode 100644
+index 000000000000..9c1d05d929a2
+--- /dev/null
++++ b/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml
+@@ -0,0 +1,144 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/pci/mediatek,mt7621-pci.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: MediaTek MT7621 PCIe controller
++
++maintainers:
++  - Sergio Paracuellos <sergio.paracuellos@gmail.com>
++
++description: |+
++  MediaTek MT7621 PCIe subsys supports single Root complex (RC)
++  with 3 Root Ports. Each Root Ports supports a Gen1 1-lane Link
++
++allOf:
++  - $ref: /schemas/pci/pci-bus.yaml#
++
++properties:
++  compatible:
++    const: mediatek,mt7621-pci
++
++  reg:
++    items:
++      - description: host-pci bridge registers
++      - description: pcie port 0 RC control registers
++      - description: pcie port 1 RC control registers
++      - description: pcie port 2 RC control registers
++
++  ranges:
++    maxItems: 2
++
++  interrupts:
++    maxItems: 3
++
++  resets:
++    items:
++      - description: pcie port 0 reset.
++      - description: pcie port 1 reset.
++      - description: pcie port 2 reset.
++
++  reset-names:
++    items:
++      - const: pcie0
++      - const: pcie1
++      - const: pcie2
++
++  clocks:
++    items:
++      - description: pcie port 0 clock.
++      - description: pcie port 1 clock.
++      - description: pcie port 2 clock.
++
++  clock-names:
++    items:
++      - const: pcie0
++      - const: pcie1
++      - const: pcie2
++
++  phys:
++    items:
++      - description: Dual-ported phy for pcie port 0 and 1.
++      - description: Phy for pcie port 2.
++
++  phy-names:
++    items:
++      - const: pcie-phy0
++      - const: pcie-phy2
++
++required:
++  - compatible
++  - reg
++  - ranges
++  - interrupts
++  - resets
++  - reset-names
++  - clocks
++  - clock-names
++  - phys
++  - phy-names
++  - reset-gpios
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/mips-gic.h>
++
++    pcie: pcie@1e140000 {
++        compatible = "mediatek,mt7621-pci";
++        reg = <0x1e140000 0x100>,
++              <0x1e142000 0x100>,
++              <0x1e143000 0x100>,
++              <0x1e144000 0x100>;
++
++        #address-cells = <3>;
++        #size-cells = <2>;
++        pinctrl-names = "default";
++        pinctrl-0 = <&pcie_pins>;
++        device_type = "pci";
++        bus-range = <0 255>;
++        ranges = <0x02000000 0 0x00000000 0x60000000 0 0x10000000>,  /* pci memory */
++                 <0x01000000 0 0x00000000 0x1e160000 0 0x00010000>;  /* io space */
++        interrupt-parent = <&gic>;
++        interrupts = <GIC_SHARED 4 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SHARED 24 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SHARED 25 IRQ_TYPE_LEVEL_HIGH>;
++        resets = <&rstctrl 24>, <&rstctrl 25>, <&rstctrl 26>;
++        reset-names = "pcie0", "pcie1", "pcie2";
++        clocks = <&clkctrl 24>, <&clkctrl 25>, <&clkctrl 26>;
++        clock-names = "pcie0", "pcie1", "pcie2";
++        phys = <&pcie0_phy 1>, <&pcie2_phy 0>;
++        phy-names = "pcie-phy0", "pcie-phy2";
++        reset-gpios = <&gpio 19 GPIO_ACTIVE_LOW>;
++
++        pcie@0,0 {
++            reg = <0x0000 0 0 0 0>;
++            #address-cells = <3>;
++            #size-cells = <2>;
++            device_type = "pci";
++            ranges;
++            bus-range = <0x00 0xff>;
++        };
++
++        pcie@1,0 {
++            reg = <0x0800 0 0 0 0>;
++            #address-cells = <3>;
++            #size-cells = <2>;
++            device_type = "pci";
++            ranges;
++            bus-range = <0x00 0xff>;
++        };
++
++        pcie@2,0 {
++            reg = <0x1000 0 0 0 0>;
++            #address-cells = <3>;
++            #size-cells = <2>;
++            device_type = "pci";
++            ranges;
++            bus-range = <0x00 0xff>;
++        };
++    };
++...
+diff --git a/drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt b/drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt
 deleted file mode 100644
-index 8bdbd732dbbd..000000000000
---- a/drivers/staging/iio/cdc/ad7746.h
+index 327a68267309..000000000000
+--- a/drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt
 +++ /dev/null
-@@ -1,28 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/*
-- * AD7746 capacitive sensor driver supporting AD7745, AD7746 and AD7747
-- *
-- * Copyright 2011 Analog Devices Inc.
-- */
+@@ -1,104 +0,0 @@
+-MediaTek MT7621 PCIe controller
 -
--#ifndef IIO_CDC_AD7746_H_
--#define IIO_CDC_AD7746_H_
+-Required properties:
+-- compatible: "mediatek,mt7621-pci"
+-- device_type: Must be "pci"
+-- reg: Base addresses and lengths of the PCIe subsys and root ports.
+-- bus-range: Range of bus numbers associated with this controller.
+-- #address-cells: Address representation for root ports (must be 3)
+-- pinctrl-names : The pin control state names.
+-- pinctrl-0: The "default" pinctrl state.
+-- #size-cells: Size representation for root ports (must be 2)
+-- ranges: Ranges for the PCI memory and I/O regions.
+-- #interrupt-cells: Must be 1
+-- interrupt-map-mask and interrupt-map: Standard PCI IRQ mapping properties.
+-  Please refer to the standard PCI bus binding document for a more detailed
+-  explanation.
+-- status: either "disabled" or "okay".
+-- resets: Must contain an entry for each entry in reset-names.
+-  See ../reset/reset.txt for details.
+-- reset-names: Must be "pcie0", "pcie1", "pcieN"... based on the number of
+-  root ports.
+-- clocks: Must contain an entry for each entry in clock-names.
+-  See ../clocks/clock-bindings.txt for details.
+-- clock-names: Must be "pcie0", "pcie1", "pcieN"... based on the number of
+-  root ports.
+-- reset-gpios: GPIO specs for the reset pins.
 -
--/*
-- * TODO: struct ad7746_platform_data needs to go into include/linux/iio
-- */
+-In addition, the device tree node must have sub-nodes describing each PCIe port
+-interface, having the following mandatory properties:
 -
--#define AD7466_EXCLVL_0		0 /* +-VDD/8 */
--#define AD7466_EXCLVL_1		1 /* +-VDD/4 */
--#define AD7466_EXCLVL_2		2 /* +-VDD * 3/8 */
--#define AD7466_EXCLVL_3		3 /* +-VDD/2 */
+-Required properties:
+-- reg: Only the first four bytes are used to refer to the correct bus number
+-      and device number.
+-- #address-cells: Must be 3
+-- #size-cells: Must be 2
+-- ranges: Sub-ranges distributed from the PCIe controller node. An empty
+-  property is sufficient.
+-- bus-range: Range of bus numbers associated with this port.
 -
--struct ad7746_platform_data {
--	unsigned char exclvl;	/*Excitation Voltage Level */
--	bool exca_en;		/* enables EXCA pin as the excitation output */
--	bool exca_inv_en;	/* enables /EXCA pin as the excitation output */
--	bool excb_en;		/* enables EXCB pin as the excitation output */
--	bool excb_inv_en;	/* enables /EXCB pin as the excitation output */
--};
+-Example for MT7621:
 -
--#endif /* IIO_CDC_AD7746_H_ */
+-	pcie: pcie@1e140000 {
+-		compatible = "mediatek,mt7621-pci";
+-        reg = <0x1e140000 0x100    /* host-pci bridge registers */
+-               0x1e142000 0x100    /* pcie port 0 RC control registers */
+-               0x1e143000 0x100    /* pcie port 1 RC control registers */
+-               0x1e144000 0x100>;  /* pcie port 2 RC control registers */
+-
+-		#address-cells = <3>;
+-		#size-cells = <2>;
+-
+-		pinctrl-names = "default";
+-		pinctrl-0 = <&pcie_pins>;
+-
+-		device_type = "pci";
+-
+-		bus-range = <0 255>;
+-		ranges = <
+-			0x02000000 0 0x00000000 0x60000000 0 0x10000000 /* pci memory */
+-			0x01000000 0 0x00000000 0x1e160000 0 0x00010000 /* io space */
+-		>;
+-
+-		#interrupt-cells = <1>;
+-		interrupt-map-mask = <0xF0000 0 0 1>;
+-		interrupt-map = <0x10000 0 0 1 &gic GIC_SHARED 4 IRQ_TYPE_LEVEL_HIGH>,
+-				<0x20000 0 0 1 &gic GIC_SHARED 24 IRQ_TYPE_LEVEL_HIGH>,
+-				<0x30000 0 0 1 &gic GIC_SHARED 25 IRQ_TYPE_LEVEL_HIGH>;
+-
+-		status = "disabled";
+-
+-		resets = <&rstctrl 24 &rstctrl 25 &rstctrl 26>;
+-		reset-names = "pcie0", "pcie1", "pcie2";
+-		clocks = <&clkctrl 24 &clkctrl 25 &clkctrl 26>;
+-		clock-names = "pcie0", "pcie1", "pcie2";
+-
+-		reset-gpios = <&gpio 19 GPIO_ACTIVE_LOW>,
+-				<&gpio 8 GPIO_ACTIVE_LOW>,
+-				<&gpio 7 GPIO_ACTIVE_LOW>;
+-
+-		pcie@0,0 {
+-			reg = <0x0000 0 0 0 0>;
+-			#address-cells = <3>;
+-			#size-cells = <2>;
+-			ranges;
+-			bus-range = <0x00 0xff>;
+-		};
+-
+-		pcie@1,0 {
+-			reg = <0x0800 0 0 0 0>;
+-			#address-cells = <3>;
+-			#size-cells = <2>;
+-			ranges;
+-			bus-range = <0x00 0xff>;
+-		};
+-
+-		pcie@2,0 {
+-			reg = <0x1000 0 0 0 0>;
+-			#address-cells = <3>;
+-			#size-cells = <2>;
+-			ranges;
+-			bus-range = <0x00 0xff>;
+-		};
+-	};
+-
 -- 
-2.31.1
+2.25.1
 
