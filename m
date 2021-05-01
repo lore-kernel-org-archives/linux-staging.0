@@ -1,36 +1,54 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 847F771
-	for <linux-staging@lists.linux.dev>; Fri, 30 Apr 2021 16:34:54 +0000 (UTC)
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
-	(envelope-from <andrew@lunn.ch>)
-	id 1lcW6H-001pzm-9A; Fri, 30 Apr 2021 18:34:45 +0200
-Date: Fri, 30 Apr 2021 18:34:45 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: DENG Qingfang <dqfext@gmail.com>, David Miller <davem@davemloft.net>,
-	f.fainelli@gmail.com, hkallweit1@gmail.com, kuba@kernel.org,
-	Landen.Chao@mediatek.com, matthias.bgg@gmail.com,
-	linux@armlinux.org.uk, sean.wang@mediatek.com,
-	vivien.didelot@gmail.com, olteanv@gmail.com, robh+dt@kernel.org,
-	linus.walleij@linaro.org, gregkh@linuxfoundation.org,
-	sergio.paracuellos@gmail.com, linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-staging@lists.linux.dev,
-	devicetree@vger.kernel.org, netdev@vger.kernel.org,
-	weijie.gao@mediatek.com, gch981213@gmail.com, opensource@vdorst.com,
-	tglx@linutronix.de, maz@kernel.org
-Subject: Re: Re: Re: Re: [PATCH net-next 0/4] MT7530 interrupt support
-Message-ID: <YIwxpYD1jnFMPQz+@lunn.ch>
-References: <20210429062130.29403-1-dqfext@gmail.com>
- <20210429.170815.956010543291313915.davem@davemloft.net>
- <20210430023839.246447-1-dqfext@gmail.com>
- <YIv28APpOP9tnuO+@lunn.ch>
- <trinity-843c99ce-952a-434e-95e4-4ece3ba6b9bd-1619786236765@3c-app-gmx-bap03>
- <YIv7w8Wy81fmU5A+@lunn.ch>
- <trinity-611ff023-c337-4148-a215-98fd5604eac2-1619787382934@3c-app-gmx-bap03>
- <YIwCliT5NZT713WD@lunn.ch>
- <trinity-c45bbeec-5b7c-43a2-8e86-7cb22ad61558-1619794787680@3c-app-gmx-bap03>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C0972
+	for <linux-staging@lists.linux.dev>; Sat,  1 May 2021 11:39:40 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id 10so926256pfl.1
+        for <linux-staging@lists.linux.dev>; Sat, 01 May 2021 04:39:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=V8Oh5UM+MuV4MLaFnRZfCDneLqfuPCQcjlq7Di+tmDk=;
+        b=EiMn8cSdYzr7/++h6nLUN02El8BNKIJoyGedBJD04ih+UFfzoXNZKRXRPXQXPNfVus
+         ZNb56g/H7yYSKP+KNArjMhke16K5nS0CI/NMvcphI71K9HNmMphIEU5KKfK2eECVmuK9
+         eaIE3LE6/vQgyGH3rv0dZGV7P6866rdD/FQNuRMlJSjLJZSeItMFv9z4eXH9mfpFprJ5
+         ArrFdeRhiBrShxbKOwSoWDrgVY/usDgIqLQDXFFCnY3chY0ocCwQtAA6+DZNJ5+fLwLi
+         wFkiT2SlUNXt1fpyWNofd0HYqZJOKkVAw+JYGQhNLjqRHR7sgwh3osN2MTc92QsTBBX9
+         h4TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=V8Oh5UM+MuV4MLaFnRZfCDneLqfuPCQcjlq7Di+tmDk=;
+        b=WYpxjuPcTU7e4yx9KP4WVULSSVIHRqcqFudSkiW/iCe64eJoKtv47p5nxlv48beurN
+         1wS4dTOdsVJcZiMK5KP9TsPHmJ1o6NObJTfS+uKYvNACO/rF1+P9X5Qd6i+4/fmoMUDu
+         XoZRw0l7GIcq5Qe+cr29MH9U+MS9q7R2zOoJs6IoqDCH9Kor8mdEKMdnJITRzcdzf5QA
+         TI9tpFwSk/0VKL1MXkjBnF/jTSnaqvj5vgz6yXrGKKSozfThDuTughqPj5BAZIHZyN9G
+         cW9FzN+KfK6HV07368bq7WM8meUq7w9EvSDvNHqTST8egCPOxX3O6exvzioyJm2DLxvC
+         ptxg==
+X-Gm-Message-State: AOAM532oKUkIVvkcW7QYJWOVxmGlwWr6HDTAUiG+2JIUeP9xo2ul+uHd
+	svwrpjDVaSEaJlBWPFUkeyI=
+X-Google-Smtp-Source: ABdhPJy+EZw8Jt0ErF8L4JM+hDj/iQC44ohBfxDNxEdptqq3ukX+lJySuxnQjVxNaX+qFxQd1CN2RA==
+X-Received: by 2002:a63:570b:: with SMTP id l11mr9009643pgb.193.1619869179376;
+        Sat, 01 May 2021 04:39:39 -0700 (PDT)
+Received: from ashish-NUC8i5BEH ([122.177.225.134])
+        by smtp.gmail.com with ESMTPSA id x9sm5531489pge.55.2021.05.01.04.39.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 May 2021 04:39:38 -0700 (PDT)
+Date: Sat, 1 May 2021 17:09:28 +0530
+From: Ashish Kalra <eashishkalra@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ashish Kalra <eashishkalra@gmail.com>,
+	Ivan Safonov <insafonov@gmail.com>,
+	Abheek Dhawan <adawesomeguy222@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Waiman Long <longman@redhat.com>,
+	Pritthijit Nath <pritthijit.nath@icloud.com>,
+	Allen Pais <apais@linux.microsoft.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: wlan-ng: silence incorrect type in argument 1
+ (different address spaces)
+Message-ID: <YI098DQNtK3i2Fge@ashish-NUC8i5BEH>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -38,34 +56,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <trinity-c45bbeec-5b7c-43a2-8e86-7cb22ad61558-1619794787680@3c-app-gmx-bap03>
 
-> mhm, maybe the naming should differ if generic phy and net-phy are
-> that different. i guess there is no way to merge the net phys to the
-> generic phys (due to linking to the net device drivers) to have only
-> 1 phy section, right?
+Currently p80211knetdev_do_ioctl use type casting to req->data to prevent sparse warning while calling memdup_user, instead of type casting it here, its better to change data type for data inside p80211ioctl_req to include __user.
 
-phys and generic PHYs are very different things, completely different
-API etc. They cannot be merged.
+Signed-off-by: Ashish Kalra <eashishkalra@gmail.com>
+---
 
-> but if phy- prefix is used by generic phys, maybe eth- or net- can be used here (maybe with "phy" added)
-> 
-> something like
-> 
-> eth-phy-mt753x.ko
-> 
-> else i have no idea now...my patch renaming the musb-module seems not
-> to be accepted due to possible breakage
+Changes from v1:
+removed type casting of (void __user *) for req->data and corrected type for data to include __user.
 
-The usb module has been around for a long time, so it cannot be
-changed. The phy driver is new, not in a released kernel. So we can
-still rename it without causing problems.
+ drivers/staging/wlan-ng/p80211ioctl.h  | 2 +-
+ drivers/staging/wlan-ng/p80211netdev.c | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-I still want to understand the naming here. If you look at most
-Ethernet switches with integrated PHYs, the PHYs have their own naming
-scheme, separate from the switch, because they are independent IP. So
-i would prefer this driver by named after the PHY name, not the switch
-name. That might solve the naming conflict, mt123x for the PHY, mt7530
-for the switch driver.
+diff --git a/drivers/staging/wlan-ng/p80211ioctl.h b/drivers/staging/wlan-ng/p80211ioctl.h
+index ed65ac57adbe..77e8d2913b76 100644
+--- a/drivers/staging/wlan-ng/p80211ioctl.h
++++ b/drivers/staging/wlan-ng/p80211ioctl.h
+@@ -81,7 +81,7 @@
+ 
+ struct p80211ioctl_req {
+ 	char name[WLAN_DEVNAMELEN_MAX];
+-	caddr_t data;
++	char __user *data;
+ 	u32 magic;
+ 	u16 len;
+ 	u32 result;
+diff --git a/drivers/staging/wlan-ng/p80211netdev.c b/drivers/staging/wlan-ng/p80211netdev.c
+index 70570e8a5ad2..dfb2d2832830 100644
+--- a/drivers/staging/wlan-ng/p80211netdev.c
++++ b/drivers/staging/wlan-ng/p80211netdev.c
+@@ -569,7 +569,7 @@ static int p80211knetdev_do_ioctl(struct net_device *dev,
+ 		goto bail;
+ 	}
+ 
+-	msgbuf = memdup_user((void __user *)req->data, req->len);
++	msgbuf = memdup_user(req->data, req->len);
+ 	if (IS_ERR(msgbuf)) {
+ 		result = PTR_ERR(msgbuf);
+ 		goto bail;
+@@ -579,7 +579,7 @@ static int p80211knetdev_do_ioctl(struct net_device *dev,
+ 
+ 	if (result == 0) {
+ 		if (copy_to_user
+-		    ((void __user *)req->data, msgbuf, req->len)) {
++		    (req->data, msgbuf, req->len)) {
+ 			result = -EFAULT;
+ 		}
+ 	}
+-- 
+2.30.2
 
-	Andrew
