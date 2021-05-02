@@ -1,70 +1,39 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from h04.kommunity.net (h04.kommunity.net [138.201.86.160])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E81C70
-	for <linux-staging@lists.linux.dev>; Sun,  2 May 2021 17:49:14 +0000 (UTC)
-Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id C52DA611C0;
-	Sun,  2 May 2021 17:49:11 +0000 (UTC)
-Date: Sun, 2 May 2021 18:50:02 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Lucas Stankus <lucas.p.stankus@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com,
- gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] staging: iio: cdc: ad7746: add dt properties for
- capacitive channel setup
-Message-ID: <20210502185002.4c2faead@jic23-huawei>
-In-Reply-To: <cover.1619841953.git.lucas.p.stankus@gmail.com>
-References: <cover.1619841953.git.lucas.p.stankus@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 662BB72
+	for <linux-staging@lists.linux.dev>; Sun,  2 May 2021 21:08:59 +0000 (UTC)
+Received: from notebook.fritz.box (p4fc26c70.dip0.t-ipconnect.de [79.194.108.112])
+	by h04.kommunity.net (Postfix) with ESMTPSA id 9EF41F85628;
+	Sun,  2 May 2021 23:08:56 +0200 (CEST)
+Authentication-Results: h04.kommunity.net;
+	spf=pass (sender IP is 79.194.108.112) smtp.mailfrom=alec@vc-celle.de smtp.helo=notebook.fritz.box
+Received-SPF: pass (h04.kommunity.net: connection is authenticated)
+From: Alexander Vorwerk <alec@vc-celle.de>
+To: forest@alittletooquiet.net,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Alexander Vorwerk <alec@vc-celle.de>
+Subject: [PATCH 0/2] staging: vt6655: remove multiple assignments
+Date: Sun,  2 May 2021 23:08:24 +0200
+Message-Id: <20210502210826.10323-1-alec@vc-celle.de>
+X-Mailer: git-send-email 2.17.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Sat, 1 May 2021 09:32:03 -0300
-Lucas Stankus <lucas.p.stankus@gmail.com> wrote:
+These two patches fix two multiple assignments coding-style
+issues reported by checkpatch.pl.
 
-> This patch series aims to replace the platform_struct for the ad7746 driver
-> in favor of device tree bindings, creating the dt-binding documentation in
-> the process.
-> 
-> Since the header file was only used to define the struct and the excitation
-> level values, it was possible to remove the file entirely.
-> 
-> Changelog v2 -> v3:
-> - Add application reference note for the inverted EXCX dt bindings
-> - Replace macro with lookup table for setting the capacitive channel
->   excitation voltage
-> 
-> Lucas Stankus (2):
->   dt-bindings: staging: iio: cdc: ad7746: add binding documentation for
->     AD7746
->   staging: iio: cdc: ad7746: use dt for capacitive channel setup.
+Alexander Vorwerk (2):
+  staging: vt6655: remove multiple assignment
+  staging: vt6655: remove multiple assignment
 
-Looks good to me.  Thanks!
+ drivers/staging/vt6655/device_main.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-Will leave time for Rob or anyone else to take a look etc before applying.
-
-If I seem to have lost it then feel free to give me a poke in a few weeks
-(it's happened a few times in the past :( 
-
-Thanks,
-
-Jonathan
-> 
->  .../bindings/iio/cdc/adi,ad7746.yaml          | 77 +++++++++++++++++++
->  drivers/staging/iio/cdc/ad7746.c              | 54 ++++++++-----
->  drivers/staging/iio/cdc/ad7746.h              | 28 -------
->  3 files changed, 110 insertions(+), 49 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml
->  delete mode 100644 drivers/staging/iio/cdc/ad7746.h
-> 
+-- 
+2.17.1
 
