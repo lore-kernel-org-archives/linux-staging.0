@@ -1,20 +1,20 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD9371
-	for <linux-staging@lists.linux.dev>; Sun,  2 May 2021 14:03:20 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 913906139A;
-	Sun,  2 May 2021 14:03:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDD771
+	for <linux-staging@lists.linux.dev>; Sun,  2 May 2021 14:03:49 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1E7E56102A;
+	Sun,  2 May 2021 14:03:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1619964200;
+	s=k20201202; t=1619964228;
 	bh=JGsMDWyk27WjKby7HS2mvodyeAGC+CYxgjPT+Wz668U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KBV0tS8jbHsAuqsS1Tw3YXXDrJR/UEftxOyozcizdVegJ5Snl1aG1dO2+QG7+QsjS
-	 /zwQ9jHAfdm1KSmTrD18RVZUt1qOE4oHC1eGEq9Rf8Ui3Re2scOydlN8w1NBGcduKk
-	 yFI2edO3MeLKiIDEuxb0FqFRv9Io2efIXi91sFuK+M5JgCUE+SL0jkG2l25w3bOnxh
-	 9e0uohkKlZJBuCYoi+3V33GWXXp9+crJppYdEhYwJ38J485TuNNdPL2GvJTG0k0BgZ
-	 t95UNWs/gJIqCdeSRYlSJwnZz7jeYXGmNqsVNgUYhb8vTUipDbMrud4H5Qgw6I2Q21
-	 5szlQQB5x9qeQ==
+	b=gIgnKbI6oINSETVgo1Hw2EWNTPskKJU0G0QyoTrl9/f9y79s4vrDhmuBRU1JB7NoB
+	 gT5qXl/JFQ+GWhE0hDcXn/tWCXFSGywgLlPgO4XKIIJ6zXafmfbjsuP1MX6RDOmZXR
+	 yR7JNJK30eGvMYDIIAQKZDcLHyjgvQedwB295ur4skS+ZGZJR8CULwv2Xekjzv7bko
+	 Ro3woOjUwtgqd1yBnl1NWpNCEb2WADnFvopvOEqBJdrt6t4TQQDY2ow+hgaRerQcGt
+	 9Q/xQSRpsHGjpqSArRpOiXcdZME3xUsKO3NxjRfwGYsXv3fB1pQdWb+dNirwNKT3XB
+	 Nh215KuWDw0xg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -22,12 +22,12 @@ Cc: karthik alapati <mail@karthek.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.12 02/79] staging: wimax/i2400m: fix byte-order issue
-Date: Sun,  2 May 2021 10:01:59 -0400
-Message-Id: <20210502140316.2718705-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.11 02/70] staging: wimax/i2400m: fix byte-order issue
+Date: Sun,  2 May 2021 10:02:36 -0400
+Message-Id: <20210502140344.2719040-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210502140316.2718705-1-sashal@kernel.org>
-References: <20210502140316.2718705-1-sashal@kernel.org>
+In-Reply-To: <20210502140344.2719040-1-sashal@kernel.org>
+References: <20210502140344.2719040-1-sashal@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
