@@ -1,83 +1,72 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4DCD71
-	for <linux-staging@lists.linux.dev>; Mon,  3 May 2021 18:41:08 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id bf4so7478211edb.11
-        for <linux-staging@lists.linux.dev>; Mon, 03 May 2021 11:41:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=I/n/q/aelXMf9mgaQMQLtrJKcudG4Wd5KNGsIllPB90=;
-        b=Gg9Y3N2Fdb9DyHwiymNwYxOiruKJLzHaTEC41rI3N1IC6KvUtL++MANcceqK2VR90S
-         XZs+XpbOIcz5v22bn8WiIRypSN/4WR2AK0HzNE305WZrTTU5j8h72SlE9vXSmtAgos4W
-         d1lgJ/G5UT2KvsDmDf05tDhMLWJiNfLOwwwq8IwqzUs2cZkbvIqoqMYPlpMYTZ2nwUqZ
-         dwjuOZKkg5JoJBhqf+ZhTpy5zGLDnGn4oc2OprEqiDZ/WaG9UAL+LzLFWcAgelJIl/fX
-         83GAWF0aYfTMnQMiqgWop9O4tnuai5PmWSfhFNrC90d2llUsXl3Jxh1RPdwmOIc2MPdp
-         1yPQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C3871
+	for <linux-staging@lists.linux.dev>; Mon,  3 May 2021 19:35:46 +0000 (UTC)
+Received: by mail-oo1-f54.google.com with SMTP id j17-20020a4ad6d10000b02901fef5280522so179653oot.0
+        for <linux-staging@lists.linux.dev>; Mon, 03 May 2021 12:35:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=I/n/q/aelXMf9mgaQMQLtrJKcudG4Wd5KNGsIllPB90=;
-        b=gUbTmlh9ylGnWmgxuAOML06QhdAJ2uD7lrD4p+nK9gzxMcuTIxLE0msJQ/4eznayCV
-         ulsMdqa7H/cucg+nOgo+l1PARQpR2TH/zegDbWGspkuAJ1TjPiO7uZsEt799mn3c5RIP
-         QFdFpPyoj5csYJ7+xT/JM+YfhqMh9lhhGulNqXYufB3r+vXfQxA8bszFUiL25CCuVxct
-         imHr22WlPkF238m+kybGBtSzQm/LDHD09wv/36mW5JMnhRpYc7gtqp+9dB0KsTUk7gEF
-         jfOgFftb3vq3vrgh7bJQGQc+oVx0Xc6/naIGZ6uGi189a3gBhcpOuIbhKhwMOqwIq61G
-         TbdQ==
-X-Gm-Message-State: AOAM532priIfMwTRXBn6M4RZP5C5mD/lyIvXwugdc/IXpNqdGzMvCV+D
-	H+bjIJBdSXm11/Bom+K5v78=
-X-Google-Smtp-Source: ABdhPJyBymSS+DOEhj25VtSpyczjlx/GZKWCAj3qYvY45dyrc3K6vl7VfIlPvi19ijH1G5MonBF3Uw==
-X-Received: by 2002:a50:d782:: with SMTP id w2mr21487090edi.346.1620067267238;
-        Mon, 03 May 2021 11:41:07 -0700 (PDT)
-Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
-        by smtp.gmail.com with ESMTPSA id rs8sm243938ejb.17.2021.05.03.11.41.05
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=JBWBNxVimdXrI5+KU0cFX5vZU2z6L9qx8BxSHFKVFus=;
+        b=cQ8zjb6J3gajQuNb9SfjZop9Y6JfnNVUZRVaBnyz5Vb51U/Ep+FNXImMwwn4Bruc25
+         6ny9yHvriGe23N3SfwPIc4FGOcCo5TMefKSGQOjxY/AbBziBLCnuxr/kRpvF/4hWLbdq
+         06KFWfB1DIaatNeDoeGYSKbZhDr2g1x6XqJyIbY3CGqgQ6UbVLo2HFB+IHj5Lxg0ef7A
+         p1uk1JckZyCNld+xfIa1v/ER0P0xTIqDEKKnwLK8MG8XtYLB/2Rihd3fiED/c2XaB29w
+         ZuHUbE6L5t+py8rWSRlccmfOH+gFDxDkGjbtlwjlFfYIE+M6gyGdF1iHjVyyoTs4qPc9
+         hfSQ==
+X-Gm-Message-State: AOAM532o/ysOxvCyyvkSXy0eELfRu3jsn3QYxQdUiKnvwl3PpmFVGloA
+	vaext7np0w4b/xfsqu2NFw==
+X-Google-Smtp-Source: ABdhPJy/V6F3DccyF7xGWdj8eRMoURIuuJIGusacpBLZ1d5VgTJTuNBh1PnHECTqQEI5m6aTgsVEzA==
+X-Received: by 2002:a4a:aa41:: with SMTP id y1mr15483387oom.52.1620070544325;
+        Mon, 03 May 2021 12:35:44 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id a4sm188470oib.17.2021.05.03.12.35.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 May 2021 11:41:06 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: outreachy-kernel@googlegroups.com, David Kershner <david.kershner@unisys.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>, Matthew Wilcox <willy@infradead.org>
-Subject: Re: [Outreachy kernel] [PATCH v5] staging: unisys: visorhba: Convert module from IDR to XArray
-Date: Mon, 03 May 2021 20:41:05 +0200
-Message-ID: <2381635.6tjctmx4mM@linux.local>
-In-Reply-To: <YJAlWJXDnK9KLg2H@kroah.com>
-References: <20210427150719.30841-1-fmdefrancesco@gmail.com> <YJAlWJXDnK9KLg2H@kroah.com>
+        Mon, 03 May 2021 12:35:43 -0700 (PDT)
+Received: (nullmailer pid 2253889 invoked by uid 1000);
+	Mon, 03 May 2021 19:35:41 -0000
+Date: Mon, 3 May 2021 14:35:41 -0500
+From: Rob Herring <robh@kernel.org>
+To: DENG Qingfang <dqfext@gmail.com>
+Cc: Russell King <linux@armlinux.org.uk>, Vladimir Oltean <olteanv@gmail.com>, 
+	Andrew Lunn <andrew@lunn.ch>, Landen Chao <Landen.Chao@mediatek.com>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>, linux-kernel@vger.kernel.org, 
+	Marc Zyngier <maz@kernel.org>, Jakub Kicinski <kuba@kernel.org>, devicetree@vger.kernel.org, 
+	Chuanhong Guo <gch981213@gmail.com>, linux-staging@lists.linux.dev, 
+	Sean Wang <sean.wang@mediatek.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	"David S. Miller" <davem@davemloft.net>, Rob Herring <robh+dt@kernel.org>, 
+	Florian Fainelli <f.fainelli@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	netdev@vger.kernel.org, Frank Wunderlich <frank-w@public-files.de>, 
+	=?UTF-8?Q?Ren=C3=A9_van_Dorst?= <opensource@vdorst.com>, 
+	Weijie Gao <weijie.gao@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Vivien Didelot <vivien.didelot@gmail.com>, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH net-next 3/4] dt-bindings: net: dsa: add MT7530 interrupt
+ controller binding
+Message-ID: <20210503193541.GA2253835@robh.at.kernel.org>
+References: <20210429062130.29403-1-dqfext@gmail.com>
+ <20210429062130.29403-4-dqfext@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210429062130.29403-4-dqfext@gmail.com>
 
-On Monday, May 3, 2021 6:31:20 PM CEST Greg Kroah-Hartman wrote:
-> On Tue, Apr 27, 2021 at 05:07:19PM +0200, Fabio M. De Francesco wrote:
-> > Converted visorhba from IDR to XArray. The abstract data type XArray is
-> > more memory-efficient, parallelisable and cache friendly. It takes
-> > advantage of RCU to perform lookups without locking.
+On Thu, 29 Apr 2021 14:21:29 +0800, DENG Qingfang wrote:
+> Add device tree binding to support MT7530 interrupt controller.
 > 
-> And does any of that affect the runtime of this driver?
->
-Unfortunately, I cannot tell. I had cc'ed the maintainer at Unisys but no 
-response at all at now.
+> Signed-off-by: DENG Qingfang <dqfext@gmail.com>
+> ---
+> RFC v4 -> PATCH v1:
+> - No changes.
 > 
-> I would need this to be tested by the maintainer before I could do
-> anything, and a review from willy@ would be also appreciated as I'm
-> guessing he asked you to do this?
->
-I've contacted willy on #kernel-outreachy and said that you would appreciate a 
-review from him. I hope he can find time to see that code.
-
-Thanks,
-
-Fabio
+>  Documentation/devicetree/bindings/net/dsa/mt7530.txt | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> thanks,
-> 
-> greg k-h
 
-
-
-
+Acked-by: Rob Herring <robh@kernel.org>
