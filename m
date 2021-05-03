@@ -1,77 +1,99 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3962670
-	for <linux-staging@lists.linux.dev>; Mon,  3 May 2021 16:37:45 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DBBE3613F6;
-	Mon,  3 May 2021 16:37:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1620059864;
-	bh=XCtJfkGFbC2VRs0fahHq2Xv98B7QeAWABesY4G/UWe4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZjStaHo5QXjBgcjuKgk3s2ETUiJ5NXrUUKiq8wKXj7odzqLzoQpIGdBVkVyQ4052X
-	 wAuZgoGyVL4JyPjO/6br1slxeJd0jhdoBXAZMwn8VNT/rNlPeC+0kcSUPchLrrGDjT
-	 cUSJzaYtD31Q/NPe36JKEgfQrfdX4vwfIsht1qkgdMQB+rkErDUPmHabyyZ535uU5g
-	 TXnctt9niMGPPV0mbTDLvCuV/B/zt/FrmrvA6iKnf+SB28gwxZLfjlE7rxpPmynMiV
-	 Fx6adAsad8wdysK+G3MmZJErPLYIEh+sHF+aCq7f7DVu9jRAmFQ5jtcDJmJhYshy9E
-	 5efCsZohOeGkg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Sasha Levin <sashal@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.11 029/115] atomisp: don't let it go past pipes array
-Date: Mon,  3 May 2021 12:35:33 -0400
-Message-Id: <20210503163700.2852194-29-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210503163700.2852194-1-sashal@kernel.org>
-References: <20210503163700.2852194-1-sashal@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49CA470
+	for <linux-staging@lists.linux.dev>; Mon,  3 May 2021 16:38:03 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DE54961421;
+	Mon,  3 May 2021 16:38:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1620059882;
+	bh=FgwOJtjFCovh2pSSgcn5gjyb2W1gErUYbBBYra6B+qY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E720fjcPW794q/UQnyrNdOshzgpar64+cKHVg4hZqbCw+7bVwwyUkyk1kTU69Ghvu
+	 Pxf871kQGjthbpinZzqu7kKyA47le3kgit1sFkdhRFnIJqw8Y7PkH6Vc1MXmg+zxiz
+	 9+mdDO/XtFi4B3JdBqaj7kzKz50y20YVltAH8G0c=
+Date: Mon, 3 May 2021 18:38:00 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Phil Reid <preid@electromag.com.au>, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jan Sebastian =?iso-8859-1?Q?G=F6tte?= <linux@jaseg.net>,
+	Nishad Kamdar <nishadkamdar@gmail.com>
+Subject: Re: [PATCH v3 1/4] staging: fbtft: Rectify GPIO handling
+Message-ID: <YJAm6D2LUtVz1YNa@kroah.com>
+References: <20210428130415.55406-1-andriy.shevchenko@linux.intel.com>
+ <20210428130415.55406-2-andriy.shevchenko@linux.intel.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210428130415.55406-2-andriy.shevchenko@linux.intel.com>
 
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+On Wed, Apr 28, 2021 at 04:04:12PM +0300, Andy Shevchenko wrote:
+> The infamous commit c440eee1a7a1 ("Staging: staging: fbtft: Switch to
+> the GPIO descriptor interface") broke GPIO handling completely.
+> It has already four commits to rectify and it seems not enough.
+> In order to fix the mess here we:
+> 
+>   1) Set default to "inactive" for all requested pins
+> 
+>   2) Fix CS#, RD#, and WR# pins polarity since it's active low
+>      and GPIO descriptor interface takes it into consideration
+>      from the Device Tree or ACPI
+> 
+>   3) Consolidate chip activation (CS# assertion) under default
+>      ->reset() callback
+> 
+> To summarize the expectations about polarity for GPIOs:
+> 
+>    RD#			Low
+>    WR#			Low
+>    CS#			Low
+>    RESET#		Low
+>    DC or RS		High
+>    RW			High
+>    Data	0 .. 15		High
+> 
+> See also Adafruit learning course [1] for the example of the schematics.
+> 
+> While at it, drop unneeded NULL checks, since GPIO API is tolerant to that.
+> 
+> [1]: https://learn.adafruit.com/adafruit-2-8-and-3-2-color-tft-touchscreen-breakout-v2/downloads
+> 
+> Fixes: 92e3e884887c ("Staging: staging: fbtft: Fix GPIO handling")
+> Fixes: b918d1c27066 ("Staging: staging: fbtft: Fix reset assertion when using gpio descriptor")
+> Fixes: dbc4f989c878 ("Staging: staging: fbtft: Fix probing of gpio descriptor")
+> Fixes: c440eee1a7a1 ("Staging: staging: fbtft: Switch to the gpio descriptor interface")
 
-[ Upstream commit 1f6c45ac5fd70ab59136ab5babc7def269f3f509 ]
+I get the following error when trying to apply this:
 
-In practice, IA_CSS_PIPE_ID_NUM should never be used when
-calling atomisp_q_video_buffers_to_css(), as the driver should
-discover the right pipe before calling it.
+	Fixes tag: Fixes: 92e3e884887c ("Staging: staging: fbtft: Fix GPIO handling")
+	Has these problem(s):
+	        - Subject does not match target commit subject
+	          Just use
+		                git log -1 --format='Fixes: %h ("%s")'
+	Fixes tag: Fixes: b918d1c27066 ("Staging: staging: fbtft: Fix reset assertion when using gpio descriptor")
+	Has these problem(s):
+	        - Subject does not match target commit subject
+	          Just use
+		                git log -1 --format='Fixes: %h ("%s")'
+	Fixes tag: Fixes: dbc4f989c878 ("Staging: staging: fbtft: Fix probing of gpio descriptor")
+	Has these problem(s):
+	        - Subject does not match target commit subject
+	          Just use
+		                git log -1 --format='Fixes: %h ("%s")'
+	Fixes tag: Fixes: c440eee1a7a1 ("Staging: staging: fbtft: Switch to the gpio descriptor interface")
+	Has these problem(s):
+	        - Subject does not match target commit subject
+	          Just use
+		                git log -1 --format='Fixes: %h ("%s")'
 
-Yet, if some pipe parsing issue happens, it could end using
-it.
+Please fix up for your next version of this series.
 
-So, add a WARN_ON() to prevent such case.
+thanks,
 
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/staging/media/atomisp/pci/atomisp_fops.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index 453bb6913550..f1e6b2597853 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -221,6 +221,9 @@ int atomisp_q_video_buffers_to_css(struct atomisp_sub_device *asd,
- 	unsigned long irqflags;
- 	int err = 0;
- 
-+	if (WARN_ON(css_pipe_id >= IA_CSS_PIPE_ID_NUM))
-+		return -EINVAL;
-+
- 	while (pipe->buffers_in_css < ATOMISP_CSS_Q_DEPTH) {
- 		struct videobuf_buffer *vb;
- 
--- 
-2.30.2
-
+greg k-h
