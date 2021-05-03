@@ -1,34 +1,37 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED7E70
-	for <linux-staging@lists.linux.dev>; Mon,  3 May 2021 16:39:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 09AAD614A7;
-	Mon,  3 May 2021 16:38:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A2B970
+	for <linux-staging@lists.linux.dev>; Mon,  3 May 2021 16:39:58 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 789EE613CF;
+	Mon,  3 May 2021 16:39:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1620059940;
-	bh=XCtJfkGFbC2VRs0fahHq2Xv98B7QeAWABesY4G/UWe4=;
+	s=k20201202; t=1620059997;
+	bh=AQJ9f4ACWu1BWs9uka6D3ZPaN2EluY0pQ4R8vA/fE8E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RPZZ0+4y6OsHmIVBxzQm5SYuwnXCG9at++vk0c8+quK8ELvSVazthjuHOvQNhGxAM
-	 wWqx25iV7v5Mv1Q2OpWu9MN9uUYp+f+FWoaLCJHJaY9FV8itxHKGb2IVBu68Xc3ALu
-	 XtzMTYvfxxnMb3oyptlAx4aWroMUZtmZ6AjCL/vGypoqY+hoQYwPb7VQR8Ig/X6IZY
-	 1I9Uel/7anlJPEJ4IvnJ3SDZZHyH4id3FS9Dk4BQTYWgEkN3tFbBoesGoyN5V9aMWA
-	 rv0JKQK3NGUKokmu9AdG3F4S1DY6QcZFpV6AyLn4dvr9emOypcdo3NHapRDGASwZQv
-	 +1GnjNYztWZeA==
+	b=CEE/gm44lHQAKOI7NoZ0wgUfCW+nuLMld8ZmZL8s38n6uzIZklmBlfI3m1N3cCvLH
+	 pe+HbAb2spN0u7+N3rCdnskNA2He34IVNugEAHxTR2F3/wPs/ZvHGYE0fUwGxFaHtv
+	 9nYmry/KbY6+jX/jNKQzaamP0OWqW/hAzAKCsEiITvYq3bYQydY1ZwcTm6WQmb8UK9
+	 VBJwv386YOQV4jM1hbVJ2R/exuYF8fUA4s825cC26ADSicBWS4CGoU+xhSWTUWoeVQ
+	 fpIuTxO4fP/zhU6rfO1SLtwfRBrYZ6CKB9YzApm8Nwa35ocJ/eZWCPFR+WupYOKRcJ
+	 0sCx9bnZdnrIA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.10 020/100] atomisp: don't let it go past pipes array
-Date: Mon,  3 May 2021 12:37:09 -0400
-Message-Id: <20210503163829.2852775-20-sashal@kernel.org>
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.4 10/57] media: imx: capture: Return -EPIPE from __capture_legacy_try_fmt()
+Date: Mon,  3 May 2021 12:38:54 -0400
+Message-Id: <20210503163941.2853291-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210503163829.2852775-1-sashal@kernel.org>
-References: <20210503163829.2852775-1-sashal@kernel.org>
+In-Reply-To: <20210503163941.2853291-1-sashal@kernel.org>
+References: <20210503163941.2853291-1-sashal@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -38,40 +41,37 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-[ Upstream commit 1f6c45ac5fd70ab59136ab5babc7def269f3f509 ]
+[ Upstream commit cc271b6754691af74d710b761eaf027e3743e243 ]
 
-In practice, IA_CSS_PIPE_ID_NUM should never be used when
-calling atomisp_q_video_buffers_to_css(), as the driver should
-discover the right pipe before calling it.
+The correct return code to report an invalid pipeline configuration is
+-EPIPE. Return it instead of -EINVAL from __capture_legacy_try_fmt()
+when the capture format doesn't match the media bus format of the
+connected subdev.
 
-Yet, if some pipe parsing issue happens, it could end using
-it.
-
-So, add a WARN_ON() to prevent such case.
-
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/atomisp/pci/atomisp_fops.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/staging/media/imx/imx-media-capture.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index 453bb6913550..f1e6b2597853 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -221,6 +221,9 @@ int atomisp_q_video_buffers_to_css(struct atomisp_sub_device *asd,
- 	unsigned long irqflags;
- 	int err = 0;
+diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
+index d151cd6d3188..fabbfceaa107 100644
+--- a/drivers/staging/media/imx/imx-media-capture.c
++++ b/drivers/staging/media/imx/imx-media-capture.c
+@@ -553,7 +553,7 @@ static int capture_validate_fmt(struct capture_priv *priv)
+ 		priv->vdev.fmt.fmt.pix.height != f.fmt.pix.height ||
+ 		priv->vdev.cc->cs != cc->cs ||
+ 		priv->vdev.compose.width != compose.width ||
+-		priv->vdev.compose.height != compose.height) ? -EINVAL : 0;
++		priv->vdev.compose.height != compose.height) ? -EPIPE : 0;
+ }
  
-+	if (WARN_ON(css_pipe_id >= IA_CSS_PIPE_ID_NUM))
-+		return -EINVAL;
-+
- 	while (pipe->buffers_in_css < ATOMISP_CSS_Q_DEPTH) {
- 		struct videobuf_buffer *vb;
- 
+ static int capture_start_streaming(struct vb2_queue *vq, unsigned int count)
 -- 
 2.30.2
 
