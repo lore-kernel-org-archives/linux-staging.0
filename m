@@ -1,53 +1,51 @@
-Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A3071
-	for <linux-staging@lists.linux.dev>; Mon,  3 May 2021 07:52:12 +0000 (UTC)
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-	by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1437jMNF018781;
-	Mon, 3 May 2021 07:52:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=zBKsoyvZW42pljgNs2qIOF6TztDTbsqax0iQzIQWQUA=;
- b=yUqgnws0j4V4SB8rzdQo3YX4/yDHcZkhc6lTKW2dLQiT4EwSZOrMucjwJXHlKzsyYOoA
- r8y5OvXgq6HcAlFidsg0oqkOO46l6gf1olWN7PakQKEuPq+mgMkZNyWGZxpovvUr6U+D
- amaxd2CdCm38i6Laj6UFJLcM2ZltBi0nexBgZBPDWXrqPfgjbbCBMeFL34hiP50jBpeN
- OBASlnDXRt4bErOqDCIMSiuw4QI3NgjRUtoooQVvYxdLo6iZ1Dqg2MQo5WTifCRRS3YN
- qWzlTCunspvqwASazpx3zrOjk5L7sl/m5uRpLU3zw9O+SOzT3/qNVIqCEEOA0qbjrjSG /w== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by aserp2130.oracle.com with ESMTP id 388vgbjv5m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 03 May 2021 07:52:10 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1437kAQk177548;
-	Mon, 3 May 2021 07:52:09 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3020.oracle.com with ESMTP id 388xt1yrb6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 03 May 2021 07:52:09 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 1437q9BX001907;
-	Mon, 3 May 2021 07:52:09 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by aserp3020.oracle.com with ESMTP id 388xt1yrar-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 03 May 2021 07:52:09 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 1437q7rc014521;
-	Mon, 3 May 2021 07:52:08 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Mon, 03 May 2021 00:52:07 -0700
-Date: Mon, 3 May 2021 10:52:01 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1572271
+	for <linux-staging@lists.linux.dev>; Mon,  3 May 2021 08:17:22 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id gx5so6561328ejb.11
+        for <linux-staging@lists.linux.dev>; Mon, 03 May 2021 01:17:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=77KhqXo0QBF6RGlrN2kWUFurTxeMNqFSVmZ+axu4LH4=;
+        b=XWUyiZ/d1bfkT4UVXLKP0F6Bzhkk1iNKw4YzflzImtzvlFX0MVaV3BCoIgm31oTVtR
+         QXhrgbukVy7OOpCX+IFhYn88Gk/XphHok0cHLs3lPqo34LfvYfA5WiLRyJ93m1EG+Aov
+         LF/V8mYCKzS4fQqM5bnDKcX8lQoRnpAPfMQ0eDhTzOTxyOnMMNA2Vjx7/yNGrszLMtP7
+         +hI/WiddkeU5SOmJWzCl7QbHwwjI4BANabbk6MrrKZWwBBJF36UsbXAjq1BjwJm0Yd0k
+         QXWAtpUUCZAQettHCAaU5dHj4CNVBU6OyezKEewIFrzq66yZCga3Rn9pbq2bbnTiMJPE
+         0/6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=77KhqXo0QBF6RGlrN2kWUFurTxeMNqFSVmZ+axu4LH4=;
+        b=Q5x8bNH0x/S7AvCziP/3uPFxajQdqB/DBPJXy1b2xQAIRKB3c6DQIt2OVIDvpI5lPN
+         MTOcHbrJqkrmp0GS2Q35Pyu2MRsTPmqaRkTxe8qAl88+23hVbWwpzpUffa2wu1eQDVxl
+         stcOcGXaCPdSM/ihtIA7TA5LVex0rz6svqtsnMjZAv0nQRLyYlfYHO5lHhwi5zdqDGG8
+         gJ5qB83ad0tGS/wdsn7faH31JBV1XCMyiX7AdwIKQRvQw7xPmvzbxumWp5FxjACJvHaG
+         BwnN+Hh/M5gMP2sEy/UNcTmXSnPWwchH3RD1boqObuu9uZif29jm1oGfTj8aF4P05sfn
+         VULA==
+X-Gm-Message-State: AOAM530VY0eCYuR5RDBSwkyJWu0nNPB9FGTce0uwi9HAwXoiMVmVpl9p
+	O4vyskTCdBUXNPpNuUO1a56n9XXAxB7TFA==
+X-Google-Smtp-Source: ABdhPJxOwXppQuGqR19R1WbSVbXwft+mGphzpQfBtxabOL+mXgAWCEcHN5YC2U6VdycUTGeCH0aCgg==
+X-Received: by 2002:a17:907:3e06:: with SMTP id hp6mr15539540ejc.273.1620029840676;
+        Mon, 03 May 2021 01:17:20 -0700 (PDT)
+Received: from agape.jhs ([5.171.72.252])
+        by smtp.gmail.com with ESMTPSA id r10sm10829843ejd.112.2021.05.03.01.17.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 May 2021 01:17:20 -0700 (PDT)
+Date: Mon, 3 May 2021 10:17:18 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
 Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v3 00/43] staging: rtl8723bs: clean up driver from
  private debug facilities
-Message-ID: <20210503075201.GN1981@kadam>
+Message-ID: <20210503081717.GA8953@agape.jhs>
 References: <cover.1619794331.git.fabioaiuto83@gmail.com>
+ <20210503075201.GN1981@kadam>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -55,21 +53,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1619794331.git.fabioaiuto83@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: 1cXt8HEsCmoFpCR9e9O7Y0XmoAVxWH-b
-X-Proofpoint-ORIG-GUID: 1cXt8HEsCmoFpCR9e9O7Y0XmoAVxWH-b
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9972 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 mlxlogscore=999
- suspectscore=0 priorityscore=1501 phishscore=0 malwarescore=0
- impostorscore=0 clxscore=1015 bulkscore=0 spamscore=0 adultscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2105030051
+In-Reply-To: <20210503075201.GN1981@kadam>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Looks good.
+On Mon, May 03, 2021 at 10:52:01AM +0300, Dan Carpenter wrote:
+> Looks good.
+> 
+> Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+> 
+> regards,
+> dan carpenter
+> 
 
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+thanks Dan,
 
-regards,
-dan carpenter
+when a tag is offered this way, am I supposed to resend the patchset with
+the offered tag added on or it's just a tag which Greg is going to add when
+accept all in his tree?
 
+thank you in advance,
+
+fabio
