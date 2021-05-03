@@ -1,24 +1,24 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2EFB2F80
-	for <linux-staging@lists.linux.dev>; Mon,  3 May 2021 17:21:21 +0000 (UTC)
-IronPort-SDR: 1bQh2BlvuCjLULhCvCpN2XLNTb8NzROu3XO6C+tTRkEM06un+/CGqMDoA3Hk4F4sgkoW7YGOWF
- 0UGsp9xN7SOA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9973"; a="218587848"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9AF2F81
+	for <linux-staging@lists.linux.dev>; Mon,  3 May 2021 17:21:22 +0000 (UTC)
+IronPort-SDR: GhfZKkcKX7Pk5olheZNojjmPUwhZM9O3fe9AlHHFAJwxHzTjUMxk4a2wAnDuzg94DLwG+kc777
+ 5ROxqceVUsKA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9973"; a="197407592"
 X-IronPort-AV: E=Sophos;i="5.82,270,1613462400"; 
-   d="scan'208";a="218587848"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2021 10:21:02 -0700
-IronPort-SDR: VrOy76AmqL4T0zx2YUWVBg0Fv1E91Qppz4mp+c/5r3/3lWJQrPK0ypGqdfbZu+NHR3lcBMLMk6
- nr5JcqrYUv0Q==
+   d="scan'208";a="197407592"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2021 10:21:03 -0700
+IronPort-SDR: nlS4Frt1SdF8kCykuPTDbddhTHcV1QLR3BF/vtEqPMuajwN2ShenForDcwU71gV7p98WRLf5Rz
+ 02PKb9a+94qw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.82,270,1613462400"; 
-   d="scan'208";a="450456779"
+   d="scan'208";a="618062686"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga004.fm.intel.com with ESMTP; 03 May 2021 10:21:00 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 03 May 2021 10:21:01 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id AA8C414B; Mon,  3 May 2021 20:21:19 +0300 (EEST)
+	id DEEFD2E4; Mon,  3 May 2021 20:21:19 +0300 (EEST)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Phil Reid <preid@electromag.com.au>,
@@ -27,63 +27,81 @@ To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v4 0/5] staging: fbtft: Fixing GPIO handling issues
-Date: Mon,  3 May 2021 20:21:09 +0300
-Message-Id: <20210503172114.27891-1-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v4 3/5] staging: fbtft: Add support for orientation on Himax HX8347d
+Date: Mon,  3 May 2021 20:21:12 +0300
+Message-Id: <20210503172114.27891-4-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210503172114.27891-1-andriy.shevchenko@linux.intel.com>
+References: <20210503172114.27891-1-andriy.shevchenko@linux.intel.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This series fixes a number of GPIO handling issues after converting this driver
-to use descriptors.
+Himax HX8347d has non-standard register to control orientation.
+Add support for different orientation values.
 
-The series has been tested on HX8347d display with parallel interface. Without
-first patch it's not working.
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/staging/fbtft/fb_hx8347d.c | 29 ++++++++++++++++++++++++++---
+ 1 file changed, 26 insertions(+), 3 deletions(-)
 
-In v4:
-- fixed Fixes tags (Greg)
-- added return statement to dev_err_probe() (Dan)
-- new patch to support orientation on HX8347d
-
-In v3:
-- added staging prefix (Fabio)
-- slightly amended commit message in the patch 1
-- added Rb tag (Phil)
-- dropped Fixes tag from the patch 2 (Greg)
-
-Andy Shevchenko (5):
-  staging: fbtft: Rectify GPIO handling
-  staging: fbtft: Don't spam logs when probe is deferred
-  staging: fbtft: Add support for orientation on Himax HX8347d
-  staging: fbtft: Replace custom ->reset() with generic one
-  staging: fbtft: Update TODO
-
- drivers/staging/fbtft/TODO             |  5 -----
- drivers/staging/fbtft/fb_agm1264k-fl.c | 30 +++++++-------------------
- drivers/staging/fbtft/fb_bd663474.c    |  4 ----
- drivers/staging/fbtft/fb_hx8347d.c     | 29 ++++++++++++++++++++++---
- drivers/staging/fbtft/fb_ili9163.c     |  4 ----
- drivers/staging/fbtft/fb_ili9320.c     |  1 -
- drivers/staging/fbtft/fb_ili9325.c     |  4 ----
- drivers/staging/fbtft/fb_ili9340.c     |  1 -
- drivers/staging/fbtft/fb_s6d1121.c     |  4 ----
- drivers/staging/fbtft/fb_sh1106.c      |  1 -
- drivers/staging/fbtft/fb_ssd1289.c     |  4 ----
- drivers/staging/fbtft/fb_ssd1325.c     |  2 --
- drivers/staging/fbtft/fb_ssd1331.c     |  6 ++----
- drivers/staging/fbtft/fb_ssd1351.c     |  1 -
- drivers/staging/fbtft/fb_upd161704.c   |  4 ----
- drivers/staging/fbtft/fb_watterott.c   |  1 -
- drivers/staging/fbtft/fbtft-bus.c      |  3 +--
- drivers/staging/fbtft/fbtft-core.c     | 25 +++++++++------------
- drivers/staging/fbtft/fbtft-io.c       | 12 +++++------
- 19 files changed, 53 insertions(+), 88 deletions(-)
-
+diff --git a/drivers/staging/fbtft/fb_hx8347d.c b/drivers/staging/fbtft/fb_hx8347d.c
+index 37eaf0862c5b..a9b72a8b42b5 100644
+--- a/drivers/staging/fbtft/fb_hx8347d.c
++++ b/drivers/staging/fbtft/fb_hx8347d.c
+@@ -68,9 +68,6 @@ static int init_display(struct fbtft_par *par)
+ 	mdelay(40);
+ 	write_reg(par, 0x28, 0x3C);
+ 
+-	/* orientation */
+-	write_reg(par, 0x16, 0x60 | (par->bgr << 3));
+-
+ 	return 0;
+ }
+ 
+@@ -87,6 +84,31 @@ static void set_addr_win(struct fbtft_par *par, int xs, int ys, int xe, int ye)
+ 	write_reg(par, 0x22);
+ }
+ 
++#define MEM_Y   BIT(7) /* MY row address order */
++#define MEM_X   BIT(6) /* MX column address order */
++#define MEM_V   BIT(5) /* MV row / column exchange */
++#define MEM_L   BIT(4) /* ML vertical refresh order */
++#define MEM_BGR (3) /* RGB-BGR Order */
++static int set_var(struct fbtft_par *par)
++{
++	switch (par->info->var.rotate) {
++	case 0:
++		write_reg(par, 0x16, MEM_V | MEM_X | (par->bgr << MEM_BGR));
++		break;
++	case 270:
++		write_reg(par, 0x16, par->bgr << MEM_BGR);
++		break;
++	case 180:
++		write_reg(par, 0x16, MEM_V | MEM_Y | (par->bgr << MEM_BGR));
++		break;
++	case 90:
++		write_reg(par, 0x16, MEM_X | MEM_Y | (par->bgr << MEM_BGR));
++		break;
++	}
++
++	return 0;
++}
++
+ /*
+  * Gamma string format:
+  *   VRP0 VRP1 VRP2 VRP3 VRP4 VRP5 PRP0 PRP1 PKP0 PKP1 PKP2 PKP3 PKP4 CGM
+@@ -144,6 +166,7 @@ static struct fbtft_display display = {
+ 	.fbtftops = {
+ 		.init_display = init_display,
+ 		.set_addr_win = set_addr_win,
++		.set_var = set_var,
+ 		.set_gamma = set_gamma,
+ 	},
+ };
 -- 
 2.30.2
 
