@@ -1,49 +1,77 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695BB70
-	for <linux-staging@lists.linux.dev>; Mon,  3 May 2021 16:31:23 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 43E1861166;
-	Mon,  3 May 2021 16:31:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1620059482;
-	bh=1fPJCR4+ZH8ePNHERcYZgNQvKEqZ1nRY9pSzh2KTnJs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Qbe8Am5l+ixtc+C3MF1ygCkEZ5ujn4HLGP0thqb9VBFrt7qkymu4N6zPSSzBc1Zr2
-	 M0ZvpzSgGhbE9HLIZtmUNkjHwNe7dj8qXXWfyZNklaWKcXvPNWzBF/7ICbOerAMn9q
-	 bqJ3iDMsZ+G61sGihrKeqsUMNUzWVne5B/2NEgwc=
-Date: Mon, 3 May 2021 18:31:20 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: outreachy-kernel@googlegroups.com,
-	David Kershner <david.kershner@unisys.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [Outreachy kernel] [PATCH v5] staging: unisys: visorhba: Convert
- module from IDR to XArray
-Message-ID: <YJAlWJXDnK9KLg2H@kroah.com>
-References: <20210427150719.30841-1-fmdefrancesco@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4A070
+	for <linux-staging@lists.linux.dev>; Mon,  3 May 2021 16:36:03 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7554F613C1;
+	Mon,  3 May 2021 16:36:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1620059762;
+	bh=308qQXQhSWXSTdVFU1aE1Ow89JdTwneYMum15svZK/o=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=WpRk9mwcWb2c+Ki490vzxo6Gr/4aKSXd2BXmBIysro3Q5Xcty0z4ZItaSpMjXm8r0
+	 x6O5IVngG7uPmQUczpy7Q1oaRJcnuNLvHchjRSVR/xENtyU2SOtEsWqcne2EvHBlpN
+	 9WsPblmyBolH8lX8wO0cihdaFOXRb/urdNxM3XPpJ+9RN93MZ2JUbewejgjdFd5VYy
+	 lKTDnynruipe1X5KVXVXpYWcs/K4FiDiWJFXm0MLVHN5ZlGhLqjOxD9HI7rVROheKp
+	 01DZhXHaIwLbWnoJmOtDYzFYfjCWsYiv1xeK6cTobcyEujG05xEX0dlXZ3FekLJLbO
+	 D8RnBKgrNCC1w==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.12 031/134] media: imx: capture: Return -EPIPE from __capture_legacy_try_fmt()
+Date: Mon,  3 May 2021 12:33:30 -0400
+Message-Id: <20210503163513.2851510-31-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210503163513.2851510-1-sashal@kernel.org>
+References: <20210503163513.2851510-1-sashal@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210427150719.30841-1-fmdefrancesco@gmail.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 27, 2021 at 05:07:19PM +0200, Fabio M. De Francesco wrote:
-> Converted visorhba from IDR to XArray. The abstract data type XArray is
-> more memory-efficient, parallelisable and cache friendly. It takes
-> advantage of RCU to perform lookups without locking.
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-And does any of that affect the runtime of this driver?
+[ Upstream commit cc271b6754691af74d710b761eaf027e3743e243 ]
 
-I would need this to be tested by the maintainer before I could do
-anything, and a review from willy@ would be also appreciated as I'm
-guessing he asked you to do this?
+The correct return code to report an invalid pipeline configuration is
+-EPIPE. Return it instead of -EINVAL from __capture_legacy_try_fmt()
+when the capture format doesn't match the media bus format of the
+connected subdev.
 
-thanks,
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/staging/media/imx/imx-media-capture.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-greg k-h
+diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
+index e10ce103a5b4..94a0467d673b 100644
+--- a/drivers/staging/media/imx/imx-media-capture.c
++++ b/drivers/staging/media/imx/imx-media-capture.c
+@@ -557,7 +557,7 @@ static int capture_validate_fmt(struct capture_priv *priv)
+ 		priv->vdev.fmt.fmt.pix.height != f.fmt.pix.height ||
+ 		priv->vdev.cc->cs != cc->cs ||
+ 		priv->vdev.compose.width != compose.width ||
+-		priv->vdev.compose.height != compose.height) ? -EINVAL : 0;
++		priv->vdev.compose.height != compose.height) ? -EPIPE : 0;
+ }
+ 
+ static int capture_start_streaming(struct vb2_queue *vq, unsigned int count)
+-- 
+2.30.2
+
