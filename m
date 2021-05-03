@@ -1,92 +1,134 @@
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0C870
-	for <linux-staging@lists.linux.dev>; Mon,  3 May 2021 17:37:12 +0000 (UTC)
-Received: by mail-oi1-f171.google.com with SMTP id k25so6156459oic.4
-        for <linux-staging@lists.linux.dev>; Mon, 03 May 2021 10:37:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=1t1KFawxYQnhUD83BXZON5c+I9V+6Zm5vY5OwXhyWio=;
-        b=kA5Kuz7NATBEr8XwwT8JD+RGGvAQ5TGvjuTr9YOBmGqJasqgukewX0AhaQKXLGgjMg
-         /iMEC4zweiCWDjmfCuseq+UeugkRUSN05I3DxnVNoIfh6CXWTBC5de8EiUnE1oBtCSKR
-         kkGJYkVZ++HOnlOJhtyQF1wez4smdPHk7ZvSUun0+AOyb74yA6XdY7g/x3NcV2qHw4sA
-         xIypnPvH5L9Fsr0bk/xPkwWwG6VOeTZiq/3sMiLuYLoeSsvx8BHRi9lMRlrXJrMIpjNM
-         qFfIHxUJi7SxypwqmEh9DAgWgIANiRcFoldj3lA5FM/Rm+n/mzALumHmkINw8mnY6d02
-         WGjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=1t1KFawxYQnhUD83BXZON5c+I9V+6Zm5vY5OwXhyWio=;
-        b=Cjp+odBOidDfl7GeF/AUQr6Piz5WXvvc0NVou2qAFTn9DaJW7fl3ai+h2d52kr69AW
-         sP41rCPIX6egxMfmbOjwoIRHtvDTWZEfI8ES/Or2Lxgbl850OeodUcu86DgQAJmu1g9W
-         weza+t9hctSArzBfKrGA8BZP0nGvfWjlWBkYBxhL4A0cQmf4dc4GGYOvtp+CXBcRZGQH
-         pqs9lMkKTkqFV0wz5nCIL61zmme8oDPFwlF+NDs3miyfUM/ILwvpA+qfLa+uof3AEZxI
-         A5MNecIKUe3uCytMg5Lez274kTPNguSq8bMYDe7T+cy68h/Z7DbhOZaJ0T5BFVDRdARp
-         Tyzg==
-X-Gm-Message-State: AOAM533QyEJwRfbfWVSRmWRYxjgR9qS4N8qFT5qisTwYV3Xs2dabqqlO
-	Xrs2hRhgmlMHSEdRBYxATFY=
-X-Google-Smtp-Source: ABdhPJyp3wlyDlW4UUKIwWYd8l9YfM1NC1KgaDjlaiLDTq3BB4YMrQJd35a/4q2fRpFNW0JftaLy8w==
-X-Received: by 2002:aca:4c58:: with SMTP id z85mr2894675oia.46.1620063431457;
-        Mon, 03 May 2021 10:37:11 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id p189sm95372oif.31.2021.05.03.10.37.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 May 2021 10:37:11 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: Use list iterators and helpers
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20210428173301.149619-1-linux@roeck-us.net>
- <YJApQTRSEWUuR4qd@kroah.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Message-ID: <c317df15-1414-3765-1040-4938a9a48776@roeck-us.net>
-Date: Mon, 3 May 2021 10:37:09 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1296E70
+	for <linux-staging@lists.linux.dev>; Mon,  3 May 2021 18:27:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=glt/cPP/fwoiLZAKN8q4fKpIiWmgqcVElTx4ldgtY9I=; b=nSnAGfJwVU17YjZ0fYYRQa/Gwa
+	hiK5SHRQoaI0ffOzHpYS4poQMqa+fx9Gr6LCXrAIAfA8ue08iHfpBdI+bXN5R89EdGaoEbw/GIekP
+	f1JM0tpQloj3aMnJcQ+f+Bx0GNjHuCAt3WUU7NPuPzJl6lm3PiZzj9FkYH2xvFP6lE+82CvmOiqhu
+	QDsZdkNXtKwlAuvFjVfAmFE72ID85MYAkvsHnq80jYWPwbgnuF2IjCYZbEKRORoLaF+UqSHyE+q4w
+	OS536RsOWxnO212Aj3zkAZ1w+0kPwATKuTD/yX3p7HKtDrnNwACkGIO0QR+cBQS3uFUO17aAvro3L
+	BtczUkTg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+	id 1lddH3-00FTZ2-Au; Mon, 03 May 2021 18:26:40 +0000
+Date: Mon, 3 May 2021 19:26:29 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: outreachy-kernel@googlegroups.com,
+	David Kershner <david.kershner@unisys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [Outreachy kernel] [PATCH v5] staging: unisys: visorhba: Convert
+ module from IDR to XArray
+Message-ID: <20210503182629.GE1847222@casper.infradead.org>
+References: <20210427150719.30841-1-fmdefrancesco@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YJApQTRSEWUuR4qd@kroah.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210427150719.30841-1-fmdefrancesco@gmail.com>
 
-On 5/3/21 9:48 AM, Greg Kroah-Hartman wrote:
-> On Wed, Apr 28, 2021 at 10:33:01AM -0700, Guenter Roeck wrote:  
->> diff --git a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
->> index 85663182b388..9cb2c7a112d2 100644
->> --- a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
->> +++ b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
->> @@ -124,11 +124,8 @@ void kfree_all_stainfo(struct sta_priv *pstapriv)
->>  	spin_lock_bh(&pstapriv->sta_hash_lock);
->>  
->>  	phead = get_list_head(&pstapriv->free_sta_queue);
->> -	plist = get_next(phead);
->> -
->> -	while (phead != plist) {
->> -		psta = container_of(plist, struct sta_info, list);
->> -		plist = get_next(plist);
->> +	list_for_each(plist, phead) {
->> +		psta = list_entry(plist, struct sta_info, list);
->>  	}
->>  
->>  	spin_unlock_bh(&pstapriv->sta_hash_lock);
-> 
-> 
-> This chunk didn't apply to my tree as someone else cleaned something in
-> this function.
-> 
-> But that doesn't even really matter as this function does nothing at
-> all!
-> 
+On Tue, Apr 27, 2021 at 05:07:19PM +0200, Fabio M. De Francesco wrote:
+> Converted visorhba from IDR to XArray. The abstract data type XArray is
+> more memory-efficient, parallelisable and cache friendly. It takes
+> advantage of RCU to perform lookups without locking.
 
-You are correct. Weird.
+I think the commit message could use a little more work.  The advantage
+of the XArray over the IDR is that it has a better API (and the IDR
+interface is deprecated).
 
-Guenter
+> -static void setup_scsitaskmgmt_handles(struct idr *idrtable, spinlock_t *lock,
+> -				       struct uiscmdrsp *cmdrsp,
+> +static void setup_scsitaskmgmt_handles(struct xarray *xa, struct uiscmdrsp *cmdrsp,
+>  				       wait_queue_head_t *event, int *result)
+>  {
+> -	/* specify the event that has to be triggered when this */
+> -	/* cmd is complete */
+> -	cmdrsp->scsitaskmgmt.notify_handle =
+> -		simple_idr_get(idrtable, event, lock);
+> -	cmdrsp->scsitaskmgmt.notifyresult_handle =
+> -		simple_idr_get(idrtable, result, lock);
+> +	int ret;
+> +	u32 id;
+> +
+> +	/* specify the event that has to be triggered when this cmd is complete */
+> +	ret = xa_alloc_irq(xa, &id, event, XA_LIMIT(1, INT_MAX), GFP_KERNEL);
+> +	if (ret == 0)
+> +		cmdrsp->scsitaskmgmt.notify_handle = id;
+> +	ret = xa_alloc_irq(xa, &id, result, XA_LIMIT(1, INT_MAX), GFP_KERNEL);
+> +	if (ret == 0)
+> +		cmdrsp->scsitaskmgmt.notifyresult_handle = id;
+>  }
+
+I think there's a preexisting bug here that you haven't fixed ;-)
+
+Think through the failure case -- if we fail to allocate an ID, then we
+can't send the command, because it won't be able to notify on completion.
+So I'd start out by making this function return an int (0 on success,
+errno on failure).  Then if the first one succeeds and the second fails,
+free the first one before returning an error.
+
+>  /*
+>   * cleanup_scsitaskmgmt_handles - Forget handles created by
+>   *				  setup_scsitaskmgmt_handles()
+> - * @idrtable: The data object maintaining the pointer<-->int mappings
+> + * @xa: The data object maintaining the pointer<-->int mappings
+>   * @cmdrsp:   Response from the IOVM
+>   */
+> -static void cleanup_scsitaskmgmt_handles(struct idr *idrtable,
+> +static void cleanup_scsitaskmgmt_handles(struct xarray *xa,
+>  					 struct uiscmdrsp *cmdrsp)
+>  {
+>  	if (cmdrsp->scsitaskmgmt.notify_handle)
+> -		idr_remove(idrtable, cmdrsp->scsitaskmgmt.notify_handle);
+> +		xa_erase(xa, cmdrsp->scsitaskmgmt.notify_handle);
+>  	if (cmdrsp->scsitaskmgmt.notifyresult_handle)
+> -		idr_remove(idrtable, cmdrsp->scsitaskmgmt.notifyresult_handle);
+> +		xa_erase(xa, cmdrsp->scsitaskmgmt.notifyresult_handle);
+>  }
+
+These can then be unconditional, because cleanup_scsitaskmgmt_handles()
+won't get called unless we sent the command.
+
+>  /*
+> @@ -284,8 +257,7 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
+>  
+>  	/* issue TASK_MGMT_ABORT_TASK */
+>  	cmdrsp->cmdtype = CMD_SCSITASKMGMT_TYPE;
+> -	setup_scsitaskmgmt_handles(&devdata->idr, &devdata->privlock, cmdrsp,
+> -				   &notifyevent, &notifyresult);
+> +	setup_scsitaskmgmt_handles(&devdata->xa, cmdrsp, &notifyevent, &notifyresult);
+
+This needs to check the result from setup() and decline to send the
+command if it fails.
+
+>  	/* save destination */
+>  	cmdrsp->scsitaskmgmt.tasktype = tasktype;
+> @@ -311,14 +283,14 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
+>  	dev_dbg(&scsidev->sdev_gendev,
+>  		"visorhba: taskmgmt type=%d success; result=0x%x\n",
+>  		 tasktype, notifyresult);
+> -	cleanup_scsitaskmgmt_handles(&devdata->idr, cmdrsp);
+> +	cleanup_scsitaskmgmt_handles(&devdata->xa, cmdrsp);
+>  	return SUCCESS;
+>  
+>  err_del_scsipending_ent:
+>  	dev_dbg(&scsidev->sdev_gendev,
+>  		"visorhba: taskmgmt type=%d not executed\n", tasktype);
+>  	del_scsipending_ent(devdata, scsicmd_id);
+> -	cleanup_scsitaskmgmt_handles(&devdata->idr, cmdrsp);
+> +	cleanup_scsitaskmgmt_handles(&devdata->xa, cmdrsp);
+
+... be sure not to call cleanup() on that path, though.
+
+>  	return FAILED;
+>  }
+>  
