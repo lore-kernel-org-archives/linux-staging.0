@@ -1,134 +1,83 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1296E70
-	for <linux-staging@lists.linux.dev>; Mon,  3 May 2021 18:27:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=glt/cPP/fwoiLZAKN8q4fKpIiWmgqcVElTx4ldgtY9I=; b=nSnAGfJwVU17YjZ0fYYRQa/Gwa
-	hiK5SHRQoaI0ffOzHpYS4poQMqa+fx9Gr6LCXrAIAfA8ue08iHfpBdI+bXN5R89EdGaoEbw/GIekP
-	f1JM0tpQloj3aMnJcQ+f+Bx0GNjHuCAt3WUU7NPuPzJl6lm3PiZzj9FkYH2xvFP6lE+82CvmOiqhu
-	QDsZdkNXtKwlAuvFjVfAmFE72ID85MYAkvsHnq80jYWPwbgnuF2IjCYZbEKRORoLaF+UqSHyE+q4w
-	OS536RsOWxnO212Aj3zkAZ1w+0kPwATKuTD/yX3p7HKtDrnNwACkGIO0QR+cBQS3uFUO17aAvro3L
-	BtczUkTg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-	id 1lddH3-00FTZ2-Au; Mon, 03 May 2021 18:26:40 +0000
-Date: Mon, 3 May 2021 19:26:29 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: outreachy-kernel@googlegroups.com,
-	David Kershner <david.kershner@unisys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [Outreachy kernel] [PATCH v5] staging: unisys: visorhba: Convert
- module from IDR to XArray
-Message-ID: <20210503182629.GE1847222@casper.infradead.org>
-References: <20210427150719.30841-1-fmdefrancesco@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4DCD71
+	for <linux-staging@lists.linux.dev>; Mon,  3 May 2021 18:41:08 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id bf4so7478211edb.11
+        for <linux-staging@lists.linux.dev>; Mon, 03 May 2021 11:41:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=I/n/q/aelXMf9mgaQMQLtrJKcudG4Wd5KNGsIllPB90=;
+        b=Gg9Y3N2Fdb9DyHwiymNwYxOiruKJLzHaTEC41rI3N1IC6KvUtL++MANcceqK2VR90S
+         XZs+XpbOIcz5v22bn8WiIRypSN/4WR2AK0HzNE305WZrTTU5j8h72SlE9vXSmtAgos4W
+         d1lgJ/G5UT2KvsDmDf05tDhMLWJiNfLOwwwq8IwqzUs2cZkbvIqoqMYPlpMYTZ2nwUqZ
+         dwjuOZKkg5JoJBhqf+ZhTpy5zGLDnGn4oc2OprEqiDZ/WaG9UAL+LzLFWcAgelJIl/fX
+         83GAWF0aYfTMnQMiqgWop9O4tnuai5PmWSfhFNrC90d2llUsXl3Jxh1RPdwmOIc2MPdp
+         1yPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=I/n/q/aelXMf9mgaQMQLtrJKcudG4Wd5KNGsIllPB90=;
+        b=gUbTmlh9ylGnWmgxuAOML06QhdAJ2uD7lrD4p+nK9gzxMcuTIxLE0msJQ/4eznayCV
+         ulsMdqa7H/cucg+nOgo+l1PARQpR2TH/zegDbWGspkuAJ1TjPiO7uZsEt799mn3c5RIP
+         QFdFpPyoj5csYJ7+xT/JM+YfhqMh9lhhGulNqXYufB3r+vXfQxA8bszFUiL25CCuVxct
+         imHr22WlPkF238m+kybGBtSzQm/LDHD09wv/36mW5JMnhRpYc7gtqp+9dB0KsTUk7gEF
+         jfOgFftb3vq3vrgh7bJQGQc+oVx0Xc6/naIGZ6uGi189a3gBhcpOuIbhKhwMOqwIq61G
+         TbdQ==
+X-Gm-Message-State: AOAM532priIfMwTRXBn6M4RZP5C5mD/lyIvXwugdc/IXpNqdGzMvCV+D
+	H+bjIJBdSXm11/Bom+K5v78=
+X-Google-Smtp-Source: ABdhPJyBymSS+DOEhj25VtSpyczjlx/GZKWCAj3qYvY45dyrc3K6vl7VfIlPvi19ijH1G5MonBF3Uw==
+X-Received: by 2002:a50:d782:: with SMTP id w2mr21487090edi.346.1620067267238;
+        Mon, 03 May 2021 11:41:07 -0700 (PDT)
+Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
+        by smtp.gmail.com with ESMTPSA id rs8sm243938ejb.17.2021.05.03.11.41.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 May 2021 11:41:06 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: outreachy-kernel@googlegroups.com, David Kershner <david.kershner@unisys.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [Outreachy kernel] [PATCH v5] staging: unisys: visorhba: Convert module from IDR to XArray
+Date: Mon, 03 May 2021 20:41:05 +0200
+Message-ID: <2381635.6tjctmx4mM@linux.local>
+In-Reply-To: <YJAlWJXDnK9KLg2H@kroah.com>
+References: <20210427150719.30841-1-fmdefrancesco@gmail.com> <YJAlWJXDnK9KLg2H@kroah.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210427150719.30841-1-fmdefrancesco@gmail.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, Apr 27, 2021 at 05:07:19PM +0200, Fabio M. De Francesco wrote:
-> Converted visorhba from IDR to XArray. The abstract data type XArray is
-> more memory-efficient, parallelisable and cache friendly. It takes
-> advantage of RCU to perform lookups without locking.
+On Monday, May 3, 2021 6:31:20 PM CEST Greg Kroah-Hartman wrote:
+> On Tue, Apr 27, 2021 at 05:07:19PM +0200, Fabio M. De Francesco wrote:
+> > Converted visorhba from IDR to XArray. The abstract data type XArray is
+> > more memory-efficient, parallelisable and cache friendly. It takes
+> > advantage of RCU to perform lookups without locking.
+> 
+> And does any of that affect the runtime of this driver?
+>
+Unfortunately, I cannot tell. I had cc'ed the maintainer at Unisys but no 
+response at all at now.
+> 
+> I would need this to be tested by the maintainer before I could do
+> anything, and a review from willy@ would be also appreciated as I'm
+> guessing he asked you to do this?
+>
+I've contacted willy on #kernel-outreachy and said that you would appreciate a 
+review from him. I hope he can find time to see that code.
 
-I think the commit message could use a little more work.  The advantage
-of the XArray over the IDR is that it has a better API (and the IDR
-interface is deprecated).
+Thanks,
 
-> -static void setup_scsitaskmgmt_handles(struct idr *idrtable, spinlock_t *lock,
-> -				       struct uiscmdrsp *cmdrsp,
-> +static void setup_scsitaskmgmt_handles(struct xarray *xa, struct uiscmdrsp *cmdrsp,
->  				       wait_queue_head_t *event, int *result)
->  {
-> -	/* specify the event that has to be triggered when this */
-> -	/* cmd is complete */
-> -	cmdrsp->scsitaskmgmt.notify_handle =
-> -		simple_idr_get(idrtable, event, lock);
-> -	cmdrsp->scsitaskmgmt.notifyresult_handle =
-> -		simple_idr_get(idrtable, result, lock);
-> +	int ret;
-> +	u32 id;
-> +
-> +	/* specify the event that has to be triggered when this cmd is complete */
-> +	ret = xa_alloc_irq(xa, &id, event, XA_LIMIT(1, INT_MAX), GFP_KERNEL);
-> +	if (ret == 0)
-> +		cmdrsp->scsitaskmgmt.notify_handle = id;
-> +	ret = xa_alloc_irq(xa, &id, result, XA_LIMIT(1, INT_MAX), GFP_KERNEL);
-> +	if (ret == 0)
-> +		cmdrsp->scsitaskmgmt.notifyresult_handle = id;
->  }
+Fabio
+> 
+> thanks,
+> 
+> greg k-h
 
-I think there's a preexisting bug here that you haven't fixed ;-)
 
-Think through the failure case -- if we fail to allocate an ID, then we
-can't send the command, because it won't be able to notify on completion.
-So I'd start out by making this function return an int (0 on success,
-errno on failure).  Then if the first one succeeds and the second fails,
-free the first one before returning an error.
 
->  /*
->   * cleanup_scsitaskmgmt_handles - Forget handles created by
->   *				  setup_scsitaskmgmt_handles()
-> - * @idrtable: The data object maintaining the pointer<-->int mappings
-> + * @xa: The data object maintaining the pointer<-->int mappings
->   * @cmdrsp:   Response from the IOVM
->   */
-> -static void cleanup_scsitaskmgmt_handles(struct idr *idrtable,
-> +static void cleanup_scsitaskmgmt_handles(struct xarray *xa,
->  					 struct uiscmdrsp *cmdrsp)
->  {
->  	if (cmdrsp->scsitaskmgmt.notify_handle)
-> -		idr_remove(idrtable, cmdrsp->scsitaskmgmt.notify_handle);
-> +		xa_erase(xa, cmdrsp->scsitaskmgmt.notify_handle);
->  	if (cmdrsp->scsitaskmgmt.notifyresult_handle)
-> -		idr_remove(idrtable, cmdrsp->scsitaskmgmt.notifyresult_handle);
-> +		xa_erase(xa, cmdrsp->scsitaskmgmt.notifyresult_handle);
->  }
 
-These can then be unconditional, because cleanup_scsitaskmgmt_handles()
-won't get called unless we sent the command.
-
->  /*
-> @@ -284,8 +257,7 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
->  
->  	/* issue TASK_MGMT_ABORT_TASK */
->  	cmdrsp->cmdtype = CMD_SCSITASKMGMT_TYPE;
-> -	setup_scsitaskmgmt_handles(&devdata->idr, &devdata->privlock, cmdrsp,
-> -				   &notifyevent, &notifyresult);
-> +	setup_scsitaskmgmt_handles(&devdata->xa, cmdrsp, &notifyevent, &notifyresult);
-
-This needs to check the result from setup() and decline to send the
-command if it fails.
-
->  	/* save destination */
->  	cmdrsp->scsitaskmgmt.tasktype = tasktype;
-> @@ -311,14 +283,14 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
->  	dev_dbg(&scsidev->sdev_gendev,
->  		"visorhba: taskmgmt type=%d success; result=0x%x\n",
->  		 tasktype, notifyresult);
-> -	cleanup_scsitaskmgmt_handles(&devdata->idr, cmdrsp);
-> +	cleanup_scsitaskmgmt_handles(&devdata->xa, cmdrsp);
->  	return SUCCESS;
->  
->  err_del_scsipending_ent:
->  	dev_dbg(&scsidev->sdev_gendev,
->  		"visorhba: taskmgmt type=%d not executed\n", tasktype);
->  	del_scsipending_ent(devdata, scsicmd_id);
-> -	cleanup_scsitaskmgmt_handles(&devdata->idr, cmdrsp);
-> +	cleanup_scsitaskmgmt_handles(&devdata->xa, cmdrsp);
-
-... be sure not to call cleanup() on that path, though.
-
->  	return FAILED;
->  }
->  
