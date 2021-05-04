@@ -1,49 +1,51 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1449672
-	for <linux-staging@lists.linux.dev>; Tue,  4 May 2021 14:51:44 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id di13so10794980edb.2
-        for <linux-staging@lists.linux.dev>; Tue, 04 May 2021 07:51:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9434472
+	for <linux-staging@lists.linux.dev>; Tue,  4 May 2021 14:51:45 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id l4so13591710ejc.10
+        for <linux-staging@lists.linux.dev>; Tue, 04 May 2021 07:51:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=S3N6g2UZbr5ImaLmOMaKuHosTydvdNGVUAq4Ih6ZjGg=;
-        b=Q+3Uut+DEXFu3aeJtAdIHi1TB0Z2UM+XTM6YX00MQ4hY0mYpdOcKqYVPRvd3a+/nf9
-         3RGradfSOzpRF/pwVnxLfmH4eXS5rIH/6jYkID4LLwE5yzJVsmLx5w/f5+9+apjqfino
-         Gj6I9Pu/AE0mW1pmPWfpW4KCujvT5uc1L5kduchyZXgbjyR/OcaAvQqKRrNYTkT1PuiG
-         +EWDz/Bnz0a92J72yBLlwkJKkHyrLxUVD4SC5KVPE24jrBpGk5D/geCiWDvlDHzFJAKB
-         3chniEoqSOnmfPMJk3R5obAkg1Ueh5m9S8dvdcRslTgbQXhImNKm+iuMc5ooXvDE21Ul
-         quKg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=pXRitWWRRFW0ojzwHJ4zpfVrafyqDHpLGDB/FMLEkjA=;
+        b=KPJ06GykRFITdlNEv2SiENZ1qS2NqNVmwqkaKf/QGA99iaVZKrMGifOeIwaTATX3pO
+         Di5SzTE6Gk/QUoHbPgsk74gGIrafT5BRRzyNcLhwMOMcRt3RSAZOa9+5dZnbUy7Ll9WU
+         w2hJdbq3gombr2fKfxErzj4+obEUIr9b13gBtYry5ghI6X4pjB2OV3nT+CPElcek7NjP
+         2ksMmZryQZD1YaqGYttYkiKtB9idzrwbAhvWZFUGGnC4M7QS8gqHFNibLjfiMvmqHpH6
+         DjZlVDILTl3NvIuhXZVTVRbQjULg9q6UGechcvxONdxuKnyfghCtQyEiGhgN5/kRcdCp
+         dQSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=S3N6g2UZbr5ImaLmOMaKuHosTydvdNGVUAq4Ih6ZjGg=;
-        b=VVpzO9frNp259KIxTyVGUwpvcIpkrobSYVcSh6a+IyGS26u4PbS3wJZzzNwSLRLRiP
-         lpZwwxPZHA3uKwG3fg/MLfV5QuB4iTRqfdIBspbFeCNVT2ojOR3oaBSV8rOUBdOd+4MG
-         brRUNZQgy89gkxH2dbQXmH4i8+yrP7wHk0qo+Yrd130v4GnJLh3EF/7FFGItxihYIxjK
-         sz90MO33WXhHoAb34u8bw6ZHzvoqmXmEadXXZ9Z131aPb09c/tpyWONxfiFTrWNyHWu/
-         JUtxsXIthQVou6oPKguEBu4jrUwLFzWSrEaurmeumL0Wxg7V0YUWb+pfNV8x0DDeQRVE
-         DxDw==
-X-Gm-Message-State: AOAM533wWDXv66eviVkgffnQtHWCOdK3apdZGlSxN7bRXj65WEDM/hVV
-	qKqjITH1ok8PRRvaggv2iDU=
-X-Google-Smtp-Source: ABdhPJwsEgQN9zyPIxU3vzTcGYP3pY3KxBCFZM2yvkApgd5OvH1PYiyNc1z7JT0JEZ8tFL6mUfVV1A==
-X-Received: by 2002:aa7:c2cc:: with SMTP id m12mr26296094edp.1.1620139902688;
-        Tue, 04 May 2021 07:51:42 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=pXRitWWRRFW0ojzwHJ4zpfVrafyqDHpLGDB/FMLEkjA=;
+        b=uJt6cX4XHjQM6jw9BVJ6t5vMAQXS4XSKoCXzxIwAaYf7OhbkMaTDm1/NNJ/s00Tk6H
+         e11P+QWcZlQvgZ7kwoHBx+Wgq9lN3Q7Cnexd4+raVmnXgwsiP2h0Rx6x+gc7+tjykEJZ
+         R/NglKSGD0wgZ7DQx2eA+nSL7lSeWSnUKq2NCJKdBbFVORbw20sIf882YqNo/ObjzD98
+         +DZuWSKhkCHgXvZz7dMsKYL/yW9kRXrdnkeYOJVEhQA+hRTWsJnse7v8X+cwgISYh+0a
+         4y+s+yL7EROylDE2buILfj4u3dTuCBR6mqRrFl1gUR2c7FUWQDu5AFoEvrthS/BFRq/e
+         iTIA==
+X-Gm-Message-State: AOAM533DHHuSX+xZQ3gzL6hrEJJAvaHRMGDlNVIEdVFpfM/MoA0rrvWm
+	I4OQY3me1Ocw/PeOvTSFoCeeRXviqeZWpw==
+X-Google-Smtp-Source: ABdhPJwbeM1BHUhdBCa8Z9fGtMiQ2Zf9JgIOajJHeew+miB64OV87e7Am4ta9iBCuApKJQcvNe7hpQ==
+X-Received: by 2002:a17:906:17c8:: with SMTP id u8mr18317300eje.57.1620139904195;
+        Tue, 04 May 2021 07:51:44 -0700 (PDT)
 Received: from agape ([5.171.72.210])
-        by smtp.gmail.com with ESMTPSA id t7sm13644977eds.26.2021.05.04.07.51.42
+        by smtp.gmail.com with ESMTPSA id q25sm1523792ejd.9.2021.05.04.07.51.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 May 2021 07:51:42 -0700 (PDT)
+        Tue, 04 May 2021 07:51:43 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/3] staging: rtl8723bs: use in-kernel aes encryption
-Date: Tue,  4 May 2021 16:51:37 +0200
-Message-Id: <cover.1620139727.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v3 1/3] staging: rtl8723bs: align argument position in a new line
+Date: Tue,  4 May 2021 16:51:38 +0200
+Message-Id: <f195bc7d72c122e5e16b3857cf99ae1f84734915.1620139727.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1620139727.git.fabioaiuto83@gmail.com>
+References: <cover.1620139727.git.fabioaiuto83@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -51,27 +53,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patchset replaces the private AES routines used to
-encrypt data with in-kernel ones.
+align function arguments position on a new line to
+open parentheses.
 
-NOT tested.
---------------------------------------
-Changes in v3:
-	- Added NOT tested advice in cover letter
+Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_security.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes in v2:
-        - Move aes.h include file in .c
-          file, where it is needed
-
-
-Fabio Aiuto (3):
-  staging: rtl8723bs: align argument position in a new line
-  staging: rtl8723bs: use in-kernel aes encryption in OMAC1 routines
-  staging: rtl8723bs: use in-kernel aes encryption
-
- drivers/staging/rtl8723bs/core/rtw_security.c | 328 +-----------------
- 1 file changed, 15 insertions(+), 313 deletions(-)
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index e4f3049ac351..0cb603aa4ee6 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -2056,7 +2056,7 @@ static void aes_encrypt_deinit(void *ctx)
+  * (SP) 800-38B.
+  */
+ static int omac1_aes_128_vector(u8 *key, size_t num_elem,
+-							 u8 *addr[], size_t *len, u8 *mac)
++				u8 *addr[], size_t *len, u8 *mac)
+ {
+ 	void *ctx;
+ 	u8 cbc[AES_BLOCK_SIZE], pad[AES_BLOCK_SIZE];
 -- 
 2.20.1
 
