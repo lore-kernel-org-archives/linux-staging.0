@@ -1,109 +1,114 @@
-Received: from mail-02.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A7B972
-	for <linux-staging@lists.linux.dev>; Tue,  4 May 2021 16:08:09 +0000 (UTC)
-Date: Tue, 04 May 2021 16:07:48 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail3; t=1620144473;
-	bh=izMrQ29i9o8lR9msxy7VHUJ0aaa/lS+KxRCqJNJ4ZUE=;
-	h=Date:To:From:Cc:Reply-To:Subject:From;
-	b=gwexdwPe7LPbdOmPuDeoG6NiUzMDP2OJpjhIhq6Yf89xir95BgSQiYcQcEhfpZ67j
-	 bJdlpSHgL20cfyaqARoCum8VgdWG5fzXLh2yeVRsJ3cN6uGYbpF3+YEHNRUzbhpS9s
-	 YDJc9kv/kU2SXK6XGUkaQR3Vr0zgjOxAsYQTbohH0Ut+yXaBcZQ6tknfUCL0A1Xncd
-	 ec1ivs540D+nNk72VOBSp0wM6ZdyBd9Cyxh60cDtk/+A6SR19aa1vTMz8gaSEQdKzJ
-	 VX2phk8qNhhn1Digu5dZ4TeVmY3qAJPehmafJTAMskV54LSWfeObtvH1+s3kXvwyaP
-	 G5h5mMuGctLKQ==
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-From: Bryan Brattlof <hello@bryanbrattlof.com>
-Cc: Bryan Brattlof <hello@bryanbrattlof.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: [PATCH] staging: rtl8723bs: use generic kernel error codes
-Message-ID: <c94e5865e59d35fe0e39d5cd46d71ad4a752ddd4.1620144194.git-series.hello@bryanbrattlof.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498D872
+	for <linux-staging@lists.linux.dev>; Tue,  4 May 2021 16:17:18 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 24BD6611AD;
+	Tue,  4 May 2021 16:17:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1620145037;
+	bh=5iqslF9Ox5+6piOrlgLcA9pBk2hRz/fYWDXpJnNRAgw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MrWKbXNUmyeEvTiJ8kpXvrwolwGcpIzYHuC/CgbJhUN8dEJFoHorrHoP1l5O6AFgH
+	 z8NmAzQ0TBLovEYuuwPaJX+D33i+pLq560Mx7Wrpeq7OnZ5OPblXXPOui/inPSyWvf
+	 Rw2kIcEt0tycmNacxCV8UuDQ+XZNUmpMMsmHD85A=
+Date: Tue, 4 May 2021 18:17:15 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: use generic kernel error codes
+Message-ID: <YJFziyZHnbsWdTFn@kroah.com>
+References: <c94e5865e59d35fe0e39d5cd46d71ad4a752ddd4.1620144194.git-series.hello@bryanbrattlof.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-	autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-	mailout.protonmail.ch
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c94e5865e59d35fe0e39d5cd46d71ad4a752ddd4.1620144194.git-series.hello@bryanbrattlof.com>
 
-The current _FAIL and _SUCCESS error codes are defined as:
+On Tue, May 04, 2021 at 04:07:48PM +0000, Bryan Brattlof wrote:
+> The current _FAIL and _SUCCESS error codes are defined as:
+> 
+>         #define _FAIL    0
+> 	#define _SUCCESS 1
+> 
+> which adds complexity (and confusion) when interacting with other
+> submodules in the kernel. These definitions can be removed and replaced
+> with the kernel's generic error codes.
+> 
+> Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
+> ---
+>  drivers/staging/rtl8723bs/include/drv_types.h |  2 +-
+>  drivers/staging/rtl8723bs/os_dep/sdio_intf.c  | 11 +++++------
+>  2 files changed, 6 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
+> index 83d43e5726dd..5b702ff432ae 100644
+> --- a/drivers/staging/rtl8723bs/include/drv_types.h
+> +++ b/drivers/staging/rtl8723bs/include/drv_types.h
+> @@ -385,7 +385,7 @@ struct adapter {
+>  	void *xmitThread;
+>  	void *recvThread;
+> 
+> -	u32 (*intf_init)(struct dvobj_priv *dvobj);
+> +	int (*intf_init)(struct dvobj_priv *dvobj);
+>  	void (*intf_deinit)(struct dvobj_priv *dvobj);
+>  	int (*intf_alloc_irq)(struct dvobj_priv *dvobj);
+>  	void (*intf_free_irq)(struct dvobj_priv *dvobj);
+> diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+> index d2bf444117b8..e26c51d847b6 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+> @@ -112,7 +112,7 @@ static void sdio_free_irq(struct dvobj_priv *dvobj)
+>  	}
+>  }
+> 
+> -static u32 sdio_init(struct dvobj_priv *dvobj)
+> +static int sdio_init(struct dvobj_priv *dvobj)
+>  {
+>  	struct sdio_data *psdio_data;
+>  	struct sdio_func *func;
+> @@ -139,12 +139,11 @@ static u32 sdio_init(struct dvobj_priv *dvobj)
+>  	psdio_data->tx_block_mode = 1;
+>  	psdio_data->rx_block_mode = 1;
+> 
+> +	return err;
+> +
+>  release:
+>  	sdio_release_host(func);
+> -
+> -	if (err)
+> -		return _FAIL;
+> -	return _SUCCESS;
+> +	return err;
+>  }
 
-        #define _FAIL    0
-=09#define _SUCCESS 1
+You just changed the logic here, are you SURE that was ok to do?
 
-which adds complexity (and confusion) when interacting with other
-submodules in the kernel. These definitions can be removed and replaced
-with the kernel's generic error codes.
 
-Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
----
- drivers/staging/rtl8723bs/include/drv_types.h |  2 +-
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c  | 11 +++++------
- 2 files changed, 6 insertions(+), 7 deletions(-)
+> 
+>  static void sdio_deinit(struct dvobj_priv *dvobj)
+> @@ -186,7 +185,7 @@ static struct dvobj_priv *sdio_dvobj_init(struct sdio_func *func)
+>  	psdio = &dvobj->intf_data;
+>  	psdio->func = func;
+> 
+> -	if (sdio_init(dvobj) != _SUCCESS)
+> +	if (sdio_init(dvobj) < 0)
+>  		goto free_dvobj;
+> 
+>  	rtw_reset_continual_io_error(dvobj);
+> 
+> base-commit: 9ccce092fc64d19504fa54de4fd659e279cc92e7
+> --
+> git-series 0.9.1
+> 
+> 
 
-diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/stagin=
-g/rtl8723bs/include/drv_types.h
-index 83d43e5726dd..5b702ff432ae 100644
---- a/drivers/staging/rtl8723bs/include/drv_types.h
-+++ b/drivers/staging/rtl8723bs/include/drv_types.h
-@@ -385,7 +385,7 @@ struct adapter {
- =09void *xmitThread;
- =09void *recvThread;
+And that's all to remove the need for these crazy error values?  If so,
+why not also remove the #defines for them as well?
 
--=09u32 (*intf_init)(struct dvobj_priv *dvobj);
-+=09int (*intf_init)(struct dvobj_priv *dvobj);
- =09void (*intf_deinit)(struct dvobj_priv *dvobj);
- =09int (*intf_alloc_irq)(struct dvobj_priv *dvobj);
- =09void (*intf_free_irq)(struct dvobj_priv *dvobj);
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging=
-/rtl8723bs/os_dep/sdio_intf.c
-index d2bf444117b8..e26c51d847b6 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -112,7 +112,7 @@ static void sdio_free_irq(struct dvobj_priv *dvobj)
- =09}
- }
+thanks,
 
--static u32 sdio_init(struct dvobj_priv *dvobj)
-+static int sdio_init(struct dvobj_priv *dvobj)
- {
- =09struct sdio_data *psdio_data;
- =09struct sdio_func *func;
-@@ -139,12 +139,11 @@ static u32 sdio_init(struct dvobj_priv *dvobj)
- =09psdio_data->tx_block_mode =3D 1;
- =09psdio_data->rx_block_mode =3D 1;
-
-+=09return err;
-+
- release:
- =09sdio_release_host(func);
--
--=09if (err)
--=09=09return _FAIL;
--=09return _SUCCESS;
-+=09return err;
- }
-
- static void sdio_deinit(struct dvobj_priv *dvobj)
-@@ -186,7 +185,7 @@ static struct dvobj_priv *sdio_dvobj_init(struct sdio_f=
-unc *func)
- =09psdio =3D &dvobj->intf_data;
- =09psdio->func =3D func;
-
--=09if (sdio_init(dvobj) !=3D _SUCCESS)
-+=09if (sdio_init(dvobj) < 0)
- =09=09goto free_dvobj;
-
- =09rtw_reset_continual_io_error(dvobj);
-
-base-commit: 9ccce092fc64d19504fa54de4fd659e279cc92e7
---
-git-series 0.9.1
-
+greg k-h
