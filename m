@@ -1,51 +1,56 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869D872
-	for <linux-staging@lists.linux.dev>; Tue,  4 May 2021 14:51:48 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id f24so13615437ejc.6
-        for <linux-staging@lists.linux.dev>; Tue, 04 May 2021 07:51:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9ED72
+	for <linux-staging@lists.linux.dev>; Tue,  4 May 2021 15:01:32 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id y26so10829098eds.4
+        for <linux-staging@lists.linux.dev>; Tue, 04 May 2021 08:01:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=EqDXXfTXjnj2dDr6UQB60p00fAolMCc4POhMLgn/dEo=;
-        b=CyXUpYnaIdUp6As3TwIA9waqCmDJVU6ZKmfWryl6orM09bfA6EEW94/LG5KDpJUR2W
-         Gwf5WYz3E88LjbQc6M+6nlTNoyG1xhnTJ6m+0Dn9uwz4aPexUzF24ynWgClnbc5R1T5H
-         DiZ32uFLNMLtJQxndZketg+SXc9AinScQFSXGn5PgyzOw4sY20NqDksD6W6orhID9r43
-         mbOHk31bwDwST2yAHpij429c7zFJmt5umalwCikUc3tt3X1oAmb42J5IW1t7lz9cxa0S
-         Rbm8ejG3pCdto7seIvP8t+l4EHf9nHncppecvQzhsAUfMCY8wVzgdZgWNiKj/gRR/GIr
-         4USA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kM9UiQ+FoTzRVjjWX4g2h1PjkxLvOFf2pw7JSClAePY=;
+        b=Q1mQJNBw41kT8Vpk+BKpbhe4BwfI4ugJNkDVWO+vRNSPWyUnmAsUXjEMM7Sw4KhhUb
+         YYcDV+l8El9zXaemZOKYhMpLARZ543i2GBXOvrhTnrPtlDKnlYDTBqULS5IIJpRaoS7C
+         Cu//SSHCK+nLvBFU5Kg+t8sZGS0a9FRCCwHZdItGXeitW6WdTFf/aJHGbpsndzmltbUO
+         sFq9G0+l3u8oKdEYNgkQz7PqrLdVql+E/mrGeezmJZ2BeMGwrWy8tJHpVq9XsT2pchYH
+         SrF+MDdHm9DjO9FtaWOshNJgJaIwbXeLw87T0UAR6gitE5c6Uk6/4GnECnc7pAmvoTDP
+         QqYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=EqDXXfTXjnj2dDr6UQB60p00fAolMCc4POhMLgn/dEo=;
-        b=S5XR9pOITj3DhgU/aDxM7oX9N/voLyW6kVj7bP0qGcppYiwJlwCYhnUs1oPjVZg6gC
-         PkFfJhMr0DvWphW86iE7y/Pmr4y+U2M+BBEqJAhEjVppl41JmPi4Ln9diM7fBtoe1Crp
-         b6Z6EfP2VYRxE4Q1Q70tF/jtZF4vVLVnM0/QKgZrEKCChSgK2jfPX1tXswMhJP35jjXb
-         uaMCNa0ezhx7E0OmOTFTBPZ97B81Z9zh/wplSEi3PbrqjqRXcm7Y4RAtiiPjaG7tVCqF
-         tS5Kr+ic1QWK4KSiEqpToFYkEQbRLSLko4zJELFVsjJAndFaBR6Ht/5JDH5XWMyQggPK
-         R/og==
-X-Gm-Message-State: AOAM532reCFIp74EtXKtlVpVY8sodPiXh1/gZPYt/U1lXMyKaIDkt8RC
-	hQdf+nHfTetfIQuryC4120g=
-X-Google-Smtp-Source: ABdhPJyrXuQ8UTFUqjxxKJjcLAawBEmRyWMz7zGVSuC8ob3pQ2z3gmu3A+Usu1+BxiRz/6ZVBIH0oA==
-X-Received: by 2002:a17:906:194d:: with SMTP id b13mr22382832eje.83.1620139907120;
-        Tue, 04 May 2021 07:51:47 -0700 (PDT)
-Received: from agape ([5.171.72.210])
-        by smtp.gmail.com with ESMTPSA id b8sm1516241ejc.29.2021.05.04.07.51.46
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kM9UiQ+FoTzRVjjWX4g2h1PjkxLvOFf2pw7JSClAePY=;
+        b=Bnr1ufzSu530viUhVHopllySaIORHqz5J/okhuckwKGxmLAt0VuL/mo1p5rG2b49ct
+         nQgoZNrfk+GTxxgZBzc6mLUbZRPgiZbAvxG39y5h6W/6YO/L86zwAUhjJMvBz60r6aMq
+         SymvpsYU2z5iSUz1Ef23e1OYDC/IF4/iNGuBYIrJS6pa6l363Ceq6QeiMEl37YNi7fzb
+         uZU5aAsQ5OVb7TQ50Q3Q+sEe2nr6ENuOXE037tS9eidXt4JsvbJUB2qvX6kFM1Xzoczu
+         OdlzmnbN5PPLJCQ1aoIiLxNGqhoTMW4fUJfHunqR2uQS6Z5qp1baZ2EbfNC/66kNbynP
+         RF1A==
+X-Gm-Message-State: AOAM532i9t80m1ilGhxpOHrqm2Ijjin0RbOeLKcL+SCmwVEH3sguGUVx
+	+HhbUphZRj84cjw5Q18Nr8U=
+X-Google-Smtp-Source: ABdhPJwUSJtP63BZoYawtKCCLEuHHoCkxLj7qDjZXDEjqOF0pr6DRr5aPsd+6lpeQc5wWbWanNIWhw==
+X-Received: by 2002:a05:6402:323:: with SMTP id q3mr26891566edw.69.1620140490920;
+        Tue, 04 May 2021 08:01:30 -0700 (PDT)
+Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
+        by smtp.gmail.com with ESMTPSA id nd36sm1473384ejc.21.2021.05.04.08.01.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 May 2021 07:51:46 -0700 (PDT)
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 3/3] staging: rtl8723bs: use in-kernel aes encryption
-Date: Tue,  4 May 2021 16:51:40 +0200
-Message-Id: <bd1f47994d3a1d0f434de5b2095c327f5a25f6ef.1620139727.git.fabioaiuto83@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1620139727.git.fabioaiuto83@gmail.com>
-References: <cover.1620139727.git.fabioaiuto83@gmail.com>
+        Tue, 04 May 2021 08:01:29 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: outreachy-kernel@googlegroups.com,
+	David Kershner <david.kershner@unisys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	sparmaintainer@unisys.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Matthew Wilcox <willy@infradead.org>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Dan Carpenter <dan.carpenter@oracle.com>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v8] staging: unisys: visorhba: Convert module from IDR to XArray
+Date: Tue,  4 May 2021 17:01:25 +0200
+Message-Id: <20210504150125.18373-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -53,254 +58,256 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-replace private aes encryption subroutines with
-public in-kernel ones in data frame encryption.
+Converted visorhba from IDR to XArray. The abstract data type XArray is
+more memory-efficient, parallelizable and cache friendly. It takes
+advantage of RCU to perform lookups without locking. Furthermore, IDR is
+deprecated because XArray has a better (cleaner and more consistent)
+API.
 
-Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_security.c | 212 +-----------------
- 1 file changed, 5 insertions(+), 207 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index 35f8b39d6fdb..4b816cfb9eaf 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -748,44 +748,6 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+Changes from v7: Removed xa_destroy, since its insertion was due to the
+misunderstanding of the reviews on v5. Removed unnecessary 'else'
+clauses.
+Changes from v6; Added a call to xa_destroy() that I had forgotten.
+Fixed taking locks with interrupts disabled (use xa_erase_irq()).
+Replaced checking for success with checking for failure. Issues detected
+by Dan Carpenter and Matthew Wilcox.
+Changes from v5: As suggested by Matthew Wilcox, reworded the commit
+message, modified setup_scsitaskmgmt_handles() to manage and return errors,
+used 'xa_limit_32b' as the range of indexes (because there is no need to
+use 0 as a marker of no allocation).
+Changes from v4: Fixed some issues detected by Matthew Wilcox and Fabio
+Aiuto.
+Changes from v3: Matthew Wilcox found that the XArray was not
+initialized: now it is. Changed types handles from u64 to u32 because
+they can't work as arguments of xa_alloc_irq() and u32 is enough large
+for storing XArray indexes.
+Changes from v2: Some residual errors from v1 were not fixed in v2. Now
+they have been removed.
+Changes from v1: After a first review by Matthew Wilcox, who found a
+series of errors and gave suggestions on how to fix them, I rewrote a
+larger part of the patch.
+
+ .../staging/unisys/visorhba/visorhba_main.c   | 101 +++++++-----------
+ 1 file changed, 41 insertions(+), 60 deletions(-)
+
+diff --git a/drivers/staging/unisys/visorhba/visorhba_main.c b/drivers/staging/unisys/visorhba/visorhba_main.c
+index 4455d26f7c96..c18b987dd2b2 100644
+--- a/drivers/staging/unisys/visorhba/visorhba_main.c
++++ b/drivers/staging/unisys/visorhba/visorhba_main.c
+@@ -6,10 +6,10 @@
  
- 
- #define MAX_MSG_SIZE	2048
--/*****************************/
--/******** SBOX Table *********/
--/*****************************/
+ #include <linux/debugfs.h>
+ #include <linux/kthread.h>
+-#include <linux/idr.h>
+ #include <linux/module.h>
+ #include <linux/seq_file.h>
+ #include <linux/visorbus.h>
++#include <linux/xarray.h>
+ #include <scsi/scsi.h>
+ #include <scsi/scsi_host.h>
+ #include <scsi/scsi_cmnd.h>
+@@ -82,8 +82,7 @@ struct visorhba_devdata {
+ 	 * allows us to pass int handles back-and-forth between us and
+ 	 * iovm, instead of raw pointers
+ 	 */
+-	struct idr idr;
 -
--	static const u8 sbox_table[256] = {
--			0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5,
--			0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
--			0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0,
--			0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0,
--			0xb7, 0xfd, 0x93, 0x26, 0x36, 0x3f, 0xf7, 0xcc,
--			0x34, 0xa5, 0xe5, 0xf1, 0x71, 0xd8, 0x31, 0x15,
--			0x04, 0xc7, 0x23, 0xc3, 0x18, 0x96, 0x05, 0x9a,
--			0x07, 0x12, 0x80, 0xe2, 0xeb, 0x27, 0xb2, 0x75,
--			0x09, 0x83, 0x2c, 0x1a, 0x1b, 0x6e, 0x5a, 0xa0,
--			0x52, 0x3b, 0xd6, 0xb3, 0x29, 0xe3, 0x2f, 0x84,
--			0x53, 0xd1, 0x00, 0xed, 0x20, 0xfc, 0xb1, 0x5b,
--			0x6a, 0xcb, 0xbe, 0x39, 0x4a, 0x4c, 0x58, 0xcf,
--			0xd0, 0xef, 0xaa, 0xfb, 0x43, 0x4d, 0x33, 0x85,
--			0x45, 0xf9, 0x02, 0x7f, 0x50, 0x3c, 0x9f, 0xa8,
--			0x51, 0xa3, 0x40, 0x8f, 0x92, 0x9d, 0x38, 0xf5,
--			0xbc, 0xb6, 0xda, 0x21, 0x10, 0xff, 0xf3, 0xd2,
--			0xcd, 0x0c, 0x13, 0xec, 0x5f, 0x97, 0x44, 0x17,
--			0xc4, 0xa7, 0x7e, 0x3d, 0x64, 0x5d, 0x19, 0x73,
--			0x60, 0x81, 0x4f, 0xdc, 0x22, 0x2a, 0x90, 0x88,
--			0x46, 0xee, 0xb8, 0x14, 0xde, 0x5e, 0x0b, 0xdb,
--			0xe0, 0x32, 0x3a, 0x0a, 0x49, 0x06, 0x24, 0x5c,
--			0xc2, 0xd3, 0xac, 0x62, 0x91, 0x95, 0xe4, 0x79,
--			0xe7, 0xc8, 0x37, 0x6d, 0x8d, 0xd5, 0x4e, 0xa9,
--			0x6c, 0x56, 0xf4, 0xea, 0x65, 0x7a, 0xae, 0x08,
--			0xba, 0x78, 0x25, 0x2e, 0x1c, 0xa6, 0xb4, 0xc6,
--			0xe8, 0xdd, 0x74, 0x1f, 0x4b, 0xbd, 0x8b, 0x8a,
--			0x70, 0x3e, 0xb5, 0x66, 0x48, 0x03, 0xf6, 0x0e,
--			0x61, 0x35, 0x57, 0xb9, 0x86, 0xc1, 0x1d, 0x9e,
--			0xe1, 0xf8, 0x98, 0x11, 0x69, 0xd9, 0x8e, 0x94,
--			0x9b, 0x1e, 0x87, 0xe9, 0xce, 0x55, 0x28, 0xdf,
--			0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68,
--			0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16
--		};
- 
- /*****************************/
- /**** Function Prototypes ****/
-@@ -814,13 +776,7 @@ static void construct_ctr_preload(u8 *ctr_preload,
- 				  u8 *pn_vector,
- 				  signed int c,
- 				  uint frtype); /* for CONFIG_IEEE80211W, none 11w also can use */
--static void xor_128(u8 *a, u8 *b, u8 *out);
--static void xor_32(u8 *a, u8 *b, u8 *out);
--static u8 sbox(u8 a);
--static void next_key(u8 *key, signed int round);
--static void byte_sub(u8 *in, u8 *out);
--static void shift_row(u8 *in, u8 *out);
--static void mix_column(u8 *in, u8 *out);
-+
- static void aes128k128d(u8 *key, u8 *data, u8 *ciphertext);
- 
- 
-@@ -829,171 +785,13 @@ static void aes128k128d(u8 *key, u8 *data, u8 *ciphertext);
- /* Performs a 128 bit AES encrypt with  */
- /* 128 bit data.                        */
- /****************************************/
--static void xor_128(u8 *a, u8 *b, u8 *out)
--{
--		signed int i;
--
--		for (i = 0; i < 16; i++)
--			out[i] = a[i] ^ b[i];
--}
--
--
--static void xor_32(u8 *a, u8 *b, u8 *out)
--{
--		signed int i;
--
--		for (i = 0; i < 4; i++)
--			out[i] = a[i] ^ b[i];
--}
--
--
--static u8 sbox(u8 a)
--{
--		return sbox_table[(signed int)a];
--}
--
--
--static void next_key(u8 *key, signed int round)
--{
--		u8 rcon;
--		u8 sbox_key[4];
--		static const u8 rcon_table[12] = {
--			0x01, 0x02, 0x04, 0x08,
--			0x10, 0x20, 0x40, 0x80,
--			0x1b, 0x36, 0x36, 0x36
--		};
--		sbox_key[0] = sbox(key[13]);
--		sbox_key[1] = sbox(key[14]);
--		sbox_key[2] = sbox(key[15]);
--		sbox_key[3] = sbox(key[12]);
--
--		rcon = rcon_table[round];
--
--		xor_32(&key[0], sbox_key, &key[0]);
--		key[0] = key[0] ^ rcon;
--
--		xor_32(&key[4], &key[0], &key[4]);
--		xor_32(&key[8], &key[4], &key[8]);
--		xor_32(&key[12], &key[8], &key[12]);
--}
--
--
--static void byte_sub(u8 *in, u8 *out)
--{
--		signed int i;
--
--		for (i = 0; i < 16; i++)
--			out[i] = sbox(in[i]);
--}
--
--
--static void shift_row(u8 *in, u8 *out)
--{
--		out[0] =  in[0];
--		out[1] =  in[5];
--		out[2] =  in[10];
--		out[3] =  in[15];
--		out[4] =  in[4];
--		out[5] =  in[9];
--		out[6] =  in[14];
--		out[7] =  in[3];
--		out[8] =  in[8];
--		out[9] =  in[13];
--		out[10] = in[2];
--		out[11] = in[7];
--		out[12] = in[12];
--		out[13] = in[1];
--		out[14] = in[6];
--		out[15] = in[11];
--}
--
--static void mix_column(u8 *in, u8 *out)
--{
--		signed int i;
--		u8 add1b[4];
--		u8 add1bf7[4];
--		u8 rotl[4];
--		u8 swap_halfs[4];
--		u8 andf7[4];
--		u8 rotr[4];
--		u8 temp[4];
--		u8 tempb[4];
--
--		for (i = 0; i < 4; i++) {
--			if ((in[i] & 0x80) == 0x80)
--				add1b[i] = 0x1b;
--			else
--				add1b[i] = 0x00;
--		}
--
--		swap_halfs[0] = in[2];    /* Swap halfs */
--		swap_halfs[1] = in[3];
--		swap_halfs[2] = in[0];
--		swap_halfs[3] = in[1];
--
--		rotl[0] = in[3];        /* Rotate left 8 bits */
--		rotl[1] = in[0];
--		rotl[2] = in[1];
--		rotl[3] = in[2];
--
--		andf7[0] = in[0] & 0x7f;
--		andf7[1] = in[1] & 0x7f;
--		andf7[2] = in[2] & 0x7f;
--		andf7[3] = in[3] & 0x7f;
--
--		for (i = 3; i > 0; i--) {  /* logical shift left 1 bit */
--			andf7[i] = andf7[i] << 1;
--			if ((andf7[i-1] & 0x80) == 0x80)
--				andf7[i] = (andf7[i] | 0x01);
--		}
--		andf7[0] = andf7[0] << 1;
--		andf7[0] = andf7[0] & 0xfe;
--
--		xor_32(add1b, andf7, add1bf7);
--
--		xor_32(in, add1bf7, rotr);
--
--		temp[0] = rotr[0];         /* Rotate right 8 bits */
--		rotr[0] = rotr[1];
--		rotr[1] = rotr[2];
--		rotr[2] = rotr[3];
--		rotr[3] = temp[0];
--
--		xor_32(add1bf7, rotr, temp);
--		xor_32(swap_halfs, rotl, tempb);
--		xor_32(temp, tempb, out);
--}
--
- static void aes128k128d(u8 *key, u8 *data, u8 *ciphertext)
- {
--		signed int round;
--		signed int i;
--		u8 intermediatea[16];
--		u8 intermediateb[16];
--		u8 round_key[16];
-+	struct crypto_aes_ctx ctx;
- 
--		for (i = 0; i < 16; i++)
--			round_key[i] = key[i];
--
--		for (round = 0; round < 11; round++) {
--			if (round == 0) {
--				xor_128(round_key, data, ciphertext);
--				next_key(round_key, round);
--			} else if (round == 10) {
--				byte_sub(ciphertext, intermediatea);
--				shift_row(intermediatea, intermediateb);
--				xor_128(intermediateb, round_key, ciphertext);
--			} else {   /* 1 - 9 */
--				byte_sub(ciphertext, intermediatea);
--				shift_row(intermediatea, intermediateb);
--				mix_column(&intermediateb[0], &intermediatea[0]);
--				mix_column(&intermediateb[4], &intermediatea[4]);
--				mix_column(&intermediateb[8], &intermediatea[8]);
--				mix_column(&intermediateb[12], &intermediatea[12]);
--				xor_128(intermediatea, round_key, ciphertext);
--				next_key(round_key, round);
--			}
--		}
-+	aes_expandkey(&ctx, key, 16);
-+	aes_encrypt(&ctx, ciphertext, data);
-+	memzero_explicit(&ctx, sizeof(ctx));
++	struct xarray xa;
+ 	struct dentry *debugfs_dir;
+ 	struct dentry *debugfs_info;
+ };
+@@ -182,71 +181,48 @@ static struct uiscmdrsp *get_scsipending_cmdrsp(struct visorhba_devdata *ddata,
+ 	return NULL;
  }
  
- /************************************************/
+-/*
+- * simple_idr_get - Associate a provided pointer with an int value
+- *		    1 <= value <= INT_MAX, and return this int value;
+- *		    the pointer value can be obtained later by passing
+- *		    this int value to idr_find()
+- * @idrtable: The data object maintaining the pointer<-->int mappings
+- * @p:	      The pointer value to be remembered
+- * @lock:     A spinlock used when exclusive access to idrtable is needed
+- *
+- * Return: The id number mapped to pointer 'p', 0 on failure
+- */
+-static unsigned int simple_idr_get(struct idr *idrtable, void *p,
+-				   spinlock_t *lock)
+-{
+-	int id;
+-	unsigned long flags;
+-
+-	idr_preload(GFP_KERNEL);
+-	spin_lock_irqsave(lock, flags);
+-	id = idr_alloc(idrtable, p, 1, INT_MAX, GFP_NOWAIT);
+-	spin_unlock_irqrestore(lock, flags);
+-	idr_preload_end();
+-	/* failure */
+-	if (id < 0)
+-		return 0;
+-	/* idr_alloc() guarantees > 0 */
+-	return (unsigned int)(id);
+-}
+-
+ /*
+  * setup_scsitaskmgmt_handles - Stash the necessary handles so that the
+  *				completion processing logic for a taskmgmt
+  *				cmd will be able to find who to wake up
+  *				and where to stash the result
+- * @idrtable: The data object maintaining the pointer<-->int mappings
+- * @lock:     A spinlock used when exclusive access to idrtable is needed
++ * @xa:       The data object maintaining the pointer<-->int mappings
+  * @cmdrsp:   Response from the IOVM
+  * @event:    The event handle to associate with an id
+  * @result:   The location to place the result of the event handle into
+  */
+-static void setup_scsitaskmgmt_handles(struct idr *idrtable, spinlock_t *lock,
+-				       struct uiscmdrsp *cmdrsp,
++static int setup_scsitaskmgmt_handles(struct xarray *xa, struct uiscmdrsp *cmdrsp,
+ 				       wait_queue_head_t *event, int *result)
+ {
+-	/* specify the event that has to be triggered when this */
+-	/* cmd is complete */
+-	cmdrsp->scsitaskmgmt.notify_handle =
+-		simple_idr_get(idrtable, event, lock);
+-	cmdrsp->scsitaskmgmt.notifyresult_handle =
+-		simple_idr_get(idrtable, result, lock);
++	int ret;
++	u32 id;
++
++	/* specify the event that has to be triggered when this cmd is complete */
++	ret = xa_alloc_irq(xa, &id, event, xa_limit_32b, GFP_KERNEL);
++	if (ret) 
++		return ret;
++	cmdrsp->scsitaskmgmt.notify_handle = id;
++	ret = xa_alloc_irq(xa, &id, result, xa_limit_32b, GFP_KERNEL);
++	if (ret) {
++		xa_erase_irq(xa, cmdrsp->scsitaskmgmt.notify_handle);
++		return ret;
++	} 
++	cmdrsp->scsitaskmgmt.notifyresult_handle = id;
++
++	return 0;
+ }
+ 
+ /*
+  * cleanup_scsitaskmgmt_handles - Forget handles created by
+  *				  setup_scsitaskmgmt_handles()
+- * @idrtable: The data object maintaining the pointer<-->int mappings
++ * @xa: The data object maintaining the pointer<-->int mappings
+  * @cmdrsp:   Response from the IOVM
+  */
+-static void cleanup_scsitaskmgmt_handles(struct idr *idrtable,
++static void cleanup_scsitaskmgmt_handles(struct xarray *xa,
+ 					 struct uiscmdrsp *cmdrsp)
+ {
+-	if (cmdrsp->scsitaskmgmt.notify_handle)
+-		idr_remove(idrtable, cmdrsp->scsitaskmgmt.notify_handle);
+-	if (cmdrsp->scsitaskmgmt.notifyresult_handle)
+-		idr_remove(idrtable, cmdrsp->scsitaskmgmt.notifyresult_handle);
++	xa_erase_irq(xa, cmdrsp->scsitaskmgmt.notify_handle);
++	xa_erase_irq(xa, cmdrsp->scsitaskmgmt.notifyresult_handle);
+ }
+ 
+ /*
+@@ -269,6 +245,7 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
+ 	int notifyresult = 0xffff;
+ 	wait_queue_head_t notifyevent;
+ 	int scsicmd_id;
++	int ret;
+ 
+ 	if (devdata->serverdown || devdata->serverchangingstate)
+ 		return FAILED;
+@@ -284,8 +261,14 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
+ 
+ 	/* issue TASK_MGMT_ABORT_TASK */
+ 	cmdrsp->cmdtype = CMD_SCSITASKMGMT_TYPE;
+-	setup_scsitaskmgmt_handles(&devdata->idr, &devdata->privlock, cmdrsp,
+-				   &notifyevent, &notifyresult);
++
++	ret = setup_scsitaskmgmt_handles(&devdata->xa, cmdrsp,
++					 &notifyevent, &notifyresult);
++	if (ret) {
++		dev_dbg(&scsidev->sdev_gendev,
++		        "visorhba: setup_scsitaskmgmt_handles returned %d\n", ret);
++		return FAILED;
++	}
+ 
+ 	/* save destination */
+ 	cmdrsp->scsitaskmgmt.tasktype = tasktype;
+@@ -311,14 +294,14 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
+ 	dev_dbg(&scsidev->sdev_gendev,
+ 		"visorhba: taskmgmt type=%d success; result=0x%x\n",
+ 		 tasktype, notifyresult);
+-	cleanup_scsitaskmgmt_handles(&devdata->idr, cmdrsp);
++	cleanup_scsitaskmgmt_handles(&devdata->xa, cmdrsp);
+ 	return SUCCESS;
+ 
+ err_del_scsipending_ent:
+ 	dev_dbg(&scsidev->sdev_gendev,
+ 		"visorhba: taskmgmt type=%d not executed\n", tasktype);
+ 	del_scsipending_ent(devdata, scsicmd_id);
+-	cleanup_scsitaskmgmt_handles(&devdata->idr, cmdrsp);
++	cleanup_scsitaskmgmt_handles(&devdata->xa, cmdrsp);
+ 	return FAILED;
+ }
+ 
+@@ -654,13 +637,13 @@ DEFINE_SHOW_ATTRIBUTE(info_debugfs);
+  * Service Partition returned the result of the task management
+  * command. Wake up anyone waiting for it.
+  */
+-static void complete_taskmgmt_command(struct idr *idrtable,
++static void complete_taskmgmt_command(struct xarray *xa,
+ 				      struct uiscmdrsp *cmdrsp, int result)
+ {
+ 	wait_queue_head_t *wq =
+-		idr_find(idrtable, cmdrsp->scsitaskmgmt.notify_handle);
++		xa_load(xa, cmdrsp->scsitaskmgmt.notify_handle);
+ 	int *scsi_result_ptr =
+-		idr_find(idrtable, cmdrsp->scsitaskmgmt.notifyresult_handle);
++		xa_load(xa, cmdrsp->scsitaskmgmt.notifyresult_handle);
+ 	if (unlikely(!(wq && scsi_result_ptr))) {
+ 		pr_err("visorhba: no completion context; cmd will time out\n");
+ 		return;
+@@ -708,7 +691,7 @@ static void visorhba_serverdown_complete(struct visorhba_devdata *devdata)
+ 			break;
+ 		case CMD_SCSITASKMGMT_TYPE:
+ 			cmdrsp = pendingdel->sent;
+-			complete_taskmgmt_command(&devdata->idr, cmdrsp,
++			complete_taskmgmt_command(&devdata->xa, cmdrsp,
+ 						  TASK_MGMT_FAILED);
+ 			break;
+ 		default:
+@@ -905,7 +888,7 @@ static void drain_queue(struct uiscmdrsp *cmdrsp,
+ 			if (!del_scsipending_ent(devdata,
+ 						 cmdrsp->scsitaskmgmt.handle))
+ 				break;
+-			complete_taskmgmt_command(&devdata->idr, cmdrsp,
++			complete_taskmgmt_command(&devdata->xa, cmdrsp,
+ 						  cmdrsp->scsitaskmgmt.result);
+ 		} else if (cmdrsp->cmdtype == CMD_NOTIFYGUEST_TYPE)
+ 			dev_err_once(&devdata->dev->device,
+@@ -1053,7 +1036,7 @@ static int visorhba_probe(struct visor_device *dev)
+ 	if (err)
+ 		goto err_debugfs_info;
+ 
+-	idr_init(&devdata->idr);
++	xa_init(&devdata->xa);
+ 
+ 	devdata->cmdrsp = kmalloc(sizeof(*devdata->cmdrsp), GFP_ATOMIC);
+ 	visorbus_enable_channel_interrupts(dev);
+@@ -1096,8 +1079,6 @@ static void visorhba_remove(struct visor_device *dev)
+ 	scsi_remove_host(scsihost);
+ 	scsi_host_put(scsihost);
+ 
+-	idr_destroy(&devdata->idr);
+-
+ 	dev_set_drvdata(&dev->device, NULL);
+ 	debugfs_remove(devdata->debugfs_info);
+ 	debugfs_remove_recursive(devdata->debugfs_dir);
 -- 
-2.20.1
+2.31.1
 
