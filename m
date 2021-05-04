@@ -1,109 +1,68 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A31670
-	for <linux-staging@lists.linux.dev>; Tue,  4 May 2021 11:55:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=h3EPt9T2mGUyus+ShdFHaeueBKd8gCSxTLbCM2fRUg0=; b=CIbcePInDC6f68d/cxjRFtAQQo
-	IE3/xlBK6jc7Av0IY9x0Rul5piptd1cC55bPjSLTLfNaR5Y3Oc0mt1PQy+gUPh53MdqXBjSlAbK+c
-	ayjeqDlqfudpYiXqnfEp7rOGVx/ZbsFoy/rrGfon8bwSYrckc2BPPJaxNl9CorVjfY/BPP/aFMNxH
-	z0kYbuaMKjf5qm4YGwRp0Ux4dSc2jEKpC+KwQeIVSQt8oND1VKbTptiIhBNhrgWtqshwUknPr8XZt
-	z6dDiRR2jJ7rfvky9QkBDzrTa0PITOW8sK58VKNgTq+AxU57Y79Hk0qR1AQqd/J4xi3aEm4XSyJRf
-	dHN3Bcpw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-	id 1ldtcx-00GWJm-6c; Tue, 04 May 2021 11:54:21 +0000
-Date: Tue, 4 May 2021 12:54:11 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	outreachy-kernel@googlegroups.com,
-	David Kershner <david.kershner@unisys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	sparmaintainer@unisys.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [Outreachy kernel] Re: [PATCH v6] staging: unisys: visorhba:
- Convert module from IDR to XArray
-Message-ID: <20210504115411.GF1847222@casper.infradead.org>
-References: <20210504100744.28073-1-fmdefrancesco@gmail.com>
- <20210504110001.GV1981@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C0171
+	for <linux-staging@lists.linux.dev>; Tue,  4 May 2021 13:13:00 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id l4so13060141ejc.10
+        for <linux-staging@lists.linux.dev>; Tue, 04 May 2021 06:13:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HzckpB2RAMOBd5T4XWzNGlvU9ohIMVxQWJop+FdQAYs=;
+        b=qfmDDx80AO89QhPMNuePmFAqmebjkbPHO2EpWFp99nDuilRO6a59EQUVmoLPMyzdaU
+         v5G4mquyA++4WMo6CDXfNTraDgbG5rt+utBVzbXr/qixbm5l2HiT4KUouIFPtILb8HeK
+         GLciEiIubQIOwHlE+nC08O2nnJypexEm8D8QE/kPcBgmtQEeW13f17uBtvesTz92Z14D
+         S9Pe301Z9ffvr5MOidmf9nhopoDzl7/Xq7TcdDoq+nxUU6su1zlUSSKgJmp2gVVkg+gI
+         3v0lBi1TkXnaDWyWsEefp8kjIesTyAx3QwOTcpSnJ2HZYqX6AliVAhoOYgM3h8YUHnQf
+         KWaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HzckpB2RAMOBd5T4XWzNGlvU9ohIMVxQWJop+FdQAYs=;
+        b=MkG4xDYrwP5Hdsse+kqGLL2cdpR0DmpAN+w/27zuMsDkXmeSlpbIbnNMUOAlZzlXqj
+         N1lkmsG0PYfk/4RCJQxL30GTdMYoaXnvbZn50ybZHFnJinv0dZffrAgK9wmMXKHcQeRN
+         Kz+IUj6E04eU0KoT2cDixmgQZ0D0qRHn4dQTNZDLpYWn6/6PyElHrXUUPo2HU8Pn6qIG
+         u+RkAah88E4kGjg5re6ZP140SoSYqM7G00rfUNDea9dOv0opT2EN4jMMhQ+Tb65E7IvH
+         6zpk93fG/044rWDzMaOvPWfRVx/veDTXhWEHSuYmgTrwVXAfR9XwQtLbYIIyUwyuDxpr
+         clRw==
+X-Gm-Message-State: AOAM531JHduTYaZGl5LEE7Mfi7XFCm2S0gTaf0v2A7qaw6caI1e0LT2Z
+	dATdbTFWmR7m2Ct+SwRlecQ=
+X-Google-Smtp-Source: ABdhPJyZ0axJrad/YH/LldGphACiWaTCACu6P1qlfjXlOsmgeXWaxGIGwgzX2b5Ew2o+7MzHndymmQ==
+X-Received: by 2002:a17:907:2176:: with SMTP id rl22mr17569409ejb.155.1620133979277;
+        Tue, 04 May 2021 06:12:59 -0700 (PDT)
+Received: from agape ([5.171.72.210])
+        by smtp.gmail.com with ESMTPSA id u6sm1404735ejn.14.2021.05.04.06.12.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 May 2021 06:12:58 -0700 (PDT)
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] staging: rtl8723bs: use in-kernel aes encryption
+Date: Tue,  4 May 2021 15:12:54 +0200
+Message-Id: <cover.1620133620.git.fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210504110001.GV1981@kadam>
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 04, 2021 at 02:00:01PM +0300, Dan Carpenter wrote:
-> On Tue, May 04, 2021 at 12:07:44PM +0200, Fabio M. De Francesco wrote:
-> > -static void setup_scsitaskmgmt_handles(struct idr *idrtable, spinlock_t *lock,
-> > -				       struct uiscmdrsp *cmdrsp,
-> > +static int setup_scsitaskmgmt_handles(struct xarray *xa, struct uiscmdrsp *cmdrsp,
-> >  				       wait_queue_head_t *event, int *result)
-> >  {
-> > -	/* specify the event that has to be triggered when this */
-> > -	/* cmd is complete */
-> > -	cmdrsp->scsitaskmgmt.notify_handle =
-> > -		simple_idr_get(idrtable, event, lock);
-> > -	cmdrsp->scsitaskmgmt.notifyresult_handle =
-> > -		simple_idr_get(idrtable, result, lock);
-> > +	int ret;
-> > +	u32 id;
-> > +
-> > +	/* specify the event that has to be triggered when this cmd is complete */
-> > +	ret = xa_alloc_irq(xa, &id, event, xa_limit_32b, GFP_KERNEL);
-> > +	if (ret == 0)
-> > +		cmdrsp->scsitaskmgmt.notify_handle = id;
-> > +	else
-> > +		return ret;
-> 
-> Reverse the condition.  Always do error handling, not success handling.
-> Try keep the success path at one tab indent and the failure path at two
-> tab indents.
-> 
-> 	ret = xa_alloc_irq(xa, &id, event, xa_limit_32b, GFP_KERNEL);
-> 	if (ret)
-> 		return ret;
-> 	cmdrsp->scsitaskmgmt.notify_handle = id;
-> 
-> 	ret = xa_alloc_irq(xa, &id, result, xa_limit_32b, GFP_KERNEL);
-> 	if (ret) {
-> 		xa_erase(xa, cmdrsp->scsitaskmgmt.notify_handle);
+This patchset replaces the private AES routines used to
+encrypt data with in-kernel ones.
 
-umm.  When you put these things right next to each other, it's obvious
-that should be xa_erase_irq().
+Fabio Aiuto (3):
+  staging: rtl8723bs: align argument position in a new line
+  staging: rtl8723bs: use in-kernel aes encryption in OMAC1 routines
+  staging: rtl8723bs: use in-kernel aes encryption
 
-> > -static void cleanup_scsitaskmgmt_handles(struct idr *idrtable,
-> > +static void cleanup_scsitaskmgmt_handles(struct xarray *xa,
-> >  					 struct uiscmdrsp *cmdrsp)
-> >  {
-> > -	if (cmdrsp->scsitaskmgmt.notify_handle)
-> > -		idr_remove(idrtable, cmdrsp->scsitaskmgmt.notify_handle);
-> > -	if (cmdrsp->scsitaskmgmt.notifyresult_handle)
-> > -		idr_remove(idrtable, cmdrsp->scsitaskmgmt.notifyresult_handle);
-> > +	xa_erase(xa, cmdrsp->scsitaskmgmt.notify_handle);
-> > +	xa_erase(xa, cmdrsp->scsitaskmgmt.notifyresult_handle);
+ drivers/staging/rtl8723bs/core/rtw_security.c | 327 +-----------------
+ .../staging/rtl8723bs/include/rtw_security.h  |   1 +
+ 2 files changed, 15 insertions(+), 313 deletions(-)
 
-If this code were even run, assuming the appropriate lockdep options
-were enabled, xarray would point out that you were taking a lock with
-interrupts enabled that was previously taken with interrupts disabled.
-That's a good thing!  Because before, this code was deleting entries
-from the IDR with _no_ locking.
-
-So these should both be xa_erase_irq().
-
-> > @@ -1096,8 +1085,6 @@ static void visorhba_remove(struct visor_device *dev)
-> >  	scsi_remove_host(scsihost);
-> >  	scsi_host_put(scsihost);
-> >  
-> > -	idr_destroy(&devdata->idr);
-> 
-> Do we not have to call xa_destroy()?
-
-Correct.  We covered this in earlier iterations of this series and I
-don't feel like typing out the explanation again.
+-- 
+2.20.1
 
