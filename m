@@ -1,57 +1,32 @@
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4ED72
-	for <linux-staging@lists.linux.dev>; Tue,  4 May 2021 15:04:54 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 144F0RT8189745;
-	Tue, 4 May 2021 15:04:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=KpgINEm/1wfqyGDCowX/qONC//iS169/W6cn28aAWPU=;
- b=LtVEvK6t51FsezexpF+QC/x481Yt8VFrWrXgWqK2fgt7Wc9Uo0yZ4UBBLWOLZEczpt8p
- 4JwIfO3cwjnHzYZ4mK6c0uVEEdxi/X73Azhj9vzSpoc84z463+o7BYqQjxUhGa2elTnj
- zKWN4dTd2/CMYZuxqNSwGzQiIBUAtMdo6y+iASzgDbenqXeuwVq9gDLRzrddO3ESBK/J
- RVDR4QAvoj4KSLEmxCdNyTzmR8FrXZAg4pZJ8yATPFnUGlbd6iJHoPF2F0gDE7qI6AxA
- GEYXfSqzK4Ty2jvHdqOhXTWI6B5XqaKnaHRAlehYO9B8c2d86olMY1g1XpWaFYx0xuwV EQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by aserp2120.oracle.com with ESMTP id 388xxmy9ah-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 04 May 2021 15:04:42 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 144EpdE8146353;
-	Tue, 4 May 2021 15:04:41 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by userp3020.oracle.com with ESMTP id 389grs4sb9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 04 May 2021 15:04:41 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 144F4e7L013474;
-	Tue, 4 May 2021 15:04:40 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-	by userp3020.oracle.com with ESMTP id 389grs4sak-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 04 May 2021 15:04:40 +0000
-Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
-	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 144F4aLt001757;
-	Tue, 4 May 2021 15:04:37 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Tue, 04 May 2021 15:04:35 +0000
-Date: Tue, 4 May 2021 18:04:28 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2496172
+	for <linux-staging@lists.linux.dev>; Tue,  4 May 2021 15:46:33 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1831860BD3;
+	Tue,  4 May 2021 15:46:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1620143192;
+	bh=HjWdlGi51gxgMbxhNStXncgZHq51SkoVHiNnYwf6fMM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lAPGmaSMFz8brn0DX/cZkjHNSWTlHdENIaczx9iKbXXSTNjt9oCaQF9gmqG5dfTxR
+	 wKQxHtviDPxFpf+MVmQXvF2k6ByJ/QC3jT2tVF4bbIgvzvdrRJF7IiT+ndCmtTzcHX
+	 AOUkg38T0mHwHJKeDl+7j7kY+S8CWep3cNC8Tjbo=
+Date: Tue, 4 May 2021 17:46:29 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: outreachy-kernel@googlegroups.com,
-        David Kershner <david.kershner@unisys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        sparmaintainer@unisys.com, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
-        Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v8] staging: unisys: visorhba: Convert module from IDR to
- XArray
-Message-ID: <20210504150428.GX1981@kadam>
-References: <20210504150125.18373-1-fmdefrancesco@gmail.com>
+Cc: Matthew Wilcox <willy@infradead.org>, outreachy-kernel@googlegroups.com,
+	David Kershner <david.kershner@unisys.com>,
+	sparmaintainer@unisys.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+	Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [Outreachy kernel] Re: [PATCH v7] staging: unisys: visorhba:
+ Convert module from IDR to XArray
+Message-ID: <YJFsVTA/DTLvfWQG@kroah.com>
+References: <20210504133253.32269-1-fmdefrancesco@gmail.com>
+ <3550993.e1xmc6yJDa@linux.local>
+ <20210504140119.GH1847222@casper.infradead.org>
+ <810075373.q0sU067TuV@linux.local>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -59,30 +34,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210504150125.18373-1-fmdefrancesco@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: ucU6gMzDlP5M7UiyO2ZWgbYblVFjp_rX
-X-Proofpoint-ORIG-GUID: ucU6gMzDlP5M7UiyO2ZWgbYblVFjp_rX
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9974 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 spamscore=0
- suspectscore=0 phishscore=0 clxscore=1015 lowpriorityscore=0
- mlxlogscore=999 priorityscore=1501 impostorscore=0 mlxscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2105040111
+In-Reply-To: <810075373.q0sU067TuV@linux.local>
 
-On Tue, May 04, 2021 at 05:01:25PM +0200, Fabio M. De Francesco wrote:
-> Converted visorhba from IDR to XArray. The abstract data type XArray is
-> more memory-efficient, parallelizable and cache friendly. It takes
-> advantage of RCU to perform lookups without locking. Furthermore, IDR is
-> deprecated because XArray has a better (cleaner and more consistent)
-> API.
+On Tue, May 04, 2021 at 04:38:11PM +0200, Fabio M. De Francesco wrote:
 > 
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> As far as (1) and (2) are regarded, I've been told that when one modifies code 
+> she/he should not diverge from the style of the subsystem/driver maintainer/
+> author. If you look at visorhba_main.c, you'll find a lot of unnecessary 
+> 'else' and 'if (success)'...
+> 
+> So what are the general rules one should follow when changing (trivial) Linux 
+> code? Please note that my question has no other (hidden) purposes than 
+> learning to work properly with the Linux community and to reduce the 
+> unnecessary noise consequential to submitting a high number of patch versions.
 
-Thanks!  Looks good to me.
+"trivial" changes should only be done in subsystems that welcome it.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+drivers/staging/ welcomes it, anything other than that, you need to ask
+the maintainer.
 
-regards,
-dan carpenter
+thanks,
 
+greg k-h
