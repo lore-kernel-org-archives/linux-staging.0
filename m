@@ -1,95 +1,56 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from h04.kommunity.net (h04.kommunity.net [138.201.86.160])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A314B72
-	for <linux-staging@lists.linux.dev>; Wed,  5 May 2021 14:23:35 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 22F9361029;
-	Wed,  5 May 2021 14:23:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1620224614;
-	bh=fHzvZb04EncTIhKLD9UpQo/lk3yj1BkGTtkLC0Aet3s=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=eR+gstgGSeKG+jWCsGQlOUU36DMvvYokFuDdQ8fWjhCk8SwIcIUeRsqMiy1w9JzOQ
-	 olgBZoyo/vuZ3T6yhYdZkzp76Wt/WHpTuyt6rusu8cCI7MhauTYQIlJLD8bUCeiWKQ
-	 a8vnBbb2ISRqNebLFV1/Qpud/P7sJDlJyy17vcNNHi+790hKOJcHxjTwbi70yt7LMR
-	 klp08xMRp1mXYk928MshmGC8Li2JXImIuvuLGPT9amHX95fyA2jXKdqWJFBKZISGve
-	 1+5qAtjO7WDzl5NYuFt+9rMdMyUZLBaQRFrpP3sbObpd/8xvzDoDey3oACapIaVrIc
-	 08Zz5Gi6x+aPQ==
-Date: Wed, 5 May 2021 16:23:28 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: "Rui Miguel Silva" <rmfrfs@gmail.com>
-Cc: "Jonathan Cameron" <Jonathan.Cameron@Huawei.com>, <linuxarm@huawei.com>,
- <mauro.chehab@huawei.com>, "Fabio Estevam" <festevam@gmail.com>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Mauro Carvalho Chehab"
- <mchehab@kernel.org>, "NXP Linux Team" <linux-imx@nxp.com>, "Pengutronix
- Kernel Team" <kernel@pengutronix.de>, "Philipp Zabel"
- <p.zabel@pengutronix.de>, "Sascha Hauer" <s.hauer@pengutronix.de>, "Shawn
- Guo" <shawnguo@kernel.org>, "Steve Longerbeam" <slongerbeam@gmail.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH 02/25] staging: media: imx7-mipi-csis: fix
- pm_runtime_get_sync() usage count
-Message-ID: <20210505162328.1e5fff80@coco.lan>
-In-Reply-To: <CB5D4B64QTP4.GBH80G3VX3B6@arch-thunder>
-References: <cover.1620207353.git.mchehab+huawei@kernel.org>
-	<793a5806a63b6313606fd1c344b9eec41e61a440.1620207353.git.mchehab+huawei@kernel.org>
-	<20210505120652.00001236@Huawei.com>
-	<CB5D4B64QTP4.GBH80G3VX3B6@arch-thunder>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C125B70
+	for <linux-staging@lists.linux.dev>; Wed,  5 May 2021 16:10:55 +0000 (UTC)
+Received: from notebook.fritz.box (p4fc26c70.dip0.t-ipconnect.de [79.194.108.112])
+	by h04.kommunity.net (Postfix) with ESMTPSA id 6326BF81A12;
+	Wed,  5 May 2021 18:10:47 +0200 (CEST)
+Authentication-Results: h04.kommunity.net;
+	spf=pass (sender IP is 79.194.108.112) smtp.mailfrom=alec@vc-celle.de smtp.helo=notebook.fritz.box
+Received-SPF: pass (h04.kommunity.net: connection is authenticated)
+From: Alexander Vorwerk <alec@vc-celle.de>
+To: gregkh@linuxfoundation.org
+Cc: arve@android.com,
+	tkjos@android.com,
+	maco@android.com,
+	joel@joelfernandes.org,
+	christian@brauner.io,
+	hridya@google.com,
+	surenb@google.com,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Alexander Vorwerk <alec@vc-celle.de>
+Subject: [PATCH] staging: android: make file_operations struct const
+Date: Wed,  5 May 2021 18:10:15 +0200
+Message-Id: <20210505161015.10278-1-alec@vc-celle.de>
+X-Mailer: git-send-email 2.17.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-Em Wed, 05 May 2021 14:56:40 +0100
-"Rui Miguel Silva" <rmfrfs@gmail.com> escreveu:
+Fix the following type of checkpatch warning:
+"WARNING: struct file_operations should normally be const"
 
-> Hi,
-> On Wed May 5, 2021 at 12:06 PM WEST, Jonathan Cameron wrote:
-> 
-> > On Wed, 5 May 2021 11:41:52 +0200
-> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> >  
-> > > The pm_runtime_get_sync() internally increments the
-> > > dev->power.usage_count without decrementing it, even on errors.
-> > > Replace it by the new pm_runtime_resume_and_get(), introduced by:
-> > > commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-> > > in order to properly decrement the usage counter, avoiding
-> > > a potential PM usage counter leak.
-> > > 
-> > > Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
-> >
-> > Not a fix as far as I can see, just a cleanup - so perhaps not this set?  
-> 
-> yes, the original changelog of this patch, that I acked,  made it
-> clear it was a cleanup:
-> 
-> "
-> Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to
-> deal with usage counter")                                                                                                                                         
-> added pm_runtime_resume_and_get() in order to automatically handle 
-> dev->power.usage_count decrement on errors.
-> 
-> Use the new API, in order to cleanup the error check logic.
-> "
-> 
-> This one above is new, but I saw Mauro is going change it.
+Signed-off-by: Alexander Vorwerk <alec@vc-celle.de>
+---
+ drivers/staging/android/ashmem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yes, I'll change the subject/description to the
-"use pm_runtime_resume_and_get()" one on this patch, as there's
-no issue to be fixed here, just a cleanup ;-)
+diff --git a/drivers/staging/android/ashmem.c b/drivers/staging/android/ashmem.c
+index 8ee4320a5dc6..8ff2794b08e3 100644
+--- a/drivers/staging/android/ashmem.c
++++ b/drivers/staging/android/ashmem.c
+@@ -377,7 +377,7 @@ ashmem_vmfile_get_unmapped_area(struct file *file, unsigned long addr,
+ 
+ static int ashmem_mmap(struct file *file, struct vm_area_struct *vma)
+ {
+-	static struct file_operations vmfile_fops;
++	static const struct file_operations vmfile_fops;
+ 	struct ashmem_area *asma = file->private_data;
+ 	int ret = 0;
+ 
+-- 
+2.17.1
 
-Sorry for the mess. I did lots of rebase on ~80 patch series
-over the last couple of days, based on the reviews (and my own
-internal reviews)...
-
-See, the current patchset has ~80 patches with ~30% contained
-fixes. It shows that writing a balanced PM runtime code is not
-so trivial ;-)
-
-Thanks,
-Mauro
