@@ -1,37 +1,33 @@
 Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944C871
-	for <linux-staging@lists.linux.dev>; Wed,  5 May 2021 11:28:18 +0000 (UTC)
-Received: from fraeml702-chm.china.huawei.com (unknown [172.18.147.226])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FZv1x4l78z6yj64;
-	Wed,  5 May 2021 19:02:45 +0800 (CST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB3D71
+	for <linux-staging@lists.linux.dev>; Wed,  5 May 2021 11:36:16 +0000 (UTC)
+Received: from fraeml734-chm.china.huawei.com (unknown [172.18.147.201])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FZvbK0QHrz6rlWH;
+	Wed,  5 May 2021 19:28:13 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml702-chm.china.huawei.com (10.206.15.51) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Wed, 5 May 2021 13:08:33 +0200
+ fraeml734-chm.china.huawei.com (10.206.15.215) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 5 May 2021 13:36:15 +0200
 Received: from localhost (10.52.120.138) by lhreml710-chm.china.huawei.com
  (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Wed, 5 May 2021
- 12:08:32 +0100
-Date: Wed, 5 May 2021 12:06:52 +0100
+ 12:36:14 +0100
+Date: Wed, 5 May 2021 12:34:35 +0100
 From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
 To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-CC: <linuxarm@huawei.com>, <mauro.chehab@huawei.com>, Fabio Estevam
-	<festevam@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Mauro
- Carvalho Chehab" <mchehab@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Philipp Zabel
-	<p.zabel@pengutronix.de>, Rui Miguel Silva <rmfrfs@gmail.com>, Sascha Hauer
-	<s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Steve Longerbeam
-	<slongerbeam@gmail.com>, <linux-arm-kernel@lists.infradead.org>,
+CC: <linuxarm@huawei.com>, <mauro.chehab@huawei.com>, Ezequiel Garcia
+	<ezequiel@collabora.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
 	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-	<linux-staging@lists.linux.dev>
-Subject: Re: [PATCH 02/25] staging: media: imx7-mipi-csis: fix
- pm_runtime_get_sync() usage count
-Message-ID: <20210505120652.00001236@Huawei.com>
-In-Reply-To: <793a5806a63b6313606fd1c344b9eec41e61a440.1620207353.git.mchehab+huawei@kernel.org>
+	<linux-rockchip@lists.infradead.org>, <linux-staging@lists.linux.dev>
+Subject: Re: [PATCH 09/25] media: hantro: do a PM resume earlier
+Message-ID: <20210505123435.00002065@Huawei.com>
+In-Reply-To: <82114a4bd9c7bc1188c6a7167a6e74bb3360961d.1620207353.git.mchehab+huawei@kernel.org>
 References: <cover.1620207353.git.mchehab+huawei@kernel.org>
-	<793a5806a63b6313606fd1c344b9eec41e61a440.1620207353.git.mchehab+huawei@kernel.org>
+	<82114a4bd9c7bc1188c6a7167a6e74bb3360961d.1620207353.git.mchehab+huawei@kernel.org>
 Organization: Huawei Technologies Research and Development (UK) Ltd.
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -46,45 +42,48 @@ X-ClientProxiedBy: lhreml725-chm.china.huawei.com (10.201.108.76) To
  lhreml710-chm.china.huawei.com (10.201.108.61)
 X-CFilter-Loop: Reflected
 
-On Wed, 5 May 2021 11:41:52 +0200
+On Wed, 5 May 2021 11:41:59 +0200
 Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-> The pm_runtime_get_sync() internally increments the
-> dev->power.usage_count without decrementing it, even on errors.
-> Replace it by the new pm_runtime_resume_and_get(), introduced by:
-> commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-> in order to properly decrement the usage counter, avoiding
-> a potential PM usage counter leak.
+> The device_run() first enables the clock and then
+> tries to resume PM runtime, checking for errors.
 > 
-> Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> Well, if for some reason the pm_runtime can not resume,
+> it would be better to detect it beforehand.
+> 
+> So, change the order inside device_run().
+> 
+> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+> Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Not a fix as far as I can see, just a cleanup - so perhaps not this set?
-
-Jonathan
-
+Does this move not result in a potential call of clk_bulk_disable() for clocks
+that aren't enabled?
 
 > ---
->  drivers/staging/media/imx/imx7-mipi-csis.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+>  drivers/staging/media/hantro/hantro_drv.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-> index 025fdc488bd6..1dc680d94a46 100644
-> --- a/drivers/staging/media/imx/imx7-mipi-csis.c
-> +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-> @@ -695,11 +695,10 @@ static int mipi_csis_s_stream(struct v4l2_subdev *mipi_sd, int enable)
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index 595e82a82728..4387edaa1d0d 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -152,13 +152,14 @@ static void device_run(void *priv)
+>  	src = hantro_get_src_buf(ctx);
+>  	dst = hantro_get_dst_buf(ctx);
 >  
->  		mipi_csis_clear_counters(state);
+> -	ret = clk_bulk_enable(ctx->dev->variant->num_clocks, ctx->dev->clocks);
+> -	if (ret)
+> -		goto err_cancel_job;
+>  	ret = pm_runtime_get_sync(ctx->dev->dev);
+>  	if (ret < 0)
+>  		goto err_cancel_job;
 >  
-> -		ret = pm_runtime_get_sync(&state->pdev->dev);
-> -		if (ret < 0) {
-> -			pm_runtime_put_noidle(&state->pdev->dev);
-> +		ret = pm_runtime_resume_and_get(&state->pdev->dev);
-> +		if (ret < 0)
->  			return ret;
-> -		}
+> +	ret = clk_bulk_enable(ctx->dev->variant->num_clocks, ctx->dev->clocks);
+> +	if (ret)
+> +		goto err_cancel_job;
 > +
->  		ret = v4l2_subdev_call(state->src_sd, core, s_power, 1);
->  		if (ret < 0 && ret != -ENOIOCTLCMD)
->  			goto done;
+>  	v4l2_m2m_buf_copy_metadata(src, dst, true);
+>  
+>  	ctx->codec_ops->run(ctx);
 
