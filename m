@@ -1,82 +1,75 @@
-Received: from mailgw02.mediatek.com (mailgw02.mediatek.com [216.200.240.185])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD4770
-	for <linux-staging@lists.linux.dev>; Wed,  5 May 2021 09:32:55 +0000 (UTC)
-X-UUID: f8b40e87745347dd948baa84fdc9793e-20210505
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=wGIu9D0K3g9b5WCqbKTXiSpOw9BUQsnxsil9kutRcfg=;
-	b=X9nDReORDPz35r0ccML3pdh8YdbJ+qSLYPjvgG2nLM2OpyOgokoqyxhqsm8mZhHeoHqgwOJkjNjDMVQgiDR8RFQHdsRVGZYtVwbeQKDmmtAlwIKfhG9bvI5HPLyO4mzIrEUhERJOz0FYLaz779c4/O4jk1OYtALNdirtUC+ZuRw=;
-X-UUID: f8b40e87745347dd948baa84fdc9793e-20210505
-Received: from mtkcas66.mediatek.inc [(172.29.193.44)] by mailgw02.mediatek.com
-	(envelope-from <landen.chao@mediatek.com>)
-	(musrelay.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 1997269144; Wed, 05 May 2021 02:31:45 -0700
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- MTKMBS62N1.mediatek.inc (172.29.193.41) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 5 May 2021 02:31:43 -0700
-Received: from mtksdccf07 (172.21.84.99) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 5 May 2021 17:31:42 +0800
-Message-ID: <fc962daf8b7babc22b043b2b0878a206780b55f3.camel@mediatek.com>
-Subject: Re: Re: Re: Re: [PATCH net-next 0/4] MT7530 interrupt support
-From: Landen Chao <landen.chao@mediatek.com>
-To: Andrew Lunn <andrew@lunn.ch>, Frank Wunderlich <frank-w@public-files.de>
-CC: DENG Qingfang <dqfext@gmail.com>, David Miller <davem@davemloft.net>,
-	<f.fainelli@gmail.com>, <hkallweit1@gmail.com>, <kuba@kernel.org>,
-	<matthias.bgg@gmail.com>, <linux@armlinux.org.uk>, <sean.wang@mediatek.com>,
-	<vivien.didelot@gmail.com>, <olteanv@gmail.com>, <robh+dt@kernel.org>,
-	<linus.walleij@linaro.org>, <gregkh@linuxfoundation.org>,
-	<sergio.paracuellos@gmail.com>, <linux-kernel@vger.kernel.org>,
-	<linux-mediatek@lists.infradead.org>, <linux-staging@lists.linux.dev>,
-	<devicetree@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<weijie.gao@mediatek.com>, <gch981213@gmail.com>, <opensource@vdorst.com>,
-	<tglx@linutronix.de>, <maz@kernel.org>
-Date: Wed, 5 May 2021 17:31:43 +0800
-In-Reply-To: <YIwxpYD1jnFMPQz+@lunn.ch>
-References: <20210429062130.29403-1-dqfext@gmail.com>
-	 <20210429.170815.956010543291313915.davem@davemloft.net>
-	 <20210430023839.246447-1-dqfext@gmail.com> <YIv28APpOP9tnuO+@lunn.ch>
-	 <trinity-843c99ce-952a-434e-95e4-4ece3ba6b9bd-1619786236765@3c-app-gmx-bap03>
-	 <YIv7w8Wy81fmU5A+@lunn.ch>
-	 <trinity-611ff023-c337-4148-a215-98fd5604eac2-1619787382934@3c-app-gmx-bap03>
-	 <YIwCliT5NZT713WD@lunn.ch>
-	 <trinity-c45bbeec-5b7c-43a2-8e86-7cb22ad61558-1619794787680@3c-app-gmx-bap03>
-	 <YIwxpYD1jnFMPQz+@lunn.ch>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1BBB70
+	for <linux-staging@lists.linux.dev>; Wed,  5 May 2021 09:42:19 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D4B2861106;
+	Wed,  5 May 2021 09:42:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1620207738;
+	bh=Ge/Ah7ICxGTEtJ+zpzc3S/dZD8dc9zPvBoOlbXMznLs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=aKdc/dLsQD5sO9k0fCMqOXnJ7qgJpGvzD3Kqmvh7aGjc+vOIc7pwwIUP3UwHCZ3GO
+	 nNL/E4OfhDT7M9e/GRXA7RfzmmBq8Amn1JODFN6yHTUIO8Ybviylgr6qLMEYV1DvsO
+	 U9Kigw+mIcaBTfuHrNCTPfmiE/R/P1RPhWBCqTNa7CbzP78Lw58K1NP5ulzghcukiN
+	 BzOr6k86KO6+W32Wnxg31jRaVclTzaBLR4tJuk5htHWTwaof4PXDRRPd/pVrz+DjiZ
+	 y2jjAPEfhLEtVj8Z5tSbwbNdY0VsI9rN3LT6wwxP4ljHZA6sfD42vFsqQH44Skxa0h
+	 BmNrU6nJGCccw==
+Received: by mail.kernel.org with local (Exim 4.94)
+	(envelope-from <mchehab@kernel.org>)
+	id 1leE2q-00AHvr-Jj; Wed, 05 May 2021 11:42:16 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: 
+Cc: linuxarm@huawei.com,
+	mauro.chehab@huawei.com,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Ezequiel Garcia <ezequiel@collabora.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 01/25] staging: media: rkvdec: fix pm_runtime_get_sync() usage count
+Date: Wed,  5 May 2021 11:41:51 +0200
+Message-Id: <dd3294f2d2777d41a27b4244f077f440df49a408.1620207353.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <cover.1620207353.git.mchehab+huawei@kernel.org>
+References: <cover.1620207353.git.mchehab+huawei@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MTK: N
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-T24gRnJpLCAyMDIxLTA0LTMwIGF0IDE4OjM0ICswMjAwLCBBbmRyZXcgTHVubiB3cm90ZToNCj4g
-PiBtaG0sIG1heWJlIHRoZSBuYW1pbmcgc2hvdWxkIGRpZmZlciBpZiBnZW5lcmljIHBoeSBhbmQg
-bmV0LXBoeSBhcmUNCj4gPiB0aGF0IGRpZmZlcmVudC4gaSBndWVzcyB0aGVyZSBpcyBubyB3YXkg
-dG8gbWVyZ2UgdGhlIG5ldCBwaHlzIHRvDQo+ID4gdGhlDQo+ID4gZ2VuZXJpYyBwaHlzIChkdWUg
-dG8gbGlua2luZyB0byB0aGUgbmV0IGRldmljZSBkcml2ZXJzKSB0byBoYXZlDQo+ID4gb25seQ0K
-PiA+IDEgcGh5IHNlY3Rpb24sIHJpZ2h0Pw0KPiANCj4gcGh5cyBhbmQgZ2VuZXJpYyBQSFlzIGFy
-ZSB2ZXJ5IGRpZmZlcmVudCB0aGluZ3MsIGNvbXBsZXRlbHkgZGlmZmVyZW50DQo+IEFQSSBldGMu
-IFRoZXkgY2Fubm90IGJlIG1lcmdlZC4NCj4gDQo+ID4gYnV0IGlmIHBoeS0gcHJlZml4IGlzIHVz
-ZWQgYnkgZ2VuZXJpYyBwaHlzLCBtYXliZSBldGgtIG9yIG5ldC0gY2FuDQo+ID4gYmUgdXNlZCBo
-ZXJlIChtYXliZSB3aXRoICJwaHkiIGFkZGVkKQ0KPiA+IA0KPiA+IHNvbWV0aGluZyBsaWtlDQo+
-ID4gDQo+ID4gZXRoLXBoeS1tdDc1M3gua28NCkhvdyBhYm91dCB1c2luZyBtZWRpYXRlay1nZS5r
-by4gJ2dlJyBpcyB0aGUgYWJicmV2aWF0aW9uIG9mIGdpZ2FiaXQNCkV0aGVybmV0LiBNb3N0IG1l
-ZGlhdGVrIHByb2R1Y3RzIHVzZSB0aGUgc2FtZSBnaWdhYml0IEV0aGVybmV0IHBoeS4NCg0KTGFu
-ZGVuDQo+ID4gDQo+ID4gZWxzZSBpIGhhdmUgbm8gaWRlYSBub3cuLi5teSBwYXRjaCByZW5hbWlu
-ZyB0aGUgbXVzYi1tb2R1bGUgc2VlbXMNCj4gPiBub3QNCj4gPiB0byBiZSBhY2NlcHRlZCBkdWUg
-dG8gcG9zc2libGUgYnJlYWthZ2UNCj4gDQo+IFRoZSB1c2IgbW9kdWxlIGhhcyBiZWVuIGFyb3Vu
-ZCBmb3IgYSBsb25nIHRpbWUsIHNvIGl0IGNhbm5vdCBiZQ0KPiBjaGFuZ2VkLiBUaGUgcGh5IGRy
-aXZlciBpcyBuZXcsIG5vdCBpbiBhIHJlbGVhc2VkIGtlcm5lbC4gU28gd2UgY2FuDQo+IHN0aWxs
-IHJlbmFtZSBpdCB3aXRob3V0IGNhdXNpbmcgcHJvYmxlbXMuDQo+IA0KPiBJIHN0aWxsIHdhbnQg
-dG8gdW5kZXJzdGFuZCB0aGUgbmFtaW5nIGhlcmUuIElmIHlvdSBsb29rIGF0IG1vc3QNCj4gRXRo
-ZXJuZXQgc3dpdGNoZXMgd2l0aCBpbnRlZ3JhdGVkIFBIWXMsIHRoZSBQSFlzIGhhdmUgdGhlaXIg
-b3duDQo+IG5hbWluZw0KPiBzY2hlbWUsIHNlcGFyYXRlIGZyb20gdGhlIHN3aXRjaCwgYmVjYXVz
-ZSB0aGV5IGFyZSBpbmRlcGVuZGVudCBJUC4gU28NCj4gaSB3b3VsZCBwcmVmZXIgdGhpcyBkcml2
-ZXIgYnkgbmFtZWQgYWZ0ZXIgdGhlIFBIWSBuYW1lLCBub3QgdGhlDQo+IHN3aXRjaA0KPiBuYW1l
-LiBUaGF0IG1pZ2h0IHNvbHZlIHRoZSBuYW1pbmcgY29uZmxpY3QsIG10MTIzeCBmb3IgdGhlIFBI
-WSwNCj4gbXQ3NTMwDQo+IGZvciB0aGUgc3dpdGNoIGRyaXZlci4NCj4gDQo+IAlBbmRyZXcNCg==
+The pm_runtime_get_sync() internally increments the
+dev->power.usage_count without decrementing it, even on errors.
+Replace it by the new pm_runtime_resume_and_get(), introduced by:
+commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+in order to properly decrement the usage counter, avoiding
+a potential PM usage counter leak.
+
+Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/staging/media/rkvdec/rkvdec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index d821661d30f3..8c17615f3a7a 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -658,7 +658,7 @@ static void rkvdec_device_run(void *priv)
+ 	if (WARN_ON(!desc))
+ 		return;
+ 
+-	ret = pm_runtime_get_sync(rkvdec->dev);
++	ret = pm_runtime_resume_and_get(rkvdec->dev);
+ 	if (ret < 0) {
+ 		rkvdec_job_finish_no_pm(ctx, VB2_BUF_STATE_ERROR);
+ 		return;
+-- 
+2.30.2
 
