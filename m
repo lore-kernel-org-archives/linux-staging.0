@@ -1,37 +1,40 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3701D2F82
-	for <linux-staging@lists.linux.dev>; Thu,  6 May 2021 15:26:40 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E8113613EA;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2292870
+	for <linux-staging@lists.linux.dev>; Thu,  6 May 2021 15:26:41 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E75AD613E8;
 	Thu,  6 May 2021 15:26:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1620314800;
-	bh=FkmgprH1Efaxx2ACANKQIX0x+YQtBzJ9hcv6iynvk/U=;
+	bh=OywYIi5a3XqVfdfwDSr/a7KsGKnino28d76Xjqz0XV4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=e6WPCzWeK5ndy4vrit25wUyDiO0K5AqFr4oaF9rquuwtK9f2msNvU7ZaCClijoc26
-	 4XDSeMrSjNiRbqARoYsLkBoYL0HqnHP/5gk95fIGhhrHblB6AjfFXNXi/kCHJL8OlS
-	 voy/XmUrCC46HextonH00dlR96DsaYP3HcTbA2MgKfdzcbDn/gzjtWK1wSkoLb+sRG
-	 O+NrVlMYp4TNAC5+5zzaOCgPqpFkwDa8LSK9Hegic/tAgBPSJUJhaYglv3NVHXB5fj
-	 3pQOXiiwQD0zJmzck29ljMR7/k0q2DDqz0byD65/9QfhEUBnLgZu5c5LaVVYN8ZnnY
-	 yNc35wDpA+wsA==
+	b=D751wvuiOPx9QcShg2gaxNRgYh+dHvLZyhMhCqiu2X0Z7Y4obIHDESjR3pBMlyDoM
+	 wXo9pzZlE7LXN4Zb48UBzaocIUcSIUwWkPsnZhfpxat3KNf0RiBDFkp55QHiG7TV2r
+	 6Zg3uFxV+pm8Y36nykGAi8W3WuKWhm6r4XUl8Wi7Tm6E8slZtCFen7dFndqFRKXJt9
+	 CAeyyU+wAHuwXHCPgUfhqsHGFT/2HaWNSA5nR7291aQxKSFoJwq8RdheqQWe6aYfin
+	 VDar0eost/MTF3s9IK34NCvn0wqvYVO03tfXLI7L1Z4x10RN90yXyxKvAK6zl+HWMs
+	 l2gQbj91OoC6A==
 Received: by mail.kernel.org with local (Exim 4.94.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1left7-000SB8-N5; Thu, 06 May 2021 17:26:05 +0200
+	id 1left7-000SBL-QF; Thu, 06 May 2021 17:26:05 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: 
 Cc: linuxarm@huawei.com,
 	mauro.chehab@huawei.com,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Dmitry Osipenko <digetx@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v5 02/25] staging: media: atomisp: use pm_runtime_resume_and_get()
-Date: Thu,  6 May 2021 17:25:40 +0200
-Message-Id: <4111169357a17dda547034b7a5e15f1ce225d4ab.1620314616.git.mchehab+huawei@kernel.org>
+	linux-staging@lists.linux.dev,
+	linux-tegra@vger.kernel.org
+Subject: [PATCH v5 05/25] staging: media: tegra-vde: use pm_runtime_resume_and_get()
+Date: Thu,  6 May 2021 17:25:43 +0200
+Message-Id: <a1230241a83a6abcd27b91edcafee1685232f81e.1620314616.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620314616.git.mchehab+huawei@kernel.org>
 References: <cover.1620314616.git.mchehab+huawei@kernel.org>
@@ -49,39 +52,70 @@ dev->power.usage_count decrement on errors.
 
 Use the new API, in order to cleanup the error check logic.
 
-Besides that, the de-init order in case of css error was wrong.
-This change should also fix that.
-
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/staging/media/atomisp/pci/atomisp_fops.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/media/tegra-vde/vde.c | 21 ++++++++++++++++++---
+ 1 file changed, 18 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index f1e6b2597853..26d05474a035 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -837,7 +837,7 @@ static int atomisp_open(struct file *file)
- 	}
+diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
+index 28845b5bafaf..e025b69776f2 100644
+--- a/drivers/staging/media/tegra-vde/vde.c
++++ b/drivers/staging/media/tegra-vde/vde.c
+@@ -775,9 +775,9 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+ 	if (ret)
+ 		goto release_dpb_frames;
  
- 	/* runtime power management, turn on ISP */
--	ret = pm_runtime_get_sync(vdev->v4l2_dev->dev);
-+	ret = pm_runtime_resume_and_get(vdev->v4l2_dev->dev);
- 	if (ret < 0) {
- 		dev_err(isp->dev, "Failed to power on device\n");
- 		goto error;
-@@ -881,9 +881,9 @@ static int atomisp_open(struct file *file)
+-	ret = pm_runtime_get_sync(dev);
++	ret = pm_runtime_resume_and_get(dev);
+ 	if (ret < 0)
+-		goto put_runtime_pm;
++		goto unlock;
  
- css_error:
- 	atomisp_css_uninit(isp);
--error:
--	hmm_pool_unregister(HMM_POOL_TYPE_DYNAMIC);
- 	pm_runtime_put(vdev->v4l2_dev->dev);
-+error:
-+	hmm_pool_unregister(HMM_POOL_TYPE_DYNAMIC);
- 	rt_mutex_unlock(&isp->mutex);
- 	return ret;
- }
+ 	/*
+ 	 * We rely on the VDE registers reset value, otherwise VDE
+@@ -843,6 +843,8 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+ put_runtime_pm:
+ 	pm_runtime_mark_last_busy(dev);
+ 	pm_runtime_put_autosuspend(dev);
++
++unlock:
+ 	mutex_unlock(&vde->lock);
+ 
+ release_dpb_frames:
+@@ -1069,11 +1071,19 @@ static int tegra_vde_probe(struct platform_device *pdev)
+ 	 * power-cycle it in order to put hardware into a predictable lower
+ 	 * power state.
+ 	 */
+-	pm_runtime_get_sync(dev);
++	if (pm_runtime_resume_and_get(dev) < 0)
++		goto err_pm_runtime;
++
+ 	pm_runtime_put(dev);
+ 
+ 	return 0;
+ 
++err_pm_runtime:
++	misc_deregister(&vde->miscdev);
++
++	pm_runtime_dont_use_autosuspend(dev);
++	pm_runtime_disable(dev);
++
+ err_deinit_iommu:
+ 	tegra_vde_iommu_deinit(vde);
+ 
+@@ -1089,7 +1099,12 @@ static int tegra_vde_remove(struct platform_device *pdev)
+ 	struct tegra_vde *vde = platform_get_drvdata(pdev);
+ 	struct device *dev = &pdev->dev;
+ 
++	/*
++	 * As it increments RPM usage_count even on errors, we don't need to
++	 * check the returned code here.
++	 */
+ 	pm_runtime_get_sync(dev);
++
+ 	pm_runtime_dont_use_autosuspend(dev);
+ 	pm_runtime_disable(dev);
+ 
 -- 
 2.30.2
 
