@@ -1,40 +1,45 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1127B70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356DA2F81
 	for <linux-staging@lists.linux.dev>; Thu,  6 May 2021 15:26:40 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B58F26101D;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E692D610E9;
 	Thu,  6 May 2021 15:26:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1620314799;
-	bh=MXpnKbLLJHoaKaSDG9Nm2cU25Bmpfhlpa/FbF9E3XvE=;
+	s=k20201202; t=1620314800;
+	bh=WwdunTEPlspSuJNcgiz5VlTq6QqTmYyotSIBFOxVREY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=W8ip/QxH+Y0Etz5pdi/g8HQMWk5RcQl3yV626phIa7/INWQEP7huliglW1N5k5vKa
-	 Lxk8oKnLEHOGbZ7hu48dwEFxZ3XWfclHeA3g4OdJcAqneWqIM1Ai8ru2JgGYSma2Pf
-	 vxXdqNxQlboOkM+xfovZ92fvT0AByRGoWaJbVLvmqPFa18Dzgb61fzCGV+TVPBwDzP
-	 Yxd7NAqDG8GFh9Ldnm8zwkyKynfQ/bgWmoFS6N7LXqPGNGnxwiDlyf/j30IlaDewrI
-	 LM1w9YAYx+v0XkIKrutyF2LSdBNU+URCHf2pufpsRsN7/Lq4Bt3H1oOls7XXcV4+l/
-	 KDnAFT/pXUoag==
+	b=pN0tPqqYk+vmmU/IHozBA1LbWIRQut8CTp+kYjegk8iR7zcI3WVRhDloKTUMufuDy
+	 QqAYFWcgR0ME4bszD+ELg0qNEsOod58GZfuLaKbREBx8WMGfHz22eVGYe7YI/IwfC5
+	 4RFWfKGZts1S81nHfCl5/MWdAWGB87VcFLwHpb34ynAhwqJagJd51CF7hNg2BMIpVH
+	 zubDv5uHE1nKFt9vVCA6BkIZxzQibblFPeTPfbzDPOUbnF/R7b0R0svlfWsRKt+gEs
+	 GJMe3bjcniBd4pNe/qddyiZ3wHct8whmmDsrCfSji0PLkXcwjQI1ql9iuBCb91sSeE
+	 hBWVZZEN6++1Q==
 Received: by mail.kernel.org with local (Exim 4.94.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1left7-000SBD-O8; Thu, 06 May 2021 17:26:05 +0200
+	id 1left7-000SB5-M0; Thu, 06 May 2021 17:26:05 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: 
 Cc: linuxarm@huawei.com,
 	mauro.chehab@huawei.com,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Bingbu Cao <bingbu.cao@intel.com>,
+	Fabio Estevam <festevam@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH v5 03/25] staging: media: ipu3: use pm_runtime_resume_and_get()
-Date: Thu,  6 May 2021 17:25:41 +0200
-Message-Id: <a32caa4bce0341ab99a4440a431b4aebd55f8498.1620314616.git.mchehab+huawei@kernel.org>
+	linux-staging@lists.linux.dev
+Subject: [PATCH v5 01/25] staging: media: imx7-mipi-csis: use pm_runtime_resume_and_get()
+Date: Thu,  6 May 2021 17:25:39 +0200
+Message-Id: <74ab04a6bb8949d9b12b203def1e0c57b7793db5.1620314616.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1620314616.git.mchehab+huawei@kernel.org>
 References: <cover.1620314616.git.mchehab+huawei@kernel.org>
@@ -52,28 +57,31 @@ dev->power.usage_count decrement on errors.
 
 Use the new API, in order to cleanup the error check logic.
 
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/staging/media/ipu3/ipu3.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/media/imx/imx7-mipi-csis.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3/ipu3.c
-index ee1bba6bdcac..8e1e9e46e604 100644
---- a/drivers/staging/media/ipu3/ipu3.c
-+++ b/drivers/staging/media/ipu3/ipu3.c
-@@ -392,10 +392,9 @@ int imgu_s_stream(struct imgu_device *imgu, int enable)
- 	}
+diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+index 025fdc488bd6..1dc680d94a46 100644
+--- a/drivers/staging/media/imx/imx7-mipi-csis.c
++++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+@@ -695,11 +695,10 @@ static int mipi_csis_s_stream(struct v4l2_subdev *mipi_sd, int enable)
  
- 	/* Set Power */
--	r = pm_runtime_get_sync(dev);
-+	r = pm_runtime_resume_and_get(dev);
- 	if (r < 0) {
- 		dev_err(dev, "failed to set imgu power\n");
--		pm_runtime_put(dev);
- 		return r;
- 	}
+ 		mipi_csis_clear_counters(state);
  
+-		ret = pm_runtime_get_sync(&state->pdev->dev);
+-		if (ret < 0) {
+-			pm_runtime_put_noidle(&state->pdev->dev);
++		ret = pm_runtime_resume_and_get(&state->pdev->dev);
++		if (ret < 0)
+ 			return ret;
+-		}
++
+ 		ret = v4l2_subdev_call(state->src_sd, core, s_power, 1);
+ 		if (ret < 0 && ret != -ENOIOCTLCMD)
+ 			goto done;
 -- 
 2.30.2
 
