@@ -1,77 +1,58 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64DC572
-	for <linux-staging@lists.linux.dev>; Thu,  6 May 2021 13:54:18 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id d11so5715169wrw.8
-        for <linux-staging@lists.linux.dev>; Thu, 06 May 2021 06:54:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XIqwVJLyJAPqBu0pPr4qOQhf3AvN1zMlHE2Y9MoBlRI=;
-        b=JG6HYjQVTrHQnD1b9dAbdqtSBD62/ksy/1CplyOo0g3d6ixqy4QsAh7/dlwniySwOf
-         P6nrMZqhcXJmY90E1Rg+ygtFmSR9ELgcE3yeTlQpoNRuc8zCxTeWbwVCae4K78lrmkRk
-         uk/+gZi5ws8Xfnu4YdANF4o1WGNgJegOnFYcbTlYJlOGUWtwkG3mVq1PR53azk77OAW5
-         tRP39HwOBs7o9Rut/fSWbDKxO/FFF95XYnLhwbCkXJycRwgSRCF8/JMg172TzoLLekPa
-         KTbcx2lgEfo6GYhp40upvf9MLpDal4DD23op9ayET1coUWh8ExK3AQztYlXQns6boXRR
-         XEjg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE4872
+	for <linux-staging@lists.linux.dev>; Thu,  6 May 2021 14:25:36 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id b5-20020a9d5d050000b02902a5883b0f4bso5031094oti.2
+        for <linux-staging@lists.linux.dev>; Thu, 06 May 2021 07:25:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XIqwVJLyJAPqBu0pPr4qOQhf3AvN1zMlHE2Y9MoBlRI=;
-        b=j54TZuXngX98J6MAsnFVLl5GkclvNs7QcYFWft7G8cdoSJVvVwEeakHhBdocpBZS1+
-         PZNlwKKJ+2JjJBilL8bb+wow0JHzsjlK493HIheaH5YSScncAjE+7bMlVFRQ4v+ptpx+
-         6zRxhwYL8uU5Jtg+KKavpoAqVWRVsMvcsZ0QC5vMi/Y4sSdhSk2a4qSZ4dxKiJeqyoI3
-         LutDGAbrfMddILN90M3CbJuv9PjzLOJKqzeI114cP5nBZPLkV/J4otfm6X3+49SN/O5Z
-         tV4c9/YoXBUc+eNstXnEVMgK4JAHeLLxd2agsFYsCZjBT29rBuDifvfuu66GsZoDvhF6
-         t39w==
-X-Gm-Message-State: AOAM531pxsKr56+GfHOKoqS5DEDEm7haLXTeL0LwK8b8bmjmgY4kfTSb
-	TzfMQLiHooEAtOGlgtSam1S4B1A8//Nbv+W+dbk=
-X-Google-Smtp-Source: ABdhPJxxQzaJIIS5YYwHe7R/ozRsmzuVo3uXytUMh+uLR/qboQZYYlQZQbdGPRk+KijYMPLuiiqZnYkN73QdtLIKXbw=
-X-Received: by 2002:a5d:4bd2:: with SMTP id l18mr5327882wrt.197.1620309256868;
- Thu, 06 May 2021 06:54:16 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=NO5xlMoNjYCr6KREf7vnuwTavEBKSBCosskSU2E1U4A=;
+        b=VWklstmlZ+H4QY7bdVC8M3zv2PHYpiXry/MTyyMazl3bDUGBWl09IbTgmywZXwI7ml
+         FtnqyimPYyV9KzMkWLGR2BsNvb35/Ws/df/4ANcoABdpcaMAgmvB6Gs8SHdpJHdJu2+K
+         EDbLLV/5E3AGkCK35jWRJrSzMbR17J4RBd8enudnQLTw9xNFr66IihbYx/H0FJXnztoq
+         r0rECTlHzzJzTLDkzwfKdsgpFBcz5temHYw8m8MB2wlfH37IFwBVtNGmWqDLu4JYfW4s
+         IzNQN6yKe2nq11tqXtM+I9FtiDvH+UmGx2r5yC+j+o5HRnagcuQt0tXun8YLNtg1Snxw
+         52PA==
+X-Gm-Message-State: AOAM5335OMOLrNinCPm2MKX1n72nBxMPo697JSk7cwfA0yQQjwQE4UFz
+	ZaDjFcoOJ80DTFqYK1elmw==
+X-Google-Smtp-Source: ABdhPJw4F88w3A2wOguIyMIrYqJqK/2fOGIqigAkknVGyAjqgSNQEKVRVS8ziJsZawxLOzJU2MaRAg==
+X-Received: by 2002:a05:6830:2159:: with SMTP id r25mr3846804otd.313.1620311136040;
+        Thu, 06 May 2021 07:25:36 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id m25sm443067oih.15.2021.05.06.07.25.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 May 2021 07:25:35 -0700 (PDT)
+Received: (nullmailer pid 277878 invoked by uid 1000);
+	Thu, 06 May 2021 14:25:34 -0000
+Date: Thu, 6 May 2021 09:25:34 -0500
+From: Rob Herring <robh@kernel.org>
+To: Lucas Stankus <lucas.p.stankus@gmail.com>
+Cc: linux-staging@lists.linux.dev, devicetree@vger.kernel.org, linux-iio@vger.kernel.org, gregkh@linuxfoundation.org, lars@metafoo.de, linux-kernel@vger.kernel.org, Michael.Hennerich@analog.com, jic23@kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: staging: iio: cdc: ad7746: add
+ binding documentation for AD7746
+Message-ID: <20210506142534.GA277826@robh.at.kernel.org>
+References: <cover.1619841953.git.lucas.p.stankus@gmail.com>
+ <2c2f4d486a94e0740e112bfac0d9306bdb7ea69c.1619841953.git.lucas.p.stankus@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210505202923.198607-1-u.kleine-koenig@pengutronix.de>
- <20210505202923.198607-2-u.kleine-koenig@pengutronix.de> <CAGngYiViy_o2Wzdn0axWeR1FSijH+5d7yLDTkAL+mQnEMkuJBQ@mail.gmail.com>
- <20210506084955.GC1432@agape.jhs>
-In-Reply-To: <20210506084955.GC1432@agape.jhs>
-From: Sven Van Asbroeck <thesven73@gmail.com>
-Date: Thu, 6 May 2021 09:54:06 -0400
-Message-ID: <CAGngYiUyOWai8QRUAhsnABSJxyUzs5Mqf_pXgmTzkBL8EiBL3g@mail.gmail.com>
-Subject: Re: [PATCH 2/2] staging: fieldbus: anybus: Refuse registering drivers
- without .probe()
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
-	Sascha Hauer <kernel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2c2f4d486a94e0740e112bfac0d9306bdb7ea69c.1619841953.git.lucas.p.stankus@gmail.com>
 
-Hi Fabio,
+On Sat, 01 May 2021 09:32:31 -0300, Lucas Stankus wrote:
+> Add device tree binding documentation for AD7746 cdc in YAML format.
+> 
+> Signed-off-by: Lucas Stankus <lucas.p.stankus@gmail.com>
+> ---
+>  .../bindings/iio/cdc/adi,ad7746.yaml          | 77 +++++++++++++++++++
+>  1 file changed, 77 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml
+> 
 
-On Thu, May 6, 2021 at 4:49 AM Fabio Aiuto <fabioaiuto83@gmail.com> wrote:
->
-> I'm trying to make my way in linux kernel device driver development and
-> hopefully find a job soon. If the task 'moving fieldbus out of staging' will
-> give me opportunity to play with real hardware, and so gain more experience,
-> we can talk about it.
-
-Thank you so much for the offer, I really appreciate it !
-
-The fieldbus subsystem sits in staging mainly because it's in use by
-only a single company. Greg KH was absolutely right to insist that
-this had to go into staging: a subsystem is different from a simple
-driver, and can only thrive if it's actively used by a wide community.
-You can see this in the subsystem's TODO:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/staging/fieldbus/TODO?h=v5.12
-
-In short, this cannot be taken out of staging by "pure technical
-work". Except if you had a fieldbus client device on your hands, and
-you wanted to talk to it through this subsystem.
-
-Sven
+Reviewed-by: Rob Herring <robh@kernel.org>
