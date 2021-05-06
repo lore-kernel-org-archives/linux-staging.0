@@ -1,326 +1,72 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF0A71
-	for <linux-staging@lists.linux.dev>; Thu,  6 May 2021 16:41:49 +0000 (UTC)
-Received: by mail-ot1-f50.google.com with SMTP id u25-20020a0568302319b02902ac3d54c25eso5444937ote.1
-        for <linux-staging@lists.linux.dev>; Thu, 06 May 2021 09:41:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9361771
+	for <linux-staging@lists.linux.dev>; Thu,  6 May 2021 17:07:46 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id o127so3766953wmo.4
+        for <linux-staging@lists.linux.dev>; Thu, 06 May 2021 10:07:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=htiCxuZshJkux8cbRyREXQ3BRqeGVd2tm3LHKemMtAA=;
-        b=UI4a5ZAGFDxxCUpbiBiH2ojMcl+b3ouaTbiK9ODHoPJctkx/aWuG2vGo4nPia7z//L
-         jQhEq54fYJLV/4/7Y9Ix1L1DbaITKS1DYU8kSH+Qx6mbiTcPgBySzj9hxlmsDGETtOJR
-         J8NxVln9Y0fpopHTLqpajjru5MXkYYen2ZYWY4Bb/3ZrsgSoKPJqhGksdVPRH8ALLHSN
-         WZ27SxZuCjJLqUCjVja8mjh0tXN73VY/FnoAkp+KWBKX/IopWXwLPo24HPtrEj3GErnc
-         g2h7Lj0WYr0WavhtoYeUMevTERmNpWXjC6ROEp9dCOTR2BCuAo0OenGuVxhBH8Fajosp
-         0twA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HGjMUZuhy3UyuyHaqOa/uQiL8scrXS9m3puzslcWWRg=;
+        b=V1vzLGNzhbwb9Ao4O97cIJDNLH3cDChRdqYqFfSip5rZCj9I0e0iwXdo5fYF3OmGSk
+         YP4AupKnDgc6MYq68j+9d8yQKzxgts/34ZukzrqL6jX3EmHYJel3AGupaBanG4rsNUca
+         UdIagWv56GGUVR4hRq6ATJE1f0YsVzzCSh8bNidGGCTsvN9urSz++GiLj//7eEJKS0S4
+         ztm/kcr2Mte0ag2xc+Shnaq3dMyjkqKU16bcCrdhItiRWbGnzxDacCXqzVaBtxyETwLB
+         o1jGEQSFpgY5Gv1uN1j/uD86owG1gDAMAUXgRrPwVwNMQ4N/tnZrzTr6/TFJaL/8sqV1
+         Kt+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=htiCxuZshJkux8cbRyREXQ3BRqeGVd2tm3LHKemMtAA=;
-        b=FjcTbAlnj/HAMddPvnPFPEl+YoLP2YwOl48r0F/gqom/aJxmukSkD01qnhaf/e9BrC
-         nj9GSEejmBTDUrHVJNvR4UOrTDgO1NY7hcNcfZOEbwSQeM4sI4Sp6M81Yeu1W7DVTjcr
-         ixTQ4RKhw10FpUirDtLh0Kn07nxHGe+56q5v27bY6q6s4ySzKmkD/nPgyx/A/dHYEKml
-         aSrFpJGeeyUZJlSX5z40LL79wAzmgnsCVcezdVejGPt7bXB54C3pTCLMGAmspiJhAvvd
-         Gd1yfHW7hY0pQeumaEcG+bWDokaXqgk5Ceq5JWqQNse69D217Y0pHqXbf0ijYvogAsdS
-         RD/Q==
-X-Gm-Message-State: AOAM531tT39oWhgLMRRaRAgFSNzVgNEK4UsBr60wXsK99TKxH9cboZ2u
-	IkbKD1JoG+iVVuyfffLmmxNR+ZoPKcU8UuEc0sc=
-X-Google-Smtp-Source: ABdhPJxb+TJnfSbdW/n0EBWvchvI28tIs8PFhZTcYhFDatEMrrFy80ojNdfn3GvDihmUcyK7A4dgSeEiwF/NPiH+H38=
-X-Received: by 2002:a9d:4e9a:: with SMTP id v26mr4482846otk.74.1620319308829;
- Thu, 06 May 2021 09:41:48 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HGjMUZuhy3UyuyHaqOa/uQiL8scrXS9m3puzslcWWRg=;
+        b=sNLDuuvK98HZQlcOxs8fZvlQwBcR6OPwN3hl2nxcf/USn1eicNg5N7AFpH3Mczn4fl
+         nVayyabbTp6JlkhFJ+RSaYgRRgE1j4+Vn8GCoXPndJCpmvRFAD95cJt8veZTam/YXTU/
+         lAKjPwMzbMrhfVTM4/FySe17xGUw6lvBShuN04uNX+hnhVhIZ6f5dbqQ/VAYHFwFIu7y
+         DqGNJ6hTRrktELxjbuoBs8d6nWF8fHxlFmFfTvPY6Cfz8f4FsveKzfOKix5cuBVp409D
+         6PrdZ30utWyaHENXNtnACGybNLV/Q39XE7o9/HpC744ZLV17ioYUihfctGiGFUYnZg3X
+         Z9Rg==
+X-Gm-Message-State: AOAM532yQpPB+bCyQlJEt9RpXFpOVCTXt8zcWNs7tRqyo635aTHzDVIS
+	6c4hT3+dfmphGiGqZ21fxnnxUHW3KVQ4YQ==
+X-Google-Smtp-Source: ABdhPJz1wCEVTx9BnzzcsNJkmvZ36hJIwvLanzIIeb4PQW9ReGhu1t38fFGZodLyQ8SKKHmrdNmqbw==
+X-Received: by 2002:a1c:2785:: with SMTP id n127mr5135036wmn.52.1620320864867;
+        Thu, 06 May 2021 10:07:44 -0700 (PDT)
+Received: from localhost.localdomain (231.red-83-51-243.dynamicip.rima-tde.net. [83.51.243.231])
+        by smtp.gmail.com with ESMTPSA id w7sm4986378wru.51.2021.05.06.10.07.43
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 06 May 2021 10:07:44 -0700 (PDT)
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	neil@brown.name,
+	ilya.lipnitskiy@gmail.com
+Subject: [PATCH 0/2] staging: mt7621-dts: fix some pcie node properties
+Date: Thu,  6 May 2021 19:07:40 +0200
+Message-Id: <20210506170742.28196-1-sergio.paracuellos@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210501133647.14350-1-sergio.paracuellos@gmail.com> <20210506151839.GA322729@robh.at.kernel.org>
-In-Reply-To: <20210506151839.GA322729@robh.at.kernel.org>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Thu, 6 May 2021 18:41:36 +0200
-Message-ID: <CAMhs-H_Ae4Erx06j2fGSiZXpGo9UWRAkSPPQhFGnZ1D8=NM8cg@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: staging: mt7621-pci: PCIe binding
- documentation for MT76721 SoCs
-To: Rob Herring <robh@kernel.org>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, linux-staging@lists.linux.dev, 
-	Greg KH <gregkh@linuxfoundation.org>, NeilBrown <neil@brown.name>, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Rob,
+Hi,
 
-Thanks for the review.
-
-On Thu, May 6, 2021 at 5:18 PM Rob Herring <robh@kernel.org> wrote:
->
-> On Sat, May 01, 2021 at 03:36:46PM +0200, Sergio Paracuellos wrote:
-> > Add device tree binding documentation for PCIe in MT7621 SoCs.
-> >
-> > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> > ---
-> >
-> > Hi Rob,
-> >
-> > Some concerns here. I was not be able to found any case similar to
-> > this binding where sub-nodes describing each pcie port interface
-> > are needed. I added them to the 'examples' directly without saying
-> > anything about properties in any other place since its properties
-> > seems to be covered in 'pci-bus.yaml' schema definition. I don't
-> > know if this is the way, I have checked against schema and I noticed
-> > I am forced to add 'device_type' property in each subnode because
-> > schema checker complains that this is mandatory. So I have added
-> > it and schema is properly being validated:
-> >
-> > Before add the 'device_type' in each subnode:
-> > /home/sergio/staging/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dt.yaml: pcie@0,0: 'device_type' is a required property
-> > >From schema: /home/sergio/.local/lib/python3.9/site-packages/dtschema/schemas/pci/pci-bus.yaml
-> > /home/sergio/staging/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dt.yaml: pcie@1,0: 'device_type' is a required property
-> > >From schema: /home/sergio/.local/lib/python3.9/site-packages/dtschema/schemas/pci/pci-bus.yaml
-> > /home/sergio/staging/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dt.yaml: pcie@2,0: 'device_type' is a required property
-> > >From schema: /home/sergio/.local/lib/python3.9/site-packages/dtschema/schemas/pci/pci-bus.yaml
->
-> Each port is a PCI bridge, right? If so, then 'pcie' for the node name
-> and 'device_type = "pci";' are correct.
-
-Yes it is, thanks for clarification.
-
->
-> >
-> > After adding it:
-> > CHKDT   Documentation/devicetree/bindings/processed-schema-examples.json
->
-> Validates all the schema
->
-> > SCHEMA  Documentation/devicetree/bindings/processed-schema-examples.json
->
-> Preprocesses all the schema
->
-> > DTEX    Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dts
->
-> Extracts the example to dts file
->
-> > DTC     Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dt.yaml
->
-> Converts the example to yaml
->
-> > CHECK   Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dt.yaml
->
-> Runs the checks.
->
-> >
-> > Looks a bit redundant and maybe I am doing something wrong...
-
-I meant redundant the 'device_type=pci' in all of the child nodes, not
-the messages I got when check against the schema but thanks also for
-explanation :).
-
-> >
-> > Thanks in advance for clarification.
-> >
-> > Best regards,
-> >     Sergio Paracuellos
-> >
-> >
-> >  .../bindings/pci/mediatek,mt7621-pci.yaml     | 144 ++++++++++++++++++
-> >  .../mt7621-pci/mediatek,mt7621-pci.txt        | 104 -------------
-> >  2 files changed, 144 insertions(+), 104 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml
-> >  delete mode 100644 drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt
-> >
-> > diff --git a/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml b/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml
-> > new file mode 100644
-> > index 000000000000..9c1d05d929a2
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml
-> > @@ -0,0 +1,144 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/pci/mediatek,mt7621-pci.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: MediaTek MT7621 PCIe controller
-> > +
-> > +maintainers:
-> > +  - Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> > +
-> > +description: |+
-> > +  MediaTek MT7621 PCIe subsys supports single Root complex (RC)
-> > +  with 3 Root Ports. Each Root Ports supports a Gen1 1-lane Link
-> > +
-> > +allOf:
-> > +  - $ref: /schemas/pci/pci-bus.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: mediatek,mt7621-pci
-> > +
-> > +  reg:
-> > +    items:
-> > +      - description: host-pci bridge registers
-> > +      - description: pcie port 0 RC control registers
-> > +      - description: pcie port 1 RC control registers
-> > +      - description: pcie port 2 RC control registers
->
-> Are these config space registers or MT7621 specific?
-
-All of them are MT7621 specific.
-
->
-> > +
-> > +  ranges:
-> > +    maxItems: 2
-> > +
-> > +  interrupts:
-> > +    maxItems: 3
->
-> What are the 3 interrupts?
-
-These are one interrupt per root port. In next version this will
-change in favour of using interrupt-map and interrupt-map-mask instead
-of use interrupts and a custom 'map_irq' callback in driver code.
-Please see:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/commit/?h=staging-testing&id=aed0b711cc791d075e716c397ff6b26bf50345a6
-https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/commit/?h=staging-testing&id=3e278e3064511b1606d406db0e26b2fee593fb55
-
-This is the way used in mt7623 already mainlined binding.
-
-> > +
-> > +  resets:
-> > +    items:
-> > +      - description: pcie port 0 reset.
-> > +      - description: pcie port 1 reset.
-> > +      - description: pcie port 2 reset.
->
-> This and clocks should perhaps be in each child node.
-
-I followed here style in mt7623 already mainlined bindings which are
-in the main node. Is there a strong reason to be changed into child
-nodes or can I maintain this as it is?
-
->
-> > +
-> > +  reset-names:
-> > +    items:
-> > +      - const: pcie0
-> > +      - const: pcie1
-> > +      - const: pcie2
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: pcie port 0 clock.
-> > +      - description: pcie port 1 clock.
-> > +      - description: pcie port 2 clock.
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: pcie0
-> > +      - const: pcie1
-> > +      - const: pcie2
-> > +
-> > +  phys:
-> > +    items:
-> > +      - description: Dual-ported phy for pcie port 0 and 1.
-> > +      - description: Phy for pcie port 2.
-> > +
-> > +  phy-names:
-> > +    items:
-> > +      - const: pcie-phy0
-> > +      - const: pcie-phy2
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - ranges
-> > +  - interrupts
-> > +  - resets
-> > +  - reset-names
-> > +  - clocks
-> > +  - clock-names
-> > +  - phys
-> > +  - phy-names
-> > +  - reset-gpios
-> > +
-> > +unevaluatedProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +    #include <dt-bindings/interrupt-controller/mips-gic.h>
-> > +
-> > +    pcie: pcie@1e140000 {
-> > +        compatible = "mediatek,mt7621-pci";
-> > +        reg = <0x1e140000 0x100>,
-> > +              <0x1e142000 0x100>,
-> > +              <0x1e143000 0x100>,
-> > +              <0x1e144000 0x100>;
-> > +
-> > +        #address-cells = <3>;
-> > +        #size-cells = <2>;
-> > +        pinctrl-names = "default";
-> > +        pinctrl-0 = <&pcie_pins>;
-> > +        device_type = "pci";
-> > +        bus-range = <0 255>;
->
-> That's the default, so not needed.
-
-Ok, will drop this.
-
->
-> > +        ranges = <0x02000000 0 0x00000000 0x60000000 0 0x10000000>,  /* pci memory */
-> > +                 <0x01000000 0 0x00000000 0x1e160000 0 0x00010000>;  /* io space */
-> > +        interrupt-parent = <&gic>;
-> > +        interrupts = <GIC_SHARED 4 IRQ_TYPE_LEVEL_HIGH>,
-> > +                     <GIC_SHARED 24 IRQ_TYPE_LEVEL_HIGH>,
-> > +                     <GIC_SHARED 25 IRQ_TYPE_LEVEL_HIGH>;
-> > +        resets = <&rstctrl 24>, <&rstctrl 25>, <&rstctrl 26>;
-> > +        reset-names = "pcie0", "pcie1", "pcie2";
-> > +        clocks = <&clkctrl 24>, <&clkctrl 25>, <&clkctrl 26>;
-> > +        clock-names = "pcie0", "pcie1", "pcie2";
-> > +        phys = <&pcie0_phy 1>, <&pcie2_phy 0>;
-> > +        phy-names = "pcie-phy0", "pcie-phy2";
-> > +        reset-gpios = <&gpio 19 GPIO_ACTIVE_LOW>;
-> > +
-> > +        pcie@0,0 {
-> > +            reg = <0x0000 0 0 0 0>;
-> > +            #address-cells = <3>;
-> > +            #size-cells = <2>;
-> > +            device_type = "pci";
-> > +            ranges;
-> > +            bus-range = <0x00 0xff>;
->
-> Besides being the default, I don't think this makes sense here as it
-> belongs in the parent unless you had some subset of bus numbers allowed
-> by the parent.
-
-That's not the case so I will drop bus-ranges property from all the
-child nodes also.
->
-> > +        };
-> > +
-> > +        pcie@1,0 {
-> > +            reg = <0x0800 0 0 0 0>;
-> > +            #address-cells = <3>;
-> > +            #size-cells = <2>;
-> > +            device_type = "pci";
-> > +            ranges;
-> > +            bus-range = <0x00 0xff>;
-> > +        };
-> > +
-> > +        pcie@2,0 {
-> > +            reg = <0x1000 0 0 0 0>;
-> > +            #address-cells = <3>;
-> > +            #size-cells = <2>;
-> > +            device_type = "pci";
-> > +            ranges;
-> > +            bus-range = <0x00 0xff>;
-> > +        };
-> > +    };
-> > +...
+Some minor changes in pcie node to be compliant with 'pci-bus.yaml'
+schema definition.
 
 Best regards,
     Sergio Paracuellos
+
+Sergio Paracuellos (2):
+  staging: mt7621-dts: remove 'bug-range' property
+  staging: mt7621-dts: add missing device_type in pcie root ports
+
+ drivers/staging/mt7621-dts/mt7621.dtsi | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+-- 
+2.25.1
+
