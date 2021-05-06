@@ -1,95 +1,109 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEBB670
-	for <linux-staging@lists.linux.dev>; Thu,  6 May 2021 08:50:00 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id g65so2914174wmg.2
-        for <linux-staging@lists.linux.dev>; Thu, 06 May 2021 01:50:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=yHgkB3CxNPsRARZ4GfSJNGd1yg6kcLfx2QY9UrNxJL4=;
-        b=NC71hLfjMu3tSTloWtEiG4CocO7dVdL1+9sLIghUi58HBBhJBJY21yzYyXCKsZCVTz
-         gHt97omPpti2YnvysUQBR6uIbqUtr26Di4WTN5HtbmRrREhybBe6V4dmOHlBZw/PJJYk
-         T1IjYf+PLQV6MPJcLcWASUyXxJtHBAJq/g3oMY/KJBm4FSbfficfdYbP6Ov70ie0d9TS
-         KShSQEtsinyLcz5n4mgPojHYadzEBW0zuTMV5VZO9oi99FjozlOHUyVx4MHVbJrIqwjs
-         rdyTBenPQ40MYAs5yybjixuq2RFMrQjvvyHw70ffbDt9REEM92Wj/fOpvXfHYqRdXuIi
-         eVlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=yHgkB3CxNPsRARZ4GfSJNGd1yg6kcLfx2QY9UrNxJL4=;
-        b=eNWigsTxx+RwQwN00CnFiS6H8u/p2TZqbms/K7M7/95RBYSYiBGjuwo04t76ROOYTf
-         Xpkr+4AvoHtntfLX9AIEGnrGvckzFz2hCKMrMyQg1hjvbpMWKA2DjDrbSyp91nSfAA8h
-         bhRtukVUEsUR6Evt2lBW82DttSzTW8OrdX/aMWuR2oGNREOzKJHKJAst7Nj+W79snxhl
-         6OpWUT9wRUo/5dpR5IspDE94c59FBGyAKHus1r/aSXSz/4rI4VkK4HGvqhKruqbN6o15
-         I9rxgk7T/lCH72KzpdyAS+VrbZN+Qb6N2xORgW7QlD631BDRz5QSv69R26/Htf+Rlbj1
-         M1YQ==
-X-Gm-Message-State: AOAM530a1yZGrn10Dyu+0q6lmQuz4d+vLwypGigo4jUNLzSPHBm1OWd6
-	Flvn381sBGaLUiXqwzJMNlM=
-X-Google-Smtp-Source: ABdhPJyXrDoIfUjQ+7seLsavkX/sli4ZgGTt1RWNiR+UyjW1bfw7N+kx2IJ5dTkmidaNvomVDGSBnQ==
-X-Received: by 2002:a1c:7402:: with SMTP id p2mr13855236wmc.88.1620290999561;
-        Thu, 06 May 2021 01:49:59 -0700 (PDT)
-Received: from agape.jhs ([5.171.72.109])
-        by smtp.gmail.com with ESMTPSA id y17sm3459750wrw.90.2021.05.06.01.49.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 May 2021 01:49:59 -0700 (PDT)
-Date: Thu, 6 May 2021 10:49:56 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Sven Van Asbroeck <thesven73@gmail.com>
-Cc: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, Sascha Hauer <kernel@pengutronix.de>
-Subject: Re: [PATCH 2/2] staging: fieldbus: anybus: Refuse registering
- drivers without .probe()
-Message-ID: <20210506084955.GC1432@agape.jhs>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B27270
+	for <linux-staging@lists.linux.dev>; Thu,  6 May 2021 09:45:00 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+	by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1469OdG4030963;
+	Thu, 6 May 2021 09:44:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ content-transfer-encoding : in-reply-to; s=corp-2020-01-29;
+ bh=nGsE20/kCx0Wlb3wRw8CTVYanreKBibL1Vdw1uPE3iQ=;
+ b=0g5tRrdmYLQvZ10GfuX43nIah/5A2pT4dRPMwfuSJE/cA5GKJTO8OHxYT4oMWUHLnfHM
+ at8OjQ+2nPNd59HYaoU0a/M6gHVhIfp9fkpqvzTn8fWb3dx9D7uXiwooGfM670JDhlVF
+ +zwyIJb4adzcRiuF1AhfOskC2JHeMEi2xvX67xoVwecWgmKb1NNNWnImYngyZaeT/O0j
+ mdkRSHaGYBQS5mhsaTQhSuTFhAfbUUcDSiMu/C6WCVj2XzX2lAWwR+4iuiFZTrJxQPOd
+ /x25GZm8U9hAWMONF8m0FJ6/DYDNl29ZvfoLdl5qv6GzDhlHdjXM1vk8FD4PoSzJex5E 9g== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by userp2120.oracle.com with ESMTP id 38bebc4ec2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 06 May 2021 09:44:51 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1469PhEO004785;
+	Thu, 6 May 2021 09:44:50 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3030.oracle.com with ESMTP id 38bewsgnht-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 06 May 2021 09:44:50 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 1469f1pC055155;
+	Thu, 6 May 2021 09:44:49 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+	by aserp3030.oracle.com with ESMTP id 38bewsgnhd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 06 May 2021 09:44:49 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 1469ilF8021419;
+	Thu, 6 May 2021 09:44:47 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Thu, 06 May 2021 02:44:46 -0700
+Date: Thu, 6 May 2021 12:44:39 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+        Sven Van Asbroeck <TheSven73@gmail.com>, linux-staging@lists.linux.dev,
+        kernel@pengutronix.de, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH 1/2] staging: fieldbus: anybus: Make remove callback
+ return void
+Message-ID: <20210506094438.GB1955@kadam>
 References: <20210505202923.198607-1-u.kleine-koenig@pengutronix.de>
- <20210505202923.198607-2-u.kleine-koenig@pengutronix.de>
- <CAGngYiViy_o2Wzdn0axWeR1FSijH+5d7yLDTkAL+mQnEMkuJBQ@mail.gmail.com>
+ <20210506064843.GA1432@agape.jhs>
+ <20210506075213.uytlw6txmgstapam@pengutronix.de>
+ <20210506084017.GB1432@agape.jhs>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGngYiViy_o2Wzdn0axWeR1FSijH+5d7yLDTkAL+mQnEMkuJBQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210506084017.GB1432@agape.jhs>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-ORIG-GUID: KJKDlcshQdQzHJftsVSAW6ctP-1W0Txs
+X-Proofpoint-GUID: KJKDlcshQdQzHJftsVSAW6ctP-1W0Txs
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9975 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 lowpriorityscore=0
+ phishscore=0 spamscore=0 adultscore=0 clxscore=1011 mlxscore=0
+ malwarescore=0 mlxlogscore=999 impostorscore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2105060065
 
-On Wed, May 05, 2021 at 05:04:55PM -0400, Sven Van Asbroeck wrote:
-> On Wed, May 5, 2021 at 4:29 PM Uwe Kleine-KÃ¶nig
-> <u.kleine-koenig@pengutronix.de> wrote:
-> >
-> > A driver without .probe() callback could never bind to a device because
-> > anybus_bus_probe() returned an error for such a driver. So refuse to
-> > register such a useless driver.
-> >
-> > Signed-off-by: Uwe Kleine-KÃ¶nig <u.kleine-koenig@pengutronix.de>
+On Thu, May 06, 2021 at 10:40:18AM +0200, Fabio Aiuto wrote:
+> On Thu, May 06, 2021 at 09:52:13AM +0200, Uwe Kleine-König wrote:
+> > On Thu, May 06, 2021 at 08:48:44AM +0200, Fabio Aiuto wrote:
+> > > Hello Uwe,
+> > > 
+> > > On Wed, May 05, 2021 at 10:29:22PM +0200, Uwe Kleine-König wrote:
+> > > > The driver core ignores the return value of struct bus_type::remove()
+> > > > because there is only little that can be done. To simplify the quest to
+> > > > make this function return void, let struct vio_driver::remove() return
+> > > > void, too. All users already unconditionally return 0, this commit makes
+> > > > it obvious that returning an error code is a bad idea.
+> > > 
+> > > looks like that the commit description hardly matches what you changed
+> > > here. You changed the return type of handler remove() of struct
+> > > anybuss_client_driver. Are the latter and bus_type tied in some
+> > > fashion?
+> > 
+> > Oh, vio_driver leaked from my copy-and-paste template.
+> > 
+> > > Why using :: notation?
+> > 
+> > If you have a better suggestion I'm all ears.
 > 
-> Looks good to me. For the series:
-> Reviewed-by: Sven Van Asbroeck <TheSven73@gmail.com>
-> 
-> Uwe, I'm glad you're submitting patches for fieldbus. Hope you find it
-> useful. This code is in staging mainly because only a single
-> company/developer is using it. So if you are actively using this, or
-> planning to use it, we can work towards taking this out of staging, if
-> you like.
-> 
-> Sven
-> 
+> maybe a simple dot? '::' reminds c++ or rust, this patch fixes c code.
+> But I don't think it is a real issue, I was just wondering why you choose
+> '::'
 
-Hi Sven,
+In Smatch I use:
 
-I'm trying to make my way in linux kernel device driver development and
-hopefully find a job soon. If the task 'moving fieldbus out of staging' will
-give me opportunity to play with real hardware, and so gain more experience,
-we can talk about it.
+	(struct vio_driver)->remove
 
-thank you,
+But in emails I normally put a () on the end of function names.
 
-fabio
+regards,
+dan carpenter
+
