@@ -1,88 +1,76 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+Received: from mailgw02.mediatek.com (mailgw02.mediatek.com [216.200.240.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5644F71
-	for <linux-staging@lists.linux.dev>; Thu,  6 May 2021 12:14:51 +0000 (UTC)
-Received: from ipservice-092-217-072-007.092.217.pools.vodafone-ip.de ([92.217.72.7] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1lectz-0005c3-Sg; Thu, 06 May 2021 14:14:47 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH v2] staging: rtl8188eu: remove nic_hdl from struct mlme_priv
-Date: Thu,  6 May 2021 14:14:10 +0200
-Message-Id: <20210506121410.17613-1-martin@kaiser.cx>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210505202622.11087-1-martin@kaiser.cx>
-References: <20210505202622.11087-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E48A72
+	for <linux-staging@lists.linux.dev>; Thu,  6 May 2021 12:54:44 +0000 (UTC)
+X-UUID: cacd1a97faf7419790fc48608d9431f0-20210506
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=u++h3xqD22QpblRd36WXArhv2zfQ3l9s+WBc2UfSt7g=;
+	b=MV3NvYP2frJPRbpqE5J/Gqln5O/ylDZd6JEvYCY0/4C/gevK1puJ37yWeFxAT4xBy4dGg0VKkiyZlHyIKfG0LDeamzGEiNpmHiI/QFiHz/xeTgGxGfTtQyt+Km8kRRpThMcq5b3wHGpzoN+A5WqWQUwKWLyVq8wBeKsnWEnMH4k=;
+X-UUID: cacd1a97faf7419790fc48608d9431f0-20210506
+Received: from mtkcas66.mediatek.inc [(172.29.193.44)] by mailgw02.mediatek.com
+	(envelope-from <landen.chao@mediatek.com>)
+	(musrelay.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+	with ESMTP id 1159418325; Thu, 06 May 2021 05:54:36 -0700
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ MTKMBS62DR.mediatek.inc (172.29.94.18) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 6 May 2021 05:54:01 -0700
+Received: from mtksdccf07 (172.21.84.99) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 6 May 2021 20:53:59 +0800
+Message-ID: <f3f5167f60b7897b952f5fff7bcaef976c3c6531.camel@mediatek.com>
+Subject: Re: Re: Re: Re: [PATCH net-next 0/4] MT7530 interrupt support
+From: Landen Chao <landen.chao@mediatek.com>
+To: DENG Qingfang <dqfext@gmail.com>
+CC: Andrew Lunn <andrew@lunn.ch>, Frank Wunderlich <frank-w@public-files.de>,
+	David Miller <davem@davemloft.net>, "Florian Fainelli"
+	<f.fainelli@gmail.com>, Heiner Kallweit <hkallweit1@gmail.com>, Jakub
+ Kicinski <kuba@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+	Russell King - ARM Linux admin <linux@armlinux.org.uk>, Sean Wang
+	<sean.wang@mediatek.com>, "Vivien Didelot" <vivien.didelot@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>, Rob Herring <robh+dt@kernel.org>, Linus
+ Walleij <linus.walleij@linaro.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Sergio Paracuellos
+	<sergio.paracuellos@gmail.com>, linux-kernel <linux-kernel@vger.kernel.org>,
+	"moderated list:ARM/Mediatek SoC support"
+	<linux-mediatek@lists.infradead.org>, <linux-staging@lists.linux.dev>, "open
+ list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+	<devicetree@vger.kernel.org>, netdev <netdev@vger.kernel.org>, Weijie Gao
+	<weijie.gao@mediatek.com>, Chuanhong Guo <gch981213@gmail.com>,
+	=?ISO-8859-1?Q?Ren=E9?= van Dorst <opensource@vdorst.com>, Thomas Gleixner
+	<tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>
+Date: Thu, 6 May 2021 20:54:00 +0800
+In-Reply-To: <CALW65ja5mRPoNM2EZsONMh8Kda5OgQg79R=Xp71CaQcp4cprnQ@mail.gmail.com>
+References: <20210429062130.29403-1-dqfext@gmail.com>
+	 <20210429.170815.956010543291313915.davem@davemloft.net>
+	 <20210430023839.246447-1-dqfext@gmail.com> <YIv28APpOP9tnuO+@lunn.ch>
+	 <trinity-843c99ce-952a-434e-95e4-4ece3ba6b9bd-1619786236765@3c-app-gmx-bap03>
+	 <YIv7w8Wy81fmU5A+@lunn.ch>
+	 <trinity-611ff023-c337-4148-a215-98fd5604eac2-1619787382934@3c-app-gmx-bap03>
+	 <YIwCliT5NZT713WD@lunn.ch>
+	 <trinity-c45bbeec-5b7c-43a2-8e86-7cb22ad61558-1619794787680@3c-app-gmx-bap03>
+	 <YIwxpYD1jnFMPQz+@lunn.ch>
+	 <fc962daf8b7babc22b043b2b0878a206780b55f3.camel@mediatek.com>
+	 <CALW65ja5mRPoNM2EZsONMh8Kda5OgQg79R=Xp71CaQcp4cprnQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MTK: N
+Content-Transfer-Encoding: base64
 
-struct mlme_priv is an element of struct adapter. Use container_of
-to get a pointer to the enclosing struct.
-
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
-v2:
- - rebased against current staging-testing branch
-
- drivers/staging/rtl8188eu/core/rtw_mlme.c    | 5 +----
- drivers/staging/rtl8188eu/include/rtw_mlme.h | 2 --
- 2 files changed, 1 insertion(+), 6 deletions(-)
-
-diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme.c b/drivers/staging/rtl8188eu/core/rtw_mlme.c
-index 049e25455849..159465b073c2 100644
---- a/drivers/staging/rtl8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_mlme.c
-@@ -32,8 +32,6 @@ int rtw_init_mlme_priv(struct adapter *padapter)
- 
- 	/*  We don't need to memset padapter->XXX to zero, because adapter is allocated by vzalloc(). */
- 
--	pmlmepriv->nic_hdl = (u8 *)padapter;
--
- 	pmlmepriv->pscanned = NULL;
- 	pmlmepriv->fw_state = 0;
- 	pmlmepriv->cur_network.network.InfrastructureMode = Ndis802_11AutoUnknown;
-@@ -1446,7 +1444,7 @@ int rtw_select_and_join_from_scanned_queue(struct mlme_priv *pmlmepriv)
- {
- 	int ret;
- 	struct list_head *phead;
--	struct adapter *adapter;
-+	struct adapter *adapter = container_of(pmlmepriv, struct adapter, mlmepriv);
- 	struct __queue *queue = &pmlmepriv->scanned_queue;
- 	struct wlan_network *pnetwork = NULL;
- 	struct wlan_network *candidate = NULL;
-@@ -1454,7 +1452,6 @@ int rtw_select_and_join_from_scanned_queue(struct mlme_priv *pmlmepriv)
- 
- 	spin_lock_bh(&pmlmepriv->scanned_queue.lock);
- 	phead = get_list_head(queue);
--	adapter = (struct adapter *)pmlmepriv->nic_hdl;
- 	list_for_each(pmlmepriv->pscanned, phead) {
- 		pnetwork = list_entry(pmlmepriv->pscanned,
- 				      struct wlan_network, list);
-diff --git a/drivers/staging/rtl8188eu/include/rtw_mlme.h b/drivers/staging/rtl8188eu/include/rtw_mlme.h
-index 1b74b32b8a81..f5e805c13442 100644
---- a/drivers/staging/rtl8188eu/include/rtw_mlme.h
-+++ b/drivers/staging/rtl8188eu/include/rtw_mlme.h
-@@ -111,8 +111,6 @@ struct mlme_priv {
- 	u8 to_join; /* flag */
- 	u8 to_roaming; /*  roaming trying times */
- 
--	u8 *nic_hdl;
--
- 	struct list_head *pscanned;
- 	struct __queue free_bss_pool;
- 	struct __queue scanned_queue;
--- 
-2.20.1
+T24gV2VkLCAyMDIxLTA1LTA1IGF0IDE3OjQzICswODAwLCBERU5HIFFpbmdmYW5nIHdyb3RlOg0K
+PiBPbiBXZWQsIE1heSA1LCAyMDIxIGF0IDU6MzEgUE0gTGFuZGVuIENoYW8gPGxhbmRlbi5jaGFv
+QG1lZGlhdGVrLmNvbT4NCj4gd3JvdGU6DQo+ID4gSG93IGFib3V0IHVzaW5nIG1lZGlhdGVrLWdl
+LmtvLiAnZ2UnIGlzIHRoZSBhYmJyZXZpYXRpb24gb2YgZ2lnYWJpdA0KPiA+IEV0aGVybmV0LiBN
+b3N0IG1lZGlhdGVrIHByb2R1Y3RzIHVzZSB0aGUgc2FtZSBnaWdhYml0IEV0aGVybmV0IHBoeS4N
+Cj4gDQo+IFdlbGwsIE1UNzYyMCdzIFBIWSBpcyBGRS4uDQpNVDc2MjAncyBGRSBQSFkgSFcgaXMg
+ZGlmZmVyZW50IGZyb20gTVQ3NTN4J3MgR0UgUEhZLiBWZW5kb3IgcmVnaXN0ZXJzDQpvZiB0aGVz
+ZSB0d28gUEhZIGFyZSB0b3RhbGx5IGRpZmZlcmVudC4NCkhvd2V2ZXIsIE1UNzYyMCBpbnRlcm5h
+bCBzd2l0Y2ggTUFDIGlzIHF1aXRlIHRoZSBzYW1lIGFzIE1UNzUzeCdzIE1BQw0KZXhjZXB0IGZv
+ciBWTEFOIHRhYmxlIGFuZCBvdGhlciBtaW5vciBjaGFuZ2VzLiBUaGUgTUFDIHBhcnQgY2FuIGJl
+DQpyZXVzZWQuIA0KDQo+IA0KPiA+IA0KPiA+IExhbmRlbg0K
 
