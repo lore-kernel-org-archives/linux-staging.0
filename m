@@ -1,98 +1,130 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EAF771
-	for <linux-staging@lists.linux.dev>; Thu,  6 May 2021 17:15:02 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id l2so6414293wrm.9
-        for <linux-staging@lists.linux.dev>; Thu, 06 May 2021 10:15:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E585E72
+	for <linux-staging@lists.linux.dev>; Thu,  6 May 2021 20:10:22 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id b21so8644793ljf.11
+        for <linux-staging@lists.linux.dev>; Thu, 06 May 2021 13:10:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=eyeq7edVwNja9tWgkLIcplpibdOE0K8mu+BGnA3YRIk=;
-        b=pqNzx4ZUKXcSSwxox5HXd8A0IyPOcASEDZo9nXoqRQl5zxgXRlQm+M1h6rDJN0SnS8
-         WZOS0M05vpVegePmJq/Sm2VxVAxh+4Dp8ezbIvJtJhMOvXEPe+UEQKG5yBHYsPB2viCh
-         WFWEy2blmHjCqRcgOHOLnmNBAh8gCWeM5N1HYFxP8o/HwXfxUFjqrKB2XGqUa6tyNIZ6
-         MVSAmvphk+n+W4ZgcC7upz88Dup5VjnXeJ992dh7UomCK1ZZerP7I1GquEAfRxPmwfUd
-         mIOq03XQI2YeNW0+SvdaTGonOSLTP6+oWEbe6oO7/SPSNO7nhf8DyhYnp7MwNPXkJjGU
-         l5rQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9Y3teniSGRQ0VOrXvsmVmKBJjGDITdl3HQv9AqHHKVM=;
+        b=NIQ32j57TAAgIyZgpVYmU0tkONnXNd82pp6sk55/HTpN4m9d9FrsKz3Ru4B8oE+vBy
+         aaQjGS1i6Ttx15LSUhwbNq1RzKZnS8QDsZTaIYOnzeJVPPhxZPJCdRNOsYhGoDL6feA7
+         piYwvVVABrxPIzRQ2JddGwTqUp9FEN/d7nQYzyc8DwJEOFd0adyuQoUVsASsiRgARs7D
+         OR2MZ7/mKn+xPAqp+PwxHJbpg0iKMxhguuRlqtFkgaUjF1x+xQNttET1gmOiG67XMoWY
+         YKLA6TcBfbZc3rdcQ83LPtRIu0L4MdYnEj2/bO03RcRHJoXZx/KU2SlhfcIC8qPPs3jO
+         IEsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=eyeq7edVwNja9tWgkLIcplpibdOE0K8mu+BGnA3YRIk=;
-        b=cEvW0D4KlRheD+jo9tboQz+SbS5aWAwYZGI0ILIHG3fl2ky0MuR582e7+FTDMFukb2
-         dAbFrdrc7/vaj4b5+6bUuYpTeEBxQeKEoyIqthEnVpFXoMEBdtm2uPB3+wPcrhnOcg8L
-         8ZH7BX8zjNWoBR8ZvFuP6IxxDUQf8CsTVjb+ZWqcDdOfYPrzcPbqh9+8RdA8/bmOZEb0
-         vWWYpZxqh/RaHzfQ/3R1THN8HwgYbxgL00QjXtQgrjUij5E9R4jSnYP28dgAKljJK4wF
-         gED5CHmmpPjwF93ELS2Rn4JWMgDudHYaDe3Wmz96Alf+/lKzPoUQnAlNsPClZIS3ICi2
-         ZXnA==
-X-Gm-Message-State: AOAM532rvlodtUGXTqVkC8/rAOON+d5uibq1AFvoBkMM0EcKJdNdcXIo
-	8Fl8XfjF33AUthXG+zVqWF8zQzdPV92Bjw==
-X-Google-Smtp-Source: ABdhPJxOYdlVjjxQM0kaIKg3Aptr/aNxRL6e6EwEhCuGmwWDaWWmcQqYPnu07+heSVTSTRA2yqadwg==
-X-Received: by 2002:a5d:4ccc:: with SMTP id c12mr6879065wrt.268.1620321300540;
-        Thu, 06 May 2021 10:15:00 -0700 (PDT)
-Received: from agape.jhs ([5.171.81.67])
-        by smtp.gmail.com with ESMTPSA id l21sm10428421wme.10.2021.05.06.10.14.59
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9Y3teniSGRQ0VOrXvsmVmKBJjGDITdl3HQv9AqHHKVM=;
+        b=YOpbUCaqJ24/5qPE7fTrOlAkuR4iBnJg78P31F0N5PglLq9bMY9DIb69RaclgzSaHs
+         fsl6R4ZZLonnJaZ0bKzTG6lDECITfGCrzjU0D1amyhk9DLiXQQaQUjMEUCt4sqob3Woc
+         ulM9AVdWFlk6+BeculiV7a2thdYWyZhw1yLSEDKRMz/bZPmxoKNPVrRRgC6VAzofRTyn
+         fsL2jFnb+P/SfMmKMuOY3c68bl2IxdgCTEei4xx1SfbB4XsSvuRD7jmWS1h3Zxf2y5jm
+         MpJWrgHIBUpYAZ4492F/fiARaFrTk77a/QyFzKApLuTEt8r4L3YfTj3jZrrHYzumCFrd
+         NgRg==
+X-Gm-Message-State: AOAM531hgmIMkLttMI6hTe9bR+klJCSuNSxk7JHTzoFs89YvcmTKJxYk
+	plPQujXGVO0InWKY7FEv7PI=
+X-Google-Smtp-Source: ABdhPJyqFyrOJScrddF2MX+6nCuHCmry6An/qw8LYEm8UBrmrh5Lfn4WXzEEB02aFHjcg7WZRGhdbg==
+X-Received: by 2002:a2e:5819:: with SMTP id m25mr4878840ljb.144.1620331821016;
+        Thu, 06 May 2021 13:10:21 -0700 (PDT)
+Received: from localhost.localdomain ([94.103.226.84])
+        by smtp.gmail.com with ESMTPSA id q24sm924032lfc.261.2021.05.06.13.10.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 May 2021 10:15:00 -0700 (PDT)
-Date: Thu, 6 May 2021 19:14:57 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Sven Van Asbroeck <thesven73@gmail.com>
-Cc: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, Sascha Hauer <kernel@pengutronix.de>
-Subject: Re: [PATCH 2/2] staging: fieldbus: anybus: Refuse registering
- drivers without .probe()
-Message-ID: <20210506171456.GA8507@agape.jhs>
-References: <20210505202923.198607-1-u.kleine-koenig@pengutronix.de>
- <20210505202923.198607-2-u.kleine-koenig@pengutronix.de>
- <CAGngYiViy_o2Wzdn0axWeR1FSijH+5d7yLDTkAL+mQnEMkuJBQ@mail.gmail.com>
- <20210506084955.GC1432@agape.jhs>
- <CAGngYiUyOWai8QRUAhsnABSJxyUzs5Mqf_pXgmTzkBL8EiBL3g@mail.gmail.com>
+        Thu, 06 May 2021 13:10:20 -0700 (PDT)
+From: Pavel Skripkin <paskripkin@gmail.com>
+To: mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Pavel Skripkin <paskripkin@gmail.com>
+Subject: [PATCH] staging: media: atomisp: remove useless breaks
+Date: Thu,  6 May 2021 23:09:56 +0300
+Message-Id: <20210506200956.16593-1-paskripkin@gmail.com>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGngYiUyOWai8QRUAhsnABSJxyUzs5Mqf_pXgmTzkBL8EiBL3g@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 06, 2021 at 09:54:06AM -0400, Sven Van Asbroeck wrote:
-> Hi Fabio,
-> 
-> On Thu, May 6, 2021 at 4:49 AM Fabio Aiuto <fabioaiuto83@gmail.com> wrote:
-> >
-> > I'm trying to make my way in linux kernel device driver development and
-> > hopefully find a job soon. If the task 'moving fieldbus out of staging' will
-> > give me opportunity to play with real hardware, and so gain more experience,
-> > we can talk about it.
-> 
-> Thank you so much for the offer, I really appreciate it !
-> 
-> The fieldbus subsystem sits in staging mainly because it's in use by
-> only a single company. Greg KH was absolutely right to insist that
-> this had to go into staging: a subsystem is different from a simple
-> driver, and can only thrive if it's actively used by a wide community.
-> You can see this in the subsystem's TODO:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/staging/fieldbus/TODO?h=v5.12
+Breaks are not useful after a return, they can
+simply be removed.
 
-for this TODO, one should identify first target people who
-could be interested in Fieldbus.
+Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+---
+ .../pci/hive_isp_css_common/host/input_system.c       | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-> 
-> In short, this cannot be taken out of staging by "pure technical
-> work". Except if you had a fieldbus client device on your hands, and
-> you wanted to talk to it through this subsystem.
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+index 0f5a231672a8..fd82997b11cc 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+@@ -904,16 +904,12 @@ static input_system_err_t input_system_configure_channel(
+ 			break;
+ 		case INPUT_SYSTEM_SOURCE_TPG:
+ 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-			break;
+ 		case INPUT_SYSTEM_SOURCE_PRBS:
+ 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-			break;
+ 		case INPUT_SYSTEM_SOURCE_FIFO:
+ 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-			break;
+ 		default:
+ 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-			break;
+ 		}
+ 
+ 		if (error != INPUT_SYSTEM_ERR_NO_ERROR) return error;
+@@ -995,7 +991,6 @@ static input_system_err_t input_buffer_configuration(void)
+ 			default:
+ 				config.csi_buffer_flags[port] |= INPUT_SYSTEM_CFG_FLAG_CONFLICT;
+ 				return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-				break;
+ 			}
+ 
+ 			// Check acquisition buffer specified but set it later since it has to be unique.
+@@ -1032,7 +1027,6 @@ static input_system_err_t input_buffer_configuration(void)
+ 
+ 			default:
+ 				return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-				break;
+ 			}
+ 		} else {
+ 			config.csi_buffer_flags[port] = INPUT_SYSTEM_CFG_FLAG_BLOCKED;
+@@ -1319,7 +1313,6 @@ static input_system_err_t configuration_to_registers(void)
+ 
+ 	default:
+ 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-		break;
+ 
+ 	} // end of switch (source_type)
+ 
+@@ -1696,16 +1689,12 @@ static input_system_err_t input_system_configure_channel_sensor(
+ 		break;
+ 	case INPUT_SYSTEM_FIFO_CAPTURE_WITH_COUNTING:
+ 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-		break;
+ 	case INPUT_SYSTEM_XMEM_CAPTURE:
+ 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-		break;
+ 	case INPUT_SYSTEM_XMEM_ACQUIRE:
+ 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-		break;
+ 	default:
+ 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-		break;
+ 	}
+ 	return INPUT_SYSTEM_ERR_NO_ERROR;
+ }
+-- 
+2.31.1
 
-no I don't, these seems to be industrial devices and I don't
-know how could I bring home such stuff.
-
-> 
-> Sven
-
-thank you for your answer Sven,
-
-fabio
