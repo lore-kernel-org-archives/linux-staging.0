@@ -1,37 +1,37 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A312172
-	for <linux-staging@lists.linux.dev>; Thu,  6 May 2021 13:38:33 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id n205so3417148wmf.1
-        for <linux-staging@lists.linux.dev>; Thu, 06 May 2021 06:38:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64DC572
+	for <linux-staging@lists.linux.dev>; Thu,  6 May 2021 13:54:18 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id d11so5715169wrw.8
+        for <linux-staging@lists.linux.dev>; Thu, 06 May 2021 06:54:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=1azokgu1E2f3XMcUWuE6su+CxVlJTo2QBHYnp0NX4L8=;
-        b=arp2mAuRWP9EhK0EPjRIi0zPj1B0dw9+VdC4vUocnOuTjyIgdhNJcPo4Ow6C3M4H1O
-         NnanS0WJxlcmb4cH6cPRf5Lo/5LL2n2q2/X5e21yPtNYASXSn6RpmvZUHv/hIvBCDY+L
-         b0n1ZiaHGLXLGRIL+RIsMqzbXICvD6ocohMuux/AODAkZ1laJj4ssAN+xFxlYd0f/9+9
-         pyMelwHamzg6H46xzF+YGqEseeSLCzMwVuxQdvSORNPP//+35jADskeEw2AqC0Yl4Jcr
-         6jiAwS/1gvbxVO5/HmWCK+gSs4AoxrHfN0/lUh5wpFZiQzpKR8J/kKQ2GkDJicZx7Mv/
-         NIuA==
+         :cc;
+        bh=XIqwVJLyJAPqBu0pPr4qOQhf3AvN1zMlHE2Y9MoBlRI=;
+        b=JG6HYjQVTrHQnD1b9dAbdqtSBD62/ksy/1CplyOo0g3d6ixqy4QsAh7/dlwniySwOf
+         P6nrMZqhcXJmY90E1Rg+ygtFmSR9ELgcE3yeTlQpoNRuc8zCxTeWbwVCae4K78lrmkRk
+         uk/+gZi5ws8Xfnu4YdANF4o1WGNgJegOnFYcbTlYJlOGUWtwkG3mVq1PR53azk77OAW5
+         tRP39HwOBs7o9Rut/fSWbDKxO/FFF95XYnLhwbCkXJycRwgSRCF8/JMg172TzoLLekPa
+         KTbcx2lgEfo6GYhp40upvf9MLpDal4DD23op9ayET1coUWh8ExK3AQztYlXQns6boXRR
+         XEjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=1azokgu1E2f3XMcUWuE6su+CxVlJTo2QBHYnp0NX4L8=;
-        b=gfUskO7rK5vPHOgfLlTJi6UIQtB5MnTMAm7mumJpdzW2MRMPfZFgGJ1kicwEGF3fZe
-         pPE1CYNqU1BivIdzYYyDG8uEB+tS2tQPJKYDfr8h6cMIvKWgHtbwHy5c8jzknBacpvxp
-         hxGgWigYuYp1YhFVK+WrJtNkWWfy5OYgcWPddXEBaC1c+YVSstKZC4BnJzPiYyOmJWJu
-         eY3otyvJthyKlDq/tzbJbjdni96Gp2ShLFaviT+67d3O8X2r05sMYjF38AT73sj2iunO
-         Won14Liuw4OTXHhOEEfuEwXilt7OYtAe96uT35kUCtNxM1XVH7HutQrNT/+8YILrbXq7
-         oP+w==
-X-Gm-Message-State: AOAM531edkML6R3JkInfwkg1qTs+t5EY7LHjByV8T7lsZsVvtJa+93xW
-	yO8ZCToVSRB5ZPUTRuQtkrgyw40oyykOcqqt4Vo=
-X-Google-Smtp-Source: ABdhPJw0yoCovr6WPliJdhtbIGwGoB83+KMAqyBuHO7y2qLuzryprJaOml5RtNWjeFstza33bwUQDA29Prw/OvRfsI4=
-X-Received: by 2002:a05:600c:4b88:: with SMTP id e8mr4009446wmp.74.1620308312049;
- Thu, 06 May 2021 06:38:32 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=XIqwVJLyJAPqBu0pPr4qOQhf3AvN1zMlHE2Y9MoBlRI=;
+        b=j54TZuXngX98J6MAsnFVLl5GkclvNs7QcYFWft7G8cdoSJVvVwEeakHhBdocpBZS1+
+         PZNlwKKJ+2JjJBilL8bb+wow0JHzsjlK493HIheaH5YSScncAjE+7bMlVFRQ4v+ptpx+
+         6zRxhwYL8uU5Jtg+KKavpoAqVWRVsMvcsZ0QC5vMi/Y4sSdhSk2a4qSZ4dxKiJeqyoI3
+         LutDGAbrfMddILN90M3CbJuv9PjzLOJKqzeI114cP5nBZPLkV/J4otfm6X3+49SN/O5Z
+         tV4c9/YoXBUc+eNstXnEVMgK4JAHeLLxd2agsFYsCZjBT29rBuDifvfuu66GsZoDvhF6
+         t39w==
+X-Gm-Message-State: AOAM531pxsKr56+GfHOKoqS5DEDEm7haLXTeL0LwK8b8bmjmgY4kfTSb
+	TzfMQLiHooEAtOGlgtSam1S4B1A8//Nbv+W+dbk=
+X-Google-Smtp-Source: ABdhPJxxQzaJIIS5YYwHe7R/ozRsmzuVo3uXytUMh+uLR/qboQZYYlQZQbdGPRk+KijYMPLuiiqZnYkN73QdtLIKXbw=
+X-Received: by 2002:a5d:4bd2:: with SMTP id l18mr5327882wrt.197.1620309256868;
+ Thu, 06 May 2021 06:54:16 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -39,44 +39,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20210505202923.198607-1-u.kleine-koenig@pengutronix.de>
  <20210505202923.198607-2-u.kleine-koenig@pengutronix.de> <CAGngYiViy_o2Wzdn0axWeR1FSijH+5d7yLDTkAL+mQnEMkuJBQ@mail.gmail.com>
- <20210506061714.chy3xeybpquxg7q6@pengutronix.de>
-In-Reply-To: <20210506061714.chy3xeybpquxg7q6@pengutronix.de>
+ <20210506084955.GC1432@agape.jhs>
+In-Reply-To: <20210506084955.GC1432@agape.jhs>
 From: Sven Van Asbroeck <thesven73@gmail.com>
-Date: Thu, 6 May 2021 09:38:20 -0400
-Message-ID: <CAGngYiUgrFwANZoxN0+PncyQvCKCbWb_aEF2uXNwDAn-kLsh5g@mail.gmail.com>
+Date: Thu, 6 May 2021 09:54:06 -0400
+Message-ID: <CAGngYiUyOWai8QRUAhsnABSJxyUzs5Mqf_pXgmTzkBL8EiBL3g@mail.gmail.com>
 Subject: Re: [PATCH 2/2] staging: fieldbus: anybus: Refuse registering drivers
  without .probe()
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
 	Sascha Hauer <kernel@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Uwe,
+Hi Fabio,
 
-On Thu, May 6, 2021 at 2:17 AM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
+On Thu, May 6, 2021 at 4:49 AM Fabio Aiuto <fabioaiuto83@gmail.com> wrote:
 >
-> So sorry, I have no motivation to support getting this out of staging.
+> I'm trying to make my way in linux kernel device driver development and
+> hopefully find a job soon. If the task 'moving fieldbus out of staging' will
+> give me opportunity to play with real hardware, and so gain more experience,
+> we can talk about it.
 
-No worries, this subsystem would only be useful to you, if you were
-running Linux on a Fieldbus client device. That is still quite niche -
-on mainline.
+Thank you so much for the offer, I really appreciate it !
 
->
-> BTW: I just noticed there are occurences of anybuss and anybus in the
-> driver. Is only one of them right?
+The fieldbus subsystem sits in staging mainly because it's in use by
+only a single company. Greg KH was absolutely right to insist that
+this had to go into staging: a subsystem is different from a simple
+driver, and can only thrive if it's actively used by a wide community.
+You can see this in the subsystem's TODO:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/staging/fieldbus/TODO?h=v5.12
 
-There are various "flavours" of Anybus. One of them is Anybus-S, which
-is the one implemented here. Support could be added for the other
-flavours, but there is no use case right now. The reason why I went
-with "anybuss_xxx" instead of "anybus_s_xxx" was purely visual. Code
-such as this:
+In short, this cannot be taken out of staging by "pure technical
+work". Except if you had a fieldbus client device on your hands, and
+you wanted to talk to it through this subsystem.
 
-> void anybus_s_client_driver_unregister(struct anybuss_client_driver *drv)
-
-looked really bad to me. Perhaps in hindsight, "anybus_s_xxx" would
-have been the better choice, because quite a few people have
-questioned the double-S. But hindsight is 20/20, and there is no good
-incentive to change it now, except if Anybus-S suddenly became more
-popular. Which is unlikely, it's now purely a legacy bus.
+Sven
