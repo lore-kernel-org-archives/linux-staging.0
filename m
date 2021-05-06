@@ -1,55 +1,55 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04D770
-	for <linux-staging@lists.linux.dev>; Thu,  6 May 2021 08:40:22 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id t18so4682335wry.1
-        for <linux-staging@lists.linux.dev>; Thu, 06 May 2021 01:40:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEBB670
+	for <linux-staging@lists.linux.dev>; Thu,  6 May 2021 08:50:00 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id g65so2914174wmg.2
+        for <linux-staging@lists.linux.dev>; Thu, 06 May 2021 01:50:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
          :user-agent;
-        bh=YJunylqKrAFKcZYPy1RKyOb0koq1mXxTxP9J/wCCEYQ=;
-        b=BBxp2QpDbIHb9zC+DoVsFNeb8xxCFN+GfyhP4ugNKM27X5fwkpRihEnHOQb63kPz2m
-         fL34g6Girlhu/ERxDFIXLvOnmS1zpY/k30I++XEw2aQzNkASjFcykRAeH1iygaIFlKCx
-         tJKyo+NreMFvVjPJdrHLjcLiD57KAL6QcbbJrKqvFHHfDKPuiHx6GboaPohdjKb8aM2g
-         /H9fl+5WuiMfCwNTOA948JqN7Xk3g2T6oGgv026d1O1xSecPSRpbvOmKafYkM15uFfgT
-         nSEZg7a3k9G0pZnIEf7uuklwGo001E+Cc5mHpasGKxc/bRjkLOYc9L6TjVFg3aRBkJgH
-         MuaQ==
+        bh=yHgkB3CxNPsRARZ4GfSJNGd1yg6kcLfx2QY9UrNxJL4=;
+        b=NC71hLfjMu3tSTloWtEiG4CocO7dVdL1+9sLIghUi58HBBhJBJY21yzYyXCKsZCVTz
+         gHt97omPpti2YnvysUQBR6uIbqUtr26Di4WTN5HtbmRrREhybBe6V4dmOHlBZw/PJJYk
+         T1IjYf+PLQV6MPJcLcWASUyXxJtHBAJq/g3oMY/KJBm4FSbfficfdYbP6Ov70ie0d9TS
+         KShSQEtsinyLcz5n4mgPojHYadzEBW0zuTMV5VZO9oi99FjozlOHUyVx4MHVbJrIqwjs
+         rdyTBenPQ40MYAs5yybjixuq2RFMrQjvvyHw70ffbDt9REEM92Wj/fOpvXfHYqRdXuIi
+         eVlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to:user-agent;
-        bh=YJunylqKrAFKcZYPy1RKyOb0koq1mXxTxP9J/wCCEYQ=;
-        b=AFlRehlARUIhDLECuN3wXOc8JcvlDSJv6av9hts5AHHTdfbF25fBylaX1TvTIXuxE5
-         CtptNjNdFykgda0Cs50skFsfc8bpcpa5xbBefxs5veL98DBAYV0ejFSoO17NdCueaOf7
-         yR8Md+YGe1ReD46RRt1bR4/izPO2fJ1gb4qjYCgy8TcmjiS4LopYpLDyhjvgW6gzHgfG
-         lU2GcuoC4BCRefFjdkmtC4yk8C+AZN2PPmW8HHTE83iRCaXOlxG0NXcYIkqH9QetXSg+
-         83oN6t3DuEqKu9cc8vwOkc5COiux1pKEVTUBUw/N+HHqYWQkQAd3YPcU+PsXmE8ORtI+
-         E6uw==
-X-Gm-Message-State: AOAM533gbVhJW1mzN6isG4M11Lz/fZNRQJqrzdA9gQWMvdDVxZplW3n+
-	l9WiVSpHYWaHHvqr4FM3r1Y=
-X-Google-Smtp-Source: ABdhPJyThqFAZpsE+bzKd4GFo9l8mESA5LbbLywTkBvBxeUGPo10bbKVN4z4GXuI3zK3yzvWEHhLXA==
-X-Received: by 2002:a5d:608a:: with SMTP id w10mr3657055wrt.342.1620290421303;
-        Thu, 06 May 2021 01:40:21 -0700 (PDT)
+        bh=yHgkB3CxNPsRARZ4GfSJNGd1yg6kcLfx2QY9UrNxJL4=;
+        b=eNWigsTxx+RwQwN00CnFiS6H8u/p2TZqbms/K7M7/95RBYSYiBGjuwo04t76ROOYTf
+         Xpkr+4AvoHtntfLX9AIEGnrGvckzFz2hCKMrMyQg1hjvbpMWKA2DjDrbSyp91nSfAA8h
+         bhRtukVUEsUR6Evt2lBW82DttSzTW8OrdX/aMWuR2oGNREOzKJHKJAst7Nj+W79snxhl
+         6OpWUT9wRUo/5dpR5IspDE94c59FBGyAKHus1r/aSXSz/4rI4VkK4HGvqhKruqbN6o15
+         I9rxgk7T/lCH72KzpdyAS+VrbZN+Qb6N2xORgW7QlD631BDRz5QSv69R26/Htf+Rlbj1
+         M1YQ==
+X-Gm-Message-State: AOAM530a1yZGrn10Dyu+0q6lmQuz4d+vLwypGigo4jUNLzSPHBm1OWd6
+	Flvn381sBGaLUiXqwzJMNlM=
+X-Google-Smtp-Source: ABdhPJyXrDoIfUjQ+7seLsavkX/sli4ZgGTt1RWNiR+UyjW1bfw7N+kx2IJ5dTkmidaNvomVDGSBnQ==
+X-Received: by 2002:a1c:7402:: with SMTP id p2mr13855236wmc.88.1620290999561;
+        Thu, 06 May 2021 01:49:59 -0700 (PDT)
 Received: from agape.jhs ([5.171.72.109])
-        by smtp.gmail.com with ESMTPSA id v13sm3100952wrt.65.2021.05.06.01.40.20
+        by smtp.gmail.com with ESMTPSA id y17sm3459750wrw.90.2021.05.06.01.49.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 May 2021 01:40:21 -0700 (PDT)
-Date: Thu, 6 May 2021 10:40:18 +0200
+        Thu, 06 May 2021 01:49:59 -0700 (PDT)
+Date: Thu, 6 May 2021 10:49:56 +0200
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Sven Van Asbroeck <TheSven73@gmail.com>, linux-staging@lists.linux.dev,
-	kernel@pengutronix.de,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 1/2] staging: fieldbus: anybus: Make remove callback
- return void
-Message-ID: <20210506084017.GB1432@agape.jhs>
+To: Sven Van Asbroeck <thesven73@gmail.com>
+Cc: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, Sascha Hauer <kernel@pengutronix.de>
+Subject: Re: [PATCH 2/2] staging: fieldbus: anybus: Refuse registering
+ drivers without .probe()
+Message-ID: <20210506084955.GC1432@agape.jhs>
 References: <20210505202923.198607-1-u.kleine-koenig@pengutronix.de>
- <20210506064843.GA1432@agape.jhs>
- <20210506075213.uytlw6txmgstapam@pengutronix.de>
+ <20210505202923.198607-2-u.kleine-koenig@pengutronix.de>
+ <CAGngYiViy_o2Wzdn0axWeR1FSijH+5d7yLDTkAL+mQnEMkuJBQ@mail.gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -58,45 +58,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210506075213.uytlw6txmgstapam@pengutronix.de>
+In-Reply-To: <CAGngYiViy_o2Wzdn0axWeR1FSijH+5d7yLDTkAL+mQnEMkuJBQ@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Thu, May 06, 2021 at 09:52:13AM +0200, Uwe Kleine-König wrote:
-> On Thu, May 06, 2021 at 08:48:44AM +0200, Fabio Aiuto wrote:
-> > Hello Uwe,
-> > 
-> > On Wed, May 05, 2021 at 10:29:22PM +0200, Uwe Kleine-König wrote:
-> > > The driver core ignores the return value of struct bus_type::remove()
-> > > because there is only little that can be done. To simplify the quest to
-> > > make this function return void, let struct vio_driver::remove() return
-> > > void, too. All users already unconditionally return 0, this commit makes
-> > > it obvious that returning an error code is a bad idea.
-> > 
-> > looks like that the commit description hardly matches what you changed
-> > here. You changed the return type of handler remove() of struct
-> > anybuss_client_driver. Are the latter and bus_type tied in some
-> > fashion?
+On Wed, May 05, 2021 at 05:04:55PM -0400, Sven Van Asbroeck wrote:
+> On Wed, May 5, 2021 at 4:29 PM Uwe Kleine-König
+> <u.kleine-koenig@pengutronix.de> wrote:
+> >
+> > A driver without .probe() callback could never bind to a device because
+> > anybus_bus_probe() returned an error for such a driver. So refuse to
+> > register such a useless driver.
+> >
+> > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 > 
-> Oh, vio_driver leaked from my copy-and-paste template.
+> Looks good to me. For the series:
+> Reviewed-by: Sven Van Asbroeck <TheSven73@gmail.com>
 > 
-> > Why using :: notation?
+> Uwe, I'm glad you're submitting patches for fieldbus. Hope you find it
+> useful. This code is in staging mainly because only a single
+> company/developer is using it. So if you are actively using this, or
+> planning to use it, we can work towards taking this out of staging, if
+> you like.
 > 
-> If you have a better suggestion I'm all ears.
+> Sven
+> 
 
-maybe a simple dot? '::' reminds c++ or rust, this patch fixes c code.
-But I don't think it is a real issue, I was just wondering why you choose
-'::'
+Hi Sven,
 
-> 
-> Will resend with Sven's Reviewed-by and
-> s/vio_driver/anybuss_client_driver/
-> 
-> Thanks
-> Uwe
-> 
-> -- 
-> Pengutronix e.K.                           | Uwe Kleine-König            |
-> Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+I'm trying to make my way in linux kernel device driver development and
+hopefully find a job soon. If the task 'moving fieldbus out of staging' will
+give me opportunity to play with real hardware, and so gain more experience,
+we can talk about it.
 
 thank you,
 
