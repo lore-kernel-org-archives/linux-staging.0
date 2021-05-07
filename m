@@ -1,210 +1,104 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F65770
-	for <linux-staging@lists.linux.dev>; Fri,  7 May 2021 20:38:22 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CF8BB6140F
-	for <linux-staging@lists.linux.dev>; Fri,  7 May 2021 20:38:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1620419901;
-	bh=hrASAZVkDIioAhyyZHzYMy82DUnmzBHVMSMsTq9DZDI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Qhu8eOmlNMPNt0j8M+fceDp3tnr4Igi6V3mz/8EXDE9KP0T0XLWVpsr6AsoYcNjI8
-	 /2h8QlI2iYgU4T3g059W5l7F/8apnG9FB/liShmdepuuLcYgENyq1h5XL4FHdZKOmD
-	 TzraDNO8XrZjHq3nSLwLUvOHU8mW2kCT/N0RIdcLQh7yl1OIOU4wRexyKJscBDOI+r
-	 MRfthXYOE70qXJDiar0/cQGP8A78w1O03WfYjzmi4bdK/FOWzQdB7iQ4z3Ir+uYza6
-	 EztulOAVBYrarWAxczRp5UxLjt7d74LlIQT8snxspiK6b2kPl9DDJfrdL155rt+34P
-	 LbTQVl0kFy6sA==
-Received: by mail-ed1-f47.google.com with SMTP id n25so11680995edr.5
-        for <linux-staging@lists.linux.dev>; Fri, 07 May 2021 13:38:21 -0700 (PDT)
-X-Gm-Message-State: AOAM532zoa4ZXiI0rZpfaMQEmB2efdyjO8E5eY9omq1595oBdrxVSrYm
-	8WW4vLRY7ISfcSV6O2hBSsBi3iolhI2jR0r/uw==
-X-Google-Smtp-Source: ABdhPJyu5zyoW++LFChadj09PU067WEsO1tO6y0xSQtqkyLhEyRkrOv9bZmfaSKjm168r7xXYWnk8Y5pCt8CLvaXiaY=
-X-Received: by 2002:a05:6402:c7:: with SMTP id i7mr14008405edu.194.1620419900275;
- Fri, 07 May 2021 13:38:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEBA770
+	for <linux-staging@lists.linux.dev>; Fri,  7 May 2021 22:12:02 +0000 (UTC)
+Received: by mail-oo1-f46.google.com with SMTP id p6-20020a4adc060000b02901f9a8fc324fso2279521oov.10
+        for <linux-staging@lists.linux.dev>; Fri, 07 May 2021 15:12:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/rvNcQv5ALxrR0naTewdJhe0quQ9LN/bF0ysksseIEY=;
+        b=KYWrUPpKDydYJdsWSoIGpSQ3RW6DpmFxQiK16DGJ5bRL+IWh65n94fAckwIEOmD3MB
+         yws17zOHH3nbTxWHWz2ivW6FXp/7uNngsZjK6tf66JEVvyFlSl1n7CFQz6lj4sPetbSO
+         EsLwlvwD1pDuU11v54YITT/o3aC89uiiEYXJgiLPhtHgP7qXuTfOjk/2FG7aAqIVkt0F
+         PnW1tD7CqDlZeJTfjzyzFCWCQMAJce5OlgH88rAAxFBYwWsZ4/werjX2t+zmVRTQYPq0
+         i64yyXKIJHUFnucOluk+JhCSjjkarj4D7PjkFFwJtCO5Y7tJCSSDF4iESZBbwvy/Gnos
+         gYYw==
+X-Gm-Message-State: AOAM531qL0iiLT4qItBVASJT1J+no84zpzd3FnUK+uuhnMvXt1DGvFop
+	LSoAQAMp+eI94XvBvVjTbg==
+X-Google-Smtp-Source: ABdhPJzvPtsvbac2Jn5WYp0UEmz6zR4DRNDm3TNvPg3pBSSYiFtETu2wQBHRtLL52BozFDBoXwU57A==
+X-Received: by 2002:a4a:d98a:: with SMTP id k10mr9444899oou.51.1620425522176;
+        Fri, 07 May 2021 15:12:02 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id k8sm1212467oig.6.2021.05.07.15.12.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 May 2021 15:12:01 -0700 (PDT)
+Received: (nullmailer pid 2987891 invoked by uid 1000);
+	Fri, 07 May 2021 22:12:00 -0000
+Date: Fri, 7 May 2021 17:12:00 -0500
+From: Rob Herring <robh@kernel.org>
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: vkoul@kernel.org, linux-phy@lists.infradead.org, kishon@ti.com, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, gregkh@linuxfoundation.org, neil@brown.name, ilya.lipnitskiy@gmail.com
+Subject: Re: [PATCH 2/5] dt-bindings: phy: mediatek,mt7621-pci-phy: add clock
+ entries
+Message-ID: <20210507221200.GA2984128@robh.at.kernel.org>
+References: <20210506111531.21978-1-sergio.paracuellos@gmail.com>
+ <20210506111531.21978-3-sergio.paracuellos@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210501133647.14350-1-sergio.paracuellos@gmail.com>
- <20210506151839.GA322729@robh.at.kernel.org> <CAMhs-H_Ae4Erx06j2fGSiZXpGo9UWRAkSPPQhFGnZ1D8=NM8cg@mail.gmail.com>
-In-Reply-To: <CAMhs-H_Ae4Erx06j2fGSiZXpGo9UWRAkSPPQhFGnZ1D8=NM8cg@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Fri, 7 May 2021 15:38:08 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKBH=QK8V+fv-ehQZ_+cL1+Da-9PLEbwPzqR4LodKw3aw@mail.gmail.com>
-Message-ID: <CAL_JsqKBH=QK8V+fv-ehQZ_+cL1+Da-9PLEbwPzqR4LodKw3aw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: staging: mt7621-pci: PCIe binding
- documentation for MT76721 SoCs
-To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, linux-staging@lists.linux.dev, 
-	Greg KH <gregkh@linuxfoundation.org>, NeilBrown <neil@brown.name>, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210506111531.21978-3-sergio.paracuellos@gmail.com>
 
-On Thu, May 6, 2021 at 11:41 AM Sergio Paracuellos
-<sergio.paracuellos@gmail.com> wrote:
->
-> Hi Rob,
->
-> Thanks for the review.
->
-> On Thu, May 6, 2021 at 5:18 PM Rob Herring <robh@kernel.org> wrote:
-> >
-> > On Sat, May 01, 2021 at 03:36:46PM +0200, Sergio Paracuellos wrote:
-> > > Add device tree binding documentation for PCIe in MT7621 SoCs.
-> > >
-> > > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> > > ---
-> > >
-> > > Hi Rob,
-> > >
-> > > Some concerns here. I was not be able to found any case similar to
-> > > this binding where sub-nodes describing each pcie port interface
-> > > are needed. I added them to the 'examples' directly without saying
-> > > anything about properties in any other place since its properties
-> > > seems to be covered in 'pci-bus.yaml' schema definition. I don't
-> > > know if this is the way, I have checked against schema and I noticed
-> > > I am forced to add 'device_type' property in each subnode because
-> > > schema checker complains that this is mandatory. So I have added
-> > > it and schema is properly being validated:
-> > >
-> > > Before add the 'device_type' in each subnode:
-> > > /home/sergio/staging/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dt.yaml: pcie@0,0: 'device_type' is a required property
-> > > >From schema: /home/sergio/.local/lib/python3.9/site-packages/dtschema/schemas/pci/pci-bus.yaml
-> > > /home/sergio/staging/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dt.yaml: pcie@1,0: 'device_type' is a required property
-> > > >From schema: /home/sergio/.local/lib/python3.9/site-packages/dtschema/schemas/pci/pci-bus.yaml
-> > > /home/sergio/staging/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dt.yaml: pcie@2,0: 'device_type' is a required property
-> > > >From schema: /home/sergio/.local/lib/python3.9/site-packages/dtschema/schemas/pci/pci-bus.yaml
-> >
-> > Each port is a PCI bridge, right? If so, then 'pcie' for the node name
-> > and 'device_type = "pci";' are correct.
->
-> Yes it is, thanks for clarification.
->
-> >
-> > >
-> > > After adding it:
-> > > CHKDT   Documentation/devicetree/bindings/processed-schema-examples.json
-> >
-> > Validates all the schema
-> >
-> > > SCHEMA  Documentation/devicetree/bindings/processed-schema-examples.json
-> >
-> > Preprocesses all the schema
-> >
-> > > DTEX    Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dts
-> >
-> > Extracts the example to dts file
-> >
-> > > DTC     Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dt.yaml
-> >
-> > Converts the example to yaml
-> >
-> > > CHECK   Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.example.dt.yaml
-> >
-> > Runs the checks.
-> >
-> > >
-> > > Looks a bit redundant and maybe I am doing something wrong...
->
-> I meant redundant the 'device_type=pci' in all of the child nodes, not
-> the messages I got when check against the schema but thanks also for
-> explanation :).
->
-> > >
-> > > Thanks in advance for clarification.
-> > >
-> > > Best regards,
-> > >     Sergio Paracuellos
-> > >
-> > >
-> > >  .../bindings/pci/mediatek,mt7621-pci.yaml     | 144 ++++++++++++++++++
-> > >  .../mt7621-pci/mediatek,mt7621-pci.txt        | 104 -------------
-> > >  2 files changed, 144 insertions(+), 104 deletions(-)
-> > >  create mode 100644 Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml
-> > >  delete mode 100644 drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml b/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml
-> > > new file mode 100644
-> > > index 000000000000..9c1d05d929a2
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml
-> > > @@ -0,0 +1,144 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/pci/mediatek,mt7621-pci.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: MediaTek MT7621 PCIe controller
-> > > +
-> > > +maintainers:
-> > > +  - Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> > > +
-> > > +description: |+
-> > > +  MediaTek MT7621 PCIe subsys supports single Root complex (RC)
-> > > +  with 3 Root Ports. Each Root Ports supports a Gen1 1-lane Link
-> > > +
-> > > +allOf:
-> > > +  - $ref: /schemas/pci/pci-bus.yaml#
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    const: mediatek,mt7621-pci
-> > > +
-> > > +  reg:
-> > > +    items:
-> > > +      - description: host-pci bridge registers
-> > > +      - description: pcie port 0 RC control registers
-> > > +      - description: pcie port 1 RC control registers
-> > > +      - description: pcie port 2 RC control registers
-> >
-> > Are these config space registers or MT7621 specific?
->
-> All of them are MT7621 specific.
->
-> >
-> > > +
-> > > +  ranges:
-> > > +    maxItems: 2
-> > > +
-> > > +  interrupts:
-> > > +    maxItems: 3
-> >
-> > What are the 3 interrupts?
->
-> These are one interrupt per root port. In next version this will
-> change in favour of using interrupt-map and interrupt-map-mask instead
-> of use interrupts and a custom 'map_irq' callback in driver code.
-> Please see:
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/commit/?h=staging-testing&id=aed0b711cc791d075e716c397ff6b26bf50345a6
-> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/commit/?h=staging-testing&id=3e278e3064511b1606d406db0e26b2fee593fb55
->
-> This is the way used in mt7623 already mainlined binding.
->
-> > > +
-> > > +  resets:
-> > > +    items:
-> > > +      - description: pcie port 0 reset.
-> > > +      - description: pcie port 1 reset.
-> > > +      - description: pcie port 2 reset.
-> >
-> > This and clocks should perhaps be in each child node.
->
-> I followed here style in mt7623 already mainlined bindings which are
-> in the main node. Is there a strong reason to be changed into child
-> nodes or can I maintain this as it is?
+On Thu, May 06, 2021 at 01:15:28PM +0200, Sergio Paracuellos wrote:
+> MT7621 SoC clock driver has already mainlined in
+> 'commit 48df7a26f470 ("clk: ralink: add clock driver for mt7621 SoC")'
+> Hence update schema with the add of the entries related to
+> clock.
+> 
+> Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> ---
+>  .../bindings/phy/mediatek,mt7621-pci-phy.yaml        | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/phy/mediatek,mt7621-pci-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,mt7621-pci-phy.yaml
+> index 0ccaded3f245..d8614ef8995c 100644
+> --- a/Documentation/devicetree/bindings/phy/mediatek,mt7621-pci-phy.yaml
+> +++ b/Documentation/devicetree/bindings/phy/mediatek,mt7621-pci-phy.yaml
+> @@ -16,6 +16,14 @@ properties:
+>    reg:
+>      maxItems: 1
+>  
+> +  clocks:
+> +    maxItems: 1
+> +    description:
+> +      PHY reference clock. Must contain an entry in clock-names.
+> +
+> +  clock-names:
+> +    const: sys_clk
 
-Okay, I had no idea because you didn't mention it. Why are you
-creating a new binding then? Looks like they are pretty similar. At
-least don't invent new *-names.
+You don't really need -names when there is only 1.
 
-However, you should be aware of this pending change:
+> +
+>    "#phy-cells":
+>      const: 1
+>      description: selects if the phy is dual-ported
+> @@ -23,6 +31,8 @@ properties:
+>  required:
+>    - compatible
+>    - reg
+> +  - clocks
+> +  - clock-names
 
-https://lore.kernel.org/linux-pci/20210406034410.24381-1-chuanjia.liu@mediatek.com/
+Technically, you can't add new properties and make them required as that 
+breaks the ABI. If that's okay here, explain it in the commit message. 
 
-So perhaps mt7621 should follow that?
-
-Rob
+>    - "#phy-cells"
+>  
+>  additionalProperties: false
+> @@ -32,5 +42,7 @@ examples:
+>      pcie0_phy: pcie-phy@1e149000 {
+>        compatible = "mediatek,mt7621-pci-phy";
+>        reg = <0x1e149000 0x0700>;
+> +      clocks = <&sysc 0>;
+> +      clock-names = "sys_clk";
+>        #phy-cells = <1>;
+>      };
+> -- 
+> 2.25.1
+> 
