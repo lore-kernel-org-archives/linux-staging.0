@@ -1,249 +1,104 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB74772
-	for <linux-staging@lists.linux.dev>; Fri,  7 May 2021 01:32:59 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id z6-20020a17090a1706b0290155e8a752d8so4432781pjd.4
-        for <linux-staging@lists.linux.dev>; Thu, 06 May 2021 18:32:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=s5IXz0Xh8rnK6C98s15YZFws0grdv+KEyo474HFabyk=;
-        b=LdAuXbbdKicQln3RAzfjvOL26/pIMGfPR4JVc6QHX3R4tpACiDDF2rOD8thKd28dKN
-         TmpfNoVrmKvd4bdmLmzQUMV2icDbkm/i4SeoLiEr5OqgJ1mLLUdwr2VhdnfiRcAxBEUW
-         /RBeXxLsCa/ojNe2Cd6JGR98Is34GqNdIS5YHw4Z/mCOJvTdHWrlqyPQmJfJbJg/9PPS
-         Vwbks05BQKBt8M6Z+C1xvkxjQBG12tbihla3RcAjl6UH/q97QuJUjpg047ukp3ek8jUp
-         Lo+7pDldiZtwe1dSG4N3b9vCQgeSlyRayxRvou+jxl8v+q2sVzrox1AmtJKEonMYzQyv
-         LRWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=s5IXz0Xh8rnK6C98s15YZFws0grdv+KEyo474HFabyk=;
-        b=AMSu68RhWRefNG8cxRBqhIQR+BOoWu80kVBdoXUEjUakZTeu1AXZMpY/rjopZzTVuN
-         Do9gFwxBrYWLIHmEgbPbV+hqXVxC4fP4uYUvZSbG4svqXicTkPxobhzzlA48XkQZYFLH
-         Tr8JWrvihYTXXlII1AhbN1DAMKQj4NHysjMQz2VVX30dixV3LXxDtwjuHFo5km7x+uxM
-         W5lv/F90HuC1gRupy6wXqcnp41/JPyMHmytT5fVapHcvlLfViDr7+WjeMRiFl7rrC7oW
-         fnr2lO0v+0l7jJjmp/X3jwMiHH5cCXkfZTpUsEiu4jC4MKtARknS5V2smCWo3h7nnujp
-         TY8g==
-X-Gm-Message-State: AOAM531c1p2FMLcjUl8oQ1TnF/VuO9qvlg2SI2rm61QG9D/685SKj+Nk
-	LdrHjOMTpQyOpfjtb+5lQSU=
-X-Google-Smtp-Source: ABdhPJx5uhHkQYLg+5dtt0oVbJQM6So0CXVD99cNOYTg17OJjQSULALbRLtwekQ865KV6OxwsGhGWw==
-X-Received: by 2002:a17:90b:34a:: with SMTP id fh10mr21398701pjb.123.1620351179065;
-        Thu, 06 May 2021 18:32:59 -0700 (PDT)
-Received: from localhost ([209.132.188.80])
-        by smtp.gmail.com with ESMTPSA id n26sm3210079pfq.28.2021.05.06.18.32.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 May 2021 18:32:58 -0700 (PDT)
-From: Coiby Xu <coiby.xu@gmail.com>
-X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
-Date: Fri, 7 May 2021 09:32:39 +0800
-To: Benjamin Poirier <benjamin.poirier@gmail.com>
-Cc: linux-staging@lists.linux.dev, netdev@vger.kernel.org
-Subject: Re: About improving the qlge Ethernet driver by following
- drivers/staging/qlge/TODO
-Message-ID: <20210507013239.4kmzsxtxnrpdqhuk@Rk>
-References: <20210504131421.mijffwcruql2fupn@Rk>
- <YJJegiK9mMvAEQwU@f3>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B372F80
+	for <linux-staging@lists.linux.dev>; Fri,  7 May 2021 05:14:02 +0000 (UTC)
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+	by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1475Dm3E123155;
+	Fri, 7 May 2021 05:13:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=rZzXsWAp82UhBV/cokkkVpE7UbqBBMYmOiymy5YiT88=;
+ b=NZCHB4ER1d7tCmdyBNmnlZaokeLVMXDXMhzbTttoTIO2F6G5e0Di4+rVq/c407EHvQMW
+ wSKyki6XtDEHFFVp8hDtDNIDxCXH7m0t98J2pex3qJaDCrzb7oDsYXe7uY8Ea1oZ3put
+ 1pFj10Zgtm1KVYOjYWIpBVUTV+qJLy7MpS809/v3sJyBlDKT6ES+xPUAWnz0MRyjpmWY
+ JdsJ+bqX7WUAmduTfQdeuCoS08L6xOPx38MkBXOLXIHd18gPomUayRqQ49Zq4r6R0nMG
+ EcLmbNtTA2Dvz9DyzTo8DCWLC9vzToeas5W/z7e0wpjtiZyD7FnesIB5gdzmEupIC7Jb DA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by aserp2130.oracle.com with ESMTP id 38csrd8d4s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 07 May 2021 05:13:47 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14759hms174669;
+	Fri, 7 May 2021 05:13:47 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by userp3020.oracle.com with ESMTP id 38csrgd545-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 07 May 2021 05:13:47 +0000
+Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 1475DkAZ002799;
+	Fri, 7 May 2021 05:13:46 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by userp3020.oracle.com with ESMTP id 38csrgd53x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 07 May 2021 05:13:46 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 1475DibK031033;
+	Fri, 7 May 2021 05:13:44 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Thu, 06 May 2021 22:13:43 -0700
+Date: Fri, 7 May 2021 08:13:33 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v5 05/25] staging: media: tegra-vde: use
+ pm_runtime_resume_and_get()
+Message-ID: <20210507051333.GE1955@kadam>
+References: <cover.1620314616.git.mchehab+huawei@kernel.org>
+ <a1230241a83a6abcd27b91edcafee1685232f81e.1620314616.git.mchehab+huawei@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YJJegiK9mMvAEQwU@f3>
+In-Reply-To: <a1230241a83a6abcd27b91edcafee1685232f81e.1620314616.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-ORIG-GUID: DEXyVdiDsR6x8uVn6eHnJuSxhy2rmyHO
+X-Proofpoint-GUID: DEXyVdiDsR6x8uVn6eHnJuSxhy2rmyHO
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9976 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 clxscore=1015
+ malwarescore=0 adultscore=0 mlxlogscore=999 impostorscore=0 phishscore=0
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 mlxscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2105070037
 
-On Wed, May 05, 2021 at 05:59:46PM +0900, Benjamin Poirier wrote:
->On 2021-05-04 21:14 +0800, Coiby Xu wrote:
->> Hi Benjamin,
->>
->> As you have known, I'm working on improving drivers/staging/qlge. I'm
->> not sure if I correctly understand some TODO items. Since you wrote the TODO
->> list, could you explain some of the items or comment on the
->> corresponding fix for me?
->>
->> > * while in that area, using two 8k buffers to store one 9k frame is a poor
->> >   choice of buffer size.
->>
->> Currently, LARGE_BUFFER_MAX_SIZE is defined as 8192. How about we simply
->> changing LARGE_BUFFER_MAX_SIZE to 4096? This is what
->> drivers/net/ethernet/intel/e1000 does for jumbo frame right now.
->
->I think that frags of 4096 would be better for allocations than the
->current scheme. However, I don't know if simply changing that define is
->the only thing to do.
->
->BTW, e1000 was written long ago and not updated much, so it's not the
->reference I would look at generally. Sadly I don't do much kernel
->development anymore so I don't know which one to recommend either :/ If
->I had to guess, I'd say ixgbe is a device of a similar vintage whose
->driver has seen a lot better work.
+On Thu, May 06, 2021 at 05:25:43PM +0200, Mauro Carvalho Chehab wrote:
+> @@ -1069,11 +1071,19 @@ static int tegra_vde_probe(struct platform_device *pdev)
+>  	 * power-cycle it in order to put hardware into a predictable lower
+>  	 * power state.
+>  	 */
+> -	pm_runtime_get_sync(dev);
+> +	if (pm_runtime_resume_and_get(dev) < 0)
+> +		goto err_pm_runtime;
 
-Thanks! I think we can simply set it to 4096,
-  - I did a basic test. There are two interfaces managed by this qlge
-    driver. I started a HTTP server binded to one interface. And curl -I
-    THE_OTHER_INTERFACE was fine.
-  - ixgbe also set page order to 0 unless FCoE is 
-     // drivers/net/ethernet/intel/ixgbe/ixgbe.h
-     /*
-      * FCoE requires that all Rx buffers be over 2200 bytes in length.  Since
-      * this is twice the size of a half page we need to double the page order
-      * for FCoE enabled Rx queues.
-      */
-     static inline unsigned int ixgbe_rx_bufsz(struct ixgbe_ring *ring)
-     {
-     	if (test_bit(__IXGBE_RX_3K_BUFFER, &ring->state))
-     		return IXGBE_RXBUFFER_3K;
-     #if (PAGE_SIZE < 8192)
-     	if (ring_uses_build_skb(ring))
-     		return IXGBE_MAX_2K_FRAME_BUILD_SKB;
-     #endif
-     	return IXGBE_RXBUFFER_2K;
-     }
-     
-     static inline unsigned int ixgbe_rx_pg_order(struct ixgbe_ring *ring)
-     {
-     #if (PAGE_SIZE < 8192)
-     	if (test_bit(__IXGBE_RX_3K_BUFFER, &ring->state))
-     		return 1;
-     #endif
-     	return 0;
-     }
-   - e1000 does the same thing.
->
->>
->> > * in the "chain of large buffers" case, the driver uses an skb allocated with
->> >   head room but only puts data in the frags.
->>
->> Do you suggest implementing the copybreak feature which exists for e1000 for
->> this driver, i.e., allocing a sk_buff and coping the header buffer into it?
->
->No. From the "chain of large buffers" quote, I think I was referring to:
->
->\ qlge_refill_sb
->	skb = __netdev_alloc_skb(qdev->ndev, SMALL_BUFFER_SIZE, gfp);
->
->\ qlge_build_rx_skb
->		[...]
->		/*
->		 * The data is in a chain of large buffers
->		[...]
->			skb_fill_page_desc(skb, i,
->					   lbq_desc->p.pg_chunk.page,
->					   lbq_desc->p.pg_chunk.offset, size);
->		[...]
->		__pskb_pull_tail(skb, hlen);
->
->So out of SMALL_BUFFER_SIZE, only hlen is used. Since SMALL_BUFFER_SIZE
->is only 256, I'm not sure now if this really has any impact. In fact it
->seems in line with ex. what ixgbe does (IXGBE_RX_HDR_SIZE).
+Needs an error code on this path.  These days the kbuild bot will send
+a warning for this eventually.
 
-Thanks for the clarification. It seems we needn't to change this place.
+> +
+>  	pm_runtime_put(dev);
+>  
+>  	return 0;
+>  
+> +err_pm_runtime:
+> +	misc_deregister(&vde->miscdev);
+> +
+> +	pm_runtime_dont_use_autosuspend(dev);
+> +	pm_runtime_disable(dev);
+> +
+>  err_deinit_iommu:
+>  	tegra_vde_iommu_deinit(vde);
+>  
 
->
->However, in the same area, there is also
->			skb = netdev_alloc_skb(qdev->ndev, length);
->			[...]
->			skb_fill_page_desc(skb, 0, lbq_desc->p.pg_chunk.page,
->					   lbq_desc->p.pg_chunk.offset,
->					   length);
->
->Why is the skb allocated with "length" size? Something like
->	skb = napi_alloc_skb(&rx_ring->napi, SMALL_BUFFER_SIZE);
->would be better I think. The head only needs enough space for the
->subsequent hlen pull.
-
-Thanks for the explanation! I think this place needs to modified. I'll
-try to figure out how to reach this part of code so I can make sure the
-change wouldn't introduce an issue.
-
-Btw, qlge_process_mac_rx_page also has this issue,
-
-     static void qlge_process_mac_rx_page(struct qlge_adapter *qdev,
-     				     struct rx_ring *rx_ring,
-     				     struct qlge_ib_mac_iocb_rsp *ib_mac_rsp,
-     				     u32 length, u16 vlan_id)
-     {
-     	struct net_device *ndev = qdev->ndev;
-     	struct sk_buff *skb = NULL;
-     	void *addr;
-     	struct qlge_bq_desc *lbq_desc = qlge_get_curr_lchunk(qdev, rx_ring);
-     	struct napi_struct *napi = &rx_ring->napi;
-     	size_t hlen = ETH_HLEN;
-         ...
-     	skb = netdev_alloc_skb(ndev, length);
-     	skb_put_data(skb, addr, hlen);
-         ...
-     	skb_fill_page_desc(skb, 0, lbq_desc->p.pg_chunk.page,
-     			   lbq_desc->p.pg_chunk.offset + hlen, length - hlen);
-
-The code path would include qlge_process_mac_rx_page by
-$ ping -I enp94s0f0 -c 4 -s 8800 -M do 192.168.1.209
-after enabling jumbo frame.  
-
->
->BTW, it looks like commit f8c047be5401 ("staging: qlge: use qlge_*
->prefix to avoid namespace clashes with other qlogic drivers") missed
->some structures like struct rx_ring. Defines like SMALL_BUFFER_SIZE
->should also have a prefix.
-
-Thanks for the reminding! When renaming rx_ring to a completion queue,
-I'll add a prefix. I'll also add a prefix to other structures. 
->
->>
->> > * fix weird line wrapping (all over, ex. the ql_set_routing_reg() calls in
->> >   qlge_set_multicast_list()).
->>
->> This issue of weird line wrapping is supposed to be all over. But I can
->> only find the ql_set_routing_reg() calls in qlge_set_multicast_list have
->> this problem,
->>
->> 			if (qlge_set_routing_reg
->> 			    (qdev, RT_IDX_PROMISCUOUS_SLOT, RT_IDX_VALID, 1)) {
->>
->> I can't find other places where functions calls put square and arguments
->> in the new line. Could you give more hints?
->
->Here are other examples of what I would call weird line wrapping:
->
->	status = qlge_validate_flash(qdev,
->				     sizeof(struct flash_params_8000) /
->				   sizeof(u16),
->				   "8000");
-
-Oh, I also found this one but I think it more fits another TODO item,
-i.e., "* fix weird indentation (all over, ex. the for loops in
-qlge_get_stats())".
-
->
->	status = qlge_wait_reg_rdy(qdev,
->				   XGMAC_ADDR, XGMAC_ADDR_RDY, XGMAC_ADDR_XME);
->
->[...]
-
-Do you mean we should change it as follows,
-
-
-	status = qlge_wait_reg_rdy(qdev, XGMAC_ADDR, XGMAC_ADDR_RDY,
-				               XGMAC_ADDR_XME);
-
-"V=" in vim could detect some indentation problems but not the line
-wrapping issue. So I just scanned the code manually to find this issue. 
-Do you know there is a tool that could check if the code fits the kernel
-coding style?
-
->
->I put that item towards the end of the TODO list because I think the
->misshapen formatting and the ridiculous overuse of () in expressions
->serve a useful purpose. They clearly point to the code that hasn't yet
->been rewritten; they make it easy to know what code to audit. Because of
->that, I strongly think it would be better to tackle the TODO list
->(roughly) in order.
-
-Thanks for this tip! I'll tackle the TODO list in order.
-
--- 
-Best regards,
-Coiby
+regards,
+dan carpenter
