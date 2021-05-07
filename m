@@ -1,130 +1,249 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E585E72
-	for <linux-staging@lists.linux.dev>; Thu,  6 May 2021 20:10:22 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id b21so8644793ljf.11
-        for <linux-staging@lists.linux.dev>; Thu, 06 May 2021 13:10:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB74772
+	for <linux-staging@lists.linux.dev>; Fri,  7 May 2021 01:32:59 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id z6-20020a17090a1706b0290155e8a752d8so4432781pjd.4
+        for <linux-staging@lists.linux.dev>; Thu, 06 May 2021 18:32:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9Y3teniSGRQ0VOrXvsmVmKBJjGDITdl3HQv9AqHHKVM=;
-        b=NIQ32j57TAAgIyZgpVYmU0tkONnXNd82pp6sk55/HTpN4m9d9FrsKz3Ru4B8oE+vBy
-         aaQjGS1i6Ttx15LSUhwbNq1RzKZnS8QDsZTaIYOnzeJVPPhxZPJCdRNOsYhGoDL6feA7
-         piYwvVVABrxPIzRQ2JddGwTqUp9FEN/d7nQYzyc8DwJEOFd0adyuQoUVsASsiRgARs7D
-         OR2MZ7/mKn+xPAqp+PwxHJbpg0iKMxhguuRlqtFkgaUjF1x+xQNttET1gmOiG67XMoWY
-         YKLA6TcBfbZc3rdcQ83LPtRIu0L4MdYnEj2/bO03RcRHJoXZx/KU2SlhfcIC8qPPs3jO
-         IEsg==
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=s5IXz0Xh8rnK6C98s15YZFws0grdv+KEyo474HFabyk=;
+        b=LdAuXbbdKicQln3RAzfjvOL26/pIMGfPR4JVc6QHX3R4tpACiDDF2rOD8thKd28dKN
+         TmpfNoVrmKvd4bdmLmzQUMV2icDbkm/i4SeoLiEr5OqgJ1mLLUdwr2VhdnfiRcAxBEUW
+         /RBeXxLsCa/ojNe2Cd6JGR98Is34GqNdIS5YHw4Z/mCOJvTdHWrlqyPQmJfJbJg/9PPS
+         Vwbks05BQKBt8M6Z+C1xvkxjQBG12tbihla3RcAjl6UH/q97QuJUjpg047ukp3ek8jUp
+         Lo+7pDldiZtwe1dSG4N3b9vCQgeSlyRayxRvou+jxl8v+q2sVzrox1AmtJKEonMYzQyv
+         LRWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9Y3teniSGRQ0VOrXvsmVmKBJjGDITdl3HQv9AqHHKVM=;
-        b=YOpbUCaqJ24/5qPE7fTrOlAkuR4iBnJg78P31F0N5PglLq9bMY9DIb69RaclgzSaHs
-         fsl6R4ZZLonnJaZ0bKzTG6lDECITfGCrzjU0D1amyhk9DLiXQQaQUjMEUCt4sqob3Woc
-         ulM9AVdWFlk6+BeculiV7a2thdYWyZhw1yLSEDKRMz/bZPmxoKNPVrRRgC6VAzofRTyn
-         fsL2jFnb+P/SfMmKMuOY3c68bl2IxdgCTEei4xx1SfbB4XsSvuRD7jmWS1h3Zxf2y5jm
-         MpJWrgHIBUpYAZ4492F/fiARaFrTk77a/QyFzKApLuTEt8r4L3YfTj3jZrrHYzumCFrd
-         NgRg==
-X-Gm-Message-State: AOAM531hgmIMkLttMI6hTe9bR+klJCSuNSxk7JHTzoFs89YvcmTKJxYk
-	plPQujXGVO0InWKY7FEv7PI=
-X-Google-Smtp-Source: ABdhPJyqFyrOJScrddF2MX+6nCuHCmry6An/qw8LYEm8UBrmrh5Lfn4WXzEEB02aFHjcg7WZRGhdbg==
-X-Received: by 2002:a2e:5819:: with SMTP id m25mr4878840ljb.144.1620331821016;
-        Thu, 06 May 2021 13:10:21 -0700 (PDT)
-Received: from localhost.localdomain ([94.103.226.84])
-        by smtp.gmail.com with ESMTPSA id q24sm924032lfc.261.2021.05.06.13.10.08
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=s5IXz0Xh8rnK6C98s15YZFws0grdv+KEyo474HFabyk=;
+        b=AMSu68RhWRefNG8cxRBqhIQR+BOoWu80kVBdoXUEjUakZTeu1AXZMpY/rjopZzTVuN
+         Do9gFwxBrYWLIHmEgbPbV+hqXVxC4fP4uYUvZSbG4svqXicTkPxobhzzlA48XkQZYFLH
+         Tr8JWrvihYTXXlII1AhbN1DAMKQj4NHysjMQz2VVX30dixV3LXxDtwjuHFo5km7x+uxM
+         W5lv/F90HuC1gRupy6wXqcnp41/JPyMHmytT5fVapHcvlLfViDr7+WjeMRiFl7rrC7oW
+         fnr2lO0v+0l7jJjmp/X3jwMiHH5cCXkfZTpUsEiu4jC4MKtARknS5V2smCWo3h7nnujp
+         TY8g==
+X-Gm-Message-State: AOAM531c1p2FMLcjUl8oQ1TnF/VuO9qvlg2SI2rm61QG9D/685SKj+Nk
+	LdrHjOMTpQyOpfjtb+5lQSU=
+X-Google-Smtp-Source: ABdhPJx5uhHkQYLg+5dtt0oVbJQM6So0CXVD99cNOYTg17OJjQSULALbRLtwekQ865KV6OxwsGhGWw==
+X-Received: by 2002:a17:90b:34a:: with SMTP id fh10mr21398701pjb.123.1620351179065;
+        Thu, 06 May 2021 18:32:59 -0700 (PDT)
+Received: from localhost ([209.132.188.80])
+        by smtp.gmail.com with ESMTPSA id n26sm3210079pfq.28.2021.05.06.18.32.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 May 2021 13:10:20 -0700 (PDT)
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Pavel Skripkin <paskripkin@gmail.com>
-Subject: [PATCH] staging: media: atomisp: remove useless breaks
-Date: Thu,  6 May 2021 23:09:56 +0300
-Message-Id: <20210506200956.16593-1-paskripkin@gmail.com>
-X-Mailer: git-send-email 2.31.1
+        Thu, 06 May 2021 18:32:58 -0700 (PDT)
+From: Coiby Xu <coiby.xu@gmail.com>
+X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
+Date: Fri, 7 May 2021 09:32:39 +0800
+To: Benjamin Poirier <benjamin.poirier@gmail.com>
+Cc: linux-staging@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: About improving the qlge Ethernet driver by following
+ drivers/staging/qlge/TODO
+Message-ID: <20210507013239.4kmzsxtxnrpdqhuk@Rk>
+References: <20210504131421.mijffwcruql2fupn@Rk>
+ <YJJegiK9mMvAEQwU@f3>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <YJJegiK9mMvAEQwU@f3>
 
-Breaks are not useful after a return, they can
-simply be removed.
+On Wed, May 05, 2021 at 05:59:46PM +0900, Benjamin Poirier wrote:
+>On 2021-05-04 21:14 +0800, Coiby Xu wrote:
+>> Hi Benjamin,
+>>
+>> As you have known, I'm working on improving drivers/staging/qlge. I'm
+>> not sure if I correctly understand some TODO items. Since you wrote the TODO
+>> list, could you explain some of the items or comment on the
+>> corresponding fix for me?
+>>
+>> > * while in that area, using two 8k buffers to store one 9k frame is a poor
+>> >   choice of buffer size.
+>>
+>> Currently, LARGE_BUFFER_MAX_SIZE is defined as 8192. How about we simply
+>> changing LARGE_BUFFER_MAX_SIZE to 4096? This is what
+>> drivers/net/ethernet/intel/e1000 does for jumbo frame right now.
+>
+>I think that frags of 4096 would be better for allocations than the
+>current scheme. However, I don't know if simply changing that define is
+>the only thing to do.
+>
+>BTW, e1000 was written long ago and not updated much, so it's not the
+>reference I would look at generally. Sadly I don't do much kernel
+>development anymore so I don't know which one to recommend either :/ If
+>I had to guess, I'd say ixgbe is a device of a similar vintage whose
+>driver has seen a lot better work.
 
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
----
- .../pci/hive_isp_css_common/host/input_system.c       | 11 -----------
- 1 file changed, 11 deletions(-)
+Thanks! I think we can simply set it to 4096,
+  - I did a basic test. There are two interfaces managed by this qlge
+    driver. I started a HTTP server binded to one interface. And curl -I
+    THE_OTHER_INTERFACE was fine.
+  - ixgbe also set page order to 0 unless FCoE is 
+     // drivers/net/ethernet/intel/ixgbe/ixgbe.h
+     /*
+      * FCoE requires that all Rx buffers be over 2200 bytes in length.  Since
+      * this is twice the size of a half page we need to double the page order
+      * for FCoE enabled Rx queues.
+      */
+     static inline unsigned int ixgbe_rx_bufsz(struct ixgbe_ring *ring)
+     {
+     	if (test_bit(__IXGBE_RX_3K_BUFFER, &ring->state))
+     		return IXGBE_RXBUFFER_3K;
+     #if (PAGE_SIZE < 8192)
+     	if (ring_uses_build_skb(ring))
+     		return IXGBE_MAX_2K_FRAME_BUILD_SKB;
+     #endif
+     	return IXGBE_RXBUFFER_2K;
+     }
+     
+     static inline unsigned int ixgbe_rx_pg_order(struct ixgbe_ring *ring)
+     {
+     #if (PAGE_SIZE < 8192)
+     	if (test_bit(__IXGBE_RX_3K_BUFFER, &ring->state))
+     		return 1;
+     #endif
+     	return 0;
+     }
+   - e1000 does the same thing.
+>
+>>
+>> > * in the "chain of large buffers" case, the driver uses an skb allocated with
+>> >   head room but only puts data in the frags.
+>>
+>> Do you suggest implementing the copybreak feature which exists for e1000 for
+>> this driver, i.e., allocing a sk_buff and coping the header buffer into it?
+>
+>No. From the "chain of large buffers" quote, I think I was referring to:
+>
+>\ qlge_refill_sb
+>	skb = __netdev_alloc_skb(qdev->ndev, SMALL_BUFFER_SIZE, gfp);
+>
+>\ qlge_build_rx_skb
+>		[...]
+>		/*
+>		 * The data is in a chain of large buffers
+>		[...]
+>			skb_fill_page_desc(skb, i,
+>					   lbq_desc->p.pg_chunk.page,
+>					   lbq_desc->p.pg_chunk.offset, size);
+>		[...]
+>		__pskb_pull_tail(skb, hlen);
+>
+>So out of SMALL_BUFFER_SIZE, only hlen is used. Since SMALL_BUFFER_SIZE
+>is only 256, I'm not sure now if this really has any impact. In fact it
+>seems in line with ex. what ixgbe does (IXGBE_RX_HDR_SIZE).
 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-index 0f5a231672a8..fd82997b11cc 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-@@ -904,16 +904,12 @@ static input_system_err_t input_system_configure_channel(
- 			break;
- 		case INPUT_SYSTEM_SOURCE_TPG:
- 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--			break;
- 		case INPUT_SYSTEM_SOURCE_PRBS:
- 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--			break;
- 		case INPUT_SYSTEM_SOURCE_FIFO:
- 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--			break;
- 		default:
- 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--			break;
- 		}
- 
- 		if (error != INPUT_SYSTEM_ERR_NO_ERROR) return error;
-@@ -995,7 +991,6 @@ static input_system_err_t input_buffer_configuration(void)
- 			default:
- 				config.csi_buffer_flags[port] |= INPUT_SYSTEM_CFG_FLAG_CONFLICT;
- 				return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--				break;
- 			}
- 
- 			// Check acquisition buffer specified but set it later since it has to be unique.
-@@ -1032,7 +1027,6 @@ static input_system_err_t input_buffer_configuration(void)
- 
- 			default:
- 				return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--				break;
- 			}
- 		} else {
- 			config.csi_buffer_flags[port] = INPUT_SYSTEM_CFG_FLAG_BLOCKED;
-@@ -1319,7 +1313,6 @@ static input_system_err_t configuration_to_registers(void)
- 
- 	default:
- 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--		break;
- 
- 	} // end of switch (source_type)
- 
-@@ -1696,16 +1689,12 @@ static input_system_err_t input_system_configure_channel_sensor(
- 		break;
- 	case INPUT_SYSTEM_FIFO_CAPTURE_WITH_COUNTING:
- 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--		break;
- 	case INPUT_SYSTEM_XMEM_CAPTURE:
- 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--		break;
- 	case INPUT_SYSTEM_XMEM_ACQUIRE:
- 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--		break;
- 	default:
- 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--		break;
- 	}
- 	return INPUT_SYSTEM_ERR_NO_ERROR;
- }
+Thanks for the clarification. It seems we needn't to change this place.
+
+>
+>However, in the same area, there is also
+>			skb = netdev_alloc_skb(qdev->ndev, length);
+>			[...]
+>			skb_fill_page_desc(skb, 0, lbq_desc->p.pg_chunk.page,
+>					   lbq_desc->p.pg_chunk.offset,
+>					   length);
+>
+>Why is the skb allocated with "length" size? Something like
+>	skb = napi_alloc_skb(&rx_ring->napi, SMALL_BUFFER_SIZE);
+>would be better I think. The head only needs enough space for the
+>subsequent hlen pull.
+
+Thanks for the explanation! I think this place needs to modified. I'll
+try to figure out how to reach this part of code so I can make sure the
+change wouldn't introduce an issue.
+
+Btw, qlge_process_mac_rx_page also has this issue,
+
+     static void qlge_process_mac_rx_page(struct qlge_adapter *qdev,
+     				     struct rx_ring *rx_ring,
+     				     struct qlge_ib_mac_iocb_rsp *ib_mac_rsp,
+     				     u32 length, u16 vlan_id)
+     {
+     	struct net_device *ndev = qdev->ndev;
+     	struct sk_buff *skb = NULL;
+     	void *addr;
+     	struct qlge_bq_desc *lbq_desc = qlge_get_curr_lchunk(qdev, rx_ring);
+     	struct napi_struct *napi = &rx_ring->napi;
+     	size_t hlen = ETH_HLEN;
+         ...
+     	skb = netdev_alloc_skb(ndev, length);
+     	skb_put_data(skb, addr, hlen);
+         ...
+     	skb_fill_page_desc(skb, 0, lbq_desc->p.pg_chunk.page,
+     			   lbq_desc->p.pg_chunk.offset + hlen, length - hlen);
+
+The code path would include qlge_process_mac_rx_page by
+$ ping -I enp94s0f0 -c 4 -s 8800 -M do 192.168.1.209
+after enabling jumbo frame.  
+
+>
+>BTW, it looks like commit f8c047be5401 ("staging: qlge: use qlge_*
+>prefix to avoid namespace clashes with other qlogic drivers") missed
+>some structures like struct rx_ring. Defines like SMALL_BUFFER_SIZE
+>should also have a prefix.
+
+Thanks for the reminding! When renaming rx_ring to a completion queue,
+I'll add a prefix. I'll also add a prefix to other structures. 
+>
+>>
+>> > * fix weird line wrapping (all over, ex. the ql_set_routing_reg() calls in
+>> >   qlge_set_multicast_list()).
+>>
+>> This issue of weird line wrapping is supposed to be all over. But I can
+>> only find the ql_set_routing_reg() calls in qlge_set_multicast_list have
+>> this problem,
+>>
+>> 			if (qlge_set_routing_reg
+>> 			    (qdev, RT_IDX_PROMISCUOUS_SLOT, RT_IDX_VALID, 1)) {
+>>
+>> I can't find other places where functions calls put square and arguments
+>> in the new line. Could you give more hints?
+>
+>Here are other examples of what I would call weird line wrapping:
+>
+>	status = qlge_validate_flash(qdev,
+>				     sizeof(struct flash_params_8000) /
+>				   sizeof(u16),
+>				   "8000");
+
+Oh, I also found this one but I think it more fits another TODO item,
+i.e., "* fix weird indentation (all over, ex. the for loops in
+qlge_get_stats())".
+
+>
+>	status = qlge_wait_reg_rdy(qdev,
+>				   XGMAC_ADDR, XGMAC_ADDR_RDY, XGMAC_ADDR_XME);
+>
+>[...]
+
+Do you mean we should change it as follows,
+
+
+	status = qlge_wait_reg_rdy(qdev, XGMAC_ADDR, XGMAC_ADDR_RDY,
+				               XGMAC_ADDR_XME);
+
+"V=" in vim could detect some indentation problems but not the line
+wrapping issue. So I just scanned the code manually to find this issue. 
+Do you know there is a tool that could check if the code fits the kernel
+coding style?
+
+>
+>I put that item towards the end of the TODO list because I think the
+>misshapen formatting and the ridiculous overuse of () in expressions
+>serve a useful purpose. They clearly point to the code that hasn't yet
+>been rewritten; they make it easy to know what code to audit. Because of
+>that, I strongly think it would be better to tackle the TODO list
+>(roughly) in order.
+
+Thanks for this tip! I'll tackle the TODO list in order.
+
 -- 
-2.31.1
-
+Best regards,
+Coiby
