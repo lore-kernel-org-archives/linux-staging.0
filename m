@@ -1,129 +1,110 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 628CE71
-	for <linux-staging@lists.linux.dev>; Sat,  8 May 2021 06:40:53 +0000 (UTC)
-Received: by mail-oi1-f180.google.com with SMTP id v22so5973416oic.2
-        for <linux-staging@lists.linux.dev>; Fri, 07 May 2021 23:40:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA1671
+	for <linux-staging@lists.linux.dev>; Sat,  8 May 2021 06:52:36 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id z6so11352145wrm.4
+        for <linux-staging@lists.linux.dev>; Fri, 07 May 2021 23:52:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xX1is4SChHjrs4j+7h4A1M2iT4Pn7Fk4B4vamTtYWNg=;
-        b=Imz8wSLlAusRO73bwSesFa8LgAzl8kdck2RliwjGaTk0RPj7pTEoOUYeIcdnkzZwOA
-         SjBg9mby8dpHeUC0piMKcKEPha8K3oJ0UWysG7TjOaJFGohLsWmjv6awScr48i60MUxV
-         JwAd8n1Von368QV3ApB+8ocb+i7cMHe1d1dxrzs/0RJqNYa2b/oz7S0p9uT6+tJnm57K
-         ACmd3ZG1A+9Wdk3dt1pRH1imrojRAm2upBFOMsO/0vCPxRW3nHacS6YP8+AkiBPKCdum
-         bGTtAufpQekTCpTS4t1DPYBl8vlfau4YHt+4+GF+Xf6AKOLqkwwNLrosSSRz/4LYlpaG
-         jbuQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2LupYRWEl/I5L4jCGYXhMRPLKYBweMWILx6M6mqnnOM=;
+        b=YS8shiQvxxRlSpDauPw3BTqmg05vubHcz/1mmsUBs/sfBl5aqNWQzolz1PCwSEPaS1
+         wajYBSbukBntHfl0+5fYO8F8MdzSNUTsSn23Vqmz03lNJJ16LldlXLWIUAbMxHvCylQi
+         kTwCl4An0G9mkbHMYkTlTYNdYJUKMgv8tgAcjfXUQbyTM6hTPbwa+gj6/oBrW2kGktLk
+         E4Q2MwCK7PReJzGEVNF7HXswub/C29sGocZJITnAbYAy8bc4R4lFt2qP0anqgpEwLXE0
+         bhv+wGQxrqPJCGkng8gmPeljZqHvfq9GPHvUO8Ermxp1B/1S6p86ML3BeyD9N5N1McJK
+         vBTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xX1is4SChHjrs4j+7h4A1M2iT4Pn7Fk4B4vamTtYWNg=;
-        b=gQS4SpZNHbHqT4+JddpxqFau+3WlewiQ+yVyKG3R1vsYQUjjbP7eDmAWlvnMf5Iflb
-         MzbCTAdQW5f33f3oWZ2Q6i4bTgR021LfBDlAfGvBQmrQw2xxZy/FV5uk70MX8p+q0Juw
-         6rWZGSXPAC29bvmA9E7zCzwBVdn6NgtuWHNYIu+DTCiBZFypNfiQH4aLWRXlt619nd4O
-         v0LLsMyaYNIR+0fHFok+/gMjhyxHd0V9c1MYF3QMjmVkqqRKrLIOk/EVr/D3xXsj8cdD
-         Rc+QOrKX+S6/O0B2hmkFaLCYYznDIHa4SYbaU2yCenYnvmNilm3qyipiNdV0kqTxGPP+
-         Zd1w==
-X-Gm-Message-State: AOAM531kcgtT8UKdnsK0OIS/Yt2mIvOb4oNob/CGrE3R88YQaQr8O39D
-	N5yB2rH9JeGSgMZKtIcyXbBZ+DsdSmWhxOjQ8vI=
-X-Google-Smtp-Source: ABdhPJwAyGss2cNFyssIhfj5RZk/SL9XXRRmz0u6ykjl2Fblq8Iiz/GgYCUu65PFCmus8x9Wk7PHoX5r1mvRSIO7EwA=
-X-Received: by 2002:aca:2813:: with SMTP id 19mr18254142oix.23.1620456052653;
- Fri, 07 May 2021 23:40:52 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2LupYRWEl/I5L4jCGYXhMRPLKYBweMWILx6M6mqnnOM=;
+        b=ewxIUg65bjIvcLWYKj4ExNbhYkpb6qsIFDV469HnkubSR2/gH7kzSM/y01EaUOsE92
+         SbkgT3Usiqdi3VDzya/yZuaFhPbSJ/Zza1Ei7SZ4Jg5HgNUgAb+NXrZXEjzU489qeXjR
+         PpeqQlWD5BG0Mnl8tXcRRu1l8c5yIFRwqkla7LtdX8QH1Y4lyWPXo3o4If48eRhxx23F
+         7dwhnpv6HicxlE5R0tPVZm2DzSTO8TdeiuN0OphIg3eaHQnLDOmM6qrQfvMnFJ3ARPDV
+         OKxSTHjd5MR2ASrhCqJquljQuIPL7SzFSF1c+anQlpZpaJiOABzMu8VWxpGvHbRTf9eT
+         7WlA==
+X-Gm-Message-State: AOAM531anKF4vd+dC6/AnZQhlOhBvjcAggOSHrbLwqwrDPK+ROySd0G3
+	1HQEvl+7oEIE/4ueY/6FV+c=
+X-Google-Smtp-Source: ABdhPJythu6Kp8Dz41LTXrPCxI4LAb/pj1QOD4MQAkOisM1HRDXaqD/FC+f1fVqK9IzqPAdwMS3nxw==
+X-Received: by 2002:a5d:660c:: with SMTP id n12mr17415299wru.87.1620456755274;
+        Fri, 07 May 2021 23:52:35 -0700 (PDT)
+Received: from localhost.localdomain (231.red-83-51-243.dynamicip.rima-tde.net. [83.51.243.231])
+        by smtp.gmail.com with ESMTPSA id b12sm11638010wro.28.2021.05.07.23.52.34
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 07 May 2021 23:52:34 -0700 (PDT)
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+To: vkoul@kernel.org
+Cc: linux-phy@lists.infradead.org,
+	kishon@ti.com,
+	linux-staging@lists.linux.dev,
+	gregkh@linuxfoundation.org,
+	neil@brown.name,
+	ilya.lipnitskiy@gmail.com
+Subject: [PATCH v2 0/6] phy: ralink: mt7621-pci-phy: some improvements
+Date: Sat,  8 May 2021 08:52:26 +0200
+Message-Id: <20210508065232.4882-1-sergio.paracuellos@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210506111531.21978-1-sergio.paracuellos@gmail.com>
- <20210506111531.21978-3-sergio.paracuellos@gmail.com> <20210507221200.GA2984128@robh.at.kernel.org>
-In-Reply-To: <20210507221200.GA2984128@robh.at.kernel.org>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Sat, 8 May 2021 08:40:41 +0200
-Message-ID: <CAMhs-H8MF+EpcutEN=maCNMReFXaTXejfScMK8N9cKz3oaM15w@mail.gmail.com>
-Subject: Re: [PATCH 2/5] dt-bindings: phy: mediatek,mt7621-pci-phy: add clock entries
-To: Rob Herring <robh@kernel.org>
-Cc: Vinod Koul <vkoul@kernel.org>, linux-phy@lists.infradead.org, 
-	Kishon Vijay Abraham I <kishon@ti.com>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, 
-	linux-staging@lists.linux.dev, Greg KH <gregkh@linuxfoundation.org>, 
-	NeilBrown <neil@brown.name>, Ilya Lipnitskiy <ilya.lipnitskiy@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Rob,
+Hi all,
 
-On Sat, May 8, 2021 at 12:12 AM Rob Herring <robh@kernel.org> wrote:
->
-> On Thu, May 06, 2021 at 01:15:28PM +0200, Sergio Paracuellos wrote:
-> > MT7621 SoC clock driver has already mainlined in
-> > 'commit 48df7a26f470 ("clk: ralink: add clock driver for mt7621 SoC")'
-> > Hence update schema with the add of the entries related to
-> > clock.
-> >
-> > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> > ---
-> >  .../bindings/phy/mediatek,mt7621-pci-phy.yaml        | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/phy/mediatek,mt7621-pci-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,mt7621-pci-phy.yaml
-> > index 0ccaded3f245..d8614ef8995c 100644
-> > --- a/Documentation/devicetree/bindings/phy/mediatek,mt7621-pci-phy.yaml
-> > +++ b/Documentation/devicetree/bindings/phy/mediatek,mt7621-pci-phy.yaml
-> > @@ -16,6 +16,14 @@ properties:
-> >    reg:
-> >      maxItems: 1
-> >
-> > +  clocks:
-> > +    maxItems: 1
-> > +    description:
-> > +      PHY reference clock. Must contain an entry in clock-names.
-> > +
-> > +  clock-names:
-> > +    const: sys_clk
->
-> You don't really need -names when there is only 1.
+This series contains some improvements in the pci phy driver
+for MT7621 SoCs.
 
-Ok, I will drop this property then and
->
-> > +
-> >    "#phy-cells":
-> >      const: 1
-> >      description: selects if the phy is dual-ported
-> > @@ -23,6 +31,8 @@ properties:
-> >  required:
-> >    - compatible
-> >    - reg
-> > +  - clocks
-> > +  - clock-names
->
-> Technically, you can't add new properties and make them required as that
-> breaks the ABI. If that's okay here, explain it in the commit message.
+MT7621 SoC clock driver has already mainlined in
+'commit 48df7a26f470 ("clk: ralink: add clock driver for mt7621 SoC")'
 
-So until now no clock driver existed and things were not properly
-being done in driver code directly accessing registers to get the
-clock frequency to properly configure the phy. Since the new clock
-driver enters into the scene, make this mandatory force to update both
-driver and dtb, which is something pretty normal when upgrading the
-kind of devices using this SoC. So I think it should be finde to make
-this a requirement.
+Because of this we can update schema documentation and device tree
+to add related clock entries and avoid custom architecture code
+in favour of using the clock kernel framework to retrieve clock
+frequency needed to properly configure the PCIe related Phys.
 
->
-> >    - "#phy-cells"
-> >
-> >  additionalProperties: false
-> > @@ -32,5 +42,7 @@ examples:
-> >      pcie0_phy: pcie-phy@1e149000 {
-> >        compatible = "mediatek,mt7621-pci-phy";
-> >        reg = <0x1e149000 0x0700>;
-> > +      clocks = <&sysc 0>;
-> > +      clock-names = "sys_clk";
-> >        #phy-cells = <1>;
-> >      };
-> > --
-> > 2.25.1
-> >
+After this changes there is no problem to properly enable this
+driver for COMPILE_TEST.
+
+Configuration has also modified from 'tristate' to 'bool' depending
+on PCI_MT7621 which seems to have more sense.
+
+Thanks in advance for your time.
+
+Changes in v2:
+    - Drop 'clock-names' property from device tree and binding
+      doc sice only one clock is needed.
+    - Update driver code to don't get clock name as identifier 
+      for the clock but just use NULL.
+    - Add patch to fix a COMPILE_TEST reported issue because
+      of the way printing of a pointer was being done. This
+      patch was already send by its own[0] but to have all of this
+      applied together I prefer to include it here.
 
 Best regards,
     Sergio Paracuellos
+
+[0]: http://lists.infradead.org/pipermail/linux-phy/2021-May/000395.html
+
+Sergio Paracuellos (6):
+  staging: mt7621-dts: use clock in pci phy nodes
+  dt-bindings: phy: mediatek,mt7621-pci-phy: add clock entries
+  phy: ralink: phy-mt7621-pci: use kernel clock APIS
+  phy: ralink: Kconfig: enable COMPILE_TEST on mt7621-pci-phy driver
+  phy: ralink: Kconfig: convert mt7621-pci-phy into 'bool'
+  phy: ralink: phy-mt7621-pci: properly print pointer address
+
+ .../bindings/phy/mediatek,mt7621-pci-phy.yaml |  5 +++
+ drivers/phy/ralink/Kconfig                    |  4 +-
+ drivers/phy/ralink/phy-mt7621-pci.c           | 37 +++++++++++--------
+ drivers/staging/mt7621-dts/mt7621.dtsi        |  2 +
+ 4 files changed, 31 insertions(+), 17 deletions(-)
+
+-- 
+2.25.1
+
