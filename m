@@ -1,87 +1,83 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3527471
-	for <linux-staging@lists.linux.dev>; Sat,  8 May 2021 13:05:07 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id t11so16628062lfl.11
-        for <linux-staging@lists.linux.dev>; Sat, 08 May 2021 06:05:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B665771
+	for <linux-staging@lists.linux.dev>; Sat,  8 May 2021 13:16:57 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id w4so15070817ljw.9
+        for <linux-staging@lists.linux.dev>; Sat, 08 May 2021 06:16:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=pU8gI7Fhg5vMbPInmCnZKwtrd65h+MuB8P+XOEMgKko=;
-        b=ZM29bqJ6kYpm0fLSuvktOsbfdC4h5lgf161k4aIeM/EPc8ZJpoou+JsMd3Y+c/V7T3
-         uI8SFK5sdjPGs7ORaj9ohIo8F67/c8i/vzhz6q+ZFXlhIaMGkD9u6vTFD5UkYhzlqWAG
-         xL49nlOUhR9wbTw8DleTik8ey18eylchbtieW5PriIM4/mL6GEeW4J42pdG/nop/A3u+
-         IwQZdh9NdJzC/3sYShnh+hR+FuuZ61cNBG35XXgqZpeGkVicq1/WF8swgiZDPE7k/bAi
-         8MzOW3P3rUJWj0fjj5swNkKaWJ+kAZ/zPIIcnDesOB4vMKkhbW1to7QhFTJaFoxkx2N+
-         NG5w==
+        bh=uQGOlx1y8xhrLtj22U5j8Zg9KBmr0pSSDAjHsnxb01o=;
+        b=I5kjCO5ApJPpGf7tUK7/V1OjgeR5svT6W8embMQCIl5sIXvbS1ARPasMPams9FE71w
+         kI4yrYQEWVtNTstGR53mTeAOXQr5/gZWrhz+tMR5hhGmboA2I4mvTtNHIeTYdnUg+Hrm
+         L1n97AOuHhWmjPzJvYC5qrbGuvt0kY1E6b1gE8JSL5WinNjV0s2q6I7Rn60Mo+Ad9TCW
+         UFdqobc+p6FjEKCbWPCB0WF//qEOqbXMS1yPfGuz2XaUUNHaK3PIMUqPIzuo69UgoWry
+         ac9kB3Oy/yoAXhxi02drTvpoe5GUTSl0FsAPeGNL8FoO0aDwIRQCxGShXaH6xfVmVDQZ
+         rlzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pU8gI7Fhg5vMbPInmCnZKwtrd65h+MuB8P+XOEMgKko=;
-        b=tz3SoZlkYLX9Rfzz50i66jMn5EUcE+M/A8mPz8gdnZTJ7wEor3IDtU2EDZOy9+/GEx
-         KaIKcrc+JIcf4DGJ8TFagWU+LEOx0W/c1GsTV7rh+S+7LcPlTgOzcFwxG+exP3lezwxp
-         gdtR59pYdg3RKCcwplmlMJHohwG9X+uTC2MjIDclU16ZjsTSsmyJ3J2pYX6NOG9YrXP0
-         ox7KU/CRGHlh0sOOIE0HN9rpHTQn0EohIlw/yJY6VCniDj/ePnEvESx+JdxPr7xMgbot
-         McxdlomJk5plVjr7RrxRHs/StOSFYcBL5FZv3DtZ9c4PvDooeTeLjl2x1r3QtNI5M5FV
-         B+1g==
-X-Gm-Message-State: AOAM531eIbehWJaJfGX5X+l8Q3lFk1uE0aALYV2ubW759ltIxU24ruM1
-	+1Jd8hIBxwWUEcE3PJpU2bOwegQ6ISgmdZGu
-X-Google-Smtp-Source: ABdhPJxgzmfkeR0Eon3JSFovc8AyusdEt6Jwf2Ug0EYW7kgSAq6sXvm4+awTcLinU6jrvi3BHIqkAQ==
-X-Received: by 2002:a05:6512:3619:: with SMTP id f25mr7780342lfs.399.1620479104028;
-        Sat, 08 May 2021 06:05:04 -0700 (PDT)
+        bh=uQGOlx1y8xhrLtj22U5j8Zg9KBmr0pSSDAjHsnxb01o=;
+        b=MVvBjJoQ8k1Ul9wWJqMwb+amYL8VkQlYa2TeqjTnPyJzGh835p8Ob0FnDOTQ25v+rP
+         0Q8AvSNzkgPmizMoobZL2ZdtxgQx0vXb+JgJBLRn0iYHFAQX7vuiJdSYkhW88MfoaoPl
+         RTu4VVoHyWER6bcDljhbIIIjXKf8j8drXLjFDBz74YVreqP8qxFTUJrwMZQHt9pyb4FH
+         eGY4zq+1o4rE26b4lLJ3imtvb1+YD/BIUVCKsHBKnjAoQa08Ycr+BtwLY3N3mOMtMECh
+         jGh4PirzKU2kjBEO75KSOeUXnRRPkBgmRfgt7f3fHHNzPeQM35ambTXu9fQ94GW3xGMj
+         6o+w==
+X-Gm-Message-State: AOAM531qGTvizNJCj7+4tPWDWbGpkNl3xy2C8MBfygbJXQTxKXJFRNUv
+	thIjpUCRw5dJHIU7I1orgDI=
+X-Google-Smtp-Source: ABdhPJx9n8nzZvFCVZh3ez6MBbSoJMwUFIQI79Clvmm8Ib7vky89gPqJbIk1Fkk43axempwQRXKnVA==
+X-Received: by 2002:a2e:7a09:: with SMTP id v9mr12485962ljc.33.1620479816024;
+        Sat, 08 May 2021 06:16:56 -0700 (PDT)
 Received: from localhost.localdomain ([185.215.60.119])
-        by smtp.gmail.com with ESMTPSA id a7sm1628386lff.39.2021.05.08.06.05.03
+        by smtp.gmail.com with ESMTPSA id p2sm1138376lfc.115.2021.05.08.06.16.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 May 2021 06:05:03 -0700 (PDT)
-Date: Sat, 8 May 2021 16:05:01 +0300
+        Sat, 08 May 2021 06:16:55 -0700 (PDT)
 From: Pavel Skripkin <paskripkin@gmail.com>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: mchehab@kernel.org, sakari.ailus@linux.intel.com,
- gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] staging: media: atomisp: remove useless returns
-Message-ID: <20210508160501.4f49d57b@gmail.com>
+To: mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Pavel Skripkin <paskripkin@gmail.com>
+Subject: [PATCH v4 0/3] staging: media: atomisp: code clean up
+Date: Sat,  8 May 2021 16:16:47 +0300
+Message-Id: <cover.1620479607.git.paskripkin@gmail.com>
+X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210508124334.GA1403@agape.jhs>
-References: <cover.1620475909.git.paskripkin@gmail.com>
-	<f5b8abd8a92fcdd9b0ec49902d4363bc35c86218.1620475909.git.paskripkin@gmail.com>
-	<20210508124334.GA1403@agape.jhs>
-X-Mailer: Claws Mail 3.17.8git77 (GTK+ 2.24.33; x86_64-suse-linux-gnu)
+References: <20210508124334.GA1403@agape.jhs>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi, Fabio!
+This patch series include code clean up for input_system.c.
 
-On Sat, 8 May 2021 14:43:35 +0200
-Fabio Aiuto <fabioaiuto83@gmail.com> wrote:
+Changes from v4:
+  Fixed commit message in 3rd patch
 
-> Hi Pavel,
-> 
-> On Sat, May 08, 2021 at 03:21:52PM +0300, Pavel Skripkin wrote:
-> > Breaks are not useful at the end of void function,
-> > they can simply be removed.
-> 
-> this commit description is not really describing the changes that
-> have been made
-> 
+Changes from v3:
+  Removed returns at the end of void functions
+  Split all changes into 3 patches
 
-oh..., it's copy-paste error. Thank you for pointing it out :)
-Will fix it in v4 
-
-> > 
-> > Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
-> 
-> thank you,
-> 
-> fabio
+Changes from v2:
+  Removed useless returns
 
 
-With regards,
-Pavel Skripkin
+Pavel Skripkin (3):
+  staging: media: atomisp: remove useless breaks
+  staging: media: atomisp: remove dublicate code
+  staging: media: atomisp: remove useless returns
+
+ .../hive_isp_css_common/host/input_system.c   | 62 -------------------
+ 1 file changed, 62 deletions(-)
+
+-- 
+2.31.1
+
