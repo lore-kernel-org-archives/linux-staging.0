@@ -1,98 +1,142 @@
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794AE70
-	for <linux-staging@lists.linux.dev>; Sat,  8 May 2021 09:51:19 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-	by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1489jNfo086216;
-	Sat, 8 May 2021 09:51:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=K2d6P/2ARTEkgq+p8bLJPDn6+xepZan8ohLBIMdZjU4=;
- b=e2fF2mEbjVSoUg50UW40bGXZ8682tC1GmOm333t6hC6A24FEEaT7UsiPTs0aGG2fTUry
- FxrHcR9R7Gm1DFmQ6terf9LGjfXkgyr/QLAuTI+TBsYm1jzdHS+56JPIDbYeWbJ3llkB
- EnMsGT/4XR+Kc+u5XpddL3MYHwbnMi7A/Pgz5r6EZH+C5W/802m7VaY796JLeQZTTAGZ
- UpF/B5ZocXWuY5ykxfsATQkwkXeggc2JVY2UrEaUtDFBm655DQPbE1IaWdjbTZJqjkOA
- oTldDuC72tz6YvJvdALkOAvzdkMkfWSq5z3JVzJwrawi9sORqmvgvtdtG8GRE9RokC0E vg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-	by userp2120.oracle.com with ESMTP id 38dk9n89v6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 08 May 2021 09:51:16 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-	by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1489jQZc069875;
-	Sat, 8 May 2021 09:51:16 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by userp3030.oracle.com with ESMTP id 38dfrs1kmp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 08 May 2021 09:51:16 +0000
-Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 1489pFYw078445;
-	Sat, 8 May 2021 09:51:16 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-	by userp3030.oracle.com with ESMTP id 38dfrs1kmj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 08 May 2021 09:51:15 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
-	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 1489pD4L009195;
-	Sat, 8 May 2021 09:51:13 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Sat, 08 May 2021 02:51:13 -0700
-Date: Sat, 8 May 2021 12:51:06 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Pavle Rohalj <pavle.rohalj@gmail.com>
-Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
-        gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 09/49] staging: sm750fb: Rename sm750_set_power_mode
- function parameter
-Message-ID: <20210508095106.GL1955@kadam>
-References: <cover.1617776878.git.pavle.rohalj@gmail.com>
- <39375dd8cf48aabdc30c6bca67adc38887fd03cf.1617776878.git.pavle.rohalj@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11BF272
+	for <linux-staging@lists.linux.dev>; Sat,  8 May 2021 10:52:03 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id z13so16427003lft.1
+        for <linux-staging@lists.linux.dev>; Sat, 08 May 2021 03:52:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=epHj2Vy2VG6M1RxgYQQjVnOCKuKHQEQgyxsjJaLhn3o=;
+        b=jOKgMZNNcqHPGyfHVskdeg3YdEWcsurJkwLbZEXRCwPot61v4xytMk9oOccXrQq587
+         JRMAAGAs39kk7JAgUIqgadluT+2y5l+blRzs7GW46fFkp1S9hsrPH+x5nfUB/xTN6mch
+         iPi8bSx5LE5y6GNUZRtUcrgdHCaFlTUOy0DkEBKUDNZcYEJdoWejVPran+7wKNjmu286
+         ENLlQTMBBdlfv8oLBogRM2KoiJNYs5GeX/chPHgQ3l6mCJuM82pm3xxD6NqyWDEskcAe
+         KfLJwKqV/TF3AVI5yZny3agwmsKxL+7ynDD8PO3WzUJ2yYoLB8ItmLWjkQHdwmry0N4j
+         kbGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=epHj2Vy2VG6M1RxgYQQjVnOCKuKHQEQgyxsjJaLhn3o=;
+        b=nyThLwuX7hSAd3k+T7g1cG+peEHv0tYDQbFx5CLQqLwstlUiEeoTg3elAIoo4UiS+a
+         6rmlVEXhJVbSuXytGQ3ugcNhw7VlI4etzwgVFSvC8sqXUqnhJvVnihtzbHQ5Iwi1GuBc
+         iVn0AJhXrr+i70iqiH5QM3jMLK9atgGn4G8BLxvuDtne02c5BAaXCTvD8hsp9MfmwBVg
+         kx13D7lGVGq0YRldZpfHdF8Yhvx/KbIDkHwin7WTpQHK1b7dNNV3fNHT91f9DYsj1ku5
+         JQ3ounFBqEkPryWvuQ6LbndHNAp8kmsbSt8/gojGVv7eV+i6NBvnCFPGJnZzEGgehWkJ
+         BRjA==
+X-Gm-Message-State: AOAM531ChQohvd/wA1Dg9Zk6epT+BPm+J4bOZAX2sjYhwL8uqVaBnPZC
+	dwX7obBhuwdiFqtg65ddens=
+X-Google-Smtp-Source: ABdhPJytsdxqc3V4oxOo3qtJmc5umaIJJGSlUZKGqzBs2NYt3UcFIIr7Zxcpm2+KkO/LISPR4EJoGA==
+X-Received: by 2002:a05:6512:c1a:: with SMTP id z26mr9804138lfu.378.1620471121314;
+        Sat, 08 May 2021 03:52:01 -0700 (PDT)
+Received: from localhost.localdomain ([185.215.60.119])
+        by smtp.gmail.com with ESMTPSA id i20sm1593738lfv.71.2021.05.08.03.52.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 May 2021 03:52:00 -0700 (PDT)
+From: Pavel Skripkin <paskripkin@gmail.com>
+To: mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Pavel Skripkin <paskripkin@gmail.com>
+Subject: [PATCH v2] staging: media: atomisp: code cleanup
+Date: Sat,  8 May 2021 13:51:29 +0300
+Message-Id: <20210508105129.2698-1-paskripkin@gmail.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210507075458.GB3@paasikivi.fi.intel.com>
+References: <20210507075458.GB3@paasikivi.fi.intel.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <39375dd8cf48aabdc30c6bca67adc38887fd03cf.1617776878.git.pavle.rohalj@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: 2ltUN25n4oIsF7t0gyMnW9gt8sqODGfU
-X-Proofpoint-GUID: 2ltUN25n4oIsF7t0gyMnW9gt8sqODGfU
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9977 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0
- adultscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 lowpriorityscore=0
- malwarescore=0 priorityscore=1501 clxscore=1015 bulkscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2105080070
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 06, 2021 at 11:36:21PM -0700, Pavle Rohalj wrote:
-> Fix "Avoid CamelCase" checkpatch.pl check for the function parameter
-> powerMode of function sm750_set_power_mode.
-> 
-> Signed-off-by: Pavle Rohalj <pavle.rohalj@gmail.com>
-> ---
->  drivers/staging/sm750fb/ddk750_power.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/sm750fb/ddk750_power.h b/drivers/staging/sm750fb/ddk750_power.h
-> index 4756db1ccb9c..d43942d6a5aa 100644
-> --- a/drivers/staging/sm750fb/ddk750_power.h
-> +++ b/drivers/staging/sm750fb/ddk750_power.h
-> @@ -15,7 +15,7 @@ enum dpms {
->  }
->  
->  void ddk750_set_dpms(enum dpms state);
-> -void sm750_set_power_mode(unsigned int powerMode);
-> +void sm750_set_power_mode(unsigned int power_mode);
+Breaks are not useful after a return, they can
+simply be removed.
 
-This should just be "mode" to match the function.
+Also, dropped the individual return statements
+after or inside switch cases
 
-Anyway, I just realized now that I'm somehow reviewing ancient patches
-so I'm going to stop.
+Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+---
+Changes in v2:
+  dropped the individual return statements
+---
+ .../hive_isp_css_common/host/input_system.c    | 18 ------------------
+ 1 file changed, 18 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+index 0f5a231672a8..cbaaec620581 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+@@ -903,17 +903,10 @@ static input_system_err_t input_system_configure_channel(
+ 			error = input_system_configure_channel_sensor(channel);
+ 			break;
+ 		case INPUT_SYSTEM_SOURCE_TPG:
+-			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-			break;
+ 		case INPUT_SYSTEM_SOURCE_PRBS:
+-			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-			break;
+ 		case INPUT_SYSTEM_SOURCE_FIFO:
+-			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-			break;
+ 		default:
+ 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-			break;
+ 		}
+ 
+ 		if (error != INPUT_SYSTEM_ERR_NO_ERROR) return error;
+@@ -995,7 +988,6 @@ static input_system_err_t input_buffer_configuration(void)
+ 			default:
+ 				config.csi_buffer_flags[port] |= INPUT_SYSTEM_CFG_FLAG_CONFLICT;
+ 				return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-				break;
+ 			}
+ 
+ 			// Check acquisition buffer specified but set it later since it has to be unique.
+@@ -1032,7 +1024,6 @@ static input_system_err_t input_buffer_configuration(void)
+ 
+ 			default:
+ 				return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-				break;
+ 			}
+ 		} else {
+ 			config.csi_buffer_flags[port] = INPUT_SYSTEM_CFG_FLAG_BLOCKED;
+@@ -1319,7 +1310,6 @@ static input_system_err_t configuration_to_registers(void)
+ 
+ 	default:
+ 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-		break;
+ 
+ 	} // end of switch (source_type)
+ 
+@@ -1695,19 +1685,11 @@ static input_system_err_t input_system_configure_channel_sensor(
+ 
+ 		break;
+ 	case INPUT_SYSTEM_FIFO_CAPTURE_WITH_COUNTING:
+-		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-		break;
+ 	case INPUT_SYSTEM_XMEM_CAPTURE:
+-		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-		break;
+ 	case INPUT_SYSTEM_XMEM_ACQUIRE:
+-		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-		break;
+ 	default:
+ 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+-		break;
+ 	}
+-	return INPUT_SYSTEM_ERR_NO_ERROR;
+ }
+ 
+ // Test flags and set structure.
+-- 
+2.31.1
 
