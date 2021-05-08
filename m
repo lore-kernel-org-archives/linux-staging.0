@@ -1,94 +1,101 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E3EF2F80
-	for <linux-staging@lists.linux.dev>; Sat,  8 May 2021 07:09:40 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id x5so11362184wrv.13
-        for <linux-staging@lists.linux.dev>; Sat, 08 May 2021 00:09:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=5j0/SkQ5MnH/k0JVcJB2AM+3scDK+wjHcTxj/JFadC8=;
-        b=GA+TKHud80mn4qE30fVhSRtcBi0OjBR1MavRxpfJqh0LQSgNZdUJOY80kToQ1cYmNG
-         f9J159mvua6gFHdBOpfBuF0nXdkmsQEcbmAzpJqpGOhjfncF7mXYrkJDcw1A4+bDvBA3
-         x68H5TAhq8jY2YgIHk345vZUN/+UAu4VJHd5x2gJrUDfLwyuLr5zqGEJuFe3NrvQPjk+
-         5CXvMW3rt3dz5BjNR2nAZ9vwAe8vLEkuw+jmZI4zGInQAqH28zJ/uBg8Pno9/oE57h73
-         fQDEDMijv6fQPYdxUcdzZ7TgdE6hT333DkE3sIssI0D15Jki6gCEqA4N3VKyfMkCmAMF
-         /dNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=5j0/SkQ5MnH/k0JVcJB2AM+3scDK+wjHcTxj/JFadC8=;
-        b=th8qi0RuJuY+cHCCUFZ1OM7pmGccOoJXN4rnstcBV+ca4Ag5XCmHmq6H6xtDzbdsAA
-         w7flskhs3hiqNhXIHCXgN8XIEy/pz5taPoaRjvt5MHgMKVpIs2jI7reDa+umkJZ7go+2
-         D/bR3cyB6DxBdLzlY+EA7TqT3F1tqqQLOvkw69eh/hIyLV64nCpHejLqquObsCKFbJVv
-         l2AkUOrtQnzwkez8fvtroyMpAaPlJl26l+fN21KObnpsSm15PsI+YinT9I5KBS5UmSxC
-         yGZcdu5CLGQNb5+sQJsJx+Xa7WR9Ld/W5fY8ZfKJ0kwayJOgg7nUUy+xnD+UHavJ96Zp
-         7jJw==
-X-Gm-Message-State: AOAM533RvOamqNl5Qvf5ZLsn/9Wt+iS9+8JfV7bEs+CBs2oxoETWen3l
-	5atgrwSJl7J3KurxPixwLo4=
-X-Google-Smtp-Source: ABdhPJwjBXqL1KZBUhuCyAQwuynl0Jh6CqAysR/8Lz1mlmCIOEzf0l/RQ+mHfVULZtM07Z2hKEIZDg==
-X-Received: by 2002:a5d:525c:: with SMTP id k28mr17406270wrc.158.1620457778811;
-        Sat, 08 May 2021 00:09:38 -0700 (PDT)
-Received: from localhost.localdomain (231.red-83-51-243.dynamicip.rima-tde.net. [83.51.243.231])
-        by smtp.gmail.com with ESMTPSA id s18sm11740345wro.95.2021.05.08.00.09.37
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 08 May 2021 00:09:38 -0700 (PDT)
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-To: vkoul@kernel.org
-Cc: kishon@ti.com,
-	devicetree@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	robh+dt@kernel.org,
-	linux-staging@lists.linux.dev,
-	gregkh@linuxfoundation.org,
-	neil@brown.name,
-	ilya.lipnitskiy@gmail.com,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH RESEND v2 6/6] phy: ralink: phy-mt7621-pci: properly print pointer address
-Date: Sat,  8 May 2021 09:09:30 +0200
-Message-Id: <20210508070930.5290-7-sergio.paracuellos@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210508070930.5290-1-sergio.paracuellos@gmail.com>
-References: <20210508070930.5290-1-sergio.paracuellos@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C1C370
+	for <linux-staging@lists.linux.dev>; Sat,  8 May 2021 09:44:40 +0000 (UTC)
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+	by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1489iWBS019624;
+	Sat, 8 May 2021 09:44:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=+7ZZyYeUYy9IQ3ZxTjAWfnpZ4ty+iYLlka/hAfiNP4U=;
+ b=IFce8VSQZEA2AAnfDoQWgi7u7nQeClHrqAsEhnZvR8cwkDtMg7HaWsi/8cs54RViMSjv
+ HE6GsNm7ThtDlcvVzyFv7aR4NkoPZQUi3P4HkZoHUCUE8oYem1Q+2TIS/wN4uujjq2uU
+ ZTFwBY6ZNiv9NVcJXE8KES9VjJ+zlSmLd7SYM5J6LRyWUgcasW8jfmCJxezqLQ8wmraN
+ 1e05dEOqVkTrDxRRaLFkjQkWk4yEjNa4n4RH/kp2jNTwwBw5/Wwpv6nc68zai1qQNnlU
+ 3wy7d1EwLSVFfdePqykkp9hvc63Zqni6HxLeWJDP8KiaaNXe7WA45w6BCs+DGEal5Nmj Rw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by aserp2130.oracle.com with ESMTP id 38dg5b8djg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 08 May 2021 09:44:32 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1489iUoF179553;
+	Sat, 8 May 2021 09:44:32 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3020.oracle.com with ESMTP id 38djf0uadg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 08 May 2021 09:44:32 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 1489iVcf179564;
+	Sat, 8 May 2021 09:44:31 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+	by aserp3020.oracle.com with ESMTP id 38djf0uadd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 08 May 2021 09:44:31 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 1489iTfm005380;
+	Sat, 8 May 2021 09:44:29 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Sat, 08 May 2021 02:44:28 -0700
+Date: Sat, 8 May 2021 12:43:50 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Pavle Rohalj <pavle.rohalj@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+        gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 02/49] staging: sm750fb: Rename dviInit to dvi_init
+ and update param names
+Message-ID: <20210508094350.GJ1955@kadam>
+References: <cover.1617776878.git.pavle.rohalj@gmail.com>
+ <6c6ecf7eee7d41492dbbcc4410db7eefd1fbb13d.1617776878.git.pavle.rohalj@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6c6ecf7eee7d41492dbbcc4410db7eefd1fbb13d.1617776878.git.pavle.rohalj@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: TzmPJEEHRRvF5WfjN67V6i6ygZ5sj5wF
+X-Proofpoint-ORIG-GUID: TzmPJEEHRRvF5WfjN67V6i6ygZ5sj5wF
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9977 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 malwarescore=0
+ bulkscore=0 spamscore=0 clxscore=1011 priorityscore=1501 adultscore=0
+ mlxlogscore=999 mlxscore=0 suspectscore=0 impostorscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2105080070
 
-The way of printing the pointer address for the 'port_base'
-address got into compile warnings on some architectures
-[-Wpointer-to-int-cast]. Instead of use '%08x' and cast
-to an 'unsigned int' just make use of '%px' and avoid the
-cast. To avoid not really needed driver verbosity on normal
-behaviour change also from 'dev_info' to 'dev_dbg'.
+On Tue, Apr 06, 2021 at 11:36:01PM -0700, Pavle Rohalj wrote:
+> Fix "Avoid CamelCase" checkpatch.pl checks for the function dviInit and
+> its parameter names in ddk750_dvi.h.
+> 
+> Signed-off-by: Pavle Rohalj <pavle.rohalj@gmail.com>
+> ---
+>  drivers/staging/sm750fb/ddk750_dvi.c |  2 +-
+>  drivers/staging/sm750fb/ddk750_dvi.h | 20 ++++++++++----------
+>  2 files changed, 11 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/staging/sm750fb/ddk750_dvi.c b/drivers/staging/sm750fb/ddk750_dvi.c
+> index db19bf732482..943cbcafcffa 100644
+> --- a/drivers/staging/sm750fb/ddk750_dvi.c
+> +++ b/drivers/staging/sm750fb/ddk750_dvi.c
+> @@ -30,7 +30,7 @@ static struct dvi_ctrl_device dcft_supported_dvi_controller[] = {
+>  #endif
+>  };
+>  
+> -int dviInit(unsigned char edge_select,
+> +int dvi_init(unsigned char edge_select,
+>  	    unsigned char bus_select,
+>  	    unsigned char dual_edge_clk_select,
+>  	    unsigned char hsync_enable,
 
-Fixes: d87da32372a0 ("phy: ralink: Add PHY driver for MT7621 PCIe PHY")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
----
- drivers/phy/ralink/phy-mt7621-pci.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The fact that you were able to change this without changing any callers
+suggests that this is not used.  In that case, just delete it instead
+of renaming it.
 
-diff --git a/drivers/phy/ralink/phy-mt7621-pci.c b/drivers/phy/ralink/phy-mt7621-pci.c
-index f56ff10b0885..242c5d8b8635 100644
---- a/drivers/phy/ralink/phy-mt7621-pci.c
-+++ b/drivers/phy/ralink/phy-mt7621-pci.c
-@@ -273,8 +273,8 @@ static struct phy *mt7621_pcie_phy_of_xlate(struct device *dev,
- 
- 	mt7621_phy->has_dual_port = args->args[0];
- 
--	dev_info(dev, "PHY for 0x%08x (dual port = %d)\n",
--		 (unsigned int)mt7621_phy->port_base, mt7621_phy->has_dual_port);
-+	dev_dbg(dev, "PHY for 0x%px (dual port = %d)\n",
-+		mt7621_phy->port_base, mt7621_phy->has_dual_port);
- 
- 	return mt7621_phy->phy;
- }
--- 
-2.25.1
+regards,
+dan carpenter
 
