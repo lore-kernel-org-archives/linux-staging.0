@@ -1,41 +1,41 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2D472
-	for <linux-staging@lists.linux.dev>; Sat,  8 May 2021 12:21:41 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id z13so16622200lft.1
-        for <linux-staging@lists.linux.dev>; Sat, 08 May 2021 05:21:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2ADA72
+	for <linux-staging@lists.linux.dev>; Sat,  8 May 2021 12:21:49 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id v6so14976147ljj.5
+        for <linux-staging@lists.linux.dev>; Sat, 08 May 2021 05:21:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9Y3teniSGRQ0VOrXvsmVmKBJjGDITdl3HQv9AqHHKVM=;
-        b=qUhZ/yb9OCq6Irbkz738dLNIaV0VmA6sCNzwEoZSqFtOrugaCuckpFV4qAoTx8iBs5
-         gwsgagjHgJ0TwQQeIZzOwr8Z9noGMt2QuRrnUPIi+Fn0Z7B8WQ8Ltu9QibLQUCDILlOz
-         L5YD580dq5o6/gJ4DouDDSut90OaqD58yebStNTQcrufNBmPeacDLg0KsylV89vwp5st
-         WSRYyBT7Ml0tbV6xACLt9l4/Eozq798OR0z0pnLfcOtkP52uX79ElMMzZ/UA3ZTykcWP
-         TutfN5cFE8Y41xv0WQb+W/1R0IgBz4AoiGt6IBsT3XRPewdpeaRmVXQtU4c2eBy5yCh5
-         nEUg==
+        bh=IqIPJJa374NLUqCHGDm7/7oqA7WluXXWMUnsKHbUjRk=;
+        b=WYDKYxHicDffBaip1TyN/ZJx+xbz+MQdC5sI3kmliq6kRkch0tK9Haocg5oNod1jWT
+         7bGN2LzEYYFGt2jM84YtkZe6TPTl5IhHgOJb0WNIw48bD13oIozTCNkyLMObPe0pYDVc
+         /Kp1h4mRfKaYB4nYABcdongGBh6xkfXNKg1UBFwbP3Cq6JcVvbEj9BrD2jGpc+zyFJD3
+         2F3fs4MnJiw+pP/1ZmOQ4LZnaRz2yYOtzsh8DoRgxRexTB6El28hWDgfb02rSsJL+gx8
+         lBBKbHsGFdRnZ1nmuZ+mZdP7qfZqxPFZeh9lj5S4TNXoJ5bhmmJAIDkqz9OjQXKafa5j
+         gzwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9Y3teniSGRQ0VOrXvsmVmKBJjGDITdl3HQv9AqHHKVM=;
-        b=IBs2wltyFW4eqrVSxZslvEUkYzaE9bQ9MvObcjmBddGCNc6AaIE+UdJli/+9zlBWoo
-         WsO+bvS1AolMRndgQI02TAvEGDxaS3p/odav3v1nMVtOJmOkGwC8SIRPq+WynITL2TSA
-         8KDPTvS/+Tu0eABX90rIBQMNX7s0XqkIuuIJTmKfEl2VvPy4UVxi9NopTYiJvTqowwUs
-         eXafgTKVrHoV2ZGlfnmOQNKHeqv90r2B23HeFXvrRPzZS5xvmmiRlaRDmbGKFzsrBtg1
-         SJog0SfOQV7kH+Y8sRGkw5H7NNYJtQyot697zPVX/6NUQdcUdVc9ioozBFtQa5G9MhVz
-         7eQQ==
-X-Gm-Message-State: AOAM532eJMwHMAKXg+NosjZZkFqhYxs/2Rmbjdnc99bEXsoSQ55rX30v
-	DKOS3kJqlxRj9DBiBNlWCJU=
-X-Google-Smtp-Source: ABdhPJyBr1q2ZOINPkqz8zKEjwYi0oogwmYRR2+QE2fm5uaihpdeQaplE1KkCL76rx88R5Y8R1/SNQ==
-X-Received: by 2002:ac2:428e:: with SMTP id m14mr9790318lfh.478.1620476500102;
-        Sat, 08 May 2021 05:21:40 -0700 (PDT)
+        bh=IqIPJJa374NLUqCHGDm7/7oqA7WluXXWMUnsKHbUjRk=;
+        b=Y4vi14FIsj5lKD/7Njp5w+syu3u5JjPpXSP2MyYjTTRcvF8AjJwAc/8UU9wgKriebM
+         qitT9GuFculRFqlKSJq3FnGYx8X/jrnFa6LuegOEDxI1/cJxzqy1p1fgFXi2Jl6G12tg
+         F96DxfMMk2mlCAM1P1tp5/hS71CjS6QS73Y4iH06336E+NP1TaBIIdfROirAbMrf3W1U
+         z/OsQZbsEB1VLCpgGlgXXL4Lvpq/Dry+rabYla4xg1RsV9op9wTFWOHkISxIwqNaJUzD
+         zUO38YdAtvdrxOB4gVrvSgo1eBRLKGnyYtm8vOW54PlogcwBGoaUmZREiQfhTD8qTb+w
+         eifw==
+X-Gm-Message-State: AOAM530xCmWt3yZL9xMeWp3dBrzeMtU84XfbRINUJZhk870uPy0+dUuY
+	XcvMN9LO8UJMQ8OSWXPIVdE=
+X-Google-Smtp-Source: ABdhPJz4+Qg28+GuALq9DVmJOKQMbLxJVRcrkqxACl+vhpypuTy1ImL7lf0MZbmjx2OEKYw7vE2/Dg==
+X-Received: by 2002:a2e:390a:: with SMTP id g10mr12209311lja.64.1620476507988;
+        Sat, 08 May 2021 05:21:47 -0700 (PDT)
 Received: from localhost.localdomain ([185.215.60.119])
-        by smtp.gmail.com with ESMTPSA id h14sm2283586lji.57.2021.05.08.05.21.39
+        by smtp.gmail.com with ESMTPSA id v8sm2304437ljn.17.2021.05.08.05.21.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 May 2021 05:21:39 -0700 (PDT)
+        Sat, 08 May 2021 05:21:47 -0700 (PDT)
 From: Pavel Skripkin <paskripkin@gmail.com>
 To: mchehab@kernel.org,
 	sakari.ailus@linux.intel.com,
@@ -44,9 +44,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Pavel Skripkin <paskripkin@gmail.com>
-Subject: [PATCH v3 1/3] staging: media: atomisp: remove useless breaks
-Date: Sat,  8 May 2021 15:21:34 +0300
-Message-Id: <4b4a6ad1bc8fc1fd6aafc3e6cd7a4969890340c1.1620475909.git.paskripkin@gmail.com>
+Subject: [PATCH v3 2/3] staging: media: atomisp: remove dublicate code
+Date: Sat,  8 May 2021 15:21:46 +0300
+Message-Id: <3944cd10bb5a64157781b1e0ef044c62c05f07c7.1620475909.git.paskripkin@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1620475909.git.paskripkin@gmail.com>
 References: <cover.1620475909.git.paskripkin@gmail.com>
@@ -57,76 +57,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Breaks are not useful after a return, they can
-simply be removed.
+Removed dublicate returns and breaks inside switch
+statements and useless return after switch.
 
 Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 ---
- .../pci/hive_isp_css_common/host/input_system.c       | 11 -----------
- 1 file changed, 11 deletions(-)
+ .../pci/hive_isp_css_common/host/input_system.c     | 13 -------------
+ 1 file changed, 13 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-index 0f5a231672a8..fd82997b11cc 100644
+index fd82997b11cc..76414b6b43c9 100644
 --- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
 +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-@@ -904,16 +904,12 @@ static input_system_err_t input_system_configure_channel(
+@@ -903,11 +903,8 @@ static input_system_err_t input_system_configure_channel(
+ 			error = input_system_configure_channel_sensor(channel);
  			break;
  		case INPUT_SYSTEM_SOURCE_TPG:
- 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--			break;
+-			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
  		case INPUT_SYSTEM_SOURCE_PRBS:
- 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--			break;
+-			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
  		case INPUT_SYSTEM_SOURCE_FIFO:
- 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--			break;
+-			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
  		default:
  			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--			break;
  		}
+@@ -1301,13 +1298,7 @@ static input_system_err_t configuration_to_registers(void)
+ 		break;
  
- 		if (error != INPUT_SYSTEM_ERR_NO_ERROR) return error;
-@@ -995,7 +991,6 @@ static input_system_err_t input_buffer_configuration(void)
- 			default:
- 				config.csi_buffer_flags[port] |= INPUT_SYSTEM_CFG_FLAG_CONFLICT;
- 				return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--				break;
- 			}
- 
- 			// Check acquisition buffer specified but set it later since it has to be unique.
-@@ -1032,7 +1027,6 @@ static input_system_err_t input_buffer_configuration(void)
- 
- 			default:
- 				return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--				break;
- 			}
- 		} else {
- 			config.csi_buffer_flags[port] = INPUT_SYSTEM_CFG_FLAG_BLOCKED;
-@@ -1319,7 +1313,6 @@ static input_system_err_t configuration_to_registers(void)
- 
- 	default:
- 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+ 	case INPUT_SYSTEM_SOURCE_TPG:
+-
 -		break;
+-
+ 	case INPUT_SYSTEM_SOURCE_PRBS:
+-
+-		break;
+-
+ 	case INPUT_SYSTEM_SOURCE_FIFO:
+ 		break;
  
- 	} // end of switch (source_type)
+@@ -1688,15 +1679,11 @@ static input_system_err_t input_system_configure_channel_sensor(
  
-@@ -1696,16 +1689,12 @@ static input_system_err_t input_system_configure_channel_sensor(
  		break;
  	case INPUT_SYSTEM_FIFO_CAPTURE_WITH_COUNTING:
- 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--		break;
+-		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
  	case INPUT_SYSTEM_XMEM_CAPTURE:
- 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--		break;
+-		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
  	case INPUT_SYSTEM_XMEM_ACQUIRE:
- 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--		break;
+-		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
  	default:
  		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
--		break;
  	}
- 	return INPUT_SYSTEM_ERR_NO_ERROR;
+-	return INPUT_SYSTEM_ERR_NO_ERROR;
  }
+ 
+ // Test flags and set structure.
 -- 
 2.31.1
 
