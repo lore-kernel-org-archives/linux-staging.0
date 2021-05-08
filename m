@@ -1,41 +1,41 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834EF71
-	for <linux-staging@lists.linux.dev>; Sat,  8 May 2021 06:52:40 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id 4-20020a05600c26c4b0290146e1feccd8so6008652wmv.1
-        for <linux-staging@lists.linux.dev>; Fri, 07 May 2021 23:52:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E19A2F80
+	for <linux-staging@lists.linux.dev>; Sat,  8 May 2021 06:52:41 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id t18so11355435wry.1
+        for <linux-staging@lists.linux.dev>; Fri, 07 May 2021 23:52:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=rnhsZglV9Tim8CW0KmXYUH85PSzSV/y0PNcnH/Ygu/E=;
-        b=LQcyHlKI3cmGbxplDQAJgFpcZ2vWNGbNxmmwsnLjSwGKYDbEK896BewQFECt6Tu7d8
-         S7kau4cHh3oqU2TMv6GgeZE/A7mO+Kaux1/fnFpzeNw72D+/pfY/ZBC3iHOmndxctgrn
-         XTA643lzwlo1D7JXYKYEZNYfs1f9TGMPOxhqwfaOBfP2MOfxSyYRLx8oSjaV+uIX0Yct
-         t2/ZXVGzj2j9kIgFjNDpcVuVtZmN5HP940DXu+HxfH/8T3PCqwJDTttrQCDMNUcJa2Ky
-         IJxHQM0w00U84RP/N2+m0Cspx1eXMy5w2nkWjpmnn8h4YnbzVNm0HCVPbk7gjad32acW
-         LGrg==
+        bh=b+GCOf42Gs4UdMdK0477XZHtOpuU44Ecgu3QGsmZOXI=;
+        b=D7YXSUvFJ1UwGS+L85/ddn9o7Vw4zuD6OMLrBiYsz5zuj3d44dVU9fOL5dEsSZggE1
+         HESWScDH+/OMGjnTOi+Gg9msmbatZU98GC70wqhS5l71pT0Zge9OzSVCIg7X2DlbMcp9
+         c1hdumLmmRg90tivSQMzAtHoUnxtXvoqm+nZ/EmlqFQ5xNRuvh/7dBEoaC48WqOR7Cbw
+         E6QlYKZSIo0VB7RPw2c5F7SdURRi+GPP/h4laftc2bLQExdy6pJL99bgaA2raUhbL4pd
+         6jZWeBiefAw3O6Nu9MWKX7DIyHp6ikkHJRcGx+F4ycwk6z6k67slL3bErsjEaraEdODc
+         dF4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=rnhsZglV9Tim8CW0KmXYUH85PSzSV/y0PNcnH/Ygu/E=;
-        b=ItzelF5mjHpcZhkZb7LDDu6lki/jIw18QYTTWyae33YCbcqnnj+TKIU9EthBCs1Apt
-         nIleh26TJ+Q8d0fXQzbkS5HoJA0HSL2w0OUThkuStI/qXg6H4Am2Kv4SpDhPvWLsb7Bw
-         DD3xvL/PuaEwBL9i+WXNcdwIinuBCrWxMzPO/Vtvp+UtQqQ7VwWmHX2bqSIL4sUMNsVo
-         QiyMKCeoxMUO1cJ2Xt+fi7lG1I1vYeVxECybmNBIPgzBtic2tABj8aLMSjLTNAHW0HXg
-         Zh3nwW1jiz7QHCVQm9aGgxwtzYSLBt1z3aEmoMnDsmWcdkYqTpJytu+p0qXqlw5DbyG9
-         Zk2g==
-X-Gm-Message-State: AOAM530xWkW8AAE7W5zZG+JxDJmUS9bk/qyfLwD3a/nCBO+ozI3gA3Pd
-	vixKwhIyBrnnzoUHZGgE8H8=
-X-Google-Smtp-Source: ABdhPJxfPpdspV0gYutpfTe5YchDZnQYJXqPP4rbHosmjZFV1JVsgOuTaJWVJflzXrejLiFn33yHtg==
-X-Received: by 2002:a1c:c28a:: with SMTP id s132mr25250444wmf.145.1620456759167;
-        Fri, 07 May 2021 23:52:39 -0700 (PDT)
+        bh=b+GCOf42Gs4UdMdK0477XZHtOpuU44Ecgu3QGsmZOXI=;
+        b=OYwlg28OejCjXQb2ip7X2SqnU5Fby9oPiDuTGJ8Yj9/xpjxHqx1iSbvPk8fOJnLb8v
+         kIfx8sKwnuH35LI7mcPQvWnmsVQyr1IIDjN2naUOJjr3+i8GKPLY0tS9iZO9VOvYy/Rw
+         ItRi7qo9A55M4FmRMLH+akn8aXNYWQVqBTud0/uwF5NQMPOI95crs0sHQCPR8fK8tdrA
+         YC1zREN45DpOQkqWDBVYvFpgu+EE/FFo25upUG6XB5QzOxJYT+eLXeiXrkOx6cjNx6aj
+         ucqKbZWj/c1etX3PtIjjh+jFhbcY4qBWt22oDX+GoWVSFHKZ+BZ0waCx9AufLgMoppGU
+         GbrQ==
+X-Gm-Message-State: AOAM532MfBe2rHpndHk2j5pVOiOciW1nrU0NqucUVTvvhK6yhO3EcSTE
+	5HYzUFJxrOvZTJ3XW0VrSUE=
+X-Google-Smtp-Source: ABdhPJzJmb7g9rySb6hDTExDxrdT2v6fxhAzYGLCgbfbAq9xJrgWHzJjWZhQvsb+hXEHxu/2QIvUow==
+X-Received: by 2002:a5d:4b42:: with SMTP id w2mr17885451wrs.248.1620456760085;
+        Fri, 07 May 2021 23:52:40 -0700 (PDT)
 Received: from localhost.localdomain (231.red-83-51-243.dynamicip.rima-tde.net. [83.51.243.231])
-        by smtp.gmail.com with ESMTPSA id b12sm11638010wro.28.2021.05.07.23.52.38
+        by smtp.gmail.com with ESMTPSA id b12sm11638010wro.28.2021.05.07.23.52.39
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 07 May 2021 23:52:38 -0700 (PDT)
+        Fri, 07 May 2021 23:52:39 -0700 (PDT)
 From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 To: vkoul@kernel.org
 Cc: linux-phy@lists.infradead.org,
@@ -44,9 +44,9 @@ Cc: linux-phy@lists.infradead.org,
 	gregkh@linuxfoundation.org,
 	neil@brown.name,
 	ilya.lipnitskiy@gmail.com
-Subject: [PATCH v2 4/6] phy: ralink: Kconfig: enable COMPILE_TEST on mt7621-pci-phy driver
-Date: Sat,  8 May 2021 08:52:30 +0200
-Message-Id: <20210508065232.4882-5-sergio.paracuellos@gmail.com>
+Subject: [PATCH v2 5/6] phy: ralink: Kconfig: convert mt7621-pci-phy into 'bool'
+Date: Sat,  8 May 2021 08:52:31 +0200
+Message-Id: <20210508065232.4882-6-sergio.paracuellos@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210508065232.4882-1-sergio.paracuellos@gmail.com>
 References: <20210508065232.4882-1-sergio.paracuellos@gmail.com>
@@ -57,24 +57,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-After use the clock apis and avoid custom architecture
-code this driver can properly be enabled for COMPILE_TEST.
+Make dependent on PCI_MT7621 configuration option and mark
+this pci phy configuration as bool which has more sense.
 
 Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 ---
- drivers/phy/ralink/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/phy/ralink/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/phy/ralink/Kconfig b/drivers/phy/ralink/Kconfig
-index ecc309ba9fee..c2373b30b8a6 100644
+index c2373b30b8a6..ed0c71eff2c4 100644
 --- a/drivers/phy/ralink/Kconfig
 +++ b/drivers/phy/ralink/Kconfig
-@@ -4,7 +4,7 @@
+@@ -3,8 +3,8 @@
+ # PHY drivers for Ralink platforms.
  #
  config PHY_MT7621_PCI
- 	tristate "MediaTek MT7621 PCI PHY Driver"
--	depends on RALINK && OF
-+	depends on (RALINK && OF) || COMPILE_TEST
+-	tristate "MediaTek MT7621 PCI PHY Driver"
+-	depends on (RALINK && OF) || COMPILE_TEST
++	bool "MediaTek MT7621 PCI PHY Driver"
++	depends on (RALINK && OF && PCI_MT7621) || COMPILE_TEST
  	select GENERIC_PHY
  	select REGMAP_MMIO
  	help
