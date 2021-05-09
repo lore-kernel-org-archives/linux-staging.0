@@ -1,77 +1,156 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4122372
-	for <linux-staging@lists.linux.dev>; Sun,  9 May 2021 17:14:35 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id b15so12026451pfl.4
-        for <linux-staging@lists.linux.dev>; Sun, 09 May 2021 10:14:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7967772
+	for <linux-staging@lists.linux.dev>; Sun,  9 May 2021 23:55:59 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id gc22-20020a17090b3116b02901558435aec1so9237565pjb.4
+        for <linux-staging@lists.linux.dev>; Sun, 09 May 2021 16:55:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=dT5OkAYCALyixcxFHYYKTuu0iIYm2fnzdCuDeHhhfJw=;
-        b=Feg+YLNPEoJySXrfgZ14g85XpumBmBR8d0SXdMNJhUWLpSR7rXzYd+BXYJ1dvxTsQp
-         6V2nVvCDszeaA5iMGn7HJji93qJyUsKs6WaNzGAnK5rDVEOI3mTdLBJApVYS5R2nu7OU
-         iLKX3FKtXADm5vG2i2/9hFQoemCoEv0/d2bItN2Ru/tFbZTdtbX0N9ve/a9iAi2SY6R7
-         dvF4wNvi1xaqofYAbMd10KeVSpeQfI5qUOD627vXNXR+pL/2A0dxkYlcHjr7Uckq2FEG
-         AAchoiZjygbIidCUYvrePODMwVACaHgDqQARlsdxGvqF455/HSO4XmSU9ICLrXLfHttS
-         HKXQ==
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=B9gNzdRw34AgzKGQuey0qxX87HsKelUILGaPj7Ys504=;
+        b=pcO/n70f/cgwzhG1tZO74Xru0BhOsTUZYMiJhMCrVapTGgCHq8q99MfqcKSLdjmmgS
+         3gsLfrsKrYVPiOQWm3e5aPCp2OX6WRa6aiDnV70HGLY27LCdKCPRS7Yl33aVDq7BxJF2
+         ykUBCkWmsRqXeacpjxJYFcvBkuJBWUbZVqrGzbDYNfx5m4CsZCsp7hgEiE0LZn+NgJ+d
+         k2SmxYngOVJzwvEZ3cezugqoeU8m/yzvKRSDSJ5CJtvOqNMRabNyPd8Ol9Z13ODOAzHS
+         8gxnIubXyxGkzEGa6VTA754Vi9cARZ3nUFaHBEa4q3VRenm+/GdUQosxMwflbhUwZXox
+         uz5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=dT5OkAYCALyixcxFHYYKTuu0iIYm2fnzdCuDeHhhfJw=;
-        b=TkkiZzQouR02HXYHm1vhW5o139QLpTYcykKs23KA9+DTrCaY8XRnqHzJNVa/vm4l+7
-         hypNY1+0SyGwOYERGeaIyAfEWKlZRdfHMPmTpDNX1xq1NIFmIDCoJR0wTs/1mk3Wxdza
-         6YtD3IUKLmUJtzcExZ390PXgYsaVrpQ4+UEofke27aGyCaQcM3af32hsjw/9n3xMpK6T
-         8N0fAzgBJ/74ut5lEy5gsQhuZTle/lN+aqZjG+mWcyAz5KZn3MuWbYNrMO5UwUpLlU/O
-         36cwMPg+iceWaoI7sr7/vYdnd0G0NkYQb/QKpe+dEdePlfPjog429unjlDkqTcWwmfZG
-         cL1w==
-X-Gm-Message-State: AOAM530iETcCoLhG2lC0j51wjiYir2PMP1eg4jhqP7s1qtiuNB6p/RwO
-	30sPqHUE8sR2cTbL2zqpXm0=
-X-Google-Smtp-Source: ABdhPJykw3FWTgTEI5/kBjsLomeWUheNQoTyz/VcsBdPm8L50AFxfj0DHw2M0RtpsDXFBqUKZa3UQQ==
-X-Received: by 2002:a05:6a00:895:b029:27f:96bb:915e with SMTP id q21-20020a056a000895b029027f96bb915emr21437655pfj.77.1620580474655;
-        Sun, 09 May 2021 10:14:34 -0700 (PDT)
-Received: from user ([2001:4490:4409:3b7b:b3a2:efed:aeca:89f9])
-        by smtp.gmail.com with ESMTPSA id a20sm9214970pfn.23.2021.05.09.10.14.32
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=B9gNzdRw34AgzKGQuey0qxX87HsKelUILGaPj7Ys504=;
+        b=DjFjeidjlGFSitOt8ERW6nlcwf65x7PrdUC8W/opAarxUN/mIZltqskiKAQwCVUkQL
+         y02VDpszU1lEkw6zGcjeHvtztdIbRcD69qXf91dHe6A7tTtIbldbzB2zJzRNv/gB6/HD
+         XIMHlWP91/LJnFSIzKp3yA6noPa8+YX8iNX3MFQhOnUq9340rOg8J2SwI92fNQ7kPwBN
+         zinw/R+8750cnj/Uw/ol35gmayFZprWu1YJIQafNP2gq5VKvtSFyTmG0NFz6+/pwuIp5
+         e4ZmokjnzBWkd9mAIHZpmJOqzD50gG8ukXZcBesBLXMGMcjwNDY78nTazDrZUID3odJR
+         C60Q==
+X-Gm-Message-State: AOAM531O6q2qq52XD24j5QOa7StYqX/svNSz24ktQzu2uQpP2b6cksih
+	8GcV2vPEjtn1eO3mVY6Fjzc=
+X-Google-Smtp-Source: ABdhPJyQEojhzKrDg07sKTXPdVehOmwD/kF2+y6cuTjr/gme13aSPBjJSusr81PtDwWs+x8HJAYK9w==
+X-Received: by 2002:a17:90b:182:: with SMTP id t2mr23785579pjs.138.1620604558988;
+        Sun, 09 May 2021 16:55:58 -0700 (PDT)
+Received: from localhost ([209.132.188.80])
+        by smtp.gmail.com with ESMTPSA id p36sm9414297pgm.74.2021.05.09.16.55.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 May 2021 10:14:34 -0700 (PDT)
-Date: Sun, 9 May 2021 22:44:27 +0530
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-To: gregkh@linuxfoundation.org, atulgopinathan@gmail.com,
-	saurav.girepunje@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-Subject: [PATCH] staging: rtl8192e: Remove duplicate declartion
-Message-ID: <20210509171427.GA9937@user>
+        Sun, 09 May 2021 16:55:58 -0700 (PDT)
+From: Coiby Xu <coiby.xu@gmail.com>
+X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
+Date: Mon, 10 May 2021 07:54:05 +0800
+To: Benjamin Poirier <benjamin.poirier@gmail.com>
+Cc: linux-staging@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: About improving the qlge Ethernet driver by following
+ drivers/staging/qlge/TODO
+Message-ID: <20210509235405.skx6vr2tulbxx53i@Rk>
+References: <20210504131421.mijffwcruql2fupn@Rk>
+ <YJJegiK9mMvAEQwU@f3>
+ <20210507013239.4kmzsxtxnrpdqhuk@Rk>
+ <20210508232705.6v6otnlphabfsgz7@Rk>
+ <YJeUZo+zoNZmFuKs@f3>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
+In-Reply-To: <YJeUZo+zoNZmFuKs@f3>
 
-Remove dupilcate declartion of function rtllib_stop_send_beaconsi()
-notify_wx_assoc_event() in rtl8192e/rtllib.h file.
+On Sun, May 09, 2021 at 04:51:02PM +0900, Benjamin Poirier wrote:
+>On 2021-05-09 07:27 +0800, Coiby Xu wrote:
+>> On Fri, May 07, 2021 at 09:32:39AM +0800, Coiby Xu wrote:
+>> > On Wed, May 05, 2021 at 05:59:46PM +0900, Benjamin Poirier wrote:
+>> > > On 2021-05-04 21:14 +0800, Coiby Xu wrote:
+>> > > > Hi Benjamin,
+>> > > >
+>> > > > As you have known, I'm working on improving drivers/staging/qlge. I'm
+>> > > > not sure if I correctly understand some TODO items. Since you wrote the TODO
+>> > > > list, could you explain some of the items or comment on the
+>> > > > corresponding fix for me?
+>> > > >
+>> [...]
+>> > >
+>> > > However, in the same area, there is also
+>> > > 			skb = netdev_alloc_skb(qdev->ndev, length);
+>> > > 			[...]
+>> > > 			skb_fill_page_desc(skb, 0, lbq_desc->p.pg_chunk.page,
+>> > > 					   lbq_desc->p.pg_chunk.offset,
+>> > > 					   length);
+>> > >
+>> > > Why is the skb allocated with "length" size? Something like
+>> > > 	skb = napi_alloc_skb(&rx_ring->napi, SMALL_BUFFER_SIZE);
+>> > > would be better I think. The head only needs enough space for the
+>> > > subsequent hlen pull.
+>> >
+>> > Thanks for the explanation! I think this place needs to modified. I'll
+>> > try to figure out how to reach this part of code so I can make sure the
+>> > change wouldn't introduce an issue.
+>>
+>> After failing to reach to this part of code, it occurred to me this
+>> may be what the first TODO item meant by "dead code" that handle
+>> non-split case,
+>>
+>> > * commit 7c734359d350 ("qlge: Size RX buffers based on MTU.", v2.6.33-rc1)
+>> >   introduced dead code in the receive routines, which should be rewritten
+>> >   anyways by the admission of the author himself, see the comment above
+>> >   ql_build_rx_skb(). That function is now used exclusively to handle packets
+>> >   that underwent header splitting but it still contains code to handle non
+>> >   split cases.
+>>
+>> Do you think so?
+>
+>Yes
+>
+>> Btw, I think you meant commit 4f848c0a9c265cb3457fbf842dbffd28e82a44fd
+>> ("qlge: Add RX frame handlers for non-split frames") here. Because it was in this
+>> commit where the ql_process_mac_split_rx_intr was first introduced,
+>>
+>>     -static void ql_process_mac_rx_intr(struct ql_adapter *qdev,
+>>     +static void ql_process_mac_split_rx_intr(struct ql_adapter *qdev,
+>>                                        struct rx_ring *rx_ring,
+>>     -                                  struct ib_mac_iocb_rsp *ib_mac_rsp)
+>>     +                                  struct ib_mac_iocb_rsp *ib_mac_rsp,
+>>     +                                  u16 vlan_id)
+>
+>It's possible that I referenced the wrong commit in the TODO. Clearly
+>there is dead code after commit 4f848c0a9c26 ("qlge: Add RX frame
+>handlers for non-split frames.") like you say. I don't remember for sure
+>if I had found some before even before that.
 
-Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
----
- drivers/staging/rtl8192e/rtllib.h | 2 --
- 1 file changed, 2 deletions(-)
+Thanks for confirming it:)
 
-diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index 4cabaf21c1ca..c6f8b772335c 100644
---- a/drivers/staging/rtl8192e/rtllib.h
-+++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1979,8 +1979,6 @@ void rtllib_softmac_new_net(struct rtllib_device *ieee,
- void SendDisassociation(struct rtllib_device *ieee, bool deauth, u16 asRsn);
- void rtllib_softmac_xmit(struct rtllib_txb *txb, struct rtllib_device *ieee);
+>
+>>
+>> Another TODO item I don't understand is as follows,
+>> > * the driver has a habit of using runtime checks where compile time checks are
+>> >  possible (ex. ql_free_rx_buffers(), ql_alloc_rx_buffers())
+>>
+>> Could be more specific about which runtime checks are used in
+>> ql_free_rx_buffers and ql_alloc_rx_buffers?
+>
+>This specific example was fixed in commit
+>e4c911a73c89 ("staging: qlge: Remove rx_ring.type")
+>
+>I forgot to update the TODO when making that commit.
+>
+>Here are other examples:
+>a68a5b2fd3a2 ("staging: qlge: Remove bq_desc.maplen")
+>16714d98bf63 ("staging: qlge: Remove rx_ring.sbq_buf_size")
+>ec705b983b46 ("staging: qlge: Remove qlge_bq.len & size")
 
--void rtllib_stop_send_beacons(struct rtllib_device *ieee);
--void notify_wx_assoc_event(struct rtllib_device *ieee);
- void rtllib_start_ibss(struct rtllib_device *ieee);
- void rtllib_softmac_init(struct rtllib_device *ieee);
- void rtllib_softmac_free(struct rtllib_device *ieee);
---
-2.25.1
+Thanks for giving these examples!
 
+>
+>I don't remember of remaining examples to point you to. Maybe there
+>aren't but given that there were indeed quite a few, I would suggest
+>that you look at those commits and keep this item in mind as you work on
+>the other items earlier in the list. If at the end you think that this
+>is no longer a problem, then remove it from the list.
+
+OK. I'll keep this item in mind. Thanks for the reminding!
+
+-- 
+Best regards,
+Coiby
