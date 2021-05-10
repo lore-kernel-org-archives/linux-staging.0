@@ -1,81 +1,73 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5987371
-	for <linux-staging@lists.linux.dev>; Mon, 10 May 2021 13:12:18 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id l2so16574742wrm.9
-        for <linux-staging@lists.linux.dev>; Mon, 10 May 2021 06:12:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219B571
+	for <linux-staging@lists.linux.dev>; Mon, 10 May 2021 13:19:37 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id x5so16588327wrv.13
+        for <linux-staging@lists.linux.dev>; Mon, 10 May 2021 06:19:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=arkEZloYG/8s7EHZSL/Wo17Slx2pmQjhiuq/ITnE6NE=;
-        b=Ec/orbdIinVbI1WenpM55TD0ERq7ei93XnOyFkk+yOo2iizBZeYu3EfjzaxZReH17E
-         RA2InuW7itLvWTg52rcpfbUseDR2W+muBlwqP0hjuY+SQdqcBP/VejmF7/4FoMdBjFcq
-         285A1AbY0WNfvKuJ2rKSP9VUzc6iwikVxcjAzm9ejwQCq1YgZnqJGruhzxjUKWlRqY4M
-         z2FgiHJdnWuEECfcLVI9OHMRIgH8vvr8kiMySX8YQM+obTPE+GYmCfKSd5YKFssTcztu
-         E8nH9pnlGIWRb85K9LYZCh+fTtxR/nj7qigcodEbH5NbW4q4kQ0w/BpVxdXQs/ClMpVp
-         Qmkg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mYmyfdN9IRbyb1UDqQtdljWba9muih00OArIPxbSCPo=;
+        b=mAhAk99Xq5F1y+Ub8X6v5P2fu1+97AFrQZLfMByYFJg0Ua6FXjj+U3NFg165q6G3Tr
+         XgKu0p7I3qvT4kkMf4kyYywPnlSp/OKS6A6HccXqyXNv6LWSPui8WyiO7gNk7bf6cxZ8
+         tDMzgj+/9TzTeg02aTNkmL+0hGYjTyIfKMm3zW7XYkQZIfTINBGtOw54WpsDTIO+oi4T
+         KYXJeOU7RWPVGW2/TLDXhgbYqKow3ZOltJcGiGB+hyhE3/AEV1TkTSpWW68kJd1Qqzsh
+         tgCBK+m7kh5+B06iHFAMLykeb4OrKbl0TtffBZ7FJtomlcuS8BZ/47SrTYWh/xOoHqDB
+         XuGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=arkEZloYG/8s7EHZSL/Wo17Slx2pmQjhiuq/ITnE6NE=;
-        b=BIJMcIbi1uHJfF1G3QcR8cY4QKtzqid0MJpXtA0arQIbT6oRjJL1dajosVrN8yQaA5
-         hYvdibJiVkkoaFXstcer1TrapcHp5rNg7/n/z8oURfgRd4tr05ymO9ZmMJBYFrdOz9iW
-         mkvp3bxBp+6ZZl1t+R9eznDjkDEgJZBfp9PZlZ93SSWv07ySDgB1MXMQHlKUHjkCmua3
-         HyRXd2qHfNIVQsLBg+4F6jyeRxMPyKhmTIDd2+2wynlT+igazGjglunRQXoHQ/RJM72z
-         dKLxikQjVqXR2GoUIqHqNnDHLumFq78ULzukrhJ0e9zz6LIbLfxspRG3s9OAPznZoOG9
-         tGYQ==
-X-Gm-Message-State: AOAM532GkMZfG3C32mQTdJKX4Jk9wKdzFfBV1I6OLNhkYRazwiWCp3HQ
-	qw5HmxTlDCKYEDYXtz2d/50vrEYWPquKPg==
-X-Google-Smtp-Source: ABdhPJwRM4BuJSt5TLHHWLjs9qW0+A1lQUtZ8+Vez53b40PqcA/VfNSa+hDfZYbwGyQlUUG1+KC34Q==
-X-Received: by 2002:adf:de02:: with SMTP id b2mr14664098wrm.420.1620652336970;
-        Mon, 10 May 2021 06:12:16 -0700 (PDT)
-Received: from agape.jhs ([5.171.73.3])
-        by smtp.gmail.com with ESMTPSA id c14sm23248959wrt.77.2021.05.10.06.12.15
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mYmyfdN9IRbyb1UDqQtdljWba9muih00OArIPxbSCPo=;
+        b=MxiOK3ghFsSsnyPZKFCNQ3Ae6JHvVyzbYqWGlKqw1/G4EK78rU2iVatxOC457fasXb
+         8DbczNTdTqKFOosy461y1mNdmCapnRv4wx8tYscIV/Rwqi80tMWcr+l39K7QUtJJjByk
+         nGfZc7Kf4f7rDY9BxiM0+niGBM2HkJWKZmCKvOTPVn/xmimeiAeM1mooEfpHbvNdE9bz
+         LI4rFHYBvkg3Q97mhPtCXy0ubY7qjJzv6dgxQJpVfMea/GR+jRcpTxs2l8kcI325KIjy
+         ngWVLXEkDCQdeqyZQozRCo1/zbR9mGi0GjB6+G2lrJ8e3utkouP53HCJE8cp0fev0xOn
+         sfFw==
+X-Gm-Message-State: AOAM533LL5p3S6AGYFNF8K2Bh4Y2CuKJx2e4ZKYKDRhoLgPAXosFI5WF
+	aTcOgcFtvKqHTmE+wHq2S6k=
+X-Google-Smtp-Source: ABdhPJyAiJ3qBNdMiYw0WcPY1g+C1NTLb8VPhIZDexuVfakZIhEQ4BekXqBFhz8R7k9rRpeXkAunLg==
+X-Received: by 2002:adf:ec02:: with SMTP id x2mr30360138wrn.35.1620652775635;
+        Mon, 10 May 2021 06:19:35 -0700 (PDT)
+Received: from agape ([5.171.73.3])
+        by smtp.gmail.com with ESMTPSA id n2sm23230677wmb.32.2021.05.10.06.19.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 06:12:16 -0700 (PDT)
-Date: Mon, 10 May 2021 15:12:14 +0200
+        Mon, 10 May 2021 06:19:35 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] staging: rtl8723bs: move comments to silence 'line
- too long' warning
-Message-ID: <20210510131213.GA4434@agape.jhs>
-References: <cover.1620650484.git.fabioaiuto83@gmail.com>
- <cdb37302e4d7618141997229c59467f9d196eccc.1620650484.git.fabioaiuto83@gmail.com>
- <20210510130019.GT1955@kadam>
+Subject: [PATCH v2 0/2] staging: rtl8723bs: use of generic CRC-32
+Date: Mon, 10 May 2021 15:19:31 +0200
+Message-Id: <cover.1620652505.git.fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210510130019.GT1955@kadam>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 10, 2021 at 04:00:19PM +0300, Dan Carpenter wrote:
-> On Mon, May 10, 2021 at 02:46:19PM +0200, Fabio Aiuto wrote:
-> > move comments to fix the following post commit hook
-> > checkpatch warnings:
-> > 
-> > WARNING: line length of 110 exceeds 100 columns
-> > 115: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:510:
-> > +					*((__le32 *)crc)
-> >  = ~crc32_le(~0, payload, length);/* modified by Amy*/
-> 
-> Please delete the Amy comments.  :P
+This patchset replaces all private CRC-32 routines with
+generic ones.
 
-ok, will fix and submit a v2 :)
+-------------------------
+Changes in v2:
+	- Patch two remove comments instead of
+	  moving them
 
-> 
-> regards,
-> dan carpenter
-> 
+Fabio Aiuto (2):
+  staging: rtl8723bs: replace private CRC-32 routines with in-kernel
+    ones
+  staging: rtl8723bs: remove unneeded comments to silence 'line too
+    long' warning
 
-thank you,
+ drivers/staging/rtl8723bs/core/rtw_security.c | 67 +++----------------
+ 1 file changed, 8 insertions(+), 59 deletions(-)
 
-fabio
+-- 
+2.20.1
+
