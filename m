@@ -1,49 +1,50 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E785E72
-	for <linux-staging@lists.linux.dev>; Mon, 10 May 2021 11:31:11 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id z6-20020a17090a1706b0290155e8a752d8so9870289pjd.4
-        for <linux-staging@lists.linux.dev>; Mon, 10 May 2021 04:31:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC83472
+	for <linux-staging@lists.linux.dev>; Mon, 10 May 2021 11:34:26 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id t2-20020a17090ae502b029015b0fbfbc50so9885063pjy.3
+        for <linux-staging@lists.linux.dev>; Mon, 10 May 2021 04:34:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=DEr92TvElNvZVVwVBlsQXXoLkEg1JG5K3b9rpvwFvvA=;
-        b=C2letRqlZ0atjYe3hWGu+e9vEWQ/lTVGq7e/qswos0srnGnsNcRvb1bvB+ivmTiwfC
-         CDDoSnwzm1ZAE4yHs6sCS84t8xCvLpAwuaGzxsW/JmwONoMLt7/saZWqNd3nvnneLuOs
-         j0nweoXuskRg+HHBf6wX+YHs4w0S7Rqk6pdFqcH7yEaXFC1fy60U5yZ4e6vFl8UYhzv/
-         yMZ/U07pC/9IZcI2ZdRncNQLtiGKbwLKbtP/mwNvy6A1wLW1Cwbp6SQlgiG4+umjzeuk
-         LCPz2q6CXJRzl+eSP1lJmx5qPoIYr3dSf7xvABy5CmXYbnDxCc7byr9+PStWmZ1BGibJ
-         0QlQ==
+        bh=o+f9a7HMFJ55y8AIpWcrvNsNM39Ng0BmUmgrvoaJzqI=;
+        b=u+fxpze6Mo+rwHgO6FpHT6Ozg8BpEK82dGDkkGsOjT34/+pVpso2jhVutq0eIAYKGc
+         qO2HR7Hcc8TQf45skxq7MUTVL/w0w/CEp23C9N/ogGiv6/AS6aUrDQlaR9wfClGiED6p
+         PE80225UH2tU62r88DlQU7jLE3rwgvDKUbaKcu36iBXxmKSnQOZ1oUd5n0nJJJDm61q7
+         L7H29GgrdB9SOVJSJb7G3orO8svqWrFRWc8DGipq29mede7QfPBbL/Ny9JVYLyFrr6Ux
+         +xtEk0FHdwZLFAi39jdjG3SdtXLT673/Dq3bsWzNscENrpc1rIxNlwrwDK29ySO3ygZA
+         yOYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=DEr92TvElNvZVVwVBlsQXXoLkEg1JG5K3b9rpvwFvvA=;
-        b=JmlZs0+b9LfM04wtmPiJ6OTygpulYY06OKESR7zT7QXV3AabeJS6AxWyPbqZwpCRho
-         7gRhVtRO9NwBKPNmE6IsxrA3RpczuSKIY6+zQ3UXhSJrb3aMqbbhSeqiP7nwI+VT+ec5
-         Sy8UuFQ/bO9V5xxt5IsqdZGqMdS51B0n2yvmZFL5MOYEKAnKJyvFFNoUEdQNZRgYbFbW
-         vI14mM45WinrPa+n+005IEppPCL9FPqPYNfH4cKFDiyG1eVObX+rCHC0xnE0w4jHdC7C
-         YhN0NwpmK2Ycyf5QW0wnzBQy1Agm/x37MSG0P3mj3fpByYJXatjWZlHmFSu1cykxwtxn
-         zpfg==
-X-Gm-Message-State: AOAM5321a6yN1QaEqqlCkH475dhtyWhStpOHR0S54CtgfEb7yUZRnPoP
-	CPeTj/1WKy9mB4ziiVtzJ2/PdN2vqGo1/Q==
-X-Google-Smtp-Source: ABdhPJzYnn5Z1dKTAQNappRr/V5T1nb82BZzhzvdcRFxmpT2JVxf5za4BAdBG+Rc+B087RSmsHFPEw==
-X-Received: by 2002:a17:902:be02:b029:e6:bb0d:6c1e with SMTP id r2-20020a170902be02b02900e6bb0d6c1emr23553793pls.77.1620646270881;
-        Mon, 10 May 2021 04:31:10 -0700 (PDT)
+        bh=o+f9a7HMFJ55y8AIpWcrvNsNM39Ng0BmUmgrvoaJzqI=;
+        b=tD6N+Bzlf/w7DY4KMkNHz7XBGB4yVjws0cMiTUn5IErcVR18crKVbFjSAoOKXBTMpW
+         XG5zOw5hkngM181WUknLxgY54yoxGgfZHDtyowwjFvsdnMfluFLukQyXhOgX6Z0VGSLS
+         aI+nx0yZlUAjKT5CI+loWZvRklL3xi1sczWRgHnoavg9HE7QtK0zhQNkt7RuaxnGVEEi
+         bRrS0Fcx8X4IawRk9r55d720+zOreucB+tWGTwn2EHsZ5RAhNH2qmJMsFMqUBq4tHw85
+         DfeetMON95aaMdC29dZCp5vKKwhcqQfXq9Ylbj0I6K+AzbTsBpTafTsdVtQlZeuK2Hyv
+         5ViA==
+X-Gm-Message-State: AOAM5306Qc6gYKgdoURuni1G0ITvixfreexzz1kKeqZMrk33EAnZ2DZC
+	aN1zKeHXYJThLLC7raUTSWHYUvLV2aO10Q==
+X-Google-Smtp-Source: ABdhPJyynfSy3A2UGv8hhpgb3u+jqjdyxw74mGW7DHNI+z0/nukUChDs2vZF6FV21whq6e6MoexYVQ==
+X-Received: by 2002:a17:90a:5511:: with SMTP id b17mr39531374pji.41.1620646466399;
+        Mon, 10 May 2021 04:34:26 -0700 (PDT)
 Received: from ojas ([122.177.206.92])
-        by smtp.gmail.com with ESMTPSA id 3sm10347744pff.132.2021.05.10.04.31.08
+        by smtp.gmail.com with ESMTPSA id f187sm7533726pgc.94.2021.05.10.04.34.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 04:31:10 -0700 (PDT)
-Date: Mon, 10 May 2021 17:01:01 +0530
+        Mon, 10 May 2021 04:34:26 -0700 (PDT)
+Date: Mon, 10 May 2021 17:04:17 +0530
 From: Ojaswin Mujoo <ojaswin98@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: linux-kernel@vger.kernel.org, ojaswin98@gmail.com,
 	gregkh@linuxfoundation.org, atulgopinathan@gmail.com,
 	yashsri421@gmail.com
-Subject: [PATCH 1/3] staging: rtl8192e: Avoid multiple line dereference
-Message-ID: <435b60bd8874f8105b4af6e7eb9ee5bdbfe3112f.1620642396.git.ojaswin98@gmail.com>
+Subject: [PATCH 2/3] staging: rtl8192e: Add identifier name to function
+ definition
+Message-ID: <d856d9f22777524f5c10bddb7f7930d97e58c20b.1620642396.git.ojaswin98@gmail.com>
 References: <cover.1620642396.git.ojaswin98@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,92 +55,36 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1620642396.git.ojaswin98@gmail.com>
 
-Avoid multiple line dereference to make the code more readable, as
-suggested by checkpatch.pl
+The patch fixes the following checkpatch.pl warnings:
 
-This patch fixes the following checkpatch.pl warning:
+- WARNING: function definition argument 'struct net_device *' should also
+    have an identifier name
+  FILE: ./rtl8192e/rtl8192e/rtl_core.h:572:
 
-- WARNING: Avoid multiple line dereference
-    prefer 'priv->rtllib->swcamtable[4].key_buf[0]'
-  FILE: ./rtl8192e/rtl8192e/rtl_cam.c:189
-
-- WARNING: Avoid multiple line dereference
-    prefer 'priv->rtllib->swcamtable[4].key_buf[0]'
-  FILE: ./rtl8192e/rtl8192e/rtl_cam.c:195
-
-- WARNING: Avoid multiple line dereference
-    prefer 'priv->rtllib->swcamtable[4].key_buf[0]'
-  FILE: ./rtl8192e/rtl8192e/rtl_cam.c:204
-
-- WARNING: Avoid multiple line dereference
-    prefer 'priv->rtllib->swcamtable[4].key_buf[0]'
-  FILE: ./rtl8192e/rtl8192e/rtl_cam.c:209
-
-- WARNING: Avoid multiple line dereference
-    prefer 'info_element->data[info_element->len]'
-  FILE: ./rtl8192e/rtllib_rx.c:2287
+- WARNING: function definition argument 'struct net_device *' should also
+    have an identifier name
+  FILE: ./rtl8192e/rtl8192e/rtl_core.h:573:
 
 Signed-off-by: Ojaswin Mujoo <ojaswin98@gmail.com>
 ---
-These changes cause some of the lines to cross 80 characters however I
-believe that they improve the readability and provide a good trade off.
-Would love to hear your thoughts and suggestions on this.
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- drivers/staging/rtl8192e/rtl8192e/rtl_cam.c | 12 ++++--------
- drivers/staging/rtl8192e/rtllib_rx.c        |  3 +--
- 2 files changed, 5 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
-index c8506517cc8d..f75a12543781 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
-@@ -185,14 +185,12 @@ void rtl92e_cam_restore(struct net_device *dev)
- 			rtl92e_set_key(dev, 4, 0,
- 				       priv->rtllib->pairwise_key_type,
- 				       (u8 *)dev->dev_addr, 0,
--				       (u32 *)(&priv->rtllib->swcamtable[4].
--				       key_buf[0]));
-+				       (u32 *)(&priv->rtllib->swcamtable[4].key_buf[0]));
- 		} else {
- 			rtl92e_set_key(dev, 4, 0,
- 				       priv->rtllib->pairwise_key_type,
- 				       MacAddr, 0,
--				       (u32 *)(&priv->rtllib->swcamtable[4].
--				       key_buf[0]));
-+				       (u32 *)(&priv->rtllib->swcamtable[4].key_buf[0]));
- 		}
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+index 736f1a824cd2..698552a92100 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.h
+@@ -569,8 +569,8 @@ void rtl92e_writel(struct net_device *dev, int x, u32 y);
  
- 	} else if (priv->rtllib->pairwise_key_type == KEY_TYPE_CCMP) {
-@@ -200,13 +198,11 @@ void rtl92e_cam_restore(struct net_device *dev)
- 			rtl92e_set_key(dev, 4, 0,
- 				       priv->rtllib->pairwise_key_type,
- 				       (u8 *)dev->dev_addr, 0,
--				       (u32 *)(&priv->rtllib->swcamtable[4].
--				       key_buf[0]));
-+				       (u32 *)(&priv->rtllib->swcamtable[4].key_buf[0]));
- 		} else {
- 			rtl92e_set_key(dev, 4, 0,
- 				       priv->rtllib->pairwise_key_type, MacAddr,
--				       0, (u32 *)(&priv->rtllib->swcamtable[4].
--				       key_buf[0]));
-+				       0, (u32 *)(&priv->rtllib->swcamtable[4].key_buf[0]));
- 			}
- 	}
+ void force_pci_posting(struct net_device *dev);
  
-diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-index 15bbb63ca130..16931a4fae5d 100644
---- a/drivers/staging/rtl8192e/rtllib_rx.c
-+++ b/drivers/staging/rtl8192e/rtllib_rx.c
-@@ -2283,8 +2283,7 @@ int rtllib_parse_info_param(struct rtllib_device *ieee,
+-void rtl92e_rx_enable(struct net_device *);
+-void rtl92e_tx_enable(struct net_device *);
++void rtl92e_rx_enable(struct net_device *dev);
++void rtl92e_tx_enable(struct net_device *dev);
  
- 		length -= sizeof(*info_element) + info_element->len;
- 		info_element =
--		    (struct rtllib_info_element *)&info_element->
--		    data[info_element->len];
-+		    (struct rtllib_info_element *)&info_element->data[info_element->len];
- 	}
- 
- 	if (!network->atheros_cap_exist && !network->broadcom_cap_exist &&
+ void rtl92e_hw_sleep_wq(void *data);
+ void rtl92e_commit(struct net_device *dev);
 -- 
 2.25.1
 
