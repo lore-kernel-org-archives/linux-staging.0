@@ -1,99 +1,61 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB75771
-	for <linux-staging@lists.linux.dev>; Mon, 10 May 2021 13:19:40 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id t18so16617361wry.1
-        for <linux-staging@lists.linux.dev>; Mon, 10 May 2021 06:19:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Z3j46dkNfpVyHXhEKxl5rI2FMjVZa1cAXULGLqC+Kpo=;
-        b=bFTFNdPfvc9aGzbn6rnAzcveg/LTqRbIHFhriG9LoQ516Y5lOk2v0gqTeHvI7ECoVK
-         NAa5C/A8LYkG/hDXPKoK8NfVincvDxGrVXieQULMa5Qqi5G5HiEzGgdzcxWSZtR0mYEp
-         dlgtxYTn7+SfuNxaluwFS6g7YomZVD4Qvl1uVTzqa9IoS15bLZS/iDYXpChQP3Hnbsjk
-         Q79j4hngLst8CSG/6VUgRKEbK1PFJh9KsWIHLHoSlU+Ixs9ErcVy84xPcdvV4uoXv7x4
-         ifrAdiUeJTVVl7aAs//hCjKH2bVkx93nb5MN7O/ChbBud5hx+CA8r50sVWyj3pcZzyYD
-         MSOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Z3j46dkNfpVyHXhEKxl5rI2FMjVZa1cAXULGLqC+Kpo=;
-        b=CalNO1nZ9YEWq/m4MHH/j7rAFE8dC/JJ7sjH/V2uSbocuQebocLgcijWAb/Vkdp8Xm
-         6RqNjG7F8PlR2/xIclbVewmgDhJLmHIZPMCNHn5Ct77+CLEXpgCwRJ7BQyCot2Hxt9pd
-         BP9GH6hduPtpOjUZnbkEjIbbVBhpzLcoghGIcC7BKnklR4l7w9Vb4cPPiEM04BqYTU66
-         MF4JzptugQLU7/dOZT/bzoTTqvGfeEXOmvPkAIW3+Na+Rvbj38slLWCNHU+IF+NoZM9w
-         hkpYRy1wMZWDksZztnDC9uFBVPd2dQ0AQAsmsBMRWVIjHKk6ZKQ1ZxFeZNcsB11f1/8X
-         GV3Q==
-X-Gm-Message-State: AOAM532x79xfDhfxq1HfWjZGMgZuVGSRTFt+IVIhsRjCGWASWYmXBl2N
-	e2F2zMoVdzJHMASpc59JSxk=
-X-Google-Smtp-Source: ABdhPJytFRrADQ4Il0+7UdW5CITzX7+le5CnVpbqQKsQYSgs7Hro1gib+feGHL8mDDOeMj3s9oHH+Q==
-X-Received: by 2002:adf:ab1d:: with SMTP id q29mr30052832wrc.208.1620652779345;
-        Mon, 10 May 2021 06:19:39 -0700 (PDT)
-Received: from agape ([5.171.73.3])
-        by smtp.gmail.com with ESMTPSA id h15sm1751427wmq.4.2021.05.10.06.19.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 06:19:39 -0700 (PDT)
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] staging: rtl8723bs: remove unneeded comments to silence 'line too long' warning
-Date: Mon, 10 May 2021 15:19:33 +0200
-Message-Id: <bb479715e3603ab78863576783dbbf49c5f6f703.1620652505.git.fabioaiuto83@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1620652505.git.fabioaiuto83@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD8471
+	for <linux-staging@lists.linux.dev>; Mon, 10 May 2021 13:38:57 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-27-bBycmq91M5C3TfJHA3srvw-1; Mon, 10 May 2021 14:38:53 +0100
+X-MC-Unique: bBycmq91M5C3TfJHA3srvw-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.2; Mon, 10 May 2021 14:38:50 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.015; Mon, 10 May 2021 14:38:49 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Fabio Aiuto' <fabioaiuto83@gmail.com>, "gregkh@linuxfoundation.org"
+	<gregkh@linuxfoundation.org>
+CC: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v2 1/2] staging: rtl8723bs: replace private CRC-32
+ routines with in-kernel ones
+Thread-Topic: [PATCH v2 1/2] staging: rtl8723bs: replace private CRC-32
+ routines with in-kernel ones
+Thread-Index: AQHXRaBE0Vec4dAP60OcHOZcBIBf86rcuAwA
+Date: Mon, 10 May 2021 13:38:49 +0000
+Message-ID: <29938747c82e4cf1837be5f1cdb803b7@AcuMS.aculab.com>
 References: <cover.1620652505.git.fabioaiuto83@gmail.com>
+ <cdd9bc521b7119a9c2787b46109eb76f94bd295a.1620652505.git.fabioaiuto83@gmail.com>
+In-Reply-To: <cdd9bc521b7119a9c2787b46109eb76f94bd295a.1620652505.git.fabioaiuto83@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-remove unneeded comments to fix the following post commit hook
-checkpatch warnings:
+> replace private CRC-32 routines with in-kernel ones.
 
-WARNING: line length of 110 exceeds 100 columns
-115: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:510:
-+					*((__le32 *)crc)
- = ~crc32_le(~0, payload, length);/* modified by Amy*/
+Have you verified that they compute the same CRC?
 
-WARNING: line length of 110 exceeds 100 columns
-124: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:518:
-+					*((__le32 *)crc)
- = ~crc32_le(~0, payload, length);/* modified by Amy*/
+There are all sorts of subtle reasons why the outputs can differ.
 
-Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_security.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+=09David
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index bee1b2e2504e..5ff8926c1865 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -507,7 +507,7 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 
- 				if ((curfragnum+1) == pattrib->nr_frags) {	/* 4 the last fragment */
- 					length = pattrib->last_txcmdsz-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
--					*((__le32 *)crc) = ~crc32_le(~0, payload, length);/* modified by Amy*/
-+					*((__le32 *)crc) = ~crc32_le(~0, payload, length);
- 
- 					arc4_setkey(&mycontext, rc4key, 16);
- 					arc4_crypt(&mycontext, payload, payload, length);
-@@ -515,7 +515,8 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 
- 				} else {
- 					length = pxmitpriv->frag_len-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
--					*((__le32 *)crc) = ~crc32_le(~0, payload, length);/* modified by Amy*/
-+					*((__le32 *)crc) = ~crc32_le(~0, payload, length);
-+
- 					arc4_setkey(&mycontext, rc4key, 16);
- 					arc4_crypt(&mycontext, payload, payload, length);
- 					arc4_crypt(&mycontext, payload + length, crc, 4);
--- 
-2.20.1
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
 
