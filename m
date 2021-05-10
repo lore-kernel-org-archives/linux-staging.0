@@ -1,101 +1,83 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4EEC71
-	for <linux-staging@lists.linux.dev>; Mon, 10 May 2021 12:46:25 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id n84so9143395wma.0
-        for <linux-staging@lists.linux.dev>; Mon, 10 May 2021 05:46:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=QKBDrlhjaJq2ItxNxA+omJE4a0bJoXUFeK6X38y0WSc=;
-        b=eK5qcp3lz2fS8EH+Ov3w9RL4H3UfJN5FTMh6RWXtuiq5GwLUtGMvRZIkYZ6uRzlLw6
-         VOnT6LuVN7S7palYc98AcrJX50fkUD92GDyOroGgSbejxm4UArgsTl9Ka2F8fRxSBNfc
-         jEp0kpMnn5JGZXOHa1BIA35ZxV3N65fauh6pz+XtPh5/NO8+Hr7tyLUI2+laRJirKqSU
-         IjzLnJMdxvAoPjLKsMN3dLHRPYT61qAYvGGRqvL/rbNsQy5DyXTnXDYlHpwFRnpOt/lY
-         syR6uaHjkmbY4u4ACEpXwIKBG8P29D264+aHZop2dNJL6W9PDgQcGESgIjn9pCxCVbZG
-         wSkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=QKBDrlhjaJq2ItxNxA+omJE4a0bJoXUFeK6X38y0WSc=;
-        b=SORgzSzutDlaiwGsb4JcWjy4+IpHRv5Ndm9VL4Wv3oy7HN5af6wylkd9XQcw0a2uIQ
-         AzPDY8htJ4BaCwhzqqkH4Bp0dRORroWZMx4Al++Bca3QxgWmA98SGqgR21CS73Ge8z32
-         C9rKXoESDosZGW27q9jrwjTIfWnVAXRPolKhofg1oMj4+n+573ABI/Z5RdEUoBwGmYrm
-         p/6bBYqJuB4eIF84kxNAWrzRqfYfa55GRzTDV76BNHcGwckipNwY0QkKyOwLFnJ7uV/G
-         uGQTGbdsxXotSHKv7ttRiKn3OZFtwxoEVsfyNu5p41ODvNztOasZmmYwA84uzxE10Vig
-         ujxQ==
-X-Gm-Message-State: AOAM531t6oPqE28kWG/LdqJXPMM3ZbubimYhU3dq2pNYcBPwmWRiKU8j
-	pGUZWT45ALrtr9BUWXz6FtE=
-X-Google-Smtp-Source: ABdhPJzd/Hak8k5vvoB6dcR9CDFTPe7gfW8AI0CLWEyoj/Utp74f71YRJ2rT3NAnpbf6vhD/pAzSdg==
-X-Received: by 2002:a7b:cf27:: with SMTP id m7mr36926162wmg.116.1620650784236;
-        Mon, 10 May 2021 05:46:24 -0700 (PDT)
-Received: from agape ([5.171.73.3])
-        by smtp.gmail.com with ESMTPSA id x4sm25632507wmj.17.2021.05.10.05.46.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 05:46:23 -0700 (PDT)
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] staging: rtl8723bs: move comments to silence 'line too long' warning
-Date: Mon, 10 May 2021 14:46:19 +0200
-Message-Id: <cdb37302e4d7618141997229c59467f9d196eccc.1620650484.git.fabioaiuto83@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1620650484.git.fabioaiuto83@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF6E71
+	for <linux-staging@lists.linux.dev>; Mon, 10 May 2021 13:00:38 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+	by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14ACsh09034235;
+	Mon, 10 May 2021 13:00:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=a9CihIi8AdI96/7vWdMS2rzd/zuQLU957/TQUQ4NOtY=;
+ b=cnhihZSIOe/YzvkZZ0qpRbDVVQChdj6d3Z6l12fF1A3QlRV0n0ve0cAbFDd7vdoxXSgW
+ GIORNtz5PhRqv2CKy8wh6mmCycVBJCJxQLS9BRTQWaHJ3Fda2RQr+iwPFpVMpglyGAQ4
+ wzB13a+bj+tYnqq0l0+7q1RV5K8dBhY2Cr0PhFlY0haxioBEnp3ip20wjI9ZN5pMxs+c
+ fRKB+ue0oVsS3dtFfNuASrSjR+e04FhirM7l41ckjRzjYYWP4nLKUk971VbHWHxzW6Nj
+ NlNI4PDwZKY9maWSGftnfYT+2VAH/1VlrAsrAITSAenlOdpvparjp0jmYybTh8Pl8Lbw yQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by userp2120.oracle.com with ESMTP id 38dk9nb33y-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 10 May 2021 13:00:30 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14ACxuUF001293;
+	Mon, 10 May 2021 13:00:29 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by userp3020.oracle.com with ESMTP id 38e4ds7bsv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 10 May 2021 13:00:29 +0000
+Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14AD0TwW005285;
+	Mon, 10 May 2021 13:00:29 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by userp3020.oracle.com with ESMTP id 38e4ds7bsm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 10 May 2021 13:00:28 +0000
+Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 14AD0Qxw020397;
+	Mon, 10 May 2021 13:00:26 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Mon, 10 May 2021 13:00:26 +0000
+Date: Mon, 10 May 2021 16:00:19 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] staging: rtl8723bs: move comments to silence 'line
+ too long' warning
+Message-ID: <20210510130019.GT1955@kadam>
 References: <cover.1620650484.git.fabioaiuto83@gmail.com>
+ <cdb37302e4d7618141997229c59467f9d196eccc.1620650484.git.fabioaiuto83@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cdb37302e4d7618141997229c59467f9d196eccc.1620650484.git.fabioaiuto83@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-ORIG-GUID: k2Vmmon6O__BCIj4Xs-Zi7PFm7pi_j4F
+X-Proofpoint-GUID: k2Vmmon6O__BCIj4Xs-Zi7PFm7pi_j4F
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9980 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0
+ adultscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 lowpriorityscore=0
+ malwarescore=0 priorityscore=1501 clxscore=1015 bulkscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2105100091
 
-move comments to fix the following post commit hook
-checkpatch warnings:
+On Mon, May 10, 2021 at 02:46:19PM +0200, Fabio Aiuto wrote:
+> move comments to fix the following post commit hook
+> checkpatch warnings:
+> 
+> WARNING: line length of 110 exceeds 100 columns
+> 115: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:510:
+> +					*((__le32 *)crc)
+>  = ~crc32_le(~0, payload, length);/* modified by Amy*/
 
-WARNING: line length of 110 exceeds 100 columns
-115: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:510:
-+					*((__le32 *)crc)
- = ~crc32_le(~0, payload, length);/* modified by Amy*/
+Please delete the Amy comments.  :P
 
-WARNING: line length of 110 exceeds 100 columns
-124: FILE: drivers/staging/rtl8723bs/core/rtw_security.c:518:
-+					*((__le32 *)crc)
- = ~crc32_le(~0, payload, length);/* modified by Amy*/
-
-Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_security.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index bee1b2e2504e..4d0a86b69f41 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -507,7 +507,8 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 
- 				if ((curfragnum+1) == pattrib->nr_frags) {	/* 4 the last fragment */
- 					length = pattrib->last_txcmdsz-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
--					*((__le32 *)crc) = ~crc32_le(~0, payload, length);/* modified by Amy*/
-+					/* modified by Amy*/
-+					*((__le32 *)crc) = ~crc32_le(~0, payload, length);
- 
- 					arc4_setkey(&mycontext, rc4key, 16);
- 					arc4_crypt(&mycontext, payload, payload, length);
-@@ -515,7 +516,9 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 
- 				} else {
- 					length = pxmitpriv->frag_len-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
--					*((__le32 *)crc) = ~crc32_le(~0, payload, length);/* modified by Amy*/
-+					/* modified by Amy*/
-+					*((__le32 *)crc) = ~crc32_le(~0, payload, length);
-+
- 					arc4_setkey(&mycontext, rc4key, 16);
- 					arc4_crypt(&mycontext, payload, payload, length);
- 					arc4_crypt(&mycontext, payload + length, crc, 4);
--- 
-2.20.1
+regards,
+dan carpenter
 
