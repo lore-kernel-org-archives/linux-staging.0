@@ -1,182 +1,124 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041CD71
-	for <linux-staging@lists.linux.dev>; Tue, 11 May 2021 09:49:31 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id s20so23317932ejr.9
-        for <linux-staging@lists.linux.dev>; Tue, 11 May 2021 02:49:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10DA471
+	for <linux-staging@lists.linux.dev>; Tue, 11 May 2021 14:35:57 +0000 (UTC)
+Received: by mail-oi1-f177.google.com with SMTP id n184so19171652oia.12
+        for <linux-staging@lists.linux.dev>; Tue, 11 May 2021 07:35:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=YSPQb+nNhnbHjEsR3HVzuPYSWfg6mm9JCNCoWb+AMRM=;
-        b=X3g8K0/hKUdTNwUFXwDV4w0mAPHm0EmWP/RkTq825cV95ZXefEGwlmVoQdbTlYXfl8
-         C52wdhVHyB7ttOyRrjJpfYTHM2Gi0n+LmT+szHzDWuXeVKOazdD+1Bp7v2JDMwuVoXGw
-         ckDichZPITLgyE3V0dLTOhk+uofk8f7iXi5cHGo+Ns8SfvCiasBsNZ2K6FfCf8jiS4Dn
-         VjaSmbAcnVnfgV2u1Alkqfm142x/+gPRSYJQ5CM0eSWdIB9nKBhaH9bEzyzHM751AJYV
-         9+wUX9j7NQcRGiaVJvViTz0b3pSpCyXStYgonEPPqxnpSgDI8dxWkD+pVLHH6XPGuN3X
-         G8OA==
+        d=ieee.org; s=google;
+        h=subject:to:references:from:cc:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ETXAFKWQdH8/eG9YgJ2MyXQqUI4w0G+a8+7kidOetNw=;
+        b=D+8UcMkB2GUwjj2F27jdDoxAVAL9rdC9MdMoJFlDBNeHzfe67XWP/sw3xSweHhjvu0
+         L7zFyh43n9/fy4cUZSlUsyNvNqDkT2TqDuEFXFN77WQ7UwdcaxgaJydbt2h0Tqt9neqT
+         2ljICDLxSDdscBg19eDiJRfFGl65YBejwUIvU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=YSPQb+nNhnbHjEsR3HVzuPYSWfg6mm9JCNCoWb+AMRM=;
-        b=Ps2a6lunvtd5ZCfmXGouhC2035lEVDKHQt7WWznudmikTyW/96JuN5ie/JeaROdDly
-         lor0K9e9nc6+f6dUK6Khpax+kNPwEQ2iCNWqyZif51ULiahDYLPzYsAH9QGbDFeF7SJe
-         +RiY5X0u3xy0yAgCpWbfOqksoSpwn1RV/WKoN6nIsk80Roy3826W/XgVPxykiCNYa2il
-         Cp4iJw7n3xw4kIABrMa68roPZAhZXNh5a6H73aRHG5W10i/JHY3DOMz9gzCUAjUYepoC
-         DZaShYwxfSKidbndHrl8p01DiyHEI7W4bcgWzSltUxuusIzd5BEf3k135UO/fSYdFchX
-         hKDA==
-X-Gm-Message-State: AOAM53209/GDVNEB1KFhsQQs9/pcsAprhsayEk2b4TgeFP1SAAklLhoT
-	vM6Zv8Ogs6oqBEYZNh5hdZY=
-X-Google-Smtp-Source: ABdhPJxZa829+QL5jbwdtz3dPtohmnrtZI1I5h18ymDFnMn/Tnyq3hrwl5A8Ru1/XvIEBxZPjKD69w==
-X-Received: by 2002:a17:906:980a:: with SMTP id lm10mr1264055ejb.482.1620726570534;
-        Tue, 11 May 2021 02:49:30 -0700 (PDT)
-Received: from agape.jhs ([5.171.80.244])
-        by smtp.gmail.com with ESMTPSA id p5sm4431070ejm.115.2021.05.11.02.49.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 May 2021 02:49:30 -0700 (PDT)
-Date: Tue, 11 May 2021 11:49:27 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: David Laight <David.Laight@ACULAB.COM>
-Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/2] staging: rtl8723bs: replace private CRC-32
- routines with in-kernel ones
-Message-ID: <20210511094927.GA1410@agape.jhs>
-References: <cover.1620652505.git.fabioaiuto83@gmail.com>
- <cdd9bc521b7119a9c2787b46109eb76f94bd295a.1620652505.git.fabioaiuto83@gmail.com>
- <29938747c82e4cf1837be5f1cdb803b7@AcuMS.aculab.com>
+        h=x-gm-message-state:subject:to:references:from:cc:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ETXAFKWQdH8/eG9YgJ2MyXQqUI4w0G+a8+7kidOetNw=;
+        b=ZyJDvbEacOFIfPNGlmJxwotoZlOl3DvHOXvgsUCAK4urvGjqhhbrbf8VSEs+/SfMoe
+         D+w1Y/RZqOPMs/apn6KvYh2C3ETFaydBWibAHuJywIFZAWgEzkm1wSA4A8iP6lIcQ0kA
+         mOQb414HDOYEUSU4293WQEGiCM4CZRZVL/Nc9mGy7EZzebZEoMMQ7dLws0hQTf0fujgz
+         cNpit/o6u9lNELFCvT+A3LtOvU7nsf+0sQ5qXXTdLYlXANapRMDtZBz/KSovlpgFLkHV
+         uTrxeQV982Q8wXPhOzMUpWCd6cAX/3gkiymSplIFTtRybyPN49azHNz3/Lja5wr/CX5H
+         xJmQ==
+X-Gm-Message-State: AOAM533BHfJJI4LfjWm6gIWudN51OkkvlYHgI1wwx38SLYP4+e6guy7p
+	JCQ3fSn1neIdqQ6iI7MsH+tJvQ==
+X-Google-Smtp-Source: ABdhPJyvp7T0CdewBKkqMXtDA5ThSmqkKCGgPnZJ05uagz+Vq5z9FBuvh4nrA0ZkdxuooO6UIklVPg==
+X-Received: by 2002:aca:53d8:: with SMTP id h207mr3883260oib.177.1620743757147;
+        Tue, 11 May 2021 07:35:57 -0700 (PDT)
+Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
+        by smtp.googlemail.com with ESMTPSA id 2sm3341540ota.67.2021.05.11.07.35.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 May 2021 07:35:56 -0700 (PDT)
+Subject: Re: [PATCH v3 1/1] kernel.h: Split out panic and oops helpers
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <20210511074137.33666-1-andriy.shevchenko@linux.intel.com>
+From: Alex Elder <elder@ieee.org>
+Cc: linux-xtensa@linux-xtensa.org, openipmi-developer@lists.sourceforge.net,
+ linux-clk@vger.kernel.org, linux-edac@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-hyperv@vger.kernel.org,
+ coresight@lists.linaro.org, linux-leds@vger.kernel.org,
+ bcm-kernel-feedback-list@broadcom.com, netdev@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-arch@vger.kernel.org,
+ kexec@lists.infradead.org, rcu@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, xen-devel@lists.xenproject.org
+Message-ID: <c6fa5d2c-84e2-2046-19f0-66cf5dd72077@ieee.org>
+Date: Tue, 11 May 2021 09:35:54 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <29938747c82e4cf1837be5f1cdb803b7@AcuMS.aculab.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210511074137.33666-1-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Hello David,
-
-On Mon, May 10, 2021 at 01:38:49PM +0000, David Laight wrote:
-> > replace private CRC-32 routines with in-kernel ones.
+On 5/11/21 2:41 AM, Andy Shevchenko wrote:
+> kernel.h is being used as a dump for all kinds of stuff for a long time.
+> Here is the attempt to start cleaning it up by splitting out panic and
+> oops helpers.
 > 
-> Have you verified that they compute the same CRC?
+> There are several purposes of doing this:
+> - dropping dependency in bug.h
+> - dropping a loop by moving out panic_notifier.h
+> - unload kernel.h from something which has its own domain
 > 
-> There are all sorts of subtle reasons why the outputs can differ.
+> At the same time convert users tree-wide to use new headers, although
+> for the time being include new header back to kernel.h to avoid twisted
+> indirected includes for existing users.
 > 
-> 	David
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Acked-by: Mike Rapoport <rppt@linux.ibm.com>
+> Acked-by: Corey Minyard <cminyard@mvista.com>
+> Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
+> Acked-by: Arnd Bergmann <arnd@arndb.de>
+> Acked-by: Kees Cook <keescook@chromium.org>
+> Acked-by: Wei Liu <wei.liu@kernel.org>
+> Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> Co-developed-by: Andrew Morton <akpm@linux-foundation.org>
+> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+> Acked-by: Sebastian Reichel <sre@kernel.org>
+> Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+> Acked-by: Stephen Boyd <sboyd@kernel.org>
+> Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+> Acked-by: Helge Deller <deller@gmx.de> # parisc
+> ---
+> v3: rebased on top of v5.13-rc1, collected a few more tags
 > 
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
+> Note WRT Andrew's SoB tag above: I have added it since part of the cases
+> I took from him. Andrew, feel free to amend or tell me how you want me
+> to do.
 > 
 
-I tried this:
+Acked-by: Alex Elder <elder@kernel.org>
 
-#include <linux/module.h>
-#include <linux/crc32poly.h>
-#include <linux/crc32.h>
+. . .
 
-/* Copy pasted from rtl8723bs/core/rtw_security.c */
-static signed int bcrc32initialized;
-static u32 crc32_table[256];
+> diff --git a/drivers/net/ipa/ipa_smp2p.c b/drivers/net/ipa/ipa_smp2p.c
+> index a5f7a79a1923..34b68dc43886 100644
+> --- a/drivers/net/ipa/ipa_smp2p.c
+> +++ b/drivers/net/ipa/ipa_smp2p.c
+> @@ -8,6 +8,7 @@
+>   #include <linux/device.h>
+>   #include <linux/interrupt.h>
+>   #include <linux/notifier.h>
+> +#include <linux/panic_notifier.h>
+>   #include <linux/soc/qcom/smem.h>
+>   #include <linux/soc/qcom/smem_state.h>
+>   
 
-MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("CRC-32 verifier");
-MODULE_AUTHOR("Fabio Aiuto");
-
-/* Copy pasted from rtl8723bs/core/rtw_security.c */
-static u8 crc32_reverseBit(u8 data)
-{
-        return ((u8)((data<<7)&0x80) | 
-                ((data<<5)&0x40) | 
-                ((data<<3)&0x20) | 
-                ((data<<1)&0x10) | 
-                ((data>>1)&0x08) | 
-                ((data>>3)&0x04) | 
-                ((data>>5)&0x02) | 
-                ((data>>7)&0x01));
-}
-
-
-/* Copy pasted from rtl8723bs/core/rtw_security.c */
-static void crc32_init(void)
-{
-        if (bcrc32initialized == 1)
-                return;
-        else {
-                signed int i, j;
-                u32 c;
-                u8 *p = (u8 *)&c, *p1;
-                u8 k;
-
-                c = 0x12340000;
-
-                for (i = 0; i < 256; ++i) {
-                        k = crc32_reverseBit((u8)i);
-                        for (c = ((u32)k) << 24, j = 8; j > 0; --j)
-                                c = c & 0x80000000 ? (c << 1) ^ CRC32_POLY_BE : (c << 1);
-                        p1 = (u8 *)&crc32_table[i];
-
-                        p1[0] = crc32_reverseBit(p[3]);
-                        p1[1] = crc32_reverseBit(p[2]);
-                        p1[2] = crc32_reverseBit(p[1]);
-                        p1[3] = crc32_reverseBit(p[0]);
-                }
-                bcrc32initialized = 1;
-        }
-}
-
-/* Copy pasted from rtl8723bs/core/rtw_security.c */
-static __le32 getcrc32(u8 *buf, signed int len)
-{
-        u8 *p;
-        u32  crc;
-
-        if (bcrc32initialized == 0)
-                crc32_init();
-
-        crc = 0xffffffff;       /* preload shift register, per CRC-32 spec */
-
-        for (p = buf; len > 0; ++p, --len)
-                crc = crc32_table[(crc ^ *p) & 0xff] ^ (crc >> 8);
-        return cpu_to_le32(~crc);    /* transmit complement, per CRC-32 spec */
-}
-
-static int __init crc32_entry(void)
-{
-        u8 payload;
-        unsigned char crc_priv[4], crc_pub[4];
-
-        payload = (u8)1234;
-        /* private crc calculation used in rtl8723bs */
-        *((__le32 *)crc_priv) = getcrc32(&payload, 2);
-        pr_info("private rtl8723bs crc: %x", *crc_priv);
-        /* in-kernel public crc calculation */
-        *((__le32 *)crc_pub) = ~crc32_le(~0, &payload, 2);
-        pr_info("generic crc: %x", *crc_pub);
-
-        return 0;
-
-}
-
-static void __exit crc32_exit(void)
-{
-}
-
-module_init(crc32_entry);
-module_exit(crc32_exit);
-
-And run it on qemu. Don't know why to display the second pr_info()
-I have to rmmod it, but both methods give the same result (62)
-
-[   38.149979] crc32m: module is from the staging directory, the quality is unknown, you have been warned.
-[   38.169208] private rtl8723bs crc: 62
-[   38.169400] generic crc: 62
-
-thank you,
-
-fabio
+. . .
