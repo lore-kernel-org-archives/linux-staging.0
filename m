@@ -1,124 +1,72 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10DA471
-	for <linux-staging@lists.linux.dev>; Tue, 11 May 2021 14:35:57 +0000 (UTC)
-Received: by mail-oi1-f177.google.com with SMTP id n184so19171652oia.12
-        for <linux-staging@lists.linux.dev>; Tue, 11 May 2021 07:35:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D8971
+	for <linux-staging@lists.linux.dev>; Tue, 11 May 2021 20:53:46 +0000 (UTC)
+Received: by mail-qk1-f174.google.com with SMTP id v8so2261406qkv.1
+        for <linux-staging@lists.linux.dev>; Tue, 11 May 2021 13:53:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google;
-        h=subject:to:references:from:cc:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ETXAFKWQdH8/eG9YgJ2MyXQqUI4w0G+a8+7kidOetNw=;
-        b=D+8UcMkB2GUwjj2F27jdDoxAVAL9rdC9MdMoJFlDBNeHzfe67XWP/sw3xSweHhjvu0
-         L7zFyh43n9/fy4cUZSlUsyNvNqDkT2TqDuEFXFN77WQ7UwdcaxgaJydbt2h0Tqt9neqT
-         2ljICDLxSDdscBg19eDiJRfFGl65YBejwUIvU=
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=r8GpdZWOTFpi9O+rI32Nwxa8bsE6E39ijBiAWv0y/n0=;
+        b=eHLBb8VtEYa9FAPtg1iUGl/yOgPHSTXs50Dipi0itrbcf7EgwYaB5a56rZgCuT1QCo
+         cQXwI7USV/IaMSHamV8oJwr+fy/KwCxq7m7wrVR4Gg+QHpkMFMCI7/VoAzYWDZOEaxCf
+         216zz+p8ncAryTRcvRWFtbvMdr33LVjhZdmMzQsAhGVh1P2TsHDSumnXRk/cxSzfgUFS
+         Cfwf07Rx5eksiwqaDl1b6HAsaw1sT9nbWuGv9lGCL+1I23c/MF60ABjpc+HJxi4RODi/
+         JDHPQSkh2UvJSWoc9kX7Q4VTAFPjBRa90vxVsFb96Wt7BZpcLyFv7KvpMFdBca+44w9R
+         Y10w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:cc:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ETXAFKWQdH8/eG9YgJ2MyXQqUI4w0G+a8+7kidOetNw=;
-        b=ZyJDvbEacOFIfPNGlmJxwotoZlOl3DvHOXvgsUCAK4urvGjqhhbrbf8VSEs+/SfMoe
-         D+w1Y/RZqOPMs/apn6KvYh2C3ETFaydBWibAHuJywIFZAWgEzkm1wSA4A8iP6lIcQ0kA
-         mOQb414HDOYEUSU4293WQEGiCM4CZRZVL/Nc9mGy7EZzebZEoMMQ7dLws0hQTf0fujgz
-         cNpit/o6u9lNELFCvT+A3LtOvU7nsf+0sQ5qXXTdLYlXANapRMDtZBz/KSovlpgFLkHV
-         uTrxeQV982Q8wXPhOzMUpWCd6cAX/3gkiymSplIFTtRybyPN49azHNz3/Lja5wr/CX5H
-         xJmQ==
-X-Gm-Message-State: AOAM533BHfJJI4LfjWm6gIWudN51OkkvlYHgI1wwx38SLYP4+e6guy7p
-	JCQ3fSn1neIdqQ6iI7MsH+tJvQ==
-X-Google-Smtp-Source: ABdhPJyvp7T0CdewBKkqMXtDA5ThSmqkKCGgPnZJ05uagz+Vq5z9FBuvh4nrA0ZkdxuooO6UIklVPg==
-X-Received: by 2002:aca:53d8:: with SMTP id h207mr3883260oib.177.1620743757147;
-        Tue, 11 May 2021 07:35:57 -0700 (PDT)
-Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
-        by smtp.googlemail.com with ESMTPSA id 2sm3341540ota.67.2021.05.11.07.35.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 May 2021 07:35:56 -0700 (PDT)
-Subject: Re: [PATCH v3 1/1] kernel.h: Split out panic and oops helpers
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <20210511074137.33666-1-andriy.shevchenko@linux.intel.com>
-From: Alex Elder <elder@ieee.org>
-Cc: linux-xtensa@linux-xtensa.org, openipmi-developer@lists.sourceforge.net,
- linux-clk@vger.kernel.org, linux-edac@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-um@lists.infradead.org, linux-hyperv@vger.kernel.org,
- coresight@lists.linaro.org, linux-leds@vger.kernel.org,
- bcm-kernel-feedback-list@broadcom.com, netdev@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-arch@vger.kernel.org,
- kexec@lists.infradead.org, rcu@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, xen-devel@lists.xenproject.org
-Message-ID: <c6fa5d2c-84e2-2046-19f0-66cf5dd72077@ieee.org>
-Date: Tue, 11 May 2021 09:35:54 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=r8GpdZWOTFpi9O+rI32Nwxa8bsE6E39ijBiAWv0y/n0=;
+        b=E2IQO6fLkxF3Mfzpr2UzRlM3acaoF8DhaCXPLHbJVX4+78mB71mC+yw/n6A0btiweL
+         /6zDVZwWMju15f8V3bKq8uOSI76xxZg50pZ2hMqYWLkGV6dy/KkkJSTU3jzZeW2qUXja
+         7S32zNsFvLjfS1PP7yogWQ/esyoDJCp7NxIToWnsYdOLhzvaWAgGk7J2Mp+WKjNgTcx/
+         ZWZQkiygfWdByRI0zcm2GOL253QMPhcGAujimBkYjvI7/6vjXwZ62RpOo/K16054tYSM
+         oPL6mgrYB378BqEYwOdlHKf8BIf/XRcx7X0yASBZCzWWy5vZtGVEvJTxAOB0G2OYk3A6
+         cjfQ==
+X-Gm-Message-State: AOAM5300oV2LjRp7bo3qM/dGexN4ffwhPIt2gW/F3AoNG/0GUX5QLNrt
+	l1Y0zO5/OS3ACUyFyWniWlM=
+X-Google-Smtp-Source: ABdhPJyaHVyOgPTYNozxyXu0MHMgueYWTMAaKhF7eXCeAFh2xiWQ6PAZKqh90LDMOYdRWgBuK+Z6DQ==
+X-Received: by 2002:a37:648e:: with SMTP id y136mr30027346qkb.391.1620766425619;
+        Tue, 11 May 2021 13:53:45 -0700 (PDT)
+Received: from smtp.gmail.com ([2804:14c:73:9a01::1002])
+        by smtp.gmail.com with ESMTPSA id j6sm15303621qti.4.2021.05.11.13.53.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 May 2021 13:53:45 -0700 (PDT)
+Date: Tue, 11 May 2021 17:53:41 -0300
+From: Lucas Stankus <lucas.p.stankus@gmail.com>
+To: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] staging: iio: cdc: ad7746: initial effort to move out of
+ staging
+Message-ID: <cover.1620766020.git.lucas.p.stankus@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210511074137.33666-1-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 5/11/21 2:41 AM, Andy Shevchenko wrote:
-> kernel.h is being used as a dump for all kinds of stuff for a long time.
-> Here is the attempt to start cleaning it up by splitting out panic and
-> oops helpers.
-> 
-> There are several purposes of doing this:
-> - dropping dependency in bug.h
-> - dropping a loop by moving out panic_notifier.h
-> - unload kernel.h from something which has its own domain
-> 
-> At the same time convert users tree-wide to use new headers, although
-> for the time being include new header back to kernel.h to avoid twisted
-> indirected includes for existing users.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Acked-by: Mike Rapoport <rppt@linux.ibm.com>
-> Acked-by: Corey Minyard <cminyard@mvista.com>
-> Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
-> Acked-by: Kees Cook <keescook@chromium.org>
-> Acked-by: Wei Liu <wei.liu@kernel.org>
-> Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> Co-developed-by: Andrew Morton <akpm@linux-foundation.org>
-> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-> Acked-by: Sebastian Reichel <sre@kernel.org>
-> Acked-by: Luis Chamberlain <mcgrof@kernel.org>
-> Acked-by: Stephen Boyd <sboyd@kernel.org>
-> Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-> Acked-by: Helge Deller <deller@gmx.de> # parisc
-> ---
-> v3: rebased on top of v5.13-rc1, collected a few more tags
-> 
-> Note WRT Andrew's SoB tag above: I have added it since part of the cases
-> I took from him. Andrew, feel free to amend or tell me how you want me
-> to do.
-> 
+Cleans up the driver by removing vague comments, fixing code alignment and
+refactoring the probe function return. This patch set also contains a small
+bug fix when setting the amount of iio channels in AD7745 devices.
 
-Acked-by: Alex Elder <elder@kernel.org>
+These small patches are a starting point for improving the ad7746 driver,
+hopefully to a point where it's possible to get it out of staging. I'm
+looking up to feedback on what could be improved to accomplish that.
 
-. . .
+Lucas Stankus (2):
+  staging: iio: cdc: clean up driver comments and probe return
+  staging: iio: cdc: avoid overwrite of num_channels
 
-> diff --git a/drivers/net/ipa/ipa_smp2p.c b/drivers/net/ipa/ipa_smp2p.c
-> index a5f7a79a1923..34b68dc43886 100644
-> --- a/drivers/net/ipa/ipa_smp2p.c
-> +++ b/drivers/net/ipa/ipa_smp2p.c
-> @@ -8,6 +8,7 @@
->   #include <linux/device.h>
->   #include <linux/interrupt.h>
->   #include <linux/notifier.h>
-> +#include <linux/panic_notifier.h>
->   #include <linux/soc/qcom/smem.h>
->   #include <linux/soc/qcom/smem_state.h>
->   
+ drivers/staging/iio/cdc/ad7746.c | 32 ++++++++++----------------------
+ 1 file changed, 10 insertions(+), 22 deletions(-)
 
-. . .
+-- 
+2.31.1
+
