@@ -1,87 +1,100 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8881271
-	for <linux-staging@lists.linux.dev>; Wed, 12 May 2021 04:11:37 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id f75-20020a9d03d10000b0290280def9ab76so19440086otf.12
-        for <linux-staging@lists.linux.dev>; Tue, 11 May 2021 21:11:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A9CE70
+	for <linux-staging@lists.linux.dev>; Wed, 12 May 2021 07:38:57 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id c22so5415809ejd.12
+        for <linux-staging@lists.linux.dev>; Wed, 12 May 2021 00:38:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+ZVDcTMbC1aiWsLtnnQkNmtuDQK56GjzbJG6dgvkY6Y=;
-        b=gyDmRiMY3fF4stRtW2YLntDpQV69V4WHa/ApTt2f3of6WZxE/xk7681QmOwd7ee4ju
-         bvGa5p5z156sgYA9G+G8mCdYErWiyFDewuE/q/Sso4VhnxdlbHa7kUFurfHh15KjAR0J
-         dgZS99WzOMtLifcNjRulLMDyzUPAhgUHviuDlDXpPAjhbWf7zbKrnNk2NLjyHWk5mdJc
-         WsfSuz+PHVFO8g/eJ1wMdybzclDOl8TWUgsbGZ6uAMdaISZKG/6LtdY9UI8cRz5IHjC1
-         UFkvSEJbu2vBz0i+ANEpF3bZ9SeYNGvW2jJvTLeAYD5wdNicaIQdfPCujNNw6Cl8Hp1h
-         ZeEg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=N9lhNSkhlyUhXIO2O+gz6kztxq/n6XYJjAIx1T19amQ=;
+        b=NCVUjbwJyi4J8KMUagQgUhYcUdm/bOEs57Z4W8zkTyVfrMs81FmSAoTxTqCedjKOse
+         cglM0y0DP2muX3kEQzaZAYs98P5m7EslPZPYgFbnnfLnpKx8AYSvEXu9yxj0U3yA1wqI
+         biPBYqP2gD6g6OhfMiwpPQWBbe69T8GawEJU++3Mpu0YlYPsVP/7tkhb88HAPlFyvwwy
+         N2QhQx1BNP/e7IGjUpT3ZGcdnq2ecU1ipnHepX1BwabKagSSYabYNq0uLJAnbOfWv4Et
+         JdwFr1G0/GH73uZQ0GosBDDO9SuJpSaCgnicVXgyrROX9DFKkrb0WMzXazK3Z8v4lNva
+         jP/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+ZVDcTMbC1aiWsLtnnQkNmtuDQK56GjzbJG6dgvkY6Y=;
-        b=OC2A4TqQRVHYiQaXSKxaW4cmX5TDf3ZtvlP3RRQGO9+v5RhijEYbVnGUkMusowmKob
-         PwhgsZRIPP777ahDy8BmvgjLaWlfBtBtlngWrNbXlKIeqjxOaWLADSnCVkqGEvIUT6OU
-         oBSL9Lwq7AJ01CRTGs+j091qzDrcGklZZPofNTHd3FbTDHO0IPACv9BSD7/aORkXy9wF
-         2HoSxvZj3Btk+zaImkFHjqkZ+DZRgblagiVmztyeC2d+9dsIfE3hW30PE+R/MAbm6REP
-         OWs6qSRVyoecxZRkxys1/R5ZYvbfYIgvsws3MC2OMRlYobJFcPSWG4WA/gXQogSE55tg
-         eB5g==
-X-Gm-Message-State: AOAM531+Co8VTc7nG6Ees2AdU4KRbpbITvDgx3hJ2jIZu2ABc56/faX4
-	MOsHALef3P5EHhSwSVwt5FkonsSexkr6mRYMkqY=
-X-Google-Smtp-Source: ABdhPJxukURS5VskjkpMQX+3qeDMmAefANqTt+R52x8btgKpfpTR0p8ud7jPVz6NkRG2Zkn8noPlDXCz3HQy4F75ZKM=
-X-Received: by 2002:a9d:2ae8:: with SMTP id e95mr29656787otb.72.1620792696803;
- Tue, 11 May 2021 21:11:36 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=N9lhNSkhlyUhXIO2O+gz6kztxq/n6XYJjAIx1T19amQ=;
+        b=tzjNQwVLVmmCOPrG4W2RW9oSgVMnGmzJ3uuROaGq7JnpXXQtfFEI42wxLrs5aNUCfO
+         FsK0i7buRfwZD7zcKA41Ni8UQcblCHyS4lDupmZnClJqbXIvC7ZVvceFIbAoL5jEYQPq
+         CA45nQhiP2A/leciLvmrSvaSTVpCl7WhwkqtdXXCQZvps3kNrK20jMvJgsE7RYtIf71o
+         8iwOOJfynzRUVSht7iRdJK2sR9pmsTWlYbeiuJibT0uR4cVeEqVujjWb060IV92WPPL4
+         K84tziw2G589m1qakuS+KlNVk5dWF8IcTMv2On73Aj85fQBRTkFvkyNTMCn2Mcsil7bT
+         QJcQ==
+X-Gm-Message-State: AOAM530TDfdPCQQHhc8GKc/x47aVMtpu4jt7ZDKmXaZp8cQd22klTte4
+	EpqTsa99csP2f+fGoCvNJ5c=
+X-Google-Smtp-Source: ABdhPJwjfxUxccgq1TPii8sjiTaDSYEYfOYqvpyT74mqGOvwHpwD90ju0JkbubJNS1684x8GT9gsaw==
+X-Received: by 2002:a17:906:268c:: with SMTP id t12mr5761291ejc.441.1620805136528;
+        Wed, 12 May 2021 00:38:56 -0700 (PDT)
+Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
+        by smtp.gmail.com with ESMTPSA id g16sm5691854ejw.42.2021.05.12.00.38.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 May 2021 00:38:55 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: outreachy-kernel@googlegroups.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+	linux-kernel@vger.kernel.org (open list)
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [Outreachy kernel] [PATCH] staging: rtl8723bs: hal: Remove set but unused variable
+Date: Wed, 12 May 2021 09:38:52 +0200
+Message-Id: <20210512073852.14085-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAMhs-H-1f72=7C3j1jCmdLU8+5LurPO6nRVcvPJO_rxPitQBnA@mail.gmail.com>
- <20210511204758.GD18185@alpha.franken.de>
-In-Reply-To: <20210511204758.GD18185@alpha.franken.de>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Wed, 12 May 2021 06:11:25 +0200
-Message-ID: <CAMhs-H_4YPevS5KuuTrhXAzMVfPrTiosg88Ch8s=iXYrkJ2biw@mail.gmail.com>
-Subject: Re: Some doubts about mt7621-pci mainline place
-To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc: "open list:MIPS" <linux-mips@vger.kernel.org>, Greg KH <gregkh@linuxfoundation.org>, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Thomas,
+Removed "delta_IQK" and its occurrences in comments
+and code because the variable is set but not used.
+Issue detected by GCC.
 
-On Tue, May 11, 2021 at 10:48 PM Thomas Bogendoerfer
-<tsbogend@alpha.franken.de> wrote:
->
-> On Mon, May 10, 2021 at 08:43:51AM +0200, Sergio Paracuellos wrote:
-> > in staging and is properly using the pci generic APIs instead of the
-> > PCI_LEGACY which seems that all other drivers in 'arch/mips/pci' are
-> > using. The driver is generic enough but it needs mips iocu region
-> > configuration that is done in the driver itself. So here it is where
-> > my questions come. Is 'arch/mips/pci' the place to move this driver?
->
-> moving to arch/mips/pci would work for me. Could you look at converting
-> the driver to PCI_DRIVERS_GENERIC instead of LEGACY ? I want to
-> get rid of PCI_LEGACY...
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/HalPhyRf.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-Driver is already using PCI_DRIVERS_GENERIC, so as soon as I get
-bindings validated I will send patches to move into 'arch/mips/pci'.
+diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf.c b/drivers/staging/rtl8723bs/hal/HalPhyRf.c
+index b8e385fdda89..365e1195b5e5 100644
+--- a/drivers/staging/rtl8723bs/hal/HalPhyRf.c
++++ b/drivers/staging/rtl8723bs/hal/HalPhyRf.c
+@@ -76,7 +76,7 @@ void ODM_TXPowerTrackingCallback_ThermalMeter(struct adapter *Adapter)
+ 	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
+ 	struct dm_odm_t *pDM_Odm = &pHalData->odmpriv;
+ 
+-	u8 ThermalValue = 0, delta, delta_LCK, delta_IQK, p = 0, i = 0;
++	u8 ThermalValue = 0, delta, delta_LCK, p = 0, i = 0;
+ 	u8 ThermalValue_AVG_count = 0;
+ 	u32 ThermalValue_AVG = 0;
+ 
+@@ -137,7 +137,7 @@ void ODM_TXPowerTrackingCallback_ThermalMeter(struct adapter *Adapter)
+ 		ThermalValue = (u8)(ThermalValue_AVG / ThermalValue_AVG_count);
+ 	}
+ 
+-	/* 4 5. Calculate delta, delta_LCK, delta_IQK. */
++	/* 4 5. Calculate delta, delta_LCK */
+ 	/* delta" here is used to determine whether thermal value changes or not. */
+ 	delta =
+ 		(ThermalValue > pDM_Odm->RFCalibrateInfo.ThermalValue) ?
+@@ -147,10 +147,6 @@ void ODM_TXPowerTrackingCallback_ThermalMeter(struct adapter *Adapter)
+ 		(ThermalValue > pDM_Odm->RFCalibrateInfo.ThermalValue_LCK) ?
+ 		(ThermalValue - pDM_Odm->RFCalibrateInfo.ThermalValue_LCK) :
+ 		(pDM_Odm->RFCalibrateInfo.ThermalValue_LCK - ThermalValue);
+-	delta_IQK =
+-		(ThermalValue > pDM_Odm->RFCalibrateInfo.ThermalValue_IQK) ?
+-		(ThermalValue - pDM_Odm->RFCalibrateInfo.ThermalValue_IQK) :
+-		(pDM_Odm->RFCalibrateInfo.ThermalValue_IQK - ThermalValue);
+ 
+ 	/* 4 6. If necessary, do LCK. */
+ 	/*  Delta temperature is equal to or larger than 20 centigrade. */
+-- 
+2.31.1
 
->
-> > Is the driver the correct place to configure the iocu related with
-> > pci?
->
-> I see no problem with this at the moment.
-
-Ok, good to know :).
-
->
-> Thomas.
->
-
-Thanks,
-    Sergio Paracuellos
-> --
-> Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-> good idea.                                                [ RFC1925, 2.3 ]
