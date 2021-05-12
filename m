@@ -1,107 +1,93 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31DBC71
-	for <linux-staging@lists.linux.dev>; Wed, 12 May 2021 15:32:14 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id r11so3545567edt.13
-        for <linux-staging@lists.linux.dev>; Wed, 12 May 2021 08:32:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8408472
+	for <linux-staging@lists.linux.dev>; Wed, 12 May 2021 17:20:14 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id q2so18972252pfh.13
+        for <linux-staging@lists.linux.dev>; Wed, 12 May 2021 10:20:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=q9xyIoE6CrjZqQcs86QMTM/B4ykQ6IuUZXiQ0CWZo0U=;
-        b=pQlMk9VnhDTBGRLs8hPH0QQpSihJHLzY2vQCZyNMjS5cpYFqwn1j+EnmAjBAcF59i5
-         FGyMzxEou7ykJLKPytdLn1UiRt3CFxQa3yVd9h468K5RJVcnUHDnwMHDYuyuaNzQGQgW
-         RkDgp0K9iG5ty9tPbEuolzRPvZOOQ9sDZeguUFKDndQF75kmb5m6iiknGdWpN4HUR4P5
-         tlxcu8FxavibfMAhQkTuL9vplOZsC24UYSY1PFx48HZr8xJ8ogTrPj+V1mr8G4yTd2Gm
-         EDDxjAIl3PilQlVp0Z2yotpR1xq0VyWdbswTEHOKDTqygB5VFDQw2Do0tJua0rD1hLd3
-         Gphw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/mRM7q1w9KEfWo7XLMCrlXg4WbYJ598DsMPCReIKFcI=;
+        b=NNxJOC23SFvUX3yQW92nyLFzLFHNPZr8wDnfRRzMSlqB2XWlW6gkv9Pgwv1joc/odL
+         kZUSxA62ue/klNVU1liSmFbMBwJyzDwt86W1jUoMTLxjwfQxWO8hCSlzWrYERHAfmD0S
+         HgUnaOJWhGXY+4JXADcXpKI9iJCWYvKgwLcFQsBjh8yIKYDK2scSHFKXs2xGOvsCzcQd
+         uiOGUIgi+lyiMA8uK7nuZXyxhRDdUOBTBQEBCTfnAEz7pAlfr7ANsPBg43I4VCHqGh6Z
+         bbulzkuoffV1gybJb8q00vrxEt7M46JwL5cD9pxAWd6bAtom880pBUVmOcX28MNfRe2A
+         MfMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=q9xyIoE6CrjZqQcs86QMTM/B4ykQ6IuUZXiQ0CWZo0U=;
-        b=Tqxmz9cAg4+GV5VvLKmtaFq1RFY0yUO7q1lpolHxEhBSnOBV5uoRf+ISs+IjhhEY35
-         Exh9wTRau53npZ9ctm4TLI2VfWHk+8WXB8ym7ysvb6rKYRr9ECgnTcSseIZFb/9D9ZvZ
-         MjI137jtQrTOF/zlTNkgCyLS/kBwZGOsZ7QS4QV8Zr/8blufpt2CgjUV3HqGr3Fy21mX
-         IGIhPJFVPpu+vhknNi5BOWyI8Mk8osQQjRpajSEvfdC4eJE51KfskH/wM5eCYrIW0wOO
-         rFnoyxXxjpA2wqCnPr7zAJkng++Lq/+CvfYbF/maCXEJa8aKdEbg2n5DgDaGs6J04bsy
-         zYkw==
-X-Gm-Message-State: AOAM53295rZPr8g+wC24AaIT1sCvnou0QM2UqAgh5bTgKfA2qWTukU30
-	NjII2OrFh0CjObzwqnjOW7w=
-X-Google-Smtp-Source: ABdhPJyTOS3XGFR8y61FuIO8viOKx45YtC+kDNjtdX3dmmSVuFgqv9yPETZmKdBZ0PgAWb7XbQrfrA==
-X-Received: by 2002:a05:6402:1807:: with SMTP id g7mr43524931edy.335.1620833532671;
-        Wed, 12 May 2021 08:32:12 -0700 (PDT)
-Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
-        by smtp.gmail.com with ESMTPSA id q25sm28866ejd.9.2021.05.12.08.32.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 May 2021 08:32:12 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
-	linux-kernel@vger.kernel.org (open list)
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: core: Remove unnecessary lines of code
-Date: Wed, 12 May 2021 17:32:08 +0200
-Message-Id: <20210512153208.9584-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.31.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/mRM7q1w9KEfWo7XLMCrlXg4WbYJ598DsMPCReIKFcI=;
+        b=C08Rl53FFiFqMJQJWvZi+IqZZOTL0+qWzkEgdz+1Yrrz0uFKF97CFPaEoiM1Mdr52A
+         +WrTTRodoC0b9Wa/d8LRF+FQo+X8LtXHqXkufXOb6TvTdKVMxCPzJC0dIafE0dEq6IMc
+         UizY8oyjA+5kaOKDZe7u+XoH/GEhRalbycu0Kan3pbK7tEUUe3g5DodXlyI+ZSAif0XF
+         a+mcdz8S12KklvvHSisfrIB+eztqSQhKwYuHJ23Xp47xDjFOhEBVgRs53X7gtNwnVemi
+         vayx5LyFbuOK+6jPVYvbnwCTPEHtDbV7A1EdXOWD1DuX4zewDDCGYOqfOVhByXz3sgC7
+         zMbw==
+X-Gm-Message-State: AOAM530q4vQg2J3eeplKiT5EgYAJa+l6o5+5pVxqqQ4hGA6LQqXwQtBT
+	CLnNYlCXHD1G1ZqKEsy7OYlw16CIGLCMXZf6vCc=
+X-Google-Smtp-Source: ABdhPJxDVWM6VC96SX/FrY4PNncdkd0pABiXC4DaOTQwHYXX7VS6NITQsa75eGgDVq4vOcFjWpkRADT1tlGm2bYJnSI=
+X-Received: by 2002:a05:6a00:8c4:b029:2b4:8334:ed4d with SMTP id
+ s4-20020a056a0008c4b02902b48334ed4dmr22170660pfu.36.1620840013879; Wed, 12
+ May 2021 10:20:13 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1620766020.git.lucas.p.stankus@gmail.com> <09e65d3a235febfc4c3ee172b573ba8c9cde94b8.1620766020.git.lucas.p.stankus@gmail.com>
+In-Reply-To: <09e65d3a235febfc4c3ee172b573ba8c9cde94b8.1620766020.git.lucas.p.stankus@gmail.com>
+From: Alexandru Ardelean <ardeleanalex@gmail.com>
+Date: Wed, 12 May 2021 20:20:02 +0300
+Message-ID: <CA+U=DsptfNDut3984MJkKckgWBhNd_0p17RfpidEXwYhMRfxtg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] staging: iio: cdc: ad7746: avoid overwrite of num_channels
+To: Lucas Stankus <lucas.p.stankus@gmail.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, "Hennerich, Michael" <Michael.Hennerich@analog.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-iio <linux-iio@vger.kernel.org>, linux-staging@lists.linux.dev, 
+	LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Removed unnecessary lines of code inside an "else if" block.
-That code acquires a spinlock and iterates over each item in
-a linked list for no purpose.
+On Tue, May 11, 2021 at 11:55 PM Lucas Stankus
+<lucas.p.stankus@gmail.com> wrote:
+>
+> AD7745 devices don't have the CIN2 pins and therefore can't handle related
+> channels. Forcing the number of AD7746 channels may lead to enabling more
+> channels than what the hardware actually supports.
+> Avoid num_channels being overwritten after first assignment.
+>
+> Signed-off-by: Lucas Stankus <lucas.p.stankus@gmail.com>
+> ---
+>  drivers/staging/iio/cdc/ad7746.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/staging/iio/cdc/ad7746.c b/drivers/staging/iio/cdc/ad7746.c
+> index e03d010b2f4c..9e0da43b2871 100644
+> --- a/drivers/staging/iio/cdc/ad7746.c
+> +++ b/drivers/staging/iio/cdc/ad7746.c
+> @@ -693,7 +693,6 @@ static int ad7746_probe(struct i2c_client *client,
+>                 indio_dev->num_channels = ARRAY_SIZE(ad7746_channels);
+>         else
+>                 indio_dev->num_channels =  ARRAY_SIZE(ad7746_channels) - 2;
+> -       indio_dev->num_channels = ARRAY_SIZE(ad7746_channels);
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 20 +------------------
- 1 file changed, 1 insertion(+), 19 deletions(-)
+ohh; good catch
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index c5430e737bb1..74cfc7b0a5a2 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -5125,23 +5125,9 @@ void _linked_info_dump(struct adapter *padapter)
- 
- 	if (padapter->bLinkInfoDump) {
- 
--		if ((pmlmeinfo->state&0x03) == WIFI_FW_STATION_STATE) {
-+		if ((pmlmeinfo->state&0x03) == WIFI_FW_STATION_STATE)
- 			rtw_hal_get_def_var(padapter, HAL_DEF_UNDERCORATEDSMOOTHEDPWDB, &UndecoratedSmoothedPWDB);
--		} else if ((pmlmeinfo->state&0x03) == _HW_STATE_AP_) {
--			struct list_head	*phead, *plist;
- 
--			struct sta_info *psta = NULL;
--			struct sta_priv *pstapriv = &padapter->stapriv;
--
--			spin_lock_bh(&pstapriv->asoc_list_lock);
--			phead = &pstapriv->asoc_list;
--			list_for_each(plist, phead) {
--				psta = list_entry(plist, struct sta_info,
--						  asoc_list);
--			}
--			spin_unlock_bh(&pstapriv->asoc_list_lock);
--
--		}
- 		for (i = 0; i < NUM_STA; i++) {
- 			if (pdvobj->macid[i]) {
- 				if (i != 1) /* skip bc/mc sta */
-@@ -5150,11 +5136,7 @@ void _linked_info_dump(struct adapter *padapter)
- 			}
- 		}
- 		rtw_hal_set_def_var(padapter, HAL_DEF_DBG_RX_INFO_DUMP, NULL);
--
--
- 	}
--
--
- }
- 
- static u8 chk_ap_is_alive(struct adapter *padapter, struct sta_info *psta)
--- 
-2.31.1
+this falls into the category of a fix, so a Fixes tag is required;
+this looks so old, that i did not bother tracking it before
+83e416f458d53  [which is 2011]
 
+so, maybe something like:
+
+Fixes: 83e416f458d53 ("staging: iio: adc: Replace, rewrite ad7745 from
+scratch.")
+
+>         indio_dev->modes = INDIO_DIRECT_MODE;
+>
+>         if (pdata) {
+> --
+> 2.31.1
+>
