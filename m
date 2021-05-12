@@ -1,168 +1,134 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDDE470
-	for <linux-staging@lists.linux.dev>; Wed, 12 May 2021 07:45:13 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id c22so25894911edn.7
-        for <linux-staging@lists.linux.dev>; Wed, 12 May 2021 00:45:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A249270
+	for <linux-staging@lists.linux.dev>; Wed, 12 May 2021 08:26:19 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id b25so33662134eju.5
+        for <linux-staging@lists.linux.dev>; Wed, 12 May 2021 01:26:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=WqKbFi1zcT06ocFbBAnAZcAvyy09Fxb57wc82froFIk=;
-        b=t6VE6y+eXUA0deIf7OOmOlR9KMXybIqSnMCv9l6s/HwvHP1i6v5lRKB9NW8QZZFPPY
-         zPYAIAGOaEoQIwRPlB861nJ8EmP+Vqyn55U49PPVYDSzDfoFW5bNibMSQ0UTo8eyVlbz
-         GGchffGgDQKXQr7tOma+86+kMFiRVIG7HNc5DBD5woNdZ71DR7eHPyh4JaqT7wVlTzZq
-         7apDiU8VgC3OxX3Lqwv30GcpqAtnNGXHbGzdiOO0Nu/TTEpbgfWl67gHVpWTu1sr2/YR
-         F6RvSynr3ce6pN40lgdN3oKse0Dw0+V0h+gcBAmm/sObkJZdaUEn1k2q4hYPC+ut9uLb
-         FV9g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NMAtkouy/UQHrdTj1Ln2w4uJpCPejRtEz1B0Xgr6qJ4=;
+        b=lRem6m6mNyxYTmNSN+B48ut74tpPFWUlTDXZTXWdJ9g3LQi+GIr5g4aWK7sTeMZ0B6
+         qzSHX8pN65PW3YUd7nBFaE5C8g6EtZqzt9nkX9kdWqYH85pmYZJWp2ZOgvEoiwt8Arwf
+         4DP0UflQdUg/EAOuQE1MReNMGFO16sFB/qhhEEcQdzLxY4940qlAkDHif7hWZ7C/6uJ+
+         8yp+6bcsMnYjm6U1czKukgMBkanwPhKTyb41rB3HSMw4C9xd+LBXV2HY5+KZXE+7/FAe
+         1NHcOmZ2Q6KIYUW6uWrTiGSfLe6rkAsR77SF/xNb//xHT9MmGTBZnRS+MKnMVV8q/TjQ
+         l4PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=WqKbFi1zcT06ocFbBAnAZcAvyy09Fxb57wc82froFIk=;
-        b=Op0WFHHXZcdpmDS3hMGCGAS9d2yJY0upIX9wX0KltepvHuSEdsFtZL7UG99+EQgMGo
-         Hu+aaGiTWFooqFZ7cmImgJrk1yvFwov8joIsbkqRZiqPViyQzIVpSaQuVxgpVZMX7Eo2
-         is38WIR6fCz1BLyf5/wict0NRmdRjvviPxW06Xl8M93qvY7wa5hY7AvpM20CRJyfbw5L
-         NyOgw66EUC0vVLs0AvJa8X8mabEQ601UQ1Lr6eAs9mn1EGBsnUx6dmuwyWte/R9KBH5+
-         CR4Fap9+t6S1MdYHUGJqvxGZXF1ESoi3H6B99dDSAD2ZWjwkFbajAyUdv+iNNuIdst2P
-         bQ5g==
-X-Gm-Message-State: AOAM532uUXyYAX+1OFPjhNYRnq1uCipvNIQ+iuBzugqkeAMvc9ds5xn9
-	oUqBPChnGzC5l5RTW37QBuI=
-X-Google-Smtp-Source: ABdhPJxR8SXu0XSUhDZsOCyAn0XAtiue+uZX2UQBu9BohSYTysGTeFAPxIsKoOX3+a4KV5/je/odEg==
-X-Received: by 2002:aa7:d3c2:: with SMTP id o2mr41640429edr.111.1620805512335;
-        Wed, 12 May 2021 00:45:12 -0700 (PDT)
-Received: from agape.jhs ([5.171.80.141])
-        by smtp.gmail.com with ESMTPSA id y8sm4729219edo.90.2021.05.12.00.45.11
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NMAtkouy/UQHrdTj1Ln2w4uJpCPejRtEz1B0Xgr6qJ4=;
+        b=h9+sGaLmjjN9Os4nEXJDbCUGGchP/CKjhOn8h64NUqSRp7OPlB3V5np2Mi25ywFrBE
+         YMjG1E04B8tdjj4ihpKC+37vgZKa7ugCk5SXZ1MuT7YMFJVEHCXmi8y/DRz3zYbFyK9B
+         5Z3zOK32uWX/q0gxYzbuHgyAE2nFZihxAOdqr8jPyh7SQz0kS21q0mq5L6/CQ689piwK
+         nflqLl/NU7w3XhpCkhspjtV68nmsw8VRi/QF+hyW3gcPWhiID+w3gDnb51qjzm1Zg1tg
+         1RFyklthPqkcpYRt03Rm8GC/8so83KYrnT4qR/Y06tvwcUJMa2vqS8TCK2qDK9rMeoYx
+         Ye3Q==
+X-Gm-Message-State: AOAM533HQLDU49Ae6AqUdViXO4DFhAjEH/R/AUsyA4czKEPzimGignpk
+	SreELuCrwfN+CgUWFbwFgP0=
+X-Google-Smtp-Source: ABdhPJy6+KsjMc7QIOlXs0YiNhWM+EIHgLXW4KiuDaN2yf7P7VhKgbzOSian+YJ1xJofsG+kn5ot9Q==
+X-Received: by 2002:a17:906:3b13:: with SMTP id g19mr36287442ejf.238.1620807978124;
+        Wed, 12 May 2021 01:26:18 -0700 (PDT)
+Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
+        by smtp.gmail.com with ESMTPSA id s17sm3355797ejz.78.2021.05.12.01.26.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 May 2021 00:45:12 -0700 (PDT)
-Date: Wed, 12 May 2021 09:45:09 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Lucas Stankus <lucas.p.stankus@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
-	gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: iio: cdc: ad7746: clean up driver comments
- and probe return
-Message-ID: <20210512074508.GB1413@agape.jhs>
-References: <cover.1620766020.git.lucas.p.stankus@gmail.com>
- <687a1923add71303da13e3a838e97a6ffc7dcda7.1620766020.git.lucas.p.stankus@gmail.com>
+        Wed, 12 May 2021 01:26:17 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+	linux-kernel@vger.kernel.org (open list)
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: hal: Remove two set but unused variables
+Date: Wed, 12 May 2021 10:26:14 +0200
+Message-Id: <20210512082614.30890-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <687a1923add71303da13e3a838e97a6ffc7dcda7.1620766020.git.lucas.p.stankus@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 
-Hi Lucas,
+Removed two set but unused variables. Issue detected by GCC.
 
-On Tue, May 11, 2021 at 05:54:01PM -0300, Lucas Stankus wrote:
-> Remove vague comments, align temperature comment with indent block and
-> simplify probe return on device register.
-> 
-> Also fix the following checkpatch warning:
-> CHECK: Alignment should match open parenthesis
-> 
-> Signed-off-by: Lucas Stankus <lucas.p.stankus@gmail.com>
-> ---
->  drivers/staging/iio/cdc/ad7746.c | 31 ++++++++++---------------------
->  1 file changed, 10 insertions(+), 21 deletions(-)
-> 
-> diff --git a/drivers/staging/iio/cdc/ad7746.c b/drivers/staging/iio/cdc/ad7746.c
-> index dfd71e99e872..e03d010b2f4c 100644
-> --- a/drivers/staging/iio/cdc/ad7746.c
-> +++ b/drivers/staging/iio/cdc/ad7746.c
-> @@ -84,10 +84,6 @@
->  #define AD7746_CAPDAC_DACEN		BIT(7)
->  #define AD7746_CAPDAC_DACP(x)		((x) & 0x7F)
->  
-> -/*
-> - * struct ad7746_chip_info - chip specific information
-> - */
-> -
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c | 14 +-------------
+ 1 file changed, 1 insertion(+), 13 deletions(-)
 
-Comment deletions should go in a separate patch
-
-
->  struct ad7746_chip_info {
->  	struct i2c_client *client;
->  	struct mutex lock; /* protect sensor state */
-> @@ -232,13 +228,14 @@ static int ad7746_select_channel(struct iio_dev *indio_dev,
->  
->  		if (chip->capdac_set != chan->channel) {
->  			ret = i2c_smbus_write_byte_data(chip->client,
-> -				AD7746_REG_CAPDACA,
-> -				chip->capdac[chan->channel][0]);
-> +							AD7746_REG_CAPDACA,
-> +							chip->capdac[chan->channel][0]);
->  			if (ret < 0)
->  				return ret;
-> +
->  			ret = i2c_smbus_write_byte_data(chip->client,
-> -				AD7746_REG_CAPDACB,
-> -				chip->capdac[chan->channel][1]);
-> +							AD7746_REG_CAPDACB,
-> +							chip->capdac[chan->channel][1]);
->  			if (ret < 0)
->  				return ret;
-
-Alignments of function argument form a different logical change
-and should go on a separate patch...
+diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+index c42fd36c88ef..3b8be8137683 100644
+--- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
++++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+@@ -1629,7 +1629,7 @@ void PHY_IQCalibrate_8723B(
+ 	s32 result[4][8];	/* last is final result */
+ 	u8 i, final_candidate;
+ 	bool bPathAOK, bPathBOK;
+-	s32 RegE94, RegE9C, RegEA4, RegEAC, RegEB4, RegEBC, RegEC4, RegECC, RegTmp = 0;
++	s32 RegE94, RegE9C, RegEA4, RegEB4, RegEBC, RegEC4, RegTmp = 0;
+ 	bool is12simular, is13simular, is23simular;
+ 	bool bSingleTone = false, bCarrierSuppression = false;
+ 	u32 IQK_BB_REG_92C[IQK_BB_REG_NUM] = {
+@@ -1646,7 +1646,6 @@ void PHY_IQCalibrate_8723B(
+ /* 	u32 		Path_SEL_BB = 0; */
+ 	u32 		GNT_BT_default;
+ 	u32 		StartTime;
+-	s32			ProgressingTime;
  
->  
-> @@ -564,10 +561,10 @@ static int ad7746_read_raw(struct iio_dev *indio_dev,
->  
->  		switch (chan->type) {
->  		case IIO_TEMP:
-> -		/*
-> -		 * temperature in milli degrees Celsius
-> -		 * T = ((*val / 2048) - 4096) * 1000
-> -		 */
-> +			/*
-> +			 * temperature in milli degrees Celsius
-> +			 * T = ((*val / 2048) - 4096) * 1000
-> +			 */
->  			*val = (*val * 125) / 256;
->  			break;
->  		case IIO_VOLTAGE:
-> @@ -669,10 +666,6 @@ static const struct iio_info ad7746_info = {
->  	.write_raw = ad7746_write_raw,
->  };
->  
-> -/*
-> - * device probe and remove
-> - */
-> -
->  static int ad7746_probe(struct i2c_client *client,
->  			const struct i2c_device_id *id)
->  {
-> @@ -730,11 +723,7 @@ static int ad7746_probe(struct i2c_client *client,
->  	if (ret < 0)
->  		return ret;
->  
-> -	ret = devm_iio_device_register(indio_dev->dev.parent, indio_dev);
-> -	if (ret)
-> -		return ret;
-> -
-> -	return 0;
-> +	return devm_iio_device_register(indio_dev->dev.parent, indio_dev);
->  }
+ 	if (!ODM_CheckPowerStatus(padapter))
+ 		return;
+@@ -1777,22 +1776,18 @@ void PHY_IQCalibrate_8723B(
+ 		RegE94 = result[i][0];
+ 		RegE9C = result[i][1];
+ 		RegEA4 = result[i][2];
+-		RegEAC = result[i][3];
+ 		RegEB4 = result[i][4];
+ 		RegEBC = result[i][5];
+ 		RegEC4 = result[i][6];
+-		RegECC = result[i][7];
+ 	}
+ 
+ 	if (final_candidate != 0xff) {
+ 		pDM_Odm->RFCalibrateInfo.RegE94 = RegE94 = result[final_candidate][0];
+ 		pDM_Odm->RFCalibrateInfo.RegE9C = RegE9C = result[final_candidate][1];
+ 		RegEA4 = result[final_candidate][2];
+-		RegEAC = result[final_candidate][3];
+ 		pDM_Odm->RFCalibrateInfo.RegEB4 = RegEB4 = result[final_candidate][4];
+ 		pDM_Odm->RFCalibrateInfo.RegEBC = RegEBC = result[final_candidate][5];
+ 		RegEC4 = result[final_candidate][6];
+-		RegECC = result[final_candidate][7];
+ 		bPathAOK = bPathBOK = true;
+ 	} else {
+ 		pDM_Odm->RFCalibrateInfo.RegE94 = pDM_Odm->RFCalibrateInfo.RegEB4 = 0x100;	/* X default value */
+@@ -1844,10 +1839,6 @@ void PHY_IQCalibrate_8723B(
+ 	}
+ 
+ 	pDM_Odm->RFCalibrateInfo.bIQKInProgress = false;
+-
+-	ProgressingTime = jiffies_to_msecs(jiffies - StartTime);
+-
+-
+ }
+ 
+ 
+@@ -1856,7 +1847,6 @@ void PHY_LCCalibrate_8723B(struct dm_odm_t *pDM_Odm)
+ 	bool		bSingleTone = false, bCarrierSuppression = false;
+ 	u32 		timeout = 2000, timecount = 0;
+ 	u32 		StartTime;
+-	s32			ProgressingTime;
+ 
+ #if DISABLE_BB_RF
+ 	return;
+@@ -1882,6 +1872,4 @@ void PHY_LCCalibrate_8723B(struct dm_odm_t *pDM_Odm)
+ 
+ 
+ 	pDM_Odm->RFCalibrateInfo.bLCKInProgress = false;
+-
+-	ProgressingTime = jiffies_to_msecs(jiffies - StartTime);
+ }
+-- 
+2.31.1
 
-this return value fix should go in a separate patch
-
->  
->  static const struct i2c_device_id ad7746_id[] = {
-> -- 
-> 2.31.1
-> 
-> 
-
-so, in my opinion, this patch could be split
-in three different patches.
-
-Thank you,
-
-fabio
