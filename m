@@ -1,57 +1,52 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD002FAD
-	for <linux-staging@lists.linux.dev>; Wed, 12 May 2021 18:45:08 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id h20so12990935plr.4
-        for <linux-staging@lists.linux.dev>; Wed, 12 May 2021 11:45:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 116272FB8
+	for <linux-staging@lists.linux.dev>; Thu, 13 May 2021 03:47:04 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id h127so20450700pfe.9
+        for <linux-staging@lists.linux.dev>; Wed, 12 May 2021 20:47:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=8E+f2v9QvhbBgVYDW+xO78Asl5jNnBHA79MzCC/Nhas=;
-        b=J7bDw0Gb42knuv/5bGWUha8tmHo/XAaKNe92liTG6ZQwgtbmUqSHXcAo62HQMUsj2m
-         /o0PlQXpwrRKXe6ZwQaDyYQaps2WtGJO7qg34HTldk8NJf672Yy1K5M8qWfNK6rQTGva
-         ked/2CiwoZxYMIV5gUtUOEL+MmwD7bfaVGx11T63lBtNp9AOjiJFpsNT5ln8ycfbWLu6
-         3w+Zr+bIT8wjOu0FdtCPYjZrQ58AfxbcYzahN4/IoE10ZrR0EPoXQmye1K5r+gw/QOWe
-         VT4J7eyU5ILGajWs9sSmpcYikLltLV+Xbnem9ZhEyPOmxEDEve6TrSuroGsBdQATPl9r
-         lJ/g==
+        bh=uCFKPzrYeuwaqZekX+y/t+Ka+1uMgBTfhabTovYmswE=;
+        b=S1VPcIohjHX5sP19NIEdpm56pe9PXvkGl7DaTv6G2T0uAyfAvcQT5SAa9lnNA978jO
+         ZTt1yWfo6m3kOYvXP69MZcGR4kAaKxbtzpsWs2ds2wua4NBX2zBrxJEXmhjtDh8A9cpm
+         wFalWIggNCl1SonztJEPMp+AXsWI8KEsEUcj+iKPeKVNJ/pd6gxkm9WIyJBCPSuvOKQ7
+         dLs8Fxf6vhrqz0pvgjvkMUA1qG89j8YCWtQR0C7Di8b3ZgPztHfxKpTX8Adem0bsK9cq
+         u2E9YhfAEIXrSUp4KUI4/XIAcKJLm2mpMq2YXfRu4TfhYtNrUqmKjWi3TMHdVWyb5xhr
+         M0Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=8E+f2v9QvhbBgVYDW+xO78Asl5jNnBHA79MzCC/Nhas=;
-        b=WrKeGrOu72wof4sQpF1hp75axxDzIBZE6FcUX3W1xusK7sMy7ZVrBN1klnJKh7vChj
-         Es+iGGj0K7/LeHlm3/n3hZJ857B3zvrTFtfHZWukpXI0kUVnyoQvuwy4WFpbe4AsgWrg
-         nl/n6LpbcDwhkKfgVLWW4Bp+oRxwJ/uB2ISdVVBfvVm+BNTxenoJatTkwPyw9nQuwFRv
-         hvHP0k6NrBEokzCwelezOjqQuiEXJENBp3uOwztCtIMVA1KJwkP1zK6SHZCkgppVbY0C
-         q1cLKCqIKn/4qEoq5eAXAk4iqin++G8jf1XnJw6HuO+jUOqcu8bx4RNQRV+umpFrwHOT
-         61ag==
-X-Gm-Message-State: AOAM530CZJ0j8c19Ci+wJR135+gClPpm+bfe8r1RZKM4MqjH0UoON8x8
-	zTuRryX+3CdNiLl56/qqhUc=
-X-Google-Smtp-Source: ABdhPJy12DfRG5nZRsp7rm36qc2tCg3elZwyQpgFDCh4280CcUdTsjRL1HQlgtDqszqv54R2HjGSfQ==
-X-Received: by 2002:a17:902:4:b029:ee:8f40:ecbf with SMTP id 4-20020a1709020004b02900ee8f40ecbfmr35791300pla.28.1620845108131;
-        Wed, 12 May 2021 11:45:08 -0700 (PDT)
+        bh=uCFKPzrYeuwaqZekX+y/t+Ka+1uMgBTfhabTovYmswE=;
+        b=pm5nb0IRYybA4ZGyqI3sjt54+T4YfNlIcFxDXm9hGHtbFyNIUrY4b1s+YKvYN314VB
+         NTLJcgC0ETvn4Q4AYobWbrNagtuof8reczIpJ9KpHwtEHNPjexw8oLNMfBxNc8aC6LBv
+         wPOPOZCuNe9Ql/HlA7zhZqskf1eSk5AVn8KEHso9FON26tiScusc0jjLwRymvvBqfHDR
+         pR06uolZnuY1iAV8JeL1lcamo/uNC4vvGT55A97L5lXnNeSvUxnhXZFLuwNchOCEitL1
+         pVADXezozWFkmgwSyDbPeQx8xzS7lrjggadWQiecjc3rdntB5JUmO9CLbYoOxENpAJwd
+         9Nrg==
+X-Gm-Message-State: AOAM531HlNoC2Z2dXmHTvF7A6zMkksWojHVYXrquWa4liH3vuQih1wM1
+	cKXDtSDqzVjAwj4PSyNnNCQ=
+X-Google-Smtp-Source: ABdhPJy+EbKIa+BZvLYWEb/qxTIUGLYURVDv4BQlMdlRdnjgQvyyOG8THHzFekc06oruonzKBg/68A==
+X-Received: by 2002:a17:90a:a60d:: with SMTP id c13mr2242335pjq.172.1620877624487;
+        Wed, 12 May 2021 20:47:04 -0700 (PDT)
 Received: from localhost.localdomain ([118.200.63.8])
-        by smtp.gmail.com with ESMTPSA id i8sm367165pjs.54.2021.05.12.11.45.05
+        by smtp.gmail.com with ESMTPSA id t19sm988295pfg.70.2021.05.12.20.47.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 May 2021 11:45:07 -0700 (PDT)
+        Wed, 12 May 2021 20:47:04 -0700 (PDT)
 From: Nguyen Dinh Phi <phind.uet@gmail.com>
-To: nsaenz@kernel.org,
+To: mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
 	gregkh@linuxfoundation.org,
-	arnd@arndb.de,
-	stefan.wahren@i2se.com,
-	dan.carpenter@oracle.com,
-	phil@raspberrypi.com,
-	amarjargal16@gmail.com
-Cc: bcm-kernel-feedback-list@broadcom.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
+	andriy.shevchenko@linux.intel.com
+Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] Staging: vchiq_arm: Using pr_err and pr_notice instead of printk
-Date: Thu, 13 May 2021 02:44:40 +0800
-Message-Id: <20210512184440.550116-1-phind.uet@gmail.com>
+Subject: [PATCH] Staging: atomisp: Use sysfs_emit() instead of sprintf() where appropriate
+Date: Thu, 13 May 2021 11:46:50 +0800
+Message-Id: <20210513034650.252993-1-phind.uet@gmail.com>
 X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,33 +55,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch fixes the following checkpatch.pl warning:
-fix Prefer [subsystem eg: netdev]_info([subsystem]dev, ... then
-dev_info(dev, ... then pr_info(...  to printk(KERN_INFO ...
+sysfs_emit() is preferred over raw sprintf() for sysfs attributes since it
+knows about the sysfs buffer specifics and has some built-in sanity checks.
 
 Signed-off-by: Nguyen Dinh Phi <phind.uet@gmail.com>
 ---
- .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c   | 6 +++---
+ drivers/staging/media/atomisp/pci/atomisp_drvfs.c | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 1b1356833b8f..ee759cb786b0 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -2192,10 +2192,10 @@ vchiq_get_state(void)
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
+index f670faf978e6..dcb571f515a7 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
+@@ -96,7 +96,7 @@ static inline int iunit_dump_dbgopt(struct atomisp_device *isp,
+ static ssize_t iunit_dbglvl_show(struct device_driver *drv, char *buf)
  {
+ 	iunit_debug.dbglvl = dbg_level;
+-	return sprintf(buf, "dtrace level:%u\n", iunit_debug.dbglvl);
++	return sysfs_emit(buf, "dtrace level:%u\n", iunit_debug.dbglvl);
+ }
  
- 	if (!g_state.remote)
--		printk(KERN_ERR "%s: g_state.remote == NULL\n", __func__);
-+		pr_err("%s: g_state.remote == NULL\n", __func__);
- 	else if (g_state.remote->initialised != 1)
--		printk(KERN_NOTICE "%s: g_state.remote->initialised != 1 (%d)\n",
--			__func__, g_state.remote->initialised);
-+		pr_notice("%s: g_state.remote->initialised != 1 (%d)\n",
-+			  __func__, g_state.remote->initialised);
+ static ssize_t iunit_dbglvl_store(struct device_driver *drv, const char *buf,
+@@ -115,7 +115,7 @@ static ssize_t iunit_dbglvl_store(struct device_driver *drv, const char *buf,
+ static ssize_t iunit_dbgfun_show(struct device_driver *drv, char *buf)
+ {
+ 	iunit_debug.dbgfun = atomisp_get_css_dbgfunc();
+-	return sprintf(buf, "dbgfun opt:%u\n", iunit_debug.dbgfun);
++	return sysfs_emit(buf, "dbgfun opt:%u\n", iunit_debug.dbgfun);
+ }
  
- 	return (g_state.remote &&
- 		(g_state.remote->initialised == 1)) ? &g_state : NULL;
+ static ssize_t iunit_dbgfun_store(struct device_driver *drv, const char *buf,
+@@ -139,7 +139,7 @@ static ssize_t iunit_dbgfun_store(struct device_driver *drv, const char *buf,
+ 
+ static ssize_t iunit_dbgopt_show(struct device_driver *drv, char *buf)
+ {
+-	return sprintf(buf, "option:0x%x\n", iunit_debug.dbgopt);
++	return sysfs_emit(buf, "option:0x%x\n", iunit_debug.dbgopt);
+ }
+ 
+ static ssize_t iunit_dbgopt_store(struct device_driver *drv, const char *buf,
 -- 
 2.25.1
 
