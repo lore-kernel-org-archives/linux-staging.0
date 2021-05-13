@@ -1,75 +1,88 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A67FE71
-	for <linux-staging@lists.linux.dev>; Thu, 13 May 2021 09:46:19 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6ACFC61439;
-	Thu, 13 May 2021 09:46:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1620899178;
-	bh=2YDPX0ZygP42OUgip4Dx4XOsWdN5W0wiW342gHSvIfQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=0bKc5x8KTUNZj8xk+2qm0hSx4ORSNFaMpnuyS+FE1DScC2cuH5bQjmEfqoJeZ7wOR
-	 9O7vaiQ8l1QvMfqzwNlwGEN/mRYlGiKbfLf7m0FgrEdwW8Gbht1AngzYxGMXuNUhnu
-	 6U4360c2l8oXK7OFWETybk5pIVIHwUIFNG6mirOE=
-Date: Thu, 13 May 2021 11:46:16 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Zou Wei <zou_wei@huawei.com>
-Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org,
-	elder@kernel.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] staging: greybus: audio: Add missing
- MODULE_DEVICE_TABLE
-Message-ID: <YJz1aFJPaX5lGJsR@kroah.com>
-References: <1620895772-52538-1-git-send-email-zou_wei@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3144D70
+	for <linux-staging@lists.linux.dev>; Thu, 13 May 2021 15:51:31 +0000 (UTC)
+Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id B569961408;
+	Thu, 13 May 2021 15:51:28 +0000 (UTC)
+Date: Thu, 13 May 2021 16:52:36 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Alexandru Ardelean <ardeleanalex@gmail.com>
+Cc: Lucas Stankus <lucas.p.stankus@gmail.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, "Hennerich, Michael" <Michael.Hennerich@analog.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-iio
+ <linux-iio@vger.kernel.org>, linux-staging@lists.linux.dev, LKML
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/2] staging: iio: cdc: ad7746: avoid overwrite of
+ num_channels
+Message-ID: <20210513165236.586b8beb@jic23-huawei>
+In-Reply-To: <CA+U=DsptfNDut3984MJkKckgWBhNd_0p17RfpidEXwYhMRfxtg@mail.gmail.com>
+References: <cover.1620766020.git.lucas.p.stankus@gmail.com>
+	<09e65d3a235febfc4c3ee172b573ba8c9cde94b8.1620766020.git.lucas.p.stankus@gmail.com>
+	<CA+U=DsptfNDut3984MJkKckgWBhNd_0p17RfpidEXwYhMRfxtg@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1620895772-52538-1-git-send-email-zou_wei@huawei.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 13, 2021 at 04:49:32PM +0800, Zou Wei wrote:
-> This patch adds missing MODULE_DEVICE_TABLE definition which generates
-> correct modalias for automatic loading of this driver when it is built
-> as an external module.
+On Wed, 12 May 2021 20:20:02 +0300
+Alexandru Ardelean <ardeleanalex@gmail.com> wrote:
+
+> On Tue, May 11, 2021 at 11:55 PM Lucas Stankus
+> <lucas.p.stankus@gmail.com> wrote:
+> >
+> > AD7745 devices don't have the CIN2 pins and therefore can't handle related
+> > channels. Forcing the number of AD7746 channels may lead to enabling more
+> > channels than what the hardware actually supports.
+> > Avoid num_channels being overwritten after first assignment.
+> >
+> > Signed-off-by: Lucas Stankus <lucas.p.stankus@gmail.com>
+> > ---
+> >  drivers/staging/iio/cdc/ad7746.c | 1 -
+> >  1 file changed, 1 deletion(-)
+> >
+> > diff --git a/drivers/staging/iio/cdc/ad7746.c b/drivers/staging/iio/cdc/ad7746.c
+> > index e03d010b2f4c..9e0da43b2871 100644
+> > --- a/drivers/staging/iio/cdc/ad7746.c
+> > +++ b/drivers/staging/iio/cdc/ad7746.c
+> > @@ -693,7 +693,6 @@ static int ad7746_probe(struct i2c_client *client,
+> >                 indio_dev->num_channels = ARRAY_SIZE(ad7746_channels);
+> >         else
+> >                 indio_dev->num_channels =  ARRAY_SIZE(ad7746_channels) - 2;
+> > -       indio_dev->num_channels = ARRAY_SIZE(ad7746_channels);  
 > 
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Zou Wei <zou_wei@huawei.com>
-> ---
->  drivers/staging/greybus/audio_codec.c | 1 +
->  1 file changed, 1 insertion(+)
+> ohh; good catch
 > 
-> diff --git a/drivers/staging/greybus/audio_codec.c b/drivers/staging/greybus/audio_codec.c
-> index b589cf6..6fa9781 100644
-> --- a/drivers/staging/greybus/audio_codec.c
-> +++ b/drivers/staging/greybus/audio_codec.c
-> @@ -1086,6 +1086,7 @@ static const struct of_device_id greybus_asoc_machine_of_match[]  = {
->  	{ .compatible = "toshiba,apb-dummy-codec", },
->  	{},
->  };
-> +MODULE_DEVICE_TABLE(of, greybus_asoc_machine_of_match);
->  
->  static struct platform_driver gbaudio_codec_driver = {
->  	.driver = {
-> -- 
-> 2.6.2
+> this falls into the category of a fix, so a Fixes tag is required;
+> this looks so old, that i did not bother tracking it before
+> 83e416f458d53  [which is 2011]
 > 
+> so, maybe something like:
 > 
+> Fixes: 83e416f458d53 ("staging: iio: adc: Replace, rewrite ad7745 from
+> scratch.")
 
-I think I will just start rejecting all of thes "missing
-MODULE_DEVICE_TABLE()" patches as they make no sense at all.
+ouch.  Given I was queuing up some fixes I've added this one to the fixes-togreg
+branch of iio.git and marked it for stable.
 
-If the driver authors had wanted these MODULE_DEVICE_TABLES added, they
-would have done so.  That means they were not using dynamically loaded
-modules because usually, the module is built in, OR it doesn't matter.
+So drop this one from your v2 series with the changes requested in patch 1.
 
-So please, only add this if you have a system that needs them, do not
-add them just based on a rule you have generated by a tool, as that is
-pointless.
+Thanks,
 
-thanks,
+Jonathan
 
-greg k-h
+> 
+> >         indio_dev->modes = INDIO_DIRECT_MODE;
+> >
+> >         if (pdata) {
+> > --
+> > 2.31.1
+> >  
+
