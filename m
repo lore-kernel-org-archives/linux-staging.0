@@ -1,134 +1,127 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mail-41104.protonmail.ch (mail-41104.protonmail.ch [185.70.41.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B09870
-	for <linux-staging@lists.linux.dev>; Thu, 13 May 2021 15:59:07 +0000 (UTC)
-Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5937570
+	for <linux-staging@lists.linux.dev>; Thu, 13 May 2021 16:16:48 +0000 (UTC)
+Received: from mail-03.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 9AFE9613BC;
-	Thu, 13 May 2021 15:59:04 +0000 (UTC)
-Date: Thu, 13 May 2021 17:00:12 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Lucas Stankus <lucas.p.stankus@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com,
- gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: iio: cdc: ad7746: clean up driver comments
- and probe return
-Message-ID: <20210513170012.78326bfa@jic23-huawei>
-In-Reply-To: <687a1923add71303da13e3a838e97a6ffc7dcda7.1620766020.git.lucas.p.stankus@gmail.com>
-References: <cover.1620766020.git.lucas.p.stankus@gmail.com>
-	<687a1923add71303da13e3a838e97a6ffc7dcda7.1620766020.git.lucas.p.stankus@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by mail-41104.protonmail.ch (Postfix) with ESMTPS id 4FgxVG3sxrz5XGK1
+	for <linux-staging@lists.linux.dev>; Thu, 13 May 2021 16:11:18 +0000 (UTC)
+Authentication-Results: mail-41104.protonmail.ch;
+	dkim=pass (2048-bit key) header.d=bryanbrattlof.com header.i=@bryanbrattlof.com header.b="k/nAz7fN"
+Date: Thu, 13 May 2021 16:10:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
+	s=protonmail3; t=1620922262;
+	bh=xJHsGfB9Cd/p1CC6sw8uwkPBdkmkm1kg3OsjLFWhpGo=;
+	h=Date:To:From:Cc:Reply-To:Subject:From;
+	b=k/nAz7fNmy5/iAyOgBL++FolfI7K6PWOWuOFkxktk4jKVAFIf1scbJ+NAOmcC79AS
+	 HVHJjB4wdFpB7nF1Rsb102Z+/TlE++LPEjAwNUqwv8narndP9QLXcByuXCZ9fCGPMu
+	 5GJhL/5bhBdPUAp1JubyUQ9lXVKRlKzyGIujOM3YS4DGJi34/ffoK1BHdKwJKHL7oV
+	 yyT1ayep/cyYvonioG/D1mQv8MKDgHhWwxb4q6pXkLQa3bmD+p1T4IHGzPT3tla+LK
+	 HjWb1HKj9PeFB/LddJ7NEIAeLTPqQbO/i3OsbUJ4rOcT1z+dPTt0bbHOa0gDJ48HXj
+	 VtB8XyxUBZvug==
+To: Hans de Goede <hdegoede@redhat.com>, Larry Finger <Larry.Finger@lwfinger.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: Bryan Brattlof <hello@bryanbrattlof.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
+Subject: [PATCH] staging: rtl8723bs: remove unused argument 'msg'
+Message-ID: <20210513160848.1057564-1-hello@bryanbrattlof.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+	autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	mailout.protonmail.ch
 
-On Tue, 11 May 2021 17:54:01 -0300
-Lucas Stankus <lucas.p.stankus@gmail.com> wrote:
+After the removal of the DBG_871X macros, the 'msg' argument
+for rtw_sctx_wait() is no longer used.
 
-> Remove vague comments, align temperature comment with indent block and
-> simplify probe return on device register.
-> 
-> Also fix the following checkpatch warning:
-> CHECK: Alignment should match open parenthesis
-> 
-> Signed-off-by: Lucas Stankus <lucas.p.stankus@gmail.com>
+Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      | 2 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 2 +-
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     | 4 ++--
+ drivers/staging/rtl8723bs/include/rtw_xmit.h  | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 
-As Fabio pointed out, finer grained patches with one type of change per
-patch would be good.
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl=
+8723bs/core/rtw_cmd.c
+index 3ed996bba98e..ac289e5600b0 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -693,7 +693,7 @@ int rtw_startbss_cmd(struct adapter  *padapter, int fla=
+gs)
+ =09=09res =3D rtw_enqueue_cmd(pcmdpriv, pcmd);
 
-> ---
->  drivers/staging/iio/cdc/ad7746.c | 31 ++++++++++---------------------
->  1 file changed, 10 insertions(+), 21 deletions(-)
-> 
-> diff --git a/drivers/staging/iio/cdc/ad7746.c b/drivers/staging/iio/cdc/ad7746.c
-> index dfd71e99e872..e03d010b2f4c 100644
-> --- a/drivers/staging/iio/cdc/ad7746.c
-> +++ b/drivers/staging/iio/cdc/ad7746.c
-> @@ -84,10 +84,6 @@
->  #define AD7746_CAPDAC_DACEN		BIT(7)
->  #define AD7746_CAPDAC_DACP(x)		((x) & 0x7F)
->  
-> -/*
-> - * struct ad7746_chip_info - chip specific information
-> - */
-> -
->  struct ad7746_chip_info {
->  	struct i2c_client *client;
->  	struct mutex lock; /* protect sensor state */
-> @@ -232,13 +228,14 @@ static int ad7746_select_channel(struct iio_dev *indio_dev,
->  
->  		if (chip->capdac_set != chan->channel) {
->  			ret = i2c_smbus_write_byte_data(chip->client,
-> -				AD7746_REG_CAPDACA,
-> -				chip->capdac[chan->channel][0]);
-> +							AD7746_REG_CAPDACA,
-> +							chip->capdac[chan->channel][0]);
->  			if (ret < 0)
->  				return ret;
-> +
->  			ret = i2c_smbus_write_byte_data(chip->client,
-> -				AD7746_REG_CAPDACB,
-> -				chip->capdac[chan->channel][1]);
-> +							AD7746_REG_CAPDACB,
-> +							chip->capdac[chan->channel][1]);
->  			if (ret < 0)
->  				return ret;
+ =09=09if (res =3D=3D _SUCCESS && (flags & RTW_CMDF_WAIT_ACK)) {
+-=09=09=09rtw_sctx_wait(&sctx, __func__);
++=09=09=09rtw_sctx_wait(&sctx);
+ =09=09=09if (mutex_lock_interruptible(&pcmdpriv->sctx_mutex) =3D=3D 0) {
+ =09=09=09=09if (sctx.status =3D=3D RTW_SCTX_SUBMITTED)
+ =09=09=09=09=09pcmd->sctx =3D NULL;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/stagin=
+g/rtl8723bs/core/rtw_mlme_ext.c
+index c5430e737bb1..ab68ef608620 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -2137,7 +2137,7 @@ s32 dump_mgntframe_and_wait(struct adapter *padapter,=
+ struct xmit_frame *pmgntfr
+ =09ret =3D rtw_hal_mgnt_xmit(padapter, pmgntframe);
 
-I wondered if it might be sensible to factor this code out to reduce the indent
-and make things more readable.  Having taken a look it seems there is another
-place with exactly the same call sequence.  From how it's used there, I'm
-assuming this is updating the offsets.  As such, I would introduce an
+ =09if (ret =3D=3D _SUCCESS)
+-=09=09ret =3D rtw_sctx_wait(&sctx, __func__);
++=09=09ret =3D rtw_sctx_wait(&sctx);
 
-ad7746_offsets_set(struct iio_dev *indio_dev, int channel)
+ =09spin_lock_irqsave(&pxmitpriv->lock_sctx, irqL);
+ =09pxmitbuf->sctx =3D NULL;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rt=
+l8723bs/core/rtw_xmit.c
+index 7e3477a45a0f..f21a814c7394 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
++++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+@@ -2505,7 +2505,7 @@ void rtw_sctx_init(struct submit_ctx *sctx, int timeo=
+ut_ms)
+ =09sctx->status =3D RTW_SCTX_SUBMITTED;
+ }
 
-or similar.
+-int rtw_sctx_wait(struct submit_ctx *sctx, const char *msg)
++int rtw_sctx_wait(struct submit_ctx *sctx)
+ {
+ =09int ret =3D _FAIL;
+ =09unsigned long expire;
+@@ -2546,7 +2546,7 @@ int rtw_ack_tx_wait(struct xmit_priv *pxmitpriv, u32 =
+timeout_ms)
+ =09pack_tx_ops->timeout_ms =3D timeout_ms;
+ =09pack_tx_ops->status =3D RTW_SCTX_SUBMITTED;
+
+-=09return rtw_sctx_wait(pack_tx_ops, __func__);
++=09return rtw_sctx_wait(pack_tx_ops);
+ }
+
+ void rtw_ack_tx_done(struct xmit_priv *pxmitpriv, int status)
+diff --git a/drivers/staging/rtl8723bs/include/rtw_xmit.h b/drivers/staging=
+/rtl8723bs/include/rtw_xmit.h
+index e45753d17313..676ead0372fa 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_xmit.h
++++ b/drivers/staging/rtl8723bs/include/rtw_xmit.h
+@@ -234,7 +234,7 @@ enum {
 
 
->  
-> @@ -564,10 +561,10 @@ static int ad7746_read_raw(struct iio_dev *indio_dev,
->  
->  		switch (chan->type) {
->  		case IIO_TEMP:
-> -		/*
-> -		 * temperature in milli degrees Celsius
-> -		 * T = ((*val / 2048) - 4096) * 1000
-> -		 */
-> +			/*
-> +			 * temperature in milli degrees Celsius
-> +			 * T = ((*val / 2048) - 4096) * 1000
-> +			 */
->  			*val = (*val * 125) / 256;
->  			break;
->  		case IIO_VOLTAGE:
-> @@ -669,10 +666,6 @@ static const struct iio_info ad7746_info = {
->  	.write_raw = ad7746_write_raw,
->  };
->  
-> -/*
-> - * device probe and remove
-> - */
-> -
->  static int ad7746_probe(struct i2c_client *client,
->  			const struct i2c_device_id *id)
->  {
-> @@ -730,11 +723,7 @@ static int ad7746_probe(struct i2c_client *client,
->  	if (ret < 0)
->  		return ret;
->  
-> -	ret = devm_iio_device_register(indio_dev->dev.parent, indio_dev);
-> -	if (ret)
-> -		return ret;
-> -
-> -	return 0;
-> +	return devm_iio_device_register(indio_dev->dev.parent, indio_dev);
->  }
->  
->  static const struct i2c_device_id ad7746_id[] = {
+ void rtw_sctx_init(struct submit_ctx *sctx, int timeout_ms);
+-int rtw_sctx_wait(struct submit_ctx *sctx, const char *msg);
++int rtw_sctx_wait(struct submit_ctx *sctx);
+ void rtw_sctx_done_err(struct submit_ctx **sctx, int status);
+ void rtw_sctx_done(struct submit_ctx **sctx);
+
+--
+2.27.0
+
 
