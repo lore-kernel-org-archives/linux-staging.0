@@ -1,96 +1,94 @@
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5342470
-	for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 11:30:28 +0000 (UTC)
-Received: by mail-oi1-f176.google.com with SMTP id j75so28124551oih.10
-        for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 04:30:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C839972
+	for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 13:30:48 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id v12so970939plo.10
+        for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 06:30:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=I9A3nXY3kUs1dCLrxrDBTwMVEeu4aFNeSYtm9K3Kp8M=;
-        b=Zu0kMNaA+VfdfU/cHDDtfr8znlbneoVWuur733RqIN4ZBC0OuXa/1ESBC9MKcs+yPV
-         /3+grRzw6qjrCQmJssWN3/mN4sGd8q7dtv13xguBZr+OjR/jxL4N42JgtJb3m1SSM579
-         Jrhj+faVyCFWmCikRk8hXucEfqbYHw5nPWa+Z4XGgwq7XrhihB67SQ+aghSKvtTWP2lD
-         a+N+W95KUieb2Y5gyTH3BkDtkjyFXzyfrtqFRYxNJViYA1CkdOxd9JmUegm+xh+7RAaB
-         kdXwPYuwAsqde8TfSBJhgKdYsuBTLQhHSartMAwBkhijZyhESWtibNa4w7L1+2qjyCAp
-         vAcg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wT0Jn1b/5R6Ec7FJe0n8ikzXhLXxiAZMKP/g+ykPRbA=;
+        b=EISTQhVOD5WNxvecVI4DpooL7Jp91OKE+PI+cpXcJP1pNBTjS7pmw+5PZZLOs0yZnF
+         o8lbgm+ot7YFXWLN3metN2l9e81zTd0i9Ok4V8Ndclm+ax59GIgr5Bvpb9rIVTLJu08/
+         reqeWEoq2rMVjr+u3nyH/7F+ElAx7R6Ci5sfZckE6wNc3r2G1qWSDgkos/K1GEpLAhBX
+         e21YttJ8qqGRcMYWS4Bj2hCLDQOL69VfQTLX39zlhAdjW01UD0JwkanFxnwYbzjYbVPS
+         MXFItjeBT2VIHud8fNXG95CUege2suTcNpk99hPnSvUdvvPXpjhtyodYQS+EO9lGtnj8
+         paIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=I9A3nXY3kUs1dCLrxrDBTwMVEeu4aFNeSYtm9K3Kp8M=;
-        b=gNIBgdgxC1VETSxWMLNW5oTtWmxary3hVMz5gserwr8Mk6YvR5r4Fm6o1CPejxJvKK
-         ACfJm7CGFCVPzj7SOXWdpOcH1j4ZHth5VEKwzfGhtJu5rNcG/l1vnoaB43OL7Uninequ
-         tAVtx5DpFf97CJCOtZbr41YxjeIw3/AWoVjfAhDm40004qHnKf4OpeoBHFhQeyJw727i
-         +ptjlnuMQG8y8sLMuTRDAqAOOZx/yYwztoK7ZHb78LdFJQKBYnpYQK62GTHrSs2AgMXs
-         kWswTehMZzdjd57sVhctpe3ufyKZl+G3WK6EhbBiDml21CGhjKJW9rQ3WbLWrfKgsApq
-         wUbg==
-X-Gm-Message-State: AOAM530huRBVOU3/6yx8O5t3kj57mGWGnOe4SKoZ6q7/IZLlCiRpgwEl
-	mW5S7N4LsR+FNPleYd95Y5u2KtBZnYQ+/K89dEE=
-X-Google-Smtp-Source: ABdhPJz/ERXhEYZDgOaIYDv7u7TRctVMeZb1O535axRV9MDzBlsvmc6AlLq+npWyEpXhKg16Cv0rRZvByOjuJxWekg8=
-X-Received: by 2002:aca:ab8c:: with SMTP id u134mr6631520oie.158.1620991827668;
- Fri, 14 May 2021 04:30:27 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wT0Jn1b/5R6Ec7FJe0n8ikzXhLXxiAZMKP/g+ykPRbA=;
+        b=XkjyVbHYIu7Rfv8cBCTK5CSPjTkiUasystqUrhj0eGfEDKCsXNpPOfCjUNzP+RU5+1
+         /u3v9tXH1oKP+nekxs4vg4YFRkRrb1E8tCOddUPyG17rgQWDspXgQPh5YOntoCpqDqK4
+         7WWub8zes1ikrtQE+ArjY2nzeOej0b0DSYWSHB1vCaVDSHESdHa1aYo9CMOwMKdSYWvI
+         kZU5wag5Mk7MXqyrfM1hjI6GyDcbhdcC4d5HHr3Fq+WDvSdUVt4+7s9PI2d86+OiXSrl
+         oyCuhrm8m6GXO3+b7cUDgCf+XKVT61bL4N3NN7KBKWTxcbgQ2d7UKkmRn7mPuKCgQrXC
+         w0Ag==
+X-Gm-Message-State: AOAM530m3+3gju8JmIlbeUn/L7KrDqadUUaDtzhfz8AQ4QCm/Vng4ET8
+	UU5lD4wpi3W5Y4ZVSKeX5+Y=
+X-Google-Smtp-Source: ABdhPJzD0kDjvXw4UTqhdxFfDieKbztEW02uxQJEMRqNtSY5aqeam8PR80RsZ21mhavlxffYq3noZQ==
+X-Received: by 2002:a17:90a:d909:: with SMTP id c9mr2754554pjv.190.1620999048263;
+        Fri, 14 May 2021 06:30:48 -0700 (PDT)
+Received: from fedora.. ([2405:201:6008:61b4:4e16:5348:d963:c66d])
+        by smtp.googlemail.com with ESMTPSA id ei9sm5176527pjb.2.2021.05.14.06.30.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 May 2021 06:30:47 -0700 (PDT)
+From: Shreyansh Chouhan <chouhan.shreyansh630@gmail.com>
+To: pure.logic@nexus-software.ie,
+	johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: Shreyansh Chouhan <chouhan.shreyansh630@gmail.com>,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: greybus: fix gb_loopback_stats_attrs definition
+Date: Fri, 14 May 2021 19:00:39 +0530
+Message-Id: <20210514133039.304760-1-chouhan.shreyansh630@gmail.com>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210508070930.5290-1-sergio.paracuellos@gmail.com>
- <YJ5VHnZaLi4o31vL@vkoul-mobl.Dlink> <CAMhs-H8A1o3_TJGjPNUO3K_gf+kDkbj7mFy21LJfUEB0sEhvSg@mail.gmail.com>
- <YJ5ddkGytGI+kAt9@kroah.com>
-In-Reply-To: <YJ5ddkGytGI+kAt9@kroah.com>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Fri, 14 May 2021 13:30:16 +0200
-Message-ID: <CAMhs-H8kjL-TdX97mvw+Q3X-HybR3Ox8KrXUY3vJp2jKwv4Q8g@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2 0/6] phy: ralink: mt7621-pci-phy: some improvements
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@ti.com>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, linux-phy@lists.infradead.org, 
-	Rob Herring <robh+dt@kernel.org>, linux-staging@lists.linux.dev, 
-	NeilBrown <neil@brown.name>, Ilya Lipnitskiy <ilya.lipnitskiy@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 14, 2021 at 1:22 PM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Fri, May 14, 2021 at 01:19:18PM +0200, Sergio Paracuellos wrote:
-> > On Fri, May 14, 2021 at 12:46 PM Vinod Koul <vkoul@kernel.org> wrote:
-> > >
-> > > On 08-05-21, 09:09, Sergio Paracuellos wrote:
-> > > > Hi all,
-> > > >
-> > > > This series contains some improvements in the pci phy driver
-> > > > for MT7621 SoCs.
-> > > >
-> > > > MT7621 SoC clock driver has already mainlined in
-> > > > 'commit 48df7a26f470 ("clk: ralink: add clock driver for mt7621 SoC")'
-> > > >
-> > > > Because of this we can update schema documentation and device tree
-> > > > to add related clock entries and avoid custom architecture code
-> > > > in favour of using the clock kernel framework to retrieve clock
-> > > > frequency needed to properly configure the PCIe related Phys.
-> > > >
-> > > > After this changes there is no problem to properly enable this
-> > > > driver for COMPILE_TEST.
-> > > >
-> > > > Configuration has also modified from 'tristate' to 'bool' depending
-> > > > on PCI_MT7621 which seems to have more sense.
-> > >
-> > > Applied 2-6, thanks
-> >
-> > Thanks, Vinod.
-> >
-> > Greg, can you take patch 1 through your tree?
->
-> Sure, can you resend it?
+The gb_loopback_stats_attrs macro, (defined in loopback.c,) is a
+multiline macro whose statements were not enclosed in a do while
+loop.
 
-Thanks, I have just resent it.
+This patch adds a do while loop around the statements of the said
+macro.
 
->
-> thanks,
->
-> greg k-h
+Signed-off-by: Shreyansh Chouhan <chouhan.shreyansh630@gmail.com>
+---
+ drivers/staging/greybus/loopback.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-Best regards,
-     Sergio Paracuellos
+diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
+index 2471448ba42a..c88ef3e894fa 100644
+--- a/drivers/staging/greybus/loopback.c
++++ b/drivers/staging/greybus/loopback.c
+@@ -162,10 +162,12 @@ static ssize_t name##_avg_show(struct device *dev,		\
+ }									\
+ static DEVICE_ATTR_RO(name##_avg)
+ 
+-#define gb_loopback_stats_attrs(field)				\
+-	gb_loopback_ro_stats_attr(field, min, u);		\
+-	gb_loopback_ro_stats_attr(field, max, u);		\
+-	gb_loopback_ro_avg_attr(field)
++#define gb_loopback_stats_attrs(field)					\
++	do {								\
++		gb_loopback_ro_stats_attr(field, min, u);		\
++		gb_loopback_ro_stats_attr(field, max, u);		\
++		gb_loopback_ro_avg_attr(field);				\
++	} while (0)
+ 
+ #define gb_loopback_attr(field, type)					\
+ static ssize_t field##_show(struct device *dev,				\
+-- 
+2.31.1
+
