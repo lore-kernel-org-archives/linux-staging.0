@@ -1,86 +1,96 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1AF270
-	for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 11:28:24 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id z17so10651551wrq.7
-        for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 04:28:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5342470
+	for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 11:30:28 +0000 (UTC)
+Received: by mail-oi1-f176.google.com with SMTP id j75so28124551oih.10
+        for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 04:30:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FOVnFr/nj3QWdNJlIgekW/kswIF2a4pE9kCJghjF1wk=;
-        b=bxT9Z5VylJKfnIRa6U+SlZjgVgH6H1klVz+DLSYbh9s5WUmaS1+hiToIhi24+Bw2oJ
-         4CEV7YqV4RWUY7Y0Tq1WQv4FmhTdS6OVNZseL9UO0HyPEZOHSUkCsTtuuMJVkqtbPSKB
-         /2Ltlg2I77IUszEciyaWhUY3QLoJhF7nXIhpNds8ea9KlEFBZ0QFU1+KWqyOsjQKq73+
-         vKZxpJBEiuR+yIFXK+5Vn9JffnsRwogVtNQeSH9Qjmc1yTGT3ZyahF2yw3AUZaMMMIA9
-         GCvz5qtRAkyyGDhzPIJaewrCwsO0+bUAtHJHn2UUiF+kbKyjkPQUmhOC7Lkx2F5IHOaS
-         2qEg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=I9A3nXY3kUs1dCLrxrDBTwMVEeu4aFNeSYtm9K3Kp8M=;
+        b=Zu0kMNaA+VfdfU/cHDDtfr8znlbneoVWuur733RqIN4ZBC0OuXa/1ESBC9MKcs+yPV
+         /3+grRzw6qjrCQmJssWN3/mN4sGd8q7dtv13xguBZr+OjR/jxL4N42JgtJb3m1SSM579
+         Jrhj+faVyCFWmCikRk8hXucEfqbYHw5nPWa+Z4XGgwq7XrhihB67SQ+aghSKvtTWP2lD
+         a+N+W95KUieb2Y5gyTH3BkDtkjyFXzyfrtqFRYxNJViYA1CkdOxd9JmUegm+xh+7RAaB
+         kdXwPYuwAsqde8TfSBJhgKdYsuBTLQhHSartMAwBkhijZyhESWtibNa4w7L1+2qjyCAp
+         vAcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FOVnFr/nj3QWdNJlIgekW/kswIF2a4pE9kCJghjF1wk=;
-        b=lfqQVPWmyemqGGnL4ZAJDHoNZQH0SBzuPpsZVWlItB6UXVJo6ec9nj3hH01W0/i6bS
-         92VDI4ust1AXoeRAGUB6UabGwfG6JnjSRFaAjDE9S8IxLHCD0cJG3kExQLiCOcZLiNT0
-         1bGbS3YIFETSgaB9NnNvKD2V1eGE96QxkJI/rF+q4JgW4XubMcH7BRRp3UKDwpanZT6r
-         hxCH2udkVbtrdxHusv3B7rE8pEq1J8j0uY3ON8P/g4Zaqe7J81EvZ3GZkXIpmtarEsv2
-         XvNVXwJx2ud4EnThFtuaS4zjUdDVo7G4MjxM0dQtluRVKUEHFTwVOHrf3OGRsaRoW5/7
-         ttnA==
-X-Gm-Message-State: AOAM5308Y04diLmCGFlnpmZK4m3JZXJFS6nq5ccUQxe28+MMl8hyKk1V
-	Z0N8pDjtrhNOE98vrkKfTyY=
-X-Google-Smtp-Source: ABdhPJzXC6PH31xSkMc/aeQ6gy/0dHlfwqd21eWIqFuML9q1m71jVSArlkMfap+0T5Z1m42HvphroQ==
-X-Received: by 2002:a5d:4a48:: with SMTP id v8mr59084603wrs.204.1620991703262;
-        Fri, 14 May 2021 04:28:23 -0700 (PDT)
-Received: from localhost.localdomain (29.red-83-49-33.dynamicip.rima-tde.net. [83.49.33.29])
-        by smtp.gmail.com with ESMTPSA id f203sm11132453wmf.20.2021.05.14.04.28.22
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 14 May 2021 04:28:22 -0700 (PDT)
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	neil@brown.name,
-	ilya.lipnitskiy@gmail.com
-Subject: [PATCH] staging: mt7621-dts: use clock in pci phy nodes
-Date: Fri, 14 May 2021 13:28:20 +0200
-Message-Id: <20210514112820.32499-1-sergio.paracuellos@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=I9A3nXY3kUs1dCLrxrDBTwMVEeu4aFNeSYtm9K3Kp8M=;
+        b=gNIBgdgxC1VETSxWMLNW5oTtWmxary3hVMz5gserwr8Mk6YvR5r4Fm6o1CPejxJvKK
+         ACfJm7CGFCVPzj7SOXWdpOcH1j4ZHth5VEKwzfGhtJu5rNcG/l1vnoaB43OL7Uninequ
+         tAVtx5DpFf97CJCOtZbr41YxjeIw3/AWoVjfAhDm40004qHnKf4OpeoBHFhQeyJw727i
+         +ptjlnuMQG8y8sLMuTRDAqAOOZx/yYwztoK7ZHb78LdFJQKBYnpYQK62GTHrSs2AgMXs
+         kWswTehMZzdjd57sVhctpe3ufyKZl+G3WK6EhbBiDml21CGhjKJW9rQ3WbLWrfKgsApq
+         wUbg==
+X-Gm-Message-State: AOAM530huRBVOU3/6yx8O5t3kj57mGWGnOe4SKoZ6q7/IZLlCiRpgwEl
+	mW5S7N4LsR+FNPleYd95Y5u2KtBZnYQ+/K89dEE=
+X-Google-Smtp-Source: ABdhPJz/ERXhEYZDgOaIYDv7u7TRctVMeZb1O535axRV9MDzBlsvmc6AlLq+npWyEpXhKg16Cv0rRZvByOjuJxWekg8=
+X-Received: by 2002:aca:ab8c:: with SMTP id u134mr6631520oie.158.1620991827668;
+ Fri, 14 May 2021 04:30:27 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210508070930.5290-1-sergio.paracuellos@gmail.com>
+ <YJ5VHnZaLi4o31vL@vkoul-mobl.Dlink> <CAMhs-H8A1o3_TJGjPNUO3K_gf+kDkbj7mFy21LJfUEB0sEhvSg@mail.gmail.com>
+ <YJ5ddkGytGI+kAt9@kroah.com>
+In-Reply-To: <YJ5ddkGytGI+kAt9@kroah.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Fri, 14 May 2021 13:30:16 +0200
+Message-ID: <CAMhs-H8kjL-TdX97mvw+Q3X-HybR3Ox8KrXUY3vJp2jKwv4Q8g@mail.gmail.com>
+Subject: Re: [PATCH RESEND v2 0/6] phy: ralink: mt7621-pci-phy: some improvements
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@ti.com>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, linux-phy@lists.infradead.org, 
+	Rob Herring <robh+dt@kernel.org>, linux-staging@lists.linux.dev, 
+	NeilBrown <neil@brown.name>, Ilya Lipnitskiy <ilya.lipnitskiy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-MT7621 SoC clock driver has already mainlined in
-'commit 48df7a26f470 ("clk: ralink: add clock driver for mt7621 SoC")'
-Hence we can use the clock in pcie phy nodes to
-be able to get it from there in driver code.
+On Fri, May 14, 2021 at 1:22 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Fri, May 14, 2021 at 01:19:18PM +0200, Sergio Paracuellos wrote:
+> > On Fri, May 14, 2021 at 12:46 PM Vinod Koul <vkoul@kernel.org> wrote:
+> > >
+> > > On 08-05-21, 09:09, Sergio Paracuellos wrote:
+> > > > Hi all,
+> > > >
+> > > > This series contains some improvements in the pci phy driver
+> > > > for MT7621 SoCs.
+> > > >
+> > > > MT7621 SoC clock driver has already mainlined in
+> > > > 'commit 48df7a26f470 ("clk: ralink: add clock driver for mt7621 SoC")'
+> > > >
+> > > > Because of this we can update schema documentation and device tree
+> > > > to add related clock entries and avoid custom architecture code
+> > > > in favour of using the clock kernel framework to retrieve clock
+> > > > frequency needed to properly configure the PCIe related Phys.
+> > > >
+> > > > After this changes there is no problem to properly enable this
+> > > > driver for COMPILE_TEST.
+> > > >
+> > > > Configuration has also modified from 'tristate' to 'bool' depending
+> > > > on PCI_MT7621 which seems to have more sense.
+> > >
+> > > Applied 2-6, thanks
+> >
+> > Thanks, Vinod.
+> >
+> > Greg, can you take patch 1 through your tree?
+>
+> Sure, can you resend it?
 
-Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
----
- drivers/staging/mt7621-dts/mt7621.dtsi | 2 ++
- 1 file changed, 2 insertions(+)
+Thanks, I have just resent it.
 
-diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
-index 9ee11adefa79..840ba0c3ffed 100644
---- a/drivers/staging/mt7621-dts/mt7621.dtsi
-+++ b/drivers/staging/mt7621-dts/mt7621.dtsi
-@@ -548,12 +548,14 @@ pcie@2,0 {
- 	pcie0_phy: pcie-phy@1e149000 {
- 		compatible = "mediatek,mt7621-pci-phy";
- 		reg = <0x1e149000 0x0700>;
-+		clocks = <&sysc MT7621_CLK_XTAL>;
- 		#phy-cells = <1>;
- 	};
- 
- 	pcie2_phy: pcie-phy@1e14a000 {
- 		compatible = "mediatek,mt7621-pci-phy";
- 		reg = <0x1e14a000 0x0700>;
-+		clocks = <&sysc MT7621_CLK_XTAL>;
- 		#phy-cells = <1>;
- 	};
- };
--- 
-2.25.1
+>
+> thanks,
+>
+> greg k-h
 
+Best regards,
+     Sergio Paracuellos
