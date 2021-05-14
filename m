@@ -1,145 +1,320 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47F872
-	for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 01:24:06 +0000 (UTC)
-Received: from dggeml765-chm.china.huawei.com (unknown [172.30.72.53])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Fh9G31MHPz61Nv;
-	Fri, 14 May 2021 09:01:31 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggeml765-chm.china.huawei.com (10.1.199.175) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Fri, 14 May 2021 09:04:55 +0800
-Received: from [127.0.0.1] (10.174.177.72) by dggpemm500006.china.huawei.com
- (7.185.36.236) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Fri, 14 May
- 2021 09:04:54 +0800
-Subject: Re: [PATCH 1/2] staging: rtl8723bs: core: remove three unused local
- variables
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Fabio Aiuto <fabioaiuto83@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
-	linux-staging <linux-staging@lists.linux.dev>
-References: <20210513094007.6435-1-thunder.leizhen@huawei.com>
- <20210513094007.6435-2-thunder.leizhen@huawei.com>
- <YJ1shU6dNDx6rLaF@kroah.com>
-From: "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <2be317a7-7785-9381-7fe5-6db0363ba85d@huawei.com>
-Date: Fri, 14 May 2021 09:04:53 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 246A072
+	for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 08:11:18 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id k10so12260555ejj.8
+        for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 01:11:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=R9dPAZszkegBNtMrucOn7e9KAxc/KRgb2m7e/2kEebU=;
+        b=qzWLLZ6WaIN0ez5xy543Ee7NOIw40rPMZzmDtK21IkEMrAHsHNTeK21R0JJnvGiu4q
+         i0snH6IzTVqmawyBofBFaHC47oUyEU3dhQw1oeZA8ysMg5blN8EwK2nsT9WhzzVtyS94
+         ypgfDaLA0+ThKWXd/0T3P1DiBeWhwz3tLWgbuudmU3xMCu49nQidVbA7i8Go5wh/8knB
+         HndW6JzhXKVvxZbg5O95253sWVj9/e6lXua2dj5qedFmvnGVQKLRYPNkwmvKUstyLFvQ
+         5Az7HezAg6GUTIiCHxn7ZlcFehvZbrHUdpnOTDOrBDkHjd84OT0rRIdQy57x1/w+l3hB
+         eLtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=R9dPAZszkegBNtMrucOn7e9KAxc/KRgb2m7e/2kEebU=;
+        b=LuAO5QN3eGcRKTGahKqgsKS0gw/iiSmVGDGKFxzYSXH3DpZ6ihB3AOwjr1jruO75UK
+         1tgdxMNUEqplPg9lZ56SbPXwuvEiYT9JTPN5nIE6h1dxjMxfy9FPsrHr+qzjgW6StwPS
+         ysG3AX61m7Xz/wDyqclxhpKpseZMEl2jaWXN6ETf+8yVe/qLasIUfZ5VRS9Q+JduSz9U
+         v41Cen8C5jqGL6xc9imHebCTQi/fbjwEoQHy13urN7CLTHuc/qc8N4AwJ6ssc1kbFhbh
+         DgsjUmt0r34TOVpEwc8YQOYHi2cHrlT4ykb/fi2xcwMM+s8wl0gZktvJiGexxf7Krs4v
+         osGQ==
+X-Gm-Message-State: AOAM530PANHa9PQPRRtEDYpPzygnhVRs/1GIUNMarDm6OuKbHgAvWDft
+	Qk6oqscedYZTvDYm+2c5aUY=
+X-Google-Smtp-Source: ABdhPJz+Z0qHoT/ibzlVolGTOobeuEwhcO3EfRxH7F3wjjTmm68/IDxVZR8eVkQfqxAMGcPfOeqVvQ==
+X-Received: by 2002:a17:906:6ace:: with SMTP id q14mr49241033ejs.79.1620979876601;
+        Fri, 14 May 2021 01:11:16 -0700 (PDT)
+Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
+        by smtp.gmail.com with ESMTPSA id g16sm3233091ejw.42.2021.05.14.01.11.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 May 2021 01:11:16 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: David Kershner <david.kershner@unisys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	sparmaintainer@unisys.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Matthew Wilcox <willy@infradead.org>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Dan Carpenter <dan.carpenter@oracle.com>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v8 RESEND] staging: unisys: visorhba: Convert module from IDR to XArray
+Date: Fri, 14 May 2021 10:11:11 +0200
+Message-Id: <20210514081112.19542-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YJ1shU6dNDx6rLaF@kroah.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.177.72]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
 
+Converted visorhba from IDR to XArray. The abstract data type XArray is
+more memory-efficient, parallelizable, and cache friendly. It takes
+advantage of RCU to perform lookups without locking. Furthermore, IDR is
+deprecated because XArray has a better (cleaner and more consistent)
+API.
 
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
 
-On 2021/5/14 2:14, Greg Kroah-Hartman wrote:
-> On Thu, May 13, 2021 at 05:40:06PM +0800, Zhen Lei wrote:
->> Commit 968b15adb0ea ("staging: rtl8723bs: remove all DBG_871X logs")
->> removed all of the DBG_871X logs, so no one uses local variable 'reassoc',
->> 'reason_code' and 'psta' anymore.
->>
->> Fixes: 968b15adb0ea ("staging: rtl8723bs: remove all DBG_871X logs")
->> Reported-by: Hulk Robot <hulkci@huawei.com>
->> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
->> ---
->>  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 31 +++----------------
->>  1 file changed, 5 insertions(+), 26 deletions(-)
->>
->> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
->> index 9031cf7657ae91c..acf5578863e17d7 100644
->> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
->> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
->> @@ -1021,7 +1021,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
->>  	u16 capab_info;
->>  	struct rtw_ieee802_11_elems elems;
->>  	struct sta_info *pstat;
->> -	unsigned char 	reassoc, *p, *pos, *wpa_ie;
->> +	unsigned char *p, *pos, *wpa_ie;
->>  	unsigned char WMM_IE[] = {0x00, 0x50, 0xf2, 0x02, 0x00, 0x01};
->>  	int		i, ie_len, wpa_ie_len, left;
->>  	unsigned char 	supportRate[16];
->> @@ -1041,14 +1041,10 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
->>  		return _FAIL;
->>  
->>  	frame_type = GetFrameSubType(pframe);
->> -	if (frame_type == WIFI_ASSOCREQ) {
->> -		reassoc = 0;
->> +	if (frame_type == WIFI_ASSOCREQ)
->>  		ie_offset = _ASOCREQ_IE_OFFSET_;
->> -	} else { /*  WIFI_REASSOCREQ */
->> -		reassoc = 1;
->> +	else	/*  WIFI_REASSOCREQ */
->>  		ie_offset = _REASOCREQ_IE_OFFSET_;
->> -	}
->> -
->>  
->>  	if (pkt_len < sizeof(struct ieee80211_hdr_3addr) + ie_offset)
->>  		return _FAIL;
->> @@ -1726,7 +1722,7 @@ unsigned int OnAction_back(struct adapter *padapter, union recv_frame *precv_fra
->>  	struct recv_reorder_ctrl *preorder_ctrl;
->>  	unsigned char 	*frame_body;
->>  	unsigned char 	category, action;
->> -	unsigned short	tid, status, reason_code = 0;
->> +	unsigned short	tid, status;
->>  	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
->>  	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
->>  	u8 *pframe = precv_frame->u.hdr.rx_data;
->> @@ -1795,9 +1791,6 @@ unsigned int OnAction_back(struct adapter *padapter, union recv_frame *precv_fra
->>  					~BIT((frame_body[3] >> 4) & 0xf);
->>  				psta->htpriv.candidate_tid_bitmap &=
->>  					~BIT((frame_body[3] >> 4) & 0xf);
->> -
->> -				/* reason_code = frame_body[4] | (frame_body[5] << 8); */
->> -				reason_code = get_unaligned_le16(&frame_body[4]);
->>  			} else if ((frame_body[3] & BIT(3)) == BIT(3)) {
->>  				tid = (frame_body[3] >> 4) & 0x0F;
->>  
->> @@ -5127,22 +5120,8 @@ void _linked_info_dump(struct adapter *padapter)
->>  
->>  		if ((pmlmeinfo->state&0x03) == WIFI_FW_STATION_STATE) {
->>  			rtw_hal_get_def_var(padapter, HAL_DEF_UNDERCORATEDSMOOTHEDPWDB, &UndecoratedSmoothedPWDB);
->> -		} else if ((pmlmeinfo->state&0x03) == _HW_STATE_AP_) {
->> -			struct list_head	*phead, *plist;
->> -
->> -			struct sta_info *psta = NULL;
->> -			struct sta_priv *pstapriv = &padapter->stapriv;
->> -
->> -			spin_lock_bh(&pstapriv->asoc_list_lock);
->> -			phead = &pstapriv->asoc_list;
->> -			plist = get_next(phead);
->> -			while (phead != plist) {
->> -				psta = container_of(plist, struct sta_info, asoc_list);
->> -				plist = get_next(plist);
->> -			}
->> -			spin_unlock_bh(&pstapriv->asoc_list_lock);
->> -
->>  		}
->> +
->>  		for (i = 0; i < NUM_STA; i++) {
->>  			if (pdvobj->macid[i]) {
->>  				if (i != 1) /* skip bc/mc sta */
->> -- 
->> 2.26.0.106.g9fadedd
->>
->>
->>
-> 
-> Does not apply to my tree :(
+Resubmitting the patch with the addition of "Reviewed-by: 
+Dan Carpenter" (thanks, Dan) and because I suspect the S-PAR 
+maintainers missed this in the noise. 
+I'd appreciate a review by Unisys engineers on this patch. 
+Also, I'd appreciate a Matthew Wilcox review as the XArray 
+maintainer.
 
-Should I split it into three patches？It's like the 2/2 reason.
+Changes from v7: Removed xa_destroy, since its insertion was due to the
+misunderstanding of the reviews on v5. Removed unnecessary 'else'
+clauses.
+Changes from v6: Added a call to xa_destroy() that I had forgotten.
+Fixed taking locks with interrupts disabled (use xa_erase_irq()).
+Replaced checking for success with checking for failure. Issues detected
+by Dan Carpenter and Matthew Wilcox.
+Changes from v5: As suggested by Matthew Wilcox, reworded the commit
+message, modified setup_scsitaskmgmt_handles() to manage and return errors,
+used 'xa_limit_32b' as the range of indexes (because there is no need to
+use 0 as a marker of no allocation).
+Changes from v4: Fixed some issues detected by Matthew Wilcox and Fabio
+Aiuto.
+Changes from v3: Matthew Wilcox found that the XArray was not
+initialized: now it is. Changed types handles from u64 to u32 because
+they can't work as arguments of xa_alloc_irq() and u32 is enough large
+for storing XArray indexes.
+Changes from v2: Some residual errors from v1 were not fixed in v2. Now
+they have been removed.
+Changes from v1: After a first review by Matthew Wilcox, who found a
+series of errors and gave suggestions on how to fix them, I rewrote a
+larger part of the patch.
 
-> 
-> .
-> 
+ .../staging/unisys/visorhba/visorhba_main.c   | 101 +++++++-----------
+ 1 file changed, 41 insertions(+), 60 deletions(-)
+
+diff --git a/drivers/staging/unisys/visorhba/visorhba_main.c b/drivers/staging/unisys/visorhba/visorhba_main.c
+index 4455d26f7c96..41f8a72a2a95 100644
+--- a/drivers/staging/unisys/visorhba/visorhba_main.c
++++ b/drivers/staging/unisys/visorhba/visorhba_main.c
+@@ -6,10 +6,10 @@
+ 
+ #include <linux/debugfs.h>
+ #include <linux/kthread.h>
+-#include <linux/idr.h>
+ #include <linux/module.h>
+ #include <linux/seq_file.h>
+ #include <linux/visorbus.h>
++#include <linux/xarray.h>
+ #include <scsi/scsi.h>
+ #include <scsi/scsi_host.h>
+ #include <scsi/scsi_cmnd.h>
+@@ -82,8 +82,7 @@ struct visorhba_devdata {
+ 	 * allows us to pass int handles back-and-forth between us and
+ 	 * iovm, instead of raw pointers
+ 	 */
+-	struct idr idr;
+-
++	struct xarray xa;
+ 	struct dentry *debugfs_dir;
+ 	struct dentry *debugfs_info;
+ };
+@@ -182,71 +181,48 @@ static struct uiscmdrsp *get_scsipending_cmdrsp(struct visorhba_devdata *ddata,
+ 	return NULL;
+ }
+ 
+-/*
+- * simple_idr_get - Associate a provided pointer with an int value
+- *		    1 <= value <= INT_MAX, and return this int value;
+- *		    the pointer value can be obtained later by passing
+- *		    this int value to idr_find()
+- * @idrtable: The data object maintaining the pointer<-->int mappings
+- * @p:	      The pointer value to be remembered
+- * @lock:     A spinlock used when exclusive access to idrtable is needed
+- *
+- * Return: The id number mapped to pointer 'p', 0 on failure
+- */
+-static unsigned int simple_idr_get(struct idr *idrtable, void *p,
+-				   spinlock_t *lock)
+-{
+-	int id;
+-	unsigned long flags;
+-
+-	idr_preload(GFP_KERNEL);
+-	spin_lock_irqsave(lock, flags);
+-	id = idr_alloc(idrtable, p, 1, INT_MAX, GFP_NOWAIT);
+-	spin_unlock_irqrestore(lock, flags);
+-	idr_preload_end();
+-	/* failure */
+-	if (id < 0)
+-		return 0;
+-	/* idr_alloc() guarantees > 0 */
+-	return (unsigned int)(id);
+-}
+-
+ /*
+  * setup_scsitaskmgmt_handles - Stash the necessary handles so that the
+  *				completion processing logic for a taskmgmt
+  *				cmd will be able to find who to wake up
+  *				and where to stash the result
+- * @idrtable: The data object maintaining the pointer<-->int mappings
+- * @lock:     A spinlock used when exclusive access to idrtable is needed
++ * @xa:       The data object maintaining the pointer<-->int mappings
+  * @cmdrsp:   Response from the IOVM
+  * @event:    The event handle to associate with an id
+  * @result:   The location to place the result of the event handle into
+  */
+-static void setup_scsitaskmgmt_handles(struct idr *idrtable, spinlock_t *lock,
+-				       struct uiscmdrsp *cmdrsp,
++static int setup_scsitaskmgmt_handles(struct xarray *xa, struct uiscmdrsp *cmdrsp,
+ 				       wait_queue_head_t *event, int *result)
+ {
+-	/* specify the event that has to be triggered when this */
+-	/* cmd is complete */
+-	cmdrsp->scsitaskmgmt.notify_handle =
+-		simple_idr_get(idrtable, event, lock);
+-	cmdrsp->scsitaskmgmt.notifyresult_handle =
+-		simple_idr_get(idrtable, result, lock);
++	int ret;
++	u32 id;
++
++	/* specify the event that has to be triggered when this cmd is complete */
++	ret = xa_alloc_irq(xa, &id, event, xa_limit_32b, GFP_KERNEL);
++	if (ret)
++		return ret;
++	cmdrsp->scsitaskmgmt.notify_handle = id;
++	ret = xa_alloc_irq(xa, &id, result, xa_limit_32b, GFP_KERNEL);
++	if (ret) {
++		xa_erase_irq(xa, cmdrsp->scsitaskmgmt.notify_handle);
++		return ret;
++	}
++	cmdrsp->scsitaskmgmt.notifyresult_handle = id;
++
++	return 0;
+ }
+ 
+ /*
+  * cleanup_scsitaskmgmt_handles - Forget handles created by
+  *				  setup_scsitaskmgmt_handles()
+- * @idrtable: The data object maintaining the pointer<-->int mappings
++ * @xa: The data object maintaining the pointer<-->int mappings
+  * @cmdrsp:   Response from the IOVM
+  */
+-static void cleanup_scsitaskmgmt_handles(struct idr *idrtable,
++static void cleanup_scsitaskmgmt_handles(struct xarray *xa,
+ 					 struct uiscmdrsp *cmdrsp)
+ {
+-	if (cmdrsp->scsitaskmgmt.notify_handle)
+-		idr_remove(idrtable, cmdrsp->scsitaskmgmt.notify_handle);
+-	if (cmdrsp->scsitaskmgmt.notifyresult_handle)
+-		idr_remove(idrtable, cmdrsp->scsitaskmgmt.notifyresult_handle);
++	xa_erase_irq(xa, cmdrsp->scsitaskmgmt.notify_handle);
++	xa_erase_irq(xa, cmdrsp->scsitaskmgmt.notifyresult_handle);
+ }
+ 
+ /*
+@@ -269,6 +245,7 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
+ 	int notifyresult = 0xffff;
+ 	wait_queue_head_t notifyevent;
+ 	int scsicmd_id;
++	int ret;
+ 
+ 	if (devdata->serverdown || devdata->serverchangingstate)
+ 		return FAILED;
+@@ -284,8 +261,14 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
+ 
+ 	/* issue TASK_MGMT_ABORT_TASK */
+ 	cmdrsp->cmdtype = CMD_SCSITASKMGMT_TYPE;
+-	setup_scsitaskmgmt_handles(&devdata->idr, &devdata->privlock, cmdrsp,
+-				   &notifyevent, &notifyresult);
++
++	ret = setup_scsitaskmgmt_handles(&devdata->xa, cmdrsp,
++					 &notifyevent, &notifyresult);
++	if (ret) {
++		dev_dbg(&scsidev->sdev_gendev,
++		        "visorhba: setup_scsitaskmgmt_handles returned %d\n", ret);
++		return FAILED;
++	}
+ 
+ 	/* save destination */
+ 	cmdrsp->scsitaskmgmt.tasktype = tasktype;
+@@ -311,14 +294,14 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
+ 	dev_dbg(&scsidev->sdev_gendev,
+ 		"visorhba: taskmgmt type=%d success; result=0x%x\n",
+ 		 tasktype, notifyresult);
+-	cleanup_scsitaskmgmt_handles(&devdata->idr, cmdrsp);
++	cleanup_scsitaskmgmt_handles(&devdata->xa, cmdrsp);
+ 	return SUCCESS;
+ 
+ err_del_scsipending_ent:
+ 	dev_dbg(&scsidev->sdev_gendev,
+ 		"visorhba: taskmgmt type=%d not executed\n", tasktype);
+ 	del_scsipending_ent(devdata, scsicmd_id);
+-	cleanup_scsitaskmgmt_handles(&devdata->idr, cmdrsp);
++	cleanup_scsitaskmgmt_handles(&devdata->xa, cmdrsp);
+ 	return FAILED;
+ }
+ 
+@@ -654,13 +637,13 @@ DEFINE_SHOW_ATTRIBUTE(info_debugfs);
+  * Service Partition returned the result of the task management
+  * command. Wake up anyone waiting for it.
+  */
+-static void complete_taskmgmt_command(struct idr *idrtable,
++static void complete_taskmgmt_command(struct xarray *xa,
+ 				      struct uiscmdrsp *cmdrsp, int result)
+ {
+ 	wait_queue_head_t *wq =
+-		idr_find(idrtable, cmdrsp->scsitaskmgmt.notify_handle);
++		xa_load(xa, cmdrsp->scsitaskmgmt.notify_handle);
+ 	int *scsi_result_ptr =
+-		idr_find(idrtable, cmdrsp->scsitaskmgmt.notifyresult_handle);
++		xa_load(xa, cmdrsp->scsitaskmgmt.notifyresult_handle);
+ 	if (unlikely(!(wq && scsi_result_ptr))) {
+ 		pr_err("visorhba: no completion context; cmd will time out\n");
+ 		return;
+@@ -708,7 +691,7 @@ static void visorhba_serverdown_complete(struct visorhba_devdata *devdata)
+ 			break;
+ 		case CMD_SCSITASKMGMT_TYPE:
+ 			cmdrsp = pendingdel->sent;
+-			complete_taskmgmt_command(&devdata->idr, cmdrsp,
++			complete_taskmgmt_command(&devdata->xa, cmdrsp,
+ 						  TASK_MGMT_FAILED);
+ 			break;
+ 		default:
+@@ -905,7 +888,7 @@ static void drain_queue(struct uiscmdrsp *cmdrsp,
+ 			if (!del_scsipending_ent(devdata,
+ 						 cmdrsp->scsitaskmgmt.handle))
+ 				break;
+-			complete_taskmgmt_command(&devdata->idr, cmdrsp,
++			complete_taskmgmt_command(&devdata->xa, cmdrsp,
+ 						  cmdrsp->scsitaskmgmt.result);
+ 		} else if (cmdrsp->cmdtype == CMD_NOTIFYGUEST_TYPE)
+ 			dev_err_once(&devdata->dev->device,
+@@ -1053,7 +1036,7 @@ static int visorhba_probe(struct visor_device *dev)
+ 	if (err)
+ 		goto err_debugfs_info;
+ 
+-	idr_init(&devdata->idr);
++	xa_init(&devdata->xa);
+ 
+ 	devdata->cmdrsp = kmalloc(sizeof(*devdata->cmdrsp), GFP_ATOMIC);
+ 	visorbus_enable_channel_interrupts(dev);
+@@ -1096,8 +1079,6 @@ static void visorhba_remove(struct visor_device *dev)
+ 	scsi_remove_host(scsihost);
+ 	scsi_host_put(scsihost);
+ 
+-	idr_destroy(&devdata->idr);
+-
+ 	dev_set_drvdata(&dev->device, NULL);
+ 	debugfs_remove(devdata->debugfs_info);
+ 	debugfs_remove_recursive(devdata->debugfs_dir);
+-- 
+2.31.1
 
