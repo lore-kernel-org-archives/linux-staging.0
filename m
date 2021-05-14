@@ -1,101 +1,81 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtprelay.hostedemail.com (smtprelay0007.hostedemail.com [216.40.44.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 696EB72
-	for <linux-staging@lists.linux.dev>; Sat, 15 May 2021 08:15:26 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id p17so506386plf.12
-        for <linux-staging@lists.linux.dev>; Sat, 15 May 2021 01:15:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=p2myGYY0cziyB2Ci5y2caQQe9yM5HE5UndBsXhuUUdA=;
-        b=HWz5EW4lytfdAJkp5Euu1d4tmtWlZAMAUArBHbeM1lePTgWmTYF0+cD0IENgL4ugco
-         D0OCRwENTS0aWD3Q1WLq1bpHz/oHbUKg371P0/0a/woiSkwHvOlH+mZE9DasB8VtLRtk
-         rNFR7BC4zc7/kttAChiyuX3s1m8aMh+u9y+NHzGZH+TDHPp4noS6lst3wZsVp4EFhDkh
-         S7i/0BkrUqoTedWsjanOY4FzwI0hEMFJi17YMumFx4xiykDqDl7cezUrdf433gueuHpx
-         JMaZM9f3ax2VtfS8bPKUezAT3OceqQ/qOPrMr1Fk2qsSj92tAX/v165KSLsPpQkZyWRC
-         /uFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=p2myGYY0cziyB2Ci5y2caQQe9yM5HE5UndBsXhuUUdA=;
-        b=GWohXYcgWlYbO06fUPYSmolAPXQ0aqxG1NY2lsvWAIm1relj50lF7b3cPbXxvxRktX
-         rgoOsT/+FihBCjXjJfn3PpZ9SyK0cPQvuqP7qPYgCUoLkGqeO8M1GVmQ+4RgNO9K6+GZ
-         3xwgxpSQ6aH06zSkzOZW89IAgV+aUnebifAe7wrY4AQ9fW3QngTFqcaRv0//AGN0eDLk
-         aqawDQ16/b/fmOWEmxEyAvuMKGjxsJpx54v1AVasMhvUGSxQcN65WLo48ZJa7+60i6bX
-         MdFSoEoM3o4LqkAz6nII/ZA/fmI7Rz18MhQNPkoGIm6H1CWLOR9v1XDIzjamk+j9gjRF
-         XeLQ==
-X-Gm-Message-State: AOAM533iuRs6OnbLL67Qh2jA/iBxk9eknQU75bccvwdTzunUhZZGG4Os
-	cxo3UAbcqN8nBckc8pLQwXI=
-X-Google-Smtp-Source: ABdhPJzmvbkYAoM/LWw0+auTR8kwciuWbWxmAwLtdcz0IBgKxbYb9mVUFMNbVam22XEfnvskjR98cA==
-X-Received: by 2002:a17:902:ee54:b029:ef:8497:e097 with SMTP id 20-20020a170902ee54b02900ef8497e097mr16983949plo.22.1621066525874;
-        Sat, 15 May 2021 01:15:25 -0700 (PDT)
-Received: from fedora.. ([2405:201:6008:61b4:4e16:5348:d963:c66d])
-        by smtp.googlemail.com with ESMTPSA id b15sm5552085pfi.100.2021.05.15.01.15.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 May 2021 01:15:25 -0700 (PDT)
-From: Shreyansh Chouhan <chouhan.shreyansh630@gmail.com>
-To: gregkh@linuxfoundation.org,
-	ross.schm.dev@gmail.com,
-	deborahbrouwer3563@gmail.com,
-	fabioaiuto83@gmail.com,
-	marcocesati@gmail.com,
-	linux@roeck-us.net,
-	phil@philpotter.co.uk
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0D172
+	for <linux-staging@lists.linux.dev>; Sat, 15 May 2021 08:29:15 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+	by smtpgrave03.hostedemail.com (Postfix) with ESMTP id 06A1D182331A0
+	for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 19:32:49 +0000 (UTC)
+Received: from omf07.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+	by smtprelay04.hostedemail.com (Postfix) with ESMTP id 40FFD1810DA54;
+	Fri, 14 May 2021 19:32:42 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf07.hostedemail.com (Postfix) with ESMTPA id D7010315D74;
+	Fri, 14 May 2021 19:32:40 +0000 (UTC)
+Message-ID: <89a62ed669547eb989dd008b67165f3d0c9f4265.camel@perches.com>
+Subject: Re: [PATCH] staging: greybus: fix gb_loopback_stats_attrs definition
+From: Joe Perches <joe@perches.com>
+To: Alex Elder <elder@ieee.org>, Greg KH <gregkh@linuxfoundation.org>, 
 	Shreyansh Chouhan <chouhan.shreyansh630@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix coding style for if comparisions
-Date: Sat, 15 May 2021 13:44:46 +0530
-Message-Id: <20210515081446.676500-1-chouhan.shreyansh630@gmail.com>
-X-Mailer: git-send-email 2.31.1
+Cc: pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org, 
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Fri, 14 May 2021 12:32:39 -0700
+In-Reply-To: <88d7da63-d03c-7fa3-a881-aff8e7b4a618@ieee.org>
+References: <20210514133039.304760-1-chouhan.shreyansh630@gmail.com>
+	 <YJ582f3O9K9YD3QA@kroah.com> <YJ5/tqFfcjxOLsF0@fedora>
+	 <YJ6DrLiMsdkG5loA@kroah.com> <YJ6H/WsojYcN/bLO@fedora>
+	 <YJ6Jf+Z1ReVgDt64@kroah.com> <YJ6TUAowTI75h/sl@fedora>
+	 <YJ6XpUMliWQOS8MB@kroah.com>
+	 <bccbec1a0ffbf6c31b5e6a78cedd78cd64f2b8fe.camel@perches.com>
+	 <88d7da63-d03c-7fa3-a881-aff8e7b4a618@ieee.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: D7010315D74
+X-Spam-Status: No, score=-1.40
+X-Stat-Signature: cwerr3zmihx55crpj6cfhty19yuuzfrx
+X-Rspamd-Server: rspamout03
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19FMxcCDKW900tDgf5rcwkgG+LUGqTv8gY=
+X-HE-Tag: 1621020760-252553
 
-Placed constants on the right side of the equality tests in rtw_xmit.c
+On Fri, 2021-05-14 at 13:53 -0500, Alex Elder wrote:
+> On 5/14/21 10:56 AM, Joe Perches wrote:
+> > On Fri, 2021-05-14 at 17:30 +0200, Greg KH wrote:
+> > > On Fri, May 14, 2021 at 08:42:16PM +0530, Shreyansh Chouhan wrote:
+> > []
+> > > > I didn't look at how/where was the macro called and missed a very
+> > > > obvious error. Now that I have looked at it, the only way I can think of
+> > > > fixing this is changing the macro to a (inline?) function. Will
+> > > > that be a desirable change?
+> > > 
+> > > No, it can't be a function, the code is fine as-is, checkpatch is just a
+> > > perl script and does not always know what needs to be done.
+> > 
+> > true.
+> > 
+> > perhaps better though to rename these declaring macros to start with declare_
+> 
+> I don't disagree with your suggestion, but it's not clear it
+> would have prevented submission of the erroneous initial patch
+> (nor future ones from people who blindly follow checkpatch.pl
+> suggestions).
 
-Signed-off-by: Shreyansh Chouhan <chouhan.shreyansh630@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+With my checkpatch maintainer hat on:
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 7e3477a45a0f..b46646c74f2d 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -645,7 +645,7 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
- 
- 	pattrib->pktlen = pktfile.pkt_len;
- 
--	if (ETH_P_IP == pattrib->ether_type) {
-+	if (pattrib->ether_type == ETH_P_IP) {
- 		/*  The following is for DHCP and ARP packet, we use cck1M to tx these packets and let LPS awake some time */
- 		/*  to prevent DHCP protocol fail */
- 
-@@ -655,7 +655,7 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
- 
- 		pattrib->dhcp_pkt = 0;
- 		if (pktfile.pkt_len > 282) {/* MINIMUM_DHCP_PACKET_SIZE) { */
--			if (ETH_P_IP == pattrib->ether_type) {/*  IP header */
-+			if (pattrib->ether_type == ETH_P_IP) {/*  IP header */
- 				if (((tmp[21] == 68) && (tmp[23] == 67)) ||
- 					((tmp[21] == 67) && (tmp[23] == 68))) {
- 					/*  68 : UDP BOOTP client */
-@@ -673,7 +673,7 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
- 			if (piphdr->protocol == 0x1) /*  protocol type in ip header 0x1 is ICMP */
- 				pattrib->icmp_pkt = 1;
- 		}
--	} else if (0x888e == pattrib->ether_type) {
-+	} else if (pattrib->ether_type == 0x888e) {
- 		netdev_dbg(padapter->pnetdev, "send eapol packet\n");
- 	}
- 
--- 
-2.31.1
+Yeah Alex, I know.  checkpatch can't teach people c either.
+There's not much to do other than try to make the code clearer.
+Adding exceptions to checkpatch only leads to other exceptions
+and false negatives...
+
+> PS  Lots of negatives in that sentence.
+
+Only positives...
+
+cheers, Joe
 
