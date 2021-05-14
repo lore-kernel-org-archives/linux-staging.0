@@ -1,84 +1,74 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFBB71
-	for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 08:45:18 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BEBCB61287;
-	Fri, 14 May 2021 08:45:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1620981917;
-	bh=GChweA7UlqSx0jPjazErNbjNcvyuSkWf5X3Y2ZUsotQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MvWUOmakKlJzxnJ7mfH2vpBVjO6aFNbomZjVJq6ELYPB1SxnzTuFle+rVHEyPHaLI
-	 5ig3SNgFW+X1B9PwUthmctkEuiSAjGa/+DBK72w5n2FlDuQKlI9Wxy5qgrh14YhCZt
-	 cSMtUfOJX7xcbOwY1k+FqAk2PqtU8WNLzsTnGlR4=
-Date: Fri, 14 May 2021 10:45:14 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: hdegoede@redhat.com, Larry.Finger@lwfinger.net,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: staging: rtl8723bs: questions on TODO list
-Message-ID: <YJ44mtOUVZwhxW4m@kroah.com>
-References: <20210514083856.GA13800@agape.jhs>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D6471
+	for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 09:04:08 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id l4so43685184ejc.10
+        for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 02:04:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zonYf+ym9M80iJYhRH5I1YOvTHlXqpjZLYOjK1Xm4rw=;
+        b=akQwl8cpf4FaZIcoZDskIeOPbDGNFoZ0erc26W36qCJb/qAEHKU7tkecYk+ZPlgHKu
+         tHEq9PRABMpT+qHun3KknIycWvCJtDjZkFNSJO1G2M0+IY37JgRAn/ucgfSVo1+ps0Q5
+         isRldiQ9GHogD66gOy82rDxLeJHIxbk91krp4eypG7UeX9PSySB6YiJV0UttspZDJT/X
+         sFxH5WunPZcHsjeoh12NnbNiMjLUkIou5AEMjRcB8DtRUQMacu6rbDVju452PLXqhWtd
+         Cy/Mkbp+XOlzy4kXyBb7JbHxQywLEcnzKzoB5xicJy6E1HS09h9uEhvElw8lowQSvMWd
+         Uu2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zonYf+ym9M80iJYhRH5I1YOvTHlXqpjZLYOjK1Xm4rw=;
+        b=Qm1aXAD1XJY8PcawzimweUrCww8aBE5KUBPrEazx4sCXbvSJhRQZ0iLXCl5MAqsJEr
+         kcBjiDfwNJe9pDiLrAI6gfnFIUbteSF8VC9ZzXNy5tfk6HBe/AMDkV2JB1aXpwIi7i6V
+         qqnWNXtVPfhAb5AUlSJ0UIlW2ShQsyJWyQgkOdnctaCItkwehkloDSyZUaD99hgUiVaw
+         UFtmdtodlFKcWnN0VEXauYgq5zNkZnV7ibVNfNc6KWwhf9QjiqLMysL1HZ7AeihZ+qQ9
+         iznFJvTdpHE1Cc9MbPxpczbXHToKR4bIMvfIR9UeP2jQZwqL3LKawizRspEZQ+rb5uUK
+         YKwA==
+X-Gm-Message-State: AOAM531P5jNmj8iIBlfcCPS7mqfa46hvSdzcnKRi8ZYAp7eECx5vAgsx
+	ScKZjw3IE9nWwywqyOGu6Q4=
+X-Google-Smtp-Source: ABdhPJzubRxQvD5jfH/PjLFmVWZ4LtXPrTyz6F3htzb0b0qWtPpkVDCP7BTjZ7K+zAaiDeJK225z6Q==
+X-Received: by 2002:a17:906:a84e:: with SMTP id dx14mr10114483ejb.220.1620983046701;
+        Fri, 14 May 2021 02:04:06 -0700 (PDT)
+Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
+        by smtp.gmail.com with ESMTPSA id cq9sm2446395edb.44.2021.05.14.02.04.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 May 2021 02:04:06 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	lkp@intel.com
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v3 0/2] staging: rtl8723bs: hal: Remove set but unused variables
+Date: Fri, 14 May 2021 11:03:59 +0200
+Message-Id: <20210514090401.16123-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210514083856.GA13800@agape.jhs>
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 14, 2021 at 10:38:57AM +0200, Fabio Aiuto wrote:
-> Hello all,
-> 
-> I'd like to have some clarifications about rtl8723bs driver.
-> In order to make this driver ready for moving out of staging
-> I would like to know:
-> 
-> - find and remove remaining code valid only for 5 GHz. Most of the obvious
->   ones have been removed, but things like channel > 14 still exist.
-> 
-> is it possible to remove all 5g code, even the one related to power
-> regulation when on band 5g? As far as I know about this card is that
-> it doesn't support 5g, so may I just delete all 5g code or there are some
-> constraints I'd take care of?
-> 
-> - find and remove any code for other chips that is left over
-> 
-> Ok this seems clear, are there some suggestion to do it safely?
-> 
-> - convert any remaining unusual variable types
-> 
-> Ok (but feel free to suggest anything)
-> 
-> - find codes that can use %pM and %Nph formatting
-> 
-> Ok (but feel free to suggest anything)
-> 
-> - checkpatch.pl fixes - most of the remaining ones are lines too long. Many
->   of them will require refactoring
-> 
-> Ok
-> 
-> - merge Realtek's bugfixes and new features into the driver
-> 
-> Please, can you explain what one could do that?
-> 
-> - switch to use LIB80211
-> - switch to use MAC80211
-> 
-> I think I need a few details for these last points as well.
-> 
-> Do you think that one will need real hardware to complete
-> these tasks? I don't have rtl8723bs card at the moment, so
-> I think I will focus on those TODO activities which
-> don't need it.
+Removed set but unused variables. Issues detected by GCC while building 
+for x86_64 (patch 1/2) and by the kernel test robot (patch 2/2) while 
+building with GCC W=1 for target PowerPC.
 
-I recommend getting one of these devices to do the more complex tasks as
-described above.  Otherwise it's going to be hard to verify that your
-changes are valid.
+Changes from v2: Corrected subjected lines that didn't match up with the
+patches. Issues reported by Greg K-H.
+Changes from v1: Added patch 2/2 to remove an unused variable detected 
+and reported by the kernel test robot.
 
-thanks,
+Fabio M. De Francesco (2):
+  staging: rtl8723bs: hal: Remove three set but unused variables
+  staging: rtl8723bs: hal: Remove set but unused variable
 
-greg k-h
+ drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c | 18 +-----------------
+ 1 file changed, 1 insertion(+), 17 deletions(-)
+
+-- 
+2.31.1
+
