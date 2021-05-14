@@ -1,71 +1,86 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9FA970
-	for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 11:22:33 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8B792613DE;
-	Fri, 14 May 2021 11:22:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1620991353;
-	bh=fdI4/WvFxLdOxw3z0CJfS4djdEHMKXDEj+klVKAPPdM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SfyuVtLk6E8Z65FAVs45sn4bhQlv74lXiwqfQ10FIfAcIv1uWX2qGOKNlzuX37A0V
-	 y8y/OzI4Z9TSvvbflhG9P0FK016w73qiejkBEIFf48S3YnGTV4owY+RRD7xrnU1cM0
-	 fNXXSXqd/1ZXPUFmBQ28HjUaEFSzAPRUVqOtFrAY=
-Date: Fri, 14 May 2021 13:22:30 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@ti.com>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-	linux-phy@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
-	linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>,
-	Ilya Lipnitskiy <ilya.lipnitskiy@gmail.com>
-Subject: Re: [PATCH RESEND v2 0/6] phy: ralink: mt7621-pci-phy: some
- improvements
-Message-ID: <YJ5ddkGytGI+kAt9@kroah.com>
-References: <20210508070930.5290-1-sergio.paracuellos@gmail.com>
- <YJ5VHnZaLi4o31vL@vkoul-mobl.Dlink>
- <CAMhs-H8A1o3_TJGjPNUO3K_gf+kDkbj7mFy21LJfUEB0sEhvSg@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1AF270
+	for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 11:28:24 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id z17so10651551wrq.7
+        for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 04:28:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FOVnFr/nj3QWdNJlIgekW/kswIF2a4pE9kCJghjF1wk=;
+        b=bxT9Z5VylJKfnIRa6U+SlZjgVgH6H1klVz+DLSYbh9s5WUmaS1+hiToIhi24+Bw2oJ
+         4CEV7YqV4RWUY7Y0Tq1WQv4FmhTdS6OVNZseL9UO0HyPEZOHSUkCsTtuuMJVkqtbPSKB
+         /2Ltlg2I77IUszEciyaWhUY3QLoJhF7nXIhpNds8ea9KlEFBZ0QFU1+KWqyOsjQKq73+
+         vKZxpJBEiuR+yIFXK+5Vn9JffnsRwogVtNQeSH9Qjmc1yTGT3ZyahF2yw3AUZaMMMIA9
+         GCvz5qtRAkyyGDhzPIJaewrCwsO0+bUAtHJHn2UUiF+kbKyjkPQUmhOC7Lkx2F5IHOaS
+         2qEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FOVnFr/nj3QWdNJlIgekW/kswIF2a4pE9kCJghjF1wk=;
+        b=lfqQVPWmyemqGGnL4ZAJDHoNZQH0SBzuPpsZVWlItB6UXVJo6ec9nj3hH01W0/i6bS
+         92VDI4ust1AXoeRAGUB6UabGwfG6JnjSRFaAjDE9S8IxLHCD0cJG3kExQLiCOcZLiNT0
+         1bGbS3YIFETSgaB9NnNvKD2V1eGE96QxkJI/rF+q4JgW4XubMcH7BRRp3UKDwpanZT6r
+         hxCH2udkVbtrdxHusv3B7rE8pEq1J8j0uY3ON8P/g4Zaqe7J81EvZ3GZkXIpmtarEsv2
+         XvNVXwJx2ud4EnThFtuaS4zjUdDVo7G4MjxM0dQtluRVKUEHFTwVOHrf3OGRsaRoW5/7
+         ttnA==
+X-Gm-Message-State: AOAM5308Y04diLmCGFlnpmZK4m3JZXJFS6nq5ccUQxe28+MMl8hyKk1V
+	Z0N8pDjtrhNOE98vrkKfTyY=
+X-Google-Smtp-Source: ABdhPJzXC6PH31xSkMc/aeQ6gy/0dHlfwqd21eWIqFuML9q1m71jVSArlkMfap+0T5Z1m42HvphroQ==
+X-Received: by 2002:a5d:4a48:: with SMTP id v8mr59084603wrs.204.1620991703262;
+        Fri, 14 May 2021 04:28:23 -0700 (PDT)
+Received: from localhost.localdomain (29.red-83-49-33.dynamicip.rima-tde.net. [83.49.33.29])
+        by smtp.gmail.com with ESMTPSA id f203sm11132453wmf.20.2021.05.14.04.28.22
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 14 May 2021 04:28:22 -0700 (PDT)
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	neil@brown.name,
+	ilya.lipnitskiy@gmail.com
+Subject: [PATCH] staging: mt7621-dts: use clock in pci phy nodes
+Date: Fri, 14 May 2021 13:28:20 +0200
+Message-Id: <20210514112820.32499-1-sergio.paracuellos@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMhs-H8A1o3_TJGjPNUO3K_gf+kDkbj7mFy21LJfUEB0sEhvSg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 14, 2021 at 01:19:18PM +0200, Sergio Paracuellos wrote:
-> On Fri, May 14, 2021 at 12:46 PM Vinod Koul <vkoul@kernel.org> wrote:
-> >
-> > On 08-05-21, 09:09, Sergio Paracuellos wrote:
-> > > Hi all,
-> > >
-> > > This series contains some improvements in the pci phy driver
-> > > for MT7621 SoCs.
-> > >
-> > > MT7621 SoC clock driver has already mainlined in
-> > > 'commit 48df7a26f470 ("clk: ralink: add clock driver for mt7621 SoC")'
-> > >
-> > > Because of this we can update schema documentation and device tree
-> > > to add related clock entries and avoid custom architecture code
-> > > in favour of using the clock kernel framework to retrieve clock
-> > > frequency needed to properly configure the PCIe related Phys.
-> > >
-> > > After this changes there is no problem to properly enable this
-> > > driver for COMPILE_TEST.
-> > >
-> > > Configuration has also modified from 'tristate' to 'bool' depending
-> > > on PCI_MT7621 which seems to have more sense.
-> >
-> > Applied 2-6, thanks
-> 
-> Thanks, Vinod.
-> 
-> Greg, can you take patch 1 through your tree?
+MT7621 SoC clock driver has already mainlined in
+'commit 48df7a26f470 ("clk: ralink: add clock driver for mt7621 SoC")'
+Hence we can use the clock in pcie phy nodes to
+be able to get it from there in driver code.
 
-Sure, can you resend it?
+Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+---
+ drivers/staging/mt7621-dts/mt7621.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
 
-thanks,
+diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
+index 9ee11adefa79..840ba0c3ffed 100644
+--- a/drivers/staging/mt7621-dts/mt7621.dtsi
++++ b/drivers/staging/mt7621-dts/mt7621.dtsi
+@@ -548,12 +548,14 @@ pcie@2,0 {
+ 	pcie0_phy: pcie-phy@1e149000 {
+ 		compatible = "mediatek,mt7621-pci-phy";
+ 		reg = <0x1e149000 0x0700>;
++		clocks = <&sysc MT7621_CLK_XTAL>;
+ 		#phy-cells = <1>;
+ 	};
+ 
+ 	pcie2_phy: pcie-phy@1e14a000 {
+ 		compatible = "mediatek,mt7621-pci-phy";
+ 		reg = <0x1e14a000 0x0700>;
++		clocks = <&sysc MT7621_CLK_XTAL>;
+ 		#phy-cells = <1>;
+ 	};
+ };
+-- 
+2.25.1
 
-greg k-h
