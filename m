@@ -1,50 +1,58 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33B371
-	for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 16:29:29 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id l7so35398701edb.1
-        for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 09:29:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B3B70
+	for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 16:51:29 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id p17so168515pjz.3
+        for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 09:51:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=EjCa/Y8fPjm4VNptwpoJ6doa9lNqw0SSL7+evAimqKA=;
-        b=uq1b0TRBSGV5y3N9/LBzSnoEsVO9A4VNXUPGgt2SF2QyjAzBGMVXPf+EZgdA3r4r84
-         30BwxNO+4v8pi6gCotag91xtXPTy+Rng3OTGiuadS8F1nZkKXDEGMZ1aPsoBrFUmuv6x
-         kcIUjyF6k2z8zaNiQmtKhnwFcA8tsXYs1gDLZlnXDysMxSHFkJe+1jw8MVkzug7c7Vf+
-         qSC1cgDMqP/PpkaVnfh3qG/aK3wYMkYtSBWS+RBf/bRQOSWyKfbtDjmF9c7xa64gkkUu
-         cKCJlcveSvHvwX+VNzJYcuFC0T3i8nao1kxsa1I0hCZvKAARxnwNvrV5ueylWnp6AaV1
-         kuGA==
+         :content-disposition:in-reply-to;
+        bh=e6Gzp7eGnrG8H4GauPeUuR3AzbUI2wVGSNiIGMsXoFU=;
+        b=GH0EWCQaUxR/QeQAEPLbOylF9Bcdez/FFPuOmqAi2aEG/llNf/B0Fi8bEBIgN3275q
+         uXuDimJLkvAy2NFFbjsKxae8yXspDNhILL2OnqwJ6noFr1y/sP55fu8F+ILvNKPSaQTV
+         SLg33vzD62ZxBbOPCsRWAs8U9EOy74QQUnpXY6MBmeD27dZT4gOl2Lr6KINPTT6sVe/3
+         aAQ8xC/y3XP7IMmgRqBuwgYcNfZUHVJKiANrlehEFrbaOkgtcEQxtv8Fps6O+pIfImLJ
+         EA7OMRAGoNo+Zz1mPlxz35G0GmPAA/nB/a25gY5LhjoYEo6DJHBdTgNcYfI9Xz1G6Wzn
+         18tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=EjCa/Y8fPjm4VNptwpoJ6doa9lNqw0SSL7+evAimqKA=;
-        b=k0esscXZ8ghht0bgnGao/iuNY2YMxgNA/pVy5A+cA9iMSCkegC6Ca6n4vVo2u1xBg4
-         AdGpIBOQ3QGEj5uPopCbQI+F3SCvLVkIsklcq0HHuso9cy8Z0Rk8VaP/iHU4s2aSgzI9
-         0TAJuPwPDr/8KenQ09YrCMLFqWgSiwQPhdSTP3+9MN4TtdvtqYXO48532Ay3xDVy4KNh
-         Fzpq9gQs99NG9WqpKLZD3qaAE4tr0u2Mat81uSJh81ll7imlQVhmVHqybEeBmQlSV5hi
-         i7x7P5Ts34Y9bfFN/NNfXo1WAe/+qvRFR78Gce6BnO9uV50Gor8MGOBRrzvgk471oiQ+
-         EJwA==
-X-Gm-Message-State: AOAM531jsrOiXSuFqfaaF3Car+vo+f5IcqUgg9ZcTuRSsMZhsLrnOjNo
-	ZWwiNvP27QrkSY5vjLOXSr4=
-X-Google-Smtp-Source: ABdhPJzJQzM7qSR6YpKntCTFQHiOYUxGKL8R0Pl2TzZ99ffjN6gbUsMr1X0dNhgI7+WBTCHsk4wKMQ==
-X-Received: by 2002:a05:6402:176f:: with SMTP id da15mr12000926edb.380.1621009768472;
-        Fri, 14 May 2021 09:29:28 -0700 (PDT)
-Received: from agape.jhs ([5.171.72.183])
-        by smtp.gmail.com with ESMTPSA id p25sm3859345eja.35.2021.05.14.09.29.27
+         :mime-version:content-disposition:in-reply-to;
+        bh=e6Gzp7eGnrG8H4GauPeUuR3AzbUI2wVGSNiIGMsXoFU=;
+        b=BUsE+MA4KeHdGYwMHeXgpFnKy2uwbNmpzbPqZVNI+AKK+4tlvhr2+vnAjG2p2opX/z
+         KcoSHnEHZrFBPgeyefWRPv6fNjJbd5pX7Ic9SvaDBsGAHqMDJ5m6265D1hbrpbheXL77
+         Z1R0y4OJwF2ChITmvw1UTnBrLy9qwSfdsOav7iCm/gi3rZuKSnY7YT8bLIeaQEHrLRRt
+         Ep947FQsMinhPwsqW5r/UmgrWPS2678cGfpW3FRll8PrZ1aP+9bnD4pp7Kq5lMlsJ+dZ
+         tWYsNSAOuPUnzclS6a8Nrs2nhDIDdgXmKQllAWk4NxMVOY+W+0sMR6ko8mCXjDsGKK/v
+         5k6w==
+X-Gm-Message-State: AOAM532esq+2pZCMjoN1mkqYO52aGiJqXxySsDiiln7R6rC88arfIGlR
+	aBnjMlGld4Wv6F4r19jmQO4=
+X-Google-Smtp-Source: ABdhPJxfH9/KEBTNpAakNtxHhA7kdVgkqaIiThe/gzc/GWTqqMQI9DMhjPmy8EUk2OMfabKIhWIfuQ==
+X-Received: by 2002:a17:90a:ae15:: with SMTP id t21mr12417540pjq.55.1621011089100;
+        Fri, 14 May 2021 09:51:29 -0700 (PDT)
+Received: from fedora ([2405:201:6008:61b4:4e16:5348:d963:c66d])
+        by smtp.gmail.com with ESMTPSA id z20sm4864951pjq.47.2021.05.14.09.51.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 May 2021 09:29:28 -0700 (PDT)
-Date: Fri, 14 May 2021 18:29:25 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: hdegoede@redhat.com, Larry.Finger@lwfinger.net,
+        Fri, 14 May 2021 09:51:28 -0700 (PDT)
+Date: Fri, 14 May 2021 22:21:22 +0530
+From: Shreyansh Chouhan <chouhan.shreyansh630@gmail.com>
+To: Joe Perches <joe@perches.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, pure.logic@nexus-software.ie,
+	johan@kernel.org, elder@kernel.org, greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: staging: rtl8723bs: questions on TODO list
-Message-ID: <20210514162925.GA1568@agape.jhs>
-References: <20210514083856.GA13800@agape.jhs>
- <YJ44mtOUVZwhxW4m@kroah.com>
+Subject: Re: [PATCH] staging: greybus: fix gb_loopback_stats_attrs definition
+Message-ID: <YJ6qii1myQbv3cK2@fedora>
+References: <20210514133039.304760-1-chouhan.shreyansh630@gmail.com>
+ <YJ582f3O9K9YD3QA@kroah.com>
+ <YJ5/tqFfcjxOLsF0@fedora>
+ <YJ6DrLiMsdkG5loA@kroah.com>
+ <YJ6H/WsojYcN/bLO@fedora>
+ <YJ6Jf+Z1ReVgDt64@kroah.com>
+ <YJ6TUAowTI75h/sl@fedora>
+ <YJ6XpUMliWQOS8MB@kroah.com>
+ <bccbec1a0ffbf6c31b5e6a78cedd78cd64f2b8fe.camel@perches.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -52,66 +60,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YJ44mtOUVZwhxW4m@kroah.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <bccbec1a0ffbf6c31b5e6a78cedd78cd64f2b8fe.camel@perches.com>
 
-On Fri, May 14, 2021 at 10:45:14AM +0200, Greg KH wrote:
-> On Fri, May 14, 2021 at 10:38:57AM +0200, Fabio Aiuto wrote:
-> > Hello all,
+On Fri, May 14, 2021 at 08:56:10AM -0700, Joe Perches wrote:
+> On Fri, 2021-05-14 at 17:30 +0200, Greg KH wrote:
+> > On Fri, May 14, 2021 at 08:42:16PM +0530, Shreyansh Chouhan wrote:
+> []
+> > > I didn't look at how/where was the macro called and missed a very
+> > > obvious error. Now that I have looked at it, the only way I can think of
+> > > fixing this is changing the macro to a (inline?) function. Will
+> > > that be a desirable change?
 > > 
-> > I'd like to have some clarifications about rtl8723bs driver.
-> > In order to make this driver ready for moving out of staging
-> > I would like to know:
-> > 
-> > - find and remove remaining code valid only for 5 GHz. Most of the obvious
-> >   ones have been removed, but things like channel > 14 still exist.
-> > 
-> > is it possible to remove all 5g code, even the one related to power
-> > regulation when on band 5g? As far as I know about this card is that
-> > it doesn't support 5g, so may I just delete all 5g code or there are some
-> > constraints I'd take care of?
-> > 
-> > - find and remove any code for other chips that is left over
-> > 
-> > Ok this seems clear, are there some suggestion to do it safely?
-> > 
-> > - convert any remaining unusual variable types
-> > 
-> > Ok (but feel free to suggest anything)
-> > 
-> > - find codes that can use %pM and %Nph formatting
-> > 
-> > Ok (but feel free to suggest anything)
-> > 
-> > - checkpatch.pl fixes - most of the remaining ones are lines too long. Many
-> >   of them will require refactoring
-> > 
-> > Ok
-> > 
-> > - merge Realtek's bugfixes and new features into the driver
-> > 
-> > Please, can you explain what one could do that?
-> > 
-> > - switch to use LIB80211
-> > - switch to use MAC80211
-> > 
-> > I think I need a few details for these last points as well.
-> > 
-> > Do you think that one will need real hardware to complete
-> > these tasks? I don't have rtl8723bs card at the moment, so
-> > I think I will focus on those TODO activities which
-> > don't need it.
+> > No, it can't be a function, the code is fine as-is, checkpatch is just a
+> > perl script and does not always know what needs to be done.
 > 
-> I recommend getting one of these devices to do the more complex tasks as
-> described above.  Otherwise it's going to be hard to verify that your
-> changes are valid.
+> true.
 > 
-> thanks,
+> perhaps better though to rename these declaring macros to start with declare_
 > 
-> greg k-h
+> Something like this:
 
-got it,
+Thanks! I can definitely help with this. I'll send the patch in a bit.
 
-thank you,
+Since it seemed as if the original patch wasn't really required, I canceled
+the moderator approval request for the greybus-dev mailing list. I
+thought I'd rather not bother the moderator and the rest of the list
+with these patches. I thought I should mention this since it could cause
+some confusion. I will start a new thread for the other patch.
 
-fabio
+Regards,
+Shreyansh Chouhan
