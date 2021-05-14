@@ -1,42 +1,42 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC2772
-	for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 19:07:32 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id b21so16635774plz.0
-        for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 12:07:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B5F72
+	for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 19:40:12 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id x188so469214pfd.7
+        for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 12:40:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=oXxhPizKNi5C4ycrbnrV7C0cq58T1/euLe6jwkV8J18=;
-        b=lc0pNM3GTuqYGseYNV8m6amseWmX/bmJCURusUYDwExyji38vhah90YVTqHaNyru6t
-         3JUnuGvOhHXIt6bnusS4D1SoZFR6v5ZmnS9KnBtGc7FuTd3Trz+JVoaZgiPrzzjhind7
-         t4Xyj3EPI92UuprT0V5o5ldd5Vn3CwcciS4Pt1SNhjePKIJ9iUmH6gKUSkUQ6mh/srkM
-         /jGT/PJzh1SqKLmU6dlxmoT3dfQKaZM9+p/oV6SHr6QuPFuGcZ4RXusEuk0iPzE9Tuvk
-         1DioV3fz9bcwBe6nDg+Ix5xHEBPCE0CAzGO2ICzFPZyXityWtxVMRP63Nladu7hF1zlp
-         k0YQ==
+        bh=VfLCGaOV2wAJvv6o64cTzjS19Z38bR4c8NNaoufspPA=;
+        b=E/h6rdIsTCLVfZtWslWRMtGS6ovDjPY3DC/jf4LLhXi/JTNHx5WeLdEA1PyaRI7bmU
+         MsUu0zRgyNDO6mfFTTS66Q4PuMMN1gajuPfi/V+83U13ZUMMQzMseGbYKEnM+BReZZZb
+         4CRe92LAjV5QJ+6KwOBfLLdKRGP8rVMjdyxJyYWSfQ3mfjqliHAWthCqwyAU9tC9NV05
+         2tOCIpSRvdO/WJcpKFSduBXji+NVb4f8w+7EYY0zHcpMULBj7ACPb/mwaDHQkO0tmBxS
+         JWX/EWca6IHbH6rHkiM0W+gjwHASomDd8MtuzRlsSgTP1BM50tmWUOsJaMTgzYg55Lr+
+         ckIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=oXxhPizKNi5C4ycrbnrV7C0cq58T1/euLe6jwkV8J18=;
-        b=dNKhcUrWtTeYEQ6GnV3Tf5qINO/8JUmVkwVV4lXmeR9xrooR7JruqYjj59ETOEldKR
-         rn2Yju7aWtU3GPie29WdRY3qScXLj/dwzizlq3Kj1HuXm77G1YtSaLL2YAwHL/rqH9Im
-         w5sayklK97tIMeZzo50ThSGZl6jy+7wnUv1dWQcijYUs/hrwTxKdYonwEUbysM0u1Gi+
-         X4jhVc0Eyfw0DjlysO7y6GRZIed6LnTGwRKHKB66P+Y7SYZDSfGowWfNuYM0JnThHYEQ
-         dmBRF2ohNUOGh5XMZJvfL9EA4JLCiXT939HwQZZ9pBjy1WVc/RoRJgpOglr2GdSzf4iy
-         NnAA==
-X-Gm-Message-State: AOAM533lwS1stw9M8zA+fy+CiN++bIRK7WeboM6hZ1aV3ZcIrVejy7zd
-	dffcKA41uuakP/OoYd+FVdg=
-X-Google-Smtp-Source: ABdhPJxv6QbnZggLOzS4U+8rDAaF6Sebnql6R06W3DOk+R7nA2OPR+Py9KJ85FLea/y7i1yYNsVYOg==
-X-Received: by 2002:a17:90b:70c:: with SMTP id s12mr10245868pjz.98.1621019252029;
-        Fri, 14 May 2021 12:07:32 -0700 (PDT)
+        bh=VfLCGaOV2wAJvv6o64cTzjS19Z38bR4c8NNaoufspPA=;
+        b=BC67pgTTg8z6z2UsJE+elCx0bOADAJ7xW3I22wIpxVvojgbNxYrOPJ50XkZNcD19hX
+         sZ1unBVV21dJhWbokI4wL37S5lYK5cjV9VV/JvqcjQ7PCCG80qONS5xX4cl/j8PYC//d
+         YXx6p+ApGQj/YWeNUj1VvwJTfkmIaeWr9a0JG4b1Z/Ab2tVyJ3uv4hjuj6wIgj1hdbuh
+         mBp2BsTap+OcETA8XeznzDeCK9BQl4lxJJpCguhOLlzax50Edlp0eGp3hmMCP+fO8rvu
+         xJ5LgQlRqcMz5vFSjgUaj4cLaeeRwBORhYSB9dEr81FqjCDeghGxNz0YgW5noaN9DSB6
+         +ckQ==
+X-Gm-Message-State: AOAM531iGDzg4NoEEFPfEje3OWTY67CiEpMa0KbgLbLcjHCXTo9vVBBQ
+	xrwfPahccQcS7XBdHFnzoXY=
+X-Google-Smtp-Source: ABdhPJx3mWS6Cw2Wndc9jYPUSJj4ufeF4GrrLNChiOeOgxouJt7uqleK+xoiH/ZjFOxIVYcSDxvJyw==
+X-Received: by 2002:a63:4422:: with SMTP id r34mr18228607pga.275.1621021211978;
+        Fri, 14 May 2021 12:40:11 -0700 (PDT)
 Received: from fedora ([2405:201:6008:61b4:4e16:5348:d963:c66d])
-        by smtp.gmail.com with ESMTPSA id d3sm9732449pjw.35.2021.05.14.12.07.27
+        by smtp.gmail.com with ESMTPSA id h22sm4649955pfn.55.2021.05.14.12.40.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 May 2021 12:07:31 -0700 (PDT)
-Date: Sat, 15 May 2021 00:37:25 +0530
+        Fri, 14 May 2021 12:40:11 -0700 (PDT)
+Date: Sat, 15 May 2021 01:10:05 +0530
 From: Shreyansh Chouhan <chouhan.shreyansh630@gmail.com>
 To: Alex Elder <elder@ieee.org>
 Cc: Joe Perches <joe@perches.com>, Greg KH <gregkh@linuxfoundation.org>,
@@ -44,7 +44,7 @@ Cc: Joe Perches <joe@perches.com>, Greg KH <gregkh@linuxfoundation.org>,
 	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: greybus: fix gb_loopback_stats_attrs definition
-Message-ID: <YJ7Kbb5U71l8ukBD@fedora>
+Message-ID: <YJ7SFVInaYgJLywS@fedora>
 References: <20210514133039.304760-1-chouhan.shreyansh630@gmail.com>
  <YJ582f3O9K9YD3QA@kroah.com>
  <YJ5/tqFfcjxOLsF0@fedora>
@@ -64,198 +64,24 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <88d7da63-d03c-7fa3-a881-aff8e7b4a618@ieee.org>
 
-On Fri, May 14, 2021 at 01:53:49PM -0500, Alex Elder wrote:
-> On 5/14/21 10:56 AM, Joe Perches wrote:
-> > On Fri, 2021-05-14 at 17:30 +0200, Greg KH wrote:
-> > > On Fri, May 14, 2021 at 08:42:16PM +0530, Shreyansh Chouhan wrote:
-> > []
-> > > > I didn't look at how/where was the macro called and missed a very
-> > > > obvious error. Now that I have looked at it, the only way I can think of
-> > > > fixing this is changing the macro to a (inline?) function. Will
-> > > > that be a desirable change?
-> > > 
-> > > No, it can't be a function, the code is fine as-is, checkpatch is just a
-> > > perl script and does not always know what needs to be done.
-> > 
-> > true.
-> > 
-> > perhaps better though to rename these declaring macros to start with declare_
-> 
-> I don't disagree with your suggestion, but it's not clear it
-> would have prevented submission of the erroneous initial patch
-> (nor future ones from people who blindly follow checkpatch.pl
-> suggestions).
-> 
+PS: Thought I should clarify why I think it might help. The macro
+definition for gb_loopback_attr, calls other macros, but since these
+macros are not in all caps, (I apologise if they follow some other macro
+convention that I am not aware about,) it makes them look like function
+calls. And I know it were lazy of me to not look at the individual macros
+themselves, I think it would be a lot clearer if there was a way of knowing
+that these calls are infact to other macros and not functions.
 
-Well if it makes any difference, I think such a name would at least make
-things a little more clear. Also, adding a comment to the macro definition
-might help with the problem of future erronous patches.
+Adding declare_ as a prefix to all of them certainly helps, if only a
+little, in that regards. Functions are not used for declaring things,
+and since the gb_loopback_attr macro itself would have declare_
+prepended to it, it would certainly give a hint to the fact that the
+calls used in the definition might similarly be macros.
+
+Once again, I do accept it was my fault that I sent the patch without
+looking at those definitions more closely, and not considering that the
+developer who wrote it must have had a reason for doing so. I just
+wanted to clarify that renaming them might actually help.
 
 Regards,
 Shreyansh Chouhan
-
-> 					-Alex
-> 
-> PS  Lots of negatives in that sentence.
-> 
-> > Something like this:
-> > (with miscellaneous realigning of the macros line ending continuations \)
-> > ---
-> >   drivers/staging/greybus/loopback.c | 72 +++++++++++++++++++-------------------
-> >   1 file changed, 36 insertions(+), 36 deletions(-)
-> > 
-> > diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-> > index 2471448ba42a..dc399792f35f 100644
-> > --- a/drivers/staging/greybus/loopback.c
-> > +++ b/drivers/staging/greybus/loopback.c
-> > @@ -119,18 +119,18 @@ module_param(kfifo_depth, uint, 0444);
-> >   #define GB_LOOPBACK_US_WAIT_MAX				1000000
-> >   /* interface sysfs attributes */
-> > -#define gb_loopback_ro_attr(field)				\
-> > -static ssize_t field##_show(struct device *dev,			\
-> > +#define declare_gb_loopback_ro_attr(field)				\
-> > +static ssize_t field##_show(struct device *dev,				\
-> >   			    struct device_attribute *attr,		\
-> >   			    char *buf)					\
-> >   {									\
-> >   	struct gb_loopback *gb = dev_get_drvdata(dev);			\
-> > -	return sprintf(buf, "%u\n", gb->field);			\
-> > +	return sprintf(buf, "%u\n", gb->field);				\
-> >   }									\
-> >   static DEVICE_ATTR_RO(field)
-> > -#define gb_loopback_ro_stats_attr(name, field, type)		\
-> > -static ssize_t name##_##field##_show(struct device *dev,	\
-> > +#define declare_gb_loopback_ro_stats_attr(name, field, type)		\
-> > +static ssize_t name##_##field##_show(struct device *dev,		\
-> >   			    struct device_attribute *attr,		\
-> >   			    char *buf)					\
-> >   {									\
-> > @@ -142,8 +142,8 @@ static ssize_t name##_##field##_show(struct device *dev,	\
-> >   }									\
-> >   static DEVICE_ATTR_RO(name##_##field)
-> > -#define gb_loopback_ro_avg_attr(name)			\
-> > -static ssize_t name##_avg_show(struct device *dev,		\
-> > +#define declare_gb_loopback_ro_avg_attr(name)				\
-> > +static ssize_t name##_avg_show(struct device *dev,			\
-> >   			    struct device_attribute *attr,		\
-> >   			    char *buf)					\
-> >   {									\
-> > @@ -151,8 +151,8 @@ static ssize_t name##_avg_show(struct device *dev,		\
-> >   	struct gb_loopback *gb;						\
-> >   	u64 avg, rem;							\
-> >   	u32 count;							\
-> > -	gb = dev_get_drvdata(dev);			\
-> > -	stats = &gb->name;					\
-> > +	gb = dev_get_drvdata(dev);					\
-> > +	stats = &gb->name;						\
-> >   	count = stats->count ? stats->count : 1;			\
-> >   	avg = stats->sum + count / 2000000; /* round closest */		\
-> >   	rem = do_div(avg, count);					\
-> > @@ -162,12 +162,12 @@ static ssize_t name##_avg_show(struct device *dev,		\
-> >   }									\
-> >   static DEVICE_ATTR_RO(name##_avg)
-> > -#define gb_loopback_stats_attrs(field)				\
-> > -	gb_loopback_ro_stats_attr(field, min, u);		\
-> > -	gb_loopback_ro_stats_attr(field, max, u);		\
-> > -	gb_loopback_ro_avg_attr(field)
-> > +#define declare_gb_loopback_stats_attrs(field)				\
-> > +	declare_gb_loopback_ro_stats_attr(field, min, u);		\
-> > +	declare_gb_loopback_ro_stats_attr(field, max, u);		\
-> > +	declare_gb_loopback_ro_avg_attr(field)
-> > -#define gb_loopback_attr(field, type)					\
-> > +#define declare_gb_loopback_attr(field, type)				\
-> >   static ssize_t field##_show(struct device *dev,				\
-> >   			    struct device_attribute *attr,		\
-> >   			    char *buf)					\
-> > @@ -193,8 +193,8 @@ static ssize_t field##_store(struct device *dev,			\
-> >   }									\
-> >   static DEVICE_ATTR_RW(field)
-> > -#define gb_dev_loopback_ro_attr(field, conn)				\
-> > -static ssize_t field##_show(struct device *dev,		\
-> > +#define declare_gb_dev_loopback_ro_attr(field, conn)			\
-> > +static ssize_t field##_show(struct device *dev,				\
-> >   			    struct device_attribute *attr,		\
-> >   			    char *buf)					\
-> >   {									\
-> > @@ -203,7 +203,7 @@ static ssize_t field##_show(struct device *dev,		\
-> >   }									\
-> >   static DEVICE_ATTR_RO(field)
-> > -#define gb_dev_loopback_rw_attr(field, type)				\
-> > +#define declare_gb_dev_loopback_rw_attr(field, type)			\
-> >   static ssize_t field##_show(struct device *dev,				\
-> >   			    struct device_attribute *attr,		\
-> >   			    char *buf)					\
-> > @@ -223,7 +223,7 @@ static ssize_t field##_store(struct device *dev,			\
-> >   	if (ret != 1)							\
-> >   		len = -EINVAL;						\
-> >   	else								\
-> > -		gb_loopback_check_attr(gb);		\
-> > +		gb_loopback_check_attr(gb);				\
-> >   	mutex_unlock(&gb->mutex);					\
-> >   	return len;							\
-> >   }									\
-> > @@ -268,26 +268,26 @@ static void gb_loopback_check_attr(struct gb_loopback *gb)
-> >   }
-> >   /* Time to send and receive one message */
-> > -gb_loopback_stats_attrs(latency);
-> > +declare_gb_loopback_stats_attrs(latency);
-> >   /* Number of requests sent per second on this cport */
-> > -gb_loopback_stats_attrs(requests_per_second);
-> > +declare_gb_loopback_stats_attrs(requests_per_second);
-> >   /* Quantity of data sent and received on this cport */
-> > -gb_loopback_stats_attrs(throughput);
-> > +declare_gb_loopback_stats_attrs(throughput);
-> >   /* Latency across the UniPro link from APBridge's perspective */
-> > -gb_loopback_stats_attrs(apbridge_unipro_latency);
-> > +declare_gb_loopback_stats_attrs(apbridge_unipro_latency);
-> >   /* Firmware induced overhead in the GPBridge */
-> > -gb_loopback_stats_attrs(gbphy_firmware_latency);
-> > +declare_gb_loopback_stats_attrs(gbphy_firmware_latency);
-> >   /* Number of errors encountered during loop */
-> > -gb_loopback_ro_attr(error);
-> > +declare_gb_loopback_ro_attr(error);
-> >   /* Number of requests successfully completed async */
-> > -gb_loopback_ro_attr(requests_completed);
-> > +declare_gb_loopback_ro_attr(requests_completed);
-> >   /* Number of requests timed out async */
-> > -gb_loopback_ro_attr(requests_timedout);
-> > +declare_gb_loopback_ro_attr(requests_timedout);
-> >   /* Timeout minimum in useconds */
-> > -gb_loopback_ro_attr(timeout_min);
-> > +declare_gb_loopback_ro_attr(timeout_min);
-> >   /* Timeout minimum in useconds */
-> > -gb_loopback_ro_attr(timeout_max);
-> > +declare_gb_loopback_ro_attr(timeout_max);
-> >   /*
-> >    * Type of loopback message to send based on protocol type definitions
-> > @@ -297,21 +297,21 @@ gb_loopback_ro_attr(timeout_max);
-> >    *					   payload returned in response)
-> >    * 4 => Send a sink message (message with payload, no payload in response)
-> >    */
-> > -gb_dev_loopback_rw_attr(type, d);
-> > +declare_gb_dev_loopback_rw_attr(type, d);
-> >   /* Size of transfer message payload: 0-4096 bytes */
-> > -gb_dev_loopback_rw_attr(size, u);
-> > +declare_gb_dev_loopback_rw_attr(size, u);
-> >   /* Time to wait between two messages: 0-1000 ms */
-> > -gb_dev_loopback_rw_attr(us_wait, d);
-> > +declare_gb_dev_loopback_rw_attr(us_wait, d);
-> >   /* Maximum iterations for a given operation: 1-(2^32-1), 0 implies infinite */
-> > -gb_dev_loopback_rw_attr(iteration_max, u);
-> > +declare_gb_dev_loopback_rw_attr(iteration_max, u);
-> >   /* The current index of the for (i = 0; i < iteration_max; i++) loop */
-> > -gb_dev_loopback_ro_attr(iteration_count, false);
-> > +declare_gb_dev_loopback_ro_attr(iteration_count, false);
-> >   /* A flag to indicate synchronous or asynchronous operations */
-> > -gb_dev_loopback_rw_attr(async, u);
-> > +declare_gb_dev_loopback_rw_attr(async, u);
-> >   /* Timeout of an individual asynchronous request */
-> > -gb_dev_loopback_rw_attr(timeout, u);
-> > +declare_gb_dev_loopback_rw_attr(timeout, u);
-> >   /* Maximum number of in-flight operations before back-off */
-> > -gb_dev_loopback_rw_attr(outstanding_operations_max, u);
-> > +declare_gb_dev_loopback_rw_attr(outstanding_operations_max, u);
-> >   static struct attribute *loopback_attrs[] = {
-> >   	&dev_attr_latency_min.attr,
-> > 
-> 
