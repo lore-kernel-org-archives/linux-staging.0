@@ -1,145 +1,90 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 049E472
-	for <linux-staging@lists.linux.dev>; Sat, 15 May 2021 19:16:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25D022FB8
+	for <linux-staging@lists.linux.dev>; Sat, 15 May 2021 19:16:37 +0000 (UTC)
 Received: from localhost.localdomain ([37.4.249.151]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MpDeD-1l8fLT2cPf-00qgUb; Sat, 15 May 2021 21:11:20 +0200
+ id 1M27ix-1lkSfI0s0n-002WYR; Sat, 15 May 2021 21:11:21 +0200
 From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Nicolas Saenz Julienne <nsaenz@kernel.org>
 Cc: linux-staging@lists.linux.dev,
 	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH 09/20] staging: vchiq_arm: drop ftrace-like logging
-Date: Sat, 15 May 2021 21:10:48 +0200
-Message-Id: <1621105859-30215-10-git-send-email-stefan.wahren@i2se.com>
+Subject: [PATCH 12/20] staging: vchiq_arm: add blank line after declarations
+Date: Sat, 15 May 2021 21:10:51 +0200
+Message-Id: <1621105859-30215-13-git-send-email-stefan.wahren@i2se.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1621105859-30215-1-git-send-email-stefan.wahren@i2se.com>
 References: <1621105859-30215-1-git-send-email-stefan.wahren@i2se.com>
-X-Provags-ID: V03:K1:uzi/PCN5Zf2VTLYJAWrXbn87OkbkYBRhqUtctbzwjrpdHFwH0H0
- ZZVPWmpfoi6Zsb9pSjjlpWtlvyqUkXDk2258DcdKQH6y12upRX/5OfKDbmdQ/xxxVw1n4FK
- aFsx+7qobZLGkIse96KCq7Im5wTOeNhaQf244veuJFD1sA0xmJWX52o6ZBX9dmjDK+dILxt
- fskTx1vF2OGzh5NzWhciw==
+X-Provags-ID: V03:K1:d8cW/zaHdw8WWe82xCNrPlINalbsbIUTJNJPToH8NZUBLNDFJJc
+ sVxNWz5KUoyhEzoKjjE0fuCEvSmxjNfD/jbQydmvFTMVDUJjBflWU7FUyhxrD7ugnX6n4O0
+ WzzttMOEbEfSPL3sarKv5/xdX+Upiv7RgF5nxmM2KPHWPFIDgJD4rM91Vw4IPfVYt+rouLa
+ zXz0Ax1OqIBkYJGXbJwOw==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BRIpmDjtD0M=:MyRDhxesaVApwyMuGYZrTE
- HqLBBRCmU74TzuY1RUTJOr4f3NAmHGFbQyD1IS3gAPZ2ZAv6NAzX2Ge2xVPU5o1bVnOJXbCLG
- wwi4xUGwb77YATGwQA0lTjhD60SYIab/CbnH5/mrArznodVE+Ug1fWuBIEEFkeAVZLH0a8kOb
- TTTPYM6gWxM1+SqPSSNWydi/G+pSocaK5Jw9UiAe7YxaAx1l/A2RGvMA0kcbuTni1oZqkNAOa
- KQuc85Ri9b7EFh6DIy2oSQR+1JwLTstuAQaKtBRCeVwAdrffMlMDEppK6T+sEv9kcakJv2qxh
- fPMFf6H3xE68g33OKKe26c/hIIpnlZQFqmv3bmmbz1v6A1CmCdlVKdywJnQkxhrgD9HSMiCgn
- CHchMit7c+Zi9HxCk4+VvtX4WLah7ldlkoV0+SHRjNaz+wBkOAU0MoBB0J5DtkuW6QzPsi6tu
- 7cf2r5wFBovjKRUUw+kPta9I6PcR/Gf0sACgP+/5v5tUsvIYWgwxuxISAa+2OeNuwY3ssGdAN
- dRlPEDLAy1fJx+0Dl3aZRI=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:p09y4zJ/jD0=:1p+V71hJmlPFLCoCzlrUeo
+ WtrRfyApQ06y0osXvIKnwhKbtIIU2dhW4aAanxyDgl/GB36NjzSTiOTRcYT5oBs/gAKn3U82+
+ DmR6RdW/deLv6zu7nsSIg8/P9ISw1cFjU9hb9zuwF8nZjOuLgsDdseZaYzyziEzxMpcPmWUZk
+ USJftdZuMO9vGcdTcpkz/G0ThfEHiGnzybxaWHARBREa7sHZx7YRDrK8lmqo+ldKxQOW8qL0C
+ x7/0rhcDtdoGYxY0/RLSVgFdbd9eMyzcN/uNAeB/yCzyK448bJGDXbI9KNS2CpMMRg3VO4f7F
+ eGlpkwTtnMDxksA/CISqQ4u6Z/mdBKnHxj8FvN2IfEOI6cBrOMDRkNdzObv/yhwjtEZzkODi7
+ S5OLk9EGXobg54XH5WaL7cGC5p/vmq0yKlPSQzFircu7f3tYuvpG/QD+jPVJlw4u+FB8AnvsA
+ 4Evoh4E2PwwtvyHfHtdHVmz6sXYqaCk1XTKMtBq0QJGi7Fe3SmXAcSt/kw32p7tc/EtXzwpS2
+ cZ1I7jHPd14UEhAgUyVwu4=
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-This addresses the warnings reported by checkpatch:
-WARNING: Unnecessary ftrace-like logging - prefer using ftrace
+Improve the readability by add a blank line after declarations. This
+was found with checkpatch.
 
 Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 ---
- .../vc04_services/interface/vchiq_arm/vchiq_arm.c  | 22 ----------------------
- 1 file changed, 22 deletions(-)
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c     | 3 +++
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c | 1 +
+ 2 files changed, 4 insertions(+)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 7951324..b70db46 100644
+index f2f948c..c08a950 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -153,8 +153,6 @@ int vchiq_initialise(struct vchiq_instance **instance_out)
- 	struct vchiq_instance *instance = NULL;
- 	int i, ret;
+@@ -1019,6 +1019,7 @@ static inline int vchiq_get_user_ptr(void __user **buf, void __user *ubuf, int i
+ 	if (in_compat_syscall()) {
+ 		compat_uptr_t ptr32;
+ 		compat_uptr_t __user *uptr = ubuf;
++
+ 		ret = get_user(ptr32, uptr + index);
+ 		if (ret)
+ 			return ret;
+@@ -1026,6 +1027,7 @@ static inline int vchiq_get_user_ptr(void __user **buf, void __user *ubuf, int i
+ 		*buf = compat_ptr(ptr32);
+ 	} else {
+ 		uintptr_t ptr, __user *uptr = ubuf;
++
+ 		ret = get_user(ptr, uptr + index);
  
--	vchiq_log_trace(vchiq_core_log_level, "%s called", __func__);
--
- 	/*
- 	 * VideoCore may not be ready due to boot up timing.
- 	 * It may never be ready if kernel and firmware are mismatched,so don't
-@@ -207,9 +205,6 @@ enum vchiq_status vchiq_shutdown(struct vchiq_instance *instance)
- 	enum vchiq_status status;
- 	struct vchiq_state *state = instance->state;
- 
--	vchiq_log_trace(vchiq_core_log_level,
--		"%s(%p) called", __func__, instance);
--
- 	if (mutex_lock_killable(&state->mutex))
- 		return VCHIQ_RETRY;
- 
-@@ -249,9 +244,6 @@ enum vchiq_status vchiq_connect(struct vchiq_instance *instance)
- 	enum vchiq_status status;
- 	struct vchiq_state *state = instance->state;
- 
--	vchiq_log_trace(vchiq_core_log_level,
--		"%s(%p) called", __func__, instance);
--
- 	if (mutex_lock_killable(&state->mutex)) {
- 		vchiq_log_trace(vchiq_core_log_level,
- 			"%s: call to mutex_lock failed", __func__);
-@@ -283,9 +275,6 @@ static enum vchiq_status vchiq_add_service(
- 	struct vchiq_service *service = NULL;
- 	int srvstate;
- 
--	vchiq_log_trace(vchiq_core_log_level,
--		"%s(%p) called", __func__, instance);
--
- 	*phandle = VCHIQ_SERVICE_HANDLE_INVALID;
- 
- 	srvstate = vchiq_is_connected(instance)
-@@ -321,9 +310,6 @@ enum vchiq_status vchiq_open_service(
- 	struct vchiq_state   *state = instance->state;
- 	struct vchiq_service *service = NULL;
- 
--	vchiq_log_trace(vchiq_core_log_level,
--		"%s(%p) called", __func__, instance);
--
- 	*phandle = VCHIQ_SERVICE_HANDLE_INVALID;
- 
- 	if (!vchiq_is_connected(instance))
-@@ -2350,8 +2336,6 @@ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
- 		goto out;
- 	}
- 
--	vchiq_log_trace(vchiq_susp_log_level, "%s", __func__);
--
- 	if (use_type == USE_TYPE_VCHIQ) {
- 		sprintf(entity, "VCHIQ:   ");
- 		entity_uc = &arm_state->peer_use_count;
-@@ -2409,8 +2393,6 @@ vchiq_release_internal(struct vchiq_state *state, struct vchiq_service *service)
- 		goto out;
- 	}
- 
--	vchiq_log_trace(vchiq_susp_log_level, "%s", __func__);
--
- 	if (service) {
- 		sprintf(entity, "%c%c%c%c:%03d",
- 			VCHIQ_FOURCC_AS_4CHARS(service->base.fourcc),
-@@ -2450,7 +2432,6 @@ vchiq_on_remote_use(struct vchiq_state *state)
+ 		if (ret)
+@@ -1798,6 +1800,7 @@ static long
+ vchiq_compat_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
  {
- 	struct vchiq_arm_state *arm_state = vchiq_platform_get_arm_state(state);
+ 	void __user *argp = compat_ptr(arg);
++
+ 	switch (cmd) {
+ 	case VCHIQ_IOC_CREATE_SERVICE32:
+ 		return vchiq_compat_ioctl_create_service(file, cmd, argp);
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
+index da550b6..8f3d9cb 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
+@@ -35,6 +35,7 @@ static struct vchiq_debugfs_log_entry vchiq_debugfs_log_entries[] = {
+ 	{ "susp", &vchiq_susp_log_level },
+ 	{ "arm",  &vchiq_arm_log_level },
+ };
++
+ static int n_log_entries = ARRAY_SIZE(vchiq_debugfs_log_entries);
  
--	vchiq_log_trace(vchiq_susp_log_level, "%s", __func__);
- 	atomic_inc(&arm_state->ka_use_count);
- 	complete(&arm_state->ka_evt);
- }
-@@ -2460,7 +2441,6 @@ vchiq_on_remote_release(struct vchiq_state *state)
- {
- 	struct vchiq_arm_state *arm_state = vchiq_platform_get_arm_state(state);
- 
--	vchiq_log_trace(vchiq_susp_log_level, "%s", __func__);
- 	atomic_inc(&arm_state->ka_release_count);
- 	complete(&arm_state->ka_evt);
- }
-@@ -2647,8 +2627,6 @@ vchiq_check_service(struct vchiq_service *service)
- 	if (!service || !service->state)
- 		goto out;
- 
--	vchiq_log_trace(vchiq_susp_log_level, "%s", __func__);
--
- 	arm_state = vchiq_platform_get_arm_state(service->state);
- 
- 	read_lock_bh(&arm_state->susp_res_lock);
+ static int debugfs_log_show(struct seq_file *f, void *offset)
 -- 
 2.7.4
 
