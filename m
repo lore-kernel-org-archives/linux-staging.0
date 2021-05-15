@@ -1,81 +1,156 @@
-Received: from smtprelay.hostedemail.com (smtprelay0007.hostedemail.com [216.40.44.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0D172
-	for <linux-staging@lists.linux.dev>; Sat, 15 May 2021 08:29:15 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-	by smtpgrave03.hostedemail.com (Postfix) with ESMTP id 06A1D182331A0
-	for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 19:32:49 +0000 (UTC)
-Received: from omf07.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-	by smtprelay04.hostedemail.com (Postfix) with ESMTP id 40FFD1810DA54;
-	Fri, 14 May 2021 19:32:42 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf07.hostedemail.com (Postfix) with ESMTPA id D7010315D74;
-	Fri, 14 May 2021 19:32:40 +0000 (UTC)
-Message-ID: <89a62ed669547eb989dd008b67165f3d0c9f4265.camel@perches.com>
-Subject: Re: [PATCH] staging: greybus: fix gb_loopback_stats_attrs definition
-From: Joe Perches <joe@perches.com>
-To: Alex Elder <elder@ieee.org>, Greg KH <gregkh@linuxfoundation.org>, 
-	Shreyansh Chouhan <chouhan.shreyansh630@gmail.com>
-Cc: pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org, 
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Fri, 14 May 2021 12:32:39 -0700
-In-Reply-To: <88d7da63-d03c-7fa3-a881-aff8e7b4a618@ieee.org>
-References: <20210514133039.304760-1-chouhan.shreyansh630@gmail.com>
-	 <YJ582f3O9K9YD3QA@kroah.com> <YJ5/tqFfcjxOLsF0@fedora>
-	 <YJ6DrLiMsdkG5loA@kroah.com> <YJ6H/WsojYcN/bLO@fedora>
-	 <YJ6Jf+Z1ReVgDt64@kroah.com> <YJ6TUAowTI75h/sl@fedora>
-	 <YJ6XpUMliWQOS8MB@kroah.com>
-	 <bccbec1a0ffbf6c31b5e6a78cedd78cd64f2b8fe.camel@perches.com>
-	 <88d7da63-d03c-7fa3-a881-aff8e7b4a618@ieee.org>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0E772
+	for <linux-staging@lists.linux.dev>; Sat, 15 May 2021 12:40:59 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id s8so1740007wrw.10
+        for <linux-staging@lists.linux.dev>; Sat, 15 May 2021 05:40:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YWAKRSKjuVwXHj547jD7swDaSS5/nkXNep5jUTBM2h8=;
+        b=rmGbSlQtviY60sTtjMrRQOGtfSOh7vaReKMjtlVGS8LMRasQDY2hvNq50q67ibQ3yZ
+         +cIWIDqV9mVpFb6wuu92gxzngGbCkJRetXvZwPsLjzyUuGI25OetjhprgI1moAJmceyS
+         bDI3NbA7QvBH+pgXV0AOzV67k3zbP9a7Ah9Y3YG9a8Av7Me0U3Y1blSjNCjIqZjVsZ4/
+         hZADEq7vtUFz8tntMbgtQ2glc3Zu/fXMPRP094sUyRU6csgrelVhDKQ+StyXdSa/VHa5
+         COi/frdkEWRPMl5qvmnzg1XkDuHrqO4I5Yffx+QxV4TbE9yIGgOiSKfefqmv+YufblHe
+         kVMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YWAKRSKjuVwXHj547jD7swDaSS5/nkXNep5jUTBM2h8=;
+        b=R/l7UhH+RnkO92WfnGm5f+wILxWnu4Qdntpr4FIS7MT5sbaAr3rhdlnPihwlJY6XYy
+         KXrf03+3bMk5oM0dVKKRrEJigL0cnUh4dKjb/N/a4c9+QXTTq8qhE+foGOM5oukx4lu5
+         Z9/41/vq8Z1wq3W29ILYqa9CyDRT0QqBEmzR0l7Kr7Mc/JeroJvl/nDgyXuV/DJ5z4ja
+         tuqaUQHU4vnm4iCpCSzmYvTZp7jkiE2Yz8KzTrJOHlfr+y/0BdQQnFJ88JtJ2bh7FUTd
+         fLuEvXFLUdt2l0xSQNgBq0zDiBO6/MAcAxVnx0raab0D3aYlBGQ/5Gr4j+hD6weatXWA
+         HXsw==
+X-Gm-Message-State: AOAM531kgJvs4SqfbGLx9w4LOYjT3NHk6JG6tr8AkVWim/lEsvjQaPoV
+	7g9yH1ts4zFePa6NpJwyNho=
+X-Google-Smtp-Source: ABdhPJye3BL6Wtnn7eS7GpkzG94zZqlaXHdv49/2d9179RGlmN8Fcx+CPEw2MIp7hIbHcWI8vH22lQ==
+X-Received: by 2002:adf:fc44:: with SMTP id e4mr784584wrs.23.1621082457854;
+        Sat, 15 May 2021 05:40:57 -0700 (PDT)
+Received: from localhost.localdomain (29.red-83-49-33.dynamicip.rima-tde.net. [83.49.33.29])
+        by smtp.gmail.com with ESMTPSA id w7sm9472749wru.51.2021.05.15.05.40.56
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 15 May 2021 05:40:57 -0700 (PDT)
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+To: linux-mips@vger.kernel.org
+Cc: tsbogend@alpha.franken.de,
+	devicetree@vger.kernel.org,
+	matthias.bgg@gmail.com,
+	john@phrozen.org,
+	bhelgaas@google.com,
+	robh+dt@kernel.org,
+	linux-staging@lists.linux.dev,
+	gregkh@linuxfoundation.org,
+	neil@brown.name,
+	ilya.lipnitskiy@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org
+Subject: [PATCH 0/4] MIPS: ralink: pci: driver for Pcie controller in MT7621 SoCs
+Date: Sat, 15 May 2021 14:40:51 +0200
+Message-Id: <20210515124055.22225-1-sergio.paracuellos@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: D7010315D74
-X-Spam-Status: No, score=-1.40
-X-Stat-Signature: cwerr3zmihx55crpj6cfhty19yuuzfrx
-X-Rspamd-Server: rspamout03
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19FMxcCDKW900tDgf5rcwkgG+LUGqTv8gY=
-X-HE-Tag: 1621020760-252553
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2021-05-14 at 13:53 -0500, Alex Elder wrote:
-> On 5/14/21 10:56 AM, Joe Perches wrote:
-> > On Fri, 2021-05-14 at 17:30 +0200, Greg KH wrote:
-> > > On Fri, May 14, 2021 at 08:42:16PM +0530, Shreyansh Chouhan wrote:
-> > []
-> > > > I didn't look at how/where was the macro called and missed a very
-> > > > obvious error. Now that I have looked at it, the only way I can think of
-> > > > fixing this is changing the macro to a (inline?) function. Will
-> > > > that be a desirable change?
-> > > 
-> > > No, it can't be a function, the code is fine as-is, checkpatch is just a
-> > > perl script and does not always know what needs to be done.
-> > 
-> > true.
-> > 
-> > perhaps better though to rename these declaring macros to start with declare_
-> 
-> I don't disagree with your suggestion, but it's not clear it
-> would have prevented submission of the erroneous initial patch
-> (nor future ones from people who blindly follow checkpatch.pl
-> suggestions).
+MediaTek MT7621 PCIe subsys supports single Root complex (RC)
+with 3 Root Ports. Each Root Ports supports a Gen1 1-lane Link.
+Topology is as follows:
 
-With my checkpatch maintainer hat on:
+                          MT7621 PCIe HOST Topology
 
-Yeah Alex, I know.  checkpatch can't teach people c either.
-There's not much to do other than try to make the code clearer.
-Adding exceptions to checkpatch only leads to other exceptions
-and false negatives...
+                                   .-------.
+                                   |       |
+                                   |  CPU  |
+                                   |       |
+                                   '-------'
+                                       |
+                                       |
+                                       |
+                                       v
+                              .------------------.
+                  .-----------|  HOST/PCI Bridge |------------.
+                  |           '------------------'            |     Type1 
+         BUS0     |                     |                     |    Access 
+                  v                     v                     v    On Bus0
+          .-------------.        .-------------.       .-------------.
+          | VIRTUAL P2P |        | VIRTUAL P2P |       | VIRTUAL P2P |
+          |    BUS0     |        |    BUS0     |       |    BUS0     |
+          |    DEV0     |        |    DEV1     |       |    DEV2     |
+          '-------------'        '-------------'       '-------------'
+    Type0        |          Type0       |         Type0       |
+   Access   BUS1 |         Access   BUS2|        Access   BUS3|
+   On Bus1       v         On Bus2      v        On Bus3      v
+           .----------.           .----------.          .----------.
+           | Device 0 |           | Device 0 |          | Device 0 |
+           |  Func 0  |           |  Func 0  |          |  Func 0  |
+           '----------'           '----------'          '----------'
 
-> PS  Lots of negatives in that sentence.
+This driver has been very long time in staging and I have been cleaning
+it from its first versions where there was code kaos and PCI_LEGACY support.
+Original code came probably from openWRT based on mediatek's SDK code. There
+is no documentation at all about the mt7621 PCI subsystem.
+I have been cleaning it targeting mt7621 SoC which is the one I use in
+my GNUBee PC1 board and HiLink HLK-MT7621A evaluation board.
 
-Only positives...
+Now I think is clean enough to be moved into 'arch/mips/pci'.
 
-cheers, Joe
+This driver also uses already mainlined pci phy driver located in
+'drivers/phy/ralink/phy-mt7621-pci.c'. There are two instances of
+the phy being the first one dual ported for pci0 and pci1, and the 
+second one not dual ported dedicated to pci2. Because of writing twice 
+some phy registers of the dual-ported one sometimes become in not
+confident boot cycles we have to take care of this when device link
+is checked here in controller driver. We power on the dual ported-phy
+if there is something connected in pcie0 or pcie1. In the same manner
+we have to properly disable it only if nothing is connected in of both
+pcie0 and pci1 slots.
 
+Another thing that must be mentioned is that this driver uses IO
+in physical address 0x001e160000. IO_SPACE_LIMIT for MIPS is 0xffff
+so some generic PCI functions (like of_pci_range_to_resource) won't
+work and the resource ranges part for IO is set manually.
+
+I had already sent binding documentation to be reviewed but I am
+include also here with the driver itself and this cover letter
+to make easy review process.
+
+Best regards,
+    Sergio Paracuellos
+
+Sergio Paracuellos (4):
+  dt-bindings: mt7621-pci: PCIe binding documentation for MT7621 SoCs
+  MIPS: pci: Add driver for MT7621 PCIe controller
+  staging: mt7621-pci: remove driver from staging
+  MAINTAINERS: add myself as maintainer of the MT7621 PCI controller
+    driver
+
+ .../bindings/pci/mediatek,mt7621-pci.yaml     | 149 ++++++++++++++++++
+ MAINTAINERS                                   |   6 +
+ arch/mips/pci/Makefile                        |   1 +
+ .../mt7621-pci => arch/mips/pci}/pci-mt7621.c |   0
+ arch/mips/ralink/Kconfig                      |   9 +-
+ drivers/staging/Kconfig                       |   2 -
+ drivers/staging/Makefile                      |   1 -
+ drivers/staging/mt7621-pci/Kconfig            |   8 -
+ drivers/staging/mt7621-pci/Makefile           |   2 -
+ drivers/staging/mt7621-pci/TODO               |   4 -
+ .../mt7621-pci/mediatek,mt7621-pci.txt        | 104 ------------
+ 11 files changed, 164 insertions(+), 122 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml
+ rename {drivers/staging/mt7621-pci => arch/mips/pci}/pci-mt7621.c (100%)
+ delete mode 100644 drivers/staging/mt7621-pci/Kconfig
+ delete mode 100644 drivers/staging/mt7621-pci/Makefile
+ delete mode 100644 drivers/staging/mt7621-pci/TODO
+ delete mode 100644 drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt
+
+-- 
+2.25.1
