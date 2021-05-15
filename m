@@ -1,90 +1,115 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25D022FB8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 983612FB7
 	for <linux-staging@lists.linux.dev>; Sat, 15 May 2021 19:16:37 +0000 (UTC)
 Received: from localhost.localdomain ([37.4.249.151]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M27ix-1lkSfI0s0n-002WYR; Sat, 15 May 2021 21:11:21 +0200
+ id 1Mz9IT-1lVoMG1iD5-00wHZl; Sat, 15 May 2021 21:11:19 +0200
 From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Nicolas Saenz Julienne <nsaenz@kernel.org>
 Cc: linux-staging@lists.linux.dev,
 	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH 12/20] staging: vchiq_arm: add blank line after declarations
-Date: Sat, 15 May 2021 21:10:51 +0200
-Message-Id: <1621105859-30215-13-git-send-email-stefan.wahren@i2se.com>
+Subject: [PATCH 03/20] staging: vchiq_core: separate postfix increment
+Date: Sat, 15 May 2021 21:10:42 +0200
+Message-Id: <1621105859-30215-4-git-send-email-stefan.wahren@i2se.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1621105859-30215-1-git-send-email-stefan.wahren@i2se.com>
 References: <1621105859-30215-1-git-send-email-stefan.wahren@i2se.com>
-X-Provags-ID: V03:K1:d8cW/zaHdw8WWe82xCNrPlINalbsbIUTJNJPToH8NZUBLNDFJJc
- sVxNWz5KUoyhEzoKjjE0fuCEvSmxjNfD/jbQydmvFTMVDUJjBflWU7FUyhxrD7ugnX6n4O0
- WzzttMOEbEfSPL3sarKv5/xdX+Upiv7RgF5nxmM2KPHWPFIDgJD4rM91Vw4IPfVYt+rouLa
- zXz0Ax1OqIBkYJGXbJwOw==
+X-Provags-ID: V03:K1:tYUMngbePSrI8TFOaUn5BreXfQBG6BUbM4rX9sgWvrAddSnVHAH
+ M4IrBVEFq3sloJx5I2w4A3tZjPMXydQ6P22opcR4PmQyXCX9fTdjAkwIg0HJhSIKLvub3FT
+ Bo1Pe85hIs+B1/sZXASLPVntX6XaQuPGHY6Rg3N1obRk6wXMW+YUfX/5sqHprxBIHLNdPlS
+ TFkb8XBMzfuj+bMX9xxuQ==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:p09y4zJ/jD0=:1p+V71hJmlPFLCoCzlrUeo
- WtrRfyApQ06y0osXvIKnwhKbtIIU2dhW4aAanxyDgl/GB36NjzSTiOTRcYT5oBs/gAKn3U82+
- DmR6RdW/deLv6zu7nsSIg8/P9ISw1cFjU9hb9zuwF8nZjOuLgsDdseZaYzyziEzxMpcPmWUZk
- USJftdZuMO9vGcdTcpkz/G0ThfEHiGnzybxaWHARBREa7sHZx7YRDrK8lmqo+ldKxQOW8qL0C
- x7/0rhcDtdoGYxY0/RLSVgFdbd9eMyzcN/uNAeB/yCzyK448bJGDXbI9KNS2CpMMRg3VO4f7F
- eGlpkwTtnMDxksA/CISqQ4u6Z/mdBKnHxj8FvN2IfEOI6cBrOMDRkNdzObv/yhwjtEZzkODi7
- S5OLk9EGXobg54XH5WaL7cGC5p/vmq0yKlPSQzFircu7f3tYuvpG/QD+jPVJlw4u+FB8AnvsA
- 4Evoh4E2PwwtvyHfHtdHVmz6sXYqaCk1XTKMtBq0QJGi7Fe3SmXAcSt/kw32p7tc/EtXzwpS2
- cZ1I7jHPd14UEhAgUyVwu4=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:PK7QTy6aJWY=:u726w3IgiKQXxiXrvpmPE2
+ FlMZskE6etJ+4TcHpPxfBqfyAgYbF6qNUwPdOmnYOgJRLhgoNjMkdU+n2JS3ozdBp/gd26any
+ 7jpyIaBhH3xEImTE6yjTPEKcaZIejNtS5aNof/dkzUI69qzs1cBpRW1Ot01h58JtES55M1jYt
+ fNZ8L1YmXLOSkNHy1WnlpIv345oEh2mp+/oOgCR5URG5QwAGORurehZh3GyvEbF6MbjWWTz9C
+ cP1g4sQw+TqfONhRe3hAEpaszHp5LspzoZ1ZtiZUFhve2Om92arCUZG5r0iY1z0+jul2xj4kB
+ 2DxJrPhoDdyhdidZfogpAbWKB3ofry6vR4NYKdgdl0fz5JJK3Zzy25giTtASjnA12WrhkyHz8
+ 9EJ+1EZrIA6w9ccDwjoDVh5ALjx4wEzLj/Nxm1o/hWMweCnlbiTIl9MsDLlYgLY5yUpBvfi7X
+ nPMv47JK4ev+DJL7fZ7iZn1YDDeMJ70EbL7v/+9AFc8wt9vSUES1ZsBtX7ln5XhYuJwYRZYbc
+ rsCz6TtDxgFt/1ZOCOaOSc=
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-Improve the readability by add a blank line after declarations. This
-was found with checkpatch.
+Postfix increment within a complexer statement doesn't improve readability.
+So separate them.
 
 Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 ---
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c     | 3 +++
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c | 1 +
- 2 files changed, 4 insertions(+)
+ .../vc04_services/interface/vchiq_arm/vchiq_core.c       | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index f2f948c..c08a950 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -1019,6 +1019,7 @@ static inline int vchiq_get_user_ptr(void __user **buf, void __user *ubuf, int i
- 	if (in_compat_syscall()) {
- 		compat_uptr_t ptr32;
- 		compat_uptr_t __user *uptr = ubuf;
-+
- 		ret = get_user(ptr32, uptr + index);
- 		if (ret)
- 			return ret;
-@@ -1026,6 +1027,7 @@ static inline int vchiq_get_user_ptr(void __user **buf, void __user *ubuf, int i
- 		*buf = compat_ptr(ptr32);
- 	} else {
- 		uintptr_t ptr, __user *uptr = ubuf;
-+
- 		ret = get_user(ptr, uptr + index);
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+index 85fd0a6..a22d8b7 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+@@ -243,7 +243,8 @@ __next_service_by_instance(struct vchiq_state *state,
+ 	while (idx < state->unused_service) {
+ 		struct vchiq_service *srv;
  
- 		if (ret)
-@@ -1798,6 +1800,7 @@ static long
- vchiq_compat_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+-		srv = rcu_dereference(state->services[idx++]);
++		srv = rcu_dereference(state->services[idx]);
++		idx++;
+ 		if (srv && srv->srvstate != VCHIQ_SRVSTATE_FREE &&
+ 		    srv->instance == instance) {
+ 			service = srv;
+@@ -649,11 +650,12 @@ process_free_queue(struct vchiq_state *state, BITSET_T *service_found,
+ 
+ 	while (slot_queue_available != local->slot_queue_recycle) {
+ 		unsigned int pos;
+-		int slot_index = local->slot_queue[slot_queue_available++ &
++		int slot_index = local->slot_queue[slot_queue_available &
+ 			VCHIQ_SLOT_QUEUE_MASK];
+ 		char *data = (char *)SLOT_DATA_FROM_INDEX(state, slot_index);
+ 		int data_found = 0;
+ 
++		slot_queue_available++;
+ 		/*
+ 		 * Beware of the address dependency - data is calculated
+ 		 * using an index written by the other side.
+@@ -1175,7 +1177,6 @@ static void
+ release_slot(struct vchiq_state *state, struct vchiq_slot_info *slot_info,
+ 	     struct vchiq_header *header, struct vchiq_service *service)
  {
- 	void __user *argp = compat_ptr(arg);
-+
- 	switch (cmd) {
- 	case VCHIQ_IOC_CREATE_SERVICE32:
- 		return vchiq_compat_ioctl_create_service(file, cmd, argp);
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
-index da550b6..8f3d9cb 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_debugfs.c
-@@ -35,6 +35,7 @@ static struct vchiq_debugfs_log_entry vchiq_debugfs_log_entries[] = {
- 	{ "susp", &vchiq_susp_log_level },
- 	{ "arm",  &vchiq_arm_log_level },
- };
-+
- static int n_log_entries = ARRAY_SIZE(vchiq_debugfs_log_entries);
+-
+ 	mutex_lock(&state->recycle_mutex);
  
- static int debugfs_log_show(struct seq_file *f, void *offset)
+ 	if (header) {
+@@ -2215,7 +2216,8 @@ vchiq_init_state(struct vchiq_state *state, struct vchiq_slot_zero *slot_zero)
+ 	}
+ 
+ 	for (i = local->slot_first; i <= local->slot_last; i++) {
+-		local->slot_queue[state->slot_queue_available++] = i;
++		local->slot_queue[state->slot_queue_available] = i;
++		state->slot_queue_available++;
+ 		complete(&state->slot_available_event);
+ 	}
+ 
+@@ -2319,7 +2321,8 @@ void vchiq_msg_queue_push(unsigned int handle, struct vchiq_header *header)
+ 			flush_signals(current);
+ 	}
+ 
+-	pos = service->msg_queue_write++ & (VCHIQ_MAX_SLOTS - 1);
++	pos = service->msg_queue_write & (VCHIQ_MAX_SLOTS - 1);
++	service->msg_queue_write++;
+ 	service->msg_queue[pos] = header;
+ 
+ 	complete(&service->msg_queue_push);
+@@ -2340,7 +2343,8 @@ struct vchiq_header *vchiq_msg_hold(unsigned int handle)
+ 			flush_signals(current);
+ 	}
+ 
+-	pos = service->msg_queue_read++ & (VCHIQ_MAX_SLOTS - 1);
++	pos = service->msg_queue_read & (VCHIQ_MAX_SLOTS - 1);
++	service->msg_queue_read++;
+ 	header = service->msg_queue[pos];
+ 
+ 	complete(&service->msg_queue_pop);
 -- 
 2.7.4
 
