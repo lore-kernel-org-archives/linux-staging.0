@@ -1,97 +1,71 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA0A72
-	for <linux-staging@lists.linux.dev>; Sat, 15 May 2021 19:14:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 179332FB4
+	for <linux-staging@lists.linux.dev>; Sat, 15 May 2021 19:16:36 +0000 (UTC)
 Received: from localhost.localdomain ([37.4.249.151]) by
- mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N79Ey-1lPVSS2elA-017Yfg; Sat, 15 May 2021 21:14:28 +0200
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MvrVJ-1lSWZr1WUB-00sxeT; Sat, 15 May 2021 21:11:20 +0200
 From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Nicolas Saenz Julienne <nsaenz@kernel.org>
 Cc: linux-staging@lists.linux.dev,
 	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH 20/20] staging: vchiq_core: introduce defines for retry_poll
-Date: Sat, 15 May 2021 21:13:50 +0200
-Message-Id: <1621106030-30363-1-git-send-email-stefan.wahren@i2se.com>
+Subject: [PATCH 08/20] staging: vchiq_arm: Use define for doorbell irq
+Date: Sat, 15 May 2021 21:10:47 +0200
+Message-Id: <1621105859-30215-9-git-send-email-stefan.wahren@i2se.com>
 X-Mailer: git-send-email 2.7.4
-X-Provags-ID: V03:K1:T9inPfIak7Yb3Tz0GQ5Csh2OxBK+1Zc4ATSKxqRpLaN1aiExGpR
- UJfJfORAve5oKJdU8MiEBlPD2v6Dv7AV8hFNUXKMeGvA/+PzvhDgMDZIvKWRFc/E28V9/Sj
- bFQo79nFUvMRAzKDBAr8IznZPOvTvvj9v6BE0wv65UyqZxqObAQiaBLyU6Gt/RP+d/zwtQq
- pLYQaQItNlfZ4QnmNFZOA==
+In-Reply-To: <1621105859-30215-1-git-send-email-stefan.wahren@i2se.com>
+References: <1621105859-30215-1-git-send-email-stefan.wahren@i2se.com>
+X-Provags-ID: V03:K1:c2S1blVVoooCSBj+LEXcXBNy8yAV55rHFmZX4bAlNF84wqZju2G
+ JTSOqOl/2VCn7j/F46Y+LB9qLqwZpX114U0buPNW4RzqB79BSlsxRtuhaNPEgUprlitj9F5
+ t9PzFktof1dYCR2PVutD7pYdqLC1V/Ui+SNawxAJa6W5T6C7CtecdJMbCBk6btBo03WT7I4
+ oOd2To1C7qyym7cjYe1Xg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:J5+4kNmcvQs=:V+HEIR3bo+nZ3IdohOksDY
- 8xLpFREIIEs4713UFhk/hPzpr5qVdiBseaT7FEYZZkM9q6ZufRSspeGVXTVv4s/Hxv2pFw94l
- 3JojdwZ1tSFOYm2aYIAJhizvAbKK3o7v+z0HH2IwsZUVJ5WLksjtgPS909xmj5sv/hNMiohvg
- kDOyDXKpdICvx8bkn/6b+Us7ba8oGLyNypjOKumj+9Sb1v4Y0xpnsxp6yukHxwtJrqdtCugRS
- f8xKrh+Jtun16svLJKsNkgiFuFyOGQDYvIL/rMWf7ts21WlSM/GdGAfDfM88V1s6vD/95aTi6
- k5Y64NQV4b74Gu77ia9VHMUOR2/64aGo80o90st+FOW4nsvJu6sa3C5oYQ0n1jh2nXQmu+zJ3
- PwTINgaF0TdtXOwGKnRb9wwJJlMd3tnyjRG5qiUEIhtTKcMDloLpLCAIfkMve/H+EJ/SQsq8b
- rWPykxGRs3uKBcBDzazgBlnv/q/IqNxYT74nQRrZKQpn6goZ5wmcQN7egkm10CB2Qq1bi2F9K
- 6YHVuUCpGzfzaba2dny++E=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OILm/+vaAig=:RozXvcjx5Ng49gIdz7mEEH
+ tnHzvkOnTSy0D95BVMoUS+jktwZbUeOa7bnnbZMwxA7tfykArWmahV7lBqVTEQLhsxIr3NLk0
+ GTH+Yhrrql+a6B5SlabBodxG8AEZGP77oZq2c3UeES3V8vht7Qv+v8+YGNCGd3YD+qItMrbIG
+ lQRkVn6IoraunCo/2Y5IVC+jjPkAf8epj2lHm2dbOhbTZdmjU+R63fUscf0FuC6x2bU09DPqu
+ twQgyT+DTvoAp7iqkG+hatLXCMWFzksyB6UNrxXHFwslZ695Yjac2umEM7MaYCbrCklnrt136
+ NYG3thedZ9oiV1xp9Afs+K2L696BYTHl+EsaLMMGsSlXly0sBcPQK0WU2JaK33l2hsOe3NN2G
+ AKOHFvaZYyXiweeEsz6xeeWXuRmka9OdSgnLFg50OfoC23w1MkH3hAyNlnDqbMMaXvDizn9TK
+ HQM6ai8oMrJl53fHfTLpbdb/oEIjLvjIEj0sESfpEWb3RQZTK560ddILBhdyo61gKZHhHzmi3
+ cugcev1yi5BG94zI3Br/rM=
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-Use descriptive defines instead of a number with a comment.
+The interrupt handler uses a magic number to check that the doorbell
+was rung. Better replace this number with official Broadcom define.
 
 Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 ---
- .../vc04_services/interface/vchiq_arm/vchiq_core.c        | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_2835_arm.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index c22eefc..47bb0af 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -41,6 +41,9 @@
- #define NO_CLOSE_RECVD	0
- #define CLOSE_RECVD	1
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_2835_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_2835_arm.c
+index c3fbb29..30d6f1a 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_2835_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_2835_arm.c
+@@ -29,6 +29,8 @@
+ #define BELL0	0x00
+ #define BELL2	0x08
  
-+#define NO_RETRY_POLL	0
-+#define RETRY_POLL	1
++#define ARM_DS_ACTIVE	BIT(2)
 +
- struct vchiq_open_payload {
- 	int fourcc;
- 	int client_id;
-@@ -1366,11 +1369,9 @@ poll_services_of_group(struct vchiq_state *state, int group)
- 					     VCHIQ_POLL_TERMINATE);
- 		}
- 		if (service_flags & BIT(VCHIQ_POLL_TXNOTIFY))
--			notify_bulks(service, &service->bulk_tx,
--				     1/*retry_poll*/);
-+			notify_bulks(service, &service->bulk_tx, RETRY_POLL);
- 		if (service_flags & BIT(VCHIQ_POLL_RXNOTIFY))
--			notify_bulks(service, &service->bulk_rx,
--				     1/*retry_poll*/);
-+			notify_bulks(service, &service->bulk_rx, RETRY_POLL);
- 		unlock_service(service);
+ struct vchiq_2835_state {
+ 	int inited;
+ 	struct vchiq_arm_state arm_state;
+@@ -269,7 +271,7 @@ vchiq_doorbell_irq(int irq, void *dev_id)
+ 	/* Read (and clear) the doorbell */
+ 	status = readl(g_regs + BELL0);
+ 
+-	if (status & 0x4) {  /* Was the doorbell rung? */
++	if (status & ARM_DS_ACTIVE) {  /* Was the doorbell rung? */
+ 		remote_event_pollall(state);
+ 		ret = IRQ_HANDLED;
  	}
- }
-@@ -1794,7 +1795,7 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
- 			queue->process++;
- 			mutex_unlock(&service->bulk_mutex);
- 			DEBUG_TRACE(PARSE_LINE);
--			notify_bulks(service, queue, 1/*retry_poll*/);
-+			notify_bulks(service, queue, RETRY_POLL);
- 			DEBUG_TRACE(PARSE_LINE);
- 		}
- 		break;
-@@ -2650,11 +2651,11 @@ do_abort_bulks(struct vchiq_service *service)
- 	abort_outstanding_bulks(service, &service->bulk_rx);
- 	mutex_unlock(&service->bulk_mutex);
- 
--	status = notify_bulks(service, &service->bulk_tx, 0/*!retry_poll*/);
-+	status = notify_bulks(service, &service->bulk_tx, NO_RETRY_POLL);
- 	if (status != VCHIQ_SUCCESS)
- 		return 0;
- 
--	status = notify_bulks(service, &service->bulk_rx, 0/*!retry_poll*/);
-+	status = notify_bulks(service, &service->bulk_rx, NO_RETRY_POLL);
- 	return (status == VCHIQ_SUCCESS);
- }
- 
 -- 
 2.7.4
 
