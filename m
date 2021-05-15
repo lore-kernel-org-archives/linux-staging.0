@@ -1,230 +1,73 @@
-Received: from smtprelay.hostedemail.com (smtprelay0073.hostedemail.com [216.40.44.73])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0D472
-	for <linux-staging@lists.linux.dev>; Sat, 15 May 2021 13:03:28 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-	by smtpgrave07.hostedemail.com (Postfix) with ESMTP id D850618029154
-	for <linux-staging@lists.linux.dev>; Fri, 14 May 2021 15:56:19 +0000 (UTC)
-Received: from omf12.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-	by smtprelay05.hostedemail.com (Postfix) with ESMTP id EF2431802B4D5;
-	Fri, 14 May 2021 15:56:12 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf12.hostedemail.com (Postfix) with ESMTPA id 9398824023B;
-	Fri, 14 May 2021 15:56:11 +0000 (UTC)
-Message-ID: <bccbec1a0ffbf6c31b5e6a78cedd78cd64f2b8fe.camel@perches.com>
-Subject: Re: [PATCH] staging: greybus: fix gb_loopback_stats_attrs definition
-From: Joe Perches <joe@perches.com>
-To: Greg KH <gregkh@linuxfoundation.org>, Shreyansh Chouhan
-	 <chouhan.shreyansh630@gmail.com>
-Cc: pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org, 
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Fri, 14 May 2021 08:56:10 -0700
-In-Reply-To: <YJ6XpUMliWQOS8MB@kroah.com>
-References: <20210514133039.304760-1-chouhan.shreyansh630@gmail.com>
-	 <YJ582f3O9K9YD3QA@kroah.com> <YJ5/tqFfcjxOLsF0@fedora>
-	 <YJ6DrLiMsdkG5loA@kroah.com> <YJ6H/WsojYcN/bLO@fedora>
-	 <YJ6Jf+Z1ReVgDt64@kroah.com> <YJ6TUAowTI75h/sl@fedora>
-	 <YJ6XpUMliWQOS8MB@kroah.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC2072
+	for <linux-staging@lists.linux.dev>; Sat, 15 May 2021 19:11:23 +0000 (UTC)
+Received: from localhost.localdomain ([37.4.249.151]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MStOy-1lujf70spy-00UKHY; Sat, 15 May 2021 21:11:19 +0200
+From: Stefan Wahren <stefan.wahren@i2se.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>
+Cc: linux-staging@lists.linux.dev,
+	Stefan Wahren <stefan.wahren@i2se.com>
+Subject: [PATCH 02/20] staging: vchiq_core: drop unnecessary release_count
+Date: Sat, 15 May 2021 21:10:41 +0200
+Message-Id: <1621105859-30215-3-git-send-email-stefan.wahren@i2se.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1621105859-30215-1-git-send-email-stefan.wahren@i2se.com>
+References: <1621105859-30215-1-git-send-email-stefan.wahren@i2se.com>
+X-Provags-ID: V03:K1:ESOnJlI90oujaEqN52mI1qXiWJ3aO3XnzurC4nBmmMGPKoNcyE8
+ XqSEtC+5h96ZytCJDxDTWPkGeLXbAzf2IS8hIbh6UjJyJfQeSGUIWJCSxS5bFeR5cqtt3mP
+ ceRtfvtrSjSxRWYeWKj2zQXpzENd1fISacFAzu1Zl2t4FWvtZ2xBvNe2FgPEc3/ogQUoJYs
+ gmosCIpeilccdsyLy8n3w==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:X6UiBB0MBrs=:Hnal5VbZJ8opYtoEcLSon7
+ ytGTRfBx59y5DfRrvkZRfUHiFafxftM6tVkLM/CV8rxeHAXS7F8jJgpJd6JCOFuL+UgoFDzQs
+ eA2Jx0wTlGtA3tVcfmR0bI2ow7qf5r49ga5dQa+nHttsZAqhzXUq619bSEIRQXoN7EvLtdi15
+ mQAUSTu1W1knK6APVdqSQb68aoxrAubXMvOCNEljCPYepLKtcx4d0DszRLb8qVdbbJlzuzkIy
+ 0dmWqEvSmblPhZwboeiSqSkbtdiZAnEpbmmfEpttc/IBeQuHFZo+WU2h/MiUi4KrtJUxUZJec
+ QXxkvA6eim6yhlpLucG2PiepMMPv23gFLCmq713qRJCWOsk4MfhiAFSSu9gqdtqOzl91MFMSY
+ CIgRWdvSW3bdwdDpMz7U7OEjeFMsaqd8f+8FZewtJBKI1rS/HYF+LVlhLi0pbDdQDQayslthL
+ bncMA5FjbeuBcV9t5MN6cpeOIM+s4ZYQShG/3R5S22Qsm7IrfwwT7ZuMHRA9XIFnYmo1xkytt
+ IlyuULS7S3Aq7QSHe5Me04=
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: 9398824023B
-X-Spam-Status: No, score=-1.40
-X-Stat-Signature: bsd4jy9waaadwjctjaqreet6ob39ob4w
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19CiF0j1HLMKl+eajSpiUzTVTMqH8HjOIk=
-X-HE-Tag: 1621007771-347867
 
-On Fri, 2021-05-14 at 17:30 +0200, Greg KH wrote:
-> On Fri, May 14, 2021 at 08:42:16PM +0530, Shreyansh Chouhan wrote:
-[]
-> > I didn't look at how/where was the macro called and missed a very
-> > obvious error. Now that I have looked at it, the only way I can think of
-> > fixing this is changing the macro to a (inline?) function. Will
-> > that be a desirable change?
-> 
-> No, it can't be a function, the code is fine as-is, checkpatch is just a
-> perl script and does not always know what needs to be done.
+There is no benefit of the variable release_count, so drop it.
 
-true.
-
-perhaps better though to rename these declaring macros to start with declare_
-
-Something like this:
-(with miscellaneous realigning of the macros line ending continuations \)
+Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 ---
- drivers/staging/greybus/loopback.c | 72 +++++++++++++++++++-------------------
- 1 file changed, 36 insertions(+), 36 deletions(-)
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-index 2471448ba42a..dc399792f35f 100644
---- a/drivers/staging/greybus/loopback.c
-+++ b/drivers/staging/greybus/loopback.c
-@@ -119,18 +119,18 @@ module_param(kfifo_depth, uint, 0444);
- #define GB_LOOPBACK_US_WAIT_MAX				1000000
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+index 9b6c626..85fd0a6 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+@@ -1175,7 +1175,6 @@ static void
+ release_slot(struct vchiq_state *state, struct vchiq_slot_info *slot_info,
+ 	     struct vchiq_header *header, struct vchiq_service *service)
+ {
+-	int release_count;
  
- /* interface sysfs attributes */
--#define gb_loopback_ro_attr(field)				\
--static ssize_t field##_show(struct device *dev,			\
-+#define declare_gb_loopback_ro_attr(field)				\
-+static ssize_t field##_show(struct device *dev,				\
- 			    struct device_attribute *attr,		\
- 			    char *buf)					\
- {									\
- 	struct gb_loopback *gb = dev_get_drvdata(dev);			\
--	return sprintf(buf, "%u\n", gb->field);			\
-+	return sprintf(buf, "%u\n", gb->field);				\
- }									\
- static DEVICE_ATTR_RO(field)
+ 	mutex_lock(&state->recycle_mutex);
  
--#define gb_loopback_ro_stats_attr(name, field, type)		\
--static ssize_t name##_##field##_show(struct device *dev,	\
-+#define declare_gb_loopback_ro_stats_attr(name, field, type)		\
-+static ssize_t name##_##field##_show(struct device *dev,		\
- 			    struct device_attribute *attr,		\
- 			    char *buf)					\
- {									\
-@@ -142,8 +142,8 @@ static ssize_t name##_##field##_show(struct device *dev,	\
- }									\
- static DEVICE_ATTR_RO(name##_##field)
+@@ -1192,10 +1191,9 @@ release_slot(struct vchiq_state *state, struct vchiq_slot_info *slot_info,
+ 		header->msgid = msgid & ~VCHIQ_MSGID_CLAIMED;
+ 	}
  
--#define gb_loopback_ro_avg_attr(name)			\
--static ssize_t name##_avg_show(struct device *dev,		\
-+#define declare_gb_loopback_ro_avg_attr(name)				\
-+static ssize_t name##_avg_show(struct device *dev,			\
- 			    struct device_attribute *attr,		\
- 			    char *buf)					\
- {									\
-@@ -151,8 +151,8 @@ static ssize_t name##_avg_show(struct device *dev,		\
- 	struct gb_loopback *gb;						\
- 	u64 avg, rem;							\
- 	u32 count;							\
--	gb = dev_get_drvdata(dev);			\
--	stats = &gb->name;					\
-+	gb = dev_get_drvdata(dev);					\
-+	stats = &gb->name;						\
- 	count = stats->count ? stats->count : 1;			\
- 	avg = stats->sum + count / 2000000; /* round closest */		\
- 	rem = do_div(avg, count);					\
-@@ -162,12 +162,12 @@ static ssize_t name##_avg_show(struct device *dev,		\
- }									\
- static DEVICE_ATTR_RO(name##_avg)
+-	release_count = slot_info->release_count;
+-	slot_info->release_count = ++release_count;
++	slot_info->release_count++;
  
--#define gb_loopback_stats_attrs(field)				\
--	gb_loopback_ro_stats_attr(field, min, u);		\
--	gb_loopback_ro_stats_attr(field, max, u);		\
--	gb_loopback_ro_avg_attr(field)
-+#define declare_gb_loopback_stats_attrs(field)				\
-+	declare_gb_loopback_ro_stats_attr(field, min, u);		\
-+	declare_gb_loopback_ro_stats_attr(field, max, u);		\
-+	declare_gb_loopback_ro_avg_attr(field)
+-	if (release_count == slot_info->use_count) {
++	if (slot_info->release_count == slot_info->use_count) {
+ 		int slot_queue_recycle;
+ 		/* Add to the freed queue */
  
--#define gb_loopback_attr(field, type)					\
-+#define declare_gb_loopback_attr(field, type)				\
- static ssize_t field##_show(struct device *dev,				\
- 			    struct device_attribute *attr,		\
- 			    char *buf)					\
-@@ -193,8 +193,8 @@ static ssize_t field##_store(struct device *dev,			\
- }									\
- static DEVICE_ATTR_RW(field)
- 
--#define gb_dev_loopback_ro_attr(field, conn)				\
--static ssize_t field##_show(struct device *dev,		\
-+#define declare_gb_dev_loopback_ro_attr(field, conn)			\
-+static ssize_t field##_show(struct device *dev,				\
- 			    struct device_attribute *attr,		\
- 			    char *buf)					\
- {									\
-@@ -203,7 +203,7 @@ static ssize_t field##_show(struct device *dev,		\
- }									\
- static DEVICE_ATTR_RO(field)
- 
--#define gb_dev_loopback_rw_attr(field, type)				\
-+#define declare_gb_dev_loopback_rw_attr(field, type)			\
- static ssize_t field##_show(struct device *dev,				\
- 			    struct device_attribute *attr,		\
- 			    char *buf)					\
-@@ -223,7 +223,7 @@ static ssize_t field##_store(struct device *dev,			\
- 	if (ret != 1)							\
- 		len = -EINVAL;						\
- 	else								\
--		gb_loopback_check_attr(gb);		\
-+		gb_loopback_check_attr(gb);				\
- 	mutex_unlock(&gb->mutex);					\
- 	return len;							\
- }									\
-@@ -268,26 +268,26 @@ static void gb_loopback_check_attr(struct gb_loopback *gb)
- }
- 
- /* Time to send and receive one message */
--gb_loopback_stats_attrs(latency);
-+declare_gb_loopback_stats_attrs(latency);
- /* Number of requests sent per second on this cport */
--gb_loopback_stats_attrs(requests_per_second);
-+declare_gb_loopback_stats_attrs(requests_per_second);
- /* Quantity of data sent and received on this cport */
--gb_loopback_stats_attrs(throughput);
-+declare_gb_loopback_stats_attrs(throughput);
- /* Latency across the UniPro link from APBridge's perspective */
--gb_loopback_stats_attrs(apbridge_unipro_latency);
-+declare_gb_loopback_stats_attrs(apbridge_unipro_latency);
- /* Firmware induced overhead in the GPBridge */
--gb_loopback_stats_attrs(gbphy_firmware_latency);
-+declare_gb_loopback_stats_attrs(gbphy_firmware_latency);
- 
- /* Number of errors encountered during loop */
--gb_loopback_ro_attr(error);
-+declare_gb_loopback_ro_attr(error);
- /* Number of requests successfully completed async */
--gb_loopback_ro_attr(requests_completed);
-+declare_gb_loopback_ro_attr(requests_completed);
- /* Number of requests timed out async */
--gb_loopback_ro_attr(requests_timedout);
-+declare_gb_loopback_ro_attr(requests_timedout);
- /* Timeout minimum in useconds */
--gb_loopback_ro_attr(timeout_min);
-+declare_gb_loopback_ro_attr(timeout_min);
- /* Timeout minimum in useconds */
--gb_loopback_ro_attr(timeout_max);
-+declare_gb_loopback_ro_attr(timeout_max);
- 
- /*
-  * Type of loopback message to send based on protocol type definitions
-@@ -297,21 +297,21 @@ gb_loopback_ro_attr(timeout_max);
-  *					   payload returned in response)
-  * 4 => Send a sink message (message with payload, no payload in response)
-  */
--gb_dev_loopback_rw_attr(type, d);
-+declare_gb_dev_loopback_rw_attr(type, d);
- /* Size of transfer message payload: 0-4096 bytes */
--gb_dev_loopback_rw_attr(size, u);
-+declare_gb_dev_loopback_rw_attr(size, u);
- /* Time to wait between two messages: 0-1000 ms */
--gb_dev_loopback_rw_attr(us_wait, d);
-+declare_gb_dev_loopback_rw_attr(us_wait, d);
- /* Maximum iterations for a given operation: 1-(2^32-1), 0 implies infinite */
--gb_dev_loopback_rw_attr(iteration_max, u);
-+declare_gb_dev_loopback_rw_attr(iteration_max, u);
- /* The current index of the for (i = 0; i < iteration_max; i++) loop */
--gb_dev_loopback_ro_attr(iteration_count, false);
-+declare_gb_dev_loopback_ro_attr(iteration_count, false);
- /* A flag to indicate synchronous or asynchronous operations */
--gb_dev_loopback_rw_attr(async, u);
-+declare_gb_dev_loopback_rw_attr(async, u);
- /* Timeout of an individual asynchronous request */
--gb_dev_loopback_rw_attr(timeout, u);
-+declare_gb_dev_loopback_rw_attr(timeout, u);
- /* Maximum number of in-flight operations before back-off */
--gb_dev_loopback_rw_attr(outstanding_operations_max, u);
-+declare_gb_dev_loopback_rw_attr(outstanding_operations_max, u);
- 
- static struct attribute *loopback_attrs[] = {
- 	&dev_attr_latency_min.attr,
+-- 
+2.7.4
 
