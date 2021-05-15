@@ -1,36 +1,34 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D895D2FB4
-	for <linux-staging@lists.linux.dev>; Sat, 15 May 2021 19:11:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA0A72
+	for <linux-staging@lists.linux.dev>; Sat, 15 May 2021 19:14:32 +0000 (UTC)
 Received: from localhost.localdomain ([37.4.249.151]) by
- mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MWjQU-1lxTDG2nW4-00X6F4; Sat, 15 May 2021 21:11:22 +0200
+ mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1N79Ey-1lPVSS2elA-017Yfg; Sat, 15 May 2021 21:14:28 +0200
 From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Nicolas Saenz Julienne <nsaenz@kernel.org>
 Cc: linux-staging@lists.linux.dev,
 	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH 19/20] staging: vchiq_core: introduce defines for close_recvd
-Date: Sat, 15 May 2021 21:10:58 +0200
-Message-Id: <1621105859-30215-20-git-send-email-stefan.wahren@i2se.com>
+Subject: [PATCH 20/20] staging: vchiq_core: introduce defines for retry_poll
+Date: Sat, 15 May 2021 21:13:50 +0200
+Message-Id: <1621106030-30363-1-git-send-email-stefan.wahren@i2se.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1621105859-30215-1-git-send-email-stefan.wahren@i2se.com>
-References: <1621105859-30215-1-git-send-email-stefan.wahren@i2se.com>
-X-Provags-ID: V03:K1:cKEYqlJmuDCGZwuvIx8aMmdaLHuZvczDI2o1n/QGu1rL1TESZzh
- 4ddwhFEJRrWRVVvNTCKZpqbA3h8EYRG94BbFkwy7lEuVWLzjH53GxjXPh6/mx5H+fdCdls4
- aX3dVz4ugJszBbsMSdOG2UQQ2C9jQFrGETaQV8QxX35EVbTxL0aHqEm0h/tKU5pudJQ8umz
- U7pSrrenN06H7DrpIPHnw==
+X-Provags-ID: V03:K1:T9inPfIak7Yb3Tz0GQ5Csh2OxBK+1Zc4ATSKxqRpLaN1aiExGpR
+ UJfJfORAve5oKJdU8MiEBlPD2v6Dv7AV8hFNUXKMeGvA/+PzvhDgMDZIvKWRFc/E28V9/Sj
+ bFQo79nFUvMRAzKDBAr8IznZPOvTvvj9v6BE0wv65UyqZxqObAQiaBLyU6Gt/RP+d/zwtQq
+ pLYQaQItNlfZ4QnmNFZOA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:t9Oh/JdBchs=:bYpt8u+brFgva+5C8SZjub
- AbnNCyITq2U+xC3m1TtEfUVoqb+482/D/TK4e+QcZbGsv3GBzfLBgl/4c/1pmHL/RmWR1HpAG
- GwEUUNX29VkmWr2kQOyYHN7/pXUqqdhcY+k5ELY4N0JS8HWsgoHJU0TIJAe6Yrfxdc5Zgx32L
- dvUxNR/2S00R1F1qva6eL1cu1owldxrffHvdUNzgEOEDOk9LID9OU1IFv64oQAO/k70uH6FV+
- vPGYQOFKBLfVlMbsCS0XBHkRvYD3pJ0e7mzyq47y9OnBVucV7/HS6aXPqlEefeT9LMf1IeAje
- yweuYJEgz+c3lPW9c4nuZiYutvcjIHxcV/QDa+D2mwiHv2qrLzswY87m0dIxxQ8JDPjk715XP
- CXkWtxMigg8EP6YDnaV0HP2hqFnooU91hHjE0F/tI2665sZgz+rlDyQrzjyg8JvOvO0B+qqEy
- zX6TIP6g+FmQRSqzUkmXxrrahhjlEwY/Mo+eWojcXIPLYWK037w1zJ0UEdAYaLwqrEDEodiat
- cGtlHtDR/aC5MOjmncLWuM=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:J5+4kNmcvQs=:V+HEIR3bo+nZ3IdohOksDY
+ 8xLpFREIIEs4713UFhk/hPzpr5qVdiBseaT7FEYZZkM9q6ZufRSspeGVXTVv4s/Hxv2pFw94l
+ 3JojdwZ1tSFOYm2aYIAJhizvAbKK3o7v+z0HH2IwsZUVJ5WLksjtgPS909xmj5sv/hNMiohvg
+ kDOyDXKpdICvx8bkn/6b+Us7ba8oGLyNypjOKumj+9Sb1v4Y0xpnsxp6yukHxwtJrqdtCugRS
+ f8xKrh+Jtun16svLJKsNkgiFuFyOGQDYvIL/rMWf7ts21WlSM/GdGAfDfM88V1s6vD/95aTi6
+ k5Y64NQV4b74Gu77ia9VHMUOR2/64aGo80o90st+FOW4nsvJu6sa3C5oYQ0n1jh2nXQmu+zJ3
+ PwTINgaF0TdtXOwGKnRb9wwJJlMd3tnyjRG5qiUEIhtTKcMDloLpLCAIfkMve/H+EJ/SQsq8b
+ rWPykxGRs3uKBcBDzazgBlnv/q/IqNxYT74nQRrZKQpn6goZ5wmcQN7egkm10CB2Qq1bi2F9K
+ 6YHVuUCpGzfzaba2dny++E=
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -44,66 +42,56 @@ Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
  1 file changed, 8 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 985e1c6..c22eefc 100644
+index c22eefc..47bb0af 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -38,6 +38,9 @@
- #define SRVTRACE_ENABLED(srv, lev) \
- 	(((srv) && (srv)->trace) || (vchiq_core_msg_log_level >= (lev)))
+@@ -41,6 +41,9 @@
+ #define NO_CLOSE_RECVD	0
+ #define CLOSE_RECVD	1
  
-+#define NO_CLOSE_RECVD	0
-+#define CLOSE_RECVD	1
++#define NO_RETRY_POLL	0
++#define RETRY_POLL	1
 +
  struct vchiq_open_payload {
  	int fourcc;
  	int client_id;
-@@ -1348,7 +1351,7 @@ poll_services_of_group(struct vchiq_state *state, int group)
- 		 */
- 		service->public_fourcc = VCHIQ_FOURCC_INVALID;
- 
--		if (vchiq_close_service_internal(service, 0/*!close_recvd*/) !=
-+		if (vchiq_close_service_internal(service, NO_CLOSE_RECVD) !=
- 						 VCHIQ_SUCCESS) {
- 			request_poll(state, service, VCHIQ_POLL_REMOVE);
- 		} else if (service_flags & BIT(VCHIQ_POLL_TERMINATE)) {
-@@ -1357,7 +1360,7 @@ poll_services_of_group(struct vchiq_state *state, int group)
- 				state->id, service->localport,
- 				service->remoteport);
- 			if (vchiq_close_service_internal(
--				service, 0/*!close_recvd*/) !=
-+				service, NO_CLOSE_RECVD) !=
- 				VCHIQ_SUCCESS)
- 				request_poll(state, service,
+@@ -1366,11 +1369,9 @@ poll_services_of_group(struct vchiq_state *state, int group)
  					     VCHIQ_POLL_TERMINATE);
-@@ -1683,7 +1686,7 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
- 		mark_service_closing_internal(service, 1);
+ 		}
+ 		if (service_flags & BIT(VCHIQ_POLL_TXNOTIFY))
+-			notify_bulks(service, &service->bulk_tx,
+-				     1/*retry_poll*/);
++			notify_bulks(service, &service->bulk_tx, RETRY_POLL);
+ 		if (service_flags & BIT(VCHIQ_POLL_RXNOTIFY))
+-			notify_bulks(service, &service->bulk_rx,
+-				     1/*retry_poll*/);
++			notify_bulks(service, &service->bulk_rx, RETRY_POLL);
+ 		unlock_service(service);
+ 	}
+ }
+@@ -1794,7 +1795,7 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
+ 			queue->process++;
+ 			mutex_unlock(&service->bulk_mutex);
+ 			DEBUG_TRACE(PARSE_LINE);
+-			notify_bulks(service, queue, 1/*retry_poll*/);
++			notify_bulks(service, queue, RETRY_POLL);
+ 			DEBUG_TRACE(PARSE_LINE);
+ 		}
+ 		break;
+@@ -2650,11 +2651,11 @@ do_abort_bulks(struct vchiq_service *service)
+ 	abort_outstanding_bulks(service, &service->bulk_rx);
+ 	mutex_unlock(&service->bulk_mutex);
  
- 		if (vchiq_close_service_internal(service,
--			1/*close_recvd*/) == VCHIQ_RETRY)
-+			CLOSE_RECVD) == VCHIQ_RETRY)
- 			goto bail_not_ready;
+-	status = notify_bulks(service, &service->bulk_tx, 0/*!retry_poll*/);
++	status = notify_bulks(service, &service->bulk_tx, NO_RETRY_POLL);
+ 	if (status != VCHIQ_SUCCESS)
+ 		return 0;
  
- 		vchiq_log_info(vchiq_core_log_level,
-@@ -2976,8 +2979,7 @@ vchiq_close_service(unsigned int handle)
- 	mark_service_closing(service);
+-	status = notify_bulks(service, &service->bulk_rx, 0/*!retry_poll*/);
++	status = notify_bulks(service, &service->bulk_rx, NO_RETRY_POLL);
+ 	return (status == VCHIQ_SUCCESS);
+ }
  
- 	if (current == service->state->slot_handler_thread) {
--		status = vchiq_close_service_internal(service,
--			0/*!close_recvd*/);
-+		status = vchiq_close_service_internal(service, NO_CLOSE_RECVD);
- 		WARN_ON(status == VCHIQ_RETRY);
- 	} else {
- 	/* Mark the service for termination by the slot handler */
-@@ -3041,8 +3043,7 @@ vchiq_remove_service(unsigned int handle)
- 		 */
- 		service->public_fourcc = VCHIQ_FOURCC_INVALID;
- 
--		status = vchiq_close_service_internal(service,
--			0/*!close_recvd*/);
-+		status = vchiq_close_service_internal(service, NO_CLOSE_RECVD);
- 		WARN_ON(status == VCHIQ_RETRY);
- 	} else {
- 		/* Mark the service for removal by the slot handler */
 -- 
 2.7.4
 
