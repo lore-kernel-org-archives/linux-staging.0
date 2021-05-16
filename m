@@ -1,66 +1,52 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0BC72
-	for <linux-staging@lists.linux.dev>; Sun, 16 May 2021 17:01:56 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id lg14so5700513ejb.9
-        for <linux-staging@lists.linux.dev>; Sun, 16 May 2021 10:01:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AtiJHfdmT2LSVR4rbNIaNF36Xfs944KqtBektfTje5M=;
-        b=DAGiCJN/B0AuQYxR2YMS1YdLG7E04XbNnAThdGjmBoPVyWeVm0Vt63bTbv2eoScYRQ
-         SvAEYLrzwnmzOR5wp1CC3RKN4hyBnHKWJQKmPAax8xiYeQN0kxz2jQJP+F4Eg3PnYmne
-         1tPqS44UJ6bIQx53XCLEzkUDSA0PKYzdiJ1Bm8Ux9G1YFwdM/2HDZfALKNqSjTCpM2/w
-         /Rh5WhkPS0VtYInMu//A4ZE4YYK/MTrUiFkFfqoKnAk9XrjylD1xFHqznvRukMuPJ097
-         ZgkrbbJ358Ttx/9WXCUX4sI2HnbgR0YAj0ln5t6NUysuwZ90LddsWhtadieg1uDXWzMv
-         XHaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AtiJHfdmT2LSVR4rbNIaNF36Xfs944KqtBektfTje5M=;
-        b=eUyjDL81Z/6SXLGMILs2EkQrfbvn+DbtOxyeDftxF8GxIX1CAFraIl1o4giG/a0/cN
-         rMzvWtTskJLwMCBmANZJPIEUTfVusrcnSAFsGXpGrvc7s6G1NmLORwwnGTtly0OqQtKr
-         UusVrQFh1Xl7gzVKjnk+bM+HtnRPlUsYuxpqZLEiWkBuqlA5dhVu3peWi0o5snv2simi
-         ABZzclfDZ0+2Qik35Yncj3POGAyKbDjs2ZrbhqRlTIqDs8SqkDCuDKY8368PCUSsVofO
-         sOD82XSzgz7+cRBZQ9CIPk6KPK7O9pmynZth3453LfOjnYM98IeC336UNw+yqAiqklbg
-         m3MA==
-X-Gm-Message-State: AOAM533Tbzjm9NXiAN0kcmuzdAHFuzqxTiIKt8Gg9fQwHaDV/ACFAziu
-	hR+MBza2JytQ96itYBUCwayCc8ZOyVEWeYeCypw=
-X-Google-Smtp-Source: ABdhPJxElTHfIzHywbG8S+ZiNXqSjJEqGZe2D3CIdGakxelu3WUAQhIbf0zHelLeFVb7YO60doX8+J/CEmulNZITgNg=
-X-Received: by 2002:a17:906:57c3:: with SMTP id u3mr59329306ejr.162.1621184515178;
- Sun, 16 May 2021 10:01:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565FF72
+	for <linux-staging@lists.linux.dev>; Sun, 16 May 2021 17:20:04 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id D44C561152;
+	Sun, 16 May 2021 17:20:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1621185603;
+	bh=5lOjwH2z46TugIK+WkNs76901KMjjXkpXmBfZ3tC7ZY=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=jhkz0ARq/U38TIcbkU1HOLSF1wvoQdD+oBVdZm6RUQMc87U3D0KcXM6c2mpN+4jcR
+	 Qvn3p44VZRODeqiRz6fLbfGba7tV+59dj+dmkeXdjRMAvJtBluncH2lFb1KqsCkWBL
+	 0XDgRrX+4cXezb2uiqMIQ/AVcpptH0FwucT2YKOsYQc8K2fErwHjTl3c6RxdSNLshV
+	 GTzhWepMSOY1t/ImaO/JvUFe5tbdIVgatR0IHWn2Rz2rdwHNcpJChjFzYNUD7hAS76
+	 xyjtWSOt3/XirqepIbXr2TEBVP4jjT3vpeIlH/sKHNwazYOVNLY74U7w1Azyr7gZl1
+	 xl3MQFVEXf1Sw==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id C926260A4E;
+	Sun, 16 May 2021 17:20:03 +0000 (UTC)
+Subject: Re: [GIT PULL] Staging/IIO driver fixes for 5.13-rc2
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <YKDfI+xY2SCpC4Ot@kroah.com>
+References: <YKDfI+xY2SCpC4Ot@kroah.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <YKDfI+xY2SCpC4Ot@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.13-rc2
+X-PR-Tracked-Commit-Id: ba9c25d94dea1a57492a606a1f5dde70d2432583
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 6942d81a8faa17d44d1286b63ccb7d920b29d065
+Message-Id: <162118560381.27926.6986980324945803244.pr-tracker-bot@kernel.org>
+Date: Sun, 16 May 2021 17:20:03 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, devel@linuxdriverproject.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20210513220317.137090-1-colin.king@canonical.com>
-In-Reply-To: <20210513220317.137090-1-colin.king@canonical.com>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Sun, 16 May 2021 19:01:44 +0200
-Message-ID: <CAFBinCDde0+QzDOYF2EAkjmbdd80Emu3YuFV3jOCMaZuT+FNmQ@mail.gmail.com>
-Subject: Re: [PATCH] media: meson: vdec: remove redundant initialization of
- variable reg_cur
-To: Colin King <colin.king@canonical.com>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, linux-media <linux-media@vger.kernel.org>, 
-	linux-amlogic@lists.infradead.org, linux-staging@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, kernel-janitors@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-On Fri, May 14, 2021 at 12:03 AM Colin King <colin.king@canonical.com> wrote:
->
-> From: Colin Ian King <colin.king@canonical.com>
->
-> The variable reg_cur is being initialized with a value that is never
-> read, it is being updated later on. The assignment is redundant and
-> can be removed.
->
-> Addresses-Coverity: ("Unused value")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+The pull request you sent on Sun, 16 May 2021 11:00:19 +0200:
+
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.13-rc2
+
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/6942d81a8faa17d44d1286b63ccb7d920b29d065
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
