@@ -1,230 +1,95 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D3A2FB6
-	for <linux-staging@lists.linux.dev>; Sat, 15 May 2021 19:16:37 +0000 (UTC)
-Received: from localhost.localdomain ([37.4.249.151]) by
- mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N3K9E-1lIO6X3OEs-010MBQ; Sat, 15 May 2021 21:11:19 +0200
-From: Stefan Wahren <stefan.wahren@i2se.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>
-Cc: linux-staging@lists.linux.dev,
-	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH 05/20] staging: vchiq_arm: balance braces for if-else statements
-Date: Sat, 15 May 2021 21:10:44 +0200
-Message-Id: <1621105859-30215-6-git-send-email-stefan.wahren@i2se.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1621105859-30215-1-git-send-email-stefan.wahren@i2se.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E2570
+	for <linux-staging@lists.linux.dev>; Sun, 16 May 2021 07:27:27 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id r11so3118128edt.13
+        for <linux-staging@lists.linux.dev>; Sun, 16 May 2021 00:27:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=A0tTgMY8zDhsLM5hlWhtg9vpMN4c0fMAEAyObepaAV4=;
+        b=M5xxzZSaqywHzeORxsywgo7EUwWSyN6Jfx5XgFr+PWQzYoaI33gONeeBCjkvRE7at1
+         sp2BuDpaBxypz5Sh4oho1YPNiBaLJjnRJacVHxCG6ArmoqT6oHmN6nzG8+VPJwkYfO2o
+         pDP9B4USno70YFwoJOr0YC5bw7zb51CTEDoOPqpC2E7q4JP2GFgLQK0RP+XE5HCSMuJd
+         WPra3GBmIZPHNKApI5/3ectyB18JddluCrUGAAed5Uaon5eFLRIe4JJeEkOVE1F+CoR2
+         otVzDSOXMyz5xAXSLLzI5AZ/wtDroFT1Q4M4jXlwxPkUplgxy3kZYjFnKAhU6SyGVhCH
+         Pr7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=A0tTgMY8zDhsLM5hlWhtg9vpMN4c0fMAEAyObepaAV4=;
+        b=Gcj0bhcNUc/GvVaHx+MIMiKcQ8T1bbxQrkUYIaq7j2kpzNS89jXkagCKn/i6+p2PLj
+         MX6lzUX7WW8hPjd4BuYiMavxmc5o9nGmKVpvIN28+8Xe09+N1gHKI9D30HFjd8A1OIj0
+         LBnk9RQFcaAoBn7S8PYIWadoFEuKc102/d9cj5tHTP+Yz3u7J8DeZ5e29RViM+mlB+cm
+         vovCK1YUtBwGy78EnSIkhkSApv68vtOCmqfa+n7kz/XOABLQybyOmLbNSL1MacDXvOkI
+         tTTy9zZCd19UnNWUddp3uUyXZHwxpUZ2tRTgWfOn0/3gPOUVCU+dmbuhH5y6K25m7wWq
+         3G7w==
+X-Gm-Message-State: AOAM530XjOeIlfg7wUqDgDZMS2Y4tukW53flTwHbQ2NIijW0Dxj7pFco
+	T/vbB8ZU5GzFE3l5/UMZA5KIbK+U4EH8DA==
+X-Google-Smtp-Source: ABdhPJxzu0E7/pM6uO/VvZoZ6XdYWocQ1XLWuJtf3meJjbQ9AREcuuCk2Y6uc8GRnHUR/BAjEuLf9Q==
+X-Received: by 2002:aa7:d58b:: with SMTP id r11mr21487730edq.231.1621150045869;
+        Sun, 16 May 2021 00:27:25 -0700 (PDT)
+Received: from agape.jhs ([5.171.80.208])
+        by smtp.gmail.com with ESMTPSA id by20sm6441559ejc.74.2021.05.16.00.27.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 May 2021 00:27:25 -0700 (PDT)
+Date: Sun, 16 May 2021 09:27:23 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Stefan Wahren <stefan.wahren@i2se.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 01/20] staging: vchiq_core: fix return type of
+ vchiq_init_state
+Message-ID: <20210516072722.GA1410@agape.jhs>
 References: <1621105859-30215-1-git-send-email-stefan.wahren@i2se.com>
-X-Provags-ID: V03:K1:1RRD6RXkZQbQdnIZIE5G4IlCrj1Xa/YxBlSikGh/uJSWYS2L4K+
- 94mCQhdFTm3RXBEj+FvPNhvxOrjt0eKuawZztxB27C38AY7yNOCm9Di3RzZm4MEoAsFUMHl
- jXTotZgLbR6togp7TM7Fd/x8ir0pphqZdFcFt9BFKWqriCw80hfK0STwHLXpWorj677lKMy
- eePafOuoZ+KgJqMJoN3Og==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:uuWlBrjEsP8=:pKF63BDNy2pgOsebuQR12A
- zoVOfHa7cJK755BnRW8zkl+esNktLr/xhNUxv5JsUi7nTIy+C95qsyAyan2E60hda0GT91Mhl
- fHGOmet8L7lVSkfb8cy/Uhjp9+LNv8tJpLNCSM082SUcOyp4oRWq8v2YOMuOVzL3aomsWegoe
- yV6jdMJt8ksFH7by8N26MHkQqE8k1ohMndV8/+Igw3WSWD/12yR2k7Ey5TQJHreVMQnV9KO5e
- KAL3r9FeYw7OohW0yeYVf8SxsERislIYqL5IEghn5Kcj3C2mmuT/9vcWUIoic917qRvh5Hg/2
- fPe1SZTEhxtOqH3yGUKqWjrksRlSLB++kUgJtpsWJGuSPVEdr07pmEm8QFMWq9VM5FSvA/PcD
- OEsIH+jZsNkENg0ifmpc+8OmUrPzGmuZzX+hYs0M/MDiTR1vFeWw8ZjVu/tpDwRAui4bSZqj7
- ZzE2glVXgtPcpT9UHGjMM+12X2ObF8emZGOrx5giiZMSxS9ny386/4nfDa+YCyoN210aFxcGj
- E4FizySN+wDIQUNL49FSRw=
+ <1621105859-30215-2-git-send-email-stefan.wahren@i2se.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1621105859-30215-2-git-send-email-stefan.wahren@i2se.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-This fixes the following checkpatch notices in vchiq_arm:
-CHECK: braces {} should be used on all arms of this statement
+Hi Stefan,
 
-Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
----
- .../vc04_services/interface/vchiq_arm/vchiq_arm.c  | 12 ++++---
- .../vc04_services/interface/vchiq_arm/vchiq_core.c | 41 +++++++++++++---------
- 2 files changed, 32 insertions(+), 21 deletions(-)
+On Sat, May 15, 2021 at 09:10:40PM +0200, Stefan Wahren wrote:
+> Recent commit "staging: vchiq_core: drop vchiq_status from vchiq_init_state"
+> missed to change the return type in the definition. Let's fix this now.
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 1b13568..7951324 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -302,8 +302,9 @@ static enum vchiq_status vchiq_add_service(
- 	if (service) {
- 		*phandle = service->handle;
- 		status = VCHIQ_SUCCESS;
--	} else
-+	} else {
- 		status = VCHIQ_ERROR;
-+	}
- 
- 	vchiq_log_trace(vchiq_core_log_level,
- 		"%s(%p): returning %d", __func__, instance, status);
-@@ -942,8 +943,9 @@ static int vchiq_ioc_dequeue_message(struct vchiq_instance *instance,
- 					header->data, header->size) == 0)) {
- 			ret = header->size;
- 			vchiq_release_message(service->handle, header);
--		} else
-+		} else {
- 			ret = -EFAULT;
-+		}
- 	} else {
- 		vchiq_log_error(vchiq_arm_log_level,
- 			"header %pK: bufsize %x < size %x",
-@@ -1401,8 +1403,9 @@ vchiq_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
- 						service->base.fourcc),
- 					service->client_id);
- 			}
--		} else
-+		} else {
- 			ret = -EINVAL;
-+		}
- 	} break;
- 
- 	case VCHIQ_IOC_QUEUE_MESSAGE: {
-@@ -1539,8 +1542,9 @@ vchiq_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
- 			struct user_service *user_service =
- 				(struct user_service *)service->base.userdata;
- 			close_delivered(user_service);
--		} else
-+		} else {
- 			ret = -EINVAL;
-+		}
- 	} break;
- 
- 	default:
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index a22d8b7..2a83c2a 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -689,13 +689,13 @@ process_free_queue(struct vchiq_state *state, BITSET_T *service_found,
- 						count - 1;
- 				spin_unlock(&quota_spinlock);
- 
--				if (count == quota->message_quota)
-+				if (count == quota->message_quota) {
- 					/*
- 					 * Signal the service that it
- 					 * has dropped below its quota
- 					 */
- 					complete(&quota->quota_event);
--				else if (count == 0) {
-+				} else if (count == 0) {
- 					vchiq_log_error(vchiq_core_log_level,
- 						"service %d message_use_count=%d (header %pK, msgid %x, header->msgid %x, header->size %x)",
- 						port,
-@@ -1691,10 +1691,11 @@ parse_rx_slots(struct vchiq_state *state)
- 				vchiq_set_service_state(service,
- 					VCHIQ_SRVSTATE_OPEN);
- 				complete(&service->remove_event);
--			} else
-+			} else {
- 				vchiq_log_error(vchiq_core_log_level,
- 					"OPENACK received in state %s",
- 					srvstate_names[service->srvstate]);
-+			}
- 			break;
- 		case VCHIQ_MSG_CLOSE:
- 			WARN_ON(size != 0); /* There should be no data */
-@@ -2449,11 +2450,11 @@ vchiq_add_service_internal(struct vchiq_state *state,
- 			struct vchiq_service *srv;
- 
- 			srv = rcu_dereference(state->services[i]);
--			if (!srv)
-+			if (!srv) {
- 				pservice = &state->services[i];
--			else if ((srv->public_fourcc == params->fourcc) &&
--				 ((srv->instance != instance) ||
--				  (srv->base.callback != params->callback))) {
-+			} else if ((srv->public_fourcc == params->fourcc) &&
-+				   ((srv->instance != instance) ||
-+				   (srv->base.callback != params->callback))) {
- 				/*
- 				 * There is another server using this
- 				 * fourcc which doesn't match.
-@@ -2654,10 +2655,12 @@ close_service_complete(struct vchiq_service *service, int failstate)
- 				service->client_id = 0;
- 				service->remoteport = VCHIQ_PORT_FREE;
- 				newstate = VCHIQ_SRVSTATE_LISTENING;
--			} else
-+			} else {
- 				newstate = VCHIQ_SRVSTATE_CLOSEWAIT;
--		} else
-+			}
-+		} else {
- 			newstate = VCHIQ_SRVSTATE_CLOSED;
-+		}
- 		vchiq_set_service_state(service, newstate);
- 		break;
- 	case VCHIQ_SRVSTATE_LISTENING:
-@@ -2687,16 +2690,17 @@ close_service_complete(struct vchiq_service *service, int failstate)
- 		service->client_id = 0;
- 		service->remoteport = VCHIQ_PORT_FREE;
- 
--		if (service->srvstate == VCHIQ_SRVSTATE_CLOSED)
-+		if (service->srvstate == VCHIQ_SRVSTATE_CLOSED) {
- 			vchiq_free_service_internal(service);
--		else if (service->srvstate != VCHIQ_SRVSTATE_CLOSEWAIT) {
-+		} else if (service->srvstate != VCHIQ_SRVSTATE_CLOSEWAIT) {
- 			if (is_server)
- 				service->closing = 0;
- 
- 			complete(&service->remove_event);
- 		}
--	} else
-+	} else {
- 		vchiq_set_service_state(service, failstate);
-+	}
- 
- 	return status;
- }
-@@ -2718,11 +2722,11 @@ vchiq_close_service_internal(struct vchiq_service *service, int close_recvd)
- 	case VCHIQ_SRVSTATE_HIDDEN:
- 	case VCHIQ_SRVSTATE_LISTENING:
- 	case VCHIQ_SRVSTATE_CLOSEWAIT:
--		if (close_recvd)
-+		if (close_recvd) {
- 			vchiq_log_error(vchiq_core_log_level,
- 				"%s(1) called in state %s",
- 				__func__, srvstate_names[service->srvstate]);
--		else if (is_server) {
-+		} else if (is_server) {
- 			if (service->srvstate == VCHIQ_SRVSTATE_LISTENING) {
- 				status = VCHIQ_ERROR;
- 			} else {
-@@ -2734,8 +2738,9 @@ vchiq_close_service_internal(struct vchiq_service *service, int close_recvd)
- 						VCHIQ_SRVSTATE_LISTENING);
- 			}
- 			complete(&service->remove_event);
--		} else
-+		} else {
- 			vchiq_free_service_internal(service);
-+		}
- 		break;
- 	case VCHIQ_SRVSTATE_OPENING:
- 		if (close_recvd) {
-@@ -3325,8 +3330,9 @@ vchiq_release_message(unsigned int handle,
- 
- 			release_slot(state, slot_info, header, service);
- 		}
--	} else if (slot_index == remote->slot_sync)
-+	} else if (slot_index == remote->slot_sync) {
- 		release_message_sync(state, header);
-+	}
- 
- 	unlock_service(service);
- }
-@@ -3620,8 +3626,9 @@ int vchiq_dump_service_state(void *dump_context, struct vchiq_service *service)
- 				scnprintf(remoteport + len2,
- 					sizeof(remoteport) - len2,
- 					" (client %x)", service->client_id);
--		} else
-+		} else {
- 			strcpy(remoteport, "n/a");
-+		}
- 
- 		len += scnprintf(buf + len, sizeof(buf) - len,
- 			" '%c%c%c%c' remote %s (msg use %d/%d, slot use %d/%d)",
--- 
-2.7.4
+if this patch fixes something that a previous commit broke,
+it's better adding Fixes: tag
 
+> 
+> Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
+> ---
+>  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> index ff85327..9b6c626 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> @@ -2157,7 +2157,7 @@ vchiq_init_slots(void *mem_base, int mem_size)
+>  	return slot_zero;
+>  }
+>  
+> -enum vchiq_status
+> +int
+>  vchiq_init_state(struct vchiq_state *state, struct vchiq_slot_zero *slot_zero)
+>  {
+>  	struct vchiq_shared_state *local;
+> -- 
+> 2.7.4
+> 
+> 
+
+thank you,
+
+fabio
