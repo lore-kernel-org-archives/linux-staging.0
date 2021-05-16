@@ -1,98 +1,89 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37ED62FB0
-	for <linux-staging@lists.linux.dev>; Sun, 16 May 2021 19:25:02 +0000 (UTC)
-Received: by mail-qt1-f173.google.com with SMTP id f8so3452943qth.6
-        for <linux-staging@lists.linux.dev>; Sun, 16 May 2021 12:25:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=2qL4/0Z0j2EC7jbRRZzIaoh/R+YfUxEYzXyjEiPdLIw=;
-        b=MHlJIQoKIs9FDmz5xDjmKZtttdAJPcjjYWGNoa2yp5EtWPNDemGFZTsumk7+WDqtRI
-         9qzbmH9gyslbvtgyglH/sMERerS47EQLpi/iMC7fctQ68nxXM8hNvSGjq6WlzOTOH06m
-         GRxU8XjE44sMeSYVsSq0j5fpBmDiTXoi38ErzDXPXskSuDXchNWGEqyRvh9gzQpWMrb1
-         fK8sdBig/Yrf1RogdTYcqM6hGvE6fRN4BrF6Zy+b0W4Br3K8Enc+mjURoYO/6vQZNmhU
-         9dYx5R5mOOFnFrRlus/uRuToJNNxZKJCDu4dNVFBxQMP5AYTz1YNkpEXLyLVr01myvNa
-         ZS4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=2qL4/0Z0j2EC7jbRRZzIaoh/R+YfUxEYzXyjEiPdLIw=;
-        b=EYNLLkzk+MhkvmDAlTXJAfZRUSjhyfbtEX8wCIjSozY/MmxKkZOD89to6dCd6Wu2Mx
-         082hnLi/o7dIj0YKO3bMmxaaeb02p+ifWnKO53RbwzFp+I1HqcAN8LL4G66P2ZZJXfPY
-         GUPRU60jEUG07uGB1nXsJNfIzvnJmu+j4rxI9Sao2r4r53mhgb6SURqPTZmZZ4PJxtk4
-         e2bmbckP5BR27JG3XJHkUwDdU44bxsBZxYOriV8D/IM+9dLzh84gbnfz9ByMq/IsZDwF
-         iDPm8+F4tHQ8M1YxQEsJY5qwIlaVnK2lfP1OQd8czNw76HXVXa73KpqyOwXwkGejenCC
-         hPkA==
-X-Gm-Message-State: AOAM532lB/UY2C6QkOC0Mcc20b3KQme7IsBlIO0H3Lc3k37EjOQM3knc
-	ksPSI/YRl2TV7J1pWwT6alo=
-X-Google-Smtp-Source: ABdhPJySW7oGInihkMTiq6GGDc4qKYHH9h1/OWMrzEJikC2X5P9mNZ7o6lRc0p7ulDGDt6AhuP4+7g==
-X-Received: by 2002:ac8:67d3:: with SMTP id r19mr52674143qtp.23.1621193101413;
-        Sun, 16 May 2021 12:25:01 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 7sm10061446qtu.38.2021.05.16.12.25.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 May 2021 12:25:01 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sun, 16 May 2021 12:24:59 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Martin Kaiser <martin@kaiser.cx>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/6] staging: rtl8188eu: use safe iterator in
- rtw_free_xmitframe_queue
-Message-ID: <20210516192459.GF2126643@roeck-us.net>
+Received: from smtp.smtpout.orange.fr (smtp03.smtpout.orange.fr [80.12.242.125])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFCCE2FB0
+	for <linux-staging@lists.linux.dev>; Sun, 16 May 2021 20:10:52 +0000 (UTC)
+Received: from [192.168.1.18] ([86.243.172.93])
+	by mwinf5d79 with ME
+	id 5Y3C2500E21Fzsu03Y3CLh; Sun, 16 May 2021 22:03:15 +0200
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 16 May 2021 22:03:15 +0200
+X-ME-IP: 86.243.172.93
+Subject: Re: [PATCH 1/6] staging: rtl8188eu: use safe iterator in
+ rtw_free_network_queue
+To: Martin Kaiser <martin@kaiser.cx>, Larry Finger
+ <Larry.Finger@lwfinger.net>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Guenter Roeck <linux@roeck-us.net>
+Cc: linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 References: <20210516160613.30489-1-martin@kaiser.cx>
- <20210516160613.30489-6-martin@kaiser.cx>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Message-ID: <738695eb-61f1-54b2-cd68-2143e831e338@wanadoo.fr>
+Date: Sun, 16 May 2021 22:03:12 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210516160613.30489-6-martin@kaiser.cx>
+In-Reply-To: <20210516160613.30489-1-martin@kaiser.cx>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Sun, May 16, 2021 at 06:06:13PM +0200, Martin Kaiser wrote:
-> Use list_for_each_safe, we may delete list items while iterating over
-> the list.
+Le 16/05/2021 à 18:06, Martin Kaiser a écrit :
+> rtw_free_network_queue iterates over the scanned wireless networks and
+> calls _rtw_free_network for each of them. In some cases,
+> _rtw_free_network removes a network from the list.
+> 
+> We have to use list_for_each_safe if we remove list entries while we
+> iterate over a list.
 > 
 > Fixes: 23017c8842d2 ("staging: rtl8188eu: Use list iterators and helpers")
 > Signed-off-by: Martin Kaiser <martin@kaiser.cx>
-
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-
 > ---
-> compile-tested only
+> Without this patch, it's easy to get the driver into an endless loop by
+> scanning, connecting and disconnecting repeatedly.
 > 
->  drivers/staging/rtl8188eu/core/rtw_xmit.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> wpa_supplicant -B -Dwext -i wlan0 -c /path/to/my/config...
+> while true ; do
+>     sleep 1
+>     wpa_cli reconfigure
+>     wpa_cli add_network
+>     wpa_cli set_network 0 ssid ...
+>     wpa_cli set_network 0 psk ...
+>     wpa_cli select_network 0
+>     sleep 6
+>     wpa_cli status
+>     wpa_cli disconnect 0
+> done
 > 
-> diff --git a/drivers/staging/rtl8188eu/core/rtw_xmit.c b/drivers/staging/rtl8188eu/core/rtw_xmit.c
-> index 3763d188b892..62b8f178280e 100644
-> --- a/drivers/staging/rtl8188eu/core/rtw_xmit.c
-> +++ b/drivers/staging/rtl8188eu/core/rtw_xmit.c
-> @@ -1329,13 +1329,13 @@ s32 rtw_free_xmitframe(struct xmit_priv *pxmitpriv, struct xmit_frame *pxmitfram
->  
->  void rtw_free_xmitframe_queue(struct xmit_priv *pxmitpriv, struct __queue *pframequeue)
->  {
-> -	struct list_head *plist, *phead;
-> +	struct list_head *plist, *phead, *temp;
->  	struct	xmit_frame	*pxmitframe;
->  
->  	spin_lock_bh(&pframequeue->lock);
->  
->  	phead = get_list_head(pframequeue);
+>   drivers/staging/rtl8188eu/core/rtw_mlme.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme.c b/drivers/staging/rtl8188eu/core/rtw_mlme.c
+> index 159465b073c2..14816ad51668 100644
+> --- a/drivers/staging/rtl8188eu/core/rtw_mlme.c
+> +++ b/drivers/staging/rtl8188eu/core/rtw_mlme.c
+> @@ -199,7 +199,7 @@ struct wlan_network *rtw_find_network(struct __queue *scanned_queue, u8 *addr)
+>   
+>   void rtw_free_network_queue(struct adapter *padapter, u8 isfreeall)
+>   {
+> -	struct list_head *phead, *plist;
+> +	struct list_head *phead, *plist, *temp;
+>   	struct wlan_network *pnetwork;
+>   	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+>   	struct __queue *scanned_queue = &pmlmepriv->scanned_queue;
+> @@ -207,7 +207,7 @@ void rtw_free_network_queue(struct adapter *padapter, u8 isfreeall)
+>   	spin_lock_bh(&scanned_queue->lock);
+>   
+>   	phead = get_list_head(scanned_queue);
 > -	list_for_each(plist, phead) {
 > +	list_for_each_safe(plist, temp, phead) {
->  		pxmitframe = list_entry(plist, struct xmit_frame, list);
->  
->  		rtw_free_xmitframe(pxmitpriv, pxmitframe);
-> -- 
-> 2.20.1
+>   		pnetwork = list_entry(plist, struct wlan_network, list);
+>   
+>   		_rtw_free_network(pmlmepriv, pnetwork, isfreeall);
 > 
+Nitpicking: 'list_for_each_entry_safe' could also be used to simplify code.
+
+CJ
