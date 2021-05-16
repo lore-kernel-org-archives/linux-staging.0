@@ -1,71 +1,116 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D2572
-	for <linux-staging@lists.linux.dev>; Sun, 16 May 2021 16:49:54 +0000 (UTC)
-Received: from dslb-094-219-038-078.094.219.pools.vodafone-ip.de ([94.219.38.78] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1liJIf-0003Vl-DJ; Sun, 16 May 2021 18:07:29 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Guenter Roeck <linux@roeck-us.net>
-Cc: linux-staging@lists.linux.dev,
-	kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 3/6] staging: rtl8188eu: use safe iterator in expire_timeout_chk
-Date: Sun, 16 May 2021 18:06:10 +0200
-Message-Id: <20210516160613.30489-3-martin@kaiser.cx>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210516160613.30489-1-martin@kaiser.cx>
-References: <20210516160613.30489-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F14072
+	for <linux-staging@lists.linux.dev>; Sun, 16 May 2021 16:54:27 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id b7so1679349wmh.5
+        for <linux-staging@lists.linux.dev>; Sun, 16 May 2021 09:54:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=uxeHaM6iA6r0czkHIwvkgtNmvE8Z25gc1GPkEYSzWmY=;
+        b=fpT0IG2rIPhmZQp0ZX7xHT/LqfFzqmFuKjEyWGOKiQHlaLkc/P9GxdCYOw7zcRB1Ta
+         1DmimfIcjjn2Bcvl++Yu3ZDYbbCbVxuGbrCuwbO/9YQas0Xo8cqcchj995yN3b32z071
+         b1Nzvw64JvOaMZwTuVrs+xNxlQH0J49H5tZeJakrJe9JXi9GGrseTnRRvHMOM5YF2V01
+         gy5jR90WmKfo4C00suIryiFl4hAtSxlyDNpsX59DRgEws30cMDc6wJfZMDyZ2fyJgGXw
+         w891iPyiiblaLY3eZhLukWSPspmYhAe/p5zNN7lsQQJwH1Pi22QauzmuhQoA2z3wKj20
+         ILdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=uxeHaM6iA6r0czkHIwvkgtNmvE8Z25gc1GPkEYSzWmY=;
+        b=GbY6U5cuBMWiyHEahsWgevSQuM+Zu9kIXgYa2hc5tDDBaWwRJF15O+ZPWX72GbSL/e
+         2Ts4z1jkaBVfnP5QX4Knsgq7RCsQ7OY4yflKXGJL22YwkaNwgdWlDs/Ac8ptZmjAt3/N
+         zw84qGLoFvhBnL3ggu0W3C1PELFivspAKcnirMSu9UQXaqL+2l4mrkbzIg/HQqR6a1/7
+         1Wz+smmPXjvb6MYpewIlVixs8a0FshRPzAV6QMM7EL4Xaa2ITw8XZFnd12zrwIUqwHjE
+         C5DnFDh54/vGueun4eg53z3FVUsPz4iV6rwSY0C8UjqxBJkrVLQ4I8LYbwR9wNM9o46o
+         tS8Q==
+X-Gm-Message-State: AOAM532hv2jf061hvyREnvhKlrh2edeqn/rRLwk6Fr73hILUKqpJ07o9
+	goZq5BZa2xw5YstrAAJoFJM=
+X-Google-Smtp-Source: ABdhPJy28DFopJ9EWTYMoi+DfRhZ4tDlUSss8BuaJzJe0l5dW82akHNr4PeqioP4rYdtNORgWgKMNA==
+X-Received: by 2002:a05:600c:410a:: with SMTP id j10mr15914314wmi.5.1621184065823;
+        Sun, 16 May 2021 09:54:25 -0700 (PDT)
+Received: from agape.jhs ([5.171.81.26])
+        by smtp.gmail.com with ESMTPSA id i11sm14281654wrq.26.2021.05.16.09.54.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 May 2021 09:54:25 -0700 (PDT)
+Date: Sun, 16 May 2021 18:54:23 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Stefan Wahren <stefan.wahren@i2se.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 01/20] staging: vchiq_core: fix return type of
+ vchiq_init_state
+Message-ID: <20210516165422.GA1404@agape.jhs>
+References: <1621105859-30215-1-git-send-email-stefan.wahren@i2se.com>
+ <1621105859-30215-2-git-send-email-stefan.wahren@i2se.com>
+ <20210516072722.GA1410@agape.jhs>
+ <129774c3-884b-19e2-68ab-b1a8d8763458@i2se.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <129774c3-884b-19e2-68ab-b1a8d8763458@i2se.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-In the first loop in expire_timeout_chk, we may call rtw_free_stainfo and
-remove an entry from auth_list.
+On Sun, May 16, 2021 at 11:38:10AM +0200, Stefan Wahren wrote:
+> Hi Fabio,
+> 
+> Am 16.05.21 um 09:27 schrieb Fabio Aiuto:
+> > Hi Stefan,
+> >
+> > On Sat, May 15, 2021 at 09:10:40PM +0200, Stefan Wahren wrote:
+> >> Recent commit "staging: vchiq_core: drop vchiq_status from vchiq_init_state"
+> >> missed to change the return type in the definition. Let's fix this now.
+> > if this patch fixes something that a previous commit broke,
+> > it's better adding Fixes: tag
+> 
+> the mentioned commit is still in next, so a Fixes tag doesn't make sense
+> to me. Or do i miss something?
 
-In the second loop, we may call list_del_init on our list.
+ok, recently I've been told to add a Fixes: tag to a patch fixing a
+previous not mainlined commit (staging-next).
 
-Use list_for_each_safe for both loops.
+https://lore.kernel.org/linux-staging/YF3qSsH%2F3vRy7BRy@kroah.com/
 
-Fixes: 23017c8842d2 ("staging: rtl8188eu: Use list iterators and helpers")
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
-compile-tested only
+but I understand what you mean, let's see :)
 
- drivers/staging/rtl8188eu/core/rtw_ap.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> Stefan
+> 
+> >
+> >> Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
+> >> ---
+> >>  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> >> index ff85327..9b6c626 100644
+> >> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> >> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> >> @@ -2157,7 +2157,7 @@ vchiq_init_slots(void *mem_base, int mem_size)
+> >>  	return slot_zero;
+> >>  }
+> >>  
+> >> -enum vchiq_status
+> >> +int
+> >>  vchiq_init_state(struct vchiq_state *state, struct vchiq_slot_zero *slot_zero)
+> >>  {
+> >>  	struct vchiq_shared_state *local;
+> >> -- 
+> >> 2.7.4
+> >>
+> >>
+> > thank you,
+> >
+> > fabio
 
-diff --git a/drivers/staging/rtl8188eu/core/rtw_ap.c b/drivers/staging/rtl8188eu/core/rtw_ap.c
-index ca9a321c4921..a410b42ecb6e 100644
---- a/drivers/staging/rtl8188eu/core/rtw_ap.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_ap.c
-@@ -164,7 +164,7 @@ static u8 chk_sta_is_alive(struct sta_info *psta)
- 
- void expire_timeout_chk(struct adapter *padapter)
- {
--	struct list_head *phead, *plist;
-+	struct list_head *phead, *plist, *temp;
- 	u8 updated = 0;
- 	struct sta_info *psta = NULL;
- 	struct sta_priv *pstapriv = &padapter->stapriv;
-@@ -176,7 +176,7 @@ void expire_timeout_chk(struct adapter *padapter)
- 
- 	phead = &pstapriv->auth_list;
- 	/* check auth_queue */
--	list_for_each(plist, phead) {
-+	list_for_each_safe(plist, temp, phead) {
- 		psta = list_entry(plist, struct sta_info, auth_list);
- 
- 		if (psta->expire_to > 0) {
--- 
-2.20.1
+thank you,
 
+fabio
