@@ -1,79 +1,68 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6057070
-	for <linux-staging@lists.linux.dev>; Sun, 16 May 2021 16:12:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Sender:Reply-To:Content-ID:Content-Description;
-	bh=d4OZD5riXl65efBOBwCRlO9nqI7E8GwVLu0CAdMjZhg=; b=c/vrhmw6yq8QTXzFKzSKuvcW82
-	WgFJrNvo4Hze5poZQKSFTJLhfVAnDeLH79tbMgkGjfGqvibY8K3C+SiPosz823nw80KH9Fqm/blhc
-	yr4ZaJ5X80WRxWD64H64zLt48ovonAYV65qKDTENWec/kKgDMpF1eY0dUrBtZn99TVTESC42GzeRk
-	zOe7KvGCJQYfLwhYzqpqaPZuKrKaaF8OYCSsx/28qvOauS4YlwOFMvsGUG8yBhFn3wQmSDiSo4Sov
-	ZHIG4G+xmqzMRHmSa3/K7hByFggKAlyegFmlz1TdYFA1RSmIkOqBLeK/YUQbioLnSetM43op5/Kfl
-	Uv0+K9Eg==;
-Received: from [2601:1c0:6280:3f0::7376]
-	by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-	id 1liJNC-00D1u3-BA; Sun, 16 May 2021 16:12:10 +0000
-Subject: Re: [PATCH 01/17] staging: add support for NUC WMI LEDs
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- gregkh@linuxfoundation.org
-Cc: linuxarm@huawei.com, mauro.chehab@huawei.com, Pavel Machek
- <pavel@ucw.cz>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-staging@lists.linux.dev
-References: <cover.1621161037.git.mchehab+huawei@kernel.org>
- <7cec257fcc6e5789e5620495674e442a727a766f.1621161037.git.mchehab+huawei@kernel.org>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <585a7a4d-29dd-669a-fc0e-d4fdab84b3f1@infradead.org>
-Date: Sun, 16 May 2021 09:12:09 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7621772
+	for <linux-staging@lists.linux.dev>; Sun, 16 May 2021 16:49:46 +0000 (UTC)
+Received: from dslb-094-219-038-078.094.219.pools.vodafone-ip.de ([94.219.38.78] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1liJId-0003Vl-Nf; Sun, 16 May 2021 18:07:27 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <linux@roeck-us.net>
+Cc: linux-staging@lists.linux.dev,
+	kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 2/6] staging: rtl8188eu: use safe iterator in rtw_free_all_stainfo
+Date: Sun, 16 May 2021 18:06:09 +0200
+Message-Id: <20210516160613.30489-2-martin@kaiser.cx>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210516160613.30489-1-martin@kaiser.cx>
+References: <20210516160613.30489-1-martin@kaiser.cx>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <7cec257fcc6e5789e5620495674e442a727a766f.1621161037.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Mauro,
+This is another case where we may remove list entries while we iterate over
+the list. Use list_for_each_safe to avoid an endless loop.
 
-On 5/16/21 3:53 AM, Mauro Carvalho Chehab wrote:
-> diff --git a/drivers/staging/nuc-led/Kconfig b/drivers/staging/nuc-led/Kconfig
-> new file mode 100644
-> index 000000000000..0f870f45bf44
-> --- /dev/null
-> +++ b/drivers/staging/nuc-led/Kconfig
-> @@ -0,0 +1,11 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +config LEDS_NUC_WMI
-> +	tristate "Intel NUC WMI support for LEDs"
-> +	depends on LEDS_CLASS
-> +	depends on ACPI_WMI
-> +	help
-> +	  Enable this to support the Intel NUC WMI support for
+Fixes: 23017c8842d2 ("staging: rtl8188eu: Use list iterators and helpers")
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+---
+Without this patch, unloading the module goes into an endless loop
+sometimes.
 
-Don't use "support" 2 times. Maybe:
+ drivers/staging/rtl8188eu/core/rtw_sta_mgt.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-	  Enable this to support the Intel NUC WMI interface for
-or
-	  Enable this to build the Intel NUC WMI support for
-
-
-> +	  LEDs, starting from NUCi8 and upper devices.
-
-Does "upper" mean "later"?  Or more advanced?  Not clear.
-
-
-> +
-> +	  To compile this driver as a module, choose M here.
-
-thanks.
+diff --git a/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c b/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
+index 7941ca0397ed..eda7a441acde 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
++++ b/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
+@@ -379,7 +379,7 @@ u32 rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
+ /*  free all stainfo which in sta_hash[all] */
+ void rtw_free_all_stainfo(struct adapter *padapter)
+ {
+-	struct list_head *plist, *phead;
++	struct list_head *plist, *phead, *temp;
+ 	s32 index;
+ 	struct sta_info *psta = NULL;
+ 	struct sta_priv *pstapriv = &padapter->stapriv;
+@@ -392,7 +392,7 @@ void rtw_free_all_stainfo(struct adapter *padapter)
+ 
+ 	for (index = 0; index < NUM_STA; index++) {
+ 		phead = &pstapriv->sta_hash[index];
+-		list_for_each(plist, phead) {
++		list_for_each_safe(plist, temp, phead) {
+ 			psta = list_entry(plist, struct sta_info, hash_list);
+ 
+ 			if (pbcmc_stainfo != psta)
 -- 
-~Randy
+2.20.1
 
