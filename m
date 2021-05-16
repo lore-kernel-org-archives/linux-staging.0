@@ -1,127 +1,134 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7832FB5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC1FF2FB4
 	for <linux-staging@lists.linux.dev>; Sun, 16 May 2021 10:53:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D41B361185;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D6C5F611B0;
 	Sun, 16 May 2021 10:53:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1621162433;
-	bh=bQ3MnldJSx8+sco79kPklGNg7LH+HvdUVOXzNu/8s/I=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=q28opKS/7NRZM/NCZVZkBIcKBjPAMhx4qof2EOdhzzDcPx+zuGFs0QPXdMIu0MNNV
-	 WHLbPQOvsLGkCXVbWA2S6PysQLbHS4wcRmL6oaAbm0ox4B/hWyh4EqatcKGHwCc3lu
-	 NO5TmD4+HZJRfj/KH9hdvVsoiWBn0iPf82LowooqYBhipK5L9j4hFCcHazngjdAIHK
-	 ApCvE9DDOiKBDTyO1JX3ug3YKw4O0DOz4eATPUjxEjrfNos1vXUULUQfZvxDtyQoqv
-	 OeaUOS6jVgnaf0PHwjYZfq8wNqspfzaslZjcyjA9QXmmSStEh7o1GnrT94GAV5qJZC
-	 CWnFmJI7GUUbg==
+	bh=o26owUkPzbznUNvf/j3gzXChdDLd5dBQkyI4OqYODuI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=QFHKbB86hlLT6YE/Y5p2Xq6owAKd3NAKrqIxLKOeio5VQLDOtyRcjooYAVbZ8VEvy
+	 Hpcmj0GU5Vor56djP1oyKIrL622tkwCKQ56UOH2BCzq/aMeavv7uMNdkTaI+UG1vHl
+	 O4wZl8v2wNjzbOoMRclbQ5GozJrfm+qslbRw9VDAR/5aisGNQGt2mSbCNLtscqsaCm
+	 w2Z64kzMVZLuPz/x72wfGqzDd+gqMa5YOJZ6L+38vdG2NZqIZMvnpbnzKJRU6G6XKC
+	 WNGuXcLtqWi7chr/AAPBDKjlLvwRlMT5s4D26XS2nOCmBXKZGyW+L+kobDu7tmE0WT
+	 /30wQz7LGUojQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1liEP8-003s84-NE; Sun, 16 May 2021 12:53:50 +0200
+	id 1liEP8-003s7x-J9; Sun, 16 May 2021 12:53:50 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: gregkh@linuxfoundation.org
 Cc: linuxarm@huawei.com,
 	mauro.chehab@huawei.com,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Pavel Machek" <pavel@ucw.cz>,
+	Pavel Machek <pavel@ucw.cz>,
+	linux-leds@vger.kernel.org,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	devel@driverdev.osuosl.org,
 	linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 02/17] staging: nuc-wmi: detect WMI API detection
-Date: Sun, 16 May 2021 12:53:30 +0200
-Message-Id: <602bd7c90e1e569f52db10bbe451af0436300b78.1621161037.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 00/17] Add an experimental driver for Intel NUC leds
+Date: Sun, 16 May 2021 12:53:28 +0200
+Message-Id: <cover.1621161037.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1621161037.git.mchehab+huawei@kernel.org>
-References: <cover.1621161037.git.mchehab+huawei@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-There are currently 3 known API releases:
-            - https://www.intel.com/content/www/us/en/support/articles/000023426/intel-nuc/intel-nuc-kits.html
-            - https://raw.githubusercontent.com/nomego/intel_nuc_led/master/specs/INTEL_WMI_LED_0.64.pdf
-            - https://www.intel.com/content/dam/support/us/en/documents/intel-nuc/WMI-Spec-Intel-NUC-NUC10ixFNx.pdf
+Hi Greg,
 
-Add a logic to detect between them, preventing the driver
-to work with an unsupported version.
+This series add support for the LEDs found at Intel NUCs since
+NUC version 6.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/staging/nuc-led/nuc-wmi.c | 30 +++++++++++++++++++++++++++---
- 1 file changed, 27 insertions(+), 3 deletions(-)
+On several NUC models, the function of the LEDs are programmable,
+which allow them to indicate several different hardware events.
 
-diff --git a/drivers/staging/nuc-led/nuc-wmi.c b/drivers/staging/nuc-led/nuc-wmi.c
-index 15d956ad8556..b75ddd47e443 100644
---- a/drivers/staging/nuc-led/nuc-wmi.c
-+++ b/drivers/staging/nuc-led/nuc-wmi.c
-@@ -26,6 +26,13 @@
- #define NUM_INPUT_ARGS		4
- #define NUM_OUTPUT_ARGS		3
- 
-+enum led_api_rev {
-+	LED_API_UNKNOWN,
-+	LED_API_NUC6,
-+	LED_API_REV_0_64,
-+	LED_API_REV_1_0,
-+};
-+
- enum led_cmds {
- 	LED_QUERY			= 0x03,
- 	LED_NEW_GET_STATUS		= 0x04,
-@@ -33,6 +40,7 @@ enum led_cmds {
- 	LED_SET_VALUE			= 0x06,
- 	LED_NOTIFICATION		= 0x07,
- 	LED_SWITCH_TYPE			= 0x08,
-+	LED_VERSION_CONTROL             = 0x09,
- };
- 
- enum led_query_subcmd {
-@@ -195,7 +203,7 @@ static int nuc_wmi_query_leds(struct device *dev)
- 	struct nuc_wmi *priv = dev_get_drvdata(dev);
- 	u8 cmd, input[NUM_INPUT_ARGS] = { 0 };
- 	u8 output[NUM_OUTPUT_ARGS];
--	int i, id, ret;
-+	int i, id, ret, ver = LED_API_UNKNOWN;
- 	u8 leds;
- 
- 	/*
-@@ -209,12 +217,28 @@ static int nuc_wmi_query_leds(struct device *dev)
- 	cmd = LED_QUERY;
- 	input[0] = LED_QUERY_LIST_ALL;
- 	ret = nuc_nmi_cmd(dev, cmd, input, output);
--	if (ret) {
-+	if (ret == -ENOENT) {
-+		ver = LED_API_NUC6;
-+	} else if (ret) {
- 		dev_warn(dev, "error %d while listing all LEDs\n", ret);
- 		return ret;
-+	} else {
-+		leds = output[0];
- 	}
- 
--	leds = output[0];
-+	if (ver != LED_API_NUC6) {
-+		ret = nuc_nmi_cmd(dev, LED_VERSION_CONTROL, input, output);
-+		ver = output[0] | output[1] << 16;
-+		if (!ver)
-+			ver = LED_API_REV_0_64;
-+		else if (ver == 0x0126)
-+			ver = LED_API_REV_1_0;
-+	}
-+
-+	/* Currently, only API Revision 0.64 is supported */
-+	if (ver != LED_API_REV_0_64)
-+		return -ENODEV;
-+
- 	if (!leds) {
- 		dev_warn(dev, "No LEDs found\n");
- 		return -ENODEV;
+They can even be programmed to represent an userspace-driven event.
+
+Some models come with single colored or dual-colored LEDs, but
+high end models have RGB LEDs.
+
+Programming them can ether be done via BIOS or by the OS.
+
+There are 3 different API types, and there is already some OOT
+drivers that were written to support them, using procfs, each
+one using a different (and IMO confusing) API.
+
+After looking at the existing drivers and not liking the uAPI
+interfaces there, I opted to write a new driver from scratch,
+unifying support for all different versions and using sysfs
+via the leds class.
+
+It should be noticed that those devices use the Windows Management
+Interface (WMI). There are actually 3 different implementations for it:
+
+- one for NUC6/NUC7, which has limited support for programming just
+  two LEDs;
+- a complely re-written interface for NUC8, which can program up to
+  seven LEDs, named version 0.64;
+- an extended version of the NUC8 API, added for NUC10, called version 
+  1.0, with has a few differences from version 0.64.
+
+Such WMI APIs are documented at:
+  - https://www.intel.com/content/www/us/en/support/articles/000023426/intel-nuc/intel-nuc-kits.html
+  - https://raw.githubusercontent.com/nomego/intel_nuc_led/master/specs/INTEL_WMI_LED_0.64.pdf
+  - https://www.intel.com/content/dam/support/us/en/documents/intel-nuc/WMI-Spec-Intel-NUC-NUC10ixFNx.pdf
+
+I wrote this driver mainly for my NUC8 (NUC8i7HNK), but I used a NUC6
+in order to double-check if NUC6 support was not crashing.  Yet, while
+the NUC6 model I have accepts the WMI LED API, it doesn't work, as it
+seems that the BIOS of my NUC6 doesn't let userspace to program the LEDs.
+
+I don't have any devices using NUC10 API.
+
+Due to the lack of full tests on NUC6 and NUC10, and because I
+wrote a new uAPI that's different than the procfs-based ones found
+at the OOT drivers, I'm opting to submit this first to staging.
+
+This should allow adjusting the uAPI if needed, and to get feedback from
+people using it on NUC6, NUC10 and on other NUC models that would be
+compatible with it.
+
+Mauro Carvalho Chehab (17):
+  staging: add support for NUC WMI LEDs
+  staging: nuc-wmi: detect WMI API detection
+  staging: nuc-wmi: add support for changing S0 brightness
+  staging: nuc-wmi: add all types of brightness
+  staging: nuc-wmi: allow changing the LED colors
+  staging: nuc-wmi: add support for WMI API version 1.0
+  staging: nuc-wmi: add basic support for NUC6 WMI
+  staging: muc-wmi: add brightness and color for NUC6 API
+  staging: nuc-wmi: Add support to blink behavior for NUC8/10
+  staging: nuc-wmi: get rid of an unused variable
+  staging: nuc-wmi: implement blink control for NUC6
+  staging: nuc-wmi: better detect NUC6/NUC7 devices
+  staging: nuc-led: add support for HDD activity default
+  staging: nuc-wmi: fix software blink behavior logic
+  staging: nuc-wmi: add support for changing the ethernet type indicator
+  staging: nuc-wmi: add support for changing the power limit scheme
+  staging: nuc-led: update the TODOs
+
+ MAINTAINERS                       |    6 +
+ drivers/staging/Kconfig           |    2 +
+ drivers/staging/Makefile          |    1 +
+ drivers/staging/nuc-led/Kconfig   |   11 +
+ drivers/staging/nuc-led/Makefile  |    3 +
+ drivers/staging/nuc-led/TODO      |    8 +
+ drivers/staging/nuc-led/nuc-wmi.c | 2100 +++++++++++++++++++++++++++++
+ 7 files changed, 2131 insertions(+)
+ create mode 100644 drivers/staging/nuc-led/Kconfig
+ create mode 100644 drivers/staging/nuc-led/Makefile
+ create mode 100644 drivers/staging/nuc-led/TODO
+ create mode 100644 drivers/staging/nuc-led/nuc-wmi.c
+
 -- 
 2.31.1
+
 
