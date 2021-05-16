@@ -1,132 +1,93 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF862FBD
-	for <linux-staging@lists.linux.dev>; Sun, 16 May 2021 10:53:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 29F3F6121E;
-	Sun, 16 May 2021 10:53:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1621162433;
-	bh=h9vGksfsYN6Uc32fL0WmjObXqS0pXNKpGROEG1V8hCI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fVqYMWjlFEM6FXpHotP/eCe8oIJyI3bhbpgSByvZ2c8zcM3NQBw3rQc4OG5RojroU
-	 9dH9u9ZxpHCwcE8GPcK58IrQpYqdsX48A4VuUsfdH6gIqQ4TCkzfFjhRIOibkfoiOo
-	 QgUyOL4HiryvJaidHwvG6XhRw3N0ASBulWLQLzLBDD7rAR9LKDNnV1nOvCQb+tEfZ0
-	 CdUtdyulIYM6f8TwThOhRvfuRoUsRc5vx+mmh/70SbqjJiZ3/l/JWTw/InbpSx25ei
-	 vmEwy55e+owxNkPln9OPyozrfBSE1KQKoyJmaSjogwm5JYEWepzjSM5tqw4Ah8Dgp1
-	 eTIA4EJTCXUzw==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-	(envelope-from <mchehab@kernel.org>)
-	id 1liEP9-003s8q-8D; Sun, 16 May 2021 12:53:51 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: gregkh@linuxfoundation.org
-Cc: linuxarm@huawei.com,
-	mauro.chehab@huawei.com,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Pavel Machek" <pavel@ucw.cz>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	devel@driverdev.osuosl.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882F471
+	for <linux-staging@lists.linux.dev>; Sun, 16 May 2021 12:30:02 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id t11so2278868pjm.0
+        for <linux-staging@lists.linux.dev>; Sun, 16 May 2021 05:30:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WG3vPr7jTrZWJiot95jPYHU2QyOXWk1phufGNJD2xZI=;
+        b=V3RGkfHJyAKNttBRs2ZB9e2X2di/5AI8Fn9ZsnPjqhfBwRFgo2GYZKZY9uUCX3c95Z
+         6odMZIGiOvl5adcoBnz57aSGgNutvwkLdbe6y1vBj65SY4o06lad5cZhXyrcF49UGz/N
+         ugjrryLmomOpVA+tCMuxxAEMT2tZ0uxcZRMogCMPwkvlZOFsDbjltywQGJcXnLJMjeV7
+         t9Cva5qVoD/ui5GxLv4M0Zcib/BeBWLYten2D2bhtqHawqBjMewBIkivp6AGfnqzYwlb
+         uMFyF1nr+ZxVUb7ucwMgsxdlBIFwO8lQghEvF5VJCmZjUYMLE86nhpbH+WoRlNFA7qiP
+         8w7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WG3vPr7jTrZWJiot95jPYHU2QyOXWk1phufGNJD2xZI=;
+        b=awbyR05kyabybAa1iHGE4tzrl604M3BicdUCEbvRA6KKeTRl9LjTTAZ8u/0hcBv6KE
+         SaIn0TfBrLAavRmolya67CE6Fyzsorve/I+tbI5x6RGhlONtNaV+Jrxr63pYsVAbGhDo
+         qyhDKu3SjM3rCHZ/A4qSJ3s4NovSn/s8lf2OjhP+dVC/Wgp36fts8qdTX+9Rb/XHFkzu
+         1BAcB8EP/B4pLglEp3luecD07xnu0zE1JkueKoLBeJ/mMMWU/b7y7Vl1xFjePsVxkkpW
+         eanyUp1JpGRxVfhqSuFL1EkX/O2bDdBVq19Ulh2qUXISsqw7o72gIN38nUhYdaiODh0S
+         gl9g==
+X-Gm-Message-State: AOAM533yX90htOprYCl3zpuXdsrfBRnIZtAwu/HOeh1gkL1Qz5xBY5KN
+	sNVa70Jrfj5ehDD4iltQDnI=
+X-Google-Smtp-Source: ABdhPJz9HzuN+RORcmcoIvkv93+pVKdpSAysrxX7o5ANQJDnTKBK7nhLOY0A+n2+atJI4ufmFMcKVg==
+X-Received: by 2002:a17:90a:94c5:: with SMTP id j5mr12062466pjw.121.1621168202092;
+        Sun, 16 May 2021 05:30:02 -0700 (PDT)
+Received: from localhost.localdomain ([111.223.96.126])
+        by smtp.gmail.com with ESMTPSA id k186sm8004318pgk.82.2021.05.16.05.29.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 May 2021 05:30:01 -0700 (PDT)
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+To: gregkh@linuxfoundation.org,
+	marcocesati@gmail.com,
+	dan.carpenter@oracle.com,
+	fabioaiuto83@gmail.com,
+	fmdefrancesco@gmail.com,
+	eantoranz@gmail.com,
+	hdegoede@redhat.com,
+	Larry.Finger@lwfinger.net
+Cc: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+	skhan@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 14/17] staging: nuc-wmi: fix software blink behavior logic
-Date: Sun, 16 May 2021 12:53:42 +0200
-Message-Id: <26d3ab7a03cb83ec56205add6cd80b8738cd96b0.1621161037.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1621161037.git.mchehab+huawei@kernel.org>
-References: <cover.1621161037.git.mchehab+huawei@kernel.org>
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH 0/7] Staging: rtl8723bs: fix warnings in HalBtc8723b1Ant.c
+Date: Sun, 16 May 2021 08:29:20 -0400
+Message-Id: <20210516122927.1132356-1-desmondcheongzx@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-The is_visible logic for it is plain wrong:
+This patch set fixes 134 checkpatch.pl warnings in the file drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
 
-1. it is used only during devnode creation;
-2. it was using the wrong field (id, instead of indicator).
+Although checkpatch.pl reports a large number of checks, these are for issues that were present in the original code. In fact, in the process of fixing warnings, the total number of checks decreased from 548 to 546.
 
-Fix it.
+All patches are syntax fixes and no logic is changed. As there are a lot of different warnings, to make things easier to review, each patch addresses a different set of warnings in the following order:
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/staging/nuc-led/nuc-wmi.c | 30 ++++++++++++------------------
- 1 file changed, 12 insertions(+), 18 deletions(-)
+- braces {} are not necessary for any arm of this statement
+- please, no space before tabs
+- suspect code indent for conditional statements
+- Statements should start on a tabstop (this type of warning is solved alongside the previous warning type in the same patch because the fix for one warning addresses the other)
+- Comparisons should place the constant on the right side of the test
+- Missing a blank line after declarations
+- Avoid unnecessary line continuations
+- Block comments use * on subsequent lines
 
-diff --git a/drivers/staging/nuc-led/nuc-wmi.c b/drivers/staging/nuc-led/nuc-wmi.c
-index 68143d45c34c..fab0094a20e4 100644
---- a/drivers/staging/nuc-led/nuc-wmi.c
-+++ b/drivers/staging/nuc-led/nuc-wmi.c
-@@ -1476,6 +1476,9 @@ static ssize_t show_blink_behavior(struct device *dev,
- 	if (led->api_rev == LED_API_NUC6)
- 		return nuc6_show_blink_behavior(dev, attr, buf);
- 
-+	if (led->indicator != LED_IND_SOFTWARE)
-+		return -EINVAL;
-+
- 	return offset_show_blink_behavior(dev, attr, 0, buf);
- }
- 
-@@ -1489,6 +1492,9 @@ static ssize_t store_blink_behavior(struct device *dev,
- 	if (led->api_rev == LED_API_NUC6)
- 		return nuc6_store_blink_behavior(dev, attr, buf, len);
- 
-+	if (led->indicator != LED_IND_SOFTWARE)
-+		return -EINVAL;
-+
- 	return offset_store_blink_behavior(dev, attr, 0, buf, len);
- }
- 
-@@ -1593,6 +1599,9 @@ static ssize_t show_blink_frequency(struct device *dev,
- 	if (led->api_rev == LED_API_NUC6)
- 		return nuc6_show_blink_frequency(dev, attr, buf);
- 
-+	if (led->indicator != LED_IND_SOFTWARE)
-+		return -EINVAL;
-+
- 	return offset_show_blink_frequency(dev, attr, 0, buf);
- }
- 
-@@ -1606,26 +1615,12 @@ static ssize_t store_blink_frequency(struct device *dev,
- 	if (led->api_rev == LED_API_NUC6)
- 		return nuc6_store_blink_frequency(dev, attr, buf, len);
- 
-+	if (led->indicator != LED_IND_SOFTWARE)
-+		return -EINVAL;
-+
- 	return offset_store_blink_frequency(dev, attr, 0, buf, len);
- }
- 
--static umode_t nuc_wmi_led_blink_is_visible(struct kobject *kobj,
--					    struct attribute *attr, int idx)
--{
--	struct device *dev = kobj_to_dev(kobj);
--	struct led_classdev *cdev = dev_get_drvdata(dev);
--	struct nuc_nmi_led *led = container_of(cdev, struct nuc_nmi_led, cdev);
--	umode_t mode = attr->mode;
--
--	if (led->api_rev == LED_API_NUC6)
--		return mode;
--
--	if (led->id == LED_IND_SOFTWARE)
--		return mode;
--
--	return 0;
--}
--
- /* HDD activity behavior */
- static ssize_t show_hdd_default(struct device *dev,
- 				   struct device_attribute *attr,
-@@ -1785,7 +1780,6 @@ static struct attribute *nuc_wmi_led_blink_behavior_attr[] = {
- };
- 
- static const struct attribute_group nuc_wmi_led_blink_attribute_group = {
--	.is_visible = nuc_wmi_led_blink_is_visible,
- 	.attrs = nuc_wmi_led_blink_behavior_attr,
- };
- 
+Desmond Cheong Zhi Xi (7):
+  Staging: rtl8723bs: remove unnecessary braces in HalBtc8723b1Ant.c
+  Staging: rtl8723bs: fix spaces in HalBtc8723b1Ant.c
+  Staging: rtl8723bs: fix indentation in HalBtc8723b1Ant.c
+  Staging: rtl8723bs: fix comparison formatting in HalBtc8723b1Ant.c
+  Staging: rtl8723bs: add missing blank line in HalBtc8723b1Ant.c
+  Staging: rtl8723bs: fix line continuations in HalBtc8723b1Ant.c
+  Staging: rtl8723bs: fix block comment in HalBtc8723b1Ant.c
+
+ .../staging/rtl8723bs/hal/HalBtc8723b1Ant.c   | 335 +++++++++---------
+ 1 file changed, 158 insertions(+), 177 deletions(-)
+
 -- 
-2.31.1
+2.25.1
 
