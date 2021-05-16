@@ -1,23 +1,23 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D3F6D0F
-	for <linux-staging@lists.linux.dev>; Sun, 16 May 2021 10:53:56 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2738A61206;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF862FBD
+	for <linux-staging@lists.linux.dev>; Sun, 16 May 2021 10:53:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 29F3F6121E;
 	Sun, 16 May 2021 10:53:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1621162433;
-	bh=nW7fKI5PUZp/UFI+qdts0R8ZO5545PmLjbtP18ZvdUY=;
+	bh=h9vGksfsYN6Uc32fL0WmjObXqS0pXNKpGROEG1V8hCI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lwK2y20RmkTHDsgizXnSMAd6PWGlj5TCMzfS72fOYQSXFDUIiJZbphFFFLl8Ri+x4
-	 kodfzbhHL/J3Dhd4sVdcHtycssqt7FnSN9W8RbmjgvgmKIKthwkYRdHa11AQ8mOOyS
-	 X2x2z6Rg2aYOdPJj07Gn/P6u1l7taF+7gV95IrI1v+GMW3Mn6UGBi6CQsmFZhrpBAr
-	 W5DIbegL0Ihpwz+CprlNP1qKI8vaMGhZdaTWjHpTNu90CqTMJFdy++92ENL2T2Xa+l
-	 ZPzsgSv3HCe5qP6gsQ/bw5Pgt/jI0X5t/X7M5CElWWwRdm2mqoWXMlGTLUWeld8LVy
-	 dyMByQCKcYxrQ==
+	b=fVqYMWjlFEM6FXpHotP/eCe8oIJyI3bhbpgSByvZ2c8zcM3NQBw3rQc4OG5RojroU
+	 9dH9u9ZxpHCwcE8GPcK58IrQpYqdsX48A4VuUsfdH6gIqQ4TCkzfFjhRIOibkfoiOo
+	 QgUyOL4HiryvJaidHwvG6XhRw3N0ASBulWLQLzLBDD7rAR9LKDNnV1nOvCQb+tEfZ0
+	 CdUtdyulIYM6f8TwThOhRvfuRoUsRc5vx+mmh/70SbqjJiZ3/l/JWTw/InbpSx25ei
+	 vmEwy55e+owxNkPln9OPyozrfBSE1KQKoyJmaSjogwm5JYEWepzjSM5tqw4Ah8Dgp1
+	 eTIA4EJTCXUzw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1liEP9-003s8i-4w; Sun, 16 May 2021 12:53:51 +0200
+	id 1liEP9-003s8q-8D; Sun, 16 May 2021 12:53:51 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: gregkh@linuxfoundation.org
 Cc: linuxarm@huawei.com,
@@ -29,9 +29,9 @@ Cc: linuxarm@huawei.com,
 	linux-kernel@vger.kernel.org,
 	linux-leds@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 12/17] staging: nuc-wmi: better detect NUC6/NUC7 devices
-Date: Sun, 16 May 2021 12:53:40 +0200
-Message-Id: <bca097a3ce2ab35fcd38eb3abdc8090c2c531048.1621161037.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 14/17] staging: nuc-wmi: fix software blink behavior logic
+Date: Sun, 16 May 2021 12:53:42 +0200
+Message-Id: <26d3ab7a03cb83ec56205add6cd80b8738cd96b0.1621161037.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1621161037.git.mchehab+huawei@kernel.org>
 References: <cover.1621161037.git.mchehab+huawei@kernel.org>
@@ -43,52 +43,90 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-There's no documented way to detect if the WMI API is valid,
-as, when it is not valid, it just returns 4 zeros.
+The is_visible logic for it is plain wrong:
 
-However, as having a value of 0x00 for the blinking state
-is not valid, we can check for it at detection time, in
-order to disable LEDs control on devices that won't
-support it.
+1. it is used only during devnode creation;
+2. it was using the wrong field (id, instead of indicator).
+
+Fix it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/staging/nuc-led/nuc-wmi.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ drivers/staging/nuc-led/nuc-wmi.c | 30 ++++++++++++------------------
+ 1 file changed, 12 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/staging/nuc-led/nuc-wmi.c b/drivers/staging/nuc-led/nuc-wmi.c
-index 5bc4dcec3ea8..1a6e2b17c888 100644
+index 68143d45c34c..fab0094a20e4 100644
 --- a/drivers/staging/nuc-led/nuc-wmi.c
 +++ b/drivers/staging/nuc-led/nuc-wmi.c
-@@ -312,6 +312,13 @@ static int nuc_wmi_query_leds_nuc6(struct device *dev)
- 		return ret;
- 	}
+@@ -1476,6 +1476,9 @@ static ssize_t show_blink_behavior(struct device *dev,
+ 	if (led->api_rev == LED_API_NUC6)
+ 		return nuc6_show_blink_behavior(dev, attr, buf);
  
-+	/*
-+	 * Detect if NUC6/NUC7 supports the WMI API by checking the
-+	 * returned blink state, as valid values range from 0x01 to 0x07.
-+	 */
-+	if (output[1] == 0x00)
-+		return -ENODEV;
++	if (led->indicator != LED_IND_SOFTWARE)
++		return -EINVAL;
 +
- 	led = &priv->led[priv->num_leds];
- 	led->id = POWER_LED;
- 	led->color_type = LED_BLUE_AMBER;
-@@ -325,6 +332,14 @@ static int nuc_wmi_query_leds_nuc6(struct device *dev)
- 		dev_warn(dev, "Get S0 Ring: error %d\n", ret);
- 		return ret;
- 	}
+ 	return offset_show_blink_behavior(dev, attr, 0, buf);
+ }
+ 
+@@ -1489,6 +1492,9 @@ static ssize_t store_blink_behavior(struct device *dev,
+ 	if (led->api_rev == LED_API_NUC6)
+ 		return nuc6_store_blink_behavior(dev, attr, buf, len);
+ 
++	if (led->indicator != LED_IND_SOFTWARE)
++		return -EINVAL;
 +
-+	/*
-+	 * Detect if NUC6/NUC7 supports the WMI API by checking the
-+	 * returned blink state, as valid values range from 0x01 to 0x07.
-+	 */
-+	if (output[1] == 0x00)
-+		return -ENODEV;
+ 	return offset_store_blink_behavior(dev, attr, 0, buf, len);
+ }
+ 
+@@ -1593,6 +1599,9 @@ static ssize_t show_blink_frequency(struct device *dev,
+ 	if (led->api_rev == LED_API_NUC6)
+ 		return nuc6_show_blink_frequency(dev, attr, buf);
+ 
++	if (led->indicator != LED_IND_SOFTWARE)
++		return -EINVAL;
 +
- 	led = &priv->led[priv->num_leds];
- 	led->id = RING_LED;
- 	led->color_type = LED_BLUE_AMBER;
+ 	return offset_show_blink_frequency(dev, attr, 0, buf);
+ }
+ 
+@@ -1606,26 +1615,12 @@ static ssize_t store_blink_frequency(struct device *dev,
+ 	if (led->api_rev == LED_API_NUC6)
+ 		return nuc6_store_blink_frequency(dev, attr, buf, len);
+ 
++	if (led->indicator != LED_IND_SOFTWARE)
++		return -EINVAL;
++
+ 	return offset_store_blink_frequency(dev, attr, 0, buf, len);
+ }
+ 
+-static umode_t nuc_wmi_led_blink_is_visible(struct kobject *kobj,
+-					    struct attribute *attr, int idx)
+-{
+-	struct device *dev = kobj_to_dev(kobj);
+-	struct led_classdev *cdev = dev_get_drvdata(dev);
+-	struct nuc_nmi_led *led = container_of(cdev, struct nuc_nmi_led, cdev);
+-	umode_t mode = attr->mode;
+-
+-	if (led->api_rev == LED_API_NUC6)
+-		return mode;
+-
+-	if (led->id == LED_IND_SOFTWARE)
+-		return mode;
+-
+-	return 0;
+-}
+-
+ /* HDD activity behavior */
+ static ssize_t show_hdd_default(struct device *dev,
+ 				   struct device_attribute *attr,
+@@ -1785,7 +1780,6 @@ static struct attribute *nuc_wmi_led_blink_behavior_attr[] = {
+ };
+ 
+ static const struct attribute_group nuc_wmi_led_blink_attribute_group = {
+-	.is_visible = nuc_wmi_led_blink_is_visible,
+ 	.attrs = nuc_wmi_led_blink_behavior_attr,
+ };
+ 
 -- 
 2.31.1
 
