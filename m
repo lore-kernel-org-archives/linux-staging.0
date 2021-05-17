@@ -1,239 +1,79 @@
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DDBE70
-	for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 18:09:57 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-	by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14HFn2Nf149176;
-	Mon, 17 May 2021 15:57:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=46zegLTyORjCsXmwBaOGpVU+tbqb7CJ5loKuJs3uNxI=;
- b=LoOhFOOChJ1O0mbu+1ddqtqACKixTcROK0cYkmViFNP/xYon6ykXEhyvQ12VKxKIL2Qu
- yHkBvo4uUh3AkjEUaQpOKkSfUh2TAA+EOu272cKjBgUM/x/7J+iBXGgTMadpxd1Ww9dA
- h5C26sZ8QI3q6Pp2GP0SGK5b72P0/LTYoB1M3PM3/KpcRrtATcgyJql6QoTJok4Y1PqB
- 6z2FwKwqv43Gq6Hewj2+t18bw/d82aLsgkUru6ZoOtXxcms0HKlOo/FZ5wIoNYEFG1Pq
- qKrZU1Zhdxc9qVaCI9RFeTj3QVupbqwmyGM9TC3nuG99Nn7aDnp1Ke10ofdZAlQNFqb9 hQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by userp2130.oracle.com with ESMTP id 38j5qr3q5b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 17 May 2021 15:57:48 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14HFjnoo066746;
-	Mon, 17 May 2021 15:57:47 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3020.oracle.com with ESMTP id 38j645y8j7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 17 May 2021 15:57:47 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14HFt3QU150609;
-	Mon, 17 May 2021 15:57:47 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by aserp3020.oracle.com with ESMTP id 38j645y8gf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 17 May 2021 15:57:46 +0000
-Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 14HFvfJx029187;
-	Mon, 17 May 2021 15:57:41 GMT
-Received: from kadam (/102.36.221.92)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Mon, 17 May 2021 08:57:40 -0700
-Date: Mon, 17 May 2021 18:57:33 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Martin Kaiser <martin@kaiser.cx>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>, linux-staging@lists.linux.dev,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/6] staging: rtl8188eu: use safe iterator in
- rtw_free_network_queue
-Message-ID: <20210517155733.GK1955@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0190C2FB6
+	for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 20:20:30 +0000 (UTC)
+Received: from dslb-084-059-234-229.084.059.pools.vodafone-ip.de ([84.59.234.229] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1lijiw-0001o4-HK; Mon, 17 May 2021 22:20:22 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Dan Carpenter <dan.carpenter@oracle.com>
+Cc: linux-staging@lists.linux.dev,
+	kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH v2 2/6] staging: rtl8188eu: use safe iterator in rtw_free_all_stainfo
+Date: Mon, 17 May 2021 22:18:22 +0200
+Message-Id: <20210517201826.25150-2-martin@kaiser.cx>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210517201826.25150-1-martin@kaiser.cx>
 References: <20210516160613.30489-1-martin@kaiser.cx>
+ <20210517201826.25150-1-martin@kaiser.cx>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210516160613.30489-1-martin@kaiser.cx>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: HW1ESqbzC4QZTidz2X09wEVQvnux-4f8
-X-Proofpoint-ORIG-GUID: HW1ESqbzC4QZTidz2X09wEVQvnux-4f8
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9987 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1011 impostorscore=0
- mlxscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=999
- suspectscore=0 adultscore=0 priorityscore=1501 spamscore=0 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2105170109
+Content-Transfer-Encoding: 8bit
 
-Thanks for catching these...  I've created a new Smatch static checker
-warning for this but it only works for list_for_each_entry().
-Eventually someone would have run the coccinelle script to convert these
-list_for_each loops into list_for_each_entry().  Otherwise you have to
-parse container_of() and I've been meaning to do that for a while but I
-haven't yet.
+This is another case where we may remove list entries while we iterate over
+the list. Use list_for_each_entry_safe to avoid an endless loop.
 
-Anyway, I'm going to test it out overnight and see what it finds.  It's
-sort a new use for the modification_hook(), before I had only ever used
-it to silence warnings but this check uses it to trigger warnings.  So
-perhaps it will generate a lot of false positives.  We'll see.
+Fixes: 23017c8842d2 ("staging: rtl8188eu: Use list iterators and helpers")
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+---
+v2:
+ - use list_for_each_entry_safe
 
-It sets the state of the iterator to &start at the start of the loop
-and if it's not &start state at the end then it prints a warning.
+Without this patch, unloading the module goes into an endless loop
+sometimes.
 
-regards,
-dan carpenter
+ drivers/staging/rtl8188eu/core/rtw_sta_mgt.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-/*
- * Copyright (C) 2021 Oracle.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, see http://www.gnu.org/copyleft/gpl.txt
- */
-
-#include "smatch.h"
-#include "smatch_extra.h"
-
-static int my_id;
-
-STATE(start);
-STATE(watch);
-
-static struct statement *iterator_stmt, *pre_stmt, *post_stmt;
-
-static void set_watch(struct sm_state *sm, struct expression *mod_expr)
-{
-	set_state(my_id, sm->name, sm->sym, &watch);
-}
-
-static bool is_list_macro(const char *macro)
-{
-	if (strcmp(macro, "list_for_each_entry") == 0)
-		return true;
-	return false;
-}
-
-static void match_iterator_statement(struct statement *stmt)
-{
-	const char *macro;
-
-	if (stmt->type != STMT_ITERATOR ||
-	    !stmt->iterator_pre_statement ||
-	    !stmt->iterator_post_statement)
-		return;
-
-	macro = get_macro_name(stmt->pos);
-	if (!macro)
-		return;
-	if (!is_list_macro(macro))
-		return;
-
-	iterator_stmt = stmt;
-	pre_stmt = stmt->iterator_pre_statement;
-	post_stmt = stmt->iterator_post_statement;
-}
-
-static bool stmt_matches(struct expression *expr, struct statement *stmt)
-{
-	struct expression *tmp;
-	struct statement *parent;
-
-	if (!stmt)
-		return false;
-	while ((tmp = expr_get_parent_expr(expr)))
-		expr = tmp;
-
-	parent = expr_get_parent_stmt(expr);
-	return parent == stmt;
-}
-
-static char *get_iterator_member(void)
-{
-	struct expression *expr;
-
-	if (!iterator_stmt ||
-	    !iterator_stmt->iterator_pre_condition)
-		return NULL;
-
-	expr = iterator_stmt->iterator_pre_condition;
-	if (expr->type != EXPR_PREOP || expr->op != '!')
-		return NULL;
-	expr = strip_parens(expr->unop);
-	if (expr->type != EXPR_COMPARE)
-		return NULL;
-	expr = strip_parens(expr->left);
-	if (expr->type != EXPR_PREOP || expr->op != '&')
-		return NULL;
-	expr = strip_expr(expr->unop);
-	if (expr->type != EXPR_DEREF || !expr->member)
-		return NULL;
-	return expr->member->name;
-}
-
-static void match_pre_statement(struct expression *expr)
-{
-	char *name, *member;
-	struct symbol *sym;
-	char buf[64];
-
-	if (!stmt_matches(expr, pre_stmt))
-		return;
-
-	name = expr_to_var_sym(expr->left, &sym);
-	if (!name)
-		return;
-	member = get_iterator_member();
-
-	snprintf(buf, sizeof(buf), "%s->%s.next", name, member);
-	set_state(my_id, buf, sym, &start);
-}
-
-static void match_post_statement(struct expression *expr)
-{
-	struct smatch_state *state;
-	char *name, *member;
-	struct symbol *sym;
-	char buf[64];
-
-	if (!stmt_matches(expr, post_stmt))
-		return;
-
-	name = expr_to_var_sym(expr->left, &sym);
-	if (!name)
-		return;
-	member = get_iterator_member();
-
-	snprintf(buf, sizeof(buf), "%s->%s.next", name, member);
-	state = get_state(my_id, buf, sym);
-	if (!state || state == &start)
-		return;
-
-	sm_warning("iterator '%s' changed during iteration", buf);
-}
-
-void check_list_set_inside(int id)
-{
-	my_id = id;
-
-	if (option_project != PROJ_KERNEL)
-		return;
-
-	add_hook(match_iterator_statement, STMT_HOOK);
-	add_hook(match_pre_statement, ASSIGNMENT_HOOK);
-	add_hook(match_post_statement, ASSIGNMENT_HOOK);
-
-	add_modification_hook(my_id, &set_watch);
-}
+diff --git a/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c b/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
+index 7941ca0397ed..5af7af5f5a5a 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
++++ b/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
+@@ -379,9 +379,9 @@ u32 rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
+ /*  free all stainfo which in sta_hash[all] */
+ void rtw_free_all_stainfo(struct adapter *padapter)
+ {
+-	struct list_head *plist, *phead;
++	struct list_head *phead;
+ 	s32 index;
+-	struct sta_info *psta = NULL;
++	struct sta_info *psta, *temp;
+ 	struct sta_priv *pstapriv = &padapter->stapriv;
+ 	struct sta_info *pbcmc_stainfo = rtw_get_bcmc_stainfo(padapter);
+ 
+@@ -392,9 +392,7 @@ void rtw_free_all_stainfo(struct adapter *padapter)
+ 
+ 	for (index = 0; index < NUM_STA; index++) {
+ 		phead = &pstapriv->sta_hash[index];
+-		list_for_each(plist, phead) {
+-			psta = list_entry(plist, struct sta_info, hash_list);
+-
++		list_for_each_entry_safe(psta, temp, phead, hash_list) {
+ 			if (pbcmc_stainfo != psta)
+ 				rtw_free_stainfo(padapter, psta);
+ 		}
+-- 
+2.20.1
 
