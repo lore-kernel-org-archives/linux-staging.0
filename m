@@ -1,37 +1,80 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB6471
-	for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 13:19:29 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id E0E7967373; Mon, 17 May 2021 15:08:52 +0200 (CEST)
-Date: Mon, 17 May 2021 15:08:52 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Christoph Hellwig <hch@lst.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] media: atomisp: remove compat_ioctl32 code
-Message-ID: <20210517130852.GA18985@lst.de>
-References: <20210516204818.2967910-1-arnd@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5304871
+	for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 13:31:56 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D757961006
+	for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 13:31:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1621258315;
+	bh=f+QsKFpxulTiJEqPxtn7sYDkXgFKYgNnRUsGMn1mb58=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=hsg6M6X04FjNFZ+/YsrJdxpOtthHLbBtmgVtLmUp8OkIhVYtxRaNqYIjFmoBeNWS0
+	 vTZoAEDlkNQQSKxbQTosRDhOWAWhBgbff8NYiCpN4+7QA8eB19Wu6UrLTT8ozJsOe4
+	 MEH78DVJl6SHRa1d7pslgs3q0zPDt4VPctEiOoOsdEDzBY+FiOoACpCY8nxP2JKIQQ
+	 YibFOyHTOhJjpIGQcZiv+f3O885CPZKBafWnX28IMT8ZN6YrGAnMIUooBK1ff/J+NO
+	 BcI5bl2O0zmJ0/A2wBs2aPJ/QVPfOU7E+6qQo+bcoTAHeOJce34LFH1XNOBK8aVA4x
+	 zls6b4+PItSCg==
+Received: by mail-wm1-f54.google.com with SMTP id s5-20020a7bc0c50000b0290147d0c21c51so3611745wmh.4
+        for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 06:31:55 -0700 (PDT)
+X-Gm-Message-State: AOAM530IJiKAyTPg0VJ6YsAw5LB4yj5ob4sgIjwq5MraRJ9B9iqLqxgE
+	lJ25X2kUrnRj8CI1LsXvB2RhBgawlWTSMbTvqRw=
+X-Google-Smtp-Source: ABdhPJyPXQZMnaKFMh5PmyX9H7NAS3ax3YjYJW/PrEHu7/bA3wMQGIFnlkko69IUjvAWYWCFEorh1WK5xXdpRvvSLRk=
+X-Received: by 2002:a7b:c446:: with SMTP id l6mr7405175wmi.75.1621258314423;
+ Mon, 17 May 2021 06:31:54 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210516204818.2967910-1-arnd@kernel.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+References: <20210516204818.2967910-1-arnd@kernel.org> <20210517130852.GA18985@lst.de>
+In-Reply-To: <20210517130852.GA18985@lst.de>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Mon, 17 May 2021 15:30:46 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0b+OAJgwpa0-nYGPgDttzZ=Epg5p46OY0ZWea5sp0Tzw@mail.gmail.com>
+Message-ID: <CAK8P3a0b+OAJgwpa0-nYGPgDttzZ=Epg5p46OY0ZWea5sp0Tzw@mail.gmail.com>
+Subject: Re: [PATCH] media: atomisp: remove compat_ioctl32 code
+To: Christoph Hellwig <hch@lst.de>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, May 16, 2021 at 10:47:43PM +0200, Arnd Bergmann wrote:
-> This is one of the last remaining users of compat_alloc_user_space()
-> and copy_in_user(), which are in the process of getting removed.
+On Mon, May 17, 2021 at 3:08 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Sun, May 16, 2021 at 10:47:43PM +0200, Arnd Bergmann wrote:
+> > This is one of the last remaining users of compat_alloc_user_space()
+> > and copy_in_user(), which are in the process of getting removed.
+>
+> Are you also going to resend the other compat_alloc_user_space removal
+> patches?  It would be great to see it buried ASAP.
 
-Are you also going to resend the other compat_alloc_user_space removal
-patches?  It would be great to see it buried ASAP.
+Yes, I'm in the middle of rebasing and fixing that. I sent this one as it
+was on the bottom of the branch and with no other dependencies. The
+other bits are:
+
+- kexec and numa syscalls, currently build testing after gcc-11 pointed out
+  a typo in the previous version.
+- rewrite of socket/device compat ioctl handling, previous version had a
+  build failure and some minor checkpatch.pl issues
+- overhaul of netdev ndo_do_ioctl, not strictly related but helps to prove
+  that the compat ioctl changes are correct and is probably a good idea
+  regardless, this needed a number of changes for bits I had missed the
+  first time around.
+- a simple patch to remove the now obsolete helper functions,
+  needed a rebase for 5.13-rc1. If everything else gets merged for 5.14
+  this might be something that Andrew can pick up for sending late
+  in the merge window, or I'll send it for 5.15 through the asm-generic
+  tree.
+
+I pushed it all for reference to
+
+https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git
+compat-alloc-user-space-9
+
+I should be able to patch-bomb everyone tomorrow unless the build bots
+find more issues.
+
+         Arnd
