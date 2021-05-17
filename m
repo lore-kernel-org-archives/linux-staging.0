@@ -1,84 +1,92 @@
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9CB71
-	for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 12:35:50 +0000 (UTC)
-Received: from dggems702-chm.china.huawei.com (unknown [172.30.72.59])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FkJRm4T2jzmhZW;
-	Mon, 17 May 2021 20:32:20 +0800 (CST)
-Received: from dggema762-chm.china.huawei.com (10.1.198.204) by
- dggems702-chm.china.huawei.com (10.3.19.179) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Mon, 17 May 2021 20:35:48 +0800
-Received: from [10.174.179.129] (10.174.179.129) by
- dggema762-chm.china.huawei.com (10.1.198.204) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Mon, 17 May 2021 20:35:47 +0800
-Subject: Re: [PATCH] media: hantro: Fix PM reference leak in device_run()
-To: Johan Hovold <johan@kernel.org>
-CC: <ezequiel@collabora.com>, <p.zabel@pengutronix.de>, <mchehab@kernel.org>,
-	<gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
-	<linux-rockchip@lists.infradead.org>, <linux-staging@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, <yi.zhang@huawei.com>
-References: <20210517081516.1562794-1-yukuai3@huawei.com>
- <YKInrIMZYGI1VKdl@hovoldconsulting.com>
-From: "yukuai (C)" <yukuai3@huawei.com>
-Message-ID: <7ee3a948-8249-9f07-82ba-6d347037e50f@huawei.com>
-Date: Mon, 17 May 2021 20:35:47 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB8371
+	for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 13:04:37 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-269-SnWmW07CP9mRfzOX1xeU9g-1; Mon, 17 May 2021 14:04:34 +0100
+X-MC-Unique: SnWmW07CP9mRfzOX1xeU9g-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.2; Mon, 17 May 2021 14:04:31 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.015; Mon, 17 May 2021 14:04:31 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Andy Shevchenko' <andy.shevchenko@gmail.com>, Arnd Bergmann
+	<arnd@kernel.org>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, Sakari Ailus
+	<sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil@xs4all.nl>, "Christoph
+ Hellwig" <hch@lst.de>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "Linux Media
+ Mailing List" <linux-media@vger.kernel.org>, "linux-staging@lists.linux.dev"
+	<linux-staging@lists.linux.dev>
+Subject: RE: [PATCH] media: atomisp: remove compat_ioctl32 code
+Thread-Topic: [PATCH] media: atomisp: remove compat_ioctl32 code
+Thread-Index: AQHXSuu4+en14/uhzUazyYkeGYdKuKrno/nQ
+Date: Mon, 17 May 2021 13:04:31 +0000
+Message-ID: <eb34029138bd4c02960a59c88009cc76@AcuMS.aculab.com>
+References: <20210516204818.2967910-1-arnd@kernel.org>
+ <CAHp75Ve7FZQwj-aO_TJ4ddYmhRMez+CapH4YUV7s3-6zVjdLnA@mail.gmail.com>
+In-Reply-To: <CAHp75Ve7FZQwj-aO_TJ4ddYmhRMez+CapH4YUV7s3-6zVjdLnA@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YKInrIMZYGI1VKdl@hovoldconsulting.com>
-Content-Type: text/plain; charset="gbk"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.179.129]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggema762-chm.china.huawei.com (10.1.198.204)
-X-CFilter-Loop: Reflected
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-On 2021/05/17 16:22, Johan Hovold wrote:
-> On Mon, May 17, 2021 at 04:15:16PM +0800, Yu Kuai wrote:
->> pm_runtime_get_sync will increment pm usage counter even it failed.
->> Forgetting to putting operation will result in reference leak here.
->> Fix it by replacing it with pm_runtime_resume_and_get to keep usage
->> counter balanced.
->>
->> Reported-by: Hulk Robot <hulkci@huawei.com>
->> Signed-off-by: Yu Kuai <yukuai3@huawei.com>
->> ---
->>   drivers/staging/media/hantro/hantro_drv.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
->> index eea2009fa17b..7a6d3ef22096 100644
->> --- a/drivers/staging/media/hantro/hantro_drv.c
->> +++ b/drivers/staging/media/hantro/hantro_drv.c
->> @@ -160,7 +160,7 @@ static void device_run(void *priv)
->>   	src = hantro_get_src_buf(ctx);
->>   	dst = hantro_get_dst_buf(ctx);
->>   
->> -	ret = pm_runtime_get_sync(ctx->dev->dev);
->> +	ret = pm_runtime_resume_and_get(ctx->dev->dev);
->>   	if (ret < 0) {
->>   		pm_runtime_put_noidle(ctx->dev->dev);
-> 
-> This is clearly broken as there is no PM usage count leak here.
-> 
-> Please try to understand the code you're changing before submitting any
-> more patches based on "robot" feedback.
+RnJvbTogQW5keSBTaGV2Y2hlbmtvDQo+IFNlbnQ6IDE3IE1heSAyMDIxIDA4OjEwDQo+IA0KPiBP
+biBNb24sIE1heSAxNywgMjAyMSBhdCAzOjI3IEFNIEFybmQgQmVyZ21hbm4gPGFybmRAa2VybmVs
+Lm9yZz4gd3JvdGU6DQo+ID4NCj4gPiBGcm9tOiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRl
+Pg0KPiA+DQo+ID4gVGhpcyBpcyBvbmUgb2YgdGhlIGxhc3QgcmVtYWluaW5nIHVzZXJzIG9mIGNv
+bXBhdF9hbGxvY191c2VyX3NwYWNlKCkNCj4gPiBhbmQgY29weV9pbl91c2VyKCksIHdoaWNoIGFy
+ZSBpbiB0aGUgcHJvY2VzcyBvZiBnZXR0aW5nIHJlbW92ZWQuDQo+ID4NCj4gPiBBcyBvZiBjb21t
+aXQgNTdlNmI2ZjIzMDNlICgibWVkaWE6IGF0b21pc3BfZm9wcy5jOiBkaXNhYmxlDQo+ID4gYXRv
+bWlzcF9jb21wYXRfaW9jdGwzMiIpLCBub3RoaW5nIGluIHRoaXMgZmlsZSBpcyBhY3R1YWxseSBn
+ZXR0aW5nIHVzZWQNCj4gPiBhcyB0aGUgb25seSByZWZlcmVuY2UgaGFzIGJlZW4gc3R1YmJlZCBv
+dXQuDQo+ID4NCj4gPiBSZW1vdmUgdGhlIGVudGlyZSBmaWxlIC0tIGFueW9uZSB3aWxsaW5nIHRv
+IHJlc3RvcmUgdGhlIGZ1bmN0aW9uYWxpdHkNCj4gPiBjYW4gZXF1YWxseSB3ZWxsIGp1c3QgbG9v
+ayB1cCB0aGUgY29udGVudHMgaW4gdGhlIGdpdCBoaXN0b3J5IGlmIG5lZWRlZC4NCj4gDQo+IEV2
+ZXJ5dGhpbmcgd2hpY2ggcmVtb3ZlcyB0b25zIG9mIExPQ3MgaW4gdGhpcyBkcml2ZXIgSSBsaWtl
+IGJ5IGRlZmF1bHQsIHRoYW5rcyENCi4uLi4NCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9zdGFn
+aW5nL21lZGlhL2F0b21pc3AvcGNpL2F0b21pc3BfZm9wcy5jDQo+IGIvZHJpdmVycy9zdGFnaW5n
+L21lZGlhL2F0b21pc3AvcGNpL2F0b21pc3BfZm9wcy5jDQo+ID4gaW5kZXggZjFlNmIyNTk3ODUz
+Li5lMzgzZTE3YzUwNzIgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9zdGFnaW5nL21lZGlhL2F0
+b21pc3AvcGNpL2F0b21pc3BfZm9wcy5jDQo+ID4gKysrIGIvZHJpdmVycy9zdGFnaW5nL21lZGlh
+L2F0b21pc3AvcGNpL2F0b21pc3BfZm9wcy5jDQo+ID4gQEAgLTEyODMsNyArMTI4Myw4IEBAIGNv
+bnN0IHN0cnVjdCB2NGwyX2ZpbGVfb3BlcmF0aW9ucyBhdG9taXNwX2ZvcHMgPSB7DQo+ID4gICAg
+ICAgICAudW5sb2NrZWRfaW9jdGwgPSB2aWRlb19pb2N0bDIsDQo+ID4gICNpZmRlZiBDT05GSUdf
+Q09NUEFUDQo+ID4gICAgICAgICAvKg0KPiA+IC0gICAgICAgICogVGhlcmUgYXJlIHByb2JsZW1z
+IHdpdGggdGhpcyBjb2RlLiBEaXNhYmxlIHRoaXMgZm9yIG5vdy4NCj4gPiArICAgICAgICAqIHRo
+aXMgd2FzIHJlbW92ZWQgYmVjYXVzZSBvZiBidWdzLCB0aGUgaW50ZXJmYWNlDQo+ID4gKyAgICAg
+ICAgKiBuZWVkcyB0byBiZSBtYWRlIHNhZmUgZm9yIGNvbXBhdCB0YXNrcyBpbnN0ZWFkLg0KPiA+
+ICAgICAgICAgLmNvbXBhdF9pb2N0bDMyID0gYXRvbWlzcF9jb21wYXRfaW9jdGwzMiwNCj4gPiAg
+ICAgICAgICAqLw0KPiA+ICAjZW5kaWYNCj4gPiBAQCAtMTI5NywxMCArMTI5OCw3IEBAIGNvbnN0
+IHN0cnVjdCB2NGwyX2ZpbGVfb3BlcmF0aW9ucyBhdG9taXNwX2ZpbGVfZm9wcyA9IHsNCj4gPiAg
+ICAgICAgIC5tbWFwID0gYXRvbWlzcF9maWxlX21tYXAsDQo+ID4gICAgICAgICAudW5sb2NrZWRf
+aW9jdGwgPSB2aWRlb19pb2N0bDIsDQo+ID4gICNpZmRlZiBDT05GSUdfQ09NUEFUDQo+ID4gLSAg
+ICAgICAvKg0KPiA+IC0gICAgICAgICogVGhlcmUgYXJlIHByb2JsZW1zIHdpdGggdGhpcyBjb2Rl
+LiBEaXNhYmxlIHRoaXMgZm9yIG5vdy4NCj4gPiAtICAgICAgIC5jb21wYXRfaW9jdGwzMiA9IGF0
+b21pc3BfY29tcGF0X2lvY3RsMzIsDQo+ID4gLSAgICAgICAgKi8NCj4gPiArICAgICAgIC8qIC5j
+b21wYXRfaW9jdGwzMiA9IGF0b21pc3BfY29tcGF0X2lvY3RsMzIsICovDQo+ID4gICNlbmRpZg0K
+PiA+ICAgICAgICAgLnBvbGwgPSBhdG9taXNwX3BvbGwsDQoNClNob3VsZG4ndCB0aGV5IGJlIHN0
+dWJiZWQgd2l0aCBzb21ldGhpbmcgdGhhdCByZXR1cm5zIC1FTk9UVFkNCnJhdGhlciB0aGFuIGJs
+aW5kbHkgY2FsbGluZyB0aGUgNjRiaXQgY29kZSB3aXRoIHRoZSB3cm9uZyBzdHJ1Y3R1cmU/DQoN
+CglEYXZpZA0KDQotDQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUsIEJyYW1sZXkgUm9hZCwg
+TW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJlZ2lzdHJhdGlvbiBObzog
+MTM5NzM4NiAoV2FsZXMpDQo=
 
-Hi,
-
-Sorry about the mistake, and thank you very much for your explanation
-
-Yu Kuai
-> 
->>   		goto err_cancel_job;
-> 
-> Johan
-> .
-> 
