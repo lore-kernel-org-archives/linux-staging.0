@@ -1,104 +1,101 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054F070
-	for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 09:12:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 705A6611C2;
-	Mon, 17 May 2021 09:12:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1621242732;
-	bh=6b1MoV4rxHMDe9ruMjs6F2HH22lmkZ793GKTShhLsLM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=W9l9gDEdYw6ilWNfdLln0vbHQbjfmdmbaiAgI933zjfgP2fytBPvdC3iUhslXBgez
-	 kBtFHP7m/g5RKuBpFBExsTHb9lBCelK5NcAwxjoSVgpYJFLRK9//tblJj/fx3M/nmC
-	 N3oq5VgHmeOfZ6bwlwLOSXsj+dUU8MsZT9ksfoyUHpcFgyx8qZbs72V+IQsp7y8g97
-	 3uzyoL2fVtwRWpFUwHZUBOT/hFUK2aomcF4bcr2SMd5Y/cEWs6NLZZ9M1UIFf5eqCi
-	 kjVx2TQ7vXVCXSHVYxNPgkPrsV5cgqiV4Vzx8opvmqumMyQU2D/JYeunbGamgpuEZX
-	 AQ5tJDWlgOMSA==
-Date: Mon, 17 May 2021 11:12:07 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Pavel Machek <pavel@ucw.cz>
-Cc: gregkh@linuxfoundation.org, linuxarm@huawei.com, Mauro Carvalho Chehab
- <mchehab@kernel.org>, devel@driverdev.osuosl.org,
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH 17/17] staging: nuc-led: update the TODOs
-Message-ID: <20210517111207.023919c8@coco.lan>
-In-Reply-To: <20210517105749.3180a59c@coco.lan>
-References: <cover.1621161037.git.mchehab+huawei@kernel.org>
-	<f23fed6a89f66564f5af52f241016a4b9823ce04.1621161037.git.mchehab+huawei@kernel.org>
-	<20210516182149.GA3666@localhost>
-	<20210517083001.7688acd7@coco.lan>
-	<20210517080527.GA18642@amd>
-	<20210517105749.3180a59c@coco.lan>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C4B70
+	for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 10:13:20 +0000 (UTC)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14HADDpg018783;
+	Mon, 17 May 2021 10:13:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=f87dLmC0j6gWoUu+50r2vzkGFGGPi5tJfQ5olNEG49s=;
+ b=l7I+RyQgNSZd3XMG37nqg7Rah4RXlne6Oz1c34kgq4rOKJGXywBa7+xHy652oucPhr9b
+ dZr2rTI2MNrx7wsHM6H4oBVq20SVKZwfVQiZwmEI2IwsvEjofGWErgm4o6hz74h8T/1b
+ FlpASzHa4Wa0+caui38tITaa8CoqR2fiZFxskxaZ8XVuI9FCyLsoffGU5fIbsXV/s+eL
+ 8Z17hAyGnx/HuHL93LgR4ZuRahECjTwEIbyRFBNOwYxlJ6AshNrbickuMlqpcBDrlXfH
+ AKSX3sq7Q6Po18HNpfEwCT/rqGGZytajyzClrz+elEJYVANCzyZNbgbS9+F8hwxzlnD3 Kg== 
+Received: from oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by mx0b-00069f02.pphosted.com with ESMTP id 38kfhwg4qq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 17 May 2021 10:13:13 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14HADCMA025213;
+	Mon, 17 May 2021 10:13:12 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3030.oracle.com with ESMTP id 38j4bb1d4t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 17 May 2021 10:13:12 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14HADCLc025196;
+	Mon, 17 May 2021 10:13:12 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+	by aserp3030.oracle.com with ESMTP id 38j4bb1d4e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 17 May 2021 10:13:12 +0000
+Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
+	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 14HADBVG008187;
+	Mon, 17 May 2021 10:13:11 GMT
+Received: from kadam (/102.36.221.92)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Mon, 17 May 2021 10:13:10 +0000
+Date: Mon, 17 May 2021 13:13:02 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Cc: gregkh@linuxfoundation.org, marcocesati@gmail.com, fabioaiuto83@gmail.com,
+        fmdefrancesco@gmail.com, eantoranz@gmail.com, hdegoede@redhat.com,
+        Larry.Finger@lwfinger.net, skhan@linuxfoundation.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH 7/7] Staging: rtl8723bs: fix block comment in
+ HalBtc8723b1Ant.c
+Message-ID: <20210517101302.GF1955@kadam>
+References: <20210516122927.1132356-1-desmondcheongzx@gmail.com>
+ <20210516122927.1132356-8-desmondcheongzx@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210516122927.1132356-8-desmondcheongzx@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: esNB97Fc0mpYUVaDvyoiC-TtUK7SLMQF
+X-Proofpoint-ORIG-GUID: esNB97Fc0mpYUVaDvyoiC-TtUK7SLMQF
 
-Em Mon, 17 May 2021 10:57:49 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+On Sun, May 16, 2021 at 08:29:27AM -0400, Desmond Cheong Zhi Xi wrote:
+> This commit fixes the following checkpatch.pl warning:
+> 
+> WARNING: Block comments use * on subsequent lines
+> +		/*
+> +		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = 0x%x ", "Latest error condition(should be 0)", \
+> 
+> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
+> index cc7f558903ac..87156b2cd1f0 100644
+> --- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
+> +++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
+> @@ -2511,10 +2511,10 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+>  		CL_PRINTF(cliBuf);
+>  
+>  		/*
+> -		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = 0x%x ", "Latest error condition(should be 0)", \
+> -			pCoexDm->errorCondition);
+> -		CL_PRINTF(cliBuf);
+> -		*/
+> +		 *CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = 0x%x ", "Latest error condition(should be 0)",
+> +		 *	pCoexDm->errorCondition);
+> +		 *CL_PRINTF(cliBuf);
+> +		 */
+>  	}
 
-> Em Mon, 17 May 2021 10:05:27 +0200
-> Pavel Machek <pavel@ucw.cz> escreveu:
+Always just delete dead code.  Otherwise the patchset seems good.
 
-> > No. Take a look at triggers; for example hdd monitor should look very
-> > much like existing disk trigger.  
+regards,
+dan carpenter
 
-Btw, is there a way to trigger brightness?
-
-When a LED is monitoring the power state, brightness should be
-hidden, as, instead of a single brightness parameter, the device
-will now have one brightness per different power state, e. g.:
-
-When the LED indicator is measuring *Power State*, the following 
-parameters may be available:
-
-    =================================	=======================================
-    Parameter				Meaning
-    =================================	=======================================
-    <power_state>_brightness		Brightness in percent (from 0 to 100)
-    <power_state>_blink_behavior	type of blink.
-					See :ref:`nuc_blink_behavior`.
-    <power_state>_blink_frequency	Blink frequency.
-					See :ref:`nuc_blink_behavior`.
-    <power_state>_color			LED color
-					See :ref:`nuc_color`.
-    =================================	=======================================
-
-Where <power_state> is different, depending on the WMI API version:
-
-On version 0.64 (NUC8/9):
-
-    +------------+
-    | s0	 |
-    +------------+
-    | s3	 |
-    +------------+
-    | s5	 |
-    +------------+
-    | ready_mode |
-    +------------+
-
-Btw, I've no idea what "ready mode" is, as the specs don't explain it.
-This particular mode is disabled on my NUC8 device, so I can't test it.
-
-On version 1.0 (NUC10+):
-
-    +------------+
-    | s0	 |
-    +------------+
-    | s3	 |
-    +------------+
-    | standby	 |
-    +------------+
-
-Note: At the specs, "Standby" is actually "Modern Standby". I ended
-simplifying it, as just "standby_brightness" sounds good enough.
-
-Thanks,
-Mauro
