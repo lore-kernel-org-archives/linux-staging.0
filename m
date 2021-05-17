@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0190C2FB6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C0F2FB8
 	for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 20:20:30 +0000 (UTC)
 Received: from dslb-084-059-234-229.084.059.pools.vodafone-ip.de ([84.59.234.229] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1lijiw-0001o4-HK; Mon, 17 May 2021 22:20:22 +0200
+	id 1lijip-0001o4-6u; Mon, 17 May 2021 22:20:15 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -18,13 +18,12 @@ Cc: linux-staging@lists.linux.dev,
 	kernel-janitors@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH v2 2/6] staging: rtl8188eu: use safe iterator in rtw_free_all_stainfo
-Date: Mon, 17 May 2021 22:18:22 +0200
-Message-Id: <20210517201826.25150-2-martin@kaiser.cx>
+Subject: [PATCH v2 1/6] staging: rtl8188eu: use safe iterator in rtw_free_network_queue
+Date: Mon, 17 May 2021 22:18:21 +0200
+Message-Id: <20210517201826.25150-1-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210517201826.25150-1-martin@kaiser.cx>
+In-Reply-To: <20210516160613.30489-1-martin@kaiser.cx>
 References: <20210516160613.30489-1-martin@kaiser.cx>
- <20210517201826.25150-1-martin@kaiser.cx>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -32,8 +31,12 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is another case where we may remove list entries while we iterate over
-the list. Use list_for_each_entry_safe to avoid an endless loop.
+rtw_free_network_queue iterates over the scanned wireless networks and
+calls _rtw_free_network for each of them. In some cases,
+_rtw_free_network removes a network from the list.
+
+We have to use list_for_each_entry_safe if we remove list entries while
+we iterate over a list.
 
 Fixes: 23017c8842d2 ("staging: rtl8188eu: Use list iterators and helpers")
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
@@ -41,39 +44,53 @@ Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 v2:
  - use list_for_each_entry_safe
 
-Without this patch, unloading the module goes into an endless loop
-sometimes.
+Without this patch, it's easy to get the driver into an endless loop by
+scanning, connecting and disconnecting repeatedly.
 
- drivers/staging/rtl8188eu/core/rtw_sta_mgt.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+wpa_supplicant -B -Dwext -i wlan0 -c /path/to/my/config...
+while true ; do
+   sleep 1
+   wpa_cli reconfigure
+   wpa_cli add_network
+   wpa_cli set_network 0 ssid ...
+   wpa_cli set_network 0 psk ...
+   wpa_cli select_network 0
+   sleep 6
+   wpa_cli status
+   wpa_cli disconnect 0
+done
 
-diff --git a/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c b/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
-index 7941ca0397ed..5af7af5f5a5a 100644
---- a/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
-@@ -379,9 +379,9 @@ u32 rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
- /*  free all stainfo which in sta_hash[all] */
- void rtw_free_all_stainfo(struct adapter *padapter)
+ drivers/staging/rtl8188eu/core/rtw_mlme.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme.c b/drivers/staging/rtl8188eu/core/rtw_mlme.c
+index 159465b073c2..ba73ac5325e2 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_mlme.c
++++ b/drivers/staging/rtl8188eu/core/rtw_mlme.c
+@@ -199,19 +199,17 @@ struct wlan_network *rtw_find_network(struct __queue *scanned_queue, u8 *addr)
+ 
+ void rtw_free_network_queue(struct adapter *padapter, u8 isfreeall)
  {
--	struct list_head *plist, *phead;
+-	struct list_head *phead, *plist;
+-	struct wlan_network *pnetwork;
 +	struct list_head *phead;
- 	s32 index;
--	struct sta_info *psta = NULL;
-+	struct sta_info *psta, *temp;
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 	struct sta_info *pbcmc_stainfo = rtw_get_bcmc_stainfo(padapter);
++	struct wlan_network *pnetwork, *temp;
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct __queue *scanned_queue = &pmlmepriv->scanned_queue;
  
-@@ -392,9 +392,7 @@ void rtw_free_all_stainfo(struct adapter *padapter)
+ 	spin_lock_bh(&scanned_queue->lock);
  
- 	for (index = 0; index < NUM_STA; index++) {
- 		phead = &pstapriv->sta_hash[index];
--		list_for_each(plist, phead) {
--			psta = list_entry(plist, struct sta_info, hash_list);
+ 	phead = get_list_head(scanned_queue);
+-	list_for_each(plist, phead) {
+-		pnetwork = list_entry(plist, struct wlan_network, list);
 -
-+		list_for_each_entry_safe(psta, temp, phead, hash_list) {
- 			if (pbcmc_stainfo != psta)
- 				rtw_free_stainfo(padapter, psta);
- 		}
++	list_for_each_entry_safe(pnetwork, temp, phead, list)
+ 		_rtw_free_network(pmlmepriv, pnetwork, isfreeall);
+-	}
++
+ 	spin_unlock_bh(&scanned_queue->lock);
+ }
+ 
 -- 
 2.20.1
 
