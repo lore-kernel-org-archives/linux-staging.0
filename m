@@ -1,129 +1,65 @@
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7467170
-	for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 08:05:30 +0000 (UTC)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id B35941C0B79; Mon, 17 May 2021 10:05:27 +0200 (CEST)
-Date: Mon, 17 May 2021 10:05:27 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: gregkh@linuxfoundation.org, linuxarm@huawei.com,
-	mauro.chehab@huawei.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
-	devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 17/17] staging: nuc-led: update the TODOs
-Message-ID: <20210517080527.GA18642@amd>
-References: <cover.1621161037.git.mchehab+huawei@kernel.org>
- <f23fed6a89f66564f5af52f241016a4b9823ce04.1621161037.git.mchehab+huawei@kernel.org>
- <20210516182149.GA3666@localhost>
- <20210517083001.7688acd7@coco.lan>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FDFF70
+	for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 08:07:55 +0000 (UTC)
+Received: from dggems706-chm.china.huawei.com (unknown [172.30.72.58])
+	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4FkBWw5xTjzmWtW;
+	Mon, 17 May 2021 16:05:32 +0800 (CST)
+Received: from dggema762-chm.china.huawei.com (10.1.198.204) by
+ dggems706-chm.china.huawei.com (10.3.19.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Mon, 17 May 2021 16:07:47 +0800
+Received: from huawei.com (10.175.127.227) by dggema762-chm.china.huawei.com
+ (10.1.198.204) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Mon, 17
+ May 2021 16:07:46 +0800
+From: Yu Kuai <yukuai3@huawei.com>
+To: <ezequiel@collabora.com>, <p.zabel@pengutronix.de>, <mchehab@kernel.org>,
+	<gregkh@linuxfoundation.org>
+CC: <linux-media@vger.kernel.org>, <linux-rockchip@lists.infradead.org>,
+	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<yukuai3@huawei.com>, <yi.zhang@huawei.com>
+Subject: [PATCH] media: hantro: Fix PM reference leak in device_run()
+Date: Mon, 17 May 2021 16:15:16 +0800
+Message-ID: <20210517081516.1562794-1-yukuai3@huawei.com>
+X-Mailer: git-send-email 2.25.4
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="IJpNTDwzlM2Ie8A6"
-Content-Disposition: inline
-In-Reply-To: <20210517083001.7688acd7@coco.lan>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.127.227]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggema762-chm.china.huawei.com (10.1.198.204)
+X-CFilter-Loop: Reflected
 
+pm_runtime_get_sync will increment pm usage counter even it failed.
+Forgetting to putting operation will result in reference leak here.
+Fix it by replacing it with pm_runtime_resume_and_get to keep usage
+counter balanced.
 
---IJpNTDwzlM2Ie8A6
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Yu Kuai <yukuai3@huawei.com>
+---
+ drivers/staging/media/hantro/hantro_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hi!
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index eea2009fa17b..7a6d3ef22096 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -160,7 +160,7 @@ static void device_run(void *priv)
+ 	src = hantro_get_src_buf(ctx);
+ 	dst = hantro_get_dst_buf(ctx);
+ 
+-	ret = pm_runtime_get_sync(ctx->dev->dev);
++	ret = pm_runtime_resume_and_get(ctx->dev->dev);
+ 	if (ret < 0) {
+ 		pm_runtime_put_noidle(ctx->dev->dev);
+ 		goto err_cancel_job;
+-- 
+2.25.4
 
-> > > -  Need to validate the uAPI and document it before moving
-> > >    this driver out of staging. =20
-> >=20
-> > >  - Stabilize and document its sysfs interface. =20
-> >   =20
-> > Would you mind starting with this one?
->=20
-> Do you mean writing the ABI document for it? Surely I can do that,
-> but I'm not sure where to put such document while it is on staging.
-
-No need for formal ABI just yet, but it needs to be clear what the interface
-is.
-
-> > We should have existing APIs
-> > for most of functionality described...
->=20
-> I tried to stay as close as possible to the existing API, but
-> there are some things that required a different one.
-
-I believe it should be possible to move _way_ closer to existing APIs.
-
-> For instance, with WMI rev 0.64 and 1.0, any LED of the device
-> can be programmed to be a power indicator.
->=20
-> When a LED is programmed this way, there are up to 3 (on rev 1.0) or up
-> to 4 (on rev 0.64) different brightness level of the LED, and those
-> are associated with a power status (like S0, S3, S5, "ready mode").
-
-I'll need a description how this works.
-
-> 	/sys/class/leds/nuc::front1/
-> 	=E2=94=9C=E2=94=80=E2=94=80 blink_behavior
-> 	=E2=94=9C=E2=94=80=E2=94=80 blink_frequency
-
-We have timer trigger for these.
-
-> 	=E2=94=9C=E2=94=80=E2=94=80 ethernet_type
-> 	=E2=94=9C=E2=94=80=E2=94=80 hdd_default
-> 	=E2=94=9C=E2=94=80=E2=94=80 indicator
-> 	=E2=94=9C=E2=94=80=E2=94=80 ready_mode_blink_behavior
-> 	=E2=94=9C=E2=94=80=E2=94=80 ready_mode_blink_frequency
-> 	=E2=94=9C=E2=94=80=E2=94=80 ready_mode_brightness
-> 	=E2=94=9C=E2=94=80=E2=94=80 s0_blink_behavior
-> 	=E2=94=9C=E2=94=80=E2=94=80 s0_blink_frequency
-> 	=E2=94=9C=E2=94=80=E2=94=80 s0_brightness
-> 	=E2=94=9C=E2=94=80=E2=94=80 s3_blink_behavior
-> 	=E2=94=9C=E2=94=80=E2=94=80 s3_blink_frequency
-> 	=E2=94=9C=E2=94=80=E2=94=80 s3_brightness
-> 	=E2=94=9C=E2=94=80=E2=94=80 s5_blink_behavior
-> 	=E2=94=9C=E2=94=80=E2=94=80 s5_blink_frequency
-> 	=E2=94=9C=E2=94=80=E2=94=80 s5_brightness
-
-No. Take a look at triggers; for example hdd monitor should look very
-much like existing disk trigger.
-
-> On other words, the "indicator" tells what type of hardware event
-> the LED is currently measuring:
->=20
-> 	$ cat /sys/class/leds/nuc\:\:front1/indicator=20
-> 	Power State  [HDD Activity]  Ethernet  WiFi  Software  Power Limit  Disa=
-ble =20
-
-So this will use existing "trigger" infrastructure.
-
-> That should likely be easier to discuss if any changes at the
-> ABI would be needed. Before moving it out of staging, I would
-> add another one under Documentation/ABI describing the meaning
-> of each sysfs node.
-
-Lets get reasonable ABI before moving it _into_ tree, staging or
-otherwise.
-
-Best regards,
-								Pavel
---=20
-http://www.livejournal.com/~pavelmachek
-
---IJpNTDwzlM2Ie8A6
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAmCiI8YACgkQMOfwapXb+vIUoQCfTZBA/7aUYLCij0dzPnB+ZoFC
-bJUAoJn12VXrwjrwbPGTlEGAPrzZdEN4
-=mabU
------END PGP SIGNATURE-----
-
---IJpNTDwzlM2Ie8A6--
