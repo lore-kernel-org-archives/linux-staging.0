@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C0F2FB8
-	for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 20:20:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00062FB9
+	for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 20:20:31 +0000 (UTC)
 Received: from dslb-084-059-234-229.084.059.pools.vodafone-ip.de ([84.59.234.229] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1lijip-0001o4-6u; Mon, 17 May 2021 22:20:15 +0200
+	id 1lijiy-0001o4-K8; Mon, 17 May 2021 22:20:24 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -18,12 +18,13 @@ Cc: linux-staging@lists.linux.dev,
 	kernel-janitors@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH v2 1/6] staging: rtl8188eu: use safe iterator in rtw_free_network_queue
-Date: Mon, 17 May 2021 22:18:21 +0200
-Message-Id: <20210517201826.25150-1-martin@kaiser.cx>
+Subject: [PATCH v2 3/6] staging: rtl8188eu: use safe iterator in expire_timeout_chk
+Date: Mon, 17 May 2021 22:18:23 +0200
+Message-Id: <20210517201826.25150-3-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210516160613.30489-1-martin@kaiser.cx>
+In-Reply-To: <20210517201826.25150-1-martin@kaiser.cx>
 References: <20210516160613.30489-1-martin@kaiser.cx>
+ <20210517201826.25150-1-martin@kaiser.cx>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -31,66 +32,61 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rtw_free_network_queue iterates over the scanned wireless networks and
-calls _rtw_free_network for each of them. In some cases,
-_rtw_free_network removes a network from the list.
+In the first loop in expire_timeout_chk, we may call rtw_free_stainfo and
+remove an entry from auth_list.
 
-We have to use list_for_each_entry_safe if we remove list entries while
-we iterate over a list.
+In the second loop, we may call list_del_init on our list.
+
+Use list_for_each_entry_safe for both loops.
 
 Fixes: 23017c8842d2 ("staging: rtl8188eu: Use list iterators and helpers")
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
 v2:
  - use list_for_each_entry_safe
+ - update both loops (I forgot the 2nd loop in v1)
 
-Without this patch, it's easy to get the driver into an endless loop by
-scanning, connecting and disconnecting repeatedly.
+ drivers/staging/rtl8188eu/core/rtw_ap.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-wpa_supplicant -B -Dwext -i wlan0 -c /path/to/my/config...
-while true ; do
-   sleep 1
-   wpa_cli reconfigure
-   wpa_cli add_network
-   wpa_cli set_network 0 ssid ...
-   wpa_cli set_network 0 psk ...
-   wpa_cli select_network 0
-   sleep 6
-   wpa_cli status
-   wpa_cli disconnect 0
-done
-
- drivers/staging/rtl8188eu/core/rtw_mlme.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme.c b/drivers/staging/rtl8188eu/core/rtw_mlme.c
-index 159465b073c2..ba73ac5325e2 100644
---- a/drivers/staging/rtl8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_mlme.c
-@@ -199,19 +199,17 @@ struct wlan_network *rtw_find_network(struct __queue *scanned_queue, u8 *addr)
+diff --git a/drivers/staging/rtl8188eu/core/rtw_ap.c b/drivers/staging/rtl8188eu/core/rtw_ap.c
+index ca9a321c4921..6d7c96f1aa42 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_ap.c
++++ b/drivers/staging/rtl8188eu/core/rtw_ap.c
+@@ -164,9 +164,9 @@ static u8 chk_sta_is_alive(struct sta_info *psta)
  
- void rtw_free_network_queue(struct adapter *padapter, u8 isfreeall)
+ void expire_timeout_chk(struct adapter *padapter)
  {
 -	struct list_head *phead, *plist;
--	struct wlan_network *pnetwork;
 +	struct list_head *phead;
-+	struct wlan_network *pnetwork, *temp;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct __queue *scanned_queue = &pmlmepriv->scanned_queue;
+ 	u8 updated = 0;
+-	struct sta_info *psta = NULL;
++	struct sta_info *psta, *temp;
+ 	struct sta_priv *pstapriv = &padapter->stapriv;
+ 	u8 chk_alive_num = 0;
+ 	char chk_alive_list[NUM_STA];
+@@ -176,9 +176,7 @@ void expire_timeout_chk(struct adapter *padapter)
  
- 	spin_lock_bh(&scanned_queue->lock);
- 
- 	phead = get_list_head(scanned_queue);
+ 	phead = &pstapriv->auth_list;
+ 	/* check auth_queue */
 -	list_for_each(plist, phead) {
--		pnetwork = list_entry(plist, struct wlan_network, list);
+-		psta = list_entry(plist, struct sta_info, auth_list);
 -
-+	list_for_each_entry_safe(pnetwork, temp, phead, list)
- 		_rtw_free_network(pmlmepriv, pnetwork, isfreeall);
--	}
-+
- 	spin_unlock_bh(&scanned_queue->lock);
- }
++	list_for_each_entry_safe(psta, temp, phead, auth_list) {
+ 		if (psta->expire_to > 0) {
+ 			psta->expire_to--;
+ 			if (psta->expire_to == 0) {
+@@ -206,9 +204,7 @@ void expire_timeout_chk(struct adapter *padapter)
  
+ 	phead = &pstapriv->asoc_list;
+ 	/* check asoc_queue */
+-	list_for_each(plist, phead) {
+-		psta = list_entry(plist, struct sta_info, asoc_list);
+-
++	list_for_each_entry_safe(psta, temp, phead, asoc_list) {
+ 		if (chk_sta_is_alive(psta) || !psta->expire_to) {
+ 			psta->expire_to = pstapriv->expire_to;
+ 			psta->keep_alive_trycnt = 0;
 -- 
 2.20.1
 
