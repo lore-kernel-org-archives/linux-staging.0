@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1626E2FB6
-	for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 20:20:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517EB2FB6
+	for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 20:20:38 +0000 (UTC)
 Received: from dslb-084-059-234-229.084.059.pools.vodafone-ip.de ([84.59.234.229] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1lijj1-0001o4-2D; Mon, 17 May 2021 22:20:27 +0200
+	id 1lijj2-0001o4-6W; Mon, 17 May 2021 22:20:28 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -18,9 +18,9 @@ Cc: linux-staging@lists.linux.dev,
 	kernel-janitors@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH v2 5/6] staging: rtl8188eu: use safe iterator in rtw_sta_flush
-Date: Mon, 17 May 2021 22:18:25 +0200
-Message-Id: <20210517201826.25150-5-martin@kaiser.cx>
+Subject: [PATCH v2 6/6] staging: rtl8188eu: use safe iterator in rtw_free_xmitframe_queue
+Date: Mon, 17 May 2021 22:18:26 +0200
+Message-Id: <20210517201826.25150-6-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210517201826.25150-1-martin@kaiser.cx>
 References: <20210516160613.30489-1-martin@kaiser.cx>
@@ -41,34 +41,34 @@ Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 v2:
  - use list_for_each_entry_safe
 
- drivers/staging/rtl8188eu/core/rtw_ap.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/staging/rtl8188eu/core/rtw_xmit.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/rtl8188eu/core/rtw_ap.c b/drivers/staging/rtl8188eu/core/rtw_ap.c
-index d297d5301153..bbecb07274f6 100644
---- a/drivers/staging/rtl8188eu/core/rtw_ap.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_ap.c
-@@ -1573,8 +1573,8 @@ u8 ap_free_sta(struct adapter *padapter, struct sta_info *psta,
+diff --git a/drivers/staging/rtl8188eu/core/rtw_xmit.c b/drivers/staging/rtl8188eu/core/rtw_xmit.c
+index 3763d188b892..dcc29a74612d 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_xmit.c
++++ b/drivers/staging/rtl8188eu/core/rtw_xmit.c
+@@ -1329,17 +1329,15 @@ s32 rtw_free_xmitframe(struct xmit_priv *pxmitpriv, struct xmit_frame *pxmitfram
  
- int rtw_sta_flush(struct adapter *padapter)
+ void rtw_free_xmitframe_queue(struct xmit_priv *pxmitpriv, struct __queue *pframequeue)
  {
--	struct list_head *phead, *plist;
--	struct sta_info *psta = NULL;
+-	struct list_head *plist, *phead;
+-	struct	xmit_frame	*pxmitframe;
 +	struct list_head *phead;
-+	struct sta_info *psta, *temp;
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
- 	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
-@@ -1588,9 +1588,7 @@ int rtw_sta_flush(struct adapter *padapter)
- 	spin_lock_bh(&pstapriv->asoc_list_lock);
- 	phead = &pstapriv->asoc_list;
- 	/* free sta asoc_queue */
++	struct	xmit_frame	*pxmitframe, *temp;
+ 
+ 	spin_lock_bh(&pframequeue->lock);
+ 
+ 	phead = get_list_head(pframequeue);
 -	list_for_each(plist, phead) {
--		psta = list_entry(plist, struct sta_info, asoc_list);
+-		pxmitframe = list_entry(plist, struct xmit_frame, list);
 -
-+	list_for_each_entry_safe(psta, temp, phead, asoc_list) {
- 		list_del_init(&psta->asoc_list);
- 		pstapriv->asoc_list_cnt--;
++	list_for_each_entry_safe(pxmitframe, temp, phead, list)
+ 		rtw_free_xmitframe(pxmitpriv, pxmitframe);
+-	}
++
+ 	spin_unlock_bh(&pframequeue->lock);
+ }
  
 -- 
 2.20.1
