@@ -1,96 +1,257 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-41103.protonmail.ch (mail-41103.protonmail.ch [185.70.41.103])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A7356D10
-	for <linux-staging@lists.linux.dev>; Tue, 18 May 2021 12:41:24 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id v12so10064958wrq.6
-        for <linux-staging@lists.linux.dev>; Tue, 18 May 2021 05:41:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=1eI4NCY1wQwQq8OfRG+T0AfeGqGVQTSTyL0bsuhMZB8=;
-        b=yu5pawqC8M2REqbBEFuwQZL8cBrGJyxAieUo13G6RU8vAl1SoLrla5oPrYV0mChnkx
-         dascTGzxh7OrTU1IeB3GqPqHrA0q662WPAiiJyxfJ80/a67A0K54S78j41h+gualFQD+
-         vsJFynoIAGViRx5tkMS8n87BVLJOO8mMR8bAqPXqY+253iD7WNE5EcwpQ3oFVUCf5fma
-         +ikjj8YZsqSxvveVO7bSyOnpxfpjIVqfSXK+3BDuRwHmgndy0sDFkg7Y6J+TlAUT2Rv6
-         HYTRlHyymmI4qIc0q+9yREz5t62hGCnkPb8pQqffrFDu9HX2R34FeAXz3/udPF4Xmeeq
-         dqlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=1eI4NCY1wQwQq8OfRG+T0AfeGqGVQTSTyL0bsuhMZB8=;
-        b=CJPUYI37y/gogSRDg2oCIeandqFNdYIOTf+ivqaCuyJKJkbw255Iu7Mo/BV2MWeHSe
-         VrYBVCdoShOgbWgkT78hh/WlZE3zAXK331AQZ1MqqbX1NLavi7TUzYvL6bAR74HUASRk
-         XpLVSW+G53zNIyL++ffEcrUDeikclbwDKu49afaV4zLa9pByXWScYFnLofH1H9eO8Ska
-         A+Z+w/U3d5ceBJU9ea3JvAJmDVJE5s2tZ+cMKgyGnsZn73fI3tR2WlH/WZhoZ7qOfmG5
-         m20MlnI4vjxxCOFviaF7TUU8fYpNIPmqgXFkTg6ypmFxfCe+e8Nipy6+jtYy1ziUJbcv
-         GN6w==
-X-Gm-Message-State: AOAM531BLxWP/Rd+E+oDtLninkYp4GmnVtYwP96+1kS7lAeUmpkhK8gb
-	61INSiGCcSoo24Xk8enG5jjU+A==
-X-Google-Smtp-Source: ABdhPJxZX83kJ5tUhAZjMNRQvqz0QsKGh6CTOjOc/hTJv/kQUreJ7t63expdHC0sS5c3Gneo8ypwzQ==
-X-Received: by 2002:adf:e781:: with SMTP id n1mr6624991wrm.136.1621341683298;
-        Tue, 18 May 2021 05:41:23 -0700 (PDT)
-Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id z3sm1677239wrq.42.2021.05.18.05.41.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 May 2021 05:41:22 -0700 (PDT)
-From: Corentin Labbe <clabbe@baylibre.com>
-To: gregkh@linuxfoundation.org,
-	mchehab@kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	mjpeg-users@lists.sourceforge.net,
-	Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH 4/5] staging: media: zoran: fix kzalloc style
-Date: Tue, 18 May 2021 12:41:12 +0000
-Message-Id: <20210518124113.1823055-4-clabbe@baylibre.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210518124113.1823055-1-clabbe@baylibre.com>
-References: <20210518124113.1823055-1-clabbe@baylibre.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26F52FB6
+	for <linux-staging@lists.linux.dev>; Tue, 18 May 2021 15:08:25 +0000 (UTC)
+Received: from mail-02.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	by mail-41103.protonmail.ch (Postfix) with ESMTPS id 4FkzjT2yTGz4x1xb
+	for <linux-staging@lists.linux.dev>; Tue, 18 May 2021 15:01:33 +0000 (UTC)
+Authentication-Results: mail-41103.protonmail.ch;
+	dkim=pass (2048-bit key) header.d=bryanbrattlof.com header.i=@bryanbrattlof.com header.b="HXJrOc1c"
+Date: Tue, 18 May 2021 14:45:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
+	s=protonmail3; t=1621349123;
+	bh=7SqQ0z/yC4RMI5cS8AVUWXVYMaQLT2hax05NR/DcuiY=;
+	h=Date:To:From:Cc:Reply-To:Subject:From;
+	b=HXJrOc1cH5zHv5kORllo13xEMHOu/WkmzWOZwTV3mmMXcAns8T0Cq1GQ2LMElOrL6
+	 x3BXl7S9Dhlsz+26bBI4A19KJZZxDMvXprGbroZBd6ZPej4Y764VGkDpwK5QGOE8ld
+	 7OF/1/CFbuVND6wjEgSqrbFICvWkkUe7teLGMwi+BnD6ZNr0u7iqnjBwJDM/K/hCqu
+	 2sNVHKfqRHSq763+VOoctmBSZ1DGWaMmworcWd5wOvLFq7tzlPAKCsNdjFvRS8JdMq
+	 wDyFJ3qoiey66tIb1WF+BpsjbI6iB4fPw+x17Yg3EIu5gYRZXSog5t/8qMDMv0aQrG
+	 8gGmrxDETYX6Q==
+To: Hans de Goede <hdegoede@redhat.com>, Larry Finger <Larry.Finger@lwfinger.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: Bryan Brattlof <hello@bryanbrattlof.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
+Subject: [PATCH] staging: rtl8723bs: remove if (true) statement
+Message-ID: <20210518144335.1677320-1-hello@bryanbrattlof.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+	autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	mailout.protonmail.ch
 
-Prefer kzalloc(sizeof(*prt)...) over kzalloc(sizeof(struct.../
+'if (true) { ... }' will always evaluate to true. Remove it and
+save a few tabs for somewhere else.
 
-Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
 ---
- drivers/staging/media/zoran/zr36016.c | 2 +-
- drivers/staging/media/zoran/zr36050.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 159 ++++++++++++------------
+ 1 file changed, 78 insertions(+), 81 deletions(-)
 
-diff --git a/drivers/staging/media/zoran/zr36016.c b/drivers/staging/media/zoran/zr36016.c
-index 82702a13b05f..9b350a885879 100644
---- a/drivers/staging/media/zoran/zr36016.c
-+++ b/drivers/staging/media/zoran/zr36016.c
-@@ -361,7 +361,7 @@ static int zr36016_setup(struct videocodec *codec)
- 		return -ENOSPC;
- 	}
- 	//mem structure init
--	ptr = kzalloc(sizeof(struct zr36016), GFP_KERNEL);
-+	ptr = kzalloc(sizeof(*ptr), GFP_KERNEL);
- 	codec->data = ptr;
- 	if (!ptr)
- 		return -ENOMEM;
-diff --git a/drivers/staging/media/zoran/zr36050.c b/drivers/staging/media/zoran/zr36050.c
-index a78862852a47..8bb101fa18bc 100644
---- a/drivers/staging/media/zoran/zr36050.c
-+++ b/drivers/staging/media/zoran/zr36050.c
-@@ -754,7 +754,7 @@ static int zr36050_setup(struct videocodec *codec)
- 		return -ENOSPC;
- 	}
- 	//mem structure init
--	ptr = kzalloc(sizeof(struct zr36050), GFP_KERNEL);
-+	ptr = kzalloc(sizeof(*ptr), GFP_KERNEL);
- 	codec->data = ptr;
- 	if (!ptr)
- 		return -ENOMEM;
--- 
-2.26.3
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8=
+723bs/core/rtw_ap.c
+index 9df4476b2e2d..98b1bec67999 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -59,112 +59,109 @@ static void update_BCNTIM(struct adapter *padapter)
+ =09unsigned char *pie =3D pnetwork_mlmeext->IEs;
+
+ =09/* update TIM IE */
+-=09/* if (pstapriv->tim_bitmap) */
+-=09if (true) {
+-=09=09u8 *p, *dst_ie, *premainder_ie =3D NULL, *pbackup_remainder_ie =3D N=
+ULL;
+-=09=09__le16 tim_bitmap_le;
+-=09=09uint offset, tmp_len, tim_ielen, tim_ie_offset, remainder_ielen;
+-
+-=09=09tim_bitmap_le =3D cpu_to_le16(pstapriv->tim_bitmap);
+-
+-=09=09p =3D rtw_get_ie(pie + _FIXED_IE_LENGTH_,
+-=09=09=09       WLAN_EID_TIM,
+-=09=09=09       &tim_ielen,
+-=09=09=09       pnetwork_mlmeext->IELength - _FIXED_IE_LENGTH_
+-=09=09);
+-=09=09if (p && tim_ielen > 0) {
+-=09=09=09tim_ielen +=3D 2;
++=09u8 *p, *dst_ie, *premainder_ie =3D NULL, *pbackup_remainder_ie =3D NULL=
+;
++=09__le16 tim_bitmap_le;
++=09uint offset, tmp_len, tim_ielen, tim_ie_offset, remainder_ielen;
+
+-=09=09=09premainder_ie =3D p + tim_ielen;
++=09tim_bitmap_le =3D cpu_to_le16(pstapriv->tim_bitmap);
+
+-=09=09=09tim_ie_offset =3D (signed int)(p - pie);
++=09p =3D rtw_get_ie(pie + _FIXED_IE_LENGTH_,
++=09=09       WLAN_EID_TIM,
++=09=09       &tim_ielen,
++=09=09       pnetwork_mlmeext->IELength - _FIXED_IE_LENGTH_
++=09);
++=09if (p && tim_ielen > 0) {
++=09=09tim_ielen +=3D 2;
+
+-=09=09=09remainder_ielen =3D pnetwork_mlmeext->IELength - tim_ie_offset - =
+tim_ielen;
++=09=09premainder_ie =3D p + tim_ielen;
+
+-=09=09=09/* append TIM IE from dst_ie offset */
+-=09=09=09dst_ie =3D p;
+-=09=09} else {
+-=09=09=09tim_ielen =3D 0;
++=09=09tim_ie_offset =3D (signed int)(p - pie);
+
+-=09=09=09/* calculate head_len */
+-=09=09=09offset =3D _FIXED_IE_LENGTH_;
++=09=09remainder_ielen =3D pnetwork_mlmeext->IELength - tim_ie_offset - tim=
+_ielen;
+
+-=09=09=09/* get ssid_ie len */
+-=09=09=09p =3D rtw_get_ie(pie + _BEACON_IE_OFFSET_,
+-=09=09=09=09       WLAN_EID_SSID,
+-=09=09=09=09       &tmp_len,
+-=09=09=09=09       (pnetwork_mlmeext->IELength - _BEACON_IE_OFFSET_)
+-=09=09=09);
+-=09=09=09if (p)
+-=09=09=09=09offset +=3D tmp_len + 2;
++=09=09/* append TIM IE from dst_ie offset */
++=09=09dst_ie =3D p;
++=09} else {
++=09=09tim_ielen =3D 0;
+
+-=09=09=09/*  get supported rates len */
+-=09=09=09p =3D rtw_get_ie(pie + _BEACON_IE_OFFSET_,
+-=09=09=09=09       WLAN_EID_SUPP_RATES, &tmp_len,
+-=09=09=09=09       (pnetwork_mlmeext->IELength - _BEACON_IE_OFFSET_)
+-=09=09=09);
+-=09=09=09if (p)
+-=09=09=09=09offset +=3D tmp_len + 2;
++=09=09/* calculate head_len */
++=09=09offset =3D _FIXED_IE_LENGTH_;
+
+-=09=09=09/* DS Parameter Set IE, len =3D3 */
+-=09=09=09offset +=3D 3;
++=09=09/* get ssid_ie len */
++=09=09p =3D rtw_get_ie(pie + _BEACON_IE_OFFSET_,
++=09=09=09       WLAN_EID_SSID,
++=09=09=09       &tmp_len,
++=09=09=09       (pnetwork_mlmeext->IELength - _BEACON_IE_OFFSET_)
++=09=09);
++=09=09if (p)
++=09=09=09offset +=3D tmp_len + 2;
+
+-=09=09=09premainder_ie =3D pie + offset;
++=09=09/*  get supported rates len */
++=09=09p =3D rtw_get_ie(pie + _BEACON_IE_OFFSET_,
++=09=09=09       WLAN_EID_SUPP_RATES, &tmp_len,
++=09=09=09       (pnetwork_mlmeext->IELength - _BEACON_IE_OFFSET_)
++=09=09);
++=09=09if (p)
++=09=09=09offset +=3D tmp_len + 2;
+
+-=09=09=09remainder_ielen =3D pnetwork_mlmeext->IELength - offset - tim_iel=
+en;
++=09=09/* DS Parameter Set IE, len =3D3 */
++=09=09offset +=3D 3;
+
+-=09=09=09/* append TIM IE from offset */
+-=09=09=09dst_ie =3D pie + offset;
+-=09=09}
++=09=09premainder_ie =3D pie + offset;
+
+-=09=09if (remainder_ielen > 0) {
+-=09=09=09pbackup_remainder_ie =3D rtw_malloc(remainder_ielen);
+-=09=09=09if (pbackup_remainder_ie && premainder_ie)
+-=09=09=09=09memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
+-=09=09}
++=09=09remainder_ielen =3D pnetwork_mlmeext->IELength - offset - tim_ielen;
+
+-=09=09*dst_ie++ =3D WLAN_EID_TIM;
++=09=09/* append TIM IE from offset */
++=09=09dst_ie =3D pie + offset;
++=09}
+
+-=09=09if ((pstapriv->tim_bitmap & 0xff00) && (pstapriv->tim_bitmap & 0x00f=
+e))
+-=09=09=09tim_ielen =3D 5;
+-=09=09else
+-=09=09=09tim_ielen =3D 4;
++=09if (remainder_ielen > 0) {
++=09=09pbackup_remainder_ie =3D rtw_malloc(remainder_ielen);
++=09=09if (pbackup_remainder_ie && premainder_ie)
++=09=09=09memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
++=09}
+
+-=09=09*dst_ie++ =3D tim_ielen;
++=09*dst_ie++ =3D WLAN_EID_TIM;
+
+-=09=09*dst_ie++ =3D 0;/* DTIM count */
+-=09=09*dst_ie++ =3D 1;/* DTIM period */
++=09if ((pstapriv->tim_bitmap & 0xff00) && (pstapriv->tim_bitmap & 0x00fe))
++=09=09tim_ielen =3D 5;
++=09else
++=09=09tim_ielen =3D 4;
+
+-=09=09if (pstapriv->tim_bitmap & BIT(0))/* for bc/mc frames */
+-=09=09=09*dst_ie++ =3D BIT(0);/* bitmap ctrl */
+-=09=09else
+-=09=09=09*dst_ie++ =3D 0;
++=09*dst_ie++ =3D tim_ielen;
+
+-=09=09if (tim_ielen =3D=3D 4) {
+-=09=09=09__le16 pvb;
++=09*dst_ie++ =3D 0;/* DTIM count */
++=09*dst_ie++ =3D 1;/* DTIM period */
+
+-=09=09=09if (pstapriv->tim_bitmap & 0xff00)
+-=09=09=09=09pvb =3D cpu_to_le16(pstapriv->tim_bitmap >> 8);
+-=09=09=09else
+-=09=09=09=09pvb =3D tim_bitmap_le;
++=09if (pstapriv->tim_bitmap & BIT(0))/* for bc/mc frames */
++=09=09*dst_ie++ =3D BIT(0);/* bitmap ctrl */
++=09else
++=09=09*dst_ie++ =3D 0;
+
+-=09=09=09*dst_ie++ =3D le16_to_cpu(pvb);
++=09if (tim_ielen =3D=3D 4) {
++=09=09__le16 pvb;
+
+-=09=09} else if (tim_ielen =3D=3D 5) {
+-=09=09=09memcpy(dst_ie, &tim_bitmap_le, 2);
+-=09=09=09dst_ie +=3D 2;
+-=09=09}
++=09=09if (pstapriv->tim_bitmap & 0xff00)
++=09=09=09pvb =3D cpu_to_le16(pstapriv->tim_bitmap >> 8);
++=09=09else
++=09=09=09pvb =3D tim_bitmap_le;
+
+-=09=09/* copy remainder IE */
+-=09=09if (pbackup_remainder_ie) {
+-=09=09=09memcpy(dst_ie, pbackup_remainder_ie, remainder_ielen);
++=09=09*dst_ie++ =3D le16_to_cpu(pvb);
+
+-=09=09=09kfree(pbackup_remainder_ie);
+-=09=09}
++=09} else if (tim_ielen =3D=3D 5) {
++=09=09memcpy(dst_ie, &tim_bitmap_le, 2);
++=09=09dst_ie +=3D 2;
++=09}
++
++=09/* copy remainder IE */
++=09if (pbackup_remainder_ie) {
++=09=09memcpy(dst_ie, pbackup_remainder_ie, remainder_ielen);
+
+-=09=09offset =3D  (uint)(dst_ie - pie);
+-=09=09pnetwork_mlmeext->IELength =3D offset + remainder_ielen;
++=09=09kfree(pbackup_remainder_ie);
+ =09}
++
++=09offset =3D  (uint)(dst_ie - pie);
++=09pnetwork_mlmeext->IELength =3D offset + remainder_ielen;
+ }
+
+ u8 chk_sta_is_alive(struct sta_info *psta);
+--
+2.27.0
+
 
