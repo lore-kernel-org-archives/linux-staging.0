@@ -1,56 +1,91 @@
-Received: from mail-m121142.qiye.163.com (mail-m121142.qiye.163.com [115.236.121.142])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43BA570
-	for <linux-staging@lists.linux.dev>; Tue, 18 May 2021 11:56:28 +0000 (UTC)
-Received: from vivo-HP-ProDesk-680-G4-PCI-MT.vivo.xyz (unknown [58.251.74.232])
-	by mail-m121142.qiye.163.com (Hmail) with ESMTPA id 5068380E4F;
-	Tue, 18 May 2021 19:48:55 +0800 (CST)
-From: Wang Qing <wangqing@vivo.com>
-To: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Wang Qing <wangqing@vivo.com>
-Subject: [PATCH] staging: greybus: fix some formatting issues
-Date: Tue, 18 May 2021 19:48:34 +0800
-Message-Id: <1621338514-11577-1-git-send-email-wangqing@vivo.com>
-X-Mailer: git-send-email 2.7.4
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
-	oVCBIfWUFZQksaGlZDTUMaGU5KGU8fTUpVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
-	hKTFVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PDo6Ghw*DD8VHStWHjUQGjUx
-	Mj1PCihVSlVKTUlKSEhDTkhNSUhJVTMWGhIXVQwaFRwKEhUcOw0SDRRVGBQWRVlXWRILWUFZTkNV
-	SU5KVUxPVUlISVlXWQgBWUFKTE1NNwY+
-X-HM-Tid: 0a797f4eb7ceb037kuuu5068380e4f
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B35170
+	for <linux-staging@lists.linux.dev>; Tue, 18 May 2021 12:05:41 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14IC1kA4009644;
+	Tue, 18 May 2021 12:05:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=v/C7sk4g6ZmfKo3L4Pn/9AdcXHZUnCVvxhxlWgHNpps=;
+ b=XsNG1TTwq7ugZ+wXE+A8xDRY1akJNwGlLSsP6TsYLxF3EKQMNxCgFID8W6qA2xCNfUzU
+ t4aox/3LjqNrtTD6Ee1gPF4VGzcVi3AOUNZipnnKYhhts77s5F/pla4qap3VWuRo6V4c
+ le0Cz1hd9y7pK7W54eVpIGFyO1iHhahl32qc9G3e9INcE5oqQu9VKLSs4k1+ZtSiUP9K
+ hXM7QO1YFoFjs9Cvg+oziw9NoRfO0536QRcO7uC6JUZ95X5H7dK+nzF3OaFjW+NpnqRA
+ IiVH+QVBCNSIuMYSE0CSFUS+uUS+Vbe733gyb9LI7dZ9W3ebYa92Hwo8nfbykMYjRp7+ aA== 
+Received: from oracle.com (userp3020.oracle.com [156.151.31.79])
+	by mx0b-00069f02.pphosted.com with ESMTP id 38kh0h8mtu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 18 May 2021 12:05:30 +0000
+Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
+	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14IBvlnd060870;
+	Tue, 18 May 2021 12:05:29 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by userp3020.oracle.com with ESMTP id 38kb37w44n-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 18 May 2021 12:05:29 +0000
+Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14IC5TMc074128;
+	Tue, 18 May 2021 12:05:29 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+	by userp3020.oracle.com with ESMTP id 38kb37w44c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 18 May 2021 12:05:29 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 14IC5RIR023079;
+	Tue, 18 May 2021 12:05:27 GMT
+Received: from kadam (/62.8.83.26)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Tue, 18 May 2021 05:05:26 -0700
+Date: Tue, 18 May 2021 15:05:19 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Wang Qing <wangqing@vivo.com>
+Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+        Mark Greer <mgreer@animalcreek.com>, Johan Hovold <johan@kernel.org>,
+        Alex Elder <elder@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: fix some formatting issues
+Message-ID: <20210518120519.GP1955@kadam>
+References: <1621338514-11577-1-git-send-email-wangqing@vivo.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1621338514-11577-1-git-send-email-wangqing@vivo.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: 5aHPNJYmuvZOpbWV8gf-z7ooHBVz97WM
+X-Proofpoint-ORIG-GUID: 5aHPNJYmuvZOpbWV8gf-z7ooHBVz97WM
 
-fixing WARNING: void function return statements are not generally useful
+On Tue, May 18, 2021 at 07:48:34PM +0800, Wang Qing wrote:
+> fixing WARNING: void function return statements are not generally useful
+> 
+> Signed-off-by: Wang Qing <wangqing@vivo.com>
+> ---
+>  drivers/staging/greybus/audio_codec.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/staging/greybus/audio_codec.c b/drivers/staging/greybus/audio_codec.c
+> index b589cf6..ffd8997
+> --- a/drivers/staging/greybus/audio_codec.c
+> +++ b/drivers/staging/greybus/audio_codec.c
+> @@ -1028,7 +1028,6 @@ static int gbcodec_probe(struct snd_soc_component *comp)
+>  static void gbcodec_remove(struct snd_soc_component *comp)
+>  {
+>  	/* Empty function for now */
+> -	return;
+>  }
 
-Signed-off-by: Wang Qing <wangqing@vivo.com>
----
- drivers/staging/greybus/audio_codec.c | 1 -
- 1 file changed, 1 deletion(-)
+This is called from snd_soc_component_remove().  Just delete the whole
+function.  It's unclear why there are so many dummy functions in this
+driver...
 
-diff --git a/drivers/staging/greybus/audio_codec.c b/drivers/staging/greybus/audio_codec.c
-index b589cf6..ffd8997
---- a/drivers/staging/greybus/audio_codec.c
-+++ b/drivers/staging/greybus/audio_codec.c
-@@ -1028,7 +1028,6 @@ static int gbcodec_probe(struct snd_soc_component *comp)
- static void gbcodec_remove(struct snd_soc_component *comp)
- {
- 	/* Empty function for now */
--	return;
- }
- 
- static int gbcodec_write(struct snd_soc_component *comp, unsigned int reg,
--- 
-2.7.4
+regards,
+dan carpenter
 
