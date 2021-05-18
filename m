@@ -1,97 +1,129 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83656D0E
-	for <linux-staging@lists.linux.dev>; Tue, 18 May 2021 04:44:27 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id ep16-20020a17090ae650b029015d00f578a8so853304pjb.2
-        for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 21:44:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=XZRMdbjxMxB4jilOYqB66sZPAREoVkPe1v6Lee0oUs4=;
-        b=iLWsrAi1bzNb6Ny1SZ+EqLbTmvGKxgXbnO87xCBUV/SioaE7lWKJNfclmiiMll3RVe
-         GBT2lZ4zljRObXp/WM/KqkRMM/1tBoc8QegQj10NJ/pH8k6qV15q4rV0wntQxU6CzVTy
-         8GCQCvxHzrT8jiGo2QEbirbgRXFaJIDvlT9R8EXJoYm31jw/SJSknfwcEo/6tT1AKrzO
-         lhkvPVrzb8KwOBkZz5QoVhxm7WW02QowLJFqpXk0K/LQyYFpCoydwLaike0G9Mlgerfx
-         CFx3SwRWUQBelG1nHuhmuxPxBEPBJQJ0h4kk1gB+HWujjhw7+pr8kVyAf11v2V9ko/gD
-         asTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=XZRMdbjxMxB4jilOYqB66sZPAREoVkPe1v6Lee0oUs4=;
-        b=dU3CMrOBxrpCSwR2lKt7vhfo3Eq3wXhbgIoln+tGp8UlSHS4bIlMON3itwXnvin+c6
-         kb8YyE3MbgpntYzcJhutr9TefMyXJeGqj1memuuTAIOZ8/ddC68BteZ5due8T7kKfnoL
-         5lEHms3obp7hl5VTSmnD2n9tJiqebDjQNJh7fqh5sF3+bPMn0iwnTt6NOXZ5W2uwvxhR
-         +IWdWhuCZyo/PKo0WaFpnECoMHwA96HAZltpxMI8dvtl3JlzRR0MK0YGu2EP4Wq39p/S
-         ULnAKZxsdUtvFtrzIbqoP0vby6SFKXhIW3dcC2FE3/Riqd2xxJm1Tuzp9xlmPb6wh7Qx
-         CMpA==
-X-Gm-Message-State: AOAM531CZgoBBs0h1QjYyu7Ca6ZRZ884Sm/TLkAG8DNpFp1nOh/dT58f
-	CCF9PaYYm9Injzlo5iPe4Dk=
-X-Google-Smtp-Source: ABdhPJwrEPev0BjXHphGbKgGWulX1v4SAk+tUih50mHbMnYF0UvN0YbbrrzOmiAec3MkuJoGz9CJDQ==
-X-Received: by 2002:a17:90a:f18e:: with SMTP id bv14mr3341739pjb.234.1621313067403;
-        Mon, 17 May 2021 21:44:27 -0700 (PDT)
-Received: from localhost.localdomain ([203.126.139.7])
-        by smtp.gmail.com with ESMTPSA id t15sm357538pjh.0.2021.05.17.21.44.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 May 2021 21:44:27 -0700 (PDT)
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-To: gregkh@linuxfoundation.org,
-	marcocesati@gmail.com,
-	dan.carpenter@oracle.com,
-	fabioaiuto83@gmail.com,
-	fmdefrancesco@gmail.com,
-	eantoranz@gmail.com,
-	hdegoede@redhat.com,
-	Larry.Finger@lwfinger.net
-Cc: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
-	skhan@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH v2 7/7] Staging: rtl8723bs: remove dead code in HalBtc8723b1Ant.c
-Date: Tue, 18 May 2021 00:41:19 -0400
-Message-Id: <20210518044119.2960494-8-desmondcheongzx@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210518044119.2960494-1-desmondcheongzx@gmail.com>
-References: <20210518044119.2960494-1-desmondcheongzx@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DEC71
+	for <linux-staging@lists.linux.dev>; Tue, 18 May 2021 07:37:01 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+	by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14I7YviO084173;
+	Tue, 18 May 2021 07:36:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=P7UNyVX3lEYGDvRj26wDjGBnFQbol5olDunt59+jR4c=;
+ b=v+xWc2ISl8pohcc3yqzkLmCFN94rumbehVVT9EbqHR7tSrHFog4a7RFlYTpS7PfsSNYo
+ DvZ8WwSd8RF8r5z7OA3J85pzJ4JJybNkgyHEnJ7KerUK5nqeVnxIKQJOkL/Re95rUzrn
+ 457pfqvc8NMWWeLb19fnGfK1189kRhZSmm7rC75rtzRoD1LuPPCsB4Qepfl/6xk1vAGK
+ uvb6ebce/jtq8Ja+ATr5ZQxp4K4vp55xDIC6TM/0sR40WKrZYc49sh+suOFZhJtEcP9y
+ df+ByKEbw+vHTd6X0RdFYVIT0p3E2qj8Ozmg9wlzS4oqbYGq4fowSHEqfCXjLhlgmOlZ mQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by userp2130.oracle.com with ESMTP id 38j5qr5d21-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 18 May 2021 07:36:55 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14I7aF5Y028642;
+	Tue, 18 May 2021 07:36:54 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3030.oracle.com with ESMTP id 38j4bbtwvb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 18 May 2021 07:36:54 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14I7asih029105;
+	Tue, 18 May 2021 07:36:54 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+	by aserp3030.oracle.com with ESMTP id 38j4bbtwv2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 18 May 2021 07:36:54 +0000
+Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
+	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 14I7anbZ011686;
+	Tue, 18 May 2021 07:36:49 GMT
+Received: from kadam (/62.8.83.26)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Tue, 18 May 2021 07:36:48 +0000
+Date: Tue, 18 May 2021 10:36:42 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Stefan Wahren <stefan.wahren@i2se.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH 18/20] staging: vchiq_core: introduce parse_message
+Message-ID: <20210518073642.GL1955@kadam>
+References: <1621105859-30215-1-git-send-email-stefan.wahren@i2se.com>
+ <1621105859-30215-19-git-send-email-stefan.wahren@i2se.com>
+ <20210517114948.GH1955@kadam>
+ <f1c03356-56b2-729d-e80f-84ec4056f773@i2se.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f1c03356-56b2-729d-e80f-84ec4056f773@i2se.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: beqp7Pz3fm1vCC_nWYBnUTyFPx8BtO3n
+X-Proofpoint-ORIG-GUID: beqp7Pz3fm1vCC_nWYBnUTyFPx8BtO3n
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9987 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 impostorscore=0
+ mlxscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=999
+ suspectscore=0 adultscore=0 priorityscore=1501 spamscore=0 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2105180053
 
-This commit removes dead code to resolve the following checkpatch.pl
-warning:
+On Mon, May 17, 2021 at 07:38:19PM +0200, Stefan Wahren wrote:
+> Hi Dan,
+> 
+> Am 17.05.21 um 13:49 schrieb Dan Carpenter:
+> > On Sat, May 15, 2021 at 09:10:57PM +0200, Stefan Wahren wrote:
+> >> +bail_not_ready:
+> >> +	if (service)
+> >> +		unlock_service(service);
+> > Not related to this patch, but the unlock_service() function doesn't
+> > having anything to do with locking so it's confusing.
+> 
+> Any preference about the naming of the both functions (lock_service /
+> unlock_service)? At the end they are just wrapper around kref_get /
+> kref_put.
 
-WARNING: Block comments use * on subsequent lines
-+		/*
-+		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = 0x%x ", "Latest error condition(should be 0)", \
+It should be get/put or hold/release.
 
-Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
----
- drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c | 6 ------
- 1 file changed, 6 deletions(-)
+> 
+> >
+> >> +
+> >> +	return ret;
+> >> +}
+> >> +
+> >> +/* Called by the slot handler thread */
+> >> +static void
+> >> +parse_rx_slots(struct vchiq_state *state)
+> >> +{
+> >> +	struct vchiq_shared_state *remote = state->remote;
+> >> +	int tx_pos;
+> >> +
+> >> +	DEBUG_INITIALISE(state->local)
+> >> +
+> >> +	tx_pos = remote->tx_pos;
+> >> +
+> >> +	while (state->rx_pos != tx_pos) {
+> >> +		struct vchiq_header *header;
+> >> +		int size;
+> >> +
+> >> +		DEBUG_TRACE(PARSE_LINE);
+> >> +		if (!state->rx_data) {
+> >> +			int rx_index;
+> >> +
+> >> +			WARN_ON(!((state->rx_pos & VCHIQ_SLOT_MASK) == 0));
+> > Also not related but this WARN_ON() has a confusing double negative.  In
+> > future patches someone could change this to:
+> >
+> > 			WARN_ON(state->rx_pos & VCHIQ_SLOT_MASK);
+> 
+> I could add this to V2 of this series.
+> 
 
-diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-index cc7f558903ac..e5464a27c052 100644
---- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-+++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-@@ -2509,12 +2509,6 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
- 		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %d", "IgnWlanAct",
- 			   pCoexDm->bCurIgnoreWlanAct);
- 		CL_PRINTF(cliBuf);
--
--		/*
--		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = 0x%x ", "Latest error condition(should be 0)", \
--			pCoexDm->errorCondition);
--		CL_PRINTF(cliBuf);
--		*/
- 	}
- 
- 	/*  Hw setting */
--- 
-2.25.1
+Nah, don't worry about it.  You copied that WARN_ON() from the original
+code so don't change it except in a different patch.
+
+regards,
+dan carpenter
+
 
