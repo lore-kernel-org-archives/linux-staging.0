@@ -1,33 +1,27 @@
-Received: from mail-41103.protonmail.ch (mail-41103.protonmail.ch [185.70.41.103])
+Received: from mail-03.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26F52FB6
-	for <linux-staging@lists.linux.dev>; Tue, 18 May 2021 15:08:25 +0000 (UTC)
-Received: from mail-02.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	by mail-41103.protonmail.ch (Postfix) with ESMTPS id 4FkzjT2yTGz4x1xb
-	for <linux-staging@lists.linux.dev>; Tue, 18 May 2021 15:01:33 +0000 (UTC)
-Authentication-Results: mail-41103.protonmail.ch;
-	dkim=pass (2048-bit key) header.d=bryanbrattlof.com header.i=@bryanbrattlof.com header.b="HXJrOc1c"
-Date: Tue, 18 May 2021 14:45:19 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE7271
+	for <linux-staging@lists.linux.dev>; Tue, 18 May 2021 18:28:07 +0000 (UTC)
+Date: Tue, 18 May 2021 18:27:43 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail3; t=1621349123;
-	bh=7SqQ0z/yC4RMI5cS8AVUWXVYMaQLT2hax05NR/DcuiY=;
-	h=Date:To:From:Cc:Reply-To:Subject:From;
-	b=HXJrOc1cH5zHv5kORllo13xEMHOu/WkmzWOZwTV3mmMXcAns8T0Cq1GQ2LMElOrL6
-	 x3BXl7S9Dhlsz+26bBI4A19KJZZxDMvXprGbroZBd6ZPej4Y764VGkDpwK5QGOE8ld
-	 7OF/1/CFbuVND6wjEgSqrbFICvWkkUe7teLGMwi+BnD6ZNr0u7iqnjBwJDM/K/hCqu
-	 2sNVHKfqRHSq763+VOoctmBSZ1DGWaMmworcWd5wOvLFq7tzlPAKCsNdjFvRS8JdMq
-	 wDyFJ3qoiey66tIb1WF+BpsjbI6iB4fPw+x17Yg3EIu5gYRZXSog5t/8qMDMv0aQrG
-	 8gGmrxDETYX6Q==
+	s=protonmail3; t=1621362471;
+	bh=V8gaLuSAeiV/7eUL9ZsICsxJj3Bdk6zVDgaoO1irXRM=;
+	h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+	b=UP2G8tF6rEw/NGw/FZqnleteCvVDWFSajjUHVu+57rjgXFtkE4g8dvXqYb5Q/rY/y
+	 gcj4MMeX0V+N5/v3WbpwJsBoFvAQYpLM630o+/4XixPrDAR6MEBLp5urL5jhUaEI5i
+	 SIFlo/tHHgHr5K9Uh+ktwtNrV4IRt3+0u2Om0fFNPvY0BOrjESkABrytAsbBLieqAL
+	 uOssXoEoyUjdnzVV5f7WNeGLzR21P/w4kAkWjvPq8B668ag9R+RmWQLnufGKsgpwQv
+	 C0g3nTg0169csk4fn51MtMKoweIcuOEZS0Zew/VIi5GcAQiQbSFAJkkVnPY0SQmBQ3
+	 Bi+ZYuzsDqupw==
 To: Hans de Goede <hdegoede@redhat.com>, Larry Finger <Larry.Finger@lwfinger.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 From: Bryan Brattlof <hello@bryanbrattlof.com>
 Cc: Bryan Brattlof <hello@bryanbrattlof.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: [PATCH] staging: rtl8723bs: remove if (true) statement
-Message-ID: <20210518144335.1677320-1-hello@bryanbrattlof.com>
+Subject: [PATCH 1/8] staging: rtl8723bs: remove duplicate names for _rtw_read8()
+Message-ID: <9880c86c2aad7d95a714d8b03b28b83634f98c1e.1621361919.git-series.hello@bryanbrattlof.com>
+In-Reply-To: <cover.7975aa58aadc20eae4102c8c0fe0e0d0ecb0a9fa.1621361919.git-series.hello@bryanbrattlof.com>
+References: <cover.7975aa58aadc20eae4102c8c0fe0e0d0ecb0a9fa.1621361919.git-series.hello@bryanbrattlof.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -41,217 +35,69 @@ X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
 X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
 	mailout.protonmail.ch
 
-'if (true) { ... }' will always evaluate to true. Remove it and
-save a few tabs for somewhere else.
+_rtw_read8() is redefined as rtw_read8() and PlatformEFIORead1Byte().
+Because rtw_read8() is the only name used in the driver, remove the
+duplicate definitions and rename the function from _rtw_read8() to
+rtw_read8()
 
 Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_ap.c | 159 ++++++++++++------------
- 1 file changed, 78 insertions(+), 81 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_io.c    | 2 +-
+ drivers/staging/rtl8723bs/include/rtw_io.h | 5 +----
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8=
-723bs/core/rtw_ap.c
-index 9df4476b2e2d..98b1bec67999 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -59,112 +59,109 @@ static void update_BCNTIM(struct adapter *padapter)
- =09unsigned char *pie =3D pnetwork_mlmeext->IEs;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_io.c b/drivers/staging/rtl8=
+723bs/core/rtw_io.c
+index ecbb679fbc16..99bb53aee59c 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_io.c
++++ b/drivers/staging/rtl8723bs/core/rtw_io.c
+@@ -33,7 +33,7 @@ jackson@realtek.com.tw
+ #define rtw_cpu_to_le16(val)=09=09val
+ #define rtw_cpu_to_le32(val)=09=09val
 
- =09/* update TIM IE */
--=09/* if (pstapriv->tim_bitmap) */
--=09if (true) {
--=09=09u8 *p, *dst_ie, *premainder_ie =3D NULL, *pbackup_remainder_ie =3D N=
-ULL;
--=09=09__le16 tim_bitmap_le;
--=09=09uint offset, tmp_len, tim_ielen, tim_ie_offset, remainder_ielen;
--
--=09=09tim_bitmap_le =3D cpu_to_le16(pstapriv->tim_bitmap);
--
--=09=09p =3D rtw_get_ie(pie + _FIXED_IE_LENGTH_,
--=09=09=09       WLAN_EID_TIM,
--=09=09=09       &tim_ielen,
--=09=09=09       pnetwork_mlmeext->IELength - _FIXED_IE_LENGTH_
--=09=09);
--=09=09if (p && tim_ielen > 0) {
--=09=09=09tim_ielen +=3D 2;
-+=09u8 *p, *dst_ie, *premainder_ie =3D NULL, *pbackup_remainder_ie =3D NULL=
-;
-+=09__le16 tim_bitmap_le;
-+=09uint offset, tmp_len, tim_ielen, tim_ie_offset, remainder_ielen;
+-u8 _rtw_read8(struct adapter *adapter, u32 addr)
++u8 rtw_read8(struct adapter *adapter, u32 addr)
+ {
+ =09/* struct=09io_queue=09*pio_queue =3D (struct io_queue *)adapter->pio_q=
+ueue; */
+ =09struct io_priv *pio_priv =3D &adapter->iopriv;
+diff --git a/drivers/staging/rtl8723bs/include/rtw_io.h b/drivers/staging/r=
+tl8723bs/include/rtw_io.h
+index fbb73e698e09..f7b441e1eae1 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_io.h
++++ b/drivers/staging/rtl8723bs/include/rtw_io.h
+@@ -170,7 +170,7 @@ extern void unregister_intf_hdl(struct intf_hdl *pintfh=
+dl);
+ extern void _rtw_attrib_read(struct adapter *adapter, u32 addr, u32 cnt, u=
+8 *pmem);
+ extern void _rtw_attrib_write(struct adapter *adapter, u32 addr, u32 cnt, =
+u8 *pmem);
 
--=09=09=09premainder_ie =3D p + tim_ielen;
-+=09tim_bitmap_le =3D cpu_to_le16(pstapriv->tim_bitmap);
+-extern u8 _rtw_read8(struct adapter *adapter, u32 addr);
++extern u8 rtw_read8(struct adapter *adapter, u32 addr);
+ extern u16 _rtw_read16(struct adapter *adapter, u32 addr);
+ extern u32 _rtw_read32(struct adapter *adapter, u32 addr);
 
--=09=09=09tim_ie_offset =3D (signed int)(p - pie);
-+=09p =3D rtw_get_ie(pie + _FIXED_IE_LENGTH_,
-+=09=09       WLAN_EID_TIM,
-+=09=09       &tim_ielen,
-+=09=09       pnetwork_mlmeext->IELength - _FIXED_IE_LENGTH_
-+=09);
-+=09if (p && tim_ielen > 0) {
-+=09=09tim_ielen +=3D 2;
+@@ -182,7 +182,6 @@ extern u8 _rtw_sd_f0_read8(struct adapter *adapter, u32=
+ addr);
 
--=09=09=09remainder_ielen =3D pnetwork_mlmeext->IELength - tim_ie_offset - =
-tim_ielen;
-+=09=09premainder_ie =3D p + tim_ielen;
+ extern u32 _rtw_write_port(struct adapter *adapter, u32 addr, u32 cnt, u8 =
+*pmem);
 
--=09=09=09/* append TIM IE from dst_ie offset */
--=09=09=09dst_ie =3D p;
--=09=09} else {
--=09=09=09tim_ielen =3D 0;
-+=09=09tim_ie_offset =3D (signed int)(p - pie);
+-#define rtw_read8(adapter, addr) _rtw_read8((adapter), (addr))
+ #define rtw_read16(adapter, addr) _rtw_read16((adapter), (addr))
+ #define rtw_read32(adapter, addr) _rtw_read32((adapter), (addr))
 
--=09=09=09/* calculate head_len */
--=09=09=09offset =3D _FIXED_IE_LENGTH_;
-+=09=09remainder_ielen =3D pnetwork_mlmeext->IELength - tim_ie_offset - tim=
-_ielen;
+@@ -243,8 +242,6 @@ extern void dev_power_down(struct adapter *Adapter, u8 =
+bpwrup);
+ #define PlatformEFIOWrite4Byte(_a, _b, _c)=09=09\
+ =09rtw_write32(_a, _b, _c)
 
--=09=09=09/* get ssid_ie len */
--=09=09=09p =3D rtw_get_ie(pie + _BEACON_IE_OFFSET_,
--=09=09=09=09       WLAN_EID_SSID,
--=09=09=09=09       &tmp_len,
--=09=09=09=09       (pnetwork_mlmeext->IELength - _BEACON_IE_OFFSET_)
--=09=09=09);
--=09=09=09if (p)
--=09=09=09=09offset +=3D tmp_len + 2;
-+=09=09/* append TIM IE from dst_ie offset */
-+=09=09dst_ie =3D p;
-+=09} else {
-+=09=09tim_ielen =3D 0;
-
--=09=09=09/*  get supported rates len */
--=09=09=09p =3D rtw_get_ie(pie + _BEACON_IE_OFFSET_,
--=09=09=09=09       WLAN_EID_SUPP_RATES, &tmp_len,
--=09=09=09=09       (pnetwork_mlmeext->IELength - _BEACON_IE_OFFSET_)
--=09=09=09);
--=09=09=09if (p)
--=09=09=09=09offset +=3D tmp_len + 2;
-+=09=09/* calculate head_len */
-+=09=09offset =3D _FIXED_IE_LENGTH_;
-
--=09=09=09/* DS Parameter Set IE, len =3D3 */
--=09=09=09offset +=3D 3;
-+=09=09/* get ssid_ie len */
-+=09=09p =3D rtw_get_ie(pie + _BEACON_IE_OFFSET_,
-+=09=09=09       WLAN_EID_SSID,
-+=09=09=09       &tmp_len,
-+=09=09=09       (pnetwork_mlmeext->IELength - _BEACON_IE_OFFSET_)
-+=09=09);
-+=09=09if (p)
-+=09=09=09offset +=3D tmp_len + 2;
-
--=09=09=09premainder_ie =3D pie + offset;
-+=09=09/*  get supported rates len */
-+=09=09p =3D rtw_get_ie(pie + _BEACON_IE_OFFSET_,
-+=09=09=09       WLAN_EID_SUPP_RATES, &tmp_len,
-+=09=09=09       (pnetwork_mlmeext->IELength - _BEACON_IE_OFFSET_)
-+=09=09);
-+=09=09if (p)
-+=09=09=09offset +=3D tmp_len + 2;
-
--=09=09=09remainder_ielen =3D pnetwork_mlmeext->IELength - offset - tim_iel=
-en;
-+=09=09/* DS Parameter Set IE, len =3D3 */
-+=09=09offset +=3D 3;
-
--=09=09=09/* append TIM IE from offset */
--=09=09=09dst_ie =3D pie + offset;
--=09=09}
-+=09=09premainder_ie =3D pie + offset;
-
--=09=09if (remainder_ielen > 0) {
--=09=09=09pbackup_remainder_ie =3D rtw_malloc(remainder_ielen);
--=09=09=09if (pbackup_remainder_ie && premainder_ie)
--=09=09=09=09memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
--=09=09}
-+=09=09remainder_ielen =3D pnetwork_mlmeext->IELength - offset - tim_ielen;
-
--=09=09*dst_ie++ =3D WLAN_EID_TIM;
-+=09=09/* append TIM IE from offset */
-+=09=09dst_ie =3D pie + offset;
-+=09}
-
--=09=09if ((pstapriv->tim_bitmap & 0xff00) && (pstapriv->tim_bitmap & 0x00f=
-e))
--=09=09=09tim_ielen =3D 5;
--=09=09else
--=09=09=09tim_ielen =3D 4;
-+=09if (remainder_ielen > 0) {
-+=09=09pbackup_remainder_ie =3D rtw_malloc(remainder_ielen);
-+=09=09if (pbackup_remainder_ie && premainder_ie)
-+=09=09=09memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
-+=09}
-
--=09=09*dst_ie++ =3D tim_ielen;
-+=09*dst_ie++ =3D WLAN_EID_TIM;
-
--=09=09*dst_ie++ =3D 0;/* DTIM count */
--=09=09*dst_ie++ =3D 1;/* DTIM period */
-+=09if ((pstapriv->tim_bitmap & 0xff00) && (pstapriv->tim_bitmap & 0x00fe))
-+=09=09tim_ielen =3D 5;
-+=09else
-+=09=09tim_ielen =3D 4;
-
--=09=09if (pstapriv->tim_bitmap & BIT(0))/* for bc/mc frames */
--=09=09=09*dst_ie++ =3D BIT(0);/* bitmap ctrl */
--=09=09else
--=09=09=09*dst_ie++ =3D 0;
-+=09*dst_ie++ =3D tim_ielen;
-
--=09=09if (tim_ielen =3D=3D 4) {
--=09=09=09__le16 pvb;
-+=09*dst_ie++ =3D 0;/* DTIM count */
-+=09*dst_ie++ =3D 1;/* DTIM period */
-
--=09=09=09if (pstapriv->tim_bitmap & 0xff00)
--=09=09=09=09pvb =3D cpu_to_le16(pstapriv->tim_bitmap >> 8);
--=09=09=09else
--=09=09=09=09pvb =3D tim_bitmap_le;
-+=09if (pstapriv->tim_bitmap & BIT(0))/* for bc/mc frames */
-+=09=09*dst_ie++ =3D BIT(0);/* bitmap ctrl */
-+=09else
-+=09=09*dst_ie++ =3D 0;
-
--=09=09=09*dst_ie++ =3D le16_to_cpu(pvb);
-+=09if (tim_ielen =3D=3D 4) {
-+=09=09__le16 pvb;
-
--=09=09} else if (tim_ielen =3D=3D 5) {
--=09=09=09memcpy(dst_ie, &tim_bitmap_le, 2);
--=09=09=09dst_ie +=3D 2;
--=09=09}
-+=09=09if (pstapriv->tim_bitmap & 0xff00)
-+=09=09=09pvb =3D cpu_to_le16(pstapriv->tim_bitmap >> 8);
-+=09=09else
-+=09=09=09pvb =3D tim_bitmap_le;
-
--=09=09/* copy remainder IE */
--=09=09if (pbackup_remainder_ie) {
--=09=09=09memcpy(dst_ie, pbackup_remainder_ie, remainder_ielen);
-+=09=09*dst_ie++ =3D le16_to_cpu(pvb);
-
--=09=09=09kfree(pbackup_remainder_ie);
--=09=09}
-+=09} else if (tim_ielen =3D=3D 5) {
-+=09=09memcpy(dst_ie, &tim_bitmap_le, 2);
-+=09=09dst_ie +=3D 2;
-+=09}
-+
-+=09/* copy remainder IE */
-+=09if (pbackup_remainder_ie) {
-+=09=09memcpy(dst_ie, pbackup_remainder_ie, remainder_ielen);
-
--=09=09offset =3D  (uint)(dst_ie - pie);
--=09=09pnetwork_mlmeext->IELength =3D offset + remainder_ielen;
-+=09=09kfree(pbackup_remainder_ie);
- =09}
-+
-+=09offset =3D  (uint)(dst_ie - pie);
-+=09pnetwork_mlmeext->IELength =3D offset + remainder_ielen;
- }
-
- u8 chk_sta_is_alive(struct sta_info *psta);
+-#define PlatformEFIORead1Byte(_a, _b)=09=09\
+-=09=09rtw_read8(_a, _b)
+ #define PlatformEFIORead2Byte(_a, _b)=09=09\
+ =09=09rtw_read16(_a, _b)
+ #define PlatformEFIORead4Byte(_a, _b)=09=09\
 --
-2.27.0
-
+git-series 0.9.1
 
