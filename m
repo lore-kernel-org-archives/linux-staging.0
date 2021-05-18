@@ -1,25 +1,25 @@
-Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch [185.70.40.136])
+Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B33C70
-	for <linux-staging@lists.linux.dev>; Tue, 18 May 2021 18:30:58 +0000 (UTC)
-Date: Tue, 18 May 2021 18:30:53 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707BD70
+	for <linux-staging@lists.linux.dev>; Tue, 18 May 2021 18:31:47 +0000 (UTC)
+Date: Tue, 18 May 2021 18:31:41 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail3; t=1621362656;
-	bh=Ft22HqYo2AThkyB2+K8CaEUK18hcuOzcoh/D1tvmuQo=;
+	s=protonmail3; t=1621362705;
+	bh=tJtrdutIXVTolG178z7GLoOZStEY+n4l5NmOe6sRTQU=;
 	h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-	b=hDWDVmfrJi2LD2VH3Hoe124WOoVWexVg6XhUinhIpGx8KTIKtycJIvURF9GjCMDbB
-	 e3uxGIFhhNSMHebNFWwjx/v0Gb+vKwRlZCy/n9TTnS3+uds4/3JJm6AnkgM9yx9efA
-	 O+BwFwyvY027H7oFCWPJk3afVy0V7Ph8rkB13V/0XQ+dn5q8ayHPveKafP+hbQ1zHX
-	 W0jgDhMDEjgZvl+Col7gUBPSMQMWMsmtEv0tgtUevGruutL0Vd6wAe0v6BYmOYM8Vl
-	 6a1E4LQHOgi15YVmKfA7L0DEDsONDzKXTR0YGnOeRGoW/rL8KZM3kqmFCWeHr4XBuW
-	 pwGGQRZDt09/Q==
+	b=UlFuSpdxrkXBed7B0mnqxEyrLaVa0nXpqf/KaBCXldqfCH4r2CDrvPyfh0S6+Ibik
+	 Xlbqs7VipEiHC9C3a3Gb465DXHjeiso7jL7whaLgkmyv9QyTjSfHm119p6ktiYquir
+	 cUnDoA0W6mgw4tpJLZUXXUU+9aCbY3bEGHrVsx9lvSahfU+hj1OLF4qMPLpgPYsNJJ
+	 a0+wXwZ5fgKQPFkjytL86CMrC7mzqeANp0/zLCQyA4GmAfnIR1uj6qm6kLziYNVVBl
+	 9oBg5NDqFqNiFplalwBZ7933E6jfJuVJEk/mHaQeudXtvkip024UAwRAh8J8UyO7dB
+	 tNclUl2p+kIOQ==
 To: Hans de Goede <hdegoede@redhat.com>, Larry Finger <Larry.Finger@lwfinger.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 From: Bryan Brattlof <hello@bryanbrattlof.com>
 Cc: Bryan Brattlof <hello@bryanbrattlof.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: [PATCH 8/8] staging: rtl8723bs: remove _rtw_sd_f0_read8()
-Message-ID: <5f025724ea7149e6ff11f94352b3321833f9bcaf.1621361919.git-series.hello@bryanbrattlof.com>
+Subject: [PATCH 6/8] staging: rtl8723bs: remove duplicate names for _rtw_write32()
+Message-ID: <43917aee34e85139e613578cf6f14938211c8835.1621361919.git-series.hello@bryanbrattlof.com>
 In-Reply-To: <cover.7975aa58aadc20eae4102c8c0fe0e0d0ecb0a9fa.1621361919.git-series.hello@bryanbrattlof.com>
 References: <cover.7975aa58aadc20eae4102c8c0fe0e0d0ecb0a9fa.1621361919.git-series.hello@bryanbrattlof.com>
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -35,68 +35,66 @@ X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
 X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
 	mailout.protonmail.ch
 
-Both the _rtw_sd_f0_read8() function and the rtw_sd_f0_read8()
-redefinition are used anywhere in the driver and can be removed.
+_rtw_write32() is redefined as rtw_write32() and
+PlatformEFIOWrite4Byte(). Because rtw_write32() is the only name used in
+the driver, remove the duplicate definitions and rename the function
+from _rtw_write32() to rtw_write32()
 
 Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_io.c    | 19 -------------------
- drivers/staging/rtl8723bs/include/rtw_io.h |  4 ----
- 2 files changed, 23 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_io.c    | 2 +-
+ drivers/staging/rtl8723bs/include/rtw_io.h | 7 +------
+ 2 files changed, 2 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_io.c b/drivers/staging/rtl8=
 723bs/core/rtw_io.c
-index 6de549e90999..856e23398c03 100644
+index cdd42e992d6e..4f66b961ef61 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_io.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_io.c
-@@ -116,25 +116,6 @@ int rtw_write32(struct adapter *adapter, u32 addr, u32=
- val)
+@@ -101,7 +101,7 @@ int rtw_write16(struct adapter *adapter, u32 addr, u16 =
+val)
+ =09ret =3D _write16(pintfhdl, addr, val);
  =09return RTW_STATUS_CODE(ret);
  }
-
--u8 _rtw_sd_f0_read8(struct adapter *adapter, u32 addr)
--{
--=09u8 r_val =3D 0x00;
--=09struct io_priv *pio_priv =3D &adapter->iopriv;
--=09struct intf_hdl *pintfhdl =3D &(pio_priv->intf);
--=09u8 (*_sd_f0_read8)(struct intf_hdl *pintfhdl, u32 addr);
--
--=09_sd_f0_read8 =3D pintfhdl->io_ops._sd_f0_read8;
--
--=09if (_sd_f0_read8)
--=09=09r_val =3D _sd_f0_read8(pintfhdl, addr);
--=09else
--=09=09netdev_warn(adapter->pnetdev,
--=09=09=09    FUNC_ADPT_FMT " _sd_f0_read8 callback is NULL\n",
--=09=09=09    FUNC_ADPT_ARG(adapter));
--
--=09return r_val;
--}
--
- u32 rtw_write_port(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem)
+-int _rtw_write32(struct adapter *adapter, u32 addr, u32 val)
++int rtw_write32(struct adapter *adapter, u32 addr, u32 val)
  {
- =09u32 (*_write_port)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pm=
-em);
+ =09/* struct=09io_queue=09*pio_queue =3D (struct io_queue *)adapter->pio_q=
+ueue; */
+ =09struct io_priv *pio_priv =3D &adapter->iopriv;
 diff --git a/drivers/staging/rtl8723bs/include/rtw_io.h b/drivers/staging/r=
 tl8723bs/include/rtw_io.h
-index 48e1352ac48a..ab3c5ffe011b 100644
+index 88518293839e..3ba413ed3098 100644
 --- a/drivers/staging/rtl8723bs/include/rtw_io.h
 +++ b/drivers/staging/rtl8723bs/include/rtw_io.h
-@@ -178,12 +178,8 @@ extern int rtw_write8(struct adapter *adapter, u32 add=
-r, u8 val);
+@@ -176,14 +176,12 @@ extern u32 rtw_read32(struct adapter *adapter, u32 ad=
+dr);
+
+ extern int rtw_write8(struct adapter *adapter, u32 addr, u8 val);
  extern int rtw_write16(struct adapter *adapter, u32 addr, u16 val);
- extern int rtw_write32(struct adapter *adapter, u32 addr, u32 val);
+-extern int _rtw_write32(struct adapter *adapter, u32 addr, u32 val);
++extern int rtw_write32(struct adapter *adapter, u32 addr, u32 val);
 
--extern u8 _rtw_sd_f0_read8(struct adapter *adapter, u32 addr);
+ extern u8 _rtw_sd_f0_read8(struct adapter *adapter, u32 addr);
+
+ extern u32 _rtw_write_port(struct adapter *adapter, u32 addr, u32 cnt, u8 =
+*pmem);
+
+-#define  rtw_write32(adapter, addr, val) _rtw_write32((adapter), (addr), (=
+val))
 -
- extern u32 rtw_write_port(struct adapter *adapter, u32 addr, u32 cnt, u8 *=
-pmem);
+ #define rtw_write_port(adapter, addr, cnt, mem) _rtw_write_port((adapter),=
+ (addr), (cnt), (mem))
 
--#define rtw_sd_f0_read8(adapter, addr) _rtw_sd_f0_read8((adapter), (addr))
+ #define rtw_sd_f0_read8(adapter, addr) _rtw_sd_f0_read8((adapter), (addr))
+@@ -230,7 +228,4 @@ extern void bus_sync_io(struct io_queue *pio_q);
+ extern u32 _ioreq2rwmem(struct io_queue *pio_q);
+ extern void dev_power_down(struct adapter *Adapter, u8 bpwrup);
+
+-#define PlatformEFIOWrite4Byte(_a, _b, _c)=09=09\
+-=09rtw_write32(_a, _b, _c)
 -
- extern void rtw_write_scsi(struct adapter *adapter, u32 cnt, u8 *pmem);
-
- /* ioreq */
+ #endif=09/* _RTL8711_IO_H_ */
 --
 git-series 0.9.1
 
