@@ -1,58 +1,56 @@
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388EC71
-	for <linux-staging@lists.linux.dev>; Tue, 18 May 2021 07:45:12 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-	by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14I7j3nW098852;
-	Tue, 18 May 2021 07:45:07 GMT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904F371
+	for <linux-staging@lists.linux.dev>; Tue, 18 May 2021 08:20:41 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14I8Je8Q003670;
+	Tue, 18 May 2021 08:20:39 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
  : subject : message-id : references : mime-version : content-type :
  in-reply-to; s=corp-2020-01-29;
- bh=iTzTY0x++hD2t/nkrSs36GsjOrSccAq3WjLd9UrUYOw=;
- b=EM+wisu7K6SLf1fo9z25FhCmtftw/veeVCcMm5yU6tPc4T0nru0mXpsTPeRwmJ4g94pi
- mIHX6kzNG+YrGOKzr3d9I/qgN7eSLOofDWe08QjD1jdKmz4Ps9Sj2phE3StXSUI4oNu3
- ryKFy2Tp+v3jBr1V1WXT5mIIBWCI+ZCbhnNVkzzL1Zp9QLoi0jP3/9GoLV6VodGay5In
- 8JEO4vMswCf7Ucn1Lio/KCGJckvBRoSKP/jP4hnvC9Ds5knJvF1UivMRXAnXTmf1sypY
- elc8x4tXOrX2Ha1ZwRoEl0srwYEbQ5FGs5IYAczN7cOAwSr4h+RvglxfeznDLYGj5Nmq wA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-	by userp2130.oracle.com with ESMTP id 38j5qr5dnd-1
+ bh=bMV0mYfWrGTmWmklGxv/dauj8hgDcMCo2pl7+fXMCws=;
+ b=rEaFfvu2doUIozyV5kNw5H3s9KEXaQ19h5EuF4Ln7SsBLhDdsVaZwe6FPe/Eem2CBntX
+ jmdssOnh8jKRBV02ZroyfNoC6nPJbVd8qHlyQmwX2QUOiZKcjN6GaGdamWy6y5Whsx38
+ uz9XMcQ7CYrClsmZ9f0iCdEG44wvmWwXxZc4ibw+68+X5KSZP+E87nJF5MCtUT6HD8oX
+ YND2v8WNXRW3QDrbe9eJ4eIJGvq/XEzogMvpPUzmVOj6E7ZBtqPvYZAAKUUz+9/EcK2f
+ BFMiYKGpnm+aCiKfipF14TnfyKSkrnWMlVsepEP6BPaLAugSpShubvhvuX8uzqWmHiZ2 IQ== 
+Received: from oracle.com (userp3030.oracle.com [156.151.31.80])
+	by mx0b-00069f02.pphosted.com with ESMTP id 38m9bgg0ev-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 18 May 2021 07:45:07 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-	by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14I7e2CP100614;
-	Tue, 18 May 2021 07:45:07 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by userp3030.oracle.com with ESMTP id 38j3du453b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 18 May 2021 07:45:07 +0000
+	Tue, 18 May 2021 08:20:38 +0000
 Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14I7hxeJ112006;
-	Tue, 18 May 2021 07:45:06 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by userp3030.oracle.com with ESMTP id 38j3du452x-1
+	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14I8KbEm182208;
+	Tue, 18 May 2021 08:20:37 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by userp3030.oracle.com with ESMTP id 38j3du54vc-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 18 May 2021 07:45:06 +0000
-Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 14I7j1EU018121;
-	Tue, 18 May 2021 07:45:01 GMT
+	Tue, 18 May 2021 08:20:37 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14I8KaCA182186;
+	Tue, 18 May 2021 08:20:36 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+	by userp3030.oracle.com with ESMTP id 38j3du54v1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 18 May 2021 08:20:36 +0000
+Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
+	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 14I8KXLf003686;
+	Tue, 18 May 2021 08:20:35 GMT
 Received: from kadam (/62.8.83.26)
 	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Tue, 18 May 2021 07:45:00 +0000
-Date: Tue, 18 May 2021 10:44:53 +0300
+	with ESMTP ; Tue, 18 May 2021 01:20:33 -0700
+Date: Tue, 18 May 2021 11:20:25 +0300
 From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Martin Kaiser <martin@kaiser.cx>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/6] staging: rtl8188eu: use safe iterator in
- rtw_free_network_queue
-Message-ID: <20210518074453.GM1955@kadam>
-References: <20210516160613.30489-1-martin@kaiser.cx>
- <20210517201826.25150-1-martin@kaiser.cx>
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Cc: gregkh@linuxfoundation.org, marcocesati@gmail.com, fabioaiuto83@gmail.com,
+        fmdefrancesco@gmail.com, eantoranz@gmail.com, hdegoede@redhat.com,
+        Larry.Finger@lwfinger.net, skhan@linuxfoundation.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v2 0/7] Staging: rtl8723bs: fix warnings in
+ HalBtc8723b1Ant.c
+Message-ID: <20210518082025.GA32682@kadam>
+References: <20210518044119.2960494-1-desmondcheongzx@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -60,42 +58,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210517201826.25150-1-martin@kaiser.cx>
+In-Reply-To: <20210518044119.2960494-1-desmondcheongzx@gmail.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: SGylDce-mjR1AQEiLnPGUUHbHkidKBbY
-X-Proofpoint-ORIG-GUID: SGylDce-mjR1AQEiLnPGUUHbHkidKBbY
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9987 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 impostorscore=0
- mlxscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=999
- suspectscore=0 adultscore=0 priorityscore=1501 spamscore=0 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2105180054
+X-Proofpoint-ORIG-GUID: AQla1Mh4Tp_yZL_hCweeFrLOdPQCe5JE
+X-Proofpoint-GUID: AQla1Mh4Tp_yZL_hCweeFrLOdPQCe5JE
 
-On Mon, May 17, 2021 at 10:18:21PM +0200, Martin Kaiser wrote:
-> rtw_free_network_queue iterates over the scanned wireless networks and
-> calls _rtw_free_network for each of them. In some cases,
-> _rtw_free_network removes a network from the list.
+On Tue, May 18, 2021 at 12:41:12AM -0400, Desmond Cheong Zhi Xi wrote:
+> This patchset fixes 134 checkpatch.pl warnings in the file drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
 > 
-> We have to use list_for_each_entry_safe if we remove list entries while
-> we iterate over a list.
+> Although checkpatch.pl reports a large number of checks, these are for issues that were present in the original code. In fact, in the process of fixing warnings, the total number of checks decreased from 548 to 545.
 > 
-> Fixes: 23017c8842d2 ("staging: rtl8188eu: Use list iterators and helpers")
-> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
-> ---
-> v2:
->  - use list_for_each_entry_safe
+> All patches are syntax fixes and no logic is changed. As there are a lot of different warnings, to make things easier to review, each patch addresses a different set of warnings in the following order:
 > 
+> - braces {} are not necessary for any arm of this statement
+> - please, no space before tabs
+> - suspect code indent for conditional statements
+> - Statements should start on a tabstop (this type of warning is solved alongside the previous warning type in the same patch because the fix for one warning addresses the other)
+> - Comparisons should place the constant on the right side of the test
+> - Missing a blank line after declarations
+> - Avoid unnecessary line continuations
+> - Block comments use * on subsequent lines
+> 
+> Change in v2:
+> - Patch 7: Remove dead code inside block comment instead of changing the comment formatting, as suggested by Dan Carpenter
 
-I hadn't intended for you to redo the patch otherwise I would have
-asked you to include endless loop script in all the commit messages
-and rename "temp" (temperatures) to "tmp" (temporary).
-
-You have to learn to let go, patches are never perfect.  But let's say
-that these v2 patch are perfect and add a:
+Thanks!
 
 Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-Don't resend!  :)
-
 regards,
 dan carpenter
+
