@@ -1,173 +1,116 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3626570
-	for <linux-staging@lists.linux.dev>; Tue, 18 May 2021 00:43:28 +0000 (UTC)
-Received: by mail-qt1-f181.google.com with SMTP id h21so6312462qtu.5
-        for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 17:43:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E20270
+	for <linux-staging@lists.linux.dev>; Tue, 18 May 2021 00:50:17 +0000 (UTC)
+Received: by mail-ot1-f45.google.com with SMTP id d25-20020a0568300459b02902f886f7dd43so7198626otc.6
+        for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 17:50:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=tZsE7qYxd3nDHuwaSmlREMeLJi8XLtPn+ZY7CZp+dNk=;
-        b=UQZSSkeWbHZDNvk2f8IjSvBZlOQHBiIvTvG/hW0LSNNM77hdKZDTT9KHswNHhjiqj6
-         CHRyLaCh/goaB2rSac0wTdrbLTUM6UmWDmjz+gfzn5djiCTHeBLJaX66dm/HHqXVBsC/
-         QT5UZgrsy6XiIJU9AoI0cTNdVVS0ZJsFiG+f9D6UdmFTsmsmh0k9l6sAqXbZgANisJzy
-         NMGN6vA/FomJuRUHH5hGP/b2ajF2ww3V6KnWbMX+FnG9zUahyi/z0h2BVFJEJpAe/jVL
-         vjakngRDzhJhRCV0dlyiQTbQDew5urgN0kkdfbSsNWKwSp08YPCbqRDKXcAe2m4xnYke
-         L7qA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=11AmUmE+3jDAlknGZhIf8nvE4IgD55HSgs5v9hU/fF4=;
+        b=Tk2IBTrjmD17gwRroO9Ojtyyjjd1yC1ZZgBrg1Nnt6MJpZcJFCn+VdYG051SeTsDG8
+         9mxyv2s3HDR4WUtZv1rISYfyAF8wDfQMW+Vy1wUNTkmc3seKUPvVeqr06Oem5zuckEh/
+         ugRxSBatwjf7lySgtcD0W6ghpwySNz9Jq60Xo/jnVsNrXpQA15gpyVGkpESRYyXf+GAm
+         mKqy2TeZzGd71t9r8PZg0ymMaHbiojOd7xHvod+Kpw8PtKIvwJqocf96H9hbVFbSn56D
+         K6OuQKSJ9uF6JCZF3R2X3i16wKTOpbCqpu50uzWGeBr6li3ovJmPiD22bXRZ/GlnQQe/
+         HvhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=tZsE7qYxd3nDHuwaSmlREMeLJi8XLtPn+ZY7CZp+dNk=;
-        b=cdZZrZJroawfeffxhECUSwDjkdRnsdJe6Cd3tj5wjtwoh4IxN7GZxfbVC3Kn7PzTT1
-         2J7UKiVz1KzUiMoLARw7dhUeKP5sTOLW0/OnHfBKIAi3OUk+SjnhmQssyK/zszG8qixl
-         BeMyuiZ3DIsHZIJctUF0qmN6pYtGIK7YBPWNhdw3U1OiUZRTtDCWtlQD6yryouBXZP41
-         pDUwuiQbJLtDeO99c1M84yugL7G4nz6up0i+y+ZetBUcH5uhUO9c2H0STS08ZGD2lWx2
-         SO3trVmJw+e3TcHsB4WQyqsMRxGpwFNVehtvQq+I7ktH8wX+2xWVPmBKBcPq/mjYDmah
-         Bd1w==
-X-Gm-Message-State: AOAM531UN7JhqIHiRG8p4HvzqyR43J7tJAbXd51AdxZpro3rQtlVhynG
-	STQwJ6FnNzZnd4e2xh9lHcY=
-X-Google-Smtp-Source: ABdhPJzh5NIvcXxTVpqZq5wFTPuzISxrj1qLS+Do69icnKYn1m/uBsWdwNds+75pJ49OmY40u80JWQ==
-X-Received: by 2002:ac8:6c22:: with SMTP id k2mr2162942qtu.303.1621298607295;
-        Mon, 17 May 2021 17:43:27 -0700 (PDT)
-Received: from smtp.gmail.com ([2804:14c:73:9a01::1002])
-        by smtp.gmail.com with ESMTPSA id q192sm11858060qke.89.2021.05.17.17.43.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 May 2021 17:43:26 -0700 (PDT)
-Date: Mon, 17 May 2021 21:43:22 -0300
-From: Lucas Stankus <lucas.p.stankus@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com,
-	gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	fabioaiuto83@gmail.com
-Subject: Re: [PATCH 1/2] staging: iio: cdc: ad7746: clean up driver comments
- and probe return
-Message-ID: <20210518004322.v2hshj2xzj37vgmg@smtp.gmail.com>
-References: <cover.1620766020.git.lucas.p.stankus@gmail.com>
- <687a1923add71303da13e3a838e97a6ffc7dcda7.1620766020.git.lucas.p.stankus@gmail.com>
- <20210513170012.78326bfa@jic23-huawei>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=11AmUmE+3jDAlknGZhIf8nvE4IgD55HSgs5v9hU/fF4=;
+        b=jYuWlWRtYUrhDkebqGLQ3mboKNDbtHqGcFQpPFs3JLwqB1SzPKmRur9q2xn2B74jDr
+         FG8qA3pUZ9MW9Fpi2oI3wWcJZOpBrvSKdhWgHtfj+50DV/B7F0VsCvvoT66I0KXiwx2k
+         dwFqEa1AAeuqeINp2wll0+svxkIhBw1ZCRy6fc9w1yt8B6FCA6TIEyUX9CI6cuo60BIB
+         puPMQBaJORAYVXlJC04e7M3Z4/8L+3DuyFnBpmRa6kYEdYtW/FzxIdscgUvb12UDB0Aj
+         Ci2kazFNgsppbT7FZmwIZIYTzDR0oYgjLpuYKLLCyX0oimkSRa91u5qB4GNaaKIX+hZc
+         liOQ==
+X-Gm-Message-State: AOAM53046aYav/ZK0EWCrseVtgisSUtGOpDACW/6Cr6Omun41s0984Rh
+	ylnaDpEo7VZ+eYq8vYn6HwMm0rTBD4rb6l7dVg0=
+X-Google-Smtp-Source: ABdhPJwZ2dpUPKMrdAnJ/MmTD2FuOZLOhqkq45t9sKkqK+2naDSw5gdLeR8tu8odGHw+D7NbcugPrzeJso28BA2wUiQ=
+X-Received: by 2002:a05:6830:10:: with SMTP id c16mr2025257otp.252.1621299016743;
+ Mon, 17 May 2021 17:50:16 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210513170012.78326bfa@jic23-huawei>
+References: <cover.1620766020.git.lucas.p.stankus@gmail.com>
+ <09e65d3a235febfc4c3ee172b573ba8c9cde94b8.1620766020.git.lucas.p.stankus@gmail.com>
+ <CA+U=DsptfNDut3984MJkKckgWBhNd_0p17RfpidEXwYhMRfxtg@mail.gmail.com> <20210513165236.586b8beb@jic23-huawei>
+In-Reply-To: <20210513165236.586b8beb@jic23-huawei>
+From: Lucas Stankus <lucas.p.stankus@gmail.com>
+Date: Mon, 17 May 2021 21:49:41 -0300
+Message-ID: <CACKVXZBc8DoBRMJ+NnwR1tXkaDk8Jg0Fe0vQGwOrje4=G=AK2Q@mail.gmail.com>
+Subject: Re: [PATCH 2/2] staging: iio: cdc: ad7746: avoid overwrite of num_channels
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Alexandru Ardelean <ardeleanalex@gmail.com>, Lars-Peter Clausen <lars@metafoo.de>, 
+	"Hennerich, Michael" <Michael.Hennerich@analog.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-iio <linux-iio@vger.kernel.org>, 
+	linux-staging@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, May 13, 2021 at 12:59 PM Jonathan Cameron <jic23@kernel.org> wrote:
+On Thu, May 13, 2021 at 12:51 PM Jonathan Cameron <jic23@kernel.org> wrote:
 >
-> On Tue, 11 May 2021 17:54:01 -0300
-> Lucas Stankus <lucas.p.stankus@gmail.com> wrote:
+> On Wed, 12 May 2021 20:20:02 +0300
+> Alexandru Ardelean <ardeleanalex@gmail.com> wrote:
 >
-> > Remove vague comments, align temperature comment with indent block and
-> > simplify probe return on device register.
+> > On Tue, May 11, 2021 at 11:55 PM Lucas Stankus
+> > <lucas.p.stankus@gmail.com> wrote:
+> > >
+> > > AD7745 devices don't have the CIN2 pins and therefore can't handle related
+> > > channels. Forcing the number of AD7746 channels may lead to enabling more
+> > > channels than what the hardware actually supports.
+> > > Avoid num_channels being overwritten after first assignment.
+> > >
+> > > Signed-off-by: Lucas Stankus <lucas.p.stankus@gmail.com>
+> > > ---
+> > >  drivers/staging/iio/cdc/ad7746.c | 1 -
+> > >  1 file changed, 1 deletion(-)
+> > >
+> > > diff --git a/drivers/staging/iio/cdc/ad7746.c b/drivers/staging/iio/cdc/ad7746.c
+> > > index e03d010b2f4c..9e0da43b2871 100644
+> > > --- a/drivers/staging/iio/cdc/ad7746.c
+> > > +++ b/drivers/staging/iio/cdc/ad7746.c
+> > > @@ -693,7 +693,6 @@ static int ad7746_probe(struct i2c_client *client,
+> > >                 indio_dev->num_channels = ARRAY_SIZE(ad7746_channels);
+> > >         else
+> > >                 indio_dev->num_channels =  ARRAY_SIZE(ad7746_channels) - 2;
+> > > -       indio_dev->num_channels = ARRAY_SIZE(ad7746_channels);
 > >
-> > Also fix the following checkpatch warning:
-> > CHECK: Alignment should match open parenthesis
+> > ohh; good catch
 > >
-> > Signed-off-by: Lucas Stankus <lucas.p.stankus@gmail.com>
+> > this falls into the category of a fix, so a Fixes tag is required;
+> > this looks so old, that i did not bother tracking it before
+> > 83e416f458d53  [which is 2011]
+> >
+> > so, maybe something like:
+> >
+> > Fixes: 83e416f458d53 ("staging: iio: adc: Replace, rewrite ad7745 from
+> > scratch.")
 >
-> As Fabio pointed out, finer grained patches with one type of change per
-> patch would be good.
+> ouch.  Given I was queuing up some fixes I've added this one to the fixes-togreg
+> branch of iio.git and marked it for stable.
+>
+> So drop this one from your v2 series with the changes requested in patch 1.
+>
+> Thanks,
+>
+> Jonathan
 
-Thank you both for the review and sorry for the radio silence, I'll split
-the patch in the v2.
+No problems, but I think I should've better checked the mailing list before
+sending the patch, it would have avoided the noise.
 
->
-> > ---
-> >  drivers/staging/iio/cdc/ad7746.c | 31 ++++++++++---------------------
-> >  1 file changed, 10 insertions(+), 21 deletions(-)
-> >
-> > diff --git a/drivers/staging/iio/cdc/ad7746.c b/drivers/staging/iio/cdc/ad7746.c
-> > index dfd71e99e872..e03d010b2f4c 100644
-> > --- a/drivers/staging/iio/cdc/ad7746.c
-> > +++ b/drivers/staging/iio/cdc/ad7746.c
-> > @@ -84,10 +84,6 @@
-> >  #define AD7746_CAPDAC_DACEN          BIT(7)
-> >  #define AD7746_CAPDAC_DACP(x)                ((x) & 0x7F)
-> >
-> > -/*
-> > - * struct ad7746_chip_info - chip specific information
-> > - */
-> > -
-> >  struct ad7746_chip_info {
-> >       struct i2c_client *client;
-> >       struct mutex lock; /* protect sensor state */
-> > @@ -232,13 +228,14 @@ static int ad7746_select_channel(struct iio_dev *indio_dev,
-> >
-> >               if (chip->capdac_set != chan->channel) {
-> >                       ret = i2c_smbus_write_byte_data(chip->client,
-> > -                             AD7746_REG_CAPDACA,
-> > -                             chip->capdac[chan->channel][0]);
-> > +                                                     AD7746_REG_CAPDACA,
-> > +                                                     chip->capdac[chan->channel][0]);
-> >                       if (ret < 0)
-> >                               return ret;
-> > +                       ret = i2c_smbus_write_byte_data(chip->client,
-> > -                             AD7746_REG_CAPDACB,
-> > -                             chip->capdac[chan->channel][1]);
-> > +                                                     AD7746_REG_CAPDACB,
-> > +                                                     chip->capdac[chan->channel][1]);
-> >                       if (ret < 0)
-> >                               return ret;
->
-> I wondered if it might be sensible to factor this code out to reduce the indent
-> and make things more readable.  Having taken a look it seems there is another
-> place with exactly the same call sequence.  From how it's used there, I'm
-> assuming this is updating the offsets.  As such, I would introduce an
->
-> ad7746_offsets_set(struct iio_dev *indio_dev, int channel)
->
-> or similar.
->
-
-Makes sense, I'll do that in the v2 as well.
+Anyway, thanks for the review :)
 
 >
 > >
-> > @@ -564,10 +561,10 @@ static int ad7746_read_raw(struct iio_dev *indio_dev,
-> >
-> >               switch (chan->type) {
-> >               case IIO_TEMP:
-> > -             /*
-> > -              * temperature in milli degrees Celsius
-> > -              * T = ((*val / 2048) - 4096) * 1000
-> > -              */
-> > +                     /*
-> > +                      * temperature in milli degrees Celsius
-> > +                      * T = ((*val / 2048) - 4096) * 1000
-> > +                      */
-> >                       *val = (*val * 125) / 256;
-> >                       break;
-> >               case IIO_VOLTAGE:
-> > @@ -669,10 +666,6 @@ static const struct iio_info ad7746_info = {
-> >       .write_raw = ad7746_write_raw,
-> >  };
-> >
-> > -/*
-> > - * device probe and remove
-> > - */
-> > -
-> >  static int ad7746_probe(struct i2c_client *client,
-> >                       const struct i2c_device_id *id)
-> >  {
-> > @@ -730,11 +723,7 @@ static int ad7746_probe(struct i2c_client *client,
-> >       if (ret < 0)
-> >               return ret;
-> >
-> > -     ret = devm_iio_device_register(indio_dev->dev.parent, indio_dev);
-> > -     if (ret)
-> > -             return ret;
-> > -
-> > -     return 0;
-> > +     return devm_iio_device_register(indio_dev->dev.parent, indio_dev);
-> >  }
-> >
-> >  static const struct i2c_device_id ad7746_id[] = {
+> > >         indio_dev->modes = INDIO_DIRECT_MODE;
+> > >
+> > >         if (pdata) {
+> > > --
+> > > 2.31.1
+> > >
 >
