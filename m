@@ -1,41 +1,41 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6A06D0E
-	for <linux-staging@lists.linux.dev>; Tue, 18 May 2021 04:43:39 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id k19so6510163pfu.5
-        for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 21:43:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2997A6D0E
+	for <linux-staging@lists.linux.dev>; Tue, 18 May 2021 04:43:54 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id m124so6119943pgm.13
+        for <linux-staging@lists.linux.dev>; Mon, 17 May 2021 21:43:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=uEpsBQ7rbIhP4Lk4USk29pB1/Jh9hlfSvj6sx/s54ew=;
-        b=T5zUbW45c6BVkoMmsswh42owtMM7k4zeAhTXGTzGofmwzPkrX1D9f3mlBatE6TvNw5
-         8guiOoZLVX/eck67OiintMjzQl52WapyEpeigJOpWfLAPjaJsecsXO3XLl3iVsOyiW/1
-         4bmMeyRFTlF9+DncG2gR5Z3bWtRqW6kMUa7DynH/NqLSxZf/2cx2b8lFmw1dkHYAt65n
-         A0gDpdIxytqia72eFA1470yRAyhEsmOrOcRKwkiN86UXQDP0RtTgCJAh1cvpKZXaGfdZ
-         kXkCTyilERxU3gYYgNBT4Pb1Fe/BCCRbdAX85RTPwVa4V2YtZPtcAwymVMAHOv2LMMfA
-         v2FQ==
+        bh=HKwu0lqBG+B5BRwBPFuYvjIJcXhBUQclaujuOz/bG0M=;
+        b=q+1ZJ3E3kaMOeiiNYIJND/7sGytHhhLR+QeyxhiPAUokPv/keoq+wTeUNw3X9o3bWZ
+         JxtyEZXYVRVoPvWO+IgN3AhWjkDlWikAtlTeWRyuVzhMdSFru6nJpKpx/qXIWy0w/CVx
+         SusQ6KKC3DDGwl+V3YU7NfduVTS+WtqV1ssMecfZsokb8IAIMr0Lsb35ubS/TCzoZGcf
+         WVq4IMBc0fKvcxo0/Fpqt//Ty3NdgzPzQLvPcifPCWUD40kuVkB6/QF4G7CvKn/APQQh
+         sRYFByUFkbZvf5WVLV+UnrrFXBfackwL/6W8wL9TL/LCT94u2hYrGO1KX33rNNzRyzT+
+         JIaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=uEpsBQ7rbIhP4Lk4USk29pB1/Jh9hlfSvj6sx/s54ew=;
-        b=WH+dMn2NdYHPzQNXYqJ84+fZYlOHSSaG8I9rf3NpZ1lapkedSodOG0VS8o2v3fly6u
-         PZblD+rWD1N4Adp1yrq3TAkZEDTw2A0Ia5MSw32X0Z1oofqHvW8DWJLRKNdWgsGK0x2A
-         lu4dLTs4hCj4DgyzAEpMQrJDr97+/bv7eE/ijnd8yrxM9wLwvrozNhJ9PhR0c3bzuWRw
-         s1woD2fPVXdfQVIqz3Uc0AjG6jns6+2OlRZeufRhBoDyPRmsXcU0Rp+PpXFrcu0Uc8J3
-         PiZNMf0v+PjWL7G5yLJz4CGrCqk4meSHSqVl4T0O3IQHN93HxYfdFGIjV9pQ667f0Juq
-         PXSA==
-X-Gm-Message-State: AOAM530K3hndjKKm/8om0LHnXl6smbonVRSuYsyNjiIYcrp/rNlWrd0A
-	I6kZZCHQSpv3lemv7edNytQdUP1MkCUxIbjrXkX8xg==
-X-Google-Smtp-Source: ABdhPJxeYGrQzUynRjf15rgfUfkpAWLJTpnimfMRZbXDVXjcQcZztueFXFu8Xu9guAJsxnixZmzu2Q==
-X-Received: by 2002:a63:f717:: with SMTP id x23mr3133606pgh.141.1621313019016;
-        Mon, 17 May 2021 21:43:39 -0700 (PDT)
+        bh=HKwu0lqBG+B5BRwBPFuYvjIJcXhBUQclaujuOz/bG0M=;
+        b=lb541SiKrRJMR1BN5p5aKGWzxHlD3kn+bVFOEBHXCDY547Y653hH0Kv+veTXPm1JY4
+         rtDB+fkzg8MgABqK4NoC+XGhyN03D4hBAZ78VzvNHsDKKwvFD/YO4AkhR/h9HU75vMic
+         p0uayC8PzualqXw3SAV0Mkybie7LhMJ4uIZP8fY+ttk/RYy30Yz4u3CjxB94BRRGQcvq
+         GKe4qf/Ttdq46ek7UTZWxG5ETfFimMwMd6tZexvjc5BrWgp/P/IdXUNgqAu3fpcl7KL0
+         cgstuqdbp9nslcbsv5caWjnZhqeO8zIH/IO6GVjU560DHcZpiPBLfEF9XaUCA56qkaYa
+         n8Gg==
+X-Gm-Message-State: AOAM531ujGe94xOuTIFLwdbBJGtPxS15HCubmhMeIAWRjw+jYjjBXVCF
+	3M/SEMX2zxMRv3n5fhlkr3E=
+X-Google-Smtp-Source: ABdhPJwW3Oi7BDdJ/gVKhzYhpc61QKC5F40KXotVm60iFMPhjTvwqxs5/5jwnieTTjtx0WKWZDqUkg==
+X-Received: by 2002:a63:4b5b:: with SMTP id k27mr3216835pgl.368.1621313033411;
+        Mon, 17 May 2021 21:43:53 -0700 (PDT)
 Received: from localhost.localdomain ([203.126.139.7])
-        by smtp.gmail.com with ESMTPSA id t15sm357538pjh.0.2021.05.17.21.43.28
+        by smtp.gmail.com with ESMTPSA id t15sm357538pjh.0.2021.05.17.21.43.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 May 2021 21:43:38 -0700 (PDT)
+        Mon, 17 May 2021 21:43:52 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: gregkh@linuxfoundation.org,
 	marcocesati@gmail.com,
@@ -50,9 +50,9 @@ Cc: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH v2 3/7] Staging: rtl8723bs: fix indentation in HalBtc8723b1Ant.c
-Date: Tue, 18 May 2021 00:41:15 -0400
-Message-Id: <20210518044119.2960494-4-desmondcheongzx@gmail.com>
+Subject: [PATCH v2 4/7] Staging: rtl8723bs: fix comparison formatting in HalBtc8723b1Ant.c
+Date: Tue, 18 May 2021 00:41:16 -0400
+Message-Id: <20210518044119.2960494-5-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210518044119.2960494-1-desmondcheongzx@gmail.com>
 References: <20210518044119.2960494-1-desmondcheongzx@gmail.com>
@@ -63,105 +63,543 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This commit fixes the following checkpatch.pl errors:
+This commit fixes the following checkpatch.pl warnings:
 
-WARNING: suspect code indent for conditional statements (32, 33)
-+				if (nCCKLockCounter < 5)
-+				 nCCKLockCounter++;
+WARNING: Comparisons should place the constant on the right side of the test
++		BT_8723B_1ANT_BT_STATUS_NON_CONNECTED_IDLE == pCoexDm->btStatus
 
-WARNING: suspect code indent for conditional statements (32, 33)
-+				if (nCCKLockCounter > 0)
-+				 nCCKLockCounter--;
+WARNING: Comparisons should place the constant on the right side of the test
++		(BT_8723B_1ANT_BT_STATUS_NON_CONNECTED_IDLE == pCoexDm->btStatus)
 
-WARNING: suspect code indent for conditional statements (24, 26)
-+			if (nCCKLockCounter > 0)
-+			  nCCKLockCounter--;
+WARNING: Comparisons should place the constant on the right side of the test
++		(BT_8723B_1ANT_BT_STATUS_CONNECTED_IDLE == pCoexDm->btStatus)
 
-WARNING: suspect code indent for conditional statements (16, 17)
-+		if (nCCKLockCounter >= 5)
-+		 pCoexSta->bCCKLock = true;
+WARNING: Comparisons should place the constant on the right side of the test
++		(BT_8723B_1ANT_BT_STATUS_CONNECTED_IDLE == pCoexDm->btStatus)
 
-WARNING: suspect code indent for conditional statements (16, 17)
-+		else
-+		 pCoexSta->bCCKLock = false;
+WARNING: Comparisons should place the constant on the right side of the test
++		(BT_8723B_1ANT_BT_STATUS_CONNECTED_IDLE != pCoexDm->btStatus)
 
-WARNING: suspect code indent for conditional statements (16, 17)
-+		if (nCCKLockCounter == 0)
-+		 pCoexSta->bCCKLock = false;
+WARNING: Comparisons should place the constant on the right side of the test
++		(BT_8723B_1ANT_WIFI_STATUS_NON_CONNECTED_ASSO_AUTH_SCAN == wifiStatus) ||
 
-WARNING: suspect code indent for conditional statements (16, 17)
-+		else
-+		 pCoexSta->bCCKLock = true;
+WARNING: Comparisons should place the constant on the right side of the test
++		(BT_8723B_1ANT_WIFI_STATUS_CONNECTED_SCAN == wifiStatus) ||
 
-WARNING: suspect code indent for conditional statements (16, 25)
-+		if (bScan || bLink || bRoam) {
-+			 if (bScan)
+WARNING: Comparisons should place the constant on the right side of the test
++		(BT_8723B_1ANT_WIFI_STATUS_CONNECTED_SPECIAL_PKT == wifiStatus)
 
-WARNING: Statements should start on a tabstop
-+			 if (bScan)
+WARNING: Comparisons should place the constant on the right side of the test
++		if (BT_8723B_1ANT_WIFI_STATUS_CONNECTED_IDLE == wifiStatus) {
 
-WARNING: Statements should start on a tabstop
-+			 else
+WARNING: Comparisons should place the constant on the right side of the test
++	if (BT_8723B_1ANT_BT_STATUS_ACL_BUSY == pCoexDm->btStatus) {
+
+WARNING: Comparisons should place the constant on the right side of the test
++		(BT_8723B_1ANT_BT_STATUS_SCO_BUSY == pCoexDm->btStatus) ||
+
+WARNING: Comparisons should place the constant on the right side of the test
++		(BT_8723B_1ANT_BT_STATUS_ACL_SCO_BUSY == pCoexDm->btStatus)
+
+WARNING: Comparisons should place the constant on the right side of the test
++	if (BT_8723B_1ANT_BT_STATUS_ACL_BUSY == pCoexDm->btStatus) {
+
+WARNING: Comparisons should place the constant on the right side of the test
++		(BT_8723B_1ANT_BT_STATUS_SCO_BUSY == pCoexDm->btStatus) ||
+
+WARNING: Comparisons should place the constant on the right side of the test
++		(BT_8723B_1ANT_BT_STATUS_ACL_SCO_BUSY == pCoexDm->btStatus)
+
+WARNING: Comparisons should place the constant on the right side of the test
++		BT_8723B_1ANT_BT_STATUS_ACL_BUSY == pCoexDm->btStatus &&
+
+WARNING: Comparisons should place the constant on the right side of the test
++		if (BT_8723B_1ANT_BT_STATUS_ACL_BUSY == pCoexDm->btStatus) {
+
+WARNING: Comparisons should place the constant on the right side of the test
++			(BT_8723B_1ANT_BT_STATUS_SCO_BUSY == pCoexDm->btStatus) ||
+
+WARNING: Comparisons should place the constant on the right side of the test
++			(BT_8723B_1ANT_BT_STATUS_ACL_SCO_BUSY == pCoexDm->btStatus)
+
+WARNING: Comparisons should place the constant on the right side of the test
++		if (BT_8723B_1ANT_BT_STATUS_ACL_BUSY == pCoexDm->btStatus) {
+
+WARNING: Comparisons should place the constant on the right side of the test
++			(BT_8723B_1ANT_BT_STATUS_SCO_BUSY == pCoexDm->btStatus) ||
+
+WARNING: Comparisons should place the constant on the right side of the test
++			(BT_8723B_1ANT_BT_STATUS_ACL_SCO_BUSY == pCoexDm->btStatus)
+
+WARNING: Comparisons should place the constant on the right side of the test
++		(BT_8723B_1ANT_BT_STATUS_ACL_BUSY == pCoexDm->btStatus) ||
+
+WARNING: Comparisons should place the constant on the right side of the test
++		(BT_8723B_1ANT_BT_STATUS_SCO_BUSY == pCoexDm->btStatus) ||
+
+WARNING: Comparisons should place the constant on the right side of the test
++		(BT_8723B_1ANT_BT_STATUS_ACL_SCO_BUSY == pCoexDm->btStatus)
+
+WARNING: Comparisons should place the constant on the right side of the test
++		((bWifiUnderBMode) ? "11b" : ((BTC_WIFI_BW_LEGACY == wifiBw) ? "11bg" : (((BTC_WIFI_BW_HT40 == wifiBw) ? "HT40" : "HT20")))),
+
+WARNING: Comparisons should place the constant on the right side of the test
++		((!bWifiBusy) ? "idle" : ((BTC_WIFI_TRAFFIC_TX == wifiTrafficDir) ? "uplink" : "downlink")),
+
+WARNING: Comparisons should place the constant on the right side of the test
++		((pBtCoexist->btInfo.bBtDisabled) ? ("disabled") : ((pCoexSta->bC2hBtInquiryPage) ? ("inquiry/page scan") : ((BT_8723B_1ANT_BT_STATUS_NON_CONNECTED_IDLE == pCoexDm->btStatus) ? "non-connected idle" :
+
+WARNING: Comparisons should place the constant on the right side of the test
++		((BT_8723B_1ANT_BT_STATUS_CONNECTED_IDLE == pCoexDm->btStatus) ? "connected-idle" : "busy")))),
+
+WARNING: Comparisons should place the constant on the right side of the test
++	if (BTC_IPS_ENTER == type) {
+
+WARNING: Comparisons should place the constant on the right side of the test
++	} else if (BTC_IPS_LEAVE == type) {
+
+WARNING: Comparisons should place the constant on the right side of the test
++	if (BTC_LPS_ENABLE == type) {
+
+WARNING: Comparisons should place the constant on the right side of the test
++	} else if (BTC_LPS_DISABLE == type) {
+
+WARNING: Comparisons should place the constant on the right side of the test
++	if (BTC_SCAN_START == type) {
+
+WARNING: Comparisons should place the constant on the right side of the test
++	if (BTC_SCAN_START == type) {
+
+WARNING: Comparisons should place the constant on the right side of the test
++	} else if (BTC_SCAN_FINISH == type) {
+
+WARNING: Comparisons should place the constant on the right side of the test
++	if (BTC_ASSOCIATE_START == type) {
+
+WARNING: Comparisons should place the constant on the right side of the test
++	if (BTC_ASSOCIATE_START == type) {
+
+WARNING: Comparisons should place the constant on the right side of the test
++	} else if (BTC_ASSOCIATE_FINISH == type) {
+
+WARNING: Comparisons should place the constant on the right side of the test
++	if (BTC_MEDIA_CONNECT == type) {
+
+WARNING: Comparisons should place the constant on the right side of the test
++	if ((BTC_MEDIA_CONNECT == type) && (wifiCentralChnl <= 14)) {
+
+WARNING: Comparisons should place the constant on the right side of the test
++		if (BTC_WIFI_BW_HT40 == wifiBw)
+
+WARNING: Comparisons should place the constant on the right side of the test
++		BTC_PACKET_DHCP == type ||
+
+WARNING: Comparisons should place the constant on the right side of the test
++		BTC_PACKET_EAPOL == type ||
+
+WARNING: Comparisons should place the constant on the right side of the test
++		BTC_PACKET_ARP == type
+
+WARNING: Comparisons should place the constant on the right side of the test
++		if (BTC_PACKET_ARP == type) {
+
+WARNING: Comparisons should place the constant on the right side of the test
++		BTC_PACKET_DHCP == type ||
+
+WARNING: Comparisons should place the constant on the right side of the test
++		BTC_PACKET_EAPOL == type ||
+
+WARNING: Comparisons should place the constant on the right side of the test
++		((BTC_PACKET_ARP == type) && (pCoexSta->bWiFiIsHighPriTask))
+
+WARNING: Comparisons should place the constant on the right side of the test
++	if (BT_INFO_SRC_8723B_1ANT_WIFI_FW != rspSource) {
+
+WARNING: Comparisons should place the constant on the right side of the test
++		if (BT_8723B_1ANT_BT_STATUS_ACL_BUSY != pCoexDm->btStatus)
+
+WARNING: Comparisons should place the constant on the right side of the test
++		(BT_8723B_1ANT_BT_STATUS_ACL_BUSY == pCoexDm->btStatus) ||
+
+WARNING: Comparisons should place the constant on the right side of the test
++		(BT_8723B_1ANT_BT_STATUS_SCO_BUSY == pCoexDm->btStatus) ||
+
+WARNING: Comparisons should place the constant on the right side of the test
++		(BT_8723B_1ANT_BT_STATUS_ACL_SCO_BUSY == pCoexDm->btStatus)
+
+WARNING: Comparisons should place the constant on the right side of the test
++	if (BTC_WIFI_PNP_SLEEP == pnpState) {
+
+WARNING: Comparisons should place the constant on the right side of the test
++	} else if (BTC_WIFI_PNP_WAKE_UP == pnpState) {
 
 Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 ---
- .../staging/rtl8723bs/hal/HalBtc8723b1Ant.c    | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ .../staging/rtl8723bs/hal/HalBtc8723b1Ant.c   | 112 +++++++++---------
+ 1 file changed, 56 insertions(+), 56 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-index 49f37aa16cc4..63d0eec572ec 100644
+index 63d0eec572ec..97831d04959b 100644
 --- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
 +++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-@@ -361,15 +361,15 @@ static void halbtc8723b1ant_MonitorWiFiCtr(struct btc_coexist *pBtCoexist)
- 				)
- 			) {
- 				if (nCCKLockCounter < 5)
--				 nCCKLockCounter++;
-+					nCCKLockCounter++;
- 			} else {
- 				if (nCCKLockCounter > 0)
--				 nCCKLockCounter--;
-+					nCCKLockCounter--;
- 			}
+@@ -1317,35 +1317,35 @@ static bool halbtc8723b1ant_IsCommonAction(struct btc_coexist *pBtCoexist)
  
- 		} else {
- 			if (nCCKLockCounter > 0)
--			  nCCKLockCounter--;
-+				nCCKLockCounter--;
+ 	if (
+ 		!bWifiConnected &&
+-		BT_8723B_1ANT_BT_STATUS_NON_CONNECTED_IDLE == pCoexDm->btStatus
++		pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_NON_CONNECTED_IDLE
+ 	) {
+ 		/* halbtc8723b1ant_SwMechanism(pBtCoexist, false); */
+ 
+ 		bCommon = true;
+ 	} else if (
+ 		bWifiConnected &&
+-		(BT_8723B_1ANT_BT_STATUS_NON_CONNECTED_IDLE == pCoexDm->btStatus)
++		(pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_NON_CONNECTED_IDLE)
+ 	) {
+ 		/* halbtc8723b1ant_SwMechanism(pBtCoexist, false); */
+ 
+ 		bCommon = true;
+ 	} else if (
+ 		!bWifiConnected &&
+-		(BT_8723B_1ANT_BT_STATUS_CONNECTED_IDLE == pCoexDm->btStatus)
++		(pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_CONNECTED_IDLE)
+ 	) {
+ 		/* halbtc8723b1ant_SwMechanism(pBtCoexist, false); */
+ 
+ 		bCommon = true;
+ 	} else if (
+ 		bWifiConnected &&
+-		(BT_8723B_1ANT_BT_STATUS_CONNECTED_IDLE == pCoexDm->btStatus)
++		(pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_CONNECTED_IDLE)
+ 	) {
+ 		/* halbtc8723b1ant_SwMechanism(pBtCoexist, false); */
+ 
+ 		bCommon = true;
+ 	} else if (
+ 		!bWifiConnected &&
+-		(BT_8723B_1ANT_BT_STATUS_CONNECTED_IDLE != pCoexDm->btStatus)
++		(pCoexDm->btStatus != BT_8723B_1ANT_BT_STATUS_CONNECTED_IDLE)
+ 	) {
+ 		/* halbtc8723b1ant_SwMechanism(pBtCoexist, false); */
+ 
+@@ -1367,9 +1367,9 @@ static void halbtc8723b1ant_TdmaDurationAdjustForAcl(
+ 	u8 retryCount = 0, btInfoExt;
+ 
+ 	if (
+-		(BT_8723B_1ANT_WIFI_STATUS_NON_CONNECTED_ASSO_AUTH_SCAN == wifiStatus) ||
+-		(BT_8723B_1ANT_WIFI_STATUS_CONNECTED_SCAN == wifiStatus) ||
+-		(BT_8723B_1ANT_WIFI_STATUS_CONNECTED_SPECIAL_PKT == wifiStatus)
++		(wifiStatus == BT_8723B_1ANT_WIFI_STATUS_NON_CONNECTED_ASSO_AUTH_SCAN) ||
++		(wifiStatus == BT_8723B_1ANT_WIFI_STATUS_CONNECTED_SCAN) ||
++		(wifiStatus == BT_8723B_1ANT_WIFI_STATUS_CONNECTED_SPECIAL_PKT)
+ 	) {
+ 		if (
+ 			pCoexDm->curPsTdma != 1 &&
+@@ -1676,7 +1676,7 @@ static void halbtc8723b1ant_ActionWifiConnectedBtAclBusy(
+ 		pCoexDm->bAutoTdmaAdjust = false;
+ 		return;
+ 	} else if (pBtLinkInfo->bA2dpOnly) { /* A2DP */
+-		if (BT_8723B_1ANT_WIFI_STATUS_CONNECTED_IDLE == wifiStatus) {
++		if (wifiStatus == BT_8723B_1ANT_WIFI_STATUS_CONNECTED_IDLE) {
+ 			halbtc8723b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, true, 32);
+ 			halbtc8723b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 4);
+ 			pCoexDm->bAutoTdmaAdjust = false;
+@@ -1731,7 +1731,7 @@ static void halbtc8723b1ant_ActionWifiNotConnectedScan(
+ 	halbtc8723b1ant_PowerSaveState(pBtCoexist, BTC_PS_WIFI_NATIVE, 0x0, 0x0);
+ 
+ 	/*  tdma and coex table */
+-	if (BT_8723B_1ANT_BT_STATUS_ACL_BUSY == pCoexDm->btStatus) {
++	if (pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_ACL_BUSY) {
+ 		if (pBtLinkInfo->bA2dpExist) {
+ 			halbtc8723b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, true, 32);
+ 			halbtc8723b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 4);
+@@ -1743,8 +1743,8 @@ static void halbtc8723b1ant_ActionWifiNotConnectedScan(
+ 			halbtc8723b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 4);
+ 		}
+ 	} else if (
+-		(BT_8723B_1ANT_BT_STATUS_SCO_BUSY == pCoexDm->btStatus) ||
+-		(BT_8723B_1ANT_BT_STATUS_ACL_SCO_BUSY == pCoexDm->btStatus)
++		(pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_SCO_BUSY) ||
++		(pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_ACL_SCO_BUSY)
+ 	) {
+ 		halbtc8723b1ant_ActionBtScoHidOnlyBusy(
+ 			pBtCoexist, BT_8723B_1ANT_WIFI_STATUS_CONNECTED_SCAN
+@@ -1788,7 +1788,7 @@ static void halbtc8723b1ant_ActionWifiConnectedScan(struct btc_coexist *pBtCoexi
+ 	halbtc8723b1ant_PowerSaveState(pBtCoexist, BTC_PS_WIFI_NATIVE, 0x0, 0x0);
+ 
+ 	/*  tdma and coex table */
+-	if (BT_8723B_1ANT_BT_STATUS_ACL_BUSY == pCoexDm->btStatus) {
++	if (pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_ACL_BUSY) {
+ 		if (pBtLinkInfo->bA2dpExist) {
+ 			halbtc8723b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, true, 32);
+ 			halbtc8723b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 4);
+@@ -1800,8 +1800,8 @@ static void halbtc8723b1ant_ActionWifiConnectedScan(struct btc_coexist *pBtCoexi
+ 			halbtc8723b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 4);
+ 		}
+ 	} else if (
+-		(BT_8723B_1ANT_BT_STATUS_SCO_BUSY == pCoexDm->btStatus) ||
+-		(BT_8723B_1ANT_BT_STATUS_ACL_SCO_BUSY == pCoexDm->btStatus)
++		(pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_SCO_BUSY) ||
++		(pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_ACL_SCO_BUSY)
+ 	) {
+ 		halbtc8723b1ant_ActionBtScoHidOnlyBusy(
+ 			pBtCoexist, BT_8723B_1ANT_WIFI_STATUS_CONNECTED_SCAN
+@@ -1867,7 +1867,7 @@ static void halbtc8723b1ant_ActionWifiConnected(struct btc_coexist *pBtCoexist)
+ 	/*  power save state */
+ 	if (
+ 		!bApEnable &&
+-		BT_8723B_1ANT_BT_STATUS_ACL_BUSY == pCoexDm->btStatus &&
++		pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_ACL_BUSY &&
+ 		!pBtCoexist->btLinkInfo.bHidOnly
+ 	) {
+ 		if (pBtCoexist->btLinkInfo.bA2dpOnly) { /* A2DP */
+@@ -1898,14 +1898,14 @@ static void halbtc8723b1ant_ActionWifiConnected(struct btc_coexist *pBtCoexist)
+ 
+ 	/*  tdma and coex table */
+ 	if (!bWifiBusy) {
+-		if (BT_8723B_1ANT_BT_STATUS_ACL_BUSY == pCoexDm->btStatus) {
++		if (pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_ACL_BUSY) {
+ 			halbtc8723b1ant_ActionWifiConnectedBtAclBusy(
+ 				pBtCoexist,
+ 				BT_8723B_1ANT_WIFI_STATUS_CONNECTED_IDLE
+ 			);
+ 		} else if (
+-			(BT_8723B_1ANT_BT_STATUS_SCO_BUSY == pCoexDm->btStatus) ||
+-			(BT_8723B_1ANT_BT_STATUS_ACL_SCO_BUSY == pCoexDm->btStatus)
++			(pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_SCO_BUSY) ||
++			(pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_ACL_SCO_BUSY)
+ 		) {
+ 			halbtc8723b1ant_ActionBtScoHidOnlyBusy(pBtCoexist,
+ 				BT_8723B_1ANT_WIFI_STATUS_CONNECTED_IDLE);
+@@ -1918,14 +1918,14 @@ static void halbtc8723b1ant_ActionWifiConnected(struct btc_coexist *pBtCoexist)
+ 				halbtc8723b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 7);
  		}
  	} else {
- 		if (nCCKLockCounter > 0)
-@@ -379,14 +379,14 @@ static void halbtc8723b1ant_MonitorWiFiCtr(struct btc_coexist *pBtCoexist)
- 	if (!pCoexSta->bPreCCKLock) {
+-		if (BT_8723B_1ANT_BT_STATUS_ACL_BUSY == pCoexDm->btStatus) {
++		if (pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_ACL_BUSY) {
+ 			halbtc8723b1ant_ActionWifiConnectedBtAclBusy(
+ 				pBtCoexist,
+ 				BT_8723B_1ANT_WIFI_STATUS_CONNECTED_BUSY
+ 			);
+ 		} else if (
+-			(BT_8723B_1ANT_BT_STATUS_SCO_BUSY == pCoexDm->btStatus) ||
+-			(BT_8723B_1ANT_BT_STATUS_ACL_SCO_BUSY == pCoexDm->btStatus)
++			(pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_SCO_BUSY) ||
++			(pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_ACL_SCO_BUSY)
+ 		) {
+ 			halbtc8723b1ant_ActionBtScoHidOnlyBusy(
+ 				pBtCoexist,
+@@ -2010,9 +2010,9 @@ static void halbtc8723b1ant_RunCoexistMechanism(struct btc_coexist *pBtCoexist)
+ 		return;
  
- 		if (nCCKLockCounter >= 5)
--		 pCoexSta->bCCKLock = true;
-+			pCoexSta->bCCKLock = true;
- 		else
--		 pCoexSta->bCCKLock = false;
-+			pCoexSta->bCCKLock = false;
- 	} else {
- 		if (nCCKLockCounter == 0)
--		 pCoexSta->bCCKLock = false;
-+			pCoexSta->bCCKLock = false;
- 		else
--		 pCoexSta->bCCKLock = true;
-+			pCoexSta->bCCKLock = true;
+ 	if (
+-		(BT_8723B_1ANT_BT_STATUS_ACL_BUSY == pCoexDm->btStatus) ||
+-		(BT_8723B_1ANT_BT_STATUS_SCO_BUSY == pCoexDm->btStatus) ||
+-		(BT_8723B_1ANT_BT_STATUS_ACL_SCO_BUSY == pCoexDm->btStatus)
++		(pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_ACL_BUSY) ||
++		(pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_SCO_BUSY) ||
++		(pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_ACL_SCO_BUSY)
+ 	){
+ 		bIncreaseScanDevNum = true;
+ 	}
+@@ -2361,8 +2361,8 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 		BT_TMP_BUF_SIZE,
+ 		"\r\n %-35s = %s / %s/ %s/ AP =%d/ %s ", "Wifi status", \
+ 		(bWifiUnder5G ? "5G" : "2.4G"),
+-		((bWifiUnderBMode) ? "11b" : ((BTC_WIFI_BW_LEGACY == wifiBw) ? "11bg" : (((BTC_WIFI_BW_HT40 == wifiBw) ? "HT40" : "HT20")))),
+-		((!bWifiBusy) ? "idle" : ((BTC_WIFI_TRAFFIC_TX == wifiTrafficDir) ? "uplink" : "downlink")),
++		((bWifiUnderBMode) ? "11b" : ((wifiBw == BTC_WIFI_BW_LEGACY) ? "11bg" : (((wifiBw == BTC_WIFI_BW_HT40) ? "HT40" : "HT20")))),
++		((!bWifiBusy) ? "idle" : ((wifiTrafficDir == BTC_WIFI_TRAFFIC_TX) ? "uplink" : "downlink")),
+ 		pCoexSta->nScanAPNum,
+ 		(pCoexSta->bCCKLock) ? "Lock" : "noLock"
+ 	);
+@@ -2389,8 +2389,8 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+ 		"\r\n %-35s = [%s/ %d/ %d/ %d] ", "BT [status/ rssi/ retryCnt/ popCnt]", \
+-		((pBtCoexist->btInfo.bBtDisabled) ? ("disabled") : ((pCoexSta->bC2hBtInquiryPage) ? ("inquiry/page scan") : ((BT_8723B_1ANT_BT_STATUS_NON_CONNECTED_IDLE == pCoexDm->btStatus) ? "non-connected idle" :
+-		((BT_8723B_1ANT_BT_STATUS_CONNECTED_IDLE == pCoexDm->btStatus) ? "connected-idle" : "busy")))),
++		((pBtCoexist->btInfo.bBtDisabled) ? ("disabled") : ((pCoexSta->bC2hBtInquiryPage) ? ("inquiry/page scan") : ((pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_NON_CONNECTED_IDLE) ? "non-connected idle" :
++																					((pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_CONNECTED_IDLE) ? "connected-idle" : "busy")))),
+ 		pCoexSta->btRssi, pCoexSta->btRetryCnt, pCoexSta->popEventCnt
+ 	);
+ 	CL_PRINTF(cliBuf);
+@@ -2680,13 +2680,13 @@ void EXhalbtc8723b1ant_IpsNotify(struct btc_coexist *pBtCoexist, u8 type)
+ 	if (pBtCoexist->bManualControl ||	pBtCoexist->bStopCoexDm)
+ 		return;
+ 
+-	if (BTC_IPS_ENTER == type) {
++	if (type == BTC_IPS_ENTER) {
+ 		pCoexSta->bUnderIps = true;
+ 
+ 		halbtc8723b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, false, 0);
+ 		halbtc8723b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 0);
+ 		halbtc8723b1ant_SetAntPath(pBtCoexist, BTC_ANT_PATH_BT, false, true);
+-	} else if (BTC_IPS_LEAVE == type) {
++	} else if (type == BTC_IPS_LEAVE) {
+ 		pCoexSta->bUnderIps = false;
+ 
+ 		halbtc8723b1ant_InitHwConfig(pBtCoexist, false, false);
+@@ -2700,9 +2700,9 @@ void EXhalbtc8723b1ant_LpsNotify(struct btc_coexist *pBtCoexist, u8 type)
+ 	if (pBtCoexist->bManualControl || pBtCoexist->bStopCoexDm)
+ 		return;
+ 
+-	if (BTC_LPS_ENABLE == type)
++	if (type == BTC_LPS_ENABLE)
+ 		pCoexSta->bUnderLps = true;
+-	else if (BTC_LPS_DISABLE == type)
++	else if (type == BTC_LPS_DISABLE)
+ 		pCoexSta->bUnderLps = false;
+ }
+ 
+@@ -2720,7 +2720,7 @@ void EXhalbtc8723b1ant_ScanNotify(struct btc_coexist *pBtCoexist, u8 type)
+ 	if (pBtCoexist->bManualControl || pBtCoexist->bStopCoexDm)
+ 		return;
+ 
+-	if (BTC_SCAN_START == type) {
++	if (type == BTC_SCAN_START) {
+ 		pCoexSta->bWiFiIsHighPriTask = true;
+ 
+ 		halbtc8723b1ant_PsTdma(pBtCoexist, FORCE_EXEC, false, 8);  /* Force antenna setup for no scan result issue */
+@@ -2763,12 +2763,12 @@ void EXhalbtc8723b1ant_ScanNotify(struct btc_coexist *pBtCoexist, u8 type)
+ 		return;
  	}
  
- 	pCoexSta->bPreCCKLock =  pCoexSta->bCCKLock;
-@@ -2084,9 +2084,9 @@ static void halbtc8723b1ant_RunCoexistMechanism(struct btc_coexist *pBtCoexist)
- 		pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_ROAM, &bRoam);
- 
- 		if (bScan || bLink || bRoam) {
--			 if (bScan)
-+			if (bScan)
- 				halbtc8723b1ant_ActionWifiNotConnectedScan(pBtCoexist);
--			 else
-+			else
- 				halbtc8723b1ant_ActionWifiNotConnectedAssoAuth(pBtCoexist);
- 		} else
+-	if (BTC_SCAN_START == type) {
++	if (type == BTC_SCAN_START) {
+ 		if (!bWifiConnected)	/*  non-connected scan */
+ 			halbtc8723b1ant_ActionWifiNotConnectedScan(pBtCoexist);
+ 		else	/*  wifi is connected */
+ 			halbtc8723b1ant_ActionWifiConnectedScan(pBtCoexist);
+-	} else if (BTC_SCAN_FINISH == type) {
++	} else if (type == BTC_SCAN_FINISH) {
+ 		if (!bWifiConnected)	/*  non-connected scan */
  			halbtc8723b1ant_ActionWifiNotConnected(pBtCoexist);
+ 		else
+@@ -2791,7 +2791,7 @@ void EXhalbtc8723b1ant_ConnectNotify(struct btc_coexist *pBtCoexist, u8 type)
+ 	)
+ 		return;
+ 
+-	if (BTC_ASSOCIATE_START == type) {
++	if (type == BTC_ASSOCIATE_START) {
+ 		pCoexSta->bWiFiIsHighPriTask = true;
+ 		 pCoexDm->nArpCnt = 0;
+ 	} else {
+@@ -2817,9 +2817,9 @@ void EXhalbtc8723b1ant_ConnectNotify(struct btc_coexist *pBtCoexist, u8 type)
+ 		return;
+ 	}
+ 
+-	if (BTC_ASSOCIATE_START == type) {
++	if (type == BTC_ASSOCIATE_START) {
+ 		halbtc8723b1ant_ActionWifiNotConnectedAssoAuth(pBtCoexist);
+-	} else if (BTC_ASSOCIATE_FINISH == type) {
++	} else if (type == BTC_ASSOCIATE_FINISH) {
+ 		pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_CONNECTED, &bWifiConnected);
+ 		if (!bWifiConnected) /*  non-connected scan */
+ 			halbtc8723b1ant_ActionWifiNotConnected(pBtCoexist);
+@@ -2842,7 +2842,7 @@ void EXhalbtc8723b1ant_MediaStatusNotify(struct btc_coexist *pBtCoexist, u8 type
+ 	)
+ 		return;
+ 
+-	if (BTC_MEDIA_CONNECT == type) {
++	if (type == BTC_MEDIA_CONNECT) {
+ 		pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_WIFI_UNDER_B_MODE, &bWifiUnderBMode);
+ 
+ 		/* Set CCK Tx/Rx high Pri except 11b mode */
+@@ -2867,13 +2867,13 @@ void EXhalbtc8723b1ant_MediaStatusNotify(struct btc_coexist *pBtCoexist, u8 type
+ 
+ 	/*  only 2.4G we need to inform bt the chnl mask */
+ 	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_U1_WIFI_CENTRAL_CHNL, &wifiCentralChnl);
+-	if ((BTC_MEDIA_CONNECT == type) && (wifiCentralChnl <= 14)) {
++	if ((type == BTC_MEDIA_CONNECT) && (wifiCentralChnl <= 14)) {
+ 		/* H2C_Parameter[0] = 0x1; */
+ 		H2C_Parameter[0] = 0x0;
+ 		H2C_Parameter[1] = wifiCentralChnl;
+ 		pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_U4_WIFI_BW, &wifiBw);
+ 
+-		if (BTC_WIFI_BW_HT40 == wifiBw)
++		if (wifiBw == BTC_WIFI_BW_HT40)
+ 			H2C_Parameter[2] = 0x30;
+ 		else
+ 			H2C_Parameter[2] = 0x20;
+@@ -2902,11 +2902,11 @@ void EXhalbtc8723b1ant_SpecialPacketNotify(struct btc_coexist *pBtCoexist, u8 ty
+ 		return;
+ 
+ 	if (
+-		BTC_PACKET_DHCP == type ||
+-		BTC_PACKET_EAPOL == type ||
+-		BTC_PACKET_ARP == type
++		type == BTC_PACKET_DHCP ||
++		type == BTC_PACKET_EAPOL ||
++		type == BTC_PACKET_ARP
+ 	) {
+-		if (BTC_PACKET_ARP == type) {
++		if (type == BTC_PACKET_ARP) {
+ 			pCoexDm->nArpCnt++;
+ 
+ 			if (pCoexDm->nArpCnt >= 10) /*  if APR PKT > 10 after connect, do not go to ActionWifiConnectedSpecialPacket(pBtCoexist) */
+@@ -2946,9 +2946,9 @@ void EXhalbtc8723b1ant_SpecialPacketNotify(struct btc_coexist *pBtCoexist, u8 ty
+ 	}
+ 
+ 	if (
+-		BTC_PACKET_DHCP == type ||
+-		BTC_PACKET_EAPOL == type ||
+-		((BTC_PACKET_ARP == type) && (pCoexSta->bWiFiIsHighPriTask))
++		type == BTC_PACKET_DHCP ||
++		type == BTC_PACKET_EAPOL ||
++		((type == BTC_PACKET_ARP) && (pCoexSta->bWiFiIsHighPriTask))
+ 	)
+ 		halbtc8723b1ant_ActionWifiConnectedSpecialPacket(pBtCoexist);
+ }
+@@ -2975,7 +2975,7 @@ void EXhalbtc8723b1ant_BtInfoNotify(
+ 			btInfo = tmpBuf[i];
+ 	}
+ 
+-	if (BT_INFO_SRC_8723B_1ANT_WIFI_FW != rspSource) {
++	if (rspSource != BT_INFO_SRC_8723B_1ANT_WIFI_FW) {
+ 		pCoexSta->btRetryCnt = pCoexSta->btInfoC2h[rspSource][2] & 0xf;
+ 
+ 		if (pCoexSta->btRetryCnt >= 1)
+@@ -3068,7 +3068,7 @@ void EXhalbtc8723b1ant_BtInfoNotify(
+ 	) {
+ 		pCoexDm->btStatus = BT_8723B_1ANT_BT_STATUS_SCO_BUSY;
+ 	} else if (btInfo & BT_INFO_8723B_1ANT_B_ACL_BUSY) {
+-		if (BT_8723B_1ANT_BT_STATUS_ACL_BUSY != pCoexDm->btStatus)
++		if (pCoexDm->btStatus != BT_8723B_1ANT_BT_STATUS_ACL_BUSY)
+ 			pCoexDm->bAutoTdmaAdjust = false;
+ 
+ 		pCoexDm->btStatus = BT_8723B_1ANT_BT_STATUS_ACL_BUSY;
+@@ -3077,9 +3077,9 @@ void EXhalbtc8723b1ant_BtInfoNotify(
+ 	}
+ 
+ 	if (
+-		(BT_8723B_1ANT_BT_STATUS_ACL_BUSY == pCoexDm->btStatus) ||
+-		(BT_8723B_1ANT_BT_STATUS_SCO_BUSY == pCoexDm->btStatus) ||
+-		(BT_8723B_1ANT_BT_STATUS_ACL_SCO_BUSY == pCoexDm->btStatus)
++		(pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_ACL_BUSY) ||
++		(pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_SCO_BUSY) ||
++		(pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_ACL_SCO_BUSY)
+ 	)
+ 		bBtBusy = true;
+ 	else
+@@ -3104,14 +3104,14 @@ void EXhalbtc8723b1ant_HaltNotify(struct btc_coexist *pBtCoexist)
+ 
+ void EXhalbtc8723b1ant_PnpNotify(struct btc_coexist *pBtCoexist, u8 pnpState)
+ {
+-	if (BTC_WIFI_PNP_SLEEP == pnpState) {
++	if (pnpState == BTC_WIFI_PNP_SLEEP) {
+ 		halbtc8723b1ant_PowerSaveState(pBtCoexist, BTC_PS_WIFI_NATIVE, 0x0, 0x0);
+ 		halbtc8723b1ant_PsTdma(pBtCoexist, NORMAL_EXEC, false, 0);
+ 		halbtc8723b1ant_CoexTableWithType(pBtCoexist, NORMAL_EXEC, 2);
+ 		halbtc8723b1ant_SetAntPath(pBtCoexist, BTC_ANT_PATH_BT, false, true);
+ 
+ 		pBtCoexist->bStopCoexDm = true;
+-	} else if (BTC_WIFI_PNP_WAKE_UP == pnpState) {
++	} else if (pnpState == BTC_WIFI_PNP_WAKE_UP) {
+ 		pBtCoexist->bStopCoexDm = false;
+ 		halbtc8723b1ant_InitHwConfig(pBtCoexist, false, false);
+ 		halbtc8723b1ant_InitCoexDm(pBtCoexist);
 -- 
 2.25.1
 
