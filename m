@@ -1,108 +1,106 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED75772
-	for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 13:31:35 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14JDVOKP025604;
-	Wed, 19 May 2021 13:31:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=8NveE/aeRumdJdziN2dtSUkgF1aBTwy+02Y/tzFDN/Y=;
- b=e0drf9fSOLs2UhL930iks+qoNRERchyS2FaDb0UtaVLpyD12I7iBr6o5w0DDZ2oqVj9E
- yLInRE2pFg2PdDK7Rmhs6/KRgjk/tZE4ZzQ1r08t6akpSfajfZpFviEYzVfzAtT/r3oA
- nCohjtG2Qa7zR4pu63QgocChEYPodqSWdX0oSN5c2mW0sxuPvnH4qytLM7a3vlg0Qv2f
- FA7DyRIF9/IGMl6O5/d5NUhvONb+H89LAS+G3vUDmeytvTuUqU3XqG/UVMl3zk/kFtfp
- +D4psZ+6EiOqdZUBaQlfNjg8DTR2w/YVnrLkRoG5fHZjBpEm8b/9GErCcGRHiDa4Pi2A jw== 
-Received: from oracle.com (userp3020.oracle.com [156.151.31.79])
-	by mx0b-00069f02.pphosted.com with ESMTP id 38kh0h958e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 19 May 2021 13:31:24 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
-	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14JDVNOI118313;
-	Wed, 19 May 2021 13:31:23 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by userp3020.oracle.com with ESMTP id 38msw1fmde-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 19 May 2021 13:31:23 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14JDVNeV118295;
-	Wed, 19 May 2021 13:31:23 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-	by userp3020.oracle.com with ESMTP id 38msw1fmd5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 19 May 2021 13:31:23 +0000
-Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
-	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 14JDVL1N002950;
-	Wed, 19 May 2021 13:31:22 GMT
-Received: from kadam (/41.212.42.34)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Wed, 19 May 2021 06:31:21 -0700
-Date: Wed, 19 May 2021 16:31:08 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: Bryan Brattlof <hello@bryanbrattlof.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Larry Finger <Larry.Finger@lwfinger.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: remove if (true) statement
-Message-ID: <20210519133108.GW1955@kadam>
-References: <20210518144335.1677320-1-hello@bryanbrattlof.com>
- <20210519124438.GA1417@agape.jhs>
- <20210519132529.GV1955@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090C572
+	for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 13:42:48 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id m124so9461951pgm.13
+        for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 06:42:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=yVZkSQGihBwShgl8HOq8FcajrTqG1qrxRHeRqHbeMSU=;
+        b=SLKlqLGMLkBhmW5gMF03+rdrAx0M3nrAGIRv/iBBkmdArqbh+McSLRGuGrb5vwrp31
+         DWtSZA0zNXOBWHGYNfwQHyB0JEkbngSqKKeYfq3TEDsIFz78qGMuixk+kXt9Ss6AXAkP
+         MjNo4Ty1Ki7m2ZoHxqYRPy6KDSKZ7Ro6Lz5ij14jDJGlzYv99zQT0kQdkxHG+cmBh8Xy
+         lnx3S1cKHRmRcGojDQNaNUthJfoQEEbltH5Hnv6nBSCfScULeOsgw6yMR5CGjLIl6qPc
+         oSGhvgPYUblYr03G+Cj+tBs3lBJtCmFgGdo7Ic6Uu3P8vyo8s8TS+Id7xnhdXknkfmDD
+         5G3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=yVZkSQGihBwShgl8HOq8FcajrTqG1qrxRHeRqHbeMSU=;
+        b=qM8Hef1Ba8MDNtdsuQm8JEHHZ//fqcKghJV82lRtxisyAMO5LPopPKxYqQnbWTzqsi
+         iV6YjUe3aIu0jC7dpuVrBC95S1Ewh59joSXWg6vv6Ikz+2s2L9PJqNGochSbxtMn6qJG
+         XO8v3coAL/4VwwEx3N76EAZcT4Pk69eadAKjv60xRqP6eD7owAAfkSkiN6J5wgy6aayi
+         t2uIFIsbxSjFcBvzuv4jS04hfZNtEzGGN8kcNuMRR1rjEauTAFrKejB6D3zBa+dV1Vzv
+         vK8I2ys/dCuhEgMr7TJVErQhthOU5OUURfwFDnQ2RY7c2gYffJP8T4xqFfanjeBwAnno
+         jkiQ==
+X-Gm-Message-State: AOAM532KDLaJnvaRyhF0f5Fw62s11NGl/YrvOcnSKEdTP6rvpIbMIXHl
+	l8z9DKG//z+REO7EJxPk524=
+X-Google-Smtp-Source: ABdhPJyyYycNawXUBSpqS2VP+cIaEk/TWkpmsGe8wDcN4X2qrAOe1ATcX3vn37nW8DMtlfhyOJjk0g==
+X-Received: by 2002:a65:640c:: with SMTP id a12mr10973519pgv.229.1621431768522;
+        Wed, 19 May 2021 06:42:48 -0700 (PDT)
+Received: from novachrono.domain.name ([106.214.255.120])
+        by smtp.gmail.com with ESMTPSA id q24sm15470387pgk.32.2021.05.19.06.42.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 May 2021 06:42:47 -0700 (PDT)
+From: Rajat Asthana <thisisrast7@gmail.com>
+To: dan.carpenter@oracle.com
+Cc: vaibhav.sr@gmail.com,
+	mgreer@animalcreek.com,
+	johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Rajat Asthana <thisisrast7@gmail.com>
+Subject: [PATCH v2] greybus: audio: Fix sparse warning.
+Date: Wed, 19 May 2021 19:11:19 +0530
+Message-Id: <20210519134119.848055-1-thisisrast7@gmail.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210519102947.GU1955@kadam>
+References: <20210519102947.GU1955@kadam>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210519132529.GV1955@kadam>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: EAMSSZ_S26VWdMfUqxabc9ePWo0Sd-B1
-X-Proofpoint-ORIG-GUID: EAMSSZ_S26VWdMfUqxabc9ePWo0Sd-B1
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 19, 2021 at 04:25:29PM +0300, Dan Carpenter wrote:
-> On Wed, May 19, 2021 at 02:44:38PM +0200, Fabio Aiuto wrote:
-> > Hi Bryan,
-> > 
-> > On Tue, May 18, 2021 at 02:45:19PM +0000, Bryan Brattlof wrote:
-> > > 'if (true) { ... }' will always evaluate to true. Remove it and
-> > > save a few tabs for somewhere else.
-> > > 
-> > > Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
-> > > ---
-> > >  drivers/staging/rtl8723bs/core/rtw_ap.c | 159 ++++++++++++------------
-> > >  1 file changed, 78 insertions(+), 81 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-> > > index 9df4476b2e2d..98b1bec67999 100644
-> > > --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-> > > +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-> > > @@ -59,112 +59,109 @@ static void update_BCNTIM(struct adapter *padapter)
-> > >
-> > 
-> > I was wondering why are you using the first patch of a nine patch
-> > series as a 'cover letter' of an eight patch patchset.
-> > 
-> > In other words, why putting the In-Reply-To field of all patches subsequent
-> > to the first one ponting to the first patch itself as a cover letter,
-> > is it a recommened practice?
-> 
-> It's fine.  It doesn't matter.  It's not recommended.  I do it normally
-> if I have to send patches in certain order.  I never write cover letters
-> because my patches are all independent bug fixes and not new features.
+Sparse complains that:
+   warning: restricted send_ctl_elem_iface_t degrades to integer.
 
-Wait, this was just a mistake I think.  It's not a cover letter.  It's
-not part of the eight patch series but it probably was intended to be as
-you suggest.
+I have looked at this code, and the code is fine as-is. Normally we
+would frown on using the __force directive to silence Sparse warnings
+but in this case it's fine. Case statements can't be made into __bitwise
+types. We also can't change the type of "ctl->iface" either because that
+is part of the user space API.
 
-The patches are basically okay.  Greg applies patches in the order that
-he recieves them so it should all apply fine.  And if it doesn't Greg
-will just ask for a resend.  No big deal.
+So just add a (__force int) to make the warning go away.
 
-regards,
-dan carpenter
+Signed-off-by: Rajat Asthana <thisisrast7@gmail.com>
+---
+Changes in v2:
+    - Update the commit message.
+
+ drivers/staging/greybus/audio_topology.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/greybus/audio_topology.c b/drivers/staging/greybus/audio_topology.c
+index 1fc7727ab7be..1e613d42d823 100644
+--- a/drivers/staging/greybus/audio_topology.c
++++ b/drivers/staging/greybus/audio_topology.c
+@@ -676,7 +676,7 @@ static int gbaudio_tplg_create_kcontrol(struct gbaudio_module_info *gb,
+ 	struct gbaudio_ctl_pvt *ctldata;
+ 
+ 	switch (ctl->iface) {
+-	case SNDRV_CTL_ELEM_IFACE_MIXER:
++	case (__force int)SNDRV_CTL_ELEM_IFACE_MIXER:
+ 		switch (ctl->info.type) {
+ 		case GB_AUDIO_CTL_ELEM_TYPE_ENUMERATED:
+ 			ret = gbaudio_tplg_create_enum_kctl(gb, kctl, ctl);
+@@ -903,7 +903,7 @@ static int gbaudio_tplg_create_wcontrol(struct gbaudio_module_info *gb,
+ 	int ret;
+ 
+ 	switch (ctl->iface) {
+-	case SNDRV_CTL_ELEM_IFACE_MIXER:
++	case (__force int)SNDRV_CTL_ELEM_IFACE_MIXER:
+ 		switch (ctl->info.type) {
+ 		case GB_AUDIO_CTL_ELEM_TYPE_ENUMERATED:
+ 			ret = gbaudio_tplg_create_enum_ctl(gb, kctl, ctl);
+-- 
+2.31.1
 
