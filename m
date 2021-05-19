@@ -1,47 +1,46 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33EB92FB6
-	for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 15:55:04 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id b13so6446748pfv.4
-        for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 08:55:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4709F2FB6
+	for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 15:56:56 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id g18so8533706pfr.2
+        for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 08:56:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=mwSqfCMAiP+PURiZIgOC/UkNyw6vkzqBNGed4Rp9ynU=;
-        b=iANFGf4JppO6R3fOhQhL/k70y/yBwMcjnXBWYENkz3ZBJ9r6IkDNYcn2RQi8qlNHor
-         JwuX53ihQdAZcgzky3lqSl4Nn4x1Ar1hK52ruWoyuS6bSMJYoknGbZThHoedI0VziBdJ
-         +8p8n8uwJY7I/WWI7e3P8mRmWLVs8Y9mt3B/esMhPhlg1CCRZ6KAeLDJvNjN8+NHkdML
-         Cv5sIta8zInfBzSsCot28HuCUHngzr2dSFGd04XnUIf4ZD2mxcyt/FG1b/HMl2DNXZum
-         BIp+BWRZzQa4H0MBRNDcvJOGM2z4STDu+RtMqmItqnvwb7YcknldhpqhPEfLTbl2QO/N
-         FwYA==
+        bh=Ewak3FTzWtebTNxoU2UtRKv4KOXoJSP/mAhC0k4hkGM=;
+        b=hkd5bEswK+JxcSDlikju+ubqHI1xgQN8FMkYsn7Vos/ojbGpOVlnVRo46fJcopr+2/
+         dZoWgvHogx/isb9Pbvj5zLSOPJqa0tZErbp9pINkN634jI7lLNYngeljfYeCHA1cZ5f1
+         n5i2TpmPC7pERnWWD/VGE6/UcA3SGhtph8kshiQz9fVQFfna3U2Ogd/y99NyOJA6FiDe
+         H9PF1MjWBY6NcbJNa5GV3defOCr2B7Fb4xWYSq4fo5uALRhXLPsedBLvz8vAmPjeaZRP
+         87SAZk9cQqNYZJQd2B5ND5UOS+FRU32J0ZMQ3A0uuUcfKSkWDrEjTBNMrxFHb7N+CtoN
+         hKaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-transfer-encoding
          :content-language;
-        bh=mwSqfCMAiP+PURiZIgOC/UkNyw6vkzqBNGed4Rp9ynU=;
-        b=it7lnQRw93LehD22cQdD3Sc/ByIaaW56mJx0NJ7emrd2s77vUWRimhAdLELx12qVAv
-         N4jTonqWq8ysVjGX4ELRrE9Vmxumx26dqysnfXbv6Rl2/l94ZY6E9USb47VPyj9Q0c5J
-         1XdWwiOZqZX9LSYcun8nd3o8vpXVxP2VNnzZTsN1Q9YMkrotzlI7Gq1L0shTtfgkCy4l
-         5tMrTHahjbknPpXy42BxO8knJx78AidpfwRuNNlo85sfUtepvRTbDA/HVaTfmhOoeinr
-         Rz3oHMY+r2CTb4gc8kg0o430YEqFMEYc5UiG897c2dwjIP/gLZ3THQurPk8QOz+dUUC8
-         yj/A==
-X-Gm-Message-State: AOAM532oc92WgJxO+hNilZJcUDyC1cVc44TGGi/R04Lg6d42b8q+VIFk
-	MqDOOdhetZclDqqImrJJ/TiqBIR4POSzNSUJ
-X-Google-Smtp-Source: ABdhPJwJl7QMZCtmIHpyb72rLKGG5d4H9TW1ivorGMCTugk1Eyje9xFIIG7+OUidEzNMQZoDkTYWQQ==
-X-Received: by 2002:aa7:8f37:0:b029:2db:551f:ed8e with SMTP id y23-20020aa78f370000b02902db551fed8emr11415084pfr.43.1621439703272;
-        Wed, 19 May 2021 08:55:03 -0700 (PDT)
+        bh=Ewak3FTzWtebTNxoU2UtRKv4KOXoJSP/mAhC0k4hkGM=;
+        b=qgUTZsNJFuh6X5L5E0VSS1nz8+Q6QZThaI8rO3oR0+D6nHfKTOwwMWOFi4Zi6GPk5h
+         bVENHNWL76QK5g2/kDznIoT60GX1vSl7YS1zQTd0pj1nZbG+3Ly7IUbYkw+gqUWH3b5v
+         L8OgkZ6nJ7ywEghLQPSwIDqQw65UmYFZH7jFnR5fcRBJd1pWBaatcCJRsllLlPZu6G40
+         s5NcZKmWFXEFtyda2CtO4s+Odw8iWlJw2zE1caopLBpTKmKMJgm+kPuG6Cdx36LrMrD6
+         K+iwyyBB5E6N5WREGo+HjcfQiDuWK6edf5W6VKNXsp/ekOR48Hb4vObxSHz+vlwjOUeR
+         n+bg==
+X-Gm-Message-State: AOAM533Sn036A+c3VXfXUhc4aHLZBjR69lvt6/3v6YKpeGqgcpNgzQKr
+	JqFE165MBDpYTWxStLG0UL+S+29OyN9jc58/
+X-Google-Smtp-Source: ABdhPJw9825Sqsf9H9wHD5H3DXvyJJo/Vpqnzgh5AFQb9O1AmveZhjrk2GjlrBvHahxN3M2cunyddg==
+X-Received: by 2002:aa7:97ad:0:b029:2e0:26a8:8da5 with SMTP id d13-20020aa797ad0000b02902e026a88da5mr2154968pfq.37.1621439815488;
+        Wed, 19 May 2021 08:56:55 -0700 (PDT)
 Received: from [192.168.1.2] ([103.196.78.23])
-        by smtp.gmail.com with ESMTPSA id 10sm9673847pgl.39.2021.05.19.08.54.59
+        by smtp.gmail.com with ESMTPSA id u21sm14568714pfm.89.2021.05.19.08.56.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 May 2021 08:55:02 -0700 (PDT)
+        Wed, 19 May 2021 08:56:54 -0700 (PDT)
 Subject: Re: [PATCH] staging: android: ashmem: Declared file operation with
  'const' keyword
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?Q?Arve_Hj=c3=b8nnev=c3=a5g?= <arve@android.com>,
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: =?UTF-8?Q?Arve_Hj=c3=b8nnev=c3=a5g?= <arve@android.com>,
  Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
  Joel Fernandes <joel@joelfernandes.org>,
  Christian Brauner <christian@brauner.io>,
@@ -51,10 +50,10 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 References: <20210519081958.7223-1-hridayhegde1999@gmail.com>
  <YKTM8KmXI8bXUSqp@kroah.com> <0ddb894f-f66f-f31b-ef8a-0646e0a99b9f@gmail.com>
  <YKTfbdFhvM7fbpet@kroah.com> <08cf8110-cf84-8784-c919-eba27474b796@gmail.com>
- <20210519145105.GC1417@agape.jhs>
+ <YKUm8tf3bKvCf1YI@kroah.com>
 From: Hriday Hegde <hridayhegde1999@gmail.com>
-Message-ID: <8c325c0f-d63e-fcac-8073-e5c8acafb74a@gmail.com>
-Date: Wed, 19 May 2021 21:24:57 +0530
+Message-ID: <3d382048-17d5-e933-7c5e-1af7de218a16@gmail.com>
+Date: Wed, 19 May 2021 21:26:50 +0530
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.2
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -62,16 +61,12 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210519145105.GC1417@agape.jhs>
+In-Reply-To: <YKUm8tf3bKvCf1YI@kroah.com>
 Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
-
-
-On 19-05-2021 20:21, Fabio Aiuto wrote:
-> Hi Hriday,
->
+On 19-05-2021 20:25, Greg Kroah-Hartman wrote:
 > On Wed, May 19, 2021 at 08:06:14PM +0530, Hriday Hegde wrote:
 >> On 19-05-2021 15:20, Greg Kroah-Hartman wrote:
 >>> A: http://en.wikipedia.org/wiki/Top_post
@@ -98,21 +93,13 @@ On 19-05-2021 20:21, Fabio Aiuto wrote:
 >> I am using the A Beginner's Guide to Linux Kernel Development (LFD103) by the linux foundation for this but i cant find any commands to as to build and test , the only way i tried compiling is with a custom Makefile and it didn't work, i've got a few errors so the const keyword might not work here since the variable is being written to.
 >>
 >>
-> try following this tutorial from scratch:
+> That is correct, when compiling (i.e. building), the compiler shows that
+> this is not a correct change.
 >
-> https://kernelnewbies.org/FirstKernelPatch
+> thanks,
 >
-> it's simply complete and helps a lot, from
-> gathering all tools needed to contribute to the
-> community to sending whole patchsets.
->
-> In your emails don't go over 80-100 character per line,
-> when you ask things or your mails will be difficult
-> to read.
->
-> thank you,
->
-> fabio
-Thank you for the guidance,  and will keep the char limit in
-mind.
+> greg k-h
+Oh ok will work with something else.
+
+Thanks.
 
