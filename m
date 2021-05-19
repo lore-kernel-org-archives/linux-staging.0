@@ -1,85 +1,78 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FED171
-	for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 18:19:56 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id g18so8818220pfr.2
-        for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 11:19:56 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16EF70
+	for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 19:39:40 +0000 (UTC)
+Received: by mail-qt1-f181.google.com with SMTP id k19so11064888qta.2
+        for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 12:39:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=itfac-mrt-ac-lk.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id;
-        bh=PW4uVNBA3mRHR7tGnDQy6S2ZgHL0fGnS5upoxeLAFS4=;
-        b=LAgQL50DJZ6I9DmMa17MmOp5E9BA+o10kFJrra9ikHEiPJnl7hP3KDysdkzJPCxdO7
-         DNZHH5mef9Uw1FEq/YgnMwDZSXtkBpurEZy40MAUAE7qhAJnlJnsb7eP20CsDOCoFlnp
-         ghGpALsJQ/OuaPCQTkNbDnZfxhiFVZ6pCJbVUb1ZNKi/KgrEPysh+ylJBmltbEFGwF2q
-         K5ru/1URHJN6RxsMaNI+py45qPI0/J/fk7PTJA2ziWIDGsMD/cuuSgd+R7oMoxChfN6i
-         o0ebko7Wmxl1fqf6WZFguy6+GD++rzI0D0k2kMz4GLL40VcRGZE9SAcjuFlgE4XUttmr
-         mjTA==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=02LE2Ct4623xELUCtUAbj1uXOX9qcsak7FEg/dNML6A=;
+        b=dzfDU5azfxRNJBTqHYG8or7QUfom7Bu1BO+LfG2VWEDP7d5C7BLgyjBJpD0anJp0Ng
+         3RBjBIuVcTRvCP0rq/fJk/A3IBXQQZml5+Slp74VHkrFyk2p4+sIffz0IxFOu7osZ8wn
+         WFd8zC7EK0gZ6+7d5sTjs6X/5GnpheehKVNLjV07k8e7vrI9ZSevlrOqD7B7SOlP6cLS
+         bSHX/NVngabjLm5e8Tj+Xqvsgi7KGVnN6gpAtkAmaTfM/HwAB6ijZwHdlZLgepKO/KXU
+         vLm6Z4ItCEQee67s6+rfvv3dKAG+DSTFfJc0tAw1ozQ8yd8O8yflZSRefiCuGdAkNyAJ
+         8M7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=PW4uVNBA3mRHR7tGnDQy6S2ZgHL0fGnS5upoxeLAFS4=;
-        b=tps4uovFAN8xrWItYp7cekSwdDp0ATyG/Mns76kQv3gKJhk20V2UTsVIknkHPnVkNa
-         SDsvAoBoZrDGzbf3xnTR0ATbLVRFN3rnWIEWKMvb7sQ7oZdmTe1G7vhTm4fKbjaqWao5
-         dRG/OM4gTHEw8Qv10IVk8fwyktdK+jzOlGu4uKEteA6DXgCOH/yj1PeX2lUeviRtc35O
-         ztmlA2CAVbWoby76BncAtWBafZTcA2C+KXPQb65mc8u0dpsbbYS1758PX2LuVYbGlMYz
-         jp8HU1DKDFxJw9MdckKXX+6kNpFa4LfvfUEjgEL+DJd7x3gzNYlGJ9ICUqX3XH4lbqbv
-         zh9A==
-X-Gm-Message-State: AOAM5317bixue+1KMshyoBF+3JcvdM7QFcbYZ7rhMmN5Hw6HPR4NmZNb
-	3yIbNLEMMHdHkm3lko35Ad2L
-X-Google-Smtp-Source: ABdhPJwXcf9yyVLYIrdBHqNyMJx+0WlY19enz6Kx/vmPzEP/3lG3o6ZWg/PgjWn9idU+8IRKMq/cXg==
-X-Received: by 2002:a63:5218:: with SMTP id g24mr384869pgb.309.1621448395848;
-        Wed, 19 May 2021 11:19:55 -0700 (PDT)
-Received: from localhost.localdomain ([2402:4000:11c7:ee12:ddf7:464f:3770:cc69])
-        by smtp.gmail.com with ESMTPSA id 205sm78211pfc.201.2021.05.19.11.19.52
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=02LE2Ct4623xELUCtUAbj1uXOX9qcsak7FEg/dNML6A=;
+        b=rVW4vKSdlNvI1rBgR15GZKbNMVatI2riMx3Ux8V82LKZ7XZFg2bYAxkLn9GunZvnj9
+         TaVeOsC/6Fha2y6zwudtqVlGZDmYZz66U4/HWEhS5epPvDazxQDDIlrFCShyvGw5lLnF
+         HmDTEMF0Y6DOmQHJ+77uQVID7Y6FhJvVZOpMTzyTUNdz2rN7RRtdKIfQ1GHBLbIHsRs5
+         Fln1xZA3yq0ppqSKxyG2ffd0nA7A5OtvbtmarDCOVyhklhNjzW4HFzzpReFmwixBEbb8
+         7mF4euKmdE2uKkfhnSCIn7i6alcXYVzf167UeLyeBmmuwVi9eVSC140EHCSQkIf8abHZ
+         CdyA==
+X-Gm-Message-State: AOAM530eBjywfD8npAB+CDlKGpmdrTiMpgIJ2Ams3DeRQjrXsC4lzKzN
+	PiO65xExx4Iauvqxw23Zdbo=
+X-Google-Smtp-Source: ABdhPJwN55plgQPAvjtWPUvdAgqqHiW+O3bkKZ8Bz/1z18i4usXndqMUBllGpcoyTFCIeZS9EN18Bw==
+X-Received: by 2002:ac8:5205:: with SMTP id r5mr1241881qtn.305.1621453179751;
+        Wed, 19 May 2021 12:39:39 -0700 (PDT)
+Received: from ubuntu ([191.96.170.47])
+        by smtp.gmail.com with ESMTPSA id w14sm279832qts.83.2021.05.19.12.39.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 May 2021 11:19:55 -0700 (PDT)
-From: "F.A.Sulaiman" <asha.16@itfac.mrt.ac.lk>
-To: johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	"F.A.Sulaiman" <asha.16@itfac.mrt.ac.lk>
-Subject: [PATCH V2] Staging: greybus: fix open parenthesis error in gbphy.c
-Date: Wed, 19 May 2021 23:49:38 +0530
-Message-Id: <20210519181938.30813-1-asha.16@itfac.mrt.ac.lk>
-X-Mailer: git-send-email 2.17.1
+        Wed, 19 May 2021 12:39:39 -0700 (PDT)
+Date: Wed, 19 May 2021 12:39:38 -0700
+From: Philippe Dixon <philippesdixon@gmail.com>
+To: vireshk@kernel.org
+Cc: rmfrfs@gmail.com, johan@kernel.org, elder@kernel.org,
+	gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: greybus: spi: add blank line after variable
+ declaration
+Message-ID: <20210519193938.GA7131@ubuntu>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This patch fix "Alignment should match open parenthesis" checkpatch error.
+This patch fixes the following checkpatch.pl warning:
 
-Signed-off-by: "F.A.Sulaiman" <asha.16@itfac.mrt.ac.lk>
+WARNING: Missing a blank line after declarations
+
+Signed-off-by: Philippe Dixon <philippesdixon@gmail.com>
 ---
- drivers/staging/greybus/gbphy.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/greybus/spilib.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/staging/greybus/gbphy.c b/drivers/staging/greybus/gbphy.c
-index 9fc5c47be9bd..13d319860da5 100644
---- a/drivers/staging/greybus/gbphy.c
-+++ b/drivers/staging/greybus/gbphy.c
-@@ -27,7 +27,7 @@ struct gbphy_host {
- static DEFINE_IDA(gbphy_id);
- 
- static ssize_t protocol_id_show(struct device *dev,
--				 struct device_attribute *attr, char *buf)
-+				struct device_attribute *attr, char *buf)
- {
- 	struct gbphy_device *gbphy_dev = to_gbphy_dev(dev);
- 
-@@ -221,7 +221,7 @@ void gb_gbphy_deregister_driver(struct gbphy_driver *driver)
- EXPORT_SYMBOL_GPL(gb_gbphy_deregister_driver);
- 
- static struct gbphy_device *gb_gbphy_create_dev(struct gb_bundle *bundle,
--				struct greybus_descriptor_cport *cport_desc)
-+						struct greybus_descriptor_cport *cport_desc)
- {
- 	struct gbphy_device *gbphy_dev;
- 	int retval;
+diff --git a/drivers/staging/greybus/spilib.c b/drivers/staging/greybus/spilib.c
+index 30655153df6a..ad0700a0bb81 100644
+--- a/drivers/staging/greybus/spilib.c
++++ b/drivers/staging/greybus/spilib.c
+@@ -246,6 +246,7 @@ static struct gb_operation *gb_spi_operation_create(struct gb_spilib *spi,
+ 	xfer = spi->first_xfer;
+ 	while (msg->state != GB_SPI_STATE_OP_DONE) {
+ 		int xfer_delay;
++
+ 		if (xfer == spi->last_xfer)
+ 			xfer_len = spi->last_xfer_size;
+ 		else
 -- 
-2.17.1
+2.25.1
 
