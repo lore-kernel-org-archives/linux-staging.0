@@ -1,35 +1,71 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D00B2FB6
-	for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 14:55:49 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F6A5610A8;
-	Wed, 19 May 2021 14:55:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1621436148;
-	bh=ClfjTj6vY4YvufBD/Qb0lGE5WKoSi7Gcm47l5UXBMVk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M4gDaXF3H/efxJL5GQz3p7hVKk/K3AUe3UMy3zSE9YDw5f7AWJd9MFQSKJfRsj3lr
-	 NhkAPK4RbzbvVf5Xx8zUG+wd/IEyWwN+7Nq+DxMzvaa+TW32Yd/mt91LGmXTWC8zek
-	 oLCu1XELyBoA+Yt6k7zk0eAR44w0WyBMpvhiO6VA=
-Date: Wed, 19 May 2021 16:55:46 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Hriday Hegde <hridayhegde1999@gmail.com>
-Cc: Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
-	Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Christian Brauner <christian@brauner.io>,
-	Hridya Valsaraju <hridya@google.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: android: ashmem: Declared file operation with
- 'const' keyword
-Message-ID: <YKUm8tf3bKvCf1YI@kroah.com>
-References: <20210519081958.7223-1-hridayhegde1999@gmail.com>
- <YKTM8KmXI8bXUSqp@kroah.com>
- <0ddb894f-f66f-f31b-ef8a-0646e0a99b9f@gmail.com>
- <YKTfbdFhvM7fbpet@kroah.com>
- <08cf8110-cf84-8784-c919-eba27474b796@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD47E2FB6
+	for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 15:08:40 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+	by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14JF5rt9115755;
+	Wed, 19 May 2021 15:08:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=O4M1xcTAuM/DDdc0c5CDLl/yAMutYPdkSv4nE2h3AeI=;
+ b=oiJTPjfiELJ31h/2dywpDTju0Qrln1slSZD7cshRMtRC1k/KtXgpy+pe9GMtWVazE3OI
+ T43P/YIzlig6H66ly2aKF7u3kVapM/k15DD0B3UxeQsIhQv1NV4PSFyb1WryaUD1CZBQ
+ FFqwljp8bpOKSyJyNYB4Wyq6SDS4HwAvqlsz2komMzLQEXQsZLN1fCER+K8D+To2ry0B
+ 517gY7iFWGrcvZqNfJ/TIrh0AA140vIF1hgaDBZIlVAvxVIcAQtm5DiurBep9g+eiZUT
+ UjhhSKTy+SXYwuNJTzyt18K3FAEz/7vz4bre9m2YARBqXaWviYUKa//gMujh8daNUqZY gQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by userp2130.oracle.com with ESMTP id 38j5qr9wfu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 19 May 2021 15:08:32 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14JF03JH086247;
+	Wed, 19 May 2021 15:08:32 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3020.oracle.com with ESMTP id 38mecjfk91-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 19 May 2021 15:08:32 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14JF52Qc141441;
+	Wed, 19 May 2021 15:08:31 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+	by aserp3020.oracle.com with ESMTP id 38mecjfk6v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 19 May 2021 15:08:31 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 14JF8S9g005989;
+	Wed, 19 May 2021 15:08:28 GMT
+Received: from kadam (/41.212.42.34)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Wed, 19 May 2021 08:08:27 -0700
+Date: Wed, 19 May 2021 18:08:14 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Anup Patel <anup@brainfault.org>,
+        Anup Patel <anup.patel@wdc.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Graf <graf@amazon.com>, Atish Patra <atish.patra@wdc.com>,
+        Alistair Francis <Alistair.Francis@wdc.com>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        KVM General <kvm@vger.kernel.org>, kvm-riscv@lists.infradead.org,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        linux-doc@vger.kernel.org,
+        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH v18 00/18] KVM RISC-V Support
+Message-ID: <20210519150814.GY1955@kadam>
+References: <20210519033553.1110536-1-anup.patel@wdc.com>
+ <YKSa48cejI1Lax+/@kroah.com>
+ <CAAhSdy18qySXbUdrEsUe-KtbtuEoYrys0TcmsV2UkEA2=7UQzw@mail.gmail.com>
+ <YKSgcn5gxE/4u2bT@kroah.com>
+ <YKTsyyVYsHVMQC+G@kroah.com>
+ <d7d5ad76-aec3-3297-0fac-a9da9b0c3663@redhat.com>
+ <YKUDWgZVj82/KiKw@kroah.com>
+ <daa30135-8757-8d33-a92e-8db4207168ff@redhat.com>
+ <YKUZbb6OK+UYAq+t@kroah.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -37,39 +73,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <08cf8110-cf84-8784-c919-eba27474b796@gmail.com>
+In-Reply-To: <YKUZbb6OK+UYAq+t@kroah.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: DSYkubxMfO3UDZdxS1ycNWkOZn5DmMy3
+X-Proofpoint-ORIG-GUID: DSYkubxMfO3UDZdxS1ycNWkOZn5DmMy3
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9989 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 impostorscore=0
+ mlxscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=999
+ suspectscore=0 adultscore=0 priorityscore=1501 spamscore=0 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2105190095
 
-On Wed, May 19, 2021 at 08:06:14PM +0530, Hriday Hegde wrote:
-> On 19-05-2021 15:20, Greg Kroah-Hartman wrote:
-> > A: http://en.wikipedia.org/wiki/Top_post
-> > Q: Were do I find info about this thing called top-posting?
-> > A: Because it messes up the order in which people normally read text.
-> > Q: Why is top-posting such a bad thing?
-> > A: Top-posting.
-> > Q: What is the most annoying thing in e-mail?
-> >
-> > http://daringfireball.net/2007/07/on_top
-> >
-> > On Wed, May 19, 2021 at 03:00:08PM +0530, Hriday Hegde wrote:
-> >> I am not really sure how to do that and how to reflect it in the patch i followed what was taught in the Beginners course and it does not mention building. I know i need to test it out but is running 'patch -p1 < x.patch what i need to do?
-> > That does not build the code you changed, right?
-> >
-> > I'm sure whatever course you took, it did reference the fact that you
-> > need to ensure that your change actually works properly by the very
-> > least being able to be compiled correctly.  Please go over those
-> > instructions again.
-> >
-> > good luck!
-> >
-> > greg k-h
-> 
-> I am using the A Beginner's Guide to Linux Kernel Development (LFD103) by the linux foundation for this but i cant find any commands to as to build and test , the only way i tried compiling is with a custom Makefile and it didn't work, i've got a few errors so the const keyword might not work here since the variable is being written to.
-> 
-> 
+It's sort of frustrating that none of this information was in the commit
+message.
 
-That is correct, when compiling (i.e. building), the compiler shows that
-this is not a correct change.
+"This code is not ready to be merged into the arch/risc/ directory
+because the RISC-V Foundation has not certified the hardware spec yet.
+However, the following chips have implemented it ABC12345, ABC6789 and
+they've already shipping to thousands of customers since blah blah blah
+so we should support it."
 
-thanks,
+I honestly thought it was an issue with the code or the userspace API.
 
-greg k-h
+regards,
+dan carpenter
+
