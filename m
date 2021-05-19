@@ -1,41 +1,51 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD9870
-	for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 12:23:56 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0886860FE8;
-	Wed, 19 May 2021 12:23:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1621427036;
-	bh=qf5m2Nia+4DoUNrww0bmk5cQtJEm5cWAINMR8yRdz/A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YfCZvauDRbYUmSAlgtaMrkiKYI1UYEyinYzXVIPR7xRh1CtNh0+9OVD9OrNltg37F
-	 ahwtG1OzCfm+TPgAP2KCQ/seEJB4ce2EP9qVSocsEdEVaEDy5NMlr35rgUFUsut7E7
-	 UvuvRtU/TJAcTlN9lW3pCF7Im0grQPZmNY7SFmII=
-Date: Wed, 19 May 2021 14:23:54 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Anup Patel <anup@brainfault.org>, Anup Patel <anup.patel@wdc.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Palmer Dabbelt <palmerdabbelt@google.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
-	Alexander Graf <graf@amazon.com>, Atish Patra <atish.patra@wdc.com>,
-	Alistair Francis <Alistair.Francis@wdc.com>,
-	Damien Le Moal <damien.lemoal@wdc.com>,
-	KVM General <kvm@vger.kernel.org>, kvm-riscv@lists.infradead.org,
-	linux-riscv <linux-riscv@lists.infradead.org>,
-	linux-doc@vger.kernel.org,
-	"linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v18 00/18] KVM RISC-V Support
-Message-ID: <YKUDWgZVj82/KiKw@kroah.com>
-References: <20210519033553.1110536-1-anup.patel@wdc.com>
- <YKSa48cejI1Lax+/@kroah.com>
- <CAAhSdy18qySXbUdrEsUe-KtbtuEoYrys0TcmsV2UkEA2=7UQzw@mail.gmail.com>
- <YKSgcn5gxE/4u2bT@kroah.com>
- <YKTsyyVYsHVMQC+G@kroah.com>
- <d7d5ad76-aec3-3297-0fac-a9da9b0c3663@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EACD172
+	for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 12:44:42 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id p7so10145132wru.10
+        for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 05:44:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ScinkFGOJoc8OlIzl9hdR3ylpAQjgnxUkerv31RVSCw=;
+        b=ZQLHHA737m6BkJjTJ61c8UM3q3uVcQ5xNivXeYgsfQTYrDK+XVLC6BnAv8wWz3Qerz
+         VezzD1d0C+ny8ZI4bUNS9BdibN3/2iKMXeccFmZmPD9X4qrG9OyoPlkciD+w7inFJYUU
+         7HcOMHbPkgziceFimusw+CjQ27X6qGRqPMknkZteKh2XtsHq6YGn7WjtJekuV2/v+co3
+         GJRlPbeSh16OiqO6HpZLBMzadXAUdPHbO2t43N23gCQQSjNM9xGbOEzbJismEopasb8q
+         x/aSVPR92ciFr6tVS/liv44RUC3ltNu/DBv6cMb2N9e9kLN0fWG3Tq2lwKNYngrOEbI4
+         /Ykw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ScinkFGOJoc8OlIzl9hdR3ylpAQjgnxUkerv31RVSCw=;
+        b=K+JHg3VcDskwY4egtKmXkUcqq/wTx1Mdq1K62/WREAiao7ro2HE/E6doy9sXhjekGA
+         bdlQyFAbFaLU5c/Q1EwLJkalcPmo8QWQYBQdO7g88tr37XoQAnnXZCOqR6yIcsYf/IGp
+         zSTMehdDQm3Vt7HI1sroVSVzVqsnPC9QHNeFKjDRkT8kVFo/4YFyyoP6jf7lJ94DnfCS
+         VuFgL28NHk3ygjU7SWm/06SpAqH0Rvnk2KyE/KhztwoP+Z4cz11I521iMwAbabTJeg2x
+         XytWz4Z2SPrMkIxOPHNQfJJRFjTIThdX6iuFb+8jVBbbW1gHK2pWTTf+RKqqoOSY0sgw
+         G1rQ==
+X-Gm-Message-State: AOAM532scMnleWIX6gIoNR4WN/IvbCaozjLcfJTMZPDFlLLgKwKfU96d
+	0y4lX/8nvqHstHd7srr8Fuw=
+X-Google-Smtp-Source: ABdhPJzR3yfTJ3agrm7I7IPuHEFVUV+G567MXyJj0bbbRJm/v+J0DQHlQJ0SsSEtozdC5HSBYC6pGQ==
+X-Received: by 2002:adf:ea82:: with SMTP id s2mr14264120wrm.397.1621428281538;
+        Wed, 19 May 2021 05:44:41 -0700 (PDT)
+Received: from agape.jhs ([5.171.80.197])
+        by smtp.gmail.com with ESMTPSA id x2sm10905721wmj.3.2021.05.19.05.44.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 May 2021 05:44:41 -0700 (PDT)
+Date: Wed, 19 May 2021 14:44:38 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: remove if (true) statement
+Message-ID: <20210519124438.GA1417@agape.jhs>
+References: <20210518144335.1677320-1-hello@bryanbrattlof.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -43,67 +53,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d7d5ad76-aec3-3297-0fac-a9da9b0c3663@redhat.com>
+In-Reply-To: <20210518144335.1677320-1-hello@bryanbrattlof.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Wed, May 19, 2021 at 01:18:44PM +0200, Paolo Bonzini wrote:
-> On 19/05/21 12:47, Greg Kroah-Hartman wrote:
-> > > It is not a dumping ground for stuff that arch maintainers can not seem
-> > > to agree on, and it is not a place where you can just randomly play
-> > > around with user/kernel apis with no consequences.
-> > > 
-> > > So no, sorry, not going to take this code at all.
-> > 
-> > And to be a bit more clear about this, having other subsystem
-> > maintainers drop their unwanted code on this subsystem,_without_  even
-> > asking me first is just not very nice. All of a sudden I am now > responsible for this stuff, without me even being asked about it.
-> > Should I start throwing random drivers into the kvm subsystem for them
-> > to maintain because I don't want to?:)
+Hi Bryan,
+
+On Tue, May 18, 2021 at 02:45:19PM +0000, Bryan Brattlof wrote:
+> 'if (true) { ... }' will always evaluate to true. Remove it and
+> save a few tabs for somewhere else.
 > 
-> (I did see the smiley), I'm on board with throwing random drivers in
-> arch/riscv. :)
+> Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_ap.c | 159 ++++++++++++------------
+>  1 file changed, 78 insertions(+), 81 deletions(-)
 > 
-> The situation here didn't seem very far from what process/2.Process.rst says
-> about staging:
-> 
-> - "a way to keep track of drivers that aren't up to standards", though in
-> this case the issue is not coding standards or quality---the code is very
-> good---and which people "may want to use"
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+> index 9df4476b2e2d..98b1bec67999 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+> @@ -59,112 +59,109 @@ static void update_BCNTIM(struct adapter *padapter)
+>
 
-Exactly, this is different.  And it's not self-contained, which is
-another requirement for staging code that we have learned to enforce
-over the years (makes it easier to rip out if no one is willing to
-maintain it.)
+I was wondering why are you using the first patch of a nine patch
+series as a 'cover letter' of an eight patch patchset.
 
-> - the code could be removed if there's no progress on either changing the
-> RISC-V acceptance policy or ratifying the spec
+In other words, why putting the In-Reply-To field of all patches subsequent
+to the first one ponting to the first patch itself as a cover letter,
+is it a recommened practice?
 
-I really do not understand the issue here, why can this just not be
-merged normally?
+thank you,
 
-Is the code somehow not ok?  Is it relying on hardware in ways that
-breaks other users?  Does it cause problems for different users?  Is it
-a user api that you don't like or think is the "proper" one?
-
-All staging drivers need a TODO list that shows what needs to be done in
-order to get it out of staging.  All I can tell so far is that the riscv
-maintainers do not want to take this for "unknown reasons" so let's dump
-it over here for now where we don't have to see it.
-
-And that's not good for developers or users, so perhaps the riscv rules
-are not very good?
-
-> Of course there should have been a TODO file explaining the situation. But
-> if you think this is not the right place, I totally understand; if my
-> opinion had any weight in this, I would just place it in arch/riscv/kvm.
-> 
-> The RISC-V acceptance policy as is just doesn't work, and the fact that
-> people are trying to work around it is proving it.  There are many ways to
-> improve it:
-
-What is this magical acceptance policy that is preventing working code
-from being merged?  And why is it suddenly the rest of the kernel
-developer's problems because of this?
-
-thanks,
-
-greg k-h
+fabio
