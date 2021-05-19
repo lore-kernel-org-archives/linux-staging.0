@@ -1,104 +1,144 @@
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FEC770
-	for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 20:06:44 +0000 (UTC)
-Received: by mail-il1-f176.google.com with SMTP id h6so13274503ila.7
-        for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 13:06:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=yZeOnuZeT/FAFpEU8iKvZOWrDJSy1lQIQkosiknz+tw=;
-        b=B4L4Cf4ob7jI8O9tCpuGsSoGTTsYT8cNP5C9LiGilDHx9PkhpMToY9/1ewEkYXeKHj
-         W3jdPK68fcLfLZGyadnqvj01SLWr2Eb73VBvpyJD+DHI0LHr0rY0JI/7Vea++hnf8wA2
-         tn6oQnUx4SLKT/CFbkcyjDyq5A/I/Rs1GTu4c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=yZeOnuZeT/FAFpEU8iKvZOWrDJSy1lQIQkosiknz+tw=;
-        b=W/S14Y/TAXbAPKIj5iRdNvx0YnNDFCrEZ8HhXxcatwfvScRLZAG6I+eXMkFegd+5X5
-         zFnkt7Nn7OAOHvPxy0saM+pnmUv9p9iDwIXMq2pCrcZgY8dNhDR5evC0Pfs/Hhn4yfyV
-         g70oMFTTeleCN/ynGqYtW9Ggz+p8Xo6xkYQ90EezYSHStm3yCrpbuJqma5z2ZaPveGNz
-         z7v3mw/decxnLGbetd7yXJPlZEcppkCkM5p0mqc1JRcZg5nKpbsIv1FSYw7uzH8qOmiz
-         TMIKtOwMASVYkYvZD04G3OEzbt0jTePwf+1A1gsFK6fiXZh9RuRNklo3CldLI7jzBYx9
-         47bA==
-X-Gm-Message-State: AOAM530i5IG12rYZDiMwebhVVPuVvauWNoOMAiGYq8Am+0vFVoKDaBeo
-	4MXTKdPvpex0jVVOfs/hTcve1Q==
-X-Google-Smtp-Source: ABdhPJyMEwvEgzqb8XIl+iED4/ZpznyOYcX85jjsq1lC52oKNgGcLJYBNbDvhDFAMFiGWRJzkYm2+w==
-X-Received: by 2002:a92:3f08:: with SMTP id m8mr884825ila.154.1621454803442;
-        Wed, 19 May 2021 13:06:43 -0700 (PDT)
-Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
-        by smtp.googlemail.com with ESMTPSA id v2sm577049ioh.14.2021.05.19.13.06.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 May 2021 13:06:42 -0700 (PDT)
-Subject: Re: [PATCH V2] Staging: greybus: fix open parenthesis error in
- gbphy.c
-To: "F.A.Sulaiman" <asha.16@itfac.mrt.ac.lk>, johan@kernel.org,
- elder@kernel.org, gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20210519181938.30813-1-asha.16@itfac.mrt.ac.lk>
-From: Alex Elder <elder@ieee.org>
-Message-ID: <4af943f6-9baa-72a6-12b5-6b35179a7019@ieee.org>
-Date: Wed, 19 May 2021 15:06:42 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9FE172
+	for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 20:36:30 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0EA0361353;
+	Wed, 19 May 2021 20:36:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1621456590;
+	bh=hPDZ+qhFdL3l1wvU7xVmrc9Ovo2GaDsgSYaq2W7tiuc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=h+icgfG5fIC2bm1IbpxJ8ERv095myrQ0TEv7RQ6Sf7gbfsNW0VGyTHTOIiuCjYiMw
+	 G0Fl59Q7M9/2VGshEmzTKANvrn05Lb9HOKLPTp2F1UwZBRCyJV2sUlDIQhb2vZlVOQ
+	 EOv/cjOq5CLfVyYX3uqubQy5+btsPdT4c7F1VvAE4OPwoEbaesaXewazgwGDHg40AS
+	 Yq6m6eU2plVKWVbGeWasB2ipoW9cDWAbDVQcB3QfZhuaaXdvrZW6te81EZqa2yqxBX
+	 R2pKd+Q2nYsjNpYLP1XTH9loBQAz9sx4Ys7rLN1AEs/LH5djMU6ZD0c2ylZil+oX1I
+	 2LFFaGJ8eLTqw==
+Date: Wed, 19 May 2021 15:36:28 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: linux-mips@vger.kernel.org, tsbogend@alpha.franken.de,
+	devicetree@vger.kernel.org, matthias.bgg@gmail.com,
+	john@phrozen.org, bhelgaas@google.com, robh+dt@kernel.org,
+	linux-staging@lists.linux.dev, gregkh@linuxfoundation.org,
+	neil@brown.name, ilya.lipnitskiy@gmail.com,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH 0/4] MIPS: ralink: pci: driver for Pcie controller in
+ MT7621 SoCs
+Message-ID: <20210519203628.GA254894@bjorn-Precision-5520>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210519181938.30813-1-asha.16@itfac.mrt.ac.lk>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210515124055.22225-1-sergio.paracuellos@gmail.com>
 
-On 5/19/21 1:19 PM, F.A.Sulaiman wrote:
-> This patch fix "Alignment should match open parenthesis" checkpatch error.
+On Sat, May 15, 2021 at 02:40:51PM +0200, Sergio Paracuellos wrote:
+> MediaTek MT7621 PCIe subsys supports single Root complex (RC)
+> with 3 Root Ports. Each Root Ports supports a Gen1 1-lane Link.
+> Topology is as follows:
 > 
-> Signed-off-by: "F.A.Sulaiman" <asha.16@itfac.mrt.ac.lk>
-
-I have mixed feelings about this one.  This alignment rule
-is fine, but I personally don't think it improves things.
-
-Aside from that, there are a few more places in the Greybus
-code that lead to exactly this warning.  So I guess, if we're
-going to have the code follow this alignment rule, why not
-just fix all spots at once (i.e., in a patch series)?
-
-Anyway, I'll offer this, but perhaps others can provide
-their opinion.
-
-Acked-by: Alex Elder <elder@linaro.org>
-
-> ---
->   drivers/staging/greybus/gbphy.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>                           MT7621 PCIe HOST Topology
 > 
-> diff --git a/drivers/staging/greybus/gbphy.c b/drivers/staging/greybus/gbphy.c
-> index 9fc5c47be9bd..13d319860da5 100644
-> --- a/drivers/staging/greybus/gbphy.c
-> +++ b/drivers/staging/greybus/gbphy.c
-> @@ -27,7 +27,7 @@ struct gbphy_host {
->   static DEFINE_IDA(gbphy_id);
->   
->   static ssize_t protocol_id_show(struct device *dev,
-> -				 struct device_attribute *attr, char *buf)
-> +				struct device_attribute *attr, char *buf)
->   {
->   	struct gbphy_device *gbphy_dev = to_gbphy_dev(dev);
->   
-> @@ -221,7 +221,7 @@ void gb_gbphy_deregister_driver(struct gbphy_driver *driver)
->   EXPORT_SYMBOL_GPL(gb_gbphy_deregister_driver);
->   
->   static struct gbphy_device *gb_gbphy_create_dev(struct gb_bundle *bundle,
-> -				struct greybus_descriptor_cport *cport_desc)
-> +						struct greybus_descriptor_cport *cport_desc)
->   {
->   	struct gbphy_device *gbphy_dev;
->   	int retval;
+>                                    .-------.
+>                                    |       |
+>                                    |  CPU  |
+>                                    |       |
+>                                    '-------'
+>                                        |
+>                                        |
+>                                        |
+>                                        v
+>                               .------------------.
+>                   .-----------|  HOST/PCI Bridge |------------.
+>                   |           '------------------'            |     Type1 
+>          BUS0     |                     |                     |    Access 
+>                   v                     v                     v    On Bus0
+>           .-------------.        .-------------.       .-------------.
+>           | VIRTUAL P2P |        | VIRTUAL P2P |       | VIRTUAL P2P |
+>           |    BUS0     |        |    BUS0     |       |    BUS0     |
+>           |    DEV0     |        |    DEV1     |       |    DEV2     |
+>           '-------------'        '-------------'       '-------------'
+>     Type0        |          Type0       |         Type0       |
+>    Access   BUS1 |         Access   BUS2|        Access   BUS3|
+>    On Bus1       v         On Bus2      v        On Bus3      v
+>            .----------.           .----------.          .----------.
+>            | Device 0 |           | Device 0 |          | Device 0 |
+>            |  Func 0  |           |  Func 0  |          |  Func 0  |
+>            '----------'           '----------'          '----------'
 > 
+> This driver has been very long time in staging and I have been cleaning
+> it from its first versions where there was code kaos and PCI_LEGACY support.
+> Original code came probably from openWRT based on mediatek's SDK code. There
+> is no documentation at all about the mt7621 PCI subsystem.
+> I have been cleaning it targeting mt7621 SoC which is the one I use in
+> my GNUBee PC1 board and HiLink HLK-MT7621A evaluation board.
+> 
+> Now I think is clean enough to be moved into 'arch/mips/pci'.
+> 
+> This driver also uses already mainlined pci phy driver located in
+> 'drivers/phy/ralink/phy-mt7621-pci.c'. There are two instances of
+> the phy being the first one dual ported for pci0 and pci1, and the 
+> second one not dual ported dedicated to pci2. Because of writing twice 
+> some phy registers of the dual-ported one sometimes become in not
+> confident boot cycles we have to take care of this when device link
+> is checked here in controller driver. We power on the dual ported-phy
+> if there is something connected in pcie0 or pcie1. In the same manner
+> we have to properly disable it only if nothing is connected in of both
+> pcie0 and pci1 slots.
+> 
+> Another thing that must be mentioned is that this driver uses IO
+> in physical address 0x001e160000. IO_SPACE_LIMIT for MIPS is 0xffff
+> so some generic PCI functions (like of_pci_range_to_resource) won't
+> work and the resource ranges part for IO is set manually.
+> 
+> I had already sent binding documentation to be reviewed but I am
+> include also here with the driver itself and this cover letter
+> to make easy review process.
+> 
+> Best regards,
+>     Sergio Paracuellos
+> 
+> Sergio Paracuellos (4):
+>   dt-bindings: mt7621-pci: PCIe binding documentation for MT7621 SoCs
+>   MIPS: pci: Add driver for MT7621 PCIe controller
+>   staging: mt7621-pci: remove driver from staging
 
+Generally it's better if the move can be done in one commit instead of
+an add followed by a remove.
+
+I see there are a bunch of MIPS PCI controller drivers in
+arch/mips/pci/, so I see the argument for putting this one there as
+well.
+
+But most of the similar drivers are in drivers/pci/controller/, where
+I think it's easier to keep them up to date with changes in the PCI
+core.  Have you considered putting this one there?
+
+>   MAINTAINERS: add myself as maintainer of the MT7621 PCI controller
+>     driver
+> 
+>  .../bindings/pci/mediatek,mt7621-pci.yaml     | 149 ++++++++++++++++++
+>  MAINTAINERS                                   |   6 +
+>  arch/mips/pci/Makefile                        |   1 +
+>  .../mt7621-pci => arch/mips/pci}/pci-mt7621.c |   0
+>  arch/mips/ralink/Kconfig                      |   9 +-
+>  drivers/staging/Kconfig                       |   2 -
+>  drivers/staging/Makefile                      |   1 -
+>  drivers/staging/mt7621-pci/Kconfig            |   8 -
+>  drivers/staging/mt7621-pci/Makefile           |   2 -
+>  drivers/staging/mt7621-pci/TODO               |   4 -
+>  .../mt7621-pci/mediatek,mt7621-pci.txt        | 104 ------------
+>  11 files changed, 164 insertions(+), 122 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml
+>  rename {drivers/staging/mt7621-pci => arch/mips/pci}/pci-mt7621.c (100%)
+>  delete mode 100644 drivers/staging/mt7621-pci/Kconfig
+>  delete mode 100644 drivers/staging/mt7621-pci/Makefile
+>  delete mode 100644 drivers/staging/mt7621-pci/TODO
+>  delete mode 100644 drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt
+> 
+> -- 
+> 2.25.1
