@@ -1,98 +1,92 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA37572
-	for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 14:17:03 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14JEAuqv032331;
-	Wed, 19 May 2021 14:17:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type : in-reply-to;
- s=corp-2020-01-29; bh=ttNoL6vgSqzxpKKnbEpf/kAYwaiUjRWRovcI3xZDGdE=;
- b=0GdMpxmsosE0EL3MAhz7ajiIk6idjGHJUCgE4mKUSGgcUy9blt2nYhGfEBuSBvEMx8/g
- i9hHiUW6KUxbvn4YfuYE+WB+Gr5Vzy+3lclh3RX/Jwp+q8APzZyyksPYjxM3xSmKMs8d
- zwuaFddWJQG4cLsjr7+4SXl1Sz+0wgnY7FiWOn4JYZw8HbJFXhpd6rWBCCjm70w8oI3/
- jsWib6SNVGJjSce9YALqWa/xzqugGdPP6gyQJJxVDoxMJgkv5Mgj79E7m1Gmh4GP3zpv
- 4G7R6ONYB4KYLJOCNqHLMS8elG3Zln3sWpKn9Ug+bte1RCc/lBKCR3jUW8lE3/sRBeUd qw== 
-Received: from oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by mx0b-00069f02.pphosted.com with ESMTP id 38kh0h95sv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 19 May 2021 14:17:01 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
-	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14JEBnqs181104;
-	Wed, 19 May 2021 14:17:01 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3030.oracle.com with ESMTP id 38meeg5mx4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 19 May 2021 14:17:01 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14JEGm2q000820;
-	Wed, 19 May 2021 14:17:00 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by aserp3030.oracle.com with ESMTP id 38meeg5mwm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 19 May 2021 14:17:00 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 14JEGwpG030507;
-	Wed, 19 May 2021 14:16:58 GMT
-Received: from mwanda (/41.212.42.34)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Wed, 19 May 2021 07:16:57 -0700
-Date: Wed, 19 May 2021 17:16:50 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Somya Anand <somyaanand214@gmail.com>
-Cc: Alex Dewar <alex.dewar90@gmail.com>, Sean Behan <codebam@riseup.net>,
-        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-        linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org
-Subject: [PATCH] staging: emxx_udc: fix loop in _nbu2ss_nuke()
-Message-ID: <YKUd0sDyjm/lkJfJ@mwanda>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCBC02FB6
+	for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 14:36:24 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id t21so7154965plo.2
+        for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 07:36:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=/7osFR6MEEYQpHLWyp6KyxkTwNcxiA/gGlaqW/3bR3s=;
+        b=W0auG0ei3o/B9QcqCK31lm5YRnE4wvDSB1toLIbs7NsMkpIH+mfAEGufjYzVTJXsN9
+         cGTXYDJQLuK+3n0Ewm1+3RSiD/5arlhWwCECU2l6sdU0cCnstTXo03E+GlbWrOWKbaz2
+         Wrin7MmqqGhnuxJJWE2kFnYiXoOtRGrWplH51rNb+m1Ao18J8Xw9RzllYAAqhtPLyYNK
+         AOGz4Yfc8BPyYbI48Yg/atdmhcKFZg7Gf6tSBnG4SP9I1Z04e6XFpE52hpxo7i6Vep9U
+         cGECBrH1VZ9juvjfmdD2DM25VDsVMRjx15lkZgFZvFCGW+q8IkXRniDkK3SaK1bVdLnV
+         4PcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=/7osFR6MEEYQpHLWyp6KyxkTwNcxiA/gGlaqW/3bR3s=;
+        b=Rn4fvxB5AyuEjoypY4Ha7l0miNxAg7UZR0m4OEyQslTxC0RmI2hICdyPLsdB9phebs
+         M6DZbvRAyZUSbxrIcPYEo/IjItkx+YQRBWlGeY4ltpJA+/SMg28aFGYnXR6m80PMLV2S
+         cUxxkFLGU4nqOHxfSH4voQBQGYlxqtmSBSvjbnQLXU2f1bc7WtF2CvZvz7m3lJw47x6b
+         3vJWIMWiP0bioaI0FSpe7aeQ5BD4TnWuZuCCK0Xq9l4yjZiS5JgNMPAIMldPMv5kCLPw
+         IStmmPSJELVJE/pJQ18CLy8fn0iyPbK7Sbna2mgtdfRs7itGq6ijTHwK06OanipNu1qd
+         REnQ==
+X-Gm-Message-State: AOAM5321UQUAlFUxWLosrQkkj8zmrAyXhFyJokps4sN2qRgsSXMNrHOl
+	Xc5Qh21eJeMUAQczokEF18EDYfET3KZ1kAjh
+X-Google-Smtp-Source: ABdhPJzrY3zr58BXKEAhkbpJsFzuw4adk1CjKpAfSqW6blcLIZp7DXwFgSeLAjZIZ4BGKoN8oAymiw==
+X-Received: by 2002:a17:90a:ad44:: with SMTP id w4mr11818669pjv.71.1621434983688;
+        Wed, 19 May 2021 07:36:23 -0700 (PDT)
+Received: from [192.168.1.2] ([103.196.78.23])
+        by smtp.gmail.com with ESMTPSA id t24sm4304154pji.56.2021.05.19.07.36.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 May 2021 07:36:23 -0700 (PDT)
+Subject: Re: [PATCH] staging: android: ashmem: Declared file operation with
+ 'const' keyword
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: =?UTF-8?Q?Arve_Hj=c3=b8nnev=c3=a5g?= <arve@android.com>,
+ Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ Christian Brauner <christian@brauner.io>,
+ Hridya Valsaraju <hridya@google.com>, Suren Baghdasaryan
+ <surenb@google.com>, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20210519081958.7223-1-hridayhegde1999@gmail.com>
+ <YKTM8KmXI8bXUSqp@kroah.com> <0ddb894f-f66f-f31b-ef8a-0646e0a99b9f@gmail.com>
+ <YKTfbdFhvM7fbpet@kroah.com>
+From: Hriday Hegde <hridayhegde1999@gmail.com>
+Message-ID: <08cf8110-cf84-8784-c919-eba27474b796@gmail.com>
+Date: Wed, 19 May 2021 20:06:14 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210518082855.GB32682@kadam>
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-GUID: l8gXSyTnNlChFqyjx9ZduCya7AJHYhzx
-X-Proofpoint-ORIG-GUID: l8gXSyTnNlChFqyjx9ZduCya7AJHYhzx
+In-Reply-To: <YKTfbdFhvM7fbpet@kroah.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-The _nbu2ss_ep_done() function calls:
+On 19-05-2021 15:20, Greg Kroah-Hartman wrote:
+> A: http://en.wikipedia.org/wiki/Top_post
+> Q: Were do I find info about this thing called top-posting?
+> A: Because it messes up the order in which people normally read text.
+> Q: Why is top-posting such a bad thing?
+> A: Top-posting.
+> Q: What is the most annoying thing in e-mail?
+>
+> http://daringfireball.net/2007/07/on_top
+>
+> On Wed, May 19, 2021 at 03:00:08PM +0530, Hriday Hegde wrote:
+>> I am not really sure how to do that and how to reflect it in the patch i followed what was taught in the Beginners course and it does not mention building. I know i need to test it out but is running 'patch -p1 < x.patch what i need to do?
+> That does not build the code you changed, right?
+>
+> I'm sure whatever course you took, it did reference the fact that you
+> need to ensure that your change actually works properly by the very
+> least being able to be compiled correctly.  Please go over those
+> instructions again.
+>
+> good luck!
+>
+> greg k-h
 
-	list_del_init(&req->queue);
-
-which means that the loop will never exit.
-
-Fixes: ca3d253eb967 ("Staging: emxx_udc: Iterate list using list_for_each_entry")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/staging/emxx_udc/emxx_udc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/emxx_udc/emxx_udc.c b/drivers/staging/emxx_udc/emxx_udc.c
-index 741147a4f0fe..ecc5c9da9027 100644
---- a/drivers/staging/emxx_udc/emxx_udc.c
-+++ b/drivers/staging/emxx_udc/emxx_udc.c
-@@ -2064,7 +2064,7 @@ static int _nbu2ss_nuke(struct nbu2ss_udc *udc,
- 			struct nbu2ss_ep *ep,
- 			int status)
- {
--	struct nbu2ss_req *req;
-+	struct nbu2ss_req *req, *n;
- 
- 	/* Endpoint Disable */
- 	_nbu2ss_epn_exit(udc, ep);
-@@ -2076,7 +2076,7 @@ static int _nbu2ss_nuke(struct nbu2ss_udc *udc,
- 		return 0;
- 
- 	/* called with irqs blocked */
--	list_for_each_entry(req, &ep->queue, queue) {
-+	list_for_each_entry_safe(req, n, &ep->queue, queue) {
- 		_nbu2ss_ep_done(ep, req, status);
- 	}
- 
--- 
-2.30.2
+I am using the A Beginner's Guide to Linux Kernel Development (LFD103) by the linux foundation for this but i cant find any commands to as to build and test , the only way i tried compiling is with a custom Makefile and it didn't work, i've got a few errors so the const keyword might not work here since the variable is being written to.
 
