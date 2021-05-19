@@ -1,88 +1,104 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch [185.70.40.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685FD72
-	for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 13:48:12 +0000 (UTC)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14JDlbAw014603;
-	Wed, 19 May 2021 13:48:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=hKkNxCeeV5ubpGYC5anEExFajr09TOQeCeuI5eLF1o4=;
- b=A/Xbe/NVcYXOIrDxMrZWCozalfL5ZEIhjjmTyWWw8Y+k0TwGBetos9sf1WpKICsHij5K
- E/C4AYE1lheqGgZqsAEBcfzAG5RZ0PX2mMvRw1qcVe6KIqN7PPdDt+Y4Hqv7WwYuGnET
- Tz3ks1F47fco/bTLVbBp8b86BkO6iCA3DJ5hDD9hiEGBOs3cZv1fFpCeimWoLP1D19wX
- UC62I6Ach7H5S5rIZDQOcq5XSpjyj2F7CS3JG/+IuhSrs4JncuMLmb1n7e4EOsETpBiT
- 0AoatHSLYrAEbSFwOsOagoeB+HmrjcGQp5EN9AVT/AuyZFkrhgDwUfjzcX0pR/Wg6oWD XA== 
-Received: from oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by mx0b-00069f02.pphosted.com with ESMTP id 38n3dg009s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 19 May 2021 13:48:07 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14JDm7ac158894;
-	Wed, 19 May 2021 13:48:07 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3020.oracle.com with ESMTP id 38mecj8e3s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 19 May 2021 13:48:07 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14JDm6Vc158734;
-	Wed, 19 May 2021 13:48:06 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-	by aserp3020.oracle.com with ESMTP id 38mecj8e1g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 19 May 2021 13:48:06 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
-	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 14JDm4KQ014423;
-	Wed, 19 May 2021 13:48:04 GMT
-Received: from kadam (/41.212.42.34)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Wed, 19 May 2021 13:48:03 +0000
-Date: Wed, 19 May 2021 16:47:55 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Rajat Asthana <thisisrast7@gmail.com>
-Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org,
-        elder@kernel.org, gregkh@linuxfoundation.org,
-        greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] greybus: audio: Fix sparse warning.
-Message-ID: <20210519134754.GX1955@kadam>
-References: <20210519102947.GU1955@kadam>
- <20210519134119.848055-1-thisisrast7@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E1A72
+	for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 13:51:20 +0000 (UTC)
+Date: Wed, 19 May 2021 13:51:12 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
+	s=protonmail3; t=1621432277;
+	bh=SNNcRVOFVpr35EZL4/N+6W9VvKSlRNMPq2xvss0knNw=;
+	h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+	b=TXaRBf41aHSzJdXeZJS9xYMZ0PEvrSFrt9/P3ojk1QYAkX/XzEDE7EE2lKZONgiDd
+	 10Nd//LTgMyya0waxBXer36OT8ZUWIdwh48AqjLje6B9fc9hGKbeba3CQ/bxAm/57w
+	 lzLyiG3Nv5f9wFOnFuUQ+PmL3VP5MOAixqLQPhggapq+1W8zRCrgEyHAF/BinfBnRX
+	 KjydRyQzaGwAJxOD3xvE4Wf6lMhhoEzsY2iECV0if01hQWwrzmMInfTXlOEtqC63lL
+	 rUU2h61ZeiE9ixLyBWLi3l7vs3AT0J2nbKySe4PmSXSPKKb3/JiYE1e03Xz3DuYJg4
+	 3/RTkkmgtFBRQ==
+To: Dan Carpenter <dan.carpenter@oracle.com>, Fabio Aiuto <fabioaiuto83@gmail.com>
+From: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Larry Finger <Larry.Finger@lwfinger.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
+Subject: Re: [PATCH] staging: rtl8723bs: remove if (true) statement
+Message-ID: <20210519135020.wm3qi4gv475hg54b@bryanbrattlof.com>
+In-Reply-To: <20210519133108.GW1955@kadam>
+References: <20210518144335.1677320-1-hello@bryanbrattlof.com> <20210519124438.GA1417@agape.jhs> <20210519132529.GV1955@kadam> <20210519133108.GW1955@kadam>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210519134119.848055-1-thisisrast7@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: vZy0g9eCQSCm3l-us7NV6EPpx2knZUYd
-X-Proofpoint-GUID: vZy0g9eCQSCm3l-us7NV6EPpx2knZUYd
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+	autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	mailout.protonmail.ch
 
-On Wed, May 19, 2021 at 07:11:19PM +0530, Rajat Asthana wrote:
-> Sparse complains that:
->    warning: restricted send_ctl_elem_iface_t degrades to integer.
-> 
-> I have looked at this code, and the code is fine as-is. Normally we
-> would frown on using the __force directive to silence Sparse warnings
-> but in this case it's fine. Case statements can't be made into __bitwise
-> types. We also can't change the type of "ctl->iface" either because that
-> is part of the user space API.
-> 
-> So just add a (__force int) to make the warning go away.
-> 
-> Signed-off-by: Rajat Asthana <thisisrast7@gmail.com>
-> ---
-> Changes in v2:
->     - Update the commit message.
+On Wed, May 19, 2021 at 04:31:08PM +0300, Dan Carpenter wrote:
+> On Wed, May 19, 2021 at 04:25:29PM +0300, Dan Carpenter wrote:
+> > On Wed, May 19, 2021 at 02:44:38PM +0200, Fabio Aiuto wrote:
+> > > Hi Bryan,
+> > >
+> > > On Tue, May 18, 2021 at 02:45:19PM +0000, Bryan Brattlof wrote:
+> > > > 'if (true) { ... }' will always evaluate to true. Remove it and
+> > > > save a few tabs for somewhere else.
+> > > >
+> > > > Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
+> > > > ---
+> > > >  drivers/staging/rtl8723bs/core/rtw_ap.c | 159 ++++++++++++--------=
+----
+> > > >  1 file changed, 78 insertions(+), 81 deletions(-)
+> > > >
+> > > > diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/stag=
+ing/rtl8723bs/core/rtw_ap.c
+> > > > index 9df4476b2e2d..98b1bec67999 100644
+> > > > --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
+> > > > +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+> > > > @@ -59,112 +59,109 @@ static void update_BCNTIM(struct adapter *pad=
+apter)
+> > > >
+> > >
+> > > I was wondering why are you using the first patch of a nine patch
+> > > series as a 'cover letter' of an eight patch patchset.
+> > >
+> > > In other words, why putting the In-Reply-To field of all patches subs=
+equent
+> > > to the first one ponting to the first patch itself as a cover letter,
+> > > is it a recommened practice?
+> >
+> > It's fine.  It doesn't matter.  It's not recommended.  I do it normally
+> > if I have to send patches in certain order.  I never write cover letter=
+s
+> > because my patches are all independent bug fixes and not new features.
+>
+> Wait, this was just a mistake I think.  It's not a cover letter.  It's
+> not part of the eight patch series but it probably was intended to be as
+> you suggest.
+>
+> The patches are basically okay.  Greg applies patches in the order that
+> he recieves them so it should all apply fine.  And if it doesn't Greg
+> will just ask for a resend.  No big deal.
+>
 
-Thanks!
+Yep this is due to my inexperience with git over email :)
 
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+I wanted to send the patches in order to avoid conflicts when applying
+because they deal with the same area of the file, but didn't feel they
+deserved a cover letter to remove some unused definitions.
 
-regards,
-dan carpenter
+I was using 'git-series' to manage the patch set which generated an
+empty cover letter that I didn't send out. I should have known that
+In-Reply-To would have been set for all the remaining emails.
+
+Going forward I'll probably just stick with 'git-send-email' and write a
+proper cover letter, especially while I'm still getting used to sending
+patches over email. :)
+
+--
+~Bryan
+
+> regards,
+> dan carpenter
+>
 
