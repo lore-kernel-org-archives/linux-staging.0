@@ -1,59 +1,57 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734CC2FB6
-	for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 15:13:16 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id m124so9656431pgm.13
-        for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 08:13:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E73742FB6
+	for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 15:19:23 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id gb21-20020a17090b0615b029015d1a863a91so3693158pjb.2
+        for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 08:19:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=itfac-mrt-ac-lk.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id;
-        bh=p1U+oAmLN15Il7adctUFj5XirLGOy/razNk7lJyJFbo=;
-        b=n40THdRfAoBafaZbp00vGauvtDhhN41cyBhmX8LROnMMA2m4ryRmfFtwciXVPn2wEG
-         JZMzcViWQpO/rxkeJqvd/yRjxqy+ERr9O/Rinc84y8DQ4yeX3Mpue3T2IiUJT4nyMEEX
-         x859Z7VW1AeD8g+3niJPNx353nqxBt7Iv6z+dMhi5MxWU/eo3vrCswTLPh4/WqI0ju6F
-         ISRZzhrXQaFwphhLhD0KkRg6gOIC62kqWBCQ+FVHCkYnN4x7vY/JzqNO3dn7sws50CGx
-         wXbhgI/tNTxNoTTev1Eici2LlWqZP+c40KOH248Az9A46p1UmMtRbKdLHkvaU4CTBOcD
-         nZJg==
+        bh=k8zjSgfqxLxlFthhLmpxkp9fckpuIPaxUqjese+DfO0=;
+        b=wxXiEk5cfMSn+oebUrmAqIxaxe3uQoavSW8YeWQIpptNjA8WnDUG7VePoKAlmC0X3O
+         ExXkJhERYYfGeg2YXpx0++bbi4QYlSbcGAfqPdxo9ev9zPukWzNm7rGwDT3nj1YTuGO0
+         CyqCooNqCKOADjpBaIOmx92dSqsKRRtofCEKtqxEOufeykOaCXulsYTxLQdcCkH8rps3
+         BFpJEDMY+8rXMy8gq/yV5F5w3DuA8FIlYu1h6gk+HoD9bgalLiAhkl9MiS4C00OwyGhm
+         QmLN1FilocmSUpmomQIomX4Ihb9ZzgL98w9OcjN/zsoNcyBAItwWW0jeyqC+3cXiZzko
+         9jcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=p1U+oAmLN15Il7adctUFj5XirLGOy/razNk7lJyJFbo=;
-        b=OkbIKjqzhDrZmeGDi0ddCU/k7NtmAPhAmK1REk0v32PgTSdCoHZtFiAnBXp781nu4i
-         ixHyr2hJ9PjZP81HlieUBbBm92F4hKY7V6xUcbrABR/su+nKHpNvvDq7dxqu/nGPtyjc
-         yFCGFQy5ad5UrbYskEGv9rBWhmN2oiJWO4NC6+WmowE0lSHuudpyCwPrePCU2Hh2FfUn
-         6Gx0MIMR3JVA5feoRrTNj6dk2hBxYjOZt494mGT+ccSDtT0kOCuUAxEQ0U13baYA/X1D
-         Z4oxgzRjnvD8E8E3GG2nibzRoB/crUTV5w/CVhHC7zn63EBKJG4nDWmxqbhxdh9/zsqy
-         mH+Q==
-X-Gm-Message-State: AOAM531e2q5Q2tGz2S0rt4prmFEigL21pKCyfBxX3tsRijU5U/obebpO
-	VXC3NZwtDgKlq3QjaeUGHA8I
-X-Google-Smtp-Source: ABdhPJy/Myxcy7bbgNjO9/KwP0pk3uC5ShQibLxNRwLOs5F4vzS/w4fcBWkjdNPZmN3wbPescTZr+g==
-X-Received: by 2002:a65:6a44:: with SMTP id o4mr11269699pgu.145.1621437196050;
-        Wed, 19 May 2021 08:13:16 -0700 (PDT)
+        bh=k8zjSgfqxLxlFthhLmpxkp9fckpuIPaxUqjese+DfO0=;
+        b=DYpIWFWd4GA3YMhG8ALRxhI0awi6lUDtYFg3U3P/WrKU1UUXzHdJRdALvw4u7CdbU7
+         TsTnLRzPUB9SZI9/qTohT9+ROYGKScnlsoLuhoq42aHfru/W+Ary7zuNb+FbAymkVl/8
+         GHKBRh9dE1fQeA/bzTK8nlwSCsmPsfqIZ1163wDodmvrnEkQkTGANH+6ttolAHcc71Af
+         dnaRQGOng6iLZaL9bWZmz0ZuZigUeLPxkKTubjxlHuL3KU1fRlfXm7Omh24s9mtJH1yr
+         ud8x8X2ImkHFODYqDT4YWVEXnMzas4nl40qsASv7g1i1G8ofrf7OrOha1EFiIaq1VQPY
+         4Cpg==
+X-Gm-Message-State: AOAM533wFLOEdNzTbWuj3MJst0Yt3+ohOpeSxDQ0vv/RO+QJhCSHrrNp
+	BR8JCa+PhHsovfYSE/ElO2Ky
+X-Google-Smtp-Source: ABdhPJy2iC8QxPrIsMllescdd+wISCdojKR/IHdc3CqJD/XKucc1n3UJ6p9YkgMXX9Ve2iyS5UhnHg==
+X-Received: by 2002:a17:90a:a78d:: with SMTP id f13mr12007709pjq.161.1621437563291;
+        Wed, 19 May 2021 08:19:23 -0700 (PDT)
 Received: from localhost.localdomain ([2402:4000:11ca:dcec:9f88:85c9:3532:e27b])
-        by smtp.gmail.com with ESMTPSA id n23sm2408025pff.93.2021.05.19.08.13.12
+        by smtp.gmail.com with ESMTPSA id k1sm8804547pfa.30.2021.05.19.08.19.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 May 2021 08:13:15 -0700 (PDT)
+        Wed, 19 May 2021 08:19:23 -0700 (PDT)
 From: "F.A.Sulaiman" <asha.16@itfac.mrt.ac.lk>
-To: ash15.sulaiman@gmail.com,
-	johan@kernel.org,
+To: johan@kernel.org,
 	elder@kernel.org,
 	gregkh@linuxfoundation.org
-Cc: "F.A.Sulaiman" <asha.16@itfac.mrt.ac.lk>,
-	greybus-dev@lists.linaro.org,
+Cc: greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
+	linux-kernel@vger.kernel.org,
+	"F.A.Sulaiman" <asha.16@itfac.mrt.ac.lk>
 Subject: [PATCH] Staging: greybus: fix open parenthesis issue in gbphy.c
-Date: Wed, 19 May 2021 20:42:58 +0530
-Message-Id: <20210519151258.25845-1-asha.16@itfac.mrt.ac.lk>
+Date: Wed, 19 May 2021 20:48:51 +0530
+Message-Id: <20210519151851.26006-1-asha.16@itfac.mrt.ac.lk>
 X-Mailer: git-send-email 2.17.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-This fix "Alignment should match open parenthesis" checkpatch
- error.
+This fix "Alignment should match open parenthesis" checkpatch error.
 
 Signed-off-by: "F.A.Sulaiman" <asha.16@itfac.mrt.ac.lk>
 ---
