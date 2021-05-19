@@ -1,54 +1,40 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF2DE70
-	for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 10:30:05 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14JAR99p027400;
-	Wed, 19 May 2021 10:30:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=h2fVCr69S9gKgle0Yj99XH1mgSWoBLaIIehoa0eLilo=;
- b=fEakcP7qpPvBvMIDb3tVRQkmtsuYDLsTuVYUqcyi0ijLCLvHkUQOPaMoxSi0I+qVmuY+
- Hsi66OQOtBatHPSi0Vez0SlxnhcUpEq7VreSvN3kv4v4l1EwvwH3oLaKS52nhqQuFzHo
- y19RiZzonb2vpDLlKCkv45x4bxBOEgXaY4L2FhFSQAvvb65tiUIxBE1sAxV5JOK/CHMN
- 9WwScyEFUYCxsTsl7wMH1I2NOc1NWf18QE+w2sWgbkyRgVgoy/+Y+gtTJUNTSTewc9lr
- LxC5qBi7oGlrC+/8FkKbjqvlW8/k9FMixnAKwodc+Utv9Jq1AnX+Vq5DM+eKqu5fIob9 Fw== 
-Received: from oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by mx0b-00069f02.pphosted.com with ESMTP id 38kh0h93br-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 19 May 2021 10:30:00 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14JATxuF027820;
-	Wed, 19 May 2021 10:29:59 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3020.oracle.com with ESMTP id 38mechrmpq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 19 May 2021 10:29:59 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14JATwqt027765;
-	Wed, 19 May 2021 10:29:58 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-	by aserp3020.oracle.com with ESMTP id 38mechrmnv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 19 May 2021 10:29:58 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
-	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 14JATuET025817;
-	Wed, 19 May 2021 10:29:56 GMT
-Received: from kadam (/41.212.42.34)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Wed, 19 May 2021 10:29:55 +0000
-Date: Wed, 19 May 2021 13:29:47 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Rajat Asthana <thisisrast7@gmail.com>
-Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org,
-        elder@kernel.org, gregkh@linuxfoundation.org,
-        greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] greybus: audio: Fix sparse warning.
-Message-ID: <20210519102947.GU1955@kadam>
-References: <20210519041624.824757-1-thisisrast7@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0F870
+	for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 10:47:41 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DBFBA611BD;
+	Wed, 19 May 2021 10:47:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1621421261;
+	bh=SXc+hAJjey2h+VFj3gyn7xrlOb7KS62mh1je1KAkZYM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Oq/FOCI0KLWwj9CX+OKZZ/sWYz+u7RO3yGdlQj3XT1e6GUXE69wUpill4kA645JoL
+	 e0B8JwnAhu79JyCXMqoYqgEiJtcSELZPTVNpuKiBuUkTMWA/I+O8axtWPCdPtHqPvt
+	 yLwxuwlJydNNFthpuuSzEe7ShL1K4SVQ4Dl20qQc=
+Date: Wed, 19 May 2021 12:47:39 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Anup Patel <anup@brainfault.org>
+Cc: Anup Patel <anup.patel@wdc.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Palmer Dabbelt <palmerdabbelt@google.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Alexander Graf <graf@amazon.com>,
+	Atish Patra <atish.patra@wdc.com>,
+	Alistair Francis <Alistair.Francis@wdc.com>,
+	Damien Le Moal <damien.lemoal@wdc.com>,
+	KVM General <kvm@vger.kernel.org>, kvm-riscv@lists.infradead.org,
+	linux-riscv <linux-riscv@lists.infradead.org>,
+	linux-doc@vger.kernel.org,
+	"linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v18 00/18] KVM RISC-V Support
+Message-ID: <YKTsyyVYsHVMQC+G@kroah.com>
+References: <20210519033553.1110536-1-anup.patel@wdc.com>
+ <YKSa48cejI1Lax+/@kroah.com>
+ <CAAhSdy18qySXbUdrEsUe-KtbtuEoYrys0TcmsV2UkEA2=7UQzw@mail.gmail.com>
+ <YKSgcn5gxE/4u2bT@kroah.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -56,36 +42,118 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210519041624.824757-1-thisisrast7@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: nlZpBf70bATXXpto94niN841qxTKtLt7
-X-Proofpoint-ORIG-GUID: nlZpBf70bATXXpto94niN841qxTKtLt7
+In-Reply-To: <YKSgcn5gxE/4u2bT@kroah.com>
 
-On Wed, May 19, 2021 at 09:46:24AM +0530, Rajat Asthana wrote:
-> Enforce int type on SNDRV_CTL_ELEM_IFACE_MIXER to fix sparse warning:
-> > warning: restricted snd_ctl_elem_iface_t degrades to integer
+On Wed, May 19, 2021 at 07:21:54AM +0200, Greg Kroah-Hartman wrote:
+> On Wed, May 19, 2021 at 10:40:13AM +0530, Anup Patel wrote:
+> > On Wed, May 19, 2021 at 10:28 AM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > On Wed, May 19, 2021 at 09:05:35AM +0530, Anup Patel wrote:
+> > > > From: Anup Patel <anup@brainfault.org>
+> > > >
+> > > > This series adds initial KVM RISC-V support. Currently, we are able to boot
+> > > > Linux on RV64/RV32 Guest with multiple VCPUs.
+> > > >
+> > > > Key aspects of KVM RISC-V added by this series are:
+> > > > 1. No RISC-V specific KVM IOCTL
+> > > > 2. Minimal possible KVM world-switch which touches only GPRs and few CSRs
+> > > > 3. Both RV64 and RV32 host supported
+> > > > 4. Full Guest/VM switch is done via vcpu_get/vcpu_put infrastructure
+> > > > 5. KVM ONE_REG interface for VCPU register access from user-space
+> > > > 6. PLIC emulation is done in user-space
+> > > > 7. Timer and IPI emuation is done in-kernel
+> > > > 8. Both Sv39x4 and Sv48x4 supported for RV64 host
+> > > > 9. MMU notifiers supported
+> > > > 10. Generic dirtylog supported
+> > > > 11. FP lazy save/restore supported
+> > > > 12. SBI v0.1 emulation for KVM Guest available
+> > > > 13. Forward unhandled SBI calls to KVM userspace
+> > > > 14. Hugepage support for Guest/VM
+> > > > 15. IOEVENTFD support for Vhost
+> > > >
+> > > > Here's a brief TODO list which we will work upon after this series:
+> > > > 1. SBI v0.2 emulation in-kernel
+> > > > 2. SBI v0.2 hart state management emulation in-kernel
+> > > > 3. In-kernel PLIC emulation
+> > > > 4. ..... and more .....
+> > > >
+> > > > This series can be found in riscv_kvm_v18 branch at:
+> > > > https//github.com/avpatel/linux.git
+> > > >
+> > > > Our work-in-progress KVMTOOL RISC-V port can be found in riscv_v7 branch
+> > > > at: https//github.com/avpatel/kvmtool.git
+> > > >
+> > > > The QEMU RISC-V hypervisor emulation is done by Alistair and is available
+> > > > in master branch at: https://git.qemu.org/git/qemu.git
+> > > >
+> > > > To play around with KVM RISC-V, refer KVM RISC-V wiki at:
+> > > > https://github.com/kvm-riscv/howto/wiki
+> > > > https://github.com/kvm-riscv/howto/wiki/KVM-RISCV64-on-QEMU
+> > > > https://github.com/kvm-riscv/howto/wiki/KVM-RISCV64-on-Spike
+> > > >
+> > > > Changes since v17:
+> > > >  - Rebased on Linux-5.13-rc2
+> > > >  - Moved to new KVM MMU notifier APIs
+> > > >  - Removed redundant kvm_arch_vcpu_uninit()
+> > > >  - Moved KVM RISC-V sources to drivers/staging for compliance with
+> > > >    Linux RISC-V patch acceptance policy
+> > >
+> > > What is this new "patch acceptance policy" and what does it have to do
+> > > with drivers/staging?
+> > 
+> > The Linux RISC-V patch acceptance policy is here:
+> > Documentation/riscv/patch-acceptance.rst
+> > 
+> > As-per this policy, the Linux RISC-V maintainers will only accept
+> > patches for frozen/ratified RISC-V extensions. Basically, it links the
+> > Linux RISC-V development process with the RISC-V foundation
+> > process which is painfully slow.
+> > 
+> > The KVM RISC-V patches have been sitting on the lists for almost
+> > 2 years now. The requirements for freezing RISC-V H-extension
+> > (hypervisor extension) keeps changing and we are not clear when
+> > it will be frozen. In fact, quite a few people have already implemented
+> > RISC-V H-extension in hardware as well and KVM RISC-V works
+> > on real HW as well.
+> > 
+> > Rationale of moving KVM RISC-V to drivers/staging is to continue
+> > KVM RISC-V development without breaking the Linux RISC-V patch
+> > acceptance policy until RISC-V H-extension is frozen. Once, RISC-V
+> > H-extension is frozen we will move KVM RISC-V back to arch/riscv
+> > (like other architectures).
 > 
-> The iface field in the gb_audio_control struct is of type __u8, but the
-> values stored in it are of type int. So on conversion they are degraded.
-> Adding (__force int) will enforce them not to be degraded.
+> Wait, no, this has nothing to do with what drivers/staging/ is for and
+> how it is used.  Again, not ok.
 > 
+> > > What does drivers/staging/ have to do with this at all?  Did anyone ask
+> > > the staging maintainer about this?
+> > 
+> > Yes, Paolo (KVM maintainer) suggested having KVM RISC-V under
+> > drivers/staging until RISC-V H-extension is frozen and continue the
+> > KVM RISC-V development from there.
+> 
+> staging is not for stuff like this at all.  It is for code that is
+> self-contained (not this) and needs work to get merged into the main
+> part of the kernel (listed in a TODO file, and is not this).
+> 
+> It is not a dumping ground for stuff that arch maintainers can not seem
+> to agree on, and it is not a place where you can just randomly play
+> around with user/kernel apis with no consequences.
+> 
+> So no, sorry, not going to take this code at all.
 
-The patch is fine, but the commit message is not very great.  This
-patch doesn't "enforce" anything or affect the compiled code at all,
-it just silences a Sparse warning.  Here is a better commit message.
+And to be a bit more clear about this, having other subsystem
+maintainers drop their unwanted code on this subsystem, _without_ even
+asking me first is just not very nice.  All of a sudden I am now
+responsible for this stuff, without me even being asked about it.
+Should I start throwing random drivers into the kvm subsystem for them
+to maintain because I don't want to?  :)
 
-  Sparse complains that:
+If there's really no other way to do this, than to put it in staging,
+let's talk about it.  But saying "this must go here" is not a
+conversation...
 
-    warning: restricted snd_ctl_elem_iface_t degrades to integer
+thanks,
 
-  I have looked at this code, and the code is fine as-is.  Normally
-  we would frown on using the __force directive to silence Sparse
-  warnings but in this case it's fine.  Case statements can't be
-  made into __bitwise types.  We also can't change the type of
-  "ctl->iface" either because that is part of the user space API.
-
-  So just add a (__force int) to make the warning go away.
-
-regards,
-dan carpenter
-
+greg k-h
