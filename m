@@ -1,95 +1,125 @@
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+Received: from smtp121.ord1d.emailsrvr.com (smtp121.ord1d.emailsrvr.com [184.106.54.121])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC0B71
-	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 16:03:31 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14KFmwCu187187;
-	Thu, 20 May 2021 16:03:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=UplTL1m87USsO5prWyFgDKTaFzDCcXPanOavFdSjeOo=;
- b=ys1hWrWBFEgWJbmdvVz1+x6+ha5Nupsy2M7GZBlM9ARY7LfwzIhm1lTWnq4ffdsbKNGB
- H0RknTU0Y+hV1DWMc++evMXP+aK2C2+yTqZ7XD4ueMYX8qOPlZS40daqtUMiaRcUFI0p
- aikII/O7OMD/vSmYnaXXDiuaWJ0kqJLUOEVxNxoMlG0JLaLynQdbMTqMiY+RfIRH3Jk1
- HAjjnC5rOiUJUXjnwFpXYmcK999YonBLDMdy5YkvINyz5m7kj4uVzuUU4ZXOTvZmBoDo
- udUsht10t+rMud9GQICL+/8Ky5w1JdOAQGHvV9OQuWuR6JhT0IZXU3+6a9KoBLzHuTXU pA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by aserp2120.oracle.com with ESMTP id 38j68mn6cx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 20 May 2021 16:03:07 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14KFo7af009918;
-	Thu, 20 May 2021 16:03:06 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3020.oracle.com with ESMTP id 38nry04hqg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 20 May 2021 16:03:06 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14KG36R7144532;
-	Thu, 20 May 2021 16:03:06 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-	by aserp3020.oracle.com with ESMTP id 38nry04hnc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 20 May 2021 16:03:06 +0000
-Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
-	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 14KG2w4O023698;
-	Thu, 20 May 2021 16:02:59 GMT
-Received: from mwanda (/41.212.42.34)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Thu, 20 May 2021 09:02:58 -0700
-Date: Thu, 20 May 2021 19:02:49 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Ezequiel Garcia <ezequiel@collabora.com>,
-        Emil Velikov <emil.velikov@collabora.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel-janitors@vger.kernel.org
-Subject: [PATCH] media: hantro: test the correct variable in probe()
-Message-ID: <YKaIKXOcDb0nXguP@mwanda>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DACB371
+	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 16:11:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
+	s=20190130-41we5z8j; t=1621518305;
+	bh=0J2cZCgGNeHKd40qC7x/GP/F3O7N6Ym4nlc3fVWljsk=;
+	h=Subject:To:From:Date:From;
+	b=hLrUMydJEIxEsyLrEqXEEz+iV49F9ERbq6oMouUeZdzqa0+MW8vHrGSycb3CqFE7n
+	 PkTKnYqOGK70+D/hoi347Vf5nXXvOzvdOZ0qzhNNqNmqj27or02BysnSBI8r3ljjST
+	 6Qx+u3Rirtzh6+G20cYBizKUzdOjrULWqpLnWG28=
+X-Auth-ID: abbotti@mev.co.uk
+Received: by smtp16.relay.ord1d.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id 11B8F401E4;
+	Thu, 20 May 2021 09:45:03 -0400 (EDT)
+Subject: Re: [PATCH 5/6] comedi: drivers: ni_mio_common: Move
+ 'range_ni_E_ao_ext' to where it is used
+To: Lee Jones <lee.jones@linaro.org>
+Cc: linux-kernel@vger.kernel.org,
+ H Hartley Sweeten <hsweeten@visionengravers.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ "David A. Schleef" <ds@schleef.org>, Mori Hess
+ <fmhess@users.sourceforge.net>, Truxton Fulton <trux@truxton.com>,
+ linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org
+References: <20210520122538.3470259-1-lee.jones@linaro.org>
+ <20210520122538.3470259-6-lee.jones@linaro.org>
+From: Ian Abbott <abbotti@mev.co.uk>
+Organization: MEV Ltd.
+Message-ID: <c69d39a0-bf9e-857d-93ba-73e2884fa4ad@mev.co.uk>
+Date: Thu, 20 May 2021 14:45:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-ORIG-GUID: hGha3Rc6qYMPnQcAHEPQDkS1hl0hUjeH
-X-Proofpoint-GUID: hGha3Rc6qYMPnQcAHEPQDkS1hl0hUjeH
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9989 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=999
- priorityscore=1501 impostorscore=0 suspectscore=0 clxscore=1011
- adultscore=0 bulkscore=0 phishscore=0 spamscore=0 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2105200105
+In-Reply-To: <20210520122538.3470259-6-lee.jones@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
+X-Classification-ID: acb7c74a-4ef3-49ec-81ee-04773f38be7d-1-1
 
-This should be testing "vpu->clocks[0].clk" instead of "vpu->clocks".
+On 20/05/2021 13:25, Lee Jones wrote:
+> ... and mark it as __maybe_unused since not all users of the
+> header file reference it.
+> 
+> Fixes the following W=1 kernel build warning(s):
+> 
+>   drivers/staging/comedi/drivers/ni_mio_common.c:163:35: warning: ‘range_ni_E_ao_ext’ defined but not used [-Wunused-const-variable=]
+> 
+> Cc: Ian Abbott <abbotti@mev.co.uk>
+> Cc: H Hartley Sweeten <hsweeten@visionengravers.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: "David A. Schleef" <ds@schleef.org>
+> Cc: Mori Hess <fmhess@users.sourceforge.net>
+> Cc: Truxton Fulton <trux@truxton.com>
+> Cc: linux-staging@lists.linux.dev
+> Cc: linux-pwm@vger.kernel.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> ---
+>   drivers/comedi/drivers/ni_mio_common.c | 9 ---------
+>   drivers/comedi/drivers/ni_stc.h        | 9 ++++++++-
+>   2 files changed, 8 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/comedi/drivers/ni_mio_common.c b/drivers/comedi/drivers/ni_mio_common.c
+> index 4f80a4991f953..37615b4e2c10d 100644
+> --- a/drivers/comedi/drivers/ni_mio_common.c
+> +++ b/drivers/comedi/drivers/ni_mio_common.c
+> @@ -160,15 +160,6 @@ static const struct comedi_lrange range_ni_M_ai_628x = {
+>   	}
+>   };
+>   
+> -static const struct comedi_lrange range_ni_E_ao_ext = {
+> -	4, {
+> -		BIP_RANGE(10),
+> -		UNI_RANGE(10),
+> -		RANGE_ext(-1, 1),
+> -		RANGE_ext(0, 1)
+> -	}
+> -};
+> -
+>   static const struct comedi_lrange *const ni_range_lkup[] = {
+>   	[ai_gain_16] = &range_ni_E_ai,
+>   	[ai_gain_8] = &range_ni_E_ai_limited,
+> diff --git a/drivers/comedi/drivers/ni_stc.h b/drivers/comedi/drivers/ni_stc.h
+> index fbc0b753a0f59..0822e65f709dd 100644
+> --- a/drivers/comedi/drivers/ni_stc.h
+> +++ b/drivers/comedi/drivers/ni_stc.h
+> @@ -1137,6 +1137,13 @@ struct ni_private {
+>   	u8 rgout0_usage;
+>   };
+>   
+> -static const struct comedi_lrange range_ni_E_ao_ext;
+> +static const struct comedi_lrange __maybe_unused range_ni_E_ao_ext = {
+> +	4, {
+> +		BIP_RANGE(10),
+> +		UNI_RANGE(10),
+> +		RANGE_ext(-1, 1),
+> +		RANGE_ext(0, 1)
+> +	}
+> +};
+>   
+>   #endif /* _COMEDI_NI_STC_H */
+> 
 
-Fixes: eb4cacdfb998 ("media: hantro: add fallback handling for single irq/clk")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/staging/media/hantro/hantro_drv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The "ni_stc.h" header is also included by "ni_mio_cs.c" which doesn't 
+need `range_ni_E_ao_ext` (admittedly, it was already pulling in a 
+"tentative" definition of the variable).
 
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index 85dcb0882afc..8ac476be1682 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -780,8 +780,8 @@ static int hantro_probe(struct platform_device *pdev)
- 		 * actual name in the DT bindings.
- 		 */
- 		vpu->clocks[0].clk = devm_clk_get(&pdev->dev, NULL);
--		if (IS_ERR(vpu->clocks))
--			return PTR_ERR(vpu->clocks);
-+		if (IS_ERR(vpu->clocks[0].clk))
-+			return PTR_ERR(vpu->clocks[0].clk);
- 	}
- 
- 	num_bases = vpu->variant->num_regs ?: 1;
+Thinking about it, I think it's probably better to move 
+`range_ni_E_ao_ext` from "ni_mio_common.c" into *both* "ni_atmio.c" and 
+"ni_pcimio.c" (I think we can live with the small amount of 
+duplication), and to remove the tentative definition from "ni_stc.h".
+
 -- 
-2.30.2
-
+-=( Ian Abbott <abbotti@mev.co.uk> || MEV Ltd. is a company  )=-
+-=( registered in England & Wales.  Regd. number: 02862268.  )=-
+-=( Regd. addr.: S11 & 12 Building 67, Europa Business Park, )=-
+-=( Bird Hall Lane, STOCKPORT, SK3 0XA, UK. || www.mev.co.uk )=-
