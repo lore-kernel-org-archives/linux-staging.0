@@ -1,154 +1,76 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from smtp120.iad3b.emailsrvr.com (smtp120.iad3b.emailsrvr.com [146.20.161.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60BD071
-	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 13:07:27 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1lji4v-0001Dk-Qz; Thu, 20 May 2021 14:47:05 +0200
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1lji4u-0004FW-43; Thu, 20 May 2021 14:47:04 +0200
-Date: Thu, 20 May 2021 14:47:03 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09EB71
+	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 13:41:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
+	s=20190130-41we5z8j; t=1621516926;
+	bh=N2TMvpRHww+NI7PhUZYY30bfmqvJ7baNd0nZEvc4dNk=;
+	h=Subject:To:From:Date:From;
+	b=gtXo7nqCajpCgdH9VJ8q9fcDOBSIaGefPlu4XZFGZIq0f3iMHL6j/Y3JvPnZYD56E
+	 MqeZ8isN6Mmc6iETjU/9pifdw0y1u2lbJi3gt8tsPxz6q7cOgeLhHp+vxQmhsoNXZB
+	 FtiJjeejflK6GD0oJG5JB7s22mevhk1kHiP0UJpE=
+X-Auth-ID: abbotti@mev.co.uk
+Received: by smtp8.relay.iad3b.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id 22B8340074;
+	Thu, 20 May 2021 09:22:04 -0400 (EDT)
+Subject: Re: [PATCH 2/6] comedi: drivers: jr3_pci: Remove set but unused
+ variable 'min_full_scale'
 To: Lee Jones <lee.jones@linaro.org>
-Cc: linux-kernel@vger.kernel.org, Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	"David A. Schleef" <ds@schleef.org>,
-	Mori Hess <fmhess@users.sourceforge.net>,
-	Truxton Fulton <trux@truxton.com>, linux-staging@lists.linux.dev,
-	linux-pwm@vger.kernel.org
-Subject: Re: [PATCH 5/6] comedi: drivers: ni_mio_common: Move
- 'range_ni_E_ao_ext' to where it is used
-Message-ID: <20210520124703.37w3r2fnw3pjsjot@pengutronix.de>
+Cc: linux-kernel@vger.kernel.org,
+ H Hartley Sweeten <hsweeten@visionengravers.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+ Anders Blomdell <anders.blomdell@control.lth.se>,
+ linux-staging@lists.linux.dev
 References: <20210520122538.3470259-1-lee.jones@linaro.org>
- <20210520122538.3470259-6-lee.jones@linaro.org>
+ <20210520122538.3470259-3-lee.jones@linaro.org>
+From: Ian Abbott <abbotti@mev.co.uk>
+Organization: MEV Ltd.
+Message-ID: <9d0ac108-7256-be1a-fdd9-f48f52aaa38e@mev.co.uk>
+Date: Thu, 20 May 2021 14:22:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="drt6bspysws4e3wb"
-Content-Disposition: inline
-In-Reply-To: <20210520122538.3470259-6-lee.jones@linaro.org>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+In-Reply-To: <20210520122538.3470259-3-lee.jones@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
+X-Classification-ID: 9f95dd61-1342-41fb-af1c-c84f47d499e7-1-1
 
-
---drt6bspysws4e3wb
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hello Lee,
-
-On Thu, May 20, 2021 at 01:25:37PM +0100, Lee Jones wrote:
-> ... and mark it as __maybe_unused since not all users of the
-> header file reference it.
->=20
-> Fixes the following W=3D1 kernel build warning(s):
->=20
->  drivers/staging/comedi/drivers/ni_mio_common.c:163:35: warning: =E2=80=
-=98range_ni_E_ao_ext=E2=80=99 defined but not used [-Wunused-const-variable=
-=3D]
->=20
+On 20/05/2021 13:25, Lee Jones wrote:
+> Fixes the following W=1 kernel build warning(s):
+> 
+>   drivers/staging/comedi/drivers/jr3_pci.c: In function ‘jr3_pci_poll_subdevice’:
+>   drivers/staging/comedi/drivers/jr3_pci.c:507:22: warning: variable ‘min_full_scale’ set but not used [-Wunused-but-set-variable]
+> 
 > Cc: Ian Abbott <abbotti@mev.co.uk>
 > Cc: H Hartley Sweeten <hsweeten@visionengravers.com>
 > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: "Uwe Kleine-K=C3=B6nig" <u.kleine-koenig@pengutronix.de>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: "David A. Schleef" <ds@schleef.org>
-> Cc: Mori Hess <fmhess@users.sourceforge.net>
-> Cc: Truxton Fulton <trux@truxton.com>
+> Cc: "Alexander A. Klimov" <grandmaster@al2klimov.de>
+> Cc: Anders Blomdell <anders.blomdell@control.lth.se>
 > Cc: linux-staging@lists.linux.dev
-> Cc: linux-pwm@vger.kernel.org
 > Signed-off-by: Lee Jones <lee.jones@linaro.org>
 > ---
->  drivers/comedi/drivers/ni_mio_common.c | 9 ---------
->  drivers/comedi/drivers/ni_stc.h        | 9 ++++++++-
->  2 files changed, 8 insertions(+), 10 deletions(-)
->=20
-> diff --git a/drivers/comedi/drivers/ni_mio_common.c b/drivers/comedi/driv=
-ers/ni_mio_common.c
-> index 4f80a4991f953..37615b4e2c10d 100644
-> --- a/drivers/comedi/drivers/ni_mio_common.c
-> +++ b/drivers/comedi/drivers/ni_mio_common.c
-> @@ -160,15 +160,6 @@ static const struct comedi_lrange range_ni_M_ai_628x=
- =3D {
->  	}
->  };
-> =20
-> -static const struct comedi_lrange range_ni_E_ao_ext =3D {
-> -	4, {
-> -		BIP_RANGE(10),
-> -		UNI_RANGE(10),
-> -		RANGE_ext(-1, 1),
-> -		RANGE_ext(0, 1)
-> -	}
-> -};
-> -
->  static const struct comedi_lrange *const ni_range_lkup[] =3D {
->  	[ai_gain_16] =3D &range_ni_E_ai,
->  	[ai_gain_8] =3D &range_ni_E_ai_limited,
-> diff --git a/drivers/comedi/drivers/ni_stc.h b/drivers/comedi/drivers/ni_=
-stc.h
-> index fbc0b753a0f59..0822e65f709dd 100644
-> --- a/drivers/comedi/drivers/ni_stc.h
-> +++ b/drivers/comedi/drivers/ni_stc.h
-> @@ -1137,6 +1137,13 @@ struct ni_private {
->  	u8 rgout0_usage;
->  };
-> =20
-> -static const struct comedi_lrange range_ni_E_ao_ext;
-> +static const struct comedi_lrange __maybe_unused range_ni_E_ao_ext =3D {
-> +	4, {
-> +		BIP_RANGE(10),
-> +		UNI_RANGE(10),
-> +		RANGE_ext(-1, 1),
-> +		RANGE_ext(0, 1)
-> +	}
-> +};
+>   drivers/comedi/drivers/jr3_pci.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 
-When you send this patch some time ago I wrote:
+Actually, that one is stale now (or will be when Greg's staging-next 
+branch gets merged into linux-next soon):
 
-| I think a downside of this solution is that range_ni_E_ao_ext might be
-| duplicated in the object files. (Ditto for the status quo BTW.)
-|=20
-| I think the right approach to fix the compiler warning and the
-| duplication is to declare range_ni_E_ao_ext external in the header and
-| keep the definition in ni_mio_common.c.
+https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/commit/?h=staging-next&id=b9f38e913a926b455e5048a95f53a993b515509f
 
-You didn't reply to that, so maybe you missed it?
+| staging: comedi: Remove unused variable ‘min_full_scale’ and function 
+'get_min_full_scales'
+|
+| The variable ‘min_full_scale’ and function 'get_min_full_scales' are
+| not used, So delete them.
 
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---drt6bspysws4e3wb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmCmWkQACgkQwfwUeK3K
-7Am3yQf/QDEk6FnlXWz2XZJUtFPOfRT6SFJwexcP/05uMpdcRQ6k0ibtZpQDDEYF
-+9VJBQs4ESJT8sZbj38q+wyLWxhQ+mbeLVz+N4wUwNti/qb0Uc71CV+MRPXLJZer
-eauuRTSCxwwfUnM7IVXOdOLGzN7SfGK6wDE/0cv2xr/r65/8EfcFcPKKkCEBHV7V
-+MJMq+y+efY9q/Q8CxCQ7TVe3SaWDbzMj529kzezj2rEtk9NOklTn4VRqATc4RV5
-vRZ0E1EEy8tyROWZDSw6h+7mOtox9M22jgUAhukA28gOZauqArTsgtGWcjCI75GF
-qc3qPQopf5IfFWYUsmbmNn47SJqikw==
-=Yd+/
------END PGP SIGNATURE-----
-
---drt6bspysws4e3wb--
+-- 
+-=( Ian Abbott <abbotti@mev.co.uk> || MEV Ltd. is a company  )=-
+-=( registered in England & Wales.  Regd. number: 02862268.  )=-
+-=( Regd. addr.: S11 & 12 Building 67, Europa Business Park, )=-
+-=( Bird Hall Lane, STOCKPORT, SK3 0XA, UK. || www.mev.co.uk )=-
