@@ -1,109 +1,154 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E13D71
-	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 12:37:06 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14KCUlQt022002;
-	Thu, 20 May 2021 12:36:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- content-transfer-encoding : in-reply-to; s=corp-2020-01-29;
- bh=8GLrX0d0XmrHl8aiSUsOYdiKs8SYFI6qkK8/mq5o8Ws=;
- b=nS2jbQWqV1JBCy48bZxAUnPXx4QLyy/67LJzNmgLsGAKDflEGN9H+diRN3qXxkQ4ahk9
- 0/QoYwYXEwrq3OD48Z6WQTEEPl4UHa8JgI8X7rO8d6XpzTpO0SfuhyuLnv5mwZ/RQu35
- Vzdz5owBU8wpGK8wnjU63ZSxdaKmvnKQyJJ28KhreNUfgVZe5cZuncmQgkT9Womkn3xP
- hz1ItX8Bgd22nMEbhN/FEV+nL6wFVaQB15pc6wUMWVWB0trg44pae/lxg0AeMdHK9gpL
- R5AnOCwrK0EQmYL9MFg0Kb0VonyKD3F0pLheWjb+P6nIvQXM1g8NlXAzPtaPHICpHkPS UA== 
-Received: from oracle.com (userp3030.oracle.com [156.151.31.80])
-	by mx0b-00069f02.pphosted.com with ESMTP id 38m9bgh3d2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 20 May 2021 12:36:58 +0000
-Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
-	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14KCavxh105947;
-	Thu, 20 May 2021 12:36:57 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by userp3030.oracle.com with ESMTP id 38megmessx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 20 May 2021 12:36:56 +0000
-Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14KCauJh105926;
-	Thu, 20 May 2021 12:36:56 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-	by userp3030.oracle.com with ESMTP id 38megmessc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 20 May 2021 12:36:56 +0000
-Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
-	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 14KCatIN015477;
-	Thu, 20 May 2021 12:36:55 GMT
-Received: from kadam (/41.212.42.34)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Thu, 20 May 2021 05:36:54 -0700
-Date: Thu, 20 May 2021 15:36:47 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60BD071
+	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 13:07:27 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1lji4v-0001Dk-Qz; Thu, 20 May 2021 14:47:05 +0200
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1lji4u-0004FW-43; Thu, 20 May 2021 14:47:04 +0200
+Date: Thu, 20 May 2021 14:47:03 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Lee Jones <lee.jones@linaro.org>
-Cc: linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Marco Cesati <marcocesati@gmail.com>,
-        Fabio Aiuto <fabioaiuto83@gmail.com>, Stanley@BB.SD3,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH 2/2] staging: rtl8723bs: hal: rtl8723b_hal_init: Remove
- unused variable and dead code
-Message-ID: <20210520123647.GG1955@kadam>
-References: <20210520122620.3470450-1-lee.jones@linaro.org>
- <20210520122620.3470450-2-lee.jones@linaro.org>
+Cc: linux-kernel@vger.kernel.org, Ian Abbott <abbotti@mev.co.uk>,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	"David A. Schleef" <ds@schleef.org>,
+	Mori Hess <fmhess@users.sourceforge.net>,
+	Truxton Fulton <trux@truxton.com>, linux-staging@lists.linux.dev,
+	linux-pwm@vger.kernel.org
+Subject: Re: [PATCH 5/6] comedi: drivers: ni_mio_common: Move
+ 'range_ni_E_ao_ext' to where it is used
+Message-ID: <20210520124703.37w3r2fnw3pjsjot@pengutronix.de>
+References: <20210520122538.3470259-1-lee.jones@linaro.org>
+ <20210520122538.3470259-6-lee.jones@linaro.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="drt6bspysws4e3wb"
+Content-Disposition: inline
+In-Reply-To: <20210520122538.3470259-6-lee.jones@linaro.org>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+
+
+--drt6bspysws4e3wb
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210520122620.3470450-2-lee.jones@linaro.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: eVnGJGhS3kmgJqfetugCIuSxcunvGRdl
-X-Proofpoint-GUID: eVnGJGhS3kmgJqfetugCIuSxcunvGRdl
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 20, 2021 at 01:26:20PM +0100, Lee Jones wrote:
-> Fixes the following W=1 kernel build warning(s):
-> 
->  drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c: In function ‘CCX_FwC2HTxRpt_8723b’:
->  drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:3355:5: warning: variable ‘seq_no’ set but not used [-Wunused-but-set-variable]
-> 
+Hello Lee,
+
+On Thu, May 20, 2021 at 01:25:37PM +0100, Lee Jones wrote:
+> ... and mark it as __maybe_unused since not all users of the
+> header file reference it.
+>=20
+> Fixes the following W=3D1 kernel build warning(s):
+>=20
+>  drivers/staging/comedi/drivers/ni_mio_common.c:163:35: warning: =E2=80=
+=98range_ni_E_ao_ext=E2=80=99 defined but not used [-Wunused-const-variable=
+=3D]
+>=20
+> Cc: Ian Abbott <abbotti@mev.co.uk>
+> Cc: H Hartley Sweeten <hsweeten@visionengravers.com>
 > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Marco Cesati <marcocesati@gmail.com>
-> Cc: Fabio Aiuto <fabioaiuto83@gmail.com>
-> Cc: Stanley@BB.SD3
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: "Uwe Kleine-K=C3=B6nig" <u.kleine-koenig@pengutronix.de>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: "David A. Schleef" <ds@schleef.org>
+> Cc: Mori Hess <fmhess@users.sourceforge.net>
+> Cc: Truxton Fulton <trux@truxton.com>
 > Cc: linux-staging@lists.linux.dev
+> Cc: linux-pwm@vger.kernel.org
 > Signed-off-by: Lee Jones <lee.jones@linaro.org>
 > ---
->  drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 9 ++-------
->  1 file changed, 2 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> index 33942ab587720..0270724ccef03 100644
-> --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> @@ -3204,14 +3204,9 @@ void CCX_FwC2HTxRpt_8723b(struct adapter *padapter, u8 *pdata, u8 len)
->  
->  	if (GET_8723B_C2H_TX_RPT_RETRY_OVER(pdata) | GET_8723B_C2H_TX_RPT_LIFE_TIME_OVER(pdata)) {
->  		rtw_ack_tx_done(&padapter->xmitpriv, RTW_SCTX_DONE_CCX_PKT_FAIL);
+>  drivers/comedi/drivers/ni_mio_common.c | 9 ---------
+>  drivers/comedi/drivers/ni_stc.h        | 9 ++++++++-
+>  2 files changed, 8 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/drivers/comedi/drivers/ni_mio_common.c b/drivers/comedi/driv=
+ers/ni_mio_common.c
+> index 4f80a4991f953..37615b4e2c10d 100644
+> --- a/drivers/comedi/drivers/ni_mio_common.c
+> +++ b/drivers/comedi/drivers/ni_mio_common.c
+> @@ -160,15 +160,6 @@ static const struct comedi_lrange range_ni_M_ai_628x=
+ =3D {
+>  	}
+>  };
+> =20
+> -static const struct comedi_lrange range_ni_E_ao_ext =3D {
+> -	4, {
+> -		BIP_RANGE(10),
+> -		UNI_RANGE(10),
+> -		RANGE_ext(-1, 1),
+> -		RANGE_ext(0, 1)
 > -	}
-> -/*
-> -	else if (seq_no != padapter->xmitpriv.seq_no) {
-> -		rtw_ack_tx_done(&padapter->xmitpriv, RTW_SCTX_DONE_CCX_PKT_FAIL);
-> -	}
-> -*/
-> -	else
-> +	} else {
->  		rtw_ack_tx_done(&padapter->xmitpriv, RTW_SCTX_DONE_SUCCESS);
+> -};
+> -
+>  static const struct comedi_lrange *const ni_range_lkup[] =3D {
+>  	[ai_gain_16] =3D &range_ni_E_ai,
+>  	[ai_gain_8] =3D &range_ni_E_ai_limited,
+> diff --git a/drivers/comedi/drivers/ni_stc.h b/drivers/comedi/drivers/ni_=
+stc.h
+> index fbc0b753a0f59..0822e65f709dd 100644
+> --- a/drivers/comedi/drivers/ni_stc.h
+> +++ b/drivers/comedi/drivers/ni_stc.h
+> @@ -1137,6 +1137,13 @@ struct ni_private {
+>  	u8 rgout0_usage;
+>  };
+> =20
+> -static const struct comedi_lrange range_ni_E_ao_ext;
+> +static const struct comedi_lrange __maybe_unused range_ni_E_ao_ext =3D {
+> +	4, {
+> +		BIP_RANGE(10),
+> +		UNI_RANGE(10),
+> +		RANGE_ext(-1, 1),
+> +		RANGE_ext(0, 1)
 > +	}
+> +};
 
-The commit message was quite puzzling because "seq_no" doesn't exist.
-Could you resend with a fixed commit message that says "Delete commented
-out code" or whatever?
+When you send this patch some time ago I wrote:
 
-regards,
-dan carpenter
+| I think a downside of this solution is that range_ni_E_ao_ext might be
+| duplicated in the object files. (Ditto for the status quo BTW.)
+|=20
+| I think the right approach to fix the compiler warning and the
+| duplication is to declare range_ni_E_ao_ext external in the header and
+| keep the definition in ni_mio_common.c.
 
+You didn't reply to that, so maybe you missed it?
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--drt6bspysws4e3wb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmCmWkQACgkQwfwUeK3K
+7Am3yQf/QDEk6FnlXWz2XZJUtFPOfRT6SFJwexcP/05uMpdcRQ6k0ibtZpQDDEYF
++9VJBQs4ESJT8sZbj38q+wyLWxhQ+mbeLVz+N4wUwNti/qb0Uc71CV+MRPXLJZer
+eauuRTSCxwwfUnM7IVXOdOLGzN7SfGK6wDE/0cv2xr/r65/8EfcFcPKKkCEBHV7V
++MJMq+y+efY9q/Q8CxCQ7TVe3SaWDbzMj529kzezj2rEtk9NOklTn4VRqATc4RV5
+vRZ0E1EEy8tyROWZDSw6h+7mOtox9M22jgUAhukA28gOZauqArTsgtGWcjCI75GF
+qc3qPQopf5IfFWYUsmbmNn47SJqikw==
+=Yd+/
+-----END PGP SIGNATURE-----
+
+--drt6bspysws4e3wb--
