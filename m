@@ -1,88 +1,117 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64AC670
-	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 09:29:53 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id z85-20020a1c7e580000b029017a76f3afbaso2254965wmc.2
-        for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 02:29:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11A5572
+	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 12:25:48 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id h4so17431231wrt.12
+        for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 05:25:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=0cGf1aBFrVZ9AWx/JMeJaEcovPhb2SGzpzNb2QM+Nk0=;
-        b=uHOB9zSLOzNOqCaCdv3tAd2rduYeX+Y6HLl91ACEXI0mAiipvTrz62XOO2SaIgoVty
-         Pf+RMtbo6f9V42RwSERPXTfjWo95E9cFtuWO9WKA3FnlyXzYA2sixDVebOmpsiGxbbrs
-         9H75RMmiqXRnaSuCiHDHAfG1oZEYV+e0kFKI3et7gI5qVSablXEgzMq74sy11W+OVSBg
-         fv7UHDUKttjvUQS8McyFbz5R9rRxXKz5CWcwkYd/YNSYTQwhvZ8bx4KdaLHqPOOdvH9T
-         sB+YUNNslLh91vbqAYFcpIySpJbri7dhqbJjx3hah4/GEvkwzv8dQ2huIVBDg0fLwNfN
-         LmAQ==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2vuP9pLH1GNFHwKBRVQ+EoRKak5xCUlItci//u09Xk8=;
+        b=ocxpZ7zRPzo57+6/Fsnho3JT0+eWzP76JoZoItEJXbQN+knRsvJgsRlPLzIMVzKtaa
+         mkheSRD0qP0DLda1T1rXusSQCoPYP8M5aNmTiRQMHQ4bvkSWJqajm0Wo9Mq9avvYByY0
+         pfMmfLkfglzkiLD2yuSuP3tqmsfmcFXLSqb9q3pFM2viEl78Njitqsbe3L+uqg8CF8kz
+         A6jrnT0ujJJyMh170OjAOnC/H1asTVk0+xAaV385iPV0oy3VU0zgwIK0s/rh/k4hRkph
+         bOKqOE/0Nj3AY+1IzD57qVzTJp8Ubxolr0TBfVh4ascNCAup6BfE7YD17swcAfLWx4ZI
+         5yOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=0cGf1aBFrVZ9AWx/JMeJaEcovPhb2SGzpzNb2QM+Nk0=;
-        b=eNrxm8BpsydSPJn//R69EcGjYyXaft9QGz9yYlANPC5Gw2sZ7kkBOPSbHjkOiodA4k
-         qhF5lXrYjW1R/deSf8oGy0nNfLckpKSwHaHi7OYf8+O0ocBoBaQaFLCCUwddC5BRuKOU
-         t+XkaHSoyw0QE5QG+cCc/lFtmHMBgrMZuHRcLGNIjU9rv6A396YaLV1YoxV/TigJrbZ3
-         NTVMD48F6fWEUlmARWoMcsKyCB+fusThU9p/VPAuB7w09Mpdr0urGe/gx75K5SrPrSpG
-         wdxn2YClyv+UMMeleODukLLkeL568f6IfdgvqgXnu0dftYzFbB7u1W7nRhtEY6godg6Q
-         CHQQ==
-X-Gm-Message-State: AOAM533CGus5C3lnv/lcKFhz/GdocpmViFw5CZU0Pt/sMpdHttRUhs7b
-	nq5jQAz3YscREUXcIGwnCXc=
-X-Google-Smtp-Source: ABdhPJyzQVEd0/LMaL/vCBhQFOWm/v6djjo0ZDbNWBjNqUGvVSd07eOXBWJMelsuPcjU1JJMY/FRXA==
-X-Received: by 2002:a7b:ce0f:: with SMTP id m15mr3040219wmc.55.1621502991917;
-        Thu, 20 May 2021 02:29:51 -0700 (PDT)
-Received: from agape.jhs ([5.171.80.207])
-        by smtp.gmail.com with ESMTPSA id x2sm2018708wmj.3.2021.05.20.02.29.50
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2vuP9pLH1GNFHwKBRVQ+EoRKak5xCUlItci//u09Xk8=;
+        b=nBbgcaLG+jlkpl0d/mO0Ux5D9iPtZ+g7HvRQjggT5CedX82PfjY+rPskN/Cpi2ua29
+         MOQJ2GD5iGCx7tkgoqZngPe/qmDkmG4gD0IRI6kEzOjzKoDtAXjWrQ+cri1xv7eHJDoY
+         YdVdGWgn1MLOA/O/cYZhw8DwSkDfqn9CQTO4UMl13kPBNhUgluWELSO2wht1St92ei4L
+         2hAyWLCEV0MqAjWLRmzEumsWVS+WLausZno7K63kHU8IAZGjbm9Qq7DzVJkrGFlnxMHY
+         oNzNcrDtYk+OERPfcXP6256p07PMZiDAxo214j2NVmBE1P6VQltk94TpRVqqHX3Odfjv
+         pEwg==
+X-Gm-Message-State: AOAM531tUXHONdU+bTFUgxM4k618e31CBLtoCKktBM3IGJjKQ0bVBfHN
+	D9TkBfPpSJYA3AyEIBAT6bA0cQ==
+X-Google-Smtp-Source: ABdhPJx/TXikSkc7C/v1F9MZEU3YeLs4Ntw7IApwlyf3djEsw/U9yhQEwRad6QvbBU8Hm6OLrw1XNQ==
+X-Received: by 2002:a5d:4b87:: with SMTP id b7mr3889282wrt.129.1621513546632;
+        Thu, 20 May 2021 05:25:46 -0700 (PDT)
+Received: from dell.default ([91.110.221.215])
+        by smtp.gmail.com with ESMTPSA id i11sm3205643wrq.26.2021.05.20.05.25.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 May 2021 02:29:51 -0700 (PDT)
-Date: Thu, 20 May 2021 11:29:49 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: hdegoede@redhat.com, Larry.Finger@lwfinger.net
-Cc: gregkh@linuxfoundation.org, johannes@sipsolutions.net,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-wireless@vger.kernel.org
-Subject: staging: rtl8723bs: removal of 5G code
-Message-ID: <20210520092946.GA1404@agape.jhs>
+        Thu, 20 May 2021 05:25:46 -0700 (PDT)
+From: Lee Jones <lee.jones@linaro.org>
+To: lee.jones@linaro.org
+Cc: linux-kernel@vger.kernel.org,
+	"Alexander A. Klimov" <grandmaster@al2klimov.de>,
+	Anders Blomdell <anders.blomdell@control.lth.se>,
+	Comedi <comedi@comedi.org>,
+	"David A. Schleef" <ds@schleef.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Herman.Bruyninckx@mech.kuleuven.ac.be,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Ian Abbott <abbotti@mev.co.uk>,
+	"J.P. Mellor" <jpmellor@rose-hulman.edu>,
+	Klaas.Gadeyne@mech.kuleuven.ac.be,
+	linux-pwm@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Mori Hess <fmhess@users.sourceforge.net>,
+	"Spencer E. Olson" <olsonse@umich.edu>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Truxton Fulton <trux@truxton.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Wim.Meeussen@mech.kuleuven.ac.be
+Subject: [PATCH 0/6] Rid W=1 warnings from Comedi
+Date: Thu, 20 May 2021 13:25:32 +0100
+Message-Id: <20210520122538.3470259-1-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi all,
+This set is part of a larger effort attempting to clean-up W=1
+kernel builds, which are currently overwhelmingly riddled with
+niggly little warnings.
 
-I'm stick with removal of 5Ghz code from rtl8723bs wireless card driver
-(in staging subsystem).
+Lee Jones (6):
+  comedi: comedi_8254: Fix descriptions for 'i8254' and 'iobase'
+  comedi: drivers: jr3_pci: Remove set but unused variable
+    'min_full_scale'
+  comedi: drivers: ni_tio: Fix slightly broken kernel-doc and demote
+    others
+  comedi: drivers: ni_routes: Demote non-conforming kernel-doc headers
+  comedi: drivers: ni_mio_common: Move 'range_ni_E_ao_ext' to where it
+    is used
+  comedi: drivers: comedi_isadma: Fix misspelling of 'dma_chan1'
 
-I think that this task comprehend deletion of all code managing
-80Mhz bandwidth and upper bandwidth (160 and 80+80). For the latter
-it's simple, there's quite no code (unused enums and obsolete comments).
+ drivers/comedi/drivers/comedi_8254.c   |  3 ++-
+ drivers/comedi/drivers/comedi_isadma.c |  2 +-
+ drivers/comedi/drivers/jr3_pci.c       |  3 +--
+ drivers/comedi/drivers/ni_mio_common.c |  9 ---------
+ drivers/comedi/drivers/ni_routes.c     |  6 +++---
+ drivers/comedi/drivers/ni_stc.h        |  9 ++++++++-
+ drivers/comedi/drivers/ni_tio.c        | 12 ++++++------
+ 7 files changed, 21 insertions(+), 23 deletions(-)
 
-The former seems to be trickier, there are handlers like this:
+Cc: "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc: Anders Blomdell <anders.blomdell@control.lth.se>
+Cc: Comedi <comedi@comedi.org>
+Cc: "David A. Schleef" <ds@schleef.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Herman.Bruyninckx@mech.kuleuven.ac.be
+Cc: H Hartley Sweeten <hsweeten@visionengravers.com>
+Cc: Ian Abbott <abbotti@mev.co.uk>
+Cc: "J.P. Mellor" <jpmellor@rose-hulman.edu>
+Cc: Klaas.Gadeyne@mech.kuleuven.ac.be
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: linux-pwm@vger.kernel.org
+Cc: linux-staging@lists.linux.dev
+Cc: Mori Hess <fmhess@users.sourceforge.net>
+Cc: "Spencer E. Olson" <olsonse@umich.edu>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Truxton Fulton <trux@truxton.com>
+Cc: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
+Cc: Wim.Meeussen@mech.kuleuven.ac.be
+-- 
+2.31.1
 
-        /* 3 Set Reg483 */
-        SubChnlNum = phy_GetSecondaryChnl_8723B(Adapter);
-        rtw_write8(Adapter, REG_DATA_SC_8723B, SubChnlNum);
-
-phy_GetSecondaryChnl_8723B() contains code like:
-
-        } else if (pHalData->CurrentChannelBW == CHANNEL_WIDTH_40) {
-                if (pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_UPPER)
-                        SCSettingOf20 = VHT_DATA_SC_20_UPPER_OF_80MHZ;
-                else if (pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER)
-                        SCSettingOf20 = VHT_DATA_SC_20_LOWER_OF_80MHZ;
-        }
-
-so if we are on a 40M channel some settings involving 80M are made and
-the whole is then written on card registers.
-
-May I get rid of the whole? Are there some implications I should be aware of?
-Is secondary channel needed if we are on 40M bandwidth?
-
-Thank you in advance,
-
-fabio
