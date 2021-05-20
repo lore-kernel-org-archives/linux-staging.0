@@ -1,128 +1,116 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B568870
-	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 17:14:01 +0000 (UTC)
-Received: by mail-qk1-f174.google.com with SMTP id h20so1407832qko.11
-        for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 10:14:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A2770
+	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 17:47:21 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id k5so9528085pjj.1
+        for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 10:47:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=jq3RYlVbDqirRaEWm8uYC1ns+MqjwZOrxQ2cNaYJlDg=;
-        b=RcqLGnRn4lP6HGnhbtHRODna8BfZi+cQ75Ojh1B4T/MQoZSyXe2wIId8LU/kqGA7RM
-         Jp1XZ8pXeszuDXG2zHzwpmNEWdzYkAqLorKBiBofI+lWWUy9ou5hlBCb/00XqAx7VGqX
-         B2nUQXfsNTC0+7l1GVDhg99kfLgOkyzkrIu2GHZp+5/U4nrOe9v+sKXA4Rrh1IRQs5NC
-         TtjfKt0OJKP+qzmj623o4ETkBwevelOVGwy/nGA4p61DCshVyCcWWdEIZ1L+DULfysEX
-         oUOHMtklqm/ZpQ4LRNJj968x5SDD3XYUmYrQljJeJOO9Y3Z+bNBNtPqjnJ2CuJySJs24
-         6yZA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uaNz0pGgnw41U7b9/4YySDsutMOtFyU5/A1BP+vwOSo=;
+        b=nCxzoJwnT7b6cU313aMMJaaa/LaDoZ4dIFz/OQLbUH1mpz+AZordGu5hYYSSoF3iuZ
+         9jzy8zZoas868Og3FAhNYOhzCj2pdqvV9gHZYuJ5nbVWCIdbZNxc6kfmtl+GyipUpUAi
+         FbVj/sxrrKf0Q25Z6ougkD5jPcdFSl7uW9HamsQTMVYAXiUbV5ovyPgE/vugL3v1mCVh
+         6jh7FVqWmc7LhgJCPiiAxUAmAcMBzfDpJ1td1suJCAULiANv+WqwmOd4uyD1O3J7zZre
+         mJbVZQwLGKY49yHvgTRqxv46eCFFLE6a83VkLBwO5pJp6DaHy4C7o/k+Kir4HAL/fYqw
+         Di2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=jq3RYlVbDqirRaEWm8uYC1ns+MqjwZOrxQ2cNaYJlDg=;
-        b=MvJoN0eDWD0j4/0mURFArH8a4nVD+niJnjr09ukOToaPM1xh1xXCodeIwpNH2LLghw
-         hTMgdcaeqOFwz0q15GPDl6JcYYdsnrfVy4zf/8SNHVNgaJEdT3hAo1au3IqOXj6jHbNP
-         Sg3ks8b268ldFGrGbgiW9MwrRWZgo0YbM/R1Jue4NGd0twJ5SunNj3aWmKcqdGV6gPoz
-         kjVn2EcKPQrJb3jwcKPUaibGN1Af4Bd6ihltYzEuzrCP1GJ6M0wZ7ZN/klaqv3pWOm7P
-         JdhxYCYIyGLdk1eWBYoRyGRaEjSirgHduYuwW3o6PM1YZLBJU1k8BxoThfurcJI7Ualg
-         hpPQ==
-X-Gm-Message-State: AOAM533J2RRI+TXYPlHBx5+WKr8Li3KEFytCi0U3+cMjQdEzaF2gsU5q
-	UuMJ69dn2lt8489bIjSUvkM=
-X-Google-Smtp-Source: ABdhPJyYWtKsmIPSoSGsuqdD6zSwDOtYPVRAqi9Swk/0eu3dTFJS9AZQooo4mifGsrIHWJWHudqfBw==
-X-Received: by 2002:a37:93c2:: with SMTP id v185mr6435183qkd.179.1621530840751;
-        Thu, 20 May 2021 10:14:00 -0700 (PDT)
-Received: from smtp.gmail.com ([2804:30c:b19:6700:15d6:7f1d:c87:ccf7])
-        by smtp.gmail.com with ESMTPSA id f127sm2462842qkd.81.2021.05.20.10.13.58
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uaNz0pGgnw41U7b9/4YySDsutMOtFyU5/A1BP+vwOSo=;
+        b=oFVT6GI+/BDj/SfoyGLCQhLX9GIv61Rxo3ig6DvZ+mbdEEqOwaBE8qNiLAJsSswmQv
+         z5qLdxIMtfZz/gy4jL40ichyZh3w35fBtYQk6Lw7enl28FjREBwcKDjqXGDtmZhBqnRd
+         uhXuAUuKpaHevkud164ewX+lRmBSoR8r2pUiOyJtUpZ9bESv2AVs16AYAHuoqtiUF1CS
+         613wNkNRWBQodfKVZWVswkUSILdyGhgRIp6/vImp3sJowPQbXlVhNVnUZWafqpQs6br6
+         AZV70h1FTiZlZgu6JbogCbteUmDH0njv9dTLCk6KT1gd5UwNCr5ZLzdgZ8T9RK8gd/GQ
+         NNHA==
+X-Gm-Message-State: AOAM532a74DGPFRFwVAp0bfnlug4ftEOl8BD9qOVOeE3DkWbbRvyoXVY
+	6/DPugQDnAoW70xaAT7h8zA=
+X-Google-Smtp-Source: ABdhPJyxsXj/b5lWKiUQS4qPuu+WqQ2yEz3XfUJJmUnGQ5dI42+4c2/1SAu9dNtZLBLiOuMOjm1pkA==
+X-Received: by 2002:a17:90a:7e09:: with SMTP id i9mr5967986pjl.166.1621532840693;
+        Thu, 20 May 2021 10:47:20 -0700 (PDT)
+Received: from ubuntu.localdomain ([103.196.78.23])
+        by smtp.googlemail.com with ESMTPSA id t15sm5775310pjh.0.2021.05.20.10.47.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 May 2021 10:14:00 -0700 (PDT)
-Date: Thu, 20 May 2021 14:13:56 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: Wang Qing <wangqing@vivo.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
+        Thu, 20 May 2021 10:47:20 -0700 (PDT)
+From: Hriday Hegde <hridayhegde1999@gmail.com>
+To: 
+Cc: hridayhegde1999@gmail.com,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+	Alex Dewar <alex.dewar90@gmail.com>,
+	Sean Behan <codebam@riseup.net>,
+	Colin Ian King <colin.king@canonical.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: iio: fix some formatting issues
-Message-ID: <YKaY1GAKkqXnAUrq@smtp.gmail.com>
-References: <1621389170-5850-1-git-send-email-wangqing@vivo.com>
+Subject: [PATCH] staging: emxx_udc: Fixed coding style in places where lines should not end in '('
+Date: Thu, 20 May 2021 10:46:57 -0700
+Message-Id: <20210520174701.8370-1-hridayhegde1999@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1621389170-5850-1-git-send-email-wangqing@vivo.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Wang,
+The fixes were for the following checkpatch outputs:
 
-Nice patch for a start. Yet, I think there is room for some improvement.
+CHECK: Lines should not end with a '('
+1076: FILE: drivers/staging/emxx_udc/emxx_udc.c:1076:
++				_nbu2ss_writel(
 
-On 05/19, Wang Qing wrote:
-> fixing:
-If you wish, you may add here that this style check is reported by
-checkpatch.
+CHECK: Lines should not end with a '('
+1228: FILE: drivers/staging/emxx_udc/emxx_udc.c:1228:
++		length = _nbu2ss_readl(
 
-> CHECK: Alignment should match open parenthesis
-> #1351: FILE: drivers/staging/iio/addac/adt7316.c:1351:
-Checkpatch warns that commit log lines starting with '#' are dropped by
-git as comments. Is this intentional?
+CHECK: Lines should not end with a '('
+1465: FILE: drivers/staging/emxx_udc/emxx_udc.c:1465:
++			regdata = _nbu2ss_readl(
 
-> 
-> CHECK: Alignment should match open parenthesis
-> #1378: FILE: drivers/staging/iio/addac/adt7316.c:1378:
-Same warning here.
+Signed-off-by: Hriday Hegde <hridayhegde1999@gmail.com>
+---
+ drivers/staging/emxx_udc/emxx_udc.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-Its probably not a requirement, but the subject line could be more
-specific about where the changes are for. Maybe start with
-staging: iio: addac:
-or even
-staging: iio: addac: adt7316:
+diff --git a/drivers/staging/emxx_udc/emxx_udc.c b/drivers/staging/emxx_udc/emxx_udc.c
+index 741147a4f0fe..8364316c1d25 100644
+--- a/drivers/staging/emxx_udc/emxx_udc.c
++++ b/drivers/staging/emxx_udc/emxx_udc.c
+@@ -1073,8 +1073,8 @@ static int _nbu2ss_epn_in_pio(struct nbu2ss_udc *udc, struct nbu2ss_ep *ep,
+ 		i_word_length = length / sizeof(u32);
+ 		if (i_word_length > 0) {
+ 			for (i = 0; i < i_word_length; i++) {
+-				_nbu2ss_writel(
+-					&preg->EP_REGS[ep->epnum - 1].EP_WRITE,
++				_nbu2ss_writel(&preg->EP_REGS[ep->epnum - 1]
++					.EP_WRITE,
+ 					p_buf_32->dw);
+ 
+ 				p_buf_32++;
+@@ -1225,8 +1225,7 @@ static void _nbu2ss_restert_transfer(struct nbu2ss_ep *ep)
+ 		return;
+ 
+ 	if (ep->epnum > 0) {
+-		length = _nbu2ss_readl(
+-			&ep->udc->p_regs->EP_REGS[ep->epnum - 1].EP_LEN_DCNT);
++		length = _nbu2ss_readl(&ep->udc->p_regs->EP_REGS[ep->epnum - 1].EP_LEN_DCNT);
+ 
+ 		length &= EPN_LDATA;
+ 		if (length < ep->ep.maxpacket)
+@@ -1462,8 +1461,7 @@ static void _nbu2ss_epn_set_stall(struct nbu2ss_udc *udc,
+ 		for (limit_cnt = 0
+ 			; limit_cnt < IN_DATA_EMPTY_COUNT
+ 			; limit_cnt++) {
+-			regdata = _nbu2ss_readl(
+-				&preg->EP_REGS[ep->epnum - 1].EP_STATUS);
++			regdata = _nbu2ss_readl(&preg->EP_REGS[ep->epnum - 1].EP_STATUS);
+ 
+ 			if ((regdata & EPN_IN_DATA) == 0)
+ 				break;
+-- 
+2.25.1
 
-
-Regards,
-
-Marcelo
-
-> 
-> Signed-off-by: Wang Qing <wangqing@vivo.com>
-> ---
->  drivers/staging/iio/addac/adt7316.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/staging/iio/addac/adt7316.c b/drivers/staging/iio/addac/adt7316.c
-> index ccbafca..79467f0 100644
-> --- a/drivers/staging/iio/addac/adt7316.c
-> +++ b/drivers/staging/iio/addac/adt7316.c
-> @@ -1348,9 +1348,9 @@ static ssize_t adt7316_show_in_analog_temp_offset(struct device *dev,
->  }
->  
->  static ssize_t adt7316_store_in_analog_temp_offset(struct device *dev,
-> -						struct device_attribute *attr,
-> -						const char *buf,
-> -						size_t len)
-> +						   struct device_attribute *attr,
-> +						   const char *buf,
-> +						   size_t len)
->  {
->  	struct iio_dev *dev_info = dev_to_iio_dev(dev);
->  	struct adt7316_chip_info *chip = iio_priv(dev_info);
-> @@ -1375,9 +1375,9 @@ static ssize_t adt7316_show_ex_analog_temp_offset(struct device *dev,
->  }
->  
->  static ssize_t adt7316_store_ex_analog_temp_offset(struct device *dev,
-> -						struct device_attribute *attr,
-> -						const char *buf,
-> -						size_t len)
-> +						   struct device_attribute *attr,
-> +						   const char *buf,
-> +						   size_t len)
->  {
->  	struct iio_dev *dev_info = dev_to_iio_dev(dev);
->  	struct adt7316_chip_info *chip = iio_priv(dev_info);
-> -- 
-> 2.7.4
-> 
