@@ -1,54 +1,55 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8EDF70
-	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 19:12:03 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id gb21-20020a17090b0615b029015d1a863a91so5984829pjb.2
-        for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 12:12:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85B270
+	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 19:13:21 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id x18so8793990pfi.9
+        for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 12:13:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=Vhd+O9ngUiaW+b64VVg6x1FRJZO378mbbVoeuL0y8HI=;
-        b=O6RtmzHUaOhU3kzx2I77GM31mowWU/M+bVARMQtGUih16bLB/QCSa8LFs3hOgiGR2r
-         1Lqm2r/md5ne/1ILg5CN0pBEkTJQ6tr4F/K822wnq0hcXh4/D93tHS+w9lS/f7SuybA2
-         3Y11KtBBkjqRvVXfJfcy2wdCXrZ6l5tZqCNHmLnJCCOmJ+LjiqgSvegrBn6YarmGBaom
-         +u4j/CtieI780TFVSWMX/4NimaQ8fghMHWDMKYmm9pXb2Q41FJD59M4NKXQkoRgC6I15
-         Wx/DHy6PhruLLYfV7mqP5WES7CsMnwgqNOVUY5Gg7skTVkKl4EI+AAVL8qbHgR2WLk9u
-         4jyg==
+        bh=DJDVCA+gTY1ofVftg2mVfT8s7c57BrdQNCyue4FC79U=;
+        b=fqDPoTeEENofYmVixN+R6rC1iBE5poBxhjsTTBYa5t0Ir0T4vSc02Mbi2oq3FnlL6/
+         SOBJjSzB5ctf1Hxgy6PDxMj+6Pa0BHoWzvIp3r0A7My8G4+1uiqfOmiT1orXjxa3Yehb
+         OG9CSlY3iRu2EOoT5neOuA7021091Q8ZRMuy/OPo0PM/KU0loSUaF9ECAPs0CVT5UPiT
+         EMgildhnZN9f53huiu+cpnKV71hT5n6pmsTRYktxDZraFp3q2sZMIzq3VAKrhulRrNH8
+         HLDXOIHNdYKPkr3O+fukoDa4mKJRuRqqUaJB8yt9w71TVTw1Bs/kuP0j3c6e6WVhRVUR
+         ERUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-transfer-encoding
          :content-language;
-        bh=Vhd+O9ngUiaW+b64VVg6x1FRJZO378mbbVoeuL0y8HI=;
-        b=RMQ5kvl6gZ1oIHIG2byjf1EOE8Vir9diuXqUP05kthF5TTVNVYcoveeU0rAQ3mydJs
-         nxK91qsgGplhguxFrolQUEzSE3ngwl2exQzhmUAEhAjo7r7oXAqdSVX7hvr91yVVV5sI
-         9C2i2p1olL7GgCtrzRidbqMVvX5j2wsubBGN7fPt+zhVWFcMtEY/kpaOLKSUybIdZH16
-         5NKZ6rgAsUxQvIXY9znj3taTazrMJo9z6R4Ks1+ZbKivwIgOnoT8EABbK1IYcOKsJvF0
-         fOOy51+wrVe8kf5ml74s8SWYz2HZeCkxs9eVHGf7qwTj+LYZQFUZvZovC0hKHrlDCk0v
-         8Shw==
-X-Gm-Message-State: AOAM531051nUtYNZ+OLoBzcBmPX9V3HB81KQCgvFsgYepAZK+rvAMDVF
-	HVNvOOO8eS5cP4sWtL4hlw0=
-X-Google-Smtp-Source: ABdhPJyE1ioxdPFgy7HQA/5zNIoOkbdFJUpQxmLfCsfNu/BhgF4FiSlNjprfm9nNfhHvbTuvxJvHSg==
-X-Received: by 2002:a17:90b:1e46:: with SMTP id pi6mr6810625pjb.212.1621537923337;
-        Thu, 20 May 2021 12:12:03 -0700 (PDT)
+        bh=DJDVCA+gTY1ofVftg2mVfT8s7c57BrdQNCyue4FC79U=;
+        b=lnHu77lCxhvqBwm6Le9nz0pJsXblH8SPqesncH96vVIK6MfBd3p+UJDXmv3yUmFYrU
+         W1gZdZE9kAG7m0dGinyDeph1ZwrK+42Cxe6sLVSHI/yGnCt8rwTFJa66SZZ/FzdwuzXY
+         ws4Vk4I274Rloile8PGXaqE5wSIRsZujqCfUtAQcKsk+IM2ZC4jqGDkQNrE3KHCgSzVC
+         TZv3uWtcpoowJDeBD2AZ36UUSbKJC8DkG2CsjOLI+rjU5eGDVgp6J5LE+52T2S0Gugyr
+         3RDHgXFMRlDC+qA/k9Q6/F4nbJY+Ghmw0eFKjdBzEpzEv0S/fcsCpqg1+yQQIqXV+Wgv
+         x4vw==
+X-Gm-Message-State: AOAM530ISJESkeGDMdFYM1AZetA5PLs16mOf+18YjHFHjqS1CcobERPT
+	si/XBX39om8SMUywweNMCF8=
+X-Google-Smtp-Source: ABdhPJymTnvzBmDvZVbk7KNYZRGJNiqbzbbcD/H9zFvPRBdAEw/dgE6NgYN2Fk8sVpeFuDNd20DS2g==
+X-Received: by 2002:aa7:8a1a:0:b029:2d4:a24:8967 with SMTP id m26-20020aa78a1a0000b02902d40a248967mr5982882pfa.11.1621538001187;
+        Thu, 20 May 2021 12:13:21 -0700 (PDT)
 Received: from [192.168.1.2] ([103.196.78.23])
-        by smtp.gmail.com with ESMTPSA id b9sm2488091pfo.107.2021.05.20.12.12.00
+        by smtp.gmail.com with ESMTPSA id a24sm2629526pgv.76.2021.05.20.12.13.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 May 2021 12:12:02 -0700 (PDT)
+        Thu, 20 May 2021 12:13:20 -0700 (PDT)
 Subject: Re: [PATCH] staging: emxx_udc: Fixed coding style in places where
  lines should not end in '('
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Alex Dewar <alex.dewar90@gmail.com>, Sean Behan <codebam@riseup.net>,
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alex Dewar <alex.dewar90@gmail.com>, Sean Behan <codebam@riseup.net>,
  Colin Ian King <colin.king@canonical.com>,
  Kumar Kartikeya Dwivedi <memxor@gmail.com>, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
 References: <20210520174701.8370-1-hridayhegde1999@gmail.com>
- <YKajzaK98SvKfbkm@kroah.com>
+ <20210520181838.GI1955@kadam>
 From: Hriday Hegde <hridayhegde1999@gmail.com>
-Message-ID: <916de40f-f3eb-a9fc-0588-fe8c91430b47@gmail.com>
-Date: Fri, 21 May 2021 00:41:58 +0530
+Message-ID: <a1c0247c-9cfe-b03a-86eb-a8313be25e55@gmail.com>
+Date: Fri, 21 May 2021 00:43:16 +0530
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.2
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -56,12 +57,12 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YKajzaK98SvKfbkm@kroah.com>
+In-Reply-To: <20210520181838.GI1955@kadam>
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
-On 20-05-2021 23:30, Greg Kroah-Hartman wrote:
+On 20-05-2021 23:48, Dan Carpenter wrote:
 > On Thu, May 20, 2021 at 10:46:57AM -0700, Hriday Hegde wrote:
 >> The fixes were for the following checkpatch outputs:
 >>
@@ -94,14 +95,13 @@ On 20-05-2021 23:30, Greg Kroah-Hartman wrote:
 >> -					&preg->EP_REGS[ep->epnum - 1].EP_WRITE,
 >> +				_nbu2ss_writel(&preg->EP_REGS[ep->epnum - 1]
 >> +					.EP_WRITE,
-> Please don't break the line at ".", that makes this really hard to
-> follow.
+>>  					p_buf_32->dw);
+> No, this is worse than before.
 >
-> thanks,
+> regards,
+> dan carpenter
 >
-> greg k-h
-Ok will keep that in mind. I don't yet see a way to make this into the
-proper coding style without losing readability.
+Yes sorry, didn't really take into account readability.
 
 Thanks
 Hriday
