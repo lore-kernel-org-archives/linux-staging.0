@@ -1,52 +1,65 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED0570
-	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 03:49:27 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id s4so6671037plg.12
-        for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 20:49:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=+SnlRgT1Xc6ohfBD2dJu/m0JZhJUUZhWe06KN/vy3fY=;
-        b=DRt5Ij/MVJsGZlVg9NahZ8EdbSNiK3KF68+d690p94x+QMN5DFHVOiLwSQX6XMuO/V
-         /BMH0JRSBzGLpLdMoIq1viF1Y4g6R1Xh52rruHv7yoO9Q9S8tG/Pd/rad6dzfv2WyU06
-         6weIC261LS2PQddhiyE+BqS5GMPZtN6X/yf5snt1m4QVF2j/ZrWBRmJKvNfj5br19BS4
-         fVQ8a7U5CTuvmgcmEmWn6pOSEfb7Cl/C6YE3Lm0Ux5hIrRlBaVjAP2N0IgjLsbvBjLxJ
-         zMVSKirLj3HfPVM644+/hLI4ApBWQKzJb7kToyho7CAxxcZdEGSFzW8VyDOxn+Np59Q8
-         HYPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=+SnlRgT1Xc6ohfBD2dJu/m0JZhJUUZhWe06KN/vy3fY=;
-        b=cOgZXfo/VEvMjoTrt/mimtb1nJgj2bnlnEnOhArCzz+9cka5pKfWw6KK5YIQPNeoHv
-         rbWtpjIpiBDRmbVaNBIFfs77n7gHbhFcaddJ+q7rzJA275+rwYUx0aQypbcgxXCDUDFz
-         VWcLp2L+DJ2VacjV3/tt+ipryMMacWNe+5Ud7ogGjXZBm61P5yaNWlvjHzAdUY7do0rb
-         8abgphHZMlR+5DOFKugxyGT9VziVqUqLlZ+2DsxhSdXoduaF8mac4UZ8ddlap5Neo3yN
-         3RRjmcI7UdUWhnc+mdD+fGOPSwTOrju9XPU/xUUjHo39l46VaAecQUpzfkhz5FUIsGzz
-         RU9A==
-X-Gm-Message-State: AOAM531kjBidAh7MFRhGXE0YTDbsR09vLGuRhyJXr6lpvJ+hVE1Ml3Sc
-	q+BZG/DUmC6COOY0x93bXWhRUg==
-X-Google-Smtp-Source: ABdhPJzHYjsKL7bUvN9XeoQbFPnem90jhxUfH4NDK2Tpf0if5EUiZqVBBMYeATd3+l1X+Xx4wjmevQ==
-X-Received: by 2002:a17:90a:9d88:: with SMTP id k8mr2900173pjp.64.1621482566576;
-        Wed, 19 May 2021 20:49:26 -0700 (PDT)
-Received: from localhost ([136.185.154.93])
-        by smtp.gmail.com with ESMTPSA id f14sm753415pjq.50.2021.05.19.20.49.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 May 2021 20:49:25 -0700 (PDT)
-Date: Thu, 20 May 2021 09:19:23 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Philippe Dixon <philippesdixon@gmail.com>
-Cc: vireshk@kernel.org, rmfrfs@gmail.com, johan@kernel.org,
-	elder@kernel.org, gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: spi: add blank line after variable
- declaration
-Message-ID: <20210520034923.ddp4sxq5vfajhojz@vireshk-i7>
-References: <20210519193938.GA7131@ubuntu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5147C72
+	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 06:09:53 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14K64xCv172268;
+	Thu, 20 May 2021 06:09:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=C3pB+KzMdD3b0417cIrmppeRfZmYwgPZJocfpwURt2A=;
+ b=Uj5iEah6/9+7vmZDuhlUmzNkfBsXjRjnLJBx5h+fasApSO+IKTXWC7f383eXNnc6tBgC
+ vwlLx9lE6M4iJYhWSkG9s7IQoTNXHL0V43tIbsiSalHqK1KNMbJVD82xsGVp/Vn79tfF
+ uyMSQY5AbB7IxgqepPhV33H2wDblobzbXmEERKUcuLNQL7tFIZE+qKz2/eu7v/vgz3XE
+ 6eR7z0c95gZ2sriBvv5sprhGiYeB2ov5iU1AeBK/DDjxdJBSLVanzS8RG7v/PBiL0O/5
+ ZYfrcN+qTrpQzpkyu6zCOR6ErGYKvHluznh8RosMlTr/jjfXvZhpxplwx4XNejsrWCEo HA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by aserp2120.oracle.com with ESMTP id 38j68mkhub-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 20 May 2021 06:09:43 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14K65HuG081994;
+	Thu, 20 May 2021 06:09:42 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3030.oracle.com with ESMTP id 38meegpt7w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 20 May 2021 06:09:42 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14K699cJ089457;
+	Thu, 20 May 2021 06:09:41 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+	by aserp3030.oracle.com with ESMTP id 38meegpt7g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 20 May 2021 06:09:41 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 14K69b6S010834;
+	Thu, 20 May 2021 06:09:38 GMT
+Received: from kadam (/41.212.42.34)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Wed, 19 May 2021 23:09:37 -0700
+Date: Thu, 20 May 2021 09:09:24 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Anup Patel <anup.patel@wdc.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+        Palmer Dabbelt <palmerdabbelt@google.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alexander Graf <graf@amazon.com>, Atish Patra <atish.patra@wdc.com>,
+        Alistair Francis <Alistair.Francis@wdc.com>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Anup Patel <anup@brainfault.org>, kvm@vger.kernel.org,
+        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH v18 14/18] RISC-V: KVM: Implement ONE REG interface for
+ FP registers
+Message-ID: <20210520060924.GD1955@kadam>
+References: <20210519033553.1110536-1-anup.patel@wdc.com>
+ <20210519033553.1110536-15-anup.patel@wdc.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -54,33 +67,68 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210519193938.GA7131@ubuntu>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <20210519033553.1110536-15-anup.patel@wdc.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-ORIG-GUID: 9oEaeiTajIB3mCxzFbzpy6mDX4kz6VAg
+X-Proofpoint-GUID: 9oEaeiTajIB3mCxzFbzpy6mDX4kz6VAg
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9989 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=999
+ priorityscore=1501 impostorscore=0 suspectscore=0 clxscore=1015
+ adultscore=0 bulkscore=0 phishscore=0 spamscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2105200050
 
-On 19-05-21, 12:39, Philippe Dixon wrote:
-> This patch fixes the following checkpatch.pl warning:
-> 
-> WARNING: Missing a blank line after declarations
-> 
-> Signed-off-by: Philippe Dixon <philippesdixon@gmail.com>
-> ---
->  drivers/staging/greybus/spilib.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/staging/greybus/spilib.c b/drivers/staging/greybus/spilib.c
-> index 30655153df6a..ad0700a0bb81 100644
-> --- a/drivers/staging/greybus/spilib.c
-> +++ b/drivers/staging/greybus/spilib.c
-> @@ -246,6 +246,7 @@ static struct gb_operation *gb_spi_operation_create(struct gb_spilib *spi,
->  	xfer = spi->first_xfer;
->  	while (msg->state != GB_SPI_STATE_OP_DONE) {
->  		int xfer_delay;
+On Wed, May 19, 2021 at 09:05:49AM +0530, Anup Patel wrote:
+> +static int kvm_riscv_vcpu_set_reg_fp(struct kvm_vcpu *vcpu,
+> +				     const struct kvm_one_reg *reg,
+> +				     unsigned long rtype)
+> +{
+> +	struct kvm_cpu_context *cntx = &vcpu->arch.guest_context;
+> +	unsigned long isa = vcpu->arch.isa;
+> +	unsigned long __user *uaddr =
+> +			(unsigned long __user *)(unsigned long)reg->addr;
+> +	unsigned long reg_num = reg->id & ~(KVM_REG_ARCH_MASK |
+> +					    KVM_REG_SIZE_MASK |
+> +					    rtype);
+> +	void *reg_val;
 > +
->  		if (xfer == spi->last_xfer)
->  			xfer_len = spi->last_xfer_size;
->  		else
+> +	if ((rtype == KVM_REG_RISCV_FP_F) &&
+> +	    riscv_isa_extension_available(&isa, f)) {
+> +		if (KVM_REG_SIZE(reg->id) != sizeof(u32))
+> +			return -EINVAL;
+> +		if (reg_num == KVM_REG_RISCV_FP_F_REG(fcsr))
+> +			reg_val = &cntx->fp.f.fcsr;
+> +		else if ((KVM_REG_RISCV_FP_F_REG(f[0]) <= reg_num) &&
+> +			  reg_num <= KVM_REG_RISCV_FP_F_REG(f[31]))
+> +			reg_val = &cntx->fp.f.f[reg_num];
+> +		else
+> +			return -EINVAL;
+> +	} else if ((rtype == KVM_REG_RISCV_FP_D) &&
+> +		   riscv_isa_extension_available(&isa, d)) {
+> +		if (reg_num == KVM_REG_RISCV_FP_D_REG(fcsr)) {
+> +			if (KVM_REG_SIZE(reg->id) != sizeof(u32))
+> +				return -EINVAL;
+> +			reg_val = &cntx->fp.d.fcsr;
+> +		} else if ((KVM_REG_RISCV_FP_D_REG(f[0]) <= reg_num) &&
+> +			   reg_num <= KVM_REG_RISCV_FP_D_REG(f[31])) {
+> +			if (KVM_REG_SIZE(reg->id) != sizeof(u64))
+> +				return -EINVAL;
+> +			reg_val = &cntx->fp.d.f[reg_num];
+> +		} else
+> +			return -EINVAL;
+> +	} else
+> +		return -EINVAL;
+> +
+> +	if (copy_from_user(reg_val, uaddr, KVM_REG_SIZE(reg->id)))
+                           ^^^^^^^
+It sort of bothers me that if this copy fails then we have no idea
+what garbage is in reg_val.  It would be nicer to copy it to a temporary
+buffer and then memcpy it when we know it's going succeed.
 
-Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+> +		return -EFAULT;
+> +
+> +	return 0;
+> +}
 
--- 
-viresh
+regards,
+dan carpenter
