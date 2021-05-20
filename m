@@ -1,75 +1,52 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC9C70
-	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 02:38:40 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id l70so10819398pga.1
-        for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 19:38:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED0570
+	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 03:49:27 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id s4so6671037plg.12
+        for <linux-staging@lists.linux.dev>; Wed, 19 May 2021 20:49:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-disposition:content-transfer-encoding;
-        bh=+oDpeZ4j0Q9DFmXNX82+DBFJCZJqLdYMPzNEUa68hdk=;
-        b=IOa8K9tVVVxrX/LEDpljs/uhegyaU7VIZuMoaAVZsjDvNrTugxJq9nCTiuCFBEeDd5
-         3Y7xjzha2OTsAjBRw5pc7a6InhT3llpfUQiJemcPlQrchkqgC9UINiAob8LgJehEDr9Q
-         nmFyzp/SwcJZVNkHQkt2yziclbsRlwso1ofxmByAJcS15BRIANqqokBlgpK4lHAHoquR
-         AtiCPZFyfQ7TIzLWLEp3wiv9qdNxAUr4bcnq3S1LIIf+4M5+HkcigdsLrwpCn+fo0lqf
-         X5ljjTEcCm6UfcJ2a7UMhZkNb9wlVPYhsg6f46u0EJfEY2QykQptftlowkzjQFtSEfhZ
-         eYeg==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=+SnlRgT1Xc6ohfBD2dJu/m0JZhJUUZhWe06KN/vy3fY=;
+        b=DRt5Ij/MVJsGZlVg9NahZ8EdbSNiK3KF68+d690p94x+QMN5DFHVOiLwSQX6XMuO/V
+         /BMH0JRSBzGLpLdMoIq1viF1Y4g6R1Xh52rruHv7yoO9Q9S8tG/Pd/rad6dzfv2WyU06
+         6weIC261LS2PQddhiyE+BqS5GMPZtN6X/yf5snt1m4QVF2j/ZrWBRmJKvNfj5br19BS4
+         fVQ8a7U5CTuvmgcmEmWn6pOSEfb7Cl/C6YE3Lm0Ux5hIrRlBaVjAP2N0IgjLsbvBjLxJ
+         zMVSKirLj3HfPVM644+/hLI4ApBWQKzJb7kToyho7CAxxcZdEGSFzW8VyDOxn+Np59Q8
+         HYPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-disposition
-         :content-transfer-encoding;
-        bh=+oDpeZ4j0Q9DFmXNX82+DBFJCZJqLdYMPzNEUa68hdk=;
-        b=deR+J/s86WjIeIoVYN7Gcf/kY9LnNdnn/VzQ/nHXG2n1vfrc6Q6iMPXBV8cHJiJrhM
-         nn7IBm/5LTRCy3vAj7j6yYkAEj9au635IICIYIy8k/GhBwgfl6v4W/yoP7eSu8ol1Wkb
-         aGcJht0tERhX6gs4iyMqmB1zL9GuGQhdvlryX1alCGF+WwTCuWJXjUS/k3/FxIAOsvQW
-         hP7KuQIRu94jA8vt4kgGiZywjz5hEPReWE6Dw7IrxOGQw5pQo6QGDH9d8rFUa28WDnrn
-         ngjRSGAISCr4LElCwTvh/66h1rHdj4Pdy65VYlu+AcBQJGeuZndn0ZFC6OEhcUvgMUUI
-         8GlQ==
-X-Gm-Message-State: AOAM532BdbZ6CkVfXlbnI0T6D81Mw720gnzyUxJDnfzkVHSSWhozLKCy
-	SRbl7y3cBWIBETDcffwxeU8=
-X-Google-Smtp-Source: ABdhPJyOZjPeKhwYF/NBTz9x78DTVIhWw9ru81FqoCQB8kQAgbM2mwi2ZnccQH72pofVtqTXdW8LxA==
-X-Received: by 2002:a63:1e64:: with SMTP id p36mr2226330pgm.105.1621478319924;
-        Wed, 19 May 2021 19:38:39 -0700 (PDT)
-Received: from localhost.localdomain ([138.197.212.246])
-        by smtp.gmail.com with ESMTPSA id v9sm3005387pjd.26.2021.05.19.19.38.31
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=+SnlRgT1Xc6ohfBD2dJu/m0JZhJUUZhWe06KN/vy3fY=;
+        b=cOgZXfo/VEvMjoTrt/mimtb1nJgj2bnlnEnOhArCzz+9cka5pKfWw6KK5YIQPNeoHv
+         rbWtpjIpiBDRmbVaNBIFfs77n7gHbhFcaddJ+q7rzJA275+rwYUx0aQypbcgxXCDUDFz
+         VWcLp2L+DJ2VacjV3/tt+ipryMMacWNe+5Ud7ogGjXZBm61P5yaNWlvjHzAdUY7do0rb
+         8abgphHZMlR+5DOFKugxyGT9VziVqUqLlZ+2DsxhSdXoduaF8mac4UZ8ddlap5Neo3yN
+         3RRjmcI7UdUWhnc+mdD+fGOPSwTOrju9XPU/xUUjHo39l46VaAecQUpzfkhz5FUIsGzz
+         RU9A==
+X-Gm-Message-State: AOAM531kjBidAh7MFRhGXE0YTDbsR09vLGuRhyJXr6lpvJ+hVE1Ml3Sc
+	q+BZG/DUmC6COOY0x93bXWhRUg==
+X-Google-Smtp-Source: ABdhPJzHYjsKL7bUvN9XeoQbFPnem90jhxUfH4NDK2Tpf0if5EUiZqVBBMYeATd3+l1X+Xx4wjmevQ==
+X-Received: by 2002:a17:90a:9d88:: with SMTP id k8mr2900173pjp.64.1621482566576;
+        Wed, 19 May 2021 20:49:26 -0700 (PDT)
+Received: from localhost ([136.185.154.93])
+        by smtp.gmail.com with ESMTPSA id f14sm753415pjq.50.2021.05.19.20.49.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 May 2021 19:38:39 -0700 (PDT)
-From: DENG Qingfang <dqfext@gmail.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Landen Chao <Landen.Chao@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Vivien Didelot <vivien.didelot@gmail.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	netdev@vger.kernel.org,
-	Weijie Gao <weijie.gao@mediatek.com>,
-	Chuanhong Guo <gch981213@gmail.com>,
-	=?iso-8859-1?Q?Ren=E9?= van Dorst <opensource@vdorst.com>,
-	Frank Wunderlich <frank-w@public-files.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Marc Zyngier <maz@kernel.org>
-Subject: Re: [PATCH net-next v2 1/4] net: phy: add MediaTek Gigabit Ethernet PHY driver
-Date: Thu, 20 May 2021 10:38:28 +0800
-Message-Id: <20210520023828.3261270-1-dqfext@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <YKW0acoyM+5rVp0X@lunn.ch>
-References: <20210519033202.3245667-1-dqfext@gmail.com> <20210519033202.3245667-2-dqfext@gmail.com> <YKW0acoyM+5rVp0X@lunn.ch>
+        Wed, 19 May 2021 20:49:25 -0700 (PDT)
+Date: Thu, 20 May 2021 09:19:23 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Philippe Dixon <philippesdixon@gmail.com>
+Cc: vireshk@kernel.org, rmfrfs@gmail.com, johan@kernel.org,
+	elder@kernel.org, gregkh@linuxfoundation.org,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: spi: add blank line after variable
+ declaration
+Message-ID: <20210520034923.ddp4sxq5vfajhojz@vireshk-i7>
+References: <20210519193938.GA7131@ubuntu>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -77,25 +54,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210519193938.GA7131@ubuntu>
+User-Agent: NeoMutt/20180716-391-311a52
 
-On Thu, May 20, 2021 at 02:59:21AM +0200, Andrew Lunn wrote:
-> > +static void mtk_gephy_config_init(struct phy_device *phydev)
-> > +{
-> > +	/* Disable EEE */
-> > +	phy_write_mmd(phydev, MDIO_MMD_AN, MDIO_AN_EEE_ADV, 0);
+On 19-05-21, 12:39, Philippe Dixon wrote:
+> This patch fixes the following checkpatch.pl warning:
 > 
-> Is EEE broken on this PHY? Or is this just to get it into a defined
-> state?
+> WARNING: Missing a blank line after declarations
+> 
+> Signed-off-by: Philippe Dixon <philippesdixon@gmail.com>
+> ---
+>  drivers/staging/greybus/spilib.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/staging/greybus/spilib.c b/drivers/staging/greybus/spilib.c
+> index 30655153df6a..ad0700a0bb81 100644
+> --- a/drivers/staging/greybus/spilib.c
+> +++ b/drivers/staging/greybus/spilib.c
+> @@ -246,6 +246,7 @@ static struct gb_operation *gb_spi_operation_create(struct gb_spilib *spi,
+>  	xfer = spi->first_xfer;
+>  	while (msg->state != GB_SPI_STATE_OP_DONE) {
+>  		int xfer_delay;
+> +
+>  		if (xfer == spi->last_xfer)
+>  			xfer_len = spi->last_xfer_size;
+>  		else
 
-As I said in commit message, the initialization (including EEE) is
-from the vendor driver.
-I have also tested it with EEE enabled by default on one of my APs,
-and got occasional link drops.
+Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
 
-> 
-> Otherwise
-> 
-> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-> 
->     Andrew
+-- 
+viresh
