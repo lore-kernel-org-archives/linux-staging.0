@@ -1,70 +1,72 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mailgw02.mediatek.com (mailgw02.mediatek.com [216.200.240.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 427E471
-	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 06:48:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5A7D561184;
-	Thu, 20 May 2021 06:48:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1621493284;
-	bh=/ULHtR4TqeRdRpXTs7tqChvGD52dOGrVljf5TQImA5w=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Twuzil9Sd88E41Ieqf6GvPRTOHVO+vfaSUGqjvSaA0UUgHhPWZ2Ssg2lz39/4TfBi
-	 XEuslwPHoYDruYlQKaYcVM8Fzm/JL+NXI1kRk6IKIdl2WI9KsveRrapc01kD1d1LPU
-	 Ir++2X67+B6YqS/HchOlhTGyF8w6X0FdcgPkMPeE=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-staging@lists.linux.dev
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>
-Subject: [PATCH] staging: rtl8723bs: rename get_ra() due to global symbol collision
-Date: Thu, 20 May 2021 08:48:01 +0200
-Message-Id: <20210520064801.1961972-1-gregkh@linuxfoundation.org>
-X-Mailer: git-send-email 2.31.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9688971
+	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 07:23:21 +0000 (UTC)
+X-UUID: 061f921aa6cc47a083df4dae5b853384-20210520
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=ZQ3X2kKIVdd7QGc0Obd6FYCQ+lslLAxE4v/TzH04zFg=;
+	b=EJhtKMJHSLLT7k+TjsgkVYl5TweyxXs7MXcMNVdXRMnyOQxzmuKghYKfKjn6JwLDo1+MD9EAGJJeX2oGS0nY+U3rRYxYZ1Zp4z0Bz0VgSWFQ9a0NGv3hycwnnfYhxtYYiGKu6o1O5ruGvUiA8BvYG+aAOPbrwrBvXshmqREB1RE=;
+X-UUID: 061f921aa6cc47a083df4dae5b853384-20210520
+Received: from mtkcas66.mediatek.inc [(172.29.193.44)] by mailgw02.mediatek.com
+	(envelope-from <landen.chao@mediatek.com>)
+	(musrelay.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+	with ESMTP id 828172061; Thu, 20 May 2021 00:22:12 -0700
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ MTKMBS62DR.mediatek.inc (172.29.94.18) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 20 May 2021 00:13:21 -0700
+Received: from mtksdccf07 (172.21.84.99) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 20 May 2021 15:13:20 +0800
+Message-ID: <0adde34f936a2dafca40b06b408d82afe0852327.camel@mediatek.com>
+Subject: Re: [PATCH net-next v2 1/4] net: phy: add MediaTek Gigabit Ethernet
+ PHY driver
+From: Landen Chao <landen.chao@mediatek.com>
+To: DENG Qingfang <dqfext@gmail.com>, Andrew Lunn <andrew@lunn.ch>
+CC: "David S. Miller" <davem@davemloft.net>, Florian Fainelli
+	<f.fainelli@gmail.com>, Heiner Kallweit <hkallweit1@gmail.com>, "Jakub
+ Kicinski" <kuba@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+	Russell King <linux@armlinux.org.uk>, Sean Wang <sean.wang@mediatek.com>,
+	Vivien Didelot <vivien.didelot@gmail.com>, Vladimir Oltean
+	<olteanv@gmail.com>, Rob Herring <robh+dt@kernel.org>, Linus Walleij
+	<linus.walleij@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+	<linux-kernel@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+	<linux-staging@lists.linux.dev>, <devicetree@vger.kernel.org>,
+	<netdev@vger.kernel.org>, Weijie Gao <weijie.gao@mediatek.com>, Chuanhong Guo
+	<gch981213@gmail.com>, =?ISO-8859-1?Q?Ren=E9?= van Dorst
+	<opensource@vdorst.com>, "Frank Wunderlich" <frank-w@public-files.de>, Thomas
+ Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>
+Date: Thu, 20 May 2021 15:13:20 +0800
+In-Reply-To: <20210520023828.3261270-1-dqfext@gmail.com>
+References: <20210519033202.3245667-1-dqfext@gmail.com>
+	 <20210519033202.3245667-2-dqfext@gmail.com> <YKW0acoyM+5rVp0X@lunn.ch>
+	 <20210520023828.3261270-1-dqfext@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MTK: N
+Content-Transfer-Encoding: base64
 
-Turns out that powerpc already has a get_ra() function, which conflicts
-with this staging driver's inlined function (which is just picking a
-byte out of an array for some odd reason), so rename it to fix the
-powerpc build as that's the more important thing here.
-
-Reported-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c | 2 +-
- drivers/staging/rtl8723bs/include/wifi.h       | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-index 7c2680b6508c..ad803ffc0696 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-@@ -108,7 +108,7 @@ static void update_recvframe_phyinfo(union recv_frame *precvframe,
- 				!pattrib->icv_err && !pattrib->crc_err &&
- 				ether_addr_equal(rx_bssid, my_bssid));
- 
--	rx_ra = get_ra(wlanhdr);
-+	rx_ra = rtl8723bs_get_ra(wlanhdr);
- 	my_hwaddr = myid(&padapter->eeprompriv);
- 	pkt_info.to_self = pkt_info.bssid_match &&
- 		ether_addr_equal(rx_ra, my_hwaddr);
-diff --git a/drivers/staging/rtl8723bs/include/wifi.h b/drivers/staging/rtl8723bs/include/wifi.h
-index 036cf57c65a9..23de3ab87f9c 100644
---- a/drivers/staging/rtl8723bs/include/wifi.h
-+++ b/drivers/staging/rtl8723bs/include/wifi.h
-@@ -234,7 +234,7 @@ static inline int IS_MCAST(unsigned char *da)
- 		return false;
- }
- 
--static inline unsigned char *get_ra(unsigned char *pframe)
-+static inline unsigned char *rtl8723bs_get_ra(unsigned char *pframe)
- {
- 	unsigned char *ra;
- 	ra = GetAddr1Ptr(pframe);
--- 
-2.31.1
+T24gVGh1LCAyMDIxLTA1LTIwIGF0IDEwOjM4ICswODAwLCBERU5HIFFpbmdmYW5nIHdyb3RlOg0K
+PiBPbiBUaHUsIE1heSAyMCwgMjAyMSBhdCAwMjo1OToyMUFNICswMjAwLCBBbmRyZXcgTHVubiB3
+cm90ZToNCj4gPiA+ICtzdGF0aWMgdm9pZCBtdGtfZ2VwaHlfY29uZmlnX2luaXQoc3RydWN0IHBo
+eV9kZXZpY2UgKnBoeWRldikNCj4gPiA+ICt7DQo+ID4gPiArCS8qIERpc2FibGUgRUVFICovDQo+
+ID4gPiArCXBoeV93cml0ZV9tbWQocGh5ZGV2LCBNRElPX01NRF9BTiwgTURJT19BTl9FRUVfQURW
+LCAwKTsNCj4gPiANCj4gPiBJcyBFRUUgYnJva2VuIG9uIHRoaXMgUEhZPyBPciBpcyB0aGlzIGp1
+c3QgdG8gZ2V0IGl0IGludG8gYSBkZWZpbmVkDQo+ID4gc3RhdGU/DQo+IA0KPiBBcyBJIHNhaWQg
+aW4gY29tbWl0IG1lc3NhZ2UsIHRoZSBpbml0aWFsaXphdGlvbiAoaW5jbHVkaW5nIEVFRSkgaXMN
+Cj4gZnJvbSB0aGUgdmVuZG9yIGRyaXZlci4NCj4gSSBoYXZlIGFsc28gdGVzdGVkIGl0IHdpdGgg
+RUVFIGVuYWJsZWQgYnkgZGVmYXVsdCBvbiBvbmUgb2YgbXkgQVBzLA0KPiBhbmQgZ290IG9jY2Fz
+aW9uYWwgbGluayBkcm9wcy4NCj4gDQoNCkVFRSBvZiB0aGUgMTAteWVhci1vbGQgTVQ3NTMwIGlu
+dGVybmFsIGdlcGh5IGhhcyBtYW55IElPVCBwcm9ibGVtcywgc28NCml0IGlzIHJlY29tbWVuZGVk
+IHRvIGRpc2FibGUgaXRzIEVFRS4NCkVFRSBvZiB0aGUgTVQ3NTMxIGludGVybmFsIGdlcGh5IGhh
+cyBiZWVuIHVwZGF0ZWQsIGJ1dCBpdCBpcyBub3QgeWV0DQp3aWRlbHkgdXNlZC4NClRoZXJlZm9y
+ZSwgRUVFIGlzIGRpc2FibGVkIGluIHZlbmRvciBkcml2ZXIuDQoNCkxhbmRlbg0KPiA+IE90aGVy
+d2lzZQ0KPiA+IA0KPiA+IFJldmlld2VkLWJ5OiBBbmRyZXcgTHVubiA8YW5kcmV3QGx1bm4uY2g+
+DQo+ID4gDQo+ID4gICAgIEFuZHJldw0K
 
