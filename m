@@ -1,27 +1,55 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BFB970
-	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 18:00:49 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F5FE6100A;
-	Thu, 20 May 2021 18:00:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1621533649;
-	bh=mVnDGgo84rltStTe6qWC9wFPh9rBe38XIaiFuc6M2tI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rH7GYEQdN0UV4tCNEGk5ci1eVo67dyHvWSMkwWhu6em0+V4qfutC8HBoAuKmnbWIO
-	 vHodrxI13FvfkvlSbPf1c/gXS/zpaJsWyVi2DEIQbhlE+Q0/I19GtxSx3iVLievN6l
-	 hV27vpxI2JvPHVT2LtFqtxwDZ6R9e8chTwC16+ks=
-Date: Thu, 20 May 2021 20:00:45 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4A470
+	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 18:19:03 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14KIHQrx008470;
+	Thu, 20 May 2021 18:18:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=P1PCfq+88bRk1jzcl/1m4R3g0NBoKcpJah2+UdUJDrs=;
+ b=n4WTOq3tHWXOI/7/YR/zZNtf4PXTIL3UakfOfkXEV/hiOMBtf3olt2i81FNuSyZ782WP
+ z6jt7u5sdjvsSMze6CCAjIk5yE79tW6dkLkMPNkAKxOQf0Zhu9woC42qkyf0MhMy10+p
+ CB8kN78u0xGdZ5QVQqiVXg6XlUYe9jMj/tESM3O/Vg+V3ShfiW8gz4QD231Owb18e5SL
+ fyQun5iIbg2F3M6rpqiWoR875bczZNEbF8ae8yD/OW3C1RFEqXagdf40QnqXzk5X/tvP
+ OGxMjOLbi2svtOi7j0W4yz/xEHE1/jk3soR98vWQPglSEK4VUtwKfVPEk+3R+5gqRk1Z tg== 
+Received: from oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by mx0b-00069f02.pphosted.com with ESMTP id 38n4ukrjua-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 20 May 2021 18:18:55 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14KIGwrm194892;
+	Thu, 20 May 2021 18:18:54 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3020.oracle.com with ESMTP id 38nry0gv1p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 20 May 2021 18:18:54 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14KIHwnm008074;
+	Thu, 20 May 2021 18:18:53 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by aserp3020.oracle.com with ESMTP id 38nry0guxu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 20 May 2021 18:18:53 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 14KIIpSe014675;
+	Thu, 20 May 2021 18:18:51 GMT
+Received: from kadam (/41.212.42.34)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Thu, 20 May 2021 11:18:50 -0700
+Date: Thu, 20 May 2021 21:18:38 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
 To: Hriday Hegde <hridayhegde1999@gmail.com>
-Cc: Alex Dewar <alex.dewar90@gmail.com>, Sean Behan <codebam@riseup.net>,
-	Colin Ian King <colin.king@canonical.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alex Dewar <alex.dewar90@gmail.com>, Sean Behan <codebam@riseup.net>,
+        Colin Ian King <colin.king@canonical.com>,
+        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: emxx_udc: Fixed coding style in places where
  lines should not end in '('
-Message-ID: <YKajzaK98SvKfbkm@kroah.com>
+Message-ID: <20210520181838.GI1955@kadam>
 References: <20210520174701.8370-1-hridayhegde1999@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,6 +59,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20210520174701.8370-1-hridayhegde1999@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: eCZpwk2BxM9I-mePFBIOfN_D670Ko-z2
+X-Proofpoint-ORIG-GUID: eCZpwk2BxM9I-mePFBIOfN_D670Ko-z2
 
 On Thu, May 20, 2021 at 10:46:57AM -0700, Hriday Hegde wrote:
 > The fixes were for the following checkpatch outputs:
@@ -64,10 +95,10 @@ On Thu, May 20, 2021 at 10:46:57AM -0700, Hriday Hegde wrote:
 > -					&preg->EP_REGS[ep->epnum - 1].EP_WRITE,
 > +				_nbu2ss_writel(&preg->EP_REGS[ep->epnum - 1]
 > +					.EP_WRITE,
+>  					p_buf_32->dw);
 
-Please don't break the line at ".", that makes this really hard to
-follow.
+No, this is worse than before.
 
-thanks,
+regards,
+dan carpenter
 
-greg k-h
