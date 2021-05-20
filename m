@@ -1,86 +1,95 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 005BF71
-	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 15:51:14 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id cu11-20020a17090afa8bb029015d5d5d2175so5661788pjb.3
-        for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 08:51:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KW9angPw3uBUocOgesJzJUAk5OzLa/Lg9bikp5kRKbI=;
-        b=FMbOqziRLgDKIZoWVAdq8CFZExQjsUcNnzkU5XVLJrZgi4uqiPGSGOLrfd8gxVRxIq
-         a9PRb8Ser/wJRuid5nhVLdrRQa7OpTvgP6evYiZH+aMKFVkTIlET5hKudlwh/Ve+QQ1K
-         WtteAcDqv6cTEjySsyVmOAS4CNILvov/RMbODt11213ToyFVMBbFTMpEuRDqHQStzi1p
-         A1lkt7pOCBFQfjvPovSIA1N7e7MjiycBBdQ29ApmUdc7oOdRr1VMFDCyYLch073JG8ia
-         nVaPLr2cuCsutc8xEQZFwJG7nPC/k23LqEdm69KaMWmav7i6C9Cux5JPVRZ6mu0sY+m9
-         tA4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KW9angPw3uBUocOgesJzJUAk5OzLa/Lg9bikp5kRKbI=;
-        b=WtguGUIhxTKKxwL5SZGSsG3iv4i5FVLB1aYoOUjYcjcjI7A6oTLMd9g1FYPjtSQK52
-         drlKQVMYYeRNOLrRxEbSA/sG6mJEmLc3oNQl8UlLbJe1l4027CneOOwAZtPgWm7Kgbt7
-         XH8nbTEBPR8BxNq/w/34Ffu1Pt171XN9TdMEG5lZOrZq02ug2wfsWsROZ/sgFg3rg6hI
-         g/bq1Giv+29xeOxuYPYNOgQR06JjH1DM1HWST9ebx7im9F+E4bgqofjqwgCtQZyc1MvR
-         v4HfL2mv5ZvGcLsmmrjO/4tlWGMEtI3pV1QfFMeGYr5fFlTafGsn66InbCxvTZvwrvj1
-         DA6w==
-X-Gm-Message-State: AOAM530FQzTlZvtRWLFINAj+Hc7vhbuX1xsfCS+foNE6jzY0qx+ocUlz
-	p1oA9jQ3ya3o/KSv2zoDLUQ=
-X-Google-Smtp-Source: ABdhPJzBzF8qJsOJYgA1P8WydvG77IGPxwaK/mnu+iKrKmuJISR7ik1B3/24JEWJNshZ5QPZPVIuNA==
-X-Received: by 2002:a17:90b:703:: with SMTP id s3mr5660936pjz.69.1621525874481;
-        Thu, 20 May 2021 08:51:14 -0700 (PDT)
-Received: from andromeda.localdomain ([103.192.117.174])
-        by smtp.gmail.com with ESMTPSA id v8sm2279270pff.220.2021.05.20.08.51.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 May 2021 08:51:14 -0700 (PDT)
-From: Aniket Bhattacharyea <aniketmail669@gmail.com>
-To: mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	andriy.shevchenko@linux.intel.com
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Aniket Bhattacharyea <aniketmail669@gmail.com>
-Subject: [PATCH] media: atomisp: Replace whitespace at the beginning of line
-Date: Thu, 20 May 2021 21:20:13 +0530
-Message-Id: <20210520155013.929465-1-aniketmail669@gmail.com>
-X-Mailer: git-send-email 2.31.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC0B71
+	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 16:03:31 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14KFmwCu187187;
+	Thu, 20 May 2021 16:03:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=UplTL1m87USsO5prWyFgDKTaFzDCcXPanOavFdSjeOo=;
+ b=ys1hWrWBFEgWJbmdvVz1+x6+ha5Nupsy2M7GZBlM9ARY7LfwzIhm1lTWnq4ffdsbKNGB
+ H0RknTU0Y+hV1DWMc++evMXP+aK2C2+yTqZ7XD4ueMYX8qOPlZS40daqtUMiaRcUFI0p
+ aikII/O7OMD/vSmYnaXXDiuaWJ0kqJLUOEVxNxoMlG0JLaLynQdbMTqMiY+RfIRH3Jk1
+ HAjjnC5rOiUJUXjnwFpXYmcK999YonBLDMdy5YkvINyz5m7kj4uVzuUU4ZXOTvZmBoDo
+ udUsht10t+rMud9GQICL+/8Ky5w1JdOAQGHvV9OQuWuR6JhT0IZXU3+6a9KoBLzHuTXU pA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by aserp2120.oracle.com with ESMTP id 38j68mn6cx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 20 May 2021 16:03:07 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14KFo7af009918;
+	Thu, 20 May 2021 16:03:06 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3020.oracle.com with ESMTP id 38nry04hqg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 20 May 2021 16:03:06 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14KG36R7144532;
+	Thu, 20 May 2021 16:03:06 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+	by aserp3020.oracle.com with ESMTP id 38nry04hnc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 20 May 2021 16:03:06 +0000
+Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
+	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 14KG2w4O023698;
+	Thu, 20 May 2021 16:02:59 GMT
+Received: from mwanda (/41.212.42.34)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Thu, 20 May 2021 09:02:58 -0700
+Date: Thu, 20 May 2021 19:02:49 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Ezequiel Garcia <ezequiel@collabora.com>,
+        Emil Velikov <emil.velikov@collabora.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel-janitors@vger.kernel.org
+Subject: [PATCH] media: hantro: test the correct variable in probe()
+Message-ID: <YKaIKXOcDb0nXguP@mwanda>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-Proofpoint-ORIG-GUID: hGha3Rc6qYMPnQcAHEPQDkS1hl0hUjeH
+X-Proofpoint-GUID: hGha3Rc6qYMPnQcAHEPQDkS1hl0hUjeH
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9989 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=999
+ priorityscore=1501 impostorscore=0 suspectscore=0 clxscore=1011
+ adultscore=0 bulkscore=0 phishscore=0 spamscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2105200105
 
-This patch replaces the whitespaces at the beginning of line with tabs.
-Identified by checkpatch: WARNING: please, no spaces at the start of a line.
+This should be testing "vpu->clocks[0].clk" instead of "vpu->clocks".
 
-Signed-off-by: Aniket Bhattacharyea <aniketmail669@gmail.com>
+Fixes: eb4cacdfb998 ("media: hantro: add fallback handling for single irq/clk")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/media/hantro/hantro_drv.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-index 135994d44802..93ac7e183344 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-@@ -1041,9 +1041,9 @@ static struct camera_sensor_platform_data acpi_gmin_plat = {
- };
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index 85dcb0882afc..8ac476be1682 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -780,8 +780,8 @@ static int hantro_probe(struct platform_device *pdev)
+ 		 * actual name in the DT bindings.
+ 		 */
+ 		vpu->clocks[0].clk = devm_clk_get(&pdev->dev, NULL);
+-		if (IS_ERR(vpu->clocks))
+-			return PTR_ERR(vpu->clocks);
++		if (IS_ERR(vpu->clocks[0].clk))
++			return PTR_ERR(vpu->clocks[0].clk);
+ 	}
  
- struct camera_sensor_platform_data *gmin_camera_platform_data(
--    struct v4l2_subdev *subdev,
--    enum atomisp_input_format csi_format,
--    enum atomisp_bayer_order csi_bayer)
-+	struct v4l2_subdev *subdev,
-+	enum atomisp_input_format csi_format,
-+	enum atomisp_bayer_order csi_bayer)
- {
- 	u8 pmic_i2c_addr = gmin_detect_pmic(subdev);
- 	struct gmin_subdev *gs;
+ 	num_bases = vpu->variant->num_regs ?: 1;
 -- 
-2.31.1
+2.30.2
 
