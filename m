@@ -1,72 +1,88 @@
-Received: from mailgw02.mediatek.com (mailgw02.mediatek.com [216.200.240.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9688971
-	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 07:23:21 +0000 (UTC)
-X-UUID: 061f921aa6cc47a083df4dae5b853384-20210520
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=ZQ3X2kKIVdd7QGc0Obd6FYCQ+lslLAxE4v/TzH04zFg=;
-	b=EJhtKMJHSLLT7k+TjsgkVYl5TweyxXs7MXcMNVdXRMnyOQxzmuKghYKfKjn6JwLDo1+MD9EAGJJeX2oGS0nY+U3rRYxYZ1Zp4z0Bz0VgSWFQ9a0NGv3hycwnnfYhxtYYiGKu6o1O5ruGvUiA8BvYG+aAOPbrwrBvXshmqREB1RE=;
-X-UUID: 061f921aa6cc47a083df4dae5b853384-20210520
-Received: from mtkcas66.mediatek.inc [(172.29.193.44)] by mailgw02.mediatek.com
-	(envelope-from <landen.chao@mediatek.com>)
-	(musrelay.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 828172061; Thu, 20 May 2021 00:22:12 -0700
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- MTKMBS62DR.mediatek.inc (172.29.94.18) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 20 May 2021 00:13:21 -0700
-Received: from mtksdccf07 (172.21.84.99) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 20 May 2021 15:13:20 +0800
-Message-ID: <0adde34f936a2dafca40b06b408d82afe0852327.camel@mediatek.com>
-Subject: Re: [PATCH net-next v2 1/4] net: phy: add MediaTek Gigabit Ethernet
- PHY driver
-From: Landen Chao <landen.chao@mediatek.com>
-To: DENG Qingfang <dqfext@gmail.com>, Andrew Lunn <andrew@lunn.ch>
-CC: "David S. Miller" <davem@davemloft.net>, Florian Fainelli
-	<f.fainelli@gmail.com>, Heiner Kallweit <hkallweit1@gmail.com>, "Jakub
- Kicinski" <kuba@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
-	Russell King <linux@armlinux.org.uk>, Sean Wang <sean.wang@mediatek.com>,
-	Vivien Didelot <vivien.didelot@gmail.com>, Vladimir Oltean
-	<olteanv@gmail.com>, Rob Herring <robh+dt@kernel.org>, Linus Walleij
-	<linus.walleij@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-	<linux-kernel@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-	<linux-staging@lists.linux.dev>, <devicetree@vger.kernel.org>,
-	<netdev@vger.kernel.org>, Weijie Gao <weijie.gao@mediatek.com>, Chuanhong Guo
-	<gch981213@gmail.com>, =?ISO-8859-1?Q?Ren=E9?= van Dorst
-	<opensource@vdorst.com>, "Frank Wunderlich" <frank-w@public-files.de>, Thomas
- Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>
-Date: Thu, 20 May 2021 15:13:20 +0800
-In-Reply-To: <20210520023828.3261270-1-dqfext@gmail.com>
-References: <20210519033202.3245667-1-dqfext@gmail.com>
-	 <20210519033202.3245667-2-dqfext@gmail.com> <YKW0acoyM+5rVp0X@lunn.ch>
-	 <20210520023828.3261270-1-dqfext@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64AC670
+	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 09:29:53 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id z85-20020a1c7e580000b029017a76f3afbaso2254965wmc.2
+        for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 02:29:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=0cGf1aBFrVZ9AWx/JMeJaEcovPhb2SGzpzNb2QM+Nk0=;
+        b=uHOB9zSLOzNOqCaCdv3tAd2rduYeX+Y6HLl91ACEXI0mAiipvTrz62XOO2SaIgoVty
+         Pf+RMtbo6f9V42RwSERPXTfjWo95E9cFtuWO9WKA3FnlyXzYA2sixDVebOmpsiGxbbrs
+         9H75RMmiqXRnaSuCiHDHAfG1oZEYV+e0kFKI3et7gI5qVSablXEgzMq74sy11W+OVSBg
+         fv7UHDUKttjvUQS8McyFbz5R9rRxXKz5CWcwkYd/YNSYTQwhvZ8bx4KdaLHqPOOdvH9T
+         sB+YUNNslLh91vbqAYFcpIySpJbri7dhqbJjx3hah4/GEvkwzv8dQ2huIVBDg0fLwNfN
+         LmAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=0cGf1aBFrVZ9AWx/JMeJaEcovPhb2SGzpzNb2QM+Nk0=;
+        b=eNrxm8BpsydSPJn//R69EcGjYyXaft9QGz9yYlANPC5Gw2sZ7kkBOPSbHjkOiodA4k
+         qhF5lXrYjW1R/deSf8oGy0nNfLckpKSwHaHi7OYf8+O0ocBoBaQaFLCCUwddC5BRuKOU
+         t+XkaHSoyw0QE5QG+cCc/lFtmHMBgrMZuHRcLGNIjU9rv6A396YaLV1YoxV/TigJrbZ3
+         NTVMD48F6fWEUlmARWoMcsKyCB+fusThU9p/VPAuB7w09Mpdr0urGe/gx75K5SrPrSpG
+         wdxn2YClyv+UMMeleODukLLkeL568f6IfdgvqgXnu0dftYzFbB7u1W7nRhtEY6godg6Q
+         CHQQ==
+X-Gm-Message-State: AOAM533CGus5C3lnv/lcKFhz/GdocpmViFw5CZU0Pt/sMpdHttRUhs7b
+	nq5jQAz3YscREUXcIGwnCXc=
+X-Google-Smtp-Source: ABdhPJyzQVEd0/LMaL/vCBhQFOWm/v6djjo0ZDbNWBjNqUGvVSd07eOXBWJMelsuPcjU1JJMY/FRXA==
+X-Received: by 2002:a7b:ce0f:: with SMTP id m15mr3040219wmc.55.1621502991917;
+        Thu, 20 May 2021 02:29:51 -0700 (PDT)
+Received: from agape.jhs ([5.171.80.207])
+        by smtp.gmail.com with ESMTPSA id x2sm2018708wmj.3.2021.05.20.02.29.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 May 2021 02:29:51 -0700 (PDT)
+Date: Thu, 20 May 2021 11:29:49 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: hdegoede@redhat.com, Larry.Finger@lwfinger.net
+Cc: gregkh@linuxfoundation.org, johannes@sipsolutions.net,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-wireless@vger.kernel.org
+Subject: staging: rtl8723bs: removal of 5G code
+Message-ID: <20210520092946.GA1404@agape.jhs>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MTK: N
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-T24gVGh1LCAyMDIxLTA1LTIwIGF0IDEwOjM4ICswODAwLCBERU5HIFFpbmdmYW5nIHdyb3RlOg0K
-PiBPbiBUaHUsIE1heSAyMCwgMjAyMSBhdCAwMjo1OToyMUFNICswMjAwLCBBbmRyZXcgTHVubiB3
-cm90ZToNCj4gPiA+ICtzdGF0aWMgdm9pZCBtdGtfZ2VwaHlfY29uZmlnX2luaXQoc3RydWN0IHBo
-eV9kZXZpY2UgKnBoeWRldikNCj4gPiA+ICt7DQo+ID4gPiArCS8qIERpc2FibGUgRUVFICovDQo+
-ID4gPiArCXBoeV93cml0ZV9tbWQocGh5ZGV2LCBNRElPX01NRF9BTiwgTURJT19BTl9FRUVfQURW
-LCAwKTsNCj4gPiANCj4gPiBJcyBFRUUgYnJva2VuIG9uIHRoaXMgUEhZPyBPciBpcyB0aGlzIGp1
-c3QgdG8gZ2V0IGl0IGludG8gYSBkZWZpbmVkDQo+ID4gc3RhdGU/DQo+IA0KPiBBcyBJIHNhaWQg
-aW4gY29tbWl0IG1lc3NhZ2UsIHRoZSBpbml0aWFsaXphdGlvbiAoaW5jbHVkaW5nIEVFRSkgaXMN
-Cj4gZnJvbSB0aGUgdmVuZG9yIGRyaXZlci4NCj4gSSBoYXZlIGFsc28gdGVzdGVkIGl0IHdpdGgg
-RUVFIGVuYWJsZWQgYnkgZGVmYXVsdCBvbiBvbmUgb2YgbXkgQVBzLA0KPiBhbmQgZ290IG9jY2Fz
-aW9uYWwgbGluayBkcm9wcy4NCj4gDQoNCkVFRSBvZiB0aGUgMTAteWVhci1vbGQgTVQ3NTMwIGlu
-dGVybmFsIGdlcGh5IGhhcyBtYW55IElPVCBwcm9ibGVtcywgc28NCml0IGlzIHJlY29tbWVuZGVk
-IHRvIGRpc2FibGUgaXRzIEVFRS4NCkVFRSBvZiB0aGUgTVQ3NTMxIGludGVybmFsIGdlcGh5IGhh
-cyBiZWVuIHVwZGF0ZWQsIGJ1dCBpdCBpcyBub3QgeWV0DQp3aWRlbHkgdXNlZC4NClRoZXJlZm9y
-ZSwgRUVFIGlzIGRpc2FibGVkIGluIHZlbmRvciBkcml2ZXIuDQoNCkxhbmRlbg0KPiA+IE90aGVy
-d2lzZQ0KPiA+IA0KPiA+IFJldmlld2VkLWJ5OiBBbmRyZXcgTHVubiA8YW5kcmV3QGx1bm4uY2g+
-DQo+ID4gDQo+ID4gICAgIEFuZHJldw0K
+Hi all,
 
+I'm stick with removal of 5Ghz code from rtl8723bs wireless card driver
+(in staging subsystem).
+
+I think that this task comprehend deletion of all code managing
+80Mhz bandwidth and upper bandwidth (160 and 80+80). For the latter
+it's simple, there's quite no code (unused enums and obsolete comments).
+
+The former seems to be trickier, there are handlers like this:
+
+        /* 3 Set Reg483 */
+        SubChnlNum = phy_GetSecondaryChnl_8723B(Adapter);
+        rtw_write8(Adapter, REG_DATA_SC_8723B, SubChnlNum);
+
+phy_GetSecondaryChnl_8723B() contains code like:
+
+        } else if (pHalData->CurrentChannelBW == CHANNEL_WIDTH_40) {
+                if (pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_UPPER)
+                        SCSettingOf20 = VHT_DATA_SC_20_UPPER_OF_80MHZ;
+                else if (pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER)
+                        SCSettingOf20 = VHT_DATA_SC_20_LOWER_OF_80MHZ;
+        }
+
+so if we are on a 40M channel some settings involving 80M are made and
+the whole is then written on card registers.
+
+May I get rid of the whole? Are there some implications I should be aware of?
+Is secondary channel needed if we are on 40M bandwidth?
+
+Thank you in advance,
+
+fabio
