@@ -1,54 +1,57 @@
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D18B71
-	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 12:33:04 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-	by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14KCFBNt020704;
-	Thu, 20 May 2021 12:32:52 GMT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E13D71
+	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 12:37:06 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14KCUlQt022002;
+	Thu, 20 May 2021 12:36:58 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
  : subject : message-id : references : mime-version : content-type :
  content-transfer-encoding : in-reply-to; s=corp-2020-01-29;
- bh=GskLo9CktdnihYaRJUKarN5zAIseuXaG+JLSkvUDzG0=;
- b=EJMTIwEcqXMbYjAsIheg/HoOj70VvVL/V25ybRV32CTFdn8JZK3+sSFlVLOtvo1ou6PC
- oUMbuEmdOOR55aFFkne/3byH94+5qywUfpT1VBFIWe6FX3TaLUbdN6P0e8kI6YrLbndp
- LmV1BBBfWYWYskh1wWplUiB1UGUnxJkkJbRCRkCJwMhoTPoBDpahaKDlZrt9yB58cqnv
- 6X+73ieNZOlIn3NRe7VpbrmYWefqlqkJjQ+MeTsa9w4ovlGFzuoBRVQlIyLLL6VozptM
- lzdNAfxJ1e0GQWw7KoJZNgeGhUqe2SpjlasA+VOtkUnxf4ZDx0Zkt66oeFAxPJdDVJOY kg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by userp2120.oracle.com with ESMTP id 38j6xnmg23-1
+ bh=8GLrX0d0XmrHl8aiSUsOYdiKs8SYFI6qkK8/mq5o8Ws=;
+ b=nS2jbQWqV1JBCy48bZxAUnPXx4QLyy/67LJzNmgLsGAKDflEGN9H+diRN3qXxkQ4ahk9
+ 0/QoYwYXEwrq3OD48Z6WQTEEPl4UHa8JgI8X7rO8d6XpzTpO0SfuhyuLnv5mwZ/RQu35
+ Vzdz5owBU8wpGK8wnjU63ZSxdaKmvnKQyJJ28KhreNUfgVZe5cZuncmQgkT9Womkn3xP
+ hz1ItX8Bgd22nMEbhN/FEV+nL6wFVaQB15pc6wUMWVWB0trg44pae/lxg0AeMdHK9gpL
+ R5AnOCwrK0EQmYL9MFg0Kb0VonyKD3F0pLheWjb+P6nIvQXM1g8NlXAzPtaPHICpHkPS UA== 
+Received: from oracle.com (userp3030.oracle.com [156.151.31.80])
+	by mx0b-00069f02.pphosted.com with ESMTP id 38m9bgh3d2-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 20 May 2021 12:32:52 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14KCFVe5145210;
-	Thu, 20 May 2021 12:32:52 GMT
+	Thu, 20 May 2021 12:36:58 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14KCavxh105947;
+	Thu, 20 May 2021 12:36:57 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by userp3020.oracle.com with ESMTP id 38n491qhrv-1
+	by userp3030.oracle.com with ESMTP id 38megmessx-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 20 May 2021 12:32:52 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14KCWp0d178635;
-	Thu, 20 May 2021 12:32:51 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by userp3020.oracle.com with ESMTP id 38n491qhrr-1
+	Thu, 20 May 2021 12:36:56 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14KCauJh105926;
+	Thu, 20 May 2021 12:36:56 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+	by userp3030.oracle.com with ESMTP id 38megmessc-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 20 May 2021 12:32:51 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 14KCWoEC007202;
-	Thu, 20 May 2021 12:32:50 GMT
+	Thu, 20 May 2021 12:36:56 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 14KCatIN015477;
+	Thu, 20 May 2021 12:36:55 GMT
 Received: from kadam (/41.212.42.34)
 	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Thu, 20 May 2021 05:32:50 -0700
-Date: Thu, 20 May 2021 15:32:43 +0300
+	with ESMTP ; Thu, 20 May 2021 05:36:54 -0700
+Date: Thu, 20 May 2021 15:36:47 +0300
 From: Dan Carpenter <dan.carpenter@oracle.com>
 To: Lee Jones <lee.jones@linaro.org>
 Cc: linux-kernel@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Marco Cesati <marcocesati@gmail.com>,
+        Fabio Aiuto <fabioaiuto83@gmail.com>, Stanley@BB.SD3,
         linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/2] staging: rtl8723bs: core: rtw_mlme_ext: 'evt_seq' is
- only used if CHECK_EVENT_SEQ is set
-Message-ID: <20210520123243.GF1955@kadam>
+Subject: Re: [PATCH 2/2] staging: rtl8723bs: hal: rtl8723b_hal_init: Remove
+ unused variable and dead code
+Message-ID: <20210520123647.GG1955@kadam>
 References: <20210520122620.3470450-1-lee.jones@linaro.org>
+ <20210520122620.3470450-2-lee.jones@linaro.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -57,45 +60,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210520122620.3470450-1-lee.jones@linaro.org>
+In-Reply-To: <20210520122620.3470450-2-lee.jones@linaro.org>
 User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: G4QXzBaBo27AjHGhetgEUNjUcvTi-avK
-X-Proofpoint-ORIG-GUID: G4QXzBaBo27AjHGhetgEUNjUcvTi-avK
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9989 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 mlxscore=0
- mlxlogscore=999 adultscore=0 malwarescore=0 priorityscore=1501
- phishscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2105200095
+X-Proofpoint-ORIG-GUID: eVnGJGhS3kmgJqfetugCIuSxcunvGRdl
+X-Proofpoint-GUID: eVnGJGhS3kmgJqfetugCIuSxcunvGRdl
 
-On Thu, May 20, 2021 at 01:26:19PM +0100, Lee Jones wrote:
+On Thu, May 20, 2021 at 01:26:20PM +0100, Lee Jones wrote:
 > Fixes the following W=1 kernel build warning(s):
 > 
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c: In function ‘mlme_evt_hdl’:
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:6004:5: warning: variable ‘evt_seq’ set but not used [-Wunused-but-set-variable]
+>  drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c: In function ‘CCX_FwC2HTxRpt_8723b’:
+>  drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:3355:5: warning: variable ‘seq_no’ set but not used [-Wunused-but-set-variable]
 > 
 > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Marco Cesati <marcocesati@gmail.com>
+> Cc: Fabio Aiuto <fabioaiuto83@gmail.com>
+> Cc: Stanley@BB.SD3
 > Cc: linux-staging@lists.linux.dev
 > Signed-off-by: Lee Jones <lee.jones@linaro.org>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 9 ++-------
+>  1 file changed, 2 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> index 9fc612fb736f8..80e5c29852b8a 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> @@ -6009,7 +6009,7 @@ static struct fwevent wlanevents[] = {
+> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> index 33942ab587720..0270724ccef03 100644
+> --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> @@ -3204,14 +3204,9 @@ void CCX_FwC2HTxRpt_8723b(struct adapter *padapter, u8 *pdata, u8 len)
 >  
->  u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
->  {
-> -	u8 evt_code, evt_seq;
-> +	u8 evt_code, __maybe_unused evt_seq;
->  	u16 evt_sz;
->  	uint	*peventbuf;
->  	void (*event_callback)(struct adapter *dev, u8 *pbuf);
+>  	if (GET_8723B_C2H_TX_RPT_RETRY_OVER(pdata) | GET_8723B_C2H_TX_RPT_LIFE_TIME_OVER(pdata)) {
+>  		rtw_ack_tx_done(&padapter->xmitpriv, RTW_SCTX_DONE_CCX_PKT_FAIL);
+> -	}
+> -/*
+> -	else if (seq_no != padapter->xmitpriv.seq_no) {
+> -		rtw_ack_tx_done(&padapter->xmitpriv, RTW_SCTX_DONE_CCX_PKT_FAIL);
+> -	}
+> -*/
+> -	else
+> +	} else {
+>  		rtw_ack_tx_done(&padapter->xmitpriv, RTW_SCTX_DONE_SUCCESS);
+> +	}
 
-#ifdef CHECK_EVENT_SEQ is dead code.  Just delete it.
+The commit message was quite puzzling because "seq_no" doesn't exist.
+Could you resend with a fixed commit message that says "Delete commented
+out code" or whatever?
 
 regards,
 dan carpenter
