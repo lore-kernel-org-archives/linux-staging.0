@@ -1,23 +1,23 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58D5B71
-	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 06:41:40 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6348860FE8;
-	Thu, 20 May 2021 06:41:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA2C71
+	for <linux-staging@lists.linux.dev>; Thu, 20 May 2021 06:41:47 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9478060FE8;
+	Thu, 20 May 2021 06:41:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1621492899;
-	bh=nMb5X5D49ryt79hhiurA4uQDV2U9mH+ktgv8mYhMIhE=;
+	s=korg; t=1621492907;
+	bh=tm/kVLSevT7w4n9D2krMeY3gouzh1HlUzMJ7mOwIv9g=;
 	h=From:To:Cc:Subject:Date:From;
-	b=ord7m9SsfAWQ9yaL52omSjQUGRhkX/MsERKrMvD1fu+MV5L0l8bPc3ZHX93mQIbwA
-	 oNo5ha3xYX3xD188Yj/coI7070055JlO6iquH5I/qfog1tcG0qYW9poHErFepM2ghU
-	 NGrbrWoxwAy7alCyHzsiLFHS/gzMX/5AF380VGlE=
+	b=bsxO3/TfcWRa53SCTjz+tibRvH/R82ktBt1f48tSniRbWG7KjgDLRT/GxwAl/ARfO
+	 4e2aQIrdtxDxMsa02GbDLJz0/d74mgA4yZxOEfOZcgN24qJHq6xWc3J1GdBgFjvoZ1
+	 YjhkPvHCJs9pYnOMSRxo66ZrAyH8UoTk1pQKIg70=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-staging@lists.linux.dev
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] staging: rtl8723bs: HalBtc8723b1Ant.c: fix build warnings about unused variables
-Date: Thu, 20 May 2021 08:41:33 +0200
-Message-Id: <20210520064133.1953156-1-gregkh@linuxfoundation.org>
+Subject: [PATCH] staging: rtl8723bs: rtl8723b_hal_init.c: fix build warnings about unused variables
+Date: Thu, 20 May 2021 08:41:44 +0200
+Message-Id: <20210520064144.1953251-1-gregkh@linuxfoundation.org>
 X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,46 +28,55 @@ Content-Transfer-Encoding: 8bit
 
 0-day keeps spitting out annoying messages:
 
-drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c:2117:6: warning: variable 'u4Tmp' set but not used [-Wunused-but-set-variable]
-drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c:2118:17: warning: variable 'u1Tmpb' set but not used [-Wunused-but-set-variable]
-drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c:2118:5: warning: variable 'u1Tmpa' set but not used [-Wunused-but-set-variable]
+drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:3895:18: warning: variable 'ra_info2' set but not used [-Wunused-but-set-variable]
+drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c:3895:8: warning: variable 'ra_info1' set but not used [-Wunused-but-set-variable]
 
-So fix this up by just removing the storage of the values read.  Leave
-the read from the hardware as odds are it is required in order to keep
-it working properly as I do not have the hardware to test with.
+Oddly, it's not catching all of the "set but not used" variables in this
+switch statement.  Fix it up just removing the storage of the values
+read.  Leave the read from the hardware as odds are it is required in
+order to keep it working properly as I do not have the hardware to test
+with.
+
+I bet the whole case can be removed, but that will have to wait until
+later...
 
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-index e5464a27c052..518d5354bda4 100644
---- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-+++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-@@ -2114,9 +2114,6 @@ static void halbtc8723b1ant_InitHwConfig(
- 	bool bWifiOnly
- )
- {
--	u32 u4Tmp = 0;/*  fwVer; */
--	u8 u1Tmpa = 0, u1Tmpb = 0;
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index 33942ab58772..6359cd661374 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -3892,22 +3892,19 @@ u8 GetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable, v
+ 		{
+ 			u8 mac_id = *(u8 *)pval;
+ 			u32 cmd;
+-			u32 ra_info1, ra_info2;
+-			u32 rate_mask1, rate_mask2;
+ 
+ 			cmd = 0x40000100 | mac_id;
+ 			rtw_write32(padapter, REG_HMEBOX_DBG_2_8723B, cmd);
+ 			msleep(10);
+-			ra_info1 = rtw_read32(padapter, 0x2F0);
++			rtw_read32(padapter, 0x2F0);	// info 1
+ 
+ 			cmd = 0x40000400 | mac_id;
+ 			rtw_write32(padapter, REG_HMEBOX_DBG_2_8723B, cmd);
+ 			msleep(10);
+-			ra_info1 = rtw_read32(padapter, 0x2F0);
+-			ra_info2 = rtw_read32(padapter, 0x2F4);
+-			rate_mask1 = rtw_read32(padapter, 0x2F8);
+-			rate_mask2 = rtw_read32(padapter, 0x2FC);
 -
- 	pBtCoexist->fBtcWrite1ByteBitMask(pBtCoexist, 0x550, 0x8, 0x1);  /* enable TBTT nterrupt */
++			rtw_read32(padapter, 0x2F0);	// info 1
++			rtw_read32(padapter, 0x2F4);	// info 2
++			rtw_read32(padapter, 0x2F8);	// rate mask 1
++			rtw_read32(padapter, 0x2FC);	// rate mask 2
+ 		}
+ 		break;
  
- 	/*  0x790[5:0]= 0x5 */
-@@ -2136,9 +2133,9 @@ static void halbtc8723b1ant_InitHwConfig(
- 	/*  PTA parameter */
- 	halbtc8723b1ant_CoexTableWithType(pBtCoexist, FORCE_EXEC, 0);
- 
--	u4Tmp = pBtCoexist->fBtcRead4Byte(pBtCoexist, 0x948);
--	u1Tmpa = pBtCoexist->fBtcRead1Byte(pBtCoexist, 0x765);
--	u1Tmpb = pBtCoexist->fBtcRead1Byte(pBtCoexist, 0x67);
-+	pBtCoexist->fBtcRead4Byte(pBtCoexist, 0x948);
-+	pBtCoexist->fBtcRead1Byte(pBtCoexist, 0x765);
-+	pBtCoexist->fBtcRead1Byte(pBtCoexist, 0x67);
- }
- 
- /*  */
 -- 
 2.31.1
 
