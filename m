@@ -1,107 +1,98 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0817D70
-	for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 17:21:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1621617679;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qwR/0GNmU1erDIzfTwdpHCjLZxYNU+OZQVJXmXfAYfM=;
-	b=Rp001alysR6Djrsu1XUaGGxzM6zHSzI8FjdLh8ir4ovfhyPGCDKWWIJGEvvh2Uxq4qEeVT
-	a70//g8HSzlP3PgjU1pqzJppRC1UGMI6AeKGepPzwHSIb3uF3eMPMWR1d/ADWdT4hUgZ2t
-	+VyHIKmjLSFmtDwbo/ll5iF/M/JbOeo=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-RHHSVQwHM1at1AqFZOs7Yg-1; Fri, 21 May 2021 13:21:17 -0400
-X-MC-Unique: RHHSVQwHM1at1AqFZOs7Yg-1
-Received: by mail-ej1-f69.google.com with SMTP id bi3-20020a170906a243b02903933c4d9132so6492408ejb.11
-        for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 10:21:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:references:from:subject:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=qwR/0GNmU1erDIzfTwdpHCjLZxYNU+OZQVJXmXfAYfM=;
-        b=gGx0+XY7J2ZjBH0s4PfXZoB5p4ZKnrjRTSDrB/zD7WI8E83nt/xH6ix3yUXThweMZ+
-         9PUUhGqgnoaHsvJo3rS4Jq38VwiQkVm9DikpiLr0hZIe3svHfu0fZOogPXu7IcdilwCL
-         uCHb2UBqXmFC1Oh4F7KCOEkOpH1UymZT3QsW2J8F2gFCG784pGKN5+X+xAcohURU5SpI
-         Gyj4xZnZnmVCXgHRIttGiS+ogqShTmh+mbngQTn9/bniYT9JcjFFtorglbsGHfMAYM/v
-         2lVH8wPP2OKaT0Pjt9kfVDBtiC5JUjvzJLUF9Dv+0RJEl6C1QlP2GPvXw7uPoibFRUZ4
-         cEYQ==
-X-Gm-Message-State: AOAM533rsqnz8VY162O+b4n31IVds2z1v29rsoLE+rP7N0c/fM/6pJon
-	VfkIvgOQ/NoLlHIHZqvsYun6NTsINmQX4W65J++OAKosoV7a4AueVhgEOwTIQNbnnR83Y9kxsir
-	kgl9ewHnM/HsMDhY57/FvSmzmFGZUsgs5lRW6vjh+j92l37nIDGgx5d1542DFr7Hmab01Lfanow
-	+Rbw==
-X-Received: by 2002:aa7:cd03:: with SMTP id b3mr12350077edw.206.1621617675196;
-        Fri, 21 May 2021 10:21:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxs1PPEtRit2YsbPl3fyEJzFG+BMaVTPI5cJbO+TcDqnJ8UNSbmnYU1JgZsPGIv6fh/e498XA==
-X-Received: by 2002:aa7:cd03:: with SMTP id b3mr12350048edw.206.1621617675016;
-        Fri, 21 May 2021 10:21:15 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
-        by smtp.gmail.com with ESMTPSA id m12sm4079494edc.40.2021.05.21.10.21.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 May 2021 10:21:14 -0700 (PDT)
-To: Palmer Dabbelt <palmerdabbelt@google.com>,
- Greg KH <gregkh@linuxfoundation.org>
-Cc: anup@brainfault.org, Anup Patel <Anup.Patel@wdc.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
- corbet@lwn.net, graf@amazon.com, Atish Patra <Atish.Patra@wdc.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Damien Le Moal <Damien.LeMoal@wdc.com>, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <mhng-37377fcb-af8f-455c-be08-db1cd5d4b092@palmerdabbelt-glaptop>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v18 00/18] KVM RISC-V Support
-Message-ID: <ff55329c-709d-c1a5-a807-1942f515bba7@redhat.com>
-Date: Fri, 21 May 2021 19:21:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A854F70
+	for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 17:29:11 +0000 (UTC)
+Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 229C960FE8;
+	Fri, 21 May 2021 17:29:08 +0000 (UTC)
+Date: Fri, 21 May 2021 18:30:29 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Lucas Stankus <lucas.p.stankus@gmail.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, "Hennerich, Michael"
+ <Michael.Hennerich@analog.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-iio <linux-iio@vger.kernel.org>,
+ linux-staging@lists.linux.dev, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] staging: iio: cdc: ad7746: add dt properties for
+ capacitive channel setup
+Message-ID: <20210521183029.7a13ef25@jic23-huawei>
+In-Reply-To: <CACKVXZCxKpBwzmy4L+TEmbO5nYUVMEjZd7SZ3+1KTOaz3hp89A@mail.gmail.com>
+References: <cover.1619841953.git.lucas.p.stankus@gmail.com>
+	<20210502185002.4c2faead@jic23-huawei>
+	<CACKVXZCxKpBwzmy4L+TEmbO5nYUVMEjZd7SZ3+1KTOaz3hp89A@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <mhng-37377fcb-af8f-455c-be08-db1cd5d4b092@palmerdabbelt-glaptop>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 21/05/21 19:13, Palmer Dabbelt wrote:
->> 
+On Wed, 19 May 2021 17:59:31 -0300
+Lucas Stankus <lucas.p.stankus@gmail.com> wrote:
+
+> On Sun, May 2, 2021 at 2:49 PM Jonathan Cameron <jic23@kernel.org> wrote:
+> >
+> > On Sat, 1 May 2021 09:32:03 -0300
+> > Lucas Stankus <lucas.p.stankus@gmail.com> wrote:
+> >  
+> > > This patch series aims to replace the platform_struct for the ad7746 driver
+> > > in favor of device tree bindings, creating the dt-binding documentation in
+> > > the process.
+> > >
+> > > Since the header file was only used to define the struct and the excitation
+> > > level values, it was possible to remove the file entirely.
+> > >
+> > > Changelog v2 -> v3:
+> > > - Add application reference note for the inverted EXCX dt bindings
+> > > - Replace macro with lookup table for setting the capacitive channel
+> > >   excitation voltage
+> > >
+> > > Lucas Stankus (2):
+> > >   dt-bindings: staging: iio: cdc: ad7746: add binding documentation for
+> > >     AD7746
+> > >   staging: iio: cdc: ad7746: use dt for capacitive channel setup.  
+> >
+> > Looks good to me.  Thanks!
+> >
+> > Will leave time for Rob or anyone else to take a look etc before applying.
+> >
+> > If I seem to have lost it then feel free to give me a poke in a few weeks
+> > (it's happened a few times in the past :(
+> >
+> > Thanks,
+> >
+> > Jonathan  
+> > >
+> > >  .../bindings/iio/cdc/adi,ad7746.yaml          | 77 +++++++++++++++++++
+> > >  drivers/staging/iio/cdc/ad7746.c              | 54 ++++++++-----
+> > >  drivers/staging/iio/cdc/ad7746.h              | 28 -------
+> > >  3 files changed, 110 insertions(+), 49 deletions(-)
+> > >  create mode 100644 Documentation/devicetree/bindings/iio/cdc/adi,ad7746.yaml
+> > >  delete mode 100644 drivers/staging/iio/cdc/ad7746.h
+> > >  
+> >  
 > 
-> I don't view this code as being in a state where it can be
-> maintained, at least to the standards we generally set within the
-> kernel.  The ISA extension in question is still subject to change, it
-> says so right at the top of the H extension 
-> <https://github.com/riscv/riscv-isa-manual/blob/master/src/hypervisor.tex#L4>
+> Hey Jonathan,
 > 
->   {\bf Warning! This draft specification may change before being 
->   accepted as standard by the RISC-V Foundation.}
+> It has been a week or so without any more feedback, so I'm just a pinging here
+> to know if this can be applied.
 
-To give a complete picture, the last three relevant changes have been in
-August 2019, November 2019 and May 2020.  It seems pretty frozen to me.
+oops. Indeed time I picked these up.  Somehow I had them in the wrong colour
+in my horrendous colour based tracking system :(
 
-In any case, I think it's clear from the experience with Android that
-the acceptance policy cannot succeed.  The only thing that such a policy
-guarantees, is that vendors will use more out-of-tree code.  Keeping a
-fully-developed feature out-of-tree for years is not how Linux is run.
+Now applied to the togreg branch of iio.git and pushed out as testing for
+the autobuilders to do their worst.
 
-> I'm not sure where exactly the line for real hardware is, but for
-> something like this it would at least involve some chip that is
-> widely availiable and needs the H extension to be useful
+Thanks,
 
-Anup said that "quite a few people have already implemented RISC-V
-H-extension in hardware as well and KVM RISC-V works on real HW as 
-well".  Those people would benefit from having KVM in the Linus tree.
+Jonathan
 
-Paolo
+> 
+> Thanks,
+> Lucas
 
