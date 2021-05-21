@@ -1,198 +1,107 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE1670
-	for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 17:13:49 +0000 (UTC)
-Received: by mail-pg1-f175.google.com with SMTP id 29so3638464pgu.11
-        for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 10:13:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
-         :content-transfer-encoding;
-        bh=p2CM4MP1hrRU7+fp/2zo1m41ON9YEIddlJq9crMKEbQ=;
-        b=WvhGtpTtoEx7HB0OPZ9XjTR7ilqHsmcVhV+jR+vZfFiYg2FnMLwOVPsXw2ZRiUvu2E
-         m77gyRAWP89uByNmIR+cp2s3sOXUCFlP99iU0AXmwEH5nhyFkLQOwZD6VSQrDz6p154/
-         M9tl5at5CemBY3QVAgugGPnO9jRnkotNdtIJO4tSIIZkBtRCV8/W5W/BOlgxTpfEMY9L
-         cgSSHs3P94wNf0C7r3iM9TmE35DtyuUo0RUxd2LIPiZW6WovaLsD3kBhjnURNVN/IhZc
-         psscXncnndby1OpwTWGEsWTQpD2jn7h4m2nMr0L1nMeutBoiPkp4c8GzMv5ueoTfDGQk
-         gfnw==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0817D70
+	for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 17:21:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1621617679;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qwR/0GNmU1erDIzfTwdpHCjLZxYNU+OZQVJXmXfAYfM=;
+	b=Rp001alysR6Djrsu1XUaGGxzM6zHSzI8FjdLh8ir4ovfhyPGCDKWWIJGEvvh2Uxq4qEeVT
+	a70//g8HSzlP3PgjU1pqzJppRC1UGMI6AeKGepPzwHSIb3uF3eMPMWR1d/ADWdT4hUgZ2t
+	+VyHIKmjLSFmtDwbo/ll5iF/M/JbOeo=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-167-RHHSVQwHM1at1AqFZOs7Yg-1; Fri, 21 May 2021 13:21:17 -0400
+X-MC-Unique: RHHSVQwHM1at1AqFZOs7Yg-1
+Received: by mail-ej1-f69.google.com with SMTP id bi3-20020a170906a243b02903933c4d9132so6492408ejb.11
+        for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 10:21:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
-         :mime-version:content-transfer-encoding;
-        bh=p2CM4MP1hrRU7+fp/2zo1m41ON9YEIddlJq9crMKEbQ=;
-        b=DqCEsqVr+Vd46retfD3WixBJ71KrvYTq1BLiqkmna84Y77mA9pqkvGFj0YG+IsaO2k
-         7XILiFXTa3ZPmg4hKCoXdBuSzF8+n+O4CSgiGUV75b3CD72gRe/uhAge8+AAdQm89sFG
-         70NEhSHS7nV42zpwu7WaYcVgG/BRpKLFXYr12qZXuW6NuZphD9vzJ9O11z7H3wRkQH8c
-         3KQLbKC2nlWMAJDKmbhKCbsL13pNCLqkqosZ7NNPD+779a3wBKhs5zGJAQUZrupkHRWN
-         AP30Wnri2Qix2iZ/ur4C6mS/F9DbNLi0J6hl5MpSOwiv+SQkgitqbIXfdMVrjsotp74z
-         firw==
-X-Gm-Message-State: AOAM530SOdAD4Ypm/+ohfAdsvbYIXo2f6Bxnl1pCun0L/7NXIt8opFb0
-	ywkm4VRzyNfCzrNTcKcQprfXHw==
-X-Google-Smtp-Source: ABdhPJxYjG9nF0PMWTIKJobyACxcr+CiJtN8Wg/U81ISLixNQutYplHEzFii5EAQKwfd9K0GA4torQ==
-X-Received: by 2002:a65:6256:: with SMTP id q22mr10962068pgv.391.1621617228692;
-        Fri, 21 May 2021 10:13:48 -0700 (PDT)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
-        by smtp.gmail.com with ESMTPSA id ci2sm4624395pjb.56.2021.05.21.10.13.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 May 2021 10:13:47 -0700 (PDT)
-Date: Fri, 21 May 2021 10:13:47 -0700 (PDT)
-X-Google-Original-Date: Fri, 21 May 2021 10:13:45 PDT (-0700)
-Subject:     Re: [PATCH v18 00/18] KVM RISC-V Support
-In-Reply-To: <YKUZbb6OK+UYAq+t@kroah.com>
-CC: pbonzini@redhat.com, anup@brainfault.org, Anup Patel <Anup.Patel@wdc.com>,
-  Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu, corbet@lwn.net, graf@amazon.com,
-  Atish Patra <Atish.Patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
-  Damien Le Moal <Damien.LeMoal@wdc.com>, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
-  linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-  linux-staging@lists.linux.dev
-From: Palmer Dabbelt <palmerdabbelt@google.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Message-ID: <mhng-37377fcb-af8f-455c-be08-db1cd5d4b092@palmerdabbelt-glaptop>
+        h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=qwR/0GNmU1erDIzfTwdpHCjLZxYNU+OZQVJXmXfAYfM=;
+        b=gGx0+XY7J2ZjBH0s4PfXZoB5p4ZKnrjRTSDrB/zD7WI8E83nt/xH6ix3yUXThweMZ+
+         9PUUhGqgnoaHsvJo3rS4Jq38VwiQkVm9DikpiLr0hZIe3svHfu0fZOogPXu7IcdilwCL
+         uCHb2UBqXmFC1Oh4F7KCOEkOpH1UymZT3QsW2J8F2gFCG784pGKN5+X+xAcohURU5SpI
+         Gyj4xZnZnmVCXgHRIttGiS+ogqShTmh+mbngQTn9/bniYT9JcjFFtorglbsGHfMAYM/v
+         2lVH8wPP2OKaT0Pjt9kfVDBtiC5JUjvzJLUF9Dv+0RJEl6C1QlP2GPvXw7uPoibFRUZ4
+         cEYQ==
+X-Gm-Message-State: AOAM533rsqnz8VY162O+b4n31IVds2z1v29rsoLE+rP7N0c/fM/6pJon
+	VfkIvgOQ/NoLlHIHZqvsYun6NTsINmQX4W65J++OAKosoV7a4AueVhgEOwTIQNbnnR83Y9kxsir
+	kgl9ewHnM/HsMDhY57/FvSmzmFGZUsgs5lRW6vjh+j92l37nIDGgx5d1542DFr7Hmab01Lfanow
+	+Rbw==
+X-Received: by 2002:aa7:cd03:: with SMTP id b3mr12350077edw.206.1621617675196;
+        Fri, 21 May 2021 10:21:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxs1PPEtRit2YsbPl3fyEJzFG+BMaVTPI5cJbO+TcDqnJ8UNSbmnYU1JgZsPGIv6fh/e498XA==
+X-Received: by 2002:aa7:cd03:: with SMTP id b3mr12350048edw.206.1621617675016;
+        Fri, 21 May 2021 10:21:15 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+        by smtp.gmail.com with ESMTPSA id m12sm4079494edc.40.2021.05.21.10.21.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 May 2021 10:21:14 -0700 (PDT)
+To: Palmer Dabbelt <palmerdabbelt@google.com>,
+ Greg KH <gregkh@linuxfoundation.org>
+Cc: anup@brainfault.org, Anup Patel <Anup.Patel@wdc.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
+ corbet@lwn.net, graf@amazon.com, Atish Patra <Atish.Patra@wdc.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Damien Le Moal <Damien.LeMoal@wdc.com>, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <mhng-37377fcb-af8f-455c-be08-db1cd5d4b092@palmerdabbelt-glaptop>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v18 00/18] KVM RISC-V Support
+Message-ID: <ff55329c-709d-c1a5-a807-1942f515bba7@redhat.com>
+Date: Fri, 21 May 2021 19:21:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (MHng)
+MIME-Version: 1.0
+In-Reply-To: <mhng-37377fcb-af8f-455c-be08-db1cd5d4b092@palmerdabbelt-glaptop>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-On Wed, 19 May 2021 06:58:05 PDT (-0700), Greg KH wrote:
-> On Wed, May 19, 2021 at 03:29:24PM +0200, Paolo Bonzini wrote:
->> On 19/05/21 14:23, Greg Kroah-Hartman wrote:
->> > > - the code could be removed if there's no progress on either changing the
->> > > RISC-V acceptance policy or ratifying the spec
->> >
->> > I really do not understand the issue here, why can this just not be
->> > merged normally?
->>
->> Because the RISC-V people only want to merge code for "frozen" or "ratified"
->> processor extensions, and the RISC-V foundation is dragging their feet in
->> ratifying the hypervisor extension.
->>
->> It's totally a self-inflicted pain on part of the RISC-V maintainers; see
->> Documentation/riscv/patch-acceptance.rst:
->>
->>   We'll only accept patches for new modules or extensions if the
->>   specifications for those modules or extensions are listed as being
->>   "Frozen" or "Ratified" by the RISC-V Foundation.  (Developers may, of
->>   course, maintain their own Linux kernel trees that contain code for
->>   any draft extensions that they wish.)
->>
->> (Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/riscv/patch-acceptance.rst)
->
-> Lovely, and how is that going to work for code that lives outside of the
-> riscv "arch" layer?  Like all drivers?
->
-> And what exactly is "not ratified" that these patches take advantage of?
-> If there is hardware out there with these features, well, Linux needs to
-> run on it, so we need to support that.  No external committee rules
-> should be relevant here.
->
-> Now if this is for hardware that is not "real", then that's a different
-> story.  In that case, who cares, no one can use it, so why not take it?
->
-> So what exactly is this trying to "protect" Linux from?
->
->> > All staging drivers need a TODO list that shows what needs to be done in
->> > order to get it out of staging.  All I can tell so far is that the riscv
->> > maintainers do not want to take this for "unknown reasons" so let's dump
->> > it over here for now where we don't have to see it.
->> >
->> > And that's not good for developers or users, so perhaps the riscv rules
->> > are not very good?
->>
->> I agree wholeheartedly.
->>
->> I have heard contrasting opinions on conflict of interest where the
->> employers of the maintainers benefit from slowing down the integration of
->> code in Linus's tree.  I find these allegations believable, but even if that
->> weren't the case, the policy is (to put it kindly) showing its limits.
->
-> Slowing down code merges is horrible, again, if there's hardware out
-> there, and someone sends code to support it, and wants to maintain it,
-> then we should not be rejecting it.
->
-> Otherwise we are not doing our job as an operating system kernel, our
-> role is to make hardware work.  We don't get to just ignore code because
-> we don't like the hardware (oh if only we could!), if a user wants to
-> use it, our role is to handle that.
->
->> > > Of course there should have been a TODO file explaining the situation. But
->> > > if you think this is not the right place, I totally understand; if my
->> > > opinion had any weight in this, I would just place it in arch/riscv/kvm.
->> > >
->> > > The RISC-V acceptance policy as is just doesn't work, and the fact that
->> > > people are trying to work around it is proving it.  There are many ways to
->> > > improve it:
->> >
->> > What is this magical acceptance policy that is preventing working code
->> > from being merged?  And why is it suddenly the rest of the kernel
->> > developer's problems because of this?
->>
->> It is my problem because I am trying to help Anup merging some perfectly
->> good KVM code; when a new KVM port comes up, I coordinate merging the first
->> arch/*/kvm bits with the arch/ maintainers and from that point on that
->> directory becomes "mine" (or my submaintainers').
->
-> Agreed, but the riscv maintainers should not be forcing this "problem"
-> onto all of us, like it seems is starting to happen :(
->
-> Ok, so, Paul, Palmer, and Albert, what do we do here?  Why can't we take
-> working code like this into the kernel if someone is willing to support
-> and maintain it over time?
+On 21/05/21 19:13, Palmer Dabbelt wrote:
+>> 
+> 
+> I don't view this code as being in a state where it can be
+> maintained, at least to the standards we generally set within the
+> kernel.  The ISA extension in question is still subject to change, it
+> says so right at the top of the H extension 
+> <https://github.com/riscv/riscv-isa-manual/blob/master/src/hypervisor.tex#L4>
+> 
+>   {\bf Warning! This draft specification may change before being 
+>   accepted as standard by the RISC-V Foundation.}
 
-I don't view this code as being in a state where it can be maintained, 
-at least to the standards we generally set within the kernel.  The ISA 
-extension in question is still subject to change, it says so right at 
-the top of the H extension 
-<https://github.com/riscv/riscv-isa-manual/blob/master/src/hypervisor.tex#L4>
+To give a complete picture, the last three relevant changes have been in
+August 2019, November 2019 and May 2020.  It seems pretty frozen to me.
 
-    {\bf Warning! This draft specification may change before being
-    accepted as standard by the RISC-V Foundation.}
+In any case, I think it's clear from the experience with Android that
+the acceptance policy cannot succeed.  The only thing that such a policy
+guarantees, is that vendors will use more out-of-tree code.  Keeping a
+fully-developed feature out-of-tree for years is not how Linux is run.
 
-That means we really can't rely on any of this to be compatible with 
-what is eventually ratified and (hopefully, because this is really 
-important stuff) widely implemented in hardware.  We've already had 
-isuses with other specifications where drafts were propossed as being 
-ready for implemnetation, software was ported, and the future drafts 
-were later incompatible -- we had this years ago with the debug support, 
-which was a huge headache to deal with, and we're running into it again 
-with these v-0.7.1 chips coming out.  I don't want to get stuck in a 
-spot where we're forced to either deal with some old draft extension 
-forever or end up breaking users.
+> I'm not sure where exactly the line for real hardware is, but for
+> something like this it would at least involve some chip that is
+> widely availiable and needs the H extension to be useful
 
-Ultimately the whole RISC-V thing is only going to work out if we can 
-get to the point where vendors can agree on a shared ISA.  I understand 
-that there's been a lot of frustration WRT the timelines on the H 
-extension, it's been frustrating for me as well.  There are clearly 
-issues with how the ISA development process is being run and while those 
-are coming to a head in other areas (the V extension and non-coherent 
-devices, for example) I really don't think that's the case here because 
-as far as I know we don't actually have any real hardware that 
-implements the H extension.
+Anup said that "quite a few people have already implemented RISC-V
+H-extension in hardware as well and KVM RISC-V works on real HW as 
+well".  Those people would benefit from having KVM in the Linus tree.
 
-All I really care about is getting to the point where we have real 
-RISC-V systems running software that's as close to upstream as is 
-reasonable.  As it currently stands, I don't know of anything this is 
-blocking: there's some RTL implementation floating around, but that's a 
-very long way from being real hardware.  Something of this complexity 
-isn't suitable for a soft core, and RTL alone doesn't fix the 
-fundamental problem of having a stable platform to run on (it needs a 
-complex FPGA environment, and even then it's very limited in 
-functionality).  I'm not sure where exactly the line for real hardware 
-is, but for something like this it would at least involve some chip that 
-is widely availiable and needs the H extension to be useful.  Such a 
-system existing without a ratified extension would obviously be a major 
-failing on the specification side, and while I think that's happening 
-now for some systems (some of these V-0.7.1 chips, and the non-coherent 
-systems) I just don't see that as the case for the H extension.  We've 
-got to get to the point where the ISA extensions can be ratified in a 
-timely fashion, but circumventing that process by merging code early 
-doesn't fix the problem.  This really needs to be fixed at the RISC-V 
-foundation, not papered over in software.
-￼
-We have lots of real RISC-V hardware right now that's going to require a 
-huge amount of work to support, trying to chase around a draft extension 
-that may not even end up in hardware is just going to make headaches we 
-don't have the time for.
+Paolo
+
