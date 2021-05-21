@@ -1,108 +1,85 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D2870
-	for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 16:25:33 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id t21so11267457plo.2
-        for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 09:25:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lCj0Vj0/aEOSeqE1QBcXcL/Py2Jrh8/U+HcmsMEdhBE=;
-        b=T75N1lghG4u7QkKxhi4qohHgR1xioMjwOwJlcZq4twmw+bTpnVdRCZ1dPKaGxe1vuN
-         wY+YUXWtgnjIgMCtm8ShVyVVGlDgX2QyMtRuWElkh3J0q2/1OnPeUyq1uAQVUUgjbZ7m
-         O9VFBBDCUOY+rfByDhCVOnyGRGopnHEcTs/kL+a5QRtaor7GOGUioPJ3KgEuumV08maA
-         K6hU03jp9Wi6SEg2Ca+HRLnpOB9nPF6qkwPRCt8WkfmbOdGyASV88aN7D9jRq3cUYcJP
-         kFMMVgOfWC8C3wn5UHFRIaZ/9cFVegJSD+L/uUw2kmNRsMe2fmE201jy2uKaILXmAjZC
-         1jaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lCj0Vj0/aEOSeqE1QBcXcL/Py2Jrh8/U+HcmsMEdhBE=;
-        b=fs7ELfO6l3R4kyRCNC3XRIx5cc8CrWW3YgVBFu52NOkYdtnFyn4Ux59qYE96nTxRHu
-         BNIA526nhxx2TIzljDV9/hmuhctpDXolrXasCP96/BC/itoe6wsXONuvfeOPBehNFnr5
-         NCeKCKg06mMNPYMGLsd2VQq6OCU9O1ibQxT+QuLlT9RupdrY53bkvhRoxz8c8D0m6PkV
-         AlTAlZTtBqil783XrwzFDzPml+4I0l5nFcZnxCNC2kWhCMJ1NO9GN636eEpakHt3xVTs
-         c/6hDS9xT+6S9Zec7gVJtEr/0UbhuZOpL8MbZITvKCAWi7oCCXffUHWbzCH2t8Odi7Vz
-         vfGA==
-X-Gm-Message-State: AOAM530INTXVrDXRKp5RvZgFWGe6OFTVBQvbxxRcojWf6LFdQtlkF7bK
-	Vbb/KGsJBMHfzZ9afwIJyeI=
-X-Google-Smtp-Source: ABdhPJwp6UIeyFlj1XdEPIz+zbSIck1hMoR25LSacMqM4MahKtAgw4IdcheGg6wMZjzKmnU6McALig==
-X-Received: by 2002:a17:902:728c:b029:f6:6aff:4d66 with SMTP id d12-20020a170902728cb02900f66aff4d66mr8229086pll.20.1621614333031;
-        Fri, 21 May 2021 09:25:33 -0700 (PDT)
-Received: from localhost.localdomain ([45.135.186.20])
-        by smtp.gmail.com with ESMTPSA id y17sm4544845pfb.183.2021.05.21.09.25.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 May 2021 09:25:31 -0700 (PDT)
-From: Dongliang Mu <mudongliangabcd@gmail.com>
-To: Larry.Finger@lwfinger.net,
-	florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org,
-	rkovhaev@gmail.com,
-	straube.linux@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Dongliang Mu <mudongliangabcd@gmail.com>,
-	syzbot+1c46f3771695bccbdb3a@syzkaller.appspotmail.com
-Subject: [PATCH v2] staging: rtl8712: Fix memory leak in r8712_init_recv_priv
-Date: Sat, 22 May 2021 00:25:19 +0800
-Message-Id: <20210521162519.677074-1-mudongliangabcd@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48BCE70
+	for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 16:26:23 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14LGGfZK005253;
+	Fri, 21 May 2021 16:26:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ content-transfer-encoding : in-reply-to; s=corp-2020-01-29;
+ bh=GHIetxucry4oeX0E7HvayQYx8BwaNq2x10h1Wyx1DhA=;
+ b=qrRhTOwTI4CuiBXJujSfBKr9hYfEx7F0ZreCVm7e/JtkD5TKiZ3JVP2tlA4V07xedEXG
+ jQxJyEht09lID+fq9lRLBxdyvKg7jO0/dlYe3y68CGwYnhHhu354lH2jGXA+x3WMQGnR
+ baC3J7SjVV8A8P92taeqadqAG4EMNGBOKD/AIHZA/MIOWfNBHBPte3s/hi0u3+VkRpuh
+ fW1PGvV4oS9y0qfdE5Ve4dvLlZMhD1K8By3keygHvsM8XJLpVvEpSm2PMUX4dtHrXo4e
+ cOBninGp5wOqDnr8sY7ryyaRcxDnGnHHTlECuMoGu+zLMlzcmYnU32WOyr4UWD87FhtX jA== 
+Received: from oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by mx0b-00069f02.pphosted.com with ESMTP id 38n4utryjk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 21 May 2021 16:26:14 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14LGQDWv135675;
+	Fri, 21 May 2021 16:26:13 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3030.oracle.com with ESMTP id 38meehw3ed-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 21 May 2021 16:26:13 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14LGQCBQ135654;
+	Fri, 21 May 2021 16:26:13 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+	by aserp3030.oracle.com with ESMTP id 38meehw3e1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 21 May 2021 16:26:12 +0000
+Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
+	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 14LGQ2Qe013102;
+	Fri, 21 May 2021 16:26:06 GMT
+Received: from kadam (/41.212.42.34)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Fri, 21 May 2021 09:26:02 -0700
+Date: Fri, 21 May 2021 19:25:54 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Lee Jones <lee.jones@linaro.org>, Ian Abbott <abbotti@mev.co.uk>,
+        linux-kernel@vger.kernel.org,
+        H Hartley Sweeten <hsweeten@visionengravers.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        "David A. Schleef" <ds@schleef.org>,
+        Mori Hess <fmhess@users.sourceforge.net>,
+        Truxton Fulton <trux@linode1.truxton.com>,
+        linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH 5/6] comedi: drivers: ni_mio_common: Move
+ 'range_ni_E_ao_ext' to where it is used
+Message-ID: <20210521162554.GL1955@kadam>
+References: <20210520122538.3470259-1-lee.jones@linaro.org>
+ <20210520122538.3470259-6-lee.jones@linaro.org>
+ <c69d39a0-bf9e-857d-93ba-73e2884fa4ad@mev.co.uk>
+ <20210521072635.GY2549456@dell>
+ <20210521115431.GK1955@kadam>
+ <20210521143925.xjmwluaoyer322lg@pengutronix.de>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210521143925.xjmwluaoyer322lg@pengutronix.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: ocPfLC0V13jGaBf9DUdU3_v6bNB5Rwna
+X-Proofpoint-ORIG-GUID: ocPfLC0V13jGaBf9DUdU3_v6bNB5Rwna
 
-r871xu_dev_remove failed to call r8712_free_drv_sw() and free the
-resource (e.g., struct urb) due to the failure of firmware loading.
+On Fri, May 21, 2021 at 04:39:25PM +0200, Uwe Kleine-König wrote:
+> 
+> and it built for me.
 
-Fix this by invoking r8712_free_drv_sw at the failure site.
+You're right.  I appologize.  I thought the linker would fail if we
+had the same variable in two files but I was wrong.
 
-Reported-by: syzbot+1c46f3771695bccbdb3a@syzkaller.appspotmail.com
-Fixes: b4383c971bc5 ("staging: rtl8712: handle firmware load failure")
-Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
----
-v1->v2: fix the initialization of pnetdev
-
- drivers/staging/rtl8712/usb_intf.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/rtl8712/usb_intf.c b/drivers/staging/rtl8712/usb_intf.c
-index dc21e7743349..57e773464e18 100644
---- a/drivers/staging/rtl8712/usb_intf.c
-+++ b/drivers/staging/rtl8712/usb_intf.c
-@@ -593,13 +593,14 @@ static void r871xu_dev_remove(struct usb_interface *pusb_intf)
- 	struct usb_device *udev = interface_to_usbdev(pusb_intf);
- 
- 	if (pnetdev) {
-+		struct net_device *newpnetdev = NULL;
- 		struct _adapter *padapter = netdev_priv(pnetdev);
- 
- 		/* never exit with a firmware callback pending */
- 		wait_for_completion(&padapter->rtl8712_fw_ready);
--		pnetdev = usb_get_intfdata(pusb_intf);
-+		newpnetdev = usb_get_intfdata(pusb_intf);
- 		usb_set_intfdata(pusb_intf, NULL);
--		if (!pnetdev)
-+		if (!newpnetdev)
- 			goto firmware_load_fail;
- 		release_firmware(padapter->fw);
- 		if (drvpriv.drv_registered)
-@@ -625,6 +626,10 @@ static void r871xu_dev_remove(struct usb_interface *pusb_intf)
- 	 */
- 	if (udev->state != USB_STATE_NOTATTACHED)
- 		usb_reset_device(udev);
-+	if (pnetdev) {
-+		struct _adapter *padapter = netdev_priv(pnetdev);
-+		r8712_free_drv_sw(padapter);
-+	}
- }
- 
- static int __init r8712u_drv_entry(void)
--- 
-2.25.1
+regards,
+dan carpenter
 
