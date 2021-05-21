@@ -1,84 +1,60 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08D570
-	for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 18:25:26 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D3049613E2;
-	Fri, 21 May 2021 18:25:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1621621526;
-	bh=9AcZJfeo0xf1euRFblZG0MfqbBmLwbiLEIEackPiTqA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=0LBTP5aGzuiN5qYxA5cNt6W4SscUFYtUHumwamPn5Ztt1ht4YhL0u1ltJnjB1YUcx
-	 Omlw2tyXOaYoH+f7UwfsC2EQ2dUPcDcVkYUFJ3KfXUxzFp9WptKLX3fXamJ5dkGMuK
-	 +5FhSMdxVEDIsBv/267cHa1UzuZg2WeNhKH75vKI=
-Date: Fri, 21 May 2021 20:25:23 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Palmer Dabbelt <palmerdabbelt@google.com>
-Cc: pbonzini@redhat.com, anup@brainfault.org,
-	Anup Patel <Anup.Patel@wdc.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
-	corbet@lwn.net, graf@amazon.com, Atish Patra <Atish.Patra@wdc.com>,
-	Alistair Francis <Alistair.Francis@wdc.com>,
-	Damien Le Moal <Damien.LeMoal@wdc.com>, kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v18 00/18] KVM RISC-V Support
-Message-ID: <YKf7E4YfLrcfgCoi@kroah.com>
-References: <YKfyR5jUu3HMvYg5@kroah.com>
- <mhng-122345f7-47d9-4509-8ae6-ce1da912fc00@palmerdabbelt-glaptop>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72C370
+	for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 19:38:07 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=laumann.xyz; s=key1;
+	t=1621625880;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=a3RbctWiG7mAdUUaLQidbfNDvZPWuModxVqgzLZX4KE=;
+	b=3uStrjdMUAh67PvequT0+uDQLtG+z+dzxZmwZVOUVct2vyblsfyqG+OmW+xG2BZL7EC6Wt
+	zD9yHPELUl6nVTmbG7Eq4agpGJMcZaMrOX2lEex8o6C+JDd8p4ojc96DA1E9hkpsdvuSOM
+	Nnp/ssBqfd/Sz0BDNKGPBZEa7YFLBPY5xX9gzy/6UAAt/h64fv1rluheG8bZXPAiz8pOVE
+	oj6huqazgzlmQ/5Zwj0YXFMuk4ddguA05FEOCDfdU37bOuVvISxUiyJlfMMD4E0xsFBVAB
+	QO/pgY4kM65PJVxKQ76fBFeQKj2bXIMWT5G1Fb8fuGDEfDWJ690meUwdLn0iHg==
+From: Thomas Bracht Laumann Jespersen <t@laumann.xyz>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Thomas Bracht Laumann Jespersen <t@laumann.xyz>
+Subject: [PATCH] staging: rtl8192e: Fix shadowed variable name
+Date: Fri, 21 May 2021 21:37:12 +0200
+Message-Id: <20210521193711.5457-1-t@laumann.xyz>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <mhng-122345f7-47d9-4509-8ae6-ce1da912fc00@palmerdabbelt-glaptop>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: t@laumann.xyz
 
-On Fri, May 21, 2021 at 11:08:15AM -0700, Palmer Dabbelt wrote:
-> On Fri, 21 May 2021 10:47:51 PDT (-0700), Greg KH wrote:
-> > On Fri, May 21, 2021 at 07:21:12PM +0200, Paolo Bonzini wrote:
-> > > On 21/05/21 19:13, Palmer Dabbelt wrote:
-> > > > >
-> > > >
-> > > > I don't view this code as being in a state where it can be
-> > > > maintained, at least to the standards we generally set within the
-> > > > kernel.  The ISA extension in question is still subject to change, it
-> > > > says so right at the top of the H extension <https://github.com/riscv/riscv-isa-manual/blob/master/src/hypervisor.tex#L4>
-> > > >
-> > > >   {\bf Warning! This draft specification may change before being
-> > > > accepted as standard by the RISC-V Foundation.}
-> > > 
-> > > To give a complete picture, the last three relevant changes have been in
-> > > August 2019, November 2019 and May 2020.  It seems pretty frozen to me.
-> > > 
-> > > In any case, I think it's clear from the experience with Android that
-> > > the acceptance policy cannot succeed.  The only thing that such a policy
-> > > guarantees, is that vendors will use more out-of-tree code.  Keeping a
-> > > fully-developed feature out-of-tree for years is not how Linux is run.
-> > > 
-> > > > I'm not sure where exactly the line for real hardware is, but for
-> > > > something like this it would at least involve some chip that is
-> > > > widely availiable and needs the H extension to be useful
-> > > 
-> > > Anup said that "quite a few people have already implemented RISC-V
-> > > H-extension in hardware as well and KVM RISC-V works on real HW as well".
-> > > Those people would benefit from having KVM in the Linus tree.
-> > 
-> > Great, but is this really true?  If so, what hardware has this?  I have
-> > a new RISC-V device right here next to me, what would I need to do to
-> > see if this is supported in it or not?
-> 
-> You can probe the misa register, it should have the H bit set if it supports
-> the H extension.
+Fixes the following sparse warning:
 
-To let everyone know, based on our private chat we had off-list, no, the
-device I have does not support this extension, so unless someone can
-point me at real hardware, I don't think this code needs to be
-considered for merging anywhere just yet.
+drivers/staging/rtl8192e/rtllib_tx.c:884:32: warning: symbol 'tcb_desc' shadows an earlier one
+drivers/staging/rtl8192e/rtllib_tx.c:569:24: originally declared here
 
-thanks,
+Signed-off-by: Thomas Bracht Laumann Jespersen <t@laumann.xyz>
+---
+ drivers/staging/rtl8192e/rtllib_tx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-greg k-h
+diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
+index 89ec72b1895a..37715afb0210 100644
+--- a/drivers/staging/rtl8192e/rtllib_tx.c
++++ b/drivers/staging/rtl8192e/rtllib_tx.c
+@@ -881,7 +881,7 @@ static int rtllib_xmit_inter(struct sk_buff *skb, struct net_device *dev)
+ 
+  success:
+ 	if (txb) {
+-		struct cb_desc *tcb_desc = (struct cb_desc *)
++		tcb_desc = (struct cb_desc *)
+ 				(txb->fragments[0]->cb + MAX_DEV_ADDR_SIZE);
+ 		tcb_desc->bTxEnableFwCalcDur = 1;
+ 		tcb_desc->priority = skb->priority;
+-- 
+2.26.3
+
