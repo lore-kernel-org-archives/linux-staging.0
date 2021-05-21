@@ -1,106 +1,167 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0123270
-	for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 07:28:47 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id r12so20003654wrp.1
-        for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 00:28:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=lL/T9tKkLDZBnEdhk0ozmZWsOYDWqY6ffZ6HvfWIgbs=;
-        b=Ceoyn7ldDAayDOl1FwPj5Ot9iRdkTEJqV8rEJMhbhQlBWqJJH2rn/24Pa1aMd0f5pY
-         n+rGYbZCiOY3ZWSqVCkDBawKH/X1Bq8BAhpo3uEguIrtx1YIDv3fLJwQ4A3FtB6OhecJ
-         DutqaYiyIWBrUspDN5l9sC/YgsEFmgrHzVEJP0EJEKC/B/kn9gyyr4WEK7RsDWKMwGDA
-         0NypC8LmFJyGsF56/ncixXZ3+0pX8fiEfEI2VCdnJLj1MHdE3g+fwjJk1RPDZE9G+fzR
-         U1a2gmyplkW9T9fJm4FHBUkdzPl8cnR3MEU2tmEluRZUvVrYRNsm1FgvkVgddfeIO3kn
-         nVsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=lL/T9tKkLDZBnEdhk0ozmZWsOYDWqY6ffZ6HvfWIgbs=;
-        b=qt1az3xo7IdvX8Gj2lfxuMdREyhawt/j4okHYNUql9ft9r+tUrj5em4WFQ31Rw+jLe
-         EEinBTxwNVJvi/jXgxQjHlT/qHHNlq8JHxby1mg+SK/MCyPuzO4UjWtuGrXxgzRcHRmp
-         4deMC50yMfiAkdYtYKfd9D7atSyg7cPEjFUx6oa0XZzf17Ok1gnmUPH1908eOwu9EH8N
-         qwTLPbSWnXle6GFcgBin/Gqs0A1SWxHff0K65glcBw4fyZ7aW4mldoY5gAeYxSyUK0NU
-         2HesDbCHe28Bpz/zLuqWtIyWWYsS/iw1olIR5fXIbA3/QKli/3gvNTHeThO4fh4KwoLC
-         POfg==
-X-Gm-Message-State: AOAM530miSo+Jtyuhtcg84yR/96PK6p2oWA2jTstF+dvm7XLsK/JN5KH
-	hhovQcOoneATJwEWhBFFVe+mZy/b9HquFp2a
-X-Google-Smtp-Source: ABdhPJza8l4RoojyAAr5ExFIr6FWcZiqqC3dKLk0ENmThHCjYt8xkFtyjBxsGEsyHmBGn/V14j1kgw==
-X-Received: by 2002:a5d:6701:: with SMTP id o1mr8258946wru.390.1621582126616;
-        Fri, 21 May 2021 00:28:46 -0700 (PDT)
-Received: from dell ([91.110.221.215])
-        by smtp.gmail.com with ESMTPSA id e20sm11488349wme.26.2021.05.21.00.28.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 May 2021 00:28:46 -0700 (PDT)
-Date: Fri, 21 May 2021 08:28:44 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Ian Abbott <abbotti@mev.co.uk>
-Cc: linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D17570
+	for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 07:51:44 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1ljzwW-0001Yn-6x; Fri, 21 May 2021 09:51:36 +0200
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1ljzwU-0005dO-4c; Fri, 21 May 2021 09:51:34 +0200
+Date: Fri, 21 May 2021 09:51:33 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Lee Jones <lee.jones@linaro.org>
+Cc: Ian Abbott <abbotti@mev.co.uk>, linux-kernel@vger.kernel.org,
 	H Hartley Sweeten <hsweeten@visionengravers.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Alexander A. Klimov" <grandmaster@al2klimov.de>,
-	Anders Blomdell <anders.blomdell@control.lth.se>,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 2/6] comedi: drivers: jr3_pci: Remove set but unused
- variable 'min_full_scale'
-Message-ID: <20210521072844.GZ2549456@dell>
+	Thierry Reding <thierry.reding@gmail.com>,
+	"David A. Schleef" <ds@schleef.org>,
+	Mori Hess <fmhess@users.sourceforge.net>,
+	Truxton Fulton <trux@truxton.com>, linux-staging@lists.linux.dev,
+	linux-pwm@vger.kernel.org
+Subject: Re: [PATCH 5/6] comedi: drivers: ni_mio_common: Move
+ 'range_ni_E_ao_ext' to where it is used
+Message-ID: <20210521075133.rditsyeiz3qah7qo@pengutronix.de>
 References: <20210520122538.3470259-1-lee.jones@linaro.org>
- <20210520122538.3470259-3-lee.jones@linaro.org>
- <9d0ac108-7256-be1a-fdd9-f48f52aaa38e@mev.co.uk>
+ <20210520122538.3470259-6-lee.jones@linaro.org>
+ <c69d39a0-bf9e-857d-93ba-73e2884fa4ad@mev.co.uk>
+ <20210521072635.GY2549456@dell>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xe2uc75uffgpbfp5"
+Content-Disposition: inline
+In-Reply-To: <20210521072635.GY2549456@dell>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+
+
+--xe2uc75uffgpbfp5
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9d0ac108-7256-be1a-fdd9-f48f52aaa38e@mev.co.uk>
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 20 May 2021, Ian Abbott wrote:
+On Fri, May 21, 2021 at 08:26:35AM +0100, Lee Jones wrote:
+> On Thu, 20 May 2021, Ian Abbott wrote:
+>=20
+> > On 20/05/2021 13:25, Lee Jones wrote:
+> > > ... and mark it as __maybe_unused since not all users of the
+> > > header file reference it.
+> > >=20
+> > > Fixes the following W=3D1 kernel build warning(s):
+> > >=20
+> > >   drivers/staging/comedi/drivers/ni_mio_common.c:163:35: warning: =E2=
+=80=98range_ni_E_ao_ext=E2=80=99 defined but not used [-Wunused-const-varia=
+ble=3D]
+> > >=20
+> > > Cc: Ian Abbott <abbotti@mev.co.uk>
+> > > Cc: H Hartley Sweeten <hsweeten@visionengravers.com>
+> > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > Cc: Thierry Reding <thierry.reding@gmail.com>
+> > > Cc: "Uwe Kleine-K=C3=B6nig" <u.kleine-koenig@pengutronix.de>
+> > > Cc: Lee Jones <lee.jones@linaro.org>
+> > > Cc: "David A. Schleef" <ds@schleef.org>
+> > > Cc: Mori Hess <fmhess@users.sourceforge.net>
+> > > Cc: Truxton Fulton <trux@truxton.com>
+> > > Cc: linux-staging@lists.linux.dev
+> > > Cc: linux-pwm@vger.kernel.org
+> > > Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> > > ---
+> > >   drivers/comedi/drivers/ni_mio_common.c | 9 ---------
+> > >   drivers/comedi/drivers/ni_stc.h        | 9 ++++++++-
+> > >   2 files changed, 8 insertions(+), 10 deletions(-)
+> > >=20
+> > > diff --git a/drivers/comedi/drivers/ni_mio_common.c b/drivers/comedi/=
+drivers/ni_mio_common.c
+> > > index 4f80a4991f953..37615b4e2c10d 100644
+> > > --- a/drivers/comedi/drivers/ni_mio_common.c
+> > > +++ b/drivers/comedi/drivers/ni_mio_common.c
+> > > @@ -160,15 +160,6 @@ static const struct comedi_lrange range_ni_M_ai_=
+628x =3D {
+> > >   	}
+> > >   };
+> > > -static const struct comedi_lrange range_ni_E_ao_ext =3D {
+> > > -	4, {
+> > > -		BIP_RANGE(10),
+> > > -		UNI_RANGE(10),
+> > > -		RANGE_ext(-1, 1),
+> > > -		RANGE_ext(0, 1)
+> > > -	}
+> > > -};
+> > > -
+> > >   static const struct comedi_lrange *const ni_range_lkup[] =3D {
+> > >   	[ai_gain_16] =3D &range_ni_E_ai,
+> > >   	[ai_gain_8] =3D &range_ni_E_ai_limited,
+> > > diff --git a/drivers/comedi/drivers/ni_stc.h b/drivers/comedi/drivers=
+/ni_stc.h
+> > > index fbc0b753a0f59..0822e65f709dd 100644
+> > > --- a/drivers/comedi/drivers/ni_stc.h
+> > > +++ b/drivers/comedi/drivers/ni_stc.h
+> > > @@ -1137,6 +1137,13 @@ struct ni_private {
+> > >   	u8 rgout0_usage;
+> > >   };
+> > > -static const struct comedi_lrange range_ni_E_ao_ext;
+> > > +static const struct comedi_lrange __maybe_unused range_ni_E_ao_ext =
+=3D {
+> > > +	4, {
+> > > +		BIP_RANGE(10),
+> > > +		UNI_RANGE(10),
+> > > +		RANGE_ext(-1, 1),
+> > > +		RANGE_ext(0, 1)
+> > > +	}
+> > > +};
+> > >   #endif /* _COMEDI_NI_STC_H */
+> > >=20
+> >=20
+> > The "ni_stc.h" header is also included by "ni_mio_cs.c" which doesn't n=
+eed
+> > `range_ni_E_ao_ext` (admittedly, it was already pulling in a "tentative"
+> > definition of the variable).
+> >=20
+> > Thinking about it, I think it's probably better to move `range_ni_E_ao_=
+ext`
+> > from "ni_mio_common.c" into *both* "ni_atmio.c" and "ni_pcimio.c" (I th=
+ink
+> > we can live with the small amount of duplication), and to remove the
+> > tentative definition from "ni_stc.h".
+>=20
+> Happy to rework.
+>=20
+> Am I taking this or Uwe's suggestion?
 
-> On 20/05/2021 13:25, Lee Jones wrote:
-> > Fixes the following W=1 kernel build warning(s):
-> > 
-> >   drivers/staging/comedi/drivers/jr3_pci.c: In function ‘jr3_pci_poll_subdevice’:
-> >   drivers/staging/comedi/drivers/jr3_pci.c:507:22: warning: variable ‘min_full_scale’ set but not used [-Wunused-but-set-variable]
-> > 
-> > Cc: Ian Abbott <abbotti@mev.co.uk>
-> > Cc: H Hartley Sweeten <hsweeten@visionengravers.com>
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: "Alexander A. Klimov" <grandmaster@al2klimov.de>
-> > Cc: Anders Blomdell <anders.blomdell@control.lth.se>
-> > Cc: linux-staging@lists.linux.dev
-> > Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> > ---
-> >   drivers/comedi/drivers/jr3_pci.c | 3 +--
-> >   1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> Actually, that one is stale now (or will be when Greg's staging-next branch
-> gets merged into linux-next soon):
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/commit/?h=staging-next&id=b9f38e913a926b455e5048a95f53a993b515509f
-> 
-> | staging: comedi: Remove unused variable ‘min_full_scale’ and function
-> 'get_min_full_scales'
-> |
-> | The variable ‘min_full_scale’ and function 'get_min_full_scales' are
-> | not used, So delete them.
-> 
+uah, maybe the first step is to not include ni_mio_common.c from other c
+files. That should save some more duplicated bytes than only
+range_ni_E_ao_ext ...
 
-No worries, if it's fixed, it's fixed.
+Best regards
+Uwe
 
-Could you please take the patches that you are happy with.
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-I'll rework or drop the remainder, thanks.
+--xe2uc75uffgpbfp5
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmCnZoIACgkQwfwUeK3K
+7Akt3wf/UQkqF+Z1NzTkWV1La+5hsrlsnfedxkr28C5qEPzHXA2+RzaktPosNohG
+O2VpJZQWOVR9lXD49va5HuQgb2v175P9SHzFEEM0SgEcYgvyKkZkLzaqtcmiM9Q9
+YhItZm62gughgfOIVmHJd1ogTVQx5e8ZwcJ7b71dXz4E/vypbJZF0UO1GL1xtPbw
+POoHwKi19RmCTP/YCxTbABqTGHuP7PBXTnleb8Yn9rUTOWHvxQ8KGxw+JR+BqjtF
+OHaDS5GbBujIYK9FbDFFsGs8tLJMKqTXijcDj8DTwlbVUxVqWmba/ww4uSmgQttj
+59ZoOgMo8oo1puc7diIO04jL+NJ2pw==
+=gvNE
+-----END PGP SIGNATURE-----
+
+--xe2uc75uffgpbfp5--
