@@ -1,204 +1,255 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83D470
-	for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 14:39:45 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1lk6JD-0002gN-CB; Fri, 21 May 2021 16:39:27 +0200
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1lk6JB-00065t-VB; Fri, 21 May 2021 16:39:25 +0200
-Date: Fri, 21 May 2021 16:39:25 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Lee Jones <lee.jones@linaro.org>, Ian Abbott <abbotti@mev.co.uk>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3920970
+	for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 14:42:01 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id n2so30827832ejy.7
+        for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 07:42:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=J9SKo3NdGGBNovIrQCqMGuOHB6KkkTbrheBEMJXD0tM=;
+        b=erkxw1RrQ11ukOtS5y3enOxrVQWqCFSEhTWhvRZpHralUu9dmOLzlpFi+RDUjqGbP8
+         kqm84lzHdle7KSnSUpPVoHzSdZpuZDdyBt6outjt56jJvBTN8m31IjlKbwOLV4XlM+KD
+         7h2fIAc1gRm2faPrEwRKlaEOH2wR+WA9FhiTdfQ6wSD10/D3Ly5jvgjazXkH9AjDbTnM
+         ga+cs8q7gR7m7IPzxLbYUyN19vPa6PAyR88XAVh44gxXOqrVpL/JtygEjTh+QRKCkREu
+         AfW6TE5f8n/6CIIeQxQvhsaihhSCmze+9pNREoINpYMkyl6S0IL6GYmwXS1k+YzyzKxr
+         R+gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=J9SKo3NdGGBNovIrQCqMGuOHB6KkkTbrheBEMJXD0tM=;
+        b=RWqyK/nGqFzrMQcFEpqXW+IYatQ/JAVrucPe59+hZyvHLwNlEKUTpccHkNkRT/PRuS
+         mFXlSnJmBYwtBndy7sFwYNmuCL7tGYBiVMlQh2Ao0Pv4yZevq0Aq2d5lKwkCYq/6i1n2
+         vqpXP1nq+bGhY9lQETTsCZHh5yY23Qemyt2r9yFT9L82+uaZZJBAhdGgnP4EEakQMzJP
+         92XDapxQxuhSI7JKnBDCQ+vyIqm9Pf/StShXt8P7mRBg9mXdC1GzBIZ+f3eAKPl6aNv0
+         IXMFs2iaQWTRplKOL6QoMfnDPKVC/ONNU45TuXRpkRXp4QKqDF9wYGC1EcTYTRPceuWY
+         eiNg==
+X-Gm-Message-State: AOAM531OjOigr2glDp9X/ahFS25v8fzWt3+KxlTa85wyxhWq/CZ8YrZ0
+	gOxy4sQLraPinobM/DAvYzU=
+X-Google-Smtp-Source: ABdhPJy3GwopMX6WLD88OU2cJB+4XnpgJlTQanXQbXIFkP2XDHec7z0Dqseiqxm3tfvID0UzEOdyWg==
+X-Received: by 2002:a17:906:13db:: with SMTP id g27mr10795477ejc.88.1621608119699;
+        Fri, 21 May 2021 07:41:59 -0700 (PDT)
+Received: from agape ([109.52.244.91])
+        by smtp.gmail.com with ESMTPSA id dk21sm3672277ejb.54.2021.05.21.07.41.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 May 2021 07:41:59 -0700 (PDT)
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	"David A. Schleef" <ds@schleef.org>,
-	Mori Hess <fmhess@users.sourceforge.net>,
-	Truxton Fulton <trux@linode1.truxton.com>,
-	linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH 5/6] comedi: drivers: ni_mio_common: Move
- 'range_ni_E_ao_ext' to where it is used
-Message-ID: <20210521143925.xjmwluaoyer322lg@pengutronix.de>
-References: <20210520122538.3470259-1-lee.jones@linaro.org>
- <20210520122538.3470259-6-lee.jones@linaro.org>
- <c69d39a0-bf9e-857d-93ba-73e2884fa4ad@mev.co.uk>
- <20210521072635.GY2549456@dell>
- <20210521115431.GK1955@kadam>
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] staging: rtl8723bs: moved contexts for arc4 encryption in struct security_priv
+Date: Fri, 21 May 2021 16:41:58 +0200
+Message-Id: <20210521144158.2440-1-fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xpc7qmyd6f62xnp5"
-Content-Disposition: inline
-In-Reply-To: <20210521115431.GK1955@kadam>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+Content-Transfer-Encoding: 8bit
 
+moved struct arc4_ctx in struct security_priv to avoid stack allocation
+inside encryption routines.
 
---xpc7qmyd6f62xnp5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+this has been done to fix the following 0-DAY issues:
 
-On Fri, May 21, 2021 at 02:54:31PM +0300, Dan Carpenter wrote:
-> On Fri, May 21, 2021 at 08:26:35AM +0100, Lee Jones wrote:
-> > On Thu, 20 May 2021, Ian Abbott wrote:
-> >=20
-> > > On 20/05/2021 13:25, Lee Jones wrote:
-> > > > ... and mark it as __maybe_unused since not all users of the
-> > > > header file reference it.
-> > > >=20
-> > > > Fixes the following W=3D1 kernel build warning(s):
-> > > >=20
-> > > >   drivers/staging/comedi/drivers/ni_mio_common.c:163:35: warning: =
-=E2=80=98range_ni_E_ao_ext=E2=80=99 defined but not used [-Wunused-const-va=
-riable=3D]
-> > > >=20
-> > > > Cc: Ian Abbott <abbotti@mev.co.uk>
-> > > > Cc: H Hartley Sweeten <hsweeten@visionengravers.com>
-> > > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > > > Cc: "Uwe Kleine-K=C3=B6nig" <u.kleine-koenig@pengutronix.de>
-> > > > Cc: Lee Jones <lee.jones@linaro.org>
-> > > > Cc: "David A. Schleef" <ds@schleef.org>
-> > > > Cc: Mori Hess <fmhess@users.sourceforge.net>
-> > > > Cc: Truxton Fulton <trux@truxton.com>
-> > > > Cc: linux-staging@lists.linux.dev
-> > > > Cc: linux-pwm@vger.kernel.org
-> > > > Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> > > > ---
-> > > >   drivers/comedi/drivers/ni_mio_common.c | 9 ---------
-> > > >   drivers/comedi/drivers/ni_stc.h        | 9 ++++++++-
-> > > >   2 files changed, 8 insertions(+), 10 deletions(-)
-> > > >=20
-> > > > diff --git a/drivers/comedi/drivers/ni_mio_common.c b/drivers/comed=
-i/drivers/ni_mio_common.c
-> > > > index 4f80a4991f953..37615b4e2c10d 100644
-> > > > --- a/drivers/comedi/drivers/ni_mio_common.c
-> > > > +++ b/drivers/comedi/drivers/ni_mio_common.c
-> > > > @@ -160,15 +160,6 @@ static const struct comedi_lrange range_ni_M_a=
-i_628x =3D {
-> > > >   	}
-> > > >   };
-> > > > -static const struct comedi_lrange range_ni_E_ao_ext =3D {
-> > > > -	4, {
-> > > > -		BIP_RANGE(10),
-> > > > -		UNI_RANGE(10),
-> > > > -		RANGE_ext(-1, 1),
-> > > > -		RANGE_ext(0, 1)
-> > > > -	}
-> > > > -};
-> > > > -
-> > > >   static const struct comedi_lrange *const ni_range_lkup[] =3D {
-> > > >   	[ai_gain_16] =3D &range_ni_E_ai,
-> > > >   	[ai_gain_8] =3D &range_ni_E_ai_limited,
-> > > > diff --git a/drivers/comedi/drivers/ni_stc.h b/drivers/comedi/drive=
-rs/ni_stc.h
-> > > > index fbc0b753a0f59..0822e65f709dd 100644
-> > > > --- a/drivers/comedi/drivers/ni_stc.h
-> > > > +++ b/drivers/comedi/drivers/ni_stc.h
-> > > > @@ -1137,6 +1137,13 @@ struct ni_private {
-> > > >   	u8 rgout0_usage;
-> > > >   };
-> > > > -static const struct comedi_lrange range_ni_E_ao_ext;
-> > > > +static const struct comedi_lrange __maybe_unused range_ni_E_ao_ext=
- =3D {
-> > > > +	4, {
-> > > > +		BIP_RANGE(10),
-> > > > +		UNI_RANGE(10),
-> > > > +		RANGE_ext(-1, 1),
-> > > > +		RANGE_ext(0, 1)
-> > > > +	}
-> > > > +};
-> > > >   #endif /* _COMEDI_NI_STC_H */
-> > > >=20
-> > >=20
-> > > The "ni_stc.h" header is also included by "ni_mio_cs.c" which doesn't=
- need
-> > > `range_ni_E_ao_ext` (admittedly, it was already pulling in a "tentati=
-ve"
-> > > definition of the variable).
-> > >=20
-> > > Thinking about it, I think it's probably better to move `range_ni_E_a=
-o_ext`
-> > > from "ni_mio_common.c" into *both* "ni_atmio.c" and "ni_pcimio.c" (I =
-think
-> > > we can live with the small amount of duplication), and to remove the
-> > > tentative definition from "ni_stc.h".
-> >=20
-> > Happy to rework.
-> >=20
-> > Am I taking this or Uwe's suggestion?
->=20
-> You should probably take Ian's suggestion because he is the maintainer
-> and I really doubt Uwe's will build.  :P  But Uwe is right that
-> including .c files is ugly.
+>> drivers/staging/rtl8723bs/core/rtw_security.c:89:6: warning:
+stack frame size of 1120 bytes in function 'rtw_wep_encrypt'
+[-Wframe-$
+   void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
+        ^
+>> drivers/staging/rtl8723bs/core/rtw_security.c:145:6:
+warning: stack frame size of 1088 bytes in function 'rtw_wep_decrypt'
+[-Wframe$
+   void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
+        ^
+>> drivers/staging/rtl8723bs/core/rtw_security.c:514:5:
+warning: stack frame size of 1136 bytes in function 'rtw_tkip_encrypt'
+[-Wfram$
+   u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
+       ^
+>> drivers/staging/rtl8723bs/core/rtw_security.c:586:5:
+warning: stack frame size of 1104 bytes in function 'rtw_tkip_decrypt'
+[-Wfram$
+   u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+       ^
 
-I just tried
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_security.c | 41 +++++++++----------
+ .../staging/rtl8723bs/include/rtw_security.h  |  3 ++
+ 2 files changed, 23 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/comedi/drivers/ni_mio_common.c b/drivers/comedi/driver=
-s/ni_mio_common.c
-index 4f80a4991f95..3b37c8b00ecd 100644
---- a/drivers/comedi/drivers/ni_mio_common.c
-+++ b/drivers/comedi/drivers/ni_mio_common.c
-@@ -160,7 +160,7 @@ static const struct comedi_lrange range_ni_M_ai_628x =
-=3D {
- 	}
- };
-=20
--static const struct comedi_lrange range_ni_E_ao_ext =3D {
-+const struct comedi_lrange range_ni_E_ao_ext =3D {
- 	4, {
- 		BIP_RANGE(10),
- 		UNI_RANGE(10),
-diff --git a/drivers/comedi/drivers/ni_stc.h b/drivers/comedi/drivers/ni_st=
-c.h
-index fbc0b753a0f5..026d215f2ef2 100644
---- a/drivers/comedi/drivers/ni_stc.h
-+++ b/drivers/comedi/drivers/ni_stc.h
-@@ -1137,6 +1137,6 @@ struct ni_private {
- 	u8 rgout0_usage;
- };
-=20
--static const struct comedi_lrange range_ni_E_ao_ext;
-+extern const struct comedi_lrange range_ni_E_ao_ext;
-=20
- #endif /* _COMEDI_NI_STC_H */
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index 5ff8926c1865..a99f439328f1 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -8,7 +8,6 @@
+ #include <drv_types.h>
+ #include <rtw_debug.h>
+ #include <crypto/aes.h>
+-#include <crypto/arc4.h>
+ 
+ static const char * const _security_type_str[] = {
+ 	"N/A",
+@@ -38,7 +37,6 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ {																	/*  exclude ICV */
+ 
+ 	unsigned char crc[4];
+-	struct arc4_ctx	mycontext;
+ 
+ 	signed int	curfragnum, length;
+ 	u32 keylength;
+@@ -49,6 +47,7 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 	struct pkt_attrib *pattrib = &((struct xmit_frame *)pxmitframe)->attrib;
+ 	struct security_priv *psecuritypriv = &padapter->securitypriv;
+ 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
++	struct arc4_ctx *ctx = &psecuritypriv->xmit_arc4_ctx;
+ 
+ 	if (((struct xmit_frame *)pxmitframe)->buf_addr == NULL)
+ 		return;
+@@ -72,16 +71,16 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 
+ 				*((__le32 *)crc) = ~crc32_le(~0, payload, length);
+ 
+-				arc4_setkey(&mycontext, wepkey, 3 + keylength);
+-				arc4_crypt(&mycontext, payload, payload, length);
+-				arc4_crypt(&mycontext, payload + length, crc, 4);
++				arc4_setkey(ctx, wepkey, 3 + keylength);
++				arc4_crypt(ctx, payload, payload, length);
++				arc4_crypt(ctx, payload + length, crc, 4);
+ 
+ 			} else {
+ 				length = pxmitpriv->frag_len-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
+ 				*((__le32 *)crc) = ~crc32_le(~0, payload, length);
+-				arc4_setkey(&mycontext, wepkey, 3 + keylength);
+-				arc4_crypt(&mycontext, payload, payload, length);
+-				arc4_crypt(&mycontext, payload + length, crc, 4);
++				arc4_setkey(ctx, wepkey, 3 + keylength);
++				arc4_crypt(ctx, payload, payload, length);
++				arc4_crypt(ctx, payload + length, crc, 4);
+ 
+ 				pframe += pxmitpriv->frag_len;
+ 				pframe = (u8 *)round_up((SIZE_PTR)(pframe), 4);
+@@ -94,13 +93,13 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
+ {
+ 	/*  exclude ICV */
+ 	u8 crc[4];
+-	struct arc4_ctx	 mycontext;
+ 	signed int	length;
+ 	u32 keylength;
+ 	u8 *pframe, *payload, *iv, wepkey[16];
+ 	u8  keyindex;
+ 	struct	rx_pkt_attrib	 *prxattrib = &(((union recv_frame *)precvframe)->u.hdr.attrib);
+ 	struct	security_priv *psecuritypriv = &padapter->securitypriv;
++	struct arc4_ctx *ctx = &psecuritypriv->recv_arc4_ctx;
+ 
+ 	pframe = (unsigned char *)((union recv_frame *)precvframe)->u.hdr.rx_data;
+ 
+@@ -118,8 +117,8 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
+ 		payload = pframe+prxattrib->iv_len+prxattrib->hdrlen;
+ 
+ 		/* decrypt payload include icv */
+-		arc4_setkey(&mycontext, wepkey, 3 + keylength);
+-		arc4_crypt(&mycontext, payload, payload,  length);
++		arc4_setkey(ctx, wepkey, 3 + keylength);
++		arc4_crypt(ctx, payload, payload,  length);
+ 
+ 		/* calculate icv and compare the icv */
+ 		*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
+@@ -467,7 +466,6 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 	u8   ttkey[16];
+ 	u8 crc[4];
+ 	u8   hw_hdr_offset = 0;
+-	struct arc4_ctx mycontext;
+ 	signed int			curfragnum, length;
+ 
+ 	u8 *pframe, *payload, *iv, *prwskey;
+@@ -475,6 +473,7 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 	struct pkt_attrib *pattrib = &((struct xmit_frame *)pxmitframe)->attrib;
+ 	struct security_priv *psecuritypriv = &padapter->securitypriv;
+ 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
++	struct arc4_ctx *ctx = &psecuritypriv->xmit_arc4_ctx;
+ 	u32 res = _SUCCESS;
+ 
+ 	if (((struct xmit_frame *)pxmitframe)->buf_addr == NULL)
+@@ -509,17 +508,17 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 					length = pattrib->last_txcmdsz-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
+ 					*((__le32 *)crc) = ~crc32_le(~0, payload, length);
+ 
+-					arc4_setkey(&mycontext, rc4key, 16);
+-					arc4_crypt(&mycontext, payload, payload, length);
+-					arc4_crypt(&mycontext, payload + length, crc, 4);
++					arc4_setkey(ctx, rc4key, 16);
++					arc4_crypt(ctx, payload, payload, length);
++					arc4_crypt(ctx, payload + length, crc, 4);
+ 
+ 				} else {
+ 					length = pxmitpriv->frag_len-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
+ 					*((__le32 *)crc) = ~crc32_le(~0, payload, length);
+ 
+-					arc4_setkey(&mycontext, rc4key, 16);
+-					arc4_crypt(&mycontext, payload, payload, length);
+-					arc4_crypt(&mycontext, payload + length, crc, 4);
++					arc4_setkey(ctx, rc4key, 16);
++					arc4_crypt(ctx, payload, payload, length);
++					arc4_crypt(ctx, payload + length, crc, 4);
+ 
+ 					pframe += pxmitpriv->frag_len;
+ 					pframe = (u8 *)round_up((SIZE_PTR)(pframe), 4);
+@@ -539,7 +538,6 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+ 	u8   rc4key[16];
+ 	u8   ttkey[16];
+ 	u8 crc[4];
+-	struct arc4_ctx mycontext;
+ 	signed int			length;
+ 
+ 	u8 *pframe, *payload, *iv, *prwskey;
+@@ -547,6 +545,7 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+ 	struct sta_info *stainfo;
+ 	struct rx_pkt_attrib *prxattrib = &((union recv_frame *)precvframe)->u.hdr.attrib;
+ 	struct security_priv *psecuritypriv = &padapter->securitypriv;
++	struct arc4_ctx *ctx = &psecuritypriv->recv_arc4_ctx;
+ 	u32 res = _SUCCESS;
+ 
+ 	pframe = (unsigned char *)((union recv_frame *)precvframe)->u.hdr.rx_data;
+@@ -616,8 +615,8 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+ 
+ 			/* 4 decrypt payload include icv */
+ 
+-			arc4_setkey(&mycontext, rc4key, 16);
+-			arc4_crypt(&mycontext, payload, payload, length);
++			arc4_setkey(ctx, rc4key, 16);
++			arc4_crypt(ctx, payload, payload, length);
+ 
+ 			*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
+ 
+diff --git a/drivers/staging/rtl8723bs/include/rtw_security.h b/drivers/staging/rtl8723bs/include/rtw_security.h
+index 83b711c5df0b..a68b73858462 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_security.h
++++ b/drivers/staging/rtl8723bs/include/rtw_security.h
+@@ -7,6 +7,7 @@
+ #ifndef __RTW_SECURITY_H_
+ #define __RTW_SECURITY_H_
+ 
++#include <crypto/arc4.h>
+ 
+ #define _NO_PRIVACY_		0x0
+ #define _WEP40_				0x1
+@@ -127,6 +128,8 @@ struct security_priv {
+ 	u8 wps_ie[MAX_WPS_IE_LEN];/* added in assoc req */
+ 	int wps_ie_len;
+ 
++	struct arc4_ctx xmit_arc4_ctx;
++	struct arc4_ctx recv_arc4_ctx;
+ 
+ 	u8 binstallGrpkey;
+ 	u8 binstallBIPkey;
+-- 
+2.20.1
 
-and it built for me.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---xpc7qmyd6f62xnp5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmCnxhcACgkQwfwUeK3K
-7AnDfQf/fVekK150Z5CIp+UhXg67VDGOnS4hkIdUtjNNkyOc/SAfLwCadzctN6fD
-4n1iOfS8lkuvhK+iA/NAh3s16/HWS/Utrd2PRg6zbtzZg2tt1FyttlKiFuLeb26+
-2KQwD/Y5xAMSeMpdRWJCaEApmBsaZ3aob8Kz6KfgSZvkC6lt/G19lag2i6xX0qlx
-nHWZqDGtmnt3Iyt8UVuG0Djt/lC6WmhyIYlh88YRZcMC2+ejU7lqNNDbIyTLRmiL
-Dur4aYv8+YGqvg/fTXDADG8/xOoQ21cxY5iocRprBWfPJF17mE7IOtiFOqk6K33c
-J/eBKuDfJaLXylhUc31nYxvidR1YuA==
-=VPgS
------END PGP SIGNATURE-----
-
---xpc7qmyd6f62xnp5--
