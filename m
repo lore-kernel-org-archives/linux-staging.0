@@ -1,163 +1,166 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD3F470
-	for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 13:43:42 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id n2so30534855ejy.7
-        for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 06:43:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4EF770
+	for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 13:53:23 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id u5-20020a7bc0450000b02901480e40338bso6830029wmc.1
+        for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 06:53:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=C3MV1Vf5iX+LkY9NKtecXOx3swTIZmEHhmIkAQBX6v8=;
-        b=YH4t7Oeqyqc5PtUrO40l9ux8vc0c8vsAoVKaqdbjr6dufpIeMwRYuopgQgNcHO4A4T
-         PcDl1in24Rnjhgz1knNxT+0ih2sGpwSrziBeq7WQTnO/u43GK5+Wlc+js4CJVLBM3Hpi
-         9HjZ74As9LDOpBntcNIS4SBg9sTji0/85Nv+HetQGAGxkwP1q4Fw+hH2ZWyuSjtFtDJo
-         5m01iFtAiFZISjRjI6zaQB0prEDkBrC6Sk1iYcXWumD1QAjTIWme64RnVCUAm5W0Hlre
-         JMd2j3NVGmjIya1L8TU19LR8T208fipBdu8yJggv/s484X2UeFhDjsHxE3lEu3/2veQ4
-         C5kw==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=or2n56rchUUN+O0Ey3IVBmf3hNw4ShOy6t6olT7Yts8=;
+        b=kXvV09+x2hRrzcATNswB8+rrGsAVBOokL9TwVkrtw8xXa9K4ik9WqPLHHBDppD1mwp
+         7VQ613T1gisYwYQ+QOBfOnLhM0exnAbNgRcuXXMYd4/cNU5nOgRuCtEocCGoOQM+R5dH
+         gpiDYfU2AuIkHnIiI+b/F+/+Hfe3zGwqeuZPxK+zSizY1LF9pAkseLT30IclfRycC0zl
+         J4pPu++Qz3A/TeJSS1XsRNhLPjSYtLgkpKN5THHd589XPhx1hbWQOCWv8Z8dVvz0tOVg
+         K9zAYcLTHpkwdfS5yUWVMKH24cY+yKBuBqmjZa2WxuQY+sPGeUZWZxZ8rwBN45D8fS7O
+         Fb3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=C3MV1Vf5iX+LkY9NKtecXOx3swTIZmEHhmIkAQBX6v8=;
-        b=P5EfoFnk/rk32bCCkmum7Klh4c7xGankWs9FUi7KkfNzYoz1QmtcbSfp5qqagKglDP
-         ajdj2kAfBDg8jiiMUgCgppU1JHciQUGAESFPqj33t8Lwufa09HENQ4dcyIZ31p3GvMoN
-         KLIVpXSQ5nCzgWy4vcRYRNHiz7KMxcIwnJ2WV2LuGX6DasDrpg8mFbsr6i4PQaiFGU5a
-         z8pMRKPxNcdqGzR5MjjqNXy7GSmHKj6+aRO5X5O4OBL1v8cmodDWjk52wOp3h5of9M96
-         hE4gTLmL8X7nUaVps8BcTpKK7HIlFSgSo4T9BkAbPEa3TlFLJqwgMP4IAOfz13WjJWah
-         YkZg==
-X-Gm-Message-State: AOAM531Hye+t3Qo5rePU7wzJMvWWu2dF/VzdCaDwccbPlWSdctFrNKcB
-	SC1Ne9IEYbP4lbkab1yAaCN1vaytm2KBu23dyGt3/BvXehzPAIyci8GpqQ==
-X-Google-Smtp-Source: ABdhPJwHIgjcYGnsRmn9KmY5QdPTI3MoLqfhEV2zt0JarasVYgL4OTTnDt6sq21oSyLUGwC5faswpAc/S9+pb7lsH9E=
-X-Received: by 2002:a17:906:18b2:: with SMTP id c18mr10338162ejf.160.1621604621169;
- Fri, 21 May 2021 06:43:41 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=or2n56rchUUN+O0Ey3IVBmf3hNw4ShOy6t6olT7Yts8=;
+        b=PyzlCipUQYWhFwpDiI9H07WDT6Id51f6pwjBo1nIbAqGfORo3GSpq5kIwJ8dJtSzp8
+         CCQSluWjR72IVHbFOyj9PH2l6KXLedViw6g3nggo/tLqhhjlsS9BC8pelQP01kf+vf0C
+         NgJZ68GFrADYbTCzEocpzdAvNJVhB2sQO67pO5rvXwVoZ4VFIwOGEh7Xnrm2x8SbbZ6y
+         qGMVH+3jXn+iIUOU7Ep326bJIeL3Id6Z7V9TkM7SOoYEiy0/2EjuovklYnKJPNiJTBxp
+         MGevpnnx5pZzYH72u4rUNPHB/5i4BvTuRS0Clrm90rHsHCMok27/Qq/0tBqcKDWCi2eG
+         FiFw==
+X-Gm-Message-State: AOAM531ji6ijCWeanq/i3pamriHIMPKXZ81I+vEdiZZ4fqLd8dtR7VDD
+	jCbvkc7YyrEbEuVXAOYaiHJ0Iw==
+X-Google-Smtp-Source: ABdhPJwN7lE7w0omdAhf4mqhxLHo8pWY3JTt0XBG0Zpfm4KWIl26MB8LtrMB/fF2hgz/ZaTk3X0SQw==
+X-Received: by 2002:a7b:c444:: with SMTP id l4mr8873126wmi.36.1621605202105;
+        Fri, 21 May 2021 06:53:22 -0700 (PDT)
+Received: from dell ([91.110.221.215])
+        by smtp.gmail.com with ESMTPSA id c64sm3596361wma.15.2021.05.21.06.53.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 May 2021 06:53:21 -0700 (PDT)
+Date: Fri, 21 May 2021 14:53:19 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Ian Abbott <abbotti@mev.co.uk>, linux-kernel@vger.kernel.org,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	"David A. Schleef" <ds@schleef.org>,
+	Mori Hess <fmhess@users.sourceforge.net>,
+	Truxton Fulton <trux@linode1.truxton.com>,
+	linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH 5/6] comedi: drivers: ni_mio_common: Move
+ 'range_ni_E_ao_ext' to where it is used
+Message-ID: <20210521135319.GH2549456@dell>
+References: <20210520122538.3470259-1-lee.jones@linaro.org>
+ <20210520122538.3470259-6-lee.jones@linaro.org>
+ <c69d39a0-bf9e-857d-93ba-73e2884fa4ad@mev.co.uk>
+ <20210521072635.GY2549456@dell>
+ <20210521115431.GK1955@kadam>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210521120811.516339-1-mudongliangabcd@gmail.com>
- <YKelBRkGsLFz4byw@kroah.com> <CAD-N9QUgYy4j3wnJX1gwq902ggarFaQPBQ3cyUAArYxv22Q-bQ@mail.gmail.com>
- <YKeyl6DL9rZylbKw@kroah.com>
-In-Reply-To: <YKeyl6DL9rZylbKw@kroah.com>
-From: =?UTF-8?B?5oWV5Yas5Lqu?= <mudongliangabcd@gmail.com>
-Date: Fri, 21 May 2021 21:42:32 +0800
-Message-ID: <CAD-N9QX+5aeugkPDVmZkFUG-Oup3pXWV2uvOOYK1WfJCKnt6Zg@mail.gmail.com>
-Subject: Re: [PATCH] staging: rtl8712: Fix memory leak in r8712_init_recv_priv
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, 
-	rkovhaev@gmail.com, straube.linux@gmail.com, linux-staging@lists.linux.dev, 
-	linux-kernel <linux-kernel@vger.kernel.org>, 
-	syzbot+1c46f3771695bccbdb3a@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210521115431.GK1955@kadam>
 
-On Fri, May 21, 2021 at 9:16 PM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Fri, May 21, 2021 at 08:24:58PM +0800, =E6=85=95=E5=86=AC=E4=BA=AE wro=
-te:
-> > On Fri, May 21, 2021 at 8:18 PM Greg KH <gregkh@linuxfoundation.org> wr=
-ote:
-> > >
-> > > On Fri, May 21, 2021 at 08:08:11PM +0800, Dongliang Mu wrote:
-> > > > r871xu_dev_remove failed to call r8712_free_drv_sw() and free the
-> > > > resource (e.g., struct urb) due to the failure of firmware loading.
-> > > >
-> > > > Fix this by invoking r8712_free_drv_sw at the failure site.
-> > > >
-> > > > Reported-by: syzbot+1c46f3771695bccbdb3a@syzkaller.appspotmail.com
-> > > > Fixes: b4383c971bc5 ("staging: rtl8712: handle firmware load failur=
-e")
-> > > > Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+On Fri, 21 May 2021, Dan Carpenter wrote:
+
+> On Fri, May 21, 2021 at 08:26:35AM +0100, Lee Jones wrote:
+> > On Thu, 20 May 2021, Ian Abbott wrote:
+> > 
+> > > On 20/05/2021 13:25, Lee Jones wrote:
+> > > > ... and mark it as __maybe_unused since not all users of the
+> > > > header file reference it.
+> > > > 
+> > > > Fixes the following W=1 kernel build warning(s):
+> > > > 
+> > > >   drivers/staging/comedi/drivers/ni_mio_common.c:163:35: warning: ‘range_ni_E_ao_ext’ defined but not used [-Wunused-const-variable=]
+> > > > 
+> > > > Cc: Ian Abbott <abbotti@mev.co.uk>
+> > > > Cc: H Hartley Sweeten <hsweeten@visionengravers.com>
+> > > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > Cc: Thierry Reding <thierry.reding@gmail.com>
+> > > > Cc: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
+> > > > Cc: Lee Jones <lee.jones@linaro.org>
+> > > > Cc: "David A. Schleef" <ds@schleef.org>
+> > > > Cc: Mori Hess <fmhess@users.sourceforge.net>
+> > > > Cc: Truxton Fulton <trux@truxton.com>
+> > > > Cc: linux-staging@lists.linux.dev
+> > > > Cc: linux-pwm@vger.kernel.org
+> > > > Signed-off-by: Lee Jones <lee.jones@linaro.org>
 > > > > ---
-> > > >  drivers/staging/rtl8712/usb_intf.c | 13 ++++++++++---
-> > > >  1 file changed, 10 insertions(+), 3 deletions(-)
-> > > >
-> > > > diff --git a/drivers/staging/rtl8712/usb_intf.c b/drivers/staging/r=
-tl8712/usb_intf.c
-> > > > index dc21e7743349..a5190b4250ce 100644
-> > > > --- a/drivers/staging/rtl8712/usb_intf.c
-> > > > +++ b/drivers/staging/rtl8712/usb_intf.c
-> > > > @@ -589,7 +589,7 @@ static int r871xu_drv_init(struct usb_interface=
- *pusb_intf,
-> > > >   */
-> > > >  static void r871xu_dev_remove(struct usb_interface *pusb_intf)
-> > > >  {
-> > > > -     struct net_device *pnetdev =3D usb_get_intfdata(pusb_intf);
-> > > > +     struct net_device *pnetdev, *newpnetdev =3D usb_get_intfdata(=
-pusb_intf);
-> > > >       struct usb_device *udev =3D interface_to_usbdev(pusb_intf);
-> > > >
-> > > >       if (pnetdev) {
-> > >
-> > > Did you test this?
-> >
-> > For now, I only tested this patch in my local workspace. The memory
-> > leak does not occur any more.
-> >
-> > I have pushed a patch testing onto the syzbot dashboard [1]. Now it is
-> > in the pending state.
-> >
-> > [1] https://syzkaller.appspot.com/bug?id=3D3a325b8389fc41c1bc94de0f4ac4=
-37ed13cce584
-> >
-> > >
-> > > I think you just broke the code right here :(
-> >
-> > If I broke any code logic, I am sorry. However, this patch only adds
-> > some code to deallocate some resources when failing to load firmware.
-> >
-> > Do you mean that I replace pnetdev with the variable - newpnetdev?
->
-> Yes, and then the first thing the code does is check the value of
-> pnetdev which is totally undefined :(
+> > > >   drivers/comedi/drivers/ni_mio_common.c | 9 ---------
+> > > >   drivers/comedi/drivers/ni_stc.h        | 9 ++++++++-
+> > > >   2 files changed, 8 insertions(+), 10 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/comedi/drivers/ni_mio_common.c b/drivers/comedi/drivers/ni_mio_common.c
+> > > > index 4f80a4991f953..37615b4e2c10d 100644
+> > > > --- a/drivers/comedi/drivers/ni_mio_common.c
+> > > > +++ b/drivers/comedi/drivers/ni_mio_common.c
+> > > > @@ -160,15 +160,6 @@ static const struct comedi_lrange range_ni_M_ai_628x = {
+> > > >   	}
+> > > >   };
+> > > > -static const struct comedi_lrange range_ni_E_ao_ext = {
+> > > > -	4, {
+> > > > -		BIP_RANGE(10),
+> > > > -		UNI_RANGE(10),
+> > > > -		RANGE_ext(-1, 1),
+> > > > -		RANGE_ext(0, 1)
+> > > > -	}
+> > > > -};
+> > > > -
+> > > >   static const struct comedi_lrange *const ni_range_lkup[] = {
+> > > >   	[ai_gain_16] = &range_ni_E_ai,
+> > > >   	[ai_gain_8] = &range_ni_E_ai_limited,
+> > > > diff --git a/drivers/comedi/drivers/ni_stc.h b/drivers/comedi/drivers/ni_stc.h
+> > > > index fbc0b753a0f59..0822e65f709dd 100644
+> > > > --- a/drivers/comedi/drivers/ni_stc.h
+> > > > +++ b/drivers/comedi/drivers/ni_stc.h
+> > > > @@ -1137,6 +1137,13 @@ struct ni_private {
+> > > >   	u8 rgout0_usage;
+> > > >   };
+> > > > -static const struct comedi_lrange range_ni_E_ao_ext;
+> > > > +static const struct comedi_lrange __maybe_unused range_ni_E_ao_ext = {
+> > > > +	4, {
+> > > > +		BIP_RANGE(10),
+> > > > +		UNI_RANGE(10),
+> > > > +		RANGE_ext(-1, 1),
+> > > > +		RANGE_ext(0, 1)
+> > > > +	}
+> > > > +};
+> > > >   #endif /* _COMEDI_NI_STC_H */
+> > > > 
+> > > 
+> > > The "ni_stc.h" header is also included by "ni_mio_cs.c" which doesn't need
+> > > `range_ni_E_ao_ext` (admittedly, it was already pulling in a "tentative"
+> > > definition of the variable).
+> > > 
+> > > Thinking about it, I think it's probably better to move `range_ni_E_ao_ext`
+> > > from "ni_mio_common.c" into *both* "ni_atmio.c" and "ni_pcimio.c" (I think
+> > > we can live with the small amount of duplication), and to remove the
+> > > tentative definition from "ni_stc.h".
+> > 
+> > Happy to rework.
+> > 
+> > Am I taking this or Uwe's suggestion?
+> 
+> You should probably take Ian's suggestion because he is the maintainer
 
-You are right. Apology for the previous patch. I test my old patch
-below in the local workspace, it works.
+I think you missed my point.
 
----------------------------------------------------------------------------=
----------------------------------------------
---- a/drivers/staging/rtl8712/usb_intf.c
-+++ b/drivers/staging/rtl8712/usb_intf.c
-@@ -597,9 +597,9 @@ static void r871xu_dev_remove(struct usb_interface
-*pusb_intf)
+Now there are 2 options; I'd like Ian to tell me which one to implement.
 
-  /* never exit with a firmware callback pending */
-  wait_for_completion(&padapter->rtl8712_fw_ready);
-- pnetdev =3D usb_get_intfdata(pusb_intf);
-+ struct net_device *newpnetdev =3D usb_get_intfdata(pusb_intf);
-  usb_set_intfdata(pusb_intf, NULL);
-- if (!pnetdev)
-+ if (!newpnetdev)
-  goto firmware_load_fail;
-  release_firmware(padapter->fw);
-  if (drvpriv.drv_registered)
-@@ -625,6 +625,14 @@ static void r871xu_dev_remove(struct
-usb_interface *pusb_intf)
-  */
-  if (udev->state !=3D USB_STATE_NOTATTACHED)
-  usb_reset_device(udev);
-+ if (pnetdev) {
-+ struct _adapter *padapter =3D netdev_priv(pnetdev);
-+ /* Stop driver mlme relation timer */
-+ //r8712_stop_drv_timers(padapter);
-+ //r871x_dev_unload(padapter);
-+ r8712_free_drv_sw(padapter);
-+ /* udev is already freed in failed fireware loading */
-+ }
- }
----------------------------------------------------------------------------=
----------------------------------------------
+> and I really doubt Uwe's will build.  :P  But Uwe is right that
+> including .c files is ugly.
 
-However, the compiler complains the declaration of newpnetdev. So I
-moved the declaration to the beginning, but I forget to initialize
-both two variables. :(
+No one is disputing that. :)
 
-I will revise this problem and test it in my local workspace. If it
-works, I will resend a v2 patch.
-
-BTW, should I uncomment "r8712_stop_drv_timers" and
-"r871x_dev_unload"? I am not very sure about its functionability.
-
->
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
