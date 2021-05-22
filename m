@@ -1,110 +1,101 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA3070
-	for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 20:26:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1621628764;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=538ECF91gJCkNsV6K0m49/DR+WsCYP9T9kKj+WEgQUw=;
-	b=cSAL+eAFsA3PdoLglROQ5gDza85F+u2vXskQY/GoM4k4D5Gq/i4WIrC+Ghtz36jv+yuCoM
-	YKS4i6hkt8/hDs104zmbfVZSs4qNsft/j5oWgnzEGoH2Ec3/Sruqv1x6ddm8zjACkdvUXy
-	5chuVHBJJdDH0w5EAas+wqwYp+86E7o=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-199-Onq7n6xROkawZyp_iBKHHg-1; Fri, 21 May 2021 16:26:03 -0400
-X-MC-Unique: Onq7n6xROkawZyp_iBKHHg-1
-Received: by mail-ed1-f72.google.com with SMTP id b8-20020a05640202c8b029038f1782a77eso3441086edx.15
-        for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 13:26:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9269D70
+	for <linux-staging@lists.linux.dev>; Sat, 22 May 2021 00:44:36 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id et19so25870118ejc.4
+        for <linux-staging@lists.linux.dev>; Fri, 21 May 2021 17:44:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xKufOdTA0IDQaVHCUEydAsDz+LCNGA7EJicC4zXyjAE=;
+        b=JGk3UHtAI5QxjcGp02y0zo7b3sQDTM7jAlpgJjP1D2OeeSYCxi0EVBfN3+4gXl8Br+
+         /HHrmyYUpszbjxoqfZQG4cz+Pl+pVo5byMq1CfBKnU+vJu5MvnKruhojl/mnUlSnIVrz
+         IH5buevJO4hUrUdSMqtOX0LnoaDBpOYhUMD8btClUPiiloiAbswcuO2f5DcUNBN6I2Z6
+         weSOznICMFbkkGwjEwVNacB8JLvj1JHBzP0nNLql56UU/dNRhWIN/CiNgYzA98S4ChOH
+         JzuBi1+VDKwrXc2cENYFaj1MEnzpptC9dyom4psYlXnJ3zQBrwMdR2al8hGVXS+6pjiY
+         RhSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:references:from:subject:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=538ECF91gJCkNsV6K0m49/DR+WsCYP9T9kKj+WEgQUw=;
-        b=Q8u4fPHn9I3733q613im0sLRtQnIipf8JHW8z6th0jc88TRwPmyXuRd00oWQXjQ69a
-         cvWGxKOxvg8wl+5u6BXxrBSa+gC8LH/hZQrvRDd7lZQDZhckp/985fnjyHTbWZ7HP145
-         MbzuVZAwZFEOt2FmpjX6H/DGfuu4yl3gGE/vPFQhUp4L15tyfVWUoX/o/Fe2IVUINQFv
-         Wy+bpNyLmj+5umOHHhrFXJQLjU0g9p/18oVBRMgkMB2TjewBD2etVoXaBM66QAS3wvro
-         4UKhf7go2SDx2Eod6XTtMFDcrXgyE/+g9Fz/98WiUZaVpvxI3YgkumlLbjJJzuNt/JEf
-         t8GQ==
-X-Gm-Message-State: AOAM532fa5ELRmBzFb5mSn4DAbEmyHK8PvU1z2pgPPACb2mrlWDUtEiN
-	WY8hPnlaA0/Htn8q9A/oszZ33L57nUzCU/6+QqBQhWNoo2+DCYCHyFUnKOBPmOu3sTmXKg+kPMj
-	eh1RXILUMNFRb6YgTOuM8kOdzuVWpar4bTGiEPv2ejo+Ylao9upkWJOrAJdLrXf2TOCE/makI1n
-	XlIA==
-X-Received: by 2002:a17:906:408d:: with SMTP id u13mr3539588ejj.128.1621628761598;
-        Fri, 21 May 2021 13:26:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwWdTt0OF6CxsPUnwkdM+BeqLBz1MEl7r1QIb+Pld1fs/jKvj4IlpWl2lFYHMg6LfydV3c3fQ==
-X-Received: by 2002:a17:906:408d:: with SMTP id u13mr3539559ejj.128.1621628761262;
-        Fri, 21 May 2021 13:26:01 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
-        by smtp.gmail.com with ESMTPSA id l28sm4751766edc.29.2021.05.21.13.25.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 May 2021 13:26:00 -0700 (PDT)
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Palmer Dabbelt <palmerdabbelt@google.com>, anup@brainfault.org,
- Anup Patel <Anup.Patel@wdc.com>, Paul Walmsley <paul.walmsley@sifive.com>,
- aou@eecs.berkeley.edu, corbet@lwn.net, graf@amazon.com,
- Atish Patra <Atish.Patra@wdc.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Damien Le Moal <Damien.LeMoal@wdc.com>, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <mhng-37377fcb-af8f-455c-be08-db1cd5d4b092@palmerdabbelt-glaptop>
- <ff55329c-709d-c1a5-a807-1942f515bba7@redhat.com>
- <YKfyR5jUu3HMvYg5@kroah.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v18 00/18] KVM RISC-V Support
-Message-ID: <00d96cc3-026e-bd78-db08-f9e98a4abeff@redhat.com>
-Date: Fri, 21 May 2021 22:25:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xKufOdTA0IDQaVHCUEydAsDz+LCNGA7EJicC4zXyjAE=;
+        b=dKAjS0vYeJOYjimKSUqMfyFme2uxT9007axi9zQMFGdR7MUVZvIMLeCoHq3MoXGkt/
+         b+FTLoNXpmGhYaTC9un7g91/seF1o2TytuRwI46gU1Y9CIzoKkLKTpmef5glL9KyncxG
+         CDVczzj1D1jE0++KXFwRCezvZbPzaoh6oIiBDiKXLAysdjhUGqwP4tyUudd453MmdvcM
+         8WnaJIHwxI8h9xNcnyhl+zQoEFHFzcu3QF1lDA3srcrJzYy7PY2pQ8BOX0/0g7c7avXA
+         xJJEBwa72WcyCFNQc6Zo2B04YrsGwuQyPvQWwESrVzJ0JG6A5oW6AQDsyZPTGwkyb/DL
+         NbWA==
+X-Gm-Message-State: AOAM533L5LTf31+sWEBuhAVVoDGR/sHaQrxhSL8W6DaruCv03Z2yu6BX
+	NWy+5vgLHcNV8EEiTtkYXlKI6/8e4J6tWvn0PqM=
+X-Google-Smtp-Source: ABdhPJySxFmmty9MypAq5rhbBvS1a6T3Pao+pMUqtLUfiDd6sRCF8pDdVx0MRZi4xButyiCbgl2gGtrUrQpwXq7sDfA=
+X-Received: by 2002:a17:907:1002:: with SMTP id ox2mr12370999ejb.337.1621644275147;
+ Fri, 21 May 2021 17:44:35 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YKfyR5jUu3HMvYg5@kroah.com>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210521162519.677074-1-mudongliangabcd@gmail.com> <YKfnjYAsNzbfJh1d@kroah.com>
+In-Reply-To: <YKfnjYAsNzbfJh1d@kroah.com>
+From: =?UTF-8?B?5oWV5Yas5Lqu?= <mudongliangabcd@gmail.com>
+Date: Sat, 22 May 2021 08:43:25 +0800
+Message-ID: <CAD-N9QWiu=6QefJaWzfUS3ep-8so+KBv-=S0LQs+EqO3tf8Cew@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: rtl8712: Fix memory leak in r8712_init_recv_priv
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, 
+	rkovhaev@gmail.com, straube.linux@gmail.com, linux-staging@lists.linux.dev, 
+	linux-kernel <linux-kernel@vger.kernel.org>, 
+	syzbot+1c46f3771695bccbdb3a@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 21/05/21 19:47, Greg KH wrote:
-> If this isn't in any hardware that anyone outside of
-> internal-to-company-prototypes, then let's wait until it really is in a
-> device that people can test this code on.
-> 
-> What's the rush to get this merged now if no one can use it?
+On Sat, May 22, 2021 at 1:02 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Sat, May 22, 2021 at 12:25:19AM +0800, Dongliang Mu wrote:
+> > r871xu_dev_remove failed to call r8712_free_drv_sw() and free the
+> > resource (e.g., struct urb) due to the failure of firmware loading.
+> >
+> > Fix this by invoking r8712_free_drv_sw at the failure site.
+> >
+> > Reported-by: syzbot+1c46f3771695bccbdb3a@syzkaller.appspotmail.com
+> > Fixes: b4383c971bc5 ("staging: rtl8712: handle firmware load failure")
+> > Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+> > ---
+> > v1->v2: fix the initialization of pnetdev
+> >
+> >  drivers/staging/rtl8712/usb_intf.c | 9 +++++++--
+> >  1 file changed, 7 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/staging/rtl8712/usb_intf.c b/drivers/staging/rtl8712/usb_intf.c
+> > index dc21e7743349..57e773464e18 100644
+> > --- a/drivers/staging/rtl8712/usb_intf.c
+> > +++ b/drivers/staging/rtl8712/usb_intf.c
+> > @@ -593,13 +593,14 @@ static void r871xu_dev_remove(struct usb_interface *pusb_intf)
+> >       struct usb_device *udev = interface_to_usbdev(pusb_intf);
+> >
+> >       if (pnetdev) {
+> > +             struct net_device *newpnetdev = NULL;
+> >               struct _adapter *padapter = netdev_priv(pnetdev);
+> >
+> >               /* never exit with a firmware callback pending */
+> >               wait_for_completion(&padapter->rtl8712_fw_ready);
+> > -             pnetdev = usb_get_intfdata(pusb_intf);
+> > +             newpnetdev = usb_get_intfdata(pusb_intf);
+>
+> Please learn a bit more C knowledge before messing around in the kernel
+> tree.  Between the mistake in this chunk you added, and the mistake in
+> the previous submission, I think you need more experience here as there
+> are some things you still need to learn.
 
-There is not just hardware, there are simulators and emulators too (you 
-can use QEMU to test it for example), and it's not exactly a rush since 
-it's basically been ready for 2 years and has hardly seen any code 
-changes since v13 which was based on Linux 5.9.
+I am a kernel newbie in developing patches for Linux kernel. Sorry for
+my naive mistakes. I will learn more and then submit some "good"
+patches.
 
-Not having the code upstream is hindering further development so that 
-RISC-V KVM can be feature complete when hardware does come out.  Missing 
-features and optimizations could be added on top, but they are harder to 
-review if they are integrated in a relatively large series instead of 
-being done incrementally.  Not having the header files in Linus's tree 
-makes it harder to merge RISC-V KVM support in userspace (userspace is 
-shielded anyway by any future changes to the hypervisor specification, 
-so there's no risk of breaking the ABI).
+BTW, I think I have pointed out the underlying bug here, you guys can
+fix it yourself.
 
-At some point one has to say enough is enough; for me, that is after one 
-year with no changes to the spec and, especially, no deadline in sight 
-for freezing it.  The last 5 versions of the patch set were just 
-adapting to changes in the generic KVM code.  If the code is good, I 
-don't see why the onus of doing those changes should be on Anup, rather 
-than being shared amongst all KVM developers as is the case for all the 
-other architectures.
-
-Paolo
-
+>
+> Best of luck!
+>
+> greg k-h
