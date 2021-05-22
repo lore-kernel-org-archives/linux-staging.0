@@ -1,41 +1,41 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E20C6D00
-	for <linux-staging@lists.linux.dev>; Sat, 22 May 2021 09:17:33 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id n6-20020a17090ac686b029015d2f7aeea8so8598975pjt.1
-        for <linux-staging@lists.linux.dev>; Sat, 22 May 2021 02:17:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB932FAD
+	for <linux-staging@lists.linux.dev>; Sat, 22 May 2021 09:20:32 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id d78so15863184pfd.10
+        for <linux-staging@lists.linux.dev>; Sat, 22 May 2021 02:20:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=SJBXwjmQxlDJj35yQdpTUYgfqMS8ZGbhH8f1wKExiAI=;
-        b=f5CY9H36ASBn1z7iIVjqVvKwpIsdmiVpc4bErKrwCYwDd/ocDWLkln//TJ5OxnUAR0
-         KaB3IGH6y7rR2w2YsYAVy1vOMwaoViLkAPzsLbJG0FC9QEbWIeOlSyLqyec0il6jxTNW
-         cj4dSHlB039QbYcduNNVsfcEz43mQA6TZdVV4UL2jEcEAlJSCCbJJH3YKGEnX+eFV7SE
-         gnwOLyFH+3X6W3aeNg74w2CeQK+SquXFvdtTOPSE3ch7M+FZozpEA5daRLkVo7cYd7Gh
-         ciMxSqbmGE/44v/bPkJ5um5o1jjp8Rg/2kxOt1V7K9CNPFRAzJ9XzvEVkrSif0EWYsKC
-         Q2fw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nOv2WZcEnasfeaDEDQfGE1rOBmGTIP4Ftbjn/A5YKXY=;
+        b=iBJp6TOm7ej0YRmC6vvdzugacEBVtU2vNnD+JIVZBmrlPtAuVZ3RQX2w2otf+mWDA1
+         BGXuYFw0Tz4L8FCsxc+kxDr1nRJffzP+gvU6SVPgQep902HEAA0AIV3fwMwimKwE42e6
+         q73e+IqsJX9uIkhnw7kJqjG391RZ6m0HoqS6sorlNRVRxs0ZI8fvNpSLkSZzl1h/JYhW
+         I3s+P7w+z0tAe0MJEymj6a/iBMxq3eVg3GAkTXcbgbeWHeVhE+8ucETWeGubLC8LAHiB
+         oOIfdb3+Nd+MZdKjHnrkEYKDc87R1AYeTLSbxs5RJfkrsPegck+2/VlaYkbp2vIe1F/V
+         mRAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=SJBXwjmQxlDJj35yQdpTUYgfqMS8ZGbhH8f1wKExiAI=;
-        b=BhQIcSgSzOfXEOEBGzpa7gFZFyxwAP4T+MgG1w5Bjk7fMXV3iG5F3dXSj/rAJejOeS
-         o96vjdnl1bLINItcrzAngt46bh7KNmayvCR+0LyOPmmPiyK2SyCNo6jmXeDZpLFj7m4h
-         Un66XbY6QzQaG1+hEE9m2lZJgC9kVZwjbVwy2V5IL88OiHFl53UivLe+rhAVShT7EN7E
-         2OlI307O4AOJcoeWpWnXjYf75hVOzqlp9vTGaYxPMydNtMZpUvBMv4oeOWIFiNFRSEf6
-         2noOi9EcpK9L94eH+g6lS14oMYHAtkzOR4A4ph9ji473OhAOwwPQ3+mgCTBSHMAsDAsV
-         fvRQ==
-X-Gm-Message-State: AOAM5314Wy3r+EJPVb85Xqmw1jcPLfsYRXOMcU5tyAvm1rtyb6FkfRG2
-	LPYtW6Oe+UNB8RAxmkicZtA=
-X-Google-Smtp-Source: ABdhPJwGB5iKz+5rWwMXPsJYYvHzTN6B1wxi9ylrYzKOyONHI/XUAkMUjWskAK97svpyH0t/wQwG4Q==
-X-Received: by 2002:a17:90b:4386:: with SMTP id in6mr15074286pjb.160.1621675052980;
-        Sat, 22 May 2021 02:17:32 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nOv2WZcEnasfeaDEDQfGE1rOBmGTIP4Ftbjn/A5YKXY=;
+        b=VpjR6hHPUHEjLtP7ChzabcKGxoe/RoYil7vibGCaSP5pVtcW4AGkNt+lLpfJ1ikGf1
+         5ROlMQhIBP+sS7wt45vNbhntLU6f7doVgkegzSV5y0Av9AbpMuNlRWoPaWevWSJ2mob7
+         xsq765LLXjqIsYbpeLyrroz83nHyg34mFG6pPt0v45jvYgI32+Jl+TMrx7CF5xLg/q4v
+         Mr1wqcqehy9JVQjjtlIeDR0Mq9TOTjKztR61Xn8zeFMzyp949FB2qK8P6DqZnh9l9WS8
+         LGy/wwSuzvRmiMWNJ6Pj/Hn4vsThsRkhTDosxPcyj1EBuOuycpk4HAhCiQhTx2iqG8O0
+         HpvA==
+X-Gm-Message-State: AOAM5323Hp/ME5s1kyHYhdZ3Ef7RFOVl5JqwOoe/koeYi+oyb0paDv2H
+	xFVds34nplWRlLp5L1/sVQ8=
+X-Google-Smtp-Source: ABdhPJyaSGFX1We6YOP3L0kI9ML/rZmT+WvYiXHoYuIILi9hnDMa5hSLG7hAmqDQ1KggtN5I1RtX3A==
+X-Received: by 2002:a63:af57:: with SMTP id s23mr3238856pgo.393.1621675231716;
+        Sat, 22 May 2021 02:20:31 -0700 (PDT)
 Received: from fedora.. ([2405:201:6000:a04d:2131:362f:d566:c9d5])
-        by smtp.googlemail.com with ESMTPSA id e23sm6334224pfl.84.2021.05.22.02.17.29
+        by smtp.googlemail.com with ESMTPSA id gt23sm5925752pjb.13.2021.05.22.02.20.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 May 2021 02:17:32 -0700 (PDT)
+        Sat, 22 May 2021 02:20:31 -0700 (PDT)
 From: Shreyansh Chouhan <chouhan.shreyansh630@gmail.com>
 To: gregkh@linuxfoundation.org,
 	fabioaiuto83@gmail.com,
@@ -43,13 +43,11 @@ To: gregkh@linuxfoundation.org,
 	straube.linux@gmail.com
 Cc: Shreyansh Chouhan <chouhan.shreyansh630@gmail.com>,
 	linux-staging@lists.linux.dev,
-	linux-kernel@bger.kernel.org
-Subject: [PATCH 2/2] [RFC] staging: rtl8723bs: remove unnecessary braces from conditionals
-Date: Sat, 22 May 2021 14:47:19 +0530
-Message-Id: <20210522091719.64277-3-chouhan.shreyansh630@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: [Resend] [PATCH 0/2] [RFC] staging: rtl8723bs: refactor to reduce indents
+Date: Sat, 22 May 2021 14:50:22 +0530
+Message-Id: <20210522092024.65018-1-chouhan.shreyansh630@gmail.com>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210522091719.64277-1-chouhan.shreyansh630@gmail.com>
-References: <20210522091719.64277-1-chouhan.shreyansh630@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -57,62 +55,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Removed the braces from if else statements in core/rtw_wlan_util.c since
-the previous commit 6a257dd6de516573 caused all conditional blocks to
-have a single statement in the function check_assoc_AP.
+**RESENT THE PATCH BECAUSE I MESSED UP THE EMAIL ADDRESS FOR LKML IN THE
+PREVIOUS MAIL. SORRY.**
 
-Signed-off-by: Shreyansh Chouhan <chouhan.shreyansh630@gmail.com>
----
- .../staging/rtl8723bs/core/rtw_wlan_util.c    | 35 +++++++++----------
- 1 file changed, 17 insertions(+), 18 deletions(-)
+This patch series tries to fix the following warnings by checkpatch.pl
+in core/rtw_wlan_util.c:
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index 36e515a7ab5c..dd965c810967 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -1532,25 +1532,24 @@ unsigned char check_assoc_AP(u8 *pframe, uint len)
- 
- 		switch (pIE->ElementID) {
- 		case WLAN_EID_VENDOR_SPECIFIC:
--			if ((!memcmp(pIE->data, ARTHEROS_OUI1, 3)) || (!memcmp(pIE->data, ARTHEROS_OUI2, 3))) {
-+			if ((!memcmp(pIE->data, ARTHEROS_OUI1, 3)) || (!memcmp(pIE->data, ARTHEROS_OUI2, 3)))
- 				return HT_IOT_PEER_ATHEROS;
--			} else if ((!memcmp(pIE->data, BROADCOM_OUI1, 3)) ||
--				   (!memcmp(pIE->data, BROADCOM_OUI2, 3)) ||
--				   (!memcmp(pIE->data, BROADCOM_OUI3, 3))) {
--				return HT_IOT_PEER_BROADCOM;
--			} else if (!memcmp(pIE->data, MARVELL_OUI, 3)) {
--				return HT_IOT_PEER_MARVELL;
--			} else if (!memcmp(pIE->data, RALINK_OUI, 3)) {
--				return HT_IOT_PEER_RALINK;
--			} else if (!memcmp(pIE->data, CISCO_OUI, 3)) {
--				return HT_IOT_PEER_CISCO;
--			} else if (!memcmp(pIE->data, REALTEK_OUI, 3)) {
--				return get_realtek_assoc_AP_vender(pIE);
--			} else if (!memcmp(pIE->data, AIRGOCAP_OUI, 3)) {
--				return HT_IOT_PEER_AIRGO;
--			} else {
--				break;
--			}
-+			else if ((!memcmp(pIE->data, BROADCOM_OUI1, 3)) ||
-+			         (!memcmp(pIE->data, BROADCOM_OUI2, 3)) ||
-+			         (!memcmp(pIE->data, BROADCOM_OUI3, 3)))
-+			      return HT_IOT_PEER_BROADCOM;
-+			else if (!memcmp(pIE->data, MARVELL_OUI, 3))
-+			      return HT_IOT_PEER_MARVELL;
-+			else if (!memcmp(pIE->data, RALINK_OUI, 3))
-+			      return HT_IOT_PEER_RALINK;
-+			else if (!memcmp(pIE->data, CISCO_OUI, 3))
-+			      return HT_IOT_PEER_CISCO;
-+			else if (!memcmp(pIE->data, REALTEK_OUI, 3))
-+			      return get_realtek_assoc_AP_vender(pIE);
-+			else if (!memcmp(pIE->data, AIRGOCAP_OUI, 3))
-+			      return HT_IOT_PEER_AIRGO;
-+			else
-+			      break;
- 
- 		default:
- 			break;
+WARNING: Too many leading tabs - consider code refactoring
+#887: FILE: rtw_wlan_util.c:887:
++                                               if ((edca[j] >> 16) > (edca[i] >> 16))
+
+WARNING: Too many leading tabs - consider code refactoring
+#1529: FILE: rtw_wlan_util.c:1529:
++                                               if (pIE->data[5] & RT_HT_CAP_USE_92SE)
+
+WARNING: Too many leading tabs - consider code refactoring
+#1537: FILE: rtw_wlan_util.c:1537:
++                                               if (pIE->data[6] & RT_HT_CAP_USE_JAGUAR_BCUT)
+
+WARNING: Too many leading tabs - consider code refactoring
+#1540: FILE: rtw_wlan_util.c:1540:
++                                               if (pIE->data[6] & RT_HT_CAP_USE_JAGUAR_CCUT)
+
+I wanted to ask for comments on the names of these functions and if such
+a patch series would be acceptable.
+
+The first patch refactors the code by introducing two new functions
+sort_wmm_ac_params and get_realtek_assoc_AP_vender.
+
+The second patch removes unnecessary braces from the conditional
+statements in check_assoc_AP function.
+
+Shreyansh Chouhan (2):
+  staging: rtl8723bs: refactor to reduce indents
+  staging: rtl8723bs: remove unnecessary braces from conditionals
+
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    | 141 +++++++++---------
+ 1 file changed, 72 insertions(+), 69 deletions(-)
+
 -- 
 2.31.1
 
