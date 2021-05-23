@@ -1,50 +1,49 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32C6570
-	for <linux-staging@lists.linux.dev>; Sun, 23 May 2021 17:27:16 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id gb17so20028498ejc.8
-        for <linux-staging@lists.linux.dev>; Sun, 23 May 2021 10:27:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D43A70
+	for <linux-staging@lists.linux.dev>; Sun, 23 May 2021 17:30:48 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id k14so34617695eji.2
+        for <linux-staging@lists.linux.dev>; Sun, 23 May 2021 10:30:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=2Ikx3Ey9eOOYgtxMhcsC4m4OpTqa4FgIx6H9D0TqkdY=;
-        b=AEoDORobWuTNWflTFSIYDu2EfSJB0iclnL5RlmGaMrRD2WqJFzP7yByNk1sCZgHunM
-         c4oohLU9mXf365+baLadGsme7aO0M5REZeSB3yFCQqs19aohcPNknNxfF/JhjtcTmVMw
-         QVi8EG8GpI9eNdTv+poloyQuZU2QqsdbPgKh0Mcms+0kfeLtHKuzdhb1tENAsugvp5SN
-         OWAjhhcCdAc/IqCZ6otK/OZpoQxq78gFpqliFQptmtLZAtayYnXYtNopwQn1aeNJwPIv
-         KMZohZd2rCA8l5N88Im3zlAuQiX2VyIvmZThDmKRzJ2utt8RKPirpkp1hDM/+U7E3SNY
-         ze4w==
+        bh=hBAmfS6PKS/xwLOxXt8MXYcwgBRtrB9cCwZG5JJuWuo=;
+        b=pWKJ9jkReUcYGTkJhChBR6VDg/WbBKvuRX/z16/j3OJzUT7QV5da2irclljTNnHfDW
+         7IyAhF3jXRAjQNGMGl7jkAzJGvP+Drc8a8zbykIZbFW1H3I43ZyRQ+WS+fva0TJjXZNC
+         EXA+2BFugDTNncvJ4VHblEUAE84aHmPrNrZQm0gtvgHDD+8YJCLwkYCTYQeIQldl8jtH
+         ks2gLvl7su9vNzsStzatoMujP3UDPWmVOhPWMjG+g/yEdCr+E4y5qxJpNj97r4UzZgls
+         7HztFKB8278bVttcRIUlFJj0979wnQRCaTDFKzHSeHVMkPaXj4/uSzu5xyJnj6FQLwab
+         3W6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=2Ikx3Ey9eOOYgtxMhcsC4m4OpTqa4FgIx6H9D0TqkdY=;
-        b=IB/IM5MngrNs9g2QzG1mD/aZ2d1h0g4UzC4+11+9ZVH62tS2fVDB+28ukU2gH26R9y
-         YwOyvU7dc815D/OWYelLTqpbrRBarMPX7J3r3BMfK9LqbfiyX6qL+jwQj83fNgcLqI3t
-         tg6HGqFQ1HTOFjKTPbsK8IzjiOhTnvc6UaoV9tznN/SOwIZhQhKOhvjpC46m9M04yXZw
-         tjGFhuwSx5Bd6lT19spAhZtXDgPV1WwErIWlysxnvsOkfEjhZkq6oEAH4RTo7vIbB5hm
-         qsXG1M7Tc5LN1RBNmtbdfBmG3IYAqtdLwo3CG790h/TsgCjGkYq6Td5SxlL7MUC8CPo4
-         5FLA==
-X-Gm-Message-State: AOAM530+0/nlSj26ZbwSg7ToccEOvRt9vXQXMik7WmT1lLFFqQGuHPcK
-	gwcEMNOIawR4NhV4mzg3ido=
-X-Google-Smtp-Source: ABdhPJyru8rs7+K4wve5Rz1o0cgb6xcJdRhpMnKGHlQegwjz+Pqd8ruOrMFZnZlSAlb10Fk2ZzgP0w==
-X-Received: by 2002:a17:907:1b02:: with SMTP id mp2mr19053359ejc.196.1621790834735;
-        Sun, 23 May 2021 10:27:14 -0700 (PDT)
+        bh=hBAmfS6PKS/xwLOxXt8MXYcwgBRtrB9cCwZG5JJuWuo=;
+        b=TUm40azUfAAg2YXz4xxGv+kcRFrdEDRdjtJGMCqOIzquCJzsYVncFxrS0j6jwOPdzd
+         XnUkDC52yjD2Z1fm2oC5I1umWFxCo6iFD+dF+VDmPDbDfL1q47+Sr2L8UypLws+3b5AT
+         OrEMmp0eos9nbT10JpjjR0xLWvOpWqLxLEKtkiEOOe1XtxMT/xXgkjnTmFV/b5R8yxZe
+         M9z4/f7Sbe9xPRCeCBens2txjyBWx84qFJPGTRG/V3C1ObEWNbHy8eyz89bduH3EZ9JG
+         5Yqp3O5KyG78VUoLWNW01hN1Pze+hve4bmISp+MjmSbm/uFsrjnSBGp9sTt1S21NrAne
+         W/+w==
+X-Gm-Message-State: AOAM532vlYVHvgBQBLXnN2G2yVfR3PZd0LGKOZ0/pSn9O0qJtrqDyq4B
+	s6rS4CFF0UktHM0bG6gZfAI=
+X-Google-Smtp-Source: ABdhPJxBrSNb6YX4HaUN4IcxLUpB7KHrFjGRlT8UFmsdkaqU1Em4UJgCBLaohzlC3b8wvowoGKnfVA==
+X-Received: by 2002:a17:906:3949:: with SMTP id g9mr19782007eje.7.1621791046757;
+        Sun, 23 May 2021 10:30:46 -0700 (PDT)
 Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
-        by smtp.gmail.com with ESMTPSA id q18sm7904186edd.3.2021.05.23.10.27.13
+        by smtp.gmail.com with ESMTPSA id d25sm6807650ejd.59.2021.05.23.10.30.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 May 2021 10:27:14 -0700 (PDT)
+        Sun, 23 May 2021 10:30:46 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH] staging: hikey9xx: Remove defined but unused macros
-Date: Sun, 23 May 2021 19:27:09 +0200
-Message-Id: <20210523172709.19181-1-fmdefrancesco@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: core: rtw_mlme_ext.c: Remove set but unused variable
+Date: Sun, 23 May 2021 19:30:42 +0200
+Message-Id: <20210523173042.19785-1-fmdefrancesco@gmail.com>
 X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,45 +52,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Removed defined but unused macros. Issue detected by GCC running with
--Wunused-macro warning option set.
+Removed set but unused 'reason_code' variable. Issue detected by GCC
+running with the warning option -Wunused-but-set-variable. Removed its
+use as a storage of the return value of get_unaligned_le16(), which has
+been left as is because it has side effects on the argument it takes.
 
 Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
- drivers/staging/hikey9xx/hisi-spmi-controller.c | 9 ---------
- 1 file changed, 9 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/hikey9xx/hisi-spmi-controller.c b/drivers/staging/hikey9xx/hisi-spmi-controller.c
-index 0d42bc65f39b..b64594e2a84b 100644
---- a/drivers/staging/hikey9xx/hisi-spmi-controller.c
-+++ b/drivers/staging/hikey9xx/hisi-spmi-controller.c
-@@ -21,16 +21,10 @@
- #define SPMI_APB_SPMI_CMD_BASE_ADDR			0x0100
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 9fc612fb736f..a13b3ec42bc9 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -1721,7 +1721,7 @@ unsigned int OnAction_back(struct adapter *padapter, union recv_frame *precv_fra
+ 	struct recv_reorder_ctrl *preorder_ctrl;
+ 	unsigned char 	*frame_body;
+ 	unsigned char 	category, action;
+-	unsigned short	tid, status, reason_code = 0;
++	unsigned short	tid, status;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
+ 	u8 *pframe = precv_frame->u.hdr.rx_data;
+@@ -1791,8 +1791,7 @@ unsigned int OnAction_back(struct adapter *padapter, union recv_frame *precv_fra
+ 				psta->htpriv.candidate_tid_bitmap &=
+ 					~BIT((frame_body[3] >> 4) & 0xf);
  
- #define SPMI_APB_SPMI_WDATA0_BASE_ADDR			0x0104
--#define SPMI_APB_SPMI_WDATA1_BASE_ADDR			0x0108
--#define SPMI_APB_SPMI_WDATA2_BASE_ADDR			0x010c
--#define SPMI_APB_SPMI_WDATA3_BASE_ADDR			0x0110
+-				/* reason_code = frame_body[4] | (frame_body[5] << 8); */
+-				reason_code = get_unaligned_le16(&frame_body[4]);
++				get_unaligned_le16(&frame_body[4]);
+ 			} else if ((frame_body[3] & BIT(3)) == BIT(3)) {
+ 				tid = (frame_body[3] >> 4) & 0x0F;
  
- #define SPMI_APB_SPMI_STATUS_BASE_ADDR			0x0200
- 
- #define SPMI_APB_SPMI_RDATA0_BASE_ADDR			0x0204
--#define SPMI_APB_SPMI_RDATA1_BASE_ADDR			0x0208
--#define SPMI_APB_SPMI_RDATA2_BASE_ADDR			0x020c
--#define SPMI_APB_SPMI_RDATA3_BASE_ADDR			0x0210
- 
- #define SPMI_PER_DATAREG_BYTE				4
- /*
-@@ -64,9 +58,6 @@ enum spmi_controller_cmd_op_code {
- #define SPMI_APB_TRANS_DONE			BIT(0)
- #define SPMI_APB_TRANS_FAIL			BIT(2)
- 
--/* Command register fields */
--#define SPMI_CONTROLLER_CMD_MAX_BYTE_COUNT	16
--
- /* Maximum number of support PMIC peripherals */
- #define SPMI_CONTROLLER_TIMEOUT_US		1000
- #define SPMI_CONTROLLER_MAX_TRANS_BYTES		16
 -- 
 2.31.1
 
