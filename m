@@ -1,88 +1,53 @@
-Received: from 8.mo69.mail-out.ovh.net (8.mo69.mail-out.ovh.net [46.105.56.233])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9759070
-	for <linux-staging@lists.linux.dev>; Mon, 24 May 2021 17:51:05 +0000 (UTC)
-Received: from player797.ha.ovh.net (unknown [10.110.103.200])
-	by mo69.mail-out.ovh.net (Postfix) with ESMTP id E5BFCBA077
-	for <linux-staging@lists.linux.dev>; Mon, 24 May 2021 17:21:45 +0200 (CEST)
-Received: from mrtz.fr (lfbn-lyo-1-490-81.w2-7.abo.wanadoo.fr [2.7.79.81])
-	(Authenticated sender: harold@mrtz.fr)
-	by player797.ha.ovh.net (Postfix) with ESMTPSA id ECC801A5C91A4;
-	Mon, 24 May 2021 15:21:36 +0000 (UTC)
-Authentication-Results:garm.ovh; auth=pass (GARM-103G005c8330ba4-4892-4bbc-9840-5d478b1168bf,
-                    C140F9C3D5E2866CE6A0DF242C55A977A0D9EDE7) smtp.auth=harold@mrtz.fr
-X-OVh-ClientIp:2.7.79.81
-From: Harold Mertzweiller <harold@mrtz.fr>
-To: 
-Cc: Harold Mertzweiller <harold@mrtz.fr>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Dewar <alex.dewar90@gmail.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Sean Behan <codebam@riseup.net>,
-	Colin Ian King <colin.king@canonical.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: emxx_udc: fix alignment issues
-Date: Mon, 24 May 2021 17:21:26 +0200
-Message-Id: <20210524152128.20519-1-harold@mrtz.fr>
-X-Mailer: git-send-email 2.20.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4951B70
+	for <linux-staging@lists.linux.dev>; Mon, 24 May 2021 18:28:57 +0000 (UTC)
+IronPort-SDR: Y/w9pDJnpZktGS+c7wAMiFK0q2uy9B77rYTactHD+p19Sd1MYj4NWR5hWU0cCF9tt9UgQZV6XU
+ lKadmSzy93Yg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9993"; a="202024524"
+X-IronPort-AV: E=Sophos;i="5.82,325,1613462400"; 
+   d="scan'208";a="202024524"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2021 11:28:55 -0700
+IronPort-SDR: xb0JZcsaIncRDSCIKA0BzvLhrQZgKW46F5371pNdkTp5DIdtSSqUf80AGvDJXz7jvjLch3vJ1p
+ CtkITH4RDCWg==
+X-IronPort-AV: E=Sophos;i="5.82,325,1613462400"; 
+   d="scan'208";a="442158558"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2021 11:28:53 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+	by paasikivi.fi.intel.com (Postfix) with SMTP id 6E841202F7;
+	Mon, 24 May 2021 21:28:51 +0300 (EEST)
+Date: Mon, 24 May 2021 21:28:51 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Aniket Bhattacharyea <aniketmail669@gmail.com>
+Cc: mchehab@kernel.org, gregkh@linuxfoundation.org,
+	andriy.shevchenko@linux.intel.com, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: atomisp: Fix whitespace at the beginning of
+ line
+Message-ID: <20210524182851.GR3@paasikivi.fi.intel.com>
+References: <20210524173609.672153-1-aniketmail669@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 14161850503387417869
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -55
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvdejledgkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnehmihhsshhinhhgucfvqfcufhhivghlugculdeftddmnegoteeftdduqddtudculdduhedmnecujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefjrghrohhlugcuofgvrhhtiiifvghilhhlvghruceohhgrrhholhgusehmrhhtiidrfhhrqeenucggtffrrghtthgvrhhnpefhudekgefhheevleeugeehvedufeelieeggefgvdegheevheekvdfhgeduveevheenucfkpheptddrtddrtddrtddpvddrjedrjeelrdekudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejleejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhephhgrrhholhgusehmrhhtiidrfhhrpdhrtghpthhtoheplhhinhhugidqshhtrghgihhngheslhhishhtshdrlhhinhhugidruggvvh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210524173609.672153-1-aniketmail669@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Three function calls can now be properly formatted inside the 100
-characters limit.
+On Mon, May 24, 2021 at 11:06:09PM +0530, Aniket Bhattacharyea wrote:
+> This patch fixes whitespace at the beginning of line by wrapping after
+> the type name and aligning the arguments with the open parenthesis.
+> Identified by checkpatch: WARNING: please, no spaces at the start of a 
+> line.
+> 
+> Signed-off-by: Aniket Bhattacharyea <aniketmail669@gmail.com>
 
-Signed-off-by: Harold Mertzweiller <harold@mrtz.fr>
----
- drivers/staging/emxx_udc/emxx_udc.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-diff --git a/drivers/staging/emxx_udc/emxx_udc.c b/drivers/staging/emxx_udc/emxx_udc.c
-index ecc5c9da9027..b6abd3770e81 100644
---- a/drivers/staging/emxx_udc/emxx_udc.c
-+++ b/drivers/staging/emxx_udc/emxx_udc.c
-@@ -1073,9 +1073,8 @@ static int _nbu2ss_epn_in_pio(struct nbu2ss_udc *udc, struct nbu2ss_ep *ep,
- 		i_word_length = length / sizeof(u32);
- 		if (i_word_length > 0) {
- 			for (i = 0; i < i_word_length; i++) {
--				_nbu2ss_writel(
--					&preg->EP_REGS[ep->epnum - 1].EP_WRITE,
--					p_buf_32->dw);
-+				_nbu2ss_writel(&preg->EP_REGS[ep->epnum - 1].EP_WRITE,
-+					       p_buf_32->dw);
- 
- 				p_buf_32++;
- 			}
-@@ -1225,8 +1224,7 @@ static void _nbu2ss_restert_transfer(struct nbu2ss_ep *ep)
- 		return;
- 
- 	if (ep->epnum > 0) {
--		length = _nbu2ss_readl(
--			&ep->udc->p_regs->EP_REGS[ep->epnum - 1].EP_LEN_DCNT);
-+		length = _nbu2ss_readl(&ep->udc->p_regs->EP_REGS[ep->epnum - 1].EP_LEN_DCNT);
- 
- 		length &= EPN_LDATA;
- 		if (length < ep->ep.maxpacket)
-@@ -1462,8 +1460,7 @@ static void _nbu2ss_epn_set_stall(struct nbu2ss_udc *udc,
- 		for (limit_cnt = 0
- 			; limit_cnt < IN_DATA_EMPTY_COUNT
- 			; limit_cnt++) {
--			regdata = _nbu2ss_readl(
--				&preg->EP_REGS[ep->epnum - 1].EP_STATUS);
-+			regdata = _nbu2ss_readl(&preg->EP_REGS[ep->epnum - 1].EP_STATUS);
- 
- 			if ((regdata & EPN_IN_DATA) == 0)
- 				break;
 -- 
-2.20.1
-
+Sakari Ailus
