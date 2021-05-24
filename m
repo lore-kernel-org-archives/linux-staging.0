@@ -1,92 +1,128 @@
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C572F80
-	for <linux-staging@lists.linux.dev>; Mon, 24 May 2021 13:36:29 +0000 (UTC)
-Received: from dggems706-chm.china.huawei.com (unknown [172.30.72.58])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FpdSM5pW1zNypK;
-	Mon, 24 May 2021 21:32:51 +0800 (CST)
-Received: from dggeml759-chm.china.huawei.com (10.1.199.138) by
- dggems706-chm.china.huawei.com (10.3.19.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Mon, 24 May 2021 21:36:27 +0800
-Received: from [10.174.178.165] (10.174.178.165) by
- dggeml759-chm.china.huawei.com (10.1.199.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Mon, 24 May 2021 21:36:26 +0800
-Subject: Re: [PATCH -next] media: staging: tegra-vde: Fix error return code in
- tegra_vde_probe()
-To: Dmitry Osipenko <digetx@gmail.com>, Mauro Carvalho Chehab
-	<mchehab+huawei@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
-	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, Thierry Reding
-	<thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, "Philipp
- Zabel" <p.zabel@pengutronix.de>, Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-CC: <linux-media@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-	<linux-staging@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
-	<linaro-mm-sig@lists.linaro.org>, <kernel-janitors@vger.kernel.org>, "Hulk
- Robot" <hulkci@huawei.com>
-References: <20210524133550.2363884-1-weiyongjun1@huawei.com>
- <db911ac9-2d08-ae30-03ea-dfb7db964441@gmail.com>
- <1e05ad22-c4d8-c443-5377-7cd9db024cb9@gmail.com>
-From: "weiyongjun (A)" <weiyongjun1@huawei.com>
-Message-ID: <20768acd-2ab5-2e7e-263d-d3176268412e@huawei.com>
-Date: Mon, 24 May 2021 21:36:26 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C552F80
+	for <linux-staging@lists.linux.dev>; Mon, 24 May 2021 13:51:12 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id e17so10287025pfl.5
+        for <linux-staging@lists.linux.dev>; Mon, 24 May 2021 06:51:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kqGP5YDfLqC7BOTyOowLlRvP4iahKUX3sBcrSvGeSxg=;
+        b=bOU5PR7ndXGJMpjlv0h/UDJTk9D3/yN9bzIkstWdC5zR/tI+6940H+q9s+JeKxGkSM
+         VsoGZToq0Ieb3k+SRxc3URgs2x1WAUWMASfeFaAn1yP5i7cd5Fa8G8pd7uOZ26zAf2Au
+         6GSnnLkkImEOCgCYkKzqoOH7Ow1tc89HyJNulGfhnobiS4g2CCR4MpYmKPucN2twxAPG
+         AHojaTUPkLq4vFB6tneBhKj24kfJpbIjc6MDNtd8o0Cw6DFSl46tS4h8XfE4omFbfIl2
+         ZhMnLSWx2TZSUKwBdskP5IN8e0m+XDZUkTVqfXNwtjABMW1LAlVd04jBvS9Qj5BgaLK2
+         srNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kqGP5YDfLqC7BOTyOowLlRvP4iahKUX3sBcrSvGeSxg=;
+        b=O/Y1aJdz/VZ1nBL4DBXkMoNepIJkZzjAwC1XQDLVzSvMSrUCBBfLtn3abiEif8NvMD
+         1U0Ck8fBUymJNay3m7so9k6Bmc5CSCPS0VKN53OJ2OOGXVOuOuWZx2JRfVYFBlbt1dlQ
+         cbfw1g85sq9UHsXxLRN4sLYnHpsrt2+n5FGk/UpLzrUZ+Rc3uMBg+CRSPuq/Tx4Xer+t
+         GozqNc7/e1u4KjV1r6WU8CwL3tN439y5GHtjnYaCh1j9/fDuWDREw2V6UexO3eEnpv2W
+         H/XLgN6OwTUj2XyqNj1HQkGR3irCpFUaRYbadR+ZZTosP9ZEXmLUrLq6lgEOHvYrlRn4
+         9OHQ==
+X-Gm-Message-State: AOAM531QiETilzM+GN14fd2J6aU0Me0W+oRmBMGjTy8LT5uSKfqwDbRc
+	72PLQGSMaqZnrfqJtJDAIhE=
+X-Google-Smtp-Source: ABdhPJy5xN27Q2qcI63Y5MrM5mkQQRABU75LRMVS0Ms/y9lkvrdvOhgSIAA3yenK7NO1grIKy8yG9w==
+X-Received: by 2002:aa7:9a0e:0:b029:2dc:70d1:2224 with SMTP id w14-20020aa79a0e0000b02902dc70d12224mr24931034pfj.1.1621864271784;
+        Mon, 24 May 2021 06:51:11 -0700 (PDT)
+Received: from fedora.. ([49.36.218.98])
+        by smtp.googlemail.com with ESMTPSA id z9sm8638106pji.47.2021.05.24.06.51.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 May 2021 06:51:11 -0700 (PDT)
+From: Shreyansh Chouhan <chouhan.shreyansh630@gmail.com>
+To: gregkh@linuxfoundation.org,
+	ross.schm.dev@gmail.com,
+	straube.linux@gmail.com,
+	fabioaiuto83@gmail.com
+Cc: Shreyansh Chouhan <chouhan.shreyansh630@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] staging: rtl8723bs: fix indents in rtw_wlan_util.c
+Date: Mon, 24 May 2021 19:21:02 +0530
+Message-Id: <20210524135105.5550-1-chouhan.shreyansh630@gmail.com>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <1e05ad22-c4d8-c443-5377-7cd9db024cb9@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.178.165]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggeml759-chm.china.huawei.com (10.1.199.138)
-X-CFilter-Loop: Reflected
+
+This patch series aims to solve all indent related issues for the file
+core/rtw_wlan_util.c.
+
+The first two patches fix the follwing issues reported by checkpatch.pl:
+
+WARNING: Too many leading tabs - consider code refactoring
+#887: FILE: rtw_wlan_util.c:887:
++                                               if ((edca[j] >> 16) > (edca[i] >> 16))
+
+WARNING: Too many leading tabs - consider code refactoring
+#1528: FILE: rtw_wlan_util.c:1528:
++                                               if (pIE->data[5] & RT_HT_CAP_USE_92SE)
+
+WARNING: Too many leading tabs - consider code refactoring
+#1536: FILE: rtw_wlan_util.c:1536:
++                                               if (pIE->data[6] & RT_HT_CAP_USE_JAGUAR_BCUT)
+
+WARNING: Too many leading tabs - consider code refactoring
+#1539: FILE: rtw_wlan_util.c:1539:
++                                               if (pIE->data[6] & RT_HT_CAP_USE_JAGUAR_CCUT)
 
 
-> 24.05.2021 16:27, Dmitry Osipenko пишет:
->> 24.05.2021 16:35, Wei Yongjun пишет:
->>> Fix to return a negative error code from the error handling
->>> case instead of 0, as done elsewhere in this function.
->>>
->>> Fixes: dc8276b78917 ("staging: media: tegra-vde: use pm_runtime_resume_and_get()")
->>> Reported-by: Hulk Robot <hulkci@huawei.com>
->>> Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
->>> ---
->>>   drivers/staging/media/tegra-vde/vde.c | 3 ++-
->>>   1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
->>> index e025b69776f2..321d14ba2e56 100644
->>> --- a/drivers/staging/media/tegra-vde/vde.c
->>> +++ b/drivers/staging/media/tegra-vde/vde.c
->>> @@ -1071,7 +1071,8 @@ static int tegra_vde_probe(struct platform_device *pdev)
->>>   	 * power-cycle it in order to put hardware into a predictable lower
->>>   	 * power state.
->>>   	 */
->>> -	if (pm_runtime_resume_and_get(dev) < 0)
->>> +	err = pm_runtime_resume_and_get(dev);
->>> +	if (err < 0)
->>>   		goto err_pm_runtime;
->>>   
->>>   	pm_runtime_put(dev);
->>>
->> pm_runtime_resume_and_get() doesn't return positive values, the previous
->> variant was okay.
->>
->> You should also version your patches and add changelog.
->>
-> Ah, sorry. The other patch is from Yang Yingliang.
+The last patch fixes the follwing issues reported by checkpatch.pl:
 
+WARNING: suspect code indent for conditional statements (8, 24)
+#1257: FILE: rtw_wlan_util.c:1257:
++       if (p && len > 0) {
++                       pht_cap = (struct ieee80211_ht_cap *)(p + 2);
 
-Sorry, it is my bad. I missed that patch.
+WARNING: suspect code indent for conditional statements (8, 24)
+#1260: FILE: rtw_wlan_util.c:1260:
++       } else {
++                       ht_cap_info = 0;
 
+WARNING: suspect code indent for conditional statements (8, 24)
+#1265: FILE: rtw_wlan_util.c:1265:
++       if (p && len > 0) {
++                       pht_info = (struct HT_info_element *)(p + 2);
 
-Regards,
+WARNING: suspect code indent for conditional statements (8, 24)
+#1268: FILE: rtw_wlan_util.c:1268:
++       } else {
++                       ht_info_infos_0 = 0;
 
-Wei Yongjun
+WARNING: suspect code indent for conditional statements (8, 24)
+#1271: FILE: rtw_wlan_util.c:1271:
++       if (ht_cap_info != cur_network->BcnInfo.ht_cap_info ||
+[...]
++                       {
+
+WARNING: suspect code indent for conditional statements (8, 24)
+#1284: FILE: rtw_wlan_util.c:1284:
++       if (p) {
++                       bcn_channel = *(p + 2);
+
+WARNING: suspect code indent for conditional statements (8, 24)
+#1295: FILE: rtw_wlan_util.c:1295:
++       if (bcn_channel != Adapter->mlmeextpriv.cur_channel)
++                       goto _mismatch;
+
+Shreyansh Chouhan (3):
+  staging: rtl8723bs: refactor to reduce indents
+  staging: rtl8723bs: remove unnecessary braces from conditionals
+  staging: rtl8723bs: fix suspect indents
+
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    | 161 +++++++++---------
+ 1 file changed, 82 insertions(+), 79 deletions(-)
+
+-- 
+2.31.1
 
