@@ -1,163 +1,98 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63682F80
-	for <linux-staging@lists.linux.dev>; Mon, 24 May 2021 13:51:23 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id t21so14668062plo.2
-        for <linux-staging@lists.linux.dev>; Mon, 24 May 2021 06:51:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F05D17F
+	for <linux-staging@lists.linux.dev>; Mon, 24 May 2021 14:37:45 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id b15-20020a17090a550fb029015dad75163dso11269861pji.0
+        for <linux-staging@lists.linux.dev>; Mon, 24 May 2021 07:37:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=YV3QWporRSMJ3f8RtEYw0j1RbTzpRz2DPRalTB4xuQE=;
-        b=tf6SN8VnD7pKCXGSuMvJ+XMmrBk9KvhIyl7H8gB4sDx5fqQ+6f0i4aI9ApwIt5B12i
-         enGTQIiWWR6EpaYz8LkHG9BY1sGR0ojlcNAY+9/AUnSRw+JtnOOp++qN1o2fBDNzAOlz
-         AXS7oQarU1YPPAyW1mNbWqtJdh+VEVxsza038vBlIW/2nhTpMtj0SngS3f5Ba7BeN6F4
-         Ui6LRCm3D5Tn+3PwwsMwN1Yx/Xjxi2Iax49zOLjX5JxI9tNar4R5KNgwbaNWqRcJ2Pjn
-         tobqJ68ILTTGDcdgDN+rkp4cSabUGyggQXRgbnBCdJeb2p17xuWcKUwY0BTnNHRqmMT6
-         SIcQ==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=3Uq4oq7Ompa2kiUFdgBYSmuttV60/M5LDy9XENGK3do=;
+        b=k+aKf2H8gnaq7huzoijV1mzwXt70AEwvC8SHlDkj3OH5AOfd6O37hhTd7rMStl5hYQ
+         64xuvFd+kWMAQ0IJrGR3vZJENa2udBI3RgQksm2zvfgK7WQlbkVFf8cWihznwslj344h
+         CelkfpM6o2UVg35rncrstBiAQjZBFkKQ8zc9nSYNBUREp4jcWVgqeBKLGHW0tNqUeAXP
+         wxMe59Lh8ZKPWfmJY1T2M+OvlY7RINp7Dsv19HqEJrbm639Zy6wN7r0DaNMURnD6FQ7n
+         KHilOFFcpr92/Cx9fVYJ8t2TPLxgikEpiH0fbg0L0vO6VGcCMomZHoQLmU5DHrTfctZP
+         9k4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=YV3QWporRSMJ3f8RtEYw0j1RbTzpRz2DPRalTB4xuQE=;
-        b=ZE4YsYipwH9aH6d/CpTT+My40ozljB276NMo/0bcm8J0LBw9Gl7uz4H1rT4x71ZXKe
-         1FAaz9rJKgeqeew3w9X1AtZJKuN8xfBl55gj41k82k7jxyuTp3U98noO7QVmKmFfQRc/
-         Xbt32QTg2TBlZuVx1ciC+1gdGMoPs8RFe9G7cd3d2NWO06KuUGRUviBLZFYijSKrbuyO
-         bd7uxQbjGehUGlkniOlZ/nbYpm3oT1DbrUAh7M7rGhkKS8Q8J9IQkeqJzk4n6PDQmTdb
-         pFhaHuu7kBbz92RBgwtXkano7WrtyhtcPdyZZDgdH8YfIjAX5HWcB64vHOnvtJMeBsg1
-         YzlA==
-X-Gm-Message-State: AOAM5331k81wcQpN0/yrH98MH4vtWq4c270LCj9JaSpce3++5LnjuofI
-	a/jU/oYBxSqqcWIIQKruzW3+lJpZxDLykg==
-X-Google-Smtp-Source: ABdhPJwYDNhk5T10mJKLjmqf9RIdw4fPBpd8EbvHIbtw4OmJQu+0XCNsdxPs3GIIKfnK/lRTw/Y5rw==
-X-Received: by 2002:a17:90a:4f01:: with SMTP id p1mr25073970pjh.28.1621864282485;
-        Mon, 24 May 2021 06:51:22 -0700 (PDT)
-Received: from fedora.. ([49.36.218.98])
-        by smtp.googlemail.com with ESMTPSA id z9sm8638106pji.47.2021.05.24.06.51.19
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=3Uq4oq7Ompa2kiUFdgBYSmuttV60/M5LDy9XENGK3do=;
+        b=PpeWeJ8KO+tFlr/9tJwC5ofRs5lpJNGGvq8rIjWwvKgTFW5nH2fXZkT41ZPoHkWFm7
+         w2hVGDj8dT2MV3dlRaxqAxX3sY2EjJe5d50+i+lvW6tojBSV1eLNtycQRhj2lsyr19ov
+         Ro4/hvnkiLiGXq9PMTuXhc6VZ/LkU+yIFsjGFADn4BzQMJ1myRQrFCc0UNUhk+eauqrt
+         MEYaoKzuT9tyX0yqpTj0dr0aPCAAaVTmBn+yQ61hms1AkVlGVatfgE57pZZ9Ir/ux8Dj
+         BOO31UxSPHFieSxWkTBdUAAUDHMjDcosYsbrKQwD6I/wqdNpK8u9qK6Q6B2icLuxI4us
+         gYNg==
+X-Gm-Message-State: AOAM531clOiBhgpZ8Q8hkmVADfvGOrMiFr8mWZ5VQsctYvNb2MWLTE12
+	N2hXfJowdLh3zG9dbs2SPG0=
+X-Google-Smtp-Source: ABdhPJweshDCbXtZRFtCR4Rs+ZXY/9ytLALf4IYhT+aW0M48GTy+GVqY75S8SaAMsTPY934Lnyr4Zw==
+X-Received: by 2002:a17:902:c951:b029:ef:9dca:9943 with SMTP id i17-20020a170902c951b02900ef9dca9943mr25960614pla.62.1621867065091;
+        Mon, 24 May 2021 07:37:45 -0700 (PDT)
+Received: from cryptik ([2405:201:4018:90:22f7:c0a0:5144:ae09])
+        by smtp.gmail.com with ESMTPSA id c3sm10996774pfi.213.2021.05.24.07.37.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 May 2021 06:51:22 -0700 (PDT)
-From: Shreyansh Chouhan <chouhan.shreyansh630@gmail.com>
-To: gregkh@linuxfoundation.org,
-	ross.schm.dev@gmail.com,
-	straube.linux@gmail.com,
-	fabioaiuto83@gmail.com
-Cc: Shreyansh Chouhan <chouhan.shreyansh630@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] staging: rtl8723bs: fix suspect indents
-Date: Mon, 24 May 2021 19:21:05 +0530
-Message-Id: <20210524135105.5550-4-chouhan.shreyansh630@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210524135105.5550-1-chouhan.shreyansh630@gmail.com>
-References: <20210524135105.5550-1-chouhan.shreyansh630@gmail.com>
+        Mon, 24 May 2021 07:37:44 -0700 (PDT)
+Date: Mon, 24 May 2021 20:07:41 +0530
+From: Swapnil <swocp19@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] Fixed kernel code formatting
+Message-ID: <20210524143741.GA529321@cryptik>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Removed extra spaces and indents from core/rtw_wlan_util.c.
+Fixed lines ending with '(' by moving an actual function parameter from
+the next line to the end of the current line.
 
-Signed-off-by: Shreyansh Chouhan <chouhan.shreyansh630@gmail.com>
+Signed-off-by: Swapnil <swocp19@gmail.com>
 ---
- .../staging/rtl8723bs/core/rtw_wlan_util.c    | 50 +++++++++----------
- 1 file changed, 25 insertions(+), 25 deletions(-)
+ drivers/staging/emxx_udc/emxx_udc.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index dd965c810967..afabb9d48021 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -1254,34 +1254,34 @@ int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
- 	/* parsing HT_CAP_IE */
- 	p = rtw_get_ie(bssid->IEs + _FIXED_IE_LENGTH_, WLAN_EID_HT_CAPABILITY, &len, bssid->IELength - _FIXED_IE_LENGTH_);
- 	if (p && len > 0) {
--			pht_cap = (struct ieee80211_ht_cap *)(p + 2);
--			ht_cap_info = le16_to_cpu(pht_cap->cap_info);
-+		pht_cap = (struct ieee80211_ht_cap *)(p + 2);
-+		ht_cap_info = le16_to_cpu(pht_cap->cap_info);
- 	} else {
--			ht_cap_info = 0;
-+		ht_cap_info = 0;
- 	}
- 	/* parsing HT_INFO_IE */
- 	p = rtw_get_ie(bssid->IEs + _FIXED_IE_LENGTH_, WLAN_EID_HT_OPERATION, &len, bssid->IELength - _FIXED_IE_LENGTH_);
- 	if (p && len > 0) {
--			pht_info = (struct HT_info_element *)(p + 2);
--			ht_info_infos_0 = pht_info->infos[0];
-+		pht_info = (struct HT_info_element *)(p + 2);
-+		ht_info_infos_0 = pht_info->infos[0];
- 	} else {
--			ht_info_infos_0 = 0;
-+		ht_info_infos_0 = 0;
- 	}
- 	if (ht_cap_info != cur_network->BcnInfo.ht_cap_info ||
--		((ht_info_infos_0&0x03) != (cur_network->BcnInfo.ht_info_infos_0&0x03))) {
--			{
--				/* bcn_info_update */
--				cur_network->BcnInfo.ht_cap_info = ht_cap_info;
--				cur_network->BcnInfo.ht_info_infos_0 = ht_info_infos_0;
--				/* to do : need to check that whether modify related register of BB or not */
--			}
--			/* goto _mismatch; */
-+	    ((ht_info_infos_0&0x03) != (cur_network->BcnInfo.ht_info_infos_0&0x03))) {
-+		{
-+			/* bcn_info_update */
-+			cur_network->BcnInfo.ht_cap_info = ht_cap_info;
-+			cur_network->BcnInfo.ht_info_infos_0 = ht_info_infos_0;
-+			/* to do : need to check that whether modify related register of BB or not */
-+		}
-+		/* goto _mismatch; */
- 	}
+diff --git a/drivers/staging/emxx_udc/emxx_udc.c b/drivers/staging/emxx_udc/emxx_udc.c
+index ecc5c9da9027..b6abd3770e81 100644
+--- a/drivers/staging/emxx_udc/emxx_udc.c
++++ b/drivers/staging/emxx_udc/emxx_udc.c
+@@ -1073,9 +1073,8 @@ static int _nbu2ss_epn_in_pio(struct nbu2ss_udc *udc, struct nbu2ss_ep *ep,
+ 		i_word_length = length / sizeof(u32);
+ 		if (i_word_length > 0) {
+ 			for (i = 0; i < i_word_length; i++) {
+-				_nbu2ss_writel(
+-					&preg->EP_REGS[ep->epnum - 1].EP_WRITE,
+-					p_buf_32->dw);
++				_nbu2ss_writel(&preg->EP_REGS[ep->epnum - 1].EP_WRITE,
++					       p_buf_32->dw);
  
- 	/* Checking for channel */
- 	p = rtw_get_ie(bssid->IEs + _FIXED_IE_LENGTH_, WLAN_EID_DS_PARAMS, &len, bssid->IELength - _FIXED_IE_LENGTH_);
- 	if (p) {
--			bcn_channel = *(p + 2);
-+		bcn_channel = *(p + 2);
- 	} else {/* In 5G, some ap do not have DSSET IE checking HT info for channel */
- 		rtw_get_ie(bssid->IEs + _FIXED_IE_LENGTH_, WLAN_EID_HT_OPERATION,
- 			   &len, bssid->IELength - _FIXED_IE_LENGTH_);
-@@ -1292,7 +1292,7 @@ int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
- 	}
+ 				p_buf_32++;
+ 			}
+@@ -1225,8 +1224,7 @@ static void _nbu2ss_restert_transfer(struct nbu2ss_ep *ep)
+ 		return;
  
- 	if (bcn_channel != Adapter->mlmeextpriv.cur_channel)
--			goto _mismatch;
-+		goto _mismatch;
+ 	if (ep->epnum > 0) {
+-		length = _nbu2ss_readl(
+-			&ep->udc->p_regs->EP_REGS[ep->epnum - 1].EP_LEN_DCNT);
++		length = _nbu2ss_readl(&ep->udc->p_regs->EP_REGS[ep->epnum - 1].EP_LEN_DCNT);
  
- 	/* checking SSID */
- 	ssid_len = 0;
-@@ -1535,21 +1535,21 @@ unsigned char check_assoc_AP(u8 *pframe, uint len)
- 			if ((!memcmp(pIE->data, ARTHEROS_OUI1, 3)) || (!memcmp(pIE->data, ARTHEROS_OUI2, 3)))
- 				return HT_IOT_PEER_ATHEROS;
- 			else if ((!memcmp(pIE->data, BROADCOM_OUI1, 3)) ||
--			         (!memcmp(pIE->data, BROADCOM_OUI2, 3)) ||
--			         (!memcmp(pIE->data, BROADCOM_OUI3, 3)))
--			      return HT_IOT_PEER_BROADCOM;
-+				 (!memcmp(pIE->data, BROADCOM_OUI2, 3)) ||
-+				 (!memcmp(pIE->data, BROADCOM_OUI3, 3)))
-+				return HT_IOT_PEER_BROADCOM;
- 			else if (!memcmp(pIE->data, MARVELL_OUI, 3))
--			      return HT_IOT_PEER_MARVELL;
-+				return HT_IOT_PEER_MARVELL;
- 			else if (!memcmp(pIE->data, RALINK_OUI, 3))
--			      return HT_IOT_PEER_RALINK;
-+				return HT_IOT_PEER_RALINK;
- 			else if (!memcmp(pIE->data, CISCO_OUI, 3))
--			      return HT_IOT_PEER_CISCO;
-+				return HT_IOT_PEER_CISCO;
- 			else if (!memcmp(pIE->data, REALTEK_OUI, 3))
--			      return get_realtek_assoc_AP_vender(pIE);
-+				return get_realtek_assoc_AP_vender(pIE);
- 			else if (!memcmp(pIE->data, AIRGOCAP_OUI, 3))
--			      return HT_IOT_PEER_AIRGO;
-+				return HT_IOT_PEER_AIRGO;
- 			else
--			      break;
-+				break;
+ 		length &= EPN_LDATA;
+ 		if (length < ep->ep.maxpacket)
+@@ -1462,8 +1460,7 @@ static void _nbu2ss_epn_set_stall(struct nbu2ss_udc *udc,
+ 		for (limit_cnt = 0
+ 			; limit_cnt < IN_DATA_EMPTY_COUNT
+ 			; limit_cnt++) {
+-			regdata = _nbu2ss_readl(
+-				&preg->EP_REGS[ep->epnum - 1].EP_STATUS);
++			regdata = _nbu2ss_readl(&preg->EP_REGS[ep->epnum - 1].EP_STATUS);
  
- 		default:
- 			break;
+ 			if ((regdata & EPN_IN_DATA) == 0)
+ 				break;
 -- 
-2.31.1
+2.25.1
 
