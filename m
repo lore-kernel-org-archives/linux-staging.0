@@ -1,46 +1,37 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F05D17F
-	for <linux-staging@lists.linux.dev>; Mon, 24 May 2021 14:37:45 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id b15-20020a17090a550fb029015dad75163dso11269861pji.0
-        for <linux-staging@lists.linux.dev>; Mon, 24 May 2021 07:37:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=3Uq4oq7Ompa2kiUFdgBYSmuttV60/M5LDy9XENGK3do=;
-        b=k+aKf2H8gnaq7huzoijV1mzwXt70AEwvC8SHlDkj3OH5AOfd6O37hhTd7rMStl5hYQ
-         64xuvFd+kWMAQ0IJrGR3vZJENa2udBI3RgQksm2zvfgK7WQlbkVFf8cWihznwslj344h
-         CelkfpM6o2UVg35rncrstBiAQjZBFkKQ8zc9nSYNBUREp4jcWVgqeBKLGHW0tNqUeAXP
-         wxMe59Lh8ZKPWfmJY1T2M+OvlY7RINp7Dsv19HqEJrbm639Zy6wN7r0DaNMURnD6FQ7n
-         KHilOFFcpr92/Cx9fVYJ8t2TPLxgikEpiH0fbg0L0vO6VGcCMomZHoQLmU5DHrTfctZP
-         9k4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=3Uq4oq7Ompa2kiUFdgBYSmuttV60/M5LDy9XENGK3do=;
-        b=PpeWeJ8KO+tFlr/9tJwC5ofRs5lpJNGGvq8rIjWwvKgTFW5nH2fXZkT41ZPoHkWFm7
-         w2hVGDj8dT2MV3dlRaxqAxX3sY2EjJe5d50+i+lvW6tojBSV1eLNtycQRhj2lsyr19ov
-         Ro4/hvnkiLiGXq9PMTuXhc6VZ/LkU+yIFsjGFADn4BzQMJ1myRQrFCc0UNUhk+eauqrt
-         MEYaoKzuT9tyX0yqpTj0dr0aPCAAaVTmBn+yQ61hms1AkVlGVatfgE57pZZ9Ir/ux8Dj
-         BOO31UxSPHFieSxWkTBdUAAUDHMjDcosYsbrKQwD6I/wqdNpK8u9qK6Q6B2icLuxI4us
-         gYNg==
-X-Gm-Message-State: AOAM531clOiBhgpZ8Q8hkmVADfvGOrMiFr8mWZ5VQsctYvNb2MWLTE12
-	N2hXfJowdLh3zG9dbs2SPG0=
-X-Google-Smtp-Source: ABdhPJweshDCbXtZRFtCR4Rs+ZXY/9ytLALf4IYhT+aW0M48GTy+GVqY75S8SaAMsTPY934Lnyr4Zw==
-X-Received: by 2002:a17:902:c951:b029:ef:9dca:9943 with SMTP id i17-20020a170902c951b02900ef9dca9943mr25960614pla.62.1621867065091;
-        Mon, 24 May 2021 07:37:45 -0700 (PDT)
-Received: from cryptik ([2405:201:4018:90:22f7:c0a0:5144:ae09])
-        by smtp.gmail.com with ESMTPSA id c3sm10996774pfi.213.2021.05.24.07.37.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 May 2021 07:37:44 -0700 (PDT)
-Date: Mon, 24 May 2021 20:07:41 +0530
-From: Swapnil <swocp19@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] Fixed kernel code formatting
-Message-ID: <20210524143741.GA529321@cryptik>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5305A17F
+	for <linux-staging@lists.linux.dev>; Mon, 24 May 2021 15:18:35 +0000 (UTC)
+IronPort-SDR: hvnao/TWbIqGc1lUAxyAZKqdcdV8POJddNZ8ldL7vO5bw3cafu22CkV0e4uZ0b4fT6Z2zmj8oY
+ EoQ4F/TMvWuA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9993"; a="182276111"
+X-IronPort-AV: E=Sophos;i="5.82,325,1613462400"; 
+   d="scan'208";a="182276111"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2021 08:18:34 -0700
+IronPort-SDR: 3xTXIYzKCtF6IjPu7vE/AmzsvA23PXBxNkDOLWZ71J7wEIsEt2GSoZn7c8zNKaDFnHxGeMg9wl
+ hq5kQftQnV1w==
+X-IronPort-AV: E=Sophos;i="5.82,325,1613462400"; 
+   d="scan'208";a="629725647"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2021 08:18:31 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+	by paasikivi.fi.intel.com (Postfix) with SMTP id B4AA4202F7;
+	Mon, 24 May 2021 18:18:29 +0300 (EEST)
+Date: Mon, 24 May 2021 18:18:29 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>, Hans Verkuil <hverkuil@xs4all.nl>,
+	Christoph Hellwig <hch@lst.de>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] media: atomisp: remove compat_ioctl32 code
+Message-ID: <20210524151829.GO3@paasikivi.fi.intel.com>
+References: <20210516204818.2967910-1-arnd@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -48,51 +39,65 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20210516204818.2967910-1-arnd@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Fixed lines ending with '(' by moving an actual function parameter from
-the next line to the end of the current line.
+Hi Arnd,
 
-Signed-off-by: Swapnil <swocp19@gmail.com>
----
- drivers/staging/emxx_udc/emxx_udc.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+On Sun, May 16, 2021 at 10:47:43PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> This is one of the last remaining users of compat_alloc_user_space()
+> and copy_in_user(), which are in the process of getting removed.
+> 
+> As of commit 57e6b6f2303e ("media: atomisp_fops.c: disable
+> atomisp_compat_ioctl32"), nothing in this file is actually getting used
+> as the only reference has been stubbed out.
 
-diff --git a/drivers/staging/emxx_udc/emxx_udc.c b/drivers/staging/emxx_udc/emxx_udc.c
-index ecc5c9da9027..b6abd3770e81 100644
---- a/drivers/staging/emxx_udc/emxx_udc.c
-+++ b/drivers/staging/emxx_udc/emxx_udc.c
-@@ -1073,9 +1073,8 @@ static int _nbu2ss_epn_in_pio(struct nbu2ss_udc *udc, struct nbu2ss_ep *ep,
- 		i_word_length = length / sizeof(u32);
- 		if (i_word_length > 0) {
- 			for (i = 0; i < i_word_length; i++) {
--				_nbu2ss_writel(
--					&preg->EP_REGS[ep->epnum - 1].EP_WRITE,
--					p_buf_32->dw);
-+				_nbu2ss_writel(&preg->EP_REGS[ep->epnum - 1].EP_WRITE,
-+					       p_buf_32->dw);
- 
- 				p_buf_32++;
- 			}
-@@ -1225,8 +1224,7 @@ static void _nbu2ss_restert_transfer(struct nbu2ss_ep *ep)
- 		return;
- 
- 	if (ep->epnum > 0) {
--		length = _nbu2ss_readl(
--			&ep->udc->p_regs->EP_REGS[ep->epnum - 1].EP_LEN_DCNT);
-+		length = _nbu2ss_readl(&ep->udc->p_regs->EP_REGS[ep->epnum - 1].EP_LEN_DCNT);
- 
- 		length &= EPN_LDATA;
- 		if (length < ep->ep.maxpacket)
-@@ -1462,8 +1460,7 @@ static void _nbu2ss_epn_set_stall(struct nbu2ss_udc *udc,
- 		for (limit_cnt = 0
- 			; limit_cnt < IN_DATA_EMPTY_COUNT
- 			; limit_cnt++) {
--			regdata = _nbu2ss_readl(
--				&preg->EP_REGS[ep->epnum - 1].EP_STATUS);
-+			regdata = _nbu2ss_readl(&preg->EP_REGS[ep->epnum - 1].EP_STATUS);
- 
- 			if ((regdata & EPN_IN_DATA) == 0)
- 				break;
+This patch was made redundant by another one that fixed the bug. But I
+guess you're right in the sense that no-one could have used this because of
+the patch that disabled it.
+
+So:
+
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+But:
+
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> index f1e6b2597853..e383e17c5072 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> @@ -1283,7 +1283,8 @@ const struct v4l2_file_operations atomisp_fops = {
+>  	.unlocked_ioctl = video_ioctl2,
+>  #ifdef CONFIG_COMPAT
+>  	/*
+> -	 * There are problems with this code. Disable this for now.
+> +	 * this was removed because of bugs, the interface
+> +	 * needs to be made safe for compat tasks instead.
+>  	.compat_ioctl32 = atomisp_compat_ioctl32,
+
+I think the comment could go, too.
+
+>  	 */
+>  #endif
+> @@ -1297,10 +1298,7 @@ const struct v4l2_file_operations atomisp_file_fops = {
+>  	.mmap = atomisp_file_mmap,
+>  	.unlocked_ioctl = video_ioctl2,
+>  #ifdef CONFIG_COMPAT
+> -	/*
+> -	 * There are problems with this code. Disable this for now.
+> -	.compat_ioctl32 = atomisp_compat_ioctl32,
+> -	 */
+> +	/* .compat_ioctl32 = atomisp_compat_ioctl32, */
+
+Thie one, too.
+
+>  #endif
+>  	.poll = atomisp_poll,
+>  };
+
 -- 
-2.25.1
+Kind  regards,
 
+Sakari Ailus
