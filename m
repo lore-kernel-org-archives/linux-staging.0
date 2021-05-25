@@ -1,90 +1,73 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2B52F80
-	for <linux-staging@lists.linux.dev>; Tue, 25 May 2021 21:48:16 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id z85-20020a1c7e580000b029017a76f3afbaso11094836wmc.2
-        for <linux-staging@lists.linux.dev>; Tue, 25 May 2021 14:48:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YUwfQkmiRnjFz2qxX8HCV1pEPlucmbsrX/15Cke5c5o=;
-        b=fF2xTUabe1AjeIQeGgOxEs9RSGofg+Q3M+pYBgU/7zN7P2Kz7XWnJrFE9SVsySJQfY
-         jvIih2u/Txb5H+u4qFJ3HOzcPCMUeGXaUVEGjWn5fTFfk7/R2wUiOVnNmaTZqDqmdw4Y
-         BMCJ2yGF3O51kXpI1/+2vGgzGjwth7kKsO90Wfcm/OYRvLK7yAw9J3gy2dTYcCITQgQq
-         Yioon5eMA6u1Xi3AuqXoPVvNFP+iAF8mX+Axp95HGMmx4HKkQQrFuSfAhPvOP4FSy/w8
-         f4Fa/YG97EzL5KZ+zKFuheG0PAXIlfEBzV1292R8ikpZHwz7pB37d03mDdJ+wQFpbOEU
-         8MWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YUwfQkmiRnjFz2qxX8HCV1pEPlucmbsrX/15Cke5c5o=;
-        b=MbAndZTCPZdKycebKJofdmJUCc2KNb142NJuTQfI+QQ+mqjAGYwjZ21VWGaeMFrS9j
-         /Vbfs5ylrWnvLMETae1b/qN8iZwSthFFFb/vUxwCdaqsT+OFBCD0WFouXLTLpRNYlLFl
-         DKVrpjb6ev+ApuEImVVmBPpwOkw2EOLexSjae0xs4cwL5bl3qexnkMA+rcOXOWWzSj0C
-         L/ap4Gxz2pfZyHIa3f30lsmJsUR6BtwUZQCOF+2ENIwsWSLZ37uUCa4AbEZ7rReZeUli
-         D8wIqpozNN1AmOChwDcZXUhxKi+3O/Pm2iuW6K2bEWTlSlngM7FeeV+uchqmrqXx8Q++
-         4tbA==
-X-Gm-Message-State: AOAM531VIrhEsT14HoBHtssM57bbISH15qWRxKHatsJEgGC/+mJU9xRG
-	Pbsa8lvOO+TXSUdqbfBqKfVNRA==
-X-Google-Smtp-Source: ABdhPJybo1sNZQyiBTcZDr1PArpOs8FxI6Xf5+379b2XU3uwXiQU//y1IXiYdpoCwI8w4DSgj2Jhcw==
-X-Received: by 2002:a1c:a98d:: with SMTP id s135mr334702wme.147.1621979295424;
-        Tue, 25 May 2021 14:48:15 -0700 (PDT)
-Received: from KernelVM.home (5.d.e.a.c.b.a.1.5.0.9.4.d.7.7.d.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0:d77d:4905:1abc:aed5])
-        by smtp.gmail.com with ESMTPSA id h13sm12791188wml.26.2021.05.25.14.48.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 May 2021 14:48:14 -0700 (PDT)
-From: Phillip Potter <phil@philpotter.co.uk>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	straube.linux@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8188eu: convert pr_info call to dev_err call ODM_RAStateCheck
-Date: Tue, 25 May 2021 22:48:13 +0100
-Message-Id: <20210525214813.6362-1-phil@philpotter.co.uk>
-X-Mailer: git-send-email 2.30.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946EC2F80
+	for <linux-staging@lists.linux.dev>; Tue, 25 May 2021 21:58:35 +0000 (UTC)
+Received: from localhost.localdomain ([37.4.249.151]) by
+ mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1Mrwnt-1l6mLz0xaH-00nzml; Tue, 25 May 2021 23:58:30 +0200
+From: Stefan Wahren <stefan.wahren@i2se.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>
+Cc: linux-staging@lists.linux.dev,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Stefan Wahren <stefan.wahren@i2se.com>
+Subject: [PATCH] staging: mmal-vchiq: Fix incorrect static vchiq_instance.
+Date: Tue, 25 May 2021 23:57:37 +0200
+Message-Id: <1621979857-26754-1-git-send-email-stefan.wahren@i2se.com>
+X-Mailer: git-send-email 2.7.4
+X-Provags-ID: V03:K1:ZCm6tFvXIRoeC6eTbezdjIYvIUXFY+8YWRF++EU1qNB7srC4X+h
+ 9trYiLtCy16tgAekDxD3hY3hHCl7sxk3TgPLpTHXpZila7I3Z1x3YMBsZUG38XzfivVrfyq
+ P8mFqQw9xwY/YpUgOHMCtJ0HH2NZuP/nmPGz+cj7PHjd0mai1kr8JgvWdt2GILx82MHch8w
+ Ss0JEzv8543uDhZpCldCA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:dAfDoSmyyoA=:bjkarddJ+vCjOLDRVAZ079
+ jfgBFHMh0ZrxRhR5unzZgLhg6IszPiHp38/+VdWTwutnXQF+RCPp09NhhuMyXv9g3Ty9Byjf+
+ 2H0LjTIbg7QGdAcFxV4cqCjloU+A/aW5XRvVnq03+KeK1kOiyYh+e6Z5OFQL1q8s8M66uRSHR
+ az/A7CiElAHSl1GQdOS9u31fzVprAvxVIupMHVBFe+66UHSx1/xkr7eIdOvJ5/GTrty5iR8O0
+ KgkkXogtWBrrcsFxDWmOF6dF0mIj/WpUrcHK1KF9a3kywwelX7BGBPaRypA/L5RVBOxZMZPnH
+ X7RYPNM+j5YWXSTW3ZfokG1jZJLkEYXCGA1jk8XFUcOmW+fPruJztSxCcW3tdKHL7kDB/76go
+ 5iC/8VTpz0oGTA0/QeKhQWQh2xMDOxP/1Ox/j6jPoebUez0BlYw+ZdaY5EUHqgfEV7vJsrqF0
+ f4OKCgeSQaiauJn0fao8tW0naVQRtAAJFE4J2evj89pm1zqWbOVhr6i1DwtrIDWfSqv0HVjwg
+ JGPO/+1PMyp+urlgP/WfOU=
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Introduce logic to extract struct device pointer from passed in struct
-odm_dm_struct pointer argument, and use this to call dev_err instead of
-pr_info. As this is an error state if this line is reached, this is not
-just information. Also, this is a driver, so dev_err is more
-appropriate.
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+For some reason lost in history function vchiq_mmal_init used
+a static variable for storing the vchiq_instance.
+This value is retrieved from vchiq per instance, so worked fine
+until you try to call vchiq_mmal_init multiple times concurrently
+when things then go wrong. This seemed to happen quite frequently
+if using the cutdown firmware (no MMAL or VCSM services running)
+as the vchiq_connect then failed, and one or other vchiq_shutdown
+was working on an invalid handle.
+
+Remove the static so that each caller gets a unique vchiq_instance.
+	
+Fixes: 7b3ad5abf027 ("staging: Import the BCM2835 MMAL-based V4L2 camera driver.")
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 ---
- drivers/staging/rtl8188eu/hal/odm.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8188eu/hal/odm.c b/drivers/staging/rtl8188eu/hal/odm.c
-index b800d0c6dff5..8348e02b4c86 100644
---- a/drivers/staging/rtl8188eu/hal/odm.c
-+++ b/drivers/staging/rtl8188eu/hal/odm.c
-@@ -808,6 +808,7 @@ bool ODM_RAStateCheck(struct odm_dm_struct *pDM_Odm, s32 RSSI, bool bForceUpdate
- 	u8 HighRSSIThreshForRA = pRA->HighRSSIThresh;
- 	u8 LowRSSIThreshForRA = pRA->LowRSSIThresh;
- 	u8 RATRState;
-+	struct device *dev = dvobj_to_dev(adapter_to_dvobj(pDM_Odm->Adapter));
- 
- 	/*  Threshold Adjustment: */
- 	/*  when RSSI state trends to go up one or two levels, make sure RSSI is high enough. */
-@@ -824,7 +825,7 @@ bool ODM_RAStateCheck(struct odm_dm_struct *pDM_Odm, s32 RSSI, bool bForceUpdate
- 		LowRSSIThreshForRA += GoUpGap;
- 		break;
- 	default:
--		pr_info("%s(): wrong rssi level setting %d!\n", __func__, *pRATRState);
-+		dev_err(dev, "%s(): wrong rssi level setting %d!\n", __func__, *pRATRState);
- 		break;
- 	}
- 
+diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
+index 06bca7b..76d3f03 100644
+--- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
++++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
+@@ -1862,7 +1862,7 @@ int vchiq_mmal_init(struct vchiq_mmal_instance **out_instance)
+ 	int status;
+ 	int err = -ENODEV;
+ 	struct vchiq_mmal_instance *instance;
+-	static struct vchiq_instance *vchiq_instance;
++	struct vchiq_instance *vchiq_instance;
+ 	struct vchiq_service_params_kernel params = {
+ 		.version		= VC_MMAL_VER,
+ 		.version_min		= VC_MMAL_MIN_VER,
 -- 
-2.30.2
+2.7.4
 
