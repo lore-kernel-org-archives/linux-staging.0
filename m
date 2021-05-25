@@ -1,24 +1,25 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D7117F
-	for <linux-staging@lists.linux.dev>; Tue, 25 May 2021 16:21:57 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5903661157;
-	Tue, 25 May 2021 16:21:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610B917F
+	for <linux-staging@lists.linux.dev>; Tue, 25 May 2021 16:24:05 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 69ABA6140F;
+	Tue, 25 May 2021 16:24:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1621959716;
-	bh=HE2xPhzMLMc/YvX06ShoQ0KcYQtdx/ARLVwHSbUrjVQ=;
+	s=korg; t=1621959844;
+	bh=PTtPFfWu71FFFV88kyJhBICf7yjLVTdmBVvyC8I70Wg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M53zhkef+9rbnVADkt24MpmqiXRcy84iIiZnmzn719LayLN5VoxCCRbhvLHR3dhXK
-	 K4xjLVTXE3cnknnpxxDf//DPZh63O2iwHpjSQ9Y0G9NGsgu7g3BDhSBFtVDIrymwSy
-	 WGGrd2V1ZR+k7B6LK999DFafHQx0NCyRdMBShk9c=
-Date: Tue, 25 May 2021 18:21:54 +0200
+	b=e5/HEqIV6+eUNRUh9RkYb3DbINQiJP1rHcSKxcPJiRislHlIaFNz2ZzJ9HRTGymgD
+	 3kkb4pbozmXnOo/VDeq/N54KZtC6pLZksf+rv3XxHt4gUpme7mjfEBWRo2N9femp2b
+	 oKbYnyn9hO8VMx6WDnxcnAHCBcc2dvaYLBL9bYQM=
+Date: Tue, 25 May 2021 18:24:02 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Shaokun Zhang <zhangshaokun@hisilicon.com>
-Cc: linux-staging@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH] staging: rtl8723bs: remove the repeated declaration
-Message-ID: <YK0kIsNcPHDhvT8D@kroah.com>
-References: <1621923531-21262-1-git-send-email-zhangshaokun@hisilicon.com>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: hikey9xx: Remove defined but unused macros
+Message-ID: <YK0komOt7j8R9045@kroah.com>
+References: <20210523172709.19181-1-fmdefrancesco@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -26,41 +27,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1621923531-21262-1-git-send-email-zhangshaokun@hisilicon.com>
+In-Reply-To: <20210523172709.19181-1-fmdefrancesco@gmail.com>
 
-On Tue, May 25, 2021 at 02:18:51PM +0800, Shaokun Zhang wrote:
-> Function 'Hal_SetBandwidth' is declared twice, remove the
-> repeated declaration.
+On Sun, May 23, 2021 at 07:27:09PM +0200, Fabio M. De Francesco wrote:
+> Removed defined but unused macros. Issue detected by GCC running with
+> -Wunused-macro warning option set.
 > 
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Shaokun Zhang <zhangshaokun@hisilicon.com>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/include/rtw_mp.h | 1 -
->  1 file changed, 1 deletion(-)
+>  drivers/staging/hikey9xx/hisi-spmi-controller.c | 9 ---------
+>  1 file changed, 9 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/include/rtw_mp.h b/drivers/staging/rtl8723bs/include/rtw_mp.h
-> index 2788ad80b114..ea3abee325ef 100644
-> --- a/drivers/staging/rtl8723bs/include/rtw_mp.h
-> +++ b/drivers/staging/rtl8723bs/include/rtw_mp.h
-> @@ -348,7 +348,6 @@ void Hal_SetCarrierSuppressionTx(struct adapter *padapter, u8 bStart);
->  void Hal_SetSingleToneTx(struct adapter *padapter, u8 bStart);
->  void Hal_SetSingleCarrierTx(struct adapter *padapter, u8 bStart);
->  void Hal_SetContinuousTx(struct adapter *padapter, u8 bStart);
-> -void Hal_SetBandwidth(struct adapter *padapter);
+> diff --git a/drivers/staging/hikey9xx/hisi-spmi-controller.c b/drivers/staging/hikey9xx/hisi-spmi-controller.c
+> index 0d42bc65f39b..b64594e2a84b 100644
+> --- a/drivers/staging/hikey9xx/hisi-spmi-controller.c
+> +++ b/drivers/staging/hikey9xx/hisi-spmi-controller.c
+> @@ -21,16 +21,10 @@
+>  #define SPMI_APB_SPMI_CMD_BASE_ADDR			0x0100
 >  
->  void Hal_SetDataRate(struct adapter *padapter);
->  void Hal_SetChannel(struct adapter *padapter);
+>  #define SPMI_APB_SPMI_WDATA0_BASE_ADDR			0x0104
+> -#define SPMI_APB_SPMI_WDATA1_BASE_ADDR			0x0108
+> -#define SPMI_APB_SPMI_WDATA2_BASE_ADDR			0x010c
+> -#define SPMI_APB_SPMI_WDATA3_BASE_ADDR			0x0110
+>  
+>  #define SPMI_APB_SPMI_STATUS_BASE_ADDR			0x0200
+>  
+>  #define SPMI_APB_SPMI_RDATA0_BASE_ADDR			0x0204
+> -#define SPMI_APB_SPMI_RDATA1_BASE_ADDR			0x0208
+> -#define SPMI_APB_SPMI_RDATA2_BASE_ADDR			0x020c
+> -#define SPMI_APB_SPMI_RDATA3_BASE_ADDR			0x0210
+>  
+>  #define SPMI_PER_DATAREG_BYTE				4
+>  /*
+> @@ -64,9 +58,6 @@ enum spmi_controller_cmd_op_code {
+>  #define SPMI_APB_TRANS_DONE			BIT(0)
+>  #define SPMI_APB_TRANS_FAIL			BIT(2)
+>  
+> -/* Command register fields */
+> -#define SPMI_CONTROLLER_CMD_MAX_BYTE_COUNT	16
+> -
+>  /* Maximum number of support PMIC peripherals */
+>  #define SPMI_CONTROLLER_TIMEOUT_US		1000
+>  #define SPMI_CONTROLLER_MAX_TRANS_BYTES		16
 > -- 
-> 2.7.4
+> 2.31.1
 > 
 > 
 
-You sent 2 patches with identical subjects, yet they did different
-things :(
+Leaving macros that are not used are fine to keep around, it documents
+the hardware.
 
-Please fix up and send a patch series that properly identifies what is
-happening here.
+That's a pretty foolish gcc warning :(
+
 
 thanks,
 
