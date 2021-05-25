@@ -1,26 +1,41 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05AA117F
-	for <linux-staging@lists.linux.dev>; Tue, 25 May 2021 06:44:47 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0E70D611C9;
-	Tue, 25 May 2021 06:44:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B7317F
+	for <linux-staging@lists.linux.dev>; Tue, 25 May 2021 07:37:14 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 511F161417;
+	Tue, 25 May 2021 07:37:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1621925087;
-	bh=q6tOHwTA4eDVLl4udWhI+70kGQYWA5Na2JU2YzoQU3E=;
+	s=korg; t=1621928233;
+	bh=8smSQFHHk77+VQ3Wa9iNI4/luQ0j33dqUigN4+FCyA0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=le2y4GBJxU7DL/LOy5iyliI7ru8t6R0W6f/EcC9TiKODTFPs5Ocj61HA0POMdvz8Z
-	 rc/QC9qnU5L6FrbjW3/MlNhbRck4jD6KX3mC8+wjik9u39WP1oUyeUcEOGREjA8s/v
-	 NEa9XknBTuK1BFArpp8oWCAPTaAPYr8I+HN52+rA=
-Date: Tue, 25 May 2021 08:44:44 +0200
+	b=Nnvhn2zwdz8/ljqYIFSsXNkn8JbOP+hM4SLU8Y7IPP8G6iufLkG/MhQGUS4+/STU+
+	 kK8D3TJ5NZN7ePf7Ew91EPvVyIrqTWc8srHDmGLM9ysBnq3thLheXQCh1Ik+TC+Ld4
+	 KS0WPD5LBDeKyCYg5QKqIrpwyaXMHejofwOT6mgY=
+Date: Tue, 25 May 2021 09:37:11 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Phillip Potter <phil@philpotter.co.uk>
-Cc: Larry.Finger@lwfinger.net, straube.linux@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8188eu: remove ASSERT and ODM_RT_ASSERT
- macros
-Message-ID: <YKyc3AM51xODwW0Q@kroah.com>
-References: <20210524224532.1230-1-phil@philpotter.co.uk>
+To: Damien Le Moal <Damien.LeMoal@wdc.com>
+Cc: Palmer Dabbelt <palmerdabbelt@google.com>,
+	"guoren@kernel.org" <guoren@kernel.org>,
+	Anup Patel <Anup.Patel@wdc.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+	"pbonzini@redhat.com" <pbonzini@redhat.com>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"graf@amazon.com" <graf@amazon.com>,
+	Atish Patra <Atish.Patra@wdc.com>,
+	Alistair Francis <Alistair.Francis@wdc.com>,
+	"anup@brainfault.org" <anup@brainfault.org>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"kvm-riscv@lists.infradead.org" <kvm-riscv@lists.infradead.org>,
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
+Subject: Re: [PATCH v18 00/18] KVM RISC-V Support
+Message-ID: <YKypJ5SJg2sDtn7/@kroah.com>
+References: <mhng-b093a5aa-ff9d-437f-a10b-47558f182639@palmerdabbelt-glaptop>
+ <DM6PR04MB708173B754E145BC843C4123E7269@DM6PR04MB7081.namprd04.prod.outlook.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -28,46 +43,98 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210524224532.1230-1-phil@philpotter.co.uk>
+In-Reply-To: <DM6PR04MB708173B754E145BC843C4123E7269@DM6PR04MB7081.namprd04.prod.outlook.com>
 
-On Mon, May 24, 2021 at 11:45:32PM +0100, Phillip Potter wrote:
-> Remove the ASSERT and ODM_RT_ASSERT macros from include/odm_debug.h
-> as they are unnecessary.
+On Mon, May 24, 2021 at 11:08:30PM +0000, Damien Le Moal wrote:
+> On 2021/05/25 7:57, Palmer Dabbelt wrote:
+> > On Mon, 24 May 2021 00:09:45 PDT (-0700), guoren@kernel.org wrote:
+> >> Thx Anup,
+> >>
+> >> Tested-by: Guo Ren <guoren@kernel.org> (Just on qemu-rv64)
+> >>
+> >> I'm following your KVM patchset and it's a great job for riscv
+> >> H-extension. I think hardware companies hope Linux KVM ready first
+> >> before the real chip. That means we can ensure the hardware could run
+> >> mainline linux.
+> > 
+> > I understand that it would be wonderful for hardware vendors to have a 
+> > guarantee that their hardware will be supported by the software 
+> > ecosystem, but that's not what we're talking about here.  Specifically, 
+> > the proposal for this code is to track the latest draft extension which 
+> > would specifically leave vendors who implement the current draft out in 
+> > the cold was something to change.  In practice that is the only way to 
+> > move forward with any draft extension that doesn't have hardware 
+> > available, as the software RISC-V implementations rapidly deprecate 
+> > draft extensions and without a way to test our code it is destined to 
+> > bit rot.
 > 
-> ASSERT does nothing, compiling to a single empty statement.
-> ODM_RT_ASSERT is used in only one place, in the ODM_RAStateCheck
-> function with hal/odm.c - it seems to have been intended as an
-> assertion of some kind, but given it is always called with false
-> here, there is little point in it not just being a pr_info() call.
+> To facilitate the process of implementing, and updating, against draft
+> specifications, I proposed to have arch/riscv/staging added. This would be the
+> place to put code based on drafts. Some simple rules can be put in place:
+> 1) The code and eventual ABI may change any time, no guarantees of backward
+> compatibility
+> 2) Once the specifications are frozen, the code is moved out of staging
+> somewhere else.
+> 3) The code may be removed any time if the specification proposal is dropped, or
+> any other valid reason (can't think of any other right now)
+> 4) ...
 > 
-> Also, the lines relating to the file, function and line number are
-> not needed as the pr_info() with the function name and error message
-> is sufficient should anyone wish to track down this error at a source
-> level, within what is currently a relatively small function.
+> This way, the implementation process would be greatly facilitated and
+> interactions between different extensions can be explored much more easily.
 > 
-> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> ---
->  drivers/staging/rtl8188eu/hal/odm.c           |  2 +-
->  drivers/staging/rtl8188eu/include/odm_debug.h | 13 -------------
->  2 files changed, 1 insertion(+), 14 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8188eu/hal/odm.c b/drivers/staging/rtl8188eu/hal/odm.c
-> index 4d659a812aed..b800d0c6dff5 100644
-> --- a/drivers/staging/rtl8188eu/hal/odm.c
-> +++ b/drivers/staging/rtl8188eu/hal/odm.c
-> @@ -824,7 +824,7 @@ bool ODM_RAStateCheck(struct odm_dm_struct *pDM_Odm, s32 RSSI, bool bForceUpdate
->  		LowRSSIThreshForRA += GoUpGap;
->  		break;
->  	default:
-> -		ODM_RT_ASSERT(pDM_Odm, false, ("wrong rssi level setting %d !", *pRATRState));
-> +		pr_info("%s(): wrong rssi level setting %d!\n", __func__, *pRATRState);
+> Thoughts ?
 
-I know you're just copying what the existing code does, but this really
-should just be a dev_err() call instead.  It's not "info", and as this
-is a driver, dev_*() should be called instead.
+It will not work, unless you are mean and ruthless and people will get
+mad at you.  I do not recommend it at all.
 
-So I'll take this one, but for future cleanups, consider changing the
-pr_*() calls to the correct ones.
+Once code shows up in the kernel tree, and people rely on it, you now
+_have_ to support it.  Users don't know the difference between "staging
+or not staging" at all.  We have reported problems of staging media
+drivers breaking userspace apps and people having problems with that,
+despite the media developers trying to tell the world, "DO NOT RELY ON
+THESE!".
+
+And if this can't be done with tiny simple single drivers, you are going
+to have a world-of-hurt if you put arch/platform support into
+arch/riscv/.  Once it's there, you will never be able to delete it,
+trust me.
+
+If you REALLY wanted to do this, you could create drivers/staging/riscv/
+and try to make the following rules:
+
+	- stand-alone code only, can not depend on ANYTHING outside of
+	  the directory that is not also used by other in-kernel code
+	- does not expose any userspace apis
+	- interacts only with existing in-kernel code.
+	- can be deleted at any time, UNLESS someone is using it for
+	  functionality on a system
+
+But what use would that be?  What could you put into there that anyone
+would be able to actually use?
+
+Remember the rule we made to our user community over 15 years ago:
+
+	We will not break userspace functionality*
+
+With the caveat of "* - in a way that you notice".
+
+That means we can remove and change things that no one relies on
+anymore, as long as if someone pops up that does rely on it, we put it
+back.
+
+We do this because we never want anyone to be afraid to drop in a new
+kernel, because they know we did not break their existing hardware and
+userspace workloads.  And if we did, we will work quickly to fix it.
+
+So back to the original issue here, what is the problem that you are
+trying to solve?  Why do you want to have in-kernel code for hardware
+that no one else can have access to, and that isn't part of a "finalized
+spec" that ends up touching other subsystems and is not self-contained?
+
+Why not take the energy here and go get that spec ratified so we aren't
+having this argument anymore?  What needs to be done to make that happen
+and why hasn't anyone done that?  There's nothing keeping kernel
+developers from working on spec groups, right?
 
 thanks,
 
