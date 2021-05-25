@@ -1,25 +1,34 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610B917F
-	for <linux-staging@lists.linux.dev>; Tue, 25 May 2021 16:24:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 69ABA6140F;
-	Tue, 25 May 2021 16:24:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1621959844;
-	bh=PTtPFfWu71FFFV88kyJhBICf7yjLVTdmBVvyC8I70Wg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e5/HEqIV6+eUNRUh9RkYb3DbINQiJP1rHcSKxcPJiRislHlIaFNz2ZzJ9HRTGymgD
-	 3kkb4pbozmXnOo/VDeq/N54KZtC6pLZksf+rv3XxHt4gUpme7mjfEBWRo2N9femp2b
-	 oKbYnyn9hO8VMx6WDnxcnAHCBcc2dvaYLBL9bYQM=
-Date: Tue, 25 May 2021 18:24:02 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C0E70
+	for <linux-staging@lists.linux.dev>; Tue, 25 May 2021 16:37:37 +0000 (UTC)
+IronPort-SDR: Ezm4pbM3gMTaitkRjZXcprH7L5PK4H0mymmCTIJ5/ybN1jR4yA4WFVHm/seNM7Z/ZKVho6/4/o
+ pfIzC2u67XNg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="200341854"
+X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; 
+   d="scan'208";a="200341854"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2021 09:37:34 -0700
+IronPort-SDR: eDYEv6J9mE48IvFZZmQYVJZZg1dkizKn7462J1jAilYLdjkiuNLklBUak49FYkqeZK5tLtFBHT
+ 5KWc6U1bg8Qg==
+X-IronPort-AV: E=Sophos;i="5.82,328,1613462400"; 
+   d="scan'208";a="546698766"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2021 09:37:33 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+	by paasikivi.fi.intel.com (Postfix) with SMTP id 75B3E20337;
+	Tue, 25 May 2021 19:37:30 +0300 (EEST)
+Date: Tue, 25 May 2021 19:37:30 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Nguyen Dinh Phi <phind.uet@gmail.com>
+Cc: mchehab@kernel.org, gregkh@linuxfoundation.org,
+	andriy.shevchenko@linux.intel.com, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: hikey9xx: Remove defined but unused macros
-Message-ID: <YK0komOt7j8R9045@kroah.com>
-References: <20210523172709.19181-1-fmdefrancesco@gmail.com>
+Subject: Re: [PATCH] Staging: atomisp: Use sysfs_emit() instead of sprintf()
+ where appropriate
+Message-ID: <20210525163730.GJ3@paasikivi.fi.intel.com>
+References: <20210513034650.252993-1-phind.uet@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -27,59 +36,16 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210523172709.19181-1-fmdefrancesco@gmail.com>
+In-Reply-To: <20210513034650.252993-1-phind.uet@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Sun, May 23, 2021 at 07:27:09PM +0200, Fabio M. De Francesco wrote:
-> Removed defined but unused macros. Issue detected by GCC running with
-> -Wunused-macro warning option set.
+On Thu, May 13, 2021 at 11:46:50AM +0800, Nguyen Dinh Phi wrote:
+> sysfs_emit() is preferred over raw sprintf() for sysfs attributes since it
+> knows about the sysfs buffer specifics and has some built-in sanity checks.
 > 
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> ---
->  drivers/staging/hikey9xx/hisi-spmi-controller.c | 9 ---------
->  1 file changed, 9 deletions(-)
-> 
-> diff --git a/drivers/staging/hikey9xx/hisi-spmi-controller.c b/drivers/staging/hikey9xx/hisi-spmi-controller.c
-> index 0d42bc65f39b..b64594e2a84b 100644
-> --- a/drivers/staging/hikey9xx/hisi-spmi-controller.c
-> +++ b/drivers/staging/hikey9xx/hisi-spmi-controller.c
-> @@ -21,16 +21,10 @@
->  #define SPMI_APB_SPMI_CMD_BASE_ADDR			0x0100
->  
->  #define SPMI_APB_SPMI_WDATA0_BASE_ADDR			0x0104
-> -#define SPMI_APB_SPMI_WDATA1_BASE_ADDR			0x0108
-> -#define SPMI_APB_SPMI_WDATA2_BASE_ADDR			0x010c
-> -#define SPMI_APB_SPMI_WDATA3_BASE_ADDR			0x0110
->  
->  #define SPMI_APB_SPMI_STATUS_BASE_ADDR			0x0200
->  
->  #define SPMI_APB_SPMI_RDATA0_BASE_ADDR			0x0204
-> -#define SPMI_APB_SPMI_RDATA1_BASE_ADDR			0x0208
-> -#define SPMI_APB_SPMI_RDATA2_BASE_ADDR			0x020c
-> -#define SPMI_APB_SPMI_RDATA3_BASE_ADDR			0x0210
->  
->  #define SPMI_PER_DATAREG_BYTE				4
->  /*
-> @@ -64,9 +58,6 @@ enum spmi_controller_cmd_op_code {
->  #define SPMI_APB_TRANS_DONE			BIT(0)
->  #define SPMI_APB_TRANS_FAIL			BIT(2)
->  
-> -/* Command register fields */
-> -#define SPMI_CONTROLLER_CMD_MAX_BYTE_COUNT	16
-> -
->  /* Maximum number of support PMIC peripherals */
->  #define SPMI_CONTROLLER_TIMEOUT_US		1000
->  #define SPMI_CONTROLLER_MAX_TRANS_BYTES		16
-> -- 
-> 2.31.1
-> 
-> 
+> Signed-off-by: Nguyen Dinh Phi <phind.uet@gmail.com>
 
-Leaving macros that are not used are fine to keep around, it documents
-the hardware.
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-That's a pretty foolish gcc warning :(
-
-
-thanks,
-
-greg k-h
+-- 
+Sakari Ailus
