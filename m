@@ -1,60 +1,74 @@
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7532F80
-	for <linux-staging@lists.linux.dev>; Tue, 25 May 2021 06:19:00 +0000 (UTC)
-Received: from dggems705-chm.china.huawei.com (unknown [172.30.72.59])
-	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Fq3kZ3VzgzmbCS;
-	Tue, 25 May 2021 14:16:38 +0800 (CST)
-Received: from dggpeml500023.china.huawei.com (7.185.36.114) by
- dggems705-chm.china.huawei.com (10.3.19.182) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 25 May 2021 14:18:58 +0800
-Received: from localhost.localdomain (10.69.192.56) by
- dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 25 May 2021 14:18:58 +0800
-From: Shaokun Zhang <zhangshaokun@hisilicon.com>
-To: <linux-staging@lists.linux.dev>
-CC: Shaokun Zhang <zhangshaokun@hisilicon.com>, Hans de Goede
-	<hdegoede@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] staging: rtl8723bs: remove the repeated declaration
-Date: Tue, 25 May 2021 14:18:51 +0800
-Message-ID: <1621923531-21262-1-git-send-email-zhangshaokun@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05AA117F
+	for <linux-staging@lists.linux.dev>; Tue, 25 May 2021 06:44:47 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0E70D611C9;
+	Tue, 25 May 2021 06:44:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1621925087;
+	bh=q6tOHwTA4eDVLl4udWhI+70kGQYWA5Na2JU2YzoQU3E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=le2y4GBJxU7DL/LOy5iyliI7ru8t6R0W6f/EcC9TiKODTFPs5Ocj61HA0POMdvz8Z
+	 rc/QC9qnU5L6FrbjW3/MlNhbRck4jD6KX3mC8+wjik9u39WP1oUyeUcEOGREjA8s/v
+	 NEa9XknBTuK1BFArpp8oWCAPTaAPYr8I+HN52+rA=
+Date: Tue, 25 May 2021 08:44:44 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Phillip Potter <phil@philpotter.co.uk>
+Cc: Larry.Finger@lwfinger.net, straube.linux@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8188eu: remove ASSERT and ODM_RT_ASSERT
+ macros
+Message-ID: <YKyc3AM51xODwW0Q@kroah.com>
+References: <20210524224532.1230-1-phil@philpotter.co.uk>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.56]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpeml500023.china.huawei.com (7.185.36.114)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210524224532.1230-1-phil@philpotter.co.uk>
 
-Function 'Hal_SetBandwidth' is declared twice, remove the
-repeated declaration.
+On Mon, May 24, 2021 at 11:45:32PM +0100, Phillip Potter wrote:
+> Remove the ASSERT and ODM_RT_ASSERT macros from include/odm_debug.h
+> as they are unnecessary.
+> 
+> ASSERT does nothing, compiling to a single empty statement.
+> ODM_RT_ASSERT is used in only one place, in the ODM_RAStateCheck
+> function with hal/odm.c - it seems to have been intended as an
+> assertion of some kind, but given it is always called with false
+> here, there is little point in it not just being a pr_info() call.
+> 
+> Also, the lines relating to the file, function and line number are
+> not needed as the pr_info() with the function name and error message
+> is sufficient should anyone wish to track down this error at a source
+> level, within what is currently a relatively small function.
+> 
+> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+> ---
+>  drivers/staging/rtl8188eu/hal/odm.c           |  2 +-
+>  drivers/staging/rtl8188eu/include/odm_debug.h | 13 -------------
+>  2 files changed, 1 insertion(+), 14 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8188eu/hal/odm.c b/drivers/staging/rtl8188eu/hal/odm.c
+> index 4d659a812aed..b800d0c6dff5 100644
+> --- a/drivers/staging/rtl8188eu/hal/odm.c
+> +++ b/drivers/staging/rtl8188eu/hal/odm.c
+> @@ -824,7 +824,7 @@ bool ODM_RAStateCheck(struct odm_dm_struct *pDM_Odm, s32 RSSI, bool bForceUpdate
+>  		LowRSSIThreshForRA += GoUpGap;
+>  		break;
+>  	default:
+> -		ODM_RT_ASSERT(pDM_Odm, false, ("wrong rssi level setting %d !", *pRATRState));
+> +		pr_info("%s(): wrong rssi level setting %d!\n", __func__, *pRATRState);
 
-Cc: Hans de Goede <hdegoede@redhat.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Shaokun Zhang <zhangshaokun@hisilicon.com>
----
- drivers/staging/rtl8723bs/include/rtw_mp.h | 1 -
- 1 file changed, 1 deletion(-)
+I know you're just copying what the existing code does, but this really
+should just be a dev_err() call instead.  It's not "info", and as this
+is a driver, dev_*() should be called instead.
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mp.h b/drivers/staging/rtl8723bs/include/rtw_mp.h
-index 2788ad80b114..ea3abee325ef 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mp.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mp.h
-@@ -348,7 +348,6 @@ void Hal_SetCarrierSuppressionTx(struct adapter *padapter, u8 bStart);
- void Hal_SetSingleToneTx(struct adapter *padapter, u8 bStart);
- void Hal_SetSingleCarrierTx(struct adapter *padapter, u8 bStart);
- void Hal_SetContinuousTx(struct adapter *padapter, u8 bStart);
--void Hal_SetBandwidth(struct adapter *padapter);
- 
- void Hal_SetDataRate(struct adapter *padapter);
- void Hal_SetChannel(struct adapter *padapter);
--- 
-2.7.4
+So I'll take this one, but for future cleanups, consider changing the
+pr_*() calls to the correct ones.
 
+thanks,
+
+greg k-h
