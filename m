@@ -1,78 +1,133 @@
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD8362FAD
-	for <linux-staging@lists.linux.dev>; Wed, 26 May 2021 12:56:09 +0000 (UTC)
-Received: by mail-oo1-f49.google.com with SMTP id v13-20020a4aa40d0000b02902052145a469so262450ool.3
-        for <linux-staging@lists.linux.dev>; Wed, 26 May 2021 05:56:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E589617F
+	for <linux-staging@lists.linux.dev>; Wed, 26 May 2021 14:04:34 +0000 (UTC)
+Received: by mail-vs1-f54.google.com with SMTP id i29so724886vsr.11
+        for <linux-staging@lists.linux.dev>; Wed, 26 May 2021 07:04:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uQqGtYMr2zlLbcLVkcKrC3bk86zDK/4KzT5M92QS2z8=;
+        b=js0k+v30ImDal3nu+/B9Tvhdzxml+LpwXVkA6WLASYT7Mug29dZ2qe5dl5t2NouImy
+         +Lqx++Xq+upNIti72W3v3QtK2lh1Gzgf3OGidOYsVedDayOylmIDfVMIjtYZDpLpfD7w
+         hUbxgUBgK9y958DlbeQMsjZ464wapULJK5RKqvNj9vITzfxsBtU2lfZA61CZpGpFV11V
+         N+LwRbMtHPKOW9AYqf8opwM+MxULdhwUk4MUt0W9+VHXYSpgpUdEhmVqQLUC6VO9JSfZ
+         zF87yHTc7/GQWwjt4fz845y6qMOYNin08fkirflQeOmKyEjJjaiPgA4HcOE26vjm7mU9
+         hapQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=5TB/SHe/X+zDtrYw2YxYbY1YRqVP38bTz1Qf4xf36SM=;
-        b=JIQ20LaFFM+HuUE6jeIYoUuvRvB551KDoPopAQnZIijUa9UvPyaVns7ZV49Y0JaG6T
-         e2TQKWdWf8qEFYTAh4ZLXszJkNK08RHoQPcYpjwUNg3V8rlEXl7N3WN/Cge2RKdVSov/
-         8+PPm07BaEOe3nuq8kQQFl8QBPoy2C2cGnASfWfN5ZUsuwbi/yoa2C8aMJQwo3WkjVCU
-         rdyxA5DxSKm5XLJYSHWPis6a4BLpReiXzQCQU5BGYjUZNhb18gM7mBITzF+cIb04b//3
-         3pXzm6jIyU5PcHihoe2GP9+MUD61Zxqm/8rqOO6jy4HyhDYb51waETi279ia8IsZEA3X
-         dMIA==
-X-Gm-Message-State: AOAM533jZMv03vZ2OGFDM9gwRQrZUiz1l515a+ciC4rTrMH4K9n2ZeUI
-	dTGNKdVDO6jPS/Tt5A5EOA==
-X-Google-Smtp-Source: ABdhPJx/wh7g4D4CYGH7ibtdrflqxgEzKG7CJwLQ7CT974mn8HeUIO7mDRBNtkrVn8LgAfyQ54eYqg==
-X-Received: by 2002:a4a:e715:: with SMTP id y21mr2171382oou.54.1622033769085;
-        Wed, 26 May 2021 05:56:09 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id b19sm3716364oib.46.2021.05.26.05.56.06
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uQqGtYMr2zlLbcLVkcKrC3bk86zDK/4KzT5M92QS2z8=;
+        b=O0F3lESeFY/1bhCHaDOXO8fh0/5mENDHsgnIEZLA2DuvqK3DGLImRy6+YpCdtL6BG+
+         bJfzRb8x29aQ+njZA+Oo5frL9m+CKZ6uFueSkDuwo1zJjInw42hAuCMH26Oj/xkwQmBZ
+         34Oq03NXFzpBX5dhRc/CSW2/Ng1yvvWHRwOsQvSXEBMSI58uujJxuwRi7ZCYUb8g5MhW
+         L0hwkFTSt7sZLMWJoPGW6jAX7KcKRYVGeECdeROH5QWb8kQzbHiAnWw30klKwpSgwxIh
+         cpZggpW+ZfnEgAznbWe8hAiV7rf1TPi1PUa+cXyuREZ0GfY3zsKaPGzjypaapHr1hHx4
+         5hDQ==
+X-Gm-Message-State: AOAM5308xU8pttKydGVeIViqxNvFzwsEI0VtzwRU/xv2L492TBs0cZqh
+	jvkSOO5Ca585A+OSg6QY/PQ=
+X-Google-Smtp-Source: ABdhPJxr7d/4yuItMUDK3EeiOYXQRE1LsT4KeRccReNM27n6EYZdsge6foszt+L3iAJUkKN/3MhaPQ==
+X-Received: by 2002:a67:1684:: with SMTP id 126mr31603327vsw.37.1622037873952;
+        Wed, 26 May 2021 07:04:33 -0700 (PDT)
+Received: from localhost.localdomain ([65.48.163.91])
+        by smtp.gmail.com with ESMTPSA id o5sm2025488vke.32.2021.05.26.07.04.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 May 2021 05:56:07 -0700 (PDT)
-Received: (nullmailer pid 2377037 invoked by uid 1000);
-	Wed, 26 May 2021 12:56:03 -0000
-From: Rob Herring <robh@kernel.org>
-To: Alex Bee <knaerzche@gmail.com>
-Cc: Lee Jones <lee.jones@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>, linux-kernel@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-arm-kernel@lists.infradead.org, Ezequiel Garcia <ezequiel@collabora.com>, devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, linux-staging@lists.linux.dev, Philipp Zabel <p.zabel@pengutronix.de>
-In-Reply-To: <20210525152225.154302-11-knaerzche@gmail.com>
-References: <20210525152225.154302-1-knaerzche@gmail.com> <20210525152225.154302-11-knaerzche@gmail.com>
-Subject: Re: [PATCH 10/10] media: dt-bindings: media: rockchip-vdec: add RK3228 compatible
-Date: Wed, 26 May 2021 07:56:03 -0500
-Message-Id: <1622033763.779031.2377036.nullmailer@robh.at.kernel.org>
+        Wed, 26 May 2021 07:04:33 -0700 (PDT)
+From: Sean Gloumeau <sajgloumeau@gmail.com>
+To: Forest Bond <forest@alittletooquiet.net>
+Cc: Sean Gloumeau <sajgloumeau@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: vt6655: key.c: Fix coding style issues
+Date: Wed, 26 May 2021 10:03:09 -0400
+Message-Id: <20210526140309.23376-1-sajgloumeau@gmail.com>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 25 May 2021 17:22:25 +0200, Alex Bee wrote:
-> Document the RK3228 compatible for rockchip-vdec.
-> Also add the optional assigned-clocks and assigned-clock-rates
-> properties.
-> 
-> Checked with:
-> make ARCH=arm dtbs_check
-> DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-> 
-> Signed-off-by: Alex Bee <knaerzche@gmail.com>
-> ---
->  .../devicetree/bindings/media/rockchip,vdec.yaml       | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
-> 
+The following changes were made to comply with the suggestions present
+in Documentation/process/coding-style.rst as a requirement for Task 10
+of the Eudyptula challenge.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Signed-off-by: Sean Gloumeau <sajgloumeau@gmail.com>
+---
+ drivers/staging/vt6655/key.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/media/rockchip,vdec.yaml:21:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-
-dtschema/dtc warnings/errors:
-
-See https://patchwork.ozlabs.org/patch/1483527
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+diff --git a/drivers/staging/vt6655/key.c b/drivers/staging/vt6655/key.c
+index 94665ddc36a5..d1470ff55e06 100644
+--- a/drivers/staging/vt6655/key.c
++++ b/drivers/staging/vt6655/key.c
+@@ -64,7 +64,7 @@ static int vnt_set_keymode(struct ieee80211_hw *hw, u8 *mac_addr,
+ 		key_mode |= (mode << 4);
+ 		key_mode |= VNT_KEY_GROUP;
+ 		break;
+-	case  VNT_KEY_PAIRWISE:
++	case VNT_KEY_PAIRWISE:
+ 		key_mode |= mode;
+ 		key_inx = 4;
+ 		break;
+@@ -82,8 +82,8 @@ static int vnt_set_keymode(struct ieee80211_hw *hw, u8 *mac_addr,
+ 			key->key[15] |= 0x80;
+ 	}
+ 
+-	MACvSetKeyEntry(priv, key_mode, entry, key_inx,
+-			bssid, (u32 *)key->key, priv->byLocalID);
++	MACvSetKeyEntry(priv, key_mode, entry, key_inx, bssid, (u32 *)key->key,
++			priv->byLocalID);
+ 
+ 	return 0;
+ }
+@@ -103,7 +103,7 @@ int vnt_set_keys(struct ieee80211_hw *hw, struct ieee80211_sta *sta,
+ 
+ 	switch (key->cipher) {
+ 	case 0:
+-		for (u = 0 ; u < MAX_KEY_TABLE; u++)
++		for (u = 0; u < MAX_KEY_TABLE; u++)
+ 			MACvDisableKeyEntry(priv, u);
+ 		return ret;
+ 
+@@ -112,8 +112,8 @@ int vnt_set_keys(struct ieee80211_hw *hw, struct ieee80211_sta *sta,
+ 		for (u = 0; u < MAX_KEY_TABLE; u++)
+ 			MACvDisableKeyEntry(priv, u);
+ 
+-		vnt_set_keymode(hw, mac_addr,
+-				key, VNT_KEY_DEFAULTKEY, KEY_CTL_WEP, true);
++		vnt_set_keymode(hw, mac_addr, key, VNT_KEY_DEFAULTKEY,
++				KEY_CTL_WEP, true);
+ 
+ 		key->flags |= IEEE80211_KEY_FLAG_GENERATE_IV;
+ 
+@@ -132,14 +132,14 @@ int vnt_set_keys(struct ieee80211_hw *hw, struct ieee80211_sta *sta,
+ 	}
+ 
+ 	if (key->flags & IEEE80211_KEY_FLAG_PAIRWISE) {
+-		vnt_set_keymode(hw, mac_addr,
+-				key, VNT_KEY_PAIRWISE, key_dec_mode, true);
++		vnt_set_keymode(hw, mac_addr, key, VNT_KEY_PAIRWISE,
++				key_dec_mode, true);
+ 	} else {
+-		vnt_set_keymode(hw, mac_addr,
+-				key, VNT_KEY_DEFAULTKEY, key_dec_mode, true);
++		vnt_set_keymode(hw, mac_addr, key, VNT_KEY_DEFAULTKEY,
++				key_dec_mode, true);
+ 
+-		vnt_set_keymode(hw, (u8 *)conf->bssid,
+-				key, VNT_KEY_GROUP_ADDRESS, key_dec_mode, true);
++		vnt_set_keymode(hw, (u8 *)conf->bssid, key,
++				VNT_KEY_GROUP_ADDRESS, key_dec_mode, true);
+ 	}
+ 
+ 	return 0;
+-- 
+2.31.1
 
