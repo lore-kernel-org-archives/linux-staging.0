@@ -1,72 +1,69 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2DF317F
-	for <linux-staging@lists.linux.dev>; Wed, 26 May 2021 12:56:06 +0000 (UTC)
-Received: by mail-ot1-f51.google.com with SMTP id i14-20020a9d624e0000b029033683c71999so900282otk.5
-        for <linux-staging@lists.linux.dev>; Wed, 26 May 2021 05:56:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD8362FAD
+	for <linux-staging@lists.linux.dev>; Wed, 26 May 2021 12:56:09 +0000 (UTC)
+Received: by mail-oo1-f49.google.com with SMTP id v13-20020a4aa40d0000b02902052145a469so262450ool.3
+        for <linux-staging@lists.linux.dev>; Wed, 26 May 2021 05:56:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
          :message-id;
-        bh=WDr90ifdj3u4jYGhMgen8Q6MrQ4gfRqH3T4/ru0a4II=;
-        b=SExc2JjnXpUXVyqvCiWUy8NRS/4jPLvwhVcG80hF9h6QJ8wedMC1zmM7URoOYpxj8y
-         J8ZbY9w0aEY7nl1ig9xd71kHUFLGMbyDuT8xsQGelHUYnYAuGMaton+h0Go/sdb/LXy2
-         qt+g9iAKx4NtVexYXH16IbH84VlbpqGvfJjmuhVlV0tL6yNQhoG6l4as27mABehnZqrK
-         tt1i+lSD14E+bVd9FJXqHGYMjgyG2ja4+Pe5ISQsGUYSrgtgGNJLT/zCBo1kQM4qM1TY
-         cZmbzTp43mXuhuk6rpMftFU6V/7lZAiiE0PJHAxuS0o6ZBWDn8tJKLqiuL1Fr1ere8Xg
-         pz3w==
-X-Gm-Message-State: AOAM532oBCaUqMZB+x8YFfj1oLDLC43aUYaAkwAeYXXyWUd+C8rSSE+l
-	PtkCPH2v6y6vQvv+5ZYcytvEdfZ3Mw==
-X-Google-Smtp-Source: ABdhPJy3kdIks/OI8CbwKalMBM56yICQjALGsg75Oj3b8ExULJoXEYRQiX3P5w2JcRHh7aqnH9h4qQ==
-X-Received: by 2002:a9d:6d04:: with SMTP id o4mr2124928otp.57.1622033766082;
-        Wed, 26 May 2021 05:56:06 -0700 (PDT)
+        bh=5TB/SHe/X+zDtrYw2YxYbY1YRqVP38bTz1Qf4xf36SM=;
+        b=JIQ20LaFFM+HuUE6jeIYoUuvRvB551KDoPopAQnZIijUa9UvPyaVns7ZV49Y0JaG6T
+         e2TQKWdWf8qEFYTAh4ZLXszJkNK08RHoQPcYpjwUNg3V8rlEXl7N3WN/Cge2RKdVSov/
+         8+PPm07BaEOe3nuq8kQQFl8QBPoy2C2cGnASfWfN5ZUsuwbi/yoa2C8aMJQwo3WkjVCU
+         rdyxA5DxSKm5XLJYSHWPis6a4BLpReiXzQCQU5BGYjUZNhb18gM7mBITzF+cIb04b//3
+         3pXzm6jIyU5PcHihoe2GP9+MUD61Zxqm/8rqOO6jy4HyhDYb51waETi279ia8IsZEA3X
+         dMIA==
+X-Gm-Message-State: AOAM533jZMv03vZ2OGFDM9gwRQrZUiz1l515a+ciC4rTrMH4K9n2ZeUI
+	dTGNKdVDO6jPS/Tt5A5EOA==
+X-Google-Smtp-Source: ABdhPJx/wh7g4D4CYGH7ibtdrflqxgEzKG7CJwLQ7CT974mn8HeUIO7mDRBNtkrVn8LgAfyQ54eYqg==
+X-Received: by 2002:a4a:e715:: with SMTP id y21mr2171382oou.54.1622033769085;
+        Wed, 26 May 2021 05:56:09 -0700 (PDT)
 Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id x65sm4410986otb.59.2021.05.26.05.56.04
+        by smtp.gmail.com with ESMTPSA id b19sm3716364oib.46.2021.05.26.05.56.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 May 2021 05:56:05 -0700 (PDT)
-Received: (nullmailer pid 2377033 invoked by uid 1000);
+        Wed, 26 May 2021 05:56:07 -0700 (PDT)
+Received: (nullmailer pid 2377037 invoked by uid 1000);
 	Wed, 26 May 2021 12:56:03 -0000
 From: Rob Herring <robh@kernel.org>
 To: Alex Bee <knaerzche@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ezequiel Garcia <ezequiel@collabora.com>, linux-rockchip@lists.infradead.org, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-staging@lists.linux.dev, Lee Jones <lee.jones@linaro.org>, linux-arm-kernel@lists.infradead.org, Rob Herring <robh+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>
-In-Reply-To: <20210525152225.154302-9-knaerzche@gmail.com>
-References: <20210525152225.154302-1-knaerzche@gmail.com> <20210525152225.154302-9-knaerzche@gmail.com>
-Subject: Re: [PATCH 08/10] media: dt-bindings: media: rockchip-vpu: add new compatibles
+Cc: Lee Jones <lee.jones@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>, linux-kernel@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-arm-kernel@lists.infradead.org, Ezequiel Garcia <ezequiel@collabora.com>, devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, linux-staging@lists.linux.dev, Philipp Zabel <p.zabel@pengutronix.de>
+In-Reply-To: <20210525152225.154302-11-knaerzche@gmail.com>
+References: <20210525152225.154302-1-knaerzche@gmail.com> <20210525152225.154302-11-knaerzche@gmail.com>
+Subject: Re: [PATCH 10/10] media: dt-bindings: media: rockchip-vdec: add RK3228 compatible
 Date: Wed, 26 May 2021 07:56:03 -0500
-Message-Id: <1622033763.765019.2377032.nullmailer@robh.at.kernel.org>
+Message-Id: <1622033763.779031.2377036.nullmailer@robh.at.kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-On Tue, 25 May 2021 17:22:23 +0200, Alex Bee wrote:
-> Add compatibles for RK3036, RK3066, RK3188 and RK3228. Also reflect the
-> changes to the additional clocks for RK3066/RK3188.
+On Tue, 25 May 2021 17:22:25 +0200, Alex Bee wrote:
+> Document the RK3228 compatible for rockchip-vdec.
+> Also add the optional assigned-clocks and assigned-clock-rates
+> properties.
 > 
 > Checked with:
 > make ARCH=arm dtbs_check
-> DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/rockchip,vdec.yaml
 > 
 > Signed-off-by: Alex Bee <knaerzche@gmail.com>
 > ---
->  .../bindings/media/rockchip-vpu.yaml          | 33 ++++++++++++++-----
->  1 file changed, 25 insertions(+), 8 deletions(-)
+>  .../devicetree/bindings/media/rockchip,vdec.yaml       | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
 > 
 
 My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
 on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
 yamllint warnings/errors:
-./Documentation/devicetree/bindings/media/rockchip-vpu.yaml:20:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-./Documentation/devicetree/bindings/media/rockchip-vpu.yaml:26:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-./Documentation/devicetree/bindings/media/rockchip-vpu.yaml:29:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-./Documentation/devicetree/bindings/media/rockchip-vpu.yaml:54:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-./Documentation/devicetree/bindings/media/rockchip-vpu.yaml:57:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+./Documentation/devicetree/bindings/media/rockchip,vdec.yaml:21:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
 
 dtschema/dtc warnings/errors:
 
-See https://patchwork.ozlabs.org/patch/1483524
+See https://patchwork.ozlabs.org/patch/1483527
 
 This check can fail if there are any dependencies. The base for a patch
 series is generally the most recent rc1.
