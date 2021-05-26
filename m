@@ -1,69 +1,90 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C4F2FAD
-	for <linux-staging@lists.linux.dev>; Wed, 26 May 2021 17:05:51 +0000 (UTC)
-Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 5CDBC613E5;
-	Wed, 26 May 2021 17:05:48 +0000 (UTC)
-Date: Wed, 26 May 2021 18:07:17 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Lucas Stankus <lucas.p.stankus@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com,
- gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] staging: iio: cdc: ad7746: initial effort to
- move out of staging
-Message-ID: <20210526180717.23d13296@jic23-huawei>
-In-Reply-To: <cover.1621786036.git.lucas.p.stankus@gmail.com>
-References: <cover.1621786036.git.lucas.p.stankus@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6110A2FAD
+	for <linux-staging@lists.linux.dev>; Wed, 26 May 2021 17:29:24 +0000 (UTC)
+Received: by mail-pg1-f179.google.com with SMTP id e22so1520184pgv.10
+        for <linux-staging@lists.linux.dev>; Wed, 26 May 2021 10:29:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nftD8Ovn49TMt2VJgq8EIyq7dzikLLs6FMzeX6li7D8=;
+        b=VEXXKYydQ3YbaIKTVTGtXwiu4Dmw56ffQvv3qQ49w/K65BOT/YfnJ7v/0SoV8Im9Hc
+         2797jqlLW7VwScUMQ3Qxj0AtWygZ3XU70iHewx6Vad6ao+Yqn7DC4GdBkyZ151kvELww
+         Ch6dHGjA59ki6nhZNX3Ids477h7FzI3g0bT+tYdRTsXSR+tB540Iad1V03fTudGkGal7
+         TfKQpHtmyJAWiH2LZh3sYVEMCtt2jjSTZdu+AKK8DgqdPYVSdaalv0LghG9knzVOMQQh
+         Gd63Uq/QaBasvX3mKkHh37wb6IYmF5QFUrXD5t/IisvOEzpb8hTqRMb/HEBkSMM8VNXF
+         Oe1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nftD8Ovn49TMt2VJgq8EIyq7dzikLLs6FMzeX6li7D8=;
+        b=QRcUwyiD7QSV5o0bbqLHVXPCSMWXtuUCMHYkZYsHaEgGbyxv5OIA6ua7PbMOWhinC6
+         FnAiDZwFdbUneYxJgol6/WaNOMIJSKe7B5Rt7uQ8CEB//c/1JsHsV2FHX4BpjfTcKoN3
+         m5llQx/TTP2aaypfVVIJ6XY5GoySHrRq/aAMn7M4P+bxABJM43fpO94G88zBos0B05d1
+         LGZeO2oC847SITevcEuMlgyc/mONmgivn9DldoAQM8cKwnvMisQH8dfLFI4M5c210dVU
+         wgKD7sLzIfCKUTTVsHKTl+NRQbI2K86tZThhg1zMDGU5mLi6IwgzNgpRehOejsYMJVsz
+         YiVg==
+X-Gm-Message-State: AOAM531VhZCwynaZvoVwvVhJI3gyk/ncAV8yCYcjEdtBW8Nlqilt2pCg
+	5lG7bUdWDnXAgJhq8iks8pY=
+X-Google-Smtp-Source: ABdhPJx6V7sAr9IXgDsXzlHtizpo+MyWdxbrD4Nr8RkJU9Z/CUM1/6dvMgtn3yU0h+wuOE3N2LlHiQ==
+X-Received: by 2002:a63:6c9:: with SMTP id 192mr26453695pgg.39.1622050163749;
+        Wed, 26 May 2021 10:29:23 -0700 (PDT)
+Received: from localhost.localdomain ([106.77.36.0])
+        by smtp.gmail.com with ESMTPSA id h9sm15230876pja.42.2021.05.26.10.29.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 May 2021 10:29:23 -0700 (PDT)
+From: Piyush Thange <pthange19@gmail.com>
+To: gregkh@linuxfoundation.org,
+	straube.linux@gmail.com,
+	john.oldman@polehill.co.uk
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Piyush Thange <pthange19@gmail.com>
+Subject: [PATCH] staging: rtl8192u: Fixed warnings of coding style
+Date: Wed, 26 May 2021 22:59:00 +0530
+Message-Id: <20210526172900.56093-1-pthange19@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sun, 23 May 2021 14:11:35 -0300
-Lucas Stankus <lucas.p.stankus@gmail.com> wrote:
+Fixed coding style issues with comments.
 
-> Tidy up driver code by removing vague comments, simplifying probe
-> return, and extracting capdac register write to a separate function.
-> 
-> These small patches are a starting point for improving the ad7746 driver,
-> hopefully to a point where it's possible to get it out of staging. I'm
-> looking up to feedback on what could be improved to accomplish that.
-Usually the easiest way to get such feedback is to propose moving it out of
-staging, (with move detection turned off in git format-patch).
-Then we'll review it in a similar fashion to a new driver.
+Signed-off-by: Piyush Thange <pthange19@gmail.com>
+---
+ drivers/staging/rtl8192u/r8192U_dm.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Starting point though for any review is ABI.  Looks like there is some
-custom stuff in here which either needs to go away or be properly
-proposed and documented. 
-
-This series applied to the togreg branch of iio.git - initially
-pushed out as testing to let 0-day poke at it.
-
-Thanks,
-
-Jonathan
-
-> 
-> changelog v1 -> v2:
-> - Dropped num_channels fixup patch (applied from previous series).
-> - Split general code style patch into several atomic ones.
-> - New patch to catch capdac write boilerplate into a single function.
-> 
-> Lucas Stankus (3):
->   staging: iio: cdc: ad7746: remove ordinary comments
->   staging: iio: cdc: ad7746: clean up probe return
->   staging: iio: cdc: ad7746: extract capac setup to own function
-> 
->  drivers/staging/iio/cdc/ad7746.c | 58 +++++++++++++-------------------
->  1 file changed, 23 insertions(+), 35 deletions(-)
-> 
+diff --git a/drivers/staging/rtl8192u/r8192U_dm.c b/drivers/staging/rtl8192u/r8192U_dm.c
+index bac402b40121..725bf5ca9e34 100644
+--- a/drivers/staging/rtl8192u/r8192U_dm.c
++++ b/drivers/staging/rtl8192u/r8192U_dm.c
+@@ -2876,7 +2876,8 @@ void dm_check_fsync(struct net_device *dev)
+  *	When		Who		Remark
+  *	05/29/2008	amy		Create Version 0 porting from windows code.
+  *
+- *---------------------------------------------------------------------------*/
++ *---------------------------------------------------------------------------
++ */
+ void dm_shadow_init(struct net_device *dev)
+ {
+ 	u8	page;
+@@ -2915,7 +2916,8 @@ void dm_shadow_init(struct net_device *dev)
+  *	When		Who		Remark
+  *	03/06/2008	Jacken	Create Version 0.
+  *
+- *---------------------------------------------------------------------------*/
++ *---------------------------------------------------------------------------
++ */
+ static void dm_init_dynamic_txpower(struct net_device *dev)
+ {
+ 	struct r8192_priv *priv = ieee80211_priv(dev);
+-- 
+2.25.1
 
