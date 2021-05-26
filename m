@@ -1,76 +1,92 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A366B17F
-	for <linux-staging@lists.linux.dev>; Tue, 25 May 2021 23:05:13 +0000 (UTC)
-Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <heiko@sntech.de>)
-	id 1llg6m-00071l-Fk; Wed, 26 May 2021 01:05:08 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Ezequiel Garcia <ezequiel@collabora.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Lee Jones <lee.jones@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, Alex Bee <knaerzche@gmail.com>
-Cc: Alex Bee <knaerzche@gmail.com>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 07/10] ARM: dts: rockchip: add vpu node for RK322x
-Date: Wed, 26 May 2021 01:05:06 +0200
-Message-ID: <4871345.LM0AJKV5NW@diego>
-In-Reply-To: <20210525152225.154302-8-knaerzche@gmail.com>
-References: <20210525152225.154302-1-knaerzche@gmail.com> <20210525152225.154302-8-knaerzche@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76782F80
+	for <linux-staging@lists.linux.dev>; Wed, 26 May 2021 06:15:02 +0000 (UTC)
+Received: from dggems704-chm.china.huawei.com (unknown [172.30.72.60])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FqgYw70pCzQrYh;
+	Wed, 26 May 2021 14:11:16 +0800 (CST)
+Received: from dggpeml500023.china.huawei.com (7.185.36.114) by
+ dggems704-chm.china.huawei.com (10.3.19.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 26 May 2021 14:14:54 +0800
+Received: from [10.67.77.175] (10.67.77.175) by dggpeml500023.china.huawei.com
+ (7.185.36.114) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Wed, 26 May
+ 2021 14:14:54 +0800
+Subject: Re: [PATCH] staging: rtl8723bs: remove the repeated declaration
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: <linux-staging@lists.linux.dev>, Hans de Goede <hdegoede@redhat.com>
+References: <1621923531-21262-1-git-send-email-zhangshaokun@hisilicon.com>
+ <YK0kIsNcPHDhvT8D@kroah.com>
+From: Shaokun Zhang <zhangshaokun@hisilicon.com>
+Message-ID: <fbeba5db-c55d-dcb1-92f7-63dc437f0c82@hisilicon.com>
+Date: Wed, 26 May 2021 14:14:53 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <YK0kIsNcPHDhvT8D@kroah.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.77.175]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpeml500023.china.huawei.com (7.185.36.114)
+X-CFilter-Loop: Reflected
 
-Am Dienstag, 25. Mai 2021, 17:22:22 CEST schrieb Alex Bee:
-> The VPU IP block of RK322x is the same as RK3399 has and the driver can
-> be used as-is.
-> 
-> Add the respective nodes to the device tree.
-> 
-> Signed-off-by: Alex Bee <knaerzche@gmail.com>
-> ---
->  arch/arm/boot/dts/rk322x.dtsi | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm/boot/dts/rk322x.dtsi b/arch/arm/boot/dts/rk322x.dtsi
-> index c8095ede7d7a..62d1113b7804 100644
-> --- a/arch/arm/boot/dts/rk322x.dtsi
-> +++ b/arch/arm/boot/dts/rk322x.dtsi
-> @@ -611,6 +611,18 @@ gpu: gpu@20000000 {
->  		status = "disabled";
->  	};
->  
-> +	vpu: video-codec@20020000 {
-> +		compatible = "rockchip,rk3228-vpu", "rockchip,rk3399-vpu";
-> +		reg = <0x20020000 0x800>;
-> +		interrupts = <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI  9 IRQ_TYPE_LEVEL_HIGH>;
-> +		interrupt-names = "vepu", "vdpu";
-> +		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-> +		clock-names = "aclk", "hclk";
-> +		power-domains = <&power RK3228_PD_VPU>;
-> +		iommus = <&vpu_mmu>;
+Hi Greg,
 
-NIT: [if you need to resend for other reasons] iommus before power-domains please
-
-> +	};
-> +
->  	vpu_mmu: iommu@20020800 {
->  		compatible = "rockchip,iommu";
->  		reg = <0x20020800 0x100>;
-> @@ -619,7 +631,6 @@ vpu_mmu: iommu@20020800 {
->  		clock-names = "aclk", "iface";
->  		power-domains = <&power RK3228_PD_VPU>;
->  		#iommu-cells = <0>;
-> -		status = "disabled";
->  	};
->  
->  	vdec_mmu: iommu@20030480 {
+On 2021/5/26 0:21, Greg Kroah-Hartman wrote:
+> On Tue, May 25, 2021 at 02:18:51PM +0800, Shaokun Zhang wrote:
+>> Function 'Hal_SetBandwidth' is declared twice, remove the
+>> repeated declaration.
+>>
+>> Cc: Hans de Goede <hdegoede@redhat.com>
+>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Signed-off-by: Shaokun Zhang <zhangshaokun@hisilicon.com>
+>> ---
+>>  drivers/staging/rtl8723bs/include/rtw_mp.h | 1 -
+>>  1 file changed, 1 deletion(-)
+>>
+>> diff --git a/drivers/staging/rtl8723bs/include/rtw_mp.h b/drivers/staging/rtl8723bs/include/rtw_mp.h
+>> index 2788ad80b114..ea3abee325ef 100644
+>> --- a/drivers/staging/rtl8723bs/include/rtw_mp.h
+>> +++ b/drivers/staging/rtl8723bs/include/rtw_mp.h
+>> @@ -348,7 +348,6 @@ void Hal_SetCarrierSuppressionTx(struct adapter *padapter, u8 bStart);
+>>  void Hal_SetSingleToneTx(struct adapter *padapter, u8 bStart);
+>>  void Hal_SetSingleCarrierTx(struct adapter *padapter, u8 bStart);
+>>  void Hal_SetContinuousTx(struct adapter *padapter, u8 bStart);
+>> -void Hal_SetBandwidth(struct adapter *padapter);
+>>  
+>>  void Hal_SetDataRate(struct adapter *padapter);
+>>  void Hal_SetChannel(struct adapter *padapter);
+>> -- 
+>> 2.7.4
+>>
+>>
+> 
+> You sent 2 patches with identical subjects, yet they did different
+> things :(
 > 
 
+Oops, my apologies that I didn't check it carefully.
 
+> Please fix up and send a patch series that properly identifies what is
 
+Since both are the trivial patch on rtl8723bs, shall I do a single patch
+to cleanup this?
 
+Thanks,
+Shaokun
+
+> happening here.
+> 
+> thanks,
+> 
+> greg k-h
+> .
+> 
