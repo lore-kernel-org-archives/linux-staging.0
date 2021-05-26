@@ -1,75 +1,52 @@
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD9870
-	for <linux-staging@lists.linux.dev>; Wed, 26 May 2021 08:44:17 +0000 (UTC)
-Received: from dggems702-chm.china.huawei.com (unknown [172.30.72.58])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FqktD2pV1zQrBF;
-	Wed, 26 May 2021 16:40:36 +0800 (CST)
-Received: from dggpeml500023.china.huawei.com (7.185.36.114) by
- dggems702-chm.china.huawei.com (10.3.19.179) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 26 May 2021 16:44:13 +0800
-Received: from localhost.localdomain (10.69.192.56) by
- dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 26 May 2021 16:44:13 +0800
-From: Shaokun Zhang <zhangshaokun@hisilicon.com>
-To: <linux-staging@lists.linux.dev>
-CC: Shaokun Zhang <zhangshaokun@hisilicon.com>, Dan Carpenter
-	<dan.carpenter@oracle.com>, Hans de Goede <hdegoede@redhat.com>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>
-Subject: [PATCH v2] staging: rtl8723bs: remove the repeated declaration
-Date: Wed, 26 May 2021 16:43:59 +0800
-Message-ID: <1622018639-55426-1-git-send-email-zhangshaokun@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7731870
+	for <linux-staging@lists.linux.dev>; Wed, 26 May 2021 08:45:11 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 846AE613B5;
+	Wed, 26 May 2021 08:45:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1622018711;
+	bh=aZiZDYa2rf5Fxx+HribOsNGXIZH+nQIh50qzwgEDY6Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=y8PpcE9n5dsYJntRV+W0DDV2gI4ln9mDcAUwQ6JqTu3ixa0vj0Xitc2ihpOd2n+Vy
+	 +U9nS+1L6gWoiABM01FN2a79WZkFad8+3LPLbybX4XAM0U6R3DDe/J3s9L/47J8rwE
+	 sOsEuiF1zHEzxbMsxTab4emXdlw9ntNdVjCgXL4g=
+Date: Wed, 26 May 2021 10:45:08 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Evgeny Novikov <novikov@ispras.ru>
+Cc: Johan Hovold <johan@kernel.org>, Nikolay Kyx <knv418@gmail.com>,
+	Dinghao Liu <dinghao.liu@zju.edu.cn>,
+	Abheek Dhawan <adawesomeguy222@gmail.com>,
+	Lee Gibson <leegib@gmail.com>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"ldv-project@linuxtesting.org" <ldv-project@linuxtesting.org>
+Subject: Re: [PATCH] staging: fwserial: Fix potential NULL pointer
+ dereferences
+Message-ID: <YK4KlP0ZpwPOUU2G@kroah.com>
+References: <20210521114339.8469-1-novikov@ispras.ru>
+ <YKefCpAnVWLCDVtg@kroah.com>
+ <219911622016850@mail.yandex.ru>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.56]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpeml500023.china.huawei.com (7.185.36.114)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <219911622016850@mail.yandex.ru>
 
-Function 'rtw_indicate_wx_disassoc_event' and 'Hal_SetBandwidth' are
-declared twice in their header file, so remove the repeated declaration.
+On Wed, May 26, 2021 at 11:21:36AM +0300, Evgeny Novikov wrote:
+> Now I see that we need to restrict in specifications those values that
+> can be passed to the install callback of tty_operations according to
+> a first actual argument of tty_alloc_driver(). Thank you for pointing
+> this out.
 
-Cc: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Hans de Goede <hdegoede@redhat.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Shaokun Zhang <zhangshaokun@hisilicon.com>
----
- drivers/staging/rtl8723bs/include/drv_types.h | 1 -
- drivers/staging/rtl8723bs/include/rtw_mp.h    | 1 -
- 2 files changed, 2 deletions(-)
+I do not understand what you mean here at all, sorry.
 
-diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
-index 83d43e5726dd..49b404e5cfaf 100644
---- a/drivers/staging/rtl8723bs/include/drv_types.h
-+++ b/drivers/staging/rtl8723bs/include/drv_types.h
-@@ -503,7 +503,6 @@ static inline u8 *myid(struct eeprom_priv *peepriv)
- 
- void rtw_indicate_wx_disassoc_event(struct adapter *padapter);
- void rtw_indicate_wx_assoc_event(struct adapter *padapter);
--void rtw_indicate_wx_disassoc_event(struct adapter *padapter);
- void indicate_wx_scan_complete_event(struct adapter *padapter);
- int rtw_change_ifname(struct adapter *padapter, const char *ifname);
- 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mp.h b/drivers/staging/rtl8723bs/include/rtw_mp.h
-index 2788ad80b114..ea3abee325ef 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mp.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mp.h
-@@ -348,7 +348,6 @@ void Hal_SetCarrierSuppressionTx(struct adapter *padapter, u8 bStart);
- void Hal_SetSingleToneTx(struct adapter *padapter, u8 bStart);
- void Hal_SetSingleCarrierTx(struct adapter *padapter, u8 bStart);
- void Hal_SetContinuousTx(struct adapter *padapter, u8 bStart);
--void Hal_SetBandwidth(struct adapter *padapter);
- 
- void Hal_SetDataRate(struct adapter *padapter);
- void Hal_SetChannel(struct adapter *padapter);
--- 
-2.7.4
+What "specifications"?
 
+confused,
+
+greg k-h
