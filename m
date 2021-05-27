@@ -1,112 +1,74 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from 4.mo179.mail-out.ovh.net (4.mo179.mail-out.ovh.net [46.105.36.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AD022FB3
-	for <linux-staging@lists.linux.dev>; Thu, 27 May 2021 11:09:56 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5C26C613C3;
-	Thu, 27 May 2021 11:09:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1622113795;
-	bh=S50i7V9zKqp9ykst0hBUpLzOjqYDdl+ARgnpmCYzUKo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AzeNixbI+DBhHFQgy4SwLLSanKMFEHVM1BMqaO84c3N7bNXbOGyjVwBxHoH+BuTPq
-	 3jqPbuY+EAo13Wg/hwUw8EXMTZ+lDPh6h9zcbnNaXiBhCVndbC698nG6Kd7Uwq/t8d
-	 jkPvwBJ6P2ykWeo1hTy9cl/QmN0MHIi+ea4wwwgg=
-Date: Thu, 27 May 2021 13:09:53 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Swapnil <swocp19@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Fixed kernel code formatting
-Message-ID: <YK9+AXt/XsUh3G1a@kroah.com>
-References: <20210524143741.GA529321@cryptik>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B332FB3
+	for <linux-staging@lists.linux.dev>; Thu, 27 May 2021 11:28:20 +0000 (UTC)
+Received: from player770.ha.ovh.net (unknown [10.109.138.76])
+	by mo179.mail-out.ovh.net (Postfix) with ESMTP id 7915C19C25F
+	for <linux-staging@lists.linux.dev>; Thu, 27 May 2021 13:09:00 +0200 (CEST)
+Received: from mrtz.fr (lfbn-lyo-1-490-81.w2-7.abo.wanadoo.fr [2.7.79.81])
+	(Authenticated sender: harold@mrtz.fr)
+	by player770.ha.ovh.net (Postfix) with ESMTPSA id 5236B1EA20AE2;
+	Thu, 27 May 2021 11:08:51 +0000 (UTC)
+Authentication-Results:garm.ovh; auth=pass (GARM-102R0046cca3f94-d97d-49b6-a149-483190b67c1f,
+                    A96342309192601C9AD39103BD083FA7ED13D9CC) smtp.auth=harold@mrtz.fr
+X-OVh-ClientIp:2.7.79.81
+Subject: Re: [PATCH] staging: emxx_udc: fix alignment issues
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alex Dewar <alex.dewar90@gmail.com>, Dan Carpenter
+ <dan.carpenter@oracle.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+ Sean Behan <codebam@riseup.net>, Colin Ian King <colin.king@canonical.com>,
+ linux-staging@lists.linux.dev,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20210524152128.20519-1-harold@mrtz.fr>
+ <CAMuHMdWQqoqeaym5apdN8ppvkSm3DkKVeDn=S4e5Z2ytCVVUww@mail.gmail.com>
+From: Harold Mertzweiller <harold@mrtz.fr>
+Message-ID: <9367b56d-71d7-a98b-15d0-d8347403def5@mrtz.fr>
+Date: Thu, 27 May 2021 13:08:50 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.2
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210524143741.GA529321@cryptik>
+In-Reply-To: <CAMuHMdWQqoqeaym5apdN8ppvkSm3DkKVeDn=S4e5Z2ytCVVUww@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 9064620153952079127
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvdekhedgfeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepjfgrrhholhguucfovghrthiifigvihhllhgvrhcuoehhrghrohhlugesmhhrthiirdhfrheqnecuggftrfgrthhtvghrnhephfejieffgfelffdvhfehgfefjeeiueeuveeiffekteelleefjefffeejgefgveetnecukfhppedtrddtrddtrddtpddvrdejrdejledrkedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeejtddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehhrghrohhlugesmhhrthiirdhfrhdprhgtphhtthhopehlihhnuhigqdhsthgrghhinhhgsehlihhsthhsrdhlihhnuhigrdguvghv
 
-On Mon, May 24, 2021 at 08:07:41PM +0530, Swapnil wrote:
-> Fixed lines ending with '(' by moving an actual function parameter from
-> the next line to the end of the current line.
+On 27/05/2021 10:43, Geert Uytterhoeven wrote:
+> Hi Harold,
 > 
-> Signed-off-by: Swapnil <swocp19@gmail.com>
-> ---
->  drivers/staging/emxx_udc/emxx_udc.c | 11 ++++-------
->  1 file changed, 4 insertions(+), 7 deletions(-)
+> On Mon, May 24, 2021 at 6:46 PM Harold Mertzweiller <harold@mrtz.fr> wrote:
+>> Three function calls can now be properly formatted inside the 100
+>> characters limit.
+>>
+>> Signed-off-by: Harold Mertzweiller <harold@mrtz.fr>
 > 
-> diff --git a/drivers/staging/emxx_udc/emxx_udc.c b/drivers/staging/emxx_udc/emxx_udc.c
-> index ecc5c9da9027..b6abd3770e81 100644
-> --- a/drivers/staging/emxx_udc/emxx_udc.c
-> +++ b/drivers/staging/emxx_udc/emxx_udc.c
-> @@ -1073,9 +1073,8 @@ static int _nbu2ss_epn_in_pio(struct nbu2ss_udc *udc, struct nbu2ss_ep *ep,
->  		i_word_length = length / sizeof(u32);
->  		if (i_word_length > 0) {
->  			for (i = 0; i < i_word_length; i++) {
-> -				_nbu2ss_writel(
-> -					&preg->EP_REGS[ep->epnum - 1].EP_WRITE,
-> -					p_buf_32->dw);
-> +				_nbu2ss_writel(&preg->EP_REGS[ep->epnum - 1].EP_WRITE,
-> +					       p_buf_32->dw);
->  
->  				p_buf_32++;
->  			}
-> @@ -1225,8 +1224,7 @@ static void _nbu2ss_restert_transfer(struct nbu2ss_ep *ep)
->  		return;
->  
->  	if (ep->epnum > 0) {
-> -		length = _nbu2ss_readl(
-> -			&ep->udc->p_regs->EP_REGS[ep->epnum - 1].EP_LEN_DCNT);
-> +		length = _nbu2ss_readl(&ep->udc->p_regs->EP_REGS[ep->epnum - 1].EP_LEN_DCNT);
->  
->  		length &= EPN_LDATA;
->  		if (length < ep->ep.maxpacket)
-> @@ -1462,8 +1460,7 @@ static void _nbu2ss_epn_set_stall(struct nbu2ss_udc *udc,
->  		for (limit_cnt = 0
->  			; limit_cnt < IN_DATA_EMPTY_COUNT
->  			; limit_cnt++) {
-> -			regdata = _nbu2ss_readl(
-> -				&preg->EP_REGS[ep->epnum - 1].EP_STATUS);
-> +			regdata = _nbu2ss_readl(&preg->EP_REGS[ep->epnum - 1].EP_STATUS);
->  
->  			if ((regdata & EPN_IN_DATA) == 0)
->  				break;
-> -- 
-> 2.25.1
+> Thanks for your patch!
 > 
+>>  drivers/staging/emxx_udc/emxx_udc.c | 11 ++++-------
+> 
+> I'm so happy people are improving this driver!
+> Is it working well on your hardware?
+> Do you think it's ready to migrate out of staging?
+> 
+> Thanks again!
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
 > 
 
-Hi,
+Hi Geert,
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+I sent this patch as part of the Eudyptula challenge. I just wanted to improve the coding style of any driver and unfortunately I don't use it.
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what a proper Subject: line should
-  look like.
-
-- It looks like you did not use your "real" name for the patch on either
-  the Signed-off-by: line, or the From: line (both of which have to
-  match).  Please read the kernel file, Documentation/SubmittingPatches
-  for how to do this correctly.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+Have a great day,
+Harold
