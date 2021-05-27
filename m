@@ -1,89 +1,87 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFAB82FB4
-	for <linux-staging@lists.linux.dev>; Thu, 27 May 2021 20:26:36 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8A7A061360;
-	Thu, 27 May 2021 20:26:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1622147196;
-	bh=cy1zdvQCkbyF8cbGtaUW+3spYF3RmL4ltiIOEIZGXTs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LRpAz+Zy10IieHd0zOw9oMrAFqOFjHdkQ6rnJvVonE+xMbFBybp6MaAj2gQXI1IdH
-	 wEgPAZhR9pK2rKbl6aj/DAEug8PiyLXkjLp1WbIeQkKXB2zPcjGzYItapkH7Ke3sf+
-	 LFSiC79CS4PLUPwsR9Mj1THEJaJkcUZzN4Rh4O9ZOd+9wz2hPirbanP8youDZtvMEy
-	 TlEqbF574UBIrMurNf0tAOCp1W6YPs/IIusOsurS7ldudHPWe/9GfmmQQLkZ7tbdVt
-	 O9YfBRJv4ZCaEoEtiGJzyFaBwW+yKq7NyV2vMzV50qjH/MpGw4OkXplZgTCQT23JLD
-	 wN75hpiRFkqZg==
-Date: Thu, 27 May 2021 22:26:33 +0200
-From: Wolfram Sang <wsa@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-i2c@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v1 1/6] i2c: acpi: Export i2c_acpi_find_client_by_adev()
- for users
-Message-ID: <YLAAedlB6UaJQh0X@kunai>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-i2c@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20210526124322.48915-1-andriy.shevchenko@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F0929CA
+	for <linux-staging@lists.linux.dev>; Thu, 27 May 2021 23:39:18 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id e12so2693063ejt.3
+        for <linux-staging@lists.linux.dev>; Thu, 27 May 2021 16:39:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jSSGxQ//DnMRsJRUYUjeRB+lpCXCqxwfcmj0WWP0ZvQ=;
+        b=fwIC/9VxhsE1UKcqjrwZqMi8a80vKG2rurB0ztzuC6G37AOEGHVeCFgCilHurbZ7Ac
+         Xy1M22eM75dD09gcRNzz5sHhN5ZXwRft/VTqL3MsTqgqob+arnp8kTgGb2/y93jeppKA
+         6qhhRLhTGXUzECxIG5HIu9SvcZFfnYm0cgOjleUAFC/nqjYRgJ+uBebTKkDx5WcZM7vF
+         Q+Fl6ELoXaRxWfEdfNybUniCdFAK4orD8pnoILTW118Jh/nBOv6/urnKmctBIkec/mx1
+         dYiy7qmjrobwfnUJFj1jMerR7rXhh8jgJSu8CRErPUepR1r9afUqhqm3gELBz2IE4DFr
+         e12Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jSSGxQ//DnMRsJRUYUjeRB+lpCXCqxwfcmj0WWP0ZvQ=;
+        b=r+GxnI7vBA7zJc94EKT7iFk0Bc+kRvtIKwCEK8o7D00g9JbSqvCei87jb6PXRGfZXp
+         i06nVKZVQLuqcz3fMcmwjT0pf7ivcdu24zRmHRbZGUUP9PjsDo+AkvjJBocg+prDcUBb
+         pIUunGbK1ANK54IrcuR/I04aur0E5NNlExsTnB4yk3IduSi/wJucbFVMlv/G6Jb+axJC
+         i8QMaefI5sItusS7XnkpKBRhzhnVqbmXAPo/D9KyMsh+DgC39n4QXOpEqLGyk3qHNiUz
+         r0/czC+K1uAT8lYR+v/pN94M39ET85Mu5xNmaC39avptWQaHXGJkWRZl+ChIfhqIPf8X
+         x5qw==
+X-Gm-Message-State: AOAM530xFedOfyKjfhSBvmh4qfvT8+MRY2j/c7IHR9BInBBkDL6YxUpx
+	WsVqND6CwBqw21A3pOFLzaiUZncHLe27sg==
+X-Google-Smtp-Source: ABdhPJyuhHOTqQFI/pfxAJQtL8hupVbU6kvHmbWtQQctWBgQrhWcb4yFQwue3M6pPYZAJ0lhDTbz9Q==
+X-Received: by 2002:a17:906:bcf9:: with SMTP id op25mr6533209ejb.453.1622158757207;
+        Thu, 27 May 2021 16:39:17 -0700 (PDT)
+Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
+        by smtp.gmail.com with ESMTPSA id bx21sm1839563edb.64.2021.05.27.16.39.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 May 2021 16:39:16 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: drivers/staging/greybus/bootrom.c: fw is NULL but dereferenced
+Date: Fri, 28 May 2021 01:39:14 +0200
+Message-ID: <2015099.xVv48VzNit@linux.local>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="YkSC1hApOCzGjIKM"
-Content-Disposition: inline
-In-Reply-To: <20210526124322.48915-1-andriy.shevchenko@linux.intel.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
+
+Coccinelle detected that fw is NULL but dereferenced.
+
+static int gb_bootrom_get_firmware(struct gb_operation *op)
+{
+/* lines of code */
+        if (!fw) {
+                dev_err(dev, "%s: firmware not available\n", __func__);
+                ret = -EINVAL;
+                goto unlock;
+        }
+/* lines of code */
+unlock:
+        unlock:
+        mutex_unlock(&bootrom->mutex);
+
+queue_work:
+        /* Refresh timeout */
+        if (!ret && (offset + size == fw->size))    <--- here
+	next_request = NEXT_REQ_READY_TO_BOOT;
+/* lines of code */
+}
+
+I really don't know if the following change may break something else:
+
+        if(!ret && fw && (offset + size == fw->size))
+	next_request = NEXT_REQ_READY_TO_BOOT;
+
+So, I'll leave the problem to the maintainers or to other people who know how 
+the driver is supposed to manage fw == NULL.
+
+Thanks,
+
+Fabio
 
 
---YkSC1hApOCzGjIKM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Wed, May 26, 2021 at 03:43:17PM +0300, Andy Shevchenko wrote:
-> There is at least one user that will gain from the
-> i2c_acpi_find_client_by_adev() being exported.
-
-No objections per se. But as the user is in staging, I want to ask if
-the use there is really a solution we would also accept outside of
-staging? Or is it a hack?
-
-
---YkSC1hApOCzGjIKM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmCwAHkACgkQFA3kzBSg
-KbZ39Q//Xi/xhfYvz+yPnbg09qxKQMLjTghIum8+MBovB6wG5KO3xJquun3lgwi2
-91cLMUs4vccepTNqhLc9E2aTpEj7vXT+TXXdi5lquG7A5UyRRXtLjdUUpocgQkK2
-c7XgdaghXzIHL2WQg/D69kWuCeqjDI2zKwozAUHj/xlq1VYH3G9t+JQjdCT2Mxr8
-cxLfc3CMIGALlPUY7KWJs4D094vladvWSenCpsQMMLbkJVXEGfBGbnvntrOEhNqZ
-w6WCapfG80/xPcVesMaQSRAkyTLIVwea/d0njRwmb3vd9GjhAtpc+2EHGJL16y0Y
-WAywSlzqXFHg50laA7nnV8nGUBPOwztSI000Lpry/jWqeG2sGKkwer0vl6701+84
-YBP7n1e3Fed/tNwlP5Ge38MAZg7q9tyhWn+PZmjccu3OPz0I/ITmQ3u3xjvVPyGp
-1VtJ8kH124M6l7VsnaQVv1iA827+rPQVmZ6DWtuRFDNjuhtuLgnAf726hS9ZW3U6
-tuR+BQDqM+Gno64KiErYiIEal5YVveCV3H5nub70hvVGKTsi2/Wpu5It3isQUppv
-puv31INxtAA0lqivGAwNAQ9JyIYWH32Yktfl7MQGfR8WkKiDcgG0o9krHDXhTXWK
-BAFQOOKvzTAmth8WGRktwJo2Pf3vQ6Yd6bb0yaNR9zIJbfV2hKM=
-=CIL7
------END PGP SIGNATURE-----
-
---YkSC1hApOCzGjIKM--
