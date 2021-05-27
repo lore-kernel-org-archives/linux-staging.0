@@ -1,86 +1,112 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1074E2FB3
-	for <linux-staging@lists.linux.dev>; Thu, 27 May 2021 11:01:32 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ECFDC60241;
-	Thu, 27 May 2021 11:01:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AD022FB3
+	for <linux-staging@lists.linux.dev>; Thu, 27 May 2021 11:09:56 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5C26C613C3;
+	Thu, 27 May 2021 11:09:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1622113291;
-	bh=w82Buwz/8VJBRCQ6+DiA09zJU8SzJBV2/yXUWLoIPNI=;
+	s=korg; t=1622113795;
+	bh=S50i7V9zKqp9ykst0hBUpLzOjqYDdl+ARgnpmCYzUKo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PNo5sgQh8W4nwNmlyMXlmg3EVLOOeUMmjYjTnWGTA78pT7GO3cQOr9FMehZHN7Grh
-	 A5mrNzTX6w9bYGiMev/+ojShZQYwVISxD46AhkoG94sFRSLepZWQ5RhTj1mSUMRD+z
-	 4kNopQpYgv9nK7xvvZrW4xAJsDodnb6PKQvr8hxA=
-Date: Thu, 27 May 2021 13:01:28 +0200
+	b=AzeNixbI+DBhHFQgy4SwLLSanKMFEHVM1BMqaO84c3N7bNXbOGyjVwBxHoH+BuTPq
+	 3jqPbuY+EAo13Wg/hwUw8EXMTZ+lDPh6h9zcbnNaXiBhCVndbC698nG6Kd7Uwq/t8d
+	 jkPvwBJ6P2ykWeo1hTy9cl/QmN0MHIi+ea4wwwgg=
+Date: Thu, 27 May 2021 13:09:53 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Bixuan Cui <cuibixuan@huawei.com>
-Cc: dan.carpenter@oracle.com, desmondcheongzx@gmail.com,
-	marcocesati@gmail.com, fabioaiuto83@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH next] staging: rtl8723bs: HalBtc8723b1Ant.c: Remove
- unused variables
-Message-ID: <YK98CL3+Gg5hGH9g@kroah.com>
-References: <20210526074537.46259-1-cuibixuan@huawei.com>
+To: Swapnil <swocp19@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Fixed kernel code formatting
+Message-ID: <YK9+AXt/XsUh3G1a@kroah.com>
+References: <20210524143741.GA529321@cryptik>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210526074537.46259-1-cuibixuan@huawei.com>
+In-Reply-To: <20210524143741.GA529321@cryptik>
 
-On Wed, May 26, 2021 at 03:45:37PM +0800, Bixuan Cui wrote:
-> Fix the build warning: [-Wunused-but-set-variable]
+On Mon, May 24, 2021 at 08:07:41PM +0530, Swapnil wrote:
+> Fixed lines ending with '(' by moving an actual function parameter from
+> the next line to the end of the current line.
 > 
-> drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c:2710:6: warning: variable ‘u4Tmp’ set but not used
->  2710 |  u32 u4Tmp;
->       |      ^~~~~
-> drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c:2709:13: warning: variable ‘u1Tmpb’ set but not used
->  2709 |  u8 u1Tmpa, u1Tmpb;
->       |             ^~~~~~
-> drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c:2709:5: warning: variable ‘u1Tmpa’ set but not used
->  2709 |  u8 u1Tmpa, u1Tmpb;
->       |     ^~~~~~
-> 
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Bixuan Cui <cuibixuan@huawei.com>
+> Signed-off-by: Swapnil <swocp19@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
+>  drivers/staging/emxx_udc/emxx_udc.c | 11 ++++-------
+>  1 file changed, 4 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-> index 518d5354bda4..adfdc4f14b08 100644
-> --- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-> +++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-> @@ -2706,9 +2706,6 @@ void EXhalbtc8723b1ant_ScanNotify(struct btc_coexist *pBtCoexist, u8 type)
->  	bool bBtCtrlAggBufSize = false;
->  	u8 aggBufSize = 5;
+> diff --git a/drivers/staging/emxx_udc/emxx_udc.c b/drivers/staging/emxx_udc/emxx_udc.c
+> index ecc5c9da9027..b6abd3770e81 100644
+> --- a/drivers/staging/emxx_udc/emxx_udc.c
+> +++ b/drivers/staging/emxx_udc/emxx_udc.c
+> @@ -1073,9 +1073,8 @@ static int _nbu2ss_epn_in_pio(struct nbu2ss_udc *udc, struct nbu2ss_ep *ep,
+>  		i_word_length = length / sizeof(u32);
+>  		if (i_word_length > 0) {
+>  			for (i = 0; i < i_word_length; i++) {
+> -				_nbu2ss_writel(
+> -					&preg->EP_REGS[ep->epnum - 1].EP_WRITE,
+> -					p_buf_32->dw);
+> +				_nbu2ss_writel(&preg->EP_REGS[ep->epnum - 1].EP_WRITE,
+> +					       p_buf_32->dw);
 >  
-> -	u8 u1Tmpa, u1Tmpb;
-> -	u32 u4Tmp;
-> -
->  	if (pBtCoexist->bManualControl || pBtCoexist->bStopCoexDm)
+>  				p_buf_32++;
+>  			}
+> @@ -1225,8 +1224,7 @@ static void _nbu2ss_restert_transfer(struct nbu2ss_ep *ep)
 >  		return;
 >  
-> @@ -2716,9 +2713,9 @@ void EXhalbtc8723b1ant_ScanNotify(struct btc_coexist *pBtCoexist, u8 type)
->  		pCoexSta->bWiFiIsHighPriTask = true;
+>  	if (ep->epnum > 0) {
+> -		length = _nbu2ss_readl(
+> -			&ep->udc->p_regs->EP_REGS[ep->epnum - 1].EP_LEN_DCNT);
+> +		length = _nbu2ss_readl(&ep->udc->p_regs->EP_REGS[ep->epnum - 1].EP_LEN_DCNT);
 >  
->  		halbtc8723b1ant_PsTdma(pBtCoexist, FORCE_EXEC, false, 8);  /* Force antenna setup for no scan result issue */
-> -		u4Tmp = pBtCoexist->fBtcRead4Byte(pBtCoexist, 0x948);
-> -		u1Tmpa = pBtCoexist->fBtcRead1Byte(pBtCoexist, 0x765);
-> -		u1Tmpb = pBtCoexist->fBtcRead1Byte(pBtCoexist, 0x67);
-> +		pBtCoexist->fBtcRead4Byte(pBtCoexist, 0x948);
-> +		pBtCoexist->fBtcRead1Byte(pBtCoexist, 0x765);
-> +		pBtCoexist->fBtcRead1Byte(pBtCoexist, 0x67);
->  	} else {
->  		pCoexSta->bWiFiIsHighPriTask = false;
+>  		length &= EPN_LDATA;
+>  		if (length < ep->ep.maxpacket)
+> @@ -1462,8 +1460,7 @@ static void _nbu2ss_epn_set_stall(struct nbu2ss_udc *udc,
+>  		for (limit_cnt = 0
+>  			; limit_cnt < IN_DATA_EMPTY_COUNT
+>  			; limit_cnt++) {
+> -			regdata = _nbu2ss_readl(
+> -				&preg->EP_REGS[ep->epnum - 1].EP_STATUS);
+> +			regdata = _nbu2ss_readl(&preg->EP_REGS[ep->epnum - 1].EP_STATUS);
 >  
+>  			if ((regdata & EPN_IN_DATA) == 0)
+>  				break;
 > -- 
-> 2.17.1
+> 2.25.1
 > 
 > 
 
-Does not apply to my tree :(
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/SubmittingPatches for what a proper Subject: line should
+  look like.
+
+- It looks like you did not use your "real" name for the patch on either
+  the Signed-off-by: line, or the From: line (both of which have to
+  match).  Please read the kernel file, Documentation/SubmittingPatches
+  for how to do this correctly.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
