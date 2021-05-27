@@ -1,74 +1,77 @@
-Received: from 4.mo179.mail-out.ovh.net (4.mo179.mail-out.ovh.net [46.105.36.149])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B332FB3
-	for <linux-staging@lists.linux.dev>; Thu, 27 May 2021 11:28:20 +0000 (UTC)
-Received: from player770.ha.ovh.net (unknown [10.109.138.76])
-	by mo179.mail-out.ovh.net (Postfix) with ESMTP id 7915C19C25F
-	for <linux-staging@lists.linux.dev>; Thu, 27 May 2021 13:09:00 +0200 (CEST)
-Received: from mrtz.fr (lfbn-lyo-1-490-81.w2-7.abo.wanadoo.fr [2.7.79.81])
-	(Authenticated sender: harold@mrtz.fr)
-	by player770.ha.ovh.net (Postfix) with ESMTPSA id 5236B1EA20AE2;
-	Thu, 27 May 2021 11:08:51 +0000 (UTC)
-Authentication-Results:garm.ovh; auth=pass (GARM-102R0046cca3f94-d97d-49b6-a149-483190b67c1f,
-                    A96342309192601C9AD39103BD083FA7ED13D9CC) smtp.auth=harold@mrtz.fr
-X-OVh-ClientIp:2.7.79.81
-Subject: Re: [PATCH] staging: emxx_udc: fix alignment issues
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alex Dewar <alex.dewar90@gmail.com>, Dan Carpenter
- <dan.carpenter@oracle.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>,
- Sean Behan <codebam@riseup.net>, Colin Ian King <colin.king@canonical.com>,
- linux-staging@lists.linux.dev,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20210524152128.20519-1-harold@mrtz.fr>
- <CAMuHMdWQqoqeaym5apdN8ppvkSm3DkKVeDn=S4e5Z2ytCVVUww@mail.gmail.com>
-From: Harold Mertzweiller <harold@mrtz.fr>
-Message-ID: <9367b56d-71d7-a98b-15d0-d8347403def5@mrtz.fr>
-Date: Thu, 27 May 2021 13:08:50 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.10.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ABAA2FB9
+	for <linux-staging@lists.linux.dev>; Thu, 27 May 2021 12:11:52 +0000 (UTC)
+Received: from dggeml767-chm.china.huawei.com (unknown [172.30.72.53])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4FrR2M077szYnBt;
+	Thu, 27 May 2021 19:50:03 +0800 (CST)
+Received: from dggpeml500020.china.huawei.com (7.185.36.88) by
+ dggeml767-chm.china.huawei.com (10.1.199.177) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Thu, 27 May 2021 19:52:42 +0800
+Received: from huawei.com (10.175.127.227) by dggpeml500020.china.huawei.com
+ (7.185.36.88) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Thu, 27 May
+ 2021 19:52:42 +0800
+From: Baokun Li <libaokun1@huawei.com>
+To: <gregkh@linuxfoundation.org>, <ross.schm.dev@gmail.com>,
+	<fabioaiuto83@gmail.com>, <marcocesati@gmail.com>, <fmdefrancesco@gmail.com>,
+	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+CC: <weiyongjun1@huawei.com>, <yuehaibing@huawei.com>,
+	<yangjihong1@huawei.com>, <yukuai3@huawei.com>, <libaokun1@huawei.com>
+Subject: [PATCH -next] staging: rtl8723bs: Remove set but not used variable 'reason_code'
+Date: Thu, 27 May 2021 20:02:10 +0800
+Message-ID: <20210527120210.321810-1-libaokun1@huawei.com>
+X-Mailer: git-send-email 2.25.4
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdWQqoqeaym5apdN8ppvkSm3DkKVeDn=S4e5Z2ytCVVUww@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 9064620153952079127
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvdekhedgfeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepjfgrrhholhguucfovghrthiifigvihhllhgvrhcuoehhrghrohhlugesmhhrthiirdhfrheqnecuggftrfgrthhtvghrnhephfejieffgfelffdvhfehgfefjeeiueeuveeiffekteelleefjefffeejgefgveetnecukfhppedtrddtrddtrddtpddvrdejrdejledrkedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeejtddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehhrghrohhlugesmhhrthiirdhfrhdprhgtphhtthhopehlihhnuhigqdhsthgrghhinhhgsehlihhsthhsrdhlihhnuhigrdguvghv
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.175.127.227]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpeml500020.china.huawei.com (7.185.36.88)
+X-CFilter-Loop: Reflected
 
-On 27/05/2021 10:43, Geert Uytterhoeven wrote:
-> Hi Harold,
-> 
-> On Mon, May 24, 2021 at 6:46 PM Harold Mertzweiller <harold@mrtz.fr> wrote:
->> Three function calls can now be properly formatted inside the 100
->> characters limit.
->>
->> Signed-off-by: Harold Mertzweiller <harold@mrtz.fr>
-> 
-> Thanks for your patch!
-> 
->>  drivers/staging/emxx_udc/emxx_udc.c | 11 ++++-------
-> 
-> I'm so happy people are improving this driver!
-> Is it working well on your hardware?
-> Do you think it's ready to migrate out of staging?
-> 
-> Thanks again!
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
+Fixes gcc '-Wunused-but-set-variable' warning:
 
-Hi Geert,
+drivers/staging/rtl8723bs/core/rtw_mlme_ext.c: In function 'OnAction_back':
+drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:1729:30: warning:
+ variable ‘reason_code’ set but not used [-Wunused-but-set-variable]
 
-I sent this patch as part of the Eudyptula challenge. I just wanted to improve the coding style of any driver and unfortunately I don't use it.
+It never used since introduction.
 
-Have a great day,
-Harold
+Signed-off-by: Baokun Li <libaokun1@huawei.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 9fc612fb736f..97b3c2965770 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -1721,7 +1721,7 @@ unsigned int OnAction_back(struct adapter *padapter, union recv_frame *precv_fra
+ 	struct recv_reorder_ctrl *preorder_ctrl;
+ 	unsigned char 	*frame_body;
+ 	unsigned char 	category, action;
+-	unsigned short	tid, status, reason_code = 0;
++	unsigned short	tid, status;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
+ 	u8 *pframe = precv_frame->u.hdr.rx_data;
+@@ -1790,9 +1790,6 @@ unsigned int OnAction_back(struct adapter *padapter, union recv_frame *precv_fra
+ 					~BIT((frame_body[3] >> 4) & 0xf);
+ 				psta->htpriv.candidate_tid_bitmap &=
+ 					~BIT((frame_body[3] >> 4) & 0xf);
+-
+-				/* reason_code = frame_body[4] | (frame_body[5] << 8); */
+-				reason_code = get_unaligned_le16(&frame_body[4]);
+ 			} else if ((frame_body[3] & BIT(3)) == BIT(3)) {
+ 				tid = (frame_body[3] >> 4) & 0x0F;
+ 
+-- 
+2.25.4
+
