@@ -1,219 +1,70 @@
-Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0B270
-	for <linux-staging@lists.linux.dev>; Thu, 27 May 2021 08:01:47 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by comms.puri.sm (Postfix) with ESMTP id 56AE0E204E;
-	Thu, 27 May 2021 00:54:46 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AvVzDm61ahfv; Thu, 27 May 2021 00:54:45 -0700 (PDT)
-From: Martin Kepplinger <martin.kepplinger@puri.sm>
-To: laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-	robh@kernel.org
-Cc: shawnguo@kernel.org,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	linux-imx@nxp.com,
-	slongerbeam@gmail.com,
-	kernel@puri.sm,
-	krzk@kernel.org,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Martin Kepplinger <martin.kepplinger@puri.sm>
-Subject: [PATCH v1 1/3] dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and controller
-Date: Thu, 27 May 2021 09:54:05 +0200
-Message-Id: <20210527075407.3180744-2-martin.kepplinger@puri.sm>
-In-Reply-To: <20210527075407.3180744-1-martin.kepplinger@puri.sm>
-References: <20210527075407.3180744-1-martin.kepplinger@puri.sm>
-Content-Transfer-Encoding: 8bit
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D01E2FB4
+	for <linux-staging@lists.linux.dev>; Thu, 27 May 2021 08:43:31 +0000 (UTC)
+Received: by mail-vs1-f52.google.com with SMTP id x2so2149412vss.3
+        for <linux-staging@lists.linux.dev>; Thu, 27 May 2021 01:43:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YcHAcZ99LPh3KvdHc6+dwPmzciohpUzegXnqArlUae4=;
+        b=hQPMiGQD3xGRn2uy7kTe4JQm3Ik6tfC96agRL4S3oEsJlhFQaONUIgpGd8P5Vb8Fzd
+         JokMdx3EYMwM1eO9fKQWMvJ+QueHsA5mh3JOFEzllG5MskQdwuWNgqbbMo3xcRI+bdzV
+         eP2yMzZPt0Z19rm8MOSDixwc+jG1pvIDTbB2JF/qa1LzmdRRHSUNu/barjTz9u+oMGcv
+         2ZkIZshDSgXTPbwCYMYO5ZjZwO+1pSGHvPrJqQtyqUwxoxQw9Ju8nAa9zBCW0vMppLPl
+         7i95mYDqtj+fapeY+C2OcyCMFe3upUAfx3bqrNOa6djNBHbyReWsrZrn3aG/D2hbfiW4
+         VyOA==
+X-Gm-Message-State: AOAM530kIewCXXamn/+4twurI7oKVnF7EHm0B/g4f67512uf/siV6VN8
+	WNRLQz1I0PYWwdNTP52dmE1MOa/ZnySOGb3IeUg=
+X-Google-Smtp-Source: ABdhPJwtMi0jMzxDHtCUV2SgEGd7LCRzwNK2Sumq2bMqbtu9N1gVIPP1bmFwaX5W7NkNQu33jCjEp7W89CRMWla1Gbc=
+X-Received: by 2002:a67:8713:: with SMTP id j19mr1387811vsd.3.1622105010380;
+ Thu, 27 May 2021 01:43:30 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20210524152128.20519-1-harold@mrtz.fr>
+In-Reply-To: <20210524152128.20519-1-harold@mrtz.fr>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 27 May 2021 10:43:18 +0200
+Message-ID: <CAMuHMdWQqoqeaym5apdN8ppvkSm3DkKVeDn=S4e5Z2ytCVVUww@mail.gmail.com>
+Subject: Re: [PATCH] staging: emxx_udc: fix alignment issues
+To: Harold Mertzweiller <harold@mrtz.fr>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Dewar <alex.dewar90@gmail.com>, 
+	Dan Carpenter <dan.carpenter@oracle.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
+	Sean Behan <codebam@riseup.net>, Colin Ian King <colin.king@canonical.com>, 
+	linux-staging@lists.linux.dev, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-The i.MX8MQ SoC integrates a different MIPI CSI receiver as the i.MX8MM so
-describe the DT bindings for it.
+Hi Harold,
 
-Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
----
- .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 163 ++++++++++++++++++
- 1 file changed, 163 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+On Mon, May 24, 2021 at 6:46 PM Harold Mertzweiller <harold@mrtz.fr> wrote:
+> Three function calls can now be properly formatted inside the 100
+> characters limit.
+>
+> Signed-off-by: Harold Mertzweiller <harold@mrtz.fr>
 
-diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-new file mode 100644
-index 000000000000..823609ac4cf5
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-@@ -0,0 +1,163 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/nxp,imx8mq-mipi-csi2.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: NXP and i.MX8MQ MIPI CSI-2 receiver
-+
-+maintainers:
-+  - Martin Kepplinger <martin.kepplinger@puri.sm>
-+
-+description: |-
-+  This binding covers the CSI-2 RX PHY and host controller included in the
-+  NXP i.MX8MQ SoC. It handles the sensor/image input and process for all the
-+  input imaging devices.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - fsl,imx8mq-mipi-csi2
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    minItems: 4
-+
-+  clock-names:
-+    minItems: 4
-+    items:
-+      - const: core
-+      - const: esc
-+      - const: pxl
-+      - const: clko2
-+
-+  assigned-clocks:
-+    maxItems: 3
-+
-+  assigned-clock-rates:
-+    maxItems: 3
-+
-+  assigned-clock-parents:
-+    maxItems: 3
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  phy-reset:
-+    description:
-+      The phandle to the imx8mq reset-controller.
-+    maxItems: 1
-+
-+  phy-gpr:
-+    description:
-+      The phandle to the imx8mq syscon iomux-gpr.
-+    maxItems: 1
-+
-+  interconnects:
-+    maxItems: 1
-+
-+  interconnect-names:
-+    const: dram
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-+        description:
-+          Input port node, single endpoint describing the CSI-2 transmitter.
-+
-+        properties:
-+          endpoint:
-+            $ref: video-interfaces.yaml#
-+            unevaluatedProperties: false
-+
-+            properties:
-+              data-lanes:
-+                items:
-+                  minItems: 1
-+                  maxItems: 4
-+                  items:
-+                    - const: 1
-+                    - const: 2
-+                    - const: 3
-+                    - const: 4
-+
-+            required:
-+              - data-lanes
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description:
-+          Output port node
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - assigned-clocks
-+  - assigned-clock-rates
-+  - assigned-clock-parents
-+  - power-domains
-+  - phy-reset
-+  - phy-gpr
-+  - ports
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/imx8mq-clock.h>
-+    #include <dt-bindings/interconnect/imx8mq.h>
-+
-+    mipi_csi1@30a70000 {
-+        compatible = "fsl,imx8mq-mipi-csi2";
-+        reg = <0x30a70000 0x1000>; /* MIPI CSI1 Controller base addr */
-+        clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
-+                 <&clk IMX8MQ_CLK_CSI1_ESC>,
-+                 <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
-+                 <&clk IMX8MQ_CLK_CLKO2>;
-+        clock-names = "core", "esc", "pxl", "clko2";
-+        assigned-clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
-+                          <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
-+                          <&clk IMX8MQ_CLK_CSI1_ESC>;
-+        assigned-clock-rates = <266000000>, <200000000>, <66000000>;
-+        assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
-+                                 <&clk IMX8MQ_SYS2_PLL_1000M>,
-+                                 <&clk IMX8MQ_SYS1_PLL_800M>;
-+        power-domains = <&pgc_mipi_csi1>;
-+        phy-reset = <&src>;
-+        phy-gpr = <&iomuxc_gpr>;
-+        interconnects = <&noc IMX8MQ_ICM_CSI1 &noc IMX8MQ_ICS_DRAM>;
-+        interconnect-names = "dram";
-+        status = "disabled";
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+
-+                imx8mm_mipi_csi_in: endpoint {
-+                    remote-endpoint = <&imx477_out>;
-+                    data-lanes = <1 2 3 4>;
-+                };
-+            };
-+
-+            port@1 {
-+                reg = <1>;
-+
-+                imx8mm_mipi_csi_out: endpoint {
-+                    remote-endpoint = <&csi_in>;
-+                };
-+            };
-+        };
-+    };
-+
-+...
+Thanks for your patch!
+
+>  drivers/staging/emxx_udc/emxx_udc.c | 11 ++++-------
+
+I'm so happy people are improving this driver!
+Is it working well on your hardware?
+Do you think it's ready to migrate out of staging?
+
+Thanks again!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.30.2
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
