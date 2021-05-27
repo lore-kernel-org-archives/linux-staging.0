@@ -1,82 +1,60 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717D82FB9
-	for <linux-staging@lists.linux.dev>; Thu, 27 May 2021 12:13:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7B476613AA;
-	Thu, 27 May 2021 12:12:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1622117580;
-	bh=WZlLrGiAfimJpbKiCXTF3f4pAK3pDk1vE3WUqLZZ720=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TYV+yWlL//W+NZUTY1CPRBHDR2thsamhs1IogKgRvgauvtS9osicQZO4QS5DyNWUC
-	 NWS42AAbvPUHQkyJN7JXCwTxr2j1vdxfi+HGW78qv0gcPTaQPWYZ5Sb4fae7UqiFcA
-	 ZWFddqngKHOobjE2DTHmR3GZWBcxA8VxcavUAUA0=
-Date: Thu, 27 May 2021 14:12:57 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Baokun Li <libaokun1@huawei.com>
-Cc: ross.schm.dev@gmail.com, fabioaiuto83@gmail.com, marcocesati@gmail.com,
-	fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, weiyongjun1@huawei.com,
-	yuehaibing@huawei.com, yangjihong1@huawei.com, yukuai3@huawei.com
-Subject: Re: [PATCH -next] staging: rtl8723bs: Remove set but not used
- variable 'reason_code'
-Message-ID: <YK+Mye9eXudCf6/r@kroah.com>
-References: <20210527120210.321810-1-libaokun1@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E10E2FB4
+	for <linux-staging@lists.linux.dev>; Thu, 27 May 2021 19:22:19 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=laumann.xyz; s=key1;
+	t=1622143331;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=dE0h7OWclGhaloJhIe3yXB7vM0Hnz3RcKcpchme+u/o=;
+	b=0CzYjIoK6/M5+JRJ5PmXmNJijUYw1SQATJodgX7LokShzBDhHPIcasqfvj/MLvGzdjoiKV
+	W3xBZ8YGOGXfS2FYkZFzriInhS2iE3MqAv24s36SxYjHgvFE3P/INToxZHSf2dfYxC2JqI
+	Zly+2TK0J4P0vdRSiKFDdvYF0TGK44isvkCOudJma+zu/mMCk1qUosoj/oLvc6O3D+qVqF
+	7WhASTBTuvZS37h0joHscxG9a0v+Liwj9384qvbC9u1nCJc2uz9vrueMB+dzSJWsG2Kg3u
+	0YU4vS0pQQgfQ1hXe+ick2X+oNzrylpLIJnvIQsEb1dZOXmoA5dsJCtBHZXHvw==
+From: Thomas Bracht Laumann Jespersen <t@laumann.xyz>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Thomas Bracht Laumann Jespersen <t@laumann.xyz>
+Subject: [PATCH] staging: rtl8192u: Fix shadowed variable name
+Date: Thu, 27 May 2021 21:21:49 +0200
+Message-Id: <20210527192149.29686-1-t@laumann.xyz>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210527120210.321810-1-libaokun1@huawei.com>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: t@laumann.xyz
 
-On Thu, May 27, 2021 at 08:02:10PM +0800, Baokun Li wrote:
-> Fixes gcc '-Wunused-but-set-variable' warning:
-> 
-> drivers/staging/rtl8723bs/core/rtw_mlme_ext.c: In function 'OnAction_back':
-> drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:1729:30: warning:
->  variable ‘reason_code’ set but not used [-Wunused-but-set-variable]
-> 
-> It never used since introduction.
-> 
-> Signed-off-by: Baokun Li <libaokun1@huawei.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> index 9fc612fb736f..97b3c2965770 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> @@ -1721,7 +1721,7 @@ unsigned int OnAction_back(struct adapter *padapter, union recv_frame *precv_fra
->  	struct recv_reorder_ctrl *preorder_ctrl;
->  	unsigned char 	*frame_body;
->  	unsigned char 	category, action;
-> -	unsigned short	tid, status, reason_code = 0;
-> +	unsigned short	tid, status;
->  	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
->  	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
->  	u8 *pframe = precv_frame->u.hdr.rx_data;
-> @@ -1790,9 +1790,6 @@ unsigned int OnAction_back(struct adapter *padapter, union recv_frame *precv_fra
->  					~BIT((frame_body[3] >> 4) & 0xf);
->  				psta->htpriv.candidate_tid_bitmap &=
->  					~BIT((frame_body[3] >> 4) & 0xf);
-> -
-> -				/* reason_code = frame_body[4] | (frame_body[5] << 8); */
-> -				reason_code = get_unaligned_le16(&frame_body[4]);
->  			} else if ((frame_body[3] & BIT(3)) == BIT(3)) {
->  				tid = (frame_body[3] >> 4) & 0x0F;
->  
-> -- 
-> 2.25.4
-> 
+Fixes the following sparse warning:
 
-Does not apply to my tree.  Are you _sure_ you are using the latest
-version of linux-next?
+drivers/staging/rtl8192u/ieee80211/ieee80211_tx.c:798:32: warning: symbol 'tcb_desc' shadows an earlier one
+drivers/staging/rtl8192u/ieee80211/ieee80211_tx.c:550:24: originally declared here
 
-thanks,
+Signed-off-by: Thomas Bracht Laumann Jespersen <t@laumann.xyz>
+---
+ drivers/staging/rtl8192u/ieee80211/ieee80211_tx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-greg k-h
+diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_tx.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_tx.c
+index 96e6aaf859ec..8602e3a6c837 100644
+--- a/drivers/staging/rtl8192u/ieee80211/ieee80211_tx.c
++++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_tx.c
+@@ -795,7 +795,7 @@ int ieee80211_xmit(struct sk_buff *skb, struct net_device *dev)
+  success:
+ //WB add to fill data tcb_desc here. only first fragment is considered, need to change, and you may remove to other place.
+ 	if (txb) {
+-		struct cb_desc *tcb_desc = (struct cb_desc *)(txb->fragments[0]->cb + MAX_DEV_ADDR_SIZE);
++		tcb_desc = (struct cb_desc *)(txb->fragments[0]->cb + MAX_DEV_ADDR_SIZE);
+ 		tcb_desc->bTxEnableFwCalcDur = 1;
+ 		if (is_multicast_ether_addr(header.addr1))
+ 			tcb_desc->bMulticast = 1;
+-- 
+2.31.1
+
