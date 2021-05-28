@@ -1,102 +1,84 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78D0770
-	for <linux-staging@lists.linux.dev>; Fri, 28 May 2021 03:33:04 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id i5so1558127pgm.0
-        for <linux-staging@lists.linux.dev>; Thu, 27 May 2021 20:33:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=cei8oo+HPvVJ9fZxeoi8qQ5wH7hhKcS/mBu1SpW4Brw=;
-        b=wcZbHtujfBzWSHe1CLq2E8os0pvIJ1mq/Y6f9N/+AjojdEWH3jQU1iFL2mVkihSa8m
-         3V8uHxga9sLyNkEmS0toTIkZOnQzFg8JxkKa8x+z5xIeSz8+HBut0x/BDM22jmM07TI3
-         UVlqp7ZBBAiUtqNulF1HEUC6iveUY1FndJb57M2jARio+AZOzNoydf1FulGo05VXGZ2w
-         efzcJ7EcC4YYsQ+j88Pwyw7NxVEgAu+igIY5xgSQwRoyLDz3XIo/WTTEMg658nPPXRSB
-         q9bT5+a2wJ7XrlJ9e/9F85Xo6zFSYfdkVvOGY0YSc+WeBq9e3ggaK25CTZDhTjzO3oXV
-         XpIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=cei8oo+HPvVJ9fZxeoi8qQ5wH7hhKcS/mBu1SpW4Brw=;
-        b=cOx68qvNElEg3OdzKzc3C4gXvPIdVplD8g0TATtzrnsYBoc8UPPd9J/liJFhtN2tcL
-         TGnTgVzaPOJ2QYACRqLOihY6Ho2uU8+mVyLb+l8M/73q4628xR9TJ7lcsVnANMWCYDVL
-         PFSQPmopxw6YR4gIhp1djrbzJmIM19f5bxhnQKT745hePx4j/xNduE1B9EQ5i9gY12i0
-         ojeAQNBczOcIXyuieGum9PSebGuUVnnqQKPr7Z7dt7qMHMo2z9BzQrynroRLBLXY6y+I
-         ruc/jNBcgt9c+HER+2Gcc4Fs8SVS0f/indubaSxj5i3BVhPOUvtkDKFy2YEa0aoXz2Uc
-         R+Wg==
-X-Gm-Message-State: AOAM533uGUpOjeb446Nud+1EIviQo6D0wCY1OLAyDiGGcB+aOBAVZskf
-	uCrjNdgyUxIgIF+/Sb8S/2ktqg==
-X-Google-Smtp-Source: ABdhPJzmecE+9e5/NyCm7sdGBNpfaskD2Bht/Jlndatn1M5IipDl+BlZTrVh8NcOArBsZSjWxdZKsw==
-X-Received: by 2002:aa7:98c5:0:b029:2e9:4382:fa03 with SMTP id e5-20020aa798c50000b02902e94382fa03mr1686102pfm.38.1622172783909;
-        Thu, 27 May 2021 20:33:03 -0700 (PDT)
-Received: from localhost ([136.185.154.93])
-        by smtp.gmail.com with ESMTPSA id w123sm2945993pfb.109.2021.05.27.20.33.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 May 2021 20:33:03 -0700 (PDT)
-Date: Fri, 28 May 2021 09:03:01 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: linux-staging@lists.linux.dev, Viresh Kumar <vireshk@kernel.org>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: drivers/staging/greybus/bootrom.c: fw is NULL but dereferenced
-Message-ID: <20210528033301.soqgwfwfy4ls6a2a@vireshk-i7>
-References: <2015099.xVv48VzNit@linux.local>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF7B2FAD
+	for <linux-staging@lists.linux.dev>; Fri, 28 May 2021 07:21:17 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CC3EF613F1
+	for <linux-staging@lists.linux.dev>; Fri, 28 May 2021 07:21:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1622186476;
+	bh=N3l+H3FWpz9hTS6R0dJJeiT9f5Hegbgor3bxDoeiZB4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=q17llRD5bNPqI2YOYou1mHif2jH1R4u5xPWmUtaumzWMCJ+/sb8OIeXoYHio5GF7A
+	 uLtH6EHXeA9atfcpT43lGjq6PFs2AhRZgvolLvJQzTK9jLRjpLF8V+i24STdmwQ/qc
+	 /gPFqkPwcj5HgMXA4sBCr41WGr85shiy7xgil3lBq7o5vZG8ZupQkO3WT2aqiS8ZI9
+	 yEWBRrpnf8Bosh3EZsWSAyTT2fRbC0vhfQGwU+khQztIM3d+im05hX/xOk6GoZ04Sb
+	 gmDJjeTF0eXV0Fy4lbWM8BD0n4y/Jy7rJhrg3kH83cpxWPO6D99A+KOj33qWh7KaDA
+	 Czsw9UbTtYSWA==
+Received: by mail-wr1-f49.google.com with SMTP id f11so2265519wrq.1
+        for <linux-staging@lists.linux.dev>; Fri, 28 May 2021 00:21:16 -0700 (PDT)
+X-Gm-Message-State: AOAM533oTg95qHb1qcaap6RmxAmTs5daTFRRsK3izFtTWpR8hpUzumJx
+	Y0LBR1/25uxQnJC/j3LzRpud5QVQvFW/lXn5igY=
+X-Google-Smtp-Source: ABdhPJxHykzZrhj/hPM+SDXiG/bev9q2vVIuln4XTNDNI7FPpPyt6Z0g0tnEwyXB+ttH+lNiT9Q9Rs7Og0EDShA9RSw=
+X-Received: by 2002:adf:e589:: with SMTP id l9mr7433932wrm.361.1622186475355;
+ Fri, 28 May 2021 00:21:15 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2015099.xVv48VzNit@linux.local>
-User-Agent: NeoMutt/20180716-391-311a52
+References: <20210516204818.2967910-1-arnd@kernel.org> <20210524151829.GO3@paasikivi.fi.intel.com>
+In-Reply-To: <20210524151829.GO3@paasikivi.fi.intel.com>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Fri, 28 May 2021 09:19:46 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1--fRJ0A+XwOPFLNDNUU7uFWi_LiPCAoCQ53GYZknvpg@mail.gmail.com>
+Message-ID: <CAK8P3a1--fRJ0A+XwOPFLNDNUU7uFWi_LiPCAoCQ53GYZknvpg@mail.gmail.com>
+Subject: Re: [PATCH] media: atomisp: remove compat_ioctl32 code
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Christoph Hellwig <hch@lst.de>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On 28-05-21, 01:39, Fabio M. De Francesco wrote:
-> Coccinelle detected that fw is NULL but dereferenced.
-> 
-> static int gb_bootrom_get_firmware(struct gb_operation *op)
-> {
-> /* lines of code */
->         if (!fw) {
->                 dev_err(dev, "%s: firmware not available\n", __func__);
->                 ret = -EINVAL;
+On Mon, May 24, 2021 at 5:18 PM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+> On Sun, May 16, 2021 at 10:47:43PM +0200, Arnd Bergmann wrote:
+> > From: Arnd Bergmann <arnd@arndb.de>
+> >
+> > This is one of the last remaining users of compat_alloc_user_space()
+> > and copy_in_user(), which are in the process of getting removed.
+> >
+> > As of commit 57e6b6f2303e ("media: atomisp_fops.c: disable
+> > atomisp_compat_ioctl32"), nothing in this file is actually getting used
+> > as the only reference has been stubbed out.
+>
+> This patch was made redundant by another one that fixed the bug. But I
+> guess you're right in the sense that no-one could have used this because of
+> the patch that disabled it.
+>
+> So:
+>
+> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>
+> But:
+>
+> > diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> > index f1e6b2597853..e383e17c5072 100644
+> > --- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> > +++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> > @@ -1283,7 +1283,8 @@ const struct v4l2_file_operations atomisp_fops = {
+> >       .unlocked_ioctl = video_ioctl2,
+> >  #ifdef CONFIG_COMPAT
+> >       /*
+> > -      * There are problems with this code. Disable this for now.
+> > +      * this was removed because of bugs, the interface
+> > +      * needs to be made safe for compat tasks instead.
+> >       .compat_ioctl32 = atomisp_compat_ioctl32,
+>
+> I think the comment could go, too.
 
-ret is set here.
+Should I replace it with an entry in the TODO file then?
 
->                 goto unlock;
->         }
-> /* lines of code */
-> unlock:
->         unlock:
->         mutex_unlock(&bootrom->mutex);
-> 
-> queue_work:
->         /* Refresh timeout */
->         if (!ret && (offset + size == fw->size))    <--- here
-
-Since we are checking for !ret here, we will never access fw and this is a bug
-in the tool and not the code here.
-
-> 	next_request = NEXT_REQ_READY_TO_BOOT;
-> /* lines of code */
-> }
-> 
-> I really don't know if the following change may break something else:
-> 
->         if(!ret && fw && (offset + size == fw->size))
-> 	next_request = NEXT_REQ_READY_TO_BOOT;
-> 
-> So, I'll leave the problem to the maintainers or to other people who know how 
-> the driver is supposed to manage fw == NULL.
-> 
-> Thanks,
-> 
-> Fabio
-> 
-
--- 
-viresh
+       Arnd
