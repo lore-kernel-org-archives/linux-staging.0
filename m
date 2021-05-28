@@ -1,84 +1,123 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF7B2FAD
-	for <linux-staging@lists.linux.dev>; Fri, 28 May 2021 07:21:17 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CC3EF613F1
-	for <linux-staging@lists.linux.dev>; Fri, 28 May 2021 07:21:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1622186476;
-	bh=N3l+H3FWpz9hTS6R0dJJeiT9f5Hegbgor3bxDoeiZB4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=q17llRD5bNPqI2YOYou1mHif2jH1R4u5xPWmUtaumzWMCJ+/sb8OIeXoYHio5GF7A
-	 uLtH6EHXeA9atfcpT43lGjq6PFs2AhRZgvolLvJQzTK9jLRjpLF8V+i24STdmwQ/qc
-	 /gPFqkPwcj5HgMXA4sBCr41WGr85shiy7xgil3lBq7o5vZG8ZupQkO3WT2aqiS8ZI9
-	 yEWBRrpnf8Bosh3EZsWSAyTT2fRbC0vhfQGwU+khQztIM3d+im05hX/xOk6GoZ04Sb
-	 gmDJjeTF0eXV0Fy4lbWM8BD0n4y/Jy7rJhrg3kH83cpxWPO6D99A+KOj33qWh7KaDA
-	 Czsw9UbTtYSWA==
-Received: by mail-wr1-f49.google.com with SMTP id f11so2265519wrq.1
-        for <linux-staging@lists.linux.dev>; Fri, 28 May 2021 00:21:16 -0700 (PDT)
-X-Gm-Message-State: AOAM533oTg95qHb1qcaap6RmxAmTs5daTFRRsK3izFtTWpR8hpUzumJx
-	Y0LBR1/25uxQnJC/j3LzRpud5QVQvFW/lXn5igY=
-X-Google-Smtp-Source: ABdhPJxHykzZrhj/hPM+SDXiG/bev9q2vVIuln4XTNDNI7FPpPyt6Z0g0tnEwyXB+ttH+lNiT9Q9Rs7Og0EDShA9RSw=
-X-Received: by 2002:adf:e589:: with SMTP id l9mr7433932wrm.361.1622186475355;
- Fri, 28 May 2021 00:21:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680AC2FAD
+	for <linux-staging@lists.linux.dev>; Fri, 28 May 2021 08:03:56 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id gb17so4007701ejc.8
+        for <linux-staging@lists.linux.dev>; Fri, 28 May 2021 01:03:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=4lLWmO8FwQ82FYaqkkGlXmgOAPrA+grFImhNRkbcbEk=;
+        b=M3AK9Bo9iZoe1Y7iGScRTj4jLRR46tTsrteCVfxnwAUbj4GmiuKyvqw6RzyBaaSrzZ
+         vgtM9bZDJsjg1HNvl6yG0z9vvUWdLvvSA3gYibhxTBJPka1teG8v0cbNeBmn3CjzuRe1
+         hE06Qx5m88MlTTwjGlDXvVaEUjyR6kBTAz5fTG3DAQ0ihwljOc7B+bi254T24tfrDN3K
+         WaX2wIN3FY4QlMmks3KoDWC/o1GsqdWEDkqnOotkHNT+lMmppsxPo8gwAXBUC1FvaQSX
+         87fIPSE5If+s/38rz7z9PcUQZdFAZ+nzOFbrG/eTOAEFkCKjPyezEgHLwcfvFUwhX0DV
+         rRkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=4lLWmO8FwQ82FYaqkkGlXmgOAPrA+grFImhNRkbcbEk=;
+        b=cbqK8KArrkmYE56ceoD5Jcv2MJMRXgAMv0v+MpXIJM/ehoOHCBH9eERS3FrGdpEU8A
+         jtBL9MlPMFTPBtuxrfUzM1/i939YlTfxJyIk7kMUPPv0Y8r4RcmwYnqb+/iUxwLNVVZI
+         P0MrX87hOIGeWhH1q+5qjJ3a6hRIdanri6D7TjSLYi/P3xLC5gZE5JTA8kxwdjBskRRg
+         syLhqyqQ8ihi2F1IsNRFRl4tP3/mdE2mGOHcRrr0WaM3xa7IMJ4bfM66yglTu9yj7brW
+         mmTEH0c15IdqCNoWxetad3FGqRA3vJVoE7Wbzti0KZxdB3dAqQiKwTOChyLEqVCdh3qu
+         8BjQ==
+X-Gm-Message-State: AOAM530A+f9exuSMTXp5aWpazrTXjgHJIsf9ShSgpMVRlxIitqfB1gPP
+	yjlS2chsNKQp+BFCPZ+gzx8=
+X-Google-Smtp-Source: ABdhPJzclK3FzZNdf1wQCmZQtJpJQIbhBGX1FQbEoL1OSobRB/RTZLFPwu8a6C6d7T05V7hgr9ANsA==
+X-Received: by 2002:a17:906:2896:: with SMTP id o22mr6853101ejd.524.1622189034885;
+        Fri, 28 May 2021 01:03:54 -0700 (PDT)
+Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
+        by smtp.gmail.com with ESMTPSA id w14sm2345934edj.6.2021.05.28.01.03.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 May 2021 01:03:54 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: linux-staging@lists.linux.dev, Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: drivers/staging/greybus/bootrom.c: fw is NULL but dereferenced
+Date: Fri, 28 May 2021 10:03:52 +0200
+Message-ID: <1931377.TGo55UGoA0@linux.local>
+In-Reply-To: <20210528033301.soqgwfwfy4ls6a2a@vireshk-i7>
+References: <2015099.xVv48VzNit@linux.local> <20210528033301.soqgwfwfy4ls6a2a@vireshk-i7>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210516204818.2967910-1-arnd@kernel.org> <20210524151829.GO3@paasikivi.fi.intel.com>
-In-Reply-To: <20210524151829.GO3@paasikivi.fi.intel.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Fri, 28 May 2021 09:19:46 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1--fRJ0A+XwOPFLNDNUU7uFWi_LiPCAoCQ53GYZknvpg@mail.gmail.com>
-Message-ID: <CAK8P3a1--fRJ0A+XwOPFLNDNUU7uFWi_LiPCAoCQ53GYZknvpg@mail.gmail.com>
-Subject: Re: [PATCH] media: atomisp: remove compat_ioctl32 code
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Christoph Hellwig <hch@lst.de>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, May 24, 2021 at 5:18 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
-> On Sun, May 16, 2021 at 10:47:43PM +0200, Arnd Bergmann wrote:
-> > From: Arnd Bergmann <arnd@arndb.de>
-> >
-> > This is one of the last remaining users of compat_alloc_user_space()
-> > and copy_in_user(), which are in the process of getting removed.
-> >
-> > As of commit 57e6b6f2303e ("media: atomisp_fops.c: disable
-> > atomisp_compat_ioctl32"), nothing in this file is actually getting used
-> > as the only reference has been stubbed out.
+On Friday, May 28, 2021 5:33:01 AM CEST Viresh Kumar wrote:
+> On 28-05-21, 01:39, Fabio M. De Francesco wrote:
+> > Coccinelle detected that fw is NULL but dereferenced.
+> > 
+> > static int gb_bootrom_get_firmware(struct gb_operation *op)
+> > {
+> > /* lines of code */
+> > 
+> >         if (!fw) {
+> >         
+> >                 dev_err(dev, "%s: firmware not available\n", __func__);
+> >                 ret = -EINVAL;
+> 
+> ret is set here.
 >
-> This patch was made redundant by another one that fixed the bug. But I
-> guess you're right in the sense that no-one could have used this because of
-> the patch that disabled it.
->
-> So:
->
-> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->
-> But:
->
-> > diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-> > index f1e6b2597853..e383e17c5072 100644
-> > --- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-> > +++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-> > @@ -1283,7 +1283,8 @@ const struct v4l2_file_operations atomisp_fops = {
-> >       .unlocked_ioctl = video_ioctl2,
-> >  #ifdef CONFIG_COMPAT
-> >       /*
-> > -      * There are problems with this code. Disable this for now.
-> > +      * this was removed because of bugs, the interface
-> > +      * needs to be made safe for compat tasks instead.
-> >       .compat_ioctl32 = atomisp_compat_ioctl32,
->
-> I think the comment could go, too.
+Oh sorry. I entirely skipped that "ret = -EINVAL". Another case where one 
+should avoid blindly trusting the output of static analyzers without looking 
+carefully at the whole context ... :(
 
-Should I replace it with an entry in the TODO file then?
+Unfortunately, Coccinelle has a high false positive rate. Just yesterday I ran 
+it against the entire driver / staging and more than 80% of the warnings / 
+errors weren't true.
 
-       Arnd
+It takes so long to distinguish the fake from the real that I wonder if it's 
+worth it to run the (slow) Coccinelle, wait for the output messages and verify 
+their veracity.
+
+Thanks,
+
+Fabio
+> 
+> >                 goto unlock;
+> >         
+> >         }
+> > 
+> > /* lines of code */
+> > 
+> > unlock:
+> >         unlock:
+> >         mutex_unlock(&bootrom->mutex);
+> > 
+> > queue_work:
+> >         /* Refresh timeout */
+> >         if (!ret && (offset + size == fw->size))    <--- here
+> 
+> Since we are checking for !ret here, we will never access fw and this is a 
+bug
+> in the tool and not the code here.
+> 
+> > 	next_request = NEXT_REQ_READY_TO_BOOT;
+> > 
+> > /* lines of code */
+> > }
+> > 
+> > I really don't know if the following change may break something else:
+> >         if(!ret && fw && (offset + size == fw->size))
+> > 	
+> > 	next_request = NEXT_REQ_READY_TO_BOOT;
+> > 
+> > So, I'll leave the problem to the maintainers or to other people who know 
+how
+> > the driver is supposed to manage fw == NULL.
+> > 
+> > Thanks,
+> > 
+> > Fabio
+
+
+
