@@ -1,123 +1,67 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680AC2FAD
-	for <linux-staging@lists.linux.dev>; Fri, 28 May 2021 08:03:56 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id gb17so4007701ejc.8
-        for <linux-staging@lists.linux.dev>; Fri, 28 May 2021 01:03:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=4lLWmO8FwQ82FYaqkkGlXmgOAPrA+grFImhNRkbcbEk=;
-        b=M3AK9Bo9iZoe1Y7iGScRTj4jLRR46tTsrteCVfxnwAUbj4GmiuKyvqw6RzyBaaSrzZ
-         vgtM9bZDJsjg1HNvl6yG0z9vvUWdLvvSA3gYibhxTBJPka1teG8v0cbNeBmn3CjzuRe1
-         hE06Qx5m88MlTTwjGlDXvVaEUjyR6kBTAz5fTG3DAQ0ihwljOc7B+bi254T24tfrDN3K
-         WaX2wIN3FY4QlMmks3KoDWC/o1GsqdWEDkqnOotkHNT+lMmppsxPo8gwAXBUC1FvaQSX
-         87fIPSE5If+s/38rz7z9PcUQZdFAZ+nzOFbrG/eTOAEFkCKjPyezEgHLwcfvFUwhX0DV
-         rRkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=4lLWmO8FwQ82FYaqkkGlXmgOAPrA+grFImhNRkbcbEk=;
-        b=cbqK8KArrkmYE56ceoD5Jcv2MJMRXgAMv0v+MpXIJM/ehoOHCBH9eERS3FrGdpEU8A
-         jtBL9MlPMFTPBtuxrfUzM1/i939YlTfxJyIk7kMUPPv0Y8r4RcmwYnqb+/iUxwLNVVZI
-         P0MrX87hOIGeWhH1q+5qjJ3a6hRIdanri6D7TjSLYi/P3xLC5gZE5JTA8kxwdjBskRRg
-         syLhqyqQ8ihi2F1IsNRFRl4tP3/mdE2mGOHcRrr0WaM3xa7IMJ4bfM66yglTu9yj7brW
-         mmTEH0c15IdqCNoWxetad3FGqRA3vJVoE7Wbzti0KZxdB3dAqQiKwTOChyLEqVCdh3qu
-         8BjQ==
-X-Gm-Message-State: AOAM530A+f9exuSMTXp5aWpazrTXjgHJIsf9ShSgpMVRlxIitqfB1gPP
-	yjlS2chsNKQp+BFCPZ+gzx8=
-X-Google-Smtp-Source: ABdhPJzclK3FzZNdf1wQCmZQtJpJQIbhBGX1FQbEoL1OSobRB/RTZLFPwu8a6C6d7T05V7hgr9ANsA==
-X-Received: by 2002:a17:906:2896:: with SMTP id o22mr6853101ejd.524.1622189034885;
-        Fri, 28 May 2021 01:03:54 -0700 (PDT)
-Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
-        by smtp.gmail.com with ESMTPSA id w14sm2345934edj.6.2021.05.28.01.03.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 May 2021 01:03:54 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: linux-staging@lists.linux.dev, Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: drivers/staging/greybus/bootrom.c: fw is NULL but dereferenced
-Date: Fri, 28 May 2021 10:03:52 +0200
-Message-ID: <1931377.TGo55UGoA0@linux.local>
-In-Reply-To: <20210528033301.soqgwfwfy4ls6a2a@vireshk-i7>
-References: <2015099.xVv48VzNit@linux.local> <20210528033301.soqgwfwfy4ls6a2a@vireshk-i7>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D350729CA
+	for <linux-staging@lists.linux.dev>; Fri, 28 May 2021 09:23:37 +0000 (UTC)
+IronPort-SDR: 2ptMpO6Jmd12QNv3Xf2qo0DH+Ecp8El4gPBdr9MFLu+Zi7LPOZsJ0HQaHAM1vUOfF4va7TNWbx
+ jwFCDcv0BXWw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9997"; a="202930191"
+X-IronPort-AV: E=Sophos;i="5.83,229,1616482800"; 
+   d="scan'208";a="202930191"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2021 02:23:36 -0700
+IronPort-SDR: OYJiS7GMVN3kdCP0T3Fk5QW14KYnzMOD98Qg35WhHpFHrXVXzw//2E/90UMf61risilBjandaz
+ r9+dIO/YD33g==
+X-IronPort-AV: E=Sophos;i="5.83,229,1616482800"; 
+   d="scan'208";a="465818184"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2021 02:23:33 -0700
+Received: from andy by smile with local (Exim 4.94)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1lmYiJ-00FHHv-24; Fri, 28 May 2021 12:23:31 +0300
+Date: Fri, 28 May 2021 12:23:31 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Wolfram Sang <wsa@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-i2c@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1 1/6] i2c: acpi: Export i2c_acpi_find_client_by_adev()
+ for users
+Message-ID: <YLC2k/5hqNNBnN6e@smile.fi.intel.com>
+References: <20210526124322.48915-1-andriy.shevchenko@linux.intel.com>
+ <YLAAedlB6UaJQh0X@kunai>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YLAAedlB6UaJQh0X@kunai>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Friday, May 28, 2021 5:33:01 AM CEST Viresh Kumar wrote:
-> On 28-05-21, 01:39, Fabio M. De Francesco wrote:
-> > Coccinelle detected that fw is NULL but dereferenced.
-> > 
-> > static int gb_bootrom_get_firmware(struct gb_operation *op)
-> > {
-> > /* lines of code */
-> > 
-> >         if (!fw) {
-> >         
-> >                 dev_err(dev, "%s: firmware not available\n", __func__);
-> >                 ret = -EINVAL;
+On Thu, May 27, 2021 at 10:26:33PM +0200, Wolfram Sang wrote:
+> On Wed, May 26, 2021 at 03:43:17PM +0300, Andy Shevchenko wrote:
+> > There is at least one user that will gain from the
+> > i2c_acpi_find_client_by_adev() being exported.
 > 
-> ret is set here.
->
-Oh sorry. I entirely skipped that "ret = -EINVAL". Another case where one 
-should avoid blindly trusting the output of static analyzers without looking 
-carefully at the whole context ... :(
+> No objections per se. But as the user is in staging, I want to ask if
+> the use there is really a solution we would also accept outside of
+> staging? Or is it a hack?
 
-Unfortunately, Coccinelle has a high false positive rate. Just yesterday I ran 
-it against the entire driver / staging and more than 80% of the warnings / 
-errors weren't true.
+The similar OF API is exported for users, although amount of users and their
+locations are different. The AtomISP driver is not in the best shape, I agree,
+but for now any possible steps to make it better would be good steps in my
+opinion. Later we may see if we can do this piece of code differently (IIRC
+current way is probably the best taking into account legacy platforms support).
 
-It takes so long to distinguish the fake from the real that I wonder if it's 
-worth it to run the (slow) Coccinelle, wait for the output messages and verify 
-their veracity.
-
-Thanks,
-
-Fabio
-> 
-> >                 goto unlock;
-> >         
-> >         }
-> > 
-> > /* lines of code */
-> > 
-> > unlock:
-> >         unlock:
-> >         mutex_unlock(&bootrom->mutex);
-> > 
-> > queue_work:
-> >         /* Refresh timeout */
-> >         if (!ret && (offset + size == fw->size))    <--- here
-> 
-> Since we are checking for !ret here, we will never access fw and this is a 
-bug
-> in the tool and not the code here.
-> 
-> > 	next_request = NEXT_REQ_READY_TO_BOOT;
-> > 
-> > /* lines of code */
-> > }
-> > 
-> > I really don't know if the following change may break something else:
-> >         if(!ret && fw && (offset + size == fw->size))
-> > 	
-> > 	next_request = NEXT_REQ_READY_TO_BOOT;
-> > 
-> > So, I'll leave the problem to the maintainers or to other people who know 
-how
-> > the driver is supposed to manage fw == NULL.
-> > 
-> > Thanks,
-> > 
-> > Fabio
-
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
