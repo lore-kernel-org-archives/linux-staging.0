@@ -1,56 +1,29 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E342FB1
-	for <linux-staging@lists.linux.dev>; Fri, 28 May 2021 10:42:43 +0000 (UTC)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14SAauep022565;
-	Fri, 28 May 2021 10:42:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=p/KvIOmDwiC64qDbDiNCflb/Hd62oAZPkSdse05KLWA=;
- b=ElHYQ3z+ecMfcEfTdVZj8KPWXK0zC6jly6XKoHovDdR+TsjvotgCjguW7wLmcVIlSpL5
- foIHhgq6KbwfEqf9T6D61OsTuG3lOprdUUXJLmTBAcObn75dWUwwxyAIrgwVfLBXp4tu
- nkMjyxAkEj9009Lazv1Q1vf9JKbFwzl9VklusaF10oAs9VqNFl94IiAMB2qOPKyGMZEC
- 683+dQgZAMth2sBL7XDINrGPb4FdW4QgdepNL/Q5WuSEpWcnvT0pz9l5SuH9DhND07bU
- OObPgbPXnf1Zv7NI6ouIiBa5DBUKzYBB1ckxJy1LIE/flCd8gZN9eRnR9HsGACYSuzzf NQ== 
-Received: from oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by mx0b-00069f02.pphosted.com with ESMTP id 38sppd0tuu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 28 May 2021 10:42:40 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14SAgeIH001996;
-	Fri, 28 May 2021 10:42:40 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3020.oracle.com with ESMTP id 38rehkm59n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 28 May 2021 10:42:40 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14SAgdNX001978;
-	Fri, 28 May 2021 10:42:39 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by aserp3020.oracle.com with ESMTP id 38rehkm58y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 28 May 2021 10:42:39 +0000
-Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 14SAgb4M020204;
-	Fri, 28 May 2021 10:42:38 GMT
-Received: from kadam (/41.212.42.34)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Fri, 28 May 2021 03:42:37 -0700
-Date: Fri, 28 May 2021 13:42:29 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Viresh Kumar <viresh.kumar@linaro.org>, linux-staging@lists.linux.dev,
-        Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
-        Alex Elder <elder@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: drivers/staging/greybus/bootrom.c: fw is NULL but dereferenced
-Message-ID: <20210528104229.GU1955@kadam>
-References: <2015099.xVv48VzNit@linux.local>
- <20210528033301.soqgwfwfy4ls6a2a@vireshk-i7>
- <1931377.TGo55UGoA0@linux.local>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30CC6D0E
+	for <linux-staging@lists.linux.dev>; Fri, 28 May 2021 20:05:50 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 281956108E;
+	Fri, 28 May 2021 20:05:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1622232350;
+	bh=rNXvajikrlV72340IFgnljvPJYbW/u6BaNNESC1jKf0=;
+	h=Date:From:To:Cc:Subject:From;
+	b=VtnyLHFzS0lwpm6U1rJ8sgkc5VKIHXO/znswk7NtAo+H20DeC8uhhSF/NqCjH0wJF
+	 HP+6Avq4ZtHr2wv8h2qoD042KHsbPpLyL1+ZpVH0j4Yo/b2EC2hTZUHl9ItVI2YgRx
+	 XTd0at2dLV41sO7y4kKvzRNVeBUmKLpvtU49x3O8+iH1efKGVEno0u0PCSPxiaVmV3
+	 UnRXyarSpdWbLxMNpiPZiTcU6xfprPXi6ZD27pSRrtKbLmnz8jAfLwnrxIRY9lbp1q
+	 CN9UdyrXRP6H5V2V+PvROhaZgIXbFYz5jaeEUOKv8N74xwClak4LrWRaE8IjRiqZY1
+	 yU4Wfxh/wPQog==
+Date: Fri, 28 May 2021 15:06:50 -0500
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH][next] staging: rtl8188eu: Fix fall-through warnings for Clang
+Message-ID: <20210528200650.GA39289@embeddedor>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -58,82 +31,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1931377.TGo55UGoA0@linux.local>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: PmEXsKSxkb2E9Po2lCRvXtUpvWbHxCsT
-X-Proofpoint-ORIG-GUID: PmEXsKSxkb2E9Po2lCRvXtUpvWbHxCsT
 
-On Fri, May 28, 2021 at 10:03:52AM +0200, Fabio M. De Francesco wrote:
-> On Friday, May 28, 2021 5:33:01 AM CEST Viresh Kumar wrote:
-> > On 28-05-21, 01:39, Fabio M. De Francesco wrote:
-> > > Coccinelle detected that fw is NULL but dereferenced.
-> > > 
-> > > static int gb_bootrom_get_firmware(struct gb_operation *op)
-> > > {
-> > > /* lines of code */
-> > > 
-> > >         if (!fw) {
-> > >         
-> > >                 dev_err(dev, "%s: firmware not available\n", __func__);
-> > >                 ret = -EINVAL;
-> > 
-> > ret is set here.
-> >
-> Oh sorry. I entirely skipped that "ret = -EINVAL". Another case where one 
-> should avoid blindly trusting the output of static analyzers without looking 
-> carefully at the whole context ... :(
-> 
-> Unfortunately, Coccinelle has a high false positive rate. Just yesterday I ran 
-> it against the entire driver / staging and more than 80% of the warnings / 
-> errors weren't true.
-> 
-> It takes so long to distinguish the fake from the real that I wonder if it's 
-> worth it to run the (slow) Coccinelle, wait for the output messages and verify 
-> their veracity.
+In preparation to enable -Wimplicit-fallthrough for Clang, fix multiple
+warnings by explicitly adding multiple break statements instead
+of just letting the code fall through to the next case.
 
-With static checkers, we are always targetting 100% false positive rate
-because kernel devs fix the real bugs.
+Link: https://github.com/KSPP/linux/issues/115
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+JFYI: We had thousands of these sorts of warnings and now we are down
+      to just 25 in linux-next. These are some of those last remaining
+      warnings.
 
-Smatch tracks the relationship between "ret" and "fw" so it knows that
-"fw" is non-NULL and you could verify that by applying this diff and
-running `smatch_scripts/kchecker drivers/staging/greybus/bootrom.c`
+ drivers/staging/rtl8188eu/core/rtw_mlme_ext.c  | 1 +
+ drivers/staging/rtl8188eu/core/rtw_wlan_util.c | 2 ++
+ 2 files changed, 3 insertions(+)
 
-diff --git a/drivers/staging/greybus/bootrom.c b/drivers/staging/greybus/bootrom.c
-index a8efb86de140..9976d1bac839 100644
---- a/drivers/staging/greybus/bootrom.c
-+++ b/drivers/staging/greybus/bootrom.c
-@@ -238,6 +238,7 @@ static int gb_bootrom_firmware_size_request(struct gb_operation *op)
- 	return ret;
- }
+diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+index b4d81d3a856c..6803e9327eb2 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+@@ -3378,6 +3378,7 @@ static unsigned int OnAssocRsp(struct adapter *padapter,
+ 			break;
+ 		case WLAN_EID_ERP_INFO:
+ 			ERP_IE_handler(padapter, pIE);
++			break;
+ 		default:
+ 			break;
+ 		}
+diff --git a/drivers/staging/rtl8188eu/core/rtw_wlan_util.c b/drivers/staging/rtl8188eu/core/rtw_wlan_util.c
+index 3e244e949995..c9043f49ec9e 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_wlan_util.c
++++ b/drivers/staging/rtl8188eu/core/rtw_wlan_util.c
+@@ -1029,6 +1029,7 @@ unsigned int is_ap_in_tkip(struct adapter *padapter)
+ 			case WLAN_EID_RSN:
+ 				if (!memcmp((pIE->data + 8), RSN_TKIP_CIPHER, 4))
+ 					return true;
++				break;
+ 			default:
+ 				break;
+ 			}
+@@ -1226,6 +1227,7 @@ unsigned char check_assoc_AP(u8 *pframe, uint len)
+ 			} else {
+ 				break;
+ 			}
++			break;
  
-+#include "/home/dcarpenter/progs/smatch/devel/check_debug.h"
- static int gb_bootrom_get_firmware(struct gb_operation *op)
- {
- 	struct gb_bootrom *bootrom = gb_connection_get_data(op->connection);
-@@ -298,6 +299,8 @@ static int gb_bootrom_get_firmware(struct gb_operation *op)
- 
- queue_work:
- 	/* Refresh timeout */
-+	if (!ret)
-+		__smatch_implied(fw);
- 	if (!ret && (offset + size == fw->size))
- 		next_request = NEXT_REQ_READY_TO_BOOT;
- 	else
+ 		default:
+ 			break;
+-- 
+2.27.0
 
-But this test for for potential NULL dereference has a very high false
-positive rate so I seldom look at the output for it.  The problem is
-that GCC used to complain about uninitialized variables and GCC had a
-high false positive rate.  So just to make GCC be quiet, people would do
-"fw = NULL;" when the code was too complicated for GCC to understand.
-Then all the complicated code stopped being a GCC uninitialized variable
-warning and became a static checker warning of dereferencing a NULL
-pointer.  It's all the most complicated code to parse which does this
-and so that's obviously going to be tricky.  You often need to know
-outside context about how the function is called.
-
-And it's tricky, not only for static checkers but also for humans as
-well.  So when I'd review it, most of the time I couldn't really figure
-out if it's a real bug so I'd have to just leave it.  #frustrating
-
-regards,
-dan carpenter
