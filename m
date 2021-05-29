@@ -1,84 +1,94 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30CC6D0E
-	for <linux-staging@lists.linux.dev>; Fri, 28 May 2021 20:05:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 281956108E;
-	Fri, 28 May 2021 20:05:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1622232350;
-	bh=rNXvajikrlV72340IFgnljvPJYbW/u6BaNNESC1jKf0=;
-	h=Date:From:To:Cc:Subject:From;
-	b=VtnyLHFzS0lwpm6U1rJ8sgkc5VKIHXO/znswk7NtAo+H20DeC8uhhSF/NqCjH0wJF
-	 HP+6Avq4ZtHr2wv8h2qoD042KHsbPpLyL1+ZpVH0j4Yo/b2EC2hTZUHl9ItVI2YgRx
-	 XTd0at2dLV41sO7y4kKvzRNVeBUmKLpvtU49x3O8+iH1efKGVEno0u0PCSPxiaVmV3
-	 UnRXyarSpdWbLxMNpiPZiTcU6xfprPXi6ZD27pSRrtKbLmnz8jAfLwnrxIRY9lbp1q
-	 CN9UdyrXRP6H5V2V+PvROhaZgIXbFYz5jaeEUOKv8N74xwClak4LrWRaE8IjRiqZY1
-	 yU4Wfxh/wPQog==
-Date: Fri, 28 May 2021 15:06:50 -0500
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH][next] staging: rtl8188eu: Fix fall-through warnings for Clang
-Message-ID: <20210528200650.GA39289@embeddedor>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D260070
+	for <linux-staging@lists.linux.dev>; Sat, 29 May 2021 09:20:34 +0000 (UTC)
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.53])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4FsbWS6d96zWpSZ;
+	Sat, 29 May 2021 17:15:48 +0800 (CST)
+Received: from dggema762-chm.china.huawei.com (10.1.198.204) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Sat, 29 May 2021 17:20:26 +0800
+Received: from huawei.com (10.175.127.227) by dggema762-chm.china.huawei.com
+ (10.1.198.204) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Sat, 29
+ May 2021 17:20:26 +0800
+From: Yu Kuai <yukuai3@huawei.com>
+To: <gregkh@linuxfoundation.org>
+CC: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<yukuai3@huawei.com>, <yi.zhang@huawei.com>
+Subject: [PATCH] staging: rtl8723bs: core: rtw_mlme_ext.c: move the declaration and initialization of 'evt_seq' inside ifdef macro
+Date: Sat, 29 May 2021 17:29:48 +0800
+Message-ID: <20210529092948.3134775-1-yukuai3@huawei.com>
+X-Mailer: git-send-email 2.25.4
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.175.127.227]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggema762-chm.china.huawei.com (10.1.198.204)
+X-CFilter-Loop: Reflected
 
-In preparation to enable -Wimplicit-fallthrough for Clang, fix multiple
-warnings by explicitly adding multiple break statements instead
-of just letting the code fall through to the next case.
+'evt_seq' is only used if 'CHECK_ENENT_SEQ' is defined, however,
+it's declared and initialized even if 'CHECK_ENENT_SEQ' is not
+defined. Thus gcc will report following warning if
+'CHECK_ENENT_SEQ' is not defined:
 
-Link: https://github.com/KSPP/linux/issues/115
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:6009:15: warning:
+ variable ‘evt_seq’ set but not used [-Wunused-but-set-variable]
+ 6009 |  u8 evt_code, evt_seq;
+
+Thus move the declaration and initialization of 'evt_seq' inside
+ifdef macro to fix it.
+
+Signed-off-by: Yu Kuai <yukuai3@huawei.com>
 ---
-JFYI: We had thousands of these sorts of warnings and now we are down
-      to just 25 in linux-next. These are some of those last remaining
-      warnings.
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
- drivers/staging/rtl8188eu/core/rtw_mlme_ext.c  | 1 +
- drivers/staging/rtl8188eu/core/rtw_wlan_util.c | 2 ++
- 2 files changed, 3 insertions(+)
-
-diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
-index b4d81d3a856c..6803e9327eb2 100644
---- a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
-@@ -3378,6 +3378,7 @@ static unsigned int OnAssocRsp(struct adapter *padapter,
- 			break;
- 		case WLAN_EID_ERP_INFO:
- 			ERP_IE_handler(padapter, pIE);
-+			break;
- 		default:
- 			break;
- 		}
-diff --git a/drivers/staging/rtl8188eu/core/rtw_wlan_util.c b/drivers/staging/rtl8188eu/core/rtw_wlan_util.c
-index 3e244e949995..c9043f49ec9e 100644
---- a/drivers/staging/rtl8188eu/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_wlan_util.c
-@@ -1029,6 +1029,7 @@ unsigned int is_ap_in_tkip(struct adapter *padapter)
- 			case WLAN_EID_RSN:
- 				if (!memcmp((pIE->data + 8), RSN_TKIP_CIPHER, 4))
- 					return true;
-+				break;
- 			default:
- 				break;
- 			}
-@@ -1226,6 +1227,7 @@ unsigned char check_assoc_AP(u8 *pframe, uint len)
- 			} else {
- 				break;
- 			}
-+			break;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 97b3c2965770..e883371cc96d 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -6006,7 +6006,10 @@ static struct fwevent wlanevents[] = {
  
- 		default:
- 			break;
+ u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
+ {
+-	u8 evt_code, evt_seq;
++#ifdef CHECK_EVENT_SEQ
++	u8 evt_seq;
++#endif
++	u8 evt_code;
+ 	u16 evt_sz;
+ 	uint	*peventbuf;
+ 	void (*event_callback)(struct adapter *dev, u8 *pbuf);
+@@ -6017,18 +6020,17 @@ u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
+ 
+ 	peventbuf = (uint *)pbuf;
+ 	evt_sz = (u16)(*peventbuf&0xffff);
+-	evt_seq = (u8)((*peventbuf>>24)&0x7f);
+ 	evt_code = (u8)((*peventbuf>>16)&0xff);
+ 
+-
+-	#ifdef CHECK_EVENT_SEQ
++#ifdef CHECK_EVENT_SEQ
+ 	/*  checking event sequence... */
++	evt_seq = (u8)((*peventbuf>>24)&0x7f);
+ 	if (evt_seq != (atomic_read(&pevt_priv->event_seq) & 0x7f)) {
+ 		pevt_priv->event_seq = (evt_seq+1)&0x7f;
+ 
+ 		goto _abort_event_;
+ 	}
+-	#endif
++#endif
+ 
+ 	/*  checking if event code is valid */
+ 	if (evt_code >= MAX_C2HEVT)
 -- 
-2.27.0
+2.25.4
 
