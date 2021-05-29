@@ -1,94 +1,139 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D260070
-	for <linux-staging@lists.linux.dev>; Sat, 29 May 2021 09:20:34 +0000 (UTC)
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.53])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4FsbWS6d96zWpSZ;
-	Sat, 29 May 2021 17:15:48 +0800 (CST)
-Received: from dggema762-chm.china.huawei.com (10.1.198.204) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Sat, 29 May 2021 17:20:26 +0800
-Received: from huawei.com (10.175.127.227) by dggema762-chm.china.huawei.com
- (10.1.198.204) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Sat, 29
- May 2021 17:20:26 +0800
-From: Yu Kuai <yukuai3@huawei.com>
-To: <gregkh@linuxfoundation.org>
-CC: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<yukuai3@huawei.com>, <yi.zhang@huawei.com>
-Subject: [PATCH] staging: rtl8723bs: core: rtw_mlme_ext.c: move the declaration and initialization of 'evt_seq' inside ifdef macro
-Date: Sat, 29 May 2021 17:29:48 +0800
-Message-ID: <20210529092948.3134775-1-yukuai3@huawei.com>
-X-Mailer: git-send-email 2.25.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91ED70
+	for <linux-staging@lists.linux.dev>; Sat, 29 May 2021 10:01:42 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id o2-20020a05600c4fc2b029019a0a8f959dso396434wmq.1
+        for <linux-staging@lists.linux.dev>; Sat, 29 May 2021 03:01:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=3x8KD9tiZBovAACWYlPdJwi9QZYQFi+hgtkneaG2VEY=;
+        b=aYSYjg5w1ecI5eyL+x11ihUXzitD0LYtRFFYf1s4ZBJIFxeHnD311zSKjYaQdUEwsd
+         LDiWAC86B9rG0L/H7oHseEslqlzJa6Z/ci0YOlLRzU5XAZCDsn77OuIBLq4GZJskt67n
+         wYT+s7qtVylQa4jDQE1dTAMcWd9gYydKP+SRHJGW8qOXCY0AsJFQvsseUOITUZIEfnVH
+         nIGGVTeq1gfxlmC9d/ePjF9XgV9zMPC7e9r8ieVKl+Ccs1XfVolZzgutUx9WVSI2Lpct
+         ieUv9ICNVHrU2TQWfv27Z8+lhjXCIuGq1nYft5BELPxsNMKSbKABOEnEGHOIuBpTxEC5
+         Aryw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=3x8KD9tiZBovAACWYlPdJwi9QZYQFi+hgtkneaG2VEY=;
+        b=FzkjJLX8BmPxAzxv6C5P7ZNA4XeF9QRKk+XU4cMZRqfHofTT4pvptUEFFzIC+4we89
+         dU9B1qPH+WcBd261U5laGuDSIMEy/WZpV9zMy2nTi6eKvYRGaefvuoJE0My7G9uLDscj
+         3gVD4J2COgow+k8LoacH/2EeKa6eFKw478BjDShHw5T2kKG6nuQj/GcKNyz8/Kw2t56F
+         13w6RuuBIucH3tEiSb3x7kp2PPC3/Kpq+v44RaW6JPmxVkdEGiJZoCZRuJmm9HWGIX0N
+         NqYYMGkGeDNfuxdMccnylenHoVRpr95VIiZpnQJ2qRSFibUjFhrr2T7iyB3v4+8gxSSM
+         C7GQ==
+X-Gm-Message-State: AOAM533yElGn/kBh2rBFxT3anADDf1JGupQZG6xJ5nk3Ej71YHCnBsz2
+	fsD/k26vYOxIE9G1PA53jHw=
+X-Google-Smtp-Source: ABdhPJwXPNNG9pNKDznnlhxNfRpU7nSxIgO22yTeMud4uMo12pMM8cdVgTiDhULaSyBaPJ7Qq0mogw==
+X-Received: by 2002:a1c:6004:: with SMTP id u4mr9382148wmb.110.1622282501441;
+        Sat, 29 May 2021 03:01:41 -0700 (PDT)
+Received: from agape.jhs ([5.171.80.148])
+        by smtp.gmail.com with ESMTPSA id p6sm9207035wma.4.2021.05.29.03.01.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 29 May 2021 03:01:41 -0700 (PDT)
+Date: Sat, 29 May 2021 12:01:38 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Yu Kuai <yukuai3@huawei.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, yi.zhang@huawei.com
+Subject: Re: [PATCH] staging: rtl8723bs: core: rtw_mlme_ext.c: move the
+ declaration and initialization of 'evt_seq' inside ifdef macro
+Message-ID: <20210529100137.GA1416@agape.jhs>
+References: <20210529092948.3134775-1-yukuai3@huawei.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.175.127.227]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggema762-chm.china.huawei.com (10.1.198.204)
-X-CFilter-Loop: Reflected
+In-Reply-To: <20210529092948.3134775-1-yukuai3@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-'evt_seq' is only used if 'CHECK_ENENT_SEQ' is defined, however,
-it's declared and initialized even if 'CHECK_ENENT_SEQ' is not
-defined. Thus gcc will report following warning if
-'CHECK_ENENT_SEQ' is not defined:
+Hi Yu,
 
-drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:6009:15: warning:
- variable ‘evt_seq’ set but not used [-Wunused-but-set-variable]
- 6009 |  u8 evt_code, evt_seq;
+On Sat, May 29, 2021 at 05:29:48PM +0800, Yu Kuai wrote:
+> 'evt_seq' is only used if 'CHECK_ENENT_SEQ' is defined, however,
+> it's declared and initialized even if 'CHECK_ENENT_SEQ' is not
+> defined. Thus gcc will report following warning if
+> 'CHECK_ENENT_SEQ' is not defined:
 
-Thus move the declaration and initialization of 'evt_seq' inside
-ifdef macro to fix it.
+the macro is mispelled in the commit description
 
-Signed-off-by: Yu Kuai <yukuai3@huawei.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+> 
+> drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:6009:15: warning:
+>  variable ‘evt_seq’ set but not used [-Wunused-but-set-variable]
+>  6009 |  u8 evt_code, evt_seq;
+> 
+> Thus move the declaration and initialization of 'evt_seq' inside
+> ifdef macro to fix it.
+> 
+> Signed-off-by: Yu Kuai <yukuai3@huawei.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> index 97b3c2965770..e883371cc96d 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> @@ -6006,7 +6006,10 @@ static struct fwevent wlanevents[] = {
+>  
+>  u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
+>  {
+> -	u8 evt_code, evt_seq;
+> +#ifdef CHECK_EVENT_SEQ
+> +	u8 evt_seq;
+> +#endif
+> +	u8 evt_code;
+>  	u16 evt_sz;
+>  	uint	*peventbuf;
+>  	void (*event_callback)(struct adapter *dev, u8 *pbuf);
+> @@ -6017,18 +6020,17 @@ u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
+>  
+>  	peventbuf = (uint *)pbuf;
+>  	evt_sz = (u16)(*peventbuf&0xffff);
+> -	evt_seq = (u8)((*peventbuf>>24)&0x7f);
+>  	evt_code = (u8)((*peventbuf>>16)&0xff);
+>  
+> -
+> -	#ifdef CHECK_EVENT_SEQ
+> +#ifdef CHECK_EVENT_SEQ
+>  	/*  checking event sequence... */
+> +	evt_seq = (u8)((*peventbuf>>24)&0x7f);
+>  	if (evt_seq != (atomic_read(&pevt_priv->event_seq) & 0x7f)) {
+>  		pevt_priv->event_seq = (evt_seq+1)&0x7f;
+>  
+>  		goto _abort_event_;
+>  	}
+> -	#endif
+> +#endif
+>  
+>  	/*  checking if event code is valid */
+>  	if (evt_code >= MAX_C2HEVT)
+> -- 
+> 2.25.4
+> 
+> 
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 97b3c2965770..e883371cc96d 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -6006,7 +6006,10 @@ static struct fwevent wlanevents[] = {
- 
- u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
- {
--	u8 evt_code, evt_seq;
-+#ifdef CHECK_EVENT_SEQ
-+	u8 evt_seq;
-+#endif
-+	u8 evt_code;
- 	u16 evt_sz;
- 	uint	*peventbuf;
- 	void (*event_callback)(struct adapter *dev, u8 *pbuf);
-@@ -6017,18 +6020,17 @@ u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
- 
- 	peventbuf = (uint *)pbuf;
- 	evt_sz = (u16)(*peventbuf&0xffff);
--	evt_seq = (u8)((*peventbuf>>24)&0x7f);
- 	evt_code = (u8)((*peventbuf>>16)&0xff);
- 
--
--	#ifdef CHECK_EVENT_SEQ
-+#ifdef CHECK_EVENT_SEQ
- 	/*  checking event sequence... */
-+	evt_seq = (u8)((*peventbuf>>24)&0x7f);
- 	if (evt_seq != (atomic_read(&pevt_priv->event_seq) & 0x7f)) {
- 		pevt_priv->event_seq = (evt_seq+1)&0x7f;
- 
- 		goto _abort_event_;
- 	}
--	#endif
-+#endif
- 
- 	/*  checking if event code is valid */
- 	if (evt_code >= MAX_C2HEVT)
--- 
-2.25.4
+this conditional block seems to be dead code, for
+the symbolic constant CHECK_EVENT_SEQ is defined nowhere in
+the code.
 
+/staging$ grep -r CHECK_EVENT_SEQ .
+./staging/rtl8723bs/core/rtw_mlme_ext.c:	#ifdef CHECK_EVENT_SEQ
+
+so the variable can be safely removed together with
+the dead code block.
+
+thank you,
+
+fabio
