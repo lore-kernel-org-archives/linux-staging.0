@@ -1,106 +1,108 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14872FB4
-	for <linux-staging@lists.linux.dev>; Sat, 29 May 2021 11:26:20 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 58A1E61284;
-	Sat, 29 May 2021 11:26:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1622287580;
-	bh=kmI/gnz+w3lRX666nc7l7KP6GPGuXS6lcDeSQh1DVuc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sHFvYT83qlx0kVABFOgEvb7SSD5lJU8ejEL2+goR7iaHzxaZ888ZGOVF91CgI/R5Z
-	 zdGmvJGLFj0EWQnbqZMyiT4vrCVS8NxoZgRBJ6vAjQ9yhg35xYN4zjxxTJgHrMsWJ8
-	 ky8inNSbo6vUBxGReXxyd/jVuNa/Iac1IcZdsRko=
-Date: Sat, 29 May 2021 13:26:17 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Yu Kuai <yukuai3@huawei.com>
-Cc: fabioaiuto83@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, yi.zhang@huawei.com
-Subject: Re: [PATCH V2] staging: rtl8723bs: core: rtw_mlme_ext.c: remove
- deadcode
-Message-ID: <YLIk2aE3vE3Vr1E8@kroah.com>
-References: <20210529100137.GA1416@agape.jhs>
- <20210529102431.3173753-1-yukuai3@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01C82FB4
+	for <linux-staging@lists.linux.dev>; Sat, 29 May 2021 12:14:31 +0000 (UTC)
+Received: from dslb-188-096-150-056.188.096.pools.vodafone-ip.de ([188.96.150.56] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1lmxrJ-00023z-1t; Sat, 29 May 2021 14:14:29 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 2/3] staging: rtl8188eu: remove dummy wext handlers
+Date: Sat, 29 May 2021 14:13:45 +0200
+Message-Id: <20210529121346.8422-2-martin@kaiser.cx>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210529121346.8422-1-martin@kaiser.cx>
+References: <20210529121346.8422-1-martin@kaiser.cx>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210529102431.3173753-1-yukuai3@huawei.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, May 29, 2021 at 06:24:31PM +0800, Yu Kuai wrote:
-> 'CHECK_EVENT_SEQ' is not defined anywhere, remove the deadcode.
-> 
-> Signed-off-by: Yu Kuai <yukuai3@huawei.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 13 +------------
->  1 file changed, 1 insertion(+), 12 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> index 97b3c2965770..2b95a49ab469 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> @@ -6006,7 +6006,7 @@ static struct fwevent wlanevents[] = {
->  
->  u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
->  {
-> -	u8 evt_code, evt_seq;
-> +	u8 evt_code;
->  	u16 evt_sz;
->  	uint	*peventbuf;
->  	void (*event_callback)(struct adapter *dev, u8 *pbuf);
-> @@ -6017,19 +6017,8 @@ u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
->  
->  	peventbuf = (uint *)pbuf;
->  	evt_sz = (u16)(*peventbuf&0xffff);
-> -	evt_seq = (u8)((*peventbuf>>24)&0x7f);
->  	evt_code = (u8)((*peventbuf>>16)&0xff);
->  
-> -
-> -	#ifdef CHECK_EVENT_SEQ
-> -	/*  checking event sequence... */
-> -	if (evt_seq != (atomic_read(&pevt_priv->event_seq) & 0x7f)) {
-> -		pevt_priv->event_seq = (evt_seq+1)&0x7f;
-> -
-> -		goto _abort_event_;
-> -	}
-> -	#endif
-> -
->  	/*  checking if event code is valid */
->  	if (evt_code >= MAX_C2HEVT)
->  		goto _abort_event_;
-> -- 
-> 2.25.4
-> 
-> 
+Remove the wext handlers that link to an empty dummy function.
 
-Hi,
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+---
+If no handler is installed for a wext ioctl, the wext core will return
+-ENOTSUPP to user space. The dummy function returned -1. It could be argued
+that this change breaks the user space ABI.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+However, it's rather unlikely that an application expects a particular wlan
+driver and chipset when it configures a wireless network. Checking for
+errno==1 explicitly will already be non-portable as most other drivers set
+errn==ENOTSUPP for non-existing ioctls.
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+ drivers/staging/rtl8188eu/os_dep/ioctl_linux.c | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/SubmittingPatches for what needs to be done
-  here to properly describe this.
+diff --git a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+index a23ccda6fefe..78699999c4fe 100644
+--- a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+@@ -1910,12 +1910,6 @@ static int rtw_wx_get_nick(struct net_device *dev,
+ 	return 0;
+ }
+ 
+-static int dummy(struct net_device *dev, struct iw_request_info *a,
+-		 union iwreq_data *wrqu, char *b)
+-{
+-	return -1;
+-}
+-
+ static int wpa_set_param(struct net_device *dev, u8 name, u32 value)
+ {
+ 	uint ret = 0;
+@@ -2900,27 +2894,20 @@ static int rtw_wx_set_priv(struct net_device *dev,
+ 
+ static iw_handler rtw_handlers[] = {
+ 	IW_HANDLER(SIOCGIWNAME, rtw_wx_get_name),
+-	IW_HANDLER(SIOCSIWNWID, dummy),
+-	IW_HANDLER(SIOCGIWNWID, dummy),
+ 	IW_HANDLER(SIOCSIWFREQ, rtw_wx_set_freq),
+ 	IW_HANDLER(SIOCGIWFREQ, rtw_wx_get_freq),
+ 	IW_HANDLER(SIOCSIWMODE, rtw_wx_set_mode),
+ 	IW_HANDLER(SIOCGIWMODE, rtw_wx_get_mode),
+-	IW_HANDLER(SIOCSIWSENS, dummy),
+ 	IW_HANDLER(SIOCGIWSENS, rtw_wx_get_sens),
+ 	IW_HANDLER(SIOCGIWRANGE, rtw_wx_get_range),
+ 	IW_HANDLER(SIOCSIWPRIV, rtw_wx_set_priv),
+-	IW_HANDLER(SIOCSIWSPY, dummy),
+-	IW_HANDLER(SIOCGIWSPY, dummy),
+ 	IW_HANDLER(SIOCSIWAP, rtw_wx_set_wap),
+ 	IW_HANDLER(SIOCGIWAP, rtw_wx_get_wap),
+ 	IW_HANDLER(SIOCSIWMLME, rtw_wx_set_mlme),
+-	IW_HANDLER(SIOCGIWAPLIST, dummy),
+ 	IW_HANDLER(SIOCSIWSCAN, rtw_wx_set_scan),
+ 	IW_HANDLER(SIOCGIWSCAN, rtw_wx_get_scan),
+ 	IW_HANDLER(SIOCSIWESSID, rtw_wx_set_essid),
+ 	IW_HANDLER(SIOCGIWESSID, rtw_wx_get_essid),
+-	IW_HANDLER(SIOCSIWNICKN, dummy),
+ 	IW_HANDLER(SIOCGIWNICKN, rtw_wx_get_nick),
+ 	IW_HANDLER(SIOCSIWRATE, rtw_wx_set_rate),
+ 	IW_HANDLER(SIOCGIWRATE, rtw_wx_get_rate),
+@@ -2928,13 +2915,9 @@ static iw_handler rtw_handlers[] = {
+ 	IW_HANDLER(SIOCGIWRTS, rtw_wx_get_rts),
+ 	IW_HANDLER(SIOCSIWFRAG, rtw_wx_set_frag),
+ 	IW_HANDLER(SIOCGIWFRAG, rtw_wx_get_frag),
+-	IW_HANDLER(SIOCSIWTXPOW, dummy),
+-	IW_HANDLER(SIOCGIWTXPOW, dummy),
+-	IW_HANDLER(SIOCSIWRETRY, dummy),
+ 	IW_HANDLER(SIOCGIWRETRY, rtw_wx_get_retry),
+ 	IW_HANDLER(SIOCSIWENCODE, rtw_wx_set_enc),
+ 	IW_HANDLER(SIOCGIWENCODE, rtw_wx_get_enc),
+-	IW_HANDLER(SIOCSIWPOWER, dummy),
+ 	IW_HANDLER(SIOCGIWPOWER, rtw_wx_get_power),
+ 	IW_HANDLER(SIOCSIWGENIE, rtw_wx_set_gen_ie),
+ 	IW_HANDLER(SIOCSIWAUTH, rtw_wx_set_auth),
+-- 
+2.20.1
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
