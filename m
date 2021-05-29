@@ -1,95 +1,52 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57EA42FAD
-	for <linux-staging@lists.linux.dev>; Sat, 29 May 2021 14:27:11 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 543B061157;
-	Sat, 29 May 2021 14:27:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1622298430;
-	bh=oFtbwDI1AyvLbbJIuZMSthbSfn24iCR/EAVxWaL1CIo=;
-	h=Date:From:To:Cc:Subject:From;
-	b=ZLHa+XpkNXyW63cp8JSL8L156p1Uk8zeAcJ3SB/tOAUJBu3Ar5jhyyRS3740SQfy+
-	 D4VzeEHoZRqzC7UTCzdMwoXmDpBvIqYKfaxsyVmbQX8bqKlKgihYLjJtxf731VNmel
-	 T1gl1AelgwVNXaWuzvEYMtDOK1F89Z4LOPQNJIjU=
-Date: Sat, 29 May 2021 16:27:08 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: devel@linuxdriverproject.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [GIT PULL] Staging/IIO driver fixes for 5.13-rc4
-Message-ID: <YLJPPF9wg6b1Cssj@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3BDE173
+	for <linux-staging@lists.linux.dev>; Sat, 29 May 2021 16:49:04 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 6E445610FC;
+	Sat, 29 May 2021 16:49:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1622306944;
+	bh=FRTWn8SRJCjPTo+GLAcNDvx/1AI5z3GOao//Zijhpa8=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=Fm7ajFO7TopsIxLAuNIoBkHMKDpPjA0OBmWyy5BFqQa4vSqI5+lFtEuZFCcjWOV7g
+	 NQ/ByRft6yLMPN6UDT8C/s+H8Muwu/zz0D5cXKAEITdOw7zz/dDH/roMFJruKxHQ8o
+	 rwUS9r2PxxJQkgMceta/NqO0XcEAGc59wZlqaN7aGDHJzTkPoBbx/YC0AqhCm4Us2X
+	 XE+B7wq5zIC3f2N5cw5lP34nKhVwzcPKFqSs6RqnwNiGkHaR+uXm9N0qV3Pr/mX4D0
+	 MY4vCMPylciSHyOKLaWzX5Ye8CBUV8FhqL5go0cLdD6zDBUfHuMoiHJW9HU9GIt77R
+	 YeyezbPeHvt5w==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 684DB60A39;
+	Sat, 29 May 2021 16:49:04 +0000 (UTC)
+Subject: Re: [GIT PULL] Staging/IIO driver fixes for 5.13-rc4
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <YLJPPF9wg6b1Cssj@kroah.com>
+References: <YLJPPF9wg6b1Cssj@kroah.com>
+X-PR-Tracked-List-Id: <linux-staging.lists.linux.dev>
+X-PR-Tracked-Message-Id: <YLJPPF9wg6b1Cssj@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.13-rc4
+X-PR-Tracked-Commit-Id: 54732a5322ff1fe0f42f2527fa6f5901a4de5111
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 494b99f712d00fee7e0927067081954fc493b6d9
+Message-Id: <162230694442.3322.8781404301599251110.pr-tracker-bot@kernel.org>
+Date: Sat, 29 May 2021 16:49:04 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, devel@linuxdriverproject.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-The following changes since commit d07f6ca923ea0927a1024dfccafc5b53b61cfecc:
+The pull request you sent on Sat, 29 May 2021 16:27:08 +0200:
 
-  Linux 5.13-rc2 (2021-05-16 15:27:44 -0700)
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.13-rc4
 
-are available in the Git repository at:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/494b99f712d00fee7e0927067081954fc493b6d9
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.13-rc4
+Thank you!
 
-for you to fetch changes up to 54732a5322ff1fe0f42f2527fa6f5901a4de5111:
-
-  Merge tag 'iio-fixes-5.13b-take2' of https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio into staging-linus (2021-05-22 09:49:59 +0200)
-
-----------------------------------------------------------------
-Staging / IIO driver fixes for 5.13-rc4
-
-Here are some small IIO and staging driver fixes for reported issues for
-5.13-rc4.
-
-Nothing major here, tiny changes for reported problems, full details are
-in the shortlog if people are curious.
-
-All have been in linux-next for a while with no reported problems.
-
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-----------------------------------------------------------------
-Alexandru Ardelean (1):
-      iio: adc: ad7192: handle regulator voltage error first
-
-Andy Shevchenko (1):
-      iio: dac: ad5770r: Put fwnode in error case during ->probe()
-
-Dan Carpenter (1):
-      staging: emxx_udc: fix loop in _nbu2ss_nuke()
-
-Greg Kroah-Hartman (1):
-      Merge tag 'iio-fixes-5.13b-take2' of https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio into staging-linus
-
-Jonathan Cameron (5):
-      iio: adc: ad7124: Fix missbalanced regulator enable / disable on error.
-      iio: adc: ad7124: Fix potential overflow due to non sequential channel numbers
-      iio: adc: ad7192: Avoid disabling a clock that was never enabled.
-      iio: adc: ad7768-1: Fix too small buffer passed to iio_push_to_buffers_with_timestamp()
-      iio: adc: ad7923: Fix undersized rx buffer.
-
-Lucas Stankus (1):
-      staging: iio: cdc: ad7746: avoid overwrite of num_channels
-
-Rui Miguel Silva (1):
-      iio: gyro: fxas21002c: balance runtime power in error path
-
-YueHaibing (1):
-      iio: adc: ad7793: Add missing error code in ad7793_setup()
-
- drivers/iio/adc/ad7124.c            | 36 ++++++++++++++++++++----------------
- drivers/iio/adc/ad7192.c            | 19 ++++++++++---------
- drivers/iio/adc/ad7768-1.c          |  8 ++++++--
- drivers/iio/adc/ad7793.c            |  1 +
- drivers/iio/adc/ad7923.c            |  4 +++-
- drivers/iio/dac/ad5770r.c           | 16 +++++++++++-----
- drivers/iio/gyro/fxas21002c_core.c  |  2 ++
- drivers/staging/emxx_udc/emxx_udc.c |  4 ++--
- drivers/staging/iio/cdc/ad7746.c    |  1 -
- 9 files changed, 55 insertions(+), 36 deletions(-)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
