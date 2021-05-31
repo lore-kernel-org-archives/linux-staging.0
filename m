@@ -1,85 +1,187 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEBDF173
-	for <linux-staging@lists.linux.dev>; Mon, 31 May 2021 13:53:23 +0000 (UTC)
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.53])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4FtxTF6Q6ZzWpVJ;
-	Mon, 31 May 2021 21:48:33 +0800 (CST)
-Received: from dggema762-chm.china.huawei.com (10.1.198.204) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Mon, 31 May 2021 21:53:14 +0800
-Received: from huawei.com (10.175.127.227) by dggema762-chm.china.huawei.com
- (10.1.198.204) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Mon, 31
- May 2021 21:53:13 +0800
-From: Yu Kuai <yukuai3@huawei.com>
-To: <gregkh@linuxfoundation.org>, <fabioaiuto83@gmail.com>
-CC: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<yukuai3@huawei.com>, <yi.zhang@huawei.com>
-Subject: [PATCH V3] staging: rtl8723bs: core: rtw_mlme_ext.c: remove deadcode
-Date: Mon, 31 May 2021 22:02:34 +0800
-Message-ID: <20210531140234.3352465-1-yukuai3@huawei.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <YLIk2aE3vE3Vr1E8@kroah.com>
-References: <YLIk2aE3vE3Vr1E8@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DFBA173
+	for <linux-staging@lists.linux.dev>; Mon, 31 May 2021 14:19:36 +0000 (UTC)
+Received: by mail-oo1-f45.google.com with SMTP id t194-20020a4a3ecb0000b02902453007db49so1300167oot.8
+        for <linux-staging@lists.linux.dev>; Mon, 31 May 2021 07:19:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=zDfX2HSRthSAwFOhfcgrv2kIX6nUuXxqclY45+cSOZk=;
+        b=RsUgQnkatkp5GYCcrb9dJT/lY0Km4Bo5ok2suTJhlSrG+ZrB4cBJKMvPzYleh7eapE
+         8aP3zmUp0YJSPrfharac0vFXDLrdP4xrPvcO/+n7lma6ow+Sq3M4vYIC+/GqY0ES/l+z
+         NMkIptpI1wRw+01U0XnsY5bb9LhmYY+INlz0VUunfbYHOUes7flq4tcaQI2clLXinQhG
+         q/C85zC9MCg9XP9A2Oq+qYEFsYopYEjuIKTMxR6LAuLeNBYrrfgZm33iAMhkIfvfxXk3
+         LlVY6vaIIo+Hg347fpDJKYdxCstCAf4lD1IBCTVyO9f4eesawITiMYadbHR+p9TsqvUF
+         2kJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=zDfX2HSRthSAwFOhfcgrv2kIX6nUuXxqclY45+cSOZk=;
+        b=bON7bXvCJGrBcy9Np/j+JWAOUBhDegVDL/aifnPhQgXeqpbhR00EiTeAsFR8jQx+Ht
+         FaMDtU5MrBy99ZlQF25lihpu1QD24rrMCkneWVG8JiLoSEh2cUOihjWavGrbbF2gFLMl
+         DgDE/AYmcge8dWmo64PhJNpe8AcHkWVbNax5ujt7OJ4mTs2KpUAnxN881x7wjkfCCzH8
+         57AmVr6bH5A3nuX3ZDA8arw+QCLT7fB2/qFJDaed3iLO23w/v3CMjr1iZ5PHHBfUsJGq
+         QT5yCz7LP9+CrMZqQO6eBUKGkZM4AgYMuA9nTxRYWM/zrsl2ZchdzQjs4Dnm0uJaBGnj
+         tMbw==
+X-Gm-Message-State: AOAM533GK21YInfCCkNjwkooe3xUEAkAJ++vhUonz3vmceRhpoqJDlgW
+	AA/hjuAR49w5SC8gMoJCgUtxwbs7Z5XHFBdloXo=
+X-Google-Smtp-Source: ABdhPJw7i9qJfygff6IcvcF8ZMASydrDUE+wS2x3QJmfSR2snmuTklPDIxXppz5mWtXFktTUUN8Pp6kLsG7vvYJhBA0=
+X-Received: by 2002:a05:6820:54e:: with SMTP id n14mr16426798ooj.49.1622470775363;
+ Mon, 31 May 2021 07:19:35 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.127.227]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggema762-chm.china.huawei.com (10.1.198.204)
-X-CFilter-Loop: Reflected
+References: <20210515124055.22225-1-sergio.paracuellos@gmail.com>
+ <20210515124055.22225-3-sergio.paracuellos@gmail.com> <20210531131431.bzsvmefqdyawmeo2@pali>
+ <CAMhs-H80=7jctPT70rOmcwcqPw+9iUF84_ZCgGr-TKwJ4eB2Lg@mail.gmail.com> <20210531135041.42ovpmbwuc3yfkaw@pali>
+In-Reply-To: <20210531135041.42ovpmbwuc3yfkaw@pali>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Mon, 31 May 2021 16:19:23 +0200
+Message-ID: <CAMhs-H_fR5aXJ=diTm-2yhgjjv9S6N6jA-DOZ0K_BnQ4UHHh3Q@mail.gmail.com>
+Subject: Re: [PATCH 2/4] MIPS: pci: Add driver for MT7621 PCIe controller
+To: =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>
+Cc: "open list:MIPS" <linux-mips@vger.kernel.org>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	John Crispin <john@phrozen.org>, Bjorn Helgaas <bhelgaas@google.com>, Rob Herring <robh+dt@kernel.org>, 
+	linux-staging@lists.linux.dev, Greg KH <gregkh@linuxfoundation.org>, 
+	NeilBrown <neil@brown.name>, Ilya Lipnitskiy <ilya.lipnitskiy@gmail.com>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-'CHECK_EVENT_SEQ' is not defined anywhere, remove the deadcode.
+On Mon, May 31, 2021 at 3:50 PM Pali Roh=C3=A1r <pali@kernel.org> wrote:
+>
+> On Monday 31 May 2021 15:39:55 Sergio Paracuellos wrote:
+> > Hi Pali,
+> >
+> > Thanks for your comments.
+> >
+> > On Mon, May 31, 2021 at 3:14 PM Pali Roh=C3=A1r <pali@kernel.org> wrote=
+:
+> > >
+> > > On Saturday 15 May 2021 14:40:53 Sergio Paracuellos wrote:
+> > > > This patch adds a driver for the PCIe controller of MT7621 SoC.
+> > > >
+> > > > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> > > > ---
+> > > >  arch/mips/pci/Makefile     |   1 +
+> > > >  arch/mips/pci/pci-mt7621.c | 624 +++++++++++++++++++++++++++++++++=
+++++
+> > > >  arch/mips/ralink/Kconfig   |   9 +-
+> > > >  3 files changed, 633 insertions(+), 1 deletion(-)
+> > > >  create mode 100644 arch/mips/pci/pci-mt7621.c
+> > > >
+> > > > diff --git a/arch/mips/pci/Makefile b/arch/mips/pci/Makefile
+> > > > index f3eecc065e5c..178c550739c4 100644
+> > > > --- a/arch/mips/pci/Makefile
+> > > > +++ b/arch/mips/pci/Makefile
+> > > > @@ -24,6 +24,7 @@ obj-$(CONFIG_PCI_AR2315)    +=3D pci-ar2315.o
+> > > >  obj-$(CONFIG_SOC_AR71XX)     +=3D pci-ar71xx.o
+> > > >  obj-$(CONFIG_PCI_AR724X)     +=3D pci-ar724x.o
+> > > >  obj-$(CONFIG_PCI_XTALK_BRIDGE)       +=3D pci-xtalk-bridge.o
+> > > > +obj-$(CONFIG_PCI_MT7621)     +=3D pci-mt7621.o
+> > > >  #
+> > > >  # These are still pretty much in the old state, watch, go blind.
+> > > >  #
+> > > > diff --git a/arch/mips/pci/pci-mt7621.c b/arch/mips/pci/pci-mt7621.=
+c
+> > > > new file mode 100644
+> > > > index 000000000000..fe1945819d25
+> > > > --- /dev/null
+> > > > +++ b/arch/mips/pci/pci-mt7621.c
+> > > ...
+> > > > +static int mt7621_pcie_enable_ports(struct mt7621_pcie *pcie)
+> > > > +{
+> > > > +     struct device *dev =3D pcie->dev;
+> > > > +     struct mt7621_pcie_port *port;
+> > > > +     u8 num_slots_enabled =3D 0;
+> > > > +     u32 slot;
+> > > > +     u32 val;
+> > > > +     int err;
+> > > > +
+> > > > +     /* Setup MEMWIN and IOWIN */
+> > > > +     pcie_write(pcie, 0xffffffff, RALINK_PCI_MEMBASE);
+> > > > +     pcie_write(pcie, pcie->io.start, RALINK_PCI_IOBASE);
+> > > > +
+> > > > +     list_for_each_entry(port, &pcie->ports, list) {
+> > > > +             if (port->enabled) {
+> > > > +                     err =3D clk_prepare_enable(port->clk);
+> > > > +                     if (err) {
+> > > > +                             dev_err(dev, "enabling clk pcie%d\n",=
+ slot);
+> > > > +                             return err;
+> > > > +                     }
+> > > > +
+> > > > +                     mt7621_pcie_enable_port(port);
+> > > > +                     dev_info(dev, "PCIE%d enabled\n", port->slot)=
+;
+> > > > +                     num_slots_enabled++;
+> > > > +             }
+> > > > +     }
+> > > > +
+> > > > +     for (slot =3D 0; slot < num_slots_enabled; slot++) {
+> > > > +             val =3D read_config(pcie, slot, PCI_COMMAND);
+> > > > +             val |=3D PCI_COMMAND_MASTER;
+> > > > +             write_config(pcie, slot, PCI_COMMAND, val);
+> > >
+> > > Hello! Is this part of code correct? Because it looks strange if PCIe
+> > > controller driver automatically enables PCI bus mastering, prior devi=
+ce
+> > > driver initialize itself.
+> > >
+> > > Moreover kernel has already function pci_set_master() for this purpos=
+e
+> > > which is used by device drivers.
+> > >
+> > > So I think this code can confuse some device drivers...
+> >
+> > I agree that we have pci_set_master() to be used in pci device driver
+> > code. Original controller driver set this bit for enabled slots. Since
+> > there is no documentation at all for the PCI in this SoC
+>
+> I see... this is really a big problem to do any driver development...
 
-Signed-off-by: Yu Kuai <yukuai3@huawei.com>
----
-Changes in V2:
- - remove dead code to fix unused variable.
- - use a new tittle.
+For sure it is :(.
 
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+>
+> > I have
+> > maintained the setting in the driver in a cleaner way. See original
+> > driver code and the setting here [0]. There is no other reason than
+> > that. I am ok with removing this from here and testing with my two
+> > devices that everything is still ok if having this setting in the pci
+> > controller driver is a real problem.
+>
+> You can run lspci -nnvv with and without PCI_COMMAND_MASTER code and
+> then compare outputs.
+>
+> Device drivers for sure enable PCI_COMMAND_MASTER at the time when it is
+> needed, so it is possible that there would be no difference in lspci
+> output.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 97b3c2965770..2b95a49ab469 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -6006,7 +6006,7 @@ static struct fwevent wlanevents[] = {
- 
- u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
- {
--	u8 evt_code, evt_seq;
-+	u8 evt_code;
- 	u16 evt_sz;
- 	uint	*peventbuf;
- 	void (*event_callback)(struct adapter *dev, u8 *pbuf);
-@@ -6017,19 +6017,8 @@ u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
- 
- 	peventbuf = (uint *)pbuf;
- 	evt_sz = (u16)(*peventbuf&0xffff);
--	evt_seq = (u8)((*peventbuf>>24)&0x7f);
- 	evt_code = (u8)((*peventbuf>>16)&0xff);
- 
--
--	#ifdef CHECK_EVENT_SEQ
--	/*  checking event sequence... */
--	if (evt_seq != (atomic_read(&pevt_priv->event_seq) & 0x7f)) {
--		pevt_priv->event_seq = (evt_seq+1)&0x7f;
--
--		goto _abort_event_;
--	}
--	#endif
--
- 	/*  checking if event code is valid */
- 	if (evt_code >= MAX_C2HEVT)
- 		goto _abort_event_;
--- 
-2.31.1
+Thanks. I will take this into account when v2 is submitted after more
+review comments come :).
 
+>
+> > [0]: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git=
+/tree/drivers/staging/mt7621-pci/pci-mt7621.c?h=3Dv4.18#n676
+> >
+> > Best regards,
+> >     Sergio Paracuellos
+> > >
+> > > > +             /* configure RC FTS number to 250 when it leaves L0s =
+*/
+> > > > +             val =3D read_config(pcie, slot, PCIE_FTS_NUM);
+> > > > +             val &=3D ~PCIE_FTS_NUM_MASK;
+> > > > +             val |=3D PCIE_FTS_NUM_L0(0x50);
+> > > > +             write_config(pcie, slot, PCIE_FTS_NUM, val);
+> > > > +     }
+> > > > +
+> > > > +     return 0;
+> > > > +}
