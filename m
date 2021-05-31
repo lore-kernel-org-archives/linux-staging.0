@@ -1,63 +1,99 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5BB82FBF
-	for <linux-staging@lists.linux.dev>; Mon, 31 May 2021 07:58:18 +0000 (UTC)
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.56])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4FtnBV6KGMz66cm;
-	Mon, 31 May 2021 15:35:14 +0800 (CST)
-Received: from dggpeml500023.china.huawei.com (7.185.36.114) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 31 May 2021 15:38:10 +0800
-Received: from localhost.localdomain (10.69.192.56) by
- dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 31 May 2021 15:38:10 +0800
-From: Shaokun Zhang <zhangshaokun@hisilicon.com>
-To: <linux-staging@lists.linux.dev>
-CC: Shaokun Zhang <zhangshaokun@hisilicon.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>
-Subject: [PATCH] staging: rtl8192u: remove the repeated declaration
-Date: Mon, 31 May 2021 15:37:58 +0800
-Message-ID: <1622446678-52652-1-git-send-email-zhangshaokun@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51A26D0E
+	for <linux-staging@lists.linux.dev>; Mon, 31 May 2021 07:59:13 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14V5tO26168235;
+	Mon, 31 May 2021 06:02:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=RkCuyZTIfKbViKm2ct9HBLI3OxZ3FAU3iXystEzKEg0=;
+ b=neOutlWnexDUZ9NuqcTeX3al4f2v/hTFBJu5ObjZVsxQcts06N1H+VESTRt5qRTYuzx2
+ BJBcwRgtF0pxVM/psprqW33LTjwgjDhFSsh5n4gcKT9viCMrc34Ub51+ba2A7V1ZOTB8
+ F0hAA3bARJRIFoNmVn/NEx/RT3PJa7DL5p0w6DJzm0iL+oEcGGyPV3P75ugh7lHFiLMk
+ PHCUxkChHKdL+5223xFQwTjzqGVBUkoTMwrb5Fba/oqnunEfpv4wZPrOnY6y9IEYiS7h
+ av2wpZOQLFq7OMzZYSrPE4SzV40yw8ENIstQNWoTVUpsGkla7xTfainIzh7GPszUh//o sg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+	by aserp2120.oracle.com with ESMTP id 38udjmj2rb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 31 May 2021 06:02:37 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+	by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14V61vsm070675;
+	Mon, 31 May 2021 06:02:36 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by userp3030.oracle.com with ESMTP id 38uaqv4reh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 31 May 2021 06:02:36 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14V62Zis071211;
+	Mon, 31 May 2021 06:02:36 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by userp3030.oracle.com with ESMTP id 38uaqv4re2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 31 May 2021 06:02:35 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 14V62WW9000518;
+	Mon, 31 May 2021 06:02:32 GMT
+Received: from kadam (/41.212.42.34)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Sun, 30 May 2021 23:02:31 -0700
+Date: Mon, 31 May 2021 09:02:24 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Martin Kaiser <martin@kaiser.cx>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] staging: rtl8188eu: remove dummy wext handlers
+Message-ID: <20210531060223.GV1955@kadam>
+References: <20210529121346.8422-1-martin@kaiser.cx>
+ <20210529121346.8422-2-martin@kaiser.cx>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.56]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpeml500023.china.huawei.com (7.185.36.114)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210529121346.8422-2-martin@kaiser.cx>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: vwzM8NlYJXgd2I2ClWWuw44mKaAUpva9
+X-Proofpoint-ORIG-GUID: vwzM8NlYJXgd2I2ClWWuw44mKaAUpva9
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10000 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 impostorscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 adultscore=0 spamscore=0
+ suspectscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2105310044
 
-Functions 'ieee80211_stop_send_beacons' and 'notify_wx_assoc_event'
-are declared twice in their header file, so remove the repeated
-declaration.
+On Sat, May 29, 2021 at 02:13:45PM +0200, Martin Kaiser wrote:
+> Remove the wext handlers that link to an empty dummy function.
+> 
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> ---
+> If no handler is installed for a wext ioctl, the wext core will return
+> -ENOTSUPP to user space. The dummy function returned -1. It could be argued
+> that this change breaks the user space ABI.
+> 
+> However, it's rather unlikely that an application expects a particular wlan
+> driver and chipset when it configures a wireless network. Checking for
+> errno==1 explicitly will already be non-portable as most other drivers set
+> errn==ENOTSUPP for non-existing ioctls.
+> 
 
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Shaokun Zhang <zhangshaokun@hisilicon.com>
----
- drivers/staging/rtl8192u/ieee80211/ieee80211.h | 2 --
- 1 file changed, 2 deletions(-)
+The patch is good, but next time, just put all this commentary in the
+commit message.  It has to do with the impact of the patch on userspace
+and it's helpful for the reviewers.  Some reviewers won't need it, but
+I try to target my commit messages at developers who aren't subsystem
+experts.  I also like that it shows you thought about it.
 
-diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211.h b/drivers/staging/rtl8192u/ieee80211/ieee80211.h
-index 39f4ddd86796..7903c777a417 100644
---- a/drivers/staging/rtl8192u/ieee80211/ieee80211.h
-+++ b/drivers/staging/rtl8192u/ieee80211/ieee80211.h
-@@ -2249,10 +2249,8 @@ void ieee80211_wake_queue(struct ieee80211_device *ieee);
- void ieee80211_stop_queue(struct ieee80211_device *ieee);
- struct sk_buff *ieee80211_get_beacon(struct ieee80211_device *ieee);
- void ieee80211_start_send_beacons(struct ieee80211_device *ieee);
--void ieee80211_stop_send_beacons(struct ieee80211_device *ieee);
- int ieee80211_wpa_supplicant_ioctl(struct ieee80211_device *ieee,
- 				   struct iw_point *p);
--void notify_wx_assoc_event(struct ieee80211_device *ieee);
- void ieee80211_ps_tx_ack(struct ieee80211_device *ieee, short success);
- 
- void softmac_mgmt_xmit(struct sk_buff *skb, struct ieee80211_device *ieee);
--- 
-2.7.4
+I recently saw someone claim that "anyone who can review these patches
+will already know what the <SOMETHING> acronym stands for so that's why
+I didn't explain."  And I was like, "Oh wow...  That's a harsh burn on
+me!"
+
+regards,
+dan carpenter
 
