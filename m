@@ -1,116 +1,150 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6429E2FBF
-	for <linux-staging@lists.linux.dev>; Mon, 31 May 2021 17:43:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1622482988;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=K8nNOkX4zuqczQHURLREmFQOVbuEo/yfo6wOnioYIqU=;
-	b=JcNY20K58fO+OTVMxLzSy6Xq+Y1w+n0RMrxxBM+RDz9OxwbZ/El/htibNbuHmuupP3Mwss
-	1pQzwVz/jOF7TvXg0YNPLc3RStoLgKChrvNiKQzzPpLaf6o8HzhWi1AFYYD3ZEd+fKkMi7
-	WZYlzOPF2XwcVv8yHk8F26zq5Sh+U+I=
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
- [209.85.167.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-374-4C8-wZC7NeW7esoJmL7jVg-1; Mon, 31 May 2021 13:43:06 -0400
-X-MC-Unique: 4C8-wZC7NeW7esoJmL7jVg-1
-Received: by mail-oi1-f198.google.com with SMTP id a24-20020a0568080998b02901ee3e06e6a6so5609269oic.6
-        for <linux-staging@lists.linux.dev>; Mon, 31 May 2021 10:43:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=K8nNOkX4zuqczQHURLREmFQOVbuEo/yfo6wOnioYIqU=;
-        b=HqHCD4R6up1N0HRTNUqVmAErTnlvMmWcnjzFHlc7WFfBnIDhXg5+Q6HIafxopRPWwz
-         Lus3ryOkrTiVCWMMKP91hHD7dxl2S3HxOUVOCjX7Q1ucU71mJq8EvXTNWq3wcoP6cvPp
-         JcSonEubeBOLXFWK5jAcyTWR8wj5mW9f9MMQ0BrxBRQYCBu6SY1IsMjZMpted0ut7PUY
-         BBJdYjfF18PWTbIgd1BUOCHZmiGN9Zt+m6CnnC7yD0FM9w/DNpvzgmXP/bBL89QCC+v4
-         35jSH5bkFfEOV4xy6ufEeEKwRi70J1bDhHHyJBNzY9MFHi5T01A+OQ1H4CmQHxwS8w34
-         9swQ==
-X-Gm-Message-State: AOAM5310oNkGVKMwvCCh1DsOH9x0QCm8Sdv5FYm0rd1i2RZvlcnCqMxm
-	sbxXlUcx14bcdlxiduzaov6zbwNjQXju5HUzuRQrBW9o1SLjnhuVRdm8xmFuAHOzhE2cy0msZWG
-	jaVGuCawN4Xi0MUNf2XukHVCqDA==
-X-Received: by 2002:a05:6830:1d64:: with SMTP id l4mr17260148oti.95.1622482985552;
-        Mon, 31 May 2021 10:43:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJylhACZOWlRSSP56Xe+/shqCqK0nGlc+aQdIrngGYo9DVADhn8bqhxQrwJTGkiF1rvA1tn1sA==
-X-Received: by 2002:a05:6830:1d64:: with SMTP id l4mr17260135oti.95.1622482985395;
-        Mon, 31 May 2021 10:43:05 -0700 (PDT)
-Received: from localhost.localdomain.com (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id i4sm2943902oih.13.2021.05.31.10.43.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 May 2021 10:43:05 -0700 (PDT)
-From: trix@redhat.com
-To: rmfrfs@gmail.com,
-	laurent.pinchart@ideasonboard.com,
-	slongerbeam@gmail.com,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	linux-imx@nxp.com
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8358E71
+	for <linux-staging@lists.linux.dev>; Mon, 31 May 2021 20:37:58 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0EBD9611CB;
+	Mon, 31 May 2021 20:37:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1622493478;
+	bh=GK7h9fk/CXJpmmpAdZO37HIYc4XszrgUo8eFRVrvFbA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=EsuB0/Oq4wO8mDqGFoCv+juOz7gcg6BFAC59OTYC7pfthUiibesrVuSdPe7167Fm9
+	 8BC+tFXOUwNAx1FSPZT4UYoibIj2cVttwzJWLMHyZRfniadYipjKt7MbS0stLiZPgY
+	 CVMXfTbLI6CCiS9hPN4NRa1cxUk2z8J/TdZklyHIlqbSlT7QbbI3R9HptRaYQjpYje
+	 P1uw0QJq+UWyeJfnGOehu3WxXBwNUl6jGsAG7Mm+lNYKHJGeIiSFYsifik50y1bTbw
+	 xKKnALZsoJ+xrTFWMWpkqtRnGmlnBPgfLaoyle4ziNtOLsyvk0r4/bBpCsJxODpMy5
+	 TjtUJmR36yhKA==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+	(envelope-from <mchehab@kernel.org>)
+	id 1lnofb-000hsx-Jb; Mon, 31 May 2021 22:37:55 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: 
+Cc: linuxarm@huawei.com,
+	mauro.chehab@huawei.com,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Alaa Emad <alaaemadhossney.ae@gmail.com>,
+	Brad Love <brad@nextdimension.cc>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxim Plotnikov <wgh@torlan.ru>,
+	Sean Young <sean@mess.org>,
 	linux-kernel@vger.kernel.org,
-	Tom Rix <trix@redhat.com>
-Subject: [PATCH] media: imx: imx7_mipi_csis: convert some switch cases to the default
-Date: Mon, 31 May 2021 10:43:00 -0700
-Message-Id: <20210531174300.2594109-1-trix@redhat.com>
-X-Mailer: git-send-email 2.26.3
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] media: sp8870: move it to staging
+Date: Mon, 31 May 2021 22:37:54 +0200
+Message-Id: <5e694bc1b0670b58b93a9fea5712ed0f306e6050.1622493461.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-From: Tom Rix <trix@redhat.com>
+This driver is used only ba av7110, which is preparing for
+its retirement. So, move this ancillary driver to stay together
+with av7110.
 
-Static analysis reports this false positive
-imx7-mipi-csis.c:1027:2: warning: 4th function call argument is
-  an uninitialized value
-
-The variable 'align' is falsely reported as uninitialized.
-Even though all the cases are covered in the
-	switch (csis_fmt->width % 8) {
-
-Because there is no default case, it is reported as uninialized.
-
-Improve the switch by converting the most numerous set of cases
-to the default and silence the false positive.
-
-Signed-off-by: Tom Rix <trix@redhat.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/staging/media/imx/imx7-mipi-csis.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/media/dvb-frontends/Kconfig           | 12 -----------
+ drivers/media/dvb-frontends/Makefile          |  1 -
+ drivers/staging/media/av7110/Kconfig          | 20 +++++++++++++++++++
+ drivers/staging/media/av7110/Makefile         |  2 ++
+ .../media/av7110}/sp8870.c                    |  0
+ .../media/av7110}/sp8870.h                    |  0
+ 6 files changed, 22 insertions(+), 13 deletions(-)
+ rename drivers/{media/dvb-frontends => staging/media/av7110}/sp8870.c (100%)
+ rename drivers/{media/dvb-frontends => staging/media/av7110}/sp8870.h (100%)
 
-diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-index d573f3475d28..330f283030ec 100644
---- a/drivers/staging/media/imx/imx7-mipi-csis.c
-+++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-@@ -1016,10 +1016,8 @@ static int mipi_csis_set_fmt(struct v4l2_subdev *sd,
- 	case 6:
- 		align = 2;
- 		break;
--	case 1:
--	case 3:
--	case 5:
--	case 7:
-+	default:
-+		/* 1, 3, 5, 7 */
- 		align = 3;
- 		break;
- 	}
+diff --git a/drivers/media/dvb-frontends/Kconfig b/drivers/media/dvb-frontends/Kconfig
+index 3468b07b62fe..2c1ed98d43c5 100644
+--- a/drivers/media/dvb-frontends/Kconfig
++++ b/drivers/media/dvb-frontends/Kconfig
+@@ -323,18 +323,6 @@ config DVB_TDA10071
+ comment "DVB-T (terrestrial) frontends"
+ 	depends on DVB_CORE
+ 
+-config DVB_SP8870
+-	tristate "Spase sp8870 based"
+-	depends on DVB_CORE && I2C
+-	default m if !MEDIA_SUBDRV_AUTOSELECT
+-	help
+-	  A DVB-T tuner module. Say Y when you want to support this frontend.
+-
+-	  This driver needs external firmware. Please use the command
+-	  "<kerneldir>/scripts/get_dvb_firmware sp8870" to
+-	  download/extract it, and then copy it to /usr/lib/hotplug/firmware
+-	  or /lib/firmware (depending on configuration of firmware hotplug).
+-
+ config DVB_SP887X
+ 	tristate "Spase sp887x based"
+ 	depends on DVB_CORE && I2C
+diff --git a/drivers/media/dvb-frontends/Makefile b/drivers/media/dvb-frontends/Makefile
+index b9f47d68e14e..d32e4c0be576 100644
+--- a/drivers/media/dvb-frontends/Makefile
++++ b/drivers/media/dvb-frontends/Makefile
+@@ -20,7 +20,6 @@ obj-$(CONFIG_DVB_PLL) += dvb-pll.o
+ obj-$(CONFIG_DVB_STV0299) += stv0299.o
+ obj-$(CONFIG_DVB_STB0899) += stb0899.o
+ obj-$(CONFIG_DVB_STB6100) += stb6100.o
+-obj-$(CONFIG_DVB_SP8870) += sp8870.o
+ obj-$(CONFIG_DVB_CX22700) += cx22700.o
+ obj-$(CONFIG_DVB_S5H1432) += s5h1432.o
+ obj-$(CONFIG_DVB_CX24110) += cx24110.o
+diff --git a/drivers/staging/media/av7110/Kconfig b/drivers/staging/media/av7110/Kconfig
+index e19d24bf2eb4..f2d706acc131 100644
+--- a/drivers/staging/media/av7110/Kconfig
++++ b/drivers/staging/media/av7110/Kconfig
+@@ -72,3 +72,23 @@ config DVB_BUDGET_PATCH
+ 
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called budget-patch.
++
++if DVB_AV7110
++
++# frontend drivers that are used only by AV7110 driver
++# While those are technically independent, it doesn't make sense to keep
++# them if we drop support for AV7110
++
++config DVB_SP8870
++	tristate "Spase sp8870 based"
++	depends on DVB_CORE && I2C
++	default m if !MEDIA_SUBDRV_AUTOSELECT
++	help
++	  A DVB-T tuner module. Say Y when you want to support this frontend.
++
++	  This driver needs external firmware. Please use the command
++	  "<kerneldir>/scripts/get_dvb_firmware sp8870" to
++	  download/extract it, and then copy it to /usr/lib/hotplug/firmware
++	  or /lib/firmware (depending on configuration of firmware hotplug).
++
++endif
+diff --git a/drivers/staging/media/av7110/Makefile b/drivers/staging/media/av7110/Makefile
+index dcabecf1abde..307b267598ea 100644
+--- a/drivers/staging/media/av7110/Makefile
++++ b/drivers/staging/media/av7110/Makefile
+@@ -14,6 +14,8 @@ obj-$(CONFIG_DVB_BUDGET_PATCH) += budget-patch.o
+ 
+ obj-$(CONFIG_DVB_AV7110) += dvb-ttpci.o
+ 
++obj-$(CONFIG_DVB_SP8870) += sp8870.o
++
+ ccflags-y += -I $(srctree)/drivers/media/dvb-frontends
+ ccflags-y += -I $(srctree)/drivers/media/tuners
+ ccflags-y += -I $(srctree)/drivers/media/pci/ttpci
+diff --git a/drivers/media/dvb-frontends/sp8870.c b/drivers/staging/media/av7110/sp8870.c
+similarity index 100%
+rename from drivers/media/dvb-frontends/sp8870.c
+rename to drivers/staging/media/av7110/sp8870.c
+diff --git a/drivers/media/dvb-frontends/sp8870.h b/drivers/staging/media/av7110/sp8870.h
+similarity index 100%
+rename from drivers/media/dvb-frontends/sp8870.h
+rename to drivers/staging/media/av7110/sp8870.h
 -- 
-2.26.3
+2.31.1
 
