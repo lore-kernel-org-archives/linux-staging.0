@@ -1,244 +1,60 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0DEA70
-	for <linux-staging@lists.linux.dev>; Tue,  1 Jun 2021 00:46:02 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 97EE588C;
-	Tue,  1 Jun 2021 02:45:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1622508354;
-	bh=aaRaIinwqCNhQXmrnWaLPdMOsD1/sPsbMK/Wqq0cc9o=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11C171
+	for <linux-staging@lists.linux.dev>; Tue,  1 Jun 2021 04:50:57 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9E77B6136E;
+	Tue,  1 Jun 2021 04:50:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1622523057;
+	bh=/IBXi1HaEE5LEcU2BkX0FxR1OKGyLQofH1Odj5MsqU8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hZpfMmrkCtS/ht7hbbbEOf9dQV7C/WtkS2JxTddCj851tjWgVmXd3ev+l2jYpK+Lq
-	 5sz09PgOwsdrMexPRg4yAEuKNdsnDuORUqbE65dDqeRuRQYBrTSbJLQn4HD/T1pq49
-	 qSAMEc0wkKPzcurbBnx6WsIGxnd4OmEYDeNHRGeM=
-Date: Tue, 1 Jun 2021 03:45:44 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc: festevam@gmail.com, krzk@kernel.org, mchehab@kernel.org,
-	robh@kernel.org, devicetree@vger.kernel.org, kernel@pengutronix.de,
-	kernel@puri.sm, linux-arm-kernel@lists.infradead.org,
-	linux-imx@nxp.com, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	shawnguo@kernel.org, slongerbeam@gmail.com,
-	phone-devel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] dt-bindings: media: document the
- nxp,imx8mq-mipi-csi2 receiver phy and controller
-Message-ID: <YLWDOBHqnDQpXx5Z@pendragon.ideasonboard.com>
-References: <20210531112326.90094-1-martin.kepplinger@puri.sm>
- <20210531112326.90094-2-martin.kepplinger@puri.sm>
+	b=wItfuzFT4jGAJlguxYJ57vnAo6BWD1p15d2GiVU3PHZXAnX9731shP/oVriTOZcRh
+	 4BPcO7xQgZ6a6Sa5t0JklrGXiA69P3m8pDe8+OHgYrWWMxyaD7i18kMW+Nq+hOWFPF
+	 p2jdpDuJOm253FpBaZONFXOvZ+3pganC2b7WWcBA=
+Date: Tue, 1 Jun 2021 06:50:54 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linuxarm@huawei.com, mauro.chehab@huawei.com,
+	Alaa Emad <alaaemadhossney.ae@gmail.com>,
+	Brad Love <brad@nextdimension.cc>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxim Plotnikov <wgh@torlan.ru>, Sean Young <sean@mess.org>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] media: sp8870: move it to staging
+Message-ID: <YLW8rkDRNp1TdWqY@kroah.com>
+References: <5e694bc1b0670b58b93a9fea5712ed0f306e6050.1622493461.git.mchehab+huawei@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210531112326.90094-2-martin.kepplinger@puri.sm>
+In-Reply-To: <5e694bc1b0670b58b93a9fea5712ed0f306e6050.1622493461.git.mchehab+huawei@kernel.org>
 
-Hi Martin,
-
-Thank you for the patch.
-
-On Mon, May 31, 2021 at 01:23:24PM +0200, Martin Kepplinger wrote:
-> The i.MX8MQ SoC integrates a different MIPI CSI receiver as the i.MX8MM so
-> describe the DT bindings for it.
+On Mon, May 31, 2021 at 10:37:54PM +0200, Mauro Carvalho Chehab wrote:
+> This driver is used only ba av7110, which is preparing for
+> its retirement. So, move this ancillary driver to stay together
+> with av7110.
 > 
-> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 162 ++++++++++++++++++
->  1 file changed, 162 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-> new file mode 100644
-> index 000000000000..4e3b17c220fc
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-> @@ -0,0 +1,162 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/nxp,imx8mq-mipi-csi2.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NXP and i.MX8MQ MIPI CSI-2 receiver
+>  drivers/media/dvb-frontends/Kconfig           | 12 -----------
+>  drivers/media/dvb-frontends/Makefile          |  1 -
+>  drivers/staging/media/av7110/Kconfig          | 20 +++++++++++++++++++
+>  drivers/staging/media/av7110/Makefile         |  2 ++
+>  .../media/av7110}/sp8870.c                    |  0
+>  .../media/av7110}/sp8870.h                    |  0
+>  6 files changed, 22 insertions(+), 13 deletions(-)
+>  rename drivers/{media/dvb-frontends => staging/media/av7110}/sp8870.c (100%)
+>  rename drivers/{media/dvb-frontends => staging/media/av7110}/sp8870.h (100%)
 
-s/and //
+Don't you need a TODO file for these moves that says what is wrong with
+the driver and when it will be removed and to not send cleanups for it?
 
-> +
-> +maintainers:
-> +  - Martin Kepplinger <martin.kepplinger@puri.sm>
-> +
-> +description: |-
-> +  This binding covers the CSI-2 RX PHY and host controller included in the
-> +  NXP i.MX8MQ SoC. It handles the sensor/image input and process for all the
-> +  input imaging devices.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - fsl,imx8mq-mipi-csi2
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    minItems: 4
+thanks,
 
-A description of each clock would be nice.
-
-> +
-> +  clock-names:
-> +    minItems: 4
-
-You can drop this, it's the default with 4 items listed below.
-
-> +    items:
-> +      - const: core
-> +      - const: esc
-> +      - const: pxl
-> +      - const: clko2
-> +
-> +  assigned-clocks:
-> +    maxItems: 3
-> +
-> +  assigned-clock-rates:
-> +    maxItems: 3
-> +
-> +  assigned-clock-parents:
-> +    maxItems: 3
-
-Those properties shouldn't be part of the bindings, it's a system
-configuration policy.
-
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  phy-reset:
-> +    description:
-> +      The phandle to the imx8mq reset-controller.
-> +    maxItems: 1
-> +
-> +  phy-gpr:
-> +    description:
-> +      The phandle to the imx8mq syscon iomux-gpr.
-> +    maxItems: 1
-> +
-> +  interconnects:
-> +    maxItems: 1
-> +
-> +  interconnect-names:
-> +    const: dram
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description:
-> +          Input port node, single endpoint describing the CSI-2 transmitter.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              data-lanes:
-> +                items:
-> +                  minItems: 1
-> +                  maxItems: 4
-> +                  items:
-> +                    - const: 1
-> +                    - const: 2
-> +                    - const: 3
-> +                    - const: 4
-> +
-> +            required:
-> +              - data-lanes
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Output port node
-
-    required:
-      - port@0
-      - port@1
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - assigned-clocks
-> +  - assigned-clock-rates
-> +  - assigned-clock-parents
-> +  - power-domains
-> +  - phy-reset
-> +  - phy-gpr
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/imx8mq-clock.h>
-> +    #include <dt-bindings/interconnect/imx8mq.h>
-> +
-> +    mipi_csi1@30a70000 {
-> +        compatible = "fsl,imx8mq-mipi-csi2";
-> +        reg = <0x30a70000 0x1000>; /* MIPI CSI1 Controller base addr */
-> +        clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
-> +                 <&clk IMX8MQ_CLK_CSI1_ESC>,
-> +                 <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
-> +                 <&clk IMX8MQ_CLK_CLKO2>;
-> +        clock-names = "core", "esc", "pxl", "clko2";
-> +        assigned-clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
-> +                          <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
-> +                          <&clk IMX8MQ_CLK_CSI1_ESC>;
-> +        assigned-clock-rates = <266000000>, <200000000>, <66000000>;
-> +        assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
-> +                                 <&clk IMX8MQ_SYS2_PLL_1000M>,
-> +                                 <&clk IMX8MQ_SYS1_PLL_800M>;
-> +        power-domains = <&pgc_mipi_csi1>;
-> +        phy-reset = <&src>;
-> +        phy-gpr = <&iomuxc_gpr>;
-> +        interconnects = <&noc IMX8MQ_ICM_CSI1 &noc IMX8MQ_ICS_DRAM>;
-> +        interconnect-names = "dram";
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@0 {
-> +                reg = <0>;
-> +
-> +                imx8mm_mipi_csi_in: endpoint {
-> +                    remote-endpoint = <&imx477_out>;
-> +                    data-lanes = <1 2 3 4>;
-> +                };
-> +            };
-> +
-> +            port@1 {
-> +                reg = <1>;
-> +
-> +                imx8mm_mipi_csi_out: endpoint {
-> +                    remote-endpoint = <&csi_in>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-
--- 
-Regards,
-
-Laurent Pinchart
+greg k-h
