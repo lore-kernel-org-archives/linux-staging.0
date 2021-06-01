@@ -1,150 +1,244 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8358E71
-	for <linux-staging@lists.linux.dev>; Mon, 31 May 2021 20:37:58 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0EBD9611CB;
-	Mon, 31 May 2021 20:37:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1622493478;
-	bh=GK7h9fk/CXJpmmpAdZO37HIYc4XszrgUo8eFRVrvFbA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=EsuB0/Oq4wO8mDqGFoCv+juOz7gcg6BFAC59OTYC7pfthUiibesrVuSdPe7167Fm9
-	 8BC+tFXOUwNAx1FSPZT4UYoibIj2cVttwzJWLMHyZRfniadYipjKt7MbS0stLiZPgY
-	 CVMXfTbLI6CCiS9hPN4NRa1cxUk2z8J/TdZklyHIlqbSlT7QbbI3R9HptRaYQjpYje
-	 P1uw0QJq+UWyeJfnGOehu3WxXBwNUl6jGsAG7Mm+lNYKHJGeIiSFYsifik50y1bTbw
-	 xKKnALZsoJ+xrTFWMWpkqtRnGmlnBPgfLaoyle4ziNtOLsyvk0r4/bBpCsJxODpMy5
-	 TjtUJmR36yhKA==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-	(envelope-from <mchehab@kernel.org>)
-	id 1lnofb-000hsx-Jb; Mon, 31 May 2021 22:37:55 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: 
-Cc: linuxarm@huawei.com,
-	mauro.chehab@huawei.com,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Alaa Emad <alaaemadhossney.ae@gmail.com>,
-	Brad Love <brad@nextdimension.cc>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxim Plotnikov <wgh@torlan.ru>,
-	Sean Young <sean@mess.org>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] media: sp8870: move it to staging
-Date: Mon, 31 May 2021 22:37:54 +0200
-Message-Id: <5e694bc1b0670b58b93a9fea5712ed0f306e6050.1622493461.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.31.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0DEA70
+	for <linux-staging@lists.linux.dev>; Tue,  1 Jun 2021 00:46:02 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 97EE588C;
+	Tue,  1 Jun 2021 02:45:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1622508354;
+	bh=aaRaIinwqCNhQXmrnWaLPdMOsD1/sPsbMK/Wqq0cc9o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hZpfMmrkCtS/ht7hbbbEOf9dQV7C/WtkS2JxTddCj851tjWgVmXd3ev+l2jYpK+Lq
+	 5sz09PgOwsdrMexPRg4yAEuKNdsnDuORUqbE65dDqeRuRQYBrTSbJLQn4HD/T1pq49
+	 qSAMEc0wkKPzcurbBnx6WsIGxnd4OmEYDeNHRGeM=
+Date: Tue, 1 Jun 2021 03:45:44 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc: festevam@gmail.com, krzk@kernel.org, mchehab@kernel.org,
+	robh@kernel.org, devicetree@vger.kernel.org, kernel@pengutronix.de,
+	kernel@puri.sm, linux-arm-kernel@lists.infradead.org,
+	linux-imx@nxp.com, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	shawnguo@kernel.org, slongerbeam@gmail.com,
+	phone-devel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] dt-bindings: media: document the
+ nxp,imx8mq-mipi-csi2 receiver phy and controller
+Message-ID: <YLWDOBHqnDQpXx5Z@pendragon.ideasonboard.com>
+References: <20210531112326.90094-1-martin.kepplinger@puri.sm>
+ <20210531112326.90094-2-martin.kepplinger@puri.sm>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210531112326.90094-2-martin.kepplinger@puri.sm>
 
-This driver is used only ba av7110, which is preparing for
-its retirement. So, move this ancillary driver to stay together
-with av7110.
+Hi Martin,
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/media/dvb-frontends/Kconfig           | 12 -----------
- drivers/media/dvb-frontends/Makefile          |  1 -
- drivers/staging/media/av7110/Kconfig          | 20 +++++++++++++++++++
- drivers/staging/media/av7110/Makefile         |  2 ++
- .../media/av7110}/sp8870.c                    |  0
- .../media/av7110}/sp8870.h                    |  0
- 6 files changed, 22 insertions(+), 13 deletions(-)
- rename drivers/{media/dvb-frontends => staging/media/av7110}/sp8870.c (100%)
- rename drivers/{media/dvb-frontends => staging/media/av7110}/sp8870.h (100%)
+Thank you for the patch.
 
-diff --git a/drivers/media/dvb-frontends/Kconfig b/drivers/media/dvb-frontends/Kconfig
-index 3468b07b62fe..2c1ed98d43c5 100644
---- a/drivers/media/dvb-frontends/Kconfig
-+++ b/drivers/media/dvb-frontends/Kconfig
-@@ -323,18 +323,6 @@ config DVB_TDA10071
- comment "DVB-T (terrestrial) frontends"
- 	depends on DVB_CORE
- 
--config DVB_SP8870
--	tristate "Spase sp8870 based"
--	depends on DVB_CORE && I2C
--	default m if !MEDIA_SUBDRV_AUTOSELECT
--	help
--	  A DVB-T tuner module. Say Y when you want to support this frontend.
--
--	  This driver needs external firmware. Please use the command
--	  "<kerneldir>/scripts/get_dvb_firmware sp8870" to
--	  download/extract it, and then copy it to /usr/lib/hotplug/firmware
--	  or /lib/firmware (depending on configuration of firmware hotplug).
--
- config DVB_SP887X
- 	tristate "Spase sp887x based"
- 	depends on DVB_CORE && I2C
-diff --git a/drivers/media/dvb-frontends/Makefile b/drivers/media/dvb-frontends/Makefile
-index b9f47d68e14e..d32e4c0be576 100644
---- a/drivers/media/dvb-frontends/Makefile
-+++ b/drivers/media/dvb-frontends/Makefile
-@@ -20,7 +20,6 @@ obj-$(CONFIG_DVB_PLL) += dvb-pll.o
- obj-$(CONFIG_DVB_STV0299) += stv0299.o
- obj-$(CONFIG_DVB_STB0899) += stb0899.o
- obj-$(CONFIG_DVB_STB6100) += stb6100.o
--obj-$(CONFIG_DVB_SP8870) += sp8870.o
- obj-$(CONFIG_DVB_CX22700) += cx22700.o
- obj-$(CONFIG_DVB_S5H1432) += s5h1432.o
- obj-$(CONFIG_DVB_CX24110) += cx24110.o
-diff --git a/drivers/staging/media/av7110/Kconfig b/drivers/staging/media/av7110/Kconfig
-index e19d24bf2eb4..f2d706acc131 100644
---- a/drivers/staging/media/av7110/Kconfig
-+++ b/drivers/staging/media/av7110/Kconfig
-@@ -72,3 +72,23 @@ config DVB_BUDGET_PATCH
- 
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called budget-patch.
-+
-+if DVB_AV7110
-+
-+# frontend drivers that are used only by AV7110 driver
-+# While those are technically independent, it doesn't make sense to keep
-+# them if we drop support for AV7110
-+
-+config DVB_SP8870
-+	tristate "Spase sp8870 based"
-+	depends on DVB_CORE && I2C
-+	default m if !MEDIA_SUBDRV_AUTOSELECT
-+	help
-+	  A DVB-T tuner module. Say Y when you want to support this frontend.
-+
-+	  This driver needs external firmware. Please use the command
-+	  "<kerneldir>/scripts/get_dvb_firmware sp8870" to
-+	  download/extract it, and then copy it to /usr/lib/hotplug/firmware
-+	  or /lib/firmware (depending on configuration of firmware hotplug).
-+
-+endif
-diff --git a/drivers/staging/media/av7110/Makefile b/drivers/staging/media/av7110/Makefile
-index dcabecf1abde..307b267598ea 100644
---- a/drivers/staging/media/av7110/Makefile
-+++ b/drivers/staging/media/av7110/Makefile
-@@ -14,6 +14,8 @@ obj-$(CONFIG_DVB_BUDGET_PATCH) += budget-patch.o
- 
- obj-$(CONFIG_DVB_AV7110) += dvb-ttpci.o
- 
-+obj-$(CONFIG_DVB_SP8870) += sp8870.o
-+
- ccflags-y += -I $(srctree)/drivers/media/dvb-frontends
- ccflags-y += -I $(srctree)/drivers/media/tuners
- ccflags-y += -I $(srctree)/drivers/media/pci/ttpci
-diff --git a/drivers/media/dvb-frontends/sp8870.c b/drivers/staging/media/av7110/sp8870.c
-similarity index 100%
-rename from drivers/media/dvb-frontends/sp8870.c
-rename to drivers/staging/media/av7110/sp8870.c
-diff --git a/drivers/media/dvb-frontends/sp8870.h b/drivers/staging/media/av7110/sp8870.h
-similarity index 100%
-rename from drivers/media/dvb-frontends/sp8870.h
-rename to drivers/staging/media/av7110/sp8870.h
+On Mon, May 31, 2021 at 01:23:24PM +0200, Martin Kepplinger wrote:
+> The i.MX8MQ SoC integrates a different MIPI CSI receiver as the i.MX8MM so
+> describe the DT bindings for it.
+> 
+> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> ---
+>  .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 162 ++++++++++++++++++
+>  1 file changed, 162 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+> new file mode 100644
+> index 000000000000..4e3b17c220fc
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+> @@ -0,0 +1,162 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/nxp,imx8mq-mipi-csi2.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NXP and i.MX8MQ MIPI CSI-2 receiver
+
+s/and //
+
+> +
+> +maintainers:
+> +  - Martin Kepplinger <martin.kepplinger@puri.sm>
+> +
+> +description: |-
+> +  This binding covers the CSI-2 RX PHY and host controller included in the
+> +  NXP i.MX8MQ SoC. It handles the sensor/image input and process for all the
+> +  input imaging devices.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - fsl,imx8mq-mipi-csi2
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 4
+
+A description of each clock would be nice.
+
+> +
+> +  clock-names:
+> +    minItems: 4
+
+You can drop this, it's the default with 4 items listed below.
+
+> +    items:
+> +      - const: core
+> +      - const: esc
+> +      - const: pxl
+> +      - const: clko2
+> +
+> +  assigned-clocks:
+> +    maxItems: 3
+> +
+> +  assigned-clock-rates:
+> +    maxItems: 3
+> +
+> +  assigned-clock-parents:
+> +    maxItems: 3
+
+Those properties shouldn't be part of the bindings, it's a system
+configuration policy.
+
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  phy-reset:
+> +    description:
+> +      The phandle to the imx8mq reset-controller.
+> +    maxItems: 1
+> +
+> +  phy-gpr:
+> +    description:
+> +      The phandle to the imx8mq syscon iomux-gpr.
+> +    maxItems: 1
+> +
+> +  interconnects:
+> +    maxItems: 1
+> +
+> +  interconnect-names:
+> +    const: dram
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port node, single endpoint describing the CSI-2 transmitter.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                items:
+> +                  minItems: 1
+> +                  maxItems: 4
+> +                  items:
+> +                    - const: 1
+> +                    - const: 2
+> +                    - const: 3
+> +                    - const: 4
+> +
+> +            required:
+> +              - data-lanes
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Output port node
+
+    required:
+      - port@0
+      - port@1
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - assigned-clocks
+> +  - assigned-clock-rates
+> +  - assigned-clock-parents
+> +  - power-domains
+> +  - phy-reset
+> +  - phy-gpr
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/imx8mq-clock.h>
+> +    #include <dt-bindings/interconnect/imx8mq.h>
+> +
+> +    mipi_csi1@30a70000 {
+> +        compatible = "fsl,imx8mq-mipi-csi2";
+> +        reg = <0x30a70000 0x1000>; /* MIPI CSI1 Controller base addr */
+> +        clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
+> +                 <&clk IMX8MQ_CLK_CSI1_ESC>,
+> +                 <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
+> +                 <&clk IMX8MQ_CLK_CLKO2>;
+> +        clock-names = "core", "esc", "pxl", "clko2";
+> +        assigned-clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
+> +                          <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
+> +                          <&clk IMX8MQ_CLK_CSI1_ESC>;
+> +        assigned-clock-rates = <266000000>, <200000000>, <66000000>;
+> +        assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
+> +                                 <&clk IMX8MQ_SYS2_PLL_1000M>,
+> +                                 <&clk IMX8MQ_SYS1_PLL_800M>;
+> +        power-domains = <&pgc_mipi_csi1>;
+> +        phy-reset = <&src>;
+> +        phy-gpr = <&iomuxc_gpr>;
+> +        interconnects = <&noc IMX8MQ_ICM_CSI1 &noc IMX8MQ_ICS_DRAM>;
+> +        interconnect-names = "dram";
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                imx8mm_mipi_csi_in: endpoint {
+> +                    remote-endpoint = <&imx477_out>;
+> +                    data-lanes = <1 2 3 4>;
+> +                };
+> +            };
+> +
+> +            port@1 {
+> +                reg = <1>;
+> +
+> +                imx8mm_mipi_csi_out: endpoint {
+> +                    remote-endpoint = <&csi_in>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+
 -- 
-2.31.1
+Regards,
 
+Laurent Pinchart
