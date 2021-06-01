@@ -1,77 +1,131 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B852173
-	for <linux-staging@lists.linux.dev>; Tue,  1 Jun 2021 08:28:35 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 818CA61003;
-	Tue,  1 Jun 2021 08:28:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21442FBF
+	for <linux-staging@lists.linux.dev>; Tue,  1 Jun 2021 09:11:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 740A461396;
+	Tue,  1 Jun 2021 09:11:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1622536115;
-	bh=bedRNk8wKv9NNSArocmrL5fhZW3QrCccbA4cX/dEOdc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=tgWxKFb46eJYPD/PnkAXyI8LDCApIWd3GHG/fyhfFfyFiSbjUSNuWjDj5ShGwFONM
-	 RZgzn7tu17i4WOx4ZtuDZxDbbROuULhzo/S8oktQHERFhrx+rkytFudN72++fK98Nc
-	 894NSiCoXzQDYXcNdyZAKV+P/4gsK7DsE2zF15SL5tcqZ3EDhKHb9gMbUst9Kkbhon
-	 vIFo4DZsRrI3qh68zkhvkPx6t0BzavOufxg3wxtXJoQfOOrBxu1VjI/M1EPoxw6Yg9
-	 izZigHWQxDKLWPC0UKUMNHSudlbdvYUjaptZPC0J8y0fPHkx7R4brhcwIukny8knac
-	 voSA9ZWr/Mbkg==
-Date: Tue, 1 Jun 2021 10:28:29 +0200
+	s=k20201202; t=1622538668;
+	bh=KHbaP0oThoyIuyvZgIxcywmbQIVlr7bH6FIPBbBUg+E=;
+	h=From:To:Cc:Subject:Date:From;
+	b=LjJW+CAVSRZP4LpPQE/e/LMhLd3PoiCpDmPP6z+EL0Q/08vk8zugVMOgRoEdXpFos
+	 2ahO0FaJ81HmgsS0JW1BVTA/UcS9/3/Um0ovXkULEz4PsazRjfK2YwhAjUTp+zAR/+
+	 tmg5tg4Oo/ejmdM2iryYkyKMAFotTShs0HICSGBQPz/fLfYB11g2eY7iRLNbZldweQ
+	 uNtukRZdBHPckCUyB14lNRPP1uVlSMmseLdCNgtnB7yQ2N98BRz1yDqgT8lrzt05Ey
+	 e71YXBnuCNuCzOrqHM7kLcTqb6dnR93xBtkUql5O2xbli9Cf1+RfI8nFs4cSripfrj
+	 H6faVBc57iJug==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+	(envelope-from <mchehab@kernel.org>)
+	id 1lo0QT-000vRf-Uy; Tue, 01 Jun 2021 11:11:05 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linuxarm@huawei.com, mauro.chehab@huawei.com, Alaa Emad
- <alaaemadhossney.ae@gmail.com>, Brad Love <brad@nextdimension.cc>, Hans
- Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Maxim Plotnikov <wgh@torlan.ru>, Sean Young
- <sean@mess.org>, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH] media: sp8870: move it to staging
-Message-ID: <20210601102829.37d9447a@coco.lan>
-In-Reply-To: <YLW8rkDRNp1TdWqY@kroah.com>
-References: <5e694bc1b0670b58b93a9fea5712ed0f306e6050.1622493461.git.mchehab+huawei@kernel.org>
-	<YLW8rkDRNp1TdWqY@kroah.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+To: 
+Cc: linuxarm@huawei.com,
+	mauro.chehab@huawei.com,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v2 0/3] Move av7110 driver to staging
+Date: Tue,  1 Jun 2021 11:11:01 +0200
+Message-Id: <cover.1622537534.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Em Tue, 1 Jun 2021 06:50:54 +0200
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
+This driver was written for a hardware manufactured by TI from
+a design made by Convergence. Such hardware supports only
+MPEG2, which doesn't fit most of the current DVB transmissions.
 
-> On Mon, May 31, 2021 at 10:37:54PM +0200, Mauro Carvalho Chehab wrote:
-> > This driver is used only ba av7110, which is preparing for
-> > its retirement. So, move this ancillary driver to stay together
-> > with av7110.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  drivers/media/dvb-frontends/Kconfig           | 12 -----------
-> >  drivers/media/dvb-frontends/Makefile          |  1 -
-> >  drivers/staging/media/av7110/Kconfig          | 20 +++++++++++++++++++
-> >  drivers/staging/media/av7110/Makefile         |  2 ++
-> >  .../media/av7110}/sp8870.c                    |  0
-> >  .../media/av7110}/sp8870.h                    |  0
-> >  6 files changed, 22 insertions(+), 13 deletions(-)
-> >  rename drivers/{media/dvb-frontends => staging/media/av7110}/sp8870.c (100%)
-> >  rename drivers/{media/dvb-frontends => staging/media/av7110}/sp8870.h (100%)  
-> 
-> Don't you need a TODO file for these moves that says what is wrong with
-> the driver and when it will be removed and to not send cleanups for it?
+It stopped being manufactured more than a decade ago.
 
-Yes, but it was added on the previous patch that moved the master driver
-(av7110):
+Also, recent checks identified that a frontend used by such driver
+was broken for sometime without nobody noticing it.
 
-	https://lore.kernel.org/linux-media/4e7136434c68eabcdb66d25f44946ab794f4af0b.1622476959.git.mchehab+huawei@kernel.org/T/#u
+It means that it is time to retire it for good.
 
-The TODO is just saying:
+This series move both av7110 and sp8870 frontend drivers (which
+is used only by av7110) to staging, while keeping the remaining
+ttpci support upstream.
 
-	This driver is too old and relies on a different API.
-	Drop it from Kernel on a couple of versions.
+It also moves ttpci-eeprom to a common place, as it is used by
+both a PCI and an USB driver.
 
-(there was a typo there, I'll fix at the next version)
+---
 
-Thanks,
-Mauro
+v2:
+  - Fix a typo at the TODO file;
+  - Add a note at TODO that cleanup patches won't be accepted;
+  - Changed the description of the second patch.
+
+Mauro Carvalho Chehab (3):
+  media: move ttpci-eeprom to common
+  media: av7110: move driver to staging
+  media: sp8870: move it to staging
+
+ drivers/media/common/Kconfig                  |  4 +
+ drivers/media/common/Makefile                 |  1 +
+ .../{pci/ttpci => common}/ttpci-eeprom.c      |  0
+ .../{pci/ttpci => common}/ttpci-eeprom.h      |  0
+ drivers/media/dvb-frontends/Kconfig           | 12 ---
+ drivers/media/dvb-frontends/Makefile          |  1 -
+ drivers/media/pci/ttpci/Kconfig               | 74 ---------------
+ drivers/media/pci/ttpci/Makefile              | 11 +--
+ drivers/media/pci/ttpci/budget.h              |  2 +-
+ drivers/media/usb/Kconfig                     |  5 -
+ drivers/media/usb/dvb-usb/Makefile            |  2 +-
+ drivers/staging/media/Kconfig                 |  2 +
+ drivers/staging/media/Makefile                |  1 +
+ drivers/staging/media/av7110/Kconfig          | 94 +++++++++++++++++++
+ drivers/staging/media/av7110/Makefile         | 22 +++++
+ drivers/staging/media/av7110/TODO             |  3 +
+ .../ttpci => staging/media/av7110}/av7110.c   |  0
+ .../ttpci => staging/media/av7110}/av7110.h   |  0
+ .../media/av7110}/av7110_av.c                 |  0
+ .../media/av7110}/av7110_av.h                 |  0
+ .../media/av7110}/av7110_ca.c                 |  0
+ .../media/av7110}/av7110_ca.h                 |  0
+ .../media/av7110}/av7110_hw.c                 |  0
+ .../media/av7110}/av7110_hw.h                 |  0
+ .../media/av7110}/av7110_ipack.c              |  0
+ .../media/av7110}/av7110_ipack.h              |  0
+ .../media/av7110}/av7110_ir.c                 |  0
+ .../media/av7110}/av7110_v4l.c                |  0
+ .../media/av7110}/budget-patch.c              |  0
+ .../media/av7110}/dvb_filter.c                |  0
+ .../media/av7110}/dvb_filter.h                |  0
+ .../media/av7110}/sp8870.c                    |  0
+ .../media/av7110}/sp8870.h                    |  0
+ 33 files changed, 130 insertions(+), 104 deletions(-)
+ rename drivers/media/{pci/ttpci => common}/ttpci-eeprom.c (100%)
+ rename drivers/media/{pci/ttpci => common}/ttpci-eeprom.h (100%)
+ create mode 100644 drivers/staging/media/av7110/Kconfig
+ create mode 100644 drivers/staging/media/av7110/Makefile
+ create mode 100644 drivers/staging/media/av7110/TODO
+ rename drivers/{media/pci/ttpci => staging/media/av7110}/av7110.c (100%)
+ rename drivers/{media/pci/ttpci => staging/media/av7110}/av7110.h (100%)
+ rename drivers/{media/pci/ttpci => staging/media/av7110}/av7110_av.c (100%)
+ rename drivers/{media/pci/ttpci => staging/media/av7110}/av7110_av.h (100%)
+ rename drivers/{media/pci/ttpci => staging/media/av7110}/av7110_ca.c (100%)
+ rename drivers/{media/pci/ttpci => staging/media/av7110}/av7110_ca.h (100%)
+ rename drivers/{media/pci/ttpci => staging/media/av7110}/av7110_hw.c (100%)
+ rename drivers/{media/pci/ttpci => staging/media/av7110}/av7110_hw.h (100%)
+ rename drivers/{media/pci/ttpci => staging/media/av7110}/av7110_ipack.c (100%)
+ rename drivers/{media/pci/ttpci => staging/media/av7110}/av7110_ipack.h (100%)
+ rename drivers/{media/pci/ttpci => staging/media/av7110}/av7110_ir.c (100%)
+ rename drivers/{media/pci/ttpci => staging/media/av7110}/av7110_v4l.c (100%)
+ rename drivers/{media/pci/ttpci => staging/media/av7110}/budget-patch.c (100%)
+ rename drivers/{media/pci/ttpci => staging/media/av7110}/dvb_filter.c (100%)
+ rename drivers/{media/pci/ttpci => staging/media/av7110}/dvb_filter.h (100%)
+ rename drivers/{media/dvb-frontends => staging/media/av7110}/sp8870.c (100%)
+ rename drivers/{media/dvb-frontends => staging/media/av7110}/sp8870.h (100%)
+
+-- 
+2.31.1
+
+
