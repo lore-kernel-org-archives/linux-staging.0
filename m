@@ -1,50 +1,55 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542B772
-	for <linux-staging@lists.linux.dev>; Tue,  1 Jun 2021 20:05:27 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id q25so360275pfh.7
-        for <linux-staging@lists.linux.dev>; Tue, 01 Jun 2021 13:05:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=unxYYUIJtzBYSX4MANGuQqbleLprmVLiT5PFu/4IgM8=;
-        b=I4Y2WG6Fm0u56jprweWhvuUHM1OeSnYiQyyVI2kWvbTGhM22BtdsOkQBPkjs31huYB
-         Mmzi/aCBh+wLAEaOlC30D+9T8IItdg638U/Poy1jQVG4vIMrqd8BLVayZfriNqFUWcoK
-         KKhO7ietySBL41WRLIdm0WigKvuKY7tnkbb2lafcRFNZbvEQ5r8N3pzoBH/JPoX3Ux1R
-         bpcyWADATVqSHOW07R3fQYLATcL1Tfsfeb4Ry3toczn+qmm4tgYpcLnmw3MtV+oJ2vHI
-         fXqk6QJsgD7g04fmJW9t3TY/4eT4k167TNOJX05Q7kUErUl6ewk72PRaenwmnUS1x6+0
-         Og5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=unxYYUIJtzBYSX4MANGuQqbleLprmVLiT5PFu/4IgM8=;
-        b=Bt3DtYc5yoRxaxGGjTD71g8oUz1XL87Iyci3OuUJMxKII5KDVP7lzgiyO0d6vsniZN
-         rZLY688F9QdeaYFQDL5qPa2JPnCUArDmA68rF8XNtG375djMdOhYFXN7+JLw5/Mdtm0o
-         XkfPl7u6CEAuZHGNU48E0wsnFw3CtAZQJNbjGKFWnhyAeoChZJ8qOAKmafeB6eyBGg1K
-         evootRA9zjEUhBl8qq6jzRDPtW2CHllouGvPe+7Kwna+v9kKznAEpt/Ld/+hw5wmF+YK
-         yDEAZ0Gf6wc7DUP0Ovpa9vi1WYAM2b1cfH7N5/UAmrPB/r4hTwciTD844t1Cnw0M3s5m
-         HavA==
-X-Gm-Message-State: AOAM530q1CWr6ePrNb9uo9rNd5ikNx8JwIwun+WwPmDsK7UeV1yBV8MQ
-	FEZORDSXsxV4IvVfIh0HNSQ=
-X-Google-Smtp-Source: ABdhPJwxegWvJ6SacBtxU7EltgrnbygfeJpMF1B4eYwaVNQ9R7wOaR6qDVUnnGdIsdi4HMskObkOyg==
-X-Received: by 2002:a63:1559:: with SMTP id 25mr30519910pgv.384.1622577926897;
-        Tue, 01 Jun 2021 13:05:26 -0700 (PDT)
-Received: from ojas ([2405:204:130c:d068:69c0:20e2:ff2e:7df0])
-        by smtp.gmail.com with ESMTPSA id z19sm2747045pjq.11.2021.06.01.13.05.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jun 2021 13:05:26 -0700 (PDT)
-Date: Wed, 2 Jun 2021 01:35:13 +0530
-From: Ojaswin Mujoo <ojaswin98@gmail.com>
-To: nsaenz@kernel.org
-Cc: gregkh@linuxfoundation.org, arnd@arndb.de, dan.carpenter@oracle.com,
-	phil@raspberrypi.com, bcm-kernel-feedback-list@broadcom.com,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: staging: vc04_services: Need suggestions on trying to fix sparse
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D048572
+	for <linux-staging@lists.linux.dev>; Tue,  1 Jun 2021 20:23:38 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 151KGZVC006875;
+	Tue, 1 Jun 2021 20:23:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=ZfE7SpF3zwKpmWzVzP/aV3gFN8HgkKhmsX/IkQ5NQ90=;
+ b=HGk4jkzeRVehwabYfdWDMotWuzuHXfIwtdhfrcw5Rw+WiAvM4hy4sCgH8ooEehQPrQvo
+ yHu9iUmWSAJYYZY4bNiVcUCg8HGiVFnJ53bLFYC88QqtQ/UTwISDRANK+T13qeubmlKi
+ CBVxU00pUEx1rrjCdbbLrtH5DqfQtTXr8GO3VLhZUHcyjJ855lUyWSmREO7jjVjg9aC+
+ 9H49FHZf1wMzcDiCR9YgUtbWDS1AsyzdvXNFH+oQplOlWL8+hV5qz3So57GwNLC9P+5g
+ RKLrh3xXBFFm/BFSmIdn09HAh7g7dF42zkjuZ1v0vUcWI7ln5AF9tzHEBH+vP2ut9GyC tw== 
+Received: from oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by mx0b-00069f02.pphosted.com with ESMTP id 38wu57r0em-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 01 Jun 2021 20:23:25 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 151KKnrg040277;
+	Tue, 1 Jun 2021 20:23:24 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3030.oracle.com with ESMTP id 38ubndfdck-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 01 Jun 2021 20:23:24 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 151KKCNk039093;
+	Tue, 1 Jun 2021 20:23:24 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by aserp3030.oracle.com with ESMTP id 38ubndfdbv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 01 Jun 2021 20:23:23 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 151KNLOU030306;
+	Tue, 1 Jun 2021 20:23:21 GMT
+Received: from kadam (/41.212.42.34)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Tue, 01 Jun 2021 13:23:20 -0700
+Date: Tue, 1 Jun 2021 23:23:07 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Ojaswin Mujoo <ojaswin98@gmail.com>
+Cc: nsaenz@kernel.org, gregkh@linuxfoundation.org, arnd@arndb.de,
+        phil@raspberrypi.com, bcm-kernel-feedback-list@broadcom.com,
+        linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: staging: vc04_services: Need suggestions on trying to fix sparse
  warning in vchiq_arm.c
-Message-ID: <20210601200513.GA10204@ojas>
+Message-ID: <20210601202307.GC1955@kadam>
+References: <20210601200513.GA10204@ojas>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -52,81 +57,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20210601200513.GA10204@ojas>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: 2HUnrfun4ratf_ZYcNbEft3H1aqRaMtl
+X-Proofpoint-ORIG-GUID: 2HUnrfun4ratf_ZYcNbEft3H1aqRaMtl
 
-Hello,
+The problem is not the Sparse warning, the problem is that this code is
+a mess.  It used to very clearly buggy and I reported the bug.  I think
+Arnd found the bug again independently and fixed it.
 
-I was trying to address the following TODO item in
-"drivers/staging/vc04_services/interface/TODO" and would love some comments and
-suggestions on this:
+A couple weeks ago Al Viro looked at this code.  Here is his write up:
 
->  14) Clean up Sparse warnings from __user annotations. See
->  vchiq_irq_queue_bulk_tx_rx(). Ensure that the address of "&waiter->bulk_waiter"
->  is never disclosed to userspace.
+https://www.spinics.net/lists/kernel/msg3952745.html
 
-More specifically, I was looking at ways to fix the following sparse warning:
+It shouldn't take Al Viro dozens of pages of detailed analysis to try
+figure out if the code is safe or not.  Your idea silences the warning
+but would make the code even more subtle and complicated.
 
-	drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1001:26:
+The right thing to do is to re-write the code to be simpler.
 
-	warning: incorrect type in assignment (different address spaces)
-	expected void *[assigned] userdata
-	got void [noderef] __user *userdata
+regards,
+dan carpenter
 
-From my understanding, the issue seems to be that the (void *)userdata local
-variable in vchiq_irq_queue_bulk_tx_rx() can be assigned a (void __user *) or a
-(struct bulk_waiter *). This makes the assignment tricky since it can either be
-a userspace pointer or a kernel pointer.
-
-Right now, we are just ignoring the sparse warning which is essentially
-resulting in the __user attribute being lost when we assign args->userdata to
-userdata. This can be dangerous as it might result in illegal access of
-userspace memory, without any sparse warning, down the line. 
-
-Further, this issue seems to boil down to the fact that the (void *)userdata
-field in struct vchiq_bulk (in vc04_services/interface/vchiq_arm/vchiq_core.h)
-can, again, either be a (stuct bulk_waiter *) or a (void __user *). To fix this,
-I was playing with the idea of modifying this userdata field of struct
-vchiq_bulk to be something like the following:
-
-	diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h 
-	b/ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-
-	--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-	+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-
-	@@ -227,10 +227,16 @@ enum vchiq_bulk_dir {
-	 
-	 typedef void (*vchiq_userdata_term)(void *userdata);
-	 
-	+struct vchiq_userdata_or_waiter {
-	+		void __user *userdata;
-	+		struct bulk_waiter *bulk_waiter;
-	+               
-	+};
-	+
-	 struct vchiq_bulk {
-			short mode;
-			short dir;
-	-		void *userdata;
-	+		struct vchiq_userdata_or_waiter *userdata_or_waiter;
-			dma_addr_t data;
-			int size;
-			void *remote_data;
-
-I was then planning on modifying all the code that works with
-vchiq_bulk->userdata accordingly. I believe this can help us overcome the sparse
-warnings, as well as preserve the __user attribute in cases when the userspace
-pointer does get assigned here. 
-
-However, since I'm not very familiar with the codebase, I just wanted to confirm
-if this is an acceptable workaround and to make sure I'm not breaking anything
-or overlooked anything here. I noticed that we also want to make sure that 
-bulk_waiter's address is not exposed to userspace. Will it be possible to provide
-some pointers on how/where this might happen, so I can see if I can try to extend 
-this patch to avoid that.
-
-I would love to hear you suggestions and thoughts on this.
-
-PS: I'm new here so please do correct me incase I missed anything.
-
-Regards,
-Ojaswin
