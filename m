@@ -1,51 +1,129 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5412172
-	for <linux-staging@lists.linux.dev>; Wed,  2 Jun 2021 14:37:24 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 61A36610E5;
-	Wed,  2 Jun 2021 14:37:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1622644643;
-	bh=Ba1fJoC8PHQZgu+PPULsYm/Lb98b/hJDzMf9rPIQPf4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pNH2h+AN+6BEc/BuTwAg7ebeGDvP1IzS8/dwuw9WyemvRqLXvrO0rboW3BeYOrCRC
-	 A0x5ap3FiVFLypJl7Z3pkI+c8vsDBR15UziGnletDfGVJlZSHWbbUV8G55lfj/Egog
-	 Le3d3nYED4XwoCN9rIhgixCubhSJ5GUl5dTJGTGI=
-Date: Wed, 2 Jun 2021 16:37:21 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Manikishan Ghantasala <manikishanghantasala@gmail.com>
-Cc: Alex Elder <elder@ieee.org>, Rui Miguel Silva <rmfrfs@gmail.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F33572
+	for <linux-staging@lists.linux.dev>; Wed,  2 Jun 2021 14:38:48 +0000 (UTC)
+Received: by mail-io1-f44.google.com with SMTP id z24so2796535ioi.3
+        for <linux-staging@lists.linux.dev>; Wed, 02 Jun 2021 07:38:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ieee.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Wa/wty1AqVchNLec2lyVeo7rH67/UrtzC+3fwYGm3+k=;
+        b=W9DsqSl18rPIG3MTwutPjA67ZKIVWYxaHbnbhi3zlWGx8ORcZBDBjH4RXq/ASqmkcp
+         bU5Nl+Wv3p/vRjhh7yXKi5sn9cgIPHH3YAXyauguMZrI1ny7mSE/4dFyKPPOvKuoqiul
+         zO3M1kEgUIHkN/GwotsQskj/ofeyQa8ndp0Gc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Wa/wty1AqVchNLec2lyVeo7rH67/UrtzC+3fwYGm3+k=;
+        b=hHLgFBkQf6+DGM2aNRaXXC3HIvB/DirFPO6SPEegfToN9oG6uVI3RVXcFSEL2djYd0
+         siJIFdFKcHzHXTfXb4hDCFofLGZ3XvbUTBXmtxA290AEuNYN2uXroP9TIGDDeJdmK6B1
+         K/NWQk5fjIfgKfYImvRsH2hYD6410cc5kOajM6+klnIh/qHhoejxCaraQhZPEi866rZI
+         xyXcBKiLDVdb2oYshFqMIb4LmBq1RvclCGx9vOKrqTTrrSofWwQ+HL/Kj7F7OZ9MyMcr
+         33/1ig1DA21aE/wcggZYrmDWMcHE9IxFOPsakA+4HiN5IxXYmIOa1XqNFJrjN8BUTVeg
+         icfQ==
+X-Gm-Message-State: AOAM532e62QaqCX9yoMC0vYyACMpzypmstG/IQBfARcL3iS5XQkC+t2G
+	QhyeUk513nKCRbS6ogRcHFpVkA==
+X-Google-Smtp-Source: ABdhPJzSNXy7b5DGkDCPiHfC7JqwcrGXcCTmeLd4RHyEUn6x1JdXI7FWvRd0pmhb61A+xjo6zk1Ifw==
+X-Received: by 2002:a05:6638:2643:: with SMTP id n3mr30375514jat.104.1622644727758;
+        Wed, 02 Jun 2021 07:38:47 -0700 (PDT)
+Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
+        by smtp.googlemail.com with ESMTPSA id k9sm89434ioa.13.2021.06.02.07.38.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Jun 2021 07:38:47 -0700 (PDT)
 Subject: Re: [PATCH] staging: greybus: fixed the coding style, labels should
  not be indented.
-Message-ID: <YLeXoQH2/iJjxkc+@kroah.com>
+To: Manikishan Ghantasala <manikishanghantasala@gmail.com>
+Cc: Rui Miguel Silva <rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>,
+ Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
 References: <20210602133659.46158-1-manikishanghantasala@gmail.com>
  <9a3878fd-3b59-76f5-ddc7-625c66f9fee8@ieee.org>
  <CAKzJ-FNW8EPX2oQd1qr5NagnvjtWwvSeuAh8DNLetj11+BJ6RA@mail.gmail.com>
+From: Alex Elder <elder@ieee.org>
+Message-ID: <dabb158b-8c7f-152e-f9a8-3c6e482af751@ieee.org>
+Date: Wed, 2 Jun 2021 09:38:45 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 In-Reply-To: <CAKzJ-FNW8EPX2oQd1qr5NagnvjtWwvSeuAh8DNLetj11+BJ6RA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 02, 2021 at 07:57:35PM +0530, Manikishan Ghantasala wrote:
+On 6/2/21 9:27 AM, Manikishan Ghantasala wrote:
 > Sending this mail again as I missed to reply to all.
->  Hi Alex,
+>   Hi Alex,
 > 
 > I agree those are called bit-field member names rather than labels.
 > But the reason I mentioned is because the ./scripts/checkpatch.pl
 > gave out a warning saying "labels should not be indented".
+> 
+> Sorry for the confusion in the name I referred to. So, I think this
+> change is needed as I feel this is not following the coding-style by
+> having indent before the width for bit field member. I went through
+> other places in source code to make sure this is correct, and sent the
+> patch after confirmation.
 
-checkpatch is a perl script that does it's best, but does not always get
-it right.  In this case, it is incorrect, the existing code is just
-fine.
+I agree that many instances in the kernel source place the width
+of a C bit-field immediately after the colon.  But it is not a
+universal convention, and I personally prefer the aligned widths
+used by the Greybus code here.
 
-thanks,
+So I don't find this patch acceptable.
 
-greg k-h
+					-Alex
+
+> Regards,
+> Manikishan Ghantasala
+> 
+> On Wed, 2 Jun 2021 at 19:13, Alex Elder <elder@ieee.org> wrote:
+>>
+>> On 6/2/21 8:36 AM, sh4nnu wrote:
+>>> From: Manikishan Ghantasala <manikishanghantasala@gmail.com>
+>>>
+>>> staging: greybus: gpio.c: Clear coding-style problem
+>>> "labels should not be indented" by removing indentation.
+>>
+>> These are not labels.
+>>
+>> I don't really understand what you're doing here.
+>>
+>> Can you please explain why you think this needs changing?
+>>
+>>                                          -Alex
+>>
+>>> Signed-off-by: Manikishan Ghantasala <manikishanghantasala@gmail.com>
+>>> ---
+>>>    drivers/staging/greybus/gpio.c | 6 +++---
+>>>    1 file changed, 3 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/greybus/gpio.c b/drivers/staging/greybus/gpio.c
+>>> index 7e6347fe93f9..4661f4a251bd 100644
+>>> --- a/drivers/staging/greybus/gpio.c
+>>> +++ b/drivers/staging/greybus/gpio.c
+>>> @@ -20,9 +20,9 @@
+>>>    struct gb_gpio_line {
+>>>        /* The following has to be an array of line_max entries */
+>>>        /* --> make them just a flags field */
+>>> -     u8                      active:    1,
+>>> -                             direction: 1,   /* 0 = output, 1 = input */
+>>> -                             value:     1;   /* 0 = low, 1 = high */
+>>> +     u8                      active:1,
+>>> +                             direction:1,    /* 0 = output, 1 = input */
+>>> +                             value:1;        /* 0 = low, 1 = high */
+>>>        u16                     debounce_usec;
+>>>
+>>>        u8                      irq_type;
+>>>
+>>
+
