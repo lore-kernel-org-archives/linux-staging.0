@@ -1,106 +1,204 @@
-Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B60070
-	for <linux-staging@lists.linux.dev>; Wed,  2 Jun 2021 06:15:00 +0000 (UTC)
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-	by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1526968N009246;
-	Wed, 2 Jun 2021 06:13:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=eDBiG4/wt/rox7qJOomfFC+kqVrYBXZZId5X5gfvXNk=;
- b=BplS766nLbC+xuzQ/4/xHwVQI6naSjUPT/RD0JEPqXGI4d+fTE+VAaE37PvAFccqBL8x
- ADFWqa1cWpFdd8xLtzw21ie5cpVT6KgAe0gcDdmM/ouLqrMIkV1fnU8epuLwelbMu/C3
- adaChhNaB7QQhafxWCsYzg2KP39wVmp46nkE1VJQ2cXofpxWeU3lcq3FSYOe18RjrEXK
- Jv7ccJlrOxredRsl8CzPufZIVBq7e5s+79fuNCydZP9KmM7HXr/8AzMF8RqkX4MT1fUP
- 6IpCS9EcOS4O173PoBPNsA8R6BW8ZBczk2zQ7MYw8tiYMclRBRJ/wPTZTcK+uCPy41Y1 pg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-	by aserp2130.oracle.com with ESMTP id 38ub4cqgwc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 02 Jun 2021 06:13:18 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-	by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15269vMO073427;
-	Wed, 2 Jun 2021 06:13:17 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by userp3030.oracle.com with ESMTP id 38uaqwy80p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 02 Jun 2021 06:13:17 +0000
-Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 1526DH8t082882;
-	Wed, 2 Jun 2021 06:13:17 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-	by userp3030.oracle.com with ESMTP id 38uaqwy80f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 02 Jun 2021 06:13:17 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
-	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 1526DFBH008351;
-	Wed, 2 Jun 2021 06:13:15 GMT
-Received: from kadam (/41.212.42.34)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Tue, 01 Jun 2021 23:13:15 -0700
-Date: Wed, 2 Jun 2021 09:13:08 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Zheng Yongjun <zhengyongjun3@huawei.com>
-Cc: mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org
-Subject: Re: [PATCH v2 -next] media: atomisp: Remove unneeded if-null-free
- check
-Message-ID: <20210602061308.GE1955@kadam>
-References: <20210602014547.4135423-1-zhengyongjun3@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F9070
+	for <linux-staging@lists.linux.dev>; Wed,  2 Jun 2021 12:16:38 +0000 (UTC)
+Received: by mail-oo1-f44.google.com with SMTP id e27-20020a056820061bb029020da48eed5cso493258oow.10
+        for <linux-staging@lists.linux.dev>; Wed, 02 Jun 2021 05:16:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=9cyiA6wKj6aYc3HuGyRHU8Zz2WjjnKWj3tYvNZGV3VE=;
+        b=ePV4XQUAxLeH7pjN+qIAE7LMDSzgL9xInfD4aD18C1jpHlFc0zL8ZFTdZWkkXF4bb4
+         0x28JANxGg5QHhzsOw2JOSB9z+1RFxpSUVYgazqBQJBC86oz2QiiOCK7l24aG95y8bWK
+         +Kaghnq/hWFNVmPjppffyBrM+cFkz+YDbRVO78kbNnmTcAvCPpc+3sgr84TYhoJH1pBd
+         QKilN7lIwDJHdIKgivwL4ThGCzTDd0OGwiYIWLAV8LCHnzgp/lZIhV9A+CpYpf84iokD
+         SNCuzCFLQypszmMQOY5xKgzVlD1bvTB381fiASOLfb+uadfVWVxvf1jUq9lIpVKz6Jxa
+         F5RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=9cyiA6wKj6aYc3HuGyRHU8Zz2WjjnKWj3tYvNZGV3VE=;
+        b=G072o2E3pTDn6R195Thh7xL4a44w73NULvVZXNG/mniY7HfawbHe638YSJhKntsCJ8
+         7S0ji3yo+vtwaWD39JHrzOQ2fphtjXZiTA8MhtupluQZzkqcIwZv4XB/gzozZ/u/AJZm
+         T/aMO5PNFcbCyRs+yUEYuYm8xzC01DOEmwLdMlT6ohBEIducJMV7WnmVBhrSZJscBk1H
+         u0sOaQ+t6FgDc6QuRli7zvOK0NY7h1+X2Z/9uas6LQ+HlwrXw8x3nAIJAdHUFDTqLoz4
+         Jfcmg98wqZFoIBW1szdoZfSInVtobs06SWyMS5/ghQnULkXDEnc74vjIBcFtLQVNH5Yo
+         OGoQ==
+X-Gm-Message-State: AOAM533IPGyQSCB23Z6inqQmV1Qo+XiHYRPDg7EdaA8327cAZiBcdYKM
+	YSTNitninQ8Oo6W0vRNvZUU0vkYRw5j8bFrCyYo=
+X-Google-Smtp-Source: ABdhPJwp9HmT51Y/FoZx4UCv7YAz4y8OSSWO0aA59p1yqoD6CosC0wGNI5oxSR44LWQv6OrMas5DMQlXX5Qwh6+3nTs=
+X-Received: by 2002:a4a:d247:: with SMTP id e7mr9500271oos.77.1622636197909;
+ Wed, 02 Jun 2021 05:16:37 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210602014547.4135423-1-zhengyongjun3@huawei.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: 191ClavN1McdP1dAQ-3waxzutZ6BB2ue
-X-Proofpoint-ORIG-GUID: 191ClavN1McdP1dAQ-3waxzutZ6BB2ue
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10002 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 mlxscore=0
- mlxlogscore=999 malwarescore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
- clxscore=1011 impostorscore=0 adultscore=0 suspectscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2106020040
+References: <20210515124055.22225-1-sergio.paracuellos@gmail.com>
+ <20210515124055.22225-3-sergio.paracuellos@gmail.com> <20210531131431.bzsvmefqdyawmeo2@pali>
+ <CAMhs-H80=7jctPT70rOmcwcqPw+9iUF84_ZCgGr-TKwJ4eB2Lg@mail.gmail.com>
+ <20210531135041.42ovpmbwuc3yfkaw@pali> <CAMhs-H_fR5aXJ=diTm-2yhgjjv9S6N6jA-DOZ0K_BnQ4UHHh3Q@mail.gmail.com>
+In-Reply-To: <CAMhs-H_fR5aXJ=diTm-2yhgjjv9S6N6jA-DOZ0K_BnQ4UHHh3Q@mail.gmail.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Wed, 2 Jun 2021 14:16:26 +0200
+Message-ID: <CAMhs-H8EwQDvZtzpPn2u_WOWt1wcixOvz5nVZP2miM6j0+P7EA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] MIPS: pci: Add driver for MT7621 PCIe controller
+To: =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>
+Cc: "open list:MIPS" <linux-mips@vger.kernel.org>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	John Crispin <john@phrozen.org>, Bjorn Helgaas <bhelgaas@google.com>, Rob Herring <robh+dt@kernel.org>, 
+	linux-staging@lists.linux.dev, Greg KH <gregkh@linuxfoundation.org>, 
+	NeilBrown <neil@brown.name>, Ilya Lipnitskiy <ilya.lipnitskiy@gmail.com>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 02, 2021 at 09:45:47AM +0800, Zheng Yongjun wrote:
-> Eliminate the following coccicheck warning:
-> 
-> drivers/staging/media/atomisp/pci/sh_css_firmware.c:367:4-10: WARNING:
-> NULL check before some freeing functions is not needed.
-> drivers/staging/media/atomisp/pci/sh_css_firmware.c:369:4-10: WARNING:
-> NULL check before some freeing functions is not needed.
-> 
-> Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
-> ---
->  drivers/staging/media/atomisp/pci/sh_css_firmware.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/sh_css_firmware.c b/drivers/staging/media/atomisp/pci/sh_css_firmware.c
-> index f4ce8ace9d50..5301cc014c7e 100644
-> --- a/drivers/staging/media/atomisp/pci/sh_css_firmware.c
-> +++ b/drivers/staging/media/atomisp/pci/sh_css_firmware.c
-> @@ -363,10 +363,8 @@ void sh_css_unload_firmware(void)
->  		unsigned int i = 0;
->  
->  		for (i = 0; i < sh_css_num_binaries; i++) {
-> -			if (fw_minibuffer[i].name)
-> -				kfree((void *)fw_minibuffer[i].name);
-> -			if (fw_minibuffer[i].buffer)
-> -				kvfree(fw_minibuffer[i].buffer);
-> +			kfree((void *)fw_minibuffer[i].name);
+Hi Pali,
 
-Sorry, I should have mentioned this.  Remove the cast as well.
+On Mon, May 31, 2021 at 4:19 PM Sergio Paracuellos
+<sergio.paracuellos@gmail.com> wrote:
+>
+> On Mon, May 31, 2021 at 3:50 PM Pali Roh=C3=A1r <pali@kernel.org> wrote:
+> >
+> > On Monday 31 May 2021 15:39:55 Sergio Paracuellos wrote:
+> > > Hi Pali,
+> > >
+> > > Thanks for your comments.
+> > >
+> > > On Mon, May 31, 2021 at 3:14 PM Pali Roh=C3=A1r <pali@kernel.org> wro=
+te:
+> > > >
+> > > > On Saturday 15 May 2021 14:40:53 Sergio Paracuellos wrote:
+> > > > > This patch adds a driver for the PCIe controller of MT7621 SoC.
+> > > > >
+> > > > > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> > > > > ---
+> > > > >  arch/mips/pci/Makefile     |   1 +
+> > > > >  arch/mips/pci/pci-mt7621.c | 624 +++++++++++++++++++++++++++++++=
+++++++
+> > > > >  arch/mips/ralink/Kconfig   |   9 +-
+> > > > >  3 files changed, 633 insertions(+), 1 deletion(-)
+> > > > >  create mode 100644 arch/mips/pci/pci-mt7621.c
+> > > > >
+> > > > > diff --git a/arch/mips/pci/Makefile b/arch/mips/pci/Makefile
+> > > > > index f3eecc065e5c..178c550739c4 100644
+> > > > > --- a/arch/mips/pci/Makefile
+> > > > > +++ b/arch/mips/pci/Makefile
+> > > > > @@ -24,6 +24,7 @@ obj-$(CONFIG_PCI_AR2315)    +=3D pci-ar2315.o
+> > > > >  obj-$(CONFIG_SOC_AR71XX)     +=3D pci-ar71xx.o
+> > > > >  obj-$(CONFIG_PCI_AR724X)     +=3D pci-ar724x.o
+> > > > >  obj-$(CONFIG_PCI_XTALK_BRIDGE)       +=3D pci-xtalk-bridge.o
+> > > > > +obj-$(CONFIG_PCI_MT7621)     +=3D pci-mt7621.o
+> > > > >  #
+> > > > >  # These are still pretty much in the old state, watch, go blind.
+> > > > >  #
+> > > > > diff --git a/arch/mips/pci/pci-mt7621.c b/arch/mips/pci/pci-mt762=
+1.c
+> > > > > new file mode 100644
+> > > > > index 000000000000..fe1945819d25
+> > > > > --- /dev/null
+> > > > > +++ b/arch/mips/pci/pci-mt7621.c
+> > > > ...
+> > > > > +static int mt7621_pcie_enable_ports(struct mt7621_pcie *pcie)
+> > > > > +{
+> > > > > +     struct device *dev =3D pcie->dev;
+> > > > > +     struct mt7621_pcie_port *port;
+> > > > > +     u8 num_slots_enabled =3D 0;
+> > > > > +     u32 slot;
+> > > > > +     u32 val;
+> > > > > +     int err;
+> > > > > +
+> > > > > +     /* Setup MEMWIN and IOWIN */
+> > > > > +     pcie_write(pcie, 0xffffffff, RALINK_PCI_MEMBASE);
+> > > > > +     pcie_write(pcie, pcie->io.start, RALINK_PCI_IOBASE);
+> > > > > +
+> > > > > +     list_for_each_entry(port, &pcie->ports, list) {
+> > > > > +             if (port->enabled) {
+> > > > > +                     err =3D clk_prepare_enable(port->clk);
+> > > > > +                     if (err) {
+> > > > > +                             dev_err(dev, "enabling clk pcie%d\n=
+", slot);
+> > > > > +                             return err;
+> > > > > +                     }
+> > > > > +
+> > > > > +                     mt7621_pcie_enable_port(port);
+> > > > > +                     dev_info(dev, "PCIE%d enabled\n", port->slo=
+t);
+> > > > > +                     num_slots_enabled++;
+> > > > > +             }
+> > > > > +     }
+> > > > > +
+> > > > > +     for (slot =3D 0; slot < num_slots_enabled; slot++) {
+> > > > > +             val =3D read_config(pcie, slot, PCI_COMMAND);
+> > > > > +             val |=3D PCI_COMMAND_MASTER;
+> > > > > +             write_config(pcie, slot, PCI_COMMAND, val);
+> > > >
+> > > > Hello! Is this part of code correct? Because it looks strange if PC=
+Ie
+> > > > controller driver automatically enables PCI bus mastering, prior de=
+vice
+> > > > driver initialize itself.
+> > > >
+> > > > Moreover kernel has already function pci_set_master() for this purp=
+ose
+> > > > which is used by device drivers.
+> > > >
+> > > > So I think this code can confuse some device drivers...
+> > >
+> > > I agree that we have pci_set_master() to be used in pci device driver
+> > > code. Original controller driver set this bit for enabled slots. Sinc=
+e
+> > > there is no documentation at all for the PCI in this SoC
+> >
+> > I see... this is really a big problem to do any driver development...
+>
+> For sure it is :(.
+>
+> >
+> > > I have
+> > > maintained the setting in the driver in a cleaner way. See original
+> > > driver code and the setting here [0]. There is no other reason than
+> > > that. I am ok with removing this from here and testing with my two
+> > > devices that everything is still ok if having this setting in the pci
+> > > controller driver is a real problem.
+> >
+> > You can run lspci -nnvv with and without PCI_COMMAND_MASTER code and
+> > then compare outputs.
+> >
+> > Device drivers for sure enable PCI_COMMAND_MASTER at the time when it i=
+s
+> > needed, so it is possible that there would be no difference in lspci
+> > output.
+>
+> Thanks. I will take this into account when v2 is submitted after more
+> review comments come :).
 
-			kfree(fw_minibuffer[i].name);
+I have tested to remove this and check lspci -nnvv output with and
+without PCI_COMMAND_MASTER code and, as you pointed out, there is no
+difference between them. Also, both boards are working without
+regressions at all. So I will remove this code for next version.
 
-regards,
-dan carpenter
-
-> +			kvfree(fw_minibuffer[i].buffer);
->  		}
-
+Thanks,
+    Sergio Paracuellos
+>
+> >
+> > > [0]: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.g=
+it/tree/drivers/staging/mt7621-pci/pci-mt7621.c?h=3Dv4.18#n676
+> > >
+> > > Best regards,
+> > >     Sergio Paracuellos
+> > > >
+> > > > > +             /* configure RC FTS number to 250 when it leaves L0=
+s */
+> > > > > +             val =3D read_config(pcie, slot, PCIE_FTS_NUM);
+> > > > > +             val &=3D ~PCIE_FTS_NUM_MASK;
+> > > > > +             val |=3D PCIE_FTS_NUM_L0(0x50);
+> > > > > +             write_config(pcie, slot, PCIE_FTS_NUM, val);
+> > > > > +     }
+> > > > > +
+> > > > > +     return 0;
+> > > > > +}
