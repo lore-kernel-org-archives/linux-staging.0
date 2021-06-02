@@ -1,110 +1,63 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from smtprelay.hostedemail.com (smtprelay0232.hostedemail.com [216.40.44.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C6770
-	for <linux-staging@lists.linux.dev>; Thu,  3 Jun 2021 09:18:10 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 85CCA613B1;
-	Thu,  3 Jun 2021 09:18:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1622711890;
-	bh=WqviaEw0MhFnTIUiBpw9FNDr4EIuI8nWVOUPL+95mXA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=I7f4gM7GCEjZS6LKqPXsf0wIuLgS+ELxRJRwFwN9HEY42VlPVtvIvGOjutKRoIV7l
-	 F0K2tSZ9t2ptxpokANes81IHcQSKplrzqOD1bojZ/s4Qfzq36wo2x5XE1P5ylscG6n
-	 SO4ly2QA5z8G3SE/4/wi1TRM3mHsQOgXyqxvEGd4=
-Date: Thu, 3 Jun 2021 11:18:07 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Wan Jiabing <wanjiabing@vivo.com>
-Cc: Fabio Aiuto <fabioaiuto83@gmail.com>,
-	Ross Schmidt <ross.schm.dev@gmail.com>,
-	Qiang Ma <maqianga@uniontech.com>,
-	Marco Cesati <marcocesati@gmail.com>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: core: fix some incorrect type
- warnings
-Message-ID: <YLieT3W39eSdwNZr@kroah.com>
-References: <1622708703-8561-1-git-send-email-wanjiabing@vivo.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6C270
+	for <linux-staging@lists.linux.dev>; Thu,  3 Jun 2021 10:26:09 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+	by smtpgrave04.hostedemail.com (Postfix) with ESMTP id CACB018019A3F
+	for <linux-staging@lists.linux.dev>; Wed,  2 Jun 2021 15:36:50 +0000 (UTC)
+Received: from omf06.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+	by smtprelay07.hostedemail.com (Postfix) with ESMTP id C7AB8181D3039;
+	Wed,  2 Jun 2021 15:36:43 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf06.hostedemail.com (Postfix) with ESMTPA id CA30D2448B4;
+	Wed,  2 Jun 2021 15:36:42 +0000 (UTC)
+Message-ID: <a5b5c871537bcc6931894e8f61ca7b28950c114a.camel@perches.com>
+Subject: Re: [PATCH] staging: rtl8192u: fix coding-style issues in
+ r8192U_hw.h
+From: Joe Perches <joe@perches.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, sh4nnu
+	 <manikishanghantasala@gmail.com>
+Cc: Michael Straube <straube.linux@gmail.com>,
+ linux-staging@lists.linux.dev,  linux-kernel@vger.kernel.org
+Date: Wed, 02 Jun 2021 08:36:41 -0700
+In-Reply-To: <YLehYmLYBMmI8MOk@kroah.com>
+References: <20210602151038.53794-1-manikishanghantasala@gmail.com>
+	 <YLehYmLYBMmI8MOk@kroah.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1622708703-8561-1-git-send-email-wanjiabing@vivo.com>
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.40
+X-Stat-Signature: fdn61jqfrued3rz84iyaj1h6kw7d7xuh
+X-Rspamd-Server: rspamout02
+X-Rspamd-Queue-Id: CA30D2448B4
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/etj0Okt/imVx4DoqXZjgv7mC4m5+TRs4=
+X-HE-Tag: 1622648202-847602
 
-On Thu, Jun 03, 2021 at 04:24:59PM +0800, Wan Jiabing wrote:
-> Fix some "incorrect type in assignment" in rtw_security.c.
-> 
-> The sparse warings:
-> drivers/staging//rtl8723bs/core/rtw_security.c:72:50: warning: incorrect type in assignment
-> drivers/staging//rtl8723bs/core/rtw_security.c:72:50:    expected restricted __le32 [usertype]
-> drivers/staging//rtl8723bs/core/rtw_security.c:72:50:    got unsigned int
-> drivers/staging//rtl8723bs/core/rtw_security.c:80:50: warning: incorrect type in assignment
-> drivers/staging//rtl8723bs/core/rtw_security.c:80:50:    expected restricted __le32 [usertype]
-> drivers/staging//rtl8723bs/core/rtw_security.c:80:50:    got unsigned int
-> drivers/staging//rtl8723bs/core/rtw_security.c:124:33: warning: cast to restricted __le32
-> drivers/staging//rtl8723bs/core/rtw_security.c:509:58: warning: incorrect type in assignment
-> drivers/staging//rtl8723bs/core/rtw_security.c:509:58:    expected restricted __le32 [usertype]
-> drivers/staging//rtl8723bs/core/rtw_security.c:509:58:    got unsigned int
-> drivers/staging//rtl8723bs/core/rtw_security.c:517:58: warning: incorrect type in assignment
-> drivers/staging//rtl8723bs/core/rtw_security.c:517:58:    expected restricted __le32 [usertype]
-> drivers/staging//rtl8723bs/core/rtw_security.c:517:58:    got unsigned int
-> drivers/staging//rtl8723bs/core/rtw_security.c:621:41: warning: cast to restricted __le32
-> 
-> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_security.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-> index a99f439..4760999 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_security.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-> @@ -36,7 +36,7 @@ const char *security_type_str(u8 value)
->  void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
->  {																	/*  exclude ICV */
->  
-> -	unsigned char crc[4];
-> +	u8 crc[4];
+On Wed, 2021-06-02 at 17:18 +0200, Greg Kroah-Hartman wrote:
+> On Wed, Jun 02, 2021 at 08:40:33PM +0530, sh4nnu wrote:
+> > staging: rtl8192u: r8192U_hw.h: Clear the coding-style issue
+> > 
+> > "Macros with complex values should be enclosed in parantheses"
+> > by enclosing values in parantheses.
 
-Why change this?
+parentheses
 
->  
->  	signed int	curfragnum, length;
->  	u32 keylength;
-> @@ -69,7 +69,7 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
->  
->  				length = pattrib->last_txcmdsz-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
->  
-> -				*((__le32 *)crc) = ~crc32_le(~0, payload, length);
-> +				*((__le32 *)crc) = cpu_to_le32(~crc32_le(~0, payload, length));
+> > Signed-off-by: sh4nnu <manikishanghantasala@gmail.com>
+[]
+> - It looks like you did not use your "real" name for the patch on either
+>   the Signed-off-by: line, or the From: line (both of which have to
+>   match).  Please read the kernel file, Documentation/SubmittingPatches
+>   for how to do this correctly.
 
-Are you sure this does what you think it does?
+Might be useful to have the patchbot script reduce the content of the
+message when it's identifiable.
 
-What exactly is this doing now?
+The patch itself looks OK.
 
->  
->  				arc4_setkey(ctx, wepkey, 3 + keylength);
->  				arc4_crypt(ctx, payload, payload, length);
-> @@ -77,7 +77,7 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
->  
->  			} else {
->  				length = pxmitpriv->frag_len-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
-> -				*((__le32 *)crc) = ~crc32_le(~0, payload, length);
-> +				*((__le32 *)crc) = cpu_to_le32(~crc32_le(~0, payload, length));
->  				arc4_setkey(ctx, wepkey, 3 + keylength);
->  				arc4_crypt(ctx, payload, payload, length);
->  				arc4_crypt(ctx, payload + length, crc, 4);
-> @@ -121,7 +121,7 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
->  		arc4_crypt(ctx, payload, payload,  length);
->  
->  		/* calculate icv and compare the icv */
-> -		*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
-> +		*((__le32 *)crc) = cpu_to_le32(~crc32_le(~0, payload, length - 4));
 
-This odd casting feels wrong, why is it correct now?
-
-thanks,
-
-greg k-h
