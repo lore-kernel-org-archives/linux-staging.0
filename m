@@ -1,81 +1,65 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D048572
-	for <linux-staging@lists.linux.dev>; Tue,  1 Jun 2021 20:23:38 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 151KGZVC006875;
-	Tue, 1 Jun 2021 20:23:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=ZfE7SpF3zwKpmWzVzP/aV3gFN8HgkKhmsX/IkQ5NQ90=;
- b=HGk4jkzeRVehwabYfdWDMotWuzuHXfIwtdhfrcw5Rw+WiAvM4hy4sCgH8ooEehQPrQvo
- yHu9iUmWSAJYYZY4bNiVcUCg8HGiVFnJ53bLFYC88QqtQ/UTwISDRANK+T13qeubmlKi
- CBVxU00pUEx1rrjCdbbLrtH5DqfQtTXr8GO3VLhZUHcyjJ855lUyWSmREO7jjVjg9aC+
- 9H49FHZf1wMzcDiCR9YgUtbWDS1AsyzdvXNFH+oQplOlWL8+hV5qz3So57GwNLC9P+5g
- RKLrh3xXBFFm/BFSmIdn09HAh7g7dF42zkjuZ1v0vUcWI7ln5AF9tzHEBH+vP2ut9GyC tw== 
-Received: from oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by mx0b-00069f02.pphosted.com with ESMTP id 38wu57r0em-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 01 Jun 2021 20:23:25 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
-	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 151KKnrg040277;
-	Tue, 1 Jun 2021 20:23:24 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3030.oracle.com with ESMTP id 38ubndfdck-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 01 Jun 2021 20:23:24 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 151KKCNk039093;
-	Tue, 1 Jun 2021 20:23:24 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by aserp3030.oracle.com with ESMTP id 38ubndfdbv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 01 Jun 2021 20:23:23 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 151KNLOU030306;
-	Tue, 1 Jun 2021 20:23:21 GMT
-Received: from kadam (/41.212.42.34)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Tue, 01 Jun 2021 13:23:20 -0700
-Date: Tue, 1 Jun 2021 23:23:07 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Ojaswin Mujoo <ojaswin98@gmail.com>
-Cc: nsaenz@kernel.org, gregkh@linuxfoundation.org, arnd@arndb.de,
-        phil@raspberrypi.com, bcm-kernel-feedback-list@broadcom.com,
-        linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: staging: vc04_services: Need suggestions on trying to fix sparse
- warning in vchiq_arm.c
-Message-ID: <20210601202307.GC1955@kadam>
-References: <20210601200513.GA10204@ojas>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03BB770
+	for <linux-staging@lists.linux.dev>; Wed,  2 Jun 2021 01:32:12 +0000 (UTC)
+Received: from dggeme760-chm.china.huawei.com (unknown [172.30.72.53])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4FvrzT3cVXzYsPN;
+	Wed,  2 Jun 2021 09:29:25 +0800 (CST)
+Received: from localhost.localdomain (10.175.104.82) by
+ dggeme760-chm.china.huawei.com (10.3.19.106) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Wed, 2 Jun 2021 09:32:08 +0800
+From: Zheng Yongjun <zhengyongjun3@huawei.com>
+To: <mchehab@kernel.org>, <linux-media@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+CC: <sakari.ailus@linux.intel.com>, <gregkh@linuxfoundation.org>, Zheng
+ Yongjun <zhengyongjun3@huawei.com>
+Subject: [PATCH v2 -next] media: atomisp: Remove unneeded if-null-free check
+Date: Wed, 2 Jun 2021 09:45:47 +0800
+Message-ID: <20210602014547.4135423-1-zhengyongjun3@huawei.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210601200513.GA10204@ojas>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: 2HUnrfun4ratf_ZYcNbEft3H1aqRaMtl
-X-Proofpoint-ORIG-GUID: 2HUnrfun4ratf_ZYcNbEft3H1aqRaMtl
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.104.82]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggeme760-chm.china.huawei.com (10.3.19.106)
+X-CFilter-Loop: Reflected
 
-The problem is not the Sparse warning, the problem is that this code is
-a mess.  It used to very clearly buggy and I reported the bug.  I think
-Arnd found the bug again independently and fixed it.
+Eliminate the following coccicheck warning:
 
-A couple weeks ago Al Viro looked at this code.  Here is his write up:
+drivers/staging/media/atomisp/pci/sh_css_firmware.c:367:4-10: WARNING:
+NULL check before some freeing functions is not needed.
+drivers/staging/media/atomisp/pci/sh_css_firmware.c:369:4-10: WARNING:
+NULL check before some freeing functions is not needed.
 
-https://www.spinics.net/lists/kernel/msg3952745.html
+Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
+---
+ drivers/staging/media/atomisp/pci/sh_css_firmware.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-It shouldn't take Al Viro dozens of pages of detailed analysis to try
-figure out if the code is safe or not.  Your idea silences the warning
-but would make the code even more subtle and complicated.
-
-The right thing to do is to re-write the code to be simpler.
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_firmware.c b/drivers/staging/media/atomisp/pci/sh_css_firmware.c
+index f4ce8ace9d50..5301cc014c7e 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_firmware.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_firmware.c
+@@ -363,10 +363,8 @@ void sh_css_unload_firmware(void)
+ 		unsigned int i = 0;
+ 
+ 		for (i = 0; i < sh_css_num_binaries; i++) {
+-			if (fw_minibuffer[i].name)
+-				kfree((void *)fw_minibuffer[i].name);
+-			if (fw_minibuffer[i].buffer)
+-				kvfree(fw_minibuffer[i].buffer);
++			kfree((void *)fw_minibuffer[i].name);
++			kvfree(fw_minibuffer[i].buffer);
+ 		}
+ 		kfree(fw_minibuffer);
+ 		fw_minibuffer = NULL;
+-- 
+2.25.1
 
