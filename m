@@ -1,88 +1,104 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A7972
-	for <linux-staging@lists.linux.dev>; Wed,  2 Jun 2021 14:50:13 +0000 (UTC)
-Received: by mail-pg1-f178.google.com with SMTP id e22so2418284pgv.10
-        for <linux-staging@lists.linux.dev>; Wed, 02 Jun 2021 07:50:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72DAE72
+	for <linux-staging@lists.linux.dev>; Wed,  2 Jun 2021 15:10:48 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id 29so2456421pgu.11
+        for <linux-staging@lists.linux.dev>; Wed, 02 Jun 2021 08:10:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=i9rBUFdn0o45VyNYIoUSPAP6TWQNEYGbweMgl8R3j2k=;
-        b=ewELyXn1oVOkpjmFF9isG0jWeHDotlUmFjk677kzmx9NkvN6CJODmk4ABhKGE7SShm
-         BmAkoAF5sNQCdyCX2QtuQqzBJhtO/wNKe13dCXLpIEG8QSMgIVMRofZO3APfD/HBwkpx
-         jVboz7cyuf/sGTDv5pP8T6awFTi2Xv/udo8MkgGZ1LstSJ4b+tL3awBU5A7pqkMK/o/C
-         HTrPZWpf+5ivS1nBpJZJurCwSoi9bY+9wfMNZLj2ysaIfdETm63bmkQuGLntKR6XGNNK
-         xPFzjbRqxGCroRFZnCauLtKIdBUma0hvO0afqBTpGidL9vVfsQQaStyQS2tcWyjAJC5v
-         mgiQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=a9mH2b19KKqcLod1ABGLq+gY5WhpO9fgbJf5zaTl/ZU=;
+        b=SWB4USm1zFIH5OjqBrJAoP27QMcDTsfRuq51kSBU12BhXk7MIikDkT1Qob+iS9bQ5J
+         mUIXkMaYhHFutnSIpxKFMiwRBsPAF08Et3QPtq5IIJlkqyQiOJ8bZlkT573nL0C+oiWi
+         /BCuBgShuO92aN3ziUV6tAdWs+viSNQNgVSkv+clcO7Ey+f/6u9QocxI8BMRMREMO4mO
+         kW1VKG0KwvS5yyMDFC/KLAbLXQ597ZBolXnrjo8cBLwWYb0EI+VFam/fZTb7Jj8ywSWj
+         nF31CYQFRiXcViYYH8Y1CDSi+hAC0V6rOzCpfSsPAsgL0xCMC2KCrMFKWYnRAev4gB8k
+         c5Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=i9rBUFdn0o45VyNYIoUSPAP6TWQNEYGbweMgl8R3j2k=;
-        b=reYe3ej0fGQd4pPwhFvahLDvg8qsq90QkrUzxDZOD4fmZ+LQ6g3T+r2dCaP/iapCmx
-         Dhy7+e4+pVIG5RBfejnkbo3voXdsL09uFVu+T19NOOCw7IW68iLRVALm1NTtlfYFkmk/
-         GxionFnBA7/gvQ5iBGouAxhDuTMAZbyGLBFzWtSQ/SMHYzmQVaHai8WeiGn+tPAsLzZO
-         +V6ZpJU4MUlFEd0mDy9I4h7dMcEMjRmT8ii8jsydBKPE2R7j3N9nmNqCygRZygcSNaJP
-         u4HoATa8mT0shz4kKxnvOtKwpkYVNXtzH5pSHI+kekZUcsEgpouXWOunF/UdwVvzA0+/
-         BLnw==
-X-Gm-Message-State: AOAM532aCRy8ApVhHDbEPTn0TLHq9WT6H112dxwhbHeDqxGWqAQCOaWm
-	xxEpGRmBhO0GGYzbZCFbY1o=
-X-Google-Smtp-Source: ABdhPJyQjfmM+BCH1t7EJtFi0BLeF+t4bpsdWs2mSRcIjnc/D7jebkn4YHLTIVMp4REy5jZbC2o+EA==
-X-Received: by 2002:a05:6a00:16cd:b029:2d0:d876:4707 with SMTP id l13-20020a056a0016cdb02902d0d8764707mr28187601pfc.64.1622645413401;
-        Wed, 02 Jun 2021 07:50:13 -0700 (PDT)
-Received: from ojas ([122.177.142.129])
-        by smtp.gmail.com with ESMTPSA id u8sm65892pgg.51.2021.06.02.07.50.09
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=a9mH2b19KKqcLod1ABGLq+gY5WhpO9fgbJf5zaTl/ZU=;
+        b=Wjrmyhfoz0/IiS8RXIFVtBE+qBuFLjcIrWzYh2dWgemvRZ/RMuZMXuSFDKcskTCJuI
+         dcsQBYXkK3M04o7rVGZ8fcr9rGjyj2NEurPksP5u/h0hF7tXqOlQfX0+I8IJEAWCikNK
+         fUprYePZHhpmUpZYvm+tLKgOSjo2cFNUUIMwJgQTNy0Uo6Ch7YeqX+V5GdQpU7yfccXP
+         4bY3ilmGJcgHFkELUg+JidOOIV3ba5AFImgBJn3YCo8gZwqePazDmxkbOv8qtjgYwbcx
+         R4llzUk2lC+Teo7f5+RAyZAutWY+amKX4urqUNdpNBN/vCZnBfebS+hr8OMXZlOnuOZC
+         bNlA==
+X-Gm-Message-State: AOAM531uUD7/fKp6YGmM35aB6Jiu3SVBpWWReGQr/RJtPA+VBshKkM5X
+	Exm72N0y51LaLeoS8GxAUXI=
+X-Google-Smtp-Source: ABdhPJzxrjUCgP7MagHPiv6h0YrSPlVHO8REd2vSRfBzLYEVCF2h13gPIdFuKT145JajrVXjzyqYlA==
+X-Received: by 2002:a63:164f:: with SMTP id 15mr34464289pgw.175.1622646648000;
+        Wed, 02 Jun 2021 08:10:48 -0700 (PDT)
+Received: from localhost.localdomain ([183.82.156.71])
+        by smtp.googlemail.com with ESMTPSA id j2sm4812536pji.34.2021.06.02.08.10.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jun 2021 07:50:13 -0700 (PDT)
-Date: Wed, 2 Jun 2021 20:20:00 +0530
-From: Ojaswin Mujoo <ojaswin98@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: nsaenz@kernel.org, gregkh@linuxfoundation.org, arnd@arndb.de,
-	phil@raspberrypi.com, bcm-kernel-feedback-list@broadcom.com,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+        Wed, 02 Jun 2021 08:10:47 -0700 (PDT)
+From: sh4nnu <manikishanghantasala@gmail.com>
+To: 
+Cc: manikishanghantasala@gmail.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: staging: vc04_services: Need suggestions on trying to fix sparse
- warning in vchiq_arm.c
-Message-ID: <20210602145000.GA3999@ojas>
-References: <20210601200513.GA10204@ojas>
- <20210601202307.GC1955@kadam>
+Subject: [PATCH] staging: rtl8192u: fix coding-style issues in r8192U_hw.h
+Date: Wed,  2 Jun 2021 20:40:33 +0530
+Message-Id: <20210602151038.53794-1-manikishanghantasala@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210601202307.GC1955@kadam>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 01, 2021 at 11:23:07PM +0300, Dan Carpenter wrote:
-> The problem is not the Sparse warning, the problem is that this code is
-> a mess.  It used to very clearly buggy and I reported the bug.  I think
-> Arnd found the bug again independently and fixed it.
-> 
-> A couple weeks ago Al Viro looked at this code.  Here is his write up:
-> 
-> https://www.spinics.net/lists/kernel/msg3952745.html
-> 
-> It shouldn't take Al Viro dozens of pages of detailed analysis to try
-> figure out if the code is safe or not.  Your idea silences the warning
-> but would make the code even more subtle and complicated.
-> 
-> The right thing to do is to re-write the code to be simpler.
-> 
-> regards,
-> dan carpenter
-> 
+staging: rtl8192u: r8192U_hw.h: Clear the coding-style issue
 
-Thank you for the prompt reply and the link, it was very insightful. You
-are right, I was definitely going about this the wrong way and missing
-the larger picture. I'll spend some time trying to understand this
-codebase as I think that'd be a good start to understand how stuff works in
-the kernel (even though some of the things in this driver are anti patterns)
-and hopefully get some ideas on ways to clean this up.
+"Macros with complex values should be enclosed in parantheses"
+by enclosing values in parantheses.
+Modified spacing around "|" and removed a space before tab.
 
-Anyways, thanks again for the help, cheers!
+Signed-off-by: sh4nnu <manikishanghantasala@gmail.com>
+---
+ drivers/staging/rtl8192u/r8192U_hw.h | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Ojaswin
+diff --git a/drivers/staging/rtl8192u/r8192U_hw.h b/drivers/staging/rtl8192u/r8192U_hw.h
+index 8d3a592f1c35..aabe03721d99 100644
+--- a/drivers/staging/rtl8192u/r8192U_hw.h
++++ b/drivers/staging/rtl8192u/r8192U_hw.h
+@@ -88,7 +88,7 @@ enum _RTL8192Usb_HW {
+ #define RX_FIFO_THRESHOLD_MASK (BIT(13) | BIT(14) | BIT(15))
+ #define RX_FIFO_THRESHOLD_SHIFT 13
+ #define RX_FIFO_THRESHOLD_NONE 7
+-#define MAX_RX_DMA_MASK 	(BIT(8) | BIT(9) | BIT(10))
++#define MAX_RX_DMA_MASK		(BIT(8) | BIT(9) | BIT(10))
+ #define RCR_MXDMA_OFFSET	8
+ #define RCR_FIFO_OFFSET		13
+ #define RCR_ONLYERLPKT		BIT(31)			// Early Receiving based on Packet Size.
+@@ -221,13 +221,13 @@ enum _RTL8192Usb_HW {
+ #define	RATR_MCS14		0x04000000
+ #define	RATR_MCS15		0x08000000
+ // ALL CCK Rate
+-#define RATE_ALL_CCK		RATR_1M|RATR_2M|RATR_55M|RATR_11M
+-#define RATE_ALL_OFDM_AG	RATR_6M|RATR_9M|RATR_12M|RATR_18M|RATR_24M\
+-							|RATR_36M|RATR_48M|RATR_54M
+-#define RATE_ALL_OFDM_1SS	RATR_MCS0|RATR_MCS1|RATR_MCS2|RATR_MCS3 | \
+-							RATR_MCS4|RATR_MCS5|RATR_MCS6|RATR_MCS7
+-#define RATE_ALL_OFDM_2SS	RATR_MCS8|RATR_MCS9	|RATR_MCS10|RATR_MCS11| \
+-							RATR_MCS12|RATR_MCS13|RATR_MCS14|RATR_MCS15
++#define RATE_ALL_CCK		(RATR_1M | RATR_2M | RATR_55M | RATR_11M)
++#define RATE_ALL_OFDM_AG	(RATR_6M | RATR_9M | RATR_12M | RATR_18M |\
++				 RATR_24M | RATR_36M | RATR_48M | RATR_54M)
++#define RATE_ALL_OFDM_1SS	(RATR_MCS0 | RATR_MCS1 | RATR_MCS2 | RATR_MCS3 |\
++				 RATR_MCS4 | RATR_MCS5 | RATR_MCS6 | RATR_MCS7)
++#define RATE_ALL_OFDM_2SS	(RATR_MCS8 | RATR_MCS9 | RATR_MCS10 | RATR_MCS11 |\
++				 RATR_MCS12 | RATR_MCS13 | RATR_MCS14 | RATR_MCS15)
+ 
+ 	EPROM_CMD		= 0xfe58,
+ #define Cmd9346CR_9356SEL	BIT(4)
+-- 
+2.25.1
+
