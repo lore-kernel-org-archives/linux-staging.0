@@ -1,99 +1,78 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3510770
-	for <linux-staging@lists.linux.dev>; Wed,  2 Jun 2021 19:23:22 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id t3so4237583edc.7
-        for <linux-staging@lists.linux.dev>; Wed, 02 Jun 2021 12:23:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0647B70
+	for <linux-staging@lists.linux.dev>; Wed,  2 Jun 2021 19:33:42 +0000 (UTC)
+Received: by mail-pg1-f174.google.com with SMTP id i5so3158504pgm.0
+        for <linux-staging@lists.linux.dev>; Wed, 02 Jun 2021 12:33:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=amAyKy+cBzc+nTFVAZp6p9ey/7b5OWawo68azxvbzJ8=;
-        b=SczK1ewZLDBTpzxJkFl4u1ntZlgkpCL7i9gtbj2fpVhU/3LxOvYwuEWs3dYeS71ZqT
-         K2Q55fRYpGSb48PJX0fWSn/6xIATyH7MvFaU41hIcV1vJTwf/E1im7K0rZ71v7OZCWug
-         x4CfMe3iNwUcKOMtLYR0XbmRnNfgv/ANhrtwt/HBJmaOFhLWB2FprdUFF7/H2skOVufB
-         riy473TtPDnV/KzeH0V6CcWrp/uQ9mBoD7v85g6jL8PpAxZBuobOb9UE7yrKV1UMNh33
-         ObF5ZEYi9seTBrYx/FW1v28CGt+FmftgC7VPhvHZ8RbR5qYiJOS03RH/qnWm9jtXY5pG
-         EY/w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=58f97IzlT9KPrXUOhgASh31TIzZpCag1XB0Qb81nEUI=;
+        b=EHgAMA+ZqisG673kTLjz3bdglth4r0jB2cYYL8ht+bFLK/bMhSNaGxD7dW+0YldBl7
+         4rCcjGdJiruQ5PmWrvXvHkWcqHBAm/sQL53m+Mrl8FHgTR/9HtxDf/LFfkUEMxI8SVJo
+         Mu6RcnCpuvTaxmF08HqfiGFJ9H3FB7IVSblXYaLaFz4CSPNwqrkJq+Fwq94sSGsKPN/E
+         c+dAodeDfVX9CgHmVGiGqB1C0dSscqE86nAm0yphmtmsG9aFPU3ftvDctfI8tPaz41nW
+         CS6nfpdWU2VEIr5UsCR6lvLVsOLeAUoafyOIxa4A4qVT12L41V326PMzIO+MeojisEFt
+         /7Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=amAyKy+cBzc+nTFVAZp6p9ey/7b5OWawo68azxvbzJ8=;
-        b=BxAvRCbEMNJhEGs7Ej2ELITYvzwwzeRk3pVyS6ISGK//JBOqe2OXRvwcPZ++Bz4Jyw
-         spalpS9Enofc8Wn2QoR8mIv9bnFpIG+GwNPx56a4DbSzDH7EVMcXNPFz+WEbnXpQfFUC
-         J9m8T4mDtE/VtANqzJ0fLGTfR+2mGhHygvUz5a+IlqY1L0UPmMST/S1tjLWfaPl4+j87
-         kYjH4lYtRuGx56tUdAxexY8dRfYYoPAzuqjqs+txrCgKabonfgJ0v6332Qyg82Ji8TDp
-         7RRZC5tqk8lb3/rnRWL91oA+eIbC7EzzMgR8Sc436ira4Kl57fXZ8esL9/7iLb7FmIyG
-         SFzQ==
-X-Gm-Message-State: AOAM531I7d2lLwzyGCiv0avQKRHf/GETmYhBo5c2U+2dOAnLmM6NjK/Y
-	OY3S9yQMLCerDAd2tifhmyI=
-X-Google-Smtp-Source: ABdhPJypRHfDm6NtuVDE0ngA1EteaGo37miElQC5HCzJ2FSyef/w4ctpbeUAYcnYJyYCVxyDK/Fskw==
-X-Received: by 2002:aa7:d1d1:: with SMTP id g17mr12805439edp.86.1622661800763;
-        Wed, 02 Jun 2021 12:23:20 -0700 (PDT)
-Received: from linux.local (host-79-52-107-152.retail.telecomitalia.it. [79.52.107.152])
-        by smtp.gmail.com with ESMTPSA id q4sm473229edv.24.2021.06.02.12.23.19
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=58f97IzlT9KPrXUOhgASh31TIzZpCag1XB0Qb81nEUI=;
+        b=SFOlxLm47bNSz34kzSpbBgPkFjfWQ/8yqgzGU/wvhLW123k5slgadjVaI/xz5tSThi
+         3EfQb5pVqMReT3O6oLP/GzuCppF6aBBBX+/1gQ1Bfna1lvGTN8Sny0iK1Os4U2hUcrRu
+         OIgFn6OW/ipF1XQvpqXU23pi9cRq/5kIeI7/UliVR7D8huZxzrkRAMjz9/nIB0+XqdSI
+         QL1yyzRRxMJYsbcbJnXDXDMe7MfX2uGgCiMceRE4y8mO//5W6uiEHPMewWuquTvKGr9s
+         YCluM92k75FMCcBmE4oehSrRkh5/R13Q9BpqfNjKSevhl4pwlnc0b/vPvDYyQ4d7JJAd
+         nemA==
+X-Gm-Message-State: AOAM532hHwTRdROnH+Q8wt03JjPg2xNlUjeL+38LhheoGQDSUAUhAitJ
+	cywmlIJMe6s19I91Ia1U4S0=
+X-Google-Smtp-Source: ABdhPJxnWPveGj69ZI0U8HS0L+h5jYErr7asmg1l4w8N7fHlfM/zZHKVHaNpSEdK0KGCoKC/JyK3Qg==
+X-Received: by 2002:a62:a50d:0:b029:2e9:c657:feb1 with SMTP id v13-20020a62a50d0000b02902e9c657feb1mr18667872pfm.55.1622662422438;
+        Wed, 02 Jun 2021 12:33:42 -0700 (PDT)
+Received: from localhost.localdomain ([183.82.156.141])
+        by smtp.googlemail.com with ESMTPSA id 30sm520570pgo.7.2021.06.02.12.33.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jun 2021 12:23:20 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: mchehab@kernel.org, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Zheng Yongjun <zhengyongjun3@huawei.com>
-Cc: sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, Zheng Yongjun <zhengyongjun3@huawei.com>
-Subject: Re: [PATCH v2 -next] media: atomisp: Remove unneeded if-null-free check
-Date: Wed, 02 Jun 2021 21:23:18 +0200
-Message-ID: <3753626.ARhKoE1mID@linux.local>
-In-Reply-To: <20210602014547.4135423-1-zhengyongjun3@huawei.com>
-References: <20210602014547.4135423-1-zhengyongjun3@huawei.com>
+        Wed, 02 Jun 2021 12:33:42 -0700 (PDT)
+From: Manikishan Ghantasala <manikishanghantasala@gmail.com>
+To: 
+Cc: manikishanghantasala@gmail.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] staging: rtl8192u: r8192U_hw.h: fix checkpatch.pl reports
+Date: Thu,  3 Jun 2021 01:03:29 +0530
+Message-Id: <20210602193334.11687-1-manikishanghantasala@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8bit
 
-On Wednesday, June 2, 2021 3:45:47 AM CEST Zheng Yongjun wrote:
-> Eliminate the following coccicheck warning:
-> 
-> drivers/staging/media/atomisp/pci/sh_css_firmware.c:367:4-10: WARNING:
-> NULL check before some freeing functions is not needed.
-> drivers/staging/media/atomisp/pci/sh_css_firmware.c:369:4-10: WARNING:
-> NULL check before some freeing functions is not needed.
-> 
-> Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
-> ---
->  drivers/staging/media/atomisp/pci/sh_css_firmware.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-This warning has already been fixed on May 27th (with the only exception of 
-the removal of the unneeded cast):
+This patch series fixes all checkpatch.pl errors, warnings an some checks
+on the file drivers/staging/rtl8192u/r8192U_hw.h
 
-[PATCH] staging: media: atomisp: pci: Remove checks before kfree/kvfree
-https://lore.kernel.org/lkml/20210527193922.25225-1-fmdefrancesco@gmail.com/
-
-Fabio
->
-> diff --git a/drivers/staging/media/atomisp/pci/sh_css_firmware.c
-> b/drivers/staging/media/atomisp/pci/sh_css_firmware.c index 
-f4ce8ace9d50..5301cc014c7e
-> 100644
-> --- a/drivers/staging/media/atomisp/pci/sh_css_firmware.c
-> +++ b/drivers/staging/media/atomisp/pci/sh_css_firmware.c
-> @@ -363,10 +363,8 @@ void sh_css_unload_firmware(void)
->  		unsigned int i = 0;
-> 
->  		for (i = 0; i < sh_css_num_binaries; i++) {
-> -			if (fw_minibuffer[i].name)
-> -				kfree((void 
-*)fw_minibuffer[i].name);
-> -			if (fw_minibuffer[i].buffer)
-> -				kvfree(fw_minibuffer[i].buffer);
-> +			kfree((void *)fw_minibuffer[i].name);
-> +			kvfree(fw_minibuffer[i].buffer);
->  		}
->  		kfree(fw_minibuffer);
->  		fw_minibuffer = NULL;
+checkpatch.pl tail output before patches:
+total: 4 errors, 1 warnings, 32 checks, 247 lines checked
+checkpatch.pl tail outputt after patches:
+total: 0 errors, 0 warnings, 8 checks, 246 lines checked
 
 
+Manikishan Ghantasala (3):
+  staging: rtl8192u: r8192U_hw.h: fix spaces preferred around that '|'
+    code style error
+  staging: rtl8192u: put parentheses on macros with complex values in
+    r8192U_hw.h
+  staging: rtl8192u: fix spaces in r8192U_hw.h
 
+ drivers/staging/rtl8192u/r8192U_hw.h | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
+
+-- 
+2.25.1
 
