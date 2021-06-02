@@ -1,77 +1,88 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F08E572
-	for <linux-staging@lists.linux.dev>; Wed,  2 Jun 2021 14:40:13 +0000 (UTC)
-Received: by mail-oi1-f177.google.com with SMTP id h9so2868184oih.4
-        for <linux-staging@lists.linux.dev>; Wed, 02 Jun 2021 07:40:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A7972
+	for <linux-staging@lists.linux.dev>; Wed,  2 Jun 2021 14:50:13 +0000 (UTC)
+Received: by mail-pg1-f178.google.com with SMTP id e22so2418284pgv.10
+        for <linux-staging@lists.linux.dev>; Wed, 02 Jun 2021 07:50:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RWVAxqbt2ragLnej0S2guhkFqxl9f5X2TG9vofPgr5g=;
-        b=pIK5I0OJGNcUZKY6fYRPbWFjK/lbB/dhyRXSbbm+CTTMFSRjrlWjvL5G5XGfbhX3K6
-         CGKXNujPs93Tr1f+duXmLRro7Rtvvd3PeoeSAXXamUOCFow3NZdJtOCk5nQkQ2yerRhJ
-         lAX7VU/YBPjMjMeh1RioPTnUaliC6N+lg0eaH0xWmF9VxYspJTWHZjWx1kX9HAPNSlMQ
-         33kL5izgAkE9rx0Rp6qUuU8yFyE8JEVfvqBSI5MjHgAdwniQ7cKoSUlr/71XclJ92/G3
-         A13Bxker1PmlMbws/jkuzEZs0rumjVtvDPb5kh1183ZsbwmdsA971Gu2+kYYPbWqqoes
-         5fdQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=i9rBUFdn0o45VyNYIoUSPAP6TWQNEYGbweMgl8R3j2k=;
+        b=ewELyXn1oVOkpjmFF9isG0jWeHDotlUmFjk677kzmx9NkvN6CJODmk4ABhKGE7SShm
+         BmAkoAF5sNQCdyCX2QtuQqzBJhtO/wNKe13dCXLpIEG8QSMgIVMRofZO3APfD/HBwkpx
+         jVboz7cyuf/sGTDv5pP8T6awFTi2Xv/udo8MkgGZ1LstSJ4b+tL3awBU5A7pqkMK/o/C
+         HTrPZWpf+5ivS1nBpJZJurCwSoi9bY+9wfMNZLj2ysaIfdETm63bmkQuGLntKR6XGNNK
+         xPFzjbRqxGCroRFZnCauLtKIdBUma0hvO0afqBTpGidL9vVfsQQaStyQS2tcWyjAJC5v
+         mgiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RWVAxqbt2ragLnej0S2guhkFqxl9f5X2TG9vofPgr5g=;
-        b=toggkUhDgbyUZFyEMl8j53dAbMDxgtypcTzXUgF2KeKdEYVVKfHM/JTGuX3zZxttR5
-         b+IEIpLUVn+BJdb/7UgvMJcHh0jjkGKZYU43CiQeVkFAwaxk1T5Gn7utTnzxhiPqae+5
-         0S+qwYOeIBP53iS3Z2O8PxPafDtg6LlMT/sSz2RErgSGQBZ2Ubq0GqH//FrlXyRXTsEJ
-         apjLuBDmTE0wAychWIRag6bfaJxv+hCGahL0yeW2zyxLxkRALwTyeMZV6X11G5i98BLn
-         mSG5oCZ62dfMYuIToKWPWpvLckG/e2mogeOmA8jfQmjng8dECdQRsk9w0+5THacifHfh
-         nVkQ==
-X-Gm-Message-State: AOAM533olDPh0HQ7kiEt0uhTkDQ8u56RtyCW5D9uxL5qUMVjg7+RPg/8
-	Kc39C1cPfmQthrDeojsL44alc1bU9YhSMw47YAc=
-X-Google-Smtp-Source: ABdhPJw9W8YmUacJHRTLRKCSRcE6AT1Zu3kRNDtCEpiYsKWDEmet6F863hn0P5W2iDFQ+YX04vhuiOFjMdEZ014wjcU=
-X-Received: by 2002:a05:6808:244:: with SMTP id m4mr3971937oie.37.1622644813198;
- Wed, 02 Jun 2021 07:40:13 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=i9rBUFdn0o45VyNYIoUSPAP6TWQNEYGbweMgl8R3j2k=;
+        b=reYe3ej0fGQd4pPwhFvahLDvg8qsq90QkrUzxDZOD4fmZ+LQ6g3T+r2dCaP/iapCmx
+         Dhy7+e4+pVIG5RBfejnkbo3voXdsL09uFVu+T19NOOCw7IW68iLRVALm1NTtlfYFkmk/
+         GxionFnBA7/gvQ5iBGouAxhDuTMAZbyGLBFzWtSQ/SMHYzmQVaHai8WeiGn+tPAsLzZO
+         +V6ZpJU4MUlFEd0mDy9I4h7dMcEMjRmT8ii8jsydBKPE2R7j3N9nmNqCygRZygcSNaJP
+         u4HoATa8mT0shz4kKxnvOtKwpkYVNXtzH5pSHI+kekZUcsEgpouXWOunF/UdwVvzA0+/
+         BLnw==
+X-Gm-Message-State: AOAM532aCRy8ApVhHDbEPTn0TLHq9WT6H112dxwhbHeDqxGWqAQCOaWm
+	xxEpGRmBhO0GGYzbZCFbY1o=
+X-Google-Smtp-Source: ABdhPJyQjfmM+BCH1t7EJtFi0BLeF+t4bpsdWs2mSRcIjnc/D7jebkn4YHLTIVMp4REy5jZbC2o+EA==
+X-Received: by 2002:a05:6a00:16cd:b029:2d0:d876:4707 with SMTP id l13-20020a056a0016cdb02902d0d8764707mr28187601pfc.64.1622645413401;
+        Wed, 02 Jun 2021 07:50:13 -0700 (PDT)
+Received: from ojas ([122.177.142.129])
+        by smtp.gmail.com with ESMTPSA id u8sm65892pgg.51.2021.06.02.07.50.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Jun 2021 07:50:13 -0700 (PDT)
+Date: Wed, 2 Jun 2021 20:20:00 +0530
+From: Ojaswin Mujoo <ojaswin98@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: nsaenz@kernel.org, gregkh@linuxfoundation.org, arnd@arndb.de,
+	phil@raspberrypi.com, bcm-kernel-feedback-list@broadcom.com,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: staging: vc04_services: Need suggestions on trying to fix sparse
+ warning in vchiq_arm.c
+Message-ID: <20210602145000.GA3999@ojas>
+References: <20210601200513.GA10204@ojas>
+ <20210601202307.GC1955@kadam>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210602133659.46158-1-manikishanghantasala@gmail.com>
- <9a3878fd-3b59-76f5-ddc7-625c66f9fee8@ieee.org> <CAKzJ-FNW8EPX2oQd1qr5NagnvjtWwvSeuAh8DNLetj11+BJ6RA@mail.gmail.com>
- <YLeXoQH2/iJjxkc+@kroah.com>
-In-Reply-To: <YLeXoQH2/iJjxkc+@kroah.com>
-From: Manikishan Ghantasala <manikishanghantasala@gmail.com>
-Date: Wed, 2 Jun 2021 20:09:27 +0530
-Message-ID: <CAKzJ-FPZeM1QettgDyNaXy4xXpXX0YVm1TNVaKHOopiYevALjA@mail.gmail.com>
-Subject: Re: [PATCH] staging: greybus: fixed the coding style, labels should
- not be indented.
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Alex Elder <elder@ieee.org>, Rui Miguel Silva <rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>, 
-	Alex Elder <elder@kernel.org>, greybus-dev@lists.linaro.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210601202307.GC1955@kadam>
 
-Hi Greg,
-Thanks for the clarification.
-Regards,
-Manikishan Ghantasala
+On Tue, Jun 01, 2021 at 11:23:07PM +0300, Dan Carpenter wrote:
+> The problem is not the Sparse warning, the problem is that this code is
+> a mess.  It used to very clearly buggy and I reported the bug.  I think
+> Arnd found the bug again independently and fixed it.
+> 
+> A couple weeks ago Al Viro looked at this code.  Here is his write up:
+> 
+> https://www.spinics.net/lists/kernel/msg3952745.html
+> 
+> It shouldn't take Al Viro dozens of pages of detailed analysis to try
+> figure out if the code is safe or not.  Your idea silences the warning
+> but would make the code even more subtle and complicated.
+> 
+> The right thing to do is to re-write the code to be simpler.
+> 
+> regards,
+> dan carpenter
+> 
 
-On Wed, 2 Jun 2021 at 20:07, Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Wed, Jun 02, 2021 at 07:57:35PM +0530, Manikishan Ghantasala wrote:
-> > Sending this mail again as I missed to reply to all.
-> >  Hi Alex,
-> >
-> > I agree those are called bit-field member names rather than labels.
-> > But the reason I mentioned is because the ./scripts/checkpatch.pl
-> > gave out a warning saying "labels should not be indented".
->
-> checkpatch is a perl script that does it's best, but does not always get
-> it right.  In this case, it is incorrect, the existing code is just
-> fine.
->
-> thanks,
->
-> greg k-h
+Thank you for the prompt reply and the link, it was very insightful. You
+are right, I was definitely going about this the wrong way and missing
+the larger picture. I'll spend some time trying to understand this
+codebase as I think that'd be a good start to understand how stuff works in
+the kernel (even though some of the things in this driver are anti patterns)
+and hopefully get some ideas on ways to clean this up.
+
+Anyways, thanks again for the help, cheers!
+
+Ojaswin
