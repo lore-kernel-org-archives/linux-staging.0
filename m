@@ -1,63 +1,66 @@
-Received: from smtprelay.hostedemail.com (smtprelay0232.hostedemail.com [216.40.44.232])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6C270
-	for <linux-staging@lists.linux.dev>; Thu,  3 Jun 2021 10:26:09 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-	by smtpgrave04.hostedemail.com (Postfix) with ESMTP id CACB018019A3F
-	for <linux-staging@lists.linux.dev>; Wed,  2 Jun 2021 15:36:50 +0000 (UTC)
-Received: from omf06.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-	by smtprelay07.hostedemail.com (Postfix) with ESMTP id C7AB8181D3039;
-	Wed,  2 Jun 2021 15:36:43 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf06.hostedemail.com (Postfix) with ESMTPA id CA30D2448B4;
-	Wed,  2 Jun 2021 15:36:42 +0000 (UTC)
-Message-ID: <a5b5c871537bcc6931894e8f61ca7b28950c114a.camel@perches.com>
-Subject: Re: [PATCH] staging: rtl8192u: fix coding-style issues in
- r8192U_hw.h
-From: Joe Perches <joe@perches.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, sh4nnu
-	 <manikishanghantasala@gmail.com>
-Cc: Michael Straube <straube.linux@gmail.com>,
- linux-staging@lists.linux.dev,  linux-kernel@vger.kernel.org
-Date: Wed, 02 Jun 2021 08:36:41 -0700
-In-Reply-To: <YLehYmLYBMmI8MOk@kroah.com>
-References: <20210602151038.53794-1-manikishanghantasala@gmail.com>
-	 <YLehYmLYBMmI8MOk@kroah.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9486D1B
+	for <linux-staging@lists.linux.dev>; Thu,  3 Jun 2021 15:50:53 +0000 (UTC)
+Received: from localhost.localdomain ([37.4.249.110]) by
+ mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MPXxi-1m2UaA0VaU-00MZwY; Thu, 03 Jun 2021 17:50:48 +0200
+From: Stefan Wahren <stefan.wahren@i2se.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>
+Cc: linux-staging@lists.linux.dev,
+	Stefan Wahren <stefan.wahren@i2se.com>
+Subject: [PATCH 00/16] staging: vchiq_arm: code clean-up part 3
+Date: Thu,  3 Jun 2021 17:49:49 +0200
+Message-Id: <1622735405-9980-1-git-send-email-stefan.wahren@i2se.com>
+X-Mailer: git-send-email 2.7.4
+X-Provags-ID: V03:K1:5cdF/Qke+QfuZTGGmQThpI7w+t7XkNhCKT+hGj39YWna9r0d+uy
+ JHoQ6OQL0XMFsWlh3GWZAamEbr3NkphbA0w7tw1ghon3CKF5HJ9zixzS3gPb7m38GbVK3ir
+ +oQp71t9ZyNP75nSSpVYFQtvS8u+BPbMAgqaOy1pT+YvSqjVOEXC71ELLKlL3JNFLnrzA3q
+ vgazsMIvJTALSu+gZKDSw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:WVR7tXwjNIE=:QgU1sPe8OCGyMrHbN/BJ9f
+ eDOnLabhB+7Z9MRUONrjWd3DMvWqtaqvUvpwzNeAL7qkWJysKD6jv2en3e1XjASx1//smnnbD
+ qa24RUjMw1vA9dcJRPw/auQUr4c2JnyfIAmx36BaZjhkEseXxzgfTL+lV0Pe85JqLTIBY3Xrz
+ qc50LxQ/oxZvir2Qsdsq1+CT7FkSy1LB2t3lmKlkFrLQBGIAc+0o6tRVc1Tv8oZIwK9zYFsQZ
+ O2yvX1TvTv6Z1GrIy/s47deBgCTHztMVZNr/L99xcIoRXd1KaR1TKdJ3mLsoupgMLCpwWH1wI
+ 8ZAnA1a5YXT6iF8IkG1ZsTsSwjDtVbPkFsjVewuMSsPQo9vdO/miubl2ascVuz/oUErDy43z4
+ 3Gwa2B4ArSWAc/azDB+7QFotuU6POJDf7nrqVmI5XZZ4FlwCTnNyZ/kz5ZBLcwj575aOv/Xh8
+ EwsV0kQYdxmF17hmxiMbwDk6orkPJqRfYZHQiSSgr/4HyaTC3T+a4s/yAhUr42CijsuRKpEsX
+ 2hBu+Hd6DUPHxHjIpkl6rM=
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.40
-X-Stat-Signature: fdn61jqfrued3rz84iyaj1h6kw7d7xuh
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: CA30D2448B4
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/etj0Okt/imVx4DoqXZjgv7mC4m5+TRs4=
-X-HE-Tag: 1622648202-847602
 
-On Wed, 2021-06-02 at 17:18 +0200, Greg Kroah-Hartman wrote:
-> On Wed, Jun 02, 2021 at 08:40:33PM +0530, sh4nnu wrote:
-> > staging: rtl8192u: r8192U_hw.h: Clear the coding-style issue
-> > 
-> > "Macros with complex values should be enclosed in parantheses"
-> > by enclosing values in parantheses.
+This series mostly addresses the code readability. Additionally it contains
+a fix for a change from my last series.
 
-parentheses
+Stefan Wahren (16):
+  staging: vchiq_core: fix logic in poll_services_of_group
+  staging: vchiq_arm: introduce free_bulk_waiter
+  staging: vchiq_core: move internals to C source
+  staging: vchiq_core: get the rid of IS_POW2
+  staging: vchiq_core: get the rid of vchiq_static_assert
+  staging: vchiq_core: put spaces around operators
+  staging: vchiq_core: avoid precedence issues
+  staging: vchiq_core: use define for message type shift
+  staging: vchiq_core: introduce message specific make macros
+  staging: vchiq_core: simplify WARN_ON conditions
+  staging: vchiq_arm: tidy up service function naming
+  staging: vchiq_core: introduce process_free_data_message
+  staging: vchiq_core: reduce indentation in parse_open
+  staging: vchiq_core: store message id in local variable
+  staging: vchiq_connected: move EXPORT_SYMBOL below the right function
+  staging: vchiq_core: introduce handle_poll
 
-> > Signed-off-by: sh4nnu <manikishanghantasala@gmail.com>
-[]
-> - It looks like you did not use your "real" name for the patch on either
->   the Signed-off-by: line, or the From: line (both of which have to
->   match).  Please read the kernel file, Documentation/SubmittingPatches
->   for how to do this correctly.
+ .../vc04_services/interface/vchiq_arm/vchiq_arm.c  |  71 ++-
+ .../interface/vchiq_arm/vchiq_connected.c          |   2 +-
+ .../vc04_services/interface/vchiq_arm/vchiq_core.c | 606 ++++++++++++---------
+ .../vc04_services/interface/vchiq_arm/vchiq_core.h |  79 +--
+ 4 files changed, 375 insertions(+), 383 deletions(-)
 
-Might be useful to have the patchbot script reduce the content of the
-message when it's identifiable.
-
-The patch itself looks OK.
-
+-- 
+2.7.4
 
