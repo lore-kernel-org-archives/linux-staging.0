@@ -1,192 +1,166 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FBF6D34
-	for <linux-staging@lists.linux.dev>; Thu,  3 Jun 2021 15:50:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5988C6D3D
+	for <linux-staging@lists.linux.dev>; Thu,  3 Jun 2021 15:50:56 +0000 (UTC)
 Received: from localhost.localdomain ([37.4.249.110]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MGQSj-1lakjP3sMf-00GtbJ; Thu, 03 Jun 2021 17:50:51 +0200
+ id 1MnJUy-1l7ldv3x3M-00jLjg; Thu, 03 Jun 2021 17:50:52 +0200
 From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Nicolas Saenz Julienne <nsaenz@kernel.org>
 Cc: linux-staging@lists.linux.dev,
 	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH 12/16] staging: vchiq_core: introduce process_free_data_message
-Date: Thu,  3 Jun 2021 17:50:01 +0200
-Message-Id: <1622735405-9980-13-git-send-email-stefan.wahren@i2se.com>
+Subject: [PATCH 16/16] staging: vchiq_core: introduce handle_poll
+Date: Thu,  3 Jun 2021 17:50:05 +0200
+Message-Id: <1622735405-9980-17-git-send-email-stefan.wahren@i2se.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1622735405-9980-1-git-send-email-stefan.wahren@i2se.com>
 References: <1622735405-9980-1-git-send-email-stefan.wahren@i2se.com>
-X-Provags-ID: V03:K1:x0Aok2NzNU1PEBk61cKI4nWNYYIFgm30wQybKhbaCP39MSwYoc3
- Upi3tK/VB/8ecByF1mg3gJxw0OJCVO4NXW2zZAS5A4dmJ0TJKBV9MIPD376mtv6mAn+Srlj
- anPZ36JLvhjeHBa+9CwJogRvZGQIuZzS1TkvGaFLZzHYSp/Ef6KTHAn23/gFuWaWGVYczL3
- Vq+0kgabsdN19WLrhFhCA==
+X-Provags-ID: V03:K1:+D2al0DdGuNsU7rzgDjD+Lc1h0nMqlhWmJUy6GYorg5+LSmk9oM
+ M4MOWvWrBAIavbqaIzp9Ybe6M1cmlSKsCK6299CijzGvYkbmBIW+P/CNY+YH81BR4oVvgLP
+ 9qyIW//t1FsdkS3HBTpbo1fOaoyGgRmoAXHGFMMTX2aKHlY043GMSNKzo/m1E+Nf2xgJybx
+ wBg5n2dK0yUthnDL5ymCw==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mIqyKfGoIlQ=:oRE6Iq5UpDIiDIdjYDJ7Q9
- 122dtGIaK+lULCWnMmZzZFQVMv/0HufP1nF7u5MS3jheLuFdljyGy14gHe3kst8ZB1z2V2mF3
- fS9Zpht343I6oOD2N2hO+DY1BuaeC8uDAen/BNpPEA2uOYqJpgR+xxLsEOVAKKmAj4ARVY8KN
- 6SsnTpSooqB/co/yTiAMwq5f9omgb1ULcwwlgBJiDCdpH8PsHya1P9fZ3M1CVKVmOUghPrd2I
- /X490gcZ0X8affep9acm2fwe3VhooQ+Jaxqtcev5HjFwzZTIdhRHDkgjLP2DDvCa2FgXNjiwD
- WS8dTyk0zHHnhDaOCZ55VXezRwD4yKrQUkIoMhqlkltYdnbMTmYvDJjxv/2tpARAeL/qwWfbu
- XZ9Fbt/1JJyoYIEaVB00QXRQBgp/7g1h3oThJr+HE6kI5H0zeEgg1OJulLlxrLx5VDBceCZC/
- DdNqVfTnVM1qDZKF2o+eQUxmcwI0OPSy011FXbJurToOmLY9myTGlGKkVkBI/qfyPDHF7KN6w
- ieR3pqfmpB9bIrGOoEv2/8=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:PriqgyWlGdA=:4XO3mcePEkXL+xtLpVa6UG
+ d/lgcps+vLNYUvuf+mUhygiXctohXcaeKT43UyXK++BWh5lmyYmLPz6rBbslzNobH5ApKqghu
+ 1cX13tW36gpDBw2+TsAm8FQ6x+Pb22dkjdLEG0YHC3z2QMqYXE8EOgLhYZMss9VOrSUO7TO2Q
+ m5W5/CxFsM/ftMkKRyGeGhGbsp02I5J9Bae6gA0Bs9KI5bzjEA2xbfnz106ogCjrwY161cIPr
+ dSg2j1u3vzIXf1MTF7kpChBNeIHuPJF3PR7BjUet9926GaeFViTmfHb/cZX1hA6qu7vlyJlzI
+ Gr7PslCIVV4lXqlR5uO6i+VF9lf3+CvpGEk13DFQQ3Ek9mtz44Z4NXhl3Gq6ZW1isKE/O9BC0
+ zzKQV3BiUGczhJJAWLib0Xwh0BNsE6BtF2egW/150S3ctOwtrTSjf+q9Ts+p7Ur98CI2jhHVs
+ 1i9Pm7H0lGXjPXN+dUE+nc2R3Wr6GwrG/3GY2RKE5d7cUSBSKxAreneT+4iUyVM0OY7bjF01x
+ cNaEB4gx6uDFQBq00s/g/U=
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-This moves the special handling for data messages from process_free_queue()
-into a new function. After this process_free_queue() has less extreme
-indentation and should be easier to read.
+The function slot_handler_func() has very deep indentations. Moving the
+poll handling into separate function could improve the readability.
+Use the return value to keep the poll_needed handling at the same place.
 
 Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 ---
- .../vc04_services/interface/vchiq_arm/vchiq_core.c | 124 +++++++++++----------
- 1 file changed, 64 insertions(+), 60 deletions(-)
+ .../vc04_services/interface/vchiq_arm/vchiq_core.c | 92 ++++++++++++----------
+ 1 file changed, 52 insertions(+), 40 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index af2effa..84dcbc2 100644
+index a2a2472..4f43e42 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -717,6 +717,68 @@ reserve_space(struct vchiq_state *state, size_t space, int is_blocking)
- 						(tx_pos & VCHIQ_SLOT_MASK));
+@@ -1992,6 +1992,56 @@ parse_rx_slots(struct vchiq_state *state)
+ 	}
  }
  
-+static void
-+process_free_data_message(struct vchiq_state *state, BITSET_T *service_found,
-+			  struct vchiq_header *header)
++/**
++ * handle_poll() - handle service polling and other rare conditions
++ * @state:  vchiq state struct
++ *
++ * Context: Process context
++ *
++ * Return:
++ * * 0        - poll handled successful
++ * * -EAGAIN  - retry later
++ */
++static int
++handle_poll(struct vchiq_state *state)
 +{
-+	int msgid = header->msgid;
-+	int port = VCHIQ_MSG_SRCPORT(msgid);
-+	struct vchiq_service_quota *quota = &state->service_quotas[port];
-+	int count;
++	switch (state->conn_state) {
++	case VCHIQ_CONNSTATE_CONNECTED:
++		/* Poll the services as requested */
++		poll_services(state);
++		break;
 +
-+	spin_lock(&quota_spinlock);
-+	count = quota->message_use_count;
-+	if (count > 0)
-+		quota->message_use_count = count - 1;
-+	spin_unlock(&quota_spinlock);
-+
-+	if (count == quota->message_quota) {
-+		/*
-+		 * Signal the service that it
-+		 * has dropped below its quota
-+		 */
-+		complete(&quota->quota_event);
-+	} else if (count == 0) {
-+		vchiq_log_error(vchiq_core_log_level,
-+			"service %d message_use_count=%d (header %pK, msgid %x, header->msgid %x, header->size %x)",
-+			port,
-+			quota->message_use_count,
-+			header, msgid, header->msgid,
-+			header->size);
-+		WARN(1, "invalid message use count\n");
-+	}
-+	if (!BITSET_IS_SET(service_found, port)) {
-+		/* Set the found bit for this service */
-+		BITSET_SET(service_found, port);
-+
-+		spin_lock(&quota_spinlock);
-+		count = quota->slot_use_count;
-+		if (count > 0)
-+			quota->slot_use_count = count - 1;
-+		spin_unlock(&quota_spinlock);
-+
-+		if (count > 0) {
-+			/*
-+			 * Signal the service in case
-+			 * it has dropped below its quota
-+			 */
-+			complete(&quota->quota_event);
-+			vchiq_log_trace(vchiq_core_log_level,
-+				"%d: pfq:%d %x@%pK - slot_use->%d",
-+				state->id, port,
-+				header->size, header,
-+				count - 1);
++	case VCHIQ_CONNSTATE_PAUSING:
++		if (queue_message(state, NULL, MAKE_PAUSE, NULL, NULL, 0,
++				  QMFLAGS_NO_MUTEX_UNLOCK) != VCHIQ_RETRY) {
++			vchiq_set_conn_state(state, VCHIQ_CONNSTATE_PAUSE_SENT);
 +		} else {
-+			vchiq_log_error(vchiq_core_log_level,
-+					"service %d slot_use_count=%d (header %pK, msgid %x, header->msgid %x, header->size %x)",
-+				port, count, header,
-+				msgid, header->msgid,
-+				header->size);
-+			WARN(1, "bad slot use count\n");
++			/* Retry later */
++			return -EAGAIN;
 +		}
++		break;
++
++	case VCHIQ_CONNSTATE_RESUMING:
++		if (queue_message(state, NULL, MAKE_RESUME, NULL, NULL, 0,
++				  QMFLAGS_NO_MUTEX_LOCK) != VCHIQ_RETRY) {
++			vchiq_set_conn_state(state, VCHIQ_CONNSTATE_CONNECTED);
++		} else {
++			/*
++			 * This should really be impossible,
++			 * since the PAUSE should have flushed
++			 * through outstanding messages.
++			 */
++			vchiq_log_error(vchiq_core_log_level,
++				"Failed to send RESUME message");
++		}
++		break;
++	default:
++		break;
 +	}
++
++	return 0;
 +}
 +
- /* Called by the recycle thread. */
- static void
- process_free_queue(struct vchiq_state *state, BITSET_T *service_found,
-@@ -767,66 +829,8 @@ process_free_queue(struct vchiq_state *state, BITSET_T *service_found,
- 			int msgid = header->msgid;
+ /* Called by the slot handler thread */
+ static int
+ slot_handler_func(void *v)
+@@ -2010,52 +2060,14 @@ slot_handler_func(void *v)
  
- 			if (VCHIQ_MSG_TYPE(msgid) == VCHIQ_MSG_DATA) {
--				int port = VCHIQ_MSG_SRCPORT(msgid);
--				struct vchiq_service_quota *quota =
--					&state->service_quotas[port];
--				int count;
+ 		DEBUG_TRACE(SLOT_HANDLER_LINE);
+ 		if (state->poll_needed) {
 -
--				spin_lock(&quota_spinlock);
--				count = quota->message_use_count;
--				if (count > 0)
--					quota->message_use_count = count - 1;
--				spin_unlock(&quota_spinlock);
+ 			state->poll_needed = 0;
+ 
+ 			/*
+ 			 * Handle service polling and other rare conditions here
+ 			 * out of the mainline code
+ 			 */
+-			switch (state->conn_state) {
+-			case VCHIQ_CONNSTATE_CONNECTED:
+-				/* Poll the services as requested */
+-				poll_services(state);
+-				break;
 -
--				if (count == quota->message_quota) {
+-			case VCHIQ_CONNSTATE_PAUSING:
+-				if (queue_message(state, NULL, MAKE_PAUSE,
+-					NULL, NULL, 0,
+-					QMFLAGS_NO_MUTEX_UNLOCK)
+-				    != VCHIQ_RETRY) {
+-					vchiq_set_conn_state(state,
+-						VCHIQ_CONNSTATE_PAUSE_SENT);
+-				} else {
+-					/* Retry later */
+-					state->poll_needed = 1;
+-				}
+-				break;
+-
+-			case VCHIQ_CONNSTATE_RESUMING:
+-				if (queue_message(state, NULL, MAKE_RESUME,
+-					NULL, NULL, 0, QMFLAGS_NO_MUTEX_LOCK)
+-					!= VCHIQ_RETRY) {
+-					vchiq_set_conn_state(state,
+-						VCHIQ_CONNSTATE_CONNECTED);
+-				} else {
 -					/*
--					 * Signal the service that it
--					 * has dropped below its quota
+-					 * This should really be impossible,
+-					 * since the PAUSE should have flushed
+-					 * through outstanding messages.
 -					 */
--					complete(&quota->quota_event);
--				} else if (count == 0) {
 -					vchiq_log_error(vchiq_core_log_level,
--						"service %d message_use_count=%d (header %pK, msgid %x, header->msgid %x, header->size %x)",
--						port,
--						quota->message_use_count,
--						header, msgid, header->msgid,
--						header->size);
--					WARN(1, "invalid message use count\n");
+-						"Failed to send RESUME message");
 -				}
--				if (!BITSET_IS_SET(service_found, port)) {
--					/* Set the found bit for this service */
--					BITSET_SET(service_found, port);
+-				break;
+-			default:
+-				break;
+-			}
 -
--					spin_lock(&quota_spinlock);
--					count = quota->slot_use_count;
--					if (count > 0)
--						quota->slot_use_count =
--							count - 1;
--					spin_unlock(&quota_spinlock);
--
--					if (count > 0) {
--						/*
--						 * Signal the service in case
--						 * it has dropped below its quota
--						 */
--						complete(&quota->quota_event);
--						vchiq_log_trace(
--							vchiq_core_log_level,
--							"%d: pfq:%d %x@%pK - slot_use->%d",
--							state->id, port,
--							header->size, header,
--							count - 1);
--					} else {
--						vchiq_log_error(
--							vchiq_core_log_level,
--								"service %d slot_use_count=%d (header %pK, msgid %x, header->msgid %x, header->size %x)",
--							port, count, header,
--							msgid, header->msgid,
--							header->size);
--						WARN(1, "bad slot use count\n");
--					}
--				}
--
-+				process_free_data_message(state, service_found,
-+							  header);
- 				data_found = 1;
- 			}
++			if (handle_poll(state) == -EAGAIN)
++				state->poll_needed = 1;
+ 		}
  
+ 		DEBUG_TRACE(SLOT_HANDLER_LINE);
 -- 
 2.7.4
 
