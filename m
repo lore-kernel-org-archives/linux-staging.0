@@ -1,93 +1,92 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7F870
-	for <linux-staging@lists.linux.dev>; Thu,  3 Jun 2021 15:50:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0476D2F
+	for <linux-staging@lists.linux.dev>; Thu,  3 Jun 2021 15:50:54 +0000 (UTC)
 Received: from localhost.localdomain ([37.4.249.110]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MnJUy-1l7lds1gvs-00jLjg; Thu, 03 Jun 2021 17:50:48 +0200
+ id 1N9Md2-1lKsdp2Shg-015IQm; Thu, 03 Jun 2021 17:50:49 +0200
 From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Nicolas Saenz Julienne <nsaenz@kernel.org>
 Cc: linux-staging@lists.linux.dev,
 	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH 01/16] staging: vchiq_core: fix logic in poll_services_of_group
-Date: Thu,  3 Jun 2021 17:49:50 +0200
-Message-Id: <1622735405-9980-2-git-send-email-stefan.wahren@i2se.com>
+Subject: [PATCH 06/16] staging: vchiq_core: put spaces around operators
+Date: Thu,  3 Jun 2021 17:49:55 +0200
+Message-Id: <1622735405-9980-7-git-send-email-stefan.wahren@i2se.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1622735405-9980-1-git-send-email-stefan.wahren@i2se.com>
 References: <1622735405-9980-1-git-send-email-stefan.wahren@i2se.com>
-X-Provags-ID: V03:K1:H+AqxlrtCVwCayuWoXw2J+ecfFGI0camiY1sO8cOHKfbv2PTcJ3
- X3Ypf4gaU2MfknylrJeA7HNvODwLxWXjNRLbuVFI0tn19x+VAZyX/xLTQPAcNrtwapPLOgj
- QHr8sRjCAgHCHCamXOj69+nePxZ64wnJ3IJw4UJXieKcnUT2lE92Sa37SpwdyWXRqN7ufUv
- YpYwGTAGIMhkE+OkOUWWw==
+X-Provags-ID: V03:K1:/b/AEq2+1KcBZztD9hzaa4nr67pZJydV/JpsfZ0Dn15WhWeqRlW
+ 63LpPbtENG93jTD8w6qwnTnFAS7IkppWVb2JDarDJ1xIKZUUryQ+9RnYw6pOPfei1jZ8w1v
+ N1cr/863B1gwsj6oqTsgxh7QA3VO1XLVt8Grd+CUeOVZ3T2FZaXwImVbxW0DbqSq2YWLSHk
+ CAw8TU4sDykSHFevnTDRg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:o0X9NjRQpkc=:iaLpBdTqCQuiP3ttvqMHOR
- rC4Ilx44mGPwEBbkwLcaec7TpbwfMlZSTGv2EUeRBKpaoRfg7UKPtOiKCksLOO06oJJxKP2pp
- FFxzxBTKlKCGAgaZ68Z+uanBNlbXgVqzFo3i88NTgqLCKnc2VVl7PhQHYIgqQMkaFG1j9rUJ2
- BGBSxJj4CneD/vxXTjG1pjLBkx6ktCP7IUG1pBI1qoP8hlri9fT3URogD4wSNSwtjTBjLf4kA
- oTXjimlXObPXnEXScnjCRSihOP4ksgTGoEEWdTeqJLgjP2d/R7iM/TD5SWgFFH4KQ7Au4MMgX
- StMOKtKarPta3iSK/DzuOZxc7PIefXe/qYu7PtFQzYyZL/OjLCK133+vZqYOfwCzq6lUUuKqB
- eQCmwTbVRxR84xbwIPOFlmNtqY6bk8HOwSKSqfCpXNfy/hTZDyIOOh+7UoY3aQpVRihqdeU7V
- HCa/+OOt38EIgmSMkb0FFpedRs1ZX2Tyg3KSr3mNwOUBsnccwctx/W+mB1YKzZaP8viVyEh12
- ZsSzGRREkSx69JGTWCj+ZA=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:sbQ6dvcMluM=:+kTrJF1NfugV3JDdR+JLM5
+ NZOyFNqKdN7TEOVNNx36bYl0YGWQ5oG6E4aG+gdzleZFc7AqlhiPS4M4vrsVDyA+1eXBdE9ys
+ xz+pE+3qHSWi2CUC8cxaTIY76Ratjf19XZsM6tyQNzCUqpUt/YZVoV2/wx1mmmmWZV5KKa4Dy
+ hs5NPYXUg8C4X4MYrH34o3BL6ZND2w50QwkdxFLFtO/kgVdG2etj1hf8gUj1wmsV8QSQdWOgL
+ gMg/JAEW2Za45YKXofgKHdE+JDRysjHwtYCqHx57DuV5yP+4alROLsoVgnb+2Xvu0JXb/Iewq
+ q1OVckT4hnenlhmjRGI163O78KxBGovN3H6T5c+E7hnIL5VcyT8rHcg5rff5+AO4kmeGEIJNK
+ 5ZFdGVKbutbg3xh1RELauFDnPkjXHrkJKECqX0Ej9rWNnQaQeyH71oPirQMPTnqxTb3VbcAmk
+ hsUW420hGhH7PVq8iF522BBpTd6TOEcuUtyUCIcR2d+aXJ5Pmswyw8UA4PoEkD8i1mYFxRZAf
+ QXUIiwU4WOiBpr93daAvHA=
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-Commit "staging: vchiq_core: avoid indention in poll_services_of_group"
-tries to reduce the indention, but the parts regarding the third if statement
-breaks the logic. So restore them and prevent vchiq_test from hanging during
-the ping test.
+This fixes the checkpatch issues regarding missing spaces around operators.
 
-Fixes: 2f440843a7d4 ("staging: vchiq_core: avoid indention in poll_services_of_group")
 Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 ---
- .../vc04_services/interface/vchiq_arm/vchiq_core.c | 28 ++++++++++------------
- 1 file changed, 13 insertions(+), 15 deletions(-)
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_core.c   | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 47bb0af..bc6e123 100644
+index 7fe0583..3570132 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -1340,23 +1340,21 @@ poll_services_of_group(struct vchiq_state *state, int group)
- 			continue;
+@@ -37,7 +37,7 @@
+ #define VCHIQ_PORT_FREE                0x1000
+ #define VCHIQ_PORT_IS_VALID(port)      (port < VCHIQ_PORT_FREE)
+ #define VCHIQ_MAKE_MSG(type, srcport, dstport) \
+-	((type<<24) | (srcport<<12) | (dstport<<0))
++	((type << 24) | (srcport << 12) | (dstport << 0))
+ #define VCHIQ_MSG_TYPE(msgid)          ((unsigned int)msgid >> 24)
+ #define VCHIQ_MSG_SRCPORT(msgid) \
+ 	(unsigned short)(((unsigned int)msgid >> 12) & 0xfff)
+@@ -2210,7 +2210,7 @@ vchiq_init_slots(void *mem_base, int mem_size)
+ 		(int)((VCHIQ_SLOT_SIZE - (long)mem_base) & VCHIQ_SLOT_MASK);
+ 	struct vchiq_slot_zero *slot_zero =
+ 		(struct vchiq_slot_zero *)(mem_base + mem_align);
+-	int num_slots = (mem_size - mem_align)/VCHIQ_SLOT_SIZE;
++	int num_slots = (mem_size - mem_align) / VCHIQ_SLOT_SIZE;
+ 	int first_data_slot = VCHIQ_SLOT_ZERO_SLOTS;
  
- 		service_flags = atomic_xchg(&service->poll_flags, 0);
--		if ((service_flags & BIT(VCHIQ_POLL_REMOVE)) == 0)
--			continue;
--
--		vchiq_log_info(vchiq_core_log_level, "%d: ps - remove %d<->%d",
--			       state->id, service->localport,
--			       service->remoteport);
-+		if (service_flags & BIT(VCHIQ_POLL_REMOVE)) {
-+			vchiq_log_info(vchiq_core_log_level, "%d: ps - remove %d<->%d",
-+				       state->id, service->localport,
-+				       service->remoteport);
+ 	check_sizes();
+@@ -2237,9 +2237,9 @@ vchiq_init_slots(void *mem_base, int mem_size)
  
--		/*
--		 * Make it look like a client, because
--		 * it must be removed and not left in
--		 * the LISTENING state.
--		 */
--		service->public_fourcc = VCHIQ_FOURCC_INVALID;
-+			/*
-+			 * Make it look like a client, because
-+			 * it must be removed and not left in
-+			 * the LISTENING state.
-+			 */
-+			service->public_fourcc = VCHIQ_FOURCC_INVALID;
+ 	slot_zero->master.slot_sync = first_data_slot;
+ 	slot_zero->master.slot_first = first_data_slot + 1;
+-	slot_zero->master.slot_last = first_data_slot + (num_slots/2) - 1;
+-	slot_zero->slave.slot_sync = first_data_slot + (num_slots/2);
+-	slot_zero->slave.slot_first = first_data_slot + (num_slots/2) + 1;
++	slot_zero->master.slot_last = first_data_slot + (num_slots / 2) - 1;
++	slot_zero->slave.slot_sync = first_data_slot + (num_slots / 2);
++	slot_zero->slave.slot_first = first_data_slot + (num_slots / 2) + 1;
+ 	slot_zero->slave.slot_last = first_data_slot + num_slots - 1;
  
--		if (vchiq_close_service_internal(service, NO_CLOSE_RECVD) !=
--						 VCHIQ_SUCCESS) {
--			request_poll(state, service, VCHIQ_POLL_REMOVE);
-+			if (vchiq_close_service_internal(service, NO_CLOSE_RECVD) !=
-+							 VCHIQ_SUCCESS)
-+				request_poll(state, service, VCHIQ_POLL_REMOVE);
- 		} else if (service_flags & BIT(VCHIQ_POLL_TERMINATE)) {
- 			vchiq_log_info(vchiq_core_log_level,
- 				"%d: ps - terminate %d<->%d",
+ 	return slot_zero;
+@@ -2309,7 +2309,7 @@ vchiq_init_state(struct vchiq_state *state, struct vchiq_slot_zero *slot_zero)
+ 		complete(&state->slot_available_event);
+ 	}
+ 
+-	state->default_slot_quota = state->slot_queue_available/2;
++	state->default_slot_quota = state->slot_queue_available / 2;
+ 	state->default_message_quota =
+ 		min((unsigned short)(state->default_slot_quota * 256),
+ 		(unsigned short)~0);
 -- 
 2.7.4
 
