@@ -1,90 +1,192 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6C06D31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FBF6D34
 	for <linux-staging@lists.linux.dev>; Thu,  3 Jun 2021 15:50:54 +0000 (UTC)
 Received: from localhost.localdomain ([37.4.249.110]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MQNAv-1m2DjU3HTV-00MIxd; Thu, 03 Jun 2021 17:50:49 +0200
+ id 1MGQSj-1lakjP3sMf-00GtbJ; Thu, 03 Jun 2021 17:50:51 +0200
 From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Nicolas Saenz Julienne <nsaenz@kernel.org>
 Cc: linux-staging@lists.linux.dev,
 	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH 07/16] staging: vchiq_core: avoid precedence issues
-Date: Thu,  3 Jun 2021 17:49:56 +0200
-Message-Id: <1622735405-9980-8-git-send-email-stefan.wahren@i2se.com>
+Subject: [PATCH 12/16] staging: vchiq_core: introduce process_free_data_message
+Date: Thu,  3 Jun 2021 17:50:01 +0200
+Message-Id: <1622735405-9980-13-git-send-email-stefan.wahren@i2se.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1622735405-9980-1-git-send-email-stefan.wahren@i2se.com>
 References: <1622735405-9980-1-git-send-email-stefan.wahren@i2se.com>
-X-Provags-ID: V03:K1:9BWV3kUPQfvQU+vOyjwkAdy8IAhn1nVpSSlsPmzdQ37QiYPSgqJ
- uaCHiwwaVe/8Rkrhk7FlLVYe1A6Vt7shN9wWfGegLGJSZa4TI4bpOpz7ahW1R5wHl7D/uAw
- Uemvkk9tjE6SPsRnV3b5NzYMuQ6SQl1iHkL7a+0eUE8m8k/uDNCdilEEM/EE1kLnLcHgPdi
- wgkQgXnMxq3GPuABUmg4A==
+X-Provags-ID: V03:K1:x0Aok2NzNU1PEBk61cKI4nWNYYIFgm30wQybKhbaCP39MSwYoc3
+ Upi3tK/VB/8ecByF1mg3gJxw0OJCVO4NXW2zZAS5A4dmJ0TJKBV9MIPD376mtv6mAn+Srlj
+ anPZ36JLvhjeHBa+9CwJogRvZGQIuZzS1TkvGaFLZzHYSp/Ef6KTHAn23/gFuWaWGVYczL3
+ Vq+0kgabsdN19WLrhFhCA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8kbem8DL/AA=:E1A7CcoxpeiXh7vlxYR7nD
- FBo/KQyp2gdCNikNxvR+5FLfmJfCXy3dPseWkyIv/8niAtabifY1So6u214esnHGFMcpV6iTB
- nSyyqvmq2HOEsz2l/qMpvy2+2db/y8XjkeDipVcHu+YViV15oLtauxAOpqG0fcWSz/hNdrSqX
- 68m5DEd12XDXxW33+j9Mr6XVX8XErQ0N0IFQcSevt0s2dkt6f1brHHSLgdKAAEARNjgUg+o3r
- zd74G8+3owO+mi0EWoAt6AjfeSBCRIGKCfpYuDZ0rRmmJ1lsA3YF+oy5wz3lzS8j4hDkR+6/C
- a3qzCvMa0zF1wOYWdkmi5vs/oRHrkhJDAsrchwzPSXReyIbbS3WZE0wXPS9a+wJLwqrrCKVZW
- iF2zPdSskhFFnjKi4X60iiAAC32Ve2ZkMSO9HcemnCDs6fpdBAgA9pKIWKk6+Sw+cxdBodXDG
- bATz65g2GdnGMBA2xChC1L3CFkC/bLqQx5ZH6luBQPqz5T2X0hu80Kxdiz89Ga1PIB7dbFkw6
- w8FfQGWAOws7Whpek5GTSY=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:mIqyKfGoIlQ=:oRE6Iq5UpDIiDIdjYDJ7Q9
+ 122dtGIaK+lULCWnMmZzZFQVMv/0HufP1nF7u5MS3jheLuFdljyGy14gHe3kst8ZB1z2V2mF3
+ fS9Zpht343I6oOD2N2hO+DY1BuaeC8uDAen/BNpPEA2uOYqJpgR+xxLsEOVAKKmAj4ARVY8KN
+ 6SsnTpSooqB/co/yTiAMwq5f9omgb1ULcwwlgBJiDCdpH8PsHya1P9fZ3M1CVKVmOUghPrd2I
+ /X490gcZ0X8affep9acm2fwe3VhooQ+Jaxqtcev5HjFwzZTIdhRHDkgjLP2DDvCa2FgXNjiwD
+ WS8dTyk0zHHnhDaOCZ55VXezRwD4yKrQUkIoMhqlkltYdnbMTmYvDJjxv/2tpARAeL/qwWfbu
+ XZ9Fbt/1JJyoYIEaVB00QXRQBgp/7g1h3oThJr+HE6kI5H0zeEgg1OJulLlxrLx5VDBceCZC/
+ DdNqVfTnVM1qDZKF2o+eQUxmcwI0OPSy011FXbJurToOmLY9myTGlGKkVkBI/qfyPDHF7KN6w
+ ieR3pqfmpB9bIrGOoEv2/8=
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-Add () around macro argument to avoid precedence issues
+This moves the special handling for data messages from process_free_queue()
+into a new function. After this process_free_queue() has less extreme
+indentation and should be easier to read.
 
 Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 ---
- .../staging/vc04_services/interface/vchiq_arm/vchiq_core.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ .../vc04_services/interface/vchiq_arm/vchiq_core.c | 124 +++++++++++----------
+ 1 file changed, 64 insertions(+), 60 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 3570132..0afac46 100644
+index af2effa..84dcbc2 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -35,14 +35,14 @@
+@@ -717,6 +717,68 @@ reserve_space(struct vchiq_state *state, size_t space, int is_blocking)
+ 						(tx_pos & VCHIQ_SLOT_MASK));
+ }
  
- #define VCHIQ_PORT_MAX                 (VCHIQ_MAX_SERVICES - 1)
- #define VCHIQ_PORT_FREE                0x1000
--#define VCHIQ_PORT_IS_VALID(port)      (port < VCHIQ_PORT_FREE)
-+#define VCHIQ_PORT_IS_VALID(port)      ((port) < VCHIQ_PORT_FREE)
- #define VCHIQ_MAKE_MSG(type, srcport, dstport) \
--	((type << 24) | (srcport << 12) | (dstport << 0))
--#define VCHIQ_MSG_TYPE(msgid)          ((unsigned int)msgid >> 24)
-+	(((type) << 24) | ((srcport) << 12) | ((dstport) << 0))
-+#define VCHIQ_MSG_TYPE(msgid)          ((unsigned int)(msgid) >> 24)
- #define VCHIQ_MSG_SRCPORT(msgid) \
--	(unsigned short)(((unsigned int)msgid >> 12) & 0xfff)
-+	(unsigned short)(((unsigned int)(msgid) >> 12) & 0xfff)
- #define VCHIQ_MSG_DSTPORT(msgid) \
--	((unsigned short)msgid & 0xfff)
-+	((unsigned short)(msgid) & 0xfff)
++static void
++process_free_data_message(struct vchiq_state *state, BITSET_T *service_found,
++			  struct vchiq_header *header)
++{
++	int msgid = header->msgid;
++	int port = VCHIQ_MSG_SRCPORT(msgid);
++	struct vchiq_service_quota *quota = &state->service_quotas[port];
++	int count;
++
++	spin_lock(&quota_spinlock);
++	count = quota->message_use_count;
++	if (count > 0)
++		quota->message_use_count = count - 1;
++	spin_unlock(&quota_spinlock);
++
++	if (count == quota->message_quota) {
++		/*
++		 * Signal the service that it
++		 * has dropped below its quota
++		 */
++		complete(&quota->quota_event);
++	} else if (count == 0) {
++		vchiq_log_error(vchiq_core_log_level,
++			"service %d message_use_count=%d (header %pK, msgid %x, header->msgid %x, header->size %x)",
++			port,
++			quota->message_use_count,
++			header, msgid, header->msgid,
++			header->size);
++		WARN(1, "invalid message use count\n");
++	}
++	if (!BITSET_IS_SET(service_found, port)) {
++		/* Set the found bit for this service */
++		BITSET_SET(service_found, port);
++
++		spin_lock(&quota_spinlock);
++		count = quota->slot_use_count;
++		if (count > 0)
++			quota->slot_use_count = count - 1;
++		spin_unlock(&quota_spinlock);
++
++		if (count > 0) {
++			/*
++			 * Signal the service in case
++			 * it has dropped below its quota
++			 */
++			complete(&quota->quota_event);
++			vchiq_log_trace(vchiq_core_log_level,
++				"%d: pfq:%d %x@%pK - slot_use->%d",
++				state->id, port,
++				header->size, header,
++				count - 1);
++		} else {
++			vchiq_log_error(vchiq_core_log_level,
++					"service %d slot_use_count=%d (header %pK, msgid %x, header->msgid %x, header->size %x)",
++				port, count, header,
++				msgid, header->msgid,
++				header->size);
++			WARN(1, "bad slot use count\n");
++		}
++	}
++}
++
+ /* Called by the recycle thread. */
+ static void
+ process_free_queue(struct vchiq_state *state, BITSET_T *service_found,
+@@ -767,66 +829,8 @@ process_free_queue(struct vchiq_state *state, BITSET_T *service_found,
+ 			int msgid = header->msgid;
  
- /* Ensure the fields are wide enough */
- static_assert(VCHIQ_MSG_SRCPORT(VCHIQ_MAKE_MSG(0, 0, VCHIQ_PORT_MAX))
-@@ -55,7 +55,7 @@ static_assert((unsigned int)VCHIQ_PORT_MAX <
- #define VCHIQ_MSGID_CLAIMED            0x40000000
+ 			if (VCHIQ_MSG_TYPE(msgid) == VCHIQ_MSG_DATA) {
+-				int port = VCHIQ_MSG_SRCPORT(msgid);
+-				struct vchiq_service_quota *quota =
+-					&state->service_quotas[port];
+-				int count;
+-
+-				spin_lock(&quota_spinlock);
+-				count = quota->message_use_count;
+-				if (count > 0)
+-					quota->message_use_count = count - 1;
+-				spin_unlock(&quota_spinlock);
+-
+-				if (count == quota->message_quota) {
+-					/*
+-					 * Signal the service that it
+-					 * has dropped below its quota
+-					 */
+-					complete(&quota->quota_event);
+-				} else if (count == 0) {
+-					vchiq_log_error(vchiq_core_log_level,
+-						"service %d message_use_count=%d (header %pK, msgid %x, header->msgid %x, header->size %x)",
+-						port,
+-						quota->message_use_count,
+-						header, msgid, header->msgid,
+-						header->size);
+-					WARN(1, "invalid message use count\n");
+-				}
+-				if (!BITSET_IS_SET(service_found, port)) {
+-					/* Set the found bit for this service */
+-					BITSET_SET(service_found, port);
+-
+-					spin_lock(&quota_spinlock);
+-					count = quota->slot_use_count;
+-					if (count > 0)
+-						quota->slot_use_count =
+-							count - 1;
+-					spin_unlock(&quota_spinlock);
+-
+-					if (count > 0) {
+-						/*
+-						 * Signal the service in case
+-						 * it has dropped below its quota
+-						 */
+-						complete(&quota->quota_event);
+-						vchiq_log_trace(
+-							vchiq_core_log_level,
+-							"%d: pfq:%d %x@%pK - slot_use->%d",
+-							state->id, port,
+-							header->size, header,
+-							count - 1);
+-					} else {
+-						vchiq_log_error(
+-							vchiq_core_log_level,
+-								"service %d slot_use_count=%d (header %pK, msgid %x, header->msgid %x, header->size %x)",
+-							port, count, header,
+-							msgid, header->msgid,
+-							header->size);
+-						WARN(1, "bad slot use count\n");
+-					}
+-				}
+-
++				process_free_data_message(state, service_found,
++							  header);
+ 				data_found = 1;
+ 			}
  
- #define VCHIQ_FOURCC_INVALID           0x00000000
--#define VCHIQ_FOURCC_IS_LEGAL(fourcc)  (fourcc != VCHIQ_FOURCC_INVALID)
-+#define VCHIQ_FOURCC_IS_LEGAL(fourcc)  ((fourcc) != VCHIQ_FOURCC_INVALID)
- 
- #define VCHIQ_BULK_ACTUAL_ABORTED -1
- 
-@@ -84,7 +84,7 @@ static_assert((unsigned int)VCHIQ_PORT_MAX <
- #define SLOT_QUEUE_INDEX_FROM_POS_MASKED(pos) \
- 	(SLOT_QUEUE_INDEX_FROM_POS(pos) & VCHIQ_SLOT_QUEUE_MASK)
- 
--#define BULK_INDEX(x) (x & (VCHIQ_NUM_SERVICE_BULKS - 1))
-+#define BULK_INDEX(x) ((x) & (VCHIQ_NUM_SERVICE_BULKS - 1))
- 
- #define SRVTRACE_LEVEL(srv) \
- 	(((srv) && (srv)->trace) ? VCHIQ_LOG_TRACE : vchiq_core_msg_log_level)
 -- 
 2.7.4
 
