@@ -1,166 +1,106 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5988C6D3D
-	for <linux-staging@lists.linux.dev>; Thu,  3 Jun 2021 15:50:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 229276D2E
+	for <linux-staging@lists.linux.dev>; Thu,  3 Jun 2021 15:50:53 +0000 (UTC)
 Received: from localhost.localdomain ([37.4.249.110]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MnJUy-1l7ldv3x3M-00jLjg; Thu, 03 Jun 2021 17:50:52 +0200
+ id 1MeToK-1lGbKX0jWG-00aW20; Thu, 03 Jun 2021 17:50:49 +0200
 From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Nicolas Saenz Julienne <nsaenz@kernel.org>
 Cc: linux-staging@lists.linux.dev,
 	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH 16/16] staging: vchiq_core: introduce handle_poll
-Date: Thu,  3 Jun 2021 17:50:05 +0200
-Message-Id: <1622735405-9980-17-git-send-email-stefan.wahren@i2se.com>
+Subject: [PATCH 04/16] staging: vchiq_core: get the rid of IS_POW2
+Date: Thu,  3 Jun 2021 17:49:53 +0200
+Message-Id: <1622735405-9980-5-git-send-email-stefan.wahren@i2se.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1622735405-9980-1-git-send-email-stefan.wahren@i2se.com>
 References: <1622735405-9980-1-git-send-email-stefan.wahren@i2se.com>
-X-Provags-ID: V03:K1:+D2al0DdGuNsU7rzgDjD+Lc1h0nMqlhWmJUy6GYorg5+LSmk9oM
- M4MOWvWrBAIavbqaIzp9Ybe6M1cmlSKsCK6299CijzGvYkbmBIW+P/CNY+YH81BR4oVvgLP
- 9qyIW//t1FsdkS3HBTpbo1fOaoyGgRmoAXHGFMMTX2aKHlY043GMSNKzo/m1E+Nf2xgJybx
- wBg5n2dK0yUthnDL5ymCw==
+X-Provags-ID: V03:K1:GBsoOjyhGzyvHUQGhEIxTrDc4pVe6FUUh/Sv2UGWeFkPd3nfviQ
+ P/bUADCt/uXHQ9CyVejR9b+Gu53lvzX1nTZKom+NyShYJsANprN6ILmd9wpYjrAUopDYulo
+ OEMgI1OOefLhbh6VYpiXSUqZPzxEFc5Ko+3igzcsO8jZkEMKzDEHgxCThDnliyX/TPS/Fll
+ yHP46DBNgaPgSThGSDTCA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:PriqgyWlGdA=:4XO3mcePEkXL+xtLpVa6UG
- d/lgcps+vLNYUvuf+mUhygiXctohXcaeKT43UyXK++BWh5lmyYmLPz6rBbslzNobH5ApKqghu
- 1cX13tW36gpDBw2+TsAm8FQ6x+Pb22dkjdLEG0YHC3z2QMqYXE8EOgLhYZMss9VOrSUO7TO2Q
- m5W5/CxFsM/ftMkKRyGeGhGbsp02I5J9Bae6gA0Bs9KI5bzjEA2xbfnz106ogCjrwY161cIPr
- dSg2j1u3vzIXf1MTF7kpChBNeIHuPJF3PR7BjUet9926GaeFViTmfHb/cZX1hA6qu7vlyJlzI
- Gr7PslCIVV4lXqlR5uO6i+VF9lf3+CvpGEk13DFQQ3Ek9mtz44Z4NXhl3Gq6ZW1isKE/O9BC0
- zzKQV3BiUGczhJJAWLib0Xwh0BNsE6BtF2egW/150S3ctOwtrTSjf+q9Ts+p7Ur98CI2jhHVs
- 1i9Pm7H0lGXjPXN+dUE+nc2R3Wr6GwrG/3GY2RKE5d7cUSBSKxAreneT+4iUyVM0OY7bjF01x
- cNaEB4gx6uDFQBq00s/g/U=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5TI7n0Pi28E=:Rn2fImoFVEjvjJlsJkdlBY
+ Z4rJ2GC1NKaQcS32Vgj34XiIUZjNDUjg7AWHc9JTLPe+RifhSzOs/XcwgzyXKEGUgmd6AmkRj
+ 8xFrozFtRY7fMT1WfmZWu2A/tjKic2H18DwgktYIys+pkSjTL0T6E/IL595jrLGQpgCsOyFAF
+ NNfa2fGdxin3dzhbhiHvh6GYolYdvljCFTnRh0tfPDPeiN64vwfSBjC1+wcB2LqVxAnwWqwVe
+ W356TQ3P/2XdAAOtO5ZzsWf88zV2UOeEwbUgD1PvMdvsPTuZ8d41te7gcUXd4KbNUUP+Mr4pT
+ WVe7OEE//QOL7fJ21ZX4XTvkQsIwgUZTrR4+8G+BSIp4tinR5OdBpjQT+BJOT2NbkX6yMU78q
+ HlVuhAyjdqBuwV2GNM7w+lfdGfaT16114Z/3eWAFkK6CWZOBWcqLJFeFyOZ6FwI11Q7gUkwNL
+ e0g24ewPu5E384e4Mi1lk5xB0Ahmz0FVc88FknZuJdiAQ/bSe7Fvs78imBTCMIIhMzNxz9eyM
+ D8hGDRbFYjcfUEWqPAcKyY=
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-The function slot_handler_func() has very deep indentations. Moving the
-poll handling into separate function could improve the readability.
-Use the return value to keep the poll_needed handling at the same place.
+The macro IS_POW2 is only used to ensure some size are powers of 2.
+Better use BUILD_BUG_ON_NOT_POWER_OF_2 for this. Since this must be done
+in a function, merge all these checks in a new function.
 
 Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 ---
- .../vc04_services/interface/vchiq_arm/vchiq_core.c | 92 ++++++++++++----------
- 1 file changed, 52 insertions(+), 40 deletions(-)
+ .../vc04_services/interface/vchiq_arm/vchiq_core.c      | 17 +++++++++++++----
+ .../vc04_services/interface/vchiq_arm/vchiq_core.h      |  7 -------
+ 2 files changed, 13 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index a2a2472..4f43e42 100644
+index b808f91..32016ea 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -1992,6 +1992,56 @@ parse_rx_slots(struct vchiq_state *state)
- 	}
- }
+@@ -124,12 +124,19 @@ enum {
  
-+/**
-+ * handle_poll() - handle service polling and other rare conditions
-+ * @state:  vchiq state struct
-+ *
-+ * Context: Process context
-+ *
-+ * Return:
-+ * * 0        - poll handled successful
-+ * * -EAGAIN  - retry later
-+ */
-+static int
-+handle_poll(struct vchiq_state *state)
+ /* we require this for consistency between endpoints */
+ vchiq_static_assert(sizeof(struct vchiq_header) == 8);
+-vchiq_static_assert(IS_POW2(sizeof(struct vchiq_header)));
+-vchiq_static_assert(IS_POW2(VCHIQ_NUM_CURRENT_BULKS));
+-vchiq_static_assert(IS_POW2(VCHIQ_NUM_SERVICE_BULKS));
+-vchiq_static_assert(IS_POW2(VCHIQ_MAX_SERVICES));
+ vchiq_static_assert(VCHIQ_VERSION >= VCHIQ_VERSION_MIN);
+ 
++static inline void check_sizes(void)
 +{
-+	switch (state->conn_state) {
-+	case VCHIQ_CONNSTATE_CONNECTED:
-+		/* Poll the services as requested */
-+		poll_services(state);
-+		break;
-+
-+	case VCHIQ_CONNSTATE_PAUSING:
-+		if (queue_message(state, NULL, MAKE_PAUSE, NULL, NULL, 0,
-+				  QMFLAGS_NO_MUTEX_UNLOCK) != VCHIQ_RETRY) {
-+			vchiq_set_conn_state(state, VCHIQ_CONNSTATE_PAUSE_SENT);
-+		} else {
-+			/* Retry later */
-+			return -EAGAIN;
-+		}
-+		break;
-+
-+	case VCHIQ_CONNSTATE_RESUMING:
-+		if (queue_message(state, NULL, MAKE_RESUME, NULL, NULL, 0,
-+				  QMFLAGS_NO_MUTEX_LOCK) != VCHIQ_RETRY) {
-+			vchiq_set_conn_state(state, VCHIQ_CONNSTATE_CONNECTED);
-+		} else {
-+			/*
-+			 * This should really be impossible,
-+			 * since the PAUSE should have flushed
-+			 * through outstanding messages.
-+			 */
-+			vchiq_log_error(vchiq_core_log_level,
-+				"Failed to send RESUME message");
-+		}
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	return 0;
++	BUILD_BUG_ON_NOT_POWER_OF_2(VCHIQ_SLOT_SIZE);
++	BUILD_BUG_ON_NOT_POWER_OF_2(VCHIQ_MAX_SLOTS);
++	BUILD_BUG_ON_NOT_POWER_OF_2(VCHIQ_MAX_SLOTS_PER_SIDE);
++	BUILD_BUG_ON_NOT_POWER_OF_2(sizeof(struct vchiq_header));
++	BUILD_BUG_ON_NOT_POWER_OF_2(VCHIQ_NUM_CURRENT_BULKS);
++	BUILD_BUG_ON_NOT_POWER_OF_2(VCHIQ_NUM_SERVICE_BULKS);
++	BUILD_BUG_ON_NOT_POWER_OF_2(VCHIQ_MAX_SERVICES);
 +}
 +
- /* Called by the slot handler thread */
- static int
- slot_handler_func(void *v)
-@@ -2010,52 +2060,14 @@ slot_handler_func(void *v)
+ /* Run time control of log level, based on KERN_XXX level. */
+ int vchiq_core_log_level = VCHIQ_LOG_DEFAULT;
+ int vchiq_core_msg_log_level = VCHIQ_LOG_DEFAULT;
+@@ -2206,6 +2213,8 @@ vchiq_init_slots(void *mem_base, int mem_size)
+ 	int num_slots = (mem_size - mem_align)/VCHIQ_SLOT_SIZE;
+ 	int first_data_slot = VCHIQ_SLOT_ZERO_SLOTS;
  
- 		DEBUG_TRACE(SLOT_HANDLER_LINE);
- 		if (state->poll_needed) {
--
- 			state->poll_needed = 0;
++	check_sizes();
++
+ 	/* Ensure there is enough memory to run an absolutely minimum system */
+ 	num_slots -= first_data_slot;
  
- 			/*
- 			 * Handle service polling and other rare conditions here
- 			 * out of the mainline code
- 			 */
--			switch (state->conn_state) {
--			case VCHIQ_CONNSTATE_CONNECTED:
--				/* Poll the services as requested */
--				poll_services(state);
--				break;
--
--			case VCHIQ_CONNSTATE_PAUSING:
--				if (queue_message(state, NULL, MAKE_PAUSE,
--					NULL, NULL, 0,
--					QMFLAGS_NO_MUTEX_UNLOCK)
--				    != VCHIQ_RETRY) {
--					vchiq_set_conn_state(state,
--						VCHIQ_CONNSTATE_PAUSE_SENT);
--				} else {
--					/* Retry later */
--					state->poll_needed = 1;
--				}
--				break;
--
--			case VCHIQ_CONNSTATE_RESUMING:
--				if (queue_message(state, NULL, MAKE_RESUME,
--					NULL, NULL, 0, QMFLAGS_NO_MUTEX_LOCK)
--					!= VCHIQ_RETRY) {
--					vchiq_set_conn_state(state,
--						VCHIQ_CONNSTATE_CONNECTED);
--				} else {
--					/*
--					 * This should really be impossible,
--					 * since the PAUSE should have flushed
--					 * through outstanding messages.
--					 */
--					vchiq_log_error(vchiq_core_log_level,
--						"Failed to send RESUME message");
--				}
--				break;
--			default:
--				break;
--			}
--
-+			if (handle_poll(state) == -EAGAIN)
-+				state->poll_needed = 1;
- 		}
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+index db93495..df51418 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+@@ -69,13 +69,6 @@
+ 	extern int vchiq_static_assert[(cond) ? 1 : -1]
+ #endif
  
- 		DEBUG_TRACE(SLOT_HANDLER_LINE);
+-#define IS_POW2(x) (x && ((x & (x - 1)) == 0))
+-
+-/* Ensure that the slot size and maximum number of slots are powers of 2 */
+-vchiq_static_assert(IS_POW2(VCHIQ_SLOT_SIZE));
+-vchiq_static_assert(IS_POW2(VCHIQ_MAX_SLOTS));
+-vchiq_static_assert(IS_POW2(VCHIQ_MAX_SLOTS_PER_SIDE));
+-
+ #define VCHIQ_SLOT_MASK        (VCHIQ_SLOT_SIZE - 1)
+ #define VCHIQ_SLOT_QUEUE_MASK  (VCHIQ_MAX_SLOTS_PER_SIDE - 1)
+ #define VCHIQ_SLOT_ZERO_SLOTS  DIV_ROUND_UP(sizeof(struct vchiq_slot_zero), \
 -- 
 2.7.4
 
