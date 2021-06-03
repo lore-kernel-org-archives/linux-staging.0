@@ -1,125 +1,61 @@
-Received: from mail-m17641.qiye.163.com (mail-m17641.qiye.163.com [59.111.176.41])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA41E70
-	for <linux-staging@lists.linux.dev>; Thu,  3 Jun 2021 08:44:57 +0000 (UTC)
-Received: from vivo.com (localhost [127.0.0.1])
-	by mail-m17641.qiye.163.com (Hmail) with ESMTP id 36BCF6010D;
-	Thu,  3 Jun 2021 16:36:55 +0800 (CST)
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-Message-ID: <AO6AtgBODjnoS0IYaAQ1bKoy.3.1622709415201.Hmail.wanjiabing@vivo.com>
-To: Wan Jiabing <wanjiabing@vivo.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Fabio Aiuto <fabioaiuto83@gmail.com>, 
-	Ross Schmidt <ross.schm.dev@gmail.com>, 
-	Qiang Ma <maqianga@uniontech.com>, 
-	Marco Cesati <marcocesati@gmail.com>, linux-staging@lists.linux.dev, 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C7670
+	for <linux-staging@lists.linux.dev>; Thu,  3 Jun 2021 09:17:03 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id ADE3B60231;
+	Thu,  3 Jun 2021 09:17:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1622711823;
+	bh=KCav+JvpFdv8yvqK8orQkoPhphzYanj9JUINXnx67VQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qm/neZbEPgQSRQBkppuQW4HUSpT7h8BXO2ioYpgMLaUW2/VK6BXkZWylwC3gHl0bW
+	 oMhaK42e6bPn+IS7Zfz10KYedfo49vln3sTk2MdK9SdjpyLTgPFnldpbyMpr4qNG5y
+	 /D9HgqCh2qdwWo4qlH2XkcJ4Ii5g3YZRRk219fNw=
+Date: Thu, 3 Jun 2021 11:17:00 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Jiabing Wan <wanjiabing@vivo.com>
+Cc: Fabio Aiuto <fabioaiuto83@gmail.com>,
+	Ross Schmidt <ross.schm.dev@gmail.com>,
+	Qiang Ma <maqianga@uniontech.com>,
+	Marco Cesati <marcocesati@gmail.com>, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: =?UTF-8?B?UmU6W1BBVENIXSBzdGFnaW5nOiBydGw4NzIzYnM6IGNvcmU6IGZpeCBzb21lIGluY29ycmVjdCB0eXBlIHdhcm5pbmdz?=
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
-X-Originating-IP: 58.213.83.158
-In-Reply-To: <1622708703-8561-1-git-send-email-wanjiabing@vivo.com>
+Subject: Re: [PATCH] staging: rtl8723bs: core: fix some incorrect type
+ warnings
+Message-ID: <YLieDLLcsTctEwXD@kroah.com>
+References: <1622708703-8561-1-git-send-email-wanjiabing@vivo.com>
+ <AO6AtgBODjnoS0IYaAQ1bKoy.3.1622709415201.Hmail.wanjiabing@vivo.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: from wanjiabing@vivo.com( [58.213.83.158) ] by ajax-webmail ( [127.0.0.1] ) ; Thu, 3 Jun 2021 16:36:55 +0800 (GMT+08:00)
-From: Jiabing Wan <wanjiabing@vivo.com>
-Date: Thu, 3 Jun 2021 16:36:55 +0800 (GMT+08:00)
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
-	oVCBIfWUFZQxlKHlYZGh1LHU9CTUpDSE1VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
-	JITlVLWQY+
-X-HM-Sender-Digest: e1kJHlYWEh9ZQU1PS0lDQkNNTUNMN1dZDB4ZWUEPCQ4eV1kSHx4VD1lB
-	WUc6NE06Dxw5ND8RFRQoSzIiGjoqShkwFAJVSFVKTUlJTEtCT0pOTk1OVTMWGhIXVQwaFRESGhkS
-	FRw7DRINFFUYFBZFWVdZEgtZQVlOQ1VJSkhVQ0hVSk5DWVdZCAFZQUNMTUw3Bg++
-X-HM-Tid: 0a79d104ad3fd997kuws36bcf6010d
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <AO6AtgBODjnoS0IYaAQ1bKoy.3.1622709415201.Hmail.wanjiabing@vivo.com>
 
-IAogCkhpLGFsbAoKSSBmaXggdGhlc2Ugd2FybmluZ3MgYnkgcmVmZXJpbmcgb3RoZXIgcGF0Y2hl
-cy4KCkFjdHVhbGx5LCBJIGRvbid0IHVuZGVyc3RhbmQgY2xlYXJseSB3aGF0IEkgZGlkLiAgCgpC
-dXQgdGhlcmUgYXJlIG5vIHdhcm5pbmdzIGFmdGVyIHRoaXMgZml4LgoKU28gaWYgdGhpcyBmaXgg
-d2VyZSB0b3RhbGx5IHdyb25nLCBwbGVhc2UgdG9sZCBtZSBhbmQgCmdhdmUgbWUgc29tZSBzdWdn
-ZXN0aW9ucy4KCkl0IGlzIGltcG9ydGFudCBmb3IgbWUgdG8gZml4IGEgc3BhcnNlIGJ1Zy4KClRo
-YW5rcywKSmlhYmluZwoKPkZpeCBzb21lICJpbmNvcnJlY3QgdHlwZSBpbiBhc3NpZ25tZW50IiBp
-biBydHdfc2VjdXJpdHkuYy4KPgo+VGhlIHNwYXJzZSB3YXJpbmdzOgo+ZHJpdmVycy9zdGFnaW5n
-Ly9ydGw4NzIzYnMvY29yZS9ydHdfc2VjdXJpdHkuYzo3Mjo1MDogd2FybmluZzogaW5jb3JyZWN0
-IHR5cGUgaW4gYXNzaWdubWVudAo+ZHJpdmVycy9zdGFnaW5nLy9ydGw4NzIzYnMvY29yZS9ydHdf
-c2VjdXJpdHkuYzo3Mjo1MDogICAgZXhwZWN0ZWQgcmVzdHJpY3RlZCBfX2xlMzIgW3VzZXJ0eXBl
-XQo+ZHJpdmVycy9zdGFnaW5nLy9ydGw4NzIzYnMvY29yZS9ydHdfc2VjdXJpdHkuYzo3Mjo1MDog
-ICAgZ290IHVuc2lnbmVkIGludAo+ZHJpdmVycy9zdGFnaW5nLy9ydGw4NzIzYnMvY29yZS9ydHdf
-c2VjdXJpdHkuYzo4MDo1MDogd2FybmluZzogaW5jb3JyZWN0IHR5cGUgaW4gYXNzaWdubWVudAo+
-ZHJpdmVycy9zdGFnaW5nLy9ydGw4NzIzYnMvY29yZS9ydHdfc2VjdXJpdHkuYzo4MDo1MDogICAg
-ZXhwZWN0ZWQgcmVzdHJpY3RlZCBfX2xlMzIgW3VzZXJ0eXBlXQo+ZHJpdmVycy9zdGFnaW5nLy9y
-dGw4NzIzYnMvY29yZS9ydHdfc2VjdXJpdHkuYzo4MDo1MDogICAgZ290IHVuc2lnbmVkIGludAo+
-ZHJpdmVycy9zdGFnaW5nLy9ydGw4NzIzYnMvY29yZS9ydHdfc2VjdXJpdHkuYzoxMjQ6MzM6IHdh
-cm5pbmc6IGNhc3QgdG8gcmVzdHJpY3RlZCBfX2xlMzIKPmRyaXZlcnMvc3RhZ2luZy8vcnRsODcy
-M2JzL2NvcmUvcnR3X3NlY3VyaXR5LmM6NTA5OjU4OiB3YXJuaW5nOiBpbmNvcnJlY3QgdHlwZSBp
-biBhc3NpZ25tZW50Cj5kcml2ZXJzL3N0YWdpbmcvL3J0bDg3MjNicy9jb3JlL3J0d19zZWN1cml0
-eS5jOjUwOTo1ODogICAgZXhwZWN0ZWQgcmVzdHJpY3RlZCBfX2xlMzIgW3VzZXJ0eXBlXQo+ZHJp
-dmVycy9zdGFnaW5nLy9ydGw4NzIzYnMvY29yZS9ydHdfc2VjdXJpdHkuYzo1MDk6NTg6ICAgIGdv
-dCB1bnNpZ25lZCBpbnQKPmRyaXZlcnMvc3RhZ2luZy8vcnRsODcyM2JzL2NvcmUvcnR3X3NlY3Vy
-aXR5LmM6NTE3OjU4OiB3YXJuaW5nOiBpbmNvcnJlY3QgdHlwZSBpbiBhc3NpZ25tZW50Cj5kcml2
-ZXJzL3N0YWdpbmcvL3J0bDg3MjNicy9jb3JlL3J0d19zZWN1cml0eS5jOjUxNzo1ODogICAgZXhw
-ZWN0ZWQgcmVzdHJpY3RlZCBfX2xlMzIgW3VzZXJ0eXBlXQo+ZHJpdmVycy9zdGFnaW5nLy9ydGw4
-NzIzYnMvY29yZS9ydHdfc2VjdXJpdHkuYzo1MTc6NTg6ICAgIGdvdCB1bnNpZ25lZCBpbnQKPmRy
-aXZlcnMvc3RhZ2luZy8vcnRsODcyM2JzL2NvcmUvcnR3X3NlY3VyaXR5LmM6NjIxOjQxOiB3YXJu
-aW5nOiBjYXN0IHRvIHJlc3RyaWN0ZWQgX19sZTMyCj4KPlNpZ25lZC1vZmYtYnk6IFdhbiBKaWFi
-aW5nIDx3YW5qaWFiaW5nQHZpdm8uY29tPgo+LS0tCj4gZHJpdmVycy9zdGFnaW5nL3J0bDg3MjNi
-cy9jb3JlL3J0d19zZWN1cml0eS5jIHwgMTQgKysrKysrKy0tLS0tLS0KPiAxIGZpbGUgY2hhbmdl
-ZCwgNyBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQo+Cj5kaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9zdGFnaW5nL3J0bDg3MjNicy9jb3JlL3J0d19zZWN1cml0eS5jIGIvZHJpdmVycy9zdGFnaW5n
-L3J0bDg3MjNicy9jb3JlL3J0d19zZWN1cml0eS5jCj5pbmRleCBhOTlmNDM5Li40NzYwOTk5IDEw
-MDY0NAo+LS0tIGEvZHJpdmVycy9zdGFnaW5nL3J0bDg3MjNicy9jb3JlL3J0d19zZWN1cml0eS5j
-Cj4rKysgYi9kcml2ZXJzL3N0YWdpbmcvcnRsODcyM2JzL2NvcmUvcnR3X3NlY3VyaXR5LmMKPkBA
-IC0zNiw3ICszNiw3IEBAIGNvbnN0IGNoYXIgKnNlY3VyaXR5X3R5cGVfc3RyKHU4IHZhbHVlKQo+
-IHZvaWQgcnR3X3dlcF9lbmNyeXB0KHN0cnVjdCBhZGFwdGVyICpwYWRhcHRlciwgdTggKnB4bWl0
-ZnJhbWUpCj4gewkJCQkJCQkJCQkJCQkJCQkJLyogIGV4Y2x1ZGUgSUNWICovCj4gCj4tCXVuc2ln
-bmVkIGNoYXIgY3JjWzRdOwo+Kwl1OCBjcmNbNF07Cj4gCj4gCXNpZ25lZCBpbnQJY3VyZnJhZ251
-bSwgbGVuZ3RoOwo+IAl1MzIga2V5bGVuZ3RoOwo+QEAgLTY5LDcgKzY5LDcgQEAgdm9pZCBydHdf
-d2VwX2VuY3J5cHQoc3RydWN0IGFkYXB0ZXIgKnBhZGFwdGVyLCB1OCAqcHhtaXRmcmFtZSkKPiAK
-PiAJCQkJbGVuZ3RoID0gcGF0dHJpYi0+bGFzdF90eGNtZHN6LXBhdHRyaWItPmhkcmxlbi1wYXR0
-cmliLT5pdl9sZW4tcGF0dHJpYi0+aWN2X2xlbjsKPiAKPi0JCQkJKigoX19sZTMyICopY3JjKSA9
-IH5jcmMzMl9sZSh+MCwgcGF5bG9hZCwgbGVuZ3RoKTsKPisJCQkJKigoX19sZTMyICopY3JjKSA9
-IGNwdV90b19sZTMyKH5jcmMzMl9sZSh+MCwgcGF5bG9hZCwgbGVuZ3RoKSk7Cj4gCj4gCQkJCWFy
-YzRfc2V0a2V5KGN0eCwgd2Vwa2V5LCAzICsga2V5bGVuZ3RoKTsKPiAJCQkJYXJjNF9jcnlwdChj
-dHgsIHBheWxvYWQsIHBheWxvYWQsIGxlbmd0aCk7Cj5AQCAtNzcsNyArNzcsNyBAQCB2b2lkIHJ0
-d193ZXBfZW5jcnlwdChzdHJ1Y3QgYWRhcHRlciAqcGFkYXB0ZXIsIHU4ICpweG1pdGZyYW1lKQo+
-IAo+IAkJCX0gZWxzZSB7Cj4gCQkJCWxlbmd0aCA9IHB4bWl0cHJpdi0+ZnJhZ19sZW4tcGF0dHJp
-Yi0+aGRybGVuLXBhdHRyaWItPml2X2xlbi1wYXR0cmliLT5pY3ZfbGVuOwo+LQkJCQkqKChfX2xl
-MzIgKiljcmMpID0gfmNyYzMyX2xlKH4wLCBwYXlsb2FkLCBsZW5ndGgpOwo+KwkJCQkqKChfX2xl
-MzIgKiljcmMpID0gY3B1X3RvX2xlMzIofmNyYzMyX2xlKH4wLCBwYXlsb2FkLCBsZW5ndGgpKTsK
-PiAJCQkJYXJjNF9zZXRrZXkoY3R4LCB3ZXBrZXksIDMgKyBrZXlsZW5ndGgpOwo+IAkJCQlhcmM0
-X2NyeXB0KGN0eCwgcGF5bG9hZCwgcGF5bG9hZCwgbGVuZ3RoKTsKPiAJCQkJYXJjNF9jcnlwdChj
-dHgsIHBheWxvYWQgKyBsZW5ndGgsIGNyYywgNCk7Cj5AQCAtMTIxLDcgKzEyMSw3IEBAIHZvaWQg
-cnR3X3dlcF9kZWNyeXB0KHN0cnVjdCBhZGFwdGVyICAqcGFkYXB0ZXIsIHU4ICpwcmVjdmZyYW1l
-KQo+IAkJYXJjNF9jcnlwdChjdHgsIHBheWxvYWQsIHBheWxvYWQsICBsZW5ndGgpOwo+IAo+IAkJ
-LyogY2FsY3VsYXRlIGljdiBhbmQgY29tcGFyZSB0aGUgaWN2ICovCj4tCQkqKCh1MzIgKiljcmMp
-ID0gbGUzMl90b19jcHUofmNyYzMyX2xlKH4wLCBwYXlsb2FkLCBsZW5ndGggLSA0KSk7Cj4rCQkq
-KChfX2xlMzIgKiljcmMpID0gY3B1X3RvX2xlMzIofmNyYzMyX2xlKH4wLCBwYXlsb2FkLCBsZW5n
-dGggLSA0KSk7Cj4gCj4gCX0KPiB9Cj5AQCAtNTA2LDcgKzUwNiw3IEBAIHUzMiBydHdfdGtpcF9l
-bmNyeXB0KHN0cnVjdCBhZGFwdGVyICpwYWRhcHRlciwgdTggKnB4bWl0ZnJhbWUpCj4gCj4gCQkJ
-CWlmICgoY3VyZnJhZ251bSsxKSA9PSBwYXR0cmliLT5ucl9mcmFncykgewkvKiA0IHRoZSBsYXN0
-IGZyYWdtZW50ICovCj4gCQkJCQlsZW5ndGggPSBwYXR0cmliLT5sYXN0X3R4Y21kc3otcGF0dHJp
-Yi0+aGRybGVuLXBhdHRyaWItPml2X2xlbi1wYXR0cmliLT5pY3ZfbGVuOwo+LQkJCQkJKigoX19s
-ZTMyICopY3JjKSA9IH5jcmMzMl9sZSh+MCwgcGF5bG9hZCwgbGVuZ3RoKTsKPisJCQkJCSooKF9f
-bGUzMiAqKWNyYykgPSBjcHVfdG9fbGUzMih+Y3JjMzJfbGUofjAsIHBheWxvYWQsIGxlbmd0aCkp
-Owo+IAo+IAkJCQkJYXJjNF9zZXRrZXkoY3R4LCByYzRrZXksIDE2KTsKPiAJCQkJCWFyYzRfY3J5
-cHQoY3R4LCBwYXlsb2FkLCBwYXlsb2FkLCBsZW5ndGgpOwo+QEAgLTUxNCw3ICs1MTQsNyBAQCB1
-MzIgcnR3X3RraXBfZW5jcnlwdChzdHJ1Y3QgYWRhcHRlciAqcGFkYXB0ZXIsIHU4ICpweG1pdGZy
-YW1lKQo+IAo+IAkJCQl9IGVsc2Ugewo+IAkJCQkJbGVuZ3RoID0gcHhtaXRwcml2LT5mcmFnX2xl
-bi1wYXR0cmliLT5oZHJsZW4tcGF0dHJpYi0+aXZfbGVuLXBhdHRyaWItPmljdl9sZW47Cj4tCQkJ
-CQkqKChfX2xlMzIgKiljcmMpID0gfmNyYzMyX2xlKH4wLCBwYXlsb2FkLCBsZW5ndGgpOwo+KwkJ
-CQkJKigoX19sZTMyICopY3JjKSA9IGNwdV90b19sZTMyKH5jcmMzMl9sZSh+MCwgcGF5bG9hZCwg
-bGVuZ3RoKSk7Cj4gCj4gCQkJCQlhcmM0X3NldGtleShjdHgsIHJjNGtleSwgMTYpOwo+IAkJCQkJ
-YXJjNF9jcnlwdChjdHgsIHBheWxvYWQsIHBheWxvYWQsIGxlbmd0aCk7Cj5AQCAtNjE4LDcgKzYx
-OCw3IEBAIHUzMiBydHdfdGtpcF9kZWNyeXB0KHN0cnVjdCBhZGFwdGVyICpwYWRhcHRlciwgdTgg
-KnByZWN2ZnJhbWUpCj4gCQkJYXJjNF9zZXRrZXkoY3R4LCByYzRrZXksIDE2KTsKPiAJCQlhcmM0
-X2NyeXB0KGN0eCwgcGF5bG9hZCwgcGF5bG9hZCwgbGVuZ3RoKTsKPiAKPi0JCQkqKCh1MzIgKilj
-cmMpID0gbGUzMl90b19jcHUofmNyYzMyX2xlKH4wLCBwYXlsb2FkLCBsZW5ndGggLSA0KSk7Cj4r
-CQkJKigoX19sZTMyICopY3JjKSA9IGNwdV90b19sZTMyKH5jcmMzMl9sZSh+MCwgcGF5bG9hZCwg
-bGVuZ3RoIC0gNCkpOwo+IAo+IAkJCWlmIChjcmNbM10gIT0gcGF5bG9hZFtsZW5ndGggLSAxXSB8
-fCBjcmNbMl0gIT0gcGF5bG9hZFtsZW5ndGggLSAyXSB8fAo+IAkJCSAgICBjcmNbMV0gIT0gcGF5
-bG9hZFtsZW5ndGggLSAzXSB8fCBjcmNbMF0gIT0gcGF5bG9hZFtsZW5ndGggLSA0XSkKPi0tIAo+
-Mi43LjQKPgoNCg0K
+On Thu, Jun 03, 2021 at 04:36:55PM +0800, Jiabing Wan wrote:
+>  
+>  
+> Hi,all
+> 
+> I fix these warnings by refering other patches.
+> 
+> Actually, I don't understand clearly what I did.  
+> 
+> But there are no warnings after this fix.
+> 
+> So if this fix were totally wrong, please told me and 
+> gave me some suggestions.
+> 
+> It is important for me to fix a sparse bug.
+
+Do not fix sparse bugs just for the sake of fixing sparse bugs.  Fix
+things you know are needed to be fixed.
+
+Please look closer at this to ensure that you really are fixing this
+correctly and understand what you are doing before sending it out.
+
+thanks,
+
+greg k-h
