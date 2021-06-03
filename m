@@ -1,126 +1,125 @@
-Received: from mail-m121144.qiye.163.com (mail-m121144.qiye.163.com [115.236.121.144])
+Received: from mail-m17641.qiye.163.com (mail-m17641.qiye.163.com [59.111.176.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5659670
-	for <linux-staging@lists.linux.dev>; Thu,  3 Jun 2021 08:36:03 +0000 (UTC)
-Received: from vivo-HP-ProDesk-680-G4-PCI-MT.vivo.xyz (unknown [58.250.176.229])
-	by mail-m121144.qiye.163.com (Hmail) with ESMTPA id E6A66AC0217;
-	Thu,  3 Jun 2021 16:26:53 +0800 (CST)
-From: Wan Jiabing <wanjiabing@vivo.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	Ross Schmidt <ross.schm.dev@gmail.com>,
-	Qiang Ma <maqianga@uniontech.com>,
-	Marco Cesati <marcocesati@gmail.com>,
-	linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA41E70
+	for <linux-staging@lists.linux.dev>; Thu,  3 Jun 2021 08:44:57 +0000 (UTC)
+Received: from vivo.com (localhost [127.0.0.1])
+	by mail-m17641.qiye.163.com (Hmail) with ESMTP id 36BCF6010D;
+	Thu,  3 Jun 2021 16:36:55 +0800 (CST)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+Message-ID: <AO6AtgBODjnoS0IYaAQ1bKoy.3.1622709415201.Hmail.wanjiabing@vivo.com>
+To: Wan Jiabing <wanjiabing@vivo.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Fabio Aiuto <fabioaiuto83@gmail.com>, 
+	Ross Schmidt <ross.schm.dev@gmail.com>, 
+	Qiang Ma <maqianga@uniontech.com>, 
+	Marco Cesati <marcocesati@gmail.com>, linux-staging@lists.linux.dev, 
 	linux-kernel@vger.kernel.org
-Cc: Wan Jiabing <wanjiabing@vivo.com>
-Subject: [PATCH] staging: rtl8723bs: core: fix some incorrect type warnings
-Date: Thu,  3 Jun 2021 16:24:59 +0800
-Message-Id: <1622708703-8561-1-git-send-email-wanjiabing@vivo.com>
-X-Mailer: git-send-email 2.7.4
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
-	oVCBIfWUFZQx1DHlZNHh9OGkNOSktISENVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
-	hKQ1VLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Mwg6FAw5Cz8cQhQsLAIBARku
-	Q08KCy1VSlVKTUlJTEtDQ0pPTklMVTMWGhIXVQwaFRESGhkSFRw7DRINFFUYFBZFWVdZEgtZQVlO
-	Q1VJTktVSkxNVUlJQllXWQgBWUFOTUlPNwY+
-X-HM-Tid: 0a79d0fb817bb039kuuue6a66ac0217
+Subject: =?UTF-8?B?UmU6W1BBVENIXSBzdGFnaW5nOiBydGw4NzIzYnM6IGNvcmU6IGZpeCBzb21lIGluY29ycmVjdCB0eXBlIHdhcm5pbmdz?=
+X-Priority: 3
+X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
+X-Originating-IP: 58.213.83.158
+In-Reply-To: <1622708703-8561-1-git-send-email-wanjiabing@vivo.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Received: from wanjiabing@vivo.com( [58.213.83.158) ] by ajax-webmail ( [127.0.0.1] ) ; Thu, 3 Jun 2021 16:36:55 +0800 (GMT+08:00)
+From: Jiabing Wan <wanjiabing@vivo.com>
+Date: Thu, 3 Jun 2021 16:36:55 +0800 (GMT+08:00)
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+	oVCBIfWUFZQxlKHlYZGh1LHU9CTUpDSE1VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
+	JITlVLWQY+
+X-HM-Sender-Digest: e1kJHlYWEh9ZQU1PS0lDQkNNTUNMN1dZDB4ZWUEPCQ4eV1kSHx4VD1lB
+	WUc6NE06Dxw5ND8RFRQoSzIiGjoqShkwFAJVSFVKTUlJTEtCT0pOTk1OVTMWGhIXVQwaFRESGhkS
+	FRw7DRINFFUYFBZFWVdZEgtZQVlOQ1VJSkhVQ0hVSk5DWVdZCAFZQUNMTUw3Bg++
+X-HM-Tid: 0a79d104ad3fd997kuws36bcf6010d
 
-Fix some "incorrect type in assignment" in rtw_security.c.
-
-The sparse warings:
-drivers/staging//rtl8723bs/core/rtw_security.c:72:50: warning: incorrect type in assignment
-drivers/staging//rtl8723bs/core/rtw_security.c:72:50:    expected restricted __le32 [usertype]
-drivers/staging//rtl8723bs/core/rtw_security.c:72:50:    got unsigned int
-drivers/staging//rtl8723bs/core/rtw_security.c:80:50: warning: incorrect type in assignment
-drivers/staging//rtl8723bs/core/rtw_security.c:80:50:    expected restricted __le32 [usertype]
-drivers/staging//rtl8723bs/core/rtw_security.c:80:50:    got unsigned int
-drivers/staging//rtl8723bs/core/rtw_security.c:124:33: warning: cast to restricted __le32
-drivers/staging//rtl8723bs/core/rtw_security.c:509:58: warning: incorrect type in assignment
-drivers/staging//rtl8723bs/core/rtw_security.c:509:58:    expected restricted __le32 [usertype]
-drivers/staging//rtl8723bs/core/rtw_security.c:509:58:    got unsigned int
-drivers/staging//rtl8723bs/core/rtw_security.c:517:58: warning: incorrect type in assignment
-drivers/staging//rtl8723bs/core/rtw_security.c:517:58:    expected restricted __le32 [usertype]
-drivers/staging//rtl8723bs/core/rtw_security.c:517:58:    got unsigned int
-drivers/staging//rtl8723bs/core/rtw_security.c:621:41: warning: cast to restricted __le32
-
-Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
----
- drivers/staging/rtl8723bs/core/rtw_security.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index a99f439..4760999 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -36,7 +36,7 @@ const char *security_type_str(u8 value)
- void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
- {																	/*  exclude ICV */
- 
--	unsigned char crc[4];
-+	u8 crc[4];
- 
- 	signed int	curfragnum, length;
- 	u32 keylength;
-@@ -69,7 +69,7 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 
- 				length = pattrib->last_txcmdsz-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
- 
--				*((__le32 *)crc) = ~crc32_le(~0, payload, length);
-+				*((__le32 *)crc) = cpu_to_le32(~crc32_le(~0, payload, length));
- 
- 				arc4_setkey(ctx, wepkey, 3 + keylength);
- 				arc4_crypt(ctx, payload, payload, length);
-@@ -77,7 +77,7 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 
- 			} else {
- 				length = pxmitpriv->frag_len-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
--				*((__le32 *)crc) = ~crc32_le(~0, payload, length);
-+				*((__le32 *)crc) = cpu_to_le32(~crc32_le(~0, payload, length));
- 				arc4_setkey(ctx, wepkey, 3 + keylength);
- 				arc4_crypt(ctx, payload, payload, length);
- 				arc4_crypt(ctx, payload + length, crc, 4);
-@@ -121,7 +121,7 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
- 		arc4_crypt(ctx, payload, payload,  length);
- 
- 		/* calculate icv and compare the icv */
--		*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
-+		*((__le32 *)crc) = cpu_to_le32(~crc32_le(~0, payload, length - 4));
- 
- 	}
- }
-@@ -506,7 +506,7 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 
- 				if ((curfragnum+1) == pattrib->nr_frags) {	/* 4 the last fragment */
- 					length = pattrib->last_txcmdsz-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
--					*((__le32 *)crc) = ~crc32_le(~0, payload, length);
-+					*((__le32 *)crc) = cpu_to_le32(~crc32_le(~0, payload, length));
- 
- 					arc4_setkey(ctx, rc4key, 16);
- 					arc4_crypt(ctx, payload, payload, length);
-@@ -514,7 +514,7 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 
- 				} else {
- 					length = pxmitpriv->frag_len-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
--					*((__le32 *)crc) = ~crc32_le(~0, payload, length);
-+					*((__le32 *)crc) = cpu_to_le32(~crc32_le(~0, payload, length));
- 
- 					arc4_setkey(ctx, rc4key, 16);
- 					arc4_crypt(ctx, payload, payload, length);
-@@ -618,7 +618,7 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
- 			arc4_setkey(ctx, rc4key, 16);
- 			arc4_crypt(ctx, payload, payload, length);
- 
--			*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
-+			*((__le32 *)crc) = cpu_to_le32(~crc32_le(~0, payload, length - 4));
- 
- 			if (crc[3] != payload[length - 1] || crc[2] != payload[length - 2] ||
- 			    crc[1] != payload[length - 3] || crc[0] != payload[length - 4])
--- 
-2.7.4
-
+IAogCkhpLGFsbAoKSSBmaXggdGhlc2Ugd2FybmluZ3MgYnkgcmVmZXJpbmcgb3RoZXIgcGF0Y2hl
+cy4KCkFjdHVhbGx5LCBJIGRvbid0IHVuZGVyc3RhbmQgY2xlYXJseSB3aGF0IEkgZGlkLiAgCgpC
+dXQgdGhlcmUgYXJlIG5vIHdhcm5pbmdzIGFmdGVyIHRoaXMgZml4LgoKU28gaWYgdGhpcyBmaXgg
+d2VyZSB0b3RhbGx5IHdyb25nLCBwbGVhc2UgdG9sZCBtZSBhbmQgCmdhdmUgbWUgc29tZSBzdWdn
+ZXN0aW9ucy4KCkl0IGlzIGltcG9ydGFudCBmb3IgbWUgdG8gZml4IGEgc3BhcnNlIGJ1Zy4KClRo
+YW5rcywKSmlhYmluZwoKPkZpeCBzb21lICJpbmNvcnJlY3QgdHlwZSBpbiBhc3NpZ25tZW50IiBp
+biBydHdfc2VjdXJpdHkuYy4KPgo+VGhlIHNwYXJzZSB3YXJpbmdzOgo+ZHJpdmVycy9zdGFnaW5n
+Ly9ydGw4NzIzYnMvY29yZS9ydHdfc2VjdXJpdHkuYzo3Mjo1MDogd2FybmluZzogaW5jb3JyZWN0
+IHR5cGUgaW4gYXNzaWdubWVudAo+ZHJpdmVycy9zdGFnaW5nLy9ydGw4NzIzYnMvY29yZS9ydHdf
+c2VjdXJpdHkuYzo3Mjo1MDogICAgZXhwZWN0ZWQgcmVzdHJpY3RlZCBfX2xlMzIgW3VzZXJ0eXBl
+XQo+ZHJpdmVycy9zdGFnaW5nLy9ydGw4NzIzYnMvY29yZS9ydHdfc2VjdXJpdHkuYzo3Mjo1MDog
+ICAgZ290IHVuc2lnbmVkIGludAo+ZHJpdmVycy9zdGFnaW5nLy9ydGw4NzIzYnMvY29yZS9ydHdf
+c2VjdXJpdHkuYzo4MDo1MDogd2FybmluZzogaW5jb3JyZWN0IHR5cGUgaW4gYXNzaWdubWVudAo+
+ZHJpdmVycy9zdGFnaW5nLy9ydGw4NzIzYnMvY29yZS9ydHdfc2VjdXJpdHkuYzo4MDo1MDogICAg
+ZXhwZWN0ZWQgcmVzdHJpY3RlZCBfX2xlMzIgW3VzZXJ0eXBlXQo+ZHJpdmVycy9zdGFnaW5nLy9y
+dGw4NzIzYnMvY29yZS9ydHdfc2VjdXJpdHkuYzo4MDo1MDogICAgZ290IHVuc2lnbmVkIGludAo+
+ZHJpdmVycy9zdGFnaW5nLy9ydGw4NzIzYnMvY29yZS9ydHdfc2VjdXJpdHkuYzoxMjQ6MzM6IHdh
+cm5pbmc6IGNhc3QgdG8gcmVzdHJpY3RlZCBfX2xlMzIKPmRyaXZlcnMvc3RhZ2luZy8vcnRsODcy
+M2JzL2NvcmUvcnR3X3NlY3VyaXR5LmM6NTA5OjU4OiB3YXJuaW5nOiBpbmNvcnJlY3QgdHlwZSBp
+biBhc3NpZ25tZW50Cj5kcml2ZXJzL3N0YWdpbmcvL3J0bDg3MjNicy9jb3JlL3J0d19zZWN1cml0
+eS5jOjUwOTo1ODogICAgZXhwZWN0ZWQgcmVzdHJpY3RlZCBfX2xlMzIgW3VzZXJ0eXBlXQo+ZHJp
+dmVycy9zdGFnaW5nLy9ydGw4NzIzYnMvY29yZS9ydHdfc2VjdXJpdHkuYzo1MDk6NTg6ICAgIGdv
+dCB1bnNpZ25lZCBpbnQKPmRyaXZlcnMvc3RhZ2luZy8vcnRsODcyM2JzL2NvcmUvcnR3X3NlY3Vy
+aXR5LmM6NTE3OjU4OiB3YXJuaW5nOiBpbmNvcnJlY3QgdHlwZSBpbiBhc3NpZ25tZW50Cj5kcml2
+ZXJzL3N0YWdpbmcvL3J0bDg3MjNicy9jb3JlL3J0d19zZWN1cml0eS5jOjUxNzo1ODogICAgZXhw
+ZWN0ZWQgcmVzdHJpY3RlZCBfX2xlMzIgW3VzZXJ0eXBlXQo+ZHJpdmVycy9zdGFnaW5nLy9ydGw4
+NzIzYnMvY29yZS9ydHdfc2VjdXJpdHkuYzo1MTc6NTg6ICAgIGdvdCB1bnNpZ25lZCBpbnQKPmRy
+aXZlcnMvc3RhZ2luZy8vcnRsODcyM2JzL2NvcmUvcnR3X3NlY3VyaXR5LmM6NjIxOjQxOiB3YXJu
+aW5nOiBjYXN0IHRvIHJlc3RyaWN0ZWQgX19sZTMyCj4KPlNpZ25lZC1vZmYtYnk6IFdhbiBKaWFi
+aW5nIDx3YW5qaWFiaW5nQHZpdm8uY29tPgo+LS0tCj4gZHJpdmVycy9zdGFnaW5nL3J0bDg3MjNi
+cy9jb3JlL3J0d19zZWN1cml0eS5jIHwgMTQgKysrKysrKy0tLS0tLS0KPiAxIGZpbGUgY2hhbmdl
+ZCwgNyBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQo+Cj5kaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9zdGFnaW5nL3J0bDg3MjNicy9jb3JlL3J0d19zZWN1cml0eS5jIGIvZHJpdmVycy9zdGFnaW5n
+L3J0bDg3MjNicy9jb3JlL3J0d19zZWN1cml0eS5jCj5pbmRleCBhOTlmNDM5Li40NzYwOTk5IDEw
+MDY0NAo+LS0tIGEvZHJpdmVycy9zdGFnaW5nL3J0bDg3MjNicy9jb3JlL3J0d19zZWN1cml0eS5j
+Cj4rKysgYi9kcml2ZXJzL3N0YWdpbmcvcnRsODcyM2JzL2NvcmUvcnR3X3NlY3VyaXR5LmMKPkBA
+IC0zNiw3ICszNiw3IEBAIGNvbnN0IGNoYXIgKnNlY3VyaXR5X3R5cGVfc3RyKHU4IHZhbHVlKQo+
+IHZvaWQgcnR3X3dlcF9lbmNyeXB0KHN0cnVjdCBhZGFwdGVyICpwYWRhcHRlciwgdTggKnB4bWl0
+ZnJhbWUpCj4gewkJCQkJCQkJCQkJCQkJCQkJLyogIGV4Y2x1ZGUgSUNWICovCj4gCj4tCXVuc2ln
+bmVkIGNoYXIgY3JjWzRdOwo+Kwl1OCBjcmNbNF07Cj4gCj4gCXNpZ25lZCBpbnQJY3VyZnJhZ251
+bSwgbGVuZ3RoOwo+IAl1MzIga2V5bGVuZ3RoOwo+QEAgLTY5LDcgKzY5LDcgQEAgdm9pZCBydHdf
+d2VwX2VuY3J5cHQoc3RydWN0IGFkYXB0ZXIgKnBhZGFwdGVyLCB1OCAqcHhtaXRmcmFtZSkKPiAK
+PiAJCQkJbGVuZ3RoID0gcGF0dHJpYi0+bGFzdF90eGNtZHN6LXBhdHRyaWItPmhkcmxlbi1wYXR0
+cmliLT5pdl9sZW4tcGF0dHJpYi0+aWN2X2xlbjsKPiAKPi0JCQkJKigoX19sZTMyICopY3JjKSA9
+IH5jcmMzMl9sZSh+MCwgcGF5bG9hZCwgbGVuZ3RoKTsKPisJCQkJKigoX19sZTMyICopY3JjKSA9
+IGNwdV90b19sZTMyKH5jcmMzMl9sZSh+MCwgcGF5bG9hZCwgbGVuZ3RoKSk7Cj4gCj4gCQkJCWFy
+YzRfc2V0a2V5KGN0eCwgd2Vwa2V5LCAzICsga2V5bGVuZ3RoKTsKPiAJCQkJYXJjNF9jcnlwdChj
+dHgsIHBheWxvYWQsIHBheWxvYWQsIGxlbmd0aCk7Cj5AQCAtNzcsNyArNzcsNyBAQCB2b2lkIHJ0
+d193ZXBfZW5jcnlwdChzdHJ1Y3QgYWRhcHRlciAqcGFkYXB0ZXIsIHU4ICpweG1pdGZyYW1lKQo+
+IAo+IAkJCX0gZWxzZSB7Cj4gCQkJCWxlbmd0aCA9IHB4bWl0cHJpdi0+ZnJhZ19sZW4tcGF0dHJp
+Yi0+aGRybGVuLXBhdHRyaWItPml2X2xlbi1wYXR0cmliLT5pY3ZfbGVuOwo+LQkJCQkqKChfX2xl
+MzIgKiljcmMpID0gfmNyYzMyX2xlKH4wLCBwYXlsb2FkLCBsZW5ndGgpOwo+KwkJCQkqKChfX2xl
+MzIgKiljcmMpID0gY3B1X3RvX2xlMzIofmNyYzMyX2xlKH4wLCBwYXlsb2FkLCBsZW5ndGgpKTsK
+PiAJCQkJYXJjNF9zZXRrZXkoY3R4LCB3ZXBrZXksIDMgKyBrZXlsZW5ndGgpOwo+IAkJCQlhcmM0
+X2NyeXB0KGN0eCwgcGF5bG9hZCwgcGF5bG9hZCwgbGVuZ3RoKTsKPiAJCQkJYXJjNF9jcnlwdChj
+dHgsIHBheWxvYWQgKyBsZW5ndGgsIGNyYywgNCk7Cj5AQCAtMTIxLDcgKzEyMSw3IEBAIHZvaWQg
+cnR3X3dlcF9kZWNyeXB0KHN0cnVjdCBhZGFwdGVyICAqcGFkYXB0ZXIsIHU4ICpwcmVjdmZyYW1l
+KQo+IAkJYXJjNF9jcnlwdChjdHgsIHBheWxvYWQsIHBheWxvYWQsICBsZW5ndGgpOwo+IAo+IAkJ
+LyogY2FsY3VsYXRlIGljdiBhbmQgY29tcGFyZSB0aGUgaWN2ICovCj4tCQkqKCh1MzIgKiljcmMp
+ID0gbGUzMl90b19jcHUofmNyYzMyX2xlKH4wLCBwYXlsb2FkLCBsZW5ndGggLSA0KSk7Cj4rCQkq
+KChfX2xlMzIgKiljcmMpID0gY3B1X3RvX2xlMzIofmNyYzMyX2xlKH4wLCBwYXlsb2FkLCBsZW5n
+dGggLSA0KSk7Cj4gCj4gCX0KPiB9Cj5AQCAtNTA2LDcgKzUwNiw3IEBAIHUzMiBydHdfdGtpcF9l
+bmNyeXB0KHN0cnVjdCBhZGFwdGVyICpwYWRhcHRlciwgdTggKnB4bWl0ZnJhbWUpCj4gCj4gCQkJ
+CWlmICgoY3VyZnJhZ251bSsxKSA9PSBwYXR0cmliLT5ucl9mcmFncykgewkvKiA0IHRoZSBsYXN0
+IGZyYWdtZW50ICovCj4gCQkJCQlsZW5ndGggPSBwYXR0cmliLT5sYXN0X3R4Y21kc3otcGF0dHJp
+Yi0+aGRybGVuLXBhdHRyaWItPml2X2xlbi1wYXR0cmliLT5pY3ZfbGVuOwo+LQkJCQkJKigoX19s
+ZTMyICopY3JjKSA9IH5jcmMzMl9sZSh+MCwgcGF5bG9hZCwgbGVuZ3RoKTsKPisJCQkJCSooKF9f
+bGUzMiAqKWNyYykgPSBjcHVfdG9fbGUzMih+Y3JjMzJfbGUofjAsIHBheWxvYWQsIGxlbmd0aCkp
+Owo+IAo+IAkJCQkJYXJjNF9zZXRrZXkoY3R4LCByYzRrZXksIDE2KTsKPiAJCQkJCWFyYzRfY3J5
+cHQoY3R4LCBwYXlsb2FkLCBwYXlsb2FkLCBsZW5ndGgpOwo+QEAgLTUxNCw3ICs1MTQsNyBAQCB1
+MzIgcnR3X3RraXBfZW5jcnlwdChzdHJ1Y3QgYWRhcHRlciAqcGFkYXB0ZXIsIHU4ICpweG1pdGZy
+YW1lKQo+IAo+IAkJCQl9IGVsc2Ugewo+IAkJCQkJbGVuZ3RoID0gcHhtaXRwcml2LT5mcmFnX2xl
+bi1wYXR0cmliLT5oZHJsZW4tcGF0dHJpYi0+aXZfbGVuLXBhdHRyaWItPmljdl9sZW47Cj4tCQkJ
+CQkqKChfX2xlMzIgKiljcmMpID0gfmNyYzMyX2xlKH4wLCBwYXlsb2FkLCBsZW5ndGgpOwo+KwkJ
+CQkJKigoX19sZTMyICopY3JjKSA9IGNwdV90b19sZTMyKH5jcmMzMl9sZSh+MCwgcGF5bG9hZCwg
+bGVuZ3RoKSk7Cj4gCj4gCQkJCQlhcmM0X3NldGtleShjdHgsIHJjNGtleSwgMTYpOwo+IAkJCQkJ
+YXJjNF9jcnlwdChjdHgsIHBheWxvYWQsIHBheWxvYWQsIGxlbmd0aCk7Cj5AQCAtNjE4LDcgKzYx
+OCw3IEBAIHUzMiBydHdfdGtpcF9kZWNyeXB0KHN0cnVjdCBhZGFwdGVyICpwYWRhcHRlciwgdTgg
+KnByZWN2ZnJhbWUpCj4gCQkJYXJjNF9zZXRrZXkoY3R4LCByYzRrZXksIDE2KTsKPiAJCQlhcmM0
+X2NyeXB0KGN0eCwgcGF5bG9hZCwgcGF5bG9hZCwgbGVuZ3RoKTsKPiAKPi0JCQkqKCh1MzIgKilj
+cmMpID0gbGUzMl90b19jcHUofmNyYzMyX2xlKH4wLCBwYXlsb2FkLCBsZW5ndGggLSA0KSk7Cj4r
+CQkJKigoX19sZTMyICopY3JjKSA9IGNwdV90b19sZTMyKH5jcmMzMl9sZSh+MCwgcGF5bG9hZCwg
+bGVuZ3RoIC0gNCkpOwo+IAo+IAkJCWlmIChjcmNbM10gIT0gcGF5bG9hZFtsZW5ndGggLSAxXSB8
+fCBjcmNbMl0gIT0gcGF5bG9hZFtsZW5ndGggLSAyXSB8fAo+IAkJCSAgICBjcmNbMV0gIT0gcGF5
+bG9hZFtsZW5ndGggLSAzXSB8fCBjcmNbMF0gIT0gcGF5bG9hZFtsZW5ndGggLSA0XSkKPi0tIAo+
+Mi43LjQKPgoNCg0K
