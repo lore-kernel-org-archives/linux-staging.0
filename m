@@ -1,141 +1,101 @@
 Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAEAC6D1B
-	for <linux-staging@lists.linux.dev>; Thu,  3 Jun 2021 15:50:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FA36D33
+	for <linux-staging@lists.linux.dev>; Thu,  3 Jun 2021 15:50:54 +0000 (UTC)
 Received: from localhost.localdomain ([37.4.249.110]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M1q8m-1lmch129f6-002H8i; Thu, 03 Jun 2021 17:50:51 +0200
+ id 1Mnq8Y-1l0aMi1e4g-00pPTG; Thu, 03 Jun 2021 17:50:50 +0200
 From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Nicolas Saenz Julienne <nsaenz@kernel.org>
 Cc: linux-staging@lists.linux.dev,
 	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH 14/16] staging: vchiq_core: store message id in local variable
-Date: Thu,  3 Jun 2021 17:50:03 +0200
-Message-Id: <1622735405-9980-15-git-send-email-stefan.wahren@i2se.com>
+Subject: [PATCH 10/16] staging: vchiq_core: simplify WARN_ON conditions
+Date: Thu,  3 Jun 2021 17:49:59 +0200
+Message-Id: <1622735405-9980-11-git-send-email-stefan.wahren@i2se.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1622735405-9980-1-git-send-email-stefan.wahren@i2se.com>
 References: <1622735405-9980-1-git-send-email-stefan.wahren@i2se.com>
-X-Provags-ID: V03:K1:iJWA7Kpqbvw/NOk3fKnBG4rglBfTcucaKiSwu+WdIBeZNFLSFdl
- /C3ycNTGRwhzYOdntMkEhrw20tAhmZx6TDv365ECBlZV01twpelD/JJ1QTJ34cdpnrmEati
- OdWhXRNUENI0X/xYTOW4+DhQInJrGpkcQPRM0/9t20Et+sVFBbDsHgORuFBNK+Z7aYV+hrA
- csDN2TpebEj6xHzGS6Ivg==
+X-Provags-ID: V03:K1:8t24r/MeIqSOPTrUPq9ZJcsFxBLcROcb27t3mnJ4iulI4u4SDg8
+ V1Ez+2GssnYTxOBljQ5jLCaT26bG1kG6oyNd44ncXAPjbxs0A5183OFPZz8HHnIxnsVTeK0
+ SsHWN6ZRefC1D5pSG29sMAbRNyLpcQZ9UO/bv5Evfe3ciYHsUQMPTnW08r1h3Tcf4KxNCvp
+ RlySmY85SsclQecOBFtYQ==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:aNxsfyLXbFA=:kRfPUDRt75XLR2CorzK9vb
- Ht0bV6S7JPII29a/LtOGHyKWq6pUposfL4mCgNq8U2uA6mgDqVfqcHo1o/8Wmn0Sv34r1TU7B
- AjcLEITCGkSUu99FnkHp+u0h00bIiq28ixe6G4NXsEmxjFRc3kd3UcPWitYERTKwwTieg4pQt
- XY8RpwaPye3QJ9srpbHXJ7CRP+V3Fuf67B+P8Vks7hD/yEcMGvfGpXLqpkIn9WFCf3q6bNSJy
- GFocAjy5cSUWNQbGJH89Na8m/mkDP5hUpBkxOEthdqpYnl501moWcWbvoKurEjtef/vC73qpz
- 8pg7upNb3jvvUnJUcUgDgBzsEdy5hMYTt1Ix5VNBdqhG0OEXsYNf+EJSUCSAO50DRYXyfUrTo
- sj3yyp48IUQQj8O6p56YFf/o7/0/3eNWHSbQh9ResqZLw6GHqoJ/lHM4jcJdXWqbwZhS9nBqJ
- QgetSCwK08525kn6XMcL5l3GHVAzGbv5wsHF91GrhXQR2ubeg4HhJ8KooTSvcgMN65b2Feqs6
- CJk9Yg/JY3sw6d/f/9p1PY=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:h3Cdtk5rS+U=:3CVX8DBHNJft87w6Gchres
+ 4+wKy13I3ceVHdYX/mHkPO6rc2U10dQH8ivkwvZBxszFzlMK043LVc7fp8Z/Uk6Se9YgoerWT
+ Kx9ZAKMNsgoSnzKAAiuhxF33dNCPRzJ/0W0piMk/lpumdUFftdL4EhwVZ5F2yWs3K0dg5mXXC
+ 1fmNFRVxzmOmr+C+Sfb1DzZ/B6k9GqDbmRtlU0SKyWzFRXAjcjveKuU/uuT9PortlxgXkriK1
+ eTphiKr1Xzm3tUkHREBbpcvz6rPpHyScR546NqpMjvyFUumaLBuvbmmbFI/J+h2XZUiv1lsoT
+ AbR/Mata9vVJVjT9kyQtN//azMSeFvSTWnPYM5kkwIp4p8JWFMQEcCkLIALQ9oAOjvUjCgube
+ vht32IhmmeU0j1Ln6iv0dHasj3MG/dqTRuI52UBxC1Gl446XtSZCNVTJFK9snqSEUNUImu9Ej
+ zaGQHgWz+MkjQjFV2841tfPMbXdELVyHSiEickVtOEp6h4jEcZM+teGD3aKEjf8nFg4uxR6DT
+ Rr/t4MOdZdCgJFINVn0pDE=
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-Some queue_message() calls are still rather complex to read. So store
-the message ids in a local variable in those cases.
+During a recent review Dan Carpenter noticed a double negation in a WARN_ON.
+But a quick search revealed more unnecessary complex WARN_ON conditions.
+This change should simplify them.
 
 Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 ---
- .../vc04_services/interface/vchiq_arm/vchiq_core.c | 28 ++++++++++------------
- 1 file changed, 12 insertions(+), 16 deletions(-)
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_core.c   | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 3d543c5..a2a2472 100644
+index 99624ca..2e1b218 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -1576,6 +1576,7 @@ parse_open(struct vchiq_state *state, struct vchiq_header *header)
- 		struct vchiq_openack_payload ack_payload = {
- 			service->version
- 		};
-+		int openack_id = MAKE_OPENACK(service->localport, remoteport);
+@@ -924,7 +924,7 @@ queue_message(struct vchiq_state *state, struct vchiq_service *service,
  
- 		if (state->version_common <
- 		    VCHIQ_VERSION_SYNCHRONOUS_MODE)
-@@ -1583,16 +1584,14 @@ parse_open(struct vchiq_state *state, struct vchiq_header *header)
+ 	stride = calc_stride(size);
  
- 		/* Acknowledge the OPEN */
- 		if (service->sync) {
--			if (queue_message_sync(state, NULL,
--				MAKE_OPENACK(service->localport, remoteport),
-+			if (queue_message_sync(state, NULL, openack_id,
- 				memcpy_copy_callback,
- 				&ack_payload,
- 				sizeof(ack_payload),
- 				0) == VCHIQ_RETRY)
- 				goto bail_not_ready;
- 		} else {
--			if (queue_message(state, NULL,
--				MAKE_OPENACK(service->localport, remoteport),
-+			if (queue_message(state, NULL, openack_id,
- 				memcpy_copy_callback,
- 				&ack_payload,
- 				sizeof(ack_payload),
-@@ -2804,6 +2803,8 @@ vchiq_close_service_internal(struct vchiq_service *service, int close_recvd)
- 	struct vchiq_state *state = service->state;
- 	enum vchiq_status status = VCHIQ_SUCCESS;
- 	int is_server = (service->public_fourcc != VCHIQ_FOURCC_INVALID);
-+	int close_id = MAKE_CLOSE(service->localport,
-+				  VCHIQ_MSG_DSTPORT(service->remoteport));
+-	WARN_ON(!(stride <= VCHIQ_SLOT_SIZE));
++	WARN_ON(stride > VCHIQ_SLOT_SIZE);
  
- 	vchiq_log_info(vchiq_core_log_level, "%d: csi:%d,%d (%s)",
- 		service->state->id, service->localport, close_recvd,
-@@ -2842,9 +2843,7 @@ vchiq_close_service_internal(struct vchiq_service *service, int close_recvd)
- 			complete(&service->remove_event);
- 		} else {
- 			/* Shutdown mid-open - let the other side know */
--			status = queue_message(state, service,
--				MAKE_CLOSE(service->localport,
--				VCHIQ_MSG_DSTPORT(service->remoteport)),
-+			status = queue_message(state, service, close_id,
- 				NULL, NULL, 0, 0);
+ 	if (!(flags & QMFLAGS_NO_MUTEX_LOCK) &&
+ 	    mutex_lock_killable(&state->slot_mutex))
+@@ -1480,8 +1480,8 @@ abort_outstanding_bulks(struct vchiq_service *service,
+ 		service->state->id, service->localport, is_tx ? 't' : 'r',
+ 		queue->local_insert, queue->remote_insert, queue->process);
+ 
+-	WARN_ON(!((int)(queue->local_insert - queue->process) >= 0));
+-	WARN_ON(!((int)(queue->remote_insert - queue->process) >= 0));
++	WARN_ON((int)(queue->local_insert - queue->process) < 0);
++	WARN_ON((int)(queue->remote_insert - queue->process) < 0);
+ 
+ 	while ((queue->process != queue->local_insert) ||
+ 		(queue->process != queue->remote_insert)) {
+@@ -1729,7 +1729,7 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
+ 
+ 	switch (type) {
+ 	case VCHIQ_MSG_OPEN:
+-		WARN_ON(!(VCHIQ_MSG_DSTPORT(msgid) == 0));
++		WARN_ON(VCHIQ_MSG_DSTPORT(msgid));
+ 		if (!parse_open(state, header))
+ 			goto bail_not_ready;
+ 		break;
+@@ -1756,7 +1756,7 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
  		}
  		break;
-@@ -2861,9 +2860,7 @@ vchiq_close_service_internal(struct vchiq_service *service, int close_recvd)
- 		release_service_messages(service);
+ 	case VCHIQ_MSG_CLOSE:
+-		WARN_ON(size != 0); /* There should be no data */
++		WARN_ON(size); /* There should be no data */
  
- 		if (status == VCHIQ_SUCCESS)
--			status = queue_message(state, service,
--				MAKE_CLOSE(service->localport,
--				VCHIQ_MSG_DSTPORT(service->remoteport)),
-+			status = queue_message(state, service, close_id,
- 				NULL, NULL, 0, QMFLAGS_NO_MUTEX_UNLOCK);
+ 		vchiq_log_info(vchiq_core_log_level,
+ 			"%d: prs CLOSE@%pK (%d->%d)",
+@@ -1958,7 +1958,7 @@ parse_rx_slots(struct vchiq_state *state)
+ 		if (!state->rx_data) {
+ 			int rx_index;
  
- 		if (status != VCHIQ_SUCCESS) {
-@@ -3318,6 +3315,7 @@ vchiq_queue_message(unsigned int handle,
- {
- 	struct vchiq_service *service = find_service_by_handle(handle);
- 	enum vchiq_status status = VCHIQ_ERROR;
-+	int data_id;
- 
- 	if (!service)
- 		goto error_exit;
-@@ -3336,17 +3334,15 @@ vchiq_queue_message(unsigned int handle,
- 		goto error_exit;
- 	}
- 
-+	data_id = MAKE_DATA(service->localport, service->remoteport);
-+
- 	switch (service->srvstate) {
- 	case VCHIQ_SRVSTATE_OPEN:
--		status = queue_message(service->state, service,
--				MAKE_DATA(service->localport,
--					service->remoteport),
-+		status = queue_message(service->state, service, data_id,
- 				copy_callback, context, size, 1);
- 		break;
- 	case VCHIQ_SRVSTATE_OPENSYNC:
--		status = queue_message_sync(service->state, service,
--				MAKE_DATA(service->localport,
--					service->remoteport),
-+		status = queue_message_sync(service->state, service, data_id,
- 				copy_callback, context, size, 1);
- 		break;
- 	default:
+-			WARN_ON(!((state->rx_pos & VCHIQ_SLOT_MASK) == 0));
++			WARN_ON(state->rx_pos & VCHIQ_SLOT_MASK);
+ 			rx_index = remote->slot_queue[
+ 				SLOT_QUEUE_INDEX_FROM_POS_MASKED(state->rx_pos)];
+ 			state->rx_data = (char *)SLOT_DATA_FROM_INDEX(state,
 -- 
 2.7.4
 
