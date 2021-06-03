@@ -1,66 +1,93 @@
 Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9486D1B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7F870
 	for <linux-staging@lists.linux.dev>; Thu,  3 Jun 2021 15:50:53 +0000 (UTC)
 Received: from localhost.localdomain ([37.4.249.110]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MPXxi-1m2UaA0VaU-00MZwY; Thu, 03 Jun 2021 17:50:48 +0200
+ id 1MnJUy-1l7lds1gvs-00jLjg; Thu, 03 Jun 2021 17:50:48 +0200
 From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Nicolas Saenz Julienne <nsaenz@kernel.org>
 Cc: linux-staging@lists.linux.dev,
 	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH 00/16] staging: vchiq_arm: code clean-up part 3
-Date: Thu,  3 Jun 2021 17:49:49 +0200
-Message-Id: <1622735405-9980-1-git-send-email-stefan.wahren@i2se.com>
+Subject: [PATCH 01/16] staging: vchiq_core: fix logic in poll_services_of_group
+Date: Thu,  3 Jun 2021 17:49:50 +0200
+Message-Id: <1622735405-9980-2-git-send-email-stefan.wahren@i2se.com>
 X-Mailer: git-send-email 2.7.4
-X-Provags-ID: V03:K1:5cdF/Qke+QfuZTGGmQThpI7w+t7XkNhCKT+hGj39YWna9r0d+uy
- JHoQ6OQL0XMFsWlh3GWZAamEbr3NkphbA0w7tw1ghon3CKF5HJ9zixzS3gPb7m38GbVK3ir
- +oQp71t9ZyNP75nSSpVYFQtvS8u+BPbMAgqaOy1pT+YvSqjVOEXC71ELLKlL3JNFLnrzA3q
- vgazsMIvJTALSu+gZKDSw==
+In-Reply-To: <1622735405-9980-1-git-send-email-stefan.wahren@i2se.com>
+References: <1622735405-9980-1-git-send-email-stefan.wahren@i2se.com>
+X-Provags-ID: V03:K1:H+AqxlrtCVwCayuWoXw2J+ecfFGI0camiY1sO8cOHKfbv2PTcJ3
+ X3Ypf4gaU2MfknylrJeA7HNvODwLxWXjNRLbuVFI0tn19x+VAZyX/xLTQPAcNrtwapPLOgj
+ QHr8sRjCAgHCHCamXOj69+nePxZ64wnJ3IJw4UJXieKcnUT2lE92Sa37SpwdyWXRqN7ufUv
+ YpYwGTAGIMhkE+OkOUWWw==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:WVR7tXwjNIE=:QgU1sPe8OCGyMrHbN/BJ9f
- eDOnLabhB+7Z9MRUONrjWd3DMvWqtaqvUvpwzNeAL7qkWJysKD6jv2en3e1XjASx1//smnnbD
- qa24RUjMw1vA9dcJRPw/auQUr4c2JnyfIAmx36BaZjhkEseXxzgfTL+lV0Pe85JqLTIBY3Xrz
- qc50LxQ/oxZvir2Qsdsq1+CT7FkSy1LB2t3lmKlkFrLQBGIAc+0o6tRVc1Tv8oZIwK9zYFsQZ
- O2yvX1TvTv6Z1GrIy/s47deBgCTHztMVZNr/L99xcIoRXd1KaR1TKdJ3mLsoupgMLCpwWH1wI
- 8ZAnA1a5YXT6iF8IkG1ZsTsSwjDtVbPkFsjVewuMSsPQo9vdO/miubl2ascVuz/oUErDy43z4
- 3Gwa2B4ArSWAc/azDB+7QFotuU6POJDf7nrqVmI5XZZ4FlwCTnNyZ/kz5ZBLcwj575aOv/Xh8
- EwsV0kQYdxmF17hmxiMbwDk6orkPJqRfYZHQiSSgr/4HyaTC3T+a4s/yAhUr42CijsuRKpEsX
- 2hBu+Hd6DUPHxHjIpkl6rM=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:o0X9NjRQpkc=:iaLpBdTqCQuiP3ttvqMHOR
+ rC4Ilx44mGPwEBbkwLcaec7TpbwfMlZSTGv2EUeRBKpaoRfg7UKPtOiKCksLOO06oJJxKP2pp
+ FFxzxBTKlKCGAgaZ68Z+uanBNlbXgVqzFo3i88NTgqLCKnc2VVl7PhQHYIgqQMkaFG1j9rUJ2
+ BGBSxJj4CneD/vxXTjG1pjLBkx6ktCP7IUG1pBI1qoP8hlri9fT3URogD4wSNSwtjTBjLf4kA
+ oTXjimlXObPXnEXScnjCRSihOP4ksgTGoEEWdTeqJLgjP2d/R7iM/TD5SWgFFH4KQ7Au4MMgX
+ StMOKtKarPta3iSK/DzuOZxc7PIefXe/qYu7PtFQzYyZL/OjLCK133+vZqYOfwCzq6lUUuKqB
+ eQCmwTbVRxR84xbwIPOFlmNtqY6bk8HOwSKSqfCpXNfy/hTZDyIOOh+7UoY3aQpVRihqdeU7V
+ HCa/+OOt38EIgmSMkb0FFpedRs1ZX2Tyg3KSr3mNwOUBsnccwctx/W+mB1YKzZaP8viVyEh12
+ ZsSzGRREkSx69JGTWCj+ZA=
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-This series mostly addresses the code readability. Additionally it contains
-a fix for a change from my last series.
+Commit "staging: vchiq_core: avoid indention in poll_services_of_group"
+tries to reduce the indention, but the parts regarding the third if statement
+breaks the logic. So restore them and prevent vchiq_test from hanging during
+the ping test.
 
-Stefan Wahren (16):
-  staging: vchiq_core: fix logic in poll_services_of_group
-  staging: vchiq_arm: introduce free_bulk_waiter
-  staging: vchiq_core: move internals to C source
-  staging: vchiq_core: get the rid of IS_POW2
-  staging: vchiq_core: get the rid of vchiq_static_assert
-  staging: vchiq_core: put spaces around operators
-  staging: vchiq_core: avoid precedence issues
-  staging: vchiq_core: use define for message type shift
-  staging: vchiq_core: introduce message specific make macros
-  staging: vchiq_core: simplify WARN_ON conditions
-  staging: vchiq_arm: tidy up service function naming
-  staging: vchiq_core: introduce process_free_data_message
-  staging: vchiq_core: reduce indentation in parse_open
-  staging: vchiq_core: store message id in local variable
-  staging: vchiq_connected: move EXPORT_SYMBOL below the right function
-  staging: vchiq_core: introduce handle_poll
+Fixes: 2f440843a7d4 ("staging: vchiq_core: avoid indention in poll_services_of_group")
+Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
+---
+ .../vc04_services/interface/vchiq_arm/vchiq_core.c | 28 ++++++++++------------
+ 1 file changed, 13 insertions(+), 15 deletions(-)
 
- .../vc04_services/interface/vchiq_arm/vchiq_arm.c  |  71 ++-
- .../interface/vchiq_arm/vchiq_connected.c          |   2 +-
- .../vc04_services/interface/vchiq_arm/vchiq_core.c | 606 ++++++++++++---------
- .../vc04_services/interface/vchiq_arm/vchiq_core.h |  79 +--
- 4 files changed, 375 insertions(+), 383 deletions(-)
-
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+index 47bb0af..bc6e123 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+@@ -1340,23 +1340,21 @@ poll_services_of_group(struct vchiq_state *state, int group)
+ 			continue;
+ 
+ 		service_flags = atomic_xchg(&service->poll_flags, 0);
+-		if ((service_flags & BIT(VCHIQ_POLL_REMOVE)) == 0)
+-			continue;
+-
+-		vchiq_log_info(vchiq_core_log_level, "%d: ps - remove %d<->%d",
+-			       state->id, service->localport,
+-			       service->remoteport);
++		if (service_flags & BIT(VCHIQ_POLL_REMOVE)) {
++			vchiq_log_info(vchiq_core_log_level, "%d: ps - remove %d<->%d",
++				       state->id, service->localport,
++				       service->remoteport);
+ 
+-		/*
+-		 * Make it look like a client, because
+-		 * it must be removed and not left in
+-		 * the LISTENING state.
+-		 */
+-		service->public_fourcc = VCHIQ_FOURCC_INVALID;
++			/*
++			 * Make it look like a client, because
++			 * it must be removed and not left in
++			 * the LISTENING state.
++			 */
++			service->public_fourcc = VCHIQ_FOURCC_INVALID;
+ 
+-		if (vchiq_close_service_internal(service, NO_CLOSE_RECVD) !=
+-						 VCHIQ_SUCCESS) {
+-			request_poll(state, service, VCHIQ_POLL_REMOVE);
++			if (vchiq_close_service_internal(service, NO_CLOSE_RECVD) !=
++							 VCHIQ_SUCCESS)
++				request_poll(state, service, VCHIQ_POLL_REMOVE);
+ 		} else if (service_flags & BIT(VCHIQ_POLL_TERMINATE)) {
+ 			vchiq_log_info(vchiq_core_log_level,
+ 				"%d: ps - terminate %d<->%d",
 -- 
 2.7.4
 
