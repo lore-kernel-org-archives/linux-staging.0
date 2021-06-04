@@ -1,93 +1,77 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D3CB70
-	for <linux-staging@lists.linux.dev>; Fri,  4 Jun 2021 06:30:35 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id l18-20020a1ced120000b029014c1adff1edso7188820wmh.4
-        for <linux-staging@lists.linux.dev>; Thu, 03 Jun 2021 23:30:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fkXvYf6Jy8YFgYhTbNEV2GnzgZgt8NEIXbEHk2q5vQ4=;
-        b=FMaRxx5NvoqG66JrRJ7YoBeIJ1Abw3VbQU69S2OK2c/CPe7cH0dwQsKRnQoRq0CZje
-         eLXID/IZykhEOE/5JIKcGUz7lYTZH8B+Hdp1WTlS/avyXeavfJN7q4aXfdv8dfC0hCrQ
-         KSGUdcal/ilFWs07+G0/IEnj0U+XOJ1iBmwd5bSaC767dxjIPP1MAIpByt06+37HGc1e
-         YuVpAHl2Yi8/I+GVk46UX0278g+PQkewLw+t9cp25ch9Z07Y7CzbnIqHIB1Ae5SKmcE4
-         6rxgGIOlOdMa05oA2BM8efJa+yT3dtpW77hS/ItogKqoC5o6CSoAkzdYW4hXoBB07lyA
-         HsHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fkXvYf6Jy8YFgYhTbNEV2GnzgZgt8NEIXbEHk2q5vQ4=;
-        b=dntSnEjw0nnbopoaBk1Orgz7qXebSog2HuqNATpCMbJiwdV0d+IJ27FNr6qhlvvu1B
-         2fZUTmQISGSDgx9Q/tNCpEl/ditrI2P9mWLJlVOBNglJkVk4VgFcJYtwQ5ET1pAxMn0a
-         6CJnHNlzxO7FXn9r7nyl4RI9Zv71CrLamQa+juZ2l5zraGQ3K1JhclEkrjcxaf8qIkKp
-         oFODCGq2SQZjrP34GvA8IQHFXRofSOZkXTMKDJ4OxiPPVu2aEZ6QxJhr8yZVMCnmGL89
-         dKCdJ/ArCnffctkor46sSaW48m1scn9TjoYxyWacJQRwpqfc0DcwUT7SURGXVUIcfpZd
-         0S9w==
-X-Gm-Message-State: AOAM530MyZXnvKp6W0LPZp/Jg27E0D/gNYs3HWe4453r+30eGE91A+3G
-	RYfy8a/d+zD0V6eZMa06PC/tG5ojKY+hrg==
-X-Google-Smtp-Source: ABdhPJyIMJi/shWdVn8MCGJvysG+WAOp5GH2fXyvFSxIE6JFY1NuMERiwUNVCAALoYhYqdPXAHdz1w==
-X-Received: by 2002:a1c:a382:: with SMTP id m124mr1925864wme.40.1622788233648;
-        Thu, 03 Jun 2021 23:30:33 -0700 (PDT)
-Received: from localhost.localdomain (113.red-88-4-247.dynamicip.rima-tde.net. [88.4.247.113])
-        by smtp.gmail.com with ESMTPSA id b26sm7805323wmj.25.2021.06.03.23.30.32
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 03 Jun 2021 23:30:33 -0700 (PDT)
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	neil@brown.name
-Subject: [PATCH] staging: mt7621-dts: review pcie overlay in 'gbpc1' dts file
-Date: Fri,  4 Jun 2021 08:30:31 +0200
-Message-Id: <20210604063031.13599-1-sergio.paracuellos@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E61D70
+	for <linux-staging@lists.linux.dev>; Fri,  4 Jun 2021 08:14:01 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-226-2sxBWfMpNbqbAlsW2s2RJA-1; Fri, 04 Jun 2021 09:13:57 +0100
+X-MC-Unique: 2sxBWfMpNbqbAlsW2s2RJA-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.18; Fri, 4 Jun 2021 09:13:57 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.018; Fri, 4 Jun 2021 09:13:57 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Alex Elder' <elder@linaro.org>, 'Manikishan Ghantasala'
+	<manikishanghantasala@gmail.com>, Alex Elder <elder@ieee.org>
+CC: Alex Elder <elder@kernel.org>, "greybus-dev@lists.linaro.org"
+	<greybus-dev@lists.linaro.org>, "linux-staging@lists.linux.dev"
+	<linux-staging@lists.linux.dev>, Johan Hovold <johan@kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [greybus-dev] [PATCH] staging: greybus: fixed the coding style,
+ labels should not be indented.
+Thread-Topic: [greybus-dev] [PATCH] staging: greybus: fixed the coding style,
+ labels should not be indented.
+Thread-Index: AQHXV7uPElUZ9thDckyuMtjnIAGFwKsCzNHA///2ooCAABDyEP//8ZgAgAC7OdA=
+Date: Fri, 4 Jun 2021 08:13:57 +0000
+Message-ID: <c29b5c97f97b48c894917647915bf510@AcuMS.aculab.com>
+References: <20210602133659.46158-1-manikishanghantasala@gmail.com>
+ <9a3878fd-3b59-76f5-ddc7-625c66f9fee8@ieee.org>
+ <CAKzJ-FNW8EPX2oQd1qr5NagnvjtWwvSeuAh8DNLetj11+BJ6RA@mail.gmail.com>
+ <792dd57c0ef8454497e5ae4c4534dea2@AcuMS.aculab.com>
+ <e1c36fb4-ab72-0cce-f6fe-3f04125dae28@linaro.org>
+ <e23879ae78404be2b707b550b3029e43@AcuMS.aculab.com>
+ <10ad30e2-c906-b210-bf0e-5e20b6de1993@linaro.org>
+In-Reply-To: <10ad30e2-c906-b210-bf0e-5e20b6de1993@linaro.org>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-pcie node is being overlayed in 'gbpc1.dts' file requesting three
-gpio reset pins for each pcie port. Gnubee only needs general
-gpio 19 to properly reset and make all of them work. This pin
-is already requested in the general 'mt7621.dtsi' file as well
-as is the pinctrl pins. So we only need to enable the node
-in the overlay and all the other stuff can be safely deleted.
-Also, pin 8 is being requested for gpio-leds node and there
-was an error on boot before this changes because of pin was
-already assigned (EBUSY):
-
-leds-gpio: probe of gpio-leds failed with error -16
-
-With this changes this error has disappear and the board is
-properly booting without any other regression.
-
-Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
----
- drivers/staging/mt7621-dts/gbpc1.dts | 6 ------
- 1 file changed, 6 deletions(-)
-
-diff --git a/drivers/staging/mt7621-dts/gbpc1.dts b/drivers/staging/mt7621-dts/gbpc1.dts
-index 7716d0efe524..b65d71686814 100644
---- a/drivers/staging/mt7621-dts/gbpc1.dts
-+++ b/drivers/staging/mt7621-dts/gbpc1.dts
-@@ -101,12 +101,6 @@ partition@50000 {
- };
- 
- &pcie {
--	pinctrl-names = "default";
--	pinctrl-0 = <&pcie_pins>;
--
--	reset-gpios = <&gpio 19 GPIO_ACTIVE_LOW>,
--			<&gpio 8 GPIO_ACTIVE_LOW>,
--			<&gpio 7 GPIO_ACTIVE_LOW>;
- 	status = "okay";
- };
- 
--- 
-2.25.1
+RnJvbTogQWxleCBFbGRlcg0KPiBTZW50OiAwMyBKdW5lIDIwMjEgMjI6NTUNCi4uLg0KPiBOb3Qg
+bmVjZXNzYXJpbHksIHNpemVvZihib29sKSBpcyBpbXBsZW1lbnRhdGlvbiBkZWZpbmVkLg0KPiBB
+bmQgSSB0aG91Z2h0IHlvdSBkaWRuJ3QgdGhpbmsgdGhlIHNpemUgb2YgdGhlIHN0cnVjdHVyZQ0K
+PiB3YXMgdmVyeSBpbXBvcnRhbnQuLi4NCg0KSXQgaXMgJ2ltcGxlbWVudGF0aW9uIGRlZmluZWQn
+IGJ1dCB3aWxsIGJlIDMyIGJpdHMgb24gZXZlcnl0aGluZw0KZXhjZXB0IGFuIG9sZCAzMmJpdCBB
+Uk0gQUJJLg0KDQo+IEluIGFueSBjYXNlLCBJJ20gb3BlbiB0byBjaGFuZ2luZyB0aGUgdHlwZSBv
+ZiB0aGVzZSBmaWVsZHMsDQo+IGFuZCBteSBwcmVmZXJlbmNlIHdvdWxkIGJlIGJvb2wgcmF0aGVy
+IHRoYW4gdTgsIGJlY2F1c2UgaXQNCj4gaXMgY29tcGxldGVseSBjbGVhciB3aGF0IGl0IHJlcHJl
+c2VudHMuDQoNClllcywgYW5kIGl0IGlzbid0IGF0IGFsbCBjbGVhciB3aGF0IGl0IGFjdHVhbGx5
+IG1lYW5zLg0KSWYgdGhlIHZhbHVlIG9mIGEgYm9vbCBtZW1vcnkgbG9jYXRpb24gaXNuJ3QgMCBv
+ciAxDQp3aGF0IGRvZXMgJ2Jvb2xfYSAmIGJvb2xfYicgbWVhbi4NCkl0IG1pZ2h0IGJlICd1bmRl
+ZmluZWQgYmVoYXZpb3VyJyAtIGJ1dCB0aGF0IGRvZXNuJ3QgYWN0dWFsbHkNCmV4Y2x1ZGUgYW4g
+SUNCTSBoaXR0aW5nIHRoZSBjb2RlcidzIGhvdXNlIQ0KSSd2ZSBzZWVuIHZlcnkgc2lsbHkgY29k
+ZSBnZW5lcmF0ZWQgKGJ5IGFuIG9sZCBnY2MpIGZvcg0Kc2ltcGxlIHN0YXRlbWVudHMgbGlrZToN
+Cglib29sX2EgfD0gYm9vbF9iOw0KTW9zdGx5IGJlY2F1c2UgaXQgZGlkbid0IHRydXN0IHRoZSB2
+YWx1ZXMgdG8gYmUgMCBvciAxDQphbmQgd2FudGVkIHRvIGVuc3VyZSB0aGUgcmVzdWx0IHdhcyBl
+aXRoZXIgMCBvciAxLg0KDQpJZiBJIHVzZSBhbiBpbnRlZ2VyIHR5cGUgKGFzIGluIHRyYWRpdGlv
+bmFsIEMpIEkga25vdw0Kd2hhdCBJJ20gZ2V0dGluZyBhbmQgdGhlcmUgYXJlIG5vIHVuZXhwZWN0
+ZWQgY29tcGFyaXNvbnMNCmFuZCBjb25kaXRpb25hbHMuDQoNCglEYXZpZA0KDQotDQpSZWdpc3Rl
+cmVkIEFkZHJlc3MgTGFrZXNpZGUsIEJyYW1sZXkgUm9hZCwgTW91bnQgRmFybSwgTWlsdG9uIEtl
+eW5lcywgTUsxIDFQVCwgVUsNClJlZ2lzdHJhdGlvbiBObzogMTM5NzM4NiAoV2FsZXMpDQo=
 
