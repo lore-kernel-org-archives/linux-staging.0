@@ -1,265 +1,236 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A132270
-	for <linux-staging@lists.linux.dev>; Fri,  4 Jun 2021 21:32:52 +0000 (UTC)
-Received: by mail-ot1-f45.google.com with SMTP id i12-20020a05683033ecb02903346fa0f74dso10427006otu.10
-        for <linux-staging@lists.linux.dev>; Fri, 04 Jun 2021 14:32:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oDGProiCSKfs97byvQlpAFHaI+zbUyvA+0ui68k/ZIw=;
-        b=B6slvx5nXQ4jF+11r1IN0YERepRkouNhOYwa/rMFWXuecYQZ3UhiiqULPyoSx+lp1D
-         oSDMiwPHOjJrSF9iCGqNOcpNWm/bdurP4nG308cbWIN1FY/5YWzVZzl7Pwu9qqF8nZAI
-         bLEplhZmsmhtKM9iYgIK1WZ7+XZdb3ChrXgeyreT0ObTGb/PoT4SN8OW6Wp/OdAqoxM7
-         GUb8oG4q4nYtNhPAWYh4LfPlGLjppgo9fkeimP5rx5OVfwEtM7V9mg7BoUXIViXMuhw9
-         0dXzZ6sJ1egzqsRf5bF7zfbrGzRFT7G3fNTuEt5Us21hb7xi1euZb5l5ds3nuaVHwYH4
-         Vr9Q==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D16170
+	for <linux-staging@lists.linux.dev>; Fri,  4 Jun 2021 21:37:29 +0000 (UTC)
+Received: by mail-oo1-f52.google.com with SMTP id j17-20020a0568200231b029024900620310so1317214oob.7
+        for <linux-staging@lists.linux.dev>; Fri, 04 Jun 2021 14:37:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oDGProiCSKfs97byvQlpAFHaI+zbUyvA+0ui68k/ZIw=;
-        b=CpcTSGN7eGbBjyI+l+yjfcdUzZvAKtp72deVzcFjA6qX/KDqSRX+l7eYkeghaHP7OX
-         h+FFxgwvi/MRKC2JW4a/Ws8EKWTsQvAf4psBXKZTY0R7j8eK67MBNfh1pfMkF6XYaZqG
-         KJjdjHUz3SqgWG3fX6KjVwqHyphKODlU1ADWUW0MRSb9g2OvNcQFcMgC9LZ8zwErlHII
-         rFDCQFBdXBJO9HkqKBWq7sEDI29Xd5YKlcqdTTlp1FZej3NDM0/QmzMw7PfOLeqdZmdX
-         UGW7YXhKiUZwNpUhbS5mIqtXFcyRjNx9z25a6HOgd7A6PdeUeav4sG81mHAR/xDpUj5W
-         MYIw==
-X-Gm-Message-State: AOAM530CQg3w3VLLGuGw4hQage6UDWHNEKWPRAXtQQaeu2yv9IeK0dzU
-	JrmMmyFDM3chbJtyGQ9Cw2epZFyI8PR2wtRSYKo=
-X-Google-Smtp-Source: ABdhPJy/duOW3zXXU0VCeFASVFByb0n9K5IFAmBE8iU7JFUnx0Wlqde41SBA6GIW37hsGt9pfIK/XxM2425Ls48SkxM=
-X-Received: by 2002:a9d:4592:: with SMTP id x18mr5265041ote.74.1622842371840;
- Fri, 04 Jun 2021 14:32:51 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Utd5Q3vo5MjFZyun8vrWlVKBnn1w3zWcUu6IodeWHUU=;
+        b=kQB/gsIGCB0hJN3yjwZaNls7I/dlHGagcBelxhYUPzh1wUspX/yrX6GTwz/YpoDLsI
+         96w1Nj4f0paRgRSz4HNPB4VEasu5mktyfK5Zos5g/R9vcRdpjJKSMRgUeatdHG1FBBrt
+         2FwTB2Cx84yCBgQ2LJNcT+QDyFH+AMtfx71yA2TlE+fycOepcE47aNoSJFmyC+oYS58V
+         AexBpGfrjoM9jHo7UEtZHfoEbZUQiLk3l0yTe9/1PdP87ItsmDsnsotw+FzTiIIa4wPi
+         UpG8wY6kqWgEom1o1o9BIQZE3VRwp1AFlmx68a0XnT0J9nz19G5raNV/BVU9940FCDAm
+         2wcw==
+X-Gm-Message-State: AOAM533SJYSkd1aogThVK2F0BYInZ5FDNLixrtB9LbAz9njj5u9dKw15
+	Y/XNf51SE8biRq/FdPAiww==
+X-Google-Smtp-Source: ABdhPJzvJgDQDeMiCoKjZthSNJrKCtqHQg3qyuYlPMBVAbp34R47bLfNiQpR/eAri9x8YIz3Ym8j4g==
+X-Received: by 2002:a4a:d85:: with SMTP id 127mr5337961oob.26.1622842648813;
+        Fri, 04 Jun 2021 14:37:28 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id m1sm731257otq.12.2021.06.04.14.37.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Jun 2021 14:37:28 -0700 (PDT)
+Received: (nullmailer pid 3965565 invoked by uid 1000);
+	Fri, 04 Jun 2021 21:37:26 -0000
+Date: Fri, 4 Jun 2021 16:37:26 -0500
+From: Rob Herring <robh@kernel.org>
+To: Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc: festevam@gmail.com, krzk@kernel.org, laurent.pinchart@ideasonboard.com, mchehab@kernel.org, devicetree@vger.kernel.org, kernel@pengutronix.de, kernel@puri.sm, linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, shawnguo@kernel.org, slongerbeam@gmail.com, phone-devel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] dt-bindings: media: document the
+ nxp,imx8mq-mipi-csi2 receiver phy and controller
+Message-ID: <20210604213726.GA3960263@robh.at.kernel.org>
+References: <20210531112326.90094-1-martin.kepplinger@puri.sm>
+ <20210531112326.90094-2-martin.kepplinger@puri.sm>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210515124055.22225-1-sergio.paracuellos@gmail.com>
- <20210515124055.22225-2-sergio.paracuellos@gmail.com> <20210604193506.GC3695694@robh.at.kernel.org>
-In-Reply-To: <20210604193506.GC3695694@robh.at.kernel.org>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Fri, 4 Jun 2021 23:32:40 +0200
-Message-ID: <CAMhs-H8vkVoMaQr4Ky9xhzpwz-LjpBzd0kK=NTgO0Lo-m3pyng@mail.gmail.com>
-Subject: Re: [PATCH 1/4] dt-bindings: mt7621-pci: PCIe binding documentation
- for MT7621 SoCs
-To: Rob Herring <robh@kernel.org>
-Cc: "open list:MIPS" <linux-mips@vger.kernel.org>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	John Crispin <john@phrozen.org>, Bjorn Helgaas <bhelgaas@google.com>, linux-staging@lists.linux.dev, 
-	Greg KH <gregkh@linuxfoundation.org>, NeilBrown <neil@brown.name>, 
-	Ilya Lipnitskiy <ilya.lipnitskiy@gmail.com>, linux-kernel <linux-kernel@vger.kernel.org>, 
-	linux-pci@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210531112326.90094-2-martin.kepplinger@puri.sm>
 
-Hi Rob,
+On Mon, May 31, 2021 at 01:23:24PM +0200, Martin Kepplinger wrote:
+> The i.MX8MQ SoC integrates a different MIPI CSI receiver as the i.MX8MM so
+> describe the DT bindings for it.
+> 
+> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> ---
+>  .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 162 ++++++++++++++++++
+>  1 file changed, 162 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+> new file mode 100644
+> index 000000000000..4e3b17c220fc
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+> @@ -0,0 +1,162 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/nxp,imx8mq-mipi-csi2.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NXP and i.MX8MQ MIPI CSI-2 receiver
+> +
+> +maintainers:
+> +  - Martin Kepplinger <martin.kepplinger@puri.sm>
+> +
+> +description: |-
+> +  This binding covers the CSI-2 RX PHY and host controller included in the
+> +  NXP i.MX8MQ SoC. It handles the sensor/image input and process for all the
+> +  input imaging devices.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - fsl,imx8mq-mipi-csi2
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 4
+> +
+> +  clock-names:
+> +    minItems: 4
+> +    items:
+> +      - const: core
+> +      - const: esc
+> +      - const: pxl
+> +      - const: clko2
+> +
+> +  assigned-clocks:
+> +    maxItems: 3
+> +
+> +  assigned-clock-rates:
+> +    maxItems: 3
+> +
+> +  assigned-clock-parents:
+> +    maxItems: 3
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  phy-reset:
+> +    description:
+> +      The phandle to the imx8mq reset-controller.
+> +    maxItems: 1
 
-Thanks for the review.
+Sounds like this should use the reset binding.
 
-On Fri, Jun 4, 2021 at 9:35 PM Rob Herring <robh@kernel.org> wrote:
->
-> On Sat, May 15, 2021 at 02:40:52PM +0200, Sergio Paracuellos wrote:
-> > Add device tree binding documentation for PCIe in MT7621 SoCs.
-> >
-> > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> > ---
-> >  .../bindings/pci/mediatek,mt7621-pci.yaml     | 149 ++++++++++++++++++
-> >  1 file changed, 149 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml b/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml
-> > new file mode 100644
-> > index 000000000000..7f5f9d583032
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml
-> > @@ -0,0 +1,149 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/pci/mediatek,mt7621-pci.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: MediaTek MT7621 PCIe controller
-> > +
-> > +maintainers:
-> > +  - Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> > +
-> > +description: |+
-> > +  MediaTek MT7621 PCIe subsys supports single Root complex (RC)
-> > +  with 3 Root Ports. Each Root Ports supports a Gen1 1-lane Link
-> > +
-> > +allOf:
-> > +  - $ref: /schemas/pci/pci-bus.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: mediatek,mt7621-pci
-> > +
-> > +  reg:
-> > +    items:
-> > +      - description: host-pci bridge registers
-> > +      - description: pcie port 0 RC control registers
-> > +      - description: pcie port 1 RC control registers
-> > +      - description: pcie port 2 RC control registers
-> > +
-> > +  ranges:
-> > +    maxItems: 2
-> > +
-> > +  resets:
-> > +    items:
-> > +      - description: pcie port 0 reset.
-> > +      - description: pcie port 1 reset.
-> > +      - description: pcie port 2 reset.
-> > +
-> > +  reset-names:
-> > +    items:
-> > +      - const: pcie0
-> > +      - const: pcie1
-> > +      - const: pcie2
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: pcie port 0 clock.
-> > +      - description: pcie port 1 clock.
-> > +      - description: pcie port 2 clock.
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: pcie0
-> > +      - const: pcie1
-> > +      - const: pcie2
-> > +
-> > +  phys:
-> > +    items:
-> > +      - description: Dual-ported phy for pcie port 0 and 1.
-> > +      - description: Phy for pcie port 2.
-> > +
-> > +  phy-names:
-> > +    items:
-> > +      - const: pcie-phy0
-> > +      - const: pcie-phy2
->
-> If you're going to keep the ports (and I think that's right because
-> there's only a single PCI address space AFAICT), then I think you should
-> move resets, clocks, and phys into each port node.
->
-> So you'll need to define 'pcie@[0-2],0' node with those properties under
-> it.
+> +
+> +  phy-gpr:
+> +    description:
+> +      The phandle to the imx8mq syscon iomux-gpr.
+> +    maxItems: 1
 
-Ok I will move these stuff to each port node. So each port node will
-be similar to:
+Should be using the phy binding?
 
-pcie@0,0 {
-    reg = <0x0000 0 0 0 0>;
-    #address-cells = <3>;
-    #size-cells = <2>;
-    device_type = "pci";
-    #interrupt-cells = <1>;
-    clocks = <&clkctrl 24>;
-    resets = <&rstctrl 24>;
-    phys = <&pcie0_phy 1>;
-    interrupt-map-mask = <0 0 0 0>;
-    interrupt-map = <0 0 0 0 &gic GIC_SHARED 4 IRQ_TYPE_LEVEL_HIGH>;
-    ranges;
-};
+> +
+> +  interconnects:
+> +    maxItems: 1
+> +
+> +  interconnect-names:
+> +    const: dram
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port node, single endpoint describing the CSI-2 transmitter.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                items:
+> +                  minItems: 1
+> +                  maxItems: 4
+> +                  items:
+> +                    - const: 1
+> +                    - const: 2
+> +                    - const: 3
+> +                    - const: 4
+> +
+> +            required:
+> +              - data-lanes
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Output port node
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - assigned-clocks
+> +  - assigned-clock-rates
+> +  - assigned-clock-parents
+> +  - power-domains
+> +  - phy-reset
+> +  - phy-gpr
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/imx8mq-clock.h>
+> +    #include <dt-bindings/interconnect/imx8mq.h>
+> +
+> +    mipi_csi1@30a70000 {
 
-How can I be sure by schema that the clocks, reset and phy properties
-are in each port node if I move them from the parent? By now each port
-node is just validating because of ' $ref:
-/schemas/pci/pci-bus.yaml#'.
+csi@...
 
-Thanks in advance for your time.
-
-Best regards,
-    Sergio Paracuellos
-
->
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - ranges
-> > +  - "#interrupt-cells"
-> > +  - interrupt-map-mask
-> > +  - interrupt-map
-> > +  - resets
-> > +  - reset-names
-> > +  - clocks
-> > +  - clock-names
-> > +  - phys
-> > +  - phy-names
-> > +  - reset-gpios
-> > +
-> > +unevaluatedProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +    #include <dt-bindings/interrupt-controller/mips-gic.h>
-> > +
-> > +    pcie: pcie@1e140000 {
-> > +        compatible = "mediatek,mt7621-pci";
-> > +        reg = <0x1e140000 0x100>,
-> > +              <0x1e142000 0x100>,
-> > +              <0x1e143000 0x100>,
-> > +              <0x1e144000 0x100>;
-> > +
-> > +        #address-cells = <3>;
-> > +        #size-cells = <2>;
-> > +        pinctrl-names = "default";
-> > +        pinctrl-0 = <&pcie_pins>;
-> > +        device_type = "pci";
-> > +        ranges = <0x02000000 0 0x00000000 0x60000000 0 0x10000000>,  /* pci memory */
-> > +                 <0x01000000 0 0x00000000 0x1e160000 0 0x00010000>;  /* io space */
-> > +        #interrupt-cells = <1>;
-> > +        interrupt-map-mask = <0xF800 0 0 0>;
-> > +        interrupt-map = <0x0000 0 0 0 &gic GIC_SHARED 4 IRQ_TYPE_LEVEL_HIGH>,
-> > +                        <0x0800 0 0 0 &gic GIC_SHARED 24 IRQ_TYPE_LEVEL_HIGH>,
-> > +                        <0x1000 0 0 0 &gic GIC_SHARED 25 IRQ_TYPE_LEVEL_HIGH>;
-> > +        resets = <&rstctrl 24>, <&rstctrl 25>, <&rstctrl 26>;
-> > +        reset-names = "pcie0", "pcie1", "pcie2";
-> > +        clocks = <&clkctrl 24>, <&clkctrl 25>, <&clkctrl 26>;
-> > +        clock-names = "pcie0", "pcie1", "pcie2";
-> > +        phys = <&pcie0_phy 1>, <&pcie2_phy 0>;
-> > +        phy-names = "pcie-phy0", "pcie-phy2";
-> > +        reset-gpios = <&gpio 19 GPIO_ACTIVE_LOW>;
-> > +
-> > +        pcie@0,0 {
-> > +            reg = <0x0000 0 0 0 0>;
-> > +            #address-cells = <3>;
-> > +            #size-cells = <2>;
-> > +            device_type = "pci";
-> > +            #interrupt-cells = <1>;
-> > +            interrupt-map-mask = <0 0 0 0>;
-> > +            interrupt-map = <0 0 0 0 &gic GIC_SHARED 4 IRQ_TYPE_LEVEL_HIGH>;
-> > +            ranges;
-> > +        };
-> > +
-> > +        pcie@1,0 {
-> > +            reg = <0x0800 0 0 0 0>;
-> > +            #address-cells = <3>;
-> > +            #size-cells = <2>;
-> > +            device_type = "pci";
-> > +            #interrupt-cells = <1>;
-> > +            interrupt-map-mask = <0 0 0 0>;
-> > +            interrupt-map = <0 0 0 0 &gic GIC_SHARED 24 IRQ_TYPE_LEVEL_HIGH>;
-> > +            ranges;
-> > +        };
-> > +
-> > +        pcie@2,0 {
-> > +            reg = <0x1000 0 0 0 0>;
-> > +            #address-cells = <3>;
-> > +            #size-cells = <2>;
-> > +            device_type = "pci";
-> > +            #interrupt-cells = <1>;
-> > +            interrupt-map-mask = <0 0 0 0>;
-> > +            interrupt-map = <0 0 0 0 &gic GIC_SHARED 25 IRQ_TYPE_LEVEL_HIGH>;
-> > +            ranges;
-> > +        };
-> > +    };
-> > +...
-> > --
-> > 2.25.1
+> +        compatible = "fsl,imx8mq-mipi-csi2";
+> +        reg = <0x30a70000 0x1000>; /* MIPI CSI1 Controller base addr */
+> +        clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
+> +                 <&clk IMX8MQ_CLK_CSI1_ESC>,
+> +                 <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
+> +                 <&clk IMX8MQ_CLK_CLKO2>;
+> +        clock-names = "core", "esc", "pxl", "clko2";
+> +        assigned-clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
+> +                          <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
+> +                          <&clk IMX8MQ_CLK_CSI1_ESC>;
+> +        assigned-clock-rates = <266000000>, <200000000>, <66000000>;
+> +        assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
+> +                                 <&clk IMX8MQ_SYS2_PLL_1000M>,
+> +                                 <&clk IMX8MQ_SYS1_PLL_800M>;
+> +        power-domains = <&pgc_mipi_csi1>;
+> +        phy-reset = <&src>;
+> +        phy-gpr = <&iomuxc_gpr>;
+> +        interconnects = <&noc IMX8MQ_ICM_CSI1 &noc IMX8MQ_ICS_DRAM>;
+> +        interconnect-names = "dram";
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                imx8mm_mipi_csi_in: endpoint {
+> +                    remote-endpoint = <&imx477_out>;
+> +                    data-lanes = <1 2 3 4>;
+> +                };
+> +            };
+> +
+> +            port@1 {
+> +                reg = <1>;
+> +
+> +                imx8mm_mipi_csi_out: endpoint {
+> +                    remote-endpoint = <&csi_in>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> -- 
+> 2.30.2
