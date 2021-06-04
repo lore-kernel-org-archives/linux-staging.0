@@ -1,30 +1,45 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5DB70
-	for <linux-staging@lists.linux.dev>; Fri,  4 Jun 2021 13:08:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 89B3561242;
-	Fri,  4 Jun 2021 13:08:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF3A70
+	for <linux-staging@lists.linux.dev>; Fri,  4 Jun 2021 13:08:43 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CECAE613DE;
+	Fri,  4 Jun 2021 13:08:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1622812092;
-	bh=oNNimxSgqlPEsNTwy/gzZkPhSLP95wk4lixKNq/Qjaw=;
+	s=korg; t=1622812123;
+	bh=KI99+JpsSvrw/euAyvNNi9O6oeNyFP4qHjSyCwvSlsc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=G12tOVDootUwZVZFjnqhCOUWLqf4YS124OrMyAiDDiwJ4FWfPerx7Iv4gbSGpfiAa
-	 Xh/ewmBMzd8xKMkM32D6SrAw7Od8DGZv+XI0oUZ90YZSM1muRNwaKevJBqWugD30cj
-	 2ZSLL/yrKyVyJlgp68sUVJVmt2i3l7ydd8b3RMTk=
-Date: Fri, 4 Jun 2021 15:08:04 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Cc: linux-mips@vger.kernel.org, tsbogend@alpha.franken.de,
-	devicetree@vger.kernel.org, matthias.bgg@gmail.com,
-	john@phrozen.org, bhelgaas@google.com, robh+dt@kernel.org,
-	linux-staging@lists.linux.dev, neil@brown.name,
-	ilya.lipnitskiy@gmail.com, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH 3/4] staging: mt7621-pci: remove driver from staging
-Message-ID: <YLoltDsU8ZbD2bQ6@kroah.com>
-References: <20210515124055.22225-1-sergio.paracuellos@gmail.com>
- <20210515124055.22225-4-sergio.paracuellos@gmail.com>
+	b=cwDwX+tS8ztwlxFXP6nshZOawWQO8SbaFMCfrOyqsMPfUX1n8+J2G+RneHWflCh1a
+	 0zkWyZrvDvWeZK1vqjqeP+RkH700F0GLMFks1jb4ATAiivgkZfLSvYzCg1YCWapqJn
+	 myAZfGfHsRR2HCBeVxqGHuLG3Vw5n9gmeLe7IXNc=
+Date: Fri, 4 Jun 2021 15:08:41 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: DENG Qingfang <dqfext@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Andrew Lunn <andrew@lunn.ch>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Landen Chao <Landen.Chao@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Vivien Didelot <vivien.didelot@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-staging@lists.linux.dev, devicetree@vger.kernel.org,
+	netdev@vger.kernel.org, Weijie Gao <weijie.gao@mediatek.com>,
+	Chuanhong Guo <gch981213@gmail.com>,
+	=?iso-8859-1?Q?Ren=E9?= van Dorst <opensource@vdorst.com>,
+	Frank Wunderlich <frank-w@public-files.de>,
+	Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>
+Subject: Re: [PATCH net-next v2 4/4] staging: mt7621-dts: enable MT7530
+ interrupt controller
+Message-ID: <YLol2QFW9XMG57m0@kroah.com>
+References: <20210519033202.3245667-1-dqfext@gmail.com>
+ <20210519033202.3245667-5-dqfext@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -32,13 +47,18 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210515124055.22225-4-sergio.paracuellos@gmail.com>
+In-Reply-To: <20210519033202.3245667-5-dqfext@gmail.com>
 
-On Sat, May 15, 2021 at 02:40:54PM +0200, Sergio Paracuellos wrote:
-> Driver has been moved into its proper place in the
-> kernel 'arch/mips/pci'. Hence, remove it from staging.
+On Wed, May 19, 2021 at 11:32:02AM +0800, DENG Qingfang wrote:
+> Enable MT7530 interrupt controller in the MT7621 SoC.
 > 
-> Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> Signed-off-by: DENG Qingfang <dqfext@gmail.com>
+> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+> Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+> Reviewed-by: Vladimir Oltean <olteanv@gmail.com>
 > ---
+> v1 -> v2:
+> No changes.
+> 
 
 Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
