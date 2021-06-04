@@ -1,33 +1,30 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+Received: from smtprelay.hostedemail.com (smtprelay0150.hostedemail.com [216.40.44.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26D070
-	for <linux-staging@lists.linux.dev>; Fri,  4 Jun 2021 08:33:55 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-60-CDThUlX4PWym1fEgqsJjnA-2; Fri, 04 Jun 2021 09:33:52 +0100
-X-MC-Unique: CDThUlX4PWym1fEgqsJjnA-2
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.18; Fri, 4 Jun 2021 09:33:50 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.018; Fri, 4 Jun 2021 09:33:50 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Joe Perches' <joe@perches.com>, 'Alex Elder' <elder@linaro.org>,
-	'Manikishan Ghantasala' <manikishanghantasala@gmail.com>, Alex Elder
-	<elder@ieee.org>
-CC: Alex Elder <elder@kernel.org>, "greybus-dev@lists.linaro.org"
-	<greybus-dev@lists.linaro.org>, "linux-staging@lists.linux.dev"
-	<linux-staging@lists.linux.dev>, Johan Hovold <johan@kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [greybus-dev] [PATCH] staging: greybus: fixed the coding style,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E0370
+	for <linux-staging@lists.linux.dev>; Fri,  4 Jun 2021 09:43:11 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+	by smtpgrave01.hostedemail.com (Postfix) with ESMTP id C773318046D9B
+	for <linux-staging@lists.linux.dev>; Fri,  4 Jun 2021 08:26:39 +0000 (UTC)
+Received: from omf04.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+	by smtprelay02.hostedemail.com (Postfix) with ESMTP id 285BFDB5C;
+	Fri,  4 Jun 2021 08:26:33 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf04.hostedemail.com (Postfix) with ESMTPA id AD175D1516;
+	Fri,  4 Jun 2021 08:26:31 +0000 (UTC)
+Message-ID: <19651be0dc8706da34658d25195ff122f41ee7c0.camel@perches.com>
+Subject: Re: [greybus-dev] [PATCH] staging: greybus: fixed the coding style,
  labels should not be indented.
-Thread-Topic: [greybus-dev] [PATCH] staging: greybus: fixed the coding style,
- labels should not be indented.
-Thread-Index: AQHXV7uPElUZ9thDckyuMtjnIAGFwKsCzNHA///2ooCAABDyEP//8ZgAgAC7OdD///UyAAACKTmg
-Date: Fri, 4 Jun 2021 08:33:50 +0000
-Message-ID: <a3a2712ee54949db9c22269e07f9f2f5@AcuMS.aculab.com>
+From: Joe Perches <joe@perches.com>
+To: David Laight <David.Laight@ACULAB.COM>, 'Alex Elder' <elder@linaro.org>,
+  'Manikishan Ghantasala' <manikishanghantasala@gmail.com>, Alex Elder
+ <elder@ieee.org>
+Cc: Alex Elder <elder@kernel.org>, "greybus-dev@lists.linaro.org"
+	 <greybus-dev@lists.linaro.org>, "linux-staging@lists.linux.dev"
+	 <linux-staging@lists.linux.dev>, Johan Hovold <johan@kernel.org>, 
+	"linux-kernel@vger.kernel.org"
+	 <linux-kernel@vger.kernel.org>
+Date: Fri, 04 Jun 2021 01:26:30 -0700
+In-Reply-To: <c29b5c97f97b48c894917647915bf510@AcuMS.aculab.com>
 References: <20210602133659.46158-1-manikishanghantasala@gmail.com>
 	 <9a3878fd-3b59-76f5-ddc7-625c66f9fee8@ieee.org>
 	 <CAKzJ-FNW8EPX2oQd1qr5NagnvjtWwvSeuAh8DNLetj11+BJ6RA@mail.gmail.com>
@@ -36,55 +33,51 @@ References: <20210602133659.46158-1-manikishanghantasala@gmail.com>
 	 <e23879ae78404be2b707b550b3029e43@AcuMS.aculab.com>
 	 <10ad30e2-c906-b210-bf0e-5e20b6de1993@linaro.org>
 	 <c29b5c97f97b48c894917647915bf510@AcuMS.aculab.com>
- <19651be0dc8706da34658d25195ff122f41ee7c0.camel@perches.com>
-In-Reply-To: <19651be0dc8706da34658d25195ff122f41ee7c0.camel@perches.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: AD175D1516
+X-Spam-Status: No, score=-2.77
+X-Stat-Signature: wjdyupwsx14pw579haxy5xkypixm9osy
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19fS19ixJkOAeDle8y0KO0ufAQmRER3gi0=
+X-HE-Tag: 1622795191-465470
 
-From: Joe Perches
-> Sent: 04 June 2021 09:27
->=20
-> On Fri, 2021-06-04 at 08:13 +0000, David Laight wrote:
-> > From: Alex Elder
-> > > Sent: 03 June 2021 22:55
-> > ...
-> > > Not necessarily, sizeof(bool) is implementation defined.
-> > > And I thought you didn't think the size of the structure
-> > > was very important...
-> >
-> > It is 'implementation defined' but will be 32 bits on everything
-> > except an old 32bit ARM ABI.
->=20
-> Really? (x86-64)
->=20
-...
-> sizeof _Bool: 1
-> sizeof struct foo: 1
+On Fri, 2021-06-04 at 08:13 +0000, David Laight wrote:
+> From: Alex Elder
+> > Sent: 03 June 2021 22:55
+> ...
+> > Not necessarily, sizeof(bool) is implementation defined.
+> > And I thought you didn't think the size of the structure
+> > was very important...
+> 
+> It is 'implementation defined' but will be 32 bits on everything
+> except an old 32bit ARM ABI.
 
-Gah, not enough coffee.
-I said I don't like _Bool :-)
+Really? (x86-64)
 
-The old arm32 must have had 32bit bool.
+$ gcc -x c -
+#include <stdio.h>
+#include <stdlib.h>
 
-=09David
+struct foo {
+	_Bool b;
+};
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+int main(int argc, char **argv)
+{
+	printf("sizeof _Bool: %zu\n", sizeof(_Bool));
+	printf("sizeof struct foo: %zu\n", sizeof(struct foo));
+	return 0;
+}
+$ ./a.out
+sizeof _Bool: 1
+sizeof struct foo: 1
+
 
