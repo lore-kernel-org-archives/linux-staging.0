@@ -1,41 +1,41 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F7670
-	for <linux-staging@lists.linux.dev>; Sat,  5 Jun 2021 02:09:06 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id h24so17314854ejy.2
-        for <linux-staging@lists.linux.dev>; Fri, 04 Jun 2021 19:09:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A772170
+	for <linux-staging@lists.linux.dev>; Sat,  5 Jun 2021 02:09:08 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id ce15so17276728ejb.4
+        for <linux-staging@lists.linux.dev>; Fri, 04 Jun 2021 19:09:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=QoZwyY0YMTAjuynEGdDFK/kHrkVCqwMZmCiqAO/T6oc=;
-        b=QbxVEgaCh1v88CWkfJOjrIZdsyexbMt7d/1A99c9zBL40fQ9uxn6EvDbj9ZXpkyO82
-         9o5TaptL2Jr6Vpiw1NHb04nzLkSCxGOj6OKKGOQwWG5dZuDZm6eTuiC32Ju93Hgwy6Sn
-         eo2Ge0Qm7UQKCxjbrobnkR9l/3SUyidDRi6cdn2Way9oy0elQBheyFg9jl2hNcaF6QiU
-         2UDuyEgqNl4hPHMoS4BllFKSo1wckKxPtM+ax3+u/RWWM3qUgtKcwIja4nK3ihA1bmwK
-         UgckFLQ2ucIsNeeAp0BQMEbdMQgR2VOOrEa8dVuaoIQVma/u5rc/ij0aHJU4KKvUXiOX
-         ktJQ==
+        bh=lkNfGy1F0k5RDq7SvWZFsIErKoDT4IMXfAXGU4u+NcM=;
+        b=C1YtPn7sDDgG+AcANfGdKZPHQMkCdfHqsy/0Pmo/EYYSiqDuT+ylyJkWym8CjuknVA
+         TBhBKN/u8MhxcHEvYLWtD9iehYp3B5qaBttb67NPwUFqRydzZY/C7NjkEwuCfKT1lcCu
+         mnT0HPrzjmSxFSRfNbUN3kjd5n7nhKpfIh5fUdXRFBH2Kv0NZeHBdBQ4tZ2XiLMWsaDm
+         CvbXqglTQTgzUmWc645pfhBGNSuSZoULFCOnImCjbg6c8jq2xuiGzGlW/Gbnp+q88duy
+         lhgBcJnWH53s3yCFxPB70AG/ZJ/5mcTApO4FUOUgXbwcvaQSMS9c/VoeuWVnXbgNuC2j
+         SMlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=QoZwyY0YMTAjuynEGdDFK/kHrkVCqwMZmCiqAO/T6oc=;
-        b=jUrO6pxjN1h/RNVbyIebnNtaV1gzWlAGWcIRUPeoOwu7+LCS4omGODKTNVGos4/BQO
-         wJzENnPGjDprF0PjDle1MtwQ4IzAnv+DxZoUC03afwU2cKc8j7QowFpxzDDvMo72v9Ho
-         TMRNRjDkHxrQKdwLMfaasmAmNZIAgvKubsgn4FrvarD5CRN0PFIi1GiWEiZKJyXD0G8e
-         TFMmW8DKohsnTnl+XPvxso4FIptQDArJX0AxmsEa1mrn8fb9uzfEizJR70vm3Wp7TfVU
-         iG+0mdX3xcoivoe66158YHwll4Wlw9k1sLJDhZOB7DuEwVa4eBNKpDTlS8RboXdblx2U
-         PVDA==
-X-Gm-Message-State: AOAM531HotUQmMH+OmD2+fxDiL8MlBr81fnx6JtLiZ40kEp9yGGd/BQo
-	/BgrAk/0dbtmazmLr27fCDE=
-X-Google-Smtp-Source: ABdhPJwFyIBQzaujPbaRHCOrVPlhW7gxkQFi6LwKnhuKjhF34suowYfruJICvam4bz/Bf9+88HvITA==
-X-Received: by 2002:a17:906:2c4a:: with SMTP id f10mr6923021ejh.493.1622858944837;
-        Fri, 04 Jun 2021 19:09:04 -0700 (PDT)
+        bh=lkNfGy1F0k5RDq7SvWZFsIErKoDT4IMXfAXGU4u+NcM=;
+        b=dfRT/LvX0fUskKohCK+BLJyEDP6PfZiAiQALCkr5prDOMKeNuxZnGIx1TT7+MUUQcZ
+         Lu8Ezc092Nda6H68OwRv9nmAnRN7sRImqbQcs6SqiDdpNZtvz+QRaYNW8+9Ww7XjkSqR
+         NFpBzCoUrgiqVWaPcCrsSgDSD8B6Aa5NecETGtwV/CFvh08oOqDMhcmODXDJVRKn0znf
+         s2oAE21jMVMlHqF4t321iqTol7oz4NGY6MKvqT29oDkypYDiXAIjtmOWXFxKZ1jAU3Lb
+         M33Q5A7lpKFolKstfCsSe0sVZt6txe5YPkbRWqVwnHkBALazshcDwTKb1HadSqntoTiv
+         tYyQ==
+X-Gm-Message-State: AOAM531uH64G4IbFAroxcNmzFgsxF2YeYmLFxHbO8oA6aWAOq2ZR+cgb
+	vT2Jv6b720jP9qPoa+NnOsI=
+X-Google-Smtp-Source: ABdhPJwvdsYRpYqsHonCA56Y8k350JpsKIxHU6vKvqoz24zXqCN1egvhUkXUXds68gyR7KSU5nfZlg==
+X-Received: by 2002:a17:906:6c88:: with SMTP id s8mr7119605ejr.129.1622858947301;
+        Fri, 04 Jun 2021 19:09:07 -0700 (PDT)
 Received: from linux.local (host-82-59-55-132.retail.telecomitalia.it. [82.59.55.132])
-        by smtp.gmail.com with ESMTPSA id gz5sm3496232ejb.113.2021.06.04.19.09.03
+        by smtp.gmail.com with ESMTPSA id gz5sm3496232ejb.113.2021.06.04.19.09.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jun 2021 19:09:04 -0700 (PDT)
+        Fri, 04 Jun 2021 19:09:07 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -45,9 +45,9 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH v2 1/2] staging: media: atomisp: pci: Remove checks before kfree/kvfree
-Date: Sat,  5 Jun 2021 04:08:54 +0200
-Message-Id: <20210605020855.1065-2-fmdefrancesco@gmail.com>
+Subject: [PATCH v2 2/2] staging: media: atomisp: pci: Remove unnecessary (void *) cast
+Date: Sat,  5 Jun 2021 04:08:55 +0200
+Message-Id: <20210605020855.1065-3-fmdefrancesco@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210605020855.1065-1-fmdefrancesco@gmail.com>
 References: <20210605020855.1065-1-fmdefrancesco@gmail.com>
@@ -58,37 +58,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Removed checks for pointers != NULL before freeing memory. If kvfree()
-and kfree() are given NULL pointers no operations are performed, so
-there is no need for the above-mentioned checks. Coccinelle detected the
-second of the two unnecessary checks.
+Removed an unnecessary (void *) cast for an argument passed to kfree().
 
+Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
 Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
 
-v1 -> v2: Added Acked-by Sakari Alius. No changes in code.
+v1 -> v2: Added this 2/2 patch.
 
- drivers/staging/media/atomisp/pci/sh_css_firmware.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/staging/media/atomisp/pci/sh_css_firmware.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/sh_css_firmware.c b/drivers/staging/media/atomisp/pci/sh_css_firmware.c
-index f4ce8ace9d50..5301cc014c7e 100644
+index 5301cc014c7e..e1a16a50e588 100644
 --- a/drivers/staging/media/atomisp/pci/sh_css_firmware.c
 +++ b/drivers/staging/media/atomisp/pci/sh_css_firmware.c
-@@ -363,10 +363,8 @@ void sh_css_unload_firmware(void)
+@@ -363,7 +363,7 @@ void sh_css_unload_firmware(void)
  		unsigned int i = 0;
  
  		for (i = 0; i < sh_css_num_binaries; i++) {
--			if (fw_minibuffer[i].name)
--				kfree((void *)fw_minibuffer[i].name);
--			if (fw_minibuffer[i].buffer)
--				kvfree(fw_minibuffer[i].buffer);
-+			kfree((void *)fw_minibuffer[i].name);
-+			kvfree(fw_minibuffer[i].buffer);
+-			kfree((void *)fw_minibuffer[i].name);
++			kfree(fw_minibuffer[i].name);
+ 			kvfree(fw_minibuffer[i].buffer);
  		}
  		kfree(fw_minibuffer);
- 		fw_minibuffer = NULL;
 -- 
 2.31.1
 
