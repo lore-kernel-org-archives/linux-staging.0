@@ -1,60 +1,101 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA4C70
-	for <linux-staging@lists.linux.dev>; Sun,  6 Jun 2021 07:13:40 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DAAA5611ED;
-	Sun,  6 Jun 2021 07:13:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1622963620;
-	bh=kKgXqMKBbdsOTgX+oRuQSkCNMTlozOMRdBF9GdCe0Hg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TXnJZroJEikwRaj2EjCXxM6FL0JA5dAOcoFuuVzVZUQ1uHDYIWpV/TQmvV4vJET+B
-	 N1vijX9LU8JBq1fp3Lsbbmp2jUvxgMlvMQPFdsEtwWKDj5dRqQLix6S2/CAS3OXoff
-	 G3nP4obr0z/Krs7QXTEBUAiTmXFcK+kobD7PxoFU=
-Date: Sun, 6 Jun 2021 09:13:37 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Wenli Looi <wlooi@ucalgary.ca>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: Fix uninitialized variable
-Message-ID: <YLx1oWQAFPYIFRkF@kroah.com>
-References: <20210606070021.116284-1-wlooi@ucalgary.ca>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7284470
+	for <linux-staging@lists.linux.dev>; Sun,  6 Jun 2021 07:42:22 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id k7so21260422ejv.12
+        for <linux-staging@lists.linux.dev>; Sun, 06 Jun 2021 00:42:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jEkqcK+ZsCfx0RKoS5sCh6znx6o98CrrxGkDXKRKUsg=;
+        b=H8mSCiPt+rS5B5BvuBtl7dA6LWtO3csDe0YNYRKWYxTr0ervMpKkkZYsW4KCLFJ0/+
+         1XQ+5LhuocKbptJrS1hhqm6GTr9vnZnjnedSRBNtg95k5qdlelAv5rAIEXHFgYsy0H11
+         nbtO4DMfgQOMGSIKjwo4IF3UPY/VvVAPjrEK7WMnFK3C4aD1qhZkFKXDFUW+zD4BKhae
+         320p4HTfVU8PN48ZmK4RcKp9Oa+c0M9Ch1VKI9/95VoQzs3mz1iRwOMJmGl8iIs66TrH
+         F6S3NPo4JZu2HWPJc2dHOaSG+MRd5QepOwTW1HHpXccWJKVkdB2Qzic2jDZc7FIAt26W
+         qAyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jEkqcK+ZsCfx0RKoS5sCh6znx6o98CrrxGkDXKRKUsg=;
+        b=gOHcvAbYhutZZQEaUkZEoJt+WeqM/zbBuLjtdRMJiS3gLHG632ef0ZeZfxAlGTDalM
+         lF4wEiWCAvO8VI/8VpEsUi+ko0WQBpb/nRpswa9AFBX9acmxc87BroKbafrNiRxEOGqd
+         VXQ7zOCimOwxYkrTzycW3BWuOBYAnpWRZW3t1xu/xRtkuqhocBC5QOnphduE1HzWpb3y
+         hGThv4PJLBNY8Ns4Ftg2bUFQqtFDE2DWdxUkt7pDkheF7z1e2bMlzmPV8BhwnsnT+n5X
+         4T193pk85eroyxee8oJuhzDWq7cL/p9ao0uOMTkFs4UGxr3aoonXCnswlnkIiwRiv/Dv
+         GbzQ==
+X-Gm-Message-State: AOAM530nUlz72rmjsf985seiGv7IOZrzgbPr4hAsP5o5bttcRPn971tt
+	823v2O6RmWPhRJ/dJWL99SEBuiwu/6fqdg==
+X-Google-Smtp-Source: ABdhPJw40SprLvulNts0awtG+9BgtWsDCMxmdQDudQ7JpKGhHpkH7YKAyNGgeio/iUWcuwlR9jGqig==
+X-Received: by 2002:a17:906:86d2:: with SMTP id j18mr12202709ejy.180.1622965340965;
+        Sun, 06 Jun 2021 00:42:20 -0700 (PDT)
+Received: from linux.local (host-82-59-55-132.retail.telecomitalia.it. [82.59.55.132])
+        by smtp.gmail.com with ESMTPSA id i15sm5108804ejk.30.2021.06.06.00.42.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Jun 2021 00:42:20 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Joe Perches <joe@perches.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v2] staging: rtl8723bs: os_dep: Remove conditions with no effects
+Date: Sun,  6 Jun 2021 09:42:16 +0200
+Message-Id: <20210606074216.26495-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210606070021.116284-1-wlooi@ucalgary.ca>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jun 06, 2021 at 12:00:21AM -0700, Wenli Looi wrote:
-> Uninitialized struct with invalid pointer causes BUG and prevents access
-> point from working. Access point works once I apply this patch.
-> 
-> https://forum.armbian.com/topic/14727-wifi-ap-kernel-bug-in-kernel-5444/
-> has more details.
-> 
-> Signed-off-by: Wenli Looi <wlooi@ucalgary.ca>
-> ---
->  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> index 2fb80b6eb..7308e1185 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> @@ -2384,7 +2384,7 @@ void rtw_cfg80211_indicate_sta_assoc(struct adapter *padapter, u8 *pmgmt_frame,
->  	DBG_871X(FUNC_ADPT_FMT"\n", FUNC_ADPT_ARG(padapter));
->  
->  	{
-> -		struct station_info sinfo;
-> +		struct station_info sinfo = {};
+Removed conditions with no effects. Detected by Coccinelle.
+It seems that these conditions with no effects had been inadvertently
+left while deleting code that had to be conditionally compiled by 
+unused definition CONFIG_AP_WOWLAN (see commit dc365d2cc579).
 
-What caused this bug to show up?  Did it happen from some other commit?
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
 
-Are you sure that all of the fields are being cleared properly here,
-what about any "holes" in the structure?
+v1 -> v2: Rewrote the changelog according to suggestion by 
+Joe Perches <joe@perches.com>
 
-thanks,
-greg k-h
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index 213ec5b4ce98..2035573ee5a0 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -1187,10 +1187,7 @@ void rtw_suspend_common(struct adapter *padapter)
+ 
+ 	rtw_ps_deny_cancel(padapter, PS_DENY_SUSPEND);
+ 
+-	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE))
+-		rtw_suspend_normal(padapter);
+-	else
+-		rtw_suspend_normal(padapter);
++	rtw_suspend_normal(padapter);
+ 
+ 	netdev_dbg(padapter->pnetdev, "rtw suspend success in %d ms\n",
+ 		   jiffies_to_msecs(jiffies - start_time));
+@@ -1268,11 +1265,7 @@ int rtw_resume_common(struct adapter *padapter)
+ 
+ 	netdev_dbg(padapter->pnetdev, "resume start\n");
+ 
+-	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)) {
+-		rtw_resume_process_normal(padapter);
+-	} else {
+-		rtw_resume_process_normal(padapter);
+-	}
++	rtw_resume_process_normal(padapter);
+ 
+ 	hal_btcoex_SuspendNotify(padapter, 0);
+ 
+-- 
+2.31.1
+
