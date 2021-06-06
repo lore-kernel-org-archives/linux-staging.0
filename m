@@ -1,48 +1,48 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6AE32FAE
-	for <linux-staging@lists.linux.dev>; Sun,  6 Jun 2021 16:14:06 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id b145-20020a1c80970000b029019c8c824054so10967086wmd.5
-        for <linux-staging@lists.linux.dev>; Sun, 06 Jun 2021 09:14:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B25AA70
+	for <linux-staging@lists.linux.dev>; Sun,  6 Jun 2021 16:14:07 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id c5so14557313wrq.9
+        for <linux-staging@lists.linux.dev>; Sun, 06 Jun 2021 09:14:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jb4Bhex5gUom5fja00/hW5UOJa1qIcG3fPQMFzdsrZ8=;
-        b=MAzxu/5REeRwHzqnagejpP/uLb1Wmrq1dsloav5TaUrcZO53GonHITeZsSjgS9QuKz
-         slSuoLNnQVn3xDV7yN33xVUFabCWEg3Enm6iSHDp8K97A0sqMWilImwAcpaMl0D8DyPo
-         cmAbMuTEjwhpBK+AcEU8BI2Qdit+1tYp+/SSyso+XJR5OwrDkBdBHnCt3L5FCfmFH9mw
-         jLjAWOuLDcbMg1gjUM0Yb6zsujTn2dPU0sJ2jb48ucg0C4fLSrDRzrHgQfDNEK1M1UFW
-         f+Pj3wtT3KERO4rsMnjSpfY5K5Yo3im56E5RDZiaSARi8wqeGgwFdofX0XwsHj1pxIlx
-         A6sQ==
+        bh=mviOXDpkO0uZr06Bf+azqSnPzPm3JsohKEvTxt2iPP0=;
+        b=hus3xlMzyk1O10uQF2MDFuHBzfzE3TyPHKro4uskYisPjDf4UNKw+Xvujc8yHtK7xo
+         L/G9X+4R2t5QflL2h5O0kga99wxlWS7oyfnQv5SkG8le1wSVCLai9j1Pi/4L/9th8a00
+         1i30Rf32UnztG0/W1OoKq9CA35v7S+pu7c3UH9MD5r068V7sb0NZfkxOcF4j01f2ELSW
+         rwd8UJFyC4/2vcj7ZEzLCl3qeIzT/2A/bwFOd/F8pWLAjyagSsP985klPj+05lseP2l+
+         m3hW+9S2GavX79luZpaduCpm4Qf5oihXfxZN/A8bZd6ZUpUz7KDtUjc4Yoc20zX4LP89
+         4esA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jb4Bhex5gUom5fja00/hW5UOJa1qIcG3fPQMFzdsrZ8=;
-        b=FuHDgGe2iAEEmFM70daQ7e3HjcKU4qPYdMPar4uT2W4tngVloPxom/II3Jx+EnJt6P
-         qy3dYxUoa5BsAGDN5P3x9JMDVByun2mPXRzQ1XgQYW1fLVrT5pTDpPoW0ubbwT6maPlV
-         QROQof4qf4VURJpuceE6fNnkPE1V0V+1Bqt/wD+7FPZ19Sw5xwkKSgpwMZnMa09f+FXo
-         ommEfDLkjcZUlBXbLum8XCF3oSfbBIvPYdkuAIsFglffdNpoWUVTiH/7BYkFpe+0KcwZ
-         NN9+nCsy3xHXWTCvzDJX3D831IjGtnaKQ1EwMGcAohAiHyQ43KPzYgUA1m1TGLH3hyR0
-         1ryg==
-X-Gm-Message-State: AOAM532KowlPnM+ylDD/RR4N5R2vItimLz/t0FOwAeTbyPYu06tdTDLt
-	6cAPitml/j8tZ1xY93iOhTCTE1is2Z85BA==
-X-Google-Smtp-Source: ABdhPJxwehtYTCpFn049/K+TxDLOFV/tczK0mDVMu6e+QLzn7ZkrrvzaYAFwhUS3wwlOXjlMVIxVNA==
-X-Received: by 2002:a1c:731a:: with SMTP id d26mr12637373wmb.108.1622996045346;
-        Sun, 06 Jun 2021 09:14:05 -0700 (PDT)
+        bh=mviOXDpkO0uZr06Bf+azqSnPzPm3JsohKEvTxt2iPP0=;
+        b=q77SRXIrTA0L29ZTXY+u14g3Ii4W8JKk0CbIADs8A132IX8VhUmTMdy5I8YPvk0Z7j
+         jPQ2eSXs36pnzxW1UCa3q3/mdej7IR+1cQS+8R/XJahdYEvsSMx75R6+yrByc3xoXu+H
+         EDhetOZFu54qa0KPoFUbxCrVsltkaXA7BS5rnuKwLH4uruga8ev7sPz/2Ol06UOLWSh8
+         V+l+bNfTDZpV/UdbvPRWJJ0aRs32ky9icWP5Ac9G5jdUZkYZLV8fyyuqQOWKDewdvD/J
+         TeOOQNZrvX2wzyF4QSc8LuO/TfB1TF317bY9AwuGDL8X5nIhFkvub6rwLx/SRLeYJVKr
+         FeDQ==
+X-Gm-Message-State: AOAM533VGmeNLUeuL89yIzIcsAIswQ2+zdi3sDKdNVMMrj/1Z9YpUHdO
+	aH+cFep3YzuRtdEd1QXEZ//D6oZmAzIiUg==
+X-Google-Smtp-Source: ABdhPJwvKc3B5DuMhPklM8vep1LhQdhktvgGdDMNtmgRVW78bd7UiE9EunGfvcNEoQdnP1+6jxDCZA==
+X-Received: by 2002:adf:d204:: with SMTP id j4mr13296283wrh.3.1622996046084;
+        Sun, 06 Jun 2021 09:14:06 -0700 (PDT)
 Received: from localhost.localdomain (113.red-88-4-247.dynamicip.rima-tde.net. [88.4.247.113])
-        by smtp.gmail.com with ESMTPSA id n9sm11724427wmc.20.2021.06.06.09.14.04
+        by smtp.gmail.com with ESMTPSA id n9sm11724427wmc.20.2021.06.06.09.14.05
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
         Sun, 06 Jun 2021 09:14:05 -0700 (PDT)
 From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
 	neil@brown.name
-Subject: [PATCH v2 5/6] staging: mt7621-pci: parse some dt properties from root port child nodes
-Date: Sun,  6 Jun 2021 18:13:57 +0200
-Message-Id: <20210606161358.7114-6-sergio.paracuellos@gmail.com>
+Subject: [PATCH v2 6/6] staging: mt7621-pci: make use of 'pcie_port_write'
+Date: Sun,  6 Jun 2021 18:13:58 +0200
+Message-Id: <20210606161358.7114-7-sergio.paracuellos@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210606161358.7114-1-sergio.paracuellos@gmail.com>
 References: <20210606161358.7114-1-sergio.paracuellos@gmail.com>
@@ -53,68 +53,57 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Properties 'clocks', 'resets' and 'phys' have been moved from parent
-node to the root port children. Hence we have to adapt the way device
-tree is parsed in driver code to properly align things and make all
-the stuff work.
+Function 'mt7621_pcie_enable_port' is calculating an offset
+to write some port related registers. Instead of doing that
+just make use of already existent 'pcie_write_port' function
+and use virtualy mapped base address with registers. This
+increase readability and allow us to remove also two defitions
+not used else where.
 
 Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 ---
- drivers/staging/mt7621-pci/pci-mt7621.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ drivers/staging/mt7621-pci/pci-mt7621.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/staging/mt7621-pci/pci-mt7621.c b/drivers/staging/mt7621-pci/pci-mt7621.c
-index 8d14d0f9f769..a88ca98aeb9a 100644
+index a88ca98aeb9a..2e1cd5cc1eec 100644
 --- a/drivers/staging/mt7621-pci/pci-mt7621.c
 +++ b/drivers/staging/mt7621-pci/pci-mt7621.c
-@@ -290,6 +290,7 @@ static int mt7621_pci_parse_request_of_pci_ranges(struct pci_host_bridge *host)
- }
+@@ -44,9 +44,6 @@
+ #define RALINK_PCI_IOBASE		0x002C
  
- static int mt7621_pcie_parse_port(struct mt7621_pcie *pcie,
-+				  struct device_node *node,
- 				  int slot)
+ /* PCIe RC control registers */
+-#define MT7621_PCIE_OFFSET		0x2000
+-#define MT7621_NEXT_PORT		0x1000
+-
+ #define RALINK_PCI_ID			0x0030
+ #define RALINK_PCI_CLASS		0x0034
+ #define RALINK_PCI_SUBID		0x0038
+@@ -484,7 +481,6 @@ static void mt7621_pcie_enable_port(struct mt7621_pcie_port *port)
  {
- 	struct mt7621_pcie_port *port;
-@@ -305,24 +306,24 @@ static int mt7621_pcie_parse_port(struct mt7621_pcie *pcie,
- 	if (IS_ERR(port->base))
- 		return PTR_ERR(port->base);
+ 	struct mt7621_pcie *pcie = port->pcie;
+ 	u32 slot = port->slot;
+-	u32 offset = MT7621_PCIE_OFFSET + (slot * MT7621_NEXT_PORT);
+ 	u32 val;
  
--	snprintf(name, sizeof(name), "pcie%d", slot);
--	port->clk = devm_clk_get(dev, name);
-+	port->clk = devm_get_clk_from_child(dev, node, NULL);
- 	if (IS_ERR(port->clk)) {
- 		dev_err(dev, "failed to get pcie%d clock\n", slot);
- 		return PTR_ERR(port->clk);
- 	}
+ 	/* enable pcie interrupt */
+@@ -493,12 +489,12 @@ static void mt7621_pcie_enable_port(struct mt7621_pcie_port *port)
+ 	pcie_write(pcie, val, RALINK_PCI_PCIMSK_ADDR);
  
--	snprintf(name, sizeof(name), "pcie%d", slot);
--	port->pcie_rst = devm_reset_control_get_exclusive(dev, name);
-+	port->pcie_rst = of_reset_control_get_exclusive(node, NULL);
- 	if (PTR_ERR(port->pcie_rst) == -EPROBE_DEFER) {
- 		dev_err(dev, "failed to get pcie%d reset control\n", slot);
- 		return PTR_ERR(port->pcie_rst);
- 	}
+ 	/* map 2G DDR region */
+-	pcie_write(pcie, PCIE_BAR_MAP_MAX | PCIE_BAR_ENABLE,
+-		   offset + PCI_BASE_ADDRESS_0);
++	pcie_port_write(port, PCIE_BAR_MAP_MAX | PCIE_BAR_ENABLE,
++			PCI_BASE_ADDRESS_0);
  
- 	snprintf(name, sizeof(name), "pcie-phy%d", slot);
--	port->phy = devm_phy_get(dev, name);
--	if (IS_ERR(port->phy) && slot != 1)
-+	port->phy = devm_of_phy_get(dev, node, name);
-+	if (IS_ERR(port->phy)) {
-+		dev_err(dev, "failed to get pcie-phy%d\n", slot);
- 		return PTR_ERR(port->phy);
-+	}
+ 	/* configure class code and revision ID */
+-	pcie_write(pcie, PCIE_CLASS_CODE | PCIE_REVISION_ID,
+-		   offset + RALINK_PCI_CLASS);
++	pcie_port_write(port, PCIE_CLASS_CODE | PCIE_REVISION_ID,
++			RALINK_PCI_CLASS);
  
- 	port->gpio_rst = devm_gpiod_get_index_optional(dev, "reset", slot,
- 						       GPIOD_OUT_LOW);
-@@ -363,7 +364,7 @@ static int mt7621_pcie_parse_dt(struct mt7621_pcie *pcie)
- 
- 		slot = PCI_SLOT(err);
- 
--		err = mt7621_pcie_parse_port(pcie, slot);
-+		err = mt7621_pcie_parse_port(pcie, child, slot);
- 		if (err) {
- 			of_node_put(child);
- 			return err;
+ 	/* configure RC FTS number to 250 when it leaves L0s */
+ 	val = read_config(pcie, slot, PCIE_FTS_NUM);
 -- 
 2.25.1
 
