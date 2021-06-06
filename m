@@ -1,109 +1,173 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CAN01-TO1-obe.outbound.protection.outlook.com (mail-eopbgr670075.outbound.protection.outlook.com [40.107.67.75])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B25AA70
-	for <linux-staging@lists.linux.dev>; Sun,  6 Jun 2021 16:14:07 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id c5so14557313wrq.9
-        for <linux-staging@lists.linux.dev>; Sun, 06 Jun 2021 09:14:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=mviOXDpkO0uZr06Bf+azqSnPzPm3JsohKEvTxt2iPP0=;
-        b=hus3xlMzyk1O10uQF2MDFuHBzfzE3TyPHKro4uskYisPjDf4UNKw+Xvujc8yHtK7xo
-         L/G9X+4R2t5QflL2h5O0kga99wxlWS7oyfnQv5SkG8le1wSVCLai9j1Pi/4L/9th8a00
-         1i30Rf32UnztG0/W1OoKq9CA35v7S+pu7c3UH9MD5r068V7sb0NZfkxOcF4j01f2ELSW
-         rwd8UJFyC4/2vcj7ZEzLCl3qeIzT/2A/bwFOd/F8pWLAjyagSsP985klPj+05lseP2l+
-         m3hW+9S2GavX79luZpaduCpm4Qf5oihXfxZN/A8bZd6ZUpUz7KDtUjc4Yoc20zX4LP89
-         4esA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=mviOXDpkO0uZr06Bf+azqSnPzPm3JsohKEvTxt2iPP0=;
-        b=q77SRXIrTA0L29ZTXY+u14g3Ii4W8JKk0CbIADs8A132IX8VhUmTMdy5I8YPvk0Z7j
-         jPQ2eSXs36pnzxW1UCa3q3/mdej7IR+1cQS+8R/XJahdYEvsSMx75R6+yrByc3xoXu+H
-         EDhetOZFu54qa0KPoFUbxCrVsltkaXA7BS5rnuKwLH4uruga8ev7sPz/2Ol06UOLWSh8
-         V+l+bNfTDZpV/UdbvPRWJJ0aRs32ky9icWP5Ac9G5jdUZkYZLV8fyyuqQOWKDewdvD/J
-         TeOOQNZrvX2wzyF4QSc8LuO/TfB1TF317bY9AwuGDL8X5nIhFkvub6rwLx/SRLeYJVKr
-         FeDQ==
-X-Gm-Message-State: AOAM533VGmeNLUeuL89yIzIcsAIswQ2+zdi3sDKdNVMMrj/1Z9YpUHdO
-	aH+cFep3YzuRtdEd1QXEZ//D6oZmAzIiUg==
-X-Google-Smtp-Source: ABdhPJwvKc3B5DuMhPklM8vep1LhQdhktvgGdDMNtmgRVW78bd7UiE9EunGfvcNEoQdnP1+6jxDCZA==
-X-Received: by 2002:adf:d204:: with SMTP id j4mr13296283wrh.3.1622996046084;
-        Sun, 06 Jun 2021 09:14:06 -0700 (PDT)
-Received: from localhost.localdomain (113.red-88-4-247.dynamicip.rima-tde.net. [88.4.247.113])
-        by smtp.gmail.com with ESMTPSA id n9sm11724427wmc.20.2021.06.06.09.14.05
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 06 Jun 2021 09:14:05 -0700 (PDT)
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	neil@brown.name
-Subject: [PATCH v2 6/6] staging: mt7621-pci: make use of 'pcie_port_write'
-Date: Sun,  6 Jun 2021 18:13:58 +0200
-Message-Id: <20210606161358.7114-7-sergio.paracuellos@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 919FD70
+	for <linux-staging@lists.linux.dev>; Sun,  6 Jun 2021 18:49:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jaMLQBoBu5xSusOz4yUm4vidGyx2p1sqKGW/x3s2TxaAUdTnqx5ewMzMJGoT7sRkNrZqjK020NsfoefiOPIGVcDiXLpT6v4WaiKcuIWydUphc97rXoB2cj+EsrmcoSOmK4XGX4du7Y2OiK2SquGtNeo63SMMnxk5mRljuE/h/ectL1HIGuzzbJTOeykdBHZ+WdtuxqJWQ3ePZvy0hvD70dRE8JQC7+TELYE4HzIunQ6brDpB8Kf9RTCbig/5Xcqt2w9N0uS+L8H3yPzerFpxJKQkWisR/bToFVuicVsvF5gLqhmuBIJRHTMv9zp4sBTcap2IZOZwWu4CQWrp08H7Bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qaK3biLen1IXRRuqS92pil2ao1Ex6ZLfexBKTHjRHE4=;
+ b=a16mcTrQATNQNIPdN3loZK45OeakVNHb4nj++Dp7cPMy/p0abPtMYNCcHwaY4W/Xy3N+P/9BQ9zQQccfYFYgL2eX9pGo5tJoR9M+xIeeUrx2Yidw3rLCVi46O3Yci0/C3uITL9beojLxbf5T/sHkixNGFoVBB68Zg5d976AostKUsaiRFiqVGkqvZZppXL/9JY77kaK+IhqPKJQ+4P8RLgd+76Z4Vrguj7DwGNprFSqSdYXZNeJhapRbFeqo6KRAmJ6w8vzHqJwqfFbrDyOv1CNpVL68KkAhy9WN7lFdBfioi6ql8uG284U96BcVKI7ugFnQjotlJd1kzyyek6OwHA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ucalgary.ca; dmarc=pass action=none header.from=ucalgary.ca;
+ dkim=pass header.d=ucalgary.ca; arc=none
+Authentication-Results: linuxfoundation.org; dkim=none (message not signed)
+ header.d=none;linuxfoundation.org; dmarc=none action=none
+ header.from=ucalgary.ca;
+Received: from YTBPR01MB3310.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:16::19)
+ by YTOPR0101MB1051.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:25::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.29; Sun, 6 Jun
+ 2021 18:49:13 +0000
+Received: from YTBPR01MB3310.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::d0c6:4f06:64a4:5986]) by YTBPR01MB3310.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::d0c6:4f06:64a4:5986%6]) with mapi id 15.20.4195.030; Sun, 6 Jun 2021
+ 18:49:13 +0000
+From: Wenli Looi <wlooi@ucalgary.ca>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Wenli Looi <wlooi@ucalgary.ca>
+Subject: [PATCH v2] staging: rtl8723bs: Fix uninitialized variable
+Date: Sun,  6 Jun 2021 11:46:38 -0700
+Message-Id: <20210606184638.13650-1-wlooi@ucalgary.ca>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210606161358.7114-1-sergio.paracuellos@gmail.com>
-References: <20210606161358.7114-1-sergio.paracuellos@gmail.com>
+In-Reply-To: <7256195.zb9d8qvCYo@linux.local>
+References: <7256195.zb9d8qvCYo@linux.local>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [73.63.255.0]
+X-ClientProxiedBy: SJ0PR03CA0020.namprd03.prod.outlook.com
+ (2603:10b6:a03:33a::25) To YTBPR01MB3310.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:16::19)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (73.63.255.0) by SJ0PR03CA0020.namprd03.prod.outlook.com (2603:10b6:a03:33a::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.20 via Frontend Transport; Sun, 6 Jun 2021 18:49:12 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 60e3483f-509f-4c01-b0ad-08d9291bc706
+X-MS-TrafficTypeDiagnostic: YTOPR0101MB1051:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS:
+	<YTOPR0101MB10517B5EBBA4B295D534DD58B2399@YTOPR0101MB1051.CANPRD01.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	Aivn5USlIepGgxI7k4xab9jlOoWss77STj4oAe1jEukyJjohQjFhesTTL2W6YnETO0b0mmITXxC0eoNJ7vOutFtWNQOZE5WI5VfEivtHGNkJzpJhVSi+KXBNarMcYc/695UsW+fujaAS8cNTtCmrfZZbJQOU/yFAJ4im7Fwt2rm4OLDnXReOAWDMlWGg9WZTuznX/gZuwUTRRJrew4UzLK9h1vYUdwEJ84SqUGAxhu+TLkX7Efg82KlCWHbj5Y1jHVVejxsm71c+D1jNpzcmcP7Syhs9IU6csGEx15RTFd1jQQwoipH+4awQHqRauPtudqvW+nfsFGxbedcq/6ug/Bj92zZYF3jrdj8tD9mjNSvQSfuaVfcgB5sJvwQff1vuuAxCFuAT+7Zj1QXzzWa0YaRCEq26Pg/EMt6dAogGH1ZFYWCDgXerorSGdUSar8qpRMrmvVfU2yeuBUBbOuUbemawC78K0n3ogXrjGi6uIsTSib6f3Og7qsszEec9pogIBGSivLzOPwmZZh5DeksCSLxeV3Qm61twndGE3LoR7Z9HN7c7+reJDXBvTpySeJY4MUoznt8mZB6KH3JML/cSZTsUQDxv0FjmoDgHe4KxG6fMMkt01WahIRH3dniMBKo+kPlRUQJClI7CSX4pHcThiTNNfn6qDzF5YaW+ZxV3w560R1UsJFS3MeecY3zL33z4gVjHdb2vGblIKIespxM7ev2gZ6FRstZQ0+3Tt+z9gAZxYE/uWPbFN9dd0DUtNnc0Pz2wmXAD14bVB9qHcDgIxX/fKqzR5Qy0AJMoxSsK3YUd/9szOkVIPsT1QPhAQnnBod74U8dZhhorfhzf407xhw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YTBPR01MB3310.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(396003)(136003)(376002)(39860400002)(366004)(346002)(956004)(5660300002)(478600001)(107886003)(110136005)(66556008)(66476007)(8676002)(86362001)(26005)(8936002)(16526019)(186003)(6506007)(38100700002)(38350700002)(966005)(52116002)(36756003)(786003)(4326008)(316002)(66946007)(83380400001)(2616005)(6666004)(2906002)(1076003)(6512007)(6486002)(69590400013);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData:
+	=?us-ascii?Q?t2akjpib55udfwZ9u9n6JJS/vQVrexHmS+0JcLy0heb528XckAMtKXKUF3La?=
+ =?us-ascii?Q?uZ661riwU804g5atVA3+goH534JKOa4wLg5y91oPxsFWp9xtHn7btbh3Oo/8?=
+ =?us-ascii?Q?kLwRkItlV5GPwJaxIK4bHFsWxZRMZBLfPyUCum3dph1Y76NBrPK8WrYG8jsx?=
+ =?us-ascii?Q?OTdd1ZU0oAtYHdiYzhRJHNk/X0red0zd3IF67EAHBw3BbGavuhCDanDsuJOZ?=
+ =?us-ascii?Q?1cfe3sopSlt/BA9xV2Ip5lUY0GhoBUwmdflDZeLurJUDIAKAdEiqVRM+Lw6Y?=
+ =?us-ascii?Q?2X5CVGWW28O2+wdIdsN86UwrklhL7QJLL5qUatZ1ox/mqDr3ZOwPpOKBJ0xq?=
+ =?us-ascii?Q?1m+NGyok35gcQJOSpWQyHaT/C/QVFNA/czjDbp0O/HOBEKXcrLHEpq3YBppW?=
+ =?us-ascii?Q?7Dtk8psUygHZY34pqQvm+bcm3x1JlFgZYBaDyNn9CbADr7gREBL7lPlgC08n?=
+ =?us-ascii?Q?NYpc6ep29RYqDWwkabD+jPZO6fvaujw1wFwVnqLMSb+1ZuAMlEkD7YC4FYIz?=
+ =?us-ascii?Q?kLXmsD18rOxiGJm7CgkKdDkpTDY72vcdtzPwngSpLFlHJMfO2V8LhY4AO1HW?=
+ =?us-ascii?Q?OSoBRmKj7Q3qmB5smuQbyXS/oG26eCqogN7neVS+ezKUDVz7hIUB5l6OJn3p?=
+ =?us-ascii?Q?NHhwJlBLbbdQOmtoNolJh+x6bbeNQGmqy0+Kv1tQA1pwmw8/5arxp7aBgvsj?=
+ =?us-ascii?Q?yFw4cNMuK9min9zEBX1KO1isdlMwfDPDedzvFDFCY/Flge543rK+u/q9CbfT?=
+ =?us-ascii?Q?KnqsA7BN1vK/qiaQRnyZgbXBRITM9ZJHbtQj8XE8I50ihk7i+pgHBmN16nTf?=
+ =?us-ascii?Q?gXdH417TfZSmIwqY/hStdB2whKYgY/q3Ct2jDivA/9Y+1gsAxd5FPYNvtPmY?=
+ =?us-ascii?Q?7xJlUNppF8vfkZf6vnnfCCBNdgC9YvXeRLXOQvOw4YtbnM74kQnJgrp0F9Aw?=
+ =?us-ascii?Q?xQl176AF9K9avT7TBFtuO5IegWXRXhHATsxF09uelxqHVa3zvKIFqpd9VKxY?=
+ =?us-ascii?Q?U5mD8lZUrRj46CaDSyQY32pnRhKbfNwfS4uiRTea4ZytWJ7vHvyOOM82o4YA?=
+ =?us-ascii?Q?/5Jp2WbGWUzVzotk2+/STcInkRsF+uMd7BrTquXWZZs74/I8HFFkFFseOH4M?=
+ =?us-ascii?Q?1c5jaCvUVjQn3woVgHRU6zesr/sRu+khySZmZp1aTwZOnIfDRNT5ZB+QcMuk?=
+ =?us-ascii?Q?7NvPZaeEVDzTSi6Ed9EuBWz1e3LZp50QuGuy+ZjMpMip16xm24P2ylB8JiI0?=
+ =?us-ascii?Q?2KVkx2BLiNwGBxClgA2u9yQMwLNcxrXYnF/20+XH5dcla7VQ+JB1AyD816F9?=
+ =?us-ascii?Q?bsl1F72SYbXwmbRdaqaVpiV3?=
+X-OriginatorOrg: ucalgary.ca
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60e3483f-509f-4c01-b0ad-08d9291bc706
+X-MS-Exchange-CrossTenant-AuthSource: YTBPR01MB3310.CANPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2021 18:49:13.5652
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c609a0ec-a5e3-4631-9686-192280bd9151
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8oXldkt6SNdhOh0qIa33paPHkYOtfzawkVAUDfPTw4O0L9eVx18tN6cC83yKyhjCbdJpEBHo3Tq/NuMOzM/7ag==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YTOPR0101MB1051
 
-Function 'mt7621_pcie_enable_port' is calculating an offset
-to write some port related registers. Instead of doing that
-just make use of already existent 'pcie_write_port' function
-and use virtualy mapped base address with registers. This
-increase readability and allow us to remove also two defitions
-not used else where.
+Uninitialized struct with invalid pointer causes BUG and prevents access
+point from working. Access point works once I apply this patch.
 
-Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+This problem seems to have been present from the time the driver was
+added to staging. Most users probably do not use access point so they
+will not encounter this bug.
+
+https://forum.armbian.com/topic/14727-wifi-ap-kernel-bug-in-kernel-5444/
+has more details.
+
+kzalloc() seems to be what other drivers are doing in the same situation
+of creating struct station_info and calling cfg80211_new_sta.  In
+particular, other drivers like ath6kl and mwifiex will silently return
+when kzalloc fails, so this seems like the right behavior. (mwifiex
+returns -ENOMEM from the place kzalloc is called, but if you follow the
+chain of calls, the return value is ultimately ignored)
+
+Links to same situation in other drivers:
+https://github.com/torvalds/linux/blob/f5b6eb1e018203913dfefcf6fa988649ad11ad6e/drivers/net/wireless/ath/ath6kl/main.c#L488
+https://github.com/torvalds/linux/blob/f5b6eb1e018203913dfefcf6fa988649ad11ad6e/drivers/net/wireless/marvell/mwifiex/uap_event.c#L120
+
+Signed-off-by: Wenli Looi <wlooi@ucalgary.ca>
 ---
- drivers/staging/mt7621-pci/pci-mt7621.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/mt7621-pci/pci-mt7621.c b/drivers/staging/mt7621-pci/pci-mt7621.c
-index a88ca98aeb9a..2e1cd5cc1eec 100644
---- a/drivers/staging/mt7621-pci/pci-mt7621.c
-+++ b/drivers/staging/mt7621-pci/pci-mt7621.c
-@@ -44,9 +44,6 @@
- #define RALINK_PCI_IOBASE		0x002C
- 
- /* PCIe RC control registers */
--#define MT7621_PCIE_OFFSET		0x2000
--#define MT7621_NEXT_PORT		0x1000
--
- #define RALINK_PCI_ID			0x0030
- #define RALINK_PCI_CLASS		0x0034
- #define RALINK_PCI_SUBID		0x0038
-@@ -484,7 +481,6 @@ static void mt7621_pcie_enable_port(struct mt7621_pcie_port *port)
+v1 -> v2: Switched from large stack variable to kzalloc
+---
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 28 ++++++++++---------
+ 1 file changed, 15 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index 9a6e47877..3bc498558 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -2082,20 +2082,22 @@ static int cfg80211_rtw_flush_pmksa(struct wiphy *wiphy,
+ void rtw_cfg80211_indicate_sta_assoc(struct adapter *padapter, u8 *pmgmt_frame, uint frame_len)
  {
- 	struct mt7621_pcie *pcie = port->pcie;
- 	u32 slot = port->slot;
--	u32 offset = MT7621_PCIE_OFFSET + (slot * MT7621_NEXT_PORT);
- 	u32 val;
+ 	struct net_device *ndev = padapter->pnetdev;
++	struct station_info *sinfo;
++	u8 ie_offset;
  
- 	/* enable pcie interrupt */
-@@ -493,12 +489,12 @@ static void mt7621_pcie_enable_port(struct mt7621_pcie_port *port)
- 	pcie_write(pcie, val, RALINK_PCI_PCIMSK_ADDR);
+-	{
+-		struct station_info sinfo;
+-		u8 ie_offset;
+-		if (GetFrameSubType(pmgmt_frame) == WIFI_ASSOCREQ)
+-			ie_offset = _ASOCREQ_IE_OFFSET_;
+-		else /*  WIFI_REASSOCREQ */
+-			ie_offset = _REASOCREQ_IE_OFFSET_;
+-
+-		sinfo.filled = 0;
+-		sinfo.assoc_req_ies = pmgmt_frame + WLAN_HDR_A3_LEN + ie_offset;
+-		sinfo.assoc_req_ies_len = frame_len - WLAN_HDR_A3_LEN - ie_offset;
+-		cfg80211_new_sta(ndev, GetAddr2Ptr(pmgmt_frame), &sinfo, GFP_ATOMIC);
+-	}
++	sinfo = kzalloc(sizeof(*sinfo), GFP_KERNEL);
++	if (!sinfo)
++		return;
++
++	if (GetFrameSubType(pmgmt_frame) == WIFI_ASSOCREQ)
++		ie_offset = _ASOCREQ_IE_OFFSET_;
++	else /*  WIFI_REASSOCREQ */
++		ie_offset = _REASOCREQ_IE_OFFSET_;
++
++	sinfo->assoc_req_ies = pmgmt_frame + WLAN_HDR_A3_LEN + ie_offset;
++	sinfo->assoc_req_ies_len = frame_len - WLAN_HDR_A3_LEN - ie_offset;
++	cfg80211_new_sta(ndev, GetAddr2Ptr(pmgmt_frame), sinfo, GFP_ATOMIC);
++	kfree(sinfo);
+ }
  
- 	/* map 2G DDR region */
--	pcie_write(pcie, PCIE_BAR_MAP_MAX | PCIE_BAR_ENABLE,
--		   offset + PCI_BASE_ADDRESS_0);
-+	pcie_port_write(port, PCIE_BAR_MAP_MAX | PCIE_BAR_ENABLE,
-+			PCI_BASE_ADDRESS_0);
- 
- 	/* configure class code and revision ID */
--	pcie_write(pcie, PCIE_CLASS_CODE | PCIE_REVISION_ID,
--		   offset + RALINK_PCI_CLASS);
-+	pcie_port_write(port, PCIE_CLASS_CODE | PCIE_REVISION_ID,
-+			RALINK_PCI_CLASS);
- 
- 	/* configure RC FTS number to 250 when it leaves L0s */
- 	val = read_config(pcie, slot, PCIE_FTS_NUM);
+ void rtw_cfg80211_indicate_sta_disassoc(struct adapter *padapter, unsigned char *da, unsigned short reason)
 -- 
 2.25.1
 
