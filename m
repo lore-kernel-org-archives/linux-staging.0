@@ -1,158 +1,144 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1638A70;
-	Sun,  6 Jun 2021 08:23:40 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id c10so21359178eja.11;
-        Sun, 06 Jun 2021 01:23:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B1970
+	for <linux-staging@lists.linux.dev>; Sun,  6 Jun 2021 08:46:01 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id g8so21482379ejx.1
+        for <linux-staging@lists.linux.dev>; Sun, 06 Jun 2021 01:46:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ckHIT+W+zFdzF0pdvXxvN2EcXoFnHIBls4vcXGLYoGY=;
-        b=LU58Y66UQ9FitfV6F/zH772RT9rVk1M9TCGwX2oEhpI4rXAHoIw0OPVl4OJ1WTMY4n
-         JDpht2Wjw+RwsgesIQObYGC5wk0NUhq/Pk+qnI6pkXG8GmaAnErP4fSR8IWx+d4ke2Ya
-         HIQdgTN62PvP/mWxrvmbVuIHZ/qTzuADinlXKupdjLFwsg5SYAr//OUZtsKslDZcVTD6
-         ytvHsN/vClD9RKVTqbTXCQbboJl3uopVYSHmoXJB8Bp9A/S4Q8/5pGWb02bt1C0AQ5Hd
-         Jxrol1ybnNTP3LxpxJFndvn8Pf4uByKrbvQ5p0Lrn2fhvDWXVG7BXWwtdmk7WOrKomrK
-         yy1w==
+        bh=wvh6MEtvVWMlRewCXrhxu3/PUZtiVlDvYPuCTtfaY8g=;
+        b=MoyoSqG508f5ZZdMrDqrIv4nTOOy8hGTiZci9eV5WtN65+mdFvyEvtwGg96r2D12Yo
+         BSWQ3mqy+FZT6xUYewMrRfO5sKLUyLJK2YzuUhWnhKau4naipGVNoUYgUQS/cNst8ARZ
+         /yMzXxQO60ty7pZLJaoxIxqkcdCKaq0i/XgZQP39OVybgT99juvBoZplBXlKeSgMHw3e
+         HrdY3/9KsQSz1qbsDi/xLTvPTlc2rn7nzz5+x9Ly8UUb9OtM0X0Mmn6OdVUrZ3wHBAXq
+         FOBQz4UA6XrV5i6Lc92EJklui9gpZN3XgopVwvJSC4OhHC4qyyqVGcvnbLaEHSKtHC3U
+         z5Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ckHIT+W+zFdzF0pdvXxvN2EcXoFnHIBls4vcXGLYoGY=;
-        b=tCBiS7WdPypfopaZtsSTJ1mUF2Wx0R12m1QkXx/u/D3xKAdmO0CEcMdMIKJdsHVBoh
-         iCrXtK3PnxhELY17hUo54CJ9k2ebsx2s7UsqIARh1B6MrDMjR0I8Tqwuloc5MQAOFIKq
-         JQZuEnAA2fqaL8+7DPW9zwgRZeOVik9cU5Kb77q54BSg4CERd7nEmXCB3Ew0+wKqVm8z
-         aGD4dFkaXSgVyE65c4uxsYKGPqlk2s0uJzKNZVJNyPx0O4y/fd7B6MQ/Eg33kO7KqZ9P
-         fS9ODVgNefCTqUqnVjXtVoYCuvvAKK6auf5tHrEUPLdxabvzAPT91mlWcaI9C/z6fHnl
-         2uyA==
-X-Gm-Message-State: AOAM532OkvDaVKLwUAjAzfoiH21zJ86wNSwTKhFaJB7RBS7GfetDGp7/
-	HkzX7RBFdTw6BSgx7ZBJ+58=
-X-Google-Smtp-Source: ABdhPJw1X2nuGFVnO9OCSUzei4cPO5JAv5OhSvfeDHG7Se/qVMnOjKe9TTZzzbz7LUdrSmuRs9dL/g==
-X-Received: by 2002:a17:906:2ec6:: with SMTP id s6mr12422415eji.65.1622967818617;
-        Sun, 06 Jun 2021 01:23:38 -0700 (PDT)
-Received: from kista.localdomain (cpe-86-58-17-133.cable.triera.net. [86.58.17.133])
-        by smtp.gmail.com with ESMTPSA id y1sm4945908ejl.7.2021.06.06.01.23.37
+        bh=wvh6MEtvVWMlRewCXrhxu3/PUZtiVlDvYPuCTtfaY8g=;
+        b=EiOFIJwFLrL8BTQqeolTsENAsuUCZ7ohQh3taJcdoUB9oOCkBP8VLpX970I6Iyf0rZ
+         jI2CtfJAFg9hbmXmfWY8WcSrd7fxknD+QcYHTbVo+QniURR29keuAnhOVFdpiSoUCyq9
+         5t54HfiekSB3VFt0dd95X6qFwai/7gaAkXUDzWw40ykVp21BhtbFPA2wFlhVWKy/OX+D
+         6Tuh0K3sEios3ypn1r+0hwWjRfk287iI5Fwp9MfyefVx7iiEfoOPh+zMPRlxksWlvapz
+         j59BskHATwyeGFPOzwyvxjrHGZ4ocU5sjrwQ0ZhGwasl551yBfI7f/US3NNC0arM2yGX
+         mIFA==
+X-Gm-Message-State: AOAM531yMJg2NMDGnRn4iRg1PrY4J33bNO/Wg5lUmTs5fyKCYVsfC8MA
+	MUI6PKazWkB47YkSa/P7J4M=
+X-Google-Smtp-Source: ABdhPJx7IY22Uwds+zWFhKE84x/W9uv4or3bZjOkRn3IvfVAttKz3pPm2AIeJCGC+MRKGVWXq8Zfew==
+X-Received: by 2002:a17:906:3016:: with SMTP id 22mr12459078ejz.28.1622969159887;
+        Sun, 06 Jun 2021 01:45:59 -0700 (PDT)
+Received: from linux.local (host-82-59-55-132.retail.telecomitalia.it. [82.59.55.132])
+        by smtp.gmail.com with ESMTPSA id f21sm6101770edr.45.2021.06.06.01.45.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Jun 2021 01:23:38 -0700 (PDT)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	paul.kocialkowski@bootlin.com
-Cc: mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	wens@csie.org,
-	hverkuil-cisco@xs4all.nl,
-	ezequiel@collabora.com,
-	benjamin.gaignard@collabora.com,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 2/2] media: cedrus: hevc: Add support for multiple slices
-Date: Sun,  6 Jun 2021 10:23:14 +0200
-Message-Id: <20210606082314.454193-3-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210606082314.454193-1-jernej.skrabec@gmail.com>
-References: <20210606082314.454193-1-jernej.skrabec@gmail.com>
+        Sun, 06 Jun 2021 01:45:59 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Wenli Looi <wlooi@ucalgary.ca>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: Fix uninitialized variable
+Date: Sun, 06 Jun 2021 10:45:58 +0200
+Message-ID: <7256195.zb9d8qvCYo@linux.local>
+In-Reply-To: <CAKe_nd0fNE=+CP4O0cUtOPO5vRC8_gHxjLtH80r_4GO2MW5u4g@mail.gmail.com>
+References: <20210606070021.116284-1-wlooi@ucalgary.ca> <10029109.FgdUXNWx4t@linux.local> <CAKe_nd0fNE=+CP4O0cUtOPO5vRC8_gHxjLtH80r_4GO2MW5u4g@mail.gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="UTF-8"
 
-Now that segment address is available, support for multi-slice frames
-can be easily added.
+On Sunday, June 6, 2021 10:09:39 AM CEST Wenli Looi wrote:
+> On Sun, Jun 6, 2021 at 1:00 AM Fabio M. De Francesco
+> 
+> <fmdefrancesco@gmail.com> wrote:
+> > On Sunday, June 6, 2021 9:51:35 AM CEST Wenli Looi wrote:
+> > > On Sun, Jun 6, 2021 at 12:13 AM Greg Kroah-Hartman
+> > > 
+> > > <gregkh@linuxfoundation.org> wrote:
+> > > > On Sun, Jun 06, 2021 at 12:00:21AM -0700, Wenli Looi wrote:
+> > > > > Uninitialized struct with invalid pointer causes BUG and prevents 
+access
+> > > > > point from working. Access point works once I apply this patch.
+> > > > > 
+> > > > > https://forum.armbian.com/topic/14727-wifi-ap-kernel-bug-in-kernel-5444/
+> > > > > has more details.
+> > > > > 
+> > > > > Signed-off-by: Wenli Looi <wlooi@ucalgary.ca>
+> > > > > ---
+> > > > > 
+> > > > >  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > 
+> > > > > diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> > > > > b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c index 
+2fb80b6eb..
+> > 
+> > 7308e1185
+> > 
+> > > > > 100644
+> > > > > --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> > > > > +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> > > > > @@ -2384,7 +2384,7 @@ void rtw_cfg80211_indicate_sta_assoc(struct
+> > 
+> > adapter *padapter,
+> > 
+> > > > > u8 *pmgmt_frame,> >
+> > > > > 
+> > > > >       DBG_871X(FUNC_ADPT_FMT"\n", FUNC_ADPT_ARG(padapter));
+> > > > >       
+> > > > >       {
+> > > > > 
+> > > > > -             struct station_info sinfo;
+> > > > > +             struct station_info sinfo = {};
+> > > > 
+> > > > What caused this bug to show up?  Did it happen from some other 
+commit?
+> > > > 
+> > > > Are you sure that all of the fields are being cleared properly here,
+> > > > what about any "holes" in the structure?
+> > > > 
+> > > > thanks,
+> > > > greg k-h
+[CUT]
+> > > 
+> > > Do you think kzalloc() would be preferable?
+> > 
+> > You cannot use kzalloc there: 'sinfo' is instantiated automatically on the
+> > stack. The example you took had a pointer to the struct.
+> 
+> The stack variable could be replaced with code like:
+> 
+> struct station_info *sinfo;if (!sinfo)
+>
+Why that "if (!sinfo" before kzalloc?
+>
+> sinfo = kzalloc(sizeof(*sinfo), GFP_KERNEL);
+> ...
+> cfg80211_new_sta(..., sinfo, ...);
+> kfree(sinfo);
+> 
+> which is what the linked code basically does. I'm not sure if this is 
+preferred?
+>
+I don't know that code, but I think that:
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- .../staging/media/sunxi/cedrus/cedrus_h265.c  | 26 ++++++++++++-------
- .../staging/media/sunxi/cedrus/cedrus_video.c |  1 +
- 2 files changed, 17 insertions(+), 10 deletions(-)
+(1) It is generally preferred that big structures should be allocated 
+dinamically: kernel stack is a scarce resource.
+(2) Passing address of variables from the stack to other functions is 
+generally a good source of troubles.
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-index 6821e3d05d34..ef0311a16d01 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-@@ -247,6 +247,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 	const struct v4l2_ctrl_hevc_slice_params *slice_params;
- 	const struct v4l2_ctrl_hevc_decode_params *decode_params;
- 	const struct v4l2_hevc_pred_weight_table *pred_weight_table;
-+	unsigned int width_in_ctb_luma, ctb_size_luma;
-+	unsigned int log2_max_luma_coding_block_size;
- 	dma_addr_t src_buf_addr;
- 	dma_addr_t src_buf_end_addr;
- 	u32 chroma_log2_weight_denom;
-@@ -260,15 +262,17 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 	decode_params = run->h265.decode_params;
- 	pred_weight_table = &slice_params->pred_weight_table;
- 
-+	log2_max_luma_coding_block_size =
-+		sps->log2_min_luma_coding_block_size_minus3 + 3 +
-+		sps->log2_diff_max_min_luma_coding_block_size;
-+	ctb_size_luma = 1UL << log2_max_luma_coding_block_size;
-+	width_in_ctb_luma =
-+		DIV_ROUND_UP(sps->pic_width_in_luma_samples, ctb_size_luma);
-+
- 	/* MV column buffer size and allocation. */
- 	if (!ctx->codec.h265.mv_col_buf_size) {
- 		unsigned int num_buffers =
- 			run->dst->vb2_buf.vb2_queue->num_buffers;
--		unsigned int log2_max_luma_coding_block_size =
--			sps->log2_min_luma_coding_block_size_minus3 + 3 +
--			sps->log2_diff_max_min_luma_coding_block_size;
--		unsigned int ctb_size_luma =
--			1UL << log2_max_luma_coding_block_size;
- 
- 		/*
- 		 * Each CTB requires a MV col buffer with a specific unit size.
-@@ -322,15 +326,17 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 	reg = VE_DEC_H265_BITS_END_ADDR_BASE(src_buf_end_addr);
- 	cedrus_write(dev, VE_DEC_H265_BITS_END_ADDR, reg);
- 
--	/* Coding tree block address: start at the beginning. */
--	reg = VE_DEC_H265_DEC_CTB_ADDR_X(0) | VE_DEC_H265_DEC_CTB_ADDR_Y(0);
-+	/* Coding tree block address */
-+	reg = VE_DEC_H265_DEC_CTB_ADDR_X(slice_params->slice_segment_addr % width_in_ctb_luma);
-+	reg |= VE_DEC_H265_DEC_CTB_ADDR_Y(slice_params->slice_segment_addr / width_in_ctb_luma);
- 	cedrus_write(dev, VE_DEC_H265_DEC_CTB_ADDR, reg);
- 
- 	cedrus_write(dev, VE_DEC_H265_TILE_START_CTB, 0);
- 	cedrus_write(dev, VE_DEC_H265_TILE_END_CTB, 0);
- 
- 	/* Clear the number of correctly-decoded coding tree blocks. */
--	cedrus_write(dev, VE_DEC_H265_DEC_CTB_NUM, 0);
-+	if (ctx->fh.m2m_ctx->new_frame)
-+		cedrus_write(dev, VE_DEC_H265_DEC_CTB_NUM, 0);
- 
- 	/* Initialize bitstream access. */
- 	cedrus_write(dev, VE_DEC_H265_TRIGGER, VE_DEC_H265_TRIGGER_INIT_SWDEC);
-@@ -482,8 +488,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 				V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT,
- 				slice_params->flags);
- 
--	/* FIXME: For multi-slice support. */
--	reg |= VE_DEC_H265_DEC_SLICE_HDR_INFO0_FLAG_FIRST_SLICE_SEGMENT_IN_PIC;
-+	if (ctx->fh.m2m_ctx->new_frame)
-+		reg |= VE_DEC_H265_DEC_SLICE_HDR_INFO0_FLAG_FIRST_SLICE_SEGMENT_IN_PIC;
- 
- 	cedrus_write(dev, VE_DEC_H265_DEC_SLICE_HDR_INFO0, reg);
- 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-index 9ddd789d0b1f..247ff90a26b9 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-@@ -340,6 +340,7 @@ static int cedrus_s_fmt_vid_out(struct file *file, void *priv,
- 
- 	switch (ctx->src_fmt.pixelformat) {
- 	case V4L2_PIX_FMT_H264_SLICE:
-+	case V4L2_PIX_FMT_HEVC_SLICE:
- 		vq->subsystem_flags |=
- 			VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF;
- 		break;
--- 
-2.31.1
+I think you are closer to the proper solution.
+
+Fabio 
+>
+> > 
+> > > Sorry, I'm not familiar with "holes" in the struct.
+
+
+
 
