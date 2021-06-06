@@ -1,141 +1,90 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5405270
-	for <linux-staging@lists.linux.dev>; Sun,  6 Jun 2021 09:26:47 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id i22so8064694pju.0
-        for <linux-staging@lists.linux.dev>; Sun, 06 Jun 2021 02:26:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B7870
+	for <linux-staging@lists.linux.dev>; Sun,  6 Jun 2021 16:14:02 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id a20so14639334wrc.0
+        for <linux-staging@lists.linux.dev>; Sun, 06 Jun 2021 09:14:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=9hJszFq4lHbv1ND+qGe92RXy6gvvhI7dS9USahuU+98=;
-        b=Vt3+cyZRJXGj6xpBlOINayeqRQyPymvqKkEkTi8r2G35aqYVZ5kDrQ9wz76UPIKp1O
-         J/GUI71fJWta4TBwyCyzp1772WWL+Jc4O79foJqWuLVazVO6UUCvPhwIzHmkKXsd5rtu
-         cQlEr/WOLcKrOLrd9pySXBySDSwgLRqI0bMVfUO1WnSkau36v/duvOfIkU7KbAlAawkw
-         6yrPADea992BdvvmISJxGS3Tq8RbTCc/+Xoe9GHqB+2wYT8aCGV8uuRZX0kwHw8C9vO/
-         QnfCJ4ohQ42XkUqnhwtPKT2tFtyQLH22o32nvPbtQ/pL4WuE8+fXteX2xvPyfELGzElv
-         yVrA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=X9ogf6tFPfmSz77603cXTR8DgiviIxVSn2KbquZsM0A=;
+        b=GTWu5lHtjwAEkXOMJH2loQs+c264V16cs8DrxQK8N4+hmMXSXQFn8beOKdRyMbLnf4
+         LTJrh7NZIBAJ6w49izMi71+WLpraHHcKTQud2v6F5AprvkdXG9C+tMoZTtp3MPvvqayF
+         Msg/xS8WThlWTy3JCvhNQbhWXaxU0EH1EbFkChFgfUddGA+PfpTuzmF3timnlXqxxv+B
+         CvpcriAR/cN4tQsgptPDvzWJYvAiJ74FHmIuaeDLlZJQQr6ZtbEqQOutTMYlt42VKnUG
+         O6Nmg7DXM1da6gUJVKwecRkQ+Ipl3jXw43D0Fcz0b2ckvVtqCLznysMy5CfZMebeKwe+
+         +QwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=9hJszFq4lHbv1ND+qGe92RXy6gvvhI7dS9USahuU+98=;
-        b=iPyRU0DAu8xWpAmfz3/obdvQRgW9xJi/TChIeMpJ3/Va9C4bx56swIuemq24mA40rY
-         fti5k3QYrM5lFMUb/ZQQEZ6ysiJ9Dem6UdtRJPyYJF6a2yLdAPCqk7tEUtyC0QrtumZf
-         SRsUCZEA0VZfFoS+Atjqi5r7H9s6dEYiqEASgbbHWyNIaL1IligjHbzU2lVWdIZGbBbP
-         FhTtlZe3jHsBPmkb1aRoQ8FmVvRrnMsZf3ehszN5GMQ5rD1Yo0MaL8lI1Fp5PZjsP92F
-         73d97FOGV3VO3ZjtlJ01d6l+wpKVqDmlGT/o3uh6d/BTiV1Jjnhig8kafEWVPyc7a1P5
-         6VOg==
-X-Gm-Message-State: AOAM533iG5I0bvKTVK38gIxRxxZLJ/5AvZ5rsVg2DcqN4+tZt8yu4vel
-	ZzyrPbm153vrNFJdufVFltE=
-X-Google-Smtp-Source: ABdhPJzRFNHBngQCYf1/triH9Yxq3zROcJpdkjGA9Iwn69RR5HN2xm2Uw5zFqa1dC0DF99WdlmRoMA==
-X-Received: by 2002:a17:90a:be0b:: with SMTP id a11mr13647302pjs.197.1622971606863;
-        Sun, 06 Jun 2021 02:26:46 -0700 (PDT)
-Received: from ojas ([2405:204:130d:e843:24e:5eab:4be9:d84d])
-        by smtp.gmail.com with ESMTPSA id gn4sm9047526pjb.16.2021.06.06.02.26.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Jun 2021 02:26:46 -0700 (PDT)
-Date: Sun, 6 Jun 2021 14:56:32 +0530
-From: Ojaswin Mujoo <ojaswin98@gmail.com>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>, nsaenz@kernel.org,
-	gregkh@linuxfoundation.org, arnd@arndb.de, phil@raspberrypi.com,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: staging: vc04_services: Need suggestions on trying to fix sparse
- warning in vchiq_arm.c
-Message-ID: <20210606092601.GA6609@ojas>
-References: <20210601200513.GA10204@ojas>
- <20210601202307.GC1955@kadam>
- <20210602145000.GA3999@ojas>
- <9ba341f7-17fc-980d-a7a0-2293c75dcf92@i2se.com>
- <20210605072249.GA5967@ojas>
- <57aa6e2b-0267-664d-539a-e82000928101@i2se.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=X9ogf6tFPfmSz77603cXTR8DgiviIxVSn2KbquZsM0A=;
+        b=F2Ks4KUPC7tbsNF0ALVQcMOqs6Nl7e0Iqvx/dTGS9wAH9bUfuBOHfz4NIC2J4dXMsR
+         uedihotCzvdH+XHzIujcuTQU0JNnhshhKWE938RN17HgK3ilXIW8k3+0VrbI/AuJx7yt
+         4P0c0Xrou4n0bVKnh8LwpaFEheL7H10x9c9f1ke+5q0hrMSeF1wNdyGTPfcUxMaG90d+
+         ij6LW9WH4wJvBhTPtUJb6laRKcyGZyfdTIKX5j8bquHne9QIS2AQWgpTNKFlJWUlo0UX
+         SLhg76b8MFbVdRVYDzaKAER4HB4G3ogsUXg7n4hT0AJmm27ICAZ0YhBvRDuRj7gZLxoL
+         A5Jg==
+X-Gm-Message-State: AOAM5306m6/xOJR+maHKAPz6g2L8AGNmgw5qk2xq59cOupYFnWxTbZjQ
+	9nbbhZoMQ07SyUtateCFPBrv7X3rXzjX3Q==
+X-Google-Smtp-Source: ABdhPJwocMLhkmptVQHwslrE6G764FomCcw5XxhZ6YwRATXP0Imvcmrb+QSzFsVMwrbahGq6ao2QQw==
+X-Received: by 2002:a5d:4351:: with SMTP id u17mr13163982wrr.47.1622996041180;
+        Sun, 06 Jun 2021 09:14:01 -0700 (PDT)
+Received: from localhost.localdomain (113.red-88-4-247.dynamicip.rima-tde.net. [88.4.247.113])
+        by smtp.gmail.com with ESMTPSA id n9sm11724427wmc.20.2021.06.06.09.14.00
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 06 Jun 2021 09:14:00 -0700 (PDT)
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	neil@brown.name
+Subject: [PATCH v2 0/6] staging: mt7621-pci: some required changes after first review
+Date: Sun,  6 Jun 2021 18:13:52 +0200
+Message-Id: <20210606161358.7114-1-sergio.paracuellos@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <57aa6e2b-0267-664d-539a-e82000928101@i2se.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jun 05, 2021 at 10:41:17AM +0200, Stefan Wahren wrote:
-> Hi Ojaswin,
-> 
-> Am 05.06.21 um 09:23 schrieb Ojaswin Mujoo:
-> > On Fri, Jun 04, 2021 at 08:13:06AM +0200, Stefan Wahren wrote:
-> >> Hi Ojaswin,
-> >>
-> >> Am 02.06.21 um 16:50 schrieb Ojaswin Mujoo:
-> >>> On Tue, Jun 01, 2021 at 11:23:07PM +0300, Dan Carpenter wrote:
-> >>>> The problem is not the Sparse warning, the problem is that this code is
-> >>>> a mess.  It used to very clearly buggy and I reported the bug.  I think
-> >>>> Arnd found the bug again independently and fixed it.
-> >>>>
-> >>>> A couple weeks ago Al Viro looked at this code.  Here is his write up:
-> >>>>
-> >>>> https://www.spinics.net/lists/kernel/msg3952745.html
-> >>>>
-> >>>> It shouldn't take Al Viro dozens of pages of detailed analysis to try
-> >>>> figure out if the code is safe or not.  Your idea silences the warning
-> >>>> but would make the code even more subtle and complicated.
-> >>>>
-> >>>> The right thing to do is to re-write the code to be simpler.
-> >>>>
-> >>>> regards,
-> >>>> dan carpenter
-> >>>>
-> >>> Thank you for the prompt reply and the link, it was very insightful. You
-> >>> are right, I was definitely going about this the wrong way and missing
-> >>> the larger picture. I'll spend some time trying to understand this
-> >>> codebase as I think that'd be a good start to understand how stuff works in
-> >>> the kernel (even though some of the things in this driver are anti patterns)
-> >>> and hopefully get some ideas on ways to clean this up.
-> >>>
-> >>> Anyways, thanks again for the help, cheers!
-> >> thanks for your interest in cleaning this up. Yes, it's not clear which
-> >> points on the TODO list are the lower hanging fruits. In case you don't
-> >> want to fix checkpatch issues, maybe you can look at points 8, 9, 10, 12
-> >> and 13. Most of them require testing with a Raspberry Pi, but feel free
-> >> to ask if you have problems with it.
-> >>
-> >> Regards
-> >> Stefan
-> >>
-> > Got it, Task 10 (cdev to its own file) seems like a pretty good task to
-> > get started with. I'm planning to buy a Rpi 4 so I think I can run tests
-> > on that. 
-> 
-> okay, but the AFAIK the vchiq driver in the mainline kernel doesn't work
-> with Rpi 4 yet. The Raspberry Pi 3 B Plus is currently the recommend
-> devel platform, so you can test 32 and 64 bit kernel.
-> 
-> Best regards
-Hey Stefan,
+Hi,
 
-Ahh got it. sure I can get a 3B+ instead, thanks for the heads up.
-> 
-> >
-> > Thank you so much for the help, I'll get back incase I face any issues down 
-> > the line.
-> >
-> > Regards,
-> > Ojaswin
-> >
-> >>> Ojaswin
-> >>>
-> >>> _______________________________________________
-> >>> linux-arm-kernel mailing list
-> >>> linux-arm-kernel@lists.infradead.org
-> >>> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> > _______________________________________________
-> > linux-arm-kernel mailing list
-> > linux-arm-kernel@lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> 
+Some things must be updated before get this a new attempt to get this
+mainlined:
+    - Device tree bindings need to move som stuff into child root nodes. 
+    - Use relaxed version of readl and writel.
+    - Other minor stuff.
 
-Regards,
-Ojaswin
+After this is merged in staging tree, I will move with 'git mv' this
+driver into 'drivers/pci/controller' as I've been suggested to do by
+Bjorn.
+
+Thanks in advance for your time.
+
+Best regards,
+    Sergio Paracuellos
+
+Changes in v2:
+    - Add PATCH 6/6 making use of 'pcie_port_write'.
+
+Sergio Paracuellos (6):
+  staging: mt7621-pci: make cleaner 'mt7621_pcie_enable_ports'
+  staging: mt7621-pci: remove 'RALINK_PCI_BAR0SETUP_ADDR' definition
+  staging: mt7621-pci: use {readl|writel}_relaxed instead of
+    readl/writel
+  staging: mt7621-dts: move some properties into root port child nodes
+  staging: mt7621-pci: parse some dt properties from root port child
+    nodes
+  staging: mt7621-pci: make use of 'pcie_port_write'
+
+ drivers/staging/mt7621-dts/mt7621.dtsi  | 21 ++++----
+ drivers/staging/mt7621-pci/pci-mt7621.c | 66 ++++++++++---------------
+ 2 files changed, 39 insertions(+), 48 deletions(-)
+
+-- 
+2.25.1
+
