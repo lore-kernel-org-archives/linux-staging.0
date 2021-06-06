@@ -1,48 +1,48 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3020370
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6AE32FAE
 	for <linux-staging@lists.linux.dev>; Sun,  6 Jun 2021 16:14:06 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id y7so9947559wrh.7
+Received: by mail-wm1-f46.google.com with SMTP id b145-20020a1c80970000b029019c8c824054so10967086wmd.5
         for <linux-staging@lists.linux.dev>; Sun, 06 Jun 2021 09:14:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=emwizER++sdhckxDEjVYBRRwRXsvJ7cj8phwruuKBuU=;
-        b=si5f5TKPJYvM1DrGFn7Wrd7HDqAnCcOelYDgF2vUXps0HTXRbAR8L2sMU8GV8yiXEw
-         U9AmoNjoi8Ocy2zDzXozz2ivC2oCLNKUnYezz778erk4vwBzte1KljOBPZYZmNUFOY9X
-         z9QygXibahYFz/XAIcO7P09A9t74UVGu7C8HczfID2WYVw+s+9fGe461YsCsAyzEA+GE
-         WRgA47ldboRJTxn0/LZJ4+n+gwef/eztPv/moawsm3aS3oPXTwvqWxgCEbHT9AuU3hV1
-         pKNsNRu7wINF2UiATnNDy5z8OXLqqHEOYiGgs8PncVm4shGsAioYG+PVMtGQ4DF91K/b
-         gW/A==
+        bh=jb4Bhex5gUom5fja00/hW5UOJa1qIcG3fPQMFzdsrZ8=;
+        b=MAzxu/5REeRwHzqnagejpP/uLb1Wmrq1dsloav5TaUrcZO53GonHITeZsSjgS9QuKz
+         slSuoLNnQVn3xDV7yN33xVUFabCWEg3Enm6iSHDp8K97A0sqMWilImwAcpaMl0D8DyPo
+         cmAbMuTEjwhpBK+AcEU8BI2Qdit+1tYp+/SSyso+XJR5OwrDkBdBHnCt3L5FCfmFH9mw
+         jLjAWOuLDcbMg1gjUM0Yb6zsujTn2dPU0sJ2jb48ucg0C4fLSrDRzrHgQfDNEK1M1UFW
+         f+Pj3wtT3KERO4rsMnjSpfY5K5Yo3im56E5RDZiaSARi8wqeGgwFdofX0XwsHj1pxIlx
+         A6sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=emwizER++sdhckxDEjVYBRRwRXsvJ7cj8phwruuKBuU=;
-        b=YqtOpAdGuZiFuwxVCSXTqFh/07XR7yQhW+X0xeJDVOLC6BuFbwc+9fuOJx/GlKUBbY
-         DG2Jf4Et6LN2o+TR7Or5KayZjP7XAnbdfRRGpC4Q5d40Zw4bnQITie491nktR19LLqaG
-         AdK72TpbMIMglDTShgQdufA6JXYojiGPjMhzVD5qqvuL63kJxhiuAx+7pgsaI8pse72s
-         XW1xLcY56i9hkgM6+BwzMatWXk5MT6P0kOyqILqOa1Gpu0ZFDDCZJ1qD2SCdZ2Q1R7/b
-         qZNxSKCusz2eQ2m6jS1qoTksw0mmTWal1MhEs7Eir/7qPv/IYn8ZCqd5gGyYwM1EKI1q
-         F/Gw==
-X-Gm-Message-State: AOAM533aMIBaOQ1w3AAvZMmNHsLfDZBleK8PgVkiPYuHciKIHlXce4wa
-	QPkJaVR5MevINRdUkhVh7/9NSKndXSscQw==
-X-Google-Smtp-Source: ABdhPJzeSqN4gKpWDIU0TPgmQndOZJ7+BSa89w3xfSmjF4g9kPq3ysIi0pRkPX2YfKApRv8NHvU11Q==
-X-Received: by 2002:a5d:54c8:: with SMTP id x8mr13476651wrv.109.1622996044593;
-        Sun, 06 Jun 2021 09:14:04 -0700 (PDT)
+        bh=jb4Bhex5gUom5fja00/hW5UOJa1qIcG3fPQMFzdsrZ8=;
+        b=FuHDgGe2iAEEmFM70daQ7e3HjcKU4qPYdMPar4uT2W4tngVloPxom/II3Jx+EnJt6P
+         qy3dYxUoa5BsAGDN5P3x9JMDVByun2mPXRzQ1XgQYW1fLVrT5pTDpPoW0ubbwT6maPlV
+         QROQof4qf4VURJpuceE6fNnkPE1V0V+1Bqt/wD+7FPZ19Sw5xwkKSgpwMZnMa09f+FXo
+         ommEfDLkjcZUlBXbLum8XCF3oSfbBIvPYdkuAIsFglffdNpoWUVTiH/7BYkFpe+0KcwZ
+         NN9+nCsy3xHXWTCvzDJX3D831IjGtnaKQ1EwMGcAohAiHyQ43KPzYgUA1m1TGLH3hyR0
+         1ryg==
+X-Gm-Message-State: AOAM532KowlPnM+ylDD/RR4N5R2vItimLz/t0FOwAeTbyPYu06tdTDLt
+	6cAPitml/j8tZ1xY93iOhTCTE1is2Z85BA==
+X-Google-Smtp-Source: ABdhPJxwehtYTCpFn049/K+TxDLOFV/tczK0mDVMu6e+QLzn7ZkrrvzaYAFwhUS3wwlOXjlMVIxVNA==
+X-Received: by 2002:a1c:731a:: with SMTP id d26mr12637373wmb.108.1622996045346;
+        Sun, 06 Jun 2021 09:14:05 -0700 (PDT)
 Received: from localhost.localdomain (113.red-88-4-247.dynamicip.rima-tde.net. [88.4.247.113])
-        by smtp.gmail.com with ESMTPSA id n9sm11724427wmc.20.2021.06.06.09.14.03
+        by smtp.gmail.com with ESMTPSA id n9sm11724427wmc.20.2021.06.06.09.14.04
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 06 Jun 2021 09:14:04 -0700 (PDT)
+        Sun, 06 Jun 2021 09:14:05 -0700 (PDT)
 From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
 	neil@brown.name
-Subject: [PATCH v2 4/6] staging: mt7621-dts: move some properties into root port child nodes
-Date: Sun,  6 Jun 2021 18:13:56 +0200
-Message-Id: <20210606161358.7114-5-sergio.paracuellos@gmail.com>
+Subject: [PATCH v2 5/6] staging: mt7621-pci: parse some dt properties from root port child nodes
+Date: Sun,  6 Jun 2021 18:13:57 +0200
+Message-Id: <20210606161358.7114-6-sergio.paracuellos@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210606161358.7114-1-sergio.paracuellos@gmail.com>
 References: <20210606161358.7114-1-sergio.paracuellos@gmail.com>
@@ -53,67 +53,68 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-After a review of the bindings 'clocks', 'resets' and 'phys' must
-be moved into root port child nodes. Hence, move all of them.
+Properties 'clocks', 'resets' and 'phys' have been moved from parent
+node to the root port children. Hence we have to adapt the way device
+tree is parsed in driver code to properly align things and make all
+the stuff work.
 
 Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 ---
- drivers/staging/mt7621-dts/mt7621.dtsi | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+ drivers/staging/mt7621-pci/pci-mt7621.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
-index 840ba0c3ffed..ecfe2f2cf75a 100644
---- a/drivers/staging/mt7621-dts/mt7621.dtsi
-+++ b/drivers/staging/mt7621-dts/mt7621.dtsi
-@@ -500,15 +500,6 @@ pcie: pcie@1e140000 {
+diff --git a/drivers/staging/mt7621-pci/pci-mt7621.c b/drivers/staging/mt7621-pci/pci-mt7621.c
+index 8d14d0f9f769..a88ca98aeb9a 100644
+--- a/drivers/staging/mt7621-pci/pci-mt7621.c
++++ b/drivers/staging/mt7621-pci/pci-mt7621.c
+@@ -290,6 +290,7 @@ static int mt7621_pci_parse_request_of_pci_ranges(struct pci_host_bridge *host)
+ }
  
- 		status = "disabled";
+ static int mt7621_pcie_parse_port(struct mt7621_pcie *pcie,
++				  struct device_node *node,
+ 				  int slot)
+ {
+ 	struct mt7621_pcie_port *port;
+@@ -305,24 +306,24 @@ static int mt7621_pcie_parse_port(struct mt7621_pcie *pcie,
+ 	if (IS_ERR(port->base))
+ 		return PTR_ERR(port->base);
  
--		resets = <&rstctrl 24>, <&rstctrl 25>, <&rstctrl 26>;
--		reset-names = "pcie0", "pcie1", "pcie2";
--		clocks = <&sysc MT7621_CLK_PCIE0>,
--			 <&sysc MT7621_CLK_PCIE1>,
--			 <&sysc MT7621_CLK_PCIE2>;
--		clock-names = "pcie0", "pcie1", "pcie2";
--		phys = <&pcie0_phy 1>, <&pcie2_phy 0>;
--		phy-names = "pcie-phy0", "pcie-phy2";
--
- 		reset-gpios = <&gpio 19 GPIO_ACTIVE_LOW>;
+-	snprintf(name, sizeof(name), "pcie%d", slot);
+-	port->clk = devm_clk_get(dev, name);
++	port->clk = devm_get_clk_from_child(dev, node, NULL);
+ 	if (IS_ERR(port->clk)) {
+ 		dev_err(dev, "failed to get pcie%d clock\n", slot);
+ 		return PTR_ERR(port->clk);
+ 	}
  
- 		pcie@0,0 {
-@@ -519,6 +510,10 @@ pcie@0,0 {
- 			#interrupt-cells = <1>;
- 			interrupt-map-mask = <0 0 0 0>;
- 			interrupt-map = <0 0 0 0 &gic GIC_SHARED 4 IRQ_TYPE_LEVEL_HIGH>;
-+			resets = <&rstctrl 24>;
-+			clocks = <&sysc MT7621_CLK_PCIE0>;
-+			phys = <&pcie0_phy 1>;
-+			phy-names = "pcie-phy0";
- 			ranges;
- 		};
+-	snprintf(name, sizeof(name), "pcie%d", slot);
+-	port->pcie_rst = devm_reset_control_get_exclusive(dev, name);
++	port->pcie_rst = of_reset_control_get_exclusive(node, NULL);
+ 	if (PTR_ERR(port->pcie_rst) == -EPROBE_DEFER) {
+ 		dev_err(dev, "failed to get pcie%d reset control\n", slot);
+ 		return PTR_ERR(port->pcie_rst);
+ 	}
  
-@@ -530,6 +525,10 @@ pcie@1,0 {
- 			#interrupt-cells = <1>;
- 			interrupt-map-mask = <0 0 0 0>;
- 			interrupt-map = <0 0 0 0 &gic GIC_SHARED 24 IRQ_TYPE_LEVEL_HIGH>;
-+			resets = <&rstctrl 25>;
-+			clocks = <&sysc MT7621_CLK_PCIE1>;
-+			phys = <&pcie0_phy 1>;
-+			phy-names = "pcie-phy1";
- 			ranges;
- 		};
+ 	snprintf(name, sizeof(name), "pcie-phy%d", slot);
+-	port->phy = devm_phy_get(dev, name);
+-	if (IS_ERR(port->phy) && slot != 1)
++	port->phy = devm_of_phy_get(dev, node, name);
++	if (IS_ERR(port->phy)) {
++		dev_err(dev, "failed to get pcie-phy%d\n", slot);
+ 		return PTR_ERR(port->phy);
++	}
  
-@@ -541,6 +540,10 @@ pcie@2,0 {
- 			#interrupt-cells = <1>;
- 			interrupt-map-mask = <0 0 0 0>;
- 			interrupt-map = <0 0 0 0 &gic GIC_SHARED 25 IRQ_TYPE_LEVEL_HIGH>;
-+			resets = <&rstctrl 26>;
-+			clocks = <&sysc MT7621_CLK_PCIE2>;
-+			phys = <&pcie2_phy 0>;
-+			phy-names = "pcie-phy2";
- 			ranges;
- 		};
- 	};
+ 	port->gpio_rst = devm_gpiod_get_index_optional(dev, "reset", slot,
+ 						       GPIOD_OUT_LOW);
+@@ -363,7 +364,7 @@ static int mt7621_pcie_parse_dt(struct mt7621_pcie *pcie)
+ 
+ 		slot = PCI_SLOT(err);
+ 
+-		err = mt7621_pcie_parse_port(pcie, slot);
++		err = mt7621_pcie_parse_port(pcie, child, slot);
+ 		if (err) {
+ 			of_node_put(child);
+ 			return err;
 -- 
 2.25.1
 
