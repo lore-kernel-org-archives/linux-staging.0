@@ -1,41 +1,41 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D0D70;
-	Sun,  6 Jun 2021 08:23:33 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id ho18so10416674ejc.8;
-        Sun, 06 Jun 2021 01:23:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1EC70;
+	Sun,  6 Jun 2021 08:23:37 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id r7so1968883edv.12;
+        Sun, 06 Jun 2021 01:23:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=N/vOnbubwerL0nc4R2J7xmAJRI2agwwqe8FU/KvYiSg=;
-        b=RkOuCWPUM3rS/puvGGtl+u6x/466zVzs6idAXCdCzv/oxKqF3p4g4BPEqIRFs4kv7+
-         n+huszyyrKlaX8ULmfxtaYiV4+viKf+yPqV/GVS6jrJieDVHmHzDqfQuRcnIOvJ3wzku
-         ZTbPdxB4LecEptg17ERwrQksLz/2W8EqqZmzXMt4pvq4Id3js1i9H7fe4A9YaD9/WSSB
-         FcSH1RwJJvOaiSQoZT4+GfTKRMFR3d9dPo/xbsJTTQKfrt37YTvpwflseGJbCjmbk4B8
-         UF6pslpmrctlSgTo15cWjq3sfi9Tf172+Ngv84Qx5ogwQAtxhB2AcLucKm775Yc8KfHS
-         KLTw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=4aW81uICbtPCTBV64hByiwvqx1T+Xsj8aZZhwnv+iCg=;
+        b=LaFfjVjB66ka1WEgXbj7rzzdfGfwJ+fvJ9T9QyjAbCXXZjjJzYbSwQH9IXEojdpyDl
+         m05ki49g9U5ZKnwJQut+0gDo33/+pPW4PF3MmuGFPHMbbTH74b9j0A1nQv2USNezwcEE
+         mbzGBRzogjBAvBGkUr4saTq8B+g2A+dfmjXYUYdgOPgynNBhMR5Pb0hGHa367Zxb8ene
+         qJWyz/JeTbFcfcX/KESc6+8PNvipsFyv8ZNl9BxGNvqzSl2FHdtgKXPikjGhqM0nX8MB
+         hKst5io7QEGEqu5FLS0zYIv4Aof/uqptrEck7NmFIl4AoVTuNPj3giOSvK67rLzqbCvH
+         hCFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=N/vOnbubwerL0nc4R2J7xmAJRI2agwwqe8FU/KvYiSg=;
-        b=o6CFc+bKlYr2UOY5TGBiklGK1rBiwSMhb5guXz5Wrl6m9h62P5Yp0RMhCIENDULwVy
-         Dj9iJnEc4OsSxznfGtq+/Nxdm1EO9/JifNbojMGUJTO3BH1sOs7wtT0Oeuvjnx4jGoyT
-         qQjXFl9pR3duH43aY2G4fhOigkf6hko/RE9+M3a/PCHa0PEIE/8upqRzmbjA4OUpYFTQ
-         aDZRUJsuMLNuDdV8DofOoleDYME4v36qVhQitzyjhZR97waTQVEVVGtl/12yw4KyOMwn
-         3bPqNfHGO6uJHcEC6oH9VhKKxkaoJtHAD0ET84im4soFLXndL/7MG5ALYcePUuWQxOJ9
-         mTwA==
-X-Gm-Message-State: AOAM532Z6cCQ/Bw5LYDRhM4XKRwIDJcDQwBHX0uo6Ge+2JZjlS4H20qo
-	tfxKabemUcVh2+rGGplBg5E=
-X-Google-Smtp-Source: ABdhPJyAALTJE+uOjrSqsQrGA4Ld/5qb+yfFGBo+PZkaanH7pQiMtJjPAWsx+PCTFw+aTBgaJKjFug==
-X-Received: by 2002:a17:906:d1ce:: with SMTP id bs14mr13030518ejb.183.1622967812482;
-        Sun, 06 Jun 2021 01:23:32 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=4aW81uICbtPCTBV64hByiwvqx1T+Xsj8aZZhwnv+iCg=;
+        b=tB9EsMP7NTB2DbhauUTGAH+4Mb5EW+i0VFJ6MmnDTzb2UyUbDJ+wBMmS6EwAhdmlEy
+         aueS7EXNzZ4SgkA9/QlAgMOaRlYqp8BVIciiEPj0z/26Sq9pvFD5scfF3v4/4tBzJje5
+         X3bfUXBFqp2b5Bd19Ro+yQ2m9/L4Hkkmz7QnCXe26+t86OyhNEVdXlyFOUWuK5C8Yp/h
+         XexyMyA05i5Ge4pQa+aOzFQrxR+19jej7EDydC2ywp+oHbYuUWWbYQWp9sneNnoYaSJ+
+         48GZKy3Xhf4K9eISXmz1mTzq5ILt71yb5wAa8Dw9ZsN+h0fxvjDIwVUVC2mDmsX661Hn
+         eWQw==
+X-Gm-Message-State: AOAM531plZ4qIVJHnKACReqxrYRm6sLde4bwyGsgZZK4cMLZezKTnMIp
+	rVs3itrCaYsFrkCYt4MaifQruPsLltNW+Q==
+X-Google-Smtp-Source: ABdhPJwUi5AIU2YWU2GWKSIpcJprUQ3af1/G5wM7VU4yjHHoEcY63ncZHfrTg0Hn8e/eqAqSUl7GAQ==
+X-Received: by 2002:aa7:d550:: with SMTP id u16mr14105847edr.72.1622967816582;
+        Sun, 06 Jun 2021 01:23:36 -0700 (PDT)
 Received: from kista.localdomain (cpe-86-58-17-133.cable.triera.net. [86.58.17.133])
-        by smtp.gmail.com with ESMTPSA id y1sm4945908ejl.7.2021.06.06.01.23.31
+        by smtp.gmail.com with ESMTPSA id y1sm4945908ejl.7.2021.06.06.01.23.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Jun 2021 01:23:32 -0700 (PDT)
+        Sun, 06 Jun 2021 01:23:36 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: mripard@kernel.org,
 	paul.kocialkowski@bootlin.com
@@ -51,10 +51,12 @@ Cc: mchehab@kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 0/2] media: cedrus: hevc: add support for multiple slices
-Date: Sun,  6 Jun 2021 10:23:12 +0200
-Message-Id: <20210606082314.454193-1-jernej.skrabec@gmail.com>
+Subject: [PATCH 1/2] media: hevc: Add segment address field
+Date: Sun,  6 Jun 2021 10:23:13 +0200
+Message-Id: <20210606082314.454193-2-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210606082314.454193-1-jernej.skrabec@gmail.com>
+References: <20210606082314.454193-1-jernej.skrabec@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -62,31 +64,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-HEVC frames can be encoded in multiple slices. This short series add
-supports for them. First patch adds slice_segment_address to HEVC slice
-parameters and second patch implements HEVC multi slice support in
-Cedrus.
+If HEVC frame consists of multiple slices, segment address has to be
+known in order to properly decode it.
 
-Question 1: HEVC specs talk about slice_segment_address, but "slice_"
-prefix seems redundant in our case, because this field is part of slice
-params structure. Should I drop it or leave it?
+Add segment address field to slice parameters.
 
-Question 2: I made slice_segment_address __u32 but __u16 might be
-already enough. Which one should it be?
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 3 +++
+ include/media/hevc-ctrls.h                                | 3 ++-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-Note: These patches depends on following pull request:
-https://www.spinics.net/lists/linux-media/msg193744.html
-
-Jernej Skrabec (2):
-  media: hevc: Add segment address field
-  media: cedrus: hevc: Add support for multiple slices
-
- .../media/v4l/ext-ctrls-codec.rst             |  3 +++
- .../staging/media/sunxi/cedrus/cedrus_h265.c  | 26 ++++++++++++-------
- .../staging/media/sunxi/cedrus/cedrus_video.c |  1 +
- include/media/hevc-ctrls.h                    |  3 ++-
- 4 files changed, 22 insertions(+), 11 deletions(-)
-
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+index 9120c5bcaf90..fac4b477da82 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+@@ -2997,6 +2997,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+     * - __u8
+       - ``pic_struct``
+       -
++    * - __u32
++      - ``slice_segment_addr``
++      -
+     * - __u8
+       - ``ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+       - The list of L0 reference elements as indices in the DPB.
+diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+index dc964ff7cd29..19f8e2ad3375 100644
+--- a/include/media/hevc-ctrls.h
++++ b/include/media/hevc-ctrls.h
+@@ -197,10 +197,11 @@ struct v4l2_ctrl_hevc_slice_params {
+ 	__u8	pic_struct;
+ 
+ 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
++	__u32	slice_segment_addr;
+ 	__u8	ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+ 	__u8	ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+ 
+-	__u8	padding[5];
++	__u8	padding;
+ 
+ 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction parameter */
+ 	struct v4l2_hevc_pred_weight_table pred_weight_table;
 -- 
 2.31.1
 
