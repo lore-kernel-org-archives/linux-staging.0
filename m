@@ -1,144 +1,141 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B1970
-	for <linux-staging@lists.linux.dev>; Sun,  6 Jun 2021 08:46:01 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id g8so21482379ejx.1
-        for <linux-staging@lists.linux.dev>; Sun, 06 Jun 2021 01:46:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5405270
+	for <linux-staging@lists.linux.dev>; Sun,  6 Jun 2021 09:26:47 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id i22so8064694pju.0
+        for <linux-staging@lists.linux.dev>; Sun, 06 Jun 2021 02:26:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=wvh6MEtvVWMlRewCXrhxu3/PUZtiVlDvYPuCTtfaY8g=;
-        b=MoyoSqG508f5ZZdMrDqrIv4nTOOy8hGTiZci9eV5WtN65+mdFvyEvtwGg96r2D12Yo
-         BSWQ3mqy+FZT6xUYewMrRfO5sKLUyLJK2YzuUhWnhKau4naipGVNoUYgUQS/cNst8ARZ
-         /yMzXxQO60ty7pZLJaoxIxqkcdCKaq0i/XgZQP39OVybgT99juvBoZplBXlKeSgMHw3e
-         HrdY3/9KsQSz1qbsDi/xLTvPTlc2rn7nzz5+x9Ly8UUb9OtM0X0Mmn6OdVUrZ3wHBAXq
-         FOBQz4UA6XrV5i6Lc92EJklui9gpZN3XgopVwvJSC4OhHC4qyyqVGcvnbLaEHSKtHC3U
-         z5Cw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=9hJszFq4lHbv1ND+qGe92RXy6gvvhI7dS9USahuU+98=;
+        b=Vt3+cyZRJXGj6xpBlOINayeqRQyPymvqKkEkTi8r2G35aqYVZ5kDrQ9wz76UPIKp1O
+         J/GUI71fJWta4TBwyCyzp1772WWL+Jc4O79foJqWuLVazVO6UUCvPhwIzHmkKXsd5rtu
+         cQlEr/WOLcKrOLrd9pySXBySDSwgLRqI0bMVfUO1WnSkau36v/duvOfIkU7KbAlAawkw
+         6yrPADea992BdvvmISJxGS3Tq8RbTCc/+Xoe9GHqB+2wYT8aCGV8uuRZX0kwHw8C9vO/
+         QnfCJ4ohQ42XkUqnhwtPKT2tFtyQLH22o32nvPbtQ/pL4WuE8+fXteX2xvPyfELGzElv
+         yVrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=wvh6MEtvVWMlRewCXrhxu3/PUZtiVlDvYPuCTtfaY8g=;
-        b=EiOFIJwFLrL8BTQqeolTsENAsuUCZ7ohQh3taJcdoUB9oOCkBP8VLpX970I6Iyf0rZ
-         jI2CtfJAFg9hbmXmfWY8WcSrd7fxknD+QcYHTbVo+QniURR29keuAnhOVFdpiSoUCyq9
-         5t54HfiekSB3VFt0dd95X6qFwai/7gaAkXUDzWw40ykVp21BhtbFPA2wFlhVWKy/OX+D
-         6Tuh0K3sEios3ypn1r+0hwWjRfk287iI5Fwp9MfyefVx7iiEfoOPh+zMPRlxksWlvapz
-         j59BskHATwyeGFPOzwyvxjrHGZ4ocU5sjrwQ0ZhGwasl551yBfI7f/US3NNC0arM2yGX
-         mIFA==
-X-Gm-Message-State: AOAM531yMJg2NMDGnRn4iRg1PrY4J33bNO/Wg5lUmTs5fyKCYVsfC8MA
-	MUI6PKazWkB47YkSa/P7J4M=
-X-Google-Smtp-Source: ABdhPJx7IY22Uwds+zWFhKE84x/W9uv4or3bZjOkRn3IvfVAttKz3pPm2AIeJCGC+MRKGVWXq8Zfew==
-X-Received: by 2002:a17:906:3016:: with SMTP id 22mr12459078ejz.28.1622969159887;
-        Sun, 06 Jun 2021 01:45:59 -0700 (PDT)
-Received: from linux.local (host-82-59-55-132.retail.telecomitalia.it. [82.59.55.132])
-        by smtp.gmail.com with ESMTPSA id f21sm6101770edr.45.2021.06.06.01.45.58
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=9hJszFq4lHbv1ND+qGe92RXy6gvvhI7dS9USahuU+98=;
+        b=iPyRU0DAu8xWpAmfz3/obdvQRgW9xJi/TChIeMpJ3/Va9C4bx56swIuemq24mA40rY
+         fti5k3QYrM5lFMUb/ZQQEZ6ysiJ9Dem6UdtRJPyYJF6a2yLdAPCqk7tEUtyC0QrtumZf
+         SRsUCZEA0VZfFoS+Atjqi5r7H9s6dEYiqEASgbbHWyNIaL1IligjHbzU2lVWdIZGbBbP
+         FhTtlZe3jHsBPmkb1aRoQ8FmVvRrnMsZf3ehszN5GMQ5rD1Yo0MaL8lI1Fp5PZjsP92F
+         73d97FOGV3VO3ZjtlJ01d6l+wpKVqDmlGT/o3uh6d/BTiV1Jjnhig8kafEWVPyc7a1P5
+         6VOg==
+X-Gm-Message-State: AOAM533iG5I0bvKTVK38gIxRxxZLJ/5AvZ5rsVg2DcqN4+tZt8yu4vel
+	ZzyrPbm153vrNFJdufVFltE=
+X-Google-Smtp-Source: ABdhPJzRFNHBngQCYf1/triH9Yxq3zROcJpdkjGA9Iwn69RR5HN2xm2Uw5zFqa1dC0DF99WdlmRoMA==
+X-Received: by 2002:a17:90a:be0b:: with SMTP id a11mr13647302pjs.197.1622971606863;
+        Sun, 06 Jun 2021 02:26:46 -0700 (PDT)
+Received: from ojas ([2405:204:130d:e843:24e:5eab:4be9:d84d])
+        by smtp.gmail.com with ESMTPSA id gn4sm9047526pjb.16.2021.06.06.02.26.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Jun 2021 01:45:59 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Wenli Looi <wlooi@ucalgary.ca>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: Fix uninitialized variable
-Date: Sun, 06 Jun 2021 10:45:58 +0200
-Message-ID: <7256195.zb9d8qvCYo@linux.local>
-In-Reply-To: <CAKe_nd0fNE=+CP4O0cUtOPO5vRC8_gHxjLtH80r_4GO2MW5u4g@mail.gmail.com>
-References: <20210606070021.116284-1-wlooi@ucalgary.ca> <10029109.FgdUXNWx4t@linux.local> <CAKe_nd0fNE=+CP4O0cUtOPO5vRC8_gHxjLtH80r_4GO2MW5u4g@mail.gmail.com>
+        Sun, 06 Jun 2021 02:26:46 -0700 (PDT)
+Date: Sun, 6 Jun 2021 14:56:32 +0530
+From: Ojaswin Mujoo <ojaswin98@gmail.com>
+To: Stefan Wahren <stefan.wahren@i2se.com>
+Cc: Dan Carpenter <dan.carpenter@oracle.com>, nsaenz@kernel.org,
+	gregkh@linuxfoundation.org, arnd@arndb.de, phil@raspberrypi.com,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: staging: vc04_services: Need suggestions on trying to fix sparse
+ warning in vchiq_arm.c
+Message-ID: <20210606092601.GA6609@ojas>
+References: <20210601200513.GA10204@ojas>
+ <20210601202307.GC1955@kadam>
+ <20210602145000.GA3999@ojas>
+ <9ba341f7-17fc-980d-a7a0-2293c75dcf92@i2se.com>
+ <20210605072249.GA5967@ojas>
+ <57aa6e2b-0267-664d-539a-e82000928101@i2se.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <57aa6e2b-0267-664d-539a-e82000928101@i2se.com>
 
-On Sunday, June 6, 2021 10:09:39 AM CEST Wenli Looi wrote:
-> On Sun, Jun 6, 2021 at 1:00 AM Fabio M. De Francesco
+On Sat, Jun 05, 2021 at 10:41:17AM +0200, Stefan Wahren wrote:
+> Hi Ojaswin,
 > 
-> <fmdefrancesco@gmail.com> wrote:
-> > On Sunday, June 6, 2021 9:51:35 AM CEST Wenli Looi wrote:
-> > > On Sun, Jun 6, 2021 at 12:13 AM Greg Kroah-Hartman
-> > > 
-> > > <gregkh@linuxfoundation.org> wrote:
-> > > > On Sun, Jun 06, 2021 at 12:00:21AM -0700, Wenli Looi wrote:
-> > > > > Uninitialized struct with invalid pointer causes BUG and prevents 
-access
-> > > > > point from working. Access point works once I apply this patch.
-> > > > > 
-> > > > > https://forum.armbian.com/topic/14727-wifi-ap-kernel-bug-in-kernel-5444/
-> > > > > has more details.
-> > > > > 
-> > > > > Signed-off-by: Wenli Looi <wlooi@ucalgary.ca>
-> > > > > ---
-> > > > > 
-> > > > >  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 +-
-> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > 
-> > > > > diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> > > > > b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c index 
-2fb80b6eb..
-> > 
-> > 7308e1185
-> > 
-> > > > > 100644
-> > > > > --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> > > > > +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> > > > > @@ -2384,7 +2384,7 @@ void rtw_cfg80211_indicate_sta_assoc(struct
-> > 
-> > adapter *padapter,
-> > 
-> > > > > u8 *pmgmt_frame,> >
-> > > > > 
-> > > > >       DBG_871X(FUNC_ADPT_FMT"\n", FUNC_ADPT_ARG(padapter));
-> > > > >       
-> > > > >       {
-> > > > > 
-> > > > > -             struct station_info sinfo;
-> > > > > +             struct station_info sinfo = {};
-> > > > 
-> > > > What caused this bug to show up?  Did it happen from some other 
-commit?
-> > > > 
-> > > > Are you sure that all of the fields are being cleared properly here,
-> > > > what about any "holes" in the structure?
-> > > > 
-> > > > thanks,
-> > > > greg k-h
-[CUT]
-> > > 
-> > > Do you think kzalloc() would be preferable?
-> > 
-> > You cannot use kzalloc there: 'sinfo' is instantiated automatically on the
-> > stack. The example you took had a pointer to the struct.
+> Am 05.06.21 um 09:23 schrieb Ojaswin Mujoo:
+> > On Fri, Jun 04, 2021 at 08:13:06AM +0200, Stefan Wahren wrote:
+> >> Hi Ojaswin,
+> >>
+> >> Am 02.06.21 um 16:50 schrieb Ojaswin Mujoo:
+> >>> On Tue, Jun 01, 2021 at 11:23:07PM +0300, Dan Carpenter wrote:
+> >>>> The problem is not the Sparse warning, the problem is that this code is
+> >>>> a mess.  It used to very clearly buggy and I reported the bug.  I think
+> >>>> Arnd found the bug again independently and fixed it.
+> >>>>
+> >>>> A couple weeks ago Al Viro looked at this code.  Here is his write up:
+> >>>>
+> >>>> https://www.spinics.net/lists/kernel/msg3952745.html
+> >>>>
+> >>>> It shouldn't take Al Viro dozens of pages of detailed analysis to try
+> >>>> figure out if the code is safe or not.  Your idea silences the warning
+> >>>> but would make the code even more subtle and complicated.
+> >>>>
+> >>>> The right thing to do is to re-write the code to be simpler.
+> >>>>
+> >>>> regards,
+> >>>> dan carpenter
+> >>>>
+> >>> Thank you for the prompt reply and the link, it was very insightful. You
+> >>> are right, I was definitely going about this the wrong way and missing
+> >>> the larger picture. I'll spend some time trying to understand this
+> >>> codebase as I think that'd be a good start to understand how stuff works in
+> >>> the kernel (even though some of the things in this driver are anti patterns)
+> >>> and hopefully get some ideas on ways to clean this up.
+> >>>
+> >>> Anyways, thanks again for the help, cheers!
+> >> thanks for your interest in cleaning this up. Yes, it's not clear which
+> >> points on the TODO list are the lower hanging fruits. In case you don't
+> >> want to fix checkpatch issues, maybe you can look at points 8, 9, 10, 12
+> >> and 13. Most of them require testing with a Raspberry Pi, but feel free
+> >> to ask if you have problems with it.
+> >>
+> >> Regards
+> >> Stefan
+> >>
+> > Got it, Task 10 (cdev to its own file) seems like a pretty good task to
+> > get started with. I'm planning to buy a Rpi 4 so I think I can run tests
+> > on that. 
 > 
-> The stack variable could be replaced with code like:
+> okay, but the AFAIK the vchiq driver in the mainline kernel doesn't work
+> with Rpi 4 yet. The Raspberry Pi 3 B Plus is currently the recommend
+> devel platform, so you can test 32 and 64 bit kernel.
 > 
-> struct station_info *sinfo;if (!sinfo)
->
-Why that "if (!sinfo" before kzalloc?
->
-> sinfo = kzalloc(sizeof(*sinfo), GFP_KERNEL);
-> ...
-> cfg80211_new_sta(..., sinfo, ...);
-> kfree(sinfo);
+> Best regards
+Hey Stefan,
+
+Ahh got it. sure I can get a 3B+ instead, thanks for the heads up.
 > 
-> which is what the linked code basically does. I'm not sure if this is 
-preferred?
->
-I don't know that code, but I think that:
+> >
+> > Thank you so much for the help, I'll get back incase I face any issues down 
+> > the line.
+> >
+> > Regards,
+> > Ojaswin
+> >
+> >>> Ojaswin
+> >>>
+> >>> _______________________________________________
+> >>> linux-arm-kernel mailing list
+> >>> linux-arm-kernel@lists.infradead.org
+> >>> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> > _______________________________________________
+> > linux-arm-kernel mailing list
+> > linux-arm-kernel@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> 
 
-(1) It is generally preferred that big structures should be allocated 
-dinamically: kernel stack is a scarce resource.
-(2) Passing address of variables from the stack to other functions is 
-generally a good source of troubles.
-
-I think you are closer to the proper solution.
-
-Fabio 
->
-> > 
-> > > Sorry, I'm not familiar with "holes" in the struct.
-
-
-
-
+Regards,
+Ojaswin
