@@ -1,85 +1,97 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED0C70
-	for <linux-staging@lists.linux.dev>; Mon,  7 Jun 2021 07:11:25 +0000 (UTC)
-Received: by mail-oi1-f170.google.com with SMTP id t140so11857129oih.0
-        for <linux-staging@lists.linux.dev>; Mon, 07 Jun 2021 00:11:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=B+NastY+Pz10EdPGFzVizvekdrbEdVuCZEWQNd3dSGc=;
-        b=NayZbL975oqS/yu2/h7tbWBXBvH1j6sbZZLPUPSwI/2Mxmxeo645wx1OvJdIPw6QCi
-         d1OKTtEOHqOyINjzrV7pZw1j/Rb5xJj4gm744AUxS+ewHPJxXo5gC2W7A6q+uuSy7e6Z
-         4/wRSxXHcJO/PdgQksAMM1MkyERXp0vu0bCHtaCj1LAQUq1MaLjettpaawGa0c8Ut/zw
-         M19ebh6W+4jku1IY2D9aFvu4TFrLksBCy0PSjCX89y6xKC8DGE/5p/QQA4l21l6Ar3pb
-         ZzKvmnChsQEF18JQCnlYN60bLh9jN3UTNy9nDRoXWyrpRdZK+CLwPSFuJfi9+jvasiZp
-         X4LQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=B+NastY+Pz10EdPGFzVizvekdrbEdVuCZEWQNd3dSGc=;
-        b=eQg4Ff6yYro/GdVtyg7yM7mV3m0y7cfORvqoD2UMJEvOmPDN3rruDfU+JWRo1I6ARH
-         ReQY4ysMXUC4U6epzD4ABnTl3P4A+h5Odseoq2KMCc4r6YpsdWKiFk2eKSd7vcwhQjpr
-         GILa9oXPDg8BF68U1se7NvfPGZ7HjewYuvJyZVcPb1NSNi4WOP+lhY7i1gKEquqO1IHW
-         iSXR51oF8SaNGyuAkT3f/wEDAi5zGKve/QSD2H52TDw/dl1SMTrxyyOTgpGy/PBZ+Bf3
-         tycooB4z9vnX495ykFnSc7v12S3StW/EKlNzcYKsP02oLPkkoQdvmxNAVjhdxa1RX/RL
-         /zeg==
-X-Gm-Message-State: AOAM532tQblMZk4f0y369mJzF8/kE0MbjChc6SUppG5ebUuW/pHa1W6R
-	wsXAXct2zVhZ0B0VhVfhyxN1cT5O+9WVmDmjUbc=
-X-Google-Smtp-Source: ABdhPJwwUfX0S0cI6Q5aNoudGXTRkUCNLRR3lpBrMDBehrlvrn6OZGUn/ZeeycD4mAg2dX9PrvldyHUPAMIVb7/wVFE=
-X-Received: by 2002:aca:efc1:: with SMTP id n184mr18561881oih.23.1623049884722;
- Mon, 07 Jun 2021 00:11:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9145E70
+	for <linux-staging@lists.linux.dev>; Mon,  7 Jun 2021 07:20:23 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15779kDh074430;
+	Mon, 7 Jun 2021 07:20:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=qhPAhUr5YAF0o4ASCE+IuS5a+VZymq5evsuGWrWm9XA=;
+ b=ytF4eeP96vil5Jtivp6h2u78o+Q43vEcwf2Yt+iAXCMXdT+ns3n8udflMh5D8HCwsd/2
+ wIQJSYgcYSUWGcdkY/h3ZLdZWyZc37lLneYYBnihAeoDL5NZgUCJZF5JEs/bXxwf5wU9
+ cozAPyQCbu7Oj1OXDiBYMThEdRU6XivrAiYNRbtTG2bY4s0Fj8AG6FxahsT8i7BG6kR0
+ flvuyYg8v5XHvp7Iq+o+TH8UXCLtkUv3jBC5kJDQUq6phzD1VM3wIEBvvSisy2ZGMuXb
+ e5rGIjUm7f5oB7d6d/J+99bsuxK/T53XAjDeX0FFUUpdj7doWJmuX5NxUXSzDvTXAYMy zw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+	by aserp2120.oracle.com with ESMTP id 39017na1wc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 07 Jun 2021 07:20:13 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+	by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1577AJXY077676;
+	Mon, 7 Jun 2021 07:20:12 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by userp3030.oracle.com with ESMTP id 38yxctnasu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 07 Jun 2021 07:20:12 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 1577KBeJ099409;
+	Mon, 7 Jun 2021 07:20:11 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+	by userp3030.oracle.com with ESMTP id 38yxctnask-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 07 Jun 2021 07:20:11 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 1577K7qj027060;
+	Mon, 7 Jun 2021 07:20:08 GMT
+Received: from kadam (/41.212.42.34)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Mon, 07 Jun 2021 00:20:05 -0700
+Date: Mon, 7 Jun 2021 10:19:58 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Martin Kaiser <martin@kaiser.cx>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 6/9] staging: rtl8188eu: remove RT_TRACE and DBG_88E
+ prints from usb_ops_linux.c
+Message-ID: <20210607071958.GN1955@kadam>
+References: <20210605165858.3175-1-martin@kaiser.cx>
+ <20210605165858.3175-6-martin@kaiser.cx>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210605073023.21435-1-sergio.paracuellos@gmail.com>
- <20210605073023.21435-6-sergio.paracuellos@gmail.com> <20210607065934.GM1955@kadam>
-In-Reply-To: <20210607065934.GM1955@kadam>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Mon, 7 Jun 2021 09:11:13 +0200
-Message-ID: <CAMhs-H9MC7weYpkdZy_eNw01-tc+6DU58tciQt7J8BtSqazGxw@mail.gmail.com>
-Subject: Re: [PATCH 5/5] staging: mt7621-pci: parse some dt properties from
- root port child nodes
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: linux-staging@lists.linux.dev, Greg KH <gregkh@linuxfoundation.org>, 
-	NeilBrown <neil@brown.name>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210605165858.3175-6-martin@kaiser.cx>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: lmfaHgLbDUepcqMFZn2Hz_0XvECWgG3F
+X-Proofpoint-ORIG-GUID: lmfaHgLbDUepcqMFZn2Hz_0XvECWgG3F
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10007 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 spamscore=0
+ mlxlogscore=999 phishscore=0 impostorscore=0 suspectscore=0 clxscore=1015
+ mlxscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2106070057
 
-Hi Dan,
+On Sat, Jun 05, 2021 at 06:58:55PM +0200, Martin Kaiser wrote:
+> @@ -464,14 +403,8 @@ u32 usb_read_port(struct adapter *adapter, u32 addr, struct recv_buf *precvbuf)
+>  			  precvbuf);/* context is precvbuf */
+>  
+>  	err = usb_submit_urb(purb, GFP_ATOMIC);
+> -	if ((err) && (err != (-EPERM))) {
+> -		RT_TRACE(_module_hci_ops_os_c_, _drv_err_,
+> -			 ("cannot submit rx in-token(err=0x%.8x), URB_STATUS =0x%.8x",
+> -			 err, purb->status));
+> -		DBG_88E("cannot submit rx in-token(err = 0x%08x),urb_status = %d\n",
+> -			err, purb->status);
+> +	if ((err) && (err != (-EPERM)))
+>  		ret = _FAIL;
 
-On Mon, Jun 7, 2021 at 8:59 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
-> On Sat, Jun 05, 2021 at 09:30:23AM +0200, Sergio Paracuellos wrote:
-> > Properties 'clocks', 'resets' and 'phys' have been moved from parent
-> > node to the root port childs. Hence we have to adapt the way device
-> > tree is parsed in driver code to properly align things and make all
-> > the stuff work.
-> >
-> > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
->
-> It sounds like this commit needs a fixes tag?  What does "to properly
-> align things and make all the stuff work." in terms of what the user
-> sees?
+Not related to your patch but why is -EPERM treated differently?  It's
+not immediately clear that -EPERM is even something that usb_submit_urb()
+returns...
 
-I submitted this driver to get mainlined and when bindings have been
-reviewed I've been told to move this stuff into child nodes. Until now
-all was also being properly working but with these properties defined
-in the parent node. So I don't think any Fixes tag is needed here. So
-hopefully changes on this patchset are the last need to get this
-properly mainlined. I've been told to just make a 'git mv' without
-zero changes from the staging driver, that's why I am submitting
-changes to staging before.
+> -	}
+>  
+>  	return ret;
+>  }
 
->
-> regards,
-> dan carpenter
+regards,
+dan carpenter
 
-Best regards,
-    Sergio Paracuellos
-
->
