@@ -1,77 +1,83 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9B370
-	for <linux-staging@lists.linux.dev>; Mon,  7 Jun 2021 07:26:30 +0000 (UTC)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 1576vAnH006815;
-	Mon, 7 Jun 2021 06:59:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=/9lh0gmM4r3gZ2y+3t8XvzHivwRXZGOKWKHXzaPSY28=;
- b=i8MnuZ00caSAKChYV/0lJwSZQXP/Nh/pnG/2GuHTPoeREMdiz9QhICvAgukVXGz5UKN9
- dmvbjatuPqbwYkgw+00JuuYX3qIDYkyQBCzEyFB9Bxf7xA52TmJhIeX4wWwJg2uqZG3H
- vq43WHAf57i6DZLI4qsdcEBIaeHfnJgm8et2/Xccrl+yqXOM/MKndCvn9V46mCU8FS3p
- pCk0Wf5Cfj9osih/8MBhAEuvZuTik8QNc+WKrZqKFLKiBizYzaSVovkiBQFl/Gf+pQLN
- qcXQ16+Dj8h6xvR64h7bm5Q/NMD3VyQFzobc7hkLGRYm06aK6ThgrswvqLnMoFVvYbuj 7A== 
-Received: from oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3916m08480-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 07 Jun 2021 06:59:43 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
-	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 1576tTxK103479;
-	Mon, 7 Jun 2021 06:59:42 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3030.oracle.com with ESMTP id 38yya9w23e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 07 Jun 2021 06:59:42 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 1576t32t102250;
-	Mon, 7 Jun 2021 06:59:42 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-	by aserp3030.oracle.com with ESMTP id 38yya9w236-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 07 Jun 2021 06:59:41 +0000
-Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
-	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 1576xelP014981;
-	Mon, 7 Jun 2021 06:59:41 GMT
-Received: from kadam (/41.212.42.34)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Mon, 07 Jun 2021 06:59:40 +0000
-Date: Mon, 7 Jun 2021 09:59:34 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Cc: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org, neil@brown.name
-Subject: Re: [PATCH 5/5] staging: mt7621-pci: parse some dt properties from
- root port child nodes
-Message-ID: <20210607065934.GM1955@kadam>
-References: <20210605073023.21435-1-sergio.paracuellos@gmail.com>
- <20210605073023.21435-6-sergio.paracuellos@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3C470;
+	Mon,  7 Jun 2021 07:43:32 +0000 (UTC)
+Received: from [IPv6:2a01:e0a:4cb:a870:6b79:f23c:29c1:895d] (unknown [IPv6:2a01:e0a:4cb:a870:6b79:f23c:29c1:895d])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 09C031F42088;
+	Mon,  7 Jun 2021 08:43:23 +0100 (BST)
+Subject: Re: [PATCH 1/2] media: hevc: Add segment address field
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com
+Cc: mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
+ hverkuil-cisco@xs4all.nl, ezequiel@collabora.com,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20210606082314.454193-1-jernej.skrabec@gmail.com>
+ <20210606082314.454193-2-jernej.skrabec@gmail.com>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Message-ID: <82dfa0fa-995a-93af-dce7-79763e762cc3@collabora.com>
+Date: Mon, 7 Jun 2021 09:43:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210605073023.21435-6-sergio.paracuellos@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: JUMXHpECI4BPNTcOmqRB9IhBsUtBFqFS
-X-Proofpoint-GUID: JUMXHpECI4BPNTcOmqRB9IhBsUtBFqFS
+In-Reply-To: <20210606082314.454193-2-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On Sat, Jun 05, 2021 at 09:30:23AM +0200, Sergio Paracuellos wrote:
-> Properties 'clocks', 'resets' and 'phys' have been moved from parent
-> node to the root port childs. Hence we have to adapt the way device
-> tree is parsed in driver code to properly align things and make all
-> the stuff work.
-> 
-> Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 
-It sounds like this commit needs a fixes tag?  What does "to properly
-align things and make all the stuff work." in terms of what the user
-sees?
+Le 06/06/2021 à 10:23, Jernej Skrabec a écrit :
+> If HEVC frame consists of multiple slices, segment address has to be
+> known in order to properly decode it.
+>
+> Add segment address field to slice parameters.
+>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-regards,
-dan carpenter
+Reviewed-by Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
+> ---
+>   Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 3 +++
+>   include/media/hevc-ctrls.h                                | 3 ++-
+>   2 files changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 9120c5bcaf90..fac4b477da82 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -2997,6 +2997,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>       * - __u8
+>         - ``pic_struct``
+>         -
+> +    * - __u32
+> +      - ``slice_segment_addr``
+> +      -
+>       * - __u8
+>         - ``ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+>         - The list of L0 reference elements as indices in the DPB.
+> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> index dc964ff7cd29..19f8e2ad3375 100644
+> --- a/include/media/hevc-ctrls.h
+> +++ b/include/media/hevc-ctrls.h
+> @@ -197,10 +197,11 @@ struct v4l2_ctrl_hevc_slice_params {
+>   	__u8	pic_struct;
+>   
+>   	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
+> +	__u32	slice_segment_addr;
+>   	__u8	ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>   	__u8	ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>   
+> -	__u8	padding[5];
+> +	__u8	padding;
+>   
+>   	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction parameter */
+>   	struct v4l2_hevc_pred_weight_table pred_weight_table;
