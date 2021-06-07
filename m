@@ -1,115 +1,201 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B15E2F80
-	for <linux-staging@lists.linux.dev>; Mon,  7 Jun 2021 11:26:51 +0000 (UTC)
-Received: by mail-ot1-f44.google.com with SMTP id j11-20020a9d738b0000b02903ea3c02ded8so2733087otk.5
-        for <linux-staging@lists.linux.dev>; Mon, 07 Jun 2021 04:26:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A50D12F80
+	for <linux-staging@lists.linux.dev>; Mon,  7 Jun 2021 11:31:09 +0000 (UTC)
+Received: by mail-ot1-f49.google.com with SMTP id j11-20020a9d738b0000b02903ea3c02ded8so2743273otk.5
+        for <linux-staging@lists.linux.dev>; Mon, 07 Jun 2021 04:31:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=1R/0jEahsgVmz19yd9MfRXa5dIsPrCAKGQ/qRWmt3w4=;
-        b=sHDj5xh/kQEP5Eri1Zy6LzrrK4wsZNn3FUNaSSdtthZVPdY+8e7nUfz2JhzXzlNGKM
-         bnRkt6nJRA76irflia3gQ3kRweRo10I8RqjlbVj10yrFtjpMqWsiqyonmaf0+mu4btm8
-         brUbyBfzU/iCM5HeHuVrz4daIxiJyBHkNUOXytlTn3EwI4ret5ixR4wywZsnai5ZllQ+
-         sUOGA7zvlltVBbutIyZ3LZDQcKGAOzrfc4ExpFMf5GG9bLUiVGjoa3IqsOyQ9WnshMHS
-         p1bBHeBBvgIMRApO2Pzuv3Q1D9nxVrUnm5ZCPsCnXhYWDZP6vNJ66pYCuLF0hWw6Qxt5
-         sZsw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ftY+Tuj2UjU3Tjbqx4E9LJS0pxqonG7yGZODsQv5qaU=;
+        b=R+JhHyyQ7Z68LMMn5MqyDQXgkFZ2ZmEW3tecSQMzTCoIpJxWFePtGmjpbSWypNTW+P
+         Q+pXoXEJTtC7RtFOZfB5ceHmpzT82n9T/7dcnV/Dtidk1TkmAA/MGH24lr1lz6L7A8oo
+         QC7Wxiec18W11714Z9rTAOfpViQJz2XaFu3WnnzdzYfpGUcrUpAzyeJRV8EkA69M3ULI
+         0fOLrsHqfiJZsAj1RPaYMrDRDuIeZ+7sL7LJUULcX5j5b0vMvp6F9iMtgl+LGRHvm21v
+         Z4SEeOe44OCRzQTBckqt6dXDuR++DvEQSAltOExdY+Mt9XSUoWav/X2Zxe6UX/ZSaiBt
+         ZzSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=1R/0jEahsgVmz19yd9MfRXa5dIsPrCAKGQ/qRWmt3w4=;
-        b=fpEk/p7rrSVXJaFbiF+iEP9I9AZ3O9nmnbre1vHWzkHMlGOT4p1UUrcxCoo/OhmnTV
-         mVoeFTKkGqL7Ztvn4nCBgMiiZc6fUNFIgZquwz6y4Hwsqhoz8SfHDy4iUDTbVlsaZ59N
-         KWp/VpWTEDv3IZOIeNfC/fELYHl+ToBEbVzVpt22szYQLbXT3vhGLufnZ3CibJYGq1Qq
-         LzycU96H7h5lek4Tue7u10vtjy6jnmjmwxd/XDztP26D85o7MsxPbmYxg9pO6QRVRj0z
-         b7iDRIEAhyP+ugZriI3bUpbAVounsQRYij5dsa4dfuRjOM801kZMbhFFLMIYdCuiwcio
-         yyJA==
-X-Gm-Message-State: AOAM530Mxw3q+a6E4M35KXH4ZrAiKDtlMG9gJ8C7TlYe6zM5TRl+gDvu
-	grCUjq1Z5DC1sh/3lW4qasE=
-X-Google-Smtp-Source: ABdhPJzAQnbKKUpILUTU2nWGFoqkG0Gu2iEAt72uOrtphnULjb9EkW4zPQnG1moZVPNXDMA8ZSol6w==
-X-Received: by 2002:a9d:1a8:: with SMTP id e37mr13202993ote.316.1623065210351;
-        Mon, 07 Jun 2021 04:26:50 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id c13sm1245151otr.23.2021.06.07.04.26.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jun 2021 04:26:49 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 7 Jun 2021 04:26:48 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Fabio Aiuto <fabioaiuto83@gmail.com>, gregkh@linuxfoundation.org,
-	hdegoede@redhat.com, Larry.Finger@lwfinger.net,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: Use list iterators and helpers
-Message-ID: <20210607112648.GA314533@roeck-us.net>
-References: <20210428173301.149619-1-linux@roeck-us.net>
- <20210604172632.GA1526@agape.jhs>
- <20210605005422.GB255680@roeck-us.net>
- <20210607111704.GT1955@kadam>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ftY+Tuj2UjU3Tjbqx4E9LJS0pxqonG7yGZODsQv5qaU=;
+        b=AJ1Hwj0MgV9wFqA/FPKt/hNEAYHPeSVJvN6XJj14ugj/RFYDY44srlh0J6/lqIpqiQ
+         Qd0A+XnTxNXqMD6JtTAmMqtJIDCZC8cpsmmVh6DBtnmb3HpzPMULmb+31x+b9AIHFy2+
+         UaZHtMTElnkhdB9DAlNYOnWujr91jsBcypUJjvaKScPgcVYbvNYwD2YRW1gK5vctcX+e
+         VqR3Ne4wMVtisnMHAUvcscNTkfLEhjNgepWiPvaS58MmEM3QGIrt2vUa1L3rtvR4QiAs
+         skhUu4vtEUiHYiMQwlSw7q6z3uJx3ke0a/Q5Zi62WDeQ+f8Tl2WMVJ3cAfCi6ShyAWKA
+         /iTw==
+X-Gm-Message-State: AOAM531D2nirTZ2vhFJ5YzLkmf7hzNqybtHuaPrQ9L3tk/JN0RQXd4ZE
+	aKbteVA3DP6jVTATa/J5ttc0LKhdOqt0prcF98s=
+X-Google-Smtp-Source: ABdhPJzKVMqNs5UGVQfemsvi4pea++xD0DKgxt5GWcbD7cI/V3hCxXMO/5f+jAIBp/C7JlDMugo87ulnfzLq8rjRQmI=
+X-Received: by 2002:a05:6830:99:: with SMTP id a25mr3953314oto.72.1623065468884;
+ Mon, 07 Jun 2021 04:31:08 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210607111704.GT1955@kadam>
+References: <20210605073023.21435-1-sergio.paracuellos@gmail.com>
+ <20210605073023.21435-6-sergio.paracuellos@gmail.com> <20210607065934.GM1955@kadam>
+ <CAMhs-H9MC7weYpkdZy_eNw01-tc+6DU58tciQt7J8BtSqazGxw@mail.gmail.com>
+ <20210607103736.GR1955@kadam> <CAMhs-H_6g86wF+M-0iGUqFYRQhHdkuciTLgjSvbPdvxE7q+5WQ@mail.gmail.com>
+In-Reply-To: <CAMhs-H_6g86wF+M-0iGUqFYRQhHdkuciTLgjSvbPdvxE7q+5WQ@mail.gmail.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Mon, 7 Jun 2021 13:30:58 +0200
+Message-ID: <CAMhs-H-X8njQxVG=d5929HL1H4sJ3g7-PQ6T-rzzK4e00QQzYg@mail.gmail.com>
+Subject: Re: [PATCH 5/5] staging: mt7621-pci: parse some dt properties from
+ root port child nodes
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: linux-staging@lists.linux.dev, Greg KH <gregkh@linuxfoundation.org>, 
+	NeilBrown <neil@brown.name>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jun 07, 2021 at 02:17:04PM +0300, Dan Carpenter wrote:
-> On Fri, Jun 04, 2021 at 05:54:22PM -0700, Guenter Roeck wrote:
-> > On Fri, Jun 04, 2021 at 07:26:33PM +0200, Fabio Aiuto wrote:
-> > > Hello Guenter,
-> > > 
-> > > On Wed, Apr 28, 2021 at 10:33:01AM -0700, Guenter Roeck wrote:
-> > > > The rtl8723bs driver manually re-implements list helper functions
-> > > > and macros in various ways. Replace with existing list helpers.
-> > > 
-> > > I'm testing rtl8723bs on a baytrail tablet (Lenovo Ideapad MIIX 300-10IBY)
-> > > and applying the tag staging-5.13-rc4, loading r8723bs makes the whole
-> > > system freezing while trying to connect to local AP.
-> > > 
-> > > Only a power off is allowed.
-> > > 
-> > > I found that commit b3cd518c5abd42fbc747ef55a5fdc40bf7bf01c0
-> > > (staging: rtl8723bs: Use list iterators and helpers)
-> > > introduced the bug.
-> > > 
-> > > I'm trying to find out what's wrong with this patch, have you any suggestions?
-> > 
-> > Some of the iterators needed the _safe variant which I didn't take into account.
-> > I thought that was fixed, but maybe some locations were missed.
-> 
-> Ah...  Crud.  As near as I can tell Martin fixed a lot of these in the driver
-> he is working on, rtl8188eu.  But they still aren't fixed in rtl8723bs.  I looked
-> at the functions and the following loops need to changed to list_for_each_safe().
-> (Doing a search for list_del_init() helped during review).
-> 
+Hi Dan,
 
-Hans wants the patch introducing the problem reverted, so I won't bother
-sending a fix. Sorry for the trouble. Learned a lesson (I hope).
+On Mon, Jun 7, 2021 at 1:10 PM Sergio Paracuellos
+<sergio.paracuellos@gmail.com> wrote:
+>
+> Hi Dan,
+>
+> On Mon, Jun 7, 2021 at 12:37 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+> >
+> > On Mon, Jun 07, 2021 at 09:11:13AM +0200, Sergio Paracuellos wrote:
+> > > Hi Dan,
+> > >
+> > > On Mon, Jun 7, 2021 at 8:59 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+> > > >
+> > > > On Sat, Jun 05, 2021 at 09:30:23AM +0200, Sergio Paracuellos wrote:
+> > > > > Properties 'clocks', 'resets' and 'phys' have been moved from parent
+> > > > > node to the root port childs. Hence we have to adapt the way device
+> > > > > tree is parsed in driver code to properly align things and make all
+> > > > > the stuff work.
+> > > > >
+> > > > > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> > > >
+> > > > It sounds like this commit needs a fixes tag?  What does "to properly
+> > > > align things and make all the stuff work." in terms of what the user
+> > > > sees?
+> > >
+> > > I submitted this driver to get mainlined and when bindings have been
+> > > reviewed I've been told to move this stuff into child nodes. Until now
+> > > all was also being properly working but with these properties defined
+> > > in the parent node. So I don't think any Fixes tag is needed here. So
+> > > hopefully changes on this patchset are the last need to get this
+> > > properly mainlined. I've been told to just make a 'git mv' without
+> > > zero changes from the staging driver, that's why I am submitting
+> > > changes to staging before.
+> >
+> > I'm really trying to understand how this affects the user experience but
+> > it sounds like you don't know either but you were told it was the
+> > correct thing and it seems to work?
+>
+> What do you mean with "user experience" here? So to work with the
+> future mainlined driver we need the dts file to be aligned with device
+> tree parsing code. If we move these properties into child nodes
+> (previous patch do this) and the code is properly aligned, for the
+> user the change is transparent. This SoC is mostly used in openWRT
+> where new versions compile new code and device tree completely so I
+> don't expect any compatibility problems also because of these changes,
+> AFAICT.
+>
+> > That's not ideal but I can live
+> > with it I guess...  I guess hopefully no change but it's just a
+> > correctness issue?
+>
+> Seems that the bindings are more correct, moving the properties into
+> child nodes.
+>
+> >
+> > Btw, we moved from devm_reset_control_get_exclusive() to
+> > of_reset_control_get_exclusive().  Does that mean we need to add a call
+> > to reset_control_put() in the remove() path?
+>
+> Yes this has moved because we need to access the child node with
+> 'device_node' instead of 'device'. It seems there is not another
+> possibility with devm_* like the ones we have with clk and phy apis.
+> Ok, so I have to manually call 'reset_control_put'. Will add it, thanks.
 
-Guenter
+Should this be enough for error and remove paths, right?
 
-> expire_timeout_chk() (both loops)
-> rtw_acl_remove_sta()
-> rtw_sta_flush()
-> stop_ap_mode()
-> 
-> rtw_free_network_queue()
-> chk_bmc_sleepq_hdl()
-> rtw_free_all_stainfo()
-> rtw_free_xmitframe_queue()
-> dequeue_xmitframes_to_sleeping_queue()
-> wakeup_sta_to_xmit()  (both loops)
-> xmit_delivery_enabled_frames()
-> 
-> xmit_xmitframes()
-> cfg80211_rtw_del_station()
-> 
-> regards,
-> dan carpenter
-> 
-> 
+diff --git a/drivers/staging/mt7621-pci/pci-mt7621.c
+b/drivers/staging/mt7621-pci/pci-mt7621.c
+index 2e1cd5cc1eec..8e20c5ede48d 100644
+--- a/drivers/staging/mt7621-pci/pci-mt7621.c
++++ b/drivers/staging/mt7621-pci/pci-mt7621.c
+@@ -294,6 +294,7 @@ static int mt7621_pcie_parse_port(struct mt7621_pcie *pcie,
+        struct device *dev = pcie->dev;
+        struct platform_device *pdev = to_platform_device(dev);
+        char name[10];
++       int err;
+
+        port = devm_kzalloc(dev, sizeof(*port), GFP_KERNEL);
+        if (!port)
+@@ -319,14 +320,16 @@ static int mt7621_pcie_parse_port(struct
+mt7621_pcie *pcie,
+        port->phy = devm_of_phy_get(dev, node, name);
+        if (IS_ERR(port->phy)) {
+                dev_err(dev, "failed to get pcie-phy%d\n", slot);
+-               return PTR_ERR(port->phy);
++               err = PTR_ERR(port->phy);
++               goto remove_reset;
+        }
+
+        port->gpio_rst = devm_gpiod_get_index_optional(dev, "reset", slot,
+                                                       GPIOD_OUT_LOW);
+        if (IS_ERR(port->gpio_rst)) {
+                dev_err(dev, "Failed to get GPIO for PCIe%d\n", slot);
+-               return PTR_ERR(port->gpio_rst);
++               err = PTR_ERR(port->gpio_rst);
++               goto remove_reset;
+        }
+
+        port->slot = slot;
+@@ -336,6 +339,10 @@ static int mt7621_pcie_parse_port(struct mt7621_pcie *pcie,
+        list_add_tail(&port->list, &pcie->ports);
+
+        return 0;
++
++remove_reset:
++       reset_control_put(port->pcie_rst);
++       return err;
+ }
+
+ static int mt7621_pcie_parse_dt(struct mt7621_pcie *pcie)
+@@ -596,6 +603,17 @@ static int mt7621_pci_probe(struct platform_device *pdev)
+        return mt7621_pcie_register_host(bridge);
+ }
+
++static int mt7621_pci_remove(struct platform_device *pdev)
++{
++       struct mt7621_pcie *pcie = platform_get_drvdata(pdev);
++       struct mt7621_pcie_port *port;
++
++       list_for_each_entry(port, &pcie->ports, list)
++               reset_control_put(port->pcie_rst);
++
++       return 0;
++}
++
+ static const struct of_device_id mt7621_pci_ids[] = {
+        { .compatible = "mediatek,mt7621-pci" },
+        {},
+@@ -604,6 +622,7 @@ MODULE_DEVICE_TABLE(of, mt7621_pci_ids);
+
+ static struct platform_driver mt7621_pci_driver = {
+        .probe = mt7621_pci_probe,
++       .remove = mt7621_pci_remove,
+        .driver = {
+                .name = "mt7621-pci",
+                .of_match_table = of_match_ptr(mt7621_pci_ids),
+
+Thanks,
+    Sergio Paracuellos
+>
+> Best regards,
+>    Sergio Paracuellos
+>
+> > regards,
+> > dan carpenter
+> >
