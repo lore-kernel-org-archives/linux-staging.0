@@ -1,83 +1,151 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3C470;
-	Mon,  7 Jun 2021 07:43:32 +0000 (UTC)
-Received: from [IPv6:2a01:e0a:4cb:a870:6b79:f23c:29c1:895d] (unknown [IPv6:2a01:e0a:4cb:a870:6b79:f23c:29c1:895d])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 09C031F42088;
-	Mon,  7 Jun 2021 08:43:23 +0100 (BST)
-Subject: Re: [PATCH 1/2] media: hevc: Add segment address field
-To: Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org,
- paul.kocialkowski@bootlin.com
-Cc: mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
- hverkuil-cisco@xs4all.nl, ezequiel@collabora.com,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20210606082314.454193-1-jernej.skrabec@gmail.com>
- <20210606082314.454193-2-jernej.skrabec@gmail.com>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <82dfa0fa-995a-93af-dce7-79763e762cc3@collabora.com>
-Date: Mon, 7 Jun 2021 09:43:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 883BF70
+	for <linux-staging@lists.linux.dev>; Mon,  7 Jun 2021 08:33:40 +0000 (UTC)
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+	by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1578TKx6047472;
+	Mon, 7 Jun 2021 08:33:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=sjptcc6ddE7IbOrf/gIK4CmvjxMyt9MxAZ4Zcn5N0Tc=;
+ b=y5YRZn5ycObCmYamg06IOboPg2daygOz2ZDGFRkNTF8bTtaN9Q3ntPvwOd2s8nxpcCo6
+ xCxTavDjLbsEYmLtpO/J5XqwNwd9o6BoejrBv2wO6Ops5J4YnQq+hI6LRZ+MoTPVcq1c
+ F0arB4KDDe4I9grKQE0hVrBM0rKE0f2Oq+yPWKClZupEKkC68B0aMfPpvnbgTUZ4ZW9x
+ mps7gpXgGRDT+VFFuCE5L5RghkxYFTJcKau+vPRJn/Y6Xr5K5LxcTVst7BNSG/VvXyXt
+ 1RpechsO7XwhqPYqi6tADNXDCkoAnOPMtUhmjs5/ldXdfD1Pp2XZw06R4BVPGFJp94n5 JQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by aserp2130.oracle.com with ESMTP id 38yxscab0c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 07 Jun 2021 08:33:30 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1578Uvxf031802;
+	Mon, 7 Jun 2021 08:33:30 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by userp3020.oracle.com with ESMTP id 390k1pve6e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 07 Jun 2021 08:33:30 +0000
+Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 1578XTc1035193;
+	Mon, 7 Jun 2021 08:33:29 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+	by userp3020.oracle.com with ESMTP id 390k1pve6a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 07 Jun 2021 08:33:29 +0000
+Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
+	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 1578XSFv000340;
+	Mon, 7 Jun 2021 08:33:28 GMT
+Received: from kadam (/41.212.42.34)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Mon, 07 Jun 2021 01:33:24 -0700
+Date: Mon, 7 Jun 2021 11:33:17 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Wenli Looi <wlooi@ucalgary.ca>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: Fix uninitialized variable
+Message-ID: <20210607083316.GO1955@kadam>
+References: <20210606070021.116284-1-wlooi@ucalgary.ca>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210606082314.454193-2-jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210606070021.116284-1-wlooi@ucalgary.ca>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-ORIG-GUID: rIaSwfS6bZJsMnvyKB1KooXLrUCtGmO_
+X-Proofpoint-GUID: rIaSwfS6bZJsMnvyKB1KooXLrUCtGmO_
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10007 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 lowpriorityscore=0
+ phishscore=0 suspectscore=0 bulkscore=0 spamscore=0 priorityscore=1501
+ mlxscore=0 malwarescore=0 mlxlogscore=999 clxscore=1011 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2106070066
 
-
-Le 06/06/2021 à 10:23, Jernej Skrabec a écrit :
-> If HEVC frame consists of multiple slices, segment address has to be
-> known in order to properly decode it.
->
-> Add segment address field to slice parameters.
->
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Reviewed-by Benjamin Gaignard <benjamin.gaignard@collabora.com>
-
+On Sun, Jun 06, 2021 at 12:00:21AM -0700, Wenli Looi wrote:
+> Uninitialized struct with invalid pointer causes BUG and prevents access
+> point from working. Access point works once I apply this patch.
+> 
+> https://forum.armbian.com/topic/14727-wifi-ap-kernel-bug-in-kernel-5444/
+> has more details.
+> 
+> Signed-off-by: Wenli Looi <wlooi@ucalgary.ca>
 > ---
->   Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 3 +++
->   include/media/hevc-ctrls.h                                | 3 ++-
->   2 files changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index 9120c5bcaf90..fac4b477da82 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -2997,6 +2997,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->       * - __u8
->         - ``pic_struct``
->         -
-> +    * - __u32
-> +      - ``slice_segment_addr``
-> +      -
->       * - __u8
->         - ``ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
->         - The list of L0 reference elements as indices in the DPB.
-> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> index dc964ff7cd29..19f8e2ad3375 100644
-> --- a/include/media/hevc-ctrls.h
-> +++ b/include/media/hevc-ctrls.h
-> @@ -197,10 +197,11 @@ struct v4l2_ctrl_hevc_slice_params {
->   	__u8	pic_struct;
->   
->   	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
-> +	__u32	slice_segment_addr;
->   	__u8	ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->   	__u8	ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->   
-> -	__u8	padding[5];
-> +	__u8	padding;
->   
->   	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction parameter */
->   	struct v4l2_hevc_pred_weight_table pred_weight_table;
+
+This patch is correct but the commit message needs to be updated.  Your
+version 2 patch is not correct.
+
+We don't like "follow this link for all the information" type commit
+messages.  Clicking on a link is annoying and links die after five
+years.  The link can be there but the main information needs
+to be in the commit message.  Generally it's good to put the stack trace
+in the commit so that people can search for it.
+
+As Greg pointed out, you need to add a Fixes tag.  So far as I can see
+it's ->pertid and ->generation which are not initialized and the bugs
+were introduced in two different commits so you need two Fixes tags.
+
+Fixes: 8689c051a201 ("cfg80211: dynamically allocate per-tid stats for station info")
+Fixes: f5ea9120be2e ("nl80211: add generation number to all dumps")
+
+Adding a Fixes tag will mean the correct people are CC'd in the patch
+and can review the fix.
+
+Greg asked about struct holes and the answer is "= {}" will zero out
+struct holes but it's not important in this case.  The "= {}" is a GCC
+extension for zeroing structs and it's not part of the C standard.
+The struct has a kernel pointer in it so we had better not be shairing
+it to user space.
+
+Here is a better commit message.  Please resend the commit with
+something like the following.
+
+staging: rtl8723bs: Fix uninitialized variables
+
+The sinfo.pertid and sinfo.generation variables are not initialized
+and it causes a crash when we use this as a wireless access point.
+
+[  456.873025] ------------[ cut here ]------------
+[  456.878198] kernel BUG at mm/slub.c:3968!
+[  456.882680] Internal error: Oops - BUG: 0 [#1] PREEMPT SMP ARM
+
+  [ snip ]
+
+[  457.271004] Backtrace: 
+[  457.273733] [<c02b7ee4>] (kfree) from [<c0e2a470>] (nl80211_send_station+0x954/0xfc4)
+[  457.282481]  r9:eccca0c0 r8:e8edfec0 r7:00000000 r6:00000011 r5:e80a9480 r4:e8edfe00
+[  457.291132] [<c0e29b1c>] (nl80211_send_station) from [<c0e2b18c>] (cfg80211_new_sta+0x90/0x1cc)
+[  457.300850]  r10:e80a9480 r9:e8edfe00 r8:ea678cca r7:00000a20 r6:00000000 r5:ec46d000
+[  457.309586]  r4:ec46d9e0
+[  457.312433] [<c0e2b0fc>] (cfg80211_new_sta) from [<bf086684>] (rtw_cfg80211_indicate_sta_assoc+0x80/0x9c [r8723bs])
+[  457.324095]  r10:00009930 r9:e85b9d80 r8:bf091050 r7:00000000 r6:00000000 r5:0000001c
+[  457.332831]  r4:c1606788
+[  457.335692] [<bf086604>] (rtw_cfg80211_indicate_sta_assoc [r8723bs]) from [<bf03df38>] (rtw_stassoc_event_callback+0x1c8/0x1d4 [r8723bs])
+[  457.349489]  r7:ea678cc0 r6:000000a1 r5:f1225f84 r4:f086b000
+[  457.355845] [<bf03dd70>] (rtw_stassoc_event_callback [r8723bs]) from [<bf048e4c>] (mlme_evt_hdl+0x8c/0xb4 [r8723bs])
+[  457.367601]  r7:c1604900 r6:f086c4b8 r5:00000000 r4:f086c000
+[  457.373959] [<bf048dc0>] (mlme_evt_hdl [r8723bs]) from [<bf03693c>] (rtw_cmd_thread+0x198/0x3d8 [r8723bs])
+[  457.384744]  r5:f086e000 r4:f086c000
+[  457.388754] [<bf0367a4>] (rtw_cmd_thread [r8723bs]) from [<c014a214>] (kthread+0x170/0x174)
+[  457.398083]  r10:ed7a57e8 r9:bf0367a4 r8:f086b000 r7:e8ede000 r6:00000000 r5:e9975200
+[  457.406828]  r4:e8369900
+[  457.409653] [<c014a0a4>] (kthread) from [<c01010e8>] (ret_from_fork+0x14/0x2c)
+[  457.417718] Exception stack(0xe8edffb0 to 0xe8edfff8)
+[  457.423356] ffa0:                                     00000000 00000000 00000000 00000000
+[  457.432492] ffc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[  457.441618] ffe0: 00000000 00000000 00000000 00000000 00000013 00000000
+[  457.449006]  r10:00000000 r9:00000000 r8:00000000 r7:00000000 r6:00000000 r5:c014a0a4
+[  457.457750]  r4:e9975200
+[  457.460574] Code: 1a000003 e5953004 e3130001 1a000000 (e7f001f2) 
+[  457.467381] ---[ end trace 4acbc8c15e9e6aa7 ]---
+
+Link: https://forum.armbian.com/topic/14727-wifi-ap-kernel-bug-in-kernel-5444/
+Fixes: 8689c051a201 ("cfg80211: dynamically allocate per-tid stats for station info")
+Fixes: f5ea9120be2e ("nl80211: add generation number to all dumps")
+Signed-off-by:
+
+regards,
+dan carpenter
