@@ -1,356 +1,118 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7279629CA
-	for <linux-staging@lists.linux.dev>; Mon,  7 Jun 2021 13:46:21 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id d184so311602wmd.0
-        for <linux-staging@lists.linux.dev>; Mon, 07 Jun 2021 06:46:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1382529CA
+	for <linux-staging@lists.linux.dev>; Mon,  7 Jun 2021 14:17:26 +0000 (UTC)
+Received: by mail-ot1-f53.google.com with SMTP id 36-20020a9d0ba70000b02902e0a0a8fe36so16847187oth.8
+        for <linux-staging@lists.linux.dev>; Mon, 07 Jun 2021 07:17:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qhQP/twr4QHiTiaT0FbKTQmnBGc43UZ8tEbQ/KGkrgc=;
-        b=LZTyNqzN2Q0dMX9fyO5XOuX+dzc2Y97EIzu8p1ZuxMvKj3kOaUTp8qahVTXRpRC/N2
-         W46mVhXu6QowxAtY6vEZcgQCY9W5trsB9ub8vYObbVUak3BBRyFI2V12ZGOwVix52NtM
-         oygRoiekCbez3DKzC6IKAInwGUcyPUrNgpp5XXVm5ICHLVopUhMqc5PcQ0GqaXisTved
-         gCYdXpDfAX0q/vXhpTGh8bo7uDTcCoHgXJsAAebYOkDqXvgA9Un3mu4sb4vmqQ/ONlOj
-         g3E/KZkT9sAY6ZN+vYqPBHLrru9gSzUgX5eVvHYYFlp/monzJR9aeiL02l/wHtT+jf0e
-         Aahw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jf0M/UYksM4f8cyl+048fyKCWQmP2lNg2nNyEcj8d5E=;
+        b=Kg+qziM6aievX5zkie0Ox1cxPv/RgTLRIFDmVRgZRMXs/Lc2IV5tMQ9A96lhR6U02O
+         dCKmoQZ6lR8dEPOPb6hSQ7vnarkgXFjNFyc6CHNX6RpGJRDSmQMcxG7prI7JKFLy4rIS
+         UEbaNa+S03Qqvnf7zdu099d9pBK3o3secmq5qBl6ecDhlm/zJAfJ9CauZMlzQ8j25tQe
+         4CgrqBYnPZfA0niEbJxAZJAlfWZV9eNrovUAYQYNrbgYs8KZc5U2wtcGFpL/+vFeDad0
+         k2S23VLG25eTJEf05b4TNtdSpW2muSbRDhiO3dYTuvJrjbNRprjm7jJVwRnEn/QCkrTq
+         LeXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qhQP/twr4QHiTiaT0FbKTQmnBGc43UZ8tEbQ/KGkrgc=;
-        b=kpQR5IjcQDcTefX/0v5riIT6TAyV/bOOsRw2AUy40y96haQoZ89e1d+HYKgswJeKhm
-         qLYAySm6U8Fqy0bCTaWY01rO2D0Yrhum3UZ2HHjBZ6adA9vw/pWmJe5M6G2kYCqEvjAL
-         cdwBe9mxd0Z1Zud9Q9whhOGeNpm4x+pmN+FElBVrcteAcLmeoe5RvHDTKoz6NxuFAX/X
-         3m5vSjxx236vnPKVaLQbR42axohk4mJRAScLJJsatIe7g2Hq6UhmwYenT+TrK/5i02qe
-         lz5WDEnB5Jr6X4SNf5hboWTDmeUncNtAKQhrjtBMgwqnt7zahwqwdArpEBL2lJhVlqnA
-         sidw==
-X-Gm-Message-State: AOAM5338RarnadzI7hWO7kxrAtBHRtDtZ9A98eXPsfLwfE6Nedj7cYpa
-	bIt5Hq5jvNamuTJ/kFRf6kk=
-X-Google-Smtp-Source: ABdhPJydJhge1kqWUV245pB7ZLalEYQEpRt33owopQg5/EAI9n+CAlHq/um/jxHid7kg6P+VrXXKJA==
-X-Received: by 2002:a1c:65c2:: with SMTP id z185mr17296092wmb.2.1623073579945;
-        Mon, 07 Jun 2021 06:46:19 -0700 (PDT)
-Received: from agape ([5.171.73.82])
-        by smtp.gmail.com with ESMTPSA id 89sm17452102wrq.14.2021.06.07.06.46.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jun 2021 06:46:19 -0700 (PDT)
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: dan.carpenter@oracle.com,
-	hdegoede@redhat.com,
-	Larry.Finger@lwfinger.net,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Guenter Roeck <linux@roeck-us.net>
-Subject: [PATCH] staging: rtl8723bs: use list_for_each_safe in loops deleting iterated items
-Date: Mon,  7 Jun 2021 15:46:18 +0200
-Message-Id: <20210607134618.11237-1-fabioaiuto83@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jf0M/UYksM4f8cyl+048fyKCWQmP2lNg2nNyEcj8d5E=;
+        b=VS4uYAQDk/dac1sZTVsJI5NlCqQowzcvASmwBFZdFiTeA1Ff1EKR3GvDd4xOkTycGa
+         inhci8nPI6tEZRlxIU+iwkwFSkgCt74oLiEbs/9lx7ldaHX5eTCGXti/mLcbtRNMKgKY
+         Id3hzf/K9LglVPPBRTHWteHBmDOhcsIwHfkYL3lZGXYHqvp+dk4Ibjgoa3g7J66JKpTl
+         hY/+8FJO+4+lYdfWro6/l02pOUqIMuTyaFecQ9xv0Pdha6+NHaMoxqeURiN71cxf6EqJ
+         gyAxRKCSs+83Qz4GSsfH6A7oC1FmMYNrrDH6N8WcJwY1gX1pHKqrsSo4OU3ugODy/VBn
+         ibdQ==
+X-Gm-Message-State: AOAM531Xa5UUEZYoNapsVHJYJUWLHSykIti2cDolc2JmpWWvIoop2gCr
+	tNR1FKKw/soHkEP1jeKIXMesSfC1GBqhNSU9gvE=
+X-Google-Smtp-Source: ABdhPJy6VceyJx88snu3bvR7arK1gj3G/AgPgWPLTcnJJK5cNvvp7CyFcATRq7MOIGMl8zVBLmkD2SYz42XX3x+6ilE=
+X-Received: by 2002:a05:6830:19d9:: with SMTP id p25mr14163998otp.236.1623075445270;
+ Mon, 07 Jun 2021 07:17:25 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210605073023.21435-1-sergio.paracuellos@gmail.com>
+ <20210605073023.21435-6-sergio.paracuellos@gmail.com> <20210607065934.GM1955@kadam>
+ <CAMhs-H9MC7weYpkdZy_eNw01-tc+6DU58tciQt7J8BtSqazGxw@mail.gmail.com>
+ <20210607103736.GR1955@kadam> <CAMhs-H_6g86wF+M-0iGUqFYRQhHdkuciTLgjSvbPdvxE7q+5WQ@mail.gmail.com>
+ <20210607132019.GV1955@kadam>
+In-Reply-To: <20210607132019.GV1955@kadam>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Mon, 7 Jun 2021 16:17:14 +0200
+Message-ID: <CAMhs-H-rOiSZG3dPYuFez_Qzd5Zo3BX9sKkW3Wuap_Mob-DLGA@mail.gmail.com>
+Subject: Re: [PATCH 5/5] staging: mt7621-pci: parse some dt properties from
+ root port child nodes
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: linux-staging@lists.linux.dev, Greg KH <gregkh@linuxfoundation.org>, 
+	NeilBrown <neil@brown.name>
+Content-Type: text/plain; charset="UTF-8"
 
-Fix some beautified loops over linked lists.
-Use list_for_each_safe on loops which could delete
-objects in the list.
+On Mon, Jun 7, 2021 at 3:20 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+>
+> On Mon, Jun 07, 2021 at 01:10:57PM +0200, Sergio Paracuellos wrote:
+> > Hi Dan,
+> >
+> > On Mon, Jun 7, 2021 at 12:37 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+> > >
+> > > On Mon, Jun 07, 2021 at 09:11:13AM +0200, Sergio Paracuellos wrote:
+> > > > Hi Dan,
+> > > >
+> > > > On Mon, Jun 7, 2021 at 8:59 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+> > > > >
+> > > > > On Sat, Jun 05, 2021 at 09:30:23AM +0200, Sergio Paracuellos wrote:
+> > > > > > Properties 'clocks', 'resets' and 'phys' have been moved from parent
+> > > > > > node to the root port childs. Hence we have to adapt the way device
+> > > > > > tree is parsed in driver code to properly align things and make all
+> > > > > > the stuff work.
+> > > > > >
+> > > > > > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> > > > >
+> > > > > It sounds like this commit needs a fixes tag?  What does "to properly
+> > > > > align things and make all the stuff work." in terms of what the user
+> > > > > sees?
+> > > >
+> > > > I submitted this driver to get mainlined and when bindings have been
+> > > > reviewed I've been told to move this stuff into child nodes. Until now
+> > > > all was also being properly working but with these properties defined
+> > > > in the parent node. So I don't think any Fixes tag is needed here. So
+> > > > hopefully changes on this patchset are the last need to get this
+> > > > properly mainlined. I've been told to just make a 'git mv' without
+> > > > zero changes from the staging driver, that's why I am submitting
+> > > > changes to staging before.
+> > >
+> > > I'm really trying to understand how this affects the user experience but
+> > > it sounds like you don't know either but you were told it was the
+> > > correct thing and it seems to work?
+> >
+> > What do you mean with "user experience" here? So to work with the
+> > future mainlined driver we need the dts file to be aligned with device
+> > tree parsing code. If we move these properties into child nodes
+> > (previous patch do this) and the code is properly aligned, for the
+> > user the change is transparent. This SoC is mostly used in openWRT
+> > where new versions compile new code and device tree completely so I
+> > don't expect any compatibility problems also because of these changes,
+> > AFAICT.
+> >
+>
+> Basically what I want from the commit message is that "I do not expect
+> most users to notice this change, but it is the correct thing to do".
+> The original commit message said "make all that stuff work" and it
+> wasn't clear which things were not working...
 
-Fixes: b3cd518c5abd ("staging: rtl8723bs: Use list iterators and helpers")
-Suggested-by: Guenter Roeck <linux@roeck-us.net>
-Tested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
-Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_ap.c        | 18 +++++++++---------
- drivers/staging/rtl8723bs/core/rtw_mlme.c      |  4 ++--
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c  |  4 ++--
- drivers/staging/rtl8723bs/core/rtw_sta_mgt.c   |  4 ++--
- drivers/staging/rtl8723bs/core/rtw_xmit.c      | 18 +++++++++---------
- drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c |  4 ++--
- .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c  |  4 ++--
- 7 files changed, 28 insertions(+), 28 deletions(-)
+I expected the part of "properties xxxx have been moved"  and the
+"align things" stuff to be clear enough but it seems I failed in my
+intention :).
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 98b1bec67999..23bbdf084631 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -174,7 +174,7 @@ u8 chk_sta_is_alive(struct sta_info *psta)
- 
- void expire_timeout_chk(struct adapter *padapter)
- {
--	struct list_head	*phead, *plist;
-+	struct list_head *phead, *plist, *tmp;
- 	u8 updated = false;
- 	struct sta_info *psta = NULL;
- 	struct sta_priv *pstapriv = &padapter->stapriv;
-@@ -186,7 +186,7 @@ void expire_timeout_chk(struct adapter *padapter)
- 
- 	phead = &pstapriv->auth_list;
- 	/* check auth_queue */
--	list_for_each(plist, phead) {
-+	list_for_each_safe(plist, tmp, phead) {
- 		psta = list_entry(plist, struct sta_info, auth_list);
- 
- 		if (psta->expire_to > 0) {
-@@ -211,7 +211,7 @@ void expire_timeout_chk(struct adapter *padapter)
- 
- 	phead = &pstapriv->asoc_list;
- 	/* check asoc_queue */
--	list_for_each(plist, phead) {
-+	list_for_each_safe(plist, tmp, phead) {
- 		psta = list_entry(plist, struct sta_info, asoc_list);
- 		if (chk_sta_is_alive(psta) || !psta->expire_to) {
- 			psta->expire_to = pstapriv->expire_to;
-@@ -1243,7 +1243,7 @@ int rtw_acl_add_sta(struct adapter *padapter, u8 *addr)
- 
- void rtw_acl_remove_sta(struct adapter *padapter, u8 *addr)
- {
--	struct list_head	*plist, *phead;
-+	struct list_head *plist, *phead, *tmp;
- 	struct rtw_wlan_acl_node *paclnode;
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 	struct wlan_acl_pool *pacl_list = &pstapriv->acl_list;
-@@ -1253,7 +1253,7 @@ void rtw_acl_remove_sta(struct adapter *padapter, u8 *addr)
- 	spin_lock_bh(&(pacl_node_q->lock));
- 
- 	phead = get_list_head(pacl_node_q);
--	list_for_each(plist, phead) {
-+	list_for_each_safe(plist, tmp, phead) {
- 		paclnode = list_entry(plist, struct rtw_wlan_acl_node, list);
- 
- 		if (
-@@ -1940,7 +1940,7 @@ u8 ap_free_sta(
- 
- void rtw_sta_flush(struct adapter *padapter)
- {
--	struct list_head	*phead, *plist;
-+	struct list_head *phead, *plist, *tmp;
- 	struct sta_info *psta = NULL;
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
-@@ -1953,7 +1953,7 @@ void rtw_sta_flush(struct adapter *padapter)
- 	spin_lock_bh(&pstapriv->asoc_list_lock);
- 	phead = &pstapriv->asoc_list;
- 	/* free sta asoc_queue */
--	list_for_each(plist, phead) {
-+	list_for_each_safe(plist, tmp, phead) {
- 		psta = list_entry(plist, struct sta_info, asoc_list);
- 
- 		list_del_init(&psta->asoc_list);
-@@ -2132,7 +2132,7 @@ void start_ap_mode(struct adapter *padapter)
- 
- void stop_ap_mode(struct adapter *padapter)
- {
--	struct list_head	*phead, *plist;
-+	struct list_head *phead, *plist, *tmp;
- 	struct rtw_wlan_acl_node *paclnode;
- 	struct sta_info *psta = NULL;
- 	struct sta_priv *pstapriv = &padapter->stapriv;
-@@ -2156,7 +2156,7 @@ void stop_ap_mode(struct adapter *padapter)
- 	/* for ACL */
- 	spin_lock_bh(&(pacl_node_q->lock));
- 	phead = get_list_head(pacl_node_q);
--	list_for_each(plist, phead) {
-+	list_for_each_safe(plist, tmp, phead) {
- 		paclnode = list_entry(plist, struct rtw_wlan_acl_node, list);
- 
- 		if (paclnode->valid) {
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 7bd9e3a4f345..158f92d4d882 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -260,7 +260,7 @@ struct wlan_network *_rtw_find_network(struct __queue *scanned_queue, u8 *addr)
- 
- void rtw_free_network_queue(struct adapter *padapter, u8 isfreeall)
- {
--	struct list_head *phead, *plist;
-+	struct list_head *phead, *plist, *tmp;
- 	struct wlan_network *pnetwork;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct __queue *scanned_queue = &pmlmepriv->scanned_queue;
-@@ -268,7 +268,7 @@ void rtw_free_network_queue(struct adapter *padapter, u8 isfreeall)
- 	spin_lock_bh(&scanned_queue->lock);
- 
- 	phead = get_list_head(scanned_queue);
--	list_for_each(plist, phead) {
-+	list_for_each_safe(plist, tmp, phead) {
- 
- 		pnetwork = list_entry(plist, struct wlan_network, list);
- 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 2b95a49ab469..0f50c2576356 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -6058,7 +6058,7 @@ u8 h2c_msg_hdl(struct adapter *padapter, unsigned char *pbuf)
- u8 chk_bmc_sleepq_hdl(struct adapter *padapter, unsigned char *pbuf)
- {
- 	struct sta_info *psta_bmc;
--	struct list_head	*xmitframe_plist, *xmitframe_phead;
-+	struct list_head *xmitframe_plist, *xmitframe_phead, *tmp;
- 	struct xmit_frame *pxmitframe = NULL;
- 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
- 	struct sta_priv  *pstapriv = &padapter->stapriv;
-@@ -6075,7 +6075,7 @@ u8 chk_bmc_sleepq_hdl(struct adapter *padapter, unsigned char *pbuf)
- 		spin_lock_bh(&pxmitpriv->lock);
- 
- 		xmitframe_phead = get_list_head(&psta_bmc->sleep_q);
--		list_for_each(xmitframe_plist, xmitframe_phead) {
-+		list_for_each_safe(xmitframe_plist, tmp, xmitframe_phead) {
- 			pxmitframe = list_entry(xmitframe_plist,
- 						struct xmit_frame, list);
- 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-index fa164d25f4eb..67ca219f95bf 100644
---- a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-@@ -423,7 +423,7 @@ u32 rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
- /*  free all stainfo which in sta_hash[all] */
- void rtw_free_all_stainfo(struct adapter *padapter)
- {
--	struct list_head	*plist, *phead;
-+	struct list_head *plist, *phead, *tmp;
- 	s32	index;
- 	struct sta_info *psta = NULL;
- 	struct	sta_priv *pstapriv = &padapter->stapriv;
-@@ -436,7 +436,7 @@ void rtw_free_all_stainfo(struct adapter *padapter)
- 
- 	for (index = 0; index < NUM_STA; index++) {
- 		phead = &(pstapriv->sta_hash[index]);
--		list_for_each(plist, phead) {
-+		list_for_each_safe(plist, tmp, phead) {
- 			psta = list_entry(plist, struct sta_info, hash_list);
- 
- 			if (pbcmc_stainfo != psta)
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index e37c4ba50d6d..0562fa6c1255 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -1723,13 +1723,13 @@ s32 rtw_free_xmitframe(struct xmit_priv *pxmitpriv, struct xmit_frame *pxmitfram
- 
- void rtw_free_xmitframe_queue(struct xmit_priv *pxmitpriv, struct __queue *pframequeue)
- {
--	struct list_head	*plist, *phead;
-+	struct list_head *plist, *phead, *tmp;
- 	struct	xmit_frame	*pxmitframe;
- 
- 	spin_lock_bh(&pframequeue->lock);
- 
- 	phead = get_list_head(pframequeue);
--	list_for_each(plist, phead) {
-+	list_for_each_safe(plist, tmp, phead) {
- 		pxmitframe = list_entry(plist, struct xmit_frame, list);
- 
- 		rtw_free_xmitframe(pxmitpriv, pxmitframe);
-@@ -2122,7 +2122,7 @@ signed int xmitframe_enqueue_for_sleeping_sta(struct adapter *padapter, struct x
- static void dequeue_xmitframes_to_sleeping_queue(struct adapter *padapter, struct sta_info *psta, struct __queue *pframequeue)
- {
- 	signed int ret;
--	struct list_head	*plist, *phead;
-+	struct list_head *plist, *phead, *tmp;
- 	u8 ac_index;
- 	struct tx_servq	*ptxservq;
- 	struct pkt_attrib	*pattrib;
-@@ -2130,7 +2130,7 @@ static void dequeue_xmitframes_to_sleeping_queue(struct adapter *padapter, struc
- 	struct hw_xmit *phwxmits =  padapter->xmitpriv.hwxmits;
- 
- 	phead = get_list_head(pframequeue);
--	list_for_each(plist, phead) {
-+	list_for_each_safe(plist, tmp, phead) {
- 		pxmitframe = list_entry(plist, struct xmit_frame, list);
- 
- 		pattrib = &pxmitframe->attrib;
-@@ -2191,7 +2191,7 @@ void wakeup_sta_to_xmit(struct adapter *padapter, struct sta_info *psta)
- {
- 	u8 update_mask = 0, wmmps_ac = 0;
- 	struct sta_info *psta_bmc;
--	struct list_head	*xmitframe_plist, *xmitframe_phead;
-+	struct list_head *xmitframe_plist, *xmitframe_phead, *tmp;
- 	struct xmit_frame *pxmitframe = NULL;
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
-@@ -2201,7 +2201,7 @@ void wakeup_sta_to_xmit(struct adapter *padapter, struct sta_info *psta)
- 	spin_lock_bh(&pxmitpriv->lock);
- 
- 	xmitframe_phead = get_list_head(&psta->sleep_q);
--	list_for_each(xmitframe_plist, xmitframe_phead) {
-+	list_for_each_safe(xmitframe_plist, tmp, xmitframe_phead) {
- 		pxmitframe = list_entry(xmitframe_plist, struct xmit_frame,
- 					list);
- 
-@@ -2272,7 +2272,7 @@ void wakeup_sta_to_xmit(struct adapter *padapter, struct sta_info *psta)
- 
- 	if ((pstapriv->sta_dz_bitmap&0xfffe) == 0x0) { /* no any sta in ps mode */
- 		xmitframe_phead = get_list_head(&psta_bmc->sleep_q);
--		list_for_each(xmitframe_plist, xmitframe_phead) {
-+		list_for_each_safe(xmitframe_plist, tmp, xmitframe_phead) {
- 			pxmitframe = list_entry(xmitframe_plist,
- 						struct xmit_frame, list);
- 
-@@ -2308,7 +2308,7 @@ void wakeup_sta_to_xmit(struct adapter *padapter, struct sta_info *psta)
- void xmit_delivery_enabled_frames(struct adapter *padapter, struct sta_info *psta)
- {
- 	u8 wmmps_ac = 0;
--	struct list_head	*xmitframe_plist, *xmitframe_phead;
-+	struct list_head *xmitframe_plist, *xmitframe_phead, *tmp;
- 	struct xmit_frame *pxmitframe = NULL;
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
-@@ -2316,7 +2316,7 @@ void xmit_delivery_enabled_frames(struct adapter *padapter, struct sta_info *pst
- 	spin_lock_bh(&pxmitpriv->lock);
- 
- 	xmitframe_phead = get_list_head(&psta->sleep_q);
--	list_for_each(xmitframe_plist, xmitframe_phead) {
-+	list_for_each_safe(xmitframe_plist, tmp, xmitframe_phead) {
- 		pxmitframe = list_entry(xmitframe_plist, struct xmit_frame,
- 					list);
- 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-index ec9f275cbc7e..a05d43b716ee 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-@@ -178,7 +178,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
- 	struct hw_xmit *hwxmits, *phwxmit;
- 	u8 idx, hwentry;
- 	struct tx_servq *ptxservq;
--	struct list_head *sta_plist, *sta_phead, *frame_plist, *frame_phead;
-+	struct list_head *sta_plist, *sta_phead, *frame_plist, *frame_phead, *tmp;
- 	struct xmit_frame *pxmitframe;
- 	struct __queue *pframe_queue;
- 	struct xmit_buf *pxmitbuf;
-@@ -225,7 +225,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
- 		sta_phead = get_list_head(phwxmit->sta_queue);
- 		/* because stop_sta_xmit may delete sta_plist at any time */
- 		/* so we should add lock here, or while loop can not exit */
--		list_for_each(sta_plist, sta_phead) {
-+		list_for_each_safe(sta_plist, tmp, sta_phead) {
- 			ptxservq = list_entry(sta_plist, struct tx_servq,
- 					      tx_pending);
- 
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 9a6e47877c4e..c10146428757 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -2453,7 +2453,7 @@ static int cfg80211_rtw_del_station(struct wiphy *wiphy, struct net_device *ndev
- 				    struct station_del_parameters *params)
- {
- 	int ret = 0;
--	struct list_head	*phead, *plist;
-+	struct list_head *phead, *plist, *tmp;
- 	u8 updated = false;
- 	struct sta_info *psta = NULL;
- 	struct adapter *padapter = rtw_netdev_priv(ndev);
-@@ -2483,7 +2483,7 @@ static int cfg80211_rtw_del_station(struct wiphy *wiphy, struct net_device *ndev
- 
- 	phead = &pstapriv->asoc_list;
- 	/* check asoc_queue */
--	list_for_each(plist, phead) {
-+	list_for_each_safe(plist, tmp, phead) {
- 		psta = list_entry(plist, struct sta_info, asoc_list);
- 
- 		if (!memcmp((u8 *)mac, psta->hwaddr, ETH_ALEN)) {
--- 
-2.20.1
+>
+> regards,
+> dan carpenter
+>
 
+Best regards,
+    Sergio Paracuellos
