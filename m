@@ -1,54 +1,54 @@
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1962F80
-	for <linux-staging@lists.linux.dev>; Mon,  7 Jun 2021 11:34:50 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-	by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 157Af4xP013200;
-	Mon, 7 Jun 2021 10:43:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=4BySCnWuo2+hBh1Kf5OWJjhQ7R1JkUgp9tMIzaJrMgk=;
- b=KjyQjqXg9EVzWPBgobqAP2wEVsZnCQD1DIfs0hrqpa4I11i45ER+unMsaVYL/txt98uM
- TRF+R6qlEKNskd7Ck5KzVtMf8az2/mvIZdxVKOWzliH7leOgOFqN9bL6pFqifOYYpR39
- yIoGt2cfDH2qfHQYMHyxKu7nF3rh1LAIGveUrmSs6IVgfKZy8YNIevbz2tFR80Ks365L
- Sn+Qlx9lqalsVfBOlORCwmNe2vTldiuuaidTODWUYz+cIzqthHD/Nt212JXjGFABVkCi
- zOAvyM0oi6RJBHiciw0fU9V0YhQLUG7M10pMsGJHbV4S8c0ZOGLkGMQpB8DfzElr4Y5F jA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by userp2120.oracle.com with ESMTP id 3914quh3xg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 07 Jun 2021 10:43:47 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 157AfoIR033590;
-	Mon, 7 Jun 2021 10:43:47 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3020.oracle.com with ESMTP id 3906spcf4w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 07 Jun 2021 10:43:47 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 157AhkA7068010;
-	Mon, 7 Jun 2021 10:43:46 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-	by aserp3020.oracle.com with ESMTP id 3906spcf3x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 07 Jun 2021 10:43:46 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
-	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 157AhiXV001715;
-	Mon, 7 Jun 2021 10:43:45 GMT
-Received: from kadam (/41.212.42.34)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Mon, 07 Jun 2021 03:43:44 -0700
-Date: Mon, 7 Jun 2021 13:43:38 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Wenli Looi <wlooi@ucalgary.ca>, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: Fix uninitialized variable
-Message-ID: <20210607104338.GS1955@kadam>
-References: <20210606070021.116284-1-wlooi@ucalgary.ca>
- <20210607083316.GO1955@kadam>
- <YL3lih8OqGOLjVBf@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C5B2F80
+	for <linux-staging@lists.linux.dev>; Mon,  7 Jun 2021 11:36:28 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id c9so8523829wrt.5
+        for <linux-staging@lists.linux.dev>; Mon, 07 Jun 2021 04:36:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=IRP6U/zRIj4Wve486AFNVnGZR885iuJf9+Fq7ikTrUU=;
+        b=jp514miurjB9pYXQ+tyBzCZye9+n3pjiE0nAkpC++XsMLnSQzT+DKRHl5v8t1kr3qU
+         SGSy1eHHqenjMr+OJbDb9IqOWQEHK+v9FzSH3yUdwU+9WeYqmRBXAmHcC3YjDZa7l0fs
+         /S81q5c041+cZGAKMffGoBGLT3sznSBKgTBgR6ELCDAC/L52yT+nj7bxw42YIHfyJBeR
+         hkbSs8O4QmRsJ4XZjpOgqcxxWtMdytkozw6K3P5DkjabyMQjVMOjq2WEKMNOB/oLr7lU
+         IYq2jyo+dRg+HKcXiv5kepXlXwxyqqDvry1aGDEMOOcw2Pig3YWkBV06x1HAn++L3JKw
+         hfXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=IRP6U/zRIj4Wve486AFNVnGZR885iuJf9+Fq7ikTrUU=;
+        b=N7w5HD8bWkRWTNHMFw2k0ypQU5gKPtQVf+4K1eK5HBQaxcAusqoIhZGlNHtvqslWcf
+         Qzwu06l4eDLA958DIqLezI4afR98VSTQf+NkEWJlBfa+H0NTjoD3GOFW5WHXBiG42fFr
+         X88+Wm7PnmfwwjVOFqvyA3My2LjSSc/QnmDSuZwA5gJlxevHM/ZWfM3FMY5D4iNPNWHW
+         03YcX1Vb574xxyJ+ZLVg1Yhak8Bt2gwmctfcA4DjmMVbS2gaPL/vNCUtQiCc1lxNsW/k
+         QOX0o/7NyU5kvrIg/R1BNfcxgfmgVCzf0SXB2+He+9HtU5r6ENTIh5N2t6XlIllrkLPw
+         Pabg==
+X-Gm-Message-State: AOAM532ngI1ErZ+VhnyGmiZei92Tb1Efash/JErEJsugMEvREkMxM4Cq
+	23vhD8JJH06m20hEX7yPvk0=
+X-Google-Smtp-Source: ABdhPJwQPoom+sdaqZ8kDKUf2auJZmp6dqcKDwsKQTYSiW9hdtfV0lB+uAxUle/GkuTEEIF3S/GO5w==
+X-Received: by 2002:adf:9031:: with SMTP id h46mr17068670wrh.125.1623065787346;
+        Mon, 07 Jun 2021 04:36:27 -0700 (PDT)
+Received: from agape.jhs ([5.171.72.204])
+        by smtp.gmail.com with ESMTPSA id x7sm17369157wre.8.2021.06.07.04.36.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Jun 2021 04:36:27 -0700 (PDT)
+Date: Mon, 7 Jun 2021 13:36:24 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Dan Carpenter <dan.carpenter@oracle.com>, gregkh@linuxfoundation.org,
+	hdegoede@redhat.com, Larry.Finger@lwfinger.net,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: Use list iterators and helpers
+Message-ID: <20210607113624.GA1410@agape.jhs>
+References: <20210428173301.149619-1-linux@roeck-us.net>
+ <20210604172632.GA1526@agape.jhs>
+ <20210605005422.GB255680@roeck-us.net>
+ <20210607111704.GT1955@kadam>
+ <20210607112648.GA314533@roeck-us.net>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -56,40 +56,70 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YL3lih8OqGOLjVBf@kroah.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: MBkrJHtGGsCNe1LSbjgthg_VyBqll-n7
-X-Proofpoint-GUID: MBkrJHtGGsCNe1LSbjgthg_VyBqll-n7
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10007 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 phishscore=0
- spamscore=0 malwarescore=0 clxscore=1015 lowpriorityscore=0
- priorityscore=1501 adultscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106070082
+In-Reply-To: <20210607112648.GA314533@roeck-us.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Mon, Jun 07, 2021 at 11:23:22AM +0200, Greg Kroah-Hartman wrote:
-> On Mon, Jun 07, 2021 at 11:33:17AM +0300, Dan Carpenter wrote:
-> > Greg asked about struct holes and the answer is "= {}" will zero out
-> > struct holes but it's not important in this case.  The "= {}" is a GCC
-> > extension for zeroing structs and it's not part of the C standard.
-> > The struct has a kernel pointer in it so we had better not be shairing
-> > it to user space.
+On Mon, Jun 07, 2021 at 04:26:48AM -0700, Guenter Roeck wrote:
+> On Mon, Jun 07, 2021 at 02:17:04PM +0300, Dan Carpenter wrote:
+> > On Fri, Jun 04, 2021 at 05:54:22PM -0700, Guenter Roeck wrote:
+> > > On Fri, Jun 04, 2021 at 07:26:33PM +0200, Fabio Aiuto wrote:
+> > > > Hello Guenter,
+> > > > 
+> > > > On Wed, Apr 28, 2021 at 10:33:01AM -0700, Guenter Roeck wrote:
+> > > > > The rtl8723bs driver manually re-implements list helper functions
+> > > > > and macros in various ways. Replace with existing list helpers.
+> > > > 
+> > > > I'm testing rtl8723bs on a baytrail tablet (Lenovo Ideapad MIIX 300-10IBY)
+> > > > and applying the tag staging-5.13-rc4, loading r8723bs makes the whole
+> > > > system freezing while trying to connect to local AP.
+> > > > 
+> > > > Only a power off is allowed.
+> > > > 
+> > > > I found that commit b3cd518c5abd42fbc747ef55a5fdc40bf7bf01c0
+> > > > (staging: rtl8723bs: Use list iterators and helpers)
+> > > > introduced the bug.
+> > > > 
+> > > > I'm trying to find out what's wrong with this patch, have you any suggestions?
+> > > 
+> > > Some of the iterators needed the _safe variant which I didn't take into account.
+> > > I thought that was fixed, but maybe some locations were missed.
+> > 
+> > Ah...  Crud.  As near as I can tell Martin fixed a lot of these in the driver
+> > he is working on, rtl8188eu.  But they still aren't fixed in rtl8723bs.  I looked
+> > at the functions and the following loops need to changed to list_for_each_safe().
+> > (Doing a search for list_del_init() helped during review).
+> > 
 > 
-> I thought we proved that "= {}" will _NOT_ zero out holes in structures.
-> Or did we really prove that?  I can't remember now, do you?
+> Hans wants the patch introducing the problem reverted, so I won't bother
+> sending a fix. Sorry for the trouble. Learned a lesson (I hope).
 > 
+> Guenter
+> 
+> > expire_timeout_chk() (both loops)
+> > rtw_acl_remove_sta()
+> > rtw_sta_flush()
+> > stop_ap_mode()
+> > 
+> > rtw_free_network_queue()
+> > chk_bmc_sleepq_hdl()
+> > rtw_free_all_stainfo()
+> > rtw_free_xmitframe_queue()
+> > dequeue_xmitframes_to_sleeping_queue()
+> > wakeup_sta_to_xmit()  (both loops)
+> > xmit_delivery_enabled_frames()
+> > 
+> > xmit_xmitframes()
+> > cfg80211_rtw_del_station()
+> > 
+> > regards,
+> > dan carpenter
+> > 
+> > 
 
-Assigning a struct to a struct will not initialize the struct holes.
+thanks to Guenter suggestion I made the fix needed, if there's no particular
+hurry to revert the change I'm submitting it today or tomorrow at most.
+Will cross check with Dan's hint either.
 
-	struct foo foo = *p;
+thank you,
 
-We worried about = {} and people looked at the C standard.  The
-standard is not clear.  But then people said that = {} is a GCC
-extension and will initialize the struct holes.
-
-The other thing is that in GCC they had intended "= {0};" to work
-exactly the same as "= {};" and initialize the holes but there was a
-version which had a bug and didn't.  :P
-
-regards,
-dan carpenter
+fabio
