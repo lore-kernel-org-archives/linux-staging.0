@@ -1,85 +1,95 @@
-Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A9272
-	for <linux-staging@lists.linux.dev>; Tue,  8 Jun 2021 10:51:50 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by comms.puri.sm (Postfix) with ESMTP id 4AD31DF76C;
-	Tue,  8 Jun 2021 03:42:02 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pXdu_X8l6uZj; Tue,  8 Jun 2021 03:42:01 -0700 (PDT)
-From: Martin Kepplinger <martin.kepplinger@puri.sm>
-To: martin.kepplinger@puri.sm,
-	festevam@gmail.com,
-	krzk@kernel.org,
-	laurent.pinchart@ideasonboard.com
-Cc: devicetree@vger.kernel.org,
-	kernel@pengutronix.de,
-	kernel@puri.sm,
-	linux-arm-kernel@lists.infradead.org,
-	linux-imx@nxp.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C7472
+	for <linux-staging@lists.linux.dev>; Tue,  8 Jun 2021 11:21:24 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id a11so31304020ejf.3
+        for <linux-staging@lists.linux.dev>; Tue, 08 Jun 2021 04:21:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3Xr+IY5qcdEYEQUsNiCMfqH1+q7GDdk2pyxDjbZ/SfA=;
+        b=WEdd8YsHCEY5xEn66qtoYbItau6L2De8KpR1yJGPeShWtKo3QXRbxQBJY06li80CIw
+         XV6ejeuXGfxd/UdWgR6HbHm5EZtDbfVai/nihkGEt7B/IDsPIQd3gnklWDKhnfM3aiq1
+         eHkEf+LQGdPlYsEcUWHJJGcMypjobEEvSH0zWfFTCq65/gxjUNmbjkllQH/rZd13P4jD
+         aUYzokxxiGyIC0MyDlKu3/3V5QvaN9FsPfraJZHWv8SWAg0RbuNQiAwxkNAI/ZZCAdLz
+         OhBjt1QBjE2vgyi7V1EeV6igoi7JWUmMaWomnzVuMr5WpEg2EM/R3fkJcm3aXPwZkLED
+         qk0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3Xr+IY5qcdEYEQUsNiCMfqH1+q7GDdk2pyxDjbZ/SfA=;
+        b=fslfycdlyCcVXPV64VpCBZdLZintXgER4BWYW/wSDyevwgKnWFG1l1J4Bolo+OGKI5
+         bNjJ2SKXEsnGoZpmpGRghBOqe4WbWJHd9vExuHjaO2bw6SUh9oM40tqZsu5Cmb1it72/
+         9UmT69GXVeGLzjqavX8yRi9xzWC2MNEhkuUHNe80wV7XEyqnQOi/qJQmBmScxWT+cNiG
+         LWJI5jRey7AUmZt8Am+KuPjc3NxLK3lxwZmQiNS9Yx6KQtRSb54LqG9N39sfYHlLxnDX
+         DzMKPJDv0QtUfiHunk1A7EG00DC2p3xbQxg78+RGYqUaNaVEAxZALzXijUfPIziQPmwB
+         nkiw==
+X-Gm-Message-State: AOAM5314HvdoW93JLCQUlomANhiDtbKvP+jFsbxCBZ6oFuVsSDYqpcVx
+	gGaxouRWLOSMmenBEki5f4Q=
+X-Google-Smtp-Source: ABdhPJwudGlga0r0YmjTDaeM7SQOckRxmpyLGJldYIA/dFopBv6sY192fCSt9TYN7m6vk5GuemL5Uw==
+X-Received: by 2002:a17:906:fcb0:: with SMTP id qw16mr22709497ejb.269.1623151283154;
+        Tue, 08 Jun 2021 04:21:23 -0700 (PDT)
+Received: from linux.local (host-82-59-55-132.retail.telecomitalia.it. [82.59.55.132])
+        by smtp.gmail.com with ESMTPSA id r21sm8930448edy.78.2021.06.08.04.21.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Jun 2021 04:21:22 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-staging@lists.linux.dev,
-	mchehab@kernel.org,
-	phone-devel@vger.kernel.org,
-	robh@kernel.org,
-	shawnguo@kernel.org,
-	slongerbeam@gmail.com
-Subject: [PATCH v3 0/3] media: imx: add support for imx8mq MIPI RX
-Date: Tue,  8 Jun 2021 12:41:25 +0200
-Message-Id: <20210608104128.1616028-1-martin.kepplinger@puri.sm>
-Content-Transfer-Encoding: 8bit
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: hal: Delete tests with no effects
+Date: Tue,  8 Jun 2021 13:21:18 +0200
+Message-Id: <20210608112118.1213-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-This patch series adds a driver for the i.MX8MQ CSI MIPI receiver / controller.
+Deleted tests with no effects. Detected by Coccinelle.
+It seems that these tests have been inadvertently
+left while removing BTC_PRINT logs in commit 8e30fb99d729.
 
-It includes the driver, the dt-bindings and the DT addition to the SoC dtsi.
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
 
-Thanks Laurent who helped a lot. I'm happy for any feedback,
-
-                           martin
-
-revision history
-----------------
-v3: (thank you, Rob and Laurent)
-among minor other things according to v2 review, changes include:
-* better describe the clocks
-* rename DT property "phy-reset" to "reset" and "phy-gpr" to "phy"
-
-v2: (thank you, Dan and Guido)
-among fixes according to v1 reviews, changes include:
-* remove status property from dt-bindings example
-* define a few bits in order to have less magic values
-* use "imx8mq_mipi_csi_" as local function prefix
-* read DT properties only during probe()
-* remove dead code (log_status)
-* add imx8mq_mipi_csi_release_icc()
-* fix imx8mq_mipi_csi_init_icc()
-https://lore.kernel.org/linux-media/20210531112326.90094-1-martin.kepplinger@puri.sm/
-
-v1:
-https://lore.kernel.org/linux-media/20210527075407.3180744-1-martin.kepplinger@puri.sm/T/#t
-
-
-Martin Kepplinger (3):
-  dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and
-    controller
-  media: imx: add a driver for i.MX8MQ mipi csi rx phy and controller
-  arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
-
- .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 161 +++
- arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 102 ++
- drivers/staging/media/imx/Makefile            |   1 +
- drivers/staging/media/imx/imx8mq-mipi-csi2.c  | 997 ++++++++++++++++++
- 4 files changed, 1261 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
- create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
-
+diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c
+index 6822990bca7f..3829701f10f9 100644
+--- a/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c
++++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c
+@@ -410,20 +410,12 @@ static u8 halbtc8723b2ant_ActionAlgorithm(struct btc_coexist *pBtCoexist)
+ 				pBtLinkInfo->bHidExist &&
+ 				pBtLinkInfo->bPanExist
+ 			) {
+-				if (bBtHsOn) {
+-					algorithm = BT_8723B_2ANT_COEX_ALGO_PANEDR_HID;
+-				} else {
+-					algorithm = BT_8723B_2ANT_COEX_ALGO_PANEDR_HID;
+-				}
++				algorithm = BT_8723B_2ANT_COEX_ALGO_PANEDR_HID;
+ 			} else if (
+ 				pBtLinkInfo->bPanExist &&
+ 				pBtLinkInfo->bA2dpExist
+ 			) {
+-				if (bBtHsOn) {
+-					algorithm = BT_8723B_2ANT_COEX_ALGO_PANEDR_HID;
+-				} else {
+-					algorithm = BT_8723B_2ANT_COEX_ALGO_PANEDR_HID;
+-				}
++				algorithm = BT_8723B_2ANT_COEX_ALGO_PANEDR_HID;
+ 			}
+ 		} else {
+ 			if (
 -- 
-2.30.2
+2.31.1
 
