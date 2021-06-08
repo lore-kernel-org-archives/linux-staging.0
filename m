@@ -1,137 +1,219 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5AE470
-	for <linux-staging@lists.linux.dev>; Tue,  8 Jun 2021 07:20:26 +0000 (UTC)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 1587GqkW005202;
-	Tue, 8 Jun 2021 07:20:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=WRL1v/ToqKxbQyo4pcYidm8H/w+snYDc4+FjD14fytA=;
- b=ld8wcqB7rvuBbiX+cudkN53rXiuKVVQ4s8dnxGsIFhynfKolc9V5qJhFvrmyQg6ocKOs
- gZlPCeBwKRDH47aY8Ms8HRl82HjxDg2kdZCH7mbJDFCw2i63adf7TiH7Yn8CFpEqgQQk
- 0QA0OmAg9Lu2KfhN828PkmzldxNVkf8s4Be2lGlMoIlDUG/MeVk1hjm1pIxWPl9LUbel
- 4qzQPAa85Lo7RcNq8oNfOh4M3YcWGolTM4k3z51oBqzNfwDiLCR6HWGUSSKp5owDs0yk
- 8rlEkfq6ab0l9atCHLMdyHVIb3kKUnbHszzUldy8qrQPox8f1nNx5HhEl2bY5X6Fmxj9 OQ== 
-Received: from oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3917pwgj0m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 08 Jun 2021 07:20:24 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
-	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 1587KNS2107283;
-	Tue, 8 Jun 2021 07:20:23 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3030.oracle.com with ESMTP id 38yyaap2x7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 08 Jun 2021 07:20:23 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 1587Jc8u104940;
-	Tue, 8 Jun 2021 07:20:23 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by aserp3030.oracle.com with ESMTP id 38yyaap2x0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 08 Jun 2021 07:20:23 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 1587KLDH024584;
-	Tue, 8 Jun 2021 07:20:21 GMT
-Received: from kadam (/41.212.42.34)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Tue, 08 Jun 2021 00:20:21 -0700
-Date: Tue, 8 Jun 2021 10:20:14 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Wenli Looi <wlooi@ucalgary.ca>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Arend van Spriel <aspriel@gmail.com>,
-        Johannes Berg <johannes@sipsolutions.net>
-Subject: Re: [PATCH] staging: rtl8723bs: Fix uninitialized variables
-Message-ID: <20210608072014.GZ1955@kadam>
-References: <20210607083316.GO1955@kadam>
- <20210608064620.74059-1-wlooi@ucalgary.ca>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A7B272
+	for <linux-staging@lists.linux.dev>; Tue,  8 Jun 2021 10:42:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by comms.puri.sm (Postfix) with ESMTP id BF431DF8E2;
+	Tue,  8 Jun 2021 03:42:10 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id oflxc5DVEij8; Tue,  8 Jun 2021 03:42:05 -0700 (PDT)
+From: Martin Kepplinger <martin.kepplinger@puri.sm>
+To: martin.kepplinger@puri.sm,
+	festevam@gmail.com,
+	krzk@kernel.org,
+	laurent.pinchart@ideasonboard.com
+Cc: devicetree@vger.kernel.org,
+	kernel@pengutronix.de,
+	kernel@puri.sm,
+	linux-arm-kernel@lists.infradead.org,
+	linux-imx@nxp.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	mchehab@kernel.org,
+	phone-devel@vger.kernel.org,
+	robh@kernel.org,
+	shawnguo@kernel.org,
+	slongerbeam@gmail.com
+Subject: [PATCH v3 1/3] dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and controller
+Date: Tue,  8 Jun 2021 12:41:26 +0200
+Message-Id: <20210608104128.1616028-2-martin.kepplinger@puri.sm>
+In-Reply-To: <20210608104128.1616028-1-martin.kepplinger@puri.sm>
+References: <20210608104128.1616028-1-martin.kepplinger@puri.sm>
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210608064620.74059-1-wlooi@ucalgary.ca>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: kwR05mTtRSn-MWsi7_Lp1M7zgFqnHmwr
-X-Proofpoint-GUID: kwR05mTtRSn-MWsi7_Lp1M7zgFqnHmwr
 
-If you run get_maintainer.pl on the patch then adds the developers from
-the Fixes tags so they can review the patch.  I've added them but it's
-harder for them to review when they can't apply the patch...
+The i.MX8MQ SoC integrates a different MIPI CSI receiver as the i.MX8MM so
+describe the DT bindings for it.
 
-Anyway, it looks good.  Thanks!
+Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+---
+ .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 161 ++++++++++++++++++
+ 1 file changed, 161 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
 
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+new file mode 100644
+index 000000000000..6eafdf803d36
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+@@ -0,0 +1,161 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/nxp,imx8mq-mipi-csi2.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NXP i.MX8MQ MIPI CSI-2 receiver
++
++maintainers:
++  - Martin Kepplinger <martin.kepplinger@puri.sm>
++
++description: |-
++  This binding covers the CSI-2 RX PHY and host controller included in the
++  NXP i.MX8MQ SoC. It handles the sensor/image input and process for all the
++  input imaging devices.
++
++properties:
++  compatible:
++    enum:
++      - fsl,imx8mq-mipi-csi2
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: core is the RX Controller Core Clock input. This clock
++                     must be exactly equal to or faster than the receive
++                     byteclock from the RX DPHY.
++      - description: esc is the Rx Escape Clock. This must be the same escape
++                     clock that the RX DPHY receives.
++      - description: pxl is the pixel clock (phy_ref up to 333Mhz).
++      - description: clko2 is the CLKO2 clock root.
++                     See the reference manual for details.
++
++  clock-names:
++    items:
++      - const: core
++      - const: esc
++      - const: pxl
++      - const: clko2
++
++  power-domains:
++    maxItems: 1
++
++  reset:
++    description:
++      The phandle to the imx8mq reset-controller.
++    maxItems: 1
++
++  phy:
++    description:
++      The phandle to the imx8mq syscon iomux-gpr.
++    maxItems: 1
++
++  interconnects:
++    maxItems: 1
++
++  interconnect-names:
++    const: dram
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description:
++          Input port node, single endpoint describing the CSI-2 transmitter.
++
++        properties:
++          endpoint:
++            $ref: video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              data-lanes:
++                items:
++                  minItems: 1
++                  maxItems: 4
++                  items:
++                    - const: 1
++                    - const: 2
++                    - const: 3
++                    - const: 4
++
++            required:
++              - data-lanes
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Output port node
++
++    required:
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - power-domains
++  - reset
++  - phy
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/imx8mq-clock.h>
++    #include <dt-bindings/interconnect/imx8mq.h>
++
++    csi@30a70000 {
++        compatible = "fsl,imx8mq-mipi-csi2";
++        reg = <0x30a70000 0x1000>;
++        clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
++                 <&clk IMX8MQ_CLK_CSI1_ESC>,
++                 <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
++                 <&clk IMX8MQ_CLK_CLKO2>;
++        clock-names = "core", "esc", "pxl", "clko2";
++        assigned-clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
++                          <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
++                          <&clk IMX8MQ_CLK_CSI1_ESC>;
++        assigned-clock-rates = <266000000>, <200000000>, <66000000>;
++        assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
++                                 <&clk IMX8MQ_SYS2_PLL_1000M>,
++                                 <&clk IMX8MQ_SYS1_PLL_800M>;
++        power-domains = <&pgc_mipi_csi1>;
++        reset = <&src>;
++        phy = <&iomuxc_gpr>;
++        interconnects = <&noc IMX8MQ_ICM_CSI1 &noc IMX8MQ_ICS_DRAM>;
++        interconnect-names = "dram";
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++
++                imx8mm_mipi_csi_in: endpoint {
++                    remote-endpoint = <&imx477_out>;
++                    data-lanes = <1 2 3 4>;
++                };
++            };
++
++            port@1 {
++                reg = <1>;
++
++                imx8mm_mipi_csi_out: endpoint {
++                    remote-endpoint = <&csi_in>;
++                };
++            };
++        };
++    };
++
++...
+-- 
+2.30.2
 
-regards,
-dan carpenter
-
-On Mon, Jun 07, 2021 at 11:46:20PM -0700, Wenli Looi wrote:
-> The sinfo.pertid and sinfo.generation variables are not initialized and
-> it causes a crash when we use this as a wireless access point.
-> 
-> [  456.873025] ------------[ cut here ]------------
-> [  456.878198] kernel BUG at mm/slub.c:3968!
-> [  456.882680] Internal error: Oops - BUG: 0 [#1] PREEMPT SMP ARM
-> 
->   [ snip ]
-> 
-> [  457.271004] Backtrace:
-> [  457.273733] [<c02b7ee4>] (kfree) from [<c0e2a470>] (nl80211_send_station+0x954/0xfc4)
-> [  457.282481]  r9:eccca0c0 r8:e8edfec0 r7:00000000 r6:00000011 r5:e80a9480 r4:e8edfe00
-> [  457.291132] [<c0e29b1c>] (nl80211_send_station) from [<c0e2b18c>] (cfg80211_new_sta+0x90/0x1cc)
-> [  457.300850]  r10:e80a9480 r9:e8edfe00 r8:ea678cca r7:00000a20 r6:00000000 r5:ec46d000
-> [  457.309586]  r4:ec46d9e0
-> [  457.312433] [<c0e2b0fc>] (cfg80211_new_sta) from [<bf086684>] (rtw_cfg80211_indicate_sta_assoc+0x80/0x9c [r8723bs])
-> [  457.324095]  r10:00009930 r9:e85b9d80 r8:bf091050 r7:00000000 r6:00000000 r5:0000001c
-> [  457.332831]  r4:c1606788
-> [  457.335692] [<bf086604>] (rtw_cfg80211_indicate_sta_assoc [r8723bs]) from [<bf03df38>] (rtw_stassoc_event_callback+0x1c8/0x1d4 [r8723bs])
-> [  457.349489]  r7:ea678cc0 r6:000000a1 r5:f1225f84 r4:f086b000
-> [  457.355845] [<bf03dd70>] (rtw_stassoc_event_callback [r8723bs]) from [<bf048e4c>] (mlme_evt_hdl+0x8c/0xb4 [r8723bs])
-> [  457.367601]  r7:c1604900 r6:f086c4b8 r5:00000000 r4:f086c000
-> [  457.373959] [<bf048dc0>] (mlme_evt_hdl [r8723bs]) from [<bf03693c>] (rtw_cmd_thread+0x198/0x3d8 [r8723bs])
-> [  457.384744]  r5:f086e000 r4:f086c000
-> [  457.388754] [<bf0367a4>] (rtw_cmd_thread [r8723bs]) from [<c014a214>] (kthread+0x170/0x174)
-> [  457.398083]  r10:ed7a57e8 r9:bf0367a4 r8:f086b000 r7:e8ede000 r6:00000000 r5:e9975200
-> [  457.406828]  r4:e8369900
-> [  457.409653] [<c014a0a4>] (kthread) from [<c01010e8>] (ret_from_fork+0x14/0x2c)
-> [  457.417718] Exception stack(0xe8edffb0 to 0xe8edfff8)
-> [  457.423356] ffa0:                                     00000000 00000000 00000000 00000000
-> [  457.432492] ffc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> [  457.441618] ffe0: 00000000 00000000 00000000 00000000 00000013 00000000
-> [  457.449006]  r10:00000000 r9:00000000 r8:00000000 r7:00000000 r6:00000000 r5:c014a0a4
-> [  457.457750]  r4:e9975200
-> [  457.460574] Code: 1a000003 e5953004 e3130001 1a000000 (e7f001f2)
-> [  457.467381] ---[ end trace 4acbc8c15e9e6aa7 ]---
-> 
-> Link: https://forum.armbian.com/topic/14727-wifi-ap-kernel-bug-in-kernel-5444/
-> Fixes: 8689c051a201 ("cfg80211: dynamically allocate per-tid stats for station info")
-> Fixes: f5ea9120be2e ("nl80211: add generation number to all dumps")
-> Signed-off-by: Wenli Looi <wlooi@ucalgary.ca>
-> ---
->  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> index 9a6e47877..2b45df79c 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> @@ -2084,7 +2084,7 @@ void rtw_cfg80211_indicate_sta_assoc(struct adapter *padapter, u8 *pmgmt_frame,
->  	struct net_device *ndev = padapter->pnetdev;
->  
->  	{
-> -		struct station_info sinfo;
-> +		struct station_info sinfo = {};
->  		u8 ie_offset;
->  		if (GetFrameSubType(pmgmt_frame) == WIFI_ASSOCREQ)
->  			ie_offset = _ASOCREQ_IE_OFFSET_;
-> -- 
-> 2.25.1
-> 
