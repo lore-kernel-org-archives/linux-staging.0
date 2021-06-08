@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A50B52FAD
-	for <linux-staging@lists.linux.dev>; Tue,  8 Jun 2021 21:24:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25A32FAD
+	for <linux-staging@lists.linux.dev>; Tue,  8 Jun 2021 21:24:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1623187467;
+	s=mimecast20190719; t=1623187472;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Sgq7YpZfI377cjTuKzZzdMcYM8vZyb+R30zx+84A9yI=;
-	b=irpC19/2qQxbqZdApxZCVDqQE8sHLiOJ3Mwo+LHG3a+qgdAKKgYFyc+glvFXKRQa0R7Vae
-	6Y0bQ1ix01a9/gUbxhVEF00HgTh6F49e74qkyX4QmJVZKY1oLehtsNY8jqAmBW3YKQeGw1
-	km1HcetLWGjNB1SjcFeE6/QFvFvNhw8=
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
- [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-WNcvlqPUMf6fMArcgKFRKQ-1; Tue, 08 Jun 2021 17:24:26 -0400
-X-MC-Unique: WNcvlqPUMf6fMArcgKFRKQ-1
-Received: by mail-ot1-f71.google.com with SMTP id y2-20020a0568301082b02903b5696f0a64so14809202oto.2
-        for <linux-staging@lists.linux.dev>; Tue, 08 Jun 2021 14:24:26 -0700 (PDT)
+	bh=jeq8qRfoRfsbx4uL9oOz0deeKscRGraAzU6rnmI4bDk=;
+	b=aACzDmZcLTPQdXwqDZOx80WKQujCqahmCB6mZTyFGYKdoynLH6+DhBxbeF0L9CXdyAiAzU
+	ccK5XrlI5mik98Gm1VoKmLEQ2o8ORayvYG/kOaoMli6874sUXdLZezsXwLWe+owV7AMP2T
+	TmcRMl0FpK1C3NzoANeCSiomzdLeRqk=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-5-H4KPwhHeNWKZLfVqi2LjRA-1; Tue, 08 Jun 2021 17:24:28 -0400
+X-MC-Unique: H4KPwhHeNWKZLfVqi2LjRA-1
+Received: by mail-ot1-f72.google.com with SMTP id f7-20020a9d5e870000b02902f479dba730so14760104otl.21
+        for <linux-staging@lists.linux.dev>; Tue, 08 Jun 2021 14:24:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Sgq7YpZfI377cjTuKzZzdMcYM8vZyb+R30zx+84A9yI=;
-        b=ENXWue/qNObuOP7s0hBaPmz09+QfTMv2k519yqqNoFSgT1vZKZXoz/mLoIyfbiyNON
-         i4jZ7IVsLRAAWeg83R2r1BBZDZUMUzdcfLriMgYkgX7O2/UgVNrLp+Fstn+bXZ1UGac6
-         hNi2LBpDBrL0Ljor1+TzhzTBDHtGEz67JCOM3XKhYn3jSEP+Hc34v8zHJ4WxLhQfJRwY
-         tUS1xeV3guttMQ4bo8Sjw/Ue4jasKtdqSBjYGJr/XRvMoDwX3PGn/V2N33PIiF8FxelI
-         cKxr62eT0To76I2aZk0PziVU1wh28hPBViuGHKWRnizAbpnpS2T6G5BG7/n+UXUHyUt1
-         XmYg==
-X-Gm-Message-State: AOAM532UQSzp10NyfxQQlo+kMsfL3qP732DIQyf3bRM8azUbCJP4WTio
-	zuHEewyFMCkItLz/1wLyrzHw716vrZAtia122dXyOo7rji98ouk5gUKnCUB5WmSJJKi3FewkKP7
-	srOKJtgwaIRip2CX/eWuI/NNZHA==
-X-Received: by 2002:aca:33d4:: with SMTP id z203mr4176772oiz.51.1623187465854;
-        Tue, 08 Jun 2021 14:24:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJysr+C3bZgIQEZy/8wCr9Q5uLj3VqD8M6xSNa0dsASWBdlkV/63bU+lwSL+xyqD9OEYmwRjzg==
-X-Received: by 2002:aca:33d4:: with SMTP id z203mr4176741oiz.51.1623187465720;
-        Tue, 08 Jun 2021 14:24:25 -0700 (PDT)
+        bh=jeq8qRfoRfsbx4uL9oOz0deeKscRGraAzU6rnmI4bDk=;
+        b=MQGeUBBHm/NgI3+cuEibWMsdopTSugmamuTlXiWMtHmEKIcFs+1UTSomeRqnl9xH8d
+         YOSb/9MNZbQIeNMq2uWmK7hN03OA2kyU5AOalTHGtpkZWbaBlx7svYL6nuH5R2YHB3iz
+         QGtG7vehrc24XF2HEKP8WX2O/WfRlbmHvrmtoqp1BzimJlI5q0BSO4Q87TU6Uoug8LRA
+         vdKbeR0eyk/3LVjQWT61QeKXu5qQTLXmACBfBWSYZQvDhsWUe7ZC9I134rjhn/3V8KOX
+         in/x/1eq2XvPsbgkatuRU1EQJ/5BRXZVUmqihGI8zVpe4jWENomO47lLG6lJ3qij1o6l
+         uSFQ==
+X-Gm-Message-State: AOAM532fp7J7SkRuYt2BPs0Yy6Mf2JpSqsQefIsrV/eMe8hkY5HUvNSH
+	MRTJ1uLduMzrlSPMBrkokxVYf4PgNnjpHM1NR814eK7OacULVYxAFcDfvLW5XCWecA9EmMpHSCQ
+	fElyAlrS5aVMBwpooXcwPQl3lgg==
+X-Received: by 2002:a05:6830:1309:: with SMTP id p9mr12963275otq.209.1623187468231;
+        Tue, 08 Jun 2021 14:24:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxKsGI5o2pAZuxgtMx6UsQ5GpgFuru3G9QqB8VKcT3CwJSpYN5gRSP28hE4xYJAJAJCEsUFOQ==
+X-Received: by 2002:a05:6830:1309:: with SMTP id p9mr12963250otq.209.1623187468089;
+        Tue, 08 Jun 2021 14:24:28 -0700 (PDT)
 Received: from localhost.localdomain.com (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id x199sm1954310oif.5.2021.06.08.14.24.23
+        by smtp.gmail.com with ESMTPSA id x199sm1954310oif.5.2021.06.08.14.24.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jun 2021 14:24:25 -0700 (PDT)
+        Tue, 08 Jun 2021 14:24:27 -0700 (PDT)
 From: trix@redhat.com
 To: mdf@kernel.org,
 	robh+dt@kernel.org,
@@ -65,9 +65,9 @@ Cc: linux-fpga@vger.kernel.org,
 	linux-crypto@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Tom Rix <trix@redhat.com>
-Subject: [PATCH 10/11] fpga: stratix10-soc: change FPGA indirect article to an
-Date: Tue,  8 Jun 2021 14:23:49 -0700
-Message-Id: <20210608212350.3029742-12-trix@redhat.com>
+Subject: [PATCH 11/11] staging: fpgaboot: change FPGA indirect article to an
+Date: Tue,  8 Jun 2021 14:23:50 -0700
+Message-Id: <20210608212350.3029742-13-trix@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210608212350.3029742-1-trix@redhat.com>
 References: <20210608212350.3029742-1-trix@redhat.com>
@@ -89,22 +89,22 @@ Change use of 'a fpga' to 'an fpga'
 
 Signed-off-by: Tom Rix <trix@redhat.com>
 ---
- drivers/fpga/stratix10-soc.c | 2 +-
+ drivers/staging/gs_fpgaboot/README | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/fpga/stratix10-soc.c b/drivers/fpga/stratix10-soc.c
-index 657a70c5fc996..2aeb53f8e9d0f 100644
---- a/drivers/fpga/stratix10-soc.c
-+++ b/drivers/fpga/stratix10-soc.c
-@@ -271,7 +271,7 @@ static int s10_send_buf(struct fpga_manager *mgr, const char *buf, size_t count)
- }
+diff --git a/drivers/staging/gs_fpgaboot/README b/drivers/staging/gs_fpgaboot/README
+index b85a76849fc4a..ec1235a21bcc1 100644
+--- a/drivers/staging/gs_fpgaboot/README
++++ b/drivers/staging/gs_fpgaboot/README
+@@ -39,7 +39,7 @@ TABLE OF CONTENTS.
  
- /*
-- * Send a FPGA image to privileged layers to write to the FPGA.  When done
-+ * Send an FPGA image to privileged layers to write to the FPGA.  When done
-  * sending, free all service layer buffers we allocated in write_init.
-  */
- static int s10_ops_write(struct fpga_manager *mgr, const char *buf,
+ 5. USE CASE (from a mailing list discussion with Greg)
+ 
+-	a. As a FPGA development support tool,
++	a. As an FPGA development support tool,
+ 	During FPGA firmware development, you need to download a new FPGA
+ 	image frequently.
+ 	You would do that with a dedicated JTAG, which usually a limited
 -- 
 2.26.3
 
