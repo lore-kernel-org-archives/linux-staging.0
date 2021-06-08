@@ -1,183 +1,41 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0343B29CA
-	for <linux-staging@lists.linux.dev>; Tue,  8 Jun 2021 14:03:26 +0000 (UTC)
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.55])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Fzrvs5Ywpz6ttd;
-	Tue,  8 Jun 2021 21:40:09 +0800 (CST)
-Received: from dggpemm500009.china.huawei.com (7.185.36.225) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 8 Jun 2021 21:44:00 +0800
-Received: from huawei.com (10.175.113.32) by dggpemm500009.china.huawei.com
- (7.185.36.225) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Tue, 8 Jun 2021
- 21:43:59 +0800
-From: Liu Shixin <liushixin2@huawei.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Liu
- Shixin" <liushixin2@huawei.com>
-Subject: [PATCH -next 1/2] staging: r8188eu: use is_{zero/broadcast}_ether_addr() instead of memcmp()
-Date: Tue, 8 Jun 2021 22:16:12 +0800
-Message-ID: <20210608141612.525421-1-liushixin2@huawei.com>
-X-Mailer: git-send-email 2.18.0.huawei.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3ED929CA
+	for <linux-staging@lists.linux.dev>; Tue,  8 Jun 2021 14:12:18 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0EB3760FE9;
+	Tue,  8 Jun 2021 14:12:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1623161538;
+	bh=UU78FkBvBQ+bGhsuFu7iJ2jbXBPQNaYDh0/ReT/swaU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nlECTdcCEFg8WxBNBWEoa6V4TQGTwh8v5XDRZSW0dYn0HwCk3tDynaAxsS8fPAGfc
+	 m9/LM9M/VMmepG/fc98rvp3VTg5ig7IMQVN42JLi85FtDPAhsyCbYQM9KnbKrMMR6u
+	 ORUayTW1zbBHEEvjcERoUtDbF3tIWuqGNJeAfRF0=
+Date: Tue, 8 Jun 2021 16:12:15 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Liu Shixin <liushixin2@huawei.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -next 2/2] staging: r8188eu: use eth_broadcast_addr() to
+ assign broadcast address
+Message-ID: <YL96vz4okNehxCBG@kroah.com>
+References: <20210608141620.525521-1-liushixin2@huawei.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.113.32]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500009.china.huawei.com (7.185.36.225)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210608141620.525521-1-liushixin2@huawei.com>
 
-Using is_{zero/broadcast}_ether_addr() instead of directly use
-memcmp() to determine if the ethernet address is all
-zeros or broadcast address.
+On Tue, Jun 08, 2021 at 10:16:20PM +0800, Liu Shixin wrote:
+> Use eth_broadcast_addr() to assign broadcast address.
 
-Signed-off-by: Liu Shixin <liushixin2@huawei.com>
----
- drivers/staging/rtl8188eu/core/rtw_mlme.c     |  4 ++--
- drivers/staging/rtl8188eu/core/rtw_mlme_ext.c |  7 +++----
- drivers/staging/rtl8188eu/core/rtw_recv.c     | 11 ++++++-----
- drivers/staging/rtl8188eu/hal/odm.c           |  5 +++--
- 4 files changed, 14 insertions(+), 13 deletions(-)
+That says what you do, but not _why_ you are doing this?
 
-diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme.c b/drivers/staging/rtl8188eu/core/rtw_mlme.c
-index ba73ac5325e2..01bbfd29488f 100644
---- a/drivers/staging/rtl8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_mlme.c
-@@ -19,6 +19,7 @@
- #include <wlan_bssdef.h>
- #include <rtw_ioctl_set.h>
- #include <linux/vmalloc.h>
-+#include <linux/etherdevice.h>
- 
- extern const u8 MCS_rate_1R[16];
- 
-@@ -179,9 +180,8 @@ struct wlan_network *rtw_find_network(struct __queue *scanned_queue, u8 *addr)
- {
- 	struct list_head *phead, *plist;
- 	struct wlan_network *pnetwork = NULL;
--	u8 zero_addr[ETH_ALEN] = {0, 0, 0, 0, 0, 0};
- 
--	if (!memcmp(zero_addr, addr, ETH_ALEN)) {
-+	if (is_zero_ether_addr(addr)) {
- 		pnetwork = NULL;
- 		goto exit;
- 	}
-diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
-index b4d81d3a856c..8c1bc04dd830 100644
---- a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
-@@ -7,6 +7,7 @@
- #define _RTW_MLME_EXT_C_
- 
- #include <linux/ieee80211.h>
-+#include <linux/etherdevice.h>
- #include <asm/unaligned.h>
- 
- #include <osdep_service.h>
-@@ -4048,13 +4049,12 @@ static void _mgt_dispatcher(struct adapter *padapter,
- 			    struct mlme_handler *ptable,
- 			    struct recv_frame *precv_frame)
- {
--	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
- 	u8 *pframe = precv_frame->pkt->data;
- 
- 	if (ptable->func) {
- 		/* receive the frames that ra(a1) is my address or ra(a1) is bc address. */
- 		if (memcmp(GetAddr1Ptr(pframe), myid(&padapter->eeprompriv), ETH_ALEN) &&
--		    memcmp(GetAddr1Ptr(pframe), bc_addr, ETH_ALEN))
-+		    !is_broadcast_ether_addr(GetAddr1Ptr(pframe)))
- 			return;
- 		ptable->func(padapter, precv_frame);
- 	}
-@@ -4067,7 +4067,6 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
- #ifdef CONFIG_88EU_AP_MODE
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- #endif
--	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
- 	u8 *pframe = precv_frame->pkt->data;
- 	struct sta_info *psta = rtw_get_stainfo(&padapter->stapriv, GetAddr2Ptr(pframe));
- 
-@@ -4085,7 +4084,7 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
- 
- 	/* receive the frames that ra(a1) is my address or ra(a1) is bc address. */
- 	if (memcmp(GetAddr1Ptr(pframe), myid(&padapter->eeprompriv), ETH_ALEN) &&
--	    memcmp(GetAddr1Ptr(pframe), bc_addr, ETH_ALEN))
-+	    !is_broadcast_ether_addr(GetAddr1Ptr(pframe)))
- 		return;
- 
- 	ptable = mlme_sta_tbl;
-diff --git a/drivers/staging/rtl8188eu/core/rtw_recv.c b/drivers/staging/rtl8188eu/core/rtw_recv.c
-index e79cfdd4bf90..cb0629fefbc5 100644
---- a/drivers/staging/rtl8188eu/core/rtw_recv.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_recv.c
-@@ -15,6 +15,7 @@
- #include <mon.h>
- #include <wifi.h>
- #include <linux/vmalloc.h>
-+#include <linux/etherdevice.h>
- #include <net/cfg80211.h>
- 
- #define ETHERNET_HEADER_SIZE	14	/*  Ethernet Header Length */
-@@ -651,8 +652,8 @@ static int sta2sta_data_frame(struct adapter *adapter,
- 			goto exit;
- 		}
- 
--		if (!memcmp(pattrib->bssid, "\x0\x0\x0\x0\x0\x0", ETH_ALEN) ||
--		    !memcmp(mybssid, "\x0\x0\x0\x0\x0\x0", ETH_ALEN) ||
-+		if (is_zero_ether_addr(pattrib->bssid) ||
-+		    is_zero_ether_addr(mybssid) ||
- 		    memcmp(pattrib->bssid, mybssid, ETH_ALEN)) {
- 			ret = _FAIL;
- 			goto exit;
-@@ -734,9 +735,9 @@ static int ap2sta_data_frame(struct adapter *adapter,
- 		}
- 
- 		/*  check BSSID */
--		if (!memcmp(pattrib->bssid, "\x0\x0\x0\x0\x0\x0", ETH_ALEN) ||
--		    !memcmp(mybssid, "\x0\x0\x0\x0\x0\x0", ETH_ALEN) ||
--		     (memcmp(pattrib->bssid, mybssid, ETH_ALEN))) {
-+		if (is_zero_ether_addr(pattrib->bssid) ||
-+		    is_zero_ether_addr(mybssid) ||
-+		    (memcmp(pattrib->bssid, mybssid, ETH_ALEN))) {
- 			RT_TRACE(_module_rtl871x_recv_c_, _drv_info_,
- 				 (" %s:  compare BSSID fail ; BSSID=%pM\n", __func__, (pattrib->bssid)));
- 			RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("mybssid=%pM\n", (mybssid)));
-diff --git a/drivers/staging/rtl8188eu/hal/odm.c b/drivers/staging/rtl8188eu/hal/odm.c
-index 8348e02b4c86..041ee2965add 100644
---- a/drivers/staging/rtl8188eu/hal/odm.c
-+++ b/drivers/staging/rtl8188eu/hal/odm.c
-@@ -5,6 +5,8 @@
-  *
-  ******************************************************************************/
- 
-+#include <linux/etherdevice.h>
-+
- #include "odm_precomp.h"
- #include "phy.h"
- 
-@@ -893,7 +895,6 @@ void odm_RSSIMonitorCheckCE(struct odm_dm_struct *pDM_Odm)
- 	u8	sta_cnt = 0;
- 	u32 PWDB_rssi[NUM_STA] = {0};/* 0~15]:MACID, [16~31]:PWDB_rssi */
- 	struct sta_info *psta;
--	u8 bcast_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
- 
- 	if (!check_fwstate(&Adapter->mlmepriv, _FW_LINKED))
- 		return;
-@@ -902,7 +903,7 @@ void odm_RSSIMonitorCheckCE(struct odm_dm_struct *pDM_Odm)
- 		psta = pDM_Odm->pODM_StaInfo[i];
- 		if (IS_STA_VALID(psta) &&
- 		    (psta->state & WIFI_ASOC_STATE) &&
--		    memcmp(psta->hwaddr, bcast_addr, ETH_ALEN) &&
-+		    !is_broadcast_ether_addr(psta->hwaddr) &&
- 		    memcmp(psta->hwaddr, myid(&Adapter->eeprompriv), ETH_ALEN)) {
- 			if (psta->rssi_stat.UndecoratedSmoothedPWDB < tmpEntryMinPWDB)
- 				tmpEntryMinPWDB = psta->rssi_stat.UndecoratedSmoothedPWDB;
--- 
-2.18.0.huawei.25
+Why make this change?  What benifit does it provide?
 
+thanks,
+
+greg k-h
