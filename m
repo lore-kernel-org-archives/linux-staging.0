@@ -1,104 +1,144 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8701572
-	for <linux-staging@lists.linux.dev>; Wed,  9 Jun 2021 03:11:10 +0000 (UTC)
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-	by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 1592Yljn166699;
-	Tue, 8 Jun 2021 23:10:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=XA2LuTKM6oytXDfyhlj9P6N1EyqEbVoRRxJ1vjn8jgc=;
- b=bLiCk1FtCU1F6m72Dk44bIJFumRDvGvlg2fqfyuWKdtHqeyisSOg0Ssi5jUy0EYvs60p
- p7bV5IHrSao073RmGCDxVCXX818TC6/xLLwqhefYKegxfikoO7UcSNfUcG18Cn1+aPRj
- UghMgSQQ/f9aXTIYUc2UNSl9ChjkW3VI+7+hVBBmUj+Pxa8dmJ8WoEJfnvjSwJMsGLw7
- ptC/ZuIHAImVOxRultXmhS1nBL3+KGVTfrU2+WmIYMJXxcF5iAmXWa/WsqJ4KzKMQTW/
- Ps34kkPPXz+8bJsSCYIkoZhz0+9SlQyjFSPxoaWmEtHdKedXYHrRi2yPsUNWJQAszQbh 6A== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0b-001b2d01.pphosted.com with ESMTP id 392d7pkpsb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 08 Jun 2021 23:10:57 -0400
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
-	by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1592ZWrv168759;
-	Tue, 8 Jun 2021 23:10:57 -0400
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com [159.122.73.70])
-	by mx0b-001b2d01.pphosted.com with ESMTP id 392d7pkprx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 08 Jun 2021 23:10:57 -0400
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
-	by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1593AtHT020402;
-	Wed, 9 Jun 2021 03:10:55 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
-	by ppma01fra.de.ibm.com with ESMTP id 3900w891e2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 09 Jun 2021 03:10:55 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
-	by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 1593ArdC25625026
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 9 Jun 2021 03:10:53 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 01D3942042;
-	Wed,  9 Jun 2021 03:10:53 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9F1864203F;
-	Wed,  9 Jun 2021 03:10:52 +0000 (GMT)
-Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
-	by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-	Wed,  9 Jun 2021 03:10:52 +0000 (GMT)
-Received: from [9.206.155.145] (unknown [9.206.155.145])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 27FAB60134;
-	Wed,  9 Jun 2021 13:10:44 +1000 (AEST)
-Subject: Re: [PATCH 03/11] Documentation: ocxl.rst: change FPGA indirect
- article to an
-To: trix@redhat.com, mdf@kernel.org, robh+dt@kernel.org, hao.wu@intel.com,
-        corbet@lwn.net, fbarrat@linux.ibm.com, bbrezillon@kernel.org,
-        arno@natisbad.org, schalla@marvell.com, herbert@gondor.apana.org.au,
-        davem@davemloft.net, gregkh@linuxfoundation.org,
-        Sven.Auhagen@voleatech.de, grandmaster@al2klimov.de
-Cc: linux-fpga@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-crypto@vger.kernel.org,
-        linux-staging@lists.linux.dev
-References: <20210608212350.3029742-1-trix@redhat.com>
- <20210608212350.3029742-5-trix@redhat.com>
-From: Andrew Donnellan <ajd@linux.ibm.com>
-Message-ID: <01f22915-0a72-1d16-7a42-a6e870ccaec2@linux.ibm.com>
-Date: Wed, 9 Jun 2021 13:10:39 +1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C0770
+	for <linux-staging@lists.linux.dev>; Wed,  9 Jun 2021 06:53:07 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id l9so3308766wms.1
+        for <linux-staging@lists.linux.dev>; Tue, 08 Jun 2021 23:53:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=hpnTnInlVMtv9lfb54LonTg7qGjKde/CO3J4I0t2FLs=;
+        b=aZ9V8AKAW8djNScDa76MyNBfnqPy3Y/TdyYAV0H1uVScbbhjqijtfxnDR5gxAFk5FZ
+         G9xkjmuz//BeMhlvFW+jwNds9Kwabmr11jXDQI3QP1aLahNKn2D7xEIMNRXrnsn9MViF
+         ldJ1cANjIlVU49//8S1OjS6EtNcBgU4Az0plb0gR+160rE6p4ev7qrnROZstRtBjqlg1
+         ca3b5aOd8RIOcM6CsRw/TUr8YLsTfqsTwWSnD/sDOWYOwecqxRm5FXs6VaAy9p12/TM7
+         o5irV5f1w80AYkuaTKRShGgr42wj9dytW2Q7Fe6H+68COa2vTu7hmeQN8bfZD977GiWi
+         4kWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=hpnTnInlVMtv9lfb54LonTg7qGjKde/CO3J4I0t2FLs=;
+        b=L2p4UqS+I1XrG9zaiwoOmqr7kPvyQwQnGCOWu4Bwh/+cxH0tDfRVe1Ycj6dAM+3Al6
+         PKngnAtrWeZRxPIYWHBi9my+/4VEZ09J2PWxh/bHKKhG2AlbZhk8LKwF2Y3963pwZ6M4
+         AJoMHVihEqXIcb18/nbWL+R19CY2kwi5KMzxXhz+BEOznXpCku+6SHwGdsXdD0DOqQik
+         QCnQRyFjAxMWIr4z+1EYkiajl9gtpwuwqg0pY05c7mnoqCLrAjlZ8k1v3JBt+g+1jayC
+         QY/3Y8QoR8kAM25Q+ljVJGUw0QUHVI8gHQPRa2V1xyU8J7xOwPTgMYiIBmqXNYMLc5j6
+         csIg==
+X-Gm-Message-State: AOAM530KlhkyhwIYHxRI1BvYriic2CnPmojXEAaE8ATF+ToQALrDVr2d
+	r6rBIB/enKXW6CMXGRBRmNY=
+X-Google-Smtp-Source: ABdhPJxvdlOzmPUSylpqNxTyrbpP8+/f0lxkT6xasdAmpDg4hbUeEM4GV5gFA+NrPpkDB0RxDqGudA==
+X-Received: by 2002:a05:600c:3b10:: with SMTP id m16mr7983686wms.55.1623221585760;
+        Tue, 08 Jun 2021 23:53:05 -0700 (PDT)
+Received: from agape.jhs ([5.171.72.116])
+        by smtp.gmail.com with ESMTPSA id 89sm23954873wri.94.2021.06.08.23.53.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Jun 2021 23:53:05 -0700 (PDT)
+Date: Wed, 9 Jun 2021 08:53:03 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Liu Shixin <liushixin2@huawei.com>
+Cc: Joe Perches <joe@perches.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -next 2/2] staging: r8188eu: use eth_broadcast_addr() to
+ assign broadcast address
+Message-ID: <20210609065302.GA1500@agape.jhs>
+References: <20210608141620.525521-1-liushixin2@huawei.com>
+ <YL96vz4okNehxCBG@kroah.com>
+ <b77a3e7b0923344e8c5b9b17f4788d28f3ccfb4f.camel@perches.com>
+ <YL+ib+tJwKckXagY@kroah.com>
+ <eb8d5431301686000746524882c06121a2d21189.camel@perches.com>
+ <4773dedc-dd39-ce1c-f7a6-58a93799fd92@huawei.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210608212350.3029742-5-trix@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: rhKqRFJG-wMyLq05xrV-qvprdaqJmQuI
-X-Proofpoint-GUID: nFu8dFCLDDKqockFlSmj80mifT7sH7nq
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
- definitions=2021-06-09_01:2021-06-04,2021-06-09 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- lowpriorityscore=0 phishscore=0 spamscore=0 mlxlogscore=999 bulkscore=0
- priorityscore=1501 malwarescore=0 adultscore=0 clxscore=1011
- suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106090001
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4773dedc-dd39-ce1c-f7a6-58a93799fd92@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On 9/6/21 7:23 am, trix@redhat.com wrote:
-> From: Tom Rix <trix@redhat.com>
+Hi Liu,
+
+On Wed, Jun 09, 2021 at 11:01:18AM +0800, Liu Shixin wrote:
+> On 2021/6/9 1:34, Joe Perches wrote:
+> > On Tue, 2021-06-08 at 19:01 +0200, Greg Kroah-Hartman wrote:
+> >> On Tue, Jun 08, 2021 at 09:45:49AM -0700, Joe Perches wrote:
+> >>> On Tue, 2021-06-08 at 16:12 +0200, Greg Kroah-Hartman wrote:
+> >>>> On Tue, Jun 08, 2021 at 10:16:20PM +0800, Liu Shixin wrote:
+> >>>>> Use eth_broadcast_addr() to assign broadcast address.
+> >>>> That says what you do, but not _why_ you are doing this?
+> >>>>
+> >>>> Why make this change?  What benifit does it provide?
+> >>> The commit message is clear and concise as using available kernel
+> >>> mechanisms is better than homegrown or duplicative ones.
+> >>>
+> >>> Are you asking merely becuse Liu Shixin hasn't had many staging
+> >>> commits?
+> >> I'm asking because this changelog text does not explain why this is
+> >> needed at all and needs to be changed to do so.
+> > IYO.
+> >
+> > IMO it's obvious and fine as is and you are asking for overly
+> > fine-grained analyses in commit messages.
+> >
+> > The subject is clear though the commit message is merely duplicative.
+> >
+> > It _could_ show the reduction in object size for some versions of gcc.
+> >
+> > $ size drivers/staging/rtl8188eu/core/rtw_mlme_ext.o*
+> >    text	   data	    bss	    dec	    hex	filename
+> >   53259	    372	   2430	  56061	   dafd	drivers/staging/rtl8188eu/core/rtw_mlme_ext.o.gcc6.new
+> >   53355	    372	   2430	  56157	   db5d	drivers/staging/rtl8188eu/core/rtw_mlme_ext.o.gcc6.old
+> >   54673	    372	   2430	  57475	   e083	drivers/staging/rtl8188eu/core/rtw_mlme_ext.o.gcc10.new
+> >   54673	    372	   2430	  57475	   e083	drivers/staging/rtl8188eu/core/rtw_mlme_ext.o.gcc10.old
+> >
+> > It _could_ describe how the kernel mechanisms depend on a minimum
+> > alignment of __aligned(2) in the tested address and also show that
+> > the address is properly minimum aligned.
+> >
+> > struct ieee80211_hdr {
+> > 	__le16 frame_control;
+> > 	__le16 duration_id;
+> > 	u8 addr1[ETH_ALEN];
+> > 	u8 addr2[ETH_ALEN];
+> > 	u8 addr3[ETH_ALEN];
+> > 	__le16 seq_ctrl;
+> > 	u8 addr4[ETH_ALEN];
+> > } __packed __aligned(2);
+> > [...]
+> > 	struct ieee80211_hdr *pwlanhdr;
+> > [...]
+> > -	ether_addr_copy(pwlanhdr->addr1, bc_addr);
+> > +	eth_broadcast_addr(pwlanhdr->addr1);
+> >
+> > It _could_ show that the commit has some effect on runtime.
+> > It _could_ show that it passes some (unavailable) regression test.
+> >
+> > IMO: None of those are really necessary here.
+> >
+> >
+> > .
+> >
+> The variable bc_addr is repeated many times in the code and looks like magic number. I want to simplify the code by remoing unnecessary bc_addr.
+> And I think it's better using eth_broadcast_addr() directly rather than using ether_addr_copy() + bc_addr.
 > 
-> Change use of 'a fpga' to 'an fpga'
+> Thanks to Joe for the data.
 > 
-> Signed-off-by: Tom Rix <trix@redhat.com>
+> Thanks,
+> 
+> 
+> 
 
-Acked-by: Andrew Donnellan <ajd@linux.ibm.com>
+I would change the subject line using the proper driver name: 
 
+	'staging: rtl8188eu: ...'
 
--- 
-Andrew Donnellan              OzLabs, ADL Canberra
-ajd@linux.ibm.com             IBM Australia Limited
+and not the compiled module name that I think it needs to be fixed (r8188eu).
+
+Thank you,
+
+fabio
