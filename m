@@ -1,103 +1,111 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48EA470
-	for <linux-staging@lists.linux.dev>; Tue,  8 Jun 2021 23:56:15 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id a11so21493111wrt.13
-        for <linux-staging@lists.linux.dev>; Tue, 08 Jun 2021 16:56:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TrK/aPrNzIFJiEaYMtY8iTDy66rvrONlTw4MuPTSoTA=;
-        b=esjQjQ76R9dklmDiKkWkttOIpiS6EJVNa/jHJDbss1qkPfuiYZ0qEw4bjsTCiE7h3B
-         UTHoUw6m01JrzmvlV3V1jUzQFjC/Eqtom/dAqAV9O26BfPA9IiAKM9it31MxxdI/WOiv
-         GQyzlxyHp28QcCfEVMb969nvRqDb7GS93fvXp/YDrNDtXh9o5Za6LHJy3ACplWF7dBIJ
-         SnZoTkFaTOEORDqvwd0pjoswQA1uPYipCoRgjzOA7MT+d7teyWQqc71vcCpsNLf962m4
-         +FTW4tUZWjnXwHkIThuS0YmSErcl7E5Uzus4n0bc412OXmR26koTAt0FHHsHGnjWBDnY
-         thYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TrK/aPrNzIFJiEaYMtY8iTDy66rvrONlTw4MuPTSoTA=;
-        b=BHdygRihgq37JBlWSRbUa3vBW0gRK/RJ1uVJw6dqxGGy7X7js0zrQNuEozmfyS51sK
-         8yK/B5klw5qTt+NswC9KWFED/T8X8a7f5EjI7Z1Eq/hUP5lYg+tRSMxB6O/BH8UVuIGC
-         9Xbwh+7oLE+qLeUUTqnU6Y5wvKUJHJ+vg4nw8cV1OqP/d3Q0h4wpX7kQL22Tq8EB01Wt
-         iUwH7h7qlO9ND85CpvXiYMXhvZ6N/mTW1B4AYDA7GDFuB+LEdIo+Z5NTqxmVP9jFrgQu
-         nVQ/jpvuYd+152JVWmXBVM/DJf//QJJYTtcPGm4cOLdRnBdwgyrJeqg4Yn2E3TSFCit4
-         JFww==
-X-Gm-Message-State: AOAM5325f6m/LvhxoGpIy/48k7PFKtvtR3p2SxiYsvt/uxT0AMh89min
-	Lrr4O16dhgCUzkg1PI457uVeng==
-X-Google-Smtp-Source: ABdhPJy1zD6K/6MbeOOBR6pqA31/kEQRBXrBFHBNVRnV+5WMfN4OU7j5brEPpNfyXp/dxq7VAeRVfw==
-X-Received: by 2002:a5d:5988:: with SMTP id n8mr11679736wri.261.1623196573624;
-        Tue, 08 Jun 2021 16:56:13 -0700 (PDT)
-Received: from localhost.localdomain (82-132-233-125.dab.02.net. [82.132.233.125])
-        by smtp.gmail.com with ESMTPSA id d3sm20702254wrs.41.2021.06.08.16.56.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jun 2021 16:56:13 -0700 (PDT)
-From: Phillip Potter <phil@philpotter.co.uk>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	straube.linux@gmail.com,
-	kaixuxia@tencent.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8188eu: replace two ODM_RT_TRACE calls in hal/phy.c
-Date: Wed,  9 Jun 2021 00:56:09 +0100
-Message-Id: <20210608235609.6726-1-phil@philpotter.co.uk>
-X-Mailer: git-send-email 2.30.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E499372
+	for <linux-staging@lists.linux.dev>; Wed,  9 Jun 2021 03:01:23 +0000 (UTC)
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4G0Bbr6pQ0z6vPw;
+	Wed,  9 Jun 2021 10:57:28 +0800 (CST)
+Received: from dggpemm500009.china.huawei.com (7.185.36.225) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 9 Jun 2021 11:01:18 +0800
+Received: from [10.174.179.24] (10.174.179.24) by
+ dggpemm500009.china.huawei.com (7.185.36.225) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 9 Jun 2021 11:01:18 +0800
+Subject: Re: [PATCH -next 2/2] staging: r8188eu: use eth_broadcast_addr() to
+ assign broadcast address
+To: Joe Perches <joe@perches.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>
+References: <20210608141620.525521-1-liushixin2@huawei.com>
+ <YL96vz4okNehxCBG@kroah.com>
+ <b77a3e7b0923344e8c5b9b17f4788d28f3ccfb4f.camel@perches.com>
+ <YL+ib+tJwKckXagY@kroah.com>
+ <eb8d5431301686000746524882c06121a2d21189.camel@perches.com>
+CC: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+From: Liu Shixin <liushixin2@huawei.com>
+Message-ID: <4773dedc-dd39-ce1c-f7a6-58a93799fd92@huawei.com>
+Date: Wed, 9 Jun 2021 11:01:18 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <eb8d5431301686000746524882c06121a2d21189.camel@perches.com>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.179.24]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500009.china.huawei.com (7.185.36.225)
+X-CFilter-Loop: Reflected
 
-Within rtl88eu_dm_txpower_track_adjust function, retrieve the struct
-net_device pointer, and replace both calls to the ODM_RT_TRACE macro
-with equivalent netdev_dbg calls, as well as modifying layout, wording
-and spacing slightly. The purpose of this, and patches like it, is to
-eventually remove the need for include/odm_debug.h, which is an overly
-complex way of printing debug/tracing information about the driver.
+On 2021/6/9 1:34, Joe Perches wrote:
+> On Tue, 2021-06-08 at 19:01 +0200, Greg Kroah-Hartman wrote:
+>> On Tue, Jun 08, 2021 at 09:45:49AM -0700, Joe Perches wrote:
+>>> On Tue, 2021-06-08 at 16:12 +0200, Greg Kroah-Hartman wrote:
+>>>> On Tue, Jun 08, 2021 at 10:16:20PM +0800, Liu Shixin wrote:
+>>>>> Use eth_broadcast_addr() to assign broadcast address.
+>>>> That says what you do, but not _why_ you are doing this?
+>>>>
+>>>> Why make this change?  What benifit does it provide?
+>>> The commit message is clear and concise as using available kernel
+>>> mechanisms is better than homegrown or duplicative ones.
+>>>
+>>> Are you asking merely becuse Liu Shixin hasn't had many staging
+>>> commits?
+>> I'm asking because this changelog text does not explain why this is
+>> needed at all and needs to be changed to do so.
+> IYO.
+>
+> IMO it's obvious and fine as is and you are asking for overly
+> fine-grained analyses in commit messages.
+>
+> The subject is clear though the commit message is merely duplicative.
+>
+> It _could_ show the reduction in object size for some versions of gcc.
+>
+> $ size drivers/staging/rtl8188eu/core/rtw_mlme_ext.o*
+>    text	   data	    bss	    dec	    hex	filename
+>   53259	    372	   2430	  56061	   dafd	drivers/staging/rtl8188eu/core/rtw_mlme_ext.o.gcc6.new
+>   53355	    372	   2430	  56157	   db5d	drivers/staging/rtl8188eu/core/rtw_mlme_ext.o.gcc6.old
+>   54673	    372	   2430	  57475	   e083	drivers/staging/rtl8188eu/core/rtw_mlme_ext.o.gcc10.new
+>   54673	    372	   2430	  57475	   e083	drivers/staging/rtl8188eu/core/rtw_mlme_ext.o.gcc10.old
+>
+> It _could_ describe how the kernel mechanisms depend on a minimum
+> alignment of __aligned(2) in the tested address and also show that
+> the address is properly minimum aligned.
+>
+> struct ieee80211_hdr {
+> 	__le16 frame_control;
+> 	__le16 duration_id;
+> 	u8 addr1[ETH_ALEN];
+> 	u8 addr2[ETH_ALEN];
+> 	u8 addr3[ETH_ALEN];
+> 	__le16 seq_ctrl;
+> 	u8 addr4[ETH_ALEN];
+> } __packed __aligned(2);
+> [...]
+> 	struct ieee80211_hdr *pwlanhdr;
+> [...]
+> -	ether_addr_copy(pwlanhdr->addr1, bc_addr);
+> +	eth_broadcast_addr(pwlanhdr->addr1);
+>
+> It _could_ show that the commit has some effect on runtime.
+> It _could_ show that it passes some (unavailable) regression test.
+>
+> IMO: None of those are really necessary here.
+>
+>
+> .
+>
+The variable bc_addr is repeated many times in the code and looks like magic number. I want to simplify the code by remoing unnecessary bc_addr.
+And I think it's better using eth_broadcast_addr() directly rather than using ether_addr_copy() + bc_addr.
 
-Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
----
- drivers/staging/rtl8188eu/hal/phy.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Thanks to Joe for the data.
 
-diff --git a/drivers/staging/rtl8188eu/hal/phy.c b/drivers/staging/rtl8188eu/hal/phy.c
-index a664bff370bb..a8caf618f588 100644
---- a/drivers/staging/rtl8188eu/hal/phy.c
-+++ b/drivers/staging/rtl8188eu/hal/phy.c
-@@ -301,11 +301,12 @@ void rtl88eu_dm_txpower_track_adjust(struct odm_dm_struct *dm_odm, u8 type,
- 				     u8 *direction, u32 *out_write_val)
- {
- 	u8 pwr_value = 0;
-+	struct net_device *pnetdev = dm_odm->Adapter->pnetdev;
-+
- 	/*  Tx power tracking BB swing table. */
- 	if (type == 0) { /* For OFDM adjust */
--		ODM_RT_TRACE(dm_odm, ODM_COMP_TX_PWR_TRACK, ODM_DBG_LOUD,
--			     ("BbSwingIdxOfdm = %d BbSwingFlagOfdm=%d\n",
--			     dm_odm->BbSwingIdxOfdm, dm_odm->BbSwingFlagOfdm));
-+		netdev_dbg(pnetdev, "%s(): BbSwingIdxOfdm = %d BbSwingFlagOfdm = %d\n",
-+			   __func__, dm_odm->BbSwingIdxOfdm, dm_odm->BbSwingFlagOfdm);
- 
- 		if (dm_odm->BbSwingIdxOfdm <= dm_odm->BbSwingIdxOfdmBase) {
- 			*direction = 1;
-@@ -318,9 +319,8 @@ void rtl88eu_dm_txpower_track_adjust(struct odm_dm_struct *dm_odm, u8 type,
- 		}
- 
- 	} else if (type == 1) { /* For CCK adjust. */
--		ODM_RT_TRACE(dm_odm, ODM_COMP_TX_PWR_TRACK, ODM_DBG_LOUD,
--			     ("dm_odm->BbSwingIdxCck = %d dm_odm->BbSwingIdxCckBase = %d\n",
--			     dm_odm->BbSwingIdxCck, dm_odm->BbSwingIdxCckBase));
-+		netdev_dbg(pnetdev, "%s(): BbSwingIdxCck = %d BbSwingIdxCckBase = %d\n",
-+			   __func__, dm_odm->BbSwingIdxCck, dm_odm->BbSwingIdxCckBase);
- 
- 		if (dm_odm->BbSwingIdxCck <= dm_odm->BbSwingIdxCckBase) {
- 			*direction = 1;
--- 
-2.30.2
+Thanks,
+
 
