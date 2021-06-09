@@ -1,153 +1,188 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D8D70
-	for <linux-staging@lists.linux.dev>; Wed,  9 Jun 2021 07:52:54 +0000 (UTC)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-	by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1lqt11-00063s-5n; Wed, 09 Jun 2021 09:52:43 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1lqt0y-0004m9-RT; Wed, 09 Jun 2021 09:52:40 +0200
-Date: Wed, 9 Jun 2021 09:52:40 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc: festevam@gmail.com, krzk@kernel.org, laurent.pinchart@ideasonboard.com,
-	devicetree@vger.kernel.org, kernel@pengutronix.de, kernel@puri.sm,
-	linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, mchehab@kernel.org,
-	phone-devel@vger.kernel.org, robh@kernel.org, shawnguo@kernel.org,
-	slongerbeam@gmail.com
-Subject: Re: [PATCH v3 3/3] arm64: dts: imx8mq: add mipi csi phy and csi
- bridge descriptions
-Message-ID: <20210609075240.ajx6ejvqie4sgkvj@pengutronix.de>
-References: <20210608104128.1616028-1-martin.kepplinger@puri.sm>
- <20210608104128.1616028-4-martin.kepplinger@puri.sm>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11B470
+	for <linux-staging@lists.linux.dev>; Wed,  9 Jun 2021 08:24:37 +0000 (UTC)
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.56])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4G0Klf72FbzWtNL;
+	Wed,  9 Jun 2021 16:19:42 +0800 (CST)
+Received: from dggpemm500009.china.huawei.com (7.185.36.225) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 9 Jun 2021 16:24:34 +0800
+Received: from huawei.com (10.175.113.32) by dggpemm500009.china.huawei.com
+ (7.185.36.225) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Wed, 9 Jun 2021
+ 16:24:34 +0800
+From: Liu Shixin <liushixin2@huawei.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Joe Perches
+	<joe@perches.com>, Fabio Aiuto <fabioaiuto83@gmail.com>
+CC: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Liu
+ Shixin" <liushixin2@huawei.com>
+Subject: [PATCH -next v2 1/2] staging: rtl8188eu: Use is_{zero/broadcast}_ether_addr() instead of memcmp()
+Date: Wed, 9 Jun 2021 16:56:49 +0800
+Message-ID: <20210609085650.1269008-1-liushixin2@huawei.com>
+X-Mailer: git-send-email 2.18.0.huawei.25
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210608104128.1616028-4-martin.kepplinger@puri.sm>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 09:46:34 up 188 days, 21:52, 47 users,  load average: 0.18, 0.13,
- 0.11
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+Content-Type: text/plain
+X-Originating-IP: [10.175.113.32]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500009.china.huawei.com (7.185.36.225)
+X-CFilter-Loop: Reflected
 
-Hi Martin,
+Simplify the code by using is_{zero/broadcast}_ether_addr() instead of
+directly using memcmp() to determine if the ethernet address is all
+zeros or broadcast address.
 
-On 21-06-08 12:41, Martin Kepplinger wrote:
+Signed-off-by: Liu Shixin <liushixin2@huawei.com>
+---
+v1->v2:
+1. Add the benefit of this patch in changelog.
+2. Change the subject line according to fabio's reminder.
 
-...
+ drivers/staging/rtl8188eu/core/rtw_mlme.c     |  4 ++--
+ drivers/staging/rtl8188eu/core/rtw_mlme_ext.c |  7 +++----
+ drivers/staging/rtl8188eu/core/rtw_recv.c     | 11 ++++++-----
+ drivers/staging/rtl8188eu/hal/odm.c           |  5 +++--
+ 4 files changed, 14 insertions(+), 13 deletions(-)
 
-> +			csi1: csi@30a90000 {
-> +				compatible = "fsl,imx7-csi";
-
-AFAIK an unwritten rule (at least for the iMX mach) is to specify the
-SoC specific compatible and the compatible which is supported by the
-driver already, so this should be:
-
-compatible = "fsl,imx8mq-csi", "fsl,imx7-csi";
-
-This is very helpful if we need to handle some quirk for the imx8mq
-later on.
-
-Regards,
-  Marco
-
-
-> +				reg = <0x30a90000 0x10000>;
-> +				interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
-> +				clocks = <&clk IMX8MQ_CLK_CSI1_ROOT>;
-> +				clock-names = "mclk";
-> +				status = "disabled";
-> +
-> +				port {
-> +					csi1_ep: endpoint {
-> +						remote-endpoint = <&csi1_mipi_ep>;
-> +					};
-> +				};
-> +			};
-> +
-> +			mipi_csi2: csi@30b60000 {
-> +				compatible = "fsl,imx8mq-mipi-csi2";
-> +				reg = <0x30b60000 0x1000>;
-> +				clocks = <&clk IMX8MQ_CLK_CSI2_CORE>,
-> +				   <&clk IMX8MQ_CLK_CSI2_ESC>,
-> +				   <&clk IMX8MQ_CLK_CSI2_PHY_REF>,
-> +				   <&clk IMX8MQ_CLK_CLKO2>;
-> +				clock-names = "core", "esc", "pxl", "clko2";
-> +				assigned-clocks = <&clk IMX8MQ_CLK_CSI2_CORE>,
-> +				    <&clk IMX8MQ_CLK_CSI2_PHY_REF>,
-> +				    <&clk IMX8MQ_CLK_CSI2_ESC>;
-> +				assigned-clock-rates = <266000000>, <333000000>, <66000000>;
-> +				assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
-> +					<&clk IMX8MQ_SYS2_PLL_1000M>,
-> +					<&clk IMX8MQ_SYS1_PLL_800M>;
-> +				power-domains = <&pgc_mipi_csi2>;
-> +				reset = <&src>;
-> +				phy = <&iomuxc_gpr>;
-> +				interconnects = <&noc IMX8MQ_ICM_CSI2 &noc IMX8MQ_ICS_DRAM>;
-> +				interconnect-names = "dram";
-> +				status = "disabled";
-> +
-> +				ports {
-> +					#address-cells = <1>;
-> +					#size-cells = <0>;
-> +
-> +					port@0 {
-> +						reg = <0>;
-> +
-> +						csi2_mipi_ep: endpoint {
-> +							remote-endpoint = <&csi2_ep>;
-> +						};
-> +					};
-> +				};
-> +			};
-> +
-> +			csi2: csi@30b80000 {
-> +				compatible = "fsl,imx7-csi";
-> +				reg = <0x30b80000 0x10000>;
-> +				interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
-> +				clocks = <&clk IMX8MQ_CLK_CSI2_ROOT>;
-> +				clock-names = "mclk";
-> +				status = "disabled";
-> +
-> +				port {
-> +					csi2_ep: endpoint {
-> +						remote-endpoint = <&csi2_mipi_ep>;
-> +					};
-> +				};
-> +			};
-> +
->  			mu: mailbox@30aa0000 {
->  				compatible = "fsl,imx8mq-mu", "fsl,imx6sx-mu";
->  				reg = <0x30aa0000 0x10000>;
-> -- 
-> 2.30.2
-> 
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> 
-
+diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme.c b/drivers/staging/rtl8188eu/core/rtw_mlme.c
+index ba73ac5325e2..01bbfd29488f 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_mlme.c
++++ b/drivers/staging/rtl8188eu/core/rtw_mlme.c
+@@ -19,6 +19,7 @@
+ #include <wlan_bssdef.h>
+ #include <rtw_ioctl_set.h>
+ #include <linux/vmalloc.h>
++#include <linux/etherdevice.h>
+ 
+ extern const u8 MCS_rate_1R[16];
+ 
+@@ -179,9 +180,8 @@ struct wlan_network *rtw_find_network(struct __queue *scanned_queue, u8 *addr)
+ {
+ 	struct list_head *phead, *plist;
+ 	struct wlan_network *pnetwork = NULL;
+-	u8 zero_addr[ETH_ALEN] = {0, 0, 0, 0, 0, 0};
+ 
+-	if (!memcmp(zero_addr, addr, ETH_ALEN)) {
++	if (is_zero_ether_addr(addr)) {
+ 		pnetwork = NULL;
+ 		goto exit;
+ 	}
+diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+index b4d81d3a856c..8c1bc04dd830 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+@@ -7,6 +7,7 @@
+ #define _RTW_MLME_EXT_C_
+ 
+ #include <linux/ieee80211.h>
++#include <linux/etherdevice.h>
+ #include <asm/unaligned.h>
+ 
+ #include <osdep_service.h>
+@@ -4048,13 +4049,12 @@ static void _mgt_dispatcher(struct adapter *padapter,
+ 			    struct mlme_handler *ptable,
+ 			    struct recv_frame *precv_frame)
+ {
+-	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+ 	u8 *pframe = precv_frame->pkt->data;
+ 
+ 	if (ptable->func) {
+ 		/* receive the frames that ra(a1) is my address or ra(a1) is bc address. */
+ 		if (memcmp(GetAddr1Ptr(pframe), myid(&padapter->eeprompriv), ETH_ALEN) &&
+-		    memcmp(GetAddr1Ptr(pframe), bc_addr, ETH_ALEN))
++		    !is_broadcast_ether_addr(GetAddr1Ptr(pframe)))
+ 			return;
+ 		ptable->func(padapter, precv_frame);
+ 	}
+@@ -4067,7 +4067,6 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
+ #ifdef CONFIG_88EU_AP_MODE
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ #endif
+-	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+ 	u8 *pframe = precv_frame->pkt->data;
+ 	struct sta_info *psta = rtw_get_stainfo(&padapter->stapriv, GetAddr2Ptr(pframe));
+ 
+@@ -4085,7 +4084,7 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
+ 
+ 	/* receive the frames that ra(a1) is my address or ra(a1) is bc address. */
+ 	if (memcmp(GetAddr1Ptr(pframe), myid(&padapter->eeprompriv), ETH_ALEN) &&
+-	    memcmp(GetAddr1Ptr(pframe), bc_addr, ETH_ALEN))
++	    !is_broadcast_ether_addr(GetAddr1Ptr(pframe)))
+ 		return;
+ 
+ 	ptable = mlme_sta_tbl;
+diff --git a/drivers/staging/rtl8188eu/core/rtw_recv.c b/drivers/staging/rtl8188eu/core/rtw_recv.c
+index e79cfdd4bf90..cb0629fefbc5 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_recv.c
++++ b/drivers/staging/rtl8188eu/core/rtw_recv.c
+@@ -15,6 +15,7 @@
+ #include <mon.h>
+ #include <wifi.h>
+ #include <linux/vmalloc.h>
++#include <linux/etherdevice.h>
+ #include <net/cfg80211.h>
+ 
+ #define ETHERNET_HEADER_SIZE	14	/*  Ethernet Header Length */
+@@ -651,8 +652,8 @@ static int sta2sta_data_frame(struct adapter *adapter,
+ 			goto exit;
+ 		}
+ 
+-		if (!memcmp(pattrib->bssid, "\x0\x0\x0\x0\x0\x0", ETH_ALEN) ||
+-		    !memcmp(mybssid, "\x0\x0\x0\x0\x0\x0", ETH_ALEN) ||
++		if (is_zero_ether_addr(pattrib->bssid) ||
++		    is_zero_ether_addr(mybssid) ||
+ 		    memcmp(pattrib->bssid, mybssid, ETH_ALEN)) {
+ 			ret = _FAIL;
+ 			goto exit;
+@@ -734,9 +735,9 @@ static int ap2sta_data_frame(struct adapter *adapter,
+ 		}
+ 
+ 		/*  check BSSID */
+-		if (!memcmp(pattrib->bssid, "\x0\x0\x0\x0\x0\x0", ETH_ALEN) ||
+-		    !memcmp(mybssid, "\x0\x0\x0\x0\x0\x0", ETH_ALEN) ||
+-		     (memcmp(pattrib->bssid, mybssid, ETH_ALEN))) {
++		if (is_zero_ether_addr(pattrib->bssid) ||
++		    is_zero_ether_addr(mybssid) ||
++		    (memcmp(pattrib->bssid, mybssid, ETH_ALEN))) {
+ 			RT_TRACE(_module_rtl871x_recv_c_, _drv_info_,
+ 				 (" %s:  compare BSSID fail ; BSSID=%pM\n", __func__, (pattrib->bssid)));
+ 			RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("mybssid=%pM\n", (mybssid)));
+diff --git a/drivers/staging/rtl8188eu/hal/odm.c b/drivers/staging/rtl8188eu/hal/odm.c
+index 8348e02b4c86..041ee2965add 100644
+--- a/drivers/staging/rtl8188eu/hal/odm.c
++++ b/drivers/staging/rtl8188eu/hal/odm.c
+@@ -5,6 +5,8 @@
+  *
+  ******************************************************************************/
+ 
++#include <linux/etherdevice.h>
++
+ #include "odm_precomp.h"
+ #include "phy.h"
+ 
+@@ -893,7 +895,6 @@ void odm_RSSIMonitorCheckCE(struct odm_dm_struct *pDM_Odm)
+ 	u8	sta_cnt = 0;
+ 	u32 PWDB_rssi[NUM_STA] = {0};/* 0~15]:MACID, [16~31]:PWDB_rssi */
+ 	struct sta_info *psta;
+-	u8 bcast_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+ 
+ 	if (!check_fwstate(&Adapter->mlmepriv, _FW_LINKED))
+ 		return;
+@@ -902,7 +903,7 @@ void odm_RSSIMonitorCheckCE(struct odm_dm_struct *pDM_Odm)
+ 		psta = pDM_Odm->pODM_StaInfo[i];
+ 		if (IS_STA_VALID(psta) &&
+ 		    (psta->state & WIFI_ASOC_STATE) &&
+-		    memcmp(psta->hwaddr, bcast_addr, ETH_ALEN) &&
++		    !is_broadcast_ether_addr(psta->hwaddr) &&
+ 		    memcmp(psta->hwaddr, myid(&Adapter->eeprompriv), ETH_ALEN)) {
+ 			if (psta->rssi_stat.UndecoratedSmoothedPWDB < tmpEntryMinPWDB)
+ 				tmpEntryMinPWDB = psta->rssi_stat.UndecoratedSmoothedPWDB;
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.18.0.huawei.25
+
