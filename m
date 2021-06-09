@@ -1,144 +1,101 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C0770
-	for <linux-staging@lists.linux.dev>; Wed,  9 Jun 2021 06:53:07 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id l9so3308766wms.1
-        for <linux-staging@lists.linux.dev>; Tue, 08 Jun 2021 23:53:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=hpnTnInlVMtv9lfb54LonTg7qGjKde/CO3J4I0t2FLs=;
-        b=aZ9V8AKAW8djNScDa76MyNBfnqPy3Y/TdyYAV0H1uVScbbhjqijtfxnDR5gxAFk5FZ
-         G9xkjmuz//BeMhlvFW+jwNds9Kwabmr11jXDQI3QP1aLahNKn2D7xEIMNRXrnsn9MViF
-         ldJ1cANjIlVU49//8S1OjS6EtNcBgU4Az0plb0gR+160rE6p4ev7qrnROZstRtBjqlg1
-         ca3b5aOd8RIOcM6CsRw/TUr8YLsTfqsTwWSnD/sDOWYOwecqxRm5FXs6VaAy9p12/TM7
-         o5irV5f1w80AYkuaTKRShGgr42wj9dytW2Q7Fe6H+68COa2vTu7hmeQN8bfZD977GiWi
-         4kWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=hpnTnInlVMtv9lfb54LonTg7qGjKde/CO3J4I0t2FLs=;
-        b=L2p4UqS+I1XrG9zaiwoOmqr7kPvyQwQnGCOWu4Bwh/+cxH0tDfRVe1Ycj6dAM+3Al6
-         PKngnAtrWeZRxPIYWHBi9my+/4VEZ09J2PWxh/bHKKhG2AlbZhk8LKwF2Y3963pwZ6M4
-         AJoMHVihEqXIcb18/nbWL+R19CY2kwi5KMzxXhz+BEOznXpCku+6SHwGdsXdD0DOqQik
-         QCnQRyFjAxMWIr4z+1EYkiajl9gtpwuwqg0pY05c7mnoqCLrAjlZ8k1v3JBt+g+1jayC
-         QY/3Y8QoR8kAM25Q+ljVJGUw0QUHVI8gHQPRa2V1xyU8J7xOwPTgMYiIBmqXNYMLc5j6
-         csIg==
-X-Gm-Message-State: AOAM530KlhkyhwIYHxRI1BvYriic2CnPmojXEAaE8ATF+ToQALrDVr2d
-	r6rBIB/enKXW6CMXGRBRmNY=
-X-Google-Smtp-Source: ABdhPJxvdlOzmPUSylpqNxTyrbpP8+/f0lxkT6xasdAmpDg4hbUeEM4GV5gFA+NrPpkDB0RxDqGudA==
-X-Received: by 2002:a05:600c:3b10:: with SMTP id m16mr7983686wms.55.1623221585760;
-        Tue, 08 Jun 2021 23:53:05 -0700 (PDT)
-Received: from agape.jhs ([5.171.72.116])
-        by smtp.gmail.com with ESMTPSA id 89sm23954873wri.94.2021.06.08.23.53.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Jun 2021 23:53:05 -0700 (PDT)
-Date: Wed, 9 Jun 2021 08:53:03 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Liu Shixin <liushixin2@huawei.com>
-Cc: Joe Perches <joe@perches.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next 2/2] staging: r8188eu: use eth_broadcast_addr() to
- assign broadcast address
-Message-ID: <20210609065302.GA1500@agape.jhs>
-References: <20210608141620.525521-1-liushixin2@huawei.com>
- <YL96vz4okNehxCBG@kroah.com>
- <b77a3e7b0923344e8c5b9b17f4788d28f3ccfb4f.camel@perches.com>
- <YL+ib+tJwKckXagY@kroah.com>
- <eb8d5431301686000746524882c06121a2d21189.camel@perches.com>
- <4773dedc-dd39-ce1c-f7a6-58a93799fd92@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA4770
+	for <linux-staging@lists.linux.dev>; Wed,  9 Jun 2021 07:15:17 +0000 (UTC)
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.57])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4G0JCY72S6zWtG7;
+	Wed,  9 Jun 2021 15:10:17 +0800 (CST)
+Received: from dggpeml500020.china.huawei.com (7.185.36.88) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 9 Jun 2021 15:15:01 +0800
+Received: from huawei.com (10.175.127.227) by dggpeml500020.china.huawei.com
+ (7.185.36.88) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Wed, 9 Jun 2021
+ 15:15:00 +0800
+From: Baokun Li <libaokun1@huawei.com>
+To: <linux-kernel@vger.kernel.org>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Sakari Ailus" <sakari.ailus@linux.intel.com>, Andy Shevchenko
+	<andriy.shevchenko@linux.intel.com>, Kaixu Xia <kaixuxia@tencent.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+CC: <weiyongjun1@huawei.com>, <yuehaibing@huawei.com>,
+	<yangjihong1@huawei.com>, <yukuai3@huawei.com>, <libaokun1@huawei.com>,
+	<linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+	<kernel-janitors@vger.kernel.org>, Hulk Robot <hulkci@huawei.com>
+Subject: [PATCH -next v2] media: staging: atomisp: use list_move_tail instead of list_del/list_add_tail in atomisp_compat_css20.c
+Date: Wed, 9 Jun 2021 15:24:09 +0800
+Message-ID: <20210609072409.1357327-1-libaokun1@huawei.com>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4773dedc-dd39-ce1c-f7a6-58a93799fd92@huawei.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.175.127.227]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpeml500020.china.huawei.com (7.185.36.88)
+X-CFilter-Loop: Reflected
 
-Hi Liu,
+Using list_move_tail() instead of list_del() + list_add_tail() in atomisp_compat_css20.c.
 
-On Wed, Jun 09, 2021 at 11:01:18AM +0800, Liu Shixin wrote:
-> On 2021/6/9 1:34, Joe Perches wrote:
-> > On Tue, 2021-06-08 at 19:01 +0200, Greg Kroah-Hartman wrote:
-> >> On Tue, Jun 08, 2021 at 09:45:49AM -0700, Joe Perches wrote:
-> >>> On Tue, 2021-06-08 at 16:12 +0200, Greg Kroah-Hartman wrote:
-> >>>> On Tue, Jun 08, 2021 at 10:16:20PM +0800, Liu Shixin wrote:
-> >>>>> Use eth_broadcast_addr() to assign broadcast address.
-> >>>> That says what you do, but not _why_ you are doing this?
-> >>>>
-> >>>> Why make this change?  What benifit does it provide?
-> >>> The commit message is clear and concise as using available kernel
-> >>> mechanisms is better than homegrown or duplicative ones.
-> >>>
-> >>> Are you asking merely becuse Liu Shixin hasn't had many staging
-> >>> commits?
-> >> I'm asking because this changelog text does not explain why this is
-> >> needed at all and needs to be changed to do so.
-> > IYO.
-> >
-> > IMO it's obvious and fine as is and you are asking for overly
-> > fine-grained analyses in commit messages.
-> >
-> > The subject is clear though the commit message is merely duplicative.
-> >
-> > It _could_ show the reduction in object size for some versions of gcc.
-> >
-> > $ size drivers/staging/rtl8188eu/core/rtw_mlme_ext.o*
-> >    text	   data	    bss	    dec	    hex	filename
-> >   53259	    372	   2430	  56061	   dafd	drivers/staging/rtl8188eu/core/rtw_mlme_ext.o.gcc6.new
-> >   53355	    372	   2430	  56157	   db5d	drivers/staging/rtl8188eu/core/rtw_mlme_ext.o.gcc6.old
-> >   54673	    372	   2430	  57475	   e083	drivers/staging/rtl8188eu/core/rtw_mlme_ext.o.gcc10.new
-> >   54673	    372	   2430	  57475	   e083	drivers/staging/rtl8188eu/core/rtw_mlme_ext.o.gcc10.old
-> >
-> > It _could_ describe how the kernel mechanisms depend on a minimum
-> > alignment of __aligned(2) in the tested address and also show that
-> > the address is properly minimum aligned.
-> >
-> > struct ieee80211_hdr {
-> > 	__le16 frame_control;
-> > 	__le16 duration_id;
-> > 	u8 addr1[ETH_ALEN];
-> > 	u8 addr2[ETH_ALEN];
-> > 	u8 addr3[ETH_ALEN];
-> > 	__le16 seq_ctrl;
-> > 	u8 addr4[ETH_ALEN];
-> > } __packed __aligned(2);
-> > [...]
-> > 	struct ieee80211_hdr *pwlanhdr;
-> > [...]
-> > -	ether_addr_copy(pwlanhdr->addr1, bc_addr);
-> > +	eth_broadcast_addr(pwlanhdr->addr1);
-> >
-> > It _could_ show that the commit has some effect on runtime.
-> > It _could_ show that it passes some (unavailable) regression test.
-> >
-> > IMO: None of those are really necessary here.
-> >
-> >
-> > .
-> >
-> The variable bc_addr is repeated many times in the code and looks like magic number. I want to simplify the code by remoing unnecessary bc_addr.
-> And I think it's better using eth_broadcast_addr() directly rather than using ether_addr_copy() + bc_addr.
-> 
-> Thanks to Joe for the data.
-> 
-> Thanks,
-> 
-> 
-> 
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Baokun Li <libaokun1@huawei.com>
+---
+V1->V2:
+	CC mailist
 
-I would change the subject line using the proper driver name: 
+ .../pci/atomisp_compat_css20.c        | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-	'staging: rtl8188eu: ...'
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index f60198bb8a1a..3bd4c616655d 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -2147,22 +2147,19 @@ void atomisp_css_stop(struct atomisp_sub_device *asd,
+ 	while (!list_empty(&asd->s3a_stats_in_css)) {
+ 		s3a_buf = list_entry(asd->s3a_stats_in_css.next,
+ 				     struct atomisp_s3a_buf, list);
+-		list_del(&s3a_buf->list);
+-		list_add_tail(&s3a_buf->list, &asd->s3a_stats);
++		list_move_tail(&s3a_buf->list, &asd->s3a_stats);
+ 	}
+ 	while (!list_empty(&asd->s3a_stats_ready)) {
+ 		s3a_buf = list_entry(asd->s3a_stats_ready.next,
+ 				     struct atomisp_s3a_buf, list);
+-		list_del(&s3a_buf->list);
+-		list_add_tail(&s3a_buf->list, &asd->s3a_stats);
++		list_move_tail(&s3a_buf->list, &asd->s3a_stats);
+ 	}
+ 
+ 	spin_lock_irqsave(&asd->dis_stats_lock, irqflags);
+ 	while (!list_empty(&asd->dis_stats_in_css)) {
+ 		dis_buf = list_entry(asd->dis_stats_in_css.next,
+ 				     struct atomisp_dis_buf, list);
+-		list_del(&dis_buf->list);
+-		list_add_tail(&dis_buf->list, &asd->dis_stats);
++		list_move_tail(&dis_buf->list, &asd->dis_stats);
+ 	}
+ 	asd->params.dis_proj_data_valid = false;
+ 	spin_unlock_irqrestore(&asd->dis_stats_lock, irqflags);
+@@ -2171,14 +2168,12 @@ void atomisp_css_stop(struct atomisp_sub_device *asd,
+ 		while (!list_empty(&asd->metadata_in_css[i])) {
+ 			md_buf = list_entry(asd->metadata_in_css[i].next,
+ 					    struct atomisp_metadata_buf, list);
+-			list_del(&md_buf->list);
+-			list_add_tail(&md_buf->list, &asd->metadata[i]);
++			list_move_tail(&md_buf->list, &asd->metadata[i]);
+ 		}
+ 		while (!list_empty(&asd->metadata_ready[i])) {
+ 			md_buf = list_entry(asd->metadata_ready[i].next,
+ 					    struct atomisp_metadata_buf, list);
+-			list_del(&md_buf->list);
+-			list_add_tail(&md_buf->list, &asd->metadata[i]);
++			list_move_tail(&md_buf->list, &asd->metadata[i]);
+ 		}
+ 	}
+ 
 
-and not the compiled module name that I think it needs to be fixed (r8188eu).
-
-Thank you,
-
-fabio
