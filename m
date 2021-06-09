@@ -1,55 +1,54 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0618572
-	for <linux-staging@lists.linux.dev>; Wed,  9 Jun 2021 10:39:24 +0000 (UTC)
-Received: by mail-ot1-f49.google.com with SMTP id l13-20020a9d708d0000b02903fca0eacd15so531741otj.7
-        for <linux-staging@lists.linux.dev>; Wed, 09 Jun 2021 03:39:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=KqX35mCyxhWCPmImmyUXFJ6q/RCRNm/UJq3q6VtoIW0=;
-        b=L3bUf/YNw4EiSAx+NN0M/nD53ZmJuIViEpNAZe5oi/7bko+QO31e9HaJFXR6TYYaEF
-         0O6e4xkoum+yHa2sfj8I3PIsOsNnM916tu1XLYJvEk9tQ4btu2GH723pIthIyxxPaL9W
-         Cs8an+Y5kQjE4urVDLUujhgj/Nh2YlbAG05if+nhZvJ74ypXtiPl61yzvIJaZ6qEPHnV
-         AFeegMWfCCPGl/CMzJJ9esSEPEibqRx1eaal76CBVioJR+QcnDzRBsOWaMj4HcUZfV3z
-         uGwTnVkKLf/+ppYiF3P1szB3mskDV8xP3T1r83Cel/o6WeduauQ9EsA3mRP4Ap6tgy1Z
-         OelQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=KqX35mCyxhWCPmImmyUXFJ6q/RCRNm/UJq3q6VtoIW0=;
-        b=Xl6OuARytKixnc1lAFm+tRwch2ePcvS0cd4BeNDtxPRDGG+rASKzNkLC5un1qEB0wn
-         NifBvSEt0FFBA/bKlHIX6uYwIEjx5DtTj832YrXXUVp6k3Ixry+1Hp9Fna9xjo3nYr3N
-         VDiysUI6qCRlXXYubhuWU9JlcZwoLTfXwThobsXmEg8ZtdkNeDaOvOakS+OtaUhfGgpg
-         GdLonaxDnvL8MzSLDiCj3YDWWNUAxjV85Jqf2xWgWhgfXucwJGVx5VGj+nr1WVdgJyMM
-         EC42pJltGA1+oVapVF/Cmx9f+KKlUhtm5jnnwItN9SVcFIvxUBxCeAUEJ348Zh6V3Srs
-         3mag==
-X-Gm-Message-State: AOAM532JSVptZlPQnGvkS5DLoyD2oI+TpKqELNSbBbSP1JMJCfWnU6sh
-	NzdbN3Fl2LkAWSxkIn8iOD4=
-X-Google-Smtp-Source: ABdhPJw8b40nDyS0v6IDdycCWF4GVsok+GQSLMhcq1O4mflqt4iAfwBQ5f6wuLkaeNGiYG3aUBqawA==
-X-Received: by 2002:a05:6830:3089:: with SMTP id f9mr12607717ots.276.1623235164401;
-        Wed, 09 Jun 2021 03:39:24 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id t26sm3754255oth.14.2021.06.09.03.39.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jun 2021 03:39:23 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 9 Jun 2021 03:39:22 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Straube <straube.linux@gmail.com>,
-	Romain Perier <romain.perier@gmail.com>,
-	Allen Pais <apais@linux.microsoft.com>,
-	linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH 7/7] staging: rtl8188eu: delete some dead code
-Message-ID: <20210609103922.GG3727184@roeck-us.net>
-References: <YL5iX3Exc0HVYrsi@mwanda>
- <YL5jFF9ldj0W9P1f@mwanda>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0040772
+	for <linux-staging@lists.linux.dev>; Wed,  9 Jun 2021 11:14:59 +0000 (UTC)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 159BDvDV023649;
+	Wed, 9 Jun 2021 11:14:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=k2Q/TB9MGcJNchw06veGMKNS97ORNy5N58Oflu76ZNk=;
+ b=Pco8jrH0ic37kyJEfzGTCQfXO41VEi4YBI0NKzWE8nwKPiBDAred15SC/J1TWBnHoUkr
+ vO08+zhxzVQ/8LAnuKay2yzRAe8WIXi17QNX9ulxbAEoyXJGZJKAEXfdYCHHUMNCR7me
+ b46+GymJgv1w4M+zIr6E8cQtpZCmy9QwAVa7I6jEF9kmgbXac5HOFDGfE5o2jFVhg/Ji
+ roYQIaNTZtUlTdz6xCVxUaBes+UR3sDWNRUs6gmVzrxXoRiI9MdecEo9rWRLsYTLdJ8g
+ XlBPhVhapq44rVpq3XQlbjPemTJPeve03ZoHwB9XIUIWJeyxQhdnyl8Wmsq11duBeGMi zQ== 
+Received: from oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by mx0b-00069f02.pphosted.com with ESMTP id 391g4g8xb2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 09 Jun 2021 11:14:58 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 159BB0T0080401;
+	Wed, 9 Jun 2021 11:14:57 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3020.oracle.com with ESMTP id 3922wunr7k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 09 Jun 2021 11:14:57 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 159BC9AI084922;
+	Wed, 9 Jun 2021 11:14:56 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+	by aserp3020.oracle.com with ESMTP id 3922wunr6w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 09 Jun 2021 11:14:56 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 159BEtRe003010;
+	Wed, 9 Jun 2021 11:14:55 GMT
+Received: from kadam (/41.212.42.34)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Wed, 09 Jun 2021 04:14:55 -0700
+Date: Wed, 9 Jun 2021 14:14:47 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc: gregkh@linuxfoundation.org, hdegoede@redhat.com, Larry.Finger@lwfinger.net,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH] staging: rtl8723bs: use list_for_each_safe in loops
+ deleting iterated items
+Message-ID: <20210609111447.GG1955@kadam>
+References: <20210607134618.11237-1-fabioaiuto83@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -57,50 +56,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YL5jFF9ldj0W9P1f@mwanda>
+In-Reply-To: <20210607134618.11237-1-fabioaiuto83@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: CK_0LLT_dRHv0wWLwkPcyIXldEIjbJNz
+X-Proofpoint-ORIG-GUID: CK_0LLT_dRHv0wWLwkPcyIXldEIjbJNz
 
-On Mon, Jun 07, 2021 at 09:19:00PM +0300, Dan Carpenter wrote:
-> Calling rtw_free_xmitframe() with a NULL "pxmitframe" parameter is a
-> no-op.  It appears that originally this code was part of a loop but it
-> was already dead code by the time that the driver was merged into the
-> kernel.
+On Mon, Jun 07, 2021 at 03:46:18PM +0200, Fabio Aiuto wrote:
+> Fix some beautified loops over linked lists.
+> Use list_for_each_safe on loops which could delete
+> objects in the list.
 > 
-> Fixes: 7bc88639ad36 ("staging: r8188eu: Add files for new driver - part 17")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> ---
->  drivers/staging/rtl8188eu/hal/rtl8188eu_xmit.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8188eu/hal/rtl8188eu_xmit.c b/drivers/staging/rtl8188eu/hal/rtl8188eu_xmit.c
-> index 19055a1a92c1..d82dd22f2903 100644
-> --- a/drivers/staging/rtl8188eu/hal/rtl8188eu_xmit.c
-> +++ b/drivers/staging/rtl8188eu/hal/rtl8188eu_xmit.c
-> @@ -413,8 +413,7 @@ static u32 xmitframe_need_length(struct xmit_frame *pxmitframe)
->  bool rtl8188eu_xmitframe_complete(struct adapter *adapt,
->  				  struct xmit_priv *pxmitpriv)
->  {
-> -	struct xmit_frame *pxmitframe = NULL;
-> -	struct xmit_frame *n;
-> +	struct xmit_frame *pxmitframe, *n;
->  	struct xmit_frame *pfirstframe = NULL;
->  	struct xmit_buf *pxmitbuf;
->  
-> @@ -443,8 +442,6 @@ bool rtl8188eu_xmitframe_complete(struct adapter *adapt,
->  		return false;
->  
->  	/* 3 1. pick up first frame */
+> Fixes: b3cd518c5abd ("staging: rtl8723bs: Use list iterators and helpers")
+> Suggested-by: Guenter Roeck <linux@roeck-us.net>
+> Tested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+> Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 
-Comment could be removed as well. Otherwise,
+Looks good.
 
-Thanks a lot for taking care of this, and sorry again for the mess I created.
+Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+regards,
+dan carpenter
 
-> -	rtw_free_xmitframe(pxmitpriv, pxmitframe);
-> -
->  	pxmitframe = rtw_dequeue_xframe(pxmitpriv, pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
->  	if (!pxmitframe) {
->  		/*  no more xmit frame, release xmit buffer */
-> -- 
-> 2.30.2
-> 
