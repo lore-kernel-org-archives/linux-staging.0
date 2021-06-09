@@ -1,41 +1,41 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335AF70
-	for <linux-staging@lists.linux.dev>; Wed,  9 Jun 2021 14:02:06 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id f17so4102490wmf.2
-        for <linux-staging@lists.linux.dev>; Wed, 09 Jun 2021 07:02:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43ADB2FB3
+	for <linux-staging@lists.linux.dev>; Wed,  9 Jun 2021 14:02:07 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id o3so7253762wri.8
+        for <linux-staging@lists.linux.dev>; Wed, 09 Jun 2021 07:02:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=qZTtvi3EJatSrysHe/lXXz1fx3QuTJalkaVaEoPREeo=;
-        b=TDGgzhfvr5mS3s8ECx0UVpUbJ3HTxm18kfsy3HdHTCm/0Vj0/rgRIiSc7C867tMeoH
-         24LJTRJWKgbqK0+iZSnLSF35Ja2/6EhP3ohZHvM0u2YT+OXyaeaXdERWDCMRuDCFRvvZ
-         9Cr3yUBIc9+CrPMeBV53xxF6KqFT14YW+IDs4rIGdy0tmFSwJsKuW3Uct94vC+uYoMos
-         pWIGcl25JL8WlEpYUYLr45iKgHOCa+iNTpTMWM3AKdSStrtmMexjFsS2RWiKDkf1GYoI
-         pRX8ORKvDwqNpThTQVX6L85x2Ngrzk6MYepuaE1UxoT+mxKTe+cmDqVHmRG3aY3Yt9yp
-         p6uA==
+        bh=AYWDI6BG8IdRoFPaJz/bP9vC9WkcUEC9Y1+RTob9aXc=;
+        b=b5m4IM3yjBet0AWST2O9Jpwxqjd2kDUCn92XMVhC72ujjOfkDoVI4N41Z0NTFy5VpE
+         OglH+M9cHy9M3rUqXKcFYPNr3qBW51d5WebmAHdVIjFkUcfVn3F3Y8Q6Rxt5HpJl2DK7
+         PFdUjeD0uO+NFVCQJHsP2sUMqtC5aA3tbVEKs9gJNFHh3c4rkVAe7k8QLlKkoK5QxtkU
+         o3Gdi6kAVjOU2MnTvDPB5oFQT3IhDOoM/eJyQK9ABnYQvXqYBgT09bo29dStiR32Hakl
+         onIiJnMpNpr6WheKCJTWb8PyeY+SFdBNaflEzsojeh306rMxNJh+2ipkEMCRXTL6/bRb
+         6M1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=qZTtvi3EJatSrysHe/lXXz1fx3QuTJalkaVaEoPREeo=;
-        b=OeVzHFUfneTo0OqYv1vCmNFv0SANa0dIwizMjnWdRYo7L2DoiNXzcnphUK9ypELL+v
-         Bfy76PtXQ3EFHDmvYan+gtuenb3x8lsxCijvqruP1vWt0rrqJs/k1UZ1ppNKeEvEnLjZ
-         lttC9SJyZurSVB1sJKxzqbQ/ZK6YQU5gKm7sFatCflclMypSWXha3S0G7z0Hta+xcRHA
-         fhBUBdtyH0TyEvQmV7GUzl0bxZfSDgA6sgf/Hlo63qEvZK01/aoGtC5xssUAHPfPouZ3
-         CnSCmG65c+vUkSwmxUfvmnjULtbabOC9t8d3QrrX4+IqAeaRirJ5nlnQThU/axJVCG/x
-         A9iQ==
-X-Gm-Message-State: AOAM531rg+UQ8rS+sATK8WQ4baQywZ3mK+T0iNCkVIGW5giLtSjmzcn3
-	hcVTIlH88GD8z4M4RUetH2U=
-X-Google-Smtp-Source: ABdhPJwPUUoWlO2Wh5mfwV3Bu+ZPmQaxYXr8rB8v53Xc5y3GN30Zz2O82FAY1tj53srxYMMvKzbWHA==
-X-Received: by 2002:a1c:7210:: with SMTP id n16mr9738285wmc.75.1623247324765;
-        Wed, 09 Jun 2021 07:02:04 -0700 (PDT)
+        bh=AYWDI6BG8IdRoFPaJz/bP9vC9WkcUEC9Y1+RTob9aXc=;
+        b=SUp500aJyQ3Zho2hGcxCHzHYzWJZSbl/GXUHzR78EOkWgEDXU9tpIfZgRpete8S72R
+         47GKoDwhythM0OVafGrHdJyxxbUu5NQGK0UFcseYj79bF5n5dLHrrb2TGzpBJzBQUJRK
+         x7bw+y9QcPgNrDSQmABuaBsI6Hil2JeQPjKPw3lt5ep8qnkCSpsiHOVMAAH8cofr+Vgd
+         qFyo/wwUdJ81wl7vLpFwsAtEjl+lhxEYuO9U2d6gqwJAw2OO0m97hqWNguquA4csE44Q
+         8GCQp5tMCx+AsvKn8JhTwhbwn+tlQaaiP6ky0/NGzBpdR6r+6T6FDVBKwbqMcMxds1e6
+         cPFw==
+X-Gm-Message-State: AOAM5301xNm4HwN86ug5Z2dadOFjIerTCVS2dmt38I+mBVJFlPKCCcqz
+	n0CW4cI3lSXrG9CgEQOPXgQ=
+X-Google-Smtp-Source: ABdhPJyyaptNj1K8oWVB9T8IptJSFw4/2SNsjIpbwawKmVfW8s1K4w8ilEL0kkh4lazfgShnc3pfhQ==
+X-Received: by 2002:adf:e401:: with SMTP id g1mr27533771wrm.415.1623247325881;
+        Wed, 09 Jun 2021 07:02:05 -0700 (PDT)
 Received: from localhost.localdomain (103.red-81-47-144.staticip.rima-tde.net. [81.47.144.103])
-        by smtp.gmail.com with ESMTPSA id m23sm5673912wms.2.2021.06.09.07.02.03
+        by smtp.gmail.com with ESMTPSA id m23sm5673912wms.2.2021.06.09.07.02.04
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 09 Jun 2021 07:02:04 -0700 (PDT)
+        Wed, 09 Jun 2021 07:02:05 -0700 (PDT)
 From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 To: linux-pci@vger.kernel.org
 Cc: linux-mips@vger.kernel.org,
@@ -51,9 +51,9 @@ Cc: linux-mips@vger.kernel.org,
 	ilya.lipnitskiy@gmail.com,
 	linux-kernel@vger.kernel.org,
 	pali@kernel.org
-Subject: [PATCH v2 2/3] PCI: mt7621: Add MediaTek MT7621 PCIe host controller driver
-Date: Wed,  9 Jun 2021 16:01:58 +0200
-Message-Id: <20210609140159.20476-3-sergio.paracuellos@gmail.com>
+Subject: [PATCH v2 3/3] MAINTAINERS: add myself as maintainer of the MT7621 PCI controller driver
+Date: Wed,  9 Jun 2021 16:01:59 +0200
+Message-Id: <20210609140159.20476-4-sergio.paracuellos@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210609140159.20476-1-sergio.paracuellos@gmail.com>
 References: <20210609140159.20476-1-sergio.paracuellos@gmail.com>
@@ -64,243 +64,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add driver for the PCIe controller of the MT7621 SoC.
+Add myself as maintainer of the PCie Controlller driver for
+MT7621 SoCs.
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 ---
- arch/mips/ralink/Kconfig                      |   2 +-
- drivers/pci/controller/Kconfig                |   8 ++
- drivers/pci/controller/Makefile               |   1 +
- .../controller}/pci-mt7621.c                  |   0
- drivers/staging/Kconfig                       |   2 -
- drivers/staging/Makefile                      |   1 -
- drivers/staging/mt7621-pci/Kconfig            |   8 --
- drivers/staging/mt7621-pci/Makefile           |   2 -
- drivers/staging/mt7621-pci/TODO               |   4 -
- .../mt7621-pci/mediatek,mt7621-pci.txt        | 104 ------------------
- 10 files changed, 10 insertions(+), 122 deletions(-)
- rename drivers/{staging/mt7621-pci => pci/controller}/pci-mt7621.c (100%)
- delete mode 100644 drivers/staging/mt7621-pci/Kconfig
- delete mode 100644 drivers/staging/mt7621-pci/Makefile
- delete mode 100644 drivers/staging/mt7621-pci/TODO
- delete mode 100644 drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt
+ MAINTAINERS | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/arch/mips/ralink/Kconfig b/arch/mips/ralink/Kconfig
-index ec4daa63c5e3..461e33d20c9c 100644
---- a/arch/mips/ralink/Kconfig
-+++ b/arch/mips/ralink/Kconfig
-@@ -56,7 +56,7 @@ choice
- 		select MIPS_GIC
- 		select COMMON_CLK
- 		select CLKSRC_MIPS_GIC
--		select HAVE_PCI if PCI_MT7621
-+		select HAVE_PCI
- 		select SOC_BUS
- endchoice
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9c55fdcc1514..2e58fba01289 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11574,6 +11574,12 @@ S:	Maintained
+ F:	Documentation/devicetree/bindings/i2c/i2c-mt7621.txt
+ F:	drivers/i2c/busses/i2c-mt7621.c
  
-diff --git a/drivers/pci/controller/Kconfig b/drivers/pci/controller/Kconfig
-index 2f2c8a1729f9..6b006df87884 100644
---- a/drivers/pci/controller/Kconfig
-+++ b/drivers/pci/controller/Kconfig
-@@ -303,6 +303,14 @@ config PCIE_HISI_ERR
- 	  Say Y here if you want error handling support
- 	  for the PCIe controller's errors on HiSilicon HIP SoCs
- 
-+config PCI_MT7621
-+	bool "MediaTek MT7621 PCI Controller"
-+	depends on (RALINK && SOC_MT7621) || (MIPS && COMPILE_TEST)
-+	select PCI_DRIVERS_GENERIC
-+	default SOC_MT7621
-+	help
-+	  This selects a driver for the MediaTek MT7621 PCI Controller.
++MEDIATEK MT7621 PCI CONTROLLER DRIVER
++M:	Sergio Paracuellos <sergio.paracuellos@gmail.com>
++S:	Maintained
++F:	Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml
++F:	drivers/pci/controller/pci-mt7621.c
 +
- source "drivers/pci/controller/dwc/Kconfig"
- source "drivers/pci/controller/mobiveil/Kconfig"
- source "drivers/pci/controller/cadence/Kconfig"
-diff --git a/drivers/pci/controller/Makefile b/drivers/pci/controller/Makefile
-index 63e3880a3e87..ac902dc4e1a9 100644
---- a/drivers/pci/controller/Makefile
-+++ b/drivers/pci/controller/Makefile
-@@ -36,6 +36,7 @@ obj-$(CONFIG_VMD) += vmd.o
- obj-$(CONFIG_PCIE_BRCMSTB) += pcie-brcmstb.o
- obj-$(CONFIG_PCI_LOONGSON) += pci-loongson.o
- obj-$(CONFIG_PCIE_HISI_ERR) += pcie-hisi-error.o
-+obj-$(CONFIG_PCI_MT7621) += pci-mt7621.o
- # pcie-hisi.o quirks are needed even without CONFIG_PCIE_DW
- obj-y				+= dwc/
- obj-y				+= mobiveil/
-diff --git a/drivers/staging/mt7621-pci/pci-mt7621.c b/drivers/pci/controller/pci-mt7621.c
-similarity index 100%
-rename from drivers/staging/mt7621-pci/pci-mt7621.c
-rename to drivers/pci/controller/pci-mt7621.c
-diff --git a/drivers/staging/Kconfig b/drivers/staging/Kconfig
-index b7ae5bdc4eb5..9a21d730ab2b 100644
---- a/drivers/staging/Kconfig
-+++ b/drivers/staging/Kconfig
-@@ -86,8 +86,6 @@ source "drivers/staging/vc04_services/Kconfig"
- 
- source "drivers/staging/pi433/Kconfig"
- 
--source "drivers/staging/mt7621-pci/Kconfig"
--
- source "drivers/staging/mt7621-dma/Kconfig"
- 
- source "drivers/staging/ralink-gdma/Kconfig"
-diff --git a/drivers/staging/Makefile b/drivers/staging/Makefile
-index 075c979bfe7c..b7b4916761d4 100644
---- a/drivers/staging/Makefile
-+++ b/drivers/staging/Makefile
-@@ -33,7 +33,6 @@ obj-$(CONFIG_KS7010)		+= ks7010/
- obj-$(CONFIG_GREYBUS)		+= greybus/
- obj-$(CONFIG_BCM2835_VCHIQ)	+= vc04_services/
- obj-$(CONFIG_PI433)		+= pi433/
--obj-$(CONFIG_PCI_MT7621)	+= mt7621-pci/
- obj-$(CONFIG_SOC_MT7621)	+= mt7621-dma/
- obj-$(CONFIG_DMA_RALINK)	+= ralink-gdma/
- obj-$(CONFIG_SOC_MT7621)	+= mt7621-dts/
-diff --git a/drivers/staging/mt7621-pci/Kconfig b/drivers/staging/mt7621-pci/Kconfig
-deleted file mode 100644
-index ce58042f2f21..000000000000
---- a/drivers/staging/mt7621-pci/Kconfig
-+++ /dev/null
-@@ -1,8 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0
--config PCI_MT7621
--	tristate "MediaTek MT7621 PCI Controller"
--	depends on RALINK
--	select PCI_DRIVERS_GENERIC
--	help
--	  This selects a driver for the MediaTek MT7621 PCI Controller.
--
-diff --git a/drivers/staging/mt7621-pci/Makefile b/drivers/staging/mt7621-pci/Makefile
-deleted file mode 100644
-index f4e651cf7ce3..000000000000
---- a/drivers/staging/mt7621-pci/Makefile
-+++ /dev/null
-@@ -1,2 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0
--obj-$(CONFIG_PCI_MT7621)       += pci-mt7621.o
-diff --git a/drivers/staging/mt7621-pci/TODO b/drivers/staging/mt7621-pci/TODO
-deleted file mode 100644
-index d674a9ac85c1..000000000000
---- a/drivers/staging/mt7621-pci/TODO
-+++ /dev/null
-@@ -1,4 +0,0 @@
--
--- general code review and cleanup
--
--Cc: NeilBrown <neil@brown.name>
-diff --git a/drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt b/drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt
-deleted file mode 100644
-index 327a68267309..000000000000
---- a/drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt
-+++ /dev/null
-@@ -1,104 +0,0 @@
--MediaTek MT7621 PCIe controller
--
--Required properties:
--- compatible: "mediatek,mt7621-pci"
--- device_type: Must be "pci"
--- reg: Base addresses and lengths of the PCIe subsys and root ports.
--- bus-range: Range of bus numbers associated with this controller.
--- #address-cells: Address representation for root ports (must be 3)
--- pinctrl-names : The pin control state names.
--- pinctrl-0: The "default" pinctrl state.
--- #size-cells: Size representation for root ports (must be 2)
--- ranges: Ranges for the PCI memory and I/O regions.
--- #interrupt-cells: Must be 1
--- interrupt-map-mask and interrupt-map: Standard PCI IRQ mapping properties.
--  Please refer to the standard PCI bus binding document for a more detailed
--  explanation.
--- status: either "disabled" or "okay".
--- resets: Must contain an entry for each entry in reset-names.
--  See ../reset/reset.txt for details.
--- reset-names: Must be "pcie0", "pcie1", "pcieN"... based on the number of
--  root ports.
--- clocks: Must contain an entry for each entry in clock-names.
--  See ../clocks/clock-bindings.txt for details.
--- clock-names: Must be "pcie0", "pcie1", "pcieN"... based on the number of
--  root ports.
--- reset-gpios: GPIO specs for the reset pins.
--
--In addition, the device tree node must have sub-nodes describing each PCIe port
--interface, having the following mandatory properties:
--
--Required properties:
--- reg: Only the first four bytes are used to refer to the correct bus number
--      and device number.
--- #address-cells: Must be 3
--- #size-cells: Must be 2
--- ranges: Sub-ranges distributed from the PCIe controller node. An empty
--  property is sufficient.
--- bus-range: Range of bus numbers associated with this port.
--
--Example for MT7621:
--
--	pcie: pcie@1e140000 {
--		compatible = "mediatek,mt7621-pci";
--        reg = <0x1e140000 0x100    /* host-pci bridge registers */
--               0x1e142000 0x100    /* pcie port 0 RC control registers */
--               0x1e143000 0x100    /* pcie port 1 RC control registers */
--               0x1e144000 0x100>;  /* pcie port 2 RC control registers */
--
--		#address-cells = <3>;
--		#size-cells = <2>;
--
--		pinctrl-names = "default";
--		pinctrl-0 = <&pcie_pins>;
--
--		device_type = "pci";
--
--		bus-range = <0 255>;
--		ranges = <
--			0x02000000 0 0x00000000 0x60000000 0 0x10000000 /* pci memory */
--			0x01000000 0 0x00000000 0x1e160000 0 0x00010000 /* io space */
--		>;
--
--		#interrupt-cells = <1>;
--		interrupt-map-mask = <0xF0000 0 0 1>;
--		interrupt-map = <0x10000 0 0 1 &gic GIC_SHARED 4 IRQ_TYPE_LEVEL_HIGH>,
--				<0x20000 0 0 1 &gic GIC_SHARED 24 IRQ_TYPE_LEVEL_HIGH>,
--				<0x30000 0 0 1 &gic GIC_SHARED 25 IRQ_TYPE_LEVEL_HIGH>;
--
--		status = "disabled";
--
--		resets = <&rstctrl 24 &rstctrl 25 &rstctrl 26>;
--		reset-names = "pcie0", "pcie1", "pcie2";
--		clocks = <&clkctrl 24 &clkctrl 25 &clkctrl 26>;
--		clock-names = "pcie0", "pcie1", "pcie2";
--
--		reset-gpios = <&gpio 19 GPIO_ACTIVE_LOW>,
--				<&gpio 8 GPIO_ACTIVE_LOW>,
--				<&gpio 7 GPIO_ACTIVE_LOW>;
--
--		pcie@0,0 {
--			reg = <0x0000 0 0 0 0>;
--			#address-cells = <3>;
--			#size-cells = <2>;
--			ranges;
--			bus-range = <0x00 0xff>;
--		};
--
--		pcie@1,0 {
--			reg = <0x0800 0 0 0 0>;
--			#address-cells = <3>;
--			#size-cells = <2>;
--			ranges;
--			bus-range = <0x00 0xff>;
--		};
--
--		pcie@2,0 {
--			reg = <0x1000 0 0 0 0>;
--			#address-cells = <3>;
--			#size-cells = <2>;
--			ranges;
--			bus-range = <0x00 0xff>;
--		};
--	};
--
+ MEDIATEK MT7621 PHY PCI DRIVER
+ M:	Sergio Paracuellos <sergio.paracuellos@gmail.com>
+ S:	Maintained
 -- 
 2.25.1
 
