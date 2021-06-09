@@ -1,80 +1,54 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from youngberry.canonical.com (youngberry.canonical.com [91.189.89.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0040772
-	for <linux-staging@lists.linux.dev>; Wed,  9 Jun 2021 11:14:59 +0000 (UTC)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 159BDvDV023649;
-	Wed, 9 Jun 2021 11:14:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=k2Q/TB9MGcJNchw06veGMKNS97ORNy5N58Oflu76ZNk=;
- b=Pco8jrH0ic37kyJEfzGTCQfXO41VEi4YBI0NKzWE8nwKPiBDAred15SC/J1TWBnHoUkr
- vO08+zhxzVQ/8LAnuKay2yzRAe8WIXi17QNX9ulxbAEoyXJGZJKAEXfdYCHHUMNCR7me
- b46+GymJgv1w4M+zIr6E8cQtpZCmy9QwAVa7I6jEF9kmgbXac5HOFDGfE5o2jFVhg/Ji
- roYQIaNTZtUlTdz6xCVxUaBes+UR3sDWNRUs6gmVzrxXoRiI9MdecEo9rWRLsYTLdJ8g
- XlBPhVhapq44rVpq3XQlbjPemTJPeve03ZoHwB9XIUIWJeyxQhdnyl8Wmsq11duBeGMi zQ== 
-Received: from oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by mx0b-00069f02.pphosted.com with ESMTP id 391g4g8xb2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 09 Jun 2021 11:14:58 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 159BB0T0080401;
-	Wed, 9 Jun 2021 11:14:57 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3020.oracle.com with ESMTP id 3922wunr7k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 09 Jun 2021 11:14:57 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 159BC9AI084922;
-	Wed, 9 Jun 2021 11:14:56 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-	by aserp3020.oracle.com with ESMTP id 3922wunr6w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 09 Jun 2021 11:14:56 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
-	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 159BEtRe003010;
-	Wed, 9 Jun 2021 11:14:55 GMT
-Received: from kadam (/41.212.42.34)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Wed, 09 Jun 2021 04:14:55 -0700
-Date: Wed, 9 Jun 2021 14:14:47 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: gregkh@linuxfoundation.org, hdegoede@redhat.com, Larry.Finger@lwfinger.net,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH] staging: rtl8723bs: use list_for_each_safe in loops
- deleting iterated items
-Message-ID: <20210609111447.GG1955@kadam>
-References: <20210607134618.11237-1-fabioaiuto83@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E600372
+	for <linux-staging@lists.linux.dev>; Wed,  9 Jun 2021 12:06:27 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+	by youngberry.canonical.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.93)
+	(envelope-from <colin.king@canonical.com>)
+	id 1lqwyP-0008AQ-W2; Wed, 09 Jun 2021 12:06:18 +0000
+From: Colin King <colin.king@canonical.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: gdm724x: emove redundant initialization of variable hci_len
+Date: Wed,  9 Jun 2021 13:06:17 +0100
+Message-Id: <20210609120617.185975-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210607134618.11237-1-fabioaiuto83@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: CK_0LLT_dRHv0wWLwkPcyIXldEIjbJNz
-X-Proofpoint-ORIG-GUID: CK_0LLT_dRHv0wWLwkPcyIXldEIjbJNz
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 07, 2021 at 03:46:18PM +0200, Fabio Aiuto wrote:
-> Fix some beautified loops over linked lists.
-> Use list_for_each_safe on loops which could delete
-> objects in the list.
-> 
-> Fixes: b3cd518c5abd ("staging: rtl8723bs: Use list iterators and helpers")
-> Suggested-by: Guenter Roeck <linux@roeck-us.net>
-> Tested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
-> Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+From: Colin Ian King <colin.king@canonical.com>
 
-Looks good.
+The variable hci_len is being initialized with a value that is never
+read and it is being updated later with a new value. The initialization
+is redundant and can be removed.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+Addresses-Coverity: ("Unused value")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/staging/gdm724x/gdm_lte.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/gdm724x/gdm_lte.c b/drivers/staging/gdm724x/gdm_lte.c
+index 571f47d39484..ad9ed3df9fcf 100644
+--- a/drivers/staging/gdm724x/gdm_lte.c
++++ b/drivers/staging/gdm724x/gdm_lte.c
+@@ -684,7 +684,6 @@ static void gdm_lte_multi_sdu_pkt(struct phy_dev *phy_dev, char *buf, int len)
+ 	u32 nic_type;
+ 	int index;
+ 
+-	hci_len = gdm_dev16_to_cpu(endian, multi_sdu->len);
+ 	num_packet = gdm_dev16_to_cpu(endian, multi_sdu->num_packet);
+ 
+ 	for (i = 0; i < num_packet; i++) {
+-- 
+2.31.1
 
