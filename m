@@ -1,57 +1,57 @@
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B4872
-	for <linux-staging@lists.linux.dev>; Wed,  9 Jun 2021 10:33:13 +0000 (UTC)
-Received: by mail-ot1-f42.google.com with SMTP id 102-20020a9d0eef0000b02903fccc5b733fso418458otj.4
-        for <linux-staging@lists.linux.dev>; Wed, 09 Jun 2021 03:33:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C3A572
+	for <linux-staging@lists.linux.dev>; Wed,  9 Jun 2021 10:34:46 +0000 (UTC)
+Received: by mail-ot1-f54.google.com with SMTP id 102-20020a9d0eef0000b02903fccc5b733fso422097otj.4
+        for <linux-staging@lists.linux.dev>; Wed, 09 Jun 2021 03:34:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=C6zmZocfV59nTRUR/tuzqZPISvv+0Relgl8iloiv6bQ=;
-        b=TJhP3AsfAN5fWM/pybxz1m4QEpj/Hhiaz3m7UGAeUImETHl8elkocpS+Y9h8+GFu8o
-         k++7ev++/ua+zwrhKKg/a9Gbq+e+JA4bn/kbDWSuMCc3tbwFNPsF6ZpYacqj9ZSnFJwR
-         SMQfWwqXSssrPo8Z22MY2gQiO5Rp/M6VH8B15//i/UHf3rQ8emluQaSmxsjr+739ZM7L
-         jFsQL3u4MSDz8apuQ5p05CYmxJsqvy7YwtbIwS1bK+uxdWxEfpsjmA2sR9D44MdUDpRd
-         BmfT84IWiLwpZsUAgdivyT9wG9yMuTl0QJanNGOf0HI/+2ROaCFRByRnc5Yq0L/MNrg8
-         HwTA==
+        bh=Er0XKxR72Ln8a0KN07yz+LiDy46pDiQd3v/AYBknSqM=;
+        b=rTyh7JfrvpMO2zcCs9pyaTv2zUoqmHfmFFYzFxQox+eubNDLTrt2/nSKGm7lLV3TiS
+         FzuG3XZaix2P6mR55G9kF5IkXKnjYk/SWp77HatmzwQfkKCVQkiARhTl43UJGcZftS+L
+         XJmQZt1zG/g+pR4Vu1r5YKV2To2KVf4H+HQAntj7KhK3uW/a22s8l/z5j4wFpkHU66vO
+         1rMEIwQMB2v/JvIuEkd5WYzGDwLVVlEcev4l0DhnDjPFB0FM/SPqSCu8Uy3yjdAOch89
+         R0HgJ2+IhsYNNqHp03u6EzNQp6IBu7x9/AsMoexz4P6iYwbLnkiSHliejc2rXz1E7Uwo
+         saxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
          :references:mime-version:content-disposition:in-reply-to;
-        bh=C6zmZocfV59nTRUR/tuzqZPISvv+0Relgl8iloiv6bQ=;
-        b=VijdLUsrWh2F5xRD9Xr7fY2ah5SvgxJ8cVQKmrLE5Uy2nGWU8jRsaA1ityY/j+g6o8
-         oipfmVz0aoQ+Y36ekcYY2Qi5jL44seAcuFb7Xs9zpNtnadq8fZqqLmTwXqCmOhrpxyiJ
-         aTQ8sIL0LwV+t5IQMywIvZP5nwefAZI4L9VpxVGyKHqR1IXkDOmVlSX5qvMYFPr4J71N
-         47e7fU1uNYLT75IPjpMsaYFjpu30Iht0GlKvhuxi5pNkFC+ywrY4RKBr2UF1qwjXUXqN
-         vRpPfUtEd902lppuR0B7iEBWP8xS7a+oBER+OHV9Er0VtarrJ4Kb0TTOiqrCq5UQMMHN
-         +vuQ==
-X-Gm-Message-State: AOAM530RVzsUgoH4W1b23b9vKMeT8Tv76ofmWPUFz8Ux3BFIdghEPEiH
-	5368wIhoM3NIUbWmQenMqI4=
-X-Google-Smtp-Source: ABdhPJyeXw5X999oqt7C6iMeiIUz0+8cZ+wjvaM2TWs+PQv8nZv/nEeFANue6ztPSOQd5H31GGmeAw==
-X-Received: by 2002:a05:6830:1bd8:: with SMTP id v24mr2244034ota.203.1623234793036;
-        Wed, 09 Jun 2021 03:33:13 -0700 (PDT)
+        bh=Er0XKxR72Ln8a0KN07yz+LiDy46pDiQd3v/AYBknSqM=;
+        b=nBDG6ioe42RIMQtpzHqs2gBS3bHWmlp30/t1rQj0ajJ++tltVkJ/4fjJfWKwHafpUf
+         rT4S59nIZzFQf5h6vWvkvgSjxFgdRMFiLdcJxUsix5jQ04CzebJk+fEFDQG701bpxi8U
+         FH7pw4PWgigyI6PhpSW0+nt2V0qAmanFbQSUoHW/084B0kmamgWkh1OLmfA8z65SuJYp
+         aeeLSfA1Pl3c4EzUHLI7PWNTuVBan41EwdRVYRZFpzD8AvhURPqLdQRpaoN0JTkTCa0i
+         jnq7zYdZYVjjhB3dv7BXV4aMZRDCbHAxjLzntYuxcpMYCwX/cf6JDid+FrTA5zwT3bR5
+         IBwg==
+X-Gm-Message-State: AOAM5313/A8hcVnsB9SLWS8KBoNd9kvB2yRGUbrkFCukaTs5CFmJMc8X
+	VaFcpn6Q+IwHJ1TP0vwrYFE=
+X-Google-Smtp-Source: ABdhPJwmJLY5OIZrRzw0m/YRgJGXfzISzlTBoeYYS8fhG0o1RuK3FKfgR1+xL9Kfq4ZelRXxlh1MNQ==
+X-Received: by 2002:a9d:1ec8:: with SMTP id n66mr12769518otn.314.1623234885178;
+        Wed, 09 Jun 2021 03:34:45 -0700 (PDT)
 Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id c13sm2659023otr.23.2021.06.09.03.33.10
+        by smtp.gmail.com with ESMTPSA id l10sm1220480otj.17.2021.06.09.03.34.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jun 2021 03:33:11 -0700 (PDT)
+        Wed, 09 Jun 2021 03:34:44 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 9 Jun 2021 03:33:10 -0700
+Date: Wed, 9 Jun 2021 03:34:43 -0700
 From: Guenter Roeck <linux@roeck-us.net>
 To: Dan Carpenter <dan.carpenter@oracle.com>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Martin Kaiser <martin@kaiser.cx>,
 	Ivan Safonov <insafonov@gmail.com>,
-	Paul McQuade <paulmcquad@gmail.com>,
 	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH 1/7] staging: rtl8188eu: use safe iterator in
- stop_ap_mode()
-Message-ID: <20210609103310.GA3727184@roeck-us.net>
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Peilin Ye <yepeilin.cs@gmail.com>, linux-staging@lists.linux.dev,
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH 2/7] staging: rtl8188eu: use safe iterator in
+ tx_beacon_hdl()
+Message-ID: <20210609103443.GB3727184@roeck-us.net>
 References: <YL5iX3Exc0HVYrsi@mwanda>
- <YL5ip4yz9NEB9RZO@mwanda>
+ <YL5iunD5ilf+mKPR@mwanda>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -59,11 +59,11 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YL5ip4yz9NEB9RZO@mwanda>
+In-Reply-To: <YL5iunD5ilf+mKPR@mwanda>
 
-On Mon, Jun 07, 2021 at 09:17:11PM +0300, Dan Carpenter wrote:
-> This loop calls list_del_init() on the list iterator so it can result
-> in a forever loop.
+On Mon, Jun 07, 2021 at 09:17:30PM +0300, Dan Carpenter wrote:
+> This loop calls list_del_init() on the list iterator so it has to use
+> the _safe() iterator or it leads to an endless loop.
 > 
 > Fixes: 23017c8842d2 ("staging: rtl8188eu: Use list iterators and helpers")
 > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
@@ -71,35 +71,38 @@ On Mon, Jun 07, 2021 at 09:17:11PM +0300, Dan Carpenter wrote:
 Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
 > ---
->  drivers/staging/rtl8188eu/core/rtw_ap.c | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
+>  drivers/staging/rtl8188eu/core/rtw_mlme_ext.c | 11 ++++-------
+>  1 file changed, 4 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8188eu/core/rtw_ap.c b/drivers/staging/rtl8188eu/core/rtw_ap.c
-> index bbecb07274f6..9399c17bfdbf 100644
-> --- a/drivers/staging/rtl8188eu/core/rtw_ap.c
-> +++ b/drivers/staging/rtl8188eu/core/rtw_ap.c
-> @@ -1688,8 +1688,7 @@ void start_ap_mode(struct adapter *padapter)
+> diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+> index b4d81d3a856c..42cfa1e95e2c 100644
+> --- a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+> @@ -5378,8 +5378,8 @@ u8 tx_beacon_hdl(struct adapter *padapter, unsigned char *pbuf)
+>  #ifdef CONFIG_88EU_AP_MODE
+>  	else { /* tx bc/mc frames after update TIM */
+>  		struct sta_info *psta_bmc;
+> -		struct list_head *xmitframe_plist, *xmitframe_phead;
+> -		struct xmit_frame *pxmitframe = NULL;
+> +		struct list_head *xmitframe_phead;
+> +		struct xmit_frame *pxmitframe, *n;
+>  		struct sta_priv *pstapriv = &padapter->stapriv;
 >  
->  void stop_ap_mode(struct adapter *padapter)
->  {
-> -	struct list_head *phead, *plist;
-> -	struct rtw_wlan_acl_node *paclnode;
-> +	struct rtw_wlan_acl_node *paclnode, *n;
->  	struct sta_info *psta = NULL;
->  	struct sta_priv *pstapriv = &padapter->stapriv;
->  	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
-> @@ -1709,10 +1708,7 @@ void stop_ap_mode(struct adapter *padapter)
+>  		/* for BC/MC Frames */
+> @@ -5392,11 +5392,8 @@ u8 tx_beacon_hdl(struct adapter *padapter, unsigned char *pbuf)
+>  			spin_lock_bh(&psta_bmc->sleep_q.lock);
 >  
->  	/* for ACL */
->  	spin_lock_bh(&pacl_node_q->lock);
-> -	phead = get_list_head(pacl_node_q);
-> -	list_for_each(plist, phead) {
-> -		paclnode = list_entry(plist, struct rtw_wlan_acl_node, list);
+>  			xmitframe_phead = get_list_head(&psta_bmc->sleep_q);
+> -			list_for_each(xmitframe_plist, xmitframe_phead) {
+> -				pxmitframe = list_entry(xmitframe_plist,
+> -							struct xmit_frame,
+> -							list);
 > -
-> +	list_for_each_entry_safe(paclnode, n, &pacl_node_q->queue, list) {
->  		if (paclnode->valid) {
->  			paclnode->valid = false;
+> +			list_for_each_entry_safe(pxmitframe, n, xmitframe_phead,
+> +						 list) {
+>  				list_del_init(&pxmitframe->list);
 >  
+>  				psta_bmc->sleepq_len--;
 > -- 
 > 2.30.2
 > 
