@@ -1,52 +1,60 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 713782FB3
-	for <linux-staging@lists.linux.dev>; Wed,  9 Jun 2021 13:57:05 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id u5-20020a7bc0450000b02901480e40338bso3251947wmc.1
-        for <linux-staging@lists.linux.dev>; Wed, 09 Jun 2021 06:57:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC32D70
+	for <linux-staging@lists.linux.dev>; Wed,  9 Jun 2021 14:02:03 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id h3so4085249wmq.3
+        for <linux-staging@lists.linux.dev>; Wed, 09 Jun 2021 07:02:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=GtTfat+z4qsQAJi7YljHJL6j8Luu+LN1kPWBAI8xkrI=;
-        b=Oz9d7SxENkLcn6ZmKFrTlAY6yO3Sl2vU8BIckPyxXCA3jGc3xSIzRCN5yDAL71rrV2
-         /eFhtwgsp7Hr4I1QQZZKvHY9+0HwENlW7GVuyqLMY4xCOAXMwgDLuDteYiOMxWlWg9am
-         FguRTGD84yAC+xtVCzJ93eBZ10YfQ6lcwY+MmKxcM8AYnp3z0iklTvK5cBdsiEGIWwL1
-         BqCwrnSbaYQjpzAG1mFTa+JV0xfZrVl0czC4WaLQ8XILXfCSGpHvBrG5A38NmzxiPuG0
-         guCW0joUlHm+bIaYQ6UJFSphA1kzvDxwGrrm4JP7rEvA8eZFuLp8qB4Ki+R8hmjQgbZU
-         /v8g==
+        bh=N+/riSjz4euVjoS0RyWGJtslWdSbTXbIIzdHyoJErc4=;
+        b=CmEM6g3wKtqAtYflVQVVErEtCQXW7Uy97gHNNQMjxtonip1VUyhvcZC2QebjWgKwCi
+         mTwlhj6sJugCtXWgwTDKYP7Dgw/sM58GRyFv5FQEGYkCwLYFWh1Sm14Mhikl7RyGLpVx
+         5rwwrSAwCRSdayPE3twckTuAnsjOsNX3mgm9fUArlTkRqWz5RI3SYIeLlT0v/r686OJE
+         Hp2c8EZDe0diw7WWe1oq0c0gKahOs6oj3sTodA7+lK4AiG2LeuX+3I6p6S7mT+uy13zd
+         oZDVmcNiNuqFszcQnViykC4Ulq9c6IbD7u4akpvCoHXRumMc0XNMbm10q7oy3XJuU7tF
+         QKBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=GtTfat+z4qsQAJi7YljHJL6j8Luu+LN1kPWBAI8xkrI=;
-        b=JfFr9N4jH1l+qFOUqaEbLdsI518GuhbXEUtt7HqsGI1g43UYCbvKeeJ3BKvfG75GSc
-         9ikYAmnh983Q3r/We07gF/IUHzxKtBaQVYmsTjWnSs1jn/tOctxw8/NRV3yDc8UeMnZg
-         0j/7u7PYKLLsyUNNJe4cMY4TJiWmHSAEV3DOj0SgtaOgEqEiBmkm1VATl3MRg4I7iix+
-         raSi4gUXYjPsSjlpoexP57Fc+HPZ0H3TGKzbQ+7U/m9+N8kpkTR1BnqEW3ShXgyO2xJX
-         69BzUiCGugiuXN/DowsuhSiemXSpu8j8BxL6L57vKQA1g9/Pu5HQm8RwHuOpt617pD2s
-         KVwQ==
-X-Gm-Message-State: AOAM532lRWFYeYd440XdNhgmOtDj9y6EcALpd3sFAEyxAd03rGdwYwP5
-	6GyABk73mbIAJWCbDY/Spus=
-X-Google-Smtp-Source: ABdhPJyenGGxO0xTSduJkCYgtGWUtvIzPD49vQozB55tcOO1w2HX6zCncb3BiaF2lQnGGyvuzTPFPg==
-X-Received: by 2002:a7b:c954:: with SMTP id i20mr27713184wml.161.1623247023914;
-        Wed, 09 Jun 2021 06:57:03 -0700 (PDT)
-Received: from linux.local (host-82-59-55-132.retail.telecomitalia.it. [82.59.55.132])
-        by smtp.gmail.com with ESMTPSA id q5sm20819898wmc.0.2021.06.09.06.57.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jun 2021 06:57:03 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        bh=N+/riSjz4euVjoS0RyWGJtslWdSbTXbIIzdHyoJErc4=;
+        b=LnlzghzQmMbJieI+NZLLlST4d1/BbUQ4HfIRYKvFetntExnifWAX4XaqDSZI598dQJ
+         q5XASK8P1C+0yFbUQHurZvnb2JydiUhjDrywhVRNE4KWEf+LR/dgg4plS9L1S701ZZJr
+         NQwnaQNFKlVEWcLiThnYiewTWZWkeZ0iIjP10ESrB4e+upb8nv+0QI1VT5pRu0uuo5Tu
+         Uxm03t7v2d/N6ASRSa41NCjCyucJIffaQBfvpusYyypwXWFBNS+GYJRi6x5AoTj/alxV
+         98mri5MtZRps+Dv9YxrpwRG1yhHGzK9F1hJL5XOAvD8SrW59aD04M03Hjca5ACr5biev
+         isKA==
+X-Gm-Message-State: AOAM532W6+TdIM0CROdUmiVmeHNgdRRz7N4m93LC3Qtq/70MNYXuFY4e
+	C6PYGSBETTmBziaR3UXimnU=
+X-Google-Smtp-Source: ABdhPJxxFNmbfZIorFhb7skleM0DfQgbYgi6xFHPj/VVl6nDB7ZfDAyLHUwUiAruZiFx1d9ydxCZBg==
+X-Received: by 2002:a1c:c256:: with SMTP id s83mr221wmf.86.1623247322353;
+        Wed, 09 Jun 2021 07:02:02 -0700 (PDT)
+Received: from localhost.localdomain (103.red-81-47-144.staticip.rima-tde.net. [81.47.144.103])
+        by smtp.gmail.com with ESMTPSA id m23sm5673912wms.2.2021.06.09.07.02.01
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 09 Jun 2021 07:02:01 -0700 (PDT)
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+To: linux-pci@vger.kernel.org
+Cc: linux-mips@vger.kernel.org,
+	tsbogend@alpha.franken.de,
+	devicetree@vger.kernel.org,
+	matthias.bgg@gmail.com,
+	john@phrozen.org,
+	bhelgaas@google.com,
+	robh+dt@kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH] staging: rtl8712: Replace printk() with netdev_dbg()
-Date: Wed,  9 Jun 2021 15:56:59 +0200
-Message-Id: <20210609135659.4054-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.31.1
+	gregkh@linuxfoundation.org,
+	neil@brown.name,
+	ilya.lipnitskiy@gmail.com,
+	linux-kernel@vger.kernel.org,
+	pali@kernel.org
+Subject: [PATCH v2 0/3] PCI: mt7621: Add MediaTek MT7621 PCIe host controller driver
+Date: Wed,  9 Jun 2021 16:01:56 +0200
+Message-Id: <20210609140159.20476-1-sergio.paracuellos@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -54,28 +62,115 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replaced printk() with netdev_dbg() because the latter is preferred in
-network devices drivers.
+MediaTek MT7621 PCIe subsys supports single Root complex (RC)
+with 3 Root Ports. Each Root Ports supports a Gen1 1-lane Link.
+Topology is as follows:
 
-Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- drivers/staging/rtl8712/rtl8712_cmd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+                          MT7621 PCIe HOST Topology
 
-diff --git a/drivers/staging/rtl8712/rtl8712_cmd.c b/drivers/staging/rtl8712/rtl8712_cmd.c
-index e94604cb71fd..e9294e1ed06e 100644
---- a/drivers/staging/rtl8712/rtl8712_cmd.c
-+++ b/drivers/staging/rtl8712/rtl8712_cmd.c
-@@ -55,7 +55,7 @@ static void check_hw_pbc(struct _adapter *padapter)
- 		/* Here we only set bPbcPressed to true
- 		 * After trigger PBC, the variable will be set to false
- 		 */
--		printk(KERN_DEBUG "CheckPbcGPIO - PBC is pressed !!!!\n");
-+		netdev_dbg(padapter->pnetdev, "CheckPbcGPIO - PBC is pressed !!!!\n");
- 		/* 0 is the default value and it means the application monitors
- 		 * the HW PBC doesn't provide its pid to driver.
- 		 */
+                                   .-------.
+                                   |       |
+                                   |  CPU  |
+                                   |       |
+                                   '-------'
+                                       |
+                                       |
+                                       |
+                                       v
+                              .------------------.
+                  .-----------|  HOST/PCI Bridge |------------.
+                  |           '------------------'            |     Type1 
+         BUS0     |                     |                     |    Access 
+                  v                     v                     v    On Bus0
+          .-------------.        .-------------.       .-------------.
+          | VIRTUAL P2P |        | VIRTUAL P2P |       | VIRTUAL P2P |
+          |    BUS0     |        |    BUS0     |       |    BUS0     |
+          |    DEV0     |        |    DEV1     |       |    DEV2     |
+          '-------------'        '-------------'       '-------------'
+    Type0        |          Type0       |         Type0       |
+   Access   BUS1 |         Access   BUS2|        Access   BUS3|
+   On Bus1       v         On Bus2      v        On Bus3      v
+           .----------.           .----------.          .----------.
+           | Device 0 |           | Device 0 |          | Device 0 |
+           |  Func 0  |           |  Func 0  |          |  Func 0  |
+           '----------'           '----------'          '----------'
+
+This driver has been very long time in staging and I have been cleaning
+it from its first versions where there was code kaos and PCI_LEGACY support.
+Original code came probably from openWRT based on mediatek's SDK code. There
+is no documentation at all about the mt7621 PCI subsystem.
+I have been cleaning it targeting mt7621 SoC which is the one I use in
+my GNUBee PC1 board and HiLink HLK-MT7621A evaluation board.
+
+Now I think is clean enough to be moved into 'drivers/pci/controller'.
+This driver is mips/ralink architecture and need 'mips_cps_numiocu()'
+to properly configure iocu regions for mips.
+
+This driver also uses already mainlined pci phy driver located in
+'drivers/phy/ralink/phy-mt7621-pci.c'. There are two instances of
+the phy being the first one dual ported for pci0 and pci1, and the
+second one not dual ported dedicated to pci2. Because of writing twice
+some phy registers of the dual-ported one sometimes become in not
+confident boot cycles we have to take care of this when device link
+is checked here in controller driver. We power on the dual ported-phy
+if there is something connected in pcie0 or pcie1. In the same manner
+we have to properly disable it only if nothing is connected in of both
+pcie0 and pcie1 slots.
+
+Another thing that must be mentioned is that this driver uses IO
+in physical address 0x001e160000. IO_SPACE_LIMIT for MIPS is 0xffff
+so some generic PCI functions (like of_pci_range_to_resource) won't
+work and the resource ranges part for IO is set manually.
+
+Changes in v2:
+    - Make one commit moving driver directly from staging into
+     'drivers/pci/controllers' instead of two commits making
+     one add and a later remove.
+    - Update binding documentation moving 'clocks', 'resets' and
+     'phys' properties to child root bridge nodes. 
+    - Update code to properly be able to use new bindings.
+    - Kconfig: add || (MIPS && COMPILE_TEST).
+    - Use {read/write}_relaxed versions.
+    - Use 'PCI_BASE_ADDRESS_0' instead of a custom definition.
+    - Avoid to set 'PCI_COMMAND_MASTER' and re-do functions
+     'mt7621_pcie_enable_ports' and 'mt7621_pcie_enable_port'.
+
+NOTE: Greg, I have maintained your Acked-by from previous series in
+delete driver commit and added in the one which is moving code here
+and delete the remaining stuff. If you are not ok with this, just
+let me now and I'll drop it and resend.
+
+Thanks in advance for your time.
+
+Best regards,
+    Sergio Paracuellos
+
+Sergio Paracuellos (3):
+  dt-bindings: mt7621-pci: PCIe binding documentation for MT7621 SoCs
+  PCI: mt7621: Add MediaTek MT7621 PCIe host controller driver
+  MAINTAINERS: add myself as maintainer of the MT7621 PCI controller
+    driver
+
+ .../bindings/pci/mediatek,mt7621-pci.yaml     | 142 ++++++++++++++++++
+ MAINTAINERS                                   |   6 +
+ arch/mips/ralink/Kconfig                      |   2 +-
+ drivers/pci/controller/Kconfig                |   8 +
+ drivers/pci/controller/Makefile               |   1 +
+ .../controller}/pci-mt7621.c                  |   0
+ drivers/staging/Kconfig                       |   2 -
+ drivers/staging/Makefile                      |   1 -
+ drivers/staging/mt7621-pci/Kconfig            |   8 -
+ drivers/staging/mt7621-pci/Makefile           |   2 -
+ drivers/staging/mt7621-pci/TODO               |   4 -
+ .../mt7621-pci/mediatek,mt7621-pci.txt        | 104 -------------
+ 12 files changed, 158 insertions(+), 122 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml
+ rename drivers/{staging/mt7621-pci => pci/controller}/pci-mt7621.c (100%)
+ delete mode 100644 drivers/staging/mt7621-pci/Kconfig
+ delete mode 100644 drivers/staging/mt7621-pci/Makefile
+ delete mode 100644 drivers/staging/mt7621-pci/TODO
+ delete mode 100644 drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt
+
 -- 
-2.31.1
+2.25.1
 
