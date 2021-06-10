@@ -1,20 +1,20 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E09382F80
-	for <linux-staging@lists.linux.dev>; Thu, 10 Jun 2021 21:44:57 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0DD076141F;
-	Thu, 10 Jun 2021 21:44:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB3282F80
+	for <linux-staging@lists.linux.dev>; Thu, 10 Jun 2021 21:45:00 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 131D96141D;
+	Thu, 10 Jun 2021 21:44:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1623361497;
-	bh=TlkIF8TF9j+74Su5L9XU65cloJswG8lpwGpXJ4LchNY=;
+	s=k20201202; t=1623361500;
+	bh=ql1oV1rq//CRvUy0F7HDTW6q+eFb02wnUXlrJrXa2hs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gE3YkI5pig+tAXh2h7gzE91McLRugMNmNlrUFvaPe+iucAOmqFR6HSlBJ6wokc8+f
-	 cFZPflPhIuQ8BhClViCzjX0neTGcVQtuxHwe9AcEqBXad4zFmhNN7wy1zL/Cw6Lbrq
-	 errKk8gIyoAezLRNep+f0GXJY/OOg/+YKmBZ5TUkWgxxYc0XsdQ5CLH012nCxfRX0o
-	 kYxgB/YVDCrljBIOGpkiRhLU/KU3KAkyyKsuTkphUY8hED6x5U/2TuwDw/cyAq9ou8
-	 6L7+z6KoKrJ7q0BzrFxEuCHEw0MqQK1slxv7pB6sZSFWGcoxg81sQfhcgDOTMja1fe
-	 kw6t9zTzvBfEw==
+	b=o3zoNLqSXfQITog8yYtrX+ZX2vylMv1/BTTCG7KcA0/JgoQgIbZG5XIKnLPzzWbQm
+	 Tbo/h0e+5wB1KzXJUU3BrKDim5wLvvfNoEGb8O41Lpc0l/y50E3/BgXQImwLd+yByT
+	 PPCHOr+TSzEDJxf3tymMNcBXoDIIOI63e+BdbxyiNE9SqbKlzJ6LdLJQVM1Du7mvDY
+	 CxyK/DYN1BQFjBVOfS+8IRnSQzSMDhGYEWYo0A5rGadJoKyIYaPMr15hruK+wzW3y/
+	 KT97fYsXzFN0CmJMl9h2XdAMw1/5XkZhXGWGWtx3Ac2OJOiEnKYF5YioL/lHO9QAI9
+	 6WRt+eiriNmJw==
 From: Arnd Bergmann <arnd@kernel.org>
 To: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -31,9 +31,9 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v2 2/7] media: v4l2-core: explicitly clear ioctl input data
-Date: Thu, 10 Jun 2021 23:43:00 +0200
-Message-Id: <20210610214305.4170835-3-arnd@kernel.org>
+Subject: [PATCH v2 3/7] media: subdev: remove VIDIOC_DQEVENT_TIME32 handling
+Date: Thu, 10 Jun 2021 23:43:01 +0200
+Message-Id: <20210610214305.4170835-4-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210610214305.4170835-1-arnd@kernel.org>
 References: <20210610214305.4170835-1-arnd@kernel.org>
@@ -46,98 +46,56 @@ Content-Transfer-Encoding: 8bit
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-As seen from a recent syzbot bug report, mistakes in the compat ioctl
-implementation can lead to uninitialized kernel stack data getting used
-as input for driver ioctl handlers.
+Converting the VIDIOC_DQEVENT_TIME32/VIDIOC_DQEVENT32/
+VIDIOC_DQEVENT32_TIME32 arguments to the canonical form is done in common
+code, but for some reason I ended up adding another conversion helper to
+subdev_do_ioctl() as well. I must have concluded that this does not go
+through the common conversion, but it has done that since the ioctl
+handler was first added.
 
-The reported bug is now fixed, but it's possible that other related
-bugs are still present or get added in the future. As the drivers need
-to check user input already, the possible impact is fairly low, but it
-might still cause an information leak.
+I assume this one is harmless as there should be no way to arrive here
+from user space, but since it is dead code, it should just get removed.
 
-To be on the safe side, always clear the entire ioctl buffer before
-calling the conversion handler functions that are meant to initialize
-them.
-
+Fixes: 1a6c0b36dd19 ("media: v4l2-core: fix VIDIOC_DQEVENT for time64 ABI")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/media/v4l2-core/v4l2-ioctl.c | 51 ++++++++++++++++------------
- 1 file changed, 29 insertions(+), 22 deletions(-)
+ drivers/media/v4l2-core/v4l2-subdev.c | 24 ------------------------
+ 1 file changed, 24 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 58df927aec7e..bf5eb07296a5 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -3122,12 +3122,23 @@ static int video_get_user(void __user *arg, void *parg,
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index 956dafab43d4..bf3aa9252458 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -428,30 +428,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
  
- 	if (cmd == real_cmd) {
- 		if (copy_from_user(parg, (void __user *)arg, n))
--			err = -EFAULT;
--	} else if (in_compat_syscall()) {
--		err = v4l2_compat_get_user(arg, parg, cmd);
--	} else {
--		switch (cmd) {
-+			return -EFAULT;
-+
-+		/* zero out anything we don't copy from userspace */
-+		if (n < _IOC_SIZE(real_cmd))
-+			memset((u8 *)parg + n, 0, _IOC_SIZE(real_cmd) - n);
-+
-+		return 0;
-+	}
-+
-+	/* zero out whole buffer first to deal with missing emulation */
-+	memset(parg, 0, _IOC_SIZE(real_cmd));
-+
-+	if (in_compat_syscall())
-+		return v4l2_compat_get_user(arg, parg, cmd);
-+
- #if !defined(CONFIG_64BIT) && defined(CONFIG_COMPAT_32BIT_TIME)
-+	switch (cmd) {
- 		case VIDIOC_QUERYBUF_TIME32:
- 		case VIDIOC_QBUF_TIME32:
- 		case VIDIOC_DQBUF_TIME32:
-@@ -3140,28 +3151,24 @@ static int video_get_user(void __user *arg, void *parg,
+ 		return v4l2_event_dequeue(vfh, arg, file->f_flags & O_NONBLOCK);
  
- 			*vb = (struct v4l2_buffer) {
- 				.index		= vb32.index,
--					.type		= vb32.type,
--					.bytesused	= vb32.bytesused,
--					.flags		= vb32.flags,
--					.field		= vb32.field,
--					.timestamp.tv_sec	= vb32.timestamp.tv_sec,
--					.timestamp.tv_usec	= vb32.timestamp.tv_usec,
--					.timecode	= vb32.timecode,
--					.sequence	= vb32.sequence,
--					.memory		= vb32.memory,
--					.m.userptr	= vb32.m.userptr,
--					.length		= vb32.length,
--					.request_fd	= vb32.request_fd,
-+				.type		= vb32.type,
-+				.bytesused	= vb32.bytesused,
-+				.flags		= vb32.flags,
-+				.field		= vb32.field,
-+				.timestamp.tv_sec	= vb32.timestamp.tv_sec,
-+				.timestamp.tv_usec	= vb32.timestamp.tv_usec,
-+				.timecode	= vb32.timecode,
-+				.sequence	= vb32.sequence,
-+				.memory		= vb32.memory,
-+				.m.userptr	= vb32.m.userptr,
-+				.length		= vb32.length,
-+				.request_fd	= vb32.request_fd,
- 			};
- 			break;
- 		}
--#endif
--		}
- 	}
-+#endif
- 
--	/* zero out anything we don't copy from userspace */
--	if (!err && n < _IOC_SIZE(real_cmd))
--		memset((u8 *)parg + n, 0, _IOC_SIZE(real_cmd) - n);
- 	return err;
- }
+-	case VIDIOC_DQEVENT_TIME32: {
+-		struct v4l2_event_time32 *ev32 = arg;
+-		struct v4l2_event ev = { };
+-
+-		if (!(sd->flags & V4L2_SUBDEV_FL_HAS_EVENTS))
+-			return -ENOIOCTLCMD;
+-
+-		rval = v4l2_event_dequeue(vfh, &ev, file->f_flags & O_NONBLOCK);
+-
+-		*ev32 = (struct v4l2_event_time32) {
+-			.type		= ev.type,
+-			.pending	= ev.pending,
+-			.sequence	= ev.sequence,
+-			.timestamp.tv_sec  = ev.timestamp.tv_sec,
+-			.timestamp.tv_nsec = ev.timestamp.tv_nsec,
+-			.id		= ev.id,
+-		};
+-
+-		memcpy(&ev32->u, &ev.u, sizeof(ev.u));
+-		memcpy(&ev32->reserved, &ev.reserved, sizeof(ev.reserved));
+-
+-		return rval;
+-	}
+-
+ 	case VIDIOC_SUBSCRIBE_EVENT:
+ 		return v4l2_subdev_call(sd, core, subscribe_event, vfh, arg);
  
 -- 
 2.29.2
