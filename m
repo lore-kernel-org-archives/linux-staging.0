@@ -1,105 +1,71 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7842E2FB2
-	for <linux-staging@lists.linux.dev>; Wed,  9 Jun 2021 18:17:40 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id h12so1685811plf.4
-        for <linux-staging@lists.linux.dev>; Wed, 09 Jun 2021 11:17:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C56E173
+	for <linux-staging@lists.linux.dev>; Thu, 10 Jun 2021 15:52:03 +0000 (UTC)
+Received: by mail-qv1-f46.google.com with SMTP id t6so9078755qvp.5
+        for <linux-staging@lists.linux.dev>; Thu, 10 Jun 2021 08:52:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8zmeGfil6Un6NA08A7Kw0kuzyxjRcQgMr5s8V6JVF6Y=;
-        b=sOVmCvqnC1sfTqDYfpxFzbHIdTv0JMyafG8+2piksXhgw4p9vpaKIqlVtHFAzI/sVO
-         rx2eOpU2zGl88pUyD3eE54q9C45OSTxEUWvn4kKIHogsMJ01uOkdad022RC+NQqG0imJ
-         iwMc3/Y/K4SPUFCyV8pteuRa3kuG//oa+ccNWANO7+PxjEzv1ujprl2tS6nxm8YMI02U
-         2jdyme2Wz66LLgGfP0E7gp7hL4OvFZX0YGtpN9bFBJNgBJzBj3KLLAh+jU94nFMDQak2
-         C9DLzBkeawhHQmBSdGae0JBy3hWdJiXslqeC6QN4nQFkxkSovVrVcvvcB7TsREvUorDg
-         xH9g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UlKPbQCONCFR0Rgoli4txiZUTGz7LR+dp4EBO29/Mjk=;
+        b=NI4KvWJGhjQ0FDiqPE/sIVHNbz22EoktFRWlTOhSM939Dj0S0mgu4hvj5tjvhJ6q9i
+         9Foi2V820qEji4woPiRRUsbQ6cnF7Id/xcE78YUFtL2HB9yyZuAKfb8OYf9rE9pn9mtm
+         xjZ64ap7+n/CVQJ2c2rFRfj5Z1wFZ7TP+hk8irP+6hVbGMfUdGM6HNDp5kLIrv2y0v8d
+         anl9Sl3Ec63nJgiv3EkCQTqGUJDViYy2BSGcAA7P4OgAYbWwo/swSzAZDl1WA3i9yFHL
+         QGfqI9XuJ0W1waE10P2XfnOTF1f7f9146kIgIuwXZjPVkdp37UUTX4SRQUBkqsOEn6h8
+         J4aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8zmeGfil6Un6NA08A7Kw0kuzyxjRcQgMr5s8V6JVF6Y=;
-        b=GvQ7s7SwjRVfNubww3eLC/ke2E8/PHnACIW+WCv1CBdDXGKlOzChfKKPhBLIL9P7jZ
-         TWgp0EGEP471Eutbx6LRpmjeEjNxYpYFo4x5YVqycqpxm3DFqycoZTL2QVPSXb6o7Tfg
-         N6m6vXwgwJ0pt1sjJiBQlSG7EZFnojL6bZqEgvMG9Pk+n5vuUZrm9ERr7znefk9jfhdU
-         gT8NIBxAjX4IsYXrUBK9duZpx1BQL+wvIl5p2erL/GLW6M5apLeMFmbcZvm20xJ1SJ/k
-         Ss+ezb+TtQP6nN9zadY/vnuYhAe2BUBwCVGdRU6pseNM83/utfjKGPcoyMDoc1C1gngy
-         K3RA==
-X-Gm-Message-State: AOAM5334wu95CBEoz2qR7GCgIYUarZMGaDl0l2yuMyEKPPuG625iJm6l
-	hPdJKP9jk4JVBlYmN3FLzoDBuaquCivZH2qsarc=
-X-Google-Smtp-Source: ABdhPJzc6XIClEMrBoSl1eFW8eFnqWGroG1ShEj4jKWR0ThgjpUA2xiq3mraBMfFQ10+mwM6GV4M4Pza3hxNUmSOssQ=
-X-Received: by 2002:a17:90a:80c5:: with SMTP id k5mr12072536pjw.129.1623262659893;
- Wed, 09 Jun 2021 11:17:39 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UlKPbQCONCFR0Rgoli4txiZUTGz7LR+dp4EBO29/Mjk=;
+        b=lC5u8Cbzf32AbxfmcrMvIoGQgjjIWS1yr79qvXniq5StKI9AkS12nYXH5Uktijbj8W
+         Z759zVZGownCMFPfemXWOYJVW9KJUpqGeMQKnWAZFZ0R8oLo/RvJcLFLCgU68+0hkcjP
+         tlnn2HF+td33fcRozQiXm1EztcEZSg4Q3Ia9Ypy/W/AFDmUqRe1W7TBtXqGsM6eMrXFA
+         BYuCr4affrDntWGZqeQPYMgw2Da9hohLBlbwxBFzqFsTCUScNgZ6nt4yWdEPt26LUApV
+         26/ysht3vxGfTuuzTl5PB2ihk07ckbz8zRlizv1pc5+ES2siSaj6nC4ETMl2HcQqzw8b
+         0sGQ==
+X-Gm-Message-State: AOAM5317zCTejNvN302BEGqAefDESsGbx1hFy40DPyfIygV9zHpZQG29
+	F4vpzqARFVD9iDS/4IV/YUA=
+X-Google-Smtp-Source: ABdhPJxkPGb9ojisrQn3PxIFzfgNH8u8IP6ZFwBRKOkZ19V+eUfEU0FK5fShi3dsUk/+7ywTWik9Tw==
+X-Received: by 2002:a05:6214:2a8a:: with SMTP id jr10mr287379qvb.50.1623340322476;
+        Thu, 10 Jun 2021 08:52:02 -0700 (PDT)
+Received: from ubuntu ([191.96.170.82])
+        by smtp.gmail.com with ESMTPSA id q12sm2455232qtl.13.2021.06.10.08.52.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Jun 2021 08:52:01 -0700 (PDT)
+From: Philippe Dixon <philippesdixon@gmail.com>
+To: hdegoede@redhat.com,
+	Larry.Finger@lwfinger.net
+Cc: Philippe Dixon <philippesdixon@gmail.com>,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] Fix various checkpatch.pl warnings
+Date: Thu, 10 Jun 2021 08:51:14 -0700
+Message-Id: <cover.1623339773.git.philippesdixon@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210609072409.1357327-1-libaokun1@huawei.com>
-In-Reply-To: <20210609072409.1357327-1-libaokun1@huawei.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 9 Jun 2021 21:17:23 +0300
-Message-ID: <CAHp75VesvRMGY25WP-ZQaqWE-kyyp25GsvM8h=yMfO5U6r1gDA@mail.gmail.com>
-Subject: Re: [PATCH -next v2] media: staging: atomisp: use list_move_tail
- instead of list_del/list_add_tail in atomisp_compat_css20.c
-To: Baokun Li <libaokun1@huawei.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Kaixu Xia <kaixuxia@tencent.com>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Wei Yongjun <weiyongjun1@huawei.com>, 
-	YueHaibing <yuehaibing@huawei.com>, yangjihong1@huawei.com, yukuai3@huawei.com, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, linux-staging@lists.linux.dev, 
-	kernel-janitors <kernel-janitors@vger.kernel.org>, Hulk Robot <hulkci@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 9, 2021 at 4:32 PM Baokun Li <libaokun1@huawei.com> wrote:
->
-> Using list_move_tail() instead of list_del() + list_add_tail() in atomisp_compat_css20.c.
+This patchset contains minor changes to remove some checkpatch.pl
+warnings and better follow the Linux kernel coding style
+recommendations.
 
-Have you considered using list_splice() instead of entire while-loops?
-Or something similar from list.h...
+Philippe Dixon (3):
+  staging: rtl8723bs: core: add blank line after variable declaration
+  staging: rtl8723bs: core: add * to each line of block comment
+  staging: rtl8723bs: core: remove whitespace from beginning of line
 
->         while (!list_empty(&asd->s3a_stats_in_css)) {
->                 s3a_buf = list_entry(asd->s3a_stats_in_css.next,
->                                      struct atomisp_s3a_buf, list);
-> -               list_del(&s3a_buf->list);
-> -               list_add_tail(&s3a_buf->list, &asd->s3a_stats);
-> +               list_move_tail(&s3a_buf->list, &asd->s3a_stats);
->         }
->         while (!list_empty(&asd->s3a_stats_ready)) {
->                 s3a_buf = list_entry(asd->s3a_stats_ready.next,
->                                      struct atomisp_s3a_buf, list);
-> -               list_del(&s3a_buf->list);
-> -               list_add_tail(&s3a_buf->list, &asd->s3a_stats);
-> +               list_move_tail(&s3a_buf->list, &asd->s3a_stats);
->         }
-
->         while (!list_empty(&asd->dis_stats_in_css)) {
->                 dis_buf = list_entry(asd->dis_stats_in_css.next,
->                                      struct atomisp_dis_buf, list);
-> -               list_del(&dis_buf->list);
-> -               list_add_tail(&dis_buf->list, &asd->dis_stats);
-> +               list_move_tail(&dis_buf->list, &asd->dis_stats);
->         }
-
->                 while (!list_empty(&asd->metadata_in_css[i])) {
->                         md_buf = list_entry(asd->metadata_in_css[i].next,
->                                             struct atomisp_metadata_buf, list);
-> -                       list_del(&md_buf->list);
-> -                       list_add_tail(&md_buf->list, &asd->metadata[i]);
-> +                       list_move_tail(&md_buf->list, &asd->metadata[i]);
->                 }
->                 while (!list_empty(&asd->metadata_ready[i])) {
->                         md_buf = list_entry(asd->metadata_ready[i].next,
->                                             struct atomisp_metadata_buf, list);
-> -                       list_del(&md_buf->list);
-> -                       list_add_tail(&md_buf->list, &asd->metadata[i]);
-> +                       list_move_tail(&md_buf->list, &asd->metadata[i]);
->                 }
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 36 +++++++++++++-----------
+ 1 file changed, 20 insertions(+), 16 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.25.1
+
