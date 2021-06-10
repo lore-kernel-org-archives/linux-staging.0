@@ -1,41 +1,41 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663EF2FB2
-	for <linux-staging@lists.linux.dev>; Thu, 10 Jun 2021 15:52:41 +0000 (UTC)
-Received: by mail-qv1-f51.google.com with SMTP id u13so14948271qvt.7
-        for <linux-staging@lists.linux.dev>; Thu, 10 Jun 2021 08:52:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1D7F2FB2
+	for <linux-staging@lists.linux.dev>; Thu, 10 Jun 2021 15:53:04 +0000 (UTC)
+Received: by mail-qv1-f53.google.com with SMTP id w4so7512947qvr.11
+        for <linux-staging@lists.linux.dev>; Thu, 10 Jun 2021 08:53:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=i36Pm00DsGO/5ZcssBo+hCuQzpo+lYCkZTs5S1qBdoA=;
-        b=aJ6PRPAQsUXnMrl4CIN1S6+VkGEZ2x8ELCatoeXiQoNj94owq2Cq3NvG/R5NP06/9l
-         UuBphj8F9+F6rJMtytiiJBodcjv/xId9QPUioJsnM/ALNVOx6wb9GfzYY9IweDuPNqtp
-         toUKA4Y1rib+3E4TOy/i17YVOjaubAgIYBrwWpBHpcc5t3IMKnOshQeFN7zYNA4NI3En
-         TjDtOwTUh07tArOQOanJoDgo9VmanI4PjaN5qoMhXN1bTDB7SAIVmdaUO/LXWIZCAe8B
-         Fyvq1Q7fRCObs9UELo50OMOjUqBXROYCHls7Ks/Jgl6OBur7yL1i2hbk8A6CXAM0dIFM
-         FNEw==
+        bh=HusublkSZRMk4OjQy2DcQtE3Z9YSNom7wG4laSKspA0=;
+        b=ITnZzhyTiyw/n0L4w2kDSbTCfd2L7qkxkJgBIGxepm1BXqVRFFjAWK5tp77xThGT25
+         MDBr3T0Tbssa1OlhYm/hRSBKdvPStmnnr8Sm1bdvhP6f9yMh88lbZDHka88iL83PZ5J7
+         LQtH+nfBywi1Dvxp92eXhsDzJbd47tbf5A9UfK1k+rWeOO553auSMSJ59lJmLnM4nc1/
+         e9gw06bAolgV4kRX09rWRimwN9MdS9UEGAdBPa2jB53KBmzrY5Fv/Fw21PGhaMmCG/dR
+         TGXQZ0huH6FK+2bbQlzxFC6d76fFPHvj8eK/RnUS9EQgo1X4N92QG1xlxx8lo3NTNUWa
+         qAkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=i36Pm00DsGO/5ZcssBo+hCuQzpo+lYCkZTs5S1qBdoA=;
-        b=AdtRDNuRL/5tnxr6p7gfdVzro6TbhgcTUxSLf/MruoV/Rh0zl6PcnRx1yQzs/Dr4XW
-         0lRR6FeG4FFTkAeZrQdrs8fKRAFIhUx1r9SmwFaFbJdJTFQeZYcoAtFYw/KwV8GmTJqs
-         ILbfsPofi0JrNpHKWMSgDV086tQCikXGsbzpOV1pVHg5Rs3+D/fR1qtSqTeAswoLKegz
-         KtFIitvSBpJUwHFMdwtkeYSLPuW21VlzwgeK8XEXzbKjkCTrT69QsawpLkncf+2SjLcU
-         XIltZK46UKVYQSLD/PtdbvHxtAFTy1dI+6BcxJr4jvaqoo46t0CL5hhgr6QMl1xubLGd
-         bjWQ==
-X-Gm-Message-State: AOAM532bXxn+g7chjG4JBSntEV8cdHMXDmt+p2FwTwwMs2P5THem2alU
-	sDpiSU06VP/UEE9JS6onCu4=
-X-Google-Smtp-Source: ABdhPJz6dH4/21CGnDX8OUCXInxwgRczFOgoOJmcYSlk+3zuwnpoNY4UppNVXVr/IAV2giWheBgcjg==
-X-Received: by 2002:ad4:424b:: with SMTP id l11mr285572qvq.58.1623340360492;
-        Thu, 10 Jun 2021 08:52:40 -0700 (PDT)
+        bh=HusublkSZRMk4OjQy2DcQtE3Z9YSNom7wG4laSKspA0=;
+        b=VJrycmvx+qm/+YlX4w8tnerr6Sm2ryAra3by8g1nx5xj3UvOILKkGWuD8u4pkqnofE
+         8RM5Jx9Ey2oua6P3+NSSrXN+nR2rrIBZPtrwXpZ5SSHC/dgSQ8p1tbQnZiovlup8Gm1Y
+         KBZQWzzw3pfHO1qHr0WLjLQt3yT4Y+Q/Mtk9tNnDcLB1NoXKfuX37Nxn5QkxMF7QQwyw
+         Noiy4z4oT1/Uf7MmB4Ao/F24P0sKjgudcyvwI9HPLu2pGhkx2KguCOTYgkOp5d7mO32z
+         9cQ6UOcSDslzICDpapt1yvWuVu3Esj8vsQLy8Mix3TJFU0OhqfX15ag28Pfl8epZzHOs
+         ovFw==
+X-Gm-Message-State: AOAM533rijANkIrfq1vjPcsIRR24YhhqlyQaKWakW65nDZcLMcygK26i
+	W8AXX50FkpwsDWtPnJCqMPA=
+X-Google-Smtp-Source: ABdhPJxdVRbHLKoMuzqaLSpGm6XCLXlaSc9JD6JTXJnQmdwnSnk0sBic6XKOUWsiZfHfJYWLDkLXXg==
+X-Received: by 2002:a05:6214:e4d:: with SMTP id o13mr222755qvc.19.1623340384180;
+        Thu, 10 Jun 2021 08:53:04 -0700 (PDT)
 Received: from ubuntu ([191.96.170.82])
-        by smtp.gmail.com with ESMTPSA id s6sm2418686qks.102.2021.06.10.08.52.39
+        by smtp.gmail.com with ESMTPSA id e127sm2564302qkf.62.2021.06.10.08.53.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jun 2021 08:52:40 -0700 (PDT)
+        Thu, 10 Jun 2021 08:53:03 -0700 (PDT)
 From: Philippe Dixon <philippesdixon@gmail.com>
 To: hdegoede@redhat.com,
 	Larry.Finger@lwfinger.net
@@ -43,9 +43,9 @@ Cc: Philippe Dixon <philippesdixon@gmail.com>,
 	gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] staging: rtl8723bs: core: add * to each line of block comment
-Date: Thu, 10 Jun 2021 08:51:16 -0700
-Message-Id: <78327f95c53658aebfd51f7947ec44ebd36ca763.1623339773.git.philippesdixon@gmail.com>
+Subject: [PATCH 3/3] staging: rtl8723bs: core: remove whitespace from beginning of line
+Date: Thu, 10 Jun 2021 08:51:17 -0700
+Message-Id: <4fa641ac2f1fc1b1952c0f3265723289ef711ee9.1623339773.git.philippesdixon@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1623339773.git.philippesdixon@gmail.com>
 References: <cover.1623339773.git.philippesdixon@gmail.com>
@@ -58,69 +58,26 @@ Content-Transfer-Encoding: 8bit
 
 This patch fixes the following checkpatch.pl warning:
 
-WARNING: Block comments use * on subsequent lines
+WARNING: please, no spaces at the start of a line
 
 Signed-off-by: Philippe Dixon <philippesdixon@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 31 ++++++++++++------------
- 1 file changed, 16 insertions(+), 15 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index 3199386f5850..347c043f5305 100644
+index 347c043f5305..04956ccf485c 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -155,9 +155,9 @@ static struct cmd_hdl wlancmds[] = {
- };
- 
- /*
--Caller and the rtw_cmd_thread can protect cmd_q by spin_lock.
--No irqsave is necessary.
--*/
-+ * Caller and the rtw_cmd_thread can protect cmd_q by spin_lock.
-+ * No irqsave is necessary.
-+ */
- 
- int rtw_init_cmd_priv(struct	cmd_priv *pcmdpriv)
+@@ -1339,7 +1339,7 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
+ static void dynamic_chk_wk_hdl(struct adapter *padapter)
  {
-@@ -242,14 +242,14 @@ void _rtw_free_cmd_priv(struct	cmd_priv *pcmdpriv)
- }
- 
- /*
--Calling Context:
--
--rtw_enqueue_cmd can only be called between kernel thread,
--since only spin_lock is used.
--
--ISR/Call-Back functions can't call this sub-function.
--
--*/
-+ * Calling Context:
-+ *
-+ * rtw_enqueue_cmd can only be called between kernel thread,
-+ * since only spin_lock is used.
-+ *
-+ * ISR/Call-Back functions can't call this sub-function.
-+ *
-+ */
- 
- int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
- {
-@@ -528,10 +528,11 @@ int rtw_cmd_thread(void *context)
- }
- 
- /*
--rtw_sitesurvey_cmd(~)
--	### NOTE:#### (!!!!)
--	MUST TAKE CARE THAT BEFORE CALLING THIS FUNC, YOU SHOULD HAVE LOCKED pmlmepriv->lock
--*/
-+ * rtw_sitesurvey_cmd(~)
-+ *	### NOTE:#### (!!!!)
-+ *	MUST TAKE CARE THAT BEFORE CALLING THIS FUNC, YOU SHOULD HAVE LOCKED pmlmepriv->lock
-+ */
+ 	struct mlme_priv *pmlmepriv;
+-    
 +
- u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid, int ssid_num,
- 	struct rtw_ieee80211_channel *ch, int ch_num)
- {
+ 	pmlmepriv = &(padapter->mlmepriv);
+ 
+ 	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true)
 -- 
 2.25.1
 
