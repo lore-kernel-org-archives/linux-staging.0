@@ -1,236 +1,110 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0A972
-	for <linux-staging@lists.linux.dev>; Thu, 10 Jun 2021 17:02:38 +0000 (UTC)
-Received: by mail-oi1-f182.google.com with SMTP id m137so2838338oig.6
-        for <linux-staging@lists.linux.dev>; Thu, 10 Jun 2021 10:02:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=e4a/91iYGoY9yr3GZI7DZxVbEUDYySZoo2P+z2xpl9o=;
-        b=Gn/XxmhrT06/nZn2Es/AYWqDMsz0tEv+PmPQVkCafeCXIwYa5r469Tti4iKnAaEeTR
-         rfin0mQb8kEb/hycCZXMrzR0gO8FUUrdAQUFuOMoe++FwVp/WXQVPv7tojVfjL40JfyR
-         kfacyHUKwYnGK9F6hVfSgZXd50CIAyYtGPB7DuFkjzQ1nf8R7otrXVViYi7jKsiroySR
-         2HjJ/dz0yTe/AiPI3UwYlJnQI4FTe5IuKzgQ/cVvHV7t8cAdgFcHlPY0NgThcUqe7bi0
-         f41PYo4CcB9+q2AcPiUzHKU6kjG7SSnFP7DxIstUASwh/peGW5Q5cU/ydojWeLVnYxbK
-         lnJw==
-X-Gm-Message-State: AOAM533FuCrUxiOMy7oBYQfLFtOI9VFJyIkwoFDqr1pyn9txdQ/hPxoG
-	ujzDCL3lP3g74Lj3lxBdjA==
-X-Google-Smtp-Source: ABdhPJyCN2rSyQvYwP+VJ4DJWxdMIfMOuh00l62oVRXcHyvCP+ksagzHArpBvff/UlxQnvCH8/uMrQ==
-X-Received: by 2002:aca:ea85:: with SMTP id i127mr4198702oih.176.1623344558097;
-        Thu, 10 Jun 2021 10:02:38 -0700 (PDT)
-Received: from robh.at.kernel.org ([172.58.99.113])
-        by smtp.gmail.com with ESMTPSA id l128sm651998oif.16.2021.06.10.10.02.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jun 2021 10:02:36 -0700 (PDT)
-Received: (nullmailer pid 1967937 invoked by uid 1000);
-	Thu, 10 Jun 2021 17:02:33 -0000
-Date: Thu, 10 Jun 2021 12:02:33 -0500
-From: Rob Herring <robh@kernel.org>
-To: Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc: festevam@gmail.com, krzk@kernel.org, laurent.pinchart@ideasonboard.com, devicetree@vger.kernel.org, kernel@pengutronix.de, kernel@puri.sm, linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, mchehab@kernel.org, phone-devel@vger.kernel.org, shawnguo@kernel.org, slongerbeam@gmail.com
-Subject: Re: [PATCH v3 1/3] dt-bindings: media: document the
- nxp,imx8mq-mipi-csi2 receiver phy and controller
-Message-ID: <20210610170233.GA1961013@robh.at.kernel.org>
-References: <20210608104128.1616028-1-martin.kepplinger@puri.sm>
- <20210608104128.1616028-2-martin.kepplinger@puri.sm>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3C22F80
+	for <linux-staging@lists.linux.dev>; Thu, 10 Jun 2021 21:44:51 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C5305613CA;
+	Thu, 10 Jun 2021 21:44:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1623361491;
+	bh=ZWd349hON24nbsKTW/zSfU0MgSTsBzl5Ei1e0dljQpc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=XrdweSX5RuIhdapW4UDwutKy6U8reEUNfOVi/K8VoNtI3fANRcna+OwGH7p34Nyrw
+	 NaVpVIUt8XQcjci2sXuS9wh0dKC0IeqZNPV3eYIjesCmGhHWGhaFmSvgPUISHlu0V4
+	 auCaJDracLWjsVIzeo0l/a2sHqw9ramXcR8iMPOSOwmBIOnBRB5i3jjaL9IuFRb8HJ
+	 WdrsiBw4VWUp3nmahYkWApbvgkLWRaTMT+L0FR/7ZwvOP2vW7sBNb8JYSNb4zbcbC3
+	 v2y/GTQOjJz12hs/VPZh659Se9MXW9BLOaD+Gv81UBMISwY6cnjJ2tWhkWwyktPbFy
+	 U5iJcO7e51QLA==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+	Eduardo Valentin <edubezval@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+	Liu Shixin <liushixin2@huawei.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v2 0/7] media: v4l2: compat ioctl fixes
+Date: Thu, 10 Jun 2021 23:42:58 +0200
+Message-Id: <20210610214305.4170835-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210608104128.1616028-2-martin.kepplinger@puri.sm>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 08, 2021 at 12:41:26PM +0200, Martin Kepplinger wrote:
-> The i.MX8MQ SoC integrates a different MIPI CSI receiver as the i.MX8MM so
-> describe the DT bindings for it.
-> 
-> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> ---
->  .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 161 ++++++++++++++++++
->  1 file changed, 161 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-> new file mode 100644
-> index 000000000000..6eafdf803d36
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-> @@ -0,0 +1,161 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/nxp,imx8mq-mipi-csi2.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NXP i.MX8MQ MIPI CSI-2 receiver
-> +
-> +maintainers:
-> +  - Martin Kepplinger <martin.kepplinger@puri.sm>
-> +
-> +description: |-
-> +  This binding covers the CSI-2 RX PHY and host controller included in the
-> +  NXP i.MX8MQ SoC. It handles the sensor/image input and process for all the
-> +  input imaging devices.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - fsl,imx8mq-mipi-csi2
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: core is the RX Controller Core Clock input. This clock
-> +                     must be exactly equal to or faster than the receive
-> +                     byteclock from the RX DPHY.
-> +      - description: esc is the Rx Escape Clock. This must be the same escape
-> +                     clock that the RX DPHY receives.
-> +      - description: pxl is the pixel clock (phy_ref up to 333Mhz).
-> +      - description: clko2 is the CLKO2 clock root.
-> +                     See the reference manual for details.
-> +
-> +  clock-names:
-> +    items:
-> +      - const: core
-> +      - const: esc
-> +      - const: pxl
-> +      - const: clko2
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  reset:
+From: Arnd Bergmann <arnd@arndb.de>
 
-resets
+There was a report from Syzbot a while ago that I tried fixed earlier,
+but my fix did not get picked up because of a merge conflict with
+another patch I had in my tree.
 
-> +    description:
-> +      The phandle to the imx8mq reset-controller.
+I finally managed to take a close enough look at the merge conflict
+to figure out that the subdev driver handling for VIDIOC_DQEVENT_TIME32
+was wrong in all combinations of the patches and just needs to be
+removed. In the process I also came across a couple of other issues,
+so the series has now grown to seven patches.
 
-Drop. What the reset controller is is out of scope for a binding.
+I have done randconfig build testing and found no compile time issues,
+but the driver specific patches have not been tested so far.
 
-> +    maxItems: 1
-> +
-> +  phy:
+        Arnd
 
-phys? Assuming this is using the PHY binding. If it is not, then why 
-not?
+Link: https://patchwork.linuxtv.org/project/linux-media/patch/20210318134334.2933141-1-arnd@kernel.org/
 
-> +    description:
-> +      The phandle to the imx8mq syscon iomux-gpr.
-> +    maxItems: 1
-> +
-> +  interconnects:
-> +    maxItems: 1
-> +
-> +  interconnect-names:
-> +    const: dram
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description:
-> +          Input port node, single endpoint describing the CSI-2 transmitter.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              data-lanes:
-> +                items:
-> +                  minItems: 1
-> +                  maxItems: 4
-> +                  items:
-> +                    - const: 1
-> +                    - const: 2
-> +                    - const: 3
-> +                    - const: 4
-> +
-> +            required:
-> +              - data-lanes
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Output port node
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - power-domains
-> +  - reset
-> +  - phy
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/imx8mq-clock.h>
-> +    #include <dt-bindings/interconnect/imx8mq.h>
-> +
-> +    csi@30a70000 {
-> +        compatible = "fsl,imx8mq-mipi-csi2";
-> +        reg = <0x30a70000 0x1000>;
-> +        clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
-> +                 <&clk IMX8MQ_CLK_CSI1_ESC>,
-> +                 <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
-> +                 <&clk IMX8MQ_CLK_CLKO2>;
-> +        clock-names = "core", "esc", "pxl", "clko2";
-> +        assigned-clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
-> +                          <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
-> +                          <&clk IMX8MQ_CLK_CSI1_ESC>;
-> +        assigned-clock-rates = <266000000>, <200000000>, <66000000>;
-> +        assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
-> +                                 <&clk IMX8MQ_SYS2_PLL_1000M>,
-> +                                 <&clk IMX8MQ_SYS1_PLL_800M>;
-> +        power-domains = <&pgc_mipi_csi1>;
-> +        reset = <&src>;
-> +        phy = <&iomuxc_gpr>;
-> +        interconnects = <&noc IMX8MQ_ICM_CSI1 &noc IMX8MQ_ICS_DRAM>;
-> +        interconnect-names = "dram";
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@0 {
-> +                reg = <0>;
-> +
-> +                imx8mm_mipi_csi_in: endpoint {
-> +                    remote-endpoint = <&imx477_out>;
-> +                    data-lanes = <1 2 3 4>;
-> +                };
-> +            };
-> +
-> +            port@1 {
-> +                reg = <1>;
-> +
-> +                imx8mm_mipi_csi_out: endpoint {
-> +                    remote-endpoint = <&csi_in>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> -- 
-> 2.30.2
+Arnd Bergmann (7):
+  media: v4l2-core: ignore native time32 ioctls on 64-bit
+  media: v4l2-core: explicitly clear ioctl input data
+  media: subdev: remove VIDIOC_DQEVENT_TIME32 handling
+  media: v4l2-core: return -ENODEV from ioctl when not registered
+  media: atomisp: remove compat_ioctl32 code
+  media: subdev: fix compat_ioctl32
+  media: subdev: disallow ioctl for saa6588/davinci
+
+ drivers/media/i2c/adv7842.c                   |    3 +
+ drivers/media/i2c/saa6588.c                   |    4 +-
+ drivers/media/pci/bt8xx/bttv-driver.c         |    6 +-
+ drivers/media/pci/saa7134/saa7134-video.c     |    6 +-
+ drivers/media/platform/davinci/vpbe_display.c |    2 +-
+ drivers/media/platform/davinci/vpbe_venc.c    |    6 +-
+ drivers/media/radio/si4713/si4713.c           |    3 +
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c |    3 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   57 +-
+ drivers/media/v4l2-core/v4l2-subdev.c         |   43 +-
+ drivers/staging/media/atomisp/Makefile        |    1 -
+ drivers/staging/media/atomisp/TODO            |    5 +
+ .../atomisp/pci/atomisp_compat_ioctl32.c      | 1202 -----------------
+ .../staging/media/atomisp/pci/atomisp_fops.c  |    8 +-
+ include/media/v4l2-subdev.h                   |    7 +-
+ 15 files changed, 81 insertions(+), 1275 deletions(-)
+ delete mode 100644 drivers/staging/media/atomisp/pci/atomisp_compat_ioctl32.c
+
+-- 
+2.29.2
+
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Eduardo Valentin <edubezval@gmail.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Cc: Liu Shixin <liushixin2@huawei.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-staging@lists.linux.dev
+
+
