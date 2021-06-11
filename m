@@ -1,110 +1,92 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A46D173
-	for <linux-staging@lists.linux.dev>; Fri, 11 Jun 2021 08:01:08 +0000 (UTC)
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.55])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4G1Y8d39rkz6wbZ;
-	Fri, 11 Jun 2021 15:57:05 +0800 (CST)
-Received: from dggpeml500020.china.huawei.com (7.185.36.88) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 11 Jun 2021 16:00:59 +0800
-Received: from huawei.com (10.175.127.227) by dggpeml500020.china.huawei.com
- (7.185.36.88) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Fri, 11 Jun
- 2021 16:00:58 +0800
-From: Baokun Li <libaokun1@huawei.com>
-To: <mchehab@kernel.org>, <sakari.ailus@linux.intel.com>,
-	<gregkh@linuxfoundation.org>, <andriy.shevchenko@linux.intel.com>,
-	<kaixuxia@tencent.com>, <gustavoars@kernel.org>,
-	<linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-CC: <weiyongjun1@huawei.com>, <yuehaibing@huawei.com>,
-	<yangjihong1@huawei.com>, <yukuai3@huawei.com>, <libaokun1@huawei.com>, "Hulk
- Robot" <hulkci@huawei.com>
-Subject: [PATCH -next v3] media: staging: atomisp: use list_splice_init in atomisp_compat_css20.c
-Date: Fri, 11 Jun 2021 16:10:04 +0800
-Message-ID: <20210611081004.1348026-1-libaokun1@huawei.com>
-X-Mailer: git-send-email 2.31.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E6072
+	for <linux-staging@lists.linux.dev>; Fri, 11 Jun 2021 09:08:57 +0000 (UTC)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15B94EaP013543;
+	Fri, 11 Jun 2021 09:08:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=g1knzCO2x5sfHUo9G+1N+uTizI/Qrl8Kh1W2H9UFjLs=;
+ b=VQKvN7Xkz+uCYHsbL8Cz2nIN1E3QiLis266uP0Yas0/PIEtVF6yVTAsqfWfOH/vRcHxx
+ LyOgSmmuDO763Iy/C5vNuQVMFT+A0oVwBJYtKVZjfrTWZl5oowbZrvECpnhfaZZJDCNa
+ cm4XBALHW2Ga8z+9BgmlYnswmbNnUyUJvT6rGrxYGfKjR19tSvXTLE6z0gtv0QgV2uVk
+ zOg+jIy+Zl6A/07HZFBF+jXg+gV8urMZXx94dTrtAJvn/0z0zvSTBIizIW5IsKLrgm66
+ JStDXy1w4SBSWW3vrJPty9SmKEy1u6oIUu1A4YhnXrsc8dU2c7iU6Cjf9DfAav8JgVUg Wg== 
+Received: from oracle.com (userp3030.oracle.com [156.151.31.80])
+	by mx0b-00069f02.pphosted.com with ESMTP id 393y0x03bg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 11 Jun 2021 09:08:40 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 15B98dlU104340;
+	Fri, 11 Jun 2021 09:08:39 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by userp3030.oracle.com with ESMTP id 38yxcxchca-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 11 Jun 2021 09:08:39 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15B98cbe104297;
+	Fri, 11 Jun 2021 09:08:38 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+	by userp3030.oracle.com with ESMTP id 38yxcxchbv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 11 Jun 2021 09:08:38 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 15B98U6c011918;
+	Fri, 11 Jun 2021 09:08:32 GMT
+Received: from kadam (/41.212.42.34)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Fri, 11 Jun 2021 02:08:29 -0700
+Date: Fri, 11 Jun 2021 12:08:19 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Phillip Potter <phil@philpotter.co.uk>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+        straube.linux@gmail.com, kaixuxia@tencent.com,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        liushixin2@huawei.com, unixbhaskar@gmail.com, gustavoars@kernel.org,
+        martin@kaiser.cx, bkkarthik@pesu.pes.edu
+Subject: Re: [PATCH 5/6] staging: rtl8188eu: remove
+ DebugComponents/DebugLevel from odm_dm_struct
+Message-ID: <20210611090819.GD10983@kadam>
+References: <20210611002504.166405-1-phil@philpotter.co.uk>
+ <20210611002504.166405-2-phil@philpotter.co.uk>
+ <20210611002504.166405-3-phil@philpotter.co.uk>
+ <20210611002504.166405-4-phil@philpotter.co.uk>
+ <20210611002504.166405-5-phil@philpotter.co.uk>
+ <20210611002504.166405-6-phil@philpotter.co.uk>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.127.227]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpeml500020.china.huawei.com (7.185.36.88)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210611002504.166405-6-phil@philpotter.co.uk>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: wkVToofiUe25XB05DVQ4jSloiInlsDgW
+X-Proofpoint-ORIG-GUID: wkVToofiUe25XB05DVQ4jSloiInlsDgW
 
-Using list_splice_init() instead of entire while-loops
-in atomisp_compat_css20.c.
+On Fri, Jun 11, 2021 at 01:25:03AM +0100, Phillip Potter wrote:
+> diff --git a/drivers/staging/rtl8188eu/hal/usb_halinit.c b/drivers/staging/rtl8188eu/hal/usb_halinit.c
+> index 80cdcf6f7879..3e7f184ed39a 100644
+> --- a/drivers/staging/rtl8188eu/hal/usb_halinit.c
+> +++ b/drivers/staging/rtl8188eu/hal/usb_halinit.c
+> @@ -1851,11 +1851,6 @@ u8 rtw_hal_get_def_var(struct adapter *Adapter, enum hal_def_variable eVariable,
+>  		}
+>  		break;
+>  	case HW_DEF_ODM_DBG_FLAG:
+> -		{
+> -			struct odm_dm_struct *dm_ocm = &haldata->odmpriv;
+> -
+> -			pr_info("dm_ocm->DebugComponents = 0x%llx\n", dm_ocm->DebugComponents);
+> -		}
+>  		break;
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Baokun Li <libaokun1@huawei.com>
----
-V1->V2:
-	CC mailist
-V2->V3:
-        Using list_move_tail() -> Using list_splice_init()
+We will want to delete everything to do with ODM_DBG_FLAG but that can
+be done in later patches.
 
- .../media/atomisp/pci/atomisp_compat_css20.c  | 35 +++----------------
- 1 file changed, 5 insertions(+), 30 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index f60198bb8a1a..3844180d32b5 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -2144,42 +2144,17 @@ void atomisp_css_stop(struct atomisp_sub_device *asd,
- 	}
- 
- 	/* move stats buffers to free queue list */
--	while (!list_empty(&asd->s3a_stats_in_css)) {
--		s3a_buf = list_entry(asd->s3a_stats_in_css.next,
--				     struct atomisp_s3a_buf, list);
--		list_del(&s3a_buf->list);
--		list_add_tail(&s3a_buf->list, &asd->s3a_stats);
--	}
--	while (!list_empty(&asd->s3a_stats_ready)) {
--		s3a_buf = list_entry(asd->s3a_stats_ready.next,
--				     struct atomisp_s3a_buf, list);
--		list_del(&s3a_buf->list);
--		list_add_tail(&s3a_buf->list, &asd->s3a_stats);
--	}
-+	list_splice_init(&asd->s3a_stats_in_css, &asd->s3a_stats);
-+	list_splice_init(&asd->s3a_stats_ready, &asd->s3a_stats);
- 
- 	spin_lock_irqsave(&asd->dis_stats_lock, irqflags);
--	while (!list_empty(&asd->dis_stats_in_css)) {
--		dis_buf = list_entry(asd->dis_stats_in_css.next,
--				     struct atomisp_dis_buf, list);
--		list_del(&dis_buf->list);
--		list_add_tail(&dis_buf->list, &asd->dis_stats);
--	}
-+	list_splice_init(&asd->dis_stats_in_css, &asd->dis_stats);
- 	asd->params.dis_proj_data_valid = false;
- 	spin_unlock_irqrestore(&asd->dis_stats_lock, irqflags);
- 
- 	for (i = 0; i < ATOMISP_METADATA_TYPE_NUM; i++) {
--		while (!list_empty(&asd->metadata_in_css[i])) {
--			md_buf = list_entry(asd->metadata_in_css[i].next,
--					    struct atomisp_metadata_buf, list);
--			list_del(&md_buf->list);
--			list_add_tail(&md_buf->list, &asd->metadata[i]);
--		}
--		while (!list_empty(&asd->metadata_ready[i])) {
--			md_buf = list_entry(asd->metadata_ready[i].next,
--					    struct atomisp_metadata_buf, list);
--			list_del(&md_buf->list);
--			list_add_tail(&md_buf->list, &asd->metadata[i]);
--		}
-+		list_splice_init(&asd->metadata_in_css[i], &asd->asd->metadata[i]);
-+		list_splice_init(&asd->metadata_ready[i], &asd->asd->metadata[i]);
- 	}
- 
- 	atomisp_flush_params_queue(&asd->video_out_capture);
--- 
-2.31.1
+regards,
+dan carpenter
 
