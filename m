@@ -1,45 +1,45 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E6072
-	for <linux-staging@lists.linux.dev>; Fri, 11 Jun 2021 09:08:57 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15B94EaP013543;
-	Fri, 11 Jun 2021 09:08:40 GMT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48B0172
+	for <linux-staging@lists.linux.dev>; Fri, 11 Jun 2021 09:10:39 +0000 (UTC)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15B9233W003696;
+	Fri, 11 Jun 2021 09:10:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
  : subject : message-id : references : mime-version : content-type :
  in-reply-to; s=corp-2020-01-29;
- bh=g1knzCO2x5sfHUo9G+1N+uTizI/Qrl8Kh1W2H9UFjLs=;
- b=VQKvN7Xkz+uCYHsbL8Cz2nIN1E3QiLis266uP0Yas0/PIEtVF6yVTAsqfWfOH/vRcHxx
- LyOgSmmuDO763Iy/C5vNuQVMFT+A0oVwBJYtKVZjfrTWZl5oowbZrvECpnhfaZZJDCNa
- cm4XBALHW2Ga8z+9BgmlYnswmbNnUyUJvT6rGrxYGfKjR19tSvXTLE6z0gtv0QgV2uVk
- zOg+jIy+Zl6A/07HZFBF+jXg+gV8urMZXx94dTrtAJvn/0z0zvSTBIizIW5IsKLrgm66
- JStDXy1w4SBSWW3vrJPty9SmKEy1u6oIUu1A4YhnXrsc8dU2c7iU6Cjf9DfAav8JgVUg Wg== 
-Received: from oracle.com (userp3030.oracle.com [156.151.31.80])
-	by mx0b-00069f02.pphosted.com with ESMTP id 393y0x03bg-1
+ bh=bGanNVUBgNjd1eZt2e98FlPpYQ8940Oh/K0u9giUnv0=;
+ b=m4DHDOaUX5covrDCV4e7TTBrRgemnEA++KEikMN1vIc9PfJqDW318lBsWrjNicreJH9X
+ PsOXTcF4yXQkVeCvpLu0hTX6Iw2P92eYd0nD2iFgF5jATfbmcGtU9dyZeJ7PYKe/Sp3B
+ Ln7Nklp8sxXknTpRVxucvoiWnnOrIlNlVN/gzXF5TOy+Kf1wlwUXe7xuR6EDsRBggVOF
+ Bp/MYkX53KMT22pnPYWZQCDdaCJD2YYNPirGrBwmnLU4xatNE1/OOfJ1kJ0n+EAQUPWC
+ 82Rjx+NIv/uHZ6jlwvD5rO1VdLRc7phcYL7lxt9IyJZEykp78XDhdK2zF/lNs4bbn7OM ZA== 
+Received: from oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by mx0b-00069f02.pphosted.com with ESMTP id 392yvb8qkm-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 11 Jun 2021 09:08:40 +0000
-Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
-	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 15B98dlU104340;
-	Fri, 11 Jun 2021 09:08:39 GMT
+	Fri, 11 Jun 2021 09:10:24 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 15B97NEn081162;
+	Fri, 11 Jun 2021 09:10:23 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by userp3030.oracle.com with ESMTP id 38yxcxchca-1
+	by aserp3020.oracle.com with ESMTP id 3922x1wumt-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 11 Jun 2021 09:08:39 +0000
-Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15B98cbe104297;
-	Fri, 11 Jun 2021 09:08:38 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-	by userp3030.oracle.com with ESMTP id 38yxcxchbv-1
+	Fri, 11 Jun 2021 09:10:23 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15B9629N073920;
+	Fri, 11 Jun 2021 09:10:22 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+	by aserp3020.oracle.com with ESMTP id 3922x1wuk1-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 11 Jun 2021 09:08:38 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
-	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 15B98U6c011918;
-	Fri, 11 Jun 2021 09:08:32 GMT
+	Fri, 11 Jun 2021 09:10:22 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 15B9AKaa002888;
+	Fri, 11 Jun 2021 09:10:20 GMT
 Received: from kadam (/41.212.42.34)
 	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Fri, 11 Jun 2021 02:08:29 -0700
-Date: Fri, 11 Jun 2021 12:08:19 +0300
+	with ESMTP ; Fri, 11 Jun 2021 02:10:20 -0700
+Date: Fri, 11 Jun 2021 12:10:10 +0300
 From: Dan Carpenter <dan.carpenter@oracle.com>
 To: Phillip Potter <phil@philpotter.co.uk>
 Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
@@ -47,15 +47,9 @@ Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
         linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
         liushixin2@huawei.com, unixbhaskar@gmail.com, gustavoars@kernel.org,
         martin@kaiser.cx, bkkarthik@pesu.pes.edu
-Subject: Re: [PATCH 5/6] staging: rtl8188eu: remove
- DebugComponents/DebugLevel from odm_dm_struct
-Message-ID: <20210611090819.GD10983@kadam>
+Subject: Re: [PATCH 0/6] staging: rtl8188eu: remove hal/odm_debug.h
+Message-ID: <20210611091010.GE10983@kadam>
 References: <20210611002504.166405-1-phil@philpotter.co.uk>
- <20210611002504.166405-2-phil@philpotter.co.uk>
- <20210611002504.166405-3-phil@philpotter.co.uk>
- <20210611002504.166405-4-phil@philpotter.co.uk>
- <20210611002504.166405-5-phil@philpotter.co.uk>
- <20210611002504.166405-6-phil@philpotter.co.uk>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -63,29 +57,23 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210611002504.166405-6-phil@philpotter.co.uk>
+In-Reply-To: <20210611002504.166405-1-phil@philpotter.co.uk>
 User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: wkVToofiUe25XB05DVQ4jSloiInlsDgW
-X-Proofpoint-ORIG-GUID: wkVToofiUe25XB05DVQ4jSloiInlsDgW
+X-Proofpoint-ORIG-GUID: 6NkT5LD6oX42U-iImRoBumv2XmkAEoGa
+X-Proofpoint-GUID: 6NkT5LD6oX42U-iImRoBumv2XmkAEoGa
 
-On Fri, Jun 11, 2021 at 01:25:03AM +0100, Phillip Potter wrote:
-> diff --git a/drivers/staging/rtl8188eu/hal/usb_halinit.c b/drivers/staging/rtl8188eu/hal/usb_halinit.c
-> index 80cdcf6f7879..3e7f184ed39a 100644
-> --- a/drivers/staging/rtl8188eu/hal/usb_halinit.c
-> +++ b/drivers/staging/rtl8188eu/hal/usb_halinit.c
-> @@ -1851,11 +1851,6 @@ u8 rtw_hal_get_def_var(struct adapter *Adapter, enum hal_def_variable eVariable,
->  		}
->  		break;
->  	case HW_DEF_ODM_DBG_FLAG:
-> -		{
-> -			struct odm_dm_struct *dm_ocm = &haldata->odmpriv;
-> -
-> -			pr_info("dm_ocm->DebugComponents = 0x%llx\n", dm_ocm->DebugComponents);
-> -		}
->  		break;
+On Fri, Jun 11, 2021 at 01:24:58AM +0100, Phillip Potter wrote:
+> This series removes hal/odm_debug.h, which contains various preprocessor
+> definitions, as well as an unwieldy ODM_RT_TRACE macro which is not best
+> practice. It also removes all uses of this macro, and the associated
+> fields in struct odm_dm_struct which are only used by this macro.
+> 
+> This makes the code cleaner, thus moving it closer to getting out of
+> staging.
 
-We will want to delete everything to do with ODM_DBG_FLAG but that can
-be done in later patches.
+Looks good.
+
+Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 regards,
 dan carpenter
