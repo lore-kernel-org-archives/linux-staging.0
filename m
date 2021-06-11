@@ -1,41 +1,41 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8782FB9
-	for <linux-staging@lists.linux.dev>; Fri, 11 Jun 2021 00:25:13 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id m41-20020a05600c3b29b02901b9e5d74f02so4365172wms.3
-        for <linux-staging@lists.linux.dev>; Thu, 10 Jun 2021 17:25:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D89C02FB2
+	for <linux-staging@lists.linux.dev>; Fri, 11 Jun 2021 00:25:14 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id a11so4113962wrt.13
+        for <linux-staging@lists.linux.dev>; Thu, 10 Jun 2021 17:25:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=2hv5If0dK2FX0fuz+4y/4HPgfUG0IUVtcKgOGjEtxos=;
-        b=kfPd6iVh6IcqEiBWxWZ812bmBMj4RVnD57fP42FdbiZkiEQTdv+TQlGNskzDwZZgMi
-         uW0AH5mdZmiJVvjjANnB4cBNa8RnSFiEQiJAKWrXpFa5+eeehhTAlZpj/SgFHyun25Tq
-         lWc/6gDpdVNsrozF6NSVMv3p0jKOlpUIvDsFDNSnQcCLMAcIaylW1GfJGIoixVtbFikF
-         DOuWRRN4hEDPtzWxHMp8yjRXrN0pfP6QSRq2DDe3j8+Y6G8A8uUb2omO4EHVojISpXac
-         9mbXJDAoE1Ttj/4+Dvf6R3fuW78s19FXWS2PO7LdaB5jTD9fswT3IM7/lsOQ1Aco4IGC
-         +oEQ==
+        bh=xGuPSUB9sCPvLS2yL88leKFZzO4c9wu8DLnphDQRpqw=;
+        b=cFMupHMKnruXkRVbF+vCCVuajn1IDPRjYMGeZ0gRC/R8wagg0h7fVZB/cDHW+fD3Wb
+         ln+y2tEtMsCTdOuuBuLSphorMpcMFakUqEbzw/iICgzDEwMY53kRWGQwm4WBGvRnVjHp
+         lLAyOQxo6x70MG9S5zJPbqbuXPRmSRzatKFUVgC1iYfwIfP3mA38GEVyHQEC6kxIRYI3
+         EZ+iqgB4IzIQFC3l8pEXWA7XTsOpoVKTjfzKkjGUgTiBI1i4b/uOQQD+ZJ9DjuHr0Jtv
+         IvdOcprAmniWXM6OyNszp+xW20svhw/O5Phc5YFQXp23Ik6rj64If4CpQIGY6G1XioYm
+         0r7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=2hv5If0dK2FX0fuz+4y/4HPgfUG0IUVtcKgOGjEtxos=;
-        b=TFYs6hKbaC/0f+WOqMW6kSwVOBZiPZSd0PCGcgnGzZgKp8dWvhaCPKOoTgrMvPLs3H
-         MFzpKiLY0YMAXco1uHHyA83ngVEav7N0edqi0/31ZW5KBOt2pVCZnPenrPbbIMTKEFdr
-         VgJWoL4EF2UsWYMGrI21sLdY6JdTtGH515xL58v0bCGGg1+RdOicVkDC1tw0Ff/z9eXm
-         6pOUjv4fo+nMo8yCIlFqy9FXUjUcpSTB8IFQSeKAj9e3DJWHT/OcUorduGtMIjtLMRil
-         zQx1jb+nzoGWnQR58Y5hlq1+6SOCTeQ/s83fCK0s/t7vFYiIgvEECB6GOlsrdcZmPIu/
-         RaNg==
-X-Gm-Message-State: AOAM530ifCoyAs89TOk0OI+3j3uCtpzkzoOWxUP9f+XQLlZKcPUNfDYQ
-	fKXQ35nGymBvGSFr+G2Mwptskw==
-X-Google-Smtp-Source: ABdhPJzs81AaVEdLfM6WJF6PL3I2MMjsbXDZg4HB77e3GJh6/E1aTiZtsulTHatvyY7B9T7VLZpWSA==
-X-Received: by 2002:a05:600c:b50:: with SMTP id k16mr1202962wmr.137.1623371112344;
-        Thu, 10 Jun 2021 17:25:12 -0700 (PDT)
+        bh=xGuPSUB9sCPvLS2yL88leKFZzO4c9wu8DLnphDQRpqw=;
+        b=RV9R0T2xdwYVeZy6y9RXfSgdYxD1II+aGwHGHNWKMdbrx4i2SBhXzmTUMXvrzny/wA
+         jQXasPjtyt/ZzmtwCEwY9dhwXddIPmErhVt2ct4AWz6VobrR8cCCrSLDybteArk5UBQa
+         hQx1hrXq8uV/rJ/wQCz/YN/gB2S0csGJA5sz0zzEDNtmfOoimEJKaEegZDVm1WrML/rE
+         81EObfbsuagIURZ5aO66TPlUV3+0PX35+wEpS41qAMAgz0BaBcSL/MGXP/TcY/DdUXX4
+         d8KYP1r4e8onEM9Td+UsRVaOJjMKWZnMKU8Sxx4u2jDJNSlwNXRqXmHU2ozsUmagJUhr
+         HnhQ==
+X-Gm-Message-State: AOAM532PRML4wrIcuNnB1r18qZnpHul+7eIkVmEMdVmAiAIwdjBEqtj6
+	CJaykc/rLzWHsKHqKn8DEf20HA==
+X-Google-Smtp-Source: ABdhPJwJeHUbhPpwXPJs8XovzHcTqzE9JFPHXej9JoYnitj9PqpW23zGDIOnfWajBH8YJmzEc5ue8g==
+X-Received: by 2002:adf:d1cd:: with SMTP id b13mr897643wrd.317.1623371113380;
+        Thu, 10 Jun 2021 17:25:13 -0700 (PDT)
 Received: from localhost.localdomain (2.0.5.1.1.6.3.8.5.c.c.3.f.b.d.3.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16:0:3dbf:3cc5:8361:1502])
-        by smtp.gmail.com with ESMTPSA id c2sm11386189wmf.24.2021.06.10.17.25.11
+        by smtp.gmail.com with ESMTPSA id c2sm11386189wmf.24.2021.06.10.17.25.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jun 2021 17:25:11 -0700 (PDT)
+        Thu, 10 Jun 2021 17:25:12 -0700 (PDT)
 From: Phillip Potter <phil@philpotter.co.uk>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -49,15 +49,16 @@ Cc: Larry.Finger@lwfinger.net,
 	martin@kaiser.cx,
 	bkkarthik@pesu.pes.edu,
 	dan.carpenter@oracle.com
-Subject: [PATCH 4/6] staging: rtl8188eu: remove ODM_RT_TRACE calls from hal/odm.c
-Date: Fri, 11 Jun 2021 01:25:02 +0100
-Message-Id: <20210611002504.166405-5-phil@philpotter.co.uk>
+Subject: [PATCH 5/6] staging: rtl8188eu: remove DebugComponents/DebugLevel from odm_dm_struct
+Date: Fri, 11 Jun 2021 01:25:03 +0100
+Message-Id: <20210611002504.166405-6-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210611002504.166405-4-phil@philpotter.co.uk>
+In-Reply-To: <20210611002504.166405-5-phil@philpotter.co.uk>
 References: <20210611002504.166405-1-phil@philpotter.co.uk>
  <20210611002504.166405-2-phil@philpotter.co.uk>
  <20210611002504.166405-3-phil@philpotter.co.uk>
  <20210611002504.166405-4-phil@philpotter.co.uk>
+ <20210611002504.166405-5-phil@philpotter.co.uk>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -65,356 +66,112 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove all ODM_RT_TRACE calls from hal/odm.c, as this debug code
-is not optimal and doesn't follow best practices. This in concert with
-other removals allows for the removal of include/odm_debug.h in its
-entirety.
-
-Also remove three functions and their header declarations, as these
-functions just contain ODM_RT_TRACE calls and nothing else.
+Remove DebugComponents and DebugLevel fields from the struct odm_dm_struct
+definition in include/odm.h, and remove the function ODM_InitDebugSetting
+from hal/odm.c along with all lines where it is called. This function
+just sets these two fields. Lastly, remove a few unused variable declarations.
 
 Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 ---
- drivers/staging/rtl8188eu/hal/odm.c           | 141 ++----------------
- .../staging/rtl8188eu/include/odm_precomp.h   |   3 -
- 2 files changed, 9 insertions(+), 135 deletions(-)
+ drivers/staging/rtl8188eu/hal/odm.c         | 9 ---------
+ drivers/staging/rtl8188eu/hal/phy.c         | 2 --
+ drivers/staging/rtl8188eu/hal/rtl8188e_dm.c | 2 --
+ drivers/staging/rtl8188eu/hal/usb_halinit.c | 5 -----
+ drivers/staging/rtl8188eu/include/odm.h     | 2 --
+ 5 files changed, 20 deletions(-)
 
 diff --git a/drivers/staging/rtl8188eu/hal/odm.c b/drivers/staging/rtl8188eu/hal/odm.c
-index 041ee2965add..53959d310b47 100644
+index 53959d310b47..9febdc91b66a 100644
 --- a/drivers/staging/rtl8188eu/hal/odm.c
 +++ b/drivers/staging/rtl8188eu/hal/odm.c
-@@ -163,7 +163,6 @@ void ODM_DMInit(struct odm_dm_struct *pDM_Odm)
- {
- 	/* 2012.05.03 Luke: For all IC series */
- 	odm_CommonInfoSelfInit(pDM_Odm);
--	odm_CmnInfoInit_Debug(pDM_Odm);
- 	odm_DIGInit(pDM_Odm);
- 	odm_RateAdaptiveMaskInit(pDM_Odm);
+@@ -149,13 +149,6 @@ u8 CCKSwingTable_Ch14[CCK_TABLE_SIZE][8] = {
+ #define		RxDefaultAnt1		0x65a9
+ #define	RxDefaultAnt2		0x569a
  
-@@ -183,8 +182,6 @@ void ODM_DMInit(struct odm_dm_struct *pDM_Odm)
- void ODM_DMWatchdog(struct odm_dm_struct *pDM_Odm)
- {
- 	/* 2012.05.03 Luke: For all IC series */
--	odm_CmnInfoHook_Debug(pDM_Odm);
--	odm_CmnInfoUpdate_Debug(pDM_Odm);
- 	odm_CommonInfoSelfUpdate(pDM_Odm);
- 	odm_FalseAlarmCounterStatistics(pDM_Odm);
- 	odm_RSSIMonitorCheck(pDM_Odm);
-@@ -249,48 +246,6 @@ void odm_CommonInfoSelfUpdate(struct odm_dm_struct *pDM_Odm)
- 		pDM_Odm->bOneEntryOnly = false;
+-void ODM_InitDebugSetting(struct odm_dm_struct *pDM_Odm)
+-{
+-	pDM_Odm->DebugLevel = ODM_DBG_TRACE;
+-
+-	pDM_Odm->DebugComponents = 0;
+-}
+-
+ /* 3 Export Interface */
+ 
+ /*  2011/09/21 MH Add to describe different team necessary resource allocate?? */
+@@ -216,8 +209,6 @@ void odm_CommonInfoSelfInit(struct odm_dm_struct *pDM_Odm)
+ 
+ 	pDM_Odm->bCckHighPower = (bool)phy_query_bb_reg(adapter, 0x824, BIT(9));
+ 	pDM_Odm->RFPathRxEnable = (u8)phy_query_bb_reg(adapter, 0xc04, 0x0F);
+-
+-	ODM_InitDebugSetting(pDM_Odm);
  }
  
--void odm_CmnInfoInit_Debug(struct odm_dm_struct *pDM_Odm)
--{
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("%s==>\n", __func__));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("SupportPlatform=%d\n", pDM_Odm->SupportPlatform));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("SupportAbility=0x%x\n", pDM_Odm->SupportAbility));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("SupportInterface=%d\n", pDM_Odm->SupportInterface));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("SupportICType=0x%x\n", pDM_Odm->SupportICType));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("CutVersion=%d\n", pDM_Odm->CutVersion));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("BoardType=%d\n", pDM_Odm->BoardType));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("ExtLNA=%d\n", pDM_Odm->ExtLNA));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("ExtPA=%d\n", pDM_Odm->ExtPA));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("ExtTRSW=%d\n", pDM_Odm->ExtTRSW));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("PatchID=%d\n", pDM_Odm->PatchID));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("bInHctTest=%d\n", pDM_Odm->bInHctTest));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("bWIFITest=%d\n", pDM_Odm->bWIFITest));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("bDualMacSmartConcurrent=%d\n", pDM_Odm->bDualMacSmartConcurrent));
--}
--
--void odm_CmnInfoHook_Debug(struct odm_dm_struct *pDM_Odm)
--{
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("%s==>\n", __func__));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("pNumTxBytesUnicast=%llu\n", *pDM_Odm->pNumTxBytesUnicast));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("pNumRxBytesUnicast=%llu\n", *pDM_Odm->pNumRxBytesUnicast));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("pWirelessMode=0x%x\n", *pDM_Odm->pWirelessMode));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("pSecChOffset=%d\n", *pDM_Odm->pSecChOffset));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("pSecurity=%d\n", *pDM_Odm->pSecurity));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("pBandWidth=%d\n", *pDM_Odm->pBandWidth));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("pChannel=%d\n", *pDM_Odm->pChannel));
--
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("pbScanInProcess=%d\n", *pDM_Odm->pbScanInProcess));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("pbPowerSaving=%d\n", *pDM_Odm->pbPowerSaving));
--}
--
--void odm_CmnInfoUpdate_Debug(struct odm_dm_struct *pDM_Odm)
--{
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("%s==>\n", __func__));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("bWIFI_Direct=%d\n", pDM_Odm->bWIFI_Direct));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("bWIFI_Display=%d\n", pDM_Odm->bWIFI_Display));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("bLinked=%d\n", pDM_Odm->bLinked));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_COMMON, ODM_DBG_LOUD, ("RSSI_Min=%d\n", pDM_Odm->RSSI_Min));
--}
--
- void ODM_Write_DIG(struct odm_dm_struct *pDM_Odm, u8 CurrentIGI)
+ void odm_CommonInfoSelfUpdate(struct odm_dm_struct *pDM_Odm)
+diff --git a/drivers/staging/rtl8188eu/hal/phy.c b/drivers/staging/rtl8188eu/hal/phy.c
+index 34079275e57c..5d9ad09ced70 100644
+--- a/drivers/staging/rtl8188eu/hal/phy.c
++++ b/drivers/staging/rtl8188eu/hal/phy.c
+@@ -546,7 +546,6 @@ static u8 phy_path_a_rx_iqk(struct adapter *adapt, bool configPathB)
  {
- 	struct rtw_dig *pDM_DigTable = &pDM_Odm->DM_DigTable;
-@@ -341,23 +296,15 @@ void odm_DIG(struct odm_dm_struct *pDM_Odm)
- 	u8 dm_dig_max, dm_dig_min;
- 	u8 CurrentIGI = pDM_DigTable->CurIGValue;
+ 	u32 reg_eac, reg_e94, reg_e9c, reg_ea4, u4tmp;
+ 	u8 result = 0x00;
+-	struct odm_dm_struct *dm_odm = &adapt->HalData->odmpriv;
  
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_DIG, ODM_DBG_LOUD, ("%s()==>\n", __func__));
--	if ((!(pDM_Odm->SupportAbility & ODM_BB_DIG)) || (!(pDM_Odm->SupportAbility & ODM_BB_FA_CNT))) {
--		ODM_RT_TRACE(pDM_Odm, ODM_COMP_DIG, ODM_DBG_LOUD,
--			     ("%s() Return: SupportAbility ODM_BB_DIG or ODM_BB_FA_CNT is disabled\n", __func__));
-+	if ((!(pDM_Odm->SupportAbility & ODM_BB_DIG)) || (!(pDM_Odm->SupportAbility & ODM_BB_FA_CNT)))
- 		return;
--	}
+ 	/* 1 Get TXIMR setting */
+ 	/* modify RXIQK mode table */
+@@ -645,7 +644,6 @@ static u8 phy_path_b_iqk(struct adapter *adapt)
+ {
+ 	u32 regeac, regeb4, regebc, regec4, regecc;
+ 	u8 result = 0x00;
+-	struct odm_dm_struct *dm_odm = &adapt->HalData->odmpriv;
  
--	if (*pDM_Odm->pbScanInProcess) {
--		ODM_RT_TRACE(pDM_Odm, ODM_COMP_DIG, ODM_DBG_LOUD, ("%s() Return: In Scan Progress\n", __func__));
-+	if (*pDM_Odm->pbScanInProcess)
- 		return;
--	}
+ 	/* One shot, path B LOK & IQK */
+ 	phy_set_bb_reg(adapt, rIQK_AGC_Cont, bMaskDWord, 0x00000002);
+diff --git a/drivers/staging/rtl8188eu/hal/rtl8188e_dm.c b/drivers/staging/rtl8188eu/hal/rtl8188e_dm.c
+index 391c59490718..10e88f976163 100644
+--- a/drivers/staging/rtl8188eu/hal/rtl8188e_dm.c
++++ b/drivers/staging/rtl8188eu/hal/rtl8188e_dm.c
+@@ -165,11 +165,9 @@ void rtw_hal_dm_watchdog(struct adapter *Adapter)
+ void rtw_hal_dm_init(struct adapter *Adapter)
+ {
+ 	struct dm_priv *pdmpriv = &Adapter->HalData->dmpriv;
+-	struct odm_dm_struct *podmpriv = &Adapter->HalData->odmpriv;
  
- 	/* add by Neil Chen to avoid PSD is processing */
--	if (!pDM_Odm->bDMInitialGainEnable) {
--		ODM_RT_TRACE(pDM_Odm, ODM_COMP_DIG, ODM_DBG_LOUD, ("%s() Return: PSD is Processing\n", __func__));
-+	if (!pDM_Odm->bDMInitialGainEnable)
- 		return;
--	}
- 
- 	DIG_Dynamic_MIN = pDM_DigTable->DIG_Dynamic_MIN_0;
- 	FirstConnect = (pDM_Odm->bLinked) && (!pDM_DigTable->bMediaConnect_0);
-@@ -384,33 +331,20 @@ void odm_DIG(struct odm_dm_struct *pDM_Odm)
- 				DIG_Dynamic_MIN = DIG_MaxOfMin;
- 			else
- 				DIG_Dynamic_MIN = pDM_Odm->RSSI_Min;
--			ODM_RT_TRACE(pDM_Odm, ODM_COMP_DIG, ODM_DBG_LOUD,
--				     ("%s() : bOneEntryOnly=true,  DIG_Dynamic_MIN=0x%x\n",
--				      __func__, DIG_Dynamic_MIN));
--			ODM_RT_TRACE(pDM_Odm, ODM_COMP_DIG, ODM_DBG_LOUD,
--				     ("%s() : pDM_Odm->RSSI_Min=%d\n",
--				      __func__, pDM_Odm->RSSI_Min));
- 		} else if (pDM_Odm->SupportAbility & ODM_BB_ANT_DIV) {
- 			/* 1 Lower Bound for 88E AntDiv */
--			if (pDM_Odm->AntDivType == CG_TRX_HW_ANTDIV) {
-+			if (pDM_Odm->AntDivType == CG_TRX_HW_ANTDIV)
- 				DIG_Dynamic_MIN = (u8)pDM_DigTable->AntDiv_RSSI_max;
--				ODM_RT_TRACE(pDM_Odm, ODM_COMP_ANT_DIV, ODM_DBG_LOUD,
--					     ("%s(): pDM_DigTable->AntDiv_RSSI_max=%d\n",
--					      __func__, pDM_DigTable->AntDiv_RSSI_max));
--			}
- 		} else {
- 			DIG_Dynamic_MIN = dm_dig_min;
- 		}
- 	} else {
- 		pDM_DigTable->rx_gain_range_max = dm_dig_max;
- 		DIG_Dynamic_MIN = dm_dig_min;
--		ODM_RT_TRACE(pDM_Odm, ODM_COMP_DIG, ODM_DBG_LOUD, ("%s() : No Link\n", __func__));
- 	}
- 
- 	/* 1 Modify DIG lower bound, deal with abnormally large false alarm */
- 	if (pFalseAlmCnt->Cnt_all > 10000) {
--		ODM_RT_TRACE(pDM_Odm, ODM_COMP_DIG, ODM_DBG_LOUD, ("dm_DIG(): Abnormally false alarm case.\n"));
--
- 		if (pDM_DigTable->LargeFAHit != 3)
- 			pDM_DigTable->LargeFAHit++;
- 		if (pDM_DigTable->ForbiddenIGI < CurrentIGI) {
-@@ -435,27 +369,20 @@ void odm_DIG(struct odm_dm_struct *pDM_Odm)
- 				if ((pDM_DigTable->ForbiddenIGI - 1) < DIG_Dynamic_MIN) { /* DM_DIG_MIN) */
- 					pDM_DigTable->ForbiddenIGI = DIG_Dynamic_MIN; /* DM_DIG_MIN; */
- 					pDM_DigTable->rx_gain_range_min = DIG_Dynamic_MIN; /* DM_DIG_MIN; */
--					ODM_RT_TRACE(pDM_Odm, ODM_COMP_DIG, ODM_DBG_LOUD, ("%s(): Normal Case: At Lower Bound\n", __func__));
- 				} else {
- 					pDM_DigTable->ForbiddenIGI--;
- 					pDM_DigTable->rx_gain_range_min = (pDM_DigTable->ForbiddenIGI + 1);
--					ODM_RT_TRACE(pDM_Odm, ODM_COMP_DIG, ODM_DBG_LOUD, ("%s(): Normal Case: Approach Lower Bound\n", __func__));
- 				}
- 			} else {
- 				pDM_DigTable->LargeFAHit = 0;
- 			}
- 		}
- 	}
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_DIG, ODM_DBG_LOUD,
--		     ("%s(): pDM_DigTable->LargeFAHit=%d\n",
--		      __func__, pDM_DigTable->LargeFAHit));
- 
- 	/* 1 Adjust initial gain by false alarm */
- 	if (pDM_Odm->bLinked) {
--		ODM_RT_TRACE(pDM_Odm, ODM_COMP_DIG, ODM_DBG_LOUD, ("%s(): DIG AfterLink\n", __func__));
- 		if (FirstConnect) {
- 			CurrentIGI = pDM_Odm->RSSI_Min;
--			ODM_RT_TRACE(pDM_Odm, ODM_COMP_DIG, ODM_DBG_LOUD, ("DIG: First Connect\n"));
- 		} else {
- 			if (pFalseAlmCnt->Cnt_all > DM_DIG_FA_TH2)
- 				CurrentIGI = CurrentIGI + 4;/* pDM_DigTable->CurIGValue = pDM_DigTable->PreIGValue+2; */
-@@ -465,10 +392,8 @@ void odm_DIG(struct odm_dm_struct *pDM_Odm)
- 				CurrentIGI = CurrentIGI - 2;/* pDM_DigTable->CurIGValue =pDM_DigTable->PreIGValue-1; */
- 		}
- 	} else {
--		ODM_RT_TRACE(pDM_Odm, ODM_COMP_DIG, ODM_DBG_LOUD, ("%s(): DIG BeforeLink\n", __func__));
- 		if (FirstDisConnect) {
- 			CurrentIGI = pDM_DigTable->rx_gain_range_min;
--			ODM_RT_TRACE(pDM_Odm, ODM_COMP_DIG, ODM_DBG_LOUD, ("%s(): First DisConnect\n", __func__));
- 		} else {
- 			/* 2012.03.30 LukeLee: enable DIG before link but with very high thresholds */
- 			if (pFalseAlmCnt->Cnt_all > 10000)
-@@ -477,24 +402,15 @@ void odm_DIG(struct odm_dm_struct *pDM_Odm)
- 				CurrentIGI = CurrentIGI + 1;/* pDM_DigTable->CurIGValue = pDM_DigTable->PreIGValue+1; */
- 			else if (pFalseAlmCnt->Cnt_all < 500)
- 				CurrentIGI = CurrentIGI - 1;/* pDM_DigTable->CurIGValue =pDM_DigTable->PreIGValue-1; */
--			ODM_RT_TRACE(pDM_Odm, ODM_COMP_DIG, ODM_DBG_LOUD, ("%s(): England DIG\n", __func__));
- 		}
- 	}
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_DIG, ODM_DBG_LOUD, ("%s(): DIG End Adjust IGI\n", __func__));
- 	/* 1 Check initial gain by upper/lower bound */
- 	if (CurrentIGI > pDM_DigTable->rx_gain_range_max)
- 		CurrentIGI = pDM_DigTable->rx_gain_range_max;
- 	if (CurrentIGI < pDM_DigTable->rx_gain_range_min)
- 		CurrentIGI = pDM_DigTable->rx_gain_range_min;
- 
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_DIG, ODM_DBG_LOUD,
--		     ("%s(): rx_gain_range_max=0x%x, rx_gain_range_min=0x%x\n",
--		      __func__, pDM_DigTable->rx_gain_range_max, pDM_DigTable->rx_gain_range_min));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_DIG, ODM_DBG_LOUD, ("%s(): TotalFA=%d\n", __func__, pFalseAlmCnt->Cnt_all));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_DIG, ODM_DBG_LOUD, ("%s(): CurIGValue=0x%x\n", __func__, CurrentIGI));
--
- 	/* 2 High power RSSI threshold */
--
- 	ODM_Write_DIG(pDM_Odm, CurrentIGI);/* ODM_Write_DIG(pDM_Odm, pDM_DigTable->CurIGValue); */
- 	pDM_DigTable->bMediaConnect_0 = pDM_Odm->bLinked;
- 	pDM_DigTable->DIG_Dynamic_MIN_0 = DIG_Dynamic_MIN;
-@@ -558,20 +474,6 @@ void odm_FalseAlarmCounterStatistics(struct odm_dm_struct *pDM_Odm)
- 				FalseAlmCnt->Cnt_Cck_fail);
- 
- 	FalseAlmCnt->Cnt_CCA_all = FalseAlmCnt->Cnt_OFDM_CCA + FalseAlmCnt->Cnt_CCK_CCA;
--
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_FA_CNT, ODM_DBG_LOUD, ("Enter %s\n", __func__));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_FA_CNT, ODM_DBG_LOUD,
--		     ("Cnt_Fast_Fsync=%d, Cnt_SB_Search_fail=%d\n",
--		     FalseAlmCnt->Cnt_Fast_Fsync, FalseAlmCnt->Cnt_SB_Search_fail));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_FA_CNT, ODM_DBG_LOUD,
--		     ("Cnt_Parity_Fail=%d, Cnt_Rate_Illegal=%d\n",
--		     FalseAlmCnt->Cnt_Parity_Fail, FalseAlmCnt->Cnt_Rate_Illegal));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_FA_CNT, ODM_DBG_LOUD,
--		     ("Cnt_Crc8_fail=%d, Cnt_Mcs_fail=%d\n",
--		     FalseAlmCnt->Cnt_Crc8_fail, FalseAlmCnt->Cnt_Mcs_fail));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_FA_CNT, ODM_DBG_LOUD, ("Cnt_Cck_fail=%d\n", FalseAlmCnt->Cnt_Cck_fail));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_FA_CNT, ODM_DBG_LOUD, ("Cnt_Ofdm_fail=%d\n", FalseAlmCnt->Cnt_Ofdm_fail));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_FA_CNT, ODM_DBG_LOUD, ("Total False Alarm=%d\n", FalseAlmCnt->Cnt_all));
+ 	memset(pdmpriv, 0, sizeof(struct dm_priv));
+ 	Init_ODM_ComInfo_88E(Adapter);
+-	ODM_InitDebugSetting(podmpriv);
  }
  
- /* 3============================================================ */
-@@ -752,10 +654,6 @@ u32 ODM_Get_Rate_Bitmap(struct odm_dm_struct *pDM_Odm, u32 macid, u32 ra_mask, u
+ /*  Add new function to reset the state of antenna diversity before link. */
+diff --git a/drivers/staging/rtl8188eu/hal/usb_halinit.c b/drivers/staging/rtl8188eu/hal/usb_halinit.c
+index 80cdcf6f7879..3e7f184ed39a 100644
+--- a/drivers/staging/rtl8188eu/hal/usb_halinit.c
++++ b/drivers/staging/rtl8188eu/hal/usb_halinit.c
+@@ -1851,11 +1851,6 @@ u8 rtw_hal_get_def_var(struct adapter *Adapter, enum hal_def_variable eVariable,
+ 		}
  		break;
- 	}
- 
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_RA_MASK, ODM_DBG_LOUD,
--		     (" ==> rssi_level:0x%02x, WirelessMode:0x%02x, rate_bitmap:0x%08x\n",
--		     rssi_level, WirelessMode, rate_bitmap));
+ 	case HW_DEF_ODM_DBG_FLAG:
+-		{
+-			struct odm_dm_struct *dm_ocm = &haldata->odmpriv;
 -
- 	return rate_bitmap;
- }
+-			pr_info("dm_ocm->DebugComponents = 0x%llx\n", dm_ocm->DebugComponents);
+-		}
+ 		break;
+ 	case HAL_DEF_DBG_DUMP_RXPKT:
+ 		*((u8 *)pValue) = haldata->bDumpRxPkt;
+diff --git a/drivers/staging/rtl8188eu/include/odm.h b/drivers/staging/rtl8188eu/include/odm.h
+index d814ce492424..98402cfb1168 100644
+--- a/drivers/staging/rtl8188eu/include/odm.h
++++ b/drivers/staging/rtl8188eu/include/odm.h
+@@ -691,8 +691,6 @@ struct odm_dm_struct {
+ 	bool	odm_ready;
  
-@@ -777,26 +675,18 @@ void odm_RefreshRateAdaptiveMaskCE(struct odm_dm_struct *pDM_Odm)
- 	u8 i;
- 	struct adapter *pAdapter = pDM_Odm->Adapter;
+ 	struct rtl8192cd_priv *fake_priv;
+-	u64	DebugComponents;
+-	u32	DebugLevel;
  
--	if (pAdapter->bDriverStopped) {
--		ODM_RT_TRACE(pDM_Odm, ODM_COMP_RA_MASK, ODM_DBG_TRACE, ("<---- odm_RefreshRateAdaptiveMask(): driver is going to unload\n"));
-+	if (pAdapter->bDriverStopped)
- 		return;
--	}
- 
--	if (!pDM_Odm->bUseRAMask) {
--		ODM_RT_TRACE(pDM_Odm, ODM_COMP_RA_MASK, ODM_DBG_LOUD, ("<---- odm_RefreshRateAdaptiveMask(): driver does not control rate adaptive mask\n"));
-+	if (!pDM_Odm->bUseRAMask)
- 		return;
--	}
- 
- 	for (i = 0; i < ODM_ASSOCIATE_ENTRY_NUM; i++) {
- 		struct sta_info *pstat = pDM_Odm->pODM_StaInfo[i];
- 
- 		if (IS_STA_VALID(pstat)) {
--			if (ODM_RAStateCheck(pDM_Odm, pstat->rssi_stat.UndecoratedSmoothedPWDB, false, &pstat->rssi_level)) {
--				ODM_RT_TRACE(pDM_Odm, ODM_COMP_RA_MASK, ODM_DBG_LOUD,
--					     ("RSSI:%d, RSSI_LEVEL:%d\n",
--					     pstat->rssi_stat.UndecoratedSmoothedPWDB, pstat->rssi_level));
-+			if (ODM_RAStateCheck(pDM_Odm, pstat->rssi_stat.UndecoratedSmoothedPWDB, false, &pstat->rssi_level))
- 				rtw_hal_update_ra_mask(pAdapter, i, pstat->rssi_level);
--			}
- 		}
- 	}
- }
-@@ -840,7 +730,6 @@ bool ODM_RAStateCheck(struct odm_dm_struct *pDM_Odm, s32 RSSI, bool bForceUpdate
- 		RATRState = DM_RATR_STA_LOW;
- 
- 	if (*pRATRState != RATRState || bForceUpdate) {
--		ODM_RT_TRACE(pDM_Odm, ODM_COMP_RA_MASK, ODM_DBG_LOUD, ("RSSI Level %d -> %d\n", *pRATRState, RATRState));
- 		*pRATRState = RATRState;
- 		return true;
- 	}
-@@ -979,20 +868,16 @@ void ODM_TXPowerTrackingCheck(struct odm_dm_struct *pDM_Odm)
- 
- void odm_InitHybridAntDiv(struct odm_dm_struct *pDM_Odm)
- {
--	if (!(pDM_Odm->SupportAbility & ODM_BB_ANT_DIV)) {
--		ODM_RT_TRACE(pDM_Odm, ODM_COMP_ANT_DIV, ODM_DBG_LOUD, ("Return: Not Support HW AntDiv\n"));
-+	if (!(pDM_Odm->SupportAbility & ODM_BB_ANT_DIV))
- 		return;
--	}
- 
- 	rtl88eu_dm_antenna_div_init(pDM_Odm);
- }
- 
- void odm_HwAntDiv(struct odm_dm_struct *pDM_Odm)
- {
--	if (!(pDM_Odm->SupportAbility & ODM_BB_ANT_DIV)) {
--		ODM_RT_TRACE(pDM_Odm, ODM_COMP_ANT_DIV, ODM_DBG_LOUD, ("Return: Not Support HW AntDiv\n"));
-+	if (!(pDM_Odm->SupportAbility & ODM_BB_ANT_DIV))
- 		return;
--	}
- 
- 	rtl88eu_dm_antenna_diversity(pDM_Odm);
- }
-@@ -1005,11 +890,6 @@ void ODM_EdcaTurboInit(struct odm_dm_struct *pDM_Odm)
- 	pDM_Odm->DM_EDCA_Table.bCurrentTurboEDCA = false;
- 	pDM_Odm->DM_EDCA_Table.bIsCurRDLState = false;
- 	Adapter->recvpriv.bIsAnyNonBEPkts = false;
--
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_EDCA_TURBO, ODM_DBG_LOUD, ("Original VO PARAM: 0x%x\n", usb_read32(Adapter, ODM_EDCA_VO_PARAM)));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_EDCA_TURBO, ODM_DBG_LOUD, ("Original VI PARAM: 0x%x\n", usb_read32(Adapter, ODM_EDCA_VI_PARAM)));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_EDCA_TURBO, ODM_DBG_LOUD, ("Original BE PARAM: 0x%x\n", usb_read32(Adapter, ODM_EDCA_BE_PARAM)));
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_EDCA_TURBO, ODM_DBG_LOUD, ("Original BK PARAM: 0x%x\n", usb_read32(Adapter, ODM_EDCA_BK_PARAM)));
- }	/*  ODM_InitEdcaTurbo */
- 
- void odm_EdcaTurboCheck(struct odm_dm_struct *pDM_Odm)
-@@ -1017,13 +897,10 @@ void odm_EdcaTurboCheck(struct odm_dm_struct *pDM_Odm)
- 	/*  2011/09/29 MH In HW integration first stage, we provide 4 different handle to operate */
- 	/*  at the same time. In the stage2/3, we need to prive universal interface and merge all */
- 	/*  HW dynamic mechanism. */
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_EDCA_TURBO, ODM_DBG_LOUD, ("%s========================>\n", __func__));
--
- 	if (!(pDM_Odm->SupportAbility & ODM_MAC_EDCA_TURBO))
- 		return;
- 
- 	odm_EdcaTurboCheckCE(pDM_Odm);
--	ODM_RT_TRACE(pDM_Odm, ODM_COMP_EDCA_TURBO, ODM_DBG_LOUD, ("<========================%s\n", __func__));
- }	/*  odm_CheckEdcaTurbo */
- 
- void odm_EdcaTurboCheckCE(struct odm_dm_struct *pDM_Odm)
-diff --git a/drivers/staging/rtl8188eu/include/odm_precomp.h b/drivers/staging/rtl8188eu/include/odm_precomp.h
-index 5254d875f96b..ef1afc83f9ac 100644
---- a/drivers/staging/rtl8188eu/include/odm_precomp.h
-+++ b/drivers/staging/rtl8188eu/include/odm_precomp.h
-@@ -33,8 +33,6 @@
- 
- #include "odm_rtl8188e.h"
- 
--void odm_CmnInfoHook_Debug(struct odm_dm_struct *pDM_Odm);
--void odm_CmnInfoInit_Debug(struct odm_dm_struct *pDM_Odm);
- void odm_DIGInit(struct odm_dm_struct *pDM_Odm);
- void odm_RateAdaptiveMaskInit(struct odm_dm_struct *pDM_Odm);
- void odm_DynamicBBPowerSavingInit(struct odm_dm_struct *pDM_Odm);
-@@ -42,7 +40,6 @@ void odm_DynamicTxPowerInit(struct odm_dm_struct *pDM_Odm);
- void odm_TXPowerTrackingInit(struct odm_dm_struct *pDM_Odm);
- void ODM_EdcaTurboInit(struct odm_dm_struct *pDM_Odm);
- void odm_SwAntDivInit_NIC(struct odm_dm_struct *pDM_Odm);
--void odm_CmnInfoUpdate_Debug(struct odm_dm_struct *pDM_Odm);
- void odm_CommonInfoSelfUpdate(struct odm_dm_struct *pDM_Odm);
- void odm_FalseAlarmCounterStatistics(struct odm_dm_struct *pDM_Odm);
- void odm_DIG(struct odm_dm_struct *pDM_Odm);
+ /*  ODM HANDLE, DRIVER NEEDS NOT TO HOOK------ */
+ 	bool	bCckHighPower;
 -- 
 2.30.2
 
