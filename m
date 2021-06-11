@@ -1,55 +1,38 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48B0172
-	for <linux-staging@lists.linux.dev>; Fri, 11 Jun 2021 09:10:39 +0000 (UTC)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15B9233W003696;
-	Fri, 11 Jun 2021 09:10:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=bGanNVUBgNjd1eZt2e98FlPpYQ8940Oh/K0u9giUnv0=;
- b=m4DHDOaUX5covrDCV4e7TTBrRgemnEA++KEikMN1vIc9PfJqDW318lBsWrjNicreJH9X
- PsOXTcF4yXQkVeCvpLu0hTX6Iw2P92eYd0nD2iFgF5jATfbmcGtU9dyZeJ7PYKe/Sp3B
- Ln7Nklp8sxXknTpRVxucvoiWnnOrIlNlVN/gzXF5TOy+Kf1wlwUXe7xuR6EDsRBggVOF
- Bp/MYkX53KMT22pnPYWZQCDdaCJD2YYNPirGrBwmnLU4xatNE1/OOfJ1kJ0n+EAQUPWC
- 82Rjx+NIv/uHZ6jlwvD5rO1VdLRc7phcYL7lxt9IyJZEykp78XDhdK2zF/lNs4bbn7OM ZA== 
-Received: from oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by mx0b-00069f02.pphosted.com with ESMTP id 392yvb8qkm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 11 Jun 2021 09:10:24 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 15B97NEn081162;
-	Fri, 11 Jun 2021 09:10:23 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3020.oracle.com with ESMTP id 3922x1wumt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 11 Jun 2021 09:10:23 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15B9629N073920;
-	Fri, 11 Jun 2021 09:10:22 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-	by aserp3020.oracle.com with ESMTP id 3922x1wuk1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 11 Jun 2021 09:10:22 +0000
-Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
-	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 15B9AKaa002888;
-	Fri, 11 Jun 2021 09:10:20 GMT
-Received: from kadam (/41.212.42.34)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Fri, 11 Jun 2021 02:10:20 -0700
-Date: Fri, 11 Jun 2021 12:10:10 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Phillip Potter <phil@philpotter.co.uk>
-Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
-        straube.linux@gmail.com, kaixuxia@tencent.com,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        liushixin2@huawei.com, unixbhaskar@gmail.com, gustavoars@kernel.org,
-        martin@kaiser.cx, bkkarthik@pesu.pes.edu
-Subject: Re: [PATCH 0/6] staging: rtl8188eu: remove hal/odm_debug.h
-Message-ID: <20210611091010.GE10983@kadam>
-References: <20210611002504.166405-1-phil@philpotter.co.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7AAE72
+	for <linux-staging@lists.linux.dev>; Fri, 11 Jun 2021 09:59:59 +0000 (UTC)
+IronPort-SDR: T7lKCEWM741L94zg1RyvdSy3ecnRXOk8PR89vGKMO/Z7anrw6LQaTO7gC+AvF8gRiIkazYOeTg
+ b0lklYzLQ8vQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="185189109"
+X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; 
+   d="scan'208";a="185189109"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2021 02:59:58 -0700
+IronPort-SDR: fkhDfSlQ9vKy2UjFBMV6u4V7kKolzSzvRQ9J+MTp+VU583mEzKSoxIs4kcnXIGdjuJeL0KWhkK
+ OhtlES0XpWyA==
+X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; 
+   d="scan'208";a="552649386"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2021 02:59:55 -0700
+Received: from andy by smile with local (Exim 4.94)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1lrdxA-001TlT-E8; Fri, 11 Jun 2021 12:59:52 +0300
+Date: Fri, 11 Jun 2021 12:59:52 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Baokun Li <libaokun1@huawei.com>
+Cc: mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org, kaixuxia@tencent.com,
+	gustavoars@kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	weiyongjun1@huawei.com, yuehaibing@huawei.com,
+	yangjihong1@huawei.com, yukuai3@huawei.com,
+	Hulk Robot <hulkci@huawei.com>
+Subject: Re: [PATCH -next v3] media: staging: atomisp: use list_splice_init
+ in atomisp_compat_css20.c
+Message-ID: <YMM0GO4Ny6j/FvQV@smile.fi.intel.com>
+References: <20210611081004.1348026-1-libaokun1@huawei.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -57,24 +40,85 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210611002504.166405-1-phil@philpotter.co.uk>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: 6NkT5LD6oX42U-iImRoBumv2XmkAEoGa
-X-Proofpoint-GUID: 6NkT5LD6oX42U-iImRoBumv2XmkAEoGa
+In-Reply-To: <20210611081004.1348026-1-libaokun1@huawei.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Fri, Jun 11, 2021 at 01:24:58AM +0100, Phillip Potter wrote:
-> This series removes hal/odm_debug.h, which contains various preprocessor
-> definitions, as well as an unwieldy ODM_RT_TRACE macro which is not best
-> practice. It also removes all uses of this macro, and the associated
-> fields in struct odm_dm_struct which are only used by this macro.
+On Fri, Jun 11, 2021 at 04:10:04PM +0800, Baokun Li wrote:
+> Using list_splice_init() instead of entire while-loops
+> in atomisp_compat_css20.c.
+
+Seems fine to me.
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Baokun Li <libaokun1@huawei.com>
+> ---
+> V1->V2:
+> 	CC mailist
+> V2->V3:
+>         Using list_move_tail() -> Using list_splice_init()
 > 
-> This makes the code cleaner, thus moving it closer to getting out of
-> staging.
+>  .../media/atomisp/pci/atomisp_compat_css20.c  | 35 +++----------------
+>  1 file changed, 5 insertions(+), 30 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+> index f60198bb8a1a..3844180d32b5 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+> @@ -2144,42 +2144,17 @@ void atomisp_css_stop(struct atomisp_sub_device *asd,
+>  	}
+>  
+>  	/* move stats buffers to free queue list */
+> -	while (!list_empty(&asd->s3a_stats_in_css)) {
+> -		s3a_buf = list_entry(asd->s3a_stats_in_css.next,
+> -				     struct atomisp_s3a_buf, list);
+> -		list_del(&s3a_buf->list);
+> -		list_add_tail(&s3a_buf->list, &asd->s3a_stats);
+> -	}
+> -	while (!list_empty(&asd->s3a_stats_ready)) {
+> -		s3a_buf = list_entry(asd->s3a_stats_ready.next,
+> -				     struct atomisp_s3a_buf, list);
+> -		list_del(&s3a_buf->list);
+> -		list_add_tail(&s3a_buf->list, &asd->s3a_stats);
+> -	}
+> +	list_splice_init(&asd->s3a_stats_in_css, &asd->s3a_stats);
+> +	list_splice_init(&asd->s3a_stats_ready, &asd->s3a_stats);
+>  
+>  	spin_lock_irqsave(&asd->dis_stats_lock, irqflags);
+> -	while (!list_empty(&asd->dis_stats_in_css)) {
+> -		dis_buf = list_entry(asd->dis_stats_in_css.next,
+> -				     struct atomisp_dis_buf, list);
+> -		list_del(&dis_buf->list);
+> -		list_add_tail(&dis_buf->list, &asd->dis_stats);
+> -	}
+> +	list_splice_init(&asd->dis_stats_in_css, &asd->dis_stats);
+>  	asd->params.dis_proj_data_valid = false;
+>  	spin_unlock_irqrestore(&asd->dis_stats_lock, irqflags);
+>  
+>  	for (i = 0; i < ATOMISP_METADATA_TYPE_NUM; i++) {
+> -		while (!list_empty(&asd->metadata_in_css[i])) {
+> -			md_buf = list_entry(asd->metadata_in_css[i].next,
+> -					    struct atomisp_metadata_buf, list);
+> -			list_del(&md_buf->list);
+> -			list_add_tail(&md_buf->list, &asd->metadata[i]);
+> -		}
+> -		while (!list_empty(&asd->metadata_ready[i])) {
+> -			md_buf = list_entry(asd->metadata_ready[i].next,
+> -					    struct atomisp_metadata_buf, list);
+> -			list_del(&md_buf->list);
+> -			list_add_tail(&md_buf->list, &asd->metadata[i]);
+> -		}
+> +		list_splice_init(&asd->metadata_in_css[i], &asd->asd->metadata[i]);
+> +		list_splice_init(&asd->metadata_ready[i], &asd->asd->metadata[i]);
+>  	}
+>  
+>  	atomisp_flush_params_queue(&asd->video_out_capture);
+> -- 
+> 2.31.1
+> 
 
-Looks good.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-regards,
-dan carpenter
 
