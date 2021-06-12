@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6036D0D
-	for <linux-staging@lists.linux.dev>; Sat, 12 Jun 2021 18:01:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85DEF6D0D
+	for <linux-staging@lists.linux.dev>; Sat, 12 Jun 2021 18:01:22 +0000 (UTC)
 Received: from dslb-188-097-213-151.188.097.pools.vodafone-ip.de ([188.97.213.151] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1ls7wa-0003B8-88; Sat, 12 Jun 2021 20:01:16 +0200
+	id 1ls7we-0003B8-Iv; Sat, 12 Jun 2021 20:01:20 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -15,9 +15,9 @@ Cc: linux-staging@lists.linux.dev,
 	kernel-janitors@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 5/6] staging: rtl8188eu: remove another write-only member
-Date: Sat, 12 Jun 2021 20:00:18 +0200
-Message-Id: <20210612180019.20387-5-martin@kaiser.cx>
+Subject: [PATCH 6/6] staging: rtl8188eu: remove RT_TRACE and DBG_88E prints from usb_intf.c
+Date: Sat, 12 Jun 2021 20:00:19 +0200
+Message-Id: <20210612180019.20387-6-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210612180019.20387-1-martin@kaiser.cx>
 References: <20210612180019.20387-1-martin@kaiser.cx>
@@ -28,38 +28,118 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-bAPKThermalMeterIgnore in struct hal_data_8188e is never read and can
-be removed.
+These prints are disabled by default.
+
+Replace the print after dev_alloc_name with proper error handling.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c | 1 -
- drivers/staging/rtl8188eu/include/rtl8188e_hal.h  | 1 -
- 2 files changed, 2 deletions(-)
+ drivers/staging/rtl8188eu/os_dep/usb_intf.c | 30 +++------------------
+ 1 file changed, 3 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
-index 95b27b4df705..0b46af1755ed 100644
---- a/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
-+++ b/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
-@@ -567,7 +567,6 @@ void Hal_ReadThermalMeter_88E(struct adapter *Adapter, u8 *PROMContent, bool Aut
- 		pHalData->EEPROMThermalMeter = EEPROM_Default_ThermalMeter_88E;
+diff --git a/drivers/staging/rtl8188eu/os_dep/usb_intf.c b/drivers/staging/rtl8188eu/os_dep/usb_intf.c
+index 3a970d67aa8c..b03d6aa629ad 100644
+--- a/drivers/staging/rtl8188eu/os_dep/usb_intf.c
++++ b/drivers/staging/rtl8188eu/os_dep/usb_intf.c
+@@ -143,16 +143,6 @@ static void usb_dvobj_deinit(struct usb_interface *usb_intf)
  
- 	if (pHalData->EEPROMThermalMeter == 0xff || AutoloadFail) {
--		pHalData->bAPKThermalMeterIgnore = true;
- 		pHalData->EEPROMThermalMeter = EEPROM_Default_ThermalMeter_88E;
+ void usb_intf_stop(struct adapter *padapter)
+ {
+-	RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("+%s\n", __func__));
+-
+-	/* disable_hw_interrupt */
+-	if (!padapter->bSurpriseRemoved) {
+-		/* device still exists, so driver can do i/o operation */
+-		/* TODO: */
+-		RT_TRACE(_module_hci_intfs_c_, _drv_err_,
+-			 ("SurpriseRemoved == false\n"));
+-	}
+-
+ 	/* cancel in irp */
+ 	rtw_hal_inirp_deinit(padapter);
+ 
+@@ -160,14 +150,10 @@ void usb_intf_stop(struct adapter *padapter)
+ 	usb_write_port_cancel(padapter);
+ 
+ 	/* todo:cancel other irps */
+-
+-	RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("-%s\n", __func__));
+ }
+ 
+ static void rtw_dev_unload(struct adapter *padapter)
+ {
+-	RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("+%s\n", __func__));
+-
+ 	if (padapter->bup) {
+ 		pr_debug("===> %s\n", __func__);
+ 		padapter->bDriverStopped = true;
+@@ -186,14 +172,9 @@ static void rtw_dev_unload(struct adapter *padapter)
+ 		}
+ 
+ 		padapter->bup = false;
+-	} else {
+-		RT_TRACE(_module_hci_intfs_c_, _drv_err_,
+-			 ("r871x_dev_unload():padapter->bup == false\n"));
  	}
- 	DBG_88E("ThermalMeter = 0x%x\n", pHalData->EEPROMThermalMeter);
-diff --git a/drivers/staging/rtl8188eu/include/rtl8188e_hal.h b/drivers/staging/rtl8188eu/include/rtl8188e_hal.h
-index 20049bdf39f5..0bfab5990d27 100644
---- a/drivers/staging/rtl8188eu/include/rtl8188e_hal.h
-+++ b/drivers/staging/rtl8188eu/include/rtl8188e_hal.h
-@@ -208,7 +208,6 @@ struct hal_data_8188e {
  
- 	u8	bTXPowerDataReadFromEEPORM;
- 	u8	EEPROMThermalMeter;
--	u8	bAPKThermalMeterIgnore;
+ 	pr_debug("<=== %s\n", __func__);
+-
+-	RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("-%s\n", __func__));
+ }
  
- 	bool	EepromOrEfuse;
+ static int rtw_suspend(struct usb_interface *pusb_intf, pm_message_t message)
+@@ -351,7 +332,6 @@ static int rtw_usb_if1_init(struct usb_interface *pusb_intf)
+ 
+ 	padapter->HalData = kzalloc(sizeof(struct hal_data_8188e), GFP_KERNEL);
+ 	if (!padapter->HalData) {
+-		DBG_88E("Failed to allocate memory for HAL data\n");
+ 		err = -ENOMEM;
+ 		goto free_adapter;
+ 	}
+@@ -367,8 +347,6 @@ static int rtw_usb_if1_init(struct usb_interface *pusb_intf)
+ 
+ 	/* step 5. */
+ 	if (rtw_init_drv_sw(padapter) == _FAIL) {
+-		RT_TRACE(_module_hci_intfs_c_, _drv_err_,
+-			 ("Initialize driver software resource Failed!\n"));
+ 		err = -ENOMEM;
+ 		goto free_hal_data;
+ 	}
+@@ -388,8 +366,9 @@ static int rtw_usb_if1_init(struct usb_interface *pusb_intf)
+ 		pr_debug("can't get autopm:\n");
+ 
+ 	/*  alloc dev name after read efuse. */
+-	if (dev_alloc_name(pnetdev, padapter->registrypriv.ifname) < 0)
+-		RT_TRACE(_module_os_intfs_c_, _drv_err_, ("dev_alloc_name, fail!\n"));
++	err = dev_alloc_name(pnetdev, padapter->registrypriv.ifname)
++	if (err < 0)
++		goto free_hal_data;
+ 
+ 	netif_carrier_off(pnetdev);
+ 
+@@ -401,7 +380,6 @@ static int rtw_usb_if1_init(struct usb_interface *pusb_intf)
+ 	/* step 6. Tell the network stack we exist */
+ 	err = register_netdev(pnetdev);
+ 	if (err) {
+-		RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("register_netdev() failed\n"));
+ 		goto free_hal_data;
+ 	}
+ 
+@@ -478,7 +456,6 @@ static void rtw_dev_remove(struct usb_interface *pusb_intf)
+ 	struct adapter *padapter = dvobj->if1;
+ 
+ 	pr_debug("+%s\n", __func__);
+-	RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("+dev_remove()\n"));
+ 
+ 	if (!pusb_intf->unregistering)
+ 		padapter->bSurpriseRemoved = true;
+@@ -492,7 +469,6 @@ static void rtw_dev_remove(struct usb_interface *pusb_intf)
+ 
+ 	usb_dvobj_deinit(pusb_intf);
+ 
+-	RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("-dev_remove()\n"));
+ 	pr_debug("-r871xu_dev_remove, done\n");
+ }
  
 -- 
 2.20.1
