@@ -1,26 +1,54 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85DEF6D0D
-	for <linux-staging@lists.linux.dev>; Sat, 12 Jun 2021 18:01:22 +0000 (UTC)
-Received: from dslb-188-097-213-151.188.097.pools.vodafone-ip.de ([188.97.213.151] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1ls7we-0003B8-Iv; Sat, 12 Jun 2021 20:01:20 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 6/6] staging: rtl8188eu: remove RT_TRACE and DBG_88E prints from usb_intf.c
-Date: Sat, 12 Jun 2021 20:00:19 +0200
-Message-Id: <20210612180019.20387-6-martin@kaiser.cx>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210612180019.20387-1-martin@kaiser.cx>
-References: <20210612180019.20387-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22446173
+	for <linux-staging@lists.linux.dev>; Sat, 12 Jun 2021 18:19:49 +0000 (UTC)
+Received: by mail-qv1-f49.google.com with SMTP id l3so11288318qvl.0
+        for <linux-staging@lists.linux.dev>; Sat, 12 Jun 2021 11:19:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=f9oAAhhR1hjmXaKhdSjE/z7oNVThq6q341+U+T0q1uo=;
+        b=Iglrcm9IzKV2LkOwmVFFysbDdMVJBMOrlqfQTj5omAgGxNlaxbRHY/LhArTMz5nXu0
+         FBCHQxn3aal/atB5lXZCoZUmCUHSnnJlRqiWQTn8C1klf8I8ZGQR8LBIzMbzIoDXAgYl
+         OX81MIpQYNmJvYPnmqlOtolRXjCX6d5C7qHhsg17sdb4oqsFbNQzr9Wui4qeOwGEF1N2
+         pJDWn76NbRC20TqSzkuCgVGNjp4BFL2AMRL2aS7Sp+3bqhRpLParWAj/1NlZrYRT7TKz
+         IEzkOzg1PxKZH4npoazBCNO0GAx0W6Vqve/yYMRFuAKTSlEr5LzBEdDkK6N3WWbXfJTr
+         l9RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=f9oAAhhR1hjmXaKhdSjE/z7oNVThq6q341+U+T0q1uo=;
+        b=mqSbviq3QttBW+lm83vScEYfMiu6A2NWcB0Pzw9ZU5cJrbI6kVHk+lm+7MLCJdKPu0
+         iup5zCKiHluzMZJCJF6NAD+0ihsXJGuo/87dyqYhXw6psxDkzFqPgQVIUdoDjItfiYi8
+         mdSujmYeXR3e695aLmAhEfKWu4LXtSjFES0vFpvl8M7jFsA1Z6/WTnYbewIxjQbR0vfc
+         /X8bX72u9K2Fk5vzxQpyZb4t4Ywg8Dr9wlgLcBmcp7EVCZ7Xu2uSvfMC9LOaPVyeIWUA
+         p+UbXJtIvO23WiLKEImdjm+vrNP2MJ9MbkbhAzqrRg9jSGnIBq9XpQSMO9+efT3PAdHN
+         eZPw==
+X-Gm-Message-State: AOAM5319R0ubIIQKGb7IEG4PZ6X0Pre0PNWWHe1+Gpu6u032KQoahwlW
+	IUm/5aL5gG3RT6Y7n9Xnwu9Z0Q==
+X-Google-Smtp-Source: ABdhPJwDsAO48aJ4fsqd0ev7co262nUg8lkBnrElWZfMrkKQyei+WKlDndkG/wYFoQEJOUkGmceTJA==
+X-Received: by 2002:ad4:566f:: with SMTP id bm15mr10873676qvb.54.1623521988258;
+        Sat, 12 Jun 2021 11:19:48 -0700 (PDT)
+Received: from localhost.localdomain (5.d.e.a.c.b.a.1.5.0.9.4.d.7.7.d.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0:d77d:4905:1abc:aed5])
+        by smtp.gmail.com with ESMTPSA id 7sm6966045qtu.38.2021.06.12.11.19.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Jun 2021 11:19:47 -0700 (PDT)
+From: Phillip Potter <phil@philpotter.co.uk>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	straube.linux@gmail.com,
+	martin@kaiser.cx,
+	dan.carpenter@oracle.com,
+	gustavoars@kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8188eu: remove HW_DEF_ODM_DBG_FLAG enum value
+Date: Sat, 12 Jun 2021 19:19:42 +0100
+Message-Id: <20210612181942.33817-1-phil@philpotter.co.uk>
+X-Mailer: git-send-email 2.30.2
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -28,119 +56,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-These prints are disabled by default.
+Remove HW_DEF_ODM_DBG_FLAG definition from the hal_def_variable enum
+in include/hal_intf.h, and remove its usage from the switch statement
+in rtw_hal_get_def_var inside hal/usb_halinit.c - this is dead code
+and no longer used, now that ODM_RT_TRACE and include/odm_debug.h
+have been removed.
 
-Replace the print after dev_alloc_name with proper error handling.
-
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 ---
- drivers/staging/rtl8188eu/os_dep/usb_intf.c | 30 +++------------------
- 1 file changed, 3 insertions(+), 27 deletions(-)
+ drivers/staging/rtl8188eu/hal/usb_halinit.c  | 2 --
+ drivers/staging/rtl8188eu/include/hal_intf.h | 1 -
+ 2 files changed, 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8188eu/os_dep/usb_intf.c b/drivers/staging/rtl8188eu/os_dep/usb_intf.c
-index 3a970d67aa8c..b03d6aa629ad 100644
---- a/drivers/staging/rtl8188eu/os_dep/usb_intf.c
-+++ b/drivers/staging/rtl8188eu/os_dep/usb_intf.c
-@@ -143,16 +143,6 @@ static void usb_dvobj_deinit(struct usb_interface *usb_intf)
- 
- void usb_intf_stop(struct adapter *padapter)
- {
--	RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("+%s\n", __func__));
--
--	/* disable_hw_interrupt */
--	if (!padapter->bSurpriseRemoved) {
--		/* device still exists, so driver can do i/o operation */
--		/* TODO: */
--		RT_TRACE(_module_hci_intfs_c_, _drv_err_,
--			 ("SurpriseRemoved == false\n"));
--	}
--
- 	/* cancel in irp */
- 	rtw_hal_inirp_deinit(padapter);
- 
-@@ -160,14 +150,10 @@ void usb_intf_stop(struct adapter *padapter)
- 	usb_write_port_cancel(padapter);
- 
- 	/* todo:cancel other irps */
--
--	RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("-%s\n", __func__));
- }
- 
- static void rtw_dev_unload(struct adapter *padapter)
- {
--	RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("+%s\n", __func__));
--
- 	if (padapter->bup) {
- 		pr_debug("===> %s\n", __func__);
- 		padapter->bDriverStopped = true;
-@@ -186,14 +172,9 @@ static void rtw_dev_unload(struct adapter *padapter)
+diff --git a/drivers/staging/rtl8188eu/hal/usb_halinit.c b/drivers/staging/rtl8188eu/hal/usb_halinit.c
+index 3e7f184ed39a..e3f3868b0b65 100644
+--- a/drivers/staging/rtl8188eu/hal/usb_halinit.c
++++ b/drivers/staging/rtl8188eu/hal/usb_halinit.c
+@@ -1850,8 +1850,6 @@ u8 rtw_hal_get_def_var(struct adapter *Adapter, enum hal_def_variable eVariable,
+ 			}
  		}
+ 		break;
+-	case HW_DEF_ODM_DBG_FLAG:
+-		break;
+ 	case HAL_DEF_DBG_DUMP_RXPKT:
+ 		*((u8 *)pValue) = haldata->bDumpRxPkt;
+ 		break;
+diff --git a/drivers/staging/rtl8188eu/include/hal_intf.h b/drivers/staging/rtl8188eu/include/hal_intf.h
+index 39df30599a5d..2e3e933781eb 100644
+--- a/drivers/staging/rtl8188eu/include/hal_intf.h
++++ b/drivers/staging/rtl8188eu/include/hal_intf.h
+@@ -117,7 +117,6 @@ enum hal_def_variable {
+ 	HW_DEF_RA_INFO_DUMP,
+ 	HAL_DEF_DBG_DUMP_TXPKT,
+ 	HW_DEF_FA_CNT_DUMP,
+-	HW_DEF_ODM_DBG_FLAG,
+ };
  
- 		padapter->bup = false;
--	} else {
--		RT_TRACE(_module_hci_intfs_c_, _drv_err_,
--			 ("r871x_dev_unload():padapter->bup == false\n"));
- 	}
- 
- 	pr_debug("<=== %s\n", __func__);
--
--	RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("-%s\n", __func__));
- }
- 
- static int rtw_suspend(struct usb_interface *pusb_intf, pm_message_t message)
-@@ -351,7 +332,6 @@ static int rtw_usb_if1_init(struct usb_interface *pusb_intf)
- 
- 	padapter->HalData = kzalloc(sizeof(struct hal_data_8188e), GFP_KERNEL);
- 	if (!padapter->HalData) {
--		DBG_88E("Failed to allocate memory for HAL data\n");
- 		err = -ENOMEM;
- 		goto free_adapter;
- 	}
-@@ -367,8 +347,6 @@ static int rtw_usb_if1_init(struct usb_interface *pusb_intf)
- 
- 	/* step 5. */
- 	if (rtw_init_drv_sw(padapter) == _FAIL) {
--		RT_TRACE(_module_hci_intfs_c_, _drv_err_,
--			 ("Initialize driver software resource Failed!\n"));
- 		err = -ENOMEM;
- 		goto free_hal_data;
- 	}
-@@ -388,8 +366,9 @@ static int rtw_usb_if1_init(struct usb_interface *pusb_intf)
- 		pr_debug("can't get autopm:\n");
- 
- 	/*  alloc dev name after read efuse. */
--	if (dev_alloc_name(pnetdev, padapter->registrypriv.ifname) < 0)
--		RT_TRACE(_module_os_intfs_c_, _drv_err_, ("dev_alloc_name, fail!\n"));
-+	err = dev_alloc_name(pnetdev, padapter->registrypriv.ifname)
-+	if (err < 0)
-+		goto free_hal_data;
- 
- 	netif_carrier_off(pnetdev);
- 
-@@ -401,7 +380,6 @@ static int rtw_usb_if1_init(struct usb_interface *pusb_intf)
- 	/* step 6. Tell the network stack we exist */
- 	err = register_netdev(pnetdev);
- 	if (err) {
--		RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("register_netdev() failed\n"));
- 		goto free_hal_data;
- 	}
- 
-@@ -478,7 +456,6 @@ static void rtw_dev_remove(struct usb_interface *pusb_intf)
- 	struct adapter *padapter = dvobj->if1;
- 
- 	pr_debug("+%s\n", __func__);
--	RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("+dev_remove()\n"));
- 
- 	if (!pusb_intf->unregistering)
- 		padapter->bSurpriseRemoved = true;
-@@ -492,7 +469,6 @@ static void rtw_dev_remove(struct usb_interface *pusb_intf)
- 
- 	usb_dvobj_deinit(pusb_intf);
- 
--	RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("-dev_remove()\n"));
- 	pr_debug("-r871xu_dev_remove, done\n");
- }
- 
+ enum hal_odm_variable {
 -- 
-2.20.1
+2.30.2
 
