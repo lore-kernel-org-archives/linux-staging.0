@@ -1,25 +1,26 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E425B72
-	for <linux-staging@lists.linux.dev>; Sat, 12 Jun 2021 11:57:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 032F0613A9;
-	Sat, 12 Jun 2021 11:57:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FB070
+	for <linux-staging@lists.linux.dev>; Sat, 12 Jun 2021 15:54:33 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DFC34610FC;
+	Sat, 12 Jun 2021 15:54:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1623499072;
-	bh=UwAZa/YA/87dlDJ+IAPZQ0Ba7P9WCrmF43C+R9dF0xg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sbLMo8DtwvxPziSaTTHl6G0wuslvNqekjXOqaHnh02jxNE4oFbtBpxgVm8BIzvBgi
-	 zowzdmsufX9+Ifg1axFX/DXy1cLNORqg+vSO+bDoHo2KSTh6mH82UYjFuu0xcK1wlS
-	 +3yCnQaAptwmil+v8d7xIDne6qWYepiDQj4tisWY=
-Date: Sat, 12 Jun 2021 13:57:48 +0200
+	s=korg; t=1623513273;
+	bh=SvDSe+71i4/sQt3EFhqr44mKrhHMTl790UTWD9pT+08=;
+	h=Date:From:To:Cc:Subject:From;
+	b=CXTy3l1nRm5xq5oJGNOttyXaz9c3cA2U2coEbk5Aid5AFfbC2+tKN2sJrj93U8Ls7
+	 FIWo+GEeo/DJLO1kXW3E9Vs2dC1cbe8cBUZVdpkH1MqLQ+P0scs81yun4Az5gYkrQ8
+	 9gDWPCUtk86QD9aJGBEJPa0exfy4btZos8xTiRv0=
+Date: Sat, 12 Jun 2021 17:54:31 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: arjuncr <arjuncr00@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fix for checkpatch.pl
-Message-ID: <YMShPMuUiWNKxav0@kroah.com>
-References: <20210612114505.6833-1-arjuncr00@gmail.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: devel@linuxdriverproject.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [GIT PULL] Staging driver fixes for 5.13-rc6
+Message-ID: <YMTYtya0Sn/JVtz2@kroah.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -27,70 +28,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210612114505.6833-1-arjuncr00@gmail.com>
 
-On Sat, Jun 12, 2021 at 05:15:05PM +0530, arjuncr wrote:
-> Signed-off-by: arjuncr <arjuncr00@gmail.com>
-> ---
->  drivers/staging/fbtft/fbtft-bus.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
-> index 63c65dd67..cdb451dd3 100644
-> --- a/drivers/staging/fbtft/fbtft-bus.c
-> +++ b/drivers/staging/fbtft/fbtft-bus.c
-> @@ -62,9 +62,9 @@ out:									      \
->  }                                                                             \
->  EXPORT_SYMBOL(func);
->  
-> -define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
-> +define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8,)
->  define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
-> -define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
-> +define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16,)
->  
->  void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
->  {
-> -- 
-> 2.25.1
-> 
-> 
+The following changes since commit 8124c8a6b35386f73523d27eacb71b5364a68c4c:
 
-Hi,
+  Linux 5.13-rc4 (2021-05-30 11:58:25 -1000)
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+are available in the Git repository at:
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.13-rc6
 
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what is needed in order to
-  properly describe the change.
+for you to fetch changes up to e9de1ecadeab5fbffd873b9110e969c869554a56:
 
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what a proper Subject: line should
-  look like.
+  staging: ralink-gdma: Remove incorrect author information (2021-06-09 12:07:52 +0200)
 
-- It looks like you did not use your "real" name for the patch on either
-  the Signed-off-by: line, or the From: line (both of which have to
-  match).  Please read the kernel file, Documentation/SubmittingPatches
-  for how to do this correctly.
+----------------------------------------------------------------
+Staging driver fixes for 5.13-rc6
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+Here are two tiny staging driver fixes for 5.13-rc6
+	- ralink-gdma driver authorship information fixed up
+	- rtl8723bs driver fix for reported regression
 
-thanks,
+Both have been in linux-next for a while with no reported problems.
 
-greg k-h's patch email bot
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Lars-Peter Clausen (1):
+      staging: ralink-gdma: Remove incorrect author information
+
+Wenli Looi (1):
+      staging: rtl8723bs: Fix uninitialized variables
+
+ drivers/staging/ralink-gdma/ralink-gdma.c         | 2 --
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 +-
+ 2 files changed, 1 insertion(+), 3 deletions(-)
