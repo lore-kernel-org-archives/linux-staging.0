@@ -1,41 +1,41 @@
 Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5644372
-	for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 22:41:53 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id t4-20020a1c77040000b029019d22d84ebdso11724107wmi.3
-        for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 15:41:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161F46D0D
+	for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 22:41:54 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id y13-20020a1c4b0d0000b02901c20173e165so3767295wma.0
+        for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 15:41:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VIfUvlRYRh95NKgqkMImuAxTY1NXOpBQWAoWFLuAQ4w=;
-        b=ru0mUj9P3GuRSe7bANL5bgJtl4PZi5kDlROAwbPU+ZmOFYE58pjwvzgJ6hXghTetdK
-         02a68fmmAc4UlAAIbxVUibgb4dI9z1JGFhf0TOl7HiJ2TsjTUVkElk7TZjTq2iGb1I5I
-         hCbhp9LnyTWNPYyGJNBK6Rh5lvIcuTiqI2K3Za7m0b3O+Sp/Zma7BUKsplAGxYKOVMUC
-         fINbyjld1DpU5pAZoM7Lgqi/fiiAD+WnAByVefL9wdlJLAmUT/FaNAzAKQT3EKMUH3fh
-         MtUjxIgektCHrrLFlQ1S+POBlzH9hVmt1NHSPlmLF9BKm98TwpAyFZ/jo8O5S4rXrHGW
-         MRNA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Isv5W8SGDip5PWWs67KiL0JeNgzRX7W2d1GezPhOQ4s=;
+        b=MSUCZc6wV2LWHIY7drAM1uf7ygqdRzqsJgK50h1p1zTMXr1QzOq5ix6BztCVKLb+6I
+         n2fECSa39a/MtJ4K19yXypKmKz7J9j/8oj/Rrc+asRoapUqdGrLA2vQa/KdKJd2ZRtu8
+         413W7MOKT/y60hqCsA/blFtqVlg1QRd/iPaNC3NecWez+38p3DPVILI9KBdGVboOJ4u7
+         OSZlGKUNhOiChrwFOQokq1gY/uBE04M/ndqbH0zjIHU/m2xXYjCtYV9DbGsYa0xd9qfJ
+         Lyp9rNhydeq8PaPUBPbclIpEZM1vW2J5gH0Z+fSrc1n1TsNT4H0RDHVHe+Kka038nCEA
+         6C+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VIfUvlRYRh95NKgqkMImuAxTY1NXOpBQWAoWFLuAQ4w=;
-        b=XZ4vkWLW0RtNuCQh2D9GdQ0DHHci8IK/rFxtvPbhDCkDr+v/eAlVHm91ZUNOvpBuQ7
-         w44k1huQZYVpH8gIC4KE7j5SDOP3XsL7s+CYTH6iuH1GSp5RokRazvDIIzw3PClBOPL3
-         x/ZjwJM9+cnO3Fvjkli5ayHEbqCx9tPfd+lP4OPJI03RmkIgoeg+gGlK25hDA+iA1EXN
-         3Q0buZJA1WM6FYVLHWz76aRW+engRyGsEHq5g3qqyS8tRWPKgoqgnq00KIJW64/Hl9cZ
-         WVkE8RZYe7Eh5YbnQ11nxUtMm8XoCRC+EHda1IccNjgkoJtrhrXHbP0xY4Mdp2+eGch9
-         r2vw==
-X-Gm-Message-State: AOAM530NNNcpF1BOqC6W1pCWI9VnfzSC7zoRVNZR8fua2qqnfz7pDuOU
-	ZMGYOonqNNL+quas2Ais1ThuBw==
-X-Google-Smtp-Source: ABdhPJx6w6LqgbO/INu6Sj/TZwIiwKXSTZngipchlCSeSj25g9ZRIgsxTaw8oZweByB1tBkRKhZSXg==
-X-Received: by 2002:a1c:f60f:: with SMTP id w15mr29599904wmc.5.1623624111817;
-        Sun, 13 Jun 2021 15:41:51 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Isv5W8SGDip5PWWs67KiL0JeNgzRX7W2d1GezPhOQ4s=;
+        b=foH573HoOPb8xTr3gzmIiogwyE8NvKX6OGXB7uVbs9pMM0aW9H117pm2yNwjS3oE0v
+         Uboq25udq+BoNVgoeoVSEE4aqUXfl9LFq/cksmIeBdCYvWnyCKjNxI5IUuUbND4q7ElR
+         D+VAvwCPZhzWQRMsCs/LEEo97WY3aTkI+zZq2CNNhZBpLvDnDNIWB6hEfb5zAlGcqD1P
+         bO/BtMp2dU/Fbi9WKr8s6b1+LXCUa176VuXgQ7n9U/SZhNaoqmRpi6BABhV6djsE3eij
+         zsSZZZvwxez23N3ddG3v1Z8zHYM4Zo5C1ZzUxhz77+f5nbrizgmHz198OjDlOium1lH3
+         oBBw==
+X-Gm-Message-State: AOAM531N5gGsJqgGiKpRo4uTwa1cXIBqJ/ZN7aVSbu4lbMnxwtigHuPY
+	fQAOjQ6NbG2OtJ+IzLm9oAvC1w==
+X-Google-Smtp-Source: ABdhPJylowid0p5eaYzXujksQ2AlXFcyGWBkLNNaIUnsMRn3mgkP+i8rzGDIAHE5lE+439D5+OXKWg==
+X-Received: by 2002:a05:600c:3581:: with SMTP id p1mr27143058wmq.109.1623624112731;
+        Sun, 13 Jun 2021 15:41:52 -0700 (PDT)
 Received: from localhost.localdomain (2.0.5.1.1.6.3.8.5.c.c.3.f.b.d.3.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16:0:3dbf:3cc5:8361:1502])
-        by smtp.gmail.com with ESMTPSA id w11sm15120618wrv.89.2021.06.13.15.41.50
+        by smtp.gmail.com with ESMTPSA id w11sm15120618wrv.89.2021.06.13.15.41.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Jun 2021 15:41:51 -0700 (PDT)
+        Sun, 13 Jun 2021 15:41:52 -0700 (PDT)
 From: Phillip Potter <phil@philpotter.co.uk>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -54,10 +54,12 @@ Cc: Larry.Finger@lwfinger.net,
 	romain.perier@gmail.com,
 	apais@linux.microsoft.com,
 	mh12gx2825@gmail.com
-Subject: [PATCH 0/3] convert more DBG_88E calls and remove dead code
-Date: Sun, 13 Jun 2021 23:41:44 +0100
-Message-Id: <20210613224147.1045-1-phil@philpotter.co.uk>
+Subject: [PATCH 1/3] staging: rtl8188eu: convert DBG_88E calls in core/rtw_efuse.c
+Date: Sun, 13 Jun 2021 23:41:45 +0100
+Message-Id: <20210613224147.1045-2-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210613224147.1045-1-phil@philpotter.co.uk>
+References: <20210613224147.1045-1-phil@philpotter.co.uk>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -65,30 +67,115 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series converts all DBG_88E and DBG_88E_LEVEL calls in
-core/rtw_efuse.c and core/rtw_xmit.c, and also entirely removes
-core/rtw_debug.c which is dead code and contains only functions not used
-anywhere else. This should contribute to the continuing effort to clean
-up the rtl8188eu driver, particularly with regards to its debugging.
+Convert all calls to the DBG_88E macro in core/rtw_efuse.c into
+netdev_dbg calls. The DBG_88E macro is unnecessary, as visibility of
+debug messages can be controlled more precisely by just using debugfs.
+It is important to keep these messages still, as they are displayable
+via a kernel module parameter when using DBG_88E.
 
-Phillip Potter (3):
-  staging: rtl8188eu: convert DBG_88E calls in core/rtw_efuse.c
-  staging: rtl8188eu: convert DBG_88E calls in core/rtw_xmit.c
-  staging: rtl8188eu: remove core/rtw_debug.c
+Also modify efuse_phymap_to_logical function signature to pass through
+a struct net_device pointer, so that we can use it to call netdev_dbg
+in this function too.
 
- drivers/staging/rtl8188eu/Makefile            |   1 -
- drivers/staging/rtl8188eu/core/rtw_debug.c    | 187 ------------------
- drivers/staging/rtl8188eu/core/rtw_efuse.c    |  27 ++-
- drivers/staging/rtl8188eu/core/rtw_mlme_ext.c |   2 +-
- drivers/staging/rtl8188eu/core/rtw_xmit.c     |  60 +++---
- .../staging/rtl8188eu/hal/rtl8188eu_xmit.c    |   4 +-
- drivers/staging/rtl8188eu/include/rtw_debug.h |  25 ---
- drivers/staging/rtl8188eu/include/rtw_xmit.h  |   6 +-
- drivers/staging/rtl8188eu/os_dep/os_intfs.c   |   2 +-
- .../staging/rtl8188eu/os_dep/usb_ops_linux.c  |  11 +-
- 10 files changed, 69 insertions(+), 256 deletions(-)
- delete mode 100644 drivers/staging/rtl8188eu/core/rtw_debug.c
+Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+---
+ drivers/staging/rtl8188eu/core/rtw_efuse.c | 27 ++++++++++++++--------
+ 1 file changed, 17 insertions(+), 10 deletions(-)
 
+diff --git a/drivers/staging/rtl8188eu/core/rtw_efuse.c b/drivers/staging/rtl8188eu/core/rtw_efuse.c
+index 9bb3ec0cd62f..019796c0f1af 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_efuse.c
++++ b/drivers/staging/rtl8188eu/core/rtw_efuse.c
+@@ -72,7 +72,7 @@ static void efuse_power_switch(struct adapter *pAdapter, u8 write, u8 pwrstate)
+ }
+ 
+ static void
+-efuse_phymap_to_logical(u8 *phymap, u16 _offset, u16 _size_byte, u8  *pbuf)
++efuse_phymap_to_logical(struct net_device *dev, u8 *phymap, u16 _offset, u16 _size_byte, u8 *pbuf)
+ {
+ 	u8 *efuseTbl = NULL;
+ 	u8 rtemp8;
+@@ -92,7 +92,7 @@ efuse_phymap_to_logical(u8 *phymap, u16 _offset, u16 _size_byte, u8  *pbuf)
+ 		      sizeof(void *) + EFUSE_MAX_WORD_UNIT * sizeof(u16),
+ 		      GFP_KERNEL);
+ 	if (!tmp) {
+-		DBG_88E("%s: alloc eFuseWord fail!\n", __func__);
++		netdev_dbg(dev, "alloc eFuseWord fail!\n");
+ 		goto eFuseWord_failed;
+ 	}
+ 	for (i = 0; i < EFUSE_MAX_SECTION_88E; i++)
+@@ -113,7 +113,9 @@ efuse_phymap_to_logical(u8 *phymap, u16 _offset, u16 _size_byte, u8  *pbuf)
+ 		efuse_utilized++;
+ 		eFuse_Addr++;
+ 	} else {
+-		DBG_88E("EFUSE is empty efuse_Addr-%d efuse_data =%x\n", eFuse_Addr, rtemp8);
++		netdev_dbg(dev,
++			   "EFUSE is empty efuse_Addr-%d efuse_data =%x\n",
++			   eFuse_Addr, rtemp8);
+ 		goto exit;
+ 	}
+ 
+@@ -220,7 +222,7 @@ static void efuse_read_phymap_from_txpktbuf(
+ 	if (bcnhead < 0) /* if not valid */
+ 		bcnhead = usb_read8(adapter, REG_TDECTRL + 1);
+ 
+-	DBG_88E("%s bcnhead:%d\n", __func__, bcnhead);
++	netdev_dbg(adapter->pnetdev, "bcnhead:%d\n", bcnhead);
+ 
+ 	usb_write8(adapter, REG_PKT_BUFF_ACCESS_CTRL, TXPKT_BUF_SELECT);
+ 
+@@ -232,8 +234,10 @@ static void efuse_read_phymap_from_txpktbuf(
+ 		usb_write8(adapter, REG_TXPKTBUF_DBG, 0);
+ 		start = jiffies;
+ 		while (!(reg_0x143 = usb_read8(adapter, REG_TXPKTBUF_DBG)) &&
+-		       jiffies_to_msecs(jiffies - start) < 1000) {
+-			DBG_88E("%s polling reg_0x143:0x%02x, reg_0x106:0x%02x\n", __func__, reg_0x143, usb_read8(adapter, 0x106));
++			jiffies_to_msecs(jiffies - start) < 1000) {
++			netdev_dbg(adapter->pnetdev,
++				   "polling reg_0x143:0x%02x, reg_0x106:0x%02x\n",
++				   reg_0x143, usb_read8(adapter, 0x106));
+ 			usleep_range(1000, 2000);
+ 		}
+ 
+@@ -255,7 +259,9 @@ static void efuse_read_phymap_from_txpktbuf(
+ 
+ 			limit = min_t(u16, len - 2, limit);
+ 
+-			DBG_88E("%s len:%u, lenbak:%u, aaa:%u, aaabak:%u\n", __func__, len, lenbak, aaa, aaabak);
++			netdev_dbg(adapter->pnetdev,
++				   "len:%u, lenbak:%u, aaa:%u, aaabak:%u\n",
++				   len, lenbak, aaa, aaabak);
+ 
+ 			memcpy(pos, ((u8 *)&lo32) + 2, (limit >= count + 2) ? 2 : limit - count);
+ 			count += (limit >= count + 2) ? 2 : limit - count;
+@@ -278,7 +284,7 @@ static void efuse_read_phymap_from_txpktbuf(
+ 		i++;
+ 	}
+ 	usb_write8(adapter, REG_PKT_BUFF_ACCESS_CTRL, DISABLE_TRXPKT_BUF_ACCESS);
+-	DBG_88E("%s read count:%u\n", __func__, count);
++	netdev_dbg(adapter->pnetdev, "read count:%u\n", count);
+ 	*size = count;
+ }
+ 
+@@ -294,7 +300,7 @@ static s32 iol_read_efuse(struct adapter *padapter, u8 txpktbuf_bndy, u16 offset
+ 	status = iol_execute(padapter, CMD_READ_EFUSE_MAP);
+ 	if (status == _SUCCESS)
+ 		efuse_read_phymap_from_txpktbuf(padapter, txpktbuf_bndy, physical_map, &size);
+-	efuse_phymap_to_logical(physical_map, offset, size_byte, logical_map);
++	efuse_phymap_to_logical(padapter->pnetdev, physical_map, offset, size_byte, logical_map);
+ 	return status;
+ }
+ 
+@@ -432,7 +438,8 @@ int Efuse_PgPacketRead(struct adapter *pAdapter, u8 offset, u8 *data)
+ 						hoffset = ((tmp_header & 0xE0) >> 5) | ((efuse_data & 0xF0) >> 1);
+ 						hworden = efuse_data & 0x0F;
+ 					} else {
+-						DBG_88E("Error, All words disabled\n");
++						netdev_dbg(pAdapter->pnetdev,
++							   "Error, All words disabled\n");
+ 						efuse_addr++;
+ 						continue;
+ 					}
 -- 
 2.30.2
 
