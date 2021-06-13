@@ -1,101 +1,79 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBAA36D0D
-	for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 15:56:29 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id v206-20020a1cded70000b02901a586d3fa23so11329353wmg.4
-        for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 08:56:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBA670
+	for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 16:40:40 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id ba2so41528367edb.2
+        for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 09:40:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Eqtg1+fbJlMCohN2MghF9TKMofIxShR1miILFIvbuXo=;
-        b=aqnqVbgEFUWxR+Qy9iGlYx07qrJgGmTJBGXNYQ9iIgruAXAEAkZx1UHaDqBgicpgXb
-         vt2SQ968igKkZpV7Hc1E+A3dAYR80r4Suq9VXb6ujVG4Cr6l4KZooRNMMo6OUx9pz6m2
-         LyanJ9UOp3ca/ZUhbMPYuvCbbM6BF3FVYv+nzwXBcGCA87Wn+8ocxQKkaDsV1zLET22E
-         StCsuM224y/ul5f6sONBV1Sh2E7UN/jtAgcqgS1X2w0AqwntW0fo4hxz6PjiH5QGfNsC
-         onXpzXvwfhDUrASBT1mERg6PfGLUIJm/ycUMr6fGFppPB11EJ4ydjV3er+5UEl+N6xcV
-         xQjg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zRPRNwiv+Qa7LFNhBGliyXNB+ILCSmwq5eW3TGTSNt4=;
+        b=Ir8CB+iHpFkcvuC0iayj4871f+XLzvhX6J/Kt97Mt3KEOnhKF2FuoPmCgCXiyFHVZb
+         a3vZ1bFlfJqYsgReA//8fKfvmfAw9UQ9L3/FROogtXl5Y+0Yg5/PdSLnMyCqRq9wloMj
+         c8xEpAkHe1qMxWqPIzfxymaDwcEWycewdrirLQW5fQ1KX1FzjvOTpfvXdrZ1MU1hqc0c
+         rMXOCxvDfsS2Hl/dVNhr7LxGEB6v70IW3ddxeuBeK6C1UCVhQEqVklTR+kXXr/isMR3L
+         m8GVKj/SMqD9dU+fdcwhkuCbMXWfF9S5kS3y5eJj6PZqeVG10KUByzLXnFKoSlvftplU
+         Q81w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Eqtg1+fbJlMCohN2MghF9TKMofIxShR1miILFIvbuXo=;
-        b=Hiy9X/TizTjJCEt3eeabMk+6dzGumzxNFp01q8ZTvXA+KP03S5xuApmokf9hJlQ44Z
-         s3b+8s0aGKUBth9r3zpHDJsrrf6vEEfhl+3N3mz/43JiLNlnxFZQMQ0wo8NcYr8Oq1RD
-         sICvYXSlgCngILfZmiVYWNU5jkGE8RJs/U0S5rfgbweOFufWnTsIKufVQXhMc6CspZ0B
-         GBHg49QvjCR5xSIPy9RNP7M7qDbJDvXqUNATj3k4vtC8GZm4+XArP6IPkXBxLqzj5Zzl
-         c0fjGo/m6YeUh7fbnB0zBKy9wVP1mWxDcWFboG2p0Qo+sJDkZugGjfZ2AJCkOGbmqKCe
-         bsRw==
-X-Gm-Message-State: AOAM530Z5SsqggWJyJnqffSXG8aE3664NePzHhwjCrtLeevA8pqfo/RT
-	84HcYdKYO4z66btW+YLHcOH7Evd5v18=
-X-Google-Smtp-Source: ABdhPJzn6deyzLma154OGI+jhNI78UihPVmufIOcMJ+81krmmS3QJ7Vy6g6K15b1LShq71g8il7fVA==
-X-Received: by 2002:a1c:a484:: with SMTP id n126mr28984602wme.34.1623599788241;
-        Sun, 13 Jun 2021 08:56:28 -0700 (PDT)
-Received: from localhost.localdomain (98.red-81-38-58.dynamicip.rima-tde.net. [81.38.58.98])
-        by smtp.gmail.com with ESMTPSA id g17sm17539746wrh.72.2021.06.13.08.56.27
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 13 Jun 2021 08:56:27 -0700 (PDT)
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	neil@brown.name,
-	linux-mips@vger.kernel.org,
-	tsbogend@alpha.franken.de,
-	ilya.lipnitskiy@gmail.com,
-	john@phrozen.org
-Subject: [PATCH 3/3] staging: mt7621-dts: fix pci address for PCI memory range
-Date: Sun, 13 Jun 2021 17:56:23 +0200
-Message-Id: <20210613155623.17233-4-sergio.paracuellos@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210613155623.17233-1-sergio.paracuellos@gmail.com>
-References: <20210613155623.17233-1-sergio.paracuellos@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zRPRNwiv+Qa7LFNhBGliyXNB+ILCSmwq5eW3TGTSNt4=;
+        b=VZCB00v/gvzbgr9oXyPsu1Nxh1ukxQ5YQA4n20j9A0NvCz0hUrcL6rKKZtFOq/O/ha
+         gebKBTOf/CXhGxgTt14hqhmLQc3tLn3xi0EzAjgnScCXeFKdybG9FaX5bX8X+78rReWT
+         X3WZEzHpIBdOZ8ttZawn78cdiQP4sKeZHUiKdNhW36YciAGArxxyktSfZbVRJmRrUFnx
+         zYf4qZ9B7kKkm8DLLLFLaFLCJ+TNESyQoZgy3gG1dA7NV3Ap9jhsCRZwwRGwKdZLJO06
+         ofgRqfhQkW5aqLmWbq0VH/HWd5HwtqKL3gecKqGskbTUAXfrponPGdwT+G6kyArju8mZ
+         GL6A==
+X-Gm-Message-State: AOAM5311cN3NcYXQ3NGQa56K5fzIwW1VSOo7edko3JEfYTgZ46mujmlq
+	+Iy4HZ7oSPTd6lzy3ytI7nRWJMv7Y8JahEJDriEFa+RkmT0fdg==
+X-Google-Smtp-Source: ABdhPJxrUobJ0ZeGHRd9i3Birfg+SOyHtdoiO8WUhzM4VEBRpOW85ihfvEdSnxiIhRdS435p3BLfS1Ka3cwS4fldJ4k=
+X-Received: by 2002:aa7:c7cd:: with SMTP id o13mr13362281eds.269.1623602438426;
+ Sun, 13 Jun 2021 09:40:38 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210613122858.1433252-1-fbihjmeric@gmail.com> <YMX7SRSPgvMA/Pw1@kroah.com>
+In-Reply-To: <YMX7SRSPgvMA/Pw1@kroah.com>
+From: Jhih Ming Huang <fbihjmeric@gmail.com>
+Date: Mon, 14 Jun 2021 00:40:27 +0800
+Message-ID: <CAKgboZ8QUQpiinL0xCxUmcp6nEVU20jXkDXbrK_QisUMiLEo1A@mail.gmail.com>
+Subject: Re: [PATCH v2] rtw_security: fix cast to restricted __le32
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: fabioaiuto83@gmail.com, ross.schm.dev@gmail.com, maqianga@uniontech.com, 
+	marcocesati@gmail.com, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Driver code call 'devm_of_pci_get_host_bridge_resources'
-to get resources and properly fill 'bridge->windows' and
-'bridge->dma_ranges'. After parsing the ranges and store
-as resources, at the end it makes a call to pci function
-'pci_add_resource_offset' to set the offset for the
-memory resource. To calculate offset, resource start address
-subtracts pci address of the range. MT7621 does not need
-any offset for the memory resource. Moreover, setting an
-offset got into 'WARN_ON' calls from pci devices driver code.
-Until now memory range pci_addr was being '0x00000000' and
-res->start is '0x60000000' but becase pci controller driver
-was manually setting resources and adding them using pci function
-'pci_add_resource' where a zero is passed as offset, things
-was properly working. Since PCI_IOBASE is defined now for
-ralink we don't set nothing manually anymore so we have to
-properly fix PCI address for this range to make things work
-and the new pci address must be set to '0x60000000'. Doing
-in this way the subtract result obtain zero as offset
-and pci device driver code properly works.
+On Sun, Jun 13, 2021 at 8:34 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Sun, Jun 13, 2021 at 08:28:58PM +0800, Jhih-Ming Huang wrote:
+> > This patch fixes the sparse warning of fix cast to restricted __le32.
+> >
+> > Last month, there was a change for replacing private CRC-32 routines with
+> > in-kernel ones.
+> > In that patch, we replaced getcrc32 with crc32_le in calling le32_to_cpu.
+> > le32_to_cpu accepts __le32 type as arg, but crc32_le returns unsigned int.
+> > That how it introduced the sparse warning.
+>
+> As crc32_le returns a u32 which is in native-endian format, how can you
+> cast it to le32?  Why do you cast it to le32?  Isn't that going to be
+> incorrect for big endian systems?
+>
+> thanks,
+>
+> greg k-h
 
-Fixes: d59578da2bb8 ("staging: mt7621-dts: add dts files")
-Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
----
- drivers/staging/mt7621-dts/mt7621.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for the fast reply.
+Yes, you are right. I did not notice that le32_to_cpu already handles
+both of the cases.
 
-diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
-index ecfe2f2cf75a..f15ea61851b2 100644
---- a/drivers/staging/mt7621-dts/mt7621.dtsi
-+++ b/drivers/staging/mt7621-dts/mt7621.dtsi
-@@ -489,7 +489,7 @@ pcie: pcie@1e140000 {
- 
- 		device_type = "pci";
- 
--		ranges = <0x02000000 0 0x00000000 0x60000000 0 0x10000000>, /* pci memory */
-+		ranges = <0x02000000 0 0x60000000 0x60000000 0 0x10000000>, /* pci memory */
- 			 <0x01000000 0 0x00000000 0x1e160000 0 0x00010000>; /* io space */
- 
- 		#interrupt-cells = <1>;
--- 
-2.25.1
+So it seems the warning from sparse is false positives, am I right?
 
+thanks
+
+--jmhuang
