@@ -1,53 +1,55 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF0A2FB2
-	for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 10:24:59 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id y13-20020a1c4b0d0000b02901c20173e165so3153770wma.0
-        for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 03:24:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E326D0D
+	for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 10:25:04 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id r9so11018341wrz.10
+        for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 03:25:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=0uZe4Gb8RbiHzh9aX3JNtyj1EP8IiYb1JXDb3skPcRg=;
-        b=TsFqo0b+ZC8Hss/+xRaYhtnmBjSaKIu2wMEPeZAMdBROXkowSGMLC+EpX3Im+nZeOS
-         pGGhSjP4zbibSzucewpgN+wlYT0n9z3noBOakrmV6ucAw8i3omXjrsb23L8WrJh2KDQB
-         iT2u95HDYCbdp2BQDsZXEV79UILfxAM5wLSM8/vL6Obi/avo1XBtF8rJXCVngOv33wLE
-         MEYgVh0w7BCntBYUaBtgB2ROArQrYKWs4p20WcTVGU6B9VWOt5UX0bt65g6482aWbh4F
-         i3QHLpl9N1VhM6z8d+kwVoGtNWDLwmhHBY82YggEkPcDFAU+NKFH9emN0xmQFwq8aI30
-         EAVA==
+        bh=YnAMBNed5UC+wiGF/TyrLIk6k1+y6qS9317P8SE6zBE=;
+        b=OfXh/R9jEmeLqYMgJQj22gzazppT511jjzA2rgTfCEe7/59qs310wHDTH19lHCtp1W
+         HIA5eP58PNM0k3XEh6lpyQl2NEUcXPtMehkSRboNy87B8DEVSMmdVlKts36OdDR47brS
+         829WGSnORx47bgvUSyt2S726po/wK0bbCPcWtjN4I2KtpQGjeBGp10qCxBkK+U/S6AXp
+         /Y3X557mDWnt5s7DAnXdvn+UQztTvD48bwfFul6rkmroL/b7R8bdKQ8Uos3c46IZ/5kr
+         xIG9IUqAt5UINTe05LEFJQ5VmkZmZM+TZY4yilYZgGn/fSWlmFpc5+BP3A4+BH/Y/lBc
+         Utog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=0uZe4Gb8RbiHzh9aX3JNtyj1EP8IiYb1JXDb3skPcRg=;
-        b=MhoVwdu3rSTZV6fisGOJsz4IVLoyKJNdJFn9717Z1NkZSacvOgBxKKJDULNsWpdseN
-         ZJWw7tQKnMZZiQwpwP6npwWkrF6J0C5I5939NKcMic543eCX4JbK8JYrzbu8AniUHL1g
-         weFMdoV+iL69+Upl73Yd4XufmKMQ9zq8W+n4LsVZVZE5dNhogoHlWgdbB1XP3gojz5BP
-         OLvyZMp8gnmsZOcMmpnnMTViHahXolwxSXwQNnJzJN8lIjChe99t1OIrvI+pXVRUBZ3Z
-         EpVqB6TmwotoyUTfPWc5ePmAYtpjDDjaodJV2X78N82ZKziQfyO5t7FfyBUGTDj+h7s0
-         M0mw==
-X-Gm-Message-State: AOAM530rvuujRi+xOUCO/0Ab3FAoyhPFEC3bjzF/taQ/v1GE4FxC21Yj
-	Z7vbzLvGBroKdT714N8J9qyE7w==
-X-Google-Smtp-Source: ABdhPJytHxEfDxRHMx3D0IEINcZnzEF1ZbDJnS4549pdElKTUCxc3CMKfYseq20GEcraNbYfpwvqwA==
-X-Received: by 2002:a05:600c:190f:: with SMTP id j15mr4904943wmq.37.1623579897829;
-        Sun, 13 Jun 2021 03:24:57 -0700 (PDT)
+        bh=YnAMBNed5UC+wiGF/TyrLIk6k1+y6qS9317P8SE6zBE=;
+        b=toBo7eZl9Oz+f/6Qqj0t1KUl0m5zKAiXtYjTBYR39iZOhvAZ4sgdX0OyV+vyrRYjeJ
+         QxFxfvYayEvg4kERl0CmCicK0tvp0Zhb8ewpKuf01i0L7PJ+HAWG0INex3SSboWM9PU8
+         8TdF+4gu2nBRZIEL4RSmn5pP47/EGMvCFWD9YITEIR+lCr4Vu8tOmtRyl4t3EMmgrclS
+         A1WCJtyETDgxV2MRhZ9fetbms+W/7Jar5FTBBdv5CvRBUvM0YRbWdca3EpNOdcwCPl/y
+         7kYObIbTyI8uYmvXWRPSeHYjUW78gE0Cm0PvS5ZMA8X7UMhFkZ9at4l55KU0ndfOsNUI
+         88XQ==
+X-Gm-Message-State: AOAM533q73vWndY66huP3FTMFyRTcUm/A9uNyiaTdP6PXnjfomnBcanW
+	tPjKtnibZeja9rsz7zESuDz5Hw==
+X-Google-Smtp-Source: ABdhPJzEDWADNYv7VDvzUfVz/1I5/VhZyEJ58T3KP6umFk0urVRNKAP0BeC0aHDBbQP+5/v0t2q+Sw==
+X-Received: by 2002:a5d:6109:: with SMTP id v9mr13505392wrt.0.1623579902816;
+        Sun, 13 Jun 2021 03:25:02 -0700 (PDT)
 Received: from localhost.localdomain (2.0.5.1.1.6.3.8.5.c.c.3.f.b.d.3.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16:0:3dbf:3cc5:8361:1502])
-        by smtp.gmail.com with ESMTPSA id u16sm14028654wru.56.2021.06.13.03.24.57
+        by smtp.gmail.com with ESMTPSA id a15sm16026493wrs.63.2021.06.13.03.25.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Jun 2021 03:24:57 -0700 (PDT)
+        Sun, 13 Jun 2021 03:25:02 -0700 (PDT)
 From: Phillip Potter <phil@philpotter.co.uk>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
-	linux@roeck-us.net,
 	martin@kaiser.cx,
+	insafonov@gmail.com,
+	simon.fodin@gmail.com,
 	straube.linux@gmail.com,
+	mrinalmni@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	joe@perches.com
-Subject: [PATCH v2] staging: rtl8188eu: convert DBG_88E calls in core/rtw_sta_mgt.c
-Date: Sun, 13 Jun 2021 11:24:54 +0100
-Message-Id: <20210613102454.7480-1-phil@philpotter.co.uk>
+Subject: [PATCH v2] staging: rtl8188eu: convert DBG_88E calls in core/rtw_recv.c
+Date: Sun, 13 Jun 2021 11:24:59 +0100
+Message-Id: <20210613102459.7532-1-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.30.2
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,11 +58,15 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert both calls to the DBG_88E macro in core/rtw_sta_mgt.c into
+Convert all calls to the DBG_88E macro in core/rtw_recv.c into
 netdev_dbg calls. The DBG_88E macro is unnecessary, as visibility of
 debug messages can be controlled more precisely by just using debugfs.
 It is important to keep these messages still, as they are displayable
 via a kernel module parameter when using DBG_88E.
+
+One such converted call is after a failed skb allocation, but as it prints
+additional information besides just stating failure, I've left it in
+despite the checkpatch warning.
 
 Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 ---
@@ -69,36 +75,179 @@ V2:
 * Incorporated newlines for format strings, as suggested by Joe Perches.
 
 ---
- drivers/staging/rtl8188eu/core/rtw_sta_mgt.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8188eu/core/rtw_recv.c | 55 ++++++++++++++++-------
+ 1 file changed, 38 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c b/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
-index 5af7af5f5a5a..16bbba6247f4 100644
---- a/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
-@@ -113,17 +113,20 @@ u32 _rtw_init_sta_priv(struct sta_priv *pstapriv)
- inline int rtw_stainfo_offset(struct sta_priv *stapriv, struct sta_info *sta)
- {
- 	int offset = (((u8 *)sta) - stapriv->pstainfo_buf) / sizeof(struct sta_info);
-+	struct net_device *pnetdev = stapriv->padapter->pnetdev;
+diff --git a/drivers/staging/rtl8188eu/core/rtw_recv.c b/drivers/staging/rtl8188eu/core/rtw_recv.c
+index 5a8170d4eab6..4c27e1cf003d 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_recv.c
++++ b/drivers/staging/rtl8188eu/core/rtw_recv.c
+@@ -189,7 +189,7 @@ u32 rtw_free_uc_swdec_pending_queue(struct adapter *adapter)
  
- 	if (!stainfo_offset_valid(offset))
--		DBG_88E("%s invalid offset(%d), out of range!!!", __func__, offset);
-+		netdev_dbg(pnetdev, "invalid offset(%d), out of range!!!\n", offset);
+ 	while ((pending_frame = rtw_alloc_recvframe(&adapter->recvpriv.uc_swdec_pending_queue))) {
+ 		rtw_free_recvframe(pending_frame, &adapter->recvpriv.free_recv_queue);
+-		DBG_88E("%s: dequeue uc_swdec_pending_queue\n", __func__);
++		netdev_dbg(adapter->pnetdev, "dequeue uc_swdec_pending_queue\n");
+ 		cnt++;
+ 	}
  
- 	return offset;
- }
+@@ -229,7 +229,7 @@ static int recvframe_chkmic(struct adapter *adapter,
+ 					res = _FAIL;
+ 					RT_TRACE(_module_rtl871x_recv_c_, _drv_err_,
+ 						 ("\n %s: didn't install group key!!!!!!!!!!\n", __func__));
+-					DBG_88E("\n %s: didn't install group key!!!!!!!!!!\n", __func__);
++					netdev_dbg(adapter->pnetdev, "didn't install group key!!!!!!!!!!\n");
+ 					goto exit;
+ 				}
+ 				mickey = &psecuritypriv->dot118021XGrprxmickey[prxattrib->key_index].skey[0];
+@@ -318,10 +318,14 @@ static int recvframe_chkmic(struct adapter *adapter,
+ 				if ((prxattrib->bdecrypted) && (brpt_micerror)) {
+ 					rtw_handle_tkip_mic_err(adapter, (u8)is_multicast_ether_addr(prxattrib->ra));
+ 					RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, (" mic error :prxattrib->bdecrypted=%d ", prxattrib->bdecrypted));
+-					DBG_88E(" mic error :prxattrib->bdecrypted=%d\n", prxattrib->bdecrypted);
++					netdev_dbg(adapter->pnetdev,
++						   "mic error :prxattrib->bdecrypted=%d\n",
++						   prxattrib->bdecrypted);
+ 				} else {
+ 					RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, (" mic error :prxattrib->bdecrypted=%d ", prxattrib->bdecrypted));
+-					DBG_88E(" mic error :prxattrib->bdecrypted=%d\n", prxattrib->bdecrypted);
++					netdev_dbg(adapter->pnetdev,
++						   "mic error :prxattrib->bdecrypted=%d\n",
++						   prxattrib->bdecrypted);
+ 				}
+ 				res = _FAIL;
+ 			} else {
+@@ -361,7 +365,8 @@ static struct recv_frame *decryptor(struct adapter *padapter,
+ 		prxattrib->key_index = (((iv[3]) >> 6) & 0x3);
  
- inline struct sta_info *rtw_get_stainfo_by_offset(struct sta_priv *stapriv, int offset)
- {
-+	struct net_device *pnetdev = stapriv->padapter->pnetdev;
-+
- 	if (!stainfo_offset_valid(offset))
--		DBG_88E("%s invalid offset(%d), out of range!!!", __func__, offset);
-+		netdev_dbg(pnetdev, "invalid offset(%d), out of range!!!\n", offset);
+ 		if (prxattrib->key_index > WEP_KEYS) {
+-			DBG_88E("prxattrib->key_index(%d)>WEP_KEYS\n", prxattrib->key_index);
++			netdev_dbg(padapter->pnetdev,
++				   "prxattrib->key_index(%d)>WEP_KEYS\n", prxattrib->key_index);
  
- 	return (struct sta_info *)(stapriv->pstainfo_buf + offset * sizeof(struct sta_info));
- }
+ 			switch (prxattrib->encrypt) {
+ 			case _WEP40_:
+@@ -741,7 +746,9 @@ static int ap2sta_data_frame(struct adapter *adapter,
+ 			RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("mybssid=%pM\n", (mybssid)));
+ 
+ 			if (!mcast) {
+-				DBG_88E("issue_deauth to the nonassociated ap=%pM for the reason(7)\n", (pattrib->bssid));
++				netdev_dbg(adapter->pnetdev,
++					   "issue_deauth to the nonassociated ap=%pM for the reason(7)\n",
++					   (pattrib->bssid));
+ 				issue_deauth(adapter, pattrib->bssid, WLAN_REASON_CLASS3_FRAME_FROM_NONASSOC_STA);
+ 			}
+ 
+@@ -777,7 +784,9 @@ static int ap2sta_data_frame(struct adapter *adapter,
+ 		if (!memcmp(myhwaddr, pattrib->dst, ETH_ALEN) && !mcast) {
+ 			*psta = rtw_get_stainfo(pstapriv, pattrib->bssid); /*  get sta_info */
+ 			if (!*psta) {
+-				DBG_88E("issue_deauth to the ap =%pM for the reason(7)\n", (pattrib->bssid));
++				netdev_dbg(adapter->pnetdev,
++					   "issue_deauth to the ap =%pM for the reason(7)\n",
++					   (pattrib->bssid));
+ 
+ 				issue_deauth(adapter, pattrib->bssid, WLAN_REASON_CLASS3_FRAME_FROM_NONASSOC_STA);
+ 			}
+@@ -812,7 +821,8 @@ static int sta2ap_data_frame(struct adapter *adapter,
+ 		*psta = rtw_get_stainfo(pstapriv, pattrib->src);
+ 		if (!*psta) {
+ 			RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("can't get psta under AP_MODE; drop pkt\n"));
+-			DBG_88E("issue_deauth to sta=%pM for the reason(7)\n", (pattrib->src));
++			netdev_dbg(adapter->pnetdev,
++				   "issue_deauth to sta=%pM for the reason(7)\n", (pattrib->src));
+ 
+ 			issue_deauth(adapter, pattrib->src, WLAN_REASON_CLASS3_FRAME_FROM_NONASSOC_STA);
+ 
+@@ -838,7 +848,8 @@ static int sta2ap_data_frame(struct adapter *adapter,
+ 			ret = RTW_RX_HANDLED;
+ 			goto exit;
+ 		}
+-		DBG_88E("issue_deauth to sta=%pM for the reason(7)\n", (pattrib->src));
++		netdev_dbg(adapter->pnetdev,
++			   "issue_deauth to sta=%pM for the reason(7)\n", (pattrib->src));
+ 		issue_deauth(adapter, pattrib->src, WLAN_REASON_CLASS3_FRAME_FROM_NONASSOC_STA);
+ 		ret = RTW_RX_HANDLED;
+ 		goto exit;
+@@ -903,7 +914,7 @@ static int validate_recv_ctrl_frame(struct adapter *padapter,
+ 			return _FAIL;
+ 
+ 		if (psta->state & WIFI_STA_ALIVE_CHK_STATE) {
+-			DBG_88E("%s alive check-rx ps-poll\n", __func__);
++			netdev_dbg(padapter->pnetdev, "alive check-rx ps-poll\n");
+ 			psta->expire_to = pstapriv->expire_to;
+ 			psta->state ^= WIFI_STA_ALIVE_CHK_STATE;
+ 		}
+@@ -948,12 +959,15 @@ static int validate_recv_ctrl_frame(struct adapter *padapter,
+ 			} else {
+ 				if (pstapriv->tim_bitmap & BIT(psta->aid)) {
+ 					if (psta->sleepq_len == 0) {
+-						DBG_88E("no buffered packets to xmit\n");
++						netdev_dbg(padapter->pnetdev,
++							   "no buffered packets to xmit\n");
+ 
+ 						/* issue nulldata with More data bit = 0 to indicate we have no buffered packets */
+ 						issue_nulldata(padapter, psta->hwaddr, 0, 0, 0);
+ 					} else {
+-						DBG_88E("error!psta->sleepq_len=%d\n", psta->sleepq_len);
++						netdev_dbg(padapter->pnetdev,
++							   "error!psta->sleepq_len=%d\n",
++							   psta->sleepq_len);
+ 						psta->sleepq_len = 0;
+ 					}
+ 
+@@ -1505,7 +1519,9 @@ static int amsdu_to_msdu(struct adapter *padapter, struct recv_frame *prframe)
+ 		nSubframe_Length = get_unaligned_be16(pdata + 12);
+ 
+ 		if (a_len < (ETH_HLEN + nSubframe_Length)) {
+-			DBG_88E("nRemain_Length is %d and nSubframe_Length is : %d\n", a_len, nSubframe_Length);
++			netdev_dbg(padapter->pnetdev,
++				   "nRemain_Length is %d and nSubframe_Length is : %d\n",
++				   a_len, nSubframe_Length);
+ 			goto exit;
+ 		}
+ 
+@@ -1516,7 +1532,9 @@ static int amsdu_to_msdu(struct adapter *padapter, struct recv_frame *prframe)
+ 		/* Allocate new skb for releasing to upper layer */
+ 		sub_skb = dev_alloc_skb(nSubframe_Length + 12);
+ 		if (!sub_skb) {
+-			DBG_88E("dev_alloc_skb() Fail!!! , nr_subframes=%d\n", nr_subframes);
++			netdev_dbg(padapter->pnetdev,
++				   "dev_alloc_skb() Fail!!! , nr_subframes=%d\n",
++				   nr_subframes);
+ 			break;
+ 		}
+ 
+@@ -1526,7 +1544,8 @@ static int amsdu_to_msdu(struct adapter *padapter, struct recv_frame *prframe)
+ 		subframes[nr_subframes++] = sub_skb;
+ 
+ 		if (nr_subframes >= MAX_SUBFRAME_COUNT) {
+-			DBG_88E("ParseSubframe(): Too many Subframes! Packets dropped!\n");
++			netdev_dbg(padapter->pnetdev,
++				   "ParseSubframe(): Too many Subframes! Packets dropped!\n");
+ 			break;
+ 		}
+ 
+@@ -1935,7 +1954,8 @@ static int recv_func(struct adapter *padapter, struct recv_frame *rframe)
+ 
+ 		while ((pending_frame = rtw_alloc_recvframe(&padapter->recvpriv.uc_swdec_pending_queue))) {
+ 			if (recv_func_posthandle(padapter, pending_frame) == _SUCCESS)
+-				DBG_88E("%s: dequeue uc_swdec_pending_queue\n", __func__);
++				netdev_dbg(padapter->pnetdev,
++					   "dequeue uc_swdec_pending_queue\n");
+ 		}
+ 	}
+ 
+@@ -1950,7 +1970,8 @@ static int recv_func(struct adapter *padapter, struct recv_frame *rframe)
+ 		    !is_wep_enc(psecuritypriv->dot11PrivacyAlgrthm) &&
+ 		    !psecuritypriv->busetkipkey) {
+ 			rtw_enqueue_recvframe(rframe, &padapter->recvpriv.uc_swdec_pending_queue);
+-			DBG_88E("%s: no key, enqueue uc_swdec_pending_queue\n", __func__);
++			netdev_dbg(padapter->pnetdev,
++				   "no key, enqueue uc_swdec_pending_queue\n");
+ 			goto exit;
+ 		}
+ 
 -- 
 2.30.2
 
