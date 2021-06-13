@@ -1,41 +1,41 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371226D0D
-	for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 15:56:28 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id v206-20020a1cded70000b02901a586d3fa23so11329336wmg.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146A06D0F
+	for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 15:56:29 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id g204so10659002wmf.5
         for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 08:56:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=WcWXY1H/tcjwWXrjK7sGg/H6izhQyfGF6Ma3AVimpBU=;
-        b=HEbM5nM8IHDEzMdD3sztOA9THxULFR4v8Z3E2Fvii9hlMDTtptfpVaiPLdLYnSvk+0
-         NTVwVp7GOcNpM8gtJafnfqtSo2gRkzUbCOCXnt1Hyh7joulJKdVs0TBy0NDzVRha3+oH
-         ytSQ0/gvM1ltmbnXirtLVlCkTqxYlHK58VDN79RPpE1rtCeRE2nNBmIFp89xpMw4k2Ej
-         xEeeSONozXVj/bm8pCu0jqEASSM1HsSG5cvz+jmpKiY59koi1j//UB+fE3a3OsUdNQhS
-         DjXE2hwHJFaqvad1GEFWivXu2sIRYVfTq1zj/zfTDUZVS+fixR2x09HT4qJkZDkA3izK
-         2OYw==
+        bh=U+7KMa4x9I3RPmCk8B+EWnxSMOxLFlMAChoVtPf3+Qw=;
+        b=sRm83kHP9pj1mh8p6uprSQKuZQ6IIpJJsIzwqx/4odMzL6Wu/nmAdp3Wo0rDx0BoS1
+         JHba3I5flCsPV8zuUgmX7K2JLppXNEA4tUYKwk22HuaHtMjDEIz0Vk1r/c7UVSCfsyaR
+         7kwV5kJk9EEbcTWU321+6uORYPzY/D9/rOHZSu5JU1YeXs3m8hIAiJP0TmtLWRPjX+51
+         im/kshnLGPKDHrlSS6fADgYx2UpmfN8pm9nP4GR6CD9dnDGbjHXjYnqsRCBWIQMPkOsM
+         DUoFyQHWWj1KYkeiva2qpPztAMaqD193akrzzL4nJCTieV03+mSgs8zhBdZR5bxxUA9V
+         xV7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WcWXY1H/tcjwWXrjK7sGg/H6izhQyfGF6Ma3AVimpBU=;
-        b=DV1d5359zOUQFP0DVhLHST2RXmatgV0cI0QUFTVn1QrbsvDuoXrFO/RAtZVvsNPLbO
-         SvQH5dYAblIzMe68fReIe8d4ij/EyVCrydk7/CgbnyMQNTPRA6/xEzTH/SebT8Ob0Veg
-         ESis+ZL8WP7PYrzs1jSosTFYOC5Q5yrC3Ryrzt/vah6NBsjLMO3HAEewjLvgOw5ToDc1
-         WAiX8PQwUX6CIbHljCW4wLtqUyqOuXjNbarUyy9BvdY2DwR/fGVU/v97Tzx1PqTb/zRW
-         WS0AgNwkkqib3qkH0ZOerbqKfyCANTb4N4X85PibkjP4HVjv1HBvd/gwFSeTYoKpfnJc
-         0pHg==
-X-Gm-Message-State: AOAM532+ATdLjCd68PCJK3bLCGsYW2ypIiTdrj5M7ANSkFyZxP0j0wlY
-	phobNMxPc3JYlroFAMzHoejp6xkbZMc=
-X-Google-Smtp-Source: ABdhPJzC7esJXQAJvVqwSLn+AHewwNmrMQCmETANKdSzUN9Gdtf2/VJaUyahh1RjHJVC4574vp7ZRw==
-X-Received: by 2002:a1c:453:: with SMTP id 80mr12034421wme.171.1623599786485;
-        Sun, 13 Jun 2021 08:56:26 -0700 (PDT)
+        bh=U+7KMa4x9I3RPmCk8B+EWnxSMOxLFlMAChoVtPf3+Qw=;
+        b=sf/dhg98RVNQ2eGFj/JlbNJmzRFQcWlCMA1DLqdV1VTzZOXmgfFI1DAP4qW346hdKV
+         hAdnREX+dsTLDgqZhXiBNe0rFybaT2+iFxd9UddGyC9TrWQAOMnYKsyJBSPoFsCVrdc6
+         Ei6nCtoDGcNoRxIxiEyLjUCvcnpOqb943KsFP4dIRWDuBCVYNmdvdfV3CYbPTVHmJa/o
+         6a0kwzZ9wIa0yCzd/8+TG2gxtsODrOynnoPov+nnx54OGUilILyDxO2X4ObTc5I4NDkZ
+         H9PyPNIW4sd1a0hcACF09rxMrDQbJTJ+xP8hUzc7Sb67+FOVqvwHPoAus3HZgjuSfXjC
+         1QKw==
+X-Gm-Message-State: AOAM531s9apTlWsvS42bA0QVS1jiZOQPVbI0jp8RUixK9EUu5pTQussM
+	44uGk6MO3mRHOmuHl/q95YTodiFE43I=
+X-Google-Smtp-Source: ABdhPJzQDoc9eMI4+h5ulG+lDOYp9zHS4rPC0Q1y6HneU/Rmfd5s6SYJsNeVGLIe5V3qB8L8sP6OAw==
+X-Received: by 2002:a05:600c:230b:: with SMTP id 11mr12292290wmo.81.1623599787334;
+        Sun, 13 Jun 2021 08:56:27 -0700 (PDT)
 Received: from localhost.localdomain (98.red-81-38-58.dynamicip.rima-tde.net. [81.38.58.98])
-        by smtp.gmail.com with ESMTPSA id g17sm17539746wrh.72.2021.06.13.08.56.25
+        by smtp.gmail.com with ESMTPSA id g17sm17539746wrh.72.2021.06.13.08.56.26
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 13 Jun 2021 08:56:26 -0700 (PDT)
+        Sun, 13 Jun 2021 08:56:27 -0700 (PDT)
 From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
@@ -44,9 +44,9 @@ Cc: gregkh@linuxfoundation.org,
 	tsbogend@alpha.franken.de,
 	ilya.lipnitskiy@gmail.com,
 	john@phrozen.org
-Subject: [PATCH 1/3] MIPS: ralink: Define PCI_IOBASE
-Date: Sun, 13 Jun 2021 17:56:21 +0200
-Message-Id: <20210613155623.17233-2-sergio.paracuellos@gmail.com>
+Subject: [PATCH 2/3] staging: mt7621-pci: remove 'mt7621_pci_parse_request_of_pci_ranges'
+Date: Sun, 13 Jun 2021 17:56:22 +0200
+Message-Id: <20210613155623.17233-3-sergio.paracuellos@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210613155623.17233-1-sergio.paracuellos@gmail.com>
 References: <20210613155623.17233-1-sergio.paracuellos@gmail.com>
@@ -57,36 +57,189 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-PCI_IOBASE is used to create VM maps for PCI I/O ports, it is
-required by generic PCI drivers to make memory mapped I/O range
-work. Hence define it for ralink architectures to be able to
-avoid parsing manually IO ranges in PCI generic driver code.
-Function 'plat_mem_setup' for ralink is using 'set_io_port_base'
-call using '0xa0000000' as address, so use the same address in
-the definition to align things.
+After 'PCI_IOBASE' is defined for ralink, ranges are properly parsed
+using pci generic APIS and there is no need to parse anything
+manually. So function 'mt7621_pci_parse_request_of_pci_ranges'
+used for this can be enterely removed. Since we have to configure
+iocu memory regions and pci io windows resources must be retrieved
+accordly from 'bridge->windows' but there is no need to store
+anything as driver private data.
 
 Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 ---
- arch/mips/include/asm/mach-ralink/spaces.h | 10 ++++++++++
- 1 file changed, 10 insertions(+)
- create mode 100644 arch/mips/include/asm/mach-ralink/spaces.h
+ drivers/staging/mt7621-pci/pci-mt7621.c | 100 +++++++-----------------
+ 1 file changed, 27 insertions(+), 73 deletions(-)
 
-diff --git a/arch/mips/include/asm/mach-ralink/spaces.h b/arch/mips/include/asm/mach-ralink/spaces.h
-new file mode 100644
-index 000000000000..ec58d4a9ed05
---- /dev/null
-+++ b/arch/mips/include/asm/mach-ralink/spaces.h
-@@ -0,0 +1,10 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef __ASM_MACH_RALINK_SPACES_H_
-+#define __ASM_MACH_RALINK_SPACES_H_
+diff --git a/drivers/staging/mt7621-pci/pci-mt7621.c b/drivers/staging/mt7621-pci/pci-mt7621.c
+index b0b5700cbfec..691030e1a5ed 100644
+--- a/drivers/staging/mt7621-pci/pci-mt7621.c
++++ b/drivers/staging/mt7621-pci/pci-mt7621.c
+@@ -86,10 +86,7 @@ struct mt7621_pcie_port {
+ /**
+  * struct mt7621_pcie - PCIe host information
+  * @base: IO Mapped Register Base
+- * @io: IO resource
+- * @mem: pointer to non-prefetchable memory resource
+  * @dev: Pointer to PCIe device
+- * @io_map_base: virtual memory base address for io
+  * @ports: pointer to PCIe port information
+  * @resets_inverted: depends on chip revision
+  * reset lines are inverted.
+@@ -97,9 +94,6 @@ struct mt7621_pcie_port {
+ struct mt7621_pcie {
+ 	void __iomem *base;
+ 	struct device *dev;
+-	struct resource io;
+-	struct resource *mem;
+-	unsigned long io_map_base;
+ 	struct list_head ports;
+ 	bool resets_inverted;
+ };
+@@ -213,75 +207,33 @@ static inline void mt7621_control_deassert(struct mt7621_pcie_port *port)
+ 		reset_control_assert(port->pcie_rst);
+ }
+ 
+-static void setup_cm_memory_region(struct mt7621_pcie *pcie)
++static int setup_cm_memory_region(struct pci_host_bridge *host)
+ {
+-	struct resource *mem_resource = pcie->mem;
++	struct mt7621_pcie *pcie = pci_host_bridge_priv(host);
+ 	struct device *dev = pcie->dev;
++	struct resource_entry *entry;
+ 	resource_size_t mask;
+ 
++	entry = resource_list_first_type(&host->windows, IORESOURCE_MEM);
++	if (!entry) {
++		dev_err(dev, "Cannot get memory resource\n");
++		return -EINVAL;
++	}
 +
-+#define PCI_IOBASE	_AC(0xa0000000, UL)
-+#define PCI_IOSIZE	SZ_16M
-+#define IO_SPACE_LIMIT  (PCI_IOSIZE - 1)
+ 	if (mips_cps_numiocu(0)) {
+ 		/*
+ 		 * FIXME: hardware doesn't accept mask values with 1s after
+ 		 * 0s (e.g. 0xffef), so it would be great to warn if that's
+ 		 * about to happen
+ 		 */
+-		mask = ~(mem_resource->end - mem_resource->start);
++		mask = ~(entry->res->end - entry->res->start);
+ 
+-		write_gcr_reg1_base(mem_resource->start);
++		write_gcr_reg1_base(entry->res->start);
+ 		write_gcr_reg1_mask(mask | CM_GCR_REGn_MASK_CMTGT_IOCU0);
+ 		dev_info(dev, "PCI coherence region base: 0x%08llx, mask/settings: 0x%08llx\n",
+ 			 (unsigned long long)read_gcr_reg1_base(),
+ 			 (unsigned long long)read_gcr_reg1_mask());
+ 	}
+-}
+-
+-static int mt7621_pci_parse_request_of_pci_ranges(struct pci_host_bridge *host)
+-{
+-	struct mt7621_pcie *pcie = pci_host_bridge_priv(host);
+-	struct device *dev = pcie->dev;
+-	struct device_node *node = dev->of_node;
+-	struct of_pci_range_parser parser;
+-	struct resource_entry *entry;
+-	struct of_pci_range range;
+-	LIST_HEAD(res);
+-
+-	if (of_pci_range_parser_init(&parser, node)) {
+-		dev_err(dev, "missing \"ranges\" property\n");
+-		return -EINVAL;
+-	}
+-
+-	/*
+-	 * IO_SPACE_LIMIT for MIPS is 0xffff but this platform uses IO at
+-	 * upper address 0x001e160000. of_pci_range_to_resource does not work
+-	 * well for MIPS platforms that don't define PCI_IOBASE, so set the IO
+-	 * resource manually instead.
+-	 */
+-	for_each_of_pci_range(&parser, &range) {
+-		switch (range.flags & IORESOURCE_TYPE_BITS) {
+-		case IORESOURCE_IO:
+-			pcie->io_map_base =
+-				(unsigned long)ioremap(range.cpu_addr,
+-						       range.size);
+-			pcie->io.name = node->full_name;
+-			pcie->io.flags = range.flags;
+-			pcie->io.start = range.cpu_addr;
+-			pcie->io.end = range.cpu_addr + range.size - 1;
+-			pcie->io.parent = pcie->io.child = pcie->io.sibling = NULL;
+-			set_io_port_base(pcie->io_map_base);
+-			break;
+-		}
+-	}
+-
+-	entry = resource_list_first_type(&host->windows, IORESOURCE_MEM);
+-	if (!entry) {
+-		dev_err(dev, "Cannot get memory resource");
+-		return -EINVAL;
+-	}
+-
+-	pcie->mem = entry->res;
+-	pci_add_resource(&res, &pcie->io);
+-	pci_add_resource(&res, entry->res);
+-	list_splice_init(&res, &host->windows);
+ 
+ 	return 0;
+ }
+@@ -510,15 +462,23 @@ static void mt7621_pcie_enable_port(struct mt7621_pcie_port *port)
+ 	write_config(pcie, slot, PCIE_FTS_NUM, val);
+ }
+ 
+-static int mt7621_pcie_enable_ports(struct mt7621_pcie *pcie)
++static int mt7621_pcie_enable_ports(struct pci_host_bridge *host)
+ {
++	struct mt7621_pcie *pcie = pci_host_bridge_priv(host);
+ 	struct device *dev = pcie->dev;
+ 	struct mt7621_pcie_port *port;
++	struct resource_entry *entry;
+ 	int err;
+ 
++	entry = resource_list_first_type(&host->windows, IORESOURCE_IO);
++	if (!entry) {
++		dev_err(dev, "Cannot get io resource\n");
++		return -EINVAL;
++	}
 +
-+#include <asm/mach-generic/spaces.h>
-+#endif
+ 	/* Setup MEMWIN and IOWIN */
+ 	pcie_write(pcie, 0xffffffff, RALINK_PCI_MEMBASE);
+-	pcie_write(pcie, pcie->io.start, RALINK_PCI_IOBASE);
++	pcie_write(pcie, entry->res->start, RALINK_PCI_IOBASE);
+ 
+ 	list_for_each_entry(port, &pcie->ports, list) {
+ 		if (port->enabled) {
+@@ -581,25 +541,19 @@ static int mt7621_pci_probe(struct platform_device *pdev)
+ 		return err;
+ 	}
+ 
+-	err = mt7621_pci_parse_request_of_pci_ranges(bridge);
+-	if (err) {
+-		dev_err(dev, "Error requesting pci resources from ranges");
+-		goto remove_resets;
+-	}
+-
+-	/* set resources limits */
+-	ioport_resource.start = pcie->io.start;
+-	ioport_resource.end = pcie->io.end;
+-
+ 	mt7621_pcie_init_ports(pcie);
+ 
+-	err = mt7621_pcie_enable_ports(pcie);
++	err = mt7621_pcie_enable_ports(bridge);
+ 	if (err) {
+ 		dev_err(dev, "Error enabling pcie ports\n");
+ 		goto remove_resets;
+ 	}
+ 
+-	setup_cm_memory_region(pcie);
++	err = setup_cm_memory_region(bridge);
++	if (err) {
++		dev_err(dev, "Error setting up iocu mem regions\n");
++		goto remove_resets;
++	}
+ 
+ 	return mt7621_pcie_register_host(bridge);
+ 
 -- 
 2.25.1
 
