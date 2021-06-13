@@ -1,41 +1,41 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161F46D0D
-	for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 22:41:54 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id y13-20020a1c4b0d0000b02901c20173e165so3767295wma.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B4672
+	for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 22:41:55 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id l7-20020a05600c1d07b02901b0e2ebd6deso11679511wms.1
         for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 15:41:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Isv5W8SGDip5PWWs67KiL0JeNgzRX7W2d1GezPhOQ4s=;
-        b=MSUCZc6wV2LWHIY7drAM1uf7ygqdRzqsJgK50h1p1zTMXr1QzOq5ix6BztCVKLb+6I
-         n2fECSa39a/MtJ4K19yXypKmKz7J9j/8oj/Rrc+asRoapUqdGrLA2vQa/KdKJd2ZRtu8
-         413W7MOKT/y60hqCsA/blFtqVlg1QRd/iPaNC3NecWez+38p3DPVILI9KBdGVboOJ4u7
-         OSZlGKUNhOiChrwFOQokq1gY/uBE04M/ndqbH0zjIHU/m2xXYjCtYV9DbGsYa0xd9qfJ
-         Lyp9rNhydeq8PaPUBPbclIpEZM1vW2J5gH0Z+fSrc1n1TsNT4H0RDHVHe+Kka038nCEA
-         6C+g==
+        bh=rJcVaNtayCmRC0+TdITTBgTJZtfeM8wWvimCLXL7Fw8=;
+        b=XsonZfLbZVqpkWYL8KL6QDulrdOvxN7wRui8vpHCn+wdvDBgWd114+9BnZmu+2/MID
+         MGaCUGdn6q4WvKCdHHwyEVZcM3gxiDXn1XBEdmjVzlBX2KJ7IwTNZaNHfAmrVK8qs2Q4
+         qF0SOGp9oY7TR+6pqeOFcmwKA9c564fLSAcuUA4qcAqk+Ym83N+Nh6gb9Fp8LQNvedzc
+         2TUwM7ANwPGvCpFiqw0odG7hlAHBUmvG+HB28qMuURPcsTxzIsEyxFD4KKoyZjA9dvwp
+         RafDoR0Sm+sFOyHx4fT+PyogryXQcJ/OBVH+DXUABpIpX78tKC9T/oBu8YQDq8SB+pjJ
+         GGOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Isv5W8SGDip5PWWs67KiL0JeNgzRX7W2d1GezPhOQ4s=;
-        b=foH573HoOPb8xTr3gzmIiogwyE8NvKX6OGXB7uVbs9pMM0aW9H117pm2yNwjS3oE0v
-         Uboq25udq+BoNVgoeoVSEE4aqUXfl9LFq/cksmIeBdCYvWnyCKjNxI5IUuUbND4q7ElR
-         D+VAvwCPZhzWQRMsCs/LEEo97WY3aTkI+zZq2CNNhZBpLvDnDNIWB6hEfb5zAlGcqD1P
-         bO/BtMp2dU/Fbi9WKr8s6b1+LXCUa176VuXgQ7n9U/SZhNaoqmRpi6BABhV6djsE3eij
-         zsSZZZvwxez23N3ddG3v1Z8zHYM4Zo5C1ZzUxhz77+f5nbrizgmHz198OjDlOium1lH3
-         oBBw==
-X-Gm-Message-State: AOAM531N5gGsJqgGiKpRo4uTwa1cXIBqJ/ZN7aVSbu4lbMnxwtigHuPY
-	fQAOjQ6NbG2OtJ+IzLm9oAvC1w==
-X-Google-Smtp-Source: ABdhPJylowid0p5eaYzXujksQ2AlXFcyGWBkLNNaIUnsMRn3mgkP+i8rzGDIAHE5lE+439D5+OXKWg==
-X-Received: by 2002:a05:600c:3581:: with SMTP id p1mr27143058wmq.109.1623624112731;
-        Sun, 13 Jun 2021 15:41:52 -0700 (PDT)
+        bh=rJcVaNtayCmRC0+TdITTBgTJZtfeM8wWvimCLXL7Fw8=;
+        b=kuDbvx5otMjOVrdGpQw/HC7mpTedJcn3L1uMzlL+LnQ3pCxrdeayEnMChtn9XVQv1H
+         Ck+bCEnX5FssWLhx7v72aSKRrgbsPFOuxrA+PPUL9KqMZ0hTw3yu1go1Vmq1V4YxOUGu
+         IJeq21z0GjilkIh3c4uva1663GACXLgG4fGYid8ZOnH5se5aL38JfXRhNC9fBY975jdX
+         ONWp4rSrKF30dZkWKrmE3yt1YY1+YmisrYYhMlZarEA04D5p18oTKOdEnHyA1kNKgWJv
+         UsqjbKkKmkB19oXqwBpEe7KCVL2pdmpM1qgKzX2VRigQ9bctxMz204unNiV5jhjd/s2Z
+         CtAw==
+X-Gm-Message-State: AOAM5326re1m55gwmceX3DWJdsUoMUxjgtkAWcf/HqeciSDYynOmD295
+	VXOuGmfuaQW5So0luXF+qXiopg==
+X-Google-Smtp-Source: ABdhPJwHWyt0f0clHnPwFjnUCQtE/EmSAMF6piTZ6I1oEPmrbsgW2Qyal+VJ1jTfBJaiyRDBpsUAsA==
+X-Received: by 2002:a05:600c:5122:: with SMTP id o34mr13572081wms.168.1623624113634;
+        Sun, 13 Jun 2021 15:41:53 -0700 (PDT)
 Received: from localhost.localdomain (2.0.5.1.1.6.3.8.5.c.c.3.f.b.d.3.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16:0:3dbf:3cc5:8361:1502])
-        by smtp.gmail.com with ESMTPSA id w11sm15120618wrv.89.2021.06.13.15.41.51
+        by smtp.gmail.com with ESMTPSA id w11sm15120618wrv.89.2021.06.13.15.41.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Jun 2021 15:41:52 -0700 (PDT)
+        Sun, 13 Jun 2021 15:41:53 -0700 (PDT)
 From: Phillip Potter <phil@philpotter.co.uk>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -54,9 +54,9 @@ Cc: Larry.Finger@lwfinger.net,
 	romain.perier@gmail.com,
 	apais@linux.microsoft.com,
 	mh12gx2825@gmail.com
-Subject: [PATCH 1/3] staging: rtl8188eu: convert DBG_88E calls in core/rtw_efuse.c
-Date: Sun, 13 Jun 2021 23:41:45 +0100
-Message-Id: <20210613224147.1045-2-phil@philpotter.co.uk>
+Subject: [PATCH 2/3] staging: rtl8188eu: convert DBG_88E calls in core/rtw_xmit.c
+Date: Sun, 13 Jun 2021 23:41:46 +0100
+Message-Id: <20210613224147.1045-3-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210613224147.1045-1-phil@philpotter.co.uk>
 References: <20210613224147.1045-1-phil@philpotter.co.uk>
@@ -67,115 +67,320 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert all calls to the DBG_88E macro in core/rtw_efuse.c into
-netdev_dbg calls. The DBG_88E macro is unnecessary, as visibility of
-debug messages can be controlled more precisely by just using debugfs.
-It is important to keep these messages still, as they are displayable
-via a kernel module parameter when using DBG_88E.
+Convert all calls to the DBG_88E and DBG_88E_LEVEL macros in
+core/rtw_xmit.c into netdev_dbg calls. These are unnecessary,
+as visibility of debug messages can be controlled more precisely
+by just using debugfs. It is important to keep these messages
+still, as they are displayable via a kernel module parameter when
+using DBG_88E.
 
-Also modify efuse_phymap_to_logical function signature to pass through
-a struct net_device pointer, so that we can use it to call netdev_dbg
-in this function too.
+To do this, also modify the rtw_sctx_wait, rtw_sctx_done_err and
+qos_acm functions and call sites, to pass through a struct net_device
+pointer so that netdev_dbg can be used in these as well.
 
 Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 ---
- drivers/staging/rtl8188eu/core/rtw_efuse.c | 27 ++++++++++++++--------
- 1 file changed, 17 insertions(+), 10 deletions(-)
+ drivers/staging/rtl8188eu/core/rtw_mlme_ext.c |  2 +-
+ drivers/staging/rtl8188eu/core/rtw_xmit.c     | 60 +++++++++++--------
+ .../staging/rtl8188eu/hal/rtl8188eu_xmit.c    |  4 +-
+ drivers/staging/rtl8188eu/include/rtw_xmit.h  |  6 +-
+ drivers/staging/rtl8188eu/os_dep/os_intfs.c   |  2 +-
+ .../staging/rtl8188eu/os_dep/usb_ops_linux.c  | 11 +++-
+ 6 files changed, 52 insertions(+), 33 deletions(-)
 
-diff --git a/drivers/staging/rtl8188eu/core/rtw_efuse.c b/drivers/staging/rtl8188eu/core/rtw_efuse.c
-index 9bb3ec0cd62f..019796c0f1af 100644
---- a/drivers/staging/rtl8188eu/core/rtw_efuse.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_efuse.c
-@@ -72,7 +72,7 @@ static void efuse_power_switch(struct adapter *pAdapter, u8 write, u8 pwrstate)
+diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+index 507672120cbc..e73054f6c1cb 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+@@ -240,7 +240,7 @@ static s32 dump_mgntframe_and_wait(struct adapter *padapter,
+ 	ret = rtw_hal_mgnt_xmit(padapter, pmgntframe);
+ 
+ 	if (ret == _SUCCESS)
+-		ret = rtw_sctx_wait(&sctx);
++		ret = rtw_sctx_wait(padapter->pnetdev, &sctx);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/staging/rtl8188eu/core/rtw_xmit.c b/drivers/staging/rtl8188eu/core/rtw_xmit.c
+index 718dd20ff36c..a0bc9093e68b 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_xmit.c
++++ b/drivers/staging/rtl8188eu/core/rtw_xmit.c
+@@ -340,7 +340,7 @@ static void update_attrib_phy_info(struct pkt_attrib *pattrib, struct sta_info *
+ 	pattrib->retry_ctrl = false;
  }
  
- static void
--efuse_phymap_to_logical(u8 *phymap, u16 _offset, u16 _size_byte, u8  *pbuf)
-+efuse_phymap_to_logical(struct net_device *dev, u8 *phymap, u16 _offset, u16 _size_byte, u8 *pbuf)
+-u8 qos_acm(u8 acm_mask, u8 priority)
++u8 qos_acm(struct net_device *dev, u8 acm_mask, u8 priority)
  {
- 	u8 *efuseTbl = NULL;
- 	u8 rtemp8;
-@@ -92,7 +92,7 @@ efuse_phymap_to_logical(u8 *phymap, u16 _offset, u16 _size_byte, u8  *pbuf)
- 		      sizeof(void *) + EFUSE_MAX_WORD_UNIT * sizeof(u16),
- 		      GFP_KERNEL);
- 	if (!tmp) {
--		DBG_88E("%s: alloc eFuseWord fail!\n", __func__);
-+		netdev_dbg(dev, "alloc eFuseWord fail!\n");
- 		goto eFuseWord_failed;
+ 	u8 change_priority = priority;
+ 
+@@ -364,8 +364,7 @@ u8 qos_acm(u8 acm_mask, u8 priority)
+ 			change_priority = 5;
+ 		break;
+ 	default:
+-		DBG_88E("%s(): invalid pattrib->priority: %d!!!\n",
+-			__func__, priority);
++		netdev_dbg(dev, "invalid pattrib->priority: %d!!!\n", priority);
+ 		break;
  	}
- 	for (i = 0; i < EFUSE_MAX_SECTION_88E; i++)
-@@ -113,7 +113,9 @@ efuse_phymap_to_logical(u8 *phymap, u16 _offset, u16 _size_byte, u8  *pbuf)
- 		efuse_utilized++;
- 		eFuse_Addr++;
+ 
+@@ -451,7 +450,7 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 			}
+ 		}
+ 	} else if (pattrib->ether_type == ETH_P_PAE) {
+-		DBG_88E_LEVEL(_drv_info_, "send eapol packet\n");
++		netdev_dbg(padapter->pnetdev, "send eapol packet\n");
+ 	}
+ 
+ 	if ((pattrib->ether_type == ETH_P_PAE) || (pattrib->dhcp_pkt == 1))
+@@ -481,7 +480,6 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 
+ 	if (psta) {
+ 		pattrib->mac_id = psta->mac_id;
+-		/* DBG_88E("%s ==> mac_id(%d)\n", __func__, pattrib->mac_id); */
+ 		pattrib->psta = psta;
  	} else {
--		DBG_88E("EFUSE is empty efuse_Addr-%d efuse_data =%x\n", eFuse_Addr, rtemp8);
-+		netdev_dbg(dev,
-+			   "EFUSE is empty efuse_Addr-%d efuse_data =%x\n",
-+			   eFuse_Addr, rtemp8);
+ 		/*  if we cannot get psta => drop the pkt */
+@@ -505,7 +503,9 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 			set_qos(pkt, pattrib);
+ 
+ 			if (pmlmepriv->acm_mask != 0)
+-				pattrib->priority = qos_acm(pmlmepriv->acm_mask, pattrib->priority);
++				pattrib->priority = qos_acm(padapter->pnetdev,
++							    pmlmepriv->acm_mask,
++							    pattrib->priority);
+ 		}
+ 	}
+ 
+@@ -927,7 +927,7 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ 		return _FAIL;
+ 
+ 	if (!pxmitframe->buf_addr) {
+-		DBG_88E("==> %s buf_addr == NULL\n", __func__);
++		netdev_dbg(padapter->pnetdev, "buf_addr == NULL\n");
+ 		return _FAIL;
+ 	}
+ 
+@@ -939,7 +939,7 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ 
+ 	if (rtw_make_wlanhdr(padapter, mem_start, pattrib) == _FAIL) {
+ 		RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("%s: rtw_make_wlanhdr fail; drop pkt\n", __func__));
+-		DBG_88E("%s: rtw_make_wlanhdr fail; drop pkt\n", __func__);
++		netdev_dbg(padapter->pnetdev, "rtw_make_wlanhdr fail; drop pkt\n");
+ 		res = _FAIL;
+ 		goto exit;
+ 	}
+@@ -1040,7 +1040,8 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ 
+ 	if (xmitframe_addmic(padapter, pxmitframe) == _FAIL) {
+ 		RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("xmitframe_addmic(padapter, pxmitframe) == _FAIL\n"));
+-		DBG_88E("xmitframe_addmic(padapter, pxmitframe) == _FAIL\n");
++		netdev_dbg(padapter->pnetdev,
++			   "xmitframe_addmic(padapter, pxmitframe) == _FAIL\n");
+ 		res = _FAIL;
+ 		goto exit;
+ 	}
+@@ -1154,8 +1155,11 @@ struct xmit_buf *rtw_alloc_xmitbuf_ext(struct xmit_priv *pxmitpriv)
+ 		pxmitpriv->free_xmit_extbuf_cnt--;
+ 		pxmitbuf->priv_data = NULL;
+ 		if (pxmitbuf->sctx) {
+-			DBG_88E("%s pxmitbuf->sctx is not NULL\n", __func__);
+-			rtw_sctx_done_err(&pxmitbuf->sctx, RTW_SCTX_DONE_BUF_ALLOC);
++			netdev_dbg(pxmitpriv->adapter->pnetdev,
++				   "pxmitbuf->sctx is not NULL\n");
++			rtw_sctx_done_err(pxmitpriv->adapter->pnetdev,
++					  &pxmitbuf->sctx,
++					  RTW_SCTX_DONE_BUF_ALLOC);
+ 		}
+ 	}
+ 	spin_unlock_irqrestore(&pfree_queue->lock, irql);
+@@ -1197,8 +1201,11 @@ struct xmit_buf *rtw_alloc_xmitbuf(struct xmit_priv *pxmitpriv)
+ 		pxmitpriv->free_xmitbuf_cnt--;
+ 		pxmitbuf->priv_data = NULL;
+ 		if (pxmitbuf->sctx) {
+-			DBG_88E("%s pxmitbuf->sctx is not NULL\n", __func__);
+-			rtw_sctx_done_err(&pxmitbuf->sctx, RTW_SCTX_DONE_BUF_ALLOC);
++			netdev_dbg(pxmitpriv->adapter->pnetdev,
++				   "pxmitbuf->sctx is not NULL\n");
++			rtw_sctx_done_err(pxmitpriv->adapter->pnetdev,
++					  &pxmitbuf->sctx,
++					  RTW_SCTX_DONE_BUF_ALLOC);
+ 		}
+ 	}
+ 	spin_unlock_irqrestore(&pfree_xmitbuf_queue->lock, irql);
+@@ -1215,8 +1222,11 @@ s32 rtw_free_xmitbuf(struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf)
+ 		return _FAIL;
+ 
+ 	if (pxmitbuf->sctx) {
+-		DBG_88E("%s pxmitbuf->sctx is not NULL\n", __func__);
+-		rtw_sctx_done_err(&pxmitbuf->sctx, RTW_SCTX_DONE_BUF_FREE);
++		netdev_dbg(pxmitpriv->adapter->pnetdev,
++			   "pxmitbuf->sctx is not NULL\n");
++		rtw_sctx_done_err(pxmitpriv->adapter->pnetdev,
++				  &pxmitbuf->sctx,
++				  RTW_SCTX_DONE_BUF_FREE);
+ 	}
+ 
+ 	if (pxmitbuf->ext_tag) {
+@@ -1482,7 +1492,7 @@ s32 rtw_xmit_classifier(struct adapter *padapter, struct xmit_frame *pxmitframe)
+ 
+ 	if (!psta) {
+ 		res = _FAIL;
+-		DBG_88E("%s: psta == NULL\n", __func__);
++		netdev_dbg(padapter->pnetdev, "psta == NULL\n");
+ 		RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("%s: psta == NULL\n", __func__));
+ 		goto exit;
+ 	}
+@@ -1591,7 +1601,7 @@ s32 rtw_xmit(struct adapter *padapter, struct sk_buff **ppkt)
+ 	pxmitframe = rtw_alloc_xmitframe(pxmitpriv);
+ 	if (!pxmitframe) {
+ 		RT_TRACE(_module_xmit_osdep_c_, _drv_err_, ("%s: no more pxmitframe\n", __func__));
+-		DBG_88E("DBG_TX_DROP_FRAME %s no more pxmitframe\n", __func__);
++		netdev_dbg(padapter->pnetdev, "DBG_TX_DROP_FRAME no more pxmitframe\n");
+ 		return -1;
+ 	}
+ 
+@@ -1982,7 +1992,7 @@ void rtw_sctx_init(struct submit_ctx *sctx, int timeout_ms)
+ 	sctx->status = RTW_SCTX_SUBMITTED;
+ }
+ 
+-int rtw_sctx_wait(struct submit_ctx *sctx)
++int rtw_sctx_wait(struct net_device *dev, struct submit_ctx *sctx)
+ {
+ 	int ret = _FAIL;
+ 	unsigned long expire;
+@@ -1992,7 +2002,7 @@ int rtw_sctx_wait(struct submit_ctx *sctx)
+ 	if (!wait_for_completion_timeout(&sctx->done, expire)) {
+ 		/* timeout, do something?? */
+ 		status = RTW_SCTX_DONE_TIMEOUT;
+-		DBG_88E("%s timeout\n", __func__);
++		netdev_dbg(dev, "timeout\n");
+ 	} else {
+ 		status = sctx->status;
+ 	}
+@@ -2018,11 +2028,11 @@ static bool rtw_sctx_chk_warning_status(int status)
+ 	}
+ }
+ 
+-void rtw_sctx_done_err(struct submit_ctx **sctx, int status)
++void rtw_sctx_done_err(struct net_device *dev, struct submit_ctx **sctx, int status)
+ {
+ 	if (*sctx) {
+ 		if (rtw_sctx_chk_warning_status(status))
+-			DBG_88E("%s status:%d\n", __func__, status);
++			netdev_dbg(dev, "status:%d\n", status);
+ 		(*sctx)->status = status;
+ 		complete(&((*sctx)->done));
+ 		*sctx = NULL;
+@@ -2037,7 +2047,7 @@ int rtw_ack_tx_wait(struct xmit_priv *pxmitpriv, u32 timeout_ms)
+ 	pack_tx_ops->timeout_ms = timeout_ms;
+ 	pack_tx_ops->status = RTW_SCTX_SUBMITTED;
+ 
+-	return rtw_sctx_wait(pack_tx_ops);
++	return rtw_sctx_wait(pxmitpriv->adapter->pnetdev, pack_tx_ops);
+ }
+ 
+ void rtw_ack_tx_done(struct xmit_priv *pxmitpriv, int status)
+@@ -2045,7 +2055,9 @@ void rtw_ack_tx_done(struct xmit_priv *pxmitpriv, int status)
+ 	struct submit_ctx *pack_tx_ops = &pxmitpriv->ack_tx_ops;
+ 
+ 	if (pxmitpriv->ack_tx)
+-		rtw_sctx_done_err(&pack_tx_ops, status);
++		rtw_sctx_done_err(pxmitpriv->adapter->pnetdev,
++				  &pack_tx_ops,
++				  status);
+ 	else
+-		DBG_88E("%s ack_tx not set\n", __func__);
++		netdev_dbg(pxmitpriv->adapter->pnetdev, "ack_tx not set\n");
+ }
+diff --git a/drivers/staging/rtl8188eu/hal/rtl8188eu_xmit.c b/drivers/staging/rtl8188eu/hal/rtl8188eu_xmit.c
+index d82dd22f2903..ba6c726e8724 100644
+--- a/drivers/staging/rtl8188eu/hal/rtl8188eu_xmit.c
++++ b/drivers/staging/rtl8188eu/hal/rtl8188eu_xmit.c
+@@ -387,7 +387,9 @@ static s32 rtw_dump_xframe(struct adapter *adapt, struct xmit_frame *pxmitframe)
+ 	rtw_free_xmitframe(pxmitpriv, pxmitframe);
+ 
+ 	if  (ret != _SUCCESS)
+-		rtw_sctx_done_err(&pxmitbuf->sctx, RTW_SCTX_DONE_UNKNOWN);
++		rtw_sctx_done_err(adapt->pnetdev,
++				  &pxmitbuf->sctx,
++				  RTW_SCTX_DONE_UNKNOWN);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/staging/rtl8188eu/include/rtw_xmit.h b/drivers/staging/rtl8188eu/include/rtw_xmit.h
+index 456fd52717f3..bc5dc656d054 100644
+--- a/drivers/staging/rtl8188eu/include/rtw_xmit.h
++++ b/drivers/staging/rtl8188eu/include/rtw_xmit.h
+@@ -182,8 +182,8 @@ enum {
+ };
+ 
+ void rtw_sctx_init(struct submit_ctx *sctx, int timeout_ms);
+-int rtw_sctx_wait(struct submit_ctx *sctx);
+-void rtw_sctx_done_err(struct submit_ctx **sctx, int status);
++int rtw_sctx_wait(struct net_device *dev, struct submit_ctx *sctx);
++void rtw_sctx_done_err(struct net_device *dev, struct submit_ctx **sctx, int status);
+ 
+ struct xmit_buf {
+ 	struct list_head list;
+@@ -341,7 +341,7 @@ void wakeup_sta_to_xmit(struct adapter *padapter, struct sta_info *psta);
+ void xmit_delivery_enabled_frames(struct adapter *padapter, struct sta_info *psta);
+ #endif
+ 
+-u8	qos_acm(u8 acm_mask, u8 priority);
++u8	qos_acm(struct net_device *dev, u8 acm_mask, u8 priority);
+ u32	rtw_get_ff_hwaddr(struct xmit_frame *pxmitframe);
+ int rtw_ack_tx_wait(struct xmit_priv *pxmitpriv, u32 timeout_ms);
+ void rtw_ack_tx_done(struct xmit_priv *pxmitpriv, int status);
+diff --git a/drivers/staging/rtl8188eu/os_dep/os_intfs.c b/drivers/staging/rtl8188eu/os_dep/os_intfs.c
+index 870148020e61..663286d5a7d4 100644
+--- a/drivers/staging/rtl8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8188eu/os_dep/os_intfs.c
+@@ -254,7 +254,7 @@ static u16 rtw_select_queue(struct net_device *dev, struct sk_buff *skb,
+ 	skb->priority = rtw_classify8021d(skb);
+ 
+ 	if (pmlmepriv->acm_mask != 0)
+-		skb->priority = qos_acm(pmlmepriv->acm_mask, skb->priority);
++		skb->priority = qos_acm(dev, pmlmepriv->acm_mask, skb->priority);
+ 
+ 	return rtw_1d_to_queue[skb->priority];
+ }
+diff --git a/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c b/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
+index ec07b2017fb7..70dc0a074cbe 100644
+--- a/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
++++ b/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
+@@ -500,7 +500,8 @@ static void usb_write_port_complete(struct urb *purb)
+ 	}
+ 
+ check_completion:
+-	rtw_sctx_done_err(&pxmitbuf->sctx,
++	rtw_sctx_done_err(padapter->pnetdev,
++			  &pxmitbuf->sctx,
+ 			  purb->status ? RTW_SCTX_DONE_WRITE_PORT_ERR :
+ 			  RTW_SCTX_DONE_SUCCESS);
+ 
+@@ -523,7 +524,9 @@ u32 usb_write_port(struct adapter *padapter, u32 addr, u32 cnt, struct xmit_buf
+ 
+ 	if ((padapter->bDriverStopped) || (padapter->bSurpriseRemoved) ||
+ 	    (padapter->pwrctrlpriv.pnp_bstop_trx)) {
+-		rtw_sctx_done_err(&xmitbuf->sctx, RTW_SCTX_DONE_TX_DENY);
++		rtw_sctx_done_err(padapter->pnetdev,
++				  &xmitbuf->sctx,
++				  RTW_SCTX_DONE_TX_DENY);
  		goto exit;
  	}
  
-@@ -220,7 +222,7 @@ static void efuse_read_phymap_from_txpktbuf(
- 	if (bcnhead < 0) /* if not valid */
- 		bcnhead = usb_read8(adapter, REG_TDECTRL + 1);
+@@ -569,7 +572,9 @@ u32 usb_write_port(struct adapter *padapter, u32 addr, u32 cnt, struct xmit_buf
  
--	DBG_88E("%s bcnhead:%d\n", __func__, bcnhead);
-+	netdev_dbg(adapter->pnetdev, "bcnhead:%d\n", bcnhead);
+ 	status = usb_submit_urb(purb, GFP_ATOMIC);
+ 	if (status) {
+-		rtw_sctx_done_err(&xmitbuf->sctx, RTW_SCTX_DONE_WRITE_PORT_ERR);
++		rtw_sctx_done_err(padapter->pnetdev,
++				  &xmitbuf->sctx,
++				  RTW_SCTX_DONE_WRITE_PORT_ERR);
+ 		if (status == -ENODEV)
+ 			padapter->bDriverStopped = true;
  
- 	usb_write8(adapter, REG_PKT_BUFF_ACCESS_CTRL, TXPKT_BUF_SELECT);
- 
-@@ -232,8 +234,10 @@ static void efuse_read_phymap_from_txpktbuf(
- 		usb_write8(adapter, REG_TXPKTBUF_DBG, 0);
- 		start = jiffies;
- 		while (!(reg_0x143 = usb_read8(adapter, REG_TXPKTBUF_DBG)) &&
--		       jiffies_to_msecs(jiffies - start) < 1000) {
--			DBG_88E("%s polling reg_0x143:0x%02x, reg_0x106:0x%02x\n", __func__, reg_0x143, usb_read8(adapter, 0x106));
-+			jiffies_to_msecs(jiffies - start) < 1000) {
-+			netdev_dbg(adapter->pnetdev,
-+				   "polling reg_0x143:0x%02x, reg_0x106:0x%02x\n",
-+				   reg_0x143, usb_read8(adapter, 0x106));
- 			usleep_range(1000, 2000);
- 		}
- 
-@@ -255,7 +259,9 @@ static void efuse_read_phymap_from_txpktbuf(
- 
- 			limit = min_t(u16, len - 2, limit);
- 
--			DBG_88E("%s len:%u, lenbak:%u, aaa:%u, aaabak:%u\n", __func__, len, lenbak, aaa, aaabak);
-+			netdev_dbg(adapter->pnetdev,
-+				   "len:%u, lenbak:%u, aaa:%u, aaabak:%u\n",
-+				   len, lenbak, aaa, aaabak);
- 
- 			memcpy(pos, ((u8 *)&lo32) + 2, (limit >= count + 2) ? 2 : limit - count);
- 			count += (limit >= count + 2) ? 2 : limit - count;
-@@ -278,7 +284,7 @@ static void efuse_read_phymap_from_txpktbuf(
- 		i++;
- 	}
- 	usb_write8(adapter, REG_PKT_BUFF_ACCESS_CTRL, DISABLE_TRXPKT_BUF_ACCESS);
--	DBG_88E("%s read count:%u\n", __func__, count);
-+	netdev_dbg(adapter->pnetdev, "read count:%u\n", count);
- 	*size = count;
- }
- 
-@@ -294,7 +300,7 @@ static s32 iol_read_efuse(struct adapter *padapter, u8 txpktbuf_bndy, u16 offset
- 	status = iol_execute(padapter, CMD_READ_EFUSE_MAP);
- 	if (status == _SUCCESS)
- 		efuse_read_phymap_from_txpktbuf(padapter, txpktbuf_bndy, physical_map, &size);
--	efuse_phymap_to_logical(physical_map, offset, size_byte, logical_map);
-+	efuse_phymap_to_logical(padapter->pnetdev, physical_map, offset, size_byte, logical_map);
- 	return status;
- }
- 
-@@ -432,7 +438,8 @@ int Efuse_PgPacketRead(struct adapter *pAdapter, u8 offset, u8 *data)
- 						hoffset = ((tmp_header & 0xE0) >> 5) | ((efuse_data & 0xF0) >> 1);
- 						hworden = efuse_data & 0x0F;
- 					} else {
--						DBG_88E("Error, All words disabled\n");
-+						netdev_dbg(pAdapter->pnetdev,
-+							   "Error, All words disabled\n");
- 						efuse_addr++;
- 						continue;
- 					}
 -- 
 2.30.2
 
