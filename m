@@ -1,91 +1,91 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3FBE2FB2
-	for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 10:12:52 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id s70-20020a1ca9490000b02901a589651424so8087705wme.0
-        for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 03:12:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E772FB2
+	for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 10:22:44 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id g24so8102853pji.4
+        for <linux-staging@lists.linux.dev>; Sun, 13 Jun 2021 03:22:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=poSIzJOmYFsQ4+lMLGI1TzSYcT8ndRNu2aW08GsOEmg=;
-        b=eJK9XnG56Rcdl91zFA3xcLmFAGahzWuLJ9hFMKNf7Ykju+KZ2KD+9pOrgndB3sKmpu
-         gvyDWBo+oak7scKKrku1d6weq5OeuVHtLiqrGKhCdJzzfCV8KWPNYJKznnPgcAi5QAq7
-         wuFClqfBYOM0WA2d7UeEzjMsUe94b8nGRaUc66rJQUA0TZ+8FKDBhbv4h2Y2SQaNod+r
-         PeJBTxVmzT7ULhlUFGCnxWBmFs+EBeU8LWpXaNv0cNeKOjayQbEdsPSwJhJbOHZNyUA2
-         qyJsPbWBntBztm9aeH+WYvR+71jGcPawxeSrQlnBb/p0BXoF4ko1yDFjPp2PXmQKL/1i
-         IEQA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aehKclAHtGCY3s2LfMz0LAWp7wfIb7LtluGt6xb+CcQ=;
+        b=PKhC3CwVQqjokDG93gYrvScBDYIIbhJtq3fc0Y8mND84+JLQ5tl9KgRyqdFrT+qydn
+         FEjmmYABLXTBS9Pw+XMcGgcdr1chjWF/b8AoOjLkXIaDZdEOtxrnN1rqIb1jz1R5ffMo
+         o2xbLeNw7pGIaPyH7m8hnY/7J7/V5NAuVYlqGOv2M6VFk7JhzMU7TFxelccFhJu61SiI
+         InYa2/k9Y6NhWaarh3tPu+6ZJUb5awXD3gsy5RYRv4wPtHmcT2DzUMrK6gYNi2OIaHKP
+         61fq6ornHi0kISvuHsF3uPYC0aAV7jaJyZvaih59gzM7neCkhNrWjRDyLjzZe6A++VeJ
+         sYfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=poSIzJOmYFsQ4+lMLGI1TzSYcT8ndRNu2aW08GsOEmg=;
-        b=goYntngxzLc0g4VTQnh8gzoIWBSAida32lte15DM8vIhDhBdxU1H+ENikcdBuCjj7H
-         vBmpQYn5yeQQTNcMCk4tl4D0+Fi3KAXMzJjLtz0q7PfTsz94O/M0OEusLU1VyKG6maWK
-         aeecQk6FZvUr0S70VbCmlIGXUJihuh6TPEKy+u7eKdxyB5nhxwmH9wKB1LdX2WRW8oiJ
-         FiwvrfbHH5z8Pa9sbrvOHFXPJWHuoy1tvYLHDmsJt6FqdEx1IbZ4eCX/XDFXb6fcR5Za
-         mOPgRbtVphaiK+PCLjBgCMLvxC2MrCsuIHOkJXQVABiT+M7SY2CLRZHPThD+tSVQ9fFL
-         Y1nQ==
-X-Gm-Message-State: AOAM5325HZwyI4hKUR38T1OQnPvuhUA2ei36bipf191SkSp8rAbkOqmr
-	O5luldgzhv6vR4wEoKuAj7O91Q==
-X-Google-Smtp-Source: ABdhPJx7mq7S8KCq6B1aZsYM+PwFA47iO6pX9GzMKaP6KZjoeOLZDNeXUsmZY+J40X7v3gCFe7e1Hw==
-X-Received: by 2002:a1c:1dd5:: with SMTP id d204mr27657098wmd.140.1623579171245;
-        Sun, 13 Jun 2021 03:12:51 -0700 (PDT)
-Received: from KernelVM (2.0.5.1.1.6.3.8.5.c.c.3.f.b.d.3.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16:0:3dbf:3cc5:8361:1502])
-        by smtp.gmail.com with ESMTPSA id h6sm13280633wrt.20.2021.06.13.03.12.50
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aehKclAHtGCY3s2LfMz0LAWp7wfIb7LtluGt6xb+CcQ=;
+        b=QP+3buXLfct/rrsxJPB96gRup+8xSlLUUaHwMKmmPG6N+uBeCFcJxaXRzRtc3g9VuY
+         +dFkZws1wc738dzAwbG45FsbP3U8K+cCRxtkT1dPgYazw03xAWEe8Poq2pcBktz9RbZx
+         9/TrItSF6BXOAKujesuiHtp2Av5SOS/kSwVC4TUsxJSK6UvmoQyuExzJInrOVvVaLQKz
+         4m2BD/40SNoQNb5UOhQ0P+4+JJR7LClNUSVCgMiRVszYif6/j56DQSn1lSg07c8n5cPo
+         50zS69cAf+q5H0gY1mSt27Msj7kNX98hU379ctIihG2luqUGobi9dh5hKUP2X1I4IjvY
+         3Xsw==
+X-Gm-Message-State: AOAM533VusSQ4zZZXAG9GwghZsSK8HosCM0hthA6v5hOTuy9bZ0WP57C
+	JDBb6MD6sMJTdKGoi+OY2UI=
+X-Google-Smtp-Source: ABdhPJwbRh/9JpJYi8QZHOlOtdnBQ7gWwiO8y36o/5VvPe1f55bE3zXweG2lpt3bpo4paqw8rc0KMA==
+X-Received: by 2002:a17:90a:ff12:: with SMTP id ce18mr13293599pjb.215.1623579763802;
+        Sun, 13 Jun 2021 03:22:43 -0700 (PDT)
+Received: from jm.lan (1-171-209-173.dynamic-ip.hinet.net. [1.171.209.173])
+        by smtp.gmail.com with ESMTPSA id t62sm1260983pfc.189.2021.06.13.03.22.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Jun 2021 03:12:50 -0700 (PDT)
-Date: Sun, 13 Jun 2021 11:12:48 +0100
-From: Phillip Potter <phil@philpotter.co.uk>
-To: Joe Perches <joe@perches.com>
-Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
-	linux@roeck-us.net, straube.linux@gmail.com, martin@kaiser.cx,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8188eu: convert DBG_88E calls in
- core/rtw_sta_mgt.c
-Message-ID: <YMXaIJWYMX3726Jp@KernelVM>
-References: <20210612232831.1325-1-phil@philpotter.co.uk>
- <2580565feae3e407d297b9eaa1ac6c4988c77076.camel@perches.com>
+        Sun, 13 Jun 2021 03:22:43 -0700 (PDT)
+From: Jhih-Ming Huang <fbihjmeric@gmail.com>
+To: gregkh@linuxfoundation.org,
+	fabioaiuto83@gmail.com,
+	ross.schm.dev@gmail.com,
+	maqianga@uniontech.com,
+	marcocesati@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Jhih-Ming Huang <fbihjmeric@gmail.com>
+Subject: [PATCH] rtw_security: fix cast to restricted __le32
+Date: Sun, 13 Jun 2021 18:22:29 +0800
+Message-Id: <20210613102229.1424495-1-fbihjmeric@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2580565feae3e407d297b9eaa1ac6c4988c77076.camel@perches.com>
 
-On Sat, Jun 12, 2021 at 05:22:33PM -0700, Joe Perches wrote:
-> On Sun, 2021-06-13 at 00:28 +0100, Phillip Potter wrote:
-> > Convert both calls to the DBG_88E macro in core/rtw_sta_mgt.c into
-> > netdev_dbg calls. The DBG_88E macro is unnecessary, as visibility of
-> > debug messages can be controlled more precisely by just using debugfs.
-> > It is important to keep these messages still, as they are displayable
-> > via a kernel module parameter when using DBG_88E.
-> []
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c b/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
-> []
-> > @@ -113,17 +113,20 @@ u32 _rtw_init_sta_priv(struct sta_priv *pstapriv)
-> >  inline int rtw_stainfo_offset(struct sta_priv *stapriv, struct sta_info *sta)
-> >  {
-> >  	int offset = (((u8 *)sta) - stapriv->pstainfo_buf) / sizeof(struct sta_info);
-> > +	struct net_device *pnetdev = stapriv->padapter->pnetdev;
-> >  
-> > 
-> >  	if (!stainfo_offset_valid(offset))
-> > -		DBG_88E("%s invalid offset(%d), out of range!!!", __func__, offset);
-> > +		netdev_dbg(pnetdev, "invalid offset(%d), out of range!!!", offset);
-> 
-> better to add terminating newlines to the formats.
-> 
-> 
-Dear Joe,
+This patch fixes the sparse warning of fix cast to restricted __le32.
 
-Thank you for your feedback. I will republish my two patches with this
-change.
+Signed-off-by: Jhih-Ming Huang <fbihjmeric@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_security.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Regards,
-Phil
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index a99f439328f1..2f4da67e31c6 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -121,7 +121,7 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
+ 		arc4_crypt(ctx, payload, payload,  length);
+ 
+ 		/* calculate icv and compare the icv */
+-		*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
++		*((u32 *)crc) = le32_to_cpu((__force __le32)~crc32_le(~0, payload, length - 4));
+ 
+ 	}
+ }
+@@ -618,7 +618,8 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+ 			arc4_setkey(ctx, rc4key, 16);
+ 			arc4_crypt(ctx, payload, payload, length);
+ 
+-			*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
++			*((u32 *)crc) = le32_to_cpu((__force __le32)~crc32_le(~0, payload,
++						length - 4));
+ 
+ 			if (crc[3] != payload[length - 1] || crc[2] != payload[length - 2] ||
+ 			    crc[1] != payload[length - 3] || crc[0] != payload[length - 4])
+-- 
+2.25.1
+
