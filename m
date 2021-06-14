@@ -1,55 +1,46 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B83F2FB8
-	for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 12:28:07 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15ECIxA1012548;
-	Mon, 14 Jun 2021 12:28:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=Q05ttNKlZN+gTToFgr+9sBUffHcFzlw6UBfLvpbT1nA=;
- b=f8xP/5chHz6bFSAeMkhcUEvEhnLZDBn5lWYlhguU/i3J0HQ8ev4xpTowDFkRpal52Z64
- LucuV2zpJo4De+PKVeyRQDFTStL4p3iyGGEK/JowY3GAUWYdrqmx6EzFTbRkPHzbUZSD
- P3RyHuY3YpWTAK6bu5xH5ldhUIMC0eNTqa6PsbVeMvmyrUEH+jplzhi7ANwAkEq6Lj4s
- FQ0/TZTYSQVwdK5WBGjX6HEF6666/+Xcyk5KYGb3llus4Ym/hkYjmuCvoxSyTg3CSCic
- Ybi1UQT1u/zg9GrGjMvfIECwl1Wu7Z/jL+8VR26fxic7INXGbKkMLrwcwyvkHHJLwcXK fw== 
-Received: from oracle.com (userp3020.oracle.com [156.151.31.79])
-	by mx0b-00069f02.pphosted.com with ESMTP id 395nsar8k5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 14 Jun 2021 12:28:02 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
-	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 15ECKVBJ148276;
-	Mon, 14 Jun 2021 12:28:01 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by userp3020.oracle.com with ESMTP id 395hk26xvr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 14 Jun 2021 12:28:01 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15ECP2Yh159231;
-	Mon, 14 Jun 2021 12:28:00 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-	by userp3020.oracle.com with ESMTP id 395hk26xvd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 14 Jun 2021 12:28:00 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
-	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 15ECRwF5004854;
-	Mon, 14 Jun 2021 12:27:58 GMT
-Received: from kadam (/41.212.42.34)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Mon, 14 Jun 2021 05:27:58 -0700
-Date: Mon, 14 Jun 2021 15:27:49 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Phillip Potter <phil@philpotter.co.uk>
-Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net, insafonov@gmail.com,
-        martin@kaiser.cx, straube.linux@gmail.com, simon.fodin@gmail.com,
-        yepeilin.cs@gmail.com, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8188eu: convert DBG_88E calls in
- core/rtw_recv.c
-Message-ID: <20210614122749.GO1955@kadam>
-References: <20210612232835.1378-1-phil@philpotter.co.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F60C70
+	for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 13:24:46 +0000 (UTC)
+IronPort-SDR: QBwiReo5gyfvFsu0KmHFcGVp7r6oc6AWnAqBMxNA/I1qDgD/lbbZq5ia5gzH19ey4fGoGur7pJ
+ 3azbpwW8S7bQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="192922835"
+X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; 
+   d="scan'208";a="192922835"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2021 06:24:44 -0700
+IronPort-SDR: 4uA4aG4ATRGcELj6mVIIipsj7S31i78lSJSkdTZtppZIp9IBhVKQcWeTB6JAWaOAhVgc0IR5Qw
+ LVsjj7oq1qIw==
+X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; 
+   d="scan'208";a="553365800"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2021 06:24:41 -0700
+Received: from andy by smile with local (Exim 4.94)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1lsmZx-002Ejc-DY; Mon, 14 Jun 2021 16:24:37 +0300
+Date: Mon, 14 Jun 2021 16:24:37 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+	Eduardo Valentin <edubezval@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+	Liu Shixin <liushixin2@huawei.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	syzbot+142888ffec98ab194028@syzkaller.appspotmail.com
+Subject: Re: [PATCH v3 1/8] media: v4l2-core: ignore native time32 ioctls on
+ 64-bit
+Message-ID: <YMdYlcVThyh7sFgv@smile.fi.intel.com>
+References: <20210614103409.3154127-1-arnd@kernel.org>
+ <20210614103409.3154127-2-arnd@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -57,91 +48,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210612232835.1378-1-phil@philpotter.co.uk>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: 3KZypUh3vJoeQXcDsGueSYgEUSYrr2iD
-X-Proofpoint-ORIG-GUID: 3KZypUh3vJoeQXcDsGueSYgEUSYrr2iD
+In-Reply-To: <20210614103409.3154127-2-arnd@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Sun, Jun 13, 2021 at 12:28:35AM +0100, Phillip Potter wrote:
-> Convert all calls to the DBG_88E macro in core/rtw_recv.c into
-> netdev_dbg calls. The DBG_88E macro is unnecessary, as visibility of
-> debug messages can be controlled more precisely by just using debugfs.
-> It is important to keep these messages still, as they are displayable
-> via a kernel module parameter when using DBG_88E.
+On Mon, Jun 14, 2021 at 12:34:02PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> One such converted call is after a failed skb allocation, but as it prints
-> additional information besides just stating failure, I've left it in
-> despite the checkpatch warning.
+> Syzbot found that passing ioctl command 0xc0505609 into a 64-bit
+> kernel from a 32-bit process causes uninitialized kernel memory to
+> get passed to drivers instead of the user space data:
+
+> BUG: KMSAN: uninit-value in check_array_args drivers/media/v4l2-core/v4l2-ioctl.c:3041 [inline]
+> BUG: KMSAN: uninit-value in video_usercopy+0x1631/0x3d30 drivers/media/v4l2-core/v4l2-ioctl.c:3315
+> CPU: 0 PID: 19595 Comm: syz-executor.4 Not tainted 5.11.0-rc7-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> Call Trace:
+>  __dump_stack lib/dump_stack.c:79 [inline]
+>  dump_stack+0x21c/0x280 lib/dump_stack.c:120
+>  kmsan_report+0xfb/0x1e0 mm/kmsan/kmsan_report.c:118
+>  __msan_warning+0x5f/0xa0 mm/kmsan/kmsan_instr.c:197
+>  check_array_args drivers/media/v4l2-core/v4l2-ioctl.c:3041 [inline]
+>  video_usercopy+0x1631/0x3d30 drivers/media/v4l2-core/v4l2-ioctl.c:3315
+>  video_ioctl2+0x9f/0xb0 drivers/media/v4l2-core/v4l2-ioctl.c:3391
+>  v4l2_ioctl+0x255/0x290 drivers/media/v4l2-core/v4l2-dev.c:360
+>  v4l2_compat_ioctl32+0x2c6/0x370 drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1248
+>  __do_compat_sys_ioctl fs/ioctl.c:842 [inline]
+>  __se_compat_sys_ioctl+0x53d/0x1100 fs/ioctl.c:793
+>  __ia32_compat_sys_ioctl+0x4a/0x70 fs/ioctl.c:793
+>  do_syscall_32_irqs_on arch/x86/entry/common.c:79 [inline]
+>  __do_fast_syscall_32+0x102/0x160 arch/x86/entry/common.c:141
+>  do_fast_syscall_32+0x6a/0xc0 arch/x86/entry/common.c:166
+>  do_SYSENTER_32+0x73/0x90 arch/x86/entry/common.c:209
+>  entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
+
+Can we, please, get a habit to reduce tracebacks to only significant lines?
+This is not only reduces the storage foot print of repositories in the world
+(and thus electricity consumed for any operation on it) but also increases
+density of useful information on one (small, due to reading on laptops / small
+screen size devices) page.
+
+> The time32 commands are defined but were never meant to be called on
+> 64-bit machines, as those have always used time64 interfaces.  I missed
+> this in my patch that introduced the time64 handling on 32-bit platforms.
 > 
-> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> ---
->  drivers/staging/rtl8188eu/core/rtw_recv.c | 55 ++++++++++++++++-------
->  1 file changed, 38 insertions(+), 17 deletions(-)
+> The problem in this case is the mismatch of one function checking for
+> the numeric value of the command and another function checking for the
+> type of process (native vs compat) instead, with the result being that
+> for this combination, nothing gets copied into the buffer at all.
 > 
-> diff --git a/drivers/staging/rtl8188eu/core/rtw_recv.c b/drivers/staging/rtl8188eu/core/rtw_recv.c
-> index 5a8170d4eab6..008f9fd9fc10 100644
-> --- a/drivers/staging/rtl8188eu/core/rtw_recv.c
-> +++ b/drivers/staging/rtl8188eu/core/rtw_recv.c
-> @@ -189,7 +189,7 @@ u32 rtw_free_uc_swdec_pending_queue(struct adapter *adapter)
->  
->  	while ((pending_frame = rtw_alloc_recvframe(&adapter->recvpriv.uc_swdec_pending_queue))) {
->  		rtw_free_recvframe(pending_frame, &adapter->recvpriv.free_recv_queue);
-> -		DBG_88E("%s: dequeue uc_swdec_pending_queue\n", __func__);
-> +		netdev_dbg(adapter->pnetdev, "dequeue uc_swdec_pending_queue");
+> Avoid this by only trying to convert the time32 commands when running
+> on a 32-bit kernel where these are defined in a meaningful way.
 
-This printk has no useful information.
+-- 
+With Best Regards,
+Andy Shevchenko
 
->  		cnt++;
->  	}
->  
-> @@ -229,7 +229,7 @@ static int recvframe_chkmic(struct adapter *adapter,
->  					res = _FAIL;
->  					RT_TRACE(_module_rtl871x_recv_c_, _drv_err_,
->  						 ("\n %s: didn't install group key!!!!!!!!!!\n", __func__));
-> -					DBG_88E("\n %s: didn't install group key!!!!!!!!!!\n", __func__);
-> +					netdev_dbg(adapter->pnetdev, "didn't install group key!!!!!!!!!!");
-
-This condition is impossible.  Otherwise it would be better to make
-this an error message.
-
-
->  					goto exit;
->  				}
->  				mickey = &psecuritypriv->dot118021XGrprxmickey[prxattrib->key_index].skey[0];
-> @@ -318,10 +318,14 @@ static int recvframe_chkmic(struct adapter *adapter,
->  				if ((prxattrib->bdecrypted) && (brpt_micerror)) {
->  					rtw_handle_tkip_mic_err(adapter, (u8)is_multicast_ether_addr(prxattrib->ra));
->  					RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, (" mic error :prxattrib->bdecrypted=%d ", prxattrib->bdecrypted));
-> -					DBG_88E(" mic error :prxattrib->bdecrypted=%d\n", prxattrib->bdecrypted);
-> +					netdev_dbg(adapter->pnetdev,
-> +						   "mic error :prxattrib->bdecrypted=%d",
-> +						   prxattrib->bdecrypted);
->  				} else {
->  					RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, (" mic error :prxattrib->bdecrypted=%d ", prxattrib->bdecrypted));
-> -					DBG_88E(" mic error :prxattrib->bdecrypted=%d\n", prxattrib->bdecrypted);
-> +					netdev_dbg(adapter->pnetdev,
-> +						   "mic error :prxattrib->bdecrypted=%d",
-> +						   prxattrib->bdecrypted);
-
-Both sides of this if statement are the same.
-
->  				}
->  				res = _FAIL;
->  			} else {
-> @@ -361,7 +365,8 @@ static struct recv_frame *decryptor(struct adapter *padapter,
->  		prxattrib->key_index = (((iv[3]) >> 6) & 0x3);
->  
->  		if (prxattrib->key_index > WEP_KEYS) {
-> -			DBG_88E("prxattrib->key_index(%d)>WEP_KEYS\n", prxattrib->key_index);
-> +			netdev_dbg(padapter->pnetdev,
-> +				   "prxattrib->key_index(%d)>WEP_KEYS", prxattrib->key_index);
-
-This should be an error message if it's possible.  I just feel like
-this debugging is a random grab bag of printks.  A lot of them are
-pretty pointless and there was no thought to it at all.
-
-We'd be better off with a mass delete.
-
-regards,
-dan carpenter
 
