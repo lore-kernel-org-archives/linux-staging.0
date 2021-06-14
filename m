@@ -1,109 +1,172 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5B270
-	for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 20:48:50 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-65-ON67q3ytPwmYheTyY52QOw-1; Mon, 14 Jun 2021 21:48:46 +0100
-X-MC-Unique: ON67q3ytPwmYheTyY52QOw-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Mon, 14 Jun
- 2021 21:48:45 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.018; Mon, 14 Jun 2021 21:48:45 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Jhih-Ming Huang' <fbihjmeric@gmail.com>, "gregkh@linuxfoundation.org"
-	<gregkh@linuxfoundation.org>, "fabioaiuto83@gmail.com"
-	<fabioaiuto83@gmail.com>, "ross.schm.dev@gmail.com"
-	<ross.schm.dev@gmail.com>, "maqianga@uniontech.com" <maqianga@uniontech.com>,
-	"marcocesati@gmail.com" <marcocesati@gmail.com>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] rtw_security: fix cast to restricted __le32
-Thread-Topic: [PATCH] rtw_security: fix cast to restricted __le32
-Thread-Index: AQHXYD46HyWlcwiQGkiXWqpP7mZmBasT+umQ
-Date: Mon, 14 Jun 2021 20:48:45 +0000
-Message-ID: <8974a58823d74d118595d4f8db5ac870@AcuMS.aculab.com>
-References: <20210613102229.1424495-1-fbihjmeric@gmail.com>
-In-Reply-To: <20210613102229.1424495-1-fbihjmeric@gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F413F70
+	for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 21:29:48 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id 3-20020a05600c0243b029019f2f9b2b8aso756294wmj.2
+        for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 14:29:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=nP5tGlZH8Co2bbVnolPJO1v0bwhg1y8GoH8zpay9l8k=;
+        b=DpuwwGwnVdKNlO8r1bg5yYIOSh5ebGwucBJUU9jYkGbyAEkj/hkWOJFZocZCUxD5es
+         Hin96InEZF1JLzgEqX6hyOlGWqgwEUQvmfgmzSRZdo3mBQA7AUuPhETnR5KW2ZGR95Uy
+         gmhEL2b26Xyij1CDaMHnqGsxn5D2EXF90yh83ebZI4YiB6zHI2kjRF/8kyjlhhqW/6B5
+         vCST/lzojhKxywnnb2Adf0V1DLTf1MJ/gMYtLoy9BaaDNmXz4q9TzHXeCMEc0ahFPRd+
+         w6ooBCto3b999VDYcdHNfIn8kjRXNrQZRTlzMMi1iP3hi5wMj+oRXGANHa8hSFUtoGNi
+         +6/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=nP5tGlZH8Co2bbVnolPJO1v0bwhg1y8GoH8zpay9l8k=;
+        b=BigNV8EnjbYZRispFynGrGAPcVTanF37G3xI02PfZIY/Y4atLHmqOPL4PwrjZBv0Z4
+         D2WyxuanAbOzIvDxDLOIETyt7vcRbEvalAq5i9/jO8ja3BM+aqYeuFXeL2m3Oe8yiX2Z
+         04cjBEuOfbJQiyUkGQ76dRUIoCc77wSruEGuvfq26pWRU6Sy4xuSZKtY/x8rDUEU1SMW
+         kmyQIgft19IDXU+IxxDzqVEBJaLik8Vb3L2aXSBwCiR18LKJmagJF6g9hmiZiAfyA7T7
+         zbttpJIFtCfMYetPjqscC0pJkRO3ctBd8fsABPXQNVeGlm3SWSH/pt+ssSF6LsAeJ5Ym
+         n4eg==
+X-Gm-Message-State: AOAM533R4JJYwLN6aqfb1DnY366wHNaCeSRW70wFecHNkgZS4mBsskjO
+	YV8ujNt4mu84V9PUUsm3VksGpw==
+X-Google-Smtp-Source: ABdhPJyVjpmmNe9DyFFeIse3WWTe6e+s+HD4VSTsnhU0IDUncTVPAsl0HTW2Qdzo+NLqF/0WbaBx3Q==
+X-Received: by 2002:a05:600c:190f:: with SMTP id j15mr12011635wmq.37.1623706187441;
+        Mon, 14 Jun 2021 14:29:47 -0700 (PDT)
+Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
+        by smtp.gmail.com with ESMTPSA id j34sm469020wms.19.2021.06.14.14.29.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Jun 2021 14:29:46 -0700 (PDT)
+Date: Mon, 14 Jun 2021 22:29:44 +0100
+From: Phillip Potter <phil@philpotter.co.uk>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	insafonov@gmail.com, linux@roeck-us.net, straube.linux@gmail.com,
+	liushixin2@huawei.com, gustavoars@kernel.org,
+	christophe.jaillet@wanadoo.fr, yepeilin.cs@gmail.com,
+	martin@kaiser.cx, simon.fodin@gmail.com, romain.perier@gmail.com,
+	apais@linux.microsoft.com, mh12gx2825@gmail.com
+Subject: Re: [PATCH 1/3] staging: rtl8188eu: convert DBG_88E calls in
+ core/rtw_efuse.c
+Message-ID: <YMfKSCtA86Rg5e6O@equinox>
+References: <20210613224147.1045-1-phil@philpotter.co.uk>
+ <20210613224147.1045-2-phil@philpotter.co.uk>
+ <20210614065019.GK1955@kadam>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210614065019.GK1955@kadam>
 
-From: Jhih-Ming Huang
-> Sent: 13 June 2021 11:22
->=20
-> This patch fixes the sparse warning of fix cast to restricted __le32.
->=20
-> Signed-off-by: Jhih-Ming Huang <fbihjmeric@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_security.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c
-> b/drivers/staging/rtl8723bs/core/rtw_security.c
-> index a99f439328f1..2f4da67e31c6 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_security.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-> @@ -121,7 +121,7 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *p=
-recvframe)
->  =09=09arc4_crypt(ctx, payload, payload,  length);
->=20
->  =09=09/* calculate icv and compare the icv */
-> -=09=09*((u32 *)crc) =3D le32_to_cpu(~crc32_le(~0, payload, length - 4));
-> +=09=09*((u32 *)crc) =3D le32_to_cpu((__force __le32)~crc32_le(~0, payloa=
-d, length - 4));
->=20
->  =09}
->  }
-> @@ -618,7 +618,8 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *pr=
-ecvframe)
->  =09=09=09arc4_setkey(ctx, rc4key, 16);
->  =09=09=09arc4_crypt(ctx, payload, payload, length);
+On Mon, Jun 14, 2021 at 09:50:19AM +0300, Dan Carpenter wrote:
+> On Sun, Jun 13, 2021 at 11:41:45PM +0100, Phillip Potter wrote:
+> > Convert all calls to the DBG_88E macro in core/rtw_efuse.c into
+> > netdev_dbg calls. The DBG_88E macro is unnecessary, as visibility of
+> > debug messages can be controlled more precisely by just using debugfs.
+> > It is important to keep these messages still, as they are displayable
+> > via a kernel module parameter when using DBG_88E.
+> > 
+> 
+> These are not 100% dead code like the previous debug macros but I think
+> we are better off doing another mass delete.
+> 
+> > Also modify efuse_phymap_to_logical function signature to pass through
+> > a struct net_device pointer, so that we can use it to call netdev_dbg
+> > in this function too.
+> > 
+> > Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+> > ---
+> >  drivers/staging/rtl8188eu/core/rtw_efuse.c | 27 ++++++++++++++--------
+> >  1 file changed, 17 insertions(+), 10 deletions(-)
+> > 
+> > diff --git a/drivers/staging/rtl8188eu/core/rtw_efuse.c b/drivers/staging/rtl8188eu/core/rtw_efuse.c
+> > index 9bb3ec0cd62f..019796c0f1af 100644
+> > --- a/drivers/staging/rtl8188eu/core/rtw_efuse.c
+> > +++ b/drivers/staging/rtl8188eu/core/rtw_efuse.c
+> > @@ -72,7 +72,7 @@ static void efuse_power_switch(struct adapter *pAdapter, u8 write, u8 pwrstate)
+> >  }
+> >  
+> >  static void
+> > -efuse_phymap_to_logical(u8 *phymap, u16 _offset, u16 _size_byte, u8  *pbuf)
+> > +efuse_phymap_to_logical(struct net_device *dev, u8 *phymap, u16 _offset, u16 _size_byte, u8 *pbuf)
+> >  {
+> >  	u8 *efuseTbl = NULL;
+> >  	u8 rtemp8;
+> > @@ -92,7 +92,7 @@ efuse_phymap_to_logical(u8 *phymap, u16 _offset, u16 _size_byte, u8  *pbuf)
+> >  		      sizeof(void *) + EFUSE_MAX_WORD_UNIT * sizeof(u16),
+> >  		      GFP_KERNEL);
+> >  	if (!tmp) {
+> > -		DBG_88E("%s: alloc eFuseWord fail!\n", __func__);
+> > +		netdev_dbg(dev, "alloc eFuseWord fail!\n");
+> 
+> This print is pointless and wrong.  It shouldn't be a debug printk it
+> should be an error message.  But kcalloc() already has an error message
+> built in and adding an additional warning here will lead to a checkpatch
+> complaint.
+> 
+> >  		goto eFuseWord_failed;
+> >  	}
+> >  	for (i = 0; i < EFUSE_MAX_SECTION_88E; i++)
+> > @@ -113,7 +113,9 @@ efuse_phymap_to_logical(u8 *phymap, u16 _offset, u16 _size_byte, u8  *pbuf)
+> >  		efuse_utilized++;
+> >  		eFuse_Addr++;
+> >  	} else {
+> > -		DBG_88E("EFUSE is empty efuse_Addr-%d efuse_data =%x\n", eFuse_Addr, rtemp8);
+> > +		netdev_dbg(dev,
+> > +			   "EFUSE is empty efuse_Addr-%d efuse_data =%x\n",
+> > +			   eFuse_Addr, rtemp8);
+> 
+> I don't know enough to say if this is useful or not, but I'm really
+> skeptical.
+> 
+> >  		goto exit;
+> >  	}
+> >  
+> > @@ -220,7 +222,7 @@ static void efuse_read_phymap_from_txpktbuf(
+> >  	if (bcnhead < 0) /* if not valid */
+> >  		bcnhead = usb_read8(adapter, REG_TDECTRL + 1);
+> >  
+> > -	DBG_88E("%s bcnhead:%d\n", __func__, bcnhead);
+> > +	netdev_dbg(adapter->pnetdev, "bcnhead:%d\n", bcnhead);
+> 
+> The only caller is efuse_ReadEFuse() and bcnhead is always zero.  All
+> these checks and debug code can be deleted.
+> 
+> >  
+> >  	usb_write8(adapter, REG_PKT_BUFF_ACCESS_CTRL, TXPKT_BUF_SELECT);
+> >  
+> > @@ -232,8 +234,10 @@ static void efuse_read_phymap_from_txpktbuf(
+> >  		usb_write8(adapter, REG_TXPKTBUF_DBG, 0);
+> >  		start = jiffies;
+> >  		while (!(reg_0x143 = usb_read8(adapter, REG_TXPKTBUF_DBG)) &&
+> > -		       jiffies_to_msecs(jiffies - start) < 1000) {
+> > -			DBG_88E("%s polling reg_0x143:0x%02x, reg_0x106:0x%02x\n", __func__, reg_0x143, usb_read8(adapter, 0x106));
+> > +			jiffies_to_msecs(jiffies - start) < 1000) {
+> > +			netdev_dbg(adapter->pnetdev,
+> > +				   "polling reg_0x143:0x%02x, reg_0x106:0x%02x\n",
+> > +				   reg_0x143, usb_read8(adapter, 0x106));
+> 
+> This is the wrong place to put debug code.  If the loop timesout it will
+> print a thousand messages.  See?  So far whenever we can understand the
+> code enough to say, then it's totally rubbish.
+> 
+> Just do a mass delete.  You won't ever regret it.
+> 
+> >  			usleep_range(1000, 2000);
+> >  		}
+> >  
+> 
+> regards,
+> dan carpenter
+> 
 
-Is someone using 'rc4' and 'security' in the same file?
+Dear Dan,
 
->=20
-> -=09=09=09*((u32 *)crc) =3D le32_to_cpu(~crc32_le(~0, payload, length - 4=
-));
-> +=09=09=09*((u32 *)crc) =3D le32_to_cpu((__force __le32)~crc32_le(~0, pay=
-load,
-> +=09=09=09=09=09=09length - 4));
->=20
->  =09=09=09if (crc[3] !=3D payload[length - 1] || crc[2] !=3D payload[leng=
-th - 2] ||
->  =09=09=09    crc[1] !=3D payload[length - 3] || crc[0] !=3D payload[leng=
-th - 4])
+Thank you for this, and your other feedback. Mass delete works for me, I
+shall get started :-)
 
-In both cases the *((u32 *)crc) is also very dubious.
-Casts of pointers to integer types are almost always broken.
-Given the code that follows the second hunk I'm guessing you
-have 'u8 crc[4];' (or equivalent).
-That can be misaligned and then access will panic on some systems.
-
-There is a get_unaligned_be32() (or something similar) that can be used
-to read the crc from (payload + length - 4).
-
-=09David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
-
+Regards,
+Phil
