@@ -1,172 +1,301 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F413F70
-	for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 21:29:48 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id 3-20020a05600c0243b029019f2f9b2b8aso756294wmj.2
-        for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 14:29:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=nP5tGlZH8Co2bbVnolPJO1v0bwhg1y8GoH8zpay9l8k=;
-        b=DpuwwGwnVdKNlO8r1bg5yYIOSh5ebGwucBJUU9jYkGbyAEkj/hkWOJFZocZCUxD5es
-         Hin96InEZF1JLzgEqX6hyOlGWqgwEUQvmfgmzSRZdo3mBQA7AUuPhETnR5KW2ZGR95Uy
-         gmhEL2b26Xyij1CDaMHnqGsxn5D2EXF90yh83ebZI4YiB6zHI2kjRF/8kyjlhhqW/6B5
-         vCST/lzojhKxywnnb2Adf0V1DLTf1MJ/gMYtLoy9BaaDNmXz4q9TzHXeCMEc0ahFPRd+
-         w6ooBCto3b999VDYcdHNfIn8kjRXNrQZRTlzMMi1iP3hi5wMj+oRXGANHa8hSFUtoGNi
-         +6/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=nP5tGlZH8Co2bbVnolPJO1v0bwhg1y8GoH8zpay9l8k=;
-        b=BigNV8EnjbYZRispFynGrGAPcVTanF37G3xI02PfZIY/Y4atLHmqOPL4PwrjZBv0Z4
-         D2WyxuanAbOzIvDxDLOIETyt7vcRbEvalAq5i9/jO8ja3BM+aqYeuFXeL2m3Oe8yiX2Z
-         04cjBEuOfbJQiyUkGQ76dRUIoCc77wSruEGuvfq26pWRU6Sy4xuSZKtY/x8rDUEU1SMW
-         kmyQIgft19IDXU+IxxDzqVEBJaLik8Vb3L2aXSBwCiR18LKJmagJF6g9hmiZiAfyA7T7
-         zbttpJIFtCfMYetPjqscC0pJkRO3ctBd8fsABPXQNVeGlm3SWSH/pt+ssSF6LsAeJ5Ym
-         n4eg==
-X-Gm-Message-State: AOAM533R4JJYwLN6aqfb1DnY366wHNaCeSRW70wFecHNkgZS4mBsskjO
-	YV8ujNt4mu84V9PUUsm3VksGpw==
-X-Google-Smtp-Source: ABdhPJyVjpmmNe9DyFFeIse3WWTe6e+s+HD4VSTsnhU0IDUncTVPAsl0HTW2Qdzo+NLqF/0WbaBx3Q==
-X-Received: by 2002:a05:600c:190f:: with SMTP id j15mr12011635wmq.37.1623706187441;
-        Mon, 14 Jun 2021 14:29:47 -0700 (PDT)
-Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
-        by smtp.gmail.com with ESMTPSA id j34sm469020wms.19.2021.06.14.14.29.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jun 2021 14:29:46 -0700 (PDT)
-Date: Mon, 14 Jun 2021 22:29:44 +0100
-From: Phillip Potter <phil@philpotter.co.uk>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	insafonov@gmail.com, linux@roeck-us.net, straube.linux@gmail.com,
-	liushixin2@huawei.com, gustavoars@kernel.org,
-	christophe.jaillet@wanadoo.fr, yepeilin.cs@gmail.com,
-	martin@kaiser.cx, simon.fodin@gmail.com, romain.perier@gmail.com,
-	apais@linux.microsoft.com, mh12gx2825@gmail.com
-Subject: Re: [PATCH 1/3] staging: rtl8188eu: convert DBG_88E calls in
- core/rtw_efuse.c
-Message-ID: <YMfKSCtA86Rg5e6O@equinox>
-References: <20210613224147.1045-1-phil@philpotter.co.uk>
- <20210613224147.1045-2-phil@philpotter.co.uk>
- <20210614065019.GK1955@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C8270
+	for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 22:06:39 +0000 (UTC)
+Received: from [192.168.1.107] ([37.4.249.157]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1N62mG-1lHKpz2lx2-016MUk; Tue, 15 Jun 2021 00:06:15 +0200
+Subject: Re: [PATCH 0/1] Request to review progress decoupling vchiq platform
+ code
+To: Ojaswin Mujoo <ojaswin98@gmail.com>, nsaenz@kernel.org
+Cc: gregkh@linuxfoundation.org, dan.carpenter@oracle.com,
+ phil@raspberrypi.com, bcm-kernel-feedback-list@broadcom.com,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <cover.1623698773.git.ojaswin98@gmail.com>
+From: Stefan Wahren <stefan.wahren@i2se.com>
+Autocrypt: addr=stefan.wahren@i2se.com; keydata=
+ LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
+ CgptUUlOQkZ0NmdCTUJFQUN1Yi9wQmV2SHhidkplZnlaRzMySklObW4yYnNFUFgyNVY2ZmVq
+ bXlZd21DR0tqRnRMCi9Eb1VNRVZIRHhDSjQ3Qk1YbzM0NGZIVjFDM0FudWRnTjFCZWhMb0J0
+ TEh4bW5lQ3pnSDNLY1B0V1c3cHRqNEcKdEp2OUNRRFp5MjdTS29FUHh5YUk4Q0YweWdSeEpj
+ NzJNOUk5d21zUFo1YlVIc0x1WVdNcVE3SmNSbVBzNkQ4ZwpCa2srOC95bmdFeU5FeHd4SnBS
+ MXlsajVianhXREh5WVF2dUo1THpaS3VPOUxCM2xYVnNjNGJxWEVqYzZWRnVaCkZDQ2svc3lp
+ by9ZaHNlOE4rUXN4N01RYWd6NHdLVWtRUWJmWGcxVnFrVG5BaXZYczQyVm5Ja211NWd6SXcv
+ MHQKUkp2NTBGUmhIaHhweUtBSThCOG5oTjhRdng3TVZrUGM1dkRmZDN1R1lXNDdKUGhWUUJj
+ VXdKd05rLzQ5RjllQQp2ZzJtdE1QRm5GT1JrV1VSdlArRzZGSmZtNitDdk92N1lmUDF1ZXdB
+ aTRsbitKTzFnK2dqVklXbC9XSnB5MG5UCmlwZGZlSDlkSGtnU2lmUXVuWWN1Y2lzTXlvUmJG
+ OTU1dENna0VZOUVNRWRZMXQ4aUdEaUNnWDZzNTBMSGJpM2sKNDUzdWFjcHhmUVhTYUF3UGtz
+ bDhNa0NPc3YyZUVyNElOQ0hZUUR5WmljbEJ1dUNnOEVOYlI2QUdWdFpTUGNRYgplbnpTektS
+ Wm9POUNhcUlEK2ZhdkxpQi9kaHptSEErOWJnSWhtWGZ2WFJMRFp6ZThwbzFkeXQzRTFzaFhp
+ ZGRaClBBOE51SlZ6RUl0MmxtSTZWOHBaRHBuMjIxcmZLaml2UlFpYW9zNTRUZ1pqak1ZSTdu
+ bko3ZTZ4endBUkFRQUIKdENCVGRHVm1ZVzRnVjJGb2NtVnVJRHgzWVdoeVpXNXpkRUJuYlhn
+ dWJtVjBQb2tDTndRVEFRZ0FJUVVDWElkYwo0Z0liQXdVTENRZ0hBZ1lWQ0FrS0N3SUVGZ0lE
+ QVFJZUFRSVhnQUFLQ1JDVWdld1BFWkR5MjFPVEQvOUdpWkxkCnRSWWNteVJKZ2x0aVFRekFp
+ UWRjSUQ3OGxHb1dwL3grci92Y1U2YjZqdVl1ZVR3Z1Iwclc3djdsMklSQnlEN24KSEp4YSt0
+ SVNvUVpCZ2hvbE1JZmI5TXRoR09KTENZNzdrL1FoQWhuMzJOR1prZWp3OXR6a3MvNDBtclpT
+ VVQ4NApaeWJzUVhyTE0vSFI2VElJL0RlUEIwbktEM0ppcHBzMlVIUUQ5cUQySWpFd1NRUGxI
+ akNPckVaaDQ1UFo3bTkrClo5M0x6aVRlc1dabFlRdUxpSndzNHJLcHRIVzFkL3dSZWxzaG1t
+ NlFxY0wybDRDL2U0MGVEQjlncTRkU1poOVgKUEVZbGxpeU5RaDdhMkxTZHVtRTFyK2NTd0lq
+ RS91ZHRSdmRPOWFLb0psT2JVSzVkTmpTUEg3d0tUYndkWGRZRApHUHdEaFhkNThOQXdyK1BY
+ QmxQajB0STFMQ3ErTEJ4ZUt6aFdYK0dWcTlEb2pWanlVREV4Rk5Ga1h1b0M3ZzhtClY5VDB0
+ ZUJpdVpSbm91WEt3VjJGcHRaT0hIN0JVRVd0a0t0aGgxZXRmT1dwaWdCemtVN2JQc2ZJWVQr
+ cnk5dGIKMW9KK3Y0MVBOYXFaRW1QVXBKeHZmek5UN3Ayd01lRDdaajlmMHJ1YlJQdExBSjJR
+ R2pyRkhzdVh3QU9xcHl6ZQoxOEVidHNZazBOMHp1SEVoY2orUEJJQmZoMFlJWWQ1MW9mNkdJ
+ aU95UjlxMFhYdHBsVUo3VDIvSDF1UXFrWGxwCitnVzRWa2lmc2NJckl1eWZueFpXMTJlSXZq
+ NnlicVdMN2FZS0dZbVQ2aUxDUGJIWXlZY2F5bDRFa0ZjckNGN0UKZTBXVC9zY1ZNaE8vNVgv
+ SGFOQTVIQngvcjUycGdMY3Y0aTlNeExRbVUzUmxabUZ1SUZkaGFISmxiaUE4YzNSbApabUZ1
+ TG5kaGFISmxia0JwTW5ObExtTnZiVDZKQWpnRUV3RUNBQ0lGQWx0NmdCTUNHd01HQ3drSUJ3
+ TUNCaFVJCkFna0tDd1FXQWdNQkFoNEJBaGVBQUFvSkVKU0I3QThSa1BMYmpic1AvamdqYVNz
+ NUh0bGtBSXZXUytGcm15N2MKaG5jT0F4TFRWL0Q2UkV3SU95R0poRkt3d29pck55UTJnOXZV
+ YTNZQ1lDZjFmSjh3RWhhS09COWQwTHBNUm5MNApkRVQ4ZDgyMzhFL3BLK0hxTktpSXNKaHM2
+ SnNLOFpnalZRR3JtbWZua0dyWisxdjBIQnV4ZGljZ0duUC9XdHVBClVsOGw2Mi9BTGJheXlq
+ KzYxQ2xyc0V0UklhcU82N0xJWXdQaVBEUkkrWGlNek5pR3pIRi8xUTZHUjAyUkg2YTMKRjg5
+ ejhhUHhjSGkxWnZDdDJ5a3o2VUVjaHpQMHI1Z3FGSisvTC9VcHU4ME1YaVk0djVlSWFCNTJn
+ VlBnaXlNQQpsTDJkRHMxbUladm5yUkxSWTJ0YjNtQVlOa1Y1QjVJRFQzcGtXeTZrS281T0Nn
+ SytZZFlPUjhGTloyb04ydDhPCnJLK1ZudGFLN01NU0tIbG1ZL3NPd3RSbEVoMU9CbXJjQ3dH
+ d21wLzA1R2tSNDZmL0lzaFJWZUZPUmF3K0dBcXQKUDIrQ0ZhMkNOQS9JSG5aTm95aWtsRHpQ
+ UUhVVUdzck5wcERyaFg5Sm1oQm1nMXYyeXdIMU5YdTFpRGZQMUJBdwpLZ29rdDVmNVVhUkY5
+ c0FBNTN2V0V2YlVVTjllZXNGR0x6UFdkSkdRNWhwZC9WSDVJUXk5U0JyaC93SWNla3E1Cm4w
+ a042cGJUSHhHRTUyU2kvTVZJa05UdURaM2FwbjJqbERaNHBPdHBCWEkydlAzYlBPK05pcUJa
+ anNVM3R4TGkKV2R2MkZqeXp6NlhMUndlV1JZVkw1SGE2TER0eG9yMnZ1NlVQMDdwOXh6MXhS
+ WmFPRFczb1lsSEZ6WXBhNFc1ZwpMSGIybEVrSXVVZlNjaWNHYmpqQXRDbFRkR1ZtWVc0Z1Yy
+ Rm9jbVZ1SUR4emRHVm1ZVzR1ZDJGb2NtVnVRR2x1CkxYUmxZMmd1WTI5dFBva0NOd1FUQVFn
+ QUlRVUNYSWRlaHdJYkF3VUxDUWdIQWdZVkNBa0tDd0lFRmdJREFRSWUKQVFJWGdBQUtDUkNV
+ Z2V3UEVaRHkyeUhURC85VUY3UWxEa0d4elE3QWFDSTZOOTVpUWY4LzFvU1VhRE51Mlk2SQpL
+ K0R6UXBiMVRiVE9yM1ZKd3dZOGEzT1d6NU5MU09MTVdlVnh0K29zTW1sUUlHdWJEM09EWko4
+ aXpQbEcvSnJOCnQ1elNkbU41SUE1ZjNlc1dXUVZLdmdoWkFnVERxZHB2K1pIVzJFbXhuQUox
+ dUxGWFhlUWQzVVpjQzVyMy9nL3YKU2FNbzl4ZWszSjVtTnVEbTcxbEVXc0FzL0JBY0ZjK3lu
+ TGh4d0JXQld3c3Z3UjhiSHRKNURPTVd2YUt1RHNrcApJR0ZVZS9LYjJCK2pyYXZRM1RuNnMv
+ SHFKTTBjZXhTSHo1cGUrMHNHdlArdDlKNzIzNEJGUXdlRkV4cmlleThVCkl4T3I0WEFiYWFi
+ U3J5WW5VL3pWSDlVMWkyQUlRWk1XSkFldkN2VmdRL1UrTmVSaFh1ZGU5WVVtRE1EbzJzQjIK
+ VkFGRUFxaUYyUVVIUEEybThhN0VPM3lmTDRyTWswaUh6TElLdmg2L3JIOFFDWThpM1h4VE5M
+ OWlDTHpCV3UvTgpPbkNBYlMremx2TFphaVNNaDVFZnV4VHR2NFBsVmRFamY2MlArWkhJRDE2
+ Z1VEd0VtYXpMQU1yeDY2NmpINWt1ClVDVFZ5bWJMMFR2Qis2TDZBUmw4QU55TTRBRG1rV2tw
+ eU0yMmtDdUlTWUFFZlFSM3VXWFo5WWd4YVBNcWJWK3cKQnJoSmc0SGFONkM2eFRxR3YzcjRC
+ MmFxYjc3L0NWb1JKMVo5Y3BIQ3dpT3pJYUFtdnl6UFU2TXhDRFhaOEZnWQpsVDR2MjNHNWlt
+ SlAyemdYNXMrRjZBQ1VKOVVRUEQwdVRmK0o5RGEycitza2gvc1dPbloreWNvSE5CUXZvY1pF
+ Ck5BSFFmN2tDRFFSYmVvQVRBUkFBMkhkMGZzRFZLNzJSTFNESGJ5ME9oZ0RjRGxWQk0yTSto
+ WVlwTzNmWDFyKysKc2hpcVBLQ0hWQXNRNWJ4ZTdIbUppbUhhNEtLWXMya3YvbWx0L0NhdUNK
+ Ly9wbWN5Y0JNN0d2d25Lem11WHp1QQpHbVZUWkM2V1I1TGtha0ZydEhPelZtc0VHcE52NVJj
+ OWw2SFlGcExrYlNrVmk1U1BRWkp5K0VNZ01DRmdqclpmClZGNnlvdHdFMWFmN0hOdE1oTlBh
+ TEROMW9VS0Y1aitSeVJnNWl3SnVDRGtuSGp3QlFWNHBndzIvNXZTOEE3WlEKdjJNYlcvVExF
+ eXBLWGlmNzhJaGdBelh0RTJYck0xbi9vNlpINzFvUkZGS096NDJsRmR6ZHJTWDBZc3FYZ0hD
+ WAo1Z0l0TGZxemoxcHNNYTlvMWVpTlRFbTFkVlFyVHFueXMwbDE4b2FsUk5zd1lsUW1uWUJ3
+ cHdDa2FUSExNSHdLCmZHQmJvNWRMUEVzaHRWb3dJNm5zZ3FMVHlRSG1xSFlxVVpZSXBpZ21t
+ QzNTd0JXWTFWNmZmVUVta3FwQUFDRW4KTDQvZ1Vnbjd5US81ZDBzZXFuQXEycFNCSE1VVW9D
+ Y1R6RVFVV1ZraUR2M1JrN2hURm1oVHNNcTc4eHYyWFJzWApNUjZ5UWhTVFBGWkNZRFVFeEVs
+ RXNTbzlGV0hXcjZ6SHlZY2M4cURMRnZHOUZQaG1RdVQyczlCbHg2Z0kzMjNHCm5FcTFsd1dQ
+ SlZ6UDRqUWtKS0lBWHdGcHYrVzhDV0xxekRXT3ZkbHJEYVRhVk1zY0ZUZUg1VzZVcHJsNjVq
+ cUYKUUdNcGNSR0NzOEdDVVcxM0gwSXlPdFF0d1dYQTRueStTTDgxcHZpQW1hU1hVOGxhS2FS
+ dTkxVk9WYUY5ZjRzQQpFUUVBQVlrQ0h3UVlBUUlBQ1FVQ1czcUFFd0liREFBS0NSQ1VnZXdQ
+ RVpEeTIrb1hELzljSEhSa0JaT2ZrbVNxCjE0U3Z4MDYyUHRVMEtWNDcwVFNucC9qV29ZSm5L
+ SXczRzBtWElSZ3J0SDJkUHdwSWdWanNZeVJTVk1LbVNwdDUKWnJEZjlOdFRiTldnazhWb0xl
+ WnpZRW8rSjNvUHFGclRNczNhWVl2N2U0K0pLNjk1WW5tUSttT0Q5bmlhOTE1dApyNUFaajk1
+ VWZTVGx5VW15aWMxZDhvdnNmMWZQN1hDVVZSRmNSamZOZkRGMW9ML3BEZ01QNUdaMk93YVRl
+ am15CkN1SGpNOElSMUNpYXZCcFlEbUJuVFlrN1B0aHk2YXRXdllsMGZ5L0NxYWpUS3N4Nytw
+ OXh6aXU4WmZWWCtpS0IKQ2MrSGUrRURFZEdJRGh2TlovSVFIZk9CMlBVWFdHUytzOUZOVHhy
+ L0E2bkxHWG5BOVk2dzkzaVBkWUl3eFM3SwpYTG9LSmVlMTBEamx6c1lzUmZsRk9XMFpPaVNp
+ aElDWGlRVjF1cU02dHpGRzlndFJjaXVzNVVBdGhXYU8xT3dVClNDUW1mQ09tNGZ2TUlKSUE5
+ cnh0b1M2T3FSUWNpRjNjcm1vMHJKQ3ROMmF3WmZnaThYRWlmN2Q2aGp2MEVLTTkKWFpvaUFa
+ WVpEKy9pTG01VGFLV042b0dJdGkwVmpKdjhaWk9aT2ZDYjZ2cUZJa0pXK2FPdTRvclRMRk16
+ MjhhbwpVM1F5V3BOQzhGRm1kWXNWdWE4czZnTjFOSWE2eTNxYS9aQjhiQS9pa3k1OUFFejRp
+ RElScmdVek1FZzhBazdUCmZtMUtpWWVpVHRCRENvMjVCdlhqYnFzeXhrUUQxbmtSbTZGQVZ6
+ RXVPUEllOEp1cVcyeEQ5aXhHWXZqVTVoa1IKZ0pwM2dQNWIrY25HM0xQcXF1UTJFNmdvS1VN
+ TEFia0NEUVJiZmw5REFSQUFzRExjYStMbFAydm5mdEVHaHBjQQpCR1ZOUUVGbkdQckNhdVU2
+ SGhOODA1V3RQVHRtc1JPdUp6cWdVVDBtcHFXSWZacTZzTXd5dkhLOVRzL0tIM0paClVWYlJD
+ M3oyaDNLZmhIL0RhZjk1cGQ2bVBjL2g5dkYvT3kzK2VUV2hnR25QNmNBNWtsUitmTzFXaEc4
+ VnJpWHYKck5lUkcyMHN6emplSG9jblNJY1Q1WHVaUjB1REhPaUd4T2l6MXNNUkZUR3h6R095
+ MTlSOXJ2dTYzdGlJM2Q3dgpnYzc1T0NBZGtlQi9TZUNFbGFSdzBUZjdMWmJQampzRjI2M0JZ
+ bk1mNGtrTkVLdnFXY1UyaWNNcCtxZXpqeW5CCnB2ZXVlMHJDVFFCWUFRbG9GQ1ZUR0hyV1dB
+ NkQ0VzVPMkFmSWRJYzF1MUpDWnAyZjVMV1ZvVUZUVklyUW5RUVUKU0hDaWZyOU1aeExUdFBK
+ ZFU1Mm9TUHczZGs0aExQOGlKSUx1dnYvYXZhakNzUVlIRXR3WXNiZUZaeGl1TGdscApBN1lj
+ Sk5ObXBnQ3BNRDR3VWh2bEN0QUtOQlFXeXIyOTc2OThFUVRuNDZlQmVVNkttMkNpaFhrZ3dD
+ eWY4ZXlLCkxFM3NYZXdhcTVrZ1pXdk5xNml1NXFZSVJCOXl3K2NYYzYwZE9aRE9scTkzWDVT
+ QVJZemFvZXBrSHo0cmtMa1AKUG8rdENIeUhRUHNHblBYYzlXVDgwREM5Tm5KR2R2VWx5NXJk
+ TUk0eHBaeWdlb2tqd293VlFsUFV1Y1M2TXluNwpmOHc4Y2dmQjdDMklBSWNEeDJwUC9IendY
+ dmtDT1FOQTdtVjFsTTA4bitnVmtUcnpweGlwNURicTRDSW9ZeDJNCkpaVDhiR1JINlhqY1VE
+ S2EwOVFoeVpzQUVRRUFBWWtFUkFRWUFRZ0FEd1VDVzM1ZlF3SWJBZ1VKQThKbkFBSXAKQ1JD
+ VWdld1BFWkR5MjhGZElBUVpBUWdBQmdVQ1czNWZRd0FLQ1JCVnhETFBjVk1NamNkc0QvMFJo
+ QXN1UVlPeQpyMTNCbDNOaFhrWUFaR3AyWkZER3VrZTdPU2tWOG9qT09UZFR5ei9jT1JHQ2J5
+ ZEQrRGd2cUZ5VmRuT1hLZ08wCmxKbUd3ckdlTGRnZ0F2aDBpaHJwNU8wWVVKOWJCU1htR01t
+ UVRZSC9BbUxUR2FkYnVqQ1dqNWZGVWtDeXd4aW0KSHV5MFBiMjRwelR2UzUwR1k1WStxSDBG
+ SE5haWdka2tpV04zcnVnN0haRXUvQ3lsUFpqT1h6K0QxUVBNckV4dwo3ZC9NS2FiVis5YU5i
+ UVlabGRJajk4UXd2VUYxS1N6YThqbFVJdnBoUnEyN0FUOGZER1lHUGZERU1nMmNCT2FlCkty
+ N29uUXM0YjdhV082aWZEbHhRVHB6c3pvK0FuODA3Tk1TdFZFRmYrczNBaFZEM2U3bmY4SkJh
+ dmJWckFlMGsKb20yNm96elBubnh6K2xxVlZ0dzZVazRYTUl6dGl4L0h3SFl3dUNuY1VYWndL
+ MEkzeUFKd2pZd29vck9DaEozUwpFVWJKUVB0R3NneFJERXhWQkZlNk5MUC82MnhQOU82dGFj
+ d09kYjBNbVAxYjM5cFJBVEM3YmdkMWxkVUxpNzVaCmxKckowL1NpVkVyb3FOWXk3OXRmbWdB
+ WjJVeFptczlTckV5Nm85UVNmc24xYVh2K01QTDlKYUNHbWtQNnpiTFEKTm5kajBKY2FRbmtD
+ MHZneWRPMUJtNk11OTZQOXVmbEtaY0FTNndtTE01SWRIT3lqTDg4d0h3anVjakFPQnRjdwpw
+ MG9HVG5WT25Sc05ZU084VzhZWi9LZGJ1Nzg1ZGF6TXFKMmlOakFEdUJiZG02TjRqNUVkTW5r
+ TG4wQklmUEpwCmRnbTR2bDJVcExqd1JHci9NM3dtbTVwdnMrNnVCN2hrL0ZKaUQvNGxsRU5Q
+ NGVNMWg3U200aitWcTZOMSt6VEIKSVhKQWViSXFhc0RwNXlaUzdYcnk0STM2bjg1WEVZZkcw
+ MWx0QXlob05WMkRPOFNJUlFwdWkydHErOVJQM1JLMQpKREJ4eEVKWTJFTzVKWjhNeGFQSFEw
+ RFQwNWxSRmpLMkFsaGRFSXRqTGpwSjNmVW05c3FMeE1XeHpQNlV6M2lpCjJ1YTR1bnJ0Nk9D
+ VHFRd2lqRi8zYlRXaXd2VkFBSG5NRlVpb1hzaEhhb2hWRGNWZm5lSU1mVjBiUUNYWWkzTnAK
+ WTB2MFp3Y2lGSCtnU0M3cUQ2WE51aHBWR1NMNElpbGlGeS9TemNhSkV6QUhlTERTaFpQMkNX
+ ZG5DNHZnbDM3dApocHg4aDU1WWhKbjZIU3VVelBnaGFLdFZCMmsrajdaZXlaK1NGeHA3SXVi
+ SEN3TEhsUWhUNzVSd1EzaUF4S242CjBxajUxY1lUbnF4ZFpYVzZmSDNQa3VNellVNUdwcVIv
+ MU9sNWMvd2ZJNmc2QW04eUtXLzBFVUx0K0tuNExGc1MKbTdZM201SDV2MTJVNkpCWXZWK3Ix
+ M2paaW9zNEVFREU5M0Q1c05IMk1JeVJ6Q0RxMXpkZHQ0WHV5S0ZqUEtXMQo5aWJaRGZGVjdL
+ dUNzdnVMMjNzQmMxc0NNb3ArRTFtVC9ReE9JQTZvRFQxTVFzdHdPVnVReURDdi9PdktTZ2Z6
+ CjhGWEdMNkFQY2xqQ3FqOEFKaHhReXN4ZG9pUVA4bS92dStialdHR3Z4dzVzMWxncGlSRFRS
+ VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
+ bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
+ LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
+Message-ID: <2212368e-b597-b717-0d21-70b24322ca09@i2se.com>
+Date: Tue, 15 Jun 2021 00:06:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210614065019.GK1955@kadam>
+In-Reply-To: <cover.1623698773.git.ojaswin98@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+X-Provags-ID: V03:K1:BRXG/GqK/eoiEeydPPkhZm4IaZ70DVtRZFB/d54YnB5JeidtjBk
+ bORTtDi9ZlmucFW8578RMnV1RSOV9z1d618VN0bftXWFpxW6LwvX7Aqx3zE2HXkeynZhKyI
+ AoLf31bWS38W1F25Sbl2xbHIl4OuQgcraC9J13np9SKEh8QJaub3i/Jk1bauzmOzLmPFiy3
+ mT9TSdaFxmekS8Syzo6WA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ZSQfHOUokIw=:bf3OXrqU+18AswbaxmClKo
+ 0/XzexXiUUVLymQKg3zPbiQwPaJSp0nnwseebZ7C4QCQCwgp3YvFsfVQzEP6bj6y+VUT2ElQB
+ i82bDphx+bbMsjUAS8f/OaOi3Pi5tmA1SNIh8IUHhjKL3IohtHOZWhlFMxMy8Lauen2uFQMOE
+ S2RIz2bbtyB8jvGCuGi5zkGD+M/L5w8udUtEXcztseFTf76zObWD9R0lAoWE5L/TeIWe8f+yF
+ V+oyYgA/+EbpIMaCbN6bXF2nZ7ICajizOObA1C1ptbtF9lz8xqqFfa+y3thwyOOA3B3f7L+eF
+ 24g62Sn85old19Xr023gKHdECOyTxtkuvWQpVD6AgioJ112dAqH0pm3yaGLPyu3xH6933FJiP
+ 2fK/e+wWX4LZqZQJ6AgwwLfUxBpdXahAz6mF+2s7XgmKM69rVVKmjAUabtc7h38rQ1HX7UBy7
+ wCigI7Uh4uwst9rBzrxZTXgdEcxXdqiac3+4WQfszf1SeFTbKCd9Mmi6kaN5twQaK0cikID8b
+ mf/4YjlJRlc6qNQlmSeOqg=
 
-On Mon, Jun 14, 2021 at 09:50:19AM +0300, Dan Carpenter wrote:
-> On Sun, Jun 13, 2021 at 11:41:45PM +0100, Phillip Potter wrote:
-> > Convert all calls to the DBG_88E macro in core/rtw_efuse.c into
-> > netdev_dbg calls. The DBG_88E macro is unnecessary, as visibility of
-> > debug messages can be controlled more precisely by just using debugfs.
-> > It is important to keep these messages still, as they are displayable
-> > via a kernel module parameter when using DBG_88E.
-> > 
-> 
-> These are not 100% dead code like the previous debug macros but I think
-> we are better off doing another mass delete.
-> 
-> > Also modify efuse_phymap_to_logical function signature to pass through
-> > a struct net_device pointer, so that we can use it to call netdev_dbg
-> > in this function too.
-> > 
-> > Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> > ---
-> >  drivers/staging/rtl8188eu/core/rtw_efuse.c | 27 ++++++++++++++--------
-> >  1 file changed, 17 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_efuse.c b/drivers/staging/rtl8188eu/core/rtw_efuse.c
-> > index 9bb3ec0cd62f..019796c0f1af 100644
-> > --- a/drivers/staging/rtl8188eu/core/rtw_efuse.c
-> > +++ b/drivers/staging/rtl8188eu/core/rtw_efuse.c
-> > @@ -72,7 +72,7 @@ static void efuse_power_switch(struct adapter *pAdapter, u8 write, u8 pwrstate)
-> >  }
-> >  
-> >  static void
-> > -efuse_phymap_to_logical(u8 *phymap, u16 _offset, u16 _size_byte, u8  *pbuf)
-> > +efuse_phymap_to_logical(struct net_device *dev, u8 *phymap, u16 _offset, u16 _size_byte, u8 *pbuf)
-> >  {
-> >  	u8 *efuseTbl = NULL;
-> >  	u8 rtemp8;
-> > @@ -92,7 +92,7 @@ efuse_phymap_to_logical(u8 *phymap, u16 _offset, u16 _size_byte, u8  *pbuf)
-> >  		      sizeof(void *) + EFUSE_MAX_WORD_UNIT * sizeof(u16),
-> >  		      GFP_KERNEL);
-> >  	if (!tmp) {
-> > -		DBG_88E("%s: alloc eFuseWord fail!\n", __func__);
-> > +		netdev_dbg(dev, "alloc eFuseWord fail!\n");
-> 
-> This print is pointless and wrong.  It shouldn't be a debug printk it
-> should be an error message.  But kcalloc() already has an error message
-> built in and adding an additional warning here will lead to a checkpatch
-> complaint.
-> 
-> >  		goto eFuseWord_failed;
-> >  	}
-> >  	for (i = 0; i < EFUSE_MAX_SECTION_88E; i++)
-> > @@ -113,7 +113,9 @@ efuse_phymap_to_logical(u8 *phymap, u16 _offset, u16 _size_byte, u8  *pbuf)
-> >  		efuse_utilized++;
-> >  		eFuse_Addr++;
-> >  	} else {
-> > -		DBG_88E("EFUSE is empty efuse_Addr-%d efuse_data =%x\n", eFuse_Addr, rtemp8);
-> > +		netdev_dbg(dev,
-> > +			   "EFUSE is empty efuse_Addr-%d efuse_data =%x\n",
-> > +			   eFuse_Addr, rtemp8);
-> 
-> I don't know enough to say if this is useful or not, but I'm really
-> skeptical.
-> 
-> >  		goto exit;
-> >  	}
-> >  
-> > @@ -220,7 +222,7 @@ static void efuse_read_phymap_from_txpktbuf(
-> >  	if (bcnhead < 0) /* if not valid */
-> >  		bcnhead = usb_read8(adapter, REG_TDECTRL + 1);
-> >  
-> > -	DBG_88E("%s bcnhead:%d\n", __func__, bcnhead);
-> > +	netdev_dbg(adapter->pnetdev, "bcnhead:%d\n", bcnhead);
-> 
-> The only caller is efuse_ReadEFuse() and bcnhead is always zero.  All
-> these checks and debug code can be deleted.
-> 
-> >  
-> >  	usb_write8(adapter, REG_PKT_BUFF_ACCESS_CTRL, TXPKT_BUF_SELECT);
-> >  
-> > @@ -232,8 +234,10 @@ static void efuse_read_phymap_from_txpktbuf(
-> >  		usb_write8(adapter, REG_TXPKTBUF_DBG, 0);
-> >  		start = jiffies;
-> >  		while (!(reg_0x143 = usb_read8(adapter, REG_TXPKTBUF_DBG)) &&
-> > -		       jiffies_to_msecs(jiffies - start) < 1000) {
-> > -			DBG_88E("%s polling reg_0x143:0x%02x, reg_0x106:0x%02x\n", __func__, reg_0x143, usb_read8(adapter, 0x106));
-> > +			jiffies_to_msecs(jiffies - start) < 1000) {
-> > +			netdev_dbg(adapter->pnetdev,
-> > +				   "polling reg_0x143:0x%02x, reg_0x106:0x%02x\n",
-> > +				   reg_0x143, usb_read8(adapter, 0x106));
-> 
-> This is the wrong place to put debug code.  If the loop timesout it will
-> print a thousand messages.  See?  So far whenever we can understand the
-> code enough to say, then it's totally rubbish.
-> 
-> Just do a mass delete.  You won't ever regret it.
-> 
-> >  			usleep_range(1000, 2000);
-> >  		}
-> >  
-> 
-> regards,
-> dan carpenter
-> 
+Hi,
 
-Dear Dan,
+Am 14.06.21 um 21:32 schrieb Ojaswin Mujoo:
+> Greetings,
+>
+> I'm working on addressing item 10 of the following TODO list:
+>
+>     drivers/staging/vc04-services/interface/TODO
+>
+> For reference, the task is:
+>
+>     10) Reorganize file structure: Move char driver to it's own file an=
+d join
+>     both platform files
+>
+>     The cdev is defined alongside with the platform code in vchiq_arm.c=
+=2E It
+>     would be nice to completely decouple it from the actual core code. =
+For
+>     instance to be able to use bcm2835-audio without having /dev/vchiq =
+created.
+>     One could argue it's better for security reasons or general cleanli=
+ness. It
+>     could even be interesting to create two different kernel modules, s=
+omething
+>     the likes of vchiq-core.ko and vchiq-dev.ko. This would also ease t=
+he
+>     upstreaming process.
+>
+>
+> This patch is the first step towards decoupling the platform and the cd=
+ev code.
+> It moves all the cdev related code from vchiq_arm.c to vchiq_dev.c. How=
+ever, for
+> now, I have aimed to keep the functionality untouched, hence the platfo=
+rm code
+> still calls the cdev initialisation function, and isn't truly decoupled=
+ yet.
+>
+> The summary of the changes is as follows:
+>
+>
+>  *  Definition of functions and variables shared by cdev and platform
+>     code are moved to vchiq_arm.h while declaration stays in vchiq_arm.=
+c
+>
+>  *  Declaration and definition of functions and variables only used by
+>     cdev code are moved to vchiq_dev.c file.
+>
+>  *  Defined vchiq_deregister_chrdev() and vchiq_register_chrdev(..) in
+>     vchiq_dev.c which handle cdev creation and deletion. They are calle=
+d by the
+>     platfrom code during probe().
+looks like this should be 3 separate patches. So you have the pure move
+at the end.
+>
+>
+> I mainly wanted to put this patch out to see if I have the right idea o=
+f the
+> task at hand and to ensure I'm heading into the right direction. I woul=
+d love to
+> hear your thoughts and suggestions on this. Once I have some feedback o=
+n this, I
+> can accordingly work towards a newer version to completely decouple the=
+ code.=20
+>
+> Lastly, I had some questions related to the the task:=20
+>
+> 1. So regarding the following line in the TODO:
+>
+>     "For instance to be able to use bcm2835-audio without having /dev/v=
+chiq
+>     created."=20
+>
+>   I was wondering about the possible ways to achieve this. Specifically=
+, I was
+>   thinking of the following 2 ways:
+>
+>   1.1  Making a KConfig entry for Cdev creation, like CONFIG_VCHIQ_CDEV=
+, and
+>        then do something like:
+>
+>          vchiq_probe(..)=20
+>          {
+>            /* platform init code */
+>
+>            #if defined(CONFIG_VCHIQ_CDEV)
+>
+>            /* Call cdev register function */
+>
+>            #endif=20
+>          }
+A common pattern is to keep the calls, but have "empty" definitions of
+the those functions in the header file in case CONFIG_VCHIQ_CDEV is not
+defined.
+>
+>   1.2  The second approach is creating an entirely separate module for =
+the cdev,
+>        as suggested in the TODO.=20
+>
+>   So I'm just wondering what the right approach should be?
+>
+> 2. Second, I currently tested by installing my patches to a pi3 B+ and =
+running
+>    `cat /dev/vchiq` to compare the output with the original kernel.  Al=
+so, to
+>    see if the platform code works without the cdev code, I commented ou=
+t the
+>    call to vchiq_register_cdev() and made sure the platform device (and=
 
-Thank you for this, and your other feedback. Mass delete works for me, I
-shall get started :-)
+>    children) was registered but the char device was not present. Howeve=
+r, I'm
+>    not sure if these tests are comprehensive enough. What would be the =
+right way
+>    to test my changes?
 
-Regards,
-Phil
+Sounds okay, but a functional test is still necessary (tool is provided
+by Raspberry Pi OS):
+
+vchiq_test -f 10
+vchiq_test -p 10
+
+Regards
+Stefan
+
+
