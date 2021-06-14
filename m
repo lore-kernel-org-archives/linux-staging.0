@@ -1,106 +1,95 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D154E2FB8
-	for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 12:10:48 +0000 (UTC)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15EC67uX029012;
-	Mon, 14 Jun 2021 12:10:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=PRI3ZbgvF7XvhqI9wXPGuawQLkmg0GBcZQdugIdIQU4=;
- b=D4vxZRGzqAsXDpbqLet4KrkleKx2phlVOy+1OWM9pPy9E0TL5YcYvQFO/eJcAVIfBi9p
- c+V7Ie3RP5sWcC0bSEs0sl85ApzR+YPxuicOeTxfB/GunSw7Ccv2e4Jv5K9SlAamrL2G
- wzja/4FhDTY0ijvOnWZRbapQZYpUP/ewUJi2SNbwiteexGmVz22hJ1EzVHuAwdmo1pXd
- dAs8kqGG5aOUEwIkuqSYhAEI/Wfq9SoDbWodfEjevjl3HaXHsjXeW54rGvL+WsG4qtyD
- JRHr9C5ApPLQH4TzQ9gK/MySceG+WN2J9GxvDfNcMlROqbIKFo4tBLamclV+BSrKQ+3Q xw== 
-Received: from oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by mx0b-00069f02.pphosted.com with ESMTP id 395x06g4y3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 14 Jun 2021 12:10:43 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 15ECAgip168196;
-	Mon, 14 Jun 2021 12:10:42 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3020.oracle.com with ESMTP id 394mr6b4s3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 14 Jun 2021 12:10:42 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15ECAgPi168072;
-	Mon, 14 Jun 2021 12:10:42 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-	by aserp3020.oracle.com with ESMTP id 394mr6b4r7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 14 Jun 2021 12:10:42 +0000
-Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
-	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 15ECAdnV007959;
-	Mon, 14 Jun 2021 12:10:39 GMT
-Received: from kadam (/41.212.42.34)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Mon, 14 Jun 2021 12:10:39 +0000
-Date: Mon, 14 Jun 2021 15:10:32 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Phillip Potter <phil@philpotter.co.uk>
-Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net, linux@roeck-us.net,
-        straube.linux@gmail.com, martin@kaiser.cx,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8188eu: convert DBG_88E calls in
- core/rtw_sta_mgt.c
-Message-ID: <20210614121032.GN1955@kadam>
-References: <20210612232831.1325-1-phil@philpotter.co.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A176D2FB8
+	for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 12:15:51 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by comms.puri.sm (Postfix) with ESMTP id 639BCE145C;
+	Mon, 14 Jun 2021 05:15:45 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id GxXrigckZaEu; Mon, 14 Jun 2021 05:15:44 -0700 (PDT)
+From: Martin Kepplinger <martin.kepplinger@puri.sm>
+To: martin.kepplinger@puri.sm,
+	laurent.pinchart@ideasonboard.com
+Cc: devicetree@vger.kernel.org,
+	festevam@gmail.com,
+	kernel@pengutronix.de,
+	kernel@puri.sm,
+	krzk@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-imx@nxp.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	mchehab@kernel.org,
+	phone-devel@vger.kernel.org,
+	robh@kernel.org,
+	shawnguo@kernel.org,
+	slongerbeam@gmail.com,
+	m.felsch@pengutronix.de
+Subject: [PATCH v4 0/3] media: imx: add support for imx8mq MIPI RX
+Date: Mon, 14 Jun 2021 14:15:19 +0200
+Message-Id: <20210614121522.2944593-1-martin.kepplinger@puri.sm>
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210612232831.1325-1-phil@philpotter.co.uk>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: bWqRKij9z9hHX_2MxOzgKrSytKjtUhhu
-X-Proofpoint-GUID: bWqRKij9z9hHX_2MxOzgKrSytKjtUhhu
 
-On Sun, Jun 13, 2021 at 12:28:31AM +0100, Phillip Potter wrote:
-> Convert both calls to the DBG_88E macro in core/rtw_sta_mgt.c into
-> netdev_dbg calls. The DBG_88E macro is unnecessary, as visibility of
-> debug messages can be controlled more precisely by just using debugfs.
-> It is important to keep these messages still, as they are displayable
-> via a kernel module parameter when using DBG_88E.
-> 
-> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> ---
->  drivers/staging/rtl8188eu/core/rtw_sta_mgt.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c b/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
-> index 5af7af5f5a5a..ad1d851a2f69 100644
-> --- a/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
-> +++ b/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
-> @@ -113,17 +113,20 @@ u32 _rtw_init_sta_priv(struct sta_priv *pstapriv)
->  inline int rtw_stainfo_offset(struct sta_priv *stapriv, struct sta_info *sta)
->  {
->  	int offset = (((u8 *)sta) - stapriv->pstainfo_buf) / sizeof(struct sta_info);
-> +	struct net_device *pnetdev = stapriv->padapter->pnetdev;
->  
->  	if (!stainfo_offset_valid(offset))
-> -		DBG_88E("%s invalid offset(%d), out of range!!!", __func__, offset);
-> +		netdev_dbg(pnetdev, "invalid offset(%d), out of range!!!", offset);
->  
->  	return offset;
->  }
->  
->  inline struct sta_info *rtw_get_stainfo_by_offset(struct sta_priv *stapriv, int offset)
->  {
-> +	struct net_device *pnetdev = stapriv->padapter->pnetdev;
-> +
->  	if (!stainfo_offset_valid(offset))
-> -		DBG_88E("%s invalid offset(%d), out of range!!!", __func__, offset);
-> +		netdev_dbg(pnetdev, "invalid offset(%d), out of range!!!", offset);
+hi,
 
-This should be an error and the code should handle it correctly instead
-of reading beyond the end of the struct.
+This patch series adds a driver for the i.MX8MQ CSI MIPI receiver / controller.
 
-regards,
-dan carpenter
+It includes the driver, the dt-bindings and the DT addition to the SoC dtsi.
+
+This is the vendor driver I'm basing the hardware-side of the driver on:
+https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0
+
+Thanks Laurent who helped a lot. I'm happy for any feedback,
+
+                           martin
+
+revision history
+----------------
+v4: (thank you Rob and Marco)
+* create fsl,mipi-phy-gpr custom dt property instead of confusing "phy"
+* add imx8mq-specific compatibile to imx8mq.dtsi for future use
+
+v3: (thank you, Rob and Laurent)
+among minor other things according to v2 review, changes include:
+* better describe the clocks
+* rename DT property "phy-reset" to "reset" and "phy-gpr" to "phy"
+https://lore.kernel.org/linux-media/20210608104128.1616028-1-martin.kepplinger@puri.sm/T/#t
+
+v2: (thank you, Dan and Guido)
+among fixes according to v1 reviews, changes include:
+* remove status property from dt-bindings example
+* define a few bits in order to have less magic values
+* use "imx8mq_mipi_csi_" as local function prefix
+* read DT properties only during probe()
+* remove dead code (log_status)
+* add imx8mq_mipi_csi_release_icc()
+* fix imx8mq_mipi_csi_init_icc()
+https://lore.kernel.org/linux-media/20210531112326.90094-1-martin.kepplinger@puri.sm/
+
+v1:
+https://lore.kernel.org/linux-media/20210527075407.3180744-1-martin.kepplinger@puri.sm/T/#t
+
+Martin Kepplinger (3):
+  dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and
+    controller
+  media: imx: add a driver for i.MX8MQ mipi csi rx phy and controller
+  arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
+
+ .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 171 +++
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 102 ++
+ drivers/staging/media/imx/Makefile            |   1 +
+ drivers/staging/media/imx/imx8mq-mipi-csi2.c  | 994 ++++++++++++++++++
+ 4 files changed, 1268 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+ create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
+
+-- 
+2.30.2
 
