@@ -1,68 +1,142 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B2D072
-	for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 16:44:08 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 13849610A2;
-	Mon, 14 Jun 2021 16:44:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1623689047;
-	bh=Ye0zQtj+te6CtBz9QXGkfBj+iOKH2E+XR9ONDLGB3Mw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=OSSPh76pyLk2fyCNWEIp0jxZ4H8cPuhV7TRSOiBIiNcI7R60m1e/nJU/GgUz1Yh+A
-	 R6OP5dx9qBpTuoSvPFQ/HumgiOOg0y9bGavIh5tj73DZIDIswXIAs/TrZhGV9vQvPR
-	 kyEjMwYhxSoxczCsZpNTOmfv/w9UHk1I/yHRSFJUwW3Pey+Wo+x264j55DxE6YoP9D
-	 n8pvsSbsq0LZQhZHs6sXkpOKpLvDwM6OF0z2hfexsJG0vFZLAY9u8FBO9X+rP9Sn1T
-	 deemQf9ANGlF9ltp63pq5F7Wc0H366kw9zVI1nIR1fyZStvKyJwmQ3c94pFPPEmSrY
-	 xDWtBsiBZSdBA==
-Date: Mon, 14 Jun 2021 18:44:03 +0200
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Dan Carpenter <dan.carpenter@oracle.com>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] Remove unnecessary tests and cast before
- kfree/kvfree
-Message-ID: <20210614184403.5e3097ba@coco.lan>
-In-Reply-To: <3355688.ByQz1z8koQ@linux.local>
-References: <20210605020855.1065-1-fmdefrancesco@gmail.com>
-	<3355688.ByQz1z8koQ@linux.local>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A833C72
+	for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 16:51:19 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AFC50A59;
+	Mon, 14 Jun 2021 18:51:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1623689471;
+	bh=8qOYKilo3VDR4JOmaCNCxvAPF/6CG2VJgci4N0Qz8Zc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fZ9RGzyx+SHbsZzn4TIBrM9xMJ/3HQN+ccsKwoBqmBhyIpK+d/OhxRm1KK6J2H0Vg
+	 yyF1SQUH+MwZf5Z6mwNRtIWI9ZqyOS/Ea0sy2g3ceKIhnPnK/G/R8GMrBYkQamjYlL
+	 6AbVOUUHwYPHvXGFugFi4UUrPSjFy/0GXPqFtY5E=
+Date: Mon, 14 Jun 2021 19:50:52 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+	Eduardo Valentin <edubezval@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+	Liu Shixin <liushixin2@huawei.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	syzbot+142888ffec98ab194028@syzkaller.appspotmail.com
+Subject: Re: [PATCH v3 1/8] media: v4l2-core: ignore native time32 ioctls on
+ 64-bit
+Message-ID: <YMeI7GhgmXM4aIQQ@pendragon.ideasonboard.com>
+References: <20210614103409.3154127-1-arnd@kernel.org>
+ <20210614103409.3154127-2-arnd@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210614103409.3154127-2-arnd@kernel.org>
 
-Em Mon, 14 Jun 2021 18:33:55 +0200
-"Fabio M. De Francesco" <fmdefrancesco@gmail.com> escreveu:
+Hi Arnd,
 
-> Hi All,
+Thank you for the patch.
+
+On Mon, Jun 14, 2021 at 12:34:02PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> I've seen that some patches of mine, more recent the following ones, have 
-> already been applied. In the past I had noticed that the patches are 
-> (usually?) placed in a time of submission ordered FIFO, unless they are 
-> rejected.
+> Syzbot found that passing ioctl command 0xc0505609 into a 64-bit
+> kernel from a 32-bit process causes uninitialized kernel memory to
+> get passed to drivers instead of the user space data:
 > 
-> I'm wondering if I should re-send them or if I am missing some details about 
-> the specific workflow of staging/media.
+> BUG: KMSAN: uninit-value in check_array_args drivers/media/v4l2-core/v4l2-ioctl.c:3041 [inline]
+> BUG: KMSAN: uninit-value in video_usercopy+0x1631/0x3d30 drivers/media/v4l2-core/v4l2-ioctl.c:3315
+> CPU: 0 PID: 19595 Comm: syz-executor.4 Not tainted 5.11.0-rc7-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> Call Trace:
+>  __dump_stack lib/dump_stack.c:79 [inline]
+>  dump_stack+0x21c/0x280 lib/dump_stack.c:120
+>  kmsan_report+0xfb/0x1e0 mm/kmsan/kmsan_report.c:118
+>  __msan_warning+0x5f/0xa0 mm/kmsan/kmsan_instr.c:197
+>  check_array_args drivers/media/v4l2-core/v4l2-ioctl.c:3041 [inline]
+>  video_usercopy+0x1631/0x3d30 drivers/media/v4l2-core/v4l2-ioctl.c:3315
+>  video_ioctl2+0x9f/0xb0 drivers/media/v4l2-core/v4l2-ioctl.c:3391
+>  v4l2_ioctl+0x255/0x290 drivers/media/v4l2-core/v4l2-dev.c:360
+>  v4l2_compat_ioctl32+0x2c6/0x370 drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1248
+>  __do_compat_sys_ioctl fs/ioctl.c:842 [inline]
+>  __se_compat_sys_ioctl+0x53d/0x1100 fs/ioctl.c:793
+>  __ia32_compat_sys_ioctl+0x4a/0x70 fs/ioctl.c:793
+>  do_syscall_32_irqs_on arch/x86/entry/common.c:79 [inline]
+>  __do_fast_syscall_32+0x102/0x160 arch/x86/entry/common.c:141
+>  do_fast_syscall_32+0x6a/0xc0 arch/x86/entry/common.c:166
+>  do_SYSENTER_32+0x73/0x90 arch/x86/entry/common.c:209
+>  entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
+> 
+> The time32 commands are defined but were never meant to be called on
+> 64-bit machines, as those have always used time64 interfaces.  I missed
+> this in my patch that introduced the time64 handling on 32-bit platforms.
+> 
+> The problem in this case is the mismatch of one function checking for
+> the numeric value of the command and another function checking for the
+> type of process (native vs compat) instead, with the result being that
+> for this combination, nothing gets copied into the buffer at all.
+> 
+> Avoid this by only trying to convert the time32 commands when running
+> on a 32-bit kernel where these are defined in a meaningful way.
+> 
+> Fixes: 577c89b0ce72 ("media: v4l2-core: fix v4l2_buffer handling for time64 ABI")
+> Reported-by: syzbot+142888ffec98ab194028@syzkaller.appspotmail.com
+> Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> This patch adds two more changes than the version that Hans tested
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Any patches sent to linux-media@vger.kernel.org are automatically stored
-at patchwork:
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-	https://patchwork.linuxtv.org/project/linux-media/list/
+> ---
+>  drivers/media/v4l2-core/v4l2-ioctl.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 2673f51aafa4..58df927aec7e 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -3073,7 +3073,7 @@ static int check_array_args(unsigned int cmd, void *parg, size_t *array_size,
+>  static unsigned int video_translate_cmd(unsigned int cmd)
+>  {
+>  	switch (cmd) {
+> -#ifdef CONFIG_COMPAT_32BIT_TIME
+> +#if !defined(CONFIG_64BIT) && defined(CONFIG_COMPAT_32BIT_TIME)
+>  	case VIDIOC_DQEVENT_TIME32:
+>  		return VIDIOC_DQEVENT;
+>  	case VIDIOC_QUERYBUF_TIME32:
+> @@ -3127,7 +3127,7 @@ static int video_get_user(void __user *arg, void *parg,
+>  		err = v4l2_compat_get_user(arg, parg, cmd);
+>  	} else {
+>  		switch (cmd) {
+> -#ifdef CONFIG_COMPAT_32BIT_TIME
+> +#if !defined(CONFIG_64BIT) && defined(CONFIG_COMPAT_32BIT_TIME)
+>  		case VIDIOC_QUERYBUF_TIME32:
+>  		case VIDIOC_QBUF_TIME32:
+>  		case VIDIOC_DQBUF_TIME32:
+> @@ -3182,7 +3182,7 @@ static int video_put_user(void __user *arg, void *parg,
+>  		return v4l2_compat_put_user(arg, parg, cmd);
+>  
+>  	switch (cmd) {
+> -#ifdef CONFIG_COMPAT_32BIT_TIME
+> +#if !defined(CONFIG_64BIT) && defined(CONFIG_COMPAT_32BIT_TIME)
+>  	case VIDIOC_DQEVENT_TIME32: {
+>  		struct v4l2_event *ev = parg;
+>  		struct v4l2_event_time32 ev32;
 
-If the patches you sent are there and are marked with "New" state,
-there's no need to re-submit. On a quick check, there are 3 media
-patches from you there:
+-- 
+Regards,
 
-	https://patchwork.linuxtv.org/project/linux-media/list/?series=&submitter=8492&state=&q=&archive=&delegate=
-	
-No need to resubmit those, except if some reviewer asks you to
-change your patch(es).
-
-Thanks,
-Mauro
+Laurent Pinchart
