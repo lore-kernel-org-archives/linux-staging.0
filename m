@@ -1,108 +1,94 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A8BF72
-	for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 09:58:48 +0000 (UTC)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15E9ufCa030757;
-	Mon, 14 Jun 2021 09:58:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type : in-reply-to;
- s=corp-2020-01-29; bh=6MD8tacwh74riZ/X3RtHjFNFVvKl9HiTPBKAYwFYGoQ=;
- b=sGtAutBvAzuVBATfTwn+IYN7XonS5KSqV2jYiGcpdijNeJj3woQxtNTM0HpiqoDO583p
- PdWX+vlBKF8Q7+T06opwO1rj6rWIuTPRgnJhQpyD5Hl8lJr+9vC4ZRf9UQo3bVwAmHh+
- pDtNY1GeDq/Ef+4vuQLV2KyuY/LgEP6rsEQVK5brnfEJiXtSlkZDxVTGOhTtHpXyCP3E
- zGCGxm/dYcfe6JdcCJ4+8UAmsG5ph5fJiFqEpzuADenpy8VYbQKI8BtuXdSpVkvScHGN
- gmfZdqbrb1RaLO4+LMJzsxDpJwAliUsfJjS8kjn8Fk9KnK11L7qW7cZ9X4DBaAcBMz5D 5g== 
-Received: from oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by mx0b-00069f02.pphosted.com with ESMTP id 395y1kr3cb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 14 Jun 2021 09:58:47 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
-	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 15E9wkhb011117;
-	Mon, 14 Jun 2021 09:58:46 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3030.oracle.com with ESMTP id 3959cj4krd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 14 Jun 2021 09:58:46 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15E9tjwq196437;
-	Mon, 14 Jun 2021 09:58:45 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by aserp3030.oracle.com with ESMTP id 3959cj4kqp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 14 Jun 2021 09:58:45 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 15E9wiDG029713;
-	Mon, 14 Jun 2021 09:58:44 GMT
-Received: from mwanda (/41.212.42.34)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Mon, 14 Jun 2021 09:58:43 +0000
-Date: Mon, 14 Jun 2021 12:58:36 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Won Kang <wkang77@gmail.com>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org
-Subject: [PATCH 2/2] staging: gdm724x: check for overflow in
- gdm_lte_netif_rx()
-Message-ID: <YMcoTPsCYlhh2TQo@mwanda>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1F972
+	for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 10:06:20 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id l18-20020a1ced120000b029014c1adff1edso12612662wmh.4
+        for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 03:06:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZWPfS1j+ZHcYwLa9t4ZB3v5pOc9zAsYC3fSyZAd4gAE=;
+        b=GcEj5ddWydc/sAv5he2N/y5bpXlWw5mx0y3eAO9ji5dLRl1Xuz0qKZ7T0mn32RS/nP
+         cvcKgIcwBU0wI71qVnfWvGDHNyczVw49QI/ml1dp0agfc/xTpcysI8WoC9gzUyP1evnw
+         xEXxjRDbzKGMnaeHFBT13PglA0quivN+A4ZFb1FrpWu4VDhPRIRmMZec+m13MUZHpQFt
+         BMcFyZ9YUp+hbc/4iEIfv+lI3MRkvFEbx5NJBYClmiph5dYHq6+qKPPvKnjG+eDbEjUr
+         76E++oYvIRT/wV5sVS+Vb/gzEZhcl1M4zuGuEmFdsdbdGGFvOz++IAwhyQJl5caOVOdE
+         F/dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZWPfS1j+ZHcYwLa9t4ZB3v5pOc9zAsYC3fSyZAd4gAE=;
+        b=OxS+JxYSPdk3V+HZH8RBI4XOMZdKpLi9JMwZK+mDQ0Oj02fMVltmBn455m/ChbuUyS
+         4DV5mAqZvZeMeXxS64hXVrArSPLwSv2wrC34skQYANG9iclTVyhPUVeJOfuAJ32uzI7L
+         j+DPRu9dvFIoYMB+8iyyHkpZxBOSkdUDOuFZ7AslOfraj0jbJ2yXJXsDgbgYHfKmKUnT
+         F+Xom2/ia+H3KnTbt+OUdf8gbgqc1/G2eZ11Ed5SbCdpJAuYleURGh1gRBn7ZSME/rFI
+         iUXcMULO8Ryek0gOCg5uAUZ4B1tF3qMRsaygzsVT/wvo1yChAOOrtAzimrnGrD0D4L8c
+         sIYA==
+X-Gm-Message-State: AOAM530HpEYckkZn6PcYq5WENwyBmbFFZpy2EcKdYj+2DEVMXK3R3ga/
+	vRoHS9O4zbXReHugylGJMqlf3Z3d0uw=
+X-Google-Smtp-Source: ABdhPJzzcuILbxNELcXrkQEB9Y1VJl9xbp0YX6DYhYIpF2TAv5LsbxGNbfhW6dKyCOgz3kUMhc5CRg==
+X-Received: by 2002:a1c:f70d:: with SMTP id v13mr15046481wmh.183.1623665179095;
+        Mon, 14 Jun 2021 03:06:19 -0700 (PDT)
+Received: from localhost.localdomain (98.red-81-38-58.dynamicip.rima-tde.net. [81.38.58.98])
+        by smtp.gmail.com with ESMTPSA id k5sm16476566wrv.85.2021.06.14.03.06.18
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 14 Jun 2021 03:06:18 -0700 (PDT)
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	neil@brown.name,
+	linux-mips@vger.kernel.org,
+	tsbogend@alpha.franken.de,
+	ilya.lipnitskiy@gmail.com,
+	john@phrozen.org
+Subject: [PATCH v2 0/3] staging: mt7621-pci: define ralink PCI_IOBASE to avoid manually ranges parsing
+Date: Mon, 14 Jun 2021 12:06:14 +0200
+Message-Id: <20210614100617.28753-1-sergio.paracuellos@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YMcnl4zCwGWGDVMG@mwanda>
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-ORIG-GUID: OABA-4KIw-aOwYecM5BbwWkpjnXX7mdq
-X-Proofpoint-GUID: OABA-4KIw-aOwYecM5BbwWkpjnXX7mdq
+Content-Transfer-Encoding: 8bit
 
-This code assumes that "len" is at least 62 bytes, but we need a check
-to prevent a read overflow.
+Ralink MIPS platforms do not define PCI_IOBASE. This ends up in
+pci generic apis not working with io resources when calls to function
+'of_pci_range_to_resource' are performed because internall function
+'pci_address_to_pio()' is call and it results in getting 'OF_BAD_ADDR'
+as result. If we define PCI_IOBASE pci generic apis properly works for
+ralink pci controllers. In this particular case, we can remove all
+manually ranges and resource from driver code decresing LOC and being
+more standard.
 
-Fixes: 61e121047645 ("staging: gdm7240: adding LTE USB driver")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
-There is a different place that does:
+In the future, this is also useful for mips pci drivers which are still
+using pci legacy apis. After having PCI_IOBASE defined, only defining 
+'pci_address_to_pio' for PCI_LEGACY might be remaining to also make 
+work 'pci-rt3883', 'pci-mt7620' among others. Sadly I don't have devices
+to test that so I haven't write the code by myself.
 
-	ip_version = buf[0] >> 4;
+Thanks in advance for your time.
 
-Which assumes that "len" is one.  I think that should be checked in the
-caller...  I didn't add a check here because I think it's the wrong
-place but then I didn't add a check in the caller because I wasn't able
-to test it.  I'm not really that worried about reading one element
-beyond the end of the buffer.  If we get extremely unlucky it could
-result in a crash...  Hopefully we will remember to look at this again
-before moving this code out of staging.
+Changes in v2:
+  - Fix PATCH 1 indentation converting spaces into tabs.
 
-#TODO:
+Best regards,
+     Sergio Paracuellos
 
- drivers/staging/gdm724x/gdm_lte.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+Sergio Paracuellos (3):
+  MIPS: ralink: Define PCI_IOBASE
+  staging: mt7621-pci: remove 'mt7621_pci_parse_request_of_pci_ranges'
+  staging: mt7621-dts: fix pci address for PCI memory range
 
-diff --git a/drivers/staging/gdm724x/gdm_lte.c b/drivers/staging/gdm724x/gdm_lte.c
-index a41af7aa74ec..bd5f87433404 100644
---- a/drivers/staging/gdm724x/gdm_lte.c
-+++ b/drivers/staging/gdm724x/gdm_lte.c
-@@ -611,10 +611,12 @@ static void gdm_lte_netif_rx(struct net_device *dev, char *buf,
- 						  * bytes (99,130,83,99 dec)
- 						  */
- 			} __packed;
--			void *addr = buf + sizeof(struct iphdr) +
--				sizeof(struct udphdr) +
--				offsetof(struct dhcp_packet, chaddr);
--			ether_addr_copy(nic->dest_mac_addr, addr);
-+			int offset = sizeof(struct iphdr) +
-+				     sizeof(struct udphdr) +
-+				     offsetof(struct dhcp_packet, chaddr);
-+			if (offset + ETH_ALEN > len)
-+				return;
-+			ether_addr_copy(nic->dest_mac_addr, buf + offset);
- 		}
- 	}
- 
+ arch/mips/include/asm/mach-ralink/spaces.h |  10 +++
+ drivers/staging/mt7621-dts/mt7621.dtsi     |   2 +-
+ drivers/staging/mt7621-pci/pci-mt7621.c    | 100 ++++++---------------
+ 3 files changed, 38 insertions(+), 74 deletions(-)
+ create mode 100644 arch/mips/include/asm/mach-ralink/spaces.h
+
 -- 
-2.30.2
+2.25.1
 
