@@ -1,22 +1,27 @@
-Received: from zeniv-ca.linux.org.uk (zeniv-ca.linux.org.uk [142.44.231.140])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769A92FB2
-	for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 14:39:55 +0000 (UTC)
-Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1lsnLz-0086xp-Gz; Mon, 14 Jun 2021 14:14:15 +0000
-Date: Mon, 14 Jun 2021 14:14:15 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Jhih Ming Huang <fbihjmeric@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, fabioaiuto83@gmail.com,
-	ross.schm.dev@gmail.com, maqianga@uniontech.com,
-	marcocesati@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] rtw_security: fix cast to restricted __le32
-Message-ID: <YMdkN9cft6KHcFn3@zeniv-ca.linux.org.uk>
-References: <20210613122858.1433252-1-fbihjmeric@gmail.com>
- <YMX7SRSPgvMA/Pw1@kroah.com>
- <CAKgboZ8QUQpiinL0xCxUmcp6nEVU20jXkDXbrK_QisUMiLEo1A@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386AB2FB2
+	for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 14:46:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 50B756054E;
+	Mon, 14 Jun 2021 14:46:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1623682003;
+	bh=+o9b6y5kWybkxYBzKA6EBU6w59vTl9WPx7qNYYNQuqs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=2JTsY/mpVYRSuI8bgbBTK2QoLAz8VnT2unhc+OM7HqRwhTjR+NOZ7SdHkf16txPwt
+	 vI5MPtv3CXZqam1quJrb2bnG9Rw37z/ntye/BtpN0J+uEdskBox5fP3SU3pbdKUuYj
+	 X03z2/LJ1YQxEliUKkQPNPp7xxt0LZ9Mce6ZZGRs=
+Date: Mon, 14 Jun 2021 16:46:41 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Martin Kaiser <martin@kaiser.cx>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, linux-staging@lists.linux.dev,
+	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH 2/6] staging: rtl8188eu: fix usb_submit_urb error handling
+Message-ID: <YMdr0alJDEGfsqOA@kroah.com>
+References: <20210612180019.20387-1-martin@kaiser.cx>
+ <20210612180019.20387-2-martin@kaiser.cx>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -24,43 +29,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAKgboZ8QUQpiinL0xCxUmcp6nEVU20jXkDXbrK_QisUMiLEo1A@mail.gmail.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+In-Reply-To: <20210612180019.20387-2-martin@kaiser.cx>
 
-On Mon, Jun 14, 2021 at 12:40:27AM +0800, Jhih Ming Huang wrote:
-> On Sun, Jun 13, 2021 at 8:34 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Sun, Jun 13, 2021 at 08:28:58PM +0800, Jhih-Ming Huang wrote:
-> > > This patch fixes the sparse warning of fix cast to restricted __le32.
-> > >
-> > > Last month, there was a change for replacing private CRC-32 routines with
-> > > in-kernel ones.
-> > > In that patch, we replaced getcrc32 with crc32_le in calling le32_to_cpu.
-> > > le32_to_cpu accepts __le32 type as arg, but crc32_le returns unsigned int.
-> > > That how it introduced the sparse warning.
-> >
-> > As crc32_le returns a u32 which is in native-endian format, how can you
-> > cast it to le32?  Why do you cast it to le32?  Isn't that going to be
-> > incorrect for big endian systems?
-> >
-> > thanks,
-> >
-> > greg k-h
+On Sat, Jun 12, 2021 at 08:00:15PM +0200, Martin Kaiser wrote:
+> -EPERM should be handled like any other error.
+
+Why?  This is not "any other error" for the usb core, right?
+
 > 
-> Thanks for the fast reply.
-> Yes, you are right. I did not notice that le32_to_cpu already handles
-> both of the cases.
+> Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> ---
+>  drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
 > 
-> So it seems the warning from sparse is false positives, am I right?
+> diff --git a/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c b/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
+> index ec07b2017fb7..0ceb05f3884f 100644
+> --- a/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
+> +++ b/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
+> @@ -366,7 +366,6 @@ u32 usb_read_port(struct adapter *adapter, u32 addr, struct recv_buf *precvbuf)
+>  	struct usb_device *pusbd = pdvobj->pusbdev;
+>  	int err;
+>  	unsigned int pipe;
+> -	u32 ret = _SUCCESS;
+>  
+>  	if (adapter->bDriverStopped || adapter->bSurpriseRemoved ||
+>  	    adapter->pwrctrlpriv.pnp_bstop_trx) {
+> @@ -403,10 +402,10 @@ u32 usb_read_port(struct adapter *adapter, u32 addr, struct recv_buf *precvbuf)
+>  			  precvbuf);/* context is precvbuf */
+>  
+>  	err = usb_submit_urb(purb, GFP_ATOMIC);
+> -	if ((err) && (err != (-EPERM)))
+> -		ret = _FAIL;
 
-In a sense that on all architectures we would be ever likely to support
-le32_to_cpu and cpu_to_le32 do the same bit-shuffling - yes.  In a sense
-of having those used correctly it's not a false positive, though - it's
-much easier to follow "this variable always hold native-endian, this -
-little-endian" and watch for conversions done correctly than to count
-the byteswaps and try to prove that it's either even for all execution
-histories or odd for all execution histories.
+if -EPERM returns from this function, someone set the "reject" bit on
+the urb.
 
-IOW, there's a good reason for keeping separate cpu_to_le32 and le32_to_cpu
-and not mixing them with each other - it's easier to prove correctness that
-way *and* easier to look for endianness bugs.
+Can this driver do that?  Where did this check originally come from, as
+it feels like this was added for a good reason.
+
+If this patch is "correct", I need a better changelog text explaining
+why it is so :)
+
+thanks,
+
+greg k-h
