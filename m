@@ -1,19 +1,19 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E617072
-	for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 17:04:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA5872
+	for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 17:04:46 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6BAB2436;
-	Mon, 14 Jun 2021 19:04:24 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A543F436;
+	Mon, 14 Jun 2021 19:04:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1623690264;
+	s=mail; t=1623690284;
 	bh=Y6kZhAkHeLzvqk5DlBXOp7E5flMwNJLdlCS66qJQBw4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ph27wsm4B+vgQE2k+3XExxZ+SvZ9IQ9M6uaCtKdV77+K2aHdR/42PuEM/CazY1PiC
-	 aG6CKC868MtvJFcCKX6vOUYGteZ2xxZ7v/Veq5TJe9MmXaZ34HY8LhB5urthe3h2uM
-	 xg+XGQVnk6/n+9rPVd+G4X7sYqeyeBG7lTMeUIsU=
-Date: Mon, 14 Jun 2021 20:04:04 +0300
+	b=eBOMjvG/5Yu0Yyl3EVPMy0ekkQ/GZmYW7F7QDFeljkKttg8XUpr/Tce0p5XGaVwiB
+	 xY6nNbyND4EGO+W0M6lIEpIGcyYPdZW32PgF9hox+pJBOGxPBaAU0+kinFdR4NhkIN
+	 5VH3NSidSVJkM2Eao/JGyPNNLyv39mX+4BGhv6bk=
+Date: Mon, 14 Jun 2021 20:04:25 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Arnd Bergmann <arnd@kernel.org>
 Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -31,7 +31,7 @@ Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	linux-staging@lists.linux.dev
 Subject: Re: [PATCH v3 5/8] media: v4l2-core: return -ENODEV from ioctl when
  not registered
-Message-ID: <YMeMBKUc1X7hsMjO@pendragon.ideasonboard.com>
+Message-ID: <YMeMGbJqiRimgzxy@pendragon.ideasonboard.com>
 References: <20210614103409.3154127-1-arnd@kernel.org>
  <20210614103409.3154127-6-arnd@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
