@@ -1,27 +1,24 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386AB2FB2
-	for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 14:46:44 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 50B756054E;
-	Mon, 14 Jun 2021 14:46:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1623682003;
-	bh=+o9b6y5kWybkxYBzKA6EBU6w59vTl9WPx7qNYYNQuqs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=2JTsY/mpVYRSuI8bgbBTK2QoLAz8VnT2unhc+OM7HqRwhTjR+NOZ7SdHkf16txPwt
-	 vI5MPtv3CXZqam1quJrb2bnG9Rw37z/ntye/BtpN0J+uEdskBox5fP3SU3pbdKUuYj
-	 X03z2/LJ1YQxEliUKkQPNPp7xxt0LZ9Mce6ZZGRs=
-Date: Mon, 14 Jun 2021 16:46:41 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Martin Kaiser <martin@kaiser.cx>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, linux-staging@lists.linux.dev,
-	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH 2/6] staging: rtl8188eu: fix usb_submit_urb error handling
-Message-ID: <YMdr0alJDEGfsqOA@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD78D2FB2
+	for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 14:58:34 +0000 (UTC)
+Received: from martin by viti.kaiser.cx with local (Exim 4.89)
+	(envelope-from <martin@viti.kaiser.cx>)
+	id 1lso2g-0004Fk-R4; Mon, 14 Jun 2021 16:58:22 +0200
+Date: Mon, 14 Jun 2021 16:58:22 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 6/6] staging: rtl8188eu: remove RT_TRACE and DBG_88E
+ prints from usb_intf.c
+Message-ID: <20210614145822.c3dk3e7p44ypglk7@viti.kaiser.cx>
 References: <20210612180019.20387-1-martin@kaiser.cx>
- <20210612180019.20387-2-martin@kaiser.cx>
+ <20210612180019.20387-6-martin@kaiser.cx>
+ <20210614113439.GM1955@kadam>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -29,48 +26,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210612180019.20387-2-martin@kaiser.cx>
+In-Reply-To: <20210614113439.GM1955@kadam>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Sender: Martin Kaiser <martin@viti.kaiser.cx>
 
-On Sat, Jun 12, 2021 at 08:00:15PM +0200, Martin Kaiser wrote:
-> -EPERM should be handled like any other error.
+Thus wrote Dan Carpenter (dan.carpenter@oracle.com):
 
-Why?  This is not "any other error" for the usb core, right?
+> On Sat, Jun 12, 2021 at 08:00:19PM +0200, Martin Kaiser wrote:
+> > These prints are disabled by default.
 
-> 
-> Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
-> ---
->  drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c b/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
-> index ec07b2017fb7..0ceb05f3884f 100644
-> --- a/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
-> +++ b/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
-> @@ -366,7 +366,6 @@ u32 usb_read_port(struct adapter *adapter, u32 addr, struct recv_buf *precvbuf)
->  	struct usb_device *pusbd = pdvobj->pusbdev;
->  	int err;
->  	unsigned int pipe;
-> -	u32 ret = _SUCCESS;
->  
->  	if (adapter->bDriverStopped || adapter->bSurpriseRemoved ||
->  	    adapter->pwrctrlpriv.pnp_bstop_trx) {
-> @@ -403,10 +402,10 @@ u32 usb_read_port(struct adapter *adapter, u32 addr, struct recv_buf *precvbuf)
->  			  precvbuf);/* context is precvbuf */
->  
->  	err = usb_submit_urb(purb, GFP_ATOMIC);
-> -	if ((err) && (err != (-EPERM)))
-> -		ret = _FAIL;
 
-if -EPERM returns from this function, someone set the "reject" bit on
-the urb.
+> Not, just by default.  There is literally no way to enable them.
 
-Can this driver do that?  Where did this check originally come from, as
-it feels like this was added for a good reason.
+> > Replace the print after dev_alloc_name with proper error handling.
 
-If this patch is "correct", I need a better changelog text explaining
-why it is so :)
 
-thanks,
+> Ugh...  :(  This part really needs to be done first and in a separate
+> patch.  You can delete the RT_TRACE() from that one call site since it's
+> on the same line but the subject of the patch needs to say something
+> like "check for allocation failure".  It can't be "remove RT_TRACE and
+> DBG_88E prints".
 
-greg k-h
+ok, understood. I'll split this in two (and fix it, I forgot a
+semicolon).
+
+Thanks,
+
+   Martin
