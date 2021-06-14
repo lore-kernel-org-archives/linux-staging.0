@@ -1,38 +1,38 @@
 Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4C86D0E
-	for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 12:15:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E4F2FB8
+	for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 12:25:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by comms.puri.sm (Postfix) with ESMTP id A9FFEE1FD0;
-	Mon, 14 Jun 2021 05:15:58 -0700 (PDT)
+	by comms.puri.sm (Postfix) with ESMTP id 00B3CE0FEB;
+	Mon, 14 Jun 2021 05:25:39 -0700 (PDT)
 Received: from comms.puri.sm ([127.0.0.1])
 	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qlnbILbDuOFA; Mon, 14 Jun 2021 05:15:57 -0700 (PDT)
+	with ESMTP id AUCxcWaGoJwN; Mon, 14 Jun 2021 05:25:38 -0700 (PDT)
 From: Martin Kepplinger <martin.kepplinger@puri.sm>
-To: martin.kepplinger@puri.sm,
-	laurent.pinchart@ideasonboard.com
+To: martin.kepplinger@puri.sm
 Cc: devicetree@vger.kernel.org,
 	festevam@gmail.com,
 	kernel@pengutronix.de,
 	kernel@puri.sm,
 	krzk@kernel.org,
+	laurent.pinchart@ideasonboard.com,
 	linux-arm-kernel@lists.infradead.org,
 	linux-imx@nxp.com,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
+	m.felsch@pengutronix.de,
 	mchehab@kernel.org,
 	phone-devel@vger.kernel.org,
 	robh@kernel.org,
 	shawnguo@kernel.org,
-	slongerbeam@gmail.com,
-	m.felsch@pengutronix.de
-Subject: [PATCH v4 3/3] arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
-Date: Mon, 14 Jun 2021 14:15:22 +0200
-Message-Id: <20210614121522.2944593-4-martin.kepplinger@puri.sm>
-In-Reply-To: <20210614121522.2944593-1-martin.kepplinger@puri.sm>
-References: <20210614121522.2944593-1-martin.kepplinger@puri.sm>
+	slongerbeam@gmail.com
+Subject: [PATCH v4.1 3/3] arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
+Date: Mon, 14 Jun 2021 14:25:17 +0200
+Message-Id: <20210614122517.2945532-1-martin.kepplinger@puri.sm>
+In-Reply-To: <20210614121522.2944593-4-martin.kepplinger@puri.sm>
+References: <20210614121522.2944593-4-martin.kepplinger@puri.sm>
 Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,11 +48,17 @@ board files.
 
 Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
 ---
+
+sorry, the csi compatible addition suggested by Marco was missing in
+v4 3/3. here is 3/3 updated.
+
+
+
  arch/arm64/boot/dts/freescale/imx8mq.dtsi | 102 ++++++++++++++++++++++
  1 file changed, 102 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-index 91df9c5350ae..480eaf1dec2b 100644
+index 91df9c5350ae..fa83e8294b20 100644
 --- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
 +++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
 @@ -1099,6 +1099,108 @@ uart4: serial@30a60000 {
@@ -96,7 +102,7 @@ index 91df9c5350ae..480eaf1dec2b 100644
 +			};
 +
 +			csi1: csi@30a90000 {
-+				compatible = "fsl,imx7-csi";
++				compatible = "fsl,imx8mq-csi", "fsl,imx7-csi";
 +				reg = <0x30a90000 0x10000>;
 +				interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
 +				clocks = <&clk IMX8MQ_CLK_CSI1_ROOT>;
@@ -147,7 +153,7 @@ index 91df9c5350ae..480eaf1dec2b 100644
 +			};
 +
 +			csi2: csi@30b80000 {
-+				compatible = "fsl,imx7-csi";
++				compatible = "fsl,imx8mq-csi", "fsl,imx7-csi";
 +				reg = <0x30b80000 0x10000>;
 +				interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
 +				clocks = <&clk IMX8MQ_CLK_CSI2_ROOT>;
