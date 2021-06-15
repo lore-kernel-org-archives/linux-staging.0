@@ -1,126 +1,105 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D443472
-	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 12:11:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1623759117;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=catMU2sQUcY0cmzqi/0xf41u4VQHC7Rms2o/nd0B/O8=;
-	b=BKgQaIvaEEyxC1ViL0hO2Lr1jXVDvtk1iKfad9DAhsoNZOa1iG3uiR6Xlb+IqEAG4yWuRY
-	8ORynIr0kuaMPhhArVTzkcJS/aT4S0XGoe7LW0RAS7GteTFmsnmkT4BpvPk3lEsag9pr6P
-	DFWDkDY2q0PWzpCsNzIZEhz2vDCDoic=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-VIU8U43MOzimkYSLu5xeMw-1; Tue, 15 Jun 2021 08:11:56 -0400
-X-MC-Unique: VIU8U43MOzimkYSLu5xeMw-1
-Received: by mail-ed1-f72.google.com with SMTP id p24-20020aa7c8980000b0290393c37fdcb8so10906299eds.6
-        for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 05:11:56 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558E56D00
+	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 12:38:14 +0000 (UTC)
+Received: by mail-ot1-f54.google.com with SMTP id 6-20020a9d07860000b02903e83bf8f8fcso14079646oto.12
+        for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 05:38:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ficQ6Tww5rQWbuZhPE3EU+jqogC/DlraVO6vAn62sH8=;
+        b=Lp+48USM5gnu+eeiY9Ryndm4K5fG/VsCibPh6LcsrDucCKozYimMQbl3c5s+M9nTd2
+         kWSmLb1v/6huguWcIj5VMtNX8v8JJ3iEFARDXK3PZcl0yhm4u8om8kGk9jl2uHnjvCqc
+         T1ZVitgGHX3+mzf1uc5QBYfeBS1gEfgQdebwp6YZos97rmVDouzW2Eo4Df+Teos8bytb
+         h3l3fzGY0JAm+muk3HTuDiEmkPUiX/s/1c9WE/HreoqIlVEFbftB4UEICL+CGx5P5/mt
+         EmWgnENkf3qQ03D6T0tBhGTEZcJLbm94Z9GBugQeNIn86VAeehW9NMChjaNfoR5cOp3y
+         fNWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=catMU2sQUcY0cmzqi/0xf41u4VQHC7Rms2o/nd0B/O8=;
-        b=jVTynggFYSkjxFMGCC/un36Qf/lrJQP9cx+uIphpZppcqbIeEBhSzAWIZz+kfXDv+d
-         gIjX16TPfNGArCgUDZw+00wrFuTARhx3D05Zek/S8beJXZBk61Y1xqhwPyMGUcO7MxXa
-         LbscU3aeBl8J19AhmZHXV1UycrB5DqAN0iiJxwIKuOJIiQsh/sszHkNhxzQFXTVAHqrt
-         WLkbVnAbsMffIhCP6HnLfIZIdBa8KO9BXsyPphRWcHPJl/lLRI//g6rhfR0jCgpkNLxD
-         7qkNmVlhwO8TUSiFq7+IX7sZgBFioGq6At2IJbkRsjEqZRZNNzl0378TiuzMo4pR7gDS
-         Z2hg==
-X-Gm-Message-State: AOAM533zqyca0KouR1JdGBiQ+iytlxC4TAkiBFUQIGfD2vRjeZ2pIZwA
-	KWXEjPvRed2yFVZ8n/u0W2GAt9Ul19Pg+ZwV4PsYhvlVdPRuHBBu+NDcqQpEwO3/tDZ94fAefEe
-	pUl/MTbycqURXayPf+YbKFmxs0g==
-X-Received: by 2002:a05:6402:4242:: with SMTP id g2mr2385994edb.350.1623759115445;
-        Tue, 15 Jun 2021 05:11:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx0eETMZ0KtHAEY/DHOOKsuF/qv/jjzcudE4oivsL7FfV+ozmnRx6Vs5McNXSzrFhYVzjTXlg==
-X-Received: by 2002:a05:6402:4242:: with SMTP id g2mr2385980edb.350.1623759115291;
-        Tue, 15 Jun 2021 05:11:55 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id cx7sm11793276edb.65.2021.06.15.05.11.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Jun 2021 05:11:27 -0700 (PDT)
-Subject: Re: [PATCH 0/8] staging: rtl8723bs: remove unneeded files from tree
-To: Fabio Aiuto <fabioaiuto83@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <cover.1623756906.git.fabioaiuto83@gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <8109abbd-f7ae-2b88-4b99-98151322c843@redhat.com>
-Date: Tue, 15 Jun 2021 14:11:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ficQ6Tww5rQWbuZhPE3EU+jqogC/DlraVO6vAn62sH8=;
+        b=IDq1FpOMWMuD8+xg7MSKTrBf4vY1gol8n987L6npEMrKUa8Y2qSyEahxihZE7KPsn7
+         YXn7UcFGKMgy+3VbFN4chcX5gP/zSFJmeJboqxR+1lEIy27sVxGKZol3s93Esz3GBLAG
+         VbfRV3Yq+grk8JssUd70j0LfAx4obEwaDzOqANOXBE4NOzpKhFiWzHHCMDrEI6ZqsdYe
+         Vbl9iHsZBWhWWYo1a7TJJcWnHuEE/U/7WZOWcJ1yO8iXzH8W79tHXqFfhqh/VilezbSk
+         nEfQ1xZDeRQGhQUhjgkhfeJIeEsxh/RRYPp7+3uSpv51x9b4FHTN7vMvZATikqtnIHwO
+         YNRA==
+X-Gm-Message-State: AOAM531QyaZaDdoZ71uFMNE4VAZiOyX/Lu7mPnCt6tfcq7tgtGJjArmH
+	CJGl4KNzrn/UWjRNHf5WTI65mOjwrwKqxO+ZStk=
+X-Google-Smtp-Source: ABdhPJw0GeGfibEnccUzSpoNh5NwbGf8dGBP93VtfjUh74h4iIR91O5ulOPCrMrUMeeckCmb0NxMwdAgQVTm490yoMU=
+X-Received: by 2002:a05:6830:99:: with SMTP id a25mr17941206oto.72.1623760693573;
+ Tue, 15 Jun 2021 05:38:13 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <cover.1623756906.git.fabioaiuto83@gmail.com>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210614100617.28753-1-sergio.paracuellos@gmail.com>
+ <20210614100617.28753-2-sergio.paracuellos@gmail.com> <YMiUKkYL7B7qTU/X@kroah.com>
+In-Reply-To: <YMiUKkYL7B7qTU/X@kroah.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Tue, 15 Jun 2021 14:38:02 +0200
+Message-ID: <CAMhs-H8SJttFRUtE-sbqNbOAAiht1SaYMzVZGU0Zqzuat1pCPQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] MIPS: ralink: Define PCI_IOBASE
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>, 
+	"open list:MIPS" <linux-mips@vger.kernel.org>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Ilya Lipnitskiy <ilya.lipnitskiy@gmail.com>, 
+	John Crispin <john@phrozen.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+On Tue, Jun 15, 2021 at 1:51 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Mon, Jun 14, 2021 at 12:06:15PM +0200, Sergio Paracuellos wrote:
+> > PCI_IOBASE is used to create VM maps for PCI I/O ports, it is
+> > required by generic PCI drivers to make memory mapped I/O range
+> > work. Hence define it for ralink architectures to be able to
+> > avoid parsing manually IO ranges in PCI generic driver code.
+> > Function 'plat_mem_setup' for ralink is using 'set_io_port_base'
+> > call using '0xa0000000' as address, so use the same address in
+> > the definition to align things.
+> >
+> > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> > ---
+> >  arch/mips/include/asm/mach-ralink/spaces.h | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> >  create mode 100644 arch/mips/include/asm/mach-ralink/spaces.h
+> >
+> > diff --git a/arch/mips/include/asm/mach-ralink/spaces.h b/arch/mips/include/asm/mach-ralink/spaces.h
+> > new file mode 100644
+> > index 000000000000..87d085c9ad61
+> > --- /dev/null
+> > +++ b/arch/mips/include/asm/mach-ralink/spaces.h
+> > @@ -0,0 +1,10 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +#ifndef __ASM_MACH_RALINK_SPACES_H_
+> > +#define __ASM_MACH_RALINK_SPACES_H_
+> > +
+> > +#define PCI_IOBASE   _AC(0xa0000000, UL)
+> > +#define PCI_IOSIZE   SZ_16M
+> > +#define IO_SPACE_LIMIT       (PCI_IOSIZE - 1)
+> > +
+> > +#include <asm/mach-generic/spaces.h>
+> > +#endif
+> > --
+> > 2.25.1
+> >
+> >
+>
+> I really can't take a change outside of drivers/staging/ for a staging
+> driver.
+>
+> So unless you can get a MIPS maintainer to ACK this, I can't accept
+> this change, sorry.
 
-On 6/15/21 1:45 PM, Fabio Aiuto wrote:
-> This patchset removes some unneeded files.
-> 
-> autoconf.h seems to be the output of some automatic
-> header file generation foreign to the linux kernel
-> configuration and build system.
-> 
-> To toggle some part of code one is asked to
-> force an edit by hand on this file.
-> 
-> Other unneeded definitions were deleted recently,
-> now we complete the job.
-> 
-> Removed core/rtw_eeprom.c and include/drv_conf.h as well,
-> for they are excluded from the build process.
-> 
-> Tested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+I know, I was expecting Thomas to ACK this, if it is ok. Thomas, what
+do you think about this?
 
-Thank you, series looks good to me:
+Best regards,
+    Sergio Paracuellos
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-for the series,
-
-Regards,
-
-Hans
-
-> 
-> Fabio Aiuto (8):
->   staging: rtl8723bs: remove unused debug macro
->   staging: rtl8723bs: remove unneeded comments
->   staging: rtl8723bs: remove unused WAKEUP_GPIO_IDX macro definition
->   staging: rtl8723bs: remove unneeded DISABLE_BB_RF macro
->   staging: rtl8723bs: remove HAL_{BB,MAC,RF,FW}_ENABLE macros
->   staging: rtl8723bs: move LPS_RPWM_WAIT_MS macro
->   staging: rtl8723bs: remove include/autoconf.h header file from tree
->   staging: rtl8723bs: remove two unused files from tree
-> 
->  drivers/staging/rtl8723bs/core/rtw_eeprom.c   | 208 ------------------
->  .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    |   7 -
->  .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   |  16 --
->  drivers/staging/rtl8723bs/hal/sdio_halinit.c  |  15 --
->  drivers/staging/rtl8723bs/include/autoconf.h  |  50 -----
->  drivers/staging/rtl8723bs/include/drv_conf.h  |  19 --
->  drivers/staging/rtl8723bs/include/drv_types.h |   1 -
->  .../staging/rtl8723bs/include/hal_btcoex.h    |   2 +
->  drivers/staging/rtl8723bs/include/hal_phy.h   |  14 --
->  .../staging/rtl8723bs/include/rtl8723b_spec.h |   2 -
->  10 files changed, 2 insertions(+), 332 deletions(-)
->  delete mode 100644 drivers/staging/rtl8723bs/core/rtw_eeprom.c
->  delete mode 100644 drivers/staging/rtl8723bs/include/autoconf.h
->  delete mode 100644 drivers/staging/rtl8723bs/include/drv_conf.h
-> 
-
+>
+> greg k-h
