@@ -1,94 +1,100 @@
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A567572
-	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 10:32:32 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-	by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15FAV50d136911;
-	Tue, 15 Jun 2021 10:32:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=YqA7deJno7CPO0cosA3BNyUNopRBc/bCcLt6020Hge0=;
- b=R+1dSmNuj4rpFizddZeZk4iZDaih6fdKwDb1s4M1v4UQ/DslCj8Iq71yV/5XWUYGn2R6
- ykrrEmAJ/ELF1rUQE8Z4xTCX8jqPbVOgE1ds35F/rvfx2++KgKTJSKaty2CsqdX6IXSk
- NpB9/WzwU1QxOqMTkJXb3/bmTxAeNWcK0zElM4365fh0vTYPqop/qFe7kRdMrVFe6flx
- WrzFwTqOXSLkFvxBv9xLRb3hTNFt36VCdYcI0+9qQDQY69bfv0AVFAfb6d2yxTbW6dAj
- 4QJWe0SfjaKdRbbtZAH3fp/0rsfbNM54MDJQph2pMJl6LKjj6805Z8alkISTyZUphMl5 BA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by userp2130.oracle.com with ESMTP id 394mbsdung-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 15 Jun 2021 10:32:25 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15FAVDur072219;
-	Tue, 15 Jun 2021 10:32:24 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3030.oracle.com with ESMTP id 3959ckj09m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 15 Jun 2021 10:32:24 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15FAWNdd074621;
-	Tue, 15 Jun 2021 10:32:23 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-	by aserp3030.oracle.com with ESMTP id 3959ckj09a-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 15 Jun 2021 10:32:23 +0000
-Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
-	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 15FAWK6K028912;
-	Tue, 15 Jun 2021 10:32:22 GMT
-Received: from kadam (/41.212.42.34)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Tue, 15 Jun 2021 03:32:20 -0700
-Date: Tue, 15 Jun 2021 13:32:13 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Phillip Potter <phil@philpotter.co.uk>
-Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 03/28] staging: rtl8188eu: remove all DBG_88E calls from
- core/rtw_mlme_ext.c
-Message-ID: <20210615103213.GA1861@kadam>
-References: <20210615001507.1171-1-phil@philpotter.co.uk>
- <20210615001507.1171-4-phil@philpotter.co.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C46172
+	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 11:45:41 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id og14so22091829ejc.5
+        for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 04:45:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=p1eH0Ej+5T7porb0G6RAMCsURpi7I/GRLLvy18cQifk=;
+        b=DfGsCnLzOTYcQNI244P2gyMDnho2hr4KC/+Zzx9z+Ow7ozz2e93vsnW4OJuyXIZUp2
+         DZKO3BpCHgOjL3G4cmTTmbShPS2zTKyR8LHxLVJa5Z962GEdD5c8Sno4StglcTX8IYeO
+         Zm+N+qa5TuJC+dKMwOeshVaKQe8bY/02E8ZqCSeuy/wZTG8/7HMZOrgMc825hgLZva8q
+         2SVlvJ95+UqGBUMKy1U4PkbSkFR5i6+y/4IqwA8J+vKlQ3wX2IyjEmSnyQiBnQ9GbWrY
+         VrV54AXvikpWbyO88Ui1TeAfe0meUSczu2KUpjRbUQZegiWisTnWkQ+Z3Tp5/jdGjPgu
+         Z9Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=p1eH0Ej+5T7porb0G6RAMCsURpi7I/GRLLvy18cQifk=;
+        b=WEXyLqdyBa7XOywIa/QoUjSfKK6OpfMKSu0956vuJbNzMXAcpYjGgGOj7dEyoaX23j
+         GMomf7jUyr4lrTTDeDWWu1+XfJpv4yHrUaHWM6gnnZruEQljyXlpoLxujf7iXJVGBAYb
+         VeMsmbZVbfWtD+7+796f2a4wKP26Kb3s4uEcX3YND2mnpWV3t2tvNe6MZ/kV0IgWtteL
+         kH9XqYrFQGYXVrH4LQbGydxCWVGbgYvCs/Wba7vY4M1ElWqeOCmBVq8VHexGkQTvw4pg
+         nEJWKSExA/M3H/YLzX2dDEChMWU2d3KGv/IH/U7Ra6GXsuthHcF9ylRYkbtItgCXlQ0c
+         23zA==
+X-Gm-Message-State: AOAM531+1DKjc92v7jF0cViceQhn5Lwe4DrgT6l2V+YUCzs1qJsGwL4a
+	ucCX5yeRN3/YBlfTALRFZVo=
+X-Google-Smtp-Source: ABdhPJy0F0ZTJ1mVbFIcLibf8PfNhpU/5igmzTMwuUxzQiVU8nvl91UoOwfA1CgazjCF9V9Kr63+qQ==
+X-Received: by 2002:a17:906:f298:: with SMTP id gu24mr20021153ejb.452.1623757540008;
+        Tue, 15 Jun 2021 04:45:40 -0700 (PDT)
+Received: from agape ([5.171.72.142])
+        by smtp.gmail.com with ESMTPSA id u21sm7145699eja.59.2021.06.15.04.45.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Jun 2021 04:45:39 -0700 (PDT)
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: hdegoede@redhat.com,
+	Larry.Finger@lwfinger.net,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/8] staging: rtl8723bs: remove unneeded files from tree
+Date: Tue, 15 Jun 2021 13:45:30 +0200
+Message-Id: <cover.1623756906.git.fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210615001507.1171-4-phil@philpotter.co.uk>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: 5Fw1oaoIQUzojGY7jftn-vFwGZD3GOly
-X-Proofpoint-GUID: 5Fw1oaoIQUzojGY7jftn-vFwGZD3GOly
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10015 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 impostorscore=0
- malwarescore=0 mlxlogscore=999 mlxscore=0 suspectscore=0 phishscore=0
- spamscore=0 priorityscore=1501 adultscore=0 bulkscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2106150066
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 15, 2021 at 01:14:42AM +0100, Phillip Potter wrote:
-> @@ -4510,8 +4311,7 @@ void mlmeext_joinbss_event_callback(struct adapter *padapter, int join_res)
->  	rtw_lps_ctrl_wk_cmd(padapter, LPS_CTRL_CONNECT, 0);
->  
->  exit_mlmeext_joinbss_event_callback:
-> -
-> -	DBG_88E("=>%s\n", __func__);
-> +	return;
->  }
+This patchset removes some unneeded files.
 
-You'll have to delete the return and the exit_mlmeext_joinbss_event_callback
-label in a follow on patch because it introduces a checkpatch warning.
+autoconf.h seems to be the output of some automatic
+header file generation foreign to the linux kernel
+configuration and build system.
 
-(I'm not concerned about introducing checkpatch warnings in this patch
-too much because fixing them in one got makes the patch a little more
-complicated to review.  So it's not necessarily even a wrong thing to
-introduce a checkpatch warning.  Just remember to remove it later.  Or
-don't remember because eventually someone else will take care of it).
+To toggle some part of code one is asked to
+force an edit by hand on this file.
 
-regards,
-dan carpenter
+Other unneeded definitions were deleted recently,
+now we complete the job.
 
->  
->  void mlmeext_sta_add_event_callback(struct adapter *padapter, struct sta_info *psta)
- 
+Removed core/rtw_eeprom.c and include/drv_conf.h as well,
+for they are excluded from the build process.
+
+Tested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+
+Fabio Aiuto (8):
+  staging: rtl8723bs: remove unused debug macro
+  staging: rtl8723bs: remove unneeded comments
+  staging: rtl8723bs: remove unused WAKEUP_GPIO_IDX macro definition
+  staging: rtl8723bs: remove unneeded DISABLE_BB_RF macro
+  staging: rtl8723bs: remove HAL_{BB,MAC,RF,FW}_ENABLE macros
+  staging: rtl8723bs: move LPS_RPWM_WAIT_MS macro
+  staging: rtl8723bs: remove include/autoconf.h header file from tree
+  staging: rtl8723bs: remove two unused files from tree
+
+ drivers/staging/rtl8723bs/core/rtw_eeprom.c   | 208 ------------------
+ .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    |   7 -
+ .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   |  16 --
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  |  15 --
+ drivers/staging/rtl8723bs/include/autoconf.h  |  50 -----
+ drivers/staging/rtl8723bs/include/drv_conf.h  |  19 --
+ drivers/staging/rtl8723bs/include/drv_types.h |   1 -
+ .../staging/rtl8723bs/include/hal_btcoex.h    |   2 +
+ drivers/staging/rtl8723bs/include/hal_phy.h   |  14 --
+ .../staging/rtl8723bs/include/rtl8723b_spec.h |   2 -
+ 10 files changed, 2 insertions(+), 332 deletions(-)
+ delete mode 100644 drivers/staging/rtl8723bs/core/rtw_eeprom.c
+ delete mode 100644 drivers/staging/rtl8723bs/include/autoconf.h
+ delete mode 100644 drivers/staging/rtl8723bs/include/drv_conf.h
+
+-- 
+2.20.1
+
