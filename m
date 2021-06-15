@@ -1,105 +1,91 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558E56D00
-	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 12:38:14 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id 6-20020a9d07860000b02903e83bf8f8fcso14079646oto.12
-        for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 05:38:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ficQ6Tww5rQWbuZhPE3EU+jqogC/DlraVO6vAn62sH8=;
-        b=Lp+48USM5gnu+eeiY9Ryndm4K5fG/VsCibPh6LcsrDucCKozYimMQbl3c5s+M9nTd2
-         kWSmLb1v/6huguWcIj5VMtNX8v8JJ3iEFARDXK3PZcl0yhm4u8om8kGk9jl2uHnjvCqc
-         T1ZVitgGHX3+mzf1uc5QBYfeBS1gEfgQdebwp6YZos97rmVDouzW2Eo4Df+Teos8bytb
-         h3l3fzGY0JAm+muk3HTuDiEmkPUiX/s/1c9WE/HreoqIlVEFbftB4UEICL+CGx5P5/mt
-         EmWgnENkf3qQ03D6T0tBhGTEZcJLbm94Z9GBugQeNIn86VAeehW9NMChjaNfoR5cOp3y
-         fNWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ficQ6Tww5rQWbuZhPE3EU+jqogC/DlraVO6vAn62sH8=;
-        b=IDq1FpOMWMuD8+xg7MSKTrBf4vY1gol8n987L6npEMrKUa8Y2qSyEahxihZE7KPsn7
-         YXn7UcFGKMgy+3VbFN4chcX5gP/zSFJmeJboqxR+1lEIy27sVxGKZol3s93Esz3GBLAG
-         VbfRV3Yq+grk8JssUd70j0LfAx4obEwaDzOqANOXBE4NOzpKhFiWzHHCMDrEI6ZqsdYe
-         Vbl9iHsZBWhWWYo1a7TJJcWnHuEE/U/7WZOWcJ1yO8iXzH8W79tHXqFfhqh/VilezbSk
-         nEfQ1xZDeRQGhQUhjgkhfeJIeEsxh/RRYPp7+3uSpv51x9b4FHTN7vMvZATikqtnIHwO
-         YNRA==
-X-Gm-Message-State: AOAM531QyaZaDdoZ71uFMNE4VAZiOyX/Lu7mPnCt6tfcq7tgtGJjArmH
-	CJGl4KNzrn/UWjRNHf5WTI65mOjwrwKqxO+ZStk=
-X-Google-Smtp-Source: ABdhPJw0GeGfibEnccUzSpoNh5NwbGf8dGBP93VtfjUh74h4iIR91O5ulOPCrMrUMeeckCmb0NxMwdAgQVTm490yoMU=
-X-Received: by 2002:a05:6830:99:: with SMTP id a25mr17941206oto.72.1623760693573;
- Tue, 15 Jun 2021 05:38:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2C62FB8
+	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 12:42:16 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15FCYO6r033863;
+	Tue, 15 Jun 2021 12:42:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=c4Q3LYTxO4R3Kx561zlbUETpLST5nzuW9o7He1UxTrg=;
+ b=mm63tv+IvgEeQazNGJoBzZW6ryas7GcDvM7Nb2baWR9qdXu9l9ksDrJw32sNCKWl4+Cg
+ wAt9c4V0wjW6XQUvTrjFtZsZc7IGQmEg1Lo0PjSo4on6uHBXg47xjxwrnHZ06lq52NjC
+ 3GHsHgmBDUgw3Axl0OKjS+Dcn3rfENNr9g9UqOl1DTny81eu2aB1/888bS38Xq9XzqEc
+ cFz6EKiYOlKf97Hxx985sxt9vwom3K2ov5zayHstTYqpi1DBWhLWOJ5aZVqiWoWAUF7J
+ D3zHqisIxeYBECTaeKO5zViFNeCWPzoZgSlKhOCsBAni5scFZvdVV1P/yiNdRalFEk2D VQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by aserp2120.oracle.com with ESMTP id 394mvne3g9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 15 Jun 2021 12:42:09 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15FCZ2Z3029884;
+	Tue, 15 Jun 2021 12:42:09 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3020.oracle.com with ESMTP id 394mr8x3fv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 15 Jun 2021 12:42:09 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15FCZ5jQ030735;
+	Tue, 15 Jun 2021 12:42:08 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+	by aserp3020.oracle.com with ESMTP id 394mr8x3ey-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 15 Jun 2021 12:42:08 +0000
+Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
+	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 15FCg6TO031553;
+	Tue, 15 Jun 2021 12:42:06 GMT
+Received: from kadam (/41.212.42.34)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Tue, 15 Jun 2021 05:42:05 -0700
+Date: Tue, 15 Jun 2021 15:41:59 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Phillip Potter <phil@philpotter.co.uk>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 22/28] staging: rtl8188eu: remove all DBG_88E calls from
+ hal/usb_halinit.c
+Message-ID: <20210615124159.GB1861@kadam>
+References: <20210615001507.1171-1-phil@philpotter.co.uk>
+ <20210615001507.1171-23-phil@philpotter.co.uk>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210614100617.28753-1-sergio.paracuellos@gmail.com>
- <20210614100617.28753-2-sergio.paracuellos@gmail.com> <YMiUKkYL7B7qTU/X@kroah.com>
-In-Reply-To: <YMiUKkYL7B7qTU/X@kroah.com>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Tue, 15 Jun 2021 14:38:02 +0200
-Message-ID: <CAMhs-H8SJttFRUtE-sbqNbOAAiht1SaYMzVZGU0Zqzuat1pCPQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] MIPS: ralink: Define PCI_IOBASE
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>, 
-	"open list:MIPS" <linux-mips@vger.kernel.org>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Ilya Lipnitskiy <ilya.lipnitskiy@gmail.com>, 
-	John Crispin <john@phrozen.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210615001507.1171-23-phil@philpotter.co.uk>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-ORIG-GUID: SwWkYI6zip7K8FuYF_Y-wVb51jSqzkxk
+X-Proofpoint-GUID: SwWkYI6zip7K8FuYF_Y-wVb51jSqzkxk
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10015 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 mlxscore=0
+ lowpriorityscore=0 malwarescore=0 spamscore=0 bulkscore=0
+ priorityscore=1501 clxscore=1015 mlxlogscore=999 phishscore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106150082
 
-On Tue, Jun 15, 2021 at 1:51 PM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Mon, Jun 14, 2021 at 12:06:15PM +0200, Sergio Paracuellos wrote:
-> > PCI_IOBASE is used to create VM maps for PCI I/O ports, it is
-> > required by generic PCI drivers to make memory mapped I/O range
-> > work. Hence define it for ralink architectures to be able to
-> > avoid parsing manually IO ranges in PCI generic driver code.
-> > Function 'plat_mem_setup' for ralink is using 'set_io_port_base'
-> > call using '0xa0000000' as address, so use the same address in
-> > the definition to align things.
-> >
-> > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> > ---
-> >  arch/mips/include/asm/mach-ralink/spaces.h | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
-> >  create mode 100644 arch/mips/include/asm/mach-ralink/spaces.h
-> >
-> > diff --git a/arch/mips/include/asm/mach-ralink/spaces.h b/arch/mips/include/asm/mach-ralink/spaces.h
-> > new file mode 100644
-> > index 000000000000..87d085c9ad61
-> > --- /dev/null
-> > +++ b/arch/mips/include/asm/mach-ralink/spaces.h
-> > @@ -0,0 +1,10 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +#ifndef __ASM_MACH_RALINK_SPACES_H_
-> > +#define __ASM_MACH_RALINK_SPACES_H_
-> > +
-> > +#define PCI_IOBASE   _AC(0xa0000000, UL)
-> > +#define PCI_IOSIZE   SZ_16M
-> > +#define IO_SPACE_LIMIT       (PCI_IOSIZE - 1)
-> > +
-> > +#include <asm/mach-generic/spaces.h>
-> > +#endif
-> > --
-> > 2.25.1
-> >
-> >
->
-> I really can't take a change outside of drivers/staging/ for a staging
-> driver.
->
-> So unless you can get a MIPS maintainer to ACK this, I can't accept
-> this change, sorry.
+On Tue, Jun 15, 2021 at 01:15:01AM +0100, Phillip Potter wrote:
+> @@ -1685,8 +1658,6 @@ void rtw_hal_set_hwreg(struct adapter *Adapter, u8 variable, u8 *val)
+>  					if (!(usb_read32(Adapter, REG_RXPKT_NUM) & RXDMA_IDLE))
+>  						break;
+>  				} while (trycnt--);
+> -				if (trycnt == 0)
+> -					DBG_88E("Stop RX DMA failed......\n");
 
-I know, I was expecting Thomas to ACK this, if it is ok. Thomas, what
-do you think about this?
+Not related to your patch but this loop will exit with trycnt == -1 not
+0.
 
-Best regards,
-    Sergio Paracuellos
+There should be a Smatch warning for this.  Also Smatch doesn't handle
+while count down loops very well...  It takes the short cut of
+assuming that all do while loops have a break statement.
 
->
-> greg k-h
+regards,
+dan carpenter
+
+>  
+>  				/* RQPN Load 0 */
+>  				usb_write16(Adapter, REG_RQPN_NPQ, 0x0);
+
