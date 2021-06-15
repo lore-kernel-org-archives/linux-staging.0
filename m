@@ -1,251 +1,133 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF2EF70
-	for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 22:15:39 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E2A1945E;
-	Tue, 15 Jun 2021 00:15:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1623708938;
-	bh=uof6MHaXIUCea8ZGufIpi8adFFgRzaC/cX7r8VPzFfc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sG1TQO+Nl15DBxFBkLJdveiJPNBNvgaRucmDjpMNbeykvqBGk0pXObhBmPrq0DUW/
-	 hgyPRiEhX8iinkkMkdcOoluZwsFMEWkvGZq4oWFKIDG2mrOtIEyzqmbykLJbyzU+TL
-	 atNDbj6Xh80iOQl9CMu4QROaxtATFQxpiqxT1n1Y=
-Date: Tue, 15 Jun 2021 01:15:18 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc: devicetree@vger.kernel.org, festevam@gmail.com, kernel@pengutronix.de,
-	kernel@puri.sm, krzk@kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, mchehab@kernel.org,
-	phone-devel@vger.kernel.org, robh@kernel.org, shawnguo@kernel.org,
-	slongerbeam@gmail.com, m.felsch@pengutronix.de
-Subject: Re: [PATCH v4 1/3] dt-bindings: media: document the
- nxp,imx8mq-mipi-csi2 receiver phy and controller
-Message-ID: <YMfU9jjGU49IKe3Y@pendragon.ideasonboard.com>
-References: <20210614121522.2944593-1-martin.kepplinger@puri.sm>
- <20210614121522.2944593-2-martin.kepplinger@puri.sm>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A622FB2
+	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 00:15:24 +0000 (UTC)
+Received: by mail-qv1-f44.google.com with SMTP id u13so21453408qvt.7
+        for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 17:15:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NSe1dIiMkHxq7ZxaxRds/VGsrj/KR3PHOGLO+qaPsX0=;
+        b=rDDmLToAXLTvKPVLPNnyWSl/civZKD0PJPyazJy3beyLhg9r/FIXSJ9naY8/12s5Dl
+         pkTzky5YdX/YOKWxx2mQLpdSJ+VxI9ckwEuoTiAHJS20NVUzxzAwVLO8jMLtxH9dQeUn
+         2dhuM2m2ME+tRD8kxnzDgjoUil+JHrHUidRQAu8LFECgw6vAaXFDDuxjpPO1b6171OcW
+         M5O1ibUI8E2HOsPJ1eOZqtqg9GuxxzhrGohcbh6yRH6N33I6WiW7pQkYLgZUEBLscYiR
+         zOIB1ERUGmGxCQIQEdkrM2HnHcI1EtWxwgnN6GBU60egPsT8pqfgq4QxxYIZ0En+Tjop
+         xrWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NSe1dIiMkHxq7ZxaxRds/VGsrj/KR3PHOGLO+qaPsX0=;
+        b=adl637sg8y0fXafZbkmXAoj/jfQWlzHPSB8DU/frPGXdgcoK9rcgBq3y59fgf47it4
+         qwa/GFNLQjHJpuRRN8Mjllc7131CpaiKKqeTFBdZZchixnkenY368/mVeZyOx0yXuLLY
+         LYBFRVuIzQ69PTyyLXzVK8YwmSDOR/tHVkAmIRtjfOyO6Q0MGjY8KluXEloDaaPUv818
+         j30eWoCSVdHYISy8z8jaGRJHg9S/XlpcVyFd9g45DBAPallDlZBftphxvOzxCMVq7mTm
+         kVhCujP0nGzJ/rKMXf86yWc+CF/6Nk0LxbA8/vcY1SyoFZuGWV8j1w9Fa0PMt/AFJLRu
+         kfaw==
+X-Gm-Message-State: AOAM532vHhTr9WZswKLidQVK0tlGPUUOfJXTwVHNKntXzAPoPYwVYsvg
+	9iNnrebSVbqDibO1t8YMhBxPRQ==
+X-Google-Smtp-Source: ABdhPJwvPFKgY0cS85OzDl6k0uULlZH5/Qxty2B2jM6+Xi68Zpy0YPg1fPiG5hG9TjqjdBY9rLOdxA==
+X-Received: by 2002:ad4:5426:: with SMTP id g6mr1415381qvt.47.1623716123664;
+        Mon, 14 Jun 2021 17:15:23 -0700 (PDT)
+Received: from localhost.localdomain (5.d.e.a.c.b.a.1.5.0.9.4.d.7.7.d.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0:d77d:4905:1abc:aed5])
+        by smtp.gmail.com with ESMTPSA id m199sm11244248qke.71.2021.06.14.17.15.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Jun 2021 17:15:22 -0700 (PDT)
+From: Phillip Potter <phil@philpotter.co.uk>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	dan.carpenter@oracle.com,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 00/28] staging: rtl8188eu: remove DBG_88E callers and macro
+Date: Tue, 15 Jun 2021 01:14:39 +0100
+Message-Id: <20210615001507.1171-1-phil@philpotter.co.uk>
+X-Mailer: git-send-email 2.30.2
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210614121522.2944593-2-martin.kepplinger@puri.sm>
+Content-Transfer-Encoding: 8bit
 
-Hi Martin,
+This patch series removes DBG_88E calls from all places in the driver,
+and then removes the DBG_88E macro definition itself. It also takes two
+prior patches where I convered DBG_88E calls into netdev_dbg calls, and
+removes these calls too.
 
-Thank you for the patch.
+It cleans up subsuently unused local variables along the way, removes an
+unused static function too, and also contains a reissue of my previous
+patch to remove core/rtw_debug.c which is entirely unused by the driver
+and thus is dead code.
 
-On Mon, Jun 14, 2021 at 02:15:20PM +0200, Martin Kepplinger wrote:
-> The i.MX8MQ SoC integrates a different MIPI CSI receiver as the i.MX8MM so
-> describe the DT bindings for it.
-> 
-> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> ---
->  .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 171 ++++++++++++++++++
->  1 file changed, 171 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-> new file mode 100644
-> index 000000000000..4fed224ebfdd
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-> @@ -0,0 +1,171 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/nxp,imx8mq-mipi-csi2.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NXP i.MX8MQ MIPI CSI-2 receiver
-> +
-> +maintainers:
-> +  - Martin Kepplinger <martin.kepplinger@puri.sm>
-> +
-> +description: |-
-> +  This binding covers the CSI-2 RX PHY and host controller included in the
-> +  NXP i.MX8MQ SoC. It handles the sensor/image input and process for all the
-> +  input imaging devices.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - fsl,imx8mq-mipi-csi2
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: core is the RX Controller Core Clock input. This clock
-> +                     must be exactly equal to or faster than the receive
-> +                     byteclock from the RX DPHY.
-> +      - description: esc is the Rx Escape Clock. This must be the same escape
-> +                     clock that the RX DPHY receives.
-> +      - description: pxl is the pixel clock (phy_ref up to 333Mhz).
-> +      - description: clko2 is the CLKO2 clock root.
-> +                     See the reference manual for details.
+Phillip Potter (28):
+  staging: rtl8188eu: remove all DBG_88E calls from core/rtw_efuse.c
+  staging: rtl8188eu: remove all DBG_88E calls from core/rtw_xmit.c
+  staging: rtl8188eu: remove all DBG_88E calls from core/rtw_mlme_ext.c
+  staging: rtl8188eu: remove all DBG_88E calls from core/rtw_wlan_util.c
+  staging: rtl8188eu: remove all DBG_88E calls from core/rtw_ap.c
+  staging: rtl8188eu: remove all DBG_88E calls from core/rtw_pwrctrl.c
+  staging: rtl8188eu: remove all DBG_88E calls from core/rtw_ieee80211.c
+  staging: rtl8188eu: remove all DBG_88E calls from core/rtw_security.c
+  staging: rtl8188eu: remove all DBG_88E calls from core/rtw_ioctl_set.c
+  staging: rtl8188eu: remove all DBG_88E calls from core/rtw_mlme.c
+  staging: rtl8188eu: remove all DBG_88E calls from os_dep/ioctl_linux.c
+  staging: rtl8188eu: remove all DBG_88E calls from os_dep/usb_intf.c
+  staging: rtl8188eu: remove all DBG_88E calls from os_dep/os_intfs.c
+  staging: rtl8188eu: remove all DBG_88E calls from os_dep/mlme_linux.c
+  staging: rtl8188eu: remove all DBG_88E calls from os_dep/xmit_linux.c
+  staging: rtl8188eu: remove all DBG_88E calls from os_dep/rtw_android.c
+  staging: rtl8188eu: remove all DBG_88E calls from hal/hal_intf.c
+  staging: rtl8188eu: remove all DBG_88E calls from hal/rtl8188e_cmd.c
+  staging: rtl8188eu: remove all DBG_88E calls from hal/pwrseqcmd.c
+  staging: rtl8188eu: remove all DBG_88E calls from
+    hal/rtl8188e_hal_init.c
+  staging: rtl8188eu: remove all DBG_88E calls from hal/rtl8188e_xmit.c
+  staging: rtl8188eu: remove all DBG_88E calls from hal/usb_halinit.c
+  staging: rtl8188eu: remove all DBG_88E calls from hal/rtl8188eu_recv.c
+  staging: rtl8188eu: remove all DBG_88E calls from hal/rtl8188eu_xmit.c
+  staging: rtl8188eu: remove converted netdev_dbg calls from
+    core/rtw_recv.c
+  staging: rtl8188eu: remove converted netdev_dbg calls from
+    core/rtw_sta_mgt.c
+  staging: rtl8188eu: remove core/rtw_debug.c
+  staging: rtl8188eu: remove DBG_88E macro definition
 
-Copying comments from 4/4:
-
-I can't figure out what the clko2 clock is used for based on the
-datasheet. It seems to be a clock output by the SoC on GPIO1_IO15, and
-doesn't seem to belong here.
-
-Regarding core, esc and pix, do these clock correspond to the clk,
-clk_esc and clk_ui listed in table 13-36 (section 13.8.3.3.1 "RX Local
-Interface Description") of the TRM ? If so, should they be renamed
-accordingly, to either "clk", "clk_esc" and "clk_ui", or, if we want to
-drop the prefixes, "core", "esc" and "ui" ?
-
-> +
-> +  clock-names:
-> +    items:
-> +      - const: core
-> +      - const: esc
-> +      - const: pxl
-> +      - const: clko2
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  fsl,mipi-phy-gpr:
-> +    description: |
-> +      The phandle to the imx8mq syscon iomux-gpr with the register
-> +      for setting RX_ENABLE for the mipi receiver.
-> +
-> +      The format should be as follows:
-> +      <gpr req_gpr>
-> +      gpr is the phandle to general purpose register node.
-> +      req_gpr is the gpr register offset of RX_ENABLE for the mipi phy.
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    items:
-> +      items:
-> +        - description: The 'gpr' is the phandle to general purpose register node.
-> +        - description: The 'req_gpr' is the gpr register offset containing
-> +                       CSI2_1_RX_ENABLE or CSI2_2_RX_ENABLE respectively.
-> +          maximum: 0xff
-
-I'll let Rob comment on this one :-)
-
-> +
-> +  interconnects:
-> +    maxItems: 1
-> +
-> +  interconnect-names:
-> +    const: dram
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description:
-> +          Input port node, single endpoint describing the CSI-2 transmitter.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              data-lanes:
-> +                items:
-> +                  minItems: 1
-> +                  maxItems: 4
-> +                  items:
-> +                    - const: 1
-> +                    - const: 2
-> +                    - const: 3
-> +                    - const: 4
-> +
-> +            required:
-> +              - data-lanes
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Output port node
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - power-domains
-> +  - resets
-> +  - fsl,mipi-phy-gpr
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/imx8mq-clock.h>
-> +    #include <dt-bindings/interconnect/imx8mq.h>
-> +
-> +    csi@30a70000 {
-> +        compatible = "fsl,imx8mq-mipi-csi2";
-> +        reg = <0x30a70000 0x1000>;
-> +        clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
-> +                 <&clk IMX8MQ_CLK_CSI1_ESC>,
-> +                 <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
-> +                 <&clk IMX8MQ_CLK_CLKO2>;
-> +        clock-names = "core", "esc", "pxl", "clko2";
-> +        assigned-clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
-> +                          <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
-> +                          <&clk IMX8MQ_CLK_CSI1_ESC>;
-> +        assigned-clock-rates = <266000000>, <200000000>, <66000000>;
-> +        assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
-> +                                 <&clk IMX8MQ_SYS2_PLL_1000M>,
-> +                                 <&clk IMX8MQ_SYS1_PLL_800M>;
-> +        power-domains = <&pgc_mipi_csi1>;
-> +        resets = <&src>;
-> +        fsl,mipi-phy-gpr = <&iomuxc_gpr 0x88>;
-> +        interconnects = <&noc IMX8MQ_ICM_CSI1 &noc IMX8MQ_ICS_DRAM>;
-> +        interconnect-names = "dram";
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@0 {
-> +                reg = <0>;
-> +
-> +                imx8mm_mipi_csi_in: endpoint {
-> +                    remote-endpoint = <&imx477_out>;
-> +                    data-lanes = <1 2 3 4>;
-> +                };
-> +            };
-> +
-> +            port@1 {
-> +                reg = <1>;
-> +
-> +                imx8mm_mipi_csi_out: endpoint {
-> +                    remote-endpoint = <&csi_in>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
+ drivers/staging/rtl8188eu/Makefile            |   1 -
+ drivers/staging/rtl8188eu/core/rtw_ap.c       |  78 +-----
+ drivers/staging/rtl8188eu/core/rtw_debug.c    | 187 -------------
+ drivers/staging/rtl8188eu/core/rtw_efuse.c    |  15 +-
+ .../staging/rtl8188eu/core/rtw_ieee80211.c    |  38 +--
+ .../staging/rtl8188eu/core/rtw_ioctl_set.c    |   8 -
+ drivers/staging/rtl8188eu/core/rtw_mlme.c     |  54 +---
+ drivers/staging/rtl8188eu/core/rtw_mlme_ext.c | 262 ++----------------
+ drivers/staging/rtl8188eu/core/rtw_pwrctrl.c  |  40 +--
+ drivers/staging/rtl8188eu/core/rtw_recv.c     |  66 +----
+ drivers/staging/rtl8188eu/core/rtw_security.c |   2 -
+ drivers/staging/rtl8188eu/core/rtw_sta_mgt.c  |   9 -
+ .../staging/rtl8188eu/core/rtw_wlan_util.c    |  80 ++----
+ drivers/staging/rtl8188eu/core/rtw_xmit.c     |  40 +--
+ drivers/staging/rtl8188eu/hal/hal_intf.c      |   3 -
+ drivers/staging/rtl8188eu/hal/pwrseqcmd.c     |   4 +-
+ drivers/staging/rtl8188eu/hal/rtl8188e_cmd.c  |  42 +--
+ .../staging/rtl8188eu/hal/rtl8188e_hal_init.c |  45 +--
+ drivers/staging/rtl8188eu/hal/rtl8188e_xmit.c |  15 -
+ .../staging/rtl8188eu/hal/rtl8188eu_recv.c    |   8 -
+ .../staging/rtl8188eu/hal/rtl8188eu_xmit.c    |   5 -
+ drivers/staging/rtl8188eu/hal/usb_halinit.c   |  51 +---
+ drivers/staging/rtl8188eu/include/rtw_debug.h |  31 ---
+ .../staging/rtl8188eu/os_dep/ioctl_linux.c    | 144 +---------
+ drivers/staging/rtl8188eu/os_dep/mlme_linux.c |   4 -
+ drivers/staging/rtl8188eu/os_dep/os_intfs.c   |  26 --
+ .../staging/rtl8188eu/os_dep/rtw_android.c    |  15 +-
+ drivers/staging/rtl8188eu/os_dep/usb_intf.c   |   1 -
+ drivers/staging/rtl8188eu/os_dep/xmit_linux.c |   8 +-
+ 29 files changed, 86 insertions(+), 1196 deletions(-)
+ delete mode 100644 drivers/staging/rtl8188eu/core/rtw_debug.c
 
 -- 
-Regards,
+2.30.2
 
-Laurent Pinchart
