@@ -1,21 +1,26 @@
-Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26D3F2FB8
-	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 13:17:08 +0000 (UTC)
-Received: from uucp (helo=alpha)
-	by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
-	id 1lt8oe-0005Yz-00; Tue, 15 Jun 2021 15:09:16 +0200
-Received: by alpha.franken.de (Postfix, from userid 1000)
-	id F22BBC1C0A; Tue, 15 Jun 2021 15:08:30 +0200 (CEST)
-Date: Tue, 15 Jun 2021 15:08:30 +0200
-From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Cc: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org,
-	neil@brown.name, linux-mips@vger.kernel.org,
-	ilya.lipnitskiy@gmail.com, john@phrozen.org
-Subject: Re: [PATCH v2 1/3] MIPS: ralink: Define PCI_IOBASE
-Message-ID: <20210615130830.GA7029@alpha.franken.de>
-References: <20210614100617.28753-1-sergio.paracuellos@gmail.com>
- <20210614100617.28753-2-sergio.paracuellos@gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0182FB8
+	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 13:23:47 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5D6B16145D;
+	Tue, 15 Jun 2021 13:23:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1623763426;
+	bh=njAVyJRWhBO8YU/Or9Lp1K4CKrYWEHtrBeO7xM2r8bs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Oq6jCPTrRIN3sdQDVBmIOAKW5zx24/7UOmZRhFhNCFDc+7TF+K7QCsRh5bH7jr+ZO
+	 YjfnbG0ZRhB2byC0AN97v/XZWoP+SvTfI0gx0I4oNnKvWq6kgfWrW/leAR88JzkEGP
+	 YFZCGdC5o1qIglx5y6NfBie68elEo9NPBEv96H4U=
+Date: Tue, 15 Jun 2021 15:23:44 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc: hdegoede@redhat.com, Larry.Finger@lwfinger.net,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 6/8] staging: rtl8723bs: move LPS_RPWM_WAIT_MS macro
+Message-ID: <YMip4N/RW1FYvnkd@kroah.com>
+References: <cover.1623756906.git.fabioaiuto83@gmail.com>
+ <5756b958b5d279f1cc8cea7887f50d003b17b94e.1623756906.git.fabioaiuto83@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -23,45 +28,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210614100617.28753-2-sergio.paracuellos@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <5756b958b5d279f1cc8cea7887f50d003b17b94e.1623756906.git.fabioaiuto83@gmail.com>
 
-On Mon, Jun 14, 2021 at 12:06:15PM +0200, Sergio Paracuellos wrote:
-> PCI_IOBASE is used to create VM maps for PCI I/O ports, it is
-> required by generic PCI drivers to make memory mapped I/O range
-> work. Hence define it for ralink architectures to be able to
-> avoid parsing manually IO ranges in PCI generic driver code.
-> Function 'plat_mem_setup' for ralink is using 'set_io_port_base'
-> call using '0xa0000000' as address, so use the same address in
-> the definition to align things.
+On Tue, Jun 15, 2021 at 01:45:36PM +0200, Fabio Aiuto wrote:
+> move LPS_RPWM_WAIT_MS macro from include/autoconf.h to
+> include/hal_btcoex.h in order to empty unneeded
+> autoconf.h.
 > 
-> Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 > ---
->  arch/mips/include/asm/mach-ralink/spaces.h | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->  create mode 100644 arch/mips/include/asm/mach-ralink/spaces.h
+>  drivers/staging/rtl8723bs/include/hal_btcoex.h | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/arch/mips/include/asm/mach-ralink/spaces.h b/arch/mips/include/asm/mach-ralink/spaces.h
-> new file mode 100644
-> index 000000000000..87d085c9ad61
-> --- /dev/null
-> +++ b/arch/mips/include/asm/mach-ralink/spaces.h
-> @@ -0,0 +1,10 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef __ASM_MACH_RALINK_SPACES_H_
-> +#define __ASM_MACH_RALINK_SPACES_H_
+> diff --git a/drivers/staging/rtl8723bs/include/hal_btcoex.h b/drivers/staging/rtl8723bs/include/hal_btcoex.h
+> index eb9d0ba861a5..849fb90b43b7 100644
+> --- a/drivers/staging/rtl8723bs/include/hal_btcoex.h
+> +++ b/drivers/staging/rtl8723bs/include/hal_btcoex.h
+> @@ -9,6 +9,8 @@
+>  
+>  #include <drv_types.h>
+>  
+> +#define LPS_RPWM_WAIT_MS	300
 > +
-> +#define PCI_IOBASE	_AC(0xa0000000, UL)
-> +#define PCI_IOSIZE	SZ_16M
-> +#define IO_SPACE_LIMIT	(PCI_IOSIZE - 1)
-> +
-> +#include <asm/mach-generic/spaces.h>
-> +#endif
+>  /*  Some variables can't get from outsrc BT-Coex, */
+>  /*  so we need to save here */
+>  struct bt_coexist {
 > -- 
-> 2.25.1
+> 2.20.1
+> 
+> 
 
-Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Note, this did not "move" anything, it just added it.
 
--- 
-Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-good idea.                                                [ RFC1925, 2.3 ]
+I'll take it, but be more careful in the future please.
+
+thanks,
+
+greg k-h
