@@ -1,50 +1,50 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01FC06D0E
-	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 00:15:45 +0000 (UTC)
-Received: by mail-qk1-f180.google.com with SMTP id q16so14322711qkm.9
-        for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 17:15:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F8F6D0E
+	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 00:15:48 +0000 (UTC)
+Received: by mail-qk1-f174.google.com with SMTP id q16so14322776qkm.9
+        for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 17:15:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=JkiRKHus/oLF9CxcLgrPgtRpUSPYqUyHv13lrThNXgk=;
-        b=pEzD97hXra25xNdKddFDdAYWJaLEeOIBJLYkNV5qZtzzO/O47PKEohNcF0EA1JiYbH
-         thkRDbEIRxuXGBXkmblyWEOqNpbYEP6C3UdXNuy5DfAc5A41NFS40PCKZS3IijrpyyQR
-         YxEiTv7FvSo2RbvHbHDPcSGBkkGlBNXHzMNBzRuGVWLDzJA7b4/uXRgnmVCWuR0UPPVK
-         eFfKvF+3kT2tdjE/t0BvFtRg2ut8fQG46o5EbUNYATVBNzn5PdLszGtsHYrFBNuXAmNs
-         IRcIvcXtfG8++O9PGsg27yYWi/6MbydiPlYxw8oNC875hBf6wBNckrELnuJF7Zro3JWg
-         59bQ==
+        bh=x5fEgSH4fIYijIsKFelpyojP/I9tE1YJoRFaP+W7jxg=;
+        b=N3SZ+aPIJAhfrbwxtWBtTuS1k+Whv3iAH9RLXFLx2bK+bBMHjrizhLIpjZYeJOzJad
+         +pDeOmaK3v8zIb8wm1rbrGNAn65AMsn0NXCsAyjwUGCL/Tu06oyKHmKs85KZjsh2GqrD
+         Mgjv0Ka/P6x06ewN5Gz/SxhWaIOKnphdnErj0VUv7BA+EnRo7e4ju6eogthPnxvT57/u
+         6SjfRGqTts5oe8if8a4ICC/5+OvbzT9Cy1MQFyk7tpxe/d/BxlkheMNfpF78Ahai4ovv
+         3N2BxYCWPtg5Ym5E6B21Y5AuK9CcrvtQgUgC8N3iDgxh/lKSgeFbLTyQ9VqNHJpWZkc6
+         1brw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=JkiRKHus/oLF9CxcLgrPgtRpUSPYqUyHv13lrThNXgk=;
-        b=gWrfYH1yamSXS033wIF7Qx0T3cN/AQcKqxpsAwL3myTd1FwQniukHB/Vi7Bqg4s5FD
-         xKh3B/4JYiqfGIc0szdfSq0UMC/Po1KYBAXlvp/Y8r3jOYwYtru72rdIO5Pm+5pxeYkn
-         Bd2i2VnpAmFtv70A81PFrd1bN48oYXH9dUCzLWkj+k9k+xECryzGNq7dPDHEkiDPoM1b
-         sYUNJXucoqPhpZqu/eagBF0DbpRIBxWNXvMPxTYKk2Klujtbdgm2Y0EekP6WZQ9iI1H2
-         tstByHowHZT44rtBAwo8wXjOi51ZU8U7JwxXY05hGkFre2737PkOgorl0tZ9llTxqWFJ
-         ZysA==
-X-Gm-Message-State: AOAM530nxZ6h9sxveK/qhaXChF2dWcaxNTnsnFUbQr01I0BifvLirQ3D
-	PJ0ZsZGsscynHfqph6OIgWYHXw==
-X-Google-Smtp-Source: ABdhPJyeOsyBv0LzRrUHp4U00Xzd5mCnlz5TBTLaSTj6g9elg3TrHk2lotsUxxh4OJP8MGMPCkTqMQ==
-X-Received: by 2002:a37:6594:: with SMTP id z142mr15242224qkb.8.1623716145204;
-        Mon, 14 Jun 2021 17:15:45 -0700 (PDT)
+        bh=x5fEgSH4fIYijIsKFelpyojP/I9tE1YJoRFaP+W7jxg=;
+        b=CO/wPdvy+y08Xxtx5pkxp6Z2WGixPNtFCUM5ZPjUXi/N0srcFnQMIg1gkADuluqLW7
+         Qx7VNLl5pxx8R1pg6m3NftcCQ0nCWDp1+QxSkO53plF/P7mGSbtmXx1HE2Pqe92gi7EQ
+         0deOuDYc9nFfghcPX2Gv3iucjZg2HfbPz1wWAk8AvvWT/JCuAtfK4h0ZAGQ3O7I0yRb/
+         AwRe+U6Wi7AkeSiERlPqm3OhK6Z8n0hUEKfmIyu51aW1+OWdwjiDoc1CAbZD45ZEisXv
+         kiwxafqpRYXP8Z8O8wQmBKMDR0HSlQL8j4F9RPYRxq0ziIPULp070As1ZQTAXWn3/RKU
+         TRBQ==
+X-Gm-Message-State: AOAM530To5PObw6kRHfsv7SQ1p0lojhiD+2rZc8YDdrcHppk0b16qqSY
+	sY8ayeLwI/i/10EVT9O2EGrALA==
+X-Google-Smtp-Source: ABdhPJwRlTC6UsQ1fuFzERmwMEpqwTae7gtwZcbyxtHNLmSclGRjgmyUOO7kQxhwr+P6IXQ7Qt/wYg==
+X-Received: by 2002:a37:9504:: with SMTP id x4mr11581340qkd.235.1623716147428;
+        Mon, 14 Jun 2021 17:15:47 -0700 (PDT)
 Received: from localhost.localdomain (5.d.e.a.c.b.a.1.5.0.9.4.d.7.7.d.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0:d77d:4905:1abc:aed5])
-        by smtp.gmail.com with ESMTPSA id m199sm11244248qke.71.2021.06.14.17.15.43
+        by smtp.gmail.com with ESMTPSA id m199sm11244248qke.71.2021.06.14.17.15.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jun 2021 17:15:44 -0700 (PDT)
+        Mon, 14 Jun 2021 17:15:47 -0700 (PDT)
 From: Phillip Potter <phil@philpotter.co.uk>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
 	dan.carpenter@oracle.com,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 07/28] staging: rtl8188eu: remove all DBG_88E calls from core/rtw_ieee80211.c
-Date: Tue, 15 Jun 2021 01:14:46 +0100
-Message-Id: <20210615001507.1171-8-phil@philpotter.co.uk>
+Subject: [PATCH 08/28] staging: rtl8188eu: remove all DBG_88E calls from core/rtw_security.c
+Date: Tue, 15 Jun 2021 01:14:47 +0100
+Message-Id: <20210615001507.1171-9-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210615001507.1171-1-phil@philpotter.co.uk>
 References: <20210615001507.1171-1-phil@philpotter.co.uk>
@@ -55,122 +55,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove all DBG_88E calls from core/rtw_ieee80211.c as this macro is
+Remove all DBG_88E calls from core/rtw_security.c as this macro is
 unnecessary, and many of these calls are dubious in terms of necessity.
 Removing all calls will ultimately allow the removal of the macro
 itself.
 
 Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 ---
- .../staging/rtl8188eu/core/rtw_ieee80211.c    | 38 +++----------------
- 1 file changed, 5 insertions(+), 33 deletions(-)
+ drivers/staging/rtl8188eu/core/rtw_security.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8188eu/core/rtw_ieee80211.c b/drivers/staging/rtl8188eu/core/rtw_ieee80211.c
-index e88ebe8891fc..7a0544cba4bf 100644
---- a/drivers/staging/rtl8188eu/core/rtw_ieee80211.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_ieee80211.c
-@@ -686,13 +686,8 @@ static int rtw_ieee802_11_parse_vendor_specific(u8 *pos, uint elen,
- 	 * OUI of the vendor. The following byte is used a vendor specific
- 	 * sub-type.
- 	 */
--	if (elen < 4) {
--		if (show_errors) {
--			DBG_88E("short vendor specific information element ignored (len=%lu)\n",
--				(unsigned long)elen);
--		}
-+	if (elen < 4)
- 		return -1;
--	}
- 
- 	oui = RTW_GET_BE24(pos);
- 	switch (oui) {
-@@ -711,11 +706,9 @@ static int rtw_ieee802_11_parse_vendor_specific(u8 *pos, uint elen,
- 			elems->wpa_ie_len = elen;
- 			break;
- 		case WME_OUI_TYPE: /* this is a Wi-Fi WME info. element */
--			if (elen < 5) {
--				DBG_88E("short WME information element ignored (len=%lu)\n",
--					(unsigned long)elen);
-+			if (elen < 5)
- 				return -1;
--			}
-+
- 			switch (pos[4]) {
- 			case WME_OUI_SUBTYPE_INFORMATION_ELEMENT:
- 			case WME_OUI_SUBTYPE_PARAMETER_ELEMENT:
-@@ -727,8 +720,6 @@ static int rtw_ieee802_11_parse_vendor_specific(u8 *pos, uint elen,
- 				elems->wme_tspec_len = elen;
- 				break;
- 			default:
--				DBG_88E("unknown WME information element ignored (subtype=%d len=%lu)\n",
--					pos[4], (unsigned long)elen);
- 				return -1;
- 			}
- 			break;
-@@ -738,8 +729,6 @@ static int rtw_ieee802_11_parse_vendor_specific(u8 *pos, uint elen,
- 			elems->wps_ie_len = elen;
- 			break;
- 		default:
--			DBG_88E("Unknown Microsoft information element ignored (type=%d len=%lu)\n",
--				pos[3], (unsigned long)elen);
- 			return -1;
- 		}
- 		break;
-@@ -751,14 +740,10 @@ static int rtw_ieee802_11_parse_vendor_specific(u8 *pos, uint elen,
- 			elems->vendor_ht_cap_len = elen;
- 			break;
- 		default:
--			DBG_88E("Unknown Broadcom information element ignored (type=%d len=%lu)\n",
--				pos[3], (unsigned long)elen);
- 			return -1;
- 		}
- 		break;
- 	default:
--		DBG_88E("unknown vendor specific information element ignored (vendor OUI %3phC len=%lu)\n",
--			pos, (unsigned long)elen);
- 		return -1;
- 	}
- 	return 0;
-@@ -789,13 +774,8 @@ enum parse_res rtw_ieee802_11_parse_elems(u8 *start, uint len,
- 		elen = *pos++;
- 		left -= 2;
- 
--		if (elen > left) {
--			if (show_errors) {
--				DBG_88E("IEEE 802.11 element parse failed (id=%d elen=%d left=%lu)\n",
--					id, elen, (unsigned long)left);
--			}
-+		if (elen > left)
- 			return ParseFailed;
--		}
- 
- 		switch (id) {
- 		case WLAN_EID_SSID:
-@@ -876,10 +856,6 @@ enum parse_res rtw_ieee802_11_parse_elems(u8 *start, uint len,
- 			break;
- 		default:
- 			unknown++;
--			if (!show_errors)
--				break;
--			DBG_88E("IEEE 802.11 element parse ignored unknown element (id=%d elen=%d)\n",
--				id, elen);
- 			break;
- 		}
- 		left -= elen;
-@@ -905,12 +881,8 @@ void rtw_macaddr_cfg(u8 *mac_addr)
- 		ether_addr_copy(mac, mac_addr);
- 	}
- 
--	if (is_broadcast_ether_addr(mac) || is_zero_ether_addr(mac)) {
-+	if (is_broadcast_ether_addr(mac) || is_zero_ether_addr(mac))
- 		eth_random_addr(mac_addr);
--		DBG_88E("MAC Address from efuse error, assign random one !!!\n");
--	}
--
--	DBG_88E("%s MAC Address  = %pM\n", __func__, mac_addr);
- }
- 
- static int rtw_get_cipher_info(struct wlan_network *pnetwork)
+diff --git a/drivers/staging/rtl8188eu/core/rtw_security.c b/drivers/staging/rtl8188eu/core/rtw_security.c
+index 4d0a23bf3f66..2c863facd812 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_security.c
++++ b/drivers/staging/rtl8188eu/core/rtw_security.c
+@@ -664,7 +664,6 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, struct recv_frame *precvframe)
+ 			if (is_multicast_ether_addr(prxattrib->ra)) {
+ 				if (!psecuritypriv->binstallGrpkey) {
+ 					res = _FAIL;
+-					DBG_88E("%s:rx bc/mc packets, but didn't install group key!!!!!!!!!!\n", __func__);
+ 					goto exit;
+ 				}
+ 				prwskey = psecuritypriv->dot118021XGrpKey[prxattrib->key_index].skey;
+@@ -836,7 +835,6 @@ u32 rtw_aes_decrypt(struct adapter *padapter, struct recv_frame *precvframe)
+ 				/* in concurrent we should use sw descrypt in group key, so we remove this message */
+ 				if (!psecuritypriv->binstallGrpkey) {
+ 					res = _FAIL;
+-					DBG_88E("%s:rx bc/mc packets, but didn't install group key!!!!!!!!!!\n", __func__);
+ 					goto exit;
+ 				}
+ 				key_idx = psecuritypriv->dot118021XGrpKeyid;
 -- 
 2.30.2
 
