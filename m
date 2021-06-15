@@ -1,131 +1,244 @@
-Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9497970
-	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 06:47:39 +0000 (UTC)
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-	by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15F6jXB7116543;
-	Tue, 15 Jun 2021 06:47:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=PdOJ7uhVLoKJ8IudTXgqsqb8p8KH82LJt1NWmmnufdk=;
- b=qxtukR5YNH/ei1lKq8QmbjHHldRsKE5p6sZMtv2WQUJzt47FtOiYHIDcuEDABFpky0sm
- 8mvIIH+KvzwD32bj1kWGKADuY+slP+1+9YFqMriNbo5Vp6Qaqe8ok9rKxtF2QiofZsbD
- BF5nJr8wONuJH/6vj4qnQl/3qWf2RMqj2Irc1d/N8h6kEaxJG6sxXnMPbWSavx50YMIi
- KQSd0f8U+mYA9nL3R0ulABjWSrVV17Vxp3woviQG318JLg3WnTpBAkouhOMmlMdWWXXY
- ltWoVa0CR4SiwqLnoQxmEXfXdSo9Rwmu+zZxwoMUnaFSa63qNwLZRQY0kMCgdT5ps+vn LQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by aserp2130.oracle.com with ESMTP id 394jecdawf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 15 Jun 2021 06:47:34 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15F6jDnX067338;
-	Tue, 15 Jun 2021 06:47:33 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3030.oracle.com with ESMTP id 3959ckamh0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 15 Jun 2021 06:47:33 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15F6lXwv072668;
-	Tue, 15 Jun 2021 06:47:33 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by aserp3030.oracle.com with ESMTP id 3959ckamg3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 15 Jun 2021 06:47:33 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 15F6lQ8k001325;
-	Tue, 15 Jun 2021 06:47:27 GMT
-Received: from kadam (/41.212.42.34)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Mon, 14 Jun 2021 23:47:26 -0700
-Date: Tue, 15 Jun 2021 09:47:19 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Martin Kaiser <martin@kaiser.cx>, Larry Finger <Larry.Finger@lwfinger.net>,
-        linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/6] staging: rtl8188eu: fix usb_submit_urb error handling
-Message-ID: <20210615064719.GA2120@kadam>
-References: <20210612180019.20387-1-martin@kaiser.cx>
- <20210612180019.20387-2-martin@kaiser.cx>
- <YMdr0alJDEGfsqOA@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBF570
+	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 08:17:16 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by comms.puri.sm (Postfix) with ESMTP id 479C0E11DD;
+	Tue, 15 Jun 2021 01:17:15 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id RoN7WlA-jzVk; Tue, 15 Jun 2021 01:17:14 -0700 (PDT)
+Message-ID: <3e12f5d22e7940f4143cb9c55367724cb8cf349a.camel@puri.sm>
+Subject: Re: [PATCH v4.1 3/3] arm64: dts: imx8mq: add mipi csi phy and csi
+ bridge descriptions
+From: Martin Kepplinger <martin.kepplinger@puri.sm>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, festevam@gmail.com, kernel@pengutronix.de, 
+ kernel@puri.sm, krzk@kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-imx@nxp.com, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org,  linux-staging@lists.linux.dev,
+ m.felsch@pengutronix.de, mchehab@kernel.org,  phone-devel@vger.kernel.org,
+ robh@kernel.org, shawnguo@kernel.org,  slongerbeam@gmail.com
+Date: Tue, 15 Jun 2021 10:17:06 +0200
+In-Reply-To: <YMfT+swqNAm67EmS@pendragon.ideasonboard.com>
+References: <20210614121522.2944593-4-martin.kepplinger@puri.sm>
+	 <20210614122517.2945532-1-martin.kepplinger@puri.sm>
+	 <YMfT+swqNAm67EmS@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YMdr0alJDEGfsqOA@kroah.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: lURhPgTfq9QPm6nTf8f0uMKvBx1t_uCK
-X-Proofpoint-GUID: lURhPgTfq9QPm6nTf8f0uMKvBx1t_uCK
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10015 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 phishscore=0
- bulkscore=0 clxscore=1015 mlxlogscore=999 adultscore=0 malwarescore=0
- spamscore=0 lowpriorityscore=0 impostorscore=0 mlxscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2106150040
 
-On Mon, Jun 14, 2021 at 04:46:41PM +0200, Greg Kroah-Hartman wrote:
-> On Sat, Jun 12, 2021 at 08:00:15PM +0200, Martin Kaiser wrote:
-> > -EPERM should be handled like any other error.
+Am Dienstag, dem 15.06.2021 um 01:11 +0300 schrieb Laurent Pinchart:
+> Hi Martin,
 > 
-> Why?  This is not "any other error" for the usb core, right?
+> Thank you for the patch.
 > 
-
-Yeah.  It's a fair point that this commit message doesn't say why to do
-it or explain the implications.
-
+> On Mon, Jun 14, 2021 at 02:25:17PM +0200, Martin Kepplinger wrote:
+> > Describe the 2 available CSI interfaces on the i.MX8MQ with the
+> > MIPI-CSI2
+> > receiver and the CSI Bridge that provides the user buffers, where
+> > the
+> > existing driver can directly be used.
 > > 
-> > Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> > An image sensor is to be connected to the MIPIs' second port,
+> > described in
+> > board files.
+> > 
+> > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
 > > ---
-> >  drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c | 7 +++----
-> >  1 file changed, 3 insertions(+), 4 deletions(-)
 > > 
-> > diff --git a/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c b/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
-> > index ec07b2017fb7..0ceb05f3884f 100644
-> > --- a/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
-> > +++ b/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
-> > @@ -366,7 +366,6 @@ u32 usb_read_port(struct adapter *adapter, u32 addr, struct recv_buf *precvbuf)
-> >  	struct usb_device *pusbd = pdvobj->pusbdev;
-> >  	int err;
-> >  	unsigned int pipe;
-> > -	u32 ret = _SUCCESS;
-> >  
-> >  	if (adapter->bDriverStopped || adapter->bSurpriseRemoved ||
-> >  	    adapter->pwrctrlpriv.pnp_bstop_trx) {
-> > @@ -403,10 +402,10 @@ u32 usb_read_port(struct adapter *adapter, u32 addr, struct recv_buf *precvbuf)
-> >  			  precvbuf);/* context is precvbuf */
-> >  
-> >  	err = usb_submit_urb(purb, GFP_ATOMIC);
-> > -	if ((err) && (err != (-EPERM)))
-> > -		ret = _FAIL;
+> > sorry, the csi compatible addition suggested by Marco was missing
+> > in
+> > v4 3/3. here is 3/3 updated.
+> > 
+> > 
+> > 
+> >  arch/arm64/boot/dts/freescale/imx8mq.dtsi | 102
+> > ++++++++++++++++++++++
+> >  1 file changed, 102 insertions(+)
+> > 
+> > diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > index 91df9c5350ae..fa83e8294b20 100644
+> > --- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > +++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > @@ -1099,6 +1099,108 @@ uart4: serial@30a60000 {
+> >                                 status = "disabled";
+> >                         };
+> >  
+> > +                       mipi_csi1: csi@30a70000 {
+> > +                               compatible = "fsl,imx8mq-mipi-
+> > csi2";
+> > +                               reg = <0x30a70000 0x1000>;
+> > +                               clocks = <&clk
+> > IMX8MQ_CLK_CSI1_CORE>,
+> > +                                  <&clk IMX8MQ_CLK_CSI1_ESC>,
+> > +                                  <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
+> > +                                  <&clk IMX8MQ_CLK_CLKO2>;
+> > +                               clock-names = "core", "esc", "pxl",
+> > "clko2";
 > 
-> if -EPERM returns from this function, someone set the "reject" bit on
-> the urb.
+> I can't figure out what the clko2 clock is used for based on the
+> datasheet. It seems to be a clock output by the SoC on GPIO1_IO15,
+> and
+> doesn't seem to belong here.
+
+oh, no it doesn't, I'm sorry, that was just a hack that I forgot about!
+That clock is only used by the sensor I'm using -.- I'll remove it
+here. thanks a lot for looking closely.
+
 > 
-> Can this driver do that?  Where did this check originally come from, as
-> it feels like this was added for a good reason.
+> Regarding core, esc and pix, do these clock correspond to the clk,
+> clk_esc and clk_ui listed in table 13-36 (section 13.8.3.3.1 "RX
+> Local
+> Interface Description") of the TRM ? If so, should they be renamed
+> accordingly, to either "clk", "clk_esc" and "clk_ui", or, if we want
+> to
+> drop the prefixes, "core", "esc" and "ui" ?
+
+yes, I think so.
+
+> 
+> > +                               assigned-clocks = <&clk
+> > IMX8MQ_CLK_CSI1_CORE>,
+> > +                                   <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
+> > +                                   <&clk IMX8MQ_CLK_CSI1_ESC>;
+> > +                               assigned-clock-rates = <266000000>,
+> > <333000000>, <66000000>;
+> > +                               assigned-clock-parents = <&clk
+> > IMX8MQ_SYS1_PLL_266M>,
+> > +                                       <&clk
+> > IMX8MQ_SYS2_PLL_1000M>,
+> > +                                       <&clk
+> > IMX8MQ_SYS1_PLL_800M>;
+> > +                               power-domains = <&pgc_mipi_csi1>;
+> > +                               resets = <&src>;
+> 
+> The src node has #reset-cells set to 1, I think you're missing
+> something
+> here.
+
+yes, thank you!
+
+> 
+> > +                               fsl,mipi-phy-gpr = <&iomuxc_gpr
+> > 0x88>;
+> > +                               interconnects = <&noc
+> > IMX8MQ_ICM_CSI1 &noc IMX8MQ_ICS_DRAM>;
+> > +                               interconnect-names = "dram";
+> > +                               status = "disabled";
+> > +
+> > +                               ports {
+> > +                                       #address-cells = <1>;
+> > +                                       #size-cells = <0>;
+> > +
+> > +                                       port@0 {
+> > +                                               reg = <0>;
+> > +
+> > +                                               csi1_mipi_ep:
+> > endpoint {
+> > +                                                       remote-
+> > endpoint = <&csi1_ep>;
+> > +                                               };
+> > +                                       };
+> > +                               };
+> > +                       };
+> > +
+> > +                       csi1: csi@30a90000 {
+> > +                               compatible = "fsl,imx8mq-csi",
+> > "fsl,imx7-csi";
+> > +                               reg = <0x30a90000 0x10000>;
+> > +                               interrupts = <GIC_SPI 42
+> > IRQ_TYPE_LEVEL_HIGH>;
+> > +                               clocks = <&clk
+> > IMX8MQ_CLK_CSI1_ROOT>;
+> > +                               clock-names = "mclk";
+> > +                               status = "disabled";
+> > +
+> > +                               port {
+> > +                                       csi1_ep: endpoint {
+> > +                                               remote-endpoint =
+> > <&csi1_mipi_ep>;
+> > +                                       };
+> > +                               };
+> > +                       };
+> > +
+> > +                       mipi_csi2: csi@30b60000 {
+> > +                               compatible = "fsl,imx8mq-mipi-
+> > csi2";
+> > +                               reg = <0x30b60000 0x1000>;
+> > +                               clocks = <&clk
+> > IMX8MQ_CLK_CSI2_CORE>,
+> > +                                  <&clk IMX8MQ_CLK_CSI2_ESC>,
+> > +                                  <&clk IMX8MQ_CLK_CSI2_PHY_REF>,
+> > +                                  <&clk IMX8MQ_CLK_CLKO2>;
+> > +                               clock-names = "core", "esc", "pxl",
+> > "clko2";
+> > +                               assigned-clocks = <&clk
+> > IMX8MQ_CLK_CSI2_CORE>,
+> > +                                   <&clk IMX8MQ_CLK_CSI2_PHY_REF>,
+> > +                                   <&clk IMX8MQ_CLK_CSI2_ESC>;
+> > +                               assigned-clock-rates = <266000000>,
+> > <333000000>, <66000000>;
+> > +                               assigned-clock-parents = <&clk
+> > IMX8MQ_SYS1_PLL_266M>,
+> > +                                       <&clk
+> > IMX8MQ_SYS2_PLL_1000M>,
+> > +                                       <&clk
+> > IMX8MQ_SYS1_PLL_800M>;
+> > +                               power-domains = <&pgc_mipi_csi2>;
+> > +                               resets = <&src>;
+> > +                               fsl,mipi-phy-gpr = <&iomuxc_gpr
+> > 0xa4>;
+> > +                               interconnects = <&noc
+> > IMX8MQ_ICM_CSI2 &noc IMX8MQ_ICS_DRAM>;
+> > +                               interconnect-names = "dram";
+> > +                               status = "disabled";
+> > +
+> > +                               ports {
+> > +                                       #address-cells = <1>;
+> > +                                       #size-cells = <0>;
+> > +
+> > +                                       port@0 {
+> > +                                               reg = <0>;
+> > +
+> > +                                               csi2_mipi_ep:
+> > endpoint {
+> > +                                                       remote-
+> > endpoint = <&csi2_ep>;
+> > +                                               };
+> > +                                       };
+> > +                               };
+> > +                       };
+> > +
+> > +                       csi2: csi@30b80000 {
+> > +                               compatible = "fsl,imx8mq-csi",
+> > "fsl,imx7-csi";
+> > +                               reg = <0x30b80000 0x10000>;
+> > +                               interrupts = <GIC_SPI 43
+> > IRQ_TYPE_LEVEL_HIGH>;
+> > +                               clocks = <&clk
+> > IMX8MQ_CLK_CSI2_ROOT>;
+> > +                               clock-names = "mclk";
+> > +                               status = "disabled";
+> > +
+> > +                               port {
+> > +                                       csi2_ep: endpoint {
+> > +                                               remote-endpoint =
+> > <&csi2_mipi_ep>;
+> > +                                       };
+> > +                               };
+> > +                       };
+> > +
+> >                         mu: mailbox@30aa0000 {
+> >                                 compatible = "fsl,imx8mq-mu",
+> > "fsl,imx6sx-mu";
+> >                                 reg = <0x30aa0000 0x10000>;
 > 
 
-Yeah.  It can cancel urbs in rtw_hal_inirp_deinit().  That function used
-to have a better name, "usb_read_port_cancel" and in retrospect the
-original name was probably better.
-
-I think the reason for that -EPERM was treated differently was because
-originally there were some error messages printed if usb_submit_urb()
-failed.  (They were't actually printed because this code is buggy).  The
-authors probably didn't want to print the error messages but
-accidentally made it return success as well.
-
-There is only one caller that checks the return and it only affects the
-behavior if we race against open.  Can that even happen?  I'm pretty
-sure that returning a failure is the correct behavior but I'm going to
-leave it to Martin to check for absolutely sure.  :P
-
-regards,
-dan carpenter
 
