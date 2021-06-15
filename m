@@ -1,50 +1,50 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E9036D0E
-	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 00:15:59 +0000 (UTC)
-Received: by mail-qk1-f178.google.com with SMTP id c9so13983802qkm.0
-        for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 17:15:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28CF6D0E
+	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 00:16:04 +0000 (UTC)
+Received: by mail-qt1-f182.google.com with SMTP id o19so9960155qtp.5
+        for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 17:16:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=oAhWvrf4MKxQa5lHti7TTDcFAj1qiXLJCSE80+4N8ZA=;
-        b=PTTiabWgWcrGiWdJmgp9OxmJrzRvrBapVAoWHy/Rs2pXE965cDXAzcHCS+S9fs0NvU
-         xGlYHkleDfMwfuwlYFH0N2NW22vvY9y+1NKTkAA+gb1iCpDFOb2w+zTZMHKhExU41UjS
-         1bzsJJfFYvSnlp6PYzSon75CE7V8msM7IimjPd9m4DuhPXzn7957UkbmtpgCHAS4/Rwe
-         8rQg32Q/o43bFo9kjpqPLX5kDQKdnUluCQwDDqVQ/9husJKhbMkZEsGBSPi0ex4PLU+p
-         s29bXrzJ4tVUJa4Ac2aOrIjVFF5d8M1zH/aqlUTLA6Kw3vEmHPOvSqh57RLIIoeIMplO
-         sarQ==
+        bh=ETntBOsYPD8kWgF9cIpwHsDS07x8y52XE6FVL5T2U6s=;
+        b=GHh6JWku0T4klrWBbdW3qu/6SnCb500ZAVlXeneSjeYiCkkD6nhKUXKl7W2MonsPgd
+         4sD+CQQMmHUFjorb/k7+pW8kR+ZgzVV4641U6WZYT8JS1XJ4xEJhmnM0KnZshQ1SGlBh
+         6tySkdBS/nqoAw3S+qAVS3Fe+5JrapJ1BGKJoJO2leVhK3Vb6j1XwMeRWpLrycUoUuvb
+         Lx0UYDqDBtS9qYjfa2/bBZH5imQQ/2S20a7zmUSG1XRRmGYH9BKIqZyqN0fXrwDIshxi
+         96Yp6bfZGSnxVQ1tp9dgs4WfD1La1lKrIiA7DsdFW2MprgRErV4lg8gejI6p/hMYPBsZ
+         ygIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=oAhWvrf4MKxQa5lHti7TTDcFAj1qiXLJCSE80+4N8ZA=;
-        b=SX8r/3mY7hEnxDIRdVvILz3frnIuaQ32Q11TxL5pnEfRcIDRINXRryZbJBQJwvJ5DT
-         asAFrYOl5HwnkiA45C70zZVvuvp9tzesxPKJTZbnlsy3DlA+D39RxnPv42L51pGfF3E0
-         wMPnCgmPfq+Uwov/874Lel4r6dOldGybsmRrx2m4hyNyJvaVIJsDpnxELaVs+3EkhA4G
-         Iu1yRXRlQqAkr7FqvnxiCOorWgz/DEDKqKqzxxkoJN8CH5SspdsxiHJqlXoezqTJnPK8
-         7irPk8dR/nO/ni6sNSM+0gU5a7F2TBdY7RLTYNISXXuFUik5ONOdnoKcedU9F5soBtqZ
-         mqvw==
-X-Gm-Message-State: AOAM532U0SBF5gCawrihQfyff5+Aaes4YBJDwAmA24QceTxORhn6Xr7y
-	3xdcbCEdpWpAGZTIRn6uSgMTNg==
-X-Google-Smtp-Source: ABdhPJyfespBzZJgJdHvPuUKVxuLSsOxM72g8ET5cbHPeAJ3elpkxqK+6Pvv549jNtvs+cN9uG1l6A==
-X-Received: by 2002:a05:620a:1443:: with SMTP id i3mr18479386qkl.193.1623716158384;
-        Mon, 14 Jun 2021 17:15:58 -0700 (PDT)
+        bh=ETntBOsYPD8kWgF9cIpwHsDS07x8y52XE6FVL5T2U6s=;
+        b=VffS23PmMpXtfqEfhXi4Yncpg291pTsSJF+7tKfzwq5qOdMfT566NUdkrluPIpSouo
+         43qOwUFWac8DKeThaiY4/1TNDL979tovgSpQ5OvrkUsYV7z/7Pu+1grJRmK8sUzHrGeQ
+         E4TSnJlHzEO9F5HrK/eazHWGQyAqc+sNCjxnLK+JflztKdvb9u7WFIAWlxYFk4rG5i59
+         zfbYUy1krMZRtpS7xPswgqJdHZ3cHybG3bjJxS70owdQLhgn2G6yiYyUF2kOIxNVpQUH
+         H30E4eAvR2Hkgw4BF3n5f4YtDi84aewr3G1ak8bgDUYLMjGJpSfCbK3X3HHXOtmEjK+e
+         Fxbg==
+X-Gm-Message-State: AOAM532+sIv1VJX5N6SyO55Ntjj1pzVPIV3g0T5QOntIThcjLNxBjYo9
+	8NEsNgI+DjwP5G3y3WIjmk9AsQ==
+X-Google-Smtp-Source: ABdhPJyfNjE1uJVHZJii7OHbEUMEniOxiS/9yZEmul36Gzx81mfCqmv2A9lwEy1Bk1ndyEXk/9XrFA==
+X-Received: by 2002:ac8:12ca:: with SMTP id b10mr18701324qtj.108.1623716163978;
+        Mon, 14 Jun 2021 17:16:03 -0700 (PDT)
 Received: from localhost.localdomain (5.d.e.a.c.b.a.1.5.0.9.4.d.7.7.d.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0:d77d:4905:1abc:aed5])
-        by smtp.gmail.com with ESMTPSA id m199sm11244248qke.71.2021.06.14.17.15.55
+        by smtp.gmail.com with ESMTPSA id m199sm11244248qke.71.2021.06.14.17.16.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jun 2021 17:15:57 -0700 (PDT)
+        Mon, 14 Jun 2021 17:16:03 -0700 (PDT)
 From: Phillip Potter <phil@philpotter.co.uk>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
 	dan.carpenter@oracle.com,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 12/28] staging: rtl8188eu: remove all DBG_88E calls from os_dep/usb_intf.c
-Date: Tue, 15 Jun 2021 01:14:51 +0100
-Message-Id: <20210615001507.1171-13-phil@philpotter.co.uk>
+Subject: [PATCH 13/28] staging: rtl8188eu: remove all DBG_88E calls from os_dep/os_intfs.c
+Date: Tue, 15 Jun 2021 01:14:52 +0100
+Message-Id: <20210615001507.1171-14-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210615001507.1171-1-phil@philpotter.co.uk>
 References: <20210615001507.1171-1-phil@philpotter.co.uk>
@@ -55,28 +55,146 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove all DBG_88E calls from os_dep/usb_intf.c as this macro is
+Remove all DBG_88E calls from os_dep/os_intfs.c as this macro is
 unnecessary, and many of these calls are dubious in terms of necessity.
 Removing all calls will ultimately allow the removal of the macro
-itself.
+itself. Also remove variable declarations for variables which now go
+unused as a result of this change with os_dep/os_intfs.c
 
 Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 ---
- drivers/staging/rtl8188eu/os_dep/usb_intf.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/rtl8188eu/os_dep/os_intfs.c | 26 ---------------------
+ 1 file changed, 26 deletions(-)
 
-diff --git a/drivers/staging/rtl8188eu/os_dep/usb_intf.c b/drivers/staging/rtl8188eu/os_dep/usb_intf.c
-index 3a970d67aa8c..5ca54dc36fa9 100644
---- a/drivers/staging/rtl8188eu/os_dep/usb_intf.c
-+++ b/drivers/staging/rtl8188eu/os_dep/usb_intf.c
-@@ -351,7 +351,6 @@ static int rtw_usb_if1_init(struct usb_interface *pusb_intf)
- 
- 	padapter->HalData = kzalloc(sizeof(struct hal_data_8188e), GFP_KERNEL);
- 	if (!padapter->HalData) {
--		DBG_88E("Failed to allocate memory for HAL data\n");
- 		err = -ENOMEM;
- 		goto free_adapter;
+diff --git a/drivers/staging/rtl8188eu/os_dep/os_intfs.c b/drivers/staging/rtl8188eu/os_dep/os_intfs.c
+index 870148020e61..70e9161a429e 100644
+--- a/drivers/staging/rtl8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8188eu/os_dep/os_intfs.c
+@@ -310,7 +310,6 @@ struct net_device *rtw_init_netdev(void)
+ 	pnetdev->dev.type = &wlan_type;
+ 	padapter = netdev_priv(pnetdev);
+ 	padapter->pnetdev = pnetdev;
+-	DBG_88E("register rtw_netdev_ops to netdev_ops\n");
+ 	pnetdev->netdev_ops = &rtw_netdev_ops;
+ 	pnetdev->watchdog_timeo = HZ * 3; /* 3 second timeout */
+ 	pnetdev->wireless_handlers = (struct iw_handler_def *)&rtw_handlers_def;
+@@ -439,19 +438,16 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
  	}
+ 
+ 	if (_rtw_init_xmit_priv(&padapter->xmitpriv, padapter) == _FAIL) {
+-		DBG_88E("Can't _rtw_init_xmit_priv\n");
+ 		ret8 = _FAIL;
+ 		goto exit;
+ 	}
+ 
+ 	if (_rtw_init_recv_priv(&padapter->recvpriv, padapter) == _FAIL) {
+-		DBG_88E("Can't _rtw_init_recv_priv\n");
+ 		ret8 = _FAIL;
+ 		goto exit;
+ 	}
+ 
+ 	if (_rtw_init_sta_priv(&padapter->stapriv) == _FAIL) {
+-		DBG_88E("Can't _rtw_init_sta_priv\n");
+ 		ret8 = _FAIL;
+ 		goto exit;
+ 	}
+@@ -530,7 +526,6 @@ static int _netdev_open(struct net_device *pnetdev)
+ 	struct pwrctrl_priv *pwrctrlpriv = &padapter->pwrctrlpriv;
+ 
+ 	RT_TRACE(_module_os_intfs_c_, _drv_info_, ("+88eu_drv - dev_open\n"));
+-	DBG_88E("+88eu_drv - drv_open, bup =%d\n", padapter->bup);
+ 
+ 	if (pwrctrlpriv->ps_flag) {
+ 		padapter->net_closed = false;
+@@ -580,7 +575,6 @@ static int _netdev_open(struct net_device *pnetdev)
+ 
+ netdev_open_normal_process:
+ 	RT_TRACE(_module_os_intfs_c_, _drv_info_, ("-88eu_drv - dev_open\n"));
+-	DBG_88E("-88eu_drv - drv_open, bup =%d\n", padapter->bup);
+ 	return 0;
+ 
+ netdev_open_error:
+@@ -588,7 +582,6 @@ static int _netdev_open(struct net_device *pnetdev)
+ 	netif_carrier_off(pnetdev);
+ 	netif_tx_stop_all_queues(pnetdev);
+ 	RT_TRACE(_module_os_intfs_c_, _drv_err_, ("-88eu_drv - dev_open, fail!\n"));
+-	DBG_88E("-88eu_drv - drv_open fail, bup =%d\n", padapter->bup);
+ 	return -1;
+ }
+ 
+@@ -609,7 +602,6 @@ int  ips_netdrv_open(struct adapter *padapter)
+ 	int status = _SUCCESS;
+ 
+ 	padapter->net_closed = false;
+-	DBG_88E("===> %s.........\n", __func__);
+ 
+ 	padapter->bDriverStopped = false;
+ 	padapter->bSurpriseRemoved = false;
+@@ -629,47 +621,33 @@ int  ips_netdrv_open(struct adapter *padapter)
+ 	return _SUCCESS;
+ 
+ netdev_open_error:
+-	DBG_88E("-%s - drv_open failure, bup =%d\n", __func__, padapter->bup);
+-
+ 	return _FAIL;
+ }
+ 
+ int rtw_ips_pwr_up(struct adapter *padapter)
+ {
+ 	int result;
+-	unsigned long start_time = jiffies;
+ 
+-	DBG_88E("===>  %s..............\n", __func__);
+ 	rtw_reset_drv_sw(padapter);
+ 
+ 	result = ips_netdrv_open(padapter);
+ 
+ 	led_control_8188eu(padapter, LED_CTL_NO_LINK);
+ 
+-	DBG_88E("<===  %s.............. in %dms\n", __func__,
+-		jiffies_to_msecs(jiffies - start_time));
+ 	return result;
+ }
+ 
+ void rtw_ips_pwr_down(struct adapter *padapter)
+ {
+-	unsigned long start_time = jiffies;
+-
+-	DBG_88E("===> %s...................\n", __func__);
+-
+ 	padapter->net_closed = true;
+ 
+ 	led_control_8188eu(padapter, LED_CTL_POWER_OFF);
+ 
+ 	rtw_ips_dev_unload(padapter);
+-	DBG_88E("<=== %s..................... in %dms\n", __func__,
+-		jiffies_to_msecs(jiffies - start_time));
+ }
+ 
+ void rtw_ips_dev_unload(struct adapter *padapter)
+ {
+-	DBG_88E("====> %s...\n", __func__);
+-
+ 	rtw_hal_set_hwreg(padapter, HW_VAR_FIFO_CLEARN_UP, NULL);
+ 
+ 	usb_intf_stop(padapter);
+@@ -692,9 +670,6 @@ static int netdev_close(struct net_device *pnetdev)
+ 	padapter->net_closed = true;
+ 
+ 	if (padapter->pwrctrlpriv.rf_pwrstate == rf_on) {
+-		DBG_88E("(2)88eu_drv - drv_close, bup =%d, hw_init_completed =%d\n",
+-			padapter->bup, padapter->hw_init_completed);
+-
+ 		/* s1. */
+ 		if (pnetdev) {
+ 			if (!rtw_netif_queue_stopped(pnetdev))
+@@ -715,6 +690,5 @@ static int netdev_close(struct net_device *pnetdev)
+ 	}
+ 
+ 	RT_TRACE(_module_os_intfs_c_, _drv_info_, ("-88eu_drv - drv_close\n"));
+-	DBG_88E("-88eu_drv - drv_close, bup =%d\n", padapter->bup);
+ 	return 0;
+ }
 -- 
 2.30.2
 
