@@ -1,27 +1,31 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61122FB8
-	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 13:24:13 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EC41E6145D;
-	Tue, 15 Jun 2021 13:24:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176136D00
+	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 13:24:46 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3676F61465;
+	Tue, 15 Jun 2021 13:24:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1623763453;
-	bh=NFFT9XXX43WE7Brg3+uTp+Pn3ngNE/vZ2FvOW2J7SaE=;
+	s=korg; t=1623763486;
+	bh=V4tpiMC8eA/B5+op+TxQhJBdvP2Y7K62zVk556CGsz8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DUXhEjrugWMhna/B6tdutuHT6BzXqLaA9Y7mLXZDntI7m4O6wfJK+bpB7PRP9CixQ
-	 R2W2un7YRpgBdFba1b1B+zIlal05euuSYk14O3D4C/41jst6vlvUNW97zqOnRJ5ABv
-	 eB+gLV0RxpYSvpZtdg1p6ZGqiaK1ffVkBWyrbZVs=
-Date: Tue, 15 Jun 2021 15:24:11 +0200
+	b=mg0ecllN6Lnek19Zxt/aZ8T/HNJfQBlqWdtiorbaZ3+uIinhLkt9yPQp4RG6diIjX
+	 ZwdNdqvaCcMHPrJ661+0GlYUk+zy/oaUxFI6AqGVZ3cNF3/JGA583lMsyONIEZCWWB
+	 62ldCKKRy4oDy1mHZfVI79BkW6E2douBMlzRtc5M=
+Date: Tue, 15 Jun 2021 15:24:44 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: hdegoede@redhat.com, Larry.Finger@lwfinger.net,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 7/8] staging: rtl8723bs: remove include/autoconf.h header
- file from tree
-Message-ID: <YMip+8CWBFAI40tf@kroah.com>
-References: <cover.1623756906.git.fabioaiuto83@gmail.com>
- <9317fa8fd41da4668a41775207b5e6dad33e7447.1623756906.git.fabioaiuto83@gmail.com>
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>,
+	"open list:MIPS" <linux-mips@vger.kernel.org>,
+	Ilya Lipnitskiy <ilya.lipnitskiy@gmail.com>,
+	John Crispin <john@phrozen.org>
+Subject: Re: [PATCH v2 1/3] MIPS: ralink: Define PCI_IOBASE
+Message-ID: <YMiqHBVuoyd4EcIz@kroah.com>
+References: <20210614100617.28753-1-sergio.paracuellos@gmail.com>
+ <20210614100617.28753-2-sergio.paracuellos@gmail.com>
+ <20210615130830.GA7029@alpha.franken.de>
+ <CAMhs-H8TM=m2ULVYwOFR8kEw4h1EDHOeGaVh9WpvxmY8oP8NTg@mail.gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -29,12 +33,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9317fa8fd41da4668a41775207b5e6dad33e7447.1623756906.git.fabioaiuto83@gmail.com>
+In-Reply-To: <CAMhs-H8TM=m2ULVYwOFR8kEw4h1EDHOeGaVh9WpvxmY8oP8NTg@mail.gmail.com>
 
-On Tue, Jun 15, 2021 at 01:45:37PM +0200, Fabio Aiuto wrote:
-> remove include/autoconf.h header file from tree.
-> It just contains a compiler configuration check
-> which is not needed.
+On Tue, Jun 15, 2021 at 03:12:59PM +0200, Sergio Paracuellos wrote:
+> On Tue, Jun 15, 2021 at 3:09 PM Thomas Bogendoerfer
+> <tsbogend@alpha.franken.de> wrote:
+> >
+> > On Mon, Jun 14, 2021 at 12:06:15PM +0200, Sergio Paracuellos wrote:
+> > > PCI_IOBASE is used to create VM maps for PCI I/O ports, it is
+> > > required by generic PCI drivers to make memory mapped I/O range
+> > > work. Hence define it for ralink architectures to be able to
+> > > avoid parsing manually IO ranges in PCI generic driver code.
+> > > Function 'plat_mem_setup' for ralink is using 'set_io_port_base'
+> > > call using '0xa0000000' as address, so use the same address in
+> > > the definition to align things.
+> > >
+> > > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> > > ---
+> > >  arch/mips/include/asm/mach-ralink/spaces.h | 10 ++++++++++
+> > >  1 file changed, 10 insertions(+)
+> > >  create mode 100644 arch/mips/include/asm/mach-ralink/spaces.h
+> > >
+> > > diff --git a/arch/mips/include/asm/mach-ralink/spaces.h b/arch/mips/include/asm/mach-ralink/spaces.h
+> > > new file mode 100644
+> > > index 000000000000..87d085c9ad61
+> > > --- /dev/null
+> > > +++ b/arch/mips/include/asm/mach-ralink/spaces.h
+> > > @@ -0,0 +1,10 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +#ifndef __ASM_MACH_RALINK_SPACES_H_
+> > > +#define __ASM_MACH_RALINK_SPACES_H_
+> > > +
+> > > +#define PCI_IOBASE   _AC(0xa0000000, UL)
+> > > +#define PCI_IOSIZE   SZ_16M
+> > > +#define IO_SPACE_LIMIT       (PCI_IOSIZE - 1)
+> > > +
+> > > +#include <asm/mach-generic/spaces.h>
+> > > +#endif
+> > > --
+> > > 2.25.1
+> >
+> > Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+> 
+> Fastest response ever :) Thanks!
 
-It also still contains the LPS_RPWM_WAIT_MS define :(
-
+Thanks, all now queued up.
