@@ -1,33 +1,35 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD50B70
-	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 15:48:44 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C79326148E;
-	Tue, 15 Jun 2021 15:48:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8904E70
+	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 15:49:32 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2AFE5615A0;
+	Tue, 15 Jun 2021 15:49:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1623772124;
-	bh=ZZw7LqFGgfCHUlgt8fcTCe5QwulDRnNqcaBgTxopqcM=;
+	s=k20201202; t=1623772172;
+	bh=fU13to9nu0aO8QZO1mX+8wtj7oG7zYJNoYFpZBMBe8w=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QJPrswyTO3uGrHW073/6TTaxPX+BupF9bRf7B1RGJJStqAufbdnLqdBuCIT2ehvSS
-	 xglsfbTACvsRekL2ezI1kO+Rxz7ANF68zJou2YOWpEf0GEob2m32Pb19nYDrVVlCm8
-	 Qbal3/kftsMEAL+yxJVdKkPYUI22oXiJ70oP9o10WD1uG9Zt/j3tc//aLHP5hnK3bQ
-	 /n73WbS/p3W0zrpDDaXJeNEvOfIRcFlv76Liri/Jk3XIaltQax0A6arWJAKihPi4c4
-	 Ph6iVTyg/121aqNLNQLWr/XeAkWALp/gLZaEPX/e/IgiEEBdZ8+eAvNWkd54rrNsal
-	 J667TSr+nQY9g==
+	b=h6wSj44WfOOfrbeKAP4Zbk3/I6L9WH3MkBGBsxSorVMDl/NDFtQqXmrsbG+uFTYrC
+	 7p1Nzbai8/WVFls17AvR7+LPPOsTjNedUc0kUtFHSLXvslsDKiAM6x81tBDdOkiVdE
+	 gVS8Ec8i5ooLyX9G4R9guw8QAuaW+Whbl+A6hKpBDepUDCYQNXp5OlzfSg129Hk6QK
+	 pwB27100XPgsQr0Y8z+uauuAiVlBY78ExKFOb9fqcUwMwRQ8wO5TKuCao0WfXhggMD
+	 WStC6Kh07r9D3w+5ibRsgiT4cIaIyDTJ7M6fB8Aofp6osBCRy+m5oB2uiUZxlwjclg
+	 V6ODbdq/4JtoQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Axel Lin <axel.lin@ingics.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
 	Sasha Levin <sashal@kernel.org>,
-	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.12 16/33] regulator: hi6421v600: Fix .vsel_mask setting
-Date: Tue, 15 Jun 2021 11:48:07 -0400
-Message-Id: <20210615154824.62044-16-sashal@kernel.org>
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.10 19/30] pinctrl: ralink: rt2880: avoid to error in calls is pin is already enabled
+Date: Tue, 15 Jun 2021 11:48:56 -0400
+Message-Id: <20210615154908.62388-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210615154824.62044-1-sashal@kernel.org>
-References: <20210615154824.62044-1-sashal@kernel.org>
+In-Reply-To: <20210615154908.62388-1-sashal@kernel.org>
+References: <20210615154908.62388-1-sashal@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -37,35 +39,42 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Axel Lin <axel.lin@ingics.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 
-[ Upstream commit 50bec7fb4cb1bcf9d387046b6dec7186590791ec ]
+[ Upstream commit eb367d875f94a228c17c8538e3f2efcf2eb07ead ]
 
-Take ldo3_voltages as example, the ARRAY_SIZE(ldo3_voltages) is 16.
-i.e. the valid selector is 0 ~ 0xF.
-But in current code the vsel_mask is "(1 << 15) - 1", i.e. 0x7FFF. Fix it.
+In 'rt2880_pmx_group_enable' driver is printing an error and returning
+-EBUSY if a pin has been already enabled. This begets anoying messages
+in the caller when this happens like the following:
 
-Signed-off-by: Axel Lin <axel.lin@ingics.com>
-Link: https://lore.kernel.org/r/20210529013236.373847-1-axel.lin@ingics.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+rt2880-pinmux pinctrl: pcie is already enabled
+mt7621-pci 1e140000.pcie: Error applying setting, reverse things back
+
+To avoid this just print the already enabled message in the pinctrl
+driver and return 0 instead to not confuse the user with a real
+bad problem.
+
+Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Link: https://lore.kernel.org/r/20210604055337.20407-1-sergio.paracuellos@gmail.com
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/hikey9xx/hi6421v600-regulator.c | 2 +-
+ drivers/staging/mt7621-pinctrl/pinctrl-rt2880.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/hikey9xx/hi6421v600-regulator.c b/drivers/staging/hikey9xx/hi6421v600-regulator.c
-index f6a14e9c3cbf..e10fe3058176 100644
---- a/drivers/staging/hikey9xx/hi6421v600-regulator.c
-+++ b/drivers/staging/hikey9xx/hi6421v600-regulator.c
-@@ -83,7 +83,7 @@ static const unsigned int ldo34_voltages[] = {
- 			.owner		= THIS_MODULE,			       \
- 			.volt_table	= vtable,			       \
- 			.n_voltages	= ARRAY_SIZE(vtable),		       \
--			.vsel_mask	= (1 << (ARRAY_SIZE(vtable) - 1)) - 1, \
-+			.vsel_mask	= ARRAY_SIZE(vtable) - 1,	       \
- 			.vsel_reg	= vreg,				       \
- 			.enable_reg	= ereg,				       \
- 			.enable_mask	= emask,			       \
+diff --git a/drivers/staging/mt7621-pinctrl/pinctrl-rt2880.c b/drivers/staging/mt7621-pinctrl/pinctrl-rt2880.c
+index caaf9e34f1ee..09b0b8a16e99 100644
+--- a/drivers/staging/mt7621-pinctrl/pinctrl-rt2880.c
++++ b/drivers/staging/mt7621-pinctrl/pinctrl-rt2880.c
+@@ -127,7 +127,7 @@ static int rt2880_pmx_group_enable(struct pinctrl_dev *pctrldev,
+ 	if (p->groups[group].enabled) {
+ 		dev_err(p->dev, "%s is already enabled\n",
+ 			p->groups[group].name);
+-		return -EBUSY;
++		return 0;
+ 	}
+ 
+ 	p->groups[group].enabled = 1;
 -- 
 2.30.2
 
