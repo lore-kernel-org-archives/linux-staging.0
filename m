@@ -1,85 +1,131 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D3D6D0E
-	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 00:17:19 +0000 (UTC)
-Received: by mail-qk1-f174.google.com with SMTP id c138so27449730qkg.5
-        for <linux-staging@lists.linux.dev>; Mon, 14 Jun 2021 17:17:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=GHijSFisswyE68RaJCvcX+69ZFWMyHRiaE4D9hGGu9w=;
-        b=r5SiADkncDP/kK0m4mDI+9wRgNC0f0L4Oyq8O1+8B/oO9ZVqN9P0HbH4nAfEauXbrs
-         5aVaB7DgwexYaw8Wd0ljkCayhCiuuuHATmRP7zK/9xtBITcY2VxGj3RWqZVXymC4CBsp
-         q0g4Usym3tCl4M4UcpHRxJJlB2ktKCbnSWy9guk2scYNCoGS0hwKSjIvcHUhoOot1wGX
-         SGiq9f4psjDA6DOH0d7+yLN8nPVpMwCZbcphWBsxuP+SQXjVqPd4AJZejljeM1m2d7U2
-         UZrOvR1iZsNmDR/zRrV28hzFFkPUt5P207Uxn3f/ty6/lzFFUOx/iPKiv7gDNg8j4WMk
-         4GNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=GHijSFisswyE68RaJCvcX+69ZFWMyHRiaE4D9hGGu9w=;
-        b=EitVhDyjv6l9eRiXn3cNKTQ5izGmYM6OJwDj8nNhn0C05vMiMsUO/lBROjXA4WDkdp
-         UXJ1saiW+IbPT/JonnBA5ymrkzywbilGWOoI2inT+WcsfevRXX/5jd/enTVflH/r2kgH
-         POiGgfqPC9ujTh5KwN5GKKCECRYJhbWEUelPugFcj2nXm0TSMmeSW4Nxn65cI+YTmR/q
-         TLNPh/8lM9PFymJPcz3sitR98miY9zhcOrjpt4h+NzCaHW6qIQ2eYoJkqlWV8llrRk1N
-         VsUo6Fli3XT4TqIo8sa1KV1DviVmB71QYdLdBHldzxJ16EtCpMQXejswZH2dkmkq1Uja
-         9NuA==
-X-Gm-Message-State: AOAM532eykZw+NccGaDSGeqSWj+rU/2fDXxKuGeJu++Ii0Tm5dB6SmU2
-	MhhyJEKqQBVydDjgK2A8M+2VLw==
-X-Google-Smtp-Source: ABdhPJxbV1I4j3CQeEIE0YZIe8tGn5g06qV/OYfEXQzM2jm52fkZYCjgpZOqEqgS5msJF+SUx+cGpQ==
-X-Received: by 2002:a05:620a:29d3:: with SMTP id s19mr4440667qkp.434.1623716239127;
-        Mon, 14 Jun 2021 17:17:19 -0700 (PDT)
-Received: from localhost.localdomain (5.d.e.a.c.b.a.1.5.0.9.4.d.7.7.d.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0:d77d:4905:1abc:aed5])
-        by smtp.gmail.com with ESMTPSA id m199sm11244248qke.71.2021.06.14.17.17.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jun 2021 17:17:18 -0700 (PDT)
-From: Phillip Potter <phil@philpotter.co.uk>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	dan.carpenter@oracle.com,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 28/28] staging: rtl8188eu: remove DBG_88E macro definition
-Date: Tue, 15 Jun 2021 01:15:07 +0100
-Message-Id: <20210615001507.1171-29-phil@philpotter.co.uk>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210615001507.1171-1-phil@philpotter.co.uk>
-References: <20210615001507.1171-1-phil@philpotter.co.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9497970
+	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 06:47:39 +0000 (UTC)
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+	by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15F6jXB7116543;
+	Tue, 15 Jun 2021 06:47:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=PdOJ7uhVLoKJ8IudTXgqsqb8p8KH82LJt1NWmmnufdk=;
+ b=qxtukR5YNH/ei1lKq8QmbjHHldRsKE5p6sZMtv2WQUJzt47FtOiYHIDcuEDABFpky0sm
+ 8mvIIH+KvzwD32bj1kWGKADuY+slP+1+9YFqMriNbo5Vp6Qaqe8ok9rKxtF2QiofZsbD
+ BF5nJr8wONuJH/6vj4qnQl/3qWf2RMqj2Irc1d/N8h6kEaxJG6sxXnMPbWSavx50YMIi
+ KQSd0f8U+mYA9nL3R0ulABjWSrVV17Vxp3woviQG318JLg3WnTpBAkouhOMmlMdWWXXY
+ ltWoVa0CR4SiwqLnoQxmEXfXdSo9Rwmu+zZxwoMUnaFSa63qNwLZRQY0kMCgdT5ps+vn LQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by aserp2130.oracle.com with ESMTP id 394jecdawf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 15 Jun 2021 06:47:34 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15F6jDnX067338;
+	Tue, 15 Jun 2021 06:47:33 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3030.oracle.com with ESMTP id 3959ckamh0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 15 Jun 2021 06:47:33 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15F6lXwv072668;
+	Tue, 15 Jun 2021 06:47:33 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by aserp3030.oracle.com with ESMTP id 3959ckamg3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 15 Jun 2021 06:47:33 +0000
+Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 15F6lQ8k001325;
+	Tue, 15 Jun 2021 06:47:27 GMT
+Received: from kadam (/41.212.42.34)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Mon, 14 Jun 2021 23:47:26 -0700
+Date: Tue, 15 Jun 2021 09:47:19 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Martin Kaiser <martin@kaiser.cx>, Larry Finger <Larry.Finger@lwfinger.net>,
+        linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/6] staging: rtl8188eu: fix usb_submit_urb error handling
+Message-ID: <20210615064719.GA2120@kadam>
+References: <20210612180019.20387-1-martin@kaiser.cx>
+ <20210612180019.20387-2-martin@kaiser.cx>
+ <YMdr0alJDEGfsqOA@kroah.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YMdr0alJDEGfsqOA@kroah.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-ORIG-GUID: lURhPgTfq9QPm6nTf8f0uMKvBx1t_uCK
+X-Proofpoint-GUID: lURhPgTfq9QPm6nTf8f0uMKvBx1t_uCK
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10015 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 phishscore=0
+ bulkscore=0 clxscore=1015 mlxlogscore=999 adultscore=0 malwarescore=0
+ spamscore=0 lowpriorityscore=0 impostorscore=0 mlxscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2106150040
 
-As all callers have now been removed, remove the definition of the
-DBG_88E macro itself. It is no longer required and is dead code.
+On Mon, Jun 14, 2021 at 04:46:41PM +0200, Greg Kroah-Hartman wrote:
+> On Sat, Jun 12, 2021 at 08:00:15PM +0200, Martin Kaiser wrote:
+> > -EPERM should be handled like any other error.
+> 
+> Why?  This is not "any other error" for the usb core, right?
+> 
 
-Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
----
- drivers/staging/rtl8188eu/include/rtw_debug.h | 6 ------
- 1 file changed, 6 deletions(-)
+Yeah.  It's a fair point that this commit message doesn't say why to do
+it or explain the implications.
 
-diff --git a/drivers/staging/rtl8188eu/include/rtw_debug.h b/drivers/staging/rtl8188eu/include/rtw_debug.h
-index 2fd6151bf698..a1b25ca16d28 100644
---- a/drivers/staging/rtl8188eu/include/rtw_debug.h
-+++ b/drivers/staging/rtl8188eu/include/rtw_debug.h
-@@ -64,12 +64,6 @@ extern u32 GlobalDebugLevel;
- 			pr_info(DRIVER_PREFIX fmt, ##arg);	\
- 	} while (0)
- 
--#define DBG_88E(...)							\
--	do {								\
--		if (_drv_err_ <= GlobalDebugLevel)			\
--			pr_info(DRIVER_PREFIX __VA_ARGS__);		\
--	} while (0)
--
- #define MSG_88E(...)							\
- 	do {								\
- 		if (_drv_err_ <= GlobalDebugLevel)			\
--- 
-2.30.2
+> > 
+> > Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> > ---
+> >  drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c | 7 +++----
+> >  1 file changed, 3 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c b/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
+> > index ec07b2017fb7..0ceb05f3884f 100644
+> > --- a/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
+> > +++ b/drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
+> > @@ -366,7 +366,6 @@ u32 usb_read_port(struct adapter *adapter, u32 addr, struct recv_buf *precvbuf)
+> >  	struct usb_device *pusbd = pdvobj->pusbdev;
+> >  	int err;
+> >  	unsigned int pipe;
+> > -	u32 ret = _SUCCESS;
+> >  
+> >  	if (adapter->bDriverStopped || adapter->bSurpriseRemoved ||
+> >  	    adapter->pwrctrlpriv.pnp_bstop_trx) {
+> > @@ -403,10 +402,10 @@ u32 usb_read_port(struct adapter *adapter, u32 addr, struct recv_buf *precvbuf)
+> >  			  precvbuf);/* context is precvbuf */
+> >  
+> >  	err = usb_submit_urb(purb, GFP_ATOMIC);
+> > -	if ((err) && (err != (-EPERM)))
+> > -		ret = _FAIL;
+> 
+> if -EPERM returns from this function, someone set the "reject" bit on
+> the urb.
+> 
+> Can this driver do that?  Where did this check originally come from, as
+> it feels like this was added for a good reason.
+> 
+
+Yeah.  It can cancel urbs in rtw_hal_inirp_deinit().  That function used
+to have a better name, "usb_read_port_cancel" and in retrospect the
+original name was probably better.
+
+I think the reason for that -EPERM was treated differently was because
+originally there were some error messages printed if usb_submit_urb()
+failed.  (They were't actually printed because this code is buggy).  The
+authors probably didn't want to print the error messages but
+accidentally made it return success as well.
+
+There is only one caller that checks the return and it only affects the
+behavior if we race against open.  Can that even happen?  I'm pretty
+sure that returning a failure is the correct behavior but I'm going to
+leave it to Martin to check for absolutely sure.  :P
+
+regards,
+dan carpenter
 
