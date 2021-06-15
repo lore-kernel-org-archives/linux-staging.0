@@ -1,29 +1,27 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E73AB72
-	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 11:50:18 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EEAED6145D;
-	Tue, 15 Jun 2021 11:50:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9166972
+	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 11:51:09 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4AB1D6145E;
+	Tue, 15 Jun 2021 11:51:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1623757818;
-	bh=80BKNxMl4vfWn+OgvuwBg4oJz0whC/obf0+2MF/CC/g=;
+	s=korg; t=1623757868;
+	bh=18Sl95eWw5Us05rnuI+PZmJU2hNTtQ1BsO22IqalpZo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tjlbJqiCP0gphqnn4Yl4Pybx7ifuZvVN4BXXX2ZNmutWWh8vZsgQv7SDS+W7oHJPv
-	 fg5YUHiEz7zGOXrhgSPYzzqMUQBjboE/PlSGo3se/i0+j5pYDJ2fhWz++hVw/HuHak
-	 WJvjKgiM6wWmeAcF3YzNzYugMAGHqTIpKBhPWcpQ=
-Date: Tue, 15 Jun 2021 13:50:15 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: David Kershner <david.kershner@unisys.com>, sparmaintainer@unisys.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Matthew Wilcox <willy@infradead.org>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH v8 RESEND] staging: unisys: visorhba: Convert module from
- IDR to XArray
-Message-ID: <YMiT9+msL8H2+3yV@kroah.com>
-References: <20210514081112.19542-1-fmdefrancesco@gmail.com>
+	b=knmZSI0pcHQljLqACrotSpTJM7iFFI78Ir/Z15+GqBcDY+ZTQTWBq4G9ObxD/GR2q
+	 s+4xn5IdsmGcJP+O0VSC52jg1uX33Y/klj9dKaJDTu7Irz4BKHyHili8Us2yo/yI4G
+	 4u7LYUtQHNRJY0WxE6u5E4hBLcADcqw/X4TClBHI=
+Date: Tue, 15 Jun 2021 13:51:06 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: linux-staging@lists.linux.dev, neil@brown.name,
+	linux-mips@vger.kernel.org, tsbogend@alpha.franken.de,
+	ilya.lipnitskiy@gmail.com, john@phrozen.org
+Subject: Re: [PATCH v2 1/3] MIPS: ralink: Define PCI_IOBASE
+Message-ID: <YMiUKkYL7B7qTU/X@kroah.com>
+References: <20210614100617.28753-1-sergio.paracuellos@gmail.com>
+ <20210614100617.28753-2-sergio.paracuellos@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -31,22 +29,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210514081112.19542-1-fmdefrancesco@gmail.com>
+In-Reply-To: <20210614100617.28753-2-sergio.paracuellos@gmail.com>
 
-On Fri, May 14, 2021 at 10:11:11AM +0200, Fabio M. De Francesco wrote:
-> Converted visorhba from IDR to XArray. The abstract data type XArray is
-> more memory-efficient, parallelizable, and cache friendly. It takes
-> advantage of RCU to perform lookups without locking. Furthermore, IDR is
-> deprecated because XArray has a better (cleaner and more consistent)
-> API.
+On Mon, Jun 14, 2021 at 12:06:15PM +0200, Sergio Paracuellos wrote:
+> PCI_IOBASE is used to create VM maps for PCI I/O ports, it is
+> required by generic PCI drivers to make memory mapped I/O range
+> work. Hence define it for ralink architectures to be able to
+> avoid parsing manually IO ranges in PCI generic driver code.
+> Function 'plat_mem_setup' for ralink is using 'set_io_port_base'
+> call using '0xa0000000' as address, so use the same address in
+> the definition to align things.
 > 
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 > ---
+>  arch/mips/include/asm/mach-ralink/spaces.h | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>  create mode 100644 arch/mips/include/asm/mach-ralink/spaces.h
+> 
+> diff --git a/arch/mips/include/asm/mach-ralink/spaces.h b/arch/mips/include/asm/mach-ralink/spaces.h
+> new file mode 100644
+> index 000000000000..87d085c9ad61
+> --- /dev/null
+> +++ b/arch/mips/include/asm/mach-ralink/spaces.h
+> @@ -0,0 +1,10 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef __ASM_MACH_RALINK_SPACES_H_
+> +#define __ASM_MACH_RALINK_SPACES_H_
+> +
+> +#define PCI_IOBASE	_AC(0xa0000000, UL)
+> +#define PCI_IOSIZE	SZ_16M
+> +#define IO_SPACE_LIMIT	(PCI_IOSIZE - 1)
+> +
+> +#include <asm/mach-generic/spaces.h>
+> +#endif
+> -- 
+> 2.25.1
+> 
+> 
 
-Given a lack of response from the unisys maintainer, I'll go apply this
-now and see what breaks :)
+I really can't take a change outside of drivers/staging/ for a staging
+driver.
 
-thanks,
+So unless you can get a MIPS maintainer to ACK this, I can't accept
+this change, sorry.
 
 greg k-h
