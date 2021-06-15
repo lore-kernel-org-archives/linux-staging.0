@@ -1,50 +1,50 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6472A72
-	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 11:45:44 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id ba2so48897480edb.2
-        for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 04:45:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E8872
+	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 11:45:45 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id gt18so3574906ejc.11
+        for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 04:45:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=7jrpi+t4sVD1nYvrQmw+SBUyW0PXTVnWtUAU8H138ng=;
-        b=FG53mXxub3xZBLj0vJOM1Ndtjrx1Hr8RSDgtXWMdP2zav657MXOBB06v/0bbfBX+zv
-         BgzphCXrpJmZNu9i71RtsjLN8sQa1MTHtajSoHKGvMXHiVYhRe8UO30XiGswpxrcc9GJ
-         ruljlLy5n/TlWdboufAxTQB3tRDU8H+sA3x5MiocLtfYDuS3VDmLb0WtJ0osCTUghMmL
-         wB6fiiEEoyzfXTV+hNcP9kxqbQFU5yCa/DJ6tprN8l3lwYVxWhwhsQkMAwxVqYVvHr2f
-         PDP9KM2+3tHR7/tx0xFQFWx+xakjZzoVAvofT/kh+E2YekLv1Vqcj4injPBfT6SLCZOF
-         EIYg==
+        bh=LgeZ2JYile0wfxLPa3/QdjQOXfOnyTEQN34yF3jCqoE=;
+        b=trM+NhcbmRP9RJgrenAhxF7nzko6KTtLGzPc2c5XaV5oOzh1aCLtjzvGvC1EgayEjx
+         /v484YFqFxNa/rQ3jvGABzaO7aRifefOAfQd/dIdS+Nsaz7jpGQXtshRaQ85r6Qul2HD
+         w2mg6NJ4VnybL8tYrjpjbI5gkavp676v7Wc5+1g4HaQZ2QOb0vGBoh86JwZTA1SpQvMx
+         fbVHRpi3vBXjy2PEaDMpNULi8iDModmotqK71BHHx1jbW8GSbXh6ivHsBruyVIsm2qMY
+         Ms3+twAZjM71yugkoZBwFMGMe2nL0M6OcBx0m4ru2jBzaj7KCcJRJYiUKloW33FAMn0G
+         lCaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=7jrpi+t4sVD1nYvrQmw+SBUyW0PXTVnWtUAU8H138ng=;
-        b=AePrtt5TYkmmxWgSFNpZDfRt6lgnn3kl38rp5mGB4K91Ll3iU4ULuwPBiNRJMsqnUf
-         HZ/Fu2+NRzHySUp7ORFmij/Z92/7B0k143DVH20lLoLOn9pylft8zyVYCH8Ew2q33GYH
-         Q3CtVS2Xpdd0yILh31GcTEoONmMwcOHi6ll8BRvfoEvRhShiBpLPDfiZi4vUX1OdkDv0
-         RKsvXYLiORiZYnBf7KqxlLOJ8hEUqpbwQ7w7bkOTjh9hk86jfIsICjojenT4qnr/Pw6B
-         TkDxRecjyHLmWH4Dv42aUacl6VhA06th84APKe1GMqwJlesbwSc453j3ywM66+IHrvOo
-         XbLw==
-X-Gm-Message-State: AOAM533zjh5tQygwwvzKAym90H2Cnidrahmuzuu1u5cxuabtrzawurxj
-	GwV0mV8SJLyTaFhsbmsS6jE=
-X-Google-Smtp-Source: ABdhPJxK4PT9BOtXrU8Y9e5VHM1CGzwOmSRj37nkLhrzJkzNPPGpgptmWdiYoKMTzoDLUHAwUI9xpQ==
-X-Received: by 2002:a05:6402:14d5:: with SMTP id f21mr23544838edx.307.1623757543071;
-        Tue, 15 Jun 2021 04:45:43 -0700 (PDT)
+        bh=LgeZ2JYile0wfxLPa3/QdjQOXfOnyTEQN34yF3jCqoE=;
+        b=sAyl1PlIzKkJPnabnhU8OzNnktwsRyqlFJKRhjkNAFA/81Wgv7jz+SxtXE4QzCGRNn
+         7q2NDn0pLSFDI4IHxMJa/+qQ4Is8RTfhRWAukSzsdKSI0/fDiALAhb4UQJL+PFHwRStg
+         SQyi1bT3pmTRcXCS1sTHDyGmeVe/Q2IGgiey7/pLIATizYSsgEnobom+6zKIbsOF+uro
+         fcIAb2UXPs8vhjmndA5jguynhVbsQUF0oma+al/XH9++/pjqEOrr4Zpx/rB1iAio6ECr
+         jvLSkPoZvMdyVtOL+9OXb1LeJ3g6Sx3teSb2uOXRSRrSRovcjcVnYf1p86Z0yzydyvao
+         V5SA==
+X-Gm-Message-State: AOAM532H7ld29jA+hMb5iuyTQoYnxZYFB+zLqAt7+HfsFNfxgKu4fZda
+	xdU7v0beGuu81G/dTTOe2wNImwvd7a1niQ==
+X-Google-Smtp-Source: ABdhPJx2AxTVMle/ivxhdSo2pBV3++Uo+aHcLMQRiVRi2yKr6dZxos8WU86W1dDvwqk3GvXd3WuraQ==
+X-Received: by 2002:a17:906:9706:: with SMTP id k6mr20175851ejx.456.1623757544388;
+        Tue, 15 Jun 2021 04:45:44 -0700 (PDT)
 Received: from agape ([5.171.72.142])
-        by smtp.gmail.com with ESMTPSA id w17sm9952726ejk.112.2021.06.15.04.45.42
+        by smtp.gmail.com with ESMTPSA id cz14sm11385069edb.84.2021.06.15.04.45.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jun 2021 04:45:42 -0700 (PDT)
+        Tue, 15 Jun 2021 04:45:44 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: hdegoede@redhat.com,
 	Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/8] staging: rtl8723bs: remove unneeded comments
-Date: Tue, 15 Jun 2021 13:45:32 +0200
-Message-Id: <4c1ea0e7ddceebba1afe1485662c204db5dfa9c7.1623756906.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 3/8] staging: rtl8723bs: remove unused WAKEUP_GPIO_IDX macro definition
+Date: Tue, 15 Jun 2021 13:45:33 +0200
+Message-Id: <6bf5ddf3e4465840cdfcca79a524645cdaf0104d.1623756906.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1623756906.git.fabioaiuto83@gmail.com>
 References: <cover.1623756906.git.fabioaiuto83@gmail.com>
@@ -55,40 +55,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove unneeded comments in include/autoconf.h
+remove unused WAKEUP_GPIO_IDX macro definition.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/autoconf.h | 12 ------------
- 1 file changed, 12 deletions(-)
+ drivers/staging/rtl8723bs/include/autoconf.h | 5 -----
+ 1 file changed, 5 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/include/autoconf.h b/drivers/staging/rtl8723bs/include/autoconf.h
-index aeb9479d1327..4b2cf86b8aa4 100644
+index 4b2cf86b8aa4..eab934229789 100644
 --- a/drivers/staging/rtl8723bs/include/autoconf.h
 +++ b/drivers/staging/rtl8723bs/include/autoconf.h
-@@ -4,15 +4,6 @@
-  * Copyright(c) 2007 - 2012 Realtek Corporation. All rights reserved.
-  *
-  ******************************************************************************/
--
--/*
-- * Automatically generated C config: don't edit
-- */
--
--/*
-- * Functions Config
-- */
--
- #ifndef CONFIG_WIRELESS_EXT
- #error CONFIG_WIRELESS_EXT needs to be enabled for this driver to work
+@@ -25,8 +25,3 @@
+ 	#define HAL_BB_ENABLE		1
+ 	#define HAL_RF_ENABLE		1
  #endif
-@@ -39,6 +30,3 @@
-  * Platform dependent
-  */
- #define WAKEUP_GPIO_IDX	12	/* WIFI Chip Side */
 -
--/* define DBG_XMIT_BUF */
--/* define DBG_XMIT_BUF_EXT */
+-/*
+- * Platform dependent
+- */
+-#define WAKEUP_GPIO_IDX	12	/* WIFI Chip Side */
 -- 
 2.20.1
 
