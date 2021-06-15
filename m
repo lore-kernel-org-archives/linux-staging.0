@@ -1,54 +1,53 @@
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2C62FB8
-	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 12:42:16 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-	by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15FCYO6r033863;
-	Tue, 15 Jun 2021 12:42:09 GMT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314B02FB8
+	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 12:51:37 +0000 (UTC)
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+	by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15FCnn7n173425;
+	Tue, 15 Jun 2021 12:51:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
  : subject : message-id : references : mime-version : content-type :
  in-reply-to; s=corp-2020-01-29;
- bh=c4Q3LYTxO4R3Kx561zlbUETpLST5nzuW9o7He1UxTrg=;
- b=mm63tv+IvgEeQazNGJoBzZW6ryas7GcDvM7Nb2baWR9qdXu9l9ksDrJw32sNCKWl4+Cg
- wAt9c4V0wjW6XQUvTrjFtZsZc7IGQmEg1Lo0PjSo4on6uHBXg47xjxwrnHZ06lq52NjC
- 3GHsHgmBDUgw3Axl0OKjS+Dcn3rfENNr9g9UqOl1DTny81eu2aB1/888bS38Xq9XzqEc
- cFz6EKiYOlKf97Hxx985sxt9vwom3K2ov5zayHstTYqpi1DBWhLWOJ5aZVqiWoWAUF7J
- D3zHqisIxeYBECTaeKO5zViFNeCWPzoZgSlKhOCsBAni5scFZvdVV1P/yiNdRalFEk2D VQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by aserp2120.oracle.com with ESMTP id 394mvne3g9-1
+ bh=jz/aERMgu0KWDk6VKuZP6FWkq3aPcHzm3Ht1KSa3uV0=;
+ b=mFcp3vWSuyNTkR0IRHBsmjJ/mtDk6gjl4Ip0+14Pf72JxxqY+BThWhqYaJg1GVQ88VGi
+ kVFROGMDTbTlBMQLENp4L9lblxvWPbVFsEvOhjUK/CyK2BSaNPsNKlLK6bQMn06y+dga
+ yOsg8ucwNGdljtQNdpDlPxoMl+Kj4rFd4GBNiId60AloLqej6cxT0ANDoUxZ2Wz2XY7k
+ dNb5VJNvr/DPB8mwl3jdFr8mmRY7yc0qKg4HIzDB+qSLciPqT1iPpMBjsZaeFPzHZ9uZ
+ O6BDUVeJQBOHD5YRUwcpFv/SusEf13LEbCbIobgnlmVEeoHQfzCe3Rt/EJgLOLcCEnWy Bw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+	by aserp2130.oracle.com with ESMTP id 394jece80q-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 15 Jun 2021 12:42:09 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15FCZ2Z3029884;
-	Tue, 15 Jun 2021 12:42:09 GMT
+	Tue, 15 Jun 2021 12:51:35 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+	by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15FColbW121187;
+	Tue, 15 Jun 2021 12:51:34 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3020.oracle.com with ESMTP id 394mr8x3fv-1
+	by userp3030.oracle.com with ESMTP id 394j1ufwje-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 15 Jun 2021 12:42:09 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15FCZ5jQ030735;
-	Tue, 15 Jun 2021 12:42:08 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-	by aserp3020.oracle.com with ESMTP id 394mr8x3ey-1
+	Tue, 15 Jun 2021 12:51:34 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15FCovHZ121691;
+	Tue, 15 Jun 2021 12:51:33 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by userp3030.oracle.com with ESMTP id 394j1ufwhx-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 15 Jun 2021 12:42:08 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
-	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 15FCg6TO031553;
-	Tue, 15 Jun 2021 12:42:06 GMT
+	Tue, 15 Jun 2021 12:51:33 +0000
+Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 15FCpW0F014562;
+	Tue, 15 Jun 2021 12:51:32 GMT
 Received: from kadam (/41.212.42.34)
 	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Tue, 15 Jun 2021 05:42:05 -0700
-Date: Tue, 15 Jun 2021 15:41:59 +0300
+	with ESMTP ; Tue, 15 Jun 2021 05:51:32 -0700
+Date: Tue, 15 Jun 2021 15:51:25 +0300
 From: Dan Carpenter <dan.carpenter@oracle.com>
 To: Phillip Potter <phil@philpotter.co.uk>
 Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
         linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 22/28] staging: rtl8188eu: remove all DBG_88E calls from
- hal/usb_halinit.c
-Message-ID: <20210615124159.GB1861@kadam>
+Subject: Re: [PATCH 00/28] staging: rtl8188eu: remove DBG_88E callers and
+ macro
+Message-ID: <20210615125125.GC1861@kadam>
 References: <20210615001507.1171-1-phil@philpotter.co.uk>
- <20210615001507.1171-23-phil@philpotter.co.uk>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -56,36 +55,22 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210615001507.1171-23-phil@philpotter.co.uk>
+In-Reply-To: <20210615001507.1171-1-phil@philpotter.co.uk>
 User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: SwWkYI6zip7K8FuYF_Y-wVb51jSqzkxk
-X-Proofpoint-GUID: SwWkYI6zip7K8FuYF_Y-wVb51jSqzkxk
+X-Proofpoint-ORIG-GUID: Q9JSm16mFjHefBX5kY1F1xDyNJ4W1aPh
+X-Proofpoint-GUID: Q9JSm16mFjHefBX5kY1F1xDyNJ4W1aPh
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10015 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 mlxscore=0
- lowpriorityscore=0 malwarescore=0 spamscore=0 bulkscore=0
- priorityscore=1501 clxscore=1015 mlxlogscore=999 phishscore=0 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106150082
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 phishscore=0
+ bulkscore=0 clxscore=1015 mlxlogscore=999 adultscore=0 malwarescore=0
+ spamscore=0 lowpriorityscore=0 impostorscore=0 mlxscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2106150084
 
-On Tue, Jun 15, 2021 at 01:15:01AM +0100, Phillip Potter wrote:
-> @@ -1685,8 +1658,6 @@ void rtw_hal_set_hwreg(struct adapter *Adapter, u8 variable, u8 *val)
->  					if (!(usb_read32(Adapter, REG_RXPKT_NUM) & RXDMA_IDLE))
->  						break;
->  				} while (trycnt--);
-> -				if (trycnt == 0)
-> -					DBG_88E("Stop RX DMA failed......\n");
+Looks good.
 
-Not related to your patch but this loop will exit with trycnt == -1 not
-0.
-
-There should be a Smatch warning for this.  Also Smatch doesn't handle
-while count down loops very well...  It takes the short cut of
-assuming that all do while loops have a break statement.
+The future is vast and unknowable but I feel pretty confident we will
+never miss these at all.  :P
 
 regards,
 dan carpenter
-
->  
->  				/* RQPN Load 0 */
->  				usb_write16(Adapter, REG_RQPN_NPQ, 0x0);
 
