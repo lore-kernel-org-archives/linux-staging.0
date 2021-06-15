@@ -1,51 +1,53 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C46172
-	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 11:45:41 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id og14so22091829ejc.5
-        for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 04:45:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5EF72
+	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 11:45:42 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id dj8so50661398edb.6
+        for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 04:45:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=p1eH0Ej+5T7porb0G6RAMCsURpi7I/GRLLvy18cQifk=;
-        b=DfGsCnLzOTYcQNI244P2gyMDnho2hr4KC/+Zzx9z+Ow7ozz2e93vsnW4OJuyXIZUp2
-         DZKO3BpCHgOjL3G4cmTTmbShPS2zTKyR8LHxLVJa5Z962GEdD5c8Sno4StglcTX8IYeO
-         Zm+N+qa5TuJC+dKMwOeshVaKQe8bY/02E8ZqCSeuy/wZTG8/7HMZOrgMc825hgLZva8q
-         2SVlvJ95+UqGBUMKy1U4PkbSkFR5i6+y/4IqwA8J+vKlQ3wX2IyjEmSnyQiBnQ9GbWrY
-         VrV54AXvikpWbyO88Ui1TeAfe0meUSczu2KUpjRbUQZegiWisTnWkQ+Z3Tp5/jdGjPgu
-         Z9Iw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=5D/6RpZ0CBKmM6q27QzR8lVWMKF+tf59W0tNVEeHUkI=;
+        b=RQuzMP4Y7ST0DiBwa2uoK897Wxi8exvgtS9yfYnhReV13YJgv9WoD75eGNmolwY66L
+         wTrzUuX89sN/tOKGo3NK7EBS1XtoD7LjBK1BfyM9mCit/tRFj1zn7lCt2fZZ+AaYJs/Z
+         eoyWGrU7zRPSRaI3/aoQUE3Q1Zyk96r5/gpyZBGHmXBAu8MV1vje7bhl3G/VEM/UH6VH
+         u2Lz2GqDp8DHPTCumRU1D42gPlsshsqtjAWCy5lFOOi1J9qQMewukKomhPCMJPCIRgXq
+         g+XY0pHUsF33Mw7ud57EuRYZrzWM4lpshJkJOjqvvY+nl4lYa55lpSgOYB0dUHXF/tRh
+         9g6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=p1eH0Ej+5T7porb0G6RAMCsURpi7I/GRLLvy18cQifk=;
-        b=WEXyLqdyBa7XOywIa/QoUjSfKK6OpfMKSu0956vuJbNzMXAcpYjGgGOj7dEyoaX23j
-         GMomf7jUyr4lrTTDeDWWu1+XfJpv4yHrUaHWM6gnnZruEQljyXlpoLxujf7iXJVGBAYb
-         VeMsmbZVbfWtD+7+796f2a4wKP26Kb3s4uEcX3YND2mnpWV3t2tvNe6MZ/kV0IgWtteL
-         kH9XqYrFQGYXVrH4LQbGydxCWVGbgYvCs/Wba7vY4M1ElWqeOCmBVq8VHexGkQTvw4pg
-         nEJWKSExA/M3H/YLzX2dDEChMWU2d3KGv/IH/U7Ra6GXsuthHcF9ylRYkbtItgCXlQ0c
-         23zA==
-X-Gm-Message-State: AOAM531+1DKjc92v7jF0cViceQhn5Lwe4DrgT6l2V+YUCzs1qJsGwL4a
-	ucCX5yeRN3/YBlfTALRFZVo=
-X-Google-Smtp-Source: ABdhPJy0F0ZTJ1mVbFIcLibf8PfNhpU/5igmzTMwuUxzQiVU8nvl91UoOwfA1CgazjCF9V9Kr63+qQ==
-X-Received: by 2002:a17:906:f298:: with SMTP id gu24mr20021153ejb.452.1623757540008;
-        Tue, 15 Jun 2021 04:45:40 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=5D/6RpZ0CBKmM6q27QzR8lVWMKF+tf59W0tNVEeHUkI=;
+        b=TTg4ufpX21+rq5RqoTAgEPnvT/0OSToQ81Tt5wQPRNXLplHNmCJgBc8MUNTJ9hAjj2
+         5EKV3SeAzNW31C83dZBMvlcz2Pg2kTWx0rcKWU+HFXlS13XSq8yIEzdaovbQDbDGTzDL
+         Xd44Y++WZkaCFmZFLJpQTsSkNoJkjo1kL03O1k46LAUHTqhIDj3rnryEH5CyYyecaoZv
+         iyvLc/NLmNCUK+iOVOylhVU+hD7KW9j97onQzQcCcGrclLDJRWGIKVBLn3Qac54glJOw
+         0/6BR5apFkBNrW1WVoy7JH4H9N7uEYGXjW7Op/FSGk37FstDZm3yRfM2YiNjn2Dva1lC
+         nVfQ==
+X-Gm-Message-State: AOAM530Dr/73FVBQABK5xhhahwSzruO6Dqor2sfhy1YD6cB3UzCwh9hl
+	33Yf2V7fOsOkkGkG1IByyQk=
+X-Google-Smtp-Source: ABdhPJzBZYD2xGg1ZUBPx6MEf26TO8DAnTN2Zhzolm0qA3msILuY2E5mMOy1P96HM1QVd+Cw4ZNx4g==
+X-Received: by 2002:a05:6402:896:: with SMTP id e22mr3640244edy.201.1623757541293;
+        Tue, 15 Jun 2021 04:45:41 -0700 (PDT)
 Received: from agape ([5.171.72.142])
-        by smtp.gmail.com with ESMTPSA id u21sm7145699eja.59.2021.06.15.04.45.39
+        by smtp.gmail.com with ESMTPSA id g11sm7579533edz.12.2021.06.15.04.45.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jun 2021 04:45:39 -0700 (PDT)
+        Tue, 15 Jun 2021 04:45:41 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: hdegoede@redhat.com,
 	Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/8] staging: rtl8723bs: remove unneeded files from tree
-Date: Tue, 15 Jun 2021 13:45:30 +0200
-Message-Id: <cover.1623756906.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 1/8] staging: rtl8723bs: remove unused debug macro
+Date: Tue, 15 Jun 2021 13:45:31 +0200
+Message-Id: <4d1e9ad759fc4b66fa3309637b3b4c8eb81d2ea9.1623756906.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1623756906.git.fabioaiuto83@gmail.com>
+References: <cover.1623756906.git.fabioaiuto83@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -53,48 +55,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patchset removes some unneeded files.
+remove unused debug macro definition in
+include/autoconf.h
 
-autoconf.h seems to be the output of some automatic
-header file generation foreign to the linux kernel
-configuration and build system.
+Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+---
+ drivers/staging/rtl8723bs/include/autoconf.h | 6 ------
+ 1 file changed, 6 deletions(-)
 
-To toggle some part of code one is asked to
-force an edit by hand on this file.
-
-Other unneeded definitions were deleted recently,
-now we complete the job.
-
-Removed core/rtw_eeprom.c and include/drv_conf.h as well,
-for they are excluded from the build process.
-
-Tested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
-
-Fabio Aiuto (8):
-  staging: rtl8723bs: remove unused debug macro
-  staging: rtl8723bs: remove unneeded comments
-  staging: rtl8723bs: remove unused WAKEUP_GPIO_IDX macro definition
-  staging: rtl8723bs: remove unneeded DISABLE_BB_RF macro
-  staging: rtl8723bs: remove HAL_{BB,MAC,RF,FW}_ENABLE macros
-  staging: rtl8723bs: move LPS_RPWM_WAIT_MS macro
-  staging: rtl8723bs: remove include/autoconf.h header file from tree
-  staging: rtl8723bs: remove two unused files from tree
-
- drivers/staging/rtl8723bs/core/rtw_eeprom.c   | 208 ------------------
- .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    |   7 -
- .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   |  16 --
- drivers/staging/rtl8723bs/hal/sdio_halinit.c  |  15 --
- drivers/staging/rtl8723bs/include/autoconf.h  |  50 -----
- drivers/staging/rtl8723bs/include/drv_conf.h  |  19 --
- drivers/staging/rtl8723bs/include/drv_types.h |   1 -
- .../staging/rtl8723bs/include/hal_btcoex.h    |   2 +
- drivers/staging/rtl8723bs/include/hal_phy.h   |  14 --
- .../staging/rtl8723bs/include/rtl8723b_spec.h |   2 -
- 10 files changed, 2 insertions(+), 332 deletions(-)
- delete mode 100644 drivers/staging/rtl8723bs/core/rtw_eeprom.c
- delete mode 100644 drivers/staging/rtl8723bs/include/autoconf.h
- delete mode 100644 drivers/staging/rtl8723bs/include/drv_conf.h
-
+diff --git a/drivers/staging/rtl8723bs/include/autoconf.h b/drivers/staging/rtl8723bs/include/autoconf.h
+index 944a7d2a1e53..aeb9479d1327 100644
+--- a/drivers/staging/rtl8723bs/include/autoconf.h
++++ b/drivers/staging/rtl8723bs/include/autoconf.h
+@@ -40,11 +40,5 @@
+  */
+ #define WAKEUP_GPIO_IDX	12	/* WIFI Chip Side */
+ 
+-/*
+- * Debug Related Config
+- */
+-
+-#define DBG	0	/*  for ODM & BTCOEX debug */
+-
+ /* define DBG_XMIT_BUF */
+ /* define DBG_XMIT_BUF_EXT */
 -- 
 2.20.1
 
