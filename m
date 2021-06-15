@@ -1,51 +1,53 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346342FB8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED5516D00
 	for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 22:36:14 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id n35-20020a05600c3ba3b02901cdecb6bda8so2746202wms.5
+Received: by mail-wm1-f45.google.com with SMTP id m3so54751wms.4
         for <linux-staging@lists.linux.dev>; Tue, 15 Jun 2021 15:36:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qeDnHq8ZJBiwEwWDSRdqHUmE3/dIBI2cdiaVs08gMLo=;
-        b=epOWaywLJRBPSH71XG3Vle6CE6NTtTCbAqFfsszHrqBIjjnK9wfKEdnbhvK3aeMDX1
-         00TuqDY+i0CObbK59pTM99vKCmIueuAIBR2udvbMqu4XOl1x/5Y1HFijX1sScw4WfXvV
-         CRzhaw4TnuGwA4kpSEOlZRCh+3k4gm04KINdnqw6rN5l9ZgzXUhiP5BEqpmzfiLkc65f
-         gWG/OXPNYW9VY4jIfPmG48fluyr4uXMQSAs6+Gq7LxZBjYlDI/BsKQRf3ppnTaK0gMw4
-         lYPVnNvo+o7MxIwAueXo+smfuvJFRPP1NtLkl73GRX4ZF77Wzt1ZoAlD4hUQU0Cz+kbH
-         3TTA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=mGUdj9/gWDuOqc4rQHS26+gQ8zPgw4CeoYiwIjeGZnI=;
+        b=dRNE7DlBAfpQGAaZ4izQ1L5j5cHdiHzfP/Sg+boaAPj3TGEkcIupJHss+TvuXbXIEb
+         XDb5tOp/GbfBNClyUKvYedkNv/YHjzdmzXxyvgSBx6b423eQ7RbFtK2+u/nW4EXxuxFP
+         TGXgBVjG6+R1vVfwUFe5xq5tzc7GAWf4MTEdE672HP1+mbwIL0+mVsz0H9+Sy9WlVn1W
+         95bbTtFO494lgAstB0+G6fBSC0cZLWoUUqFlAEnazsL+EPHWww87A4n0lEWYiaXltIAg
+         tzBbzR+UY0HWXOAsUceeuhlUsNd7CpEw9EzhqYuXOHtlQ696ei6MwJz8kVVeV58XPSYo
+         01Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qeDnHq8ZJBiwEwWDSRdqHUmE3/dIBI2cdiaVs08gMLo=;
-        b=fWg/I4cUZ+kG+KEZcSYEDBnFWcXeMcJ/QH4/tBe+Iwo/eGYKJv2Iw2NNu99ZoR2KmW
-         P0l2xnKS90R4aTixJS8VCtZfZCXhK77cCC0FP576Vgxj7m950Kyd0rd+6vrQdivExYN1
-         y3pzDc/EWGOQmi9QLCP/s3tKm2QAORlZwFked6A39lqWpR2z2lWNhOEwhZDef8px+diY
-         XXq+cw2Le8nEhYw1+0JyqEzrpaWbSiTcsNE1tpgEammBB3higBLeK0IUNG2lwvBMDigW
-         jNNJGjsbcOLDQHXC4jP7JR4lJY9N0WzK7+LIaeF6oJGCnEO4ih2koDN3aSKQpZ1vW7up
-         MX+A==
-X-Gm-Message-State: AOAM533npyJ0i2+7nvJEGDJ5UDN9+PHcbAAA7iq6VA8sZSmrzV6wHk5u
-	bx/bgru9XVE9nj1b3aHGe2416Q==
-X-Google-Smtp-Source: ABdhPJwk1z6ArKvPyCqIhocjUyi3ERhMpYt1WNwYo3S3cQqtshPrUgpdKiEOgfzCNCgZLnaa0VRKtQ==
-X-Received: by 2002:a05:600c:20d:: with SMTP id 13mr1667903wmi.174.1623796572710;
-        Tue, 15 Jun 2021 15:36:12 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=mGUdj9/gWDuOqc4rQHS26+gQ8zPgw4CeoYiwIjeGZnI=;
+        b=kjJN3d8wHyJ+tpYXgXJZlbjm30ZGMxOoMuT/z4MEWkx/ICQ/oDJMZRsy4p5d5JNTwp
+         aMyDoZegTVWEI6C+ILPEuHlRVcx53s+VyxArRV5oVMPVv3BtLLxArkWYQQb+ATTEYCSv
+         MK/MEGIfSXj4khluiqRChlKV04I1eUMD6b+NNOdrTSdDi0WyQDyrAnb4s37S8oT5Ypfj
+         L188K9CNaHv/Msj6ZO9c5E8EL0syZWvUq2IfSu2+zAfG0NOjeYCmBoJWE5TgTBrfxD3U
+         k8tAQxoXYzVYwLW33TolvDBzP3CrpbkKVIJYnHKvcREiFRl+Ojuq+64qELhFD+kJzcz2
+         ZSpQ==
+X-Gm-Message-State: AOAM530AsRDr1OkQ75z2oqoO7S327Hf2jI1e3AdUzrkmTNNsVBf49h8e
+	1Rz3/YpOig14r4Jwm/pEZ9bcfg==
+X-Google-Smtp-Source: ABdhPJw5RnKq5d0N3AZ5wTaOdhslKBA6d7JICwUf7eBF0rQYWt/CYx6w1sJEgGwysHY3y/2Ase3E6w==
+X-Received: by 2002:a05:600c:4ba1:: with SMTP id e33mr7858113wmp.39.1623796573510;
+        Tue, 15 Jun 2021 15:36:13 -0700 (PDT)
 Received: from localhost.localdomain (2.0.5.1.1.6.3.8.5.c.c.3.f.b.d.3.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16:0:3dbf:3cc5:8361:1502])
-        by smtp.gmail.com with ESMTPSA id m23sm3934791wml.27.2021.06.15.15.36.11
+        by smtp.gmail.com with ESMTPSA id m23sm3934791wml.27.2021.06.15.15.36.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jun 2021 15:36:12 -0700 (PDT)
+        Tue, 15 Jun 2021 15:36:13 -0700 (PDT)
 From: Phillip Potter <phil@philpotter.co.uk>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
 	dan.carpenter@oracle.com,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 0/7] Fixup unused variables and warnings
-Date: Tue, 15 Jun 2021 23:36:00 +0100
-Message-Id: <20210615223607.13863-1-phil@philpotter.co.uk>
+Subject: [PATCH 1/7] staging: rtl8188eu: remove empty label from mlmeext_joinbss_event_callback
+Date: Tue, 15 Jun 2021 23:36:01 +0100
+Message-Id: <20210615223607.13863-2-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210615223607.13863-1-phil@philpotter.co.uk>
+References: <20210615223607.13863-1-phil@philpotter.co.uk>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -53,33 +55,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series fixes an empty goto label by removing it and converting its
-associated goto to a return. It also changes a decrement operator to
-prefix to make it clearer, and provide expected behaviour. Finally, it
-removes a lot of unused variables warned about by the kernel test robot,
-which are a result of my previous DBG_88E removal series, and removes an
-entire function as well which is surplus to requirements.
+Remove empty label at end of mlmeext_joinbss_event_callback function, as
+it only contained a return in my last patch to make the code build. It
+is better removed, and the corresponding goto converted to a return.
 
-Phillip Potter (7):
-  staging: rtl8188eu: remove empty label from
-    mlmeext_joinbss_event_callback
-  staging: rtl8188eu: use prefix decrement operator on trycnt variable
-  staging: rtl8188eu: remove unused variables from core/rtw_efuse.c
-  staging: rtl8188eu: remove unused variables from core/rtw_mlme_ext.c
-  staging: rtl8188eu: remove unused variable from os_dep/ioctl_linux.c
-  staging: rtl8188eu: remove unused variables from hal/rtl8188e_cmd.c
-  staging: rtl8188eu: remove _dbg_dump_tx_info function
+Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+---
+ drivers/staging/rtl8188eu/core/rtw_mlme_ext.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
- drivers/staging/rtl8188eu/core/rtw_efuse.c    | 11 ++--------
- drivers/staging/rtl8188eu/core/rtw_mlme_ext.c | 20 +++++--------------
- drivers/staging/rtl8188eu/hal/rtl8188e_cmd.c  |  4 ----
- drivers/staging/rtl8188eu/hal/rtl8188e_xmit.c | 17 ----------------
- .../staging/rtl8188eu/hal/rtl8188eu_xmit.c    |  1 -
- drivers/staging/rtl8188eu/hal/usb_halinit.c   |  2 +-
- .../staging/rtl8188eu/include/rtl8188e_xmit.h |  3 ---
- .../staging/rtl8188eu/os_dep/ioctl_linux.c    |  3 ---
- 8 files changed, 8 insertions(+), 53 deletions(-)
-
+diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+index 6107257900c2..d41fd0b8980a 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+@@ -4253,7 +4253,7 @@ void mlmeext_joinbss_event_callback(struct adapter *padapter, int join_res)
+ 		/* restore to initial setting. */
+ 		update_tx_basic_rate(padapter, padapter->registrypriv.wireless_mode);
+ 
+-		goto exit_mlmeext_joinbss_event_callback;
++		return;
+ 	}
+ 
+ 	if ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE) {
+@@ -4309,9 +4309,6 @@ void mlmeext_joinbss_event_callback(struct adapter *padapter, int join_res)
+ 		correct_TSF(padapter, pmlmeext);
+ 	}
+ 	rtw_lps_ctrl_wk_cmd(padapter, LPS_CTRL_CONNECT, 0);
+-
+-exit_mlmeext_joinbss_event_callback:
+-	return;
+ }
+ 
+ void mlmeext_sta_add_event_callback(struct adapter *padapter, struct sta_info *psta)
 -- 
 2.30.2
 
