@@ -1,13 +1,13 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1392FAE
-	for <linux-staging@lists.linux.dev>; Wed, 16 Jun 2021 08:08:56 +0000 (UTC)
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.57])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4G4d493yCpzXgbv;
-	Wed, 16 Jun 2021 16:03:53 +0800 (CST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A88EC70
+	for <linux-staging@lists.linux.dev>; Wed, 16 Jun 2021 08:08:58 +0000 (UTC)
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.54])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4G4d5P1s7Lz6yFc;
+	Wed, 16 Jun 2021 16:04:57 +0800 (CST)
 Received: from dggpeml500017.china.huawei.com (7.185.36.243) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.1.2176.2; Wed, 16 Jun 2021 16:08:53 +0800
 Received: from huawei.com (10.175.103.91) by dggpeml500017.china.huawei.com
@@ -17,9 +17,9 @@ Received: from huawei.com (10.175.103.91) by dggpeml500017.china.huawei.com
 From: Yang Yingliang <yangyingliang@huawei.com>
 To: <linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>
 CC: <gregkh@linuxfoundation.org>
-Subject: [PATCH -next 3/3] staging: rtl8723bs: hal: use eth_broadcast_addr() to assign broadcast address
-Date: Wed, 16 Jun 2021 16:12:43 +0800
-Message-ID: <20210616081243.2511663-4-yangyingliang@huawei.com>
+Subject: [PATCH -next 2/3] staging: rtl8723bs: core: use eth_broadcast_addr() to assign broadcast address
+Date: Wed, 16 Jun 2021 16:12:42 +0800
+Message-ID: <20210616081243.2511663-3-yangyingliang@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210616081243.2511663-1-yangyingliang@huawei.com>
 References: <20210616081243.2511663-1-yangyingliang@huawei.com>
@@ -41,21 +41,22 @@ address.
 
 Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 ---
- drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-index e2ec82915073..2b7077bb52df 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-@@ -114,14 +114,13 @@ static void ConstructBeacon(struct adapter *padapter, u8 *pframe, u32 *pLength)
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 0f50c2576356..4df3cba97f42 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -2218,7 +2218,6 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
  	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
  	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
- 	struct wlan_bssid_ex *cur_network = &(pmlmeinfo->network);
+ 	struct wlan_bssid_ex		*cur_network = &(pmlmeinfo->network);
 -	u8 bc_addr[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
  
- 	pwlanhdr = (struct ieee80211_hdr *)pframe;
- 
+ 	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
+ 	if (!pmgntframe)
+@@ -2240,7 +2239,7 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
  	fctrl = &(pwlanhdr->frame_control);
  	*(fctrl) = 0;
  
@@ -64,6 +65,25 @@ index e2ec82915073..2b7077bb52df 100644
  	memcpy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)), ETH_ALEN);
  	memcpy(pwlanhdr->addr3, get_my_bssid(cur_network), ETH_ALEN);
  
+@@ -2564,7 +2563,6 @@ static int _issue_probereq(struct adapter *padapter,
+ 	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
+ 	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
+ 	int	bssrate_len = 0;
+-	u8 bc_addr[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+ 
+ 	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
+ 	if (!pmgntframe)
+@@ -2591,8 +2589,8 @@ static int _issue_probereq(struct adapter *padapter,
+ 		memcpy(pwlanhdr->addr3, da, ETH_ALEN);
+ 	} else {
+ 		/* 	broadcast probe request frame */
+-		memcpy(pwlanhdr->addr1, bc_addr, ETH_ALEN);
+-		memcpy(pwlanhdr->addr3, bc_addr, ETH_ALEN);
++		eth_broadcast_addr(pwlanhdr->addr1);
++		eth_broadcast_addr(pwlanhdr->addr3);
+ 	}
+ 
+ 	memcpy(pwlanhdr->addr2, mac, ETH_ALEN);
 -- 
 2.25.1
 
