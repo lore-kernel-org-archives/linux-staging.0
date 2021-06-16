@@ -1,87 +1,90 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-41103.protonmail.ch (mail-41103.protonmail.ch [185.70.41.103])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 983BF72
-	for <linux-staging@lists.linux.dev>; Wed, 16 Jun 2021 16:56:43 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id nd37so5023818ejc.3
-        for <linux-staging@lists.linux.dev>; Wed, 16 Jun 2021 09:56:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=CDUWKMhDng5NBWGQ0iuMjqcvNRC2fdcuBx5BZPpTnHs=;
-        b=VdFt53cWOxe/3XDbVYRmakE9EmrsXFMokamCiiY15CYCKtf4OZ0ItHDjSJ6uMtNsXp
-         DK/7kYxbtSy1jHEfG9Toh8PiHWKzGLyOUsT4F0l3vKozRuIu/aXs/WmIRHGhMuMeZBDt
-         074icNiwRKS26w0nOEKzihcaCTfvkTOY+wjP1e394d3fQogawwHu0tauf0XJG/vEo91R
-         JZ4PHxprUrjnhCsw022zYZ7M+loop5NXjhHHk9Y5U4zj/OC2suhKXjxL7K7SLTYajgGd
-         ysh/Ort/YJdViCCgvyzRN/dxQFnp3r5Ez/7YemD5j3pvMQ6rOsVz8KoEWvWt4uceO5dS
-         136w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=CDUWKMhDng5NBWGQ0iuMjqcvNRC2fdcuBx5BZPpTnHs=;
-        b=hwMP3wv/mjxwePgam2WEdaFORzF5mhBV5f3q9FufXMPljNYtWBeoH+SIuepPwBRq+U
-         +VsX+ZVAGCp7aKXJfRGw1mMcqEhfzBv5sMlB/5FM1RB2qJ10spmgj3cFOlgpVUGvjZX9
-         2C9SPKObh7vHk7JpXYGMIqeF5rHW0NCuzJLQkxLrg9w5HQh+N7aYjkdlPHcVcyDsi1hz
-         ZONuhUbRfZKLzxK0PUTJldGltvTRQOxVpTuRFXMeJfKL9Gy6GuEcugMxzmQLCzVfQPDT
-         MIAs+Xzkh9O4PkBA58NLgLrmS77+qz2NQtnzeXZ0Ifm2Eax/Ag/qJGTttbgqt4ZMVZ8m
-         dJEQ==
-X-Gm-Message-State: AOAM532G5lF4SfdFJ87AEnkLu67kQ0kwHVh+FK8RlpA5PKgaagOk8fT6
-	8/7VYKCdi00gw8aPRbPlvsg=
-X-Google-Smtp-Source: ABdhPJzWQcE3F9VJ/gAUCFIYQHzJFiVfBo0ITH+0drszHNqZs2ESSkKAVXLXEDHtKXNB94LbaSEidA==
-X-Received: by 2002:a17:906:6814:: with SMTP id k20mr455348ejr.455.1623862602139;
-        Wed, 16 Jun 2021 09:56:42 -0700 (PDT)
-Received: from linux.local (host-82-59-55-132.retail.telecomitalia.it. [82.59.55.132])
-        by smtp.gmail.com with ESMTPSA id ci4sm1901102ejc.110.2021.06.16.09.56.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jun 2021 09:56:41 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: David Kershner <david.kershner@unisys.com>, sparmaintainer@unisys.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>, Daniel Vetter <daniel@ffwll.ch>, Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH v8 RESEND] staging: unisys: visorhba: Convert module from IDR to XArray
-Date: Wed, 16 Jun 2021 18:56:39 +0200
-Message-ID: <3316425.tqDOt8T8LQ@linux.local>
-In-Reply-To: <YMiT9+msL8H2+3yV@kroah.com>
-References: <20210514081112.19542-1-fmdefrancesco@gmail.com> <YMiT9+msL8H2+3yV@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1051970
+	for <linux-staging@lists.linux.dev>; Wed, 16 Jun 2021 21:26:33 +0000 (UTC)
+Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	by mail-41103.protonmail.ch (Postfix) with ESMTPS id 4G4yt91DxMz4xLbP
+	for <linux-staging@lists.linux.dev>; Wed, 16 Jun 2021 21:26:25 +0000 (UTC)
+Authentication-Results: mail-41103.protonmail.ch;
+	dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="asPDH5pF"
+Date: Wed, 16 Jun 2021 21:26:03 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail; t=1623878769;
+	bh=/1nRiRUX9axadqDnig3IJyEGOizd/7oBJbG9RUFxBfE=;
+	h=Date:To:From:Cc:Reply-To:Subject:From;
+	b=asPDH5pF0zcGtWP3tfIQDKCKQ/T96uBt/xYxkbdpYlBaiuzZgUtj4qZynsaFAf1D6
+	 5rljawhcKHEQR6m5LHke7cAazHgfnRiz0BdkmGl4ArKjAWDvYQ+7b9k5bk7uTXaJOf
+	 9uIoM6v68jsTKYxzkguZQrDEyusgfDnNhqRiznWY=
+To: gregkh@linuxfoundation.org
+From: "Caleb D.S. Brzezinski" <calebdsb@protonmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, "Caleb D.S. Brzezinski" <calebdsb@protonmail.com>
+Reply-To: "Caleb D.S. Brzezinski" <calebdsb@protonmail.com>
+Subject: [PATCH] staging: ks7010: Wrap macro definitions in parenthesis
+Message-ID: <20210616212552.117604-1-calebdsb@protonmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
+	autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	mailout.protonmail.ch
 
-On Tuesday, June 15, 2021 1:50:15 PM CEST Greg Kroah-Hartman wrote:
-> On Fri, May 14, 2021 at 10:11:11AM +0200, Fabio M. De Francesco wrote:
-> > Converted visorhba from IDR to XArray. The abstract data type XArray is
-> > more memory-efficient, parallelizable, and cache friendly. It takes
-> > advantage of RCU to perform lookups without locking. Furthermore, IDR is
-> > deprecated because XArray has a better (cleaner and more consistent)
-> > API.
-> > 
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > ---
-> 
-> Given a lack of response from the unisys maintainer, I'll go apply this
-> now and see what breaks :)
->
-Hi Greg,
+Wrap the definition of TX_RATE_* constants in parenthesis to prevent
+incorrect casting during expansion, as recommended by checkpatch.pl.
 
-I'm really grateful to you for having applied that patch notwithstanding the 
-lack of response from Unisys. Understanding IDR, XArray, and the flow of the 
-code, has been a hard task for a newcomer having only a month of experience to 
-kernel development.
+Signed-off-by: Caleb D.S. Brzezinski <calebdsb@protonmail.com>
+---
+ drivers/staging/ks7010/ks_hostif.h | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-Thanks very much,
-
-Fabio
-> 
-> thanks,
-> 
-> greg k-h
-
-
+diff --git a/drivers/staging/ks7010/ks_hostif.h b/drivers/staging/ks7010/ks=
+_hostif.h
+index 39138191a..c62a494ed 100644
+--- a/drivers/staging/ks7010/ks_hostif.h
++++ b/drivers/staging/ks7010/ks_hostif.h
+@@ -498,20 +498,20 @@ struct hostif_mic_failure_request {
+ #define TX_RATE_FIXED=09=095
+=20
+ /* 11b rate */
+-#define TX_RATE_1M=09(u8)(10 / 5)=09/* 11b 11g basic rate */
+-#define TX_RATE_2M=09(u8)(20 / 5)=09/* 11b 11g basic rate */
+-#define TX_RATE_5M=09(u8)(55 / 5)=09/* 11g basic rate */
+-#define TX_RATE_11M=09(u8)(110 / 5)=09/* 11g basic rate */
++#define TX_RATE_1M=09((u8)(10 / 5))=09/* 11b 11g basic rate */
++#define TX_RATE_2M=09((u8)(20 / 5))=09/* 11b 11g basic rate */
++#define TX_RATE_5M=09((u8)(55 / 5))=09/* 11g basic rate */
++#define TX_RATE_11M=09((u8)(110 / 5))=09/* 11g basic rate */
+=20
+ /* 11g rate */
+-#define TX_RATE_6M=09(u8)(60 / 5)=09/* 11g basic rate */
+-#define TX_RATE_12M=09(u8)(120 / 5)=09/* 11g basic rate */
+-#define TX_RATE_24M=09(u8)(240 / 5)=09/* 11g basic rate */
+-#define TX_RATE_9M=09(u8)(90 / 5)
+-#define TX_RATE_18M=09(u8)(180 / 5)
+-#define TX_RATE_36M=09(u8)(360 / 5)
+-#define TX_RATE_48M=09(u8)(480 / 5)
+-#define TX_RATE_54M=09(u8)(540 / 5)
++#define TX_RATE_6M=09((u8)(60 / 5))=09/* 11g basic rate */
++#define TX_RATE_12M=09((u8)(120 / 5))=09/* 11g basic rate */
++#define TX_RATE_24M=09((u8)(240 / 5))=09/* 11g basic rate */
++#define TX_RATE_9M=09((u8)(90 / 5))
++#define TX_RATE_18M=09((u8)(180 / 5))
++#define TX_RATE_36M=09((u8)(360 / 5))
++#define TX_RATE_48M=09((u8)(480 / 5))
++#define TX_RATE_54M=09((u8)(540 / 5))
+=20
+ static inline bool is_11b_rate(u8 rate)
+ {
+--=20
+2.31.0
 
 
