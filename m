@@ -1,104 +1,168 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80BB970
-	for <linux-staging@lists.linux.dev>; Thu, 17 Jun 2021 09:32:41 +0000 (UTC)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15H9GU9I031867;
-	Thu, 17 Jun 2021 09:32:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=EwDW3tcCDOJ8sxOlHzo/AyAYmfy6S8XQjsSaQH2N7oo=;
- b=QJlytlTlL5/LoF6YCbogFmmr1jJ727Lm6KsFiNHYIPIziKAsyJVNdJyp//cK5V0dVc5S
- IxpYwXJgLVqSFqIjdzIrAnCXhMkmOggbR+BJay6IMG8VnE5qzc1RYZ+0mdYTwRonD6cN
- uHcE6YaB0Z8divES4CmQXlRMB5+QTUaZHLAHhIpb2VwJ/pUGoG6ualA0bde6DT/rekoT
- 8JLQj/98lF63XRWttqJYlke/rT4BMMpesLCIsXj+09MGJZt/4UNompdlzukl708zOY3K
- gr3Yp1gW2+5iytB1GsdKUBPSJ5i3289sl9rLfLR59wyCNQuYztbRIM05750LvRYZW9sf yQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by mx0b-00069f02.pphosted.com with ESMTP id 397h4bhwy0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 17 Jun 2021 09:32:29 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15H9FLhe106759;
-	Thu, 17 Jun 2021 09:32:28 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3030.oracle.com with ESMTP id 396wavddwv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 17 Jun 2021 09:32:28 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15H9WR0V146672;
-	Thu, 17 Jun 2021 09:32:27 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-	by aserp3030.oracle.com with ESMTP id 396wavddwe-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 17 Jun 2021 09:32:27 +0000
-Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
-	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 15H9WQlN023146;
-	Thu, 17 Jun 2021 09:32:26 GMT
-Received: from kadam (/102.222.70.252)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Thu, 17 Jun 2021 02:32:25 -0700
-Date: Thu, 17 Jun 2021 12:32:19 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Yang Yingliang <yangyingliang@huawei.com>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com
-Subject: Re: [PATCH -next] media: staging: media: atomisp: pci: fix error
- return code in atomisp_pci_probe()
-Message-ID: <20210617093219.GE1861@kadam>
-References: <20210617072329.1233662-1-yangyingliang@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F88B72
+	for <linux-staging@lists.linux.dev>; Thu, 17 Jun 2021 12:14:39 +0000 (UTC)
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.56])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4G5LT83Bk1zXdNZ;
+	Thu, 17 Jun 2021 20:09:32 +0800 (CST)
+Received: from dggpeml500020.china.huawei.com (7.185.36.88) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 17 Jun 2021 20:14:35 +0800
+Received: from [10.174.177.174] (10.174.177.174) by
+ dggpeml500020.china.huawei.com (7.185.36.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 17 Jun 2021 20:14:34 +0800
+Subject: Re: [PATCH -next v3] media: staging: atomisp: use list_splice_init in
+ atomisp_compat_css20.c
+To: kernel test robot <lkp@intel.com>, <mchehab@kernel.org>,
+	<sakari.ailus@linux.intel.com>, <gregkh@linuxfoundation.org>,
+	<andriy.shevchenko@linux.intel.com>, <kaixuxia@tencent.com>,
+	<gustavoars@kernel.org>, <linux-media@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+CC: <kbuild-all@lists.01.org>, <weiyongjun1@huawei.com>
+References: <20210611081004.1348026-1-libaokun1@huawei.com>
+ <202106171617.BN97N8mw-lkp@intel.com>
+From: "libaokun (A)" <libaokun1@huawei.com>
+Message-ID: <d39a3cb0-4024-4abe-ad28-937fee53bc98@huawei.com>
+Date: Thu, 17 Jun 2021 20:14:28 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210617072329.1233662-1-yangyingliang@huawei.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: HJ7O1UkEWpUXRPhTPQnHYpHIMMOqEfNA
-X-Proofpoint-GUID: HJ7O1UkEWpUXRPhTPQnHYpHIMMOqEfNA
+In-Reply-To: <202106171617.BN97N8mw-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.177.174]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpeml500020.china.huawei.com (7.185.36.88)
+X-CFilter-Loop: Reflected
 
-On Thu, Jun 17, 2021 at 03:23:29PM +0800, Yang Yingliang wrote:
-> If init_atomisp_wdts() fails, atomisp_pci_probe() need return
-> error code.
-> 
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+Sorry, I only tested it with 'x86_64.config'.
+
+I'm about to send a patch v4 with the changes to fix the error under 
+your config.
+
+Best Regards.
+
+
+在 2021/6/17 16:52, kernel test robot 写道:
+> Hi Baokun,
+>
+> Thank you for the patch! Yet something to improve:
+>
+> [auto build test ERROR on next-20210616]
+>
+> url:    https://github.com/0day-ci/linux/commits/Baokun-Li/media-staging-atomisp-use-list_splice_init-in-atomisp_compat_css20-c/20210617-043443
+> base:    c7d4c1fd91ab4a6d2620497921a9c6bf54650ab8
+> config: i386-allyesconfig (attached as .config)
+> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+> reproduce (this is a W=1 build):
+>          # https://github.com/0day-ci/linux/commit/05c714d7b4e1722a75f949e40c5305f3ba28d048
+>          git remote add linux-review https://github.com/0day-ci/linux
+>          git fetch --no-tags linux-review Baokun-Li/media-staging-atomisp-use-list_splice_init-in-atomisp_compat_css20-c/20210617-043443
+>          git checkout 05c714d7b4e1722a75f949e40c5305f3ba28d048
+>          # save the attached .config to linux build tree
+>          make W=1 ARCH=i386
+>
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+>
+> All errors (new ones prefixed by >>):
+>
+>     drivers/staging/media/atomisp/pci/atomisp_compat_css20.c: In function 'atomisp_css_stop':
+>>> drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:2156:50: error: 'struct atomisp_sub_device' has no member named 'asd'
+>      2156 |   list_splice_init(&asd->metadata_in_css[i], &asd->asd->metadata[i]);
+>           |                                                  ^~
+>     drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:2157:49: error: 'struct atomisp_sub_device' has no member named 'asd'
+>      2157 |   list_splice_init(&asd->metadata_ready[i], &asd->asd->metadata[i]);
+>           |                                                 ^~
+>     drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:2107:31: warning: unused variable 'md_buf' [-Wunused-variable]
+>      2107 |  struct atomisp_metadata_buf *md_buf;
+>           |                               ^~~~~~
+>     drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:2106:26: warning: unused variable 'dis_buf' [-Wunused-variable]
+>      2106 |  struct atomisp_dis_buf *dis_buf;
+>           |                          ^~~~~~~
+>     drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:2105:26: warning: unused variable 's3a_buf' [-Wunused-variable]
+>      2105 |  struct atomisp_s3a_buf *s3a_buf;
+>           |                          ^~~~~~~
+>
+>
+> vim +2156 drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+>
+>    2100	
+>    2101	void atomisp_css_stop(struct atomisp_sub_device *asd,
+>    2102			      enum ia_css_pipe_id pipe_id, bool in_reset)
+>    2103	{
+>    2104		struct atomisp_device *isp = asd->isp;
+>    2105		struct atomisp_s3a_buf *s3a_buf;
+>    2106		struct atomisp_dis_buf *dis_buf;
+>    2107		struct atomisp_metadata_buf *md_buf;
+>    2108		unsigned long irqflags;
+>    2109		unsigned int i;
+>    2110	
+>    2111		/* if is called in atomisp_reset(), force destroy stream */
+>    2112		if (__destroy_streams(asd, true))
+>    2113			dev_err(isp->dev, "destroy stream failed.\n");
+>    2114	
+>    2115		/* if is called in atomisp_reset(), force destroy all pipes */
+>    2116		if (__destroy_pipes(asd, true))
+>    2117			dev_err(isp->dev, "destroy pipes failed.\n");
+>    2118	
+>    2119		atomisp_init_raw_buffer_bitmap(asd);
+>    2120	
+>    2121		/*
+>    2122		 * SP can not be stop if other streams are in use
+>    2123		 */
+>    2124		if (atomisp_streaming_count(isp) == 0)
+>    2125			ia_css_stop_sp();
+>    2126	
+>    2127		if (!in_reset) {
+>    2128			struct atomisp_stream_env *stream_env;
+>    2129			int i, j;
+>    2130	
+>    2131			for (i = 0; i < ATOMISP_INPUT_STREAM_NUM; i++) {
+>    2132				stream_env = &asd->stream_env[i];
+>    2133				for (j = 0; j < IA_CSS_PIPE_ID_NUM; j++) {
+>    2134					ia_css_pipe_config_defaults(
+>    2135					    &stream_env->pipe_configs[j]);
+>    2136					ia_css_pipe_extra_config_defaults(
+>    2137					    &stream_env->pipe_extra_configs[j]);
+>    2138				}
+>    2139				ia_css_stream_config_defaults(
+>    2140				    &stream_env->stream_config);
+>    2141			}
+>    2142			memset(&asd->params.config, 0, sizeof(asd->params.config));
+>    2143			asd->params.css_update_params_needed = false;
+>    2144		}
+>    2145	
+>    2146		/* move stats buffers to free queue list */
+>    2147		list_splice_init(&asd->s3a_stats_in_css, &asd->s3a_stats);
+>    2148		list_splice_init(&asd->s3a_stats_ready, &asd->s3a_stats);
+>    2149	
+>    2150		spin_lock_irqsave(&asd->dis_stats_lock, irqflags);
+>    2151		list_splice_init(&asd->dis_stats_in_css, &asd->dis_stats);
+>    2152		asd->params.dis_proj_data_valid = false;
+>    2153		spin_unlock_irqrestore(&asd->dis_stats_lock, irqflags);
+>    2154	
+>    2155		for (i = 0; i < ATOMISP_METADATA_TYPE_NUM; i++) {
+>> 2156			list_splice_init(&asd->metadata_in_css[i], &asd->asd->metadata[i]);
+>    2157			list_splice_init(&asd->metadata_ready[i], &asd->asd->metadata[i]);
+>    2158		}
+>    2159	
+>    2160		atomisp_flush_params_queue(&asd->video_out_capture);
+>    2161		atomisp_flush_params_queue(&asd->video_out_vf);
+>    2162		atomisp_flush_params_queue(&asd->video_out_preview);
+>    2163		atomisp_flush_params_queue(&asd->video_out_video_capture);
+>    2164		atomisp_free_css_parameters(&asd->params.css_param);
+>    2165		memset(&asd->params.css_param, 0, sizeof(asd->params.css_param));
+>    2166	}
+>    2167	
+>
 > ---
->  drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> index 948769ca6539..5de878fe798b 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> @@ -1763,7 +1763,8 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
->  	if (err < 0)
->  		goto register_entities_fail;
->  	/* init atomisp wdts */
-> -	if (init_atomisp_wdts(isp) != 0)
-> +	err = init_atomisp_wdts(isp);
-> +	if (err != 0)
-
-Change this to: if (err).
-
-Only use != 0 when you are talking about numbers or for strcmp().
-
-	if (num != 0) // it's fine because we are talking about zero as
-		      // number zero.
-
-	if (len == 0) // fine, length is measured in numbers.
-
-	if (err != 0) // In this case, error is not a number but either
-		      // an error code or success.  It's not like -3 is
-		      // worse than -2 or anything like that.  It's not
-		      // a count or a measurement.
-
-For (strcmp(a, b) != 0), the != means "a != b".
-
-regards,
-dan carpenter
-
+> 0-DAY CI Kernel Test Service, Intel Corporation
+> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
