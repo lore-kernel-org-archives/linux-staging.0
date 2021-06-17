@@ -1,53 +1,105 @@
-Received: from youngberry.canonical.com (youngberry.canonical.com [91.189.89.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA (128/128 bits))
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1DF72
-	for <linux-staging@lists.linux.dev>; Thu, 17 Jun 2021 12:19:38 +0000 (UTC)
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
-	by youngberry.canonical.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.93)
-	(envelope-from <colin.king@canonical.com>)
-	id 1ltqkl-0004dB-B5; Thu, 17 Jun 2021 12:04:11 +0000
-From: Colin King <colin.king@canonical.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rts5208: remove redundant continue statement
-Date: Thu, 17 Jun 2021 13:04:11 +0100
-Message-Id: <20210617120411.11612-1-colin.king@canonical.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B2671
+	for <linux-staging@lists.linux.dev>; Thu, 17 Jun 2021 12:38:17 +0000 (UTC)
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.55])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4G5M2r6nwlzZftb;
+	Thu, 17 Jun 2021 20:35:16 +0800 (CST)
+Received: from dggpeml500020.china.huawei.com (7.185.36.88) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 17 Jun 2021 20:38:12 +0800
+Received: from huawei.com (10.175.127.227) by dggpeml500020.china.huawei.com
+ (7.185.36.88) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Thu, 17 Jun
+ 2021 20:38:12 +0800
+From: Baokun Li <libaokun1@huawei.com>
+To: <libaokun1@huawei.com>, <mchehab@kernel.org>,
+	<sakari.ailus@linux.intel.com>, <gregkh@linuxfoundation.org>,
+	<andriy.shevchenko@linux.intel.com>, <kaixuxia@tencent.com>,
+	<gustavoars@kernel.org>, <linux-media@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+CC: <weiyongjun1@huawei.com>, <yuehaibing@huawei.com>,
+	<yangjihong1@huawei.com>, <yukuai3@huawei.com>, Hulk Robot
+	<hulkci@huawei.com>
+Subject: [PATCH -next v4] media: staging: atomisp: use list_splice_init in atomisp_compat_css20.c
+Date: Thu, 17 Jun 2021 20:47:09 +0800
+Message-ID: <20210617124709.670936-1-libaokun1@huawei.com>
 X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.127.227]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpeml500020.china.huawei.com (7.185.36.88)
+X-CFilter-Loop: Reflected
 
-From: Colin Ian King <colin.king@canonical.com>
+Using list_splice_init() instead of entire while-loops
+in atomisp_compat_css20.c.
 
-The continue statement at the end of a for-loop has no effect,
-remove it.
-
-Addresses-Coverity: ("Continue has no effect")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Baokun Li <libaokun1@huawei.com>
 ---
- drivers/staging/rts5208/ms.c | 1 -
- 1 file changed, 1 deletion(-)
+ .../media/atomisp/pci/atomisp_compat_css20.c  | 35 +++----------------
+ 1 file changed, 5 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/staging/rts5208/ms.c b/drivers/staging/rts5208/ms.c
-index 9001570a8c94..c6ad34a7fa33 100644
---- a/drivers/staging/rts5208/ms.c
-+++ b/drivers/staging/rts5208/ms.c
-@@ -2406,7 +2406,6 @@ static int ms_build_l2p_tbl(struct rtsx_chip *chip, int seg_no)
- 
- 		(void)ms_arbitrate_l2p(chip, phy_blk,
- 				log_blk - ms_start_idx[seg_no], us1, us2);
--		continue;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index f60198bb8a1a..7831bdac96ff 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -2144,42 +2144,17 @@ void atomisp_css_stop(struct atomisp_sub_device *asd,
  	}
  
- 	segment->build_flag = 1;
+ 	/* move stats buffers to free queue list */
+-	while (!list_empty(&asd->s3a_stats_in_css)) {
+-		s3a_buf = list_entry(asd->s3a_stats_in_css.next,
+-				     struct atomisp_s3a_buf, list);
+-		list_del(&s3a_buf->list);
+-		list_add_tail(&s3a_buf->list, &asd->s3a_stats);
+-	}
+-	while (!list_empty(&asd->s3a_stats_ready)) {
+-		s3a_buf = list_entry(asd->s3a_stats_ready.next,
+-				     struct atomisp_s3a_buf, list);
+-		list_del(&s3a_buf->list);
+-		list_add_tail(&s3a_buf->list, &asd->s3a_stats);
+-	}
++	list_splice_init(&asd->s3a_stats_in_css, &asd->s3a_stats);
++	list_splice_init(&asd->s3a_stats_ready, &asd->s3a_stats);
+ 
+ 	spin_lock_irqsave(&asd->dis_stats_lock, irqflags);
+-	while (!list_empty(&asd->dis_stats_in_css)) {
+-		dis_buf = list_entry(asd->dis_stats_in_css.next,
+-				     struct atomisp_dis_buf, list);
+-		list_del(&dis_buf->list);
+-		list_add_tail(&dis_buf->list, &asd->dis_stats);
+-	}
++	list_splice_init(&asd->dis_stats_in_css, &asd->dis_stats);
+ 	asd->params.dis_proj_data_valid = false;
+ 	spin_unlock_irqrestore(&asd->dis_stats_lock, irqflags);
+ 
+ 	for (i = 0; i < ATOMISP_METADATA_TYPE_NUM; i++) {
+-		while (!list_empty(&asd->metadata_in_css[i])) {
+-			md_buf = list_entry(asd->metadata_in_css[i].next,
+-					    struct atomisp_metadata_buf, list);
+-			list_del(&md_buf->list);
+-			list_add_tail(&md_buf->list, &asd->metadata[i]);
+-		}
+-		while (!list_empty(&asd->metadata_ready[i])) {
+-			md_buf = list_entry(asd->metadata_ready[i].next,
+-					    struct atomisp_metadata_buf, list);
+-			list_del(&md_buf->list);
+-			list_add_tail(&md_buf->list, &asd->metadata[i]);
+-		}
++		list_splice_init(&asd->metadata_in_css[i], &asd->metadata[i]);
++		list_splice_init(&asd->metadata_ready[i], &asd->metadata[i]);
+ 	}
+ 
+ 	atomisp_flush_params_queue(&asd->video_out_capture);
 -- 
 2.31.1
 
