@@ -1,105 +1,106 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B2671
-	for <linux-staging@lists.linux.dev>; Thu, 17 Jun 2021 12:38:17 +0000 (UTC)
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.55])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4G5M2r6nwlzZftb;
-	Thu, 17 Jun 2021 20:35:16 +0800 (CST)
-Received: from dggpeml500020.china.huawei.com (7.185.36.88) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 17 Jun 2021 20:38:12 +0800
-Received: from huawei.com (10.175.127.227) by dggpeml500020.china.huawei.com
- (7.185.36.88) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Thu, 17 Jun
- 2021 20:38:12 +0800
-From: Baokun Li <libaokun1@huawei.com>
-To: <libaokun1@huawei.com>, <mchehab@kernel.org>,
-	<sakari.ailus@linux.intel.com>, <gregkh@linuxfoundation.org>,
-	<andriy.shevchenko@linux.intel.com>, <kaixuxia@tencent.com>,
-	<gustavoars@kernel.org>, <linux-media@vger.kernel.org>,
-	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-CC: <weiyongjun1@huawei.com>, <yuehaibing@huawei.com>,
-	<yangjihong1@huawei.com>, <yukuai3@huawei.com>, Hulk Robot
-	<hulkci@huawei.com>
-Subject: [PATCH -next v4] media: staging: atomisp: use list_splice_init in atomisp_compat_css20.c
-Date: Thu, 17 Jun 2021 20:47:09 +0800
-Message-ID: <20210617124709.670936-1-libaokun1@huawei.com>
-X-Mailer: git-send-email 2.31.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33BA71
+	for <linux-staging@lists.linux.dev>; Thu, 17 Jun 2021 12:41:40 +0000 (UTC)
+IronPort-SDR: 2dcs9QaKFLUA+kaQBs8AKLE0jvh1iMUIITJg5ACj8sM/Rn9KtdUveqUgvKF4zwS432VcJXN/NX
+ lwfIt5gsPWHA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10017"; a="193673079"
+X-IronPort-AV: E=Sophos;i="5.83,280,1616482800"; 
+   d="scan'208";a="193673079"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2021 05:41:39 -0700
+IronPort-SDR: +Lhz+pz9Dy+dov93trqEkBpD8LKyTxVijDNA07kQJ3g/EKsoFv/IT/gP0LSSIdenc0qxPcg9Gn
+ srh3cfaa9OEw==
+X-IronPort-AV: E=Sophos;i="5.83,280,1616482800"; 
+   d="scan'208";a="485278416"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2021 05:41:35 -0700
+Received: from andy by smile with local (Exim 4.94.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1ltrKu-003LFy-KC; Thu, 17 Jun 2021 15:41:32 +0300
+Date: Thu, 17 Jun 2021 15:41:32 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: "libaokun (A)" <libaokun1@huawei.com>
+Cc: kernel test robot <lkp@intel.com>, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
+	kaixuxia@tencent.com, gustavoars@kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kbuild-all@lists.01.org,
+	weiyongjun1@huawei.com
+Subject: Re: [PATCH -next v3] media: staging: atomisp: use list_splice_init
+ in atomisp_compat_css20.c
+Message-ID: <YMtC/CmZeni2dD1W@smile.fi.intel.com>
+References: <20210611081004.1348026-1-libaokun1@huawei.com>
+ <202106171617.BN97N8mw-lkp@intel.com>
+ <d39a3cb0-4024-4abe-ad28-937fee53bc98@huawei.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.127.227]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpeml500020.china.huawei.com (7.185.36.88)
-X-CFilter-Loop: Reflected
+In-Reply-To: <d39a3cb0-4024-4abe-ad28-937fee53bc98@huawei.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Using list_splice_init() instead of entire while-loops
-in atomisp_compat_css20.c.
+On Thu, Jun 17, 2021 at 08:14:28PM +0800, libaokun (A) wrote:
+> Sorry, I only tested it with 'x86_64.config'.
+> 
+> I'm about to send a patch v4 with the changes to fix the error under your
+> config.
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Baokun Li <libaokun1@huawei.com>
----
- .../media/atomisp/pci/atomisp_compat_css20.c  | 35 +++----------------
- 1 file changed, 5 insertions(+), 30 deletions(-)
+Please, do not top-post!
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index f60198bb8a1a..7831bdac96ff 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -2144,42 +2144,17 @@ void atomisp_css_stop(struct atomisp_sub_device *asd,
- 	}
- 
- 	/* move stats buffers to free queue list */
--	while (!list_empty(&asd->s3a_stats_in_css)) {
--		s3a_buf = list_entry(asd->s3a_stats_in_css.next,
--				     struct atomisp_s3a_buf, list);
--		list_del(&s3a_buf->list);
--		list_add_tail(&s3a_buf->list, &asd->s3a_stats);
--	}
--	while (!list_empty(&asd->s3a_stats_ready)) {
--		s3a_buf = list_entry(asd->s3a_stats_ready.next,
--				     struct atomisp_s3a_buf, list);
--		list_del(&s3a_buf->list);
--		list_add_tail(&s3a_buf->list, &asd->s3a_stats);
--	}
-+	list_splice_init(&asd->s3a_stats_in_css, &asd->s3a_stats);
-+	list_splice_init(&asd->s3a_stats_ready, &asd->s3a_stats);
- 
- 	spin_lock_irqsave(&asd->dis_stats_lock, irqflags);
--	while (!list_empty(&asd->dis_stats_in_css)) {
--		dis_buf = list_entry(asd->dis_stats_in_css.next,
--				     struct atomisp_dis_buf, list);
--		list_del(&dis_buf->list);
--		list_add_tail(&dis_buf->list, &asd->dis_stats);
--	}
-+	list_splice_init(&asd->dis_stats_in_css, &asd->dis_stats);
- 	asd->params.dis_proj_data_valid = false;
- 	spin_unlock_irqrestore(&asd->dis_stats_lock, irqflags);
- 
- 	for (i = 0; i < ATOMISP_METADATA_TYPE_NUM; i++) {
--		while (!list_empty(&asd->metadata_in_css[i])) {
--			md_buf = list_entry(asd->metadata_in_css[i].next,
--					    struct atomisp_metadata_buf, list);
--			list_del(&md_buf->list);
--			list_add_tail(&md_buf->list, &asd->metadata[i]);
--		}
--		while (!list_empty(&asd->metadata_ready[i])) {
--			md_buf = list_entry(asd->metadata_ready[i].next,
--					    struct atomisp_metadata_buf, list);
--			list_del(&md_buf->list);
--			list_add_tail(&md_buf->list, &asd->metadata[i]);
--		}
-+		list_splice_init(&asd->metadata_in_css[i], &asd->metadata[i]);
-+		list_splice_init(&asd->metadata_ready[i], &asd->metadata[i]);
- 	}
- 
- 	atomisp_flush_params_queue(&asd->video_out_capture);
+
+Problem here that you tested without additional warnings enabled.
+
+Next time try to start with `make W=1 ...`
+
+If you have installed Sparse tool, the better option would be
+`make W=1 C=1 CF=-D__CHECK_ENDIAN__ ...`
+
+> 在 2021/6/17 16:52, kernel test robot 写道:
+> > Hi Baokun,
+> > 
+> > Thank you for the patch! Yet something to improve:
+> > 
+> > [auto build test ERROR on next-20210616]
+> > 
+> > url:    https://github.com/0day-ci/linux/commits/Baokun-Li/media-staging-atomisp-use-list_splice_init-in-atomisp_compat_css20-c/20210617-043443
+> > base:    c7d4c1fd91ab4a6d2620497921a9c6bf54650ab8
+> > config: i386-allyesconfig (attached as .config)
+> > compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+> > reproduce (this is a W=1 build):
+> >          # https://github.com/0day-ci/linux/commit/05c714d7b4e1722a75f949e40c5305f3ba28d048
+> >          git remote add linux-review https://github.com/0day-ci/linux
+> >          git fetch --no-tags linux-review Baokun-Li/media-staging-atomisp-use-list_splice_init-in-atomisp_compat_css20-c/20210617-043443
+> >          git checkout 05c714d7b4e1722a75f949e40c5305f3ba28d048
+> >          # save the attached .config to linux build tree
+> >          make W=1 ARCH=i386
+> > 
+> > If you fix the issue, kindly add following tag as appropriate
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> >     drivers/staging/media/atomisp/pci/atomisp_compat_css20.c: In function 'atomisp_css_stop':
+> > > > drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:2156:50: error: 'struct atomisp_sub_device' has no member named 'asd'
+> >      2156 |   list_splice_init(&asd->metadata_in_css[i], &asd->asd->metadata[i]);
+> >           |                                                  ^~
+> >     drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:2157:49: error: 'struct atomisp_sub_device' has no member named 'asd'
+> >      2157 |   list_splice_init(&asd->metadata_ready[i], &asd->asd->metadata[i]);
+> >           |                                                 ^~
+> >     drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:2107:31: warning: unused variable 'md_buf' [-Wunused-variable]
+> >      2107 |  struct atomisp_metadata_buf *md_buf;
+> >           |                               ^~~~~~
+> >     drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:2106:26: warning: unused variable 'dis_buf' [-Wunused-variable]
+> >      2106 |  struct atomisp_dis_buf *dis_buf;
+> >           |                          ^~~~~~~
+
 -- 
-2.31.1
+With Best Regards,
+Andy Shevchenko
+
 
