@@ -1,14 +1,14 @@
 Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7388C2FAE
-	for <linux-staging@lists.linux.dev>; Fri, 18 Jun 2021 09:58:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB8A2FAE
+	for <linux-staging@lists.linux.dev>; Fri, 18 Jun 2021 09:58:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by comms.puri.sm (Postfix) with ESMTP id 3997ADFE40;
-	Fri, 18 Jun 2021 02:58:15 -0700 (PDT)
+	by comms.puri.sm (Postfix) with ESMTP id C4965E0172;
+	Fri, 18 Jun 2021 02:58:22 -0700 (PDT)
 Received: from comms.puri.sm ([127.0.0.1])
 	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BOiwWK0XHE5C; Fri, 18 Jun 2021 02:58:14 -0700 (PDT)
+	with ESMTP id 03nuqBqAsycZ; Fri, 18 Jun 2021 02:58:22 -0700 (PDT)
 From: Martin Kepplinger <martin.kepplinger@puri.sm>
 To: martin.kepplinger@puri.sm,
 	laurent.pinchart@ideasonboard.com,
@@ -28,9 +28,9 @@ Cc: devicetree@vger.kernel.org,
 	phone-devel@vger.kernel.org,
 	shawnguo@kernel.org,
 	slongerbeam@gmail.com
-Subject: [PATCH v5 1/3] dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and controller
-Date: Fri, 18 Jun 2021 11:57:51 +0200
-Message-Id: <20210618095753.114557-2-martin.kepplinger@puri.sm>
+Subject: [PATCH v5 3/3] arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
+Date: Fri, 18 Jun 2021 11:57:53 +0200
+Message-Id: <20210618095753.114557-4-martin.kepplinger@puri.sm>
 In-Reply-To: <20210618095753.114557-1-martin.kepplinger@puri.sm>
 References: <20210618095753.114557-1-martin.kepplinger@puri.sm>
 Content-Transfer-Encoding: 8bit
@@ -39,194 +39,133 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-The i.MX8MQ SoC integrates a different MIPI CSI receiver as the i.MX8MM so
-describe the DT bindings for it.
+Describe the 2 available CSI interfaces on the i.MX8MQ with the MIPI-CSI2
+receiver (new driver) and the CSI Bridge that provides the user buffers
+(existing driver).
+
+An image sensor is to be connected to the MIPIs' second port, to be described
+in board files.
 
 Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
 ---
- .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 173 ++++++++++++++++++
- 1 file changed, 173 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi | 104 ++++++++++++++++++++++
+ 1 file changed, 104 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-new file mode 100644
-index 000000000000..97222485f223
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-@@ -0,0 +1,173 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/nxp,imx8mq-mipi-csi2.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+index 91df9c5350ae..e026a39bddce 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+@@ -1099,6 +1099,110 @@ uart4: serial@30a60000 {
+ 				status = "disabled";
+ 			};
+ 
++			mipi_csi1: csi@30a70000 {
++				compatible = "fsl,imx8mq-mipi-csi2";
++				reg = <0x30a70000 0x1000>;
++				clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
++				   <&clk IMX8MQ_CLK_CSI1_ESC>,
++				   <&clk IMX8MQ_CLK_CSI1_PHY_REF>;
++				clock-names = "core", "esc", "ui";
++				assigned-clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
++				    <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
++				    <&clk IMX8MQ_CLK_CSI1_ESC>;
++				assigned-clock-rates = <266000000>, <333000000>, <66000000>;
++				assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
++					<&clk IMX8MQ_SYS2_PLL_1000M>,
++					<&clk IMX8MQ_SYS1_PLL_800M>;
++				power-domains = <&pgc_mipi_csi1>;
++				resets = <&src IMX8MQ_RESET_MIPI_CSI1_CORE_RESET>,
++					 <&src IMX8MQ_RESET_MIPI_CSI1_PHY_REF_RESET>,
++					 <&src IMX8MQ_RESET_MIPI_CSI1_ESC_RESET>;
++				fsl,mipi-phy-gpr = <&iomuxc_gpr 0x88>;
++				interconnects = <&noc IMX8MQ_ICM_CSI1 &noc IMX8MQ_ICS_DRAM>;
++				interconnect-names = "dram";
++				status = "disabled";
 +
-+title: NXP i.MX8MQ MIPI CSI-2 receiver
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
 +
-+maintainers:
-+  - Martin Kepplinger <martin.kepplinger@puri.sm>
++					port@0 {
++						reg = <0>;
 +
-+description: |-
-+  This binding covers the CSI-2 RX PHY and host controller included in the
-+  NXP i.MX8MQ SoC. It handles the sensor/image input and process for all the
-+  input imaging devices.
++						csi1_mipi_ep: endpoint {
++							remote-endpoint = <&csi1_ep>;
++						};
++					};
++				};
++			};
 +
-+properties:
-+  compatible:
-+    enum:
-+      - fsl,imx8mq-mipi-csi2
++			csi1: csi@30a90000 {
++				compatible = "fsl,imx8mq-csi", "fsl,imx7-csi";
++				reg = <0x30a90000 0x10000>;
++				interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
++				clocks = <&clk IMX8MQ_CLK_CSI1_ROOT>;
++				clock-names = "mclk";
++				status = "disabled";
 +
-+  reg:
-+    maxItems: 1
++				port {
++					csi1_ep: endpoint {
++						remote-endpoint = <&csi1_mipi_ep>;
++					};
++				};
++			};
 +
-+  clocks:
-+    items:
-+      - description: core is the RX Controller Core Clock input. This clock
-+                     must be exactly equal to or faster than the receive
-+                     byteclock from the RX DPHY.
-+      - description: esc is the Rx Escape Clock. This must be the same escape
-+                     clock that the RX DPHY receives.
-+      - description: ui is the pixel clock (phy_ref up to 333Mhz).
-+                     See the reference manual for details.
++			mipi_csi2: csi@30b60000 {
++				compatible = "fsl,imx8mq-mipi-csi2";
++				reg = <0x30b60000 0x1000>;
++				clocks = <&clk IMX8MQ_CLK_CSI2_CORE>,
++				   <&clk IMX8MQ_CLK_CSI2_ESC>,
++				   <&clk IMX8MQ_CLK_CSI2_PHY_REF>;
++				clock-names = "core", "esc", "ui";
++				assigned-clocks = <&clk IMX8MQ_CLK_CSI2_CORE>,
++				    <&clk IMX8MQ_CLK_CSI2_PHY_REF>,
++				    <&clk IMX8MQ_CLK_CSI2_ESC>;
++				assigned-clock-rates = <266000000>, <333000000>, <66000000>;
++				assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
++					<&clk IMX8MQ_SYS2_PLL_1000M>,
++					<&clk IMX8MQ_SYS1_PLL_800M>;
++				power-domains = <&pgc_mipi_csi2>;
++				resets = <&src IMX8MQ_RESET_MIPI_CSI2_CORE_RESET>,
++					 <&src IMX8MQ_RESET_MIPI_CSI2_PHY_REF_RESET>,
++					 <&src IMX8MQ_RESET_MIPI_CSI2_ESC_RESET>;
++				fsl,mipi-phy-gpr = <&iomuxc_gpr 0xa4>;
++				interconnects = <&noc IMX8MQ_ICM_CSI2 &noc IMX8MQ_ICS_DRAM>;
++				interconnect-names = "dram";
++				status = "disabled";
 +
-+  clock-names:
-+    items:
-+      - const: core
-+      - const: esc
-+      - const: ui
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
 +
-+  power-domains:
-+    maxItems: 1
++					port@0 {
++						reg = <0>;
 +
-+  resets:
-+    items:
-+      - description: CORE_RESET reset register bit definition
-+      - description: PHY_REF_RESET reset register bit definition
-+      - description: ESC_RESET reset register bit definition
++						csi2_mipi_ep: endpoint {
++							remote-endpoint = <&csi2_ep>;
++						};
++					};
++				};
++			};
 +
-+  fsl,mipi-phy-gpr:
-+    description: |
-+      The phandle to the imx8mq syscon iomux-gpr with the register
-+      for setting RX_ENABLE for the mipi receiver.
++			csi2: csi@30b80000 {
++				compatible = "fsl,imx8mq-csi", "fsl,imx7-csi";
++				reg = <0x30b80000 0x10000>;
++				interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
++				clocks = <&clk IMX8MQ_CLK_CSI2_ROOT>;
++				clock-names = "mclk";
++				status = "disabled";
 +
-+      The format should be as follows:
-+      <gpr req_gpr>
-+      gpr is the phandle to general purpose register node.
-+      req_gpr is the gpr register offset of RX_ENABLE for the mipi phy.
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    items:
-+      items:
-+        - description: The 'gpr' is the phandle to general purpose register node.
-+        - description: The 'req_gpr' is the gpr register offset containing
-+                       CSI2_1_RX_ENABLE or CSI2_2_RX_ENABLE respectively.
-+          maximum: 0xff
++				port {
++					csi2_ep: endpoint {
++						remote-endpoint = <&csi2_mipi_ep>;
++					};
++				};
++			};
 +
-+  interconnects:
-+    maxItems: 1
-+
-+  interconnect-names:
-+    const: dram
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-+        description:
-+          Input port node, single endpoint describing the CSI-2 transmitter.
-+
-+        properties:
-+          endpoint:
-+            $ref: video-interfaces.yaml#
-+            unevaluatedProperties: false
-+
-+            properties:
-+              data-lanes:
-+                items:
-+                  minItems: 1
-+                  maxItems: 4
-+                  items:
-+                    - const: 1
-+                    - const: 2
-+                    - const: 3
-+                    - const: 4
-+
-+            required:
-+              - data-lanes
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description:
-+          Output port node
-+
-+    required:
-+      - port@0
-+      - port@1
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - power-domains
-+  - resets
-+  - fsl,mipi-phy-gpr
-+  - ports
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/imx8mq-clock.h>
-+    #include <dt-bindings/interconnect/imx8mq.h>
-+
-+    csi@30a70000 {
-+        compatible = "fsl,imx8mq-mipi-csi2";
-+        reg = <0x30a70000 0x1000>;
-+        clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
-+                 <&clk IMX8MQ_CLK_CSI1_ESC>,
-+                 <&clk IMX8MQ_CLK_CSI1_PHY_REF>;
-+        clock-names = "core", "esc", "ui";
-+        assigned-clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
-+                          <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
-+                          <&clk IMX8MQ_CLK_CSI1_ESC>;
-+        assigned-clock-rates = <266000000>, <200000000>, <66000000>;
-+        assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
-+                                 <&clk IMX8MQ_SYS2_PLL_1000M>,
-+                                 <&clk IMX8MQ_SYS1_PLL_800M>;
-+        power-domains = <&pgc_mipi_csi1>;
-+        resets = <&src IMX8MQ_RESET_MIPI_CSI1_CORE_RESET>,
-+                 <&src IMX8MQ_RESET_MIPI_CSI1_PHY_REF_RESET>,
-+                 <&src IMX8MQ_RESET_MIPI_CSI1_ESC_RESET>;
-+        fsl,mipi-phy-gpr = <&iomuxc_gpr 0x88>;
-+        interconnects = <&noc IMX8MQ_ICM_CSI1 &noc IMX8MQ_ICS_DRAM>;
-+        interconnect-names = "dram";
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+
-+                imx8mm_mipi_csi_in: endpoint {
-+                    remote-endpoint = <&imx477_out>;
-+                    data-lanes = <1 2 3 4>;
-+                };
-+            };
-+
-+            port@1 {
-+                reg = <1>;
-+
-+                imx8mm_mipi_csi_out: endpoint {
-+                    remote-endpoint = <&csi_in>;
-+                };
-+            };
-+        };
-+    };
-+
-+...
+ 			mu: mailbox@30aa0000 {
+ 				compatible = "fsl,imx8mq-mu", "fsl,imx6sx-mu";
+ 				reg = <0x30aa0000 0x10000>;
 -- 
 2.30.2
 
