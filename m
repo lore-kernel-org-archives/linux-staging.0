@@ -1,104 +1,118 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C672B71
-	for <linux-staging@lists.linux.dev>; Fri, 18 Jun 2021 18:18:11 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id w31so8424528pga.6
-        for <linux-staging@lists.linux.dev>; Fri, 18 Jun 2021 11:18:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5985B71
+	for <linux-staging@lists.linux.dev>; Fri, 18 Jun 2021 18:29:01 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id ho18so17240941ejc.8
+        for <linux-staging@lists.linux.dev>; Fri, 18 Jun 2021 11:29:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=DoEdXh/VaJ+mbzDRuncceAoCRUlb0lvwPS0zh9/WG+I=;
-        b=rm2SiL72/vhadlYZz1wnHDoZbZbCMgU/Gry+VpWLCPiFNvsIUcjKcBBqY/ojvhCCHz
-         sZACEvqbm+arlZrxNyFsySDYOObUU9gTFPMq++Z0wOKR0OH6/gXxPfVlgQIyprJmlwIN
-         pmMeDrLfHt/biZ0uCf5Wi0mYaRbiYR0I+nQnmrBdNNeTTewruhJTyXJylM83R1bn4tVQ
-         Qh+cYaZQh0V/i6ZqItGa/1A+c6uRE870zu0ETARSMBDVPI7+oSMnSv44yLGXyWkH0Bxf
-         xM2z0ANFrWbghlp12ss/eAubl9kTv6Oj2QSg/p4F4/C1fxEti/cHX59gyCo22ECkk23y
-         YITg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BG4eKVHKznlsObIX3tbztA9VJHzMPAhtbR7iiL8ePI0=;
+        b=Q23TrU3E6GAes3b7ZQW9O6WJuns8aX+hTXQnaJWCorE0GnA1a2diqu7X6Yt8/wdOiJ
+         EsYzPVuFCOl4NQzraLZZH9TShwuxSzFuaYEsBFzBFA715CUqRAMIS6TGhG7VYJET8ZMS
+         eIXMyE8eiH6kgzpB0UBiARyD83F77tSrL50PgHShHfvMvz4jnMA82dhiHfsD0fRaeXT3
+         ibHDleHxO7zqaxEr3BXRZzEdCCbcP5rwDLFiJyLkQ/f+xSQpL2bZ6Zsy6wmTgS9RmGcI
+         +Me/lDMtyPQV+9qfqhunBr9yI3A14aXJAKEcFlh63IjjJ4rCbCynphRaPTdQUY/LwIPg
+         hHTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=DoEdXh/VaJ+mbzDRuncceAoCRUlb0lvwPS0zh9/WG+I=;
-        b=WIZ4VzdpR0tYmSteDJ47dCU/cuuQI6uQwFzI2KC4IX6O5btCcecdwhiaEFBf48wG9d
-         y2vPqgtrLrglnCmcnlZQYLiZjSoxfbxqYPzq6nGi4CpMWSVjP/6uKYU92ZLksWLw9mvZ
-         d21/QKqaJgogLV9aAnuqvXz85M7wjFh1xAq5uvsNK51NllyZUjkiZ+Hmj/c66V28Kron
-         V+F5DD5P8ArDUtQIP8Ah/IBSafeTFiq1s1+646Ad9vGqMS84zlrfmpx02BX+Di9Qt+8x
-         RccuiIvT8EIehZG/Ua0Uvf/KDa70PgUoNaEvgyhIr35ugfZgETIwtB/vCX7GzV6yNG5+
-         SwXA==
-X-Gm-Message-State: AOAM531VdXDip6eCt0be7e4lFV7M97/b9k46O9A2+KyIcAXE54Wwizx/
-	duSLsMjDACudYHXcDNJaMcs=
-X-Google-Smtp-Source: ABdhPJxxLzRZKmYzjmg30+asLiYN9SPrEQ4JMEgRRucb6cPGRBHBqhr5QKYIm3jJLR5lzV2iaMzS9w==
-X-Received: by 2002:a63:d053:: with SMTP id s19mr11271566pgi.326.1624040291117;
-        Fri, 18 Jun 2021 11:18:11 -0700 (PDT)
-Received: from jm.lan (1-171-85-235.dynamic-ip.hinet.net. [1.171.85.235])
-        by smtp.gmail.com with ESMTPSA id t193sm984195pfc.166.2021.06.18.11.18.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jun 2021 11:18:10 -0700 (PDT)
-From: Jhih-Ming Huang <fbihjmeric@gmail.com>
-To: gregkh@linuxfoundation.org,
-	fabioaiuto83@gmail.com,
-	ross.schm.dev@gmail.com,
-	maqianga@uniontech.com,
-	marcocesati@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Jhih-Ming Huang <fbihjmeric@gmail.com>
-Subject: [PATCH v3] rtw_security: fix cast to restricted __le32
-Date: Sat, 19 Jun 2021 02:17:51 +0800
-Message-Id: <20210618181751.95967-1-fbihjmeric@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <YMeL7PjstV601pbN@zeniv-ca.linux.org.uk>
-References: <YMeL7PjstV601pbN@zeniv-ca.linux.org.uk>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BG4eKVHKznlsObIX3tbztA9VJHzMPAhtbR7iiL8ePI0=;
+        b=lkMtI7WJryJCud+bBfhyaWir0aeO+Fda0MWfS6ucPVBDdpogcrYyek2gnFfyfT3W6p
+         yNGtpNJ5Hcd6YjRZ6g6d9Llm4m2PN7b3OdWxg7p5CwJSgY5r6KSTGd9r2S3kNIhNEUfE
+         QoNnk/cU97efdor2GSeSBxEVAffGYW4X1AUCdR8EOt6NfU4cDTAKGM1rhjFv9Q89QyGO
+         RA/lJV4qci0oyuvZUET0TQVZ/QcG9u+hnY8tZdxwIYJfAZzWESR8xRIHkLgBY2VywcVk
+         gE7GXV6+VFeZCAKzI8x729xix9/hZj2gCYQyfe+iYn9YMawAkOhyCl+mowFILvMUulWs
+         HfBw==
+X-Gm-Message-State: AOAM530FjgeO2gXn3MYPORqW7Ip0Xi7OQ5PmY+8SGiZy4lgt1edZVEjm
+	ApxtQ+xO23ZKMtgyr2Fa0THXpT/Bjdgwx36+gL8=
+X-Google-Smtp-Source: ABdhPJzUTmuFnxnrbs89PnRsUk432kebaSBEk+xc/xA6GneetOr7+kC3P1prX2ZGQyxB/ZTXnzdLuDZlvYJVic3Vhu4=
+X-Received: by 2002:a17:907:7848:: with SMTP id lb8mr12777004ejc.494.1624040939644;
+ Fri, 18 Jun 2021 11:28:59 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210613122858.1433252-1-fbihjmeric@gmail.com>
+ <YMX7SRSPgvMA/Pw1@kroah.com> <CAKgboZ8QUQpiinL0xCxUmcp6nEVU20jXkDXbrK_QisUMiLEo1A@mail.gmail.com>
+ <YMdkN9cft6KHcFn3@zeniv-ca.linux.org.uk> <CAKgboZ9P2afm7-eOE3COrKVDkFZ_g288KfJAyQiwzC6fN75VmA@mail.gmail.com>
+ <YMeL7PjstV601pbN@zeniv-ca.linux.org.uk>
+In-Reply-To: <YMeL7PjstV601pbN@zeniv-ca.linux.org.uk>
+From: Jhih Ming Huang <fbihjmeric@gmail.com>
+Date: Sat, 19 Jun 2021 02:28:48 +0800
+Message-ID: <CAKgboZ9NnN6FZ6XX5MhRk0T-TLvmPvsRWogSPuXu8m940mWNZg@mail.gmail.com>
+Subject: Re: [PATCH v2] rtw_security: fix cast to restricted __le32
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Greg KH <gregkh@linuxfoundation.org>, fabioaiuto83@gmail.com, 
+	ross.schm.dev@gmail.com, maqianga@uniontech.com, marcocesati@gmail.com, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-This patch fixes the sparse warning of fix cast to restricted __le32.
+On Tue, Jun 15, 2021 at 1:03 AM Al Viro <viro@zeniv.linux.org.uk> wrote:
+>
+> On Mon, Jun 14, 2021 at 11:27:03PM +0800, Jhih Ming Huang wrote:
+>
+> > Thanks for your explanation.
+> >
+> > To clarify, even though it might be false positives in some senses,
+> > following "hold the variable native-endian and check the conversion
+> > done correctly"
+> > is much easier than the other way. And it's exactly the current implementation.
+> >
+> > So it's better to keep the current implementation and ignore the
+> > warnings, right?
+>
+> Umm...  If that's the case, the warnings should go away if you use
+> cpu_to_le32() for conversions from native to l-e and le32_to_cpu()
+> for conversions from l-e to native.
+>
+> IOW, the choice between those should annotate what's going on.
+>
+> In your case doing
+>         *((u32 *)crc) = le32_to_cpu((__force __le32)~crc32_le(~0, payload, length - 4));
+> is wrong - you have
+> crc32_le(...) native-endian
+> ~crc32_le(...) - ditto
+> le32_to_cpu(~crc32_le(...)) - byteswapped native-endian on b-e, unchanged on
+> l-e.  So result will be little-endian representation of ~crc32(...) in all
+> cases.  IOW, it's cpu_to_le32(~crc32_le(...)), misannotated as native-endian
+> instead of little-endian it actually is.
+>
+> Then you store that value (actually __le32) into *(u32 *)crc.  Seeing that
+> crc is u8[4] there, that *(u32 *) is misleading - you are actually storing
+> __le32 there (and, AFAICS, doing noting with the result).  The same story
+> in rtw_tkip_decrypt(), only there you do use the result later.
+>
+> So just make it __le32 crc and
+>         crc = cpu_to_le32(~crc32_le(~0, payload, length - 4));
+> with
+>                         if (crc[3] != payload[length - 1] || crc[2] != payload[length - 2] ||
+>                             crc[1] != payload[length - 3] || crc[0] != payload[length - 4])
+> turned into
+>                         if (memcmp(&crc, payload + length - 4, 4) != 0)
+> (or (crc != get_unaligned((__le32 *)(payload + length - 4))),
+> for that matter, to document what's going on and let the damn thing
+> pick the optimal implementation for given architecture).
+>
+> Incidentally, your secmicgetuint32() is simply get_unaligned_le32()
+> and secmicputuint32() - put_unaligned_le32().  No need to reinvent
+> that wheel...
+>
 
-There was a change for replacing private CRC-32 routines with in kernel
-ones.
-However, the author used le32_to_cpu to convert crc32_le(), and we
-should cpu_to_le32.
+Thanks for your comprehensive explanation.
 
-Ths commit also fixes the payload checking by memcmp instead of checking element
-by element.
+I just sent the v3 PATCH, but I replied to this thread.
+Should I create the other thread?
 
-Signed-off-by: Jhih-Ming Huang <fbihjmeric@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_security.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+For the secmicgetuint32(), I am not the author of this function,
+but you are right we should not reinvent the wheel.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index a99f439328f1..97a7485f8f58 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -121,7 +121,7 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
- 		arc4_crypt(ctx, payload, payload,  length);
- 
- 		/* calculate icv and compare the icv */
--		*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
-+		*crc = cpu_to_le32(~crc32_le(~0, payload, length - 4));
- 
- 	}
- }
-@@ -618,10 +618,9 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
- 			arc4_setkey(ctx, rc4key, 16);
- 			arc4_crypt(ctx, payload, payload, length);
- 
--			*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
-+			*crc = cpu_to_le32(~crc32_le(~0, payload, length - 4));
- 
--			if (crc[3] != payload[length - 1] || crc[2] != payload[length - 2] ||
--			    crc[1] != payload[length - 3] || crc[0] != payload[length - 4])
-+			if (memcmp(&crc, payload + length - 4, 4) != 0)
- 				res = _FAIL;
- 		} else {
- 			res = _FAIL;
--- 
-2.32.0.288
+Let's focus on sparse warning fixing in this commit.
 
+thanks.
+
+--jmhuang
