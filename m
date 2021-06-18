@@ -1,74 +1,89 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from lb3-smtp-cloud8.xs4all.net (lb3-smtp-cloud8.xs4all.net [194.109.24.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 106B972
-	for <linux-staging@lists.linux.dev>; Fri, 18 Jun 2021 10:23:22 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 05E3361159;
-	Fri, 18 Jun 2021 10:23:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1624011802;
-	bh=1ZxM0FCMwZiZghnpuKtTVnbmtQtc1YYDd9NZGwlFpFs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=1W6vyZoSBAzSTkWS0wOYbBIg/Im0WwpOf6bKl5rB8OP6GFC9KMgPkw/eeMzF/ciJb
-	 fF46LcniH39Hh22MSaVob/xpHsnZrUeph+8WYIeIys6v9Gju4c69MzPCJHLIyLy9JL
-	 UgHb0ADE67tnbQGdyKbMb6FKLCojIH4s9i1BNaxw=
-Date: Fri, 18 Jun 2021 12:23:20 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: liuhailong <liuhailong@oppo.com>
-Cc: arve@android.com, tkjos@android.com, maco@android.com,
-	joel@joelfernandes.org, christian@brauner.io, hridya@google.com,
-	surenb@google.com, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: android: ashmem: add size field in procfs fdinfo
-Message-ID: <YMx0GIRQmpRC7pdQ@kroah.com>
-References: <20210618095035.32410-1-liuhailong@oppo.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B903171
+	for <linux-staging@lists.linux.dev>; Fri, 18 Jun 2021 10:38:38 +0000 (UTC)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+	by smtp-cloud8.xs4all.net with ESMTPA
+	id uBsKlChofhqltuBsNl4qYb; Fri, 18 Jun 2021 12:37:29 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+	t=1624012649; bh=VlAoir4iEvONAT/BY+cgI0IYuXDYmhxoRI0C9ApQ6wc=;
+	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+	 Subject;
+	b=rDLXGSi8AsyID7i8J1ovZ3rCmDiKIFj7+HjJ3IqnxXLgLVW2Uefxy4RXM/NhSraP6
+	 xUIFfkeML5loBY9IfD5l+eCGY2JEd3YoC6xfSK284fzgyeS3yAgE4ZwSV0wK+9Ny2b
+	 geK1Ds/BOTolRdBuE64yGI7hkuSZVr/1+JnaE+ugnIXDun32lhcCb8cNjufkKMVk4M
+	 Nrk0OSjQQug+UggvN9LQgUntduKboeQps0uX9Z2dhK3jFskgt8F8jCWl7n51KmHHaD
+	 zvxd8STpK/vJgT5z+OFnvhWtF3BmeZTWtnP/CbWLiu2a4B9A1XLaVR+GpOPe/EAFIE
+	 4osaNeTFdv7/g==
+Subject: Re: [PATCH] media: atomisp: fix the uninitialized use
+To: Yizhuo Zhai <yzhai003@ucr.edu>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, akari.ailus@linux.intel.com,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, juant.aldea@gmail.com,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <CABvMjLRkmsrxXxHkX7PrkoRK5m=7_b3wpvyZK88V19b05CFx2w@mail.gmail.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <8b717a74-e863-87d9-d42e-ede344a9e036@xs4all.nl>
+Date: Fri, 18 Jun 2021 12:37:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.10.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210618095035.32410-1-liuhailong@oppo.com>
+In-Reply-To: <CABvMjLRkmsrxXxHkX7PrkoRK5m=7_b3wpvyZK88V19b05CFx2w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfKmXUTMoU7DtZ3Beut9p5klX6/m9criQsvlt5IGujsj6uzPjxzuIz7/JYvEcUkbNvJxU76YduC0OS2op4syZwei3S/ANIwgVSa6WxuQxm8aRrmOJ8YMS
+ oG5Gmj7zitcf1a7SdUIst8Ai3RkYCP8H8AS9DeUS0R5WSlTJ/GelXzxS+O5CxXYQSROBQ//eKyC7YjhZDp8ORAEeqjSs+tkq9mkaw78JI+kXJ3u5cGcgz0W/
+ TYem41lTtjiSVjE25fJ843JRBDJG/pArnoZDc0gOTryg1Bx1ejZVxbq+op4UGwm0nTV2F4v0xeKLlFKh3ceSnpYJPv4EIAchipFDg1IZFNd17RYIwOewbSDe
+ epNG9ewqiRovObNr+TUMCBNWI45yNC36TZWekEbWulkOAWx84vVz2hLGdGjaKmJf5HjF2LE8a7jwWA/edrGYkMZ12xXtUnUagVlU0jQeS00aAe+cYVE=
 
-On Fri, Jun 18, 2021 at 05:50:35PM +0800, liuhailong wrote:
-> add this information to help user to find ashmem problem.
+On 15/06/2021 20:45, Yizhuo Zhai wrote:
+> Inside function mt9m114_detect(), variable "retvalue" could
+> be uninitialized if mt9m114_read_reg() returns error, however, it
+> is used in the later if statement, which is potentially unsafe.
 > 
-> ashmem leak scenario:
-> -000|fd = ashmem_create_region
-> -001|mmap and pagefault
-> -002|munmap
-> -003|forget close(fd) <---- which lead to ashmem leak
-> 
-> Signed-off-by: liuhailong <liuhailong@oppo.com>
+> Signed-off-by: Yizhuo <yzhai003@ucr.edu>
 > ---
->  drivers/staging/android/ashmem.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/android/ashmem.c b/drivers/staging/android/ashmem.c
-> index d66a64e42273..ee2fd75111d8 100644
-> --- a/drivers/staging/android/ashmem.c
-> +++ b/drivers/staging/android/ashmem.c
-> @@ -894,6 +894,8 @@ static void ashmem_show_fdinfo(struct seq_file *m, struct file *file)
->  		seq_printf(m, "name:\t%s\n",
->  			   asma->name + ASHMEM_NAME_PREFIX_LEN);
->  
-> +	seq_printf(m, "size:\t%zu\n", asma->size);
-> +
->  	mutex_unlock(&ashmem_mutex);
->  }
->  #endif
-> -- 
-> 2.30.2
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+> b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+> index f5de81132177..8ddddb18ffbb 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+> @@ -1534,12 +1534,15 @@ static int mt9m114_detect(struct
+> mt9m114_device *dev, struct i2c_client *client)
+>  {
+>         struct i2c_adapter *adapter = client->adapter;
+>         u32 retvalue;
+> +       int ret;
+
+Hmm, 'ret' and 'retvalue'. That's a bit confusing. Just rename 'retvalue'
+to 'model', then it makes more sense.
+
 > 
+>         if (!i2c_check_functionality(adapter, I2C_FUNC_I2C)) {
+>                 dev_err(&client->dev, "%s: i2c error", __func__);
+>                 return -ENODEV;
+>         }
+> -       mt9m114_read_reg(client, MISENSOR_16BIT, (u32)MT9M114_PID, &retvalue);
+> +       ret = mt9m114_read_reg(client, MISENSOR_16BIT,
+> (u32)MT9M114_PID, &retvalue);
+> +       if (ret)
+> +               return ret;
+>         dev->real_model_id = retvalue;
+> 
+>         if (retvalue != MT9M114_MOD_ID) {
 > 
 
-As you are changing a user-facing proc file, what tools will break now
-that you have added a new line?
+This patch got mangled by your mail client: long lines were wrapped around.
 
-What tools do you use to look at this file and what has been modified to
-handle the change?
+Regards,
 
-thanks,
-
-greg k-h
+	Hans
