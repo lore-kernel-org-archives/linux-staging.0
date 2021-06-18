@@ -1,118 +1,119 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5985B71
-	for <linux-staging@lists.linux.dev>; Fri, 18 Jun 2021 18:29:01 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id ho18so17240941ejc.8
-        for <linux-staging@lists.linux.dev>; Fri, 18 Jun 2021 11:29:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A79470
+	for <linux-staging@lists.linux.dev>; Fri, 18 Jun 2021 18:37:02 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id z12so9934088edc.1
+        for <linux-staging@lists.linux.dev>; Fri, 18 Jun 2021 11:37:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=BG4eKVHKznlsObIX3tbztA9VJHzMPAhtbR7iiL8ePI0=;
-        b=Q23TrU3E6GAes3b7ZQW9O6WJuns8aX+hTXQnaJWCorE0GnA1a2diqu7X6Yt8/wdOiJ
-         EsYzPVuFCOl4NQzraLZZH9TShwuxSzFuaYEsBFzBFA715CUqRAMIS6TGhG7VYJET8ZMS
-         eIXMyE8eiH6kgzpB0UBiARyD83F77tSrL50PgHShHfvMvz4jnMA82dhiHfsD0fRaeXT3
-         ibHDleHxO7zqaxEr3BXRZzEdCCbcP5rwDLFiJyLkQ/f+xSQpL2bZ6Zsy6wmTgS9RmGcI
-         +Me/lDMtyPQV+9qfqhunBr9yI3A14aXJAKEcFlh63IjjJ4rCbCynphRaPTdQUY/LwIPg
-         hHTQ==
+        bh=ekt7Aut3pbPnsGjycKsCk6iV3UU+d516hwM721Obk3Q=;
+        b=jBRXPNa0dHbOGnhJdkkRiXiRvCYK3N4Q8EAKJfo7RR/umKj8e/jwD0A07py0jjs1g9
+         xo4euodvDf86EF0YWM9A5Jr1RQiHo8Ve46TiqEwIXlpyYC1gr8iBL+UHPeJziS7FfY6K
+         B84qIJX+gQHnrQddq9tRwgvOCvF6O3pqIts67MUvEghFcan+bwhuP6rIDbv8k5un1IJt
+         nN3YqYg7UTzpwAJGf0HiI2/UN7ONHJr+TGwk2eiYVqFrLtZ+GgwH2lxfV98hLpbCmW76
+         J5VpWkwuS0zT6T4SInV2GPBqcLNFYcBdV0krsgZMNwkckGGgIWJrFNiZDYrRo3JMKX7S
+         00Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=BG4eKVHKznlsObIX3tbztA9VJHzMPAhtbR7iiL8ePI0=;
-        b=lkMtI7WJryJCud+bBfhyaWir0aeO+Fda0MWfS6ucPVBDdpogcrYyek2gnFfyfT3W6p
-         yNGtpNJ5Hcd6YjRZ6g6d9Llm4m2PN7b3OdWxg7p5CwJSgY5r6KSTGd9r2S3kNIhNEUfE
-         QoNnk/cU97efdor2GSeSBxEVAffGYW4X1AUCdR8EOt6NfU4cDTAKGM1rhjFv9Q89QyGO
-         RA/lJV4qci0oyuvZUET0TQVZ/QcG9u+hnY8tZdxwIYJfAZzWESR8xRIHkLgBY2VywcVk
-         gE7GXV6+VFeZCAKzI8x729xix9/hZj2gCYQyfe+iYn9YMawAkOhyCl+mowFILvMUulWs
-         HfBw==
-X-Gm-Message-State: AOAM530FjgeO2gXn3MYPORqW7Ip0Xi7OQ5PmY+8SGiZy4lgt1edZVEjm
-	ApxtQ+xO23ZKMtgyr2Fa0THXpT/Bjdgwx36+gL8=
-X-Google-Smtp-Source: ABdhPJzUTmuFnxnrbs89PnRsUk432kebaSBEk+xc/xA6GneetOr7+kC3P1prX2ZGQyxB/ZTXnzdLuDZlvYJVic3Vhu4=
-X-Received: by 2002:a17:907:7848:: with SMTP id lb8mr12777004ejc.494.1624040939644;
- Fri, 18 Jun 2021 11:28:59 -0700 (PDT)
+        bh=ekt7Aut3pbPnsGjycKsCk6iV3UU+d516hwM721Obk3Q=;
+        b=qa6SQpYLUE5EGMzM8bdOEJz3hQbCFSGNM0Kjl6Znl/EhPTPmb59CrqeEUnizSCOURu
+         AtEfeUBWF+7A4MEuexA9MCooSF5ayvgV5K8oagmDH6TumsifWdK2VPNKXuviF54KFSf4
+         BD5ZtIZRt8u8zYSjxSlG2tfklR5GCWk6la+r3oDdGe6OYTNDHGNXEaK4vCXYTWD0Rb8a
+         d6RxqF7AHOwV9WZr6hT6vMpfLPFeINx6vUzjp1zoeug9sR+J3QD7xPUmwJXXdAkf5EMt
+         5zbx3jG898TtWcPOzir47yVmyKQVJ2jsn3iVsYOhBwxNAEWT/aXrL0bqNnkDOjgNnCk0
+         2tQg==
+X-Gm-Message-State: AOAM533ji23dgGaMNOQ7pFBUBrCRztkqvK8ZV+YNozZlAP9Yq0+WtBiL
+	hoGdP3OU3jh8CUD+8f1zCS6aA/7UcjOQ3JFNkQA=
+X-Google-Smtp-Source: ABdhPJzxFbIUov7kG4A6bLF3AGJlZ813KPZ11AXwRTOmjaQyYGXMb+qVKr5uMq6bYqMFCkvhF/doQS6SsLbFPo7h91I=
+X-Received: by 2002:aa7:dc4c:: with SMTP id g12mr7149764edu.258.1624041420817;
+ Fri, 18 Jun 2021 11:37:00 -0700 (PDT)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210613122858.1433252-1-fbihjmeric@gmail.com>
- <YMX7SRSPgvMA/Pw1@kroah.com> <CAKgboZ8QUQpiinL0xCxUmcp6nEVU20jXkDXbrK_QisUMiLEo1A@mail.gmail.com>
- <YMdkN9cft6KHcFn3@zeniv-ca.linux.org.uk> <CAKgboZ9P2afm7-eOE3COrKVDkFZ_g288KfJAyQiwzC6fN75VmA@mail.gmail.com>
- <YMeL7PjstV601pbN@zeniv-ca.linux.org.uk>
-In-Reply-To: <YMeL7PjstV601pbN@zeniv-ca.linux.org.uk>
+References: <20210613102229.1424495-1-fbihjmeric@gmail.com> <8974a58823d74d118595d4f8db5ac870@AcuMS.aculab.com>
+In-Reply-To: <8974a58823d74d118595d4f8db5ac870@AcuMS.aculab.com>
 From: Jhih Ming Huang <fbihjmeric@gmail.com>
-Date: Sat, 19 Jun 2021 02:28:48 +0800
-Message-ID: <CAKgboZ9NnN6FZ6XX5MhRk0T-TLvmPvsRWogSPuXu8m940mWNZg@mail.gmail.com>
-Subject: Re: [PATCH v2] rtw_security: fix cast to restricted __le32
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Greg KH <gregkh@linuxfoundation.org>, fabioaiuto83@gmail.com, 
-	ross.schm.dev@gmail.com, maqianga@uniontech.com, marcocesati@gmail.com, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Sat, 19 Jun 2021 02:36:49 +0800
+Message-ID: <CAKgboZ_G+46OL3_foSnJ8ZQ_MOR2nNK_rfuqcXc_AjQN63Qk+A@mail.gmail.com>
+Subject: Re: [PATCH] rtw_security: fix cast to restricted __le32
+To: David Laight <David.Laight@aculab.com>
+Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, 
+	"fabioaiuto83@gmail.com" <fabioaiuto83@gmail.com>, 
+	"ross.schm.dev@gmail.com" <ross.schm.dev@gmail.com>, "maqianga@uniontech.com" <maqianga@uniontech.com>, 
+	"marcocesati@gmail.com" <marcocesati@gmail.com>, 
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jun 15, 2021 at 1:03 AM Al Viro <viro@zeniv.linux.org.uk> wrote:
+On Tue, Jun 15, 2021 at 4:48 AM David Laight <David.Laight@aculab.com> wrote:
 >
-> On Mon, Jun 14, 2021 at 11:27:03PM +0800, Jhih Ming Huang wrote:
->
-> > Thanks for your explanation.
+> From: Jhih-Ming Huang
+> > Sent: 13 June 2021 11:22
 > >
-> > To clarify, even though it might be false positives in some senses,
-> > following "hold the variable native-endian and check the conversion
-> > done correctly"
-> > is much easier than the other way. And it's exactly the current implementation.
+> > This patch fixes the sparse warning of fix cast to restricted __le32.
 > >
-> > So it's better to keep the current implementation and ignore the
-> > warnings, right?
+> > Signed-off-by: Jhih-Ming Huang <fbihjmeric@gmail.com>
+> > ---
+> >  drivers/staging/rtl8723bs/core/rtw_security.c | 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c
+> > b/drivers/staging/rtl8723bs/core/rtw_security.c
+> > index a99f439328f1..2f4da67e31c6 100644
+> > --- a/drivers/staging/rtl8723bs/core/rtw_security.c
+> > +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+> > @@ -121,7 +121,7 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
+> >               arc4_crypt(ctx, payload, payload,  length);
+> >
+> >               /* calculate icv and compare the icv */
+> > -             *((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
+> > +             *((u32 *)crc) = le32_to_cpu((__force __le32)~crc32_le(~0, payload, length - 4));
+> >
+> >       }
+> >  }
+> > @@ -618,7 +618,8 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+> >                       arc4_setkey(ctx, rc4key, 16);
+> >                       arc4_crypt(ctx, payload, payload, length);
 >
-> Umm...  If that's the case, the warnings should go away if you use
-> cpu_to_le32() for conversions from native to l-e and le32_to_cpu()
-> for conversions from l-e to native.
->
-> IOW, the choice between those should annotate what's going on.
->
-> In your case doing
->         *((u32 *)crc) = le32_to_cpu((__force __le32)~crc32_le(~0, payload, length - 4));
-> is wrong - you have
-> crc32_le(...) native-endian
-> ~crc32_le(...) - ditto
-> le32_to_cpu(~crc32_le(...)) - byteswapped native-endian on b-e, unchanged on
-> l-e.  So result will be little-endian representation of ~crc32(...) in all
-> cases.  IOW, it's cpu_to_le32(~crc32_le(...)), misannotated as native-endian
-> instead of little-endian it actually is.
->
-> Then you store that value (actually __le32) into *(u32 *)crc.  Seeing that
-> crc is u8[4] there, that *(u32 *) is misleading - you are actually storing
-> __le32 there (and, AFAICS, doing noting with the result).  The same story
-> in rtw_tkip_decrypt(), only there you do use the result later.
->
-> So just make it __le32 crc and
->         crc = cpu_to_le32(~crc32_le(~0, payload, length - 4));
-> with
->                         if (crc[3] != payload[length - 1] || crc[2] != payload[length - 2] ||
->                             crc[1] != payload[length - 3] || crc[0] != payload[length - 4])
-> turned into
->                         if (memcmp(&crc, payload + length - 4, 4) != 0)
-> (or (crc != get_unaligned((__le32 *)(payload + length - 4))),
-> for that matter, to document what's going on and let the damn thing
-> pick the optimal implementation for given architecture).
->
-> Incidentally, your secmicgetuint32() is simply get_unaligned_le32()
-> and secmicputuint32() - put_unaligned_le32().  No need to reinvent
-> that wheel...
->
+> Is someone using 'rc4' and 'security' in the same file?
+Sorry, I don't get it. Could you explain it more? thanks.
 
-Thanks for your comprehensive explanation.
+>
+> >
+> > -                     *((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
+> > +                     *((u32 *)crc) = le32_to_cpu((__force __le32)~crc32_le(~0, payload,
+> > +                                             length - 4));
+> >
+> >                       if (crc[3] != payload[length - 1] || crc[2] != payload[length - 2] ||
+> >                           crc[1] != payload[length - 3] || crc[0] != payload[length - 4])
+>
+> In both cases the *((u32 *)crc) is also very dubious.
+> Casts of pointers to integer types are almost always broken.
+> Given the code that follows the second hunk I'm guessing you
+> have 'u8 crc[4];' (or equivalent).
+> That can be misaligned and then access will panic on some systems.
+>
+yes, I've sent the v3 PATCH and used Al Viro's suggestions.
 
-I just sent the v3 PATCH, but I replied to this thread.
-Should I create the other thread?
-
-For the secmicgetuint32(), I am not the author of this function,
-but you are right we should not reinvent the wheel.
-
-Let's focus on sparse warning fixing in this commit.
+> There is a get_unaligned_be32() (or something similar) that can be used
+> to read the crc from (payload + length - 4).
+I also used memcmp for checking.
 
 thanks.
 
 --jmhuang
+
+>
+>         David
+>
+> -
+> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+> Registration No: 1397386 (Wales)
+>
