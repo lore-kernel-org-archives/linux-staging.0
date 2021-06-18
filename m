@@ -1,171 +1,74 @@
-Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB8A2FAE
-	for <linux-staging@lists.linux.dev>; Fri, 18 Jun 2021 09:58:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by comms.puri.sm (Postfix) with ESMTP id C4965E0172;
-	Fri, 18 Jun 2021 02:58:22 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 03nuqBqAsycZ; Fri, 18 Jun 2021 02:58:22 -0700 (PDT)
-From: Martin Kepplinger <martin.kepplinger@puri.sm>
-To: martin.kepplinger@puri.sm,
-	laurent.pinchart@ideasonboard.com,
-	m.felsch@pengutronix.de,
-	robh@kernel.org
-Cc: devicetree@vger.kernel.org,
-	festevam@gmail.com,
-	kernel@pengutronix.de,
-	kernel@puri.sm,
-	krzk@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-imx@nxp.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	mchehab@kernel.org,
-	phone-devel@vger.kernel.org,
-	shawnguo@kernel.org,
-	slongerbeam@gmail.com
-Subject: [PATCH v5 3/3] arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
-Date: Fri, 18 Jun 2021 11:57:53 +0200
-Message-Id: <20210618095753.114557-4-martin.kepplinger@puri.sm>
-In-Reply-To: <20210618095753.114557-1-martin.kepplinger@puri.sm>
-References: <20210618095753.114557-1-martin.kepplinger@puri.sm>
-Content-Transfer-Encoding: 8bit
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 106B972
+	for <linux-staging@lists.linux.dev>; Fri, 18 Jun 2021 10:23:22 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 05E3361159;
+	Fri, 18 Jun 2021 10:23:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1624011802;
+	bh=1ZxM0FCMwZiZghnpuKtTVnbmtQtc1YYDd9NZGwlFpFs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=1W6vyZoSBAzSTkWS0wOYbBIg/Im0WwpOf6bKl5rB8OP6GFC9KMgPkw/eeMzF/ciJb
+	 fF46LcniH39Hh22MSaVob/xpHsnZrUeph+8WYIeIys6v9Gju4c69MzPCJHLIyLy9JL
+	 UgHb0ADE67tnbQGdyKbMb6FKLCojIH4s9i1BNaxw=
+Date: Fri, 18 Jun 2021 12:23:20 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: liuhailong <liuhailong@oppo.com>
+Cc: arve@android.com, tkjos@android.com, maco@android.com,
+	joel@joelfernandes.org, christian@brauner.io, hridya@google.com,
+	surenb@google.com, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: android: ashmem: add size field in procfs fdinfo
+Message-ID: <YMx0GIRQmpRC7pdQ@kroah.com>
+References: <20210618095035.32410-1-liuhailong@oppo.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210618095035.32410-1-liuhailong@oppo.com>
 
-Describe the 2 available CSI interfaces on the i.MX8MQ with the MIPI-CSI2
-receiver (new driver) and the CSI Bridge that provides the user buffers
-(existing driver).
+On Fri, Jun 18, 2021 at 05:50:35PM +0800, liuhailong wrote:
+> add this information to help user to find ashmem problem.
+> 
+> ashmem leak scenario:
+> -000|fd = ashmem_create_region
+> -001|mmap and pagefault
+> -002|munmap
+> -003|forget close(fd) <---- which lead to ashmem leak
+> 
+> Signed-off-by: liuhailong <liuhailong@oppo.com>
+> ---
+>  drivers/staging/android/ashmem.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/staging/android/ashmem.c b/drivers/staging/android/ashmem.c
+> index d66a64e42273..ee2fd75111d8 100644
+> --- a/drivers/staging/android/ashmem.c
+> +++ b/drivers/staging/android/ashmem.c
+> @@ -894,6 +894,8 @@ static void ashmem_show_fdinfo(struct seq_file *m, struct file *file)
+>  		seq_printf(m, "name:\t%s\n",
+>  			   asma->name + ASHMEM_NAME_PREFIX_LEN);
+>  
+> +	seq_printf(m, "size:\t%zu\n", asma->size);
+> +
+>  	mutex_unlock(&ashmem_mutex);
+>  }
+>  #endif
+> -- 
+> 2.30.2
+> 
+> 
 
-An image sensor is to be connected to the MIPIs' second port, to be described
-in board files.
+As you are changing a user-facing proc file, what tools will break now
+that you have added a new line?
 
-Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
----
- arch/arm64/boot/dts/freescale/imx8mq.dtsi | 104 ++++++++++++++++++++++
- 1 file changed, 104 insertions(+)
+What tools do you use to look at this file and what has been modified to
+handle the change?
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-index 91df9c5350ae..e026a39bddce 100644
---- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-@@ -1099,6 +1099,110 @@ uart4: serial@30a60000 {
- 				status = "disabled";
- 			};
- 
-+			mipi_csi1: csi@30a70000 {
-+				compatible = "fsl,imx8mq-mipi-csi2";
-+				reg = <0x30a70000 0x1000>;
-+				clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
-+				   <&clk IMX8MQ_CLK_CSI1_ESC>,
-+				   <&clk IMX8MQ_CLK_CSI1_PHY_REF>;
-+				clock-names = "core", "esc", "ui";
-+				assigned-clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
-+				    <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
-+				    <&clk IMX8MQ_CLK_CSI1_ESC>;
-+				assigned-clock-rates = <266000000>, <333000000>, <66000000>;
-+				assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
-+					<&clk IMX8MQ_SYS2_PLL_1000M>,
-+					<&clk IMX8MQ_SYS1_PLL_800M>;
-+				power-domains = <&pgc_mipi_csi1>;
-+				resets = <&src IMX8MQ_RESET_MIPI_CSI1_CORE_RESET>,
-+					 <&src IMX8MQ_RESET_MIPI_CSI1_PHY_REF_RESET>,
-+					 <&src IMX8MQ_RESET_MIPI_CSI1_ESC_RESET>;
-+				fsl,mipi-phy-gpr = <&iomuxc_gpr 0x88>;
-+				interconnects = <&noc IMX8MQ_ICM_CSI1 &noc IMX8MQ_ICS_DRAM>;
-+				interconnect-names = "dram";
-+				status = "disabled";
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+
-+						csi1_mipi_ep: endpoint {
-+							remote-endpoint = <&csi1_ep>;
-+						};
-+					};
-+				};
-+			};
-+
-+			csi1: csi@30a90000 {
-+				compatible = "fsl,imx8mq-csi", "fsl,imx7-csi";
-+				reg = <0x30a90000 0x10000>;
-+				interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&clk IMX8MQ_CLK_CSI1_ROOT>;
-+				clock-names = "mclk";
-+				status = "disabled";
-+
-+				port {
-+					csi1_ep: endpoint {
-+						remote-endpoint = <&csi1_mipi_ep>;
-+					};
-+				};
-+			};
-+
-+			mipi_csi2: csi@30b60000 {
-+				compatible = "fsl,imx8mq-mipi-csi2";
-+				reg = <0x30b60000 0x1000>;
-+				clocks = <&clk IMX8MQ_CLK_CSI2_CORE>,
-+				   <&clk IMX8MQ_CLK_CSI2_ESC>,
-+				   <&clk IMX8MQ_CLK_CSI2_PHY_REF>;
-+				clock-names = "core", "esc", "ui";
-+				assigned-clocks = <&clk IMX8MQ_CLK_CSI2_CORE>,
-+				    <&clk IMX8MQ_CLK_CSI2_PHY_REF>,
-+				    <&clk IMX8MQ_CLK_CSI2_ESC>;
-+				assigned-clock-rates = <266000000>, <333000000>, <66000000>;
-+				assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
-+					<&clk IMX8MQ_SYS2_PLL_1000M>,
-+					<&clk IMX8MQ_SYS1_PLL_800M>;
-+				power-domains = <&pgc_mipi_csi2>;
-+				resets = <&src IMX8MQ_RESET_MIPI_CSI2_CORE_RESET>,
-+					 <&src IMX8MQ_RESET_MIPI_CSI2_PHY_REF_RESET>,
-+					 <&src IMX8MQ_RESET_MIPI_CSI2_ESC_RESET>;
-+				fsl,mipi-phy-gpr = <&iomuxc_gpr 0xa4>;
-+				interconnects = <&noc IMX8MQ_ICM_CSI2 &noc IMX8MQ_ICS_DRAM>;
-+				interconnect-names = "dram";
-+				status = "disabled";
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+
-+						csi2_mipi_ep: endpoint {
-+							remote-endpoint = <&csi2_ep>;
-+						};
-+					};
-+				};
-+			};
-+
-+			csi2: csi@30b80000 {
-+				compatible = "fsl,imx8mq-csi", "fsl,imx7-csi";
-+				reg = <0x30b80000 0x10000>;
-+				interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&clk IMX8MQ_CLK_CSI2_ROOT>;
-+				clock-names = "mclk";
-+				status = "disabled";
-+
-+				port {
-+					csi2_ep: endpoint {
-+						remote-endpoint = <&csi2_mipi_ep>;
-+					};
-+				};
-+			};
-+
- 			mu: mailbox@30aa0000 {
- 				compatible = "fsl,imx8mq-mu", "fsl,imx6sx-mu";
- 				reg = <0x30aa0000 0x10000>;
--- 
-2.30.2
+thanks,
 
+greg k-h
