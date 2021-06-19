@@ -1,50 +1,50 @@
 Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05CC2FAF
-	for <linux-staging@lists.linux.dev>; Sat, 19 Jun 2021 10:47:27 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id l18-20020a1ced120000b029014c1adff1edso10298022wmh.4
-        for <linux-staging@lists.linux.dev>; Sat, 19 Jun 2021 03:47:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C546770
+	for <linux-staging@lists.linux.dev>; Sat, 19 Jun 2021 10:47:28 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id h22-20020a05600c3516b02901a826f84095so7241783wmq.5
+        for <linux-staging@lists.linux.dev>; Sat, 19 Jun 2021 03:47:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=aaVYDaWI5B+nrFzKbktT11rttGKVUOF0TEP29OpjHJY=;
-        b=jrTbxGqWSNsRAxiYTedFUiaA2jzsKOAqyadnFItnUixafvICCn9Oc4W5/9+mFpwFOY
-         JTPELP0006Fokmvr7lDyYWCEXx7q8Wv13wnMPlSvp+8y8i151AE+WGo9cIlHXx2Wb8ko
-         VGVPiFznCYW3LB5fDN50puInyCqQTO1479xuy4sAuPeEN6LY7lS1ZNAWxydTOZDblrFG
-         rICXKEGNB+cVAYv5UjEz90whIF0abWs4Y0xoROd4YPEBHRWL0sqHdy9JTIu8OD1uRmjR
-         XJp9GBUicPxIXNdFgU9O2b9EKczzJeTK+JoaXWhO4ckcfD4+KuqmocSrq3QGCNYve6lD
-         9Ueg==
+        bh=6pwu5pM4dbgTBood6EBI5joCOsJM78eFvHusKdHfshs=;
+        b=vhu9sWByZXK8kb+zqz3C+BIbUKY/FPpNYY6FDXEolJWaWVEe1JMlquk7fN5nnHLGZe
+         vl6PC7kb5n3qIDJdP5DgERpxMUCaL2fYSvwHCy5paxnI3u9JxzK12QSC1fWK1B0/mhWL
+         yHyPHY4iBtAL7FBEGHV7yGaccsxoAIB7a2RuTJIQ0pGB5I6KZd6hGtLiu+tjbZmKNsfF
+         I9a7ne6BgLmi4RzAuvUhPmI92/ui6dAAUqOnZwlyNe8DONL66ZzcD23JI6PCWTZqSU0z
+         3MggFyenClWKsUgdO4uxQNmLbritSCYeXM+fcHpXDDD/QXoY/ebt+gDtlhiJYgC1tDCa
+         bJOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=aaVYDaWI5B+nrFzKbktT11rttGKVUOF0TEP29OpjHJY=;
-        b=gR0CcS32nfCZV9EkFkZP8n7bqyg8+CbxI1Ojvl3offbr8GOqWO3jv8AvujL7cvP8u9
-         MOs3y+B5+DrYDNJoN58VEkxG5CwWBF6WLZ5UL6CPgSPCNwl0YyvwdLHZDR5QyixFn6+Y
-         0Ljd+qJMwto/vBf7k9JAnKvTtRKqxFNb4D+WRcZXtTocdheLecVDVbuFSIsOzHwe1aHo
-         YSW8dAyI5qfTK/RTf9367/9+t24+FKM068QIEjlsRLQVDGQ770JWgbKDX2WJ0+cJvsWO
-         HUZ2NwJz9l/e271TvIXnlGECfvGOM5jH6kF6rNVywawidk5OP9VUejnNvWbURRS1AHJu
-         dSmw==
-X-Gm-Message-State: AOAM532T4zQtParJ9tgF+BOj6jH1q5taTuzoE7bb03EOUNNuTYk+s764
-	BbXxfV2sm/CKMEOQe4q87Dg=
-X-Google-Smtp-Source: ABdhPJy+E28Zq+QFV5UdETE0Px4vYC3f64SNWeQHFoiutsm+RIH07MHXe8B6jfprmBgQSPHs5TIgaQ==
-X-Received: by 2002:a05:600c:4e88:: with SMTP id f8mr15842097wmq.14.1624099646184;
-        Sat, 19 Jun 2021 03:47:26 -0700 (PDT)
+        bh=6pwu5pM4dbgTBood6EBI5joCOsJM78eFvHusKdHfshs=;
+        b=LMzC0coRPdG+ALE0bsSUvvCTAdNCNSSmyDVFziL01euFwk0At1Yn/Sz7lhKBJi0YKS
+         20likrqziGvR9gK6Wyoo5xlR8s91ULHIgF6MZwDFeorl5AeFMA7goMVrWtkY9XmNwvKE
+         ntMZLuI7eOOdUVTXupa4u5tHNo4BSO1k6qp1nbwkoszPWHU6ZCHUuyjaXgbx/mWS/KiA
+         54GgVkhpxz6qqOhrRryT97RO57r58lYSJYDDkgRaKm1/dTD5zti05n9m1fZ0Qqe53Drx
+         v8xSi6+raXWEk+zaYo4taInddg/FC2jftJqht4HZENysxvWgzJTyVJao6TGLOKEMk4Bx
+         X8Ag==
+X-Gm-Message-State: AOAM530MUTjaL43Hyf93nck2GmNuBFjBK7u4auS48RzAzD9RMet3omis
+	lW0qLm3lfYahhmGaisqnoR4=
+X-Google-Smtp-Source: ABdhPJxN5J84pzXijlVT8WSK7KaHe294q7cpJdO92cn76gaQ1PY9YE2clQRaBBJFzObkrISJSL6JTA==
+X-Received: by 2002:a1c:98c9:: with SMTP id a192mr15925668wme.66.1624099647418;
+        Sat, 19 Jun 2021 03:47:27 -0700 (PDT)
 Received: from agape ([5.171.81.81])
-        by smtp.gmail.com with ESMTPSA id z14sm9205wrv.68.2021.06.19.03.47.25
+        by smtp.gmail.com with ESMTPSA id w9sm5506667wru.3.2021.06.19.03.47.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Jun 2021 03:47:25 -0700 (PDT)
+        Sat, 19 Jun 2021 03:47:27 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: hdegoede@redhat.com,
 	Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 02/18] staging: rtl8723bs: remove code related to unsupported channel bandwidth
-Date: Sat, 19 Jun 2021 12:47:05 +0200
-Message-Id: <3ad4397340e7f5315b7ee1c0a02eb56d7a07f430.1624099125.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 03/18] staging: rtl8723bs: remove unused enum items related to channel bonding
+Date: Sat, 19 Jun 2021 12:47:06 +0200
+Message-Id: <aee2c78ea50a0bc24c114853500bd44c358745aa.1624099125.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1624099125.git.fabioaiuto83@gmail.com>
 References: <cover.1624099125.git.fabioaiuto83@gmail.com>
@@ -55,339 +55,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove all code related to unsupported channel
-bandwidth (i.e. 80, 80+80, 160 Mhz). rtl8723bs NIC
-works only on 20 and 40 Mhz channels.
-
-Module parameter rtw_bw_mode can only have two
-values: 0 and 1 (20 Mhz and 40Mhz). So modify
-the default value setting to zero the 5Ghz nibble.
-
-Comments modified accordingly.
+remove unused enum items related to channel bonding.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- .../staging/rtl8723bs/core/rtw_wlan_util.c    | 15 +-------
- drivers/staging/rtl8723bs/core/rtw_xmit.c     |  5 +--
- .../staging/rtl8723bs/hal/hal_com_phycfg.c    | 34 -------------------
- drivers/staging/rtl8723bs/hal/odm.h           |  3 --
- drivers/staging/rtl8723bs/hal/odm_DIG.c       |  2 --
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 31 ++---------------
- .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   | 33 +-----------------
- drivers/staging/rtl8723bs/include/drv_types.h |  8 +++--
- drivers/staging/rtl8723bs/include/rtw_rf.h    |  4 ---
- drivers/staging/rtl8723bs/os_dep/os_intfs.c   | 10 +++---
- 10 files changed, 17 insertions(+), 128 deletions(-)
+ drivers/staging/rtl8723bs/include/rtw_rf.h | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index 2a47d678de01..c06b74f6569a 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -336,9 +336,7 @@ u8 rtw_get_center_ch(u8 channel, u8 chnl_bw, u8 chnl_offset)
- {
- 	u8 center_ch = channel;
- 
--	if (chnl_bw == CHANNEL_WIDTH_80) {
--		center_ch = 7;
--	} else if (chnl_bw == CHANNEL_WIDTH_40) {
-+	if (chnl_bw == CHANNEL_WIDTH_40) {
- 		if (chnl_offset == HAL_PRIME_CHNL_OFFSET_LOWER)
- 			center_ch = channel + 2;
- 		else
-@@ -375,14 +373,6 @@ void set_channel_bwmode(struct adapter *padapter, unsigned char channel, unsigne
- 
- 	center_ch = rtw_get_center_ch(channel, bwmode, channel_offset);
- 
--	if (bwmode == CHANNEL_WIDTH_80) {
--		if (center_ch > channel)
--			chnl_offset80 = HAL_PRIME_CHNL_OFFSET_LOWER;
--		else if (center_ch < channel)
--			chnl_offset80 = HAL_PRIME_CHNL_OFFSET_UPPER;
--		else
--			chnl_offset80 = HAL_PRIME_CHNL_OFFSET_DONT_CARE;
--	}
- 
- 	/* set Channel */
- 	if (mutex_lock_interruptible(&(adapter_to_dvobj(padapter)->setch_mutex)))
-@@ -919,9 +909,6 @@ static void bwmode_update_check(struct adapter *padapter, struct ndis_80211_var_
- 	if (phtpriv->ht_option == false)
- 		return;
- 
--	if (pmlmeext->cur_bwmode >= CHANNEL_WIDTH_80)
--		return;
--
- 	if (pIE->Length > sizeof(struct HT_info_element))
- 		return;
- 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 0562fa6c1255..79e4d7df1ef5 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -321,15 +321,12 @@ void _rtw_free_xmit_priv(struct xmit_priv *pxmitpriv)
- 
- u8 query_ra_short_GI(struct sta_info *psta)
- {
--	u8 sgi = false, sgi_20m = false, sgi_40m = false, sgi_80m = false;
-+	u8 sgi = false, sgi_20m = false, sgi_40m = false;
- 
- 	sgi_20m = psta->htpriv.sgi_20m;
- 	sgi_40m = psta->htpriv.sgi_40m;
- 
- 	switch (psta->bw_mode) {
--	case CHANNEL_WIDTH_80:
--		sgi = sgi_80m;
--		break;
- 	case CHANNEL_WIDTH_40:
- 		sgi = sgi_40m;
- 		break;
-diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-index 94d11689b4ac..56e657d2aaac 100644
---- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-@@ -995,7 +995,6 @@ u8 PHY_GetTxPowerIndexBase(
- )
- {
- 	struct hal_com_data *pHalData = GET_HAL_DATA(padapter);
--	u8 i = 0;	/* default set to 1S */
- 	u8 txPower = 0;
- 	u8 chnlIdx = (Channel-1);
- 
-@@ -1035,18 +1034,6 @@ u8 PHY_GetTxPowerIndexBase(
- 				txPower += pHalData->BW40_24G_Diff[RFPath][TX_4S];
- 
- 		}
--		/*  Willis suggest adopt BW 40M power index while in BW 80 mode */
--		else if (BandWidth == CHANNEL_WIDTH_80) {
--			if ((MGN_MCS0 <= Rate && Rate <= MGN_MCS31) || (MGN_VHT1SS_MCS0 <= Rate && Rate <= MGN_VHT4SS_MCS9))
--				txPower += pHalData->BW40_24G_Diff[RFPath][TX_1S];
--			if ((MGN_MCS8 <= Rate && Rate <= MGN_MCS31) || (MGN_VHT2SS_MCS0 <= Rate && Rate <= MGN_VHT4SS_MCS9))
--				txPower += pHalData->BW40_24G_Diff[RFPath][TX_2S];
--			if ((MGN_MCS16 <= Rate && Rate <= MGN_MCS31) || (MGN_VHT3SS_MCS0 <= Rate && Rate <= MGN_VHT4SS_MCS9))
--				txPower += pHalData->BW40_24G_Diff[RFPath][TX_3S];
--			if ((MGN_MCS24 <= Rate && Rate <= MGN_MCS31) || (MGN_VHT4SS_MCS0 <= Rate && Rate <= MGN_VHT4SS_MCS9))
--				txPower += pHalData->BW40_24G_Diff[RFPath][TX_4S];
--
--		}
- 	} else {/* 3 ============================== 5 G ============================== */
- 		if (MGN_6M <= Rate)
- 			txPower = pHalData->Index5G_BW40_Base[RFPath][chnlIdx];
-@@ -1076,23 +1063,6 @@ u8 PHY_GetTxPowerIndexBase(
- 			if ((MGN_MCS24 <= Rate && Rate <= MGN_MCS31) || (MGN_VHT4SS_MCS0 <= Rate && Rate <= MGN_VHT4SS_MCS9))
- 				txPower += pHalData->BW40_5G_Diff[RFPath][TX_4S];
- 
--		} else if (BandWidth == CHANNEL_WIDTH_80) { /*  BW80-1S, BW80-2S */
--			/*  <20121220, Kordan> Get the index of array "Index5G_BW80_Base". */
--			u8 channel5G_80M[CHANNEL_MAX_NUMBER_5G_80M] = {42, 58, 106, 122, 138, 155, 171};
--			for (i = 0; i < ARRAY_SIZE(channel5G_80M); ++i)
--				if (channel5G_80M[i] == Channel)
--					chnlIdx = i;
--
--			txPower = pHalData->Index5G_BW80_Base[RFPath][chnlIdx];
--
--			if ((MGN_MCS0 <= Rate && Rate <= MGN_MCS31)  || (MGN_VHT1SS_MCS0 <= Rate && Rate <= MGN_VHT4SS_MCS9))
--				txPower += + pHalData->BW80_5G_Diff[RFPath][TX_1S];
--			if ((MGN_MCS8 <= Rate && Rate <= MGN_MCS31) || (MGN_VHT2SS_MCS0 <= Rate && Rate <= MGN_VHT4SS_MCS9))
--				txPower += pHalData->BW80_5G_Diff[RFPath][TX_2S];
--			if ((MGN_MCS16 <= Rate && Rate <= MGN_MCS31) || (MGN_VHT3SS_MCS0 <= Rate && Rate <= MGN_VHT4SS_MCS9))
--				txPower += pHalData->BW80_5G_Diff[RFPath][TX_3S];
--			if ((MGN_MCS23 <= Rate && Rate <= MGN_MCS31) || (MGN_VHT4SS_MCS0 <= Rate && Rate <= MGN_VHT4SS_MCS9))
--				txPower += pHalData->BW80_5G_Diff[RFPath][TX_4S];
- 		}
- 	}
- 
-@@ -1512,10 +1482,6 @@ static s16 get_bandwidth_idx(const enum channel_width bandwidth)
- 		return 0;
- 	case CHANNEL_WIDTH_40:
- 		return 1;
--	case CHANNEL_WIDTH_80:
--		return 2;
--	case CHANNEL_WIDTH_160:
--		return 3;
- 	default:
- 		return -1;
- 	}
-diff --git a/drivers/staging/rtl8723bs/hal/odm.h b/drivers/staging/rtl8723bs/hal/odm.h
-index 7e2d3679c7d0..a7a77fbb8390 100644
---- a/drivers/staging/rtl8723bs/hal/odm.h
-+++ b/drivers/staging/rtl8723bs/hal/odm.h
-@@ -471,9 +471,6 @@ enum { /* tag_Band_Type_Definition */
- enum { /* tag_Bandwidth_Definition */
- 	ODM_BW20M		= 0,
- 	ODM_BW40M		= 1,
--	ODM_BW80M		= 2,
--	ODM_BW160M		= 3,
--	ODM_BW10M		= 4,
- };
- 
- /*  ODM_CMNINFO_BOARD_TYPE */
-diff --git a/drivers/staging/rtl8723bs/hal/odm_DIG.c b/drivers/staging/rtl8723bs/hal/odm_DIG.c
-index 702bb065636a..ef5b48bb01b2 100644
---- a/drivers/staging/rtl8723bs/hal/odm_DIG.c
-+++ b/drivers/staging/rtl8723bs/hal/odm_DIG.c
-@@ -230,8 +230,6 @@ void odm_Adaptivity(void *pDM_VOID, u8 IGI)
- 		IGI_target = pDM_Odm->IGI_Base;
- 	else if (*pDM_Odm->pBandWidth == ODM_BW40M)
- 		IGI_target = pDM_Odm->IGI_Base + 2;
--	else if (*pDM_Odm->pBandWidth == ODM_BW80M)
--		IGI_target = pDM_Odm->IGI_Base + 2;
- 	else
- 		IGI_target = pDM_Odm->IGI_Base;
- 	pDM_Odm->IGI_target = (u8) IGI_target;
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index 6359cd661374..3ecd034342ec 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -2509,15 +2509,8 @@ u8 BWMapping_8723B(struct adapter *Adapter, struct pkt_attrib *pattrib)
- 	u8 BWSettingOfDesc = 0;
- 	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
- 
--	if (pHalData->CurrentChannelBW == CHANNEL_WIDTH_80) {
--		if (pattrib->bwmode == CHANNEL_WIDTH_80)
--			BWSettingOfDesc = 2;
--		else if (pattrib->bwmode == CHANNEL_WIDTH_40)
--			BWSettingOfDesc = 1;
--		else
--			BWSettingOfDesc = 0;
--	} else if (pHalData->CurrentChannelBW == CHANNEL_WIDTH_40) {
--		if ((pattrib->bwmode == CHANNEL_WIDTH_40) || (pattrib->bwmode == CHANNEL_WIDTH_80))
-+	if (pHalData->CurrentChannelBW == CHANNEL_WIDTH_40) {
-+		if (pattrib->bwmode == CHANNEL_WIDTH_40)
- 			BWSettingOfDesc = 1;
- 		else
- 			BWSettingOfDesc = 0;
-@@ -2535,25 +2528,7 @@ u8 SCMapping_8723B(struct adapter *Adapter, struct pkt_attrib *pattrib)
- 	u8 SCSettingOfDesc = 0;
- 	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
- 
--	if (pHalData->CurrentChannelBW == CHANNEL_WIDTH_80) {
--		if (pattrib->bwmode == CHANNEL_WIDTH_80) {
--			SCSettingOfDesc = VHT_DATA_SC_DONOT_CARE;
--		} else if (pattrib->bwmode == CHANNEL_WIDTH_40) {
--			if (pHalData->nCur80MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER)
--				SCSettingOfDesc = VHT_DATA_SC_40_LOWER_OF_80MHZ;
--			else if (pHalData->nCur80MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_UPPER)
--				SCSettingOfDesc = VHT_DATA_SC_40_UPPER_OF_80MHZ;
--		} else {
--			if ((pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER) && (pHalData->nCur80MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER))
--				SCSettingOfDesc = VHT_DATA_SC_20_LOWEST_OF_80MHZ;
--			else if ((pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_UPPER) && (pHalData->nCur80MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER))
--				SCSettingOfDesc = VHT_DATA_SC_20_LOWER_OF_80MHZ;
--			else if ((pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER) && (pHalData->nCur80MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_UPPER))
--				SCSettingOfDesc = VHT_DATA_SC_20_UPPER_OF_80MHZ;
--			else if ((pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_UPPER) && (pHalData->nCur80MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_UPPER))
--				SCSettingOfDesc = VHT_DATA_SC_20_UPPERST_OF_80MHZ;
--		}
--	} else if (pHalData->CurrentChannelBW == CHANNEL_WIDTH_40) {
-+	if (pHalData->CurrentChannelBW == CHANNEL_WIDTH_40) {
- 		if (pattrib->bwmode == CHANNEL_WIDTH_40) {
- 			SCSettingOfDesc = VHT_DATA_SC_DONOT_CARE;
- 		} else if (pattrib->bwmode == CHANNEL_WIDTH_20) {
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-index 3a2e3d0e88e8..275460865719 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-@@ -609,11 +609,6 @@ static void phy_SetRegBW_8723B(
- 		rtw_write16(Adapter, REG_TRXPTCL_CTL_8723B, (u2tmp & 0xFEFF)); /*  BIT 7 = 1, BIT 8 = 0 */
- 		break;
- 
--	case CHANNEL_WIDTH_80:
--		u2tmp = RegRfMod_BW | BIT8;
--		rtw_write16(Adapter, REG_TRXPTCL_CTL_8723B, (u2tmp & 0xFF7F)); /*  BIT 7 = 0, BIT 8 = 1 */
--		break;
--
- 	default:
- 		break;
- 	}
-@@ -624,33 +619,7 @@ static u8 phy_GetSecondaryChnl_8723B(struct adapter *Adapter)
- 	u8 SCSettingOf40 = 0, SCSettingOf20 = 0;
- 	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
- 
--	if (pHalData->CurrentChannelBW == CHANNEL_WIDTH_80) {
--		if (pHalData->nCur80MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER)
--			SCSettingOf40 = VHT_DATA_SC_40_LOWER_OF_80MHZ;
--		else if (pHalData->nCur80MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_UPPER)
--			SCSettingOf40 = VHT_DATA_SC_40_UPPER_OF_80MHZ;
--
--		if (
--			(pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER) &&
--			(pHalData->nCur80MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER)
--		)
--			SCSettingOf20 = VHT_DATA_SC_20_LOWEST_OF_80MHZ;
--		else if (
--			(pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_UPPER) &&
--			(pHalData->nCur80MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER)
--		)
--			SCSettingOf20 = VHT_DATA_SC_20_LOWER_OF_80MHZ;
--		else if (
--			(pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER) &&
--			(pHalData->nCur80MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_UPPER)
--		)
--			SCSettingOf20 = VHT_DATA_SC_20_UPPER_OF_80MHZ;
--		else if (
--			(pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_UPPER) &&
--			(pHalData->nCur80MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_UPPER)
--		)
--			SCSettingOf20 = VHT_DATA_SC_20_UPPERST_OF_80MHZ;
--	} else if (pHalData->CurrentChannelBW == CHANNEL_WIDTH_40) {
-+	if (pHalData->CurrentChannelBW == CHANNEL_WIDTH_40) {
- 		if (pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_UPPER)
- 			SCSettingOf20 = VHT_DATA_SC_20_UPPER_OF_80MHZ;
- 		else if (pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER)
-diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
-index cc0dac355589..02df5bd8f575 100644
---- a/drivers/staging/rtl8723bs/include/drv_types.h
-+++ b/drivers/staging/rtl8723bs/include/drv_types.h
-@@ -108,9 +108,11 @@ struct registry_priv {
- 	struct wlan_bssid_ex    dev_network;
- 
- 	u8 ht_enable;
--	/*  0: 20 MHz, 1: 40 MHz, 2: 80 MHz, 3: 160MHz */
--	/*  2.4G use bit 0 ~ 3, 5G use bit 4 ~ 7 */
--	/*  0x21 means enable 2.4G 40MHz & 5G 80MHz */
-+	/*
-+	 * 0: 20 MHz, 1: 40 MHz
-+	 * 2.4G use bit 0 ~ 3
-+	 * 0x01 means enable 2.4G 40MHz
-+	 */
- 	u8 bw_mode;
- 	u8 ampdu_enable;/* for tx */
- 	u8 rx_stbc;
 diff --git a/drivers/staging/rtl8723bs/include/rtw_rf.h b/drivers/staging/rtl8723bs/include/rtw_rf.h
-index cb6beccd3d23..98bc274e5e81 100644
+index 98bc274e5e81..550471637315 100644
 --- a/drivers/staging/rtl8723bs/include/rtw_rf.h
 +++ b/drivers/staging/rtl8723bs/include/rtw_rf.h
-@@ -83,10 +83,6 @@ enum {
- enum channel_width {
- 	CHANNEL_WIDTH_20 = 0,
- 	CHANNEL_WIDTH_40 = 1,
--	CHANNEL_WIDTH_80 = 2,
--	CHANNEL_WIDTH_160 = 3,
--	CHANNEL_WIDTH_80_80 = 4,
--	CHANNEL_WIDTH_MAX = 5,
+@@ -98,14 +98,6 @@ enum {
+ 	VHT_DATA_SC_DONOT_CARE = 0,
+ 	VHT_DATA_SC_20_UPPER_OF_80MHZ = 1,
+ 	VHT_DATA_SC_20_LOWER_OF_80MHZ = 2,
+-	VHT_DATA_SC_20_UPPERST_OF_80MHZ = 3,
+-	VHT_DATA_SC_20_LOWEST_OF_80MHZ = 4,
+-	VHT_DATA_SC_20_RECV1 = 5,
+-	VHT_DATA_SC_20_RECV2 = 6,
+-	VHT_DATA_SC_20_RECV3 = 7,
+-	VHT_DATA_SC_20_RECV4 = 8,
+-	VHT_DATA_SC_40_UPPER_OF_80MHZ = 9,
+-	VHT_DATA_SC_40_LOWER_OF_80MHZ = 10,
  };
  
- /*  Represent Extension Channel Offset in HT Capabilities */
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index 4e7c115c8bc1..a06c8b1beb01 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -65,10 +65,12 @@ static int rtw_uapsd_acvi_en;
- static int rtw_uapsd_acvo_en;
- 
- int rtw_ht_enable = 1;
--/*  0: 20 MHz, 1: 40 MHz, 2: 80 MHz, 3: 160MHz, 4: 80+80MHz */
--/*  2.4G use bit 0 ~ 3, 5G use bit 4 ~ 7 */
--/*  0x21 means enable 2.4G 40MHz & 5G 80MHz */
--static int rtw_bw_mode = 0x21;
-+/*
-+ * 0: 20 MHz, 1: 40 MHz
-+ * 2.4G use bit 0 ~ 3
-+ * 0x01 means enable 2.4G 40MHz
-+ */
-+static int rtw_bw_mode = 0x01;
- static int rtw_ampdu_enable = 1;/* for enable tx_ampdu ,0: disable, 0x1:enable (but wifi_spec should be 0), 0x2: force enable (don't care wifi_spec) */
- static int rtw_rx_stbc = 1;/*  0: disable, 1:enable 2.4g */
- static int rtw_ampdu_amsdu;/*  0: disabled, 1:enabled, 2:auto . There is an IOT issu with DLINK DIR-629 when the flag turn on */
+ /* 2007/11/15 MH Define different RF type. */
 -- 
 2.20.1
 
