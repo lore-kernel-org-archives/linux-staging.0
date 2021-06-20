@@ -1,22 +1,22 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2282170
-	for <linux-staging@lists.linux.dev>; Sun, 20 Jun 2021 17:53:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3319270
+	for <linux-staging@lists.linux.dev>; Sun, 20 Jun 2021 17:53:33 +0000 (UTC)
 Received: from dslb-084-059-235-131.084.059.pools.vodafone-ip.de ([84.59.235.131] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1lv1dS-00012S-LR; Sun, 20 Jun 2021 19:53:30 +0200
+	id 1lv1dT-00012S-Nn; Sun, 20 Jun 2021 19:53:31 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	kernel-janitors@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 07/13] staging: rtl8188eu: remove RT_TRACE and MSG_88E prints from usb_halinit.c
-Date: Sun, 20 Jun 2021 19:52:55 +0200
-Message-Id: <20210620175301.14988-7-martin@kaiser.cx>
+Subject: [PATCH 08/13] staging: rtl8188eu: remove HAL_INIT_PROFILE_TAG
+Date: Sun, 20 Jun 2021 19:52:56 +0200
+Message-Id: <20210620175301.14988-8-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210620175301.14988-1-martin@kaiser.cx>
 References: <20210620175301.14988-1-martin@kaiser.cx>
@@ -27,100 +27,127 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Eventually, all driver-specific debug prints should be removed.
-Take another step in that direction.
+Remove HAL_INIT_PROFILE_TAG, which is an empty loop already.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/rtl8188eu/hal/usb_halinit.c | 21 ---------------------
- 1 file changed, 21 deletions(-)
+ drivers/staging/rtl8188eu/hal/usb_halinit.c | 20 --------------------
+ 1 file changed, 20 deletions(-)
 
 diff --git a/drivers/staging/rtl8188eu/hal/usb_halinit.c b/drivers/staging/rtl8188eu/hal/usb_halinit.c
-index dcdf868b394d..3ecc0186fea0 100644
+index 3ecc0186fea0..23f6597b7e07 100644
 --- a/drivers/staging/rtl8188eu/hal/usb_halinit.c
 +++ b/drivers/staging/rtl8188eu/hal/usb_halinit.c
-@@ -664,7 +664,6 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
- 	HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_INIT_PW_ON);
+@@ -643,10 +643,6 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
+ 	struct pwrctrl_priv		*pwrctrlpriv = &Adapter->pwrctrlpriv;
+ 	struct registry_priv	*pregistrypriv = &Adapter->registrypriv;
+ 
+-	#define HAL_INIT_PROFILE_TAG(stage) do {} while (0)
+-
+-	HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_BEGIN);
+-
+ 	if (Adapter->pwrctrlpriv.bkeepfwalive) {
+ 		if (haldata->odmpriv.RFCalibrateInfo.bIQKInitialized) {
+ 			rtl88eu_phy_iq_calibrate(Adapter, true);
+@@ -661,7 +657,6 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
+ 		goto exit;
+ 	}
+ 
+-	HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_INIT_PW_ON);
  	status = rtw_hal_power_on(Adapter);
  	if (status == _FAIL) {
--		RT_TRACE(_module_hci_hal_init_c_, _drv_err_, ("Failed to init power on!\n"));
  		goto exit;
+@@ -684,7 +679,6 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
+ 		txpktbuf_bndy = WMM_NORMAL_TX_PAGE_BOUNDARY_88E;
  	}
  
-@@ -704,7 +703,6 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
- 			Adapter->bFWReady = false;
- 			return status;
- 		}
--		RT_TRACE(_module_hci_hal_init_c_, _drv_info_, ("Initializeadapt8192CSdio(): Download Firmware Success!!\n"));
- 		Adapter->bFWReady = true;
- 	}
- 	rtl8188e_InitializeFirmwareVars(Adapter);
-@@ -725,7 +723,6 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
- 	HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_INIT_LLTT);
+-	HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MISC01);
+ 	_InitQueueReservedPage(Adapter);
+ 	_InitQueuePriority(Adapter);
+ 	_InitPageBoundary(Adapter);
+@@ -692,7 +686,6 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
+ 
+ 	_InitTxBufferBoundary(Adapter, 0);
+ 
+-	HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_DOWNLOAD_FW);
+ 	if (Adapter->registrypriv.mp_mode == 1) {
+ 		_InitRxSetting(Adapter);
+ 		Adapter->bFWReady = false;
+@@ -713,20 +706,17 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
+ 
+ 	rtl88eu_phy_rf_config(Adapter);
+ 
+-	HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_EFUSE_PATCH);
+ 	status = rtl8188e_iol_efuse_patch(Adapter);
+ 	if (status == _FAIL)
+ 		goto exit;
+ 
+ 	_InitTxBufferBoundary(Adapter, txpktbuf_bndy);
+ 
+-	HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_INIT_LLTT);
  	status =  InitLLTTable(Adapter, txpktbuf_bndy);
  	if (status == _FAIL) {
--		RT_TRACE(_module_hci_hal_init_c_, _drv_err_, ("Failed to init LLT table\n"));
  		goto exit;
  	}
  
-@@ -861,8 +858,6 @@ static void CardDisableRTL8188EU(struct adapter *Adapter)
- {
- 	u8 val8;
+-	HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MISC02);
+ 	/*  Get Rx PHY status in order to report RSSI and others. */
+ 	_InitDriverInfoSize(Adapter, DRVINFO_SZ);
  
--	RT_TRACE(_module_hci_hal_init_c_, _drv_info_, ("%s\n", __func__));
--
- 	/* Stop Tx Report Timer. 0x4EC[Bit1]=b'0 */
- 	val8 = usb_read8(Adapter, REG_TX_RPT_CTRL);
- 	usb_write8(Adapter, REG_TX_RPT_CTRL, val8 & (~BIT(1)));
-@@ -954,14 +949,10 @@ u32 rtw_hal_inirp_init(struct adapter *Adapter)
+@@ -768,13 +758,10 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
+ 	haldata->RfRegChnlVal[0] = rtw_hal_read_rfreg(Adapter, (enum rf_radio_path)0, RF_CHNLBW, bRFRegOffsetMask);
+ 	haldata->RfRegChnlVal[1] = rtw_hal_read_rfreg(Adapter, (enum rf_radio_path)1, RF_CHNLBW, bRFRegOffsetMask);
  
- 	status = _SUCCESS;
+-	HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_TURN_ON_BLOCK);
+ 	_BBTurnOnBlock(Adapter);
  
--	RT_TRACE(_module_hci_hal_init_c_, _drv_info_,
--		 ("===> usb_inirp_init\n"));
--
- 	/* issue Rx irp to receive data */
- 	precvbuf = precvpriv->precv_buf;
- 	for (i = 0; i < NR_RECVBUFF; i++) {
- 		if (!usb_read_port(Adapter, RECV_BULK_IN_ADDR, precvbuf)) {
--			RT_TRACE(_module_hci_hal_init_c_, _drv_err_, ("usb_rx_init: usb_read_port error\n"));
- 			status = _FAIL;
- 			goto exit;
+-	HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_INIT_SECURITY);
+ 	invalidate_cam_all(Adapter);
+ 
+-	HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_MISC11);
+ 	/*  2010/12/17 MH We need to set TX power according to EFUSE content at first. */
+ 	phy_set_tx_power_level(Adapter, haldata->CurrentChannel);
+ 
+@@ -799,7 +786,6 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
+ 	/* Nav limit , suggest by scott */
+ 	usb_write8(Adapter, 0x652, 0x0);
+ 
+-	HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_INIT_HAL_DM);
+ 	rtl8188e_InitHalDm(Adapter);
+ 
+ 	/*  2010/08/11 MH Merge from 8192SE for Minicard init. We need to confirm current radio status */
+@@ -823,7 +809,6 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
+ 	/* enable tx DMA to drop the redundate data of packet */
+ 	usb_write16(Adapter, REG_TXDMA_OFFSET_CHK, (usb_read16(Adapter, REG_TXDMA_OFFSET_CHK) | DROP_DATA_EN));
+ 
+-	HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_IQK);
+ 	/*  2010/08/26 MH Merge from 8192CE. */
+ 	if (pwrctrlpriv->rf_pwrstate == rf_on) {
+ 		if (haldata->odmpriv.RFCalibrateInfo.bIQKInitialized) {
+@@ -833,15 +818,11 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
+ 			haldata->odmpriv.RFCalibrateInfo.bIQKInitialized = true;
  		}
-@@ -970,9 +961,6 @@ u32 rtw_hal_inirp_init(struct adapter *Adapter)
+ 
+-		HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_PW_TRACK);
+-
+ 		ODM_TXPowerTrackingCheck(&haldata->odmpriv);
+ 
+-		HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_LCK);
+ 		rtl88eu_phy_lc_calibrate(Adapter);
  	}
+ 
+-/* HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_INIT_PABIAS); */
+ /*	_InitPABias(Adapter); */
+ 	usb_write8(Adapter, REG_USB_HRPWM, 0);
+ 
+@@ -849,7 +830,6 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
+ 	usb_write32(Adapter, REG_FWHW_TXQ_CTRL, usb_read32(Adapter, REG_FWHW_TXQ_CTRL) | BIT(12));
  
  exit:
--
--	RT_TRACE(_module_hci_hal_init_c_, _drv_info_, ("<=== usb_inirp_init\n"));
--
+-	HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_END);
+ 
  	return status;
  }
- 
-@@ -1016,8 +1004,6 @@ static void Hal_EfuseParseMACAddr_8188EU(struct adapter *adapt, u8 *hwinfo, bool
- 		/* Read Permanent MAC address */
- 		memcpy(eeprom->mac_addr, &hwinfo[EEPROM_MAC_ADDR_88EU], ETH_ALEN);
- 	}
--	RT_TRACE(_module_hci_hal_init_c_, _drv_notice_,
--		 ("%s: Permanent Address = %pM\n", __func__, eeprom->mac_addr));
- }
- 
- static void readAdapterInfo_8188EU(struct adapter *adapt)
-@@ -1056,14 +1042,7 @@ static void _ReadPROMContent(struct adapter *Adapter)
- 
- void rtw_hal_read_chip_info(struct adapter *Adapter)
- {
--	unsigned long start = jiffies;
--
--	MSG_88E("====> %s\n", __func__);
--
- 	_ReadPROMContent(Adapter);
--
--	MSG_88E("<==== %s in %d ms\n", __func__,
--		jiffies_to_msecs(jiffies - start));
- }
- 
- #define GPIO_DEBUG_PORT_NUM 0
 -- 
 2.20.1
 
