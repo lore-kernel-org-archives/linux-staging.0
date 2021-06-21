@@ -1,57 +1,57 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A492870
-	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 09:40:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 127E470
+	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 09:45:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1624268452;
+	s=mimecast20190719; t=1624268744;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0VXXezNZTXYgRcgxiPYDmMNXXzLu8hXiiSCjCS+2vq4=;
-	b=eJbDGLO6eLXWYP5EHqfZeQFb3qUzFEDV3WJyLG8blfia4xbo4F2DuATsSHdvHvliHYBB8k
-	zne7smG4r4EzjEzNrq/CSzY+XNjV3f0AefReRkBylg2U6tUJw2/NvNgfeh2QUiBq+/RXuN
-	d38RcixnYPx8GS2SXGO+Z74h7kDEbLI=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-NkjKS5ccPkaO8iNzP2BODg-1; Mon, 21 Jun 2021 05:40:50 -0400
-X-MC-Unique: NkjKS5ccPkaO8iNzP2BODg-1
-Received: by mail-ed1-f71.google.com with SMTP id g13-20020a056402090db02903935a4cb74fso7476572edz.1
-        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 02:40:50 -0700 (PDT)
+	bh=G9SU4BRTXIiy90uMM9jwTSei/FzgXFcCjI/JzEBv3fM=;
+	b=BqAHgCFtWSB8hCOynqE8/HkeNe9+fovZ6AfEvGLsrcT5zJn+7c0muzYUkwOjww0mgDsNYA
+	hkBVwn6mLGV9T/q/DNYccg0AG8ULkS4ww2QByM7QS81ZIwc9ftWInTUe2Q20DMQoDJljqL
+	gBNhBWCZTAchKHCLdnKKpkz/BkBOMvE=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-551-5KyTQ8gUMdSyUY-3RmoWqA-1; Mon, 21 Jun 2021 05:45:42 -0400
+X-MC-Unique: 5KyTQ8gUMdSyUY-3RmoWqA-1
+Received: by mail-ej1-f70.google.com with SMTP id hz18-20020a1709072cf2b02903fbaae9f4faso6134055ejc.4
+        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 02:45:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=0VXXezNZTXYgRcgxiPYDmMNXXzLu8hXiiSCjCS+2vq4=;
-        b=sShnUkaETInd+VrCH/QiVbUDlMsKs5PC9CfwCx+HfNsekYQjzM+nYYW6dUW8KJ+sLU
-         vSiLqO/CjzNTYtEpwVHzuh58i8NZU5nA4tT+HTaRpug9u4KM37cpj5z/o6A9sQGA5nI1
-         VV9xuUXZjqEYzh3/fYfSuHes9JhgIjp8nvsGBQAeITS0ZUmo98x7SmprLaIgUe1ZDsIO
-         HB3caUr0IsM6O4PCUQvubhziNrT2fgTpzWI3kdIP4tjgnMIbh4dktX0Ti29r520c8y4q
-         R46HIaID7O7D61/AECPnkQtp6KT70eb6lVGWvK/4s6zJEB657rU/MkZHgLb+687UAQyf
-         X21Q==
-X-Gm-Message-State: AOAM533JPCJVX4eo+Ge6j4gOpP8S02z17Q/JCAS5C07sqhWp/sVtDJHL
-	wHUNnNfIT/uJ11ogk6hYevdyYZJncxQROuZtVSEoZOT/BqPMU1fPyE86XD7SG6Bn0d+14zo4A2e
-	eeaKSssWf7qzHN3jXcsqY46O+hw==
-X-Received: by 2002:a17:906:c83b:: with SMTP id dd27mr14190683ejb.547.1624268449337;
-        Mon, 21 Jun 2021 02:40:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyRLgPfpcM1QppY/GT0QWc8rn04LrAsH5cX2NeTB8GaBKg9hz8L50a42RLVSMX3f2+xmxX4NA==
-X-Received: by 2002:a17:906:c83b:: with SMTP id dd27mr14190663ejb.547.1624268449086;
-        Mon, 21 Jun 2021 02:40:49 -0700 (PDT)
+        bh=G9SU4BRTXIiy90uMM9jwTSei/FzgXFcCjI/JzEBv3fM=;
+        b=IVmPU7B0dwxDQrwSUgxJbf2Rc86koIT0+YiMMZZuHsz3Z4TwUVdWmMNMS33VSNlyHO
+         mkfHU+pSb8x17J4rXhSZMSz0k4BEFdxV8yYYyBhO7GP6Jh+YU+ZjYjKKx4tq1R6X74Ra
+         0IAEsOuqxPyZTDbjgjkvwMGRfSa26VoARHMW11v9T5qIy3zx2naMWOxhndnw1gh49qhB
+         /uy8RYn1fOLta6khNRXOJz1cBi1wUg1XS0Ff+A7qOqywWOjDF41wMVZyiUSbQ0gWwNFg
+         6NlKW2kMTXM04xqvnGqW0VDdOvfkeguYbp7DAW7i/FgXNo9PUkcf+M39Z6iC+Y13u4dZ
+         +xnw==
+X-Gm-Message-State: AOAM531TM10kMuzNcSR5v9z9BNG/IoE6wiNwFaY1jnV8N6xe/eTHSHyX
+	MLqF21qFT14945N5D2w3AbGolkHo8SR2GQbe8InAj0vdul9eKhhVFIX9YwesNzSTCkoa55ekRdY
+	igArtc1eIekziOFlvF59CPgbl8Q==
+X-Received: by 2002:a17:906:17d8:: with SMTP id u24mr23967933eje.106.1624268741138;
+        Mon, 21 Jun 2021 02:45:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxWTSbA0LXFl9hPYG7OYOCanQoHQzS1O/yxVwb89Ia2JbN90gumk0O0zMsD5uIXizTUS3dcUQ==
+X-Received: by 2002:a17:906:17d8:: with SMTP id u24mr23967904eje.106.1624268740767;
+        Mon, 21 Jun 2021 02:45:40 -0700 (PDT)
 Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id d25sm10507255edu.83.2021.06.21.02.40.48
+        by smtp.gmail.com with ESMTPSA id og26sm4611724ejc.52.2021.06.21.02.45.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Jun 2021 02:40:48 -0700 (PDT)
-Subject: Re: [PATCH 01/18] staging: rtl8723bs: remove all 5Ghz network types
+        Mon, 21 Jun 2021 02:45:39 -0700 (PDT)
+Subject: Re: [PATCH 12/18] staging: rtl8723bs: remove VHT dead code
 To: Fabio Aiuto <fabioaiuto83@gmail.com>, gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
 References: <cover.1624099125.git.fabioaiuto83@gmail.com>
- <96b241e97e425a3115305b3d6658037e1e4c862c.1624099125.git.fabioaiuto83@gmail.com>
+ <d3f79570088ad339bd80fe9d6b24604ac91ea8d3.1624099126.git.fabioaiuto83@gmail.com>
 From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <7d973fa3-5f2f-ca23-5fd3-5f7e11ce6e98@redhat.com>
-Date: Mon, 21 Jun 2021 11:40:47 +0200
+Message-ID: <dd0332d7-5d9f-49e5-3fc6-8ae3e623f29c@redhat.com>
+Date: Mon, 21 Jun 2021 11:45:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -59,7 +59,7 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <96b241e97e425a3115305b3d6658037e1e4c862c.1624099125.git.fabioaiuto83@gmail.com>
+In-Reply-To: <d3f79570088ad339bd80fe9d6b24604ac91ea8d3.1624099126.git.fabioaiuto83@gmail.com>
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -70,63 +70,502 @@ Content-Transfer-Encoding: 7bit
 
 Hi,
 
-Thank you for your work in this.
-
 On 6/19/21 12:47 PM, Fabio Aiuto wrote:
-> remove all 5Ghz network types. rtl8723bs works on
-> 802.11bgn standards and on 2.4Ghz band.
-> 
-> So remove all code related to 802.11a and 802.11ac
-> standards, which the device doesn't support.
+> remove VHT dead code, as the device doesn't support
+> VHT (which is a 802.11ac capability).
 > 
 > Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_ap.c       | 10 +---
->  .../staging/rtl8723bs/core/rtw_ieee80211.c    | 22 ++------
->  drivers/staging/rtl8723bs/core/rtw_mlme.c     | 10 ----
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 55 -------------------
->  .../staging/rtl8723bs/core/rtw_wlan_util.c    | 14 +----
->  drivers/staging/rtl8723bs/hal/odm.c           | 30 ----------
->  drivers/staging/rtl8723bs/hal/odm.h           |  3 -
->  .../rtl8723bs/hal/odm_EdcaTurboCheck.c        |  4 +-
->  drivers/staging/rtl8723bs/hal/sdio_halinit.c  |  5 --
->  drivers/staging/rtl8723bs/include/hal_phy.h   |  3 -
->  drivers/staging/rtl8723bs/include/ieee80211.h | 22 +-------
->  drivers/staging/rtl8723bs/include/wifi.h      |  1 -
->  drivers/staging/rtl8723bs/os_dep/os_intfs.c   |  2 +-
->  13 files changed, 14 insertions(+), 167 deletions(-)
+>  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |   1 -
+>  drivers/staging/rtl8723bs/hal/hal_com.c       | 241 -----------
+>  .../staging/rtl8723bs/hal/hal_com_phycfg.c    | 383 +-----------------
+>  drivers/staging/rtl8723bs/include/hal_com.h   |  62 +--
+>  .../rtl8723bs/include/hal_com_phycfg.h        |   4 -
+>  drivers/staging/rtl8723bs/include/ieee80211.h |  45 --
+>  .../staging/rtl8723bs/include/rtl8723b_xmit.h |  21 -
+>  drivers/staging/rtl8723bs/include/rtw_ht.h    |   4 -
+>  8 files changed, 9 insertions(+), 752 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-> index 23bbdf084631..b0abadd4b4dd 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-> @@ -343,10 +343,7 @@ void add_RATid(struct adapter *padapter, struct sta_info *psta, u8 rssi_level)
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> index 285acd3d843b..c128d462c6c7 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> @@ -46,7 +46,6 @@ static struct action_handler OnAction_tbl[] = {
+>  	{RTW_WLAN_CATEGORY_UNPROTECTED_WNM, "ACTION_UNPROTECTED_WNM", &DoReserved},
+>  	{RTW_WLAN_CATEGORY_SELF_PROTECTED, "ACTION_SELF_PROTECTED", &DoReserved},
+>  	{RTW_WLAN_CATEGORY_WMM, "ACTION_WMM", &DoReserved},
+> -	{RTW_WLAN_CATEGORY_VHT, "ACTION_VHT", &DoReserved},
+>  	{RTW_WLAN_CATEGORY_P2P, "ACTION_P2P", &DoReserved},
+>  };
 >  
->  	if (pcur_network->Configuration.DSConfig > 14) {
-
-This if sounds like it is checking for a channel-nr greater
-then 14, so maybe this entire block should go away ?
-
->  		if (tx_ra_bitmap & 0xffff000)
-> -			sta_band |= WIRELESS_11_5N;
+> diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
+> index 7a88447f8294..eebd48438733 100644
+> --- a/drivers/staging/rtl8723bs/hal/hal_com.c
+> +++ b/drivers/staging/rtl8723bs/hal/hal_com.c
+> @@ -295,126 +295,6 @@ u8 MRateToHwRate(u8 rate)
+>  	case MGN_MCS31:
+>  		ret = DESC_RATEMCS31;
+>  		break;
+> -	case MGN_VHT1SS_MCS0:
+> -		ret = DESC_RATEVHTSS1MCS0;
+> -		break;
+> -	case MGN_VHT1SS_MCS1:
+> -		ret = DESC_RATEVHTSS1MCS1;
+> -		break;
+> -	case MGN_VHT1SS_MCS2:
+> -		ret = DESC_RATEVHTSS1MCS2;
+> -		break;
+> -	case MGN_VHT1SS_MCS3:
+> -		ret = DESC_RATEVHTSS1MCS3;
+> -		break;
+> -	case MGN_VHT1SS_MCS4:
+> -		ret = DESC_RATEVHTSS1MCS4;
+> -		break;
+> -	case MGN_VHT1SS_MCS5:
+> -		ret = DESC_RATEVHTSS1MCS5;
+> -		break;
+> -	case MGN_VHT1SS_MCS6:
+> -		ret = DESC_RATEVHTSS1MCS6;
+> -		break;
+> -	case MGN_VHT1SS_MCS7:
+> -		ret = DESC_RATEVHTSS1MCS7;
+> -		break;
+> -	case MGN_VHT1SS_MCS8:
+> -		ret = DESC_RATEVHTSS1MCS8;
+> -		break;
+> -	case MGN_VHT1SS_MCS9:
+> -		ret = DESC_RATEVHTSS1MCS9;
+> -		break;
+> -	case MGN_VHT2SS_MCS0:
+> -		ret = DESC_RATEVHTSS2MCS0;
+> -		break;
+> -	case MGN_VHT2SS_MCS1:
+> -		ret = DESC_RATEVHTSS2MCS1;
+> -		break;
+> -	case MGN_VHT2SS_MCS2:
+> -		ret = DESC_RATEVHTSS2MCS2;
+> -		break;
+> -	case MGN_VHT2SS_MCS3:
+> -		ret = DESC_RATEVHTSS2MCS3;
+> -		break;
+> -	case MGN_VHT2SS_MCS4:
+> -		ret = DESC_RATEVHTSS2MCS4;
+> -		break;
+> -	case MGN_VHT2SS_MCS5:
+> -		ret = DESC_RATEVHTSS2MCS5;
+> -		break;
+> -	case MGN_VHT2SS_MCS6:
+> -		ret = DESC_RATEVHTSS2MCS6;
+> -		break;
+> -	case MGN_VHT2SS_MCS7:
+> -		ret = DESC_RATEVHTSS2MCS7;
+> -		break;
+> -	case MGN_VHT2SS_MCS8:
+> -		ret = DESC_RATEVHTSS2MCS8;
+> -		break;
+> -	case MGN_VHT2SS_MCS9:
+> -		ret = DESC_RATEVHTSS2MCS9;
+> -		break;
+> -	case MGN_VHT3SS_MCS0:
+> -		ret = DESC_RATEVHTSS3MCS0;
+> -		break;
+> -	case MGN_VHT3SS_MCS1:
+> -		ret = DESC_RATEVHTSS3MCS1;
+> -		break;
+> -	case MGN_VHT3SS_MCS2:
+> -		ret = DESC_RATEVHTSS3MCS2;
+> -		break;
+> -	case MGN_VHT3SS_MCS3:
+> -		ret = DESC_RATEVHTSS3MCS3;
+> -		break;
+> -	case MGN_VHT3SS_MCS4:
+> -		ret = DESC_RATEVHTSS3MCS4;
+> -		break;
+> -	case MGN_VHT3SS_MCS5:
+> -		ret = DESC_RATEVHTSS3MCS5;
+> -		break;
+> -	case MGN_VHT3SS_MCS6:
+> -		ret = DESC_RATEVHTSS3MCS6;
+> -		break;
+> -	case MGN_VHT3SS_MCS7:
+> -		ret = DESC_RATEVHTSS3MCS7;
+> -		break;
+> -	case MGN_VHT3SS_MCS8:
+> -		ret = DESC_RATEVHTSS3MCS8;
+> -		break;
+> -	case MGN_VHT3SS_MCS9:
+> -		ret = DESC_RATEVHTSS3MCS9;
+> -		break;
+> -	case MGN_VHT4SS_MCS0:
+> -		ret = DESC_RATEVHTSS4MCS0;
+> -		break;
+> -	case MGN_VHT4SS_MCS1:
+> -		ret = DESC_RATEVHTSS4MCS1;
+> -		break;
+> -	case MGN_VHT4SS_MCS2:
+> -		ret = DESC_RATEVHTSS4MCS2;
+> -		break;
+> -	case MGN_VHT4SS_MCS3:
+> -		ret = DESC_RATEVHTSS4MCS3;
+> -		break;
+> -	case MGN_VHT4SS_MCS4:
+> -		ret = DESC_RATEVHTSS4MCS4;
+> -		break;
+> -	case MGN_VHT4SS_MCS5:
+> -		ret = DESC_RATEVHTSS4MCS5;
+> -		break;
+> -	case MGN_VHT4SS_MCS6:
+> -		ret = DESC_RATEVHTSS4MCS6;
+> -		break;
+> -	case MGN_VHT4SS_MCS7:
+> -		ret = DESC_RATEVHTSS4MCS7;
+> -		break;
+> -	case MGN_VHT4SS_MCS8:
+> -		ret = DESC_RATEVHTSS4MCS8;
+> -		break;
+> -	case MGN_VHT4SS_MCS9:
+> -		ret = DESC_RATEVHTSS4MCS9;
+> -		break;
+>  	default:
+>  		break;
+>  	}
+> @@ -559,127 +439,6 @@ u8 HwRateToMRate(u8 rate)
+>  	case DESC_RATEMCS31:
+>  		ret_rate = MGN_MCS31;
+>  		break;
+> -	case DESC_RATEVHTSS1MCS0:
+> -		ret_rate = MGN_VHT1SS_MCS0;
+> -		break;
+> -	case DESC_RATEVHTSS1MCS1:
+> -		ret_rate = MGN_VHT1SS_MCS1;
+> -		break;
+> -	case DESC_RATEVHTSS1MCS2:
+> -		ret_rate = MGN_VHT1SS_MCS2;
+> -		break;
+> -	case DESC_RATEVHTSS1MCS3:
+> -		ret_rate = MGN_VHT1SS_MCS3;
+> -		break;
+> -	case DESC_RATEVHTSS1MCS4:
+> -		ret_rate = MGN_VHT1SS_MCS4;
+> -		break;
+> -	case DESC_RATEVHTSS1MCS5:
+> -		ret_rate = MGN_VHT1SS_MCS5;
+> -		break;
+> -	case DESC_RATEVHTSS1MCS6:
+> -		ret_rate = MGN_VHT1SS_MCS6;
+> -		break;
+> -	case DESC_RATEVHTSS1MCS7:
+> -		ret_rate = MGN_VHT1SS_MCS7;
+> -		break;
+> -	case DESC_RATEVHTSS1MCS8:
+> -		ret_rate = MGN_VHT1SS_MCS8;
+> -		break;
+> -	case DESC_RATEVHTSS1MCS9:
+> -		ret_rate = MGN_VHT1SS_MCS9;
+> -		break;
+> -	case DESC_RATEVHTSS2MCS0:
+> -		ret_rate = MGN_VHT2SS_MCS0;
+> -		break;
+> -	case DESC_RATEVHTSS2MCS1:
+> -		ret_rate = MGN_VHT2SS_MCS1;
+> -		break;
+> -	case DESC_RATEVHTSS2MCS2:
+> -		ret_rate = MGN_VHT2SS_MCS2;
+> -		break;
+> -	case DESC_RATEVHTSS2MCS3:
+> -		ret_rate = MGN_VHT2SS_MCS3;
+> -		break;
+> -	case DESC_RATEVHTSS2MCS4:
+> -		ret_rate = MGN_VHT2SS_MCS4;
+> -		break;
+> -	case DESC_RATEVHTSS2MCS5:
+> -		ret_rate = MGN_VHT2SS_MCS5;
+> -		break;
+> -	case DESC_RATEVHTSS2MCS6:
+> -		ret_rate = MGN_VHT2SS_MCS6;
+> -		break;
+> -	case DESC_RATEVHTSS2MCS7:
+> -		ret_rate = MGN_VHT2SS_MCS7;
+> -		break;
+> -	case DESC_RATEVHTSS2MCS8:
+> -		ret_rate = MGN_VHT2SS_MCS8;
+> -		break;
+> -	case DESC_RATEVHTSS2MCS9:
+> -		ret_rate = MGN_VHT2SS_MCS9;
+> -		break;
+> -	case DESC_RATEVHTSS3MCS0:
+> -		ret_rate = MGN_VHT3SS_MCS0;
+> -		break;
+> -	case DESC_RATEVHTSS3MCS1:
+> -		ret_rate = MGN_VHT3SS_MCS1;
+> -		break;
+> -	case DESC_RATEVHTSS3MCS2:
+> -		ret_rate = MGN_VHT3SS_MCS2;
+> -		break;
+> -	case DESC_RATEVHTSS3MCS3:
+> -		ret_rate = MGN_VHT3SS_MCS3;
+> -		break;
+> -	case DESC_RATEVHTSS3MCS4:
+> -		ret_rate = MGN_VHT3SS_MCS4;
+> -		break;
+> -	case DESC_RATEVHTSS3MCS5:
+> -		ret_rate = MGN_VHT3SS_MCS5;
+> -		break;
+> -	case DESC_RATEVHTSS3MCS6:
+> -		ret_rate = MGN_VHT3SS_MCS6;
+> -		break;
+> -	case DESC_RATEVHTSS3MCS7:
+> -		ret_rate = MGN_VHT3SS_MCS7;
+> -		break;
+> -	case DESC_RATEVHTSS3MCS8:
+> -		ret_rate = MGN_VHT3SS_MCS8;
+> -		break;
+> -	case DESC_RATEVHTSS3MCS9:
+> -		ret_rate = MGN_VHT3SS_MCS9;
+> -		break;
+> -	case DESC_RATEVHTSS4MCS0:
+> -		ret_rate = MGN_VHT4SS_MCS0;
+> -		break;
+> -	case DESC_RATEVHTSS4MCS1:
+> -		ret_rate = MGN_VHT4SS_MCS1;
+> -		break;
+> -	case DESC_RATEVHTSS4MCS2:
+> -		ret_rate = MGN_VHT4SS_MCS2;
+> -		break;
+> -	case DESC_RATEVHTSS4MCS3:
+> -		ret_rate = MGN_VHT4SS_MCS3;
+> -		break;
+> -	case DESC_RATEVHTSS4MCS4:
+> -		ret_rate = MGN_VHT4SS_MCS4;
+> -		break;
+> -	case DESC_RATEVHTSS4MCS5:
+> -		ret_rate = MGN_VHT4SS_MCS5;
+> -		break;
+> -	case DESC_RATEVHTSS4MCS6:
+> -		ret_rate = MGN_VHT4SS_MCS6;
+> -		break;
+> -	case DESC_RATEVHTSS4MCS7:
+> -		ret_rate = MGN_VHT4SS_MCS7;
+> -		break;
+> -	case DESC_RATEVHTSS4MCS8:
+> -		ret_rate = MGN_VHT4SS_MCS8;
+> -		break;
+> -	case DESC_RATEVHTSS4MCS9:
+> -		ret_rate = MGN_VHT4SS_MCS9;
+> -		break;
 > -
-> -		if (tx_ra_bitmap & 0xff0)
-> -			sta_band |= WIRELESS_11A;
-> +			sta_band |= WIRELESS_INVALID;
+>  	default:
+>  		break;
+>  	}
+> diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
+> index 395eb3b5af71..bb7941aee0c4 100644
+> --- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
+> +++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
+> @@ -39,18 +39,6 @@ u8 PHY_GetTxPowerByRateBase(struct adapter *Adapter, u8 RfPath,
+>  	case HT_MCS24_MCS31:
+>  		value = pHalData->TxPwrByRateBase2_4G[RfPath][TxNum][5];
+>  		break;
+> -	case VHT_1SSMCS0_1SSMCS9:
+> -		value = pHalData->TxPwrByRateBase2_4G[RfPath][TxNum][6];
+> -		break;
+> -	case VHT_2SSMCS0_2SSMCS9:
+> -		value = pHalData->TxPwrByRateBase2_4G[RfPath][TxNum][7];
+> -		break;
+> -	case VHT_3SSMCS0_3SSMCS9:
+> -		value = pHalData->TxPwrByRateBase2_4G[RfPath][TxNum][8];
+> -		break;
+> -	case VHT_4SSMCS0_4SSMCS9:
+> -		value = pHalData->TxPwrByRateBase2_4G[RfPath][TxNum][9];
+> -		break;
+>  	default:
+>  		break;
+>  	}
+> @@ -91,18 +79,6 @@ phy_SetTxPowerByRateBase(
+>  	case HT_MCS24_MCS31:
+>  		pHalData->TxPwrByRateBase2_4G[RfPath][TxNum][5] = Value;
+>  		break;
+> -	case VHT_1SSMCS0_1SSMCS9:
+> -		pHalData->TxPwrByRateBase2_4G[RfPath][TxNum][6] = Value;
+> -		break;
+> -	case VHT_2SSMCS0_2SSMCS9:
+> -		pHalData->TxPwrByRateBase2_4G[RfPath][TxNum][7] = Value;
+> -		break;
+> -	case VHT_3SSMCS0_3SSMCS9:
+> -		pHalData->TxPwrByRateBase2_4G[RfPath][TxNum][8] = Value;
+> -		break;
+> -	case VHT_4SSMCS0_4SSMCS9:
+> -		pHalData->TxPwrByRateBase2_4G[RfPath][TxNum][9] = Value;
+> -		break;
+>  	default:
+>  		break;
+>  	}
+> @@ -131,14 +107,6 @@ struct adapter *padapter
+>  		base = PHY_GetTxPowerByRate(padapter, path, RF_3TX, MGN_MCS23);
+>  		phy_SetTxPowerByRateBase(padapter, path, HT_MCS16_MCS23, RF_3TX, base);
+>  
+> -		base = PHY_GetTxPowerByRate(padapter, path, RF_1TX, MGN_VHT1SS_MCS7);
+> -		phy_SetTxPowerByRateBase(padapter, path, VHT_1SSMCS0_1SSMCS9, RF_1TX, base);
+> -
+> -		base = PHY_GetTxPowerByRate(padapter, path, RF_2TX, MGN_VHT2SS_MCS7);
+> -		phy_SetTxPowerByRateBase(padapter, path, VHT_2SSMCS0_2SSMCS9, RF_2TX, base);
+> -
+> -		base = PHY_GetTxPowerByRate(padapter, path, RF_3TX, MGN_VHT3SS_MCS7);
+> -		phy_SetTxPowerByRateBase(padapter, path, VHT_3SSMCS0_3SSMCS9, RF_3TX, base);
 
-You are replacing 2 if-s with 1 here, so you should also or
-the 2 masks being checked for togehter, iow there now should
-be one if like this:
+You are removing a bunch of register writes from a block here, while keeping others,
+so this does not seem like it is just dead-code removal it feels like you are
+actually making a functional change.
 
-		if (tx_ra_bitmap & (0xffff000 | 0xff0))
-			sta_band |= WIRELESS_INVALID;
+Perhaps this entire block can never be executed ?
 
-Which can be simplified to:
+Or maybe the VHT name used here is misleading and this is also relevant for 2.4 GHZ
+40Mhz use ?  Did you test with an access point configured to use 40 MHz channels
+and then checked that you were actually using a 40MHz channel ?   Note these are
+quite rare AFAIK because 40 MHz tends to cause even more collosion issues in the
+already quite full 2.4G spectrum, still if possible you should test this and make
+sure that it does not regress (with out specifically testing this we might not
+note regressions for a long time because of 40MHz usage being rare).
 
-		if (tx_ra_bitmap & 0xffffff0)
-			sta_band |= WIRELESS_INVALID;
 
-The rest of the patch looks ok (from a quick scan).
+
+
+>  	}
+>  }
+>  
+> @@ -442,81 +410,6 @@ PHY_GetRateValuesOfTxPowerByRate(
+>  		*RateNum = 4;
+>  		break;
+>  
+> -	case 0xC3C:
+> -	case 0xE3C:
+> -	case 0x183C:
+> -	case 0x1a3C:
+> -		RateIndex[0] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT1SS_MCS0);
+> -		RateIndex[1] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT1SS_MCS1);
+> -		RateIndex[2] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT1SS_MCS2);
+> -		RateIndex[3] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT1SS_MCS3);
+> -		for (i = 0; i < 4; ++i) {
+> -			PwrByRateVal[i] = (s8) ((((Value >> (i * 8 + 4)) & 0xF)) * 10 +
+> -											((Value >> (i * 8)) & 0xF));
+> -		}
+> -		*RateNum = 4;
+> -		break;
+> -
+> -	case 0xC40:
+> -	case 0xE40:
+> -	case 0x1840:
+> -	case 0x1a40:
+> -		RateIndex[0] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT1SS_MCS4);
+> -		RateIndex[1] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT1SS_MCS5);
+> -		RateIndex[2] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT1SS_MCS6);
+> -		RateIndex[3] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT1SS_MCS7);
+> -		for (i = 0; i < 4; ++i) {
+> -			PwrByRateVal[i] = (s8) ((((Value >> (i * 8 + 4)) & 0xF)) * 10 +
+> -											((Value >> (i * 8)) & 0xF));
+> -		}
+> -		*RateNum = 4;
+> -		break;
+> -
+> -	case 0xC44:
+> -	case 0xE44:
+> -	case 0x1844:
+> -	case 0x1a44:
+> -		RateIndex[0] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT1SS_MCS8);
+> -		RateIndex[1] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT1SS_MCS9);
+> -		RateIndex[2] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT2SS_MCS0);
+> -		RateIndex[3] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT2SS_MCS1);
+> -		for (i = 0; i < 4; ++i) {
+> -			PwrByRateVal[i] = (s8) ((((Value >> (i * 8 + 4)) & 0xF)) * 10 +
+> -											((Value >> (i * 8)) & 0xF));
+> -		}
+> -		*RateNum = 4;
+> -		break;
+> -
+> -	case 0xC48:
+> -	case 0xE48:
+> -	case 0x1848:
+> -	case 0x1a48:
+> -		RateIndex[0] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT2SS_MCS2);
+> -		RateIndex[1] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT2SS_MCS3);
+> -		RateIndex[2] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT2SS_MCS4);
+> -		RateIndex[3] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT2SS_MCS5);
+> -		for (i = 0; i < 4; ++i) {
+> -			PwrByRateVal[i] = (s8) ((((Value >> (i * 8 + 4)) & 0xF)) * 10 +
+> -											((Value >> (i * 8)) & 0xF));
+> -		}
+> -		*RateNum = 4;
+> -		break;
+> -
+> -	case 0xC4C:
+> -	case 0xE4C:
+> -	case 0x184C:
+> -	case 0x1a4C:
+> -		RateIndex[0] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT2SS_MCS6);
+> -		RateIndex[1] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT2SS_MCS7);
+> -		RateIndex[2] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT2SS_MCS8);
+> -		RateIndex[3] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT2SS_MCS9);
+> -		for (i = 0; i < 4; ++i) {
+> -			PwrByRateVal[i] = (s8) ((((Value >> (i * 8 + 4)) & 0xF)) * 10 +
+> -											((Value >> (i * 8)) & 0xF));
+> -		}
+> -		*RateNum = 4;
+> -		break;
+> -
+>  	case 0xCD8:
+>  	case 0xED8:
+>  	case 0x18D8:
+> @@ -547,49 +440,6 @@ PHY_GetRateValuesOfTxPowerByRate(
+>  		*RateNum = 4;
+>  		break;
+>  
+> -	case 0xCE0:
+> -	case 0xEE0:
+> -	case 0x18E0:
+> -	case 0x1aE0:
+> -		RateIndex[0] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT3SS_MCS0);
+> -		RateIndex[1] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT3SS_MCS1);
+> -		RateIndex[2] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT3SS_MCS2);
+> -		RateIndex[3] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT3SS_MCS3);
+> -		for (i = 0; i < 4; ++i) {
+> -			PwrByRateVal[i] = (s8) ((((Value >> (i * 8 + 4)) & 0xF)) * 10 +
+> -											((Value >> (i * 8)) & 0xF));
+> -		}
+> -		*RateNum = 4;
+> -		break;
+> -
+> -	case 0xCE4:
+> -	case 0xEE4:
+> -	case 0x18E4:
+> -	case 0x1aE4:
+> -		RateIndex[0] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT3SS_MCS4);
+> -		RateIndex[1] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT3SS_MCS5);
+> -		RateIndex[2] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT3SS_MCS6);
+> -		RateIndex[3] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT3SS_MCS7);
+> -		for (i = 0; i < 4; ++i) {
+> -			PwrByRateVal[i] = (s8) ((((Value >> (i * 8 + 4)) & 0xF)) * 10 +
+> -											((Value >> (i * 8)) & 0xF));
+> -		}
+> -		*RateNum = 4;
+> -		break;
+> -
+> -	case 0xCE8:
+> -	case 0xEE8:
+> -	case 0x18E8:
+> -	case 0x1aE8:
+> -		RateIndex[0] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT3SS_MCS8);
+> -		RateIndex[1] = PHY_GetRateIndexOfTxPowerByRate(MGN_VHT3SS_MCS9);
+> -		for (i = 0; i < 2; ++i) {
+> -			PwrByRateVal[i] = (s8) ((((Value >> (i * 8 + 4)) & 0xF)) * 10 +
+> -											((Value >> (i * 8)) & 0xF));
+> -		}
+> -		*RateNum = 4;
+> -		break;
+> -
+
+Here only 2 rates are set, so this feels like it is a 40MHz case, are you
+sure this can be removed (maybe it is 40MHz channel use at 5GHz ?
+
+The rest of the patch looks ok.
 
 Regards,
 
@@ -134,436 +573,530 @@ Hans
 
 
 
->  	} else {
->  		if (tx_ra_bitmap & 0xffff000)
->  			sta_band |= WIRELESS_11_24N;
-> @@ -412,7 +409,7 @@ void update_bmc_sta(struct adapter *padapter)
->  		} else if (network_type == WIRELESS_INVALID) { /*  error handling */
->  
->  			if (pcur_network->Configuration.DSConfig > 14)
-> -				network_type = WIRELESS_11A;
-> +				network_type = WIRELESS_INVALID;
->  			else
->  				network_type = WIRELESS_11B;
->  		}
-> @@ -1115,9 +1112,6 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
->  	case WIRELESS_11BG_24N:
->  		pbss_network->NetworkTypeInUse = Ndis802_11OFDM24;
->  		break;
-> -	case WIRELESS_11A:
-> -		pbss_network->NetworkTypeInUse = Ndis802_11OFDM5;
-> -		break;
+
 >  	default:
->  		pbss_network->NetworkTypeInUse = Ndis802_11OFDM24;
 >  		break;
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-> index e341789954b9..0f0fcd9dc652 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-> @@ -96,10 +96,7 @@ bool rtw_is_cckratesonly_included(u8 *rate)
->  int rtw_check_network_type(unsigned char *rate, int ratelen, int channel)
->  {
->  	if (channel > 14) {
-> -		if (rtw_is_cckrates_included(rate))
-> -			return WIRELESS_INVALID;
-> -		else
-> -			return WIRELESS_11A;
-> +		return WIRELESS_INVALID;
->  	} else { /*  could be pure B, pure G, or B/G */
->  		if (rtw_is_cckratesonly_included(rate))
->  			return WIRELESS_11B;
-> @@ -266,10 +263,6 @@ void rtw_set_supported_rate(u8 *SupportedRates, uint mode)
->  		break;
->  
->  	case WIRELESS_11G:
-> -	case WIRELESS_11A:
-> -	case WIRELESS_11_5N:
-> -	case WIRELESS_11A_5N:/* Todo: no basic rate for ofdm ? */
-> -	case WIRELESS_11_5AC:
->  		memcpy(SupportedRates, WIFI_OFDMRATES, IEEE80211_NUM_OFDM_RATESLEN);
->  		break;
->  
-> @@ -327,14 +320,7 @@ int rtw_generate_ie(struct registry_priv *pregistrypriv)
->  	ie = rtw_set_ie(ie, WLAN_EID_SSID, pdev_network->Ssid.SsidLength, pdev_network->Ssid.Ssid, &sz);
->  
->  	/* supported rates */
-> -	if (pregistrypriv->wireless_mode == WIRELESS_11ABGN) {
-> -		if (pdev_network->Configuration.DSConfig > 14)
-> -			wireless_mode = WIRELESS_11A_5N;
-> -		else
-> -			wireless_mode = WIRELESS_11BG_24N;
-> -	} else {
-> -		wireless_mode = pregistrypriv->wireless_mode;
-> -	}
-> +	wireless_mode = pregistrypriv->wireless_mode;
->  
->  	rtw_set_supported_rate(pdev_network->SupportedRates, wireless_mode);
->  
-> @@ -359,8 +345,8 @@ int rtw_generate_ie(struct registry_priv *pregistrypriv)
 >  	}
+> @@ -617,10 +467,6 @@ static void PHY_StoreTxPowerByRateNew(
+>  		return;
 >  
->  	/* HT Cap. */
-> -	if (((pregistrypriv->wireless_mode&WIRELESS_11_5N) || (pregistrypriv->wireless_mode&WIRELESS_11_24N))
-> -		&& (pregistrypriv->ht_enable == true)) {
-> +	if ((pregistrypriv->wireless_mode & WIRELESS_11_24N) &&
-> +	    (pregistrypriv->ht_enable == true)) {
->  		/* todo: */
+>  	for (i = 0; i < rateNum; ++i) {
+> -		if (rateIndex[i] == PHY_GetRateIndexOfTxPowerByRate(MGN_VHT2SS_MCS0) ||
+> -			 rateIndex[i] == PHY_GetRateIndexOfTxPowerByRate(MGN_VHT2SS_MCS1))
+> -			TxNum = RF_2TX;
+> -
+>  		pHalData->TxPwrByRateOffset[RfPath][TxNum][rateIndex[i]] = PwrByRateVal[i];
 >  	}
+>  }
+> @@ -691,18 +537,6 @@ struct adapter *padapter
+>  	u8 mcs16_23Rates[8] = {
+>  		MGN_MCS16, MGN_MCS17, MGN_MCS18, MGN_MCS19, MGN_MCS20, MGN_MCS21, MGN_MCS22, MGN_MCS23
+>  	};
+> -	u8 vht1ssRates[10] = {
+> -		MGN_VHT1SS_MCS0, MGN_VHT1SS_MCS1, MGN_VHT1SS_MCS2, MGN_VHT1SS_MCS3, MGN_VHT1SS_MCS4,
+> -		MGN_VHT1SS_MCS5, MGN_VHT1SS_MCS6, MGN_VHT1SS_MCS7, MGN_VHT1SS_MCS8, MGN_VHT1SS_MCS9
+> -	};
+> -	u8 vht2ssRates[10] = {
+> -		MGN_VHT2SS_MCS0, MGN_VHT2SS_MCS1, MGN_VHT2SS_MCS2, MGN_VHT2SS_MCS3, MGN_VHT2SS_MCS4,
+> -		MGN_VHT2SS_MCS5, MGN_VHT2SS_MCS6, MGN_VHT2SS_MCS7, MGN_VHT2SS_MCS8, MGN_VHT2SS_MCS9
+> -	};
+> -	u8 vht3ssRates[10] = {
+> -		MGN_VHT3SS_MCS0, MGN_VHT3SS_MCS1, MGN_VHT3SS_MCS2, MGN_VHT3SS_MCS3, MGN_VHT3SS_MCS4,
+> -		MGN_VHT3SS_MCS5, MGN_VHT3SS_MCS6, MGN_VHT3SS_MCS7, MGN_VHT3SS_MCS8, MGN_VHT3SS_MCS9
+> -	};
 >  
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> index 158f92d4d882..2dd75e007239 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> @@ -2184,16 +2184,6 @@ void rtw_update_registrypriv_dev_network(struct adapter *adapter)
->  	case WIRELESS_11BG_24N:
->  		pdev_network->NetworkTypeInUse = (Ndis802_11OFDM24);
->  		break;
-> -	case WIRELESS_11A:
-> -	case WIRELESS_11A_5N:
-> -		pdev_network->NetworkTypeInUse = (Ndis802_11OFDM5);
-> -		break;
-> -	case WIRELESS_11ABGN:
-> -		if (pregistrypriv->channel > 14)
-> -			pdev_network->NetworkTypeInUse = (Ndis802_11OFDM5);
-> -		else
-> -			pdev_network->NetworkTypeInUse = (Ndis802_11OFDM24);
-> -		break;
->  	default:
->  		/*  TODO */
->  		break;
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> index 4df3cba97f42..106779fb9fef 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> @@ -4478,61 +4478,6 @@ static void process_80211d(struct adapter *padapter, struct wlan_bssid_ex *bssid
+>  	for (path = ODM_RF_PATH_A; path <= ODM_RF_PATH_D; ++path) {
+>  		for (txNum = RF_1TX; txNum < RF_MAX_TX_NUM; ++txNum) {
+> @@ -740,27 +574,6 @@ struct adapter *padapter
+>  				value = PHY_GetTxPowerByRate(padapter, path, txNum, mcs16_23Rates[i]);
+>  				PHY_SetTxPowerByRate(padapter, path, txNum, mcs16_23Rates[i], value - base);
 >  			}
+> -
+> -			/*  VHT 1SS */
+> -			base = PHY_GetTxPowerByRate(padapter, path, txNum, MGN_VHT1SS_MCS7);
+> -			for (i = 0; i < sizeof(vht1ssRates); ++i) {
+> -				value = PHY_GetTxPowerByRate(padapter, path, txNum, vht1ssRates[i]);
+> -				PHY_SetTxPowerByRate(padapter, path, txNum, vht1ssRates[i], value - base);
+> -			}
+> -
+> -			/*  VHT 2SS */
+> -			base = PHY_GetTxPowerByRate(padapter, path, txNum, MGN_VHT2SS_MCS7);
+> -			for (i = 0; i < sizeof(vht2ssRates); ++i) {
+> -				value = PHY_GetTxPowerByRate(padapter, path, txNum, vht2ssRates[i]);
+> -				PHY_SetTxPowerByRate(padapter, path, txNum, vht2ssRates[i], value - base);
+> -			}
+> -
+> -			/*  VHT 3SS */
+> -			base = PHY_GetTxPowerByRate(padapter, path, txNum, MGN_VHT3SS_MCS7);
+> -			for (i = 0; i < sizeof(vht3ssRates); ++i) {
+> -				value = PHY_GetTxPowerByRate(padapter, path, txNum, vht3ssRates[i]);
+> -				PHY_SetTxPowerByRate(padapter, path, txNum, vht3ssRates[i], value - base);
+> -			}
 >  		}
->  
-> -		if (pregistrypriv->wireless_mode & WIRELESS_11A) {
-> -			do {
-> -				if ((i == MAX_CHANNEL_NUM) ||
-> -					(chplan_sta[i].ChannelNum == 0))
-> -					break;
-> -
-> -				if ((j == chplan_ap.Len) || (chplan_ap.Channel[j] == 0))
-> -					break;
-> -
-> -				if (chplan_sta[i].ChannelNum == chplan_ap.Channel[j]) {
-> -					chplan_new[k].ChannelNum = chplan_ap.Channel[j];
-> -					chplan_new[k].ScanType = SCAN_ACTIVE;
-> -					i++;
-> -					j++;
-> -					k++;
-> -				} else if (chplan_sta[i].ChannelNum < chplan_ap.Channel[j]) {
-> -					chplan_new[k].ChannelNum = chplan_sta[i].ChannelNum;
-> -/* 					chplan_new[k].ScanType = chplan_sta[i].ScanType; */
-> -					chplan_new[k].ScanType = SCAN_PASSIVE;
-> -					i++;
-> -					k++;
-> -				} else if (chplan_sta[i].ChannelNum > chplan_ap.Channel[j]) {
-> -					chplan_new[k].ChannelNum = chplan_ap.Channel[j];
-> -					chplan_new[k].ScanType = SCAN_ACTIVE;
-> -					j++;
-> -					k++;
-> -				}
-> -			} while (1);
-> -
-> -			/*  change AP not support channel to Passive scan */
-> -			while ((i < MAX_CHANNEL_NUM) && (chplan_sta[i].ChannelNum != 0)) {
-> -				chplan_new[k].ChannelNum = chplan_sta[i].ChannelNum;
-> -/* 				chplan_new[k].ScanType = chplan_sta[i].ScanType; */
-> -				chplan_new[k].ScanType = SCAN_PASSIVE;
-> -				i++;
-> -				k++;
-> -			}
-> -
-> -			/*  add channel AP supported */
-> -			while ((j < chplan_ap.Len) && (chplan_ap.Channel[j] != 0)) {
-> -				chplan_new[k].ChannelNum = chplan_ap.Channel[j];
-> -				chplan_new[k].ScanType = SCAN_ACTIVE;
-> -				j++;
-> -				k++;
-> -			}
-> -		} else {
-> -			/*  keep original STA 5G channel plan */
-> -			while ((i < MAX_CHANNEL_NUM) && (chplan_sta[i].ChannelNum != 0)) {
-> -				chplan_new[k].ChannelNum = chplan_sta[i].ChannelNum;
-> -				chplan_new[k].ScanType = chplan_sta[i].ScanType;
-> -				i++;
-> -				k++;
-> -			}
-> -		}
-> -
->  		pmlmeext->update_channel_plan_by_ap_done = 1;
 >  	}
+>  }
+> @@ -823,38 +636,6 @@ void PHY_SetTxPowerIndexByRateSection(
+>  					       Channel, htRates4T,
+>  					       ARRAY_SIZE(htRates4T));
 >  
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> index afabb9d48021..2a47d678de01 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> @@ -55,9 +55,6 @@ u8 networktype_to_raid_ex(struct adapter *adapter, struct sta_info *psta)
+> -	} else if (RateSection == VHT_1SSMCS0_1SSMCS9) {
+> -		u8 vhtRates1T[] = {MGN_VHT1SS_MCS0, MGN_VHT1SS_MCS1, MGN_VHT1SS_MCS2, MGN_VHT1SS_MCS3, MGN_VHT1SS_MCS4,
+> -				MGN_VHT1SS_MCS5, MGN_VHT1SS_MCS6, MGN_VHT1SS_MCS7, MGN_VHT1SS_MCS8, MGN_VHT1SS_MCS9};
+> -		PHY_SetTxPowerIndexByRateArray(padapter, RFPath,
+> -					       pHalData->CurrentChannelBW,
+> -					       Channel, vhtRates1T,
+> -					       ARRAY_SIZE(vhtRates1T));
+> -
+> -	} else if (RateSection == VHT_2SSMCS0_2SSMCS9) {
+> -		u8 vhtRates2T[] = {MGN_VHT2SS_MCS0, MGN_VHT2SS_MCS1, MGN_VHT2SS_MCS2, MGN_VHT2SS_MCS3, MGN_VHT2SS_MCS4,
+> -				MGN_VHT2SS_MCS5, MGN_VHT2SS_MCS6, MGN_VHT2SS_MCS7, MGN_VHT2SS_MCS8, MGN_VHT2SS_MCS9};
+> -
+> -		PHY_SetTxPowerIndexByRateArray(padapter, RFPath,
+> -					       pHalData->CurrentChannelBW,
+> -					       Channel, vhtRates2T,
+> -					       ARRAY_SIZE(vhtRates2T));
+> -	} else if (RateSection == VHT_3SSMCS0_3SSMCS9) {
+> -		u8 vhtRates3T[] = {MGN_VHT3SS_MCS0, MGN_VHT3SS_MCS1, MGN_VHT3SS_MCS2, MGN_VHT3SS_MCS3, MGN_VHT3SS_MCS4,
+> -				MGN_VHT3SS_MCS5, MGN_VHT3SS_MCS6, MGN_VHT3SS_MCS7, MGN_VHT3SS_MCS8, MGN_VHT3SS_MCS9};
+> -
+> -		PHY_SetTxPowerIndexByRateArray(padapter, RFPath,
+> -					       pHalData->CurrentChannelBW,
+> -					       Channel, vhtRates3T,
+> -					       ARRAY_SIZE(vhtRates3T));
+> -	} else if (RateSection == VHT_4SSMCS0_4SSMCS9) {
+> -		u8 vhtRates4T[] = {MGN_VHT4SS_MCS0, MGN_VHT4SS_MCS1, MGN_VHT4SS_MCS2, MGN_VHT4SS_MCS3, MGN_VHT4SS_MCS4,
+> -				MGN_VHT4SS_MCS5, MGN_VHT4SS_MCS6, MGN_VHT4SS_MCS7, MGN_VHT4SS_MCS8, MGN_VHT4SS_MCS9};
+> -
+> -		PHY_SetTxPowerIndexByRateArray(padapter, RFPath,
+> -					       pHalData->CurrentChannelBW,
+> -					       Channel, vhtRates4T,
+> -					       ARRAY_SIZE(vhtRates4T));
+>  	}
+>  }
 >  
->  	if (cur_rf_type == RF_1T1R) {
->  		rf_type = RF_1T1R;
-> -	} else if (IsSupportedVHT(psta->wireless_mode)) {
-> -		if (psta->ra_mask & 0xffc00000)
-> -			rf_type = RF_2T2R;
->  	} else if (IsSupportedHT(psta->wireless_mode)) {
->  		if (psta->ra_mask & 0xfff00000)
->  			rf_type = RF_2T2R;
-> @@ -67,7 +64,6 @@ u8 networktype_to_raid_ex(struct adapter *adapter, struct sta_info *psta)
->  	case WIRELESS_11B:
->  		raid = RATEID_IDX_B;
+> @@ -883,23 +664,23 @@ u8 PHY_GetTxPowerIndexBase(
+>  		txPower += pHalData->OFDM_24G_Diff[RFPath][TX_1S];
+>  
+>  	if (BandWidth == CHANNEL_WIDTH_20) { /*  BW20-1S, BW20-2S */
+> -		if ((MGN_MCS0 <= Rate && Rate <= MGN_MCS31) || (MGN_VHT1SS_MCS0 <= Rate && Rate <= MGN_VHT4SS_MCS9))
+> +		if (MGN_MCS0 <= Rate && Rate <= MGN_MCS31)
+>  			txPower += pHalData->BW20_24G_Diff[RFPath][TX_1S];
+> -		if ((MGN_MCS8 <= Rate && Rate <= MGN_MCS31) || (MGN_VHT2SS_MCS0 <= Rate && Rate <= MGN_VHT4SS_MCS9))
+> +		if (MGN_MCS8 <= Rate && Rate <= MGN_MCS31)
+>  			txPower += pHalData->BW20_24G_Diff[RFPath][TX_2S];
+> -		if ((MGN_MCS16 <= Rate && Rate <= MGN_MCS31) || (MGN_VHT3SS_MCS0 <= Rate && Rate <= MGN_VHT4SS_MCS9))
+> +		if (MGN_MCS16 <= Rate && Rate <= MGN_MCS31)
+>  			txPower += pHalData->BW20_24G_Diff[RFPath][TX_3S];
+> -		if ((MGN_MCS24 <= Rate && Rate <= MGN_MCS31) || (MGN_VHT4SS_MCS0 <= Rate && Rate <= MGN_VHT4SS_MCS9))
+> +		if (MGN_MCS24 <= Rate && Rate <= MGN_MCS31)
+>  			txPower += pHalData->BW20_24G_Diff[RFPath][TX_4S];
+>  
+>  	} else if (BandWidth == CHANNEL_WIDTH_40) { /*  BW40-1S, BW40-2S */
+> -		if ((MGN_MCS0 <= Rate && Rate <= MGN_MCS31) || (MGN_VHT1SS_MCS0 <= Rate && Rate <= MGN_VHT4SS_MCS9))
+> +		if (MGN_MCS0 <= Rate && Rate <= MGN_MCS31)
+>  			txPower += pHalData->BW40_24G_Diff[RFPath][TX_1S];
+> -		if ((MGN_MCS8 <= Rate && Rate <= MGN_MCS31) || (MGN_VHT2SS_MCS0 <= Rate && Rate <= MGN_VHT4SS_MCS9))
+> +		if (MGN_MCS8 <= Rate && Rate <= MGN_MCS31)
+>  			txPower += pHalData->BW40_24G_Diff[RFPath][TX_2S];
+> -		if ((MGN_MCS16 <= Rate && Rate <= MGN_MCS31) || (MGN_VHT3SS_MCS0 <= Rate && Rate <= MGN_VHT4SS_MCS9))
+> +		if (MGN_MCS16 <= Rate && Rate <= MGN_MCS31)
+>  			txPower += pHalData->BW40_24G_Diff[RFPath][TX_3S];
+> -		if ((MGN_MCS24 <= Rate && Rate <= MGN_MCS31) || (MGN_VHT4SS_MCS0 <= Rate && Rate <= MGN_VHT4SS_MCS9))
+> +		if (MGN_MCS24 <= Rate && Rate <= MGN_MCS31)
+>  			txPower += pHalData->BW40_24G_Diff[RFPath][TX_4S];
+>  
+>  	}
+> @@ -1060,126 +841,6 @@ u8 PHY_GetRateIndexOfTxPowerByRate(u8 Rate)
+>  	case MGN_MCS31:
+>  		index = 43;
 >  		break;
-> -	case WIRELESS_11A:
->  	case WIRELESS_11G:
->  		raid = RATEID_IDX_G;
->  		break;
-> @@ -75,8 +71,6 @@ u8 networktype_to_raid_ex(struct adapter *adapter, struct sta_info *psta)
->  		raid = RATEID_IDX_BG;
->  		break;
->  	case WIRELESS_11_24N:
-> -	case WIRELESS_11_5N:
-> -	case WIRELESS_11A_5N:
->  	case WIRELESS_11G_24N:
->  		if (rf_type == RF_2T2R)
->  			raid = RATEID_IDX_GN_N2SS;
-> @@ -827,7 +821,7 @@ void WMMOnAssocRsp(struct adapter *padapter)
->  
->  		AIFS = aSifsTime + (2 * pmlmeinfo->slotTime);
->  
-> -		if (pmlmeext->cur_wireless_mode & (WIRELESS_11G | WIRELESS_11A)) {
-> +		if (pmlmeext->cur_wireless_mode & WIRELESS_11G) {
->  			ECWMin = 4;
->  			ECWMax = 10;
->  		} else if (pmlmeext->cur_wireless_mode & WIRELESS_11B) {
-> @@ -1623,7 +1617,7 @@ void update_capinfo(struct adapter *Adapter, u16 updateCap)
->  		pmlmeinfo->slotTime = NON_SHORT_SLOT_TIME;
->  	} else {
->  		/* Filen: See 802.11-2007 p.90 */
-> -		if (pmlmeext->cur_wireless_mode & (WIRELESS_11_24N | WIRELESS_11A | WIRELESS_11_5N | WIRELESS_11AC)) {
-> +		if (pmlmeext->cur_wireless_mode & (WIRELESS_11_24N)) {
->  			pmlmeinfo->slotTime = SHORT_SLOT_TIME;
->  		} else if (pmlmeext->cur_wireless_mode & (WIRELESS_11G)) {
->  			if ((updateCap & cShortSlotTime) /* && (!(pMgntInfo->pHTInfo->RT2RT_HT_Mode & RT_HT_CAP_USE_LONG_PREAMBLE)) */)
-> @@ -1653,9 +1647,7 @@ void update_wireless_mode(struct adapter *padapter)
->  	if ((pmlmeinfo->HT_info_enable) && (pmlmeinfo->HT_caps_enable))
->  		pmlmeinfo->HT_enable = 1;
->  
-> -	if (pmlmeinfo->VHT_enable)
-> -		network_type = WIRELESS_11AC;
-> -	else if (pmlmeinfo->HT_enable)
-> +	if (pmlmeinfo->HT_enable)
->  		network_type = WIRELESS_11_24N;
->  
->  	if (rtw_is_cckratesonly_included(rate))
-> diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
-> index fa275138c983..bfe0c3a773af 100644
-> --- a/drivers/staging/rtl8723bs/hal/odm.c
-> +++ b/drivers/staging/rtl8723bs/hal/odm.c
-> @@ -377,7 +377,6 @@ u32 ODM_Get_Rate_Bitmap(
->  		break;
->  
->  	case (ODM_WM_G):
-> -	case (ODM_WM_A):
->  		if (rssi_level == DM_RATR_STA_HIGH)
->  			rate_bitmap = 0x00000f00;
->  		else
-> @@ -396,7 +395,6 @@ u32 ODM_Get_Rate_Bitmap(
->  	case (ODM_WM_B|ODM_WM_G|ODM_WM_N24G):
->  	case (ODM_WM_B|ODM_WM_N24G):
->  	case (ODM_WM_G|ODM_WM_N24G):
-> -	case (ODM_WM_A|ODM_WM_N5G):
->  		if (pDM_Odm->RFType == ODM_1T2R || pDM_Odm->RFType == ODM_1T1R) {
->  			if (rssi_level == DM_RATR_STA_HIGH)
->  				rate_bitmap = 0x000f0000;
-> @@ -422,34 +420,6 @@ u32 ODM_Get_Rate_Bitmap(
->  		}
->  		break;
->  
-> -	case (ODM_WM_AC|ODM_WM_G):
-> -		if (rssi_level == 1)
-> -			rate_bitmap = 0xfc3f0000;
-> -		else if (rssi_level == 2)
-> -			rate_bitmap = 0xfffff000;
-> -		else
-> -			rate_bitmap = 0xffffffff;
+> -	case MGN_VHT1SS_MCS0:
+> -		index = 44;
 > -		break;
-> -
-> -	case (ODM_WM_AC|ODM_WM_A):
-> -
-> -		if (pDM_Odm->RFType == RF_1T1R) {
-> -			if (rssi_level == 1)				/*  add by Gary for ac-series */
-> -				rate_bitmap = 0x003f8000;
-> -			else if (rssi_level == 2)
-> -				rate_bitmap = 0x003ff000;
-> -			else
-> -				rate_bitmap = 0x003ff010;
-> -		} else {
-> -			if (rssi_level == 1)				/*  add by Gary for ac-series */
-> -				rate_bitmap = 0xfe3f8000;       /*  VHT 2SS MCS3~9 */
-> -			else if (rssi_level == 2)
-> -				rate_bitmap = 0xfffff000;       /*  VHT 2SS MCS0~9 */
-> -			else
-> -				rate_bitmap = 0xfffff010;       /*  All */
-> -		}
+> -	case MGN_VHT1SS_MCS1:
+> -		index = 45;
 > -		break;
-> -
+> -	case MGN_VHT1SS_MCS2:
+> -		index = 46;
+> -		break;
+> -	case MGN_VHT1SS_MCS3:
+> -		index = 47;
+> -		break;
+> -	case MGN_VHT1SS_MCS4:
+> -		index = 48;
+> -		break;
+> -	case MGN_VHT1SS_MCS5:
+> -		index = 49;
+> -		break;
+> -	case MGN_VHT1SS_MCS6:
+> -		index = 50;
+> -		break;
+> -	case MGN_VHT1SS_MCS7:
+> -		index = 51;
+> -		break;
+> -	case MGN_VHT1SS_MCS8:
+> -		index = 52;
+> -		break;
+> -	case MGN_VHT1SS_MCS9:
+> -		index = 53;
+> -		break;
+> -	case MGN_VHT2SS_MCS0:
+> -		index = 54;
+> -		break;
+> -	case MGN_VHT2SS_MCS1:
+> -		index = 55;
+> -		break;
+> -	case MGN_VHT2SS_MCS2:
+> -		index = 56;
+> -		break;
+> -	case MGN_VHT2SS_MCS3:
+> -		index = 57;
+> -		break;
+> -	case MGN_VHT2SS_MCS4:
+> -		index = 58;
+> -		break;
+> -	case MGN_VHT2SS_MCS5:
+> -		index = 59;
+> -		break;
+> -	case MGN_VHT2SS_MCS6:
+> -		index = 60;
+> -		break;
+> -	case MGN_VHT2SS_MCS7:
+> -		index = 61;
+> -		break;
+> -	case MGN_VHT2SS_MCS8:
+> -		index = 62;
+> -		break;
+> -	case MGN_VHT2SS_MCS9:
+> -		index = 63;
+> -		break;
+> -	case MGN_VHT3SS_MCS0:
+> -		index = 64;
+> -		break;
+> -	case MGN_VHT3SS_MCS1:
+> -		index = 65;
+> -		break;
+> -	case MGN_VHT3SS_MCS2:
+> -		index = 66;
+> -		break;
+> -	case MGN_VHT3SS_MCS3:
+> -		index = 67;
+> -		break;
+> -	case MGN_VHT3SS_MCS4:
+> -		index = 68;
+> -		break;
+> -	case MGN_VHT3SS_MCS5:
+> -		index = 69;
+> -		break;
+> -	case MGN_VHT3SS_MCS6:
+> -		index = 70;
+> -		break;
+> -	case MGN_VHT3SS_MCS7:
+> -		index = 71;
+> -		break;
+> -	case MGN_VHT3SS_MCS8:
+> -		index = 72;
+> -		break;
+> -	case MGN_VHT3SS_MCS9:
+> -		index = 73;
+> -		break;
+> -	case MGN_VHT4SS_MCS0:
+> -		index = 74;
+> -		break;
+> -	case MGN_VHT4SS_MCS1:
+> -		index = 75;
+> -		break;
+> -	case MGN_VHT4SS_MCS2:
+> -		index = 76;
+> -		break;
+> -	case MGN_VHT4SS_MCS3:
+> -		index = 77;
+> -		break;
+> -	case MGN_VHT4SS_MCS4:
+> -		index = 78;
+> -		break;
+> -	case MGN_VHT4SS_MCS5:
+> -		index = 79;
+> -		break;
+> -	case MGN_VHT4SS_MCS6:
+> -		index = 80;
+> -		break;
+> -	case MGN_VHT4SS_MCS7:
+> -		index = 81;
+> -		break;
+> -	case MGN_VHT4SS_MCS8:
+> -		index = 82;
+> -		break;
+> -	case MGN_VHT4SS_MCS9:
+> -		index = 83;
+> -		break;
 >  	default:
->  		if (pDM_Odm->RFType == RF_1T2R)
->  			rate_bitmap = 0x000fffff;
-> diff --git a/drivers/staging/rtl8723bs/hal/odm.h b/drivers/staging/rtl8723bs/hal/odm.h
-> index 950e7850bac2..7e2d3679c7d0 100644
-> --- a/drivers/staging/rtl8723bs/hal/odm.h
-> +++ b/drivers/staging/rtl8723bs/hal/odm.h
-> @@ -455,11 +455,8 @@ enum { /* tag_Wireless_Mode_Definition */
->  	ODM_WM_UNKNOWN    = 0x0,
->  	ODM_WM_B          = BIT0,
->  	ODM_WM_G          = BIT1,
-> -	ODM_WM_A          = BIT2,
->  	ODM_WM_N24G       = BIT3,
-> -	ODM_WM_N5G        = BIT4,
->  	ODM_WM_AUTO       = BIT5,
-> -	ODM_WM_AC         = BIT6,
+>  		break;
+>  	}
+> @@ -1319,26 +980,6 @@ static s16 get_rate_sctn_idx(const u8 rate)
+>  	case MGN_MCS24: case MGN_MCS25: case MGN_MCS26: case MGN_MCS27:
+>  	case MGN_MCS28: case MGN_MCS29: case MGN_MCS30: case MGN_MCS31:
+>  		return 5;
+> -	case MGN_VHT1SS_MCS0: case MGN_VHT1SS_MCS1: case MGN_VHT1SS_MCS2:
+> -	case MGN_VHT1SS_MCS3: case MGN_VHT1SS_MCS4: case MGN_VHT1SS_MCS5:
+> -	case MGN_VHT1SS_MCS6: case MGN_VHT1SS_MCS7: case MGN_VHT1SS_MCS8:
+> -	case MGN_VHT1SS_MCS9:
+> -		return 6;
+> -	case MGN_VHT2SS_MCS0: case MGN_VHT2SS_MCS1: case MGN_VHT2SS_MCS2:
+> -	case MGN_VHT2SS_MCS3: case MGN_VHT2SS_MCS4: case MGN_VHT2SS_MCS5:
+> -	case MGN_VHT2SS_MCS6: case MGN_VHT2SS_MCS7: case MGN_VHT2SS_MCS8:
+> -	case MGN_VHT2SS_MCS9:
+> -		return 7;
+> -	case MGN_VHT3SS_MCS0: case MGN_VHT3SS_MCS1: case MGN_VHT3SS_MCS2:
+> -	case MGN_VHT3SS_MCS3: case MGN_VHT3SS_MCS4: case MGN_VHT3SS_MCS5:
+> -	case MGN_VHT3SS_MCS6: case MGN_VHT3SS_MCS7: case MGN_VHT3SS_MCS8:
+> -	case MGN_VHT3SS_MCS9:
+> -		return 8;
+> -	case MGN_VHT4SS_MCS0: case MGN_VHT4SS_MCS1: case MGN_VHT4SS_MCS2:
+> -	case MGN_VHT4SS_MCS3: case MGN_VHT4SS_MCS4: case MGN_VHT4SS_MCS5:
+> -	case MGN_VHT4SS_MCS6: case MGN_VHT4SS_MCS7: case MGN_VHT4SS_MCS8:
+> -	case MGN_VHT4SS_MCS9:
+> -		return 9;
+>  	default:
+>  		return -1;
+>  	}
+> @@ -1510,14 +1151,6 @@ void PHY_SetTxPowerLimit(
+>  		rateSection = 4;
+>  	else if (eqNByte(RateSection, (u8 *)("HT"), 2) && eqNByte(RfPath, (u8 *)("4T"), 2))
+>  		rateSection = 5;
+> -	else if (eqNByte(RateSection, (u8 *)("VHT"), 3) && eqNByte(RfPath, (u8 *)("1T"), 2))
+> -		rateSection = 6;
+> -	else if (eqNByte(RateSection, (u8 *)("VHT"), 3) && eqNByte(RfPath, (u8 *)("2T"), 2))
+> -		rateSection = 7;
+> -	else if (eqNByte(RateSection, (u8 *)("VHT"), 3) && eqNByte(RfPath, (u8 *)("3T"), 2))
+> -		rateSection = 8;
+> -	else if (eqNByte(RateSection, (u8 *)("VHT"), 3) && eqNByte(RfPath, (u8 *)("4T"), 2))
+> -		rateSection = 9;
+>  	else
+>  		return;
+>  
+> diff --git a/drivers/staging/rtl8723bs/include/hal_com.h b/drivers/staging/rtl8723bs/include/hal_com.h
+> index 6bcc443d59fb..1bc332261b2a 100644
+> --- a/drivers/staging/rtl8723bs/include/hal_com.h
+> +++ b/drivers/staging/rtl8723bs/include/hal_com.h
+> @@ -69,46 +69,6 @@
+>  #define DESC_RATEMCS29				0x29
+>  #define DESC_RATEMCS30				0x2A
+>  #define DESC_RATEMCS31				0x2B
+> -#define DESC_RATEVHTSS1MCS0		0x2C
+> -#define DESC_RATEVHTSS1MCS1		0x2D
+> -#define DESC_RATEVHTSS1MCS2		0x2E
+> -#define DESC_RATEVHTSS1MCS3		0x2F
+> -#define DESC_RATEVHTSS1MCS4		0x30
+> -#define DESC_RATEVHTSS1MCS5		0x31
+> -#define DESC_RATEVHTSS1MCS6		0x32
+> -#define DESC_RATEVHTSS1MCS7		0x33
+> -#define DESC_RATEVHTSS1MCS8		0x34
+> -#define DESC_RATEVHTSS1MCS9		0x35
+> -#define DESC_RATEVHTSS2MCS0		0x36
+> -#define DESC_RATEVHTSS2MCS1		0x37
+> -#define DESC_RATEVHTSS2MCS2		0x38
+> -#define DESC_RATEVHTSS2MCS3		0x39
+> -#define DESC_RATEVHTSS2MCS4		0x3A
+> -#define DESC_RATEVHTSS2MCS5		0x3B
+> -#define DESC_RATEVHTSS2MCS6		0x3C
+> -#define DESC_RATEVHTSS2MCS7		0x3D
+> -#define DESC_RATEVHTSS2MCS8		0x3E
+> -#define DESC_RATEVHTSS2MCS9		0x3F
+> -#define DESC_RATEVHTSS3MCS0		0x40
+> -#define DESC_RATEVHTSS3MCS1		0x41
+> -#define DESC_RATEVHTSS3MCS2		0x42
+> -#define DESC_RATEVHTSS3MCS3		0x43
+> -#define DESC_RATEVHTSS3MCS4		0x44
+> -#define DESC_RATEVHTSS3MCS5		0x45
+> -#define DESC_RATEVHTSS3MCS6		0x46
+> -#define DESC_RATEVHTSS3MCS7		0x47
+> -#define DESC_RATEVHTSS3MCS8		0x48
+> -#define DESC_RATEVHTSS3MCS9		0x49
+> -#define DESC_RATEVHTSS4MCS0		0x4A
+> -#define DESC_RATEVHTSS4MCS1		0x4B
+> -#define DESC_RATEVHTSS4MCS2		0x4C
+> -#define DESC_RATEVHTSS4MCS3		0x4D
+> -#define DESC_RATEVHTSS4MCS4		0x4E
+> -#define DESC_RATEVHTSS4MCS5		0x4F
+> -#define DESC_RATEVHTSS4MCS6		0x50
+> -#define DESC_RATEVHTSS4MCS7		0x51
+> -#define DESC_RATEVHTSS4MCS8		0x52
+> -#define DESC_RATEVHTSS4MCS9		0x53
+>  
+>  #define HDATA_RATE(rate)\
+>  (rate == DESC_RATE1M) ? "CCK_1M" : \
+> @@ -138,27 +98,7 @@
+>  (rate == DESC_RATEMCS12) ? "MCS12" : \
+>  (rate == DESC_RATEMCS13) ? "MCS13" : \
+>  (rate == DESC_RATEMCS14) ? "MCS14" : \
+> -(rate == DESC_RATEMCS15) ? "MCS15" : \
+> -(rate == DESC_RATEVHTSS1MCS0) ? "VHTSS1MCS0" : \
+> -(rate == DESC_RATEVHTSS1MCS1) ? "VHTSS1MCS1" : \
+> -(rate == DESC_RATEVHTSS1MCS2) ? "VHTSS1MCS2" : \
+> -(rate == DESC_RATEVHTSS1MCS3) ? "VHTSS1MCS3" : \
+> -(rate == DESC_RATEVHTSS1MCS4) ? "VHTSS1MCS4" : \
+> -(rate == DESC_RATEVHTSS1MCS5) ? "VHTSS1MCS5" : \
+> -(rate == DESC_RATEVHTSS1MCS6) ? "VHTSS1MCS6" : \
+> -(rate == DESC_RATEVHTSS1MCS7) ? "VHTSS1MCS7" : \
+> -(rate == DESC_RATEVHTSS1MCS8) ? "VHTSS1MCS8" : \
+> -(rate == DESC_RATEVHTSS1MCS9) ? "VHTSS1MCS9" : \
+> -(rate == DESC_RATEVHTSS2MCS0) ? "VHTSS2MCS0" : \
+> -(rate == DESC_RATEVHTSS2MCS1) ? "VHTSS2MCS1" : \
+> -(rate == DESC_RATEVHTSS2MCS2) ? "VHTSS2MCS2" : \
+> -(rate == DESC_RATEVHTSS2MCS3) ? "VHTSS2MCS3" : \
+> -(rate == DESC_RATEVHTSS2MCS4) ? "VHTSS2MCS4" : \
+> -(rate == DESC_RATEVHTSS2MCS5) ? "VHTSS2MCS5" : \
+> -(rate == DESC_RATEVHTSS2MCS6) ? "VHTSS2MCS6" : \
+> -(rate == DESC_RATEVHTSS2MCS7) ? "VHTSS2MCS7" : \
+> -(rate == DESC_RATEVHTSS2MCS8) ? "VHTSS2MCS8" : \
+> -(rate == DESC_RATEVHTSS2MCS9) ? "VHTSS2MCS9" : "UNKNOWN"
+> +(rate == DESC_RATEMCS15) ? "MCS15" : "UNKNOWN"
+>  
+>  
+>  enum{
+> diff --git a/drivers/staging/rtl8723bs/include/hal_com_phycfg.h b/drivers/staging/rtl8723bs/include/hal_com_phycfg.h
+> index 3d95ab1986b1..c966d0e3e5ae 100644
+> --- a/drivers/staging/rtl8723bs/include/hal_com_phycfg.h
+> +++ b/drivers/staging/rtl8723bs/include/hal_com_phycfg.h
+> @@ -19,10 +19,6 @@ enum rate_section {
+>  	HT_MCS8_MCS15,
+>  	HT_MCS16_MCS23,
+>  	HT_MCS24_MCS31,
+> -	VHT_1SSMCS0_1SSMCS9,
+> -	VHT_2SSMCS0_2SSMCS9,
+> -	VHT_3SSMCS0_3SSMCS9,
+> -	VHT_4SSMCS0_4SSMCS9,
 >  };
 >  
->  /*  ODM_CMNINFO_BAND */
-> diff --git a/drivers/staging/rtl8723bs/hal/odm_EdcaTurboCheck.c b/drivers/staging/rtl8723bs/hal/odm_EdcaTurboCheck.c
-> index f3856e47bfd3..578d5712645c 100644
-> --- a/drivers/staging/rtl8723bs/hal/odm_EdcaTurboCheck.c
-> +++ b/drivers/staging/rtl8723bs/hal/odm_EdcaTurboCheck.c
-> @@ -124,12 +124,10 @@ void odm_EdcaTurboCheckCE(void *pDM_VOID)
->  		} else if ((iot_peer == HT_IOT_PEER_CISCO) &&
->  			   ((wirelessmode == ODM_WM_G) ||
->  			    (wirelessmode == (ODM_WM_B | ODM_WM_G)) ||
-> -			    (wirelessmode == ODM_WM_A) ||
->  			    (wirelessmode == ODM_WM_B))) {
->  			EDCA_BE_DL = edca_setting_DL_GMode[iot_peer];
->  		} else if ((iot_peer == HT_IOT_PEER_AIRGO) &&
-> -			   ((wirelessmode == ODM_WM_G) ||
-> -			    (wirelessmode == ODM_WM_A))) {
-> +			   (wirelessmode == ODM_WM_G)) {
->  			EDCA_BE_DL = 0xa630;
->  		} else if (iot_peer == HT_IOT_PEER_MARVELL) {
->  			EDCA_BE_DL = edca_setting_DL[iot_peer];
-> diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-> index 3738727feb60..a07a6dacec42 100644
-> --- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-> +++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-> @@ -512,8 +512,6 @@ static void _InitOperationMode(struct adapter *padapter)
->  	case WIRELESS_MODE_B:
->  		regBwOpMode = BW_OPMODE_20MHZ;
->  		break;
-> -	case WIRELESS_MODE_A:
-> -		break;
->  	case WIRELESS_MODE_G:
->  		regBwOpMode = BW_OPMODE_20MHZ;
->  		break;
-> @@ -525,9 +523,6 @@ static void _InitOperationMode(struct adapter *padapter)
->  		/*  CCK rate will be filtered out only when associated AP does not support it. */
->  		regBwOpMode = BW_OPMODE_20MHZ;
->  		break;
-> -	case WIRELESS_MODE_N_5G:
-> -		regBwOpMode = BW_OPMODE_5G;
-> -		break;
->  
->  	default: /* for MacOSX compiler warning. */
->  		break;
-> diff --git a/drivers/staging/rtl8723bs/include/hal_phy.h b/drivers/staging/rtl8723bs/include/hal_phy.h
-> index 19221289b8ce..6417d1b758d2 100644
-> --- a/drivers/staging/rtl8723bs/include/hal_phy.h
-> +++ b/drivers/staging/rtl8723bs/include/hal_phy.h
-> @@ -51,13 +51,10 @@ enum rf_path {
->  
->  enum wireless_mode {
->  	WIRELESS_MODE_UNKNOWN = 0x00,
-> -	WIRELESS_MODE_A = 0x01,
->  	WIRELESS_MODE_B = 0x02,
->  	WIRELESS_MODE_G = 0x04,
->  	WIRELESS_MODE_AUTO = 0x08,
->  	WIRELESS_MODE_N_24G = 0x10,
-> -	WIRELESS_MODE_N_5G = 0x20,
-> -	WIRELESS_MODE_AC_5G = 0x40,
->  	WIRELESS_MODE_AC_24G  = 0x80,
->  	WIRELESS_MODE_AC_ONLY  = 0x100,
->  };
+>  enum {
 > diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/staging/rtl8723bs/include/ieee80211.h
-> index 6540c7a22938..ac88bd30b097 100644
+> index ac88bd30b097..378c21595e05 100644
 > --- a/drivers/staging/rtl8723bs/include/ieee80211.h
 > +++ b/drivers/staging/rtl8723bs/include/ieee80211.h
-> @@ -144,33 +144,20 @@ enum network_type {
->  	/* Sub-Element */
->  	WIRELESS_11B = BIT(0), /*  tx: cck only , rx: cck only, hw: cck */
->  	WIRELESS_11G = BIT(1), /*  tx: ofdm only, rx: ofdm & cck, hw: cck & ofdm */
-> -	WIRELESS_11A = BIT(2), /*  tx: ofdm only, rx: ofdm only, hw: ofdm only */
->  	WIRELESS_11_24N = BIT(3), /*  tx: MCS only, rx: MCS & cck, hw: MCS & cck */
-> -	WIRELESS_11_5N = BIT(4), /*  tx: MCS only, rx: MCS & ofdm, hw: ofdm only */
->  	WIRELESS_AUTO = BIT(5),
-> -	WIRELESS_11AC = BIT(6),
+> @@ -60,7 +60,6 @@ enum {
+>  #define WLAN_STA_HT BIT(11)
+>  #define WLAN_STA_WPS BIT(12)
+>  #define WLAN_STA_MAYBE_WPS BIT(13)
+> -#define WLAN_STA_VHT BIT(14)
+>  #define WLAN_STA_NONERP BIT(31)
 >  
->  	/* Combination */
->  	/* Type for current wireless mode */
->  	WIRELESS_11BG = (WIRELESS_11B|WIRELESS_11G), /*  tx: cck & ofdm, rx: cck & ofdm & MCS, hw: cck & ofdm */
->  	WIRELESS_11G_24N = (WIRELESS_11G|WIRELESS_11_24N), /*  tx: ofdm & MCS, rx: ofdm & cck & MCS, hw: cck & ofdm */
-> -	WIRELESS_11A_5N = (WIRELESS_11A|WIRELESS_11_5N), /*  tx: ofdm & MCS, rx: ofdm & MCS, hw: ofdm only */
->  	WIRELESS_11B_24N = (WIRELESS_11B|WIRELESS_11_24N), /*  tx: ofdm & cck & MCS, rx: ofdm & cck & MCS, hw: ofdm & cck */
->  	WIRELESS_11BG_24N = (WIRELESS_11B|WIRELESS_11G|WIRELESS_11_24N), /*  tx: ofdm & cck & MCS, rx: ofdm & cck & MCS, hw: ofdm & cck */
-> -	WIRELESS_11_24AC = (WIRELESS_11G|WIRELESS_11AC),
-> -	WIRELESS_11_5AC = (WIRELESS_11A|WIRELESS_11AC),
-> -
-> -
-> -	/* Type for registry default wireless mode */
-> -	WIRELESS_11AGN = (WIRELESS_11A|WIRELESS_11G|WIRELESS_11_24N|WIRELESS_11_5N), /*  tx: ofdm & MCS, rx: ofdm & MCS, hw: ofdm only */
-> -	WIRELESS_11ABGN = (WIRELESS_11A|WIRELESS_11B|WIRELESS_11G|WIRELESS_11_24N|WIRELESS_11_5N),
-> -	WIRELESS_MODE_24G = (WIRELESS_11B|WIRELESS_11G|WIRELESS_11_24N|WIRELESS_11AC),
-> -	WIRELESS_MODE_MAX = (WIRELESS_11A|WIRELESS_11B|WIRELESS_11G|WIRELESS_11_24N|WIRELESS_11_5N|WIRELESS_11AC),
+>  #define IEEE_CMD_SET_WPA_PARAM			1
+> @@ -135,8 +134,6 @@ enum {
+>  	RATEID_IDX_BG = 6,
+>  	RATEID_IDX_G = 7,
+>  	RATEID_IDX_B = 8,
+> -	RATEID_IDX_VHT_2SS = 9,
+> -	RATEID_IDX_VHT_1SS = 10,
 >  };
 >  
->  #define SUPPORTED_24G_NETTYPE_MSK (WIRELESS_11B | WIRELESS_11G | WIRELESS_11_24N)
+>  enum network_type {
+> @@ -424,51 +421,10 @@ enum {
+>  	MGN_MCS29,
+>  	MGN_MCS30,
+>  	MGN_MCS31,
+> -	MGN_VHT1SS_MCS0,
+> -	MGN_VHT1SS_MCS1,
+> -	MGN_VHT1SS_MCS2,
+> -	MGN_VHT1SS_MCS3,
+> -	MGN_VHT1SS_MCS4,
+> -	MGN_VHT1SS_MCS5,
+> -	MGN_VHT1SS_MCS6,
+> -	MGN_VHT1SS_MCS7,
+> -	MGN_VHT1SS_MCS8,
+> -	MGN_VHT1SS_MCS9,
+> -	MGN_VHT2SS_MCS0,
+> -	MGN_VHT2SS_MCS1,
+> -	MGN_VHT2SS_MCS2,
+> -	MGN_VHT2SS_MCS3,
+> -	MGN_VHT2SS_MCS4,
+> -	MGN_VHT2SS_MCS5,
+> -	MGN_VHT2SS_MCS6,
+> -	MGN_VHT2SS_MCS7,
+> -	MGN_VHT2SS_MCS8,
+> -	MGN_VHT2SS_MCS9,
+> -	MGN_VHT3SS_MCS0,
+> -	MGN_VHT3SS_MCS1,
+> -	MGN_VHT3SS_MCS2,
+> -	MGN_VHT3SS_MCS3,
+> -	MGN_VHT3SS_MCS4,
+> -	MGN_VHT3SS_MCS5,
+> -	MGN_VHT3SS_MCS6,
+> -	MGN_VHT3SS_MCS7,
+> -	MGN_VHT3SS_MCS8,
+> -	MGN_VHT3SS_MCS9,
+> -	MGN_VHT4SS_MCS0,
+> -	MGN_VHT4SS_MCS1,
+> -	MGN_VHT4SS_MCS2,
+> -	MGN_VHT4SS_MCS3,
+> -	MGN_VHT4SS_MCS4,
+> -	MGN_VHT4SS_MCS5,
+> -	MGN_VHT4SS_MCS6,
+> -	MGN_VHT4SS_MCS7,
+> -	MGN_VHT4SS_MCS8,
+> -	MGN_VHT4SS_MCS9,
+>  	MGN_UNKNOWN
+>  };
 >  
-> -#define IsLegacyOnly(NetType)  ((NetType) == ((NetType) & (WIRELESS_11BG|WIRELESS_11A)))
-> +#define IsLegacyOnly(NetType)  ((NetType) == ((NetType) & (WIRELESS_11BG)))
+>  #define IS_HT_RATE(_rate)				(_rate >= MGN_MCS0 && _rate <= MGN_MCS31)
+> -#define IS_VHT_RATE(_rate)				(_rate >= MGN_VHT1SS_MCS0 && _rate <= MGN_VHT4SS_MCS9)
+>  #define IS_CCK_RATE(_rate)				(MGN_1M == _rate || _rate == MGN_2M || _rate == MGN_5_5M || _rate == MGN_11M)
+>  #define IS_OFDM_RATE(_rate)				(MGN_6M <= _rate && _rate <= MGN_54M  && _rate != MGN_11M)
 >  
->  #define IsSupported24G(NetType) ((NetType) & SUPPORTED_24G_NETTYPE_MSK ? true : false)
+> @@ -625,7 +581,6 @@ enum {
+>  	RTW_WLAN_CATEGORY_TDLS = 12,
+>  	RTW_WLAN_CATEGORY_SELF_PROTECTED = 15, /*  add for CONFIG_IEEE80211W, none 11w also can use */
+>  	RTW_WLAN_CATEGORY_WMM = 17,
+> -	RTW_WLAN_CATEGORY_VHT = 21,
+>  	RTW_WLAN_CATEGORY_P2P = 0x7f,/* P2P action frames */
+>  };
 >  
-> @@ -182,11 +169,8 @@ enum network_type {
->  #define IsSupportedRxHT(NetType) IsEnableHWOFDM(NetType)
->  
->  #define IsSupportedTxCCK(NetType) (((NetType) & (WIRELESS_11B)) ? true : false)
-> -#define IsSupportedTxOFDM(NetType) (((NetType) & (WIRELESS_11G|WIRELESS_11A)) ? true : false)
-> -#define IsSupportedHT(NetType) (((NetType) & (WIRELESS_11_24N|WIRELESS_11_5N)) ? true : false)
+> diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h b/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h
+> index 56bdc14af47d..9dd329a5208a 100644
+> --- a/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h
+> +++ b/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h
+> @@ -402,27 +402,6 @@ struct txdesc_8723b {
+>  #define DESC8723B_RATEMCS13		0x19
+>  #define DESC8723B_RATEMCS14		0x1a
+>  #define DESC8723B_RATEMCS15		0x1b
+> -#define DESC8723B_RATEVHTSS1MCS0		0x2c
+> -#define DESC8723B_RATEVHTSS1MCS1		0x2d
+> -#define DESC8723B_RATEVHTSS1MCS2		0x2e
+> -#define DESC8723B_RATEVHTSS1MCS3		0x2f
+> -#define DESC8723B_RATEVHTSS1MCS4		0x30
+> -#define DESC8723B_RATEVHTSS1MCS5		0x31
+> -#define DESC8723B_RATEVHTSS1MCS6		0x32
+> -#define DESC8723B_RATEVHTSS1MCS7		0x33
+> -#define DESC8723B_RATEVHTSS1MCS8		0x34
+> -#define DESC8723B_RATEVHTSS1MCS9		0x35
+> -#define DESC8723B_RATEVHTSS2MCS0		0x36
+> -#define DESC8723B_RATEVHTSS2MCS1		0x37
+> -#define DESC8723B_RATEVHTSS2MCS2		0x38
+> -#define DESC8723B_RATEVHTSS2MCS3		0x39
+> -#define DESC8723B_RATEVHTSS2MCS4		0x3a
+> -#define DESC8723B_RATEVHTSS2MCS5		0x3b
+> -#define DESC8723B_RATEVHTSS2MCS6		0x3c
+> -#define DESC8723B_RATEVHTSS2MCS7		0x3d
+> -#define DESC8723B_RATEVHTSS2MCS8		0x3e
+> -#define DESC8723B_RATEVHTSS2MCS9		0x3f
 > -
-> -#define IsSupportedVHT(NetType) (((NetType) & (WIRELESS_11AC)) ? true : false)
-> -
-> +#define IsSupportedTxOFDM(NetType) (((NetType) & (WIRELESS_11G) ? true : false)
-> +#define IsSupportedHT(NetType) (((NetType) & (WIRELESS_11_24N)) ? true : false)
 >  
->  struct ieee_param {
->  	u32 cmd;
-> diff --git a/drivers/staging/rtl8723bs/include/wifi.h b/drivers/staging/rtl8723bs/include/wifi.h
-> index 23de3ab87f9c..0bd7b662b972 100644
-> --- a/drivers/staging/rtl8723bs/include/wifi.h
-> +++ b/drivers/staging/rtl8723bs/include/wifi.h
-> @@ -336,7 +336,6 @@ static inline int IsFrameTypeCtrl(unsigned char *pframe)
->  #define _PRE_ALLOCICVHDR_		5
->  #define _PRE_ALLOCMICHDR_		6
+>  #define		RX_HAL_IS_CCK_RATE_8723B(pDesc)\
+>  			(GET_RX_STATUS_DESC_RX_RATE_8723B(pDesc) == DESC8723B_RATE1M ||\
+> diff --git a/drivers/staging/rtl8723bs/include/rtw_ht.h b/drivers/staging/rtl8723bs/include/rtw_ht.h
+> index e3f353fe1e47..1527d8be2d7a 100644
+> --- a/drivers/staging/rtl8723bs/include/rtw_ht.h
+> +++ b/drivers/staging/rtl8723bs/include/rtw_ht.h
+> @@ -42,10 +42,6 @@ enum {
+>  	HT_AGG_SIZE_16K = 1,
+>  	HT_AGG_SIZE_32K = 2,
+>  	HT_AGG_SIZE_64K = 3,
+> -	VHT_AGG_SIZE_128K = 4,
+> -	VHT_AGG_SIZE_256K = 5,
+> -	VHT_AGG_SIZE_512K = 6,
+> -	VHT_AGG_SIZE_1024K = 7,
+>  };
 >  
-> -#define _SIFSTIME_				((priv->pmib->dot11BssType.net_work_type&WIRELESS_11A)?16:10)
->  #define _ACKCTSLNG_				14	/* 14 bytes long, including crclng */
->  #define _CRCLNG_				4
->  
-> diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-> index 11b9a5919da4..4e7c115c8bc1 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-> @@ -22,7 +22,7 @@ static int rtw_lbkmode;/* RTL8712_AIR_TRX; */
->  static int rtw_network_mode = Ndis802_11IBSS;/* Ndis802_11Infrastructure;infra, ad-hoc, auto */
->  /* struct ndis_802_11_ssid	ssid; */
->  static int rtw_channel = 1;/* ad-hoc support requirement */
-> -static int rtw_wireless_mode = WIRELESS_MODE_MAX;
-> +static int rtw_wireless_mode = WIRELESS_11BG_24N;
->  static int rtw_vrtl_carrier_sense = AUTO_VCS;
->  static int rtw_vcs_type = RTS_CTS;/*  */
->  static int rtw_rts_thresh = 2347;/*  */
+>  enum {
 > 
 
