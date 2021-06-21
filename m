@@ -1,41 +1,41 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE06971
-	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 13:51:07 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id s17-20020a17090a8811b029016e89654f93so12672158pjn.1
-        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 06:51:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A1AE71
+	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 13:51:18 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id g4so10047480pjk.0
+        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 06:51:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=TREWgCZWamyM+cAvFe+be+iyBQ2mM4FCIj8jAxnCWs0=;
-        b=fEpcFCM2VjpxKDX6qBcqcW976jrBvNzdDnqeE7kkmCA54xvYA4tjne6uHuRPjecEbr
-         JB9MtUDnrHIPae2hAflr8rrpbzIZwu5s8pvuWPRaVeAHzJDk1LtGQsAg6m0Uvv6waFVi
-         IYqPOVWlKZlVSDTIDk0gj8bSXfzdIYB/avCm8m4wpaEn2vD/q9t+UWhFeXfrZF/ggsl8
-         nDAMEXJNPyGYM0f7+U32sdGdLo69dfwECtTNfintPs6QIW1gs3v48Po+50q7BbBtz8u9
-         5OrzIka2R+hFKvGmDHqgS+eKEfvhaXhb68CxDcOOK8JMq0xrwtATR5CHGmp6K1NMTDvq
-         SKrQ==
+        bh=Ib+t9lVmRc47tm7LsElU1TV26Vqw/r1cOdCfq04ZSQE=;
+        b=VEE7fjWiDkmeD1XofkTGTv9lFoFTZM+iHn5Kn4Xx6Xa4uUg4bU76o7Yr8jZPmE8ls7
+         8/Y4uzvUSXiFJIWAQ3TsCwfOpDp+8G9YUzC5bXKzvt6KrX7TsYNxl5jvHMnJT/fPeDqa
+         R6Dgw7rbVcalfIRhaO98vo/0ZeR8M3MKOPVR4Rt8DnmBQZgXrftqjElGiAqfYmoSmYYj
+         LYtH9/3MG8WT0Wkixx6PAjvYikoPh3MlUVk2LhiMnLMoLhrLF60l4HYHdkLk077D8sGA
+         reM8DPhCoH9yQUVtwAPPKsvN+kAj15yOz3AyqET0VlPozhF9xBqjqyESIvAiGw8gWQ69
+         s/Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=TREWgCZWamyM+cAvFe+be+iyBQ2mM4FCIj8jAxnCWs0=;
-        b=JrhOk+FaCRUHu1v3KFBM2Ep4QdUSDdlZA3yzkKraOeVyZutQhhdW2n7nXQQDFh+t3q
-         bZRetGUoH+uC5RvzOyLIs3dqVFse3zNH6lnLH3qSrgJvcDr9ccK7H7qVyUVym0RGd7CT
-         TkWVElszUB/oeVn9zPqFTuL65kXWEuwa/yUnahCRXYfMeFUDHiMlaxs/SxKlPIHwYmpP
-         TgAZroc9Cc2PVCSM/1EW8Xu6Aze9K3DCTBNgdJ+e/7FwaZdZDWjp3qYbYqt7+SZqXxN1
-         fuWTLaKH6IWu0SRmaYpSzt85Wx5XtmthH0SZGUnJiCD2sjvl8b5wTfV2Vaiw7HGAcdXh
-         853A==
-X-Gm-Message-State: AOAM531x+0ogt57ux7RdK9d5Gs4TGui3p/67NvtQ9MqePORkloMBHlbc
-	BQDkLVe/HWAffATLclcH8nlg6k9TxJ1Hb+FX
-X-Google-Smtp-Source: ABdhPJzZjS77z8PraDiF4aOCsoGOuHLIIF3lM0XWqXPAxHUs+FwCRZ91wEzksH0o6KrPa+OMPFwJQw==
-X-Received: by 2002:a17:902:d4cb:b029:124:3333:9ded with SMTP id o11-20020a170902d4cbb029012433339dedmr6883227plg.22.1624283467638;
-        Mon, 21 Jun 2021 06:51:07 -0700 (PDT)
+        bh=Ib+t9lVmRc47tm7LsElU1TV26Vqw/r1cOdCfq04ZSQE=;
+        b=LgA7Ei9Iu2QdR8jzDWSWdHY1vFSdE7qDwlrugKMDwbMLBYri+GlHDgDUX7SdooJDIy
+         2jrvmWRmatbwPXZsescf/fotKHi4uiSZDs4H0yKuPVCYTY8RIAN8nffO4tBb6al/iyUF
+         TIdB062fyusxyOF8VsnAVHIuyTtiNnLDG6QC2cgMQlTURwdZttu5J1bXZfaUtOTKUDcW
+         xNtbVdlg02A4RlqZwHjF/kX+7HRHLlSSAX4HGQQ0sQ2VjSBKoORl19dlKKKn8+d9yzbm
+         MpqLExli9C/7FK6Hz68OzHYfCECkJzqdVClIYT/YG4lDbxIumcydG+E1iM4ZXrmXwX8m
+         VCeg==
+X-Gm-Message-State: AOAM530v1imcQlYVMJ2C3xAMLxDsc2IP8Bmn6qo8MaEPUCCDkXTnb3iH
+	SePeOgYCg3fXhIwQiWYXyM+7xWuYLNOEmMHh
+X-Google-Smtp-Source: ABdhPJyfyUFZ+vhs2TGIQqtoKDwOtSGbu0zMRWpP/QIjUMgrczLKyuRymwSAHSzj4qMzA746ctx9rg==
+X-Received: by 2002:a17:90a:a108:: with SMTP id s8mr38186952pjp.85.1624283477944;
+        Mon, 21 Jun 2021 06:51:17 -0700 (PDT)
 Received: from localhost ([209.132.188.80])
-        by smtp.gmail.com with ESMTPSA id k25sm15256121pfa.213.2021.06.21.06.51.06
+        by smtp.gmail.com with ESMTPSA id j10sm15995814pjb.36.2021.06.21.06.51.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 06:51:07 -0700 (PDT)
+        Mon, 21 Jun 2021 06:51:17 -0700 (PDT)
 From: Coiby Xu <coiby.xu@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: netdev@vger.kernel.org,
@@ -45,9 +45,9 @@ Cc: netdev@vger.kernel.org,
 	GR-Linux-NIC-Dev@marvell.com (supporter:QLOGIC QLGE 10Gb ETHERNET DRIVER),
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-kernel@vger.kernel.org (open list)
-Subject: [RFC 12/19] staging: qlge: rewrite do while loops as for loops in qlge_start_rx_ring
-Date: Mon, 21 Jun 2021 21:48:55 +0800
-Message-Id: <20210621134902.83587-13-coiby.xu@gmail.com>
+Subject: [RFC 13/19] staging: qlge: rewrite do while loop as for loop in qlge_sem_spinlock
+Date: Mon, 21 Jun 2021 21:48:56 +0800
+Message-Id: <20210621134902.83587-14-coiby.xu@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210621134902.83587-1-coiby.xu@gmail.com>
 References: <20210621134902.83587-1-coiby.xu@gmail.com>
@@ -58,48 +58,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since MAX_DB_PAGES_PER_BQ > 0, the for loop is equivalent to do while
-loop.
+Since wait_count=30 > 0, the for loop is equivalent to do while
+loop. This commit also replaces 100 with UDELAY_DELAY.
 
 Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
 ---
- drivers/staging/qlge/qlge_main.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ drivers/staging/qlge/qlge_main.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
-index 7aee9e904097..c5e161595b1f 100644
+index c5e161595b1f..2d2405be38f5 100644
 --- a/drivers/staging/qlge/qlge_main.c
 +++ b/drivers/staging/qlge/qlge_main.c
-@@ -3029,12 +3029,11 @@ static int qlge_start_cq(struct qlge_adapter *qdev, struct qlge_cq *cq)
- 		tmp = (u64)rx_ring->lbq.base_dma;
- 		base_indirect_ptr = rx_ring->lbq.base_indirect;
- 		page_entries = 0;
--		do {
-+		for (page_entries = 0; page_entries < MAX_DB_PAGES_PER_BQ; page_entries++) {
- 			*base_indirect_ptr = cpu_to_le64(tmp);
- 			tmp += DB_PAGE_SIZE;
- 			base_indirect_ptr++;
--			page_entries++;
--		} while (page_entries < MAX_DB_PAGES_PER_BQ);
-+		}
- 		cqicb->lbq_addr = cpu_to_le64(rx_ring->lbq.base_indirect_dma);
- 		cqicb->lbq_buf_size =
- 			cpu_to_le16(QLGE_FIT16(qdev->lbq_buf_size));
-@@ -3046,12 +3045,11 @@ static int qlge_start_cq(struct qlge_adapter *qdev, struct qlge_cq *cq)
- 		tmp = (u64)rx_ring->sbq.base_dma;
- 		base_indirect_ptr = rx_ring->sbq.base_indirect;
- 		page_entries = 0;
--		do {
-+		for (page_entries = 0; page_entries < MAX_DB_PAGES_PER_BQ; page_entries++) {
- 			*base_indirect_ptr = cpu_to_le64(tmp);
- 			tmp += DB_PAGE_SIZE;
- 			base_indirect_ptr++;
--			page_entries++;
--		} while (page_entries < MAX_DB_PAGES_PER_BQ);
-+		}
- 		cqicb->sbq_addr = cpu_to_le64(rx_ring->sbq.base_indirect_dma);
- 		cqicb->sbq_buf_size = cpu_to_le16(QLGE_SMALL_BUFFER_SIZE);
- 		cqicb->sbq_len = cpu_to_le16(QLGE_FIT16(QLGE_BQ_LEN));
+@@ -140,12 +140,13 @@ static int qlge_sem_trylock(struct qlge_adapter *qdev, u32 sem_mask)
+ int qlge_sem_spinlock(struct qlge_adapter *qdev, u32 sem_mask)
+ {
+ 	unsigned int wait_count = 30;
++	int count;
+ 
+-	do {
++	for (count = 0; count < wait_count; count++) {
+ 		if (!qlge_sem_trylock(qdev, sem_mask))
+ 			return 0;
+-		udelay(100);
+-	} while (--wait_count);
++		udelay(UDELAY_DELAY);
++	}
+ 	return -ETIMEDOUT;
+ }
+ 
 -- 
 2.32.0
 
