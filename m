@@ -1,41 +1,41 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A1AE71
-	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 13:51:18 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id g4so10047480pjk.0
-        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 06:51:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195E871
+	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 13:51:28 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id o21so8586866pll.6
+        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 06:51:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Ib+t9lVmRc47tm7LsElU1TV26Vqw/r1cOdCfq04ZSQE=;
-        b=VEE7fjWiDkmeD1XofkTGTv9lFoFTZM+iHn5Kn4Xx6Xa4uUg4bU76o7Yr8jZPmE8ls7
-         8/Y4uzvUSXiFJIWAQ3TsCwfOpDp+8G9YUzC5bXKzvt6KrX7TsYNxl5jvHMnJT/fPeDqa
-         R6Dgw7rbVcalfIRhaO98vo/0ZeR8M3MKOPVR4Rt8DnmBQZgXrftqjElGiAqfYmoSmYYj
-         LYtH9/3MG8WT0Wkixx6PAjvYikoPh3MlUVk2LhiMnLMoLhrLF60l4HYHdkLk077D8sGA
-         reM8DPhCoH9yQUVtwAPPKsvN+kAj15yOz3AyqET0VlPozhF9xBqjqyESIvAiGw8gWQ69
-         s/Wg==
+        bh=4wtQAn6LzmVlaCqMqizM6ab4EoyWHwZrrQCDQEZJCVE=;
+        b=KsYZRBVCVKS8ZtQhhdKkCHzLAngteaWyzxZ2c3GBjC/s1xJ4Rp7Gh0K1U2kEkJ8Z9Y
+         EMRilykmwbrm+E2O8hxt9xCNxuB1BC9beU9B5e56l8SXn6Od8MQYN6hQDd4QseWRI0EK
+         kBpHrttwMcWFmJqlCTYFpq9rd0BXet3ySC3EpdoVxtees7G4jJy9ccgVhlaVUf3BFZvT
+         kn4qdZlgQtH6rFDQwcDKoq44if7vDYEoEd5nAEGBmVZxBQ06U9sjz6bQKSxBDoql/KAg
+         vor69bpxhCLEO/DvQ5EUq40ME/SYRRK+QIiXIsdeKrIztoA88lClj0C3HVwIySYhPbac
+         Hssg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ib+t9lVmRc47tm7LsElU1TV26Vqw/r1cOdCfq04ZSQE=;
-        b=LgA7Ei9Iu2QdR8jzDWSWdHY1vFSdE7qDwlrugKMDwbMLBYri+GlHDgDUX7SdooJDIy
-         2jrvmWRmatbwPXZsescf/fotKHi4uiSZDs4H0yKuPVCYTY8RIAN8nffO4tBb6al/iyUF
-         TIdB062fyusxyOF8VsnAVHIuyTtiNnLDG6QC2cgMQlTURwdZttu5J1bXZfaUtOTKUDcW
-         xNtbVdlg02A4RlqZwHjF/kX+7HRHLlSSAX4HGQQ0sQ2VjSBKoORl19dlKKKn8+d9yzbm
-         MpqLExli9C/7FK6Hz68OzHYfCECkJzqdVClIYT/YG4lDbxIumcydG+E1iM4ZXrmXwX8m
-         VCeg==
-X-Gm-Message-State: AOAM530v1imcQlYVMJ2C3xAMLxDsc2IP8Bmn6qo8MaEPUCCDkXTnb3iH
-	SePeOgYCg3fXhIwQiWYXyM+7xWuYLNOEmMHh
-X-Google-Smtp-Source: ABdhPJyfyUFZ+vhs2TGIQqtoKDwOtSGbu0zMRWpP/QIjUMgrczLKyuRymwSAHSzj4qMzA746ctx9rg==
-X-Received: by 2002:a17:90a:a108:: with SMTP id s8mr38186952pjp.85.1624283477944;
-        Mon, 21 Jun 2021 06:51:17 -0700 (PDT)
+        bh=4wtQAn6LzmVlaCqMqizM6ab4EoyWHwZrrQCDQEZJCVE=;
+        b=X80T/BAdyKmUz2leT39mNyh+Rw8OmjLHpA/iwquzmvbCE62/B+E8DWIwWKkuFvtwEZ
+         N+7t4Q6Ivsgg7nhec81IXkX7LuuEWhuKaY6f//QHVLxhv4c7RqOB9ea4snepyVefGML7
+         iBgag6FMSVe2Of6rha+yO9ktwOPck7NU4SEEUv2Vy8ArHoUDcMbEE6uzGVdQUwQAwGmF
+         gOchykZziqx8I486FsgxesH2AdAlRof/+jrcPTgL7TAzKBys2zf2n7W9A0e1Y/zf0rse
+         g4IjziBVBRDH3gomDggxmLD28REBx8trC8KsF2Y8LgURIYky7gvOZ3EVeRQ9qZIin3cs
+         AVRg==
+X-Gm-Message-State: AOAM5335VF/JmEeop8t4oFzwiGvhVNnHrjqEbTTWdm0lRvApy7iswS0T
+	w3KvH0eXjz32gJ6zva0qshRnW5xxHo/OhYIi
+X-Google-Smtp-Source: ABdhPJwFUktdrr4PhLpWpymkUiqvYP8hU7ocofZpZwVOz02ZFqqxCuUbnQ0Z6AgvXGLhDIPvf4ZH+Q==
+X-Received: by 2002:a17:90a:2e87:: with SMTP id r7mr38259386pjd.232.1624283487677;
+        Mon, 21 Jun 2021 06:51:27 -0700 (PDT)
 Received: from localhost ([209.132.188.80])
-        by smtp.gmail.com with ESMTPSA id j10sm15995814pjb.36.2021.06.21.06.51.16
+        by smtp.gmail.com with ESMTPSA id b6sm16726628pgw.67.2021.06.21.06.51.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 06:51:17 -0700 (PDT)
+        Mon, 21 Jun 2021 06:51:27 -0700 (PDT)
 From: Coiby Xu <coiby.xu@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: netdev@vger.kernel.org,
@@ -45,9 +45,9 @@ Cc: netdev@vger.kernel.org,
 	GR-Linux-NIC-Dev@marvell.com (supporter:QLOGIC QLGE 10Gb ETHERNET DRIVER),
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-kernel@vger.kernel.org (open list)
-Subject: [RFC 13/19] staging: qlge: rewrite do while loop as for loop in qlge_sem_spinlock
-Date: Mon, 21 Jun 2021 21:48:56 +0800
-Message-Id: <20210621134902.83587-14-coiby.xu@gmail.com>
+Subject: [RFC 14/19] staging: qlge: rewrite do while loop as for loop in qlge_refill_bq
+Date: Mon, 21 Jun 2021 21:48:57 +0800
+Message-Id: <20210621134902.83587-15-coiby.xu@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210621134902.83587-1-coiby.xu@gmail.com>
 References: <20210621134902.83587-1-coiby.xu@gmail.com>
@@ -58,35 +58,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since wait_count=30 > 0, the for loop is equivalent to do while
-loop. This commit also replaces 100 with UDELAY_DELAY.
+Since refill_count > 0, the for loop is equivalent to do while
+loop.
 
 Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
 ---
- drivers/staging/qlge/qlge_main.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/staging/qlge/qlge_main.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
-index c5e161595b1f..2d2405be38f5 100644
+index 2d2405be38f5..904dba7aaee5 100644
 --- a/drivers/staging/qlge/qlge_main.c
 +++ b/drivers/staging/qlge/qlge_main.c
-@@ -140,12 +140,13 @@ static int qlge_sem_trylock(struct qlge_adapter *qdev, u32 sem_mask)
- int qlge_sem_spinlock(struct qlge_adapter *qdev, u32 sem_mask)
- {
- 	unsigned int wait_count = 30;
+@@ -1092,6 +1092,7 @@ static int qlge_refill_bq(struct qlge_bq *bq, gfp_t gfp)
+ 	struct qlge_bq_desc *bq_desc;
+ 	int refill_count;
+ 	int retval;
 +	int count;
+ 	int i;
  
+ 	refill_count = QLGE_BQ_WRAP(QLGE_BQ_ALIGN(bq->next_to_clean - 1) -
+@@ -1102,7 +1103,7 @@ static int qlge_refill_bq(struct qlge_bq *bq, gfp_t gfp)
+ 	i = bq->next_to_use;
+ 	bq_desc = &bq->queue[i];
+ 	i -= QLGE_BQ_LEN;
 -	do {
-+	for (count = 0; count < wait_count; count++) {
- 		if (!qlge_sem_trylock(qdev, sem_mask))
- 			return 0;
--		udelay(100);
--	} while (--wait_count);
-+		udelay(UDELAY_DELAY);
++	for (count = 0; count < refill_count; count++) {
+ 		netif_printk(qdev, rx_status, KERN_DEBUG, qdev->ndev,
+ 			     "ring %u %s: try cleaning idx %d\n",
+ 			     rx_ring->cq_id, bq_type_name[bq->type], i);
+@@ -1124,8 +1125,7 @@ static int qlge_refill_bq(struct qlge_bq *bq, gfp_t gfp)
+ 			bq_desc = &bq->queue[0];
+ 			i -= QLGE_BQ_LEN;
+ 		}
+-		refill_count--;
+-	} while (refill_count);
 +	}
- 	return -ETIMEDOUT;
- }
+ 	i += QLGE_BQ_LEN;
  
+ 	if (bq->next_to_use != i) {
 -- 
 2.32.0
 
