@@ -1,41 +1,41 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AFFC71
-	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 13:52:08 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id 13-20020a17090a08cdb029016eed209ca4so25951pjn.1
-        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 06:52:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B6771
+	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 13:52:17 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id v12so8593782plo.10
+        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 06:52:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=GecS0/ehd6+JUFAcJrnC4SQJD8ZCoGcVouB3TgYaaMw=;
-        b=qqkvx3EdQ8jAojsPlNTBSw6SapC3waBuxhu8qGo/sbsMrcvanDpY7oSUAr2ON/ORnW
-         TdY9Uut89tDIXaOD/x5V8j5xYPE+ARcXmZiIBHS2GeAbjHYd11MqSAVOym+w9rDOKduB
-         pAGStPjSfAB8y/cC4rqXZVSvyyo+w/YawcNluwBNUCI5jHuZBpeLivV+/IlCN2HBhcH1
-         af1evMKETvSYljuyll2g/1R87b+/wTH/jPnhTmzgtq2qnpFiYtOe7jxM9RMWWIV9uaAe
-         /G2epTPrgkPJiLtnWVbjjKLQN8VC22sMEroeAOMPsddpHOgCDW8KESzp7ZE6ZcuSxcBL
-         rIEw==
+        bh=cS/F8T1IFYAn7INxjRc02bXMnhEJgrDiWz1RpqB30qg=;
+        b=SJCGESTjQtyYduI8KWTbHwthcEwAcmaxdU6hvYYWVh+GfYWmxJjiB0YEJw5i7+Hs+/
+         7UNlbQQnS3Ixf218WX02g797CCw5A7nupA3Eh3COwpxuMd8H5rWsQhO+4S2EnVd6XjA2
+         VIhOYoO/1rreePN2r3ARbaic4QcE20/gufqYpvJ28Xg+MmCAnxBMlHAky0lJM9vFlQP4
+         IHAhRyMc8yPXLJjafnW7UXiGp9wAhBC0pDrE47/KRhyCnBN5emslw6hfGeuyF+DCYdc0
+         t371rI7FASZx/JgDK2IJSW4oms1cjy6eUsX8kiH/9pBVU7QY0ORfMiGgW1O9BkcaY5Ej
+         MtfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=GecS0/ehd6+JUFAcJrnC4SQJD8ZCoGcVouB3TgYaaMw=;
-        b=s4qskQk+uTpWDa315d9FgZ6me4OV4+0nzh9dbTnIB5CF1wm6yL01RkIRQW6DZjWs6W
-         zRi9kXj7B2vQJG9WGfHbU19ji1xMMnfyIeWSubsRjdu8swTeBFLRYY8A5wzPRoaajPTN
-         1ROnkuUzHN20GX859XbNyfAJkKUYx/uFs+rpZGq5gz45W85oTuUp8cxhBLdHxa7YQkbw
-         ZGLQx6Q4oxCJ0S/gp//k4JKTC3bGvdNbS+n7o5IOAnHlVuCFc5/uY17DI7Mo8GMbCsCW
-         w+sRU1IHSN/xBYUJfcoFhllqU40HuIwvAKkHN4Npb+YHSre/YdYahtr/tcPqtUrS6EM0
-         tnDQ==
-X-Gm-Message-State: AOAM533WyZgTSAbQ0EhGNm3Pl5NNU31Sb/IjgPAccw59GRIQCIDCi9zS
-	46YivZtBR4VtEwB7K+Wmj7Tzq/3z0X+JOjok
-X-Google-Smtp-Source: ABdhPJwlEScElw9RbXC0NE4tPYBHMMj/4R4m2P6GWxgQLiqqhXYOGRJxmE63HWFoRstvQvdnUWyUDQ==
-X-Received: by 2002:a17:90a:4d86:: with SMTP id m6mr26934502pjh.44.1624283527871;
-        Mon, 21 Jun 2021 06:52:07 -0700 (PDT)
+        bh=cS/F8T1IFYAn7INxjRc02bXMnhEJgrDiWz1RpqB30qg=;
+        b=BtnX7EMN3WG8zyJqKqwMO2e5eElZ4Zi2gWwFdXuvrXFKYdN3mfqO0bt8d4xbYfUsko
+         h7UMynicJX3Pz57gL0c4VxKsM3E7v2IDccQ+uPfbLqHy74n7lAfOTH4X1u7jHvGPYbUD
+         p8OEReP57ruD9XMvVDrzx/SSBXzcNU1vdfSYNWQXw25ohuXrstljH45GcwuOltoHk/td
+         UB9+JK4z3wuZPVKbbEzOy5MKslrzNCkHSxoZ2OC0+mHnVifT9jRNIvvcTooli6u/LNuy
+         82tTdYjxYMmQ9OeK/iqa9KyfR7qItbAQExM/FfavD3qPBmiXosblerlWqQ0s4IW3+evU
+         SIOA==
+X-Gm-Message-State: AOAM530nJy8xSG0wOaZ0KXgpLGRkeHhyHtL6iUfwc+ruS6cevJ0UZKP2
+	AhUCM0nmzYTKwIcg/ALHSDvE1wnTR+z2EqEJ
+X-Google-Smtp-Source: ABdhPJxT9DTOz8C0+5X6I7CDf35WX5i4rQLGUTavO5WmXFb6c5vVq6gzP11MULWNG5JNW0L/EF4OHw==
+X-Received: by 2002:a17:902:9f83:b029:f6:5c3c:db03 with SMTP id g3-20020a1709029f83b02900f65c3cdb03mr18185118plq.2.1624283537354;
+        Mon, 21 Jun 2021 06:52:17 -0700 (PDT)
 Received: from localhost ([209.132.188.80])
-        by smtp.gmail.com with ESMTPSA id x143sm8488178pfc.6.2021.06.21.06.52.06
+        by smtp.gmail.com with ESMTPSA id h21sm14832500pfv.190.2021.06.21.06.52.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 06:52:07 -0700 (PDT)
+        Mon, 21 Jun 2021 06:52:16 -0700 (PDT)
 From: Coiby Xu <coiby.xu@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: netdev@vger.kernel.org,
@@ -45,9 +45,9 @@ Cc: netdev@vger.kernel.org,
 	GR-Linux-NIC-Dev@marvell.com (supporter:QLOGIC QLGE 10Gb ETHERNET DRIVER),
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-kernel@vger.kernel.org (open list)
-Subject: [RFC 18/19] staging: qlge: fix two indentation issues
-Date: Mon, 21 Jun 2021 21:49:01 +0800
-Message-Id: <20210621134902.83587-19-coiby.xu@gmail.com>
+Subject: [RFC 19/19] staging: qlge: remove TODO item of unnecessary runtime checks
+Date: Mon, 21 Jun 2021 21:49:02 +0800
+Message-Id: <20210621134902.83587-20-coiby.xu@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210621134902.83587-1-coiby.xu@gmail.com>
 References: <20210621134902.83587-1-coiby.xu@gmail.com>
@@ -58,81 +58,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix two indentation issues.
+The following commits [1],
+
+- e4c911a73c89 ("staging: qlge: Remove rx_ring.type")
+- a68a5b2fd3a2 ("staging: qlge: Remove bq_desc.maplen")
+- 16714d98bf63 ("staging: qlge: Remove rx_ring.sbq_buf_size")
+- ec705b983b46 ("staging: qlge: Remove qlge_bq.len & size")
+
+and recent "commit a0e57b58d35d3d6808187bb10ee9e5030ff87618
+("staging: qlge: the number of pages to contain a buffer queue is
+ constant") has fixed issue. Thus remove the TODO item.
+
+[1] https://lore.kernel.org/netdev/YJeUZo+zoNZmFuKs@f3/
 
 Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
 ---
- drivers/staging/qlge/TODO        |  1 -
- drivers/staging/qlge/qlge_dbg.c  | 30 +++++++++++++++---------------
- drivers/staging/qlge/qlge_main.c |  4 ++--
- 3 files changed, 17 insertions(+), 18 deletions(-)
+ drivers/staging/qlge/TODO | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/staging/qlge/TODO b/drivers/staging/qlge/TODO
-index b8def0c70614..7e466a0f7771 100644
+index 7e466a0f7771..0e349ffc630e 100644
 --- a/drivers/staging/qlge/TODO
 +++ b/drivers/staging/qlge/TODO
-@@ -1,5 +1,4 @@
- * the driver has a habit of using runtime checks where compile time checks are
-   possible (ex. ql_free_rx_buffers(), ql_alloc_rx_buffers())
+@@ -1,4 +1,2 @@
+-* the driver has a habit of using runtime checks where compile time checks are
+-  possible (ex. ql_free_rx_buffers(), ql_alloc_rx_buffers())
  * remove duplicate and useless comments
--* fix weird indentation (all over, ex. the for loops in qlge_get_stats())
  * fix checkpatch issues
-diff --git a/drivers/staging/qlge/qlge_dbg.c b/drivers/staging/qlge/qlge_dbg.c
-index d093e6c9f19c..d4d486f99549 100644
---- a/drivers/staging/qlge/qlge_dbg.c
-+++ b/drivers/staging/qlge/qlge_dbg.c
-@@ -353,21 +353,21 @@ static int qlge_get_xgmac_regs(struct qlge_adapter *qdev, u32 *buf,
- 		 */
- 		if ((i == 0x00000114) ||
- 		    (i == 0x00000118) ||
--			(i == 0x0000013c) ||
--			(i == 0x00000140) ||
--			(i > 0x00000150 && i < 0x000001fc) ||
--			(i > 0x00000278 && i < 0x000002a0) ||
--			(i > 0x000002c0 && i < 0x000002cf) ||
--			(i > 0x000002dc && i < 0x000002f0) ||
--			(i > 0x000003c8 && i < 0x00000400) ||
--			(i > 0x00000400 && i < 0x00000410) ||
--			(i > 0x00000410 && i < 0x00000420) ||
--			(i > 0x00000420 && i < 0x00000430) ||
--			(i > 0x00000430 && i < 0x00000440) ||
--			(i > 0x00000440 && i < 0x00000450) ||
--			(i > 0x00000450 && i < 0x00000500) ||
--			(i > 0x0000054c && i < 0x00000568) ||
--			(i > 0x000005c8 && i < 0x00000600)) {
-+		    (i == 0x0000013c) ||
-+		    (i == 0x00000140) ||
-+		    (i > 0x00000150 && i < 0x000001fc) ||
-+		    (i > 0x00000278 && i < 0x000002a0) ||
-+		    (i > 0x000002c0 && i < 0x000002cf) ||
-+		    (i > 0x000002dc && i < 0x000002f0) ||
-+		    (i > 0x000003c8 && i < 0x00000400) ||
-+		    (i > 0x00000400 && i < 0x00000410) ||
-+		    (i > 0x00000410 && i < 0x00000420) ||
-+		    (i > 0x00000420 && i < 0x00000430) ||
-+		    (i > 0x00000430 && i < 0x00000440) ||
-+		    (i > 0x00000440 && i < 0x00000450) ||
-+		    (i > 0x00000450 && i < 0x00000500) ||
-+		    (i > 0x0000054c && i < 0x00000568) ||
-+		    (i > 0x000005c8 && i < 0x00000600)) {
- 			if (other_function)
- 				status =
- 				qlge_read_other_func_xgmac_reg(qdev, i, buf);
-diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
-index 21fb942c2595..7cec2d6c3fea 100644
---- a/drivers/staging/qlge/qlge_main.c
-+++ b/drivers/staging/qlge/qlge_main.c
-@@ -699,8 +699,8 @@ static int qlge_get_8000_flash_params(struct qlge_adapter *qdev)
- 
- 	status = qlge_validate_flash(qdev,
- 				     sizeof(struct flash_params_8000) /
--				   sizeof(u16),
--				   "8000");
-+				       sizeof(u16),
-+				     "8000");
- 	if (status) {
- 		netif_err(qdev, ifup, qdev->ndev, "Invalid flash.\n");
- 		status = -EINVAL;
 -- 
 2.32.0
 
