@@ -1,114 +1,125 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED14D71
-	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 14:28:40 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id w31so14314989pga.6
-        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 07:28:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC1BD2FAD
+	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 15:48:28 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id l11so5895407pji.5
+        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 08:48:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=HRj6jgpuI+cB6PDpqLiq6EiwF1c8kXiEkJQw6hQEm+I=;
-        b=mTZ7WQlwbzQk4gLECW7X3QARCyfrBR8joUnqTeTEIY7DXMFL1wvwZeLRm/dXLg3dAq
-         elpj5NsV88/ynmX9WeRqZZVIBlJbhMbehCVsrE2uxm7vyaBQdzK+qo2MSYM+DKUOZKNB
-         2sW9Ucnr21Nk76Tc6UFhLVds9CasDcCUoJzHoPusKuRFQYYtHqlym6SJ5CblH9oMjnDC
-         cuAHoIes0Ixjj3l6F7E4bqu4vpoGYvX2Fwk77s4IdHuiHUDp11Uyr9eF4wwAoEWRtxcA
-         y45vECWxVDe9uIfyCWnK0gL7+HMNrFt7tfO2k/u5hMAyYSa9vP6kugG4fhSA2J7aK67+
-         sGXw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=t5SJuzT9tzAwJWaOzIHCdtjjnLO4VyofXEKA88BIzpY=;
+        b=L0hxzZsRscJCbcvH0UePK3/+y5jaKpD6basVpvHD83ktdhFDwVVV5Y//6bu8NUjbsK
+         Q/1G3trvyv7Z5CmjC8GGSX0eE7fYE5iC2oUhBND4z2/Gq3VyQh+zjTwmuo66Jk9zFXql
+         eAzkd9LLhXPg98AoG20orQG6v25sMf9ONn9Bhfks2oWqMfquvulVD/on/IKCdYSuhoRG
+         DiDcsVfxoaMIcBuuTyzzaVZkzqZ76pwf5RmeIJvifIi80u0aDqHMj0LOoQ/kJ2A29LI4
+         FRWimF0QIyFKdn+vGmaSswHtFNsF8y/nV5yUA+cW76rLjElvijmcWFnGfDqHurqMlV4Z
+         HVlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=HRj6jgpuI+cB6PDpqLiq6EiwF1c8kXiEkJQw6hQEm+I=;
-        b=kbYo2mYGznrRAla5V+nKzp7pPlLMQXz7eKV2WlhRTtdIKHIbyfU/2Lu+CTPyRSvKOW
-         g9gjoyAlFxEEFDuXAGyiQ3pKXvX8xaKIMaNcb4WpgiopvbkRgxDdON+g8VeJC5EYOvBE
-         7b0QTyEnLBPB/af4SrtGRM1U5E4CAlXzrUGCpCjaLVGEIZA0Um5DieFvzd+8/JljXcmj
-         nLneqQv6GGMD/SkYSFy4/+2lK+1WqgwfKOHqtl0QPBuPvLoYIK67Am8ctPrzejjtiOF+
-         DTkRpA0wvRnBi+tmqR6xfB+E4knhTJswQVaR5Y3rrpMQR1YHl6UZJMuwClxN5YkHZLgs
-         Iomg==
-X-Gm-Message-State: AOAM531/VPBQJyJ8FBtme+g117/OQsVGLZ/kfXteOECLMQLqzMSlyUYP
-	ZjmDGwn91UaSebq9O0ykaHY=
-X-Google-Smtp-Source: ABdhPJwrYStRiFqhX6UmCBwPaRoE54hZpFRYBM7yG2YneCzaqUMuTlan+FvxcavMJjLliSPU+NtGPQ==
-X-Received: by 2002:a63:c1e:: with SMTP id b30mr24435102pgl.118.1624285720505;
-        Mon, 21 Jun 2021 07:28:40 -0700 (PDT)
-Received: from ojas ([122.177.154.120])
-        by smtp.gmail.com with ESMTPSA id 10sm13203713pfh.174.2021.06.21.07.28.36
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=t5SJuzT9tzAwJWaOzIHCdtjjnLO4VyofXEKA88BIzpY=;
+        b=R1qgzXLnA0s5r9CJbwxvcZThCJX/5yFHjpS3V3ls8HbLDZtakr2kIZ5XipAzLmper0
+         rqbAWpX8FStVOamN68pU2kq32+RZQfqjfW4nQeAMA6loa7pZTaEyc+th/5H52KcYrWqy
+         ieBpbywVC8/W+5hNf7GAZc1SEj5UvmrEXlTfZRpoVormKoy/gI+y5MjgZaRxGnT+WYy2
+         7bi1uDQ/YsTmOcdcevhPCQGWtVK3nJZQ5qPUeacaS0qPf+K7GUg95J6t6pNbFO8KkiR2
+         VAe1B0wMmi7B/cdGZhTb692oXzKkeF6U8eqE1UBxmV2MnjOk119e1EpYzrwZQxQGswrZ
+         x4Ow==
+X-Gm-Message-State: AOAM533E22F7nFZJTF8fAdoSl/UXg7MvIFDHrWLNo2EdvM0CkzKc1FNf
+	MoEWb2/LgOFxFY+LOzhI+ho=
+X-Google-Smtp-Source: ABdhPJyBeElckm23B8UhxM60Qd04pcvdlCEwIzxB5UdewjpYk9IluaiNQ12s1wZwi1U8V6OVvsxaew==
+X-Received: by 2002:a17:902:a5c9:b029:f7:9f7e:aa2f with SMTP id t9-20020a170902a5c9b02900f79f7eaa2fmr18584320plq.54.1624290507932;
+        Mon, 21 Jun 2021 08:48:27 -0700 (PDT)
+Received: from jm.lan (36-229-229-123.dynamic-ip.hinet.net. [36.229.229.123])
+        by smtp.gmail.com with ESMTPSA id l201sm16143892pfd.183.2021.06.21.08.48.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 07:28:40 -0700 (PDT)
-Date: Mon, 21 Jun 2021 19:58:33 +0530
-From: Ojaswin Mujoo <ojaswin98@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: nsaenz@kernel.org, gregkh@linuxfoundation.org, stefan.wahren@i2se.com,
-	arnd@arndb.de, phil@raspberrypi.com,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+        Mon, 21 Jun 2021 08:48:27 -0700 (PDT)
+From: Jhih-Ming Huang <fbihjmeric@gmail.com>
+To: gregkh@linuxfoundation.org,
+	fabioaiuto83@gmail.com,
+	ross.schm.dev@gmail.com,
+	maqianga@uniontech.com,
+	marcocesati@gmail.com,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/5] staging: vchiq: Move vchiq char driver to its own
- file
-Message-ID: <20210621142833.GB186979@ojas>
-References: <cover.1624185152.git.ojaswin98@gmail.com>
- <8cd9b5899f82eaf2efdc9caa8d07f719a592a94d.1624185152.git.ojaswin98@gmail.com>
- <20210621095631.GF1901@kadam>
+Cc: Jhih-Ming Huang <fbihjmeric@gmail.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH v6] rtw_security: fix cast to restricted __le32
+Date: Mon, 21 Jun 2021 23:48:17 +0800
+Message-Id: <20210621154817.149667-1-fbihjmeric@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210621081928.145203-1-fbihjmeric@gmail.com>
+References: <20210621081928.145203-1-fbihjmeric@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210621095631.GF1901@kadam>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 21, 2021 at 12:56:31PM +0300, Dan Carpenter wrote:
-> On Sun, Jun 20, 2021 at 06:26:34PM +0530, Ojaswin Mujoo wrote:
-> > +/* read a user pointer value from an array pointers in user space */
-> > +static inline int vchiq_get_user_ptr(void __user **buf, void __user *ubuf, int index)
-> > +{
-> > +	int ret;
-> > +
-> > +	if (in_compat_syscall()) {
-> > +		compat_uptr_t ptr32;
-> > +
->    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> When I'm reviewing these sorts of patches then what I'm trying to verify
-> is that you are not a UMN "researcher" trying to change the code without
-> anyone noticing.  In the orignal code, there was no blank line here
-> 
-> > +		compat_uptr_t __user *uptr = ubuf;
-> 
-> but there was a blank line here.
-> 
-> > +		ret = get_user(ptr32, uptr + index);
-> > +		*buf = compat_ptr(ptr32);
-> > +	} else {
-> 
-> These sorts of minor white space changes make it hard to verify the code
-> in an automated way.
-> 
-Ohh I see, I get the point. I'm not sure how this creeped in here.
-Especially with this patch, the git diff looks very ugly and confusing
-to me. I'm not sure if that is because I unknownigly introduced some
-whitespace changes or if thats normal when shifting a lof of code
-around. Anyways, I'll fix this in the next revision.
+This patch fixes the sparse warning of fix cast to restricted __le32.
 
-PS: I was unable to get mainline kernel working on my Pi and instead
-submitted this patch which is built against the raspberry downstream
-kernel. I now know this definitely not the right thing to do and am
-trying to recreate this patchset with mainline. Hopefully I'll be able
-to iron out all such anomalies in the next revision
-> > +		uintptr_t ptr, __user *uptr = ubuf;
-> > +
-> > +		ret = get_user(ptr, uptr + index);
-> > +		*buf = (void __user *)ptr;
-> > +	}
-> > +
-> > +	return ret;
-> > +}
-> > +
-> 
-> regards,
-> dan carpenter
-> 
+There was a change for replacing private CRC-32 routines with in kernel
+ones.
+However, the author used le32_to_cpu to convert crc32_le(), and we
+should cpu_to_le32.
 
-Thank you for the help!
-Ojaswin
+Ths commit also fixes the payload checking by memcmp instead of checking element
+by element and removes the unused variable.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Jhih-Ming Huang <fbihjmeric@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_security.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index a99f439328f1..8dc6a976b487 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -92,7 +92,6 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
+ {
+ 	/*  exclude ICV */
+-	u8 crc[4];
+ 	signed int	length;
+ 	u32 keylength;
+ 	u8 *pframe, *payload, *iv, wepkey[16];
+@@ -119,10 +118,6 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
+ 		/* decrypt payload include icv */
+ 		arc4_setkey(ctx, wepkey, 3 + keylength);
+ 		arc4_crypt(ctx, payload, payload,  length);
+-
+-		/* calculate icv and compare the icv */
+-		*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
+-
+ 	}
+ }
+ 
+@@ -537,7 +532,7 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+ 	u32 pnh;
+ 	u8   rc4key[16];
+ 	u8   ttkey[16];
+-	u8 crc[4];
++	__le32 crc;
+ 	signed int			length;
+ 
+ 	u8 *pframe, *payload, *iv, *prwskey;
+@@ -618,10 +613,9 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+ 			arc4_setkey(ctx, rc4key, 16);
+ 			arc4_crypt(ctx, payload, payload, length);
+ 
+-			*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
++			crc = cpu_to_le32(~crc32_le(~0, payload, length - 4));
+ 
+-			if (crc[3] != payload[length - 1] || crc[2] != payload[length - 2] ||
+-			    crc[1] != payload[length - 3] || crc[0] != payload[length - 4])
++			if (memcmp(&crc, payload + length - 4, 4) != 0)
+ 				res = _FAIL;
+ 		} else {
+ 			res = _FAIL;
+-- 
+2.32.0
+
