@@ -1,454 +1,114 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19BF71
-	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 12:51:04 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id e22so15971170wrc.1
-        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 05:51:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A54B71
+	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 13:49:13 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id t8so3432372pfe.3
+        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 06:49:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=MMEEfUgtslqPXM/ugM1R/x28x+zUCx8TzVeuaDNTqL4=;
-        b=nXYn+BSCVW4cb+CI0bs9x0kqR9Q7zSZeMgx4jQe5mf7h58WEPmiFVUISLhj0PAD/67
-         tmIlDV6GYbO+Pfzl31BSc0e6jPpsU3A2ou1rlES6iqQLYwfoSZftcrdY2Q6aELBK+972
-         bk7c7lntpLUZ2UfpZZmynTCb3FTIGwyHsEJ/BXCLGRAY9ino+NGFS4YJ3jzWxyDJXWEs
-         8F4j/TctDT0G5u1qsFU9QjrO+c3vI6m9RDy1pBDO9FluMwPoWf4x9L6QufgNyA3ym+Nm
-         p3T6mtryaA8TDCqdygJX6aF1Fz9WMQs0xEqByVlPCSq7sbpn00tkkG+zKaG7PMG6BCoR
-         Ul2w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/Oy/mbpvFy0BleeKa4Nb1n/BvqZ7v/6FbRfaIVQGsQk=;
+        b=eOuNkl/R6zkjI9JhhKuta0t+BKjBhYkh9NAmYVmxTEXANlgWKPYdRwGwt3F+usY+tb
+         6fMbtriMU1R+jaUOFIOJIr9WZSfiJB7f5IMfxVFLrtmuz1nSkvoQjKBX6xgudySWSWf/
+         0QZZPWPpmKe8Bg4uI99FT7wItxdK2bLsa3EmdSqS7FCkpKCSNIx3PLbizvlHWWVmJIAQ
+         jLvgEA5YpsZeLLeiMFlheEscsuaDUdpN+xhNUvv35zOAbLGRgK4vJ9/jk64QU+BsuFEN
+         RSmvhZ88DOP55MH/A+KncIlHyGkBeJ/NfUmZ/Bvw4XYdiA+8tc8HzuQOG7/blhE2NZ6U
+         CtSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=MMEEfUgtslqPXM/ugM1R/x28x+zUCx8TzVeuaDNTqL4=;
-        b=no6wQTz1AZwipZ7USTO8LBLdSzc9f2+y+YoM9YgKRVrVJtpmQLrBd4BhZVhEKyib0m
-         WC8L8EIKVxx45XJFwPKDPHUjakM9G/qFUCr+q7kO0Zoh2JKAvPwUKqleAQo5sKWk6nzH
-         XX564SiXGib7/3dY0pQceej+BEKSo4x1n14FVHQgj/1uTr6cEAK6kcA8IjHjHFUZiIZ6
-         JVnIizpv6+oWEZTAPF1Kz6eJSDbRuLPnBbT7tvQllXUng6hk0FsfaKstQUVawQrNNqib
-         MzC9Gh43xVKUhbE9M+epXrvh/1ZCYJ9qDxmweN9FeARKuVDye7s4qlyOy3+E2PRGO7yc
-         qKRg==
-X-Gm-Message-State: AOAM532uakhuoR+4ltMjzjryu/MZQJxVhKwYvJBBoFpbheYV4bC1WdmN
-	XmvkV+0fOJp2GLwoejOdxaI=
-X-Google-Smtp-Source: ABdhPJyBGurYgzak6Qx/Z0UiF4JPixKlm7xgbN8SJe7xdV4X4P4uXG9j8fuElmSRzstAy7VUch1iWw==
-X-Received: by 2002:adf:fc43:: with SMTP id e3mr28051264wrs.212.1624279863381;
-        Mon, 21 Jun 2021 05:51:03 -0700 (PDT)
-Received: from agape.jhs ([5.171.73.54])
-        by smtp.gmail.com with ESMTPSA id s23sm488988wmh.5.2021.06.21.05.51.02
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/Oy/mbpvFy0BleeKa4Nb1n/BvqZ7v/6FbRfaIVQGsQk=;
+        b=CwIkeQfd1UjIaJJVGDDaeFpj5MQbHw1wQZtADvEig0YDOCuxtUuY90bcf7jO0MYw1S
+         AkVLXhkNp8sF/49K+R7Pzizcp/mTzelQh8MF1Z/cYTlO3YDLrA38Hy2WyWZWFo64oesH
+         4DXUopSy2hBwHa7GMkQVOLI0CWPgYKnFls8HqTPTmJ7SRO1LFJVz7g/Y+dc4B5yQUv+P
+         02MYi0gCX6GovGkNZmPU0uIa1VRvN3ivnYNuBNMJfx6r/1X5WhbfWjL1ybKLKl6kc31g
+         aQA4tGZZExZTVh0ub5UzWJ0NdXJleZ1EVCes41V6rWvIzxReSD0BC1/9YD5TTGvWOCqg
+         WfBw==
+X-Gm-Message-State: AOAM533BMQ54nB5oxvUord83hL6ZSeDZGm2DGjC7TgAKuiDKFq176KP6
+	oMlGeNxpMramSJsno9y/XsUV0zCKkFt5Zr10
+X-Google-Smtp-Source: ABdhPJzFljhHvYo7LHTs8ee5cJdVvaRo3nS8pldLtlUt6V2HwO5eo1KbADdnMtwX8QTxiAxnBaluDw==
+X-Received: by 2002:a05:6a00:797:b029:2f9:6ddb:9d5e with SMTP id g23-20020a056a000797b02902f96ddb9d5emr19255184pfu.35.1624283352562;
+        Mon, 21 Jun 2021 06:49:12 -0700 (PDT)
+Received: from localhost ([209.132.188.80])
+        by smtp.gmail.com with ESMTPSA id k25sm15252008pfa.213.2021.06.21.06.49.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 05:51:03 -0700 (PDT)
-Date: Mon, 21 Jun 2021 14:51:00 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 12/18] staging: rtl8723bs: remove VHT dead code
-Message-ID: <20210621125100.GE1408@agape.jhs>
-References: <cover.1624099125.git.fabioaiuto83@gmail.com>
- <d3f79570088ad339bd80fe9d6b24604ac91ea8d3.1624099126.git.fabioaiuto83@gmail.com>
- <dd0332d7-5d9f-49e5-3fc6-8ae3e623f29c@redhat.com>
- <20210621124102.GB1408@agape.jhs>
- <38b8ae09-22a2-79cd-c5c8-9b1fa1e557b8@redhat.com>
+        Mon, 21 Jun 2021 06:49:11 -0700 (PDT)
+From: Coiby Xu <coiby.xu@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: netdev@vger.kernel.org,
+	Benjamin Poirier <benjamin.poirier@gmail.com>,
+	Shung-Hsi Yu <shung-hsi.yu@suse.com>
+Subject: [RFC 00/19] Improve the qlge driver based on drivers/staging/qlge/TODO
+Date: Mon, 21 Jun 2021 21:48:43 +0800
+Message-Id: <20210621134902.83587-1-coiby.xu@gmail.com>
+X-Mailer: git-send-email 2.32.0
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <38b8ae09-22a2-79cd-c5c8-9b1fa1e557b8@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 21, 2021 at 02:45:37PM +0200, Hans de Goede wrote:
+This patch set improves qlge driver based on drivers/staging/qlge/TODO
+written by Benjamin.
 
-Hello Hans,
+For the testing, the kernel was build with KASAN, UBSAN, 
+DEBUG_ATOMIC_SLEEP, PROVE_LOCKING and DEBUG_KMEMLEAK enabled on a
+machine from Red Hat. The machine happened to have two NICs managed by 
+this qlge driver. I put these two NICs into separate network namespaces
+and no errors occurred for the following tests,
+    - with default MTU
+        - non TCP packet
+          - ping the other NIC from one NIC with different packet size, e.g.
+            200, 300, 2200
+        - TCP packets
+          - start a http server on one NIC
+            $ ip netns exec ns1 python -m http.server 8000 --bind 192.168.1.209
+          - download a file from the http server using the other NIC
+            curl -X GET --interface enp94s0f0 http://192.168.1.209:8000/kernel-5.11.3-300.fc34.src.rpm  -L -O
+    - do the same tests with jumbo frame enabled (ip link set enp94s0f0 mtu 9000)
 
-> Hi,
-> 
-> On 6/21/21 2:41 PM, Fabio Aiuto wrote:
-> > On Mon, Jun 21, 2021 at 11:45:39AM +0200, Hans de Goede wrote:
-> >> Hi,
-> >>
-> >> On 6/19/21 12:47 PM, Fabio Aiuto wrote:
-> >>> remove VHT dead code, as the device doesn't support
-> >>> VHT (which is a 802.11ac capability).
-> >>>
-> >>> Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
-> >>> ---
-> >>>  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |   1 -
-> >>>  drivers/staging/rtl8723bs/hal/hal_com.c       | 241 -----------
-> >>>  .../staging/rtl8723bs/hal/hal_com_phycfg.c    | 383 +-----------------
-> >>>  drivers/staging/rtl8723bs/include/hal_com.h   |  62 +--
-> >>>  .../rtl8723bs/include/hal_com_phycfg.h        |   4 -
-> >>>  drivers/staging/rtl8723bs/include/ieee80211.h |  45 --
-> >>>  .../staging/rtl8723bs/include/rtl8723b_xmit.h |  21 -
-> >>>  drivers/staging/rtl8723bs/include/rtw_ht.h    |   4 -
-> >>>  8 files changed, 9 insertions(+), 752 deletions(-)
-> >>>
-> >>> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> >>> index 285acd3d843b..c128d462c6c7 100644
-> >>> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> >>> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> >>> @@ -46,7 +46,6 @@ static struct action_handler OnAction_tbl[] = {
-> >>>  	{RTW_WLAN_CATEGORY_UNPROTECTED_WNM, "ACTION_UNPROTECTED_WNM", &DoReserved},
-> >>>  	{RTW_WLAN_CATEGORY_SELF_PROTECTED, "ACTION_SELF_PROTECTED", &DoReserved},
-> >>>  	{RTW_WLAN_CATEGORY_WMM, "ACTION_WMM", &DoReserved},
-> >>> -	{RTW_WLAN_CATEGORY_VHT, "ACTION_VHT", &DoReserved},
-> >>>  	{RTW_WLAN_CATEGORY_P2P, "ACTION_P2P", &DoReserved},
-> >>>  };
-> >>>  
-> >>> diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
-> >>> index 7a88447f8294..eebd48438733 100644
-> >>> --- a/drivers/staging/rtl8723bs/hal/hal_com.c
-> >>> +++ b/drivers/staging/rtl8723bs/hal/hal_com.c
-> >>> @@ -295,126 +295,6 @@ u8 MRateToHwRate(u8 rate)
-> >>>  	case MGN_MCS31:
-> >>>  		ret = DESC_RATEMCS31;
-> >>>  		break;
-> >>> -	case MGN_VHT1SS_MCS0:
-> >>> -		ret = DESC_RATEVHTSS1MCS0;
-> >>> -		break;
-> >>> -	case MGN_VHT1SS_MCS1:
-> >>> -		ret = DESC_RATEVHTSS1MCS1;
-> >>> -		break;
-> >>> -	case MGN_VHT1SS_MCS2:
-> >>> -		ret = DESC_RATEVHTSS1MCS2;
-> >>> -		break;
-> >>> -	case MGN_VHT1SS_MCS3:
-> >>> -		ret = DESC_RATEVHTSS1MCS3;
-> >>> -		break;
-> >>> -	case MGN_VHT1SS_MCS4:
-> >>> -		ret = DESC_RATEVHTSS1MCS4;
-> >>> -		break;
-> >>> -	case MGN_VHT1SS_MCS5:
-> >>> -		ret = DESC_RATEVHTSS1MCS5;
-> >>> -		break;
-> >>> -	case MGN_VHT1SS_MCS6:
-> >>> -		ret = DESC_RATEVHTSS1MCS6;
-> >>> -		break;
-> >>> -	case MGN_VHT1SS_MCS7:
-> >>> -		ret = DESC_RATEVHTSS1MCS7;
-> >>> -		break;
-> >>> -	case MGN_VHT1SS_MCS8:
-> >>> -		ret = DESC_RATEVHTSS1MCS8;
-> >>> -		break;
-> >>> -	case MGN_VHT1SS_MCS9:
-> >>> -		ret = DESC_RATEVHTSS1MCS9;
-> >>> -		break;
-> >>> -	case MGN_VHT2SS_MCS0:
-> >>> -		ret = DESC_RATEVHTSS2MCS0;
-> >>> -		break;
-> >>> -	case MGN_VHT2SS_MCS1:
-> >>> -		ret = DESC_RATEVHTSS2MCS1;
-> >>> -		break;
-> >>> -	case MGN_VHT2SS_MCS2:
-> >>> -		ret = DESC_RATEVHTSS2MCS2;
-> >>> -		break;
-> >>> -	case MGN_VHT2SS_MCS3:
-> >>> -		ret = DESC_RATEVHTSS2MCS3;
-> >>> -		break;
-> >>> -	case MGN_VHT2SS_MCS4:
-> >>> -		ret = DESC_RATEVHTSS2MCS4;
-> >>> -		break;
-> >>> -	case MGN_VHT2SS_MCS5:
-> >>> -		ret = DESC_RATEVHTSS2MCS5;
-> >>> -		break;
-> >>> -	case MGN_VHT2SS_MCS6:
-> >>> -		ret = DESC_RATEVHTSS2MCS6;
-> >>> -		break;
-> >>> -	case MGN_VHT2SS_MCS7:
-> >>> -		ret = DESC_RATEVHTSS2MCS7;
-> >>> -		break;
-> >>> -	case MGN_VHT2SS_MCS8:
-> >>> -		ret = DESC_RATEVHTSS2MCS8;
-> >>> -		break;
-> >>> -	case MGN_VHT2SS_MCS9:
-> >>> -		ret = DESC_RATEVHTSS2MCS9;
-> >>> -		break;
-> >>> -	case MGN_VHT3SS_MCS0:
-> >>> -		ret = DESC_RATEVHTSS3MCS0;
-> >>> -		break;
-> >>> -	case MGN_VHT3SS_MCS1:
-> >>> -		ret = DESC_RATEVHTSS3MCS1;
-> >>> -		break;
-> >>> -	case MGN_VHT3SS_MCS2:
-> >>> -		ret = DESC_RATEVHTSS3MCS2;
-> >>> -		break;
-> >>> -	case MGN_VHT3SS_MCS3:
-> >>> -		ret = DESC_RATEVHTSS3MCS3;
-> >>> -		break;
-> >>> -	case MGN_VHT3SS_MCS4:
-> >>> -		ret = DESC_RATEVHTSS3MCS4;
-> >>> -		break;
-> >>> -	case MGN_VHT3SS_MCS5:
-> >>> -		ret = DESC_RATEVHTSS3MCS5;
-> >>> -		break;
-> >>> -	case MGN_VHT3SS_MCS6:
-> >>> -		ret = DESC_RATEVHTSS3MCS6;
-> >>> -		break;
-> >>> -	case MGN_VHT3SS_MCS7:
-> >>> -		ret = DESC_RATEVHTSS3MCS7;
-> >>> -		break;
-> >>> -	case MGN_VHT3SS_MCS8:
-> >>> -		ret = DESC_RATEVHTSS3MCS8;
-> >>> -		break;
-> >>> -	case MGN_VHT3SS_MCS9:
-> >>> -		ret = DESC_RATEVHTSS3MCS9;
-> >>> -		break;
-> >>> -	case MGN_VHT4SS_MCS0:
-> >>> -		ret = DESC_RATEVHTSS4MCS0;
-> >>> -		break;
-> >>> -	case MGN_VHT4SS_MCS1:
-> >>> -		ret = DESC_RATEVHTSS4MCS1;
-> >>> -		break;
-> >>> -	case MGN_VHT4SS_MCS2:
-> >>> -		ret = DESC_RATEVHTSS4MCS2;
-> >>> -		break;
-> >>> -	case MGN_VHT4SS_MCS3:
-> >>> -		ret = DESC_RATEVHTSS4MCS3;
-> >>> -		break;
-> >>> -	case MGN_VHT4SS_MCS4:
-> >>> -		ret = DESC_RATEVHTSS4MCS4;
-> >>> -		break;
-> >>> -	case MGN_VHT4SS_MCS5:
-> >>> -		ret = DESC_RATEVHTSS4MCS5;
-> >>> -		break;
-> >>> -	case MGN_VHT4SS_MCS6:
-> >>> -		ret = DESC_RATEVHTSS4MCS6;
-> >>> -		break;
-> >>> -	case MGN_VHT4SS_MCS7:
-> >>> -		ret = DESC_RATEVHTSS4MCS7;
-> >>> -		break;
-> >>> -	case MGN_VHT4SS_MCS8:
-> >>> -		ret = DESC_RATEVHTSS4MCS8;
-> >>> -		break;
-> >>> -	case MGN_VHT4SS_MCS9:
-> >>> -		ret = DESC_RATEVHTSS4MCS9;
-> >>> -		break;
-> >>>  	default:
-> >>>  		break;
-> >>>  	}
-> >>> @@ -559,127 +439,6 @@ u8 HwRateToMRate(u8 rate)
-> >>>  	case DESC_RATEMCS31:
-> >>>  		ret_rate = MGN_MCS31;
-> >>>  		break;
-> >>> -	case DESC_RATEVHTSS1MCS0:
-> >>> -		ret_rate = MGN_VHT1SS_MCS0;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS1MCS1:
-> >>> -		ret_rate = MGN_VHT1SS_MCS1;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS1MCS2:
-> >>> -		ret_rate = MGN_VHT1SS_MCS2;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS1MCS3:
-> >>> -		ret_rate = MGN_VHT1SS_MCS3;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS1MCS4:
-> >>> -		ret_rate = MGN_VHT1SS_MCS4;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS1MCS5:
-> >>> -		ret_rate = MGN_VHT1SS_MCS5;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS1MCS6:
-> >>> -		ret_rate = MGN_VHT1SS_MCS6;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS1MCS7:
-> >>> -		ret_rate = MGN_VHT1SS_MCS7;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS1MCS8:
-> >>> -		ret_rate = MGN_VHT1SS_MCS8;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS1MCS9:
-> >>> -		ret_rate = MGN_VHT1SS_MCS9;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS2MCS0:
-> >>> -		ret_rate = MGN_VHT2SS_MCS0;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS2MCS1:
-> >>> -		ret_rate = MGN_VHT2SS_MCS1;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS2MCS2:
-> >>> -		ret_rate = MGN_VHT2SS_MCS2;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS2MCS3:
-> >>> -		ret_rate = MGN_VHT2SS_MCS3;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS2MCS4:
-> >>> -		ret_rate = MGN_VHT2SS_MCS4;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS2MCS5:
-> >>> -		ret_rate = MGN_VHT2SS_MCS5;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS2MCS6:
-> >>> -		ret_rate = MGN_VHT2SS_MCS6;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS2MCS7:
-> >>> -		ret_rate = MGN_VHT2SS_MCS7;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS2MCS8:
-> >>> -		ret_rate = MGN_VHT2SS_MCS8;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS2MCS9:
-> >>> -		ret_rate = MGN_VHT2SS_MCS9;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS3MCS0:
-> >>> -		ret_rate = MGN_VHT3SS_MCS0;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS3MCS1:
-> >>> -		ret_rate = MGN_VHT3SS_MCS1;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS3MCS2:
-> >>> -		ret_rate = MGN_VHT3SS_MCS2;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS3MCS3:
-> >>> -		ret_rate = MGN_VHT3SS_MCS3;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS3MCS4:
-> >>> -		ret_rate = MGN_VHT3SS_MCS4;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS3MCS5:
-> >>> -		ret_rate = MGN_VHT3SS_MCS5;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS3MCS6:
-> >>> -		ret_rate = MGN_VHT3SS_MCS6;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS3MCS7:
-> >>> -		ret_rate = MGN_VHT3SS_MCS7;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS3MCS8:
-> >>> -		ret_rate = MGN_VHT3SS_MCS8;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS3MCS9:
-> >>> -		ret_rate = MGN_VHT3SS_MCS9;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS4MCS0:
-> >>> -		ret_rate = MGN_VHT4SS_MCS0;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS4MCS1:
-> >>> -		ret_rate = MGN_VHT4SS_MCS1;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS4MCS2:
-> >>> -		ret_rate = MGN_VHT4SS_MCS2;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS4MCS3:
-> >>> -		ret_rate = MGN_VHT4SS_MCS3;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS4MCS4:
-> >>> -		ret_rate = MGN_VHT4SS_MCS4;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS4MCS5:
-> >>> -		ret_rate = MGN_VHT4SS_MCS5;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS4MCS6:
-> >>> -		ret_rate = MGN_VHT4SS_MCS6;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS4MCS7:
-> >>> -		ret_rate = MGN_VHT4SS_MCS7;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS4MCS8:
-> >>> -		ret_rate = MGN_VHT4SS_MCS8;
-> >>> -		break;
-> >>> -	case DESC_RATEVHTSS4MCS9:
-> >>> -		ret_rate = MGN_VHT4SS_MCS9;
-> >>> -		break;
-> >>> -
-> >>>  	default:
-> >>>  		break;
-> >>>  	}
-> >>> diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-> >>> index 395eb3b5af71..bb7941aee0c4 100644
-> >>> --- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-> >>> +++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-> >>> @@ -39,18 +39,6 @@ u8 PHY_GetTxPowerByRateBase(struct adapter *Adapter, u8 RfPath,
-> >>>  	case HT_MCS24_MCS31:
-> >>>  		value = pHalData->TxPwrByRateBase2_4G[RfPath][TxNum][5];
-> >>>  		break;
-> >>> -	case VHT_1SSMCS0_1SSMCS9:
-> >>> -		value = pHalData->TxPwrByRateBase2_4G[RfPath][TxNum][6];
-> >>> -		break;
-> >>> -	case VHT_2SSMCS0_2SSMCS9:
-> >>> -		value = pHalData->TxPwrByRateBase2_4G[RfPath][TxNum][7];
-> >>> -		break;
-> >>> -	case VHT_3SSMCS0_3SSMCS9:
-> >>> -		value = pHalData->TxPwrByRateBase2_4G[RfPath][TxNum][8];
-> >>> -		break;
-> >>> -	case VHT_4SSMCS0_4SSMCS9:
-> >>> -		value = pHalData->TxPwrByRateBase2_4G[RfPath][TxNum][9];
-> >>> -		break;
-> >>>  	default:
-> >>>  		break;
-> >>>  	}
-> >>> @@ -91,18 +79,6 @@ phy_SetTxPowerByRateBase(
-> >>>  	case HT_MCS24_MCS31:
-> >>>  		pHalData->TxPwrByRateBase2_4G[RfPath][TxNum][5] = Value;
-> >>>  		break;
-> >>> -	case VHT_1SSMCS0_1SSMCS9:
-> >>> -		pHalData->TxPwrByRateBase2_4G[RfPath][TxNum][6] = Value;
-> >>> -		break;
-> >>> -	case VHT_2SSMCS0_2SSMCS9:
-> >>> -		pHalData->TxPwrByRateBase2_4G[RfPath][TxNum][7] = Value;
-> >>> -		break;
-> >>> -	case VHT_3SSMCS0_3SSMCS9:
-> >>> -		pHalData->TxPwrByRateBase2_4G[RfPath][TxNum][8] = Value;
-> >>> -		break;
-> >>> -	case VHT_4SSMCS0_4SSMCS9:
-> >>> -		pHalData->TxPwrByRateBase2_4G[RfPath][TxNum][9] = Value;
-> >>> -		break;
-> >>>  	default:
-> >>>  		break;
-> >>>  	}
-> >>> @@ -131,14 +107,6 @@ struct adapter *padapter
-> >>>  		base = PHY_GetTxPowerByRate(padapter, path, RF_3TX, MGN_MCS23);
-> >>>  		phy_SetTxPowerByRateBase(padapter, path, HT_MCS16_MCS23, RF_3TX, base);
-> >>>  
-> >>> -		base = PHY_GetTxPowerByRate(padapter, path, RF_1TX, MGN_VHT1SS_MCS7);
-> >>> -		phy_SetTxPowerByRateBase(padapter, path, VHT_1SSMCS0_1SSMCS9, RF_1TX, base);
-> >>> -
-> >>> -		base = PHY_GetTxPowerByRate(padapter, path, RF_2TX, MGN_VHT2SS_MCS7);
-> >>> -		phy_SetTxPowerByRateBase(padapter, path, VHT_2SSMCS0_2SSMCS9, RF_2TX, base);
-> >>> -
-> >>> -		base = PHY_GetTxPowerByRate(padapter, path, RF_3TX, MGN_VHT3SS_MCS7);
-> >>> -		phy_SetTxPowerByRateBase(padapter, path, VHT_3SSMCS0_3SSMCS9, RF_3TX, base);
-> >>
-> >> You are removing a bunch of register writes from a block here, while keeping others,
-> >> so this does not seem like it is just dead-code removal it feels like you are
-> >> actually making a functional change.
-> > 
-> > You are right, I will fix the changelog in next v2.
-> > 
-> >>
-> >> Perhaps this entire block can never be executed ?
-> > 
-> > It think it's executed during hal initialization
-> > 
-> >>
-> >> Or maybe the VHT name used here is misleading and this is also relevant for 2.4 GHZ
-> >> 40Mhz use ?  Did you test with an access point configured to use 40 MHz channels
-> >> and then checked that you were actually using a 40MHz channel ?   Note these are
-> >> quite rare AFAIK because 40 MHz tends to cause even more collosion issues in the
-> >> already quite full 2.4G spectrum, still if possible you should test this and make
-> >> sure that it does not regress (with out specifically testing this we might not
-> >> note regressions for a long time because of 40MHz usage being rare).
-> >>
-> > 
-> > The MCS section involved is from 0 to 9 in a set of up to 4 spatial streams,
-> > but rtl8723bs works only with 0-7 and 32 MCS rates in both 20 and 40 Mhz
-> > and multiple spatial streams are not supported.
-> > 
-> > So setting something like VHT_{1,2,3}SSMCS0_{1,2,3}SSMCS9 in our case does
-> > something odd.
-> 
-> Right, but since we don't know what it is actually doing, it would be best
-> IMHO to just leave this as is. Esp. when the changes cannot be tested
-> with 40MHZ channel width.
-> 
-> Regards,
-> 
-> Hans
-> 
 
-you are right, will drop this patch as well.
+[1] https://lore.kernel.org/netdev/20200816025717.GA28176@f3/T/
 
-Thank you,
 
-fabio.
+Coiby Xu (19):
+  staging: qlge: fix incorrect truesize accounting
+  staging: qlge: change LARGE_BUFFER_MAX_SIZE to 4096
+  staging: qlge: alloc skb with only enough room for header when data is
+    put in the fragments
+  staging: qlge: add qlge_* prefix to avoid namespace clashes
+  staging: qlge: rename rx to completion queue and seperate rx_ring from
+    completion queue
+  staging: qlge: disable flow control by default
+  staging: qlge: remove the TODO item of unnecessary memset 0
+  staging: qlge: reorder members of qlge_adapter for optimization
+  staging: qlge: remove the TODO item of reorder struct
+  staging: qlge: remove the TODO item of avoid legacy/deprecated apis
+  staging: qlge: the number of pages to contain a buffer queue is
+    constant
+  staging: qlge: rewrite do while loops as for loops in
+    qlge_start_rx_ring
+  staging: qlge: rewrite do while loop as for loop in qlge_sem_spinlock
+  staging: qlge: rewrite do while loop as for loop in qlge_refill_bq
+  staging: qlge: remove the TODO item about rewriting while loops as
+    simple for loops
+  staging: qlge: remove deadcode in qlge_build_rx_skb
+  staging: qlge: fix weird line wrapping
+  staging: qlge: fix two indentation issues
+  staging: qlge: remove TODO item of unnecessary runtime checks
+
+ drivers/staging/qlge/TODO           |  31 --
+ drivers/staging/qlge/qlge.h         |  88 +++--
+ drivers/staging/qlge/qlge_dbg.c     |  36 +-
+ drivers/staging/qlge/qlge_ethtool.c |  26 +-
+ drivers/staging/qlge/qlge_main.c    | 586 ++++++++++++++--------------
+ drivers/staging/qlge/qlge_mpi.c     |  11 +-
+ 6 files changed, 373 insertions(+), 405 deletions(-)
+
+-- 
+2.32.0
+
