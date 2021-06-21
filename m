@@ -1,50 +1,56 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A54B71
-	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 13:49:13 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id t8so3432372pfe.3
-        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 06:49:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B0871
+	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 13:49:22 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id bv7-20020a17090af187b029016fb18e04cfso5336pjb.0
+        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 06:49:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/Oy/mbpvFy0BleeKa4Nb1n/BvqZ7v/6FbRfaIVQGsQk=;
-        b=eOuNkl/R6zkjI9JhhKuta0t+BKjBhYkh9NAmYVmxTEXANlgWKPYdRwGwt3F+usY+tb
-         6fMbtriMU1R+jaUOFIOJIr9WZSfiJB7f5IMfxVFLrtmuz1nSkvoQjKBX6xgudySWSWf/
-         0QZZPWPpmKe8Bg4uI99FT7wItxdK2bLsa3EmdSqS7FCkpKCSNIx3PLbizvlHWWVmJIAQ
-         jLvgEA5YpsZeLLeiMFlheEscsuaDUdpN+xhNUvv35zOAbLGRgK4vJ9/jk64QU+BsuFEN
-         RSmvhZ88DOP55MH/A+KncIlHyGkBeJ/NfUmZ/Bvw4XYdiA+8tc8HzuQOG7/blhE2NZ6U
-         CtSA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=7viMnibfS6VsxzlqCvYb7FwB8QCMPLVzuuh0psBNrJU=;
+        b=tjJFcaz40QGLpVSYaxM07H8/eGzJESZ6yozxTdvYlveGp0wRby2HUQECj350JoC5if
+         kDo/DC08G/mA2KmpyzjofP83+sJnABlcXw37McOROnOgmcqUhG17ULQrqzZjbTS1v0kS
+         82Oyyo7j2Jz3xUUaKtR+4UDKnR1dLpIe7s3chpgUP7vbb6pMmOgYIQkRvtG2yVsXP7hq
+         cfOKqtBRT/EdrWVW41y5Chrymf3V1QS1KFSkkkOa29Fy7j0Sptx+1BDepm2+FVXcyMss
+         3FthpzKHS55bIjL/2DxwCOonm7w74cGB64GEJhW4nzUSc8nbKjBZClxFOHOMx1ooa7Cx
+         zOog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/Oy/mbpvFy0BleeKa4Nb1n/BvqZ7v/6FbRfaIVQGsQk=;
-        b=CwIkeQfd1UjIaJJVGDDaeFpj5MQbHw1wQZtADvEig0YDOCuxtUuY90bcf7jO0MYw1S
-         AkVLXhkNp8sF/49K+R7Pzizcp/mTzelQh8MF1Z/cYTlO3YDLrA38Hy2WyWZWFo64oesH
-         4DXUopSy2hBwHa7GMkQVOLI0CWPgYKnFls8HqTPTmJ7SRO1LFJVz7g/Y+dc4B5yQUv+P
-         02MYi0gCX6GovGkNZmPU0uIa1VRvN3ivnYNuBNMJfx6r/1X5WhbfWjL1ybKLKl6kc31g
-         aQA4tGZZExZTVh0ub5UzWJ0NdXJleZ1EVCes41V6rWvIzxReSD0BC1/9YD5TTGvWOCqg
-         WfBw==
-X-Gm-Message-State: AOAM533BMQ54nB5oxvUord83hL6ZSeDZGm2DGjC7TgAKuiDKFq176KP6
-	oMlGeNxpMramSJsno9y/XsUV0zCKkFt5Zr10
-X-Google-Smtp-Source: ABdhPJzFljhHvYo7LHTs8ee5cJdVvaRo3nS8pldLtlUt6V2HwO5eo1KbADdnMtwX8QTxiAxnBaluDw==
-X-Received: by 2002:a05:6a00:797:b029:2f9:6ddb:9d5e with SMTP id g23-20020a056a000797b02902f96ddb9d5emr19255184pfu.35.1624283352562;
-        Mon, 21 Jun 2021 06:49:12 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=7viMnibfS6VsxzlqCvYb7FwB8QCMPLVzuuh0psBNrJU=;
+        b=HzceAESjCE6eiv5QC5zxPnLRElVUDPHqi97VB+PCZdBUK9Ppo0t7lCWmkUuqaxEFOR
+         sLGlZEberU9q/xZZc0oBZ3ZqRm+8QqQRaFdBQ4tlbjrX3yJhKfpu0kL4PrfNlxcrkgU4
+         NtGLsmGOStG7BMM5gOpYZxaJsMtFh7OFksiml9qPtASB6LrNdXOGKQlJRADL00/xSCXm
+         rYjSHqPqNBJPNT2ioVoVv2tZu1ksSWOux2hDVbp9Ycv2JY0Qj+44SkrGkfPG047d0zrb
+         r5m6ScK4xIWs+BtEj/aHGBwfC0OP2mYkoOrJVOtuBSP1bHnJq7uOs61ftkbvH4wZmMBt
+         nJ0Q==
+X-Gm-Message-State: AOAM530uN2QGk+Agazw0AU6+WX2nOOZQRe3tySOU08/gPjBqHvafbSll
+	XTjxzfGyASTUjxzRLayXnC/QdCdLbDyuSu8k
+X-Google-Smtp-Source: ABdhPJxyDY65TbjH9aeMH8nrQD14NHk4OE72CXa7oqptYgUzmsUi/Cm7+meEe8G2ml/icEIlQjGhzQ==
+X-Received: by 2002:a17:902:8c87:b029:11d:6f72:78aa with SMTP id t7-20020a1709028c87b029011d6f7278aamr18252075plo.12.1624283362192;
+        Mon, 21 Jun 2021 06:49:22 -0700 (PDT)
 Received: from localhost ([209.132.188.80])
-        by smtp.gmail.com with ESMTPSA id k25sm15252008pfa.213.2021.06.21.06.49.11
+        by smtp.gmail.com with ESMTPSA id m12sm8594396pfd.151.2021.06.21.06.49.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 06:49:11 -0700 (PDT)
+        Mon, 21 Jun 2021 06:49:21 -0700 (PDT)
 From: Coiby Xu <coiby.xu@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: netdev@vger.kernel.org,
 	Benjamin Poirier <benjamin.poirier@gmail.com>,
-	Shung-Hsi Yu <shung-hsi.yu@suse.com>
-Subject: [RFC 00/19] Improve the qlge driver based on drivers/staging/qlge/TODO
-Date: Mon, 21 Jun 2021 21:48:43 +0800
-Message-Id: <20210621134902.83587-1-coiby.xu@gmail.com>
+	Shung-Hsi Yu <shung-hsi.yu@suse.com>,
+	Manish Chopra <manishc@marvell.com>,
+	GR-Linux-NIC-Dev@marvell.com (supporter:QLOGIC QLGE 10Gb ETHERNET DRIVER),
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org (open list)
+Subject: [RFC 01/19] staging: qlge: fix incorrect truesize accounting
+Date: Mon, 21 Jun 2021 21:48:44 +0800
+Message-Id: <20210621134902.83587-2-coiby.xu@gmail.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210621134902.83587-1-coiby.xu@gmail.com>
+References: <20210621134902.83587-1-coiby.xu@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -52,63 +58,78 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch set improves qlge driver based on drivers/staging/qlge/TODO
-written by Benjamin.
+Commit 7c734359d3504c869132166d159c7f0649f0ab34 ("qlge: Size RX buffers
+based on MTU") introduced page_chunk structure. We should add
+qdev->lbq_buf_size to skb->truesize after __skb_fill_page_desc.
 
-For the testing, the kernel was build with KASAN, UBSAN, 
-DEBUG_ATOMIC_SLEEP, PROVE_LOCKING and DEBUG_KMEMLEAK enabled on a
-machine from Red Hat. The machine happened to have two NICs managed by 
-this qlge driver. I put these two NICs into separate network namespaces
-and no errors occurred for the following tests,
-    - with default MTU
-        - non TCP packet
-          - ping the other NIC from one NIC with different packet size, e.g.
-            200, 300, 2200
-        - TCP packets
-          - start a http server on one NIC
-            $ ip netns exec ns1 python -m http.server 8000 --bind 192.168.1.209
-          - download a file from the http server using the other NIC
-            curl -X GET --interface enp94s0f0 http://192.168.1.209:8000/kernel-5.11.3-300.fc34.src.rpm  -L -O
-    - do the same tests with jumbo frame enabled (ip link set enp94s0f0 mtu 9000)
+Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
+---
+ drivers/staging/qlge/TODO        |  2 --
+ drivers/staging/qlge/qlge_main.c | 10 +++++-----
+ 2 files changed, 5 insertions(+), 7 deletions(-)
 
-
-[1] https://lore.kernel.org/netdev/20200816025717.GA28176@f3/T/
-
-
-Coiby Xu (19):
-  staging: qlge: fix incorrect truesize accounting
-  staging: qlge: change LARGE_BUFFER_MAX_SIZE to 4096
-  staging: qlge: alloc skb with only enough room for header when data is
-    put in the fragments
-  staging: qlge: add qlge_* prefix to avoid namespace clashes
-  staging: qlge: rename rx to completion queue and seperate rx_ring from
-    completion queue
-  staging: qlge: disable flow control by default
-  staging: qlge: remove the TODO item of unnecessary memset 0
-  staging: qlge: reorder members of qlge_adapter for optimization
-  staging: qlge: remove the TODO item of reorder struct
-  staging: qlge: remove the TODO item of avoid legacy/deprecated apis
-  staging: qlge: the number of pages to contain a buffer queue is
-    constant
-  staging: qlge: rewrite do while loops as for loops in
-    qlge_start_rx_ring
-  staging: qlge: rewrite do while loop as for loop in qlge_sem_spinlock
-  staging: qlge: rewrite do while loop as for loop in qlge_refill_bq
-  staging: qlge: remove the TODO item about rewriting while loops as
-    simple for loops
-  staging: qlge: remove deadcode in qlge_build_rx_skb
-  staging: qlge: fix weird line wrapping
-  staging: qlge: fix two indentation issues
-  staging: qlge: remove TODO item of unnecessary runtime checks
-
- drivers/staging/qlge/TODO           |  31 --
- drivers/staging/qlge/qlge.h         |  88 +++--
- drivers/staging/qlge/qlge_dbg.c     |  36 +-
- drivers/staging/qlge/qlge_ethtool.c |  26 +-
- drivers/staging/qlge/qlge_main.c    | 586 ++++++++++++++--------------
- drivers/staging/qlge/qlge_mpi.c     |  11 +-
- 6 files changed, 373 insertions(+), 405 deletions(-)
-
+diff --git a/drivers/staging/qlge/TODO b/drivers/staging/qlge/TODO
+index c76394b9451b..449d7dca478b 100644
+--- a/drivers/staging/qlge/TODO
++++ b/drivers/staging/qlge/TODO
+@@ -4,8 +4,6 @@
+   ql_build_rx_skb(). That function is now used exclusively to handle packets
+   that underwent header splitting but it still contains code to handle non
+   split cases.
+-* truesize accounting is incorrect (ex: a 9000B frame has skb->truesize 10280
+-  while containing two frags of order-1 allocations, ie. >16K)
+ * while in that area, using two 8k buffers to store one 9k frame is a poor
+   choice of buffer size.
+ * in the "chain of large buffers" case, the driver uses an skb allocated with
+diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
+index 19a02e958865..6dd69b689a58 100644
+--- a/drivers/staging/qlge/qlge_main.c
++++ b/drivers/staging/qlge/qlge_main.c
+@@ -1446,7 +1446,7 @@ static void qlge_process_mac_rx_gro_page(struct qlge_adapter *qdev,
+ 
+ 	skb->len += length;
+ 	skb->data_len += length;
+-	skb->truesize += length;
++	skb->truesize += qdev->lbq_buf_size;
+ 	skb_shinfo(skb)->nr_frags++;
+ 
+ 	rx_ring->rx_packets++;
+@@ -1507,7 +1507,7 @@ static void qlge_process_mac_rx_page(struct qlge_adapter *qdev,
+ 			   lbq_desc->p.pg_chunk.offset + hlen, length - hlen);
+ 	skb->len += length - hlen;
+ 	skb->data_len += length - hlen;
+-	skb->truesize += length - hlen;
++	skb->truesize += qdev->lbq_buf_size;
+ 
+ 	rx_ring->rx_packets++;
+ 	rx_ring->rx_bytes += skb->len;
+@@ -1757,7 +1757,7 @@ static struct sk_buff *qlge_build_rx_skb(struct qlge_adapter *qdev,
+ 					   lbq_desc->p.pg_chunk.offset, length);
+ 			skb->len += length;
+ 			skb->data_len += length;
+-			skb->truesize += length;
++			skb->truesize += qdev->lbq_buf_size;
+ 		} else {
+ 			/*
+ 			 * The headers and data are in a single large buffer. We
+@@ -1783,7 +1783,7 @@ static struct sk_buff *qlge_build_rx_skb(struct qlge_adapter *qdev,
+ 					   length);
+ 			skb->len += length;
+ 			skb->data_len += length;
+-			skb->truesize += length;
++			skb->truesize += qdev->lbq_buf_size;
+ 			qlge_update_mac_hdr_len(qdev, ib_mac_rsp,
+ 						lbq_desc->p.pg_chunk.va,
+ 						&hlen);
+@@ -1835,7 +1835,7 @@ static struct sk_buff *qlge_build_rx_skb(struct qlge_adapter *qdev,
+ 					   lbq_desc->p.pg_chunk.offset, size);
+ 			skb->len += size;
+ 			skb->data_len += size;
+-			skb->truesize += size;
++			skb->truesize += qdev->lbq_buf_size;
+ 			length -= size;
+ 			i++;
+ 		} while (length > 0);
 -- 
 2.32.0
 
