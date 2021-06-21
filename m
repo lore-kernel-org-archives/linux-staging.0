@@ -1,179 +1,104 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B485170
-	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 09:49:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1624268990;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KBZu4NLiDdqn7q2pI7+EJJkI7zuo342OmsDKXMlyxd4=;
-	b=ESSEx7mQeURGGvCijnC4TCt37/rHTjLPJILEuGJqRVpzx5XrAthpU8EHzxvH3Er+CEpOiV
-	hI5fYYZqpnq3vAMsvLLCVRNxGc4h052BpNo4B6nXyoGrwU2VM2Gqh9HVZmLWLM/PODxRq+
-	YNOKg554NDEuLcTwBwwU72z+vF0S0p4=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-HeqBxM6QPpC-hb_vr58mEw-1; Mon, 21 Jun 2021 05:49:49 -0400
-X-MC-Unique: HeqBxM6QPpC-hb_vr58mEw-1
-Received: by mail-ed1-f71.google.com with SMTP id p19-20020aa7c4d30000b0290394bdda6d9cso543222edr.21
-        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 02:49:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=KBZu4NLiDdqn7q2pI7+EJJkI7zuo342OmsDKXMlyxd4=;
-        b=RJQHekRauqPs0xTgcrYhKgDS7Mv03DOhN9qOKQHJVTByEIR4ZQKL5aXMEgKRXJ6ul4
-         92uQf1pw8a4T0g3Hj7UPC9FdhWpZiTiyGSNKukRMqFyLv5k01wPEix4fa4Pw5JgxYUOp
-         peY3JAjxgqxenvLPp7I9QJt5H2x9GWQRvQlPRFaF2VwXxsQ/JWX0E3q93jNMSgm2+tMh
-         +76njNlXqkumxwTml+//LQBha4zwLSw/PoBZqANNwBKT9IaRcdV/msoKkP5oqzS17QHT
-         rZsFG+FqWFz9vM5fFnHqUuWByw9CQnZ9K77IOg1oiVRfaV6ugeWoUniMCcK8TDvtSCzM
-         e0Ng==
-X-Gm-Message-State: AOAM530GKDo7Cv5OHDKF+rELy2ahNpkpiJxywFJoxqalejTVUKDm24v9
-	m/M0lYZf6N710V1rS0aRW6ix3mU7ofay8SmE2jqM2EAMEXw9Lr6giDyBBkKafeN8gxU+/AVCuYj
-	P4q5wupXir6IyVNp8QbVBjRNvXg==
-X-Received: by 2002:a17:906:3ed0:: with SMTP id d16mr23232084ejj.16.1624268988401;
-        Mon, 21 Jun 2021 02:49:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyqOBmbDpon6R/Zi2+R474B5WDTe8Yr2efocLiCmMJFCbfj+k8sVeLGbz62b+i7S4UzrwwZog==
-X-Received: by 2002:a17:906:3ed0:: with SMTP id d16mr23232074ejj.16.1624268988274;
-        Mon, 21 Jun 2021 02:49:48 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id ml14sm464735ejb.27.2021.06.21.02.49.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Jun 2021 02:49:47 -0700 (PDT)
-Subject: Re: [PATCH 00/18] staging: rtl8723bs: remove 5Ghz code
-To: Fabio Aiuto <fabioaiuto83@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <cover.1624099125.git.fabioaiuto83@gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <6cafb0fc-7a53-cc56-a67b-4fb82d5130ea@redhat.com>
-Date: Mon, 21 Jun 2021 11:49:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7726070
+	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 09:57:01 +0000 (UTC)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15L9lFvI032056;
+	Mon, 21 Jun 2021 09:56:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=mDih/Tohy9BJ2FHtJbBx96tVg1gTKaEe5PoqIwmeJ1Q=;
+ b=bqj8RdJ9BojWL4sZCAvGBnxhSSGbPm+owyq3MtWFD9NJ0ID2BK6CA6nvqh0mAh6liQzD
+ ZHC/uLSsb+KNpZ03cOM0Sc30rMUxA14GzuwA1c98liZD47GOjvp8jOkUPwf1ivM2UbSU
+ +cXMJnu1VdYiKdnPvh9k6vkmDag3vG8l1etrgSpBm+lULQ9DJ1RvsS5yqEdykMbOKNFU
+ krAQjq245gZP4J89wul2u4KFRbDNfn0fh2J8F5L/K/h0V40Tzgye83X65d+Ud2ElhTlq
+ iuN1YsczvARU6pDvhRCGe37LsjmXVbOO6ojr9P2nNufwkm4xd1ov+mZh9K/O7Z4mDV8X Mg== 
+Received: from oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by mx0b-00069f02.pphosted.com with ESMTP id 39aqqvr3sm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 21 Jun 2021 09:56:46 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 15L9tt1T047447;
+	Mon, 21 Jun 2021 09:56:45 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3030.oracle.com with ESMTP id 3996mbq8tc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 21 Jun 2021 09:56:45 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15L9uhWK049186;
+	Mon, 21 Jun 2021 09:56:45 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+	by aserp3030.oracle.com with ESMTP id 3996mbq8sx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 21 Jun 2021 09:56:45 +0000
+Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
+	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 15L9ucgl030064;
+	Mon, 21 Jun 2021 09:56:39 GMT
+Received: from kadam (/102.222.70.252)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Mon, 21 Jun 2021 02:56:38 -0700
+Date: Mon, 21 Jun 2021 12:56:31 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Ojaswin Mujoo <ojaswin98@gmail.com>
+Cc: nsaenz@kernel.org, gregkh@linuxfoundation.org, stefan.wahren@i2se.com,
+        arnd@arndb.de, phil@raspberrypi.com,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/5] staging: vchiq: Move vchiq char driver to its own
+ file
+Message-ID: <20210621095631.GF1901@kadam>
+References: <cover.1624185152.git.ojaswin98@gmail.com>
+ <8cd9b5899f82eaf2efdc9caa8d07f719a592a94d.1624185152.git.ojaswin98@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <cover.1624099125.git.fabioaiuto83@gmail.com>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8cd9b5899f82eaf2efdc9caa8d07f719a592a94d.1624185152.git.ojaswin98@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-ORIG-GUID: G6_zLgsXTLyGm259Pe6rBQ7ab93rpC5v
+X-Proofpoint-GUID: G6_zLgsXTLyGm259Pe6rBQ7ab93rpC5v
 
-Hi Fabio,
+On Sun, Jun 20, 2021 at 06:26:34PM +0530, Ojaswin Mujoo wrote:
+> +/* read a user pointer value from an array pointers in user space */
+> +static inline int vchiq_get_user_ptr(void __user **buf, void __user *ubuf, int index)
+> +{
+> +	int ret;
+> +
+> +	if (in_compat_syscall()) {
+> +		compat_uptr_t ptr32;
+> +
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+When I'm reviewing these sorts of patches then what I'm trying to verify
+is that you are not a UMN "researcher" trying to change the code without
+anyone noticing.  In the orignal code, there was no blank line here
 
-On 6/19/21 12:47 PM, Fabio Aiuto wrote:
-> This patch series removes all occurences of 5Ghz code over the
-> driver as required from driver's TODO list:
-> 
-> 	- find and remove remaining code valid only for 5 GHz.
-> 	  most of the obvious one have been removed, but things
-> 	  like channel > 14 still exist.
-> 
-> rtl8723bs work on 2.4Ghz band and supports 802.11bgn standards.
-> So all code related to 802.11a/ac standard is removed, as well
-> as code related to channel numbers above 14.
-> 
-> VHT code is deleted as well, for it's related to 802.11ac.
-> 
-> Comments are fixed accordingly and many unused variables are
-> deleted.
-> 
-> Every single patch of this series has been tested on a
-> Lenovo Ideapad MIIX 300-10IBY except for the last one,
-> for obvious reason (it deletes just the TODO item).
+> +		compat_uptr_t __user *uptr = ubuf;
 
-Thank you for your work on this. I've replied to 3 of
-the patches with some comments. The rest of the series
-looks ok to me (based on a quick scan of the patches).
+but there was a blank line here.
 
-Regards,
+> +		ret = get_user(ptr32, uptr + index);
+> +		*buf = compat_ptr(ptr32);
+> +	} else {
 
-Hans
+These sorts of minor white space changes make it hard to verify the code
+in an automated way.
 
+> +		uintptr_t ptr, __user *uptr = ubuf;
+> +
+> +		ret = get_user(ptr, uptr + index);
+> +		*buf = (void __user *)ptr;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
 
-
-> 
-> So:
-> 
-> Tested-by: Fabio Auto <fabioaiuto83@gmail.com>
-> 
-> Fabio Aiuto (18):
->   staging: rtl8723bs: remove all 5Ghz network types
->   staging: rtl8723bs: remove code related to unsupported channel
->     bandwidth
->   staging: rtl8723bs: remove unused enum items related to channel
->     bonding
->   staging: rtl8723bs: rename enum items related to channel bonding
->   staging: rtl8723bs: remove 5Ghz field in struct registry_priv
->   staging: rtl8723bs: remove struct rt_channel_plan_5g
->   staging: rtl8723bs: remove all branchings between 2.4Ghz and 5Ghz band
->     types
->   staging: rtl8723bs: beautify prototypes in include/hal_com_phycfg.h
->   staging: rtl8723bs: remove 5Ghz code related to channel plan
->     definition
->   staging: rtl8723bs: remove some unused 5Ghz macro definitions
->   staging: rtl8723bs: remove 5Ghz code related to RF power calibration
->   staging: rtl8723bs: remove VHT dead code
->   staging: rtl8723bs: remove unused ODM_CMNINFO_BOARD_TYPE enum item
->   staging: rtl8723bs: fix macro value for 2.4Ghz only device
->   staging: rtl8723bs: remove register initializations tied to 802.11ac
->     standard
->   staging: rtl8723bs: remove obsolete 5Ghz comments
->   staging: rtl8723bs: fix check allowing 5Ghz settings
->   staging: rtl8723bs: remove item from TODO list
-> 
->  drivers/staging/rtl8723bs/TODO                |    2 -
->  drivers/staging/rtl8723bs/core/rtw_ap.c       |   10 +-
->  .../staging/rtl8723bs/core/rtw_ieee80211.c    |   22 +-
->  drivers/staging/rtl8723bs/core/rtw_mlme.c     |   10 -
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  328 ++---
->  .../staging/rtl8723bs/core/rtw_wlan_util.c    |   29 +-
->  drivers/staging/rtl8723bs/core/rtw_xmit.c     |    5 +-
->  .../staging/rtl8723bs/hal/HalBtc8723b1Ant.c   |    4 +-
->  .../staging/rtl8723bs/hal/HalBtc8723b2Ant.c   |    5 +-
->  drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h  |    1 -
->  .../staging/rtl8723bs/hal/HalHWImg8723B_BB.c  |   17 +-
->  .../staging/rtl8723bs/hal/HalHWImg8723B_RF.c  |  595 ++++-----
->  .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    |   19 +-
->  drivers/staging/rtl8723bs/hal/hal_btcoex.c    |    4 -
->  drivers/staging/rtl8723bs/hal/hal_com.c       |  241 ----
->  .../staging/rtl8723bs/hal/hal_com_phycfg.c    | 1059 +++--------------
->  drivers/staging/rtl8723bs/hal/odm.c           |   50 -
->  drivers/staging/rtl8723bs/hal/odm.h           |   42 +-
->  drivers/staging/rtl8723bs/hal/odm_DIG.c       |    2 -
->  .../rtl8723bs/hal/odm_EdcaTurboCheck.c        |    4 +-
->  .../rtl8723bs/hal/odm_RegConfig8723B.c        |    5 +-
->  .../rtl8723bs/hal/odm_RegConfig8723B.h        |    2 -
->  drivers/staging/rtl8723bs/hal/rtl8723b_dm.c   |    1 -
->  .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |   53 +-
->  .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   |   43 +-
->  drivers/staging/rtl8723bs/hal/sdio_halinit.c  |    5 -
->  .../rtl8723bs/include/Hal8192CPhyReg.h        |    2 -
->  drivers/staging/rtl8723bs/include/drv_types.h |   10 +-
->  drivers/staging/rtl8723bs/include/hal_com.h   |   62 +-
->  .../rtl8723bs/include/hal_com_phycfg.h        |  198 +--
->  .../staging/rtl8723bs/include/hal_com_reg.h   |    1 -
->  drivers/staging/rtl8723bs/include/hal_data.h  |   40 +-
->  drivers/staging/rtl8723bs/include/hal_pg.h    |    2 -
->  drivers/staging/rtl8723bs/include/hal_phy.h   |   10 -
->  drivers/staging/rtl8723bs/include/ieee80211.h |   67 +-
->  .../staging/rtl8723bs/include/rtl8723b_xmit.h |   21 -
->  drivers/staging/rtl8723bs/include/rtw_ht.h    |    4 -
->  .../staging/rtl8723bs/include/rtw_mlme_ext.h  |   52 +-
->  drivers/staging/rtl8723bs/include/rtw_rf.h    |   33 +-
->  drivers/staging/rtl8723bs/include/wifi.h      |    1 -
->  .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c |    4 -
->  .../staging/rtl8723bs/os_dep/ioctl_linux.c    |    8 +-
->  drivers/staging/rtl8723bs/os_dep/os_intfs.c   |   13 +-
->  drivers/staging/rtl8723bs/os_dep/wifi_regd.c  |    4 -
->  44 files changed, 640 insertions(+), 2450 deletions(-)
-> 
+regards,
+dan carpenter
 
