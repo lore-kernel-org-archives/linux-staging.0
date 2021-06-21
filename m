@@ -1,180 +1,123 @@
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A47E771
-	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 08:10:32 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id A85A35C013F;
-	Mon, 21 Jun 2021 04:10:31 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Mon, 21 Jun 2021 04:10:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm1; bh=19ZdQ4owmQhpDlLh25uzWmoDWN/
-	ozfCkYvCkogqSzNA=; b=s2siAZ6npb2fCgGtGkpa52WBuw8JuWabPc8KQbibpB5
-	wN3mAv3e1JNqEoMd779k4nnxIdpF0+xCBhvaC2IZyxD6ctA7eJD9oEz9GnQdxm+b
-	t7V79DErU0eiRNy+HwCi5Lbx/YYFNeK9zMeoo6AgkJUcUjoo8iWbtV7b04zQ90oV
-	fgHjsw7F/cZNfTZ42xAiP9PFesyEmBYZWkvccUVQF3mbLAS0Vde8ga7vTG3tqn7b
-	2RsazCEtfhIPBvX5HeIo+NvwzPm+XUzjx0bYSAp9de8X0XoI1Bjpa+Q8SJVhczXs
-	X7PoqlKHRlbIdQwIYbbE7MiqrjPoo0mqEPzltkImAOQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=19ZdQ4
-	owmQhpDlLh25uzWmoDWN/ozfCkYvCkogqSzNA=; b=k69Ks54OED7KsxoOGBRyau
-	CRi04AXYS3bMstI6CBIjz5Z/XSl49og350qod4s2HktfRJLe49UEgQrEWbe58Plm
-	U9DYvGX7jofAaPKyb+C1psoaymNFOdKwdZntGEWq8jHyERg1DWVQIXyiW694mWt6
-	CKGtwPAiB+dUqJCmzfwch7JhRs2cV1l7AO9sKxnaD980wFEgK6ovnib9mYeuH0CG
-	+vFrt+cxV9vG7GXRq4MohVhtiyp/lR5EL+2U7kUCbKI3RnF75mli368W8hM/bGbI
-	70IUmA/GEqSS0eV0PGsOsLbGMbGiYXd4RagmOrJzx1yxw6fA+4FdMMcRl8lb4h7g
-	==
-X-ME-Sender: <xms:d0nQYDbcR0UAWMpNrJsqCq0maxqyASwL60YOW_5eBDL3pVcppC7Adg>
-    <xme:d0nQYCZjLy2US6UeppKgXWIja6L43_57Q79LnistNAO0KHGrwCxvhg9r9HQJ93PxB
-    tTYMb3yG0vmeA>
-X-ME-Received: <xmr:d0nQYF-zqSIBnCbZ-_18DzOLfML9OTmLY7xq6xLRRAmG5Lg97JRH7nU6xIkFFCKI071ZHvDrwRWlFUeEXekHBqvWgQdcyFSd>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeefledgtdduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesthdtre
-    dttddtvdenucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheq
-    necuggftrfgrthhtvghrnheptedtfeefgeffueevfeefffetvdeuhfeivddvheejvdefte
-    dvvdettefhieeigfdunecuffhomhgrihhnpehgihhthhhusgdrtghomhdpghhithhhuhgs
-    uhhsvghrtghonhhtvghnthdrtghomhdptddurdhorhhgnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
-X-ME-Proxy: <xmx:d0nQYJol4DuKOh7gWeFCcQkwb4rpBYbj7yFxPReIr2EsiaxLVg4JwA>
-    <xmx:d0nQYOoidFLKCS-c6prU_zXlZ4ZSweTBC5ruTCee7zHwmGDHAdYxwg>
-    <xmx:d0nQYPS1bw8rYzM8rEcbFJN2XVPKJuzSOpengVRRwQ1zmDMLpWe38w>
-    <xmx:d0nQYHn0AmH8QHriuEp7OXB9IDdznhaz3ScIT2IgOqi05Nt53mbEUw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 21 Jun 2021 04:10:30 -0400 (EDT)
-Date: Mon, 21 Jun 2021 10:10:27 +0200
-From: Greg KH <greg@kroah.com>
-To: Jhih-Ming Huang <fbihjmeric@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [fbihjmeric@gmail.com: Re:
- drivers/staging/rtl8723bs/core/rtw_security.c:95:9: warning: variable 'crc'
- set but not used]
-Message-ID: <YNBJc1Xlh75yz9DB@kroah.com>
-References: <20210621063041.v4u35pxgglgwn2go@gmail.com>
- <YNA3KAxTeXsb35/W@kroah.com>
- <20210621065709.6ffzqujlt26evjjz@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B5C71
+	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 08:19:44 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id c7-20020a17090ad907b029016faeeab0ccso1222336pjv.4
+        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 01:19:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=77hf/T8lwDKu+LOBcDl7pOZpmghmTiN2GKRCSb96Rx8=;
+        b=DY4YWQUf04XklvK2k1UJkaX/mFPv5j/WzVzLuU4pgdzbOhzY1ZSQ8g4GV1bG/BNJFz
+         /3Wv/ZRnqVvTvR0RhyzX43rm0uiQ8SjPK5z6v+HvTXnemGQycjwZzIzNvCFnDVi1EqMv
+         CEoaaxrOSq609fK/fH9XUO6Q8GrTCb65a++MkgO1/eAjplkFlPL7c6eh2DwqkaY3qmCr
+         lvsFEnUgfz80XY/+E8sd5LeU239VqUJpUdAi/b8mRMVJKk/KHrMLoQqDrpp9zA+UuX1q
+         P5jCag4SYP9hnzjF6qW4VbpIDQczTqKq193OEEAaRATB5+vl/vPEcz0st/3nRNLQfkzd
+         qJ1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=77hf/T8lwDKu+LOBcDl7pOZpmghmTiN2GKRCSb96Rx8=;
+        b=YGB0zZOt9Y9ZfSOZi4gefloMmfOtEG+KE1+1GqfvNegHq3/QlCh9w/4GkyiTHQHfMM
+         p6C/LbnZlA6QeFKuuGj9jQ8R3ctMcGx7+SKmtqEG4BS2WOM92tjw+2ESPtlMllH5MAcs
+         LbqDlKGY/sfR2ctEvT+jXzhsZxTh8tlTBZA9ZNgGx08YXA4n8pJUEtc3NLp2mAzsJElD
+         qx5mrqd33FfdnujDBbtILB1WlG6t+g3497jEmh+jv0IrwmGLDJGLHezEWpZF0xXtH6H2
+         1ytOtLGUzBpGRYKsaExoXgK6pRd0pcK6ggYwH+RDvNNQFbuIc+Be1Kpx6J3Q9nVJar9b
+         XXVw==
+X-Gm-Message-State: AOAM531yh5STKpR0uO7Ur9oADZeO2u0fKFrMfkHgWmhiZgPMc0yqnHJG
+	gywzi+n0j3ZVQesPxsdZOGw=
+X-Google-Smtp-Source: ABdhPJwmTtMRPENxKEKo5otLMCyugFRQtTECBJzwX0OindmT7C4PaS0PZJARgPsf4hnCNGXhvJr9+Q==
+X-Received: by 2002:a17:90a:4410:: with SMTP id s16mr24872989pjg.25.1624263583815;
+        Mon, 21 Jun 2021 01:19:43 -0700 (PDT)
+Received: from jm.lan (36-229-229-123.dynamic-ip.hinet.net. [36.229.229.123])
+        by smtp.gmail.com with ESMTPSA id u1sm14384584pfu.160.2021.06.21.01.19.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Jun 2021 01:19:43 -0700 (PDT)
+From: Jhih-Ming Huang <fbihjmeric@gmail.com>
+To: gregkh@linuxfoundation.org,
+	fabioaiuto83@gmail.com,
+	ross.schm.dev@gmail.com,
+	maqianga@uniontech.com,
+	marcocesati@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Jhih-Ming Huang <fbihjmeric@gmail.com>
+Subject: [PATCH v5] rtw_security: fix cast to restricted __le32
+Date: Mon, 21 Jun 2021 16:19:28 +0800
+Message-Id: <20210621081928.145203-1-fbihjmeric@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210619075255.107807-1-fbihjmeric@gmail.com>
+References: <20210619075255.107807-1-fbihjmeric@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210621065709.6ffzqujlt26evjjz@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 21, 2021 at 02:57:09PM +0800, Jhih-Ming Huang wrote:
-> On Mon, Jun 21, 2021 at 08:52:24AM +0200, Greg KH wrote:
-> > On Mon, Jun 21, 2021 at 02:30:41PM +0800, Jhih-Ming Huang wrote:
-> > > On Sat, Jun 19, 2021 at 6:27 PM kernel test robot <lkp@intel.com> wrote:
-> > > >
-> > > > tree:   https://github.com/0day-ci/linux/commits/UPDATE-20210619-155350/Jhih-Ming-Huang/rtw_security-fix-cast-to-restricted-__le32/20210616-131056
-> > > > head:   ed0359e3fa64928e48021387a694f211bc840ff7
-> > > > commit: ed0359e3fa64928e48021387a694f211bc840ff7 rtw_security: fix cast to restricted __le32
-> > > > date:   3 hours ago
-> > > > config: sh-allmodconfig (attached as .config)
-> > > > compiler: sh4-linux-gcc (GCC) 9.3.0
-> > > > reproduce (this is a W=1 build):
-> > > >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-> > > >         chmod +x ~/bin/make.cross
-> > > >         # https://github.com/0day-ci/linux/commit/ed0359e3fa64928e48021387a694f211bc840ff7
-> > > >         git remote add linux-review https://github.com/0day-ci/linux
-> > > >         git fetch --no-tags linux-review UPDATE-20210619-155350/Jhih-Ming-Huang/rtw_security-fix-cast-to-restricted-__le32/20210616-131056
-> > > >         git checkout ed0359e3fa64928e48021387a694f211bc840ff7
-> > > >         # save the attached .config to linux build tree
-> > > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=sh
-> > > >
-> > > > If you fix the issue, kindly add following tag as appropriate
-> > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > >
-> > > > All warnings (new ones prefixed by >>):
-> > > >
-> > > >    drivers/staging/rtl8723bs/core/rtw_security.c: In function 'rtw_wep_decrypt':
-> > > > >> drivers/staging/rtl8723bs/core/rtw_security.c:95:9: warning: variable 'crc' set but not used [-Wunused-but-set-variable]
-> > > >       95 |  __le32 crc;
-> > > >          |         ^~~
-> > > >
-> > > > Kconfig warnings: (for reference only)
-> > > >    WARNING: unmet direct dependencies detected for SND_ATMEL_SOC_PDC
-> > > >    Depends on SOUND && !UML && SND && SND_SOC && SND_ATMEL_SOC && HAS_DMA
-> > > >    Selected by
-> > > >    - SND_ATMEL_SOC_SSC && SOUND && !UML && SND && SND_SOC && SND_ATMEL_SOC
-> > > >    - SND_ATMEL_SOC_SSC_PDC && SOUND && !UML && SND && SND_SOC && SND_ATMEL_SOC && ATMEL_SSC
-> > > >
-> > > >
-> > > > vim +/crc +95 drivers/staging/rtl8723bs/core/rtw_security.c
-> > > >
-> > > >     91
-> > > >     92  void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
-> > > >     93  {
-> > > >     94          /*  exclude ICV */
-> > > >   > 95          __le32 crc;
-> > > >     96          signed int      length;
-> > > >     97          u32 keylength;
-> > > >     98          u8 *pframe, *payload, *iv, wepkey[16];
-> > > >     99          u8  keyindex;
-> > > >    100          struct  rx_pkt_attrib    *prxattrib = &(((union recv_frame *)precvframe)->u.hdr.attrib);
-> > > >    101          struct  security_priv *psecuritypriv = &padapter->securitypriv;
-> > > >    102          struct arc4_ctx *ctx = &psecuritypriv->recv_arc4_ctx;
-> > > >    103
-> > > >    104          pframe = (unsigned char *)((union recv_frame *)precvframe)->u.hdr.rx_data;
-> > > >    105
-> > > >    106          /* start to decrypt recvframe */
-> > > >    107          if ((prxattrib->encrypt == _WEP40_) || (prxattrib->encrypt == _WEP104_)) {
-> > > >    108                  iv = pframe+prxattrib->hdrlen;
-> > > >    109                  /* keyindex =(iv[3]&0x3); */
-> > > >    110                  keyindex = prxattrib->key_index;
-> > > >    111                  keylength = psecuritypriv->dot11DefKeylen[keyindex];
-> > > >    112                  memcpy(&wepkey[0], iv, 3);
-> > > >    113                  /* memcpy(&wepkey[3], &psecuritypriv->dot11DefKey[psecuritypriv->dot11PrivacyKeyIndex].skey[0], keylength); */
-> > > >    114                  memcpy(&wepkey[3], &psecuritypriv->dot11DefKey[keyindex].skey[0], keylength);
-> > > >    115                  length = ((union recv_frame *)precvframe)->u.hdr.len-prxattrib->hdrlen-prxattrib->iv_len;
-> > > >    116
-> > > >    117                  payload = pframe+prxattrib->iv_len+prxattrib->hdrlen;
-> > > >    118
-> > > >    119                  /* decrypt payload include icv */
-> > > >    120                  arc4_setkey(ctx, wepkey, 3 + keylength);
-> > > >    121                  arc4_crypt(ctx, payload, payload,  length);
-> > > >    122
-> > > >    123                  /* calculate icv and compare the icv */
-> > > >    124                  crc = cpu_to_le32(~crc32_le(~0, payload, length - 4));
-> > > >    125
-> > > >    126          }
-> > > >    127  }
-> > > >    128
-> > > >
-> > > > ---
-> > > > 0-DAY CI Kernel Test Service, Intel Corporation
-> > > > https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
-> > > 
-> > > This warning was introduced by my pull request,
-> > > but I am fixing the sparse warning and the unused variable was
-> > > declared in the previous commit.
-> > > The original author did not compare the crc and payload in
-> > > rtw_wep_decrypt, so the variable 'crc' was set but not used.
-> > > 
-> > > Should I fix this in my pull request?
-> > 
-> > We do not do "pull requests" in the kernel development process for
-> > normal changes.  Just send a patch like normal for this and I will be
-> > glad to apply it to my trees and send it onward.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> thanks for your fast reply.
-> 
-> should I send the other patch based on my original patch or I should combine
-> these two patches into one patch?
+This patch fixes the sparse warning of fix cast to restricted __le32.
 
-What ever will be able to be applied to my tree is what I need.  I can
-not remove an existing patch from it.  If I have not accepted the patch,
-then a new patch is required.
+There was a change for replacing private CRC-32 routines with in kernel
+ones.
+However, the author used le32_to_cpu to convert crc32_le(), and we
+should cpu_to_le32.
 
-thanks,
+Ths commit also fixes the payload checking by memcmp instead of checking element
+by element and removes the unused variable.
 
-greg k-h
+Signed-off-by: Jhih-Ming Huang <fbihjmeric@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_security.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index a99f439328f1..8dc6a976b487 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -92,7 +92,6 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
+ {
+ 	/*  exclude ICV */
+-	u8 crc[4];
+ 	signed int	length;
+ 	u32 keylength;
+ 	u8 *pframe, *payload, *iv, wepkey[16];
+@@ -119,10 +118,6 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
+ 		/* decrypt payload include icv */
+ 		arc4_setkey(ctx, wepkey, 3 + keylength);
+ 		arc4_crypt(ctx, payload, payload,  length);
+-
+-		/* calculate icv and compare the icv */
+-		*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
+-
+ 	}
+ }
+ 
+@@ -537,7 +532,7 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+ 	u32 pnh;
+ 	u8   rc4key[16];
+ 	u8   ttkey[16];
+-	u8 crc[4];
++	__le32 crc;
+ 	signed int			length;
+ 
+ 	u8 *pframe, *payload, *iv, *prwskey;
+@@ -618,10 +613,9 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+ 			arc4_setkey(ctx, rc4key, 16);
+ 			arc4_crypt(ctx, payload, payload, length);
+ 
+-			*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
++			crc = cpu_to_le32(~crc32_le(~0, payload, length - 4));
+ 
+-			if (crc[3] != payload[length - 1] || crc[2] != payload[length - 2] ||
+-			    crc[1] != payload[length - 3] || crc[0] != payload[length - 4])
++			if (memcmp(&crc, payload + length - 4, 4) != 0)
+ 				res = _FAIL;
+ 		} else {
+ 			res = _FAIL;
+-- 
+2.32.0
+
