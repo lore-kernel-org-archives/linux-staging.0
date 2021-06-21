@@ -1,41 +1,41 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F93D71
-	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 13:50:58 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id h1so8607158plt.1
-        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 06:50:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE06971
+	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 13:51:07 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id s17-20020a17090a8811b029016e89654f93so12672158pjn.1
+        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 06:51:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=uk9A7KFysYcvmGVXWYf3VoOwupNCjbKRP8dtymmy4uk=;
-        b=pW8zYcf43IiKFrfbxzbQVomcaR0Ob7Y+MWyH3XDrfC3YfHpUFSkPEI+yf7CYE47KSX
-         ia1eYRPDWlaqhPLrBXvVILMvwjAGyp+AaDpYYuJAWjBWaRz2SKEqooA/7PfaBgforBxa
-         sz372j6FnoLb2Mq1j7Lb8jO6POMs12WSF6JjAy7A/HUyu7WTr7SAjrEnffVQi6nEFADr
-         YUNeooyjx3Kf6q8sDe2KfYJok7e7txZoHsp2162YHO6AHct7+PJSqMbHUyUpvOL4Ej9v
-         Y+VSvbcL3FOi8kfzaPloftnFNAUYpTro4Dv3KJ8izqARE3oRytl8ED9g3QSkOAdGGdhU
-         VrOg==
+        bh=TREWgCZWamyM+cAvFe+be+iyBQ2mM4FCIj8jAxnCWs0=;
+        b=fEpcFCM2VjpxKDX6qBcqcW976jrBvNzdDnqeE7kkmCA54xvYA4tjne6uHuRPjecEbr
+         JB9MtUDnrHIPae2hAflr8rrpbzIZwu5s8pvuWPRaVeAHzJDk1LtGQsAg6m0Uvv6waFVi
+         IYqPOVWlKZlVSDTIDk0gj8bSXfzdIYB/avCm8m4wpaEn2vD/q9t+UWhFeXfrZF/ggsl8
+         nDAMEXJNPyGYM0f7+U32sdGdLo69dfwECtTNfintPs6QIW1gs3v48Po+50q7BbBtz8u9
+         5OrzIka2R+hFKvGmDHqgS+eKEfvhaXhb68CxDcOOK8JMq0xrwtATR5CHGmp6K1NMTDvq
+         SKrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=uk9A7KFysYcvmGVXWYf3VoOwupNCjbKRP8dtymmy4uk=;
-        b=Vx2zzwWsyg+p1cq138IsYTxNXW/dmC8myX2esO10uRgzrLPmTYOHUSHYfvX1YPazyv
-         XU/N7TpG9p8WHjBxqesfkjGXsItNe2EJA0H30dFz72xGYPLealuFmxtIYpqo5hZq/yVJ
-         rrqgG1ZsJNcLHrdse7Sir8he3IjyxoSm8mFNrtr2SlxaD99gKvJZUjtx6pwhHpZQFtTq
-         Gg6cQ/sQ+FKAFlQych9GLSE2mr3TnwHFSFExVJ6EJ8wo1B75NNM4ndzk/PREXcarI4Av
-         vmg4SbSh2WrtHVYMA4IRLslsSx2WRoptbXQ1DtG5TJixCYw/eTU5EwVEltmuZqtlv4H4
-         ZraQ==
-X-Gm-Message-State: AOAM532pMe465tTYcasfuCPW+w8wjvBoGUeuHMZSfEStQN8YLm2m/IW3
-	yRxxw30sTd1Lh/FcMIH5mjDnIINs92lvZBZp
-X-Google-Smtp-Source: ABdhPJwIvYWpAcKpURINZG6U/3N9v106fQ+fXn+eeNs+r+FAdK/vZMuP9iT4PcXEYeV63sW+zIwefw==
-X-Received: by 2002:a17:90b:ecf:: with SMTP id gz15mr9419265pjb.131.1624283458189;
-        Mon, 21 Jun 2021 06:50:58 -0700 (PDT)
+        bh=TREWgCZWamyM+cAvFe+be+iyBQ2mM4FCIj8jAxnCWs0=;
+        b=JrhOk+FaCRUHu1v3KFBM2Ep4QdUSDdlZA3yzkKraOeVyZutQhhdW2n7nXQQDFh+t3q
+         bZRetGUoH+uC5RvzOyLIs3dqVFse3zNH6lnLH3qSrgJvcDr9ccK7H7qVyUVym0RGd7CT
+         TkWVElszUB/oeVn9zPqFTuL65kXWEuwa/yUnahCRXYfMeFUDHiMlaxs/SxKlPIHwYmpP
+         TgAZroc9Cc2PVCSM/1EW8Xu6Aze9K3DCTBNgdJ+e/7FwaZdZDWjp3qYbYqt7+SZqXxN1
+         fuWTLaKH6IWu0SRmaYpSzt85Wx5XtmthH0SZGUnJiCD2sjvl8b5wTfV2Vaiw7HGAcdXh
+         853A==
+X-Gm-Message-State: AOAM531x+0ogt57ux7RdK9d5Gs4TGui3p/67NvtQ9MqePORkloMBHlbc
+	BQDkLVe/HWAffATLclcH8nlg6k9TxJ1Hb+FX
+X-Google-Smtp-Source: ABdhPJzZjS77z8PraDiF4aOCsoGOuHLIIF3lM0XWqXPAxHUs+FwCRZ91wEzksH0o6KrPa+OMPFwJQw==
+X-Received: by 2002:a17:902:d4cb:b029:124:3333:9ded with SMTP id o11-20020a170902d4cbb029012433339dedmr6883227plg.22.1624283467638;
+        Mon, 21 Jun 2021 06:51:07 -0700 (PDT)
 Received: from localhost ([209.132.188.80])
-        by smtp.gmail.com with ESMTPSA id o189sm9276461pga.78.2021.06.21.06.50.56
+        by smtp.gmail.com with ESMTPSA id k25sm15256121pfa.213.2021.06.21.06.51.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 06:50:57 -0700 (PDT)
+        Mon, 21 Jun 2021 06:51:07 -0700 (PDT)
 From: Coiby Xu <coiby.xu@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: netdev@vger.kernel.org,
@@ -45,9 +45,9 @@ Cc: netdev@vger.kernel.org,
 	GR-Linux-NIC-Dev@marvell.com (supporter:QLOGIC QLGE 10Gb ETHERNET DRIVER),
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-kernel@vger.kernel.org (open list)
-Subject: [RFC 11/19] staging: qlge: the number of pages to contain a buffer queue is constant
-Date: Mon, 21 Jun 2021 21:48:54 +0800
-Message-Id: <20210621134902.83587-12-coiby.xu@gmail.com>
+Subject: [RFC 12/19] staging: qlge: rewrite do while loops as for loops in qlge_start_rx_ring
+Date: Mon, 21 Jun 2021 21:48:55 +0800
+Message-Id: <20210621134902.83587-13-coiby.xu@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210621134902.83587-1-coiby.xu@gmail.com>
 References: <20210621134902.83587-1-coiby.xu@gmail.com>
@@ -58,74 +58,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch is extented work of commit ec705b983b46b8e2d3cafd40c188458bf4241f11
-("staging: qlge: Remove qlge_bq.len & size"). Since the same len is used
-for both sbq (small buffer queue) and lbq (large buffer queue), the
-number of pages to contain a buffer queue is also known at compile time.
+Since MAX_DB_PAGES_PER_BQ > 0, the for loop is equivalent to do while
+loop.
 
 Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
 ---
- drivers/staging/qlge/qlge.h      | 13 ++++++-------
- drivers/staging/qlge/qlge_main.c |  8 ++++----
- 2 files changed, 10 insertions(+), 11 deletions(-)
+ drivers/staging/qlge/qlge_main.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/qlge/qlge.h b/drivers/staging/qlge/qlge.h
-index 9177baa9f022..32755b0e2fb7 100644
---- a/drivers/staging/qlge/qlge.h
-+++ b/drivers/staging/qlge/qlge.h
-@@ -42,16 +42,15 @@
- 
- #define DB_PAGE_SIZE 4096
- 
--/* Calculate the number of (4k) pages required to
-- * contain a buffer queue of the given length.
-+/*
-+ * The number of (4k) pages required to contain a buffer queue.
-  */
--#define MAX_DB_PAGES_PER_BQ(x) \
--		(((x * sizeof(u64)) / DB_PAGE_SIZE) + \
--		(((x * sizeof(u64)) % DB_PAGE_SIZE) ? 1 : 0))
-+#define MAX_DB_PAGES_PER_BQ \
-+		(((QLGE_BQ_LEN * sizeof(u64)) / DB_PAGE_SIZE) + \
-+		(((QLGE_BQ_LEN * sizeof(u64)) % DB_PAGE_SIZE) ? 1 : 0))
- 
- #define RX_RING_SHADOW_SPACE	(sizeof(u64) + \
--		MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN) * sizeof(u64) + \
--		MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN) * sizeof(u64))
-+		MAX_DB_PAGES_PER_BQ * sizeof(u64) * 2)
- #define LARGE_BUFFER_MAX_SIZE 4096
- #define LARGE_BUFFER_MIN_SIZE 2048
- 
 diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
-index 94853b182608..7aee9e904097 100644
+index 7aee9e904097..c5e161595b1f 100644
 --- a/drivers/staging/qlge/qlge_main.c
 +++ b/drivers/staging/qlge/qlge_main.c
-@@ -3015,8 +3015,8 @@ static int qlge_start_cq(struct qlge_adapter *qdev, struct qlge_cq *cq)
- 		shadow_reg_dma += sizeof(u64);
- 		rx_ring->lbq.base_indirect = shadow_reg;
- 		rx_ring->lbq.base_indirect_dma = shadow_reg_dma;
--		shadow_reg += (sizeof(u64) * MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN));
--		shadow_reg_dma += (sizeof(u64) * MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN));
-+		shadow_reg += (sizeof(u64) * MAX_DB_PAGES_PER_BQ);
-+		shadow_reg_dma += (sizeof(u64) * MAX_DB_PAGES_PER_BQ);
- 		rx_ring->sbq.base_indirect = shadow_reg;
- 		rx_ring->sbq.base_indirect_dma = shadow_reg_dma;
- 		/* PCI doorbell mem area + 0x18 for large buffer consumer */
-@@ -3034,7 +3034,7 @@ static int qlge_start_cq(struct qlge_adapter *qdev, struct qlge_cq *cq)
+@@ -3029,12 +3029,11 @@ static int qlge_start_cq(struct qlge_adapter *qdev, struct qlge_cq *cq)
+ 		tmp = (u64)rx_ring->lbq.base_dma;
+ 		base_indirect_ptr = rx_ring->lbq.base_indirect;
+ 		page_entries = 0;
+-		do {
++		for (page_entries = 0; page_entries < MAX_DB_PAGES_PER_BQ; page_entries++) {
+ 			*base_indirect_ptr = cpu_to_le64(tmp);
  			tmp += DB_PAGE_SIZE;
  			base_indirect_ptr++;
- 			page_entries++;
--		} while (page_entries < MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN));
-+		} while (page_entries < MAX_DB_PAGES_PER_BQ);
+-			page_entries++;
+-		} while (page_entries < MAX_DB_PAGES_PER_BQ);
++		}
  		cqicb->lbq_addr = cpu_to_le64(rx_ring->lbq.base_indirect_dma);
  		cqicb->lbq_buf_size =
  			cpu_to_le16(QLGE_FIT16(qdev->lbq_buf_size));
-@@ -3051,7 +3051,7 @@ static int qlge_start_cq(struct qlge_adapter *qdev, struct qlge_cq *cq)
+@@ -3046,12 +3045,11 @@ static int qlge_start_cq(struct qlge_adapter *qdev, struct qlge_cq *cq)
+ 		tmp = (u64)rx_ring->sbq.base_dma;
+ 		base_indirect_ptr = rx_ring->sbq.base_indirect;
+ 		page_entries = 0;
+-		do {
++		for (page_entries = 0; page_entries < MAX_DB_PAGES_PER_BQ; page_entries++) {
+ 			*base_indirect_ptr = cpu_to_le64(tmp);
  			tmp += DB_PAGE_SIZE;
  			base_indirect_ptr++;
- 			page_entries++;
--		} while (page_entries < MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN));
-+		} while (page_entries < MAX_DB_PAGES_PER_BQ);
+-			page_entries++;
+-		} while (page_entries < MAX_DB_PAGES_PER_BQ);
++		}
  		cqicb->sbq_addr = cpu_to_le64(rx_ring->sbq.base_indirect_dma);
  		cqicb->sbq_buf_size = cpu_to_le16(QLGE_SMALL_BUFFER_SIZE);
  		cqicb->sbq_len = cpu_to_le16(QLGE_FIT16(QLGE_BQ_LEN));
