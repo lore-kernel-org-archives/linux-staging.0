@@ -1,90 +1,85 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B6771
-	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 13:52:17 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id v12so8593782plo.10
-        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 06:52:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=cS/F8T1IFYAn7INxjRc02bXMnhEJgrDiWz1RpqB30qg=;
-        b=SJCGESTjQtyYduI8KWTbHwthcEwAcmaxdU6hvYYWVh+GfYWmxJjiB0YEJw5i7+Hs+/
-         7UNlbQQnS3Ixf218WX02g797CCw5A7nupA3Eh3COwpxuMd8H5rWsQhO+4S2EnVd6XjA2
-         VIhOYoO/1rreePN2r3ARbaic4QcE20/gufqYpvJ28Xg+MmCAnxBMlHAky0lJM9vFlQP4
-         IHAhRyMc8yPXLJjafnW7UXiGp9wAhBC0pDrE47/KRhyCnBN5emslw6hfGeuyF+DCYdc0
-         t371rI7FASZx/JgDK2IJSW4oms1cjy6eUsX8kiH/9pBVU7QY0ORfMiGgW1O9BkcaY5Ej
-         MtfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=cS/F8T1IFYAn7INxjRc02bXMnhEJgrDiWz1RpqB30qg=;
-        b=BtnX7EMN3WG8zyJqKqwMO2e5eElZ4Zi2gWwFdXuvrXFKYdN3mfqO0bt8d4xbYfUsko
-         h7UMynicJX3Pz57gL0c4VxKsM3E7v2IDccQ+uPfbLqHy74n7lAfOTH4X1u7jHvGPYbUD
-         p8OEReP57ruD9XMvVDrzx/SSBXzcNU1vdfSYNWQXw25ohuXrstljH45GcwuOltoHk/td
-         UB9+JK4z3wuZPVKbbEzOy5MKslrzNCkHSxoZ2OC0+mHnVifT9jRNIvvcTooli6u/LNuy
-         82tTdYjxYMmQ9OeK/iqa9KyfR7qItbAQExM/FfavD3qPBmiXosblerlWqQ0s4IW3+evU
-         SIOA==
-X-Gm-Message-State: AOAM530nJy8xSG0wOaZ0KXgpLGRkeHhyHtL6iUfwc+ruS6cevJ0UZKP2
-	AhUCM0nmzYTKwIcg/ALHSDvE1wnTR+z2EqEJ
-X-Google-Smtp-Source: ABdhPJxT9DTOz8C0+5X6I7CDf35WX5i4rQLGUTavO5WmXFb6c5vVq6gzP11MULWNG5JNW0L/EF4OHw==
-X-Received: by 2002:a17:902:9f83:b029:f6:5c3c:db03 with SMTP id g3-20020a1709029f83b02900f65c3cdb03mr18185118plq.2.1624283537354;
-        Mon, 21 Jun 2021 06:52:17 -0700 (PDT)
-Received: from localhost ([209.132.188.80])
-        by smtp.gmail.com with ESMTPSA id h21sm14832500pfv.190.2021.06.21.06.52.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 06:52:16 -0700 (PDT)
-From: Coiby Xu <coiby.xu@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: netdev@vger.kernel.org,
-	Benjamin Poirier <benjamin.poirier@gmail.com>,
-	Shung-Hsi Yu <shung-hsi.yu@suse.com>,
-	Manish Chopra <manishc@marvell.com>,
-	GR-Linux-NIC-Dev@marvell.com (supporter:QLOGIC QLGE 10Gb ETHERNET DRIVER),
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org (open list)
-Subject: [RFC 19/19] staging: qlge: remove TODO item of unnecessary runtime checks
-Date: Mon, 21 Jun 2021 21:49:02 +0800
-Message-Id: <20210621134902.83587-20-coiby.xu@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210621134902.83587-1-coiby.xu@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6071D71
+	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 14:10:40 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15LE8HDr026284;
+	Mon, 21 Jun 2021 14:10:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=K9k3g/KXhuuJFyN8zef+KDQYsO6LeNTUi5TxPfegZz4=;
+ b=hvnFga7sjr1SDtgv/rXrNHncgYXeHFHsTXi6Zhg+sd+9jYvaVxVmLbxdOsIzft6ghpLg
+ 8HjtOeYX1GfDXrQYEYR8hTUCJXumyDAeBCRsMG84fATQ4/XqTUHBWAVKTjXscjIcxCjp
+ OrGkv7HgZN3c38QOtjVYefW2ur/idwMLoSTJ+T6+s6GJY3VSlrAy5Tft8OQbwQxZNh/9
+ WUIcEG/3TnZEZ7gul+Ct0jMXMv6AYP5bbGyWg48IsJU11pL6kJu6r4ReG5PGqcc8NmrV
+ 1mJg09BT6W5vLX0wvcocXv978Yf5UVFywfBIQALzjcWzW+kw3usDToPT7c69IN3P2soH AQ== 
+Received: from oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by mx0b-00069f02.pphosted.com with ESMTP id 39a68y1rgm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 21 Jun 2021 14:10:38 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 15LE9j9r149881;
+	Mon, 21 Jun 2021 14:10:37 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3020.oracle.com with ESMTP id 3998d5wmhh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 21 Jun 2021 14:10:37 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15LEA4Kc151016;
+	Mon, 21 Jun 2021 14:10:37 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+	by aserp3020.oracle.com with ESMTP id 3998d5wmgs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 21 Jun 2021 14:10:37 +0000
+Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
+	by aserv0121.oracle.com (8.14.4/8.14.4) with ESMTP id 15LEAZYk026765;
+	Mon, 21 Jun 2021 14:10:35 GMT
+Received: from kadam (/102.222.70.252)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Mon, 21 Jun 2021 07:10:34 -0700
+Date: Mon, 21 Jun 2021 17:10:27 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Coiby Xu <coiby.xu@gmail.com>
+Cc: linux-staging@lists.linux.dev, netdev@vger.kernel.org,
+        Benjamin Poirier <benjamin.poirier@gmail.com>,
+        Shung-Hsi Yu <shung-hsi.yu@suse.com>,
+        Manish Chopra <manishc@marvell.com>,
+        "supporter:QLOGIC QLGE 10Gb ETHERNET DRIVER" <GR-Linux-NIC-Dev@marvell.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC 01/19] staging: qlge: fix incorrect truesize accounting
+Message-ID: <20210621141027.GJ1861@kadam>
 References: <20210621134902.83587-1-coiby.xu@gmail.com>
+ <20210621134902.83587-2-coiby.xu@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210621134902.83587-2-coiby.xu@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-ORIG-GUID: B_qUZsMMkgZVgh812UNKgPfPTPQunNUL
+X-Proofpoint-GUID: B_qUZsMMkgZVgh812UNKgPfPTPQunNUL
 
-The following commits [1],
+On Mon, Jun 21, 2021 at 09:48:44PM +0800, Coiby Xu wrote:
+> Commit 7c734359d3504c869132166d159c7f0649f0ab34 ("qlge: Size RX buffers
+> based on MTU") introduced page_chunk structure. We should add
+> qdev->lbq_buf_size to skb->truesize after __skb_fill_page_desc.
+> 
 
-- e4c911a73c89 ("staging: qlge: Remove rx_ring.type")
-- a68a5b2fd3a2 ("staging: qlge: Remove bq_desc.maplen")
-- 16714d98bf63 ("staging: qlge: Remove rx_ring.sbq_buf_size")
-- ec705b983b46 ("staging: qlge: Remove qlge_bq.len & size")
+Add a Fixes tag.
 
-and recent "commit a0e57b58d35d3d6808187bb10ee9e5030ff87618
-("staging: qlge: the number of pages to contain a buffer queue is
- constant") has fixed issue. Thus remove the TODO item.
+The runtime impact of this is just that ethtool will report things
+incorrectly, right?  It's not 100% from the commit message.  Could you
+please edit the commit message so that an ignoramous like myself can
+understand it?
 
-[1] https://lore.kernel.org/netdev/YJeUZo+zoNZmFuKs@f3/
+Why is this an RFC instead of just a normal patch which we can apply?
 
-Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
----
- drivers/staging/qlge/TODO | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/staging/qlge/TODO b/drivers/staging/qlge/TODO
-index 7e466a0f7771..0e349ffc630e 100644
---- a/drivers/staging/qlge/TODO
-+++ b/drivers/staging/qlge/TODO
-@@ -1,4 +1,2 @@
--* the driver has a habit of using runtime checks where compile time checks are
--  possible (ex. ql_free_rx_buffers(), ql_alloc_rx_buffers())
- * remove duplicate and useless comments
- * fix checkpatch issues
--- 
-2.32.0
+regards,
+dan carpenter
 
