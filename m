@@ -1,56 +1,53 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB9E71
-	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 08:22:10 +0000 (UTC)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15L8C6XW002932;
-	Mon, 21 Jun 2021 08:21:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=rsBsyzNSoz0GNqEab3e2cU6lY3mRx3ISkb2b1vS63A0=;
- b=vuzqs3Hg1Q8F6MGm4vft/aEJ4vbL5XaH36E2YmEfM8Owj74Qza44gsEWjmQREH36VNXd
- FJFKrHxaaHC5eat+NFyrdVjjBRvFIG0fQSTSPNzBoSq9rHaM0x8YOly0F9V3P2bRmjHD
- ASriCiI5f1d3kpj/DHvd0PrTCEWW6+yJ+0xQ2h3b7QSOGS582lY8IdKQSbAGntiaD4KI
- 7vTp8eiOPiyK7c6vlOIT2N1cMZURReapI978n6tXxQbjdhkjA743qI+eGrvPbrBjidbX
- WrIkXnxxRee9TFIPe+G/dHkaeuL+mMrMeEjLvHU7OaTt/dxOkllw56K7e7MCikWmsogx tQ== 
-Received: from oracle.com (userp3020.oracle.com [156.151.31.79])
-	by mx0b-00069f02.pphosted.com with ESMTP id 39acyq8qwj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 21 Jun 2021 08:21:52 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
-	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 15L8GIf3039192;
-	Mon, 21 Jun 2021 08:21:51 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by userp3020.oracle.com with ESMTP id 399tbqpk6b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 21 Jun 2021 08:21:51 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15L8HwgH042250;
-	Mon, 21 Jun 2021 08:21:51 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-	by userp3020.oracle.com with ESMTP id 399tbqpk5h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 21 Jun 2021 08:21:51 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
-	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 15L8Leic010812;
-	Mon, 21 Jun 2021 08:21:43 GMT
-Received: from kadam (/102.222.70.252)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Mon, 21 Jun 2021 01:21:40 -0700
-Date: Mon, 21 Jun 2021 11:21:32 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Ojaswin Mujoo <ojaswin98@gmail.com>
-Cc: nsaenz@kernel.org, gregkh@linuxfoundation.org, stefan.wahren@i2se.com,
-        arnd@arndb.de, phil@raspberrypi.com,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] staging: vchiq: Refactor vchiq cdev code
-Message-ID: <20210621082132.GC1901@kadam>
-References: <cover.1624185152.git.ojaswin98@gmail.com>
- <e786f8c7f92561065b840490c32959932526dac6.1624185152.git.ojaswin98@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC9771
+	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 08:22:42 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id y13so2014085plc.8
+        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 01:22:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ZfnxSoMfUVSSDlsLwp0WoW5E9lvPUyllvrQ8/9x9fLo=;
+        b=Pq1hHK9RJgIPikajvGj85KADiwQEuKLSL5C/+AGosMjMpAuewjq3kPtHYvFliErquW
+         Dy/C5wsHTujMyiVG705Dk14Pq40bu6NT/A+ICipcaIZ/D3OMovB1P2UUohN7CQHmYOKX
+         hXz1gu6jk0HJAjW1XXt4efahnR9klmCmyuyX1cnyb5WpVbaJZfEqKCGY0ttXE/ESYPHg
+         zipKK1RE3mCkmWfqVE3hJhArk9N4mwqPMG3ABYfybgsW68T7wYsRoyEhnKGuX4HabAKU
+         MRGyZ/ZU0i4A/NhPhh75WEdCNzt0jE6FUham0iQH5/v9yMYzydQ740bMvEtw6yKJe/nj
+         Z+EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ZfnxSoMfUVSSDlsLwp0WoW5E9lvPUyllvrQ8/9x9fLo=;
+        b=poYrOShuXxUTQSynsAcBvdkoMJxJju7Es22Dyq4thwx2pngGgIvMh8vMDmCVW6EkGl
+         KcoiKAN/9SRuKSSSUSzAXCnkYRaldHwK+ucDEYk2grcxGi/s8AuCXUl1jBwlJcY/p412
+         ZQbigg/+XjkjFFdLaPH08gyxO83K+GEGlitHiSZ3qFEJEKZelYvAj2cScExLhZDX4KmZ
+         I6vGU2UakXx/vNVum57OfAIeGPDyfqkwOqNpiaTvb4sRxCU4qmFq7udA0d1pMOuT/R3f
+         5WFMmRp37pe0nuK9x5Xrn6C+VkxaBsvTS26mDG/vo7j4QMjE/Lo1IsSbVWQvCEZqtgGr
+         TyiQ==
+X-Gm-Message-State: AOAM531Axa9u2JymhVBqbT9IXWDR7w0yEVCD2BkDuhdYhTzg1DayyTlt
+	cz7L4oW9nsh+LFkrrsyAqyQ=
+X-Google-Smtp-Source: ABdhPJxJKSr1RTmSGiHrxaEzMzm5hoT9ayOKkcibP7Qtd34i6z276Sl4xoSmR6arsd4XjBFcRtplTQ==
+X-Received: by 2002:a17:902:d645:b029:11d:d075:cf43 with SMTP id y5-20020a170902d645b029011dd075cf43mr16832526plh.14.1624263761549;
+        Mon, 21 Jun 2021 01:22:41 -0700 (PDT)
+Received: from gmail.com (36-229-229-123.dynamic-ip.hinet.net. [36.229.229.123])
+        by smtp.gmail.com with ESMTPSA id z18sm14128683pfe.214.2021.06.21.01.22.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Jun 2021 01:22:40 -0700 (PDT)
+Date: Mon, 21 Jun 2021 16:22:37 +0800
+From: Jhih-Ming Huang <fbihjmeric@gmail.com>
+To: Greg KH <greg@kroah.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [fbihjmeric@gmail.com: Re:
+ drivers/staging/rtl8723bs/core/rtw_security.c:95:9: warning: variable 'crc'
+ set but not used]
+Message-ID: <20210621082237.im2asbiyc65kyzol@gmail.com>
+References: <20210621063041.v4u35pxgglgwn2go@gmail.com>
+ <YNA3KAxTeXsb35/W@kroah.com>
+ <20210621065709.6ffzqujlt26evjjz@gmail.com>
+ <YNBJc1Xlh75yz9DB@kroah.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -58,35 +55,124 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e786f8c7f92561065b840490c32959932526dac6.1624185152.git.ojaswin98@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: Cd10xYLrEn5jIVPHNS36QE2PbaANv26K
-X-Proofpoint-ORIG-GUID: Cd10xYLrEn5jIVPHNS36QE2PbaANv26K
+In-Reply-To: <YNBJc1Xlh75yz9DB@kroah.com>
 
-On Sun, Jun 20, 2021 at 06:25:46PM +0530, Ojaswin Mujoo wrote:
->  	vchiq_debugfs_init();
->  
->  	vchiq_log_info(vchiq_arm_log_level,
-> -		"vchiq: initialised - version %d (min %d), device %d.%d",
-> -		VCHIQ_VERSION, VCHIQ_VERSION_MIN,
-> -		MAJOR(vchiq_devid), MINOR(vchiq_devid));
-> +		       "vchiq: platform initialised - version %d (min %d)",
-> +		       VCHIQ_VERSION, VCHIQ_VERSION_MIN);
-> +
-> +	/*
-> +	 * We don't handle error here since the function handles
-> +	 * cleanup in cases of failure. Further, we can proceed
-> +	 * even if this function fails.
-> +	 */
-> +	vchiq_register_chrdev(&pdev->dev);
+On Mon, Jun 21, 2021 at 10:10:27AM +0200, Greg KH wrote:
+> On Mon, Jun 21, 2021 at 02:57:09PM +0800, Jhih-Ming Huang wrote:
+> > On Mon, Jun 21, 2021 at 08:52:24AM +0200, Greg KH wrote:
+> > > On Mon, Jun 21, 2021 at 02:30:41PM +0800, Jhih-Ming Huang wrote:
+> > > > On Sat, Jun 19, 2021 at 6:27 PM kernel test robot <lkp@intel.com> wrote:
+> > > > >
+> > > > > tree:   https://github.com/0day-ci/linux/commits/UPDATE-20210619-155350/Jhih-Ming-Huang/rtw_security-fix-cast-to-restricted-__le32/20210616-131056
+> > > > > head:   ed0359e3fa64928e48021387a694f211bc840ff7
+> > > > > commit: ed0359e3fa64928e48021387a694f211bc840ff7 rtw_security: fix cast to restricted __le32
+> > > > > date:   3 hours ago
+> > > > > config: sh-allmodconfig (attached as .config)
+> > > > > compiler: sh4-linux-gcc (GCC) 9.3.0
+> > > > > reproduce (this is a W=1 build):
+> > > > >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> > > > >         chmod +x ~/bin/make.cross
+> > > > >         # https://github.com/0day-ci/linux/commit/ed0359e3fa64928e48021387a694f211bc840ff7
+> > > > >         git remote add linux-review https://github.com/0day-ci/linux
+> > > > >         git fetch --no-tags linux-review UPDATE-20210619-155350/Jhih-Ming-Huang/rtw_security-fix-cast-to-restricted-__le32/20210616-131056
+> > > > >         git checkout ed0359e3fa64928e48021387a694f211bc840ff7
+> > > > >         # save the attached .config to linux build tree
+> > > > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=sh
+> > > > >
+> > > > > If you fix the issue, kindly add following tag as appropriate
+> > > > > Reported-by: kernel test robot <lkp@intel.com>
+> > > > >
+> > > > > All warnings (new ones prefixed by >>):
+> > > > >
+> > > > >    drivers/staging/rtl8723bs/core/rtw_security.c: In function 'rtw_wep_decrypt':
+> > > > > >> drivers/staging/rtl8723bs/core/rtw_security.c:95:9: warning: variable 'crc' set but not used [-Wunused-but-set-variable]
+> > > > >       95 |  __le32 crc;
+> > > > >          |         ^~~
+> > > > >
+> > > > > Kconfig warnings: (for reference only)
+> > > > >    WARNING: unmet direct dependencies detected for SND_ATMEL_SOC_PDC
+> > > > >    Depends on SOUND && !UML && SND && SND_SOC && SND_ATMEL_SOC && HAS_DMA
+> > > > >    Selected by
+> > > > >    - SND_ATMEL_SOC_SSC && SOUND && !UML && SND && SND_SOC && SND_ATMEL_SOC
+> > > > >    - SND_ATMEL_SOC_SSC_PDC && SOUND && !UML && SND && SND_SOC && SND_ATMEL_SOC && ATMEL_SSC
+> > > > >
+> > > > >
+> > > > > vim +/crc +95 drivers/staging/rtl8723bs/core/rtw_security.c
+> > > > >
+> > > > >     91
+> > > > >     92  void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
+> > > > >     93  {
+> > > > >     94          /*  exclude ICV */
+> > > > >   > 95          __le32 crc;
+> > > > >     96          signed int      length;
+> > > > >     97          u32 keylength;
+> > > > >     98          u8 *pframe, *payload, *iv, wepkey[16];
+> > > > >     99          u8  keyindex;
+> > > > >    100          struct  rx_pkt_attrib    *prxattrib = &(((union recv_frame *)precvframe)->u.hdr.attrib);
+> > > > >    101          struct  security_priv *psecuritypriv = &padapter->securitypriv;
+> > > > >    102          struct arc4_ctx *ctx = &psecuritypriv->recv_arc4_ctx;
+> > > > >    103
+> > > > >    104          pframe = (unsigned char *)((union recv_frame *)precvframe)->u.hdr.rx_data;
+> > > > >    105
+> > > > >    106          /* start to decrypt recvframe */
+> > > > >    107          if ((prxattrib->encrypt == _WEP40_) || (prxattrib->encrypt == _WEP104_)) {
+> > > > >    108                  iv = pframe+prxattrib->hdrlen;
+> > > > >    109                  /* keyindex =(iv[3]&0x3); */
+> > > > >    110                  keyindex = prxattrib->key_index;
+> > > > >    111                  keylength = psecuritypriv->dot11DefKeylen[keyindex];
+> > > > >    112                  memcpy(&wepkey[0], iv, 3);
+> > > > >    113                  /* memcpy(&wepkey[3], &psecuritypriv->dot11DefKey[psecuritypriv->dot11PrivacyKeyIndex].skey[0], keylength); */
+> > > > >    114                  memcpy(&wepkey[3], &psecuritypriv->dot11DefKey[keyindex].skey[0], keylength);
+> > > > >    115                  length = ((union recv_frame *)precvframe)->u.hdr.len-prxattrib->hdrlen-prxattrib->iv_len;
+> > > > >    116
+> > > > >    117                  payload = pframe+prxattrib->iv_len+prxattrib->hdrlen;
+> > > > >    118
+> > > > >    119                  /* decrypt payload include icv */
+> > > > >    120                  arc4_setkey(ctx, wepkey, 3 + keylength);
+> > > > >    121                  arc4_crypt(ctx, payload, payload,  length);
+> > > > >    122
+> > > > >    123                  /* calculate icv and compare the icv */
+> > > > >    124                  crc = cpu_to_le32(~crc32_le(~0, payload, length - 4));
+> > > > >    125
+> > > > >    126          }
+> > > > >    127  }
+> > > > >    128
+> > > > >
+> > > > > ---
+> > > > > 0-DAY CI Kernel Test Service, Intel Corporation
+> > > > > https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> > > > 
+> > > > This warning was introduced by my pull request,
+> > > > but I am fixing the sparse warning and the unused variable was
+> > > > declared in the previous commit.
+> > > > The original author did not compare the crc and payload in
+> > > > rtw_wep_decrypt, so the variable 'crc' was set but not used.
+> > > > 
+> > > > Should I fix this in my pull request?
+> > > 
+> > > We do not do "pull requests" in the kernel development process for
+> > > normal changes.  Just send a patch like normal for this and I will be
+> > > glad to apply it to my trees and send it onward.
+> > > 
+> > > thanks,
+> > > 
+> > > greg k-h
+> > 
+> > thanks for your fast reply.
+> > 
+> > should I send the other patch based on my original patch or I should combine
+> > these two patches into one patch?
+> 
+> What ever will be able to be applied to my tree is what I need.  I can
+> not remove an existing patch from it.  If I have not accepted the patch,
+> then a new patch is required.
+> 
+> thanks,
+> 
+> greg k-h
 
-I feel like ignoring errors and just continuing seems helpful, but it's
-actually doing the users a disservice.  If it's an error during, boot
-that's different, in that case it's better to get some kind of minimally
-useful boot so the user can debug the problem.  But if the error isn't
-going to prevent the system from booting then it's better to just return
-an error so they can fix the problem and try again.
+got it. new patch is sent. 
 
-regards,
-dan carpenter
+thanks.
 
+--jmhuang
