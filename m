@@ -1,53 +1,54 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91ABB71
-	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 14:12:10 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id g192so6062099pfb.6
-        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 07:12:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9164071
+	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 14:22:37 +0000 (UTC)
+Received: by mail-pg1-f172.google.com with SMTP id w31so14301136pga.6
+        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 07:22:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=+lczONSEvVNXxTnKGlZ6DC6sW4u/mKkInGnG8PkkewE=;
-        b=fDtP+6Lv72v+KUKRZF6ITEMx7YgZdz5GzuXEaCasH4Mc5kHzDZOHfSCGdINiCBZ8+2
-         wDAxz9is91YUTNKB1qHpKfL34osSiCkY+sOB1zAK2CfvzNYUe9iCMuH8aZT3Ampj1/hr
-         zKoE5ecI8dHVoTvDFuLetbJjBPcBP8Hs4bhUmavSi0eLwBVWlMNtvGRfT2QDePz9HGKk
-         c9f56LbUxQyfatPlaV25hpVpjTl3dpqNsO2bKShMHxWMHBzpDNM3kmOsLuweX8cfeVbs
-         crmXKvB93+x3xSCOraFjADBHbSaDFGFukoT7wzvsXpUGVqqGApfXrZShyhVogx6JxTB6
-         thWQ==
+        bh=8L+cd+ZQnTliBnbuqbahlYKMU/bFlGdaEWT+XDryuZI=;
+        b=dDIxGFZonS5d2guwsqbUn2ZNdVnahSjKxnJNiJ2rDNoD8zO8Jk0pUBBIAWfU3PkRPH
+         KuFeaDX33DXkPKL/5wJCUaMyaYDyC+RDoYasJymcxt68eNG69MeQei7wGMSk9S8FYP0k
+         VMyIVd1WlDqNOTkQZDQVqlUuXCqEXCUZEIDkH+u/JJKbuvJQqKCZ1Yr60pm7+gT6Ra9L
+         fNj24dLytBMmOz0TRnxMuIsGRkG59I3GALaGaxtF0Vmhk1KhcWXcxTNMjJdOAvK3nlIU
+         Je8nYmTxMYaiOxR+Xw6+myXxmoyuoXDSJ4vcpacn6Dw9jJg/QrLiOKyAD5ygpjr+XHYM
+         1Aww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=+lczONSEvVNXxTnKGlZ6DC6sW4u/mKkInGnG8PkkewE=;
-        b=Om4JRzwzAyEgolmY1NZiwHZbUxnAWcQoVXAkYbmCQd/7d2FgVG806281bCBtGt10uD
-         bgcpCv65jZbRSmV0NAtTd4zQpbnahXryCeVD79HupS+3Z67imstto/3cUnS1eHg2Zhhf
-         Aqo3ZmSwoBR1KY7fk9dxuD1DGM5zxSWYsVekqdSvubyHeIqyy8EaTiINSo9bqbPUD7au
-         TU0chhPKnhftW85sfC9QeFkGhVKaVJJ94N9n3dWJZWcLyGEzzlN7aK2G6iE4rsjdNLAe
-         3OqjS2MnXQr+jRkfnIT/U/3N2m/Snthw85bvqPR07XERTT1nYbk5fV6YoeTi5RbCbJIz
-         RqHA==
-X-Gm-Message-State: AOAM533vGzHSOxUhsv4onichCojLJTiNU+UMg6XzaG26PLxzPm+lRXhA
-	Ilyn8ibwuIa1cwyi5YoCk1U=
-X-Google-Smtp-Source: ABdhPJzK4d4g2YguCgFh6tGV4hkJGxu/weQiFZoNb5Z72fTuKTCnrB5KyQ1cuFTaK988kk+IhmbtjA==
-X-Received: by 2002:aa7:8587:0:b029:2f8:8439:c265 with SMTP id w7-20020aa785870000b02902f88439c265mr19697773pfn.38.1624284730037;
-        Mon, 21 Jun 2021 07:12:10 -0700 (PDT)
+        bh=8L+cd+ZQnTliBnbuqbahlYKMU/bFlGdaEWT+XDryuZI=;
+        b=jaPpLCig+SaZWmzfsQoYJlK96u7Hg/bEu9/jq7fSF12RIliJ6kOgEw441SLjiiMMjM
+         Ph6gGOI6JsEEL7Nk3YrQukQaEp145Cgs7NTe9Z8oIj28gkTNNjK2oQzV2wpadvyZ0GuS
+         4GYLC/wlVY88ej+lzNznBVE3C1KCHRsCf4YT8Wjeo6jO8mq3KPDxgdGbFwKfo3SgZXli
+         /AbLaKaPaG/qWTvZ8RFIpodBB9mhiyr0hUAw7fpPCO3fSD93VNOTdcT1CH5++7UiPa4F
+         dBDkfzkh0a0zAahbx9A7Iz3PsQgUSRfPOyG6evpgoweq+mNsez4+65DAS/ZK/IWJviit
+         J0cQ==
+X-Gm-Message-State: AOAM532UQPmLHF88Jqh9NTEn1cLortD7WMAyVCgwOAP0cguCFlCgaLSC
+	2bw1zZd2OvqILmCi/tx7HoU=
+X-Google-Smtp-Source: ABdhPJzZ6AmPiFqoTJcZ4tUQRgeJ1RJjJAfN/W5xkONC67cFCSfCwrZunMX6TFVg9VAcgVbj4ZSUEQ==
+X-Received: by 2002:a63:185b:: with SMTP id 27mr24580741pgy.164.1624285357096;
+        Mon, 21 Jun 2021 07:22:37 -0700 (PDT)
 Received: from ojas ([122.177.154.120])
-        by smtp.gmail.com with ESMTPSA id k6sm15244288pfa.215.2021.06.21.07.12.05
+        by smtp.gmail.com with ESMTPSA id v4sm17119750pgr.65.2021.06.21.07.22.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 07:12:09 -0700 (PDT)
-Date: Mon, 21 Jun 2021 19:41:58 +0530
+        Mon, 21 Jun 2021 07:22:36 -0700 (PDT)
+Date: Mon, 21 Jun 2021 19:52:26 +0530
 From: Ojaswin Mujoo <ojaswin98@gmail.com>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Cc: nsaenz@kernel.org, gregkh@linuxfoundation.org, arnd@arndb.de,
-	dan.carpenter@oracle.com, phil@raspberrypi.com,
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: nsaenz@kernel.org, gregkh@linuxfoundation.org, stefan.wahren@i2se.com,
+	arnd@arndb.de, phil@raspberrypi.com,
 	bcm-kernel-feedback-list@broadcom.com,
 	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/5] vchiq: Patch to separate platform and cdev code
-Message-ID: <20210621141158.GA186639@ojas>
+Subject: Re: [PATCH v2 1/5] staging: vchiq: Refactor vchiq cdev code
+Message-ID: <20210621142226.GA186979@ojas>
 References: <cover.1624185152.git.ojaswin98@gmail.com>
- <edd6f6ad-f06f-5871-a3bb-da18e114c135@i2se.com>
+ <e786f8c7f92561065b840490c32959932526dac6.1624185152.git.ojaswin98@gmail.com>
+ <20210621082132.GC1901@kadam>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -55,137 +56,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <edd6f6ad-f06f-5871-a3bb-da18e114c135@i2se.com>
+In-Reply-To: <20210621082132.GC1901@kadam>
 
-On Sun, Jun 20, 2021 at 03:28:43PM +0200, Stefan Wahren wrote:
-Hello Stefan!
+Hello Dan,
 
-> Hi Ojaswin,
+On Mon, Jun 21, 2021 at 11:21:32AM +0300, Dan Carpenter wrote:
+> On Sun, Jun 20, 2021 at 06:25:46PM +0530, Ojaswin Mujoo wrote:
+> >  	vchiq_debugfs_init();
+> >  
+> >  	vchiq_log_info(vchiq_arm_log_level,
+> > -		"vchiq: initialised - version %d (min %d), device %d.%d",
+> > -		VCHIQ_VERSION, VCHIQ_VERSION_MIN,
+> > -		MAJOR(vchiq_devid), MINOR(vchiq_devid));
+> > +		       "vchiq: platform initialised - version %d (min %d)",
+> > +		       VCHIQ_VERSION, VCHIQ_VERSION_MIN);
+> > +
+> > +	/*
+> > +	 * We don't handle error here since the function handles
+> > +	 * cleanup in cases of failure. Further, we can proceed
+> > +	 * even if this function fails.
+> > +	 */
+> > +	vchiq_register_chrdev(&pdev->dev);
 > 
-> Am 20.06.21 um 14:55 schrieb Ojaswin Mujoo:
-> > Hello,
-> >
-> > This patchset adderesses the TODO item number 10 specified at:
-> >
-> >     drivers/staging/vc04-services/interface/TODO
-> >
-> > For reference, the task is:
-> >
-> >     10) Reorganize file structure: Move char driver to it's own file and join
-> >     both platform files
-> >
-> >     The cdev is defined alongside with the platform code in vchiq_arm.c. It
-> >     would be nice to completely decouple it from the actual core code. For
-> >     instance to be able to use bcm2835-audio without having /dev/vchiq created.
-> >     One could argue it's better for security reasons or general cleanliness. It
-> >     could even be interesting to create two different kernel modules, something
-> >     the likes of vchiq-core.ko and vchiq-dev.ko. This would also ease the
-> >     upstreaming process.
-> >
-> > As Stefan suggested in the last revision, I have split the commits into
-> > more finer parts for ease of readability and maintainability. I have
-> > also added 2 more patches to define a KConfig entry for vchiq cdev, and
-> > to merge the code in vchiq_2835_arm.c to vchiq_arm.c
-> >
-> > A summary of the patches is now as follows:
-> >
-> > - Patch 1: Move cdev init code into a function
-> > - Patch 2: Shift some devlarations from vchiq_arm.c to vchiq_arm.h for
-> >            sharing
-> > - Patch 3: Move vchiq cdev init code from vchiq_arm.c into vchiq_dev.c
-> > - Patch 4: Decouple cdev code by defining a Kconfig entry to allow
-> >            optional compilation of it.
-> > - Patch 5: Merge code in vchiq_2835_arm.c to vchiq_arm.c
-> >
-> > (More details can be found in the commit messages)
-> >
-> >
-> > NOTE:  This patchset is built against the raspberry pi mainline kernel at
-> > https://github.com/raspberrypi/linux/blob/rpi-5.10.y, and has been
-> > tested on Raspberry Pi 3B+
-> please don't do this, because it's a waste of time. Greg can only apply
-> patches against the mainline kernel and the patches must be tested with
-> the mainline kernel. Additionally i've sent a lot of patches recently
-> which are not applied against the vendor tree.
-Understood Stefan, I'll keep that in mind going forward.
-> >
-> > At this point, I have some questions and ideas and would like to hear your
-> > thoughts and suggestions on them:
-> >
-> > 1. So as mentioned, I have built this against the raspberry pi kernel,
-> >    since I was not able to figure out a way to build the vanilla
-> >    mainline kernel for Raspberry Pi. However, I understand that since
-> >    this will be applied to the mainline, I need to make sure it is
-> >    consistent with it.  
-> 
-> Can you please describe the issue in detail?
-> 
-> Or try this older guide [1]
-Thanks for the guide, I tried this out (along with some other things) but 
-I'm not able to get the Pi to boot. I'm using a headless setup with
-Wifi+SSH, due to lack of hardware, and I'm not able to SSH/ping when using
-mainline. This works correctly with the downstream kernel + Raspbian.
-(Maybe because of missing drivers and/or config options).
+> I feel like ignoring errors and just continuing seems helpful, but it's
+> actually doing the users a disservice.  If it's an error during, boot
+> that's different, in that case it's better to get some kind of minimally
+> useful boot so the user can debug the problem.  But if the error isn't
+> going to prevent the system from booting then it's better to just return
+> an error so they can fix the problem and try again.
+Got it, I'll fix this in the next revision.
 
-I'm still looking into this but a I'm a bit in the dark till I can get my
-hands on a UART to USB cable although they are difficult to get
-around here. I'm also trying to maybe figure out if I can somehow use my
-Arduino to capture the serial output. 
-
-May I ask what setup you are using for kernel development on pi? 
-> 
-> Best regards
-> Stefan Wahren
-> 
-> [1] - https://gist.github.com/lategoodbye/c7317a42bf7f9c07f5a91baed8c68f75
-> 
-Thank you again for the help!
+Thank you,
 Ojaswin
-> >
-> >    Hence to confirm that, I tried to "git am" this patchset to the
-> >    mainline kernel but there are some merge conflicts in doing so. I
-> >    have an idea how to resolve most of them except the following:
-> >
-> >     - The mainline vchiq_arm.c differs from the one in rapberry pi
-> >       mainline which caused conflict in Patch 3.
-> >
-> >    I'm not sure which vchiq_arm.c to treat as the base for my patches.
-> >    The one in mainline? or the one in raspberry pi's git tree?
-> >
-> >
-> > 2. This question is more related to the next set of patches I'm
-> >    planning to submit. So the last thing left in this TODO is to
-> >    completely decouple vchiq platform and cdev code into 2 separate
-> >    modules and I am planning to do that in a different patchset. 
-> >
-> >    The approach I have in mind is to start by using EXPORT_SYMBOL to
-> >    export all the functions (and accessor functions for variables like
-> >    g_state) that would be required for cdev init. Majority of these
-> >    would be exported from vchiq_arm.c and vchiq_core.c, and will then be
-> >    used in vchiq-dev.ko. Is this the right way to approach this? 
-> >
-> > Thank you in advance for looking into this and best regards!
-> > Ojaswin
-> >
-> >
-> > Ojaswin Mujoo (5):
-> >   staging: vchiq: Refactor vchiq cdev code
-> >   staging: vchiq: Move certain declarations to vchiq_arm.h
-> >   staging: vchiq: Move vchiq char driver to its own file
-> >   staging: vchiq: Make creation of vchiq cdev optional
-> >   staging: vchiq: Combine vchiq platform code into single file
-> >
-> >  arch/arm/configs/bcm2709_defconfig            |    1 +
-> >  arch/arm/configs/bcm2711_defconfig            |    1 +
-> >  arch/arm/configs/bcmrpi_defconfig             |    1 +
-> >  drivers/staging/vc04_services/Kconfig         |   10 +
-> >  drivers/staging/vc04_services/Makefile        |    5 +-
-> >  .../interface/vchiq_arm/vchiq_2835_arm.c      |  651 -----
-> >  .../interface/vchiq_arm/vchiq_arm.c           | 2477 ++++++-----------
-> >  .../interface/vchiq_arm/vchiq_arm.h           |   79 +
-> >  .../interface/vchiq_arm/vchiq_dev.c           | 1488 ++++++++++
-> >  9 files changed, 2402 insertions(+), 2311 deletions(-)
-> >  delete mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_2835_arm.c
-> >  create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-> >
+
+> 
+> regards,
+> dan carpenter
 > 
