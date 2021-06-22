@@ -1,50 +1,50 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D7E71
-	for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 13:10:09 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id p10-20020a05600c430ab02901df57d735f7so1717628wme.3
-        for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 06:10:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C6A71
+	for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 13:10:10 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id a11so23599275wrt.13
+        for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 06:10:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6pwu5pM4dbgTBood6EBI5joCOsJM78eFvHusKdHfshs=;
-        b=B1xw1/tFWI4m27i5R2W+50PxPXrN+0bGQ8viZRX4euUCm+pAv8LpPIusUc6yOnaT7B
-         OfOKY7Bho/KBPdrDYZtf3JRw5n69YqcdmcOf7raB8zNsklf/MoXh/puHKD7Kua5bRMzC
-         i7w5rBjxzPDG0hmPhSeagFh2OiolGldI1+2RUJaUob9bBr/06y1WXbXFqw+J7NKOkf9e
-         8r/T5Hkv7FmFggpc3qIx9o5HG8Gw+hZ/6jR50QfySydlmVxYfbVbO269+gPdGdbXGYBW
-         N60I6CFgibG1bXn0BoPX4prF6cUb0XzILf21AfxlpK9+ZgGOXoD/rPlSjNkrh4xHkpZ9
-         XhXw==
+        bh=bE0/IBysZYE/ZXL1p5rQU1Kbefc1vevyehuv3S/iCqk=;
+        b=oo9lKeSUVhzeBIPGsND2eC8dOSh830K09wN2TXSzxjvAxJjpOzbKOvnDnRhXd+h5Gq
+         +5Sv2KlehOIHRbaUPc9AE0bdXtUt04KEV5F1JINzsnM79Wk2ijuKh80vBGB0m0m2y6Oo
+         JGAKpG4cj6EWXbn+pfmvZre0xIzck2c7DHRmVSGX4V5Ql5NlxJDlyuDp3e1xOU/nEjMm
+         9fMGMKVMk8mPrU2pK55z/c2Hy9p1Gt38H0qIuR1IAzgk7y1PRQ7r3j1ai6YihsR2Owh5
+         /Gq0u8rtKwqeO5mkNgk1tMTehMeuF3nN/CAT6vEHmpJV1VjxGwJMsmdl5PHPHdSsBsx7
+         VKBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6pwu5pM4dbgTBood6EBI5joCOsJM78eFvHusKdHfshs=;
-        b=sNCD9XrGOcwBx0QKNUwi0dzilQWdsM67UB0LwdATcgB73RuVK9YaL8BBrlDtcvvtlq
-         Josd1CkzzgNINVxsjMQJLVX8pX3uSqbH8ZxjsQ6L6bcxhE+NXhGKg2HW7eL8QdCCmNEP
-         4nPiQQWbdi1IlZnHQLhSnovqfk/DLQ30I6j5++v2x0Z59hl1gWCl0D4j3c8rCj4H38KV
-         mb5ASEaOidNha/1/kAaAGpP4gZOixR3xwBe7XcSBa+0EqLmr2hFoBV/5mU03rLFeHPY/
-         mHy+J6hzyl/qEAzRyR8Bd6DlJ+LkKXliGHz2/9rE3IIYwInnKhYmvO72h18QAYz6T/mP
-         pXMQ==
-X-Gm-Message-State: AOAM532Y62xKmIDh52OCtTlvTU1PfXSeionvZpRg/oAj2AOVfkNz1wJn
-	yUljFIFWABqdQ22Cgo2iy/kIQpqEMv1mVw==
-X-Google-Smtp-Source: ABdhPJzxr5gG+GqGYkYein8UnpRd9OFuSEt/4gXPcXLnxRptI4EbJRbTCDzdQVT7LQvdDRx7pqK3dA==
-X-Received: by 2002:a7b:c089:: with SMTP id r9mr4411431wmh.167.1624367408158;
-        Tue, 22 Jun 2021 06:10:08 -0700 (PDT)
+        bh=bE0/IBysZYE/ZXL1p5rQU1Kbefc1vevyehuv3S/iCqk=;
+        b=oHhZcxZwmQSyxstnR8buos7xMTrsf5Rrr37zCZVXB19ATqemTUlnJ62qeo3R7Wi4Xy
+         kwbbqzJMhD2Gx8u9O62xj98+U+aiPRdiuHoUuJdEGGp5q8uxZM0ZForhHFtiPbc1x//j
+         DhGnHmY/VX/7fZJksWHQTpacWm2MoP66ZrJBnFM3nIRw4T6kCmWfSFAid0xMiLRuZSRW
+         YNZKmbjLXsEpdCVsSts9wITWIi62aLPNv5+DQtZkiU1iSnChRR+X0zogXpRe3iRlU35n
+         mp8r9yDgV7mKAjwVDOGZZjC3lNfZVvpGaq91sMItDC+8oNfYrpxGUt979vFozgrvIW80
+         7Vxg==
+X-Gm-Message-State: AOAM5312YQMyFMVAwgJN90b5EteGWUYAs0uHnSd7S12em+WBb/Vufxer
+	RO6ottfpARSTx3uxrCN0orW8WNbiYXMYvQ==
+X-Google-Smtp-Source: ABdhPJy1u1sI2Qacd1ZeB1ioRSKxcoY0B5srbxrxOqLaDc7uoqs6S/o5nqluqGMGr6HaeSiqSlZ+Gg==
+X-Received: by 2002:a05:6000:1365:: with SMTP id q5mr4780375wrz.53.1624367409543;
+        Tue, 22 Jun 2021 06:10:09 -0700 (PDT)
 Received: from agape ([5.171.73.108])
-        by smtp.gmail.com with ESMTPSA id c21sm2356376wme.38.2021.06.22.06.10.07
+        by smtp.gmail.com with ESMTPSA id 197sm2683862wmb.20.2021.06.22.06.10.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jun 2021 06:10:07 -0700 (PDT)
+        Tue, 22 Jun 2021 06:10:09 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: hdegoede@redhat.com,
 	Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 03/17] staging: rtl8723bs: remove unused enum items related to channel bonding
-Date: Tue, 22 Jun 2021 15:09:47 +0200
-Message-Id: <beb6760c04116b4720edf7257149828653bbda26.1624367071.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v3 04/17] staging: rtl8723bs: rename enum items related to channel bonding
+Date: Tue, 22 Jun 2021 15:09:48 +0200
+Message-Id: <a4172419996bdcaf96f0d9b5438b3b2372ff69b7.1624367071.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1624367071.git.fabioaiuto83@gmail.com>
 References: <cover.1624367071.git.fabioaiuto83@gmail.com>
@@ -55,29 +55,81 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove unused enum items related to channel bonding.
+since rtl8723bs card allows only 20Mhz and 40Mhz channels,
+rename enum items related to channel bonding accordingly to
+the only composite channel bandwidth allowed in 2.4Ghz
+(i.e. 40Mhz) in a HT context (since VHT isn't supported)
+
+Example:
+
+VHT_DATA_SC_20_LOWER_OF_80MHZ ->
+	HT_DATA_SC_LOWER_OF_40MHZ
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/rtw_rf.h | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 10 +++++-----
+ drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c   |  4 ++--
+ drivers/staging/rtl8723bs/include/rtw_rf.h        |  6 +++---
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index 3ecd034342ec..059d3050acc6 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -2530,18 +2530,18 @@ u8 SCMapping_8723B(struct adapter *Adapter, struct pkt_attrib *pattrib)
+ 
+ 	if (pHalData->CurrentChannelBW == CHANNEL_WIDTH_40) {
+ 		if (pattrib->bwmode == CHANNEL_WIDTH_40) {
+-			SCSettingOfDesc = VHT_DATA_SC_DONOT_CARE;
++			SCSettingOfDesc = HT_DATA_SC_DONOT_CARE;
+ 		} else if (pattrib->bwmode == CHANNEL_WIDTH_20) {
+ 			if (pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_UPPER) {
+-				SCSettingOfDesc = VHT_DATA_SC_20_UPPER_OF_80MHZ;
++				SCSettingOfDesc = HT_DATA_SC_20_UPPER_OF_40MHZ;
+ 			} else if (pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER) {
+-				SCSettingOfDesc = VHT_DATA_SC_20_LOWER_OF_80MHZ;
++				SCSettingOfDesc = HT_DATA_SC_20_LOWER_OF_40MHZ;
+ 			} else {
+-				SCSettingOfDesc = VHT_DATA_SC_DONOT_CARE;
++				SCSettingOfDesc = HT_DATA_SC_DONOT_CARE;
+ 			}
+ 		}
+ 	} else {
+-		SCSettingOfDesc = VHT_DATA_SC_DONOT_CARE;
++		SCSettingOfDesc = HT_DATA_SC_DONOT_CARE;
+ 	}
+ 
+ 	return SCSettingOfDesc;
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
+index 275460865719..23435dcc5537 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
+@@ -621,9 +621,9 @@ static u8 phy_GetSecondaryChnl_8723B(struct adapter *Adapter)
+ 
+ 	if (pHalData->CurrentChannelBW == CHANNEL_WIDTH_40) {
+ 		if (pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_UPPER)
+-			SCSettingOf20 = VHT_DATA_SC_20_UPPER_OF_80MHZ;
++			SCSettingOf20 = HT_DATA_SC_20_UPPER_OF_40MHZ;
+ 		else if (pHalData->nCur40MhzPrimeSC == HAL_PRIME_CHNL_OFFSET_LOWER)
+-			SCSettingOf20 = VHT_DATA_SC_20_LOWER_OF_80MHZ;
++			SCSettingOf20 = HT_DATA_SC_20_LOWER_OF_40MHZ;
+ 	}
+ 
+ 	return  (SCSettingOf40 << 4) | SCSettingOf20;
 diff --git a/drivers/staging/rtl8723bs/include/rtw_rf.h b/drivers/staging/rtl8723bs/include/rtw_rf.h
-index 98bc274e5e81..550471637315 100644
+index 550471637315..48ff15a38bb0 100644
 --- a/drivers/staging/rtl8723bs/include/rtw_rf.h
 +++ b/drivers/staging/rtl8723bs/include/rtw_rf.h
-@@ -98,14 +98,6 @@ enum {
- 	VHT_DATA_SC_DONOT_CARE = 0,
- 	VHT_DATA_SC_20_UPPER_OF_80MHZ = 1,
- 	VHT_DATA_SC_20_LOWER_OF_80MHZ = 2,
--	VHT_DATA_SC_20_UPPERST_OF_80MHZ = 3,
--	VHT_DATA_SC_20_LOWEST_OF_80MHZ = 4,
--	VHT_DATA_SC_20_RECV1 = 5,
--	VHT_DATA_SC_20_RECV2 = 6,
--	VHT_DATA_SC_20_RECV3 = 7,
--	VHT_DATA_SC_20_RECV4 = 8,
--	VHT_DATA_SC_40_UPPER_OF_80MHZ = 9,
--	VHT_DATA_SC_40_LOWER_OF_80MHZ = 10,
+@@ -95,9 +95,9 @@ enum extchnl_offset {
+ };
+ 
+ enum {
+-	VHT_DATA_SC_DONOT_CARE = 0,
+-	VHT_DATA_SC_20_UPPER_OF_80MHZ = 1,
+-	VHT_DATA_SC_20_LOWER_OF_80MHZ = 2,
++	HT_DATA_SC_DONOT_CARE = 0,
++	HT_DATA_SC_20_UPPER_OF_40MHZ = 1,
++	HT_DATA_SC_20_LOWER_OF_40MHZ = 2,
  };
  
  /* 2007/11/15 MH Define different RF type. */
