@@ -1,51 +1,59 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E409173
-	for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 15:51:09 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id y13so2686048plc.8
-        for <linux-staging@lists.linux.dev>; Mon, 21 Jun 2021 08:51:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=uXok+abI+/QaFNT9jA8hKXmptxZAJ4Kr1cCJQURaU7Y=;
-        b=keU4suHt1fJRTQFBlYKBRC0EMAguG5yl/OEsfzIdYAVmTyomWeSylFT6kDyBWJdBjU
-         ZDGzlX32ZDgQoH/aRyJh6E0K4npRE6L1yEaAgCPAlRbe3/45iCjkKDdgy6CrDFx4PMZS
-         l0cbm3IwwP7jfs5czMCx5RnMS8Fxkk5L30j/ji9ggkS7L1Tf51Ilz5GemxRjYSADHXRF
-         yUvC22gLQu2HP7zLgtz6uDXrrRdcoiB6GfUKPQWrPo4eBfWy2V6PxxriXAwJi6YM6aXe
-         HRCNnzUom1QT8qVvXb275q45N5PtZ9x+W1idtkcUWGTNT1DATfr7yPt/fNkVxxiAJCnT
-         l+Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=uXok+abI+/QaFNT9jA8hKXmptxZAJ4Kr1cCJQURaU7Y=;
-        b=crsBCGE76vnAp0UbOtbS4kBUz0S76+DX8InG/jDi60WW1ig3Db9RpdN1UMrsRpyO1K
-         lZ+uK+4y92qVgnbYvUBKMK0kVb6QSrcKw7RRMr59VIzKnWoIsLhG4+2uiDh2JDbLH0PC
-         cBYG759zv/Px8/uSwrX0LspOyLZQgMIC9fh6hhhKVVpy4o6JEHLFShYM9GGTYJG3ycU/
-         CpQGQC1VmZ5uAgKr9dtprwl7wxAe04LYAZ/GjKGNGGJzgGlN+oI1QuDGfpKx11epnC+D
-         cgyABhVrknRigwm0fduHrkvGEtHGrcZQmRBojGmrz63hv+GKDmC4F1ZBOS7Giz7pB+Rb
-         GqlA==
-X-Gm-Message-State: AOAM533pFa1SYn917ouj5hx+zUFX2Wk+HurVry44VOZDrWXbAyzNAXJC
-	5ukCwPGQcL8EeOtMYvIyk6o=
-X-Google-Smtp-Source: ABdhPJy6Zwf17fgWA7Hdl+PWaUAEFCFpeJzvpNK0Kqsu8GlNRgdC36ejdamvFNrTEu74JMnuylfj+A==
-X-Received: by 2002:a17:902:9a4c:b029:119:d507:dccd with SMTP id x12-20020a1709029a4cb0290119d507dccdmr18368549plv.55.1624290668969;
-        Mon, 21 Jun 2021 08:51:08 -0700 (PDT)
-Received: from gmail.com (36-229-229-123.dynamic-ip.hinet.net. [36.229.229.123])
-        by smtp.gmail.com with ESMTPSA id ge24sm4252254pjb.18.2021.06.21.08.51.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 08:51:08 -0700 (PDT)
-Date: Mon, 21 Jun 2021 23:51:04 +0800
-From: Jhih-Ming Huang <fbihjmeric@gmail.com>
-To: gregkh@linuxfoundation.org, fabioaiuto83@gmail.com,
-	ross.schm.dev@gmail.com, maqianga@uniontech.com,
-	marcocesati@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] rtw_security: fix cast to restricted __le32
-Message-ID: <20210621155104.6w237avwjto3vysi@gmail.com>
-References: <20210619075255.107807-1-fbihjmeric@gmail.com>
- <20210621081928.145203-1-fbihjmeric@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1539173
+	for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 07:20:48 +0000 (UTC)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15M7GDmJ032136;
+	Tue, 22 Jun 2021 07:20:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=uZtpeCcW0/0ddJSUa4GkLD+7TtG1zH2UHC/nBMIUQhM=;
+ b=a0e0YpU4SF96WFQSpNn854jaDwF/vh49UqhsJzN6mMAIkk2LMIpfC4Q38RwT1mrrhpCf
+ w5TdqqLNYsOfFW/qGNYFeEsOfuCFPLGT6PpA2GFGCPBP8fEshCmmKq+AXzCBr6Ymjgsj
+ RpKEYMWnmudOp4TmDfzF3V/jHk57Tb4va+J1B/D0KBhM3D2gQqGmcuKBdGRvM4Fo8GR7
+ sK1S9l6yp7Zi8eYWIkNAy0q4BxeRvL/p9Samd610Xf4WqFHS6kmWxanenum8LPVQmFVy
+ bowrQLOIXQq8Bgtpks6rhdxVyN31gNfeqv97JGuf5U3ix44veJ0Bmy8A7tXz/2hif3lD 8w== 
+Received: from oracle.com (userp3030.oracle.com [156.151.31.80])
+	by mx0b-00069f02.pphosted.com with ESMTP id 39acyqb4hr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 22 Jun 2021 07:20:46 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 15M7FFRM072448;
+	Tue, 22 Jun 2021 07:20:45 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by userp3030.oracle.com with ESMTP id 3995pvs9e7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 22 Jun 2021 07:20:45 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15M7KjTr090608;
+	Tue, 22 Jun 2021 07:20:45 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by userp3030.oracle.com with ESMTP id 3995pvs9du-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 22 Jun 2021 07:20:45 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 15M7Kh5w014540;
+	Tue, 22 Jun 2021 07:20:43 GMT
+Received: from kadam (/102.222.70.252)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Tue, 22 Jun 2021 00:20:43 -0700
+Date: Tue, 22 Jun 2021 10:20:36 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Coiby Xu <coiby.xu@gmail.com>
+Cc: linux-staging@lists.linux.dev, netdev@vger.kernel.org,
+        Benjamin Poirier <benjamin.poirier@gmail.com>,
+        Shung-Hsi Yu <shung-hsi.yu@suse.com>,
+        Manish Chopra <manishc@marvell.com>,
+        "supporter:QLOGIC QLGE 10Gb ETHERNET DRIVER" <GR-Linux-NIC-Dev@marvell.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC 13/19] staging: qlge: rewrite do while loop as for loop in
+ qlge_sem_spinlock
+Message-ID: <20210622072036.GK1861@kadam>
+References: <20210621134902.83587-1-coiby.xu@gmail.com>
+ <20210621134902.83587-14-coiby.xu@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -53,77 +61,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210621081928.145203-1-fbihjmeric@gmail.com>
+In-Reply-To: <20210621134902.83587-14-coiby.xu@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: 9WdfC9Sv-xDEwWU93ImiyD6OEuWdleHI
+X-Proofpoint-ORIG-GUID: 9WdfC9Sv-xDEwWU93ImiyD6OEuWdleHI
 
-On Mon, Jun 21, 2021 at 04:19:28PM +0800, Jhih-Ming Huang wrote:
-> This patch fixes the sparse warning of fix cast to restricted __le32.
+On Mon, Jun 21, 2021 at 09:48:56PM +0800, Coiby Xu wrote:
+> Since wait_count=30 > 0, the for loop is equivalent to do while
+> loop. This commit also replaces 100 with UDELAY_DELAY.
 > 
-> There was a change for replacing private CRC-32 routines with in kernel
-> ones.
-> However, the author used le32_to_cpu to convert crc32_le(), and we
-> should cpu_to_le32.
-> 
-> Ths commit also fixes the payload checking by memcmp instead of checking element
-> by element and removes the unused variable.
-> 
-> Signed-off-by: Jhih-Ming Huang <fbihjmeric@gmail.com>
-
-I forgot to add the Reported-by tag. 
-already added in PATCH v6
-
-thanks.
-
-jmhuang
-
+> Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_security.c | 12 +++---------
->  1 file changed, 3 insertions(+), 9 deletions(-)
+>  drivers/staging/qlge/qlge_main.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-> index a99f439328f1..8dc6a976b487 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_security.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-> @@ -92,7 +92,6 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
->  void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
+> diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
+> index c5e161595b1f..2d2405be38f5 100644
+> --- a/drivers/staging/qlge/qlge_main.c
+> +++ b/drivers/staging/qlge/qlge_main.c
+> @@ -140,12 +140,13 @@ static int qlge_sem_trylock(struct qlge_adapter *qdev, u32 sem_mask)
+>  int qlge_sem_spinlock(struct qlge_adapter *qdev, u32 sem_mask)
 >  {
->  	/*  exclude ICV */
-> -	u8 crc[4];
->  	signed int	length;
->  	u32 keylength;
->  	u8 *pframe, *payload, *iv, wepkey[16];
-> @@ -119,10 +118,6 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
->  		/* decrypt payload include icv */
->  		arc4_setkey(ctx, wepkey, 3 + keylength);
->  		arc4_crypt(ctx, payload, payload,  length);
-> -
-> -		/* calculate icv and compare the icv */
-> -		*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
-> -
->  	}
->  }
+>  	unsigned int wait_count = 30;
+> +	int count;
 >  
-> @@ -537,7 +532,7 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
->  	u32 pnh;
->  	u8   rc4key[16];
->  	u8   ttkey[16];
-> -	u8 crc[4];
-> +	__le32 crc;
->  	signed int			length;
->  
->  	u8 *pframe, *payload, *iv, *prwskey;
-> @@ -618,10 +613,9 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
->  			arc4_setkey(ctx, rc4key, 16);
->  			arc4_crypt(ctx, payload, payload, length);
->  
-> -			*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
-> +			crc = cpu_to_le32(~crc32_le(~0, payload, length - 4));
->  
-> -			if (crc[3] != payload[length - 1] || crc[2] != payload[length - 2] ||
-> -			    crc[1] != payload[length - 3] || crc[0] != payload[length - 4])
-> +			if (memcmp(&crc, payload + length - 4, 4) != 0)
->  				res = _FAIL;
->  		} else {
->  			res = _FAIL;
-> -- 
-> 2.32.0
-> 
+> -	do {
+> +	for (count = 0; count < wait_count; count++) {
+>  		if (!qlge_sem_trylock(qdev, sem_mask))
+>  			return 0;
+> -		udelay(100);
+> -	} while (--wait_count);
+> +		udelay(UDELAY_DELAY);
+
+This is an interesting way to silence the checkpatch udelay warning.  ;)
+
+regards,
+dan carpenter
+
