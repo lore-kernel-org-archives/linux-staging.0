@@ -1,103 +1,94 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE22D70
-	for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 09:31:58 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-67-DIPGu8glMReRJXuoThpP9w-1; Tue, 22 Jun 2021 10:31:55 +0100
-X-MC-Unique: DIPGu8glMReRJXuoThpP9w-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Tue, 22 Jun
- 2021 10:31:54 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.018; Tue, 22 Jun 2021 10:31:54 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Jhih-Ming Huang' <fbihjmeric@gmail.com>, "gregkh@linuxfoundation.org"
-	<gregkh@linuxfoundation.org>, "fabioaiuto83@gmail.com"
-	<fabioaiuto83@gmail.com>, "ross.schm.dev@gmail.com"
-	<ross.schm.dev@gmail.com>, "maqianga@uniontech.com" <maqianga@uniontech.com>,
-	"marcocesati@gmail.com" <marcocesati@gmail.com>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v5] rtw_security: fix cast to restricted __le32
-Thread-Topic: [PATCH v5] rtw_security: fix cast to restricted __le32
-Thread-Index: AQHXZnYzS3EO6qxolE+NbuqnsEK0NKsfxZUw
-Date: Tue, 22 Jun 2021 09:31:54 +0000
-Message-ID: <bdc0c31a7d28426995d229eb9014cd2b@AcuMS.aculab.com>
-References: <20210619075255.107807-1-fbihjmeric@gmail.com>
- <20210621081928.145203-1-fbihjmeric@gmail.com>
-In-Reply-To: <20210621081928.145203-1-fbihjmeric@gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A489670
+	for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 09:58:01 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id j2so12345439wrs.12
+        for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 02:58:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=XGm5a/Fe5N5jRf7hJWwEELPPpr6Kdx/ELnvMfUGOCzM=;
+        b=KnOYTGoqCw3yaoYvo6WJY/UiRv5L8oNDkJMj3qqXhtSJC835E+qd6HXIB3rnAMslG3
+         FlJpyUZu60Z/+0jhexM/YXJPwtu5aYO7Asi5ExTZnWujKsutCzN15EN3Ore2qHi1b4tx
+         lhGjv/I1H69Vie0p2xnUX+GmE4FqwivQOUxPVX65ZYiQBgMag8JKa9XxdkduVElUYOuV
+         dMumUbCSxr9Nq4IzKk9X8yr0ko06dB52YhTAb7A+t5tMyccXmDsMUlTFDqlOUrSNp3Md
+         0IptmioZF3w+PnZVEofJLqr1bSiTHTyRx4oOiOyEjJ1tMSUTh4C9JReJiM6m53eU0oRA
+         WdMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=XGm5a/Fe5N5jRf7hJWwEELPPpr6Kdx/ELnvMfUGOCzM=;
+        b=O0qsQKftiEn6NzTGXnFHjGx0kJTUuyBnxfR8zaSYiRdmqe/L2TB/VNUyrECyyfFTyr
+         DvUOG8qLkmhA04nUukwkSQDmGCuNRA/735Wlm8fV3OiWEmmxjYouXVGzuc9HCG4w1/1Q
+         j7+aw8LGAdJkgJlVTUh01QG9tN5ScMznBcTK3FwH6vrmJAwQmPKs+MokqPNpuOiP/MBG
+         aMNDDite4vrhOVcEhXWih76jOdnb8qYosFpZwnyeXvqHwuHxbHICQK+yb5qocTyljf/L
+         DmL0DinsVW8aLKZTN3NVT0fFqWPlV+yKIUvSo3kYBVlugK/B11tkRf8uwiTvySXhBs7/
+         kqTw==
+X-Gm-Message-State: AOAM533GgwZwtNXQe1L5NfLIGCOcisIF3anoDaljmg0Me4SKvCjjEC2H
+	lmdNk28FgZCETkbiFoi3kyg=
+X-Google-Smtp-Source: ABdhPJxKxy5rTDAIOoB35xJ/WuhJV0nmoikd+B5VMZ3tQEvzlCfODC2nIz+tWU0Yr5YpQv+yJ34l0A==
+X-Received: by 2002:a5d:6a8b:: with SMTP id s11mr3645664wru.88.1624355880057;
+        Tue, 22 Jun 2021 02:58:00 -0700 (PDT)
+Received: from agape.jhs ([5.171.72.34])
+        by smtp.gmail.com with ESMTPSA id m184sm1875029wmm.26.2021.06.22.02.57.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Jun 2021 02:57:59 -0700 (PDT)
+Date: Tue, 22 Jun 2021 11:57:57 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 12/18] staging: rtl8723bs: remove VHT dead code
+Message-ID: <20210622095757.GB1426@agape.jhs>
+References: <cover.1624099125.git.fabioaiuto83@gmail.com>
+ <d3f79570088ad339bd80fe9d6b24604ac91ea8d3.1624099126.git.fabioaiuto83@gmail.com>
+ <dd0332d7-5d9f-49e5-3fc6-8ae3e623f29c@redhat.com>
+ <20210622091602.GA1426@agape.jhs>
+ <4f128bd2-b84b-132e-c75f-0030701a8a9b@redhat.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4f128bd2-b84b-132e-c75f-0030701a8a9b@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-From: Jhih-Ming Huang
-> Sent: 21 June 2021 09:19
->=20
-> This patch fixes the sparse warning of fix cast to restricted __le32.
->=20
-> There was a change for replacing private CRC-32 routines with in kernel
-> ones.
-> However, the author used le32_to_cpu to convert crc32_le(), and we
-> should cpu_to_le32.
->=20
-> Ths commit also fixes the payload checking by memcmp instead of checking =
-element
-> by element and removes the unused variable.
-...
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c
-> b/drivers/staging/rtl8723bs/core/rtw_security.c
-> index a99f439328f1..8dc6a976b487 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_security.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-...
-> @@ -537,7 +532,7 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *pr=
-ecvframe)
->  =09u32 pnh;
->  =09u8   rc4key[16];
->  =09u8   ttkey[16];
-> -=09u8 crc[4];
-> +=09__le32 crc;
->  =09signed int=09=09=09length;
->=20
->  =09u8 *pframe, *payload, *iv, *prwskey;
-> @@ -618,10 +613,9 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *p=
-recvframe)
->  =09=09=09arc4_setkey(ctx, rc4key, 16);
->  =09=09=09arc4_crypt(ctx, payload, payload, length);
->=20
-> -=09=09=09*((u32 *)crc) =3D le32_to_cpu(~crc32_le(~0, payload, length - 4=
-));
-> +=09=09=09crc =3D cpu_to_le32(~crc32_le(~0, payload, length - 4));
->=20
-> -=09=09=09if (crc[3] !=3D payload[length - 1] || crc[2] !=3D payload[leng=
-th - 2] ||
-> -=09=09=09    crc[1] !=3D payload[length - 3] || crc[0] !=3D payload[leng=
-th - 4])
-> +=09=09=09if (memcmp(&crc, payload + length - 4, 4) !=3D 0)
+On Tue, Jun 22, 2021 at 11:19:36AM +0200, Hans de Goede wrote:
 
-Shouldn't this be using (IIRC) get_unaligned_le32() ?
+Hi Hans,
 
-=09David
+> Hi Fabio,
+> 
+> > Moreover I have been quite conservative, for I left untouched HT indexes above
+> > 7 which rtl8723bs doesn't support.
+> > 
+> > So IMO I think this patch is fine as is...
+> >> Perhaps this entire block can never be executed ?
+> > 
+> > the block is executed but there's no register write happening. Just
+> > updating of values which will never be fetched.
+> 
+> Ack, my bad I was under the impression that phy_SetTxPowerByRateBase()
+> would actually do a register write, but I checked and it just updates
+> some unused table values, so dropping this code is fine and you can
+> keep this patch for v2 of the patch set.
+> 
+> Regards,
+> 
+> Hans
+> 
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+thank you, what do you think about what I replied about patch 1, shall
+I remove the '> 14 if block' or leave it as is? Do you think is necessary
+to keep the conditions inside the block and pack them?
 
+I would leave as is but is my opinion...
+
+regards,
+
+fabio
