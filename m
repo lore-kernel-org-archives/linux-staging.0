@@ -1,50 +1,50 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9EA71
-	for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 13:10:27 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id h11so6119879wrx.5
-        for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 06:10:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904D571
+	for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 13:10:28 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id v20-20020a05600c2154b02901dcefb16af0so2216427wml.5
+        for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 06:10:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=NzFrqHGl0cYS27Ypm4XF1HD4hXM1cpi1KCAV815SAkE=;
-        b=m3dsRsg1n3meWWr7UOpxI8c2ZbuWWgT7QaS4DTjMq/7pwvhjhnYKRpXUS+RQVi92Rh
-         DVJWWsyXTlxRoZAupHBKGotTAKp7nGYuZMgzM1LREO7Ny7hNcaLiJJt2wlwwponr9JCE
-         nMc7cm/7YUcbtgJ9YTplUZKBETjxlGQx2mBjoksJkjUKyKpHVygYzuDs4lEDFAuQ5MK5
-         3Sz5FkGVjeOCBuUyWYM6y1TgYkAIPFnmflqrYr0XZCeLV6BJq7fFB7088MBsf84olAVU
-         VvhWNy3PVvSblXX5O3U3sJXI5gte0ZbnNU/Zhiic4erA+Yb2jv//BZqowZePpa9AK99L
-         LmOg==
+        bh=gNOemOTras9F985BUt7jkfUSz/FQKfSLHckmy+4u2+Q=;
+        b=r8zjWNsHJfYUG4XaG7ALHwWZMS/mKG9J1P3WEpUSGpX5FACY+XGFb3AEYmdK5jgmAD
+         u/NvpBC5WHno0T3q4+LtfD8Qo7NVyS8dzEgtxqOhgOLwetITuqPKS4B+pUv5PRMaPpd3
+         fPwjXVy0j9weYjUHE2IIkePjkQba2DtbXzWNo/84NDJ2BNqvsGfwGUBsy0eV0613iGKV
+         FT/GfRTxIcaDu6fgOojFdoUMEgPSxVAxpS38PHfRMy4QoUtsoY4ZonIRN+861DdgYRUD
+         kj8UJQoTqlWpDHBd0N6C7//4N08iPRYJCa1Nq+GYKFgY078nqARmdfIhGEoiqZId3Q7S
+         x6IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=NzFrqHGl0cYS27Ypm4XF1HD4hXM1cpi1KCAV815SAkE=;
-        b=M56fsxFwpyMCXWi75/oWP8ouTIzMIMyxzVPtE2GiWcMChpa9FIEcCL7MZPPPpFMuhm
-         VeseScvBhzDNdyTt+7YxER3/moCf1T8DzV5sUBAqPuTTmALDCpgb502HGbzYpMkrbGWu
-         kHM2uiIyYvV2P85jj2C+bk6cI88IWf3gD5YlzCSJWkDEPD6Bq+aQgGMWaFBb9KcP5LMy
-         +BwqqWblHSdpepShibLnMlKfzl1xIfVKU+JHbBUS/XUnprhTEQrWTR+VUzp0KH3ts81e
-         LsutipNNgqUZW0VzimsYiUzNStFPbMpevfaz2hDbqRUOF5FpoYd5h0ygBa0iagE4pE4V
-         /U5g==
-X-Gm-Message-State: AOAM532BM5MmyGgMOY+wNULYzQ59NpevQSYhUi9Ma/Ixde5VKqb+SaZ5
-	wSLrs4GJ+m6APf0NROFvPFE=
-X-Google-Smtp-Source: ABdhPJx3KuCSb6H/0ivB59nBbcz2C0Ge7IiwKZyo5f+S4FSkFZEunM0RpNO+IMoBCF2i8W0aOOye/A==
-X-Received: by 2002:adf:e449:: with SMTP id t9mr4913875wrm.40.1624367425972;
-        Tue, 22 Jun 2021 06:10:25 -0700 (PDT)
+        bh=gNOemOTras9F985BUt7jkfUSz/FQKfSLHckmy+4u2+Q=;
+        b=Qr/o6P21XFgZfpD5lhppgl5L1p4HmmFOLC8oVnI8XEvxc+5NBCx9wTu/8nYUuaAtNL
+         h25aPCDMGjMqAmmXrfTYOd4DIrbYobo9PccISHs9tbQ73auATk0gqZtLQPf/Drf4UqgF
+         WVNTrX1CZxtnq+jTtv0f+OT9DoOvs/s0tCVD3JVGRW9JqODrK26qjKyb9kvFL/j/miwQ
+         9wDOTffJp/eDJ4QRsXK/8rozQ2PK0QN6M5AvhO6BfiDcoLtFemHom6F+h1IkHam6CL9R
+         OKTOn6wD9hBm2CTZ7HX81IDoncPky4GBrDhl71vxWe9MHcikBU75EHuwrJiVmXMw0uif
+         n1sA==
+X-Gm-Message-State: AOAM530zNRI3GBieD1usSn1+nV0XXPcZdDpPPXs7GbVAvHkWm/FLgymj
+	UIoI5tvMfeluqCVQydzj5/M=
+X-Google-Smtp-Source: ABdhPJy4kfR2MSJThX/eqf8Vo8Iwo3WLxSsS4tIhf+wA84PFtB0S328inGr01cwVQnA52yLXGpuPTA==
+X-Received: by 2002:a05:600c:354d:: with SMTP id i13mr4253325wmq.67.1624367427221;
+        Tue, 22 Jun 2021 06:10:27 -0700 (PDT)
 Received: from agape ([5.171.73.108])
-        by smtp.gmail.com with ESMTPSA id l12sm21334613wro.32.2021.06.22.06.10.25
+        by smtp.gmail.com with ESMTPSA id e3sm11234726wro.26.2021.06.22.06.10.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jun 2021 06:10:25 -0700 (PDT)
+        Tue, 22 Jun 2021 06:10:27 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: hdegoede@redhat.com,
 	Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 15/17] staging: rtl8723bs: remove obsolete 5Ghz comments
-Date: Tue, 22 Jun 2021 15:09:59 +0200
-Message-Id: <608f0b08ffae821d695cb2eadcffbd592912c906.1624367072.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v3 16/17] staging: rtl8723bs: fix check allowing 5Ghz settings
+Date: Tue, 22 Jun 2021 15:10:00 +0200
+Message-Id: <df7d0ecc02ac7a27e568768523dd7b3f34acd551.1624367072.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1624367071.git.fabioaiuto83@gmail.com>
 References: <cover.1624367071.git.fabioaiuto83@gmail.com>
@@ -55,42 +55,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove obsolete 5Ghz comments.
+fix check allowing 5Ghz settings, only disabled and
+2.4Ghz enabled states are allowed. Fix comment
+accordingly.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 --
- drivers/staging/rtl8723bs/os_dep/wifi_regd.c      | 4 ----
- 2 files changed, 6 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/ioctl_linux.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 8514cfb3d7e0..427f0b88abd7 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -202,8 +202,6 @@ rtw_cfg80211_default_mgmt_stypes[NUM_NL80211_IFTYPES] = {
- 
- static int rtw_ieee80211_channel_to_frequency(int chan, int band)
- {
--	/* see 802.11 17.3.8.3.2 and Annex J
--	* there are overlapping channel numbers in 5GHz and 2GHz bands */
- 	if (band == NL80211_BAND_2GHZ) {
- 		if (chan == 14)
- 			return 2484;
-diff --git a/drivers/staging/rtl8723bs/os_dep/wifi_regd.c b/drivers/staging/rtl8723bs/os_dep/wifi_regd.c
-index 0084589499b9..5eef1d68c6f0 100644
---- a/drivers/staging/rtl8723bs/os_dep/wifi_regd.c
-+++ b/drivers/staging/rtl8723bs/os_dep/wifi_regd.c
-@@ -44,10 +44,6 @@ static const struct ieee80211_regdomain rtw_regdom_rd = {
- 
- static int rtw_ieee80211_channel_to_frequency(int chan, int band)
- {
--	/* see 802.11 17.3.8.3.2 and Annex J
--	 * there are overlapping channel numbers in 5GHz and 2GHz bands
--	 */
--
- 	/* NL80211_BAND_2GHZ */
- 	if (chan == 14)
- 		return 2484;
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+index afefc2c8a2ac..e73fb13f8968 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+@@ -2572,10 +2572,9 @@ static int rtw_dbg_port(struct net_device *dev,
+ 				case 0x12: /* set rx_stbc */
+ 				{
+ 					struct registry_priv *pregpriv = &padapter->registrypriv;
+-					/*  0: disable, bit(0):enable 2.4g, bit(1):enable 5g, 0x3: enable both 2.4g and 5g */
+-					/* default is set to enable 2.4GHZ for IOT issue with bufflao's AP at 5GHZ */
+-					if (extra_arg == 0 || extra_arg == 1 ||
+-					    extra_arg == 2 || extra_arg == 3)
++					/*  0: disable, bit(0):enable 2.4g */
++					/* default is set to enable 2.4GHZ */
++					if (extra_arg == 0 || extra_arg == 1)
+ 						pregpriv->rx_stbc = extra_arg;
+ 				}
+ 				break;
 -- 
 2.20.1
 
