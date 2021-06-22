@@ -1,50 +1,50 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4DE2FB2
-	for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 12:30:00 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id f2so23406645wri.11
-        for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 05:30:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E582FB1
+	for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 12:30:01 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id f15so7997548wro.8
+        for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 05:30:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=7a1RBDBYhuIJn1PW20GeA3uF2Znuq27Dnh+SWYloe64=;
-        b=L50MIrFslCAbZ7Kg6DQVLoRqs45y1ASIR01IJGc0pNVHoUe98XCMBwXH2+JF9rVOsP
-         oghb5I/NmCw0z7ljaVDqWrugu0ufb1giyBXVIoNDq4sMqmvEH1IKzezGItcBeDu68VbU
-         hKeWyJy8BAIHd87ap64nyD9JpDEKzuhZbljdHeY90Ea7JORj04tK3t27yJkYvfPIS+IH
-         CHaS/ETDcjS0F3Awd0oG8t5C8FFwCq9CK/ywuvdfyPXloW/CKZ9F3ab7CtNrD9JAoaWl
-         g3uMRQ9kc0r1ft9Oi5FnCESxqlla7mhaSKDRylwTYFUplWf8zKXBTLM5qY30CB+GETt2
-         Zsgg==
+        bh=UHA6JdEt4wWOxung69IViil9MS2sDaSosygLKD+KDNs=;
+        b=DgfzYSemgwwbPi/77BNXGuGP62JG1of0ObsuFV5Q9TxdnovHsDm4IY8FvOMjLR1G0u
+         iWdi7ZTVojge7NiADkFBc7LD7cruQpsSUP81nE6FPWOnIZUyL8ZGezOoHAgDQ1G/inyP
+         bgtxstwGE0FsBpGBLUtK7DDR7rJPfT5fhdeIg/q1i3L9WjmS47QfPb4pshHNln7rBEcy
+         /gVRNpE41xqPgIoSglbhBxjE2QEHkSBKKK5sAlG83OZ85RKLeAsqsw1MTRCo+VapRDma
+         ++Nf4JQQGfIKYb/OqzDu2S8n9GS+R1Nt9CV9Y6FrahvzuLyq0p9CBdAuFCMQ2plbbKeW
+         QAXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=7a1RBDBYhuIJn1PW20GeA3uF2Znuq27Dnh+SWYloe64=;
-        b=IBTZvTw+ym6y7QwGzZdIBx3FfHMz38jDJWy+q9opkU9BbwWCPS8i8Oj3cxXceEuRrk
-         4zGtbHwRek89HuWYc8uYAO05Wl52qyXvqZ66qFpLWu5XvA1m3lxsJGEEr8K/U0aW0nrU
-         VnJdRAXQcM7Mvrr++/tuf3JlDIkdLRytDl7JBO5CogI6eqaIHtyWpr273QExz3NrcQqj
-         vJI6ByqPWSx9rKoF7B/njl5NO8yDg+2/a9hgL4NOtGwg3hUGXgxtnaCCXwipgY77R4Jo
-         LvePdnunqI8D0M4az7/D/p5LUAvTyha9sxJ7oY1KTbYS0TMXch173iBQODo9eBVJmKzq
-         byFQ==
-X-Gm-Message-State: AOAM533fR+uSxNn7EVtKXVFEMEadfEV0fsMttg68xfX/hiBG/8c82Cyz
-	1amByK6CYYW0UAsBnCkda6k=
-X-Google-Smtp-Source: ABdhPJwbSrsNN6gYIrtsShaVkh1V0ZwqQkH1O6Xn6pca8ZyaPxSxwndFFwZScRcdxsoHwROS9S8PZQ==
-X-Received: by 2002:a5d:410f:: with SMTP id l15mr4497847wrp.82.1624364998819;
-        Tue, 22 Jun 2021 05:29:58 -0700 (PDT)
+        bh=UHA6JdEt4wWOxung69IViil9MS2sDaSosygLKD+KDNs=;
+        b=AZb/NsRuH0myzpImixegKdzIOxS2d2D4b5pwWRqTA26aygvVF8ArVHcHWC0/tUireV
+         P6WRX1rTP1v6yF6XOtJiW+Igpt/uBJrEcUSPrtuRdbsK6ksSohrO1bvBOHC9ZJ40ucSR
+         5f51lgLfKjR0ESH9u4iVNht60v6RpUz0j6wSsPFOtTjQIh4k81VFbg8EGF0mi76T3gu6
+         Lr6VAJEMHV+kWGOIchWnSZItGxGvqKZesRN6OsMsaJZivynllZkOfLft+a1Ibey9aO0N
+         KnRnM4FlkRLoaJAkObQfuruJQTOZFpvAtUecDGiRaywRVnZTTavnGLE1pKqrBDD6ezFG
+         URPA==
+X-Gm-Message-State: AOAM533DDyosBcpC3ES9iZaRQxVZrRth9Lz5Je+DsjRUIbf8LYTzOEA8
+	caG6wTWed5Jb0U/HR9JHMcY=
+X-Google-Smtp-Source: ABdhPJyp0sezPPrv/04kPjEjHPeT6dsAKQmWemn1PD0Nn7sRMtoySbETmvsG842nQugkQZtvL02ZOA==
+X-Received: by 2002:adf:cd02:: with SMTP id w2mr4461308wrm.258.1624365000266;
+        Tue, 22 Jun 2021 05:30:00 -0700 (PDT)
 Received: from agape ([5.171.73.108])
-        by smtp.gmail.com with ESMTPSA id m18sm2289652wmq.45.2021.06.22.05.29.58
+        by smtp.gmail.com with ESMTPSA id a1sm27626283wra.63.2021.06.22.05.29.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jun 2021 05:29:58 -0700 (PDT)
+        Tue, 22 Jun 2021 05:30:00 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: hdegoede@redhat.com,
 	Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 10/17] staging: rtl8723bs: remove some unused 5Ghz macro definitions
-Date: Tue, 22 Jun 2021 14:29:35 +0200
-Message-Id: <e7a067fe3c22b8843ec2252b41a429c9d52f38f2.1624364582.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v2 11/17] staging: rtl8723bs: remove 5Ghz code related to RF power calibration
+Date: Tue, 22 Jun 2021 14:29:36 +0200
+Message-Id: <240cb3fbf28c6dc1779ad6a74c6c23b23e09730d.1624364582.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1624364582.git.fabioaiuto83@gmail.com>
 References: <cover.1624364582.git.fabioaiuto83@gmail.com>
@@ -55,76 +55,241 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove some unused 5Ghz macro definitions. Fix
-comments accordingly.
+remove 5Ghz code related to RF calibration. Remove
+table arrays, variables and macros related to RF power
+tracking.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/odm.h                | 1 -
- drivers/staging/rtl8723bs/include/Hal8192CPhyReg.h | 2 --
- drivers/staging/rtl8723bs/include/hal_com_reg.h    | 1 -
- drivers/staging/rtl8723bs/include/hal_pg.h         | 2 --
- 4 files changed, 6 deletions(-)
+ .../staging/rtl8723bs/hal/HalHWImg8723B_RF.c  | 77 -------------------
+ .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    | 17 +---
+ drivers/staging/rtl8723bs/hal/odm.c           |  8 --
+ drivers/staging/rtl8723bs/hal/odm.h           | 14 +---
+ 4 files changed, 2 insertions(+), 114 deletions(-)
 
+diff --git a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.c b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.c
+index f49032dc5bef..00d429977ea9 100644
+--- a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.c
++++ b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.c
+@@ -282,62 +282,6 @@ void ODM_ReadAndConfig_MP_8723B_RadioA(struct dm_odm_t *pDM_Odm)
+ *                           TxPowerTrack_SDIO.TXT
+ ******************************************************************************/
+ 
+-static u8 gDeltaSwingTableIdx_MP_5GB_N_TxPowerTrack_SDIO_8723B[][DELTA_SWINGIDX_SIZE] = {
+-	{
+-		0, 1, 1, 2, 2, 3, 4, 5, 5, 6,  6,  7,  7,  8,  8,  9,
+-		9, 10, 11, 12, 12, 13, 13, 14, 14, 14, 14, 14, 14, 14
+-	},
+-	{
+-		0, 1, 2, 3, 3, 4, 5, 6, 6, 7,  7,  8,  8,  9,  9, 10,
+-		10, 11, 11, 12, 12, 13, 13, 14, 14, 14, 14, 14, 14, 14
+-	},
+-	{
+-		0, 1, 2, 3, 3, 4, 5, 6, 6, 7,  7,  8,  8,  9,  9, 10,
+-		10, 11, 11, 12, 12, 13, 13, 14, 14, 14, 14, 14, 14, 14
+-	},
+-};
+-static u8 gDeltaSwingTableIdx_MP_5GB_P_TxPowerTrack_SDIO_8723B[][DELTA_SWINGIDX_SIZE] = {
+-	{
+-		0, 1, 2, 3, 3, 4, 5, 6, 6, 7,  8,  9,  9, 10, 11, 12,
+-		12, 13, 14, 15, 15, 16, 16, 17, 17, 18, 19, 20, 20, 20
+-	},
+-	{
+-		0, 1, 2, 3, 3, 4, 5, 6, 6, 7,  8,  9,  9, 10, 11, 12,
+-		12, 13, 14, 15, 15, 16, 17, 18, 18, 19, 19, 20, 20, 20
+-	},
+-	{
+-		0, 1, 2, 3, 3, 4, 5, 6, 6, 7,  8,  9,  9, 10, 11, 12,
+-		12, 13, 14, 15, 15, 16, 17, 18, 18, 19, 20, 21, 21, 21
+-	},
+-};
+-static u8 gDeltaSwingTableIdx_MP_5GA_N_TxPowerTrack_SDIO_8723B[][DELTA_SWINGIDX_SIZE] = {
+-	{
+-		0, 1, 2, 3, 3, 4, 4, 5, 5, 6,  7,  8,  8,  9,  9, 10,
+-		10, 11, 11, 12, 12, 13, 13, 14, 14, 14, 14, 14, 14, 14
+-	},
+-	{
+-		0, 1, 2, 3, 3, 4, 5, 6, 6, 6,  7,  7,  8,  8,  9, 10,
+-		11, 11, 12, 13, 13, 14, 15, 16, 16, 16, 16, 16, 16, 16
+-	},
+-	{
+-		0, 1, 2, 3, 3, 4, 5, 6, 6, 7,  8,  9,  9, 10, 10, 11,
+-		11, 12, 13, 14, 14, 15, 15, 16, 16, 16, 16, 16, 16, 16
+-	},
+-};
+-static u8 gDeltaSwingTableIdx_MP_5GA_P_TxPowerTrack_SDIO_8723B[][DELTA_SWINGIDX_SIZE] = {
+-	{
+-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+-	},
+-	{
+-		0, 1, 2, 3, 3, 4, 5, 6, 6, 7,  8,  9,  9, 10, 11, 12,
+-		12, 13, 14, 15, 15, 16, 17, 18, 18, 19, 20, 21, 21, 21
+-	},
+-	{
+-		0, 1, 2, 3, 3, 4, 5, 6, 6, 7,  8,  9,  9, 10, 11, 12,
+-		12, 13, 14, 15, 15, 16, 17, 18, 18, 19, 20, 21, 21, 21
+-	},
+-};
+ static u8 gDeltaSwingTableIdx_MP_2GB_N_TxPowerTrack_SDIO_8723B[] = {
+ 	0, 0, 1, 2, 2, 2, 3, 3, 3, 4,  5,  5,  6,  6, 6,  6,
+ 	7,  7,  7, 8,  8,  9,  9, 10, 10, 11, 12, 13, 14, 15
+@@ -417,27 +361,6 @@ void ODM_ReadAndConfig_MP_8723B_TxPowerTrack_SDIO(struct dm_odm_t *pDM_Odm)
+ 		gDeltaSwingTableIdx_MP_2GCCKB_N_TxPowerTrack_SDIO_8723B,
+ 		DELTA_SWINGIDX_SIZE
+ 	);
+-
+-	memcpy(
+-		pRFCalibrateInfo->DeltaSwingTableIdx_5GA_P,
+-		gDeltaSwingTableIdx_MP_5GA_P_TxPowerTrack_SDIO_8723B,
+-		DELTA_SWINGIDX_SIZE*3
+-	);
+-	memcpy(
+-		pRFCalibrateInfo->DeltaSwingTableIdx_5GA_N,
+-		gDeltaSwingTableIdx_MP_5GA_N_TxPowerTrack_SDIO_8723B,
+-		DELTA_SWINGIDX_SIZE*3
+-	);
+-	memcpy(
+-		pRFCalibrateInfo->DeltaSwingTableIdx_5GB_P,
+-		gDeltaSwingTableIdx_MP_5GB_P_TxPowerTrack_SDIO_8723B,
+-		DELTA_SWINGIDX_SIZE*3
+-	);
+-	memcpy(
+-		pRFCalibrateInfo->DeltaSwingTableIdx_5GB_N,
+-		gDeltaSwingTableIdx_MP_5GB_N_TxPowerTrack_SDIO_8723B,
+-		DELTA_SWINGIDX_SIZE*3
+-	);
+ }
+ 
+ /******************************************************************************
+diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+index 9fa91023abfd..8121b8eb45b6 100644
+--- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
++++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+@@ -347,22 +347,7 @@ static void GetDeltaSwingTable_8723B(
+ 			*TemperatureUP_B   = pRFCalibrateInfo->DeltaSwingTableIdx_2GB_P;
+ 			*TemperatureDOWN_B = pRFCalibrateInfo->DeltaSwingTableIdx_2GB_N;
+ 		}
+-	} /*else if (36 <= channel && channel <= 64) {
+-		*TemperatureUP_A   = pRFCalibrateInfo->DeltaSwingTableIdx_5GA_P[0];
+-		*TemperatureDOWN_A = pRFCalibrateInfo->DeltaSwingTableIdx_5GA_N[0];
+-		*TemperatureUP_B   = pRFCalibrateInfo->DeltaSwingTableIdx_5GB_P[0];
+-		*TemperatureDOWN_B = pRFCalibrateInfo->DeltaSwingTableIdx_5GB_N[0];
+-	} else if (100 <= channel && channel <= 140) {
+-		*TemperatureUP_A   = pRFCalibrateInfo->DeltaSwingTableIdx_5GA_P[1];
+-		*TemperatureDOWN_A = pRFCalibrateInfo->DeltaSwingTableIdx_5GA_N[1];
+-		*TemperatureUP_B   = pRFCalibrateInfo->DeltaSwingTableIdx_5GB_P[1];
+-		*TemperatureDOWN_B = pRFCalibrateInfo->DeltaSwingTableIdx_5GB_N[1];
+-	} else if (149 <= channel && channel <= 173) {
+-		*TemperatureUP_A   = pRFCalibrateInfo->DeltaSwingTableIdx_5GA_P[2];
+-		*TemperatureDOWN_A = pRFCalibrateInfo->DeltaSwingTableIdx_5GA_N[2];
+-		*TemperatureUP_B   = pRFCalibrateInfo->DeltaSwingTableIdx_5GB_P[2];
+-		*TemperatureDOWN_B = pRFCalibrateInfo->DeltaSwingTableIdx_5GB_N[2];
+-	}*/else {
++	} else {
+ 		*TemperatureUP_A   = (u8 *)DeltaSwingTableIdx_2GA_P_8188E;
+ 		*TemperatureDOWN_A = (u8 *)DeltaSwingTableIdx_2GA_N_8188E;
+ 		*TemperatureUP_B   = (u8 *)DeltaSwingTableIdx_2GA_P_8188E;
+diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
+index 0307ea383806..4c959efd447a 100644
+--- a/drivers/staging/rtl8723bs/hal/odm.c
++++ b/drivers/staging/rtl8723bs/hal/odm.c
+@@ -896,18 +896,10 @@ void ODM_CmnInfoInit(struct dm_odm_t *pDM_Odm, enum odm_cmninfo_e CmnInfo, u32 V
+ 		pDM_Odm->ExtLNA = (u8)Value;
+ 		break;
+ 
+-	case ODM_CMNINFO_5G_EXT_LNA:
+-		pDM_Odm->ExtLNA5G = (u8)Value;
+-		break;
+-
+ 	case ODM_CMNINFO_EXT_PA:
+ 		pDM_Odm->ExtPA = (u8)Value;
+ 		break;
+ 
+-	case ODM_CMNINFO_5G_EXT_PA:
+-		pDM_Odm->ExtPA5G = (u8)Value;
+-		break;
+-
+ 	case ODM_CMNINFO_GPA:
+ 		pDM_Odm->TypeGPA = (enum odm_type_gpa_e)Value;
+ 		break;
 diff --git a/drivers/staging/rtl8723bs/hal/odm.h b/drivers/staging/rtl8723bs/hal/odm.h
-index 788fc1c068b5..afb36de7a4e5 100644
+index afb36de7a4e5..a5bca7d7826a 100644
 --- a/drivers/staging/rtl8723bs/hal/odm.h
 +++ b/drivers/staging/rtl8723bs/hal/odm.h
-@@ -628,7 +628,6 @@ struct fat_t { /* _FAST_ANTENNA_TRAINNING_ */
+@@ -151,7 +151,6 @@ struct swat_t { /* _SW_Antenna_Switch_ */
+ 	bool ANTB_ON;	/* To indicate Ant B is on or not */
+ 	bool Pre_Aux_FailDetec;
+ 	bool RSSI_AntDect_bResult;
+-	u8 Ant5G;
+ 	u8 Ant2G;
+ 
+ 	s32 RSSI_sum_A;
+@@ -295,9 +294,7 @@ enum odm_cmninfo_e {
+ 	ODM_CMNINFO_BOARD_TYPE,				/*  ODM_BOARD_TYPE_E */
+ 	ODM_CMNINFO_PACKAGE_TYPE,
+ 	ODM_CMNINFO_EXT_LNA,					/*  true */
+-	ODM_CMNINFO_5G_EXT_LNA,
+ 	ODM_CMNINFO_EXT_PA,
+-	ODM_CMNINFO_5G_EXT_PA,
+ 	ODM_CMNINFO_GPA,
+ 	ODM_CMNINFO_APA,
+ 	ODM_CMNINFO_GLNA,
+@@ -514,7 +511,6 @@ struct odm_rf_cal_t { /* ODM_RF_Calibration_Structure */
+ 	bool bTXPowerTracking;
+ 	u8 TxPowerTrackControl; /* for mp mode, turn off txpwrtracking as default */
+ 	u8 TM_Trigger;
+-	u8 InternalPA5G[2];	/* pathA / pathB */
+ 
+ 	u8 ThermalMeter[2];    /*  ThermalMeter, index 0 for RFIC0, and 1 for RFIC1 */
+ 	u8 ThermalValue;
+@@ -549,7 +545,7 @@ struct odm_rf_cal_t { /* ODM_RF_Calibration_Structure */
+ 	bool bIQKInProgress;
+ 	u8 Delta_IQK;
+ 	u8 Delta_LCK;
+-	s8 BBSwingDiff2G, BBSwingDiff5G; /*  Unit: dB */
++	s8 BBSwingDiff2G; /*  Unit: dB */
+ 	u8 DeltaSwingTableIdx_2GCCKA_P[DELTA_SWINGIDX_SIZE];
+ 	u8 DeltaSwingTableIdx_2GCCKA_N[DELTA_SWINGIDX_SIZE];
+ 	u8 DeltaSwingTableIdx_2GCCKB_P[DELTA_SWINGIDX_SIZE];
+@@ -558,10 +554,6 @@ struct odm_rf_cal_t { /* ODM_RF_Calibration_Structure */
+ 	u8 DeltaSwingTableIdx_2GA_N[DELTA_SWINGIDX_SIZE];
+ 	u8 DeltaSwingTableIdx_2GB_P[DELTA_SWINGIDX_SIZE];
+ 	u8 DeltaSwingTableIdx_2GB_N[DELTA_SWINGIDX_SIZE];
+-	u8 DeltaSwingTableIdx_5GA_P[BAND_NUM][DELTA_SWINGIDX_SIZE];
+-	u8 DeltaSwingTableIdx_5GA_N[BAND_NUM][DELTA_SWINGIDX_SIZE];
+-	u8 DeltaSwingTableIdx_5GB_P[BAND_NUM][DELTA_SWINGIDX_SIZE];
+-	u8 DeltaSwingTableIdx_5GB_N[BAND_NUM][DELTA_SWINGIDX_SIZE];
+ 	u8 DeltaSwingTableIdx_2GA_P_8188E[DELTA_SWINGIDX_SIZE];
+ 	u8 DeltaSwingTableIdx_2GA_N_8188E[DELTA_SWINGIDX_SIZE];
+ 
+@@ -627,7 +619,6 @@ struct fat_t { /* _FAST_ANTENNA_TRAINNING_ */
+ 	bool	bBecomeLinked;
  	u32 MinMaxRSSI;
  	u8 idx_AntDiv_counter_2G;
- 	u8 idx_AntDiv_counter_5G;
--	u32 AntDiv_2G_5G;
+-	u8 idx_AntDiv_counter_5G;
  	u32 CCK_counter_main;
  	u32 CCK_counter_aux;
  	u32 OFDM_counter_main;
-diff --git a/drivers/staging/rtl8723bs/include/Hal8192CPhyReg.h b/drivers/staging/rtl8723bs/include/Hal8192CPhyReg.h
-index 4b3a7c051630..aad962548278 100644
---- a/drivers/staging/rtl8723bs/include/Hal8192CPhyReg.h
-+++ b/drivers/staging/rtl8723bs/include/Hal8192CPhyReg.h
-@@ -558,7 +558,6 @@
- 
- #define		b3WireRFPowerDown			0x1	/*  Useless now */
- /* define bHWSISelect				0x8 */
--#define		b5GPAPEPolarity				0x40000000
- #define		b2GPAPEPolarity				0x80000000
- #define		bRFSW_TxDefaultAnt			0x3
- #define		bRFSW_TxOptionAnt			0x30
-@@ -577,7 +576,6 @@
- #define		bRFSI_ANTSW				0x100
- #define		bRFSI_ANTSWB				0x200
- #define		bRFSI_PAPE					0x400
--#define		bRFSI_PAPE5G				0x800
- #define		bBandSelect					0x1
- #define		bHTSIG2_GI					0x80
- #define		bHTSIG2_Smoothing			0x01
-diff --git a/drivers/staging/rtl8723bs/include/hal_com_reg.h b/drivers/staging/rtl8723bs/include/hal_com_reg.h
-index b14585cb0233..b2f179b48019 100644
---- a/drivers/staging/rtl8723bs/include/hal_com_reg.h
-+++ b/drivers/staging/rtl8723bs/include/hal_com_reg.h
-@@ -717,7 +717,6 @@ Default: 00b.
- /*        BW_OPMODE bits				(Offset 0x603, 8bit) */
- /*  */
- #define BW_OPMODE_20MHZ			BIT2
--#define BW_OPMODE_5G				BIT1
- 
- /*  */
- /*        CAM Config Setting (offset 0x680, 1 byte) */
-diff --git a/drivers/staging/rtl8723bs/include/hal_pg.h b/drivers/staging/rtl8723bs/include/hal_pg.h
-index 0b7a8adf5c74..2d8ccc9ddebb 100644
---- a/drivers/staging/rtl8723bs/include/hal_pg.h
-+++ b/drivers/staging/rtl8723bs/include/hal_pg.h
-@@ -16,10 +16,8 @@
- 
- /*  For VHT series TX power by rate table. */
- /*  VHT TX power by rate off setArray = */
--/*  Band:-2G&5G = 0 / 1 */
- /*  RF: at most 4*4 = ABCD = 0/1/2/3 */
- /*  CCK = 0 OFDM = 1/2 HT-MCS 0-15 =3/4/56 VHT =7/8/9/10/11 */
--#define TX_PWR_BY_RATE_NUM_BAND			2
- #define TX_PWR_BY_RATE_NUM_RF			4
- #define TX_PWR_BY_RATE_NUM_RATE			84
- #define MAX_RF_PATH_NUM				2
+@@ -746,10 +737,8 @@ struct dm_odm_t { /* DM_Out_Source_Dynamic_Mechanism_Structure */
+ 	u8 TypeAPA;
+ 	/*  with external LNA  NO/Yes = 0/1 */
+ 	u8 ExtLNA;
+-	u8 ExtLNA5G;
+ 	/*  with external PA  NO/Yes = 0/1 */
+ 	u8 ExtPA;
+-	u8 ExtPA5G;
+ 	/*  with external TRSW  NO/Yes = 0/1 */
+ 	u8 ExtTRSW;
+ 	u8 PatchID; /* Customer ID */
+@@ -1046,7 +1035,6 @@ enum ODM_BB_Config_Type {
+ 	CONFIG_BB_PHY_REG,
+ 	CONFIG_BB_AGC_TAB,
+ 	CONFIG_BB_AGC_TAB_2G,
+-	CONFIG_BB_AGC_TAB_5G,
+ 	CONFIG_BB_PHY_REG_PG,
+ 	CONFIG_BB_PHY_REG_MP,
+ 	CONFIG_BB_AGC_TAB_DIFF,
 -- 
 2.20.1
 
