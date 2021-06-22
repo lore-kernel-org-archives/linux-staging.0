@@ -1,50 +1,50 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6E371
-	for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 13:10:13 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id j10so5991505wms.1
-        for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 06:10:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEDD42FB0
+	for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 13:10:16 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id f2so23567009wri.11
+        for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 06:10:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=VFzs8K1hJoNXpBOBcsMQ4sI+IDyzJg+qXoFm9HpkQS8=;
-        b=VnFJmNHcmIUzxeaJbP+NoQNuaxCXwbS3igQdA8yh00jW3LuQKd8ctD6K/uOUKM0glZ
-         QzXEjlh8AIeVQJEcbkQMIAPn4+2I74fiCcJ0gLK6oMCOxIuPVnCV22M+W4aLgZFrP7kP
-         BdiYITNcZBNmwM2iUF2iByAqH/cht1ZiqifK5hNi1+L6MMTdluuyDSs6Vc6LAvICdXmc
-         4dkG+ZfQJEpArkyEGfmAwh25r+YezkFTT1wzu96pzJbF1n1/ZHluzJRPzM8FVUio0IwZ
-         p7tFvwNa7UK3CwNjSPWBUOvE2RK2K+SpLaQgA9jQD1zVUzJc/Z6T0hTU6KEMnKY/cXF/
-         G1xA==
+        bh=6aSbeaV8aUHmxt7bo4GWSO+UYVKMaQnwiL3Al5lNldQ=;
+        b=sD/NI0kSg7pa+zM6LyAbeIRz9QFuoeVOvzKhCEcF6XnqDmn29LVeAaykYbmOVO8SM5
+         0Xe8JgHKWrZiOarF/79i9uRGMT9ZkyGpQQdUbk2hBb2NYO95C6679YxmHyDMA6f+e0Rs
+         Y075ghCe2FYt/6BFFN8nzUWDOVM/pw2LJW2CkTS/VGlsuKL7a/wAR2kug/uuimCA1Q32
+         HgwG4xWcDsmEJR+ble0DJIG1uUz2i+7NPxViKNj317tolftomLc9GgeyOp+wF4jwXST5
+         77D3uKt8AGIhcWDuVaqm0jEz2roBy9uahRB1y/XVbag26o9oYM/8J+xM+oz6nydGXr+t
+         pnaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=VFzs8K1hJoNXpBOBcsMQ4sI+IDyzJg+qXoFm9HpkQS8=;
-        b=uJ2uik5nSNu7DR3NctZenIKGpWAliL5/E7KDhBqfa3PbQvVMSsTzNrsuBUmqS3XVVs
-         rndcIzn1nzdVvPh1O/iSZOezuvkga8o30M/QCkH3BVJSEYVYwxZJP6SPy+dqCmydIVJH
-         RFYl/9M3DtSWZxePIT4I+t8JdXtKcEsYOAzxcIXRYpRM2vnhiIqnK/JVZkS6FOSHZ1NM
-         8CwVA12UG5BwZ1TLY7A3QIdnYHeHrBy5w2fied36RU7iY611YnG9PgPM/I/ulixAFggM
-         bc/4cEjgfVm562AO7oIUeJGws2GmY2zye0VNN3GaiF7i+8iwHc9EjKClv5GqurWz6kv8
-         EJ6w==
-X-Gm-Message-State: AOAM533LPBqEFY8mRmBAFu0TdF/qQc11dCz0mOawOHnkSSQdz5Yfs95B
-	GiDMvwF6ISteUfD0G9QiVSg=
-X-Google-Smtp-Source: ABdhPJyL51qyKTTUmMK9IGPu7A6DRE8Mg45z5jeQatCfhbRkGagUjHJ8eykb7SnnwBd81GviyAJEbw==
-X-Received: by 2002:a05:600c:b57:: with SMTP id k23mr4485577wmr.133.1624367412231;
-        Tue, 22 Jun 2021 06:10:12 -0700 (PDT)
+        bh=6aSbeaV8aUHmxt7bo4GWSO+UYVKMaQnwiL3Al5lNldQ=;
+        b=SUIZL1D3Lxzn9/BJE1IlYc2wMxlN+62J6MFbLG93e+3+g0YoWBjWNdlYXcclm2+neY
+         Ntq86MzsXaJFu+KjgBopbmI0YrY5I97OqOIDvzBQrVtu+gwbBagBV4AocMV9VMDoTQuV
+         FcsNIlxTqiVAfQAhkAQ5s9LGQ1Pp75CDK+9gKvKUSW21x5pyBlTYe6v9Z7eSRgByrBLM
+         xXfczmDC8dClw9r54EO5lTeqbdZ0Z0JYac5I7FGOFtJwO5b7mjUmP5+lzCcZ8SR4wCvv
+         Z+j/n9m+GKXNfT6SYS0m5tb4HN0jFy2NuYx6q778wGTY1r8FgduXZKTb/0mTVAA8iSCf
+         OC+g==
+X-Gm-Message-State: AOAM530oJsG1cow7Limf8emnPjlfhSnZfywfP8Aub6rloHh+EwIaQ6rl
+	sFlHMbMb2kPzxTXCnLPcdaE=
+X-Google-Smtp-Source: ABdhPJwPwK7NzOQ+8JPE54/NQN+ICjYxw/HnFQKRFPpcepbDWgpCJTdLtF4EvXV6cS9U/jBPLs7Epw==
+X-Received: by 2002:adf:fd04:: with SMTP id e4mr4585519wrr.11.1624367415446;
+        Tue, 22 Jun 2021 06:10:15 -0700 (PDT)
 Received: from agape ([5.171.73.108])
-        by smtp.gmail.com with ESMTPSA id s1sm2559287wmj.8.2021.06.22.06.10.11
+        by smtp.gmail.com with ESMTPSA id r12sm14911926wrn.2.2021.06.22.06.10.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jun 2021 06:10:11 -0700 (PDT)
+        Tue, 22 Jun 2021 06:10:15 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: hdegoede@redhat.com,
 	Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 06/17] staging: rtl8723bs: remove struct rt_channel_plan_5g
-Date: Tue, 22 Jun 2021 15:09:50 +0200
-Message-Id: <c9780328291ef84a8b0874e34da881d5e3885ddc.1624367071.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v3 08/17] staging: rtl8723bs: beautify prototypes in include/hal_com_phycfg.h
+Date: Tue, 22 Jun 2021 15:09:52 +0200
+Message-Id: <8f6796cbbe726dd912fababe94b3dd1d8dcabbb7.1624367071.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1624367071.git.fabioaiuto83@gmail.com>
 References: <cover.1624367071.git.fabioaiuto83@gmail.com>
@@ -55,142 +55,214 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove struct rt_channel_plan_5g, for rtl8723bs works
-only on 2.4Ghz band.
+beautify function prototypes in incldue/hal_com_phycfg.h
+in order to ease grep searches.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 58 +------------------
- .../staging/rtl8723bs/include/rtw_mlme_ext.h  |  5 --
- drivers/staging/rtl8723bs/include/rtw_rf.h    | 15 ++---
- 3 files changed, 8 insertions(+), 70 deletions(-)
+ .../rtl8723bs/include/hal_com_phycfg.h        | 188 +++++-------------
+ 1 file changed, 48 insertions(+), 140 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 106779fb9fef..cf0079a0c179 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -79,46 +79,6 @@ static struct rt_channel_plan_2g	RTW_ChannelPlan2G[RT_CHANNEL_DOMAIN_2G_MAX] = {
- 	{{}, 0},								/*  0x06, RT_CHANNEL_DOMAIN_2G_NULL */
+diff --git a/drivers/staging/rtl8723bs/include/hal_com_phycfg.h b/drivers/staging/rtl8723bs/include/hal_com_phycfg.h
+index a30e1e09826d..3d95ab1986b1 100644
+--- a/drivers/staging/rtl8723bs/include/hal_com_phycfg.h
++++ b/drivers/staging/rtl8723bs/include/hal_com_phycfg.h
+@@ -70,147 +70,55 @@ struct bb_register_def {
+ 
  };
  
--static struct rt_channel_plan_5g	RTW_ChannelPlan5G[RT_CHANNEL_DOMAIN_5G_MAX] = {
--	{{}, 0},																					/*  0x00, RT_CHANNEL_DOMAIN_5G_NULL */
--	{{36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140}, 19},						/*  0x01, RT_CHANNEL_DOMAIN_5G_ETSI1 */
--	{{36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 149, 153, 157, 161, 165}, 24},	/*  0x02, RT_CHANNEL_DOMAIN_5G_ETSI2 */
--	{{36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 149, 153, 157, 161, 165}, 22},			/*  0x03, RT_CHANNEL_DOMAIN_5G_ETSI3 */
--	{{36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 149, 153, 157, 161, 165}, 24},	/*  0x04, RT_CHANNEL_DOMAIN_5G_FCC1 */
--	{{36, 40, 44, 48, 149, 153, 157, 161, 165}, 9},														/*  0x05, RT_CHANNEL_DOMAIN_5G_FCC2 */
--	{{36, 40, 44, 48, 52, 56, 60, 64, 149, 153, 157, 161, 165}, 13},											/*  0x06, RT_CHANNEL_DOMAIN_5G_FCC3 */
--	{{36, 40, 44, 48, 52, 56, 60, 64, 149, 153, 157, 161}, 12},												/*  0x07, RT_CHANNEL_DOMAIN_5G_FCC4 */
--	{{149, 153, 157, 161, 165}, 5},																	/*  0x08, RT_CHANNEL_DOMAIN_5G_FCC5 */
--	{{36, 40, 44, 48, 52, 56, 60, 64}, 8},																/*  0x09, RT_CHANNEL_DOMAIN_5G_FCC6 */
--	{{36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 136, 140, 149, 153, 157, 161, 165}, 20},					/*  0x0A, RT_CHANNEL_DOMAIN_5G_FCC7_IC1 */
--	{{36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 149, 153, 157, 161, 165}, 20},					/*  0x0B, RT_CHANNEL_DOMAIN_5G_KCC1 */
--	{{36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140}, 19},						/*  0x0C, RT_CHANNEL_DOMAIN_5G_MKK1 */
--	{{36, 40, 44, 48, 52, 56, 60, 64}, 8},																/*  0x0D, RT_CHANNEL_DOMAIN_5G_MKK2 */
--	{{100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140}, 11},											/*  0x0E, RT_CHANNEL_DOMAIN_5G_MKK3 */
--	{{56, 60, 64, 100, 104, 108, 112, 116, 136, 140, 149, 153, 157, 161, 165}, 15},								/*  0x0F, RT_CHANNEL_DOMAIN_5G_NCC1 */
--	{{56, 60, 64, 149, 153, 157, 161, 165}, 8},															/*  0x10, RT_CHANNEL_DOMAIN_5G_NCC2 */
--	{{149, 153, 157, 161, 165}, 5},																	/*  0x11, RT_CHANNEL_DOMAIN_5G_NCC3 */
--	{{36, 40, 44, 48}, 4},																			/*  0x12, RT_CHANNEL_DOMAIN_5G_ETSI4 */
--	{{36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 136, 140, 149, 153, 157, 161, 165}, 20},					/*  0x13, RT_CHANNEL_DOMAIN_5G_ETSI5 */
--	{{149, 153, 157, 161}, 4},																		/*  0x14, RT_CHANNEL_DOMAIN_5G_FCC8 */
--	{{36, 40, 44, 48, 52, 56, 60, 64}, 8},																/*  0x15, RT_CHANNEL_DOMAIN_5G_ETSI6 */
--	{{36, 40, 44, 48, 52, 56, 60, 64, 149, 153, 157, 161, 165}, 13},											/*  0x16, RT_CHANNEL_DOMAIN_5G_ETSI7 */
--	{{36, 40, 44, 48, 149, 153, 157, 161, 165}, 9},														/*  0x17, RT_CHANNEL_DOMAIN_5G_ETSI8 */
--	{{100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140}, 11},											/*  0x18, RT_CHANNEL_DOMAIN_5G_ETSI9 */
--	{{149, 153, 157, 161, 165}, 5},																	/*  0x19, RT_CHANNEL_DOMAIN_5G_ETSI10 */
--	{{36, 40, 44, 48, 52, 56, 60, 64, 132, 136, 140, 149, 153, 157, 161, 165}, 16},									/*  0x1A, RT_CHANNEL_DOMAIN_5G_ETSI11 */
--	{{52, 56, 60, 64, 100, 104, 108, 112, 116, 132, 136, 140, 149, 153, 157, 161, 165}, 17},							/*  0x1B, RT_CHANNEL_DOMAIN_5G_NCC4 */
--	{{149, 153, 157, 161}, 4},																		/*  0x1C, RT_CHANNEL_DOMAIN_5G_ETSI12 */
--	{{36, 40, 44, 48, 100, 104, 108, 112, 116, 132, 136, 140, 149, 153, 157, 161, 165}, 17},							/*  0x1D, RT_CHANNEL_DOMAIN_5G_FCC9 */
--	{{36, 40, 44, 48, 100, 104, 108, 112, 116, 132, 136, 140}, 12},											/*  0x1E, RT_CHANNEL_DOMAIN_5G_ETSI13 */
--	{{36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 132, 136, 140, 149, 153, 157, 161}, 20},					/*  0x1F, RT_CHANNEL_DOMAIN_5G_FCC10 */
+-u8
+-PHY_GetTxPowerByRateBase(
+-struct adapter *Adapter,
+-u8 		RfPath,
+-u8 		TxNum,
+-enum rate_section	RateSection
+-	);
 -
--	/*  Driver self defined for old channel plan Compatible , Remember to modify if have new channel plan definition ===== */
--	{{36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 132, 136, 140, 149, 153, 157, 161, 165}, 21},				/*  0x20, RT_CHANNEL_DOMAIN_5G_FCC */
--	{{36, 40, 44, 48}, 4},																			/*  0x21, RT_CHANNEL_DOMAIN_5G_JAPAN_NO_DFS */
--	{{36, 40, 44, 48, 149, 153, 157, 161}, 8},															/*  0x22, RT_CHANNEL_DOMAIN_5G_FCC4_NO_DFS */
--};
+-u8
+-PHY_GetRateSectionIndexOfTxPowerByRate(
+-struct adapter *padapter,
+-u32 		RegAddr,
+-u32 		BitMask
+-	);
 -
- static struct rt_channel_plan_map	RTW_ChannelPlanMap[RT_CHANNEL_DOMAIN_MAX] = {
- 	/*  0x00 ~ 0x1F , Old Define ===== */
- 	{0x02, 0x20},	/* 0x00, RT_CHANNEL_DOMAIN_FCC */
-@@ -393,8 +353,8 @@ static void init_channel_list(struct adapter *padapter, struct rt_channel_info *
- static u8 init_channel_set(struct adapter *padapter, u8 ChannelPlan, struct rt_channel_info *channel_set)
- {
- 	u8 index, chanset_size = 0;
--	u8 b5GBand = false, b2_4GBand = false;
--	u8 Index2G = 0, Index5G = 0;
-+	u8 b2_4GBand = false;
-+	u8 Index2G = 0;
- 
- 	memset(channel_set, 0, sizeof(struct rt_channel_info)*MAX_CHANNEL_NUM);
- 
-@@ -433,20 +393,6 @@ static u8 init_channel_set(struct adapter *padapter, u8 ChannelPlan, struct rt_c
- 		}
- 	}
- 
--	if (b5GBand) {
--		for (index = 0; index < RTW_ChannelPlan5G[Index5G].Len; index++) {
--			if (RTW_ChannelPlan5G[Index5G].Channel[index] <= 48
--				|| RTW_ChannelPlan5G[Index5G].Channel[index] >= 149) {
--				channel_set[chanset_size].ChannelNum = RTW_ChannelPlan5G[Index5G].Channel[index];
--				if (RT_CHANNEL_DOMAIN_WORLD_WIDE_5G == ChannelPlan)/* passive scan for all 5G channels */
--					channel_set[chanset_size].ScanType = SCAN_PASSIVE;
--				else
--					channel_set[chanset_size].ScanType = SCAN_ACTIVE;
--				chanset_size++;
--			}
--		}
--	}
+-void
+-PHY_GetRateValuesOfTxPowerByRate(
+-struct adapter *padapter,
+-u32 		RegAddr,
+-u32 		BitMask,
+-u32 		Value,
+-u8		*RateIndex,
+-s8		*PwrByRateVal,
+-u8		*RateNum
+-	);
 -
- 	return chanset_size;
- }
- 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-index 0248b91b4525..7d655f02d383 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-@@ -248,11 +248,6 @@ struct rt_channel_plan_2g {
- 	unsigned char Len;
- };
- 
--struct rt_channel_plan_5g {
--	unsigned char Channel[MAX_CHANNEL_NUM_5G];
--	unsigned char Len;
--};
+-u8
+-PHY_GetRateIndexOfTxPowerByRate(
+-u8 Rate
+-	);
 -
- struct rt_channel_plan_map {
- 	unsigned char Index2G;
- 	unsigned char Index5G;
-diff --git a/drivers/staging/rtl8723bs/include/rtw_rf.h b/drivers/staging/rtl8723bs/include/rtw_rf.h
-index 48ff15a38bb0..6c25707f4ec8 100644
---- a/drivers/staging/rtl8723bs/include/rtw_rf.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_rf.h
-@@ -21,16 +21,13 @@
- #define RTL8711_RF_MAX_SENS	 6
- #define RTL8711_RF_DEF_SENS	 4
+-void
+-PHY_SetTxPowerIndexByRateSection(
+-struct adapter *padapter,
+-u8 		RFPath,
+-u8 		Channel,
+-u8 		RateSection
+-	);
+-
+-s8
+-PHY_GetTxPowerByRate(
+-struct adapter *padapter,
+-u8 	RFPath,
+-u8 	TxNum,
+-u8 	RateIndex
+-	);
+-
+-void
+-PHY_SetTxPowerByRate(
+-struct adapter *padapter,
+-u8 	RFPath,
+-u8 	TxNum,
+-u8 	Rate,
+-s8			Value
+-	);
+-
+-void
+-PHY_SetTxPowerLevelByPath(
+-struct adapter *Adapter,
+-u8 	channel,
+-u8 	path
+-	);
+-
+-void
+-PHY_SetTxPowerIndexByRateArray(
+-struct adapter *padapter,
+-u8 		RFPath,
+-enum channel_width	BandWidth,
+-u8 		Channel,
+-u8		*Rates,
+-u8 		RateArraySize
+-	);
+-
+-void
+-PHY_InitTxPowerByRate(
+-struct adapter *padapter
+-	);
+-
+-void
+-PHY_StoreTxPowerByRate(
+-struct adapter *padapter,
+-u32 		RfPath,
+-u32 		TxNum,
+-u32 		RegAddr,
+-u32 		BitMask,
+-u32 		Data
+-	);
+-
+-void
+-PHY_TxPowerByRateConfiguration(
+-	struct adapter *padapter
+-	);
+-
+-u8
+-PHY_GetTxPowerIndexBase(
+-struct adapter *padapter,
+-u8 		RFPath,
+-u8 		Rate,
+-enum channel_width	BandWidth,
+-u8 		Channel
+-	);
++u8 PHY_GetTxPowerByRateBase(struct adapter *Adapter, u8 RfPath, u8 TxNum,
++			    enum rate_section RateSection);
++
++u8 PHY_GetRateSectionIndexOfTxPowerByRate(struct adapter *padapter, u32	RegAddr,
++					  u32 BitMask);
++
++void PHY_GetRateValuesOfTxPowerByRate(struct adapter *padapter, u32 RegAddr,
++				      u32 BitMask, u32 Value, u8 *RateIndex,
++				      s8 *PwrByRateVal, u8 *RateNum);
++
++u8 PHY_GetRateIndexOfTxPowerByRate(u8 Rate);
++
++void PHY_SetTxPowerIndexByRateSection(struct adapter *padapter, u8 RFPath, u8 Channel,
++				      u8 RateSection);
++
++s8 PHY_GetTxPowerByRate(struct adapter *padapter, u8 RFPath, u8	TxNum, u8 RateIndex);
++
++void PHY_SetTxPowerByRate(struct adapter *padapter, u8 RFPath, u8 TxNum, u8 Rate,
++			  s8 Value);
++
++void PHY_SetTxPowerLevelByPath(struct adapter *Adapter, u8 channel, u8 path);
++
++void PHY_SetTxPowerIndexByRateArray(struct adapter *padapter, u8 RFPath,
++				    enum channel_width BandWidth, u8 Channel,
++				    u8 *Rates, u8 RateArraySize);
++
++void PHY_InitTxPowerByRate(struct adapter *padapter);
++
++void PHY_StoreTxPowerByRate(struct adapter *padapter, u32 RfPath, u32 TxNum,
++			    u32	RegAddr, u32 BitMask, u32 Data);
++
++void PHY_TxPowerByRateConfiguration(struct adapter *padapter);
++
++u8 PHY_GetTxPowerIndexBase(struct adapter *padapter, u8 RFPath, u8 Rate,
++			   enum channel_width BandWidth, u8 Channel);
  
--/*  */
--/*  We now define the following channels as the max channels in each channel plan. */
--/*  2G, total 14 chnls */
--/*  {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14} */
--/*  5G, total 24 chnls */
--/*  {36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120,
-- *   124, 128, 132, 136, 140, 149, 153, 157, 161, 165} */
-+/*
-+ * We now define the following channels as the max channels in each channel plan.
-+ * 2G, total 14 chnls
-+ * {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}
-+ */
- #define	MAX_CHANNEL_NUM_2G	14
--#define	MAX_CHANNEL_NUM_5G	24
--#define	MAX_CHANNEL_NUM		38/* 14+24 */
-+#define	MAX_CHANNEL_NUM		14
+ s8 phy_get_tx_pwr_lmt(struct adapter *adapter, u32 RegPwrTblSel,
+-		      enum channel_width Bandwidth,
+-u8 		RfPath,
+-u8 		DataRate,
+-u8 		Channel
+-	);
+-
+-void
+-PHY_SetTxPowerLimit(
+-struct adapter *Adapter,
+-u8 			*Regulation,
+-u8 			*Bandwidth,
+-u8 			*RateSection,
+-u8 			*RfPath,
+-u8 			*Channel,
+-u8 			*PowerLimit
+-	);
+-
+-void
+-PHY_ConvertTxPowerLimitToPowerIndex(
+-struct adapter *Adapter
+-	);
+-
+-void
+-PHY_InitTxPowerLimit(
+-struct adapter *Adapter
+-	);
+-
+-s8
+-PHY_GetTxPowerTrackingOffset(
+-	struct adapter *padapter,
+-	u8 	Rate,
+-	u8 	RFPath
+-	);
+-
+-void
+-Hal_ChannelPlanToRegulation(
+-struct adapter *Adapter,
+-u16 			ChannelPlan
+-	);
++		      enum channel_width Bandwidth, u8 RfPath, u8 DataRate,
++		      u8 Channel);
++
++void PHY_SetTxPowerLimit(struct adapter *Adapter, u8 *Regulation, u8 *Bandwidth,
++			 u8 *RateSection, u8 *RfPath, u8 *Channel, u8 *PowerLimit);
++
++void PHY_ConvertTxPowerLimitToPowerIndex(struct adapter *Adapter);
++
++void PHY_InitTxPowerLimit(struct adapter *Adapter);
++
++s8 PHY_GetTxPowerTrackingOffset(struct adapter *padapter, u8 Rate, u8 RFPath);
++
++void Hal_ChannelPlanToRegulation(struct adapter *Adapter, u16 ChannelPlan);
  
- #define NUM_REGULATORYS	1
- 
+ #endif /* __HAL_COMMON_H__ */
 -- 
 2.20.1
 
