@@ -1,42 +1,42 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE36173
-	for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 07:45:28 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id m15-20020a17090a5a4fb029016f385ffad0so1775512pji.0
-        for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 00:45:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A227F2FB0
+	for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 07:49:56 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id f10so7884793plg.0
+        for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 00:49:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=rTA9Ge9ztWJg6qu4WnRUxoLw0dKUZdpAeQoMLnN27LI=;
-        b=sO8Qr+cKOoS9FFMwhHMmBRROUFXOc4mYXbSrj3q4I9aa/7WgaygubUaATqWccoO4Ew
-         Szplz4/pkFp41LIoz//7GarOONmHu/e7bViZcLUdm6AzBVUw5baLNSA5pE5CjJ0ZAMSh
-         X1A5FhBV6WqY/wv1ySo16Rm0rt9ENiTXGyAFElVbZEsRyng3TNRLqmASUDypQSmBB7Uv
-         UNBA4SsU+L9w7HLzTJuOwLoH26y9YfMEqdJGXZOclR4x+nHw+p+sRh5JIA12fUJz68UQ
-         +BVEMymQMH5X6dGY1vZeoxCm90cVBdIgQhHtQOUsmGMpeepu+3g5hrcTOzq+MpptMEEO
-         MrQw==
+        bh=wjwJ0rnNQMFJ61cELhija7bj4Ok9LpvWfDHNn8zGRYE=;
+        b=t8bDAzy2g5kYmm/gs1pVc39k78Hjrj+C9JWk5L95AZX2RUaWoad53f0cOIqnQogD9G
+         cNGl1k13rcXvxLb4S/K+ivR16akcN4ulYqFmW2EtrTqcyqdEt9nD0vWw4Ck2mc4CtTVj
+         xbP8/qrHEMb7uere8q40RznKvRN8A6IGbkb5dScWg6hESbFIHkdktWUQGNV2RcMMzUF6
+         YO3ouGtMaN/p5hZmAKOqUKP22BbxWB4s9oNg/gPUNDtaLe69/O5ONgCFk3+955yfdKf9
+         KLpCTFKtvojviELv2P2zTdFg0GRQC7E0dr7PwIfaCy6y2ZPALVhnzqmSaBg3E7C6+PLf
+         ymWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=rTA9Ge9ztWJg6qu4WnRUxoLw0dKUZdpAeQoMLnN27LI=;
-        b=pXjzvZVgq5ddAKNfS5/VxDs7GhHbpj37jV3mxPQrTf5jrTWiKi8t2Zu/IkZBNpeIkz
-         nH/DVvE5cWGNwO98Uo9qgWS4SS/KUFx5hhiH2DwJLiSkkDNrOz7Ov71SqnLfbrAryPFy
-         EqVzw4Xy/jhYUF39qFcFvKqt/Q89upWS94QOgjajMyMql+yLAcrF6IAF7vClgOsynfRP
-         BvOUicwQhY9BwijKxK6M55acLxTeOQ2+XT6fTVAdCWiLbN2VUi/gm8/YJMun4Y+iXa3A
-         rEX0fA2jeatByfmasK7q5seERWOm8zbhpqZnzedOMoVG0teq5P99EYhIBYh6qlMwD+mU
-         engw==
-X-Gm-Message-State: AOAM5330FT9o/dvbwoZuN1nK5NhbUdPxH4I9GX3dBSIu24oqKzJE/69R
-	fup+nW/Xc3NeWa3i+ItDNV0=
-X-Google-Smtp-Source: ABdhPJzMBA5sJR+94E9iAB6vMokMhc1pEt84r+vNnG+VInBYxTlSEk+FfUe3ay+4zpdhxsDYnbUNWQ==
-X-Received: by 2002:a17:902:ce86:b029:125:8c21:2ab9 with SMTP id f6-20020a170902ce86b02901258c212ab9mr6136618plg.45.1624347928208;
-        Tue, 22 Jun 2021 00:45:28 -0700 (PDT)
+        bh=wjwJ0rnNQMFJ61cELhija7bj4Ok9LpvWfDHNn8zGRYE=;
+        b=mfMwbM6MT2AbH1PZmQZ50aFMOdrLx5HyQay8vDiYPQSpwt6fF2RaaTtGDXvOMFWWTY
+         wSeFCbKupM1k0wdlUIxe1fh5aj9fzF98pigOVHz7W175zMWV0tCOndKzpTAJRYa1RsuT
+         oIktifO/kSSEMpyg8Mcmp5AyFdo1XSisjwVPCcUwV4mgdZD1FjJen0UQvj+6958SP1BY
+         QjVZ/fJQFUiTgGAlrue/H9EQ+JRRQaFc8Dk4j2cXu+KV//Ow10quid/GEwrGQgnxY4Q4
+         43Ek+pQ74NBqVmdtGZDRqJIweD8olNubBTijkk7wbx4qhBwpcEhh0U0jgH0WQayXV7qa
+         HJnA==
+X-Gm-Message-State: AOAM533KU/MY+iBmCZxy64gWcvEpCmJZkZC8fCfC4qQyUgt4SxDdLSn0
+	wh7D/o51Rz/meuWYrUhYzVA=
+X-Google-Smtp-Source: ABdhPJwMkJFdb3JyaXaaWZ6U3HPeZDZS4J5HyG6XqS/k1ubCT8uc0wyi0Yuw7THNVwKpDdNLWlSrYQ==
+X-Received: by 2002:a17:90a:7381:: with SMTP id j1mr2613177pjg.29.1624348196159;
+        Tue, 22 Jun 2021 00:49:56 -0700 (PDT)
 Received: from d3 ([2405:6580:97e0:3100:ae94:2ee7:59a:4846])
-        by smtp.gmail.com with ESMTPSA id f13sm3076941pfe.149.2021.06.22.00.45.25
+        by smtp.gmail.com with ESMTPSA id p29sm10985201pfq.55.2021.06.22.00.49.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jun 2021 00:45:27 -0700 (PDT)
-Date: Tue, 22 Jun 2021 16:45:22 +0900
+        Tue, 22 Jun 2021 00:49:55 -0700 (PDT)
+Date: Tue, 22 Jun 2021 16:49:51 +0900
 From: Benjamin Poirier <benjamin.poirier@gmail.com>
 To: Coiby Xu <coiby.xu@gmail.com>
 Cc: linux-staging@lists.linux.dev, netdev@vger.kernel.org,
@@ -45,11 +45,10 @@ Cc: linux-staging@lists.linux.dev, netdev@vger.kernel.org,
 	"supporter:QLOGIC QLGE 10Gb ETHERNET DRIVER" <GR-Linux-NIC-Dev@marvell.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC 12/19] staging: qlge: rewrite do while loops as for loops
- in qlge_start_rx_ring
-Message-ID: <YNGVEiS8mITXQ5sS@d3>
+Subject: Re: [RFC 06/19] staging: qlge: disable flow control by default
+Message-ID: <YNGWHxYF5UkPk2U5@d3>
 References: <20210621134902.83587-1-coiby.xu@gmail.com>
- <20210621134902.83587-13-coiby.xu@gmail.com>
+ <20210621134902.83587-7-coiby.xu@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -57,54 +56,93 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210621134902.83587-13-coiby.xu@gmail.com>
+In-Reply-To: <20210621134902.83587-7-coiby.xu@gmail.com>
 
 On 2021-06-21 21:48 +0800, Coiby Xu wrote:
-> Since MAX_DB_PAGES_PER_BQ > 0, the for loop is equivalent to do while
-> loop.
+> According to the TODO item,
+> > * the flow control implementation in firmware is buggy (sends a flood of pause
+> >   frames, resets the link, device and driver buffer queues become
+> >   desynchronized), disable it by default
+> 
+> Currently, qlge_mpi_port_cfg_work calls qlge_mb_get_port_cfg which gets
+> the link config from the firmware and saves it to qdev->link_config. By
+> default, flow control is enabled. This commit writes the
+> save the pause parameter of qdev->link_config and don't let it
+> overwritten by link settings of current port. Since qdev->link_config=0
+> when qdev is initialized, this could disable flow control by default and
+> the pause parameter value could also survive MPI resetting,
+>     $ ethtool -a enp94s0f0
+>     Pause parameters for enp94s0f0:
+>     Autonegotiate:  off
+>     RX:             off
+>     TX:             off
+> 
+> The follow control can be enabled manually,
+> 
+>     $ ethtool -A enp94s0f0 rx on tx on
+>     $ ethtool -a enp94s0f0
+>     Pause parameters for enp94s0f0:
+>     Autonegotiate:  off
+>     RX:             on
+>     TX:             on
 > 
 > Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
 > ---
->  drivers/staging/qlge/qlge_main.c | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
+>  drivers/staging/qlge/TODO       |  3 ---
+>  drivers/staging/qlge/qlge_mpi.c | 11 ++++++++++-
+>  2 files changed, 10 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
-> index 7aee9e904097..c5e161595b1f 100644
-> --- a/drivers/staging/qlge/qlge_main.c
-> +++ b/drivers/staging/qlge/qlge_main.c
-> @@ -3029,12 +3029,11 @@ static int qlge_start_cq(struct qlge_adapter *qdev, struct qlge_cq *cq)
->  		tmp = (u64)rx_ring->lbq.base_dma;
->  		base_indirect_ptr = rx_ring->lbq.base_indirect;
->  		page_entries = 0;
+> diff --git a/drivers/staging/qlge/TODO b/drivers/staging/qlge/TODO
+> index b7a60425fcd2..8c84160b5993 100644
+> --- a/drivers/staging/qlge/TODO
+> +++ b/drivers/staging/qlge/TODO
+> @@ -4,9 +4,6 @@
+>    ql_build_rx_skb(). That function is now used exclusively to handle packets
+>    that underwent header splitting but it still contains code to handle non
+>    split cases.
+> -* the flow control implementation in firmware is buggy (sends a flood of pause
+> -  frames, resets the link, device and driver buffer queues become
+> -  desynchronized), disable it by default
+>  * some structures are initialized redundantly (ex. memset 0 after
+>    alloc_etherdev())
+>  * the driver has a habit of using runtime checks where compile time checks are
+> diff --git a/drivers/staging/qlge/qlge_mpi.c b/drivers/staging/qlge/qlge_mpi.c
+> index 2630ebf50341..0f1c7da80413 100644
+> --- a/drivers/staging/qlge/qlge_mpi.c
+> +++ b/drivers/staging/qlge/qlge_mpi.c
+> @@ -806,6 +806,7 @@ int qlge_mb_get_port_cfg(struct qlge_adapter *qdev)
+>  {
+>  	struct mbox_params mbc;
+>  	struct mbox_params *mbcp = &mbc;
+> +	u32 saved_pause_link_config = 0;
 
-This initialization can be removed now. Same thing below.
+Initialization is not needed given the code below, in fact the
+declaration can be moved to the block below.
 
-> -		do {
-> +		for (page_entries = 0; page_entries < MAX_DB_PAGES_PER_BQ; page_entries++) {
->  			*base_indirect_ptr = cpu_to_le64(tmp);
->  			tmp += DB_PAGE_SIZE;
->  			base_indirect_ptr++;
-> -			page_entries++;
-> -		} while (page_entries < MAX_DB_PAGES_PER_BQ);
-> +		}
->  		cqicb->lbq_addr = cpu_to_le64(rx_ring->lbq.base_indirect_dma);
->  		cqicb->lbq_buf_size =
->  			cpu_to_le16(QLGE_FIT16(qdev->lbq_buf_size));
-> @@ -3046,12 +3045,11 @@ static int qlge_start_cq(struct qlge_adapter *qdev, struct qlge_cq *cq)
->  		tmp = (u64)rx_ring->sbq.base_dma;
->  		base_indirect_ptr = rx_ring->sbq.base_indirect;
->  		page_entries = 0;
-> -		do {
-> +		for (page_entries = 0; page_entries < MAX_DB_PAGES_PER_BQ; page_entries++) {
->  			*base_indirect_ptr = cpu_to_le64(tmp);
->  			tmp += DB_PAGE_SIZE;
->  			base_indirect_ptr++;
-> -			page_entries++;
-> -		} while (page_entries < MAX_DB_PAGES_PER_BQ);
-> +		}
->  		cqicb->sbq_addr = cpu_to_le64(rx_ring->sbq.base_indirect_dma);
->  		cqicb->sbq_buf_size = cpu_to_le16(QLGE_SMALL_BUFFER_SIZE);
->  		cqicb->sbq_len = cpu_to_le16(QLGE_FIT16(QLGE_BQ_LEN));
+>  	int status = 0;
+>  
+>  	memset(mbcp, 0, sizeof(struct mbox_params));
+> @@ -826,7 +827,15 @@ int qlge_mb_get_port_cfg(struct qlge_adapter *qdev)
+>  	} else	{
+>  		netif_printk(qdev, drv, KERN_DEBUG, qdev->ndev,
+>  			     "Passed Get Port Configuration.\n");
+> -		qdev->link_config = mbcp->mbox_out[1];
+> +		/*
+> +		 * Don't let the pause parameter be overwritten by
+> +		 *
+> +		 * In this way, follow control can be disabled by default
+> +		 * and the setting could also survive the MPI reset
+> +		 */
+
+It seems this comment is incomplete. Also, it's "flow control", not
+"follow control".
+
+> +		saved_pause_link_config = qdev->link_config & CFG_PAUSE_STD;
+> +		qdev->link_config = ~CFG_PAUSE_STD & mbcp->mbox_out[1];
+> +		qdev->link_config |= saved_pause_link_config;
+>  		qdev->max_frame_size = mbcp->mbox_out[2];
+>  	}
+>  	return status;
 > -- 
 > 2.32.0
 > 
