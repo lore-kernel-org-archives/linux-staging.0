@@ -1,45 +1,45 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1539173
-	for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 07:20:48 +0000 (UTC)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15M7GDmJ032136;
-	Tue, 22 Jun 2021 07:20:46 GMT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417EC173
+	for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 07:29:53 +0000 (UTC)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15M7HOjb003662;
+	Tue, 22 Jun 2021 07:29:51 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
  : subject : message-id : references : mime-version : content-type :
  in-reply-to; s=corp-2020-01-29;
- bh=uZtpeCcW0/0ddJSUa4GkLD+7TtG1zH2UHC/nBMIUQhM=;
- b=a0e0YpU4SF96WFQSpNn854jaDwF/vh49UqhsJzN6mMAIkk2LMIpfC4Q38RwT1mrrhpCf
- w5TdqqLNYsOfFW/qGNYFeEsOfuCFPLGT6PpA2GFGCPBP8fEshCmmKq+AXzCBr6Ymjgsj
- RpKEYMWnmudOp4TmDfzF3V/jHk57Tb4va+J1B/D0KBhM3D2gQqGmcuKBdGRvM4Fo8GR7
- sK1S9l6yp7Zi8eYWIkNAy0q4BxeRvL/p9Samd610Xf4WqFHS6kmWxanenum8LPVQmFVy
- bowrQLOIXQq8Bgtpks6rhdxVyN31gNfeqv97JGuf5U3ix44veJ0Bmy8A7tXz/2hif3lD 8w== 
-Received: from oracle.com (userp3030.oracle.com [156.151.31.80])
-	by mx0b-00069f02.pphosted.com with ESMTP id 39acyqb4hr-1
+ bh=aRf6xLnEm9+6xp3u9Dzr2nAls6BZEoFl3WU5DBo6Ixg=;
+ b=suzrBd7rPalCuds3MHmqbx3AsBazlvoH7cXkZ9uGoX2WMCuqRHu/uK4HEdxJAR/c7pbZ
+ zbMwnXs2TR/P+Z4fcmfraFzLFbOEjX/d6MpI6XNliJDbPmJyxDexb6fJlq/WIstSP0OJ
+ UuwhdCdmvUXXBasYlksglmsa6VcTw+m7fIbfaA5bVQjZz3hxTvg9DD6Hlu4rYPb11LqX
+ k1Gfrgoic8lI4K2tuPkkindRZNqi3eVExAR7sI5Od34Piezopv8IH5ZHe9Cf7NpNnkF/
+ j1q+dAQhx5b2FGwd7mSnGWvvBff8ZDAt4qAhFi6tgzOAVFG6HMJEqkzAA9/u09G2nW/t pw== 
+Received: from oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by mx0b-00069f02.pphosted.com with ESMTP id 39aqqvtavs-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 22 Jun 2021 07:20:46 +0000
-Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
-	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 15M7FFRM072448;
-	Tue, 22 Jun 2021 07:20:45 GMT
+	Tue, 22 Jun 2021 07:29:51 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+	by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 15M7GuLw130836;
+	Tue, 22 Jun 2021 07:29:50 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by userp3030.oracle.com with ESMTP id 3995pvs9e7-1
+	by aserp3030.oracle.com with ESMTP id 3996md05k4-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 22 Jun 2021 07:20:45 +0000
-Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15M7KjTr090608;
-	Tue, 22 Jun 2021 07:20:45 GMT
+	Tue, 22 Jun 2021 07:29:50 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15M7Tn3T172152;
+	Tue, 22 Jun 2021 07:29:49 GMT
 Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by userp3030.oracle.com with ESMTP id 3995pvs9du-1
+	by aserp3030.oracle.com with ESMTP id 3996md05jn-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 22 Jun 2021 07:20:45 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 15M7Kh5w014540;
-	Tue, 22 Jun 2021 07:20:43 GMT
+	Tue, 22 Jun 2021 07:29:49 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 15M7Tm4A020374;
+	Tue, 22 Jun 2021 07:29:48 GMT
 Received: from kadam (/102.222.70.252)
 	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Tue, 22 Jun 2021 00:20:43 -0700
-Date: Tue, 22 Jun 2021 10:20:36 +0300
+	with ESMTP ; Tue, 22 Jun 2021 00:29:47 -0700
+Date: Tue, 22 Jun 2021 10:29:39 +0300
 From: Dan Carpenter <dan.carpenter@oracle.com>
 To: Coiby Xu <coiby.xu@gmail.com>
 Cc: linux-staging@lists.linux.dev, netdev@vger.kernel.org,
@@ -49,11 +49,10 @@ Cc: linux-staging@lists.linux.dev, netdev@vger.kernel.org,
         "supporter:QLOGIC QLGE 10Gb ETHERNET DRIVER" <GR-Linux-NIC-Dev@marvell.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         open list <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC 13/19] staging: qlge: rewrite do while loop as for loop in
- qlge_sem_spinlock
-Message-ID: <20210622072036.GK1861@kadam>
+Subject: Re: [RFC 16/19] staging: qlge: remove deadcode in qlge_build_rx_skb
+Message-ID: <20210622072939.GL1861@kadam>
 References: <20210621134902.83587-1-coiby.xu@gmail.com>
- <20210621134902.83587-14-coiby.xu@gmail.com>
+ <20210621134902.83587-17-coiby.xu@gmail.com>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -61,39 +60,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210621134902.83587-14-coiby.xu@gmail.com>
+In-Reply-To: <20210621134902.83587-17-coiby.xu@gmail.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: 9WdfC9Sv-xDEwWU93ImiyD6OEuWdleHI
-X-Proofpoint-ORIG-GUID: 9WdfC9Sv-xDEwWU93ImiyD6OEuWdleHI
+X-Proofpoint-ORIG-GUID: H8brXNyokHDH6HQjjU4sfR0IX4u4SXte
+X-Proofpoint-GUID: H8brXNyokHDH6HQjjU4sfR0IX4u4SXte
 
-On Mon, Jun 21, 2021 at 09:48:56PM +0800, Coiby Xu wrote:
-> Since wait_count=30 > 0, the for loop is equivalent to do while
-> loop. This commit also replaces 100 with UDELAY_DELAY.
+On Mon, Jun 21, 2021 at 09:48:59PM +0800, Coiby Xu wrote:
+> This part of code is for the case that "the headers and data are in
+> a single large buffer". However, qlge_process_mac_split_rx_intr is for
+> handling packets that packets underwent head splitting. In reality, with
+> jumbo frame enabled, the part of code couldn't be reached regardless of
+> the packet size when ping the NIC.
 > 
-> Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
-> ---
->  drivers/staging/qlge/qlge_main.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
-> index c5e161595b1f..2d2405be38f5 100644
-> --- a/drivers/staging/qlge/qlge_main.c
-> +++ b/drivers/staging/qlge/qlge_main.c
-> @@ -140,12 +140,13 @@ static int qlge_sem_trylock(struct qlge_adapter *qdev, u32 sem_mask)
->  int qlge_sem_spinlock(struct qlge_adapter *qdev, u32 sem_mask)
->  {
->  	unsigned int wait_count = 30;
-> +	int count;
->  
-> -	do {
-> +	for (count = 0; count < wait_count; count++) {
->  		if (!qlge_sem_trylock(qdev, sem_mask))
->  			return 0;
-> -		udelay(100);
-> -	} while (--wait_count);
-> +		udelay(UDELAY_DELAY);
 
-This is an interesting way to silence the checkpatch udelay warning.  ;)
+This commit message is a bit confusing.  We're just deleting the else
+statement.  Once I knew that then it was easy enough to review
+qlge_process_mac_rx_intr() and see that if if
+ib_mac_rsp->flags3 & IB_MAC_IOCB_RSP_DL is set then
+ib_mac_rsp->flags4 & IB_MAC_IOCB_RSP_HV must be set.
 
 regards,
 dan carpenter
