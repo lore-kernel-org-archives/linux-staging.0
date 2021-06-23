@@ -1,80 +1,105 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E7172FB1
-	for <linux-staging@lists.linux.dev>; Wed, 23 Jun 2021 13:01:07 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id w13so1579924wmc.3
-        for <linux-staging@lists.linux.dev>; Wed, 23 Jun 2021 06:01:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ffHHvblSbftugRKNFHdCEz54FjByJU5jPBUJvQCLlKQ=;
-        b=oyyFAIRvKscBPkw8wh5lHltPrhJujf66ARDgrmsGXfZZkEDnR9EdbD8p4USEHKep9i
-         pNglgshUvSTw+JnANym/3qKYIOOJUShQiguybMK3lGMupsNjn/g5Sz1v880K5SdKsc0H
-         PBmlcEi95+urYSkMZzW+hRQl5NiBJOGtVb4l+jfsJ4HNSeQGLOFRQ6pU3nmwoMmWNHyp
-         54ANU6cb1slIPjkqZAx1c+EjOvf/jEPbZoM1Vh7eyeQQnZtfanHfQyVzT9DGIPWg+LFQ
-         pZcxER23meMDlHIEIYG9Z0aU90B3F6oDeN+smOBEHofDrWumsII0Swobb9Diwf0sHmrZ
-         ZWAQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001662FB1
+	for <linux-staging@lists.linux.dev>; Wed, 23 Jun 2021 13:08:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1624453713;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=laMK981mv0ZnD0B9GFNK7CVhuuQIdDNlKXWiyssjTBI=;
+	b=fr/RcsRSz6f965K/DfFVqtg+XbkTIGfycVxZ1+MSXXMaCHfa8j8L+El+U8bfCl9lhefPLn
+	ue53HbiNcs7mmGez12jHrq8jPhOkucPYD+8WwqgueIxEslH91k+RAfKEY4HgdNCN8Hqjmq
+	DLTfpmBhzV8LxVBWq/z2yV79HzbPTo0=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-225-nf5h8gbnPsKZTVe-Z_uYvQ-1; Wed, 23 Jun 2021 09:08:32 -0400
+X-MC-Unique: nf5h8gbnPsKZTVe-Z_uYvQ-1
+Received: by mail-ed1-f69.google.com with SMTP id v8-20020a0564023488b0290393873961f6so1267869edc.17
+        for <linux-staging@lists.linux.dev>; Wed, 23 Jun 2021 06:08:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=ffHHvblSbftugRKNFHdCEz54FjByJU5jPBUJvQCLlKQ=;
-        b=IUspsWeTXYDac1M6KL3UFlyLEfE9kzOIbdXQoiwmTJGr2sp49NEmcN+odUD6sDp71A
-         3mgSPsydcdRDdZrrecIT0EDeqG++SkEt3J0U4Mu2qnOwX/UWkeAWdKPDeTUMP/h4VKG4
-         x+6c4+YPn3zr3n6JAQaKRGmxGQrJkBBEGy5kJ9egDyioCl3x2q7ABGlE5Hga3vm2s67G
-         8ax3UPg1I2HBDOWae2UsMusWXFcMQEcwc3vHBnLgt/QOUrHOXt5Cbz70PP7/HRL8MRb0
-         KGZaNydMbj5ou/ilFTHvqQxuTAjiLJXS1oR1Y9Cv8AjYZGkdLWunCMVnv3TnIW/pH1p6
-         KRnA==
-X-Gm-Message-State: AOAM532RvzQL65b3Fmu+eY61ZfjcGYIvZuHsicibyv85YtOeRvZduxug
-	eV6L0wyXYA/UcuPMq12lVAU=
-X-Google-Smtp-Source: ABdhPJyfp7sk2hIwqXsoJm9h+R+fkogfD0djsKDKd5eRr/WPRXfmRcg+OEudeCqk5SS3L7Rs+t7V0Q==
-X-Received: by 2002:a05:600c:a01:: with SMTP id z1mr10878368wmp.77.1624453265743;
-        Wed, 23 Jun 2021 06:01:05 -0700 (PDT)
-Received: from agape ([5.171.81.217])
-        by smtp.gmail.com with ESMTPSA id c8sm1946696wri.91.2021.06.23.06.01.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Jun 2021 06:01:05 -0700 (PDT)
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: hdegoede@redhat.com,
-	Larry.Finger@lwfinger.net,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: convert function to static
-Date: Wed, 23 Jun 2021 15:01:03 +0200
-Message-Id: <20210623130103.7727-1-fabioaiuto83@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        bh=laMK981mv0ZnD0B9GFNK7CVhuuQIdDNlKXWiyssjTBI=;
+        b=UV5fUXjQR5qmTO6H3F9UfBOo2P+kFz9Ml73AEHrf8bbsib8L7zdlISoh6yHydLQ+kT
+         FDTyzSSdkd+ZDRBQpCnESm4Z2bMBLcQR3SKCc65FZ7zVDgzpPKVg+QXfT4gyygzpD8mh
+         1ST6uK9Bu9SJnn8o0wG1vf7Z0JCvjjhea5QLHAY4ezfAs4i/GMBHkVNx1fuJjatI4B/C
+         ne3RFbUYwqljbGK3Xc1OEEvBGxe5s9H3oj1RzWp2S2yijedBIOkk5yx9adgZ/gCuICT2
+         ooX9ttvl9y95HTmqWZuxlZqwXtN3r8zcfoM0T6ZnV+9bo51YIvASVFrsVFfQyNQeNc3W
+         muRQ==
+X-Gm-Message-State: AOAM5302BK/2re6dZDlC6a5/Hg/rE+wYEEIJEc8eDaxF028gVwknML5b
+	WssSN7dgvbWNscFZzBFiwrgmK7c3CHPyJpo4VFD4odGQDszXN71vhCBGQG/qUUbfvQc8fOJNPKC
+	yksOqNuxsPLg3Cf1g8Z9jcL03hA==
+X-Received: by 2002:a05:6402:214:: with SMTP id t20mr12498358edv.20.1624453711626;
+        Wed, 23 Jun 2021 06:08:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyZyOJdESTaoaBILztmfKMoUyzU0klenAe/9rbnsswLUshPvy0GTs8FlOlUumkGgkSEzu3bfQ==
+X-Received: by 2002:a05:6402:214:: with SMTP id t20mr12498337edv.20.1624453711490;
+        Wed, 23 Jun 2021 06:08:31 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id cb14sm7954783edb.68.2021.06.23.06.08.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Jun 2021 06:08:30 -0700 (PDT)
+Subject: Re: [PATCH] staging: rtl8723bs: convert function to static
+To: Fabio Aiuto <fabioaiuto83@gmail.com>, gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20210623130103.7727-1-fabioaiuto83@gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <a5e755c3-48c9-40d4-fccb-1b9146fe762f@redhat.com>
+Date: Wed, 23 Jun 2021 15:08:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210623130103.7727-1-fabioaiuto83@gmail.com>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-function chk_sta_is_alive() is used only inside core/rtw_ap.c
-so remove the prototype and convert it to static.
+Hi,
 
-Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_ap.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On 6/23/21 3:01 PM, Fabio Aiuto wrote:
+> function chk_sta_is_alive() is used only inside core/rtw_ap.c
+> so remove the prototype and convert it to static.
+> 
+> Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 23bbdf084631..3e2d8b735fc8 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -164,8 +164,7 @@ static void update_BCNTIM(struct adapter *padapter)
- 	pnetwork_mlmeext->IELength = offset + remainder_ielen;
- }
- 
--u8 chk_sta_is_alive(struct sta_info *psta);
--u8 chk_sta_is_alive(struct sta_info *psta)
-+static u8 chk_sta_is_alive(struct sta_info *psta)
- {
- 	sta_update_last_rx_pkts(psta);
- 
--- 
-2.20.1
+Thanks, patch looks good to me:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+Regards,
+
+Hans
+
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_ap.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+> index 23bbdf084631..3e2d8b735fc8 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+> @@ -164,8 +164,7 @@ static void update_BCNTIM(struct adapter *padapter)
+>  	pnetwork_mlmeext->IELength = offset + remainder_ielen;
+>  }
+>  
+> -u8 chk_sta_is_alive(struct sta_info *psta);
+> -u8 chk_sta_is_alive(struct sta_info *psta)
+> +static u8 chk_sta_is_alive(struct sta_info *psta)
+>  {
+>  	sta_update_last_rx_pkts(psta);
+>  
+> 
 
