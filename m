@@ -1,50 +1,56 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB19971
-	for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 13:22:14 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id i94so23634245wri.4
-        for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 06:22:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2866A2FB1
+	for <linux-staging@lists.linux.dev>; Wed, 23 Jun 2021 04:55:21 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id u2so525164plf.3
+        for <linux-staging@lists.linux.dev>; Tue, 22 Jun 2021 21:55:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=LUO6vg1QrRDDYmaaeflr/Aky3r2WNn95OnvTztYnmaI=;
-        b=Z3u+dk4dOtPg+/eVwdjRdKkc/q9o+rFa/dSefQfkpl2kqBi7CKNHmV/VXFrLuxR9uM
-         wCTo3YDoDK8UYT+oMF0FRCXLrea4xmjP6Z97hOA4PrP7LKHLdZQvLvRpwnewUU+pAdTw
-         goGUYKwfUm5Zttvy9sIcxxiUpwhemeY31+FdSaHXYUYL0AvLKxBUetMsAWwBnRZC8zSp
-         /jpY5euPRlbdGEJ/Tt7xdqxNpx64Cz3GE9HkRLQTwM4OB7ibfqLBtB8XHwEXbOZHOuWQ
-         qITECbkMUqiX1Is2p60dd8o9WtxddhA2B+TFKBdD8f88R/EmdykKCxd4XmneJwuW/qXu
-         14mw==
+         :content-disposition:in-reply-to;
+        bh=Z98M28/S5DTkRaCcduNwo8JvvrtDJam3SJ6vLPsh7e8=;
+        b=t0j8pqTBwCofwBmzsMnRKN8o9RrKS1dthZm7imB1FnfTXT4A2CS3bmDV2d8UFN/n4N
+         fbTB+6140FV1SHkH6VwmXE1szaiWj2fZGCdsVaXGt142q2M9RNTxNs4GXuqKZDyqsfnD
+         LyO2vGQ9mfzOMJM23AnGFSEteQCimeJv+P7eMFcL4y/91lB+NW3HQakXN7LYiDIpFa9s
+         JBPPxLeMYO3mQR/2yCyVtlOGPgIhWRzGS+HlX2G6ymqCxqdcULDl9ATcoGU5mULnuOlO
+         N9BwAjm5kVRj5cZ87t1LVHOgCrsEErDJW6ILBQ08et/0UmsKEkaz8RbC7dJAXjwOYxBP
+         DeMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=LUO6vg1QrRDDYmaaeflr/Aky3r2WNn95OnvTztYnmaI=;
-        b=kQu9q7DGIAzzOIgXPX+tPJN8Uo0xMLdiw+S7oaslqcX2FjrH5PtMPWxj71yXrBHhVG
-         5TYJANtEqdSx3GO6f3g7rv6qVkVNRlAUWMlPUrmLS4QwTiD54Iz2/aXyDmbszC/UfIzn
-         TYJpiKVkujNP6xKiKBDpjKQG49dmPtlfEHzSjL0NxNgIO6Fkw5E1p9/uW8FU2zTbQmSn
-         WVSmQpYoR1xn2b73f8ZPTQDLjAuJaLE8kTRPgLLT4AAdTPX3S0eUlebRjwudLzxEFM0l
-         WPPXIL+8j+xFzVdfJR0Md0zSasGWnUMMuAG0b1cmMW5By4PU/xQKyXHC16rPGBn4LUAt
-         /AZg==
-X-Gm-Message-State: AOAM5312Zh8UfiRJ6xlLwKN1GrSIV+LpxpPEqaR7v6X8DB9sJ7lEq8vt
-	PgtdF0tB/Haf1tvVIeTAKo0=
-X-Google-Smtp-Source: ABdhPJz8AOoDpkCX0YewEVrDNZdxyVtkiLBRsF5iUFOyshOwZYWonAuxF3yqtJs6MMMfAVnCpUclbg==
-X-Received: by 2002:a5d:6485:: with SMTP id o5mr4711440wri.91.1624368133350;
-        Tue, 22 Jun 2021 06:22:13 -0700 (PDT)
-Received: from agape.jhs ([5.171.73.108])
-        by smtp.gmail.com with ESMTPSA id o26sm2334517wms.27.2021.06.22.06.22.12
+         :mime-version:content-disposition:in-reply-to;
+        bh=Z98M28/S5DTkRaCcduNwo8JvvrtDJam3SJ6vLPsh7e8=;
+        b=S+ZzWDtPmDHSx3yhLt3sWfNaU8rz+8V9uqXWZWgZImPXIzmEWOIe0ClId2GjdJ7IAe
+         s0qhaqwf/U7C3w+Gc5YlIIs1BLUiJGvKNiQV/xeJt6p/A+o+gio5e8CXiRC/yEwEww79
+         NSx0bOIL4FENsJKRKOViNMNdNninFjLbkpnsVglIMygJJ/DYp/3QKxHH8Ig1dPXpCFpp
+         30brCsKkkAslFIfYOHun/DYn4pMSK8KlsjKZG082bZ7Ch2jWT4jXFEjTZN+51dlGTCE4
+         gdapppT4zmlDYy/PYFkrrzEoaQQkn3Ug7NqQx6Ws1nSg7ZmMxn112/GPH2W2uXaWfjio
+         th/g==
+X-Gm-Message-State: AOAM530m5XL0oP/sy9BDaUc1kWTFpNjP2lzjBmmaEwdiJAh2R6MJk/+5
+	SdvE052WOMHyn7m0oqvRjKs=
+X-Google-Smtp-Source: ABdhPJyr34usZfM4otBZLMCgqdIkx6xknpF7q6eN/7Pl6CxcYIkUbun7aJssJW51BLb6HSZg9pSefQ==
+X-Received: by 2002:a17:90a:4410:: with SMTP id s16mr7264860pjg.25.1624424120569;
+        Tue, 22 Jun 2021 21:55:20 -0700 (PDT)
+Received: from d3 ([2405:6580:97e0:3100:ae94:2ee7:59a:4846])
+        by smtp.gmail.com with ESMTPSA id r14sm16539508pgu.18.2021.06.22.21.55.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jun 2021 06:22:13 -0700 (PDT)
-Date: Tue, 22 Jun 2021 15:22:10 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 00/17] staging: rtl8723bs: remove 5Ghz code
-Message-ID: <20210622132210.GB1410@agape.jhs>
-References: <cover.1624367071.git.fabioaiuto83@gmail.com>
- <20bed383-adca-e2f0-bede-762707d052ac@redhat.com>
+        Tue, 22 Jun 2021 21:55:19 -0700 (PDT)
+Date: Wed, 23 Jun 2021 13:55:15 +0900
+From: Benjamin Poirier <benjamin.poirier@gmail.com>
+To: Coiby Xu <coiby.xu@gmail.com>
+Cc: Dan Carpenter <dan.carpenter@oracle.com>, linux-staging@lists.linux.dev,
+	netdev@vger.kernel.org, Shung-Hsi Yu <shung-hsi.yu@suse.com>,
+	Manish Chopra <manishc@marvell.com>,
+	"supporter:QLOGIC QLGE 10Gb ETHERNET DRIVER" <GR-Linux-NIC-Dev@marvell.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC 01/19] staging: qlge: fix incorrect truesize accounting
+Message-ID: <YNK+s9Rm7OtL++YM@d3>
+References: <20210621134902.83587-1-coiby.xu@gmail.com>
+ <20210621134902.83587-2-coiby.xu@gmail.com>
+ <20210621141027.GJ1861@kadam>
+ <20210622113649.vm2hfh2veqr4dq6y@Rk>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
@@ -52,131 +58,49 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20bed383-adca-e2f0-bede-762707d052ac@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210622113649.vm2hfh2veqr4dq6y@Rk>
 
-Hi Hans,
+On 2021-06-22 19:36 +0800, Coiby Xu wrote:
+> On Mon, Jun 21, 2021 at 05:10:27PM +0300, Dan Carpenter wrote:
+> > On Mon, Jun 21, 2021 at 09:48:44PM +0800, Coiby Xu wrote:
+> > > Commit 7c734359d3504c869132166d159c7f0649f0ab34 ("qlge: Size RX buffers
+> > > based on MTU") introduced page_chunk structure. We should add
+> > > qdev->lbq_buf_size to skb->truesize after __skb_fill_page_desc.
+> > > 
+> > 
+> > Add a Fixes tag.
+> 
+> I will fix it in next version, thanks!
+> 
+> > 
+> > The runtime impact of this is just that ethtool will report things
+> > incorrectly, right?  It's not 100% from the commit message.  Could you
+> > please edit the commit message so that an ignoramous like myself can
+> > understand it?
 
-On Tue, Jun 22, 2021 at 03:19:45PM +0200, Hans de Goede wrote:
-> Hi,
-> 
-> On 6/22/21 3:09 PM, Fabio Aiuto wrote:
-> > This patch series removes all occurences of 5Ghz code over the
-> > driver as required from driver's TODO list:
-> > 
-> >         - find and remove remaining code valid only for 5 GHz.
-> >           most of the obvious one have been removed, but things
-> >           like channel > 14 still exist.
-> > 
-> > rtl8723bs work on 2.4Ghz band and supports 802.11bgn standards.
-> > So all code related to 802.11a/ac standard is removed, as well
-> > as code related to channel numbers above 14.
-> > 
-> > VHT code is deleted as well, for it's related to 802.11ac.
-> > 
-> > Comments are fixed accordingly and many unused variables are
-> > deleted.
-> > 
-> > Every single patch of this series has been tested on a
-> > Lenovo Ideapad MIIX 300-10IBY except for the last one,
-> > for obvious reason (it deletes just the TODO item).
-> > So:
-> > 
-> > Tested-by: Fabio Auto <fabioaiuto83@gmail.com>
-> 
-> From a quick scan the series looks ok to me now:
-> 
-> Acked-by: Hans de Goede <hdegoede@redhat.com>
-> 
-> Regards,
-> 
-> Hans
+truesize is used in socket memory accounting, the stuff behind sysctl
+net.core.rmem_max, SO_RCVBUF, ss -m, ...
 
-thank you,
-
-fabio
-
+Some helpful chap wrote a page about it a while ago:
+http://vger.kernel.org/~davem/skb_sk.html
 
 > 
+> I'm not sure how it would affect ethtool. But according to "git log
+> --grep=truesize", it affects coalescing SKBs. Btw, I fixed the issue
+> according to the definition of truesize which according to Linux Kernel
+> Network by Rami Rosen, it's defined as follows,
+> > The total memory allocated for the SKB (including the SKB structure
+> > itself and the size of the allocated data block).
 > 
+> I'll edit the commit message to include it, thanks!
 > 
-> 
-> > ------------------------------------------------
-> > Changes in v3:
-> > 	- delete a condition in patch 1 as pointed out by
-> > 	  Hans
-> > 	- fix in 'Changes in v2' text (pointed out).
-> > Changes in v2:
-> >         - drop v1 15/18 patch, for it deliberately
-> >           does register writes as pointed out by Hans.
 > > 
-> > Fabio Aiuto (17):
-> >   staging: rtl8723bs: remove all 5Ghz network types
-> >   staging: rtl8723bs: remove code related to unsupported channel
-> >     bandwidth
-> >   staging: rtl8723bs: remove unused enum items related to channel
-> >     bonding
-> >   staging: rtl8723bs: rename enum items related to channel bonding
-> >   staging: rtl8723bs: remove 5Ghz field in struct registry_priv
-> >   staging: rtl8723bs: remove struct rt_channel_plan_5g
-> >   staging: rtl8723bs: remove all branchings between 2.4Ghz and 5Ghz band
-> >     types
-> >   staging: rtl8723bs: beautify prototypes in include/hal_com_phycfg.h
-> >   staging: rtl8723bs: remove 5Ghz code related to channel plan
-> >     definition
-> >   staging: rtl8723bs: remove some unused 5Ghz macro definitions
-> >   staging: rtl8723bs: remove 5Ghz code related to RF power calibration
-> >   staging: rtl8723bs: remove VHT dead code
-> >   staging: rtl8723bs: remove unused ODM_CMNINFO_BOARD_TYPE enum item
-> >   staging: rtl8723bs: fix macro value for 2.4Ghz only device
-> >   staging: rtl8723bs: remove obsolete 5Ghz comments
-> >   staging: rtl8723bs: fix check allowing 5Ghz settings
-> >   staging: rtl8723bs: remove item from TODO list
-> > 
-> >  drivers/staging/rtl8723bs/TODO                |    2 -
-> >  drivers/staging/rtl8723bs/core/rtw_ap.c       |   11 +-
-> >  .../staging/rtl8723bs/core/rtw_ieee80211.c    |   22 +-
-> >  drivers/staging/rtl8723bs/core/rtw_mlme.c     |   10 -
-> >  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  328 ++---
-> >  .../staging/rtl8723bs/core/rtw_wlan_util.c    |   29 +-
-> >  drivers/staging/rtl8723bs/core/rtw_xmit.c     |    5 +-
-> >  .../staging/rtl8723bs/hal/HalBtc8723b1Ant.c   |    4 +-
-> >  .../staging/rtl8723bs/hal/HalBtc8723b2Ant.c   |    5 +-
-> >  drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h  |    1 -
-> >  .../staging/rtl8723bs/hal/HalHWImg8723B_BB.c  |   17 +-
-> >  .../staging/rtl8723bs/hal/HalHWImg8723B_RF.c  |  595 ++++-----
-> >  .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    |   19 +-
-> >  drivers/staging/rtl8723bs/hal/hal_btcoex.c    |    4 -
-> >  drivers/staging/rtl8723bs/hal/hal_com.c       |  241 ----
-> >  .../staging/rtl8723bs/hal/hal_com_phycfg.c    | 1059 +++--------------
-> >  drivers/staging/rtl8723bs/hal/odm.c           |   50 -
-> >  drivers/staging/rtl8723bs/hal/odm.h           |   42 +-
-> >  drivers/staging/rtl8723bs/hal/odm_DIG.c       |    2 -
-> >  .../rtl8723bs/hal/odm_EdcaTurboCheck.c        |    4 +-
-> >  .../rtl8723bs/hal/odm_RegConfig8723B.c        |    5 +-
-> >  .../rtl8723bs/hal/odm_RegConfig8723B.h        |    2 -
-> >  drivers/staging/rtl8723bs/hal/rtl8723b_dm.c   |    1 -
-> >  .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |   41 +-
-> >  .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   |   43 +-
-> >  drivers/staging/rtl8723bs/hal/sdio_halinit.c  |    5 -
-> >  .../rtl8723bs/include/Hal8192CPhyReg.h        |    2 -
-> >  drivers/staging/rtl8723bs/include/drv_types.h |   10 +-
-> >  drivers/staging/rtl8723bs/include/hal_com.h   |   62 +-
-> >  .../rtl8723bs/include/hal_com_phycfg.h        |  198 +--
-> >  .../staging/rtl8723bs/include/hal_com_reg.h   |    1 -
-> >  drivers/staging/rtl8723bs/include/hal_data.h  |   40 +-
-> >  drivers/staging/rtl8723bs/include/hal_pg.h    |    2 -
-> >  drivers/staging/rtl8723bs/include/hal_phy.h   |   10 -
-> >  drivers/staging/rtl8723bs/include/ieee80211.h |   67 +-
-> >  .../staging/rtl8723bs/include/rtl8723b_xmit.h |   21 -
-> >  drivers/staging/rtl8723bs/include/rtw_ht.h    |    4 -
-> >  .../staging/rtl8723bs/include/rtw_mlme_ext.h  |   52 +-
-> >  drivers/staging/rtl8723bs/include/rtw_rf.h    |   33 +-
-> >  drivers/staging/rtl8723bs/include/wifi.h      |    1 -
-> >  .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c |    4 -
-> >  .../staging/rtl8723bs/os_dep/ioctl_linux.c    |    8 +-
-> >  drivers/staging/rtl8723bs/os_dep/os_intfs.c   |   13 +-
-> >  drivers/staging/rtl8723bs/os_dep/wifi_regd.c  |    4 -
-> >  44 files changed, 640 insertions(+), 2439 deletions(-)
-> > 
+> > Why is this an RFC instead of just a normal patch which we can apply?
 > 
+> After doing the tests mentioned in the cover letter, I found Red Hat's
+> network QE team has quite a rigorous test suite. But I needed to return the
+> machine before having the time to learn about the test suite and run it by
+> myself. So I mark it as an RFC before I borrow the machine again to run the
+> test suite.
+
+Interesting. Is this test suite based on a public project?
