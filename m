@@ -1,279 +1,80 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D942FB8
-	for <linux-staging@lists.linux.dev>; Wed, 23 Jun 2021 10:11:35 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 79F766112D;
-	Wed, 23 Jun 2021 10:11:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1624443093;
-	bh=auiFcU9ExT26MGvZvhvCPjkM1N8BFB1NIzZfoqhOcyw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aKE82scmQW5iRDm/hM9eJshJqNfV7RULHl1Yrbl2IJpii9OKYIm9/mqtObUSGxo6w
-	 wFb3MDG1l0Apf1Bj5nfez8pucK33shcNyVpfpqL0951KbtNaHbXNuwHm6vwhGgu5vB
-	 qgl7Lx1EdlpuvUB2l21PZbYYr/b2RXTLJfEBLh3cso3E31HrHObiahce/+48zpBLTY
-	 rRRHUU/0ZxLbAngnZmEtcgiguvll6Qhjurk+0f3QoPMPxSMo0CMeB4QUhj2b6rSmyK
-	 MP3pzlhUlCX0gsuO7rFPzCxKB8zbxquLRDeBpvozX9R/sxGmbGJggeuLAY5sEvPfJW
-	 toCpFL7WrF+tA==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-	(envelope-from <mchehab@kernel.org>)
-	id 1lvzr1-002pFb-6E; Wed, 23 Jun 2021 12:11:31 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linuxarm@huawei.com,
-	mauro.chehab@huawei.com,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v6 3/8] staging: phy-hi3670-usb3: do some additional cleanups
-Date: Wed, 23 Jun 2021 12:11:25 +0200
-Message-Id: <3ec94bcd15ea822f6a8602f8bfd195c88aaf0c2c.1624442566.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1624442566.git.mchehab+huawei@kernel.org>
-References: <cover.1624442566.git.mchehab+huawei@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E7172FB1
+	for <linux-staging@lists.linux.dev>; Wed, 23 Jun 2021 13:01:07 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id w13so1579924wmc.3
+        for <linux-staging@lists.linux.dev>; Wed, 23 Jun 2021 06:01:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ffHHvblSbftugRKNFHdCEz54FjByJU5jPBUJvQCLlKQ=;
+        b=oyyFAIRvKscBPkw8wh5lHltPrhJujf66ARDgrmsGXfZZkEDnR9EdbD8p4USEHKep9i
+         pNglgshUvSTw+JnANym/3qKYIOOJUShQiguybMK3lGMupsNjn/g5Sz1v880K5SdKsc0H
+         PBmlcEi95+urYSkMZzW+hRQl5NiBJOGtVb4l+jfsJ4HNSeQGLOFRQ6pU3nmwoMmWNHyp
+         54ANU6cb1slIPjkqZAx1c+EjOvf/jEPbZoM1Vh7eyeQQnZtfanHfQyVzT9DGIPWg+LFQ
+         pZcxER23meMDlHIEIYG9Z0aU90B3F6oDeN+smOBEHofDrWumsII0Swobb9Diwf0sHmrZ
+         ZWAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ffHHvblSbftugRKNFHdCEz54FjByJU5jPBUJvQCLlKQ=;
+        b=IUspsWeTXYDac1M6KL3UFlyLEfE9kzOIbdXQoiwmTJGr2sp49NEmcN+odUD6sDp71A
+         3mgSPsydcdRDdZrrecIT0EDeqG++SkEt3J0U4Mu2qnOwX/UWkeAWdKPDeTUMP/h4VKG4
+         x+6c4+YPn3zr3n6JAQaKRGmxGQrJkBBEGy5kJ9egDyioCl3x2q7ABGlE5Hga3vm2s67G
+         8ax3UPg1I2HBDOWae2UsMusWXFcMQEcwc3vHBnLgt/QOUrHOXt5Cbz70PP7/HRL8MRb0
+         KGZaNydMbj5ou/ilFTHvqQxuTAjiLJXS1oR1Y9Cv8AjYZGkdLWunCMVnv3TnIW/pH1p6
+         KRnA==
+X-Gm-Message-State: AOAM532RvzQL65b3Fmu+eY61ZfjcGYIvZuHsicibyv85YtOeRvZduxug
+	eV6L0wyXYA/UcuPMq12lVAU=
+X-Google-Smtp-Source: ABdhPJyfp7sk2hIwqXsoJm9h+R+fkogfD0djsKDKd5eRr/WPRXfmRcg+OEudeCqk5SS3L7Rs+t7V0Q==
+X-Received: by 2002:a05:600c:a01:: with SMTP id z1mr10878368wmp.77.1624453265743;
+        Wed, 23 Jun 2021 06:01:05 -0700 (PDT)
+Received: from agape ([5.171.81.217])
+        by smtp.gmail.com with ESMTPSA id c8sm1946696wri.91.2021.06.23.06.01.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Jun 2021 06:01:05 -0700 (PDT)
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: hdegoede@redhat.com,
+	Larry.Finger@lwfinger.net,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8723bs: convert function to static
+Date: Wed, 23 Jun 2021 15:01:03 +0200
+Message-Id: <20210623130103.7727-1-fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Before moving this driver out of staging, do a couple of
-cleanups, in order to make the driver clearer.
+function chk_sta_is_alive() is used only inside core/rtw_ap.c
+so remove the prototype and convert it to static.
 
-No functional changes.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/hikey9xx/hi6421-spmi-pmic.c   | 89 +++++++++++--------
- .../hikey9xx/hisilicon,hi6421-spmi-pmic.yaml  |  7 +-
- 2 files changed, 57 insertions(+), 39 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c b/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
-index 626140cb96f2..2b7172560df7 100644
---- a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
-+++ b/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
-@@ -33,17 +33,27 @@ enum hi6421_spmi_pmic_irq_list {
- 	SIM0_HPD_F,
- 	SIM1_HPD_R,
- 	SIM1_HPD_F,
--	PMIC_IRQ_LIST_MAX,
-+
-+	PMIC_IRQ_LIST_MAX
- };
- 
--#define HISI_IRQ_ARRAY			2
--#define HISI_IRQ_NUM			(HISI_IRQ_ARRAY * 8)
-+#define HISI_IRQ_BANK_SIZE		2
- 
--#define HISI_IRQ_KEY_NUM		0
-+/*
-+ * IRQ number for the power key button and mask for both UP and DOWN IRQs
-+ */
-+#define HISI_POWERKEY_IRQ_NUM		0
-+#define HISI_IRQ_POWERKEY_UP_DOWN	(BIT(POWERKEY_DOWN) | BIT(POWERKEY_UP))
- 
--#define HISI_BITS			8
--#define HISI_IRQ_KEY_VALUE		(BIT(POWERKEY_DOWN) | BIT(POWERKEY_UP))
--#define HISI_MASK			GENMASK(HISI_BITS - 1, 0)
-+/*
-+ * Registers for IRQ address and IRQ mask bits
-+ *
-+ * Please notice that we need to regmap a larger region, as other
-+ * registers are used by the regulators.
-+ * See drivers/regulator/hi6421-regulator.c.
-+ */
-+#define SOC_PMIC_IRQ_MASK_0_ADDR	0x0202
-+#define SOC_PMIC_IRQ0_ADDR		0x0212
- 
- /*
-  * The IRQs are mapped as:
-@@ -67,13 +77,14 @@ enum hi6421_spmi_pmic_irq_list {
-  *	SIM1_HPD_R		0x0203		0x213		bit 4
-  *	SIM1_HPD_F		0x0203		0x213		bit 5
-  *	======================  =============   ============	=====
-+ *
-+ * Each mask register contains 8 bits. The ancillary macros below
-+ * convert a number from 0 to 14 into a register address and a bit mask
-  */
--#define SOC_PMIC_IRQ_MASK_0_ADDR	0x0202
--#define SOC_PMIC_IRQ0_ADDR		0x0212
--
--#define IRQ_MASK_REGISTER(irq_data)	(SOC_PMIC_IRQ_MASK_0_ADDR + \
--					 (irqd_to_hwirq(irq_data) >> 3))
--#define IRQ_MASK_BIT(irq_data)		BIT(irqd_to_hwirq(irq_data) & 0x07)
-+#define HISI_IRQ_MASK_REG(irq_data)	(SOC_PMIC_IRQ_MASK_0_ADDR + \
-+					 (irqd_to_hwirq(irq_data) / BITS_PER_BYTE))
-+#define HISI_IRQ_MASK_BIT(irq_data)	BIT(irqd_to_hwirq(irq_data) & (BITS_PER_BYTE - 1))
-+#define HISI_8BITS_MASK			GENMASK(BITS_PER_BYTE - 1, 0)
- 
- static const struct mfd_cell hi6421v600_devs[] = {
- 	{ .name = "hi6421v600-regulator", },
-@@ -86,23 +97,30 @@ static irqreturn_t hi6421_spmi_irq_handler(int irq, void *priv)
- 	unsigned int in;
- 	int i, offset;
- 
--	for (i = 0; i < HISI_IRQ_ARRAY; i++) {
-+	for (i = 0; i < HISI_IRQ_BANK_SIZE; i++) {
- 		regmap_read(ddata->regmap, SOC_PMIC_IRQ0_ADDR + i, &in);
--		pending = HISI_MASK & in;
-+
-+		/* Mark pending IRQs as handled */
-+		pending = HISI_8BITS_MASK & in;
- 		regmap_write(ddata->regmap, SOC_PMIC_IRQ0_ADDR + i, pending);
- 
--		if (i == HISI_IRQ_KEY_NUM &&
--		    (pending & HISI_IRQ_KEY_VALUE) == HISI_IRQ_KEY_VALUE) {
-+		if (i == HISI_POWERKEY_IRQ_NUM &&
-+		    (pending & HISI_IRQ_POWERKEY_UP_DOWN) == HISI_IRQ_POWERKEY_UP_DOWN) {
-+			/*
-+			 * If both powerkey down and up IRQs are received,
-+			 * handle them at the right order
-+			 */
- 			generic_handle_irq(ddata->irqs[POWERKEY_DOWN]);
- 			generic_handle_irq(ddata->irqs[POWERKEY_UP]);
--			pending &= (~HISI_IRQ_KEY_VALUE);
-+			pending &= ~HISI_IRQ_POWERKEY_UP_DOWN;
- 		}
- 
- 		if (!pending)
- 			continue;
- 
--		for_each_set_bit(offset, &pending, HISI_BITS)
--			generic_handle_irq(ddata->irqs[offset + i * HISI_BITS]);
-+		for_each_set_bit(offset, &pending, BITS_PER_BYTE) {
-+			generic_handle_irq(ddata->irqs[offset + i * BITS_PER_BYTE]);
-+		}
- 	}
- 
- 	return IRQ_HANDLED;
-@@ -115,12 +133,12 @@ static void hi6421_spmi_irq_mask(struct irq_data *d)
- 	unsigned int data;
- 	u32 offset;
- 
--	offset = IRQ_MASK_REGISTER(d);
-+	offset = HISI_IRQ_MASK_REG(d);
- 
- 	spin_lock_irqsave(&ddata->lock, flags);
- 
- 	regmap_read(ddata->regmap, offset, &data);
--	data |= IRQ_MASK_BIT(d);
-+	data |= HISI_IRQ_MASK_BIT(d);
- 	regmap_write(ddata->regmap, offset, data);
- 
- 	spin_unlock_irqrestore(&ddata->lock, flags);
-@@ -132,20 +150,19 @@ static void hi6421_spmi_irq_unmask(struct irq_data *d)
- 	u32 data, offset;
- 	unsigned long flags;
- 
--	offset = (irqd_to_hwirq(d) >> 3);
--	offset += SOC_PMIC_IRQ_MASK_0_ADDR;
-+	offset = HISI_IRQ_MASK_REG(d);
- 
- 	spin_lock_irqsave(&ddata->lock, flags);
- 
- 	regmap_read(ddata->regmap, offset, &data);
--	data &= ~(1 << (irqd_to_hwirq(d) & 0x07));
-+	data &= ~HISI_IRQ_MASK_BIT(d);
- 	regmap_write(ddata->regmap, offset, data);
- 
- 	spin_unlock_irqrestore(&ddata->lock, flags);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index 23bbdf084631..3e2d8b735fc8 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -164,8 +164,7 @@ static void update_BCNTIM(struct adapter *padapter)
+ 	pnetwork_mlmeext->IELength = offset + remainder_ielen;
  }
  
- static struct irq_chip hi6421_spmi_pmu_irqchip = {
--	.name		= "hisi-irq",
-+	.name		= "hi6421v600-irq",
- 	.irq_mask	= hi6421_spmi_irq_mask,
- 	.irq_unmask	= hi6421_spmi_irq_unmask,
- 	.irq_disable	= hi6421_spmi_irq_mask,
-@@ -158,7 +175,7 @@ static int hi6421_spmi_irq_map(struct irq_domain *d, unsigned int virq,
- 	struct hi6421_spmi_pmic *ddata = d->host_data;
+-u8 chk_sta_is_alive(struct sta_info *psta);
+-u8 chk_sta_is_alive(struct sta_info *psta)
++static u8 chk_sta_is_alive(struct sta_info *psta)
+ {
+ 	sta_update_last_rx_pkts(psta);
  
- 	irq_set_chip_and_handler_name(virq, &hi6421_spmi_pmu_irqchip,
--				      handle_simple_irq, "hisi");
-+				      handle_simple_irq, "hi6421v600");
- 	irq_set_chip_data(virq, ddata);
- 	irq_set_irq_type(virq, IRQ_TYPE_NONE);
- 
-@@ -175,20 +192,22 @@ static void hi6421_spmi_pmic_irq_init(struct hi6421_spmi_pmic *ddata)
- 	int i;
- 	unsigned int pending;
- 
--	for (i = 0; i < HISI_IRQ_ARRAY; i++)
-+	/* Mask all IRQs */
-+	for (i = 0; i < HISI_IRQ_BANK_SIZE; i++)
- 		regmap_write(ddata->regmap, SOC_PMIC_IRQ_MASK_0_ADDR + i,
--			     HISI_MASK);
-+			     HISI_8BITS_MASK);
- 
--	for (i = 0; i < HISI_IRQ_ARRAY; i++) {
-+	/* Mark all IRQs as handled */
-+	for (i = 0; i < HISI_IRQ_BANK_SIZE; i++) {
- 		regmap_read(ddata->regmap, SOC_PMIC_IRQ0_ADDR + i, &pending);
- 		regmap_write(ddata->regmap, SOC_PMIC_IRQ0_ADDR + i,
--			     HISI_MASK);
-+			     HISI_8BITS_MASK);
- 	}
- }
- 
- static const struct regmap_config regmap_config = {
- 	.reg_bits		= 16,
--	.val_bits		= HISI_BITS,
-+	.val_bits		= BITS_PER_BYTE,
- 	.max_register		= 0xffff,
- 	.fast_io		= true
- };
-@@ -230,18 +249,18 @@ static int hi6421_spmi_pmic_probe(struct spmi_device *pdev)
- 
- 	hi6421_spmi_pmic_irq_init(ddata);
- 
--	ddata->irqs = devm_kzalloc(dev, HISI_IRQ_NUM * sizeof(int), GFP_KERNEL);
-+	ddata->irqs = devm_kzalloc(dev, PMIC_IRQ_LIST_MAX * sizeof(int), GFP_KERNEL);
- 	if (!ddata->irqs)
- 		return -ENOMEM;
- 
--	ddata->domain = irq_domain_add_simple(np, HISI_IRQ_NUM, 0,
-+	ddata->domain = irq_domain_add_simple(np, PMIC_IRQ_LIST_MAX, 0,
- 					      &hi6421_spmi_domain_ops, ddata);
- 	if (!ddata->domain) {
- 		dev_err(dev, "Failed to create IRQ domain\n");
- 		return -ENODEV;
- 	}
- 
--	for (i = 0; i < HISI_IRQ_NUM; i++) {
-+	for (i = 0; i < PMIC_IRQ_LIST_MAX; i++) {
- 		virq = irq_create_mapping(ddata->domain, i);
- 		if (!virq) {
- 			dev_err(dev, "Failed to map H/W IRQ\n");
-diff --git a/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml b/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
-index 3b23ad56b31a..8e355cddd437 100644
---- a/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
-+++ b/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
-@@ -17,7 +17,7 @@ description: |
-   node.
- 
-   The SPMI controller part is provided by
--  drivers/staging/hikey9xx/hisilicon,hisi-spmi-controller.yaml.
-+  Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
- 
- properties:
-   $nodename:
-@@ -32,12 +32,11 @@ properties:
-   '#interrupt-cells':
-     const: 2
- 
--  interrupt-controller:
--    description:
--      Identify that the PMIC is capable of behaving as an interrupt controller.
-+  interrupt-controller: true
- 
-   gpios:
-     maxItems: 1
-+    description: GPIO used for IRQs
- 
-   regulators:
-     type: object
 -- 
-2.31.1
+2.20.1
 
