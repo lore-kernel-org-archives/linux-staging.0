@@ -1,130 +1,113 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C58B70
-	for <linux-staging@lists.linux.dev>; Wed, 23 Jun 2021 09:13:15 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E1C18611CE;
-	Wed, 23 Jun 2021 09:13:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA2B70
+	for <linux-staging@lists.linux.dev>; Wed, 23 Jun 2021 10:11:33 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 82A21611C9;
+	Wed, 23 Jun 2021 10:11:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1624439594;
-	bh=F5ijxwzEeYJ7i/hzV572Z7SGyiz9hiABgV3WNxdV1VU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Ga6cUW3jb83gQZXGHcVDMM7sPeKPkkR6s/4qVYWJd6TzTTzXM7hvIxJf5+it7a72l
-	 z1t1FrDbJXVaDRJ3wqprigTLlzLl1e3aSwF5abNrHAK83iM63HHkNym9ZRt6sEGriq
-	 MizKpHf3Dc6OlkIPlZSo7T1Ig6nN+GG03Q0krDZGFhdNAx/JG7gfQtlD9fzc2Ymvly
-	 l7kXNeq4UJ8YFn0LZ+H/Q5mUwy3rs9STL4XAt+NnPN/EhLiyRTyrH/ywGD07DD1gji
-	 0zpYzlVGVH4pDORiZV6vbQUd1gww9Hs6fZtKGKqzCd9smNr0+tYg5PSd3JmrNx8kzZ
-	 WhNLHziIixwNQ==
-Date: Wed, 23 Jun 2021 11:13:09 +0200
+	s=k20201202; t=1624443093;
+	bh=lEMGdk+QOQQbwsmw6YQ5VqGUddHqHIPANLPyfPqVKt0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Y04lejJqplVnm8xl33R+qVL59qxO/Im5Ny1FfusZA2XIdX0KN7qIFta4L7nsvFcWy
+	 7gURBzVlWAphcq9em4pDEoOHOm9PGc8CtjYo5c5FXzc8GWTmrESk2XeYfdx9DpNQtF
+	 eud5yh6/yNI4Kj82YNcWR0+TsuLllA3qdwRL9bSMo53CINGka5q9KOYlX2BCTqU1NH
+	 N4vXjb/YUPw5OYVxGJNe+pAVGUxennG5kSrw7x1qxvhwuw9/Q9mS7e86J1BtVrYoON
+	 qkQbPPrk3Ke125FAEn2hibnuojcICNuyYw6k+Dg+Co0TYZRAHEt9FNBg19TpKQLN/C
+	 xig6Vx0g0Cr+w==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+	(envelope-from <mchehab@kernel.org>)
+	id 1lvzr1-002pFT-3T; Wed, 23 Jun 2021 12:11:31 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones
- <lee.jones@linaro.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v5 (RESEND) 4/7] mfd: hi6421-spmi-pmic: move driver from
- staging
-Message-ID: <20210623111309.215c5040@coco.lan>
-In-Reply-To: <20210326211723.GB3867921@robh.at.kernel.org>
-References: <cover.1616695231.git.mchehab+huawei@kernel.org>
-	<de3603a366c172923771d3f01aa83b70cbba2199.1616695231.git.mchehab+huawei@kernel.org>
-	<20210326211723.GB3867921@robh.at.kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linuxarm@huawei.com,
+	mauro.chehab@huawei.com,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v6 1/8] staging: phy-hi3670-usb3: do a some minor cleanups
+Date: Wed, 23 Jun 2021 12:11:23 +0200
+Message-Id: <55db419e42fd3af72494acbe0ea0f0d1de8906ac.1624442566.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1624442566.git.mchehab+huawei@kernel.org>
+References: <cover.1624442566.git.mchehab+huawei@kernel.org>
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Hi Rob,
+Before moving this driver out of staging:
 
-Em Fri, 26 Mar 2021 15:17:23 -0600
-Rob Herring <robh@kernel.org> escreveu:
+1. group some integers altogether;
 
-> On Thu, Mar 25, 2021 at 07:05:36PM +0100, Mauro Carvalho Chehab wrote:
-> > This driver is ready for mainstream. So, move it out of staging.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  .../mfd/hisilicon,hi6421-spmi-pmic.yaml       | 135 ++++++++
-> >  MAINTAINERS                                   |   7 +
-> >  drivers/mfd/Kconfig                           |  16 +
-> >  drivers/mfd/Makefile                          |   1 +
-> >  drivers/mfd/hi6421-spmi-pmic.c                | 297 ++++++++++++++++++
-> >  drivers/staging/hikey9xx/Kconfig              |  18 --
-> >  drivers/staging/hikey9xx/Makefile             |   1 -
-> >  drivers/staging/hikey9xx/hi6421-spmi-pmic.c   | 297 ------------------
-> >  .../hikey9xx/hisilicon,hi6421-spmi-pmic.yaml  | 135 --------
-> >  9 files changed, 456 insertions(+), 451 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
-> >  create mode 100644 drivers/mfd/hi6421-spmi-pmic.c
-> >  delete mode 100644 drivers/staging/hikey9xx/hi6421-spmi-pmic.c
-> >  delete mode 100644 drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml b/Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
-> > new file mode 100644
-> > index 000000000000..3b23ad56b31a
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
-> > @@ -0,0 +1,135 @@
+2. Use:
 
-...
+	return some_function()
 
+instead of:
 
-> 
-> > +
-> > +  gpios:  
-> 
-> A named gpio is preferred (foo-gpios).
-> 
-> What is this gpio for?
+	ret = some_function();
+	return ret;
 
-This is IRQ GPIOs.
+This is just a cleanup. No functional changes.
 
-Right now, the drive calls:
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/staging/hikey9xx/phy-hi3670-usb3.c | 19 ++++++-------------
+ 1 file changed, 6 insertions(+), 13 deletions(-)
 
-	ddata->gpio = of_get_gpio(np, 0);
+diff --git a/drivers/staging/hikey9xx/phy-hi3670-usb3.c b/drivers/staging/hikey9xx/phy-hi3670-usb3.c
+index e7e579ce0302..b9ffe08abaab 100644
+--- a/drivers/staging/hikey9xx/phy-hi3670-usb3.c
++++ b/drivers/staging/hikey9xx/phy-hi3670-usb3.c
+@@ -148,10 +148,8 @@ static int hi3670_phy_cr_clk(struct regmap *usb31misc)
+ 		return ret;
+ 
+ 	/* Clock down */
+-	ret = regmap_update_bits(usb31misc, USB_MISC_CFG54,
+-				 CFG54_USB31PHY_CR_CLK, 0);
+-
+-	return ret;
++	return regmap_update_bits(usb31misc, USB_MISC_CFG54,
++				  CFG54_USB31PHY_CR_CLK, 0);
+ }
+ 
+ static int hi3670_phy_cr_set_sel(struct regmap *usb31misc)
+@@ -215,17 +213,14 @@ static int hi3670_phy_cr_set_addr(struct regmap *usb31misc, u32 addr)
+ 		return ret;
+ 
+ 	reg = FIELD_PREP(CFG54_USB31PHY_CR_ADDR_MASK, addr);
+-	ret = regmap_update_bits(usb31misc, USB_MISC_CFG54,
+-				 CFG54_USB31PHY_CR_ADDR_MASK, reg);
+ 
+-	return ret;
++	return regmap_update_bits(usb31misc, USB_MISC_CFG54,
++				  CFG54_USB31PHY_CR_ADDR_MASK, reg);
+ }
+ 
+ static int hi3670_phy_cr_read(struct regmap *usb31misc, u32 addr, u32 *val)
+ {
+-	int reg;
+-	int i;
+-	int ret;
++	int reg, i, ret;
+ 
+ 	for (i = 0; i < 100; i++) {
+ 		ret = hi3670_phy_cr_clk(usb31misc);
+@@ -286,9 +281,7 @@ static int hi3670_phy_cr_write(struct regmap *usb31misc, u32 addr, u32 val)
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = hi3670_phy_cr_wait_ack(usb31misc);
+-
+-	return ret;
++	return hi3670_phy_cr_wait_ack(usb31misc);
+ }
+ 
+ static int hi3670_phy_set_params(struct hi3670_priv *priv)
+-- 
+2.31.1
 
-which is an alias for of_get_named_gpio_flags() that hardcode the
-name "gpios":
-
-	static inline int of_get_gpio_flags(struct device_node *np, int index,
-			      enum of_gpio_flags *flags)
-	{
-		return of_get_named_gpio_flags(np, "gpios", index, flags);
-	}
-
-It shouldn't be hard to replace it by:
-
-	ddata->gpio = of_get_named_gpio_flags(np, "irq-gpio", 0, NULL);
-
-but it sounds that most drivers just use of_get_gpio(). The only one
-doing it differently seems to be this one:
-
-	$ git grep -A1 of_get_named_gpio_flags|grep irq
-	drivers/mfd/stmpe.c:	pdata->irq_gpio = of_get_named_gpio_flags(np, "irq-gpio", 0,
-	drivers/mfd/stmpe.c-				&pdata->irq_trigger);
-
-While the usage of "gpios" (without a prefix) seems to be more usual:
-
-	$ git grep -l of_get_gpio|grep -vE '(of_gpio.h|gpiolib.c)'
-	arch/mips/lantiq/xway/vmmc.c
-	arch/powerpc/platforms/44x/warp.c
-	arch/powerpc/platforms/85xx/sgy_cts1000.c
-	drivers/input/touchscreen/auo-pixcir-ts.c
-	drivers/media/i2c/s5k6a3.c
-	drivers/mfd/hi6421-spmi-pmic.c
-	drivers/pcmcia/at91_cf.c
-	drivers/regulator/gpio-regulator.c
-	drivers/soc/fsl/qe/gpio.c
-	drivers/spi/spi-mpc52xx.c
-	drivers/usb/host/fhci-hcd.c
-	sound/soc/codecs/ssm2518.c
-
-Yet, as this is a new driver, if you prefer, I can use the named
-variant and use either "irq-gpio" or "irq-gpios". Just let me know
-the preference.
-
-Thanks,
-Mauro
