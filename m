@@ -1,96 +1,130 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF021173
-	for <linux-staging@lists.linux.dev>; Wed, 23 Jun 2021 07:54:20 +0000 (UTC)
-IronPort-SDR: ZdzAdCHSXNVRAtn5d0z7xZ0FcVB7ygtTn7OsFtXV2YTz6hOgK1wMz2VJodU5bknQhlF2ofS35H
- UGqPdxhc7apA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10023"; a="207153187"
-X-IronPort-AV: E=Sophos;i="5.83,293,1616482800"; 
-   d="scan'208";a="207153187"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2021 00:54:19 -0700
-IronPort-SDR: Ezel5oxpkWim0ATCfSltUKbIqfQvb8j2NWECbYR8dk1mliRU/ZVmo8dDE/8EFcsbTiWCljdjGj
- LNe43qP6XWug==
-X-IronPort-AV: E=Sophos;i="5.83,293,1616482800"; 
-   d="scan'208";a="623758601"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2021 00:54:16 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-	by paasikivi.fi.intel.com (Postfix) with SMTP id C8549201E1;
-	Wed, 23 Jun 2021 10:54:14 +0300 (EEST)
-Date: Wed, 23 Jun 2021 10:54:14 +0300
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Yizhuo <yzhai003@ucr.edu>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Juan Antonio Aldea-Armenteros <juant.aldea@gmail.com>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: atomisp: fix the uninitialized use and rename
- "retvalue"
-Message-ID: <20210623075414.GF3@paasikivi.fi.intel.com>
-References: <20210623055634.12603-1-yzhai003@ucr.edu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C58B70
+	for <linux-staging@lists.linux.dev>; Wed, 23 Jun 2021 09:13:15 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E1C18611CE;
+	Wed, 23 Jun 2021 09:13:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1624439594;
+	bh=F5ijxwzEeYJ7i/hzV572Z7SGyiz9hiABgV3WNxdV1VU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Ga6cUW3jb83gQZXGHcVDMM7sPeKPkkR6s/4qVYWJd6TzTTzXM7hvIxJf5+it7a72l
+	 z1t1FrDbJXVaDRJ3wqprigTLlzLl1e3aSwF5abNrHAK83iM63HHkNym9ZRt6sEGriq
+	 MizKpHf3Dc6OlkIPlZSo7T1Ig6nN+GG03Q0krDZGFhdNAx/JG7gfQtlD9fzc2Ymvly
+	 l7kXNeq4UJ8YFn0LZ+H/Q5mUwy3rs9STL4XAt+NnPN/EhLiyRTyrH/ywGD07DD1gji
+	 0zpYzlVGVH4pDORiZV6vbQUd1gww9Hs6fZtKGKqzCd9smNr0+tYg5PSd3JmrNx8kzZ
+	 WhNLHziIixwNQ==
+Date: Wed, 23 Jun 2021 11:13:09 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones
+ <lee.jones@linaro.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v5 (RESEND) 4/7] mfd: hi6421-spmi-pmic: move driver from
+ staging
+Message-ID: <20210623111309.215c5040@coco.lan>
+In-Reply-To: <20210326211723.GB3867921@robh.at.kernel.org>
+References: <cover.1616695231.git.mchehab+huawei@kernel.org>
+	<de3603a366c172923771d3f01aa83b70cbba2199.1616695231.git.mchehab+huawei@kernel.org>
+	<20210326211723.GB3867921@robh.at.kernel.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210623055634.12603-1-yzhai003@ucr.edu>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Yizhuo,
+Hi Rob,
 
-On Wed, Jun 23, 2021 at 05:56:31AM +0000, Yizhuo wrote:
-> Inside function mt9m114_detect(), variable "retvalue" could
-> be uninitialized if mt9m114_read_reg() returns error, however, it
-> is used in the later if statement, which is potentially unsafe.
+Em Fri, 26 Mar 2021 15:17:23 -0600
+Rob Herring <robh@kernel.org> escreveu:
+
+> On Thu, Mar 25, 2021 at 07:05:36PM +0100, Mauro Carvalho Chehab wrote:
+> > This driver is ready for mainstream. So, move it out of staging.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  .../mfd/hisilicon,hi6421-spmi-pmic.yaml       | 135 ++++++++
+> >  MAINTAINERS                                   |   7 +
+> >  drivers/mfd/Kconfig                           |  16 +
+> >  drivers/mfd/Makefile                          |   1 +
+> >  drivers/mfd/hi6421-spmi-pmic.c                | 297 ++++++++++++++++++
+> >  drivers/staging/hikey9xx/Kconfig              |  18 --
+> >  drivers/staging/hikey9xx/Makefile             |   1 -
+> >  drivers/staging/hikey9xx/hi6421-spmi-pmic.c   | 297 ------------------
+> >  .../hikey9xx/hisilicon,hi6421-spmi-pmic.yaml  | 135 --------
+> >  9 files changed, 456 insertions(+), 451 deletions(-)
+> >  create mode 100644 Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
+> >  create mode 100644 drivers/mfd/hi6421-spmi-pmic.c
+> >  delete mode 100644 drivers/staging/hikey9xx/hi6421-spmi-pmic.c
+> >  delete mode 100644 drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml b/Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
+> > new file mode 100644
+> > index 000000000000..3b23ad56b31a
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
+> > @@ -0,0 +1,135 @@
+
+...
+
+
 > 
-> The local variable "retvalue" is renamed to "model" to avoid
-> confusion.
+> > +
+> > +  gpios:  
 > 
-> Signed-off-by: Yizhuo <yzhai003@ucr.edu>
-> ---
->  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
+> A named gpio is preferred (foo-gpios).
 > 
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> index f5de81132177..fbd6c6cd84c8 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> @@ -1533,16 +1533,19 @@ static struct v4l2_ctrl_config mt9m114_controls[] = {
->  static int mt9m114_detect(struct mt9m114_device *dev, struct i2c_client *client)
->  {
->  	struct i2c_adapter *adapter = client->adapter;
-> -	u32 retvalue;
-> +	u32 model;
-> +	int ret;
->  
->  	if (!i2c_check_functionality(adapter, I2C_FUNC_I2C)) {
->  		dev_err(&client->dev, "%s: i2c error", __func__);
->  		return -ENODEV;
->  	}
-> -	mt9m114_read_reg(client, MISENSOR_16BIT, (u32)MT9M114_PID, &retvalue);
-> -	dev->real_model_id = retvalue;
-> +	ret = mt9m114_read_reg(client, MISENSOR_16BIT, (u32)MT9M114_PID, &model);
+> What is this gpio for?
 
-This is over 80 characters.
+This is IRQ GPIOs.
 
-You can also drop the cast, which also reduces the line length.
+Right now, the drive calls:
 
-> +	if (ret)
-> +		return ret;
-> +	dev->real_model_id = model;
->  
-> -	if (retvalue != MT9M114_MOD_ID) {
-> +	if (model != MT9M114_MOD_ID) {
->  		dev_err(&client->dev, "%s: failed: client->addr = %x\n",
->  			__func__, client->addr);
->  		return -ENODEV;
+	ddata->gpio = of_get_gpio(np, 0);
 
--- 
-Regards,
+which is an alias for of_get_named_gpio_flags() that hardcode the
+name "gpios":
 
-Sakari Ailus
+	static inline int of_get_gpio_flags(struct device_node *np, int index,
+			      enum of_gpio_flags *flags)
+	{
+		return of_get_named_gpio_flags(np, "gpios", index, flags);
+	}
+
+It shouldn't be hard to replace it by:
+
+	ddata->gpio = of_get_named_gpio_flags(np, "irq-gpio", 0, NULL);
+
+but it sounds that most drivers just use of_get_gpio(). The only one
+doing it differently seems to be this one:
+
+	$ git grep -A1 of_get_named_gpio_flags|grep irq
+	drivers/mfd/stmpe.c:	pdata->irq_gpio = of_get_named_gpio_flags(np, "irq-gpio", 0,
+	drivers/mfd/stmpe.c-				&pdata->irq_trigger);
+
+While the usage of "gpios" (without a prefix) seems to be more usual:
+
+	$ git grep -l of_get_gpio|grep -vE '(of_gpio.h|gpiolib.c)'
+	arch/mips/lantiq/xway/vmmc.c
+	arch/powerpc/platforms/44x/warp.c
+	arch/powerpc/platforms/85xx/sgy_cts1000.c
+	drivers/input/touchscreen/auo-pixcir-ts.c
+	drivers/media/i2c/s5k6a3.c
+	drivers/mfd/hi6421-spmi-pmic.c
+	drivers/pcmcia/at91_cf.c
+	drivers/regulator/gpio-regulator.c
+	drivers/soc/fsl/qe/gpio.c
+	drivers/spi/spi-mpc52xx.c
+	drivers/usb/host/fhci-hcd.c
+	sound/soc/codecs/ssm2518.c
+
+Yet, as this is a new driver, if you prefer, I can use the named
+variant and use either "irq-gpio" or "irq-gpios". Just let me know
+the preference.
+
+Thanks,
+Mauro
