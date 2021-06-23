@@ -1,50 +1,50 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71812FB3
-	for <linux-staging@lists.linux.dev>; Wed, 23 Jun 2021 23:49:08 +0000 (UTC)
-Received: by mail-qv1-f42.google.com with SMTP id m15so2373525qvc.9
-        for <linux-staging@lists.linux.dev>; Wed, 23 Jun 2021 16:49:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475582FB3
+	for <linux-staging@lists.linux.dev>; Wed, 23 Jun 2021 23:49:10 +0000 (UTC)
+Received: by mail-qt1-f181.google.com with SMTP id d9so3498210qtx.8
+        for <linux-staging@lists.linux.dev>; Wed, 23 Jun 2021 16:49:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Hzs0aRr/2FTo+ufCqPbo8wGeZKPZ+8aya5RUmspvHjU=;
-        b=dQMDWyMK48FNMS5NdEouRQoBOEPwohFXj4YamZ/qDn6Te1H+9D5tTu0hOX1vdy6PUJ
-         5x4elyuUJwvqxVZx+E6mR17omVSkzs0p0Pq6qyHEj0d1HgDyU1KMl/86WSKWAhcxV/Zl
-         8IGELc8tLH6c17hh/TXl797DDYFnFoi5RCTj1KhtGkJ7o1hkl5h4nzy4i8ZhYtCj4YcM
-         mbrABc0e4j3SPPGocuV48ETWwW6ChCyDEE/FgHrhl/0uv01T1SyAAaSiidyzohSo+le5
-         ofsgLWWvOBMcyzawuoCEB5RawLotpF4gdfJKY+yLEY84gYnoJbgOup6kj9RKoWlDVwTV
-         HDmg==
+        bh=7Cio/o/UPnfZZDbda7tiIMQy0nC96qD442oe0ej5cDs=;
+        b=woamOu7oQu4dNOLO3jPBVaWmTyEOvu5wNLbngnrfTf/QKH0pHpq4Y5/L0joHa1xv+A
+         VIHJ+hzBa6WLISACmuaPM56Tc8Gu/ueTm0GvNIr1d4s3rkW8RY0U95RLU/yGlflLgxbd
+         0z+0sXPFlpNB2cvm7Hzy7+w5luurO3enQmqloBsFZPF/xmj85KTjJ2+o7T6L4UXG6CCs
+         /3PnydsOf6QV7hmLyLIB89FasvXjxD3zUeXholYYhry93YpxPI1wHHlR3g6qVTYuz91u
+         fJXClZbraM0XhhG2jA/hgnsSjYb+1wsTYKTEz4OtnQGahqa8rnTN0xMCYUdcuHQu0ml0
+         uDrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Hzs0aRr/2FTo+ufCqPbo8wGeZKPZ+8aya5RUmspvHjU=;
-        b=nwg+nPiSpm3DmJ2uElre8i0PrheZyKakXtkv6huYF244A03cAr91aa8ybN3f3HAWpu
-         BK+gsqpODNWqDYwUbOltHe4xigEDnmZ/QqPWFvpFxlBqmeU8Om6hPMuEIvXOEugvyRjO
-         qT9SLHFKzW9nsdBAnpeA9llYLHQOgDZFKZd0Gvs4fNr/evjWBNmBsi2dYDRddgpH4+wV
-         QKJAwnvpkhb+XGZ6LEH665eF7ND88hks8ngnOqVPMaR11CBJjECUqAPrqqvHL20ef0mi
-         XFP5o8WaKYCTWOROBqWAROMeNyPZn9iJd1s2fsavLNQu714GbxBeRn9Vr+++tPFpWs7J
-         znhg==
-X-Gm-Message-State: AOAM530zVPk4f/ojllePsOaH1BCBaR7QMT2oyX7SG13HzbPVj7osWyEP
-	VONnDxpG3LYwWjRBeSYHq+BIcg==
-X-Google-Smtp-Source: ABdhPJzfVDCa4aSQXlzkeGAnV9tA76+yAdDViBHh74G8+izOLWUJgMyd1CImwRrpF4qr+kWKF9AGgQ==
-X-Received: by 2002:a0c:b752:: with SMTP id q18mr2582310qve.6.1624492147827;
-        Wed, 23 Jun 2021 16:49:07 -0700 (PDT)
+        bh=7Cio/o/UPnfZZDbda7tiIMQy0nC96qD442oe0ej5cDs=;
+        b=ZkJYoC1jRMJOn5+OwQRCoiv9h1RZYS3raQ3i/uohnU+k7JxpfEQyRaHo1IzN1Ba9iL
+         4nqJMVJfCEmdp7jaUfusL2NN3EwFpYF+Qj/w8lufJzO4gvMuUirYwjKRv9/l9orPfnB0
+         b9U9edyDVhaP68JPPBGZvzMSmwU/Ds600kskholPRA9AyuqaMO1C41wVYo+sCrXq9a9U
+         4wLLB37iRK4ECgHF3BJaMra3nGDw91LaqD36fLQ8RoaaiilAVJWgu49I0gi3XB6o64G3
+         ZbvEhwpwxV10FuhyBBSvt/31Cp8+DnIC5owJqfWv1EN1ERrjsBHZQIoS6GoxXqbfHNTv
+         sUIQ==
+X-Gm-Message-State: AOAM532To9JFSR6jI5MU5nfo6i+zv4g2iMsD3/3tyXdpJ46MuleAzZGP
+	OHWSOqvZB84vATWq4xYHphFTIQ==
+X-Google-Smtp-Source: ABdhPJzWU/YR/H378s5fSBx/a2mPw14440kYh0RrM8P4oOPwJHbe68+CSURid5URsiPN9pOS6FeK3Q==
+X-Received: by 2002:a05:622a:391:: with SMTP id j17mr2298941qtx.217.1624492149287;
+        Wed, 23 Jun 2021 16:49:09 -0700 (PDT)
 Received: from kerneldevvm.. (5.6.a.8.a.a.b.f.c.9.4.c.a.9.a.a.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0:aa9a:c49c:fbaa:8a65])
-        by smtp.gmail.com with ESMTPSA id w2sm992387qto.50.2021.06.23.16.49.06
+        by smtp.gmail.com with ESMTPSA id w2sm992387qto.50.2021.06.23.16.49.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Jun 2021 16:49:07 -0700 (PDT)
+        Wed, 23 Jun 2021 16:49:08 -0700 (PDT)
 From: Phillip Potter <phil@philpotter.co.uk>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
 	dan.carpenter@oracle.com,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 1/9] staging: rtl8188eu: remove all DBG_88E_LEVEL calls from os_dep/ioctl_linux.c
-Date: Thu, 24 Jun 2021 00:48:54 +0100
-Message-Id: <20210623234902.7411-2-phil@philpotter.co.uk>
+Subject: [PATCH 2/9] staging: rtl8188eu: remove all DBG_88E_LEVEL calls from core/rtw_mlmw_ext.c
+Date: Thu, 24 Jun 2021 00:48:55 +0100
+Message-Id: <20210623234902.7411-3-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210623234902.7411-1-phil@philpotter.co.uk>
 References: <20210623234902.7411-1-phil@philpotter.co.uk>
@@ -56,36 +56,111 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove all DBG_88E_LEVEL calls from os_dep/ioctl_linux.c as this macro is
+Remove all DBG_88E_LEVEL calls from core/rtw_mlmw_ext.c as this macro is
 unnecessary, and these calls are dubious in terms of necessity.
 Removing all calls will ultimately allow the removal of the macro
 itself.
 
 Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 ---
- drivers/staging/rtl8188eu/os_dep/ioctl_linux.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/staging/rtl8188eu/core/rtw_mlme_ext.c | 21 -------------------
+ 1 file changed, 21 deletions(-)
 
-diff --git a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-index 3b8386245017..7ab7706cf29c 100644
---- a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-@@ -71,7 +71,6 @@ void rtw_indicate_wx_assoc_event(struct adapter *padapter)
+diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+index c6410030dcbf..2c5f9ee2cf82 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+@@ -2190,7 +2190,6 @@ static void start_clnt_auth(struct adapter *padapter)
+ 	/*	For the Win8 P2P connection, it will be hard to have a successful connection if this Wi-Fi doesn't connect to it. */
+ 	issue_deauth(padapter, (&pmlmeinfo->network)->MacAddress, WLAN_REASON_DEAUTH_LEAVING);
  
- 	memcpy(wrqu.ap_addr.sa_data, pmlmepriv->cur_network.network.MacAddress, ETH_ALEN);
+-	DBG_88E_LEVEL(_drv_info_, "start auth\n");
+ 	issue_auth(padapter, NULL, 0);
  
--	DBG_88E_LEVEL(_drv_always_, "assoc success\n");
- 	wireless_send_event(padapter->pnetdev, SIOCGIWAP, &wrqu, NULL);
- }
+ 	set_link_timer(pmlmeext, REAUTH_TO);
+@@ -2481,7 +2480,6 @@ static unsigned int OnBeacon(struct adapter *padapter,
+ 			if (psta) {
+ 				ret = rtw_check_bcn_info(padapter, pframe, len);
+ 				if (!ret) {
+-					DBG_88E_LEVEL(_drv_info_, "ap has changed, disconnect now\n ");
+ 					receive_disconnect(padapter, pmlmeinfo->network.MacAddress, 65535);
+ 					return _SUCCESS;
+ 				}
+@@ -2738,7 +2736,6 @@ static unsigned int OnAuthClient(struct adapter *padapter,
+ 	}
  
-@@ -84,7 +83,6 @@ void rtw_indicate_wx_disassoc_event(struct adapter *padapter)
- 	wrqu.ap_addr.sa_family = ARPHRD_ETHER;
- 	eth_zero_addr(wrqu.ap_addr.sa_data);
+ 	if (go2asoc) {
+-		DBG_88E_LEVEL(_drv_info_, "auth success, start assoc\n");
+ 		start_clnt_assoc(padapter);
+ 		return _SUCCESS;
+ 	}
+@@ -3248,9 +3245,6 @@ static unsigned int OnDeAuth(struct adapter *padapter,
+ 		struct sta_info *psta;
+ 		struct sta_priv *pstapriv = &padapter->stapriv;
  
--	DBG_88E_LEVEL(_drv_always_, "indicate disassoc\n");
- 	wireless_send_event(padapter->pnetdev, SIOCGIWAP, &wrqu, NULL);
- }
+-		DBG_88E_LEVEL(_drv_always_, "ap recv deauth reason code(%d) sta:%pM\n",
+-			      reason, GetAddr2Ptr(pframe));
+-
+ 		psta = rtw_get_stainfo(pstapriv, GetAddr2Ptr(pframe));
+ 		if (psta) {
+ 			u8 updated = 0;
+@@ -3269,9 +3263,6 @@ static unsigned int OnDeAuth(struct adapter *padapter,
+ 		return _SUCCESS;
+ 	}
+ #endif
+-	DBG_88E_LEVEL(_drv_always_, "sta recv deauth reason code(%d) sta:%pM\n",
+-		      reason, GetAddr3Ptr(pframe));
+-
+ 	receive_disconnect(padapter, GetAddr3Ptr(pframe), reason);
  
+ 	pmlmepriv->LinkDetectInfo.bBusyTraffic = false;
+@@ -3299,9 +3290,6 @@ static unsigned int OnDisassoc(struct adapter *padapter,
+ 		struct sta_info *psta;
+ 		struct sta_priv *pstapriv = &padapter->stapriv;
+ 
+-		DBG_88E_LEVEL(_drv_always_, "ap recv disassoc reason code(%d) sta:%pM\n",
+-			      reason, GetAddr2Ptr(pframe));
+-
+ 		psta = rtw_get_stainfo(pstapriv, GetAddr2Ptr(pframe));
+ 		if (psta) {
+ 			u8 updated = 0;
+@@ -3320,9 +3308,6 @@ static unsigned int OnDisassoc(struct adapter *padapter,
+ 		return _SUCCESS;
+ 	}
+ #endif
+-	DBG_88E_LEVEL(_drv_always_, "ap recv disassoc reason code(%d) sta:%pM\n",
+-		      reason, GetAddr3Ptr(pframe));
+-
+ 	receive_disconnect(padapter, GetAddr3Ptr(pframe), reason);
+ 
+ 	pmlmepriv->LinkDetectInfo.bBusyTraffic = false;
+@@ -4461,8 +4446,6 @@ void linked_status_chk(struct adapter *padapter)
+ 			if (rx_chk == _FAIL) {
+ 				pmlmeext->retry++;
+ 				if (pmlmeext->retry > rx_chk_limit) {
+-					DBG_88E_LEVEL(_drv_always_, FUNC_ADPT_FMT" disconnect or roaming\n",
+-						      FUNC_ADPT_ARG(padapter));
+ 					receive_disconnect(padapter, pmlmeinfo->network.MacAddress,
+ 							   WLAN_REASON_EXPIRATION_CHK);
+ 					return;
+@@ -4976,8 +4959,6 @@ u8 setkey_hdl(struct adapter *padapter, u8 *pbuf)
+ 	/* write cam */
+ 	ctrl = BIT(15) | ((pparm->algorithm) << 2) | pparm->keyid;
+ 
+-	DBG_88E_LEVEL(_drv_info_, "set group key to hw: alg:%d(WEP40-1 WEP104-5 TKIP-2 AES-4) "
+-			"keyid:%d\n", pparm->algorithm, pparm->keyid);
+ 	write_cam(padapter, pparm->keyid, ctrl, null_sta, pparm->key);
+ 
+ 	return H2C_SUCCESS;
+@@ -5006,8 +4987,6 @@ u8 set_stakey_hdl(struct adapter *padapter, u8 *pbuf)
+ 
+ 	cam_id = 4;
+ 
+-	DBG_88E_LEVEL(_drv_info_, "set pairwise key to hw: alg:%d(WEP40-1 WEP104-5 TKIP-2 AES-4) camid:%d\n",
+-		      pparm->algorithm, cam_id);
+ 	if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE) {
+ 		struct sta_info *psta;
+ 		struct sta_priv *pstapriv = &padapter->stapriv;
 -- 
 2.31.1
 
