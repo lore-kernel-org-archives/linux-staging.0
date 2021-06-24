@@ -1,23 +1,23 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338B02FB7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC9E2FB8
 	for <linux-staging@lists.linux.dev>; Thu, 24 Jun 2021 14:01:41 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D29E661410;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D02C061404;
 	Thu, 24 Jun 2021 14:01:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1624543300;
-	bh=lEMGdk+QOQQbwsmw6YQ5VqGUddHqHIPANLPyfPqVKt0=;
+	s=k20201202; t=1624543301;
+	bh=X713zsM1P7JUHMg96E5gDnRGFLAphAjOAnX/uSvwsWs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jQyKT/p4r0QmX4pZh3rm+SlKuWds0XlElMYuNd62/lF8G/fOtIdRu/WAaLs5EdgDI
-	 CgknBPNuOMAcnISzOoDRLIR3XuwtD9nd8arzaOnjyrN592+UFj6aYCtpCT9F+M1ZcL
-	 aYHF1yknepYNf2wZ12GxIEt3uqCTYaj/zmZnShuKEmwt3XuhI79PxJQO69ENDAPXHY
-	 fDe+iLHdIzQnmm5FUjIwuXX32JELnTmmSQmqQdKqAdi74ee/eVbjil1r1y5IkVV1Zc
-	 ynwbgujALQehLYjuwHVodmlu1fkMDWqA9LcxzpS3eqibveUKY7YZZffZ3vceFZ8sSZ
-	 kybQ8gln9tmAA==
+	b=VqgXAzaAZozI6e6nk+aVA+5AlXOVCB+Cb5VUuFqm1WCjdquBNDhsX1kuP0Y03x1uj
+	 GD0a8/NTX02/dYQoqHBYIzkw45lpVAn6jr4v2KPSgo+HdV6gcD+DrZ/R6+ybGQdZcU
+	 rYCBrnV6j+g9l70dbF0RmX0xb0QNR0X2QsrF7L5RtTklEgJEZe32oAt8EIQ62CD9og
+	 eQzJgkcCjhs6i9Nh3VUcEPq2viiLXexBHYGVj4Pi/gKP6h/JfBT61Iancl1ebliR0O
+	 TqWdD6MWpwsffolr5e21uaytH+SUDK0Hnp3B4NyIeKG2d4sYLdYf9h0GeISe2xo/Lv
+	 bOnsG7SmS8fGw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1lwPvG-003wSC-Kx; Thu, 24 Jun 2021 16:01:38 +0200
+	id 1lwPvG-003wSK-Nc; Thu, 24 Jun 2021 16:01:38 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linuxarm@huawei.com,
@@ -26,9 +26,9 @@ Cc: linuxarm@huawei.com,
 	"Lee Jones" <lee.jones@linaro.org>,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v7 1/8] staging: phy-hi3670-usb3: do a some minor cleanups
-Date: Thu, 24 Jun 2021 16:01:30 +0200
-Message-Id: <55db419e42fd3af72494acbe0ea0f0d1de8906ac.1624542940.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v7 3/8] staging: hi6421-spmi-pmic: do some additional cleanups
+Date: Thu, 24 Jun 2021 16:01:32 +0200
+Message-Id: <08b3d0eb4256c4fad25652f2aeb701b81d11ece2.1624542940.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1624542940.git.mchehab+huawei@kernel.org>
 References: <cover.1624542940.git.mchehab+huawei@kernel.org>
@@ -41,75 +41,300 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Before moving this driver out of staging:
+Before moving this driver out of staging, do a couple of
+cleanups, in order to make the driver clearer.
 
-1. group some integers altogether;
-
-2. Use:
-
-	return some_function()
-
-instead of:
-
-	ret = some_function();
-	return ret;
-
-This is just a cleanup. No functional changes.
+No functional changes.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/staging/hikey9xx/phy-hi3670-usb3.c | 19 ++++++-------------
- 1 file changed, 6 insertions(+), 13 deletions(-)
+ drivers/staging/hikey9xx/hi6421-spmi-pmic.c   | 122 ++++++++++--------
+ .../hikey9xx/hisilicon,hi6421-spmi-pmic.yaml  |   7 +-
+ 2 files changed, 71 insertions(+), 58 deletions(-)
 
-diff --git a/drivers/staging/hikey9xx/phy-hi3670-usb3.c b/drivers/staging/hikey9xx/phy-hi3670-usb3.c
-index e7e579ce0302..b9ffe08abaab 100644
---- a/drivers/staging/hikey9xx/phy-hi3670-usb3.c
-+++ b/drivers/staging/hikey9xx/phy-hi3670-usb3.c
-@@ -148,10 +148,8 @@ static int hi3670_phy_cr_clk(struct regmap *usb31misc)
- 		return ret;
+diff --git a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c b/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
+index 626140cb96f2..252b731e272d 100644
+--- a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
++++ b/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
+@@ -2,9 +2,9 @@
+ /*
+  * Device driver for regulators in HISI PMIC IC
+  *
+- * Copyright (c) 2013 Linaro Ltd.
+- * Copyright (c) 2011 Hisilicon.
+- * Copyright (c) 2020-2021 Huawei Technologies Co., Ltd
++ * Copyright (c) 2013- Linaro Ltd.
++ * Copyright (c) 2011- Hisilicon.
++ * Copyright (c) 2020- Huawei Technologies Co., Ltd
+  */
  
- 	/* Clock down */
--	ret = regmap_update_bits(usb31misc, USB_MISC_CFG54,
--				 CFG54_USB31PHY_CR_CLK, 0);
+ #include <linux/bitops.h>
+@@ -33,17 +33,27 @@ enum hi6421_spmi_pmic_irq_list {
+ 	SIM0_HPD_F,
+ 	SIM1_HPD_R,
+ 	SIM1_HPD_F,
+-	PMIC_IRQ_LIST_MAX,
++
++	PMIC_IRQ_LIST_MAX
+ };
+ 
+-#define HISI_IRQ_ARRAY			2
+-#define HISI_IRQ_NUM			(HISI_IRQ_ARRAY * 8)
++#define HISI_IRQ_BANK_SIZE		2
+ 
+-#define HISI_IRQ_KEY_NUM		0
++/*
++ * IRQ number for the power key button and mask for both UP and DOWN IRQs
++ */
++#define HISI_POWERKEY_IRQ_NUM		0
++#define HISI_IRQ_POWERKEY_UP_DOWN	(BIT(POWERKEY_DOWN) | BIT(POWERKEY_UP))
+ 
+-#define HISI_BITS			8
+-#define HISI_IRQ_KEY_VALUE		(BIT(POWERKEY_DOWN) | BIT(POWERKEY_UP))
+-#define HISI_MASK			GENMASK(HISI_BITS - 1, 0)
++/*
++ * Registers for IRQ address and IRQ mask bits
++ *
++ * Please notice that we need to regmap a larger region, as other
++ * registers are used by the regulators.
++ * See drivers/regulator/hi6421-regulator.c.
++ */
++#define SOC_PMIC_IRQ_MASK_0_ADDR	0x0202
++#define SOC_PMIC_IRQ0_ADDR		0x0212
+ 
+ /*
+  * The IRQs are mapped as:
+@@ -67,13 +77,14 @@ enum hi6421_spmi_pmic_irq_list {
+  *	SIM1_HPD_R		0x0203		0x213		bit 4
+  *	SIM1_HPD_F		0x0203		0x213		bit 5
+  *	======================  =============   ============	=====
++ *
++ * Each mask register contains 8 bits. The ancillary macros below
++ * convert a number from 0 to 14 into a register address and a bit mask
+  */
+-#define SOC_PMIC_IRQ_MASK_0_ADDR	0x0202
+-#define SOC_PMIC_IRQ0_ADDR		0x0212
 -
--	return ret;
-+	return regmap_update_bits(usb31misc, USB_MISC_CFG54,
-+				  CFG54_USB31PHY_CR_CLK, 0);
+-#define IRQ_MASK_REGISTER(irq_data)	(SOC_PMIC_IRQ_MASK_0_ADDR + \
+-					 (irqd_to_hwirq(irq_data) >> 3))
+-#define IRQ_MASK_BIT(irq_data)		BIT(irqd_to_hwirq(irq_data) & 0x07)
++#define HISI_IRQ_MASK_REG(irq_data)	(SOC_PMIC_IRQ_MASK_0_ADDR + \
++					 (irqd_to_hwirq(irq_data) / BITS_PER_BYTE))
++#define HISI_IRQ_MASK_BIT(irq_data)	BIT(irqd_to_hwirq(irq_data) & (BITS_PER_BYTE - 1))
++#define HISI_8BITS_MASK			0xff
+ 
+ static const struct mfd_cell hi6421v600_devs[] = {
+ 	{ .name = "hi6421v600-regulator", },
+@@ -86,23 +97,31 @@ static irqreturn_t hi6421_spmi_irq_handler(int irq, void *priv)
+ 	unsigned int in;
+ 	int i, offset;
+ 
+-	for (i = 0; i < HISI_IRQ_ARRAY; i++) {
++	for (i = 0; i < HISI_IRQ_BANK_SIZE; i++) {
+ 		regmap_read(ddata->regmap, SOC_PMIC_IRQ0_ADDR + i, &in);
+-		pending = HISI_MASK & in;
+-		regmap_write(ddata->regmap, SOC_PMIC_IRQ0_ADDR + i, pending);
+ 
+-		if (i == HISI_IRQ_KEY_NUM &&
+-		    (pending & HISI_IRQ_KEY_VALUE) == HISI_IRQ_KEY_VALUE) {
++		/* Mark pending IRQs as handled */
++		regmap_write(ddata->regmap, SOC_PMIC_IRQ0_ADDR + i, in);
++
++		pending = in & HISI_8BITS_MASK;
++
++		if (i == HISI_POWERKEY_IRQ_NUM &&
++		    (pending & HISI_IRQ_POWERKEY_UP_DOWN) == HISI_IRQ_POWERKEY_UP_DOWN) {
++			/*
++			 * If both powerkey down and up IRQs are received,
++			 * handle them at the right order
++			 */
+ 			generic_handle_irq(ddata->irqs[POWERKEY_DOWN]);
+ 			generic_handle_irq(ddata->irqs[POWERKEY_UP]);
+-			pending &= (~HISI_IRQ_KEY_VALUE);
++			pending &= ~HISI_IRQ_POWERKEY_UP_DOWN;
+ 		}
+ 
+ 		if (!pending)
+ 			continue;
+ 
+-		for_each_set_bit(offset, &pending, HISI_BITS)
+-			generic_handle_irq(ddata->irqs[offset + i * HISI_BITS]);
++		for_each_set_bit(offset, &pending, BITS_PER_BYTE) {
++			generic_handle_irq(ddata->irqs[offset + i * BITS_PER_BYTE]);
++		}
+ 	}
+ 
+ 	return IRQ_HANDLED;
+@@ -115,12 +134,12 @@ static void hi6421_spmi_irq_mask(struct irq_data *d)
+ 	unsigned int data;
+ 	u32 offset;
+ 
+-	offset = IRQ_MASK_REGISTER(d);
++	offset = HISI_IRQ_MASK_REG(d);
+ 
+ 	spin_lock_irqsave(&ddata->lock, flags);
+ 
+ 	regmap_read(ddata->regmap, offset, &data);
+-	data |= IRQ_MASK_BIT(d);
++	data |= HISI_IRQ_MASK_BIT(d);
+ 	regmap_write(ddata->regmap, offset, data);
+ 
+ 	spin_unlock_irqrestore(&ddata->lock, flags);
+@@ -132,20 +151,19 @@ static void hi6421_spmi_irq_unmask(struct irq_data *d)
+ 	u32 data, offset;
+ 	unsigned long flags;
+ 
+-	offset = (irqd_to_hwirq(d) >> 3);
+-	offset += SOC_PMIC_IRQ_MASK_0_ADDR;
++	offset = HISI_IRQ_MASK_REG(d);
+ 
+ 	spin_lock_irqsave(&ddata->lock, flags);
+ 
+ 	regmap_read(ddata->regmap, offset, &data);
+-	data &= ~(1 << (irqd_to_hwirq(d) & 0x07));
++	data &= ~HISI_IRQ_MASK_BIT(d);
+ 	regmap_write(ddata->regmap, offset, data);
+ 
+ 	spin_unlock_irqrestore(&ddata->lock, flags);
  }
  
- static int hi3670_phy_cr_set_sel(struct regmap *usb31misc)
-@@ -215,17 +213,14 @@ static int hi3670_phy_cr_set_addr(struct regmap *usb31misc, u32 addr)
- 		return ret;
+ static struct irq_chip hi6421_spmi_pmu_irqchip = {
+-	.name		= "hisi-irq",
++	.name		= "hi6421v600-irq",
+ 	.irq_mask	= hi6421_spmi_irq_mask,
+ 	.irq_unmask	= hi6421_spmi_irq_unmask,
+ 	.irq_disable	= hi6421_spmi_irq_mask,
+@@ -158,7 +176,7 @@ static int hi6421_spmi_irq_map(struct irq_domain *d, unsigned int virq,
+ 	struct hi6421_spmi_pmic *ddata = d->host_data;
  
- 	reg = FIELD_PREP(CFG54_USB31PHY_CR_ADDR_MASK, addr);
--	ret = regmap_update_bits(usb31misc, USB_MISC_CFG54,
--				 CFG54_USB31PHY_CR_ADDR_MASK, reg);
+ 	irq_set_chip_and_handler_name(virq, &hi6421_spmi_pmu_irqchip,
+-				      handle_simple_irq, "hisi");
++				      handle_simple_irq, "hi6421v600");
+ 	irq_set_chip_data(virq, ddata);
+ 	irq_set_irq_type(virq, IRQ_TYPE_NONE);
  
--	return ret;
-+	return regmap_update_bits(usb31misc, USB_MISC_CFG54,
-+				  CFG54_USB31PHY_CR_ADDR_MASK, reg);
+@@ -175,22 +193,24 @@ static void hi6421_spmi_pmic_irq_init(struct hi6421_spmi_pmic *ddata)
+ 	int i;
+ 	unsigned int pending;
+ 
+-	for (i = 0; i < HISI_IRQ_ARRAY; i++)
++	/* Mask all IRQs */
++	for (i = 0; i < HISI_IRQ_BANK_SIZE; i++)
+ 		regmap_write(ddata->regmap, SOC_PMIC_IRQ_MASK_0_ADDR + i,
+-			     HISI_MASK);
++			     HISI_8BITS_MASK);
+ 
+-	for (i = 0; i < HISI_IRQ_ARRAY; i++) {
++	/* Mark all IRQs as handled */
++	for (i = 0; i < HISI_IRQ_BANK_SIZE; i++) {
+ 		regmap_read(ddata->regmap, SOC_PMIC_IRQ0_ADDR + i, &pending);
+ 		regmap_write(ddata->regmap, SOC_PMIC_IRQ0_ADDR + i,
+-			     HISI_MASK);
++			     HISI_8BITS_MASK);
+ 	}
  }
  
- static int hi3670_phy_cr_read(struct regmap *usb31misc, u32 addr, u32 *val)
- {
--	int reg;
--	int i;
--	int ret;
-+	int reg, i, ret;
+ static const struct regmap_config regmap_config = {
+-	.reg_bits		= 16,
+-	.val_bits		= HISI_BITS,
+-	.max_register		= 0xffff,
+-	.fast_io		= true
++	.reg_bits	= 16,
++	.val_bits	= BITS_PER_BYTE,
++	.max_register	= 0xffff,
++	.fast_io	= true
+ };
  
- 	for (i = 0; i < 100; i++) {
- 		ret = hi3670_phy_cr_clk(usb31misc);
-@@ -286,9 +281,7 @@ static int hi3670_phy_cr_write(struct regmap *usb31misc, u32 addr, u32 val)
- 	if (ret)
- 		return ret;
+ static int hi6421_spmi_pmic_probe(struct spmi_device *pdev)
+@@ -230,29 +250,31 @@ static int hi6421_spmi_pmic_probe(struct spmi_device *pdev)
  
--	ret = hi3670_phy_cr_wait_ack(usb31misc);
+ 	hi6421_spmi_pmic_irq_init(ddata);
+ 
+-	ddata->irqs = devm_kzalloc(dev, HISI_IRQ_NUM * sizeof(int), GFP_KERNEL);
++	ddata->irqs = devm_kzalloc(dev, PMIC_IRQ_LIST_MAX * sizeof(int), GFP_KERNEL);
+ 	if (!ddata->irqs)
+ 		return -ENOMEM;
+ 
+-	ddata->domain = irq_domain_add_simple(np, HISI_IRQ_NUM, 0,
++	ddata->domain = irq_domain_add_simple(np, PMIC_IRQ_LIST_MAX, 0,
+ 					      &hi6421_spmi_domain_ops, ddata);
+ 	if (!ddata->domain) {
+ 		dev_err(dev, "Failed to create IRQ domain\n");
+ 		return -ENODEV;
+ 	}
+ 
+-	for (i = 0; i < HISI_IRQ_NUM; i++) {
++	for (i = 0; i < PMIC_IRQ_LIST_MAX; i++) {
+ 		virq = irq_create_mapping(ddata->domain, i);
+ 		if (!virq) {
+ 			dev_err(dev, "Failed to map H/W IRQ\n");
+-			return -ENOSPC;
++			return -ENODEV;
+ 		}
+ 		ddata->irqs[i] = virq;
+ 	}
+ 
+-	ret = request_threaded_irq(ddata->irq, hi6421_spmi_irq_handler, NULL,
+-				   IRQF_TRIGGER_LOW | IRQF_SHARED | IRQF_NO_SUSPEND,
+-				   "pmic", ddata);
++	ret = devm_request_threaded_irq(dev,
++					ddata->irq, hi6421_spmi_irq_handler,
++					NULL,
++				        IRQF_TRIGGER_LOW | IRQF_SHARED | IRQF_NO_SUSPEND,
++				        "pmic", ddata);
+ 	if (ret < 0) {
+ 		dev_err(dev, "Failed to start IRQ handling thread: error %d\n",
+ 			ret);
+@@ -270,13 +292,6 @@ static int hi6421_spmi_pmic_probe(struct spmi_device *pdev)
+ 	return ret;
+ }
+ 
+-static void hi6421_spmi_pmic_remove(struct spmi_device *pdev)
+-{
+-	struct hi6421_spmi_pmic *ddata = dev_get_drvdata(&pdev->dev);
 -
--	return ret;
-+	return hi3670_phy_cr_wait_ack(usb31misc);
- }
+-	free_irq(ddata->irq, ddata);
+-}
+-
+ static const struct of_device_id pmic_spmi_id_table[] = {
+ 	{ .compatible = "hisilicon,hi6421-spmi" },
+ 	{ }
+@@ -289,7 +304,6 @@ static struct spmi_driver hi6421_spmi_pmic_driver = {
+ 		.of_match_table = pmic_spmi_id_table,
+ 	},
+ 	.probe	= hi6421_spmi_pmic_probe,
+-	.remove	= hi6421_spmi_pmic_remove,
+ };
+ module_spmi_driver(hi6421_spmi_pmic_driver);
  
- static int hi3670_phy_set_params(struct hi3670_priv *priv)
+diff --git a/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml b/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
+index 3b23ad56b31a..8e355cddd437 100644
+--- a/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
++++ b/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
+@@ -17,7 +17,7 @@ description: |
+   node.
+ 
+   The SPMI controller part is provided by
+-  drivers/staging/hikey9xx/hisilicon,hisi-spmi-controller.yaml.
++  Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
+ 
+ properties:
+   $nodename:
+@@ -32,12 +32,11 @@ properties:
+   '#interrupt-cells':
+     const: 2
+ 
+-  interrupt-controller:
+-    description:
+-      Identify that the PMIC is capable of behaving as an interrupt controller.
++  interrupt-controller: true
+ 
+   gpios:
+     maxItems: 1
++    description: GPIO used for IRQs
+ 
+   regulators:
+     type: object
 -- 
 2.31.1
 
