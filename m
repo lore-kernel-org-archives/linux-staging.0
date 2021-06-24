@@ -1,93 +1,113 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99FB173
-	for <linux-staging@lists.linux.dev>; Thu, 24 Jun 2021 13:08:16 +0000 (UTC)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15OD2a0s023210;
-	Thu, 24 Jun 2021 13:08:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=z23PjgTmLC29IXOSx5a61Z5SV0NvKUAcMncLyaS40jw=;
- b=PmcV4wuFeH8NGfaWOKv64iJuzYPdg6LGpbKE3ut22EMW6lbspRh9Tn0GWpQ/byx57j69
- y0+IMcUZvCS/AUKzSnxxpuTQ90DjoEXkb8X2cMiSfYB5Fm/49v65zB/eSiEHWLmbJlLQ
- LdGuuvweLJvBMfcPLMLEJH4kUiszGOrXiXPIF/8SW+oN9R+xHikTWAv1/0xQrfNp9AWw
- IEpz7eKEzyfEEzupBkZupGQkvR2Bu9XNkrBPXJHjeaYqflKaFidaNxgPhA3Qt3yZZLIo
- w2QOwuFOuEEGnnDagGyQDaGW7wJiIAUKGzpOJiR3Z/fPqOWmf7VlSXobtggOqMP/yO8n TQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by mx0b-00069f02.pphosted.com with ESMTP id 39cmpxgv9u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 24 Jun 2021 13:08:05 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15OD5ZrD008754;
-	Thu, 24 Jun 2021 13:08:05 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3020.oracle.com with ESMTP id 3998dah81h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 24 Jun 2021 13:08:05 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15OD6l9a014384;
-	Thu, 24 Jun 2021 13:08:04 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-	by aserp3020.oracle.com with ESMTP id 3998dah80x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 24 Jun 2021 13:08:04 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
-	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 15OD82gn023069;
-	Thu, 24 Jun 2021 13:08:02 GMT
-Received: from kadam (/102.222.70.252)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Thu, 24 Jun 2021 06:08:01 -0700
-Date: Thu, 24 Jun 2021 16:07:49 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Lee Jones <lee.jones@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linuxarm@huawei.com,
-        mauro.chehab@huawei.com, Rob Herring <robh+dt@kernel.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH RESEND v6 6/8] mfd: hi6421-spmi-pmic: move driver from
- staging
-Message-ID: <20210624130749.GF2040@kadam>
-References: <cover.1624525118.git.mchehab+huawei@kernel.org>
- <1ad2cbbd182d18ba2cae716fb5f1497b1cabbdbe.1624525118.git.mchehab+huawei@kernel.org>
- <YNRrISOGujxcJAGR@dell>
- <20210624143605.153e1e34@coco.lan>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3189A29D6
+	for <linux-staging@lists.linux.dev>; Thu, 24 Jun 2021 14:01:41 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DE25261417;
+	Thu, 24 Jun 2021 14:01:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1624543300;
+	bh=1KL+QKiZ5XswHrkZfs1iQcYf609xqeKrKk66g0OR33c=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=pXymu1MbTrDF0t8/PyFW+jWUNnDDUMFTftZH15Zda07iVfw6QR2Uf5SSo6vlrKlhp
+	 XsuEAasLRIMWc4pryUxyW9Q1c5jwj3QLpD+GX9MtMJ3FbATSonewr7tO+sohWMkOO/
+	 BxKqgnDSnYlYKuXQSZxx1/YtH/wdPQZPweGKfsLOXNYYUnevQS1CQh3ys+b1a3f67o
+	 0s+niu5k1rYVNDaiw/TExD83D9lnNUM5JCQh465LaHvJDQaDJFJ3VGdDjoF9etf81f
+	 mIU3p5pDR8o6FPkcwyGIQn1wQ4ISbJi2yrY5AHpxiLotzWffv9ruDKHv4STaufGa/G
+	 SSmqxw5wYljYQ==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+	(envelope-from <mchehab@kernel.org>)
+	id 1lwPvG-003wSF-ML; Thu, 24 Jun 2021 16:01:38 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linuxarm@huawei.com,
+	mauro.chehab@huawei.com,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Lee Jones" <lee.jones@linaro.org>,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v7 2/8] staging: hisi-spmi-controller: rename spmi-channel property
+Date: Thu, 24 Jun 2021 16:01:31 +0200
+Message-Id: <ed45fc5d84d7b531343ee5d3466ebfac26217da0.1624542940.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1624542940.git.mchehab+huawei@kernel.org>
+References: <cover.1624542940.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210624143605.153e1e34@coco.lan>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: jP_qNZhRMPI-THas6DKnfLV_wLe91_Dl
-X-Proofpoint-GUID: jP_qNZhRMPI-THas6DKnfLV_wLe91_Dl
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-On Thu, Jun 24, 2021 at 02:36:05PM +0200, Mauro Carvalho Chehab wrote:
-> Em Thu, 24 Jun 2021 12:33:28 +0100
-> Lee Jones <lee.jones@linaro.org> escreveu:
-> 
-> > On Thu, 24 Jun 2021, Mauro Carvalho Chehab wrote:
-> > > +static void hi6421_spmi_pmic_remove(struct spmi_device *pdev)
-> > > +{
-> > > +	struct hi6421_spmi_pmic *ddata = dev_get_drvdata(&pdev->dev);
-> > > +
-> > > +	free_irq(ddata->irq, ddata);  
-> > 
-> > No devm_* version?
-> 
-> Are there a devm_* variant for gpio_to_irq()?
-> 
+The spmi-channel is not used on other drivers. So, rename it,
+in order to document that this is specific to those devices.
 
-It's the request_threaded_irq() which needs unwound not the gpio_to_irq()
-so you could use devm_request_threaded_irq().
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/staging/hikey9xx/hisi-spmi-controller.c        |  2 +-
+ .../hikey9xx/hisilicon,hisi-spmi-controller.yaml       | 10 ++++++----
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
-Using the devm_ version would fix a leak in probe which Smatch is
-supposed to find but does not.  :(
+diff --git a/drivers/staging/hikey9xx/hisi-spmi-controller.c b/drivers/staging/hikey9xx/hisi-spmi-controller.c
+index 0d42bc65f39b..5bd23262abd6 100644
+--- a/drivers/staging/hikey9xx/hisi-spmi-controller.c
++++ b/drivers/staging/hikey9xx/hisi-spmi-controller.c
+@@ -290,7 +290,7 @@ static int spmi_controller_probe(struct platform_device *pdev)
+ 		goto err_put_controller;
+ 	}
+ 
+-	ret = of_property_read_u32(pdev->dev.of_node, "spmi-channel",
++	ret = of_property_read_u32(pdev->dev.of_node, "hisilicon,spmi-channel",
+ 				   &spmi_controller->channel);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "can not get channel\n");
+diff --git a/drivers/staging/hikey9xx/hisilicon,hisi-spmi-controller.yaml b/drivers/staging/hikey9xx/hisilicon,hisi-spmi-controller.yaml
+index 6b755039a74c..f882903769f9 100644
+--- a/drivers/staging/hikey9xx/hisilicon,hisi-spmi-controller.yaml
++++ b/drivers/staging/hikey9xx/hisilicon,hisi-spmi-controller.yaml
+@@ -14,7 +14,7 @@ description: |
+   It is a MIPI System Power Management (SPMI) controller.
+ 
+   The PMIC part is provided by
+-  drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml.
++  ./Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml.
+ 
+ allOf:
+   - $ref: spmi.yaml#
+@@ -30,7 +30,7 @@ properties:
+   reg:
+     maxItems: 1
+ 
+-  spmi-channel:
++  hisilicon,spmi-channel:
+     $ref: /schemas/types.yaml#/definitions/uint32
+     description: |
+       number of the Kirin 970 SPMI channel where the SPMI devices are connected.
+@@ -38,10 +38,12 @@ properties:
+ required:
+   - compatible
+   - reg
+-  - spmi-channel
++  - hisilicon,spmi-channel
+ 
+ patternProperties:
+   "@[0-9a-f]$":
++    type: object
++
+     description: |
+       PMIC properties, which are specific to the used SPMI PMIC device(s).
+       When used in combination with HiSilicon 6421v600, the properties
+@@ -61,7 +63,7 @@ examples:
+         #address-cells = <2>;
+         #size-cells = <0>;
+         reg = <0x0 0xfff24000 0x0 0x1000>;
+-        spmi-channel = <2>;
++        hisilicon,spmi-channel = <2>;
+ 
+         pmic@0 {
+           reg = <0 0>;
+-- 
+2.31.1
 
-regards,
-dan carpenter
