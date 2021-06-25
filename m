@@ -1,36 +1,45 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B88E6D10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD5B6D19
 	for <linux-staging@lists.linux.dev>; Fri, 25 Jun 2021 07:46:14 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 636D86142E;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 57F7C61427;
 	Fri, 25 Jun 2021 07:46:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1624607172;
-	bh=Ui05vYYvRmQ9LzQAKCGh5ZXkLpDUKjjyYQH85N7xdDs=;
+	bh=sn3bfhaEdqgNswbE19t3bHB8uFlSgHDvkX+6rRJVQmE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UcgDlMkHgo75W6D4nGI+LCsKMpF7Kg7+wUDfwVynzVau781a8FBhQSgicWtpz9Ia5
-	 pMKaUIe5bkWf0WLVScBan7a64F0lgLstrVCvlzWApXHI1yEkCV/ugfiYmGRg2jtS7u
-	 RFJFb+wUeMPzieupXhl7H58P439eEgosx6jnKCntjMxYUt05iohfARdlC865TaegHp
-	 MOnA0no5zmA7DlgEAadLMhMFBI5iFWL5FT6brq9HH/SRbZRBeoSjq64P+S+slNnm99
-	 G2SJMMsalGfEkWdSOCAnhqYlGYPN324jwA8aIZmgx6FpiwDHyUieFy6VbfLQ9HcT8j
-	 osiQKkPSKfXAw==
+	b=BVQwTeqrJjhZnnuxlt7W1Kn/OzBa6maoLs/xhZgWUBsXRq9LjhCFzXotgPB8fWDAr
+	 ViHGnrU2Cy3Idj9HebKIi1tRS6JFDPKoK7nF/RfJosDVt+qCoHnzCnbjXiQNJAIj9O
+	 stArRxx+JqJEhvprYIWxkogyhO5X6hHt9igTMb8plq1eMBlq1LzI3aj5Om2HECUIlb
+	 FHe3XgtlO0+7a+MN+GQ6Z6nUggmYzG15okcDPharwQdRZ55LaSsLNT8y48xgd8GriW
+	 6lHr42DFgnygMddqL+1nOCnKWp02OBZc5QeD/w1ikRCMXK7YHqYUswCbcKR20+4q0r
+	 xCSVgMNz7HGFg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1lwgXS-004aeg-Ki; Fri, 25 Jun 2021 09:46:10 +0200
+	id 1lwgXS-004ae5-96; Fri, 25 Jun 2021 09:46:10 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linuxarm@huawei.com,
 	mauro.chehab@huawei.com,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Lee Jones" <lee.jones@linaro.org>,
+	Alex Dewar <alex.dewar90@gmail.com>,
+	Atul Gopinathan <leoatul12@gmail.com>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh+dt@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Yu Chen <chenyu56@huawei.com>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v8 10/12] mfd: hi6421-spmi-pmic: move driver from staging
-Date: Fri, 25 Jun 2021 09:46:02 +0200
-Message-Id: <11696a87c430590c712ebef8f96b760c6d007b29.1624606660.git.mchehab+huawei@kernel.org>
+	linux-phy@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	Rob Herring <robh@kernel.org>
+Subject: [PATCH v8 01/12] phy: phy-hi3670-usb3: move driver from staging into phy
+Date: Fri, 25 Jun 2021 09:45:53 +0200
+Message-Id: <dcf66a01aaeaab93cda52f9a283ecbdf9fa71bb8.1624606660.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1624606660.git.mchehab+huawei@kernel.org>
 References: <cover.1624606660.git.mchehab+huawei@kernel.org>
@@ -43,1064 +52,1610 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-This driver is ready for mainstream. So, move it out of staging.
+The phy USB3 driver for Hisilicon 970 (hi3670) is ready
+for mainstream. Mode it from staging into the main driver's
+phy/ directory.
 
+Acked-by: Rob Herring <robh@kernel.org>
+Acked-By: Vinod Koul <vkoul@kernel.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../mfd/hisilicon,hi6421-spmi-pmic.yaml       | 134 ++++++++
- MAINTAINERS                                   |   7 +
- drivers/mfd/Kconfig                           |  16 +
- drivers/mfd/Makefile                          |   1 +
- drivers/mfd/hi6421-spmi-pmic.c                | 311 ++++++++++++++++++
- drivers/staging/Kconfig                       |   2 -
- drivers/staging/Makefile                      |   1 -
- drivers/staging/hikey9xx/Kconfig              |  19 --
- drivers/staging/hikey9xx/Makefile             |   3 -
- drivers/staging/hikey9xx/TODO                 |   5 -
- drivers/staging/hikey9xx/hi6421-spmi-pmic.c   | 311 ------------------
- .../hikey9xx/hisilicon,hi6421-spmi-pmic.yaml  | 134 --------
- 12 files changed, 469 insertions(+), 475 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
- create mode 100644 drivers/mfd/hi6421-spmi-pmic.c
- delete mode 100644 drivers/staging/hikey9xx/Kconfig
- delete mode 100644 drivers/staging/hikey9xx/Makefile
- delete mode 100644 drivers/staging/hikey9xx/TODO
- delete mode 100644 drivers/staging/hikey9xx/hi6421-spmi-pmic.c
- delete mode 100644 drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
+ .../bindings/phy/hisilicon,hi3670-usb3.yaml   |  73 ++
+ MAINTAINERS                                   |   9 +-
+ drivers/phy/hisilicon/Kconfig                 |  10 +
+ drivers/phy/hisilicon/Makefile                |   1 +
+ drivers/phy/hisilicon/phy-hi3670-usb3.c       | 661 ++++++++++++++++++
+ drivers/staging/hikey9xx/Kconfig              |  11 -
+ drivers/staging/hikey9xx/Makefile             |   2 -
+ drivers/staging/hikey9xx/phy-hi3670-usb3.c    | 661 ------------------
+ drivers/staging/hikey9xx/phy-hi3670-usb3.yaml |  73 --
+ 9 files changed, 753 insertions(+), 748 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/phy/hisilicon,hi3670-usb3.yaml
+ create mode 100644 drivers/phy/hisilicon/phy-hi3670-usb3.c
+ delete mode 100644 drivers/staging/hikey9xx/phy-hi3670-usb3.c
+ delete mode 100644 drivers/staging/hikey9xx/phy-hi3670-usb3.yaml
 
-diff --git a/Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml b/Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
+diff --git a/Documentation/devicetree/bindings/phy/hisilicon,hi3670-usb3.yaml b/Documentation/devicetree/bindings/phy/hisilicon,hi3670-usb3.yaml
 new file mode 100644
-index 000000000000..8e355cddd437
+index 000000000000..ebd78acfe2de
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
-@@ -0,0 +1,134 @@
++++ b/Documentation/devicetree/bindings/phy/hisilicon,hi3670-usb3.yaml
+@@ -0,0 +1,73 @@
 +# SPDX-License-Identifier: GPL-2.0
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/mfd/hisilicon,hi6421-spmi-pmic.yaml#
++$id: http://devicetree.org/schemas/phy/hisilicon,hi3670-usb3.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: HiSilicon 6421v600 SPMI PMIC
++title: Hisilicon Kirin970 USB PHY
 +
 +maintainers:
 +  - Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 +
-+description: |
-+  HiSilicon 6421v600 should be connected inside a MIPI System Power Management
-+  (SPMI) bus. It provides interrupts and power supply.
-+
-+  The GPIO and interrupt settings are represented as part of the top-level PMIC
-+  node.
-+
-+  The SPMI controller part is provided by
-+  Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
++description: |+
++  Bindings for USB3 PHY on HiSilicon Kirin 970.
 +
 +properties:
-+  $nodename:
-+    pattern: "pmic@[0-9a-f]"
-+
 +  compatible:
-+    const: hisilicon,hi6421v600-spmi
++    const: hisilicon,hi3670-usb-phy
 +
-+  reg:
-+    maxItems: 1
++  "#phy-cells":
++    const: 0
 +
-+  '#interrupt-cells':
-+    const: 2
++  hisilicon,pericrg-syscon:
++    $ref: '/schemas/types.yaml#/definitions/phandle'
++    description: phandle of syscon used to control iso refclk.
 +
-+  interrupt-controller: true
++  hisilicon,pctrl-syscon:
++    $ref: '/schemas/types.yaml#/definitions/phandle'
++    description: phandle of syscon used to control usb tcxo.
 +
-+  gpios:
-+    maxItems: 1
-+    description: GPIO used for IRQs
++  hisilicon,sctrl-syscon:
++    $ref: '/schemas/types.yaml#/definitions/phandle'
++    description: phandle of syscon used to control phy deep sleep.
 +
-+  regulators:
-+    type: object
++  hisilicon,eye-diagram-param:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Eye diagram for phy.
 +
-+    properties:
-+      '#address-cells':
-+        const: 1
-+
-+      '#size-cells':
-+        const: 0
-+
-+    patternProperties:
-+      '^ldo[0-9]+@[0-9a-f]$':
-+        type: object
-+
-+        $ref: "/schemas/regulator/regulator.yaml#"
++  hisilicon,tx-vboost-lvl:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: TX level vboost for phy.
 +
 +required:
 +  - compatible
-+  - reg
-+  - regulators
++  - hisilicon,pericrg-syscon
++  - hisilicon,pctrl-syscon
++  - hisilicon,sctrl-syscon
++  - hisilicon,eye-diagram-param
++  - hisilicon,tx-vboost-lvl
++  - "#phy-cells"
 +
 +additionalProperties: false
 +
 +examples:
 +  - |
-+    /* pmic properties */
++    bus {
++      #address-cells = <2>;
++      #size-cells = <2>;
 +
-+    pmic: pmic@0 {
-+      compatible = "hisilicon,hi6421-spmi";
-+      reg = <0 0>;
++      usb3_otg_bc: usb3_otg_bc@ff200000 {
++        compatible = "syscon", "simple-mfd";
++        reg = <0x0 0xff200000 0x0 0x1000>;
 +
-+      #interrupt-cells = <2>;
-+      interrupt-controller;
-+      gpios = <&gpio28 0 0>;
-+
-+      regulators {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        ldo3: LDO3 {
-+          regulator-name = "ldo3";
-+          regulator-min-microvolt = <1500000>;
-+          regulator-max-microvolt = <2000000>;
-+          regulator-boot-on;
-+        };
-+
-+        ldo4: LDO4 {
-+          regulator-name = "ldo4";
-+          regulator-min-microvolt = <1725000>;
-+          regulator-max-microvolt = <1900000>;
-+          regulator-boot-on;
-+        };
-+
-+        ldo9: LDO9 {
-+          regulator-name = "ldo9";
-+          regulator-min-microvolt = <1750000>;
-+          regulator-max-microvolt = <3300000>;
-+          regulator-boot-on;
-+        };
-+
-+        ldo15: LDO15 {
-+          regulator-name = "ldo15";
-+          regulator-min-microvolt = <1800000>;
-+          regulator-max-microvolt = <3000000>;
-+          regulator-always-on;
-+        };
-+
-+        ldo16: LDO16 {
-+          regulator-name = "ldo16";
-+          regulator-min-microvolt = <1800000>;
-+          regulator-max-microvolt = <3000000>;
-+          regulator-boot-on;
-+        };
-+
-+        ldo17: LDO17 {
-+          regulator-name = "ldo17";
-+          regulator-min-microvolt = <2500000>;
-+          regulator-max-microvolt = <3300000>;
-+        };
-+
-+        ldo33: LDO33 {
-+          regulator-name = "ldo33";
-+          regulator-min-microvolt = <2500000>;
-+          regulator-max-microvolt = <3300000>;
-+          regulator-boot-on;
-+        };
-+
-+        ldo34: LDO34 {
-+          regulator-name = "ldo34";
-+          regulator-min-microvolt = <2600000>;
-+          regulator-max-microvolt = <3300000>;
++        usb_phy {
++          compatible = "hisilicon,hi3670-usb-phy";
++          #phy-cells = <0>;
++          hisilicon,pericrg-syscon = <&crg_ctrl>;
++          hisilicon,pctrl-syscon = <&pctrl>;
++          hisilicon,sctrl-syscon = <&sctrl>;
++          hisilicon,eye-diagram-param = <0xfdfee4>;
++          hisilicon,tx-vboost-lvl = <0x5>;
 +        };
 +      };
 +    };
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 9a69e3810964..89e84b050de6 100644
+index 8c5ee008301a..6e01424234eb 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -8291,6 +8291,13 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/spmi/hisilicon,hisi-spmi-controller.yaml
- F:	drivers/spmi/hisi-spmi-controller.c
- 
-+HISILICON SPMI PMIC DRIVER FOR HIKEY 6421v600
-+M:	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-+L:	linux-kernel@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
-+F:	drivers/mfd/hi6421-spmi-pmic.c
-+
- HISILICON STAGING DRIVERS FOR HIKEY 960/970
- M:	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+@@ -18859,7 +18859,7 @@ L:	linux-usb@vger.kernel.org
  S:	Maintained
-diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-index 5c7f2b100191..99b8da2548b5 100644
---- a/drivers/mfd/Kconfig
-+++ b/drivers/mfd/Kconfig
-@@ -509,6 +509,22 @@ config MFD_HI6421_PMIC
- 	  menus in order to enable them.
- 	  We communicate with the Hi6421 via memory-mapped I/O.
+ F:	drivers/usb/roles/intel-xhci-usb-role-switch.c
  
-+config MFD_HI6421_SPMI
-+	tristate "HiSilicon Hi6421v600 SPMI PMU/Codec IC"
-+	depends on OF
-+	depends on SPMI
-+	select MFD_CORE
-+	select REGMAP_SPMI
+-USB IP DRIVER FOR HISILICON KIRIN
++USB IP DRIVER FOR HISILICON KIRIN 960
+ M:	Yu Chen <chenyu56@huawei.com>
+ M:	Binghui Wang <wangbinghui@hisilicon.com>
+ L:	linux-usb@vger.kernel.org
+@@ -18867,6 +18867,13 @@ S:	Maintained
+ F:	Documentation/devicetree/bindings/phy/hisilicon,hi3660-usb3.yaml
+ F:	drivers/phy/hisilicon/phy-hi3660-usb3.c
+ 
++USB IP DRIVER FOR HISILICON KIRIN 970
++M:	Mauro Carvalho Chehab <mchehab@kernel.org>
++L:	linux-usb@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/phy/hisilicon,hi3670-usb3.yaml
++F:	drivers/phy/hisilicon/phy-kirin970-usb3.c
++
+ USB ISP116X DRIVER
+ M:	Olav Kongas <ok@artecdesign.ee>
+ L:	linux-usb@vger.kernel.org
+diff --git a/drivers/phy/hisilicon/Kconfig b/drivers/phy/hisilicon/Kconfig
+index 1c73053bcc98..4d008cfc279c 100644
+--- a/drivers/phy/hisilicon/Kconfig
++++ b/drivers/phy/hisilicon/Kconfig
+@@ -23,6 +23,16 @@ config PHY_HI3660_USB
+ 
+ 	  To compile this driver as a module, choose M here.
+ 
++config PHY_HI3670_USB
++	tristate "hi3670 USB PHY support"
++	depends on (ARCH_HISI && ARM64) || COMPILE_TEST
++	select GENERIC_PHY
++	select MFD_SYSCON
 +	help
-+	  Add support for HiSilicon Hi6421v600 SPMI PMIC. Hi6421 includes
-+	  multi-functions, such as regulators, RTC, codec, Coulomb counter,
-+	  etc.
++	  Enable this to support the HISILICON HI3670 USB PHY.
 +
-+	  This driver includes core APIs _only_. You have to select
-+	  individual components like voltage regulators under corresponding
-+	  menus in order to enable them.
-+	  We communicate with the Hi6421v600 via a SPMI bus.
++	  To compile this driver as a module, choose M here.
 +
- config MFD_HI655X_PMIC
- 	tristate "HiSilicon Hi655X series PMU/Codec IC"
- 	depends on ARCH_HISI || COMPILE_TEST
-diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-index 4f6d2b8a5f76..e87230fc61ac 100644
---- a/drivers/mfd/Makefile
-+++ b/drivers/mfd/Makefile
-@@ -232,6 +232,7 @@ obj-$(CONFIG_MFD_IPAQ_MICRO)	+= ipaq-micro.o
- obj-$(CONFIG_MFD_IQS62X)	+= iqs62x.o
- obj-$(CONFIG_MFD_MENF21BMC)	+= menf21bmc.o
- obj-$(CONFIG_MFD_HI6421_PMIC)	+= hi6421-pmic-core.o
-+obj-$(CONFIG_MFD_HI6421_SPMI)	+= hi6421-spmi-pmic.o
- obj-$(CONFIG_MFD_HI655X_PMIC)   += hi655x-pmic.o
- obj-$(CONFIG_MFD_DLN2)		+= dln2.o
- obj-$(CONFIG_MFD_RT5033)	+= rt5033.o
-diff --git a/drivers/mfd/hi6421-spmi-pmic.c b/drivers/mfd/hi6421-spmi-pmic.c
+ config PHY_HISTB_COMBPHY
+ 	tristate "HiSilicon STB SoCs COMBPHY support"
+ 	depends on (ARCH_HISI && ARM64) || COMPILE_TEST
+diff --git a/drivers/phy/hisilicon/Makefile b/drivers/phy/hisilicon/Makefile
+index 92e874ae9c74..51729868145b 100644
+--- a/drivers/phy/hisilicon/Makefile
++++ b/drivers/phy/hisilicon/Makefile
+@@ -1,6 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ obj-$(CONFIG_PHY_HI6220_USB)		+= phy-hi6220-usb.o
+ obj-$(CONFIG_PHY_HI3660_USB)		+= phy-hi3660-usb3.o
++obj-$(CONFIG_PHY_HI3670_USB)		+= phy-hi3670-usb3.o
+ obj-$(CONFIG_PHY_HISTB_COMBPHY)		+= phy-histb-combphy.o
+ obj-$(CONFIG_PHY_HISI_INNO_USB2)	+= phy-hisi-inno-usb2.o
+ obj-$(CONFIG_PHY_HIX5HD2_SATA)		+= phy-hix5hd2-sata.o
+diff --git a/drivers/phy/hisilicon/phy-hi3670-usb3.c b/drivers/phy/hisilicon/phy-hi3670-usb3.c
 new file mode 100644
-index 000000000000..d98643af72ae
+index 000000000000..b9ffe08abaab
 --- /dev/null
-+++ b/drivers/mfd/hi6421-spmi-pmic.c
-@@ -0,0 +1,311 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/drivers/phy/hisilicon/phy-hi3670-usb3.c
+@@ -0,0 +1,661 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * Device driver for regulators in HISI PMIC IC
++ * Phy provider for USB 3.1 controller on HiSilicon Kirin970 platform
 + *
-+ * Copyright (c) 2013-2021 Linaro Ltd.
-+ * Copyright (c) 2011-2021 HiSilicon Technologies Co., Ltd.
-+ * Copyright (c) 2020-2021 Huawei Technologies Co., Ltd
++ * Copyright (C) 2017-2020 Hilisicon Electronics Co., Ltd.
++ *		http://www.huawei.com
++ *
++ * Authors: Yu Chen <chenyu56@huawei.com>
 + */
 +
-+#include <linux/bitops.h>
-+#include <linux/interrupt.h>
-+#include <linux/irq.h>
-+#include <linux/mfd/core.h>
-+#include <linux/mfd/hi6421-spmi-pmic.h>
++#include <linux/bitfield.h>
++#include <linux/clk.h>
++#include <linux/kernel.h>
++#include <linux/mfd/syscon.h>
 +#include <linux/module.h>
-+#include <linux/of_gpio.h>
++#include <linux/phy/phy.h>
 +#include <linux/platform_device.h>
-+#include <linux/slab.h>
-+#include <linux/spmi.h>
++#include <linux/regmap.h>
 +
-+enum hi6421_spmi_pmic_irq_list {
-+	OTMP = 0,
-+	VBUS_CONNECT,
-+	VBUS_DISCONNECT,
-+	ALARMON_R,
-+	HOLD_6S,
-+	HOLD_1S,
-+	POWERKEY_UP,
-+	POWERKEY_DOWN,
-+	OCP_SCP_R,
-+	COUL_R,
-+	SIM0_HPD_R,
-+	SIM0_HPD_F,
-+	SIM1_HPD_R,
-+	SIM1_HPD_F,
++#define SCTRL_SCDEEPSLEEPED		(0x0)
++#define USB_CLK_SELECTED		BIT(20)
 +
-+	PMIC_IRQ_LIST_MAX
++#define PERI_CRG_PEREN0			(0x00)
++#define PERI_CRG_PERDIS0		(0x04)
++#define PERI_CRG_PEREN4			(0x40)
++#define PERI_CRG_PERDIS4		(0x44)
++#define PERI_CRG_PERRSTEN4		(0x90)
++#define PERI_CRG_PERRSTDIS4		(0x94)
++#define PERI_CRG_ISODIS			(0x148)
++#define PERI_CRG_PEREN6			(0x410)
++#define PERI_CRG_PERDIS6		(0x414)
++
++#define USB_REFCLK_ISO_EN		BIT(25)
++
++#define GT_CLK_USB2PHY_REF		BIT(19)
++
++#define PCTRL_PERI_CTRL3		(0x10)
++#define PCTRL_PERI_CTRL3_MSK_START	(16)
++#define USB_TCXO_EN			BIT(1)
++
++#define PCTRL_PERI_CTRL24		(0x64)
++#define SC_CLK_USB3PHY_3MUX1_SEL	BIT(25)
++
++#define USB3OTG_CTRL0			(0x00)
++#define USB3OTG_CTRL3			(0x0c)
++#define USB3OTG_CTRL4			(0x10)
++#define USB3OTG_CTRL5			(0x14)
++#define USB3OTG_CTRL7			(0x1c)
++#define USB_MISC_CFG50			(0x50)
++#define USB_MISC_CFG54			(0x54)
++#define USB_MISC_CFG58			(0x58)
++#define USB_MISC_CFG5C			(0x5c)
++#define USB_MISC_CFGA0			(0xa0)
++#define TCA_CLK_RST			(0x200)
++#define TCA_INTR_EN			(0x204)
++#define TCA_INTR_STS			(0x208)
++#define TCA_GCFG			(0x210)
++#define TCA_TCPC			(0x214)
++#define TCA_SYSMODE_CFG			(0x218)
++#define TCA_VBUS_CTRL			(0x240)
++
++#define CTRL0_USB3_VBUSVLD		BIT(7)
++#define CTRL0_USB3_VBUSVLD_SEL		BIT(6)
++
++#define CTRL3_USB2_VBUSVLDEXT0		BIT(6)
++#define CTRL3_USB2_VBUSVLDEXTSEL0	BIT(5)
++
++#define CTRL5_USB2_SIDDQ		BIT(0)
++
++#define CTRL7_USB2_REFCLKSEL_MASK	GENMASK(4, 3)
++#define CTRL7_USB2_REFCLKSEL_ABB	(BIT(4) | BIT(3))
++#define CTRL7_USB2_REFCLKSEL_PAD	BIT(4)
++
++#define CFG50_USB3_PHY_TEST_POWERDOWN	BIT(23)
++
++#define CFG54_USB31PHY_CR_ADDR_MASK	GENMASK(31, 16)
++
++#define CFG54_USB3PHY_REF_USE_PAD	BIT(12)
++#define CFG54_PHY0_PMA_PWR_STABLE	BIT(11)
++#define CFG54_PHY0_PCS_PWR_STABLE	BIT(9)
++#define CFG54_USB31PHY_CR_ACK		BIT(7)
++#define CFG54_USB31PHY_CR_WR_EN		BIT(5)
++#define CFG54_USB31PHY_CR_SEL		BIT(4)
++#define CFG54_USB31PHY_CR_RD_EN		BIT(3)
++#define CFG54_USB31PHY_CR_CLK		BIT(2)
++#define CFG54_USB3_PHY0_ANA_PWR_EN	BIT(1)
++
++#define CFG58_USB31PHY_CR_DATA_MASK     GENMASK(31, 16)
++
++#define CFG5C_USB3_PHY0_SS_MPLLA_SSC_EN	BIT(1)
++
++#define CFGA0_VAUX_RESET		BIT(9)
++#define CFGA0_USB31C_RESET		BIT(8)
++#define CFGA0_USB2PHY_REFCLK_SELECT	BIT(4)
++#define CFGA0_USB3PHY_RESET		BIT(1)
++#define CFGA0_USB2PHY_POR		BIT(0)
++
++#define INTR_EN_XA_TIMEOUT_EVT_EN	BIT(1)
++#define INTR_EN_XA_ACK_EVT_EN		BIT(0)
++
++#define CLK_RST_TCA_REF_CLK_EN		BIT(1)
++#define CLK_RST_SUSPEND_CLK_EN		BIT(0)
++
++#define GCFG_ROLE_HSTDEV		BIT(4)
++#define GCFG_OP_MODE			GENMASK(1, 0)
++#define GCFG_OP_MODE_CTRL_SYNC_MODE	BIT(0)
++
++#define TCPC_VALID			BIT(4)
++#define TCPC_LOW_POWER_EN		BIT(3)
++#define TCPC_MUX_CONTROL_MASK		GENMASK(1, 0)
++#define TCPC_MUX_CONTROL_USB31		BIT(0)
++
++#define SYSMODE_CFG_TYPEC_DISABLE	BIT(3)
++
++#define VBUS_CTRL_POWERPRESENT_OVERRD	GENMASK(3, 2)
++#define VBUS_CTRL_VBUSVALID_OVERRD	GENMASK(1, 0)
++
++#define KIRIN970_USB_DEFAULT_PHY_PARAM	(0xfdfee4)
++#define KIRIN970_USB_DEFAULT_PHY_VBOOST	(0x5)
++
++#define TX_VBOOST_LVL_REG		(0xf)
++#define TX_VBOOST_LVL_START		(6)
++#define TX_VBOOST_LVL_ENABLE		BIT(9)
++
++struct hi3670_priv {
++	struct device *dev;
++	struct regmap *peri_crg;
++	struct regmap *pctrl;
++	struct regmap *sctrl;
++	struct regmap *usb31misc;
++
++	u32 eye_diagram_param;
++	u32 tx_vboost_lvl;
++
++	u32 peri_crg_offset;
++	u32 pctrl_offset;
++	u32 usb31misc_offset;
 +};
 +
-+#define HISI_IRQ_BANK_SIZE		2
-+
-+/*
-+ * IRQ number for the power key button and mask for both UP and DOWN IRQs
-+ */
-+#define HISI_POWERKEY_IRQ_NUM		0
-+#define HISI_IRQ_POWERKEY_UP_DOWN	(BIT(POWERKEY_DOWN) | BIT(POWERKEY_UP))
-+
-+/*
-+ * Registers for IRQ address and IRQ mask bits
-+ *
-+ * Please notice that we need to regmap a larger region, as other
-+ * registers are used by the regulators.
-+ * See drivers/regulator/hi6421-regulator.c.
-+ */
-+#define SOC_PMIC_IRQ_MASK_0_ADDR	0x0202
-+#define SOC_PMIC_IRQ0_ADDR		0x0212
-+
-+/*
-+ * The IRQs are mapped as:
-+ *
-+ *	======================  =============   ============	=====
-+ *	IRQ			MASK REGISTER	IRQ REGISTER	BIT
-+ *	======================  =============   ============	=====
-+ *	OTMP			0x0202		0x212		bit 0
-+ *	VBUS_CONNECT		0x0202		0x212		bit 1
-+ *	VBUS_DISCONNECT		0x0202		0x212		bit 2
-+ *	ALARMON_R		0x0202		0x212		bit 3
-+ *	HOLD_6S			0x0202		0x212		bit 4
-+ *	HOLD_1S			0x0202		0x212		bit 5
-+ *	POWERKEY_UP		0x0202		0x212		bit 6
-+ *	POWERKEY_DOWN		0x0202		0x212		bit 7
-+ *
-+ *	OCP_SCP_R		0x0203		0x213		bit 0
-+ *	COUL_R			0x0203		0x213		bit 1
-+ *	SIM0_HPD_R		0x0203		0x213		bit 2
-+ *	SIM0_HPD_F		0x0203		0x213		bit 3
-+ *	SIM1_HPD_R		0x0203		0x213		bit 4
-+ *	SIM1_HPD_F		0x0203		0x213		bit 5
-+ *	======================  =============   ============	=====
-+ *
-+ * Each mask register contains 8 bits. The ancillary macros below
-+ * convert a number from 0 to 14 into a register address and a bit mask
-+ */
-+#define HISI_IRQ_MASK_REG(irq_data)	(SOC_PMIC_IRQ_MASK_0_ADDR + \
-+					 (irqd_to_hwirq(irq_data) / BITS_PER_BYTE))
-+#define HISI_IRQ_MASK_BIT(irq_data)	BIT(irqd_to_hwirq(irq_data) & (BITS_PER_BYTE - 1))
-+#define HISI_8BITS_MASK			0xff
-+
-+static const struct mfd_cell hi6421v600_devs[] = {
-+	{ .name = "hi6421v600-regulator", },
-+};
-+
-+static irqreturn_t hi6421_spmi_irq_handler(int irq, void *priv)
++static int hi3670_phy_cr_clk(struct regmap *usb31misc)
 +{
-+	struct hi6421_spmi_pmic *ddata = (struct hi6421_spmi_pmic *)priv;
-+	unsigned long pending;
-+	unsigned int in;
-+	int i, offset;
++	int ret;
 +
-+	for (i = 0; i < HISI_IRQ_BANK_SIZE; i++) {
-+		regmap_read(ddata->regmap, SOC_PMIC_IRQ0_ADDR + i, &in);
++	/* Clock up */
++	ret = regmap_update_bits(usb31misc, USB_MISC_CFG54,
++				 CFG54_USB31PHY_CR_CLK, CFG54_USB31PHY_CR_CLK);
++	if (ret)
++		return ret;
 +
-+		/* Mark pending IRQs as handled */
-+		regmap_write(ddata->regmap, SOC_PMIC_IRQ0_ADDR + i, in);
++	/* Clock down */
++	return regmap_update_bits(usb31misc, USB_MISC_CFG54,
++				  CFG54_USB31PHY_CR_CLK, 0);
++}
 +
-+		pending = in & HISI_8BITS_MASK;
++static int hi3670_phy_cr_set_sel(struct regmap *usb31misc)
++{
++	return regmap_update_bits(usb31misc, USB_MISC_CFG54,
++				  CFG54_USB31PHY_CR_SEL, CFG54_USB31PHY_CR_SEL);
++}
 +
-+		if (i == HISI_POWERKEY_IRQ_NUM &&
-+		    (pending & HISI_IRQ_POWERKEY_UP_DOWN) == HISI_IRQ_POWERKEY_UP_DOWN) {
-+			/*
-+			 * If both powerkey down and up IRQs are received,
-+			 * handle them at the right order
-+			 */
-+			generic_handle_irq(ddata->irqs[POWERKEY_DOWN]);
-+			generic_handle_irq(ddata->irqs[POWERKEY_UP]);
-+			pending &= ~HISI_IRQ_POWERKEY_UP_DOWN;
-+		}
++static int hi3670_phy_cr_start(struct regmap *usb31misc, int direction)
++{
++	int ret, reg;
 +
-+		if (!pending)
-+			continue;
++	if (direction)
++		reg = CFG54_USB31PHY_CR_WR_EN;
++	else
++		reg = CFG54_USB31PHY_CR_RD_EN;
 +
-+		for_each_set_bit(offset, &pending, BITS_PER_BYTE) {
-+			generic_handle_irq(ddata->irqs[offset + i * BITS_PER_BYTE]);
-+		}
++	ret = regmap_update_bits(usb31misc, USB_MISC_CFG54, reg, reg);
++
++	if (ret)
++		return ret;
++
++	ret = hi3670_phy_cr_clk(usb31misc);
++	if (ret)
++		return ret;
++
++	return regmap_update_bits(usb31misc, USB_MISC_CFG54,
++				  CFG54_USB31PHY_CR_RD_EN | CFG54_USB31PHY_CR_WR_EN, 0);
++}
++
++static int hi3670_phy_cr_wait_ack(struct regmap *usb31misc)
++{
++	u32 reg;
++	int retry = 10;
++	int ret;
++
++	while (retry-- > 0) {
++		ret = regmap_read(usb31misc, USB_MISC_CFG54, &reg);
++		if (ret)
++			return ret;
++		if ((reg & CFG54_USB31PHY_CR_ACK) == CFG54_USB31PHY_CR_ACK)
++			return 0;
++
++		ret = hi3670_phy_cr_clk(usb31misc);
++		if (ret)
++			return ret;
++
++		usleep_range(10, 20);
 +	}
 +
-+	return IRQ_HANDLED;
++	return -ETIMEDOUT;
 +}
 +
-+static void hi6421_spmi_irq_mask(struct irq_data *d)
++static int hi3670_phy_cr_set_addr(struct regmap *usb31misc, u32 addr)
 +{
-+	struct hi6421_spmi_pmic *ddata = irq_data_get_irq_chip_data(d);
-+	unsigned long flags;
-+	unsigned int data;
-+	u32 offset;
++	u32 reg;
++	int ret;
 +
-+	offset = HISI_IRQ_MASK_REG(d);
++	ret = regmap_read(usb31misc, USB_MISC_CFG54, &reg);
++	if (ret)
++		return ret;
 +
-+	spin_lock_irqsave(&ddata->lock, flags);
++	reg = FIELD_PREP(CFG54_USB31PHY_CR_ADDR_MASK, addr);
 +
-+	regmap_read(ddata->regmap, offset, &data);
-+	data |= HISI_IRQ_MASK_BIT(d);
-+	regmap_write(ddata->regmap, offset, data);
-+
-+	spin_unlock_irqrestore(&ddata->lock, flags);
++	return regmap_update_bits(usb31misc, USB_MISC_CFG54,
++				  CFG54_USB31PHY_CR_ADDR_MASK, reg);
 +}
 +
-+static void hi6421_spmi_irq_unmask(struct irq_data *d)
++static int hi3670_phy_cr_read(struct regmap *usb31misc, u32 addr, u32 *val)
 +{
-+	struct hi6421_spmi_pmic *ddata = irq_data_get_irq_chip_data(d);
-+	u32 data, offset;
-+	unsigned long flags;
++	int reg, i, ret;
 +
-+	offset = HISI_IRQ_MASK_REG(d);
++	for (i = 0; i < 100; i++) {
++		ret = hi3670_phy_cr_clk(usb31misc);
++		if (ret)
++			return ret;
++	}
 +
-+	spin_lock_irqsave(&ddata->lock, flags);
++	ret = hi3670_phy_cr_set_sel(usb31misc);
++	if (ret)
++		return ret;
 +
-+	regmap_read(ddata->regmap, offset, &data);
-+	data &= ~HISI_IRQ_MASK_BIT(d);
-+	regmap_write(ddata->regmap, offset, data);
++	ret = hi3670_phy_cr_set_addr(usb31misc, addr);
++	if (ret)
++		return ret;
 +
-+	spin_unlock_irqrestore(&ddata->lock, flags);
-+}
++	ret = hi3670_phy_cr_start(usb31misc, 0);
++	if (ret)
++		return ret;
 +
-+static struct irq_chip hi6421_spmi_pmu_irqchip = {
-+	.name		= "hi6421v600-irq",
-+	.irq_mask	= hi6421_spmi_irq_mask,
-+	.irq_unmask	= hi6421_spmi_irq_unmask,
-+	.irq_disable	= hi6421_spmi_irq_mask,
-+	.irq_enable	= hi6421_spmi_irq_unmask,
-+};
++	ret = hi3670_phy_cr_wait_ack(usb31misc);
++	if (ret)
++		return ret;
 +
-+static int hi6421_spmi_irq_map(struct irq_domain *d, unsigned int virq,
-+			       irq_hw_number_t hw)
-+{
-+	struct hi6421_spmi_pmic *ddata = d->host_data;
++	ret = regmap_read(usb31misc, USB_MISC_CFG58, &reg);
++	if (ret)
++		return ret;
 +
-+	irq_set_chip_and_handler_name(virq, &hi6421_spmi_pmu_irqchip,
-+				      handle_simple_irq, "hi6421v600");
-+	irq_set_chip_data(virq, ddata);
-+	irq_set_irq_type(virq, IRQ_TYPE_NONE);
++	*val = FIELD_GET(CFG58_USB31PHY_CR_DATA_MASK, reg);
 +
 +	return 0;
 +}
 +
-+static const struct irq_domain_ops hi6421_spmi_domain_ops = {
-+	.map	= hi6421_spmi_irq_map,
-+	.xlate	= irq_domain_xlate_twocell,
-+};
-+
-+static void hi6421_spmi_pmic_irq_init(struct hi6421_spmi_pmic *ddata)
++static int hi3670_phy_cr_write(struct regmap *usb31misc, u32 addr, u32 val)
 +{
 +	int i;
-+	unsigned int pending;
++	int ret;
 +
-+	/* Mask all IRQs */
-+	for (i = 0; i < HISI_IRQ_BANK_SIZE; i++)
-+		regmap_write(ddata->regmap, SOC_PMIC_IRQ_MASK_0_ADDR + i,
-+			     HISI_8BITS_MASK);
-+
-+	/* Mark all IRQs as handled */
-+	for (i = 0; i < HISI_IRQ_BANK_SIZE; i++) {
-+		regmap_read(ddata->regmap, SOC_PMIC_IRQ0_ADDR + i, &pending);
-+		regmap_write(ddata->regmap, SOC_PMIC_IRQ0_ADDR + i,
-+			     HISI_8BITS_MASK);
++	for (i = 0; i < 100; i++) {
++		ret = hi3670_phy_cr_clk(usb31misc);
++		if (ret)
++			return ret;
 +	}
++
++	ret = hi3670_phy_cr_set_sel(usb31misc);
++	if (ret)
++		return ret;
++
++	ret = hi3670_phy_cr_set_addr(usb31misc, addr);
++	if (ret)
++		return ret;
++
++	ret = regmap_write(usb31misc, USB_MISC_CFG58,
++			   FIELD_PREP(CFG58_USB31PHY_CR_DATA_MASK, val));
++	if (ret)
++		return ret;
++
++	ret = hi3670_phy_cr_start(usb31misc, 1);
++	if (ret)
++		return ret;
++
++	return hi3670_phy_cr_wait_ack(usb31misc);
 +}
 +
-+static const struct regmap_config regmap_config = {
-+	.reg_bits	= 16,
-+	.val_bits	= BITS_PER_BYTE,
-+	.max_register	= 0xffff,
-+	.fast_io	= true
-+};
-+
-+static int hi6421_spmi_pmic_probe(struct spmi_device *pdev)
++static int hi3670_phy_set_params(struct hi3670_priv *priv)
 +{
-+	struct device *dev = &pdev->dev;
-+	struct device_node *np = dev->of_node;
-+	struct hi6421_spmi_pmic *ddata;
-+	unsigned int virq;
-+	int ret, i;
++	u32 reg;
++	int ret;
++	int retry = 3;
 +
-+	ddata = devm_kzalloc(dev, sizeof(*ddata), GFP_KERNEL);
-+	if (!ddata)
-+		return -ENOMEM;
-+
-+	ddata->regmap = devm_regmap_init_spmi_ext(pdev, &regmap_config);
-+	if (IS_ERR(ddata->regmap))
-+		return PTR_ERR(ddata->regmap);
-+
-+	spin_lock_init(&ddata->lock);
-+
-+	ddata->dev = dev;
-+
-+	ddata->gpio = of_get_gpio(np, 0);
-+	if (ddata->gpio < 0)
-+		return ddata->gpio;
-+
-+	if (!gpio_is_valid(ddata->gpio))
-+		return -EINVAL;
-+
-+	ret = devm_gpio_request_one(dev, ddata->gpio, GPIOF_IN, "pmic");
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to request gpio%d\n", ddata->gpio);
++	ret = regmap_write(priv->usb31misc, USB3OTG_CTRL4,
++			   priv->eye_diagram_param);
++	if (ret) {
++		dev_err(priv->dev, "set USB3OTG_CTRL4 failed\n");
 +		return ret;
 +	}
 +
-+	ddata->irq = gpio_to_irq(ddata->gpio);
++	while (retry-- > 0) {
++		ret = hi3670_phy_cr_read(priv->usb31misc,
++					 TX_VBOOST_LVL_REG, &reg);
++		if (!ret)
++			break;
 +
-+	hi6421_spmi_pmic_irq_init(ddata);
-+
-+	ddata->irqs = devm_kzalloc(dev, PMIC_IRQ_LIST_MAX * sizeof(int), GFP_KERNEL);
-+	if (!ddata->irqs)
-+		return -ENOMEM;
-+
-+	ddata->domain = irq_domain_add_simple(np, PMIC_IRQ_LIST_MAX, 0,
-+					      &hi6421_spmi_domain_ops, ddata);
-+	if (!ddata->domain) {
-+		dev_err(dev, "Failed to create IRQ domain\n");
-+		return -ENODEV;
-+	}
-+
-+	for (i = 0; i < PMIC_IRQ_LIST_MAX; i++) {
-+		virq = irq_create_mapping(ddata->domain, i);
-+		if (!virq) {
-+			dev_err(dev, "Failed to map H/W IRQ\n");
-+			return -ENODEV;
++		if (ret != -ETIMEDOUT) {
++			dev_err(priv->dev, "read TX_VBOOST_LVL_REG failed\n");
++			return ret;
 +		}
-+		ddata->irqs[i] = virq;
 +	}
-+
-+	ret = devm_request_threaded_irq(dev,
-+					ddata->irq, hi6421_spmi_irq_handler,
-+					NULL,
-+				        IRQF_TRIGGER_LOW | IRQF_SHARED | IRQF_NO_SUSPEND,
-+				        "pmic", ddata);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to start IRQ handling thread: error %d\n",
-+			ret);
++	if (ret)
 +		return ret;
-+	}
 +
-+	dev_set_drvdata(&pdev->dev, ddata);
-+
-+	ret = devm_mfd_add_devices(&pdev->dev, PLATFORM_DEVID_NONE,
-+				   hi6421v600_devs, ARRAY_SIZE(hi6421v600_devs),
-+				   NULL, 0, NULL);
-+	if (ret < 0)
-+		dev_err(dev, "Failed to add child devices: %d\n", ret);
++	reg |= (TX_VBOOST_LVL_ENABLE | (priv->tx_vboost_lvl << TX_VBOOST_LVL_START));
++	ret = hi3670_phy_cr_write(priv->usb31misc, TX_VBOOST_LVL_REG, reg);
++	if (ret)
++		dev_err(priv->dev, "write TX_VBOOST_LVL_REG failed\n");
 +
 +	return ret;
 +}
 +
-+static const struct of_device_id pmic_spmi_id_table[] = {
-+	{ .compatible = "hisilicon,hi6421-spmi" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, pmic_spmi_id_table);
++static bool hi3670_is_abbclk_selected(struct hi3670_priv *priv)
++{
++	u32 reg;
 +
-+static struct spmi_driver hi6421_spmi_pmic_driver = {
++	if (!priv->sctrl) {
++		dev_err(priv->dev, "priv->sctrl is null!\n");
++		return false;
++	}
++
++	if (regmap_read(priv->sctrl, SCTRL_SCDEEPSLEEPED, &reg)) {
++		dev_err(priv->dev, "SCTRL_SCDEEPSLEEPED read failed!\n");
++		return false;
++	}
++
++	if ((reg & USB_CLK_SELECTED) == 0)
++		return false;
++
++	return true;
++}
++
++static int hi3670_config_phy_clock(struct hi3670_priv *priv)
++{
++	u32 val, mask;
++	int ret;
++
++	if (!hi3670_is_abbclk_selected(priv)) {
++		/* usb refclk iso disable */
++		ret = regmap_write(priv->peri_crg, PERI_CRG_ISODIS,
++				   USB_REFCLK_ISO_EN);
++		if (ret)
++			goto out;
++
++		/* enable usb_tcxo_en */
++		ret = regmap_write(priv->pctrl, PCTRL_PERI_CTRL3,
++				   USB_TCXO_EN |
++				   (USB_TCXO_EN << PCTRL_PERI_CTRL3_MSK_START));
++
++		/* select usbphy clk from abb */
++		mask = SC_CLK_USB3PHY_3MUX1_SEL;
++		ret = regmap_update_bits(priv->pctrl,
++					 PCTRL_PERI_CTRL24, mask, 0);
++		if (ret)
++			goto out;
++
++		ret = regmap_update_bits(priv->usb31misc, USB_MISC_CFGA0,
++					 CFGA0_USB2PHY_REFCLK_SELECT, 0);
++		if (ret)
++			goto out;
++
++		ret = regmap_read(priv->usb31misc, USB3OTG_CTRL7, &val);
++		if (ret)
++			goto out;
++		val &= ~CTRL7_USB2_REFCLKSEL_MASK;
++		val |= CTRL7_USB2_REFCLKSEL_ABB;
++		ret = regmap_write(priv->usb31misc, USB3OTG_CTRL7, val);
++		if (ret)
++			goto out;
++
++		return 0;
++	}
++
++	ret = regmap_update_bits(priv->usb31misc, USB_MISC_CFG54,
++				 CFG54_USB3PHY_REF_USE_PAD,
++				 CFG54_USB3PHY_REF_USE_PAD);
++	if (ret)
++		goto out;
++
++	ret = regmap_update_bits(priv->usb31misc, USB_MISC_CFGA0,
++				 CFGA0_USB2PHY_REFCLK_SELECT,
++				 CFGA0_USB2PHY_REFCLK_SELECT);
++	if (ret)
++		goto out;
++
++	ret = regmap_read(priv->usb31misc, USB3OTG_CTRL7, &val);
++	if (ret)
++		goto out;
++	val &= ~CTRL7_USB2_REFCLKSEL_MASK;
++	val |= CTRL7_USB2_REFCLKSEL_PAD;
++	ret = regmap_write(priv->usb31misc, USB3OTG_CTRL7, val);
++	if (ret)
++		goto out;
++
++	ret = regmap_write(priv->peri_crg,
++			   PERI_CRG_PEREN6, GT_CLK_USB2PHY_REF);
++	if (ret)
++		goto out;
++
++	return 0;
++out:
++	dev_err(priv->dev, "failed to config phy clock ret: %d\n", ret);
++	return ret;
++}
++
++static int hi3670_config_tca(struct hi3670_priv *priv)
++{
++	u32 val, mask;
++	int ret;
++
++	ret = regmap_write(priv->usb31misc, TCA_INTR_STS, 0xffff);
++	if (ret)
++		goto out;
++
++	ret = regmap_write(priv->usb31misc, TCA_INTR_EN,
++			   INTR_EN_XA_TIMEOUT_EVT_EN | INTR_EN_XA_ACK_EVT_EN);
++	if (ret)
++		goto out;
++
++	mask = CLK_RST_TCA_REF_CLK_EN | CLK_RST_SUSPEND_CLK_EN;
++	ret = regmap_update_bits(priv->usb31misc, TCA_CLK_RST, mask, 0);
++	if (ret)
++		goto out;
++
++	ret = regmap_update_bits(priv->usb31misc, TCA_GCFG,
++				 GCFG_ROLE_HSTDEV | GCFG_OP_MODE,
++				 GCFG_ROLE_HSTDEV | GCFG_OP_MODE_CTRL_SYNC_MODE);
++	if (ret)
++		goto out;
++
++	ret = regmap_update_bits(priv->usb31misc, TCA_SYSMODE_CFG,
++				 SYSMODE_CFG_TYPEC_DISABLE, 0);
++	if (ret)
++		goto out;
++
++	ret = regmap_read(priv->usb31misc, TCA_TCPC, &val);
++	if (ret)
++		goto out;
++	val &= ~(TCPC_VALID | TCPC_LOW_POWER_EN | TCPC_MUX_CONTROL_MASK);
++	val |= (TCPC_VALID | TCPC_MUX_CONTROL_USB31);
++	ret = regmap_write(priv->usb31misc, TCA_TCPC, val);
++	if (ret)
++		goto out;
++
++	ret = regmap_write(priv->usb31misc, TCA_VBUS_CTRL,
++			   VBUS_CTRL_POWERPRESENT_OVERRD | VBUS_CTRL_VBUSVALID_OVERRD);
++	if (ret)
++		goto out;
++
++	return 0;
++out:
++	dev_err(priv->dev, "failed to config phy clock ret: %d\n", ret);
++	return ret;
++}
++
++static int hi3670_phy_init(struct phy *phy)
++{
++	struct hi3670_priv *priv = phy_get_drvdata(phy);
++	u32 val;
++	int ret;
++
++	/* assert controller */
++	val = CFGA0_VAUX_RESET | CFGA0_USB31C_RESET |
++	      CFGA0_USB3PHY_RESET | CFGA0_USB2PHY_POR;
++	ret = regmap_update_bits(priv->usb31misc, USB_MISC_CFGA0, val, 0);
++	if (ret)
++		goto out;
++
++	ret = hi3670_config_phy_clock(priv);
++	if (ret)
++		goto out;
++
++	/* Exit from IDDQ mode */
++	ret = regmap_update_bits(priv->usb31misc, USB3OTG_CTRL5,
++				 CTRL5_USB2_SIDDQ, 0);
++	if (ret)
++		goto out;
++
++	/* Release USB31 PHY out of TestPowerDown mode */
++	ret = regmap_update_bits(priv->usb31misc, USB_MISC_CFG50,
++				 CFG50_USB3_PHY_TEST_POWERDOWN, 0);
++	if (ret)
++		goto out;
++
++	/* Deassert phy */
++	val = CFGA0_USB3PHY_RESET | CFGA0_USB2PHY_POR;
++	ret = regmap_update_bits(priv->usb31misc, USB_MISC_CFGA0, val, val);
++	if (ret)
++		goto out;
++
++	usleep_range(100, 120);
++
++	/* Tell the PHY power is stable */
++	val = CFG54_USB3_PHY0_ANA_PWR_EN | CFG54_PHY0_PCS_PWR_STABLE |
++	      CFG54_PHY0_PMA_PWR_STABLE;
++	ret = regmap_update_bits(priv->usb31misc, USB_MISC_CFG54,
++				 val, val);
++	if (ret)
++		goto out;
++
++	ret = hi3670_config_tca(priv);
++	if (ret)
++		goto out;
++
++	/* Enable SSC */
++	ret = regmap_update_bits(priv->usb31misc, USB_MISC_CFG5C,
++				 CFG5C_USB3_PHY0_SS_MPLLA_SSC_EN,
++				 CFG5C_USB3_PHY0_SS_MPLLA_SSC_EN);
++	if (ret)
++		goto out;
++
++	/* Deassert controller */
++	val = CFGA0_VAUX_RESET | CFGA0_USB31C_RESET;
++	ret = regmap_update_bits(priv->usb31misc, USB_MISC_CFGA0, val, val);
++	if (ret)
++		goto out;
++
++	usleep_range(100, 120);
++
++	/* Set fake vbus valid signal */
++	val = CTRL0_USB3_VBUSVLD | CTRL0_USB3_VBUSVLD_SEL;
++	ret = regmap_update_bits(priv->usb31misc, USB3OTG_CTRL0, val, val);
++	if (ret)
++		goto out;
++
++	val = CTRL3_USB2_VBUSVLDEXT0 | CTRL3_USB2_VBUSVLDEXTSEL0;
++	ret = regmap_update_bits(priv->usb31misc, USB3OTG_CTRL3, val, val);
++	if (ret)
++		goto out;
++
++	usleep_range(100, 120);
++
++	ret = hi3670_phy_set_params(priv);
++	if (ret)
++		goto out;
++
++	return 0;
++out:
++	dev_err(priv->dev, "failed to init phy ret: %d\n", ret);
++	return ret;
++}
++
++static int hi3670_phy_exit(struct phy *phy)
++{
++	struct hi3670_priv *priv = phy_get_drvdata(phy);
++	u32 mask;
++	int ret;
++
++	/* Assert phy */
++	mask = CFGA0_USB3PHY_RESET | CFGA0_USB2PHY_POR;
++	ret = regmap_update_bits(priv->usb31misc, USB_MISC_CFGA0, mask, 0);
++	if (ret)
++		goto out;
++
++	if (!hi3670_is_abbclk_selected(priv)) {
++		/* disable usb_tcxo_en */
++		ret = regmap_write(priv->pctrl, PCTRL_PERI_CTRL3,
++				   USB_TCXO_EN << PCTRL_PERI_CTRL3_MSK_START);
++	} else {
++		ret = regmap_write(priv->peri_crg, PERI_CRG_PERDIS6,
++				   GT_CLK_USB2PHY_REF);
++		if (ret)
++			goto out;
++	}
++
++	return 0;
++out:
++	dev_err(priv->dev, "failed to exit phy ret: %d\n", ret);
++	return ret;
++}
++
++static const struct phy_ops hi3670_phy_ops = {
++	.init		= hi3670_phy_init,
++	.exit		= hi3670_phy_exit,
++	.owner		= THIS_MODULE,
++};
++
++static int hi3670_phy_probe(struct platform_device *pdev)
++{
++	struct phy_provider *phy_provider;
++	struct device *dev = &pdev->dev;
++	struct phy *phy;
++	struct hi3670_priv *priv;
++
++	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	priv->dev = dev;
++	priv->peri_crg = syscon_regmap_lookup_by_phandle(dev->of_node,
++							 "hisilicon,pericrg-syscon");
++	if (IS_ERR(priv->peri_crg)) {
++		dev_err(dev, "no hisilicon,pericrg-syscon\n");
++		return PTR_ERR(priv->peri_crg);
++	}
++
++	priv->pctrl = syscon_regmap_lookup_by_phandle(dev->of_node,
++						      "hisilicon,pctrl-syscon");
++	if (IS_ERR(priv->pctrl)) {
++		dev_err(dev, "no hisilicon,pctrl-syscon\n");
++		return PTR_ERR(priv->pctrl);
++	}
++
++	priv->sctrl = syscon_regmap_lookup_by_phandle(dev->of_node,
++						      "hisilicon,sctrl-syscon");
++	if (IS_ERR(priv->sctrl)) {
++		dev_err(dev, "no hisilicon,sctrl-syscon\n");
++		return PTR_ERR(priv->sctrl);
++	}
++
++	/* node of hi3670 phy is a sub-node of usb3_otg_bc */
++	priv->usb31misc = syscon_node_to_regmap(dev->parent->of_node);
++	if (IS_ERR(priv->usb31misc)) {
++		dev_err(dev, "no hisilicon,usb3-otg-bc-syscon\n");
++		return PTR_ERR(priv->usb31misc);
++	}
++
++	if (of_property_read_u32(dev->of_node, "hisilicon,eye-diagram-param",
++				 &priv->eye_diagram_param))
++		priv->eye_diagram_param = KIRIN970_USB_DEFAULT_PHY_PARAM;
++
++	if (of_property_read_u32(dev->of_node, "hisilicon,tx-vboost-lvl",
++				 &priv->tx_vboost_lvl))
++		priv->tx_vboost_lvl = KIRIN970_USB_DEFAULT_PHY_VBOOST;
++
++	phy = devm_phy_create(dev, NULL, &hi3670_phy_ops);
++	if (IS_ERR(phy))
++		return PTR_ERR(phy);
++
++	phy_set_drvdata(phy, priv);
++	phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
++	return PTR_ERR_OR_ZERO(phy_provider);
++}
++
++static const struct of_device_id hi3670_phy_of_match[] = {
++	{ .compatible = "hisilicon,hi3670-usb-phy" },
++	{ },
++};
++MODULE_DEVICE_TABLE(of, hi3670_phy_of_match);
++
++static struct platform_driver hi3670_phy_driver = {
++	.probe	= hi3670_phy_probe,
 +	.driver = {
-+		.name	= "hi6421-spmi-pmic",
-+		.of_match_table = pmic_spmi_id_table,
-+	},
-+	.probe	= hi6421_spmi_pmic_probe,
++		.name	= "hi3670-usb-phy",
++		.of_match_table	= hi3670_phy_of_match,
++	}
 +};
-+module_spmi_driver(hi6421_spmi_pmic_driver);
++module_platform_driver(hi3670_phy_driver);
 +
-+MODULE_DESCRIPTION("HiSilicon Hi6421v600 SPMI PMIC driver");
++MODULE_AUTHOR("Yu Chen <chenyu56@huawei.com>");
 +MODULE_LICENSE("GPL v2");
-diff --git a/drivers/staging/Kconfig b/drivers/staging/Kconfig
-index b7ae5bdc4eb5..5b4267d3ed6b 100644
---- a/drivers/staging/Kconfig
-+++ b/drivers/staging/Kconfig
-@@ -104,6 +104,4 @@ source "drivers/staging/qlge/Kconfig"
- 
- source "drivers/staging/wfx/Kconfig"
- 
--source "drivers/staging/hikey9xx/Kconfig"
--
- endif # STAGING
-diff --git a/drivers/staging/Makefile b/drivers/staging/Makefile
-index 075c979bfe7c..7179cdcaafe7 100644
---- a/drivers/staging/Makefile
-+++ b/drivers/staging/Makefile
-@@ -42,4 +42,3 @@ obj-$(CONFIG_FIELDBUS_DEV)     += fieldbus/
- obj-$(CONFIG_KPC2000)		+= kpc2000/
- obj-$(CONFIG_QLGE)		+= qlge/
- obj-$(CONFIG_WFX)		+= wfx/
--obj-y				+= hikey9xx/
++MODULE_DESCRIPTION("Hilisicon Kirin970 USB31 PHY Driver");
 diff --git a/drivers/staging/hikey9xx/Kconfig b/drivers/staging/hikey9xx/Kconfig
-deleted file mode 100644
-index 9f53df9068fe..000000000000
+index c4dc1016edf2..3ceda03f2864 100644
 --- a/drivers/staging/hikey9xx/Kconfig
-+++ /dev/null
-@@ -1,19 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0
--
--# to be placed at drivers/mfd
--config MFD_HI6421_SPMI
--	tristate "HiSilicon Hi6421v600 SPMI PMU/Codec IC"
--	depends on HAS_IOMEM
--	depends on OF
--	depends on SPMI
--	select MFD_CORE
--	select REGMAP_SPMI
++++ b/drivers/staging/hikey9xx/Kconfig
+@@ -1,16 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+-# to be placed at drivers/phy
+-config PHY_HI3670_USB
+-	tristate "hi3670 USB PHY support"
+-	depends on (ARCH_HISI && ARM64) || COMPILE_TEST
+-	select GENERIC_PHY
+-	select MFD_SYSCON
 -	help
--	  Add support for HiSilicon Hi6421v600 SPMI PMIC. Hi6421 includes
--	  multi-functions, such as regulators, RTC, codec, Coulomb counter,
--	  etc.
+-	  Enable this to support the HISILICON HI3670 USB PHY.
 -
--	  This driver includes core APIs _only_. You have to select
--	  individual components like voltage regulators under corresponding
--	  menus in order to enable them.
--	  We communicate with the Hi6421v600 via a SPMI bus.
+-	  To compile this driver as a module, choose M here.
+-
+ # to be placed at drivers/spmi
+ config SPMI_HISI3670
+ 	tristate "Hisilicon 3670 SPMI Controller"
 diff --git a/drivers/staging/hikey9xx/Makefile b/drivers/staging/hikey9xx/Makefile
-deleted file mode 100644
-index e3108d7dd849..000000000000
+index 9103735d8377..42d486104525 100644
 --- a/drivers/staging/hikey9xx/Makefile
-+++ /dev/null
-@@ -1,3 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0
++++ b/drivers/staging/hikey9xx/Makefile
+@@ -1,6 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+-obj-$(CONFIG_PHY_HI3670_USB)		+= phy-hi3670-usb3.o
 -
--obj-$(CONFIG_MFD_HI6421_SPMI)		+= hi6421-spmi-pmic.o
-diff --git a/drivers/staging/hikey9xx/TODO b/drivers/staging/hikey9xx/TODO
+ obj-$(CONFIG_SPMI_HISI3670)		+= hisi-spmi-controller.o
+ obj-$(CONFIG_MFD_HI6421_SPMI)		+= hi6421-spmi-pmic.o
+diff --git a/drivers/staging/hikey9xx/phy-hi3670-usb3.c b/drivers/staging/hikey9xx/phy-hi3670-usb3.c
 deleted file mode 100644
-index 65e7996a3066..000000000000
---- a/drivers/staging/hikey9xx/TODO
+index b9ffe08abaab..000000000000
+--- a/drivers/staging/hikey9xx/phy-hi3670-usb3.c
 +++ /dev/null
-@@ -1,5 +0,0 @@
--ToDo list:
--
--- Port other drivers needed by Hikey 960/970;
--- Test drivers on Hikey 960;
--- Validate device tree bindings.
-diff --git a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c b/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
-deleted file mode 100644
-index d98643af72ae..000000000000
---- a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
-+++ /dev/null
-@@ -1,311 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
+@@ -1,661 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
 -/*
-- * Device driver for regulators in HISI PMIC IC
+- * Phy provider for USB 3.1 controller on HiSilicon Kirin970 platform
 - *
-- * Copyright (c) 2013-2021 Linaro Ltd.
-- * Copyright (c) 2011-2021 HiSilicon Technologies Co., Ltd.
-- * Copyright (c) 2020-2021 Huawei Technologies Co., Ltd
+- * Copyright (C) 2017-2020 Hilisicon Electronics Co., Ltd.
+- *		http://www.huawei.com
+- *
+- * Authors: Yu Chen <chenyu56@huawei.com>
 - */
 -
--#include <linux/bitops.h>
--#include <linux/interrupt.h>
--#include <linux/irq.h>
--#include <linux/mfd/core.h>
--#include <linux/mfd/hi6421-spmi-pmic.h>
+-#include <linux/bitfield.h>
+-#include <linux/clk.h>
+-#include <linux/kernel.h>
+-#include <linux/mfd/syscon.h>
 -#include <linux/module.h>
--#include <linux/of_gpio.h>
+-#include <linux/phy/phy.h>
 -#include <linux/platform_device.h>
--#include <linux/slab.h>
--#include <linux/spmi.h>
+-#include <linux/regmap.h>
 -
--enum hi6421_spmi_pmic_irq_list {
--	OTMP = 0,
--	VBUS_CONNECT,
--	VBUS_DISCONNECT,
--	ALARMON_R,
--	HOLD_6S,
--	HOLD_1S,
--	POWERKEY_UP,
--	POWERKEY_DOWN,
--	OCP_SCP_R,
--	COUL_R,
--	SIM0_HPD_R,
--	SIM0_HPD_F,
--	SIM1_HPD_R,
--	SIM1_HPD_F,
+-#define SCTRL_SCDEEPSLEEPED		(0x0)
+-#define USB_CLK_SELECTED		BIT(20)
 -
--	PMIC_IRQ_LIST_MAX
+-#define PERI_CRG_PEREN0			(0x00)
+-#define PERI_CRG_PERDIS0		(0x04)
+-#define PERI_CRG_PEREN4			(0x40)
+-#define PERI_CRG_PERDIS4		(0x44)
+-#define PERI_CRG_PERRSTEN4		(0x90)
+-#define PERI_CRG_PERRSTDIS4		(0x94)
+-#define PERI_CRG_ISODIS			(0x148)
+-#define PERI_CRG_PEREN6			(0x410)
+-#define PERI_CRG_PERDIS6		(0x414)
+-
+-#define USB_REFCLK_ISO_EN		BIT(25)
+-
+-#define GT_CLK_USB2PHY_REF		BIT(19)
+-
+-#define PCTRL_PERI_CTRL3		(0x10)
+-#define PCTRL_PERI_CTRL3_MSK_START	(16)
+-#define USB_TCXO_EN			BIT(1)
+-
+-#define PCTRL_PERI_CTRL24		(0x64)
+-#define SC_CLK_USB3PHY_3MUX1_SEL	BIT(25)
+-
+-#define USB3OTG_CTRL0			(0x00)
+-#define USB3OTG_CTRL3			(0x0c)
+-#define USB3OTG_CTRL4			(0x10)
+-#define USB3OTG_CTRL5			(0x14)
+-#define USB3OTG_CTRL7			(0x1c)
+-#define USB_MISC_CFG50			(0x50)
+-#define USB_MISC_CFG54			(0x54)
+-#define USB_MISC_CFG58			(0x58)
+-#define USB_MISC_CFG5C			(0x5c)
+-#define USB_MISC_CFGA0			(0xa0)
+-#define TCA_CLK_RST			(0x200)
+-#define TCA_INTR_EN			(0x204)
+-#define TCA_INTR_STS			(0x208)
+-#define TCA_GCFG			(0x210)
+-#define TCA_TCPC			(0x214)
+-#define TCA_SYSMODE_CFG			(0x218)
+-#define TCA_VBUS_CTRL			(0x240)
+-
+-#define CTRL0_USB3_VBUSVLD		BIT(7)
+-#define CTRL0_USB3_VBUSVLD_SEL		BIT(6)
+-
+-#define CTRL3_USB2_VBUSVLDEXT0		BIT(6)
+-#define CTRL3_USB2_VBUSVLDEXTSEL0	BIT(5)
+-
+-#define CTRL5_USB2_SIDDQ		BIT(0)
+-
+-#define CTRL7_USB2_REFCLKSEL_MASK	GENMASK(4, 3)
+-#define CTRL7_USB2_REFCLKSEL_ABB	(BIT(4) | BIT(3))
+-#define CTRL7_USB2_REFCLKSEL_PAD	BIT(4)
+-
+-#define CFG50_USB3_PHY_TEST_POWERDOWN	BIT(23)
+-
+-#define CFG54_USB31PHY_CR_ADDR_MASK	GENMASK(31, 16)
+-
+-#define CFG54_USB3PHY_REF_USE_PAD	BIT(12)
+-#define CFG54_PHY0_PMA_PWR_STABLE	BIT(11)
+-#define CFG54_PHY0_PCS_PWR_STABLE	BIT(9)
+-#define CFG54_USB31PHY_CR_ACK		BIT(7)
+-#define CFG54_USB31PHY_CR_WR_EN		BIT(5)
+-#define CFG54_USB31PHY_CR_SEL		BIT(4)
+-#define CFG54_USB31PHY_CR_RD_EN		BIT(3)
+-#define CFG54_USB31PHY_CR_CLK		BIT(2)
+-#define CFG54_USB3_PHY0_ANA_PWR_EN	BIT(1)
+-
+-#define CFG58_USB31PHY_CR_DATA_MASK     GENMASK(31, 16)
+-
+-#define CFG5C_USB3_PHY0_SS_MPLLA_SSC_EN	BIT(1)
+-
+-#define CFGA0_VAUX_RESET		BIT(9)
+-#define CFGA0_USB31C_RESET		BIT(8)
+-#define CFGA0_USB2PHY_REFCLK_SELECT	BIT(4)
+-#define CFGA0_USB3PHY_RESET		BIT(1)
+-#define CFGA0_USB2PHY_POR		BIT(0)
+-
+-#define INTR_EN_XA_TIMEOUT_EVT_EN	BIT(1)
+-#define INTR_EN_XA_ACK_EVT_EN		BIT(0)
+-
+-#define CLK_RST_TCA_REF_CLK_EN		BIT(1)
+-#define CLK_RST_SUSPEND_CLK_EN		BIT(0)
+-
+-#define GCFG_ROLE_HSTDEV		BIT(4)
+-#define GCFG_OP_MODE			GENMASK(1, 0)
+-#define GCFG_OP_MODE_CTRL_SYNC_MODE	BIT(0)
+-
+-#define TCPC_VALID			BIT(4)
+-#define TCPC_LOW_POWER_EN		BIT(3)
+-#define TCPC_MUX_CONTROL_MASK		GENMASK(1, 0)
+-#define TCPC_MUX_CONTROL_USB31		BIT(0)
+-
+-#define SYSMODE_CFG_TYPEC_DISABLE	BIT(3)
+-
+-#define VBUS_CTRL_POWERPRESENT_OVERRD	GENMASK(3, 2)
+-#define VBUS_CTRL_VBUSVALID_OVERRD	GENMASK(1, 0)
+-
+-#define KIRIN970_USB_DEFAULT_PHY_PARAM	(0xfdfee4)
+-#define KIRIN970_USB_DEFAULT_PHY_VBOOST	(0x5)
+-
+-#define TX_VBOOST_LVL_REG		(0xf)
+-#define TX_VBOOST_LVL_START		(6)
+-#define TX_VBOOST_LVL_ENABLE		BIT(9)
+-
+-struct hi3670_priv {
+-	struct device *dev;
+-	struct regmap *peri_crg;
+-	struct regmap *pctrl;
+-	struct regmap *sctrl;
+-	struct regmap *usb31misc;
+-
+-	u32 eye_diagram_param;
+-	u32 tx_vboost_lvl;
+-
+-	u32 peri_crg_offset;
+-	u32 pctrl_offset;
+-	u32 usb31misc_offset;
 -};
 -
--#define HISI_IRQ_BANK_SIZE		2
--
--/*
-- * IRQ number for the power key button and mask for both UP and DOWN IRQs
-- */
--#define HISI_POWERKEY_IRQ_NUM		0
--#define HISI_IRQ_POWERKEY_UP_DOWN	(BIT(POWERKEY_DOWN) | BIT(POWERKEY_UP))
--
--/*
-- * Registers for IRQ address and IRQ mask bits
-- *
-- * Please notice that we need to regmap a larger region, as other
-- * registers are used by the regulators.
-- * See drivers/regulator/hi6421-regulator.c.
-- */
--#define SOC_PMIC_IRQ_MASK_0_ADDR	0x0202
--#define SOC_PMIC_IRQ0_ADDR		0x0212
--
--/*
-- * The IRQs are mapped as:
-- *
-- *	======================  =============   ============	=====
-- *	IRQ			MASK REGISTER	IRQ REGISTER	BIT
-- *	======================  =============   ============	=====
-- *	OTMP			0x0202		0x212		bit 0
-- *	VBUS_CONNECT		0x0202		0x212		bit 1
-- *	VBUS_DISCONNECT		0x0202		0x212		bit 2
-- *	ALARMON_R		0x0202		0x212		bit 3
-- *	HOLD_6S			0x0202		0x212		bit 4
-- *	HOLD_1S			0x0202		0x212		bit 5
-- *	POWERKEY_UP		0x0202		0x212		bit 6
-- *	POWERKEY_DOWN		0x0202		0x212		bit 7
-- *
-- *	OCP_SCP_R		0x0203		0x213		bit 0
-- *	COUL_R			0x0203		0x213		bit 1
-- *	SIM0_HPD_R		0x0203		0x213		bit 2
-- *	SIM0_HPD_F		0x0203		0x213		bit 3
-- *	SIM1_HPD_R		0x0203		0x213		bit 4
-- *	SIM1_HPD_F		0x0203		0x213		bit 5
-- *	======================  =============   ============	=====
-- *
-- * Each mask register contains 8 bits. The ancillary macros below
-- * convert a number from 0 to 14 into a register address and a bit mask
-- */
--#define HISI_IRQ_MASK_REG(irq_data)	(SOC_PMIC_IRQ_MASK_0_ADDR + \
--					 (irqd_to_hwirq(irq_data) / BITS_PER_BYTE))
--#define HISI_IRQ_MASK_BIT(irq_data)	BIT(irqd_to_hwirq(irq_data) & (BITS_PER_BYTE - 1))
--#define HISI_8BITS_MASK			0xff
--
--static const struct mfd_cell hi6421v600_devs[] = {
--	{ .name = "hi6421v600-regulator", },
--};
--
--static irqreturn_t hi6421_spmi_irq_handler(int irq, void *priv)
+-static int hi3670_phy_cr_clk(struct regmap *usb31misc)
 -{
--	struct hi6421_spmi_pmic *ddata = (struct hi6421_spmi_pmic *)priv;
--	unsigned long pending;
--	unsigned int in;
--	int i, offset;
+-	int ret;
 -
--	for (i = 0; i < HISI_IRQ_BANK_SIZE; i++) {
--		regmap_read(ddata->regmap, SOC_PMIC_IRQ0_ADDR + i, &in);
+-	/* Clock up */
+-	ret = regmap_update_bits(usb31misc, USB_MISC_CFG54,
+-				 CFG54_USB31PHY_CR_CLK, CFG54_USB31PHY_CR_CLK);
+-	if (ret)
+-		return ret;
 -
--		/* Mark pending IRQs as handled */
--		regmap_write(ddata->regmap, SOC_PMIC_IRQ0_ADDR + i, in);
+-	/* Clock down */
+-	return regmap_update_bits(usb31misc, USB_MISC_CFG54,
+-				  CFG54_USB31PHY_CR_CLK, 0);
+-}
 -
--		pending = in & HISI_8BITS_MASK;
+-static int hi3670_phy_cr_set_sel(struct regmap *usb31misc)
+-{
+-	return regmap_update_bits(usb31misc, USB_MISC_CFG54,
+-				  CFG54_USB31PHY_CR_SEL, CFG54_USB31PHY_CR_SEL);
+-}
 -
--		if (i == HISI_POWERKEY_IRQ_NUM &&
--		    (pending & HISI_IRQ_POWERKEY_UP_DOWN) == HISI_IRQ_POWERKEY_UP_DOWN) {
--			/*
--			 * If both powerkey down and up IRQs are received,
--			 * handle them at the right order
--			 */
--			generic_handle_irq(ddata->irqs[POWERKEY_DOWN]);
--			generic_handle_irq(ddata->irqs[POWERKEY_UP]);
--			pending &= ~HISI_IRQ_POWERKEY_UP_DOWN;
--		}
+-static int hi3670_phy_cr_start(struct regmap *usb31misc, int direction)
+-{
+-	int ret, reg;
 -
--		if (!pending)
--			continue;
+-	if (direction)
+-		reg = CFG54_USB31PHY_CR_WR_EN;
+-	else
+-		reg = CFG54_USB31PHY_CR_RD_EN;
 -
--		for_each_set_bit(offset, &pending, BITS_PER_BYTE) {
--			generic_handle_irq(ddata->irqs[offset + i * BITS_PER_BYTE]);
--		}
+-	ret = regmap_update_bits(usb31misc, USB_MISC_CFG54, reg, reg);
+-
+-	if (ret)
+-		return ret;
+-
+-	ret = hi3670_phy_cr_clk(usb31misc);
+-	if (ret)
+-		return ret;
+-
+-	return regmap_update_bits(usb31misc, USB_MISC_CFG54,
+-				  CFG54_USB31PHY_CR_RD_EN | CFG54_USB31PHY_CR_WR_EN, 0);
+-}
+-
+-static int hi3670_phy_cr_wait_ack(struct regmap *usb31misc)
+-{
+-	u32 reg;
+-	int retry = 10;
+-	int ret;
+-
+-	while (retry-- > 0) {
+-		ret = regmap_read(usb31misc, USB_MISC_CFG54, &reg);
+-		if (ret)
+-			return ret;
+-		if ((reg & CFG54_USB31PHY_CR_ACK) == CFG54_USB31PHY_CR_ACK)
+-			return 0;
+-
+-		ret = hi3670_phy_cr_clk(usb31misc);
+-		if (ret)
+-			return ret;
+-
+-		usleep_range(10, 20);
 -	}
 -
--	return IRQ_HANDLED;
+-	return -ETIMEDOUT;
 -}
 -
--static void hi6421_spmi_irq_mask(struct irq_data *d)
+-static int hi3670_phy_cr_set_addr(struct regmap *usb31misc, u32 addr)
 -{
--	struct hi6421_spmi_pmic *ddata = irq_data_get_irq_chip_data(d);
--	unsigned long flags;
--	unsigned int data;
--	u32 offset;
+-	u32 reg;
+-	int ret;
 -
--	offset = HISI_IRQ_MASK_REG(d);
+-	ret = regmap_read(usb31misc, USB_MISC_CFG54, &reg);
+-	if (ret)
+-		return ret;
 -
--	spin_lock_irqsave(&ddata->lock, flags);
+-	reg = FIELD_PREP(CFG54_USB31PHY_CR_ADDR_MASK, addr);
 -
--	regmap_read(ddata->regmap, offset, &data);
--	data |= HISI_IRQ_MASK_BIT(d);
--	regmap_write(ddata->regmap, offset, data);
--
--	spin_unlock_irqrestore(&ddata->lock, flags);
+-	return regmap_update_bits(usb31misc, USB_MISC_CFG54,
+-				  CFG54_USB31PHY_CR_ADDR_MASK, reg);
 -}
 -
--static void hi6421_spmi_irq_unmask(struct irq_data *d)
+-static int hi3670_phy_cr_read(struct regmap *usb31misc, u32 addr, u32 *val)
 -{
--	struct hi6421_spmi_pmic *ddata = irq_data_get_irq_chip_data(d);
--	u32 data, offset;
--	unsigned long flags;
+-	int reg, i, ret;
 -
--	offset = HISI_IRQ_MASK_REG(d);
+-	for (i = 0; i < 100; i++) {
+-		ret = hi3670_phy_cr_clk(usb31misc);
+-		if (ret)
+-			return ret;
+-	}
 -
--	spin_lock_irqsave(&ddata->lock, flags);
+-	ret = hi3670_phy_cr_set_sel(usb31misc);
+-	if (ret)
+-		return ret;
 -
--	regmap_read(ddata->regmap, offset, &data);
--	data &= ~HISI_IRQ_MASK_BIT(d);
--	regmap_write(ddata->regmap, offset, data);
+-	ret = hi3670_phy_cr_set_addr(usb31misc, addr);
+-	if (ret)
+-		return ret;
 -
--	spin_unlock_irqrestore(&ddata->lock, flags);
--}
+-	ret = hi3670_phy_cr_start(usb31misc, 0);
+-	if (ret)
+-		return ret;
 -
--static struct irq_chip hi6421_spmi_pmu_irqchip = {
--	.name		= "hi6421v600-irq",
--	.irq_mask	= hi6421_spmi_irq_mask,
--	.irq_unmask	= hi6421_spmi_irq_unmask,
--	.irq_disable	= hi6421_spmi_irq_mask,
--	.irq_enable	= hi6421_spmi_irq_unmask,
--};
+-	ret = hi3670_phy_cr_wait_ack(usb31misc);
+-	if (ret)
+-		return ret;
 -
--static int hi6421_spmi_irq_map(struct irq_domain *d, unsigned int virq,
--			       irq_hw_number_t hw)
--{
--	struct hi6421_spmi_pmic *ddata = d->host_data;
+-	ret = regmap_read(usb31misc, USB_MISC_CFG58, &reg);
+-	if (ret)
+-		return ret;
 -
--	irq_set_chip_and_handler_name(virq, &hi6421_spmi_pmu_irqchip,
--				      handle_simple_irq, "hi6421v600");
--	irq_set_chip_data(virq, ddata);
--	irq_set_irq_type(virq, IRQ_TYPE_NONE);
+-	*val = FIELD_GET(CFG58_USB31PHY_CR_DATA_MASK, reg);
 -
 -	return 0;
 -}
 -
--static const struct irq_domain_ops hi6421_spmi_domain_ops = {
--	.map	= hi6421_spmi_irq_map,
--	.xlate	= irq_domain_xlate_twocell,
--};
--
--static void hi6421_spmi_pmic_irq_init(struct hi6421_spmi_pmic *ddata)
+-static int hi3670_phy_cr_write(struct regmap *usb31misc, u32 addr, u32 val)
 -{
 -	int i;
--	unsigned int pending;
+-	int ret;
 -
--	/* Mask all IRQs */
--	for (i = 0; i < HISI_IRQ_BANK_SIZE; i++)
--		regmap_write(ddata->regmap, SOC_PMIC_IRQ_MASK_0_ADDR + i,
--			     HISI_8BITS_MASK);
--
--	/* Mark all IRQs as handled */
--	for (i = 0; i < HISI_IRQ_BANK_SIZE; i++) {
--		regmap_read(ddata->regmap, SOC_PMIC_IRQ0_ADDR + i, &pending);
--		regmap_write(ddata->regmap, SOC_PMIC_IRQ0_ADDR + i,
--			     HISI_8BITS_MASK);
+-	for (i = 0; i < 100; i++) {
+-		ret = hi3670_phy_cr_clk(usb31misc);
+-		if (ret)
+-			return ret;
 -	}
+-
+-	ret = hi3670_phy_cr_set_sel(usb31misc);
+-	if (ret)
+-		return ret;
+-
+-	ret = hi3670_phy_cr_set_addr(usb31misc, addr);
+-	if (ret)
+-		return ret;
+-
+-	ret = regmap_write(usb31misc, USB_MISC_CFG58,
+-			   FIELD_PREP(CFG58_USB31PHY_CR_DATA_MASK, val));
+-	if (ret)
+-		return ret;
+-
+-	ret = hi3670_phy_cr_start(usb31misc, 1);
+-	if (ret)
+-		return ret;
+-
+-	return hi3670_phy_cr_wait_ack(usb31misc);
 -}
 -
--static const struct regmap_config regmap_config = {
--	.reg_bits	= 16,
--	.val_bits	= BITS_PER_BYTE,
--	.max_register	= 0xffff,
--	.fast_io	= true
--};
--
--static int hi6421_spmi_pmic_probe(struct spmi_device *pdev)
+-static int hi3670_phy_set_params(struct hi3670_priv *priv)
 -{
--	struct device *dev = &pdev->dev;
--	struct device_node *np = dev->of_node;
--	struct hi6421_spmi_pmic *ddata;
--	unsigned int virq;
--	int ret, i;
+-	u32 reg;
+-	int ret;
+-	int retry = 3;
 -
--	ddata = devm_kzalloc(dev, sizeof(*ddata), GFP_KERNEL);
--	if (!ddata)
--		return -ENOMEM;
--
--	ddata->regmap = devm_regmap_init_spmi_ext(pdev, &regmap_config);
--	if (IS_ERR(ddata->regmap))
--		return PTR_ERR(ddata->regmap);
--
--	spin_lock_init(&ddata->lock);
--
--	ddata->dev = dev;
--
--	ddata->gpio = of_get_gpio(np, 0);
--	if (ddata->gpio < 0)
--		return ddata->gpio;
--
--	if (!gpio_is_valid(ddata->gpio))
--		return -EINVAL;
--
--	ret = devm_gpio_request_one(dev, ddata->gpio, GPIOF_IN, "pmic");
--	if (ret < 0) {
--		dev_err(dev, "Failed to request gpio%d\n", ddata->gpio);
+-	ret = regmap_write(priv->usb31misc, USB3OTG_CTRL4,
+-			   priv->eye_diagram_param);
+-	if (ret) {
+-		dev_err(priv->dev, "set USB3OTG_CTRL4 failed\n");
 -		return ret;
 -	}
 -
--	ddata->irq = gpio_to_irq(ddata->gpio);
+-	while (retry-- > 0) {
+-		ret = hi3670_phy_cr_read(priv->usb31misc,
+-					 TX_VBOOST_LVL_REG, &reg);
+-		if (!ret)
+-			break;
 -
--	hi6421_spmi_pmic_irq_init(ddata);
--
--	ddata->irqs = devm_kzalloc(dev, PMIC_IRQ_LIST_MAX * sizeof(int), GFP_KERNEL);
--	if (!ddata->irqs)
--		return -ENOMEM;
--
--	ddata->domain = irq_domain_add_simple(np, PMIC_IRQ_LIST_MAX, 0,
--					      &hi6421_spmi_domain_ops, ddata);
--	if (!ddata->domain) {
--		dev_err(dev, "Failed to create IRQ domain\n");
--		return -ENODEV;
--	}
--
--	for (i = 0; i < PMIC_IRQ_LIST_MAX; i++) {
--		virq = irq_create_mapping(ddata->domain, i);
--		if (!virq) {
--			dev_err(dev, "Failed to map H/W IRQ\n");
--			return -ENODEV;
+-		if (ret != -ETIMEDOUT) {
+-			dev_err(priv->dev, "read TX_VBOOST_LVL_REG failed\n");
+-			return ret;
 -		}
--		ddata->irqs[i] = virq;
 -	}
--
--	ret = devm_request_threaded_irq(dev,
--					ddata->irq, hi6421_spmi_irq_handler,
--					NULL,
--				        IRQF_TRIGGER_LOW | IRQF_SHARED | IRQF_NO_SUSPEND,
--				        "pmic", ddata);
--	if (ret < 0) {
--		dev_err(dev, "Failed to start IRQ handling thread: error %d\n",
--			ret);
+-	if (ret)
 -		return ret;
--	}
 -
--	dev_set_drvdata(&pdev->dev, ddata);
--
--	ret = devm_mfd_add_devices(&pdev->dev, PLATFORM_DEVID_NONE,
--				   hi6421v600_devs, ARRAY_SIZE(hi6421v600_devs),
--				   NULL, 0, NULL);
--	if (ret < 0)
--		dev_err(dev, "Failed to add child devices: %d\n", ret);
+-	reg |= (TX_VBOOST_LVL_ENABLE | (priv->tx_vboost_lvl << TX_VBOOST_LVL_START));
+-	ret = hi3670_phy_cr_write(priv->usb31misc, TX_VBOOST_LVL_REG, reg);
+-	if (ret)
+-		dev_err(priv->dev, "write TX_VBOOST_LVL_REG failed\n");
 -
 -	return ret;
 -}
 -
--static const struct of_device_id pmic_spmi_id_table[] = {
--	{ .compatible = "hisilicon,hi6421-spmi" },
--	{ }
--};
--MODULE_DEVICE_TABLE(of, pmic_spmi_id_table);
+-static bool hi3670_is_abbclk_selected(struct hi3670_priv *priv)
+-{
+-	u32 reg;
 -
--static struct spmi_driver hi6421_spmi_pmic_driver = {
+-	if (!priv->sctrl) {
+-		dev_err(priv->dev, "priv->sctrl is null!\n");
+-		return false;
+-	}
+-
+-	if (regmap_read(priv->sctrl, SCTRL_SCDEEPSLEEPED, &reg)) {
+-		dev_err(priv->dev, "SCTRL_SCDEEPSLEEPED read failed!\n");
+-		return false;
+-	}
+-
+-	if ((reg & USB_CLK_SELECTED) == 0)
+-		return false;
+-
+-	return true;
+-}
+-
+-static int hi3670_config_phy_clock(struct hi3670_priv *priv)
+-{
+-	u32 val, mask;
+-	int ret;
+-
+-	if (!hi3670_is_abbclk_selected(priv)) {
+-		/* usb refclk iso disable */
+-		ret = regmap_write(priv->peri_crg, PERI_CRG_ISODIS,
+-				   USB_REFCLK_ISO_EN);
+-		if (ret)
+-			goto out;
+-
+-		/* enable usb_tcxo_en */
+-		ret = regmap_write(priv->pctrl, PCTRL_PERI_CTRL3,
+-				   USB_TCXO_EN |
+-				   (USB_TCXO_EN << PCTRL_PERI_CTRL3_MSK_START));
+-
+-		/* select usbphy clk from abb */
+-		mask = SC_CLK_USB3PHY_3MUX1_SEL;
+-		ret = regmap_update_bits(priv->pctrl,
+-					 PCTRL_PERI_CTRL24, mask, 0);
+-		if (ret)
+-			goto out;
+-
+-		ret = regmap_update_bits(priv->usb31misc, USB_MISC_CFGA0,
+-					 CFGA0_USB2PHY_REFCLK_SELECT, 0);
+-		if (ret)
+-			goto out;
+-
+-		ret = regmap_read(priv->usb31misc, USB3OTG_CTRL7, &val);
+-		if (ret)
+-			goto out;
+-		val &= ~CTRL7_USB2_REFCLKSEL_MASK;
+-		val |= CTRL7_USB2_REFCLKSEL_ABB;
+-		ret = regmap_write(priv->usb31misc, USB3OTG_CTRL7, val);
+-		if (ret)
+-			goto out;
+-
+-		return 0;
+-	}
+-
+-	ret = regmap_update_bits(priv->usb31misc, USB_MISC_CFG54,
+-				 CFG54_USB3PHY_REF_USE_PAD,
+-				 CFG54_USB3PHY_REF_USE_PAD);
+-	if (ret)
+-		goto out;
+-
+-	ret = regmap_update_bits(priv->usb31misc, USB_MISC_CFGA0,
+-				 CFGA0_USB2PHY_REFCLK_SELECT,
+-				 CFGA0_USB2PHY_REFCLK_SELECT);
+-	if (ret)
+-		goto out;
+-
+-	ret = regmap_read(priv->usb31misc, USB3OTG_CTRL7, &val);
+-	if (ret)
+-		goto out;
+-	val &= ~CTRL7_USB2_REFCLKSEL_MASK;
+-	val |= CTRL7_USB2_REFCLKSEL_PAD;
+-	ret = regmap_write(priv->usb31misc, USB3OTG_CTRL7, val);
+-	if (ret)
+-		goto out;
+-
+-	ret = regmap_write(priv->peri_crg,
+-			   PERI_CRG_PEREN6, GT_CLK_USB2PHY_REF);
+-	if (ret)
+-		goto out;
+-
+-	return 0;
+-out:
+-	dev_err(priv->dev, "failed to config phy clock ret: %d\n", ret);
+-	return ret;
+-}
+-
+-static int hi3670_config_tca(struct hi3670_priv *priv)
+-{
+-	u32 val, mask;
+-	int ret;
+-
+-	ret = regmap_write(priv->usb31misc, TCA_INTR_STS, 0xffff);
+-	if (ret)
+-		goto out;
+-
+-	ret = regmap_write(priv->usb31misc, TCA_INTR_EN,
+-			   INTR_EN_XA_TIMEOUT_EVT_EN | INTR_EN_XA_ACK_EVT_EN);
+-	if (ret)
+-		goto out;
+-
+-	mask = CLK_RST_TCA_REF_CLK_EN | CLK_RST_SUSPEND_CLK_EN;
+-	ret = regmap_update_bits(priv->usb31misc, TCA_CLK_RST, mask, 0);
+-	if (ret)
+-		goto out;
+-
+-	ret = regmap_update_bits(priv->usb31misc, TCA_GCFG,
+-				 GCFG_ROLE_HSTDEV | GCFG_OP_MODE,
+-				 GCFG_ROLE_HSTDEV | GCFG_OP_MODE_CTRL_SYNC_MODE);
+-	if (ret)
+-		goto out;
+-
+-	ret = regmap_update_bits(priv->usb31misc, TCA_SYSMODE_CFG,
+-				 SYSMODE_CFG_TYPEC_DISABLE, 0);
+-	if (ret)
+-		goto out;
+-
+-	ret = regmap_read(priv->usb31misc, TCA_TCPC, &val);
+-	if (ret)
+-		goto out;
+-	val &= ~(TCPC_VALID | TCPC_LOW_POWER_EN | TCPC_MUX_CONTROL_MASK);
+-	val |= (TCPC_VALID | TCPC_MUX_CONTROL_USB31);
+-	ret = regmap_write(priv->usb31misc, TCA_TCPC, val);
+-	if (ret)
+-		goto out;
+-
+-	ret = regmap_write(priv->usb31misc, TCA_VBUS_CTRL,
+-			   VBUS_CTRL_POWERPRESENT_OVERRD | VBUS_CTRL_VBUSVALID_OVERRD);
+-	if (ret)
+-		goto out;
+-
+-	return 0;
+-out:
+-	dev_err(priv->dev, "failed to config phy clock ret: %d\n", ret);
+-	return ret;
+-}
+-
+-static int hi3670_phy_init(struct phy *phy)
+-{
+-	struct hi3670_priv *priv = phy_get_drvdata(phy);
+-	u32 val;
+-	int ret;
+-
+-	/* assert controller */
+-	val = CFGA0_VAUX_RESET | CFGA0_USB31C_RESET |
+-	      CFGA0_USB3PHY_RESET | CFGA0_USB2PHY_POR;
+-	ret = regmap_update_bits(priv->usb31misc, USB_MISC_CFGA0, val, 0);
+-	if (ret)
+-		goto out;
+-
+-	ret = hi3670_config_phy_clock(priv);
+-	if (ret)
+-		goto out;
+-
+-	/* Exit from IDDQ mode */
+-	ret = regmap_update_bits(priv->usb31misc, USB3OTG_CTRL5,
+-				 CTRL5_USB2_SIDDQ, 0);
+-	if (ret)
+-		goto out;
+-
+-	/* Release USB31 PHY out of TestPowerDown mode */
+-	ret = regmap_update_bits(priv->usb31misc, USB_MISC_CFG50,
+-				 CFG50_USB3_PHY_TEST_POWERDOWN, 0);
+-	if (ret)
+-		goto out;
+-
+-	/* Deassert phy */
+-	val = CFGA0_USB3PHY_RESET | CFGA0_USB2PHY_POR;
+-	ret = regmap_update_bits(priv->usb31misc, USB_MISC_CFGA0, val, val);
+-	if (ret)
+-		goto out;
+-
+-	usleep_range(100, 120);
+-
+-	/* Tell the PHY power is stable */
+-	val = CFG54_USB3_PHY0_ANA_PWR_EN | CFG54_PHY0_PCS_PWR_STABLE |
+-	      CFG54_PHY0_PMA_PWR_STABLE;
+-	ret = regmap_update_bits(priv->usb31misc, USB_MISC_CFG54,
+-				 val, val);
+-	if (ret)
+-		goto out;
+-
+-	ret = hi3670_config_tca(priv);
+-	if (ret)
+-		goto out;
+-
+-	/* Enable SSC */
+-	ret = regmap_update_bits(priv->usb31misc, USB_MISC_CFG5C,
+-				 CFG5C_USB3_PHY0_SS_MPLLA_SSC_EN,
+-				 CFG5C_USB3_PHY0_SS_MPLLA_SSC_EN);
+-	if (ret)
+-		goto out;
+-
+-	/* Deassert controller */
+-	val = CFGA0_VAUX_RESET | CFGA0_USB31C_RESET;
+-	ret = regmap_update_bits(priv->usb31misc, USB_MISC_CFGA0, val, val);
+-	if (ret)
+-		goto out;
+-
+-	usleep_range(100, 120);
+-
+-	/* Set fake vbus valid signal */
+-	val = CTRL0_USB3_VBUSVLD | CTRL0_USB3_VBUSVLD_SEL;
+-	ret = regmap_update_bits(priv->usb31misc, USB3OTG_CTRL0, val, val);
+-	if (ret)
+-		goto out;
+-
+-	val = CTRL3_USB2_VBUSVLDEXT0 | CTRL3_USB2_VBUSVLDEXTSEL0;
+-	ret = regmap_update_bits(priv->usb31misc, USB3OTG_CTRL3, val, val);
+-	if (ret)
+-		goto out;
+-
+-	usleep_range(100, 120);
+-
+-	ret = hi3670_phy_set_params(priv);
+-	if (ret)
+-		goto out;
+-
+-	return 0;
+-out:
+-	dev_err(priv->dev, "failed to init phy ret: %d\n", ret);
+-	return ret;
+-}
+-
+-static int hi3670_phy_exit(struct phy *phy)
+-{
+-	struct hi3670_priv *priv = phy_get_drvdata(phy);
+-	u32 mask;
+-	int ret;
+-
+-	/* Assert phy */
+-	mask = CFGA0_USB3PHY_RESET | CFGA0_USB2PHY_POR;
+-	ret = regmap_update_bits(priv->usb31misc, USB_MISC_CFGA0, mask, 0);
+-	if (ret)
+-		goto out;
+-
+-	if (!hi3670_is_abbclk_selected(priv)) {
+-		/* disable usb_tcxo_en */
+-		ret = regmap_write(priv->pctrl, PCTRL_PERI_CTRL3,
+-				   USB_TCXO_EN << PCTRL_PERI_CTRL3_MSK_START);
+-	} else {
+-		ret = regmap_write(priv->peri_crg, PERI_CRG_PERDIS6,
+-				   GT_CLK_USB2PHY_REF);
+-		if (ret)
+-			goto out;
+-	}
+-
+-	return 0;
+-out:
+-	dev_err(priv->dev, "failed to exit phy ret: %d\n", ret);
+-	return ret;
+-}
+-
+-static const struct phy_ops hi3670_phy_ops = {
+-	.init		= hi3670_phy_init,
+-	.exit		= hi3670_phy_exit,
+-	.owner		= THIS_MODULE,
+-};
+-
+-static int hi3670_phy_probe(struct platform_device *pdev)
+-{
+-	struct phy_provider *phy_provider;
+-	struct device *dev = &pdev->dev;
+-	struct phy *phy;
+-	struct hi3670_priv *priv;
+-
+-	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+-	if (!priv)
+-		return -ENOMEM;
+-
+-	priv->dev = dev;
+-	priv->peri_crg = syscon_regmap_lookup_by_phandle(dev->of_node,
+-							 "hisilicon,pericrg-syscon");
+-	if (IS_ERR(priv->peri_crg)) {
+-		dev_err(dev, "no hisilicon,pericrg-syscon\n");
+-		return PTR_ERR(priv->peri_crg);
+-	}
+-
+-	priv->pctrl = syscon_regmap_lookup_by_phandle(dev->of_node,
+-						      "hisilicon,pctrl-syscon");
+-	if (IS_ERR(priv->pctrl)) {
+-		dev_err(dev, "no hisilicon,pctrl-syscon\n");
+-		return PTR_ERR(priv->pctrl);
+-	}
+-
+-	priv->sctrl = syscon_regmap_lookup_by_phandle(dev->of_node,
+-						      "hisilicon,sctrl-syscon");
+-	if (IS_ERR(priv->sctrl)) {
+-		dev_err(dev, "no hisilicon,sctrl-syscon\n");
+-		return PTR_ERR(priv->sctrl);
+-	}
+-
+-	/* node of hi3670 phy is a sub-node of usb3_otg_bc */
+-	priv->usb31misc = syscon_node_to_regmap(dev->parent->of_node);
+-	if (IS_ERR(priv->usb31misc)) {
+-		dev_err(dev, "no hisilicon,usb3-otg-bc-syscon\n");
+-		return PTR_ERR(priv->usb31misc);
+-	}
+-
+-	if (of_property_read_u32(dev->of_node, "hisilicon,eye-diagram-param",
+-				 &priv->eye_diagram_param))
+-		priv->eye_diagram_param = KIRIN970_USB_DEFAULT_PHY_PARAM;
+-
+-	if (of_property_read_u32(dev->of_node, "hisilicon,tx-vboost-lvl",
+-				 &priv->tx_vboost_lvl))
+-		priv->tx_vboost_lvl = KIRIN970_USB_DEFAULT_PHY_VBOOST;
+-
+-	phy = devm_phy_create(dev, NULL, &hi3670_phy_ops);
+-	if (IS_ERR(phy))
+-		return PTR_ERR(phy);
+-
+-	phy_set_drvdata(phy, priv);
+-	phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
+-	return PTR_ERR_OR_ZERO(phy_provider);
+-}
+-
+-static const struct of_device_id hi3670_phy_of_match[] = {
+-	{ .compatible = "hisilicon,hi3670-usb-phy" },
+-	{ },
+-};
+-MODULE_DEVICE_TABLE(of, hi3670_phy_of_match);
+-
+-static struct platform_driver hi3670_phy_driver = {
+-	.probe	= hi3670_phy_probe,
 -	.driver = {
--		.name	= "hi6421-spmi-pmic",
--		.of_match_table = pmic_spmi_id_table,
--	},
--	.probe	= hi6421_spmi_pmic_probe,
+-		.name	= "hi3670-usb-phy",
+-		.of_match_table	= hi3670_phy_of_match,
+-	}
 -};
--module_spmi_driver(hi6421_spmi_pmic_driver);
+-module_platform_driver(hi3670_phy_driver);
 -
--MODULE_DESCRIPTION("HiSilicon Hi6421v600 SPMI PMIC driver");
+-MODULE_AUTHOR("Yu Chen <chenyu56@huawei.com>");
 -MODULE_LICENSE("GPL v2");
-diff --git a/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml b/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
+-MODULE_DESCRIPTION("Hilisicon Kirin970 USB31 PHY Driver");
+diff --git a/drivers/staging/hikey9xx/phy-hi3670-usb3.yaml b/drivers/staging/hikey9xx/phy-hi3670-usb3.yaml
 deleted file mode 100644
-index 8e355cddd437..000000000000
---- a/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
+index ebd78acfe2de..000000000000
+--- a/drivers/staging/hikey9xx/phy-hi3670-usb3.yaml
 +++ /dev/null
-@@ -1,134 +0,0 @@
+@@ -1,73 +0,0 @@
 -# SPDX-License-Identifier: GPL-2.0
 -%YAML 1.2
 ----
--$id: http://devicetree.org/schemas/mfd/hisilicon,hi6421-spmi-pmic.yaml#
+-$id: http://devicetree.org/schemas/phy/hisilicon,hi3670-usb3.yaml#
 -$schema: http://devicetree.org/meta-schemas/core.yaml#
 -
--title: HiSilicon 6421v600 SPMI PMIC
+-title: Hisilicon Kirin970 USB PHY
 -
 -maintainers:
 -  - Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 -
--description: |
--  HiSilicon 6421v600 should be connected inside a MIPI System Power Management
--  (SPMI) bus. It provides interrupts and power supply.
--
--  The GPIO and interrupt settings are represented as part of the top-level PMIC
--  node.
--
--  The SPMI controller part is provided by
--  Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
+-description: |+
+-  Bindings for USB3 PHY on HiSilicon Kirin 970.
 -
 -properties:
--  $nodename:
--    pattern: "pmic@[0-9a-f]"
--
 -  compatible:
--    const: hisilicon,hi6421v600-spmi
+-    const: hisilicon,hi3670-usb-phy
 -
--  reg:
--    maxItems: 1
+-  "#phy-cells":
+-    const: 0
 -
--  '#interrupt-cells':
--    const: 2
+-  hisilicon,pericrg-syscon:
+-    $ref: '/schemas/types.yaml#/definitions/phandle'
+-    description: phandle of syscon used to control iso refclk.
 -
--  interrupt-controller: true
+-  hisilicon,pctrl-syscon:
+-    $ref: '/schemas/types.yaml#/definitions/phandle'
+-    description: phandle of syscon used to control usb tcxo.
 -
--  gpios:
--    maxItems: 1
--    description: GPIO used for IRQs
+-  hisilicon,sctrl-syscon:
+-    $ref: '/schemas/types.yaml#/definitions/phandle'
+-    description: phandle of syscon used to control phy deep sleep.
 -
--  regulators:
--    type: object
+-  hisilicon,eye-diagram-param:
+-    $ref: /schemas/types.yaml#/definitions/uint32
+-    description: Eye diagram for phy.
 -
--    properties:
--      '#address-cells':
--        const: 1
--
--      '#size-cells':
--        const: 0
--
--    patternProperties:
--      '^ldo[0-9]+@[0-9a-f]$':
--        type: object
--
--        $ref: "/schemas/regulator/regulator.yaml#"
+-  hisilicon,tx-vboost-lvl:
+-    $ref: /schemas/types.yaml#/definitions/uint32
+-    description: TX level vboost for phy.
 -
 -required:
 -  - compatible
--  - reg
--  - regulators
+-  - hisilicon,pericrg-syscon
+-  - hisilicon,pctrl-syscon
+-  - hisilicon,sctrl-syscon
+-  - hisilicon,eye-diagram-param
+-  - hisilicon,tx-vboost-lvl
+-  - "#phy-cells"
 -
 -additionalProperties: false
 -
 -examples:
 -  - |
--    /* pmic properties */
+-    bus {
+-      #address-cells = <2>;
+-      #size-cells = <2>;
 -
--    pmic: pmic@0 {
--      compatible = "hisilicon,hi6421-spmi";
--      reg = <0 0>;
+-      usb3_otg_bc: usb3_otg_bc@ff200000 {
+-        compatible = "syscon", "simple-mfd";
+-        reg = <0x0 0xff200000 0x0 0x1000>;
 -
--      #interrupt-cells = <2>;
--      interrupt-controller;
--      gpios = <&gpio28 0 0>;
--
--      regulators {
--        #address-cells = <1>;
--        #size-cells = <0>;
--
--        ldo3: LDO3 {
--          regulator-name = "ldo3";
--          regulator-min-microvolt = <1500000>;
--          regulator-max-microvolt = <2000000>;
--          regulator-boot-on;
--        };
--
--        ldo4: LDO4 {
--          regulator-name = "ldo4";
--          regulator-min-microvolt = <1725000>;
--          regulator-max-microvolt = <1900000>;
--          regulator-boot-on;
--        };
--
--        ldo9: LDO9 {
--          regulator-name = "ldo9";
--          regulator-min-microvolt = <1750000>;
--          regulator-max-microvolt = <3300000>;
--          regulator-boot-on;
--        };
--
--        ldo15: LDO15 {
--          regulator-name = "ldo15";
--          regulator-min-microvolt = <1800000>;
--          regulator-max-microvolt = <3000000>;
--          regulator-always-on;
--        };
--
--        ldo16: LDO16 {
--          regulator-name = "ldo16";
--          regulator-min-microvolt = <1800000>;
--          regulator-max-microvolt = <3000000>;
--          regulator-boot-on;
--        };
--
--        ldo17: LDO17 {
--          regulator-name = "ldo17";
--          regulator-min-microvolt = <2500000>;
--          regulator-max-microvolt = <3300000>;
--        };
--
--        ldo33: LDO33 {
--          regulator-name = "ldo33";
--          regulator-min-microvolt = <2500000>;
--          regulator-max-microvolt = <3300000>;
--          regulator-boot-on;
--        };
--
--        ldo34: LDO34 {
--          regulator-name = "ldo34";
--          regulator-min-microvolt = <2600000>;
--          regulator-max-microvolt = <3300000>;
+-        usb_phy {
+-          compatible = "hisilicon,hi3670-usb-phy";
+-          #phy-cells = <0>;
+-          hisilicon,pericrg-syscon = <&crg_ctrl>;
+-          hisilicon,pctrl-syscon = <&pctrl>;
+-          hisilicon,sctrl-syscon = <&sctrl>;
+-          hisilicon,eye-diagram-param = <0xfdfee4>;
+-          hisilicon,tx-vboost-lvl = <0x5>;
 -        };
 -      };
 -    };
