@@ -1,50 +1,50 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D6A70
-	for <linux-staging@lists.linux.dev>; Fri, 25 Jun 2021 00:08:02 +0000 (UTC)
-Received: by mail-qk1-f177.google.com with SMTP id 19so7056401qky.13
-        for <linux-staging@lists.linux.dev>; Thu, 24 Jun 2021 17:08:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6069270
+	for <linux-staging@lists.linux.dev>; Fri, 25 Jun 2021 00:08:04 +0000 (UTC)
+Received: by mail-qk1-f172.google.com with SMTP id c23so17338525qkc.10
+        for <linux-staging@lists.linux.dev>; Thu, 24 Jun 2021 17:08:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=GYyzKD2BeIuu5Y00qslAc8hMyj/k7bojUxu81SjCYFI=;
-        b=caTZJeZsbkuOj+liywLm6oqwkQcR8PBXMtUMipr+rm/11/62um5wLcGwaxf/G4PLds
-         eyMPcL3IRsxQPABzi2MbTu9bSByurgF2JPXimce+zUB89v/alOsVY8TihnFpoXt33BYU
-         b5ygDP+dZ21K7DBWB+VRP0xfIh0r9HqRWQzdXfq2SbqtuAHJ9nOR2vx0JRSE+qdFf3ug
-         iTNF30YZdgtJ0v94iFfuXx/zss+2sFhyBIMr+Xho3eV9JZMwCGrcUal4Z4XqDDLwAzsI
-         XA3ijNoOEKc0ggQ7pKLuHGxHfbME1ZuYIC74LR9h+6se6zVOQiYlKyI/T753CAh/3EQ3
-         z4Rg==
+        bh=QAVtI3TmZGBz4TKF2WQd6Vlw5og75zQZSwwtht0RsNc=;
+        b=G4E4sPQKCnOGakzcjvfMDLH/7uGZouuekAwIRAKy+U9aG2ahebnISUF9VAviIoBGzO
+         p4Wdcx8dqxM8vpBvftmWfAjUrxS5zBTH3bRnb3fCWTv26qpWH7oEjvKsoPT7ZtqyRynh
+         eUmAufoKo3agTZ+si+XVvbebTyhZX/fO66kl29Ccvmq71z4bKxD7zuwWPo08GZtg7wSO
+         +WB85MZfnpafhieLIt8Neyf2jWloBfkwhLgqLYsYYpKEBcyWCSj0x/CJSJIvMTtJuIZe
+         ePZE8tnlCS5dhzIw8fzQYkjiSGy/3zlYzJASXxaH/beWPHhGuHZsKo3B0Pw3kQhMNeZD
+         +TLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=GYyzKD2BeIuu5Y00qslAc8hMyj/k7bojUxu81SjCYFI=;
-        b=k9g/rUizC7SUi8dU2bU+QLT6qbG+SiiQSGiC9CN71rkHj1zQgDpNygA23voBMzINuN
-         nwxNrIq5OPDF57PDGXc1h9pWCMxl+tZp6v8UtdZ50w3vABDrzopv+tSkT7CRsFrPDjeC
-         6zaIRM7mJLtF12BxPCPVav1e2hKM0YT5xImjBczy8esZAojZPrtjeZpLPEQRMaeZHf9G
-         Mx3Bbpc6c6r5AM8LWPoAnaUMofzPGJYpLVZqU1I3EmsjgDvyiFwLgEbnJKnv72/id4pV
-         xnWtUWFm25KW1U6VnRDvY7uY0pustxc+xFfnx8knvRRlGiYK6a2Lypm/yncV8Qr5t3bG
-         kw7Q==
-X-Gm-Message-State: AOAM531R7c8JUrQKA38lVwNXikJQswqEu4gUpZeYZyfA7feoub4S5QFf
-	ysnABp8hqT2Ydu6s6Vg4ZXDUcg==
-X-Google-Smtp-Source: ABdhPJyigQe/xdy5wzL3VPmKf8UvOERM60fR8Jmv3TRjFMzAYQf6Uq/oSG+Zi6EVcdAQb0qGt/a3wA==
-X-Received: by 2002:a05:620a:29d3:: with SMTP id s19mr8465452qkp.434.1624579681956;
-        Thu, 24 Jun 2021 17:08:01 -0700 (PDT)
+        bh=QAVtI3TmZGBz4TKF2WQd6Vlw5og75zQZSwwtht0RsNc=;
+        b=D31Y/8nkME+eFLbOQ7icKqk2SJFavo3NfdVZpDpx3cXOJOFYAQGtyvsv67xCIXYHcQ
+         +7NKzg+yaQ7JMJHEHkKeeQ7ZVlfhQea4Ecw9SUOkrN8brIjL8QMG+oVgX+JOuw5IxuNX
+         hUFpgGzm7XSI0LkAizaITfNRUhhqeTb4XN64wf02X00vlQdpiRkrZeFdwe3giYcA0pLp
+         aVQOivxmtmklagg0mMRnIl7PCLbBEiuac4fXsDn9/fLq4fgg4dfm7nbEaghnHy7V+y9k
+         E8lbIauyMrxZwC+Xg9TTmmtnkC/fEiohJubjFtlVuF+MxB2LolFEKDmz4uLajOEb3T2E
+         qwhw==
+X-Gm-Message-State: AOAM532ZbLnCnJxBne1zadgHNDzwTYkg8m3LDUepGMTfYW1xC32khNOy
+	Oyqp323YGDHAjNJnMh9yGx3LNw==
+X-Google-Smtp-Source: ABdhPJzjlEc9ss4MQB4Giv/5BPEZDiOMSNaerqC4FG29gG2NZK08HYLptoUVnQQNeIekkEuPW4vhiQ==
+X-Received: by 2002:a37:6002:: with SMTP id u2mr8810566qkb.1.1624579683599;
+        Thu, 24 Jun 2021 17:08:03 -0700 (PDT)
 Received: from kerneldevvm.. (5.6.a.8.a.a.b.f.c.9.4.c.a.9.a.a.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0:aa9a:c49c:fbaa:8a65])
-        by smtp.gmail.com with ESMTPSA id m187sm3629014qkd.131.2021.06.24.17.08.00
+        by smtp.gmail.com with ESMTPSA id m187sm3629014qkd.131.2021.06.24.17.08.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jun 2021 17:08:01 -0700 (PDT)
+        Thu, 24 Jun 2021 17:08:03 -0700 (PDT)
 From: Phillip Potter <phil@philpotter.co.uk>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
 	dan.carpenter@oracle.com,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 01/23] staging: rtl8188eu: remove all RT_TRACE calls from os_dep/ioctl_linux.c
-Date: Fri, 25 Jun 2021 01:07:34 +0100
-Message-Id: <20210625000756.6313-2-phil@philpotter.co.uk>
+Subject: [PATCH 02/23] staging: rtl8188eu: remove all RT_TRACE calls from os_dep/xmit_linux.c
+Date: Fri, 25 Jun 2021 01:07:35 +0100
+Message-Id: <20210625000756.6313-3-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210625000756.6313-1-phil@philpotter.co.uk>
 References: <20210625000756.6313-1-phil@philpotter.co.uk>
@@ -56,221 +56,52 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove all RT_TRACE calls from os_dep/ioctl_linux.c as this macro is
+Remove all RT_TRACE calls from os_dep/xmit_linux.c as this macro is
 unnecessary, and these calls are dubious in terms of necessity.
 Removing all calls will ultimately allow the removal of the macro
 itself.
 
 Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 ---
- .../staging/rtl8188eu/os_dep/ioctl_linux.c    | 51 +------------------
- 1 file changed, 1 insertion(+), 50 deletions(-)
+ drivers/staging/rtl8188eu/os_dep/xmit_linux.c | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
 
-diff --git a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-index 7ab7706cf29c..c1e2f9829367 100644
---- a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-@@ -239,8 +239,6 @@ static char *translate_scan(struct adapter *padapter,
- 			return start;
- 
- 		rtw_get_sec_ie(pnetwork->network.ies, pnetwork->network.ie_length, rsn_ie, &rsn_len, wpa_ie, &wpa_len);
--		RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("rtw_wx_get_scan: ssid =%s\n", pnetwork->network.ssid.ssid));
--		RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("rtw_wx_get_scan: wpa_len =%d rsn_len =%d\n", wpa_len, rsn_len));
- 
- 		if (wpa_len > 0) {
- 			p = buf;
-@@ -370,8 +368,6 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
- 	}
- 
- 	if (strcmp(param->u.crypt.alg, "WEP") == 0) {
--		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_err_, ("%s, crypt.alg = WEP\n", __func__));
--
- 		padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption1Enabled;
- 		padapter->securitypriv.dot11PrivacyAlgrthm = _WEP40_;
- 		padapter->securitypriv.dot118021XGrpPrivacy = _WEP40_;
-@@ -379,21 +375,15 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
- 		wep_key_idx = param->u.crypt.idx;
- 		wep_key_len = param->u.crypt.key_len;
- 
--		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_, ("(1)wep_key_idx =%d\n", wep_key_idx));
--
- 		if (wep_key_idx > WEP_KEYS)
- 			return -EINVAL;
- 
--		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_, ("(2)wep_key_idx =%d\n", wep_key_idx));
--
- 		if (wep_key_len > 0) {
- 			wep_key_len = wep_key_len <= 5 ? 5 : 13;
- 			wep_total_len = wep_key_len + offsetof(struct ndis_802_11_wep, KeyMaterial);
- 			pwep = (struct ndis_802_11_wep *)rtw_malloc(wep_total_len);
--			if (!pwep) {
--				RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_err_, ("%s: pwep allocate fail !!!\n", __func__));
-+			if (!pwep)
- 				goto exit;
--			}
- 			memset(pwep, 0, wep_total_len);
- 			pwep->KeyLength = wep_key_len;
- 			pwep->Length = wep_total_len;
-@@ -503,7 +493,6 @@ static int rtw_set_wpa_ie(struct adapter *padapter, char *pie, unsigned short ie
- 		}
- 
- 		if (ielen < RSN_HEADER_LEN) {
--			RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_err_, ("Ie len too short %d\n", ielen));
- 			ret  = -1;
- 			goto exit;
- 		}
-@@ -586,10 +575,6 @@ static int rtw_set_wpa_ie(struct adapter *padapter, char *pie, unsigned short ie
- 			}
- 		}
- 	}
--
--	RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_,
--		 ("%s: pairwise_cipher = 0x%08x padapter->securitypriv.ndisencryptstatus =%d padapter->securitypriv.ndisauthtype =%d\n",
--		  __func__, pairwise_cipher, padapter->securitypriv.ndisencryptstatus, padapter->securitypriv.ndisauthtype));
- exit:
- 	kfree(buf);
- 	return ret;
-@@ -609,8 +594,6 @@ static int rtw_wx_get_name(struct net_device *dev,
- 	struct wlan_bssid_ex  *pcur_bss = &pmlmepriv->cur_network.network;
- 	NDIS_802_11_RATES_EX *prates = NULL;
- 
--	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("cmd_code =%x\n", info->cmd));
--
- 	if (check_fwstate(pmlmepriv, _FW_LINKED | WIFI_ADHOC_MASTER_STATE)) {
- 		/* parsing HT_CAP_IE */
- 		p = rtw_get_ie(&pcur_bss->ies[12], WLAN_EID_HT_CAPABILITY, &ht_ielen, pcur_bss->ie_length - 12);
-@@ -695,7 +678,6 @@ static int rtw_wx_set_mode(struct net_device *dev, struct iw_request_info *a,
- 		break;
- 	default:
- 		ret = -EINVAL;
--		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_err_, ("\n Mode: %s is not supported\n", iw_operation_mode[wrqu->mode]));
- 		goto exit;
- 	}
- 	if (!rtw_set_802_11_infrastructure_mode(padapter, networkType)) {
-@@ -713,8 +695,6 @@ static int rtw_wx_get_mode(struct net_device *dev, struct iw_request_info *a,
- 	struct adapter *padapter = netdev_priv(dev);
- 	struct	mlme_priv	*pmlmepriv = &padapter->mlmepriv;
- 
--	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("%s\n", __func__));
--
- 	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE))
- 		wrqu->mode = IW_MODE_INFRA;
- 	else if  ((check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)) ||
-@@ -808,8 +788,6 @@ static int rtw_wx_get_range(struct net_device *dev,
- 	u16 val;
- 	int i;
- 
--	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("%s. cmd_code =%x\n", __func__, info->cmd));
--
- 	wrqu->data.length = sizeof(*range);
- 	memset(range, 0, sizeof(*range));
- 
-@@ -960,8 +938,6 @@ static int rtw_wx_get_wap(struct net_device *dev,
- 
- 	eth_zero_addr(wrqu->ap_addr.sa_data);
- 
--	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("%s\n", __func__));
--
- 	if (check_fwstate(pmlmepriv, _FW_LINKED) ||
- 	    check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) ||
- 	    check_fwstate(pmlmepriv, WIFI_AP_STATE))
-@@ -1006,8 +982,6 @@ static int rtw_wx_set_scan(struct net_device *dev, struct iw_request_info *a,
+diff --git a/drivers/staging/rtl8188eu/os_dep/xmit_linux.c b/drivers/staging/rtl8188eu/os_dep/xmit_linux.c
+index c73f94651e93..1b5776ae8eba 100644
+--- a/drivers/staging/rtl8188eu/os_dep/xmit_linux.c
++++ b/drivers/staging/rtl8188eu/os_dep/xmit_linux.c
+@@ -159,13 +159,8 @@ int rtw_xmit_entry(struct sk_buff *pkt, struct net_device *pnetdev)
  	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct ndis_802_11_ssid ssid[RTW_SSID_SCAN_AMOUNT];
+ 	s32 res = 0;
  
--	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("%s\n", __func__));
+-	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("+xmit_enry\n"));
 -
- 	if (!rtw_pwr_wakeup(padapter)) {
- 		ret = -1;
- 		goto exit;
-@@ -1139,9 +1113,6 @@ static int rtw_wx_get_scan(struct net_device *dev, struct iw_request_info *a,
- 	u32 wait_for_surveydone;
- 	int wait_status;
+-	if (!rtw_if_up(padapter)) {
+-		RT_TRACE(_module_xmit_osdep_c_, _drv_err_,
+-			 ("%s: rtw_if_up fail\n", __func__));
++	if (!rtw_if_up(padapter))
+ 		goto drop_packet;
+-	}
  
--	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("%s\n", __func__));
--	RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_, (" Start of Query SIOCGIWSCAN .\n"));
+ 	rtw_check_xmit_resource(padapter, pkt);
+ 
+@@ -184,16 +179,11 @@ int rtw_xmit_entry(struct sk_buff *pkt, struct net_device *pnetdev)
+ 		goto drop_packet;
+ 
+ 	pxmitpriv->tx_pkts++;
+-	RT_TRACE(_module_xmit_osdep_c_, _drv_info_,
+-		 ("%s: tx_pkts=%d\n", __func__, (u32)pxmitpriv->tx_pkts));
+ 	goto exit;
+ 
+ drop_packet:
+ 	pxmitpriv->tx_drop++;
+ 	dev_kfree_skb_any(pkt);
+-	RT_TRACE(_module_xmit_osdep_c_, _drv_notice_,
+-		 ("%s: drop, tx_drop=%d\n", __func__, (u32)pxmitpriv->tx_drop));
 -
- 	if (padapter->pwrctrlpriv.brfoffbyhw && padapter->bDriverStopped) {
- 		ret = -EINVAL;
- 		goto exit;
-@@ -1203,8 +1174,6 @@ static int rtw_wx_set_essid(struct net_device *dev,
- 
- 	uint ret = 0, len;
- 
--	RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_,
--		 ("+%s: fw_state = 0x%08x\n", __func__, get_fwstate(pmlmepriv)));
- 	if (!rtw_pwr_wakeup(padapter)) {
- 		ret = -1;
- 		goto exit;
-@@ -1234,7 +1203,6 @@ static int rtw_wx_set_essid(struct net_device *dev,
- 		memcpy(ndis_ssid.ssid, extra, len);
- 		src_ssid = ndis_ssid.ssid;
- 
--		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_, ("%s: ssid =[%s]\n", __func__, src_ssid));
- 		spin_lock_bh(&queue->lock);
- 		phead = get_list_head(queue);
- 		list_for_each(pmlmepriv->pscanned, phead) {
-@@ -1243,14 +1211,8 @@ static int rtw_wx_set_essid(struct net_device *dev,
- 
- 			dst_ssid = pnetwork->network.ssid.ssid;
- 
--			RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_,
--				 ("%s: dst_ssid =%s\n", __func__,
--				  pnetwork->network.ssid.ssid));
--
- 			if ((!memcmp(dst_ssid, src_ssid, ndis_ssid.ssid_length)) &&
- 			    (pnetwork->network.ssid.ssid_length == ndis_ssid.ssid_length)) {
--				RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_,
--					 ("%s: find match, set infra mode\n", __func__));
- 
- 				if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
- 					if (pnetwork->network.InfrastructureMode != pmlmepriv->cur_network.network.InfrastructureMode)
-@@ -1267,8 +1229,6 @@ static int rtw_wx_set_essid(struct net_device *dev,
- 			}
- 		}
- 		spin_unlock_bh(&queue->lock);
--		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_,
--			 ("set ssid: set_802_11_auth. mode =%d\n", authmode));
- 		rtw_set_802_11_authentication_mode(padapter, authmode);
- 		if (!rtw_set_802_11_ssid(padapter, &ndis_ssid)) {
- 			ret = -1;
-@@ -1289,8 +1249,6 @@ static int rtw_wx_get_essid(struct net_device *dev,
- 	struct	mlme_priv	*pmlmepriv = &padapter->mlmepriv;
- 	struct wlan_bssid_ex  *pcur_bss = &pmlmepriv->cur_network.network;
- 
--	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("%s\n", __func__));
--
- 	if ((check_fwstate(pmlmepriv, _FW_LINKED)) ||
- 	    (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE))) {
- 		len = pcur_bss->ssid.ssid_length;
-@@ -1316,9 +1274,6 @@ static int rtw_wx_set_rate(struct net_device *dev,
- 	u32	ratevalue = 0;
- 	u8 mpdatarate[NumRates] = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0xff};
- 
--	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("%s\n", __func__));
--	RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_, ("target_rate = %d, fixed = %d\n", target_rate, fixed));
--
- 	if (target_rate == -1) {
- 		ratevalue = 11;
- 		goto set_rate;
-@@ -1377,8 +1332,6 @@ static int rtw_wx_set_rate(struct net_device *dev,
- 		} else {
- 			datarates[i] = 0xff;
- 		}
--
--		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_, ("datarate_inx =%d\n", datarates[i]));
- 	}
- 
- 	return 0;
-@@ -1846,8 +1799,6 @@ static int wpa_set_param(struct net_device *dev, u8 name, u32 value)
- 			padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption3Enabled;
- 			break;
- 		}
--		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_,
--			 ("%s:padapter->securitypriv.ndisauthtype =%d\n", __func__, padapter->securitypriv.ndisauthtype));
- 		break;
- 	case IEEE_PARAM_TKIP_COUNTERMEASURES:
- 		break;
+ exit:
+ 	return NETDEV_TX_OK;
+ }
 -- 
 2.31.1
 
