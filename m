@@ -1,36 +1,37 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12DB0168
-	for <linux-staging@lists.linux.dev>; Fri, 25 Jun 2021 11:14:01 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6544661469;
-	Fri, 25 Jun 2021 11:13:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84FD66D0E
+	for <linux-staging@lists.linux.dev>; Fri, 25 Jun 2021 11:39:04 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CF0C161581;
+	Fri, 25 Jun 2021 11:39:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1624619641;
-	bh=CeF7W3ZxfcmQOVYbFaxDuNkkKFqDV/crzaldiTiFwNA=;
+	s=k20201202; t=1624621144;
+	bh=JGnEWaUyjgGCu2eYR28hbPglosr5/9B3AT1Cb7ByNaQ=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=V2nuX61lH+7IUK4AWeskGiJMpx1dXiqViwnSs+t9XwMiBuX3dx8PdLlqMOtFGTlkN
-	 3sp/zadb/tEBJ45lsuycgZq9rVZXJfP0voWwQMLFwYBrreG5znr22SG3uKOdawJXj2
-	 3O6dxTlrUOzOpucTr3nEhu6yYekmNF3tpOB9v7uETt+A+HM9Op93rAx1+zwBTE/k/I
-	 lC0mphnxlZMTEZGPBTzxR1AkTBjDWtPRoQiVSziBciw+ta/DwIJMWJFVmKZxTNqmVS
-	 Mn0NeR5p8UtKmClyeY0GXr+FoQ0JAg2RDSZdkZHa3UaBQ5j/utRSznADCPoYtnxUas
-	 LbjRHpNjpx7qw==
-Date: Fri, 25 Jun 2021 13:13:56 +0200
+	b=YpJU1fGRXPl1aoSGFS9JRNEcVNQKTVDnSKitshbSzxbxk0bh/qXw44EITET3ZvS8I
+	 MxhQoLimsjNLU7/ONgF8n87pvkdSnso5Fs/hcntVPn5YgZVsfWTwitM9JxFm5JAsM5
+	 ZT9QTEVj9NI4OvlQG5Q+iOsNq8fKRL24AzkAn49VSJdKBRy7Op8Q1SEmRUbG+7nmFS
+	 d7cWhHjw8i+gKc6R8NPYl78HaGEpeFM7XE3nA+LCF6VU9kkDsRJxc+zsSiE/h/h6vv
+	 k5MmV3Tn3EKXPpMHfdnbmPrZjYMh+lE9oaUCLs5grxPXfzj8wyHu+FEYgzB85frEW1
+	 J2jNzN9BzgSSA==
+Date: Fri, 25 Jun 2021 13:38:58 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Lee Jones <lee.jones@linaro.org>
+To: Johan Hovold <johan@kernel.org>, Lee Jones <lee.jones@linaro.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linuxarm@huawei.com,
  mauro.chehab@huawei.com, Rob Herring <robh+dt@kernel.org>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-staging@lists.linux.dev
 Subject: Re: [PATCH RESEND v6 6/8] mfd: hi6421-spmi-pmic: move driver from
  staging
-Message-ID: <20210625131356.55ffd067@coco.lan>
-In-Reply-To: <YNSRwIMr8+m9Sxk3@dell>
+Message-ID: <20210625133858.3bf1835f@coco.lan>
+In-Reply-To: <YNSV+N0h7NoRpo/w@hovoldconsulting.com>
 References: <cover.1624525118.git.mchehab+huawei@kernel.org>
 	<1ad2cbbd182d18ba2cae716fb5f1497b1cabbdbe.1624525118.git.mchehab+huawei@kernel.org>
 	<YNRrISOGujxcJAGR@dell>
 	<20210624143605.153e1e34@coco.lan>
 	<YNSRwIMr8+m9Sxk3@dell>
+	<YNSV+N0h7NoRpo/w@hovoldconsulting.com>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -41,111 +42,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Thu, 24 Jun 2021 15:08:00 +0100
-Lee Jones <lee.jones@linaro.org> escreveu:
+Em Thu, 24 Jun 2021 16:26:00 +0200
+Johan Hovold <johan@kernel.org> escreveu:
 
-> > > > +/*
-> > > > + * The IRQs are mapped as:
-> > > > + *
-> > > > + *	======================  =============   ============	=====
-> > > > + *	IRQ			MASK REGISTER	IRQ REGISTER	BIT
-> > > > + *	======================  =============   ============	=====
-> > > > + *	OTMP			0x0202		0x212		bit 0
-> > > > + *	VBUS_CONNECT		0x0202		0x212		bit 1
-> > > > + *	VBUS_DISCONNECT		0x0202		0x212		bit 2
-> > > > + *	ALARMON_R		0x0202		0x212		bit 3
-> > > > + *	HOLD_6S			0x0202		0x212		bit 4
-> > > > + *	HOLD_1S			0x0202		0x212		bit 5
-> > > > + *	POWERKEY_UP		0x0202		0x212		bit 6
-> > > > + *	POWERKEY_DOWN		0x0202		0x212		bit 7
-> > > > + *
-> > > > + *	OCP_SCP_R		0x0203		0x213		bit 0
-> > > > + *	COUL_R			0x0203		0x213		bit 1
-> > > > + *	SIM0_HPD_R		0x0203		0x213		bit 2
-> > > > + *	SIM0_HPD_F		0x0203		0x213		bit 3
-> > > > + *	SIM1_HPD_R		0x0203		0x213		bit 4
-> > > > + *	SIM1_HPD_F		0x0203		0x213		bit 5
-> > > > + *	======================  =============   ============	=====
-> > > > + *
-> > > > + * Each mask register contains 8 bits. The ancillary macros below
-> > > > + * convert a number from 0 to 14 into a register address and a bit mask
-> > > > + */
-> > > > +#define HISI_IRQ_MASK_REG(irq_data)	(SOC_PMIC_IRQ_MASK_0_ADDR + \
-> > > > +					 (irqd_to_hwirq(irq_data) / BITS_PER_BYTE))
-> > > > +#define HISI_IRQ_MASK_BIT(irq_data)	BIT(irqd_to_hwirq(irq_data) & (BITS_PER_BYTE - 1))
-> > > > +#define HISI_8BITS_MASK			GENMASK(BITS_PER_BYTE - 1, 0)    
+> On Thu, Jun 24, 2021 at 03:08:00PM +0100, Lee Jones wrote:
+> > On Thu, 24 Jun 2021, Mauro Carvalho Chehab wrote:
+> >   
+> > > Em Thu, 24 Jun 2021 12:33:28 +0100
+> > > Lee Jones <lee.jones@linaro.org> escreveu:  
+> 
+> > > > > --- /dev/null
+> > > > > +++ b/drivers/mfd/hi6421-spmi-pmic.c
+> > > > > @@ -0,0 +1,316 @@
+> > > > > +// SPDX-License-Identifier: GPL-2.0
+> > > > > +/*
+> > > > > + * Device driver for regulators in HISI PMIC IC
+> > > > > + *
+> > > > > + * Copyright (c) 2013 Linaro Ltd.
+> > > > > + * Copyright (c) 2011 Hisilicon.
+> > > > > + * Copyright (c) 2020-2021 Huawei Technologies Co., Ltd    
+> > > > 
+> > > > Can this be updated?  
 > > > 
-> > > Are these lines up in real code?  Looks like they're not in the diff.  
-> > 
-> > Weird. The changes to use those are at patch 3/8. All the above
-> > macros are used at the patch.  
-> 
-> Sorry, that made no sense - it's been a long few days!
-> 
-> I meant to say "do these (the tabs) line up?"
-
-Yes, they line up (and aligned with the parenthesis, in the case of
-HISI_IRQ_MASK_REG).
-
-> > > > +static const struct mfd_cell hi6421v600_devs[] = {
-> > > > +	{ .name = "hi6421v600-regulator", },
-> > > > +};    
+> > > Do you mean updating the copyrights to cover this year? E.g.
+> > > something like this:
 > > > 
-> > > Where are the other devices?  
-> > 
-> > While this is a MFD device, as it has regulators, ADC and other
-> > stuff, right now, only the regulator and the IRQs are implemented. 
-> > 
-> > The IRQs are at the core of this driver, while the regulator 
-> > is at the separate regulator driver.  
-> 
-> The rule usually goes:
-> 
->  Drivers don't qualify as MFDs until you register >1 device.
-
-Do you mean that, in order for this to be accepted, should
-I move the irq code to a separate driver?
-
-> > > > +	for (i = 0; i < PMIC_IRQ_LIST_MAX; i++) {
-> > > > +		virq = irq_create_mapping(ddata->domain, i);
-> > > > +		if (!virq) {
-> > > > +			dev_err(dev, "Failed to map H/W IRQ\n");
-> > > > +			return -ENOSPC;    
+> > > 	 * Copyright (c) 2013-2021 Linaro Ltd.
+> > > 	 * Copyright (c) 2011-2021 Hisilicon.
+> > > 	 * Copyright (c) 2020-2021 Huawei Technologies Co., Ltd  
 > > > 
-> > > -ENOSPC doesn't seem right here.
-> > > 
-> > > Can't find any other uses of it for irq_create_mapping() either.  
+> > > Right? Or are you meaning something else?  
 > > 
-> > There are two drivers returning -ENOSPC:
-> > 
-> > 	arch/powerpc/platforms/pseries/msi.c
-> > 	arch/powerpc/sysdev/mpic_u3msi.c  
+> > Yes, that's it.  I know this is just a move, but to MFD, it's new.  
 > 
-> I only looked in drivers/
-> 
-> > But others return -EIO, -EINVAL, -ENOMEM, -ENODEV, -ENXIO.
-> > 
-> > I think that -ENODEV would fit better here.  
-> 
-> I think -ENXIO is the most common, followed by -EINVAL.
-> 
-> This doesn't have anything to do with devices per say.
+> That's not how copyright works. Unless Linaro and Hisilicon made
+> nontrivial changes every year from 2011/2013 to 2021 you should not
+> change those lines like this.
 
-Ok. I'll change it to -ENXIO.
+Only Linaro can answer what happened up to 2018, as this driver 
+originally came from a Linaro tree, which has exactly one commit
+for this driver:
 
-> > > > +static void hi6421_spmi_pmic_remove(struct spmi_device *pdev)
-> > > > +{
-> > > > +	struct hi6421_spmi_pmic *ddata = dev_get_drvdata(&pdev->dev);
-> > > > +
-> > > > +	free_irq(ddata->irq, ddata);    
-> > > 
-> > > No devm_* version?  
-> > 
-> > Are there a devm_* variant for gpio_to_irq()?  
-> 
-> Please refer to Dan's response.
+	https://github.com/96boards-hikey/linux/commit/08464419fba2417aa849fce976fac9c5f51b3ada#diff-604ef8563dcd9ace6e3e58aac38337c72924b0889f6972d7ee9e15e2335ba964
 
-Ok.
+After merged upstream at staging, all changes are covered by the
+Huawei's copyright (2020-2021).
+
+So, I'll just drop this patch. If the information is not accurate,
+someone from the original copyright holders can send followup
+patches.
 
 Thanks,
 Mauro
