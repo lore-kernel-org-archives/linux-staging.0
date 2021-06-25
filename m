@@ -1,96 +1,76 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84FD66D0E
-	for <linux-staging@lists.linux.dev>; Fri, 25 Jun 2021 11:39:04 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CF0C161581;
-	Fri, 25 Jun 2021 11:39:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1624621144;
-	bh=JGnEWaUyjgGCu2eYR28hbPglosr5/9B3AT1Cb7ByNaQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=YpJU1fGRXPl1aoSGFS9JRNEcVNQKTVDnSKitshbSzxbxk0bh/qXw44EITET3ZvS8I
-	 MxhQoLimsjNLU7/ONgF8n87pvkdSnso5Fs/hcntVPn5YgZVsfWTwitM9JxFm5JAsM5
-	 ZT9QTEVj9NI4OvlQG5Q+iOsNq8fKRL24AzkAn49VSJdKBRy7Op8Q1SEmRUbG+7nmFS
-	 d7cWhHjw8i+gKc6R8NPYl78HaGEpeFM7XE3nA+LCF6VU9kkDsRJxc+zsSiE/h/h6vv
-	 k5MmV3Tn3EKXPpMHfdnbmPrZjYMh+lE9oaUCLs5grxPXfzj8wyHu+FEYgzB85frEW1
-	 J2jNzN9BzgSSA==
-Date: Fri, 25 Jun 2021 13:38:58 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Johan Hovold <johan@kernel.org>, Lee Jones <lee.jones@linaro.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linuxarm@huawei.com,
- mauro.chehab@huawei.com, Rob Herring <robh+dt@kernel.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH RESEND v6 6/8] mfd: hi6421-spmi-pmic: move driver from
- staging
-Message-ID: <20210625133858.3bf1835f@coco.lan>
-In-Reply-To: <YNSV+N0h7NoRpo/w@hovoldconsulting.com>
-References: <cover.1624525118.git.mchehab+huawei@kernel.org>
-	<1ad2cbbd182d18ba2cae716fb5f1497b1cabbdbe.1624525118.git.mchehab+huawei@kernel.org>
-	<YNRrISOGujxcJAGR@dell>
-	<20210624143605.153e1e34@coco.lan>
-	<YNSRwIMr8+m9Sxk3@dell>
-	<YNSV+N0h7NoRpo/w@hovoldconsulting.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F8E72FB8
+	for <linux-staging@lists.linux.dev>; Fri, 25 Jun 2021 12:44:07 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15PCaaTK013370;
+	Fri, 25 Jun 2021 12:44:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=q239hJZG+3xusjjBHEwLJoFljzdGc4ysmifaTAXDUws=;
+ b=dBcblZceGskReFASeX5ba2VkBQMWqeWzKLljAelF/fTWzipHQoT7NLwOjq3t5QLondUz
+ ePL7G7yiPu9GPqwV0qJYUgjs+3rjBFsDiyO2fw5scEgHcWuYf5XB1k1JrPjKOqRUaitq
+ GbgSZPmLceLH4ah98zFVGyh+O6fv7Xr8EdPDlbk3jNRpWzstpd7SrF/Pd+gZ9aL6+fES
+ k8Qe5T3Y9/uqw4JqQr/kZ8aCKEZaiH1GC02n0FQKdLuROtoV41R2GBt0jOiAOaqluVxW
+ zGvZ0nrHtTvfgHYtpSGmobydt3mki9r5p/HL4MpAV8A45YUbpxT/yRHEyB+xvDkju/4p NQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by mx0b-00069f02.pphosted.com with ESMTP id 39d27es8s4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 25 Jun 2021 12:44:06 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15PCZbID149254;
+	Fri, 25 Jun 2021 12:44:05 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3020.oracle.com with ESMTP id 39d243ewda-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 25 Jun 2021 12:44:05 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15PCeNWC161160;
+	Fri, 25 Jun 2021 12:44:04 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+	by aserp3020.oracle.com with ESMTP id 39d243ewcr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 25 Jun 2021 12:44:04 +0000
+Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
+	by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 15PCi3A3017546;
+	Fri, 25 Jun 2021 12:44:03 GMT
+Received: from kadam (/102.222.70.252)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Fri, 25 Jun 2021 12:44:03 +0000
+Date: Fri, 25 Jun 2021 15:43:56 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Phillip Potter <phil@philpotter.co.uk>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 00/23] staging: rtl8188eu: remove include/rtw_debug.h
+Message-ID: <20210625124356.GJ2040@kadam>
+References: <20210625000756.6313-1-phil@philpotter.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210625000756.6313-1-phil@philpotter.co.uk>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: YTRnOzOuSGkjMlNifZcsDgOhhpe4bv-L
+X-Proofpoint-ORIG-GUID: YTRnOzOuSGkjMlNifZcsDgOhhpe4bv-L
 
-Em Thu, 24 Jun 2021 16:26:00 +0200
-Johan Hovold <johan@kernel.org> escreveu:
+Looks good.
 
-> On Thu, Jun 24, 2021 at 03:08:00PM +0100, Lee Jones wrote:
-> > On Thu, 24 Jun 2021, Mauro Carvalho Chehab wrote:
-> >   
-> > > Em Thu, 24 Jun 2021 12:33:28 +0100
-> > > Lee Jones <lee.jones@linaro.org> escreveu:  
-> 
-> > > > > --- /dev/null
-> > > > > +++ b/drivers/mfd/hi6421-spmi-pmic.c
-> > > > > @@ -0,0 +1,316 @@
-> > > > > +// SPDX-License-Identifier: GPL-2.0
-> > > > > +/*
-> > > > > + * Device driver for regulators in HISI PMIC IC
-> > > > > + *
-> > > > > + * Copyright (c) 2013 Linaro Ltd.
-> > > > > + * Copyright (c) 2011 Hisilicon.
-> > > > > + * Copyright (c) 2020-2021 Huawei Technologies Co., Ltd    
-> > > > 
-> > > > Can this be updated?  
-> > > 
-> > > Do you mean updating the copyrights to cover this year? E.g.
-> > > something like this:
-> > > 
-> > > 	 * Copyright (c) 2013-2021 Linaro Ltd.
-> > > 	 * Copyright (c) 2011-2021 Hisilicon.
-> > > 	 * Copyright (c) 2020-2021 Huawei Technologies Co., Ltd  
-> > > 
-> > > Right? Or are you meaning something else?  
-> > 
-> > Yes, that's it.  I know this is just a move, but to MFD, it's new.  
-> 
-> That's not how copyright works. Unless Linaro and Hisilicon made
-> nontrivial changes every year from 2011/2013 to 2021 you should not
-> change those lines like this.
+I feel like the kbuild warnings could be addressed in later patches.
 
-Only Linaro can answer what happened up to 2018, as this driver 
-originally came from a Linaro tree, which has exactly one commit
-for this driver:
+It seems as if some of the error handling in this driver is "pretend to
+print an error message (but it's actually dead code)".  Which is
+probably not the correct way to handle errors...  :/  But that's not
+something introduced by this patch.
 
-	https://github.com/96boards-hikey/linux/commit/08464419fba2417aa849fce976fac9c5f51b3ada#diff-604ef8563dcd9ace6e3e58aac38337c72924b0889f6972d7ee9e15e2335ba964
+Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-After merged upstream at staging, all changes are covered by the
-Huawei's copyright (2020-2021).
+regards,
+dan carpenter
 
-So, I'll just drop this patch. If the information is not accurate,
-someone from the original copyright holders can send followup
-patches.
-
-Thanks,
-Mauro
