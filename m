@@ -1,73 +1,151 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 357662FB2
-	for <linux-staging@lists.linux.dev>; Fri, 25 Jun 2021 08:07:29 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 650EA61425;
-	Fri, 25 Jun 2021 08:07:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1624608448;
-	bh=3U9dOh8ubJIZg7LPE4ibu71lztZPpneG4VY8XUeQMJU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NecY4QLc6B1Iy1Wn0nDs+hgKCfA11BmN3lJ9UndAuFph4V3CxfXgv9bNevvKbpEhL
-	 QZnZm+rwc2daJFC6U+4YlxDUBufuRCTZrFc3D2uKjcT6s7O9TLGP4upUN3PqsmiEB4
-	 JINWJt7rhwJymccYInvr130+hYknFGYWh7OT+CPw=
-Date: Fri, 25 Jun 2021 10:07:26 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linuxarm@huawei.com, mauro.chehab@huawei.com,
-	Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH v8 00/12] Move Hisilicon 6421v600 SPMI and USB drivers
- out of staging
-Message-ID: <YNWOvn67Gl2v3Cco@kroah.com>
-References: <cover.1624606660.git.mchehab+huawei@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12DB0168
+	for <linux-staging@lists.linux.dev>; Fri, 25 Jun 2021 11:14:01 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6544661469;
+	Fri, 25 Jun 2021 11:13:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1624619641;
+	bh=CeF7W3ZxfcmQOVYbFaxDuNkkKFqDV/crzaldiTiFwNA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=V2nuX61lH+7IUK4AWeskGiJMpx1dXiqViwnSs+t9XwMiBuX3dx8PdLlqMOtFGTlkN
+	 3sp/zadb/tEBJ45lsuycgZq9rVZXJfP0voWwQMLFwYBrreG5znr22SG3uKOdawJXj2
+	 3O6dxTlrUOzOpucTr3nEhu6yYekmNF3tpOB9v7uETt+A+HM9Op93rAx1+zwBTE/k/I
+	 lC0mphnxlZMTEZGPBTzxR1AkTBjDWtPRoQiVSziBciw+ta/DwIJMWJFVmKZxTNqmVS
+	 Mn0NeR5p8UtKmClyeY0GXr+FoQ0JAg2RDSZdkZHa3UaBQ5j/utRSznADCPoYtnxUas
+	 LbjRHpNjpx7qw==
+Date: Fri, 25 Jun 2021 13:13:56 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Lee Jones <lee.jones@linaro.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linuxarm@huawei.com,
+ mauro.chehab@huawei.com, Rob Herring <robh+dt@kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Subject: Re: [PATCH RESEND v6 6/8] mfd: hi6421-spmi-pmic: move driver from
+ staging
+Message-ID: <20210625131356.55ffd067@coco.lan>
+In-Reply-To: <YNSRwIMr8+m9Sxk3@dell>
+References: <cover.1624525118.git.mchehab+huawei@kernel.org>
+	<1ad2cbbd182d18ba2cae716fb5f1497b1cabbdbe.1624525118.git.mchehab+huawei@kernel.org>
+	<YNRrISOGujxcJAGR@dell>
+	<20210624143605.153e1e34@coco.lan>
+	<YNSRwIMr8+m9Sxk3@dell>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1624606660.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 25, 2021 at 09:45:52AM +0200, Mauro Carvalho Chehab wrote:
-> Hi Greg,
+Em Thu, 24 Jun 2021 15:08:00 +0100
+Lee Jones <lee.jones@linaro.org> escreveu:
+
+> > > > +/*
+> > > > + * The IRQs are mapped as:
+> > > > + *
+> > > > + *	======================  =============   ============	=====
+> > > > + *	IRQ			MASK REGISTER	IRQ REGISTER	BIT
+> > > > + *	======================  =============   ============	=====
+> > > > + *	OTMP			0x0202		0x212		bit 0
+> > > > + *	VBUS_CONNECT		0x0202		0x212		bit 1
+> > > > + *	VBUS_DISCONNECT		0x0202		0x212		bit 2
+> > > > + *	ALARMON_R		0x0202		0x212		bit 3
+> > > > + *	HOLD_6S			0x0202		0x212		bit 4
+> > > > + *	HOLD_1S			0x0202		0x212		bit 5
+> > > > + *	POWERKEY_UP		0x0202		0x212		bit 6
+> > > > + *	POWERKEY_DOWN		0x0202		0x212		bit 7
+> > > > + *
+> > > > + *	OCP_SCP_R		0x0203		0x213		bit 0
+> > > > + *	COUL_R			0x0203		0x213		bit 1
+> > > > + *	SIM0_HPD_R		0x0203		0x213		bit 2
+> > > > + *	SIM0_HPD_F		0x0203		0x213		bit 3
+> > > > + *	SIM1_HPD_R		0x0203		0x213		bit 4
+> > > > + *	SIM1_HPD_F		0x0203		0x213		bit 5
+> > > > + *	======================  =============   ============	=====
+> > > > + *
+> > > > + * Each mask register contains 8 bits. The ancillary macros below
+> > > > + * convert a number from 0 to 14 into a register address and a bit mask
+> > > > + */
+> > > > +#define HISI_IRQ_MASK_REG(irq_data)	(SOC_PMIC_IRQ_MASK_0_ADDR + \
+> > > > +					 (irqd_to_hwirq(irq_data) / BITS_PER_BYTE))
+> > > > +#define HISI_IRQ_MASK_BIT(irq_data)	BIT(irqd_to_hwirq(irq_data) & (BITS_PER_BYTE - 1))
+> > > > +#define HISI_8BITS_MASK			GENMASK(BITS_PER_BYTE - 1, 0)    
+> > > 
+> > > Are these lines up in real code?  Looks like they're not in the diff.  
+> > 
+> > Weird. The changes to use those are at patch 3/8. All the above
+> > macros are used at the patch.  
 > 
-> Thanks for merging patches 1 and 2 from the v7 series!
+> Sorry, that made no sense - it's been a long few days!
 > 
-> Those are the remaining patches that are needed for the USB to work
-> with Hikey970.
+> I meant to say "do these (the tabs) line up?"
+
+Yes, they line up (and aligned with the parenthesis, in the case of
+HISI_IRQ_MASK_REG).
+
+> > > > +static const struct mfd_cell hi6421v600_devs[] = {
+> > > > +	{ .name = "hi6421v600-regulator", },
+> > > > +};    
+> > > 
+> > > Where are the other devices?  
+> > 
+> > While this is a MFD device, as it has regulators, ADC and other
+> > stuff, right now, only the regulator and the IRQs are implemented. 
+> > 
+> > The IRQs are at the core of this driver, while the regulator 
+> > is at the separate regulator driver.  
 > 
-> I guess patches 1 and 2 on this series are also OK, as they were acked
-> by the PHY and SPMI maintainers.
+> The rule usually goes:
 > 
-> As suggested on your last review, I broke the MFD staging patches 
-> into one logical change per patch.
+>  Drivers don't qualify as MFDs until you register >1 device.
+
+Do you mean that, in order for this to be accepted, should
+I move the irq code to a separate driver?
+
+> > > > +	for (i = 0; i < PMIC_IRQ_LIST_MAX; i++) {
+> > > > +		virq = irq_create_mapping(ddata->domain, i);
+> > > > +		if (!virq) {
+> > > > +			dev_err(dev, "Failed to map H/W IRQ\n");
+> > > > +			return -ENOSPC;    
+> > > 
+> > > -ENOSPC doesn't seem right here.
+> > > 
+> > > Can't find any other uses of it for irq_create_mapping() either.  
+> > 
+> > There are two drivers returning -ENOSPC:
+> > 
+> > 	arch/powerpc/platforms/pseries/msi.c
+> > 	arch/powerpc/sysdev/mpic_u3msi.c  
 > 
-> Except for the split, the only change from v7 was at the copyright: 
-> I'm using 20xx-2021 instead of 20xx- to indicate that the copyrights
-> extend to the present. I also changed the HiSilicon name to better
-> reflect the name of the company.
+> I only looked in drivers/
+> 
+> > But others return -EIO, -EINVAL, -ENOMEM, -ENODEV, -ENXIO.
+> > 
+> > I think that -ENODEV would fit better here.  
+> 
+> I think -ENXIO is the most common, followed by -EINVAL.
+> 
+> This doesn't have anything to do with devices per say.
 
-The copyright change is still not correct.  I recommend you take a look
-at this:
-	https://www.linuxfoundation.org/blog/copyright-notices-in-open-source-software-projects/
-and:
-	https://training.linuxfoundation.org/training/open-source-licensing-basics-for-software-developers/
-	(the copyright chapter)
-for specifics as to what to, and not to do with regards to copyright
-notices.
+Ok. I'll change it to -ENXIO.
 
-I'm sure your employer also has some information about what to do with
-regards to this as well.
+> > > > +static void hi6421_spmi_pmic_remove(struct spmi_device *pdev)
+> > > > +{
+> > > > +	struct hi6421_spmi_pmic *ddata = dev_get_drvdata(&pdev->dev);
+> > > > +
+> > > > +	free_irq(ddata->irq, ddata);    
+> > > 
+> > > No devm_* version?  
+> > 
+> > Are there a devm_* variant for gpio_to_irq()?  
+> 
+> Please refer to Dan's response.
 
-I've taken patches 1-3, 5-9 now.
+Ok.
 
-thanks,
-
-greg k-h
+Thanks,
+Mauro
