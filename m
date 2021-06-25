@@ -1,50 +1,50 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4591A177
-	for <linux-staging@lists.linux.dev>; Fri, 25 Jun 2021 18:30:11 +0000 (UTC)
-Received: by mail-qk1-f171.google.com with SMTP id 19so9783858qky.13
-        for <linux-staging@lists.linux.dev>; Fri, 25 Jun 2021 11:30:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 183F4177
+	for <linux-staging@lists.linux.dev>; Fri, 25 Jun 2021 19:17:04 +0000 (UTC)
+Received: by mail-qv1-f48.google.com with SMTP id u8so2444850qvg.0
+        for <linux-staging@lists.linux.dev>; Fri, 25 Jun 2021 12:17:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Ahjwf9HqwEUWxfT27RhcaX1vAqu39xvQmFxCmdymgYk=;
-        b=bcJmnLILLrzdC40glkAg3vuavgVVrwsOURCkguA1DaLF+T+a8GL3UNaz8hq0BiHr4Z
-         8EtWMIOGbouieDhHgj2gB+A2jWssbCAz7y/BuZT3gSxxzMIyrDtfu4gdP4N/D2ETMSN1
-         nxoMA4BLlmOPprt4k6b7PaeJLZgiUInRZq6v0DyB8lUozh4pQrBPfmFWefCkYrivekv5
-         xCfCBEycYSQ4yjxtthonW/rGCTB1lHysVh8O8hYIA+qaVfGu1pQPOwRYe6pTZ3axggdU
-         VrzNwuS6CQqDGQMK40TbKn2xOfGufayiZBj6CxAfE+uaBduxRkmFaDbduq4Pu7/UljyK
-         L6dA==
+        bh=tjRJr+e18S6nikGnuoS3L8XMimjCLVhD37WeToZEo9Y=;
+        b=03aTi0PFKc0Prlcrtf7XgUk/8cP0a5fdNM3jqPHAET4pSpH2q3WSunAQTScKepcy51
+         qSxkoB/sfhiiOoSUA4dgXP5uMxJPxylUkCw8TbtBs4bKmUNSsKQku+Wjqm6PkFuhw1LB
+         mloxdPn+tPwHAIPdsylmpyNZXGECz43XgB+JtmqfKeF56TQer/gcA7QSX4S2yvjkzrPM
+         toj3kDI/PNFd2qKzx97ooPSobdhb6WouxIM5MZnAleKzNIx1a4jNxRetqdXoplDdECAo
+         V0hZPNkXgN1zXpJ08mQw0sjuniBZWGwESg99US6/akweD9JjkQigl1uZH/gR3uxyy9lc
+         oEsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Ahjwf9HqwEUWxfT27RhcaX1vAqu39xvQmFxCmdymgYk=;
-        b=FFfaOulGQwIfd2BY463zA4D/pu8qsNFtz/PO0H49JYXTflqi5800JSDcmhYjxkdHyF
-         0BZol0v2bZFLzSYRQtGBQo7Rts2KiWPDd/xerQq70T5Igpn31HQHHUfEDOw3W3n34ZMN
-         4G4g2yI38p68NMpDup0hCIqxYIvCs/GFF5kxkhXookH9SNcIfohhAmSgrSSAEuWS08RD
-         Rk0DIR4kFbGP1WAV+HaqRn+aAFUU8Ad2kci7XAiMTT+sR6cPgiLVVpVHJ8yZzxyw249j
-         smgP1pJB8tINoBfRcBx9cP1bMfmJbry1Y6QEOlY6IyJR4ZlX8L52bGWQP6OtJVNMbKAv
-         vykw==
-X-Gm-Message-State: AOAM531oVfvAr609ilB5IymXfDofOPQeDpLo5X8nnaxT9250qJF6iFXr
-	pyOr1rQcI/Pj/E0EJsp4qnmsIg==
-X-Google-Smtp-Source: ABdhPJx447qGBHdeQmiSJ8K60QjlehV4Ec4hD8sNWp3QYYcv21yKlryC3Z9/n8ORV/uPsantb0hF5Q==
-X-Received: by 2002:a37:44f:: with SMTP id 76mr13025187qke.161.1624645810318;
-        Fri, 25 Jun 2021 11:30:10 -0700 (PDT)
+        bh=tjRJr+e18S6nikGnuoS3L8XMimjCLVhD37WeToZEo9Y=;
+        b=BzG7YewhS2FjRs5M5wAytJPVAcwozVVrQktw17SYhRdYaYGxUtCVvn8a1qEnN+e5z2
+         +dEVdfNMUgl983zevkjQTnI5ygWFfX/m7SjD0i+ogEWVW6TDYQjZI71jorWzPQmNG0zt
+         HcuKz6lh+lcfZMZzXqmX1AGyOSqz/5tszelPkGQZzU+v34ugOTzh+EIxNbT58Aw6U4U4
+         fHOfSvy3vtEr7MoDI1ijcmBBgWdsk3ePYVJ8ivBnYOtq2r48yAPMW91qRc/x/hO3ZY8T
+         RrqREZdyHniZqKJBBOfdqlPleI0RQHWpYEMoywMOr0mwzR4XNk5ib0Q/uh5gVUHMCKzA
+         YlHQ==
+X-Gm-Message-State: AOAM532L4QKUAeu5tEJwebyPtpPgHfa7zIU211a+PIz3EF+HnekDjPn4
+	RdlMBEcOj4zBf9zpEaQ/KLQeuw==
+X-Google-Smtp-Source: ABdhPJzdngKbtkYLE1qQ9oCYAiAZfdjlHeHYU71eVFro4uQIuUY/CVSCQvRKrqrG77G8aqigBhXLVg==
+X-Received: by 2002:a0c:ba05:: with SMTP id w5mr12968041qvf.60.1624648623121;
+        Fri, 25 Jun 2021 12:17:03 -0700 (PDT)
 Received: from kerneldevvm.. (5.6.a.8.a.a.b.f.c.9.4.c.a.9.a.a.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0:aa9a:c49c:fbaa:8a65])
-        by smtp.gmail.com with ESMTPSA id l1sm974449qkc.93.2021.06.25.11.30.09
+        by smtp.gmail.com with ESMTPSA id 126sm5777917qkd.115.2021.06.25.12.17.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Jun 2021 11:30:09 -0700 (PDT)
+        Fri, 25 Jun 2021 12:17:02 -0700 (PDT)
 From: Phillip Potter <phil@philpotter.co.uk>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
 	dan.carpenter@oracle.com,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH] staging: rtl8188eu: remove set but unused variable from rtw_get_sec_ie
-Date: Fri, 25 Jun 2021 19:30:07 +0100
-Message-Id: <20210625183007.7065-1-phil@philpotter.co.uk>
+Subject: [PATCH] staging: rtl8188eu: remove rtw_wx_set_rate handler function
+Date: Fri, 25 Jun 2021 20:16:58 +0100
+Message-Id: <20210625191658.1299-1-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,38 +54,113 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove set but unused variable 'sec_idx' from the rtw_get_sec_ie
-function inside core/rtw_ieee80211.c, to fix a kernel test robot warning
-introduced by recent removal of erroneous debug statements.
+Remove rtw_wx_set_rate handler function, which currently handles the
+SIOCSIWRATE wext ioctl. This function (although containing a lot of
+code) set nothing outside its own local variables, and did nothing other
+than call a now removed debugging statement repeatedly. Removing it and
+leaving its associated entry in rtw_handlers as NULL is therefore the
+better option. Removing this function also fixes a kernel test robot
+warning.
 
 Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 ---
- drivers/staging/rtl8188eu/core/rtw_ieee80211.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ .../staging/rtl8188eu/os_dep/ioctl_linux.c    | 75 -------------------
+ 1 file changed, 75 deletions(-)
 
-diff --git a/drivers/staging/rtl8188eu/core/rtw_ieee80211.c b/drivers/staging/rtl8188eu/core/rtw_ieee80211.c
-index e431914db008..ce82b866c633 100644
---- a/drivers/staging/rtl8188eu/core/rtw_ieee80211.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_ieee80211.c
-@@ -465,7 +465,7 @@ int rtw_parse_wpa2_ie(u8 *rsn_ie, int rsn_ie_len, int *group_cipher, int *pairwi
+diff --git a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+index b958a8d882b0..d4dce8ef0322 100644
+--- a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+@@ -1262,80 +1262,6 @@ static int rtw_wx_get_essid(struct net_device *dev,
+ 	return 0;
+ }
  
- void rtw_get_sec_ie(u8 *in_ie, uint in_len, u8 *rsn_ie, u16 *rsn_len, u8 *wpa_ie, u16 *wpa_len)
- {
--	u8 authmode, sec_idx;
-+	u8 authmode;
- 	u8 wpa_oui[4] = {0x0, 0x50, 0xf2, 0x01};
- 	uint cnt;
- 
-@@ -473,8 +473,6 @@ void rtw_get_sec_ie(u8 *in_ie, uint in_len, u8 *rsn_ie, u16 *rsn_len, u8 *wpa_ie
- 
- 	cnt = _TIMESTAMP_ + _BEACON_ITERVAL_ + _CAPABILITY_;
- 
--	sec_idx = 0;
+-static int rtw_wx_set_rate(struct net_device *dev,
+-			   struct iw_request_info *a,
+-			   union iwreq_data *wrqu, char *extra)
+-{
+-	int i;
+-	u8 datarates[NumRates];
+-	u32	target_rate = wrqu->bitrate.value;
+-	u32	fixed = wrqu->bitrate.fixed;
+-	u32	ratevalue = 0;
+-	u8 mpdatarate[NumRates] = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0xff};
 -
- 	while (cnt < in_len) {
- 		authmode = in_ie[cnt];
- 
+-	if (target_rate == -1) {
+-		ratevalue = 11;
+-		goto set_rate;
+-	}
+-	target_rate /= 100000;
+-
+-	switch (target_rate) {
+-	case 10:
+-		ratevalue = 0;
+-		break;
+-	case 20:
+-		ratevalue = 1;
+-		break;
+-	case 55:
+-		ratevalue = 2;
+-		break;
+-	case 60:
+-		ratevalue = 3;
+-		break;
+-	case 90:
+-		ratevalue = 4;
+-		break;
+-	case 110:
+-		ratevalue = 5;
+-		break;
+-	case 120:
+-		ratevalue = 6;
+-		break;
+-	case 180:
+-		ratevalue = 7;
+-		break;
+-	case 240:
+-		ratevalue = 8;
+-		break;
+-	case 360:
+-		ratevalue = 9;
+-		break;
+-	case 480:
+-		ratevalue = 10;
+-		break;
+-	case 540:
+-		ratevalue = 11;
+-		break;
+-	default:
+-		ratevalue = 11;
+-		break;
+-	}
+-
+-set_rate:
+-
+-	for (i = 0; i < NumRates; i++) {
+-		if (ratevalue == mpdatarate[i]) {
+-			datarates[i] = mpdatarate[i];
+-			if (fixed == 0)
+-				break;
+-		} else {
+-			datarates[i] = 0xff;
+-		}
+-	}
+-
+-	return 0;
+-}
+-
+ static int rtw_wx_get_rate(struct net_device *dev,
+ 			   struct iw_request_info *info,
+ 			   union iwreq_data *wrqu, char *extra)
+@@ -2715,7 +2641,6 @@ static iw_handler rtw_handlers[] = {
+ 	IW_HANDLER(SIOCSIWESSID, rtw_wx_set_essid),
+ 	IW_HANDLER(SIOCGIWESSID, rtw_wx_get_essid),
+ 	IW_HANDLER(SIOCGIWNICKN, rtw_wx_get_nick),
+-	IW_HANDLER(SIOCSIWRATE, rtw_wx_set_rate),
+ 	IW_HANDLER(SIOCGIWRATE, rtw_wx_get_rate),
+ 	IW_HANDLER(SIOCSIWRTS, rtw_wx_set_rts),
+ 	IW_HANDLER(SIOCGIWRTS, rtw_wx_get_rts),
 -- 
 2.31.1
 
