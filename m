@@ -1,50 +1,50 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E05770
-	for <linux-staging@lists.linux.dev>; Fri, 25 Jun 2021 00:08:12 +0000 (UTC)
-Received: by mail-qk1-f179.google.com with SMTP id bj15so17324900qkb.11
-        for <linux-staging@lists.linux.dev>; Thu, 24 Jun 2021 17:08:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D99D70
+	for <linux-staging@lists.linux.dev>; Fri, 25 Jun 2021 00:08:13 +0000 (UTC)
+Received: by mail-qt1-f178.google.com with SMTP id g12so6268581qtb.2
+        for <linux-staging@lists.linux.dev>; Thu, 24 Jun 2021 17:08:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=d9HXLuVJMBfkOLzdHoGxnO6Harm4a4VlL+MT9SSRGjE=;
-        b=p4d4PA8Rr4uMRNIvZBUYukiTciA/BxQ2LPDJskggM5bJtxgEkPQ05GD6SzkrvoTAWh
-         12jLc6NuV9y0OyxdEfFYbD6WLKxi40fzej/0mZJk+uJIAfzMle138A/LJkyF3MEJFCEw
-         rq9hYFRmY/lARp14YJm57Srejgd97z1ptwedLb7OcY6JmYtjtMwcl/gWa84wK6atXXDq
-         Z/21jetjx36aDstJEZCIE86fgkf8zLvOiCqNQcYmjD/fUfGb3+kKOCaLf4N3NNFqs1lQ
-         gfJ+Yw4AQnykAqRsJXIUW2sjpxjCtKWD8QOabsYXHrwg6FKOW/0QLuRjYeKEJ2RMKO/G
-         fFCg==
+        bh=47a1Z2Yt1fcMPLUNw60Hi1OyhOqku3CpdlDvOqjJHoM=;
+        b=VR6bS7UxDZnLkpH8x+28cRM/7W2w1J3iWiEhiGz8Dhip7KtEIrfgjMxA6vuUF4LQ12
+         ksFxjt8Ge9XOmCYdBMbLvFLWmzc0BbvtZC44RAjPYiqd0RSFDClUhoxMOseEsSIsHw8/
+         w9VhTMKRq6vXHVnJh5/Z0kpKv8F7bdePLRHsTlPqBOSmQZ3HTgnAEuGKFJNPiT7MBrPW
+         BRWZ1Vsbx+P2wnzW3vCCFCjo8/NVfDeAy4rDGYvXw1UH1deEoIVO/J8aB40ZHQNTA7NP
+         2kQ2FOgckndij8oFwqQLqpCON7uYpGHUgoRekwYMtS1sV2sGJoowMU/lVQcO/5qLbs5A
+         CscQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=d9HXLuVJMBfkOLzdHoGxnO6Harm4a4VlL+MT9SSRGjE=;
-        b=V61/pjTnX1dqrzyT9l7PRKns8CjsPx80Eh8hrf8yFAck6kUjuWA7ILPSEwWxBPQ5zw
-         jrlG5YREFCwiTdg1i9L6YIkTZ2ZGXor7AwgiPVu+giVIuOyddR3ueX7b5qhXOb5W9Yjt
-         Pz39f4s4Kl2q5LEXyk7A/puOILEPJVxc42c12s8mT+X0P4hWiAuXDYDyrF/LckJ1s4tM
-         iymsz0dAFMWis1zdnZhk1qIcooXZ6a+/+THJpMlNN3nmnA3h6iMlnPvuuJklyyJcMfo4
-         +cgJqztgfxj863gbK1j1DAACKArVvTZj2gx4AF//FeCTxqtUWFJpmN861xt3Jt9TYsyW
-         Q1yg==
-X-Gm-Message-State: AOAM530j/t5FbtpNEnV/AWIVvGmWPYHafhD5d4FwKsn82m0ygyB/UPK/
-	GlbUWBJOgzgDK7uxs1uGJbDqvg==
-X-Google-Smtp-Source: ABdhPJze/8+le6yvQg4AvNeTbXrJvUn+BCqWQl89m8kKF3b9cOj5JBu5TB+BzC+zoVGYoiC7/9CVjw==
-X-Received: by 2002:ae9:e8d5:: with SMTP id a204mr8784868qkg.245.1624579691365;
-        Thu, 24 Jun 2021 17:08:11 -0700 (PDT)
+        bh=47a1Z2Yt1fcMPLUNw60Hi1OyhOqku3CpdlDvOqjJHoM=;
+        b=SCNyLMhDxwWnBI6YFcTQ2C0qGseOnIHIcbiaCw/3n3dAYYecDyqAFhBsvaCtjx5Sjf
+         O9YBf0KGjbp/ahGlVMkFRU9OzN0AlROKtxzeuoXM202BNuHoeiZD3dhETkJe2jJzLU2J
+         7Qmf79SlZ9YjC24AuENFfx1cuBYj/iCA8LFq+dFyqSZaiV1+5kMRphLmzoZqkQMuTtcE
+         fIwV3yjnYr3i3j+4Bud7cooxOr5wSW1OQhggPF+doImR5bI3uptrOuKtw67Ucm9EAYvw
+         qaWTdb3QZF0VuT6n7gU5n+nGcdNrl7hkMMeZBWUWdrBsL+vGXQ0IBS8k0hZ0uejv2gYw
+         MArg==
+X-Gm-Message-State: AOAM530OWA+2odKpIlJf3yRm/IT9nmd2tsmfmsXEzOpaAQB4vU0GZwo0
+	IanVFO8f2jj9I5v/cBEOMHUeSPFdBFk3Ug==
+X-Google-Smtp-Source: ABdhPJwfZNGyh0CO/Hm5WfY2smD423vbK1A/w7BmVKJx77gFCpr344ju1241TJ94bmkE5zjLqH2p3A==
+X-Received: by 2002:ac8:668c:: with SMTP id d12mr7267524qtp.188.1624579692801;
+        Thu, 24 Jun 2021 17:08:12 -0700 (PDT)
 Received: from kerneldevvm.. (5.6.a.8.a.a.b.f.c.9.4.c.a.9.a.a.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0:aa9a:c49c:fbaa:8a65])
-        by smtp.gmail.com with ESMTPSA id m187sm3629014qkd.131.2021.06.24.17.08.10
+        by smtp.gmail.com with ESMTPSA id m187sm3629014qkd.131.2021.06.24.17.08.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jun 2021 17:08:11 -0700 (PDT)
+        Thu, 24 Jun 2021 17:08:12 -0700 (PDT)
 From: Phillip Potter <phil@philpotter.co.uk>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
 	dan.carpenter@oracle.com,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 07/23] staging: rtl8188eu: remove all RT_TRACE calls from core/rtw_sta_mgt.c
-Date: Fri, 25 Jun 2021 01:07:40 +0100
-Message-Id: <20210625000756.6313-8-phil@philpotter.co.uk>
+Subject: [PATCH 08/23] staging: rtl8188eu: remove all RT_TRACE calls from core/rtw_mlme_ext.c
+Date: Fri, 25 Jun 2021 01:07:41 +0100
+Message-Id: <20210625000756.6313-9-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210625000756.6313-1-phil@philpotter.co.uk>
 References: <20210625000756.6313-1-phil@philpotter.co.uk>
@@ -56,71 +56,125 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove all RT_TRACE calls from core/rtw_sta_mgt.c as this macro is
+Remove all RT_TRACE calls from core/rtw_mlme_ext.c as this macro is
 unnecessary, and these calls are dubious in terms of necessity.
 Removing all calls will ultimately allow the removal of the macro
 itself.
 
 Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 ---
- drivers/staging/rtl8188eu/core/rtw_sta_mgt.c | 21 ++------------------
- 1 file changed, 2 insertions(+), 19 deletions(-)
+ drivers/staging/rtl8188eu/core/rtw_mlme_ext.c | 41 +++----------------
+ 1 file changed, 5 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c b/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
-index cd48e6f2a6f6..19eddf573fd8 100644
---- a/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
-@@ -179,13 +179,8 @@ struct sta_info *rtw_alloc_stainfo(struct sta_priv *pstapriv, u8 *hwaddr)
- 	_rtw_init_stainfo(psta);
- 	memcpy(psta->hwaddr, hwaddr, ETH_ALEN);
- 	index = wifi_mac_hash(hwaddr);
--	RT_TRACE(_module_rtl871x_sta_mgt_c_, _drv_info_,
--		 ("%s: index=%x", __func__, index));
--	if (index >= NUM_STA) {
--		RT_TRACE(_module_rtl871x_sta_mgt_c_, _drv_err_,
--			 ("ERROR => %s: index >= NUM_STA", __func__));
-+	if (index >= NUM_STA)
- 		return NULL;
--	}
- 	phash_list = &pstapriv->sta_hash[index];
+diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+index e237df794db7..25653ebfaafd 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+@@ -594,8 +594,6 @@ static int issue_probereq(struct adapter *padapter,
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 	int bssrate_len = 0;
  
- 	spin_lock_bh(&pstapriv->sta_hash_lock);
-@@ -205,10 +200,6 @@ struct sta_info *rtw_alloc_stainfo(struct sta_priv *pstapriv, u8 *hwaddr)
- 		memcpy(&psta->sta_recvpriv.rxcache.tid_rxseq[i],
- 		       &wRxSeqInitialValue, 2);
- 
--	RT_TRACE(_module_rtl871x_sta_mgt_c_, _drv_info_,
--		 ("alloc number_%d stainfo  with hwaddr = %pM\n",
--		  pstapriv->asoc_sta_count, hwaddr));
+-	RT_TRACE(_module_rtl871x_mlme_c_, _drv_notice_, ("+%s\n", __func__));
 -
- 	init_addba_retry_timer(pstapriv->padapter, psta);
+ 	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
+ 	if (!pmgntframe)
+ 		goto exit;
+@@ -656,9 +654,6 @@ static int issue_probereq(struct adapter *padapter,
  
- 	/* for A-MPDU Rx reordering buffer control */
-@@ -279,11 +270,6 @@ u32 rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
- 	spin_unlock_bh(&pxmitpriv->lock);
+ 	pattrib->last_txcmdsz = pattrib->pktlen;
  
- 	list_del_init(&psta->hash_list);
--	RT_TRACE(_module_rtl871x_sta_mgt_c_, _drv_err_,
--		 ("\n free number_%d stainfo with hwaddr=0x%.2x 0x%.2x 0x%.2x 0x%.2x 0x%.2x 0x%.2x\n",
--		 pstapriv->asoc_sta_count, psta->hwaddr[0], psta->hwaddr[1],
--		 psta->hwaddr[2], psta->hwaddr[3], psta->hwaddr[4],
--		 psta->hwaddr[5]));
- 	pstapriv->asoc_sta_count--;
+-	RT_TRACE(_module_rtl871x_mlme_c_, _drv_notice_,
+-		 ("issuing probe_req, tx_len=%d\n", pattrib->last_txcmdsz));
+-
+ 	if (wait_ack) {
+ 		ret = dump_mgntframe_and_wait_ack(padapter, pmgntframe);
+ 	} else {
+@@ -2095,8 +2090,6 @@ static void start_create_ibss(struct adapter *padapter)
  
- 	/*  re-init sta_info; 20061114 */
-@@ -438,11 +424,8 @@ u32 rtw_init_bcmc_stainfo(struct adapter *padapter)
+ 		/* issue beacon */
+ 		if (send_beacon(padapter) == _FAIL) {
+-			RT_TRACE(_module_rtl871x_mlme_c_, _drv_err_, ("issuing beacon frame fail....\n"));
+-
+ 			report_join_res(padapter, -1);
+ 			pmlmeinfo->state = WIFI_FW_NULL_STATE;
+ 		} else {
+@@ -2269,9 +2262,6 @@ static void process_80211d(struct adapter *padapter, struct wlan_bssid_ex *bssid
+ 		memset(country, 0, 4);
+ 		memcpy(country, p, 3);
+ 		p += 3;
+-		RT_TRACE(_module_rtl871x_mlme_c_, _drv_notice_,
+-			 ("%s: 802.11d country =%s\n", __func__, country));
+-
+ 		i = 0;
+ 		while ((ie - p) >= 3) {
+ 			fcn = *(p++);
+@@ -2365,12 +2355,8 @@ static void process_80211d(struct adapter *padapter, struct wlan_bssid_ex *bssid
+ 	i = 0;
+ 	while ((i < MAX_CHANNEL_NUM) && (chplan_new[i].ChannelNum != 0)) {
+ 		if (chplan_new[i].ChannelNum == channel) {
+-			if (chplan_new[i].ScanType == SCAN_PASSIVE) {
++			if (chplan_new[i].ScanType == SCAN_PASSIVE)
+ 				chplan_new[i].ScanType = SCAN_ACTIVE;
+-				RT_TRACE(_module_rtl871x_mlme_c_, _drv_notice_,
+-					 ("%s: change channel %d scan type from passive to active\n",
+-					 __func__, channel));
+-			}
+ 			break;
+ 		}
+ 		i++;
+@@ -3859,17 +3845,8 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
+ 	u8 *pframe = precv_frame->pkt->data;
+ 	struct sta_info *psta = rtw_get_stainfo(&padapter->stapriv, GetAddr2Ptr(pframe));
  
- 	psta = rtw_alloc_stainfo(pstapriv, bc_addr);
- 
--	if (!psta) {
--		RT_TRACE(_module_rtl871x_sta_mgt_c_, _drv_err_,
--			 ("rtw_alloc_stainfo fail"));
-+	if (!psta)
- 		return _FAIL;
+-	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_,
+-		 ("+%s: type(0x%x) subtype(0x%x)\n", __func__,
+-		  (unsigned int)GetFrameType(pframe),
+-		  (unsigned int)GetFrameSubType(pframe)));
+-
+-	if (GetFrameType(pframe) != WIFI_MGT_TYPE) {
+-		RT_TRACE(_module_rtl871x_mlme_c_, _drv_err_,
+-			 ("%s: type(0x%x) error!\n", __func__,
+-			  (unsigned int)GetFrameType(pframe)));
++	if (GetFrameType(pframe) != WIFI_MGT_TYPE)
+ 		return;
 -	}
  
- 	/*  default broadcast & multicast use macid 1 */
- 	psta->mac_id = 1;
+ 	/* receive the frames that ra(a1) is my address or ra(a1) is bc address. */
+ 	if (memcmp(GetAddr1Ptr(pframe), myid(&padapter->eeprompriv), ETH_ALEN) &&
+@@ -3880,10 +3857,8 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
+ 
+ 	index = GetFrameSubType(pframe) >> 4;
+ 
+-	if (index > 13) {
+-		RT_TRACE(_module_rtl871x_mlme_c_, _drv_err_, ("Currently we do not support reserved sub-fr-type=%d\n", index));
++	if (index > 13)
+ 		return;
+-	}
+ 	ptable += index;
+ 
+ 	if (psta) {
+@@ -5095,19 +5070,13 @@ u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
+ 	evt_code = (u8)((*peventbuf >> 16) & 0xff);
+ 
+ 	/*  checking if event code is valid */
+-	if (evt_code >= MAX_C2HEVT) {
+-		RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_, ("\nEvent Code(%d) mismatch!\n", evt_code));
++	if (evt_code >= MAX_C2HEVT)
+ 		goto _abort_event_;
+-	}
+ 
+ 	/*  checking if event size match the event parm size */
+ 	if ((wlanevents[evt_code].parmsize != 0) &&
+-	    (wlanevents[evt_code].parmsize != evt_sz)) {
+-		RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_,
+-			 ("\nEvent(%d) Parm Size mismatch (%d vs %d)!\n",
+-			 evt_code, wlanevents[evt_code].parmsize, evt_sz));
++	    (wlanevents[evt_code].parmsize != evt_sz))
+ 		goto _abort_event_;
+-	}
+ 
+ 	peventbuf += 2;
+ 
 -- 
 2.31.1
 
