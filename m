@@ -1,48 +1,48 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 665D4168
-	for <linux-staging@lists.linux.dev>; Fri, 25 Jun 2021 03:20:30 +0000 (UTC)
-IronPort-SDR: NKvFu7ouLg3NYqpMlzLRi5spjbe8Ik3BXIHQjl38GUrryDnytK404BDM87prAI2etUubqGt4mX
- llfagtkEKNRw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="194896068"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1934E2FB8
+	for <linux-staging@lists.linux.dev>; Fri, 25 Jun 2021 05:19:35 +0000 (UTC)
+IronPort-SDR: OVsrbr2B299DDGe0KPNilTYNXTyU6uSmEW/g+nwMBBDErCj2IizJA6SBd2c/iStUcgxQatagu9
+ XOXX/bFJXetQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="187993052"
 X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; 
-   d="gz'50?scan'50,208,50";a="194896068"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2021 20:20:29 -0700
-IronPort-SDR: abt7hYQG3jGzn1J0Ipy1Nz7Nb0k8yCMtFcfJDSKZucNy/B9YTw+jV7BiQ3akUnf1OuzSJaiSba
- PdVUKjCd9XNQ==
+   d="gz'50?scan'50,208,50";a="187993052"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2021 22:19:34 -0700
+IronPort-SDR: 4GZbyBnaA58kx5Na3YZ906tiQOZixwMuCU1JHPMGXAmHB+XvY45V9ESA6NNPVXlgTi1qFXAUaB
+ DOVHoSEPfREw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; 
-   d="gz'50?scan'50,208,50";a="453674081"
+   d="gz'50?scan'50,208,50";a="474759633"
 Received: from lkp-server01.sh.intel.com (HELO 4aae0cb4f5b5) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 24 Jun 2021 20:20:26 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 24 Jun 2021 22:19:31 -0700
 Received: from kbuild by 4aae0cb4f5b5 with local (Exim 4.92)
 	(envelope-from <lkp@intel.com>)
-	id 1lwcOH-0006sG-M9; Fri, 25 Jun 2021 03:20:25 +0000
-Date: Fri, 25 Jun 2021 11:20:12 +0800
+	id 1lweFX-0006vj-3U; Fri, 25 Jun 2021 05:19:31 +0000
+Date: Fri, 25 Jun 2021 13:18:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
 Cc: kbuild-all@lists.01.org, Larry.Finger@lwfinger.net,
 	dan.carpenter@oracle.com, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 01/23] staging: rtl8188eu: remove all RT_TRACE calls from
- os_dep/ioctl_linux.c
-Message-ID: <202106251142.ofJM1wly-lkp@intel.com>
-References: <20210625000756.6313-2-phil@philpotter.co.uk>
+Subject: Re: [PATCH 12/23] staging: rtl8188eu: remove all RT_TRACE calls from
+ core/rtw_ieee80211.c
+Message-ID: <202106251338.jmIgIz6x-lkp@intel.com>
+References: <20210625000756.6313-13-phil@philpotter.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="sm4nu43k4a2Rpi4c"
+Content-Type: multipart/mixed; boundary="7AUc2qLy4jB3hD7Z"
 Content-Disposition: inline
-In-Reply-To: <20210625000756.6313-2-phil@philpotter.co.uk>
+In-Reply-To: <20210625000756.6313-13-phil@philpotter.co.uk>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 
 
---sm4nu43k4a2Rpi4c
+--7AUc2qLy4jB3hD7Z
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -59,10 +59,10 @@ compiler: sh4-linux-gcc (GCC) 9.3.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/8e9ae03b206ecabeadc3fa9ca135a7f2d354c596
+        # https://github.com/0day-ci/linux/commit/3cd6b5774f6ae082885e4c6c1dce8aeab74df4d6
         git remote add linux-review https://github.com/0day-ci/linux
         git fetch --no-tags linux-review Phillip-Potter/staging-rtl8188eu-remove-include-rtw_debug-h/20210625-081023
-        git checkout 8e9ae03b206ecabeadc3fa9ca135a7f2d354c596
+        git checkout 3cd6b5774f6ae082885e4c6c1dce8aeab74df4d6
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=sh 
 
@@ -71,14 +71,10 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   drivers/staging/rtl8188eu/os_dep/ioctl_linux.c: In function 'rtw_wx_set_rate':
->> drivers/staging/rtl8188eu/os_dep/ioctl_linux.c:1271:5: warning: variable 'datarates' set but not used [-Wunused-but-set-variable]
-    1271 |  u8 datarates[NumRates];
-         |     ^~~~~~~~~
-   At top level:
-   drivers/staging/rtl8188eu/os_dep/ioctl_linux.c:50:27: warning: 'iw_operation_mode' defined but not used [-Wunused-const-variable=]
-      50 | static const char * const iw_operation_mode[] = {
-         |                           ^~~~~~~~~~~~~~~~~
+   drivers/staging/rtl8188eu/core/rtw_ieee80211.c: In function 'rtw_get_sec_ie':
+>> drivers/staging/rtl8188eu/core/rtw_ieee80211.c:468:15: warning: variable 'sec_idx' set but not used [-Wunused-but-set-variable]
+     468 |  u8 authmode, sec_idx;
+         |               ^~~~~~~
 
 Kconfig warnings: (for reference only)
    WARNING: unmet direct dependencies detected for SND_ATMEL_SOC_PDC
@@ -88,94 +84,55 @@ Kconfig warnings: (for reference only)
    - SND_ATMEL_SOC_SSC_PDC && SOUND && !UML && SND && SND_SOC && SND_ATMEL_SOC && ATMEL_SSC
 
 
-vim +/datarates +1271 drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+vim +/sec_idx +468 drivers/staging/rtl8188eu/core/rtw_ieee80211.c
 
-a2c60d42d97cdb Larry Finger    2013-08-21  1265  
-a2c60d42d97cdb Larry Finger    2013-08-21  1266  static int rtw_wx_set_rate(struct net_device *dev,
-a2c60d42d97cdb Larry Finger    2013-08-21  1267  			   struct iw_request_info *a,
-a2c60d42d97cdb Larry Finger    2013-08-21  1268  			   union iwreq_data *wrqu, char *extra)
-a2c60d42d97cdb Larry Finger    2013-08-21  1269  {
-c78a964c251bb8 Sudip Mukherjee 2014-11-07  1270  	int i;
-a2c60d42d97cdb Larry Finger    2013-08-21 @1271  	u8 datarates[NumRates];
-a2c60d42d97cdb Larry Finger    2013-08-21  1272  	u32	target_rate = wrqu->bitrate.value;
-a2c60d42d97cdb Larry Finger    2013-08-21  1273  	u32	fixed = wrqu->bitrate.fixed;
-a2c60d42d97cdb Larry Finger    2013-08-21  1274  	u32	ratevalue = 0;
-a2c60d42d97cdb Larry Finger    2013-08-21  1275  	u8 mpdatarate[NumRates] = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0xff};
-a2c60d42d97cdb Larry Finger    2013-08-21  1276  
-a2c60d42d97cdb Larry Finger    2013-08-21  1277  	if (target_rate == -1) {
-a2c60d42d97cdb Larry Finger    2013-08-21  1278  		ratevalue = 11;
-a2c60d42d97cdb Larry Finger    2013-08-21  1279  		goto set_rate;
-a2c60d42d97cdb Larry Finger    2013-08-21  1280  	}
-3a90d8186659b1 Michael Straube 2020-06-29  1281  	target_rate /= 100000;
-a2c60d42d97cdb Larry Finger    2013-08-21  1282  
-a2c60d42d97cdb Larry Finger    2013-08-21  1283  	switch (target_rate) {
-a2c60d42d97cdb Larry Finger    2013-08-21  1284  	case 10:
-a2c60d42d97cdb Larry Finger    2013-08-21  1285  		ratevalue = 0;
-a2c60d42d97cdb Larry Finger    2013-08-21  1286  		break;
-a2c60d42d97cdb Larry Finger    2013-08-21  1287  	case 20:
-a2c60d42d97cdb Larry Finger    2013-08-21  1288  		ratevalue = 1;
-a2c60d42d97cdb Larry Finger    2013-08-21  1289  		break;
-a2c60d42d97cdb Larry Finger    2013-08-21  1290  	case 55:
-a2c60d42d97cdb Larry Finger    2013-08-21  1291  		ratevalue = 2;
-a2c60d42d97cdb Larry Finger    2013-08-21  1292  		break;
-a2c60d42d97cdb Larry Finger    2013-08-21  1293  	case 60:
-a2c60d42d97cdb Larry Finger    2013-08-21  1294  		ratevalue = 3;
-a2c60d42d97cdb Larry Finger    2013-08-21  1295  		break;
-a2c60d42d97cdb Larry Finger    2013-08-21  1296  	case 90:
-a2c60d42d97cdb Larry Finger    2013-08-21  1297  		ratevalue = 4;
-a2c60d42d97cdb Larry Finger    2013-08-21  1298  		break;
-a2c60d42d97cdb Larry Finger    2013-08-21  1299  	case 110:
-a2c60d42d97cdb Larry Finger    2013-08-21  1300  		ratevalue = 5;
-a2c60d42d97cdb Larry Finger    2013-08-21  1301  		break;
-a2c60d42d97cdb Larry Finger    2013-08-21  1302  	case 120:
-a2c60d42d97cdb Larry Finger    2013-08-21  1303  		ratevalue = 6;
-a2c60d42d97cdb Larry Finger    2013-08-21  1304  		break;
-a2c60d42d97cdb Larry Finger    2013-08-21  1305  	case 180:
-a2c60d42d97cdb Larry Finger    2013-08-21  1306  		ratevalue = 7;
-a2c60d42d97cdb Larry Finger    2013-08-21  1307  		break;
-a2c60d42d97cdb Larry Finger    2013-08-21  1308  	case 240:
-a2c60d42d97cdb Larry Finger    2013-08-21  1309  		ratevalue = 8;
-a2c60d42d97cdb Larry Finger    2013-08-21  1310  		break;
-a2c60d42d97cdb Larry Finger    2013-08-21  1311  	case 360:
-a2c60d42d97cdb Larry Finger    2013-08-21  1312  		ratevalue = 9;
-a2c60d42d97cdb Larry Finger    2013-08-21  1313  		break;
-a2c60d42d97cdb Larry Finger    2013-08-21  1314  	case 480:
-a2c60d42d97cdb Larry Finger    2013-08-21  1315  		ratevalue = 10;
-a2c60d42d97cdb Larry Finger    2013-08-21  1316  		break;
-a2c60d42d97cdb Larry Finger    2013-08-21  1317  	case 540:
-a2c60d42d97cdb Larry Finger    2013-08-21  1318  		ratevalue = 11;
-a2c60d42d97cdb Larry Finger    2013-08-21  1319  		break;
-a2c60d42d97cdb Larry Finger    2013-08-21  1320  	default:
-a2c60d42d97cdb Larry Finger    2013-08-21  1321  		ratevalue = 11;
-a2c60d42d97cdb Larry Finger    2013-08-21  1322  		break;
-a2c60d42d97cdb Larry Finger    2013-08-21  1323  	}
-a2c60d42d97cdb Larry Finger    2013-08-21  1324  
-a2c60d42d97cdb Larry Finger    2013-08-21  1325  set_rate:
-a2c60d42d97cdb Larry Finger    2013-08-21  1326  
-a2c60d42d97cdb Larry Finger    2013-08-21  1327  	for (i = 0; i < NumRates; i++) {
-a2c60d42d97cdb Larry Finger    2013-08-21  1328  		if (ratevalue == mpdatarate[i]) {
-a2c60d42d97cdb Larry Finger    2013-08-21  1329  			datarates[i] = mpdatarate[i];
-a2c60d42d97cdb Larry Finger    2013-08-21  1330  			if (fixed == 0)
-a2c60d42d97cdb Larry Finger    2013-08-21  1331  				break;
-a2c60d42d97cdb Larry Finger    2013-08-21  1332  		} else {
-a2c60d42d97cdb Larry Finger    2013-08-21  1333  			datarates[i] = 0xff;
-a2c60d42d97cdb Larry Finger    2013-08-21  1334  		}
-a2c60d42d97cdb Larry Finger    2013-08-21  1335  	}
-a2c60d42d97cdb Larry Finger    2013-08-21  1336  
-c78a964c251bb8 Sudip Mukherjee 2014-11-07  1337  	return 0;
-a2c60d42d97cdb Larry Finger    2013-08-21  1338  }
-a2c60d42d97cdb Larry Finger    2013-08-21  1339  
+   465	
+   466	void rtw_get_sec_ie(u8 *in_ie, uint in_len, u8 *rsn_ie, u16 *rsn_len, u8 *wpa_ie, u16 *wpa_len)
+   467	{
+ > 468		u8 authmode, sec_idx;
+   469		u8 wpa_oui[4] = {0x0, 0x50, 0xf2, 0x01};
+   470		uint cnt;
+   471	
+   472		/* Search required WPA or WPA2 IE and copy to sec_ie[] */
+   473	
+   474		cnt = _TIMESTAMP_ + _BEACON_ITERVAL_ + _CAPABILITY_;
+   475	
+   476		sec_idx = 0;
+   477	
+   478		while (cnt < in_len) {
+   479			authmode = in_ie[cnt];
+   480	
+   481			if ((authmode == WLAN_EID_VENDOR_SPECIFIC) && (!memcmp(&in_ie[cnt + 2], &wpa_oui[0], 4))) {
+   482				if (wpa_ie)
+   483					memcpy(wpa_ie, &in_ie[cnt], in_ie[cnt + 1] + 2);
+   484	
+   485				*wpa_len = in_ie[cnt + 1] + 2;
+   486				cnt += in_ie[cnt + 1] + 2;  /* get next */
+   487			} else {
+   488				if (authmode == WLAN_EID_RSN) {
+   489					if (rsn_ie)
+   490						memcpy(rsn_ie, &in_ie[cnt], in_ie[cnt + 1] + 2);
+   491	
+   492					*rsn_len = in_ie[cnt + 1] + 2;
+   493					cnt += in_ie[cnt + 1] + 2;  /* get next */
+   494				} else {
+   495					cnt += in_ie[cnt + 1] + 2;   /* get next */
+   496				}
+   497			}
+   498		}
+   499	}
+   500	
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---sm4nu43k4a2Rpi4c
+--7AUc2qLy4jB3hD7Z
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICJ4/1WAAAy5jb25maWcAjFxdc9s2s77vr9CkN+3MSWvZjpOcM7oASVBCRRIMAerDNxxF
+H4sICH5c1WAAAy5jb25maWcAjFxdc9s2s77vr9CkN+3MSWvZjpOcM7oASVBCRRIMAerDNxxF
 VhJPbcuvJPdt/v3ZBb8AEKTUm0bPs/haLBaLBehff/l1RN5O++fN6XG7eXr6Ofq+e9kdNqfd
 w+jb49Pu/0YBHyVcjmjA5B8gHD2+vP375/HH6MMf45s/rt4ftnej+e7wsnsa+fuXb4/f36Dw
 4/7ll19/8XkSsmnh+8WCZoLxpJB0JSfvjj9u3z9hNe+/b7ej36a+//vo8x9Q2TutCBMFEJOf
@@ -1192,4 +1149,4 @@ TlaQGbsbCPZ1WUxhrmAH0JUcUlBw1AaLguNTqCB3GgQkUYmg0e0uN/cY5AHzBhZhzNor12G6
 yoybOu6M0I60NJcjBX1OwGFJjilpddJmjHq32FkXotSDGocbxsce1aSd2+va5EbrZcLBoa+G
 PNin/CxgtWLr2O4STO8srFr+F8J+SqafdAMA
 
---sm4nu43k4a2Rpi4c--
+--7AUc2qLy4jB3hD7Z--
