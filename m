@@ -1,166 +1,90 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 183F4177
-	for <linux-staging@lists.linux.dev>; Fri, 25 Jun 2021 19:17:04 +0000 (UTC)
-Received: by mail-qv1-f48.google.com with SMTP id u8so2444850qvg.0
-        for <linux-staging@lists.linux.dev>; Fri, 25 Jun 2021 12:17:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38228177
+	for <linux-staging@lists.linux.dev>; Sat, 26 Jun 2021 03:42:28 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id q14so16192603eds.5
+        for <linux-staging@lists.linux.dev>; Fri, 25 Jun 2021 20:42:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tjRJr+e18S6nikGnuoS3L8XMimjCLVhD37WeToZEo9Y=;
-        b=03aTi0PFKc0Prlcrtf7XgUk/8cP0a5fdNM3jqPHAET4pSpH2q3WSunAQTScKepcy51
-         qSxkoB/sfhiiOoSUA4dgXP5uMxJPxylUkCw8TbtBs4bKmUNSsKQku+Wjqm6PkFuhw1LB
-         mloxdPn+tPwHAIPdsylmpyNZXGECz43XgB+JtmqfKeF56TQer/gcA7QSX4S2yvjkzrPM
-         toj3kDI/PNFd2qKzx97ooPSobdhb6WouxIM5MZnAleKzNIx1a4jNxRetqdXoplDdECAo
-         V0hZPNkXgN1zXpJ08mQw0sjuniBZWGwESg99US6/akweD9JjkQigl1uZH/gR3uxyy9lc
-         oEsw==
+        d=ingics-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZRVdCcPcCziowTNJTVv4QnxvuJfCULnuUiYke2HSea0=;
+        b=SoLCPl3ZtO7L/E+xZKlqWCOkCFJi1KRpPwGUJ8oaq0gdyKdy89PZIttZzRunNSCDGI
+         cRSyUpvniO7eF6C+qYnKg8+WnU+TnE3Tr/1cXPWHcJ7jJdU37wWrr4WlhlAxx5pC7Bix
+         +mfc8DMNiYhx5+1mEcfwjXEjUTGBPQE5nOzL0/6aXg3EIzgrIwT+2sksRnfRCOEPfy+S
+         BNeA7Iv3sxBnpAy5MTeO7QEnVowbesdyJaR3yQZtnqnD83dm9S3MV89WbFmBmHixOPn0
+         1Onx99kcDTKY0qaZSnU38fNcTzzTelJtafNJKAmW0F+q9++r0CW2c37eon6+W/R7qYA7
+         anzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tjRJr+e18S6nikGnuoS3L8XMimjCLVhD37WeToZEo9Y=;
-        b=BzG7YewhS2FjRs5M5wAytJPVAcwozVVrQktw17SYhRdYaYGxUtCVvn8a1qEnN+e5z2
-         +dEVdfNMUgl983zevkjQTnI5ygWFfX/m7SjD0i+ogEWVW6TDYQjZI71jorWzPQmNG0zt
-         HcuKz6lh+lcfZMZzXqmX1AGyOSqz/5tszelPkGQZzU+v34ugOTzh+EIxNbT58Aw6U4U4
-         fHOfSvy3vtEr7MoDI1ijcmBBgWdsk3ePYVJ8ivBnYOtq2r48yAPMW91qRc/x/hO3ZY8T
-         RrqREZdyHniZqKJBBOfdqlPleI0RQHWpYEMoywMOr0mwzR4XNk5ib0Q/uh5gVUHMCKzA
-         YlHQ==
-X-Gm-Message-State: AOAM532L4QKUAeu5tEJwebyPtpPgHfa7zIU211a+PIz3EF+HnekDjPn4
-	RdlMBEcOj4zBf9zpEaQ/KLQeuw==
-X-Google-Smtp-Source: ABdhPJzdngKbtkYLE1qQ9oCYAiAZfdjlHeHYU71eVFro4uQIuUY/CVSCQvRKrqrG77G8aqigBhXLVg==
-X-Received: by 2002:a0c:ba05:: with SMTP id w5mr12968041qvf.60.1624648623121;
-        Fri, 25 Jun 2021 12:17:03 -0700 (PDT)
-Received: from kerneldevvm.. (5.6.a.8.a.a.b.f.c.9.4.c.a.9.a.a.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0:aa9a:c49c:fbaa:8a65])
-        by smtp.gmail.com with ESMTPSA id 126sm5777917qkd.115.2021.06.25.12.17.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Jun 2021 12:17:02 -0700 (PDT)
-From: Phillip Potter <phil@philpotter.co.uk>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	dan.carpenter@oracle.com,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] staging: rtl8188eu: remove rtw_wx_set_rate handler function
-Date: Fri, 25 Jun 2021 20:16:58 +0100
-Message-Id: <20210625191658.1299-1-phil@philpotter.co.uk>
-X-Mailer: git-send-email 2.31.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZRVdCcPcCziowTNJTVv4QnxvuJfCULnuUiYke2HSea0=;
+        b=kseXlE54GAOEyDZUt1LTzpHnkVtUHvcADuOupHzsiL84AlQu0zKd5N/0ei5sxmLV6T
+         lf0pV+qVbYy7QnjFk7rk6cXOzTgv4HIZuUU64rlV8MOyP5IX6V9Hqk8AGYa7TlM7x9Z7
+         d8IoPJhMTkU2/jBXUtUZPrXBKxi3LjLer3I6Nmqd8RsbXrxty2iXoZSBG1LYaRcWJY3I
+         XSo4/9JLv3JM80j38DHDcvk+3F9OwD3l1E9V8CsnzuNie+NgjR6+FSKJK4zMLAVTJ/Zo
+         rYhaFFB/aNLXr6ebYK3Dm8V/9Zib8CIdZ7aodT98b9LRU8Y7xT2nyDQ3Qk8OAGf3LFzF
+         TX7A==
+X-Gm-Message-State: AOAM530aIj0XS1+dUQOZPvgj2plyFZ1ggIJzNBRufE6BthRzPzrXoSb2
+	jWEgQjIqzvoxMWQI0pQuRYUkfNoRbDT/OM5Tlpt6QQ==
+X-Google-Smtp-Source: ABdhPJzmKzoxYw8suupbNSOYdXWy275N44i/jZoncsm9PrFhiafmJ3OobDTQE8hwye7Zpln8CcA1+anLTaaAZACHx0M=
+X-Received: by 2002:a50:ee13:: with SMTP id g19mr19116888eds.147.1624678946571;
+ Fri, 25 Jun 2021 20:42:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1624640087.git.mchehab+huawei@kernel.org> <ef0ff659a875b91b454df12b57888f2b473877fa.1624640087.git.mchehab+huawei@kernel.org>
+In-Reply-To: <ef0ff659a875b91b454df12b57888f2b473877fa.1624640087.git.mchehab+huawei@kernel.org>
+From: Axel Lin <axel.lin@ingics.com>
+Date: Sat, 26 Jun 2021 11:41:50 +0800
+Message-ID: <CAFRkauBcXDVihxN8MHoStGHjDyx-VyOe6tT8dkY2tAisHoeE8w@mail.gmail.com>
+Subject: Re: [PATCH v9 2/5] regulator: hi6421v600-regulator: fix platform drvdata
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linuxarm@huawei.com, 
+	mauro.chehab@huawei.com, Lee Jones <lee.jones@linaro.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Remove rtw_wx_set_rate handler function, which currently handles the
-SIOCSIWRATE wext ioctl. This function (although containing a lot of
-code) set nothing outside its own local variables, and did nothing other
-than call a now removed debugging statement repeatedly. Removing it and
-leaving its associated entry in rtw_handlers as NULL is therefore the
-better option. Removing this function also fixes a kernel test robot
-warning.
+> @@ -231,7 +228,7 @@ static int hi6421_spmi_regulator_probe(struct platform_device *pdev)
+>  {
+>         struct device *pmic_dev = pdev->dev.parent;
+>         struct regulator_config config = { };
+> -       struct hi6421_spmi_reg_priv *priv;
+> +       struct hi6421_spmi_reg_info *sreg;
+>         struct hi6421_spmi_reg_info *info;
+>         struct device *dev = &pdev->dev;
+>         struct hi6421_spmi_pmic *pmic;
+> @@ -247,18 +244,17 @@ static int hi6421_spmi_regulator_probe(struct platform_device *pdev)
+>         if (WARN_ON(!pmic))
+>                 return -ENODEV;
+>
+> -       priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> -       if (!priv)
+> +       sreg = devm_kzalloc(dev, sizeof(*sreg), GFP_KERNEL);
+> +       if (!sreg)
+>                 return -ENOMEM;
+>
+> -       mutex_init(&priv->enable_mutex);
+> -       platform_set_drvdata(pdev, priv);
+> +       sreg->enable_mutex = &pmic->enable_mutex;
+>
+>         for (i = 0; i < ARRAY_SIZE(regulator_info); i++) {
+>                 info = &regulator_info[i];
+>
+>                 config.dev = pdev->dev.parent;
+> -               config.driver_data = info;
+> +               config.driver_data = sreg;
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
----
- .../staging/rtl8188eu/os_dep/ioctl_linux.c    | 75 -------------------
- 1 file changed, 75 deletions(-)
+This won't work and that was what my patch fixed.
+e.g. When you call
+struct hi6421_spmi_reg_info *sreg = rdev_get_drvdata(rdev);
+sreg->eco_mode_mask and sreg->eco_uA will always be 0.
 
-diff --git a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-index b958a8d882b0..d4dce8ef0322 100644
---- a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-@@ -1262,80 +1262,6 @@ static int rtw_wx_get_essid(struct net_device *dev,
- 	return 0;
- }
- 
--static int rtw_wx_set_rate(struct net_device *dev,
--			   struct iw_request_info *a,
--			   union iwreq_data *wrqu, char *extra)
--{
--	int i;
--	u8 datarates[NumRates];
--	u32	target_rate = wrqu->bitrate.value;
--	u32	fixed = wrqu->bitrate.fixed;
--	u32	ratevalue = 0;
--	u8 mpdatarate[NumRates] = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0xff};
--
--	if (target_rate == -1) {
--		ratevalue = 11;
--		goto set_rate;
--	}
--	target_rate /= 100000;
--
--	switch (target_rate) {
--	case 10:
--		ratevalue = 0;
--		break;
--	case 20:
--		ratevalue = 1;
--		break;
--	case 55:
--		ratevalue = 2;
--		break;
--	case 60:
--		ratevalue = 3;
--		break;
--	case 90:
--		ratevalue = 4;
--		break;
--	case 110:
--		ratevalue = 5;
--		break;
--	case 120:
--		ratevalue = 6;
--		break;
--	case 180:
--		ratevalue = 7;
--		break;
--	case 240:
--		ratevalue = 8;
--		break;
--	case 360:
--		ratevalue = 9;
--		break;
--	case 480:
--		ratevalue = 10;
--		break;
--	case 540:
--		ratevalue = 11;
--		break;
--	default:
--		ratevalue = 11;
--		break;
--	}
--
--set_rate:
--
--	for (i = 0; i < NumRates; i++) {
--		if (ratevalue == mpdatarate[i]) {
--			datarates[i] = mpdatarate[i];
--			if (fixed == 0)
--				break;
--		} else {
--			datarates[i] = 0xff;
--		}
--	}
--
--	return 0;
--}
--
- static int rtw_wx_get_rate(struct net_device *dev,
- 			   struct iw_request_info *info,
- 			   union iwreq_data *wrqu, char *extra)
-@@ -2715,7 +2641,6 @@ static iw_handler rtw_handlers[] = {
- 	IW_HANDLER(SIOCSIWESSID, rtw_wx_set_essid),
- 	IW_HANDLER(SIOCGIWESSID, rtw_wx_get_essid),
- 	IW_HANDLER(SIOCGIWNICKN, rtw_wx_get_nick),
--	IW_HANDLER(SIOCSIWRATE, rtw_wx_set_rate),
- 	IW_HANDLER(SIOCGIWRATE, rtw_wx_get_rate),
- 	IW_HANDLER(SIOCSIWRTS, rtw_wx_set_rts),
- 	IW_HANDLER(SIOCGIWRTS, rtw_wx_get_rts),
--- 
-2.31.1
-
+Regards,
+Axel
