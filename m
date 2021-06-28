@@ -1,111 +1,83 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B6470
-	for <linux-staging@lists.linux.dev>; Mon, 28 Jun 2021 10:43:59 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id b3so20641753wrm.6
-        for <linux-staging@lists.linux.dev>; Mon, 28 Jun 2021 03:43:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44EEA70
+	for <linux-staging@lists.linux.dev>; Mon, 28 Jun 2021 15:22:46 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id b5-20020a17090a9905b029016fc06f6c5bso236159pjp.5
+        for <linux-staging@lists.linux.dev>; Mon, 28 Jun 2021 08:22:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=kpVDqJjTsV6KUUcedf3oTLOAJmdQa+JJY9LMWukXSqo=;
-        b=yCQFimJnN5Zggw60MpdaWZIe1NTqOfLKDJEa8GPhevVcJNBL80sEFngYtEEQgsorgP
-         dn7CLw2OCHEQXXA3hKjsjHvBmCPVqWpMXRVBmuj4Yv9Kv6VOxdYnXp58mYzsVDsakQzh
-         Jm+idSCPaxSS+3hq5+SqfYL3+/ZFhTkfR3G7mcPp68QKR/6uBk3ZqiBKJ9JrUJqnMfC2
-         yL5RI4X6cGzQUH37FaVMy7TtUvw+OLMRL9nADcULkEyB7yXGMrmi8T3Lq/ZdcjoKqoMn
-         lUmp3FJX8gLogD+6vF+8i+Y+DbSFcRmGqyhhxfAPZHU6JNSS5opP/l4gi/XbwBOn+fpc
-         czWQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jmsXrQ0WMFUOjfSaSqjTHvp41i7ydFz3EWx9LYdOZfc=;
+        b=NW4/3amg0ZRvKo+SF981NcJlVQQB4mFSwlUKCPOGAySdm3uOIAEw2TL7DwScMVkC8Z
+         5+PY3Ig+6Xe8PzpyXUzklUZ/wJH05xZqE7EL/4QUq1l4bs9XtP0rVlDGD+wr1o62ENS1
+         hQOb42avrhohRh/52F47tqVZb8NmzBjd+wQZ/Ts3DAeg74kPW78E3XAiwqXhzPyhUTXy
+         +Hktnh8XvXk+xOxsvJbXtW+ir/9Kp9R0AJtu6+ZBnsRBsebswCXYLy2Cb3Djtd+km4me
+         4oVPtLRuCYEy1m5qE9CxTM5KhnH3fg459H2iQ6NWOKY7sSPwkRXvBq6cjW/8KGE12gRV
+         y1hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=kpVDqJjTsV6KUUcedf3oTLOAJmdQa+JJY9LMWukXSqo=;
-        b=rPwI8qIQxLAYvyXkqrlJpqkarmF4OAGHdMJNX0bWXO2wMdvEchgJsWVC2apbpytSR8
-         dBXj8vBHgygJstFOdENL70Da3zmbS4SQgb9NT710opXHPDHyTxNGcaACMRs5KF1PN0td
-         bWR1dhby2hZkfHNB1jUrP/xIOnSp05xSOPrs222RRqQ3XXo9IAVHmS2FhWMsnyXuBMOh
-         sx0sq17YpMY8J6HsuNbg2v1mp6hGF8U76qBsra5l3DPI4bwh2nEDbK1HRosNhFM0oc1y
-         v1q0CQN49V0aOyk5jGB7q+HzW+fcmuTLnFpphLrYE3x+bZ0GpHKKoPaBfxSlAYf1zxVH
-         FXUA==
-X-Gm-Message-State: AOAM532Af2kwP7UZSFO00nl/pG8oo7YEKosX4pybyPQHDJMBQID2uGaY
-	b2S5fDm8DUiaQSkIey2IOx1yCQ==
-X-Google-Smtp-Source: ABdhPJymb0v5YtMlhsEo3r1NYhZqP7/TUQekY00Lvp9/sGijZkZ/qQJ9s1afO+S60QIjI3ifbHYAZg==
-X-Received: by 2002:a5d:6d8b:: with SMTP id l11mr26103631wrs.21.1624877038493;
-        Mon, 28 Jun 2021 03:43:58 -0700 (PDT)
-Received: from dell ([95.144.13.187])
-        by smtp.gmail.com with ESMTPSA id b18sm17476490wrx.45.2021.06.28.03.43.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Jun 2021 03:43:58 -0700 (PDT)
-Date: Mon, 28 Jun 2021 11:43:56 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linuxarm@huawei.com, mauro.chehab@huawei.com,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH RESEND v6 6/8] mfd: hi6421-spmi-pmic: move driver from
- staging
-Message-ID: <YNmn7H2gPzthzxL2@dell>
-References: <cover.1624525118.git.mchehab+huawei@kernel.org>
- <1ad2cbbd182d18ba2cae716fb5f1497b1cabbdbe.1624525118.git.mchehab+huawei@kernel.org>
- <YNRrISOGujxcJAGR@dell>
- <20210624143605.153e1e34@coco.lan>
- <YNSRwIMr8+m9Sxk3@dell>
- <YNSV+N0h7NoRpo/w@hovoldconsulting.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jmsXrQ0WMFUOjfSaSqjTHvp41i7ydFz3EWx9LYdOZfc=;
+        b=p1y6Q+4HQKYi9+jsGBBN7Lt3F+fRDcxH8WTSQHkOgRsFHPNGzZGa7mjUgVL7I8CsnX
+         TFwwzv2akGIrAtbaIrz4o50GBr270Vyh5mAuMIp7BkBSEgKGWaXCqktpX5/arz0x6AL0
+         qccuKWnUoMgV3p5v3tw41YNqSsbWQvYMM6wme/GiMewGXDe/unUxdyFB9yiF8n9VNAjM
+         xFdQGq35hcBBXX/al4II4/K8gekk9b9chDbWL9KEygMbvZpuDhM1p5IKgjBn4ZveFYat
+         t/f4sD2CCjZ5K35YD0xDzbR5RXjqlcHBAZ21Ati365ubNVZEQOs9C+oxKuyyp+e+v/cp
+         g4iw==
+X-Gm-Message-State: AOAM533WOI3UNQ8tJ3lCimLU36t89K4ASvd37NUt6A6xF61f3ZNYpKoZ
+	tSSaGAWc6IvsUC01H5IKFsk=
+X-Google-Smtp-Source: ABdhPJy0QoJdRNi49a6OBOJ0bydiMRyzMa7tvWU0X0+DGJdOgdCdI8VkwGG5iiar16SXHxcm930YUw==
+X-Received: by 2002:a17:90a:5202:: with SMTP id v2mr22129959pjh.169.1624893765882;
+        Mon, 28 Jun 2021 08:22:45 -0700 (PDT)
+Received: from localhost ([203.205.141.39])
+        by smtp.gmail.com with ESMTPSA id h9sm15323713pgn.57.2021.06.28.08.22.45
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 28 Jun 2021 08:22:45 -0700 (PDT)
+From: Xiangyang Zhang <xyz.sun.ok@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: hdegoede@redhat.com,
+	Larry.Finger@lwfinger.net,
+	fabioaiuto83@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	xyz.sun.ok@gmail.com
+Subject: [PATCH] staging: rtl8723bs: Fix a resource leak in sd_int_dpc
+Date: Mon, 28 Jun 2021 23:22:39 +0800
+Message-Id: <20210628152239.5475-1-xyz.sun.ok@gmail.com>
+X-Mailer: git-send-email 2.19.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YNSV+N0h7NoRpo/w@hovoldconsulting.com>
 
-On Thu, 24 Jun 2021, Johan Hovold wrote:
+The "c2h_evt" variable is not freed when function call
+"c2h_evt_read_88xx" failed
 
-> On Thu, Jun 24, 2021 at 03:08:00PM +0100, Lee Jones wrote:
-> > On Thu, 24 Jun 2021, Mauro Carvalho Chehab wrote:
-> > 
-> > > Em Thu, 24 Jun 2021 12:33:28 +0100
-> > > Lee Jones <lee.jones@linaro.org> escreveu:
-> 
-> > > > > --- /dev/null
-> > > > > +++ b/drivers/mfd/hi6421-spmi-pmic.c
-> > > > > @@ -0,0 +1,316 @@
-> > > > > +// SPDX-License-Identifier: GPL-2.0
-> > > > > +/*
-> > > > > + * Device driver for regulators in HISI PMIC IC
-> > > > > + *
-> > > > > + * Copyright (c) 2013 Linaro Ltd.
-> > > > > + * Copyright (c) 2011 Hisilicon.
-> > > > > + * Copyright (c) 2020-2021 Huawei Technologies Co., Ltd  
-> > > > 
-> > > > Can this be updated?
-> > > 
-> > > Do you mean updating the copyrights to cover this year? E.g.
-> > > something like this:
-> > > 
-> > > 	 * Copyright (c) 2013-2021 Linaro Ltd.
-> > > 	 * Copyright (c) 2011-2021 Hisilicon.
-> > > 	 * Copyright (c) 2020-2021 Huawei Technologies Co., Ltd  
-> > > 
-> > > Right? Or are you meaning something else?
-> > 
-> > Yes, that's it.  I know this is just a move, but to MFD, it's new.
-> 
-> That's not how copyright works. Unless Linaro and Hisilicon made
-> nontrivial changes every year from 2011/2013 to 2021 you should not
-> change those lines like this.
+Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+Signed-off-by: Xiangyang Zhang <xyz.sun.ok@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/sdio_ops.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Thanks for the pointer.  After receiving these, I went and did some
-reading-up on the subject, and you're quite right in what you say.
-
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+index 2dd251ce177e..a545832a468e 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+@@ -909,6 +909,8 @@ void sd_int_dpc(struct adapter *adapter)
+ 				} else {
+ 					rtw_c2h_wk_cmd(adapter, (u8 *)c2h_evt);
+ 				}
++			} else {
++				kfree(c2h_evt);
+ 			}
+ 		} else {
+ 			/* Error handling for malloc fail */
 -- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+2.19.1
+
