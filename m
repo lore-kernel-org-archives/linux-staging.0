@@ -1,90 +1,126 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95FE970
-	for <linux-staging@lists.linux.dev>; Mon, 28 Jun 2021 00:15:36 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id e22so13858711pgv.10
-        for <linux-staging@lists.linux.dev>; Sun, 27 Jun 2021 17:15:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=VZuXigR7cViPxOT07DRneZhTndTX7Fj6p6fDTv4kP8Q=;
-        b=gmUtWqSmrtkcw9/cvXq/DSN5fCGFmCdhAod5dOcElRSbdTpZMZWBXSzXctMoAxfuuH
-         eFR/illJn6tVQet6en3xgmCInx33P2HgRYqQwH2DMC2egOMspMvJmRmubVUOf8e3GxQp
-         RCBr/XGQjqYwe3Ak5WFE25OuKI6/EP9CyXy2j4M5HruBS3Hc8YtxQEaj+PLty5+ynOMx
-         0vZFKQvPGsy2JG3+whUGOnYbccRx89hNxv58+NALqiJIGe5nghyupTT/wvKqtTB/DiUP
-         O/HRN3vcyjBBO8nOftKZBspNHwXsnRqx9EkF0ESpJTfW6Q1Z6uFrNYS/V/AwYUXIbhMq
-         i6MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=VZuXigR7cViPxOT07DRneZhTndTX7Fj6p6fDTv4kP8Q=;
-        b=GTjXRRrUPcXOHU82yTa0fvEEa7031obSuR6HiproosyncLWcYn9jghjDI9RD9ynvJA
-         eghyPur3c5I/Ae0Ew2Me9PUa7QtR2pbYiTt90m/p9F/REkO/1QG5p62PUVV32vj4N3k7
-         DtXOeFrxeAhMl2OasEo998jFF4REdK5oeshFVpUcyWaiwA1rmjZsXMBJEUe+GViRjQxM
-         Pgsg1RuHp7kelTffpOfuduqcumnoa03XKOnVMuzVDrLzHaIR6Cf38HtV0htHV89mZ9AE
-         gGoKV+V/NWmwNy2D2ZaUmjprzXWdyLPwc8492qyWWvd01nZtuq5CYzNAGtvwJ2NFtMKD
-         IEbg==
-X-Gm-Message-State: AOAM533UWdeHDZs3S7dbrYkfpHxyc1iHd49bY2PsbRMnneNWs/liLnVn
-	24DVdp2xmNHnvy0bj+Mamj8=
-X-Google-Smtp-Source: ABdhPJws2QhuGOY4Ocg5kOzw0hbRAPY1TXZ0N1TR1cnkc9ACDq+YGz7eOLgwaaIszXzanMiQl07HUw==
-X-Received: by 2002:a05:6a00:10cd:b029:30a:ea3a:4acf with SMTP id d13-20020a056a0010cdb029030aea3a4acfmr7760984pfu.51.1624839336176;
-        Sun, 27 Jun 2021 17:15:36 -0700 (PDT)
-Received: from localhost ([209.132.188.80])
-        by smtp.gmail.com with ESMTPSA id w20sm13813106pff.90.2021.06.27.17.15.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Jun 2021 17:15:35 -0700 (PDT)
-From: Coiby Xu <coiby.xu@gmail.com>
-X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
-Date: Mon, 28 Jun 2021 08:14:42 +0800
-To: Benjamin Poirier <benjamin.poirier@gmail.com>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>, linux-staging@lists.linux.dev,
-	netdev@vger.kernel.org, Shung-Hsi Yu <shung-hsi.yu@suse.com>,
-	Manish Chopra <manishc@marvell.com>,
-	"supporter:QLOGIC QLGE 10Gb ETHERNET DRIVER" <GR-Linux-NIC-Dev@marvell.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC 01/19] staging: qlge: fix incorrect truesize accounting
-Message-ID: <20210628001442.7fl3v6to5dzr557a@Rk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32B370
+	for <linux-staging@lists.linux.dev>; Mon, 28 Jun 2021 06:47:03 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15S6kuGT025434;
+	Mon, 28 Jun 2021 06:46:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=OhIoP0rxAMXrzDq3P2Ed2DiqX/EtAOszCegGoPD42RA=;
+ b=pd/hR+HOtX60U4zjMJggmec1ccR+4KqdU1y7dL5nJqYIfqC3YBvBA/a9raxHnqOLonHm
+ Ovn0VJF6gkhA9H8NVwo81k2PPtlytexRKamxvea3KNEma1BeVROPXIWNPDRwVxOyaLcP
+ KwQOve2hM8q7u34WSUi5LpzvUUtLq6zWYiLBRryiEQDVpVxP2MAC9LhRuc72EXxXggHh
+ ke7SaqqStsIs7BgD1uUj7aRYvl8zdt6TyiwYun3ke4xBtk5FKOA+a06rJdMCBP6KYbuI
+ oRnPstwDG1MJ9d76A0HvwBXFwpSA5Q8ZPfIqcXn+UtV+hARAkJKx7cd/S8kY64PPnyP6 UQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by mx0b-00069f02.pphosted.com with ESMTP id 39f6y3g77e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 28 Jun 2021 06:46:55 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 15S6jkot170205;
+	Mon, 28 Jun 2021 06:46:55 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3020.oracle.com with ESMTP id 39dv23563x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 28 Jun 2021 06:46:55 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 15S6ksDU173358;
+	Mon, 28 Jun 2021 06:46:54 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+	by aserp3020.oracle.com with ESMTP id 39dv23563n-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 28 Jun 2021 06:46:54 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+	by aserv0121.oracle.com (8.14.4/8.14.4) with ESMTP id 15S6krhc000999;
+	Mon, 28 Jun 2021 06:46:53 GMT
+Received: from kadam (/102.222.70.252)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Sun, 27 Jun 2021 23:46:53 -0700
+Date: Mon, 28 Jun 2021 09:46:45 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Coiby Xu <coiby.xu@gmail.com>
+Cc: linux-staging@lists.linux.dev, netdev@vger.kernel.org,
+        Benjamin Poirier <benjamin.poirier@gmail.com>,
+        Shung-Hsi Yu <shung-hsi.yu@suse.com>,
+        Manish Chopra <manishc@marvell.com>,
+        "supporter:QLOGIC QLGE 10Gb ETHERNET DRIVER" <GR-Linux-NIC-Dev@marvell.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC 16/19] staging: qlge: remove deadcode in qlge_build_rx_skb
+Message-ID: <20210628064645.GK2040@kadam>
 References: <20210621134902.83587-1-coiby.xu@gmail.com>
- <20210621134902.83587-2-coiby.xu@gmail.com>
- <20210621141027.GJ1861@kadam>
- <20210622113649.vm2hfh2veqr4dq6y@Rk>
- <YNK+s9Rm7OtL++YM@d3>
- <20210624114705.ehmzmysl3vdylg3x@Rk>
+ <20210621134902.83587-17-coiby.xu@gmail.com>
+ <20210622072939.GL1861@kadam>
+ <20210624112500.rhtqp7j3odq6b6bq@Rk>
+ <20210624124926.GI1983@kadam>
+ <20210627105349.pflw2r2b4qus64kf@Rk>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210624114705.ehmzmysl3vdylg3x@Rk>
+In-Reply-To: <20210627105349.pflw2r2b4qus64kf@Rk>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: _45IzylkndOd4vmvVv2-SalLk-aXYorF
+X-Proofpoint-ORIG-GUID: _45IzylkndOd4vmvVv2-SalLk-aXYorF
 
-On Thu, Jun 24, 2021 at 07:47:05PM +0800, Coiby Xu wrote:
->On Wed, Jun 23, 2021 at 01:55:15PM +0900, Benjamin Poirier wrote:
-[..]
->>>> Why is this an RFC instead of just a normal patch which we can apply?
->>>
->>>After doing the tests mentioned in the cover letter, I found Red Hat's
->>>network QE team has quite a rigorous test suite. But I needed to return the
->>>machine before having the time to learn about the test suite and run it by
->>>myself. So I mark it as an RFC before I borrow the machine again to run the
->>>test suite.
->>
->>Interesting. Is this test suite based on a public project?
->
->The test suite is written for Beaker [1] but it seems it's not public.
->
->[1] https://fedoraproject.org/wiki/QA/Beaker
+On Sun, Jun 27, 2021 at 06:53:49PM +0800, Coiby Xu wrote:
+> On Thu, Jun 24, 2021 at 03:49:26PM +0300, Dan Carpenter wrote:
+> > On Thu, Jun 24, 2021 at 07:25:00PM +0800, Coiby Xu wrote:
+> > > On Tue, Jun 22, 2021 at 10:29:39AM +0300, Dan Carpenter wrote:
+> > > > On Mon, Jun 21, 2021 at 09:48:59PM +0800, Coiby Xu wrote:
+> > > > > This part of code is for the case that "the headers and data are in
+> > > > > a single large buffer". However, qlge_process_mac_split_rx_intr is for
+> > > > > handling packets that packets underwent head splitting. In reality, with
+> > > > > jumbo frame enabled, the part of code couldn't be reached regardless of
+> > > > > the packet size when ping the NIC.
+> > > > >
+> > > >
+> > > > This commit message is a bit confusing.  We're just deleting the else
+> > > > statement.  Once I knew that then it was easy enough to review
+> > > > qlge_process_mac_rx_intr() and see that if if
+> > > > ib_mac_rsp->flags3 & IB_MAC_IOCB_RSP_DL is set then
+> > > > ib_mac_rsp->flags4 & IB_MAC_IOCB_RSP_HV must be set.
+> > > 
+> > > Do you suggest moving to upper if, i.e.
+> > > 
+> > >         } else if (ib_mac_rsp->flags3 & IB_MAC_IOCB_RSP_DL && ib_mac_rsp->flags4 & IB_MAC_IOCB_RSP_HS) {
+> > > 
+> > > and then deleting the else statement?
+> > > 
+> > 
+> > I have a rule that when people whinge about commit messages they should
+> > write a better one themselves, but I have violated my own rule.  Sorry.
+> > Here is my suggestion:
+> > 
+> >    If the "ib_mac_rsp->flags3 & IB_MAC_IOCB_RSP_DL" condition is true
+> >    then we know that "ib_mac_rsp->flags4 & IB_MAC_IOCB_RSP_HS" must be
+> >    true as well.  Thus, we can remove that condition and delete the
+> >    else statement which is dead code.
+> > 
+> >    (Originally this code was for the case that "the headers and data are
+> >    in a single large buffer". However, qlge_process_mac_split_rx_intr
+> >    is for handling packets that packets underwent head splitting).
+> 
+> Thanks for sharing your commit message! Now I see what you mean. But I'm
+> not sure if "ib_mac_rsp->flags4 & IB_MAC_IOCB_RSP_HS" is true when
+> "ib_mac_rsp->flags3 & IB_MAC_IOCB_RSP_DL" is true.
 
-FYI, the tier-1 tests are part of the CKI project and are public [2].
+Well... It is true.  qlge_process_mac_split_rx_intr() is only called
+when "->flags4 & IB_MAC_IOCB_RSP_HS" is true or when
+"->flags3 & IB_MAC_IOCB_RSP_DL" is false.
 
-[2] https://gitlab.com/cki-project/kernel-tests/-/tree/main/networking
+To me the fact that it's clearly dead code, helps me to verify that the
+patch doesn't change behavior.  Anyway, "this part of code" was a bit
+vague and it took me a while to figure out the patch deletes the else
+statement.
 
--- 
-Best regards,
-Coiby
+regards,
+dan carpenter
+
