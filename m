@@ -1,84 +1,124 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6AD570
-	for <linux-staging@lists.linux.dev>; Tue, 29 Jun 2021 10:23:38 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8A50861DB3;
-	Tue, 29 Jun 2021 10:23:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0AE6177
+	for <linux-staging@lists.linux.dev>; Tue, 29 Jun 2021 10:31:34 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7953261D4E;
+	Tue, 29 Jun 2021 10:31:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1624962218;
-	bh=Apt+mTUvqShoNmNq7Ll6mm1UxSNfdxh6yWN/C+poPkE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=aT7tmWnU9INfBhSd5eSAVFuD2cFlcNfA069oon6xbZUicquITLorOs2EWb8icWj14
-	 DPhzNMhkqPprl3biinG78pTkBFOCQuT6nL4C6MaDbB1Mez+KujmfM5eWTFMgcctUSZ
-	 5jeh9HjR66rp0e2Vs1O/X9ghsKFi1agRTFrW3UtiQhYB7U8QXbhc1GxzcHyw8M2bR6
-	 c837r+NSQBZAYr56+cqzf5Gwgp7esnbbwY1MKV2aqCdKQx7M4UHFXXtccJbWZ5IDds
-	 +melvIPa2dSpwuUp84vZ7wxHw0l08tlIL9o/KDSbsuwjYEgzobOXrTL8an7277kK1Z
-	 0pXKhvhNtNe7Q==
-Date: Tue, 29 Jun 2021 12:23:32 +0200
+	s=k20201202; t=1624962694;
+	bh=jKXivDk711GJY/luPmn+YiYTQh6/YAbNd2X1b6kZVVQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Tucg4Vh1knXAFd0Fi/1pOBHS2zcZLYm972pEAhHOgJUOMOVMaroQsGe86dDCZJ/Mj
+	 XA667h1MOVshuYX275n0359Sx2bOQ5DgJHcROCu2UfNo+W3mkOePedRknzLCE6psva
+	 +BUGHImUPgm2LcI5pQwPxEy8BA0bVi30iDvVbDxq8kExxvNiUpPaNHgkhk1JGRMsHF
+	 G8ZrztRlID+obtzGuf+szcIwoJpHQIYaPypQQAQSPvUn0Jd92oead524cn1thMYObC
+	 jmdqdFxzwjZvEyJvZ0r4BwR324uPmwYGGv942/ahB+6HAUFlFU9Os7UHDWGanYq9Zg
+	 nL+F2rBWMFNqg==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+	(envelope-from <mchehab@kernel.org>)
+	id 1lyB1g-00Cx7N-NP; Tue, 29 Jun 2021 12:31:32 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Axel Lin <axel.lin@ingics.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linuxarm@huawei.com,
- mauro.chehab@huawei.com, Lee Jones <lee.jones@linaro.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, LKML
- <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v9 2/5] regulator: hi6421v600-regulator: fix platform
- drvdata
-Message-ID: <20210629122332.398668b2@coco.lan>
-In-Reply-To: <CAFRkauBcXDVihxN8MHoStGHjDyx-VyOe6tT8dkY2tAisHoeE8w@mail.gmail.com>
-References: <cover.1624640087.git.mchehab+huawei@kernel.org>
-	<ef0ff659a875b91b454df12b57888f2b473877fa.1624640087.git.mchehab+huawei@kernel.org>
-	<CAFRkauBcXDVihxN8MHoStGHjDyx-VyOe6tT8dkY2tAisHoeE8w@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linuxarm@huawei.com,
+	mauro.chehab@huawei.com,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Lee Jones <lee.jones@linaro.org>,
+	Axel Lin <axel.lin@ingics.com>,
+	Derek Kiernan <derek.kiernan@xilinx.com>,
+	Dragan Cvetic <dragan.cvetic@xilinx.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v10 0/5] Move Hisilicon 6421v600 SPMI and USB drivers  out of staging
+Date: Tue, 29 Jun 2021 12:31:26 +0200
+Message-Id: <cover.1624962269.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Em Sat, 26 Jun 2021 11:41:50 +0800
-Axel Lin <axel.lin@ingics.com> escreveu:
+Hi Greg,
 
-> > @@ -231,7 +228,7 @@ static int hi6421_spmi_regulator_probe(struct platform_device *pdev)
-> >  {
-> >         struct device *pmic_dev = pdev->dev.parent;
-> >         struct regulator_config config = { };
-> > -       struct hi6421_spmi_reg_priv *priv;
-> > +       struct hi6421_spmi_reg_info *sreg;
-> >         struct hi6421_spmi_reg_info *info;
-> >         struct device *dev = &pdev->dev;
-> >         struct hi6421_spmi_pmic *pmic;
-> > @@ -247,18 +244,17 @@ static int hi6421_spmi_regulator_probe(struct platform_device *pdev)
-> >         if (WARN_ON(!pmic))
-> >                 return -ENODEV;
-> >
-> > -       priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> > -       if (!priv)
-> > +       sreg = devm_kzalloc(dev, sizeof(*sreg), GFP_KERNEL);
-> > +       if (!sreg)
-> >                 return -ENOMEM;
-> >
-> > -       mutex_init(&priv->enable_mutex);
-> > -       platform_set_drvdata(pdev, priv);
-> > +       sreg->enable_mutex = &pmic->enable_mutex;
-> >
-> >         for (i = 0; i < ARRAY_SIZE(regulator_info); i++) {
-> >                 info = &regulator_info[i];
-> >
-> >                 config.dev = pdev->dev.parent;
-> > -               config.driver_data = info;
-> > +               config.driver_data = sreg;  
-> 
-> This won't work and that was what my patch fixed.
-> e.g. When you call
-> struct hi6421_spmi_reg_info *sreg = rdev_get_drvdata(rdev);
-> sreg->eco_mode_mask and sreg->eco_uA will always be 0.
+This series contain the final bits needed for the USB3 bus to work
+without staging drivers on Hikey 970.
 
-Yeah, probably something got lost during the several rebases. 
-Anyway, I'll send in a few a new patch series addressing this issue.
+Tested on a Hikey 970:
 
-Thanks,
-Mauro
+	$ lsusb
+	Bus 002 Device 002: ID 0451:8140 Texas Instruments, Inc. TUSB8041 4-Port Hub
+	Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+	Bus 001 Device 003: ID 046d:c52b Logitech, Inc. Unifying Receiver
+	Bus 001 Device 002: ID 0451:8142 Texas Instruments, Inc. TUSB8041 4-Port Hub
+	Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+
+and checked that mouse events are working using evtest:
+
+	...
+	Input device ID: bus 0x3 vendor 0x46d product 0xc52b version 0x111
+	Input device name: "Logitech USB Receiver Mouse"
+	....
+	Testing ... (interrupt to exit)
+	Event: time 1624640001.871917, type 2 (EV_REL), code 0 (REL_X), value -4
+	Event: time 1624640001.871917, type 2 (EV_REL), code 1 (REL_Y), value -3
+	Event: time 1624640001.871917, -------------- SYN_REPORT ------------
+	Event: time 1624640001.879868, type 2 (EV_REL), code 0 (REL_X), value -5
+	Event: time 1624640001.879868, type 2 (EV_REL), code 1 (REL_Y), value -4
+	....
+
+v10:
+  - Addressed some issues pointed by Axel Lin at the regulator;
+  - Removed a now uneeded header file (hi6421-spmi-pmic.h);
+  - Addressed a couple of checkpatch warnings and did minor
+    cleanups.
+
+Mauro Carvalho Chehab (5):
+  staging: hikey9xx: split hi6421v600 irq into a separate driver
+  regulator: hi6421v600-regulator: fix platform drvdata
+  mfd: hi6421-spmi-pmic: move driver from staging
+  dts: hisilicon: add support for the PMIC found on Hikey 970
+  dts: hisilicon: add support for USB3 on Hikey 970
+
+ .../mfd/hisilicon,hi6421-spmi-pmic.yaml       | 134 ++++++++
+ MAINTAINERS                                   |   7 +
+ .../boot/dts/hisilicon/hi3670-hikey970.dts    | 129 ++++++--
+ arch/arm64/boot/dts/hisilicon/hi3670.dtsi     |  56 ++++
+ .../boot/dts/hisilicon/hikey970-pmic.dtsi     |  87 +++++
+ drivers/mfd/Kconfig                           |  16 +
+ drivers/mfd/Makefile                          |   1 +
+ drivers/mfd/hi6421-spmi-pmic.c                |  66 ++++
+ drivers/misc/Kconfig                          |  10 +
+ drivers/misc/Makefile                         |   1 +
+ drivers/misc/hi6421v600-irq.c                 | 313 ++++++++++++++++++
+ drivers/regulator/hi6421v600-regulator.c      |  49 +--
+ drivers/staging/Kconfig                       |   2 -
+ drivers/staging/Makefile                      |   1 -
+ drivers/staging/hikey9xx/Kconfig              |  19 --
+ drivers/staging/hikey9xx/Makefile             |   3 -
+ drivers/staging/hikey9xx/TODO                 |   5 -
+ drivers/staging/hikey9xx/hi6421-spmi-pmic.c   | 311 -----------------
+ .../hikey9xx/hisilicon,hi6421-spmi-pmic.yaml  | 134 --------
+ include/linux/mfd/hi6421-spmi-pmic.h          |  30 --
+ 20 files changed, 826 insertions(+), 548 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
+ create mode 100644 arch/arm64/boot/dts/hisilicon/hikey970-pmic.dtsi
+ create mode 100644 drivers/mfd/hi6421-spmi-pmic.c
+ create mode 100644 drivers/misc/hi6421v600-irq.c
+ delete mode 100644 drivers/staging/hikey9xx/Kconfig
+ delete mode 100644 drivers/staging/hikey9xx/Makefile
+ delete mode 100644 drivers/staging/hikey9xx/TODO
+ delete mode 100644 drivers/staging/hikey9xx/hi6421-spmi-pmic.c
+ delete mode 100644 drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
+ delete mode 100644 include/linux/mfd/hi6421-spmi-pmic.h
+
+-- 
+2.31.1
+
+
