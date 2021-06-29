@@ -1,82 +1,60 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from youngberry.canonical.com (youngberry.canonical.com [91.189.89.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9AFF17F
-	for <linux-staging@lists.linux.dev>; Tue, 29 Jun 2021 15:11:29 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EED1061D5E;
-	Tue, 29 Jun 2021 15:11:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1624979489;
-	bh=IA+oZ5ip9u2qXhn0bknb8s4FMiQeh1admHHae8tV4hU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Gnda8MieoA+S6RMhAezYCmSZqS7Dwga+uXQ5LFs4ZpxKANs7BzP+iMNsUIumocg3J
-	 Y/j3nBhK84TbcKeXGbH3XMwBDncOpPdxmZlrlptfoyicFjRPk86uq5Rod0V4I1azU/
-	 TUDhtIdLWulVJLJHb7wFlwi6WM9Qvn3Eei7cxw8aooPBfMuzJoahEwytVKmgEM3sYz
-	 pmMBZLdKphkfFGKUSmsl6JRVayJS5VeIJ/O9l7vZF/NR3dxkvGHLDQA4BofuhJx3HK
-	 2da7U9r/jjMRBsS9rAq3XT6brc9ux+PrqQrFwIbNA+BdbuQRbBN/FyH61r928x72PS
-	 E5JvjC6oWkjwg==
-Date: Tue, 29 Jun 2021 16:11:01 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linuxarm@huawei.com,
-	mauro.chehab@huawei.com, Axel Lin <axel.lin@ingics.com>,
-	Lee Jones <lee.jones@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
-	Liam Girdwood <lgirdwood@gmail.com>, linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2A570
+	for <linux-staging@lists.linux.dev>; Tue, 29 Jun 2021 16:52:57 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+	by youngberry.canonical.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.93)
+	(envelope-from <colin.king@canonical.com>)
+	id 1lyGim-00008b-SB; Tue, 29 Jun 2021 16:36:24 +0000
+From: Colin King <colin.king@canonical.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v10 2/5] regulator: hi6421v600-regulator: fix platform
- drvdata
-Message-ID: <20210629151101.GB4613@sirena.org.uk>
-References: <cover.1624962269.git.mchehab+huawei@kernel.org>
- <eed34e8897c79a2ab13573d3da12c86569bca0f6.1624962269.git.mchehab+huawei@kernel.org>
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: r8188eu: Fix while-loop that iterates only once
+Date: Tue, 29 Jun 2021 17:36:24 +0100
+Message-Id: <20210629163624.41543-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bCsyhTFzCvuiizWE"
-Content-Disposition: inline
-In-Reply-To: <eed34e8897c79a2ab13573d3da12c86569bca0f6.1624962269.git.mchehab+huawei@kernel.org>
-X-Cookie: Use extra care when cleaning on stairs.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
+From: Colin Ian King <colin.king@canonical.com>
 
---bCsyhTFzCvuiizWE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The while-loop only iterates once becase the post increment test of count
+being non-zero is false on the first iteration because count is zero. Fix
+this by incrementing count using pre-increment. Static analysis found the
+issue on the count > POLLING_LLT_THRESHOLD check always being false since
+the loop currently just iterates once.
 
-On Tue, Jun 29, 2021 at 12:31:28PM +0200, Mauro Carvalho Chehab wrote:
+Addresses-Coverity: ("Logically dead code")
+Fixes: 615a4d12e556 ("staging: r8188eu: Add files for new driver - part 14")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> platform drvdata can't be used inside the regulator driver,
-> as this is already used by the MFD and SPMI drivers.
+diff --git a/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
+index d1086699f952..db57f04e7e56 100644
+--- a/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
++++ b/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
+@@ -185,7 +185,7 @@ static s32 _LLTWrite(struct adapter *padapter, u32 address, u32 data)
+ 			break;
+ 		}
+ 		udelay(5);
+-	} while (count++);
++	} while (++count);
+ 
+ 	return status;
+ }
+-- 
+2.31.1
 
-Can you clarify what exactly is using which platform drvdata already?
-This all feels very confused and I can't tell what the problem that's
-being fixed is, if it's a real issue or how this fixes it.
-
->  drivers/misc/hi6421v600-irq.c               |  9 ++--
->  drivers/regulator/hi6421v600-regulator.c    | 49 +++++++++++----------
->  drivers/staging/hikey9xx/hi6421-spmi-pmic.c | 18 +++-----
->  include/linux/mfd/hi6421-spmi-pmic.h        | 25 -----------
-
-I'm especially nervous about the core driver still being in staging
-perhaps meaning there's some issue with it doing odd and confusing
-things.
-
---bCsyhTFzCvuiizWE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmDbOAQACgkQJNaLcl1U
-h9DAlwf/Xk/1GHAewsVo2OnlmvHfyZaTMpC/v9OxRXYKvzdLpnnrSfPKRPhSb8vE
-Bzx2cl0Ii8/DQFux0Mw+f3HawsIT9hD2NEM0IWwEJuvNm3c3x22fQgv2KoMaKOpx
-GCC0xOL3gM73xGAA7zcYAqcmTnLyfI/+vZzSQISJX5LX0A4nHs3yWl1Wsf/oBfaW
-ZmetZNAcqZcUFLAX51xAV4OG7XJZHH3bdjGl97rUngohEhqJaabboU6F8HTnMR4P
-tzVqDsk9TqWYOmE+xr47/hV3XDih9mrAXikqmG66e+hvLdYTXD54qHeGVVDUzzOn
-ZIELYdxaUl9DMR45NrfyqHE5Th7rlg==
-=GCra
------END PGP SIGNATURE-----
-
---bCsyhTFzCvuiizWE--
