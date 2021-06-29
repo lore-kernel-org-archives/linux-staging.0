@@ -1,116 +1,70 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC36177
-	for <linux-staging@lists.linux.dev>; Tue, 29 Jun 2021 19:32:02 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EB5F861DE7;
-	Tue, 29 Jun 2021 19:31:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1624995122;
-	bh=7qlnV8Wl2x3Qvv6mjcrc1tpRP72lSFEAs94lptLsNag=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=OtoOXB+ZI2h/+SJgHhKPPbLYyNLu+3r1mZ0jlff2s5A9AoMdTxn6fPhhWbOZ0rPp0
-	 2dKDi3WiNCr6Pe+7sD7CS+x/IKX48v4o+ceYEd9ONlxoUvyawzS5YwelmiRgqHB3y2
-	 7VQ5LrQkfVsUji2I7nDdwL0xyngSsUeAhp0DnttnMvKPo9NGGFu/zlA4g/SU5DljFV
-	 5ZYt9sz/wVIGnx6mCmlDwdJ/xso5eExSp2xc613M2T2VxEmBpOUDJlxVecHCmEsJ5g
-	 EyF3BMnAlTr9WZiUntFPqZxaDUTj9KyuxtJ5S6LigcoB1S2qCjApxGw06nK+UUZZMH
-	 E4zkSGIxq4jxg==
-Date: Tue, 29 Jun 2021 21:31:56 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linuxarm@huawei.com,
- mauro.chehab@huawei.com, Axel Lin <axel.lin@ingics.com>, Lee Jones
- <lee.jones@linaro.org>, Arnd Bergmann <arnd@arndb.de>, Liam Girdwood
- <lgirdwood@gmail.com>, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH v10 2/5] regulator: hi6421v600-regulator: fix platform
- drvdata
-Message-ID: <20210629213156.56e6f126@coco.lan>
-In-Reply-To: <20210629151101.GB4613@sirena.org.uk>
-References: <cover.1624962269.git.mchehab+huawei@kernel.org>
-	<eed34e8897c79a2ab13573d3da12c86569bca0f6.1624962269.git.mchehab+huawei@kernel.org>
-	<20210629151101.GB4613@sirena.org.uk>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 697CA168
+	for <linux-staging@lists.linux.dev>; Tue, 29 Jun 2021 21:53:24 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-49-UjAekXPIORGvJ_dp4wCcjg-1; Tue, 29 Jun 2021 22:53:20 +0100
+X-MC-Unique: UjAekXPIORGvJ_dp4wCcjg-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Tue, 29 Jun
+ 2021 22:53:20 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.018; Tue, 29 Jun 2021 22:53:20 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Colin King' <colin.king@canonical.com>, Larry Finger
+	<Larry.Finger@lwfinger.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
+CC: "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] staging: r8188eu: Fix while-loop that iterates only once
+Thread-Topic: [PATCH] staging: r8188eu: Fix while-loop that iterates only once
+Thread-Index: AQHXbQTrH/7kn7BXCUeSE4wXJHw0z6srh4rQ
+Date: Tue, 29 Jun 2021 21:53:20 +0000
+Message-ID: <ff4444d1d2204539945ded9bf06c94e6@AcuMS.aculab.com>
+References: <20210629163624.41543-1-colin.king@canonical.com>
+In-Reply-To: <20210629163624.41543-1-colin.king@canonical.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-Em Tue, 29 Jun 2021 16:11:01 +0100
-Mark Brown <broonie@kernel.org> escreveu:
+RnJvbTogQ29saW4gS2luZw0KPiBTZW50OiAyOSBKdW5lIDIwMjEgMTc6MzYNCj4gDQo+IFRoZSB3
+aGlsZS1sb29wIG9ubHkgaXRlcmF0ZXMgb25jZSBiZWNhc2UgdGhlIHBvc3QgaW5jcmVtZW50IHRl
+c3Qgb2YgY291bnQNCj4gYmVpbmcgbm9uLXplcm8gaXMgZmFsc2Ugb24gdGhlIGZpcnN0IGl0ZXJh
+dGlvbiBiZWNhdXNlIGNvdW50IGlzIHplcm8uIEZpeA0KPiB0aGlzIGJ5IGluY3JlbWVudGluZyBj
+b3VudCB1c2luZyBwcmUtaW5jcmVtZW50LiBTdGF0aWMgYW5hbHlzaXMgZm91bmQgdGhlDQo+IGlz
+c3VlIG9uIHRoZSBjb3VudCA+IFBPTExJTkdfTExUX1RIUkVTSE9MRCBjaGVjayBhbHdheXMgYmVp
+bmcgZmFsc2Ugc2luY2UNCj4gdGhlIGxvb3AgY3VycmVudGx5IGp1c3QgaXRlcmF0ZXMgb25jZS4N
+Cg0KQnV0IHRoYXQgaXMgYSB2ZXJ5IHN0cmFuZ2UgJ2xvb3AgYm90dG9tJy4NCg0KLi4uDQo+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL3N0YWdpbmcvcnRsODE4OGV1L2hhbC9ydGw4MTg4ZV9oYWxfaW5p
+dC5jDQo+IGIvZHJpdmVycy9zdGFnaW5nL3J0bDgxODhldS9oYWwvcnRsODE4OGVfaGFsX2luaXQu
+Yw0KPiBpbmRleCBkMTA4NjY5OWY5NTIuLmRiNTdmMDRlN2U1NiAxMDA2NDQNCj4gLS0tIGEvZHJp
+dmVycy9zdGFnaW5nL3J0bDgxODhldS9oYWwvcnRsODE4OGVfaGFsX2luaXQuYw0KPiArKysgYi9k
+cml2ZXJzL3N0YWdpbmcvcnRsODE4OGV1L2hhbC9ydGw4MTg4ZV9oYWxfaW5pdC5jDQo+IEBAIC0x
+ODUsNyArMTg1LDcgQEAgc3RhdGljIHMzMiBfTExUV3JpdGUoc3RydWN0IGFkYXB0ZXIgKnBhZGFw
+dGVyLCB1MzIgYWRkcmVzcywgdTMyIGRhdGEpDQo+ICAJCQlicmVhazsNCj4gIAkJfQ0KPiAgCQl1
+ZGVsYXkoNSk7DQo+IC0JfSB3aGlsZSAoY291bnQrKyk7DQo+ICsJfSB3aGlsZSAoKytjb3VudCk7
+DQoNClVubGVzcyAnY291bnQnIGlzIG5lZ2F0aXZlIHRoYXQgbWlnaHQgYXMgd2VsbCBiZSAnd2hp
+bGUgKDEpJw0Kd2l0aCBjb3VudCBpbmNyZW1lbnRlZCBlbHNld2hlcmUuDQpQZXJoYXBzIHRoZSBs
+b29wIHRvcCBzaG91bGQgYmU6DQoJZm9yIChjb3VudCA9IDA7OyBjb3VudCsrKSB7DQoNCiAgIERh
+dmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3Vu
+dCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3
+Mzg2IChXYWxlcykNCg==
 
-> On Tue, Jun 29, 2021 at 12:31:28PM +0200, Mauro Carvalho Chehab wrote:
-> 
-> > platform drvdata can't be used inside the regulator driver,
-> > as this is already used by the MFD and SPMI drivers.  
-> 
-> Can you clarify what exactly is using which platform drvdata already?
-> This all feels very confused and I can't tell what the problem that's
-> being fixed is, if it's a real issue or how this fixes it.
-
-I don't remember the dirty details anymore... It has been almost a year
-since when I started doing that. The SPMI controller driver left staging
-8 months ago.
-
-I guess it is related with passing the parent's device to
-devm_regulator_register() at the hi6421v600-regulator driver:
-
-	struct regulator_config config = { };
-...
-	config.dev = pdev->dev.parent;
-...
-	rdev = devm_regulator_register(dev, &info->desc, &config);
-
-This is needed by SPMI bus and the SPMI controller in order to use the 
-right platform data when talking to the hardware.
-
-> >  drivers/misc/hi6421v600-irq.c               |  9 ++--
-> >  drivers/regulator/hi6421v600-regulator.c    | 49 +++++++++++----------
-> >  drivers/staging/hikey9xx/hi6421-spmi-pmic.c | 18 +++-----
-> >  include/linux/mfd/hi6421-spmi-pmic.h        | 25 -----------  
-> 
-> I'm especially nervous about the core driver still being in staging
-> perhaps meaning there's some issue with it doing odd and confusing
-> things.
-
-The only missing part in staging is the MFD driver. At the current way,
-it is very simple (71 lines in total): it just declares a regmap, and has 
-a single function on it:
-
-	static int hi6421_spmi_pmic_probe(struct spmi_device *pdev)
-	{
-		struct device *dev = &pdev->dev;
-		int ret;
-		struct hi6421_spmi_pmic *ddata;
-		ddata = devm_kzalloc(dev, sizeof(*ddata), GFP_KERNEL);
-		if (!ddata)
-			return -ENOMEM;
-	
-		ddata->regmap = devm_regmap_init_spmi_ext(pdev, &regmap_config);
-		if (IS_ERR(ddata->regmap))
-			return PTR_ERR(ddata->regmap);
-	
-		ddata->dev = dev;
-	
-		dev_set_drvdata(&pdev->dev, ddata);
-
-		ret = devm_mfd_add_devices(&pdev->dev, PLATFORM_DEVID_NONE,
-					   hi6421v600_devs, ARRAY_SIZE(hi6421v600_devs),
-					   NULL, 0, NULL);
-		if (ret < 0)
-			dev_err(dev, "Failed to add child devices: %d\n", ret);
-
-		return ret;
-	}
-
-You can see the full driver's code at:
-	https://lore.kernel.org/lkml/8d871e2ccc544d11959c16d8312dbf03dd01b1c8.1624962269.git.mchehab+huawei@kernel.org/#Z30drivers:mfd:hi6421-spmi-pmic.c
-
-I'm not aware of anything left preventing it to leave staging.
-
-Thanks,
-Mauro
