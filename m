@@ -1,19 +1,19 @@
 Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BDA5168
-	for <linux-staging@lists.linux.dev>; Tue, 29 Jun 2021 14:03:23 +0000 (UTC)
-Date: Tue, 29 Jun 2021 14:02:52 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 951F0168
+	for <linux-staging@lists.linux.dev>; Tue, 29 Jun 2021 14:04:54 +0000 (UTC)
+Date: Tue, 29 Jun 2021 14:04:38 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail3; t=1624975387;
+	s=protonmail3; t=1624975484;
 	bh=dhxJvVB5vGNzlqPV/Vc3Rg4M/zVZQZH9g1DDMaRrUrA=;
 	h=Date:To:From:Cc:Reply-To:Subject:From;
-	b=KSVz05mJvt0ba3Z0Sx3q3DIsp4kxnQPzoEMk+PV3n2oEog69PWwryma+ECfzD5aNE
-	 4VxxGpMeGoIgdi8+qUrBRPOQovl2APsizUywx+mIjEycsyKx4FY8zUawO21evHk77X
-	 3fw7eCmyaln4Tuba1vqExm4aXsGE+E1h2//p/YCyku6MfuK2f9+HuYyEfF8tswUZkb
-	 gt86GjccCN9JCT7+TP38ZVN9K2TjPi9P8u5XBVJP+Zh3cezMy5Z+SGSM39POGXlmEy
-	 hIVziKAQZKmDJlyiFCltdMkt+0H2E6FyFctZEnCuU5cvNKgww0UlMNDgpwPCbn9AAe
-	 YdQwqK+oOt4AA==
+	b=XlecZXxI6Xfp+NGBpyfOcyE8lxYK3caHy5ZTXxrL0ZhsnJpmBb4JGOmP/laKSzayw
+	 1yZ2+W1n6SA5scwQPvUzMI1e5m/mShEOUCH18JUYaHh7FUmOMrYnQsjc3HugiJohUS
+	 a8u7tFPZDRCzbXf5OldIMaGdSWcFF0D+CgeF4awELG0C8KWj3A8p5f/qCfIxWFQ3TA
+	 xzCrRIIa0iPx0ldIFrghx64F8MscvcSAhh3Of+5U0JcQj6QOckQ7ubi/gPBfRh6gxs
+	 8B9IurABu/mQ9oUcyugWJlASsoELeDM8CjcW4gF0Fpq7YBr4Z3cE4C+D/AJcdVX8jt
+	 OId6IAe+6YRJw==
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 From: Bryan Brattlof <hello@bryanbrattlof.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Bryan Brattlof <hello@bryanbrattlof.com>
@@ -33,6 +33,7 @@ X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
 	autolearn=disabled version=3.4.4
 X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
 	mailout.protonmail.ch
+Message-ID: <20210629140438.dLqn7GMQTKCi3HI4KNsPsKHaCC8a9EVcqa3RB0vwrRs@z>
 
 The rtw_cpu_to_leXX() and rtw_leXX_to_cpu() family of macros are
 unnecessary and should be removed.
