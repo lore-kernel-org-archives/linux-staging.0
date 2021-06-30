@@ -1,35 +1,35 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78D770
-	for <linux-staging@lists.linux.dev>; Wed, 30 Jun 2021 08:20:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C0F3561D06;
-	Wed, 30 Jun 2021 08:20:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B48670
+	for <linux-staging@lists.linux.dev>; Wed, 30 Jun 2021 08:28:42 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7C58C61D05;
+	Wed, 30 Jun 2021 08:28:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1625041255;
-	bh=H9uTwHJ4d8IL5zLhXZmwPHfHssJs2iDctqoSB22iCS4=;
+	s=k20201202; t=1625041721;
+	bh=l0wHCFLyYbPFPL22qPyyESrGKo/qF7An+trFHeA935w=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Wdt59lfeUE3bXU9pUOzNA9RO7jirkjNXNelTbKgWVK2ZtC6m8ZWU5tF83064ufI8b
-	 0hf14128Lsg2N9E42rWdaXCSgHmaTqwaB8ErasF8LpQBi5rds/ne9hm6TaUNTKIZDa
-	 6GpnrBaEAEM1gooAvR2hnYFOEP/FFO+LltmqU4vRgimpK03Evy74HmQwaNJz4wJDJ3
-	 3Ym+yzd0+g6J3eZpbxdimAoOdAUTg5rq41T6vWbkbNMVZ7i/kFH/TrivMTNyeq+gzW
-	 THKT9P+eQmVLL8g5K9CIS8werBOvclemRFuygsUrOAyraI1bGpvnrU/kARsotKvMMC
-	 2nTK8BHFfua2w==
-Date: Wed, 30 Jun 2021 10:20:49 +0200
+	b=Srg3CaWAzV75696uAtf4yD0OjoO3SwimDBmuVpmyrS+jv89IAoJrNo4sF9G4QCV6I
+	 fQRvaVWy9XLx6d1S/xVtRumIg02GT+4DMyr80ajVnhd4wUsKhX/aRIX1qAQrcQe060
+	 l4SCWxWZadn8Ry1maZdAHeIFT3b9421do7DVLfkuoR7hdCL6FVK7n2y/Qj++gP04z9
+	 aL7+gFOmKSdbI3Y1Hiqjdsq1ziQdOznPzEl5Z5pyjEy1+upDBrVRBbCq8o6YUKnC2H
+	 lWF1uKienS0VpMdJgRGmkUTUU2wBJZ+721L6aoG8SDx8l/h7nhfM4fLfbJdV4z0CVz
+	 bC/SWOoc9LqrA==
+Date: Wed, 30 Jun 2021 10:28:35 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linuxarm@huawei.com,
- mauro.chehab@huawei.com, Axel Lin <axel.lin@ingics.com>, Lee Jones
- <lee.jones@linaro.org>, Arnd Bergmann <arnd@arndb.de>, Liam Girdwood
- <lgirdwood@gmail.com>, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH v10 2/5] regulator: hi6421v600-regulator: fix platform
- drvdata
-Message-ID: <20210630102049.4446b48f@coco.lan>
-In-Reply-To: <20210629151101.GB4613@sirena.org.uk>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linuxarm@huawei.com, mauro.chehab@huawei.com, Lee Jones
+ <lee.jones@linaro.org>, Axel Lin <axel.lin@ingics.com>, Derek Kiernan
+ <derek.kiernan@xilinx.com>, Dragan Cvetic <dragan.cvetic@xilinx.com>, Rob
+ Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v10 0/5] Move Hisilicon 6421v600 SPMI and USB drivers
+ out of staging
+Message-ID: <20210630102835.35a4f334@coco.lan>
+In-Reply-To: <YNr5Y5mDjX5pHfFO@kroah.com>
 References: <cover.1624962269.git.mchehab+huawei@kernel.org>
-	<eed34e8897c79a2ab13573d3da12c86569bca0f6.1624962269.git.mchehab+huawei@kernel.org>
-	<20210629151101.GB4613@sirena.org.uk>
+	<YNr5Y5mDjX5pHfFO@kroah.com>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -40,42 +40,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Tue, 29 Jun 2021 16:11:01 +0100
-Mark Brown <broonie@kernel.org> escreveu:
+Em Tue, 29 Jun 2021 12:43:47 +0200
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
 
-> On Tue, Jun 29, 2021 at 12:31:28PM +0200, Mauro Carvalho Chehab wrote:
+> On Tue, Jun 29, 2021 at 12:31:26PM +0200, Mauro Carvalho Chehab wrote:
+> > Hi Greg,
+> > 
+> > This series contain the final bits needed for the USB3 bus to work
+> > without staging drivers on Hikey 970.  
 > 
-> > platform drvdata can't be used inside the regulator driver,
-> > as this is already used by the MFD and SPMI drivers.  
-> 
-> Can you clarify what exactly is using which platform drvdata already?
-> This all feels very confused and I can't tell what the problem that's
-> being fixed is, if it's a real issue or how this fixes it.
+> Thanks for these, I'll look at them after 5.14-rc1 is out.
 
-It turns that the problem was not related to any bad usage of
-platform data by MFD/SPMI drivers. There used to have a need to access
-the SPMI privdata before we added support for regmap, but this is
-long gone.
+Thanks!
 
-The problem is just that the Axel's patch was setting the platform
-drvdata, but the internal logic was addressing a different memory
-region (from the SPMI driver), because hi6421v600-regulator driver sets
-the config.dev as:
+I'll submit a v11 soon enough.
 
-	config.dev = pdev->dev.parent;
+We're opting to solve a regression at the regulator driver using a 
+different approach than on v10. 
 
-The config.dev needs to point to the SPMI driver, in order to ensure that 
-regulator_register() will access the proper OF data from the SPMI
-devicetree descriptors here:
+We need to sync with Mark if the fixup patch from Axel [1] will be 
+merged via the regulator's tree or together with this series, as there 
+will be one (trivial) conflict, as one of the patches in this series
+drop a priv struct, defined on a header that will also be dropped,
+replacing it by struct regmap.
 
-	init_data = regulator_of_get_init_data(dev, regulator_desc, config,
-					       &rdev->dev.of_node);
-
-With the Axel's fixup patch:
-
-	https://lore.kernel.org/lkml/20210630100911.5e866629@coco.lan/T/#t
-
-the regression was solved.
+[1] https://lore.kernel.org/lkml/20210630100911.5e866629@coco.lan/T/#m598ee2e31ecdf560c3b752fd8b0518131f4bf123
 
 Thanks,
 Mauro
