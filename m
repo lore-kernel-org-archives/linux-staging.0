@@ -1,81 +1,81 @@
-Received: from youngberry.canonical.com (youngberry.canonical.com [91.189.89.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8929670
-	for <linux-staging@lists.linux.dev>; Wed, 30 Jun 2021 06:56:50 +0000 (UTC)
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
-	by youngberry.canonical.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.93)
-	(envelope-from <colin.king@canonical.com>)
-	id 1lyU9P-0000bI-7v; Wed, 30 Jun 2021 06:56:47 +0000
-From: Colin King <colin.king@canonical.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	David Laight <David.Laight@ACULAB.COM>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next][V2] staging: r8188eu: Fix while-loop that iterates only once
-Date: Wed, 30 Jun 2021 07:56:47 +0100
-Message-Id: <20210630065647.5641-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.31.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78D770
+	for <linux-staging@lists.linux.dev>; Wed, 30 Jun 2021 08:20:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C0F3561D06;
+	Wed, 30 Jun 2021 08:20:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1625041255;
+	bh=H9uTwHJ4d8IL5zLhXZmwPHfHssJs2iDctqoSB22iCS4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Wdt59lfeUE3bXU9pUOzNA9RO7jirkjNXNelTbKgWVK2ZtC6m8ZWU5tF83064ufI8b
+	 0hf14128Lsg2N9E42rWdaXCSgHmaTqwaB8ErasF8LpQBi5rds/ne9hm6TaUNTKIZDa
+	 6GpnrBaEAEM1gooAvR2hnYFOEP/FFO+LltmqU4vRgimpK03Evy74HmQwaNJz4wJDJ3
+	 3Ym+yzd0+g6J3eZpbxdimAoOdAUTg5rq41T6vWbkbNMVZ7i/kFH/TrivMTNyeq+gzW
+	 THKT9P+eQmVLL8g5K9CIS8werBOvclemRFuygsUrOAyraI1bGpvnrU/kARsotKvMMC
+	 2nTK8BHFfua2w==
+Date: Wed, 30 Jun 2021 10:20:49 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linuxarm@huawei.com,
+ mauro.chehab@huawei.com, Axel Lin <axel.lin@ingics.com>, Lee Jones
+ <lee.jones@linaro.org>, Arnd Bergmann <arnd@arndb.de>, Liam Girdwood
+ <lgirdwood@gmail.com>, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Subject: Re: [PATCH v10 2/5] regulator: hi6421v600-regulator: fix platform
+ drvdata
+Message-ID: <20210630102049.4446b48f@coco.lan>
+In-Reply-To: <20210629151101.GB4613@sirena.org.uk>
+References: <cover.1624962269.git.mchehab+huawei@kernel.org>
+	<eed34e8897c79a2ab13573d3da12c86569bca0f6.1624962269.git.mchehab+huawei@kernel.org>
+	<20210629151101.GB4613@sirena.org.uk>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Colin Ian King <colin.king@canonical.com>
+Em Tue, 29 Jun 2021 16:11:01 +0100
+Mark Brown <broonie@kernel.org> escreveu:
 
-The while-loop only iterates once becase the post increment test of count
-being non-zero is false on the first iteration because count is zero. Fix
-this by using a for-loop instead. Static analysis found the issue on the
-count > POLLING_LLT_THRESHOLD check always being false since the loop
-currently just iterates once.
+> On Tue, Jun 29, 2021 at 12:31:28PM +0200, Mauro Carvalho Chehab wrote:
+> 
+> > platform drvdata can't be used inside the regulator driver,
+> > as this is already used by the MFD and SPMI drivers.  
+> 
+> Can you clarify what exactly is using which platform drvdata already?
+> This all feels very confused and I can't tell what the problem that's
+> being fixed is, if it's a real issue or how this fixes it.
 
-Thanks to David Laight for suggesting using for-loop instead to improve
-the readability of the fix.
+It turns that the problem was not related to any bad usage of
+platform data by MFD/SPMI drivers. There used to have a need to access
+the SPMI privdata before we added support for regmap, but this is
+long gone.
 
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
-V2: use for-loop instead of change count increment to pre-increment.
----
- drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+The problem is just that the Axel's patch was setting the platform
+drvdata, but the internal logic was addressing a different memory
+region (from the SPMI driver), because hi6421v600-regulator driver sets
+the config.dev as:
 
-diff --git a/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
-index d1086699f952..1c6365832247 100644
---- a/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
-+++ b/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
-@@ -168,14 +168,14 @@ void rtw_hal_notch_filter(struct adapter *adapter, bool enable)
- static s32 _LLTWrite(struct adapter *padapter, u32 address, u32 data)
- {
- 	s32	status = _SUCCESS;
--	s32	count = 0;
-+	s32	count;
- 	u32	value = _LLT_INIT_ADDR(address) | _LLT_INIT_DATA(data) | _LLT_OP(_LLT_WRITE_ACCESS);
- 	u16	LLTReg = REG_LLT_INIT;
- 
- 	usb_write32(padapter, LLTReg, value);
- 
- 	/* polling */
--	do {
-+	for (count = 0; ; count++) {
- 		value = usb_read32(padapter, LLTReg);
- 		if (_LLT_OP_VALUE(value) == _LLT_NO_ACTIVE)
- 			break;
-@@ -185,7 +185,7 @@ static s32 _LLTWrite(struct adapter *padapter, u32 address, u32 data)
- 			break;
- 		}
- 		udelay(5);
--	} while (count++);
-+	}
- 
- 	return status;
- }
--- 
-2.31.1
+	config.dev = pdev->dev.parent;
 
+The config.dev needs to point to the SPMI driver, in order to ensure that 
+regulator_register() will access the proper OF data from the SPMI
+devicetree descriptors here:
+
+	init_data = regulator_of_get_init_data(dev, regulator_desc, config,
+					       &rdev->dev.of_node);
+
+With the Axel's fixup patch:
+
+	https://lore.kernel.org/lkml/20210630100911.5e866629@coco.lan/T/#t
+
+the regression was solved.
+
+Thanks,
+Mauro
