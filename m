@@ -1,75 +1,81 @@
 Received: from youngberry.canonical.com (youngberry.canonical.com [91.189.89.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56ECA70
-	for <linux-staging@lists.linux.dev>; Wed, 30 Jun 2021 06:44:50 +0000 (UTC)
-Received: from 1.general.cking.uk.vpn ([10.172.193.212])
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8929670
+	for <linux-staging@lists.linux.dev>; Wed, 30 Jun 2021 06:56:50 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
 	by youngberry.canonical.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
 	(Exim 4.93)
 	(envelope-from <colin.king@canonical.com>)
-	id 1lyTxn-0008Dq-U5; Wed, 30 Jun 2021 06:44:47 +0000
-Subject: Re: [PATCH] staging: r8188eu: Fix while-loop that iterates only once
-To: David Laight <David.Laight@ACULAB.COM>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
-Cc: "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20210629163624.41543-1-colin.king@canonical.com>
- <ff4444d1d2204539945ded9bf06c94e6@AcuMS.aculab.com>
-From: Colin Ian King <colin.king@canonical.com>
-Message-ID: <b989a309-b706-2197-f0f7-51e838f4fcdf@canonical.com>
-Date: Wed, 30 Jun 2021 07:44:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+	id 1lyU9P-0000bI-7v; Wed, 30 Jun 2021 06:56:47 +0000
+From: Colin King <colin.king@canonical.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	David Laight <David.Laight@ACULAB.COM>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next][V2] staging: r8188eu: Fix while-loop that iterates only once
+Date: Wed, 30 Jun 2021 07:56:47 +0100
+Message-Id: <20210630065647.5641-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <ff4444d1d2204539945ded9bf06c94e6@AcuMS.aculab.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On 29/06/2021 22:53, David Laight wrote:
-> From: Colin King
->> Sent: 29 June 2021 17:36
->>
->> The while-loop only iterates once becase the post increment test of count
->> being non-zero is false on the first iteration because count is zero. Fix
->> this by incrementing count using pre-increment. Static analysis found the
->> issue on the count > POLLING_LLT_THRESHOLD check always being false since
->> the loop currently just iterates once.
-> 
-> But that is a very strange 'loop bottom'.
-> 
-> ...
->> diff --git a/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
->> b/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
->> index d1086699f952..db57f04e7e56 100644
->> --- a/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
->> +++ b/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
->> @@ -185,7 +185,7 @@ static s32 _LLTWrite(struct adapter *padapter, u32 address, u32 data)
->>  			break;
->>  		}
->>  		udelay(5);
->> -	} while (count++);
->> +	} while (++count);
-> 
-> Unless 'count' is negative that might as well be 'while (1)'
-> with count incremented elsewhere.
-> Perhaps the loop top should be:
-> 	for (count = 0;; count++) {
+From: Colin Ian King <colin.king@canonical.com>
 
-I'll rework it, thanks for the input.
+The while-loop only iterates once becase the post increment test of count
+being non-zero is false on the first iteration because count is zero. Fix
+this by using a for-loop instead. Static analysis found the issue on the
+count > POLLING_LLT_THRESHOLD check always being false since the loop
+currently just iterates once.
 
-> 
->    David
-> 
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
-> 
+Thanks to David Laight for suggesting using for-loop instead to improve
+the readability of the fix.
+
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+V2: use for-loop instead of change count increment to pre-increment.
+---
+ drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
+index d1086699f952..1c6365832247 100644
+--- a/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
++++ b/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
+@@ -168,14 +168,14 @@ void rtw_hal_notch_filter(struct adapter *adapter, bool enable)
+ static s32 _LLTWrite(struct adapter *padapter, u32 address, u32 data)
+ {
+ 	s32	status = _SUCCESS;
+-	s32	count = 0;
++	s32	count;
+ 	u32	value = _LLT_INIT_ADDR(address) | _LLT_INIT_DATA(data) | _LLT_OP(_LLT_WRITE_ACCESS);
+ 	u16	LLTReg = REG_LLT_INIT;
+ 
+ 	usb_write32(padapter, LLTReg, value);
+ 
+ 	/* polling */
+-	do {
++	for (count = 0; ; count++) {
+ 		value = usb_read32(padapter, LLTReg);
+ 		if (_LLT_OP_VALUE(value) == _LLT_NO_ACTIVE)
+ 			break;
+@@ -185,7 +185,7 @@ static s32 _LLTWrite(struct adapter *padapter, u32 address, u32 data)
+ 			break;
+ 		}
+ 		udelay(5);
+-	} while (count++);
++	}
+ 
+ 	return status;
+ }
+-- 
+2.31.1
 
