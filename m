@@ -1,75 +1,96 @@
-Received: from smtprelay.hostedemail.com (smtprelay0068.hostedemail.com [216.40.44.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F08170
-	for <linux-staging@lists.linux.dev>; Thu,  1 Jul 2021 04:35:36 +0000 (UTC)
-Received: from omf19.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-	by smtprelay07.hostedemail.com (Postfix) with ESMTP id 5B578181EE40C;
-	Thu,  1 Jul 2021 04:35:35 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf19.hostedemail.com (Postfix) with ESMTPA id D603320D770;
-	Thu,  1 Jul 2021 04:35:33 +0000 (UTC)
-Message-ID: <fe4a647d5324e9d8d23564f6d685f3ca720db166.camel@perches.com>
-Subject: Re: [RFC 13/19] staging: qlge: rewrite do while loop as for loop in
- qlge_sem_spinlock
-From: Joe Perches <joe@perches.com>
-To: Coiby Xu <coiby.xu@gmail.com>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>, linux-staging@lists.linux.dev,
-  netdev@vger.kernel.org, Benjamin Poirier <benjamin.poirier@gmail.com>, 
- Shung-Hsi Yu <shung-hsi.yu@suse.com>, Manish Chopra <manishc@marvell.com>,
- "supporter:QLOGIC QLGE 10Gb ETHERNET DRIVER"
- <GR-Linux-NIC-Dev@marvell.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, open list <linux-kernel@vger.kernel.org>
-Date: Wed, 30 Jun 2021 21:35:31 -0700
-In-Reply-To: <20210630233338.2l34shhrm3bdd4gx@Rk>
-References: <20210621134902.83587-1-coiby.xu@gmail.com>
-	 <20210621134902.83587-14-coiby.xu@gmail.com> <20210622072036.GK1861@kadam>
-	 <20210624112245.zgvkcxyu7hzrzc23@Rk>
-	 <f7beb9aee00a1cdb8dd97a49a36abd60d58279f2.camel@perches.com>
-	 <20210630233338.2l34shhrm3bdd4gx@Rk>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.0-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E92172
+	for <linux-staging@lists.linux.dev>; Thu,  1 Jul 2021 09:45:05 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id u13so10779856lfk.2
+        for <linux-staging@lists.linux.dev>; Thu, 01 Jul 2021 02:45:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=EteEmF3Lp/VaCzgm6zJMhc5umO2ASKXQnNmmMqr1tyY=;
+        b=n27K8xSc5i9k4pRnthrnVcOCeJ7Nl2hOJLEBy4pNnYc/TBewzXbVZfhTzlnkCiSZkH
+         +p1Ml12cArHwaAQuucyF4Y7bsC9WQLu3qOFSN5G8liifR9f/TYUXxg8Zr9qwoW21817z
+         Ljigm3UGNACmRDtyQJ+XcTFhI423ymHuXLbP7HECNQFoy7CaNNRBzmQyCvjEfpgToYyj
+         okdbdH9iH20L5JXc+M0diFvNYFBft9LDb1decwb2boaSbwXKriengXBtHtyruoR7vpHQ
+         dkAI1A67aUvw+wzWs7fllAZ6Zd/rVs2+9pGhOTttsJCzoF2q7idqNXde1mPxDGQ1sBJ0
+         kFEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=EteEmF3Lp/VaCzgm6zJMhc5umO2ASKXQnNmmMqr1tyY=;
+        b=dkB6sXTCgb7k3QO+nCCG60IUUjQ53ETOllK8Ts8PplIHmsEP66YDWUy24K0LpmIpvf
+         DTXfe0t1CCHhbaayN4vwFg+a+PB4zGUj+L7tfCLYP4BbsDyp6AUseV8ZkLyDOIoe7M4S
+         NovKeKAEM98gdnk9NCVKvDFAn0mkDdjSkoNSZsh/tH5T2Gs/nRXDwFhx4abDXreUVQSg
+         gxyxhASNisQf53OBLw8QZiwNn2fz973bMrzFBelI9EsaDQWLrYEs8r1BTPKlBWj0JBf7
+         OcIpOmPVlCA2GBfcdt12ae53lFZr8bqgp2IHjz8LERheKd38+p45APNQ+F71k5cFpI+Y
+         9PBQ==
+X-Gm-Message-State: AOAM532q6tM4LMPDijgkzDuwRvmHlwx2mQgOJguQCl+bj7ErUQs562uh
+	kDSkmhZ9c2tunpEeIKeLw4vaUodinqM=
+X-Google-Smtp-Source: ABdhPJy1ZxB6OSrNUo8EIlwIhP2R2Oh066AMEgk+CCD2AjW50J2Uohgej+UhDxh5J4YfsYDMcgb8FA==
+X-Received: by 2002:a5d:6841:: with SMTP id o1mr14964784wrw.370.1625132356515;
+        Thu, 01 Jul 2021 02:39:16 -0700 (PDT)
+Received: from felia.fritz.box ([2001:16b8:2de7:3e00:21:6759:f8f2:826e])
+        by smtp.gmail.com with ESMTPSA id k6sm22370164wms.8.2021.07.01.02.39.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Jul 2021 02:39:15 -0700 (PDT)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linuxarm@huawei.com,
+	mauro.chehab@huawei.com,
+	linux-phy@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
+	kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] MAINTAINERS: repair reference in USB IP DRIVER FOR HISILICON KIRIN 970
+Date: Thu,  1 Jul 2021 11:39:03 +0200
+Message-Id: <20210701093903.28733-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.37
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: D603320D770
-X-Stat-Signature: 7rmdc1nrquttg9xgaoqxcsmo73w5qmoc
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19n/GBQXP7gIkMOXhN3RXKOLxsT9DwiqiU=
-X-HE-Tag: 1625114133-240606
 
-On Thu, 2021-07-01 at 07:33 +0800, Coiby Xu wrote:
-> On Wed, Jun 30, 2021 at 03:58:06AM -0700, Joe Perches wrote:
-> > On Thu, 2021-06-24 at 19:22 +0800, Coiby Xu wrote:
-> > > On Tue, Jun 22, 2021 at 10:20:36AM +0300, Dan Carpenter wrote:
-> > > > On Mon, Jun 21, 2021 at 09:48:56PM +0800, Coiby Xu wrote:
-> > > > > Since wait_count=30 > 0, the for loop is equivalent to do while
-> > > > > loop. This commit also replaces 100 with UDELAY_DELAY.
-> > []
-> > > > > diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
-> > []
-> > I also think using UDELAY_DELAY is silly and essentially misleading
-> > as it's also used as an argument value for mdelay
-> > 
-> > $ git grep -w UDELAY_DELAY
-> > drivers/staging/qlge/qlge.h:#define UDELAY_DELAY 100
-> > drivers/staging/qlge/qlge_main.c:               udelay(UDELAY_DELAY);
-> > drivers/staging/qlge/qlge_main.c:               udelay(UDELAY_DELAY);
-> > drivers/staging/qlge/qlge_mpi.c:                mdelay(UDELAY_DELAY);
-> > drivers/staging/qlge/qlge_mpi.c:                mdelay(UDELAY_DELAY);
-> > drivers/staging/qlge/qlge_mpi.c:                mdelay(UDELAY_DELAY); /* 100ms */
-> 
-> Thanks for spotting this issue! How about "#define MDELAY_DELAY 100" for
-> mdelay?
+Commit 8de6b7edd493 ("phy: phy-hi3670-usb3: move driver from staging into
+phy") moves phy-hi3670-usb3.c from ./drivers/staging/hikey9xx/ to
+./drivers/phy/hisilicon/, but the new file entry in MAINTAINERS refers to
+./drivers/phy/hisilicon/phy-kirin970-usb3.c.
 
-I think the define is pointless and it'd be more readable
-to just use 100 in all the cases.
+Hence, ./scripts/get_maintainer.pl --self-test=patterns complains:
 
-IMO: There really aren't enough cases to justify using defines.
+  warning: no file matches  F:  drivers/phy/hisilicon/phy-kirin970-usb3.c
 
+Repair the file entry by referring to the right location.
+
+Fixes: 8de6b7edd493 ("phy: phy-hi3670-usb3: move driver from staging into phy")
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+applies cleanly on next-20210701
+
+Mauro, please ack.
+Greg, please pick this non-urgent minor fix on top of commit 8de6b7edd493
+
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 66d047dc6880..a4e0c20b416a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -19153,7 +19153,7 @@ M:	Mauro Carvalho Chehab <mchehab@kernel.org>
+ L:	linux-usb@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/phy/hisilicon,hi3670-usb3.yaml
+-F:	drivers/phy/hisilicon/phy-kirin970-usb3.c
++F:	drivers/phy/hisilicon/phy-hi3670-usb3.c
+ 
+ USB ISP116X DRIVER
+ M:	Olav Kongas <ok@artecdesign.ee>
+-- 
+2.17.1
 
