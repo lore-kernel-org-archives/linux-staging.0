@@ -1,92 +1,158 @@
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF7D29D6
-	for <linux-staging@lists.linux.dev>; Thu,  1 Jul 2021 14:03:11 +0000 (UTC)
-Received: by mail-il1-f171.google.com with SMTP id 3so6484591ilj.3
-        for <linux-staging@lists.linux.dev>; Thu, 01 Jul 2021 07:03:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCAFE72
+	for <linux-staging@lists.linux.dev>; Thu,  1 Jul 2021 14:47:13 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id j2so8558243wrs.12
+        for <linux-staging@lists.linux.dev>; Thu, 01 Jul 2021 07:47:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2SY0TCyX0d4BuF/HPv+siMhswvjAmIedZMktaAD9ovU=;
+        b=u2Xernl74Yji61o8FpP1QFlZJ3MDeUgpGyYjHnFF6lX4yEuqCtkn1J/WZjBTUphlgg
+         bYww79V5TefMavQ01JP5Td4vycf/QBjlmelOHA+pXAfZq5S7TRW68Lu5Xni6PL44cpmy
+         quMQGZTnYYuPthHONXRsmEswsoSpgXV73f+jWPToiAM4iggxNVfTAWVpUkqcjIac62Ve
+         lN/KG6keQ/J7RieQTNmLTp2tgl6xM/XNIrnT1wPAoMMoKkRR0Bk2my7JXqWSymFOExWE
+         Nd6DjQ+s5hcmB8AjTgJMeBDQr632N8tRYRXC1jYZUidOSu0ROzNm6xEepoGgo8hl6thg
+         eZ1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=VRXNiq96Mf6FxPX7Y/PomxvV3ZtFTsWrlFbJZRhnpHI=;
-        b=K27vTgPE9ZPqCxNeiQ7xwAfhId05zjttuXaNYrIM1n0OSdeFs4Qt5iLNUCUJ/X/mlt
-         Gg9oNxOHPLIpu+UDJk6xOnLFWIpJsEeWQiCECy6kVG64ItFcb44gifY20TF4E+oxoHu6
-         93htaJVC85MPUG2torLA+w0I0AQpynGFjQNIjj+jsrOeBaW1SidcDUOZ2p2zZhc/h5XH
-         ljNamH05jzBy/0XnP9Rrd00lqiV9tczAeMywb0d1iEVB0VC1zKZjVkM+xCd/GVCmaMjS
-         MiNz/UWmGIwLbKTswGUk1/2SCgkoX+ZGm4MSx3sNvodT+6QDgZZwkfv3AvSVakPy84Wy
-         lPrg==
-X-Gm-Message-State: AOAM533Rhz7yU0ltOK+etMKBN7HkkYtQI1nG6P3KYHYJ/X7WAEBCUQ+V
-	0sjOw40U6jqDwvVQDIaUJw==
-X-Google-Smtp-Source: ABdhPJz11CrcTuArbwbsEd4i11UQNsajjU7M6YpaEEnrcFZED9/0iLNTEA/vVLbN74nS/cq2HnUyOA==
-X-Received: by 2002:a92:6705:: with SMTP id b5mr29248288ilc.55.1625148190925;
-        Thu, 01 Jul 2021 07:03:10 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id a10sm10052933ioo.9.2021.07.01.07.03.08
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2SY0TCyX0d4BuF/HPv+siMhswvjAmIedZMktaAD9ovU=;
+        b=JXUxoM+ne5flm2w393LgOL/swR0hjQ1a2zcg2aVjgW7AOtbgBRTYbTWTdGAhk42BRA
+         nj5D7KxGVEpVSNTvSaPT3GRk7DEaHvKAAlyuwUABPiIznss0RJq3IGe7oLMKbk3qLqqE
+         Az1MKEZ8DjUiAGkKiRlLnxB/GgGb3ADDbtlhUHDu2WKcEJpa29XgBdyrvRRmbWLamgSZ
+         x0TfmCpdBDBzkYQvSRJKqdaRMRc7aLpK6i5TPNa6H1SpWK/PKaVvj8LpECeI/r1+95co
+         3J5ZVLe7RGfnXpHBu2HMbiPm/0lAONq0Fw3MrNP4fUPzRSR0rZoqvpIVuaOK2xPAxgN/
+         BXOg==
+X-Gm-Message-State: AOAM531TMu2LamnX8iJSpf9QUgBvo28NHS9lVeT3rliHgi+1K8IgHywZ
+	siULAWH7lG3efvoAwMUNyvA=
+X-Google-Smtp-Source: ABdhPJwGbi8LLGy8LLTlbNJxGlQ3lktPv9icFHs9LJ4Kjya9Z5ESb+kfsvfPba1fbGy1DShHuOJP0w==
+X-Received: by 2002:a5d:4983:: with SMTP id r3mr26391wrq.184.1625150832202;
+        Thu, 01 Jul 2021 07:47:12 -0700 (PDT)
+Received: from linux.local (host-80-181-152-252.pool80181.interbusiness.it. [80.181.152.252])
+        by smtp.gmail.com with ESMTPSA id y8sm18587wrr.76.2021.07.01.07.47.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Jul 2021 07:03:10 -0700 (PDT)
-Received: (nullmailer pid 2278692 invoked by uid 1000);
-	Thu, 01 Jul 2021 14:02:43 -0000
-From: Rob Herring <robh@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Lee Jones <lee.jones@linaro.org>, linux-staging@lists.linux.dev, devicetree@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>, linuxarm@huawei.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, mauro.chehab@huawei.com
-In-Reply-To: <35b9f9169889c1f4d51eff8bf2035450c9e02576.1624606660.git.mchehab+huawei@kernel.org>
-References: <cover.1624606660.git.mchehab+huawei@kernel.org> <35b9f9169889c1f4d51eff8bf2035450c9e02576.1624606660.git.mchehab+huawei@kernel.org>
-Subject: Re: [PATCH v8 02/12] spmi: hisi-spmi-controller: move driver from staging
-Date: Thu, 01 Jul 2021 08:02:43 -0600
-Message-Id: <1625148163.497219.2278691.nullmailer@robh.at.kernel.org>
+        Thu, 01 Jul 2021 07:47:11 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH] staging: rtl8188eu: Remove an unused variable and some lines of code
+Date: Thu,  1 Jul 2021 16:47:07 +0200
+Message-Id: <20210701144707.22820-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 25 Jun 2021 09:45:54 +0200, Mauro Carvalho Chehab wrote:
-> The Hisilicon 6421v600 SPMI driver is ready for mainstream.
-> 
-> So, move it from staging.
-> 
-> Acked-by: Stephen Boyd <sboyd@kernel.org>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  .../spmi/hisilicon,hisi-spmi-controller.yaml  |  73 ++++
->  MAINTAINERS                                   |   7 +
->  drivers/spmi/Kconfig                          |   9 +
->  drivers/spmi/Makefile                         |   1 +
->  drivers/spmi/hisi-spmi-controller.c           | 367 ++++++++++++++++++
->  drivers/staging/hikey9xx/Kconfig              |  11 -
->  drivers/staging/hikey9xx/Makefile             |   1 -
->  .../staging/hikey9xx/hisi-spmi-controller.c   | 367 ------------------
->  .../hikey9xx/hisilicon,hi6421-spmi-pmic.yaml  |   2 +-
->  .../hisilicon,hisi-spmi-controller.yaml       |  73 ----
->  10 files changed, 458 insertions(+), 453 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/spmi/hisilicon,hisi-spmi-controller.yaml
->  create mode 100644 drivers/spmi/hisi-spmi-controller.c
->  delete mode 100644 drivers/staging/hikey9xx/hisi-spmi-controller.c
->  delete mode 100644 drivers/staging/hikey9xx/hisilicon,hisi-spmi-controller.yaml
-> 
+Remove set but unused iw_operation_mode[]. Remove all the lines of 
+code from the function rtw_wx_set_rate, except the "return 0;" line 
+to not break userland code that somewhat uses this IOCTL.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ .../staging/rtl8188eu/os_dep/ioctl_linux.c    | 72 -------------------
+ 1 file changed, 72 deletions(-)
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-
-\ndoc reference errors (make refcheckdocs):
-Warning: Documentation/devicetree/bindings/spmi/hisilicon,hisi-spmi-controller.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
-Documentation/devicetree/bindings/spmi/hisilicon,hisi-spmi-controller.yaml: Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
-
-See https://patchwork.ozlabs.org/patch/1496992
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+diff --git a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+index b958a8d882b0..a66d8838c034 100644
+--- a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+@@ -46,11 +46,6 @@ static u32 rtw_rates[] = {1000000, 2000000, 5500000, 11000000,
+ 	6000000, 9000000, 12000000, 18000000, 24000000, 36000000,
+ 	48000000, 54000000};
+ 
+-static const char * const iw_operation_mode[] = {
+-	"Auto", "Ad-Hoc", "Managed",  "Master", "Repeater",
+-	"Secondary", "Monitor"
+-};
+-
+ void indicate_wx_scan_complete_event(struct adapter *padapter)
+ {
+ 	union iwreq_data wrqu;
+@@ -1266,73 +1261,6 @@ static int rtw_wx_set_rate(struct net_device *dev,
+ 			   struct iw_request_info *a,
+ 			   union iwreq_data *wrqu, char *extra)
+ {
+-	int i;
+-	u8 datarates[NumRates];
+-	u32	target_rate = wrqu->bitrate.value;
+-	u32	fixed = wrqu->bitrate.fixed;
+-	u32	ratevalue = 0;
+-	u8 mpdatarate[NumRates] = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0xff};
+-
+-	if (target_rate == -1) {
+-		ratevalue = 11;
+-		goto set_rate;
+-	}
+-	target_rate /= 100000;
+-
+-	switch (target_rate) {
+-	case 10:
+-		ratevalue = 0;
+-		break;
+-	case 20:
+-		ratevalue = 1;
+-		break;
+-	case 55:
+-		ratevalue = 2;
+-		break;
+-	case 60:
+-		ratevalue = 3;
+-		break;
+-	case 90:
+-		ratevalue = 4;
+-		break;
+-	case 110:
+-		ratevalue = 5;
+-		break;
+-	case 120:
+-		ratevalue = 6;
+-		break;
+-	case 180:
+-		ratevalue = 7;
+-		break;
+-	case 240:
+-		ratevalue = 8;
+-		break;
+-	case 360:
+-		ratevalue = 9;
+-		break;
+-	case 480:
+-		ratevalue = 10;
+-		break;
+-	case 540:
+-		ratevalue = 11;
+-		break;
+-	default:
+-		ratevalue = 11;
+-		break;
+-	}
+-
+-set_rate:
+-
+-	for (i = 0; i < NumRates; i++) {
+-		if (ratevalue == mpdatarate[i]) {
+-			datarates[i] = mpdatarate[i];
+-			if (fixed == 0)
+-				break;
+-		} else {
+-			datarates[i] = 0xff;
+-		}
+-	}
+-
+ 	return 0;
+ }
+ 
+-- 
+2.32.0
 
