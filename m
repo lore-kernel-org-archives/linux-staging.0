@@ -1,77 +1,54 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from youngberry.canonical.com (youngberry.canonical.com [91.189.89.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7EAC168
-	for <linux-staging@lists.linux.dev>; Fri,  2 Jul 2021 12:46:30 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 162ChIOK014864;
-	Fri, 2 Jul 2021 12:46:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=y+x0gMSoAlgZfFtMtzPP543h3n4CIJHx0eM6clBv3t0=;
- b=OT0Rc1wmF2oxISppt8czhArALn5rN8iF0rit9PRpd3QA1a7i/NIxAYQe+Q8b7FPt+xhT
- jye3BAIfTdiYaCOFdqrn9gSojTw2dC44FwHt7StEJ0horR0dsS1WTPeEAVUpIf4h5SQz
- S0l/g34y9BrG3oI+h/jKNyA3MAN7WeqQOfVjVzZqadYKg92FtC/cF7lk2SL/9c3ePMYe
- 8NFDMAdzel/pobROkaswaYIz6SasPHJP1CTm7wFuAELsqzCSE6d8bK6K9mM0HWz6GGyb
- pB3YN6CqN54xQlPoIFGlAdMT5k7ubPsXNKKc0jlc9/QZKXBK+yU/GGzBkh5+lwRaiN5c PQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by mx0b-00069f02.pphosted.com with ESMTP id 39gguq5d49-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 02 Jul 2021 12:46:23 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 162CkIZs114040;
-	Fri, 2 Jul 2021 12:46:21 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by userp3020.oracle.com with ESMTP id 39ee13726j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 02 Jul 2021 12:46:21 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 162CkLMg114527;
-	Fri, 2 Jul 2021 12:46:21 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-	by userp3020.oracle.com with ESMTP id 39ee13725f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 02 Jul 2021 12:46:21 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
-	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 162CkJoX025135;
-	Fri, 2 Jul 2021 12:46:19 GMT
-Received: from kadam (/102.222.70.252)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Fri, 02 Jul 2021 05:46:18 -0700
-Date: Fri, 2 Jul 2021 15:46:06 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8188eu: Remove an unused variable and some
- lines of code
-Message-ID: <20210702124606.GY1983@kadam>
-References: <20210701144707.22820-1-fmdefrancesco@gmail.com>
- <20210702074840.GT2040@kadam>
- <20210702083521.GV2040@kadam>
- <2153683.Tj7f0gbxMR@linux.local>
- <20210702124225.GW2040@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66432168
+	for <linux-staging@lists.linux.dev>; Fri,  2 Jul 2021 13:04:25 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212])
+	by youngberry.canonical.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.93)
+	(envelope-from <colin.king@canonical.com>)
+	id 1lzIq9-0002IF-Df; Fri, 02 Jul 2021 13:04:17 +0000
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Larry Finger <Larry.Finger@lwfinger.net>,
+ Florian Schilhabel <florian.c.schilhabel@googlemail.com>
+Cc: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+From: Colin Ian King <colin.king@canonical.com>
+Subject: staging: rtl8712: dead code on flush_signals_thread call in
+ r8712_cmd_thread()
+Message-ID: <754d23ba-c53f-52e8-9ebd-9f1b2611cc71@canonical.com>
+Date: Fri, 2 Jul 2021 14:04:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210702124225.GW2040@kadam>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: Rxt2PLGvwT3kpmVTib8gxXAV6FrOxcJI
-X-Proofpoint-GUID: Rxt2PLGvwT3kpmVTib8gxXAV6FrOxcJI
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-You should write that at the start of the commit message.
+Hi,
 
-This driver doesn't support SIOCSIWRATE.  It just returns zero and does
-nothing.  Change it to return -ENOTSUPP instead.  (This is an API change
-but we don't expect it to break anything).
+Static analysis by Coverity has detected a call to
+flush_signals_thread() that is never executed.  If it is removed it
+won't affect the current behavior, however I'm pretty sure the call was
+intentionally placed in the code at the end of a while loop so I believe
+there is something a little dubious with the current code.
 
-regards,
-dan carpenter
+The analysis by Coverity is as follows:
 
+384                        goto _next;
+385                }
+
+Structurally dead code (UNREACHABLE)
+unreachable: This code cannot be reached: flush_signals_thread();.
+
+386                flush_signals_thread();
+387        }
+
+Any ideas?
+
+Colin
