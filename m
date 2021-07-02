@@ -1,45 +1,45 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56290168
-	for <linux-staging@lists.linux.dev>; Fri,  2 Jul 2021 07:49:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B91F70
+	for <linux-staging@lists.linux.dev>; Fri,  2 Jul 2021 08:35:35 +0000 (UTC)
 Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 1627lCdT031107;
-	Fri, 2 Jul 2021 07:48:52 GMT
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 1628H8O9011796;
+	Fri, 2 Jul 2021 08:35:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
  : subject : message-id : references : mime-version : content-type :
  in-reply-to; s=corp-2020-01-29;
- bh=gFi8gQi/8WEsjevzCsa9CSkzQEahXs5lVkv1CngP5TU=;
- b=eeHPqlWtF06lvo6m6WWXuLSiZFHfTmKc5YkbQE8DyT18UvarEiFrJ1nGdL7+KhfajEYa
- 8ZVmwJyRsPpnQZjE01Y1ErNfiY4ZzENe+3siyvG7UB8C7KeQ8H6njQDXPTHeae9JXCjM
- 24njPxri9VKAP8CmeKBtc4LnBD5lk8aM2y96AOpKLorAcmxceeItLjOzc6v9RYcBIblx
- DQSa9pLkp3WjdHUsPThuMPylVzQdBcoMkrIE9EKKkgvAw2krSsKrqNHm6P/Fetndsw4R
- LIJsdBnBgHqxVq20BtmoplyagDpT6vJqPkP4jaJiJZR6jwXtYgQABVS+XeItD125qZp6 hw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by mx0b-00069f02.pphosted.com with ESMTP id 39gy5w34dd-1
+ bh=CgpHUvQWodsBQnISSb9kfIuwFVsNAghRjCPtbrBaYAg=;
+ b=lsPDArnwObvu4saMlp5mO5c4MtLvbFJM1pwgc5TyMtgS7UUkmbDR/Vn1e3khj29fjsQy
+ UM1+uVPUH3u+kZJbbeFk3iBL2C+43vP0cXfDC3SgiEaX2eAG4MdgOSJtzwJCnCguwHpX
+ +OQ2lph8zmrygjyh8XxP3vX+NHZhlhH5iqSe+essirKSuyUwl5HUqbOjWjRNZxDNTCQQ
+ 4E3Lw45o5wmdVytF8gv4qqUkduoUt9r/qNurqbPfa0Qu3AtjZGO7Ye1gFJRaejxNIAh6
+ aMGZn5uEfPILk19J7+OY2swhBhYcXOX4pfpe62/Juq/xQu5wr86EvlIe+4jkcbMgutOe YQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+	by mx0b-00069f02.pphosted.com with ESMTP id 39gy5w3723-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 02 Jul 2021 07:48:52 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1627a5Z4024823;
-	Fri, 2 Jul 2021 07:48:49 GMT
+	Fri, 02 Jul 2021 08:35:33 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+	by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1628Fs0i102066;
+	Fri, 2 Jul 2021 08:35:32 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by aserp3020.oracle.com with ESMTP id 39dv2c75rw-1
+	by userp3030.oracle.com with ESMTP id 39dsc5xm13-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 02 Jul 2021 07:48:49 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 1627mmGJ058211;
-	Fri, 2 Jul 2021 07:48:48 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-	by aserp3020.oracle.com with ESMTP id 39dv2c75re-1
+	Fri, 02 Jul 2021 08:35:32 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 1628ZV2S152501;
+	Fri, 2 Jul 2021 08:35:31 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+	by userp3030.oracle.com with ESMTP id 39dsc5xkyk-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 02 Jul 2021 07:48:48 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
-	by aserv0121.oracle.com (8.14.4/8.14.4) with ESMTP id 1627ml1C019320;
-	Fri, 2 Jul 2021 07:48:47 GMT
+	Fri, 02 Jul 2021 08:35:30 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 1628ZTwu025022;
+	Fri, 2 Jul 2021 08:35:29 GMT
 Received: from kadam (/102.222.70.252)
 	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Fri, 02 Jul 2021 00:48:47 -0700
-Date: Fri, 2 Jul 2021 10:48:40 +0300
+	with ESMTP ; Fri, 02 Jul 2021 01:35:28 -0700
+Date: Fri, 2 Jul 2021 11:35:21 +0300
 From: Dan Carpenter <dan.carpenter@oracle.com>
 To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -47,8 +47,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
         linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: rtl8188eu: Remove an unused variable and some
  lines of code
-Message-ID: <20210702074840.GT2040@kadam>
+Message-ID: <20210702083521.GV2040@kadam>
 References: <20210701144707.22820-1-fmdefrancesco@gmail.com>
+ <20210702074840.GT2040@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,43 +58,46 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210701144707.22820-1-fmdefrancesco@gmail.com>
+In-Reply-To: <20210702074840.GT2040@kadam>
 User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: M3sLE17F0XAuoreUmxUlCXhzOzB5Xqc2
-X-Proofpoint-ORIG-GUID: M3sLE17F0XAuoreUmxUlCXhzOzB5Xqc2
+X-Proofpoint-GUID: G1k7SjhoYIMwPKDt3j0CyoVnoBo0j-c3
+X-Proofpoint-ORIG-GUID: G1k7SjhoYIMwPKDt3j0CyoVnoBo0j-c3
 
-On Thu, Jul 01, 2021 at 04:47:07PM +0200, Fabio M. De Francesco wrote:
-> Remove set but unused iw_operation_mode[]. Remove all the lines of 
-> code from the function rtw_wx_set_rate, except the "return 0;" line 
-> to not break userland code that somewhat uses this IOCTL.
+On Fri, Jul 02, 2021 at 10:48:40AM +0300, Dan Carpenter wrote:
+> On Thu, Jul 01, 2021 at 04:47:07PM +0200, Fabio M. De Francesco wrote:
+> > Remove set but unused iw_operation_mode[]. Remove all the lines of 
+> > code from the function rtw_wx_set_rate, except the "return 0;" line 
+> > to not break userland code that somewhat uses this IOCTL.
+> > 
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > ---
+> >  .../staging/rtl8188eu/os_dep/ioctl_linux.c    | 72 -------------------
+> >  1 file changed, 72 deletions(-)
+> > 
+> > diff --git a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+> > index b958a8d882b0..a66d8838c034 100644
+> > --- a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+> > +++ b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+> > @@ -46,11 +46,6 @@ static u32 rtw_rates[] = {1000000, 2000000, 5500000, 11000000,
+> >  	6000000, 9000000, 12000000, 18000000, 24000000, 36000000,
+> >  	48000000, 54000000};
+> >  
+> > -static const char * const iw_operation_mode[] = {
+> > -	"Auto", "Ad-Hoc", "Managed",  "Master", "Repeater",
+> > -	"Secondary", "Monitor"
+> > -};
+> > -
+> >  void indicate_wx_scan_complete_event(struct adapter *padapter)
+> >  {
+> >  	union iwreq_data wrqu;
+> > @@ -1266,73 +1261,6 @@ static int rtw_wx_set_rate(struct net_device *dev,
+> >  			   struct iw_request_info *a,
+> >  			   union iwreq_data *wrqu, char *extra)
+> >  {
 > 
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> ---
->  .../staging/rtl8188eu/os_dep/ioctl_linux.c    | 72 -------------------
->  1 file changed, 72 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-> index b958a8d882b0..a66d8838c034 100644
-> --- a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-> +++ b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-> @@ -46,11 +46,6 @@ static u32 rtw_rates[] = {1000000, 2000000, 5500000, 11000000,
->  	6000000, 9000000, 12000000, 18000000, 24000000, 36000000,
->  	48000000, 54000000};
->  
-> -static const char * const iw_operation_mode[] = {
-> -	"Auto", "Ad-Hoc", "Managed",  "Master", "Repeater",
-> -	"Secondary", "Monitor"
-> -};
-> -
->  void indicate_wx_scan_complete_event(struct adapter *padapter)
->  {
->  	union iwreq_data wrqu;
-> @@ -1266,73 +1261,6 @@ static int rtw_wx_set_rate(struct net_device *dev,
->  			   struct iw_request_info *a,
->  			   union iwreq_data *wrqu, char *extra)
->  {
+> Just delete this whole file.  It doesn't do anything now.
 
-Just delete this whole file.  It doesn't do anything now.
+Sorry, I meant function, not file.  *chortle*.  :P
 
 regards,
 dan carpenter
