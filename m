@@ -1,34 +1,34 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AD772;
-	Sun,  4 Jul 2021 23:08:40 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 56197611ED;
-	Sun,  4 Jul 2021 23:08:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791A972
+	for <linux-staging@lists.linux.dev>; Sun,  4 Jul 2021 23:08:43 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 475A0613E5;
+	Sun,  4 Jul 2021 23:08:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1625440120;
-	bh=RYXMFqHcSr4bL2PoGyJZ5nwwl1DauA2EAjLBUbL/NXg=;
+	s=k20201202; t=1625440123;
+	bh=nlOLuNtggwGJ3tkcVIGdx15wvGaENmzl1YWtE+KotX8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OxAfaTGOXN35P2tr6L+TR8dNRgjO7fEjsxFxwtqdYx6Xx6u7SNtYBIWxzpsvOmd85
-	 yPSQQeUl820dHfcs75tBtaJoTndCbn90g91zDmAjlHRhSENqo1LDl+LSoTIHTOQ13H
-	 QC/+4dT5xuT3dNYy1XNkAzNZ4FounrfrO2+cu4yHBGNiCNCPLSfKeyQ2Y/MT1O/eXp
-	 7EuLbt/lmvSc/tvL5UGcS2LHAI79aISHzLfi30qz3frN0jLqiaH67kLAUSYHUV3q0U
-	 0WQ3Wuwn7I2UYW2rdogz21zg6sBxJFm6eWGvfvLwfQAbdBz9kTky/e5eW3k8zukWVg
-	 WD/pUo+d1Z95Q==
+	b=DEI9h6tZSczaA0F5HIMFUuXUg3PIgHhJ1Lonf4R2CsWTtjtzoJRbc+zkTmXH4g0kL
+	 zApcG/p+DmTuFLoRKIO8pH384J9aFhe9VLrB1FrytfCj/WgsZLInaFYV96+nxiWpk1
+	 41dNxNYuHaF+eQSXwjQZbc4sl4YE1EZ/i4IjF1HQzNRyNeOQ+/OApRhyKzXdfwKFAv
+	 c/7YypSjchpqsPNlBkzPhss1xdjf1y9yjbdnWCbeoEXNyxhpTXXacOfXZfsZy4zA/y
+	 +dsTqB4cAsYF6L9WphdGeY+RHSjGdw6wNjAsqssUoelVNvjCWtLxxWz2NmPpDBSRVM
+	 HUHuAWSge3nIQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Frieder Schrempf <frieder.schrempf@kontron.de>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.10 26/70] media: hevc: Fix dependent slice segment flags
-Date: Sun,  4 Jul 2021 19:07:19 -0400
-Message-Id: <20210704230804.1490078-26-sashal@kernel.org>
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.10 28/70] media: imx: imx7_mipi_csis: Fix logging of only error event counters
+Date: Sun,  4 Jul 2021 19:07:21 -0400
+Message-Id: <20210704230804.1490078-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210704230804.1490078-1-sashal@kernel.org>
 References: <20210704230804.1490078-1-sashal@kernel.org>
@@ -42,86 +42,46 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Jernej Skrabec <jernej.skrabec@siol.net>
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-[ Upstream commit 67a7e53d5b21f3a84efc03a4e62db7caf97841ef ]
+[ Upstream commit d2fcc9c2de1191ea80366e3658711753738dd10a ]
 
-Dependent slice segment flag for PPS control is misnamed. It should have
-"enabled" at the end. It only tells if this flag is present in slice
-header or not and not the actual value.
+The mipi_csis_events array ends with 6 non-error events, not 4. Update
+mipi_csis_log_counters() accordingly. While at it, log event counters in
+forward order, as there's no reason to log them backward.
 
-Fix this by renaming the PPS flag and introduce another flag for slice
-control which tells actual value.
-
-Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 5 ++++-
- drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 4 ++--
- include/media/hevc-ctrls.h                                | 3 ++-
- 3 files changed, 8 insertions(+), 4 deletions(-)
+ drivers/staging/media/imx/imx7-mipi-csis.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-index ce728c757eaf..b864869b42bc 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-@@ -4030,7 +4030,7 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-     :stub-columns: 0
-     :widths:       1 1 2
+diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+index 7612993cc1d6..c5a548976f1d 100644
+--- a/drivers/staging/media/imx/imx7-mipi-csis.c
++++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+@@ -597,13 +597,15 @@ static void mipi_csis_clear_counters(struct csi_state *state)
  
--    * - ``V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT``
-+    * - ``V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED``
-       - 0x00000001
-       -
-     * - ``V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT``
-@@ -4238,6 +4238,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-     * - ``V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENABLED``
-       - 0x00000100
-       -
-+    * - ``V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT``
-+      - 0x00000200
-+      -
+ static void mipi_csis_log_counters(struct csi_state *state, bool non_errors)
+ {
+-	int i = non_errors ? MIPI_CSIS_NUM_EVENTS : MIPI_CSIS_NUM_EVENTS - 4;
++	unsigned int num_events = non_errors ? MIPI_CSIS_NUM_EVENTS
++				: MIPI_CSIS_NUM_EVENTS - 6;
+ 	struct device *dev = &state->pdev->dev;
+ 	unsigned long flags;
++	unsigned int i;
  
- .. c:type:: v4l2_hevc_dpb_entry
+ 	spin_lock_irqsave(&state->slock, flags);
  
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-index ce497d0197df..10744fab7cea 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-@@ -477,8 +477,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 				slice_params->flags);
- 
- 	reg |= VE_DEC_H265_FLAG(VE_DEC_H265_DEC_SLICE_HDR_INFO0_FLAG_DEPENDENT_SLICE_SEGMENT,
--				V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT,
--				pps->flags);
-+				V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT,
-+				slice_params->flags);
- 
- 	/* FIXME: For multi-slice support. */
- 	reg |= VE_DEC_H265_DEC_SLICE_HDR_INFO0_FLAG_FIRST_SLICE_SEGMENT_IN_PIC;
-diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-index 1009cf0891cc..a3b650ab00f6 100644
---- a/include/media/hevc-ctrls.h
-+++ b/include/media/hevc-ctrls.h
-@@ -81,7 +81,7 @@ struct v4l2_ctrl_hevc_sps {
- 	__u64	flags;
- };
- 
--#define V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT		(1ULL << 0)
-+#define V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED	(1ULL << 0)
- #define V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT			(1ULL << 1)
- #define V4L2_HEVC_PPS_FLAG_SIGN_DATA_HIDING_ENABLED		(1ULL << 2)
- #define V4L2_HEVC_PPS_FLAG_CABAC_INIT_PRESENT			(1ULL << 3)
-@@ -160,6 +160,7 @@ struct v4l2_hevc_pred_weight_table {
- #define V4L2_HEVC_SLICE_PARAMS_FLAG_USE_INTEGER_MV		(1ULL << 6)
- #define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_DEBLOCKING_FILTER_DISABLED (1ULL << 7)
- #define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENABLED (1ULL << 8)
-+#define V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT	(1ULL << 9)
- 
- struct v4l2_ctrl_hevc_slice_params {
- 	__u32	bit_size;
+-	for (i--; i >= 0; i--) {
++	for (i = 0; i < num_events; ++i) {
+ 		if (state->events[i].counter > 0 || state->debug)
+ 			dev_info(dev, "%s events: %d\n", state->events[i].name,
+ 				 state->events[i].counter);
 -- 
 2.30.2
 
