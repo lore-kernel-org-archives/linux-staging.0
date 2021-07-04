@@ -1,38 +1,36 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770FD72
-	for <linux-staging@lists.linux.dev>; Sun,  4 Jul 2021 23:07:36 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B7DC7613F7;
-	Sun,  4 Jul 2021 23:07:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3578172
+	for <linux-staging@lists.linux.dev>; Sun,  4 Jul 2021 23:08:09 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F1B256194E;
+	Sun,  4 Jul 2021 23:08:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1625440055;
-	bh=zFz17kTz0q/RoXuxwTOaqF4XgovTxUeA4x4QhxkyBZQ=;
+	s=k20201202; t=1625440088;
+	bh=VcFcH5ns65QNQL6Uh4A/eiq75KTpr/4XR8S+9m8uuIU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=P9x+NT3k4FH1R1s61o+jt8XwqwUVoeERXvqrqxVBMILYmgnbglkSg+o9WpqmKxnnY
-	 BRNRO80I1bDCRKQqqjCrVKgN70uUZjz4Bh8g8222Yxj5mmmIbkL/h72ynhj49nJVn0
-	 gm0xZSQzUjd3cV+g21ife2ERPCPm+b2MtY8AuskZW2SrPU2oPnQkvdQChnyk9iYSbg
-	 neJM6C4A+kxs8o32GvPioRFpJUmOupWvVyHtgHoA5DkVxHq4h43+x5pNgJ6gwbe6nf
-	 97SWlHhjPB4CaOjPvt99hhWgn0YlfldsxNVW9ihV1hblWlCybTdrZ+MjYWMKhxvzGR
-	 SKrzbw8qJXMNA==
+	b=tggSZIncA4H29GgnAE6zXa7woNtFmVVWJEXuYO7Bzg5btiCrVdTqKkztwjNkxVJ2s
+	 Km0LqjqZxUH3mha3uW98nyJfycEV4mUGt5L14IbSHF2ywBOBFgilRUF3wrh22qJ2Bh
+	 ywOuIkFeHr2CW3qs5rgE+Sr4dT73JNfsK9UWNpTLtXamFlMRVT1LnVEBiq8a5XGT1t
+	 sVwVTa1g26jhvfooPAj4TAwh25AzqZJyVf7Tq4WGNN1ClMIHLRp5cMPpNKSrEmFhmb
+	 LyLAfFpR845IqPYdJgLDAOeKD0hPuJ8SpzGlVizLqof2zyLqUc69GyyfE0DaAxIDeJ
+	 XspdOXRsp0RLw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Steve Longerbeam <slongerbeam@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Tim Harvey <tharvey@gateworks.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Ezequiel Garcia <ezequiel@collabora.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.12 59/80] media: imx-csi: Skip first few frames from a BT.656 source
-Date: Sun,  4 Jul 2021 19:05:55 -0400
-Message-Id: <20210704230616.1489200-59-sashal@kernel.org>
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH AUTOSEL 5.10 03/70] staging: media: rkvdec: fix pm_runtime_get_sync() usage count
+Date: Sun,  4 Jul 2021 19:06:56 -0400
+Message-Id: <20210704230804.1490078-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210704230616.1489200-1-sashal@kernel.org>
-References: <20210704230616.1489200-1-sashal@kernel.org>
+In-Reply-To: <20210704230804.1490078-1-sashal@kernel.org>
+References: <20210704230804.1490078-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,61 +41,38 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Steve Longerbeam <slongerbeam@gmail.com>
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-[ Upstream commit e198be37e52551bb863d07d2edc535d0932a3c4f ]
+[ Upstream commit e90812c47b958407b54d05780dc483fdc1b57a93 ]
 
-Some BT.656 sensors (e.g. ADV718x) transmit frames with unstable BT.656
-sync codes after initial power on. This confuses the imx CSI,resulting
-in vertical and/or horizontal sync issues. Skip the first 20 frames
-to avoid the unstable sync codes.
+The pm_runtime_get_sync() internally increments the
+dev->power.usage_count without decrementing it, even on errors.
+Replace it by the new pm_runtime_resume_and_get(), introduced by:
+commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+in order to properly decrement the usage counter, avoiding
+a potential PM usage counter leak.
 
-[fabio: fixed checkpatch warning and increased the frame skipping to 20]
-
-Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
-Reviewed-by: Tim Harvey <tharvey@gateworks.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/imx/imx-media-csi.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ drivers/staging/media/rkvdec/rkvdec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-index ef5add079774..7f4b967646d9 100644
---- a/drivers/staging/media/imx/imx-media-csi.c
-+++ b/drivers/staging/media/imx/imx-media-csi.c
-@@ -753,9 +753,10 @@ static int csi_setup(struct csi_priv *priv)
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index 1263991de76f..b630e161d4ce 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -691,7 +691,7 @@ static void rkvdec_device_run(void *priv)
+ 	if (WARN_ON(!desc))
+ 		return;
  
- static int csi_start(struct csi_priv *priv)
- {
--	struct v4l2_fract *output_fi;
-+	struct v4l2_fract *input_fi, *output_fi;
- 	int ret;
- 
-+	input_fi = &priv->frame_interval[CSI_SINK_PAD];
- 	output_fi = &priv->frame_interval[priv->active_output_pad];
- 
- 	/* start upstream */
-@@ -764,6 +765,17 @@ static int csi_start(struct csi_priv *priv)
- 	if (ret)
- 		return ret;
- 
-+	/* Skip first few frames from a BT.656 source */
-+	if (priv->upstream_ep.bus_type == V4L2_MBUS_BT656) {
-+		u32 delay_usec, bad_frames = 20;
-+
-+		delay_usec = DIV_ROUND_UP_ULL((u64)USEC_PER_SEC *
-+			input_fi->numerator * bad_frames,
-+			input_fi->denominator);
-+
-+		usleep_range(delay_usec, delay_usec + 1000);
-+	}
-+
- 	if (priv->dest == IPU_CSI_DEST_IDMAC) {
- 		ret = csi_idmac_start(priv);
- 		if (ret)
+-	ret = pm_runtime_get_sync(rkvdec->dev);
++	ret = pm_runtime_resume_and_get(rkvdec->dev);
+ 	if (ret < 0) {
+ 		rkvdec_job_finish_no_pm(ctx, VB2_BUF_STATE_ERROR);
+ 		return;
 -- 
 2.30.2
 
