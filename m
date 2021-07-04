@@ -1,20 +1,20 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4833E72
-	for <linux-staging@lists.linux.dev>; Sun,  4 Jul 2021 23:10:24 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D2C86198C;
-	Sun,  4 Jul 2021 23:10:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 104AF72
+	for <linux-staging@lists.linux.dev>; Sun,  4 Jul 2021 23:11:16 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A47FE619AC;
+	Sun,  4 Jul 2021 23:11:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1625440223;
-	bh=yZeK2PHdhWLxEJf19CVm0B48b2I+k0hbQWpLDwrWCfk=;
+	s=k20201202; t=1625440275;
+	bh=rLIR0S92aTlG9q/OkSLRKIJuW7+/bZqEm10UhBiwYL8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FEOs4AETfexYncBvBR5Gpy4aNSEMv9cxT5PEx3gylywm7kwiIvgD87clCqTbMDu6h
-	 3TNF5KN6g0/QIrTPgQTaZSjSN/mzgNyesFdIfRzaQpHldJIYVWYQcxI3iCsyc/bvT1
-	 3k1ysa9huB7HBoEW1FoVFqr/Naj17BNcWj2yT1lT54XmoxKQeoYrVSnmOvaLuO6ZKI
-	 OUMoBFTvOcn2GYrV9ihXMsZN09pO5C52515k8UFc8TTe6XabL7TGjwzJoSa0DzSgOn
-	 0b0TTCJsmD1+bqOKvib1tDD+H9hsuevZtLF0Qr8Gw4zNaA/DFJ7pQ/PED2oEMgUEkz
-	 SpVcKaf91McGw==
+	b=PsVS8KEYC6PnvvFYAqSbo6uIr2rYwZZ4KIJTFPSTRiMJ/cRry8pKeu7TgBOXPRmeL
+	 SDu+/4hTD7uo0lgQrTwihfSxyfpJoa1glO7oKCiaOhBcEqRyRd8wO12Wnbri9pJ6FU
+	 +dRJiizUK0/bJMfH1FMhxoyrJ3zZIohnWnxUv5aXR6I0e2VMZ1jVDH56rENT1pFNzi
+	 oK0z5vHMV5GoxW/1lLj489GmMR48SI+E2PbtP8Pf75Ynt7QFPd7X3FPLVjw8ofOL/9
+	 ByRCn5MdgCqiNddt7cLkJI9UGbGgpAiMBY98C3Ej5N+4HwRkZkCcgKiBeNUwBAeZzr
+	 ohWiaJMt9srIw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -27,12 +27,12 @@ Cc: Steve Longerbeam <slongerbeam@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.4 35/50] media: imx-csi: Skip first few frames from a BT.656 source
-Date: Sun,  4 Jul 2021 19:09:23 -0400
-Message-Id: <20210704230938.1490742-35-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 25/31] media: imx-csi: Skip first few frames from a BT.656 source
+Date: Sun,  4 Jul 2021 19:10:37 -0400
+Message-Id: <20210704231043.1491209-25-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210704230938.1490742-1-sashal@kernel.org>
-References: <20210704230938.1490742-1-sashal@kernel.org>
+In-Reply-To: <20210704231043.1491209-1-sashal@kernel.org>
+References: <20210704231043.1491209-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -65,10 +65,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-index 367e39f5b382..40b7e60f4a47 100644
+index 0f8fdc347091..c7df0ffb3510 100644
 --- a/drivers/staging/media/imx/imx-media-csi.c
 +++ b/drivers/staging/media/imx/imx-media-csi.c
-@@ -753,9 +753,10 @@ static int csi_setup(struct csi_priv *priv)
+@@ -730,9 +730,10 @@ static int csi_setup(struct csi_priv *priv)
  
  static int csi_start(struct csi_priv *priv)
  {
@@ -80,7 +80,7 @@ index 367e39f5b382..40b7e60f4a47 100644
  	output_fi = &priv->frame_interval[priv->active_output_pad];
  
  	/* start upstream */
-@@ -764,6 +765,17 @@ static int csi_start(struct csi_priv *priv)
+@@ -741,6 +742,17 @@ static int csi_start(struct csi_priv *priv)
  	if (ret)
  		return ret;
  
