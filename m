@@ -1,38 +1,37 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB7172
-	for <linux-staging@lists.linux.dev>; Sun,  4 Jul 2021 23:09:15 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F9E761953;
-	Sun,  4 Jul 2021 23:09:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E61F72
+	for <linux-staging@lists.linux.dev>; Sun,  4 Jul 2021 23:10:03 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4BD576195D;
+	Sun,  4 Jul 2021 23:10:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1625440155;
-	bh=GAB4Iwssxth4x5tkIPxTCrtdPL2wx8H/kew2cIhn/Cc=;
+	s=k20201202; t=1625440203;
+	bh=oM6rNDpqYweL1cftZv3xe5lFVrjsjChJGVwr3e8zkuk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KAdx7QBWPpYoNNaml3wxnUXJG93tMQDeBAuDidlgeNBP8RYAZc+UXMs0Yxg4k9xkz
-	 y28MRTJipVrIFFX3s6wo5LtgurOyJHgbZWRNB/Xo4RhjeOcYbnNShB7TnYcKQzfhuh
-	 c7LxHNXE3Oy1ojNjMroM8S/gxr3RBZ+DicDhOxaUXUp7110y55ptHOLGr+ONTlSiqS
-	 mwh8JOP3Asnzwk5O6dasJeaX2+cmDrZ5WUVnpMniOu2dgXL+rc6aWW6pqixxNipeny
-	 08vcgM0++IMgvoptrYV4TGHrtwF747ogXhRiamcQeHlV1tHj4ADZhMJY3KXkU5uCpA
-	 YT1p7RgtP8AVw==
+	b=APY4fmy644bXE6E1qPOZamwaL5DmCO4qByKYzajOl7THQD/M0npe5oLe/+R8SPwLP
+	 67PK2AJordaoRvjTp9TV7TFsL309VIRtiQna8nEPKycGH6Pidv2tV0ksYLYF5dpQPF
+	 DvvaffxWctUvTtX9mpuijkmk0AjOOM6yZGnkx3xgHvRk5wcjvsFEisCdjYvYGsMpLK
+	 yCcgLZ4dOex+VGbsZlpQ2rKNEX2kE9KeljgRVeWpTXgyawvWOSI2tmRG3nHYozaKEQ
+	 gs9MPK/iDlSE2U1eaQSB8RNcNa0Z7Z42WG84L9+JCZy3aLwlIB59nb2fF9C+rW4KWP
+	 gIsymgmbPF2Uw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Steve Longerbeam <slongerbeam@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Tim Harvey <tharvey@gateworks.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Frieder Schrempf <frieder.schrempf@kontron.de>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.10 53/70] media: imx-csi: Skip first few frames from a BT.656 source
-Date: Sun,  4 Jul 2021 19:07:46 -0400
-Message-Id: <20210704230804.1490078-53-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 19/50] media: imx: imx7_mipi_csis: Fix logging of only error event counters
+Date: Sun,  4 Jul 2021 19:09:07 -0400
+Message-Id: <20210704230938.1490742-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210704230804.1490078-1-sashal@kernel.org>
-References: <20210704230804.1490078-1-sashal@kernel.org>
+In-Reply-To: <20210704230938.1490742-1-sashal@kernel.org>
+References: <20210704230938.1490742-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,61 +42,46 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Steve Longerbeam <slongerbeam@gmail.com>
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-[ Upstream commit e198be37e52551bb863d07d2edc535d0932a3c4f ]
+[ Upstream commit d2fcc9c2de1191ea80366e3658711753738dd10a ]
 
-Some BT.656 sensors (e.g. ADV718x) transmit frames with unstable BT.656
-sync codes after initial power on. This confuses the imx CSI,resulting
-in vertical and/or horizontal sync issues. Skip the first 20 frames
-to avoid the unstable sync codes.
+The mipi_csis_events array ends with 6 non-error events, not 4. Update
+mipi_csis_log_counters() accordingly. While at it, log event counters in
+forward order, as there's no reason to log them backward.
 
-[fabio: fixed checkpatch warning and increased the frame skipping to 20]
-
-Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
-Reviewed-by: Tim Harvey <tharvey@gateworks.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/imx/imx-media-csi.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ drivers/staging/media/imx/imx7-mipi-csis.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-index 21ebf7769696..899d29f4c91a 100644
---- a/drivers/staging/media/imx/imx-media-csi.c
-+++ b/drivers/staging/media/imx/imx-media-csi.c
-@@ -753,9 +753,10 @@ static int csi_setup(struct csi_priv *priv)
+diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+index 021bbd420390..63bc78e4cac8 100644
+--- a/drivers/staging/media/imx/imx7-mipi-csis.c
++++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+@@ -528,13 +528,15 @@ static void mipi_csis_clear_counters(struct csi_state *state)
  
- static int csi_start(struct csi_priv *priv)
+ static void mipi_csis_log_counters(struct csi_state *state, bool non_errors)
  {
--	struct v4l2_fract *output_fi;
-+	struct v4l2_fract *input_fi, *output_fi;
- 	int ret;
+-	int i = non_errors ? MIPI_CSIS_NUM_EVENTS : MIPI_CSIS_NUM_EVENTS - 4;
++	unsigned int num_events = non_errors ? MIPI_CSIS_NUM_EVENTS
++				: MIPI_CSIS_NUM_EVENTS - 6;
+ 	struct device *dev = &state->pdev->dev;
+ 	unsigned long flags;
++	unsigned int i;
  
-+	input_fi = &priv->frame_interval[CSI_SINK_PAD];
- 	output_fi = &priv->frame_interval[priv->active_output_pad];
+ 	spin_lock_irqsave(&state->slock, flags);
  
- 	/* start upstream */
-@@ -764,6 +765,17 @@ static int csi_start(struct csi_priv *priv)
- 	if (ret)
- 		return ret;
- 
-+	/* Skip first few frames from a BT.656 source */
-+	if (priv->upstream_ep.bus_type == V4L2_MBUS_BT656) {
-+		u32 delay_usec, bad_frames = 20;
-+
-+		delay_usec = DIV_ROUND_UP_ULL((u64)USEC_PER_SEC *
-+			input_fi->numerator * bad_frames,
-+			input_fi->denominator);
-+
-+		usleep_range(delay_usec, delay_usec + 1000);
-+	}
-+
- 	if (priv->dest == IPU_CSI_DEST_IDMAC) {
- 		ret = csi_idmac_start(priv);
- 		if (ret)
+-	for (i--; i >= 0; i--) {
++	for (i = 0; i < num_events; ++i) {
+ 		if (state->events[i].counter > 0 || state->debug)
+ 			dev_info(dev, "%s events: %d\n", state->events[i].name,
+ 				 state->events[i].counter);
 -- 
 2.30.2
 
