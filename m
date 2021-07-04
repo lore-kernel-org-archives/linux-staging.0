@@ -1,34 +1,33 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791A972
-	for <linux-staging@lists.linux.dev>; Sun,  4 Jul 2021 23:08:43 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 475A0613E5;
-	Sun,  4 Jul 2021 23:08:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3903772
+	for <linux-staging@lists.linux.dev>; Sun,  4 Jul 2021 23:08:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0F2A96195E;
+	Sun,  4 Jul 2021 23:08:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1625440123;
-	bh=nlOLuNtggwGJ3tkcVIGdx15wvGaENmzl1YWtE+KotX8=;
+	s=k20201202; t=1625440135;
+	bh=HlMWwFUjkv9kRDxxoRQ0bxzJXMOvK+avXOn8miRFB+Y=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DEI9h6tZSczaA0F5HIMFUuXUg3PIgHhJ1Lonf4R2CsWTtjtzoJRbc+zkTmXH4g0kL
-	 zApcG/p+DmTuFLoRKIO8pH384J9aFhe9VLrB1FrytfCj/WgsZLInaFYV96+nxiWpk1
-	 41dNxNYuHaF+eQSXwjQZbc4sl4YE1EZ/i4IjF1HQzNRyNeOQ+/OApRhyKzXdfwKFAv
-	 c/7YypSjchpqsPNlBkzPhss1xdjf1y9yjbdnWCbeoEXNyxhpTXXacOfXZfsZy4zA/y
-	 +dsTqB4cAsYF6L9WphdGeY+RHSjGdw6wNjAsqssUoelVNvjCWtLxxWz2NmPpDBSRVM
-	 HUHuAWSge3nIQ==
+	b=U6RTZu2VR9Eb23t4ojSzjY5Ivg1lxIvj1mvbtiiZj1Tf8yoy9ysNQoc7o+0fUPVbk
+	 pB+zE6+fDWAK6bS4rNk1UqC+sy7XUDm299+TjWv+d0D2gEQ0AupxgLJt3Ep86UV20u
+	 pENoKK5zm+pbq//T5ZJO8ZKKm/l6XNeZ2SaaTZkaL9MXvJaDGJ6WbUEYXUdlrFKnwK
+	 DXseSVzdkRmoS97//ieZ41i2/Tr7VyN9Y3vEbN0+dHYUVYI8Tf0YuU69VM7iR2wPxR
+	 ETxNYT+STZ74cHAIsWg37D54uhC5n1Wr7TUo2fsg8M53a9T6i0ALW4998CiueRsxTl
+	 aHdt7jafDCw/w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Frieder Schrempf <frieder.schrempf@kontron.de>,
+Cc: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.10 28/70] media: imx: imx7_mipi_csis: Fix logging of only error event counters
-Date: Sun,  4 Jul 2021 19:07:21 -0400
-Message-Id: <20210704230804.1490078-28-sashal@kernel.org>
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH AUTOSEL 5.10 37/70] media: hantro: Fix .buf_prepare
+Date: Sun,  4 Jul 2021 19:07:30 -0400
+Message-Id: <20210704230804.1490078-37-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210704230804.1490078-1-sashal@kernel.org>
 References: <20210704230804.1490078-1-sashal@kernel.org>
@@ -42,46 +41,46 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 
-[ Upstream commit d2fcc9c2de1191ea80366e3658711753738dd10a ]
+[ Upstream commit 082aaecff35fbe1937531057911b1dd1fc6b496e ]
 
-The mipi_csis_events array ends with 6 non-error events, not 4. Update
-mipi_csis_log_counters() accordingly. While at it, log event counters in
-forward order, as there's no reason to log them backward.
+The driver should only set the payload on .buf_prepare if the
+buffer is CAPTURE type. If an OUTPUT buffer has a zero bytesused
+set by userspace then v4l2-core will set it to buffer length.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
-Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+If we overwrite bytesused for OUTPUT buffers, too, then
+vb2_get_plane_payload() will return incorrect value which might be then
+written to hw registers by the driver in hantro_g1_h264_dec.c.
+
+Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/imx/imx7-mipi-csis.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/staging/media/hantro/hantro_v4l2.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-index 7612993cc1d6..c5a548976f1d 100644
---- a/drivers/staging/media/imx/imx7-mipi-csis.c
-+++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-@@ -597,13 +597,15 @@ static void mipi_csis_clear_counters(struct csi_state *state)
+diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+index f5fbdbc4ffdb..5c2ca61add8e 100644
+--- a/drivers/staging/media/hantro/hantro_v4l2.c
++++ b/drivers/staging/media/hantro/hantro_v4l2.c
+@@ -639,7 +639,14 @@ static int hantro_buf_prepare(struct vb2_buffer *vb)
+ 	ret = hantro_buf_plane_check(vb, pix_fmt);
+ 	if (ret)
+ 		return ret;
+-	vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
++	/*
++	 * Buffer's bytesused must be written by driver for CAPTURE buffers.
++	 * (for OUTPUT buffers, if userspace passes 0 bytesused, v4l2-core sets
++	 * it to buffer length).
++	 */
++	if (V4L2_TYPE_IS_CAPTURE(vq->type))
++		vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
++
+ 	return 0;
+ }
  
- static void mipi_csis_log_counters(struct csi_state *state, bool non_errors)
- {
--	int i = non_errors ? MIPI_CSIS_NUM_EVENTS : MIPI_CSIS_NUM_EVENTS - 4;
-+	unsigned int num_events = non_errors ? MIPI_CSIS_NUM_EVENTS
-+				: MIPI_CSIS_NUM_EVENTS - 6;
- 	struct device *dev = &state->pdev->dev;
- 	unsigned long flags;
-+	unsigned int i;
- 
- 	spin_lock_irqsave(&state->slock, flags);
- 
--	for (i--; i >= 0; i--) {
-+	for (i = 0; i < num_events; ++i) {
- 		if (state->events[i].counter > 0 || state->debug)
- 			dev_info(dev, "%s events: %d\n", state->events[i].name,
- 				 state->events[i].counter);
 -- 
 2.30.2
 
