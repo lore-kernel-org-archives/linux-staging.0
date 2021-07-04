@@ -1,125 +1,78 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6602D70
-	for <linux-staging@lists.linux.dev>; Sun,  4 Jul 2021 19:05:20 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 54D20613E9;
-	Sun,  4 Jul 2021 19:05:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1625425519;
-	bh=bgdsGMGObAW9A8lFULBXiXD9rfyq549JYTnGdEJu5GY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MxppQv6L4RNDicDM8PV+dZSHvSE07/yl5DceRZdDnrdeEBQa5BZt11Q6EUX9jt2oD
-	 cN//+GGjOT/EefoqEdwl6ZLGYMviYh6/mdhp5oWB7OJbGtMP/QdLjdcGb7OLIHrc4d
-	 VbTn9whwlLvVnh2IFJW0vsw0zpIj1qkp84Qj/74A=
-Date: Sun, 4 Jul 2021 21:05:17 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Jhih-Ming Huang <fbihjmeric@gmail.com>
-Cc: fabioaiuto83@gmail.com, ross.schm.dev@gmail.com, maqianga@uniontech.com,
-	marcocesati@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v7] rtw_security: fix cast to restricted __le32
-Message-ID: <YOIGbc2ymnWrThVK@kroah.com>
-References: <bdc0c31a7d28426995d229eb9014cd2b@AcuMS.aculab.com>
- <20210704103112.76962-1-fbihjmeric@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC7872
+	for <linux-staging@lists.linux.dev>; Sun,  4 Jul 2021 23:04:26 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CBC0D611ED;
+	Sun,  4 Jul 2021 23:04:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1625439865;
+	bh=HZKz708QQAe/6KtyqJ8F5LJ5x4ZN6OM3xsa305vbhbM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=LGHZa8bPLqZiNLsIxNIXKndxpcwR2kDs+F2W0hvoFnhoXmAYp9IOOVs7/wouRxcze
+	 XQX5HntVzAECi0jFkcDATtV+AQNTrWuhhDgKsiJ+RZFhQXIwRoQ8Ktyi45a9ijJa5o
+	 H43+j00KUk1gqQcyVc57oLVapzMTx7oEDwAQGk4VTRJMUmTROvkh2Mbi1iIZ222B/I
+	 61pEKzkqHfT8HAKpwt95S+ez+sFrvUUl5GDyfQakUbcU6ruLTKQnS4qK6YGWwd9GP5
+	 hLb1WMn8fOIniUx5mMlar/UvuQcnkf2LoENgo9j/UGTX855B7gcatsvaDXyrqKLX+G
+	 mcrT5S6qCrIMw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Ezequiel Garcia <ezequiel@collabora.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Sasha Levin <sashal@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH AUTOSEL 5.13 03/85] staging: media: rkvdec: fix pm_runtime_get_sync() usage count
+Date: Sun,  4 Jul 2021 19:02:58 -0400
+Message-Id: <20210704230420.1488358-3-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210704230420.1488358-1-sashal@kernel.org>
+References: <20210704230420.1488358-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210704103112.76962-1-fbihjmeric@gmail.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jul 04, 2021 at 06:31:12PM +0800, Jhih-Ming Huang wrote:
-> This patch fixes the sparse warning of fix cast to restricted __le32.
-> 
-> There was a change for replacing private CRC-32 routines with in kernel
-> ones.
-> However, the author used le32_to_cpu to convert crc32_le(), and we
-> should use cpu_to_le32.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Jhih-Ming Huang <fbihjmeric@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_security.c | 12 +++---------
->  1 file changed, 3 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-> index a99f439328f1..ff79e1aacd1a 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_security.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-> @@ -92,7 +92,6 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
->  void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
->  {
->  	/*  exclude ICV */
-> -	u8 crc[4];
->  	signed int	length;
->  	u32 keylength;
->  	u8 *pframe, *payload, *iv, wepkey[16];
-> @@ -119,10 +118,6 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
->  		/* decrypt payload include icv */
->  		arc4_setkey(ctx, wepkey, 3 + keylength);
->  		arc4_crypt(ctx, payload, payload,  length);
-> -
-> -		/* calculate icv and compare the icv */
-> -		*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
-> -
->  	}
->  }
->  
-> @@ -537,7 +532,7 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
->  	u32 pnh;
->  	u8   rc4key[16];
->  	u8   ttkey[16];
-> -	u8 crc[4];
-> +	__le32 crc;
->  	signed int			length;
->  
->  	u8 *pframe, *payload, *iv, *prwskey;
-> @@ -618,10 +613,9 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
->  			arc4_setkey(ctx, rc4key, 16);
->  			arc4_crypt(ctx, payload, payload, length);
->  
-> -			*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
-> +			crc = cpu_to_le32(~crc32_le(~0, payload, length - 4));
->  
-> -			if (crc[3] != payload[length - 1] || crc[2] != payload[length - 2] ||
-> -			    crc[1] != payload[length - 3] || crc[0] != payload[length - 4])
-> +			if (crc != get_unaligned_le32(payload + length - 4))
->  				res = _FAIL;
->  		} else {
->  			res = _FAIL;
-> -- 
-> 2.32.0
-> 
-> 
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Hi,
+[ Upstream commit e90812c47b958407b54d05780dc483fdc1b57a93 ]
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+The pm_runtime_get_sync() internally increments the
+dev->power.usage_count without decrementing it, even on errors.
+Replace it by the new pm_runtime_resume_and_get(), introduced by:
+commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+in order to properly decrement the usage counter, avoiding
+a potential PM usage counter leak.
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/staging/media/rkvdec/rkvdec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/SubmittingPatches for what needs to be done
-  here to properly describe this.
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index d821661d30f3..8c17615f3a7a 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -658,7 +658,7 @@ static void rkvdec_device_run(void *priv)
+ 	if (WARN_ON(!desc))
+ 		return;
+ 
+-	ret = pm_runtime_get_sync(rkvdec->dev);
++	ret = pm_runtime_resume_and_get(rkvdec->dev);
+ 	if (ret < 0) {
+ 		rkvdec_job_finish_no_pm(ctx, VB2_BUF_STATE_ERROR);
+ 		return;
+-- 
+2.30.2
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
