@@ -1,727 +1,181 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C326A2FB0
-	for <linux-staging@lists.linux.dev>; Mon,  5 Jul 2021 09:39:03 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 59192613BD;
-	Mon,  5 Jul 2021 09:39:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1625477942;
-	bh=YqdioGeMhfj0S7IuGI68pniebQ66vUzzpxyqnORO6h4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=m8LnKv6SGH0qpAQTvxMA/hstTMV9bpp5QSP6qGWqt1eU5k656UmO4FuAxw/EYhtFn
-	 nOOQbVDxi5xitKb/vPs+jcCWKvVuFavuEWeCk9GxnRuW1C0Ku8csY0e10Y4VhVaS7R
-	 p1h6HJJh5CPw6C57R8SG4HvXFx1rnuHpMjKRqEbFkX+XI+ZGuE4q7J+bjqnmVNNMD4
-	 RmE5QcWxeCgnmKaIqUMQf7D8TG0LHLF+4RuSKftPPcg5vTsTCtx8ZVx2cpCtL3tATV
-	 u+yccAPhizVPAmMd83Gw5T/H6BMYXU/dP86KvUhNGZKiLqlBjXUwZ0PUZG9jOimHJE
-	 2rIPDL0kD2MqA==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-	(envelope-from <mchehab@kernel.org>)
-	id 1m0L43-002tot-AB; Mon, 05 Jul 2021 11:38:55 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linuxarm@huawei.com,
-	mauro.chehab@huawei.com,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Derek Kiernan <derek.kiernan@xilinx.com>,
-	Dragan Cvetic <dragan.cvetic@xilinx.com>,
-	Lee Jones <lee.jones@linaro.org>,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v12 4/9] staging: hikey9xx: split hi6421v600 irq into a separate driver
-Date: Mon,  5 Jul 2021 11:38:45 +0200
-Message-Id: <ce576be768c7cd154f0b1ee6bfc9589d0ea76885.1625477735.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1625477735.git.mchehab+huawei@kernel.org>
-References: <cover.1625477735.git.mchehab+huawei@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED09168
+	for <linux-staging@lists.linux.dev>; Mon,  5 Jul 2021 09:56:55 +0000 (UTC)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 1659q4xk021043;
+	Mon, 5 Jul 2021 09:56:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : content-type : in-reply-to : mime-version;
+ s=corp-2020-01-29; bh=u9aQec9HZfC4iT+QDuQvGVTSsRfVorcGiJ5oC6RpAcE=;
+ b=jOMUP45G/AboVHkR5aXt4pB56oWyyHHlCROIie45NOkmoaiHqFACgnviMRWmRxl+bpHE
+ 4MbqPt8U4YmmugRBdazcujLp/lBGBGALeH3SMZKqB6YRrM0QuNqZzq1I3KFp7AL+SVKY
+ lTX/1xbYiqyeKeU1mRRsgobAVsYvKPQJhDF/+jtNiuh/se9hkt9CRjLX0qR+0JxsSJwj
+ 9ytktvDYNIxh4w6JAi5AcTkuMTP+EEikG/ZOOoOyHeIsHSvv5eb2j87YuEyfAFg8odEc
+ mCQobB2mX7QBNKgnJEFfccaKzNWy6H8Msw9zkIHzAeNm1HtD3BU6x+fPrCrx9OrV82Ll eA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+	by mx0b-00069f02.pphosted.com with ESMTP id 39jeacjadd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 05 Jul 2021 09:56:36 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+	by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1659o1on133148;
+	Mon, 5 Jul 2021 09:56:34 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2100.outbound.protection.outlook.com [104.47.55.100])
+	by userp3030.oracle.com with ESMTP id 39jd0y6bmt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 05 Jul 2021 09:56:34 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bfrOUnE1p4bQc1vkCC+yKQSHb2cAW/CU0WPWnwIIJoLCLwOOL8q1XamEl/vHyF1a+53GgP6eQc4y9um9Td0BBS6Gi83hFu40YEn2zFK2QtetGQg2QUKQJ4t7RDPfddIpwAV6aLF/dWibwbDIBWlwPZfJrOKt7IhCnGsVmCgBmuKuredY3rz4ufPqYRZB6v6vwakLrqz4lReY/du23oxQpiNiQhpIaan+YnpR5HeJKCOi3Mrs5m5Z0Ooa88obkZxZP6AI/H3DZceW9NZGK5rrNWjrB4cJ+QRu5qu3ugSHr53R/dOVVt18yJkmq1EhSh+d2TqNQMWCFFEUGgJZWAjYeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=u9aQec9HZfC4iT+QDuQvGVTSsRfVorcGiJ5oC6RpAcE=;
+ b=E6Q5TnSiB8kVrZiUF/ugHlxc6fjUZf8tBV4+G63i1pPtyM1PXBxpPLXs4Sg+U5+6TaX4CUymhpUKuxSiYEGwZaGTpvM4sdsVqUgNeX6grsGZKPf9KRCKfbJR9wg4pnk5mUiO8NY+xmKo8N8nZ5d+b45f7cy84qOo3H6Ej9eylFiwuPf2RmsamGltoRmd6IZbi+5aGapFPJgKyUGlb2jctkSddlndiNRe7/2AkTCks+agaqRaJnaKcZXJOs8QyGeCKduEENUldMoHBN7zV3bo+uObNJLb3rbjF4LFlsMp4MsMiUls/eXlEZn/v8mu+V9ksD0ARR+WOmhHx0nmoQ/MtQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=u9aQec9HZfC4iT+QDuQvGVTSsRfVorcGiJ5oC6RpAcE=;
+ b=ZyjJSM1jJX4SBbLnHZYt7dcD4vl9VnZjoIR3CiYkZy/ZvkakjE6tRo6pAOmPHi6toHdFkE+mFTN0RpEwcbHQAFHYl6POcmRth4am1xJ4e5jD4G8AUaaEtpb7w26CDE1idjogS7iEPqS2LAXXttmJtelM3fmK3nsiwzq1N8sXjiw=
+Authentication-Results: lists.01.org; dkim=none (message not signed)
+ header.d=none;lists.01.org; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR1001MB2093.namprd10.prod.outlook.com
+ (2603:10b6:301:36::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.31; Mon, 5 Jul
+ 2021 09:56:32 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::3413:3c61:5067:ba73]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::3413:3c61:5067:ba73%5]) with mapi id 15.20.4287.033; Mon, 5 Jul 2021
+ 09:56:32 +0000
+Date: Mon, 5 Jul 2021 12:56:09 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: kbuild@lists.01.org, Ojaswin Mujoo <ojaswin98@gmail.com>,
+        nsaenz@kernel.org
+Cc: lkp@intel.com, kbuild-all@lists.01.org, gregkh@linuxfoundation.org,
+        stefan.wahren@i2se.com, arnd@arndb.de, dan.carpenter@oracle.com,
+        phil@raspberrypi.com, bcm-kernel-feedback-list@broadcom.com,
+        linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/5] staging: vchiq: Move vchiq char driver to its own
+ file
+Message-ID: <202107051622.6i1l1vdL-lkp@intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3b7178086322f774772d95141764ed99d0698139.1625401927.git.ojaswin98@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [102.222.70.252]
+X-ClientProxiedBy: JNAP275CA0031.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::7)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from kadam (102.222.70.252) by JNAP275CA0031.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::7) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.23 via Frontend Transport; Mon, 5 Jul 2021 09:56:22 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4277633e-3c85-4617-6117-08d93f9b2ae3
+X-MS-TrafficTypeDiagnostic: MWHPR1001MB2093:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR1001MB2093AB8F4B582C2457FC5B0E8E1C9@MWHPR1001MB2093.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	uURlQsvLcS7GDqEi/6/R7+WTLqI9cqgLRDSDU0/KIyu+hdV0b/9NqAHLaRgCbEWgX5H/enlSfaqB1EUX8whEpTcFgEVbyIgsfCfD7A3HgR/QCnahyTe7r8Byj4BsdRpkd7X212Za1gFO+fc9rNeSWfGTTcJ++hCmbbkOItp1mUKcpQmEJ4W5yVcrSTA0BTqoBtqWPNU0dLqQ9Na4wcm47whkujRt3peoJZMGqCP+t3fNF3WwIshWd65GuSXceFJSD2lGfi+IY9c2QIysyvXHvP/1C35QTJ7Y16Lp3J1iwvx9mOQS7yXT9G17OHiik396NCTIaXmag0oMUh/N5iqbNO0LR8RTOacRlDwGpoCWFNExrALzTxq0LMqgGNeCR//MTlY2w17S1GTB3eehYfs9NDRZbnRNkCLyqDE4EmAUDUIyLF4X0WcAv7raBa3bq6ADY4VPZqqollGE8PLFOQnHmq3pxrxpy3Q/X4fcM989RuaTEdlTR1Ni5DUtgjNL2TwW0+2KUcU1DQ/V8I8aWf1ASadgJvm7qkcx6Fm1apcosIlZ3DcWW8cyPsKnTelvRXyFs5b6inC5W+kXKETwSCc8+pyNDI7ySeeoaTDEjgXHy92bjYiCBzkaByX7Mu2h+K6lV+lKN6kcRw/OjttrUPLI+SGAcmtlHVhJnTaJFgKfXuBPvsBdyG1FcGJWjzXkk9iq3/jkBAmwrIQ2MsxcnhSTcvOfeRJyM8KW4pmOY91uYfhIa/5x4JbUbENvpqRCyJSWSTQFzbBQTXwscogf6LlXL/JxotK0HtbUela7yNNql+N5YpPva9hUNvN0RXA6FFym
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(346002)(396003)(366004)(39860400002)(376002)(2906002)(83380400001)(8676002)(1076003)(966005)(8936002)(9686003)(16526019)(36756003)(186003)(5660300002)(44832011)(6486002)(26005)(38350700002)(956004)(52116002)(86362001)(6666004)(66556008)(66476007)(4326008)(478600001)(66946007)(316002)(7416002)(38100700002)(6496006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?MVN8ZwrybZ0IOnCJLyE26ZoOQuRECQPfXfllpPRjWO/2xxX9zTJYR9hf8Nfv?=
+ =?us-ascii?Q?0FJEd6rB9Mnwt2VYcz6Ytz8PhKeOBnPHiYfqD8KeNHSA3TWUE3TVr+S7BbNm?=
+ =?us-ascii?Q?aggrinZHbO7shB2mguuQKGZkVxNA5XuyLlHOW+GYg+k9EgFFGzUJxhoLef/K?=
+ =?us-ascii?Q?e4Wl36TCtvZglQkA1UaapdZ8sgQ5tz2reCLgqdgdHbWBom/oTz/Radj6lfRl?=
+ =?us-ascii?Q?TK2Q3Z9Sj8TZcPZn4XyAuaT+7RbkUUPwN2Q6AXa8WqFVdVO/jCPbviLKY5Kr?=
+ =?us-ascii?Q?J7GlnGvVbaMQq/WpzHFMkKM/HyfyY/C4JOAGXsp797hk7z7++QT8wD/DyfX8?=
+ =?us-ascii?Q?wBPscoYwycbz6EF9TXXqRotXQccYK/c3PdZCDo/tz8fH9hzbGX4P1EXIx+nT?=
+ =?us-ascii?Q?tzdgP7C9EZuvCiRnDBFRIlfCO4It0dMdDWcBUU63vlAlGbtJl2URCmh+p66H?=
+ =?us-ascii?Q?OkrzWMGeTc5Q5+tlmkHDXOSRhG/TXJMtXHAO5gt/gUk97kahwTHu/QHeINs/?=
+ =?us-ascii?Q?8l7/VHs/wFOYcdhY2FI33uMy7KDHwi4OGHG9nWflBJ3rDZCivk890aRsxBHf?=
+ =?us-ascii?Q?GtlTEegluJHhVutKjbyKgXxFdlwS4ZOstm/fVvRaRdelSE2B9MTKRkf1pqtP?=
+ =?us-ascii?Q?yQSeWeY0bitjUpfIM+EwVJitaiNlf3ToKHfRaju9GX3/1Zlpn+gul+YNk9Zc?=
+ =?us-ascii?Q?pt94YckKqGs+yP66UXh2InLLBvT8/UWey/AQe6gfROKbNorE8xVybgX4CrJV?=
+ =?us-ascii?Q?9cMgDilkLBEkSuoYt6NG1fkcaC1X2/hB6NP7KbhX7W+EQAI8yKMjJaSucY7c?=
+ =?us-ascii?Q?ydR/1NDVqv8q4TN2jWPcQb/mWFqHdvZC1TA0FpnHpSRS9XvOSwPd2eIENjq/?=
+ =?us-ascii?Q?8S9N65tcstj8Tdzczd3y2AS3roUGgfuaNmm9Q4VVfyLAyswYhBM6NpxkOUUO?=
+ =?us-ascii?Q?vWkn9AwHQsoraHH1zJiui2Jcu34ZWX8OaHBZuSqhP24rAXgQzHo+Lr8U59A6?=
+ =?us-ascii?Q?DYBDbFvqOfKoHHI2TPHDAN6xD6drhNXbr+TFqh4AUCy/VODIB0CtGdOi18TN?=
+ =?us-ascii?Q?4JV9p9jNalHbWYzs8+g9db16lQ8ZCZpZdJaa59NGXi7Abzcud3qCOIFNuu8W?=
+ =?us-ascii?Q?gmPmEMPYrmpEJIYfuV+MubfDchjn9sSbmRi6TQazV4ZFtWoJRt6bBBTyQ2VR?=
+ =?us-ascii?Q?AWSQfMMeax19833gf6y/VFjpmjdbW2eqQ4fgr95DlIiwFAgN5WpOSzFIGATk?=
+ =?us-ascii?Q?P8TNwyfc3Bbvy6vUOCF7UXTm/2RnWg2tAQcHRMMQwu98fOwaQOi0idkO/JgS?=
+ =?us-ascii?Q?1BWs5/Z4ipJBPy2ZAx5kQXl5?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4277633e-3c85-4617-6117-08d93f9b2ae3
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2021 09:56:32.6128
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jZJag31rYbDHGCi38tMvuCgPXAuJ11+9MYGzXHrPSQSGnj49wNai9M1kdWzEgc3/TbVfpN2hn4dgn/xeOv3CBp1UQ5GDkbQQkodU6kVCOOw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1001MB2093
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10035 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 spamscore=0
+ suspectscore=0 phishscore=0 mlxscore=0 bulkscore=0 adultscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2107050052
+X-Proofpoint-GUID: WHrKQ3P6ADHH-MnXQW-2GYHSAZPVsTLA
+X-Proofpoint-ORIG-GUID: WHrKQ3P6ADHH-MnXQW-2GYHSAZPVsTLA
 
-Per MFD subsystem requirements, split the IRQ part of the
-driver into a separate one with just the IRQ handling code
-and the powerkey support.
+Hi Ojaswin,
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+url:    https://github.com/0day-ci/linux/commits/Ojaswin-Mujoo/vchiq-Patch-to-separate-platform-and-cdev-code/20210705-000124
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 77ad1f0e99bd00af024e650b862cfda3137af660
+config: i386-randconfig-m021-20210705 (attached as .config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:1235 vchiq_release() warn: argument 3 to %lx specifier is cast from pointer
+
+vim +1235 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+
+62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1227  static int vchiq_release(struct inode *inode, struct file *file)
+62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1228  {
+62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1229  	struct vchiq_instance *instance = file->private_data;
+62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1230  	struct vchiq_state *state = vchiq_get_state();
+62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1231  	struct vchiq_service *service;
+62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1232  	int ret = 0;
+62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1233  	int i;
+62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1234  
+62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04 @1235  	vchiq_log_info(vchiq_arm_log_level, "%s: instance=%lx", __func__,
+62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1236  		       (unsigned long)instance);
+
+This should eventually be converted to %p so it doesn't defeat KASLR.
+(Not that we really care on raspberry pi, I think?)
+
+62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1237  
+62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1238  	if (!state) {
+62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1239  		ret = -EPERM;
+62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1240  		goto out;
+62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1241  	}
+62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1242  
+62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1243  	/* Ensure videocore is awake to allow termination. */
+62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1244  	vchiq_use_internal(instance->state, NULL, USE_TYPE_VCHIQ);
+62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1245  
+
 ---
- drivers/misc/Kconfig                          |  10 +
- drivers/misc/Makefile                         |   1 +
- drivers/misc/hi6421v600-irq.c                 | 314 ++++++++++++++++++
- drivers/staging/hikey9xx/hi6421-spmi-pmic.c   | 245 +-------------
- .../hikey9xx/hisilicon,hi6421-spmi-pmic.yaml  |   2 +-
- include/linux/mfd/hi6421-spmi-pmic.h          |   5 -
- 6 files changed, 329 insertions(+), 248 deletions(-)
- create mode 100644 drivers/misc/hi6421v600-irq.c
-
-diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
-index f4fb5c52b863..29294c52d5af 100644
---- a/drivers/misc/Kconfig
-+++ b/drivers/misc/Kconfig
-@@ -208,6 +208,16 @@ config CS5535_CLOCK_EVENT_SRC
- 	  MFGPTs have a better resolution and max interval than the
- 	  generic PIT, and are suitable for use as high-res timers.
- 
-+config HI6421V600_IRQ
-+	tristate "HiSilicon Hi6421v600 IRQ and powerkey"
-+	depends on OF
-+	depends on SPMI
-+	select MFD_CORE
-+	select REGMAP_SPMI
-+	help
-+	  This driver provides IRQ handling for Hi6421v600, used on
-+	  some Kirin chipsets, like the one at Hikey 970.
-+
- config HP_ILO
- 	tristate "Channel interface driver for the HP iLO processor"
- 	depends on PCI
-diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
-index e92a56d4442f..f91cab8c3d55 100644
---- a/drivers/misc/Makefile
-+++ b/drivers/misc/Makefile
-@@ -57,3 +57,4 @@ obj-$(CONFIG_HABANA_AI)		+= habanalabs/
- obj-$(CONFIG_UACCE)		+= uacce/
- obj-$(CONFIG_XILINX_SDFEC)	+= xilinx_sdfec.o
- obj-$(CONFIG_HISI_HIKEY_USB)	+= hisi_hikey_usb.o
-+obj-$(CONFIG_HI6421V600_IRQ)	+= hi6421v600-irq.o
-diff --git a/drivers/misc/hi6421v600-irq.c b/drivers/misc/hi6421v600-irq.c
-new file mode 100644
-index 000000000000..04623557ec3c
---- /dev/null
-+++ b/drivers/misc/hi6421v600-irq.c
-@@ -0,0 +1,314 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Device driver for irqs in HISI PMIC IC
-+ *
-+ * Copyright (c) 2013 Linaro Ltd.
-+ * Copyright (c) 2011 Hisilicon.
-+ * Copyright (c) 2020-2021 Huawei Technologies Co., Ltd.
-+ */
-+
-+#include <linux/bitops.h>
-+#include <linux/interrupt.h>
-+#include <linux/irq.h>
-+#include <linux/mfd/hi6421-spmi-pmic.h>
-+#include <linux/module.h>
-+#include <linux/of_gpio.h>
-+#include <linux/platform_device.h>
-+#include <linux/slab.h>
-+#include <linux/irqdomain.h>
-+#include <linux/regmap.h>
-+
-+struct hi6421v600_irq {
-+	struct device		*dev;
-+	struct irq_domain	*domain;
-+	int			irq;
-+	int			gpio;
-+	unsigned int		*irqs;
-+	struct regmap		*regmap;
-+
-+	/* Protect IRQ mask changes */
-+	spinlock_t		lock;
-+};
-+
-+enum hi6421v600_irq_list {
-+	OTMP = 0,
-+	VBUS_CONNECT,
-+	VBUS_DISCONNECT,
-+	ALARMON_R,
-+	HOLD_6S,
-+	HOLD_1S,
-+	POWERKEY_UP,
-+	POWERKEY_DOWN,
-+	OCP_SCP_R,
-+	COUL_R,
-+	SIM0_HPD_R,
-+	SIM0_HPD_F,
-+	SIM1_HPD_R,
-+	SIM1_HPD_F,
-+
-+	PMIC_IRQ_LIST_MAX
-+};
-+
-+#define HISI_IRQ_BANK_SIZE		2
-+
-+/*
-+ * IRQ number for the power key button and mask for both UP and DOWN IRQs
-+ */
-+#define HISI_POWERKEY_IRQ_NUM		0
-+#define HISI_IRQ_POWERKEY_UP_DOWN	(BIT(POWERKEY_DOWN) | BIT(POWERKEY_UP))
-+
-+/*
-+ * Registers for IRQ address and IRQ mask bits
-+ *
-+ * Please notice that we need to regmap a larger region, as other
-+ * registers are used by the irqs.
-+ * See drivers/irq/hi6421-irq.c.
-+ */
-+#define SOC_PMIC_IRQ_MASK_0_ADDR	0x0202
-+#define SOC_PMIC_IRQ0_ADDR		0x0212
-+
-+/*
-+ * The IRQs are mapped as:
-+ *
-+ *	======================  =============   ============	=====
-+ *	IRQ			MASK REGISTER	IRQ REGISTER	BIT
-+ *	======================  =============   ============	=====
-+ *	OTMP			0x0202		0x212		bit 0
-+ *	VBUS_CONNECT		0x0202		0x212		bit 1
-+ *	VBUS_DISCONNECT		0x0202		0x212		bit 2
-+ *	ALARMON_R		0x0202		0x212		bit 3
-+ *	HOLD_6S			0x0202		0x212		bit 4
-+ *	HOLD_1S			0x0202		0x212		bit 5
-+ *	POWERKEY_UP		0x0202		0x212		bit 6
-+ *	POWERKEY_DOWN		0x0202		0x212		bit 7
-+ *
-+ *	OCP_SCP_R		0x0203		0x213		bit 0
-+ *	COUL_R			0x0203		0x213		bit 1
-+ *	SIM0_HPD_R		0x0203		0x213		bit 2
-+ *	SIM0_HPD_F		0x0203		0x213		bit 3
-+ *	SIM1_HPD_R		0x0203		0x213		bit 4
-+ *	SIM1_HPD_F		0x0203		0x213		bit 5
-+ *	======================  =============   ============	=====
-+ *
-+ * Each mask register contains 8 bits. The ancillary macros below
-+ * convert a number from 0 to 14 into a register address and a bit mask
-+ */
-+#define HISI_IRQ_MASK_REG(irq_data)	(SOC_PMIC_IRQ_MASK_0_ADDR + \
-+					 (irqd_to_hwirq(irq_data) / BITS_PER_BYTE))
-+#define HISI_IRQ_MASK_BIT(irq_data)	BIT(irqd_to_hwirq(irq_data) & (BITS_PER_BYTE - 1))
-+#define HISI_8BITS_MASK			0xff
-+
-+static irqreturn_t hi6421v600_irq_handler(int irq, void *__priv)
-+{
-+	struct hi6421v600_irq *priv = __priv;
-+	unsigned long pending;
-+	unsigned int in;
-+	int i, offset;
-+
-+	for (i = 0; i < HISI_IRQ_BANK_SIZE; i++) {
-+		regmap_read(priv->regmap, SOC_PMIC_IRQ0_ADDR + i, &in);
-+
-+		/* Mark pending IRQs as handled */
-+		regmap_write(priv->regmap, SOC_PMIC_IRQ0_ADDR + i, in);
-+
-+		pending = in & HISI_8BITS_MASK;
-+
-+		if (i == HISI_POWERKEY_IRQ_NUM &&
-+		    (pending & HISI_IRQ_POWERKEY_UP_DOWN) == HISI_IRQ_POWERKEY_UP_DOWN) {
-+			/*
-+			 * If both powerkey down and up IRQs are received,
-+			 * handle them at the right order
-+			 */
-+			generic_handle_irq(priv->irqs[POWERKEY_DOWN]);
-+			generic_handle_irq(priv->irqs[POWERKEY_UP]);
-+			pending &= ~HISI_IRQ_POWERKEY_UP_DOWN;
-+		}
-+
-+		if (!pending)
-+			continue;
-+
-+		for_each_set_bit(offset, &pending, BITS_PER_BYTE) {
-+			generic_handle_irq(priv->irqs[offset + i * BITS_PER_BYTE]);
-+		}
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static void hi6421v600_irq_mask(struct irq_data *d)
-+{
-+	struct hi6421v600_irq *priv = irq_data_get_irq_chip_data(d);
-+	unsigned long flags;
-+	unsigned int data;
-+	u32 offset;
-+
-+	offset = HISI_IRQ_MASK_REG(d);
-+
-+	spin_lock_irqsave(&priv->lock, flags);
-+
-+	regmap_read(priv->regmap, offset, &data);
-+	data |= HISI_IRQ_MASK_BIT(d);
-+	regmap_write(priv->regmap, offset, data);
-+
-+	spin_unlock_irqrestore(&priv->lock, flags);
-+}
-+
-+static void hi6421v600_irq_unmask(struct irq_data *d)
-+{
-+	struct hi6421v600_irq *priv = irq_data_get_irq_chip_data(d);
-+	u32 data, offset;
-+	unsigned long flags;
-+
-+	offset = HISI_IRQ_MASK_REG(d);
-+
-+	spin_lock_irqsave(&priv->lock, flags);
-+
-+	regmap_read(priv->regmap, offset, &data);
-+	data &= ~HISI_IRQ_MASK_BIT(d);
-+	regmap_write(priv->regmap, offset, data);
-+
-+	spin_unlock_irqrestore(&priv->lock, flags);
-+}
-+
-+static struct irq_chip hi6421v600_pmu_irqchip = {
-+	.name		= "hi6421v600-irq",
-+	.irq_mask	= hi6421v600_irq_mask,
-+	.irq_unmask	= hi6421v600_irq_unmask,
-+	.irq_disable	= hi6421v600_irq_mask,
-+	.irq_enable	= hi6421v600_irq_unmask,
-+};
-+
-+static int hi6421v600_irq_map(struct irq_domain *d, unsigned int virq,
-+			      irq_hw_number_t hw)
-+{
-+	struct hi6421v600_irq *priv = d->host_data;
-+
-+	irq_set_chip_and_handler_name(virq, &hi6421v600_pmu_irqchip,
-+				      handle_simple_irq, "hi6421v600");
-+	irq_set_chip_data(virq, priv);
-+	irq_set_irq_type(virq, IRQ_TYPE_NONE);
-+
-+	return 0;
-+}
-+
-+static const struct irq_domain_ops hi6421v600_domain_ops = {
-+	.map	= hi6421v600_irq_map,
-+	.xlate	= irq_domain_xlate_twocell,
-+};
-+
-+static void hi6421v600_irq_init(struct hi6421v600_irq *priv)
-+{
-+	int i;
-+	unsigned int pending;
-+
-+	/* Mask all IRQs */
-+	for (i = 0; i < HISI_IRQ_BANK_SIZE; i++)
-+		regmap_write(priv->regmap, SOC_PMIC_IRQ_MASK_0_ADDR + i,
-+			     HISI_8BITS_MASK);
-+
-+	/* Mark all IRQs as handled */
-+	for (i = 0; i < HISI_IRQ_BANK_SIZE; i++) {
-+		regmap_read(priv->regmap, SOC_PMIC_IRQ0_ADDR + i, &pending);
-+		regmap_write(priv->regmap, SOC_PMIC_IRQ0_ADDR + i,
-+			     HISI_8BITS_MASK);
-+	}
-+}
-+
-+static int hi6421v600_irq_probe(struct platform_device *pdev)
-+{
-+	struct device *pmic_dev = pdev->dev.parent;
-+	struct device *dev = &pdev->dev;
-+	struct device_node *np = pmic_dev->of_node;
-+	struct hi6421v600_irq *priv;
-+	struct hi6421_spmi_pmic *pmic;
-+	unsigned int virq;
-+	int i, ret;
-+
-+	/*
-+	 * This driver is meant to be called by hi6421-spmi-core,
-+	 * which should first set drvdata. If this doesn't happen, hit
-+	 * a warn on and return.
-+	 */
-+	pmic = dev_get_drvdata(pmic_dev);
-+	if (WARN_ON(!pmic))
-+		return -ENODEV;
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->dev = dev;
-+	priv->regmap = pmic->regmap;
-+
-+	spin_lock_init(&priv->lock);
-+
-+	priv->gpio = of_get_named_gpio_flags(np, "interrupts", 0, NULL);
-+	if (priv->gpio < 0)
-+		return priv->gpio;
-+
-+	if (!gpio_is_valid(priv->gpio))
-+		return -EINVAL;
-+
-+	ret = devm_gpio_request_one(dev, priv->gpio, GPIOF_IN, "pmic");
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to request gpio%d\n", priv->gpio);
-+		return ret;
-+	}
-+
-+	priv->irq = gpio_to_irq(priv->gpio);
-+
-+	platform_set_drvdata(pdev, priv);
-+
-+	hi6421v600_irq_init(priv);
-+
-+	priv->irqs = devm_kzalloc(dev, PMIC_IRQ_LIST_MAX * sizeof(int), GFP_KERNEL);
-+	if (!priv->irqs)
-+		return -ENOMEM;
-+
-+	priv->domain = irq_domain_add_simple(np, PMIC_IRQ_LIST_MAX, 0,
-+					     &hi6421v600_domain_ops, priv);
-+	if (!priv->domain) {
-+		dev_err(dev, "Failed to create IRQ domain\n");
-+		return -ENODEV;
-+	}
-+
-+	for (i = 0; i < PMIC_IRQ_LIST_MAX; i++) {
-+		virq = irq_create_mapping(priv->domain, i);
-+		if (!virq) {
-+			dev_err(dev, "Failed to map H/W IRQ\n");
-+			return -ENODEV;
-+		}
-+		priv->irqs[i] = virq;
-+	}
-+
-+	ret = devm_request_threaded_irq(dev,
-+					priv->irq, hi6421v600_irq_handler,
-+					NULL,
-+					IRQF_TRIGGER_LOW | IRQF_SHARED | IRQF_NO_SUSPEND,
-+					"pmic", priv);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to start IRQ handling thread: error %d\n",
-+			ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct platform_device_id hi6421v600_irq_table[] = {
-+	{ .name = "hi6421v600-irq" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(platform, hi6421v600_irq_table);
-+
-+static struct platform_driver hi6421v600_irq_driver = {
-+	.id_table = hi6421v600_irq_table,
-+	.driver = {
-+		.name = "hi6421v600-irq",
-+	},
-+	.probe	= hi6421v600_irq_probe,
-+};
-+module_platform_driver(hi6421v600_irq_driver);
-+
-+MODULE_DESCRIPTION("HiSilicon Hi6421v600 IRQ driver");
-+MODULE_LICENSE("GPL v2");
-diff --git a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c b/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
-index 08b6f33c505d..46dc1b856217 100644
---- a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
-+++ b/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
-@@ -7,205 +7,19 @@
-  * Copyright (c) 2020-2021 Huawei Technologies Co., Ltd.
-  */
- 
--#include <linux/bitops.h>
--#include <linux/interrupt.h>
--#include <linux/irq.h>
- #include <linux/mfd/core.h>
- #include <linux/mfd/hi6421-spmi-pmic.h>
- #include <linux/module.h>
--#include <linux/of_gpio.h>
- #include <linux/platform_device.h>
-+#include <linux/regmap.h>
- #include <linux/slab.h>
- #include <linux/spmi.h>
- 
--enum hi6421_spmi_pmic_irq_list {
--	OTMP = 0,
--	VBUS_CONNECT,
--	VBUS_DISCONNECT,
--	ALARMON_R,
--	HOLD_6S,
--	HOLD_1S,
--	POWERKEY_UP,
--	POWERKEY_DOWN,
--	OCP_SCP_R,
--	COUL_R,
--	SIM0_HPD_R,
--	SIM0_HPD_F,
--	SIM1_HPD_R,
--	SIM1_HPD_F,
--
--	PMIC_IRQ_LIST_MAX
--};
--
--#define HISI_IRQ_BANK_SIZE		2
--
--/*
-- * IRQ number for the power key button and mask for both UP and DOWN IRQs
-- */
--#define HISI_POWERKEY_IRQ_NUM		0
--#define HISI_IRQ_POWERKEY_UP_DOWN	(BIT(POWERKEY_DOWN) | BIT(POWERKEY_UP))
--
--/*
-- * Registers for IRQ address and IRQ mask bits
-- *
-- * Please notice that we need to regmap a larger region, as other
-- * registers are used by the regulators.
-- * See drivers/regulator/hi6421-regulator.c.
-- */
--#define SOC_PMIC_IRQ_MASK_0_ADDR	0x0202
--#define SOC_PMIC_IRQ0_ADDR		0x0212
--
--/*
-- * The IRQs are mapped as:
-- *
-- *	======================  =============   ============	=====
-- *	IRQ			MASK REGISTER	IRQ REGISTER	BIT
-- *	======================  =============   ============	=====
-- *	OTMP			0x0202		0x212		bit 0
-- *	VBUS_CONNECT		0x0202		0x212		bit 1
-- *	VBUS_DISCONNECT		0x0202		0x212		bit 2
-- *	ALARMON_R		0x0202		0x212		bit 3
-- *	HOLD_6S			0x0202		0x212		bit 4
-- *	HOLD_1S			0x0202		0x212		bit 5
-- *	POWERKEY_UP		0x0202		0x212		bit 6
-- *	POWERKEY_DOWN		0x0202		0x212		bit 7
-- *
-- *	OCP_SCP_R		0x0203		0x213		bit 0
-- *	COUL_R			0x0203		0x213		bit 1
-- *	SIM0_HPD_R		0x0203		0x213		bit 2
-- *	SIM0_HPD_F		0x0203		0x213		bit 3
-- *	SIM1_HPD_R		0x0203		0x213		bit 4
-- *	SIM1_HPD_F		0x0203		0x213		bit 5
-- *	======================  =============   ============	=====
-- *
-- * Each mask register contains 8 bits. The ancillary macros below
-- * convert a number from 0 to 14 into a register address and a bit mask
-- */
--#define HISI_IRQ_MASK_REG(irq_data)	(SOC_PMIC_IRQ_MASK_0_ADDR + \
--					 (irqd_to_hwirq(irq_data) / BITS_PER_BYTE))
--#define HISI_IRQ_MASK_BIT(irq_data)	BIT(irqd_to_hwirq(irq_data) & (BITS_PER_BYTE - 1))
--#define HISI_8BITS_MASK			0xff
--
- static const struct mfd_cell hi6421v600_devs[] = {
-+	{ .name = "hi6421v600-irq", },
- 	{ .name = "hi6421v600-regulator", },
- };
- 
--static irqreturn_t hi6421_spmi_irq_handler(int irq, void *priv)
--{
--	struct hi6421_spmi_pmic *ddata = (struct hi6421_spmi_pmic *)priv;
--	unsigned long pending;
--	unsigned int in;
--	int i, offset;
--
--	for (i = 0; i < HISI_IRQ_BANK_SIZE; i++) {
--		regmap_read(ddata->regmap, SOC_PMIC_IRQ0_ADDR + i, &in);
--
--		/* Mark pending IRQs as handled */
--		regmap_write(ddata->regmap, SOC_PMIC_IRQ0_ADDR + i, in);
--
--		pending = in & HISI_8BITS_MASK;
--
--		if (i == HISI_POWERKEY_IRQ_NUM &&
--		    (pending & HISI_IRQ_POWERKEY_UP_DOWN) == HISI_IRQ_POWERKEY_UP_DOWN) {
--			/*
--			 * If both powerkey down and up IRQs are received,
--			 * handle them at the right order
--			 */
--			generic_handle_irq(ddata->irqs[POWERKEY_DOWN]);
--			generic_handle_irq(ddata->irqs[POWERKEY_UP]);
--			pending &= ~HISI_IRQ_POWERKEY_UP_DOWN;
--		}
--
--		if (!pending)
--			continue;
--
--		for_each_set_bit(offset, &pending, BITS_PER_BYTE) {
--			generic_handle_irq(ddata->irqs[offset + i * BITS_PER_BYTE]);
--		}
--	}
--
--	return IRQ_HANDLED;
--}
--
--static void hi6421_spmi_irq_mask(struct irq_data *d)
--{
--	struct hi6421_spmi_pmic *ddata = irq_data_get_irq_chip_data(d);
--	unsigned long flags;
--	unsigned int data;
--	u32 offset;
--
--	offset = HISI_IRQ_MASK_REG(d);
--
--	spin_lock_irqsave(&ddata->lock, flags);
--
--	regmap_read(ddata->regmap, offset, &data);
--	data |= HISI_IRQ_MASK_BIT(d);
--	regmap_write(ddata->regmap, offset, data);
--
--	spin_unlock_irqrestore(&ddata->lock, flags);
--}
--
--static void hi6421_spmi_irq_unmask(struct irq_data *d)
--{
--	struct hi6421_spmi_pmic *ddata = irq_data_get_irq_chip_data(d);
--	u32 data, offset;
--	unsigned long flags;
--
--	offset = HISI_IRQ_MASK_REG(d);
--
--	spin_lock_irqsave(&ddata->lock, flags);
--
--	regmap_read(ddata->regmap, offset, &data);
--	data &= ~HISI_IRQ_MASK_BIT(d);
--	regmap_write(ddata->regmap, offset, data);
--
--	spin_unlock_irqrestore(&ddata->lock, flags);
--}
--
--static struct irq_chip hi6421_spmi_pmu_irqchip = {
--	.name		= "hi6421v600-irq",
--	.irq_mask	= hi6421_spmi_irq_mask,
--	.irq_unmask	= hi6421_spmi_irq_unmask,
--	.irq_disable	= hi6421_spmi_irq_mask,
--	.irq_enable	= hi6421_spmi_irq_unmask,
--};
--
--static int hi6421_spmi_irq_map(struct irq_domain *d, unsigned int virq,
--			       irq_hw_number_t hw)
--{
--	struct hi6421_spmi_pmic *ddata = d->host_data;
--
--	irq_set_chip_and_handler_name(virq, &hi6421_spmi_pmu_irqchip,
--				      handle_simple_irq, "hi6421v600");
--	irq_set_chip_data(virq, ddata);
--	irq_set_irq_type(virq, IRQ_TYPE_NONE);
--
--	return 0;
--}
--
--static const struct irq_domain_ops hi6421_spmi_domain_ops = {
--	.map	= hi6421_spmi_irq_map,
--	.xlate	= irq_domain_xlate_twocell,
--};
--
--static void hi6421_spmi_pmic_irq_init(struct hi6421_spmi_pmic *ddata)
--{
--	int i;
--	unsigned int pending;
--
--	/* Mask all IRQs */
--	for (i = 0; i < HISI_IRQ_BANK_SIZE; i++)
--		regmap_write(ddata->regmap, SOC_PMIC_IRQ_MASK_0_ADDR + i,
--			     HISI_8BITS_MASK);
--
--	/* Mark all IRQs as handled */
--	for (i = 0; i < HISI_IRQ_BANK_SIZE; i++) {
--		regmap_read(ddata->regmap, SOC_PMIC_IRQ0_ADDR + i, &pending);
--		regmap_write(ddata->regmap, SOC_PMIC_IRQ0_ADDR + i,
--			     HISI_8BITS_MASK);
--	}
--}
--
- static const struct regmap_config regmap_config = {
- 	.reg_bits	= 16,
- 	.val_bits	= BITS_PER_BYTE,
-@@ -216,11 +30,8 @@ static const struct regmap_config regmap_config = {
- static int hi6421_spmi_pmic_probe(struct spmi_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
--	struct device_node *np = dev->of_node;
-+	int ret;
- 	struct hi6421_spmi_pmic *ddata;
--	unsigned int virq;
--	int ret, i;
--
- 	ddata = devm_kzalloc(dev, sizeof(*ddata), GFP_KERNEL);
- 	if (!ddata)
- 		return -ENOMEM;
-@@ -229,58 +40,8 @@ static int hi6421_spmi_pmic_probe(struct spmi_device *pdev)
- 	if (IS_ERR(ddata->regmap))
- 		return PTR_ERR(ddata->regmap);
- 
--	spin_lock_init(&ddata->lock);
--
- 	ddata->dev = dev;
- 
--	ddata->gpio = of_get_named_gpio_flags(np, "interrupts", 0, NULL);
--	if (ddata->gpio < 0)
--		return ddata->gpio;
--
--	if (!gpio_is_valid(ddata->gpio))
--		return -EINVAL;
--
--	ret = devm_gpio_request_one(dev, ddata->gpio, GPIOF_IN, "pmic");
--	if (ret < 0) {
--		dev_err(dev, "Failed to request gpio%d\n", ddata->gpio);
--		return ret;
--	}
--
--	ddata->irq = gpio_to_irq(ddata->gpio);
--
--	hi6421_spmi_pmic_irq_init(ddata);
--
--	ddata->irqs = devm_kzalloc(dev, PMIC_IRQ_LIST_MAX * sizeof(int), GFP_KERNEL);
--	if (!ddata->irqs)
--		return -ENOMEM;
--
--	ddata->domain = irq_domain_add_simple(np, PMIC_IRQ_LIST_MAX, 0,
--					      &hi6421_spmi_domain_ops, ddata);
--	if (!ddata->domain) {
--		dev_err(dev, "Failed to create IRQ domain\n");
--		return -ENODEV;
--	}
--
--	for (i = 0; i < PMIC_IRQ_LIST_MAX; i++) {
--		virq = irq_create_mapping(ddata->domain, i);
--		if (!virq) {
--			dev_err(dev, "Failed to map H/W IRQ\n");
--			return -ENODEV;
--		}
--		ddata->irqs[i] = virq;
--	}
--
--	ret = devm_request_threaded_irq(dev,
--					ddata->irq, hi6421_spmi_irq_handler,
--					NULL,
--				        IRQF_TRIGGER_LOW | IRQF_SHARED | IRQF_NO_SUSPEND,
--				        "pmic", ddata);
--	if (ret < 0) {
--		dev_err(dev, "Failed to start IRQ handling thread: error %d\n",
--			ret);
--		return ret;
--	}
--
- 	dev_set_drvdata(&pdev->dev, ddata);
- 
- 	ret = devm_mfd_add_devices(&pdev->dev, PLATFORM_DEVID_NONE,
-diff --git a/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml b/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
-index 252b600f02a8..a2963bea87ea 100644
---- a/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
-+++ b/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
-@@ -66,7 +66,7 @@ examples:
-     /* pmic properties */
- 
-     pmic: pmic@0 {
--      compatible = "hisilicon,hi6421-spmi";
-+      compatible = "hisilicon,hi6421v600-spmi";
-       reg = <0 0>;
- 
-       #interrupt-cells = <2>;
-diff --git a/include/linux/mfd/hi6421-spmi-pmic.h b/include/linux/mfd/hi6421-spmi-pmic.h
-index 2660226138b8..e5b8dbf828b6 100644
---- a/include/linux/mfd/hi6421-spmi-pmic.h
-+++ b/include/linux/mfd/hi6421-spmi-pmic.h
-@@ -19,11 +19,6 @@ struct hi6421_spmi_pmic {
- 	struct resource				*res;
- 	struct device				*dev;
- 	void __iomem				*regs;
--	spinlock_t				lock;
--	struct irq_domain			*domain;
--	int					irq;
--	int					gpio;
--	unsigned int				*irqs;
- 	struct regmap				*regmap;
- };
- 
--- 
-2.31.1
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
