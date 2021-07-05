@@ -1,103 +1,124 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 104AF72
-	for <linux-staging@lists.linux.dev>; Sun,  4 Jul 2021 23:11:16 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A47FE619AC;
-	Sun,  4 Jul 2021 23:11:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1625440275;
-	bh=rLIR0S92aTlG9q/OkSLRKIJuW7+/bZqEm10UhBiwYL8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PsVS8KEYC6PnvvFYAqSbo6uIr2rYwZZ4KIJTFPSTRiMJ/cRry8pKeu7TgBOXPRmeL
-	 SDu+/4hTD7uo0lgQrTwihfSxyfpJoa1glO7oKCiaOhBcEqRyRd8wO12Wnbri9pJ6FU
-	 +dRJiizUK0/bJMfH1FMhxoyrJ3zZIohnWnxUv5aXR6I0e2VMZ1jVDH56rENT1pFNzi
-	 oK0z5vHMV5GoxW/1lLj489GmMR48SI+E2PbtP8Pf75Ynt7QFPd7X3FPLVjw8ofOL/9
-	 ByRCn5MdgCqiNddt7cLkJI9UGbGgpAiMBY98C3Ej5N+4HwRkZkCcgKiBeNUwBAeZzr
-	 ohWiaJMt9srIw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Steve Longerbeam <slongerbeam@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Tim Harvey <tharvey@gateworks.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 4.19 25/31] media: imx-csi: Skip first few frames from a BT.656 source
-Date: Sun,  4 Jul 2021 19:10:37 -0400
-Message-Id: <20210704231043.1491209-25-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210704231043.1491209-1-sashal@kernel.org>
-References: <20210704231043.1491209-1-sashal@kernel.org>
+Received: from smtp.smtpout.orange.fr (smtp03.smtpout.orange.fr [80.12.242.125])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2474570
+	for <linux-staging@lists.linux.dev>; Mon,  5 Jul 2021 07:50:58 +0000 (UTC)
+Received: from ubuntu-CJ.passengers.t26.sncf ([109.190.253.13])
+	by mwinf5d50 with ME
+	id RKjC250060J6jfR03KjFor; Mon, 05 Jul 2021 09:43:21 +0200
+X-ME-Helo: ubuntu-CJ.passengers.t26.sncf
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 05 Jul 2021 09:43:21 +0200
+X-ME-IP: 109.190.253.13
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Larry.Finger@lwfinger.net,
+	florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org,
+	insafonov@gmail.com,
+	zhansayabagdaulet@gmail.com,
+	mike.ximing.chen@intel.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] staging: rtl8712: Remove some unused #define and enum
+Date: Mon,  5 Jul 2021 09:43:07 +0200
+Message-Id: <6d5b505e7de20fdaba1831557baee1daf4656845.1625470822.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.27.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Steve Longerbeam <slongerbeam@gmail.com>
+These #define and the enum WIFI_REG_DOMAIN are unused.
+They can be removed.
 
-[ Upstream commit e198be37e52551bb863d07d2edc535d0932a3c4f ]
-
-Some BT.656 sensors (e.g. ADV718x) transmit frames with unstable BT.656
-sync codes after initial power on. This confuses the imx CSI,resulting
-in vertical and/or horizontal sync issues. Skip the first 20 frames
-to avoid the unstable sync codes.
-
-[fabio: fixed checkpatch warning and increased the frame skipping to 20]
-
-Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
-Reviewed-by: Tim Harvey <tharvey@gateworks.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- drivers/staging/media/imx/imx-media-csi.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+Compile tested only
+---
+ drivers/staging/rtl8712/wifi.h | 48 ----------------------------------
+ 1 file changed, 48 deletions(-)
 
-diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-index 0f8fdc347091..c7df0ffb3510 100644
---- a/drivers/staging/media/imx/imx-media-csi.c
-+++ b/drivers/staging/media/imx/imx-media-csi.c
-@@ -730,9 +730,10 @@ static int csi_setup(struct csi_priv *priv)
+diff --git a/drivers/staging/rtl8712/wifi.h b/drivers/staging/rtl8712/wifi.h
+index 577a95c62d6c..b8acb9c7395d 100644
+--- a/drivers/staging/rtl8712/wifi.h
++++ b/drivers/staging/rtl8712/wifi.h
+@@ -20,26 +20,10 @@
+ #define WLAN_HDR_A3_LEN		24
+ #define WLAN_HDR_A3_QOS_LEN	26
  
- static int csi_start(struct csi_priv *priv)
- {
--	struct v4l2_fract *output_fi;
-+	struct v4l2_fract *input_fi, *output_fi;
- 	int ret;
+-#define P80211CAPTURE_VERSION	0x80211001
+-
+ enum WIFI_FRAME_TYPE {
+ 	WIFI_QOS_DATA_TYPE	= (BIT(7) | BIT(3)),	/*!< QoS Data */
+ };
  
-+	input_fi = &priv->frame_interval[CSI_SINK_PAD];
- 	output_fi = &priv->frame_interval[priv->active_output_pad];
+-enum WIFI_REG_DOMAIN {
+-	DOMAIN_FCC	= 1,
+-	DOMAIN_IC	= 2,
+-	DOMAIN_ETSI	= 3,
+-	DOMAIN_SPAIN	= 4,
+-	DOMAIN_FRANCE	= 5,
+-	DOMAIN_MKK	= 6,
+-	DOMAIN_ISRAEL	= 7,
+-	DOMAIN_MKK1	= 8,
+-	DOMAIN_MKK2	= 9,
+-	DOMAIN_MKK3	= 10,
+-	DOMAIN_MAX
+-};
+-
+ #define SetToDs(pbuf) ({ \
+ 	*(__le16 *)(pbuf) |= cpu_to_le16(IEEE80211_FCTL_TODS); \
+ })
+@@ -194,46 +178,14 @@ static inline unsigned char *get_hdr_bssid(unsigned char *pframe)
+ 	return sa;
+ }
  
- 	/* start upstream */
-@@ -741,6 +742,17 @@ static int csi_start(struct csi_priv *priv)
- 	if (ret)
- 		return ret;
+-/*-----------------------------------------------------------------------------
+- *		Below is for the security related definition
+- *-----------------------------------------------------------------------------
+- */
+-#define _ASOCREQ_IE_OFFSET_	4	/* excluding wlan_hdr */
+-#define	_ASOCRSP_IE_OFFSET_	6
+-#define _REASOCREQ_IE_OFFSET_	10
+-#define _REASOCRSP_IE_OFFSET_	6
+-#define _PROBEREQ_IE_OFFSET_	0
+-#define	_PROBERSP_IE_OFFSET_	12
+-#define _AUTH_IE_OFFSET_	6
+-#define _DEAUTH_IE_OFFSET_	0
+-#define _BEACON_IE_OFFSET_	12
+-
+-#define _FIXED_IE_LENGTH_	_BEACON_IE_OFFSET_
+-
+ /* ---------------------------------------------------------------------------
+  *			Below is the fixed elements...
+  * ---------------------------------------------------------------------------
+  */
+-#define _AUTH_ALGM_NUM_			2
+-#define _AUTH_SEQ_NUM_			2
+ #define _BEACON_ITERVAL_		2
+ #define _CAPABILITY_			2
+-#define _CURRENT_APADDR_		6
+-#define _LISTEN_INTERVAL_		2
+-#define _RSON_CODE_				2
+-#define _ASOC_ID_				2
+-#define _STATUS_CODE_			2
+ #define _TIMESTAMP_				8
  
-+	/* Skip first few frames from a BT.656 source */
-+	if (priv->upstream_ep.bus_type == V4L2_MBUS_BT656) {
-+		u32 delay_usec, bad_frames = 20;
-+
-+		delay_usec = DIV_ROUND_UP_ULL((u64)USEC_PER_SEC *
-+			input_fi->numerator * bad_frames,
-+			input_fi->denominator);
-+
-+		usleep_range(delay_usec, delay_usec + 1000);
-+	}
-+
- 	if (priv->dest == IPU_CSI_DEST_IDMAC) {
- 		ret = csi_idmac_start(priv);
- 		if (ret)
+-#define AUTH_ODD_TO				0
+-#define AUTH_EVEN_TO			1
+-
+-/*-----------------------------------------------------------------------------
+- *			Below is the definition for 802.11i / 802.1x
+- *------------------------------------------------------------------------------
+- */
+-#define _IEEE8021X_MGT_			1	/*WPA */
+-#define _IEEE8021X_PSK_			2	/* WPA with pre-shared key */
+ 
+ /*-----------------------------------------------------------------------------
+  *			Below is the definition for WMM
 -- 
-2.30.2
+2.27.0
 
