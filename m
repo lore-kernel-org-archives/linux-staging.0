@@ -1,34 +1,37 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBEB9173
-	for <linux-staging@lists.linux.dev>; Mon,  5 Jul 2021 09:39:02 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 644A1613E2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069DB2F80
+	for <linux-staging@lists.linux.dev>; Mon,  5 Jul 2021 09:39:03 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6B549613F6;
 	Mon,  5 Jul 2021 09:39:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1625477942;
-	bh=hj/ipUvkpkeKWt7EJnZrwj31HELGkpjHJJ3w+DNn5xs=;
+	bh=UPSKwXDLNPPYMIBA/yD1R/m38gQ0EZ+Be21kk2EY/dQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=M5W9y8FNS0GsXdo3jOLUyBX2mZ/21MCauWtXQ4BqBOumkewWjt71OlgDbXa+rCrsm
-	 I6nz+94YfuXoxBxRP6XfALcBY5pzgR03rzpPMV9++qFil3XJ7x5C5qb20Nlcg5kl7W
-	 RLa0cPesaBo3dRFe3HGLXhMl32wPSOSlILbTPxwUo0oH8vEzKjw/O8iJhdxYXZDd+t
-	 GaopQMIoweXoEhE7T2x3p56aKGUk+vwRnsjAF1qP6MvS7lV28ExZfIGEB+kONIkUHj
-	 /C8Mlb10LoBpoEGb9T7ugqLAUXhFVRim8KYwp7G0qV0tllZb9FzAejaVrrJw/7KMUl
-	 sa6Kv31HGj0DQ==
+	b=iqK07QTOGwq90v7Yt0tSpkarV/7lXcPP9C540oSSIOUaQKUWDoWFFrJfZK73nKBgi
+	 Sxl3tdhO82x6R5FJZrmCNrhfFUaxbr1cFBG/LftyxPLx9/T7DitggSg3bfsqQtv/ZK
+	 If2+Hn4NxUrRTn/4eYC2iRvy5rAaZpA87+eV3j+6q+02bDf2LttVZHm6YTlnYI/S4b
+	 pdbn6NhKMQ+qQtxFyNrxjgWVY/EXw9DKyJaePGpPJAIGygGCRTLa0qyOP1HGZ9axYJ
+	 QZhH2CArc+U9SwrvhTkOpIbH90EXQ3GhNpMCLu3x6RA1uzhquiisIHFkjBZYYiwppO
+	 5MnlcaI7PuUVQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1m0L43-002tok-5R; Mon, 05 Jul 2021 11:38:55 +0200
+	id 1m0L43-002tow-CN; Mon, 05 Jul 2021 11:38:55 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linuxarm@huawei.com,
 	mauro.chehab@huawei.com,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Lee Jones <lee.jones@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
 	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Rob Herring <robh@kernel.org>
-Subject: [PATCH v12 1/9] staging: hi6421-spmi-pmic: rename GPIO IRQ OF node
-Date: Mon,  5 Jul 2021 11:38:42 +0200
-Message-Id: <0df3e0572f80a9e47d66ca59bb82dc9f622fa456.1625477735.git.mchehab+huawei@kernel.org>
+	linux-staging@lists.linux.dev
+Subject: [PATCH v12 5/9] staging: hi6421-spmi-pmic: cleanup drvdata
+Date: Mon,  5 Jul 2021 11:38:46 +0200
+Message-Id: <de9a4cfc79b1aa98844c7df934445aa248ba622e.1625477735.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1625477735.git.mchehab+huawei@kernel.org>
 References: <cover.1625477735.git.mchehab+huawei@kernel.org>
@@ -41,50 +44,176 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Instead of using the standard name ("gpios"), use "interrupts".
+There are lots of fields at struct hi6421_spmi_pmic that aren't
+used. In a matter of fact, only regmap is needed.
 
-Suggested-by: Rob Herring <robh@kernel.org>
+So, drop the struct as a hole, and set just the regmap as
+the drvdata.
+
+While here, add a missing dot at the Huawei's copyrights.
+
+Acked-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/staging/hikey9xx/hi6421-spmi-pmic.c              | 2 +-
- drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/misc/hi6421v600-irq.c               |  9 ++++----
+ drivers/regulator/hi6421v600-regulator.c    | 10 ++++-----
+ drivers/staging/hikey9xx/hi6421-spmi-pmic.c | 16 +++++--------
+ include/linux/mfd/hi6421-spmi-pmic.h        | 25 ---------------------
+ 4 files changed, 14 insertions(+), 46 deletions(-)
+ delete mode 100644 include/linux/mfd/hi6421-spmi-pmic.h
 
+diff --git a/drivers/misc/hi6421v600-irq.c b/drivers/misc/hi6421v600-irq.c
+index 04623557ec3c..fd9d7223a202 100644
+--- a/drivers/misc/hi6421v600-irq.c
++++ b/drivers/misc/hi6421v600-irq.c
+@@ -10,7 +10,6 @@
+ #include <linux/bitops.h>
+ #include <linux/interrupt.h>
+ #include <linux/irq.h>
+-#include <linux/mfd/hi6421-spmi-pmic.h>
+ #include <linux/module.h>
+ #include <linux/of_gpio.h>
+ #include <linux/platform_device.h>
+@@ -220,7 +219,7 @@ static int hi6421v600_irq_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct device_node *np = pmic_dev->of_node;
+ 	struct hi6421v600_irq *priv;
+-	struct hi6421_spmi_pmic *pmic;
++	struct regmap *regmap;
+ 	unsigned int virq;
+ 	int i, ret;
+ 
+@@ -229,8 +228,8 @@ static int hi6421v600_irq_probe(struct platform_device *pdev)
+ 	 * which should first set drvdata. If this doesn't happen, hit
+ 	 * a warn on and return.
+ 	 */
+-	pmic = dev_get_drvdata(pmic_dev);
+-	if (WARN_ON(!pmic))
++	regmap = dev_get_drvdata(pmic_dev);
++	if (WARN_ON(!regmap))
+ 		return -ENODEV;
+ 
+ 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+@@ -238,7 +237,7 @@ static int hi6421v600_irq_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	priv->dev = dev;
+-	priv->regmap = pmic->regmap;
++	priv->regmap = regmap;
+ 
+ 	spin_lock_init(&priv->lock);
+ 
+diff --git a/drivers/regulator/hi6421v600-regulator.c b/drivers/regulator/hi6421v600-regulator.c
+index 916d4e1f9061..23cdf90944e9 100644
+--- a/drivers/regulator/hi6421v600-regulator.c
++++ b/drivers/regulator/hi6421v600-regulator.c
+@@ -9,8 +9,8 @@
+ // Guodong Xu <guodong.xu@linaro.org>
+ 
+ #include <linux/delay.h>
+-#include <linux/mfd/hi6421-spmi-pmic.h>
+ #include <linux/module.h>
++#include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+ #include <linux/regulator/driver.h>
+@@ -237,7 +237,7 @@ static int hi6421_spmi_regulator_probe(struct platform_device *pdev)
+ 	struct hi6421_spmi_reg_priv *priv;
+ 	struct hi6421_spmi_reg_info *info;
+ 	struct device *dev = &pdev->dev;
+-	struct hi6421_spmi_pmic *pmic;
++	struct regmap *regmap;
+ 	struct regulator_dev *rdev;
+ 	int i;
+ 
+@@ -246,8 +246,8 @@ static int hi6421_spmi_regulator_probe(struct platform_device *pdev)
+ 	 * which should first set drvdata. If this doesn't happen, hit
+ 	 * a warn on and return.
+ 	 */
+-	pmic = dev_get_drvdata(pmic_dev);
+-	if (WARN_ON(!pmic))
++	regmap = dev_get_drvdata(pmic_dev);
++	if (WARN_ON(!regmap))
+ 		return -ENODEV;
+ 
+ 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+@@ -261,7 +261,7 @@ static int hi6421_spmi_regulator_probe(struct platform_device *pdev)
+ 
+ 		config.dev = pdev->dev.parent;
+ 		config.driver_data = priv;
+-		config.regmap = pmic->regmap;
++		config.regmap = regmap;
+ 
+ 		rdev = devm_regulator_register(dev, &info->desc, &config);
+ 		if (IS_ERR(rdev)) {
 diff --git a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c b/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
-index 35ef3d4c760b..9a7e095246f7 100644
+index 46dc1b856217..f63ba73c9e33 100644
 --- a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
 +++ b/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
-@@ -233,7 +233,7 @@ static int hi6421_spmi_pmic_probe(struct spmi_device *pdev)
+@@ -8,7 +8,6 @@
+  */
  
- 	ddata->dev = dev;
+ #include <linux/mfd/core.h>
+-#include <linux/mfd/hi6421-spmi-pmic.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+@@ -30,19 +29,14 @@ static const struct regmap_config regmap_config = {
+ static int hi6421_spmi_pmic_probe(struct spmi_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
++	struct regmap *regmap;
+ 	int ret;
+-	struct hi6421_spmi_pmic *ddata;
+-	ddata = devm_kzalloc(dev, sizeof(*ddata), GFP_KERNEL);
+-	if (!ddata)
+-		return -ENOMEM;
  
--	ddata->gpio = of_get_gpio(np, 0);
-+	ddata->gpio = of_get_named_gpio_flags(np, "interrupts", 0, NULL);
- 	if (ddata->gpio < 0)
- 		return ddata->gpio;
+-	ddata->regmap = devm_regmap_init_spmi_ext(pdev, &regmap_config);
+-	if (IS_ERR(ddata->regmap))
+-		return PTR_ERR(ddata->regmap);
++	regmap = devm_regmap_init_spmi_ext(pdev, &regmap_config);
++	if (IS_ERR(regmap))
++		return PTR_ERR(regmap);
  
-diff --git a/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml b/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
-index 8e355cddd437..252b600f02a8 100644
---- a/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
-+++ b/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
-@@ -34,7 +34,7 @@ properties:
+-	ddata->dev = dev;
+-
+-	dev_set_drvdata(&pdev->dev, ddata);
++	dev_set_drvdata(&pdev->dev, regmap);
  
-   interrupt-controller: true
- 
--  gpios:
-+  interrupts:
-     maxItems: 1
-     description: GPIO used for IRQs
- 
-@@ -71,7 +71,7 @@ examples:
- 
-       #interrupt-cells = <2>;
-       interrupt-controller;
--      gpios = <&gpio28 0 0>;
-+      interrupts = <&gpio28 0 0>;
- 
-       regulators {
-         #address-cells = <1>;
+ 	ret = devm_mfd_add_devices(&pdev->dev, PLATFORM_DEVID_NONE,
+ 				   hi6421v600_devs, ARRAY_SIZE(hi6421v600_devs),
+diff --git a/include/linux/mfd/hi6421-spmi-pmic.h b/include/linux/mfd/hi6421-spmi-pmic.h
+deleted file mode 100644
+index e5b8dbf828b6..000000000000
+--- a/include/linux/mfd/hi6421-spmi-pmic.h
++++ /dev/null
+@@ -1,25 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * Header file for device driver Hi6421 PMIC
+- *
+- * Copyright (c) 2013 Linaro Ltd.
+- * Copyright (C) 2011 Hisilicon.
+- * Copyright (c) 2020-2021 Huawei Technologies Co., Ltd
+- *
+- * Guodong Xu <guodong.xu@linaro.org>
+- */
+-
+-#ifndef	__HISI_PMIC_H
+-#define	__HISI_PMIC_H
+-
+-#include <linux/irqdomain.h>
+-#include <linux/regmap.h>
+-
+-struct hi6421_spmi_pmic {
+-	struct resource				*res;
+-	struct device				*dev;
+-	void __iomem				*regs;
+-	struct regmap				*regmap;
+-};
+-
+-#endif		/* __HISI_PMIC_H */
 -- 
 2.31.1
 
