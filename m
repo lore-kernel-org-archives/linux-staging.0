@@ -1,123 +1,180 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF3172
-	for <linux-staging@lists.linux.dev>; Mon,  5 Jul 2021 11:24:48 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id u19so10086991plc.3
-        for <linux-staging@lists.linux.dev>; Mon, 05 Jul 2021 04:24:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A611370
+	for <linux-staging@lists.linux.dev>; Mon,  5 Jul 2021 13:41:57 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id gb6so12481735ejc.5
+        for <linux-staging@lists.linux.dev>; Mon, 05 Jul 2021 06:41:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=7HWSIChMpvUjyne/+iJK2NPPKvcxByEobpjhiLGyCKk=;
-        b=bPA/eh65H3IBxzAl/nscoi1CePeGE5JUOHngiDPYOwI161KXtYRyGEqH1FUqqIwLft
-         97jn4zqxhljeQ78qtpttp9UGw5flJbhVGQU3RHuB1DIQfgCeuBA5wDhvRy89YcchNRIV
-         VQh3kU5ISqOov3FaltGDSNlOIkJg8sFA909+eFzzP9WjJ8ql5LPdT3qqF2AO0JbdClzr
-         M1ao4D4ABua/DyW+EJc/nNskJ7n44JmzxOKSdf/uwkRBnklC54/SqvjQoF3uugmLaRp4
-         PFXpaN9p6hRAyw5ir03FV4B41Mp2XLgPFUyRxjgrfQJIdB7Hjmc1YIfzEH1Cs0xIlTIJ
-         NWgQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9JHSRbS7NzwHOfcGTHTpIoJzU8cGwqoybTQ0iNhpmp8=;
+        b=V00TjrjEPngzpp26pcn5bMd8IyM2kRvIpqIyvPL4/YXEIofYPCqaD1gdzSEA/6VjJw
+         norapAyVzg6NV0t7kmFhOfmWwO4aPd94feeqG6PvZ3NDFC3sSQwX2ai0PV1N0kvAcbHL
+         QjarAg79J2Sek5cPRI1OeBAYohaBocNWdBB4Y9YgtNBUAx9dN/+R4v1wxBy+rgxnz5sb
+         ZFd7ZbZuOtf+qCWrglEEmSz9PM/d7G7+LzIIW5IXj72c9J6DZEbWGtWf76NmC4Ygjx1L
+         6uYBiGD+TlzDwk0C7nRdkt6y3HDOGcHVZH48fvtqvsSBu8xhlYtNPKHNyDdwQ7zM9Bpy
+         Oniw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=7HWSIChMpvUjyne/+iJK2NPPKvcxByEobpjhiLGyCKk=;
-        b=lyGO9EdRPhnLotBAdfCdz0+vnO4FkPkTmzSVYDR0gn6O0Z6yf0tbrVZd6Fymn5XiuA
-         W0jZw9sehdp72zIxYekN6l9QEm4h3ezTmjJ/ig8TRaGnqRPCTyygRctOswys0gnUuToN
-         ZgdJVMio5ohluahQsFPjRSd+6vVCAQPJ+gu1yWRqiwEJNBPd15bCq0Zh5fvPVoA7PFk/
-         QexGFQq5P/hjxdNVkBkTIIQFevuKxzLX2YAFh4O3QM1C7xHbkAUr7CVNeb7gyq2+frvA
-         +Dz1Ea6rq+DnVrfI4GqZnZ2TyuihKOpuC10j0JpVJgBmBsHa0PMVNBQeMUJopOYbTSZJ
-         lgTg==
-X-Gm-Message-State: AOAM530fFV0RRnnIuabvxAmYGmawIqsxf1dv+eYeuwHzpCwZ2jbQjSpZ
-	xl+ldz6Iuv4wPHMXmdWXGBk=
-X-Google-Smtp-Source: ABdhPJyhdW1IXbRJTGRkQQldq1nzoqRNJAfPauv5zx+jq/5w2S/3Erw0Ek8YX4oIplABIeeZeiFCSQ==
-X-Received: by 2002:a17:90b:2307:: with SMTP id mt7mr14580381pjb.131.1625484288340;
-        Mon, 05 Jul 2021 04:24:48 -0700 (PDT)
-Received: from ojas ([122.177.226.131])
-        by smtp.gmail.com with ESMTPSA id c184sm12408849pfa.38.2021.07.05.04.24.43
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9JHSRbS7NzwHOfcGTHTpIoJzU8cGwqoybTQ0iNhpmp8=;
+        b=ZTnOezy4829eljCIxn4NiQPsPVUFJuiGsHq0dUw+LyfrOY4G8pHg0ZLd4JJ5aLp3Bp
+         kYmPFc8JpGOWSz4wrMLwsuG6afObE4tfmUyNV8sovUokqFUKAfGBEUmaRJPKv6XoX/RF
+         PK3qENFKJZzETO0C9+00Z3PRawc1hC1WdvuArQAEqIgL++UwB7qlZGiUxn4iQ+ogdpZg
+         J+KvEpdpmElOX+oRA6yoHswf38MPpctbemvKOs1dRIVQKXWevxvuLOnhS2vD5nH4qR/B
+         YZPHpmKSFaw838jcapn172Pvg7Ad/Ii6PeFUKwiMPenC5ROR3wLl5LVyTPcJEHwgcjdK
+         UCSg==
+X-Gm-Message-State: AOAM5332euhVvmVWHnxcSZ0msSK4R8mELuzVzbSYthXHLYm4Bw33VuuD
+	jey18xhyDiXSeF4NPYiFDac=
+X-Google-Smtp-Source: ABdhPJy7HtDdoNPcI9gmDtyg+rKd2ud+Mw/9PYbnSCPNP9O+2wdbCZjJMD1SBlmsWz0UW3Gm85ybng==
+X-Received: by 2002:a17:906:2bdb:: with SMTP id n27mr13478817ejg.312.1625492516004;
+        Mon, 05 Jul 2021 06:41:56 -0700 (PDT)
+Received: from linux.local (host-80-181-152-252.retail.telecomitalia.it. [80.181.152.252])
+        by smtp.gmail.com with ESMTPSA id u4sm4369663eje.81.2021.07.05.06.41.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jul 2021 04:24:48 -0700 (PDT)
-Date: Mon, 5 Jul 2021 16:54:34 +0530
-From: Ojaswin Mujoo <ojaswin98@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: kbuild@lists.01.org, nsaenz@kernel.org, lkp@intel.com,
-	kbuild-all@lists.01.org, gregkh@linuxfoundation.org,
-	stefan.wahren@i2se.com, arnd@arndb.de, phil@raspberrypi.com,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+        Mon, 05 Jul 2021 06:41:55 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/5] staging: vchiq: Move vchiq char driver to its own
- file
-Message-ID: <20210705112409.GA42167@ojas>
-References: <3b7178086322f774772d95141764ed99d0698139.1625401927.git.ojaswin98@gmail.com>
- <202107051622.6i1l1vdL-lkp@intel.com>
- <20210705105804.GA41070@ojas>
- <20210705111944.GH26672@kadam>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v2] staging: rtl8188eu: Remove an unused variable and some lines of code
+Date: Mon,  5 Jul 2021 15:41:51 +0200
+Message-Id: <20210705134151.15143-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210705111944.GH26672@kadam>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 05, 2021 at 02:19:44PM +0300, Dan Carpenter wrote:
-> On Mon, Jul 05, 2021 at 04:28:04PM +0530, Ojaswin Mujoo wrote:
-> > Hello Dan,
-> > 
-> > On Mon, Jul 05, 2021 at 12:56:09PM +0300, Dan Carpenter wrote:
-> > > Hi Ojaswin,
-> > > 
-> > > url:    https://github.com/0day-ci/linux/commits/Ojaswin-Mujoo/vchiq-Patch-to-separate-platform-and-cdev-code/20210705-000124 
-> > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git  77ad1f0e99bd00af024e650b862cfda3137af660
-> > > config: i386-randconfig-m021-20210705 (attached as .config)
-> > > compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-> > > 
-> > > If you fix the issue, kindly add following tag as appropriate
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > > 
-> > > smatch warnings:
-> > > drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:1235 vchiq_release() warn: argument 3 to %lx specifier is cast from pointer
-> > > 
-> > > vim +1235 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-> > > 
-> > > 62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1227  static int vchiq_release(struct inode *inode, struct file *file)
-> > > 62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1228  {
-> > > 62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1229  	struct vchiq_instance *instance = file->private_data;
-> > > 62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1230  	struct vchiq_state *state = vchiq_get_state();
-> > > 62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1231  	struct vchiq_service *service;
-> > > 62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1232  	int ret = 0;
-> > > 62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1233  	int i;
-> > > 62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1234  
-> > > 62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04 @1235  	vchiq_log_info(vchiq_arm_log_level, "%s: instance=%lx", __func__,
-> > > 62b5eb4fdf3f5f Ojaswin Mujoo 2021-07-04  1236  		       (unsigned long)instance);
-> > > 
-> > > This should eventually be converted to %p so it doesn't defeat KASLR.
-> > > (Not that we really care on raspberry pi, I think?)
-> > Yes, that does seem right, however, this patchset only moves the code from
-> > vchiq_arm.c to vchiq_dev.c and I've not really touched any of the
-> > existing code itself (Except moving it to a new file which is why it shows up
-> > in the patch). 
-> > 
-> > Hence, I'm not sure if this fix is in scope of this patchset. (I also
-> > have a similar warning by kernel test robot here [1] which and I'm not
-> > sure if I need to act upon). Maybe we can look at this in a separate
-> > patch?
-> 
-> Yes.  Correct.  Don't mix this into the patch, do it "eventually".  Or
-> you don't have to do it at all since it wasn't something you introduced.
-> Someone will check the driver for Smatch warnings before it can be moved
-> out of staging.
-> 
-> (I just forwarded the kbuild bot messages for informational purposes
-> only).
-Ahh okay, got it.
+Remove set but unused iw_operation_mode[]. This driver doesn't support
+SIOCSIWRATE.  It just returns zero and does nothing.  Change it to
+return -ENOTSUPP instead.  (This is an API change but we don't expect it
+to break anything).
 
-Thanks,
-Ojaswin
-> 
-> regards,
-> dan carpenter
-> 
+Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+
+v1->v2: Delete rtw_wx_set_rate() and its association with command
+SIOCSIWRATE as suggested by Dan Carpenter <dan.carpenter@oracle.com>
+
+ .../staging/rtl8188eu/os_dep/ioctl_linux.c    | 80 -------------------
+ 1 file changed, 80 deletions(-)
+
+diff --git a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+index b958a8d882b0..eef8ed71cdef 100644
+--- a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+@@ -46,11 +46,6 @@ static u32 rtw_rates[] = {1000000, 2000000, 5500000, 11000000,
+ 	6000000, 9000000, 12000000, 18000000, 24000000, 36000000,
+ 	48000000, 54000000};
+ 
+-static const char * const iw_operation_mode[] = {
+-	"Auto", "Ad-Hoc", "Managed",  "Master", "Repeater",
+-	"Secondary", "Monitor"
+-};
+-
+ void indicate_wx_scan_complete_event(struct adapter *padapter)
+ {
+ 	union iwreq_data wrqu;
+@@ -1262,80 +1257,6 @@ static int rtw_wx_get_essid(struct net_device *dev,
+ 	return 0;
+ }
+ 
+-static int rtw_wx_set_rate(struct net_device *dev,
+-			   struct iw_request_info *a,
+-			   union iwreq_data *wrqu, char *extra)
+-{
+-	int i;
+-	u8 datarates[NumRates];
+-	u32	target_rate = wrqu->bitrate.value;
+-	u32	fixed = wrqu->bitrate.fixed;
+-	u32	ratevalue = 0;
+-	u8 mpdatarate[NumRates] = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0xff};
+-
+-	if (target_rate == -1) {
+-		ratevalue = 11;
+-		goto set_rate;
+-	}
+-	target_rate /= 100000;
+-
+-	switch (target_rate) {
+-	case 10:
+-		ratevalue = 0;
+-		break;
+-	case 20:
+-		ratevalue = 1;
+-		break;
+-	case 55:
+-		ratevalue = 2;
+-		break;
+-	case 60:
+-		ratevalue = 3;
+-		break;
+-	case 90:
+-		ratevalue = 4;
+-		break;
+-	case 110:
+-		ratevalue = 5;
+-		break;
+-	case 120:
+-		ratevalue = 6;
+-		break;
+-	case 180:
+-		ratevalue = 7;
+-		break;
+-	case 240:
+-		ratevalue = 8;
+-		break;
+-	case 360:
+-		ratevalue = 9;
+-		break;
+-	case 480:
+-		ratevalue = 10;
+-		break;
+-	case 540:
+-		ratevalue = 11;
+-		break;
+-	default:
+-		ratevalue = 11;
+-		break;
+-	}
+-
+-set_rate:
+-
+-	for (i = 0; i < NumRates; i++) {
+-		if (ratevalue == mpdatarate[i]) {
+-			datarates[i] = mpdatarate[i];
+-			if (fixed == 0)
+-				break;
+-		} else {
+-			datarates[i] = 0xff;
+-		}
+-	}
+-
+-	return 0;
+-}
+-
+ static int rtw_wx_get_rate(struct net_device *dev,
+ 			   struct iw_request_info *info,
+ 			   union iwreq_data *wrqu, char *extra)
+@@ -2715,7 +2636,6 @@ static iw_handler rtw_handlers[] = {
+ 	IW_HANDLER(SIOCSIWESSID, rtw_wx_set_essid),
+ 	IW_HANDLER(SIOCGIWESSID, rtw_wx_get_essid),
+ 	IW_HANDLER(SIOCGIWNICKN, rtw_wx_get_nick),
+-	IW_HANDLER(SIOCSIWRATE, rtw_wx_set_rate),
+ 	IW_HANDLER(SIOCGIWRATE, rtw_wx_get_rate),
+ 	IW_HANDLER(SIOCSIWRTS, rtw_wx_set_rts),
+ 	IW_HANDLER(SIOCGIWRTS, rtw_wx_get_rts),
+-- 
+2.32.0
+
