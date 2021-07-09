@@ -1,174 +1,121 @@
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-relay-canonical-1.canonical.com (smtp-relay-canonical-1.canonical.com [185.125.188.121])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D77C17F
-	for <linux-staging@lists.linux.dev>; Thu,  8 Jul 2021 12:41:40 +0000 (UTC)
-Received: by mail-vs1-f43.google.com with SMTP id az11so3512723vsb.1
-        for <linux-staging@lists.linux.dev>; Thu, 08 Jul 2021 05:41:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=hP9H7HVTE7TFrRNTl1vyqWVVeZcuqXBCZg0bGqclL/A=;
-        b=VetX2Cfr8bdRNaZiWLEm04u6bqZW3l6DI4CAN74JIY7k4z1gUX2WPAhVDnzm350lf2
-         zN9Z12JQmbzlk/BWNUXvjVAbpB66ZXuvK3SPb444QQ5diXQOytBY51L2/oTaoUD9VeXU
-         uFurAnxdtCpnicZBLB0yD9ojUwv6W/qtm1PvBS9AFUFJNPr3tKxeC4wQWDvFkNeWRoRf
-         7SjXn45LyDiaoeLgbbyRwVPp/zZWqO3qYud0+Xn/514eUefuiFS0gjROioJ7tCP2C/ZN
-         ZUSLS7lmtDXFsaxdqMahs7f08oqXmzo9A5DfBGmAWg3PByPV9/9CFdzFbNZ8GtPMsFJE
-         z42g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=hP9H7HVTE7TFrRNTl1vyqWVVeZcuqXBCZg0bGqclL/A=;
-        b=ZLc9G5tTNQg7XH7mc7fQ0FqN4MZK5rMLJ8oTE7rmGIT5Rm1OU17O6ktcfuoQyriqNP
-         wo5rR/iDUDOhVOqTsBu65RBzUARAIJlc+UafWQD4eQOMdliSMI4KNKywneglEn7f7wgf
-         Tf2Mwkcvtv2GYN+sRlVEHfL6l7yceieF/rl11mXMlF00TZCyFGOJvwZV9W2XtOhEtMF8
-         2jGmKrT17OibFv4HgY3Vf3HGS9qeFFEMJIj4v3mCZo0KOzuHL01SmVZW5Ga3JRrkQrVN
-         kHU2bU0UMBpHkuII0On0J5ojiQKWsnOiGQEwRZi988jGCOHBPF16kOl1maM7I0DfENMF
-         9UPA==
-X-Gm-Message-State: AOAM533LCq7c/7U8EHLsJiXJQCWvPnSrNGUoRlxz5SEmMGTS7q8mM9tz
-	JCqKhwRyIYVsyAzAHA4i5XBS9OInBcQlZGEKDmJEVQ==
-X-Google-Smtp-Source: ABdhPJywz4fR2V+V+6/E9OWxEVi9/b58VFa4IZ2LlJTPpT0B9SRAdSG9PM7u1rPMHG2ZlSabjmUDzfVjnsqdUEe3bFI=
-X-Received: by 2002:a67:8783:: with SMTP id j125mr27888650vsd.42.1625748098931;
- Thu, 08 Jul 2021 05:41:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F51D168
+	for <linux-staging@lists.linux.dev>; Fri,  9 Jul 2021 14:59:46 +0000 (UTC)
+Received: from [10.172.193.212] (1.general.cking.uk.vpn [10.172.193.212])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id A51A540328;
+	Fri,  9 Jul 2021 14:53:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1625842419;
+	bh=4GllOhi0bU4HT201lnlv9sAuBWdVEdHATn3w+UM+LZk=;
+	h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type;
+	b=gu6YzG1prTLHJ6Uoouinep/7z2DEqDTjIuJBmuHldUWtwY6t763H6v/KcTwO6tHT3
+	 91vcPo4kLvlu59x54pshqnzWVISiZpCtnICCvxC6TMgzdyMrVRrQc+5x2vWE3LccOx
+	 g6jQRb0PrDF2SHpM5yNmtjBgBW4u5JIij/aWhUPjvJ0fxyMlq9PYSaGH3Ainc0H+t8
+	 A9XAShb0WzmFXv57YqCdzHuR7wFAZjRMs9QkPz1aO2fHS7JNkrbjOJitW8z4Z4RufW
+	 PHuUl4JNGNuIhWJbgSPm75MiINRC2rwXcCUIpfNNK/URn2fYNoHomCkLau/fODF/xC
+	 KxxLO3ll+Rtww==
+To: Quytelda Kahja <quytelda@tamalin.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+From: Colin Ian King <colin.king@canonical.com>
+Subject: staging: rtl8723bs mask values in wpa_set_auth_algs
+Message-ID: <619462ca-e652-30f5-6ffa-3213175d8bbc@canonical.com>
+Date: Fri, 9 Jul 2021 15:53:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210706154803.1631813-1-u.kleine-koenig@pengutronix.de> <20210706154803.1631813-5-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20210706154803.1631813-5-u.kleine-koenig@pengutronix.de>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Thu, 8 Jul 2021 14:41:02 +0200
-Message-ID: <CAPDyKFo0zuooWAkuR=BcsvcJ2pmSrcEoBhuC8+ne18GQphyPHA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] bus: Make remove callback return void
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sascha Hauer <kernel@pengutronix.de>, 
-	Cornelia Huck <cohuck@redhat.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Russell King <linux@armlinux.org.uk>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Geoff Levand <geoff@infradead.org>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, 
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>, Len Brown <lenb@kernel.org>, 
-	William Breathitt Gray <vilhelm.gray@gmail.com>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, 
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Alison Schofield <alison.schofield@intel.com>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
-	Ben Widawsky <ben.widawsky@intel.com>, Dan Williams <dan.j.williams@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Vinod Koul <vkoul@kernel.org>, 
-	Stefan Richter <stefanr@s5r6.in-berlin.de>, Sudeep Holla <sudeep.holla@arm.com>, 
-	Cristian Marussi <cristian.marussi@arm.com>, Wu Hao <hao.wu@intel.com>, Tom Rix <trix@redhat.com>, 
-	Moritz Fischer <mdf@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
-	"K. Y. Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
-	Stephen Hemminger <sthemmin@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
-	Dexuan Cui <decui@microsoft.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Wolfram Sang <wsa@kernel.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Samuel Iglesias Gonsalvez <siglesias@igalia.com>, Jens Taprogge <jens.taprogge@taprogge.org>, 
-	Johannes Thumshirn <morbidrsa@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Maxim Levitsky <maximlevitsky@gmail.com>, Alex Dubov <oakad@yahoo.com>, 
-	Lee Jones <lee.jones@linaro.org>, Tomas Winkler <tomas.winkler@intel.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>, 
-	Kishon Vijay Abraham I <kishon@ti.com>, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Dominik Brodowski <linux@dominikbrodowski.net>, 
-	Maximilian Luz <luzmaximilian@gmail.com>, Hans de Goede <hdegoede@redhat.com>, 
-	Mark Gross <mgross@linux.intel.com>, Matt Porter <mporter@kernel.crashing.org>, 
-	Alexandre Bounine <alex.bou9@gmail.com>, Ohad Ben-Cohen <ohad@wizery.com>, 
-	Bjorn Andersson <bjorn.andersson@linaro.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Thorsten Scherer <t.scherer@eckelmann.de>, 
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Andy Gross <agross@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Stephen Boyd <sboyd@kernel.org>, Michael Buesch <m@bues.ch>, 
-	Sven Van Asbroeck <TheSven73@gmail.com>, Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
-	Andreas Noever <andreas.noever@gmail.com>, Michael Jamet <michael.jamet@intel.com>, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>, Yehezkel Bernat <YehezkelShB@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Jason Wang <jasowang@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>, 
-	Alex Williamson <alex.williamson@redhat.com>, Martyn Welch <martyn@welchs.me.uk>, 
-	Manohar Vanga <manohar.vanga@gmail.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
-	Juergen Gross <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>, 
-	Johannes Berg <johannes@sipsolutions.net>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Marc Zyngier <maz@kernel.org>, Tyrel Datwyler <tyreld@linux.ibm.com>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Samuel Holland <samuel@sholland.org>, 
-	Qinglang Miao <miaoqinglang@huawei.com>, Alexey Kardashevskiy <aik@ozlabs.ru>, 
-	Kai-Heng Feng <kai.heng.feng@canonical.com>, Joey Pabalan <jpabalanb@gmail.com>, 
-	=?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
-	Adrian Hunter <adrian.hunter@intel.com>, Frank Li <lznuaa@gmail.com>, 
-	Mike Christie <michael.christie@oracle.com>, Bodo Stroesser <bostroesser@gmail.com>, 
-	Hannes Reinecke <hare@suse.de>, David Woodhouse <dwmw@amazon.co.uk>, SeongJae Park <sjpark@amazon.de>, 
-	Julien Grall <jgrall@amazon.com>, linux-arm-kernel@lists.infradead.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, nvdimm@lists.linux.dev, dmaengine@vger.kernel.org, 
-	linux1394-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, linux-i3c@lists.infradead.org, 
-	industrypack-devel@lists.sourceforge.net, linux-media@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, netdev@vger.kernel.org, linux-ntb@googlegroups.com, 
-	linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-	linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
-	linux-spi@vger.kernel.org, linux-staging@lists.linux.dev, 
-	greybus-dev@lists.linaro.org, target-devel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-serial@vger.kernel.org, 
-	virtualization@lists.linux-foundation.org, kvm@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, Russell King <rmk+kernel@armlinux.org.uk>, 
-	Johannes Thumshirn <jth@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Tue, 6 Jul 2021 at 17:53, Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
->
-> The driver core ignores the return value of this callback because there
-> is only little it can do when a device disappears.
->
-> This is the final bit of a long lasting cleanup quest where several
-> buses were converted to also return void from their remove callback.
-> Additionally some resource leaks were fixed that were caused by drivers
-> returning an error code in the expectation that the driver won't go
-> away.
->
-> With struct bus_type::remove returning void it's prevented that newly
-> implemented buses return an ignored error code and so don't anticipate
-> wrong expectations for driver authors.
->
-> Acked-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk> (For ARM, Am=
-ba and related parts)
-> Acked-by: Mark Brown <broonie@kernel.org>
-> Acked-by: Chen-Yu Tsai <wens@csie.org> (for drivers/bus/sunxi-rsb.c)
-> Acked-by: Pali Roh=C3=A1r <pali@kernel.org>
-> Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org> (for drivers/media)
-> Acked-by: Hans de Goede <hdegoede@redhat.com> (For drivers/platform)
-> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Acked-By: Vinod Koul <vkoul@kernel.org>
-> Acked-by: Juergen Gross <jgross@suse.com> (For Xen)
-> Acked-by: Lee Jones <lee.jones@linaro.org> (For drivers/mfd)
-> Acked-by: Johannes Thumshirn <jth@kernel.org> (For drivers/mcb)
-> Acked-by: Johan Hovold <johan@kernel.org>
-> Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org> (For drive=
-rs/slimbus)
-> Acked-by: Kirti Wankhede <kwankhede@nvidia.com> (For drivers/vfio)
-> Acked-by: Maximilian Luz <luzmaximilian@gmail.com>
-> Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com> (For ulpi and=
- typec)
-> Acked-by: Samuel Iglesias Gons=C3=A1lvez <siglesias@igalia.com> (For ipac=
-k)
-> Reviewed-by: Tom Rix <trix@redhat.com> (For fpga)
-> Acked-by: Geoff Levand <geoff@infradead.org> (For ps3)
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+Hi,
 
-Acked-by: Ulf Hansson <ulf.hansson@linaro.org> # For MMC
+Static analysis with Coverity has found an issue introduced by the
+following commit:
 
-[...]
+commit 5befa937e8daaebcde81b9423eb93f3ff2e918f7
+Author: Quytelda Kahja <quytelda@tamalin.org>
+Date:   Tue Mar 27 01:41:02 2018 -0700
 
-Kind regards
-Uffe
+    staging: rtl8723bs: Fix IEEE80211 authentication algorithm constants.
+
+The analysis is as follows:
+
+347 static int wpa_set_auth_algs(struct net_device *dev, u32 value)
+348 {
+349        struct adapter *padapter = rtw_netdev_priv(dev);
+350        int ret = 0;
+351
+352        if ((value & WLAN_AUTH_SHARED_KEY) && (value & WLAN_AUTH_OPEN)) {
+
+Logically dead code (DEADCODE)
+
+353                padapter->securitypriv.ndisencryptstatus =
+Ndis802_11Encryption1Enabled;
+354                padapter->securitypriv.ndisauthtype =
+Ndis802_11AuthModeAutoSwitch;
+355                padapter->securitypriv.dot11AuthAlgrthm =
+dot11AuthAlgrthm_Auto;
+356        } else if (value & WLAN_AUTH_SHARED_KEY)        {
+357                padapter->securitypriv.ndisencryptstatus =
+Ndis802_11Encryption1Enabled;
+358
+359                padapter->securitypriv.ndisauthtype =
+Ndis802_11AuthModeShared;
+360                padapter->securitypriv.dot11AuthAlgrthm =
+dot11AuthAlgrthm_Shared;
+   dead_error_condition: The condition value & 0U cannot be true.
+361        } else if (value & WLAN_AUTH_OPEN) {
+362                /* padapter->securitypriv.ndisencryptstatus =
+Ndis802_11EncryptionDisabled; */
+
+Logically dead code (DEADCODE)
+
+363                if (padapter->securitypriv.ndisauthtype <
+Ndis802_11AuthModeWPAPSK) {
+364                        padapter->securitypriv.ndisauthtype =
+Ndis802_11AuthModeOpen;
+365                        padapter->securitypriv.dot11AuthAlgrthm =
+dot11AuthAlgrthm_Open;
+366                }
+367        } else {
+368                ret = -EINVAL;
+369        }
+370
+371        return ret;
+372
+373 }
+
+The deadcode warnings occur because the mask value of WLAN_AUTH_OPEN is
+defined in /include/linux/ieee80211.h as:
+
+#define WLAN_AUTO_OPEN 0
+
+and so any value masked with 0 is 0 and hence that part of the if
+statement is always false.
+
+The original code was using the mask values:
+
+AUTH_ALG_SHARED_KEY and also AUTH_ALG_OPEN_SYSTEM that are defined as:
+
+#define AUTH_ALG_OPEN_SYSTEM                   0x1
+#define AUTH_ALG_SHARED_KEY                    0x2
+
+So this appears to be a regression. I'm not sure the best approach for a
+suitable fix to use the intended macros in ieee80211.h
+
+Colin
+
+
+
