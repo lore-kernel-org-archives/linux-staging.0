@@ -1,20 +1,20 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF67D168
-	for <linux-staging@lists.linux.dev>; Sat, 10 Jul 2021 02:35:10 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B7C05613EC;
-	Sat, 10 Jul 2021 02:35:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99EA5168
+	for <linux-staging@lists.linux.dev>; Sat, 10 Jul 2021 02:35:59 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2AA8E61428;
+	Sat, 10 Jul 2021 02:35:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1625884510;
-	bh=uyH98worKDCuEIvIP5fQMxJG9xlQztNJsqIkPCqEcSY=;
+	s=k20201202; t=1625884558;
+	bh=DnrVDy5JaOtvangCBXvUq8ErllhIlW9ZoxLwMrRuQ54=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Y0L4KCl+k72C5tZMl++fcq2RqdDfEqYL27lezT/cFWZZBpjS8EFTPrVqQHQvsGwbk
-	 lRFZZyMaUAN+5FOhSUN+55Ilo2U8HJcvNTOtNG6AZhy66wcvaThrQHFpZ1YUPqQCLi
-	 yMFiyfls8WDn4eWDhHrWjOjDw+AAHCWjlIa8dDvfJdFqFplZXgPrsedEJKd1jgvspm
-	 znc+dZYjjySXL+omYuiGpM3DQdv0Q3yFvRNJ5XSgnufmGjtjIcJ9PtNkj/1Rue3hwS
-	 rCacfCghHKwz9c7MOQz2YQsZTQFaxPm9wV+WLbCIBQltdiqcSPcx4R9Xynv0rvfp1/
-	 yivuCnmj4Dh3w==
+	b=nPXCSguGei21/WfCtxPoUhC6eLZJbnxBzD4zFH2hSMvALDTiskGbAPkP26oiifswN
+	 sLNlfdhQAU3C6vXqTlWhBxgVdres8iFiPtu6TWgzlO8klApnA2paLVbANiUP5XW4sq
+	 6+QL9RIfcYD2tFH16tajoBeUqEPwANj0SxoTQ/NZRl5mQd2Zf7iRASfixMZJGK21p5
+	 +D6awzgIcNN7QxGS/OQltRPwaXvf2pxYJMBw+95hsJNMDUGmKOzxFtxRzZjBEhjtFX
+	 Ooh524V15YyGam7cF1JPAc/McP6++8FM5yz5kuDBqejAVULnXWzazPsLqwtgDcuFe9
+	 60yX/5sVs/Lqw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -23,12 +23,12 @@ Cc: Fabio Aiuto <fabioaiuto83@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 4.19 36/39] staging: rtl8723bs: fix macro value for 2.4Ghz only device
-Date: Fri,  9 Jul 2021 22:32:01 -0400
-Message-Id: <20210710023204.3171428-36-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 30/33] staging: rtl8723bs: fix macro value for 2.4Ghz only device
+Date: Fri,  9 Jul 2021 22:35:12 -0400
+Message-Id: <20210710023516.3172075-30-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210710023204.3171428-1-sashal@kernel.org>
-References: <20210710023204.3171428-1-sashal@kernel.org>
+In-Reply-To: <20210710023516.3172075-1-sashal@kernel.org>
+References: <20210710023516.3172075-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,10 +56,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 4 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/odm.h b/drivers/staging/rtl8723bs/hal/odm.h
-index 23ab160ac2c8..ff8e22d70d4c 100644
+index 87a76bafecb3..7424c25b52ce 100644
 --- a/drivers/staging/rtl8723bs/hal/odm.h
 +++ b/drivers/staging/rtl8723bs/hal/odm.h
-@@ -197,10 +197,7 @@ typedef struct _ODM_RATE_ADAPTIVE {
+@@ -209,10 +209,7 @@ typedef struct _ODM_RATE_ADAPTIVE {
  
  #define AVG_THERMAL_NUM		8
  #define IQK_Matrix_REG_NUM	8
