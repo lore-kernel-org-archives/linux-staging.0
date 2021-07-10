@@ -1,84 +1,82 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4BB168
-	for <linux-staging@lists.linux.dev>; Sat, 10 Jul 2021 20:42:06 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-288-KIu4VRrmNiiz93j7OdgeJQ-1; Sat, 10 Jul 2021 21:42:03 +0100
-X-MC-Unique: KIu4VRrmNiiz93j7OdgeJQ-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.18; Sat, 10 Jul 2021 21:42:02 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.018; Sat, 10 Jul 2021 21:42:02 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: "'Fabio M. De Francesco'" <fmdefrancesco@gmail.com>, Larry Finger
-	<Larry.Finger@lwfinger.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "kernel test
- robot" <lkp@intel.com>
-CC: "kbuild-all@lists.01.org" <kbuild-all@lists.01.org>,
-	"fabioaiuto83@gmail.com" <fabioaiuto83@gmail.com>
-Subject: RE: [PATCH] staging: rtl8188eu: Replace a custom function with
- crc32_le()
-Thread-Topic: [PATCH] staging: rtl8188eu: Replace a custom function with
- crc32_le()
-Thread-Index: AQHXdZlS7uKLeikeukSCM0Q+7FrN3Ks8qnww
-Date: Sat, 10 Jul 2021 20:42:02 +0000
-Message-ID: <d53fb195104a4b269a7cd320049a133b@AcuMS.aculab.com>
-References: <20210701133809.26534-1-fmdefrancesco@gmail.com>
- <202107100829.RxcC1tei-lkp@intel.com> <1790135.9ZQ2ZFNHWj@linux.local>
-In-Reply-To: <1790135.9ZQ2ZFNHWj@linux.local>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83776168
+	for <linux-staging@lists.linux.dev>; Sat, 10 Jul 2021 22:08:20 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id h18-20020a05600c3512b029020e4ceb9588so11453363wmq.5
+        for <linux-staging@lists.linux.dev>; Sat, 10 Jul 2021 15:08:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:mime-version
+         :content-disposition;
+        bh=o8XLWvLfLieNELF1M0DS0d6X+htDnd1bnaWzmXo8vbg=;
+        b=I+wR7SgJHOmOJRpJZ8EZDAGde+mW7Sv8Gs19PaFlqzTvnbowhU7mXM35hoMRlj3mec
+         cl3+Bj663jqtz8EXw9+uT1gR94cY3uyvQlip0r7faBFuARSmIxhjiYc+SJUFmPuUyM4O
+         mFzdkLuzG6Fbio/J4Xm1fMZhTerRN4TVlJQNxZ3AzoJmiuYjR5g72mbRlkvwpahlHWm0
+         IG2n2F243ORPZkHUaAuIocAvz7KzgoR2rzVntWpvdDBGht8uFM3JyUnyhZ1tPiQuo8yp
+         7LxF1MrLas//Y7iSu/HIQxE8WxDZncB0J7Ie7q4tCVsdnGyORxZPS09nozDMuSZjXdC/
+         3BJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:mime-version:content-disposition;
+        bh=o8XLWvLfLieNELF1M0DS0d6X+htDnd1bnaWzmXo8vbg=;
+        b=YCqJJpJBgd4XhJzJTXwmDtXq5Rber2uM1bRoXmzJFEJ31dF2LSRNemD6mv7F6gFQM1
+         suOT+2/IVs4A61sIGMZYHS4SHMyOe1ta1wWny5ds29ukWP0YpUFGslh4MrHunB6OFeFQ
+         1qYNO0bbKoanESe2Ry/3OVj9o2DlQIsdDB1q0YtvXa7ESI/QOJEz5c0CANAnzLMD60cr
+         TyHy6iCrrvUs1OnXmk1nQ4MSti0WVLmu2StEqUQIUz8wxoScmp3r7NjgGIhvS7HiSmHo
+         ct22j/Jc7tb74pKo7igQhC14bJZHwuHyAz+ktlla/GudIvKNjTaQhlvc0TkOTi2LLXXB
+         gJEg==
+X-Gm-Message-State: AOAM531t1KYVrgc7cwxUqHY4f0PSfhepdSwvuK9jYgIPd1/wZmI+VMMM
+	n3VH1EMXp+lveEC9c8zw83U=
+X-Google-Smtp-Source: ABdhPJxq7oGqGgccr5nDua4JzQjAWDF8kGwQbSNjmZkJrDi8QKA0NHu/CFxDtMPdOuTJ+lcDLL6k8A==
+X-Received: by 2002:a1c:2985:: with SMTP id p127mr47451939wmp.165.1625954898932;
+        Sat, 10 Jul 2021 15:08:18 -0700 (PDT)
+Received: from alexlaptop ([102.182.144.99])
+        by smtp.gmail.com with ESMTPSA id q19sm15244987wmq.38.2021.07.10.15.08.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Jul 2021 15:08:18 -0700 (PDT)
+Date: Sun, 11 Jul 2021 00:08:15 +0200
+From: Alexander Greyling <alexandergreyling5@gmail.com>
+To: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+	florian.c.schilhabel@googlemail.com
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8712: Fix alignment
+Message-ID: <20210710220815.GA1654486@alexlaptop>
+Mail-Followup-To: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+	florian.c.schilhabel@googlemail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Fabio M. De Francesco
-> Sent: 10 July 2021 15:39
-...
-> [CUT]
-[PASTE}
-> 597=09=09=09=09=09=09*((__le32 *)crc) =3D ~crc32_le(~0, payload, length);
->=20
-> I suppose that these warnings are false positives for the reasons explain=
-ed in
-> my patch.
+This patch fixes the checkpatch.pl issue:
 
-No they are an indication you aren't doing things 'right'.
-You shouldn't need an __le32 cast in this code.
-'crc' should be defined as __le32 (not u8[4]) and IIRC
-get_unaligned_le32() used in the latter check.
+CHECK: Alignment should match open parenthesis.
 
-Actually what is this code actually doing.
-ISTR it is doing a crc32() and then comparing the result with the
-crc in the buffer?
-No hardware ever does that.
-What happens is the receiver does the crc of the whole buffer
-including the transmitted crc and then checks the value is the
-required 'magic' constant'.
-This all works because the crc is inverted before transmission.
+Signed-off-by: Alexander Greyling <alexandergreyling5@gmail.com>
+---
+ drivers/staging/rtl8712/osdep_service.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-=09David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+diff --git a/drivers/staging/rtl8712/osdep_service.h b/drivers/staging/rtl8712/osdep_service.h
+index e939c4a954b3..d33ddffb7ad9 100644
+--- a/drivers/staging/rtl8712/osdep_service.h
++++ b/drivers/staging/rtl8712/osdep_service.h
+@@ -46,7 +46,7 @@ struct	__queue	{
+ 	} while (0)
+ 
+ static inline u32 end_of_queue_search(struct list_head *head,
+-		struct list_head *plist)
++				      struct list_head *plist)
+ {
+ 	return (head == plist);
+ }
+-- 
+2.25.1
 
