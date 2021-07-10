@@ -1,121 +1,84 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3155168
-	for <linux-staging@lists.linux.dev>; Sat, 10 Jul 2021 14:38:51 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id eb14so18833279edb.0
-        for <linux-staging@lists.linux.dev>; Sat, 10 Jul 2021 07:38:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ZLoQmYLa1jX8pdeGvFrIDZUoXKb5O+vukZVoByivin0=;
-        b=SabWOnhl8687BOXpyM3cqd6Rb0rmeMI5vq/Ac/d1HE9WsS4sZL3GLiZcgNr8arIftQ
-         KlEjOYdz7RUMMzy78Zh1B3covmuxlvC5PKKHp2l5xssnnFjU/tha+8ESiNthXS2SjiBb
-         +/68tRhZXLalBMDBB6T81h0QDZzCyUbOFI8rHaRvfKzKTw7PGWLway2P774mX++t8qp+
-         jJSHWMN0wMK1Z34tNVYV6aoBh907htjF9r+zM0LOf7w63j5iS7lyjtGuV+Ip259+tAVn
-         9LVolHmzG7BQrsKsX/YsAxKzDehVaCfw7yFEQFh/NuZ1MQVgIT1/8U5yH685rFYusZfg
-         yR8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZLoQmYLa1jX8pdeGvFrIDZUoXKb5O+vukZVoByivin0=;
-        b=NE0eLaB1JAGKTEScQUDA91xLiGF4wLzM+8quTs90IF27kEpgvxh5ktMyNa4BL+dfd+
-         xlwxeyqWy+kLfWx/870Z97gIfBDuiWLwnpIYTVOVGwUS967LSf9+fB72BvFNdV+e8JCQ
-         OALzpxBhfY0PkmCm48SzL+VkaV0aRS03nMhaQjqIh1/avBjm7bJJNQoPfOFUUoTdmzE8
-         1ots6BtFtPgEDwEwjIuqqUJiyU3yiC7xZ+brLKFeZnqSVsiDNrxftlCNZmxr/dCp6yoO
-         xHbYGLgMUI8ORsKr6khTAlXFiyyOMG2wyK58gSXsUJmKVmqM1Ie10Zt6HyrLfh94kh2c
-         CmDQ==
-X-Gm-Message-State: AOAM533AjoJ9XIADxlfw4WgcR5N0LS7H0Ri0WpURc8PvHWinsBsybykE
-	x0qd0Dl+ZsNe4GMs1hxkEm8=
-X-Google-Smtp-Source: ABdhPJzNrmDpFePtHAb8Ut8Ciz2NTnJggSxrqI4C0Qnqs2RMadFKLr9pvePS5S3fKokf2TaF0hQ1GA==
-X-Received: by 2002:aa7:dbc3:: with SMTP id v3mr54670139edt.63.1625927930041;
-        Sat, 10 Jul 2021 07:38:50 -0700 (PDT)
-Received: from linux.local (host-79-27-97-200.retail.telecomitalia.it. [79.27.97.200])
-        by smtp.gmail.com with ESMTPSA id i6sm3849701ejr.68.2021.07.10.07.38.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Jul 2021 07:38:49 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
-Cc: kbuild-all@lists.01.org, fabioaiuto83@gmail.com
-Subject: Re: [PATCH] staging: rtl8188eu: Replace a custom function with crc32_le()
-Date: Sat, 10 Jul 2021 16:38:47 +0200
-Message-ID: <1790135.9ZQ2ZFNHWj@linux.local>
-In-Reply-To: <202107100829.RxcC1tei-lkp@intel.com>
-References: <20210701133809.26534-1-fmdefrancesco@gmail.com> <202107100829.RxcC1tei-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4BB168
+	for <linux-staging@lists.linux.dev>; Sat, 10 Jul 2021 20:42:06 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-288-KIu4VRrmNiiz93j7OdgeJQ-1; Sat, 10 Jul 2021 21:42:03 +0100
+X-MC-Unique: KIu4VRrmNiiz93j7OdgeJQ-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.18; Sat, 10 Jul 2021 21:42:02 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.018; Sat, 10 Jul 2021 21:42:02 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: "'Fabio M. De Francesco'" <fmdefrancesco@gmail.com>, Larry Finger
+	<Larry.Finger@lwfinger.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "kernel test
+ robot" <lkp@intel.com>
+CC: "kbuild-all@lists.01.org" <kbuild-all@lists.01.org>,
+	"fabioaiuto83@gmail.com" <fabioaiuto83@gmail.com>
+Subject: RE: [PATCH] staging: rtl8188eu: Replace a custom function with
+ crc32_le()
+Thread-Topic: [PATCH] staging: rtl8188eu: Replace a custom function with
+ crc32_le()
+Thread-Index: AQHXdZlS7uKLeikeukSCM0Q+7FrN3Ks8qnww
+Date: Sat, 10 Jul 2021 20:42:02 +0000
+Message-ID: <d53fb195104a4b269a7cd320049a133b@AcuMS.aculab.com>
+References: <20210701133809.26534-1-fmdefrancesco@gmail.com>
+ <202107100829.RxcC1tei-lkp@intel.com> <1790135.9ZQ2ZFNHWj@linux.local>
+In-Reply-To: <1790135.9ZQ2ZFNHWj@linux.local>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="ISO-8859-1"
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Saturday, July 10, 2021 2:25:12 AM CEST kernel test robot wrote:
-> Hi "Fabio,
-> 
-> Thank you for the patch! Perhaps something to improve:
-> 
-> [auto build test WARNING on staging/staging-testing]
-> 
-> url:   
-> https://github.com/0day-ci/linux/commits/Fabio-M-De-Francesco/staging-rtl8188eu-Replace
-> -a-custom-function-with-crc32_le/20210701-213922 base:  
-> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
-> 77ad1f0e99bd00af024e650b862cfda3137af660 config: powerpc64-randconfig-
-s032-20210709
+From: Fabio M. De Francesco
+> Sent: 10 July 2021 15:39
+...
+> [CUT]
+[PASTE}
+> 597=09=09=09=09=09=09*((__le32 *)crc) =3D ~crc32_le(~0, payload, length);
+>=20
+> I suppose that these warnings are false positives for the reasons explain=
+ed in
+> my patch.
 
-[CUT]
+No they are an indication you aren't doing things 'right'.
+You shouldn't need an __le32 cast in this code.
+'crc' should be defined as __le32 (not u8[4]) and IIRC
+get_unaligned_le32() used in the latter check.
 
-> 
-> sparse warnings: (new ones prefixed by >>)
-> 
-> >> drivers/staging/rtl8188eu/core/rtw_security.c:597:58: sparse: sparse: 
-incorrect type
-> >> in assignment (different base types) @@     expected restricted __le32 
-[usertype] @@
-> >>     got unsigned int @@
->    drivers/staging/rtl8188eu/core/rtw_security.c:597:58: sparse:     
-expected restricted
-> __le32 [usertype] drivers/staging/rtl8188eu/core/rtw_security.c:597:58: 
-sparse:     got
-> unsigned int drivers/staging/rtl8188eu/core/rtw_security.c:604:58: sparse: 
-sparse:
-> incorrect type in assignment (different base types) @@     expected 
-restricted __le32
-> [usertype] @@     got unsigned int @@
-> drivers/staging/rtl8188eu/core/rtw_security.c:604:58: sparse:     expected 
-restricted
-> __le32 [usertype] drivers/staging/rtl8188eu/core/rtw_security.c:604:58: 
-sparse:     got
-> unsigned int drivers/staging/rtl8188eu/core/rtw_security.c:671:42: sparse: 
-sparse:
-> incorrect type in assignment (different base types) @@     expected 
-restricted __le32
-> [usertype] @@     got unsigned int @@
-> drivers/staging/rtl8188eu/core/rtw_security.c:671:42: sparse:     expected 
-restricted
-> __le32 [usertype] drivers/staging/rtl8188eu/core/rtw_security.c:671:42: 
-sparse:     got
-> unsigned int
+Actually what is this code actually doing.
+ISTR it is doing a crc32() and then comparing the result with the
+crc in the buffer?
+No hardware ever does that.
+What happens is the receiver does the crc of the whole buffer
+including the transmitted crc and then checks the value is the
+required 'magic' constant'.
+This all works because the crc is inverted before transmission.
 
-[CUT]
+=09David
 
-I suppose that these warnings are false positives for the reasons explained in 
-my patch.
-
-Furthermore, I found a commit by Fabio Aiuto <fabioaiuto83@gmail.com> that, as 
-far as I understand, do the same changes and that has been accepted by Greg K-
-H and merged in his tree: b97fad10de387c09ae46f607955c7237afa96654. So, I 
-think there one reason more to suspect of false positives.
-
-I'd appreciate comments on this topic.
-
-Thanks,
-
-Fabio
-
-
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
 
