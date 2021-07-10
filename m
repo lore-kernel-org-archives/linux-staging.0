@@ -1,20 +1,20 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB9870
-	for <linux-staging@lists.linux.dev>; Sat, 10 Jul 2021 02:24:17 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 50334613E6;
-	Sat, 10 Jul 2021 02:24:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1432070
+	for <linux-staging@lists.linux.dev>; Sat, 10 Jul 2021 02:26:58 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1586F613D9;
+	Sat, 10 Jul 2021 02:26:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1625883857;
+	s=k20201202; t=1625884017;
 	bh=JZXQHFg4/VJ/jucyBM7SkBKJjHxpQUEN45s+FDtcn6s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZG8L8rFvYGbKCnkV+lA/WNbpBsiEvjEXRBHfCt0/l6lxi4PKmkHsjR8ON8Pct4BnY
-	 HKZgJWb46XYLfY62TYHtBoh1p7eo7srcCzH3UF4s75zs+MkCRWZD2jdra2JiJ0hQyf
-	 lHf4Ab+sK84/4OMgtMw9BO4rcr6QXkiNnltkS4DavdkuAJkSAMWtyN7IrASc0035o2
-	 wNJgL6CNkhNoDkI7xvYV4RDiI/peek9meKCFhycyE8CJFdTlP5MiKYgFbu401HP9Jx
-	 OJb0FdbMwurnmH7vlRrlfurt7hl7RLIZlTk6LzBtZYO9pymwebV0fEQqgEFXADSK/l
-	 P/cVUMFMHmctg==
+	b=lW0kZW7alJU4cQnNZqJ8BJEGzhT6hE778ICZGMW5tYFzOFuoJYjF8J3XnjpAMl7Ah
+	 2eEX8MfsZx1Bn98gi8ldl6r78WDi6C2al+SHBF57mUPtWdEWfqPixTPdKHFD8k+DRU
+	 v72w3p+2sMa8fU03bnVzigogkIx5pyOKu2m8TYmyxmRHa+LOxjp916jeiJk99fBsfA
+	 BqSfSZQkZCNbzE7JRcQVNnKYy7quig76onC2UABC+dD5RnAoidCxwEoSFePU0roB0p
+	 vFAGhccwny1AI3vFkKvJHCMrHm28NqVh7Ipbrr6XzmNhUlgBKCKiQ09LncG5SCqygq
+	 VZiCl7hfT5MTw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -23,12 +23,12 @@ Cc: Fabio Aiuto <fabioaiuto83@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.12 099/104] staging: rtl8723bs: fix macro value for 2.4Ghz only device
-Date: Fri,  9 Jul 2021 22:21:51 -0400
-Message-Id: <20210710022156.3168825-99-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 88/93] staging: rtl8723bs: fix macro value for 2.4Ghz only device
+Date: Fri,  9 Jul 2021 22:24:22 -0400
+Message-Id: <20210710022428.3169839-88-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210710022156.3168825-1-sashal@kernel.org>
-References: <20210710022156.3168825-1-sashal@kernel.org>
+In-Reply-To: <20210710022428.3169839-1-sashal@kernel.org>
+References: <20210710022428.3169839-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
