@@ -1,19 +1,20 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF4C72
-	for <linux-staging@lists.linux.dev>; Sun, 11 Jul 2021 10:39:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBF372
+	for <linux-staging@lists.linux.dev>; Sun, 11 Jul 2021 10:41:06 +0000 (UTC)
 Received: from [192.168.1.107] ([37.4.249.97]) by mrelayeu.kundenserver.de
- (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1N2EHo-1l16o106Bi-013dYg; Sun, 11 Jul 2021 12:33:55 +0200
-Subject: Re: [PATCH v3 1/5] staging: vchiq: Refactor vchiq cdev code
+ (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MrQR7-1lPfwD3FdX-00oVAw; Sun, 11 Jul 2021 12:35:30 +0200
+Subject: Re: [PATCH v3 3/5] staging: vchiq: Move vchiq char driver to its own
+ file
 To: Ojaswin Mujoo <ojaswin98@gmail.com>, nsaenz@kernel.org
 Cc: gregkh@linuxfoundation.org, arnd@arndb.de, dan.carpenter@oracle.com,
  phil@raspberrypi.com, bcm-kernel-feedback-list@broadcom.com,
  linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
 References: <cover.1625401927.git.ojaswin98@gmail.com>
- <84a14939b25b5babed921f7d2bad2975d8639fd3.1625401927.git.ojaswin98@gmail.com>
+ <3b7178086322f774772d95141764ed99d0698139.1625401927.git.ojaswin98@gmail.com>
 From: Stefan Wahren <stefan.wahren@i2se.com>
 Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
@@ -145,8 +146,8 @@ Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
  bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
  LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
-Message-ID: <99d116a6-b50b-6a56-e012-68388536ef53@i2se.com>
-Date: Sun, 11 Jul 2021 12:33:54 +0200
+Message-ID: <3adbf977-3155-753d-2f81-51a375bce35d@i2se.com>
+Date: Sun, 11 Jul 2021 12:35:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 Precedence: bulk
@@ -155,37 +156,39 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <84a14939b25b5babed921f7d2bad2975d8639fd3.1625401927.git.ojaswin98@gmail.com>
+In-Reply-To: <3b7178086322f774772d95141764ed99d0698139.1625401927.git.ojaswin98@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-X-Provags-ID: V03:K1:Dyi+qk1wUQpMBmPLA6zpjaekJd4hoDqNkODWakPRwFjd8l7KESw
- Jnd5UWxwclbYKqfZaIDdWHubdzcte9yz9nHIDmmgW7+VJ0K8BTuAmS8DV/oFjUAVLgr695U
- hd5CJaYQxUIks7wfyyxM0OS9KSyfum94b7vGFKftTEqchDA8E7jmDcN8vCcXJwQxBI0PuCc
- /Mv2PvTBs0rjW/Yv4vpUQ==
+X-Provags-ID: V03:K1:4CakpANodNf83UXIrZNmx2jSLS32gEPQQl2r/X0wZGFyGcQ6/io
+ k8J2HSZV1bVUPQcDu4+EPNOKmA6PLvYFfm5I0TxpFTULTe69BhMS+bbIURdRn6JsQDPX1pw
+ GBHAaToOn1VsTDxkOQrJcaeAhb9kd5by8LcJvfFWCQGXshQzMjyPNxtvarAVm31LqbAX5K3
+ 0b3v/amVtNA9frK4uEp8A==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HFoJz9fHdiU=:KG4lGlOUS1DZlsBE77vVFn
- 4yM+iBeAawmM10mLi3/UJCzQkFZndH+phjYF1hPsS5xr4GQSKhBKNsjmah4juGEFhSkCXYw8n
- gqBUmOpIXpyF0v7FlmNm7XZT9Jg8mKUTBnlLqTleFQ0ez5dRUzj2LlHCbqzBEHCOTKv7iVuSj
- sCpvOCCjnxh/8v4GMUtXgHo0uN2UpbkAQPrQ8+GngyWze9xHMk5/0IEgL74DAT/+wjbELc2ni
- vCeFg+VcZoSnCez9yXeCvOrLLEGMSYXcWvgSSD1MLC9bNjk4W1eOSCcZmFHeiBkZhY+POSHA7
- FeG8ImNNdACH74OLw1wlXfp9N22tT4Ufm4NwmKZgWQNJkSzu0U8IdVWEsG+pNLQMVqTtoLZh2
- OdLqRqAhs+99H1Ib6HJ9sWdg1DslRv8Rom06/u6FX1s2zIx4olW6NxD7YPlU0oKhrbY6GNZ8+
- TabPJn/wnhB6fIHg/VJfCFUw6Gk2QVFE+I63HRzg6DSWszAIultOLcsAYaPp7SlevCaSk7c2U
- zEy4g2T2B+k96hwbXWqYTzabuSg6FqjVTImem/U9guIE7AacvC1wMvQjhYv95FAH4RdTc8Adc
- SwCb7vjm9oCSdDt5X3AfAyCNl+XE2FxI3YadXjJHqD8i3xenc3UolB7JpmVBmtceGcqhvFhwZ
- SnajMDjmF8vwdxBtil/nuQa9eU5eM/rE6YM2++KVKXFdND6Puu+s80cEM6QQ/BpENbe5ZGHOk
- FMe8HPoBnNWunhwJGybeTKiHukirK8qCYNz3qN5GU8rqM/85oPpTzYOlBicMH4Ar/CAKUEQYQ
- icsB/6SWeopYCPjsXhDb2hL94ygqg2BLxBoTWwFq0clVIyzNpK/X74diylphFqzZSGpvuijKp
- 9ne6o6LJU54kBkJPM+9w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:LTblCrlIA0E=:rlEkuFGVjRUHhmxsJ8pRI4
+ ueo6/FxZ63/lQknVua/HfJJS+A4yaXt8xpNcK3n9HbpzYosQzTzF8B6KNkEMcZ2Ym/Me8fYtO
+ lfRzTtnAa75VL81IKNMDNur//FG41Dwn8EGcuAgEnDA7e7I88Gq/bLlpnErJNQMUDCUF+BOc4
+ 0nKhBYbaMpoFTt0zDszN3dqO409ldSnoNfFKQ0BkrkervCMQRa91EoD7t3TNsKD6kYrxDtV+G
+ F/737DqiN3wxHP5Mxjq9AvikFYNSkxHQtYbK4R1nSq+R11qRT55j1D8JPeBqYP1wYUTaXSYpp
+ zxMXEhsmxVXEinLMfEtj/qEONSipgOcBcuCYs2BVErmwKZeyyFx3MFxp73yJeY3mDaOfEIjqK
+ tYYTJr+KFXVXrQh7KX+eZliSctoNrc5HfzVvReD7Tpyd3bRJC+pL9u/achF71wzxiW9HqzI4h
+ gVgv5E9d3nJR9ERtIrub5QA+tNpk8MnbubyE0/gpbugXYyVnrEXu+zJsla8V3tWGxM+ysmTmp
+ cP6Nc1OiNXVqRQ8r+tfQ+BsBdo5rZmYHUGY64EfWwAzQGR4Y4syiKVgI3w+YTxF+HAYGT8S15
+ Chnx88VuEgj5FCTsr344dm9t6+Gmd3XtO8x4G8dSzWMNw1o4Vo1mCdMN4/x2YJnV0u5RVkSPA
+ DVIsY8AP2HNRXAMUGn5b6FjE5KcYuJl0ohD7UAw33epA6ifGhC3tbRV2PhCUxLpE1E4Ii43gt
+ 5dJbUteKRlhwIpIdpnKtlXcRL5C0SRlDp0gnORnKKFUcCtgm3gAE1y9Z0YzwbEowfLnt1TrUE
+ WmKyEl3gX1o+2egCP1783lA7QONOxkt+i3BxD0rKonyDDtaJkeUl9fLivlfr0umbOeV65L+Wk
+ PxCbfHXqzVj3KSstSwSQ==
 
-Am 04.07.21 um 17:57 schrieb Ojaswin Mujoo:
-> Move the vchiq cdev initialization code to its own function for better
-> code organization. Call the initialization function during probe, thus
-> shifting the whole cdev creation logic (which was earlier split in
-> vchiq_probe() and vchiq_driver_init()) to vchiq_probe().
+Am 04.07.21 um 17:58 schrieb Ojaswin Mujoo:
+> Split the initialization code of vchiq char driver and device files from
+> that of vchiq platform. The char driver code now resides in vchiq_dev.c
+> and the platform code resides in the original vchiq_arm.c file.
+>
+> This commit focuses on separating the code into different files while
+> maintaining the same functionality. It does not completely decouple them
+> as the cdev init code is still called from the platform's vchiq_probe()
+> function.
 >
 > Signed-off-by: Ojaswin Mujoo <ojaswin98@gmail.com>
-
 Reviewed-by: Stefan Wahren <stefan.wahren@i2se.com>
-
