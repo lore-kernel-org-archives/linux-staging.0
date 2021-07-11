@@ -1,18 +1,20 @@
 Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD47168
-	for <linux-staging@lists.linux.dev>; Sun, 11 Jul 2021 10:29:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16DF372
+	for <linux-staging@lists.linux.dev>; Sun, 11 Jul 2021 10:34:51 +0000 (UTC)
 Received: from [192.168.1.107] ([37.4.249.97]) by mrelayeu.kundenserver.de
- (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1Mtfa5-1lA9Is0i0V-00v4rH; Sun, 11 Jul 2021 12:29:13 +0200
-Subject: Re: [PATCH v3 0/5] vchiq: Patch to separate platform and cdev code
+ (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MirfG-1lYiLa2m3g-00exV1; Sun, 11 Jul 2021 12:34:38 +0200
+Subject: Re: [PATCH v3 2/5] staging: vchiq: Move certain declarations to
+ vchiq_arm.h
 To: Ojaswin Mujoo <ojaswin98@gmail.com>, nsaenz@kernel.org
 Cc: gregkh@linuxfoundation.org, arnd@arndb.de, dan.carpenter@oracle.com,
  phil@raspberrypi.com, bcm-kernel-feedback-list@broadcom.com,
  linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
 References: <cover.1625401927.git.ojaswin98@gmail.com>
+ <3ed6ab5cbcc5647c9837a2a20428e954b6fb4de1.1625401927.git.ojaswin98@gmail.com>
 From: Stefan Wahren <stefan.wahren@i2se.com>
 Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
@@ -144,8 +146,8 @@ Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
  bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
  LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
-Message-ID: <65855393-302d-b931-e363-c5e564bdd6d2@i2se.com>
-Date: Sun, 11 Jul 2021 12:29:10 +0200
+Message-ID: <db8a387a-77bc-e78e-ef32-da530a80197b@i2se.com>
+Date: Sun, 11 Jul 2021 12:34:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 Precedence: bulk
@@ -154,136 +156,34 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <cover.1625401927.git.ojaswin98@gmail.com>
+In-Reply-To: <3ed6ab5cbcc5647c9837a2a20428e954b6fb4de1.1625401927.git.ojaswin98@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-X-Provags-ID: V03:K1:GrAWME5fqWx84Fo7EV0UdeOMu/kwpUb6aK10lfrRKf/5PQIOf1a
- ZND1uKQSqolwdrUUX2O8fwWxssQ+yyalnVwECqMpn706TGm/bKmFCihdn0m5Jph8vt7OYJF
- CBd2agghAHOG6JOaxJTKTA8vaW6GINbSXCjMHvw651o7MybaaTN3vWxDexzPvv5793DlD2u
- dwYjtWlRFd3IvTwyvNTkA==
+X-Provags-ID: V03:K1:DPqyN6BtmbvqW8MNlsOuD6gkWVcf7ZdKKl/oa7tLCcSroOcLpfX
+ et2VZ6mZJ2v1sb8UBXaXNWnFFMK9H/U5F1+Z8/JnSOOUNJ+GvTGUhK+Xcs5iuJgNcQ7Wg2d
+ G7PYchmLY4KqLyguOYpM+cgFl/v/wxWlkMk0RfrETBR2vYs3QW3uAKi7wMjtrr9sEqAlaRF
+ JEq2o8vg+HExLJ0EIjJOg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mTbicW4lBrM=:tNsWxgL0M6NHKgolW3DY4A
- O1mvqQGCWPscAy7UqSuaGn4TJONPEUa95XeKNTKBdB6SAU7/gcykqqXb847OzWaVpVMoN3KuJ
- ZbKaFPtU+ghi0Bko4k5G1s3PC4GOn++e9aXawjuWVlXqvnTVKTwNKPYzeMonvhOXWwhTsWJSL
- EW7tAMJfBlRPq/IGTO33L+FF81CsihjAengxTPCYqukdelLkhGCQckZus1QwbMlm0wN5sqLVd
- RVRbAMZbBDW4ZZ70i6TpuFIPt3rzMzjgZNnwJ+4L46Itm7nnVQMj6zYKN/9JS89M4ftQw2r1d
- jlrOC/TiBY1PDduG0z2+kSXeU4cZFmUBekMlYnkusuwzwnDa+ZgFZ5kQHSeA9NcdD9gALS+IV
- 3Qm7hdaBgeHM3T7//qszdcXXWhThqN9mJHt7lrpQPRvfDlss9khLxP35JYOjynHV8YhuzNNPC
- ++ZV45uE4+yUe4pJKWTE4twpgJh8L5sr9WThtbi5Ws2kgSAEi89PdeAPd//23JE8q+e4/DknS
- 7NhtMnA8FPdn+O7ou/ReneeGUDv8I3Y3qxdYAChEAWRQK2pcDvEHUbjFXQFwN52h7QBXKffHk
- Oh2zxLOu41xtf2iAF+7luSQiLgkeochjDZps1OVhO/9qhyP7DiDBn8Fb33EH93mmLR3bBgiNU
- h8F+/T0ZIjRL5+SDMoqph7c3DXMN3SLh+hkkQS3YKVsZDjeyYzxm6vE0A63vq7wjsI4hw0lhk
- 6R9v0+irMgQukBc1oQ+NYZ8fnBx2MEjyCRD8RA/3uFqt3f+SGaL0g4486cjLfI9JfAuvdxHaR
- dDFI2BJ4bS69bfj1ArzxY9xXQQXE9xC7hMx8cmGm4sSCqMmlmFiJsvOUuOfY66PTFdAyVs0RX
- Mp/yU7NelXJmOi4mbUjw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:mW0SHLfpC+w=:nmeQLrcTDqXsSSR9fiJmSH
+ sjbFWPa384vcTxRmFcts0uwKy4AX3ZOvp3ZT8aU/RNmRZoqUZ39bQ4Nie9e99PGmnonwo6FSE
+ c57TPLryJACsKSjDsku0Xvyy7ijxTcGqkZOL7aIsCaHuyCk3zXCw2doIyHOID9jY4qQBWvXfE
+ RRN4zYUqOLIt3EvY77eYIbVZ39MUFfYviZkTn6TjrfIeO99ohDjCzQ9OQIkH/wmSFu1A3/3Xq
+ DTOzGn/jwl0lcvgHy2tkCSWmRC8+vSy9pucJewrr7xqeo7XE6Wa45WehoAr2Nbq87F8DvZzuG
+ DNm1svufyVjjIW+O/9CTHFBo6ntL09u1Efx2tP+7NAsxXtsZBVb/FbzsAzuupdUPb4TLjPGPa
+ Ni49gJxd046A/iKKBYbFEX5xT8VbpNaLlsKb9K9RNbPsJLxoK/wKxqlimpHqzxaWswjtupEd9
+ iJnfc33TzFCbNomvdgclXPGaYmQXpqs8uo7ds1nV3sdNBuBGHCYW0Qq7L4l62oSeMRUuxlDJd
+ 638WicGT/UYK5+Wb1JoayJ1ikP0GSdsiraZHkULpo8hpeP66bRHBjOfHsQSrEhFoohJunQJBm
+ +owQ2tETL4hr4mRMUk5BELTf7RW3w4y3Wj2/MMFdsrmyJz7sS+HqjqvNQlovRY4OGuzm+gdum
+ ahfPLFAdzJtSU+/9L1bY4Z6dvQrkzDfCCuFK/gXskEqwaZ7sWYhiJJxiDyC7xdvMwhGYXAxXJ
+ 13JeNavpu9fvavoL66G9s+/kFrlMF+FWiEqnilk8vYnIssnO0zeBmU1eLVS8fb5CKU0FigCmh
+ JJbxxamOFeB9QkWYUzsCl2lJD8Ow0zKRXMHJ3ElWLjS0WXLoeVSyoKYpFZ/rW/bmnFlXMK6Mm
+ 9RfKwnxN39Wt3xqaCVZA==
 
-Hi Ojaswin,
-
-Am 04.07.21 um 17:56 schrieb Ojaswin Mujoo:
-> Hello,
+Am 04.07.21 um 17:57 schrieb Ojaswin Mujoo:
+> Move certain declarations from vchiq_arm.c to vchiq_arm.h to allow
+> code sharing. This will be useful when we eventually separate the vchiq
+> char driver code from platform code, into its own file.
 >
-> This patchset adderesses the TODO item number 10 specified at:
->
->     drivers/staging/vc04-services/interface/TODO
->
-> For reference, the task is:
->
->     10) Reorganize file structure: Move char driver to it's own file an=
-d join
->     both platform files
->
->     The cdev is defined alongside with the platform code in vchiq_arm.c=
-=2E It
->     would be nice to completely decouple it from the actual core code. =
-For
->     instance to be able to use bcm2835-audio without having /dev/vchiq =
-created.
->     One could argue it's better for security reasons or general cleanli=
-ness. It
->     could even be interesting to create two different kernel modules, s=
-omething
->     the likes of vchiq-core.ko and vchiq-dev.ko. This would also ease t=
-he
->     upstreaming process.
->
-> A summary of the patches is as follows:
->
-> - Patch 1: Move cdev init code into a function
-> - Patch 2: Shift some devlarations from vchiq_arm.c to vchiq_arm.h for
->            sharing
-> - Patch 3: Move vchiq cdev init code from vchiq_arm.c into vchiq_dev.c
-> - Patch 4: Decouple cdev code by defining a Kconfig entry to allow
->            optional compilation of it.
-> - Patch 5: Merge code in vchiq_2835_arm.c to vchiq_arm.c
->
-> (More details can be found in the commit messages)
->
-> Changes since v2 [1]:
->
-> * In Patch 1, as suggested, I have added error handling code back to
->   ensure the driver exits when there is an error in creating vchiq cdev=
-
->  =20
-> * I have built this patch against the right kernel (gregkh/staging,
->   staging-next branch) to avoid introducing any unwanted inconsistencie=
-s
->   like whitespace changes
->
-> I have tested the patch using vchiq_test utility on RPi 3B+.
->
-> Additionally, I had a small question regarding the next steps here
-> (quoting my cover letter from v2):
->
-> This question is more related to the next set of patches I'm
-> planning to submit. So the last thing left in this TODO is to
-> completely decouple vchiq platform and cdev code into 2 separate
-> modules and I am planning to do that in a different patchset.=20
->
-> The approach I have in mind is to start by using EXPORT_SYMBOL to
-> export all the functions (and accessor functions for variables like
-> g_state) that would be required for cdev init. Majority of these
-> would be exported from vchiq_arm.c and vchiq_core.c, and will then be
-> used in vchiq-dev.ko. Is this the right way to approach this?=20
-
-i'm back from vacation and had some time for review. IMHO the patch
-series is fine (except some nits in patch 5) regarding the task in the
-TODO list. Making cdev a separate module is a cool idea, but it's not
-really necessary for moving this driver out of staging. There are more
-important things to do.
-
-Thank you
-
-Regards
-Stefan
-
->
-> Thank you in advance for the help. Please let me know if any changes/
-> additional info is required.
->
-> Regards,
-> Ojaswin
->
-> [1] v2: https://lkml.org/lkml/2021/6/20/63
->
-> Ojaswin Mujoo (5):
->   staging: vchiq: Refactor vchiq cdev code
->   staging: vchiq: Move certain declarations to vchiq_arm.h
->   staging: vchiq: Move vchiq char driver to its own file
->   staging: vchiq: Make creation of vchiq cdev optional
->   staging: vchiq: Combine vchiq platform code into single file
->
->  drivers/staging/vc04_services/Kconfig         |   10 +
->  drivers/staging/vc04_services/Makefile        |    5 +-
->  .../interface/vchiq_arm/vchiq_2835_arm.c      |  564 ----
->  .../interface/vchiq_arm/vchiq_arm.c           | 2344 +++++------------=
-
->  .../interface/vchiq_arm/vchiq_arm.h           |   82 +
->  .../interface/vchiq_arm/vchiq_dev.c           | 1440 ++++++++++
->  6 files changed, 2265 insertions(+), 2180 deletions(-)
->  delete mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/v=
-chiq_2835_arm.c
->  create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/v=
-chiq_dev.c
->
-
+> Signed-off-by: Ojaswin Mujoo <ojaswin98@gmail.com>
+Reviewed-by: Stefan Wahren <stefan.wahren@i2se.com>
