@@ -1,20 +1,20 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBF372
-	for <linux-staging@lists.linux.dev>; Sun, 11 Jul 2021 10:41:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBDF072
+	for <linux-staging@lists.linux.dev>; Sun, 11 Jul 2021 10:44:38 +0000 (UTC)
 Received: from [192.168.1.107] ([37.4.249.97]) by mrelayeu.kundenserver.de
- (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MrQR7-1lPfwD3FdX-00oVAw; Sun, 11 Jul 2021 12:35:30 +0200
-Subject: Re: [PATCH v3 3/5] staging: vchiq: Move vchiq char driver to its own
- file
+ (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MwgOK-1lDBOu2mk6-00y5J9; Sun, 11 Jul 2021 12:39:02 +0200
+Subject: Re: [PATCH v3 4/5] staging: vchiq: Make creation of vchiq cdev
+ optional
 To: Ojaswin Mujoo <ojaswin98@gmail.com>, nsaenz@kernel.org
 Cc: gregkh@linuxfoundation.org, arnd@arndb.de, dan.carpenter@oracle.com,
  phil@raspberrypi.com, bcm-kernel-feedback-list@broadcom.com,
  linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
 References: <cover.1625401927.git.ojaswin98@gmail.com>
- <3b7178086322f774772d95141764ed99d0698139.1625401927.git.ojaswin98@gmail.com>
+ <03cbe3fc1d9d7dbf9b0a3844b700eb9bf5459088.1625401928.git.ojaswin98@gmail.com>
 From: Stefan Wahren <stefan.wahren@i2se.com>
 Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
@@ -146,8 +146,8 @@ Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
  bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
  LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
-Message-ID: <3adbf977-3155-753d-2f81-51a375bce35d@i2se.com>
-Date: Sun, 11 Jul 2021 12:35:29 +0200
+Message-ID: <0d986552-7271-4442-0c2e-68541ea42fea@i2se.com>
+Date: Sun, 11 Jul 2021 12:39:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 Precedence: bulk
@@ -156,39 +156,35 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <3b7178086322f774772d95141764ed99d0698139.1625401927.git.ojaswin98@gmail.com>
+In-Reply-To: <03cbe3fc1d9d7dbf9b0a3844b700eb9bf5459088.1625401928.git.ojaswin98@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-X-Provags-ID: V03:K1:4CakpANodNf83UXIrZNmx2jSLS32gEPQQl2r/X0wZGFyGcQ6/io
- k8J2HSZV1bVUPQcDu4+EPNOKmA6PLvYFfm5I0TxpFTULTe69BhMS+bbIURdRn6JsQDPX1pw
- GBHAaToOn1VsTDxkOQrJcaeAhb9kd5by8LcJvfFWCQGXshQzMjyPNxtvarAVm31LqbAX5K3
- 0b3v/amVtNA9frK4uEp8A==
+X-Provags-ID: V03:K1:QXKESfa4TlWlGRUe3hNImgTVoJZuOvLE3280vwPPBX+87GN3O9I
+ 47vYRYc72qpkwRzqrr5KXJuyP9a+MkOtJRq64/zKhp9t6LGB7BZZDkTEVBgwCtQwg9NG+JF
+ XrD4dMON73czIpJVOuZKPKlRhwOZOkdnwIf5T8zmQ0LEcKqulkWzvD9t07RLs4IjEmgcsJs
+ +XJF1l5h1VCj+N2QnwBcA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:LTblCrlIA0E=:rlEkuFGVjRUHhmxsJ8pRI4
- ueo6/FxZ63/lQknVua/HfJJS+A4yaXt8xpNcK3n9HbpzYosQzTzF8B6KNkEMcZ2Ym/Me8fYtO
- lfRzTtnAa75VL81IKNMDNur//FG41Dwn8EGcuAgEnDA7e7I88Gq/bLlpnErJNQMUDCUF+BOc4
- 0nKhBYbaMpoFTt0zDszN3dqO409ldSnoNfFKQ0BkrkervCMQRa91EoD7t3TNsKD6kYrxDtV+G
- F/737DqiN3wxHP5Mxjq9AvikFYNSkxHQtYbK4R1nSq+R11qRT55j1D8JPeBqYP1wYUTaXSYpp
- zxMXEhsmxVXEinLMfEtj/qEONSipgOcBcuCYs2BVErmwKZeyyFx3MFxp73yJeY3mDaOfEIjqK
- tYYTJr+KFXVXrQh7KX+eZliSctoNrc5HfzVvReD7Tpyd3bRJC+pL9u/achF71wzxiW9HqzI4h
- gVgv5E9d3nJR9ERtIrub5QA+tNpk8MnbubyE0/gpbugXYyVnrEXu+zJsla8V3tWGxM+ysmTmp
- cP6Nc1OiNXVqRQ8r+tfQ+BsBdo5rZmYHUGY64EfWwAzQGR4Y4syiKVgI3w+YTxF+HAYGT8S15
- Chnx88VuEgj5FCTsr344dm9t6+Gmd3XtO8x4G8dSzWMNw1o4Vo1mCdMN4/x2YJnV0u5RVkSPA
- DVIsY8AP2HNRXAMUGn5b6FjE5KcYuJl0ohD7UAw33epA6ifGhC3tbRV2PhCUxLpE1E4Ii43gt
- 5dJbUteKRlhwIpIdpnKtlXcRL5C0SRlDp0gnORnKKFUcCtgm3gAE1y9Z0YzwbEowfLnt1TrUE
- WmKyEl3gX1o+2egCP1783lA7QONOxkt+i3BxD0rKonyDDtaJkeUl9fLivlfr0umbOeV65L+Wk
- PxCbfHXqzVj3KSstSwSQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0j5byl8Z4pI=:95iSMA8Qrb9sgProatWqaS
+ umkhqiaFRDc2i9tFhm+Ia5Zx9cz1DwmpAHKnkGyBVuprkbP6ymcMbn9YLkgHeAS1DZGNYvOi1
+ QchbjiOsAFbUCjSKzy7GhR1aq+j5RZkFQyO/vqOY7YjkcDipFDdDQGIvs3Spi90gw6UR/wPYq
+ ZW+Yvvi8A0Bc9gw3qwjtIT3QxAVcCHEeUnGYtMH1fz0YULZLmnaC03HOtzEMLxSyvlrCzuZgh
+ tPKufi/5BQ5lTVN8Dh88wVS4A4rcQpH0fj7Fr5pN0Xtl6+7y/my8WqCQTQ6pH06TkDRghnU34
+ YLXGyK4tVQ4QIxYsymPtG7AsApohU1haolX05wNHIBUdM3rfpKFDk7nX3ZP0gvw+YBefTLGLf
+ 1qy3ZJG22ddfz3bCY9Z6SSupx8robhFlAjMbr9nmhv/sqFuRqzAHbalNV6uQjdb2rWhhtNCea
+ 4RigQ9AQ3Elg+tzpd4Zao7gLoG/2pu0891ejyscD1PBeZMmfRPwRS0GjLQZoRhBaQouYIx1iX
+ cVp2UWpaIybMFkAInySkM7Vd/ggnHR9zPJKRrjyqlwE0uOM3+wd8r0X4o6Q+2dzQbkfD4fswZ
+ OUN8oPDkl15hZEyVT0LKp5nPlhYnSFnEzWiWdq7Cu/mf/BXryhlIQexC5QMQ3lwbgaQaBINpa
+ ZaiclKCwQm28g2F76CUqSzKhmdZFv0KFycPJe9sBajgZK+v6UjelkMM2kXJ7wUd/AnEtNUF3F
+ m+Z/RGXmzf0x2G22Lr9we2O08tBynFATNrviyAdXjl548bZQcjYVP4g5V4LPV6ZE6uTAynBHn
+ SCZKR8Ny2pjhrq97Inmiu2hhNm5rgzlj+WdXZGoQTUkGkpA3cf/NS38FVsOuafQAPXy2OkL5Y
+ bVgMZHUsEmygleqpZIosI22tTTSoCgtDua7/hFF8mhWEZLgp+SUtfcCJQk7W17PozH0JAdYOX
+ tN9tv9kXUjm+DUfPPekt30t+UWVoASYg=
 
-Am 04.07.21 um 17:58 schrieb Ojaswin Mujoo:
-> Split the initialization code of vchiq char driver and device files from
-> that of vchiq platform. The char driver code now resides in vchiq_dev.c
-> and the platform code resides in the original vchiq_arm.c file.
->
-> This commit focuses on separating the code into different files while
-> maintaining the same functionality. It does not completely decouple them
-> as the cdev init code is still called from the platform's vchiq_probe()
-> function.
+Am 04.07.21 um 17:59 schrieb Ojaswin Mujoo:
+> Before this commit, vchiq cdev (/dev/vchiq) was always created during
+> platform initialization. Introduce a new Kconfig option
+> CONFIG_VCHIQ_CDEV which determines if the cdev will be created or not.
 >
 > Signed-off-by: Ojaswin Mujoo <ojaswin98@gmail.com>
 Reviewed-by: Stefan Wahren <stefan.wahren@i2se.com>
