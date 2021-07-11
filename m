@@ -1,20 +1,20 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBDF072
-	for <linux-staging@lists.linux.dev>; Sun, 11 Jul 2021 10:44:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714B372
+	for <linux-staging@lists.linux.dev>; Sun, 11 Jul 2021 10:49:52 +0000 (UTC)
 Received: from [192.168.1.107] ([37.4.249.97]) by mrelayeu.kundenserver.de
- (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MwgOK-1lDBOu2mk6-00y5J9; Sun, 11 Jul 2021 12:39:02 +0200
-Subject: Re: [PATCH v3 4/5] staging: vchiq: Make creation of vchiq cdev
- optional
+ (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MYvTy-1lgW2q0daS-00UoxR; Sun, 11 Jul 2021 12:49:36 +0200
+Subject: Re: [PATCH v3 5/5] staging: vchiq: Combine vchiq platform code into
+ single file
 To: Ojaswin Mujoo <ojaswin98@gmail.com>, nsaenz@kernel.org
 Cc: gregkh@linuxfoundation.org, arnd@arndb.de, dan.carpenter@oracle.com,
  phil@raspberrypi.com, bcm-kernel-feedback-list@broadcom.com,
  linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
 References: <cover.1625401927.git.ojaswin98@gmail.com>
- <03cbe3fc1d9d7dbf9b0a3844b700eb9bf5459088.1625401928.git.ojaswin98@gmail.com>
+ <b2e9eaee3e6d8f278a3277aaa284c5ca8b76d756.1625401928.git.ojaswin98@gmail.com>
 From: Stefan Wahren <stefan.wahren@i2se.com>
 Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
@@ -146,8 +146,8 @@ Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
  bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
  LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
-Message-ID: <0d986552-7271-4442-0c2e-68541ea42fea@i2se.com>
-Date: Sun, 11 Jul 2021 12:39:01 +0200
+Message-ID: <b1b867c1-476c-8a5d-721b-ac19854efcbc@i2se.com>
+Date: Sun, 11 Jul 2021 12:49:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 Precedence: bulk
@@ -156,35 +156,155 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <03cbe3fc1d9d7dbf9b0a3844b700eb9bf5459088.1625401928.git.ojaswin98@gmail.com>
+In-Reply-To: <b2e9eaee3e6d8f278a3277aaa284c5ca8b76d756.1625401928.git.ojaswin98@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
-X-Provags-ID: V03:K1:QXKESfa4TlWlGRUe3hNImgTVoJZuOvLE3280vwPPBX+87GN3O9I
- 47vYRYc72qpkwRzqrr5KXJuyP9a+MkOtJRq64/zKhp9t6LGB7BZZDkTEVBgwCtQwg9NG+JF
- XrD4dMON73czIpJVOuZKPKlRhwOZOkdnwIf5T8zmQ0LEcKqulkWzvD9t07RLs4IjEmgcsJs
- +XJF1l5h1VCj+N2QnwBcA==
+X-Provags-ID: V03:K1:O5yJPazFMqxnVGQNhEVlXSD2aYpt/ImNzJpUOtFyU2a6jWi9QEk
+ t+Fj0QUV8B2j2eGzSKB5bmglPWFZP7uN6SyTNoc3USzXiUZX4fBQhE8zPzvLdsjYQDQIBGF
+ cVr9TmP1ao5Dc8++NemZfqmajsLfHhNjA8/zS6rJJ0/pwjv1CVRVznP5MvurX6mGqNT8eEb
+ 2hoYR8EB2hO4o0p6+YTYA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0j5byl8Z4pI=:95iSMA8Qrb9sgProatWqaS
- umkhqiaFRDc2i9tFhm+Ia5Zx9cz1DwmpAHKnkGyBVuprkbP6ymcMbn9YLkgHeAS1DZGNYvOi1
- QchbjiOsAFbUCjSKzy7GhR1aq+j5RZkFQyO/vqOY7YjkcDipFDdDQGIvs3Spi90gw6UR/wPYq
- ZW+Yvvi8A0Bc9gw3qwjtIT3QxAVcCHEeUnGYtMH1fz0YULZLmnaC03HOtzEMLxSyvlrCzuZgh
- tPKufi/5BQ5lTVN8Dh88wVS4A4rcQpH0fj7Fr5pN0Xtl6+7y/my8WqCQTQ6pH06TkDRghnU34
- YLXGyK4tVQ4QIxYsymPtG7AsApohU1haolX05wNHIBUdM3rfpKFDk7nX3ZP0gvw+YBefTLGLf
- 1qy3ZJG22ddfz3bCY9Z6SSupx8robhFlAjMbr9nmhv/sqFuRqzAHbalNV6uQjdb2rWhhtNCea
- 4RigQ9AQ3Elg+tzpd4Zao7gLoG/2pu0891ejyscD1PBeZMmfRPwRS0GjLQZoRhBaQouYIx1iX
- cVp2UWpaIybMFkAInySkM7Vd/ggnHR9zPJKRrjyqlwE0uOM3+wd8r0X4o6Q+2dzQbkfD4fswZ
- OUN8oPDkl15hZEyVT0LKp5nPlhYnSFnEzWiWdq7Cu/mf/BXryhlIQexC5QMQ3lwbgaQaBINpa
- ZaiclKCwQm28g2F76CUqSzKhmdZFv0KFycPJe9sBajgZK+v6UjelkMM2kXJ7wUd/AnEtNUF3F
- m+Z/RGXmzf0x2G22Lr9we2O08tBynFATNrviyAdXjl548bZQcjYVP4g5V4LPV6ZE6uTAynBHn
- SCZKR8Ny2pjhrq97Inmiu2hhNm5rgzlj+WdXZGoQTUkGkpA3cf/NS38FVsOuafQAPXy2OkL5Y
- bVgMZHUsEmygleqpZIosI22tTTSoCgtDua7/hFF8mhWEZLgp+SUtfcCJQk7W17PozH0JAdYOX
- tN9tv9kXUjm+DUfPPekt30t+UWVoASYg=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:oO0tyG9W/UY=:oqtE0tC2HZgxh0BE5cCg+I
+ egYWy9axVK6MKohn4j/4riizGWxORmngHFubpuPaPYb1jEFhJnY9nuhCkgijuwlim5Ku5mI2z
+ hYPORNRGDsJDEEcFm1fui+PKzEtfPd/kSAzotF45ihCoUfo71zdYZcXkaGtwuLXzyTGg6W0o0
+ toQ5Mu96ehqNZgac03VNIyzwSVgrFF46HXzeZR6VqctkSWDc4C+sUhrn7Gx/NWtyPbvk09QkM
+ GVbfbg/DFFoWPE++0XRMtwJ7fC+M2wLjwHwZRWOrjLU7mvaZXHGmG9IdRdqt+mSuWmf6E8OU+
+ iPR5EBTcXqNeEowdtThSKr6XpwjKIA1IZNfZMEcd2JE80oZ0eVJlI18KkABM50mdVTSbJSWRu
+ Gr769tIOGtIQr0nHrbTttfXOccMnSv6UGFpt8hheX8l4thTGs6Nmk0dcBnzTZQ33EesSOCHXy
+ /PeU0i2D+5qrymMPSAmIvFr1VQok3IJVu94OY5DXqYi3T9nK18TszZ1jyYsgFOTU9GS//AXKc
+ YSmiN7BId08zeiXm9GVKGApPkWsOTYDV2KdQ1DBLN6uP33GPAhHaAC/vUlvT8svE3zDPYnsiT
+ +cZJpVtbeveQmFmmYJMiEpx+ni6ZSXALkeibPSWzKYb0fZH85LhqrxoQlx7wVghK/Cs0xwuxC
+ wuIsQC7byBIVPQUwzxGyjBEzjNarPq5j/oPfitK6h764nTLzz5EXjm4CKxg81ErffdaalTyVs
+ zvXLafA+kSK633pQeHzU3nhBBOjRMCuyR1myLhiVHzBH6mAr9n5JOFgWbt3F+1WZbjcLQrVYp
+ 3LHsjEvMo11/WURcrjt4qk0rRnPnzpPYm+HlcE17kpwOGgHg12nHmBoN1Ie3ERIgRoccj2qY5
+ at79sZG1420n8FIpmGkw==
 
 Am 04.07.21 um 17:59 schrieb Ojaswin Mujoo:
-> Before this commit, vchiq cdev (/dev/vchiq) was always created during
-> platform initialization. Introduce a new Kconfig option
-> CONFIG_VCHIQ_CDEV which determines if the cdev will be created or not.
+> Combine the vchiq platform initialization code into a single file by
+> merging vchiq_2835_arm.c into vchiq_arm.c
 >
 > Signed-off-by: Ojaswin Mujoo <ojaswin98@gmail.com>
-Reviewed-by: Stefan Wahren <stefan.wahren@i2se.com>
+> ---
+>  drivers/staging/vc04_services/Makefile        |   1 -
+>  .../interface/vchiq_arm/vchiq_2835_arm.c      | 564 ------------------=
+
+>  .../interface/vchiq_arm/vchiq_arm.c           | 549 +++++++++++++++++
+>  3 files changed, 549 insertions(+), 565 deletions(-)
+>  delete mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/v=
+chiq_2835_arm.c
+>
+> diff --git a/drivers/staging/vc04_services/Makefile b/drivers/staging/v=
+c04_services/Makefile
+> index 0a04338fc962..1fd191e2e2a5 100644
+> --- a/drivers/staging/vc04_services/Makefile
+> +++ b/drivers/staging/vc04_services/Makefile
+> @@ -4,7 +4,6 @@ obj-$(CONFIG_BCM2835_VCHIQ)	+=3D vchiq.o
+>  vchiq-objs :=3D \
+>     interface/vchiq_arm/vchiq_core.o  \
+>     interface/vchiq_arm/vchiq_arm.o \
+> -   interface/vchiq_arm/vchiq_2835_arm.o \
+>     interface/vchiq_arm/vchiq_debugfs.o \
+>     interface/vchiq_arm/vchiq_connected.o \
+> =20
+=2E..
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_ar=
+m.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index 0f2de571eba7..9057d01ffd48 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -25,15 +25,32 @@
+>  #include <linux/rcupdate.h>
+>  #include <linux/delay.h>
+>  #include <linux/slab.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/io.h>
+> +#include <linux/uaccess.h>
+>  #include <soc/bcm2835/raspberrypi-firmware.h>
+> =20
+>  #include "vchiq_core.h"
+>  #include "vchiq_ioctl.h"
+>  #include "vchiq_arm.h"
+>  #include "vchiq_debugfs.h"
+> +#include "vchiq_connected.h"
+> +#include "vchiq_pagelist.h"
+> =20
+>  #define DEVICE_NAME "vchiq"
+> =20
+> +#define TOTAL_SLOTS (VCHIQ_SLOT_ZERO_SLOTS + 2 * 32)
+> +
+> +#define MAX_FRAGMENTS (VCHIQ_NUM_CURRENT_BULKS * 2)
+> +
+> +#define VCHIQ_PLATFORM_FRAGMENTS_OFFSET_IDX 0
+> +#define VCHIQ_PLATFORM_FRAGMENTS_COUNT_IDX  1
+> +
+> +#define BELL0	0x00
+> +#define BELL2	0x08
+> +
+> +#define ARM_DS_ACTIVE	BIT(2)
+> +
+>  /* Override the default prefix, which would be vchiq_arm (from the fil=
+ename) */
+>  #undef MODULE_PARAM_PREFIX
+>  #define MODULE_PARAM_PREFIX DEVICE_NAME "."
+> @@ -59,10 +76,542 @@ static struct vchiq_drvdata bcm2836_drvdata =3D {
+>  	.cache_line_size =3D 64,
+>  };
+> =20
+> +struct vchiq_2835_state {
+> +	int inited;
+> +	struct vchiq_arm_state arm_state;
+> +};
+> +
+> +struct vchiq_pagelist_info {
+> +	struct pagelist *pagelist;
+> +	size_t pagelist_buffer_size;
+> +	dma_addr_t dma_addr;
+> +	enum dma_data_direction dma_dir;
+> +	unsigned int num_pages;
+> +	unsigned int pages_need_release;
+> +	struct page **pages;
+> +	struct scatterlist *scatterlist;
+> +	unsigned int scatterlist_mapped;
+> +};
+> +
+> +static void __iomem *g_regs;
+> +/* This value is the size of the L2 cache lines as understood by the
+> + * VPU firmware, which determines the required alignment of the
+> + * offsets/sizes in pagelists.
+> + *
+> + * Modern VPU firmware looks for a DT "cache-line-size" property in
+> + * the VCHIQ node and will overwrite it with the actual L2 cache size,=
+
+> + * which the kernel must then respect.  That property was rejected
+> + * upstream, so we have to use the VPU firmware's compatibility value
+> + * of 32.
+> + */
+> +static unsigned int g_cache_line_size =3D 32;
+> +static unsigned int g_fragments_size;
+> +static char *g_fragments_base;
+> +static char *g_free_fragments;
+> +static struct semaphore g_free_fragments_sema;
+> +static struct device *g_dev;
+> +
+> +static DEFINE_SEMAPHORE(g_free_fragments_mutex);
+> +
+> +static irqreturn_t
+> +vchiq_doorbell_irq(int irq, void *dev_id);
+> +
+> +static struct vchiq_pagelist_info *
+> +create_pagelist(char *buf, char __user *ubuf, size_t count, unsigned s=
+hort type);
+> +
+> +static void
+> +free_pagelist(struct vchiq_pagelist_info *pagelistinfo,
+> +	      int actual);
+
+please no forward declarations of these 3 functions. Put them into the
+right order instead ...
+
+Since this patch is independent from the other ones from the series,
+maybe Greg can merg the rest of the series.
+
+
+
