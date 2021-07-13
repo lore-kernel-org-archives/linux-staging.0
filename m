@@ -1,115 +1,133 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF76168
-	for <linux-staging@lists.linux.dev>; Tue, 13 Jul 2021 17:52:48 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id dj21so14476678edb.0
-        for <linux-staging@lists.linux.dev>; Tue, 13 Jul 2021 10:52:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E870670
+	for <linux-staging@lists.linux.dev>; Tue, 13 Jul 2021 18:46:34 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id hd33so14621675ejc.9
+        for <linux-staging@lists.linux.dev>; Tue, 13 Jul 2021 11:46:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=IMp+bzn3s2kzHmq/5zGpNCwwxMAv55iPurwlPmnyCGI=;
-        b=jhrlsncwu9tqEW4MDMloS+Xy1btQoKVTyzZB1enylBxtTCCDPiOz7nxS6evvfCaJUP
-         MJDyxoJ3VTzp+D/ZzgE1TIaH1vMk0/pl4sIoaHBJlksMKdjNYclWOFGOh8jAvA2EY0gH
-         6YH31csMHhJIyfuVKgWSz+03sOBU+WwKn7Z4WyDmndl3BC2kdtA7IMyAHEdUI/07W6q0
-         +SgZK8eASw8C7KtIywVbnKneXbSC3Ejb6z624P9paXRwXNX7dAwnB40QxmMajRDdNhwA
-         zZegwnujcN+9TaqTPNNATETjnd0XADkGYJDiX35vnnyb90oO1BBPlLHojvTMJx9flBTw
-         2TgQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uZCD8zEFZfiBDd2pp94vqMa1qM/uM1MO0tR4Do8NO9I=;
+        b=QOm25nPiezRVaPDCN4I2K3StsoeQ23bPBgiWI6sVxjua0vNHSjaI09mJxA0bpLM857
+         4eNJ7StB9ZeM3mri41JlknuVuZTIa0m+2bg7GdXPalWBwRKHqRRuIhuyTXj6SX4dhDPs
+         I9RI1mOcnnDhenDyRZaJYuOOdFNAmaOE+WKwZot/MMo5EfEBMZKmFmy/0w3cHNBa9N89
+         dHFwF16BodoZm20xhSm5cg6wh8zKS1jdd4gCM8JSaWBQ+PpFL02mpjOjlnXzCi4hGGt/
+         /2ILlFWp3oQQRnySnWJRtQnxNTshIYe37ZG4vc+Wikrfd3XiOkcXgOk/2pcc0XUVuHgj
+         Jb+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=IMp+bzn3s2kzHmq/5zGpNCwwxMAv55iPurwlPmnyCGI=;
-        b=kJvBil6X+PEhdZdFiEM448i+3I/Vl2OXxna9ecaO5RRVVJR5lzBAWhmR7KbaOhuoTP
-         V9FIt5EF+bR2LB72lwgpHU+FTy5QRa6ue+W5xLfWPlZRXs4h2cTwHGMAakIHFq+9RB+x
-         4k7RkKAVm2YVKwbpzLp5tHmsrswkX8cCoUZ7rE6LuXUumwFaAxF3Ww8MWhKm7+BzxW8N
-         lmWcaF8+caxHKB4froFg8AL8fNpvCglK8xlxbUr1JsUse9v5/htR6ZRz/Q7HPhAjTdrS
-         PkQ5MHzOeWLf5U7UmFRhtduNp8hEvwwgytXpoB3MTmYdNoWVpCrqueLwZF9grVys4nAu
-         fYXA==
-X-Gm-Message-State: AOAM530ds/3BSyWhG5TwPHBxhbsUyZ9lFlN4Ks5TxbHt0jOFYUyuRCQx
-	Eg9duYs11UqFjZ2bN3zWCTTPOsRzouA=
-X-Google-Smtp-Source: ABdhPJxNXgqr5ABw82/1iYRTeZRG6VNHNjk5AWRKfU/mEiJnF+b6jcjwLraRI9zfU8EwOnSY2Zs63g==
-X-Received: by 2002:a05:6402:31a6:: with SMTP id dj6mr7485780edb.248.1626198766840;
-        Tue, 13 Jul 2021 10:52:46 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uZCD8zEFZfiBDd2pp94vqMa1qM/uM1MO0tR4Do8NO9I=;
+        b=to7HLMN6lsdq5a2VhxyEUDsYkVDf2Owa3gdn7x2OG1vRyPeraCLx3//BIwE1pBr6RF
+         NMWtjUcu2KAOlKzoFkV+UwpB4iAMXVXPC10Ia55gjZ2rpkN/gc8IMmsMa07uJAr93Kra
+         jRWGze2iOrAGxKmxISrsT2ZaWCc11FGWeZw8ognj2aXyRlyluQf1/jFqrdU5Y+ft6l5/
+         Qt/LRQtGg24/fDz+VJHmDW1D/TRRzmATdL98iIfZ154CXvI/MpKBbH0ZHKq7HJcJNekR
+         caYI3XYxrMjZGbxwL8AjUBEurxiijiOaPlqZEXqr8YAQJ7Zj8KB2FpInQG3cNN/eW4tP
+         RlQQ==
+X-Gm-Message-State: AOAM531lTs1ib6A7wuj2nmhxGBefMPnkSCHO/qdRoAWy6xYQRSANNAbJ
+	4cBkdjh8dg7QwyEiLK863GM=
+X-Google-Smtp-Source: ABdhPJwpFI+wg5vNsqtctNDH9anW4yZdnwDnJA1smF+y5f6Ubqk4ED4Nlzymj3oJu4a9g0wSvyly/A==
+X-Received: by 2002:a17:906:5957:: with SMTP id g23mr7361434ejr.484.1626201993247;
+        Tue, 13 Jul 2021 11:46:33 -0700 (PDT)
 Received: from localhost.localdomain (host-79-27-97-200.retail.telecomitalia.it. [79.27.97.200])
-        by smtp.gmail.com with ESMTPSA id g11sm9947920edt.85.2021.07.13.10.52.45
+        by smtp.gmail.com with ESMTPSA id a16sm6419317edv.69.2021.07.13.11.46.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jul 2021 10:52:46 -0700 (PDT)
+        Tue, 13 Jul 2021 11:46:32 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8188eu: Replace a custom function with crc32_le()
-Date: Tue, 13 Jul 2021 19:52:45 +0200
-Message-ID: <3537977.lmtE3BSfzd@localhost.localdomain>
-In-Reply-To: <YO2MJ97grAbMQ1ms@kroah.com>
-References: <20210701133809.26534-1-fmdefrancesco@gmail.com> <YO2MJ97grAbMQ1ms@kroah.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	fabioaiuto83@gmail.com
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v2] staging: rtl8188eu: Replace a custom function with crc32_le()
+Date: Tue, 13 Jul 2021 20:46:29 +0200
+Message-Id: <20210713184629.7358-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-On Tuesday, July 13, 2021 2:50:47 PM CEST Greg Kroah-Hartman wrote:
-> On Thu, Jul 01, 2021 at 03:38:09PM +0200, Fabio M. De Francesco wrote:
-> > Use crc32_le in place of the custom getcrc32. This change makes GCC
-> > to warn about incorrect castings to the restricted type __le32, but
-> > they can be safely ignored because crc32_le calculates bitwise
-> > little-endian Ethernet AUTODIN II CRC32.
-> > 
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > ---
-> > 
-> >  drivers/staging/rtl8188eu/core/rtw_security.c | 22 ++++---------------
-> >  1 file changed, 4 insertions(+), 18 deletions(-)
-> > 
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_security.c
-> > b/drivers/staging/rtl8188eu/core/rtw_security.c index 
-1b2cb6196463..5f010cb66970
-> > 100644
-> > --- a/drivers/staging/rtl8188eu/core/rtw_security.c
-> > +++ b/drivers/staging/rtl8188eu/core/rtw_security.c
-> > @@ -111,21 +111,6 @@ static void crc32_init(void)
-> > 
-[...]
-> 
-> Why are you casting a native endian return value to a little endian
-> pointer?  
->
-Actually, I was not sure whether or not crc32_le() returns native or little 
-endian values: 
+Use kernel API crc32_le() in place of the custom getcrc32().
 
-(1) That "_le" in crc32_le() made me think it calculates little endian values 
-and the documentation of the function is a little misleading where it affirms 
-that "[crc32_le()] calculates *bitwise
-little-endian* Ethernet AUTODIN II CRC32".
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
 
-(2) Furthermore, I took commit b97fad10de387 as a model for my patch. You 
-applied that commit and it makes exactly the same change that I make in my 
-patch. I still cannot understand why you took that. Maybe I'm missing 
-something that I can't still see. What is it?
->
-> Are you _SURE_ that is correct?
-> 
-To summarize, I thought that crc32_le is some way returning an LE value in an 
-array of four u8 (aka an unsigned integer).
+v1 --> v2:
+Use cpu_to_le32() to assign native endian return value of crc32_le to
+crc.
 
-Now I suppose I have to change "*((__le32 *)crc) = ~crc32_le(~0, payload, 
-length);" to "*((__le32 *)crc) = cpu_to_le32(~crc32_le(~0, payload, length)".
+ drivers/staging/rtl8188eu/core/rtw_security.c | 23 ++++---------------
+ 1 file changed, 5 insertions(+), 18 deletions(-)
 
-Thanks,
-
-Fabio
-> We can not just ignore warnings, they are there for a reason.  Or if
-> not, then fix the code up to not have the warnings, but I can't take
-> this as-is, sorry.
-> 
-> thanks,
-> 
-> greg k-h
-
-
+diff --git a/drivers/staging/rtl8188eu/core/rtw_security.c b/drivers/staging/rtl8188eu/core/rtw_security.c
+index 1b2cb6196463..e9de61afe881 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_security.c
++++ b/drivers/staging/rtl8188eu/core/rtw_security.c
+@@ -11,6 +11,7 @@
+ #include <wifi.h>
+ #include <osdep_intf.h>
+ #include <net/lib80211.h>
++#include <linux/types.h>
+ 
+ /* WEP related ===== */
+ 
+@@ -111,21 +112,6 @@ static void crc32_init(void)
+ 	bcrc32initialized = 1;
+ }
+ 
+-static __le32 getcrc32(u8 *buf, int len)
+-{
+-	u8 *p;
+-	u32  crc;
+-
+-	if (bcrc32initialized == 0)
+-		crc32_init();
+-
+-	crc = 0xffffffff;       /* preload shift register, per CRC-32 spec */
+-
+-	for (p = buf; len > 0; ++p, --len)
+-		crc = crc32_table[(crc ^ *p) & 0xff] ^ (crc >> 8);
+-	return cpu_to_le32(~crc);    /* transmit complement, per CRC-32 spec */
+-}
+-
+ /* Need to consider the fragment  situation */
+ void rtw_wep_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
+ {
+@@ -609,14 +595,15 @@ u32	rtw_tkip_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
+ 
+ 				if ((curfragnum + 1) == pattrib->nr_frags) {	/* 4 the last fragment */
+ 					length = pattrib->last_txcmdsz - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
+-					*((__le32 *)crc) = getcrc32(payload, length);/* modified by Amy*/
++					*((__le32 *)crc) = cpu_to_le32(~crc32_le(~0, payload, length));
+ 
+ 					arcfour_init(&mycontext, rc4key, 16);
+ 					arcfour_encrypt(&mycontext, payload, payload, length);
+ 					arcfour_encrypt(&mycontext, payload + length, crc, 4);
+ 				} else {
+ 					length = pxmitpriv->frag_len - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
+-					*((__le32 *)crc) = getcrc32(payload, length);/* modified by Amy*/
++					*((__le32 *)crc) = cpu_to_le32(~crc32_le(~0, payload, length));
++
+ 					arcfour_init(&mycontext, rc4key, 16);
+ 					arcfour_encrypt(&mycontext, payload, payload, length);
+ 					arcfour_encrypt(&mycontext, payload + length, crc, 4);
+@@ -682,7 +669,7 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, struct recv_frame *precvframe)
+ 			arcfour_init(&mycontext, rc4key, 16);
+ 			arcfour_encrypt(&mycontext, payload, payload, length);
+ 
+-			*((__le32 *)crc) = getcrc32(payload, length - 4);
++			*((__le32 *)crc) = cpu_to_le32(~crc32_le(~0, payload, length - 4));
+ 
+ 			if (crc[3] != payload[length - 1] ||
+ 			    crc[2] != payload[length - 2] ||
+-- 
+2.32.0
 
