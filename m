@@ -1,41 +1,41 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E870670
-	for <linux-staging@lists.linux.dev>; Tue, 13 Jul 2021 18:46:34 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id hd33so14621675ejc.9
-        for <linux-staging@lists.linux.dev>; Tue, 13 Jul 2021 11:46:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECDE470
+	for <linux-staging@lists.linux.dev>; Tue, 13 Jul 2021 19:04:03 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id hd33so14711594ejc.9
+        for <linux-staging@lists.linux.dev>; Tue, 13 Jul 2021 12:04:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=uZCD8zEFZfiBDd2pp94vqMa1qM/uM1MO0tR4Do8NO9I=;
-        b=QOm25nPiezRVaPDCN4I2K3StsoeQ23bPBgiWI6sVxjua0vNHSjaI09mJxA0bpLM857
-         4eNJ7StB9ZeM3mri41JlknuVuZTIa0m+2bg7GdXPalWBwRKHqRRuIhuyTXj6SX4dhDPs
-         I9RI1mOcnnDhenDyRZaJYuOOdFNAmaOE+WKwZot/MMo5EfEBMZKmFmy/0w3cHNBa9N89
-         dHFwF16BodoZm20xhSm5cg6wh8zKS1jdd4gCM8JSaWBQ+PpFL02mpjOjlnXzCi4hGGt/
-         /2ILlFWp3oQQRnySnWJRtQnxNTshIYe37ZG4vc+Wikrfd3XiOkcXgOk/2pcc0XUVuHgj
-         Jb+A==
+        bh=RRHnqgTDleVFG5NcQlSkXobdxLX8J2tzmW5qrxaqAB8=;
+        b=Xdi05Fm4oIRff4UVzx1er5Cq+7tg+KuRGe6A7JK2alkLfWTlO/oy/ByAsCNBU+3wMu
+         IHVsR3ZlA/UP2c0f1MWe/J/x3kmL8OyoACCTsQNwoYWGlMyLOjUDc3w/VO+iYgA25XKJ
+         kmWLAn1zl6jkHg6PuKrp1PG9hfOzs5xh9YLlpp8F79e/xBvatxEVIyi1F0dOE7+lvk+V
+         T1FeLUYm/P9j/M0rxzhhk1LpOvbkjcc7coFKWqKXJeiNYnFdgZAK4pM/PSbBqk2+btmo
+         ZyJx5VK6ZDjXpONyvMSYst9IwugA0vIjdiHx3mq/bsuVlvjS6xw7Fa2uOICDO1jtVesn
+         BKVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=uZCD8zEFZfiBDd2pp94vqMa1qM/uM1MO0tR4Do8NO9I=;
-        b=to7HLMN6lsdq5a2VhxyEUDsYkVDf2Owa3gdn7x2OG1vRyPeraCLx3//BIwE1pBr6RF
-         NMWtjUcu2KAOlKzoFkV+UwpB4iAMXVXPC10Ia55gjZ2rpkN/gc8IMmsMa07uJAr93Kra
-         jRWGze2iOrAGxKmxISrsT2ZaWCc11FGWeZw8ognj2aXyRlyluQf1/jFqrdU5Y+ft6l5/
-         Qt/LRQtGg24/fDz+VJHmDW1D/TRRzmATdL98iIfZ154CXvI/MpKBbH0ZHKq7HJcJNekR
-         caYI3XYxrMjZGbxwL8AjUBEurxiijiOaPlqZEXqr8YAQJ7Zj8KB2FpInQG3cNN/eW4tP
-         RlQQ==
-X-Gm-Message-State: AOAM531lTs1ib6A7wuj2nmhxGBefMPnkSCHO/qdRoAWy6xYQRSANNAbJ
-	4cBkdjh8dg7QwyEiLK863GM=
-X-Google-Smtp-Source: ABdhPJwpFI+wg5vNsqtctNDH9anW4yZdnwDnJA1smF+y5f6Ubqk4ED4Nlzymj3oJu4a9g0wSvyly/A==
-X-Received: by 2002:a17:906:5957:: with SMTP id g23mr7361434ejr.484.1626201993247;
-        Tue, 13 Jul 2021 11:46:33 -0700 (PDT)
+        bh=RRHnqgTDleVFG5NcQlSkXobdxLX8J2tzmW5qrxaqAB8=;
+        b=KR+emU7uyVfwizgTds58lNYPNO9+ejTYccRrUJvTu309goakjcpAFsb9KKlcVRIWA7
+         BFO9va1sWcMtxrIeBQXdXeDA6whtnswGBr3w0OunC0KIFrcKYF20Ocu/z8L2OY0qTPQY
+         OqI10YY79dPGT6hQKJYsMoV7r6xjjUUCSur+gQLWFHtk1KEwrtn2GVsK/jSHoQbz/q8X
+         DIGhfA7ZPIJDLI3NrEVWHSqGjBwDrJ8r+LwWu2f/Py7FCHrou0j/MOmk9mQk9ioF+qsB
+         IYnBMYEQztA7iCdLauRsEPhwkXwJ5y+P2AhFXJ5qvmqpLh8JFif7qy6AZk3kTP4UW5G4
+         QkcA==
+X-Gm-Message-State: AOAM533+YOFsQcwOoAJioDI/dbd5jPIiJ0ykuuwmdIrzOxnKZNsAZm0V
+	AkHuxxOFivvq6RORCf8BWms=
+X-Google-Smtp-Source: ABdhPJz7otacVuB2JTm1gosl7q2fM5LVZfUIJ+w17cg59HUTB6KjvdvIWAV8N63GbhIXpstezhiY3A==
+X-Received: by 2002:a17:907:988e:: with SMTP id ja14mr7444582ejc.173.1626203042308;
+        Tue, 13 Jul 2021 12:04:02 -0700 (PDT)
 Received: from localhost.localdomain (host-79-27-97-200.retail.telecomitalia.it. [79.27.97.200])
-        by smtp.gmail.com with ESMTPSA id a16sm6419317edv.69.2021.07.13.11.46.31
+        by smtp.gmail.com with ESMTPSA id g23sm10045807edp.90.2021.07.13.12.04.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jul 2021 11:46:32 -0700 (PDT)
+        Tue, 13 Jul 2021 12:04:01 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -43,9 +43,9 @@ To: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-kernel@vger.kernel.org,
 	fabioaiuto83@gmail.com
 Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH v2] staging: rtl8188eu: Replace a custom function with crc32_le()
-Date: Tue, 13 Jul 2021 20:46:29 +0200
-Message-Id: <20210713184629.7358-1-fmdefrancesco@gmail.com>
+Subject: [PATCH v2] staging: rtl8188eu: Remove no more used functions and variables
+Date: Tue, 13 Jul 2021 21:03:58 +0200
+Message-Id: <20210713190358.11864-1-fmdefrancesco@gmail.com>
 X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,79 +55,71 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use kernel API crc32_le() in place of the custom getcrc32().
+Remove the functions and variables from rtw_security.c that are no more
+necessary since the patch that replaces getcrc32() with crc32_le():
+https://lore.kernel.org/lkml/20210713184629.7358-1-fmdefrancesco@gmail.com/
 
 Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
 
-v1 --> v2:
-Use cpu_to_le32() to assign native endian return value of crc32_le to
-crc.
+v1 -> v2:
+Update the commit message with the URL of v2 of the above-mentioned
+patch.
 
- drivers/staging/rtl8188eu/core/rtw_security.c | 23 ++++---------------
- 1 file changed, 5 insertions(+), 18 deletions(-)
+Please, apply this patch after the above-mentioned one to make the 
+code build with no errors.
+
+
+ drivers/staging/rtl8188eu/core/rtw_security.c | 36 -------------------
+ 1 file changed, 36 deletions(-)
 
 diff --git a/drivers/staging/rtl8188eu/core/rtw_security.c b/drivers/staging/rtl8188eu/core/rtw_security.c
-index 1b2cb6196463..e9de61afe881 100644
+index e9de61afe881..8ec0b897ba3b 100644
 --- a/drivers/staging/rtl8188eu/core/rtw_security.c
 +++ b/drivers/staging/rtl8188eu/core/rtw_security.c
-@@ -11,6 +11,7 @@
- #include <wifi.h>
- #include <osdep_intf.h>
- #include <net/lib80211.h>
-+#include <linux/types.h>
- 
- /* WEP related ===== */
- 
-@@ -111,21 +112,6 @@ static void crc32_init(void)
- 	bcrc32initialized = 1;
+@@ -76,42 +76,6 @@ static void arcfour_encrypt(struct arc4context *parc4ctx, u8 *dest, u8 *src, u32
+ 		dest[i] = src[i] ^ (unsigned char)arcfour_byte(parc4ctx);
  }
  
--static __le32 getcrc32(u8 *buf, int len)
+-static int bcrc32initialized;
+-static u32 crc32_table[256];
+-
+-static u8 crc32_reverseBit(u8 data)
 -{
--	u8 *p;
--	u32  crc;
+-	return (u8)((data << 7) & 0x80) | ((data << 5) & 0x40) | ((data << 3) & 0x20) |
+-		   ((data << 1) & 0x10) | ((data >> 1) & 0x08) | ((data >> 3) & 0x04) |
+-		   ((data >> 5) & 0x02) | ((data >> 7) & 0x01);
+-}
 -
--	if (bcrc32initialized == 0)
--		crc32_init();
+-static void crc32_init(void)
+-{
+-	int i, j;
+-	u32 c;
+-	u8 *p = (u8 *)&c, *p1;
+-	u8 k;
 -
--	crc = 0xffffffff;       /* preload shift register, per CRC-32 spec */
+-	if (bcrc32initialized == 1)
+-		return;
 -
--	for (p = buf; len > 0; ++p, --len)
--		crc = crc32_table[(crc ^ *p) & 0xff] ^ (crc >> 8);
--	return cpu_to_le32(~crc);    /* transmit complement, per CRC-32 spec */
+-	c = 0x12340000;
+-
+-	for (i = 0; i < 256; ++i) {
+-		k = crc32_reverseBit((u8)i);
+-		for (c = ((u32)k) << 24, j = 8; j > 0; --j)
+-			c = c & 0x80000000 ? (c << 1) ^ CRC32_POLY : (c << 1);
+-		p1 = (u8 *)&crc32_table[i];
+-
+-		p1[0] = crc32_reverseBit(p[3]);
+-		p1[1] = crc32_reverseBit(p[2]);
+-		p1[2] = crc32_reverseBit(p[1]);
+-		p1[3] = crc32_reverseBit(p[0]);
+-	}
+-	bcrc32initialized = 1;
 -}
 -
  /* Need to consider the fragment  situation */
  void rtw_wep_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
  {
-@@ -609,14 +595,15 @@ u32	rtw_tkip_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
- 
- 				if ((curfragnum + 1) == pattrib->nr_frags) {	/* 4 the last fragment */
- 					length = pattrib->last_txcmdsz - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
--					*((__le32 *)crc) = getcrc32(payload, length);/* modified by Amy*/
-+					*((__le32 *)crc) = cpu_to_le32(~crc32_le(~0, payload, length));
- 
- 					arcfour_init(&mycontext, rc4key, 16);
- 					arcfour_encrypt(&mycontext, payload, payload, length);
- 					arcfour_encrypt(&mycontext, payload + length, crc, 4);
- 				} else {
- 					length = pxmitpriv->frag_len - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
--					*((__le32 *)crc) = getcrc32(payload, length);/* modified by Amy*/
-+					*((__le32 *)crc) = cpu_to_le32(~crc32_le(~0, payload, length));
-+
- 					arcfour_init(&mycontext, rc4key, 16);
- 					arcfour_encrypt(&mycontext, payload, payload, length);
- 					arcfour_encrypt(&mycontext, payload + length, crc, 4);
-@@ -682,7 +669,7 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, struct recv_frame *precvframe)
- 			arcfour_init(&mycontext, rc4key, 16);
- 			arcfour_encrypt(&mycontext, payload, payload, length);
- 
--			*((__le32 *)crc) = getcrc32(payload, length - 4);
-+			*((__le32 *)crc) = cpu_to_le32(~crc32_le(~0, payload, length - 4));
- 
- 			if (crc[3] != payload[length - 1] ||
- 			    crc[2] != payload[length - 2] ||
 -- 
 2.32.0
 
