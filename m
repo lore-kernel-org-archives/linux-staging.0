@@ -1,87 +1,119 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01AF570
-	for <linux-staging@lists.linux.dev>; Tue, 13 Jul 2021 12:50:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 18FC560E08;
-	Tue, 13 Jul 2021 12:50:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1626180650;
-	bh=xhnvDq97WUasYvJzd+6FvodbPY+APIjpa2otRQhsHCY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KpaDFPjPh4yAgP3oI1soc9SANB16fRdYZSfNk/3OT2ooQJLMVqIY9zWhB8il/Bs3z
-	 lJGGEXclCDm/uQhs62CfbAJv/OCKTimu6MUmcKPc/F/A6KVCwcEkYlk1AlFM4LE0qW
-	 yCealiMIH+lwGuWtpHsz0TrcNmM38YlIpMWWtrv4=
-Date: Tue, 13 Jul 2021 14:50:47 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9238C72
+	for <linux-staging@lists.linux.dev>; Tue, 13 Jul 2021 15:28:27 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10044"; a="271296457"
+X-IronPort-AV: E=Sophos;i="5.84,236,1620716400"; 
+   d="scan'208";a="271296457"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2021 08:25:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,236,1620716400"; 
+   d="scan'208";a="430084893"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga002.jf.intel.com with ESMTP; 13 Jul 2021 08:25:00 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id E70DEFF; Tue, 13 Jul 2021 18:25:27 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8188eu: Replace a custom function with
- crc32_le()
-Message-ID: <YO2MJ97grAbMQ1ms@kroah.com>
-References: <20210701133809.26534-1-fmdefrancesco@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Baokun Li <libaokun1@huawei.com>,
+	Hulk Robot <hulkci@huawei.com>
+Subject: [PATCH v2 1/5] media: staging: atomisp: use list_splice_init in atomisp_compat_css20.c
+Date: Tue, 13 Jul 2021 18:25:19 +0300
+Message-Id: <20210713152523.19902-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210701133809.26534-1-fmdefrancesco@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 01, 2021 at 03:38:09PM +0200, Fabio M. De Francesco wrote:
-> Use crc32_le in place of the custom getcrc32. This change makes GCC
-> to warn about incorrect castings to the restricted type __le32, but
-> they can be safely ignored because crc32_le calculates bitwise
-> little-endian Ethernet AUTODIN II CRC32.
-> 
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> ---
->  drivers/staging/rtl8188eu/core/rtw_security.c | 22 ++++---------------
->  1 file changed, 4 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8188eu/core/rtw_security.c b/drivers/staging/rtl8188eu/core/rtw_security.c
-> index 1b2cb6196463..5f010cb66970 100644
-> --- a/drivers/staging/rtl8188eu/core/rtw_security.c
-> +++ b/drivers/staging/rtl8188eu/core/rtw_security.c
-> @@ -111,21 +111,6 @@ static void crc32_init(void)
->  	bcrc32initialized = 1;
->  }
->  
-> -static __le32 getcrc32(u8 *buf, int len)
-> -{
-> -	u8 *p;
-> -	u32  crc;
-> -
-> -	if (bcrc32initialized == 0)
-> -		crc32_init();
-> -
-> -	crc = 0xffffffff;       /* preload shift register, per CRC-32 spec */
-> -
-> -	for (p = buf; len > 0; ++p, --len)
-> -		crc = crc32_table[(crc ^ *p) & 0xff] ^ (crc >> 8);
-> -	return cpu_to_le32(~crc);    /* transmit complement, per CRC-32 spec */
-> -}
-> -
->  /* Need to consider the fragment  situation */
->  void rtw_wep_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
->  {
-> @@ -609,14 +594,15 @@ u32	rtw_tkip_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
->  
->  				if ((curfragnum + 1) == pattrib->nr_frags) {	/* 4 the last fragment */
->  					length = pattrib->last_txcmdsz - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
-> -					*((__le32 *)crc) = getcrc32(payload, length);/* modified by Amy*/
-> +					*((__le32 *)crc) = ~crc32_le(~0, payload, length);
+From: Baokun Li <libaokun1@huawei.com>
 
-Why are you casting a native endian return value to a little endian
-pointer?  Are you _SURE_ that is correct?
+Using list_splice_init() instead of entire while-loops
+in atomisp_compat_css20.c.
 
-We can not just ignore warnings, they are there for a reason.  Or if
-not, then fix the code up to not have the warnings, but I can't take
-this as-is, sorry.
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Baokun Li <libaokun1@huawei.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+v2: added this patch to the series
+ .../media/atomisp/pci/atomisp_compat_css20.c  | 38 +++----------------
+ 1 file changed, 5 insertions(+), 33 deletions(-)
 
-thanks,
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index f60198bb8a1a..99a632f33d2d 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -2102,9 +2102,6 @@ void atomisp_css_stop(struct atomisp_sub_device *asd,
+ 		      enum ia_css_pipe_id pipe_id, bool in_reset)
+ {
+ 	struct atomisp_device *isp = asd->isp;
+-	struct atomisp_s3a_buf *s3a_buf;
+-	struct atomisp_dis_buf *dis_buf;
+-	struct atomisp_metadata_buf *md_buf;
+ 	unsigned long irqflags;
+ 	unsigned int i;
+ 
+@@ -2144,42 +2141,17 @@ void atomisp_css_stop(struct atomisp_sub_device *asd,
+ 	}
+ 
+ 	/* move stats buffers to free queue list */
+-	while (!list_empty(&asd->s3a_stats_in_css)) {
+-		s3a_buf = list_entry(asd->s3a_stats_in_css.next,
+-				     struct atomisp_s3a_buf, list);
+-		list_del(&s3a_buf->list);
+-		list_add_tail(&s3a_buf->list, &asd->s3a_stats);
+-	}
+-	while (!list_empty(&asd->s3a_stats_ready)) {
+-		s3a_buf = list_entry(asd->s3a_stats_ready.next,
+-				     struct atomisp_s3a_buf, list);
+-		list_del(&s3a_buf->list);
+-		list_add_tail(&s3a_buf->list, &asd->s3a_stats);
+-	}
++	list_splice_init(&asd->s3a_stats_in_css, &asd->s3a_stats);
++	list_splice_init(&asd->s3a_stats_ready, &asd->s3a_stats);
+ 
+ 	spin_lock_irqsave(&asd->dis_stats_lock, irqflags);
+-	while (!list_empty(&asd->dis_stats_in_css)) {
+-		dis_buf = list_entry(asd->dis_stats_in_css.next,
+-				     struct atomisp_dis_buf, list);
+-		list_del(&dis_buf->list);
+-		list_add_tail(&dis_buf->list, &asd->dis_stats);
+-	}
++	list_splice_init(&asd->dis_stats_in_css, &asd->dis_stats);
+ 	asd->params.dis_proj_data_valid = false;
+ 	spin_unlock_irqrestore(&asd->dis_stats_lock, irqflags);
+ 
+ 	for (i = 0; i < ATOMISP_METADATA_TYPE_NUM; i++) {
+-		while (!list_empty(&asd->metadata_in_css[i])) {
+-			md_buf = list_entry(asd->metadata_in_css[i].next,
+-					    struct atomisp_metadata_buf, list);
+-			list_del(&md_buf->list);
+-			list_add_tail(&md_buf->list, &asd->metadata[i]);
+-		}
+-		while (!list_empty(&asd->metadata_ready[i])) {
+-			md_buf = list_entry(asd->metadata_ready[i].next,
+-					    struct atomisp_metadata_buf, list);
+-			list_del(&md_buf->list);
+-			list_add_tail(&md_buf->list, &asd->metadata[i]);
+-		}
++		list_splice_init(&asd->metadata_in_css[i], &asd->metadata[i]);
++		list_splice_init(&asd->metadata_ready[i], &asd->metadata[i]);
+ 	}
+ 
+ 	atomisp_flush_params_queue(&asd->video_out_capture);
+-- 
+2.30.2
 
-greg k-h
