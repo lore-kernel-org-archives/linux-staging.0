@@ -1,202 +1,87 @@
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DECE168
-	for <linux-staging@lists.linux.dev>; Tue, 13 Jul 2021 11:18:13 +0000 (UTC)
-Received: by mail-io1-f71.google.com with SMTP id b20-20020a0566023314b0290523c137a6a4so678485ioz.8
-        for <linux-staging@lists.linux.dev>; Tue, 13 Jul 2021 04:18:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=d0VXKmH7GtiFChh3wG0gJbpxoNP+Hj7GfncK49Y+M/4=;
-        b=GhIO2CVZ7mUzQHCuk2FoJ4nUCCBtlmVdEkL/ezZ3l6Sr9wBzBaNHp4RGRZftDZb0as
-         ARlGrh1KmMk5raj7lVk1B5ilntUzPPEmCzUG0cVbnfuNRMDDXu4IdFV6vxaYaaNywax/
-         8zTUhTaet9uFIGPXPLjmc4TgzjGPLp1jOmQrpxwihLTe8DUOOOUqI2W5GGtoT8Pn/xsB
-         9WCyKCl/Ku2AbnoZ6Ss9beTcDQ6MNN3S5mkL6jZipW9QojWh8r2QeMCyf9KCM1kfVRvG
-         JE8k6swb9zNxKdqIpE7zMakLa6gkpljeaN8RPF6QuTJUE8pt5lC5MUkQDZZVRECQMFy8
-         bgQA==
-X-Gm-Message-State: AOAM531yqgAs6D32s6ZP5tg1NF/xpWke5j9EVNXUeFxU1d3FoKigFS8b
-	rPS65Q6H4+FB5mW8Bc1E7DC9iNf5+ezKCJLbwQmig+LspU7K
-X-Google-Smtp-Source: ABdhPJwSwmoL+1H2Ma3tyI4dWfwT3Sngsf0Ze5XZyhc+4ebVpO7r0IoL++Y3os3k+J9Wc57gXR9ubAs38hEbhRUdIFiaI5rZ9aW5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01AF570
+	for <linux-staging@lists.linux.dev>; Tue, 13 Jul 2021 12:50:50 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 18FC560E08;
+	Tue, 13 Jul 2021 12:50:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1626180650;
+	bh=xhnvDq97WUasYvJzd+6FvodbPY+APIjpa2otRQhsHCY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KpaDFPjPh4yAgP3oI1soc9SANB16fRdYZSfNk/3OT2ooQJLMVqIY9zWhB8il/Bs3z
+	 lJGGEXclCDm/uQhs62CfbAJv/OCKTimu6MUmcKPc/F/A6KVCwcEkYlk1AlFM4LE0qW
+	 yCealiMIH+lwGuWtpHsz0TrcNmM38YlIpMWWtrv4=
+Date: Tue, 13 Jul 2021 14:50:47 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8188eu: Replace a custom function with
+ crc32_le()
+Message-ID: <YO2MJ97grAbMQ1ms@kroah.com>
+References: <20210701133809.26534-1-fmdefrancesco@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a92:d990:: with SMTP id r16mr2650651iln.204.1626175092483;
- Tue, 13 Jul 2021 04:18:12 -0700 (PDT)
-Date: Tue, 13 Jul 2021 04:18:12 -0700
-In-Reply-To: <20210713121908.181cb183@gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000baeb3805c6ff644a@google.com>
-Subject: Re: [syzbot] KASAN: use-after-free Read in r871xu_dev_remove
-From: syzbot <syzbot+5872a520e0ce0a7c7230@syzkaller.appspotmail.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, 
-	gregkh@linuxfoundation.org, hridayhegde1999@gmail.com, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	mudongliangabcd@gmail.com, paskripkin@gmail.com, rkovhaev@gmail.com, 
-	straube.linux@gmail.com, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210701133809.26534-1-fmdefrancesco@gmail.com>
 
-Hello,
+On Thu, Jul 01, 2021 at 03:38:09PM +0200, Fabio M. De Francesco wrote:
+> Use crc32_le in place of the custom getcrc32. This change makes GCC
+> to warn about incorrect castings to the restricted type __le32, but
+> they can be safely ignored because crc32_le calculates bitwise
+> little-endian Ethernet AUTODIN II CRC32.
+> 
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> ---
+>  drivers/staging/rtl8188eu/core/rtw_security.c | 22 ++++---------------
+>  1 file changed, 4 insertions(+), 18 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8188eu/core/rtw_security.c b/drivers/staging/rtl8188eu/core/rtw_security.c
+> index 1b2cb6196463..5f010cb66970 100644
+> --- a/drivers/staging/rtl8188eu/core/rtw_security.c
+> +++ b/drivers/staging/rtl8188eu/core/rtw_security.c
+> @@ -111,21 +111,6 @@ static void crc32_init(void)
+>  	bcrc32initialized = 1;
+>  }
+>  
+> -static __le32 getcrc32(u8 *buf, int len)
+> -{
+> -	u8 *p;
+> -	u32  crc;
+> -
+> -	if (bcrc32initialized == 0)
+> -		crc32_init();
+> -
+> -	crc = 0xffffffff;       /* preload shift register, per CRC-32 spec */
+> -
+> -	for (p = buf; len > 0; ++p, --len)
+> -		crc = crc32_table[(crc ^ *p) & 0xff] ^ (crc >> 8);
+> -	return cpu_to_le32(~crc);    /* transmit complement, per CRC-32 spec */
+> -}
+> -
+>  /* Need to consider the fragment  situation */
+>  void rtw_wep_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
+>  {
+> @@ -609,14 +594,15 @@ u32	rtw_tkip_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
+>  
+>  				if ((curfragnum + 1) == pattrib->nr_frags) {	/* 4 the last fragment */
+>  					length = pattrib->last_txcmdsz - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
+> -					*((__le32 *)crc) = getcrc32(payload, length);/* modified by Amy*/
+> +					*((__le32 *)crc) = ~crc32_le(~0, payload, length);
 
-syzbot has tested the proposed patch but the reproducer is still triggering an issue:
-KASAN: slab-out-of-bounds Read in r871xu_dev_remove
+Why are you casting a native endian return value to a little endian
+pointer?  Are you _SURE_ that is correct?
 
-==================================================================
-BUG: KASAN: slab-out-of-bounds in debug_spin_lock_before kernel/locking/spinlock_debug.c:83 [inline]
-BUG: KASAN: slab-out-of-bounds in do_raw_spin_lock+0x262/0x2b0 kernel/locking/spinlock_debug.c:112
-Read of size 4 at addr ffff88802f7ace14 by task kworker/0:0/5
+We can not just ignore warnings, they are there for a reason.  Or if
+not, then fix the code up to not have the warnings, but I can't take
+this as-is, sorry.
 
-CPU: 0 PID: 5 Comm: kworker/0:0 Tainted: G        W         5.14.0-rc1-next-20210713-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:105
- print_address_description.constprop.0.cold+0x6c/0x309 mm/kasan/report.c:233
- __kasan_report mm/kasan/report.c:419 [inline]
- kasan_report.cold+0x83/0xdf mm/kasan/report.c:436
- debug_spin_lock_before kernel/locking/spinlock_debug.c:83 [inline]
- do_raw_spin_lock+0x262/0x2b0 kernel/locking/spinlock_debug.c:112
- do_wait_for_common kernel/sched/completion.c:86 [inline]
- __wait_for_common kernel/sched/completion.c:106 [inline]
- wait_for_common kernel/sched/completion.c:117 [inline]
- wait_for_completion+0x181/0x280 kernel/sched/completion.c:138
- r871xu_dev_remove+0x80/0x320 drivers/staging/rtl8712/usb_intf.c:599
- usb_unbind_interface+0x1d8/0x8d0 drivers/usb/core/driver.c:458
- __device_release_driver+0x3bd/0x6f0 drivers/base/dd.c:1201
- device_release_driver_internal drivers/base/dd.c:1232 [inline]
- device_release_driver+0x26/0x40 drivers/base/dd.c:1255
- bus_remove_device+0x2eb/0x5a0 drivers/base/bus.c:529
- device_del+0x502/0xd40 drivers/base/core.c:3544
- usb_disable_device+0x35b/0x7b0 drivers/usb/core/message.c:1419
- usb_disconnect.cold+0x27a/0x78e drivers/usb/core/hub.c:2221
- hub_port_connect drivers/usb/core/hub.c:5151 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5440 [inline]
- port_event drivers/usb/core/hub.c:5586 [inline]
- hub_event+0x1c9c/0x4330 drivers/usb/core/hub.c:5668
- process_one_work+0x98d/0x1630 kernel/workqueue.c:2276
- worker_thread+0x658/0x11f0 kernel/workqueue.c:2422
- kthread+0x3e5/0x4d0 kernel/kthread.c:319
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
+thanks,
 
-Allocated by task 10657:
- kasan_save_stack+0x1b/0x40 mm/kasan/common.c:38
- kasan_set_track mm/kasan/common.c:46 [inline]
- set_alloc_info mm/kasan/common.c:434 [inline]
- ____kasan_kmalloc mm/kasan/common.c:513 [inline]
- ____kasan_kmalloc mm/kasan/common.c:472 [inline]
- __kasan_kmalloc+0x9b/0xd0 mm/kasan/common.c:522
- kmalloc include/linux/slab.h:596 [inline]
- tomoyo_realpath_from_path+0xc3/0x620 security/tomoyo/realpath.c:254
- tomoyo_get_realpath security/tomoyo/file.c:151 [inline]
- tomoyo_path_number_perm+0x1d5/0x590 security/tomoyo/file.c:723
- security_file_ioctl+0x50/0xb0 security/security.c:1539
- __do_sys_ioctl fs/ioctl.c:1063 [inline]
- __se_sys_ioctl fs/ioctl.c:1055 [inline]
- __x64_sys_ioctl+0xb3/0x200 fs/ioctl.c:1055
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-
-Freed by task 10657:
- kasan_save_stack+0x1b/0x40 mm/kasan/common.c:38
- kasan_set_track+0x1c/0x30 mm/kasan/common.c:46
- kasan_set_free_info+0x20/0x30 mm/kasan/generic.c:360
- ____kasan_slab_free mm/kasan/common.c:366 [inline]
- ____kasan_slab_free mm/kasan/common.c:328 [inline]
- __kasan_slab_free+0xfb/0x130 mm/kasan/common.c:374
- kasan_slab_free include/linux/kasan.h:229 [inline]
- slab_free_hook mm/slub.c:1650 [inline]
- slab_free_freelist_hook+0xdf/0x240 mm/slub.c:1675
- slab_free mm/slub.c:3235 [inline]
- kfree+0xeb/0x650 mm/slub.c:4295
- tomoyo_realpath_from_path+0x191/0x620 security/tomoyo/realpath.c:291
- tomoyo_get_realpath security/tomoyo/file.c:151 [inline]
- tomoyo_path_number_perm+0x1d5/0x590 security/tomoyo/file.c:723
- security_file_ioctl+0x50/0xb0 security/security.c:1539
- __do_sys_ioctl fs/ioctl.c:1063 [inline]
- __se_sys_ioctl fs/ioctl.c:1055 [inline]
- __x64_sys_ioctl+0xb3/0x200 fs/ioctl.c:1055
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-
-The buggy address belongs to the object at ffff88802f7ac000
- which belongs to the cache kmalloc-4k of size 4096
-The buggy address is located 3604 bytes inside of
- 4096-byte region [ffff88802f7ac000, ffff88802f7ad000)
-The buggy address belongs to the page:
-page:ffffea0000bdea00 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x2f7a8
-head:ffffea0000bdea00 order:3 compound_mapcount:0 compound_pincount:0
-flags: 0xfff00000010200(slab|head|node=0|zone=1|lastcpupid=0x7ff)
-raw: 00fff00000010200 0000000000000000 dead000000000122 ffff888010842140
-raw: 0000000000000000 0000000000040004 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 59, ts 93061328154, free_ts 93052725619
- prep_new_page mm/page_alloc.c:2433 [inline]
- get_page_from_freelist+0xa72/0x2f80 mm/page_alloc.c:4166
- __alloc_pages+0x1b2/0x500 mm/page_alloc.c:5374
- alloc_pages+0x18c/0x2a0 mm/mempolicy.c:2244
- alloc_slab_page mm/slub.c:1713 [inline]
- allocate_slab+0x32b/0x4c0 mm/slub.c:1853
- new_slab mm/slub.c:1916 [inline]
- new_slab_objects mm/slub.c:2662 [inline]
- ___slab_alloc+0x4ba/0x820 mm/slub.c:2825
- __slab_alloc.constprop.0+0xa7/0xf0 mm/slub.c:2865
- slab_alloc_node mm/slub.c:2947 [inline]
- slab_alloc mm/slub.c:2989 [inline]
- kmem_cache_alloc_trace+0x30f/0x3c0 mm/slub.c:3006
- kmalloc include/linux/slab.h:591 [inline]
- kzalloc include/linux/slab.h:721 [inline]
- kobject_uevent_env+0x240/0x1650 lib/kobject_uevent.c:524
- driver_bound+0x1a8/0x300 drivers/base/dd.c:401
- really_probe+0x3d8/0xcd0 drivers/base/dd.c:643
- __driver_probe_device+0x338/0x4d0 drivers/base/dd.c:747
- driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:777
- __device_attach_driver+0x20b/0x2f0 drivers/base/dd.c:894
- bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:427
- __device_attach+0x228/0x4a0 drivers/base/dd.c:965
- bus_probe_device+0x1e4/0x290 drivers/base/bus.c:487
-page last free stack trace:
- reset_page_owner include/linux/page_owner.h:24 [inline]
- free_pages_prepare mm/page_alloc.c:1343 [inline]
- free_pcp_prepare+0x312/0x7d0 mm/page_alloc.c:1394
- free_unref_page_prepare mm/page_alloc.c:3329 [inline]
- free_unref_page+0x19/0x690 mm/page_alloc.c:3408
- kvfree+0x42/0x50 mm/util.c:616
- netdev_freemem net/core/dev.c:10780 [inline]
- free_netdev+0x495/0x5b0 net/core/dev.c:10958
- rtl871x_load_fw_cb drivers/staging/rtl8712/hal_init.c:47 [inline]
- rtl871x_load_fw_cb.cold+0x100/0x120 drivers/staging/rtl8712/hal_init.c:32
- request_firmware_work_func+0x12c/0x230 drivers/base/firmware_loader/main.c:1081
- process_one_work+0x98d/0x1630 kernel/workqueue.c:2276
- worker_thread+0x658/0x11f0 kernel/workqueue.c:2422
- kthread+0x3e5/0x4d0 kernel/kthread.c:319
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
-
-Memory state around the buggy address:
- ffff88802f7acd00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff88802f7acd80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff88802f7ace00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                         ^
- ffff88802f7ace80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff88802f7acf00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
-
-
-Tested on:
-
-commit:         8f0df15b Add linux-next specific files for 20210713
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=12ef886c300000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5ef73f190e4b0b9a
-dashboard link: https://syzkaller.appspot.com/bug?extid=5872a520e0ce0a7c7230
-compiler:       
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=164561d2300000
-
+greg k-h
