@@ -1,187 +1,58 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23FB72
-	for <linux-staging@lists.linux.dev>; Tue, 13 Jul 2021 09:19:14 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id u13so9851757lfs.11
-        for <linux-staging@lists.linux.dev>; Tue, 13 Jul 2021 02:19:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version;
-        bh=W4tuK+mg0LJB76V5MiaLNKMBx2WUHN3nWM4vCRmmiis=;
-        b=Jjt4sHXOWbQbEjVrO59k/29cFETj57C3V5SW/ptELn7R1GF99dwfJOnwb0WqhZ11G7
-         5qlCxqbQDBc0rxrEepxZmGtcfeQfJw2PRMw4WIs/TKnU+hEY1DX5AO3zdEZPNIr5wGtk
-         APEZHGLV5mFMmm7cZiCE7yPVQ2qVApGjgH1GxisX3CuEnHDmtTS2Roo8oKo+bz8o6+6C
-         Ae4OqyvXqwOVehuDZpxWGFIaeqwHjix7oNxG+n0FqHyRw/jXVIv+Cs6aUPAJwur92iGO
-         M/bzUAII7eV5AZs6cNnOD4F0Jwfaq8l/FILayTc7cAPTMCzwbHWO4Y6qU5mRQ6IZkMDZ
-         SCRA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE61168
+	for <linux-staging@lists.linux.dev>; Tue, 13 Jul 2021 11:07:06 +0000 (UTC)
+Received: by mail-io1-f70.google.com with SMTP id y8-20020a5e87080000b029050cfd126a26so14121264ioj.5
+        for <linux-staging@lists.linux.dev>; Tue, 13 Jul 2021 04:07:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version;
-        bh=W4tuK+mg0LJB76V5MiaLNKMBx2WUHN3nWM4vCRmmiis=;
-        b=e09MLEYWxBvsT9QFv6/XNr8khBXb9VKKo+aV0wU/cF/W+lbBgFQJJEJn3m9gTe97wW
-         CaoXSp/rvlbAPufnbE9ScEmxTItRwIvuHQe1HV3WB2oonEQEKRs64xwMICuM6SxFDB2B
-         aCQ+RNX6Qz1VunVYmNktW71C9pCcyCi6wQ0gE3r7uwHCI2NzwRRYL/CpC4u2NaaNDqSy
-         Rq+x3vRnKQf9A742LxeBiNihcZP/V8KfdwDtga/Kowvw8QeffAv5c7f9pXbt7n/1o6BY
-         6nkQ4VL4tHOX7SB1R0obYucBqMsaag4X56RO0k+iLm9fitnfFoRtFty1pYAG+6iurSnB
-         0y6A==
-X-Gm-Message-State: AOAM5306olr4P/cKeRf+ujv69wTosl8jAjJIIGH5gI1TjFrBvrMx/pUB
-	7UMnIwYXIByKP72oLVufIUA=
-X-Google-Smtp-Source: ABdhPJw3vF2sgkC8iZi+tiOHRAnu294bhBWG+D+uonK9hlHmecCXYb7ArwOCXOldRZmon+JqpVRv3Q==
-X-Received: by 2002:ac2:593b:: with SMTP id v27mr2681378lfi.234.1626167952932;
-        Tue, 13 Jul 2021 02:19:12 -0700 (PDT)
-Received: from localhost.localdomain ([94.103.229.115])
-        by smtp.gmail.com with ESMTPSA id k9sm1035469ljn.24.2021.07.13.02.19.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jul 2021 02:19:12 -0700 (PDT)
-Date: Tue, 13 Jul 2021 12:19:08 +0300
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: Dongliang Mu <mudongliangabcd@gmail.com>
-Cc: syzbot <syzbot+5872a520e0ce0a7c7230@syzkaller.appspotmail.com>,
- Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, Greg KH
- <gregkh@linuxfoundation.org>, hridayhegde1999@gmail.com, linux-kernel
- <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev,
- rkovhaev@gmail.com, straube.linux@gmail.com, syzkaller-bugs
- <syzkaller-bugs@googlegroups.com>
-Subject: Re: [syzbot] KASAN: use-after-free Read in r871xu_dev_remove
-Message-ID: <20210713121908.181cb183@gmail.com>
-In-Reply-To: <CAD-N9QU3jHw_gOiwduF+eATJ_sxcUcMiiBDESBYmZ8NdGH5RCQ@mail.gmail.com>
-References: <00000000000087b4c305c6f8a243@google.com>
-	<20210713115546.34c99ea8@gmail.com>
-	<CAD-N9QU3jHw_gOiwduF+eATJ_sxcUcMiiBDESBYmZ8NdGH5RCQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-suse-linux-gnu)
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=AvMyKnTkwsxUrtP3XQjHPh5T2O88RDnNqnIxyYnIxDM=;
+        b=N6Ptnx7Ws6mqNzi7+POccTSu9G5u1TijtmNWJzPcgCMaBACoQGwZ03q/bE9VpbD2KY
+         ifoLg97SOS8q1pn0T/4cIloqj1K2Zcu1GyZSHnTfP0u2FV1zPolcD8737xMi0nUsF1f8
+         dq0G06teFmROHiC5+m9t/2wimV63GbJuJtJS6CZip6ijp+cwHIRfNtuuLLXNZiir6YWr
+         jg3HaoIe3HhdtBT1ZFxKbtXWygelUs/PD7B/OS58SHnT/sEfC9kk57RnFn4uiL0KRKOa
+         yzD3Tnkk2jagWtV9Z+BqArhJw05r0royF/QwgvQnSZKDjesywZHL4NR/nrIZ2XlTIYld
+         rm3g==
+X-Gm-Message-State: AOAM533zX6Y8XYYp/2j9w/nqipXk4V88IyIWkpoGB8v4JKsEz848eIYP
+	Pm6hOnWszFv0IlkI+FgHA/amxqLUy+ckAgPfhcSyNtwPt427
+X-Google-Smtp-Source: ABdhPJx/vetpoAeNKu+h2uUTRnfq90XIA1URsPj0f0m4j4mGg0p/BueIwuoYv8LVvOh5gGrqGwU9K0+iMrMbIOe/OTEglU2TUt1K
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="MP_/3wShYljTxV0=fP0sSRLP4nK"
+X-Received: by 2002:a92:c0c3:: with SMTP id t3mr2483044ilf.80.1626174425449;
+ Tue, 13 Jul 2021 04:07:05 -0700 (PDT)
+Date: Tue, 13 Jul 2021 04:07:05 -0700
+In-Reply-To: <20210713115546.34c99ea8@gmail.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000f8c8e605c6ff3cff@google.com>
+Subject: Re: [syzbot] KASAN: use-after-free Read in r871xu_dev_remove
+From: syzbot <syzbot+5872a520e0ce0a7c7230@syzkaller.appspotmail.com>
+To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, 
+	gregkh@linuxfoundation.org, hridayhegde1999@gmail.com, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	paskripkin@gmail.com, rkovhaev@gmail.com, straube.linux@gmail.com, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
---MP_/3wShYljTxV0=fP0sSRLP4nK
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Hello,
 
-On Tue, 13 Jul 2021 17:04:28 +0800
-Dongliang Mu <mudongliangabcd@gmail.com> wrote:
+syzbot tried to test the proposed patch but the build/boot failed:
 
-> On Tue, Jul 13, 2021 at 4:55 PM Pavel Skripkin <paskripkin@gmail.com>
-> wrote:
-> >
-> > On Mon, 12 Jul 2021 20:14:24 -0700
-> > syzbot <syzbot+5872a520e0ce0a7c7230@syzkaller.appspotmail.com>
-> > wrote:
-> >
-> > > Hello,
-> > >
-> > > syzbot found the following issue on:
-> > >
-> > > HEAD commit:    92510a7f Add linux-next specific files for
-> > > 20210709 git tree:       linux-next
-> > > console output:
-> > > https://syzkaller.appspot.com/x/log.txt?x=16c50180300000 kernel
-> > > config:
-> > > https://syzkaller.appspot.com/x/.config?x=505de2716f052686
-> > > dashboard link:
-> > > https://syzkaller.appspot.com/bug?extid=5872a520e0ce0a7c7230 syz
-> > > repro: https://syzkaller.appspot.com/x/repro.syz?x=1639a73c300000
-> > > C reproducer:
-> > > https://syzkaller.appspot.com/x/repro.c?x=15fcd5e4300000
-> > >
-> > > IMPORTANT: if you fix the issue, please add the following tag to
-> > > the commit: Reported-by:
-> > > syzbot+5872a520e0ce0a7c7230@syzkaller.appspotmail.com
-> > >
-> >
-> > Hmm, bisection is wrong this time. It should be
-> > e02a3b945816 ("staging: rtl8712: fix memory leak in
-> > rtl871x_load_fw_cb")
-> 
-> Hi Paval,
-> 
-    ^^^^^
-    Pavel :)
-
-> can you share more details about why the patch e02a3b945816 causes
-> this UAF problem?
-> 
-
-I am not sure, but I think, that free_netdev() call rigth after
-complete() can cause use-after-free bug in wait_for_completion() since
-rtl8712_fw_ready is allocated as netdev private data.
-
-I guess, schedule() call after complete() can help here.
+drivers/staging/rtl8712/hal_init.c:46:3: error: implicit declaration of function 'shedule'; did you mean 'schedule'? [-Werror=implicit-function-declaration]
 
 
-BTW, I send wrong patch in previous email: typo in schedule() :)
+Tested on:
 
-#syz test:
-git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+commit:         8f0df15b Add linux-next specific files for 20210713
+git tree:       linux-next
+dashboard link: https://syzkaller.appspot.com/bug?extid=5872a520e0ce0a7c7230
+compiler:       
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=13a2c06c300000
 
-
-
-
-> >
-> > #syz test:
-> > git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-> > master
-> >
-> >
-> > I guess, this should work
-> >
-> >
-> > With regards,
-> > Pavel Skripkin
-> >
-> > --
-> > You received this message because you are subscribed to the Google
-> > Groups "syzkaller-bugs" group. To unsubscribe from this group and
-> > stop receiving emails from it, send an email to
-> > syzkaller-bugs+unsubscribe@googlegroups.com. To view this
-> > discussion on the web visit
-> > https://groups.google.com/d/msgid/syzkaller-bugs/20210713115546.34c99ea8%40gmail.com.
-
-
-
-
-With regards,
-Pavel Skripkin
-
---MP_/3wShYljTxV0=fP0sSRLP4nK
-Content-Type: text/x-patch
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename=0001-staging-rtl8712-fix-UAF-in-r871xu_dev_remove.patch
-
-From 4c25accd0fc806687142aadeaa5b19805289ac74 Mon Sep 17 00:00:00 2001
-From: Pavel Skripkin <paskripkin@gmail.com>
-Date: Tue, 13 Jul 2021 11:52:17 +0300
-Subject: [PATCH] staging: rtl8712: fix UAF in r871xu_dev_remove
-
-/* .... */
-
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
----
- drivers/staging/rtl8712/hal_init.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/staging/rtl8712/hal_init.c b/drivers/staging/rtl8712/hal_init.c
-index 22974277afa0..e81c66cc8580 100644
---- a/drivers/staging/rtl8712/hal_init.c
-+++ b/drivers/staging/rtl8712/hal_init.c
-@@ -43,6 +43,7 @@ static void rtl871x_load_fw_cb(const struct firmware *firmware, void *context)
- 		r8712_free_drv_sw(adapter);
- 		adapter->dvobj_deinit(adapter);
- 		complete(&adapter->rtl8712_fw_ready);
-+		schedule();				/* to not trigger UAF in wait_for_completion() */
- 		free_netdev(adapter->pnetdev);
- 		return;
- 	}
--- 
-2.32.0
-
-
---MP_/3wShYljTxV0=fP0sSRLP4nK--
