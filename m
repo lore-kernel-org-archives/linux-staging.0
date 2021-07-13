@@ -1,215 +1,325 @@
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655E972
-	for <linux-staging@lists.linux.dev>; Tue, 13 Jul 2021 03:14:25 +0000 (UTC)
-Received: by mail-io1-f71.google.com with SMTP id k2-20020a5d8b020000b029050b6f9cfe31so13375500ion.11
-        for <linux-staging@lists.linux.dev>; Mon, 12 Jul 2021 20:14:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=2Kd2j0EgB4c82m8k6zWGd8bDvRKEVLAFtQoMz/5kceI=;
-        b=Ph8LVNczr/9zocDJsAGLiLdQPyNiRIo35Ty/GoueIu4qgWrTNHsAk9/yL4VgMk16Af
-         Oqlhy2Vae6Sf39DdNDCPuQyC02W1mnbkM6wZpsXp6W4NtSPht+JVxiUHkBH8E7fLpTdM
-         2NfdccigbbLvA5e5mZlI0j1fkEDoXFzvTCDn/xOcy/DvwfhCRah3gGRu2gxCF+1psMwl
-         0rxiKLobUQY2Ctpqb0SPMIU5bDyaHG2tbLhINJbnJtZDm9iuHU4X+tEJNRZWeut3a/MD
-         NvaC6WRZR7RkoET2rQXMoOU8nvvUNF83s3vT8ybDfUI0xezMOlxwk0G+Ic362uKTBrAE
-         LHwQ==
-X-Gm-Message-State: AOAM530vKML7nynxEbnpSz3DG99oGa9/N340su7ojMEKUyIX7W1ATJvw
-	Mw2463E8j8I8+rIvaMVW2D9d/hxuqmgvBQRCOUHg1VhYOyc8
-X-Google-Smtp-Source: ABdhPJxHxGYfkOxsxjHmkEtgNkNmHi6Zp1gatxcN29F8/pgLPnMNQo2pED1QT6Kn0+DmlQ4iZ4H05n6PuBaPCi++eYmZjoRksQ5W
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B77D177
+	for <linux-staging@lists.linux.dev>; Tue, 13 Jul 2021 07:41:15 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1m3D1n-0003wU-UB; Tue, 13 Jul 2021 09:40:28 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1m3D1h-0006Pq-8S; Tue, 13 Jul 2021 09:40:21 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1m3D1h-0000sY-4N; Tue, 13 Jul 2021 09:40:21 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: kernel@pengutronix.de,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alexandre Bounine <alex.bou9@gmail.com>,
+	Alex Dubov <oakad@yahoo.com>,
+	Alex Elder <elder@kernel.org>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Andy Gross <agross@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Ben Widawsky <ben.widawsky@intel.com>,
+	Bjorn Andersson <bjorn.andersson@linaro.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Christian Borntraeger <borntraeger@de.ibm.com>,
+	Cornelia Huck <cohuck@redhat.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Dexuan Cui <decui@microsoft.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	Eric Farman <farman@linux.ibm.com>,
+	Frank Li <lznuaa@gmail.com>,
+	Geoff Levand <geoff@infradead.org>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Halil Pasic <pasic@linux.ibm.com>,
+	Hannes Reinecke <hare@suse.de>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Harald Freudenberger <freude@linux.ibm.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Helge Deller <deller@gmx.de>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Jason Wang <jasowang@redhat.com>,
+	Jens Taprogge <jens.taprogge@taprogge.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Joey Pabalan <jpabalanb@gmail.com>,
+	Johan Hovold <johan@kernel.org>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Johannes Thumshirn <morbidrsa@gmail.com>,
+	Jon Mason <jdmason@kudzu.us>,
+	Juergen Gross <jgross@suse.com>,
+	Julien Grall <jgrall@amazon.com>,
+	Kai-Heng Feng <kai.heng.feng@canonical.com>,
+	Kirti Wankhede <kwankhede@nvidia.com>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Lee Jones <lee.jones@linaro.org>,
+	Len Brown <lenb@kernel.org>,
+	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+	Manohar Vanga <manohar.vanga@gmail.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Mark Gross <mgross@linux.intel.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Martyn Welch <martyn@welchs.me.uk>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Matthew Rosato <mjrosato@linux.ibm.com>,
+	Matt Porter <mporter@kernel.crashing.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Maxim Levitsky <maximlevitsky@gmail.com>,
+	Michael Buesch <m@bues.ch>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Michael Jamet <michael.jamet@intel.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Mike Christie <michael.christie@oracle.com>,
+	Moritz Fischer <mdf@kernel.org>,
+	Ohad Ben-Cohen <ohad@wizery.com>,
+	=?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
+	Paul Mackerras <paulus@samba.org>,
+	Peter Oberparleiter <oberpar@linux.ibm.com>,
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
+	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Samuel Holland <samuel@sholland.org>,
+	Samuel Iglesias Gonsalvez <siglesias@igalia.com>,
+	SeongJae Park <sjpark@amazon.de>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Stefan Richter <stefanr@s5r6.in-berlin.de>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Stephen Hemminger <sthemmin@microsoft.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Sven Van Asbroeck <TheSven73@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Thorsten Scherer <t.scherer@eckelmann.de>,
+	Tomas Winkler <tomas.winkler@intel.com>,
+	Tom Rix <trix@redhat.com>,
+	Tyrel Datwyler <tyreld@linux.ibm.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Vineeth Vijayan <vneethv@linux.ibm.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	William Breathitt Gray <vilhelm.gray@gmail.com>,
+	Wolfram Sang <wsa@kernel.org>,
+	Wu Hao <hao.wu@intel.com>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	YueHaibing <yuehaibing@huawei.com>,
+	alsa-devel@alsa-project.org,
+	dmaengine@vger.kernel.org,
+	greybus-dev@lists.linaro.org,
+	industrypack-devel@lists.sourceforge.net,
+	kvm@vger.kernel.org,
+	linux1394-devel@lists.sourceforge.net,
+	linux-acpi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-cxl@vger.kernel.org,
+	linux-fpga@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	linux-i3c@lists.infradead.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mips@vger.kernel.org,
+	linux-mmc@vger.kernel.org,
+	linux-ntb@googlegroups.com,
+	linux-parisc@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-remoteproc@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-sunxi@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org,
+	nvdimm@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org,
+	target-devel@vger.kernel.org,
+	virtualization@lists.linux-foundation.org,
+	xen-devel@lists.xenproject.org
+Subject: [PATCH v3 0/5] bus: Make remove callback return void
+Date: Tue, 13 Jul 2021 09:40:09 +0200
+Message-Id: <20210713074014.684791-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a5e:dd42:: with SMTP id u2mr1555731iop.135.1626146064542;
- Mon, 12 Jul 2021 20:14:24 -0700 (PDT)
-Date: Mon, 12 Jul 2021 20:14:24 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000087b4c305c6f8a243@google.com>
-Subject: [syzbot] KASAN: use-after-free Read in r871xu_dev_remove
-From: syzbot <syzbot+5872a520e0ce0a7c7230@syzkaller.appspotmail.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, 
-	gregkh@linuxfoundation.org, hridayhegde1999@gmail.com, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	paskripkin@gmail.com, rkovhaev@gmail.com, straube.linux@gmail.com, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
 Hello,
 
-syzbot found the following issue on:
+this is the final patch set for my effort to make struct
+bus_type::remove return void.
 
-HEAD commit:    92510a7f Add linux-next specific files for 20210709
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=16c50180300000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=505de2716f052686
-dashboard link: https://syzkaller.appspot.com/bug?extid=5872a520e0ce0a7c7230
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1639a73c300000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15fcd5e4300000
+The first four patches contain cleanups that make some of these
+callbacks (more obviously) always return 0. They are acked by the
+respective maintainers. Bjorn Helgaas explicitly asked to include the
+pci patch (#1) into this series, so Greg taking this is fine. I assume
+the s390 people are fine with Greg taking patches #2 to #4, too, they
+didn't explicitly said so though.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+5872a520e0ce0a7c7230@syzkaller.appspotmail.com
+The last patch actually changes the prototype and so touches quite some
+drivers and has the potential to conflict with future developments, so I
+consider it beneficial to put these patches into next soon. I expect
+that it will be Greg who takes the complete series, he already confirmed
+via irc (for v2) to look into this series.
 
-usb 1-1: USB disconnect, device number 14
-==================================================================
-BUG: KASAN: use-after-free in __lock_acquire+0x3d86/0x54a0 kernel/locking/lockdep.c:4885
-Read of size 8 at addr ffff888038bbce28 by task kworker/1:2/4393
+In the last round I failed to send the cover letter to all affected
+people, sorry for that, this should be fixed now.
 
-CPU: 1 PID: 4393 Comm: kworker/1:2 Not tainted 5.13.0-next-20210709-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:105
- print_address_description.constprop.0.cold+0x6c/0x309 mm/kasan/report.c:233
- __kasan_report mm/kasan/report.c:419 [inline]
- kasan_report.cold+0x83/0xdf mm/kasan/report.c:436
- __lock_acquire+0x3d86/0x54a0 kernel/locking/lockdep.c:4885
- lock_acquire kernel/locking/lockdep.c:5625 [inline]
- lock_acquire+0x1ab/0x510 kernel/locking/lockdep.c:5590
- __raw_spin_lock_irq include/linux/spinlock_api_smp.h:128 [inline]
- _raw_spin_lock_irq+0x32/0x50 kernel/locking/spinlock.c:167
- do_wait_for_common kernel/sched/completion.c:86 [inline]
- __wait_for_common kernel/sched/completion.c:106 [inline]
- wait_for_common kernel/sched/completion.c:117 [inline]
- wait_for_completion+0x181/0x280 kernel/sched/completion.c:138
- r871xu_dev_remove+0x80/0x320 drivers/staging/rtl8712/usb_intf.c:599
- usb_unbind_interface+0x1d8/0x8d0 drivers/usb/core/driver.c:458
- __device_release_driver+0x3bd/0x6f0 drivers/base/dd.c:1201
- device_release_driver_internal drivers/base/dd.c:1232 [inline]
- device_release_driver+0x26/0x40 drivers/base/dd.c:1255
- bus_remove_device+0x2eb/0x5a0 drivers/base/bus.c:529
- device_del+0x502/0xd40 drivers/base/core.c:3544
- usb_disable_device+0x35b/0x7b0 drivers/usb/core/message.c:1419
- usb_disconnect.cold+0x27a/0x78e drivers/usb/core/hub.c:2221
- hub_port_connect drivers/usb/core/hub.c:5151 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5440 [inline]
- port_event drivers/usb/core/hub.c:5586 [inline]
- hub_event+0x1c9c/0x4330 drivers/usb/core/hub.c:5668
- process_one_work+0x98d/0x1630 kernel/workqueue.c:2276
- worker_thread+0x658/0x11f0 kernel/workqueue.c:2422
- kthread+0x3e5/0x4d0 kernel/kthread.c:319
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
+Best regards
+Uwe
 
-Allocated by task 4860:
- kasan_save_stack+0x1b/0x40 mm/kasan/common.c:38
- kasan_set_track mm/kasan/common.c:46 [inline]
- set_alloc_info mm/kasan/common.c:434 [inline]
- __kasan_slab_alloc+0x84/0xa0 mm/kasan/common.c:467
- kasan_slab_alloc include/linux/kasan.h:253 [inline]
- slab_post_alloc_hook mm/slab.h:512 [inline]
- slab_alloc_node mm/slub.c:2981 [inline]
- slab_alloc mm/slub.c:2989 [inline]
- kmem_cache_alloc+0x216/0x3a0 mm/slub.c:2994
- getname_flags.part.0+0x50/0x4f0 fs/namei.c:138
- getname_flags fs/namei.c:2747 [inline]
- user_path_at_empty+0xa1/0x100 fs/namei.c:2747
- user_path_at include/linux/namei.h:57 [inline]
- vfs_statx+0x142/0x390 fs/stat.c:203
- vfs_fstatat fs/stat.c:225 [inline]
- vfs_lstat include/linux/fs.h:3426 [inline]
- __do_sys_newlstat+0x91/0x110 fs/stat.c:380
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x44/0xae
+Changes since v2:
+ - Add several acks/review tags
+ - Include patch #1 explicitly
+ - rebase to v5.14-rc1, build test on amd64, arm64 and s390 using
+   allmodconfig
 
-Freed by task 4860:
- kasan_save_stack+0x1b/0x40 mm/kasan/common.c:38
- kasan_set_track+0x1c/0x30 mm/kasan/common.c:46
- kasan_set_free_info+0x20/0x30 mm/kasan/generic.c:360
- ____kasan_slab_free mm/kasan/common.c:366 [inline]
- ____kasan_slab_free mm/kasan/common.c:328 [inline]
- __kasan_slab_free+0xfb/0x130 mm/kasan/common.c:374
- kasan_slab_free include/linux/kasan.h:229 [inline]
- slab_free_hook mm/slub.c:1650 [inline]
- slab_free_freelist_hook+0xdf/0x240 mm/slub.c:1675
- slab_free mm/slub.c:3235 [inline]
- kmem_cache_free+0x8e/0x5a0 mm/slub.c:3251
- putname+0xe1/0x120 fs/namei.c:259
- filename_lookup+0x3df/0x5b0 fs/namei.c:2477
- user_path_at include/linux/namei.h:57 [inline]
- vfs_statx+0x142/0x390 fs/stat.c:203
- vfs_fstatat fs/stat.c:225 [inline]
- vfs_lstat include/linux/fs.h:3426 [inline]
- __do_sys_newlstat+0x91/0x110 fs/stat.c:380
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x44/0xae
+Uwe Kleine-König (5):
+  PCI: endpoint: Make struct pci_epf_driver::remove return void
+  s390/cio: Make struct css_driver::remove return void
+  s390/ccwgroup: Drop if with an always false condition
+  s390/scm: Make struct scm_driver::remove return void
+  bus: Make remove callback return void
 
-The buggy address belongs to the object at ffff888038bbc400
- which belongs to the cache names_cache of size 4096
-The buggy address is located 2600 bytes inside of
- 4096-byte region [ffff888038bbc400, ffff888038bbd400)
-The buggy address belongs to the page:
-page:ffffea0000e2ee00 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x38bb8
-head:ffffea0000e2ee00 order:3 compound_mapcount:0 compound_pincount:0
-flags: 0xfff00000010200(slab|head|node=0|zone=1|lastcpupid=0x7ff)
-raw: 00fff00000010200 0000000000000000 dead000000000122 ffff8880109c43c0
-raw: 0000000000000000 0000000000070007 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 4860, ts 1160993662069, free_ts 1160991389825
- prep_new_page mm/page_alloc.c:2444 [inline]
- get_page_from_freelist+0xa72/0x2f80 mm/page_alloc.c:4177
- __alloc_pages+0x1b2/0x500 mm/page_alloc.c:5385
- alloc_pages+0x18c/0x2a0 mm/mempolicy.c:2244
- alloc_slab_page mm/slub.c:1713 [inline]
- allocate_slab+0x32b/0x4c0 mm/slub.c:1853
- new_slab mm/slub.c:1916 [inline]
- new_slab_objects mm/slub.c:2662 [inline]
- ___slab_alloc+0x4ba/0x820 mm/slub.c:2825
- __slab_alloc.constprop.0+0xa7/0xf0 mm/slub.c:2865
- slab_alloc_node mm/slub.c:2947 [inline]
- slab_alloc mm/slub.c:2989 [inline]
- kmem_cache_alloc+0x372/0x3a0 mm/slub.c:2994
- getname_flags.part.0+0x50/0x4f0 fs/namei.c:138
- getname_flags fs/namei.c:2747 [inline]
- user_path_at_empty+0xa1/0x100 fs/namei.c:2747
- user_path_at include/linux/namei.h:57 [inline]
- vfs_statx+0x142/0x390 fs/stat.c:203
- vfs_fstatat fs/stat.c:225 [inline]
- vfs_lstat include/linux/fs.h:3426 [inline]
- __do_sys_newlstat+0x91/0x110 fs/stat.c:380
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-page last free stack trace:
- reset_page_owner include/linux/page_owner.h:24 [inline]
- free_pages_prepare mm/page_alloc.c:1354 [inline]
- free_pcp_prepare+0x312/0x7d0 mm/page_alloc.c:1405
- free_unref_page_prepare mm/page_alloc.c:3340 [inline]
- free_unref_page+0x19/0x690 mm/page_alloc.c:3419
- kvfree+0x42/0x50 mm/util.c:616
- netdev_freemem net/core/dev.c:10778 [inline]
- free_netdev+0x495/0x5b0 net/core/dev.c:10956
- rtl871x_load_fw_cb drivers/staging/rtl8712/hal_init.c:46 [inline]
- rtl871x_load_fw_cb.cold+0xf7/0x117 drivers/staging/rtl8712/hal_init.c:32
- request_firmware_work_func+0x12c/0x230 drivers/base/firmware_loader/main.c:1081
- process_one_work+0x98d/0x1630 kernel/workqueue.c:2276
- worker_thread+0x658/0x11f0 kernel/workqueue.c:2422
- kthread+0x3e5/0x4d0 kernel/kthread.c:319
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
+ arch/arm/common/locomo.c                  | 3 +--
+ arch/arm/common/sa1111.c                  | 4 +---
+ arch/arm/mach-rpc/ecard.c                 | 4 +---
+ arch/mips/sgi-ip22/ip22-gio.c             | 3 +--
+ arch/parisc/kernel/drivers.c              | 5 ++---
+ arch/powerpc/platforms/ps3/system-bus.c   | 3 +--
+ arch/powerpc/platforms/pseries/ibmebus.c  | 3 +--
+ arch/powerpc/platforms/pseries/vio.c      | 3 +--
+ arch/s390/include/asm/eadm.h              | 2 +-
+ drivers/acpi/bus.c                        | 3 +--
+ drivers/amba/bus.c                        | 4 +---
+ drivers/base/auxiliary.c                  | 4 +---
+ drivers/base/isa.c                        | 4 +---
+ drivers/base/platform.c                   | 4 +---
+ drivers/bcma/main.c                       | 6 ++----
+ drivers/bus/sunxi-rsb.c                   | 4 +---
+ drivers/cxl/core.c                        | 3 +--
+ drivers/dax/bus.c                         | 4 +---
+ drivers/dma/idxd/sysfs.c                  | 4 +---
+ drivers/firewire/core-device.c            | 4 +---
+ drivers/firmware/arm_scmi/bus.c           | 4 +---
+ drivers/firmware/google/coreboot_table.c  | 4 +---
+ drivers/fpga/dfl.c                        | 4 +---
+ drivers/hid/hid-core.c                    | 4 +---
+ drivers/hid/intel-ish-hid/ishtp/bus.c     | 4 +---
+ drivers/hv/vmbus_drv.c                    | 5 +----
+ drivers/hwtracing/intel_th/core.c         | 4 +---
+ drivers/i2c/i2c-core-base.c               | 5 +----
+ drivers/i3c/master.c                      | 4 +---
+ drivers/input/gameport/gameport.c         | 3 +--
+ drivers/input/serio/serio.c               | 3 +--
+ drivers/ipack/ipack.c                     | 4 +---
+ drivers/macintosh/macio_asic.c            | 4 +---
+ drivers/mcb/mcb-core.c                    | 4 +---
+ drivers/media/pci/bt8xx/bttv-gpio.c       | 3 +--
+ drivers/memstick/core/memstick.c          | 3 +--
+ drivers/mfd/mcp-core.c                    | 3 +--
+ drivers/misc/mei/bus.c                    | 4 +---
+ drivers/misc/tifm_core.c                  | 3 +--
+ drivers/mmc/core/bus.c                    | 4 +---
+ drivers/mmc/core/sdio_bus.c               | 4 +---
+ drivers/net/netdevsim/bus.c               | 3 +--
+ drivers/ntb/core.c                        | 4 +---
+ drivers/ntb/ntb_transport.c               | 4 +---
+ drivers/nvdimm/bus.c                      | 3 +--
+ drivers/pci/endpoint/pci-epf-core.c       | 7 ++-----
+ drivers/pci/pci-driver.c                  | 3 +--
+ drivers/pcmcia/ds.c                       | 4 +---
+ drivers/platform/surface/aggregator/bus.c | 4 +---
+ drivers/platform/x86/wmi.c                | 4 +---
+ drivers/pnp/driver.c                      | 3 +--
+ drivers/rapidio/rio-driver.c              | 4 +---
+ drivers/rpmsg/rpmsg_core.c                | 7 ++-----
+ drivers/s390/block/scm_drv.c              | 4 +---
+ drivers/s390/cio/ccwgroup.c               | 6 +-----
+ drivers/s390/cio/chsc_sch.c               | 3 +--
+ drivers/s390/cio/css.c                    | 7 +++----
+ drivers/s390/cio/css.h                    | 2 +-
+ drivers/s390/cio/device.c                 | 9 +++------
+ drivers/s390/cio/eadm_sch.c               | 4 +---
+ drivers/s390/cio/scm.c                    | 5 +++--
+ drivers/s390/cio/vfio_ccw_drv.c           | 3 +--
+ drivers/s390/crypto/ap_bus.c              | 4 +---
+ drivers/scsi/scsi_debug.c                 | 3 +--
+ drivers/siox/siox-core.c                  | 4 +---
+ drivers/slimbus/core.c                    | 4 +---
+ drivers/soc/qcom/apr.c                    | 4 +---
+ drivers/spi/spi.c                         | 4 +---
+ drivers/spmi/spmi.c                       | 3 +--
+ drivers/ssb/main.c                        | 4 +---
+ drivers/staging/fieldbus/anybuss/host.c   | 4 +---
+ drivers/staging/greybus/gbphy.c           | 4 +---
+ drivers/target/loopback/tcm_loop.c        | 5 ++---
+ drivers/thunderbolt/domain.c              | 4 +---
+ drivers/tty/serdev/core.c                 | 4 +---
+ drivers/usb/common/ulpi.c                 | 4 +---
+ drivers/usb/serial/bus.c                  | 4 +---
+ drivers/usb/typec/bus.c                   | 4 +---
+ drivers/vdpa/vdpa.c                       | 4 +---
+ drivers/vfio/mdev/mdev_driver.c           | 4 +---
+ drivers/virtio/virtio.c                   | 3 +--
+ drivers/vme/vme.c                         | 4 +---
+ drivers/xen/xenbus/xenbus.h               | 2 +-
+ drivers/xen/xenbus/xenbus_probe.c         | 4 +---
+ include/linux/device/bus.h                | 2 +-
+ include/linux/pci-epf.h                   | 2 +-
+ sound/aoa/soundbus/core.c                 | 4 +---
+ 87 files changed, 98 insertions(+), 241 deletions(-)
 
-Memory state around the buggy address:
- ffff888038bbcd00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff888038bbcd80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff888038bbce00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                  ^
- ffff888038bbce80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff888038bbcf00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
+base-commit: e73f0f0ee7541171d89f2e2491130c7771ba58d3
+-- 
+2.30.2
 
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
