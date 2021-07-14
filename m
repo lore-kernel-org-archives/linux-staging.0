@@ -1,172 +1,100 @@
-Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742FC72
-	for <linux-staging@lists.linux.dev>; Wed, 14 Jul 2021 11:19:58 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by comms.puri.sm (Postfix) with ESMTP id 26C30E0092;
-	Wed, 14 Jul 2021 04:19:58 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PrSqXzKjZ--Q; Wed, 14 Jul 2021 04:19:57 -0700 (PDT)
-From: Martin Kepplinger <martin.kepplinger@puri.sm>
-To: martin.kepplinger@puri.sm,
-	festevam@gmail.com,
-	krzk@kernel.org,
-	laurent.pinchart@ideasonboard.com
-Cc: devicetree@vger.kernel.org,
-	kernel@pengutronix.de,
-	kernel@puri.sm,
-	linux-arm-kernel@lists.infradead.org,
-	linux-imx@nxp.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	m.felsch@pengutronix.de,
-	mchehab@kernel.org,
-	phone-devel@vger.kernel.org,
-	robh@kernel.org,
-	shawnguo@kernel.org,
-	slongerbeam@gmail.com
-Subject: [PATCH v6 3/3] arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
-Date: Wed, 14 Jul 2021 13:19:31 +0200
-Message-Id: <20210714111931.324485-4-martin.kepplinger@puri.sm>
-In-Reply-To: <20210714111931.324485-1-martin.kepplinger@puri.sm>
-References: <20210714111931.324485-1-martin.kepplinger@puri.sm>
-Content-Transfer-Encoding: 8bit
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF7E168
+	for <linux-staging@lists.linux.dev>; Wed, 14 Jul 2021 13:36:57 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 472F7613B7
+	for <linux-staging@lists.linux.dev>; Wed, 14 Jul 2021 13:36:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1626269817;
+	bh=wLjPnQ+yR3jTWMUmZ0pGpL7MPqw9qF3/J83KH2XMpXE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=X5hPVUqQ3d3dfyZ/U0dEgNXLn0rBynlc1sGv0zTGO6+TgXzxH0m9/or2kdcWJJhGF
+	 oWOaQEiXrvX58FVc3905/3wIzIDNYsahQ4qgCHSDSYOUnzCE5X1tstnxkfHRrO9Xst
+	 tS4DFHJxRi6/lfrNj7aUrpmuCbIR4sSQy0KlXR4HrMONLBX4ds/xPLq2DSB+Rt9Fvu
+	 HqXI9N23fG0/tFGBS61LS7Bq/vIHywaiA5LV/AI1GaY+DibhONCzF4yuyBYr7FL4ze
+	 iq8Cf62QVRdDieHKIIWUsBFSvYc+bh1+W7Z4/OYhAJB96daLviRqOtbwQ87UD5Zhp6
+	 ofZob6XSIQNZA==
+Received: by mail-ej1-f51.google.com with SMTP id gn32so3404246ejc.2
+        for <linux-staging@lists.linux.dev>; Wed, 14 Jul 2021 06:36:57 -0700 (PDT)
+X-Gm-Message-State: AOAM533mInAZTRzLHpE+Yjxdv6rWB8uhOkEejQ8vpIdeGxxz6gVzuU0D
+	ctRGwSeYvUdc6ewYTK/s3A9t9r9/cznQsmSzhA==
+X-Google-Smtp-Source: ABdhPJzlvE5Rm4DlNJME78ghKYI8Djutdk8BzIoPPh9/qQPhj2ssRvKIpp6Tsa6Aoqz9ISeY0vu3pFE+9jArKNFQQX8=
+X-Received: by 2002:a17:906:57d0:: with SMTP id u16mr12775224ejr.468.1626269815848;
+ Wed, 14 Jul 2021 06:36:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <cover.1626253775.git.mchehab+huawei@kernel.org> <1e7ec01a61916a03e7165e684d8d5b7dc58970f0.1626253775.git.mchehab+huawei@kernel.org>
+In-Reply-To: <1e7ec01a61916a03e7165e684d8d5b7dc58970f0.1626253775.git.mchehab+huawei@kernel.org>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 14 Jul 2021 07:36:43 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJKkLZH7GnhFh=oznFnK+j2b7VVjsfWAWZq47TkqDayOw@mail.gmail.com>
+Message-ID: <CAL_JsqJKkLZH7GnhFh=oznFnK+j2b7VVjsfWAWZq47TkqDayOw@mail.gmail.com>
+Subject: Re: [PATCH v13 1/9] staging: hi6421-spmi-pmic: rename GPIO IRQ OF node
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linuxarm <linuxarm@huawei.com>, 
+	mauro.chehab@huawei.com, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Describe the 2 available CSI interfaces on the i.MX8MQ with the MIPI-CSI2
-receiver (new driver) and the CSI Bridge that provides the user buffers
-(existing driver).
+On Wed, Jul 14, 2021 at 3:13 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> Instead of using the standard name ("gpios"), use "interrupts".
+>
+> Suggested-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  drivers/staging/hikey9xx/hi6421-spmi-pmic.c              | 2 +-
+>  drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c b/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
+> index 35ef3d4c760b..9a7e095246f7 100644
+> --- a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
+> +++ b/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
+> @@ -233,7 +233,7 @@ static int hi6421_spmi_pmic_probe(struct spmi_device *pdev)
+>
+>         ddata->dev = dev;
+>
+> -       ddata->gpio = of_get_gpio(np, 0);
+> +       ddata->gpio = of_get_named_gpio_flags(np, "interrupts", 0, NULL);
 
-An image sensor is to be connected to the MIPIs' second port, to be described
-in board files.
+It's an interrupt, you should be using platform_get_irq() and
+devm_request_irq().
 
-Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
----
- arch/arm64/boot/dts/freescale/imx8mq.dtsi | 104 ++++++++++++++++++++++
- 1 file changed, 104 insertions(+)
+In general, you should not be using of_get_* for any resources, but
+use the firmware agnostic flavors.
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-index 91df9c5350ae..e026a39bddce 100644
---- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-@@ -1099,6 +1099,110 @@ uart4: serial@30a60000 {
- 				status = "disabled";
- 			};
- 
-+			mipi_csi1: csi@30a70000 {
-+				compatible = "fsl,imx8mq-mipi-csi2";
-+				reg = <0x30a70000 0x1000>;
-+				clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
-+				   <&clk IMX8MQ_CLK_CSI1_ESC>,
-+				   <&clk IMX8MQ_CLK_CSI1_PHY_REF>;
-+				clock-names = "core", "esc", "ui";
-+				assigned-clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
-+				    <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
-+				    <&clk IMX8MQ_CLK_CSI1_ESC>;
-+				assigned-clock-rates = <266000000>, <333000000>, <66000000>;
-+				assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
-+					<&clk IMX8MQ_SYS2_PLL_1000M>,
-+					<&clk IMX8MQ_SYS1_PLL_800M>;
-+				power-domains = <&pgc_mipi_csi1>;
-+				resets = <&src IMX8MQ_RESET_MIPI_CSI1_CORE_RESET>,
-+					 <&src IMX8MQ_RESET_MIPI_CSI1_PHY_REF_RESET>,
-+					 <&src IMX8MQ_RESET_MIPI_CSI1_ESC_RESET>;
-+				fsl,mipi-phy-gpr = <&iomuxc_gpr 0x88>;
-+				interconnects = <&noc IMX8MQ_ICM_CSI1 &noc IMX8MQ_ICS_DRAM>;
-+				interconnect-names = "dram";
-+				status = "disabled";
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+
-+						csi1_mipi_ep: endpoint {
-+							remote-endpoint = <&csi1_ep>;
-+						};
-+					};
-+				};
-+			};
-+
-+			csi1: csi@30a90000 {
-+				compatible = "fsl,imx8mq-csi", "fsl,imx7-csi";
-+				reg = <0x30a90000 0x10000>;
-+				interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&clk IMX8MQ_CLK_CSI1_ROOT>;
-+				clock-names = "mclk";
-+				status = "disabled";
-+
-+				port {
-+					csi1_ep: endpoint {
-+						remote-endpoint = <&csi1_mipi_ep>;
-+					};
-+				};
-+			};
-+
-+			mipi_csi2: csi@30b60000 {
-+				compatible = "fsl,imx8mq-mipi-csi2";
-+				reg = <0x30b60000 0x1000>;
-+				clocks = <&clk IMX8MQ_CLK_CSI2_CORE>,
-+				   <&clk IMX8MQ_CLK_CSI2_ESC>,
-+				   <&clk IMX8MQ_CLK_CSI2_PHY_REF>;
-+				clock-names = "core", "esc", "ui";
-+				assigned-clocks = <&clk IMX8MQ_CLK_CSI2_CORE>,
-+				    <&clk IMX8MQ_CLK_CSI2_PHY_REF>,
-+				    <&clk IMX8MQ_CLK_CSI2_ESC>;
-+				assigned-clock-rates = <266000000>, <333000000>, <66000000>;
-+				assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
-+					<&clk IMX8MQ_SYS2_PLL_1000M>,
-+					<&clk IMX8MQ_SYS1_PLL_800M>;
-+				power-domains = <&pgc_mipi_csi2>;
-+				resets = <&src IMX8MQ_RESET_MIPI_CSI2_CORE_RESET>,
-+					 <&src IMX8MQ_RESET_MIPI_CSI2_PHY_REF_RESET>,
-+					 <&src IMX8MQ_RESET_MIPI_CSI2_ESC_RESET>;
-+				fsl,mipi-phy-gpr = <&iomuxc_gpr 0xa4>;
-+				interconnects = <&noc IMX8MQ_ICM_CSI2 &noc IMX8MQ_ICS_DRAM>;
-+				interconnect-names = "dram";
-+				status = "disabled";
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+
-+						csi2_mipi_ep: endpoint {
-+							remote-endpoint = <&csi2_ep>;
-+						};
-+					};
-+				};
-+			};
-+
-+			csi2: csi@30b80000 {
-+				compatible = "fsl,imx8mq-csi", "fsl,imx7-csi";
-+				reg = <0x30b80000 0x10000>;
-+				interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&clk IMX8MQ_CLK_CSI2_ROOT>;
-+				clock-names = "mclk";
-+				status = "disabled";
-+
-+				port {
-+					csi2_ep: endpoint {
-+						remote-endpoint = <&csi2_mipi_ep>;
-+					};
-+				};
-+			};
-+
- 			mu: mailbox@30aa0000 {
- 				compatible = "fsl,imx8mq-mu", "fsl,imx6sx-mu";
- 				reg = <0x30aa0000 0x10000>;
--- 
-2.30.2
-
+>         if (ddata->gpio < 0)
+>                 return ddata->gpio;
+>
+> diff --git a/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml b/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
+> index 8e355cddd437..252b600f02a8 100644
+> --- a/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
+> +++ b/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
+> @@ -34,7 +34,7 @@ properties:
+>
+>    interrupt-controller: true
+>
+> -  gpios:
+> +  interrupts:
+>      maxItems: 1
+>      description: GPIO used for IRQs
+>
+> @@ -71,7 +71,7 @@ examples:
+>
+>        #interrupt-cells = <2>;
+>        interrupt-controller;
+> -      gpios = <&gpio28 0 0>;
+> +      interrupts = <&gpio28 0 0>;
+>
+>        regulators {
+>          #address-cells = <1>;
+> --
+> 2.31.1
+>
