@@ -1,203 +1,109 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD74B70;
-	Wed, 14 Jul 2021 10:27:06 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3209A1042;
-	Wed, 14 Jul 2021 03:27:00 -0700 (PDT)
-Received: from bogus (unknown [10.57.79.213])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2FF633F774;
-	Wed, 14 Jul 2021 03:26:27 -0700 (PDT)
-Date: Wed, 14 Jul 2021 11:25:29 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, kernel@pengutronix.de,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Alexandre Bounine <alex.bou9@gmail.com>,
-	Alex Dubov <oakad@yahoo.com>, Alex Elder <elder@kernel.org>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Allen Hubbe <allenbh@gmail.com>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Andy Gross <agross@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Ben Widawsky <ben.widawsky@intel.com>,
-	Bjorn Andersson <bjorn.andersson@linaro.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Bodo Stroesser <bostroesser@gmail.com>,
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Christian Borntraeger <borntraeger@de.ibm.com>,
-	Cornelia Huck <cohuck@redhat.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Dexuan Cui <decui@microsoft.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Dominik Brodowski <linux@dominikbrodowski.net>,
-	Finn Thain <fthain@linux-m68k.org>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Frank Li <lznuaa@gmail.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Geoff Levand <geoff@infradead.org>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Hannes Reinecke <hare@suse.de>, Hans de Goede <hdegoede@redhat.com>,
-	Harald Freudenberger <freude@linux.ibm.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
-	Ira Weiny <ira.weiny@intel.com>, Jakub Kicinski <kuba@kernel.org>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	Jaroslav Kysela <perex@perex.cz>, Jason Wang <jasowang@redhat.com>,
-	Jens Taprogge <jens.taprogge@taprogge.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jiri Kosina <jikos@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
-	Joey Pabalan <jpabalanb@gmail.com>, Johan Hovold <johan@kernel.org>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Johannes Thumshirn <morbidrsa@gmail.com>,
-	Jon Mason <jdmason@kudzu.us>, Juergen Gross <jgross@suse.com>,
-	Julien Grall <jgrall@amazon.com>,
-	Kai-Heng Feng <kai.heng.feng@canonical.com>,
-	Kirti Wankhede <kwankhede@nvidia.com>,
-	Kishon Vijay Abraham I <kishon@ti.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Lee Jones <lee.jones@linaro.org>, Len Brown <lenb@kernel.org>,
-	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-	Manohar Vanga <manohar.vanga@gmail.com>,
-	Marc Zyngier <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Mark Gross <mgross@linux.intel.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Martyn Welch <martyn@welchs.me.uk>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Matt Porter <mporter@kernel.crashing.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Maximilian Luz <luzmaximilian@gmail.com>,
-	Maxim Levitsky <maximlevitsky@gmail.com>,
-	Michael Buesch <m@bues.ch>, Michael Ellerman <mpe@ellerman.id.au>,
-	Michael Jamet <michael.jamet@intel.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Mike Christie <michael.christie@oracle.com>,
-	Moritz Fischer <mdf@kernel.org>, Ohad Ben-Cohen <ohad@wizery.com>,
-	Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>,
-	Paul Mackerras <paulus@samba.org>,
-	Peter Oberparleiter <oberpar@linux.ibm.com>,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
-	Rich Felker <dalias@libc.org>,
-	Rikard Falkeborn <rikard.falkeborn@gmail.com>,
-	Rob Herring <robh@kernel.org>, Russell King <linux@armlinux.org.uk>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Samuel Holland <samuel@sholland.org>,
-	Samuel Iglesias Gonsalvez <siglesias@igalia.com>,
-	SeongJae Park <sjpark@amazon.de>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Stefan Richter <stefanr@s5r6.in-berlin.de>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Stephen Hemminger <sthemmin@microsoft.com>,
-	Sven Van Asbroeck <TheSven73@gmail.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thorsten Scherer <t.scherer@eckelmann.de>,
-	Tomas Winkler <tomas.winkler@intel.com>, Tom Rix <trix@redhat.com>,
-	Tyrel Datwyler <tyreld@linux.ibm.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Vineeth Vijayan <vneethv@linux.ibm.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	William Breathitt Gray <vilhelm.gray@gmail.com>,
-	Wolfram Sang <wsa@kernel.org>, Wu Hao <hao.wu@intel.com>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	YueHaibing <yuehaibing@huawei.com>, Yufen Yu <yuyufen@huawei.com>,
-	alsa-devel@alsa-project.org, dmaengine@vger.kernel.org,
-	greybus-dev@lists.linaro.org,
-	industrypack-devel@lists.sourceforge.net, kvm@vger.kernel.org,
-	linux1394-devel@lists.sourceforge.net, linux-acpi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-cxl@vger.kernel.org, linux-fpga@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-i3c@lists.infradead.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-mmc@vger.kernel.org, linux-ntb@googlegroups.com,
-	linux-parisc@vger.kernel.org, linux-pci@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-remoteproc@vger.kernel.org,
-	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-serial@vger.kernel.org, linux-sh@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-	nvdimm@lists.linux.dev, platform-driver-x86@vger.kernel.org,
-	sparclinux@vger.kernel.org, target-devel@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	xen-devel@lists.xenproject.org, Johannes Thumshirn <jth@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>
-Subject: Re: [PATCH v4 5/5] bus: Make remove callback return void
-Message-ID: <20210714102529.ehwquc2s2qlbccyg@bogus>
-References: <20210713193522.1770306-1-u.kleine-koenig@pengutronix.de>
- <20210713193522.1770306-6-u.kleine-koenig@pengutronix.de>
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B099A72
+	for <linux-staging@lists.linux.dev>; Wed, 14 Jul 2021 11:19:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by comms.puri.sm (Postfix) with ESMTP id 9FB8BDFAF7;
+	Wed, 14 Jul 2021 04:19:46 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id fzSRM8FsYn5l; Wed, 14 Jul 2021 04:19:45 -0700 (PDT)
+From: Martin Kepplinger <martin.kepplinger@puri.sm>
+To: martin.kepplinger@puri.sm,
+	festevam@gmail.com,
+	krzk@kernel.org,
+	laurent.pinchart@ideasonboard.com
+Cc: devicetree@vger.kernel.org,
+	kernel@pengutronix.de,
+	kernel@puri.sm,
+	linux-arm-kernel@lists.infradead.org,
+	linux-imx@nxp.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	m.felsch@pengutronix.de,
+	mchehab@kernel.org,
+	phone-devel@vger.kernel.org,
+	robh@kernel.org,
+	shawnguo@kernel.org,
+	slongerbeam@gmail.com
+Subject: [PATCH v6 0/3] media: imx: add support for imx8mq MIPI RX
+Date: Wed, 14 Jul 2021 13:19:28 +0200
+Message-Id: <20210714111931.324485-1-martin.kepplinger@puri.sm>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210713193522.1770306-6-u.kleine-koenig@pengutronix.de>
 
-On Tue, Jul 13, 2021 at 09:35:22PM +0200, Uwe Kleine-König wrote:
-> The driver core ignores the return value of this callback because there
-> is only little it can do when a device disappears.
-> 
-> This is the final bit of a long lasting cleanup quest where several
-> buses were converted to also return void from their remove callback.
-> Additionally some resource leaks were fixed that were caused by drivers
-> returning an error code in the expectation that the driver won't go
-> away.
-> 
-> With struct bus_type::remove returning void it's prevented that newly
-> implemented buses return an ignored error code and so don't anticipate
-> wrong expectations for driver authors.
-> 
+hi,
 
-[...]
+This patch series adds a driver for the i.MX8MQ CSI MIPI receiver / controller.
 
-> diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
-> index 784cf0027da3..2682c3df651c 100644
-> --- a/drivers/firmware/arm_scmi/bus.c
-> +++ b/drivers/firmware/arm_scmi/bus.c
-> @@ -116,15 +116,13 @@ static int scmi_dev_probe(struct device *dev)
->  	return scmi_drv->probe(scmi_dev);
->  }
->  
-> -static int scmi_dev_remove(struct device *dev)
-> +static void scmi_dev_remove(struct device *dev)
->  {
->  	struct scmi_driver *scmi_drv = to_scmi_driver(dev->driver);
->  	struct scmi_device *scmi_dev = to_scmi_dev(dev);
->  
->  	if (scmi_drv->remove)
->  		scmi_drv->remove(scmi_dev);
-> -
-> -	return 0;
->  }
->  
->  static struct bus_type scmi_bus_type = {
+It includes the driver, the dt-bindings and the DT addition to the SoC dtsi.
+I test it using libcamera. Thanks to Laurent who helped a lot. I'm happy for
+any feedback,
 
-Acked-by: Sudeep Holla <sudeep.holla@arm.com>
+                           martin
 
---
-Regards,
-Sudeep
+revision history
+----------------
+v6: (thank you Laurent and Rob)
+* add reviewed-by tag to binding
+* statically allocate clk_bulk_data
+* fix how the hs_settle value is applied
+* remove s_power calls
+* remove the link_setup() callback implementation and make the link immutable
+* more cleanups according to Laurents' review from v5
+
+v5: (thank you Laurent)
+* fix reset usage by using the already supported reset controller driver
+* remove clko2 (totally unrelated clock / had been included by accident)
+* rename pxl clock to ui
+https://lore.kernel.org/linux-media/20210618095753.114557-1-martin.kepplinger@puri.sm/
+
+v4: (thank you Rob and Marco)
+* create fsl,mipi-phy-gpr custom dt property instead of confusing "phy"
+* add imx8mq-specific compatibile to imx8mq.dtsi for future use
+https://lore.kernel.org/linux-media/20210614121522.2944593-1-martin.kepplinger@puri.sm/
+
+v3: (thank you, Rob and Laurent)
+among minor other things according to v2 review, changes include:
+* better describe the clocks
+* rename DT property "phy-reset" to "reset" and "phy-gpr" to "phy"
+https://lore.kernel.org/linux-media/20210608104128.1616028-1-martin.kepplinger@puri.sm/T/#t
+
+v2: (thank you, Dan and Guido)
+among fixes according to v1 reviews, changes include:
+* remove status property from dt-bindings example
+* define a few bits in order to have less magic values
+* use "imx8mq_mipi_csi_" as local function prefix
+* read DT properties only during probe()
+* remove dead code (log_status)
+* add imx8mq_mipi_csi_release_icc()
+* fix imx8mq_mipi_csi_init_icc()
+https://lore.kernel.org/linux-media/20210531112326.90094-1-martin.kepplinger@puri.sm/
+
+v1:
+https://lore.kernel.org/linux-media/20210527075407.3180744-1-martin.kepplinger@puri.sm/T/#t
+
+
+Martin Kepplinger (3):
+  dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and
+    controller
+  media: imx: add a driver for i.MX8MQ mipi csi rx phy and controller
+  arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
+
+ .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 173 ++++
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 104 ++
+ drivers/staging/media/imx/Makefile            |   1 +
+ drivers/staging/media/imx/imx8mq-mipi-csi2.c  | 949 ++++++++++++++++++
+ 4 files changed, 1227 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+ create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
+
+-- 
+2.30.2
+
