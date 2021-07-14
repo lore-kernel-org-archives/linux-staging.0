@@ -1,50 +1,50 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D6170
-	for <linux-staging@lists.linux.dev>; Wed, 14 Jul 2021 15:11:18 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id l17-20020a05600c1d11b029021f84fcaf75so4143117wms.1
-        for <linux-staging@lists.linux.dev>; Wed, 14 Jul 2021 08:11:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27EAE70
+	for <linux-staging@lists.linux.dev>; Wed, 14 Jul 2021 15:11:20 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id i94so3665429wri.4
+        for <linux-staging@lists.linux.dev>; Wed, 14 Jul 2021 08:11:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=PG9JbnafFmHtkZy14fnZvsQtgBLImOnC9bogzsBO68Q=;
-        b=UJHtGb+LwT0zy+L/w6Ws5+yY2JPkV63zglgb0IsBrakD8/DQb3oxW+jfRfWRXeV3sA
-         XuNeWFY/VynF2aMjgD5Biww9AGapOiJEkICLuGz5j405P5GZu5eOEgDotEoo+DnXl4sP
-         n1kbLVclzkqmbyaW06cUJON9PY169JskS/PexQZeC89o0IgwO2MsHYGGct4yE7vq6DW5
-         y3ZRkLdKfEpaaxyIbyGUjl390RvQlcbsC+eIOyZjPZngiMiL3GLMB9mGC8bOS8d/p8VY
-         NhuvpyP1O1lCl+IdeGFn5NfwOu0VbJsB39Jf5SO/MiQZyPSWBJB13sAnGH4m+NavqlrP
-         zczw==
+        bh=ErRRPMiU/cdiVnjTQlqsH1Ke5jCRomBxj7f+q6KInH4=;
+        b=bSy2dpobP4j4QKKMr+BDY29iFAw/o0PpSigCGHh/3Ng4zsfJESMlB1IOvpnvTZx6Mv
+         WNgLUGNAHWBJhnGsdVTiaKjRtTSAfBhYXQkyyfkh4DuXVLzoStBBm+iyEcnwsZudWAUk
+         QhTXFs7CSV+3sT3e4IMJWiRAXb6qIStFVGco58FKrUoKCNpGXZ8Xuv4tUC+3AcnEFa3J
+         C6n4uGuqrAYhCVqfvkO4+TD8VVqCPexFavsQbgRZ8CY7w2usD0KIIHxO+fEZx4QkvYom
+         0e0ECnDkB4E+GQHA0fQBtdVgXUwrnR+K8BTPveO25wHGX9jyCn/tCppvHVqjXLMQStsF
+         ZCTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=PG9JbnafFmHtkZy14fnZvsQtgBLImOnC9bogzsBO68Q=;
-        b=NPFTimO0kVcohooItNYaD0UeEYZT9zAOpFiH6PrB3Y969mfprmSi2a86cvkYNpgKeJ
-         zW70dFRYCcgvyFn7axnS+uD8OYmkBuCryzIuqihGi/j9QaaSKjulgiJvSr3BNGdgpjji
-         E3NKVyZrvZwX4l0JUQViNgTwZgzkLJlnpkrIirKTkNwi9r25W8LfpugibQWk/mBmqCGq
-         AQx0qmd0G5PBkbhPcs2wZZz3AtXUINwPB7b5NMULFf8O/+2l1idyvFBtIeY/HECdbNpY
-         ddEJINvDYsI+PvRXXzjpVjw7EmnjVu+Tu4IMePMuHBTb2aPxRg1cNMT4Ed82lklYgeLv
-         DNVQ==
-X-Gm-Message-State: AOAM530lM4zjsQN2W2ILuEytMLvsbL3UwWJ0KBsyV+hxve2h9HwCzRCQ
-	dWaH6BFKkYJN/yPS60UXAbG2KR1TWsU=
-X-Google-Smtp-Source: ABdhPJycD2OfxuPLYOiMg17H0K8RT5chzlF2QRpfN7l5Bx119sJzeU/7EJNbS6Q57qu5ONnRtiNZfQ==
-X-Received: by 2002:a1c:7706:: with SMTP id t6mr11833020wmi.36.1626275477293;
-        Wed, 14 Jul 2021 08:11:17 -0700 (PDT)
+        bh=ErRRPMiU/cdiVnjTQlqsH1Ke5jCRomBxj7f+q6KInH4=;
+        b=TU2EkXFb7mqQZIKI6szgoyOHIc3c6l6CSxTMDV07fx8xBvm05WUnku8ZHzLb4YHpd/
+         yH1/s7P02tcnVmY2cUySDprmIj3UrFtx0R1LuLI6/8UqVXO5iJ8NQppQKGRUyY+feBYZ
+         U04kzEFEPILhQSY7Y4qRg6WqITSn9Zma82vFLKlbn//8bzfAx0XTDsnz+ZtQHApbZJXa
+         ksljTRzx0Zo79yRacG1XeTXwFXcpp61NsDk4LDACngXvhEdYsey3LjOHQw7iIYbRrHJw
+         LvV0CR7aQTEcXUPBDKh0SyCIw3WRvPS/MECLB/KQuo7E1BsO7kGCulIP+E4gDBT8N2vs
+         i5pw==
+X-Gm-Message-State: AOAM531vwHc7+Z8QnW4ubUpjFRXcf8g2iXOBNDFiwNpYb3bqaAWXSM0R
+	rL/SMi3pO7dkV5B70M2SVes=
+X-Google-Smtp-Source: ABdhPJyOPCsHw9ijPxGfdOilB58mqPIkyyQqdVx5MLIs8CSeI1FGu67zQkmS5nMhQq4IPT/WwnF0rA==
+X-Received: by 2002:a5d:6482:: with SMTP id o2mr13293491wri.367.1626275478568;
+        Wed, 14 Jul 2021 08:11:18 -0700 (PDT)
 Received: from agape ([5.171.72.142])
-        by smtp.gmail.com with ESMTPSA id c125sm6610982wme.36.2021.07.14.08.11.16
+        by smtp.gmail.com with ESMTPSA id p12sm1618575wma.19.2021.07.14.08.11.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jul 2021 08:11:17 -0700 (PDT)
+        Wed, 14 Jul 2021 08:11:18 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: hdegoede@redhat.com,
 	Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] staging: rtl8723bs: add get_channel cfg80211 implementation
-Date: Wed, 14 Jul 2021 17:11:12 +0200
-Message-Id: <2f00479d8369b82b590291bb0edf27bc3041b0f0.1626275102.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 2/3] staging: rtl8723bs: convert IsSupportedHT to snake_case
+Date: Wed, 14 Jul 2021 17:11:13 +0200
+Message-Id: <d3e115f3a553db07a52cc51b71d04de9c383f697.1626275102.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1626275102.git.fabioaiuto83@gmail.com>
 References: <cover.1626275102.git.fabioaiuto83@gmail.com>
@@ -56,110 +56,68 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-add get_channel cfg80211 implementation to let userspace
-programs rely on nl80211 protocol to display channel
-information.
-
-Old iw dev output:
-
-phy#0
-	Interface wlan0
-		ifindex 2
-		wdev 0x1
-		addr 34:c3:d2:73:eb:c7
-		ssid Fabio
-		type managed
-		txpower 12.00 dBm
-
-Fixed output:
-
-phy#0
-	Interface wlan0
-		ifindex 2
-		wdev 0x1
-		addr 34:c3:d2:73:eb:c7
-		ssid Fabio
-		type managed
-	new-->	channel 11 (2462 MHz), width: 20 MHz, center1: 2462 Mhz
-		txpower 12.00 dBm
+convert IsSupportedHT to snake case is_supported_ht.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 53 ++++++++++++++++++-
- 1 file changed, 52 insertions(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/core/rtw_ioctl_set.c    | 2 +-
+ drivers/staging/rtl8723bs/core/rtw_wlan_util.c    | 2 +-
+ drivers/staging/rtl8723bs/include/ieee80211.h     | 2 +-
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+index bd5056507f53..fcbbdbe5448b 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+@@ -554,7 +554,7 @@ u16 rtw_get_cur_max_rate(struct adapter *adapter)
+ 
+ 	short_GI = query_ra_short_GI(psta);
+ 
+-	if (IsSupportedHT(psta->wireless_mode)) {
++	if (is_supported_ht(psta->wireless_mode)) {
+ 		rtw_hal_get_hwreg(adapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
+ 
+ 		max_rate = rtw_mcs_rate(rf_type,
+diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+index c06b74f6569a..56c5cb318fdf 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
++++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+@@ -55,7 +55,7 @@ u8 networktype_to_raid_ex(struct adapter *adapter, struct sta_info *psta)
+ 
+ 	if (cur_rf_type == RF_1T1R) {
+ 		rf_type = RF_1T1R;
+-	} else if (IsSupportedHT(psta->wireless_mode)) {
++	} else if (is_supported_ht(psta->wireless_mode)) {
+ 		if (psta->ra_mask & 0xfff00000)
+ 			rf_type = RF_2T2R;
+ 	}
+diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/staging/rtl8723bs/include/ieee80211.h
+index 378c21595e05..8eb0557a077a 100644
+--- a/drivers/staging/rtl8723bs/include/ieee80211.h
++++ b/drivers/staging/rtl8723bs/include/ieee80211.h
+@@ -167,7 +167,7 @@ enum network_type {
+ 
+ #define IsSupportedTxCCK(NetType) (((NetType) & (WIRELESS_11B)) ? true : false)
+ #define IsSupportedTxOFDM(NetType) (((NetType) & (WIRELESS_11G) ? true : false)
+-#define IsSupportedHT(NetType) (((NetType) & (WIRELESS_11_24N)) ? true : false)
++#define is_supported_ht(NetType) (((NetType) & (WIRELESS_11_24N)) ? true : false)
+ 
+ struct ieee_param {
+ 	u32 cmd;
 diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index fd747c8d920e..d198d10ec272 100644
+index d198d10ec272..368e575c24af 100644
 --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
 +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -2100,7 +2100,58 @@ void rtw_cfg80211_indicate_sta_disassoc(struct adapter *padapter, unsigned char
- 	cfg80211_del_sta(ndev, da, GFP_ATOMIC);
- }
+@@ -2106,7 +2106,7 @@ static u8 rtw_get_chan_type(struct adapter *adapter)
  
-+static u8 rtw_get_chan_type(struct adapter *adapter)
-+{
-+	struct mlme_ext_priv *mlme_ext = &adapter->mlmeextpriv;
-+
-+	switch (mlme_ext->cur_bwmode) {
-+	case CHANNEL_WIDTH_20:
-+		if (IsSupportedHT(adapter->registrypriv.wireless_mode))
-+			return NL80211_CHAN_HT20;
-+		else
-+			return NL80211_CHAN_NO_HT;
-+	case CHANNEL_WIDTH_40:
-+		if (mlme_ext->cur_ch_offset == HAL_PRIME_CHNL_OFFSET_UPPER)
-+			return NL80211_CHAN_HT40PLUS;
-+		else
-+			return NL80211_CHAN_HT40MINUS;
-+	default:
-+		return NL80211_CHAN_HT20;
-+	}
- 
-+	return NL80211_CHAN_HT20;
-+}
-+
-+static int cfg80211_rtw_get_channel(struct wiphy *wiphy, struct wireless_dev *wdev,
-+				    struct cfg80211_chan_def *chandef)
-+{
-+	struct adapter *adapter = wiphy_to_adapter(wiphy);
-+	struct registry_priv *registrypriv = &adapter->registrypriv;
-+	enum nl80211_channel_type chan_type;
-+	struct ieee80211_channel *chan = NULL;
-+	int channel;
-+	int freq;
-+
-+	if (!adapter->rtw_wdev)
-+		return -ENODEV;
-+
-+	channel = rtw_get_oper_ch(adapter);
-+	if (!channel)
-+		return -ENODATA;
-+
-+	freq = rtw_ieee80211_channel_to_frequency(channel, NL80211_BAND_2GHZ);
-+
-+	chan = ieee80211_get_channel(adapter->rtw_wdev->wiphy, freq);
-+
-+	if (registrypriv->ht_enable) {
-+		chan_type = rtw_get_chan_type(adapter);
-+		cfg80211_chandef_create(chandef, chan, chan_type);
-+	} else {
-+		cfg80211_chandef_create(chandef, chan, NL80211_CHAN_NO_HT);
-+	}
-+
-+	return 0;
-+}
- 
- static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struct net_device *ndev)
- {
-@@ -2838,7 +2889,7 @@ static struct cfg80211_ops rtw_cfg80211_ops = {
- 	.set_pmksa = cfg80211_rtw_set_pmksa,
- 	.del_pmksa = cfg80211_rtw_del_pmksa,
- 	.flush_pmksa = cfg80211_rtw_flush_pmksa,
--
-+	.get_channel = cfg80211_rtw_get_channel,
- 	.add_virtual_intf = cfg80211_rtw_add_virtual_intf,
- 	.del_virtual_intf = cfg80211_rtw_del_virtual_intf,
- 
+ 	switch (mlme_ext->cur_bwmode) {
+ 	case CHANNEL_WIDTH_20:
+-		if (IsSupportedHT(adapter->registrypriv.wireless_mode))
++		if (is_supported_ht(adapter->registrypriv.wireless_mode))
+ 			return NL80211_CHAN_HT20;
+ 		else
+ 			return NL80211_CHAN_NO_HT;
 -- 
 2.20.1
 
