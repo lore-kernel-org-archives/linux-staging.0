@@ -1,100 +1,78 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF7E168
-	for <linux-staging@lists.linux.dev>; Wed, 14 Jul 2021 13:36:57 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 472F7613B7
-	for <linux-staging@lists.linux.dev>; Wed, 14 Jul 2021 13:36:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1626269817;
-	bh=wLjPnQ+yR3jTWMUmZ0pGpL7MPqw9qF3/J83KH2XMpXE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=X5hPVUqQ3d3dfyZ/U0dEgNXLn0rBynlc1sGv0zTGO6+TgXzxH0m9/or2kdcWJJhGF
-	 oWOaQEiXrvX58FVc3905/3wIzIDNYsahQ4qgCHSDSYOUnzCE5X1tstnxkfHRrO9Xst
-	 tS4DFHJxRi6/lfrNj7aUrpmuCbIR4sSQy0KlXR4HrMONLBX4ds/xPLq2DSB+Rt9Fvu
-	 HqXI9N23fG0/tFGBS61LS7Bq/vIHywaiA5LV/AI1GaY+DibhONCzF4yuyBYr7FL4ze
-	 iq8Cf62QVRdDieHKIIWUsBFSvYc+bh1+W7Z4/OYhAJB96daLviRqOtbwQ87UD5Zhp6
-	 ofZob6XSIQNZA==
-Received: by mail-ej1-f51.google.com with SMTP id gn32so3404246ejc.2
-        for <linux-staging@lists.linux.dev>; Wed, 14 Jul 2021 06:36:57 -0700 (PDT)
-X-Gm-Message-State: AOAM533mInAZTRzLHpE+Yjxdv6rWB8uhOkEejQ8vpIdeGxxz6gVzuU0D
-	ctRGwSeYvUdc6ewYTK/s3A9t9r9/cznQsmSzhA==
-X-Google-Smtp-Source: ABdhPJzlvE5Rm4DlNJME78ghKYI8Djutdk8BzIoPPh9/qQPhj2ssRvKIpp6Tsa6Aoqz9ISeY0vu3pFE+9jArKNFQQX8=
-X-Received: by 2002:a17:906:57d0:: with SMTP id u16mr12775224ejr.468.1626269815848;
- Wed, 14 Jul 2021 06:36:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1D470
+	for <linux-staging@lists.linux.dev>; Wed, 14 Jul 2021 15:11:17 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id u5-20020a7bc0450000b02901480e40338bso3604427wmc.1
+        for <linux-staging@lists.linux.dev>; Wed, 14 Jul 2021 08:11:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XPksOXWvTkUtcqvTzVQpJTHtPXY+kFhB7qHKvutpcB0=;
+        b=JG2p07c0aobB2lS4GYpnWCxwQPzu7y6gVZXOhSQMuqKjQ1LWf2siyRefgpKZ8AWl6M
+         wjH6rOclkgo9fgk8O8rvAwbkP7i7JGkPshCENJ5CoTt5ek/IoWym4Gi3kYPQFcjkZu6N
+         0jVGT99wHgFbIo6NlJKyUyQ9kdy6nBhrK4QQ9FGL+skc53oO0gaEpvckzY7pherxCduz
+         CSJkTJzuknLZWOLjCIYftXqMAGVwBP0SN8w2cFEBRw6UoMZ2MrJdT/jYaCR2ayY8C+TS
+         xZ+2aQ5OPnaM6N6aPcSwXmNNiwwyqGL1ZfBWUmyxdHxNhDE3j0cy2HmjXhYqBKMsulTE
+         1WSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XPksOXWvTkUtcqvTzVQpJTHtPXY+kFhB7qHKvutpcB0=;
+        b=MCCGBkelitY0s5lo+EbIB877SJ+ExlpwDvVL7lcD+jekzZwhNWNVgam4v1PjhHIfQa
+         UiYBOT0/vss/9oSvquHKaI5AUZafoLnAg4qLGgr8L/3gxOOKW4hJq+8y/K9s/nurx6rC
+         A2jR9kr3McrUkXoQuvsWX3QYQD5MzrX8A2bwdCpnTXrisdEbiFDAvkQEcGVSOBJmECZc
+         YolEREL/HQc4Id+JhiyYPCz3eBa6JRSHhaJpAcun5u5k7X+1jpXR6h/KOH0kNXzV9kop
+         1fSkgO4I+zJL8By7YlgXAiSMl7cdOEJDL5irD4CnecdbLaIle9o0PpgiVUN5dM/lI6fI
+         5Hcg==
+X-Gm-Message-State: AOAM53146z+IFESrDnMcKdQH/wUFLqHAeKyN0JMEUCJ8vNkH+PJlYD1h
+	VVnZZFVcm2Of8OnIOU5fY1g=
+X-Google-Smtp-Source: ABdhPJzQMt1B+bHckwfLgt0P/bulirlyZhkN4ZmSGmG6ut1o03bIKamnZj5vG8mWPJJGF8TJV54vQA==
+X-Received: by 2002:a05:600c:8a9:: with SMTP id l41mr4775924wmp.152.1626275475909;
+        Wed, 14 Jul 2021 08:11:15 -0700 (PDT)
+Received: from agape ([5.171.72.142])
+        by smtp.gmail.com with ESMTPSA id n23sm2257926wms.4.2021.07.14.08.11.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jul 2021 08:11:15 -0700 (PDT)
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: hdegoede@redhat.com,
+	Larry.Finger@lwfinger.net,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] staging: rtl8723bs: add get_channel implementation
+Date: Wed, 14 Jul 2021 17:11:11 +0200
+Message-Id: <cover.1626275102.git.fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1626253775.git.mchehab+huawei@kernel.org> <1e7ec01a61916a03e7165e684d8d5b7dc58970f0.1626253775.git.mchehab+huawei@kernel.org>
-In-Reply-To: <1e7ec01a61916a03e7165e684d8d5b7dc58970f0.1626253775.git.mchehab+huawei@kernel.org>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 14 Jul 2021 07:36:43 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJKkLZH7GnhFh=oznFnK+j2b7VVjsfWAWZq47TkqDayOw@mail.gmail.com>
-Message-ID: <CAL_JsqJKkLZH7GnhFh=oznFnK+j2b7VVjsfWAWZq47TkqDayOw@mail.gmail.com>
-Subject: Re: [PATCH v13 1/9] staging: hi6421-spmi-pmic: rename GPIO IRQ OF node
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linuxarm <linuxarm@huawei.com>, 
-	mauro.chehab@huawei.com, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 14, 2021 at 3:13 AM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> Instead of using the standard name ("gpios"), use "interrupts".
->
-> Suggested-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  drivers/staging/hikey9xx/hi6421-spmi-pmic.c              | 2 +-
->  drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c b/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
-> index 35ef3d4c760b..9a7e095246f7 100644
-> --- a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
-> +++ b/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
-> @@ -233,7 +233,7 @@ static int hi6421_spmi_pmic_probe(struct spmi_device *pdev)
->
->         ddata->dev = dev;
->
-> -       ddata->gpio = of_get_gpio(np, 0);
-> +       ddata->gpio = of_get_named_gpio_flags(np, "interrupts", 0, NULL);
+This patchset adds cfg80211 get_channel implementation.
+One of the benefits is having displayed channel info
+in iw dev output.
 
-It's an interrupt, you should be using platform_get_irq() and
-devm_request_irq().
+Done some code cleaning as well.
 
-In general, you should not be using of_get_* for any resources, but
-use the firmware agnostic flavors.
+Tested-on: Lenovo Ideapad MiiX-300-10IBY
 
->         if (ddata->gpio < 0)
->                 return ddata->gpio;
->
-> diff --git a/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml b/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
-> index 8e355cddd437..252b600f02a8 100644
-> --- a/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
-> +++ b/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
-> @@ -34,7 +34,7 @@ properties:
->
->    interrupt-controller: true
->
-> -  gpios:
-> +  interrupts:
->      maxItems: 1
->      description: GPIO used for IRQs
->
-> @@ -71,7 +71,7 @@ examples:
->
->        #interrupt-cells = <2>;
->        interrupt-controller;
-> -      gpios = <&gpio28 0 0>;
-> +      interrupts = <&gpio28 0 0>;
->
->        regulators {
->          #address-cells = <1>;
-> --
-> 2.31.1
->
+Fabio Aiuto (3):
+  staging: rtl8723bs: add get_channel cfg80211 implementation
+  staging: rtl8723bs: convert IsSupportedHT to snake_case
+  staging: rtl8723bs: fix camel case issue
+
+ .../staging/rtl8723bs/core/rtw_ioctl_set.c    |  2 +-
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    |  2 +-
+ drivers/staging/rtl8723bs/include/ieee80211.h |  2 +-
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 53 ++++++++++++++++++-
+ 4 files changed, 55 insertions(+), 4 deletions(-)
+
+-- 
+2.20.1
+
