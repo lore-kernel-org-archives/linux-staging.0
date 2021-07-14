@@ -1,142 +1,155 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D3B70
-	for <linux-staging@lists.linux.dev>; Wed, 14 Jul 2021 08:31:07 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BB718CC;
-	Wed, 14 Jul 2021 10:30:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1626251459;
-	bh=poXnfdyvgTHaupRhHBaZrhYV0sx0V+FdC5sEV/PQgAQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nNK9flxhZz5LIw4BqIebzp6118WhoNkdMDxCD9eUg/ezqCZWuMsDoon15HSp+Hbv7
-	 WCrRpEeyO7AgI/KBd3kpi+6zGDFOwydGybBmT2ECRjU62aEkQzaC2mmDRJ8S6Bv/OE
-	 +mXPSZpZQZzd7t9F8ZujQ9bK2NEq1/ry/7uTNOM0=
-Date: Wed, 14 Jul 2021 11:30:59 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc: m.felsch@pengutronix.de, robh@kernel.org, devicetree@vger.kernel.org,
-	festevam@gmail.com, kernel@pengutronix.de, kernel@puri.sm,
-	krzk@kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-imx@nxp.com, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	mchehab@kernel.org, phone-devel@vger.kernel.org,
-	shawnguo@kernel.org, slongerbeam@gmail.com
-Subject: Re: [PATCH v5 2/3] media: imx: add a driver for i.MX8MQ mipi csi rx
- phy and controller
-Message-ID: <YO6gwz7OfUAgoAMa@pendragon.ideasonboard.com>
-References: <20210618095753.114557-1-martin.kepplinger@puri.sm>
- <20210618095753.114557-3-martin.kepplinger@puri.sm>
- <YOy5uH6bSzRjO/f8@pendragon.ideasonboard.com>
- <78072a196076789745b5481e26cfb45862e935ed.camel@puri.sm>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B2570;
+	Wed, 14 Jul 2021 08:44:19 +0000 (UTC)
+Received: by mail-ua1-f46.google.com with SMTP id c20so340386uar.12;
+        Wed, 14 Jul 2021 01:44:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=r5k/nzvm++7I0kjlsxJbLPoLxldn2GkCJzAXrc4Q3tE=;
+        b=gOcGreojsNbRIYOKX7kOgl/ufE/L+LqxyGLnyxvRl5Anx0Ya5qm94oYNaw6rVaK4f9
+         93H6AgBtNXYspn0rZJ+yFqnYfUjuwnTRFeJ/ZIuM/uTGwod8W75AVOQxJSq+P5as0atV
+         pHp6XaiIr+JYSzM/Zh1IY+Q6jHxcyJ6zoFJKkab1K/WXPwsLJYVerZxrgYs7Ntp7xvlz
+         TNQk23Tt2gPZugCEoqqXFwL9OCCm37+yYZvyj82H0U3cTU5mm6851CigDqHoPFv3jklV
+         Hqzhjfp8WKC+WvkDiObZRrgP8HDnXVNZ8Al9IseEjbqXGxvpiqfNGQIAn+EcnZX/AVIU
+         MrvQ==
+X-Gm-Message-State: AOAM532114POD1ju6cEg2bq3tYCtLHsnj+Zs37nO9oapq8U42jo38t31
+	o5aj4VUQpXibIHIKHPxZ/wHWdu5lI7DntabwEzY=
+X-Google-Smtp-Source: ABdhPJw+Y3tnjfY/zI+Y1qOhR0PNRzn2MQD3PHuwf/AzIRJfXjUIjP825Ll9FtnbmVsf04QAqWLG0Tq2dErAW2+m0rM=
+X-Received: by 2002:a9f:3f0d:: with SMTP id h13mr12412958uaj.100.1626252258156;
+ Wed, 14 Jul 2021 01:44:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <78072a196076789745b5481e26cfb45862e935ed.camel@puri.sm>
+References: <20210713193522.1770306-1-u.kleine-koenig@pengutronix.de> <20210713193522.1770306-6-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20210713193522.1770306-6-u.kleine-koenig@pengutronix.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 14 Jul 2021 10:44:06 +0200
+Message-ID: <CAMuHMdW8r6u4O5zv2ee-3=jPP6qwnOSHdSzf8pPE_y=jY3Bn5A@mail.gmail.com>
+Subject: Re: [PATCH v4 5/5] bus: Make remove callback return void
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sascha Hauer <kernel@pengutronix.de>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Alexandre Bounine <alex.bou9@gmail.com>, 
+	Alex Dubov <oakad@yahoo.com>, Alex Elder <elder@kernel.org>, 
+	Alex Williamson <alex.williamson@redhat.com>, Alison Schofield <alison.schofield@intel.com>, 
+	Allen Hubbe <allenbh@gmail.com>, Andreas Noever <andreas.noever@gmail.com>, 
+	Andy Gross <agross@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>, Ben Widawsky <ben.widawsky@intel.com>, 
+	Bjorn Andersson <bjorn.andersson@linaro.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Bodo Stroesser <bostroesser@gmail.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Christian Borntraeger <borntraeger@de.ibm.com>, 
+	Cornelia Huck <cohuck@redhat.com>, Cristian Marussi <cristian.marussi@arm.com>, 
+	Dan Williams <dan.j.williams@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	"David S. Miller" <davem@davemloft.net>, David Woodhouse <dwmw@amazon.co.uk>, 
+	Dexuan Cui <decui@microsoft.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Dominik Brodowski <linux@dominikbrodowski.net>, Finn Thain <fthain@linux-m68k.org>, 
+	Florian Fainelli <f.fainelli@gmail.com>, Frank Li <lznuaa@gmail.com>, 
+	Geoff Levand <geoff@infradead.org>, Haiyang Zhang <haiyangz@microsoft.com>, 
+	Hannes Reinecke <hare@suse.de>, Hans de Goede <hdegoede@redhat.com>, 
+	Harald Freudenberger <freude@linux.ibm.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>, Ira Weiny <ira.weiny@intel.com>, 
+	Jakub Kicinski <kuba@kernel.org>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Jaroslav Kysela <perex@perex.cz>, 
+	Jason Wang <jasowang@redhat.com>, Jens Taprogge <jens.taprogge@taprogge.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Jiri Kosina <jikos@kernel.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, Joey Pabalan <jpabalanb@gmail.com>, 
+	Johan Hovold <johan@kernel.org>, Johannes Berg <johannes@sipsolutions.net>, 
+	Johannes Thumshirn <morbidrsa@gmail.com>, Jon Mason <jdmason@kudzu.us>, Juergen Gross <jgross@suse.com>, 
+	Julien Grall <jgrall@amazon.com>, Kai-Heng Feng <kai.heng.feng@canonical.com>, 
+	Kirti Wankhede <kwankhede@nvidia.com>, Kishon Vijay Abraham I <kishon@ti.com>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+	"K. Y. Srinivasan" <kys@microsoft.com>, Lee Jones <lee.jones@linaro.org>, Len Brown <lenb@kernel.org>, 
+	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Manohar Vanga <manohar.vanga@gmail.com>, 
+	Marc Zyngier <maz@kernel.org>, Mark Brown <broonie@kernel.org>, Mark Gross <mgross@linux.intel.com>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, Martyn Welch <martyn@welchs.me.uk>, 
+	Mathieu Poirier <mathieu.poirier@linaro.org>, Matt Porter <mporter@kernel.crashing.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
+	Maximilian Luz <luzmaximilian@gmail.com>, Maxim Levitsky <maximlevitsky@gmail.com>, 
+	Michael Buesch <m@bues.ch>, Michael Ellerman <mpe@ellerman.id.au>, Michael Jamet <michael.jamet@intel.com>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	Mike Christie <michael.christie@oracle.com>, Moritz Fischer <mdf@kernel.org>, 
+	Ohad Ben-Cohen <ohad@wizery.com>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
+	Paul Mackerras <paulus@samba.org>, Peter Oberparleiter <oberpar@linux.ibm.com>, 
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, 
+	Rich Felker <dalias@libc.org>, Rikard Falkeborn <rikard.falkeborn@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Russell King <linux@armlinux.org.uk>, 
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, Samuel Holland <samuel@sholland.org>, 
+	Samuel Iglesias Gonsalvez <siglesias@igalia.com>, SeongJae Park <sjpark@amazon.de>, 
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
+	Stefano Stabellini <sstabellini@kernel.org>, Stefan Richter <stefanr@s5r6.in-berlin.de>, 
+	Stephen Boyd <sboyd@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>, 
+	Sudeep Holla <sudeep.holla@arm.com>, Sven Van Asbroeck <TheSven73@gmail.com>, 
+	Takashi Iwai <tiwai@suse.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Thorsten Scherer <t.scherer@eckelmann.de>, Tomas Winkler <tomas.winkler@intel.com>, 
+	Tom Rix <trix@redhat.com>, Tyrel Datwyler <tyreld@linux.ibm.com>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Vasily Gorbik <gor@linux.ibm.com>, 
+	Vineeth Vijayan <vneethv@linux.ibm.com>, Vinod Koul <vkoul@kernel.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Wei Liu <wei.liu@kernel.org>, 
+	William Breathitt Gray <vilhelm.gray@gmail.com>, Wolfram Sang <wsa@kernel.org>, Wu Hao <hao.wu@intel.com>, 
+	Yehezkel Bernat <YehezkelShB@gmail.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
+	YueHaibing <yuehaibing@huawei.com>, Yufen Yu <yuyufen@huawei.com>, alsa-devel@alsa-project.org, 
+	dmaengine@vger.kernel.org, greybus-dev@lists.linaro.org, 
+	industrypack-devel@lists.sourceforge.net, kvm@vger.kernel.org, 
+	linux1394-devel@lists.sourceforge.net, linux-acpi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-cxl@vger.kernel.org, linux-fpga@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	linux-i3c@lists.infradead.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
+	linux-media@vger.kernel.org, linux-mips@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, linux-ntb@googlegroups.com, 
+	linux-parisc@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-remoteproc@vger.kernel.org, 
+	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-sh@vger.kernel.org, 
+	linux-spi@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, netdev@vger.kernel.org, 
+	nvdimm@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+	sparclinux@vger.kernel.org, target-devel@vger.kernel.org, 
+	virtualization@lists.linux-foundation.org, xen-devel@lists.xenproject.org, 
+	Johannes Thumshirn <jth@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Martin,
+On Tue, Jul 13, 2021 at 9:35 PM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
+> The driver core ignores the return value of this callback because there
+> is only little it can do when a device disappears.
+>
+> This is the final bit of a long lasting cleanup quest where several
+> buses were converted to also return void from their remove callback.
+> Additionally some resource leaks were fixed that were caused by drivers
+> returning an error code in the expectation that the driver won't go
+> away.
+>
+> With struct bus_type::remove returning void it's prevented that newly
+> implemented buses return an ignored error code and so don't anticipate
+> wrong expectations for driver authors.
 
-On Wed, Jul 14, 2021 at 08:41:58AM +0200, Martin Kepplinger wrote:
-> Am Dienstag, dem 13.07.2021 um 00:52 +0300 schrieb Laurent Pinchart:
-> > Hi Martin,
-> > 
-> > Thank you for the patch.
-> 
-> thank you for reviewing!
-> 
-> > On Fri, Jun 18, 2021 at 11:57:52AM +0200, Martin Kepplinger wrote:
-> > > Add a driver to support the i.MX8MQ MIPI CSI receiver. The hardware
-> > > side
-> > > is based on
-> > >  
-> > > https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0
-> > > 
-> > > It's built as part of VIDEO_IMX7_CSI because that's documented to
-> > > support
-> > > i.MX8M platforms. This driver adds i.MX8MQ support where currently
-> > > only the
-> > > i.MX8MM platform has been supported.
-> > 
-> > Overall this is really nice work. I have quite a few review comments,
-> > but hopefully nothing that should be difficult to handle.
-> 
-> I think so too but right now I have one question:
-> 
-> > > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > > ---
-> > >  drivers/staging/media/imx/Makefile           |   1 +
-> > >  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 963 +++++++++++++++++++
-> > >  2 files changed, 964 insertions(+)
-> > >  create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
+>  drivers/zorro/zorro-driver.c              | 3 +--
 
-[snip]
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-> > > +static int imx8mq_mipi_csi_pm_suspend(struct device *dev, bool runtime)
-> > > +{
-> > > +       struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> > > +       struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> > > +       int ret = 0;
-> > > +
-> > > +       mutex_lock(&state->lock);
-> > > +
-> > > +       if (state->state & ST_POWERED) {
-> > > +               imx8mq_mipi_csi_stop_stream(state);
-> > > +               imx8mq_mipi_csi_clk_disable(state);
-> > > +               state->state &= ~ST_POWERED;
-> > > +               if (!runtime)
-> > > +                       state->state |= ST_SUSPENDED;
-> > > +       }
-> > > +
-> > > +       mutex_unlock(&state->lock);
-> > > +
-> > > +       ret = icc_set_bw(state->icc_path, 0, 0);
-> > > +       if (ret)
-> > > +               dev_err(dev, "icc_set_bw failed with %d\n", ret);
-> > > +
-> > > +       return ret ? -EAGAIN : 0;
-> > > +}
-> > > +
-> > > +static int imx8mq_mipi_csi_pm_resume(struct device *dev, bool runtime)
-> > > +{
-> > > +       struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> > > +       struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> > > +       int ret = 0;
-> > > +
-> > > +       ret = icc_set_bw(state->icc_path, 0, state->icc_path_bw);
-> > > +       if (ret) {
-> > > +               dev_err(dev, "icc_set_bw failed with %d\n", ret);
-> > > +               return ret;
-> > > +       }
-> > > +
-> > > +       mutex_lock(&state->lock);
-> > > +
-> > > +       if (!runtime && !(state->state & ST_SUSPENDED))
-> > > +               goto unlock;
-> > > +
-> > > +       if (!(state->state & ST_POWERED)) {
-> > > +               state->state |= ST_POWERED;
-> > > +               ret = imx8mq_mipi_csi_clk_enable(state);
-> > 
-> > Enabling the clocks in the PM resume handler is correct, but they should
-> > also be disabled in the PM suspend handler.
-> 
-> imx8mq_mipi_csi_clk_disable() is called in suspend(). I don't know what
-> you mean here.
+Gr{oetje,eeting}s,
 
-I wonder what I was thinking... You can ignore this comment.
+                        Geert
 
-However, imx8mq_mipi_csi_clk_disable() is also called in the error path
-of the probe function and in the remove function. I don't think this is
-right.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
--- 
-Regards,
-
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
