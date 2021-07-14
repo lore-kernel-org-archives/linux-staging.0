@@ -1,51 +1,53 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1D470
-	for <linux-staging@lists.linux.dev>; Wed, 14 Jul 2021 15:11:17 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id u5-20020a7bc0450000b02901480e40338bso3604427wmc.1
-        for <linux-staging@lists.linux.dev>; Wed, 14 Jul 2021 08:11:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D6170
+	for <linux-staging@lists.linux.dev>; Wed, 14 Jul 2021 15:11:18 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id l17-20020a05600c1d11b029021f84fcaf75so4143117wms.1
+        for <linux-staging@lists.linux.dev>; Wed, 14 Jul 2021 08:11:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XPksOXWvTkUtcqvTzVQpJTHtPXY+kFhB7qHKvutpcB0=;
-        b=JG2p07c0aobB2lS4GYpnWCxwQPzu7y6gVZXOhSQMuqKjQ1LWf2siyRefgpKZ8AWl6M
-         wjH6rOclkgo9fgk8O8rvAwbkP7i7JGkPshCENJ5CoTt5ek/IoWym4Gi3kYPQFcjkZu6N
-         0jVGT99wHgFbIo6NlJKyUyQ9kdy6nBhrK4QQ9FGL+skc53oO0gaEpvckzY7pherxCduz
-         CSJkTJzuknLZWOLjCIYftXqMAGVwBP0SN8w2cFEBRw6UoMZ2MrJdT/jYaCR2ayY8C+TS
-         xZ+2aQ5OPnaM6N6aPcSwXmNNiwwyqGL1ZfBWUmyxdHxNhDE3j0cy2HmjXhYqBKMsulTE
-         1WSQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=PG9JbnafFmHtkZy14fnZvsQtgBLImOnC9bogzsBO68Q=;
+        b=UJHtGb+LwT0zy+L/w6Ws5+yY2JPkV63zglgb0IsBrakD8/DQb3oxW+jfRfWRXeV3sA
+         XuNeWFY/VynF2aMjgD5Biww9AGapOiJEkICLuGz5j405P5GZu5eOEgDotEoo+DnXl4sP
+         n1kbLVclzkqmbyaW06cUJON9PY169JskS/PexQZeC89o0IgwO2MsHYGGct4yE7vq6DW5
+         y3ZRkLdKfEpaaxyIbyGUjl390RvQlcbsC+eIOyZjPZngiMiL3GLMB9mGC8bOS8d/p8VY
+         NhuvpyP1O1lCl+IdeGFn5NfwOu0VbJsB39Jf5SO/MiQZyPSWBJB13sAnGH4m+NavqlrP
+         zczw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XPksOXWvTkUtcqvTzVQpJTHtPXY+kFhB7qHKvutpcB0=;
-        b=MCCGBkelitY0s5lo+EbIB877SJ+ExlpwDvVL7lcD+jekzZwhNWNVgam4v1PjhHIfQa
-         UiYBOT0/vss/9oSvquHKaI5AUZafoLnAg4qLGgr8L/3gxOOKW4hJq+8y/K9s/nurx6rC
-         A2jR9kr3McrUkXoQuvsWX3QYQD5MzrX8A2bwdCpnTXrisdEbiFDAvkQEcGVSOBJmECZc
-         YolEREL/HQc4Id+JhiyYPCz3eBa6JRSHhaJpAcun5u5k7X+1jpXR6h/KOH0kNXzV9kop
-         1fSkgO4I+zJL8By7YlgXAiSMl7cdOEJDL5irD4CnecdbLaIle9o0PpgiVUN5dM/lI6fI
-         5Hcg==
-X-Gm-Message-State: AOAM53146z+IFESrDnMcKdQH/wUFLqHAeKyN0JMEUCJ8vNkH+PJlYD1h
-	VVnZZFVcm2Of8OnIOU5fY1g=
-X-Google-Smtp-Source: ABdhPJzQMt1B+bHckwfLgt0P/bulirlyZhkN4ZmSGmG6ut1o03bIKamnZj5vG8mWPJJGF8TJV54vQA==
-X-Received: by 2002:a05:600c:8a9:: with SMTP id l41mr4775924wmp.152.1626275475909;
-        Wed, 14 Jul 2021 08:11:15 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=PG9JbnafFmHtkZy14fnZvsQtgBLImOnC9bogzsBO68Q=;
+        b=NPFTimO0kVcohooItNYaD0UeEYZT9zAOpFiH6PrB3Y969mfprmSi2a86cvkYNpgKeJ
+         zW70dFRYCcgvyFn7axnS+uD8OYmkBuCryzIuqihGi/j9QaaSKjulgiJvSr3BNGdgpjji
+         E3NKVyZrvZwX4l0JUQViNgTwZgzkLJlnpkrIirKTkNwi9r25W8LfpugibQWk/mBmqCGq
+         AQx0qmd0G5PBkbhPcs2wZZz3AtXUINwPB7b5NMULFf8O/+2l1idyvFBtIeY/HECdbNpY
+         ddEJINvDYsI+PvRXXzjpVjw7EmnjVu+Tu4IMePMuHBTb2aPxRg1cNMT4Ed82lklYgeLv
+         DNVQ==
+X-Gm-Message-State: AOAM530lM4zjsQN2W2ILuEytMLvsbL3UwWJ0KBsyV+hxve2h9HwCzRCQ
+	dWaH6BFKkYJN/yPS60UXAbG2KR1TWsU=
+X-Google-Smtp-Source: ABdhPJycD2OfxuPLYOiMg17H0K8RT5chzlF2QRpfN7l5Bx119sJzeU/7EJNbS6Q57qu5ONnRtiNZfQ==
+X-Received: by 2002:a1c:7706:: with SMTP id t6mr11833020wmi.36.1626275477293;
+        Wed, 14 Jul 2021 08:11:17 -0700 (PDT)
 Received: from agape ([5.171.72.142])
-        by smtp.gmail.com with ESMTPSA id n23sm2257926wms.4.2021.07.14.08.11.15
+        by smtp.gmail.com with ESMTPSA id c125sm6610982wme.36.2021.07.14.08.11.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jul 2021 08:11:15 -0700 (PDT)
+        Wed, 14 Jul 2021 08:11:17 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: hdegoede@redhat.com,
 	Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/3] staging: rtl8723bs: add get_channel implementation
-Date: Wed, 14 Jul 2021 17:11:11 +0200
-Message-Id: <cover.1626275102.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 1/3] staging: rtl8723bs: add get_channel cfg80211 implementation
+Date: Wed, 14 Jul 2021 17:11:12 +0200
+Message-Id: <2f00479d8369b82b590291bb0edf27bc3041b0f0.1626275102.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1626275102.git.fabioaiuto83@gmail.com>
+References: <cover.1626275102.git.fabioaiuto83@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,25 +56,110 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patchset adds cfg80211 get_channel implementation.
-One of the benefits is having displayed channel info
-in iw dev output.
+add get_channel cfg80211 implementation to let userspace
+programs rely on nl80211 protocol to display channel
+information.
 
-Done some code cleaning as well.
+Old iw dev output:
 
-Tested-on: Lenovo Ideapad MiiX-300-10IBY
+phy#0
+	Interface wlan0
+		ifindex 2
+		wdev 0x1
+		addr 34:c3:d2:73:eb:c7
+		ssid Fabio
+		type managed
+		txpower 12.00 dBm
 
-Fabio Aiuto (3):
-  staging: rtl8723bs: add get_channel cfg80211 implementation
-  staging: rtl8723bs: convert IsSupportedHT to snake_case
-  staging: rtl8723bs: fix camel case issue
+Fixed output:
 
- .../staging/rtl8723bs/core/rtw_ioctl_set.c    |  2 +-
- .../staging/rtl8723bs/core/rtw_wlan_util.c    |  2 +-
- drivers/staging/rtl8723bs/include/ieee80211.h |  2 +-
+phy#0
+	Interface wlan0
+		ifindex 2
+		wdev 0x1
+		addr 34:c3:d2:73:eb:c7
+		ssid Fabio
+		type managed
+	new-->	channel 11 (2462 MHz), width: 20 MHz, center1: 2462 Mhz
+		txpower 12.00 dBm
+
+Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+---
  .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 53 ++++++++++++++++++-
- 4 files changed, 55 insertions(+), 4 deletions(-)
+ 1 file changed, 52 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index fd747c8d920e..d198d10ec272 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -2100,7 +2100,58 @@ void rtw_cfg80211_indicate_sta_disassoc(struct adapter *padapter, unsigned char
+ 	cfg80211_del_sta(ndev, da, GFP_ATOMIC);
+ }
+ 
++static u8 rtw_get_chan_type(struct adapter *adapter)
++{
++	struct mlme_ext_priv *mlme_ext = &adapter->mlmeextpriv;
++
++	switch (mlme_ext->cur_bwmode) {
++	case CHANNEL_WIDTH_20:
++		if (IsSupportedHT(adapter->registrypriv.wireless_mode))
++			return NL80211_CHAN_HT20;
++		else
++			return NL80211_CHAN_NO_HT;
++	case CHANNEL_WIDTH_40:
++		if (mlme_ext->cur_ch_offset == HAL_PRIME_CHNL_OFFSET_UPPER)
++			return NL80211_CHAN_HT40PLUS;
++		else
++			return NL80211_CHAN_HT40MINUS;
++	default:
++		return NL80211_CHAN_HT20;
++	}
+ 
++	return NL80211_CHAN_HT20;
++}
++
++static int cfg80211_rtw_get_channel(struct wiphy *wiphy, struct wireless_dev *wdev,
++				    struct cfg80211_chan_def *chandef)
++{
++	struct adapter *adapter = wiphy_to_adapter(wiphy);
++	struct registry_priv *registrypriv = &adapter->registrypriv;
++	enum nl80211_channel_type chan_type;
++	struct ieee80211_channel *chan = NULL;
++	int channel;
++	int freq;
++
++	if (!adapter->rtw_wdev)
++		return -ENODEV;
++
++	channel = rtw_get_oper_ch(adapter);
++	if (!channel)
++		return -ENODATA;
++
++	freq = rtw_ieee80211_channel_to_frequency(channel, NL80211_BAND_2GHZ);
++
++	chan = ieee80211_get_channel(adapter->rtw_wdev->wiphy, freq);
++
++	if (registrypriv->ht_enable) {
++		chan_type = rtw_get_chan_type(adapter);
++		cfg80211_chandef_create(chandef, chan, chan_type);
++	} else {
++		cfg80211_chandef_create(chandef, chan, NL80211_CHAN_NO_HT);
++	}
++
++	return 0;
++}
+ 
+ static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struct net_device *ndev)
+ {
+@@ -2838,7 +2889,7 @@ static struct cfg80211_ops rtw_cfg80211_ops = {
+ 	.set_pmksa = cfg80211_rtw_set_pmksa,
+ 	.del_pmksa = cfg80211_rtw_del_pmksa,
+ 	.flush_pmksa = cfg80211_rtw_flush_pmksa,
+-
++	.get_channel = cfg80211_rtw_get_channel,
+ 	.add_virtual_intf = cfg80211_rtw_add_virtual_intf,
+ 	.del_virtual_intf = cfg80211_rtw_del_virtual_intf,
+ 
 -- 
 2.20.1
 
