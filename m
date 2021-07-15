@@ -1,35 +1,35 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9E172
-	for <linux-staging@lists.linux.dev>; Thu, 15 Jul 2021 20:04:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BB8970
+	for <linux-staging@lists.linux.dev>; Thu, 15 Jul 2021 21:48:03 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E4C8340;
-	Thu, 15 Jul 2021 22:04:08 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AE6E1340;
+	Thu, 15 Jul 2021 23:48:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1626379448;
-	bh=bO1Jxxvmr31rMcKCzyca5EDR8tI5mRe2AfSRhbBQytE=;
+	s=mail; t=1626385680;
+	bh=3f7mh8euXbSQN6HcGF3I1ESl67jUlkhy/OhQpoacxLo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SHaYKi7+FWVN1n/SaOjEcLt5v8J0BBKNjB6uJjc6awuePPx2+4j94BtVNK4yGVZ71
-	 3syfhrPKp845W29imw2Ck8flkqhb1lRPBSHAK9m6Lr2t9tFfdBUzaqseQRMtXzlWds
-	 JCGeMZG5xzkF+WhN8zhDkY9dgWiJ6Itr/6Ax2vLQ=
-Date: Thu, 15 Jul 2021 23:04:06 +0300
+	b=EYcJl6FJhUAjs53UwnNFKnVlzYZhlfyuszTwoajZ6WCBfAqyEWb/VYhvID6A/4Ant
+	 ixTqCiKSisrfqc1BNBbpxWGSzVzhSNECiU9jQ+2ubkei9YwQXE1ZDBl3KrdBXjB2zb
+	 7fUQqlsnr8kSYXK3IVasqoAmri9JxhGSNB6H8Acs=
+Date: Fri, 16 Jul 2021 00:47:59 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Saptarshi Patra <saptarshi.patra.22@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arve =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>,
-	Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Christian Brauner <christian@brauner.io>,
-	Hridya Valsaraju <hridya@google.com>,
-	Suren Baghdasaryan <surenb@google.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] media: usb: uvc: uvc_driver: Added a function pr_info()
- in uvc_driver and staging: android: Decleared file operation with const
- keyword in android keyword
-Message-ID: <YPCUtj9LC+i0/98g@pendragon.ideasonboard.com>
-References: <20210715194911.8267-1-saptarshi.patra.22@gmail.com>
+To: Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc: festevam@gmail.com, krzk@kernel.org, devicetree@vger.kernel.org,
+	kernel@pengutronix.de, kernel@puri.sm,
+	linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, m.felsch@pengutronix.de,
+	mchehab@kernel.org, phone-devel@vger.kernel.org, robh@kernel.org,
+	shawnguo@kernel.org, slongerbeam@gmail.com
+Subject: Re: [PATCH v6 2/3] media: imx: add a driver for i.MX8MQ mipi csi rx
+ phy and controller
+Message-ID: <YPCtDwgTMdFgejhi@pendragon.ideasonboard.com>
+References: <20210714111931.324485-1-martin.kepplinger@puri.sm>
+ <20210714111931.324485-3-martin.kepplinger@puri.sm>
+ <YO8r6pZAduu1ZMK4@pendragon.ideasonboard.com>
+ <33f9ab8ea253c01d3311346bc871d7f62213215f.camel@puri.sm>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,62 +38,304 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210715194911.8267-1-saptarshi.patra.22@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <33f9ab8ea253c01d3311346bc871d7f62213215f.camel@puri.sm>
 
-Hi Saptarshi,
+Hi Martin,
 
-On Fri, Jul 16, 2021 at 01:19:10AM +0530, Saptarshi Patra wrote:
-> media: usb: uvc: uvc_driver: Decleared a function called
->  pr_info()  with a string input "I changed uvcvideo driver in the Linux
->  Kernel"
+On Thu, Jul 15, 2021 at 08:49:51AM +0200, Martin Kepplinger wrote:
+> Am Mittwoch, dem 14.07.2021 um 21:24 +0300 schrieb Laurent Pinchart:
+> > Hi Martin,
+> > 
+> > Thank you for the patch.
 > 
-> Added the function pr_info() to see the message / input string using dmesg
-
-I'm curious, could you explain why you think this should be merged in
-the upstream kernel ? I fear the kernel log may get a bit too verbose if
-everybody added their own little message :-)
-
-> staging: android: Decleared file operation with const keyword
-
-Don't combine multiple independent changes in a single patch.
-
-> Warning found by the checkpatch.pl script
+> thank you for reviewing.
 > 
-> Signed-off-by: Saptarshi Patra <saptarshi.patra.22@gmail.com>
-> ---
->  drivers/media/usb/uvc/uvc_driver.c | 2 +-
->  drivers/staging/android/ashmem.c   | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+> > On Wed, Jul 14, 2021 at 01:19:30PM +0200, Martin Kepplinger wrote:
+> > > Add a driver to support the i.MX8MQ MIPI CSI receiver. The hardware
+> > > side
+> > > is based on
+> > >  
+> > > https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0
+> > > 
+> > > It's built as part of VIDEO_IMX7_CSI because that's documented to
+> > > support
+> > > i.MX8M platforms. This driver adds i.MX8MQ support where currently
+> > > only the
+> > > i.MX8MM platform has been supported.
+> > > 
+> > > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> > > ---
+> > >  drivers/staging/media/imx/Makefile           |   1 +
+> > >  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 949
+> > > +++++++++++++++++++
+> > >  2 files changed, 950 insertions(+)
+> > >  create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> > > 
+> > > diff --git a/drivers/staging/media/imx/Makefile
+> > > b/drivers/staging/media/imx/Makefile
+> > > index 6ac33275cc97..19c2fc54d424 100644
+> > > --- a/drivers/staging/media/imx/Makefile
+> > > +++ b/drivers/staging/media/imx/Makefile
+> > > @@ -16,3 +16,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
+> > >  
+> > >  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
+> > >  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-mipi-csis.o
+> > > +obj-$(CONFIG_VIDEO_IMX7_CSI) += imx8mq-mipi-csi2.o
+> > > diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> > > b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> > > new file mode 100644
+> > > index 000000000000..949b3ef7a20a
+> > > --- /dev/null
+> > > +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
+> > > @@ -0,0 +1,949 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +/*
+> > > + * Freescale i.MX8MQ SoC series MIPI-CSI2 receiver driver
+> > 
+> > Maybe they should be called NXP these days :-)
+> > 
+> > > + *
+> > > + * Copyright (C) 2021 Purism SPC
+> > > + */
+> > > +
+> > > +#include <linux/clk.h>
+> > > +#include <linux/delay.h>
+> > > +#include <linux/errno.h>
+> > > +#include <linux/interconnect.h>
+> > > +#include <linux/interrupt.h>
+> > > +#include <linux/io.h>
+> > > +#include <linux/kernel.h>
+> > > +#include <linux/mfd/syscon.h>
+> > > +#include <linux/module.h>
+> > > +#include <linux/mutex.h>
+> > > +#include <linux/of.h>
+> > > +#include <linux/of_device.h>
+> > > +#include <linux/platform_device.h>
+> > > +#include <linux/pm_runtime.h>
+> > > +#include <linux/regmap.h>
+> > > +#include <linux/regulator/consumer.h>
+> > > +#include <linux/reset.h>
+> > > +#include <linux/spinlock.h>
+> > > +
+> > > +#include <media/v4l2-common.h>
+> > > +#include <media/v4l2-device.h>
+> > > +#include <media/v4l2-fwnode.h>
+> > > +#include <media/v4l2-mc.h>
+> > > +#include <media/v4l2-subdev.h>
+> > > +
+> > > +#define MIPI_CSI2_DRIVER_NAME                  "imx8mq-mipi-csi2"
+> > > +#define
+> > > MIPI_CSI2_SUBDEV_NAME                  MIPI_CSI2_DRIVER_NAME
+> > > +
+> > > +#define MIPI_CSI2_PAD_SINK                     0
+> > > +#define MIPI_CSI2_PAD_SOURCE                   1
+> > > +#define MIPI_CSI2_PADS_NUM                     2
+> > > +
+> > > +#define MIPI_CSI2_DEF_PIX_WIDTH                        640
+> > > +#define MIPI_CSI2_DEF_PIX_HEIGHT               480
+> > > +
+> > > +/* Register map definition */
+> > > +
+> > > +/* i.MX8MQ CSI-2 controller CSR */
+> > > +#define CSI2RX_CFG_NUM_LANES                   0x100
+> > > +#define CSI2RX_CFG_DISABLE_DATA_LANES          0x104
+> > > +#define CSI2RX_BIT_ERR                         0x108
+> > > +#define CSI2RX_IRQ_STATUS                      0x10c
+> > > +#define CSI2RX_IRQ_MASK                                0x110
+> > > +#define CSI2RX_IRQ_MASK_ALL                    0x1ff
+> > > +#define CSI2RX_IRQ_MASK_ULPS_STATUS_CHANGE     0x8
+> > > +#define CSI2RX_ULPS_STATUS                     0x114
+> > > +#define CSI2RX_PPI_ERRSOT_HS                   0x118
+> > > +#define CSI2RX_PPI_ERRSOTSYNC_HS               0x11c
+> > > +#define CSI2RX_PPI_ERRESC                      0x120
+> > > +#define CSI2RX_PPI_ERRSYNCESC                  0x124
+> > > +#define CSI2RX_PPI_ERRCONTROL                  0x128
+> > > +#define CSI2RX_CFG_DISABLE_PAYLOAD_0           0x12c
+> > > +#define CSI2RX_CFG_VID_P_FIFO_SEND_LEVEL       0x188
+> > > +#define CSI2RX_CFG_DISABLE_PAYLOAD_1           0x130
+> > > +
+> > > +enum {
+> > > +       ST_POWERED      = 1,
+> > > +       ST_STREAMING    = 2,
+> > > +       ST_SUSPENDED    = 4,
+> > > +};
+> > > +
+> > > +static const char * const imx8mq_mipi_csi_clk_id[] = {
+> > > +       "core",
+> > > +       "esc",
+> > > +       "ui",
+> > > +};
+> > > +
+> > > +#define CSI2_NUM_CLKS  ARRAY_SIZE(imx8mq_mipi_csi_clk_id)
+> > > +
+> > > +#define        GPR_CSI2_1_RX_ENABLE            BIT(13)
+> > > +#define        GPR_CSI2_1_VID_INTFC_ENB        BIT(12)
+> > > +#define        GPR_CSI2_1_HSEL                 BIT(10)
+> > > +#define        GPR_CSI2_1_CONT_CLK_MODE        BIT(8)
+> > > +#define        GPR_CSI2_1_S_PRG_RXHS_SETTLE(x) (((x) & 0x3f) << 2)
+> > > +
+> > > +/*
+> > > + * The send level configures the number of entries that must
+> > > accumulate in
+> > > + * the Pixel FIFO before the data will be transferred to the video
+> > > output.
+> > > + * See  
+> > > https://community.nxp.com/t5/i-MX-Processors/IMX8M-MIPI-CSI-Host-Controller-send-level/m-p/864005/highlight/true#M131704
+> > > + */
+> > > +#define CSI2RX_SEND_LEVEL                      64
+> > > +
+> > > +struct csi_state {
+> > > +       struct device *dev;
+> > > +       void __iomem *regs;
+> > > +       struct clk_bulk_data clks[CSI2_NUM_CLKS];
+> > > +       struct reset_control *rst;
+> > > +       struct regulator *mipi_phy_regulator;
+> > > +
+> > > +       struct v4l2_subdev sd;
+> > > +       struct media_pad pads[MIPI_CSI2_PADS_NUM];
+> > > +       struct v4l2_async_notifier notifier;
+> > > +       struct v4l2_subdev *src_sd;
+> > > +
+> > > +       struct v4l2_fwnode_bus_mipi_csi2 bus;
+> > > +
+> > > +       struct mutex lock; /* Protect csi2_fmt, format_mbus, state,
+> > > hs_settle*/
+> > 
+> > Missing space before */
+> > 
+> > > +       const struct csi2_pix_format *csi2_fmt;
+> > > +       struct v4l2_mbus_framefmt format_mbus[MIPI_CSI2_PADS_NUM];
+> > > +       u32 state;
+> > > +       u32 hs_settle;
+> > > +
+> > > +       struct regmap *phy_gpr;
+> > > +       u8 phy_gpr_reg;
+> > > +
+> > > +       struct icc_path                 *icc_path;
+> > > +       s32                             icc_path_bw;
+> > > +};
+> > > +
+> > > +/* ---------------------------------------------------------------
+> > > --------------
+> > > + * Format helpers
+> > > + */
+> > > +
+> > > +struct csi2_pix_format {
+> > > +       u32 code;
+> > > +       u8 width;
+> > > +};
+> > > +
+> > > +static const struct csi2_pix_format imx8mq_mipi_csi_formats[] = {
+> > > +       /* RAW (Bayer and greyscale) formats. */
+> > > +       {
+> > > +               .code = MEDIA_BUS_FMT_SBGGR8_1X8,
+> > > +               .width = 8,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SGBRG8_1X8,
+> > > +               .width = 8,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SGRBG8_1X8,
+> > > +               .width = 8,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SRGGB8_1X8,
+> > > +               .width = 8,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_Y8_1X8,
+> > > +               .width = 8,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SBGGR10_1X10,
+> > > +               .width = 10,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SGBRG10_1X10,
+> > > +               .width = 10,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SGRBG10_1X10,
+> > > +               .width = 10,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SRGGB10_1X10,
+> > > +               .width = 10,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_Y10_1X10,
+> > > +               .width = 10,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SBGGR12_1X12,
+> > > +               .width = 12,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SGBRG12_1X12,
+> > > +               .width = 12,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SGRBG12_1X12,
+> > > +               .width = 12,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SRGGB12_1X12,
+> > > +               .width = 12,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_Y12_1X12,
+> > > +               .width = 12,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SBGGR14_1X14,
+> > > +               .width = 14,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SGBRG14_1X14,
+> > > +               .width = 14,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SGRBG14_1X14,
+> > > +               .width = 14,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_SRGGB14_1X14,
+> > > +               .width = 14,
+> > > +       }, {
+> > > +       /* YUV formats */
+> > > +               .code = MEDIA_BUS_FMT_YUYV8_2X8,
+> > > +               .width = 16,
+> > > +       }, {
+> > > +               .code = MEDIA_BUS_FMT_YUYV8_1X16,
+> > > +               .width = 16,
+> > > +       }
+> > > +};
+> > > +
+> > > +static const struct csi2_pix_format *find_csi2_format(u32 code)
+> > > +{
+> > > +       unsigned int i;
+> > > +
+> > > +       for (i = 0; i < ARRAY_SIZE(imx8mq_mipi_csi_formats); i++)
+> > > +               if (code == imx8mq_mipi_csi_formats[i].code)
+> > > +                       return &imx8mq_mipi_csi_formats[i];
+> > > +       return NULL;
+> > > +}
+> > > +
+> > > +/* ---------------------------------------------------------------
+> > > --------------
+> > > + * Hardware configuration
+> > > + */
+> > > +
+> > > +static inline void imx8mq_mipi_csi_write(struct csi_state *state,
+> > > u32 reg, u32 val)
+> > > +{
+> > > +       writel(val, state->regs + reg);
+> > > +}
+> > > +
+> > > +static int imx8mq_mipi_csi_sw_reset(struct csi_state *state)
+> > > +{
+> > > +       int ret;
+> > > +
+> > > +       ret = reset_control_assert(state->rst);
+> > 
+> > That's peculiar, is there no need to deassert reset ?
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 9a791d8ef200..0b47ca75091b 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -2352,7 +2352,7 @@ static int uvc_probe(struct usb_interface *intf,
->  		(const struct uvc_device_info *)id->driver_info;
->  	int function;
->  	int ret;
-> -
-> +	pr_info("I changed uvcvideo driver in the Linux Kernel\n");
->  	/* Allocate memory for the device and initialize it. */
->  	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
->  	if (dev == NULL)
-> diff --git a/drivers/staging/android/ashmem.c b/drivers/staging/android/ashmem.c
-> index ddbde3f8430e..4c6b420fbf4d 100644
-> --- a/drivers/staging/android/ashmem.c
-> +++ b/drivers/staging/android/ashmem.c
-> @@ -377,7 +377,7 @@ ashmem_vmfile_get_unmapped_area(struct file *file, unsigned long addr,
->  
->  static int ashmem_mmap(struct file *file, struct vm_area_struct *vma)
->  {
-> -	static struct file_operations vmfile_fops;
-> +	static const struct file_operations vmfile_fops;
+> I tried different things here that would look more intuitive, but in
+> the end only this worked, which is directly taken from
+> https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0#n105
+> (actual register value read from DT) that results in exactly the same
+> register bits set like this assertation.
 
-You haven't compiled this, have you ?
+It's very likely that these are self-clearing reset bits.
 
->  	struct ashmem_area *asma = file->private_data;
->  	int ret = 0;
->  
+I would have adviced using reset_control_assert(), but it looks like the
+reset controller driver doesn't support that operation. Could you add a
+comment here to explain what's going on, maybe with a note to tell that
+the reset-imx7 driver should implement the .reset() operation ?
 
 -- 
 Regards,
