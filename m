@@ -1,457 +1,157 @@
-Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5642F72
-	for <linux-staging@lists.linux.dev>; Thu, 15 Jul 2021 07:37:33 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by comms.puri.sm (Postfix) with ESMTP id 2DEF5DFAD4;
-	Thu, 15 Jul 2021 00:37:32 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0Ympdg_EmsdR; Thu, 15 Jul 2021 00:37:29 -0700 (PDT)
-Message-ID: <ce71a71a358247eca3b72ddcddd703206c90f284.camel@puri.sm>
-Subject: Re: [PATCH v6 2/3] media: imx: add a driver for i.MX8MQ mipi csi rx
- phy and controller
-From: Martin Kepplinger <martin.kepplinger@puri.sm>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: festevam@gmail.com, krzk@kernel.org, devicetree@vger.kernel.org, 
- kernel@pengutronix.de, kernel@puri.sm,
- linux-arm-kernel@lists.infradead.org,  linux-imx@nxp.com,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-staging@lists.linux.dev, m.felsch@pengutronix.de, mchehab@kernel.org,
-  phone-devel@vger.kernel.org, robh@kernel.org, shawnguo@kernel.org, 
- slongerbeam@gmail.com
-Date: Thu, 15 Jul 2021 09:37:24 +0200
-In-Reply-To: <YO8r6pZAduu1ZMK4@pendragon.ideasonboard.com>
-References: <20210714111931.324485-1-martin.kepplinger@puri.sm>
-	 <20210714111931.324485-3-martin.kepplinger@puri.sm>
-	 <YO8r6pZAduu1ZMK4@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
-Content-Transfer-Encoding: 8bit
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22DB570
+	for <linux-staging@lists.linux.dev>; Thu, 15 Jul 2021 10:08:52 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id q18-20020a1ce9120000b02901f259f3a250so3247579wmc.2
+        for <linux-staging@lists.linux.dev>; Thu, 15 Jul 2021 03:08:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ijtb4G/hc385IfMsMOWiOrnQJxdpMd4D8+Ng3Od+NqY=;
+        b=nWzuVxoMT4VHpZmeLo/Q7mlUv4y3HfNEyAMWJHyFUoEfnNtYSL8BiRcgbBa1D2CX36
+         pN4sy0UnAIimZpctKZFLBfkk7Vty7B/YguVRWwkkLpD6/Eybqh/7TPPZf9wanvUlEKCY
+         cZ4qDDDKZevVivJKaqZ3b0cCYTtGwPE6ymEOt30/gkr3/IHznyxskpxTtQDbJ3RnYdnz
+         vZv42avJDJSH840BetqPwbG8n263PR45UjIz9UrwelC7n4FBlv224QXii3UKI2oWAYGH
+         F6dbnwjuhij+Om051vLdJQUSCXripwOySTmKkO6nWAUoZOaie4N5Hsa/zZRCKshVjB4v
+         4Ohw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ijtb4G/hc385IfMsMOWiOrnQJxdpMd4D8+Ng3Od+NqY=;
+        b=jl5PoyBBVdczyIxEGJHHoeBLi1tXqMcVN2LOpyIiQ62gwUfvV1Hi2QBVOB7ZTagD5e
+         RglbouAfAEoi38rro4Cfovl+3io25izcVUUyK8IeZQ3Ww8axi9Gv2N199TQU37yVvpI+
+         vsvaMtUfoY/lsEcdQKRFeO4aIkctHuD505o6rNGt1APuFhVX8IPafrAJzp1j+ChDbIGd
+         ct87E8kQ5kzda9skOfSsJYCFhz/lZEPSMyHNEmSYh4JMEDrjJHQwCWn4GvBduyDDEyrU
+         Y64tt4vB5YAPx+Y+Xqiblh9LnG+BAY+zCSVaGSaRFedt0A/BgWiJjR3OS9y7akf9XAFs
+         UvtQ==
+X-Gm-Message-State: AOAM532JybY2rGbIPospolcUxd8uzyA5mi6Zap30gSmfZisLLjHp4cdw
+	RarNy0ieR4WgPQC9gTTZin8=
+X-Google-Smtp-Source: ABdhPJzAamOVpXRifsiGGIubtfoku+yCSTTrFqsVPVd0CUWZsaW4V8dr7txB0XluBaZFNatPDevcmw==
+X-Received: by 2002:a05:600c:1546:: with SMTP id f6mr3661109wmg.164.1626343730218;
+        Thu, 15 Jul 2021 03:08:50 -0700 (PDT)
+Received: from agape.jhs ([5.171.89.158])
+        by smtp.gmail.com with ESMTPSA id k13sm6226074wrp.34.2021.07.15.03.08.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jul 2021 03:08:50 -0700 (PDT)
+Date: Thu, 15 Jul 2021 12:08:47 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Colin Ian King <colin.king@canonical.com>
+Cc: Quytelda Kahja <quytelda@tamalin.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: staging: rtl8723bs mask values in wpa_set_auth_algs
+Message-ID: <20210715100846.GA2271@agape.jhs>
+References: <619462ca-e652-30f5-6ffa-3213175d8bbc@canonical.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <619462ca-e652-30f5-6ffa-3213175d8bbc@canonical.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Am Mittwoch, dem 14.07.2021 um 21:24 +0300 schrieb Laurent Pinchart:
-> Hi Martin,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Jul 14, 2021 at 01:19:30PM +0200, Martin Kepplinger wrote:
-> > Add a driver to support the i.MX8MQ MIPI CSI receiver. The hardware
-> > side
-> > is based on
-> > https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0
-> > 
-> > It's built as part of VIDEO_IMX7_CSI because that's documented to
-> > support
-> > i.MX8M platforms. This driver adds i.MX8MQ support where currently
-> > only the
-> > i.MX8MM platform has been supported.
-> > 
-> > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > ---
-> >  drivers/staging/media/imx/Makefile           |   1 +
-> >  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 949
-> > +++++++++++++++++++
-> >  2 files changed, 950 insertions(+)
-> >  create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> > 
-> > diff --git a/drivers/staging/media/imx/Makefile
-> > b/drivers/staging/media/imx/Makefile
-> > index 6ac33275cc97..19c2fc54d424 100644
-> > --- a/drivers/staging/media/imx/Makefile
-> > +++ b/drivers/staging/media/imx/Makefile
-> > @@ -16,3 +16,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
-> >  
-> >  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
-> >  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-mipi-csis.o
-> > +obj-$(CONFIG_VIDEO_IMX7_CSI) += imx8mq-mipi-csi2.o
-> > diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> > b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> > new file mode 100644
-> > index 000000000000..949b3ef7a20a
-> > --- /dev/null
-> > +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> > @@ -0,0 +1,949 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Freescale i.MX8MQ SoC series MIPI-CSI2 receiver driver
-> 
-> Maybe they should be called NXP these days :-)
-> 
-> > + *
-> > + * Copyright (C) 2021 Purism SPC
-> > + */
-> > +
-> > +#include <linux/clk.h>
-> > +#include <linux/delay.h>
-> > +#include <linux/errno.h>
-> > +#include <linux/interconnect.h>
-> > +#include <linux/interrupt.h>
-> > +#include <linux/io.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/mfd/syscon.h>
-> > +#include <linux/module.h>
-> > +#include <linux/mutex.h>
-> > +#include <linux/of.h>
-> > +#include <linux/of_device.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/pm_runtime.h>
-> > +#include <linux/regmap.h>
-> > +#include <linux/regulator/consumer.h>
-> > +#include <linux/reset.h>
-> > +#include <linux/spinlock.h>
-> > +
-> > +#include <media/v4l2-common.h>
-> > +#include <media/v4l2-device.h>
-> > +#include <media/v4l2-fwnode.h>
-> > +#include <media/v4l2-mc.h>
-> > +#include <media/v4l2-subdev.h>
-> > +
-> > +#define MIPI_CSI2_DRIVER_NAME                  "imx8mq-mipi-csi2"
-> > +#define
-> > MIPI_CSI2_SUBDEV_NAME                  MIPI_CSI2_DRIVER_NAME
-> > +
-> > +#define MIPI_CSI2_PAD_SINK                     0
-> > +#define MIPI_CSI2_PAD_SOURCE                   1
-> > +#define MIPI_CSI2_PADS_NUM                     2
-> > +
-> > +#define MIPI_CSI2_DEF_PIX_WIDTH                        640
-> > +#define MIPI_CSI2_DEF_PIX_HEIGHT               480
-> > +
-> > +/* Register map definition */
-> > +
-> > +/* i.MX8MQ CSI-2 controller CSR */
-> > +#define CSI2RX_CFG_NUM_LANES                   0x100
-> > +#define CSI2RX_CFG_DISABLE_DATA_LANES          0x104
-> > +#define CSI2RX_BIT_ERR                         0x108
-> > +#define CSI2RX_IRQ_STATUS                      0x10c
-> > +#define CSI2RX_IRQ_MASK                                0x110
-> > +#define CSI2RX_IRQ_MASK_ALL                    0x1ff
-> > +#define CSI2RX_IRQ_MASK_ULPS_STATUS_CHANGE     0x8
-> > +#define CSI2RX_ULPS_STATUS                     0x114
-> > +#define CSI2RX_PPI_ERRSOT_HS                   0x118
-> > +#define CSI2RX_PPI_ERRSOTSYNC_HS               0x11c
-> > +#define CSI2RX_PPI_ERRESC                      0x120
-> > +#define CSI2RX_PPI_ERRSYNCESC                  0x124
-> > +#define CSI2RX_PPI_ERRCONTROL                  0x128
-> > +#define CSI2RX_CFG_DISABLE_PAYLOAD_0           0x12c
-> > +#define CSI2RX_CFG_VID_P_FIFO_SEND_LEVEL       0x188
-> > +#define CSI2RX_CFG_DISABLE_PAYLOAD_1           0x130
-> > +
-> > +enum {
-> > +       ST_POWERED      = 1,
-> > +       ST_STREAMING    = 2,
-> > +       ST_SUSPENDED    = 4,
-> > +};
-> > +
-> > +static const char * const imx8mq_mipi_csi_clk_id[] = {
-> > +       "core",
-> > +       "esc",
-> > +       "ui",
-> > +};
-> > +
-> > +#define CSI2_NUM_CLKS  ARRAY_SIZE(imx8mq_mipi_csi_clk_id)
-> > +
-> > +#define        GPR_CSI2_1_RX_ENABLE            BIT(13)
-> > +#define        GPR_CSI2_1_VID_INTFC_ENB        BIT(12)
-> > +#define        GPR_CSI2_1_HSEL                 BIT(10)
-> > +#define        GPR_CSI2_1_CONT_CLK_MODE        BIT(8)
-> > +#define        GPR_CSI2_1_S_PRG_RXHS_SETTLE(x) (((x) & 0x3f) << 2)
-> > +
-> > +/*
-> > + * The send level configures the number of entries that must
-> > accumulate in
-> > + * the Pixel FIFO before the data will be transferred to the video
-> > output.
-> > + * See 
-> > https://community.nxp.com/t5/i-MX-Processors/IMX8M-MIPI-CSI-Host-Controller-send-level/m-p/864005/highlight/true#M131704
-> > + */
-> > +#define CSI2RX_SEND_LEVEL                      64
-> > +
-> > +struct csi_state {
-> > +       struct device *dev;
-> > +       void __iomem *regs;
-> > +       struct clk_bulk_data clks[CSI2_NUM_CLKS];
-> > +       struct reset_control *rst;
-> > +       struct regulator *mipi_phy_regulator;
-> > +
-> > +       struct v4l2_subdev sd;
-> > +       struct media_pad pads[MIPI_CSI2_PADS_NUM];
-> > +       struct v4l2_async_notifier notifier;
-> > +       struct v4l2_subdev *src_sd;
-> > +
-> > +       struct v4l2_fwnode_bus_mipi_csi2 bus;
-> > +
-> > +       struct mutex lock; /* Protect csi2_fmt, format_mbus, state,
-> > hs_settle*/
-> 
-> Missing space before */
-> 
-> > +       const struct csi2_pix_format *csi2_fmt;
-> > +       struct v4l2_mbus_framefmt format_mbus[MIPI_CSI2_PADS_NUM];
-> > +       u32 state;
-> > +       u32 hs_settle;
-> > +
-> > +       struct regmap *phy_gpr;
-> > +       u8 phy_gpr_reg;
-> > +
-> > +       struct icc_path                 *icc_path;
-> > +       s32                             icc_path_bw;
-> > +};
-> > +
-> > +/* ---------------------------------------------------------------
-> > --------------
-> > + * Format helpers
-> > + */
-> > +
-> > +struct csi2_pix_format {
-> > +       u32 code;
-> > +       u8 width;
-> > +};
-> > +
-> > +static const struct csi2_pix_format imx8mq_mipi_csi_formats[] = {
-> > +       /* RAW (Bayer and greyscale) formats. */
-> > +       {
-> > +               .code = MEDIA_BUS_FMT_SBGGR8_1X8,
-> > +               .width = 8,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SGBRG8_1X8,
-> > +               .width = 8,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SGRBG8_1X8,
-> > +               .width = 8,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SRGGB8_1X8,
-> > +               .width = 8,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_Y8_1X8,
-> > +               .width = 8,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SBGGR10_1X10,
-> > +               .width = 10,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SGBRG10_1X10,
-> > +               .width = 10,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SGRBG10_1X10,
-> > +               .width = 10,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SRGGB10_1X10,
-> > +               .width = 10,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_Y10_1X10,
-> > +               .width = 10,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SBGGR12_1X12,
-> > +               .width = 12,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SGBRG12_1X12,
-> > +               .width = 12,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SGRBG12_1X12,
-> > +               .width = 12,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SRGGB12_1X12,
-> > +               .width = 12,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_Y12_1X12,
-> > +               .width = 12,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SBGGR14_1X14,
-> > +               .width = 14,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SGBRG14_1X14,
-> > +               .width = 14,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SGRBG14_1X14,
-> > +               .width = 14,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_SRGGB14_1X14,
-> > +               .width = 14,
-> > +       }, {
-> > +       /* YUV formats */
-> > +               .code = MEDIA_BUS_FMT_YUYV8_2X8,
-> > +               .width = 16,
-> > +       }, {
-> > +               .code = MEDIA_BUS_FMT_YUYV8_1X16,
-> > +               .width = 16,
-> > +       }
-> > +};
-> > +
-> > +static const struct csi2_pix_format *find_csi2_format(u32 code)
-> > +{
-> > +       unsigned int i;
-> > +
-> > +       for (i = 0; i < ARRAY_SIZE(imx8mq_mipi_csi_formats); i++)
-> > +               if (code == imx8mq_mipi_csi_formats[i].code)
-> > +                       return &imx8mq_mipi_csi_formats[i];
-> > +       return NULL;
-> > +}
-> > +
-> > +/* ---------------------------------------------------------------
-> > --------------
-> > + * Hardware configuration
-> > + */
-> > +
-> > +static inline void imx8mq_mipi_csi_write(struct csi_state *state,
-> > u32 reg, u32 val)
-> > +{
-> > +       writel(val, state->regs + reg);
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_sw_reset(struct csi_state *state)
-> > +{
-> > +       int ret;
-> > +
-> > +       ret = reset_control_assert(state->rst);
-> 
-> That's peculiar, is there no need to deassert reset ?
-> 
-> > +       if (ret < 0) {
-> > +               dev_err(state->dev, "Failed to assert resets:
-> > %d\n", ret);
-> > +               return ret;
-> > +       }
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +static void imx8mq_mipi_csi_system_enable(struct csi_state *state,
-> > int on)
-> > +{
-> > +       if (!on) {
-> > +               imx8mq_mipi_csi_write(state,
-> > CSI2RX_CFG_DISABLE_DATA_LANES, 0xf);
-> > +               return;
-> > +       }
-> > +
-> > +       regmap_update_bits(state->phy_gpr,
-> > +                          state->phy_gpr_reg,
-> > +                          0x3fff,
-> > +                          GPR_CSI2_1_RX_ENABLE |
-> > +                          GPR_CSI2_1_VID_INTFC_ENB |
-> > +                          GPR_CSI2_1_HSEL |
-> > +                          GPR_CSI2_1_CONT_CLK_MODE |
-> > +                          GPR_CSI2_1_S_PRG_RXHS_SETTLE(state-
-> > >hs_settle));
-> > +}
-> > +
-> > +static void imx8mq_mipi_csi_set_params(struct csi_state *state)
-> > +{
-> > +       int lanes = state->bus.num_data_lanes;
-> > +
-> > +       imx8mq_mipi_csi_write(state, CSI2RX_CFG_NUM_LANES, lanes -
-> > 1);
-> > +       imx8mq_mipi_csi_write(state, CSI2RX_CFG_DISABLE_DATA_LANES,
-> > +                             (0xf << lanes) & 0xf);
-> > +       imx8mq_mipi_csi_write(state, CSI2RX_IRQ_MASK,
-> > CSI2RX_IRQ_MASK_ALL);
-> > +       imx8mq_mipi_csi_write(state, 0x180, 1);
-> > +       /* vid_vc */
-> > +       imx8mq_mipi_csi_write(state, 0x184, 1);
-> > +       imx8mq_mipi_csi_write(state, 0x188, CSI2RX_SEND_LEVEL);
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_clk_enable(struct csi_state *state)
-> > +{
-> > +       return clk_bulk_prepare_enable(CSI2_NUM_CLKS, state->clks);
-> > +}
-> > +
-> > +static void imx8mq_mipi_csi_clk_disable(struct csi_state *state)
-> > +{
-> > +       clk_bulk_disable_unprepare(CSI2_NUM_CLKS, state->clks);
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_clk_get(struct csi_state *state)
-> > +{
-> > +       unsigned int i;
-> > +
-> > +       for (i = 0; i < CSI2_NUM_CLKS; i++)
-> > +               state->clks[i].id = imx8mq_mipi_csi_clk_id[i];
-> > +
-> > +       return devm_clk_bulk_get(state->dev, CSI2_NUM_CLKS, state-
-> > >clks);
-> > +}
-> > +
-> > +static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state)
-> > +{
-> > +       u32 width = state->format_mbus[MIPI_CSI2_PAD_SINK].width;
-> > +       u32 height = state->format_mbus[MIPI_CSI2_PAD_SINK].height;
-> > +       s64 link_freq;
-> > +       u32 lane_rate;
-> > +
-> > +       /* Calculate the line rate from the pixel rate. */
-> > +       link_freq = v4l2_get_link_freq(state->src_sd->ctrl_handler,
-> > +                                      state->csi2_fmt->width,
-> > +                                      state->bus.num_data_lanes *
-> > 2);
-> > +       if (link_freq < 0) {
-> > +               dev_err(state->dev, "Unable to obtain link
-> > frequency: %d\n",
-> > +                       (int)link_freq);
-> > +               return link_freq;
-> > +       }
-> > +
-> > +       lane_rate = link_freq * 2;
-> > +       if (lane_rate < 80000000 || lane_rate > 1500000000) {
-> > +               dev_dbg(state->dev, "Out-of-bound lane rate %u\n",
-> > lane_rate);
-> > +               return -EINVAL;
-> > +       }
-> > +
-> > +       /* 
-> > https://community.nxp.com/t5/i-MX-Processors/Explenation-for-HS-SETTLE-parameter-in-MIPI-CSI-D-PHY-registers/m-p/764275/highlight/true#M118744
-> >  */
-> > +       if (lane_rate < 250000000)
-> > +               state->hs_settle = 0xb;
-> > +       else if (lane_rate < 500000000)
-> > +               state->hs_settle = 0x8;
-> > +       else
-> > +               state->hs_settle = 0x6;
-> 
-> We could possibly compute this value based on the formula from the
-> table
-> in that page, but maybe that's overkill ? If you want to give it a
-> try,
-> it would be along those lines.
-> 
->         /*
->          * The D-PHY specification requires Ths-settle to be in the
-> range
->          * 85ns + 6*UI to 140ns + 10*UI, with the unit interval UI
-> being half
->          * the clock period.
->          *
->          * The Ths-settle value is expressed in the hardware as a
-> multiple of
->          * the Esc clock period:
->          *
->          * Ths-settle = (PRG_RXHS_SETTLE + 1) * Tperiod of RxClkInEsc
->          *
->          * Due to the one cycle inaccuracy introduced by rounding,
-> the
->          * documentation recommends picking a value away from the
-> boundaries.
->          * Let's pick the average.
->          */
->         esc_clk_rate = clk_get_rate(...);
-> 
->         min_ths_settle = 85 + 6 * 1000000 / (lane_rate / 1000);
->         max_ths_settle = 140 + 10 * 1000000 / (lane_rate / 1000);
->         ths_settle = (min_ths_settle + max_ths_settle) / 2;
-> 
->         state->hs_settle = ths_settle * esc_clk_rate / 1000000000 -
-> 1;
-> 
+Hello Colin,
 
-I experimented a bit but would like to leave this as a task for later
-if that's ok. it's correct and simple now. also, using clks[i].clk
-based on the name string would feel better to submit seperately later.
+On Fri, Jul 09, 2021 at 03:53:39PM +0100, Colin Ian King wrote:
+> Hi,
+> 
+> Static analysis with Coverity has found an issue introduced by the
+> following commit:
+> 
+> commit 5befa937e8daaebcde81b9423eb93f3ff2e918f7
+> Author: Quytelda Kahja <quytelda@tamalin.org>
+> Date:   Tue Mar 27 01:41:02 2018 -0700
+> 
+>     staging: rtl8723bs: Fix IEEE80211 authentication algorithm constants.
+> 
+> The analysis is as follows:
+> 
+> 347 static int wpa_set_auth_algs(struct net_device *dev, u32 value)
+> 348 {
+> 349        struct adapter *padapter = rtw_netdev_priv(dev);
+> 350        int ret = 0;
+> 351
+> 352        if ((value & WLAN_AUTH_SHARED_KEY) && (value & WLAN_AUTH_OPEN)) {
+> 
+> Logically dead code (DEADCODE)
+> 
+> 353                padapter->securitypriv.ndisencryptstatus =
+> Ndis802_11Encryption1Enabled;
+> 354                padapter->securitypriv.ndisauthtype =
+> Ndis802_11AuthModeAutoSwitch;
+> 355                padapter->securitypriv.dot11AuthAlgrthm =
+> dot11AuthAlgrthm_Auto;
+> 356        } else if (value & WLAN_AUTH_SHARED_KEY)        {
+> 357                padapter->securitypriv.ndisencryptstatus =
+> Ndis802_11Encryption1Enabled;
+> 358
+> 359                padapter->securitypriv.ndisauthtype =
+> Ndis802_11AuthModeShared;
+> 360                padapter->securitypriv.dot11AuthAlgrthm =
+> dot11AuthAlgrthm_Shared;
+>    dead_error_condition: The condition value & 0U cannot be true.
+> 361        } else if (value & WLAN_AUTH_OPEN) {
+> 362                /* padapter->securitypriv.ndisencryptstatus =
+> Ndis802_11EncryptionDisabled; */
+> 
+> Logically dead code (DEADCODE)
+> 
+> 363                if (padapter->securitypriv.ndisauthtype <
+> Ndis802_11AuthModeWPAPSK) {
+> 364                        padapter->securitypriv.ndisauthtype =
+> Ndis802_11AuthModeOpen;
+> 365                        padapter->securitypriv.dot11AuthAlgrthm =
+> dot11AuthAlgrthm_Open;
+> 366                }
+> 367        } else {
+> 368                ret = -EINVAL;
+> 369        }
+> 370
+> 371        return ret;
+> 372
+> 373 }
+> 
+> The deadcode warnings occur because the mask value of WLAN_AUTH_OPEN is
+> defined in /include/linux/ieee80211.h as:
+> 
+> #define WLAN_AUTO_OPEN 0
+> 
+> and so any value masked with 0 is 0 and hence that part of the if
+> statement is always false.
+> 
+> The original code was using the mask values:
+> 
+> AUTH_ALG_SHARED_KEY and also AUTH_ALG_OPEN_SYSTEM that are defined as:
+> 
+> #define AUTH_ALG_OPEN_SYSTEM                   0x1
+> #define AUTH_ALG_SHARED_KEY                    0x2
+
+I think that the correct macros are:
+
+/* IW_AUTH_80211_AUTH_ALG values (bit field) */
+#define IW_AUTH_ALG_OPEN_SYSTEM 0x00000001
+#define IW_AUTH_ALG_SHARED_KEY  0x00000002
+#define IW_AUTH_ALG_LEAP        0x00000004
+
+defined in include/uapi/linux/wireless.h
 
 > 
+> So this appears to be a regression. I'm not sure the best approach for a
+> suitable fix to use the intended macros in ieee80211.h
+> 
+> Colin
+> 
+> 
+> 
+> 
 
+thank you,
+
+fabio
