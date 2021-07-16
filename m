@@ -1,243 +1,113 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6157470
-	for <linux-staging@lists.linux.dev>; Fri, 16 Jul 2021 10:49:01 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8376B3F0;
-	Fri, 16 Jul 2021 12:48:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1626432539;
-	bh=N1ac1SzTjIyKVcWZzvXMxpBtvh+6zyfqWW+6DOMn/44=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P3lHtiVjrUbjmMV/wIy0TlDd152PWLOhR29u7jTRggbakRv0zFEP/0U701RS+QiEd
-	 iqCPQauKeplD4OCrCF8PU+UO7eyR067k1QsFA2nENRh71U9WKcPdm49ilsp7gSHOnu
-	 ug4FhpSwBQKFxgoTXccRtozXlxuNtTMX4SeMlGJk=
-Date: Fri, 16 Jul 2021 13:48:57 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc: shawnguo@kernel.org, devicetree@vger.kernel.org, festevam@gmail.com,
-	kernel@pengutronix.de, kernel@puri.sm, krzk@kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, m.felsch@pengutronix.de,
-	mchehab@kernel.org, phone-devel@vger.kernel.org, robh@kernel.org,
-	slongerbeam@gmail.com
-Subject: Re: [PATCH v7 1/3] dt-bindings: media: document the
- nxp,imx8mq-mipi-csi2 receiver phy and controller
-Message-ID: <YPFkGbF083LpopP0@pendragon.ideasonboard.com>
-References: <20210716102244.581182-1-martin.kepplinger@puri.sm>
- <20210716102244.581182-2-martin.kepplinger@puri.sm>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C667168
+	for <linux-staging@lists.linux.dev>; Fri, 16 Jul 2021 14:45:34 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 549A9613F5;
+	Fri, 16 Jul 2021 14:45:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1626446733;
+	bh=jGkYHdtpJmNgP+jjovYyYp81WnjQGMvqSzExy4p9tVs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lOxxzf4dgoHd9JbTyP/hxCGUEKF0362tMEeGeCAhT9kKt/fcXRO7RfkE/yH6LlfBC
+	 9APLTw5KZKOjqbkix1omWESvsqBCaikoqT4/PjU6qri4AbjCDwn9W76mOTjKSOdNy8
+	 9ctNt2Kp/Z+cfpXvJPlk8fmGVjTHWJmeEWS+ZT5dpAV5n4VUivm2jQjZtnrjXPZMnH
+	 Z5qAHnpNCzQ/uyf5gFbd+fNv/pY+es3X9+eZO7Ju0IpIaoPNig+B4Rf3FJkSnJoo9l
+	 hFyVtqS6UvETJbUIBDqc+1+DjoyXijM6iT93iwagc1HpjmEh7ofYDx8U27+LSPnHlt
+	 hGA+WLR1oBxhg==
+Date: Fri, 16 Jul 2021 16:45:29 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linuxarm
+ <linuxarm@huawei.com>, mauro.chehab@huawei.com,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ linux-staging@lists.linux.dev
+Subject: Re: [PATCH v13 1/9] staging: hi6421-spmi-pmic: rename GPIO IRQ OF
+ node
+Message-ID: <20210716164529.35d3cb0c@coco.lan>
+In-Reply-To: <CAL_JsqJKkLZH7GnhFh=oznFnK+j2b7VVjsfWAWZq47TkqDayOw@mail.gmail.com>
+References: <cover.1626253775.git.mchehab+huawei@kernel.org>
+	<1e7ec01a61916a03e7165e684d8d5b7dc58970f0.1626253775.git.mchehab+huawei@kernel.org>
+	<CAL_JsqJKkLZH7GnhFh=oznFnK+j2b7VVjsfWAWZq47TkqDayOw@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210716102244.581182-2-martin.kepplinger@puri.sm>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Martin,
+Em Wed, 14 Jul 2021 07:36:43 -0600
+Rob Herring <robh@kernel.org> escreveu:
 
-Thank you for the patch.
-
-On Fri, Jul 16, 2021 at 12:22:42PM +0200, Martin Kepplinger wrote:
-> The i.MX8MQ SoC integrates a different MIPI CSI receiver as the i.MX8MM so
-> describe the DT bindings for it.
+> On Wed, Jul 14, 2021 at 3:13 AM Mauro Carvalho Chehab
+> <mchehab+huawei@kernel.org> wrote:
+> >
+> > Instead of using the standard name ("gpios"), use "interrupts".
+> >
+> > Suggested-by: Rob Herring <robh@kernel.org>
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  drivers/staging/hikey9xx/hi6421-spmi-pmic.c              | 2 +-
+> >  drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml | 4 ++--
+> >  2 files changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c b/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
+> > index 35ef3d4c760b..9a7e095246f7 100644
+> > --- a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
+> > +++ b/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
+> > @@ -233,7 +233,7 @@ static int hi6421_spmi_pmic_probe(struct spmi_device *pdev)
+> >
+> >         ddata->dev = dev;
+> >
+> > -       ddata->gpio = of_get_gpio(np, 0);
+> > +       ddata->gpio = of_get_named_gpio_flags(np, "interrupts", 0, NULL);  
 > 
-> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 174 ++++++++++++++++++
->  1 file changed, 174 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+> It's an interrupt, you should be using platform_get_irq() and
+> devm_request_irq().
 > 
-> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-> new file mode 100644
-> index 000000000000..9c04fa85ee5c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-> @@ -0,0 +1,174 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/nxp,imx8mq-mipi-csi2.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NXP i.MX8MQ MIPI CSI-2 receiver
-> +
-> +maintainers:
-> +  - Martin Kepplinger <martin.kepplinger@puri.sm>
-> +
-> +description: |-
-> +  This binding covers the CSI-2 RX PHY and host controller included in the
-> +  NXP i.MX8MQ SoC. It handles the sensor/image input and process for all the
-> +  input imaging devices.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - fsl,imx8mq-mipi-csi2
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: core is the RX Controller Core Clock input. This clock
-> +                     must be exactly equal to or faster than the receive
-> +                     byteclock from the RX DPHY.
-> +      - description: esc is the Rx Escape Clock. This must be the same escape
-> +                     clock that the RX DPHY receives.
-> +      - description: ui is the pixel clock (phy_ref up to 333Mhz).
-> +                     See the reference manual for details.
-> +
-> +  clock-names:
-> +    items:
-> +      - const: core
-> +      - const: esc
-> +      - const: ui
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    items:
-> +      - description: CORE_RESET reset register bit definition
-> +      - description: PHY_REF_RESET reset register bit definition
-> +      - description: ESC_RESET reset register bit definition
-> +
-> +  fsl,mipi-phy-gpr:
-> +    description: |
-> +      The phandle to the imx8mq syscon iomux-gpr with the register
-> +      for setting RX_ENABLE for the mipi receiver.
-> +
-> +      The format should be as follows:
-> +      <gpr req_gpr>
-> +      gpr is the phandle to general purpose register node.
-> +      req_gpr is the gpr register offset of RX_ENABLE for the mipi phy.
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    items:
-> +      items:
-> +        - description: The 'gpr' is the phandle to general purpose register node.
-> +        - description: The 'req_gpr' is the gpr register offset containing
-> +                       CSI2_1_RX_ENABLE or CSI2_2_RX_ENABLE respectively.
-> +          maximum: 0xff
-> +
-> +  interconnects:
-> +    maxItems: 1
-> +
-> +  interconnect-names:
-> +    const: dram
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description:
-> +          Input port node, single endpoint describing the CSI-2 transmitter.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              data-lanes:
-> +                items:
-> +                  minItems: 1
-> +                  maxItems: 4
-> +                  items:
-> +                    - const: 1
-> +                    - const: 2
-> +                    - const: 3
-> +                    - const: 4
-> +
-> +            required:
-> +              - data-lanes
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Output port node
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - power-domains
-> +  - resets
-> +  - fsl,mipi-phy-gpr
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/imx8mq-clock.h>
-> +    #include <dt-bindings/interconnect/imx8mq.h>
-> +    #include <dt-bindings/reset/imx8mq-reset.h>
-> +
-> +    csi@30a70000 {
-> +        compatible = "fsl,imx8mq-mipi-csi2";
-> +        reg = <0x30a70000 0x1000>;
-> +        clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
-> +                 <&clk IMX8MQ_CLK_CSI1_ESC>,
-> +                 <&clk IMX8MQ_CLK_CSI1_PHY_REF>;
-> +        clock-names = "core", "esc", "ui";
-> +        assigned-clocks = <&clk IMX8MQ_CLK_CSI1_CORE>,
-> +                          <&clk IMX8MQ_CLK_CSI1_PHY_REF>,
-> +                          <&clk IMX8MQ_CLK_CSI1_ESC>;
-> +        assigned-clock-rates = <266000000>, <200000000>, <66000000>;
-> +        assigned-clock-parents = <&clk IMX8MQ_SYS1_PLL_266M>,
-> +                                 <&clk IMX8MQ_SYS2_PLL_1000M>,
-> +                                 <&clk IMX8MQ_SYS1_PLL_800M>;
-> +        power-domains = <&pgc_mipi_csi1>;
-> +        resets = <&src IMX8MQ_RESET_MIPI_CSI1_CORE_RESET>,
-> +                 <&src IMX8MQ_RESET_MIPI_CSI1_PHY_REF_RESET>,
-> +                 <&src IMX8MQ_RESET_MIPI_CSI1_ESC_RESET>;
-> +        fsl,mipi-phy-gpr = <&iomuxc_gpr 0x88>;
-> +        interconnects = <&noc IMX8MQ_ICM_CSI1 &noc IMX8MQ_ICS_DRAM>;
-> +        interconnect-names = "dram";
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@0 {
-> +                reg = <0>;
-> +
-> +                imx8mm_mipi_csi_in: endpoint {
-> +                    remote-endpoint = <&imx477_out>;
-> +                    data-lanes = <1 2 3 4>;
-> +                };
-> +            };
-> +
-> +            port@1 {
-> +                reg = <1>;
-> +
-> +                imx8mm_mipi_csi_out: endpoint {
-> +                    remote-endpoint = <&csi_in>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
+> In general, you should not be using of_get_* for any resources, but
+> use the firmware agnostic flavors.
 
--- 
-Regards,
+I've no idea how to convert to use platform_get_irq().
 
-Laurent Pinchart
+I tried to replace the logic:
+
+	priv->gpio = of_get_gpio(np, 0);
+	if (priv->gpio < 0)
+		return priv->gpio;
+
+	if (!gpio_is_valid(priv->gpio))
+		return -EINVAL;
+
+	ret = devm_gpio_request_one(dev, priv->gpio, GPIOF_IN, "pmic");
+	if (ret < 0) {
+		dev_err(dev, "Failed to request gpio%d\n", priv->gpio);
+		return ret;
+	}
+
+Into:
+
+	priv->irq = platform_get_irq(pdev, 0);
+
+But it didn't work (I also tried the platform_get_irq_byname):
+
+	[    1.109586] hi6421v600-irq hi6421v600-irq: hi6421v600_irq_probe:
+	[    1.115676] hi6421v600-irq hi6421v600-irq: IRQ index 0 not found
+	[    1.121751] hi6421v600-irq hi6421v600-irq: Error -6 when getting IRQs
+
+The original DT schema as:
+
+	gpios = <&gpio28 0 0>;
+
+Based on your past review, this was replaced by:
+
+	interrupts = <&gpio28 0 0>;
+
+
+What am I missing?
+
+Thanks,
+Mauro
