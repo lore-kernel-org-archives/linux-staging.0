@@ -1,27 +1,29 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3036672
-	for <linux-staging@lists.linux.dev>; Sat, 17 Jul 2021 15:21:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B453672
+	for <linux-staging@lists.linux.dev>; Sat, 17 Jul 2021 15:38:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1626535259;
-	bh=tXXoy5Es0Q0dbPeU2KJ+zym9Mkvw55FFtd8u2Cxp5YY=;
+	s=badeba3b8450; t=1626536304;
+	bh=iZJzMiq/vESZ2pyqPpRCYJAQLHIcDzTWUIgzTPJmsb4=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-	b=aRZJSREtIzE+4uiC05gQOYr9GnIq2TFZ0SG6BwZs8NValU6x8uX9PUXm/MBt5D5Ew
-	 /xu0Som9b+Km9uTkR82mR1ZKGzQDYGp/iVkbf6LNWY0vNZy4iBgzFrKe8hGwnW+KSw
-	 wc3rVQz9o8ntOHXW864VYU2dNTlg/ZxZ5+l1mnxY=
+	b=WxWI1u3PV381hd3LnI0jFzYt8hfQMwwoDzP5bEDn5qAkU3P2EephUGwGep0G1ZN7q
+	 HuLjve0tVx+vY2SNzQhj6ZJaI9umeoSoHSOFN+8/mh1M3c2U26xJ0WmOGm4mFwJ6N6
+	 G+yB5FfzcPQL0QlANjaV/Ucvejy5roAExHjbfSvw=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([83.52.228.41]) by mail.gmx.net
- (mrgmx104 [212.227.17.174]) with ESMTPSA (Nemesis) id
- 1MGhuU-1lqycK47sY-00DqtD; Sat, 17 Jul 2021 17:20:59 +0200
+ (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
+ 1MGQnP-1lv6943nMz-00GpmR; Sat, 17 Jul 2021 17:38:24 +0200
 From: Len Baker <len.baker@gmx.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Len Baker <len.baker@gmx.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging/wlan-ng: Remove all strcpy() uses in favor of strscpy()
-Date: Sat, 17 Jul 2021 17:20:32 +0200
-Message-Id: <20210717152032.10164-1-len.baker@gmx.com>
+Subject: [PATCH] staging/ks7010: Remove all strcpy() uses in favor of strscpy()
+Date: Sat, 17 Jul 2021 17:37:59 +0200
+Message-Id: <20210717153759.13468-1-len.baker@gmx.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -30,28 +32,28 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ONFjZjKHXxiFZ6UXDTigslUGgSmZsTB07Y4R78L8upIGy0s3Fj+
- c8k1BVcFhjIU4AdpW8BICQgnRQtlEQEQoHX/0nAsofh9K3EYtMQ7lUQdgiFcVASeIKv7ICz
- y/MKO0iVcs8ho/d0Rmflx+U3q/7xyEN3BKFZ3H/xlVERvEp0rl4s+SFLAgQxFMoeAet3HVl
- UolEp85WIKQTkkKqzlYzg==
+X-Provags-ID: V03:K1:DKK2exlaQxwebtcjUBUsZXnGR2wcU/rdSgHOz1LAEFdMxSF7p78
+ cnPT0opL08BKaEjM2CCsl4i+zbwxMqopwc5VuItZ9oc8HJT+yq81aic3EgK4K2UvoThU91s
+ /E8qiqad79vEDThG6GQh7gFHsS5megGJTfsKHUo892/FfGa4kLtaXcvVuXGVI6xeb5Gs58h
+ ISBIiM4I+16yjsPF0KfmA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:orMTpdMwofI=:EY6CrNuKcyvelk8IYc0BDk
- 5xRr6kj2wkhqmgvWYMm+06095dB/SO0//lH/UMqKEu1cTU973XlqU/JEaC5Roz1xxtYUQtubv
- sCgSYa9+fr69qankVmb/YKnhAtM+4/rK6+f1bL0+s8PrYMfxhHyEs71B3iam63B/cm6jyjUaW
- Zem4ZmN+zhruuwprL5aVIKB8ecgBOmB/GfglrO9sg8CGWskcNp61VU0S5nkOihoMYv058FSrB
- h1TDs9GB5iPhWcho7ulubsdpzXNDL1/0G0yWIqt3aw5DvmVoRlN1JLWbXopWQMReB8tycL1yP
- lxJQCvv22Dql+28FUrYwAmME3eMcVZPJqJPq3/VeVXuFI8VkWhEPdTWxUbixRfxz2JDRyoQ2P
- 6q/MWlaHIVXrJH0Hgywk9FAw+hAdg1C2/thy++ov6LP+Z5BOsogfat5hCL1OrJVCx7QoxIRdR
- AuWg93/pgNOX7oyLRCGSQ+8/uXQr50WZSL5LFszDZAjjUmBKUxaR5y7RpqlKesUhSocdid/BU
- 6API1kOt23rLIwj7Ei+sEoee2IVvHN8TLrJYxzLs3L7sPPgfPB4LRCaQpv0c5uQEpUF1S9BJR
- Vz/AyM5VDDNfIXkV2mMfWBPyo33HVcOS2p1EiQzcX1olRSAlXqfLtzIYMTRDhFMMXG1ghdIhW
- p6O3j7kqRX8cQ/aaYrt3BTGY95vD+twO/VwbhoQqM/JHml2GYPU2odMh1QDebOQqApQWLe+hT
- w4HgmLe5c9q9Pfa9FTCC7nSkdB39r/wcx63YUbwFuKtbzsZm0orCx7U5mGGSmxdmXJZCmjhjY
- 9vY3KEJ1FC3hKcWgX+jkP4AnCzaLvL7nvzYb/0E/pvSFOPsAO44vNlqF5k2cBsoNKIPjBlTfu
- +QO/X+7ozPBG0w7WiejEbn+FeipkZdkG0Mt0ItxWRpqQvi7st6JAw68LYeN1F2CwIu/X33Ggz
- AIJ16KSl7qkknzRj2YTgu2sFRsU4TTFbGNmdbcuNNnHyHsseeQaQ5qaXL+RLtkR4twfCwV9W4
- JIVYam/Oi1axrfaQyCKl2VDSVYljYru9JoI2LSI5zkx6hBAUNssnb1HuTmJxNl/8oxityTYBg
- FAQbOmyoqnojss3Mg90i0uv4Aap4IH8KLuz
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qEpoHoAWcqA=:7lYDvzrpcfy+7Og0JsmaU6
+ Bxa0t/lDZ28zzMPmuNF951Qk3cCqJ51KihfxZaM1I6CIVFH113bj3xXVNRuen6ncH1p7nSZua
+ dZHDsMJy50Hfrdslycm5o7Nz80VHGE4r1o2R4djUVY9Mf/BXTw3tqAHkoxGs0XLpX760UyDvF
+ h+lxRSul3MoZPHZTh6LxyMd9jjLsfWg9Z9UFVhrfnAOdlOV/31fJEaSIeyyImWn7rJjwlIUaV
+ g3ErzY6zVbPiUnF9EVXthOPJfDQxICcMawx4XsMcW5YsdQKu6P2ABkl2PqfpbcrgKHzrrFhWG
+ tyg+Kv8qN4gwPv9PWev+epehaxlC5T9Pz2b/dT7rU56W87OomObYKdqXnN19Ka/Q9TnIZw5sy
+ q+P9tW8IqbArE1lpz/CYv7/ghThB/ycn+5YJ0gojEO29YQuh5sv2a2p8TrL+OZPsSEbjN3mUH
+ ZtAPb7OAnm+HvWvDDrXc9UcsryQJ7j41darlgdZLb/r11kuJDRS/TMKVlaKpEIpXe7C0W3+bH
+ aK/hk/wvv30byuWs5+j69uKoogWVUw7IVBlhki8zkAnGXRoAOpjLxhAaNR89wC4ulGyb/J41r
+ bfHawYK1fGkPqCieFAjmzBpB5uIJaIYg9hy8bLcMXaxqPsFmYMlhUjL+KH0HAFOWpjJVbUSDT
+ HNhA15n+7Q0PBwC2/wGH+l5VDYUceYXQpWG/MRQOqzTgnNeuN61u2M5ptjqXeCjS/DLCDqYlU
+ zf8LTyUNx1lfiiXiRMidb1n32ybg6tFV1eA6YotiZ9w7OGojizUVAnDwKiEl/yi8npJ6it634
+ D2gffosUAd7QBl1+FpMzmrPW/rb+b6zu8q5imYE39xKiFC5j6V/l2pDQnNDa4jwMnp9z15Li9
+ xHeVJYNd7Csgyaa0h2T6GSgJpwrm/jw/CMWidLt6jjLJTIDqT0AG7dvx/24cpex2n5H/2Bq+y
+ myeAOnOyaYcvh01KlkztA2WU+6Vf0kIMo0Gyd+U6bgX7NVlNtKGozJd+GOWEqJr+vKI7gGYxT
+ R8Pz4wwkBK8e/ZjLZwSvhxXq8DiJf18bBSIo8E1dbbYyrrHxDGvHncD+carpbr8/Ebx6YIVia
+ ZC2gcMYRgpn4iwU6BLBjujoDf3L2oU06Glo
 
 strcpy() performs no bounds checking on the destination buffer. This
 could result in linear overflows beyond the end of the buffer, leading
@@ -59,54 +61,42 @@ to all kinds of misbehaviors. The safe replacement is strscpy().
 
 Signed-off-by: Len Baker <len.baker@gmx.com>
 =2D--
- drivers/staging/wlan-ng/prism2fw.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/ks7010/ks_wlan_net.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/wlan-ng/prism2fw.c b/drivers/staging/wlan-ng/=
-prism2fw.c
-index 94800c007162..02a2191d5c4d 100644
-=2D-- a/drivers/staging/wlan-ng/prism2fw.c
-+++ b/drivers/staging/wlan-ng/prism2fw.c
-@@ -296,7 +296,7 @@ static int prism2_fwapply(const struct ihex_binrec *rf=
-ptr,
- 	memset(&getmsg, 0, sizeof(getmsg));
- 	getmsg.msgcode =3D DIDMSG_DOT11REQ_MIBGET;
- 	getmsg.msglen =3D sizeof(getmsg);
--	strcpy(getmsg.devname, wlandev->name);
-+	strscpy(getmsg.devname, wlandev->name, sizeof(getmsg.devname));
+diff --git a/drivers/staging/ks7010/ks_wlan_net.c b/drivers/staging/ks7010=
+/ks_wlan_net.c
+index 09e7b4cd0138..7a38b1ceeb5c 100644
+=2D-- a/drivers/staging/ks7010/ks_wlan_net.c
++++ b/drivers/staging/ks7010/ks_wlan_net.c
+@@ -158,13 +158,13 @@ static int ks_wlan_get_name(struct net_device *dev,
 
- 	getmsg.mibattribute.did =3D DIDMSG_DOT11REQ_MIBGET_MIBATTRIBUTE;
- 	getmsg.mibattribute.status =3D P80211ENUM_msgitem_status_data_ok;
-@@ -786,7 +786,7 @@ static int read_cardpda(struct pda *pda, struct wlande=
-vice *wlandev)
- 	/* set up the msg */
- 	msg->msgcode =3D DIDMSG_P2REQ_READPDA;
- 	msg->msglen =3D sizeof(msg);
--	strcpy(msg->devname, wlandev->name);
-+	strscpy(msg->devname, wlandev->name, sizeof(msg->devname));
- 	msg->pda.did =3D DIDMSG_P2REQ_READPDA_PDA;
- 	msg->pda.len =3D HFA384x_PDA_LEN_MAX;
- 	msg->pda.status =3D P80211ENUM_msgitem_status_no_value;
-@@ -1017,7 +1017,7 @@ static int writeimage(struct wlandevice *wlandev, st=
-ruct imgchunk *fchunk,
- 	}
+ 	/* for SLEEP MODE */
+ 	if (priv->dev_state < DEVICE_STATE_READY)
+-		strcpy(cwrq->name, "NOT READY!");
++		strscpy(cwrq->name, "NOT READY!", sizeof(cwrq->name));
+ 	else if (priv->reg.phy_type =3D=3D D_11B_ONLY_MODE)
+-		strcpy(cwrq->name, "IEEE 802.11b");
++		strscpy(cwrq->name, "IEEE 802.11b", sizeof(cwrq->name));
+ 	else if (priv->reg.phy_type =3D=3D D_11G_ONLY_MODE)
+-		strcpy(cwrq->name, "IEEE 802.11g");
++		strscpy(cwrq->name, "IEEE 802.11g", sizeof(cwrq->name));
+ 	else
+-		strcpy(cwrq->name, "IEEE 802.11b/g");
++		strscpy(cwrq->name, "IEEE 802.11b/g", sizeof(cwrq->name));
 
- 	/* Initialize the messages */
--	strcpy(rstmsg->devname, wlandev->name);
-+	strscpy(rstmsg->devname, wlandev->name, sizeof(rstmsg->devname));
- 	rstmsg->msgcode =3D DIDMSG_P2REQ_RAMDL_STATE;
- 	rstmsg->msglen =3D sizeof(*rstmsg);
- 	rstmsg->enable.did =3D DIDMSG_P2REQ_RAMDL_STATE_ENABLE;
-@@ -1030,7 +1030,7 @@ static int writeimage(struct wlandevice *wlandev, st=
-ruct imgchunk *fchunk,
- 	rstmsg->exeaddr.len =3D sizeof(u32);
- 	rstmsg->resultcode.len =3D sizeof(u32);
+ 	return 0;
+ }
+@@ -1808,7 +1808,7 @@ static int ks_wlan_get_firmware_version(struct net_d=
+evice *dev,
+ {
+ 	struct ks_wlan_private *priv =3D netdev_priv(dev);
 
--	strcpy(rwrmsg->devname, wlandev->name);
-+	strscpy(rwrmsg->devname, wlandev->name, sizeof(rwrmsg->devname));
- 	rwrmsg->msgcode =3D DIDMSG_P2REQ_RAMDL_WRITE;
- 	rwrmsg->msglen =3D sizeof(*rwrmsg);
- 	rwrmsg->addr.did =3D DIDMSG_P2REQ_RAMDL_WRITE_ADDR;
+-	strcpy(extra, priv->firmware_version);
++	strscpy(extra, priv->firmware_version, sizeof(extra));
+ 	dwrq->length =3D priv->version_size + 1;
+ 	return 0;
+ }
 =2D-
 2.25.1
 
