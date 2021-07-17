@@ -1,30 +1,28 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9519172
-	for <linux-staging@lists.linux.dev>; Sat, 17 Jul 2021 15:52:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC10472
+	for <linux-staging@lists.linux.dev>; Sat, 17 Jul 2021 16:05:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1626537126;
-	bh=mZcP3QmI7YItRwoSRYnjV0gfYLGImu6x7tc+Qai8wIQ=;
+	s=badeba3b8450; t=1626537934;
+	bh=Ghd1MT9V+KwVdIuSzG7J4EaSOKi8X4pveUIBghprPd8=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-	b=hsKpqVOZ3p7sWvpcDkUU01YH+SeIlBaRhzd4uMxBYC/yOl6zyp61HmktWIY/36gGR
-	 lMN8wm17G1tB/NYk9x2rpE1wUb1tj6I+DWIiRENBz4JDrj2BsHZT2LBtL04CkcNIuR
-	 zWFgliqBtNkW5a8M2sl0s2Y/1vNG3gFOr88vYsIg=
+	b=WncT9rg7u2ldGIfX0LXPAE51RVQAGzC6ZnRb+/bInJr/n2zuV28V+KpyRboDE6SAg
+	 D5ZQEFfVEAGeMdAIVz0FEBvqAtXuV6LuX4Y4TR0EaFGq7Cy58aoJvPM5iiufzM42Yb
+	 L1Phhcz99FEULJtZ3otk1Jt4g/C7g5b9JswqL/w4=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([83.52.228.41]) by mail.gmx.net
  (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1MgeoI-1lUJje2GA0-00h3sX; Sat, 17 Jul 2021 17:52:06 +0200
+ 1MLzFr-1lnOOK3Nvl-00HwgC; Sat, 17 Jul 2021 18:05:33 +0200
 From: Len Baker <len.baker@gmx.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Len Baker <len.baker@gmx.com>,
-	Pavel Skripkin <paskripkin@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging/rtl8712: Remove all strcpy() uses in favor of strscpy()
-Date: Sat, 17 Jul 2021 17:51:45 +0200
-Message-Id: <20210717155145.15041-1-len.baker@gmx.com>
+Subject: [PATCH] staging/most: Remove all strcpy() uses in favor of strscpy()
+Date: Sat, 17 Jul 2021 18:05:12 +0200
+Message-Id: <20210717160512.16176-1-len.baker@gmx.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -33,28 +31,28 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:5C1c4EKwqwdWzS1m8cugGHgErNfVnZaBAsgwiLEyAvM7mbWHFh6
- 3dPzuepBGkRvzS6i/eiEy9tk2c+MCnBxRn757yPDgAmfn3NbFT7qTul3SG2DocmU/96FEoe
- GsGpaKKgIIO7UDxOv+2O/8x2/9RmZkrEnQYa6NxCRbl1CAqv0zmt4T/HfkyNl1CJQSMCVkn
- ZS54E7eEKFAJOoUSZqPVg==
+X-Provags-ID: V03:K1:JiIDoT8iq7qCoDuc3OufKWmgn5NfwOimhPLxZdvokGdKQ4k9jhr
+ JV8UwliakEeM4R3K3WrrolsL/05EX4Oe+YAQAlHsPKgdczmk2P+ILPuj3rETkEmAprkHgbD
+ plQlYSGIi9y6dPa72D7f1FiU6ZCrztL09FdgEJqox2K/Kh1RiZ6gsWIdaADHiC1LtGe64W/
+ k6fyNm59K9Cn7RZVh/b0g==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:00IjXtN2iM8=:8GT4FY/lAjE2z6TxXsschr
- h7HSls1qOnKtKjqOTnzolJHU+2Flj2+roAGKB6ppp2N21u5YZVLJ/64gxl7CDdAKnQog4c1iD
- uKbC/V05Zc3yxm6FBcG94TXswtdYY9W0Io71tzSqdLnrtQJqgPjF6jYTNQmRlI7UcgD914Y5q
- W8uHaVEIphKt1jS2xcQEl8RoJ5lKQXUc9Z72FQ08wYJaff8DhgXt2hr4+XMnz6FKX4Oqh832d
- u5yr5AEu4f7OJb9vJD1PXr8amodxKt+0k5czt/hRSfl61l+aWuVnYBxg+g3tn6c2NdGbBPBQ+
- pCenu4efjCn+CpUrP/ls1HMk7c8SwOZF+Ij8/MKq+H4qJqNsZsu8QAQTmapM/Tri3xvxpiojI
- PEuSnh8CDAwTe+ysfQoVRYSg+Jm+Gd9/sdwNaCMRUiEBx4f/9UzI/1k6ZFBJgGzXB7rQBWBdk
- 8bFkqTAimOgZOtu/x/nBqlokyZMzdD2h37jVP1XOC0lH4crqLACIXUyg+H+htAAb4Ejm8ISwm
- KRufPyjvzRaC+a9/VTfluE2lcBW5mQ6ayDjFZsN7JLOlwD+FwbccEYpi3Dy1KT89DMEj4zg/2
- SW12lqlRcjx0/Qs36ZE++qCmxPpAaRMuJFecP5MQWZmYQTplqpzsREeeL+W91bs5DjJEPkqkY
- p5UZNSOYmsy2tY/K43LhLDPmTfWuOpys45M4SipCCrx9SfpahQ8az1WVfNCJT67/malL8bSG/
- utXNRGEFlkDSo6Cb3hbC2M4qWW+ShEnUxWzlP6mjYDtwHG0AvK3zmsHmh0Qo2eMD8p1PRArjX
- kWGYiQztd3LCTh3lyCvj4H8Qlh3wke+lexIzIwQEuyhB5DCkaQ6sVWWM2WA6DsbgYBJInW4gJ
- Hk/V06UCvBe7d5lXOq6KZISfXQSBlq+uCuosqqAvLYfE0+rLvd1KA59lCulT1HGxCAK1PFODD
- gspNP4EmkKfMQzCMopeueZ3N06YD3SiqW03HnblJ5aneZyT0uPnE05MStMQXs1fVXw3o9cdAa
- nFoVdvEEX9rTVnyMv2T0WNbBCk6suQ077V9WUtSW8v8O7GH7nB2hM8+oBy45Pg82kkp5dAetu
- 70ecFhQAks8caXhhkq9+/nw+UkAZt7Kmz9V
+X-UI-Out-Filterresults: notjunk:1;V03:K0:4OFPtviAT50=:NO2zq/7nEX57HNYw4jBaZz
+ jcF3RPLXNwOfpIxe0BuLbFSmXEaiXkuZM1KtgiMQBQDaJcMP9rU13CMig/Lb8Mxg+Ap8uqMUi
+ 5ucRUG7l61MIBAl2HOzSDsILNJdneFjq0i24uxrQihr7O6N2XZQh7QTRPRKBCF8NBKuuI1TNh
+ hhx2H440FUQQQiFeMtgaPFWRYX29PKFD9CPKmZdXunT1uAJWOpmvpvojTY5GucNpXVUovj1xQ
+ N/a0xyaWP5+bsRS0Bg2GT3G4u/IFFsa5DnpaAG5npXQEPW8d3c0/FNa4g8SAPMvvRe358GR03
+ 5/AZ5oBEiOWpUmUYrZnDBBNPuz52RQe/YkWuUE5eKseRJsO7XGKJPStIhRYiEDlUmKiwvL8SW
+ +PWmiwW+A0UICn3UV0kApmjapdzEYZsharufG+gFYNAwXgmxBZQ//mqiJ4+lZwFRXwBeA2Az7
+ XodCHq1hQFF8L4rFyWsjeTs+V+UqaTrGxm0yF4FNzkHyr595TG8IEcNnNBMnJ4LPozYiUZyxY
+ txXU6jZl+rVuzBeDzj4LuwD5bzQ5lqVZAQZY+lln+U7e3tmJRIqFmR0XU3q4jiaakh3aqyhBS
+ VJ7O6ZXbjShS7oSJAHoWDsMpRcg+8zVbxl8F9rRiLOUp8udJXh7BdcqofqhityxbiybmeoZhE
+ 1UDo2QiK+zoVYZAJDdP5cbktb2xqi09iuD3/xgAAtP4pApHrx1C9nMyPFFqcbt7EwzJB9QhtR
+ 63BhELlAaD3ct5dRaJtnNCppfwu+o6NYDv5+Z30UxhKoHHB36DAe/7i3A7eQD5A8Y9/+bdqbp
+ efQas28vXRXqcHCeaWxxoIoaQ2TYZJRfpMhNjco2vp5f4OGKzmggXTKY0U6nU4Qoa1VZM9ZGm
+ tFqVR6dyd6ivZWmIMOj66A0Cfk4shIc68GqYCQlEGfZ2kty0TT693K2DfFqEdAxXad6z9cZkd
+ uMbkReTFyHhEdobnR0ZVUSsHU46KztGdK/UmB4Ns1xivBUS1oNv21hVKX44s0H7Pl5TUlDsqJ
+ JShTr7/RjTQajIxvJLzpp3vL57EqGT+cqfGb7ltHRl2amYWKbJ7k9kWGwH+sFBCya+87rKDBO
+ oXKOK0veWGUF9GO51lxkZMenq2IqtJZfwNR
 
 strcpy() performs no bounds checking on the destination buffer. This
 could result in linear overflows beyond the end of the buffer, leading
@@ -62,23 +60,34 @@ to all kinds of misbehaviors. The safe replacement is strscpy().
 
 Signed-off-by: Len Baker <len.baker@gmx.com>
 =2D--
- drivers/staging/rtl8712/os_intfs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/most/video/video.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8712/os_intfs.c b/drivers/staging/rtl8712/=
-os_intfs.c
-index 2214aca09730..9502f6aa5306 100644
-=2D-- a/drivers/staging/rtl8712/os_intfs.c
-+++ b/drivers/staging/rtl8712/os_intfs.c
-@@ -203,7 +203,7 @@ struct net_device *r8712_init_netdev(void)
- 	if (!pnetdev)
- 		return NULL;
- 	if (dev_alloc_name(pnetdev, ifname) < 0) {
--		strcpy(ifname, "wlan%d");
-+		strscpy(ifname, "wlan%d", sizeof(ifname));
- 		dev_alloc_name(pnetdev, ifname);
- 	}
- 	padapter =3D netdev_priv(pnetdev);
+diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/vid=
+eo/video.c
+index 90933d78c332..b7858e47145f 100644
+=2D-- a/drivers/staging/most/video/video.c
++++ b/drivers/staging/most/video/video.c
+@@ -258,7 +258,7 @@ static int vidioc_enum_fmt_vid_cap(struct file *file, =
+void *priv,
+ 	if (f->index)
+ 		return -EINVAL;
+
+-	strcpy(f->description, "MPEG");
++	strscpy(f->description, "MPEG", sizeof(f->description));
+ 	f->type =3D V4L2_BUF_TYPE_VIDEO_CAPTURE;
+ 	f->flags =3D V4L2_FMT_FLAG_COMPRESSED;
+ 	f->pixelformat =3D V4L2_PIX_FMT_MPEG;
+@@ -306,7 +306,7 @@ static int vidioc_enum_input(struct file *file, void *=
+priv,
+ 	if (input->index >=3D V4L2_CMP_MAX_INPUT)
+ 		return -EINVAL;
+
+-	strcpy(input->name, "MOST Video");
++	strscpy(input->name, "MOST Video", sizeof(input->name));
+ 	input->type |=3D V4L2_INPUT_TYPE_CAMERA;
+ 	input->audioset =3D 0;
+
 =2D-
 2.25.1
 
