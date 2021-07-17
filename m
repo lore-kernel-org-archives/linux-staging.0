@@ -1,23 +1,23 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540A22F80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50DD917F
 	for <linux-staging@lists.linux.dev>; Sat, 17 Jul 2021 09:58:24 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C7EF1613E7;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CF440613ED;
 	Sat, 17 Jul 2021 09:58:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1626515903;
-	bh=pCvPAQUvZF6DwFzjcFxZOIYV0jUdMVA/6gwY2ZgoD2o=;
+	bh=ASkrNuiKvREnI2srww2NLe/CKuKLQYS6oZ5vLC6EqZg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PuthTdT94cZqn0nENHPQkNJslyaDxr5mS7nqDvIxLvUY5uZyzzncPdvpI7041Hd3M
-	 cVX9oAcOm2/TgSS5ufXRv7LpbFpJdqYFs1Gy/pa94rzeDDmUG/2Q7wiXbhGCOMkKkv
-	 kFnSQ34iyxYMr1iHZYuG3pm6noQ9D5HhwtK4rpbWvjci1v6bP9gz5WX83LYHVv23p0
-	 CaAIZhmszmIBEEudAkZ9nvw5Uhc+Ve8GXWDN4gAkARtmZxN0PgHIfBp0U0exM7uWaV
-	 eXVL81UOZFswaxr4ZkhXGoQInjLm/tgHjS+Fnd/L/y9kVMmMOa5rIw/MsxjDARrYzC
-	 Vt/GugmYATI2w==
+	b=TeLOuLGvA+F1FgsshH7MX1cQbZwxaMCbKBAkA8P7/Y8gF4WeRexifXQ5cL9sPg0av
+	 usoKcOvfNoAQ/9Tr5HJ/3Suf5ObEk5XcND9OaAH3S2SAOoa/wBcMeUxl1/4eXnr2WS
+	 CXaF4p0ZkCuBHAbsxWhGnWlNJu+YbdJ2GKVYWYy0WQ5u17/5djUbjOC6BkHFQu3fuS
+	 CbgkEqN8OKzQpoEtFqy8N2ABltDXkOcGbhXeZGNH/fEqcPLXMKX2spftcHkXhmUP/m
+	 DYNm92B1HGVWYuDfg/LtFB+nxZCcY3BWUupFtETyZ/lHF05eyMIUl4hL9zBIjvnYjP
+	 DavG2L+c4lzug==
 Received: by mail.kernel.org with local (Exim 4.94.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1m4h5R-0007K8-T3; Sat, 17 Jul 2021 11:58:21 +0200
+	id 1m4h5R-0007K0-PG; Sat, 17 Jul 2021 11:58:21 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linuxarm@huawei.com,
@@ -25,9 +25,9 @@ Cc: linuxarm@huawei.com,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v14 3/9] staging: hi6421-spmi-pmic:  add a missing dot at copyright
-Date: Sat, 17 Jul 2021 11:58:14 +0200
-Message-Id: <8e280ebe4e577e6c2d919346868f0d27f98ebd49.1626515862.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v14 1/9] staging: hi6421-spmi-pmic: rename spmi_device struct
+Date: Sat, 17 Jul 2021 11:58:12 +0200
+Message-Id: <758e98d7f59d739b68b33723a02aca8b9464f8da.1626515862.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1626515862.git.mchehab+huawei@kernel.org>
 References: <cover.1626515862.git.mchehab+huawei@kernel.org>
@@ -40,27 +40,51 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-The Huawei's copyright is missing a dot	at the end. Add	it,
-in order to make it similar to the other two copyrights.
+Let's not call a pointer to spmi_device as pdev, as it is
+something else.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/staging/hikey9xx/hi6421-spmi-pmic.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/hikey9xx/hi6421-spmi-pmic.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c b/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
-index 61cbd2e62f68..0ffd8b7fecf5 100644
+index 35ef3d4c760b..dd7ff63214d3 100644
 --- a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
 +++ b/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
-@@ -4,7 +4,7 @@
-  *
-  * Copyright (c) 2013 Linaro Ltd.
-  * Copyright (c) 2011 Hisilicon.
-- * Copyright (c) 2020-2021 Huawei Technologies Co., Ltd
-+ * Copyright (c) 2020-2021 Huawei Technologies Co., Ltd.
-  */
+@@ -213,9 +213,9 @@ static const struct regmap_config regmap_config = {
+ 	.fast_io	= true
+ };
  
- #include <linux/bitops.h>
+-static int hi6421_spmi_pmic_probe(struct spmi_device *pdev)
++static int hi6421_spmi_pmic_probe(struct spmi_device *sdev)
+ {
+-	struct device *dev = &pdev->dev;
++	struct device *dev = &sdev->dev;
+ 	struct device_node *np = dev->of_node;
+ 	struct hi6421_spmi_pmic *ddata;
+ 	unsigned int virq;
+@@ -225,7 +225,7 @@ static int hi6421_spmi_pmic_probe(struct spmi_device *pdev)
+ 	if (!ddata)
+ 		return -ENOMEM;
+ 
+-	ddata->regmap = devm_regmap_init_spmi_ext(pdev, &regmap_config);
++	ddata->regmap = devm_regmap_init_spmi_ext(sdev, &regmap_config);
+ 	if (IS_ERR(ddata->regmap))
+ 		return PTR_ERR(ddata->regmap);
+ 
+@@ -281,9 +281,9 @@ static int hi6421_spmi_pmic_probe(struct spmi_device *pdev)
+ 		return ret;
+ 	}
+ 
+-	dev_set_drvdata(&pdev->dev, ddata);
++	dev_set_drvdata(&sdev->dev, ddata);
+ 
+-	ret = devm_mfd_add_devices(&pdev->dev, PLATFORM_DEVID_NONE,
++	ret = devm_mfd_add_devices(&sdev->dev, PLATFORM_DEVID_NONE,
+ 				   hi6421v600_devs, ARRAY_SIZE(hi6421v600_devs),
+ 				   NULL, 0, NULL);
+ 	if (ret < 0)
 -- 
 2.31.1
 
