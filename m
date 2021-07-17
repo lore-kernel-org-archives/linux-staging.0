@@ -1,40 +1,52 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5601B72
-	for <linux-staging@lists.linux.dev>; Sat, 17 Jul 2021 09:58:25 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CD05B613EB;
-	Sat, 17 Jul 2021 09:58:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1626515903;
-	bh=hEDyKMft1tTRZgm72hCGwNbegTN44LPfnvf2ahJ5RTs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lclozRcOCaOHpAawMoM5N3jMMQ37qh8FXIChJ8EwLXUTt+n1Z0pkbfXJ4IhmqdK7y
-	 V5WMlIc8RvmYTclOkc6vIq5LYyAi14et391LtPQMC2072Qx+orkMIQz6TEDI5Oflky
-	 K0V9Ig0IX1K4P/PgVz6YxS6RTzqxXoyCyhVw/+ywikTA1R/9+JWTyNCNjro2lCScVN
-	 4qKcxs8n0hxSQGqu3Y0E4JY/kdhhi3K1gtibSYiDbEGJOXkCb1BpsrGvJDNfKmHD2h
-	 jHhfQ1PKrvslxr7098ZRy5mo9zXfMdLSTDy4cUV8BTNRapNlhMBimhWegxnz4e5JBV
-	 rToL9pBLfC8iA==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-	(envelope-from <mchehab@kernel.org>)
-	id 1m4h5R-0007KG-W0; Sat, 17 Jul 2021 11:58:22 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linuxarm@huawei.com,
-	mauro.chehab@huawei.com,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Lee Jones <lee.jones@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v14 5/9] staging: hi6421-spmi-pmic: cleanup drvdata
-Date: Sat, 17 Jul 2021 11:58:16 +0200
-Message-Id: <723edefbb2e9ce0b70d9c7bce95f288e3ea1f5b1.1626515862.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1626515862.git.mchehab+huawei@kernel.org>
-References: <cover.1626515862.git.mchehab+huawei@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F4272
+	for <linux-staging@lists.linux.dev>; Sat, 17 Jul 2021 14:56:55 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id l7so15516484wrv.7
+        for <linux-staging@lists.linux.dev>; Sat, 17 Jul 2021 07:56:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3rld2y4g3oKdC1plK0u/GeRkKkJxxY7jgCFCd5QmmiI=;
+        b=dEnJvbFyIWpioDrk7Cjp9ER9a8Wty7gUM8B2lyId6bjBkwevFBYKNS8t/I3AyY8Qdx
+         AFHUpyQE1xBRyRxhbCe61oDMmU960OvAjJeyEgSwk9T5gk/5i74BixC7+sqHOM4N8yDJ
+         BueZNOAwv0TBd5ReCzJ89I+7YciplQKgi2+prRpUcFjk8DFrNNh29nEoq4RU/8OsmSlv
+         yqrhIBuVYlghbocwqMboTAPrGZmilWfy10tpQ0osTY1JLZ3FpoBEZkFp4kEc798SD0Is
+         5XH4z4IPiFh7TYt4Kzj9+BD7Zpdt6umQzL3CbQ7Q/oKdBCbfUekHAYCmF1z9SDWO4+Ww
+         rDpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3rld2y4g3oKdC1plK0u/GeRkKkJxxY7jgCFCd5QmmiI=;
+        b=QIQKIL45rhzd0tIyoOPGnxP+weOyDGXAJAadz6C3Fu0FNn1KFM+Q+9Dc9M4OUnctR2
+         9yYWnsu9IaxT8I6aEw+tRe3cXgYTa9QQN0XwPy0yVYupkfrUfO1LakjErnPX4zBgKxy9
+         m5gJiiMKBLESiBJQCPyGBuk8FS6Chgw1BAsDRK+OgfYMRj7HGCNlVP56gQzITuDXeh7i
+         oXwTHcCrGhK7JGyTc2k8FIi9tjZYyKqBp5fe3+A3ix1TD4kQNYmZ2cErHz74y6mjkBdQ
+         jCi6nDUloSvfErjwjQBbJ6Pm6WgKE6kUi8I4TOR+kloKelnVFqyN/6h/0bcLIZkHNfm5
+         DTsg==
+X-Gm-Message-State: AOAM531NV2EBluYfJv/M1dxwggs+bo2gGZfZsjb3CK8UNqf+imuBE/kK
+	d8CLLEC3aWfx5DP4i9uqltE=
+X-Google-Smtp-Source: ABdhPJzoqAlgjnQd8+QeC7of1G75LpwzUvcEEOTR2mAdDmt84TAKR4/DvNxjz4qBOCh0NAv0qG6lUw==
+X-Received: by 2002:a5d:434e:: with SMTP id u14mr3802047wrr.378.1626533813549;
+        Sat, 17 Jul 2021 07:56:53 -0700 (PDT)
+Received: from agape ([5.171.72.101])
+        by smtp.gmail.com with ESMTPSA id a207sm16851597wme.27.2021.07.17.07.56.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Jul 2021 07:56:53 -0700 (PDT)
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: dan.carpenter@oracle.com,
+	hdegoede@redhat.com,
+	Larry.Finger@lwfinger.net,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 00/10] staging: rtl8723bs: add get_channel implementation
+Date: Sat, 17 Jul 2021 16:56:41 +0200
+Message-Id: <cover.1626533647.git.fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,178 +54,38 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-There are lots of fields at struct hi6421_spmi_pmic that aren't
-used. In a matter of fact, only regmap is needed.
+This patchset adds cfg80211 get_channel implementation.
+One of the benefits is having displayed channel info
+in iw dev output.
 
-So, drop the struct as a hole, and set just the regmap as
-the drvdata.
+Done some code cleaning as well.
 
-While here, add a missing dot at the Huawei's copyrights.
+Tested-on: Lenovo Ideapad MiiX-300-10IBY
 
-Acked-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/misc/hi6421v600-irq.c               |  9 ++++----
- drivers/regulator/hi6421v600-regulator.c    | 10 ++++-----
- drivers/staging/hikey9xx/hi6421-spmi-pmic.c | 16 +++++--------
- include/linux/mfd/hi6421-spmi-pmic.h        | 25 ---------------------
- 4 files changed, 14 insertions(+), 46 deletions(-)
- delete mode 100644 include/linux/mfd/hi6421-spmi-pmic.h
+Fabio Aiuto (10):
+  staging: rtl8723bs: add get_channel cfg80211 implementation
+  staging: rtl8723bs: convert IsSupportedHT to snake_case
+  staging: rtl8723bs: fix camel case issue
+  staging: rtl8723bs: fix camel case name in macro IsLegacyOnly()
+  staging: rtl8723bs: fix camel case in argument of macro is_legacy_only
+  staging: rtl8723bs: fix camel case name in macro IsSupported24G
+  staging: rtl8723bs: fix post-commit camel case issues
+  staging: rtl8723bs: remove unused macros in include/ieee80211.h
+  staging: rtl8723bs: fix camel case name in macro IsSupportedTxCCK
+  staging: rtl8723bs: fix camel case argument name in macro
+    is_supported_tx_cck
 
-diff --git a/drivers/misc/hi6421v600-irq.c b/drivers/misc/hi6421v600-irq.c
-index 08535e97ff43..1c763796cf1f 100644
---- a/drivers/misc/hi6421v600-irq.c
-+++ b/drivers/misc/hi6421v600-irq.c
-@@ -10,7 +10,6 @@
- #include <linux/bitops.h>
- #include <linux/interrupt.h>
- #include <linux/irq.h>
--#include <linux/mfd/hi6421-spmi-pmic.h>
- #include <linux/module.h>
- #include <linux/of_gpio.h>
- #include <linux/platform_device.h>
-@@ -220,7 +219,7 @@ static int hi6421v600_irq_probe(struct platform_device *pdev)
- 	struct platform_device *pmic_pdev;
- 	struct device *dev = &pdev->dev;
- 	struct hi6421v600_irq *priv;
--	struct hi6421_spmi_pmic *pmic;
-+	struct regmap *regmap;
- 	unsigned int virq;
- 	int i, ret;
- 
-@@ -229,8 +228,8 @@ static int hi6421v600_irq_probe(struct platform_device *pdev)
- 	 * which should first set drvdata. If this doesn't happen, hit
- 	 * a warn on and return.
- 	 */
--	pmic = dev_get_drvdata(pmic_dev);
--	if (WARN_ON(!pmic))
-+	regmap = dev_get_drvdata(pmic_dev);
-+	if (WARN_ON(!regmap))
- 		return -ENODEV;
- 
- 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-@@ -238,7 +237,7 @@ static int hi6421v600_irq_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	priv->dev = dev;
--	priv->regmap = pmic->regmap;
-+	priv->regmap = regmap;
- 
- 	spin_lock_init(&priv->lock);
- 
-diff --git a/drivers/regulator/hi6421v600-regulator.c b/drivers/regulator/hi6421v600-regulator.c
-index 916d4e1f9061..23cdf90944e9 100644
---- a/drivers/regulator/hi6421v600-regulator.c
-+++ b/drivers/regulator/hi6421v600-regulator.c
-@@ -9,8 +9,8 @@
- // Guodong Xu <guodong.xu@linaro.org>
- 
- #include <linux/delay.h>
--#include <linux/mfd/hi6421-spmi-pmic.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
- #include <linux/regulator/driver.h>
-@@ -237,7 +237,7 @@ static int hi6421_spmi_regulator_probe(struct platform_device *pdev)
- 	struct hi6421_spmi_reg_priv *priv;
- 	struct hi6421_spmi_reg_info *info;
- 	struct device *dev = &pdev->dev;
--	struct hi6421_spmi_pmic *pmic;
-+	struct regmap *regmap;
- 	struct regulator_dev *rdev;
- 	int i;
- 
-@@ -246,8 +246,8 @@ static int hi6421_spmi_regulator_probe(struct platform_device *pdev)
- 	 * which should first set drvdata. If this doesn't happen, hit
- 	 * a warn on and return.
- 	 */
--	pmic = dev_get_drvdata(pmic_dev);
--	if (WARN_ON(!pmic))
-+	regmap = dev_get_drvdata(pmic_dev);
-+	if (WARN_ON(!regmap))
- 		return -ENODEV;
- 
- 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-@@ -261,7 +261,7 @@ static int hi6421_spmi_regulator_probe(struct platform_device *pdev)
- 
- 		config.dev = pdev->dev.parent;
- 		config.driver_data = priv;
--		config.regmap = pmic->regmap;
-+		config.regmap = regmap;
- 
- 		rdev = devm_regulator_register(dev, &info->desc, &config);
- 		if (IS_ERR(rdev)) {
-diff --git a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c b/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
-index 4f136826681b..c9c0c3d7011f 100644
---- a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
-+++ b/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
-@@ -8,7 +8,6 @@
-  */
- 
- #include <linux/mfd/core.h>
--#include <linux/mfd/hi6421-spmi-pmic.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-@@ -30,19 +29,14 @@ static const struct regmap_config regmap_config = {
- static int hi6421_spmi_pmic_probe(struct spmi_device *sdev)
- {
- 	struct device *dev = &sdev->dev;
-+	struct regmap *regmap;
- 	int ret;
--	struct hi6421_spmi_pmic *ddata;
--	ddata = devm_kzalloc(dev, sizeof(*ddata), GFP_KERNEL);
--	if (!ddata)
--		return -ENOMEM;
- 
--	ddata->regmap = devm_regmap_init_spmi_ext(sdev, &regmap_config);
--	if (IS_ERR(ddata->regmap))
--		return PTR_ERR(ddata->regmap);
-+	regmap = devm_regmap_init_spmi_ext(sdev, &regmap_config);
-+	if (IS_ERR(regmap))
-+		return PTR_ERR(regmap);
- 
--	ddata->dev = dev;
--
--	dev_set_drvdata(&sdev->dev, ddata);
-+	dev_set_drvdata(&sdev->dev, regmap);
- 
- 	ret = devm_mfd_add_devices(&sdev->dev, PLATFORM_DEVID_NONE,
- 				   hi6421v600_devs, ARRAY_SIZE(hi6421v600_devs),
-diff --git a/include/linux/mfd/hi6421-spmi-pmic.h b/include/linux/mfd/hi6421-spmi-pmic.h
-deleted file mode 100644
-index e5b8dbf828b6..000000000000
---- a/include/linux/mfd/hi6421-spmi-pmic.h
-+++ /dev/null
-@@ -1,25 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/*
-- * Header file for device driver Hi6421 PMIC
-- *
-- * Copyright (c) 2013 Linaro Ltd.
-- * Copyright (C) 2011 Hisilicon.
-- * Copyright (c) 2020-2021 Huawei Technologies Co., Ltd
-- *
-- * Guodong Xu <guodong.xu@linaro.org>
-- */
--
--#ifndef	__HISI_PMIC_H
--#define	__HISI_PMIC_H
--
--#include <linux/irqdomain.h>
--#include <linux/regmap.h>
--
--struct hi6421_spmi_pmic {
--	struct resource				*res;
--	struct device				*dev;
--	void __iomem				*regs;
--	struct regmap				*regmap;
--};
--
--#endif		/* __HISI_PMIC_H */
+ drivers/staging/rtl8723bs/core/rtw_ap.c       |  2 +-
+ .../staging/rtl8723bs/core/rtw_ioctl_set.c    |  2 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  2 +-
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    |  4 +-
+ drivers/staging/rtl8723bs/hal/hal_btcoex.c    |  2 +-
+ drivers/staging/rtl8723bs/hal/hal_com.c       |  4 +-
+ drivers/staging/rtl8723bs/include/ieee80211.h | 16 ++----
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 53 ++++++++++++++++++-
+ 8 files changed, 64 insertions(+), 21 deletions(-)
+
 -- 
-2.31.1
+2.20.1
 
