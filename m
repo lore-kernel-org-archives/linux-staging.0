@@ -1,82 +1,112 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2CEF2F80
-	for <linux-staging@lists.linux.dev>; Sat, 17 Jul 2021 14:57:08 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id r11so15511392wro.9
-        for <linux-staging@lists.linux.dev>; Sat, 17 Jul 2021 07:57:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=LBk5UwZLnUnusI8tJJ9UTs4/cIfOhq6Hn/jE2i8X2Z4=;
-        b=DNsvmn1OTxLVkCw+4u07ctBLqkE4Sl+hz+WbN59BFF1cp6jxq++APyA3TvaN5cni5A
-         1JbuiOl0CXdwJPXBk+x6KLhyCg6dGSPsOzhfnRjPds1GvkE1PldOvqb5sB8kbo1OfteR
-         m4RibZn7R5LJsF3999Mmn1l/EGmZFEZETem+h3n6LIjJfCVVuv/KVUGbrf6W6SfsxMAg
-         bwtZzQbNUS9K5GGwR86caNs0jGLkmDDZnGuFxoTtnxLMwtIwcW0CfTzqOulKNwAFF6Fr
-         /8hoyd6MITv4sK803tDX8/XNgJzl3MekytGXDRSMbxpZsUu3NG2wML2p7y2JMafrkwPu
-         4BkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=LBk5UwZLnUnusI8tJJ9UTs4/cIfOhq6Hn/jE2i8X2Z4=;
-        b=rpDbssfHeRAJU9KB5+gnc9ewvBdETyzTNT5WbvRAeLBkuKOHd7Vcs2FjbnWo4u4lfD
-         jGGcFQIJNLyuUq/7w9AZju6dw+F5QfdQ/bYOPkKujjvv+JXfe/hQhfpeokExZVH3tPcj
-         UqFYGnTsmYVmy1DDOFMIxLdpy/09kvXr2CxPw1BXiurPr6OlQjELNJJxO8/YhpBW6wHG
-         jnEM3chgtKGOX7P9Ji1iKiNlcU6n8ZF8ZDVF0u3rEqJvuxSpiiQGns7EZ0RTOMIO25+P
-         fTDefGd5djwMiTGVKPv3jnGzqzfdjiqryu9xZn0mr8LI5uFnqkVHfUrh4mnCD7nFKoah
-         yTxg==
-X-Gm-Message-State: AOAM532ys9WtW4fJvUP0LawVlN5Q8f27+u4HkeJY5E2OHya6uMTgvUku
-	iRrZ49LFBsfALmgK3ITC3fo=
-X-Google-Smtp-Source: ABdhPJwLiCYrkyPzKik4u4QgFBpdMTw447xRnzBZ2nChUpnaX+xjp+ItNRbMlbLyvd8cKLPUbd6ewA==
-X-Received: by 2002:a05:6000:1867:: with SMTP id d7mr19390601wri.199.1626533827354;
-        Sat, 17 Jul 2021 07:57:07 -0700 (PDT)
-Received: from agape ([5.171.72.101])
-        by smtp.gmail.com with ESMTPSA id h20sm7642856wmb.17.2021.07.17.07.57.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Jul 2021 07:57:07 -0700 (PDT)
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: dan.carpenter@oracle.com,
-	hdegoede@redhat.com,
-	Larry.Finger@lwfinger.net,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3036672
+	for <linux-staging@lists.linux.dev>; Sat, 17 Jul 2021 15:21:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=badeba3b8450; t=1626535259;
+	bh=tXXoy5Es0Q0dbPeU2KJ+zym9Mkvw55FFtd8u2Cxp5YY=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=aRZJSREtIzE+4uiC05gQOYr9GnIq2TFZ0SG6BwZs8NValU6x8uX9PUXm/MBt5D5Ew
+	 /xu0Som9b+Km9uTkR82mR1ZKGzQDYGp/iVkbf6LNWY0vNZy4iBgzFrKe8hGwnW+KSw
+	 wc3rVQz9o8ntOHXW864VYU2dNTlg/ZxZ5+l1mnxY=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from localhost.localdomain ([83.52.228.41]) by mail.gmx.net
+ (mrgmx104 [212.227.17.174]) with ESMTPSA (Nemesis) id
+ 1MGhuU-1lqycK47sY-00DqtD; Sat, 17 Jul 2021 17:20:59 +0200
+From: Len Baker <len.baker@gmx.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Len Baker <len.baker@gmx.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 10/10] staging: rtl8723bs: fix camel case argument name in macro is_supported_tx_cck
-Date: Sat, 17 Jul 2021 16:56:51 +0200
-Message-Id: <f38fbb1388a54c78602750ecb86d0716d1aaf66b.1626533647.git.fabioaiuto83@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1626533647.git.fabioaiuto83@gmail.com>
-References: <cover.1626533647.git.fabioaiuto83@gmail.com>
+Subject: [PATCH] staging/wlan-ng: Remove all strcpy() uses in favor of strscpy()
+Date: Sat, 17 Jul 2021 17:20:32 +0200
+Message-Id: <20210717152032.10164-1-len.baker@gmx.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ONFjZjKHXxiFZ6UXDTigslUGgSmZsTB07Y4R78L8upIGy0s3Fj+
+ c8k1BVcFhjIU4AdpW8BICQgnRQtlEQEQoHX/0nAsofh9K3EYtMQ7lUQdgiFcVASeIKv7ICz
+ y/MKO0iVcs8ho/d0Rmflx+U3q/7xyEN3BKFZ3H/xlVERvEp0rl4s+SFLAgQxFMoeAet3HVl
+ UolEp85WIKQTkkKqzlYzg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:orMTpdMwofI=:EY6CrNuKcyvelk8IYc0BDk
+ 5xRr6kj2wkhqmgvWYMm+06095dB/SO0//lH/UMqKEu1cTU973XlqU/JEaC5Roz1xxtYUQtubv
+ sCgSYa9+fr69qankVmb/YKnhAtM+4/rK6+f1bL0+s8PrYMfxhHyEs71B3iam63B/cm6jyjUaW
+ Zem4ZmN+zhruuwprL5aVIKB8ecgBOmB/GfglrO9sg8CGWskcNp61VU0S5nkOihoMYv058FSrB
+ h1TDs9GB5iPhWcho7ulubsdpzXNDL1/0G0yWIqt3aw5DvmVoRlN1JLWbXopWQMReB8tycL1yP
+ lxJQCvv22Dql+28FUrYwAmME3eMcVZPJqJPq3/VeVXuFI8VkWhEPdTWxUbixRfxz2JDRyoQ2P
+ 6q/MWlaHIVXrJH0Hgywk9FAw+hAdg1C2/thy++ov6LP+Z5BOsogfat5hCL1OrJVCx7QoxIRdR
+ AuWg93/pgNOX7oyLRCGSQ+8/uXQr50WZSL5LFszDZAjjUmBKUxaR5y7RpqlKesUhSocdid/BU
+ 6API1kOt23rLIwj7Ei+sEoee2IVvHN8TLrJYxzLs3L7sPPgfPB4LRCaQpv0c5uQEpUF1S9BJR
+ Vz/AyM5VDDNfIXkV2mMfWBPyo33HVcOS2p1EiQzcX1olRSAlXqfLtzIYMTRDhFMMXG1ghdIhW
+ p6O3j7kqRX8cQ/aaYrt3BTGY95vD+twO/VwbhoQqM/JHml2GYPU2odMh1QDebOQqApQWLe+hT
+ w4HgmLe5c9q9Pfa9FTCC7nSkdB39r/wcx63YUbwFuKtbzsZm0orCx7U5mGGSmxdmXJZCmjhjY
+ 9vY3KEJ1FC3hKcWgX+jkP4AnCzaLvL7nvzYb/0E/pvSFOPsAO44vNlqF5k2cBsoNKIPjBlTfu
+ +QO/X+7ozPBG0w7WiejEbn+FeipkZdkG0Mt0ItxWRpqQvi7st6JAw68LYeN1F2CwIu/X33Ggz
+ AIJ16KSl7qkknzRj2YTgu2sFRsU4TTFbGNmdbcuNNnHyHsseeQaQ5qaXL+RLtkR4twfCwV9W4
+ JIVYam/Oi1axrfaQyCKl2VDSVYljYru9JoI2LSI5zkx6hBAUNssnb1HuTmJxNl/8oxityTYBg
+ FAQbOmyoqnojss3Mg90i0uv4Aap4IH8KLuz
 
-fix camel case argument name in is_supported_tx_cck
+strcpy() performs no bounds checking on the destination buffer. This
+could result in linear overflows beyond the end of the buffer, leading
+to all kinds of misbehaviors. The safe replacement is strscpy().
 
-Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
----
- drivers/staging/rtl8723bs/include/ieee80211.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Signed-off-by: Len Baker <len.baker@gmx.com>
+=2D--
+ drivers/staging/wlan-ng/prism2fw.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/staging/rtl8723bs/include/ieee80211.h
-index 07cff4c490a0..b3a9bcce4c44 100644
---- a/drivers/staging/rtl8723bs/include/ieee80211.h
-+++ b/drivers/staging/rtl8723bs/include/ieee80211.h
-@@ -158,7 +158,7 @@ enum network_type {
- 
- #define is_supported_24g(net_type) ((net_type) & SUPPORTED_24G_NETTYPE_MSK ? true : false)
- 
--#define is_supported_tx_cck(NetType) (((NetType) & (WIRELESS_11B)) ? true : false)
-+#define is_supported_tx_cck(net_type) (((net_type) & (WIRELESS_11B)) ? true : false)
- #define is_supported_ht(net_type) (((net_type) & (WIRELESS_11_24N)) ? true : false)
- 
- struct ieee_param {
--- 
-2.20.1
+diff --git a/drivers/staging/wlan-ng/prism2fw.c b/drivers/staging/wlan-ng/=
+prism2fw.c
+index 94800c007162..02a2191d5c4d 100644
+=2D-- a/drivers/staging/wlan-ng/prism2fw.c
++++ b/drivers/staging/wlan-ng/prism2fw.c
+@@ -296,7 +296,7 @@ static int prism2_fwapply(const struct ihex_binrec *rf=
+ptr,
+ 	memset(&getmsg, 0, sizeof(getmsg));
+ 	getmsg.msgcode =3D DIDMSG_DOT11REQ_MIBGET;
+ 	getmsg.msglen =3D sizeof(getmsg);
+-	strcpy(getmsg.devname, wlandev->name);
++	strscpy(getmsg.devname, wlandev->name, sizeof(getmsg.devname));
+
+ 	getmsg.mibattribute.did =3D DIDMSG_DOT11REQ_MIBGET_MIBATTRIBUTE;
+ 	getmsg.mibattribute.status =3D P80211ENUM_msgitem_status_data_ok;
+@@ -786,7 +786,7 @@ static int read_cardpda(struct pda *pda, struct wlande=
+vice *wlandev)
+ 	/* set up the msg */
+ 	msg->msgcode =3D DIDMSG_P2REQ_READPDA;
+ 	msg->msglen =3D sizeof(msg);
+-	strcpy(msg->devname, wlandev->name);
++	strscpy(msg->devname, wlandev->name, sizeof(msg->devname));
+ 	msg->pda.did =3D DIDMSG_P2REQ_READPDA_PDA;
+ 	msg->pda.len =3D HFA384x_PDA_LEN_MAX;
+ 	msg->pda.status =3D P80211ENUM_msgitem_status_no_value;
+@@ -1017,7 +1017,7 @@ static int writeimage(struct wlandevice *wlandev, st=
+ruct imgchunk *fchunk,
+ 	}
+
+ 	/* Initialize the messages */
+-	strcpy(rstmsg->devname, wlandev->name);
++	strscpy(rstmsg->devname, wlandev->name, sizeof(rstmsg->devname));
+ 	rstmsg->msgcode =3D DIDMSG_P2REQ_RAMDL_STATE;
+ 	rstmsg->msglen =3D sizeof(*rstmsg);
+ 	rstmsg->enable.did =3D DIDMSG_P2REQ_RAMDL_STATE_ENABLE;
+@@ -1030,7 +1030,7 @@ static int writeimage(struct wlandevice *wlandev, st=
+ruct imgchunk *fchunk,
+ 	rstmsg->exeaddr.len =3D sizeof(u32);
+ 	rstmsg->resultcode.len =3D sizeof(u32);
+
+-	strcpy(rwrmsg->devname, wlandev->name);
++	strscpy(rwrmsg->devname, wlandev->name, sizeof(rwrmsg->devname));
+ 	rwrmsg->msgcode =3D DIDMSG_P2REQ_RAMDL_WRITE;
+ 	rwrmsg->msglen =3D sizeof(*rwrmsg);
+ 	rwrmsg->addr.did =3D DIDMSG_P2REQ_RAMDL_WRITE_ADDR;
+=2D-
+2.25.1
 
