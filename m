@@ -1,29 +1,30 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B453672
-	for <linux-staging@lists.linux.dev>; Sat, 17 Jul 2021 15:38:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9519172
+	for <linux-staging@lists.linux.dev>; Sat, 17 Jul 2021 15:52:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1626536304;
-	bh=iZJzMiq/vESZ2pyqPpRCYJAQLHIcDzTWUIgzTPJmsb4=;
+	s=badeba3b8450; t=1626537126;
+	bh=mZcP3QmI7YItRwoSRYnjV0gfYLGImu6x7tc+Qai8wIQ=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-	b=WxWI1u3PV381hd3LnI0jFzYt8hfQMwwoDzP5bEDn5qAkU3P2EephUGwGep0G1ZN7q
-	 HuLjve0tVx+vY2SNzQhj6ZJaI9umeoSoHSOFN+8/mh1M3c2U26xJ0WmOGm4mFwJ6N6
-	 G+yB5FfzcPQL0QlANjaV/Ucvejy5roAExHjbfSvw=
+	b=hsKpqVOZ3p7sWvpcDkUU01YH+SeIlBaRhzd4uMxBYC/yOl6zyp61HmktWIY/36gGR
+	 lMN8wm17G1tB/NYk9x2rpE1wUb1tj6I+DWIiRENBz4JDrj2BsHZT2LBtL04CkcNIuR
+	 zWFgliqBtNkW5a8M2sl0s2Y/1vNG3gFOr88vYsIg=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([83.52.228.41]) by mail.gmx.net
  (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1MGQnP-1lv6943nMz-00GpmR; Sat, 17 Jul 2021 17:38:24 +0200
+ 1MgeoI-1lUJje2GA0-00h3sX; Sat, 17 Jul 2021 17:52:06 +0200
 From: Len Baker <len.baker@gmx.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Len Baker <len.baker@gmx.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging/ks7010: Remove all strcpy() uses in favor of strscpy()
-Date: Sat, 17 Jul 2021 17:37:59 +0200
-Message-Id: <20210717153759.13468-1-len.baker@gmx.com>
+Subject: [PATCH] staging/rtl8712: Remove all strcpy() uses in favor of strscpy()
+Date: Sat, 17 Jul 2021 17:51:45 +0200
+Message-Id: <20210717155145.15041-1-len.baker@gmx.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -32,28 +33,28 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:DKK2exlaQxwebtcjUBUsZXnGR2wcU/rdSgHOz1LAEFdMxSF7p78
- cnPT0opL08BKaEjM2CCsl4i+zbwxMqopwc5VuItZ9oc8HJT+yq81aic3EgK4K2UvoThU91s
- /E8qiqad79vEDThG6GQh7gFHsS5megGJTfsKHUo892/FfGa4kLtaXcvVuXGVI6xeb5Gs58h
- ISBIiM4I+16yjsPF0KfmA==
+X-Provags-ID: V03:K1:5C1c4EKwqwdWzS1m8cugGHgErNfVnZaBAsgwiLEyAvM7mbWHFh6
+ 3dPzuepBGkRvzS6i/eiEy9tk2c+MCnBxRn757yPDgAmfn3NbFT7qTul3SG2DocmU/96FEoe
+ GsGpaKKgIIO7UDxOv+2O/8x2/9RmZkrEnQYa6NxCRbl1CAqv0zmt4T/HfkyNl1CJQSMCVkn
+ ZS54E7eEKFAJOoUSZqPVg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:qEpoHoAWcqA=:7lYDvzrpcfy+7Og0JsmaU6
- Bxa0t/lDZ28zzMPmuNF951Qk3cCqJ51KihfxZaM1I6CIVFH113bj3xXVNRuen6ncH1p7nSZua
- dZHDsMJy50Hfrdslycm5o7Nz80VHGE4r1o2R4djUVY9Mf/BXTw3tqAHkoxGs0XLpX760UyDvF
- h+lxRSul3MoZPHZTh6LxyMd9jjLsfWg9Z9UFVhrfnAOdlOV/31fJEaSIeyyImWn7rJjwlIUaV
- g3ErzY6zVbPiUnF9EVXthOPJfDQxICcMawx4XsMcW5YsdQKu6P2ABkl2PqfpbcrgKHzrrFhWG
- tyg+Kv8qN4gwPv9PWev+epehaxlC5T9Pz2b/dT7rU56W87OomObYKdqXnN19Ka/Q9TnIZw5sy
- q+P9tW8IqbArE1lpz/CYv7/ghThB/ycn+5YJ0gojEO29YQuh5sv2a2p8TrL+OZPsSEbjN3mUH
- ZtAPb7OAnm+HvWvDDrXc9UcsryQJ7j41darlgdZLb/r11kuJDRS/TMKVlaKpEIpXe7C0W3+bH
- aK/hk/wvv30byuWs5+j69uKoogWVUw7IVBlhki8zkAnGXRoAOpjLxhAaNR89wC4ulGyb/J41r
- bfHawYK1fGkPqCieFAjmzBpB5uIJaIYg9hy8bLcMXaxqPsFmYMlhUjL+KH0HAFOWpjJVbUSDT
- HNhA15n+7Q0PBwC2/wGH+l5VDYUceYXQpWG/MRQOqzTgnNeuN61u2M5ptjqXeCjS/DLCDqYlU
- zf8LTyUNx1lfiiXiRMidb1n32ybg6tFV1eA6YotiZ9w7OGojizUVAnDwKiEl/yi8npJ6it634
- D2gffosUAd7QBl1+FpMzmrPW/rb+b6zu8q5imYE39xKiFC5j6V/l2pDQnNDa4jwMnp9z15Li9
- xHeVJYNd7Csgyaa0h2T6GSgJpwrm/jw/CMWidLt6jjLJTIDqT0AG7dvx/24cpex2n5H/2Bq+y
- myeAOnOyaYcvh01KlkztA2WU+6Vf0kIMo0Gyd+U6bgX7NVlNtKGozJd+GOWEqJr+vKI7gGYxT
- R8Pz4wwkBK8e/ZjLZwSvhxXq8DiJf18bBSIo8E1dbbYyrrHxDGvHncD+carpbr8/Ebx6YIVia
- ZC2gcMYRgpn4iwU6BLBjujoDf3L2oU06Glo
+X-UI-Out-Filterresults: notjunk:1;V03:K0:00IjXtN2iM8=:8GT4FY/lAjE2z6TxXsschr
+ h7HSls1qOnKtKjqOTnzolJHU+2Flj2+roAGKB6ppp2N21u5YZVLJ/64gxl7CDdAKnQog4c1iD
+ uKbC/V05Zc3yxm6FBcG94TXswtdYY9W0Io71tzSqdLnrtQJqgPjF6jYTNQmRlI7UcgD914Y5q
+ W8uHaVEIphKt1jS2xcQEl8RoJ5lKQXUc9Z72FQ08wYJaff8DhgXt2hr4+XMnz6FKX4Oqh832d
+ u5yr5AEu4f7OJb9vJD1PXr8amodxKt+0k5czt/hRSfl61l+aWuVnYBxg+g3tn6c2NdGbBPBQ+
+ pCenu4efjCn+CpUrP/ls1HMk7c8SwOZF+Ij8/MKq+H4qJqNsZsu8QAQTmapM/Tri3xvxpiojI
+ PEuSnh8CDAwTe+ysfQoVRYSg+Jm+Gd9/sdwNaCMRUiEBx4f/9UzI/1k6ZFBJgGzXB7rQBWBdk
+ 8bFkqTAimOgZOtu/x/nBqlokyZMzdD2h37jVP1XOC0lH4crqLACIXUyg+H+htAAb4Ejm8ISwm
+ KRufPyjvzRaC+a9/VTfluE2lcBW5mQ6ayDjFZsN7JLOlwD+FwbccEYpi3Dy1KT89DMEj4zg/2
+ SW12lqlRcjx0/Qs36ZE++qCmxPpAaRMuJFecP5MQWZmYQTplqpzsREeeL+W91bs5DjJEPkqkY
+ p5UZNSOYmsy2tY/K43LhLDPmTfWuOpys45M4SipCCrx9SfpahQ8az1WVfNCJT67/malL8bSG/
+ utXNRGEFlkDSo6Cb3hbC2M4qWW+ShEnUxWzlP6mjYDtwHG0AvK3zmsHmh0Qo2eMD8p1PRArjX
+ kWGYiQztd3LCTh3lyCvj4H8Qlh3wke+lexIzIwQEuyhB5DCkaQ6sVWWM2WA6DsbgYBJInW4gJ
+ Hk/V06UCvBe7d5lXOq6KZISfXQSBlq+uCuosqqAvLYfE0+rLvd1KA59lCulT1HGxCAK1PFODD
+ gspNP4EmkKfMQzCMopeueZ3N06YD3SiqW03HnblJ5aneZyT0uPnE05MStMQXs1fVXw3o9cdAa
+ nFoVdvEEX9rTVnyMv2T0WNbBCk6suQ077V9WUtSW8v8O7GH7nB2hM8+oBy45Pg82kkp5dAetu
+ 70ecFhQAks8caXhhkq9+/nw+UkAZt7Kmz9V
 
 strcpy() performs no bounds checking on the destination buffer. This
 could result in linear overflows beyond the end of the buffer, leading
@@ -61,42 +62,23 @@ to all kinds of misbehaviors. The safe replacement is strscpy().
 
 Signed-off-by: Len Baker <len.baker@gmx.com>
 =2D--
- drivers/staging/ks7010/ks_wlan_net.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/rtl8712/os_intfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/ks7010/ks_wlan_net.c b/drivers/staging/ks7010=
-/ks_wlan_net.c
-index 09e7b4cd0138..7a38b1ceeb5c 100644
-=2D-- a/drivers/staging/ks7010/ks_wlan_net.c
-+++ b/drivers/staging/ks7010/ks_wlan_net.c
-@@ -158,13 +158,13 @@ static int ks_wlan_get_name(struct net_device *dev,
-
- 	/* for SLEEP MODE */
- 	if (priv->dev_state < DEVICE_STATE_READY)
--		strcpy(cwrq->name, "NOT READY!");
-+		strscpy(cwrq->name, "NOT READY!", sizeof(cwrq->name));
- 	else if (priv->reg.phy_type =3D=3D D_11B_ONLY_MODE)
--		strcpy(cwrq->name, "IEEE 802.11b");
-+		strscpy(cwrq->name, "IEEE 802.11b", sizeof(cwrq->name));
- 	else if (priv->reg.phy_type =3D=3D D_11G_ONLY_MODE)
--		strcpy(cwrq->name, "IEEE 802.11g");
-+		strscpy(cwrq->name, "IEEE 802.11g", sizeof(cwrq->name));
- 	else
--		strcpy(cwrq->name, "IEEE 802.11b/g");
-+		strscpy(cwrq->name, "IEEE 802.11b/g", sizeof(cwrq->name));
-
- 	return 0;
- }
-@@ -1808,7 +1808,7 @@ static int ks_wlan_get_firmware_version(struct net_d=
-evice *dev,
- {
- 	struct ks_wlan_private *priv =3D netdev_priv(dev);
-
--	strcpy(extra, priv->firmware_version);
-+	strscpy(extra, priv->firmware_version, sizeof(extra));
- 	dwrq->length =3D priv->version_size + 1;
- 	return 0;
- }
+diff --git a/drivers/staging/rtl8712/os_intfs.c b/drivers/staging/rtl8712/=
+os_intfs.c
+index 2214aca09730..9502f6aa5306 100644
+=2D-- a/drivers/staging/rtl8712/os_intfs.c
++++ b/drivers/staging/rtl8712/os_intfs.c
+@@ -203,7 +203,7 @@ struct net_device *r8712_init_netdev(void)
+ 	if (!pnetdev)
+ 		return NULL;
+ 	if (dev_alloc_name(pnetdev, ifname) < 0) {
+-		strcpy(ifname, "wlan%d");
++		strscpy(ifname, "wlan%d", sizeof(ifname));
+ 		dev_alloc_name(pnetdev, ifname);
+ 	}
+ 	padapter =3D netdev_priv(pnetdev);
 =2D-
 2.25.1
 
