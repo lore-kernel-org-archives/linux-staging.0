@@ -1,41 +1,41 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B58472
-	for <linux-staging@lists.linux.dev>; Sat, 17 Jul 2021 14:57:03 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id u8-20020a7bcb080000b02901e44e9caa2aso7611494wmj.4
-        for <linux-staging@lists.linux.dev>; Sat, 17 Jul 2021 07:57:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE23672
+	for <linux-staging@lists.linux.dev>; Sat, 17 Jul 2021 14:57:04 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id b14-20020a1c1b0e0000b02901fc3a62af78so9935787wmb.3
+        for <linux-staging@lists.linux.dev>; Sat, 17 Jul 2021 07:57:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0zn5WjZjwzNr5arL/+ZIp0qYLVTWTo+XAzdShzhK7/Q=;
-        b=WkVkvZ4nRhAanPCqnNgszlWRHIocaHadvhZYDlpG6VH1tj+EgfvSn00zMo4XXmMcFT
-         4y4V69xYYEw9JiQgbrvjMHQ3mbcCYU92jFwtFqO/RcNsddpJfZp3poi+fWT5GfMkGoFB
-         +x6TvmV2JTGsIJjPZwHqvvZeqJ57yKK3uAcKds/l9+GpoxaKUhyMzdKa42dEk61UjRoT
-         Kr9rfZ0YnzskuzXXp+JuYDYQyLZLSR819WbalkjHxSt9gwNQyNdOv+jjn2p5x1qtKHlm
-         K+4MBDEJuTSZvhXpD/wL78extpkP7OWizdQ2KijDowfEjQwEfcQ/yabsMquxME1cluOB
-         W1nQ==
+        bh=xRK7NSI5UgeQ2tu+VHcDHeBzFj/hyQCQmKRmPBf8Kfs=;
+        b=MbTWMunJVoMjkyYhtnHcM2TDQ7sRPyr2tD57XNBjilL/kSS0cRRGcPaf1b6npq9Mia
+         Ur4BIDDVyYdcb+jAK2RTYv965IvcTETxwhtLVYX7v5NtCSsnvya4ywQnHY5TVBepiSY+
+         usd2CreaVL31Kc2ohHYTCGgB3N9MMPkCA35+BDzEvkqPP9/uRbJxX4iqKPfd/VQaqq5x
+         rCKsF65kFPzljTfmpiaDPDZoWME6sojIoTd89chJLkwuJc0Is33bv4Ar2RJcMkQQ740V
+         e1aS8knN0E/1jEJ/AATk1TVTctG1fGEREnCPEE1M6e7LCqP/+D9prD4OHtOt9+d61DiO
+         /JTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0zn5WjZjwzNr5arL/+ZIp0qYLVTWTo+XAzdShzhK7/Q=;
-        b=jHsFx2R/Y9+dhdKOEAzHWWNDp8Kdhb6t+7t5X2XhFGBcuS0b3QZv088jA50AnNfhjZ
-         +tmopO1XcfrUGNlkL3rrypKbYOZ/c9fH7ejar0i1+5cNyisxY1D1oS3LUhmXonATYBjx
-         ELEWcnlW7SN6FfeuBEC6glWZh2sjNHCmnpeBgh5TZ9rD3QAZk//r959iiOpswU2ePZxu
-         PZu5BcrmWYuGFs+sBIdhWL5IqALvDVEFBfyb0ZvrqzGTgC1amed7Rp7zXly4YpwIEdwq
-         Gg4E4ggcMsb+bsE+HDk8whn4ujwxuGqRkzwFrtfDhDaY/uB+8W/190wxkLHxwfOhuQhH
-         PcNg==
-X-Gm-Message-State: AOAM5310re1QkSU2KQJJXaHQscGFrbL/miK7sg5rPtpU4ZhIdwHqPqJX
-	MfbMBm9nFCxwsgV0Md+rCjw=
-X-Google-Smtp-Source: ABdhPJxNh9iHPMjZxkRbnOE6yyUIXLgs9SVuUf9OqqT7/0/2SF/ywY7t95l2zArpHVaN8B7lDICIPA==
-X-Received: by 2002:a7b:c7cb:: with SMTP id z11mr22814393wmk.102.1626533821964;
-        Sat, 17 Jul 2021 07:57:01 -0700 (PDT)
+        bh=xRK7NSI5UgeQ2tu+VHcDHeBzFj/hyQCQmKRmPBf8Kfs=;
+        b=AS82YsUH9eSN3GWlgg2ud8o89PWVPdMkOeAqJY2Kl4MkegFlUu+T2+zi2Xmn0qRo4g
+         0BM8XmcZ0KE3oHTlfhW26EDpNeQw+x1m+8oyHQI0KBOliysjbuWBVfKrzQtvVLjohS3q
+         +9Tu4E///RE9meQG3HSEK9fwgAggqJFD0d+auw/37VAREo9qGdJVcuCNPmsbtQ7I+LgE
+         YEOV/Mt3+xp4zDHtuvdXtFdonvp8xdCbCjnqHV/9RVa9ufu4U6DGmvz8cscjIC/xRjl7
+         MoFZ24ieUSJA0YYi27Syynv/aKvY84gfO+wRi4ASZUYhpPqXKmps7ZJa/pXk80YawNIB
+         N9zA==
+X-Gm-Message-State: AOAM532yiXaPrzAn+rEQs49pzPx0AxftxN5348ccKpcqaxwAtO0BpNL6
+	D+IDeTXYvR5vHrW4CXkmoKI=
+X-Google-Smtp-Source: ABdhPJwe1L03lXK9t/ykUyykJavtp8asfCN8VmhKNOOuUjaBbquq0MfTVSQcRlHe4yzKntINYT+stQ==
+X-Received: by 2002:a7b:c181:: with SMTP id y1mr22998036wmi.106.1626533823324;
+        Sat, 17 Jul 2021 07:57:03 -0700 (PDT)
 Received: from agape ([5.171.72.101])
-        by smtp.gmail.com with ESMTPSA id m15sm11430161wmc.20.2021.07.17.07.57.01
+        by smtp.gmail.com with ESMTPSA id w8sm2598776wrk.10.2021.07.17.07.57.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Jul 2021 07:57:01 -0700 (PDT)
+        Sat, 17 Jul 2021 07:57:03 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: dan.carpenter@oracle.com,
@@ -43,9 +43,9 @@ Cc: dan.carpenter@oracle.com,
 	Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 06/10] staging: rtl8723bs: fix camel case name in macro IsSupported24G
-Date: Sat, 17 Jul 2021 16:56:47 +0200
-Message-Id: <fd5e1873f72e7d5f72b6f4bf801ede882e9df4e2.1626533647.git.fabioaiuto83@gmail.com>
+Subject: [PATCH v2 07/10] staging: rtl8723bs: fix post-commit camel case issues
+Date: Sat, 17 Jul 2021 16:56:48 +0200
+Message-Id: <6fd6d3266b5119330e15006ae610cb49b767bc59.1626533647.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1626533647.git.fabioaiuto83@gmail.com>
 References: <cover.1626533647.git.fabioaiuto83@gmail.com>
@@ -57,54 +57,61 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-fix camel case name in macro IsSupported24G
+fix the following post-commit camel case issues:
+
+CHECK: Avoid CamelCase: <Adapter>
+33: FILE: drivers/staging/rtl8723bs/hal/hal_com.c:152:
++		if (is_supported_24g(Adapter->
+	registrypriv.wireless_mode) == false)
+
+CHECK: Avoid CamelCase: <NetType>
+46: FILE: drivers/staging/rtl8723bs/include/ieee80211.h:159:
++#define is_supported_24g(NetType)
+	((NetType) & SUPPORTED_24G_NETTYPE_MSK ? true : false)
+
+CHECK: Avoid CamelCase: <IsEnableHWCCK>
+49: FILE: drivers/staging/rtl8723bs/include/ieee80211.h:161:
++#define IsEnableHWCCK(NetType)
+	is_supported_24g(NetType)
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 2 +-
- drivers/staging/rtl8723bs/hal/hal_com.c       | 2 +-
+ drivers/staging/rtl8723bs/hal/hal_com.c       | 4 ++--
  drivers/staging/rtl8723bs/include/ieee80211.h | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index c128d462c6c7..af7d133bce94 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -343,7 +343,7 @@ static u8 init_channel_set(struct adapter *padapter, u8 ChannelPlan, struct rt_c
- 	if (ChannelPlan >= RT_CHANNEL_DOMAIN_MAX && ChannelPlan != RT_CHANNEL_DOMAIN_REALTEK_DEFINE)
- 		return chanset_size;
- 
--	if (IsSupported24G(padapter->registrypriv.wireless_mode)) {
-+	if (is_supported_24g(padapter->registrypriv.wireless_mode)) {
- 		b2_4GBand = true;
- 		if (RT_CHANNEL_DOMAIN_REALTEK_DEFINE == ChannelPlan)
- 			Index2G = RTW_CHANNEL_PLAN_MAP_REALTEK_DEFINE.Index2G;
 diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
-index eebd48438733..d18537fde4ed 100644
+index d18537fde4ed..4a112989899a 100644
 --- a/drivers/staging/rtl8723bs/hal/hal_com.c
 +++ b/drivers/staging/rtl8723bs/hal/hal_com.c
-@@ -149,7 +149,7 @@ bool HAL_IsLegalChannel(struct adapter *Adapter, u32 Channel)
+@@ -144,12 +144,12 @@ u8 hal_com_config_channel_plan(
+ 	return chnlPlan;
+ }
+ 
+-bool HAL_IsLegalChannel(struct adapter *Adapter, u32 Channel)
++bool HAL_IsLegalChannel(struct adapter *adapter, u32 Channel)
+ {
  	bool bLegalChannel = true;
  
  	if ((Channel <= 14) && (Channel >= 1)) {
--		if (IsSupported24G(Adapter->registrypriv.wireless_mode) == false)
-+		if (is_supported_24g(Adapter->registrypriv.wireless_mode) == false)
+-		if (is_supported_24g(Adapter->registrypriv.wireless_mode) == false)
++		if (is_supported_24g(adapter->registrypriv.wireless_mode) == false)
  			bLegalChannel = false;
  	} else {
  		bLegalChannel = false;
 diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/staging/rtl8723bs/include/ieee80211.h
-index 343d077d9c76..2fa6ced333a0 100644
+index 2fa6ced333a0..f29b7a92d9ac 100644
 --- a/drivers/staging/rtl8723bs/include/ieee80211.h
 +++ b/drivers/staging/rtl8723bs/include/ieee80211.h
 @@ -156,9 +156,9 @@ enum network_type {
  
  #define is_legacy_only(net_type)  ((net_type) == ((net_type) & (WIRELESS_11BG)))
  
--#define IsSupported24G(NetType) ((NetType) & SUPPORTED_24G_NETTYPE_MSK ? true : false)
-+#define is_supported_24g(NetType) ((NetType) & SUPPORTED_24G_NETTYPE_MSK ? true : false)
+-#define is_supported_24g(NetType) ((NetType) & SUPPORTED_24G_NETTYPE_MSK ? true : false)
++#define is_supported_24g(net_type) ((net_type) & SUPPORTED_24G_NETTYPE_MSK ? true : false)
  
--#define IsEnableHWCCK(NetType) IsSupported24G(NetType)
-+#define IsEnableHWCCK(NetType) is_supported_24g(NetType)
+-#define IsEnableHWCCK(NetType) is_supported_24g(NetType)
++#define IsEnableHWCCK(net_type) is_supported_24g(net_type)
  #define IsEnableHWOFDM(NetType) (((NetType) & (WIRELESS_11G|WIRELESS_11_24N)) ? true : false)
  
  #define IsSupportedRxCCK(NetType) IsEnableHWCCK(NetType)
