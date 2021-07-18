@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7367A2FB0
-	for <linux-staging@lists.linux.dev>; Sun, 18 Jul 2021 17:37:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D05B173
+	for <linux-staging@lists.linux.dev>; Sun, 18 Jul 2021 17:54:56 +0000 (UTC)
 Received: from dslb-178-004-206-019.178.004.pools.vodafone-ip.de ([178.4.206.19] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1m5AjP-0006oR-G9; Sun, 18 Jul 2021 19:37:35 +0200
+	id 1m5AjG-0006oR-2J; Sun, 18 Jul 2021 19:37:26 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -15,9 +15,9 @@ Cc: linux-staging@lists.linux.dev,
 	kernel-janitors@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 10/10] staging: rtl8188eu: remove cut_mask field from wl_pwr_cfg
-Date: Sun, 18 Jul 2021 19:36:10 +0200
-Message-Id: <20210718173610.894-10-martin@kaiser.cx>
+Subject: [PATCH 02/10] staging: rtl8188eu: remove the "trigger gpio 0" hal variable
+Date: Sun, 18 Jul 2021 19:36:02 +0200
+Message-Id: <20210718173610.894-2-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210718173610.894-1-martin@kaiser.cx>
 References: <20210718173610.894-1-martin@kaiser.cx>
@@ -29,147 +29,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We're no longer matching power transitions and commands against a
-power cut version mask.
+The hal variable to trigger gpio 0 seems to be a leftover from debugging
+code that was removed. An empty function is called when this variable is
+written to.
 
-The cut_mask field from struct wl_pwr_cfg can be removed. It was set to
-PWR_CUT_ALL_MSK for all remaining commands.
+Remove the empty function and the variable itself. It should be safe to
+remove an entry from the hw_variables enum as this enum is used only
+within the rtl8188eu driver.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/rtl8188eu/include/pwrseq.h    | 56 +++++++++----------
- drivers/staging/rtl8188eu/include/pwrseqcmd.h |  1 -
- 2 files changed, 28 insertions(+), 29 deletions(-)
+ drivers/staging/rtl8188eu/hal/usb_halinit.c  | 8 --------
+ drivers/staging/rtl8188eu/include/hal_intf.h | 1 -
+ 2 files changed, 9 deletions(-)
 
-diff --git a/drivers/staging/rtl8188eu/include/pwrseq.h b/drivers/staging/rtl8188eu/include/pwrseq.h
-index caa6bf71da77..5a7b4206d240 100644
---- a/drivers/staging/rtl8188eu/include/pwrseq.h
-+++ b/drivers/staging/rtl8188eu/include/pwrseq.h
-@@ -34,21 +34,21 @@
- 	 * },
- 	 * comment here
- 	 */								\
--	{0x0006, PWR_CUT_ALL_MSK, PWR_CMD_POLLING, BIT(1), BIT(1)}, \
-+	{0x0006, PWR_CMD_POLLING, BIT(1), BIT(1)}, \
- 	/* wait till 0x04[17] = 1    power ready*/	\
--	{0x0002, PWR_CUT_ALL_MSK, PWR_CMD_WRITE, BIT(0) | BIT(1), 0}, \
-+	{0x0002, PWR_CMD_WRITE, BIT(0) | BIT(1), 0}, \
- 	/* 0x02[1:0] = 0	reset BB*/				\
--	{0x0026, PWR_CUT_ALL_MSK, PWR_CMD_WRITE, BIT(7), BIT(7)}, \
-+	{0x0026, PWR_CMD_WRITE, BIT(7), BIT(7)}, \
- 	/*0x24[23] = 2b'01 schmit trigger */				\
--	{0x0005, PWR_CUT_ALL_MSK, PWR_CMD_WRITE, BIT(7), 0}, \
-+	{0x0005, PWR_CMD_WRITE, BIT(7), 0}, \
- 	/* 0x04[15] = 0 disable HWPDN (control by DRV)*/		\
--	{0x0005, PWR_CUT_ALL_MSK, PWR_CMD_WRITE, BIT(4) | BIT(3), 0}, \
-+	{0x0005, PWR_CMD_WRITE, BIT(4) | BIT(3), 0}, \
- 	/*0x04[12:11] = 2b'00 disable WL suspend*/			\
--	{0x0005, PWR_CUT_ALL_MSK, PWR_CMD_WRITE, BIT(0), BIT(0)}, \
-+	{0x0005, PWR_CMD_WRITE, BIT(0), BIT(0)}, \
- 	/*0x04[8] = 1 polling until return 0*/				\
--	{0x0005, PWR_CUT_ALL_MSK, PWR_CMD_POLLING, BIT(0), 0}, \
-+	{0x0005, PWR_CMD_POLLING, BIT(0), 0}, \
- 	/*wait till 0x04[8] = 0*/					\
--	{0x0023, PWR_CUT_ALL_MSK, PWR_CMD_WRITE, BIT(4), 0}, \
-+	{0x0023, PWR_CMD_WRITE, BIT(4), 0}, \
- 	/*LDO normal mode*/
+diff --git a/drivers/staging/rtl8188eu/hal/usb_halinit.c b/drivers/staging/rtl8188eu/hal/usb_halinit.c
+index 56de6071eb72..26c445a77e35 100644
+--- a/drivers/staging/rtl8188eu/hal/usb_halinit.c
++++ b/drivers/staging/rtl8188eu/hal/usb_halinit.c
+@@ -1002,11 +1002,6 @@ void rtw_hal_read_chip_info(struct adapter *Adapter)
+ 	readAdapterInfo_8188EU(Adapter);
+ }
  
- #define RTL8188E_TRANS_ACT_TO_CARDEMU					\
-@@ -57,13 +57,13 @@
- 	 * },
- 	 * comments here
- 	 */								\
--	{0x001F, PWR_CUT_ALL_MSK, PWR_CMD_WRITE, 0xFF, 0}, \
-+	{0x001F, PWR_CMD_WRITE, 0xFF, 0}, \
- 	/*0x1F[7:0] = 0 turn off RF*/					\
--	{0x0023, PWR_CUT_ALL_MSK, PWR_CMD_WRITE, BIT(4), BIT(4)}, \
-+	{0x0023, PWR_CMD_WRITE, BIT(4), BIT(4)}, \
- 	/*LDO Sleep mode*/						\
--	{0x0005, PWR_CUT_ALL_MSK, PWR_CMD_WRITE, BIT(1), BIT(1)}, \
-+	{0x0005, PWR_CMD_WRITE, BIT(1), BIT(1)}, \
- 	/*0x04[9] = 1 turn off MAC by HW state machine*/		\
--	{0x0005, PWR_CUT_ALL_MSK, PWR_CMD_POLLING, BIT(1), 0}, \
-+	{0x0005, PWR_CMD_POLLING, BIT(1), 0}, \
- 	/*wait till 0x04[9] = 0 polling until return 0 to disable*/
- 
- #define RTL8188E_TRANS_CARDEMU_TO_CARDDIS				\
-@@ -72,15 +72,15 @@
- 	 * value },
- 	 * comments here
- 	 */								\
--	{0x0026, PWR_CUT_ALL_MSK, PWR_CMD_WRITE, BIT(7), BIT(7)}, \
-+	{0x0026, PWR_CMD_WRITE, BIT(7), BIT(7)}, \
- 	/*0x24[23] = 2b'01 schmit trigger */				\
--	{0x0005, PWR_CUT_ALL_MSK, PWR_CMD_WRITE, BIT(3) | BIT(4), BIT(3)}, \
-+	{0x0005, PWR_CMD_WRITE, BIT(3) | BIT(4), BIT(3)}, \
- 	/*0x04[12:11] = 2b'01 enable WL suspend*/			\
--	{0x0007, PWR_CUT_ALL_MSK, PWR_CMD_WRITE, 0xFF, 0}, \
-+	{0x0007, PWR_CMD_WRITE, 0xFF, 0}, \
- 	/* 0x04[31:30] = 2b'10 enable enable bandgap mbias in suspend */\
--	{0x0041, PWR_CUT_ALL_MSK, PWR_CMD_WRITE, BIT(4), 0}, \
-+	{0x0041, PWR_CMD_WRITE, BIT(4), 0}, \
- 	/*Clear SIC_EN register 0x40[12] = 1'b0 */			\
--	{0xfe10, PWR_CUT_ALL_MSK, PWR_CMD_WRITE, BIT(4), BIT(4)}, \
-+	{0xfe10, PWR_CMD_WRITE, BIT(4), BIT(4)}, \
- 	/*Set USB suspend enable local register  0xfe10[4]=1 */
- 
- /* This is used by driver for LPSRadioOff Procedure, not for FW LPS Step */
-@@ -90,24 +90,24 @@
- 	 * value },
- 	 * comments here
- 	 */								\
--	{0x0522, PWR_CUT_ALL_MSK, PWR_CMD_WRITE, 0xFF, 0x7F},/*Tx Pause*/ \
--	{0x05F8, PWR_CUT_ALL_MSK, PWR_CMD_POLLING, 0xFF, 0}, \
-+	{0x0522, PWR_CMD_WRITE, 0xFF, 0x7F},/*Tx Pause*/ \
-+	{0x05F8, PWR_CMD_POLLING, 0xFF, 0}, \
- 	/*Should be zero if no packet is transmitting*/			\
--	{0x05F9, PWR_CUT_ALL_MSK, PWR_CMD_POLLING, 0xFF, 0}, \
-+	{0x05F9, PWR_CMD_POLLING, 0xFF, 0}, \
- 	/*Should be zero if no packet is transmitting*/			\
--	{0x05FA, PWR_CUT_ALL_MSK, PWR_CMD_POLLING, 0xFF, 0}, \
-+	{0x05FA, PWR_CMD_POLLING, 0xFF, 0}, \
- 	/*Should be zero if no packet is transmitting*/			\
--	{0x05FB, PWR_CUT_ALL_MSK, PWR_CMD_POLLING, 0xFF, 0}, \
-+	{0x05FB, PWR_CMD_POLLING, 0xFF, 0}, \
- 	/*Should be zero if no packet is transmitting*/			\
--	{0x0002, PWR_CUT_ALL_MSK, PWR_CMD_WRITE, BIT(0), 0}, \
-+	{0x0002, PWR_CMD_WRITE, BIT(0), 0}, \
- 	/*CCK and OFDM are disabled,and clock are gated*/		\
--	{0x0002, PWR_CUT_ALL_MSK, PWR_CMD_DELAY, 0,	PWRSEQ_DELAY_US}, \
-+	{0x0002, PWR_CMD_DELAY, 0,	PWRSEQ_DELAY_US}, \
- 	/*Delay 1us*/ \
--	{0x0100, PWR_CUT_ALL_MSK, PWR_CMD_WRITE, 0xFF, 0x3F}, \
-+	{0x0100, PWR_CMD_WRITE, 0xFF, 0x3F}, \
- 	/*Reset MAC TRX*/ \
--	{0x0101, PWR_CUT_ALL_MSK, PWR_CMD_WRITE, BIT(1), 0}, \
-+	{0x0101, PWR_CMD_WRITE, BIT(1), 0}, \
- 	/*check if removed later*/\
--	{0x0553, PWR_CUT_ALL_MSK, PWR_CMD_WRITE, BIT(5), BIT(5)}, \
-+	{0x0553, PWR_CMD_WRITE, BIT(5), BIT(5)}, \
- 	/*Respond TxOK to scheduler*/
- 
- #define RTL8188E_TRANS_END						\
-@@ -116,7 +116,7 @@
- 	 * value },
- 	 * comments here
- 	 */								\
--	{0xFFFF, PWR_CUT_ALL_MSK, PWR_CMD_END, 0, 0},
-+	{0xFFFF, PWR_CMD_END, 0, 0},
- 
- extern struct wl_pwr_cfg rtl8188E_power_on_flow
- 		[RTL8188E_TRANS_CARDEMU_TO_ACT_STEPS + RTL8188E_TRANS_END_STEPS];
-diff --git a/drivers/staging/rtl8188eu/include/pwrseqcmd.h b/drivers/staging/rtl8188eu/include/pwrseqcmd.h
-index a5eb95fc58b9..bfa0405cccde 100644
---- a/drivers/staging/rtl8188eu/include/pwrseqcmd.h
-+++ b/drivers/staging/rtl8188eu/include/pwrseqcmd.h
-@@ -33,7 +33,6 @@ enum pwrseq_cmd_delat_unit {
- 
- struct wl_pwr_cfg {
- 	u16 offset;
--	u8 cut_msk;
- 	u8 cmd:4;
- 	u8 msk;
- 	u8 value;
+-#define GPIO_DEBUG_PORT_NUM 0
+-static void rtl8192cu_trigger_gpio_0(struct adapter *adapt)
+-{
+-}
+-
+ static void ResumeTxBeacon(struct adapter *adapt)
+ {
+ 	struct hal_data_8188e *haldata = adapt->HalData;
+@@ -1550,9 +1545,6 @@ void rtw_hal_set_hwreg(struct adapter *Adapter, u8 variable, u8 *val)
+ 			}
+ 		}
+ 		break;
+-	case HW_VAR_TRIGGER_GPIO_0:
+-		rtl8192cu_trigger_gpio_0(Adapter);
+-		break;
+ 	case HW_VAR_RPT_TIMER_SETTING:
+ 		{
+ 			u16 min_rpt_time = (*(u16 *)val);
+diff --git a/drivers/staging/rtl8188eu/include/hal_intf.h b/drivers/staging/rtl8188eu/include/hal_intf.h
+index 2e3e933781eb..2eb4f1fa75bb 100644
+--- a/drivers/staging/rtl8188eu/include/hal_intf.h
++++ b/drivers/staging/rtl8188eu/include/hal_intf.h
+@@ -74,7 +74,6 @@ enum hw_variables {
+ 	HW_VAR_TDLS_RS_RCR,
+ 	HW_VAR_TDLS_DONE_CH_SEN,
+ 	HW_VAR_INITIAL_GAIN,
+-	HW_VAR_TRIGGER_GPIO_0,
+ 	HW_VAR_BT_SET_COEXIST,
+ 	HW_VAR_BT_ISSUE_DELBA,
+ 	HW_VAR_CURRENT_ANTENNA,
 -- 
 2.20.1
 
