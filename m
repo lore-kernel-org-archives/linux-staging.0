@@ -1,190 +1,351 @@
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E20972
-	for <linux-staging@lists.linux.dev>; Mon, 19 Jul 2021 13:42:26 +0000 (UTC)
-Received: by mail-il1-f197.google.com with SMTP id e16-20020a056e0204b0b029020c886c9370so10648254ils.10
-        for <linux-staging@lists.linux.dev>; Mon, 19 Jul 2021 06:42:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=LmzuAbr1S4QYzHKh1chjZLU0DJX1LhIL/fhQuZ9XnbY=;
-        b=D4ad1KKcgo6Hc9NywmyM53KLGDTEE/PEzKfXzcHYpFRzDbQWg3htJ659Y2Zz56KLX4
-         i7w7KdmQIfDjGKIEhA2DD66iL6szH0S/R1AXysjSYRmXXqtoliA/2jqJ/QoxqDz97dA7
-         pn8MgQri8L8Q6wxNX2vliZdFdye9UqS+T5NKGpbhqxoUh93/XUPxQzWxaHYRAqpEQGRX
-         sQlqUxkxnL5L6H6R6C8Er3Z4uvdK6z+xtY1BaWz0+M+z+KPaNWIFDfsptUlhZtgFEggX
-         pf+QCrVWTu1yGJodr8btXrVBifAOZvFSEAkJoHfhbhgQRHAawht6q7DizrvDTZysaYSo
-         d6Qw==
-X-Gm-Message-State: AOAM532KBqL4XgQd0kInrXfnTLOeKcWrfqs48q5c5bhD282/FFxaDbhG
-	OXH8cXVyFO7VqCZjePNkg8XG7rDZHOoWep6U+wq5KCJEqkfN
-X-Google-Smtp-Source: ABdhPJzi9GPMoqAQaea0pqj3j0E7fe+X2tw45B+UNXaAtqbrwhm4YsQX62hArhkS9ZtkKpnej2ZhhAGqeuWu0UgafBBqY0DZ6/E/
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A0872
+	for <linux-staging@lists.linux.dev>; Mon, 19 Jul 2021 14:21:02 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by comms.puri.sm (Postfix) with ESMTP id 0E464E11CF;
+	Mon, 19 Jul 2021 07:21:02 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 2iXWxQlS4ZX2; Mon, 19 Jul 2021 07:21:00 -0700 (PDT)
+Message-ID: <d3959a6b79ddfd84198350f5caf1708572af8700.camel@puri.sm>
+Subject: Re: [PATCH v6 2/3] media: imx: add a driver for i.MX8MQ mipi csi rx
+ phy and controller
+From: Martin Kepplinger <martin.kepplinger@puri.sm>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: festevam@gmail.com, krzk@kernel.org, devicetree@vger.kernel.org, 
+ kernel@pengutronix.de, kernel@puri.sm,
+ linux-arm-kernel@lists.infradead.org,  linux-imx@nxp.com,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-staging@lists.linux.dev, m.felsch@pengutronix.de, mchehab@kernel.org,
+  phone-devel@vger.kernel.org, robh@kernel.org, shawnguo@kernel.org, 
+ slongerbeam@gmail.com
+Date: Mon, 19 Jul 2021 16:20:52 +0200
+In-Reply-To: <afea234be0fd5e8a3ee2cac128169bbf796d5412.camel@puri.sm>
+References: <20210714111931.324485-1-martin.kepplinger@puri.sm>
+	 <20210714111931.324485-3-martin.kepplinger@puri.sm>
+	 <YO8r6pZAduu1ZMK4@pendragon.ideasonboard.com>
+	 <ce71a71a358247eca3b72ddcddd703206c90f284.camel@puri.sm>
+	 <YPCuFA+utjudv11H@pendragon.ideasonboard.com>
+	 <e88d99abbdcbd6a1b2c27849f08721e79f237adc.camel@puri.sm>
+	 <YPFjwvjSCuvC1915@pendragon.ideasonboard.com>
+	 <afea234be0fd5e8a3ee2cac128169bbf796d5412.camel@puri.sm>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-Received: by 2002:a05:6638:3796:: with SMTP id w22mr5599143jal.34.1626702145287;
- Mon, 19 Jul 2021 06:42:25 -0700 (PDT)
-Date: Mon, 19 Jul 2021 06:42:25 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000008678f205c77a1b93@google.com>
-Subject: [syzbot] KASAN: slab-out-of-bounds Read in do_wait_for_common
-From: syzbot <syzbot+cc699626e48a6ebaf295@syzkaller.appspotmail.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, 
-	gregkh@linuxfoundation.org, hridayhegde1999@gmail.com, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	paskripkin@gmail.com, rkovhaev@gmail.com, straube.linux@gmail.com, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+Am Montag, dem 19.07.2021 um 12:46 +0200 schrieb Martin Kepplinger:
+> Am Freitag, dem 16.07.2021 um 13:47 +0300 schrieb Laurent Pinchart:
+> > Hi Martin,
+> > 
+> > On Fri, Jul 16, 2021 at 10:47:14AM +0200, Martin Kepplinger wrote:
+> > > Am Freitag, dem 16.07.2021 um 00:52 +0300 schrieb Laurent
+> > > Pinchart:
+> > > > On Thu, Jul 15, 2021 at 09:37:24AM +0200, Martin Kepplinger
+> > > > wrote:
+> > > > > Am Mittwoch, dem 14.07.2021 um 21:24 +0300 schrieb Laurent
+> > > > > Pinchart:
+> > > > > > On Wed, Jul 14, 2021 at 01:19:30PM +0200, Martin Kepplinger
+> > > > > > wrote:
+> > > > > > > Add a driver to support the i.MX8MQ MIPI CSI receiver.
+> > > > > > > The
+> > > > > > > hardware side
+> > > > > > > is based on
+> > > > > > > https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0
+> > > > > > > 
+> > > > > > > It's built as part of VIDEO_IMX7_CSI because that's
+> > > > > > > documented to support
+> > > > > > > i.MX8M platforms. This driver adds i.MX8MQ support where
+> > > > > > > currently only the
+> > > > > > > i.MX8MM platform has been supported.
+> > > > > > > 
+> > > > > > > Signed-off-by: Martin Kepplinger
+> > > > > > > <martin.kepplinger@puri.sm>
+> > > > > > > ---
+> > > > > > >  drivers/staging/media/imx/Makefile           |   1 +
+> > > > > > >  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 949
+> > > > > > > +++++++++++++++++++
+> > > > > > >  2 files changed, 950 insertions(+)
+> > > > > > >  create mode 100644 drivers/staging/media/imx/imx8mq-
+> > > > > > > mipi-
+> > > > > > > csi2.c
+> > > > > > > 
+> > > > > > > diff --git a/drivers/staging/media/imx/Makefile
+> > > > > > > b/drivers/staging/media/imx/Makefile
+> > > > > > > index 6ac33275cc97..19c2fc54d424 100644
+> > > > > > > --- a/drivers/staging/media/imx/Makefile
+> > > > > > > +++ b/drivers/staging/media/imx/Makefile
+> > > > > > > @@ -16,3 +16,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-
+> > > > > > > mipi-
+> > > > > > > csi2.o
+> > > > 
+> > > > [snip]
+> > > > 
+> > > > > > > +static int imx8mq_mipi_csi_calc_hs_settle(struct
+> > > > > > > csi_state
+> > > > > > > *state)
+> > > > > > > +{
+> > > > > > > +       u32 width = state-
+> > > > > > > > format_mbus[MIPI_CSI2_PAD_SINK].width;
+> > > > > > > +       u32 height = state-
+> > > > > > > > format_mbus[MIPI_CSI2_PAD_SINK].height;
+> > > > > > > +       s64 link_freq;
+> > > > > > > +       u32 lane_rate;
+> > > > > > > +
+> > > > > > > +       /* Calculate the line rate from the pixel rate.
+> > > > > > > */
+> > > > > > > +       link_freq = v4l2_get_link_freq(state->src_sd-
+> > > > > > > > ctrl_handler,
+> > > > > > > +                                      state->csi2_fmt-
+> > > > > > > > width,
+> > > > > > > +                                      state-
+> > > > > > > > bus.num_data_lanes * 2);
+> > > > > > > +       if (link_freq < 0) {
+> > > > > > > +               dev_err(state->dev, "Unable to obtain
+> > > > > > > link
+> > > > > > > frequency: %d\n",
+> > > > > > > +                       (int)link_freq);
+> > > > > > > +               return link_freq;
+> > > > > > > +       }
+> > > > > > > +
+> > > > > > > +       lane_rate = link_freq * 2;
+> > > > > > > +       if (lane_rate < 80000000 || lane_rate >
+> > > > > > > 1500000000)
+> > > > > > > {
+> > > > > > > +               dev_dbg(state->dev, "Out-of-bound lane
+> > > > > > > rate
+> > > > > > > %u\n", lane_rate);
+> > > > > > > +               return -EINVAL;
+> > > > > > > +       }
+> > > > > > > +
+> > > > > > > +       /*
+> > > > > > > https://community.nxp.com/t5/i-MX-Processors/Explenation-for-HS-SETTLE-parameter-in-MIPI-CSI-D-PHY-registers/m-p/764275/highlight/true#M118744
+> > > > > > >  */
+> > > > > > > +       if (lane_rate < 250000000)
+> > > > > > > +               state->hs_settle = 0xb;
+> > > > > > > +       else if (lane_rate < 500000000)
+> > > > > > > +               state->hs_settle = 0x8;
+> > > > > > > +       else
+> > > > > > > +               state->hs_settle = 0x6;
+> > > > > > 
+> > > > > > We could possibly compute this value based on the formula
+> > > > > > from the table
+> > > > > > in that page, but maybe that's overkill ? If you want to
+> > > > > > give
+> > > > > > it a try,
+> > > > > > it would be along those lines.
+> > > > > > 
+> > > > > >         /*
+> > > > > >          * The D-PHY specification requires Ths-settle to
+> > > > > > be
+> > > > > > in the range
+> > > > > >          * 85ns + 6*UI to 140ns + 10*UI, with the unit
+> > > > > > interval UI being half
+> > > > > >          * the clock period.
+> > > > > >          *
+> > > > > >          * The Ths-settle value is expressed in the
+> > > > > > hardware
+> > > > > > as a multiple of
+> > > > > >          * the Esc clock period:
+> > > > > >          *
+> > > > > >          * Ths-settle = (PRG_RXHS_SETTLE + 1) * Tperiod of
+> > > > > > RxClkInEsc
+> > > > > >          *
+> > > > > >          * Due to the one cycle inaccuracy introduced by
+> > > > > > rounding, the
+> > > > > >          * documentation recommends picking a value away
+> > > > > > from
+> > > > > > the boundaries.
+> > > > > >          * Let's pick the average.
+> > > > > >          */
+> > > > > >         esc_clk_rate = clk_get_rate(...);
+> > > > > > 
+> > > > > >         min_ths_settle = 85 + 6 * 1000000 / (lane_rate /
+> > > > > > 1000);
+> > > > > >         max_ths_settle = 140 + 10 * 1000000 / (lane_rate /
+> > > > > > 1000);
+> > > > > >         ths_settle = (min_ths_settle + max_ths_settle) / 2;
+> > > > > > 
+> > > > > >         state->hs_settle = ths_settle * esc_clk_rate /
+> > > > > > 1000000000 - 1;
+> > > > > 
+> > > > > I experimented a bit but would like to leave this as a task
+> > > > > for
+> > > > > later
+> > > > > if that's ok. it's correct and simple now. also, using
+> > > > > clks[i].clk
+> > > > > based on the name string would feel better to submit
+> > > > > seperately
+> > > > > later.
+> > > > 
+> > > > That's OK with me, but I may then submit a patch on top fairly
+> > > > soon :-)
+> > > > Have you been able to test if this code works on your device ?
+> > > > The main
+> > > > reason why I think it's better is that it doesn't hardcode a
+> > > > specific
+> > > > escape clock frequency assumption, so it should be able to
+> > > > accommodate a
+> > > > wider range of use cases. If we change it later, there's always
+> > > > a
+> > > > risk
+> > > > of regressions, while if we do this from the start, we'll
+> > > > figure
+> > > > out
+> > > > quickly if it doesn't work in some cases.
+> > > 
+> > > taking your code basically as-is doesn't yet work, but it helps a
+> > > bit.
+> > 
+> > Thanks for testing.
+> > 
+> > > tbh I don't even know how to correctly read that table /
+> > > calculation:
+> > > what is the exact relation of the calculated Ths_settle time
+> > > inverval
+> > > to the hs_settle register bits?
+> > 
+> > The PRG_RXHS_SETTLE field stores a number of timer ticks to cover
+> > the
+> > Ths-settle internal. The D-PHY arms the timer when it detects the
+> > transition to LP-00, and ignores transitions on the lane until the
+> > timer
+> > expires. The timer is clocked by the escape clock.
+> > 
+> > What hs_settle value do you currently use, and what value does my
+> > code
+> > produce ?
+> > 
+> > > if the 2 of us can't quickly figure it out I can ask NXP via that
+> > > community forum issue and I created
+> > > https://source.puri.sm/Librem5/linux-next/-/issues/340 so I won't
+> > > forget about it.
+> > 
+> 
+> hi Laurent,
+> 
+> the below patch for hs_settle works (and calculates either the same
+> or
+> +/- 1 for the hs_settle value, compared to the table), but getting
+> the
+> esc clock looks really scary how I do it: how would you do that?
+> 
+> 
+> @@ -284,6 +285,9 @@ static int imx8mq_mipi_csi_calc_hs_settle(struct
+> csi_state *state)
+>  {
+>         s64 link_freq;
+>         u32 lane_rate;
+> +       u32 esc_clk_rate = 0;
+> +       u32 i, min_ths_settle, max_ths_settle, ths_settle_ns,
+> esc_clk_period_ns;
+> +       char *p;
+>  
+>         /* Calculate the line rate from the pixel rate. */
+>         link_freq = v4l2_get_link_freq(state->src_sd->ctrl_handler,
+> @@ -302,20 +306,44 @@ static int
+> imx8mq_mipi_csi_calc_hs_settle(struct
+> csi_state *state)
+>         }
+>  
+>         /*
+> -        * The following table is the source for this:
+> -        *
+> https://community.nxp.com/t5/i-MX-Processors/Explenation-for-HS-SETTLE-parameter-in-MIPI-CSI-D-PHY-registers/m-p/764275/highlight/true#M118744
+> -        * but it would be even better to calculate the value for any
+> -        * given datarate.
+> +        * The D-PHY specification requires Ths-settle to be in the
+> range
+> +        * 85ns + 6*UI to 140ns + 10*UI, with the unit interval UI
+> being half
+> +        * the clock period.
+> +        *
+> +        * The Ths-settle value is expressed in the hardware as a
+> multiple of
+> +        * the Esc clock period:
+> +        *
+> +        * Ths-settle = (PRG_RXHS_SETTLE + 1) * Tperiod of RxClkInEsc
+> +        *
+> +        * Due to the one cycle inaccuracy introduced by rounding,
+> the
+> +        * documentation recommends picking a value away from the
+> boundaries.
+> +        * Let's pick the average.
+>          */
+> -       if (lane_rate < 250000000)
+> -               state->hs_settle = 0xb;
+> -       else if (lane_rate < 500000000)
+> -               state->hs_settle = 0x8;
+> -       else
+> -               state->hs_settle = 0x6;
+> -
+> -       dev_dbg(state->dev, "start stream: lane rate %u hs_settle
+> %u\n",
+> -               lane_rate, state->hs_settle);
+> +       for (i = 0; i < CSI2_NUM_CLKS; i++) {
+> +               p = (char *)__clk_get_name(state->clks[i].clk);
+> +               /* we're getting csi1_esc here */
+> +               if (strlen(p) > 7)
+> +                       p += 5;
+> +
+> +               dev_dbg(state->dev, "comparing: %s to esc\n", p);
+> +               if (!strcmp(p, "esc"))
+> +                       esc_clk_rate = clk_get_rate(state-
+> > clks[i].clk);
+> +       }
+> +
+> +       if (!esc_clk_rate)
+> +               dev_err(state->dev, "Could not get esc clock
+> rate\n");
+> +
+> +       dev_dbg(state->dev, "esc clk rate: %u\n", esc_clk_rate);
+> +       esc_clk_period_ns = 1000000000 / esc_clk_rate;
+> +
+> +       min_ths_settle = 85 + 6 * 1000000 / (lane_rate / 1000);
+> +       max_ths_settle = 140 + 10 * 1000000 / (lane_rate / 1000);
+> +       ths_settle_ns = (min_ths_settle + max_ths_settle) / 2;
+> +
+> +       state->hs_settle = ths_settle_ns / esc_clk_period_ns - 1;
+> +
+> +       dev_dbg(state->dev, "lane rate %u Ths_settle %u hs_settle
+> %u\n",
+> +               lane_rate, ths_settle_ns, state->hs_settle);
+>  
+>         return 0;
+> 
 
-syzbot found the following issue on:
-
-HEAD commit:    8096acd7442e Merge tag 'net-5.14-rc2' of git://git.kernel...
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=167ca94a300000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5294764a378649cb
-dashboard link: https://syzkaller.appspot.com/bug?extid=cc699626e48a6ebaf295
-compiler:       Debian clang version 11.0.1-2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14d68024300000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16e4f180300000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+cc699626e48a6ebaf295@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: slab-out-of-bounds in debug_spin_lock_before kernel/locking/spinlock_debug.c:83 [inline]
-BUG: KASAN: slab-out-of-bounds in do_raw_spin_lock+0x4f5/0x8e0 kernel/locking/spinlock_debug.c:112
-Read of size 4 at addr ffff88802b46ce14 by task kworker/0:6/8471
-
-CPU: 0 PID: 8471 Comm: kworker/0:6 Tainted: G        W         5.14.0-rc1-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x1ae/0x29f lib/dump_stack.c:105
- print_address_description+0x66/0x3b0 mm/kasan/report.c:233
- __kasan_report mm/kasan/report.c:419 [inline]
- kasan_report+0x163/0x210 mm/kasan/report.c:436
- debug_spin_lock_before kernel/locking/spinlock_debug.c:83 [inline]
- do_raw_spin_lock+0x4f5/0x8e0 kernel/locking/spinlock_debug.c:112
- __raw_spin_lock_irq include/linux/spinlock_api_smp.h:129 [inline]
- _raw_spin_lock_irq+0xba/0xf0 kernel/locking/spinlock.c:167
- do_wait_for_common+0x2e5/0x480 kernel/sched/completion.c:86
- __wait_for_common kernel/sched/completion.c:106 [inline]
- wait_for_common kernel/sched/completion.c:117 [inline]
- wait_for_completion+0x48/0x60 kernel/sched/completion.c:138
- r871xu_dev_remove+0x83/0x460 drivers/staging/rtl8712/usb_intf.c:599
- usb_unbind_interface+0x1f2/0x860 drivers/usb/core/driver.c:458
- __device_release_driver drivers/base/dd.c:1201 [inline]
- device_release_driver_internal+0x51e/0x7b0 drivers/base/dd.c:1232
- bus_remove_device+0x2fd/0x410 drivers/base/bus.c:529
- device_del+0x6e1/0xc10 drivers/base/core.c:3540
- usb_disable_device+0x407/0x800 drivers/usb/core/message.c:1419
- usb_disconnect+0x33a/0x8a0 drivers/usb/core/hub.c:2221
- hub_port_connect+0x297/0x27a0 drivers/usb/core/hub.c:5151
- hub_port_connect_change+0x5d0/0xbf0 drivers/usb/core/hub.c:5440
- port_event+0xaee/0x1140 drivers/usb/core/hub.c:5586
- hub_event+0x48d/0xd80 drivers/usb/core/hub.c:5668
- process_one_work+0x833/0x10c0 kernel/workqueue.c:2276
- worker_thread+0xac1/0x1320 kernel/workqueue.c:2422
- kthread+0x453/0x480 kernel/kthread.c:319
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
-
-Allocated by task 10:
- kasan_save_stack mm/kasan/common.c:38 [inline]
- kasan_set_track mm/kasan/common.c:46 [inline]
- set_alloc_info mm/kasan/common.c:434 [inline]
- __kasan_slab_alloc+0x96/0xd0 mm/kasan/common.c:467
- kasan_slab_alloc include/linux/kasan.h:253 [inline]
- slab_post_alloc_hook mm/slab.h:512 [inline]
- slab_alloc_node mm/slub.c:2981 [inline]
- kmem_cache_alloc_node+0x200/0x370 mm/slub.c:3017
- alloc_task_struct_node kernel/fork.c:171 [inline]
- dup_task_struct+0x52/0x980 kernel/fork.c:871
- copy_process+0x615/0x5b00 kernel/fork.c:1952
- kernel_clone+0x21a/0x7d0 kernel/fork.c:2509
- kernel_thread+0x146/0x1c0 kernel/fork.c:2561
- call_usermodehelper_exec_work+0x57/0x220 kernel/umh.c:174
- process_one_work+0x833/0x10c0 kernel/workqueue.c:2276
- worker_thread+0xac1/0x1320 kernel/workqueue.c:2422
- kthread+0x453/0x480 kernel/kthread.c:319
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
-
-Last potentially related work creation:
- kasan_save_stack+0x27/0x50 mm/kasan/common.c:38
- kasan_record_aux_stack+0xee/0x120 mm/kasan/generic.c:348
- __call_rcu kernel/rcu/tree.c:3029 [inline]
- call_rcu+0x1a0/0xa20 kernel/rcu/tree.c:3109
- schedule_tail+0xc/0xb0 kernel/sched/core.c:4619
- ret_from_fork+0x8/0x30 arch/x86/entry/entry_64.S:280
-
-The buggy address belongs to the object at ffff88802b46b880
- which belongs to the cache task_struct of size 6976
-The buggy address is located 5524 bytes inside of
- 6976-byte region [ffff88802b46b880, ffff88802b46d3c0)
-The buggy address belongs to the page:
-page:ffffea0000ad1a00 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x2b468
-head:ffffea0000ad1a00 order:3 compound_mapcount:0 compound_pincount:0
-flags: 0xfff00000010200(slab|head|node=0|zone=1|lastcpupid=0x7ff)
-raw: 00fff00000010200 0000000000000000 dead000000000122 ffff888140006280
-raw: 0000000000000000 0000000000040004 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 10, ts 43802781641, free_ts 43793596145
- prep_new_page mm/page_alloc.c:2433 [inline]
- get_page_from_freelist+0x779/0xa30 mm/page_alloc.c:4166
- __alloc_pages+0x26c/0x5f0 mm/page_alloc.c:5374
- alloc_slab_page mm/slub.c:1713 [inline]
- allocate_slab+0xf1/0x540 mm/slub.c:1853
- new_slab mm/slub.c:1916 [inline]
- new_slab_objects mm/slub.c:2662 [inline]
- ___slab_alloc+0x1cf/0x350 mm/slub.c:2825
- __slab_alloc mm/slub.c:2865 [inline]
- slab_alloc_node mm/slub.c:2947 [inline]
- kmem_cache_alloc_node+0x2ca/0x370 mm/slub.c:3017
- alloc_task_struct_node kernel/fork.c:171 [inline]
- dup_task_struct+0x52/0x980 kernel/fork.c:871
- copy_process+0x615/0x5b00 kernel/fork.c:1952
- kernel_clone+0x21a/0x7d0 kernel/fork.c:2509
- kernel_thread+0x146/0x1c0 kernel/fork.c:2561
- call_usermodehelper_exec_work+0x57/0x220 kernel/umh.c:174
- process_one_work+0x833/0x10c0 kernel/workqueue.c:2276
- worker_thread+0xac1/0x1320 kernel/workqueue.c:2422
- kthread+0x453/0x480 kernel/kthread.c:319
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
-page last free stack trace:
- reset_page_owner include/linux/page_owner.h:24 [inline]
- free_pages_prepare mm/page_alloc.c:1343 [inline]
- free_pcp_prepare+0xc29/0xd20 mm/page_alloc.c:1394
- free_unref_page_prepare mm/page_alloc.c:3329 [inline]
- free_unref_page+0x7e/0x550 mm/page_alloc.c:3408
- kfree+0x287/0x2d0 mm/slub.c:4292
- request_firmware_work_func+0x175/0x250 drivers/base/firmware_loader/main.c:1081
- process_one_work+0x833/0x10c0 kernel/workqueue.c:2276
- worker_thread+0xac1/0x1320 kernel/workqueue.c:2422
- kthread+0x453/0x480 kernel/kthread.c:319
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
-
-Memory state around the buggy address:
- ffff88802b46cd00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffff88802b46cd80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->ffff88802b46ce00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-                         ^
- ffff88802b46ce80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffff88802b46cf00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-==================================================================
+the below code works too and looks better to me. Other drivers do it
+similarly when looking for a clock:
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+	for (i = 0; i < CSI2_NUM_CLKS; i++) {
+		p = (char *)__clk_get_name(state->clks[i].clk);
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+		dev_dbg(state->dev, "looking for esc clock: %s\n", p);
+
+		if (!strcmp(p, "esc") || !strcmp(p, "csi1_esc") ||
+		    !strcmp(p, "csi2_esc"))
+			esc_clk_rate = clk_get_rate(state-
+>clks[i].clk);
+	}
+
+	if (!esc_clk_rate) {
+		dev_err(state->dev, "Could not find esc clock.\n");
+		return -EINVAL;
+	}
+
+	dev_dbg(state->dev, "esc clk rate: %u\n", esc_clk_rate);
+	esc_clk_period_ns = 1000000000 / esc_clk_rate;
+
+	min_ths_settle = 85 + 6 * 1000000 / (lane_rate / 1000);
+	max_ths_settle = 140 + 10 * 1000000 / (lane_rate / 1000);
+	ths_settle_ns = (min_ths_settle + max_ths_settle) / 2;
+
+	state->hs_settle = ths_settle_ns / esc_clk_period_ns - 1;
+
