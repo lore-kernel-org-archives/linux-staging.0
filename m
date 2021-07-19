@@ -1,85 +1,66 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9091070
-	for <linux-staging@lists.linux.dev>; Mon, 19 Jul 2021 15:24:43 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-178-iMvtmtATPRWN2iDCvXdP_A-1; Mon, 19 Jul 2021 16:24:39 +0100
-X-MC-Unique: iMvtmtATPRWN2iDCvXdP_A-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.23; Mon, 19 Jul 2021 16:24:38 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.023; Mon, 19 Jul 2021 16:24:38 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Dan Carpenter' <dan.carpenter@oracle.com>, Len Baker <len.baker@gmx.com>
-CC: Larry Finger <Larry.Finger@lwfinger.net>, Florian Schilhabel
-	<florian.c.schilhabel@googlemail.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Pavel Skripkin <paskripkin@gmail.com>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] staging/rtl8712: Remove all strcpy() uses in favor of
- strscpy()
-Thread-Topic: [PATCH] staging/rtl8712: Remove all strcpy() uses in favor of
- strscpy()
-Thread-Index: AQHXfGBOiwzYJ/Wx2kuQ1xZyGR2EOqtKavEA
-Date: Mon, 19 Jul 2021 15:24:38 +0000
-Message-ID: <de94438319a84e0985b3ba0f5c00807b@AcuMS.aculab.com>
-References: <20210717155145.15041-1-len.baker@gmx.com>
- <20210719053747.GN1931@kadam>
-In-Reply-To: <20210719053747.GN1931@kadam>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6DF173
+	for <linux-staging@lists.linux.dev>; Mon, 19 Jul 2021 17:11:37 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id d12so17057097pfj.2
+        for <linux-staging@lists.linux.dev>; Mon, 19 Jul 2021 10:11:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=yoa729tPsnyOV1Y+/5ZmtExrLCgEeGDbIFxlft1dfP8=;
+        b=QsPrkgoQZMDKYcBF+idNxxDG9xBLy7hZCC0MamSxk/W+9pPssNZAD8LPNhy3wwrDPT
+         jlXoAFghpUhqFhujWoH5ZlyrnZqHrrW65Ob7O+p81QUnpj4wfJLaXKbBH39HThZrBonD
+         W0bEBhUZichBFp55juMbk77DalmBW0eku7VBgGJKMO2Xkh3IvXEm1B+3mgwIEeHH4D/E
+         V8O9DWC4cvwzkDwzgADKoRYA4YYcSVkh+/yMBjHqGjCEqvf/QWy+bTYkess9wxlgFSwx
+         f3WC1BMjjUkhNVsAnfnhoiW0HleLEhuLNqignYnr9DJxCUB/20LSbeA8QKT+VlZ2ZMSp
+         KwfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=yoa729tPsnyOV1Y+/5ZmtExrLCgEeGDbIFxlft1dfP8=;
+        b=BXs7bjI4dOAlzhzaau20ccunBJcxncbzoW8W800GVSFHTWyb2XIrX5qhi6woile+BP
+         qFnTZ+6blhj6/PEXgzRk7RXPA94lCGKTI459TdOLhWxMgobJEvwG0jRmEX5QQBp8IrAc
+         ng0/soY+RO7UqR6fZpwuyRhtNP0TIl0oxhBL7AZeVjaf0WQEP9IAMOtd73p2zrae2xcq
+         QWkQRd8niaLDKJJocMdxQ8Szz2Rti3SSwe3UZZ27W200szBC1x6slqbRwxDtJEChL4HY
+         Ty1DAeihWFsOYN8VNKmYjfj+BshLt9qf5RIJambZttFgSj1jTmpyTK3qJIKlJWolnI/N
+         iUqQ==
+X-Gm-Message-State: AOAM53062atib9phsOEMJPJdRIeROx7JW+5ME6wynCTuf4sJ/hO4S5pu
+	dsi+GLQHY0sSn/KWHUg+Rbg=
+X-Google-Smtp-Source: ABdhPJwtbRKJMGkmz7/uzgxegd8blnKQmJYwOJ7nwsf7kaEYmZx/UjM+NrdIcC3aysN4zSUwtmksvg==
+X-Received: by 2002:a65:44ca:: with SMTP id g10mr25982370pgs.246.1626714697347;
+        Mon, 19 Jul 2021 10:11:37 -0700 (PDT)
+Received: from ojas ([122.161.50.29])
+        by smtp.gmail.com with ESMTPSA id g5sm440882pfj.212.2021.07.19.10.11.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Jul 2021 10:11:37 -0700 (PDT)
+Date: Mon, 19 Jul 2021 22:41:25 +0530
+From: Ojaswin Mujoo <ojaswin98@gmail.com>
+To: mchehab@kernel.org
+Cc: sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Requesting suggestions getting started with staging/media/atomisp
+ driver
+Message-ID: <20210719170844.GA73837@ojas>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Dan Carpenter
-> Sent: 19 July 2021 06:38
-...
-> Not related to your patch but this code is bad.  What it does is the
-> "ifname" can be set as a module parameter.  So instead of testing if it
-> has been set, it uses the checking inside dev_alloc_name() to see if we
-> can allocate what the user requested.  If not then set it to "wlan%d".
-> If we cannot allocate what the user wants then we should return an
-> error.
->=20
-> It should do:
->=20
-> =09if (ifname[0] =3D=3D '\0')
-> =09=09strscpy(ifname, "wlan%d", sizeof(ifname));
->=20
-> =09ret =3D dev_alloc_name(pnetdev, ifname);
-> =09if (ret < 0) {
-> =09=09dev_err(pnetdev, "allocating device name failed.\n");
-> =09=09return NULL;
-> =09}
+Hi everyone,
 
-I know only root can set module parameters, but having one
-that contains a string used as a printf format seems
-dangerous at best.
+I was going through the TODO for atomisp driver to look for a task I
+could pick up. I'm relatively new here and task 3 looked decent to get
+started with (convert PMIC to pm_runtime*). However, checking the recent
+commits, it seems like there is some ongoing work on it. 
 
-Isn't it best to let userspace rename the interfaces later on?
+Hence, just reaching out to confirm the same and for some suggestions on
+a good first task I could work on?  Thank you in advance! 
 
-=09David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
-
+Regards,
+Ojaswin
