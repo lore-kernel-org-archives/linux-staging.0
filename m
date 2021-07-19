@@ -1,296 +1,92 @@
-Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956FA168
-	for <linux-staging@lists.linux.dev>; Mon, 19 Jul 2021 10:46:34 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by comms.puri.sm (Postfix) with ESMTP id 4D3EDE122E;
-	Mon, 19 Jul 2021 03:46:28 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TgGk5378cSYs; Mon, 19 Jul 2021 03:46:26 -0700 (PDT)
-Message-ID: <afea234be0fd5e8a3ee2cac128169bbf796d5412.camel@puri.sm>
-Subject: Re: [PATCH v6 2/3] media: imx: add a driver for i.MX8MQ mipi csi rx
- phy and controller
-From: Martin Kepplinger <martin.kepplinger@puri.sm>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: festevam@gmail.com, krzk@kernel.org, devicetree@vger.kernel.org, 
- kernel@pengutronix.de, kernel@puri.sm,
- linux-arm-kernel@lists.infradead.org,  linux-imx@nxp.com,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-staging@lists.linux.dev, m.felsch@pengutronix.de, mchehab@kernel.org,
-  phone-devel@vger.kernel.org, robh@kernel.org, shawnguo@kernel.org, 
- slongerbeam@gmail.com
-Date: Mon, 19 Jul 2021 12:46:19 +0200
-In-Reply-To: <YPFjwvjSCuvC1915@pendragon.ideasonboard.com>
-References: <20210714111931.324485-1-martin.kepplinger@puri.sm>
-	 <20210714111931.324485-3-martin.kepplinger@puri.sm>
-	 <YO8r6pZAduu1ZMK4@pendragon.ideasonboard.com>
-	 <ce71a71a358247eca3b72ddcddd703206c90f284.camel@puri.sm>
-	 <YPCuFA+utjudv11H@pendragon.ideasonboard.com>
-	 <e88d99abbdcbd6a1b2c27849f08721e79f237adc.camel@puri.sm>
-	 <YPFjwvjSCuvC1915@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
-Content-Transfer-Encoding: 8bit
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E432FB0
+	for <linux-staging@lists.linux.dev>; Mon, 19 Jul 2021 10:55:07 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id a23-20020a05600c2257b0290236ec98bebaso7765893wmm.1
+        for <linux-staging@lists.linux.dev>; Mon, 19 Jul 2021 03:55:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=l0QVYm1L0TsgxqeOl01rWKD2Acicr42gpNqzbxnu5Es=;
+        b=c3Hq43O28olk3Nw+K+T6beIb1Zn/Btxf5CzH7UyeehdlimcDtC7WQvfzlVAuOlc6vn
+         QLdVi5A0mQ2En66thGuhxy6BS0sM5DC30w3oSpF4ox8YEPJGttuuiJ8b5p60vWGtrZal
+         TT+XZh9d+XXIWDUX3HxyQ2Ked1iZghZsxrevJH/9CFXTa7RkGXvO4UocJWyUykfJLOcO
+         5SOUsO/bAfLch4z138gWBvvN5QMQUuceSgsaSpr4ygEITxOU1f8nV6Z/6atD3YOn6cLe
+         EffVAkfc7hs42bqBiYlFaoz6DZY/6uWPGdKCOYPsWAIjIzoOLzaNn9IIpyL3xm7xStZM
+         kMcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=l0QVYm1L0TsgxqeOl01rWKD2Acicr42gpNqzbxnu5Es=;
+        b=SdzImDSLCkHfx7CWwOUrxxJpnnQFdl9TsQz1AxpkRLurW7m6r3ySRx7WqJhhBeuexV
+         4OV5rjVmCi89J0wKWz9Uo5gd9+lN/Es+hDa/TK7blLiA9+x6CO9VHvuVW++u75e74bqo
+         vk9MVFoAVoFkIFd9WSSGo/PRTfe11Y6lAAMLiewCFoGoknkXp1KRxB6Y6aFfQ2vH/1/r
+         dhld9OeDEPfkMWypzWpwQLRsNPeblkrthacpvIAWa7XjrNRaE7OAKrC5Y01H7c6dRyqY
+         t8LEB8uyk1OaHu7981JYCmK0a1W7LIJQyv1Dk58cbo8fhrfUGEqa2oONqgNTkepCDqVV
+         EfLw==
+X-Gm-Message-State: AOAM532yevZqBh4HcgXWsembsBnOC8wpzXAK8vPCSRUHthW7G1XxgW8z
+	FpCCcsfHWNMGQrjnWS7gOTUuiA==
+X-Google-Smtp-Source: ABdhPJzYO+5NerS3ENO0AAojnquKAkkeWFiPnpEHWHGPCkMF0XhXRijco9kIPnejKO7c2TR2adqIBA==
+X-Received: by 2002:a05:600c:6d8:: with SMTP id b24mr31890229wmn.111.1626692106384;
+        Mon, 19 Jul 2021 03:55:06 -0700 (PDT)
+Received: from google.com ([31.124.24.141])
+        by smtp.gmail.com with ESMTPSA id w9sm16745331wmc.19.2021.07.19.03.55.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Jul 2021 03:55:05 -0700 (PDT)
+Date: Mon, 19 Jul 2021 11:55:04 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linuxarm@huawei.com,
+	mauro.chehab@huawei.com, Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v14 7/9] mfd: hi6421-spmi-pmic: move driver from staging
+Message-ID: <YPVaCCu498lNY9a2@google.com>
+References: <cover.1626515862.git.mchehab+huawei@kernel.org>
+ <6c64fa6abae6c9fa78ace1bf240b33b47eccae52.1626515862.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6c64fa6abae6c9fa78ace1bf240b33b47eccae52.1626515862.git.mchehab+huawei@kernel.org>
 
-Am Freitag, dem 16.07.2021 um 13:47 +0300 schrieb Laurent Pinchart:
-> Hi Martin,
-> 
-> On Fri, Jul 16, 2021 at 10:47:14AM +0200, Martin Kepplinger wrote:
-> > Am Freitag, dem 16.07.2021 um 00:52 +0300 schrieb Laurent Pinchart:
-> > > On Thu, Jul 15, 2021 at 09:37:24AM +0200, Martin Kepplinger
-> > > wrote:
-> > > > Am Mittwoch, dem 14.07.2021 um 21:24 +0300 schrieb Laurent
-> > > > Pinchart:
-> > > > > On Wed, Jul 14, 2021 at 01:19:30PM +0200, Martin Kepplinger
-> > > > > wrote:
-> > > > > > Add a driver to support the i.MX8MQ MIPI CSI receiver. The
-> > > > > > hardware side
-> > > > > > is based on
-> > > > > > https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0
-> > > > > > 
-> > > > > > It's built as part of VIDEO_IMX7_CSI because that's
-> > > > > > documented to support
-> > > > > > i.MX8M platforms. This driver adds i.MX8MQ support where
-> > > > > > currently only the
-> > > > > > i.MX8MM platform has been supported.
-> > > > > > 
-> > > > > > Signed-off-by: Martin Kepplinger
-> > > > > > <martin.kepplinger@puri.sm>
-> > > > > > ---
-> > > > > >  drivers/staging/media/imx/Makefile           |   1 +
-> > > > > >  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 949
-> > > > > > +++++++++++++++++++
-> > > > > >  2 files changed, 950 insertions(+)
-> > > > > >  create mode 100644 drivers/staging/media/imx/imx8mq-mipi-
-> > > > > > csi2.c
-> > > > > > 
-> > > > > > diff --git a/drivers/staging/media/imx/Makefile
-> > > > > > b/drivers/staging/media/imx/Makefile
-> > > > > > index 6ac33275cc97..19c2fc54d424 100644
-> > > > > > --- a/drivers/staging/media/imx/Makefile
-> > > > > > +++ b/drivers/staging/media/imx/Makefile
-> > > > > > @@ -16,3 +16,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-
-> > > > > > csi2.o
-> > > 
-> > > [snip]
-> > > 
-> > > > > > +static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state
-> > > > > > *state)
-> > > > > > +{
-> > > > > > +       u32 width = state-
-> > > > > > >format_mbus[MIPI_CSI2_PAD_SINK].width;
-> > > > > > +       u32 height = state-
-> > > > > > >format_mbus[MIPI_CSI2_PAD_SINK].height;
-> > > > > > +       s64 link_freq;
-> > > > > > +       u32 lane_rate;
-> > > > > > +
-> > > > > > +       /* Calculate the line rate from the pixel rate. */
-> > > > > > +       link_freq = v4l2_get_link_freq(state->src_sd-
-> > > > > > >ctrl_handler,
-> > > > > > +                                      state->csi2_fmt-
-> > > > > > >width,
-> > > > > > +                                      state-
-> > > > > > >bus.num_data_lanes * 2);
-> > > > > > +       if (link_freq < 0) {
-> > > > > > +               dev_err(state->dev, "Unable to obtain link
-> > > > > > frequency: %d\n",
-> > > > > > +                       (int)link_freq);
-> > > > > > +               return link_freq;
-> > > > > > +       }
-> > > > > > +
-> > > > > > +       lane_rate = link_freq * 2;
-> > > > > > +       if (lane_rate < 80000000 || lane_rate > 1500000000)
-> > > > > > {
-> > > > > > +               dev_dbg(state->dev, "Out-of-bound lane rate
-> > > > > > %u\n", lane_rate);
-> > > > > > +               return -EINVAL;
-> > > > > > +       }
-> > > > > > +
-> > > > > > +       /*
-> > > > > > https://community.nxp.com/t5/i-MX-Processors/Explenation-for-HS-SETTLE-parameter-in-MIPI-CSI-D-PHY-registers/m-p/764275/highlight/true#M118744
-> > > > > >  */
-> > > > > > +       if (lane_rate < 250000000)
-> > > > > > +               state->hs_settle = 0xb;
-> > > > > > +       else if (lane_rate < 500000000)
-> > > > > > +               state->hs_settle = 0x8;
-> > > > > > +       else
-> > > > > > +               state->hs_settle = 0x6;
-> > > > > 
-> > > > > We could possibly compute this value based on the formula
-> > > > > from the table
-> > > > > in that page, but maybe that's overkill ? If you want to give
-> > > > > it a try,
-> > > > > it would be along those lines.
-> > > > > 
-> > > > >         /*
-> > > > >          * The D-PHY specification requires Ths-settle to be
-> > > > > in the range
-> > > > >          * 85ns + 6*UI to 140ns + 10*UI, with the unit
-> > > > > interval UI being half
-> > > > >          * the clock period.
-> > > > >          *
-> > > > >          * The Ths-settle value is expressed in the hardware
-> > > > > as a multiple of
-> > > > >          * the Esc clock period:
-> > > > >          *
-> > > > >          * Ths-settle = (PRG_RXHS_SETTLE + 1) * Tperiod of
-> > > > > RxClkInEsc
-> > > > >          *
-> > > > >          * Due to the one cycle inaccuracy introduced by
-> > > > > rounding, the
-> > > > >          * documentation recommends picking a value away from
-> > > > > the boundaries.
-> > > > >          * Let's pick the average.
-> > > > >          */
-> > > > >         esc_clk_rate = clk_get_rate(...);
-> > > > > 
-> > > > >         min_ths_settle = 85 + 6 * 1000000 / (lane_rate /
-> > > > > 1000);
-> > > > >         max_ths_settle = 140 + 10 * 1000000 / (lane_rate /
-> > > > > 1000);
-> > > > >         ths_settle = (min_ths_settle + max_ths_settle) / 2;
-> > > > > 
-> > > > >         state->hs_settle = ths_settle * esc_clk_rate /
-> > > > > 1000000000 - 1;
-> > > > 
-> > > > I experimented a bit but would like to leave this as a task for
-> > > > later
-> > > > if that's ok. it's correct and simple now. also, using
-> > > > clks[i].clk
-> > > > based on the name string would feel better to submit seperately
-> > > > later.
-> > > 
-> > > That's OK with me, but I may then submit a patch on top fairly
-> > > soon :-)
-> > > Have you been able to test if this code works on your device ?
-> > > The main
-> > > reason why I think it's better is that it doesn't hardcode a
-> > > specific
-> > > escape clock frequency assumption, so it should be able to
-> > > accommodate a
-> > > wider range of use cases. If we change it later, there's always a
-> > > risk
-> > > of regressions, while if we do this from the start, we'll figure
-> > > out
-> > > quickly if it doesn't work in some cases.
-> > 
-> > taking your code basically as-is doesn't yet work, but it helps a
-> > bit.
-> 
-> Thanks for testing.
-> 
-> > tbh I don't even know how to correctly read that table /
-> > calculation:
-> > what is the exact relation of the calculated Ths_settle time
-> > inverval
-> > to the hs_settle register bits?
-> 
-> The PRG_RXHS_SETTLE field stores a number of timer ticks to cover the
-> Ths-settle internal. The D-PHY arms the timer when it detects the
-> transition to LP-00, and ignores transitions on the lane until the
-> timer
-> expires. The timer is clocked by the escape clock.
-> 
-> What hs_settle value do you currently use, and what value does my
-> code
-> produce ?
-> 
-> > if the 2 of us can't quickly figure it out I can ask NXP via that
-> > community forum issue and I created
-> > https://source.puri.sm/Librem5/linux-next/-/issues/340 so I won't
-> > forget about it.
-> 
+On Sat, 17 Jul 2021, Mauro Carvalho Chehab wrote:
 
-hi Laurent,
+> This driver is ready for mainstream. So, move it out of staging.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  .../mfd}/hisilicon,hi6421-spmi-pmic.yaml      |  0
+>  MAINTAINERS                                   |  7 +++++++
+>  drivers/mfd/Kconfig                           | 16 ++++++++++++++++
+>  drivers/mfd/Makefile                          |  1 +
+>  .../hikey9xx => mfd}/hi6421-spmi-pmic.c       |  0
 
-the below patch for hs_settle works (and calculates either the same or
-+/- 1 for the hs_settle value, compared to the table), but getting the
-esc clock looks really scary how I do it: how would you do that?
+I *still* can't review this without firstly seeing it.
 
+>  drivers/staging/Kconfig                       |  2 --
+>  drivers/staging/Makefile                      |  1 -
+>  drivers/staging/hikey9xx/Kconfig              | 19 -------------------
+>  drivers/staging/hikey9xx/Makefile             |  3 ---
+>  drivers/staging/hikey9xx/TODO                 |  5 -----
+>  10 files changed, 24 insertions(+), 30 deletions(-)
+>  rename {drivers/staging/hikey9xx => Documentation/devicetree/bindings/mfd}/hisilicon,hi6421-spmi-pmic.yaml (100%)
+>  rename drivers/{staging/hikey9xx => mfd}/hi6421-spmi-pmic.c (100%)
+>  delete mode 100644 drivers/staging/hikey9xx/Kconfig
+>  delete mode 100644 drivers/staging/hikey9xx/Makefile
+>  delete mode 100644 drivers/staging/hikey9xx/TODO
 
-@@ -284,6 +285,9 @@ static int imx8mq_mipi_csi_calc_hs_settle(struct
-csi_state *state)
- {
- 	s64 link_freq;
- 	u32 lane_rate;
-+	u32 esc_clk_rate = 0;
-+	u32 i, min_ths_settle, max_ths_settle, ths_settle_ns,
-esc_clk_period_ns;
-+	char *p;
- 
- 	/* Calculate the line rate from the pixel rate. */
- 	link_freq = v4l2_get_link_freq(state->src_sd->ctrl_handler,
-@@ -302,20 +306,44 @@ static int imx8mq_mipi_csi_calc_hs_settle(struct
-csi_state *state)
- 	}
- 
- 	/*
--	 * The following table is the source for this:
--	 *
-https://community.nxp.com/t5/i-MX-Processors/Explenation-for-HS-SETTLE-parameter-in-MIPI-CSI-D-PHY-registers/m-p/764275/highlight/true#M118744
--	 * but it would be even better to calculate the value for any
--	 * given datarate.
-+	 * The D-PHY specification requires Ths-settle to be in the
-range
-+	 * 85ns + 6*UI to 140ns + 10*UI, with the unit interval UI
-being half
-+	 * the clock period.
-+	 *
-+	 * The Ths-settle value is expressed in the hardware as a
-multiple of
-+	 * the Esc clock period:
-+	 *
-+	 * Ths-settle = (PRG_RXHS_SETTLE + 1) * Tperiod of RxClkInEsc
-+	 *
-+	 * Due to the one cycle inaccuracy introduced by rounding, the
-+	 * documentation recommends picking a value away from the
-boundaries.
-+	 * Let's pick the average.
- 	 */
--	if (lane_rate < 250000000)
--		state->hs_settle = 0xb;
--	else if (lane_rate < 500000000)
--		state->hs_settle = 0x8;
--	else
--		state->hs_settle = 0x6;
--
--	dev_dbg(state->dev, "start stream: lane rate %u hs_settle
-%u\n",
--		lane_rate, state->hs_settle);
-+	for (i = 0; i < CSI2_NUM_CLKS; i++) {
-+		p = (char *)__clk_get_name(state->clks[i].clk);
-+		/* we're getting csi1_esc here */
-+		if (strlen(p) > 7)
-+			p += 5;
-+
-+		dev_dbg(state->dev, "comparing: %s to esc\n", p);
-+		if (!strcmp(p, "esc"))
-+			esc_clk_rate = clk_get_rate(state-
->clks[i].clk);
-+	}
-+
-+	if (!esc_clk_rate)
-+		dev_err(state->dev, "Could not get esc clock rate\n");
-+
-+	dev_dbg(state->dev, "esc clk rate: %u\n", esc_clk_rate);
-+	esc_clk_period_ns = 1000000000 / esc_clk_rate;
-+
-+	min_ths_settle = 85 + 6 * 1000000 / (lane_rate / 1000);
-+	max_ths_settle = 140 + 10 * 1000000 / (lane_rate / 1000);
-+	ths_settle_ns = (min_ths_settle + max_ths_settle) / 2;
-+
-+	state->hs_settle = ths_settle_ns / esc_clk_period_ns - 1;
-+
-+	dev_dbg(state->dev, "lane rate %u Ths_settle %u hs_settle
-%u\n",
-+		lane_rate, ths_settle_ns, state->hs_settle);
- 
- 	return 0;
-
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
