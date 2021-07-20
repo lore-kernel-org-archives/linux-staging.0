@@ -1,128 +1,364 @@
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1242C70
-	for <linux-staging@lists.linux.dev>; Tue, 20 Jul 2021 15:21:06 +0000 (UTC)
-Received: by mail-il1-f197.google.com with SMTP id w2-20020a056e0213e2b029020f555eb3c6so13304843ilj.1
-        for <linux-staging@lists.linux.dev>; Tue, 20 Jul 2021 08:21:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE588168
+	for <linux-staging@lists.linux.dev>; Tue, 20 Jul 2021 19:14:53 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id hc15so35944180ejc.4
+        for <linux-staging@lists.linux.dev>; Tue, 20 Jul 2021 12:14:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version;
+        bh=Bc9gy94qC9rscZGR5m8mbB7/n1Nej4pUFVOuf9gSdY8=;
+        b=klAL4pxG7P3cgzkoz/cUqjRD6gOCQTnKUD1U7jOhQa+DS5P70ZTc8dTO5g5cAHifEr
+         3nHDNMl9LR7GI5AE6hRy2TuC5QMeHf4bX0V0Hhd8DhpfK7vz07HvsX8DypmsbHGryI4y
+         77WEUQm0ew9yzjGNI2PYB5vp8dDt2nDUSn/hw8Rl/Kg+cZt5X2q9wHnjhnFAmdlx3itl
+         9G8RaoH3JN+AGyUWUwm/5ZfSq8v7jh1evjE7Agwj8K6sz1xcmjMNipOzY7SVj+pWlSuZ
+         kqNwT2nP62omHHbVeG8XmR9EkrLv0+FG7JjuMO+ca5/IcI9N5uRtBsYOLofkSlCkCxVf
+         sRNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=wHPu2v3g0CljzOh50ecL5zxxf0iqTJp1J2cw3INOhJ4=;
-        b=IqqWzf0b1OCY4c3foZO82UAFcWAo2DIfM/vGK+ZAL+jGI7Gf5Y+uuEe/YFnl2yilXL
-         Xc/5XpJI10HwV8m48uS+vnnnmC+8PmvG+CAv1KHkP9/WAJ8i+UPn466gJhh8MfVE3HoM
-         /DF1C/F8uCyFQytgmtNEk4Zyil9rzzddDPc0nmNuIEICjqI8ytWW6LNs86vXsZt2L8hm
-         vtzoghj7yr9cx1/+GyUUzhjroyGt4LbmEhs8hzMzUvKUrZV1nIOWTJXAmL7YOKPQMkVj
-         /E1BvlmzZGbWRr2JOJiMU94yRHvlTun2evVl57fMEDOpLuJkfdcUjPVvSV3X+1eLBbtP
-         84pQ==
-X-Gm-Message-State: AOAM532egDGAF4SHO4e243dARVWX7zXOZBv6qdu3W62SpbLZ9HTuz6ig
-	4yNVYDeB0Cu1Np+wqpcvYkTYmAbOjNta7adQ+V3XRXlVSdkO
-X-Google-Smtp-Source: ABdhPJxNN5WzS3+MS/DmBMOGx4BXlYJjcrxkNPDyxEBAZ4SrLe6u0BnnfwNSpq3H6hywNEbfBE47dCP+UUETIzeCCNZGta4vCKQk
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version;
+        bh=Bc9gy94qC9rscZGR5m8mbB7/n1Nej4pUFVOuf9gSdY8=;
+        b=OcGlBcdvQOLUhOMgvLxSXmZIhwxvaHm3Uc0g8LCLGI1OxWqtKp0qZnUcFu+7J9IMbd
+         h4Q3seZ5xxZjFCPtb3iXMNmvqiUm+xyPAjs136vRtwAY+9zfzkuBQVQ/Ckxm5nKWncpQ
+         u1UWxMfrRUYzNVjf+Dq/0TULKo2+nLYkCRxHv5tR2RrY7of7Ryc6ip9HB/o8M+zRM5jn
+         VFDYuyZDdJLmNdeGoV8s9jUlnZyPd4ESfA+yMIshNkiHDl5Kez9/38GVgDDjY31tTeRg
+         ntsaDivx9+WJXVwr09IrwvVkoBVP1ReDD/hOi7U4+Yif5tG05EFYAytrASsv8KU8rtOW
+         KEvw==
+X-Gm-Message-State: AOAM532awETrwe4e/a3DrdNQfQIYqZUr4BGxlh9b+WInPB9Jq07x9G4G
+	SZvkzqSScMeBW0Osvs6RcMI=
+X-Google-Smtp-Source: ABdhPJyX5p3pEYof2nuWx/FrWMt00l9Is1g45OqM/Yz268CEUTnKNnHRVRnLdyLJ9JXugFNFxf9PXA==
+X-Received: by 2002:a17:906:a94:: with SMTP id y20mr34758977ejf.399.1626808492110;
+        Tue, 20 Jul 2021 12:14:52 -0700 (PDT)
+Received: from localhost.localdomain ([5.176.2.85])
+        by smtp.gmail.com with ESMTPSA id o23sm7487524ejc.124.2021.07.20.12.14.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jul 2021 12:14:51 -0700 (PDT)
+Date: Tue, 20 Jul 2021 22:14:45 +0300
+From: Pavel Skripkin <paskripkin@gmail.com>
+To: syzbot <syzbot+cc699626e48a6ebaf295@syzkaller.appspotmail.com>
+Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+ gregkh@linuxfoundation.org, hridayhegde1999@gmail.com,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ rkovhaev@gmail.com, straube.linux@gmail.com,
+ syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] KASAN: slab-out-of-bounds Read in do_wait_for_common
+Message-ID: <20210720221445.7d022a9e@gmail.com>
+In-Reply-To: <00000000000047c76a05c78f9ab1@google.com>
+References: <20210720141039.3d4ddcfe@gmail.com>
+	<00000000000047c76a05c78f9ab1@google.com>
+X-Mailer: Claws Mail 3.17.8git77 (GTK+ 2.24.33; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a5d:938a:: with SMTP id c10mr7334142iol.0.1626794466197;
- Tue, 20 Jul 2021 08:21:06 -0700 (PDT)
-Date: Tue, 20 Jul 2021 08:21:06 -0700
-In-Reply-To: <20210720141039.3d4ddcfe@gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000047c76a05c78f9ab1@google.com>
-Subject: Re: [syzbot] KASAN: slab-out-of-bounds Read in do_wait_for_common
-From: syzbot <syzbot+cc699626e48a6ebaf295@syzkaller.appspotmail.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, 
-	gregkh@linuxfoundation.org, hridayhegde1999@gmail.com, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	paskripkin@gmail.com, rkovhaev@gmail.com, straube.linux@gmail.com, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/mixed; boundary="MP_/GYVYLLw7LHQibNxOyWG2q9k"
 
-Hello,
+--MP_/GYVYLLw7LHQibNxOyWG2q9k
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-syzbot has tested the proposed patch but the reproducer is still triggering an issue:
-possible deadlock in flush_workqueue
+On Tue, 20 Jul 2021 08:21:06 -0700
+syzbot <syzbot+cc699626e48a6ebaf295@syzkaller.appspotmail.com> wrote:
 
-usb 6-1: r8712u: Loading firmware from "rtlwifi/rtl8712u.bin"
-usb 6-1: Direct firmware load for rtlwifi/rtl8712u.bin failed with error -2
-usb 6-1: Falling back to sysfs fallback for: rtlwifi/rtl8712u.bin
-usb 6-1: r8712u: Firmware request failed
-============================================
-WARNING: possible recursive locking detected
-5.14.0-rc2-syzkaller #0 Not tainted
---------------------------------------------
-kworker/0:3/3159 is trying to acquire lock:
-ffff888011064d38 ((wq_completion)events){+.+.}-{0:0}, at: flush_workqueue+0x15c/0x1750 kernel/workqueue.c:2787
+> Hello,
+> 
+> syzbot has tested the proposed patch but the reproducer is still
+> triggering an issue: possible deadlock in flush_workqueue
+> 
+> usb 6-1: r8712u: Loading firmware from "rtlwifi/rtl8712u.bin"
+> usb 6-1: Direct firmware load for rtlwifi/rtl8712u.bin failed with
+> error -2 usb 6-1: Falling back to sysfs fallback for:
+> rtlwifi/rtl8712u.bin usb 6-1: r8712u: Firmware request failed
+> ============================================
+> WARNING: possible recursive locking detected
+> 5.14.0-rc2-syzkaller #0 Not tainted
+> --------------------------------------------
+> kworker/0:3/3159 is trying to acquire lock:
+> ffff888011064d38 ((wq_completion)events){+.+.}-{0:0}, at:
+> flush_workqueue+0x15c/0x1750 kernel/workqueue.c:2787
+> 
+> but task is already holding lock:
+> ffff888011064d38 ((wq_completion)events){+.+.}-{0:0}, at:
+> process_one_work+0x7aa/0x10c0 kernel/workqueue.c:2249
+> 
+> other info that might help us debug this:
+>  Possible unsafe locking scenario:
+> 
+>        CPU0
+>        ----
+>   lock((wq_completion)events);
+>   lock((wq_completion)events);
+> 
+>  *** DEADLOCK ***
+> 
+>  May be due to missing lock nesting notation
+> 
+> 5 locks held by kworker/0:3/3159:
+>  #0: ffff888011064d38 ((wq_completion)events){+.+.}-{0:0}, at:
+> process_one_work+0x7aa/0x10c0 kernel/workqueue.c:2249 #1:
+> ffffc900021d7d20 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at:
+> process_one_work+0x7e8/0x10c0 kernel/workqueue.c:2251 #2:
+> ffff8881467d4220 (&dev->mutex){....}-{3:3}, at: device_lock
+> include/linux/device.h:754 [inline] #2: ffff8881467d4220
+> (&dev->mutex){....}-{3:3}, at: rtl871x_load_fw_fail
+> drivers/staging/rtl8712/hal_init.c:43 [inline] #2: ffff8881467d4220
+> (&dev->mutex){....}-{3:3}, at: rtl871x_load_fw_cb+0x102/0x130
+> drivers/staging/rtl8712/hal_init.c:56 #3: ffff8880363da220
+> (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:754
+> [inline] #3: ffff8880363da220 (&dev->mutex){....}-{3:3}, at:
+> __device_driver_lock drivers/base/dd.c:1028 [inline] #3:
+> ffff8880363da220 (&dev->mutex){....}-{3:3}, at:
+> device_release_driver_internal+0xc1/0x7b0 drivers/base/dd.c:1229 #4:
+> ffff8880308211a8 (&dev->mutex){....}-{3:3}, at: device_lock
+> include/linux/device.h:754 [inline] #4: ffff8880308211a8
+> (&dev->mutex){....}-{3:3}, at: __device_driver_lock
+> drivers/base/dd.c:1028 [inline] #4: ffff8880308211a8
+> (&dev->mutex){....}-{3:3}, at:
+> device_release_driver_internal+0xc1/0x7b0 drivers/base/dd.c:1229
+> 
+> stack backtrace:
+> CPU: 0 PID: 3159 Comm: kworker/0:3 Not tainted 5.14.0-rc2-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine,
+> BIOS Google 01/01/2011 Workqueue: events request_firmware_work_func
+> Call Trace:
+>  __dump_stack lib/dump_stack.c:88 [inline]
+>  dump_stack_lvl+0x1ae/0x29f lib/dump_stack.c:105
+>  __lock_acquire+0x2615/0x6100 kernel/locking/lockdep.c:4853
+>  lock_acquire+0x182/0x4a0 kernel/locking/lockdep.c:5625
+>  flush_workqueue+0x178/0x1750 kernel/workqueue.c:2787
+>  flush_scheduled_work include/linux/workqueue.h:597 [inline]
+>  r871xu_dev_remove+0x159/0x420 drivers/staging/rtl8712/usb_intf.c:604
+>  usb_unbind_interface+0x1f2/0x860 drivers/usb/core/driver.c:458
+>  __device_release_driver drivers/base/dd.c:1201 [inline]
+>  device_release_driver_internal+0x51e/0x7b0 drivers/base/dd.c:1232
+>  bus_remove_device+0x2fd/0x410 drivers/base/bus.c:529
+>  device_del+0x6e1/0xc10 drivers/base/core.c:3540
+>  usb_disable_device+0x407/0x800 drivers/usb/core/message.c:1419
+>  usb_set_configuration+0x42b/0x2100 drivers/usb/core/message.c:2027
+>  usb_unbind_device+0x6b/0x170 drivers/usb/core/driver.c:309
+>  __device_release_driver drivers/base/dd.c:1201 [inline]
+>  device_release_driver_internal+0x51e/0x7b0 drivers/base/dd.c:1232
+>  rtl871x_load_fw_fail drivers/staging/rtl8712/hal_init.c:45 [inline]
+>  rtl871x_load_fw_cb+0x10a/0x130 drivers/staging/rtl8712/hal_init.c:56
+>  request_firmware_work_func+0x175/0x250
+> drivers/base/firmware_loader/main.c:1081
+> process_one_work+0x833/0x10c0 kernel/workqueue.c:2276
+> worker_thread+0xac1/0x1320 kernel/workqueue.c:2422
+> kthread+0x453/0x480 kernel/kthread.c:319 ret_from_fork+0x1f/0x30
+> arch/x86/entry/entry_64.S:295
+> 
 
-but task is already holding lock:
-ffff888011064d38 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x7aa/0x10c0 kernel/workqueue.c:2249
 
-other info that might help us debug this:
- Possible unsafe locking scenario:
-
-       CPU0
-       ----
-  lock((wq_completion)events);
-  lock((wq_completion)events);
-
- *** DEADLOCK ***
-
- May be due to missing lock nesting notation
-
-5 locks held by kworker/0:3/3159:
- #0: ffff888011064d38 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x7aa/0x10c0 kernel/workqueue.c:2249
- #1: ffffc900021d7d20 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x7e8/0x10c0 kernel/workqueue.c:2251
- #2: ffff8881467d4220 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:754 [inline]
- #2: ffff8881467d4220 (&dev->mutex){....}-{3:3}, at: rtl871x_load_fw_fail drivers/staging/rtl8712/hal_init.c:43 [inline]
- #2: ffff8881467d4220 (&dev->mutex){....}-{3:3}, at: rtl871x_load_fw_cb+0x102/0x130 drivers/staging/rtl8712/hal_init.c:56
- #3: ffff8880363da220 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:754 [inline]
- #3: ffff8880363da220 (&dev->mutex){....}-{3:3}, at: __device_driver_lock drivers/base/dd.c:1028 [inline]
- #3: ffff8880363da220 (&dev->mutex){....}-{3:3}, at: device_release_driver_internal+0xc1/0x7b0 drivers/base/dd.c:1229
- #4: ffff8880308211a8 (&dev->mutex){....}-{3:3}, at: device_lock include/linux/device.h:754 [inline]
- #4: ffff8880308211a8 (&dev->mutex){....}-{3:3}, at: __device_driver_lock drivers/base/dd.c:1028 [inline]
- #4: ffff8880308211a8 (&dev->mutex){....}-{3:3}, at: device_release_driver_internal+0xc1/0x7b0 drivers/base/dd.c:1229
-
-stack backtrace:
-CPU: 0 PID: 3159 Comm: kworker/0:3 Not tainted 5.14.0-rc2-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: events request_firmware_work_func
-Call Trace:
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x1ae/0x29f lib/dump_stack.c:105
- __lock_acquire+0x2615/0x6100 kernel/locking/lockdep.c:4853
- lock_acquire+0x182/0x4a0 kernel/locking/lockdep.c:5625
- flush_workqueue+0x178/0x1750 kernel/workqueue.c:2787
- flush_scheduled_work include/linux/workqueue.h:597 [inline]
- r871xu_dev_remove+0x159/0x420 drivers/staging/rtl8712/usb_intf.c:604
- usb_unbind_interface+0x1f2/0x860 drivers/usb/core/driver.c:458
- __device_release_driver drivers/base/dd.c:1201 [inline]
- device_release_driver_internal+0x51e/0x7b0 drivers/base/dd.c:1232
- bus_remove_device+0x2fd/0x410 drivers/base/bus.c:529
- device_del+0x6e1/0xc10 drivers/base/core.c:3540
- usb_disable_device+0x407/0x800 drivers/usb/core/message.c:1419
- usb_set_configuration+0x42b/0x2100 drivers/usb/core/message.c:2027
- usb_unbind_device+0x6b/0x170 drivers/usb/core/driver.c:309
- __device_release_driver drivers/base/dd.c:1201 [inline]
- device_release_driver_internal+0x51e/0x7b0 drivers/base/dd.c:1232
- rtl871x_load_fw_fail drivers/staging/rtl8712/hal_init.c:45 [inline]
- rtl871x_load_fw_cb+0x10a/0x130 drivers/staging/rtl8712/hal_init.c:56
- request_firmware_work_func+0x175/0x250 drivers/base/firmware_loader/main.c:1081
- process_one_work+0x833/0x10c0 kernel/workqueue.c:2276
- worker_thread+0xac1/0x1320 kernel/workqueue.c:2422
- kthread+0x453/0x480 kernel/kthread.c:319
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
+Hmm, did't notice this could happen. From my point of view,
+flush_scheduled_work() can be replaced with flush_work() for all
+scheduled works in this driver.
 
 
-Tested on:
 
-commit:         8cae8cd8 seq_file: disallow extremely large seq buffer..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=149905f2300000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=300aea483211c875
-dashboard link: https://syzkaller.appspot.com/bug?extid=cc699626e48a6ebaf295
-compiler:       Debian clang version 11.0.1-2, GNU ld (GNU Binutils for Debian) 2.35.1
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=15737b4a300000
+#syz test
+git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 
+
+
+ 
+With regards,
+Pavel Skripkin
+
+--MP_/GYVYLLw7LHQibNxOyWG2q9k
+Content-Type: text/x-patch
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename=0001-staging-rtl8712-rewrite-error-handling.patch
+
+From c308b591df7d984b2b17c8cbd578907d152b9930 Mon Sep 17 00:00:00 2001
+From: Pavel Skripkin <paskripkin@gmail.com>
+Date: Tue, 20 Jul 2021 14:05:02 +0300
+Subject: [PATCH] staging: rtl8712: rewrite error handling
+
+/* .... */
+
+Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+---
+ drivers/staging/rtl8712/hal_init.c        | 30 ++++++++-----
+ drivers/staging/rtl8712/rtl8712_led.c     |  8 ++++
+ drivers/staging/rtl8712/rtl871x_led.h     |  1 +
+ drivers/staging/rtl8712/rtl871x_pwrctrl.c |  8 ++++
+ drivers/staging/rtl8712/rtl871x_pwrctrl.h |  1 +
+ drivers/staging/rtl8712/usb_intf.c        | 51 ++++++++++-------------
+ 6 files changed, 61 insertions(+), 38 deletions(-)
+
+diff --git a/drivers/staging/rtl8712/hal_init.c b/drivers/staging/rtl8712/hal_init.c
+index 22974277afa0..4eff3fdecdb8 100644
+--- a/drivers/staging/rtl8712/hal_init.c
++++ b/drivers/staging/rtl8712/hal_init.c
+@@ -29,21 +29,31 @@
+ #define FWBUFF_ALIGN_SZ 512
+ #define MAX_DUMP_FWSZ (48 * 1024)
+ 
++static void rtl871x_load_fw_fail(struct _adapter *adapter)
++{
++	struct usb_device *udev = adapter->dvobjpriv.pusbdev;
++	struct device *dev = &udev->dev;
++	struct device *parent = dev->parent;
++
++	complete(&adapter->rtl8712_fw_ready);
++
++	dev_err(&udev->dev, "r8712u: Firmware request failed\n");
++
++	if (parent)
++		device_lock(parent);
++
++	device_release_driver(dev);
++
++	if (parent)
++		device_unlock(parent);
++}
++
+ static void rtl871x_load_fw_cb(const struct firmware *firmware, void *context)
+ {
+ 	struct _adapter *adapter = context;
+ 
+ 	if (!firmware) {
+-		struct usb_device *udev = adapter->dvobjpriv.pusbdev;
+-		struct usb_interface *usb_intf = adapter->pusb_intf;
+-
+-		dev_err(&udev->dev, "r8712u: Firmware request failed\n");
+-		usb_put_dev(udev);
+-		usb_set_intfdata(usb_intf, NULL);
+-		r8712_free_drv_sw(adapter);
+-		adapter->dvobj_deinit(adapter);
+-		complete(&adapter->rtl8712_fw_ready);
+-		free_netdev(adapter->pnetdev);
++		rtl871x_load_fw_fail(adapter);
+ 		return;
+ 	}
+ 	adapter->fw = firmware;
+diff --git a/drivers/staging/rtl8712/rtl8712_led.c b/drivers/staging/rtl8712/rtl8712_led.c
+index 5901026949f2..d5fc9026b036 100644
+--- a/drivers/staging/rtl8712/rtl8712_led.c
++++ b/drivers/staging/rtl8712/rtl8712_led.c
+@@ -1820,3 +1820,11 @@ void LedControl871x(struct _adapter *padapter, enum LED_CTL_MODE LedAction)
+ 		break;
+ 	}
+ }
++
++void r8712_flush_led_works(struct _adapter *padapter)
++{
++	struct led_priv *pledpriv = &padapter->ledpriv;
++
++	flush_work(&pledpriv->SwLed0.BlinkWorkItem);
++	flush_work(&pledpriv->SwLed1.BlinkWorkItem);
++}
+diff --git a/drivers/staging/rtl8712/rtl871x_led.h b/drivers/staging/rtl8712/rtl871x_led.h
+index ee19c873cf01..2f0768132ad8 100644
+--- a/drivers/staging/rtl8712/rtl871x_led.h
++++ b/drivers/staging/rtl8712/rtl871x_led.h
+@@ -112,6 +112,7 @@ struct led_priv {
+ void r8712_InitSwLeds(struct _adapter *padapter);
+ void r8712_DeInitSwLeds(struct _adapter *padapter);
+ void LedControl871x(struct _adapter *padapter, enum LED_CTL_MODE LedAction);
++void r8712_flush_led_works(struct _adapter *padapter);
+ 
+ #endif
+ 
+diff --git a/drivers/staging/rtl8712/rtl871x_pwrctrl.c b/drivers/staging/rtl8712/rtl871x_pwrctrl.c
+index 23cff43437e2..cd6d9ff0bebc 100644
+--- a/drivers/staging/rtl8712/rtl871x_pwrctrl.c
++++ b/drivers/staging/rtl8712/rtl871x_pwrctrl.c
+@@ -224,3 +224,11 @@ void r8712_unregister_cmd_alive(struct _adapter *padapter)
+ 	}
+ 	mutex_unlock(&pwrctrl->mutex_lock);
+ }
++
++void r8712_flush_rwctrl_works(struct _adapter *padapter)
++{
++	struct pwrctrl_priv *pwrctrl = &padapter->pwrctrlpriv;
++
++	flush_work(&pwrctrl->SetPSModeWorkItem);
++	flush_work(&pwrctrl->rpwm_workitem);
++}
+diff --git a/drivers/staging/rtl8712/rtl871x_pwrctrl.h b/drivers/staging/rtl8712/rtl871x_pwrctrl.h
+index bf6623cfaf27..b35b9c7920eb 100644
+--- a/drivers/staging/rtl8712/rtl871x_pwrctrl.h
++++ b/drivers/staging/rtl8712/rtl871x_pwrctrl.h
+@@ -108,5 +108,6 @@ void r8712_cpwm_int_hdl(struct _adapter *padapter,
+ void r8712_set_ps_mode(struct _adapter *padapter, uint ps_mode,
+ 			uint smart_ps);
+ void r8712_set_rpwm(struct _adapter *padapter, u8 val8);
++void r8712_flush_rwctrl_works(struct _adapter *padapter);
+ 
+ #endif  /* __RTL871X_PWRCTRL_H_ */
+diff --git a/drivers/staging/rtl8712/usb_intf.c b/drivers/staging/rtl8712/usb_intf.c
+index 2434b13c8b12..505ebeb643dc 100644
+--- a/drivers/staging/rtl8712/usb_intf.c
++++ b/drivers/staging/rtl8712/usb_intf.c
+@@ -591,35 +591,30 @@ static void r871xu_dev_remove(struct usb_interface *pusb_intf)
+ {
+ 	struct net_device *pnetdev = usb_get_intfdata(pusb_intf);
+ 	struct usb_device *udev = interface_to_usbdev(pusb_intf);
++	struct _adapter *padapter = netdev_priv(pnetdev);
++
++	/* never exit with a firmware callback pending */
++	wait_for_completion(&padapter->rtl8712_fw_ready);
++	usb_set_intfdata(pusb_intf, NULL);
++	release_firmware(padapter->fw);
++	if (drvpriv.drv_registered)
++		padapter->surprise_removed = true;
++	if (pnetdev->reg_state != NETREG_UNINITIALIZED)
++		unregister_netdev(pnetdev); /* will call netdev_close() */
++	r8712_flush_rwctrl_works(padapter);
++	r8712_flush_led_works(padapter);
++	udelay(1);
++	/* Stop driver mlme relation timer */
++	r8712_stop_drv_timers(padapter);
++	r871x_dev_unload(padapter);
++	r8712_free_drv_sw(padapter);
++	free_netdev(pnetdev);
++
++	/* decrease the reference count of the usb device structure
++	 * when disconnect
++	 */
++	usb_put_dev(udev);
+ 
+-	if (pnetdev) {
+-		struct _adapter *padapter = netdev_priv(pnetdev);
+-
+-		/* never exit with a firmware callback pending */
+-		wait_for_completion(&padapter->rtl8712_fw_ready);
+-		pnetdev = usb_get_intfdata(pusb_intf);
+-		usb_set_intfdata(pusb_intf, NULL);
+-		if (!pnetdev)
+-			goto firmware_load_fail;
+-		release_firmware(padapter->fw);
+-		if (drvpriv.drv_registered)
+-			padapter->surprise_removed = true;
+-		if (pnetdev->reg_state != NETREG_UNINITIALIZED)
+-			unregister_netdev(pnetdev); /* will call netdev_close() */
+-		flush_scheduled_work();
+-		udelay(1);
+-		/* Stop driver mlme relation timer */
+-		r8712_stop_drv_timers(padapter);
+-		r871x_dev_unload(padapter);
+-		r8712_free_drv_sw(padapter);
+-		free_netdev(pnetdev);
+-
+-		/* decrease the reference count of the usb device structure
+-		 * when disconnect
+-		 */
+-		usb_put_dev(udev);
+-	}
+-firmware_load_fail:
+ 	/* If we didn't unplug usb dongle and remove/insert module, driver
+ 	 * fails on sitesurvey for the first time when device is up.
+ 	 * Reset usb port for sitesurvey fail issue.
+-- 
+2.32.0
+
+
+--MP_/GYVYLLw7LHQibNxOyWG2q9k--
