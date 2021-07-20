@@ -1,51 +1,53 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5516270
-	for <linux-staging@lists.linux.dev>; Tue, 20 Jul 2021 22:51:24 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id p15-20020a05600c358fb0290245467f26a4so465244wmq.0
-        for <linux-staging@lists.linux.dev>; Tue, 20 Jul 2021 15:51:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14AC370
+	for <linux-staging@lists.linux.dev>; Tue, 20 Jul 2021 22:54:46 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id f8-20020a1c1f080000b029022d4c6cfc37so2356367wmf.5
+        for <linux-staging@lists.linux.dev>; Tue, 20 Jul 2021 15:54:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=8W1KbjY8fT8BQvIAZVuxTpUxou1s0JW4/9580Ls3I/U=;
-        b=mGsK65QOANR2CO0EdxSdjHISh2tPghmUxcSBS65WhS5BotcRFzc0c/lI/XKcNfHPW2
-         xN+kbCpvVXXsRQJlr+RmYh8Rsp1sVHqjJJHzUX7HLwKTLQ5UDS3W88kOhPVrcXMu70EW
-         9kOL6Hak4b+oQgIM6sF6h9zQwpzMEWGHQHa/iJ8qo81D5WALan28ob+sc6PJpKduJTIH
-         PCgNRTGxZECL1Av3LPnXhLobo9XcgqC6Q2cxs4d14RCFzUNl7EqXtqTocLakj14o6y4l
-         2MhIR4kyiZTaYmA+iyXsHKg1cAWLX9xrhbmOeHlh+KF9x+cVMNpr/AMtaJwYq+eEJS8/
-         LosA==
+        bh=Kvm5iVMKs6Bc2xOWkXNZgQqGwr6UQKNKEeig/K8uEgw=;
+        b=xyzo7Nwb74nTk+5QTy7d05iXOf2j8sLack4BbGqzmJUifpUzzqktCFm/eH4T3jZ0aN
+         u9Jok6QBVmS5mEToLV5sOt0onwWOe6cEAdUkWWJUn3IXG9jfNOxpAmRK+raEqiTEwsWz
+         zqdRF0gXhdvJz9cHJibYjFe0IfGX4g+xgvN2hQ8LWQSUW4eOcuF7K8JF0OplkshXbuWe
+         VQ1GApo38ReDauqETDoWtm7MKgYhf6zRG0RM7pij0n6sTo5sleDYPmSWbJGIBo9SUTGw
+         Mj8z6Lx7OLJBzwOws4oNXFWaf4/odRNtumXmYo40Jpw0NF93Oq7X0T6oukCSfXB8M43W
+         aEmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=8W1KbjY8fT8BQvIAZVuxTpUxou1s0JW4/9580Ls3I/U=;
-        b=ClsKCK6LirVuPmMnf65LNb7lXnAKYAASAijo51quoTDVKPpkRhWvzUmwtwXlEhoYqV
-         C9hWyzitbx27ZPaooNDwldHwsbB4ybb/VQvUwoyyWIrCnnJTUaIBzDHvBF429LOhCcic
-         wAr2EJIQGoIbp7Z8/8neuSNrCWllSUwrhPSCiRIheAr4CD3TZzc9lYIWtU2lXMU07Kzr
-         hTRt9QWoIEoB5M532zhgEhTMKpK/CUR2V/SxoLuFClAbjmAltKVjlzsLN+iMc/INVxU2
-         CreaWyGuaSPThx/JSl8+XPPUEMTevoKNf2yczhl/8ZVNJZFcF0c3nt9drmLLGnPfExN5
-         Mrfg==
-X-Gm-Message-State: AOAM531wSa/5tkbesd2FFWtWHG0NDknae0C8MxM9laSsGhzPWVWAHtM7
-	7Bmhp/Y0Aqjy22QG1Z9MHUmVjw==
-X-Google-Smtp-Source: ABdhPJwJL3pVx8oufIcdQtq29JC8z4pRU7rHCxACydg4sIGsTVFRu5GCYsyX3H2M+++gfZZmzlmv0w==
-X-Received: by 2002:a1c:a58b:: with SMTP id o133mr34220178wme.160.1626821482516;
-        Tue, 20 Jul 2021 15:51:22 -0700 (PDT)
+        bh=Kvm5iVMKs6Bc2xOWkXNZgQqGwr6UQKNKEeig/K8uEgw=;
+        b=H1ImG9XZS7vIdovOPNmj/ptXE+PaCE7PD1YvVHEYXn2BMoYe06FVur6dO53nfUmMkW
+         V9CLXaTW7tCYTRf9LpuiUD7Tk/8d6+UBCbh2m9lQuDzbn3qwNXmQREpkGNmnWgtH1ygI
+         m3OoldGOG/5Kb14H2zkvQd498+uumPHkHVTKCSEBIJoQG7xhRrM2nOAMovnrtDFf4k/B
+         oawITYRZLnzyJH/S+cPB9D46E20ObSZ3wEhMzOOoBeKWMfxT/HGaevB9KNJ0atVfHF4/
+         Ul3StLx0G9J3Yfo8JL7aCLk3EQse7sseTv1ObF1HcdPMyhW+SoG77c2XkTjy7j120jph
+         I5SA==
+X-Gm-Message-State: AOAM533CL6nd2Q4va7P2YHlr/n70BRyg0y7lu0fXk8Oh3oGDY3HExjT8
+	YxDTYuqEXUrExfRPYitdxbpL5g==
+X-Google-Smtp-Source: ABdhPJzjmpzw0e57pvM62s7qo/bPi1F2Ch1wlcjH1kb1puw7t0JOjQh8JxkNkQ1AaUalsP7TE7JLOA==
+X-Received: by 2002:a05:600c:190a:: with SMTP id j10mr762019wmq.109.1626821685417;
+        Tue, 20 Jul 2021 15:54:45 -0700 (PDT)
 Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
-        by smtp.gmail.com with ESMTPSA id z11sm24800835wru.65.2021.07.20.15.51.21
+        by smtp.gmail.com with ESMTPSA id b16sm25198803wrw.46.2021.07.20.15.54.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jul 2021 15:51:21 -0700 (PDT)
-Date: Tue, 20 Jul 2021 23:51:19 +0100
+        Tue, 20 Jul 2021 15:54:44 -0700 (PDT)
+Date: Tue, 20 Jul 2021 23:54:43 +0100
 From: Phillip Potter <phil@philpotter.co.uk>
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: dan.carpenter@oracle.com, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, gregkh@linuxfoundation.org
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc: gregkh@linuxfoundation.org, dan.carpenter@oracle.com,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Larry.Finger@lwfinger.net
 Subject: Re: [PATCH resend] staging: rtl8188eu: move all source files from
  core subdirectory
-Message-ID: <YPdTZ9Q9zCIyBjjB@equinox>
+Message-ID: <YPdUM2Gi+tPKoJII@equinox>
 References: <20210719224601.255364-1-phil@philpotter.co.uk>
  <7bc43fb0-2dab-190b-c480-9e77cff863d4@lwfinger.net>
+ <20210720090035.GB1406@agape.jhs>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,180 +56,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7bc43fb0-2dab-190b-c480-9e77cff863d4@lwfinger.net>
+In-Reply-To: <20210720090035.GB1406@agape.jhs>
 
-On Mon, Jul 19, 2021 at 06:46:16PM -0500, Larry Finger wrote:
-> On 7/19/21 5:46 PM, Phillip Potter wrote:
-> > Move all C source files from the core subdirectory to the root
-> > folder of the driver, and adjust Makefile accordingly. The ultmate
-> > goal is to remove hal layer and fold its functionalty into the main
-> > sources. At this point, the distinction between hal and core will be
-> > meaningless, so this is the first step towards simplifying the file
-> > layout.
+On Tue, Jul 20, 2021 at 11:00:36AM +0200, Fabio Aiuto wrote:
+> Hi all,
+> 
+> On Mon, Jul 19, 2021 at 06:46:16PM -0500, Larry Finger wrote:
+> > On 7/19/21 5:46 PM, Phillip Potter wrote:
+> > > Move all C source files from the core subdirectory to the root
+> > > folder of the driver, and adjust Makefile accordingly. The ultmate
+> > > goal is to remove hal layer and fold its functionalty into the main
+> > > sources. At this point, the distinction between hal and core will be
+> > > meaningless, so this is the first step towards simplifying the file
+> > > layout.
+> > > 
+> > > Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+> > > ---
+> > >   drivers/staging/rtl8188eu/Makefile            | 34 +++++++++----------
+> > >   drivers/staging/rtl8188eu/{core => }/rtw_ap.c |  0
+> > >   .../staging/rtl8188eu/{core => }/rtw_cmd.c    |  0
+> > >   .../staging/rtl8188eu/{core => }/rtw_efuse.c  |  0
+> > >   .../rtl8188eu/{core => }/rtw_ieee80211.c      |  0
+> > >   .../rtl8188eu/{core => }/rtw_ioctl_set.c      |  0
+> > >   .../staging/rtl8188eu/{core => }/rtw_iol.c    |  0
+>  > 
 > > 
-> > Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> > ---
-> >   drivers/staging/rtl8188eu/Makefile            | 34 +++++++++----------
-> >   drivers/staging/rtl8188eu/{core => }/rtw_ap.c |  0
-> >   .../staging/rtl8188eu/{core => }/rtw_cmd.c    |  0
-> >   .../staging/rtl8188eu/{core => }/rtw_efuse.c  |  0
-> >   .../rtl8188eu/{core => }/rtw_ieee80211.c      |  0
-> >   .../rtl8188eu/{core => }/rtw_ioctl_set.c      |  0
-> >   .../staging/rtl8188eu/{core => }/rtw_iol.c    |  0
-> >   .../staging/rtl8188eu/{core => }/rtw_led.c    |  0
-> >   .../staging/rtl8188eu/{core => }/rtw_mlme.c   |  0
-> >   .../rtl8188eu/{core => }/rtw_mlme_ext.c       |  0
-> >   .../rtl8188eu/{core => }/rtw_pwrctrl.c        |  0
-> >   .../staging/rtl8188eu/{core => }/rtw_recv.c   |  0
-> >   drivers/staging/rtl8188eu/{core => }/rtw_rf.c |  0
-> >   .../rtl8188eu/{core => }/rtw_security.c       |  0
-> >   .../staging/rtl8188eu/{core => }/rtw_sreset.c |  0
-> >   .../rtl8188eu/{core => }/rtw_sta_mgt.c        |  0
-> >   .../rtl8188eu/{core => }/rtw_wlan_util.c      |  0
-> >   .../staging/rtl8188eu/{core => }/rtw_xmit.c   |  0
-> >   18 files changed, 17 insertions(+), 17 deletions(-)
-> >   rename drivers/staging/rtl8188eu/{core => }/rtw_ap.c (100%)
-> >   rename drivers/staging/rtl8188eu/{core => }/rtw_cmd.c (100%)
-> >   rename drivers/staging/rtl8188eu/{core => }/rtw_efuse.c (100%)
-> >   rename drivers/staging/rtl8188eu/{core => }/rtw_ieee80211.c (100%)
-> >   rename drivers/staging/rtl8188eu/{core => }/rtw_ioctl_set.c (100%)
-> >   rename drivers/staging/rtl8188eu/{core => }/rtw_iol.c (100%)
-> >   rename drivers/staging/rtl8188eu/{core => }/rtw_led.c (100%)
-> >   rename drivers/staging/rtl8188eu/{core => }/rtw_mlme.c (100%)
-> >   rename drivers/staging/rtl8188eu/{core => }/rtw_mlme_ext.c (100%)
-> >   rename drivers/staging/rtl8188eu/{core => }/rtw_pwrctrl.c (100%)
-> >   rename drivers/staging/rtl8188eu/{core => }/rtw_recv.c (100%)
-> >   rename drivers/staging/rtl8188eu/{core => }/rtw_rf.c (100%)
-> >   rename drivers/staging/rtl8188eu/{core => }/rtw_security.c (100%)
-> >   rename drivers/staging/rtl8188eu/{core => }/rtw_sreset.c (100%)
-> >   rename drivers/staging/rtl8188eu/{core => }/rtw_sta_mgt.c (100%)
-> >   rename drivers/staging/rtl8188eu/{core => }/rtw_wlan_util.c (100%)
-> >   rename drivers/staging/rtl8188eu/{core => }/rtw_xmit.c (100%)
+> > I think this is just source churning. The current setup with include. core.
+> > hal and os_dep subdirectories are not opressive.
 > > 
-> > diff --git a/drivers/staging/rtl8188eu/Makefile b/drivers/staging/rtl8188eu/Makefile
-> > index 28b936e8be0a..2dad13bdbdeb 100644
-> > --- a/drivers/staging/rtl8188eu/Makefile
-> > +++ b/drivers/staging/rtl8188eu/Makefile
-> > @@ -1,22 +1,22 @@
-> >   # SPDX-License-Identifier: GPL-2.0
-> >   r8188eu-y :=				\
-> > -		core/rtw_ap.o		\
-> > -		core/rtw_cmd.o		\
-> > -		core/rtw_efuse.o	\
-> > -		core/rtw_ieee80211.o	\
-> > -		core/rtw_ioctl_set.o	\
-> > -		core/rtw_iol.o		\
-> > -		core/rtw_led.o		\
-> > -		core/rtw_mlme.o		\
-> > -		core/rtw_mlme_ext.o	\
-> > -		core/rtw_pwrctrl.o	\
-> > -		core/rtw_recv.o		\
-> > -		core/rtw_rf.o		\
-> > -		core/rtw_security.o	\
-> > -		core/rtw_sreset.o	\
-> > -		core/rtw_sta_mgt.o	\
-> > -		core/rtw_wlan_util.o	\
-> > -		core/rtw_xmit.o		\
-> > +		rtw_ap.o		\
-> > +		rtw_cmd.o		\
-> > +		rtw_efuse.o		\
-> > +		rtw_ieee80211.o		\
-> > +		rtw_ioctl_set.o		\
-> > +		rtw_iol.o		\
-> > +		rtw_led.o		\
-> > +		rtw_mlme.o		\
-> > +		rtw_mlme_ext.o		\
-> > +		rtw_pwrctrl.o		\
-> > +		rtw_recv.o		\
-> > +		rtw_rf.o		\
-> > +		rtw_security.o		\
-> > +		rtw_sreset.o		\
-> > +		rtw_sta_mgt.o		\
-> > +		rtw_wlan_util.o		\
-> > +		rtw_xmit.o		\
-> >   		hal/fw.o	\
-> >   		hal/mac_cfg.o \
-> >   		hal/bb_cfg.o \
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_ap.c b/drivers/staging/rtl8188eu/rtw_ap.c
-> > similarity index 100%
-> > rename from drivers/staging/rtl8188eu/core/rtw_ap.c
-> > rename to drivers/staging/rtl8188eu/rtw_ap.c
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_cmd.c b/drivers/staging/rtl8188eu/rtw_cmd.c
-> > similarity index 100%
-> > rename from drivers/staging/rtl8188eu/core/rtw_cmd.c
-> > rename to drivers/staging/rtl8188eu/rtw_cmd.c
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_efuse.c b/drivers/staging/rtl8188eu/rtw_efuse.c
-> > similarity index 100%
-> > rename from drivers/staging/rtl8188eu/core/rtw_efuse.c
-> > rename to drivers/staging/rtl8188eu/rtw_efuse.c
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_ieee80211.c b/drivers/staging/rtl8188eu/rtw_ieee80211.c
-> > similarity index 100%
-> > rename from drivers/staging/rtl8188eu/core/rtw_ieee80211.c
-> > rename to drivers/staging/rtl8188eu/rtw_ieee80211.c
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_ioctl_set.c b/drivers/staging/rtl8188eu/rtw_ioctl_set.c
-> > similarity index 100%
-> > rename from drivers/staging/rtl8188eu/core/rtw_ioctl_set.c
-> > rename to drivers/staging/rtl8188eu/rtw_ioctl_set.c
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_iol.c b/drivers/staging/rtl8188eu/rtw_iol.c
-> > similarity index 100%
-> > rename from drivers/staging/rtl8188eu/core/rtw_iol.c
-> > rename to drivers/staging/rtl8188eu/rtw_iol.c
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_led.c b/drivers/staging/rtl8188eu/rtw_led.c
-> > similarity index 100%
-> > rename from drivers/staging/rtl8188eu/core/rtw_led.c
-> > rename to drivers/staging/rtl8188eu/rtw_led.c
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme.c b/drivers/staging/rtl8188eu/rtw_mlme.c
-> > similarity index 100%
-> > rename from drivers/staging/rtl8188eu/core/rtw_mlme.c
-> > rename to drivers/staging/rtl8188eu/rtw_mlme.c
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c b/drivers/staging/rtl8188eu/rtw_mlme_ext.c
-> > similarity index 100%
-> > rename from drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
-> > rename to drivers/staging/rtl8188eu/rtw_mlme_ext.c
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_pwrctrl.c b/drivers/staging/rtl8188eu/rtw_pwrctrl.c
-> > similarity index 100%
-> > rename from drivers/staging/rtl8188eu/core/rtw_pwrctrl.c
-> > rename to drivers/staging/rtl8188eu/rtw_pwrctrl.c
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_recv.c b/drivers/staging/rtl8188eu/rtw_recv.c
-> > similarity index 100%
-> > rename from drivers/staging/rtl8188eu/core/rtw_recv.c
-> > rename to drivers/staging/rtl8188eu/rtw_recv.c
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_rf.c b/drivers/staging/rtl8188eu/rtw_rf.c
-> > similarity index 100%
-> > rename from drivers/staging/rtl8188eu/core/rtw_rf.c
-> > rename to drivers/staging/rtl8188eu/rtw_rf.c
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_security.c b/drivers/staging/rtl8188eu/rtw_security.c
-> > similarity index 100%
-> > rename from drivers/staging/rtl8188eu/core/rtw_security.c
-> > rename to drivers/staging/rtl8188eu/rtw_security.c
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_sreset.c b/drivers/staging/rtl8188eu/rtw_sreset.c
-> > similarity index 100%
-> > rename from drivers/staging/rtl8188eu/core/rtw_sreset.c
-> > rename to drivers/staging/rtl8188eu/rtw_sreset.c
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c b/drivers/staging/rtl8188eu/rtw_sta_mgt.c
-> > similarity index 100%
-> > rename from drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
-> > rename to drivers/staging/rtl8188eu/rtw_sta_mgt.c
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_wlan_util.c b/drivers/staging/rtl8188eu/rtw_wlan_util.c
-> > similarity index 100%
-> > rename from drivers/staging/rtl8188eu/core/rtw_wlan_util.c
-> > rename to drivers/staging/rtl8188eu/rtw_wlan_util.c
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_xmit.c b/drivers/staging/rtl8188eu/rtw_xmit.c
-> > similarity index 100%
-> > rename from drivers/staging/rtl8188eu/core/rtw_xmit.c
-> > rename to drivers/staging/rtl8188eu/rtw_xmit.c
+> > Larry
+> > 
 > > 
 > 
-> I think this is just source churning. The current setup with include. core.
-> hal and os_dep subdirectories are not opressive.
+> maybe the information we will need one day is:
 > 
-> Larry
+> will the core/-os_dep/-hal/-include/-directory-structure be
+> welcomed in mainline wireless subsystem, when an rtl* driver
+> will be perfectly tuned?
 > 
-Dear Larry,
+> At the moment I can't see such a directory organization
+> in any of the realtek wireless driver.
+> 
+> Sure there's time for that ;),
+> 
+> Thank you,
+> 
+> fabio
+> 
+> 
+Dear Fabio,
 
-Thank you for your feedback. I will focus on utilising the existing
-folder structure in that case, with a view towards reducing/removing the
-'hal' folder and reintegrating its code.
+Certainly a good start is removing this 'hal' layer so for now I'll
+focus on that as much as I can. Perhaps the path forwards will become
+clearer without it there :-) Thank you for your feedback.
 
 Regards,
 Phil
