@@ -1,98 +1,233 @@
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1579E72
-	for <linux-staging@lists.linux.dev>; Tue, 20 Jul 2021 22:10:09 +0000 (UTC)
-Received: by mail-il1-f199.google.com with SMTP id a13-20020a92c54d0000b0290216ae9088ffso380768ilj.9
-        for <linux-staging@lists.linux.dev>; Tue, 20 Jul 2021 15:10:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5516270
+	for <linux-staging@lists.linux.dev>; Tue, 20 Jul 2021 22:51:24 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id p15-20020a05600c358fb0290245467f26a4so465244wmq.0
+        for <linux-staging@lists.linux.dev>; Tue, 20 Jul 2021 15:51:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=8W1KbjY8fT8BQvIAZVuxTpUxou1s0JW4/9580Ls3I/U=;
+        b=mGsK65QOANR2CO0EdxSdjHISh2tPghmUxcSBS65WhS5BotcRFzc0c/lI/XKcNfHPW2
+         xN+kbCpvVXXsRQJlr+RmYh8Rsp1sVHqjJJHzUX7HLwKTLQ5UDS3W88kOhPVrcXMu70EW
+         9kOL6Hak4b+oQgIM6sF6h9zQwpzMEWGHQHa/iJ8qo81D5WALan28ob+sc6PJpKduJTIH
+         PCgNRTGxZECL1Av3LPnXhLobo9XcgqC6Q2cxs4d14RCFzUNl7EqXtqTocLakj14o6y4l
+         2MhIR4kyiZTaYmA+iyXsHKg1cAWLX9xrhbmOeHlh+KF9x+cVMNpr/AMtaJwYq+eEJS8/
+         LosA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=su0ZDiChfXsok14gNrh34ghXNW9Yz7pmB2Wte3vJIIU=;
-        b=RRyTpPsNNWh0ezOJxkOnW7koCFrdkCYpEkmh+NT0TgnqC8Iy7wGP42SIK9WVJsNCGJ
-         tcnvVsCp3Rl/0DxZETtOg3EikREenx/S8lQbeD0HBFrWXbZTdbMKEAWn58PRFpdt+Loc
-         4LD/8qdoL+gdtGKzSjjmloo0uSdGPMsNfq6h3TQ+8O98WtHv610Ap1Fg4IGJy7STogqw
-         A+FKYVwAj+t9FqhEntGG7/IyuL283BmsNX3bzFoSnVhXD6NS6a1R4aMlYO04GKGgI7Md
-         N3zpx9F6Zrq32fjHjUASIdJdDRv3ytL0ikUffdS4qF4MJnPQpmXrcRVKJ/WNyaS87Hur
-         EZjQ==
-X-Gm-Message-State: AOAM532x7SWur+cTVsL1si1698qaaU1+jKuMomdxVGXeW8iZ9/cPhaqI
-	Yg98zRadZG2fqifwsVYDy/V+A/pajd7xzhApA5W9EQVcUGX5
-X-Google-Smtp-Source: ABdhPJw7gKJqBfPZhtoEW17TY2o5NwcXqOloYEoHUj5de29DbsZwtbAHDlVohsYHSOXNqd2gHkTi+g1IngNnrlUzrBL6/KYKWFuG
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=8W1KbjY8fT8BQvIAZVuxTpUxou1s0JW4/9580Ls3I/U=;
+        b=ClsKCK6LirVuPmMnf65LNb7lXnAKYAASAijo51quoTDVKPpkRhWvzUmwtwXlEhoYqV
+         C9hWyzitbx27ZPaooNDwldHwsbB4ybb/VQvUwoyyWIrCnnJTUaIBzDHvBF429LOhCcic
+         wAr2EJIQGoIbp7Z8/8neuSNrCWllSUwrhPSCiRIheAr4CD3TZzc9lYIWtU2lXMU07Kzr
+         hTRt9QWoIEoB5M532zhgEhTMKpK/CUR2V/SxoLuFClAbjmAltKVjlzsLN+iMc/INVxU2
+         CreaWyGuaSPThx/JSl8+XPPUEMTevoKNf2yczhl/8ZVNJZFcF0c3nt9drmLLGnPfExN5
+         Mrfg==
+X-Gm-Message-State: AOAM531wSa/5tkbesd2FFWtWHG0NDknae0C8MxM9laSsGhzPWVWAHtM7
+	7Bmhp/Y0Aqjy22QG1Z9MHUmVjw==
+X-Google-Smtp-Source: ABdhPJwJL3pVx8oufIcdQtq29JC8z4pRU7rHCxACydg4sIGsTVFRu5GCYsyX3H2M+++gfZZmzlmv0w==
+X-Received: by 2002:a1c:a58b:: with SMTP id o133mr34220178wme.160.1626821482516;
+        Tue, 20 Jul 2021 15:51:22 -0700 (PDT)
+Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
+        by smtp.gmail.com with ESMTPSA id z11sm24800835wru.65.2021.07.20.15.51.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jul 2021 15:51:21 -0700 (PDT)
+Date: Tue, 20 Jul 2021 23:51:19 +0100
+From: Phillip Potter <phil@philpotter.co.uk>
+To: Larry Finger <Larry.Finger@lwfinger.net>
+Cc: dan.carpenter@oracle.com, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, gregkh@linuxfoundation.org
+Subject: Re: [PATCH resend] staging: rtl8188eu: move all source files from
+ core subdirectory
+Message-ID: <YPdTZ9Q9zCIyBjjB@equinox>
+References: <20210719224601.255364-1-phil@philpotter.co.uk>
+ <7bc43fb0-2dab-190b-c480-9e77cff863d4@lwfinger.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6602:10e:: with SMTP id s14mr25137569iot.52.1626819008218;
- Tue, 20 Jul 2021 15:10:08 -0700 (PDT)
-Date: Tue, 20 Jul 2021 15:10:08 -0700
-In-Reply-To: <20210720221445.7d022a9e@gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000001950a705c795515d@google.com>
-Subject: Re: [syzbot] KASAN: slab-out-of-bounds Read in do_wait_for_common
-From: syzbot <syzbot+cc699626e48a6ebaf295@syzkaller.appspotmail.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, 
-	gregkh@linuxfoundation.org, hridayhegde1999@gmail.com, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	paskripkin@gmail.com, rkovhaev@gmail.com, straube.linux@gmail.com, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7bc43fb0-2dab-190b-c480-9e77cff863d4@lwfinger.net>
 
-Hello,
+On Mon, Jul 19, 2021 at 06:46:16PM -0500, Larry Finger wrote:
+> On 7/19/21 5:46 PM, Phillip Potter wrote:
+> > Move all C source files from the core subdirectory to the root
+> > folder of the driver, and adjust Makefile accordingly. The ultmate
+> > goal is to remove hal layer and fold its functionalty into the main
+> > sources. At this point, the distinction between hal and core will be
+> > meaningless, so this is the first step towards simplifying the file
+> > layout.
+> > 
+> > Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+> > ---
+> >   drivers/staging/rtl8188eu/Makefile            | 34 +++++++++----------
+> >   drivers/staging/rtl8188eu/{core => }/rtw_ap.c |  0
+> >   .../staging/rtl8188eu/{core => }/rtw_cmd.c    |  0
+> >   .../staging/rtl8188eu/{core => }/rtw_efuse.c  |  0
+> >   .../rtl8188eu/{core => }/rtw_ieee80211.c      |  0
+> >   .../rtl8188eu/{core => }/rtw_ioctl_set.c      |  0
+> >   .../staging/rtl8188eu/{core => }/rtw_iol.c    |  0
+> >   .../staging/rtl8188eu/{core => }/rtw_led.c    |  0
+> >   .../staging/rtl8188eu/{core => }/rtw_mlme.c   |  0
+> >   .../rtl8188eu/{core => }/rtw_mlme_ext.c       |  0
+> >   .../rtl8188eu/{core => }/rtw_pwrctrl.c        |  0
+> >   .../staging/rtl8188eu/{core => }/rtw_recv.c   |  0
+> >   drivers/staging/rtl8188eu/{core => }/rtw_rf.c |  0
+> >   .../rtl8188eu/{core => }/rtw_security.c       |  0
+> >   .../staging/rtl8188eu/{core => }/rtw_sreset.c |  0
+> >   .../rtl8188eu/{core => }/rtw_sta_mgt.c        |  0
+> >   .../rtl8188eu/{core => }/rtw_wlan_util.c      |  0
+> >   .../staging/rtl8188eu/{core => }/rtw_xmit.c   |  0
+> >   18 files changed, 17 insertions(+), 17 deletions(-)
+> >   rename drivers/staging/rtl8188eu/{core => }/rtw_ap.c (100%)
+> >   rename drivers/staging/rtl8188eu/{core => }/rtw_cmd.c (100%)
+> >   rename drivers/staging/rtl8188eu/{core => }/rtw_efuse.c (100%)
+> >   rename drivers/staging/rtl8188eu/{core => }/rtw_ieee80211.c (100%)
+> >   rename drivers/staging/rtl8188eu/{core => }/rtw_ioctl_set.c (100%)
+> >   rename drivers/staging/rtl8188eu/{core => }/rtw_iol.c (100%)
+> >   rename drivers/staging/rtl8188eu/{core => }/rtw_led.c (100%)
+> >   rename drivers/staging/rtl8188eu/{core => }/rtw_mlme.c (100%)
+> >   rename drivers/staging/rtl8188eu/{core => }/rtw_mlme_ext.c (100%)
+> >   rename drivers/staging/rtl8188eu/{core => }/rtw_pwrctrl.c (100%)
+> >   rename drivers/staging/rtl8188eu/{core => }/rtw_recv.c (100%)
+> >   rename drivers/staging/rtl8188eu/{core => }/rtw_rf.c (100%)
+> >   rename drivers/staging/rtl8188eu/{core => }/rtw_security.c (100%)
+> >   rename drivers/staging/rtl8188eu/{core => }/rtw_sreset.c (100%)
+> >   rename drivers/staging/rtl8188eu/{core => }/rtw_sta_mgt.c (100%)
+> >   rename drivers/staging/rtl8188eu/{core => }/rtw_wlan_util.c (100%)
+> >   rename drivers/staging/rtl8188eu/{core => }/rtw_xmit.c (100%)
+> > 
+> > diff --git a/drivers/staging/rtl8188eu/Makefile b/drivers/staging/rtl8188eu/Makefile
+> > index 28b936e8be0a..2dad13bdbdeb 100644
+> > --- a/drivers/staging/rtl8188eu/Makefile
+> > +++ b/drivers/staging/rtl8188eu/Makefile
+> > @@ -1,22 +1,22 @@
+> >   # SPDX-License-Identifier: GPL-2.0
+> >   r8188eu-y :=				\
+> > -		core/rtw_ap.o		\
+> > -		core/rtw_cmd.o		\
+> > -		core/rtw_efuse.o	\
+> > -		core/rtw_ieee80211.o	\
+> > -		core/rtw_ioctl_set.o	\
+> > -		core/rtw_iol.o		\
+> > -		core/rtw_led.o		\
+> > -		core/rtw_mlme.o		\
+> > -		core/rtw_mlme_ext.o	\
+> > -		core/rtw_pwrctrl.o	\
+> > -		core/rtw_recv.o		\
+> > -		core/rtw_rf.o		\
+> > -		core/rtw_security.o	\
+> > -		core/rtw_sreset.o	\
+> > -		core/rtw_sta_mgt.o	\
+> > -		core/rtw_wlan_util.o	\
+> > -		core/rtw_xmit.o		\
+> > +		rtw_ap.o		\
+> > +		rtw_cmd.o		\
+> > +		rtw_efuse.o		\
+> > +		rtw_ieee80211.o		\
+> > +		rtw_ioctl_set.o		\
+> > +		rtw_iol.o		\
+> > +		rtw_led.o		\
+> > +		rtw_mlme.o		\
+> > +		rtw_mlme_ext.o		\
+> > +		rtw_pwrctrl.o		\
+> > +		rtw_recv.o		\
+> > +		rtw_rf.o		\
+> > +		rtw_security.o		\
+> > +		rtw_sreset.o		\
+> > +		rtw_sta_mgt.o		\
+> > +		rtw_wlan_util.o		\
+> > +		rtw_xmit.o		\
+> >   		hal/fw.o	\
+> >   		hal/mac_cfg.o \
+> >   		hal/bb_cfg.o \
+> > diff --git a/drivers/staging/rtl8188eu/core/rtw_ap.c b/drivers/staging/rtl8188eu/rtw_ap.c
+> > similarity index 100%
+> > rename from drivers/staging/rtl8188eu/core/rtw_ap.c
+> > rename to drivers/staging/rtl8188eu/rtw_ap.c
+> > diff --git a/drivers/staging/rtl8188eu/core/rtw_cmd.c b/drivers/staging/rtl8188eu/rtw_cmd.c
+> > similarity index 100%
+> > rename from drivers/staging/rtl8188eu/core/rtw_cmd.c
+> > rename to drivers/staging/rtl8188eu/rtw_cmd.c
+> > diff --git a/drivers/staging/rtl8188eu/core/rtw_efuse.c b/drivers/staging/rtl8188eu/rtw_efuse.c
+> > similarity index 100%
+> > rename from drivers/staging/rtl8188eu/core/rtw_efuse.c
+> > rename to drivers/staging/rtl8188eu/rtw_efuse.c
+> > diff --git a/drivers/staging/rtl8188eu/core/rtw_ieee80211.c b/drivers/staging/rtl8188eu/rtw_ieee80211.c
+> > similarity index 100%
+> > rename from drivers/staging/rtl8188eu/core/rtw_ieee80211.c
+> > rename to drivers/staging/rtl8188eu/rtw_ieee80211.c
+> > diff --git a/drivers/staging/rtl8188eu/core/rtw_ioctl_set.c b/drivers/staging/rtl8188eu/rtw_ioctl_set.c
+> > similarity index 100%
+> > rename from drivers/staging/rtl8188eu/core/rtw_ioctl_set.c
+> > rename to drivers/staging/rtl8188eu/rtw_ioctl_set.c
+> > diff --git a/drivers/staging/rtl8188eu/core/rtw_iol.c b/drivers/staging/rtl8188eu/rtw_iol.c
+> > similarity index 100%
+> > rename from drivers/staging/rtl8188eu/core/rtw_iol.c
+> > rename to drivers/staging/rtl8188eu/rtw_iol.c
+> > diff --git a/drivers/staging/rtl8188eu/core/rtw_led.c b/drivers/staging/rtl8188eu/rtw_led.c
+> > similarity index 100%
+> > rename from drivers/staging/rtl8188eu/core/rtw_led.c
+> > rename to drivers/staging/rtl8188eu/rtw_led.c
+> > diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme.c b/drivers/staging/rtl8188eu/rtw_mlme.c
+> > similarity index 100%
+> > rename from drivers/staging/rtl8188eu/core/rtw_mlme.c
+> > rename to drivers/staging/rtl8188eu/rtw_mlme.c
+> > diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c b/drivers/staging/rtl8188eu/rtw_mlme_ext.c
+> > similarity index 100%
+> > rename from drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+> > rename to drivers/staging/rtl8188eu/rtw_mlme_ext.c
+> > diff --git a/drivers/staging/rtl8188eu/core/rtw_pwrctrl.c b/drivers/staging/rtl8188eu/rtw_pwrctrl.c
+> > similarity index 100%
+> > rename from drivers/staging/rtl8188eu/core/rtw_pwrctrl.c
+> > rename to drivers/staging/rtl8188eu/rtw_pwrctrl.c
+> > diff --git a/drivers/staging/rtl8188eu/core/rtw_recv.c b/drivers/staging/rtl8188eu/rtw_recv.c
+> > similarity index 100%
+> > rename from drivers/staging/rtl8188eu/core/rtw_recv.c
+> > rename to drivers/staging/rtl8188eu/rtw_recv.c
+> > diff --git a/drivers/staging/rtl8188eu/core/rtw_rf.c b/drivers/staging/rtl8188eu/rtw_rf.c
+> > similarity index 100%
+> > rename from drivers/staging/rtl8188eu/core/rtw_rf.c
+> > rename to drivers/staging/rtl8188eu/rtw_rf.c
+> > diff --git a/drivers/staging/rtl8188eu/core/rtw_security.c b/drivers/staging/rtl8188eu/rtw_security.c
+> > similarity index 100%
+> > rename from drivers/staging/rtl8188eu/core/rtw_security.c
+> > rename to drivers/staging/rtl8188eu/rtw_security.c
+> > diff --git a/drivers/staging/rtl8188eu/core/rtw_sreset.c b/drivers/staging/rtl8188eu/rtw_sreset.c
+> > similarity index 100%
+> > rename from drivers/staging/rtl8188eu/core/rtw_sreset.c
+> > rename to drivers/staging/rtl8188eu/rtw_sreset.c
+> > diff --git a/drivers/staging/rtl8188eu/core/rtw_sta_mgt.c b/drivers/staging/rtl8188eu/rtw_sta_mgt.c
+> > similarity index 100%
+> > rename from drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
+> > rename to drivers/staging/rtl8188eu/rtw_sta_mgt.c
+> > diff --git a/drivers/staging/rtl8188eu/core/rtw_wlan_util.c b/drivers/staging/rtl8188eu/rtw_wlan_util.c
+> > similarity index 100%
+> > rename from drivers/staging/rtl8188eu/core/rtw_wlan_util.c
+> > rename to drivers/staging/rtl8188eu/rtw_wlan_util.c
+> > diff --git a/drivers/staging/rtl8188eu/core/rtw_xmit.c b/drivers/staging/rtl8188eu/rtw_xmit.c
+> > similarity index 100%
+> > rename from drivers/staging/rtl8188eu/core/rtw_xmit.c
+> > rename to drivers/staging/rtl8188eu/rtw_xmit.c
+> > 
+> 
+> I think this is just source churning. The current setup with include. core.
+> hal and os_dep subdirectories are not opressive.
+> 
+> Larry
+> 
+Dear Larry,
 
-syzbot has tested the proposed patch but the reproducer is still triggering an issue:
-BUG: sleeping function called from invalid context in lock_sock_nested
+Thank you for your feedback. I will focus on utilising the existing
+folder structure in that case, with a view towards reducing/removing the
+'hal' folder and reintegrating its code.
 
-BUG: sleeping function called from invalid context at net/core/sock.c:3161
-in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 8824, name: syz-executor.2
-1 lock held by syz-executor.2/8824:
- #0: ffffffff8d89c920 (hci_sk_list.lock){++++}-{2:2}, at: hci_sock_dev_event+0x2b6/0x630 net/bluetooth/hci_sock.c:763
-Preemption disabled at:
-[<0000000000000000>] 0x0
-CPU: 0 PID: 8824 Comm: syz-executor.2 Not tainted 5.14.0-rc2-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Call Trace:
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x1d3/0x29f lib/dump_stack.c:105
- ___might_sleep+0x4e5/0x6b0 kernel/sched/core.c:9154
- lock_sock_nested+0x34/0x110 net/core/sock.c:3161
- lock_sock include/net/sock.h:1613 [inline]
- hci_sock_dev_event+0x30a/0x630 net/bluetooth/hci_sock.c:765
- hci_unregister_dev+0x487/0x19b0 net/bluetooth/hci_core.c:4033
- vhci_release+0x73/0xc0 drivers/bluetooth/hci_vhci.c:340
- __fput+0x352/0x7b0 fs/file_table.c:280
- task_work_run+0x146/0x1c0 kernel/task_work.c:164
- exit_task_work include/linux/task_work.h:32 [inline]
- do_exit+0x72b/0x2510 kernel/exit.c:825
- do_group_exit+0x168/0x2d0 kernel/exit.c:922
- __do_sys_exit_group+0x13/0x20 kernel/exit.c:933
- __se_sys_exit_group+0x10/0x10 kernel/exit.c:931
- __x64_sys_exit_group+0x37/0x40 kernel/exit.c:931
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-RIP: 0033:0x4665d9
-Code: Unable to access opcode bytes at RIP 0x4665af.
-RSP: 002b:00007ffe15e4abc8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
-RAX: ffffffffffffffda RBX: 00007ffe15e4b388 RCX: 00000000004665d9
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000043
-RBP: 0000000000000000 R08: 0000000000000025 R09: 00007ffe15e4b388
-R10: 00000000ffffffff R11: 0000000000000246 R12: 00000000004bef54
-R13: 0000000000000010 R14: 0000000000000000 R15: 0000000000400538
-
-======================================================
-
-
-Tested on:
-
-commit:         8cae8cd8 seq_file: disallow extremely large seq buffer..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=161182ea300000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=300aea483211c875
-dashboard link: https://syzkaller.appspot.com/bug?extid=cc699626e48a6ebaf295
-compiler:       Debian clang version 11.0.1-2, GNU ld (GNU Binutils for Debian) 2.35.1
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=13c31a5a300000
-
+Regards,
+Phil
