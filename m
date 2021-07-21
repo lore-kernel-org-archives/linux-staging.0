@@ -1,54 +1,54 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0804270
-	for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 07:49:22 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id k4so1088662wrc.8
-        for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 00:49:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A343E70
+	for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 07:51:38 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id l1so1205331edr.11
+        for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 00:51:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=dX8TY150sPP288O7a5d8IPUCpKmaaGuNxNtlOJ+ZVSk=;
-        b=xLLIO3yuolKlm7Z+nBYUayixvHCbQKQLacSAIi3kdGsbXUyQdCEJCdeXDB3lHNc4tm
-         LY/3QlLyetbELioGJW0zhBAF7qlalmy/7pOYbF/VVhgh11ZBONXbIXXbgME1rxsDAXK7
-         lId6mxACdfA5ptoJPhTxzHgTXEuhXxbZdPvddpUq2WLnUTCUR3UdVxgNp/edWXdsFkx0
-         1wjYNiJ9zkDIUIv0crsVWdbgCnYcGQ/R6eXJIKZLiO35EUoDMs6pSglSaBS1QLlkelgE
-         obg5qFH8Wv0P3cEvJaouBR/nAzHGLqd0PngmqyGYR1u3zPjSfwBFZ3XBKK2qAr9Utahv
-         C+rw==
+         :content-disposition:in-reply-to:user-agent;
+        bh=OviwxmQXhJdo0TloNvGVegugc9cROp3g9iBnuBkT8bE=;
+        b=d6tocUcKm9pxZrf2i3DUgWZhK0a7b0w7sMiUQFZ0c+0rC1c4k2WU8dN6Vfpr490v9A
+         IjbVlcw/aKsjPigaK9dLLKJEyT6vy6AH/oGxKvGRaJYBOyVpNHEL/dT2Ws+rfqQuDrCT
+         ApGvbR9E4lbM5dE4F+igOaOLZ/MpReJfDLbtIWjnR1Y2HRRQKkQt3/IHqDr2d4D20fhR
+         yqz7Y4J22jfuwhJ/Q8j5DYdFcyX76fvs37mOunvYEGFoZApmp+tPSoi/9Qb3EJWhqIIG
+         xHdLalO1v6n1ICe3EhF4/PocgD4hKqcAHnbV4jFqyH2QzrwBf4VuqtGJWlHgrj/pWPkI
+         RyPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=dX8TY150sPP288O7a5d8IPUCpKmaaGuNxNtlOJ+ZVSk=;
-        b=O+A8kwTDmXam1etYh72Pn9ntGBt0MQnxK5ByMCeG2N+XYeQNttMF36HDhd/5ciqSVw
-         Tita5K8OOEpzZzWDNN7dzi18feArgcLo93sQySUCyKQpX4N24n8Varea9aLKwn4NB9Ae
-         VTDkYKCS4v06mx1goy0YRH3GyAY439D2/23F8s8jzN8+nmzJMnua5dK3nVzduyBvOtoj
-         pUnBYbEpmz5sDmWYa5PjjEuIfXNiLggPor0JfNvwgjFnG3eA9hdN04vISWdu4YNh1uOP
-         UvyKvdiQpRu2SAT7AMijpkkuH8NWZ5JDG7+gSZZ5gIn8EFGLzr1pvGHE1X118XtQaqIY
-         00mw==
-X-Gm-Message-State: AOAM533ekN7ZDjK8RkKWJfRA7SVr3NsA8k0XRdD0tx4/u/wJOTo5bAos
-	A3znP2fiKeOoegOXZ0rzKpVnOg==
-X-Google-Smtp-Source: ABdhPJwsQ0YmJJpXJd9qiiQ0NIdydxNW9DObrYKA4Ux6eBABoIZ+aQgUIeIzvZ+7IMy/XVZLqVgbkw==
-X-Received: by 2002:adf:ed46:: with SMTP id u6mr41199381wro.252.1626853761382;
-        Wed, 21 Jul 2021 00:49:21 -0700 (PDT)
-Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
-        by smtp.gmail.com with ESMTPSA id o14sm26462614wrj.66.2021.07.21.00.49.20
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=OviwxmQXhJdo0TloNvGVegugc9cROp3g9iBnuBkT8bE=;
+        b=k8pdeehN9GXhT/YQcimLEqUZ0/UXxuHLFZ8/eRTJTwtFYshx3vpKB0HyFSYI546Bb5
+         ZnLhq3vAy+28+hD84+5RImS2naysBlqHtO7JW1Wd55m7qu7VFUDD4+RWuIcrt11nzuKA
+         cOkf8TYwHsPQ2qHHlQNm5kDDGm6a2RCiCcIBIFzWLbOj3xJaeI/IDSeahvKvhlomD0fv
+         j6O0a3RgSrMbE/BejMRq72rwmmr21mqy/zPJlPY1e1UwMyEJnfjbujbzIvJnD7dCcGQI
+         BfaQuTG8nTruUVYRUROkvrStrtoqtb81w9wgqEHMD4/dsLvWYHP613G5SQkPMPJstxze
+         vfHw==
+X-Gm-Message-State: AOAM530SSTnW2Ase0/0DtIsEOCqyh5AHXV3dQpGRwLuSQx1QnaRXwCuR
+	8Y+G0r6chY19sqzbO3YF6+I=
+X-Google-Smtp-Source: ABdhPJyzHMCIX7uNIYHsYLT7QeR+KYXwZDlY7DRyPamhotr/8BW1nhXIHdg9mMwK1x3OmcUYxkj0zw==
+X-Received: by 2002:a05:6402:d54:: with SMTP id ec20mr48237987edb.41.1626853897163;
+        Wed, 21 Jul 2021 00:51:37 -0700 (PDT)
+Received: from agape.jhs ([5.171.80.208])
+        by smtp.gmail.com with ESMTPSA id c28sm7979632ejc.102.2021.07.21.00.51.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jul 2021 00:49:20 -0700 (PDT)
-Date: Wed, 21 Jul 2021 08:49:19 +0100
-From: Phillip Potter <phil@philpotter.co.uk>
-To: Larry Finger <Larry.Finger@lwfinger.net>
+        Wed, 21 Jul 2021 00:51:36 -0700 (PDT)
+Date: Wed, 21 Jul 2021 09:51:34 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Phillip Potter <phil@philpotter.co.uk>
 Cc: gregkh@linuxfoundation.org, dan.carpenter@oracle.com,
 	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	fabioaiuto83@gmail.com
+	Larry.Finger@lwfinger.net
 Subject: Re: [PATCH resend] staging: rtl8188eu: move all source files from
  core subdirectory
-Message-ID: <YPfRf8dgFd+u5hzm@equinox>
+Message-ID: <20210721075133.GB1415@agape.jhs>
 References: <20210719224601.255364-1-phil@philpotter.co.uk>
  <7bc43fb0-2dab-190b-c480-9e77cff863d4@lwfinger.net>
  <20210720090035.GB1406@agape.jhs>
- <08a8b372-8ec2-afcc-cc54-305d1dd74a59@lwfinger.net>
+ <YPdUM2Gi+tPKoJII@equinox>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,10 +57,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <08a8b372-8ec2-afcc-cc54-305d1dd74a59@lwfinger.net>
+In-Reply-To: <YPdUM2Gi+tPKoJII@equinox>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Tue, Jul 20, 2021 at 07:22:26PM -0500, Larry Finger wrote:
-> On 7/20/21 4:00 AM, Fabio Aiuto wrote:
+Dear Phillip,
+
+On Tue, Jul 20, 2021 at 11:54:43PM +0100, Phillip Potter wrote:
+> On Tue, Jul 20, 2021 at 11:00:36AM +0200, Fabio Aiuto wrote:
+> > Hi all,
+> > 
+> > On Mon, Jul 19, 2021 at 06:46:16PM -0500, Larry Finger wrote:
+> > > On 7/19/21 5:46 PM, Phillip Potter wrote:
+> > > > Move all C source files from the core subdirectory to the root
+> > > > folder of the driver, and adjust Makefile accordingly. The ultmate
+> > > > goal is to remove hal layer and fold its functionalty into the main
+> > > > sources. At this point, the distinction between hal and core will be
+> > > > meaningless, so this is the first step towards simplifying the file
+> > > > layout.
+> > > > 
+> > > > Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+> > > > ---
+> > > >   drivers/staging/rtl8188eu/Makefile            | 34 +++++++++----------
+> > > >   drivers/staging/rtl8188eu/{core => }/rtw_ap.c |  0
+> > > >   .../staging/rtl8188eu/{core => }/rtw_cmd.c    |  0
+> > > >   .../staging/rtl8188eu/{core => }/rtw_efuse.c  |  0
+> > > >   .../rtl8188eu/{core => }/rtw_ieee80211.c      |  0
+> > > >   .../rtl8188eu/{core => }/rtw_ioctl_set.c      |  0
+> > > >   .../staging/rtl8188eu/{core => }/rtw_iol.c    |  0
+> >  > 
+> > > 
+> > > I think this is just source churning. The current setup with include. core.
+> > > hal and os_dep subdirectories are not opressive.
+> > > 
+> > > Larry
+> > > 
+> > > 
+> > 
 > > maybe the information we will need one day is:
 > > 
 > > will the core/-os_dep/-hal/-include/-directory-structure be
@@ -70,37 +102,25 @@ On Tue, Jul 20, 2021 at 07:22:26PM -0500, Larry Finger wrote:
 > > At the moment I can't see such a directory organization
 > > in any of the realtek wireless driver.
 > > 
-> > Sure there's time for that;),
+> > Sure there's time for that ;),
+> > 
+> > Thank you,
+> > 
+> > fabio
+> > 
+> > 
+> Dear Fabio,
 > 
-> The question is how much lipstick do you want to put on that pig? The
-> current version does not use cfg80211, and it does not work with
-> NetworkManager or a modern hostapd to create an AP.
-> 
-> If you want to get the rtl8188eu driver in shape to be added to the regular
-> drivers section, then I suggest you start with the v5.2.2.4 branch of
-> https://github.com/lwfinger/rtl8188eu.git. Many users of the RTL8188EU chip
-> use that driver. At least that version fixes the two problems listed above.
-> If you want to flatten the directory structure, you can do it there and
-> offline.
-> 
-> I want to caution you that following this path will take a lot of time, but
-> once you get it into kernel shape, it will at least be useful. I have never
-> had the time, nor the ambition to undertake this effort.
-> 
-> Larry
-> 
-Dear Larry,
+> Certainly a good start is removing this 'hal' layer so for now I'll
+> focus on that as much as I can. Perhaps the path forwards will become
+> clearer without it there :-) Thank you for your feedback.
 
-Whilst I (and no doubt others) are happy to look into what you've
-suggested, I do have a few questions:
-(1) Why is the version from github not the one in staging?
-(2) On a related note, working on it offline is difficult in terms of
-proving contributions, particularly for a kernel mentee such as myself.
+Agreed
 
-Might I suggest replacing this driver with the one you suggested
-entirely, so work on it can continue in public? I am happy to submit
-this and continue work if you think it would be viable. Many thanks and
-I appreciate your thoughts on this.
+> 
+> Regards,
+> Phil
 
-Regards,
-Phil
+thank you,
+
+fabio
