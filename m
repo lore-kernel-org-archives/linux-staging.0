@@ -1,41 +1,41 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C84B72
-	for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 19:34:44 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id ca14so3846802edb.2
-        for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 12:34:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8DAF72
+	for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 19:34:52 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id t2so3792506edd.13
+        for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 12:34:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=p3h3q8SHUgg6wfPU9uDK9V1IUiRt6H/fJS2Uqk4LTjo=;
-        b=jxVE536lO6V1V6YbIJNIe/q7qyRQ+FUijbpRPDb3t5x+boUjuTnlRZjfJf3x7SbmTS
-         jGaiFq2muBjo9FV+NcDXqRh+AhriqXZoCmpC61kt2cOseFPSNTjiI2a2UBYokmz3JHS8
-         Vvm+diE5hXoCulTMdQ6pvYpG1DaQarXcsiqUM26vkBdJEEjbZqPRKC2nFLk/iecr9HRK
-         4Ih8EjfJVtGQ+eS2kDQMmDSeyJLmpbRCO/4IJWHPKH4mKz+d4sXubn/KgfyAB0sI73cZ
-         /y5JzfFp8OH76znFvfxty1mIDyYmXJCa+6j2A+83rY2XBe/gX7OVks1SW5CF1cf67SrF
-         6BGA==
+        bh=3bRunNWeW2lfZZup5nSB82DUjrIpt/jOFnUYQ8vwPzs=;
+        b=mPEsradvTXokovjNTjxeaxkEJuooGFpr8pYrtJEJoFrLrz1ogklIfS57bWdTkeC6GY
+         Vb7j9U+SaULLpyQKPeQF9SnCHmMD9zPfSFumct0FLMM3AAakDTRb0qNG+XsqqONl4z8s
+         Klbrk/wcouG3ZjphxOnW4aG5+8DfGm2JmZX5iZIyuacOs30psHaARI99hhWvi8Rl41DB
+         jFFUEPp+2A2P0b2b1DbgLZNLXwdwZ9X3Is3G19YTybTtf18PJ5p3OKbhHcMznpgTDsCa
+         iCArVsZWOWG2F6BpNN12uCt3CA95VtM2sftgnzsQMTHjUtxxc5ZnVjuqysyiSr6WUH5x
+         6y9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=p3h3q8SHUgg6wfPU9uDK9V1IUiRt6H/fJS2Uqk4LTjo=;
-        b=ltUsCIzXy9KbTjBwG1/GTqapaQUcqRzcVaHj2qQBa9it72S9MVZGnCIuFS4Y8IZ5Sa
-         bj96m9jhtwngLAvy1oQaMVG6ikkNJqtnfXFTvAt/4lQM1Qc8P55kHiCrEYEEuj9Y31GL
-         wn759yy+cfsCgDTUSSVdnJtOblTZkbwjsTQ/O4uiq+C/Mxplf1mh8xK7vji674Rhs9dE
-         0piQXcXrtno+IsL1zpF2wXmJDGvHE4lFHGhw2V+1nAc4nIflflGqF6/pht/YrRa51s4b
-         7WXL71ZTsQPbTM9qtwZ+MiU8soSRx7Qp06VL/XQLghKkDOGG42dEt+aEVv/2uZsXErPM
-         0xyw==
-X-Gm-Message-State: AOAM531RSXLG1cOdYdYlE/bj6k5uggIWt3WG3OyiC8pjEyoUo6q5pUpp
-	dcNZqMbUV5ASk17HsoN1Pvw=
-X-Google-Smtp-Source: ABdhPJxRFnLhSyJCqIqRpa3F1lM5FPtP4S7QyYZtcJL110++SL15glECjzfv8GkcBbm2vMgSE4YpJw==
-X-Received: by 2002:aa7:d3da:: with SMTP id o26mr50201686edr.304.1626896082588;
-        Wed, 21 Jul 2021 12:34:42 -0700 (PDT)
+        bh=3bRunNWeW2lfZZup5nSB82DUjrIpt/jOFnUYQ8vwPzs=;
+        b=LVk5N/hptF3iuuRwbK0TKk4eN6J2FtIaO37HnR5gMAOnixtYc+el4AeENSTu5vvTgT
+         1X9ipojKuQrf/IIHGhkuk80fTr1nP1CZPabFEMqTM6sO8YhmZDSkI9XzAgzneFe/i0Jp
+         AMwFvCllAYEaWPF7MNbIwbYT5wxxEi9vjvyQo1SgvgosumL7Jwcg9i0w/3gf2YUfh43h
+         S56Z4F+R1r9/79Wk4Hai50Pj57aYH5h59T8O58f9j1a+sS28OaE1oegzIrGJPoiumVPQ
+         RVATsnGmXcot4riec3ndtF53L3Q6M5r4KoHxXJhG3VvUJDiom/zK2GtgHtFTwW4UEflH
+         hWxQ==
+X-Gm-Message-State: AOAM5334Xyj3Twwi25tjLDcikmMwPA6w+CgxKmueWenRQBgjrx0cGqsK
+	mKjtry/UP0JMRB1TKTj1uOo=
+X-Google-Smtp-Source: ABdhPJwdL+U/6cyKpLjuzg9kEYtvs5aedL260p2p0iwSzRmBRCzLQng2pdNplLP05MfQVyo67NATfQ==
+X-Received: by 2002:a05:6402:4d1:: with SMTP id n17mr49197362edw.337.1626896091243;
+        Wed, 21 Jul 2021 12:34:51 -0700 (PDT)
 Received: from localhost.localdomain ([176.30.239.20])
-        by smtp.gmail.com with ESMTPSA id u26sm8611841ejj.4.2021.07.21.12.34.40
+        by smtp.gmail.com with ESMTPSA id f22sm11142723edr.16.2021.07.21.12.34.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jul 2021 12:34:42 -0700 (PDT)
+        Wed, 21 Jul 2021 12:34:50 -0700 (PDT)
 From: Pavel Skripkin <paskripkin@gmail.com>
 To: Larry.Finger@lwfinger.net,
 	florian.c.schilhabel@googlemail.com,
@@ -44,10 +44,12 @@ To: Larry.Finger@lwfinger.net,
 	straube.linux@gmail.com
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Pavel Skripkin <paskripkin@gmail.com>
-Subject: [PATCH 1/2] staging: rtl8712: get rid of flush_scheduled_work
-Date: Wed, 21 Jul 2021 22:34:36 +0300
-Message-Id: <6e028b4c457eeb7156c76c6ea3cdb3cb0207c7e1.1626895918.git.paskripkin@gmail.com>
+	Pavel Skripkin <paskripkin@gmail.com>,
+	syzbot+5872a520e0ce0a7c7230@syzkaller.appspotmail.com,
+	syzbot+cc699626e48a6ebaf295@syzkaller.appspotmail.com
+Subject: [PATCH 2/2] staging: rtl8712: error handling refactoring
+Date: Wed, 21 Jul 2021 22:34:47 +0300
+Message-Id: <d49ecc56e97c4df181d7bd4d240b031f315eacc3.1626895918.git.paskripkin@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1626895918.git.paskripkin@gmail.com>
 References: <cover.1626895918.git.paskripkin@gmail.com>
@@ -59,93 +61,139 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch is preparation for following patch for error handling
-refactoring.
+There was strange error handling logic in case of fw load failure. For
+some reason fw loader callback was doing clean up stuff when fw is not
+available. I don't see any reason behind doing this. Since this driver
+doesn't have EEPROM firmware let's just disconnect it in case of fw load
+failure. Doing clean up stuff in 2 different place which can run
+concurently is not good idea and syzbot found 2 bugs related to this
+strange approach.
 
-flush_scheduled_work() takes (wq_completion)events lock and
-it can lead to deadlock when r871xu_dev_remove() is called from workqueue.
-To avoid deadlock sutiation we can change flush_scheduled_work() call to
-flush_work() call for all possibly scheduled works in this driver,
-since next patch adds device_release_driver() in case of fw load failure.
+So, in this pacth I deleted all clean up code from fw callback and made
+a call to device_release_driver() under device_lock(parent) in case of fw
+load failure. This approach is more generic and it defend driver from UAF
+bugs, since all clean up code is moved to one place.
 
+Fixes: e02a3b945816 ("staging: rtl8712: fix memory leak in rtl871x_load_fw_cb")
+Fixes: 8c213fa59199 ("staging: r8712u: Use asynchronous firmware loading")
+Reported-and-tested-by: syzbot+5872a520e0ce0a7c7230@syzkaller.appspotmail.com
+Reported-and-tested-by: syzbot+cc699626e48a6ebaf295@syzkaller.appspotmail.com
 Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 ---
- drivers/staging/rtl8712/rtl8712_led.c     | 8 ++++++++
- drivers/staging/rtl8712/rtl871x_led.h     | 1 +
- drivers/staging/rtl8712/rtl871x_pwrctrl.c | 8 ++++++++
- drivers/staging/rtl8712/rtl871x_pwrctrl.h | 1 +
- drivers/staging/rtl8712/usb_intf.c        | 3 ++-
- 5 files changed, 20 insertions(+), 1 deletion(-)
+ drivers/staging/rtl8712/hal_init.c | 30 +++++++++++------
+ drivers/staging/rtl8712/usb_intf.c | 52 +++++++++++++-----------------
+ 2 files changed, 43 insertions(+), 39 deletions(-)
 
-diff --git a/drivers/staging/rtl8712/rtl8712_led.c b/drivers/staging/rtl8712/rtl8712_led.c
-index 5901026949f2..d5fc9026b036 100644
---- a/drivers/staging/rtl8712/rtl8712_led.c
-+++ b/drivers/staging/rtl8712/rtl8712_led.c
-@@ -1820,3 +1820,11 @@ void LedControl871x(struct _adapter *padapter, enum LED_CTL_MODE LedAction)
- 		break;
- 	}
- }
-+
-+void r8712_flush_led_works(struct _adapter *padapter)
+diff --git a/drivers/staging/rtl8712/hal_init.c b/drivers/staging/rtl8712/hal_init.c
+index 22974277afa0..4eff3fdecdb8 100644
+--- a/drivers/staging/rtl8712/hal_init.c
++++ b/drivers/staging/rtl8712/hal_init.c
+@@ -29,21 +29,31 @@
+ #define FWBUFF_ALIGN_SZ 512
+ #define MAX_DUMP_FWSZ (48 * 1024)
+ 
++static void rtl871x_load_fw_fail(struct _adapter *adapter)
 +{
-+	struct led_priv *pledpriv = &padapter->ledpriv;
++	struct usb_device *udev = adapter->dvobjpriv.pusbdev;
++	struct device *dev = &udev->dev;
++	struct device *parent = dev->parent;
 +
-+	flush_work(&pledpriv->SwLed0.BlinkWorkItem);
-+	flush_work(&pledpriv->SwLed1.BlinkWorkItem);
++	complete(&adapter->rtl8712_fw_ready);
++
++	dev_err(&udev->dev, "r8712u: Firmware request failed\n");
++
++	if (parent)
++		device_lock(parent);
++
++	device_release_driver(dev);
++
++	if (parent)
++		device_unlock(parent);
 +}
-diff --git a/drivers/staging/rtl8712/rtl871x_led.h b/drivers/staging/rtl8712/rtl871x_led.h
-index ee19c873cf01..2f0768132ad8 100644
---- a/drivers/staging/rtl8712/rtl871x_led.h
-+++ b/drivers/staging/rtl8712/rtl871x_led.h
-@@ -112,6 +112,7 @@ struct led_priv {
- void r8712_InitSwLeds(struct _adapter *padapter);
- void r8712_DeInitSwLeds(struct _adapter *padapter);
- void LedControl871x(struct _adapter *padapter, enum LED_CTL_MODE LedAction);
-+void r8712_flush_led_works(struct _adapter *padapter);
++
+ static void rtl871x_load_fw_cb(const struct firmware *firmware, void *context)
+ {
+ 	struct _adapter *adapter = context;
  
- #endif
- 
-diff --git a/drivers/staging/rtl8712/rtl871x_pwrctrl.c b/drivers/staging/rtl8712/rtl871x_pwrctrl.c
-index 23cff43437e2..cd6d9ff0bebc 100644
---- a/drivers/staging/rtl8712/rtl871x_pwrctrl.c
-+++ b/drivers/staging/rtl8712/rtl871x_pwrctrl.c
-@@ -224,3 +224,11 @@ void r8712_unregister_cmd_alive(struct _adapter *padapter)
+ 	if (!firmware) {
+-		struct usb_device *udev = adapter->dvobjpriv.pusbdev;
+-		struct usb_interface *usb_intf = adapter->pusb_intf;
+-
+-		dev_err(&udev->dev, "r8712u: Firmware request failed\n");
+-		usb_put_dev(udev);
+-		usb_set_intfdata(usb_intf, NULL);
+-		r8712_free_drv_sw(adapter);
+-		adapter->dvobj_deinit(adapter);
+-		complete(&adapter->rtl8712_fw_ready);
+-		free_netdev(adapter->pnetdev);
++		rtl871x_load_fw_fail(adapter);
+ 		return;
  	}
- 	mutex_unlock(&pwrctrl->mutex_lock);
- }
-+
-+void r8712_flush_rwctrl_works(struct _adapter *padapter)
-+{
-+	struct pwrctrl_priv *pwrctrl = &padapter->pwrctrlpriv;
-+
-+	flush_work(&pwrctrl->SetPSModeWorkItem);
-+	flush_work(&pwrctrl->rpwm_workitem);
-+}
-diff --git a/drivers/staging/rtl8712/rtl871x_pwrctrl.h b/drivers/staging/rtl8712/rtl871x_pwrctrl.h
-index bf6623cfaf27..b35b9c7920eb 100644
---- a/drivers/staging/rtl8712/rtl871x_pwrctrl.h
-+++ b/drivers/staging/rtl8712/rtl871x_pwrctrl.h
-@@ -108,5 +108,6 @@ void r8712_cpwm_int_hdl(struct _adapter *padapter,
- void r8712_set_ps_mode(struct _adapter *padapter, uint ps_mode,
- 			uint smart_ps);
- void r8712_set_rpwm(struct _adapter *padapter, u8 val8);
-+void r8712_flush_rwctrl_works(struct _adapter *padapter);
- 
- #endif  /* __RTL871X_PWRCTRL_H_ */
+ 	adapter->fw = firmware;
 diff --git a/drivers/staging/rtl8712/usb_intf.c b/drivers/staging/rtl8712/usb_intf.c
-index 2434b13c8b12..643f21eb1128 100644
+index 643f21eb1128..505ebeb643dc 100644
 --- a/drivers/staging/rtl8712/usb_intf.c
 +++ b/drivers/staging/rtl8712/usb_intf.c
-@@ -606,7 +606,8 @@ static void r871xu_dev_remove(struct usb_interface *pusb_intf)
- 			padapter->surprise_removed = true;
- 		if (pnetdev->reg_state != NETREG_UNINITIALIZED)
- 			unregister_netdev(pnetdev); /* will call netdev_close() */
--		flush_scheduled_work();
-+		r8712_flush_rwctrl_works(padapter);
-+		r8712_flush_led_works(padapter);
- 		udelay(1);
- 		/* Stop driver mlme relation timer */
- 		r8712_stop_drv_timers(padapter);
+@@ -591,36 +591,30 @@ static void r871xu_dev_remove(struct usb_interface *pusb_intf)
+ {
+ 	struct net_device *pnetdev = usb_get_intfdata(pusb_intf);
+ 	struct usb_device *udev = interface_to_usbdev(pusb_intf);
++	struct _adapter *padapter = netdev_priv(pnetdev);
++
++	/* never exit with a firmware callback pending */
++	wait_for_completion(&padapter->rtl8712_fw_ready);
++	usb_set_intfdata(pusb_intf, NULL);
++	release_firmware(padapter->fw);
++	if (drvpriv.drv_registered)
++		padapter->surprise_removed = true;
++	if (pnetdev->reg_state != NETREG_UNINITIALIZED)
++		unregister_netdev(pnetdev); /* will call netdev_close() */
++	r8712_flush_rwctrl_works(padapter);
++	r8712_flush_led_works(padapter);
++	udelay(1);
++	/* Stop driver mlme relation timer */
++	r8712_stop_drv_timers(padapter);
++	r871x_dev_unload(padapter);
++	r8712_free_drv_sw(padapter);
++	free_netdev(pnetdev);
++
++	/* decrease the reference count of the usb device structure
++	 * when disconnect
++	 */
++	usb_put_dev(udev);
+ 
+-	if (pnetdev) {
+-		struct _adapter *padapter = netdev_priv(pnetdev);
+-
+-		/* never exit with a firmware callback pending */
+-		wait_for_completion(&padapter->rtl8712_fw_ready);
+-		pnetdev = usb_get_intfdata(pusb_intf);
+-		usb_set_intfdata(pusb_intf, NULL);
+-		if (!pnetdev)
+-			goto firmware_load_fail;
+-		release_firmware(padapter->fw);
+-		if (drvpriv.drv_registered)
+-			padapter->surprise_removed = true;
+-		if (pnetdev->reg_state != NETREG_UNINITIALIZED)
+-			unregister_netdev(pnetdev); /* will call netdev_close() */
+-		r8712_flush_rwctrl_works(padapter);
+-		r8712_flush_led_works(padapter);
+-		udelay(1);
+-		/* Stop driver mlme relation timer */
+-		r8712_stop_drv_timers(padapter);
+-		r871x_dev_unload(padapter);
+-		r8712_free_drv_sw(padapter);
+-		free_netdev(pnetdev);
+-
+-		/* decrease the reference count of the usb device structure
+-		 * when disconnect
+-		 */
+-		usb_put_dev(udev);
+-	}
+-firmware_load_fail:
+ 	/* If we didn't unplug usb dongle and remove/insert module, driver
+ 	 * fails on sitesurvey for the first time when device is up.
+ 	 * Reset usb port for sitesurvey fail issue.
 -- 
 2.32.0
 
