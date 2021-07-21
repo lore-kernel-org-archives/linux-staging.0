@@ -1,326 +1,205 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB1C9173
-	for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 10:01:50 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id dt7so2325389ejc.12
-        for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 03:01:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version;
-        bh=86ljqv5t4ZJg9qP2L4KJ/buTsBjbtoSiB6SYR0p8Wt4=;
-        b=vc5HgWHtRmbjMtSrwYzBoz6kFDSKs0ESNzJYwgF9BsAYjwlVYsK+eBkcriczpwrI44
-         z/5teBy5u0M6Mpg4wtZHMA5dQke+NIXceWUleItFFw0ALJniJ+T0uh+fWvVOBUvYR1xk
-         Pr9LvWLUfgJINVI3gJO2K2XoPpZ0Dmonbipd2iFLraNWpgOz5ph/ng3nCBB8pxmVzR8E
-         Y6wHX+i5ZqMbCTc/1FdVf1diS1p01lSjuRERFA4LozSeBXyxT8qu4a3oxKyaG28Yw2NT
-         olyCvMUDd7sQyya9uGUNLgN4HlX+j9y71A1vXVZemruOZ0RfQVge6ynok2EYfxARor39
-         iBhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version;
-        bh=86ljqv5t4ZJg9qP2L4KJ/buTsBjbtoSiB6SYR0p8Wt4=;
-        b=f9HMujn6WvCuPzS3RlODOrUTFBIILEw01JH09TAE+2x798zkceB/jLqQjm6UsGcHYA
-         4PWd2sCqJlbWsKxLluTvTxT8/TtsSVLa38BVWoj5aelYZUa6Dl3+I7SnMD6/7XDiJOu/
-         s8Ngj6eaIqR1TU9mpJ3bMbzssp/6LyCFw1pnSsomZcQ14YJ3P/Kow374JzFQNpY3S1TZ
-         84aROA5ilhj7RUIBTwfbAR6umQSNWDZamvEtOi6YbpR/LgZeTaOhpHnvi/K4w7ALqAlm
-         bTkYRsB3G4eKjvGEs50lP3Y34zS91EVYnzZvEpsw/JG1ckDHMriCAeu24/dQ5XgmMwPU
-         tHUg==
-X-Gm-Message-State: AOAM530OXvFWCEoMI0ObfISPZr64oyRXVmna0RBjZyXnqjF2HDeysJmE
-	cIVtWAk40np1Obb+I0sZ58A=
-X-Google-Smtp-Source: ABdhPJyA5qUQWcyYupKyJBgjDnhX+fO/kYCtUTXULhtJpsjzjwb88jQ8601JzdSlL/R6C6/P4YwZxg==
-X-Received: by 2002:a17:906:b796:: with SMTP id dt22mr37981136ejb.448.1626861709075;
-        Wed, 21 Jul 2021 03:01:49 -0700 (PDT)
-Received: from localhost.localdomain ([176.30.109.247])
-        by smtp.gmail.com with ESMTPSA id g23sm3017357ejm.26.2021.07.21.03.01.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jul 2021 03:01:48 -0700 (PDT)
-Date: Wed, 21 Jul 2021 13:01:43 +0300
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: syzbot <syzbot+5872a520e0ce0a7c7230@syzkaller.appspotmail.com>
-Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
- gregkh@linuxfoundation.org, hridayhegde1999@gmail.com,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- rkovhaev@gmail.com, straube.linux@gmail.com,
- syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] KASAN: use-after-free Read in r871xu_dev_remove
-Message-ID: <20210721130143.396c1626@gmail.com>
-In-Reply-To: <00000000000087b4c305c6f8a243@google.com>
-References: <00000000000087b4c305c6f8a243@google.com>
-X-Mailer: Claws Mail 3.17.8git77 (GTK+ 2.24.33; x86_64-suse-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA84173;
+	Wed, 21 Jul 2021 10:09:45 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0BAC960FE7;
+	Wed, 21 Jul 2021 10:09:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1626862185;
+	bh=AkCAzoeKK4dm3J0IYr3eqKdLUog3VqnY+aXSEhth1R0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=c1tD+1+8N7ya+U+R4FoCk5r1AY0+njsEQDtKrpnu5fKg2Nsyw8ad0RAbDRa8LMlYN
+	 kIGK/SB0S4EC/Bt9LoElGD8+QX12QgKfoR1683w3NYrmezl45haNH7nWDa/e7NVumf
+	 ZIzS+wQ0FwO2WzFS4jJEXOjj+Re557OYzd+zf9Xc=
+Date: Wed, 21 Jul 2021 12:09:41 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: kernel@pengutronix.de,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alexandre Bounine <alex.bou9@gmail.com>,
+	Alex Dubov <oakad@yahoo.com>, Alex Elder <elder@kernel.org>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Andy Gross <agross@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Ben Widawsky <ben.widawsky@intel.com>,
+	Bjorn Andersson <bjorn.andersson@linaro.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Bodo Stroesser <bostroesser@gmail.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Christian Borntraeger <borntraeger@de.ibm.com>,
+	Cornelia Huck <cohuck@redhat.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Dexuan Cui <decui@microsoft.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	Eric Farman <farman@linux.ibm.com>,
+	Finn Thain <fthain@linux-m68k.org>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Frank Li <lznuaa@gmail.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Geoff Levand <geoff@infradead.org>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Halil Pasic <pasic@linux.ibm.com>, Hannes Reinecke <hare@suse.de>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Harald Freudenberger <freude@linux.ibm.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
+	Ira Weiny <ira.weiny@intel.com>, Jakub Kicinski <kuba@kernel.org>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Jaroslav Kysela <perex@perex.cz>, Jason Wang <jasowang@redhat.com>,
+	Jens Taprogge <jens.taprogge@taprogge.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jiri Kosina <jikos@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
+	Joey Pabalan <jpabalanb@gmail.com>, Johan Hovold <johan@kernel.org>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Johannes Thumshirn <morbidrsa@gmail.com>,
+	Jon Mason <jdmason@kudzu.us>, Juergen Gross <jgross@suse.com>,
+	Julien Grall <jgrall@amazon.com>,
+	Kai-Heng Feng <kai.heng.feng@canonical.com>,
+	Kirti Wankhede <kwankhede@nvidia.com>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Lee Jones <lee.jones@linaro.org>, Len Brown <lenb@kernel.org>,
+	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+	Manohar Vanga <manohar.vanga@gmail.com>,
+	Marc Zyngier <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Mark Gross <mgross@linux.intel.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Martyn Welch <martyn@welchs.me.uk>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Matthew Rosato <mjrosato@linux.ibm.com>,
+	Matt Porter <mporter@kernel.crashing.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Maxim Levitsky <maximlevitsky@gmail.com>,
+	Michael Buesch <m@bues.ch>, Michael Ellerman <mpe@ellerman.id.au>,
+	Michael Jamet <michael.jamet@intel.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Mike Christie <michael.christie@oracle.com>,
+	Moritz Fischer <mdf@kernel.org>, Ohad Ben-Cohen <ohad@wizery.com>,
+	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+	Paul Mackerras <paulus@samba.org>,
+	Peter Oberparleiter <oberpar@linux.ibm.com>,
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+	Rich Felker <dalias@libc.org>,
+	Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+	Rob Herring <robh@kernel.org>, Russell King <linux@armlinux.org.uk>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Samuel Holland <samuel@sholland.org>,
+	Samuel Iglesias Gonsalvez <siglesias@igalia.com>,
+	SeongJae Park <sjpark@amazon.de>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Stefan Richter <stefanr@s5r6.in-berlin.de>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Stephen Hemminger <sthemmin@microsoft.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Sven Van Asbroeck <TheSven73@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Thorsten Scherer <t.scherer@eckelmann.de>,
+	Tomas Winkler <tomas.winkler@intel.com>, Tom Rix <trix@redhat.com>,
+	Tyrel Datwyler <tyreld@linux.ibm.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Vineeth Vijayan <vneethv@linux.ibm.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	William Breathitt Gray <vilhelm.gray@gmail.com>,
+	Wolfram Sang <wsa@kernel.org>, Wu Hao <hao.wu@intel.com>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	YueHaibing <yuehaibing@huawei.com>, Yufen Yu <yuyufen@huawei.com>,
+	alsa-devel@alsa-project.org, dmaengine@vger.kernel.org,
+	greybus-dev@lists.linaro.org,
+	industrypack-devel@lists.sourceforge.net, kvm@vger.kernel.org,
+	linux1394-devel@lists.sourceforge.net, linux-acpi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-cxl@vger.kernel.org, linux-fpga@vger.kernel.org,
+	linux-hyperv@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-i3c@lists.infradead.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+	linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-mmc@vger.kernel.org, linux-ntb@googlegroups.com,
+	linux-parisc@vger.kernel.org, linux-pci@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-remoteproc@vger.kernel.org,
+	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-serial@vger.kernel.org, linux-sh@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
+	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+	nvdimm@lists.linux.dev, platform-driver-x86@vger.kernel.org,
+	sparclinux@vger.kernel.org, target-devel@vger.kernel.org,
+	virtualization@lists.linux-foundation.org,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v4 0/5] bus: Make remove callback return void
+Message-ID: <YPfyZen4Y0uDKqDT@kroah.com>
+References: <20210713193522.1770306-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="MP_/m98DrfmMSDLi1ZKFccsq02G"
-
---MP_/m98DrfmMSDLi1ZKFccsq02G
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210713193522.1770306-1-u.kleine-koenig@pengutronix.de>
 
-On Mon, 12 Jul 2021 20:14:24 -0700
-syzbot <syzbot+5872a520e0ce0a7c7230@syzkaller.appspotmail.com> wrote:
-
+On Tue, Jul 13, 2021 at 09:35:17PM +0200, Uwe Kleine-König wrote:
 > Hello,
 > 
-> syzbot found the following issue on:
+> this is v4 of the final patch set for my effort to make struct
+> bus_type::remove return void.
 > 
-> HEAD commit:    92510a7f Add linux-next specific files for 20210709
-> git tree:       linux-next
-> console output:
-> https://syzkaller.appspot.com/x/log.txt?x=16c50180300000 kernel
-> config:  https://syzkaller.appspot.com/x/.config?x=505de2716f052686
-> dashboard link:
-> https://syzkaller.appspot.com/bug?extid=5872a520e0ce0a7c7230 syz
-> repro:
-> https://syzkaller.appspot.com/x/repro.syz?x=1639a73c300000 C
-> reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15fcd5e4300000
+> The first four patches contain cleanups that make some of these
+> callbacks (more obviously) always return 0. They are acked by the
+> respective maintainers. Bjorn Helgaas explicitly asked to include the
+> pci patch (#1) into this series, so Greg taking this is fine. I assume
+> the s390 people are fine with Greg taking patches #2 to #4, too, they
+> didn't explicitly said so though.
 > 
-> IMPORTANT: if you fix the issue, please add the following tag to the
-> commit: Reported-by:
-> syzbot+5872a520e0ce0a7c7230@syzkaller.appspotmail.com
+> The last patch actually changes the prototype and so touches quite some
+> drivers and has the potential to conflict with future developments, so I
+> consider it beneficial to put these patches into next soon. I expect
+> that it will be Greg who takes the complete series, he already confirmed
+> via irc (for v2) to look into this series.
 > 
-> usb 1-1: USB disconnect, device number 14
-> ==================================================================
-> BUG: KASAN: use-after-free in __lock_acquire+0x3d86/0x54a0
-> kernel/locking/lockdep.c:4885 Read of size 8 at addr ffff888038bbce28
-> by task kworker/1:2/4393
+> The only change compared to v3 is in the fourth patch where I modified a
+> few more drivers to fix build failures. Some of them were found by build
+> bots (thanks!), some of them I found myself using a regular expression
+> search. The newly modified files are:
 > 
+>  arch/sparc/kernel/vio.c
+>  drivers/nubus/bus.c
+>  drivers/sh/superhyway/superhyway.c
+>  drivers/vlynq/vlynq.c
+>  drivers/zorro/zorro-driver.c
+>  sound/ac97/bus.c
+> 
+> Best regards
+> Uwe
 
-And let's test it with this repro as well.
+Now queued up.  I can go make a git tag that people can pull from after
+0-day is finished testing this to verify all is good, if others need it.
 
+thanks,
 
-#syz test
-git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-
-
-With regards,
-Pavel Skripkin
-
---MP_/m98DrfmMSDLi1ZKFccsq02G
-Content-Type: text/x-patch
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename=2patches.patch
-
-diff --git a/drivers/staging/rtl8712/hal_init.c b/drivers/staging/rtl8712/hal_init.c
-index 22974277afa0..4eff3fdecdb8 100644
---- a/drivers/staging/rtl8712/hal_init.c
-+++ b/drivers/staging/rtl8712/hal_init.c
-@@ -29,21 +29,31 @@
- #define FWBUFF_ALIGN_SZ 512
- #define MAX_DUMP_FWSZ (48 * 1024)
- 
-+static void rtl871x_load_fw_fail(struct _adapter *adapter)
-+{
-+	struct usb_device *udev = adapter->dvobjpriv.pusbdev;
-+	struct device *dev = &udev->dev;
-+	struct device *parent = dev->parent;
-+
-+	complete(&adapter->rtl8712_fw_ready);
-+
-+	dev_err(&udev->dev, "r8712u: Firmware request failed\n");
-+
-+	if (parent)
-+		device_lock(parent);
-+
-+	device_release_driver(dev);
-+
-+	if (parent)
-+		device_unlock(parent);
-+}
-+
- static void rtl871x_load_fw_cb(const struct firmware *firmware, void *context)
- {
- 	struct _adapter *adapter = context;
- 
- 	if (!firmware) {
--		struct usb_device *udev = adapter->dvobjpriv.pusbdev;
--		struct usb_interface *usb_intf = adapter->pusb_intf;
--
--		dev_err(&udev->dev, "r8712u: Firmware request failed\n");
--		usb_put_dev(udev);
--		usb_set_intfdata(usb_intf, NULL);
--		r8712_free_drv_sw(adapter);
--		adapter->dvobj_deinit(adapter);
--		complete(&adapter->rtl8712_fw_ready);
--		free_netdev(adapter->pnetdev);
-+		rtl871x_load_fw_fail(adapter);
- 		return;
- 	}
- 	adapter->fw = firmware;
-diff --git a/drivers/staging/rtl8712/rtl8712_led.c b/drivers/staging/rtl8712/rtl8712_led.c
-index 5901026949f2..d5fc9026b036 100644
---- a/drivers/staging/rtl8712/rtl8712_led.c
-+++ b/drivers/staging/rtl8712/rtl8712_led.c
-@@ -1820,3 +1820,11 @@ void LedControl871x(struct _adapter *padapter, enum LED_CTL_MODE LedAction)
- 		break;
- 	}
- }
-+
-+void r8712_flush_led_works(struct _adapter *padapter)
-+{
-+	struct led_priv *pledpriv = &padapter->ledpriv;
-+
-+	flush_work(&pledpriv->SwLed0.BlinkWorkItem);
-+	flush_work(&pledpriv->SwLed1.BlinkWorkItem);
-+}
-diff --git a/drivers/staging/rtl8712/rtl871x_led.h b/drivers/staging/rtl8712/rtl871x_led.h
-index ee19c873cf01..2f0768132ad8 100644
---- a/drivers/staging/rtl8712/rtl871x_led.h
-+++ b/drivers/staging/rtl8712/rtl871x_led.h
-@@ -112,6 +112,7 @@ struct led_priv {
- void r8712_InitSwLeds(struct _adapter *padapter);
- void r8712_DeInitSwLeds(struct _adapter *padapter);
- void LedControl871x(struct _adapter *padapter, enum LED_CTL_MODE LedAction);
-+void r8712_flush_led_works(struct _adapter *padapter);
- 
- #endif
- 
-diff --git a/drivers/staging/rtl8712/rtl871x_pwrctrl.c b/drivers/staging/rtl8712/rtl871x_pwrctrl.c
-index 23cff43437e2..cd6d9ff0bebc 100644
---- a/drivers/staging/rtl8712/rtl871x_pwrctrl.c
-+++ b/drivers/staging/rtl8712/rtl871x_pwrctrl.c
-@@ -224,3 +224,11 @@ void r8712_unregister_cmd_alive(struct _adapter *padapter)
- 	}
- 	mutex_unlock(&pwrctrl->mutex_lock);
- }
-+
-+void r8712_flush_rwctrl_works(struct _adapter *padapter)
-+{
-+	struct pwrctrl_priv *pwrctrl = &padapter->pwrctrlpriv;
-+
-+	flush_work(&pwrctrl->SetPSModeWorkItem);
-+	flush_work(&pwrctrl->rpwm_workitem);
-+}
-diff --git a/drivers/staging/rtl8712/rtl871x_pwrctrl.h b/drivers/staging/rtl8712/rtl871x_pwrctrl.h
-index bf6623cfaf27..b35b9c7920eb 100644
---- a/drivers/staging/rtl8712/rtl871x_pwrctrl.h
-+++ b/drivers/staging/rtl8712/rtl871x_pwrctrl.h
-@@ -108,5 +108,6 @@ void r8712_cpwm_int_hdl(struct _adapter *padapter,
- void r8712_set_ps_mode(struct _adapter *padapter, uint ps_mode,
- 			uint smart_ps);
- void r8712_set_rpwm(struct _adapter *padapter, u8 val8);
-+void r8712_flush_rwctrl_works(struct _adapter *padapter);
- 
- #endif  /* __RTL871X_PWRCTRL_H_ */
-diff --git a/drivers/staging/rtl8712/usb_intf.c b/drivers/staging/rtl8712/usb_intf.c
-index 2434b13c8b12..505ebeb643dc 100644
---- a/drivers/staging/rtl8712/usb_intf.c
-+++ b/drivers/staging/rtl8712/usb_intf.c
-@@ -591,35 +591,30 @@ static void r871xu_dev_remove(struct usb_interface *pusb_intf)
- {
- 	struct net_device *pnetdev = usb_get_intfdata(pusb_intf);
- 	struct usb_device *udev = interface_to_usbdev(pusb_intf);
-+	struct _adapter *padapter = netdev_priv(pnetdev);
-+
-+	/* never exit with a firmware callback pending */
-+	wait_for_completion(&padapter->rtl8712_fw_ready);
-+	usb_set_intfdata(pusb_intf, NULL);
-+	release_firmware(padapter->fw);
-+	if (drvpriv.drv_registered)
-+		padapter->surprise_removed = true;
-+	if (pnetdev->reg_state != NETREG_UNINITIALIZED)
-+		unregister_netdev(pnetdev); /* will call netdev_close() */
-+	r8712_flush_rwctrl_works(padapter);
-+	r8712_flush_led_works(padapter);
-+	udelay(1);
-+	/* Stop driver mlme relation timer */
-+	r8712_stop_drv_timers(padapter);
-+	r871x_dev_unload(padapter);
-+	r8712_free_drv_sw(padapter);
-+	free_netdev(pnetdev);
-+
-+	/* decrease the reference count of the usb device structure
-+	 * when disconnect
-+	 */
-+	usb_put_dev(udev);
- 
--	if (pnetdev) {
--		struct _adapter *padapter = netdev_priv(pnetdev);
--
--		/* never exit with a firmware callback pending */
--		wait_for_completion(&padapter->rtl8712_fw_ready);
--		pnetdev = usb_get_intfdata(pusb_intf);
--		usb_set_intfdata(pusb_intf, NULL);
--		if (!pnetdev)
--			goto firmware_load_fail;
--		release_firmware(padapter->fw);
--		if (drvpriv.drv_registered)
--			padapter->surprise_removed = true;
--		if (pnetdev->reg_state != NETREG_UNINITIALIZED)
--			unregister_netdev(pnetdev); /* will call netdev_close() */
--		flush_scheduled_work();
--		udelay(1);
--		/* Stop driver mlme relation timer */
--		r8712_stop_drv_timers(padapter);
--		r871x_dev_unload(padapter);
--		r8712_free_drv_sw(padapter);
--		free_netdev(pnetdev);
--
--		/* decrease the reference count of the usb device structure
--		 * when disconnect
--		 */
--		usb_put_dev(udev);
--	}
--firmware_load_fail:
- 	/* If we didn't unplug usb dongle and remove/insert module, driver
- 	 * fails on sitesurvey for the first time when device is up.
- 	 * Reset usb port for sitesurvey fail issue.
-diff --git a/net/bluetooth/hci_sock.c b/net/bluetooth/hci_sock.c
-index b04a5a02ecf3..786a06a232fd 100644
---- a/net/bluetooth/hci_sock.c
-+++ b/net/bluetooth/hci_sock.c
-@@ -760,10 +760,18 @@ void hci_sock_dev_event(struct hci_dev *hdev, int event)
- 		struct sock *sk;
- 
- 		/* Detach sockets from device */
-+restart:
- 		read_lock(&hci_sk_list.lock);
- 		sk_for_each(sk, &hci_sk_list.head) {
-+			/* This sock_hold(sk) is safe, for bt_sock_unlink(sk)
-+			 * is not called yet.
-+			 */
-+			sock_hold(sk);
-+			read_unlock(&hci_sk_list.lock);
- 			lock_sock(sk);
--			if (hci_pi(sk)->hdev == hdev) {
-+			write_lock(&hci_sk_list.lock);
-+			/* Check that bt_sock_unlink(sk) is not called yet. */
-+			if (sk_hashed(sk) && hci_pi(sk)->hdev == hdev) {
- 				hci_pi(sk)->hdev = NULL;
- 				sk->sk_err = EPIPE;
- 				sk->sk_state = BT_OPEN;
-@@ -771,7 +779,27 @@ void hci_sock_dev_event(struct hci_dev *hdev, int event)
- 
- 				hci_dev_put(hdev);
- 			}
-+			write_unlock(&hci_sk_list.lock);
- 			release_sock(sk);
-+			read_lock(&hci_sk_list.lock);
-+			/* If bt_sock_unlink(sk) is not called yet, we can
-+			 * continue iteration. We can use __sock_put(sk) here
-+			 * because hci_sock_release() will call sock_put(sk)
-+			 * after bt_sock_unlink(sk).
-+			 */
-+			if (sk_hashed(sk)) {
-+				__sock_put(sk);
-+				continue;
-+			}
-+			/* Otherwise, we need to restart iteration, for the
-+			 * next socket pointed by sk->next might be already
-+			 * gone. We can't use __sock_put(sk) here because
-+			 * hci_sock_release() might have already called
-+			 * sock_put(sk) after bt_sock_unlink(sk).
-+			 */
-+			read_unlock(&hci_sk_list.lock);
-+			sock_put(sk);
-+			goto restart;
- 		}
- 		read_unlock(&hci_sk_list.lock);
- 	}
-
---MP_/m98DrfmMSDLi1ZKFccsq02G--
+greg k-h
