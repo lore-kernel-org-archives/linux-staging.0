@@ -1,54 +1,53 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A930173
-	for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 09:57:18 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id hc15so2371524ejc.4
-        for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 02:57:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB1C9173
+	for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 10:01:50 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id dt7so2325389ejc.12
+        for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 03:01:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:in-reply-to:references
          :mime-version;
-        bh=NuNIkqlCWjta6X7v6jKsSLzY0Zy0Zo+62taPcEqLl7Y=;
-        b=FNdG8UlYUk87fGjJMjmIJkHHjmV+wBlUPKw02udlD/20pEvKDqCT1Dmoqf4XkA/IOD
-         +GS0I98Jmmu33Q4I1dMTkJVxGtvtFw2NFbu7r31N5tqZsmYZkAmynZ+BXFcKdLcTMwE/
-         iINv+U4/OMS7At2dxBzmtIMzapI26yNdsXjLrO2tw98+ygerchdK82YQ8YFyT15WPnKf
-         YElDlRbbWeGmDdOC/jSJlb0tvSy7Iv89c28Xisr18uJzwAB4rhwTGa7FPfsnh2HaTKyA
-         UdNKNmuFTeoFUb8Ns+4y5DdK5Cdr1j8p0CReMqORm6WsZkihuq/yS5c4bQQCm8bT1O2U
-         1CTw==
+        bh=86ljqv5t4ZJg9qP2L4KJ/buTsBjbtoSiB6SYR0p8Wt4=;
+        b=vc5HgWHtRmbjMtSrwYzBoz6kFDSKs0ESNzJYwgF9BsAYjwlVYsK+eBkcriczpwrI44
+         z/5teBy5u0M6Mpg4wtZHMA5dQke+NIXceWUleItFFw0ALJniJ+T0uh+fWvVOBUvYR1xk
+         Pr9LvWLUfgJINVI3gJO2K2XoPpZ0Dmonbipd2iFLraNWpgOz5ph/ng3nCBB8pxmVzR8E
+         Y6wHX+i5ZqMbCTc/1FdVf1diS1p01lSjuRERFA4LozSeBXyxT8qu4a3oxKyaG28Yw2NT
+         olyCvMUDd7sQyya9uGUNLgN4HlX+j9y71A1vXVZemruOZ0RfQVge6ynok2EYfxARor39
+         iBhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
          :references:mime-version;
-        bh=NuNIkqlCWjta6X7v6jKsSLzY0Zy0Zo+62taPcEqLl7Y=;
-        b=QyStDXB6YghtGCu2Trhvcw1FzuJ3Y5dCQgpLLwMNe9mH+3x0VajdyBX1PQiU/cgRj5
-         igpvq+TEdVxIuckiI+0EZwkUrJGOGSNsTXR6T9dz8EQaE3kqw70LQSthQ+VSf52wFCaC
-         lm2YlSO7X+j/eVbYbNXrSW2vFKZA4Ps0GcT1Gp3rITuYT77HZemM9IzHnnpREBTiJabb
-         Lb7w0Mjvf5aNcStlSV2BG/APz31Xa4QrSNr8CMqI7994uCKgTC2Xsojo3mgoZGKSE4m4
-         CR+CR2KCuv6Mh6apf1mJlk08IWHUQQ7p7uDBrlfZbY1VGL67Fm1l98FWFdadQduU3ZVl
-         /sSA==
-X-Gm-Message-State: AOAM533szXIegIgB86yK1NIyyChWBQWPbz4jy4Mxywd7oe7PEndOnRfE
-	FGax0ZCScLfGD+UMD9HdF2o=
-X-Google-Smtp-Source: ABdhPJwyZ36Q+t7teA75/OrxZdqBeMUVgKbEWHOzP0iGcp0jlXUsqouFbUzjyJxhksBDm8ji96eKFA==
-X-Received: by 2002:a17:907:a079:: with SMTP id ia25mr9624559ejc.515.1626861436618;
-        Wed, 21 Jul 2021 02:57:16 -0700 (PDT)
+        bh=86ljqv5t4ZJg9qP2L4KJ/buTsBjbtoSiB6SYR0p8Wt4=;
+        b=f9HMujn6WvCuPzS3RlODOrUTFBIILEw01JH09TAE+2x798zkceB/jLqQjm6UsGcHYA
+         4PWd2sCqJlbWsKxLluTvTxT8/TtsSVLa38BVWoj5aelYZUa6Dl3+I7SnMD6/7XDiJOu/
+         s8Ngj6eaIqR1TU9mpJ3bMbzssp/6LyCFw1pnSsomZcQ14YJ3P/Kow374JzFQNpY3S1TZ
+         84aROA5ilhj7RUIBTwfbAR6umQSNWDZamvEtOi6YbpR/LgZeTaOhpHnvi/K4w7ALqAlm
+         bTkYRsB3G4eKjvGEs50lP3Y34zS91EVYnzZvEpsw/JG1ckDHMriCAeu24/dQ5XgmMwPU
+         tHUg==
+X-Gm-Message-State: AOAM530OXvFWCEoMI0ObfISPZr64oyRXVmna0RBjZyXnqjF2HDeysJmE
+	cIVtWAk40np1Obb+I0sZ58A=
+X-Google-Smtp-Source: ABdhPJyA5qUQWcyYupKyJBgjDnhX+fO/kYCtUTXULhtJpsjzjwb88jQ8601JzdSlL/R6C6/P4YwZxg==
+X-Received: by 2002:a17:906:b796:: with SMTP id dt22mr37981136ejb.448.1626861709075;
+        Wed, 21 Jul 2021 03:01:49 -0700 (PDT)
 Received: from localhost.localdomain ([176.30.109.247])
-        by smtp.gmail.com with ESMTPSA id n11sm8286283ejg.111.2021.07.21.02.57.14
+        by smtp.gmail.com with ESMTPSA id g23sm3017357ejm.26.2021.07.21.03.01.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jul 2021 02:57:16 -0700 (PDT)
-Date: Wed, 21 Jul 2021 12:57:10 +0300
+        Wed, 21 Jul 2021 03:01:48 -0700 (PDT)
+Date: Wed, 21 Jul 2021 13:01:43 +0300
 From: Pavel Skripkin <paskripkin@gmail.com>
-To: syzbot <syzbot+cc699626e48a6ebaf295@syzkaller.appspotmail.com>
+To: syzbot <syzbot+5872a520e0ce0a7c7230@syzkaller.appspotmail.com>
 Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
  gregkh@linuxfoundation.org, hridayhegde1999@gmail.com,
  linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
  rkovhaev@gmail.com, straube.linux@gmail.com,
  syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] KASAN: slab-out-of-bounds Read in do_wait_for_common
-Message-ID: <20210721125710.1a1c041f@gmail.com>
-In-Reply-To: <0000000000001950a705c795515d@google.com>
-References: <20210720221445.7d022a9e@gmail.com>
-	<0000000000001950a705c795515d@google.com>
+Subject: Re: [syzbot] KASAN: use-after-free Read in r871xu_dev_remove
+Message-ID: <20210721130143.396c1626@gmail.com>
+In-Reply-To: <00000000000087b4c305c6f8a243@google.com>
+References: <00000000000087b4c305c6f8a243@google.com>
 X-Mailer: Claws Mail 3.17.8git77 (GTK+ 2.24.33; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -56,31 +55,43 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="MP_/aiVyBEGmZlfOaj=Rqpq3zFn"
+Content-Type: multipart/mixed; boundary="MP_/m98DrfmMSDLi1ZKFccsq02G"
 
---MP_/aiVyBEGmZlfOaj=Rqpq3zFn
+--MP_/m98DrfmMSDLi1ZKFccsq02G
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
 
-On Tue, 20 Jul 2021 15:10:08 -0700
-syzbot <syzbot+cc699626e48a6ebaf295@syzkaller.appspotmail.com> wrote:
+On Mon, 12 Jul 2021 20:14:24 -0700
+syzbot <syzbot+5872a520e0ce0a7c7230@syzkaller.appspotmail.com> wrote:
 
 > Hello,
 > 
-> syzbot has tested the proposed patch but the reproducer is still
-> triggering an issue: BUG: sleeping function called from invalid
-> context in lock_sock_nested
+> syzbot found the following issue on:
 > 
-> BUG: sleeping function called from invalid context at
-> net/core/sock.c:3161 in_atomic(): 1, irqs_disabled(): 0, non_block:
-> 0, pid: 8824, name: syz-executor.2 1 lock held by syz-executor.2/8824:
->  #0: ffffffff8d89c920 (hci_sk_list.lock){++++}-{2:2}, at:
-> hci_sock_dev_event+0x2b6/0x630 net/bluetooth/hci_sock.c:763
+> HEAD commit:    92510a7f Add linux-next specific files for 20210709
+> git tree:       linux-next
+> console output:
+> https://syzkaller.appspot.com/x/log.txt?x=16c50180300000 kernel
+> config:  https://syzkaller.appspot.com/x/.config?x=505de2716f052686
+> dashboard link:
+> https://syzkaller.appspot.com/bug?extid=5872a520e0ce0a7c7230 syz
+> repro:
+> https://syzkaller.appspot.com/x/repro.syz?x=1639a73c300000 C
+> reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15fcd5e4300000
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the
+> commit: Reported-by:
+> syzbot+5872a520e0ce0a7c7230@syzkaller.appspotmail.com
+> 
+> usb 1-1: USB disconnect, device number 14
+> ==================================================================
+> BUG: KASAN: use-after-free in __lock_acquire+0x3d86/0x54a0
+> kernel/locking/lockdep.c:4885 Read of size 8 at addr ffff888038bbce28
+> by task kworker/1:2/4393
+> 
 
-
-Ok, it is not related to my fix. Picking up Tetsuo patch to get
-Reported-and-tested tag. 
+And let's test it with this repro as well.
 
 
 #syz test
@@ -90,7 +101,7 @@ git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 With regards,
 Pavel Skripkin
 
---MP_/aiVyBEGmZlfOaj=Rqpq3zFn
+--MP_/m98DrfmMSDLi1ZKFccsq02G
 Content-Type: text/x-patch
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename=2patches.patch
@@ -312,4 +323,4 @@ index b04a5a02ecf3..786a06a232fd 100644
  		read_unlock(&hci_sk_list.lock);
  	}
 
---MP_/aiVyBEGmZlfOaj=Rqpq3zFn--
+--MP_/m98DrfmMSDLi1ZKFccsq02G--
