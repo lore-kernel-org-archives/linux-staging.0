@@ -1,158 +1,93 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A1570
-	for <linux-staging@lists.linux.dev>; Tue, 20 Jul 2021 22:58:29 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id l7so110371wrv.7
-        for <linux-staging@lists.linux.dev>; Tue, 20 Jul 2021 15:58:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60BA70
+	for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 00:22:29 +0000 (UTC)
+Received: by mail-ot1-f41.google.com with SMTP id i12-20020a05683033ecb02903346fa0f74dso527484otu.10
+        for <linux-staging@lists.linux.dev>; Tue, 20 Jul 2021 17:22:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TNPEMMUgoiehFtzKXEoJ63hPg6Ju+Bf/SAUPrXK8URU=;
-        b=Cs7v4oCkpaQVlNpFvJz/H4CatVDhrRD/txMcHw+Ggu3rnfnZm5ioTVTuzoJr6w3QDD
-         34cdVg46l5mADjlN+8D/h/GYDOA7xjt6NtD5/e0aYb3ti5RpIHPDOTmNCo+W97W11Hs9
-         NyXArsKruE88y6y8srWfOp4q/hu95q8wMHSuv2xCl2wB658G2SP+mVT6Zp5ziet/U40c
-         5DTy9IrQI9lPltIZ5Yi2cEaYmbIl5mS6XxmDW5acgZuk/6rC2+KOq7+ngM9ju/WOmn/5
-         9fholoH9jNhQjQlrKK4/ciixttMy7+/hwh5J0gTB4lwYgpb1FuttPFYflvlp4zA/OH3d
-         PN4A==
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=G9TO+iZ7Ir53u9Gh/j26vGhpLzZM6SVZZgf+lWvR/pE=;
+        b=F7rWQqe4K8cpd1wP5r+PFJze8wRJ43Q/KfBeI8Y/63gRnVw9a/EjlaumUrfRstm0hX
+         NCfReDydysSJP9cGiDHpplyXYdaOxNfmt3orCAPgayRxA452BPLQ/63i+svAJKK+Ccnh
+         H1HBZj/WPbjm9k19KtlaPwE1TgQ7lrDVddZwmbJg+WUWspudLlN3D6N7SailwBEvU/Sp
+         YNB4ksyMblJEKfWtfpyFQOzwlvjwdY49P7veoFOwQGtoY4P3HvVV36Nn5+MsSmvJtfjS
+         n9Ape0Euw3JUfmxWRqNg3hmPil1yAp5yUo4zAIT7/CMB6mx39sq25lXt/AkTGuLYJYlw
+         AVQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=TNPEMMUgoiehFtzKXEoJ63hPg6Ju+Bf/SAUPrXK8URU=;
-        b=TUSNZ/+zURPkmnr8s5dXcpqJdWEkNEKOmhmzRe9EUnltCZiokEJuUK4/OwLE1kcB7q
-         FqMrBYDZy3zdzrFHsFwxuJBcO4iHhDHIzvs6zDsHZ425YL+MJIsOwFmBNvbRpqiWtPAk
-         C+oYh1U8w9Al9tZ6UgtZyLzsUBNFVU3nxzJprNGL4h8aB5MI1FA0bbnFpWkfoVFywasJ
-         YCK/Pb717mmbWH5fYs4YBg/VZ6gAa/SdBAY+mVHFWKdPj9djAZtHNQFcGjyuvnEDaeBl
-         ICpuntQIYO+fwTzX9UZcuZaQrSzeWqyhWXo0fdWNfUQxUjbI0+Gy5hmKioGkh4B/nsbd
-         zbRw==
-X-Gm-Message-State: AOAM533g7xpNbpw5s/VuBihez4764hkVPgHvhlBTX8fTLLIT7nm39NtN
-	usLLjuuv7RQljjlG8evCZvC5cg==
-X-Google-Smtp-Source: ABdhPJwWaA4jL2qnQ/MSpRxdH5K35wL4UQ4HDISUQ873rKnIipmE5PgkAA77m1UIfcQXYgPWX4+FQQ==
-X-Received: by 2002:a5d:5606:: with SMTP id l6mr38647106wrv.190.1626821907738;
-        Tue, 20 Jul 2021 15:58:27 -0700 (PDT)
-Received: from localhost.localdomain (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
-        by smtp.gmail.com with ESMTPSA id t15sm24354653wrx.17.2021.07.20.15.58.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jul 2021 15:58:27 -0700 (PDT)
-From: Phillip Potter <phil@philpotter.co.uk>
-To: gregkh@linuxfoundation.org
-Cc: fabioaiuto83@gmail.com,
-	Larry.Finger@lwfinger.net,
-	dan.carpenter@oracle.com,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] staging: rtl8188eu: move hal/mac_cfg.c and rename function and array
-Date: Tue, 20 Jul 2021 23:58:26 +0100
-Message-Id: <20210720225826.454516-1-phil@philpotter.co.uk>
-X-Mailer: git-send-email 2.31.1
+        bh=G9TO+iZ7Ir53u9Gh/j26vGhpLzZM6SVZZgf+lWvR/pE=;
+        b=qm2Yy7Hh4sDUBgV4mlxeBhTuL8PI9Q48MFKCz5qboEqIm7SY9L/zKItCSCHzjaRS9o
+         z0jpNlWq+0Z2lbNyO80Ydujk3kvRFaWwtQr+XfwOXTeNOCHVzHMbyg/JjkOGN0DEN3Vv
+         NEOiYP4OBOG8xt13tMOki4lr7aMVDRE9maJimJA/KrNJo46fKf2DDJHSlfNu6qdelq7q
+         t448SNKZHIbqNKt69/czpRjA+0JeAX+tce5HARlS3aFbLbtG9muvTxI3JsCaiZ0SQTLC
+         YqwF1kC/M7AqnInbau2g8YIgqLHJ1DPjVfsgzTa5vz91cpHPNILuUEYPxH5c02gdicN1
+         5dyQ==
+X-Gm-Message-State: AOAM533gvMEIStbKxD2pqm18aZ/JOOmfpbjJDkP8y3UOsy2OtsQtMx6B
+	lQhHWZJicGRApYJ2L4Sh+jKU5tTGkfo=
+X-Google-Smtp-Source: ABdhPJwRIpApJ1EXCXjB+f0uM611tDA5JGFduBOALAFTgFcvlM4BoGq5VZJSfHp5gEvBeFaeqjG6IA==
+X-Received: by 2002:a05:6830:1c65:: with SMTP id s5mr18764814otg.256.1626826948826;
+        Tue, 20 Jul 2021 17:22:28 -0700 (PDT)
+Received: from localhost.localdomain (cpe-24-31-246-181.kc.res.rr.com. [24.31.246.181])
+        by smtp.gmail.com with ESMTPSA id x22sm662479oie.28.2021.07.20.17.22.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Jul 2021 17:22:28 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Subject: Re: [PATCH resend] staging: rtl8188eu: move all source files from
+ core subdirectory
+To: Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org,
+ dan.carpenter@oracle.com, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20210719224601.255364-1-phil@philpotter.co.uk>
+ <7bc43fb0-2dab-190b-c480-9e77cff863d4@lwfinger.net>
+ <20210720090035.GB1406@agape.jhs>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+Message-ID: <08a8b372-8ec2-afcc-cc54-305d1dd74a59@lwfinger.net>
+Date: Tue, 20 Jul 2021 19:22:26 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210720090035.GB1406@agape.jhs>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Move source file hal/mac_cfg.c to the 'core' driver directory, and also
-rename its array from array_MAC_REG_8188E to array_MAC_REG, as well as
-renaming the function rtl88eu_phy_mac_config to phy_mac_config. Also
-modify single call-site for this function to reflect new name.
+On 7/20/21 4:00 AM, Fabio Aiuto wrote:
+> maybe the information we will need one day is:
+> 
+> will the core/-os_dep/-hal/-include/-directory-structure be
+> welcomed in mainline wireless subsystem, when an rtl* driver
+> will be perfectly tuned?
+> 
+> At the moment I can't see such a directory organization
+> in any of the realtek wireless driver.
+> 
+> Sure there's time for that;),
 
-This file contains no code which touches the adapter's HalData structure,
-and is a good candidate for therefore moving out of 'hal'. Also, no
-need for these signatures to include the model number as this driver
-only supports RTL8188eu.
+The question is how much lipstick do you want to put on that pig? The current 
+version does not use cfg80211, and it does not work with NetworkManager or a 
+modern hostapd to create an AP.
 
-Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
----
- drivers/staging/rtl8188eu/Makefile                | 2 +-
- drivers/staging/rtl8188eu/{hal => core}/mac_cfg.c | 8 ++++----
- drivers/staging/rtl8188eu/hal/usb_halinit.c       | 2 +-
- drivers/staging/rtl8188eu/include/phy.h           | 2 +-
- 4 files changed, 7 insertions(+), 7 deletions(-)
- rename drivers/staging/rtl8188eu/{hal => core}/mac_cfg.c (93%)
+If you want to get the rtl8188eu driver in shape to be added to the regular 
+drivers section, then I suggest you start with the v5.2.2.4 branch of 
+https://github.com/lwfinger/rtl8188eu.git. Many users of the RTL8188EU chip use 
+that driver. At least that version fixes the two problems listed above. If you 
+want to flatten the directory structure, you can do it there and offline.
 
-diff --git a/drivers/staging/rtl8188eu/Makefile b/drivers/staging/rtl8188eu/Makefile
-index 28b936e8be0a..2799ec5a7fda 100644
---- a/drivers/staging/rtl8188eu/Makefile
-+++ b/drivers/staging/rtl8188eu/Makefile
-@@ -1,5 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- r8188eu-y :=				\
-+		core/mac_cfg.o		\
- 		core/rtw_ap.o		\
- 		core/rtw_cmd.o		\
- 		core/rtw_efuse.o	\
-@@ -18,7 +19,6 @@ r8188eu-y :=				\
- 		core/rtw_wlan_util.o	\
- 		core/rtw_xmit.o		\
- 		hal/fw.o	\
--		hal/mac_cfg.o \
- 		hal/bb_cfg.o \
- 		hal/rf_cfg.o \
- 		hal/pwrseqcmd.o \
-diff --git a/drivers/staging/rtl8188eu/hal/mac_cfg.c b/drivers/staging/rtl8188eu/core/mac_cfg.c
-similarity index 93%
-rename from drivers/staging/rtl8188eu/hal/mac_cfg.c
-rename to drivers/staging/rtl8188eu/core/mac_cfg.c
-index 370aa5cc55a7..a94c6ad472c5 100644
---- a/drivers/staging/rtl8188eu/hal/mac_cfg.c
-+++ b/drivers/staging/rtl8188eu/core/mac_cfg.c
-@@ -10,7 +10,7 @@
- 
- /* MAC_REG.TXT */
- 
--static u32 array_MAC_REG_8188E[] = {
-+static u32 array_MAC_REG[] = {
- 		0x026, 0x00000041,
- 		0x027, 0x00000035,
- 		0x428, 0x0000000A,
-@@ -103,14 +103,14 @@ static u32 array_MAC_REG_8188E[] = {
- 		0x70B, 0x00000087,
- };
- 
--bool rtl88eu_phy_mac_config(struct adapter *adapt)
-+bool phy_mac_config(struct adapter *adapt)
- {
- 	u32 i;
- 	u32 arraylength;
- 	u32 *ptrarray;
- 
--	arraylength = ARRAY_SIZE(array_MAC_REG_8188E);
--	ptrarray = array_MAC_REG_8188E;
-+	arraylength = ARRAY_SIZE(array_MAC_REG);
-+	ptrarray = array_MAC_REG;
- 
- 	for (i = 0; i < arraylength; i += 2)
- 		usb_write8(adapt, ptrarray[i], (u8)ptrarray[i + 1]);
-diff --git a/drivers/staging/rtl8188eu/hal/usb_halinit.c b/drivers/staging/rtl8188eu/hal/usb_halinit.c
-index 05c67e7d23ad..2a47e9b444d5 100644
---- a/drivers/staging/rtl8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/rtl8188eu/hal/usb_halinit.c
-@@ -684,7 +684,7 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
- 	}
- 	rtl8188e_InitializeFirmwareVars(Adapter);
- 
--	rtl88eu_phy_mac_config(Adapter);
-+	phy_mac_config(Adapter);
- 
- 	rtl88eu_phy_bb_config(Adapter);
- 
-diff --git a/drivers/staging/rtl8188eu/include/phy.h b/drivers/staging/rtl8188eu/include/phy.h
-index 40901d6dcaf5..8ee13eb68a5a 100644
---- a/drivers/staging/rtl8188eu/include/phy.h
-+++ b/drivers/staging/rtl8188eu/include/phy.h
-@@ -5,7 +5,7 @@
- #define index_mapping_NUM_88E	    15
- #define AVG_THERMAL_NUM_88E	    4
- 
--bool rtl88eu_phy_mac_config(struct adapter *adapt);
-+bool phy_mac_config(struct adapter *adapt);
- bool rtl88eu_phy_rf_config(struct adapter *adapt);
- bool rtl88eu_phy_bb_config(struct adapter *adapt);
- 
--- 
-2.31.1
+I want to caution you that following this path will take a lot of time, but once 
+you get it into kernel shape, it will at least be useful. I have never had the 
+time, nor the ambition to undertake this effort.
+
+Larry
 
