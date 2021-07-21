@@ -1,89 +1,101 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E956172
-	for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 13:35:21 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id dj21so2457203edb.0
-        for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 06:35:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5C872
+	for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 13:37:27 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id gb6so3304382ejc.5
+        for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 06:37:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=rt74SJc1ziCgCd5VLOhSKw+GlswyymwN54Jh9bcQ4kw=;
-        b=fWY6NBokRCudI5ULeoiS3cfovK8pKF/bDHrtC301sYCD4p+o+AF29lpuM1JEUIbVNF
-         ThxiCP0FkFh9XCsk2+nzft3AuLvyjlULaGhYovpSIGUDScQR52aJ3RKSGUavSMcQojYk
-         xTEcakIoZFRU3H393Imbr2VrniBH3d4nY7Zb/dAaw7H8y0gnjVWoBg4qCHY3lyTkEvk+
-         E+Zj10pnwH1Z8Slv72cjjgR/1KGEJzc4GPK5a7jZi7dIYduvh8/s3tpT4BJGjKsjR4EW
-         WOtn20jkjc5F4dWBj8cRJdDj13XHYi4H7fdmOhzNqLoE5YtbTALdvSz4EvTZc3yzA8jB
-         7XKg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NNqnEuB+5OB8TJyJbR1IoAR5/BGotvCxYkvDB2PV0Co=;
+        b=rgxF3s/V9nYfNtJgHVsGhWOhJPGQiSt3IWD7yiJHQzTdz1yCY6pV0TFPbtAMWpFANz
+         Hesrf1GVTGxm2PJQhUYt3Jrh5sOBRHrfhBtD91CUQ9Sqt5u8t1a93goPIWSGH8/frWnO
+         Gdbu40HG1mcet3eJXlZsTOJP5qSoDF0TLzAINRg1Rv/bEkIl5u/G0/5d+vCUhpfaPKb1
+         61LbRWmGsg4RYY5QM5l1f+70vxd9NvNEb+S3LcQr32Bi/BhgFJUMCLp3eSAnOyN2lpeR
+         UJnUJjPJtfoZ1jWMsukIAe4TDfLCCdhotrc8VumbeG6BUfKEIaoQOJgAAe00aROdgBIQ
+         I/TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=rt74SJc1ziCgCd5VLOhSKw+GlswyymwN54Jh9bcQ4kw=;
-        b=URu/1H7NMqEvb94kfW+WEBVkzfhCqychML3Pzl4qHSzTbZg6A7Lx16Lw/Qjk68nJwT
-         MR/W8HaQAuqD2M4DPuFBVIVd8ZDFCI4Y0HyPVTC+gMLe6qxhRya152MrIO1K9jcQAKep
-         Vav8JRlmWXtdv3ejhmsvIOTwn4TXfN0qmk6PJk5lIoxOfqsfFPdQZwXZyyMpl9Cd3nBI
-         fcT5mpS9u+3reoaC+CeXBYxiXYSidLb3P47BUdT8c75/wH3V62YOiBj1PCtDcrtJGes/
-         Losoxg12gaRKHTcca8AfAtpvz6IiI9FHerf0e/h4RAhh2hZIyUToS5aWBRsJb9NAcbGY
-         KUYQ==
-X-Gm-Message-State: AOAM532JmzVkR1A0vflduJaCRIurQfFKmuFB5LEsHXmV1NaUZ3JaBHiL
-	LlxIBL2R0JhrR631R4MHcE0=
-X-Google-Smtp-Source: ABdhPJy5mVVzxsLrHfVNOnp1CVNTGrmz5RntatIhjxvTa4c3ldwnc7cAapOvISf8SXbQpJ5pcTWjOw==
-X-Received: by 2002:aa7:ca05:: with SMTP id y5mr48408983eds.353.1626874520277;
-        Wed, 21 Jul 2021 06:35:20 -0700 (PDT)
-Received: from localhost.localdomain (host-79-27-97-200.retail.telecomitalia.it. [79.27.97.200])
-        by smtp.gmail.com with ESMTPSA id f22sm10718991edr.16.2021.07.21.06.35.19
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NNqnEuB+5OB8TJyJbR1IoAR5/BGotvCxYkvDB2PV0Co=;
+        b=YYr5cgr8yRwK+0IP5tIwtrXAimyUA9wp4X9Odk8OV5br3BgzfXGy1jUMdEZksFrjQl
+         owFnLp54kP6c4hAQGP/VFucBsZdKNDbeO4J3vRA00iQyl7ICQP8ZSrFBUmt7U7znqsYk
+         OZLyUSDR0FFRn54QnC21Gud97eUHsbSJFuoJ/Q+bHNdCVcgXl6iShrP/tQ3S1a9kIqBx
+         pibc/cZChWn5ZAe0Trkr630p6gQ3dn/V9OAzmYfBgJfBd77Ad1phkoTYIbEJZUJXszAR
+         sVsNejfbyLAdxg5pOggdgegRIuFSGcwAFNdKMFDi8+nIGoFcMh1fu2t7uTgQ54qK7UEY
+         Kqvw==
+X-Gm-Message-State: AOAM533sDNnTgq6SORoGAQZ6gyxyw65hhm215brzL112VcX5Hri5Ef9X
+	Gh1xwKT1rY4MKRcjMxRg9Z0=
+X-Google-Smtp-Source: ABdhPJy2dcfZymYVJe6H9C+JYQB8LUIfTqWDEKybU6AQuwylVf7huAyl90wYbonbF6M/wxjTVZTnMw==
+X-Received: by 2002:a17:906:bc48:: with SMTP id s8mr39318350ejv.453.1626874645461;
+        Wed, 21 Jul 2021 06:37:25 -0700 (PDT)
+Received: from agape ([5.171.73.45])
+        by smtp.gmail.com with ESMTPSA id o23sm8652136edv.22.2021.07.21.06.37.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jul 2021 06:35:19 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: rtl8188eu: core: Remove set but unused variable
-Date: Wed, 21 Jul 2021 15:35:18 +0200
-Message-ID: <2206478.VjXv8tfObp@localhost.localdomain>
-In-Reply-To: <YPfYWk5afrgGecDR@kroah.com>
-References: <20210701154647.18975-1-fmdefrancesco@gmail.com> <YPfYWk5afrgGecDR@kroah.com>
+        Wed, 21 Jul 2021 06:37:25 -0700 (PDT)
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: hdegoede@redhat.com,
+	Larry.Finger@lwfinger.net,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 00/16] staging: rtl8723bs: remove residual 5 Ghz code and more code cleaning
+Date: Wed, 21 Jul 2021 15:37:07 +0200
+Message-Id: <cover.1626874164.git.fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-On Wednesday, July 21, 2021 10:18:34 AM CEST Greg Kroah-Hartman wrote:
-> On Thu, Jul 01, 2021 at 05:46:47PM +0200, Fabio M. De Francesco wrote:
-> > Remove variable sec_idx because is set but unused. Issue detected by
-> > GCC with -Wunused-variable.
-> > 
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > ---
-> > 
-> >  drivers/staging/rtl8188eu/core/rtw_ieee80211.c | 4 +---
-> >  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> Does not apply to my tree :(
->
-Your tree changed while my patch was expecting your review. This happened 
-because someone else worked on the same code while 
-"the development tree you have sent a patch for is "closed"
-due to the timing of the merge window".
+This patchset removes some residual 5 Ghz dead code,
+left undeleted from recent patches intended for
+this aim.
 
-Unfortunately,  I was unaware of a similar patch in your queue because I 
-didn't notice that it was sent to the linux-staging list a few days before 
-mine.
+Done some code cleaning as well (mainly camel case fixes)
 
-This is not the first time that something like this happens, so I think it's 
-better to not work and send patches while you keep the development tree 
-closed.
+Fabio Aiuto (16):
+  staging: rtl8723bs: simplify function selecting channel group
+  staging: rtl8723bs: fix camel case inside function
+  staging: rtl8723bs: convert function name to snake case
+  staging: rtl8723bs: add spaces around operator
+  staging: rtl8723bs: remove 5Ghz code blocks
+  staging: rtl8723bs: remove commented out condition
+  staging: rtl8723bs: fix camel case in struct wlan_bssid_ex
+  staging: rtl8723bs: fix camel case in struct ndis_802_11_conf
+  staging: rtl8723bs: remove struct ndis_802_11_conf_fh
+  staging: rtl8723bs: fix camel case in struct ndis_802_11_ssid
+  staging: rtl8723bs: fix camel case in struct wlan_phy_info
+  staging: rtl8723bs: fix camel case in struct wlan_bcn_info
+  staging: rtl8723bs: fix camel case in IE structures
+  staging: rtl8723bs: remove unused struct ndis_802_11_ai_reqfi
+  staging: rtl8723bs: remove unused struct ndis_801_11_ai_resfi
+  staging: rtl8723bs: fix camel case in struct ndis_802_11_wep
 
-Sorry for wasting your time.
+ drivers/staging/rtl8723bs/core/rtw_ap.c       | 124 ++++----
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      |  54 ++--
+ .../staging/rtl8723bs/core/rtw_ieee80211.c    |  80 ++---
+ .../staging/rtl8723bs/core/rtw_ioctl_set.c    |  28 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     | 214 +++++++------
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 287 +++++++++---------
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    | 102 +++----
+ drivers/staging/rtl8723bs/hal/hal_btcoex.c    |   2 +-
+ drivers/staging/rtl8723bs/hal/hal_com.c       |   2 +-
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  |  22 +-
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |  64 +---
+ drivers/staging/rtl8723bs/include/rtw_mlme.h  |   6 +-
+ .../staging/rtl8723bs/include/wlan_bssdef.h   |  90 +++---
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c |  92 +++---
+ .../staging/rtl8723bs/os_dep/ioctl_linux.c    | 190 ++++++------
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   |   4 +-
+ 16 files changed, 641 insertions(+), 720 deletions(-)
 
-Thanks,
-
-Fabio
-
-
+-- 
+2.20.1
 
