@@ -1,91 +1,77 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768B82FB0
-	for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 10:10:38 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AFE3F6108B;
-	Wed, 21 Jul 2021 10:10:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1626862238;
-	bh=xlNP5a4uduYvyMqVF4Oq/f5D4uaNQN51y0PLueC06Os=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=EBo9p2yYYcIhOINxDz4pJjeRD+z/tvNLVzQoC71kmOBTNtDVF1poAeRj3Sq412JxZ
-	 v5JSyAmYQbmMUNybwD0NkPlWVAJZksPNP3tmLoY1JhdcrM09uQGXcRS4/WerD7E7Ir
-	 6NfeqeFPiKiQa6pFzZBdGAZDw/KPsrbkRCAxUhQmEAov0iJzWY5PRfZ4w289WDGo7Y
-	 sOPiPKHoH7ky9ICLk+BFTRnAGx7KSwnzmzncT57T3S7lZB0uaWYYCyg0/XakErPiW8
-	 HIgqzNZ23c6AKgTIaKiXK8ZqauPAOOv9m3ChJFm7JY4UGUBKbuJ3krSU0UfHy+Qh4w
-	 VNHnn4IT99Rjg==
-Date: Wed, 21 Jul 2021 12:10:31 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mark Brown
- <broonie@kernel.org>
-Cc: linuxarm@huawei.com, mauro.chehab@huawei.com, Arnd Bergmann
- <arnd@arndb.de>, Lee Jones <lee.jones@linaro.org>, Liam Girdwood
- <lgirdwood@gmail.com>, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH v14 5/9] staging: hi6421-spmi-pmic: cleanup drvdata
-Message-ID: <20210721121031.04bcadcc@coco.lan>
-In-Reply-To: <YPfoGzCtS7sBFESm@kroah.com>
-References: <cover.1626515862.git.mchehab+huawei@kernel.org>
-	<723edefbb2e9ce0b70d9c7bce95f288e3ea1f5b1.1626515862.git.mchehab+huawei@kernel.org>
-	<YPfoGzCtS7sBFESm@kroah.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A47D168
+	for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 11:00:58 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id bu12so2680586ejb.0
+        for <linux-staging@lists.linux.dev>; Wed, 21 Jul 2021 04:00:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jUwAs+Gp+d+MnfN6VEmwuMCsnF7zFA19A5ZH0CNCb+A=;
+        b=ZqJTGxnTo1wPbGjXm99whzWhmnNKFOnlRiwbyzhUWJTDQ9ltCgeJmQOxf2YZlWN+td
+         F227X3qIKhHpqxKLDq3GPcA1nYUHpNbf0dAiiDFIHS+HsFbg9vOqOJjdQIkZQqaRFerC
+         TaKcwLeIZxgl/YBEdPxruHEpUKlwZkEm1+vu2J/TBqGi8VZFVmlq7hUDmKYNtXA1t33Q
+         UgJg6Pze6k4xvrcfXwBm9fJPjP7RLZhn6JhWJs8hGT3o++mmC88lD0YL/uBEIrnr/RYf
+         rt1uT6x/07DKF4GvPEJukZpN8Jm/tI/CzzAkt1+sTslqUzDx7JzQ0eqrjlw1tSNjScRs
+         sxsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jUwAs+Gp+d+MnfN6VEmwuMCsnF7zFA19A5ZH0CNCb+A=;
+        b=B9NK7txme05fiW4Ce5NhgPELswOz/M9y8f7Vs4+IDwQJah3eTcd3pPjwx0KX2L2dKG
+         ge2tps/YBXEn/TJzjYSlKeGIi/qLkSjsq0RTWCDTcig0ap7n1ilmbLG2POjrL+89Zzgw
+         tOYkDKiqgPXbhU22Qbq1eW3RadsmZ43IXQ4wIchFIsA0WWW2/jW4qPiBWMA2M/rgJe2O
+         S7UmTeSlIFyut9rj25maCxvz62QC5FlBLYkahTRKFPXzBks8yAz9bi2HEAW8g0ghbpgE
+         ZXFKEIRKpVdjnRNk/TUkRloamUxtNe5Oy8AgWtrgg962+p9YioikC0Pi+aUtEGfpQU94
+         FU2A==
+X-Gm-Message-State: AOAM530pZUuruCPjnlyp7zTRvUlTDxzlsXM3yYdeIDQtAHNN0mFX7MXk
+	gtpJO3x2JIjGDgZMGTMEvVE=
+X-Google-Smtp-Source: ABdhPJyMSpsqGAoOnYHx+ohabMdXF2biKWKSxiXQUfCg5a13780/YbI3jxY65BjyD1QAKLgJe8MLFQ==
+X-Received: by 2002:a17:906:6c91:: with SMTP id s17mr37054907ejr.403.1626865256782;
+        Wed, 21 Jul 2021 04:00:56 -0700 (PDT)
+Received: from localhost.localdomain (host-79-27-97-200.retail.telecomitalia.it. [79.27.97.200])
+        by smtp.gmail.com with ESMTPSA id f5sm8102482ejj.45.2021.07.21.04.00.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jul 2021 04:00:56 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v3 0/2] staging: rtl8188eu: Replace a custom function with crc32_le() 
+Date: Wed, 21 Jul 2021 13:00:50 +0200
+Message-Id: <20210721110052.26376-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Em Wed, 21 Jul 2021 11:25:47 +0200
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
+Use kernel API crc32_le() in place of the custom getcrc32(). Remove no
+more used functions and variables after the changes made by patch 1/2. 
 
-> On Sat, Jul 17, 2021 at 11:58:16AM +0200, Mauro Carvalho Chehab wrote:
-> > There are lots of fields at struct hi6421_spmi_pmic that aren't
-> > used. In a matter of fact, only regmap is needed.
-> > 
-> > So, drop the struct as a hole, and set just the regmap as
-> > the drvdata.
-> > 
-> > While here, add a missing dot at the Huawei's copyrights.
-> > 
-> > Acked-by: Mark Brown <broonie@kernel.org>
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  drivers/misc/hi6421v600-irq.c               |  9 ++++----
-> >  drivers/regulator/hi6421v600-regulator.c    | 10 ++++-----
-> >  drivers/staging/hikey9xx/hi6421-spmi-pmic.c | 16 +++++--------
-> >  include/linux/mfd/hi6421-spmi-pmic.h        | 25 ---------------------
-> >  4 files changed, 14 insertions(+), 46 deletions(-)
-> >  delete mode 100644 include/linux/mfd/hi6421-spmi-pmic.h  
-> 
-> This patch fails to apply to my 5.14-rc2 tree, it gets a failure in the
-> regulator portion of the patch.
+v2 --> v3:
+Join two related patches in a series because they must be applied in
+order (first 1/2, then 2/2). Rebase to the current Greg K-H's tree and resend.
 
-Hi Greg,
+v1 --> v2:
+Use cpu_to_le32() to assign native endian return value of crc32_le to
+the crc variable in little endian byte order.
 
-This one depends on a regression-fix patch merged via this branch:
+Fabio M. De Francesco (2):
+  staging: rtl8188eu: Replace a custom function with crc32_le()
+  staging: rtl8188eu: Remove no more used functions and variables
 
-	https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+ drivers/staging/rtl8188eu/core/rtw_security.c | 59 ++-----------------
+ 1 file changed, 5 insertions(+), 54 deletions(-)
 
-The patch is this one[1]:
+-- 
+2.32.0
 
-	https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git/commit/drivers/regulator/hi6421v600-regulator.c?id=5db5dd5be70eaf808d9fd90174b957fc5c2912cb
-
-Mark,
-
-Is this branch stable or do you rebase it? 
-
-If the branch is stable, then perhaps Greg could merge from it before
-applying the remaining patches from this series.
-
--
-
-[1] There's no need of backporting the fix to stable, as the driver
-    won't work with upstream Kernels without patches 8 and 9 from 
-    this series containing the Open Firmware data needed to probe it.
-
-Thanks,
-Mauro
