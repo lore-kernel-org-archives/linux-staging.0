@@ -1,91 +1,116 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 480E9173
-	for <linux-staging@lists.linux.dev>; Thu, 22 Jul 2021 13:28:10 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1E95560FEE;
-	Thu, 22 Jul 2021 13:28:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1626960489;
-	bh=l67UetnxqFdjROTyaLXIKzADYZefAq1fW4lD9rhDbJw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=1c+Z/hIuXWavmOwXHO81rf8igLrlzmVrY9VnJ1il42bzeoEH0l5TY9c66FxoLHwNj
-	 4d7lVuw8CYRjkzhfOodW18pkLzD+YDB9MIGojymxycTfn6MyYTv6dAwUgrpEIzpoca
-	 isZGGeF7oXBBxZAypDx/G3bcaGE8XDTO/wfQ8sHA=
-Date: Thu, 22 Jul 2021 15:28:06 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Phillip Potter <phil@philpotter.co.uk>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-staging@lists.linux.dev, Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: Re: [PATCH resend] staging: rtl8188eu: move all source files from
- core subdirectory
-Message-ID: <YPlyZsuRJpkUwWiJ@kroah.com>
-References: <20210719224601.255364-1-phil@philpotter.co.uk>
- <7bc43fb0-2dab-190b-c480-9e77cff863d4@lwfinger.net>
- <20210720090035.GB1406@agape.jhs>
- <08a8b372-8ec2-afcc-cc54-305d1dd74a59@lwfinger.net>
- <YPfRf8dgFd+u5hzm@equinox>
- <0c2d97fa-e1e1-3564-98b8-37d5b9a1a9cb@lwfinger.net>
- <20210721182836.GX1931@kadam>
- <ed7b7d93-f754-dce9-ca4f-425e49c972ba@lwfinger.net>
- <CAA=Fs0nvhxEhJhCTWH_KkYyB3Jz7Pi-t2a+6zL3K=O-_3-sLGg@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92BC72
+	for <linux-staging@lists.linux.dev>; Thu, 22 Jul 2021 15:30:14 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-154-E8XI6R9BMwq2Wfp8lcAmRg-1; Thu, 22 Jul 2021 16:30:10 +0100
+X-MC-Unique: E8XI6R9BMwq2Wfp8lcAmRg-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.23; Thu, 22 Jul 2021 16:30:09 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.023; Thu, 22 Jul 2021 16:30:09 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: "'Fabio M. De Francesco'" <fmdefrancesco@gmail.com>, Larry Finger
+	<Larry.Finger@lwfinger.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v3 1/2] staging: rtl8188eu: Replace a custom function with
+ crc32_le()
+Thread-Topic: [PATCH v3 1/2] staging: rtl8188eu: Replace a custom function
+ with crc32_le()
+Thread-Index: AQHXfiEvucvRPynR106nc+5J/iJ13qtPHROQ
+Date: Thu, 22 Jul 2021 15:30:08 +0000
+Message-ID: <f396ffee4a414ee092625ee486b871fe@AcuMS.aculab.com>
+References: <20210721110052.26376-1-fmdefrancesco@gmail.com>
+ <20210721110052.26376-2-fmdefrancesco@gmail.com>
+In-Reply-To: <20210721110052.26376-2-fmdefrancesco@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAA=Fs0nvhxEhJhCTWH_KkYyB3Jz7Pi-t2a+6zL3K=O-_3-sLGg@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 22, 2021 at 11:44:10AM +0100, Phillip Potter wrote:
-> On Wed, 21 Jul 2021 at 20:18, Larry Finger <Larry.Finger@lwfinger.net> wrote:
-> >
-> > On 7/21/21 1:28 PM, Dan Carpenter wrote:
-> > > You're obviously not a Realtek employee, but what are they doing for
-> > > wireless drivers these days?
-> >
-> > You are correct in that I am not a Realtek employee, nor do I have any knowledge
-> > of the internals of any of their chips. I do have a close working arrangement
-> > with the head of their PCI driver development, and I have gotten free samples of
-> > some of their chips. I am a volunteer that is interested in providing drivers
-> > for the devices in new laptops with wireless chips that do not yet have a Linux
-> > driver in the kernel. I also provide relatively modern drivers for older USB
-> > devices through GitHub repos.
-> >
-> >  From what I know, the PCI group at Realtek is mainly working on new 802.11ac
-> > devices, but are leaving some hooks for the USB and SDIO equivalents of those
-> > chips (RTL8822BE, RTL8822CE, RTL8821CE, RTL8723DE, and RTL8852AE). These drivers
-> > are either in the drivers/net/wireless tree of the kernel, or are under review
-> > for such inclusion.
-> >
-> > I have no current contact with the USB part of their driver development.
-> >
-> > Larry
-> >
-> >
-> Dear Larry,
-> 
-> Thank you for this info, it's very useful. Are you saying that in its
-> current state the GitHub driver would not even be accepted into
-> staging in your opinion? I am happy to continue improving it, but in
-> my mind this should probably be done publicly, within the kernel tree.
-> Not sure what others think but if there is general consensus then I
-> can submit this new version to staging and integrate within build
-> framework etc, then we can start improving it and getting it ready to
-> move beyond that. Sounds like your driver is further along the path,
-> and we should be using it, but I'm interested in what others think of
-> course.
+From: Fabio M. De Francesco
+> Sent: 21 July 2021 12:01
+>=20
+> Use crc32_le() in place of the custom getcrc32().
+>=20
+...
+> @@ -609,14 +595,15 @@ u32=09rtw_tkip_encrypt(struct adapter *padapter, st=
+ruct xmit_frame
+> *pxmitframe)
+>=20
+>  =09=09=09=09if ((curfragnum + 1) =3D=3D pattrib->nr_frags) {=09/* 4 the =
+last fragment */
+>  =09=09=09=09=09length =3D pattrib->last_txcmdsz - pattrib->hdrlen - patt=
+rib->iv_len -
+> pattrib->icv_len;
+> -=09=09=09=09=09*((__le32 *)crc) =3D getcrc32(payload, length);/* modifie=
+d by Amy*/
+> +=09=09=09=09=09*((__le32 *)crc) =3D cpu_to_le32(~crc32_le(~0, payload, l=
+ength));
+>=20
+>  =09=09=09=09=09arcfour_init(&mycontext, rc4key, 16);
+>  =09=09=09=09=09arcfour_encrypt(&mycontext, payload, payload, length);
+>  =09=09=09=09=09arcfour_encrypt(&mycontext, payload + length, crc, 4);
+>  =09=09=09=09} else {
+>  =09=09=09=09=09length =3D pxmitpriv->frag_len - pattrib->hdrlen - pattri=
+b->iv_len -
+> pattrib->icv_len;
+> -=09=09=09=09=09*((__le32 *)crc) =3D getcrc32(payload, length);/* modifie=
+d by Amy*/
+> +=09=09=09=09=09*((__le32 *)crc) =3D cpu_to_le32(~crc32_le(~0, payload, l=
+ength));
+> +
+>  =09=09=09=09=09arcfour_init(&mycontext, rc4key, 16);
+>  =09=09=09=09=09arcfour_encrypt(&mycontext, payload, payload, length);
+>  =09=09=09=09=09arcfour_encrypt(&mycontext, payload + length, crc, 4);
 
-If the code looks "better", I have no objection to just adding it to
-drivers/staging/ and deleting the existing one here, so that everyone
-can work on this together in one single place.
+Change crc to be __le32, kill the casts and pass &crc in the last call.
 
-Larry, any objection to that?
+> @@ -682,7 +669,7 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, struct=
+ recv_frame *precvframe)
+>  =09=09=09arcfour_init(&mycontext, rc4key, 16);
+>  =09=09=09arcfour_encrypt(&mycontext, payload, payload, length);
+>=20
+> -=09=09=09*((__le32 *)crc) =3D getcrc32(payload, length - 4);
+> +=09=09=09*((__le32 *)crc) =3D cpu_to_le32(~crc32_le(~0, payload, length =
+- 4));
+>=20
+>  =09=09=09if (crc[3] !=3D payload[length - 1] ||
+>  =09=09=09    crc[2] !=3D payload[length - 2] ||
 
-thanks,
+You could to the same here, or make crc u32, remove the cpu_to_le32()
+and use get_unaligned_u32(payload + length - 4) (or whatever it is called).
 
-greg k-h
+But it is much better to do:
+=09crc =3D crc32_le(~0, payload, length);
+=09if (crc !=3D VALID_CRC32)
+=09=09res =3D _FAIL;
+
+You can lookup VALID_CRC32, but it is crc32_le(0, "\xff\xff\xff\xff", 4);
+
+=09David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
+
