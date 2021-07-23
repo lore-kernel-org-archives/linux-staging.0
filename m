@@ -1,107 +1,90 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3245C72
-	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 07:29:34 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id e14so2203998plh.8
-        for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 00:29:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF4272
+	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 07:29:40 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id gn11so2454397ejc.0
+        for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 00:29:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VChO2omdBa6xBgyLh+TiNRJBuShA8yMRkym4wucTZ+U=;
-        b=bIka9d35xriT8BASCxSqAQ/fwBpHL+tc3JRmwQAwzFAcZ1wO/uqV+SY2melq59GRL4
-         FMoLujsWglvOZZVG89dq06LuO/Ln3PUrUK/vVciP3Ur6xk9hbPX9GUglSbBw4cDYB1Fq
-         t4cp557idlsREaf3Zc62BSykTtp0ZEv1N77V21UT6m1EoXx9AdiDkC3hoen4IgvUOqNi
-         yjDNjBQc+e9XXvw5CRazomKKlRUWoTawYPOQNTWwQRbFpxFhE3pK15Ud2PU6Aes4ewy4
-         m2nVfmtoLG+sLaa+JfoRzVK3cx6l3JfHRyJW+3GEPacs2JSoD0MMTvSf/CAxGd30dHB/
-         O4GQ==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=RyKdhfhM2ozADzjoi9snqvshlMAKUsPQuXC9VR1R4bY=;
+        b=SuDfJj3oDKJDiz7MT1FAYF4FSwDuxSs2g5RcA4xt64rTeUBtstcti2DpV2dXup53uX
+         ojjkF0eiIYXwP7lS3dhnPiFQzNNPTMvAdTfl2dXLCcmsdnrAq4qimMsmWm308ByoL7dj
+         RWjnPcX1z4Isr0Bf69Bvxc5shPAmUQi2mPCglcz3nfeHjaI6XCWPkHpW/ppgMabTpXy/
+         +UqxwCVOzzCmIsfYhTGApAj1aP8NRCH1o56vXQ7FkX9Yh7uLG2YGJGjHUbZ48twuPseT
+         vs+4tR+7exVJSzyweNNJMypsMBSpgUdStwMiller3U5I8D1NE8Z3LOtRZG37i1VNpXQQ
+         fvew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VChO2omdBa6xBgyLh+TiNRJBuShA8yMRkym4wucTZ+U=;
-        b=q5ciS5xqtug8QVkGUqRJNpHX8Ryee4PpkKI2ZFlwcd5RIeHuzThkFSn2Iqo7l5F7Hk
-         1W/hRDb8FTnFsS0is4ZzzOp1WmognnWB8BKoY2XCd6dr6vEPvJgBOEyMEIm8NWVFGqrr
-         5W2qK78ysNjE73C8vdLHIqUvvUqvFcOwH/Tlz/IbeW9jQB2exlnTYi4+55bgL56m2ISt
-         865rB6uPyL/cYoA2haCGeQeiQiNKLVA007jAPADueP02aX1xg7POKswYjlJKre6hVlzb
-         RsDjhXXs3zAvJBJpF2j8NBFt2IH5Z1ALh4OtGyJv7aYBjS8B3dEXLTDvSOOeUxM1a6Oj
-         wU5A==
-X-Gm-Message-State: AOAM532CMWxSviOfdEuh//U2Y5AM2CxgLLtU9Pr0RdRWH6cMwYSg99GH
-	epoX/sBUiF58/t8JigdRBbFk/oQpLWaP+ruWr7r2ZCWeJ/Q=
-X-Google-Smtp-Source: ABdhPJyyIiBT26wWo5YKktkUlF+hQhlBTD8cptsVoIIWiyN31bUFz3Cx0Zn7hnxl+WqrI082dPPPk1R9Nb6MuVwbwwI=
-X-Received: by 2002:a17:90a:1f49:: with SMTP id y9mr12540527pjy.225.1627025373613;
- Fri, 23 Jul 2021 00:29:33 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=RyKdhfhM2ozADzjoi9snqvshlMAKUsPQuXC9VR1R4bY=;
+        b=Ia9RS96nOhKQqFn5ABWwYDpcNLPD7GKbBv83nkLvTHD4+RzRaQUd1ycRwY7s7jl0HG
+         3IYaLxj/KTdRWAaKxvuuX1gEgd3Hb+Qk7LEr+5881v/bcnMzN+RDdefhD1B403IudZgI
+         6zc9q3MyRsB3+kyFxvgw6moK0aN4HTiCERFtmTRZG3KA+MtYL5szrz9RCIZ7YSDFhRrt
+         uY0hLG/tkvkg848iJrbrN6hUHCVH0hNfNLqqEH4BjlLwbKtgNDTm8hK5rbkubecGDRT8
+         9LPeVAhhJndxqsSk5EA+N0sOUoAiHgOGjx90GQVHRS23tQ4aIE8aC3fHipLOf8eZYogp
+         PS6Q==
+X-Gm-Message-State: AOAM533smcV9wd25n2y4emtelkh3bkIX0BvTSf13ATBAC49dIxh3ApUZ
+	bY30xpN/eG4YCc8thkotrTQ=
+X-Google-Smtp-Source: ABdhPJy4X5MML4d5I6wlTr50QNM0NZRXqSCt/g6LMOLVd0QxCeG3+clvdMjt92GD7rPFhBfH2+mNQQ==
+X-Received: by 2002:a17:906:38ce:: with SMTP id r14mr3375484ejd.268.1627025379124;
+        Fri, 23 Jul 2021 00:29:39 -0700 (PDT)
+Received: from agape.jhs ([5.171.81.31])
+        by smtp.gmail.com with ESMTPSA id da23sm13571604edb.34.2021.07.23.00.29.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Jul 2021 00:29:38 -0700 (PDT)
+Date: Fri, 23 Jul 2021 09:29:36 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Phillip Potter <phil@philpotter.co.uk>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+	dan.carpenter@oracle.com, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 6/7] staging: rtl8188eu: introduce new supporting files
+ for RTL8188eu driver
+Message-ID: <20210723072936.GA1613@agape.jhs>
+References: <20210723004214.912295-1-phil@philpotter.co.uk>
+ <20210723004214.912295-7-phil@philpotter.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210723004214.912295-1-phil@philpotter.co.uk> <630e139c-85e5-f006-6b64-e368847251fc@lwfinger.net>
-In-Reply-To: <630e139c-85e5-f006-6b64-e368847251fc@lwfinger.net>
-From: Phillip Potter <phil@philpotter.co.uk>
-Date: Fri, 23 Jul 2021 08:29:22 +0100
-Message-ID: <CAA=Fs0k0eQUpDgpxEcLAnZ-d87TM3LgPwPt9ydXO_hf39f_9ig@mail.gmail.com>
-Subject: Re: [PATCH 0/7] staging: rtl8188eu: replace driver with better version
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Dan Carpenter <dan.carpenter@oracle.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev, 
-	Fabio Aiuto <fabioaiuto83@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210723004214.912295-7-phil@philpotter.co.uk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Fri, 23 Jul 2021 at 02:56, Larry Finger <Larry.Finger@lwfinger.net> wrote:
->
-> On 7/22/21 7:42 PM, Phillip Potter wrote:
-> > I had to break this patchset up a bit to get around the file size limits
-> > on the mailing list, and also I removed the hostapd stuff which is
-> > userspace related and therefore not required.
-> >
-> > The driver currently in staging is older and less functional than the
-> > version on Larry Finger's GitHub account, branch v5.2.2.4. This series
-> > of patches therefore:
-> >
-> > (1) Removes the current driver from staging.
-> > (2) Imports the GitHub version mentioned above in its place.
-> >
-> > There is plenty of work to do to this driver, including to its Makefile,
-> > but it is at least buildable/usable for now.
-> >
-> > Phillip Potter (7):
-> >    staging: rtl8188eu: remove existing staging driver
-> >    staging: rtl8188eu: introduce new core dir for RTL8188eu driver
-> >    staging: rtl8188eu: introduce new hal dir for RTL8188eu driver
-> >    staging: rtl8188eu: introduce new os_dep dir for RTL8188eu driver
-> >    staging: rtl8188eu: introduce new include dir for RTL8188eu driver
-> >    staging: rtl8188eu: introduce new supporting files for RTL8188eu
-> >      driver
-> >    staging: rtl8188eu: attach newly imported driver to build system
->
-> Phillip,
->
-> Patch 3/7 fails with a
-> drivers/staging/rtl8188eu/hal/phydm_precomp.h: already exists in error:
-> working directory. When I deleted the file, the patch applied.
->
-> Patch 5/7 fails with a drivers/staging/rtl8188eu/include/hal_data.h: already
-> exists in working directory. Again it applied when I manually deleted that file.
->
-> Patches 2-6 all have trailing whitespace warnings.
->
-> I have started testing. Unfortunately, my GitHub version has a fault in that it
-> runs systemd-udevd at 100% of a CPU. So far, I have found that an older commit
-> works fine. As soon as I find the fault, I will let you know.
->
-> Larry
->
->
->
-Dear Larry,
+Hello Phillip,
 
-I obviously screwed up here somewhere as there should be no whitespace
-or conflicts, so apologies for that. I will do the patch set again
-after work when I've heard back from you about the relevant commit,
-and send out again.
+On Fri, Jul 23, 2021 at 01:42:13AM +0100, Phillip Potter wrote:
+> This patchset is split in order to keep the file sizes down. These
+> supporting files are part of the newer/better driver from GitHub modified by
+> Larry Finger. Import this as the basis for all future work going
+> forward. Also, modify Makefile so that driver has same module filename
+> as original rtl8188eu driver from staging.
+> 
+> Suggested-by: Larry Finger <Larry.Finger@lwfinger.net>
+> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+> ---
+>  drivers/staging/rtl8188eu/COPYING  | 356 ++++++++++++++++++++
+>  drivers/staging/rtl8188eu/Kconfig  |  25 ++
+>  drivers/staging/rtl8188eu/Makefile | 509 +++++++++++++++++++++++++++++
+>  3 files changed, 890 insertions(+)
+>  create mode 100644 drivers/staging/rtl8188eu/COPYING
+>  create mode 100644 drivers/staging/rtl8188eu/Kconfig
+>  create mode 100755 drivers/staging/rtl8188eu/Makefile
 
-Regards,
-Phil
+Nice work...
+
+a new TODO file is needed.
+
+@Larry, maybe you can help us telling what's needed
+to mainline this new rtl8188eu.
+
+thank you,
+
+fabio
