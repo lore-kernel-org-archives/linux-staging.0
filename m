@@ -1,146 +1,63 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D562770
-	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 17:33:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1627061557;
-	bh=duJRMUeDGYztQ7bUtgH0RbbuveqShOnGO4B6w0gSG9E=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-	b=g0rf0gJAgcNOkj+jD0iRdPuo8UDznyZw1TXqgYLY05JUy3Hk+e44E4YlubJD2cWiL
-	 espA/iOEjM2VovLBj8zMFxmGEUXoGHo9irPPRafXpooiWe7Srh1vQQ7b4US4GIhJvd
-	 G6zhY98uQ2OtR4j4PcWUGjwlKvWaXW32rB+n5Wxo=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([83.52.228.41]) by mail.gmx.net
- (mrgmx104 [212.227.17.174]) with ESMTPSA (Nemesis) id
- 1MWAOQ-1lZJDa2muw-00XbYM; Fri, 23 Jul 2021 19:32:36 +0200
-From: Len Baker <len.baker@gmx.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Len Baker <len.baker@gmx.com>,
-	Nikolay Kyx <knv418@gmail.com>,
-	Aditya Srivastava <yashsri421@gmail.com>,
-	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-	William Durand <will+git@drnd.me>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Romain Perier <romain.perier@gmail.com>,
-	Allen Pais <apais@linux.microsoft.com>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	zhaoxiao <zhaoxiao@uniontech.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging/rtl8192e: Remove all strcpy() uses
-Date: Fri, 23 Jul 2021 19:32:16 +0200
-Message-Id: <20210723173216.12157-1-len.baker@gmx.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5B370
+	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 17:34:06 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10054"; a="211643030"
+X-IronPort-AV: E=Sophos;i="5.84,264,1620716400"; 
+   d="scan'208";a="211643030"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2021 10:34:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,264,1620716400"; 
+   d="scan'208";a="660272184"
+Received: from lkp-server01.sh.intel.com (HELO d053b881505b) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 23 Jul 2021 10:34:03 -0700
+Received: from kbuild by d053b881505b with local (Exim 4.92)
+	(envelope-from <lkp@intel.com>)
+	id 1m6z3j-00028S-2D; Fri, 23 Jul 2021 17:34:03 +0000
+Date: Sat, 24 Jul 2021 01:33:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
+Cc: kbuild-all@lists.01.org, Larry.Finger@lwfinger.net,
+	dan.carpenter@oracle.com, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, fabioaiuto83@gmail.com
+Subject: Re: [PATCH 4/7] staging: rtl8188eu: introduce new os_dep dir for
+ RTL8188eu driver
+Message-ID: <202107240158.eu1Bu0i9-lkp@intel.com>
+References: <20210723004214.912295-5-phil@philpotter.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:sn1+zFtP5guq0Fn9p9L2IpcWp22Ddi/hnyDIc2BLewBiiSL52Sg
- nwEGkSDf7/G9rbzfFs6xWgKqB7ObnyxOkWnNzTmL7LgnQ/J6pFslURsn8fR9iGv55qg8Fnt
- 69qJqkx9Od9Ro+BsVyeU2a2OWVK+FXs+zB1XQJD6rEfULjTKXobm/klV4ZRgA0dckeaDmGq
- UGzoyP+yI8jBUAkqU3/LQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:bda641CZFfE=:KjWRDbnU5sfvmphDdwxc+V
- 4cDZoiSSNESJiQ3KWCqEknz8G3wr8fREexTLfu3e4vxxb+Hn/HZVxnoazroPqVP/c0LLTyDcH
- 9IJj90KId3by9fKC75CfX4fCfrzEFEmo8ATekXgLN+gq8Ghxop67v5+CuHn7vhdh2UxfUhGJ1
- h+Pwg6nlKnRtWp8tMrSh4B8s62lwOdUm2Y9GYiNV8NgYNb9OMmMg1/3davmnjPO6Ea5xe//JF
- f4zFhBAzbUUy+CGKbIC4vInU6uXra0V6QIR+k2izZ9aOip/t+71I/ZVO9KA7YJ4qpU2o2OvF6
- 2z4u+GQIqiM5qWD5U2s3pHv/0XwJhLPN+eoapFD7aG7FESam0TKJZPt2QXou32+HDlvEtxih9
- a5uQ5xHPMAg7fJps2R9T5KKStdKR2OjiRfLuEGB+JRf64UCCD2ueWeKwLEhG908zE5KnNS0cv
- KPtvHf85Ii2GFR9ZIx14MYdbB0+sF+wxd5entY9QIzlVo1FP1AURyt/2vfBYW06wzmYfAXKA1
- iNMsWqMqTfrr8rzJ2gqV9jtdAy0dttgHqsNR3td4UyH0MsOB+4126rmJOw/Kw3OlRC1JU2uE1
- UC2blJff8JtLzdI9U1viruq8ShIBW+2pwOEJz4G6qCNdiGWVAqhN4VqhN0yX78q8NbXUzumEB
- FnktyPpdTnVbU0CQpBWsRm6cP+GwxaKWrfFTTyXRsqEITeQ8p1E3hiZUf3d0ODP+a2PjdER+R
- 4/rkVgFVQ4L7lQcm1FcFxxKxCnm8tYdghQU7U827P3sPZkOJmrY/+9hLHP7RDVy9VfqrEFlQ0
- 9GSBCGdmeGrilC3VvB6rgEKlKIu0QrEVvZv1NrlFwR9U9UoE6OVqmCv5nh+plBrYVDPDooMZF
- ETGVv5isxu0ifN6ieyIA7Ydc2IPT8SdLnKbMUnpwSIiivuLgl97V/o2r2gsmDRh3gwPFErpN2
- infgO08JZrMy2IiR3bvFjS+dIzabLMa5mp5qOl3/Ab2w/9emFNFbo1pDmF9S4+qLRw4Ns2Qu/
- 17ka5gvUqmN/v2Jf2LEGwNZVjtj4swkq98F5lOwcfPD88xO8gDqLwyyRpKP58EPUeMXH8YFKU
- qLm7cdlEGIH5TyhcocJGwTkvhuIcvEjlkAN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210723004214.912295-5-phil@philpotter.co.uk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-strcpy() performs no bounds checking on the destination buffer. This
-could result in linear overflows beyond the end of the buffer, leading
-to all kinds of misbehaviors. The safe replacement is strscpy().
+Hi Phillip,
 
-It is also dangerous a strcpy() followed by a strcat(). In this case,
-refactor the code using scnprintf() and avoid this combination.
+Thank you for the patch! Perhaps something to improve:
 
-Signed-off-by: Len Baker <len.baker@gmx.com>
-=2D--
-Changelog v1 -> v2
-- Refactor the code to avoid the strcpy() + strcat() combination (Dan
-  Carpenter)
+[auto build test WARNING on staging/staging-testing]
 
- drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c |  2 +-
- drivers/staging/rtl8192e/rtllib_softmac.c      |  3 ++-
- drivers/staging/rtl8192e/rtllib_softmac_wx.c   | 18 +++++++-----------
- 3 files changed, 10 insertions(+), 13 deletions(-)
+url:    https://github.com/0day-ci/linux/commits/Phillip-Potter/staging-rtl8188eu-replace-driver-with-better-version/20210723-084513
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 334201d503d5903f38f6e804263fc291ce8f451a
+compiler: gcc-10 (Ubuntu 10.3.0-1ubuntu1~20.04) 10.3.0
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/stag=
-ing/rtl8192e/rtl8192e/r8192E_dev.c
-index b626ac45db80..358b629d2cc6 100644
-=2D-- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -2167,7 +2167,7 @@ rtl92e_init_variables(struct net_device  *dev)
- {
- 	struct r8192_priv *priv =3D rtllib_priv(dev);
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
--	strcpy(priv->nick, "rtl8192E");
-+	strscpy(priv->nick, "rtl8192E", sizeof(priv->nick));
 
- 	priv->rtllib->softmac_features  =3D IEEE_SOFTMAC_SCAN |
- 		IEEE_SOFTMAC_ASSOCIATE | IEEE_SOFTMAC_PROBERQ |
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/r=
-tl8192e/rtllib_softmac.c
-index 25b3d3950a3c..d2726d01c757 100644
-=2D-- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -2582,7 +2582,8 @@ static void rtllib_start_ibss_wq(void *data)
- 	mutex_lock(&ieee->wx_mutex);
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/staging/rtl8188eu/os_dep/rtw_proc.c: ../../hal/hal_halmac.h is included more than once.
+--
+>> drivers/staging/rtl8188eu/os_dep/rtw_cfgvendor.c: linux/kernel.h is included more than once.
 
- 	if (ieee->current_network.ssid_len =3D=3D 0) {
--		strcpy(ieee->current_network.ssid, RTLLIB_DEFAULT_TX_ESSID);
-+		strscpy(ieee->current_network.ssid, RTLLIB_DEFAULT_TX_ESSID,
-+			sizeof(ieee->current_network.ssid));
- 		ieee->current_network.ssid_len =3D strlen(RTLLIB_DEFAULT_TX_ESSID);
- 		ieee->ssid_set =3D 1;
- 	}
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/stagin=
-g/rtl8192e/rtllib_softmac_wx.c
-index f89799d43b1b..57a6d1130b6a 100644
-=2D-- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-@@ -539,18 +539,14 @@ int rtllib_wx_set_rawtx(struct rtllib_device *ieee,
- }
- EXPORT_SYMBOL(rtllib_wx_set_rawtx);
+Please review and possibly fold the followup patch.
 
--int rtllib_wx_get_name(struct rtllib_device *ieee,
--			     struct iw_request_info *info,
--			     union iwreq_data *wrqu, char *extra)
-+int rtllib_wx_get_name(struct rtllib_device *ieee, struct iw_request_info=
- *info,
-+		       union iwreq_data *wrqu, char *extra)
- {
--	strcpy(wrqu->name, "802.11");
--
--	if (ieee->modulation & RTLLIB_CCK_MODULATION)
--		strcat(wrqu->name, "b");
--	if (ieee->modulation & RTLLIB_OFDM_MODULATION)
--		strcat(wrqu->name, "g");
--	if (ieee->mode & (IEEE_N_24G | IEEE_N_5G))
--		strcat(wrqu->name, "n");
-+	const char *b =3D ieee->modulation & RTLLIB_CCK_MODULATION ? "b" : "";
-+	const char *g =3D ieee->modulation & RTLLIB_OFDM_MODULATION ? "g" : "";
-+	const char *n =3D ieee->mode & (IEEE_N_24G | IEEE_N_5G) ? "n" : "";
-+
-+	scnprintf(wrqu->name, sizeof(wrqu->name), "802.11%s%s%s", b, g, n);
- 	return 0;
- }
- EXPORT_SYMBOL(rtllib_wx_get_name);
-=2D-
-2.25.1
-
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
