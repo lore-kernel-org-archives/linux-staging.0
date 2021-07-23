@@ -1,90 +1,87 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF4272
-	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 07:29:40 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id gn11so2454397ejc.0
-        for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 00:29:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=RyKdhfhM2ozADzjoi9snqvshlMAKUsPQuXC9VR1R4bY=;
-        b=SuDfJj3oDKJDiz7MT1FAYF4FSwDuxSs2g5RcA4xt64rTeUBtstcti2DpV2dXup53uX
-         ojjkF0eiIYXwP7lS3dhnPiFQzNNPTMvAdTfl2dXLCcmsdnrAq4qimMsmWm308ByoL7dj
-         RWjnPcX1z4Isr0Bf69Bvxc5shPAmUQi2mPCglcz3nfeHjaI6XCWPkHpW/ppgMabTpXy/
-         +UqxwCVOzzCmIsfYhTGApAj1aP8NRCH1o56vXQ7FkX9Yh7uLG2YGJGjHUbZ48twuPseT
-         vs+4tR+7exVJSzyweNNJMypsMBSpgUdStwMiller3U5I8D1NE8Z3LOtRZG37i1VNpXQQ
-         fvew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=RyKdhfhM2ozADzjoi9snqvshlMAKUsPQuXC9VR1R4bY=;
-        b=Ia9RS96nOhKQqFn5ABWwYDpcNLPD7GKbBv83nkLvTHD4+RzRaQUd1ycRwY7s7jl0HG
-         3IYaLxj/KTdRWAaKxvuuX1gEgd3Hb+Qk7LEr+5881v/bcnMzN+RDdefhD1B403IudZgI
-         6zc9q3MyRsB3+kyFxvgw6moK0aN4HTiCERFtmTRZG3KA+MtYL5szrz9RCIZ7YSDFhRrt
-         uY0hLG/tkvkg848iJrbrN6hUHCVH0hNfNLqqEH4BjlLwbKtgNDTm8hK5rbkubecGDRT8
-         9LPeVAhhJndxqsSk5EA+N0sOUoAiHgOGjx90GQVHRS23tQ4aIE8aC3fHipLOf8eZYogp
-         PS6Q==
-X-Gm-Message-State: AOAM533smcV9wd25n2y4emtelkh3bkIX0BvTSf13ATBAC49dIxh3ApUZ
-	bY30xpN/eG4YCc8thkotrTQ=
-X-Google-Smtp-Source: ABdhPJy4X5MML4d5I6wlTr50QNM0NZRXqSCt/g6LMOLVd0QxCeG3+clvdMjt92GD7rPFhBfH2+mNQQ==
-X-Received: by 2002:a17:906:38ce:: with SMTP id r14mr3375484ejd.268.1627025379124;
-        Fri, 23 Jul 2021 00:29:39 -0700 (PDT)
-Received: from agape.jhs ([5.171.81.31])
-        by smtp.gmail.com with ESMTPSA id da23sm13571604edb.34.2021.07.23.00.29.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jul 2021 00:29:38 -0700 (PDT)
-Date: Fri, 23 Jul 2021 09:29:36 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Phillip Potter <phil@philpotter.co.uk>
-Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
-	dan.carpenter@oracle.com, linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4048072
+	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 07:40:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A11CE60F02;
+	Fri, 23 Jul 2021 07:40:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1627026012;
+	bh=OL8dCFXVHZ6IGGcIwpxKI/zg3sNOpblUin1Ka6UUq+Q=;
+	h=From:To:Cc:Subject:Date:From;
+	b=tVM5nXhPD+1vNVuzcLxcdN46lI/6zX+oUcDFcB3VmzBSEhqmS3Zr9l70QZ/6tYoMn
+	 jjXPxNDKpuGwBM/FssJm7fWqcSF/Z1pBn3/LrKIdBt8ax1wu9iMmH4NspMW/RQM+sN
+	 REp4oCWdHHZTyFsCQRliY5kwOfWK8Awi0yFsxiZB3jtG8VQdKcRy7ca7AuK1iMeOA4
+	 w8hnVKvfG4J1qCf5TU81Wz8jszpQ4BiwE2/DChO01wZTbTKzIqkOyQV1cy9UXbOOW/
+	 8+ryhZYNJ5wkqdYy8nQ1lcIMn/Enrk5MKT8BfBGJR+0pICo+mOQ8vZCOzd4MhqL/xx
+	 n3YLWzclGhmZg==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+	(envelope-from <mchehab@kernel.org>)
+	id 1m6pn0-00A6vF-G8; Fri, 23 Jul 2021 09:40:10 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linuxarm@huawei.com,
+	mauro.chehab@huawei.com,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 6/7] staging: rtl8188eu: introduce new supporting files
- for RTL8188eu driver
-Message-ID: <20210723072936.GA1613@agape.jhs>
-References: <20210723004214.912295-1-phil@philpotter.co.uk>
- <20210723004214.912295-7-phil@philpotter.co.uk>
+Subject: [PATCH v15 0/3] Move HiSilicon 6421v600 SPMI and USB drivers out of staging
+Date: Fri, 23 Jul 2021 09:40:05 +0200
+Message-Id: <cover.1627025657.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210723004214.912295-7-phil@philpotter.co.uk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Hello Phillip,
+Hi Greg,
 
-On Fri, Jul 23, 2021 at 01:42:13AM +0100, Phillip Potter wrote:
-> This patchset is split in order to keep the file sizes down. These
-> supporting files are part of the newer/better driver from GitHub modified by
-> Larry Finger. Import this as the basis for all future work going
-> forward. Also, modify Makefile so that driver has same module filename
-> as original rtl8188eu driver from staging.
-> 
-> Suggested-by: Larry Finger <Larry.Finger@lwfinger.net>
-> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> ---
->  drivers/staging/rtl8188eu/COPYING  | 356 ++++++++++++++++++++
->  drivers/staging/rtl8188eu/Kconfig  |  25 ++
->  drivers/staging/rtl8188eu/Makefile | 509 +++++++++++++++++++++++++++++
->  3 files changed, 890 insertions(+)
->  create mode 100644 drivers/staging/rtl8188eu/COPYING
->  create mode 100644 drivers/staging/rtl8188eu/Kconfig
->  create mode 100755 drivers/staging/rtl8188eu/Makefile
+Those are the remaining patches needed for USB3 to start working on HiKey 970.
 
-Nice work...
+I would prefer to have those merged during this cycle, as the PCIe patchset
+currently under review depends on patch 1 and 2 of this series.
 
-a new TODO file is needed.
+So, I dropped the cleanup patch from this series, due to a merge conflict with
+the regulator's tree. I'll re-submit it against the mfd tree after the merge window. 
 
-@Larry, maybe you can help us telling what's needed
-to mainline this new rtl8188eu.
+Mauro Carvalho Chehab (3):
+  mfd: hi6421-spmi-pmic: move driver from staging
+  dts: hisilicon: add support for the PMIC found on Hikey 970
+  dts: hisilicon: add support for USB3 on Hikey 970
 
-thank you,
+ .../mfd/hisilicon,hi6421-spmi-pmic.yaml       | 136 ++++++++++++++++++
+ MAINTAINERS                                   |   7 +
+ .../boot/dts/hisilicon/hi3670-hikey970.dts    | 129 ++++++++++++++---
+ arch/arm64/boot/dts/hisilicon/hi3670.dtsi     |  56 ++++++++
+ .../boot/dts/hisilicon/hikey970-pmic.dtsi     |  86 +++++++++++
+ drivers/mfd/Kconfig                           |  16 +++
+ drivers/mfd/Makefile                          |   1 +
+ drivers/mfd/hi6421-spmi-pmic.c                |  72 ++++++++++
+ drivers/staging/Kconfig                       |   2 -
+ drivers/staging/Makefile                      |   1 -
+ drivers/staging/hikey9xx/Kconfig              |  19 ---
+ drivers/staging/hikey9xx/Makefile             |   3 -
+ drivers/staging/hikey9xx/TODO                 |   5 -
+ drivers/staging/hikey9xx/hi6421-spmi-pmic.c   |  72 ----------
+ .../hikey9xx/hisilicon,hi6421-spmi-pmic.yaml  | 136 ------------------
+ 15 files changed, 484 insertions(+), 257 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
+ create mode 100644 arch/arm64/boot/dts/hisilicon/hikey970-pmic.dtsi
+ create mode 100644 drivers/mfd/hi6421-spmi-pmic.c
+ delete mode 100644 drivers/staging/hikey9xx/Kconfig
+ delete mode 100644 drivers/staging/hikey9xx/Makefile
+ delete mode 100644 drivers/staging/hikey9xx/TODO
+ delete mode 100644 drivers/staging/hikey9xx/hi6421-spmi-pmic.c
+ delete mode 100644 drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
 
-fabio
+-- 
+2.31.1
+
+
