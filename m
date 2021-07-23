@@ -1,106 +1,122 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF3A70
-	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 17:55:19 +0000 (UTC)
-Received: by mail-qk1-f173.google.com with SMTP id 129so2167238qkg.4
-        for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 10:55:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=R8fFyVJFPI61iNbHmEV9keSoQ1269AezSOwGUUdvo3Q=;
-        b=fY0xVj6n82OvnZWItF0Gcd86xvC9gb91Flfw+0iZ5uNr922yFATmtJvfRqtDgIgEis
-         bJMzj/+6kjsxnXAcMWRuBb893uLENrm/gw3LS4t4l0zweM0ibVyoo8KUH9Vrg/KQ6H7F
-         y3/ns9wnfiWW3/4x+O0FPC3Ni/81CyhBr22rCk3oubyDjtYMKeyzSuYVeNqPLMdiGpYI
-         U0AWwjLqaFd0zOQedrG3MLIVte+bwHsEK4pmIhrqAo8e0+99G0MvR+WxsCWJ+jK933ju
-         RMbZl+dKRVYoxv6keycgE1pPgGi9nV9tsyZ1WSEXTMirLV4DpxRIDXunbdF60C4WVzBX
-         QmqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=R8fFyVJFPI61iNbHmEV9keSoQ1269AezSOwGUUdvo3Q=;
-        b=elabr+ElPBnye49qOXQ9yA7iFjemWOhKLHWli1YIQaXtGdHvp9F8gJvcy4l58Hjgiy
-         IYk4JQ5xeYFoViYomTKAKBZUKoIxNvj3jYAmJV1oxE1b7dG4lhDkrkk3GHnGjnnQ0Vs0
-         5rrynP6cL4allFRIwni24cNNSVyroC37rVshwAii31V26inkWg5ulClMfs37+sB7DpIg
-         T6r3SYRLkZAf11y7GQYDUzbvn2GpDOdlo3oLq66V5IGQfZ+JdgnsHw/3GmorsgqCEQdG
-         n15fivZQQKY/7RqrjViDpnFi3F2cL4Z9vm3FQGh4QagMXETcW5Cwyw5ZNo6K9NEMq/di
-         bwWQ==
-X-Gm-Message-State: AOAM531Q2qoeWFZM8h123AYWHsfoBRJLO5biGkSkeNPY5x0lOUMPxpC/
-	cxC+jHhlbJ7Zp6WNIQKyoaEW5g==
-X-Google-Smtp-Source: ABdhPJyfq9gVTpuB/X9Jhd7AGhJ6lnuPYCPbaaBbHfnavTfYvP6VrMHMZzYApUv3m8bzOqsdTtIEOw==
-X-Received: by 2002:a37:b947:: with SMTP id j68mr5750906qkf.486.1627062918948;
-        Fri, 23 Jul 2021 10:55:18 -0700 (PDT)
-Received: from TUX ([12.18.222.241])
-        by smtp.gmail.com with ESMTPSA id v25sm9346244qkf.108.2021.07.23.10.55.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jul 2021 10:55:18 -0700 (PDT)
-Date: Fri, 23 Jul 2021 13:55:15 -0400
-From: Lucas Henneman <lucas.henneman@linaro.org>
-To: Lee Jones <lee.jones@linaro.org>
-Cc: greg@kroah.com, forest@alittletooquiet.net,
-	linux-staging@lists.linux.dev, trivial@kernel.org
-Subject: Re: [PATCH 01/15] staging: vt6655: remove filename from baseband.h
-Message-ID: <20210723175515.GA17351@TUX>
-References: <20210723144340.15787-1-lucas.henneman@linaro.org>
- <YPrcnylo47dFU8Cl@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B433570
+	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 18:16:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=badeba3b8450; t=1627064188;
+	bh=ecvkC8x5/3D59+xc/e4I6ND0hbFLhwax+Ut44N6q2Jc=;
+	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=i4RmDwn9rfZkQpvnyD+5TqEw4w1R19km3lS4+dlPw1Ck2jZBPhkWuvL3HqM8Ti6P8
+	 mR+cIAng+KP0SEDYcMc2RnkoxipetvMxSjx9+wQ0ca025ek1xpWRqtcEInLxVSdvOe
+	 oNlSY6IRcXs5ioSbFlWywTQNuUMNPlE9S7zTbFns=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from titan ([83.52.228.41]) by mail.gmx.net (mrgmx105
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1N1wll-1l5AiT07BZ-012LD4; Fri, 23
+ Jul 2021 20:16:28 +0200
+Date: Fri, 23 Jul 2021 20:16:25 +0200
+From: Len Baker <len.baker@gmx.com>
+To: David Laight <David.Laight@ACULAB.COM>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Len Baker <len.baker@gmx.com>, Lee Jones <lee.jones@linaro.org>,
+	Romain Perier <romain.perier@gmail.com>,
+	Allen Pais <apais@linux.microsoft.com>,
+	Dmitrii Wolf <dev.dragon@bk.ru>, Iain Craig <coldcity@gmail.com>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging/rtl8192u: Remove all strcpy() uses in favor of
+ strscpy()
+Message-ID: <20210723165353.GD2612@titan>
+References: <20210718113207.10045-1-len.baker@gmx.com>
+ <ec6c9adc089849b5984b9273c38efd93@AcuMS.aculab.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YPrcnylo47dFU8Cl@google.com>
+In-Reply-To: <ec6c9adc089849b5984b9273c38efd93@AcuMS.aculab.com>
+X-Provags-ID: V03:K1:84BVanMfKv1FcUJtwjIClWXu88suYQh0HtMUImvBEZxZyNqmKJC
+ yKueTsz3rcnIMFGMaErRqwvo/Mtg+M1gD7sh+z4f3HRsNNwcKCs00+xqLk0ZnS+4eyO51Wz
+ vmadz9x/OCw0yfcj76L/6Sm2KfcBbzKiaUyk/nAi93OuWQaxbSWBMhns4fhwZZ7MIJLy0oP
+ uwFcimyKY4Aj9xz7UIi/g==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9OIW+uX1jEQ=:nGU6ZSl+B1rlp/dVsaTXU3
+ FBmHK7/gff2E8TECaL7eFFBDeZ3tXScmZAzWcQ/hf3sgfznFQOmHDtduXfJg8BPR/KZJ9hSrZ
+ EqjNaWirjJ4MArFxcWD6EZaUQfXWkiM9ulZeWzrvHy9sPzI2YFzROIS8VmvqBrkG4rUEwX+L3
+ 04lsp0W81fowZ26MDsUTUDGJ1XgtiwJ086MU6sY+fAFYh2EuEph7Ptthkaoay3aBqzpOpp2S6
+ Y9cezSNSWua2M8mPn0rVoXpKZ/yFoDKnwh8cPu32/CneuVGAeYTT2Er1fJKXYS3CdRsDdMIis
+ 9nyd39v1XlApgLtJVZ2QdFr+VmSjNF+h3ox4BMD1vx9yj11p33qgqTX6rbXe5gZMXm2VfLS9Q
+ JHUakxzO8+F0rbBPgmgBXFrSgO7iWunURwnFNM8b84JcpZGmGcZ6IAlg7WHQy/GvE9rIME6E9
+ BzIN6TJXj21LgopfM2yKD/jvB1hoPd47WSIGfFr8NuwDS7K66Fv3jQc3sCfa2Q1vGivo7pKvR
+ PTxtR9AkSdMe5ReF1dV4ew5TBy9lWZn6zDv6txHjkt2G26XYs6pKJkmfbln4MdZXyzyPsDJTU
+ jxL/RapepB5wyEdUQZGP2yGdmzPiSNnxfjAz3TK7m2ClIyH1rP/5ANiFLwYfjkjna3q6EpG3X
+ T33RHGvF//sUOBNsIIEziRMeh2S+3h/Rl6cM5zOkSOSaxf4FAJvKkhPEdWvdGg9rNwqP+xqZr
+ VjGKB/KalMOrPindJhQWFoHZuxLwtRATbAY4BwiFlQvAmecWK7hDsm7mPz7dJpOPMpmspoOCS
+ ccPDJUeCzAFC7/BQ5KAnh0+GRAvxNQQxqt5TzqiceRGmff+JSuw5pB4sOcWcT477cM88bf5RY
+ PTWHU2nIrC+Tmt3VlfE+cglmXx0s02hYeQWqN1gXa6WeaMSOaRzEWKaLNRM1SUr48CEp7pJsG
+ dYiJcIhA8i5QYPdU8/Sshcb43ucEywcaCif/pb26rbwqYZ9CAforKfkysGJz2hTivtufP7inH
+ h26nEvYH0v27gVLmQZheZOKSuIXpGuB99rIxDQri0CGVc1vlrQyd62GW9koERG9YVR+EQdATF
+ xTVrKciEIpH4b7jCLMFEJhBy0YOd3MZZHKG
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 23, 2021 at 04:13:35PM +0100, Lee Jones wrote:
-> On Fri, 23 Jul 2021, Lucas Henneman wrote:
-> 
-> > This patch resolves checkpatch's warning, "It's generally not useful to
-> > have the filename in the file" for baseband.h.
-> 
-> I would paste the exact warning you get from checkpatch.pl, warts
-> (line numbers) and all on a completely separate line.
-> 
+Hi,
 
-Ok, I will include checkpatch.pl's original output properly.
-
-> > Signed-off-by: Lucas Henneman <lucas.henneman@linaro.org>
+On Mon, Jul 19, 2021 at 08:49:54AM +0000, David Laight wrote:
+> From: Len Baker
+> > Sent: 18 July 2021 12:32
+> >
+> > strcpy() performs no bounds checking on the destination buffer. This
+> > could result in linear overflows beyond the end of the buffer, leading
+> > to all kinds of misbehaviors. The safe replacement is strscpy().
+> >
+> > Signed-off-by: Len Baker <len.baker@gmx.com>
 > > ---
-> >  drivers/staging/vt6655/baseband.h | 2 --
-> >  1 file changed, 2 deletions(-)
-> 
-> Nice first attempt at working with Mainline Lucas.
-> 
+> >  drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+> > b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+> > index ab885353f668..1a193f900779 100644
+> > --- a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+> > +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+> > @@ -2226,7 +2226,8 @@ static void ieee80211_start_ibss_wq(struct work_=
+struct *work)
+> >  	mutex_lock(&ieee->wx_mutex);
+> >
+> >  	if (ieee->current_network.ssid_len =3D=3D 0) {
+> > -		strcpy(ieee->current_network.ssid, IEEE80211_DEFAULT_TX_ESSID);
+> > +		strscpy(ieee->current_network.ssid, IEEE80211_DEFAULT_TX_ESSID,
+> > +			sizeof(ieee->current_network.ssid));
+>
+> I'm pretty sure that recent compiler releases know enough
+> about strcpy() to error overflows for strcpy() from quoted
+> strings into char[].
+>
+> If these checks are enabled for kernel builds then they are
+> actually safer than the run-time check above
+> (which can be mistyped).
+>
+> The compiler can (it may not) convert the strcpy() into a memcpy()
+> using the compile-time length of the quoted string.
 
-Thanks, Lee!
+I agree, but if we want to remove this function entirely from the kernel [=
+1]
+we need to replace all the strcpy() uses as a previous step. And the safe
+replacement is strscpy() [2].
 
-> The premise of the patches seem okay.  I don't personally allow
-> filenames into new commits in subsystems I maintain.
-> 
-> Seeing as though these patches are *so* trivial, if I were Greg, I'd
-> be asking you to bundle each of these changes into a single patch.
-> 
-> > diff --git a/drivers/staging/vt6655/baseband.h b/drivers/staging/vt6655/baseband.h
-> > index 9354ce724446..0a30afaa7cc3 100644
-> > --- a/drivers/staging/vt6655/baseband.h
-> > +++ b/drivers/staging/vt6655/baseband.h
-> > @@ -3,8 +3,6 @@
-> >   * Copyright (c) 1996, 2003 VIA Networking Technologies, Inc.
-> >   * All rights reserved.
-> >   *
-> > - * File: baseband.h
-> > - *
-> >   * Purpose: Implement functions to access baseband
-> >   *
-> >   * Author: Jerry Chen
-> 
-> -- 
-> Lee Jones [李琼斯]
-> Senior Technical Lead - Developer Services
-> Linaro.org │ Open source software for Arm SoCs
-> Follow Linaro: Facebook | Twitter | Blog
+[1] https://github.com/KSPP/linux/issues/88
+[2] https://www.kernel.org/doc/html/latest/process/deprecated.html#strcpy
+
+> 	David
+>
+> -
+> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK=
+1 1PT, UK
+> Registration No: 1397386 (Wales)
+>
+
+Thanks for the feedback,
+Len
