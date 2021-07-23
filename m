@@ -1,36 +1,38 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD13F168
-	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 15:15:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 665DC70
+	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 16:31:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1627053313;
-	bh=OjiRy3yEmPn7YKRxpzy1s0ZNeFE94rnGLnb9AsXrlrs=;
+	s=badeba3b8450; t=1627057845;
+	bh=i2eyECN2ErolGI155WrFmDMOyXQmF1jvaDqN7DICg/M=;
 	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=H1Y1o8/WhCSLA3gc+0iqX22b/7RsEHnJ+T3K35hIWib/0K6FkHReRw18Lwe8bI2et
-	 SGrfYjew+nX3eCngJhp4bJINYwa93afwF8BWifjCBUWOAEonZyleQtHHs2hyRhY01G
-	 IwJp/GENms9sZCLvGyVZ4cqetB01vaPu1xhJaQZ0=
+	b=iVxJINsCiFT6AHJ/S77uhb8a/GuEwW7LnI2u6zpkqLEV8pYR/9woG8MiZbfMyp2o8
+	 2NFL1BjM81dGSS/Ae605dWVSqAN9dxHHWvUp5wLNOExgfhV1GfhGN6Mh8yIADe85UT
+	 a4X57pVSKNv8isdMiqBq7g8UepbzLEd1uByTlkIE=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from titan ([83.52.228.41]) by mail.gmx.net (mrgmx004
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1N0X8o-1lCcqr2KVI-00wX6P; Fri, 23
- Jul 2021 17:15:13 +0200
-Date: Fri, 23 Jul 2021 17:15:10 +0200
+Received: from titan ([83.52.228.41]) by mail.gmx.net (mrgmx005
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1Mn2W5-1lPcMU2FlP-00k4bQ; Fri, 23
+ Jul 2021 18:30:45 +0200
+Date: Fri, 23 Jul 2021 18:30:40 +0200
 From: Len Baker <len.baker@gmx.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>,
-	David Laight <David.Laight@ACULAB.COM>
-Cc: Len Baker <len.baker@gmx.com>, Larry Finger <Larry.Finger@lwfinger.net>,
-	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Len Baker <len.baker@gmx.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging/rtl8712: Remove all strcpy() uses in favor of
+	Nikolay Kyx <knv418@gmail.com>,
+	Aditya Srivastava <yashsri421@gmail.com>,
+	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+	William Durand <will+git@drnd.me>,
+	Romain Perier <romain.perier@gmail.com>,
+	Allen Pais <apais@linux.microsoft.com>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	zhaoxiao <zhaoxiao@uniontech.com>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging/rtl8192e: Remove all strcpy() uses in favor of
  strscpy()
-Message-ID: <20210723151510.GB2612@titan>
-References: <20210717155145.15041-1-len.baker@gmx.com>
- <20210719053747.GN1931@kadam>
- <de94438319a84e0985b3ba0f5c00807b@AcuMS.aculab.com>
- <20210721080624.GV1931@kadam>
+Message-ID: <20210723152559.GC2612@titan>
+References: <20210718090636.7905-1-len.baker@gmx.com>
+ <20210719054345.GO1931@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,74 +41,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210721080624.GV1931@kadam>
-X-Provags-ID: V03:K1:EjRz48SDHlgr1UpUhBNgHpxEM7iMvIZeYSbMqtOd1Qri1AfHw4I
- rJ8JN6O4hqGwyTqfQgAAa79cnga98vlF3R/AeoCXJMUuBBVEM7AN/b2gMJKvDdoL5KRjeu/
- tovnT0UgvwdS5yr+DGM/NkVq5ZdlXaa5FYJU0cu48Xl65UsX07VNdRRzfvrr6NUSauVrMUE
- Qgi9u0UgkDwUkEGbx+lug==
+In-Reply-To: <20210719054345.GO1931@kadam>
+X-Provags-ID: V03:K1:7GxA+IL5sU8hfSmhpedcRUgch+iG+s9S2PsG6gsn8CHkkbm3YCM
+ Wj+kqwaG6rTENKA0yOqOGfPxnAgQ/B4XjpBaoeCYacyHpj3E/uC2JF45iJKhLgYje87z63v
+ 5CVAwtLcIIASoX7pGnqCYsXOi4xGmH5wEAOYECSRlDw6LUIs5iBxnMv8aJWVA2Mjxij2uOF
+ 7B4EKBd0wl9D5ygPfCVWw==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ojBJ4x3ZywM=:h8VEkbI3Xfc0vDCVs9p+5D
- bqZ5qDKdnnBaJRewL45NwPqchkzMZRs3ujPsDHwnzZLdzXD8ivKqQHDXdPd+oF2tWzjnb06Tt
- vb+cOG9kzhhZpCLpDRa8eLLwdO3bHosmcPg8p454Oj/4cMcngizLidvch0NNgIRTm/v6zUD5s
- wxtSZnmKHsbGsuUYzyyg4LVNWh5Jz5YxM8qj4LwD3zqBZWAZvSVNhqhjy0yUGfMrVRzf6ZbXp
- D7eukbykaSIw4SGWKyA/StUF71DAHH2mB37pJQUmthF27uWVFaU8lHmwrH6IturgtHQYSKlGz
- rF53Dcx9kzSxizsAMT4wQStt6O8wHlyg1PEpFpnnllknfoCjFfZ86KmtIKbqIJfxaDIoKb8cR
- KASpUSk7nUiRlgpAJGR/Cx4/xx/P76kujEjj3GiITHdlKFd/CKeepGrHdmqVgA+cGkzHs5bOz
- bouLDJ7IJK52zV+tRuamR9n/knyjaA8oPAHmjx2yEtmmzryhB34YkG4LzyLyne0X53MxHyjmt
- gqgWmQ5g8WsgHUzA6ooFyQTlOMXv9OdYhvyiqzX55xYtSObqKw1QTZ4JXU0J+b2Z0MwO9n1Tw
- AYCSnqPrmcVrZHjaOXTxb0FNpTPL/G7mo4kdBEPlG0kkk7ZfQfJ00+BO3wSb8RQoSt2qHyFrt
- SUUy47HmqwoRu9T8ghOcGUoCgAIsYbmrR0j+xTu9XkzSdArlgMbthdHneqiEn7R9LKDxOjxp1
- 2PLlpn7FAtzJezVh2TFHBJ39bPA4jI+eP55n5NzXPYdatAPbSawvrrNz92/oFSZdM+Rg4wd8K
- 5wM534+63/Pb85RCv8j3eEXvkkE+FLseNBtng0cTpuXBKJdFE1JdLowEn41wEO87DVJKCvZpd
- I/hURtPc3V45BPDCND2+lmZRhujieyXahNLamq5lP2t1Q0uTkMQLmLua8UU6TrTL/EgZcV0RZ
- 33lNN+BOtQg3Dkaij4um2v4VSt/n1zXfkjxiTKKi5RGolzeBbyaTKo9QILQKv9CpVd3B/ScNo
- CSjoH89x1JP9spRj0LL2vQ5TjGZ02LPfkdm/olRI2eXLFpHZRa63MNsIRwKuwbBuq4+KXQOC3
- IAXzqlhHgp88dpXZzruNW+LX1KhiQFQZr7q
+X-UI-Out-Filterresults: notjunk:1;V03:K0:50g003CcOz0=:2rOTzdOQO6oYSyj8EECuNG
+ YmgNPkBIAoF4gBSx9S0vp4WvGjcDccEzre8dKk830U6V75kk1KAUWeNlWfRGLtj5t+j3H5O/2
+ NF8ceukSQKbpco1GNMLgbhziHl/nko5vQllL8k8rieK6aBqL8iJwpjQTUFlFHf2fhZeOXqYIJ
+ hbBWyoPlJn8TOn3fMl5aO7df5bMbCSYQUTx99yqAgmE6KpBG6tZlZpJBoopzYru/ER9w7IHdx
+ DzSZQIkESgubCPtlKqszVrI54N/8CGHPrY2CUetOL28SRBNJBjNS0iTg9GyyjhhTXfqbKSXpg
+ Lm6a18VnuVjN9Na9uY9uVnKGaifJqh5vHgy8TqMrjH1UYM1KbRjXHx0Cs6X6lH2Lg7F6kDdSH
+ sk0dlT6iXsEGciEg56sZDnjca8lkgAVKA5qi1KLs20kVjeOm6qWIB8x82NEMcbFZ1d35MtcTu
+ qNpM3lzbje26Es3/J6MVL8NC+vMqhqF+9U35bB3mpuKFES9fPAncoUku4nycCOHJr8NDk2Yet
+ 6zoGUczAOhHmyXTKLieftlaDy/jNQRrfXH39Q0Z/w+z+9fWazm9bBymNsQq+ZaXvRbPqMUtvF
+ usEARj5quoVoBsOlRfu0tXDOgVXQB9l8maKuic18dYRTztJcwMMA2WvRIr1p8R8a0hEqzS5hq
+ R42NqkA75wrBtIgu5PuIBE5ykrGV+7o77A3YTwbAY3yPyXV+HbWWedDTNwdFIgFA+8jVQQ0Ip
+ mLz1Af6SoGv88KuUJNlBD8oLxRzbQHryCWd15CpIxMwvVsRD1/QXZkuHLkh/HQyjoHUnQ/y9S
+ bDCWZTvzokIQ7A8XtzPWmpaMcIvKrApiEFiBsStx5EqNsuUgLCNt7yx/PArG9EapJjiMiDCYJ
+ JGqYAk08ptDWn89CqDkkNR5uGSiEp+gqnKYyoQn0bRuCa09xYiwnToCedqLEGtLu/+iUvJtaH
+ VPbKnyvMeoGtXPsdhG3yZqRhrM3odVwpNK/z2zgdGUfANn1fLworFi/DxvM0mG2cMzcgor11s
+ Nz9BkvjAI/NpOHedXy5LYGfCvsICEhGIBLa3Nwq1GkYT8/JAP8FIjgj6ub3uwHgcHbw75O9Tc
+ 5ffHTBnNzwfjHFYI9FcpovnABxC6TXBdzm7
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-On Wed, Jul 21, 2021 at 11:06:24AM +0300, Dan Carpenter wrote:
-> On Mon, Jul 19, 2021 at 03:24:38PM +0000, David Laight wrote:
-> > From: Dan Carpenter
-> > > Sent: 19 July 2021 06:38
-> > ...
-> > > Not related to your patch but this code is bad.  What it does is the
-> > > "ifname" can be set as a module parameter.  So instead of testing if=
- it
-> > > has been set, it uses the checking inside dev_alloc_name() to see if=
- we
-> > > can allocate what the user requested.  If not then set it to "wlan%d=
-".
-> > > If we cannot allocate what the user wants then we should return an
-> > > error.
-> > >
-> > > It should do:
-> > >
-> > > 	if (ifname[0] =3D=3D '\0')
-> > > 		strscpy(ifname, "wlan%d", sizeof(ifname));
-> > >
-> > > 	ret =3D dev_alloc_name(pnetdev, ifname);
-> > > 	if (ret < 0) {
-> > > 		dev_err(pnetdev, "allocating device name failed.\n");
-> > > 		return NULL;
-> > > 	}
+On Mon, Jul 19, 2021 at 08:43:45AM +0300, Dan Carpenter wrote:
+> On Sun, Jul 18, 2021 at 11:06:36AM +0200, Len Baker wrote:
+> > diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/st=
+aging/rtl8192e/rtllib_softmac_wx.c
+> > index f89799d43b1b..5968407c646d 100644
+> > --- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+> > +++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+> > @@ -543,7 +543,7 @@ int rtllib_wx_get_name(struct rtllib_device *ieee,
+> >  			     struct iw_request_info *info,
+> >  			     union iwreq_data *wrqu, char *extra)
+> >  {
+> > -	strcpy(wrqu->name, "802.11");
+> > +	strscpy(wrqu->name, "802.11", sizeof(wrqu->name));
 > >
-> > I know only root can set module parameters, but having one
-> > that contains a string used as a printf format seems
-> > dangerous at best.
-> >
-> > Isn't it best to let userspace rename the interfaces later on?
+> >  	if (ieee->modulation & RTLLIB_CCK_MODULATION)
+> >  		strcat(wrqu->name, "b");
 >
-> Yeah.  I think you're right.
+> This patch is just about silencing inferior static analysis tools,
+> right?  Most checkers can figure out the size of the array and verify
+> that it has space for "802.11".  Probably it's only raw grep which
+> can't.
+>
+> It doesn't make sense to me that we have strscpy() followed by strcat.
+> So let's fix both.
 
-Sorry, but I don't understand if the code needs to be improved or not.
-Is the code shown by Dan not correct?
+Ok, I will send a v2 for review. Thanks for the feedback.
 
 >
 > regards,
 > dan carpenter
->
 
-Thanks for your time,
+Regards,
 Len
