@@ -1,106 +1,98 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5E0E168
-	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 14:51:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1627051905;
-	bh=YqwpkK3WDnXhhqj3NQNMjWZeTXEz38CPziFEMoOgC+k=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-	b=FvMfg9CGmIrPzxQ8UdbXAAcbkncahOVDZa1dpV2wNe48hU9WFIC7JRbuexxVPleW5
-	 5uWM6aH4JSra/g4Eee2tdWtWKc2SBWDoirKfPwC46d3Ba0g3DjyQbvO0Zhl6H9XJ0O
-	 7/Z7/UbVTEubRrHyROL7jAOGPrWFci26QIlLIUQc=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([83.52.228.41]) by mail.gmx.net
- (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1N0oFz-1lCtOu27Jl-00wnKM; Fri, 23 Jul 2021 16:51:45 +0200
-From: Len Baker <len.baker@gmx.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Len Baker <len.baker@gmx.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging/ks7010: Remove all strcpy() uses in favor of strscpy()
-Date: Fri, 23 Jul 2021 16:51:22 +0200
-Message-Id: <20210723145122.5746-1-len.baker@gmx.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A5E168
+	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 15:13:38 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id 14-20020a05600c028eb0290228f19cb433so3756158wmk.0
+        for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 08:13:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=PTknFqwDEG5+u/MwyGTY6e/TieiPOQcfrLwoM5fuVkc=;
+        b=SE1bOFv0fTlMJ7dqvKYzRz9MINPtUiEii2KKns7raNvkZEG4bC0f25k3IEwdkMMqx1
+         hjdAfaPytnDxkukSxVhz/Pv/UEshT9A8QRgvbJciwZoby4Q5kzCK+2gjfgqTFzriqyIy
+         05qMiZtVHSH5hjZenZErcsavyY/E9n45zARR8dbuAoURost7C42s9Mu+lfsxZVdKytqW
+         y6LbykKl2HhjLyxPEKtz18De8xM7VYgJfvW0ly/8yrpk65xxMqtiPSNwzJnl35k9JhBm
+         lXrD1B2aJoZGsbREqU3eSqgxFeyH/qo6hcM3mh5xalomj6sUmbK2K4p4o9iwcSSEY0U5
+         KyTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=PTknFqwDEG5+u/MwyGTY6e/TieiPOQcfrLwoM5fuVkc=;
+        b=QYCt6prEn6N6n8O7LTzwFoyHYepkhgz6pA1iw2fDl7PAR6ANCR2/HTx7LQSJqu28pq
+         edhc/YjqEsVHFXAC+9ctsYK5kfr068gwjmtU+ppKcYK4b3uMWALLZGVAVjyoU1A2bLgC
+         jtvWlblOsVsbfu5duMASt+8mvRjAebjqb/5nSsrGy6g2RsPn2Q5j9hCvudQhtbk1kwgz
+         ewmsAfm6HK1O+tahykpydl4Ti074hCwmbx6oYpGJIleU4P8BjD5S1tk0LhOkJNbB+T7t
+         vWbWkk2G/hVfHXH7joCEolST3FzoUAxQq+OjDhN8bX8wjlG2dTAxU1R9eUXKWAhLMPht
+         XPzA==
+X-Gm-Message-State: AOAM530OBbleDLhagduWVeAMu8GI7NFbmHmgqFvUgJjkY156AEkIn3Wf
+	OEnAoCQtnuT0X4Xj3LJjP8U0zA==
+X-Google-Smtp-Source: ABdhPJzTMd+qGfuPa/CQeGlM3g8Z3KuPSGqufC8PoIchY8WtTomZONyf4lhef5ufOGsSb9gtIrDECw==
+X-Received: by 2002:a7b:c84d:: with SMTP id c13mr14850302wml.30.1627053217297;
+        Fri, 23 Jul 2021 08:13:37 -0700 (PDT)
+Received: from google.com ([31.124.24.141])
+        by smtp.gmail.com with ESMTPSA id s14sm17109718wmc.25.2021.07.23.08.13.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Jul 2021 08:13:36 -0700 (PDT)
+Date: Fri, 23 Jul 2021 16:13:35 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: Lucas Henneman <lucas.henneman@linaro.org>
+Cc: greg@kroah.com, forest@alittletooquiet.net,
+	linux-staging@lists.linux.dev, trivial@kernel.org
+Subject: Re: [PATCH 01/15] staging: vt6655: remove filename from baseband.h
+Message-ID: <YPrcnylo47dFU8Cl@google.com>
+References: <20210723144340.15787-1-lucas.henneman@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:lZYL+o9N15i0U7XTwJYxixhuIsXHSWlXHBr2rf/3JZU6G5x3M1p
- DNhlgSxz/McHWkxIRP4HLrFhGcL+LzfEGZOwKGsiRj0aU6FhVP4EYBuVcfPJrUKuH3y7x4q
- bmpq7YRl7pXv0iJBrxlgPB/pmiB+AEYXeutepao9O9yQK+G8oUcaoUyAmte4afVN6Tg+LjK
- tqrj/l728QAuQJAZ4t2OA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ta/w8L5WZqg=:OL80BLGeR9picO+oDxHZmd
- 3pyKCX368JzF3nWuE8iRCAxdRBpY3OWWFeun/f1Xq6JjZapK9ncW/mPnWfOpPSaX/4EgJFS4t
- X9VQuSebVKaHNbkNAqlxhFhx4d/sBDk+IUTcl88iMvnjShA4tIj7po0t5w3ET7ZGo1L/90wEK
- dp3IUcoQvN8A1K6DubOPHH+NQYm7XSPFqJLu2s9FaUFJseQyPoE+0pnJ1r0yLcz7TO3kk7Pci
- LBY3iEqOn61pynVvdioNSaPZZoZQiLuyIikCtlsrX48bNL//3vSaH+zxjzJ3nW4qL/+U5NC3L
- Bg/AaaKjQsDSkf6I0D9z9KSIHeRKS0pmSKdyqA1z1vPJbaql1sq14LBCaJxYZczA0aW4pEuH/
- k5F3Vb4ox8QvsWCpIHl57CGPRp2SBfnLVf9jgOzo4nL3G74QuMFK4fXbduWU4MFvmp1PNP373
- m5AAP+vgeswx2y1EyRUwfgP7YFBLL9aA2YsERnej0gVTNOI+oSivUYxtc9PCHriLDw+9/Qqjw
- GfeWyKirS2UjDeQv2RmNnt7ACFx625pTtMap9PhP7WZAG2GGRMlIThvXmDjl+L7nTPmXSmCQ+
- dSB9pwijIM8Z3ByqPW4+fkrXcoBzxzSUELghcQHcu7tkaZZwKV2t/w+hlRjiHlDmQSD0tFldW
- mrn4nQsw9SDMb1M0Xl2n8NBm7oa1/dNyIKSu7+Zw55KPHh8AAh2sw761GlZefpuDLhG/m55uo
- UB0Dr//DJ2VfGrfqTi4Uc64swKNw/v31H2JvpVY8h10ILHp0QKZ7atr2YotHckHHaqXGEon4b
- 1lnK2UdJqc06GWk9lKMrCMaOlpTLYzDsiZ2EOHEDDW272CqCRNCeQraDXUJhAB9KcxZAGnee0
- L/Ki1fTl5r5/mqjYWSNiWLLsJXWbwLiDc7FJT0UCPxiS832+zYHv2dXgg/z5jpYQsuB9uxYm6
- gSarNhw/ATY4HxtZ4goS1pRsxTacYRaGXHhDXQqRt3QH6Mchet4FBpia3PLYwBmyZ+Ku/vvaL
- f3gg++O2THf86W5TPOuERXXRzr0hzi/OT9qaXNqJBfx7Rwe4RYPCUI2NuiqGdmM8BvnJmpkZV
- zWzv+Hc7RRaNJ4EhnE8fsbXPxMyHdLOFHhw
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210723144340.15787-1-lucas.henneman@linaro.org>
 
-strcpy() performs no bounds checking on the destination buffer. This
-could result in linear overflows beyond the end of the buffer, leading
-to all kinds of misbehaviors. The safe replacement is strscpy().
+On Fri, 23 Jul 2021, Lucas Henneman wrote:
 
-Signed-off-by: Len Baker <len.baker@gmx.com>
-=2D--
-Changelog v1 -> v2
-- Use the correct length for the extra pointer (Dan Carpenter).
+> This patch resolves checkpatch's warning, "It's generally not useful to
+> have the filename in the file" for baseband.h.
 
- drivers/staging/ks7010/ks_wlan_net.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+I would paste the exact warning you get from checkpatch.pl, warts
+(line numbers) and all on a completely separate line.
 
-diff --git a/drivers/staging/ks7010/ks_wlan_net.c b/drivers/staging/ks7010=
-/ks_wlan_net.c
-index 09e7b4cd0138..631ad769c3d5 100644
-=2D-- a/drivers/staging/ks7010/ks_wlan_net.c
-+++ b/drivers/staging/ks7010/ks_wlan_net.c
-@@ -158,13 +158,13 @@ static int ks_wlan_get_name(struct net_device *dev,
+> Signed-off-by: Lucas Henneman <lucas.henneman@linaro.org>
+> ---
+>  drivers/staging/vt6655/baseband.h | 2 --
+>  1 file changed, 2 deletions(-)
 
- 	/* for SLEEP MODE */
- 	if (priv->dev_state < DEVICE_STATE_READY)
--		strcpy(cwrq->name, "NOT READY!");
-+		strscpy(cwrq->name, "NOT READY!", sizeof(cwrq->name));
- 	else if (priv->reg.phy_type =3D=3D D_11B_ONLY_MODE)
--		strcpy(cwrq->name, "IEEE 802.11b");
-+		strscpy(cwrq->name, "IEEE 802.11b", sizeof(cwrq->name));
- 	else if (priv->reg.phy_type =3D=3D D_11G_ONLY_MODE)
--		strcpy(cwrq->name, "IEEE 802.11g");
-+		strscpy(cwrq->name, "IEEE 802.11g", sizeof(cwrq->name));
- 	else
--		strcpy(cwrq->name, "IEEE 802.11b/g");
-+		strscpy(cwrq->name, "IEEE 802.11b/g", sizeof(cwrq->name));
+Nice first attempt at working with Mainline Lucas.
 
- 	return 0;
- }
-@@ -1808,8 +1808,8 @@ static int ks_wlan_get_firmware_version(struct net_d=
-evice *dev,
- {
- 	struct ks_wlan_private *priv =3D netdev_priv(dev);
+The premise of the patches seem okay.  I don't personally allow
+filenames into new commits in subsystems I maintain.
 
--	strcpy(extra, priv->firmware_version);
- 	dwrq->length =3D priv->version_size + 1;
-+	strscpy(extra, priv->firmware_version, dwrq->length);
- 	return 0;
- }
+Seeing as though these patches are *so* trivial, if I were Greg, I'd
+be asking you to bundle each of these changes into a single patch.
 
-=2D-
-2.25.1
+> diff --git a/drivers/staging/vt6655/baseband.h b/drivers/staging/vt6655/baseband.h
+> index 9354ce724446..0a30afaa7cc3 100644
+> --- a/drivers/staging/vt6655/baseband.h
+> +++ b/drivers/staging/vt6655/baseband.h
+> @@ -3,8 +3,6 @@
+>   * Copyright (c) 1996, 2003 VIA Networking Technologies, Inc.
+>   * All rights reserved.
+>   *
+> - * File: baseband.h
+> - *
+>   * Purpose: Implement functions to access baseband
+>   *
+>   * Author: Jerry Chen
 
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
