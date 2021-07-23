@@ -1,50 +1,51 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A5E168
-	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 15:13:38 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id 14-20020a05600c028eb0290228f19cb433so3756158wmk.0
-        for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 08:13:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048A7168
+	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 15:15:03 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id y8so2702322wrt.10
+        for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 08:15:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=PTknFqwDEG5+u/MwyGTY6e/TieiPOQcfrLwoM5fuVkc=;
-        b=SE1bOFv0fTlMJ7dqvKYzRz9MINPtUiEii2KKns7raNvkZEG4bC0f25k3IEwdkMMqx1
-         hjdAfaPytnDxkukSxVhz/Pv/UEshT9A8QRgvbJciwZoby4Q5kzCK+2gjfgqTFzriqyIy
-         05qMiZtVHSH5hjZenZErcsavyY/E9n45zARR8dbuAoURost7C42s9Mu+lfsxZVdKytqW
-         y6LbykKl2HhjLyxPEKtz18De8xM7VYgJfvW0ly/8yrpk65xxMqtiPSNwzJnl35k9JhBm
-         lXrD1B2aJoZGsbREqU3eSqgxFeyH/qo6hcM3mh5xalomj6sUmbK2K4p4o9iwcSSEY0U5
-         KyTw==
+        bh=39pOG7KH6dy0ZRVssZhlN1lqixZxz0mn8swGZJcTMR4=;
+        b=b1JF8Cu+eJjrR8JqdA4y+VDpmQpSgPEenMFTQyd2RvhhVOLkywVgGcs+PuzwrbMfCK
+         /jGZbX49fD/B/Kqs6e//92fKyEr21MGzSlvjlxM2RMvlJjfZ13ne9qANhIzBSOJUeSPy
+         tjYlJE5xkj/dAnYovPcKURZTuiMDdnp/JM/dl/ERFIjiqxoldmsw331orf1kRMeMgr71
+         18sjRxSOcAk1gkAEZik6SaTjZKeY5snQNOL1JMIyljsol82vsX3qh4HsJ38Y9P7UCxYF
+         PvtXmQXaDw/Y/TrNBQ36axg6p8dJmXhoWw8JEbACG81nWcS5dXVMpVea9XkTh+XPNzbZ
+         AK/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=PTknFqwDEG5+u/MwyGTY6e/TieiPOQcfrLwoM5fuVkc=;
-        b=QYCt6prEn6N6n8O7LTzwFoyHYepkhgz6pA1iw2fDl7PAR6ANCR2/HTx7LQSJqu28pq
-         edhc/YjqEsVHFXAC+9ctsYK5kfr068gwjmtU+ppKcYK4b3uMWALLZGVAVjyoU1A2bLgC
-         jtvWlblOsVsbfu5duMASt+8mvRjAebjqb/5nSsrGy6g2RsPn2Q5j9hCvudQhtbk1kwgz
-         ewmsAfm6HK1O+tahykpydl4Ti074hCwmbx6oYpGJIleU4P8BjD5S1tk0LhOkJNbB+T7t
-         vWbWkk2G/hVfHXH7joCEolST3FzoUAxQq+OjDhN8bX8wjlG2dTAxU1R9eUXKWAhLMPht
-         XPzA==
-X-Gm-Message-State: AOAM530OBbleDLhagduWVeAMu8GI7NFbmHmgqFvUgJjkY156AEkIn3Wf
-	OEnAoCQtnuT0X4Xj3LJjP8U0zA==
-X-Google-Smtp-Source: ABdhPJzTMd+qGfuPa/CQeGlM3g8Z3KuPSGqufC8PoIchY8WtTomZONyf4lhef5ufOGsSb9gtIrDECw==
-X-Received: by 2002:a7b:c84d:: with SMTP id c13mr14850302wml.30.1627053217297;
-        Fri, 23 Jul 2021 08:13:37 -0700 (PDT)
+        bh=39pOG7KH6dy0ZRVssZhlN1lqixZxz0mn8swGZJcTMR4=;
+        b=oIiALLV+M4juHOkY4FlQ4YsaiWcWVXh72NFhh3f9Fs10X0CgxBVHMDmuy8zrirI67K
+         gtcwPmv0hhtR1Ll3n8gLBg1s1A30KT4EfndZ7wTpZisXt628DqX+DrygYev2bIT7yAkX
+         5GTUWNaCLOcEtz5p7fSSxLG6G2+NHBp6D02Dh0r2xuD/hohyLA+YrbGSvyrsLi/dN2cf
+         eceqdV1HJoHHmw6oRXGvG3c1VzKBzmxqp7CjzDeKmgLEDpDLntrHY7bIpX7WzQcIvDrZ
+         ZNAlfN+D/AFCwSu0ldxEwtJ2LfHpnoHTmey7gby38M38Sse4u7cChS4Yimf9e0hzHFnr
+         7VOQ==
+X-Gm-Message-State: AOAM530meH341xrPuw+pFMg81CRvGurNWhK/1fXIo+ItsJlCOBU+AlpA
+	+KciaXA5OAmymRF8KvImv3c40g==
+X-Google-Smtp-Source: ABdhPJwna2imf+4K+p4Ok2c6DvThFIDmdtRPfZhsLhiFfOWXxQ6a0iVwK6x2uAyzsF6xkyPUyndz6A==
+X-Received: by 2002:a5d:67cc:: with SMTP id n12mr5986256wrw.131.1627053302394;
+        Fri, 23 Jul 2021 08:15:02 -0700 (PDT)
 Received: from google.com ([31.124.24.141])
-        by smtp.gmail.com with ESMTPSA id s14sm17109718wmc.25.2021.07.23.08.13.36
+        by smtp.gmail.com with ESMTPSA id p2sm27285395wmg.6.2021.07.23.08.15.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jul 2021 08:13:36 -0700 (PDT)
-Date: Fri, 23 Jul 2021 16:13:35 +0100
+        Fri, 23 Jul 2021 08:15:01 -0700 (PDT)
+Date: Fri, 23 Jul 2021 16:15:00 +0100
 From: Lee Jones <lee.jones@linaro.org>
 To: Lucas Henneman <lucas.henneman@linaro.org>
 Cc: greg@kroah.com, forest@alittletooquiet.net,
 	linux-staging@lists.linux.dev, trivial@kernel.org
-Subject: Re: [PATCH 01/15] staging: vt6655: remove filename from baseband.h
-Message-ID: <YPrcnylo47dFU8Cl@google.com>
+Subject: Re: [PATCH 13/15] staging: vt6655: kernel style cleanup of mac.c
+Message-ID: <YPrc9LbZYFkjhbHd@google.com>
 References: <20210723144340.15787-1-lucas.henneman@linaro.org>
+ <20210723144340.15787-13-lucas.henneman@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,42 +55,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210723144340.15787-1-lucas.henneman@linaro.org>
+In-Reply-To: <20210723144340.15787-13-lucas.henneman@linaro.org>
 
 On Fri, 23 Jul 2021, Lucas Henneman wrote:
 
-> This patch resolves checkpatch's warning, "It's generally not useful to
-> have the filename in the file" for baseband.h.
+> This patch removes from mac.c the file name and an ftrace-like pr_debug
+> per checkpatch's two warnings.
 
-I would paste the exact warning you get from checkpatch.pl, warts
-(line numbers) and all on a completely separate line.
+Please add the warning verbatim.
 
 > Signed-off-by: Lucas Henneman <lucas.henneman@linaro.org>
 > ---
->  drivers/staging/vt6655/baseband.h | 2 --
->  1 file changed, 2 deletions(-)
-
-Nice first attempt at working with Mainline Lucas.
-
-The premise of the patches seem okay.  I don't personally allow
-filenames into new commits in subsystems I maintain.
-
-Seeing as though these patches are *so* trivial, if I were Greg, I'd
-be asking you to bundle each of these changes into a single patch.
-
-> diff --git a/drivers/staging/vt6655/baseband.h b/drivers/staging/vt6655/baseband.h
-> index 9354ce724446..0a30afaa7cc3 100644
-> --- a/drivers/staging/vt6655/baseband.h
-> +++ b/drivers/staging/vt6655/baseband.h
+>  drivers/staging/vt6655/mac.c | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/drivers/staging/vt6655/mac.c b/drivers/staging/vt6655/mac.c
+> index f5ae7f1f5689..9721c2234bf2 100644
+> --- a/drivers/staging/vt6655/mac.c
+> +++ b/drivers/staging/vt6655/mac.c
 > @@ -3,8 +3,6 @@
 >   * Copyright (c) 1996, 2003 VIA Networking Technologies, Inc.
 >   * All rights reserved.
 >   *
-> - * File: baseband.h
+> - * File: mac.c
 > - *
->   * Purpose: Implement functions to access baseband
+>   * Purpose:  MAC routines
 >   *
->   * Author: Jerry Chen
+>   * Author: Tevin Chen
+> @@ -775,7 +773,6 @@ void MACvSetKeyEntry(struct vnt_private *priv, unsigned short wKeyCtl,
+>  	if (byLocalID <= 1)
+>  		return;
+>  
+> -	pr_debug("%s\n", __func__);
+>  	offset = MISCFIFO_KEYETRY0;
+>  	offset += (uEntryIdx * MISCFIFO_KEYENTRYSIZE);
+>  
 
 -- 
 Lee Jones [李琼斯]
