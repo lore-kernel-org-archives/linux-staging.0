@@ -1,139 +1,93 @@
-Received: from mx6.ucr.edu (mx6.ucr.edu [138.23.62.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D3870
-	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 09:20:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=ucr.edu; i=@ucr.edu; q=dns/txt; s=selector3;
-  t=1627032028; x=1658568028;
-  h=mime-version:references:in-reply-to:from:date:message-id:
-   subject:to:cc;
-  bh=11hdfmNQdEcgN5T5M4TZZU7b8pnUY8wBhrlerw8iwXw=;
-  b=m7L293NfQziyj3irMTsU4944lzvWjLHETqKYWdUt8NswSnE/tUwLdalb
-   cihosSi4PBZ8yvG6K4hKyEWpu2yy0mOIYXSzPv1jRLwA6y6kUZslExHLF
-   e1DDbi+ocy9COXWqvmNXUFmhPTYwlnzXRtY9p0OSmGStbualKSRVWrkYI
-   geyK0OaER9ldqSo7mVTU9xrPr97/3odnKQJUw7aXIzBhub+iAOBGxi+Cq
-   9U0qUG/5S1Prg2PThlYzszKdyJ2LgUGv56QqXzmg5q7rspRmyE1tPdfLn
-   KzM8NEiUmyGuoS4OSpYCEQyTSSeEosqr/NnUvjXArmHsqUVhjWfJ0Yqoe
-   Q==;
-IronPort-SDR: +RGHF56pG1E95ka4GTxz3nB7thGAI+fyffQoY84M+rYV05/Pzz5Va6mv+FRKiHzacRn6s1CtpJ
- 31rSOA9gU1LShjK3Y8wMWK5r1QhG5APFLjSd+vLBYu5tPDStQi3cQX9Z2+mQTArabcn4FW/Xwq
- HXzd9yRY9E6ACGaNBmkKE+Ajn80IvTzyv4le+WD9qUcH4RWSMeq/lYT0hbIMO47oyE5TzQ9x1R
- rAlJErTooQgqk8L7J46qBAK6msJEQ4A22wVt6adB5NH/6f/8fyymbPRlZ9MqkJMSjlSsy5z7A9
- pKQQqwxhcqgL1f9UQ2pCT84W
-X-IPAS-Result: =?us-ascii?q?A2H7AgCKiPpghkXYVdFaHgEBCxIMQIFOC4N4bIRIkWqdW?=
- =?us-ascii?q?gIJAQEBD0EEAQGEWAKCegIlNwYOAgQBAQEBAwIDAQEBAQEBAwEBBgEBAQEBA?=
- =?us-ascii?q?QUEAQECEAEBAQGBCgtZC2OBT4F5BgQ9gjUpAYNtAQEBAxIRVhALCw0CAiYCA?=
- =?us-ascii?q?iISAQUBHAYTIoJPgwgFnFaBBD2LMoEygQGCX4VFAQkNToEVEn4qhwqGYieCK?=
- =?us-ascii?q?YFLgjg3PodbgmQEgx1jGG6BTheBOQEBAZAxgyGJOIIJnQ8BBgKDDByNLoUXi?=
- =?us-ascii?q?3org2OLXpciuzEQI4FTgX8zGiV/BmeBS00BAgECAQwCAQIBAgECAQIIAQECj?=
- =?us-ascii?q?jWOViQvOAIGCwEBAwmLaAEB?=
-IronPort-PHdr: A9a23:fMfFFB26WDq5BPsCsmDOuwQyDhhOgF0UFjAc5pdvsb9SaKPrp82kY
- BaHo64yxwaRB83y0LFts6LuqafuWGgNs96qkUspV9hybSIDktgchAc6AcSIWgXRJf/uaDEmT
- owZDAc2t360PlJIF8ngelbcvmO97SIIGhX4KAF5Ovn5FpTdgsipy+y+4ZPebgdHiDagfb9+M
- gi9oBnMuMURnYZsMLs6xAHTontPdeRWxGdoKkyWkh3h+Mq+/4Nt/jpJtf45+MFOTav1f6IjT
- bxFFzsmKHw65NfqtRbYUwSC4GYXX3gMnRpJBwjF6wz6Xov0vyDnuOdxxDWWMMvrRr0vRz+s8
- 7lkRwPpiCcfNj427mfXitBrjKlGpB6tvgFzz5LIbI2QMvd1Y6HTcs4ARWdZUclRWS5ODIOyY
- YUMEuQPI/pXopLhp1cStxayGRWgCP/txzJOm3T43bc60+MkEQze3gMgHtMPsHTJrNXyKawdU
- uC1w7PJzT7eaP5X2Tb86IjSfRAgvf2AQbx9fNHMyUYzDQPJlEufppH4Pz6M0OkGrmeU4fZ6W
- +21l24ntx9+oiKpxso0hYTEgoYYx1DK+ylnz4s4IdK2RU10bNOqEJZduT2XOopqT84jTWxlu
- zs2x6AbtZO4YiUHxpsqyh3CZvKJboWF/hTuX/uSLzdgnH9pZq6zihKo/UWjyuDwTNe43EtLo
- yZfk9TBsnYA3AHJ5MedUPty5EKh1C6K1wDU9+5LP1g5lbHeK5492r4wkYcTsVjbEi/2hkr2i
- KiWe10h+uey6uTnZqzqpoeeN4Npkw3+PKUjl8ilDeQ3NQgOWGeb+eCi27H54UL5R7BKguU3k
- qnfrp/aOdwWqrClDwJRyIou6BayAy243NgFnHQLNlNIdRafg4jsIV7OIfT4Dfmlg1SrlTdm3
- /DHP7zhAprXL3jPjKvtcLhm5k5B1AUz18pT6IxJBbEcOP7zQFP+tMTEDh8lNAy52+LnCNR71
- oMDVmODG7SZML/Ivl+H5+IvJeaMaZQRuDb8MPgl++XugWU9mV8ce6mpwJQWZGqlEft4PUXKK
- Ubr1/sIFy8htxAmQer2hUfKBTJaYTC5Vrgk6zcnBZiOCp3KTYSgxreG2XHoMIdRYzV3C0KMD
- HCgRYWNWr9YeTCSK845ymcsSLO7DYItyEf950fB17N7I7+MqWUjvpX52Y0wvrWL/Sw=
-IronPort-HdrOrdr: A9a23:coJtoaNWYijd3MBcTvqjsMiBIKoaSvp037Dk7TEJdfU1SL3hqy
- nApoV/6faZskdyZJhko6HiBEDiexLhHPxOkO0s1N6ZNWGMhILrFuFfBODZslrd8kPFh4hgPG
- RbHpSWyuebMbG3t6nHCcCDf7gd/OU=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="5.84,263,1620716400"; 
-   d="scan'208";a="230629297"
-Received: from mail-pj1-f69.google.com ([209.85.216.69])
-  by smtpmx6.ucr.edu with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 23 Jul 2021 02:19:19 -0700
-Received: by mail-pj1-f69.google.com with SMTP id in8-20020a17090b4388b0290175556801d5so1110506pjb.2
-        for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 02:19:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5740A70
+	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 09:45:59 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id a17-20020a17090abe11b0290173ce472b8aso8139689pjs.2
+        for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 02:45:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mfGDF3uxVEu2CK16/T6WliIzRL7c2dB7pkWJyLpg0nw=;
+        b=BYo5Bf7lGW+EKFn81RdiFPwr46xq3jY8JZ8beejibvqEBlFHayDdp55l5Zaa3PiSCy
+         rseLyb/6g1GH/bj7g+Akk4QqHOb47PFQMRKtH7LB5v15nYO8cP7bWngHvCPriBJq6PdO
+         dIwyrMsXS4QrEHcEpGyP01zA7CGiIdT7QUzIeAjWywoxycJNI9REexJx147i8w3H3ub8
+         On7dprLZeVUkvOVo2pXD9tQ3kKvBagQRZW0bccqsj+ftIpyRLb6Ncs0bOdJpbzETG/yW
+         FO1uf+r5fJpDKxplLYr2pJVkztvlsFS14jV1N8in4X0j00VnhP2E2Yy38qYz6WaJSjrf
+         ikfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UZ6nos874yRZpIgf2Vh5xy3KOkgY+nI+yWtvY2gRCVY=;
-        b=fAHAOMj+QmZzzPt8razIIizIqoOh9xcG+untUce53nyMCTFPy7VTP9D7dq7DAa5DCx
-         mvTPahZwpncByiwO3bi51LMmw5/DOZqIDfxHIDkgG8EDxJk6jQOErSaLtqw51OKerTtC
-         etGWNxO6KzUCpzm2Mj2NoRxM/5e9BzLMSs7Wrks/aJnMwKQ6QCXES1twtKDt2Wq8fgFv
-         ebPGUukES7lTE9+kXKLm6j/459VroDJOHthHMAfPr2+tGRLCnxMAA2k5TnVu0Ogxzvm5
-         g0IMxR13MWWn8RkQQsO+/sxPyiLYeoV78gU/1ySkITOfaC+iyLHmg9oYCGeFPGEosWYO
-         41iw==
-X-Gm-Message-State: AOAM533U8xqJo+9/HV87vEPnOzDkBz8yFKgBmiDEPJ18HxOuXRCbShSF
-	V3psCLydNBI/l4JRM1icS/6w/GO76v5GhThLeDiow8G8SSFtxzNNGgzWcTBX94DBnjlq4Co5Dtr
-	Pgzt2g1El3YHTcNaAgcfxxzfd3FDLGNChKAfC6gFriKc=
-X-Received: by 2002:a62:ed06:0:b029:32c:a800:ba47 with SMTP id u6-20020a62ed060000b029032ca800ba47mr3647610pfh.56.1627031959288;
-        Fri, 23 Jul 2021 02:19:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz+WXiuLmnX9MFdAd1e0I+8fQgzAvcb+FLbne5Z5luQOERXOyWsR3539QrgvbRqjef6Dr1euYIuxwFmnSGxjeM=
-X-Received: by 2002:a62:ed06:0:b029:32c:a800:ba47 with SMTP id
- u6-20020a62ed060000b029032ca800ba47mr3647587pfh.56.1627031958961; Fri, 23 Jul
- 2021 02:19:18 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mfGDF3uxVEu2CK16/T6WliIzRL7c2dB7pkWJyLpg0nw=;
+        b=cWu33MUUnmHLPVYNtFbgfWaCBymyqIKrlI2nEEqqOrrQCp7oKY1z9VaFnMVF8SEnCI
+         j0KZmLvh0tMojxVNRfJtFZWRAAO92eAtbP3PYfGYaVnaJpapzg88uJOvVpXuLvd3Y31j
+         AKwKaS22C0VKb72W/m8/Q1jDCFbUKDSWf85i6mgu+K+be18v6+IxKiyJofPqSJM6cURQ
+         nnk/LZEFI+fzNkBl2fFKzTTdaV0UpJcZSFWVB0yBPWuSQZicOORj4XbvRCZFzgPvjeFu
+         fhSzKe9LBHaoJ30XeHwEWeOyS2Ts+gZ3wxT0wJaA+vT6NRyzsy90Xuq1W6F6bd4mIywD
+         IIHw==
+X-Gm-Message-State: AOAM5308v9K5BrmTmBLDdGQBI1nByPSdjWMQ2l2VpQ7aT9o90OGewHYS
+	rUCfKf5CS9g5zLLp7GA+Ro4=
+X-Google-Smtp-Source: ABdhPJwKB+9hf7uTGd/AXV++CixDQBYO/uEV3OiauvR67rJcKIGNogdhXncl+HYbDsCYlogJaxW0qg==
+X-Received: by 2002:a65:6118:: with SMTP id z24mr4016232pgu.325.1627033558809;
+        Fri, 23 Jul 2021 02:45:58 -0700 (PDT)
+Received: from localhost.localdomain ([103.238.106.236])
+        by smtp.gmail.com with ESMTPSA id r128sm5178461pfc.155.2021.07.23.02.45.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Jul 2021 02:45:57 -0700 (PDT)
+From: Jignesh Patel <jigs0101@gmail.com>
+To: 
+Cc: jigs0101@gmail.com,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Martin Kaiser <martin@kaiser.cx>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Ivan Safonov <insafonov@gmail.com>,
+	Paul McQuade <paulmcquad@gmail.com>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8188eu: Line over 100 characters
+Date: Fri, 23 Jul 2021 15:15:16 +0530
+Message-Id: <20210723094524.8811-1-jigs0101@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210723085145.1ce7ee5c@canb.auug.org.au> <20210723003607.64179-1-yzhai003@ucr.edu>
- <20210723081034.GD1931@kadam>
-In-Reply-To: <20210723081034.GD1931@kadam>
-From: Yizhuo Zhai <yzhai003@ucr.edu>
-Date: Fri, 23 Jul 2021 02:19:08 -0700
-Message-ID: <CABvMjLQ5PW+cddeYCgiR4xx9dKWVdKsaJLrUYFPMmsOLk+a1HA@mail.gmail.com>
-Subject: Re: [PATCH v4] media: atomisp: fix the uninitialized use and rename "retvalue"
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Juan Antonio Aldea-Armenteros <juant.aldea@gmail.com>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Dan:
-I updated the fix tag in this version, I would sign the patch using my
-full name, thanks.
+Break lines into multiple lines to respect 100 character width limit.
+Reported by checkpatch.pl
 
-On Fri, Jul 23, 2021 at 1:11 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
-> On Fri, Jul 23, 2021 at 12:36:04AM +0000, Yizhuo wrote:
-> > Inside function mt9m114_detect(), variable "retvalue" could
-> > be uninitialized if mt9m114_read_reg() returns error, however, it
-> > is used in the later if statement, which is potentially unsafe.
-> >
-> > The local variable "retvalue" is renamed to "model" to avoid
-> > confusion.
-> >
-> > Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
-> > Signed-off-by: Yizhuo <yzhai003@ucr.edu>
-> > ---
->
-> Is your full name just Yizhuo or Yizhuo Zhai?  Please use your legal
-> name as if you were signing a legal document.
->
-> I don't think you have changed anything in this version?  It's basically
-> a resend of the patch from Jun 25?  Please put that information under
-> the --- cut off.
->
-> Looks okay to me.
->
-> Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
->
-> regards,
-> dan carpenter
->
+Signed-off-by: Jignesh Patel <jigs0101@gmail.com>
+---
+ drivers/staging/rtl8188eu/core/rtw_ap.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-
+diff --git a/drivers/staging/rtl8188eu/core/rtw_ap.c b/drivers/staging/rtl8188eu/core/rtw_ap.c
+index b817aa8b9de4..a6e756720214 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_ap.c
++++ b/drivers/staging/rtl8188eu/core/rtw_ap.c
+@@ -254,9 +254,12 @@ void expire_timeout_chk(struct adapter *padapter)
+ 			updated = ap_free_sta(padapter, psta, true,
+ 					      WLAN_REASON_DEAUTH_LEAVING);
+ 		} else {
+-			/* TODO: Aging mechanism to digest frames in sleep_q to avoid running out of xmitframe */
++			/* TODO: Aging mechanism to digest frames in
++			 * sleep_q to avoid running out of xmitframe
++			 */
+ 			if (psta->sleepq_len > (NR_XMITFRAME / pstapriv->asoc_list_cnt) &&
+-			    padapter->xmitpriv.free_xmitframe_cnt < (NR_XMITFRAME / pstapriv->asoc_list_cnt / 2))
++			    padapter->xmitpriv.free_xmitframe_cnt <
++			    (NR_XMITFRAME / pstapriv->asoc_list_cnt / 2))
+ 				wakeup_sta_to_xmit(padapter, psta);
+ 		}
+ 	}
 -- 
-Kind Regards,
+2.25.1
 
-Yizhuo Zhai
-
-Computer Science, Graduate Student
-University of California, Riverside
