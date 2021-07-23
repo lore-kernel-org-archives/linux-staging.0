@@ -1,93 +1,120 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5740A70
-	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 09:45:59 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id a17-20020a17090abe11b0290173ce472b8aso8139689pjs.2
-        for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 02:45:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mfGDF3uxVEu2CK16/T6WliIzRL7c2dB7pkWJyLpg0nw=;
-        b=BYo5Bf7lGW+EKFn81RdiFPwr46xq3jY8JZ8beejibvqEBlFHayDdp55l5Zaa3PiSCy
-         rseLyb/6g1GH/bj7g+Akk4QqHOb47PFQMRKtH7LB5v15nYO8cP7bWngHvCPriBJq6PdO
-         dIwyrMsXS4QrEHcEpGyP01zA7CGiIdT7QUzIeAjWywoxycJNI9REexJx147i8w3H3ub8
-         On7dprLZeVUkvOVo2pXD9tQ3kKvBagQRZW0bccqsj+ftIpyRLb6Ncs0bOdJpbzETG/yW
-         FO1uf+r5fJpDKxplLYr2pJVkztvlsFS14jV1N8in4X0j00VnhP2E2Yy38qYz6WaJSjrf
-         ikfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mfGDF3uxVEu2CK16/T6WliIzRL7c2dB7pkWJyLpg0nw=;
-        b=cWu33MUUnmHLPVYNtFbgfWaCBymyqIKrlI2nEEqqOrrQCp7oKY1z9VaFnMVF8SEnCI
-         j0KZmLvh0tMojxVNRfJtFZWRAAO92eAtbP3PYfGYaVnaJpapzg88uJOvVpXuLvd3Y31j
-         AKwKaS22C0VKb72W/m8/Q1jDCFbUKDSWf85i6mgu+K+be18v6+IxKiyJofPqSJM6cURQ
-         nnk/LZEFI+fzNkBl2fFKzTTdaV0UpJcZSFWVB0yBPWuSQZicOORj4XbvRCZFzgPvjeFu
-         fhSzKe9LBHaoJ30XeHwEWeOyS2Ts+gZ3wxT0wJaA+vT6NRyzsy90Xuq1W6F6bd4mIywD
-         IIHw==
-X-Gm-Message-State: AOAM5308v9K5BrmTmBLDdGQBI1nByPSdjWMQ2l2VpQ7aT9o90OGewHYS
-	rUCfKf5CS9g5zLLp7GA+Ro4=
-X-Google-Smtp-Source: ABdhPJwKB+9hf7uTGd/AXV++CixDQBYO/uEV3OiauvR67rJcKIGNogdhXncl+HYbDsCYlogJaxW0qg==
-X-Received: by 2002:a65:6118:: with SMTP id z24mr4016232pgu.325.1627033558809;
-        Fri, 23 Jul 2021 02:45:58 -0700 (PDT)
-Received: from localhost.localdomain ([103.238.106.236])
-        by smtp.gmail.com with ESMTPSA id r128sm5178461pfc.155.2021.07.23.02.45.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jul 2021 02:45:57 -0700 (PDT)
-From: Jignesh Patel <jigs0101@gmail.com>
-To: 
-Cc: jigs0101@gmail.com,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Martin Kaiser <martin@kaiser.cx>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Ivan Safonov <insafonov@gmail.com>,
-	Paul McQuade <paulmcquad@gmail.com>,
-	Phillip Potter <phil@philpotter.co.uk>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB9970
+	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 10:24:01 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by comms.puri.sm (Postfix) with ESMTP id 28BBDDFDE5;
+	Fri, 23 Jul 2021 03:23:55 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id oK8xjK8x_jat; Fri, 23 Jul 2021 03:23:54 -0700 (PDT)
+From: Martin Kepplinger <martin.kepplinger@puri.sm>
+To: laurent.pinchart@ideasonboard.com,
+	shawnguo@kernel.org
+Cc: devicetree@vger.kernel.org,
+	festevam@gmail.com,
+	kernel@pengutronix.de,
+	kernel@puri.sm,
+	krzk@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-imx@nxp.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8188eu: Line over 100 characters
-Date: Fri, 23 Jul 2021 15:15:16 +0530
-Message-Id: <20210723094524.8811-1-jigs0101@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	m.felsch@pengutronix.de,
+	mchehab@kernel.org,
+	phone-devel@vger.kernel.org,
+	robh@kernel.org,
+	slongerbeam@gmail.com,
+	Martin Kepplinger <martin.kepplinger@puri.sm>
+Subject: [PATCH v8 0/3] media: imx: add support for imx8mq MIPI RX
+Date: Fri, 23 Jul 2021 12:12:14 +0200
+Message-Id: <20210723101217.1954805-1-martin.kepplinger@puri.sm>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Break lines into multiple lines to respect 100 character width limit.
-Reported by checkpatch.pl
+hi,
 
-Signed-off-by: Jignesh Patel <jigs0101@gmail.com>
----
- drivers/staging/rtl8188eu/core/rtw_ap.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+This patch series adds a driver for the i.MX8MQ CSI MIPI receiver / controller.
 
-diff --git a/drivers/staging/rtl8188eu/core/rtw_ap.c b/drivers/staging/rtl8188eu/core/rtw_ap.c
-index b817aa8b9de4..a6e756720214 100644
---- a/drivers/staging/rtl8188eu/core/rtw_ap.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_ap.c
-@@ -254,9 +254,12 @@ void expire_timeout_chk(struct adapter *padapter)
- 			updated = ap_free_sta(padapter, psta, true,
- 					      WLAN_REASON_DEAUTH_LEAVING);
- 		} else {
--			/* TODO: Aging mechanism to digest frames in sleep_q to avoid running out of xmitframe */
-+			/* TODO: Aging mechanism to digest frames in
-+			 * sleep_q to avoid running out of xmitframe
-+			 */
- 			if (psta->sleepq_len > (NR_XMITFRAME / pstapriv->asoc_list_cnt) &&
--			    padapter->xmitpriv.free_xmitframe_cnt < (NR_XMITFRAME / pstapriv->asoc_list_cnt / 2))
-+			    padapter->xmitpriv.free_xmitframe_cnt <
-+			    (NR_XMITFRAME / pstapriv->asoc_list_cnt / 2))
- 				wakeup_sta_to_xmit(padapter, psta);
- 		}
- 	}
+It includes the driver, the dt-bindings and the DT addition to the SoC dtsi.
+I test it using libcamera. Thanks to Laurent who helped a lot. I'm happy for
+any feedback,
+
+                           martin
+
+revision history
+----------------
+v8: (thank you Laurent)
+* calculate hs_settle for any clk rate and mode
+* add reviewed-by tag
+
+v7: (thank you Laurent and Rob)
+* fix the binding example (include the reset driver)
+* use pm_runtime_resume_and_get()
+* fix some logic in init_cfg()
+* add some useful code comments and fix minor bits found by Laurent in v6
+https://lore.kernel.org/linux-media/20210716102244.581182-1-martin.kepplinger@puri.sm/T/#t
+
+v6: (thank you Laurent and Rob)
+* add reviewed-by tag to binding
+* statically allocate clk_bulk_data
+* fix how the hs_settle value is applied
+* remove s_power calls
+* remove the link_setup() callback implementation and make the link immutable
+* more cleanups according to Laurents' review from v5
+https://lore.kernel.org/linux-media/20210714111931.324485-1-martin.kepplinger@puri.sm/
+
+v5: (thank you Laurent)
+* fix reset usage by using the already supported reset controller driver
+* remove clko2 (totally unrelated clock / had been included by accident)
+* rename pxl clock to ui
+https://lore.kernel.org/linux-media/20210618095753.114557-1-martin.kepplinger@puri.sm/
+
+v4: (thank you Rob and Marco)
+* create fsl,mipi-phy-gpr custom dt property instead of confusing "phy"
+* add imx8mq-specific compatibile to imx8mq.dtsi for future use
+https://lore.kernel.org/linux-media/20210614121522.2944593-1-martin.kepplinger@puri.sm/
+
+v3: (thank you, Rob and Laurent)
+among minor other things according to v2 review, changes include:
+* better describe the clocks
+* rename DT property "phy-reset" to "reset" and "phy-gpr" to "phy"
+https://lore.kernel.org/linux-media/20210608104128.1616028-1-martin.kepplinger@puri.sm/T/#t
+
+v2: (thank you, Dan and Guido)
+among fixes according to v1 reviews, changes include:
+* remove status property from dt-bindings example
+* define a few bits in order to have less magic values
+* use "imx8mq_mipi_csi_" as local function prefix
+* read DT properties only during probe()
+* remove dead code (log_status)
+* add imx8mq_mipi_csi_release_icc()
+* fix imx8mq_mipi_csi_init_icc()
+https://lore.kernel.org/linux-media/20210531112326.90094-1-martin.kepplinger@puri.sm/
+
+v1:
+https://lore.kernel.org/linux-media/20210527075407.3180744-1-martin.kepplinger@puri.sm/T/#t
+
+Martin Kepplinger (3):
+  dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and
+    controller
+  media: imx: add a driver for i.MX8MQ mipi csi rx phy and controller
+  arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
+
+ .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 174 ++++
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 104 ++
+ drivers/staging/media/imx/Makefile            |   1 +
+ drivers/staging/media/imx/imx8mq-mipi-csi2.c  | 979 ++++++++++++++++++
+ 4 files changed, 1258 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+ create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
+
 -- 
-2.25.1
+2.30.2
 
