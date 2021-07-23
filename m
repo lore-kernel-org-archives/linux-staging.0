@@ -1,122 +1,70 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B433570
-	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 18:16:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1627064188;
-	bh=ecvkC8x5/3D59+xc/e4I6ND0hbFLhwax+Ut44N6q2Jc=;
-	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=i4RmDwn9rfZkQpvnyD+5TqEw4w1R19km3lS4+dlPw1Ck2jZBPhkWuvL3HqM8Ti6P8
-	 mR+cIAng+KP0SEDYcMc2RnkoxipetvMxSjx9+wQ0ca025ek1xpWRqtcEInLxVSdvOe
-	 oNlSY6IRcXs5ioSbFlWywTQNuUMNPlE9S7zTbFns=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from titan ([83.52.228.41]) by mail.gmx.net (mrgmx105
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1N1wll-1l5AiT07BZ-012LD4; Fri, 23
- Jul 2021 20:16:28 +0200
-Date: Fri, 23 Jul 2021 20:16:25 +0200
-From: Len Baker <len.baker@gmx.com>
-To: David Laight <David.Laight@ACULAB.COM>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Len Baker <len.baker@gmx.com>, Lee Jones <lee.jones@linaro.org>,
-	Romain Perier <romain.perier@gmail.com>,
-	Allen Pais <apais@linux.microsoft.com>,
-	Dmitrii Wolf <dev.dragon@bk.ru>, Iain Craig <coldcity@gmail.com>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging/rtl8192u: Remove all strcpy() uses in favor of
- strscpy()
-Message-ID: <20210723165353.GD2612@titan>
-References: <20210718113207.10045-1-len.baker@gmx.com>
- <ec6c9adc089849b5984b9273c38efd93@AcuMS.aculab.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F73B72
+	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 19:26:26 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id h10so3035006edv.8
+        for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 12:26:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6ueAuxf/lNyOdA4+vlk737MiUjhl/bLNv0CuGyEc4Nc=;
+        b=mkcnRNu9lAzOTk7nx1T9FtAkop2ntjLzNqVzqavUncUaaWaAAIBOZ4w46oiU1TelsL
+         DzolxOZp2oKOl2ZakRdJHQBN0c7ejEzfGqwzbqcoBR00EoMZ8EtapD4KrY3qLHc+XDb2
+         wTIZ6TOI8fNzbTGCTjoQJ1Ij6N1PsjAXVHMZF3EbiQ8cetduTTOfTjqzKMmJeWCnpwY+
+         UsJbt9hKnH+jJ6IfaLkA3KRf74IDNUIjlnNPjyigvHvQdHwnasP94PVwbQuCF8VK7YcN
+         mh9uv+UZGJrMzYT6WaFPX6VpLmbUqSHDiBlMK1nG8dGkzctbKgaNrrqAZG4chPDhHESE
+         Ovyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6ueAuxf/lNyOdA4+vlk737MiUjhl/bLNv0CuGyEc4Nc=;
+        b=ZUt4ZtmZxWeFEI3Bw7NQ4WN4FMaYhK9uOilejMVqU7+orkKKqklVHJPy6Wj4iNA70G
+         vAavJYJwM9yk4QhZx+68PCq2E/LHqBuRT9lpCIfxVCM82al1zTlhMIbxu9f4O9pkAalV
+         MyKT3wndopXUDN4KHow7oDtMRS8AUm6HgXOXDwQHC1mQAYkNfyUQE1zKadKUquLy091x
+         YBFgJhsPgf++PZwWlM9Bf6enGUuPvm4Kq0z5mvK4XTbRJrUKA8EMtYDFaoRKC6x7Q/L+
+         mbC1n13ExFmXStBf5+h02LFL46Ibj1M0IehMjg+GsDrOnRCwg9HmGNgXlrVZgkL2+oSe
+         zvGA==
+X-Gm-Message-State: AOAM532UimE6FcUvFKPgk4u/eN1Oi+R0823AGobpc9OBCgfxdRQxPdbz
+	DZybRlfC0zL2SlAztQIhYCM=
+X-Google-Smtp-Source: ABdhPJz/6fhKV5eLCepBP2fEQOuL5nmz+UwpzccIToMKBlbEc9cyeqB8eRt6mwF/pfHkTDA5pYok3g==
+X-Received: by 2002:a05:6402:48f:: with SMTP id k15mr7343547edv.262.1627068384510;
+        Fri, 23 Jul 2021 12:26:24 -0700 (PDT)
+Received: from localhost.localdomain (host-79-27-97-200.retail.telecomitalia.it. [79.27.97.200])
+        by smtp.gmail.com with ESMTPSA id v24sm14621129eds.44.2021.07.23.12.26.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Jul 2021 12:26:24 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	David Laight <David.Laight@ACULAB.COM>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v4 0/2] staging: rtl8188eu: Replace a custom function with crc32_le()
+Date: Fri, 23 Jul 2021 21:26:18 +0200
+Message-Id: <20210723192620.10669-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ec6c9adc089849b5984b9273c38efd93@AcuMS.aculab.com>
-X-Provags-ID: V03:K1:84BVanMfKv1FcUJtwjIClWXu88suYQh0HtMUImvBEZxZyNqmKJC
- yKueTsz3rcnIMFGMaErRqwvo/Mtg+M1gD7sh+z4f3HRsNNwcKCs00+xqLk0ZnS+4eyO51Wz
- vmadz9x/OCw0yfcj76L/6Sm2KfcBbzKiaUyk/nAi93OuWQaxbSWBMhns4fhwZZ7MIJLy0oP
- uwFcimyKY4Aj9xz7UIi/g==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9OIW+uX1jEQ=:nGU6ZSl+B1rlp/dVsaTXU3
- FBmHK7/gff2E8TECaL7eFFBDeZ3tXScmZAzWcQ/hf3sgfznFQOmHDtduXfJg8BPR/KZJ9hSrZ
- EqjNaWirjJ4MArFxcWD6EZaUQfXWkiM9ulZeWzrvHy9sPzI2YFzROIS8VmvqBrkG4rUEwX+L3
- 04lsp0W81fowZ26MDsUTUDGJ1XgtiwJ086MU6sY+fAFYh2EuEph7Ptthkaoay3aBqzpOpp2S6
- Y9cezSNSWua2M8mPn0rVoXpKZ/yFoDKnwh8cPu32/CneuVGAeYTT2Er1fJKXYS3CdRsDdMIis
- 9nyd39v1XlApgLtJVZ2QdFr+VmSjNF+h3ox4BMD1vx9yj11p33qgqTX6rbXe5gZMXm2VfLS9Q
- JHUakxzO8+F0rbBPgmgBXFrSgO7iWunURwnFNM8b84JcpZGmGcZ6IAlg7WHQy/GvE9rIME6E9
- BzIN6TJXj21LgopfM2yKD/jvB1hoPd47WSIGfFr8NuwDS7K66Fv3jQc3sCfa2Q1vGivo7pKvR
- PTxtR9AkSdMe5ReF1dV4ew5TBy9lWZn6zDv6txHjkt2G26XYs6pKJkmfbln4MdZXyzyPsDJTU
- jxL/RapepB5wyEdUQZGP2yGdmzPiSNnxfjAz3TK7m2ClIyH1rP/5ANiFLwYfjkjna3q6EpG3X
- T33RHGvF//sUOBNsIIEziRMeh2S+3h/Rl6cM5zOkSOSaxf4FAJvKkhPEdWvdGg9rNwqP+xqZr
- VjGKB/KalMOrPindJhQWFoHZuxLwtRATbAY4BwiFlQvAmecWK7hDsm7mPz7dJpOPMpmspoOCS
- ccPDJUeCzAFC7/BQ5KAnh0+GRAvxNQQxqt5TzqiceRGmff+JSuw5pB4sOcWcT477cM88bf5RY
- PTWHU2nIrC+Tmt3VlfE+cglmXx0s02hYeQWqN1gXa6WeaMSOaRzEWKaLNRM1SUr48CEp7pJsG
- dYiJcIhA8i5QYPdU8/Sshcb43ucEywcaCif/pb26rbwqYZ9CAforKfkysGJz2hTivtufP7inH
- h26nEvYH0v27gVLmQZheZOKSuIXpGuB99rIxDQri0CGVc1vlrQyd62GW9koERG9YVR+EQdATF
- xTVrKciEIpH4b7jCLMFEJhBy0YOd3MZZHKG
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Use kernel API crc32_le() in place of the custom getcrc32(). Remove no
+more used functions and variables after the changes made by patch 1/2.
 
-On Mon, Jul 19, 2021 at 08:49:54AM +0000, David Laight wrote:
-> From: Len Baker
-> > Sent: 18 July 2021 12:32
-> >
-> > strcpy() performs no bounds checking on the destination buffer. This
-> > could result in linear overflows beyond the end of the buffer, leading
-> > to all kinds of misbehaviors. The safe replacement is strscpy().
-> >
-> > Signed-off-by: Len Baker <len.baker@gmx.com>
-> > ---
-> >  drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-> > b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-> > index ab885353f668..1a193f900779 100644
-> > --- a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-> > +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-> > @@ -2226,7 +2226,8 @@ static void ieee80211_start_ibss_wq(struct work_=
-struct *work)
-> >  	mutex_lock(&ieee->wx_mutex);
-> >
-> >  	if (ieee->current_network.ssid_len =3D=3D 0) {
-> > -		strcpy(ieee->current_network.ssid, IEEE80211_DEFAULT_TX_ESSID);
-> > +		strscpy(ieee->current_network.ssid, IEEE80211_DEFAULT_TX_ESSID,
-> > +			sizeof(ieee->current_network.ssid));
->
-> I'm pretty sure that recent compiler releases know enough
-> about strcpy() to error overflows for strcpy() from quoted
-> strings into char[].
->
-> If these checks are enabled for kernel builds then they are
-> actually safer than the run-time check above
-> (which can be mistyped).
->
-> The compiler can (it may not) convert the strcpy() into a memcpy()
-> using the compile-time length of the quoted string.
+Fabio M. De Francesco (2):
+  staging: rtl8188eu: Replace a custom function with crc32_le()
+  staging: rtl8188eu: Remove no more used functions and variables
 
-I agree, but if we want to remove this function entirely from the kernel [=
-1]
-we need to replace all the strcpy() uses as a previous step. And the safe
-replacement is strscpy() [2].
+ drivers/staging/rtl8188eu/core/rtw_security.c | 81 +++++--------------
+ 1 file changed, 19 insertions(+), 62 deletions(-)
 
-[1] https://github.com/KSPP/linux/issues/88
-[2] https://www.kernel.org/doc/html/latest/process/deprecated.html#strcpy
+-- 
+2.32.0
 
-> 	David
->
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK=
-1 1PT, UK
-> Registration No: 1397386 (Wales)
->
-
-Thanks for the feedback,
-Len
