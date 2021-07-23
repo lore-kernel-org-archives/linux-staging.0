@@ -1,98 +1,112 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048A7168
-	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 15:15:03 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id y8so2702322wrt.10
-        for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 08:15:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=39pOG7KH6dy0ZRVssZhlN1lqixZxz0mn8swGZJcTMR4=;
-        b=b1JF8Cu+eJjrR8JqdA4y+VDpmQpSgPEenMFTQyd2RvhhVOLkywVgGcs+PuzwrbMfCK
-         /jGZbX49fD/B/Kqs6e//92fKyEr21MGzSlvjlxM2RMvlJjfZ13ne9qANhIzBSOJUeSPy
-         tjYlJE5xkj/dAnYovPcKURZTuiMDdnp/JM/dl/ERFIjiqxoldmsw331orf1kRMeMgr71
-         18sjRxSOcAk1gkAEZik6SaTjZKeY5snQNOL1JMIyljsol82vsX3qh4HsJ38Y9P7UCxYF
-         PvtXmQXaDw/Y/TrNBQ36axg6p8dJmXhoWw8JEbACG81nWcS5dXVMpVea9XkTh+XPNzbZ
-         AK/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=39pOG7KH6dy0ZRVssZhlN1lqixZxz0mn8swGZJcTMR4=;
-        b=oIiALLV+M4juHOkY4FlQ4YsaiWcWVXh72NFhh3f9Fs10X0CgxBVHMDmuy8zrirI67K
-         gtcwPmv0hhtR1Ll3n8gLBg1s1A30KT4EfndZ7wTpZisXt628DqX+DrygYev2bIT7yAkX
-         5GTUWNaCLOcEtz5p7fSSxLG6G2+NHBp6D02Dh0r2xuD/hohyLA+YrbGSvyrsLi/dN2cf
-         eceqdV1HJoHHmw6oRXGvG3c1VzKBzmxqp7CjzDeKmgLEDpDLntrHY7bIpX7WzQcIvDrZ
-         ZNAlfN+D/AFCwSu0ldxEwtJ2LfHpnoHTmey7gby38M38Sse4u7cChS4Yimf9e0hzHFnr
-         7VOQ==
-X-Gm-Message-State: AOAM530meH341xrPuw+pFMg81CRvGurNWhK/1fXIo+ItsJlCOBU+AlpA
-	+KciaXA5OAmymRF8KvImv3c40g==
-X-Google-Smtp-Source: ABdhPJwna2imf+4K+p4Ok2c6DvThFIDmdtRPfZhsLhiFfOWXxQ6a0iVwK6x2uAyzsF6xkyPUyndz6A==
-X-Received: by 2002:a5d:67cc:: with SMTP id n12mr5986256wrw.131.1627053302394;
-        Fri, 23 Jul 2021 08:15:02 -0700 (PDT)
-Received: from google.com ([31.124.24.141])
-        by smtp.gmail.com with ESMTPSA id p2sm27285395wmg.6.2021.07.23.08.15.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jul 2021 08:15:01 -0700 (PDT)
-Date: Fri, 23 Jul 2021 16:15:00 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Lucas Henneman <lucas.henneman@linaro.org>
-Cc: greg@kroah.com, forest@alittletooquiet.net,
-	linux-staging@lists.linux.dev, trivial@kernel.org
-Subject: Re: [PATCH 13/15] staging: vt6655: kernel style cleanup of mac.c
-Message-ID: <YPrc9LbZYFkjhbHd@google.com>
-References: <20210723144340.15787-1-lucas.henneman@linaro.org>
- <20210723144340.15787-13-lucas.henneman@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD13F168
+	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 15:15:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=badeba3b8450; t=1627053313;
+	bh=OjiRy3yEmPn7YKRxpzy1s0ZNeFE94rnGLnb9AsXrlrs=;
+	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=H1Y1o8/WhCSLA3gc+0iqX22b/7RsEHnJ+T3K35hIWib/0K6FkHReRw18Lwe8bI2et
+	 SGrfYjew+nX3eCngJhp4bJINYwa93afwF8BWifjCBUWOAEonZyleQtHHs2hyRhY01G
+	 IwJp/GENms9sZCLvGyVZ4cqetB01vaPu1xhJaQZ0=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from titan ([83.52.228.41]) by mail.gmx.net (mrgmx004
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1N0X8o-1lCcqr2KVI-00wX6P; Fri, 23
+ Jul 2021 17:15:13 +0200
+Date: Fri, 23 Jul 2021 17:15:10 +0200
+From: Len Baker <len.baker@gmx.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>,
+	David Laight <David.Laight@ACULAB.COM>
+Cc: Len Baker <len.baker@gmx.com>, Larry Finger <Larry.Finger@lwfinger.net>,
+	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging/rtl8712: Remove all strcpy() uses in favor of
+ strscpy()
+Message-ID: <20210723151510.GB2612@titan>
+References: <20210717155145.15041-1-len.baker@gmx.com>
+ <20210719053747.GN1931@kadam>
+ <de94438319a84e0985b3ba0f5c00807b@AcuMS.aculab.com>
+ <20210721080624.GV1931@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210723144340.15787-13-lucas.henneman@linaro.org>
+In-Reply-To: <20210721080624.GV1931@kadam>
+X-Provags-ID: V03:K1:EjRz48SDHlgr1UpUhBNgHpxEM7iMvIZeYSbMqtOd1Qri1AfHw4I
+ rJ8JN6O4hqGwyTqfQgAAa79cnga98vlF3R/AeoCXJMUuBBVEM7AN/b2gMJKvDdoL5KRjeu/
+ tovnT0UgvwdS5yr+DGM/NkVq5ZdlXaa5FYJU0cu48Xl65UsX07VNdRRzfvrr6NUSauVrMUE
+ Qgi9u0UgkDwUkEGbx+lug==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ojBJ4x3ZywM=:h8VEkbI3Xfc0vDCVs9p+5D
+ bqZ5qDKdnnBaJRewL45NwPqchkzMZRs3ujPsDHwnzZLdzXD8ivKqQHDXdPd+oF2tWzjnb06Tt
+ vb+cOG9kzhhZpCLpDRa8eLLwdO3bHosmcPg8p454Oj/4cMcngizLidvch0NNgIRTm/v6zUD5s
+ wxtSZnmKHsbGsuUYzyyg4LVNWh5Jz5YxM8qj4LwD3zqBZWAZvSVNhqhjy0yUGfMrVRzf6ZbXp
+ D7eukbykaSIw4SGWKyA/StUF71DAHH2mB37pJQUmthF27uWVFaU8lHmwrH6IturgtHQYSKlGz
+ rF53Dcx9kzSxizsAMT4wQStt6O8wHlyg1PEpFpnnllknfoCjFfZ86KmtIKbqIJfxaDIoKb8cR
+ KASpUSk7nUiRlgpAJGR/Cx4/xx/P76kujEjj3GiITHdlKFd/CKeepGrHdmqVgA+cGkzHs5bOz
+ bouLDJ7IJK52zV+tRuamR9n/knyjaA8oPAHmjx2yEtmmzryhB34YkG4LzyLyne0X53MxHyjmt
+ gqgWmQ5g8WsgHUzA6ooFyQTlOMXv9OdYhvyiqzX55xYtSObqKw1QTZ4JXU0J+b2Z0MwO9n1Tw
+ AYCSnqPrmcVrZHjaOXTxb0FNpTPL/G7mo4kdBEPlG0kkk7ZfQfJ00+BO3wSb8RQoSt2qHyFrt
+ SUUy47HmqwoRu9T8ghOcGUoCgAIsYbmrR0j+xTu9XkzSdArlgMbthdHneqiEn7R9LKDxOjxp1
+ 2PLlpn7FAtzJezVh2TFHBJ39bPA4jI+eP55n5NzXPYdatAPbSawvrrNz92/oFSZdM+Rg4wd8K
+ 5wM534+63/Pb85RCv8j3eEXvkkE+FLseNBtng0cTpuXBKJdFE1JdLowEn41wEO87DVJKCvZpd
+ I/hURtPc3V45BPDCND2+lmZRhujieyXahNLamq5lP2t1Q0uTkMQLmLua8UU6TrTL/EgZcV0RZ
+ 33lNN+BOtQg3Dkaij4um2v4VSt/n1zXfkjxiTKKi5RGolzeBbyaTKo9QILQKv9CpVd3B/ScNo
+ CSjoH89x1JP9spRj0LL2vQ5TjGZ02LPfkdm/olRI2eXLFpHZRa63MNsIRwKuwbBuq4+KXQOC3
+ IAXzqlhHgp88dpXZzruNW+LX1KhiQFQZr7q
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 23 Jul 2021, Lucas Henneman wrote:
+Hi,
 
-> This patch removes from mac.c the file name and an ftrace-like pr_debug
-> per checkpatch's two warnings.
+On Wed, Jul 21, 2021 at 11:06:24AM +0300, Dan Carpenter wrote:
+> On Mon, Jul 19, 2021 at 03:24:38PM +0000, David Laight wrote:
+> > From: Dan Carpenter
+> > > Sent: 19 July 2021 06:38
+> > ...
+> > > Not related to your patch but this code is bad.  What it does is the
+> > > "ifname" can be set as a module parameter.  So instead of testing if=
+ it
+> > > has been set, it uses the checking inside dev_alloc_name() to see if=
+ we
+> > > can allocate what the user requested.  If not then set it to "wlan%d=
+".
+> > > If we cannot allocate what the user wants then we should return an
+> > > error.
+> > >
+> > > It should do:
+> > >
+> > > 	if (ifname[0] =3D=3D '\0')
+> > > 		strscpy(ifname, "wlan%d", sizeof(ifname));
+> > >
+> > > 	ret =3D dev_alloc_name(pnetdev, ifname);
+> > > 	if (ret < 0) {
+> > > 		dev_err(pnetdev, "allocating device name failed.\n");
+> > > 		return NULL;
+> > > 	}
+> >
+> > I know only root can set module parameters, but having one
+> > that contains a string used as a printf format seems
+> > dangerous at best.
+> >
+> > Isn't it best to let userspace rename the interfaces later on?
+>
+> Yeah.  I think you're right.
 
-Please add the warning verbatim.
+Sorry, but I don't understand if the code needs to be improved or not.
+Is the code shown by Dan not correct?
 
-> Signed-off-by: Lucas Henneman <lucas.henneman@linaro.org>
-> ---
->  drivers/staging/vt6655/mac.c | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/drivers/staging/vt6655/mac.c b/drivers/staging/vt6655/mac.c
-> index f5ae7f1f5689..9721c2234bf2 100644
-> --- a/drivers/staging/vt6655/mac.c
-> +++ b/drivers/staging/vt6655/mac.c
-> @@ -3,8 +3,6 @@
->   * Copyright (c) 1996, 2003 VIA Networking Technologies, Inc.
->   * All rights reserved.
->   *
-> - * File: mac.c
-> - *
->   * Purpose:  MAC routines
->   *
->   * Author: Tevin Chen
-> @@ -775,7 +773,6 @@ void MACvSetKeyEntry(struct vnt_private *priv, unsigned short wKeyCtl,
->  	if (byLocalID <= 1)
->  		return;
->  
-> -	pr_debug("%s\n", __func__);
->  	offset = MISCFIFO_KEYETRY0;
->  	offset += (uEntryIdx * MISCFIFO_KEYENTRYSIZE);
->  
+>
+> regards,
+> dan carpenter
+>
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Thanks for your time,
+Len
