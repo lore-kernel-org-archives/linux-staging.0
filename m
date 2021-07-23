@@ -1,636 +1,175 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429CA2FB0
-	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 07:40:13 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9CC5060E8E;
-	Fri, 23 Jul 2021 07:40:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1627026012;
-	bh=902WST9JYHDEc95poMl2GuMszQV1Gk2ljox5IvYUezE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Rq3LEck48UYag3I8PDoc5MmIyBaSfWiZtGpXMvileekQ1NSWebzIi48Jbr5+MvadL
-	 1FCISEq9Xrva3PiruAOQAyJ4vt3j7sl+LjWiMujpP/BlLLMixDg5x6pGZRLCdeULH4
-	 he0h/pm+C1KhmX3uT/tgKiWD3KY+2HTQLMb5QY2mCEZj4WJkfzeFK7DxUl47nPsh9g
-	 F/uyB4Odx7bOM4EXYfGtgguYEf+lf8I/A0uwQbFSUq/FaT7vPPp3mtevTFT1OG8JoE
-	 aHyIeW8fmh+IRYVAIKDrimgzBaYWd8/PAzdQy1/mIQ8CrHG71N+zS9EAfOcLF/R4r/
-	 YE1DfLrFfNylg==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-	(envelope-from <mchehab@kernel.org>)
-	id 1m6pn0-00A6vK-Hd; Fri, 23 Jul 2021 09:40:10 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linuxarm@huawei.com,
-	mauro.chehab@huawei.com,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Lee Jones <lee.jones@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v15 1/3] mfd: hi6421-spmi-pmic: move driver from staging
-Date: Fri, 23 Jul 2021 09:40:06 +0200
-Message-Id: <dd150f3ffa19c2dda0171f7dbe1dd63cce2a7af5.1627025657.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1627025657.git.mchehab+huawei@kernel.org>
-References: <cover.1627025657.git.mchehab+huawei@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6DA72
+	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 08:11:03 +0000 (UTC)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16N87J6k017677;
+	Fri, 23 Jul 2021 08:10:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=p9Lrxkg3uGsi8uQvirpTJdtCBRDGqqfWg2rYagXqtzU=;
+ b=lRf6/CjdAt5MQZgbZ++55o6iiMJ22JFlrNEzvaDuYjP5CVgwUkR16ZW/k2C67LGm+o5c
+ 20TcQ8iCOzAqwnyhSuevgJlKWAcbgiVqnS95t6a0x1eVdNHyA1BGx84GG/PphtOYDP5x
+ Ri5EcgDcUcKMP4iQ+Bqh/uAusqP6YINy5tUOM2/SR3AsBvGd5vaK2sQ5aY7P8pSY2ZzI
+ J+qjLRDFaMA1DLBWfc0KfyX4DU0qUAv3P8W8petJy4gQOmQVqhCwqG33MdCiL+sMCq9T
+ 8nyNF3F78LiqyVrz67xY19Ermm7n65mpVuKidhZqIrHFNteXv5PpEy2QOd8qFS+JV1u3 Gw== 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2020-01-29;
+ bh=p9Lrxkg3uGsi8uQvirpTJdtCBRDGqqfWg2rYagXqtzU=;
+ b=NiqJesQH7ry4HUz1l0P1ASbuaOs6/ASeNE6hHs2COVr2qx6yaM2PHF5DQhyKMM1HAExn
+ Gl65eJkKnplSnKUYG+AJSoOVJOvqLTkDeDuUsI9ayj4GwolOjkaapnpSPGyIdI2q9DRq
+ y0mhq0tQwHw5iCxp5z6vXljNQlS422eL+MUXDsT5VIu9o1HnS2fVhzYkNw7c/98oSGBM
+ Sodg3E1K9gAwFGIZyDBhTV23tVLjguwa5TZBaqWOfpj3d2c+jBzK8YwPv8J/PT96a4uj
+ YoVwvqX0kXVZ81SqALrnce0l8rSZImIM9EK+CnB2Pj+bXhciZapTBk91Q3mUzBRd6bA0 Gg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by mx0b-00069f02.pphosted.com with ESMTP id 39xvm7u9bt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 23 Jul 2021 08:10:59 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16N85SH1101141;
+	Fri, 23 Jul 2021 08:10:58 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2171.outbound.protection.outlook.com [104.47.59.171])
+	by aserp3030.oracle.com with ESMTP id 39wunqggd9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 23 Jul 2021 08:10:58 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IHeIEvePkxJRoVgMTlPcRKX1uJPiaqkvZ42gxhjREkkWM+UgxHDEJ9DZqWjI9R5a7IFUl3fAllsvo4aw2FJEY5LXjnsMGAmSvEdCDM04szHBu6VkP/oadqoFn4Tbfncv3gRo77YBvAPU90fPnkuFk3eFlN/AYqE/bitwtY4Lc02/+hLzCaFW1+hHhQPbZiUlVT4Oy1QgsKJ4b69Az+7Y84HeYU3SZ8Auv9HJqTwYBxf2Luy3yxYV+pez95PJtSj6QjP49awTYUZlRD98oIGon+VPKY/RmLRhihUVYY8nIJfvncYRGB6P1aPutnU+H7c4a0fqQ0zzmMEufyg4lUJMyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p9Lrxkg3uGsi8uQvirpTJdtCBRDGqqfWg2rYagXqtzU=;
+ b=jO4OIE87pqBzMDMyLyZtRS7ZDPmnMso9Py60fy80i7roJOyA95agM2fzum6IGS1WFeUF2dSOE9pAz+rMdDLhoiBmNskYGOiaxwnlU6xkKXG3ZC4VLYnEVKn4A/YZZS1owrjv7xYf7Ptlcn6EQvPLvLOoGl7XC80VphFGe8CH+nEtrs62p2zYmCAWnXtjV/hD00b571m4wX+8Y/955xuH607BqbNB1xZ8PWjQnFqP8JxaMnyWVUzzLLI47sVyOtNpFDQS/fDX8035+WccnlV7gllO8gfIdOcfUHVtzmumS1Wp+Shmc1WD69kkmN4OUlZ/AgalbH+IZ1+K+bjz2lVPYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p9Lrxkg3uGsi8uQvirpTJdtCBRDGqqfWg2rYagXqtzU=;
+ b=tS66bTB8lPKUMSO2emEjBGCrMXoOgfYpoavoYNPvP+l6CPVgmcLPZ+H4eXU1BLw1LhwKYAgxPYQ/azNnQ/14kmsrE+IHfBohbUeb/Eb85RD3McHTkjagYg3a4Xqzl3szuoKo0zQVzjfuucf2u4HYTkSXbH/wi/NdNlKAvRov7sU=
+Authentication-Results: ucr.edu; dkim=none (message not signed)
+ header.d=none;ucr.edu; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CO1PR10MB4691.namprd10.prod.outlook.com
+ (2603:10b6:303:92::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.25; Fri, 23 Jul
+ 2021 08:10:56 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4331.034; Fri, 23 Jul 2021
+ 08:10:56 +0000
+Date: Fri, 23 Jul 2021 11:10:34 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Yizhuo <yzhai003@ucr.edu>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juan Antonio Aldea-Armenteros <juant.aldea@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] media: atomisp: fix the uninitialized use and rename
+ "retvalue"
+Message-ID: <20210723081034.GD1931@kadam>
+References: <20210723085145.1ce7ee5c@canb.auug.org.au>
+ <20210723003607.64179-1-yzhai003@ucr.edu>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210723003607.64179-1-yzhai003@ucr.edu>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0039.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4e::6)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from kadam (102.222.70.252) by JNAP275CA0039.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4e::6) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.29 via Frontend Transport; Fri, 23 Jul 2021 08:10:50 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b8c95953-7403-4def-9c40-08d94db1657d
+X-MS-TrafficTypeDiagnostic: CO1PR10MB4691:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<CO1PR10MB46917695C9A387ED79A3643C8EE59@CO1PR10MB4691.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	o2UMpgTqw0pN5DQyCa2vGy5cpvI+C1NrRTRktFIHu0lmSJgc+6pmNb+YYvfWT6y3ZD1c8KKxMFdH5kikKeqECFOoW/DA0192vLP4giW5S4CHKpQU9NPAICnfqt77drMGioUipTX+Uyj8zw+U93oHVEtUJdK3/WMtXIzbeHHtmt+LFcL9NqeJ4KxWatRz9Ajc4k1UXkPfoFZ4vWitDQtMEy9n6FLJKun1rH4G14M/qY4coIqMop48xPwFDIcBdNH8d37hai3opPkr2WtEIjk9UsqpSyqfp9ewAPJYVUCtzALnJrsPG3aFl877bepwtKmPVZMEn23rsHPfDWCov5GJjyCfMBuRaDXhY6dYp+H7K4rASSUaR0EwQqQ3slaAehsTB9lzKJ45ombQ/DjhEZAyPd+wjTzwY/fmNqmiACe+a912QVCnpNgRQDX9KZR19NiBRh4PcdfD9DXhIxRmetNaqeRTMG1SM49KYzyRB8JOUvmmSsQ0Ro4fJ1xCYWTGhoAMxnGElvgG+Qv2QNSQh/QdULyChRiNatrF+MTcuXzbnv38/COpwpKlS7CbdoQ3L5lFwoqoxhKU0xNZHNeXZ/PP5lJJe3T1tpUDJECo1b+RvJAolhM9pc9YeVD1K2A9x7nX756OHoW7ukOw1TRWAnZD5jCtu4PX2tvznUQRpiQUJvAtvyuL6nK76c6L3eIQouz8n8EVBXburwG6SQNm7P1udA==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(6916009)(6496006)(316002)(54906003)(4744005)(1076003)(52116002)(44832011)(2906002)(5660300002)(38350700002)(38100700002)(508600001)(86362001)(83380400001)(33656002)(8936002)(8676002)(55016002)(9576002)(33716001)(956004)(26005)(66946007)(66476007)(4326008)(6666004)(66556008)(9686003)(186003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?UXoTOdcTdCt1GjnuwN9cmo/lnFLJwUZ98khhGRjeMU9T3Jw+E39R1iLXkhqq?=
+ =?us-ascii?Q?0JCHakr5ki1G1X+Cy78B6p3RR9JTp1YeDdPUdCc64+UO7Evr+RuzE8uL7W6M?=
+ =?us-ascii?Q?m4VgE0gf3TMwY/C8OWrj8TPaqPA4ihdRJeU+YZf7nsCMhr4J5q5rKi6fmR+7?=
+ =?us-ascii?Q?39pRYgMPo+928Ud+gp+M8SQEChza7JucVN/NkwwMzE9uceTsw34KxU1EwfXR?=
+ =?us-ascii?Q?yAiD4B6CQiV86JDREJ7EjT1uyR+v7speWx2YFo47IIa/zH1NoF4nMXTkpQ69?=
+ =?us-ascii?Q?f2QX8as73GtdZ0RXfEHV11JzCkWfHUWuOeobDgM4kLkrYIucydyTbxZhBe5C?=
+ =?us-ascii?Q?jE3GgqMGnqvIklO8FpqE463L5+vJ5nqs8yIgBOK2sKDOVZ73R2bnhl67Ky33?=
+ =?us-ascii?Q?WjgkeGzajUW4J2PVFOTgfX2wPaRf+2D3xWN6CF6FQgdsuS7b2/uNakaulsiO?=
+ =?us-ascii?Q?pmQvvE6DQUA29N6x53NpjzmESqVCaekv/Vy7iHkW4/8gk28tIJETDMe+gGWt?=
+ =?us-ascii?Q?YP4Jc2h81G+IbLtK3W88O2oPths+vTQnTfxnWFYlGjb9gXzezmGCKMM8ocli?=
+ =?us-ascii?Q?O4TXyY2s3Z9YZzxGBS4vdkzTvtV1TQhQ/NTFu252zjWZOYBZ+YiYZLyVwVul?=
+ =?us-ascii?Q?Vo0ZLDmvK+ukmpTKFOkvOPx/trwMeblv7lqaKC0GbiAVG10lqGCmKYtLhlO6?=
+ =?us-ascii?Q?UyUEF8mJ+xxr+4H+7rUxD2ke+zhoq6fctdlkq3wDjGNAUuC9ggNuDZsyBph3?=
+ =?us-ascii?Q?fFUzonvtoxQmJRYOCiBihCW6n5vVFt5au7cSoFogj0yIe+cgCJ4hsO2Bvx3o?=
+ =?us-ascii?Q?cRwczrYQijkbPo5c/c101ZsxeXM3RsSYxa5GX0HAP8kqOiAbjmMeqCS4Y0/n?=
+ =?us-ascii?Q?CZZqiqVhnikAdhQsuKxyfT25cTcB3/3KXd6UmT0R+Msvx1bc5oxR7bWhtCvJ?=
+ =?us-ascii?Q?U29USIk2nK6+tlZdU40QpUv4QT1yM9eg8EjCSRgtYrodu/1SOFPCmKw5S9pG?=
+ =?us-ascii?Q?Hynm5Oi3noQBJm89piL8Mc++M0yQpUTph/S3I1mfgqZVjnLVd79RFWZ5Lj63?=
+ =?us-ascii?Q?U+N6x3hW4YxkkVkOYE/GQ2tabNZDea8pXGRFvWfzb5mINcwkRnl3Lo9z92cq?=
+ =?us-ascii?Q?JDnJ/6VouZ1kU67Fh4rRnLtV/0H6cSso6PPzPiKkyMa3cxZPP3lIkzBMm4rO?=
+ =?us-ascii?Q?QIIrkxOMNtVy4lB3q4HckhQQ4l/ySQfVbcD9iA2rH9UMiL/GjxpKKjR1zcgz?=
+ =?us-ascii?Q?5dTIvPNF4+QFbFpEV1bXDS2C3wT+Ol99k+FUS0oF7MriUHnNuNcro+QLSAjt?=
+ =?us-ascii?Q?XEMJG1mF/QWD3wfU8+N/smNe?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b8c95953-7403-4def-9c40-08d94db1657d
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2021 08:10:56.3822
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JBEjkMzyoXCmXui6gFjs4QKHX3p5VNTu8Tgp2yNasBV0YkS0vkDsUgrCJ23UudKZ2PguDnqcKHWjikCqpRipudv6idwZIIkgQ6rbbur1WR0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4691
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10053 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0 spamscore=0
+ bulkscore=0 mlxlogscore=999 adultscore=0 malwarescore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2107230047
+X-Proofpoint-ORIG-GUID: KVy6VQzOlVy4vQQRw4_JXPmEMsOJinPp
+X-Proofpoint-GUID: KVy6VQzOlVy4vQQRw4_JXPmEMsOJinPp
 
-This driver is ready for mainstream. So, move it out of staging.
+On Fri, Jul 23, 2021 at 12:36:04AM +0000, Yizhuo wrote:
+> Inside function mt9m114_detect(), variable "retvalue" could
+> be uninitialized if mt9m114_read_reg() returns error, however, it
+> is used in the later if statement, which is potentially unsafe.
+> 
+> The local variable "retvalue" is renamed to "model" to avoid
+> confusion.
+> 
+> Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
+> Signed-off-by: Yizhuo <yzhai003@ucr.edu>
+> ---
 
-Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- .../mfd/hisilicon,hi6421-spmi-pmic.yaml       | 136 ++++++++++++++++++
- MAINTAINERS                                   |   7 +
- drivers/mfd/Kconfig                           |  16 +++
- drivers/mfd/Makefile                          |   1 +
- drivers/mfd/hi6421-spmi-pmic.c                |  72 ++++++++++
- drivers/staging/Kconfig                       |   2 -
- drivers/staging/Makefile                      |   1 -
- drivers/staging/hikey9xx/Kconfig              |  19 ---
- drivers/staging/hikey9xx/Makefile             |   3 -
- drivers/staging/hikey9xx/TODO                 |   5 -
- drivers/staging/hikey9xx/hi6421-spmi-pmic.c   |  72 ----------
- .../hikey9xx/hisilicon,hi6421-spmi-pmic.yaml  | 136 ------------------
- 12 files changed, 232 insertions(+), 238 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
- create mode 100644 drivers/mfd/hi6421-spmi-pmic.c
- delete mode 100644 drivers/staging/hikey9xx/Kconfig
- delete mode 100644 drivers/staging/hikey9xx/Makefile
- delete mode 100644 drivers/staging/hikey9xx/TODO
- delete mode 100644 drivers/staging/hikey9xx/hi6421-spmi-pmic.c
- delete mode 100644 drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
+Is your full name just Yizhuo or Yizhuo Zhai?  Please use your legal
+name as if you were signing a legal document.
 
-diff --git a/Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml b/Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
-new file mode 100644
-index 000000000000..cedf9d99a34b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
-@@ -0,0 +1,136 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/mfd/hisilicon,hi6421-spmi-pmic.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: HiSilicon 6421v600 SPMI PMIC
-+
-+maintainers:
-+  - Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-+
-+description: |
-+  HiSilicon 6421v600 should be connected inside a MIPI System Power Management
-+  (SPMI) bus. It provides interrupts and power supply.
-+
-+  The GPIO and interrupt settings are represented as part of the top-level PMIC
-+  node.
-+
-+  The SPMI controller part is provided by
-+  Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
-+
-+properties:
-+  $nodename:
-+    pattern: "pmic@[0-9a-f]"
-+
-+  compatible:
-+    const: hisilicon,hi6421v600-spmi
-+
-+  reg:
-+    maxItems: 1
-+
-+  '#interrupt-cells':
-+    const: 2
-+
-+  interrupt-controller: true
-+
-+  interrupts: true
-+
-+  regulators:
-+    type: object
-+
-+    additionalProperties: false
-+
-+    properties:
-+      '#address-cells':
-+        const: 1
-+
-+      '#size-cells':
-+        const: 0
-+
-+    patternProperties:
-+      '^(ldo|LDO)[0-9]+$':
-+        type: object
-+
-+        $ref: "/schemas/regulator/regulator.yaml#"
-+
-+        unevaluatedProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - regulators
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+
-+    pmic: pmic@0 {
-+      compatible = "hisilicon,hi6421v600-spmi";
-+      reg = <0 0>;
-+
-+      #interrupt-cells = <2>;
-+      interrupt-controller;
-+      interrupt-parent = <&gpio28>;
-+      interrupts = <0 0>;
-+
-+      regulators {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        ldo3: LDO3 {
-+          regulator-name = "ldo3";
-+          regulator-min-microvolt = <1500000>;
-+          regulator-max-microvolt = <2000000>;
-+          regulator-boot-on;
-+        };
-+
-+        ldo4: LDO4 {
-+          regulator-name = "ldo4";
-+          regulator-min-microvolt = <1725000>;
-+          regulator-max-microvolt = <1900000>;
-+          regulator-boot-on;
-+        };
-+
-+        ldo9: LDO9 {
-+          regulator-name = "ldo9";
-+          regulator-min-microvolt = <1750000>;
-+          regulator-max-microvolt = <3300000>;
-+          regulator-boot-on;
-+        };
-+
-+        ldo15: LDO15 {
-+          regulator-name = "ldo15";
-+          regulator-min-microvolt = <1800000>;
-+          regulator-max-microvolt = <3000000>;
-+          regulator-always-on;
-+        };
-+
-+        ldo16: LDO16 {
-+          regulator-name = "ldo16";
-+          regulator-min-microvolt = <1800000>;
-+          regulator-max-microvolt = <3000000>;
-+          regulator-boot-on;
-+        };
-+
-+        ldo17: LDO17 {
-+          regulator-name = "ldo17";
-+          regulator-min-microvolt = <2500000>;
-+          regulator-max-microvolt = <3300000>;
-+        };
-+
-+        ldo33: LDO33 {
-+          regulator-name = "ldo33";
-+          regulator-min-microvolt = <2500000>;
-+          regulator-max-microvolt = <3300000>;
-+          regulator-boot-on;
-+        };
-+
-+        ldo34: LDO34 {
-+          regulator-name = "ldo34";
-+          regulator-min-microvolt = <2600000>;
-+          regulator-max-microvolt = <3300000>;
-+        };
-+      };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 672299764ec7..b54bd9dd07ec 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8432,6 +8432,13 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/spmi/hisilicon,hisi-spmi-controller.yaml
- F:	drivers/spmi/hisi-spmi-controller.c
- 
-+HISILICON SPMI PMIC DRIVER FOR HIKEY 6421v600
-+M:	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-+L:	linux-kernel@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
-+F:	drivers/mfd/hi6421-spmi-pmic.c
-+
- HISILICON STAGING DRIVERS FOR HIKEY 960/970
- M:	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
- S:	Maintained
-diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-index 6a3fd2d75f96..01bb42f0ca0b 100644
---- a/drivers/mfd/Kconfig
-+++ b/drivers/mfd/Kconfig
-@@ -510,6 +510,22 @@ config MFD_HI6421_PMIC
- 	  menus in order to enable them.
- 	  We communicate with the Hi6421 via memory-mapped I/O.
- 
-+config MFD_HI6421_SPMI
-+	tristate "HiSilicon Hi6421v600 SPMI PMU/Codec IC"
-+	depends on OF
-+	depends on SPMI
-+	select MFD_CORE
-+	select REGMAP_SPMI
-+	help
-+	  Add support for HiSilicon Hi6421v600 SPMI PMIC. Hi6421 includes
-+	  multi-functions, such as regulators, RTC, codec, Coulomb counter,
-+	  etc.
-+
-+	  This driver includes core APIs _only_. You have to select
-+	  individual components like voltage regulators under corresponding
-+	  menus in order to enable them.
-+	  We communicate with the Hi6421v600 via a SPMI bus.
-+
- config MFD_HI655X_PMIC
- 	tristate "HiSilicon Hi655X series PMU/Codec IC"
- 	depends on ARCH_HISI || COMPILE_TEST
-diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-index 8116c19d5fd4..570b9ffb34d0 100644
---- a/drivers/mfd/Makefile
-+++ b/drivers/mfd/Makefile
-@@ -231,6 +231,7 @@ obj-$(CONFIG_MFD_IPAQ_MICRO)	+= ipaq-micro.o
- obj-$(CONFIG_MFD_IQS62X)	+= iqs62x.o
- obj-$(CONFIG_MFD_MENF21BMC)	+= menf21bmc.o
- obj-$(CONFIG_MFD_HI6421_PMIC)	+= hi6421-pmic-core.o
-+obj-$(CONFIG_MFD_HI6421_SPMI)	+= hi6421-spmi-pmic.o
- obj-$(CONFIG_MFD_HI655X_PMIC)   += hi655x-pmic.o
- obj-$(CONFIG_MFD_DLN2)		+= dln2.o
- obj-$(CONFIG_MFD_RT4831)	+= rt4831.o
-diff --git a/drivers/mfd/hi6421-spmi-pmic.c b/drivers/mfd/hi6421-spmi-pmic.c
-new file mode 100644
-index 000000000000..4f136826681b
---- /dev/null
-+++ b/drivers/mfd/hi6421-spmi-pmic.c
-@@ -0,0 +1,72 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Device driver for regulators in HISI PMIC IC
-+ *
-+ * Copyright (c) 2013 Linaro Ltd.
-+ * Copyright (c) 2011 Hisilicon.
-+ * Copyright (c) 2020-2021 Huawei Technologies Co., Ltd.
-+ */
-+
-+#include <linux/mfd/core.h>
-+#include <linux/mfd/hi6421-spmi-pmic.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+#include <linux/slab.h>
-+#include <linux/spmi.h>
-+
-+static const struct mfd_cell hi6421v600_devs[] = {
-+	{ .name = "hi6421v600-irq", },
-+	{ .name = "hi6421v600-regulator", },
-+};
-+
-+static const struct regmap_config regmap_config = {
-+	.reg_bits	= 16,
-+	.val_bits	= BITS_PER_BYTE,
-+	.max_register	= 0xffff,
-+	.fast_io	= true
-+};
-+
-+static int hi6421_spmi_pmic_probe(struct spmi_device *sdev)
-+{
-+	struct device *dev = &sdev->dev;
-+	int ret;
-+	struct hi6421_spmi_pmic *ddata;
-+	ddata = devm_kzalloc(dev, sizeof(*ddata), GFP_KERNEL);
-+	if (!ddata)
-+		return -ENOMEM;
-+
-+	ddata->regmap = devm_regmap_init_spmi_ext(sdev, &regmap_config);
-+	if (IS_ERR(ddata->regmap))
-+		return PTR_ERR(ddata->regmap);
-+
-+	ddata->dev = dev;
-+
-+	dev_set_drvdata(&sdev->dev, ddata);
-+
-+	ret = devm_mfd_add_devices(&sdev->dev, PLATFORM_DEVID_NONE,
-+				   hi6421v600_devs, ARRAY_SIZE(hi6421v600_devs),
-+				   NULL, 0, NULL);
-+	if (ret < 0)
-+		dev_err(dev, "Failed to add child devices: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+static const struct of_device_id pmic_spmi_id_table[] = {
-+	{ .compatible = "hisilicon,hi6421-spmi" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, pmic_spmi_id_table);
-+
-+static struct spmi_driver hi6421_spmi_pmic_driver = {
-+	.driver = {
-+		.name	= "hi6421-spmi-pmic",
-+		.of_match_table = pmic_spmi_id_table,
-+	},
-+	.probe	= hi6421_spmi_pmic_probe,
-+};
-+module_spmi_driver(hi6421_spmi_pmic_driver);
-+
-+MODULE_DESCRIPTION("HiSilicon Hi6421v600 SPMI PMIC driver");
-+MODULE_LICENSE("GPL v2");
-diff --git a/drivers/staging/Kconfig b/drivers/staging/Kconfig
-index c8eaae6412bb..03ee99d98945 100644
---- a/drivers/staging/Kconfig
-+++ b/drivers/staging/Kconfig
-@@ -102,6 +102,4 @@ source "drivers/staging/qlge/Kconfig"
- 
- source "drivers/staging/wfx/Kconfig"
- 
--source "drivers/staging/hikey9xx/Kconfig"
--
- endif # STAGING
-diff --git a/drivers/staging/Makefile b/drivers/staging/Makefile
-index 818b6f964369..9a4c0e6f34d5 100644
---- a/drivers/staging/Makefile
-+++ b/drivers/staging/Makefile
-@@ -41,4 +41,3 @@ obj-$(CONFIG_XIL_AXIS_FIFO)	+= axis-fifo/
- obj-$(CONFIG_FIELDBUS_DEV)     += fieldbus/
- obj-$(CONFIG_QLGE)		+= qlge/
- obj-$(CONFIG_WFX)		+= wfx/
--obj-y				+= hikey9xx/
-diff --git a/drivers/staging/hikey9xx/Kconfig b/drivers/staging/hikey9xx/Kconfig
-deleted file mode 100644
-index 9f53df9068fe..000000000000
---- a/drivers/staging/hikey9xx/Kconfig
-+++ /dev/null
-@@ -1,19 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0
--
--# to be placed at drivers/mfd
--config MFD_HI6421_SPMI
--	tristate "HiSilicon Hi6421v600 SPMI PMU/Codec IC"
--	depends on HAS_IOMEM
--	depends on OF
--	depends on SPMI
--	select MFD_CORE
--	select REGMAP_SPMI
--	help
--	  Add support for HiSilicon Hi6421v600 SPMI PMIC. Hi6421 includes
--	  multi-functions, such as regulators, RTC, codec, Coulomb counter,
--	  etc.
--
--	  This driver includes core APIs _only_. You have to select
--	  individual components like voltage regulators under corresponding
--	  menus in order to enable them.
--	  We communicate with the Hi6421v600 via a SPMI bus.
-diff --git a/drivers/staging/hikey9xx/Makefile b/drivers/staging/hikey9xx/Makefile
-deleted file mode 100644
-index e3108d7dd849..000000000000
---- a/drivers/staging/hikey9xx/Makefile
-+++ /dev/null
-@@ -1,3 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0
--
--obj-$(CONFIG_MFD_HI6421_SPMI)		+= hi6421-spmi-pmic.o
-diff --git a/drivers/staging/hikey9xx/TODO b/drivers/staging/hikey9xx/TODO
-deleted file mode 100644
-index 65e7996a3066..000000000000
---- a/drivers/staging/hikey9xx/TODO
-+++ /dev/null
-@@ -1,5 +0,0 @@
--ToDo list:
--
--- Port other drivers needed by Hikey 960/970;
--- Test drivers on Hikey 960;
--- Validate device tree bindings.
-diff --git a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c b/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
-deleted file mode 100644
-index 4f136826681b..000000000000
---- a/drivers/staging/hikey9xx/hi6421-spmi-pmic.c
-+++ /dev/null
-@@ -1,72 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/*
-- * Device driver for regulators in HISI PMIC IC
-- *
-- * Copyright (c) 2013 Linaro Ltd.
-- * Copyright (c) 2011 Hisilicon.
-- * Copyright (c) 2020-2021 Huawei Technologies Co., Ltd.
-- */
--
--#include <linux/mfd/core.h>
--#include <linux/mfd/hi6421-spmi-pmic.h>
--#include <linux/module.h>
--#include <linux/platform_device.h>
--#include <linux/regmap.h>
--#include <linux/slab.h>
--#include <linux/spmi.h>
--
--static const struct mfd_cell hi6421v600_devs[] = {
--	{ .name = "hi6421v600-irq", },
--	{ .name = "hi6421v600-regulator", },
--};
--
--static const struct regmap_config regmap_config = {
--	.reg_bits	= 16,
--	.val_bits	= BITS_PER_BYTE,
--	.max_register	= 0xffff,
--	.fast_io	= true
--};
--
--static int hi6421_spmi_pmic_probe(struct spmi_device *sdev)
--{
--	struct device *dev = &sdev->dev;
--	int ret;
--	struct hi6421_spmi_pmic *ddata;
--	ddata = devm_kzalloc(dev, sizeof(*ddata), GFP_KERNEL);
--	if (!ddata)
--		return -ENOMEM;
--
--	ddata->regmap = devm_regmap_init_spmi_ext(sdev, &regmap_config);
--	if (IS_ERR(ddata->regmap))
--		return PTR_ERR(ddata->regmap);
--
--	ddata->dev = dev;
--
--	dev_set_drvdata(&sdev->dev, ddata);
--
--	ret = devm_mfd_add_devices(&sdev->dev, PLATFORM_DEVID_NONE,
--				   hi6421v600_devs, ARRAY_SIZE(hi6421v600_devs),
--				   NULL, 0, NULL);
--	if (ret < 0)
--		dev_err(dev, "Failed to add child devices: %d\n", ret);
--
--	return ret;
--}
--
--static const struct of_device_id pmic_spmi_id_table[] = {
--	{ .compatible = "hisilicon,hi6421-spmi" },
--	{ }
--};
--MODULE_DEVICE_TABLE(of, pmic_spmi_id_table);
--
--static struct spmi_driver hi6421_spmi_pmic_driver = {
--	.driver = {
--		.name	= "hi6421-spmi-pmic",
--		.of_match_table = pmic_spmi_id_table,
--	},
--	.probe	= hi6421_spmi_pmic_probe,
--};
--module_spmi_driver(hi6421_spmi_pmic_driver);
--
--MODULE_DESCRIPTION("HiSilicon Hi6421v600 SPMI PMIC driver");
--MODULE_LICENSE("GPL v2");
-diff --git a/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml b/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
-deleted file mode 100644
-index cedf9d99a34b..000000000000
---- a/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
-+++ /dev/null
-@@ -1,136 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0
--%YAML 1.2
-----
--$id: http://devicetree.org/schemas/mfd/hisilicon,hi6421-spmi-pmic.yaml#
--$schema: http://devicetree.org/meta-schemas/core.yaml#
--
--title: HiSilicon 6421v600 SPMI PMIC
--
--maintainers:
--  - Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
--
--description: |
--  HiSilicon 6421v600 should be connected inside a MIPI System Power Management
--  (SPMI) bus. It provides interrupts and power supply.
--
--  The GPIO and interrupt settings are represented as part of the top-level PMIC
--  node.
--
--  The SPMI controller part is provided by
--  Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
--
--properties:
--  $nodename:
--    pattern: "pmic@[0-9a-f]"
--
--  compatible:
--    const: hisilicon,hi6421v600-spmi
--
--  reg:
--    maxItems: 1
--
--  '#interrupt-cells':
--    const: 2
--
--  interrupt-controller: true
--
--  interrupts: true
--
--  regulators:
--    type: object
--
--    additionalProperties: false
--
--    properties:
--      '#address-cells':
--        const: 1
--
--      '#size-cells':
--        const: 0
--
--    patternProperties:
--      '^(ldo|LDO)[0-9]+$':
--        type: object
--
--        $ref: "/schemas/regulator/regulator.yaml#"
--
--        unevaluatedProperties: false
--
--required:
--  - compatible
--  - reg
--  - regulators
--
--additionalProperties: false
--
--examples:
--  - |
--
--    pmic: pmic@0 {
--      compatible = "hisilicon,hi6421v600-spmi";
--      reg = <0 0>;
--
--      #interrupt-cells = <2>;
--      interrupt-controller;
--      interrupt-parent = <&gpio28>;
--      interrupts = <0 0>;
--
--      regulators {
--        #address-cells = <1>;
--        #size-cells = <0>;
--
--        ldo3: LDO3 {
--          regulator-name = "ldo3";
--          regulator-min-microvolt = <1500000>;
--          regulator-max-microvolt = <2000000>;
--          regulator-boot-on;
--        };
--
--        ldo4: LDO4 {
--          regulator-name = "ldo4";
--          regulator-min-microvolt = <1725000>;
--          regulator-max-microvolt = <1900000>;
--          regulator-boot-on;
--        };
--
--        ldo9: LDO9 {
--          regulator-name = "ldo9";
--          regulator-min-microvolt = <1750000>;
--          regulator-max-microvolt = <3300000>;
--          regulator-boot-on;
--        };
--
--        ldo15: LDO15 {
--          regulator-name = "ldo15";
--          regulator-min-microvolt = <1800000>;
--          regulator-max-microvolt = <3000000>;
--          regulator-always-on;
--        };
--
--        ldo16: LDO16 {
--          regulator-name = "ldo16";
--          regulator-min-microvolt = <1800000>;
--          regulator-max-microvolt = <3000000>;
--          regulator-boot-on;
--        };
--
--        ldo17: LDO17 {
--          regulator-name = "ldo17";
--          regulator-min-microvolt = <2500000>;
--          regulator-max-microvolt = <3300000>;
--        };
--
--        ldo33: LDO33 {
--          regulator-name = "ldo33";
--          regulator-min-microvolt = <2500000>;
--          regulator-max-microvolt = <3300000>;
--          regulator-boot-on;
--        };
--
--        ldo34: LDO34 {
--          regulator-name = "ldo34";
--          regulator-min-microvolt = <2600000>;
--          regulator-max-microvolt = <3300000>;
--        };
--      };
--    };
--- 
-2.31.1
+I don't think you have changed anything in this version?  It's basically
+a resend of the patch from Jun 25?  Please put that information under
+the --- cut off.
+
+Looks okay to me.
+
+Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+regards,
+dan carpenter
 
