@@ -1,41 +1,41 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364E62FB3
-	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 14:44:57 +0000 (UTC)
-Received: by mail-qv1-f51.google.com with SMTP id l16so1455271qvw.1
-        for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 07:44:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23C6A2FB2
+	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 14:44:58 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id w10so1797252qtj.3
+        for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 07:44:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=i9lKoJh6A3gY5qBoHYJhYMf8mnZelWzpBJi2pXCLQLs=;
-        b=URP1jAaAgUQo8pBjpe6IXX9titzvAG+qhDTsjy+tTgvBY3cnqZwB9em49vhN58hIFH
-         rejkWLhBbU10yuEOBbVnE+dbQbhl8SZu0vwHJPft4A37chdESQoukMjab/MQAHL14uCU
-         VcRb5O4NOSflnqz5MmFXWXLrupgwRMzkpTJ1ngmmyT17n+39JNn4s628sc7Yq/Z/QYK+
-         EMPKiAQCPOKyDnfAy3NSQuL4plraolP3aSxFuhtzON1/orwdIRTtEZw8sFR2v7osIE2c
-         lA3mvQ09AQdFfw2gZZoZaOFIUGK+/y8n5tBSUU8ExZKixWq8KW+PytRkqpWI3pDV4uMJ
-         nZmA==
+        bh=0WrZChTYr+2yRT96KTHSooltmcWEThpE/fGki1Z+2z4=;
+        b=i5ep01lgPsV5vY+quDTck/LcEqe3g+a99t2WGNoYO5iGV7XBtzxiBviy/tsqDOwWho
+         9WNvfr18tU7TgoJ8N77Wpkm4p76ayoasXfami2oQGjqKVQoXlSp0eIsRsUvoiV209KPo
+         8d9RYGVfeE6nO9/vB/6m6sKBo03SA2uvJJbgY3nB8JKuCWT5fsRODo/92e8jpPSAk8vh
+         r0dD83lhlqV5ZBovr6Rn8Tj2jWrQzcEge53K3woApzEothGnRQImgDztMHc/AnKtXF8Z
+         fAxE5w/PNAWTzRKblpVHOJPz6r/aVzCbu5sOjK48WLlOdddhN8Yso6SOmMMHUA11d8Kp
+         3zQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=i9lKoJh6A3gY5qBoHYJhYMf8mnZelWzpBJi2pXCLQLs=;
-        b=Kp4l1pV2v31ZPC+pok65dd4TTbZfkCM0Cbw/vh4QxPLBhKfm1ClbLsT4nRnMzHOGOP
-         AwNICF3Stx2cdqPQX5qVIKlAZMLajE2n4I5/mbjpef7vzoHk7b4McuDeevzZLisALJ3W
-         2BWY5PFgQdfHaN+8X/th2w14fJ5qQOokGi4WmdHfCv3H3Y+2UTrwG6Ft3U8DWr6+e0mm
-         ZRgXaBCi82Yvptj3W0zqOrafJ4eFCso2JeXQvTscWLBROJU1tGohQiEawGvss/RNIM4k
-         I7zU4ZBRx5Dgr6qETNky5mgrZLafvRg1Xf0VhRd+QKVOVZ0UzXI79KTJCvFGlDb9Fvsi
-         X5wA==
-X-Gm-Message-State: AOAM532+U5KKWEl8i9J3ksrTnAFCJJK3gcbzcmE1XTiK8kxgTUbBjwL5
-	N23AXWsWscLsTOphl9mpkCH8Fw==
-X-Google-Smtp-Source: ABdhPJwbMJ38KNYZ9C7DtDVHfPbZe0nn4I2jwKgPJ1MXrj0uTaRok51cCVjzh8u6GeihH+EYU+DnqA==
-X-Received: by 2002:ad4:518f:: with SMTP id b15mr4856090qvp.52.1627051496249;
-        Fri, 23 Jul 2021 07:44:56 -0700 (PDT)
+        bh=0WrZChTYr+2yRT96KTHSooltmcWEThpE/fGki1Z+2z4=;
+        b=CdyOwMEpJzA5d/ZaQ08YHQ/6Rb0AGC6sIyC7xdgNv5sCr21JKzqAJ2kJ/obzXcIfDl
+         7uYjORX9yQIf4zs0CDyM95/bcOUZUwDRtETOgvduWHLQJP4nRB0+u3wmgS2Q1c/TIEFm
+         xAloGpiX6rpAYUpylKMMdk+jTviLc0orrYfvKSL2YUuilwGqT9dDBU5r0/sO3p5xFTcj
+         ehGcvp4GptsI3rYzrnBi4wdlP/zOpwqQ/9kDecpNc/y/0xM5uvci6nvToV57uYtVc15m
+         Pi3qKNrDpzF+Wmcg07Ece6Red3BEJw9a94yYXPhCBSxT91goTbVCLVe6Gjxz8B1TyH6a
+         dNUQ==
+X-Gm-Message-State: AOAM532Xgr9kObL9jnHRHT37xpiRiQOLPv6o8GM9hV11b40mQ1gchN9Z
+	evOg8i/6xAXCLF+mvrP7l5swSw==
+X-Google-Smtp-Source: ABdhPJy7ZuEM5WLpcVcrACGQaZvv/j7rBExetFWN+w7t1l3Bd9ntT+X7WzOSI8OYG6ZDfKNBT2rxqw==
+X-Received: by 2002:ac8:786:: with SMTP id l6mr4238671qth.387.1627051497253;
+        Fri, 23 Jul 2021 07:44:57 -0700 (PDT)
 Received: from localhost.localdomain ([12.18.220.71])
-        by smtp.gmail.com with ESMTPSA id 100sm3887223qtg.73.2021.07.23.07.44.55
+        by smtp.gmail.com with ESMTPSA id 100sm3887223qtg.73.2021.07.23.07.44.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jul 2021 07:44:55 -0700 (PDT)
+        Fri, 23 Jul 2021 07:44:56 -0700 (PDT)
 From: Lucas Henneman <lucas.henneman@linaro.org>
 To: greg@kroah.com,
 	forest@alittletooquiet.net
@@ -43,9 +43,9 @@ Cc: lee.jones@linaro.org,
 	linux-staging@lists.linux.dev,
 	trivial@kernel.org,
 	Lucas Henneman <lucas.henneman@linaro.org>
-Subject: [PATCH 03/15] staging: vt6655: remove filename from card.c
-Date: Fri, 23 Jul 2021 10:43:28 -0400
-Message-Id: <20210723144340.15787-3-lucas.henneman@linaro.org>
+Subject: [PATCH 04/15] staging: vt6655: remove filename from card.h
+Date: Fri, 23 Jul 2021 10:43:29 -0400
+Message-Id: <20210723144340.15787-4-lucas.henneman@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210723144340.15787-1-lucas.henneman@linaro.org>
 References: <20210723144340.15787-1-lucas.henneman@linaro.org>
@@ -58,25 +58,26 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 This patch resolves checkpatch's warning, "It's generally not useful to
-have the filename in the file" for card.c.
+have the filename in the file" for card.h.
 
 Signed-off-by: Lucas Henneman <lucas.henneman@linaro.org>
 ---
- drivers/staging/vt6655/card.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/vt6655/card.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index 29086189c53a..3ef3a6e0e6e1 100644
---- a/drivers/staging/vt6655/card.c
-+++ b/drivers/staging/vt6655/card.c
-@@ -3,7 +3,6 @@
+diff --git a/drivers/staging/vt6655/card.h b/drivers/staging/vt6655/card.h
+index 568a2ddd6588..09e7f3f1cbed 100644
+--- a/drivers/staging/vt6655/card.h
++++ b/drivers/staging/vt6655/card.h
+@@ -3,8 +3,6 @@
   * Copyright (c) 1996, 2003 VIA Networking Technologies, Inc.
   * All rights reserved.
   *
-- * File: card.c
+- * File: card.h
+- *
   * Purpose: Provide functions to setup NIC operation mode
-  * Functions:
-  *      s_vSafeResetTx - Rest Tx
+  *
+  * Author: Tevin Chen
 -- 
 2.25.1
 
