@@ -1,118 +1,117 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E6D572
-	for <linux-staging@lists.linux.dev>; Sat, 24 Jul 2021 10:44:58 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id c11so6001877plg.11
-        for <linux-staging@lists.linux.dev>; Sat, 24 Jul 2021 03:44:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ZtgMasyH3/dYOIDYLvJAZLai7NTEDCKY0Q4jVq+9j+I=;
-        b=Elk0fdfM2HcilsHejfu6Gph/yKIr+tvcO+EJs4MuuOz5AvZntsUtNZOPEE1nx0F4ea
-         aHllIHhoe6vWqRMYFJjNXX48Feimdp8NYeOlYRUdQO9n3CVuyc1O4W3JMqkHRD1kOPJ5
-         KhXqkg/ATcSpYLT4XCYJmMl2DKU6HS+cMzk8bu6sqKJPXWJy2H9oZhKi/8mdQnenQFcB
-         IteMy3aJtLc6a3yHI5SlEe9L6wE0GI3NQRWu8nQ3EU374/8VQonkftGysdEZBdIwW6pE
-         uy2hidm+CHjZPAmJUuHabMj136ZIf3EcleaLWEZFbloCUfKUw+rblERr/dwKYPHfXL6O
-         TeTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ZtgMasyH3/dYOIDYLvJAZLai7NTEDCKY0Q4jVq+9j+I=;
-        b=qFFM5+auBRSTXV7RjMB6N/jcE3lW8xqWlNbST3jIt1NT1bwfkBBre+G95H/3BfimSF
-         Saku4rTVM584ChdlKJX/Yx4UPove1SItv1xi3z2PJfLuSZ7RB17u+cuVj6IZFoVNB1Aw
-         2vmdE6GpyG3k4w8/d0lF237NtrV5yn6GelGNtS5aammP2lr8ijDWmPbGD6uJuPqiTMcP
-         llKq7izFLG1hfn170Muaq18dC5H2fSKbScj1XzKHM2cGhbBPnMJ2pRFhDVLxE0CG0m0E
-         fjNpUdkq5hFfOCW2L6+Ffz7m7thDUZMX5OjLjp+RMs9nVuE/DdouKztPLgMmufkHwBhU
-         igkg==
-X-Gm-Message-State: AOAM533yoQTfm0LXsM820Qh08scUZLkVQ2bcaGnac1pVewHPjF/WLPz6
-	JjrGEayQqW7QlSvUfePwY6M=
-X-Google-Smtp-Source: ABdhPJw8IRCFGjXrZ8IvIsTAxkGgO4IcBLcVqQXsIN48Kskn9pYa6VnM9ZSJY44EWkljUZz9k4EcEQ==
-X-Received: by 2002:a63:5619:: with SMTP id k25mr9175835pgb.92.1627123497745;
-        Sat, 24 Jul 2021 03:44:57 -0700 (PDT)
-Received: from ojas ([122.161.50.107])
-        by smtp.gmail.com with ESMTPSA id e13sm38213709pfd.11.2021.07.24.03.44.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Jul 2021 03:44:57 -0700 (PDT)
-Date: Sat, 24 Jul 2021 16:14:47 +0530
-From: Ojaswin Mujoo <ojaswin98@gmail.com>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, nsaenz@kernel.org,
-	dan.carpenter@oracle.com, phil@raspberrypi.com,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/5] vchiq: Patch to separate platform and cdev code
-Message-ID: <20210724104447.GA3435@ojas>
-References: <cover.1626882325.git.ojaswin98@gmail.com>
- <YPqh0SHa8n3BugnB@kroah.com>
- <20210723125900.GA279903@ojas>
- <702bc38c-8ea2-eb30-84db-a647140585f6@i2se.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2633472
+	for <linux-staging@lists.linux.dev>; Sat, 24 Jul 2021 11:04:33 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-11-Wgv43lgyNsS-jERKh4_2vw-1; Sat, 24 Jul 2021 12:04:30 +0100
+X-MC-Unique: Wgv43lgyNsS-jERKh4_2vw-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.23; Sat, 24 Jul 2021 12:04:28 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.023; Sat, 24 Jul 2021 12:04:28 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: "'Fabio M. De Francesco'" <fmdefrancesco@gmail.com>, Larry Finger
+	<Larry.Finger@lwfinger.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v3 1/2] staging: rtl8188eu: Replace a custom function with
+ crc32_le()
+Thread-Topic: [PATCH v3 1/2] staging: rtl8188eu: Replace a custom function
+ with crc32_le()
+Thread-Index: AQHXfiEvucvRPynR106nc+5J/iJ13qtPHROQgAGploCAASyokA==
+Date: Sat, 24 Jul 2021 11:04:28 +0000
+Message-ID: <9385be072a3e4d29ad55bb1b27b7ae03@AcuMS.aculab.com>
+References: <20210721110052.26376-1-fmdefrancesco@gmail.com>
+ <20210721110052.26376-2-fmdefrancesco@gmail.com>
+ <f396ffee4a414ee092625ee486b871fe@AcuMS.aculab.com>
+ <3650881.QlJdx9khu8@localhost.localdomain>
+In-Reply-To: <3650881.QlJdx9khu8@localhost.localdomain>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <702bc38c-8ea2-eb30-84db-a647140585f6@i2se.com>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-On Fri, Jul 23, 2021 at 03:31:58PM +0200, Stefan Wahren wrote:
-> Am 23.07.21 um 14:59 schrieb Ojaswin Mujoo:
-> > On Fri, Jul 23, 2021 at 01:02:41PM +0200, Greg KH wrote:
-> >> On Wed, Jul 21, 2021 at 09:50:48PM +0530, Ojaswin Mujoo wrote:
-> >>> Hello,
-> >>>
-> >>> This patchset adderesses the TODO item number 10 specified at:
-> >>>
-> >>>     drivers/staging/vc04-services/interface/TODO
-> >>>
-> >>> For reference, the task is:
-> >>>
-> >>>     10) Reorganize file structure: Move char driver to it's own file and join
-> >>>     both platform files
-> >>>
-> >>>     The cdev is defined alongside with the platform code in vchiq_arm.c. It
-> >>>     would be nice to completely decouple it from the actual core code. For
-> >>>     instance to be able to use bcm2835-audio without having /dev/vchiq created.
-> >>>     One could argue it's better for security reasons or general cleanliness. It
-> >>>     could even be interesting to create two different kernel modules, something
-> >>>     the likes of vchiq-core.ko and vchiq-dev.ko. This would also ease the
-> >>>     upstreaming process.
-> >>>
-> >>> A summary of the patches is as follows:
-> >>>
-> >>> - Patch 1: Move cdev init code into a function
-> >>> - Patch 2: Shift some devlarations from vchiq_arm.c to vchiq_arm.h for
-> >>>            sharing
-> >>> - Patch 3: Move vchiq cdev init code from vchiq_arm.c into vchiq_dev.c
-> >>> - Patch 4: Decouple cdev code by defining a Kconfig entry to allow
-> >>>            optional compilation of it.
-> >>> - Patch 5: Merge code in vchiq_2835_arm.c to vchiq_arm.c
-> >>>
-> >>> Changes since v3 [2]:
-> >>>
-> >>> * In Patch 5, replace forward declarations of some of the functions with
-> >>>   function definition 
-> >> You dropped the reviews of others, so now I need to wait for them again
-> >> :(
-> >>
-> > Hello Greg,
-> >
-> > Apologies for that, I was under the impression that a new version
-> > needed a separate review :(
-> No, just the patches which had functional changes.
-Ohh, noted.
-> > If its okay, I can alternately resubmit this (as v5?) with Stefan's
-> > Reviewed-By tags on unchanged commits intact. Let me know if that's okay
-> > or if its better to wait out.
-> 
-> No, please don't resubmit. I will do the review soon.
+RnJvbTogRmFiaW8gTS4gRGUgRnJhbmNlc2NvDQo+IFNlbnQ6IDIzIEp1bHkgMjAyMSAxODo0MQ0K
+PiANCj4gSGkgRGF2aWQsDQo+IA0KPiBUaGlzIGRyaXZlciBpcyBnb2luZyB0byBiZSByZXBsYWNl
+ZCBieSBhICJiZXR0ZXIiIHZlcnNpb24sIHNvIEknbSBub3Qgc3VyZQ0KPiB3aGV0aGVyIG9yIG5v
+dCB0aGlzIHBhdGNoIGlzIHN0aWxsIG5lZWRlZC4NCj4gDQo+IEhvd2V2ZXIsIEkgc2VlIHRoYXQg
+d2UgaGF2ZSBzaW1pbGFyIHByb2JsZW1zIGluIHJ0bDg3MjNicyBhbmQgcGVyaGFwcyBhbHNvIGlu
+DQo+IG90aGVyIGRyaXZlcnMuIFRoZXJlZm9yZSwgSSdkIGxpa2UgdG8gc29sdmUgdGhpcyBwcm9i
+bGVtLCB3aGF0ZXZlciB3aWxsIGhhcHBlbg0KPiB0byB0aGUgIndvcnNlIiBydGk4MTg4ZXUsIGFu
+ZCBjaGFuZ2UgdGhlIGNvZGUgd2hlcmUgZWxzZSBpdCBuZWVkcyB0byBiZQ0KPiBjaGFuZ2VkLg0K
+PiANCj4gTm93IEkgaGF2ZSBhIGZldyBxdWVzdGlvbnMuLi4NCg0KWW91ciBtYWlsZXIgbWFpbCBh
+IHJpZ2h0IHBpZ3MgYnJlYWtmYXN0IG9mIHRoaXMgcXVvdGVkIHRleHQuDQpFdmVuIG91dGxvb2sg
+KHdoaWNoIHdvcmsgbWFrZXMgbWUgdXNlKSBpc24ndCB0aGF0IGJhZA0KLSBpdCBpcyBwcmV0dHkg
+c2hpdHR5IHRob3VnaC4NCg0KLi4uDQo+ID4gQ2hhbmdlIGNyYyB0byBiZSBfX2xlMzIsIGtpbGwg
+dGhlIGNhc3RzIGFuZCBwYXNzICZjcmMgaW4gdGhlIGxhc3QgY2FsbC4NCj4gPg0KPiANCj4gSSBj
+b3VsZCBkbyBpdCwgYnV0IHRoZSBsYXN0IGNhbGwgKHRoYXQgdG8gYXJjZm91cl9lbmNyeXB0KCkg
+dGFrZXMgYSBwb2ludGVyIHRvDQo+IHU4IHR5cGUgYXMgdGhlIHRoaXJkIHBhcmFtZXRlci4gSG93
+IGNhbiBJIHVzZSBhIF9fbGUzMiBmb3IgdGhhdD8NCg0KVHJ5IGEgY2FzdCA6LSkNCmFyY2ZvdXJf
+ZW5jcnlwdCgpIHRha2VzIGEgJ2J1ZmZlcicgLSBzbyBpdCBzaG91bGQgYmUgJ2NvbnN0IHZvaWQg
+KicuDQpUaGF0IHdpbGwgbGV0IHRoZSBjYWxsIHBhc3Mgd2hhdCB0aGV5IHdhbnQuDQoNCi4uLg0K
+PiA+ID4gQEAgLTY4Miw3ICs2NjksNyBAQCB1MzIgcnR3X3RraXBfZGVjcnlwdChzdHJ1Y3QgYWRh
+cHRlciAqcGFkYXB0ZXIsIHN0cnVjdA0KPiByZWN2X2ZyYW1lDQo+ID4gPiAqcHJlY3ZmcmFtZSk+
+DQo+ID4gPiAgCQkJYXJjZm91cl9pbml0KCZteWNvbnRleHQsIHJjNGtleSwgMTYpOw0KPiA+ID4g
+IAkJCWFyY2ZvdXJfZW5jcnlwdCgmbXljb250ZXh0LCBwYXlsb2FkLA0KPiBwYXlsb2FkLCBsZW5n
+dGgpOw0KPiA+ID4NCj4gPiA+IC0JCQkqKChfX2xlMzIgKiljcmMpID0gZ2V0Y3JjMzIocGF5bG9h
+ZCwgbGVuZ3RoDQo+IC0gNCk7DQo+ID4gPiArCQkJKigoX19sZTMyICopY3JjKSA9IGNwdV90b19s
+ZTMyKH5jcmMzMl9sZSh+MCwNCj4gcGF5bG9hZCwgbGVuZ3RoIC0gNCkpOw0KPiA+ID4NCj4gPiA+
+ICAJCQlpZiAoY3JjWzNdICE9IHBheWxvYWRbbGVuZ3RoIC0gMV0gfHwNCj4gPiA+DQo+ID4gPiAg
+CQkJICAgIGNyY1syXSAhPSBwYXlsb2FkW2xlbmd0aCAtIDJdIHx8DQo+ID4NCj4gPiBZb3UgY291
+bGQgdG8gdGhlIHNhbWUgaGVyZSwgb3IgbWFrZSBjcmMgdTMyLCByZW1vdmUgdGhlIGNwdV90b19s
+ZTMyKCkNCj4gPiBhbmQgdXNlIGdldF91bmFsaWduZWRfdTMyKHBheWxvYWQgKyBsZW5ndGggLSA0
+KSAob3Igd2hhdGV2ZXIgaXQgaXMgY2FsbGVkKS4NCj4gPg0KPiANCj4gU29ycnksIEkgY2FuJ3Qg
+dW5kZXJzdGFuZCB0aGlzIGxpbmUuIENhbiB5b3UgcGxlYXNlIGVsYWJvcmF0ZSBpdCBhIGJpdCBt
+b3JlPw0KPiANCj4gPiBCdXQgaXQgaXMgbXVjaCBiZXR0ZXIgdG8gZG86DQo+ID4gCWNyYyA9IGNy
+YzMyX2xlKH4wLCBwYXlsb2FkLCBsZW5ndGgpOw0KPiA+IAlpZiAoY3JjICE9IFZBTElEX0NSQzMy
+KQ0KPiA+IAkJcmVzID0gX0ZBSUw7DQo+ID4NCj4gDQo+IFdoeSAiY3JjID0gY3JjMzJfbGUofjAs
+IHBheWxvYWQsIGxlbmd0aCk7Ij8gU2hvdWxkbid0IGl0IGJlICJjcmMgPQ0KPiBjcHVfdG9fbGUz
+Mih+Y3JjMzJfbGUofjAsIHBhdGxvYWQsIGxlbmd0aCk7Ij8NCj4gDQo+IFdoeSBkaWQgeW91IGRy
+b3AgYm90aCB0aGUgY3B1X3RvX2xlMzIoKSBjYWxsIGFuZCB0aGUgJ34nIG9wZXJhdG9yPw0KDQpC
+ZWNhdXNlIHRoZXkgYXJlbid0IG5lZWRlZC4NClRoaW5rIGFib3V0IHdoYXQgaGFwcGVucyB3aGVu
+IHRoZSBDUkMgaXMgcHJvY2Vzc2VkIGJpdCBieSBiaXQgd2l0aA0KYSBoYXJkd2FyZSBzaGlmdCBy
+ZWdpc3Rlci4NCldoZW4gJ2xlbmd0aCAtIDQnIGJ5dGVzIGhhdmUgYmVlbiBwcm9jZXNzZWQgdGhl
+IHJlY2VpdmVycyBDUkMgcmVnaXN0ZXINCm1hdGNoZXMgdGhhdCB0aGUgdHJhbnNtaXR0ZXIgaGFk
+IGF0IHRoZSBzYW1lIHBvaW50Lg0KVGhlIHRyYW5zbWl0dGVyIGludmVydHMgZWFjaCBjcmMgYml0
+IGJlZm9yZSBzZW5kaW5nIGl0Lg0KU28gd2hlbiB0aGUgcmVjZWl2ZXIgWE9SJ3MgYSByZWNlaXZl
+ZCBiaXQgd2l0aCBhIENSQyBiaXQgKHRvIGZlZWQgYmFjaw0KaW50byB0aGUgc2hpZnQgcmVnaXN0
+ZXIpIGl0IGFsd2F5cyBnZXRzIGEgJzEnIGJpdHMNCihlaXRoZXIgdGhlIGNyYyBiaXQgb3IgdGhl
+IGRhdGEgaXMgYSAxKS4NCk9uY2UgdGhlIHJlY2VpdmVyIGhhcyBwcm9jZXNzZWQgJ2xlbmd0aCcg
+Ynl0ZXMgdGhlIENSQyByZWdpc3RlciBhbHdheXMNCmNvbnRhaW5zIHRoZSBjcmMgb2YgZm91ciAw
+eGZmIGJ5dGVzIC0gcmVnYXJkbGVzcyBvZiB0aGUgaW5wdXQgZnJhbWUuDQoNCklmIHlvdSBkb24n
+dCBpbnZlcnQgdGhlIGNyYyBiZWZvcmUgc2VuZGluZyAoc29tZSBlYXJseSBmcmFtZSBmb3JtYXRz
+DQpkaWRuJ3QpIHRoZW4gdGhlIGxhc3QgZGF0YSBiaXRzIGFuZCBjcmMgYml0cyBjYW5jZWwgZWFj
+aCBvdGhlciBvdXQNCmFuZCB0aGUgY3JjIGlzIGFsd2F5cyAwIGZvciBhIGdvb2QgZnJhbWUuDQoN
+Ckl0IGlzIGFsc28gd29ydGggcmVhbGlzaW5nIHRoYXQgYSBjcmMgaXMgYSBsaW5lYXIgZnVuY3Rp
+b24uDQpUaGlzIG1lYW5zIHRoYXQgaWYgeW91ICdleGNsdXNpdmUgb3InIHR3byBmcmFtZXMgd2l0
+aCB2YWxpZCBDUkMNCnRoZSByZXN1bHRhbnQgYnVmZmVyIGFsc28gaGFzIGEgdmFsaWQgY3JjIChh
+bGlnbiB0aGUgZW5kcyBvZg0KdGhlIGZyYW1lcykuDQpJbml0aWFsaXNpbmcgdGhlIGNyYyB0byB+
+MCBoYXMgdGhlIGVmZmVjdCBvZiBpbmNsdWRpbmcgdGhlIGZyYW1lDQpsZW5ndGggaW4gdGhlIGNy
+YyAtIHBhcnRpY3VsYXJseSB1c2VmdWwgaWYgdGhlIGZyYW1lIHN0YXJ0cyB3aXRoDQp6ZXJvIGJ5
+dGVzLg0KDQpTaW5jZSB0aGUgY3JjIGFsZ29yaXRobSBpcyByZXZlcnNhYmxlLCBpZiB5b3UgZ2V0
+IGEgQ1JDIGVycm9yDQp5b3UgY2FuICd3aW5kIGJhY2snIHRoZSBlcnJvciBiaXRzIHVudGlsIG9u
+bHkgYSBzbWFsbCBudW1iZXINCm9mIGJpdHMgYXJlIGFmZmVjdGVkIC0gZmxpcCB0aGUgbWF0Y2hp
+bmcgYml0cyBvZiB0aGUgcmVjZWl2ZQ0KZGF0YSBhbmQgc28gY29ycmVjdCBhIHNpbmdsZSBzaG9y
+dCBlcnJvciBidXJzdCAodGhlIG1vc3QNCmxpa2VseSBlcnJvcnMpIHRvIGdldCB0aGUgb3JpZ2lu
+YWwgZGF0YS4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJh
+bWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0
+cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
-Thanks for the review and all the help, Stefan. It is much appreciated
-:)
-
-Regards,
-Ojaswin
