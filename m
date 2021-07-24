@@ -1,1093 +1,561 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5A0168
-	for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 23:14:13 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 498E03F;
-	Sat, 24 Jul 2021 01:14:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1627082051;
-	bh=ItdJvvCirNHdgXgRTlJfJsTxC6Aqq+MZxDXrWC9UQN4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nBsLZsmTI7tJYvClyAMqxD0sz8fAFPfpi0D0bs0B80y9J2d8U2hPeYUoXL0ca8UIZ
-	 eAyr7Fb71taY2AwJr0wueJ7FCAsVY51GGWm3x7ocIVCuCr9uxCXHk4kB5iPwJ8hKqA
-	 eA5DOcheDo+Q4+/B605bXTkBw7nu5UXKdSPL4ihQ=
-Date: Sat, 24 Jul 2021 02:14:08 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc: shawnguo@kernel.org, devicetree@vger.kernel.org, festevam@gmail.com,
-	kernel@pengutronix.de, kernel@puri.sm, krzk@kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, m.felsch@pengutronix.de,
-	mchehab@kernel.org, phone-devel@vger.kernel.org, robh@kernel.org,
-	slongerbeam@gmail.com
-Subject: Re: [PATCH v8 2/3] media: imx: add a driver for i.MX8MQ mipi csi rx
- phy and controller
-Message-ID: <YPtNQG8/+O+OfoU6@pendragon.ideasonboard.com>
-References: <20210723101217.1954805-1-martin.kepplinger@puri.sm>
- <20210723101217.1954805-3-martin.kepplinger@puri.sm>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E36A168
+	for <linux-staging@lists.linux.dev>; Sat, 24 Jul 2021 00:10:59 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id r2so4051613wrl.1
+        for <linux-staging@lists.linux.dev>; Fri, 23 Jul 2021 17:10:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NWegDAe5qyllBe7LEd6VHVexyNFSmLrJGHoOJT352Ew=;
+        b=vgIjQD/UQueHFjOQ677yuIW/YpmUumlqPycQDeUG0ky5wKuFCo6WVsXXVRH9ZVjFs9
+         sdazCPQI0xZYDs1oBm26qIbJeEST5Qjf8dMBpUxvUu1e4USOJ173345jSe+GklaiYk2T
+         M6ynbYfLbZtq/sCW9nEKtRWu4iMAU3sOsnCKMTCvw0sYhViCJyJTi8yz6MSA6eXmeWId
+         rdHq1uWmGiCyMh6GpfoJfpR7LI5PuePWn3fHx2/sUdF8C00boxa7vEErVAvdaAmCZNzi
+         k+SV01foq7mYqNQOgOAr9jeNVve3WiKsVVKk+do4PMFm+fnI+9R1FCWhz7axO3qz58qb
+         mmiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NWegDAe5qyllBe7LEd6VHVexyNFSmLrJGHoOJT352Ew=;
+        b=Tti305cGVu7fQExv4HNJLBGNNqviQykCT67CHYbVpJUBwA2jf/OUSksLXgRu+MCbdX
+         lRC9wC9a/zUwvGgQac1FZiJN5tSsKdbI4ndcxoxmZAYZE5MvCWbVN2Pl+tAu1PynIkf+
+         kAR7OUlunh5oRMIy0B5oLE4an/SrnS7I4xvmRgl6vupeigTsMhWsD2ULBtaC9CrVqLPC
+         7oJQ/V4G6eHBy/p637i2xlq1FBcfyQsOwDo46Sy4bjL66b9EbvLjYkhbdupp5uB76Dp5
+         AOoMr8dlCpa6ETVao1bDGLhNcMXbU5cJcmEpvtKI8fPMrm2hD02GUvanWbC5ykkAFWLW
+         N/cg==
+X-Gm-Message-State: AOAM530vmatf9bHOLMN08OqX4fVnSJCW/oqF6JOtKvjphXTHCoMOmR3z
+	rmkQroUqCdJM/VoaSrkOA4mGXA==
+X-Google-Smtp-Source: ABdhPJxCxf4t/kyRGcfveRuyYuwzuU5WzskcPPfgpDzbO8JSTpf9vk8etLkMVZNEBqyb4hUoW3+N6Q==
+X-Received: by 2002:a5d:5606:: with SMTP id l6mr7496839wrv.190.1627085457830;
+        Fri, 23 Jul 2021 17:10:57 -0700 (PDT)
+Received: from localhost.localdomain (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
+        by smtp.gmail.com with ESMTPSA id k24sm35491305wrh.30.2021.07.23.17.10.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Jul 2021 17:10:56 -0700 (PDT)
+From: Phillip Potter <phil@philpotter.co.uk>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	dan.carpenter@oracle.com,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	fabioaiuto83@gmail.com
+Subject: [PATCH v3 0/7] staging: rtl8188eu: replace driver with better version
+Date: Sat, 24 Jul 2021 01:10:48 +0100
+Message-Id: <20210724001055.1613840-1-phil@philpotter.co.uk>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210723101217.1954805-3-martin.kepplinger@puri.sm>
+Content-Transfer-Encoding: 8bit
 
-Hi Martin,
+I had to break this patchset up a bit to get around the file size limits
+on the mailing list, and also I removed the hostapd stuff which is
+userspace related and therefore not required.
 
-Thank you for the patch.
+The driver currently in staging is older and less functional than the
+version on Larry Finger's GitHub account, based upon v4.1.4_6773.20130222.
+This series of patches therefore:
 
-On Fri, Jul 23, 2021 at 12:12:16PM +0200, Martin Kepplinger wrote:
-> Add a driver to support the i.MX8MQ MIPI CSI receiver. The hardware side
-> is based on
-> https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0
-> 
-> It's built as part of VIDEO_IMX7_CSI because that's documented to support
-> i.MX8M platforms. This driver adds i.MX8MQ support where currently only the
-> i.MX8MM platform has been supported.
-> 
-> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  drivers/staging/media/imx/Makefile           |   1 +
->  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 979 +++++++++++++++++++
->  2 files changed, 980 insertions(+)
->  create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> 
-> diff --git a/drivers/staging/media/imx/Makefile b/drivers/staging/media/imx/Makefile
-> index 6ac33275cc97..19c2fc54d424 100644
-> --- a/drivers/staging/media/imx/Makefile
-> +++ b/drivers/staging/media/imx/Makefile
-> @@ -16,3 +16,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
->  
->  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
->  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-mipi-csis.o
-> +obj-$(CONFIG_VIDEO_IMX7_CSI) += imx8mq-mipi-csi2.o
-> diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> new file mode 100644
-> index 000000000000..7468ed856d41
-> --- /dev/null
-> +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> @@ -0,0 +1,979 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * NXP i.MX8MQ SoC series MIPI-CSI2 receiver driver
-> + *
-> + * Copyright (C) 2021 Purism SPC
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/clk-provider.h>
-> +#include <linux/delay.h>
-> +#include <linux/errno.h>
-> +#include <linux/interconnect.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/io.h>
-> +#include <linux/kernel.h>
-> +#include <linux/mfd/syscon.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/of.h>
-> +#include <linux/of_device.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/regmap.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <linux/reset.h>
-> +#include <linux/spinlock.h>
-> +
-> +#include <media/v4l2-common.h>
-> +#include <media/v4l2-device.h>
-> +#include <media/v4l2-fwnode.h>
-> +#include <media/v4l2-mc.h>
-> +#include <media/v4l2-subdev.h>
-> +
-> +#define MIPI_CSI2_DRIVER_NAME			"imx8mq-mipi-csi2"
-> +#define MIPI_CSI2_SUBDEV_NAME			MIPI_CSI2_DRIVER_NAME
-> +
-> +#define MIPI_CSI2_PAD_SINK			0
-> +#define MIPI_CSI2_PAD_SOURCE			1
-> +#define MIPI_CSI2_PADS_NUM			2
-> +
-> +#define MIPI_CSI2_DEF_PIX_WIDTH			640
-> +#define MIPI_CSI2_DEF_PIX_HEIGHT		480
-> +
-> +/* Register map definition */
-> +
-> +/* i.MX8MQ CSI-2 controller CSR */
-> +#define CSI2RX_CFG_NUM_LANES			0x100
-> +#define CSI2RX_CFG_DISABLE_DATA_LANES		0x104
-> +#define CSI2RX_BIT_ERR				0x108
-> +#define CSI2RX_IRQ_STATUS			0x10c
-> +#define CSI2RX_IRQ_MASK				0x110
-> +#define CSI2RX_IRQ_MASK_ALL			0x1ff
-> +#define CSI2RX_IRQ_MASK_ULPS_STATUS_CHANGE	0x8
-> +#define CSI2RX_ULPS_STATUS			0x114
-> +#define CSI2RX_PPI_ERRSOT_HS			0x118
-> +#define CSI2RX_PPI_ERRSOTSYNC_HS		0x11c
-> +#define CSI2RX_PPI_ERRESC			0x120
-> +#define CSI2RX_PPI_ERRSYNCESC			0x124
-> +#define CSI2RX_PPI_ERRCONTROL			0x128
-> +#define CSI2RX_CFG_DISABLE_PAYLOAD_0		0x12c
-> +#define CSI2RX_CFG_VID_P_FIFO_SEND_LEVEL	0x188
-> +#define CSI2RX_CFG_DISABLE_PAYLOAD_1		0x130
-> +
-> +enum {
-> +	ST_POWERED	= 1,
-> +	ST_STREAMING	= 2,
-> +	ST_SUSPENDED	= 4,
-> +};
-> +
-> +static const char * const imx8mq_mipi_csi_clk_id[] = {
-> +	"core",
-> +	"esc",
-> +	"ui",
-> +};
-> +
-> +#define CSI2_NUM_CLKS	ARRAY_SIZE(imx8mq_mipi_csi_clk_id)
-> +
-> +#define	GPR_CSI2_1_RX_ENABLE		BIT(13)
-> +#define	GPR_CSI2_1_VID_INTFC_ENB	BIT(12)
-> +#define	GPR_CSI2_1_HSEL			BIT(10)
-> +#define	GPR_CSI2_1_CONT_CLK_MODE	BIT(8)
-> +#define	GPR_CSI2_1_S_PRG_RXHS_SETTLE(x)	(((x) & 0x3f) << 2)
-> +
-> +/*
-> + * The send level configures the number of entries that must accumulate in
-> + * the Pixel FIFO before the data will be transferred to the video output.
-> + * See https://community.nxp.com/t5/i-MX-Processors/IMX8M-MIPI-CSI-Host-Controller-send-level/m-p/864005/highlight/true#M131704
-> + */
-> +#define CSI2RX_SEND_LEVEL			64
-> +
-> +struct csi_state {
-> +	struct device *dev;
-> +	void __iomem *regs;
-> +	struct clk_bulk_data clks[CSI2_NUM_CLKS];
-> +	struct reset_control *rst;
-> +	struct regulator *mipi_phy_regulator;
-> +
-> +	struct v4l2_subdev sd;
-> +	struct media_pad pads[MIPI_CSI2_PADS_NUM];
-> +	struct v4l2_async_notifier notifier;
-> +	struct v4l2_subdev *src_sd;
-> +
-> +	struct v4l2_fwnode_bus_mipi_csi2 bus;
-> +
-> +	struct mutex lock; /* Protect csi2_fmt, format_mbus, state, hs_settle */
-> +	const struct csi2_pix_format *csi2_fmt;
-> +	struct v4l2_mbus_framefmt format_mbus[MIPI_CSI2_PADS_NUM];
-> +	u32 state;
-> +	u32 hs_settle;
-> +
-> +	struct regmap *phy_gpr;
-> +	u8 phy_gpr_reg;
-> +
-> +	struct icc_path			*icc_path;
-> +	s32				icc_path_bw;
-> +};
-> +
-> +/* -----------------------------------------------------------------------------
-> + * Format helpers
-> + */
-> +
-> +struct csi2_pix_format {
-> +	u32 code;
-> +	u8 width;
-> +};
-> +
-> +static const struct csi2_pix_format imx8mq_mipi_csi_formats[] = {
-> +	/* RAW (Bayer and greyscale) formats. */
-> +	{
-> +		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
-> +		.width = 8,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
-> +		.width = 8,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
-> +		.width = 8,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
-> +		.width = 8,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_Y8_1X8,
-> +		.width = 8,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_SBGGR10_1X10,
-> +		.width = 10,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_SGBRG10_1X10,
-> +		.width = 10,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
-> +		.width = 10,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_SRGGB10_1X10,
-> +		.width = 10,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_Y10_1X10,
-> +		.width = 10,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_SBGGR12_1X12,
-> +		.width = 12,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_SGBRG12_1X12,
-> +		.width = 12,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_SGRBG12_1X12,
-> +		.width = 12,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_SRGGB12_1X12,
-> +		.width = 12,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_Y12_1X12,
-> +		.width = 12,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_SBGGR14_1X14,
-> +		.width = 14,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_SGBRG14_1X14,
-> +		.width = 14,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_SGRBG14_1X14,
-> +		.width = 14,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_SRGGB14_1X14,
-> +		.width = 14,
-> +	}, {
-> +	/* YUV formats */
-> +		.code = MEDIA_BUS_FMT_YUYV8_2X8,
-> +		.width = 16,
-> +	}, {
-> +		.code = MEDIA_BUS_FMT_YUYV8_1X16,
-> +		.width = 16,
-> +	}
-> +};
-> +
-> +static const struct csi2_pix_format *find_csi2_format(u32 code)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(imx8mq_mipi_csi_formats); i++)
-> +		if (code == imx8mq_mipi_csi_formats[i].code)
-> +			return &imx8mq_mipi_csi_formats[i];
-> +	return NULL;
-> +}
-> +
-> +/* -----------------------------------------------------------------------------
-> + * Hardware configuration
-> + */
-> +
-> +static inline void imx8mq_mipi_csi_write(struct csi_state *state, u32 reg, u32 val)
-> +{
-> +	writel(val, state->regs + reg);
-> +}
-> +
-> +static int imx8mq_mipi_csi_sw_reset(struct csi_state *state)
-> +{
-> +	int ret;
-> +
-> +	/*
-> +	 * these are most likely self-clearing reset bits. to make it
-> +	 * more clear, the reset-imx7 driver should implement the
-> +	 * .reset() operation.
-> +	 */
-> +	ret = reset_control_assert(state->rst);
-> +	if (ret < 0) {
-> +		dev_err(state->dev, "Failed to assert resets: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void imx8mq_mipi_csi_system_enable(struct csi_state *state, int on)
-> +{
-> +	if (!on) {
-> +		imx8mq_mipi_csi_write(state, CSI2RX_CFG_DISABLE_DATA_LANES, 0xf);
-> +		return;
-> +	}
-> +
-> +	regmap_update_bits(state->phy_gpr,
-> +			   state->phy_gpr_reg,
-> +			   0x3fff,
-> +			   GPR_CSI2_1_RX_ENABLE |
-> +			   GPR_CSI2_1_VID_INTFC_ENB |
-> +			   GPR_CSI2_1_HSEL |
-> +			   GPR_CSI2_1_CONT_CLK_MODE |
-> +			   GPR_CSI2_1_S_PRG_RXHS_SETTLE(state->hs_settle));
-> +}
-> +
-> +static void imx8mq_mipi_csi_set_params(struct csi_state *state)
-> +{
-> +	int lanes = state->bus.num_data_lanes;
-> +
-> +	imx8mq_mipi_csi_write(state, CSI2RX_CFG_NUM_LANES, lanes - 1);
-> +	imx8mq_mipi_csi_write(state, CSI2RX_CFG_DISABLE_DATA_LANES,
-> +			      (0xf << lanes) & 0xf);
-> +	imx8mq_mipi_csi_write(state, CSI2RX_IRQ_MASK, CSI2RX_IRQ_MASK_ALL);
-> +	imx8mq_mipi_csi_write(state, 0x180, 1);
-> +	/* vid_vc */
-> +	imx8mq_mipi_csi_write(state, 0x184, 1);
-> +	imx8mq_mipi_csi_write(state, 0x188, CSI2RX_SEND_LEVEL);
-> +}
-> +
-> +static int imx8mq_mipi_csi_clk_enable(struct csi_state *state)
-> +{
-> +	return clk_bulk_prepare_enable(CSI2_NUM_CLKS, state->clks);
-> +}
-> +
-> +static void imx8mq_mipi_csi_clk_disable(struct csi_state *state)
-> +{
-> +	clk_bulk_disable_unprepare(CSI2_NUM_CLKS, state->clks);
-> +}
-> +
-> +static int imx8mq_mipi_csi_clk_get(struct csi_state *state)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < CSI2_NUM_CLKS; i++)
-> +		state->clks[i].id = imx8mq_mipi_csi_clk_id[i];
-> +
-> +	return devm_clk_bulk_get(state->dev, CSI2_NUM_CLKS, state->clks);
-> +}
-> +
-> +static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state)
-> +{
-> +	s64 link_freq;
-> +	u32 lane_rate;
-> +	u32 esc_clk_rate = 0;
+(1) Removes the current driver from staging.
+(2) Imports the GitHub version mentioned above in its place.
 
-This should be an unsigned long.
+There is plenty of work to do to this driver, including to its Makefile,
+but it is at least buildable/usable for now (albeit with a few build
+warnings).
 
-> +	u32 i, min_ths_settle, max_ths_settle, ths_settle_ns, esc_clk_period_ns;
-> +	char *p;
-> +
-> +	/* Calculate the line rate from the pixel rate. */
-> +	link_freq = v4l2_get_link_freq(state->src_sd->ctrl_handler,
-> +				       state->csi2_fmt->width,
-> +				       state->bus.num_data_lanes * 2);
-> +	if (link_freq < 0) {
-> +		dev_err(state->dev, "Unable to obtain link frequency: %d\n",
-> +			(int)link_freq);
-> +		return link_freq;
-> +	}
-> +
-> +	lane_rate = link_freq * 2;
-> +	if (lane_rate < 80000000 || lane_rate > 1500000000) {
-> +		dev_dbg(state->dev, "Out-of-bound lane rate %u\n", lane_rate);
-> +		return -EINVAL;
-> +	}
-> +
-> +	/*
-> +	 * The D-PHY specification requires Ths-settle to be in the range
-> +	 * 85ns + 6*UI to 140ns + 10*UI, with the unit interval UI being half
-> +	 * the clock period.
-> +	 *
-> +	 * The Ths-settle value is expressed in the hardware as a multiple of
-> +	 * the Esc clock period:
-> +	 *
-> +	 * Ths-settle = (PRG_RXHS_SETTLE + 1) * Tperiod of RxClkInEsc
-> +	 *
-> +	 * Due to the one cycle inaccuracy introduced by rounding, the
-> +	 * documentation recommends picking a value away from the boundaries.
-> +	 * Let's pick the average.
-> +	 */
-> +	for (i = 0; i < CSI2_NUM_CLKS; i++) {
-> +		p = (char *)__clk_get_name(state->clks[i].clk);
-> +
-> +		dev_dbg(state->dev, "looking for esc clock: %s\n", p);
-> +
-> +		if (!strcmp(p, "esc") || !strcmp(p, "csi1_esc") ||
-> +		    !strcmp(p, "csi2_esc"))
-> +			esc_clk_rate = clk_get_rate(state->clks[i].clk);
+Revisions of this patch set:
+V1: contained deletion of old driver as one patch and the whole new
+    driver as another, so was too big for the mailing lists.
+V2: split things up, but contained whitespace errorsm and various other
+    mistakes.
+V3: now based upon v4.1.4_6773.20130222 of the GitHub driver, with
+    tweaks to the Makefile (which is already cleaner but needed additional
+    tweaks) and the Kconfig to take into account feedback. There were
+    several trailing whitespace warnings even in this branch/version which
+    have now been corrected as well.
 
-The clocks are ordered in the state->clks array as in the
-imx8mq_mipi_csi_clk_id array, so you can simply index the array instead
-of checking the name. To avoid the risk of mismatch, you could write
+Phillip Potter (7):
+  staging: rtl8188eu: remove existing staging driver
+  staging: r8188eu: introduce new core dir for RTL8188eu driver
+  staging: r8188eu: introduce new hal dir for RTL8188eu driver
+  staging: r8188eu: introduce new os_dep dir for RTL8188eu driver
+  staging: r8188eu: introduce new include dir for RTL8188eu driver
+  staging: r8188eu: introduce new supporting files for RTL8188eu driver
+  staging: r8188eu: attach newly imported driver to build system
 
-enum imx8mq_mipi_csi_clk {
-	CSI2_CLK_CORE,
-	CSI2_CLK_ESC,
-	CSI2_CLK_UI,
-	CSI2_NUM_CLKS,
-};
-
-static const char * const imx8mq_mipi_csi_clk_id[CSI2_NUM_CLKS] = {
-	[CSI2_CLK_CORE] = "core",
-	[CSI2_CLK_ESC] = "esc",
-	[CSI2_CLK_UI] = "ui",
-};
-
-and use 
-
-	esc_clk_rate = clk_get_rate(state->clks[CSI2_CLK_ESC].clk);
-
-here. No need to initialize esc_clk_rate to 0 above.
-
-> +	}
-> +
-> +	if (!esc_clk_rate) {
-> +		dev_err(state->dev, "Could not find esc clock.\n");
-
-This would become "Could not get esc clock rate".
-
-> +		return -EINVAL;
-> +	}
-> +
-> +	dev_dbg(state->dev, "esc clk rate: %u\n", esc_clk_rate);
-
-%lu
-
-> +	esc_clk_period_ns = 1000000000 / esc_clk_rate;
-> +
-> +	min_ths_settle = 85 + 6 * 1000000 / (lane_rate / 1000);
-> +	max_ths_settle = 140 + 10 * 1000000 / (lane_rate / 1000);
-> +	ths_settle_ns = (min_ths_settle + max_ths_settle) / 2;
-> +
-> +	state->hs_settle = ths_settle_ns / esc_clk_period_ns - 1;
-> +
-> +	dev_dbg(state->dev, "lane rate %u Ths_settle %u hs_settle %u\n",
-> +		lane_rate, ths_settle_ns, state->hs_settle);
-> +
-> +	return 0;
-> +}
-> +
-> +static int imx8mq_mipi_csi_start_stream(struct csi_state *state)
-> +{
-> +	int ret;
-> +
-> +	ret = imx8mq_mipi_csi_sw_reset(state);
-> +	if (ret)
-> +		return ret;
-> +
-> +	imx8mq_mipi_csi_set_params(state);
-> +	ret = imx8mq_mipi_csi_calc_hs_settle(state);
-> +	if (ret)
-> +		return ret;
-> +
-> +	imx8mq_mipi_csi_system_enable(state, true);
-> +
-> +	return 0;
-> +}
-> +
-> +static void imx8mq_mipi_csi_stop_stream(struct csi_state *state)
-> +{
-> +	imx8mq_mipi_csi_system_enable(state, false);
-> +}
-> +
-> +/* -----------------------------------------------------------------------------
-> + * V4L2 subdev operations
-> + */
-> +
-> +static struct csi_state *mipi_sd_to_csi2_state(struct v4l2_subdev *sdev)
-> +{
-> +	return container_of(sdev, struct csi_state, sd);
-> +}
-> +
-> +static int imx8mq_mipi_csi_s_stream(struct v4l2_subdev *sd, int enable)
-> +{
-> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> +	int ret = 0;
-> +
-> +	imx8mq_mipi_csi_write(state, CSI2RX_IRQ_MASK,
-> +			      CSI2RX_IRQ_MASK_ULPS_STATUS_CHANGE);
-> +
-> +	if (enable) {
-> +		ret = pm_runtime_resume_and_get(state->dev);
-> +		if (ret < 0)
-> +			return ret;
-> +	}
-> +
-> +	mutex_lock(&state->lock);
-> +
-> +	if (enable) {
-> +		if (state->state & ST_SUSPENDED) {
-> +			ret = -EBUSY;
-> +			goto unlock;
-> +		}
-> +
-> +		ret = imx8mq_mipi_csi_start_stream(state);
-> +		if (ret < 0)
-> +			goto unlock;
-> +
-> +		ret = v4l2_subdev_call(state->src_sd, video, s_stream, 1);
-> +		if (ret < 0)
-> +			goto unlock;
-> +
-> +		state->state |= ST_STREAMING;
-> +	} else {
-> +		v4l2_subdev_call(state->src_sd, video, s_stream, 0);
-> +		imx8mq_mipi_csi_stop_stream(state);
-> +		state->state &= ~ST_STREAMING;
-> +	}
-> +
-> +unlock:
-> +	mutex_unlock(&state->lock);
-> +
-> +	if (!enable || ret < 0)
-> +		pm_runtime_put(state->dev);
-> +
-> +	return ret;
-> +}
-> +
-> +static struct v4l2_mbus_framefmt *
-> +imx8mq_mipi_csi_get_format(struct csi_state *state,
-> +			   struct v4l2_subdev_state *sd_state,
-> +			   enum v4l2_subdev_format_whence which,
-> +			   unsigned int pad)
-> +{
-> +	if (which == V4L2_SUBDEV_FORMAT_TRY)
-> +		return v4l2_subdev_get_try_format(&state->sd, sd_state, pad);
-> +
-> +	return &state->format_mbus[pad];
-> +}
-> +
-> +static int imx8mq_mipi_csi_init_cfg(struct v4l2_subdev *sd,
-> +				    struct v4l2_subdev_state *sd_state)
-> +{
-> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> +	struct v4l2_mbus_framefmt *fmt_sink;
-> +	struct v4l2_mbus_framefmt *fmt_source;
-> +	enum v4l2_subdev_format_whence which;
-> +
-> +	which = sd_state ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
-> +	fmt_sink = imx8mq_mipi_csi_get_format(state, sd_state, which,
-> +					      MIPI_CSI2_PAD_SINK);
-> +
-> +	fmt_sink->code = MEDIA_BUS_FMT_SGBRG10_1X10;
-> +	fmt_sink->width = MIPI_CSI2_DEF_PIX_WIDTH;
-> +	fmt_sink->height = MIPI_CSI2_DEF_PIX_HEIGHT;
-> +	fmt_sink->field = V4L2_FIELD_NONE;
-> +
-> +	fmt_sink->colorspace = V4L2_COLORSPACE_RAW;
-> +	fmt_sink->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt_sink->colorspace);
-> +	fmt_sink->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt_sink->colorspace);
-> +	fmt_sink->quantization =
-> +		V4L2_MAP_QUANTIZATION_DEFAULT(false, fmt_sink->colorspace,
-> +					      fmt_sink->ycbcr_enc);
-> +
-> +	fmt_source = imx8mq_mipi_csi_get_format(state, sd_state, which,
-> +						MIPI_CSI2_PAD_SOURCE);
-> +	*fmt_source = *fmt_sink;
-> +
-> +	return 0;
-> +}
-> +
-> +static int imx8mq_mipi_csi_get_fmt(struct v4l2_subdev *sd,
-> +				   struct v4l2_subdev_state *sd_state,
-> +				   struct v4l2_subdev_format *sdformat)
-> +{
-> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> +	struct v4l2_mbus_framefmt *fmt;
-> +
-> +	fmt = imx8mq_mipi_csi_get_format(state, sd_state, sdformat->which,
-> +					 sdformat->pad);
-> +
-> +	mutex_lock(&state->lock);
-> +
-> +	sdformat->format = *fmt;
-> +
-> +	mutex_unlock(&state->lock);
-> +
-> +	return 0;
-> +}
-> +
-> +static int imx8mq_mipi_csi_enum_mbus_code(struct v4l2_subdev *sd,
-> +					  struct v4l2_subdev_state *sd_state,
-> +					  struct v4l2_subdev_mbus_code_enum *code)
-> +{
-> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> +
-> +	/*
-> +	 * We can't transcode in any way, the source format is identical
-> +	 * to the sink format.
-> +	 */
-> +	if (code->pad == MIPI_CSI2_PAD_SOURCE) {
-> +		struct v4l2_mbus_framefmt *fmt;
-> +
-> +		if (code->index > 0)
-> +			return -EINVAL;
-> +
-> +		fmt = imx8mq_mipi_csi_get_format(state, sd_state, code->which,
-> +						 code->pad);
-> +		code->code = fmt->code;
-> +		return 0;
-> +	}
-> +
-> +	if (code->pad != MIPI_CSI2_PAD_SINK)
-> +		return -EINVAL;
-> +
-> +	if (code->index >= ARRAY_SIZE(imx8mq_mipi_csi_formats))
-> +		return -EINVAL;
-> +
-> +	code->code = imx8mq_mipi_csi_formats[code->index].code;
-> +
-> +	return 0;
-> +}
-> +
-> +static int imx8mq_mipi_csi_set_fmt(struct v4l2_subdev *sd,
-> +				   struct v4l2_subdev_state *sd_state,
-> +				   struct v4l2_subdev_format *sdformat)
-> +{
-> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> +	struct csi2_pix_format const *csi2_fmt;
-> +	struct v4l2_mbus_framefmt *fmt;
-> +
-> +	/*
-> +	 * The device can't transcode in any way, the source format can't be
-> +	 * modified.
-> +	 */
-> +	if (sdformat->pad == MIPI_CSI2_PAD_SOURCE)
-> +		return imx8mq_mipi_csi_get_fmt(sd, sd_state, sdformat);
-> +
-> +	if (sdformat->pad != MIPI_CSI2_PAD_SINK)
-> +		return -EINVAL;
-> +
-> +	csi2_fmt = find_csi2_format(sdformat->format.code);
-> +	if (!csi2_fmt)
-> +		csi2_fmt = &imx8mq_mipi_csi_formats[0];
-> +
-> +	fmt = imx8mq_mipi_csi_get_format(state, sd_state, sdformat->which,
-> +					 sdformat->pad);
-> +
-> +	mutex_lock(&state->lock);
-> +
-> +	fmt->code = csi2_fmt->code;
-> +	fmt->width = sdformat->format.width;
-> +	fmt->height = sdformat->format.height;
-> +
-> +	sdformat->format = *fmt;
-> +
-> +	/* Propagate the format from sink to source. */
-> +	fmt = imx8mq_mipi_csi_get_format(state, sd_state, sdformat->which,
-> +					 MIPI_CSI2_PAD_SOURCE);
-> +	*fmt = sdformat->format;
-> +
-> +	/* Store the CSI2 format descriptor for active formats. */
-> +	if (sdformat->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-> +		state->csi2_fmt = csi2_fmt;
-> +
-> +	mutex_unlock(&state->lock);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_subdev_video_ops imx8mq_mipi_csi_video_ops = {
-> +	.s_stream	= imx8mq_mipi_csi_s_stream,
-> +};
-> +
-> +static const struct v4l2_subdev_pad_ops imx8mq_mipi_csi_pad_ops = {
-> +	.init_cfg		= imx8mq_mipi_csi_init_cfg,
-> +	.enum_mbus_code		= imx8mq_mipi_csi_enum_mbus_code,
-> +	.get_fmt		= imx8mq_mipi_csi_get_fmt,
-> +	.set_fmt		= imx8mq_mipi_csi_set_fmt,
-> +};
-> +
-> +static const struct v4l2_subdev_ops imx8mq_mipi_csi_subdev_ops = {
-> +	.video	= &imx8mq_mipi_csi_video_ops,
-> +	.pad	= &imx8mq_mipi_csi_pad_ops,
-> +};
-> +
-> +/* -----------------------------------------------------------------------------
-> + * Media entity operations
-> + */
-> +
-> +static const struct media_entity_operations imx8mq_mipi_csi_entity_ops = {
-> +	.link_validate	= v4l2_subdev_link_validate,
-> +	.get_fwnode_pad = v4l2_subdev_get_fwnode_pad_1_to_1,
-> +};
-> +
-> +/* -----------------------------------------------------------------------------
-> + * Async subdev notifier
-> + */
-> +
-> +static struct csi_state *
-> +mipi_notifier_to_csi2_state(struct v4l2_async_notifier *n)
-> +{
-> +	return container_of(n, struct csi_state, notifier);
-> +}
-> +
-> +static int imx8mq_mipi_csi_notify_bound(struct v4l2_async_notifier *notifier,
-> +					struct v4l2_subdev *sd,
-> +					struct v4l2_async_subdev *asd)
-> +{
-> +	struct csi_state *state = mipi_notifier_to_csi2_state(notifier);
-> +	struct media_pad *sink = &state->sd.entity.pads[MIPI_CSI2_PAD_SINK];
-> +
-> +	state->src_sd = sd;
-> +
-> +	return v4l2_create_fwnode_links_to_pad(sd, sink, MEDIA_LNK_FL_ENABLED |
-> +					       MEDIA_LNK_FL_IMMUTABLE);
-> +}
-> +
-> +static const struct v4l2_async_notifier_operations imx8mq_mipi_csi_notify_ops = {
-> +	.bound = imx8mq_mipi_csi_notify_bound,
-> +};
-> +
-> +static int imx8mq_mipi_csi_async_register(struct csi_state *state)
-> +{
-> +	struct v4l2_fwnode_endpoint vep = {
-> +		.bus_type = V4L2_MBUS_CSI2_DPHY,
-> +	};
-> +	struct v4l2_async_subdev *asd;
-> +	struct fwnode_handle *ep;
-> +	unsigned int i;
-> +	int ret;
-> +
-> +	v4l2_async_notifier_init(&state->notifier);
-> +
-> +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(state->dev), 0, 0,
-> +					     FWNODE_GRAPH_ENDPOINT_NEXT);
-> +	if (!ep)
-> +		return -ENOTCONN;
-> +
-> +	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
-> +	if (ret)
-> +		goto err_parse;
-> +
-> +	for (i = 0; i < vep.bus.mipi_csi2.num_data_lanes; ++i) {
-> +		if (vep.bus.mipi_csi2.data_lanes[i] != i + 1) {
-> +			dev_err(state->dev,
-> +				"data lanes reordering is not supported");
-> +			ret = -EINVAL;
-> +			goto err_parse;
-> +		}
-> +	}
-> +
-> +	state->bus = vep.bus.mipi_csi2;
-> +
-> +	dev_dbg(state->dev, "data lanes: %d flags: 0x%08x\n",
-> +		state->bus.num_data_lanes,
-> +		state->bus.flags);
-> +
-> +	asd = v4l2_async_notifier_add_fwnode_remote_subdev(&state->notifier,
-> +							   ep, struct v4l2_async_subdev);
-> +	if (IS_ERR(asd)) {
-> +		ret = PTR_ERR(asd);
-> +		goto err_parse;
-> +	}
-> +
-> +	fwnode_handle_put(ep);
-> +
-> +	state->notifier.ops = &imx8mq_mipi_csi_notify_ops;
-> +
-> +	ret = v4l2_async_subdev_notifier_register(&state->sd, &state->notifier);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return v4l2_async_register_subdev(&state->sd);
-> +
-> +err_parse:
-> +	fwnode_handle_put(ep);
-> +
-> +	return ret;
-> +}
-> +
-> +/* -----------------------------------------------------------------------------
-> + * Suspend/resume
-> + */
-> +
-> +static int imx8mq_mipi_csi_pm_suspend(struct device *dev, bool runtime)
-> +{
-> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> +	int ret = 0;
-> +
-> +	mutex_lock(&state->lock);
-> +
-> +	if (state->state & ST_POWERED) {
-> +		imx8mq_mipi_csi_stop_stream(state);
-> +		imx8mq_mipi_csi_clk_disable(state);
-> +		state->state &= ~ST_POWERED;
-> +		if (!runtime)
-> +			state->state |= ST_SUSPENDED;
-> +	}
-> +
-> +	mutex_unlock(&state->lock);
-> +
-> +	ret = icc_set_bw(state->icc_path, 0, 0);
-> +	if (ret)
-> +		dev_err(dev, "icc_set_bw failed with %d\n", ret);
-> +
-> +	return ret ? -EAGAIN : 0;
-> +}
-> +
-> +static int imx8mq_mipi_csi_pm_resume(struct device *dev, bool runtime)
-> +{
-> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> +	int ret = 0;
-> +
-> +	ret = icc_set_bw(state->icc_path, 0, state->icc_path_bw);
-> +	if (ret) {
-> +		dev_err(dev, "icc_set_bw failed with %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	mutex_lock(&state->lock);
-> +
-> +	if (!runtime && !(state->state & ST_SUSPENDED))
-> +		goto unlock;
-> +
-> +	if (!(state->state & ST_POWERED)) {
-> +		state->state |= ST_POWERED;
-> +		ret = imx8mq_mipi_csi_clk_enable(state);
-> +	}
-> +	if (state->state & ST_STREAMING) {
-> +		ret = imx8mq_mipi_csi_start_stream(state);
-> +		if (ret)
-> +			goto unlock;
-> +	}
-> +
-> +	state->state &= ~ST_SUSPENDED;
-> +
-> +unlock:
-> +	mutex_unlock(&state->lock);
-> +
-> +	return ret ? -EAGAIN : 0;
-> +}
-> +
-> +static int __maybe_unused imx8mq_mipi_csi_suspend(struct device *dev)
-> +{
-> +	return imx8mq_mipi_csi_pm_suspend(dev, false);
-> +}
-> +
-> +static int __maybe_unused imx8mq_mipi_csi_resume(struct device *dev)
-> +{
-> +	return imx8mq_mipi_csi_pm_resume(dev, false);
-> +}
-> +
-> +static int __maybe_unused imx8mq_mipi_csi_runtime_suspend(struct device *dev)
-> +{
-> +	return imx8mq_mipi_csi_pm_suspend(dev, true);
-> +}
-> +
-> +static int __maybe_unused imx8mq_mipi_csi_runtime_resume(struct device *dev)
-> +{
-> +	return imx8mq_mipi_csi_pm_resume(dev, true);
-> +}
-> +
-> +static const struct dev_pm_ops imx8mq_mipi_csi_pm_ops = {
-> +	SET_RUNTIME_PM_OPS(imx8mq_mipi_csi_runtime_suspend,
-> +			   imx8mq_mipi_csi_runtime_resume,
-> +			   NULL)
-> +	SET_SYSTEM_SLEEP_PM_OPS(imx8mq_mipi_csi_suspend, imx8mq_mipi_csi_resume)
-> +};
-> +
-> +/* -----------------------------------------------------------------------------
-> + * Probe/remove & platform driver
-> + */
-> +
-> +static int imx8mq_mipi_csi_subdev_init(struct csi_state *state)
-> +{
-> +	struct v4l2_subdev *sd = &state->sd;
-> +
-> +	v4l2_subdev_init(sd, &imx8mq_mipi_csi_subdev_ops);
-> +	sd->owner = THIS_MODULE;
-> +	snprintf(sd->name, sizeof(sd->name), "%s %s",
-> +		 MIPI_CSI2_SUBDEV_NAME, dev_name(state->dev));
-> +
-> +	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +
-> +	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-> +	sd->entity.ops = &imx8mq_mipi_csi_entity_ops;
-> +
-> +	sd->dev = state->dev;
-> +
-> +	state->csi2_fmt = &imx8mq_mipi_csi_formats[0];
-> +	imx8mq_mipi_csi_init_cfg(sd, NULL);
-> +
-> +	state->pads[MIPI_CSI2_PAD_SINK].flags = MEDIA_PAD_FL_SINK
-> +					 | MEDIA_PAD_FL_MUST_CONNECT;
-> +	state->pads[MIPI_CSI2_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE
-> +					   | MEDIA_PAD_FL_MUST_CONNECT;
-> +	return media_entity_pads_init(&sd->entity, MIPI_CSI2_PADS_NUM,
-> +				      state->pads);
-> +}
-> +
-> +static void imx8mq_mipi_csi_release_icc(struct platform_device *pdev)
-> +{
-> +	struct v4l2_subdev *sd = dev_get_drvdata(&pdev->dev);
-> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> +
-> +	icc_put(state->icc_path);
-> +}
-> +
-> +static int imx8mq_mipi_csi_init_icc(struct platform_device *pdev)
-> +{
-> +	struct v4l2_subdev *sd = dev_get_drvdata(&pdev->dev);
-> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> +
-> +	/* Optional interconnect request */
-> +	state->icc_path = of_icc_get(&pdev->dev, "dram");
-> +	if (IS_ERR_OR_NULL(state->icc_path))
-> +		return PTR_ERR_OR_ZERO(state->icc_path);
-> +
-> +	state->icc_path_bw = MBps_to_icc(700);
-> +
-> +	return 0;
-> +}
-> +
-> +static int imx8mq_mipi_csi_parse_dt(struct csi_state *state)
-> +{
-> +	struct device *dev = state->dev;
-> +	struct device_node *np = state->dev->of_node;
-> +	struct device_node *node;
-> +	phandle ph;
-> +	u32 out_val[2];
-> +	int ret = 0;
-> +
-> +	state->rst = devm_reset_control_array_get_exclusive(dev);
-> +	if (IS_ERR(state->rst)) {
-> +		dev_err(dev, "Failed to get reset: %pe\n", state->rst);
-> +		return PTR_ERR(state->rst);
-> +	}
-> +
-> +	ret = of_property_read_u32_array(np, "fsl,mipi-phy-gpr", out_val,
-> +					 ARRAY_SIZE(out_val));
-> +	if (ret) {
-> +		dev_err(dev, "no fsl,mipi-phy-gpr property found: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ph = *out_val;
-> +
-> +	node = of_find_node_by_phandle(ph);
-> +	if (!node) {
-> +		dev_err(dev, "Error finding node by phandle\n");
-> +		return -ENODEV;
-> +	}
-> +	state->phy_gpr = syscon_node_to_regmap(node);
-> +	of_node_put(node);
-> +	if (IS_ERR(state->phy_gpr)) {
-> +		dev_err(dev, "failed to get gpr regmap: %pe\n", state->phy_gpr);
-> +		return PTR_ERR(state->phy_gpr);
-> +	}
-> +
-> +	state->phy_gpr_reg = out_val[1];
-> +	dev_dbg(dev, "phy gpr register set to 0x%x\n", state->phy_gpr_reg);
-> +
-> +	return ret;
-> +}
-> +
-> +static int imx8mq_mipi_csi_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct csi_state *state;
-> +	int ret;
-> +
-> +	state = devm_kzalloc(dev, sizeof(*state), GFP_KERNEL);
-> +	if (!state)
-> +		return -ENOMEM;
-> +
-> +	state->dev = dev;
-> +
-> +	ret = imx8mq_mipi_csi_parse_dt(state);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to parse device tree: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	/* Acquire resources. */
-> +	state->regs = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(state->regs))
-> +		return PTR_ERR(state->regs);
-> +
-> +	ret = imx8mq_mipi_csi_clk_get(state);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	platform_set_drvdata(pdev, &state->sd);
-> +
-> +	mutex_init(&state->lock);
-> +
-> +	ret = imx8mq_mipi_csi_subdev_init(state);
-> +	if (ret < 0)
-> +		goto mutex;
-> +
-> +	ret = imx8mq_mipi_csi_init_icc(pdev);
-> +	if (ret)
-> +		goto mutex;
-> +
-> +	/* Enable runtime PM. */
-> +	pm_runtime_enable(dev);
-> +	if (!pm_runtime_enabled(dev)) {
-> +		ret = imx8mq_mipi_csi_pm_resume(dev, true);
-> +		if (ret < 0)
-> +			goto icc;
-> +	}
-> +
-> +	ret = imx8mq_mipi_csi_async_register(state);
-> +	if (ret < 0)
-> +		goto cleanup;
-> +
-> +	return 0;
-> +
-> +cleanup:
-> +	pm_runtime_disable(&pdev->dev);
-> +	imx8mq_mipi_csi_pm_suspend(&pdev->dev, true);
-> +
-> +	media_entity_cleanup(&state->sd.entity);
-> +	v4l2_async_notifier_unregister(&state->notifier);
-> +	v4l2_async_notifier_cleanup(&state->notifier);
-> +	v4l2_async_unregister_subdev(&state->sd);
-> +icc:
-> +	imx8mq_mipi_csi_release_icc(pdev);
-> +mutex:
-> +	mutex_destroy(&state->lock);
-> +
-> +	return ret;
-> +}
-> +
-> +static int imx8mq_mipi_csi_remove(struct platform_device *pdev)
-> +{
-> +	struct v4l2_subdev *sd = platform_get_drvdata(pdev);
-> +	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> +
-> +	v4l2_async_notifier_unregister(&state->notifier);
-> +	v4l2_async_notifier_cleanup(&state->notifier);
-> +	v4l2_async_unregister_subdev(&state->sd);
-> +
-> +	pm_runtime_disable(&pdev->dev);
-> +	imx8mq_mipi_csi_pm_suspend(&pdev->dev, true);
-> +	media_entity_cleanup(&state->sd.entity);
-> +	mutex_destroy(&state->lock);
-> +	pm_runtime_set_suspended(&pdev->dev);
-> +	imx8mq_mipi_csi_release_icc(pdev);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id imx8mq_mipi_csi_of_match[] = {
-> +	{ .compatible = "fsl,imx8mq-mipi-csi2", },
-> +	{ /* sentinel */ },
-> +};
-> +MODULE_DEVICE_TABLE(of, imx8mq_mipi_csi_of_match);
-> +
-> +static struct platform_driver imx8mq_mipi_csi_driver = {
-> +	.probe		= imx8mq_mipi_csi_probe,
-> +	.remove		= imx8mq_mipi_csi_remove,
-> +	.driver		= {
-> +		.of_match_table = imx8mq_mipi_csi_of_match,
-> +		.name		= MIPI_CSI2_DRIVER_NAME,
-> +		.pm		= &imx8mq_mipi_csi_pm_ops,
-> +	},
-> +};
-> +
-> +module_platform_driver(imx8mq_mipi_csi_driver);
-> +
-> +MODULE_DESCRIPTION("i.MX8MQ MIPI CSI-2 receiver driver");
-> +MODULE_AUTHOR("Martin Kepplinger <martin.kepplinger@puri.sm>");
-> +MODULE_LICENSE("GPL v2");
-> +MODULE_ALIAS("platform:imx8mq-mipi-csi2");
+ drivers/staging/Kconfig                       |    2 +-
+ drivers/staging/Makefile                      |    2 +-
+ .../staging/{rtl8188eu => r8188eu}/Kconfig    |    2 -
+ drivers/staging/r8188eu/Makefile              |  129 +
+ .../{rtl8188eu => r8188eu}/core/rtw_ap.c      |  987 +-
+ drivers/staging/r8188eu/core/rtw_br_ext.c     | 1184 +++
+ drivers/staging/r8188eu/core/rtw_cmd.c        | 2206 +++++
+ drivers/staging/r8188eu/core/rtw_debug.c      |  943 ++
+ drivers/staging/r8188eu/core/rtw_efuse.c      |  872 ++
+ drivers/staging/r8188eu/core/rtw_ieee80211.c  | 1625 ++++
+ drivers/staging/r8188eu/core/rtw_io.c         |  323 +
+ drivers/staging/r8188eu/core/rtw_ioctl_set.c  | 1118 +++
+ drivers/staging/r8188eu/core/rtw_iol.c        |  209 +
+ drivers/staging/r8188eu/core/rtw_led.c        | 1705 ++++
+ .../{rtl8188eu => r8188eu}/core/rtw_mlme.c    | 1431 ++-
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 8407 +++++++++++++++++
+ drivers/staging/r8188eu/core/rtw_mp.c         | 1000 ++
+ drivers/staging/r8188eu/core/rtw_mp_ioctl.c   | 1352 +++
+ drivers/staging/r8188eu/core/rtw_p2p.c        | 2068 ++++
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c    |  655 ++
+ .../{rtl8188eu => r8188eu}/core/rtw_recv.c    | 1198 ++-
+ .../{rtl8188eu => r8188eu}/core/rtw_rf.c      |   34 +-
+ drivers/staging/r8188eu/core/rtw_security.c   | 1757 ++++
+ drivers/staging/r8188eu/core/rtw_sreset.c     |   79 +
+ drivers/staging/r8188eu/core/rtw_sta_mgt.c    |  609 ++
+ drivers/staging/r8188eu/core/rtw_wlan_util.c  | 1690 ++++
+ .../{rtl8188eu => r8188eu}/core/rtw_xmit.c    | 1112 ++-
+ drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c  |   86 +
+ .../hal/Hal8188ERateAdaptive.c}               |  286 +-
+ .../hal/HalHWImg8188E_BB.c}                   |  497 +-
+ .../staging/r8188eu/hal/HalHWImg8188E_MAC.c   |  230 +
+ .../staging/r8188eu/hal/HalHWImg8188E_RF.c    |  268 +
+ drivers/staging/r8188eu/hal/HalPhyRf.c        |   49 +
+ drivers/staging/r8188eu/hal/HalPhyRf_8188e.c  | 1505 +++
+ drivers/staging/r8188eu/hal/HalPwrSeqCmd.c    |  132 +
+ .../{rtl8188eu => r8188eu}/hal/hal_com.c      |  204 +-
+ drivers/staging/r8188eu/hal/hal_intf.c        |  468 +
+ drivers/staging/r8188eu/hal/odm.c             | 2174 +++++
+ drivers/staging/r8188eu/hal/odm_HWConfig.c    |  601 ++
+ drivers/staging/r8188eu/hal/odm_RTL8188E.c    |  400 +
+ .../staging/r8188eu/hal/odm_RegConfig8188E.c  |  130 +
+ drivers/staging/r8188eu/hal/odm_debug.c       |   32 +
+ drivers/staging/r8188eu/hal/odm_interface.c   |  205 +
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  762 ++
+ drivers/staging/r8188eu/hal/rtl8188e_dm.c     |  267 +
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 2390 +++++
+ drivers/staging/r8188eu/hal/rtl8188e_mp.c     |  851 ++
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 1135 +++
+ drivers/staging/r8188eu/hal/rtl8188e_rf6052.c |  569 ++
+ .../hal/rtl8188e_rxdesc.c                     |   51 +-
+ drivers/staging/r8188eu/hal/rtl8188e_sreset.c |   80 +
+ drivers/staging/r8188eu/hal/rtl8188e_xmit.c   |   91 +
+ drivers/staging/r8188eu/hal/rtl8188eu_led.c   |  111 +
+ drivers/staging/r8188eu/hal/rtl8188eu_recv.c  |  136 +
+ .../hal/rtl8188eu_xmit.c                      |  255 +-
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 2334 +++++
+ drivers/staging/r8188eu/hal/usb_ops_linux.c   |  717 ++
+ .../staging/r8188eu/include/Hal8188EPhyCfg.h  |  269 +
+ .../staging/r8188eu/include/Hal8188EPhyReg.h  | 1088 +++
+ .../staging/r8188eu/include/Hal8188EPwrSeq.h  |  173 +
+ .../include/Hal8188ERateAdaptive.h}           |   47 +-
+ drivers/staging/r8188eu/include/Hal8188EReg.h |   44 +
+ .../r8188eu/include/HalHWImg8188E_BB.h        |   44 +
+ .../r8188eu/include/HalHWImg8188E_FW.h        |   33 +
+ .../r8188eu/include/HalHWImg8188E_MAC.h       |   30 +
+ .../r8188eu/include/HalHWImg8188E_RF.h        |   30 +
+ drivers/staging/r8188eu/include/HalPhyRf.h    |   30 +
+ .../staging/r8188eu/include/HalPhyRf_8188e.h  |   58 +
+ .../staging/r8188eu/include/HalPwrSeqCmd.h    |  126 +
+ drivers/staging/r8188eu/include/HalVerDef.h   |  166 +
+ drivers/staging/r8188eu/include/autoconf.h    |   43 +
+ .../include/basic_types.h                     |   66 +-
+ drivers/staging/r8188eu/include/cmd_osdep.h   |   32 +
+ drivers/staging/r8188eu/include/drv_types.h   |  346 +
+ .../staging/r8188eu/include/drv_types_linux.h |   23 +
+ drivers/staging/r8188eu/include/ethernet.h    |   41 +
+ drivers/staging/r8188eu/include/h2clbk.h      |   32 +
+ .../{rtl8188eu => r8188eu}/include/hal_com.h  |   34 +-
+ drivers/staging/r8188eu/include/hal_intf.h    |  430 +
+ .../include/ieee80211.h                       |  663 +-
+ .../staging/r8188eu/include/ieee80211_ext.h   |  287 +
+ drivers/staging/r8188eu/include/if_ether.h    |  111 +
+ .../staging/r8188eu/include/ioctl_cfg80211.h  |  107 +
+ drivers/staging/r8188eu/include/ip.h          |  125 +
+ drivers/staging/r8188eu/include/mlme_osdep.h  |   35 +
+ .../staging/r8188eu/include/mp_custom_oid.h   |  349 +
+ drivers/staging/r8188eu/include/nic_spec.h    |   41 +
+ .../{rtl8188eu => r8188eu}/include/odm.h      |  301 +-
+ .../include/odm_HWConfig.h}                   |   44 +-
+ .../staging/r8188eu/include/odm_RTL8188E.h    |   56 +
+ .../r8188eu/include/odm_RegConfig8188E.h      |   43 +
+ .../r8188eu/include/odm_RegDefine11AC.h       |   46 +
+ .../r8188eu/include/odm_RegDefine11N.h        |  160 +
+ drivers/staging/r8188eu/include/odm_debug.h   |  143 +
+ .../staging/r8188eu/include/odm_interface.h   |  164 +
+ .../include/odm_precomp.h                     |   54 +-
+ drivers/staging/r8188eu/include/odm_reg.h     |  116 +
+ drivers/staging/r8188eu/include/odm_types.h   |   61 +
+ drivers/staging/r8188eu/include/osdep_intf.h  |   83 +
+ .../staging/r8188eu/include/osdep_service.h   |  489 +
+ drivers/staging/r8188eu/include/recv_osdep.h  |   54 +
+ .../include/rtl8188e_cmd.h                    |   54 +-
+ drivers/staging/r8188eu/include/rtl8188e_dm.h |   62 +
+ .../include/rtl8188e_hal.h                    |  241 +-
+ .../staging/r8188eu/include/rtl8188e_led.h    |   34 +
+ .../staging/r8188eu/include/rtl8188e_recv.h   |   69 +
+ drivers/staging/r8188eu/include/rtl8188e_rf.h |   35 +
+ .../include/rtl8188e_spec.h                   |  686 +-
+ .../staging/r8188eu/include/rtl8188e_sreset.h |   31 +
+ .../include/rtl8188e_xmit.h                   |   42 +-
+ .../include/rtw_android.h                     |   16 +-
+ .../{rtl8188eu => r8188eu}/include/rtw_ap.h   |   24 +-
+ drivers/staging/r8188eu/include/rtw_br_ext.h  |   66 +
+ drivers/staging/r8188eu/include/rtw_cmd.h     |  991 ++
+ drivers/staging/r8188eu/include/rtw_debug.h   |  274 +
+ .../include/rtw_eeprom.h                      |   34 +-
+ drivers/staging/r8188eu/include/rtw_efuse.h   |  150 +
+ drivers/staging/r8188eu/include/rtw_event.h   |  113 +
+ drivers/staging/r8188eu/include/rtw_ht.h      |   44 +
+ drivers/staging/r8188eu/include/rtw_io.h      |  387 +
+ .../include/rtw_ioctl.h                       |   41 +-
+ .../staging/r8188eu/include/rtw_ioctl_rtl.h   |   79 +
+ .../staging/r8188eu/include/rtw_ioctl_set.h   |   49 +
+ drivers/staging/r8188eu/include/rtw_iol.h     |   84 +
+ drivers/staging/r8188eu/include/rtw_led.h     |  201 +
+ drivers/staging/r8188eu/include/rtw_mlme.h    |  649 ++
+ .../include/rtw_mlme_ext.h                    |  358 +-
+ drivers/staging/r8188eu/include/rtw_mp.h      |  492 +
+ .../staging/r8188eu/include/rtw_mp_ioctl.h    |  339 +
+ .../r8188eu/include/rtw_mp_phy_regdef.h       | 1079 +++
+ drivers/staging/r8188eu/include/rtw_p2p.h     |  135 +
+ .../include/rtw_pwrctrl.h                     |   77 +-
+ drivers/staging/r8188eu/include/rtw_qos.h     |   30 +
+ drivers/staging/r8188eu/include/rtw_recv.h    |  473 +
+ .../{rtl8188eu => r8188eu}/include/rtw_rf.h   |   38 +-
+ .../staging/r8188eu/include/rtw_security.h    |  382 +
+ drivers/staging/r8188eu/include/rtw_sreset.h  |   50 +
+ drivers/staging/r8188eu/include/rtw_version.h |    1 +
+ .../{rtl8188eu => r8188eu}/include/rtw_xmit.h |   63 +-
+ .../{rtl8188eu => r8188eu}/include/sta_info.h |   61 +-
+ drivers/staging/r8188eu/include/usb_hal.h     |   26 +
+ drivers/staging/r8188eu/include/usb_ops.h     |  115 +
+ .../staging/r8188eu/include/usb_ops_linux.h   |   55 +
+ drivers/staging/r8188eu/include/usb_osintf.h  |   45 +
+ .../staging/r8188eu/include/usb_vendor_req.h  |   51 +
+ drivers/staging/r8188eu/include/wifi.h        | 1105 +++
+ .../include/wlan_bssdef.h                     |  153 +-
+ drivers/staging/r8188eu/include/xmit_osdep.h  |   67 +
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  | 8178 ++++++++++++++++
+ drivers/staging/r8188eu/os_dep/mlme_linux.c   |  302 +
+ drivers/staging/r8188eu/os_dep/os_intfs.c     | 1283 +++
+ .../staging/r8188eu/os_dep/osdep_service.c    |  535 ++
+ drivers/staging/r8188eu/os_dep/recv_linux.c   |  270 +
+ .../os_dep/rtw_android.c                      |  134 +-
+ drivers/staging/r8188eu/os_dep/usb_intf.c     |  863 ++
+ .../staging/r8188eu/os_dep/usb_ops_linux.c    |  283 +
+ drivers/staging/r8188eu/os_dep/xmit_linux.c   |  282 +
+ drivers/staging/rtl8188eu/Makefile            |   56 -
+ drivers/staging/rtl8188eu/TODO                |   14 -
+ drivers/staging/rtl8188eu/core/mac_cfg.c      |  120 -
+ drivers/staging/rtl8188eu/core/rtw_cmd.c      | 1219 ---
+ drivers/staging/rtl8188eu/core/rtw_efuse.c    |  850 --
+ .../staging/rtl8188eu/core/rtw_ieee80211.c    |  990 --
+ .../staging/rtl8188eu/core/rtw_ioctl_set.c    |  512 -
+ drivers/staging/rtl8188eu/core/rtw_iol.c      |   19 -
+ drivers/staging/rtl8188eu/core/rtw_led.c      |  460 -
+ drivers/staging/rtl8188eu/core/rtw_mlme_ext.c | 5172 ----------
+ drivers/staging/rtl8188eu/core/rtw_pwrctrl.c  |  581 --
+ drivers/staging/rtl8188eu/core/rtw_security.c |  869 --
+ drivers/staging/rtl8188eu/core/rtw_sreset.c   |   21 -
+ drivers/staging/rtl8188eu/core/rtw_sta_mgt.c  |  479 -
+ .../staging/rtl8188eu/core/rtw_wlan_util.c    | 1373 ---
+ drivers/staging/rtl8188eu/hal/fw.c            |  202 -
+ drivers/staging/rtl8188eu/hal/hal_intf.c      |   60 -
+ drivers/staging/rtl8188eu/hal/odm.c           |  966 --
+ drivers/staging/rtl8188eu/hal/odm_hwconfig.c  |  397 -
+ drivers/staging/rtl8188eu/hal/odm_rtl8188e.c  |  335 -
+ drivers/staging/rtl8188eu/hal/phy.c           | 1276 ---
+ drivers/staging/rtl8188eu/hal/pwrseq.c        |   36 -
+ drivers/staging/rtl8188eu/hal/pwrseqcmd.c     |   72 -
+ drivers/staging/rtl8188eu/hal/rf.c            |  289 -
+ drivers/staging/rtl8188eu/hal/rf_cfg.c        |  247 -
+ drivers/staging/rtl8188eu/hal/rtl8188e_cmd.c  |  591 --
+ drivers/staging/rtl8188eu/hal/rtl8188e_dm.c   |  217 -
+ .../staging/rtl8188eu/hal/rtl8188e_hal_init.c |  517 -
+ drivers/staging/rtl8188eu/hal/rtl8188e_xmit.c |   25 -
+ drivers/staging/rtl8188eu/hal/rtl8188eu_led.c |   55 -
+ .../staging/rtl8188eu/hal/rtl8188eu_recv.c    |   83 -
+ drivers/staging/rtl8188eu/hal/usb_halinit.c   | 1862 ----
+ drivers/staging/rtl8188eu/include/HalVerDef.h |   37 -
+ drivers/staging/rtl8188eu/include/drv_types.h |  176 -
+ drivers/staging/rtl8188eu/include/fw.h        |   44 -
+ .../rtl8188eu/include/hal8188e_phy_cfg.h      |  175 -
+ .../rtl8188eu/include/hal8188e_phy_reg.h      |  201 -
+ drivers/staging/rtl8188eu/include/hal_intf.h  |  203 -
+ .../staging/rtl8188eu/include/mlme_osdep.h    |   21 -
+ drivers/staging/rtl8188eu/include/mon.h       |   28 -
+ .../staging/rtl8188eu/include/odm_rtl8188e.h  |   39 -
+ drivers/staging/rtl8188eu/include/odm_types.h |   24 -
+ .../staging/rtl8188eu/include/osdep_intf.h    |   35 -
+ .../staging/rtl8188eu/include/osdep_service.h |   81 -
+ drivers/staging/rtl8188eu/include/phy.h       |   26 -
+ drivers/staging/rtl8188eu/include/phydm_reg.h |   22 -
+ .../rtl8188eu/include/phydm_regdefine11n.h    |   53 -
+ drivers/staging/rtl8188eu/include/pwrseq.h    |  130 -
+ drivers/staging/rtl8188eu/include/pwrseqcmd.h |   48 -
+ .../staging/rtl8188eu/include/recv_osdep.h    |   26 -
+ drivers/staging/rtl8188eu/include/rf.h        |   12 -
+ .../staging/rtl8188eu/include/rtl8188e_dm.h   |   40 -
+ .../staging/rtl8188eu/include/rtl8188e_recv.h |   53 -
+ drivers/staging/rtl8188eu/include/rtw_cmd.h   |  361 -
+ drivers/staging/rtl8188eu/include/rtw_efuse.h |   67 -
+ drivers/staging/rtl8188eu/include/rtw_event.h |   81 -
+ drivers/staging/rtl8188eu/include/rtw_ht.h    |   26 -
+ .../staging/rtl8188eu/include/rtw_ioctl_set.h |   28 -
+ drivers/staging/rtl8188eu/include/rtw_iol.h   |   14 -
+ drivers/staging/rtl8188eu/include/rtw_led.h   |   98 -
+ drivers/staging/rtl8188eu/include/rtw_mlme.h  |  355 -
+ drivers/staging/rtl8188eu/include/rtw_recv.h  |  262 -
+ .../staging/rtl8188eu/include/rtw_security.h  |  241 -
+ .../staging/rtl8188eu/include/rtw_sreset.h    |   30 -
+ .../staging/rtl8188eu/include/usb_ops_linux.h |   26 -
+ drivers/staging/rtl8188eu/include/wifi.h      |  355 -
+ .../staging/rtl8188eu/include/xmit_osdep.h    |   32 -
+ .../staging/rtl8188eu/os_dep/ioctl_linux.c    | 2705 ------
+ drivers/staging/rtl8188eu/os_dep/mlme_linux.c |  167 -
+ drivers/staging/rtl8188eu/os_dep/mon.c        |  183 -
+ drivers/staging/rtl8188eu/os_dep/os_intfs.c   |  657 --
+ .../staging/rtl8188eu/os_dep/osdep_service.c  |   63 -
+ drivers/staging/rtl8188eu/os_dep/recv_linux.c |  138 -
+ drivers/staging/rtl8188eu/os_dep/usb_intf.c   |  479 -
+ .../staging/rtl8188eu/os_dep/usb_ops_linux.c  |  644 --
+ drivers/staging/rtl8188eu/os_dep/xmit_linux.c |  189 -
+ 233 files changed, 75527 insertions(+), 31326 deletions(-)
+ rename drivers/staging/{rtl8188eu => r8188eu}/Kconfig (96%)
+ create mode 100644 drivers/staging/r8188eu/Makefile
+ rename drivers/staging/{rtl8188eu => r8188eu}/core/rtw_ap.c (57%)
+ create mode 100644 drivers/staging/r8188eu/core/rtw_br_ext.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_cmd.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_debug.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_efuse.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_ieee80211.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_io.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_ioctl_set.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_iol.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_led.c
+ rename drivers/staging/{rtl8188eu => r8188eu}/core/rtw_mlme.c (50%)
+ create mode 100644 drivers/staging/r8188eu/core/rtw_mlme_ext.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_mp.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_mp_ioctl.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_p2p.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_pwrctrl.c
+ rename drivers/staging/{rtl8188eu => r8188eu}/core/rtw_recv.c (50%)
+ rename drivers/staging/{rtl8188eu => r8188eu}/core/rtw_rf.c (60%)
+ create mode 100644 drivers/staging/r8188eu/core/rtw_security.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_sreset.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_sta_mgt.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_wlan_util.c
+ rename drivers/staging/{rtl8188eu => r8188eu}/core/rtw_xmit.c (53%)
+ create mode 100644 drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c
+ rename drivers/staging/{rtl8188eu/hal/hal8188e_rate_adaptive.c => r8188eu/hal/Hal8188ERateAdaptive.c} (57%)
+ rename drivers/staging/{rtl8188eu/hal/bb_cfg.c => r8188eu/hal/HalHWImg8188E_BB.c} (53%)
+ create mode 100644 drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c
+ create mode 100644 drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c
+ create mode 100644 drivers/staging/r8188eu/hal/HalPhyRf.c
+ create mode 100644 drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
+ create mode 100644 drivers/staging/r8188eu/hal/HalPwrSeqCmd.c
+ rename drivers/staging/{rtl8188eu => r8188eu}/hal/hal_com.c (58%)
+ create mode 100644 drivers/staging/r8188eu/hal/hal_intf.c
+ create mode 100644 drivers/staging/r8188eu/hal/odm.c
+ create mode 100644 drivers/staging/r8188eu/hal/odm_HWConfig.c
+ create mode 100644 drivers/staging/r8188eu/hal/odm_RTL8188E.c
+ create mode 100644 drivers/staging/r8188eu/hal/odm_RegConfig8188E.c
+ create mode 100644 drivers/staging/r8188eu/hal/odm_debug.c
+ create mode 100644 drivers/staging/r8188eu/hal/odm_interface.c
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188e_dm.c
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188e_mp.c
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
+ rename drivers/staging/{rtl8188eu => r8188eu}/hal/rtl8188e_rxdesc.c (79%)
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188e_sreset.c
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188e_xmit.c
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188eu_led.c
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188eu_recv.c
+ rename drivers/staging/{rtl8188eu => r8188eu}/hal/rtl8188eu_xmit.c (68%)
+ create mode 100644 drivers/staging/r8188eu/hal/usb_halinit.c
+ create mode 100644 drivers/staging/r8188eu/hal/usb_ops_linux.c
+ create mode 100644 drivers/staging/r8188eu/include/Hal8188EPhyCfg.h
+ create mode 100644 drivers/staging/r8188eu/include/Hal8188EPhyReg.h
+ create mode 100644 drivers/staging/r8188eu/include/Hal8188EPwrSeq.h
+ rename drivers/staging/{rtl8188eu/include/hal8188e_rate_adaptive.h => r8188eu/include/Hal8188ERateAdaptive.h} (69%)
+ create mode 100644 drivers/staging/r8188eu/include/Hal8188EReg.h
+ create mode 100644 drivers/staging/r8188eu/include/HalHWImg8188E_BB.h
+ create mode 100644 drivers/staging/r8188eu/include/HalHWImg8188E_FW.h
+ create mode 100644 drivers/staging/r8188eu/include/HalHWImg8188E_MAC.h
+ create mode 100644 drivers/staging/r8188eu/include/HalHWImg8188E_RF.h
+ create mode 100644 drivers/staging/r8188eu/include/HalPhyRf.h
+ create mode 100644 drivers/staging/r8188eu/include/HalPhyRf_8188e.h
+ create mode 100644 drivers/staging/r8188eu/include/HalPwrSeqCmd.h
+ create mode 100644 drivers/staging/r8188eu/include/HalVerDef.h
+ create mode 100644 drivers/staging/r8188eu/include/autoconf.h
+ rename drivers/staging/{rtl8188eu => r8188eu}/include/basic_types.h (68%)
+ create mode 100644 drivers/staging/r8188eu/include/cmd_osdep.h
+ create mode 100644 drivers/staging/r8188eu/include/drv_types.h
+ create mode 100644 drivers/staging/r8188eu/include/drv_types_linux.h
+ create mode 100644 drivers/staging/r8188eu/include/ethernet.h
+ create mode 100644 drivers/staging/r8188eu/include/h2clbk.h
+ rename drivers/staging/{rtl8188eu => r8188eu}/include/hal_com.h (78%)
+ create mode 100644 drivers/staging/r8188eu/include/hal_intf.h
+ rename drivers/staging/{rtl8188eu => r8188eu}/include/ieee80211.h (52%)
+ create mode 100644 drivers/staging/r8188eu/include/ieee80211_ext.h
+ create mode 100644 drivers/staging/r8188eu/include/if_ether.h
+ create mode 100644 drivers/staging/r8188eu/include/ioctl_cfg80211.h
+ create mode 100644 drivers/staging/r8188eu/include/ip.h
+ create mode 100644 drivers/staging/r8188eu/include/mlme_osdep.h
+ create mode 100644 drivers/staging/r8188eu/include/mp_custom_oid.h
+ create mode 100644 drivers/staging/r8188eu/include/nic_spec.h
+ rename drivers/staging/{rtl8188eu => r8188eu}/include/odm.h (81%)
+ rename drivers/staging/{rtl8188eu/include/odm_hwconfig.h => r8188eu/include/odm_HWConfig.h} (60%)
+ create mode 100644 drivers/staging/r8188eu/include/odm_RTL8188E.h
+ create mode 100644 drivers/staging/r8188eu/include/odm_RegConfig8188E.h
+ create mode 100644 drivers/staging/r8188eu/include/odm_RegDefine11AC.h
+ create mode 100644 drivers/staging/r8188eu/include/odm_RegDefine11N.h
+ create mode 100644 drivers/staging/r8188eu/include/odm_debug.h
+ create mode 100644 drivers/staging/r8188eu/include/odm_interface.h
+ rename drivers/staging/{rtl8188eu => r8188eu}/include/odm_precomp.h (52%)
+ create mode 100644 drivers/staging/r8188eu/include/odm_reg.h
+ create mode 100644 drivers/staging/r8188eu/include/odm_types.h
+ create mode 100644 drivers/staging/r8188eu/include/osdep_intf.h
+ create mode 100644 drivers/staging/r8188eu/include/osdep_service.h
+ create mode 100644 drivers/staging/r8188eu/include/recv_osdep.h
+ rename drivers/staging/{rtl8188eu => r8188eu}/include/rtl8188e_cmd.h (52%)
+ create mode 100644 drivers/staging/r8188eu/include/rtl8188e_dm.h
+ rename drivers/staging/{rtl8188eu => r8188eu}/include/rtl8188e_hal.h (53%)
+ create mode 100644 drivers/staging/r8188eu/include/rtl8188e_led.h
+ create mode 100644 drivers/staging/r8188eu/include/rtl8188e_recv.h
+ create mode 100644 drivers/staging/r8188eu/include/rtl8188e_rf.h
+ rename drivers/staging/{rtl8188eu => r8188eu}/include/rtl8188e_spec.h (59%)
+ create mode 100644 drivers/staging/r8188eu/include/rtl8188e_sreset.h
+ rename drivers/staging/{rtl8188eu => r8188eu}/include/rtl8188e_xmit.h (70%)
+ rename drivers/staging/{rtl8188eu => r8188eu}/include/rtw_android.h (67%)
+ rename drivers/staging/{rtl8188eu => r8188eu}/include/rtw_ap.h (63%)
+ create mode 100644 drivers/staging/r8188eu/include/rtw_br_ext.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_cmd.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_debug.h
+ rename drivers/staging/{rtl8188eu => r8188eu}/include/rtw_eeprom.h (72%)
+ create mode 100644 drivers/staging/r8188eu/include/rtw_efuse.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_event.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_ht.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_io.h
+ rename drivers/staging/{rtl8188eu => r8188eu}/include/rtw_ioctl.h (60%)
+ create mode 100644 drivers/staging/r8188eu/include/rtw_ioctl_rtl.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_ioctl_set.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_iol.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_led.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_mlme.h
+ rename drivers/staging/{rtl8188eu => r8188eu}/include/rtw_mlme_ext.h (63%)
+ create mode 100644 drivers/staging/r8188eu/include/rtw_mp.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_mp_ioctl.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_mp_phy_regdef.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_p2p.h
+ rename drivers/staging/{rtl8188eu => r8188eu}/include/rtw_pwrctrl.h (76%)
+ create mode 100644 drivers/staging/r8188eu/include/rtw_qos.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_recv.h
+ rename drivers/staging/{rtl8188eu => r8188eu}/include/rtw_rf.h (71%)
+ create mode 100644 drivers/staging/r8188eu/include/rtw_security.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_sreset.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_version.h
+ rename drivers/staging/{rtl8188eu => r8188eu}/include/rtw_xmit.h (84%)
+ rename drivers/staging/{rtl8188eu => r8188eu}/include/sta_info.h (83%)
+ create mode 100644 drivers/staging/r8188eu/include/usb_hal.h
+ create mode 100644 drivers/staging/r8188eu/include/usb_ops.h
+ create mode 100644 drivers/staging/r8188eu/include/usb_ops_linux.h
+ create mode 100644 drivers/staging/r8188eu/include/usb_osintf.h
+ create mode 100644 drivers/staging/r8188eu/include/usb_vendor_req.h
+ create mode 100644 drivers/staging/r8188eu/include/wifi.h
+ rename drivers/staging/{rtl8188eu => r8188eu}/include/wlan_bssdef.h (63%)
+ create mode 100644 drivers/staging/r8188eu/include/xmit_osdep.h
+ create mode 100644 drivers/staging/r8188eu/os_dep/ioctl_linux.c
+ create mode 100644 drivers/staging/r8188eu/os_dep/mlme_linux.c
+ create mode 100644 drivers/staging/r8188eu/os_dep/os_intfs.c
+ create mode 100644 drivers/staging/r8188eu/os_dep/osdep_service.c
+ create mode 100644 drivers/staging/r8188eu/os_dep/recv_linux.c
+ rename drivers/staging/{rtl8188eu => r8188eu}/os_dep/rtw_android.c (57%)
+ create mode 100644 drivers/staging/r8188eu/os_dep/usb_intf.c
+ create mode 100644 drivers/staging/r8188eu/os_dep/usb_ops_linux.c
+ create mode 100644 drivers/staging/r8188eu/os_dep/xmit_linux.c
+ delete mode 100644 drivers/staging/rtl8188eu/Makefile
+ delete mode 100644 drivers/staging/rtl8188eu/TODO
+ delete mode 100644 drivers/staging/rtl8188eu/core/mac_cfg.c
+ delete mode 100644 drivers/staging/rtl8188eu/core/rtw_cmd.c
+ delete mode 100644 drivers/staging/rtl8188eu/core/rtw_efuse.c
+ delete mode 100644 drivers/staging/rtl8188eu/core/rtw_ieee80211.c
+ delete mode 100644 drivers/staging/rtl8188eu/core/rtw_ioctl_set.c
+ delete mode 100644 drivers/staging/rtl8188eu/core/rtw_iol.c
+ delete mode 100644 drivers/staging/rtl8188eu/core/rtw_led.c
+ delete mode 100644 drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+ delete mode 100644 drivers/staging/rtl8188eu/core/rtw_pwrctrl.c
+ delete mode 100644 drivers/staging/rtl8188eu/core/rtw_security.c
+ delete mode 100644 drivers/staging/rtl8188eu/core/rtw_sreset.c
+ delete mode 100644 drivers/staging/rtl8188eu/core/rtw_sta_mgt.c
+ delete mode 100644 drivers/staging/rtl8188eu/core/rtw_wlan_util.c
+ delete mode 100644 drivers/staging/rtl8188eu/hal/fw.c
+ delete mode 100644 drivers/staging/rtl8188eu/hal/hal_intf.c
+ delete mode 100644 drivers/staging/rtl8188eu/hal/odm.c
+ delete mode 100644 drivers/staging/rtl8188eu/hal/odm_hwconfig.c
+ delete mode 100644 drivers/staging/rtl8188eu/hal/odm_rtl8188e.c
+ delete mode 100644 drivers/staging/rtl8188eu/hal/phy.c
+ delete mode 100644 drivers/staging/rtl8188eu/hal/pwrseq.c
+ delete mode 100644 drivers/staging/rtl8188eu/hal/pwrseqcmd.c
+ delete mode 100644 drivers/staging/rtl8188eu/hal/rf.c
+ delete mode 100644 drivers/staging/rtl8188eu/hal/rf_cfg.c
+ delete mode 100644 drivers/staging/rtl8188eu/hal/rtl8188e_cmd.c
+ delete mode 100644 drivers/staging/rtl8188eu/hal/rtl8188e_dm.c
+ delete mode 100644 drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
+ delete mode 100644 drivers/staging/rtl8188eu/hal/rtl8188e_xmit.c
+ delete mode 100644 drivers/staging/rtl8188eu/hal/rtl8188eu_led.c
+ delete mode 100644 drivers/staging/rtl8188eu/hal/rtl8188eu_recv.c
+ delete mode 100644 drivers/staging/rtl8188eu/hal/usb_halinit.c
+ delete mode 100644 drivers/staging/rtl8188eu/include/HalVerDef.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/drv_types.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/fw.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/hal8188e_phy_cfg.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/hal8188e_phy_reg.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/hal_intf.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/mlme_osdep.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/mon.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/odm_rtl8188e.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/odm_types.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/osdep_intf.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/osdep_service.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/phy.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/phydm_reg.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/phydm_regdefine11n.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/pwrseq.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/pwrseqcmd.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/recv_osdep.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/rf.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/rtl8188e_dm.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/rtl8188e_recv.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/rtw_cmd.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/rtw_efuse.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/rtw_event.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/rtw_ht.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/rtw_ioctl_set.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/rtw_iol.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/rtw_led.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/rtw_mlme.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/rtw_recv.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/rtw_security.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/rtw_sreset.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/usb_ops_linux.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/wifi.h
+ delete mode 100644 drivers/staging/rtl8188eu/include/xmit_osdep.h
+ delete mode 100644 drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+ delete mode 100644 drivers/staging/rtl8188eu/os_dep/mlme_linux.c
+ delete mode 100644 drivers/staging/rtl8188eu/os_dep/mon.c
+ delete mode 100644 drivers/staging/rtl8188eu/os_dep/os_intfs.c
+ delete mode 100644 drivers/staging/rtl8188eu/os_dep/osdep_service.c
+ delete mode 100644 drivers/staging/rtl8188eu/os_dep/recv_linux.c
+ delete mode 100644 drivers/staging/rtl8188eu/os_dep/usb_intf.c
+ delete mode 100644 drivers/staging/rtl8188eu/os_dep/usb_ops_linux.c
+ delete mode 100644 drivers/staging/rtl8188eu/os_dep/xmit_linux.c
 
 -- 
-Regards,
+2.31.1
 
-Laurent Pinchart
