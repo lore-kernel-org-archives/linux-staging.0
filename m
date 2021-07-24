@@ -1,220 +1,118 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DA670
-	for <linux-staging@lists.linux.dev>; Sat, 24 Jul 2021 09:38:46 +0000 (UTC)
-Received: from [192.168.1.107] ([37.4.249.97]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MCKWI-1lxuSN2PS6-009T1o; Sat, 24 Jul 2021 11:38:29 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E6D572
+	for <linux-staging@lists.linux.dev>; Sat, 24 Jul 2021 10:44:58 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id c11so6001877plg.11
+        for <linux-staging@lists.linux.dev>; Sat, 24 Jul 2021 03:44:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ZtgMasyH3/dYOIDYLvJAZLai7NTEDCKY0Q4jVq+9j+I=;
+        b=Elk0fdfM2HcilsHejfu6Gph/yKIr+tvcO+EJs4MuuOz5AvZntsUtNZOPEE1nx0F4ea
+         aHllIHhoe6vWqRMYFJjNXX48Feimdp8NYeOlYRUdQO9n3CVuyc1O4W3JMqkHRD1kOPJ5
+         KhXqkg/ATcSpYLT4XCYJmMl2DKU6HS+cMzk8bu6sqKJPXWJy2H9oZhKi/8mdQnenQFcB
+         IteMy3aJtLc6a3yHI5SlEe9L6wE0GI3NQRWu8nQ3EU374/8VQonkftGysdEZBdIwW6pE
+         uy2hidm+CHjZPAmJUuHabMj136ZIf3EcleaLWEZFbloCUfKUw+rblERr/dwKYPHfXL6O
+         TeTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ZtgMasyH3/dYOIDYLvJAZLai7NTEDCKY0Q4jVq+9j+I=;
+        b=qFFM5+auBRSTXV7RjMB6N/jcE3lW8xqWlNbST3jIt1NT1bwfkBBre+G95H/3BfimSF
+         Saku4rTVM584ChdlKJX/Yx4UPove1SItv1xi3z2PJfLuSZ7RB17u+cuVj6IZFoVNB1Aw
+         2vmdE6GpyG3k4w8/d0lF237NtrV5yn6GelGNtS5aammP2lr8ijDWmPbGD6uJuPqiTMcP
+         llKq7izFLG1hfn170Muaq18dC5H2fSKbScj1XzKHM2cGhbBPnMJ2pRFhDVLxE0CG0m0E
+         fjNpUdkq5hFfOCW2L6+Ffz7m7thDUZMX5OjLjp+RMs9nVuE/DdouKztPLgMmufkHwBhU
+         igkg==
+X-Gm-Message-State: AOAM533yoQTfm0LXsM820Qh08scUZLkVQ2bcaGnac1pVewHPjF/WLPz6
+	JjrGEayQqW7QlSvUfePwY6M=
+X-Google-Smtp-Source: ABdhPJw8IRCFGjXrZ8IvIsTAxkGgO4IcBLcVqQXsIN48Kskn9pYa6VnM9ZSJY44EWkljUZz9k4EcEQ==
+X-Received: by 2002:a63:5619:: with SMTP id k25mr9175835pgb.92.1627123497745;
+        Sat, 24 Jul 2021 03:44:57 -0700 (PDT)
+Received: from ojas ([122.161.50.107])
+        by smtp.gmail.com with ESMTPSA id e13sm38213709pfd.11.2021.07.24.03.44.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 24 Jul 2021 03:44:57 -0700 (PDT)
+Date: Sat, 24 Jul 2021 16:14:47 +0530
+From: Ojaswin Mujoo <ojaswin98@gmail.com>
+To: Stefan Wahren <stefan.wahren@i2se.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, nsaenz@kernel.org,
+	dan.carpenter@oracle.com, phil@raspberrypi.com,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v4 0/5] vchiq: Patch to separate platform and cdev code
-To: Ojaswin Mujoo <ojaswin98@gmail.com>, nsaenz@kernel.org
-Cc: gregkh@linuxfoundation.org, dan.carpenter@oracle.com,
- phil@raspberrypi.com, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Message-ID: <20210724104447.GA3435@ojas>
 References: <cover.1626882325.git.ojaswin98@gmail.com>
-From: Stefan Wahren <stefan.wahren@i2se.com>
-Autocrypt: addr=stefan.wahren@i2se.com; keydata=
- LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
- CgptUUlOQkZ0NmdCTUJFQUN1Yi9wQmV2SHhidkplZnlaRzMySklObW4yYnNFUFgyNVY2ZmVq
- bXlZd21DR0tqRnRMCi9Eb1VNRVZIRHhDSjQ3Qk1YbzM0NGZIVjFDM0FudWRnTjFCZWhMb0J0
- TEh4bW5lQ3pnSDNLY1B0V1c3cHRqNEcKdEp2OUNRRFp5MjdTS29FUHh5YUk4Q0YweWdSeEpj
- NzJNOUk5d21zUFo1YlVIc0x1WVdNcVE3SmNSbVBzNkQ4ZwpCa2srOC95bmdFeU5FeHd4SnBS
- MXlsajVianhXREh5WVF2dUo1THpaS3VPOUxCM2xYVnNjNGJxWEVqYzZWRnVaCkZDQ2svc3lp
- by9ZaHNlOE4rUXN4N01RYWd6NHdLVWtRUWJmWGcxVnFrVG5BaXZYczQyVm5Ja211NWd6SXcv
- MHQKUkp2NTBGUmhIaHhweUtBSThCOG5oTjhRdng3TVZrUGM1dkRmZDN1R1lXNDdKUGhWUUJj
- VXdKd05rLzQ5RjllQQp2ZzJtdE1QRm5GT1JrV1VSdlArRzZGSmZtNitDdk92N1lmUDF1ZXdB
- aTRsbitKTzFnK2dqVklXbC9XSnB5MG5UCmlwZGZlSDlkSGtnU2lmUXVuWWN1Y2lzTXlvUmJG
- OTU1dENna0VZOUVNRWRZMXQ4aUdEaUNnWDZzNTBMSGJpM2sKNDUzdWFjcHhmUVhTYUF3UGtz
- bDhNa0NPc3YyZUVyNElOQ0hZUUR5WmljbEJ1dUNnOEVOYlI2QUdWdFpTUGNRYgplbnpTektS
- Wm9POUNhcUlEK2ZhdkxpQi9kaHptSEErOWJnSWhtWGZ2WFJMRFp6ZThwbzFkeXQzRTFzaFhp
- ZGRaClBBOE51SlZ6RUl0MmxtSTZWOHBaRHBuMjIxcmZLaml2UlFpYW9zNTRUZ1pqak1ZSTdu
- bko3ZTZ4endBUkFRQUIKdENCVGRHVm1ZVzRnVjJGb2NtVnVJRHgzWVdoeVpXNXpkRUJuYlhn
- dWJtVjBQb2tDTndRVEFRZ0FJUVVDWElkYwo0Z0liQXdVTENRZ0hBZ1lWQ0FrS0N3SUVGZ0lE
- QVFJZUFRSVhnQUFLQ1JDVWdld1BFWkR5MjFPVEQvOUdpWkxkCnRSWWNteVJKZ2x0aVFRekFp
- UWRjSUQ3OGxHb1dwL3grci92Y1U2YjZqdVl1ZVR3Z1Iwclc3djdsMklSQnlEN24KSEp4YSt0
- SVNvUVpCZ2hvbE1JZmI5TXRoR09KTENZNzdrL1FoQWhuMzJOR1prZWp3OXR6a3MvNDBtclpT
- VVQ4NApaeWJzUVhyTE0vSFI2VElJL0RlUEIwbktEM0ppcHBzMlVIUUQ5cUQySWpFd1NRUGxI
- akNPckVaaDQ1UFo3bTkrClo5M0x6aVRlc1dabFlRdUxpSndzNHJLcHRIVzFkL3dSZWxzaG1t
- NlFxY0wybDRDL2U0MGVEQjlncTRkU1poOVgKUEVZbGxpeU5RaDdhMkxTZHVtRTFyK2NTd0lq
- RS91ZHRSdmRPOWFLb0psT2JVSzVkTmpTUEg3d0tUYndkWGRZRApHUHdEaFhkNThOQXdyK1BY
- QmxQajB0STFMQ3ErTEJ4ZUt6aFdYK0dWcTlEb2pWanlVREV4Rk5Ga1h1b0M3ZzhtClY5VDB0
- ZUJpdVpSbm91WEt3VjJGcHRaT0hIN0JVRVd0a0t0aGgxZXRmT1dwaWdCemtVN2JQc2ZJWVQr
- cnk5dGIKMW9KK3Y0MVBOYXFaRW1QVXBKeHZmek5UN3Ayd01lRDdaajlmMHJ1YlJQdExBSjJR
- R2pyRkhzdVh3QU9xcHl6ZQoxOEVidHNZazBOMHp1SEVoY2orUEJJQmZoMFlJWWQ1MW9mNkdJ
- aU95UjlxMFhYdHBsVUo3VDIvSDF1UXFrWGxwCitnVzRWa2lmc2NJckl1eWZueFpXMTJlSXZq
- NnlicVdMN2FZS0dZbVQ2aUxDUGJIWXlZY2F5bDRFa0ZjckNGN0UKZTBXVC9zY1ZNaE8vNVgv
- SGFOQTVIQngvcjUycGdMY3Y0aTlNeExRbVUzUmxabUZ1SUZkaGFISmxiaUE4YzNSbApabUZ1
- TG5kaGFISmxia0JwTW5ObExtTnZiVDZKQWpnRUV3RUNBQ0lGQWx0NmdCTUNHd01HQ3drSUJ3
- TUNCaFVJCkFna0tDd1FXQWdNQkFoNEJBaGVBQUFvSkVKU0I3QThSa1BMYmpic1AvamdqYVNz
- NUh0bGtBSXZXUytGcm15N2MKaG5jT0F4TFRWL0Q2UkV3SU95R0poRkt3d29pck55UTJnOXZV
- YTNZQ1lDZjFmSjh3RWhhS09COWQwTHBNUm5MNApkRVQ4ZDgyMzhFL3BLK0hxTktpSXNKaHM2
- SnNLOFpnalZRR3JtbWZua0dyWisxdjBIQnV4ZGljZ0duUC9XdHVBClVsOGw2Mi9BTGJheXlq
- KzYxQ2xyc0V0UklhcU82N0xJWXdQaVBEUkkrWGlNek5pR3pIRi8xUTZHUjAyUkg2YTMKRjg5
- ejhhUHhjSGkxWnZDdDJ5a3o2VUVjaHpQMHI1Z3FGSisvTC9VcHU4ME1YaVk0djVlSWFCNTJn
- VlBnaXlNQQpsTDJkRHMxbUladm5yUkxSWTJ0YjNtQVlOa1Y1QjVJRFQzcGtXeTZrS281T0Nn
- SytZZFlPUjhGTloyb04ydDhPCnJLK1ZudGFLN01NU0tIbG1ZL3NPd3RSbEVoMU9CbXJjQ3dH
- d21wLzA1R2tSNDZmL0lzaFJWZUZPUmF3K0dBcXQKUDIrQ0ZhMkNOQS9JSG5aTm95aWtsRHpQ
- UUhVVUdzck5wcERyaFg5Sm1oQm1nMXYyeXdIMU5YdTFpRGZQMUJBdwpLZ29rdDVmNVVhUkY5
- c0FBNTN2V0V2YlVVTjllZXNGR0x6UFdkSkdRNWhwZC9WSDVJUXk5U0JyaC93SWNla3E1Cm4w
- a042cGJUSHhHRTUyU2kvTVZJa05UdURaM2FwbjJqbERaNHBPdHBCWEkydlAzYlBPK05pcUJa
- anNVM3R4TGkKV2R2MkZqeXp6NlhMUndlV1JZVkw1SGE2TER0eG9yMnZ1NlVQMDdwOXh6MXhS
- WmFPRFczb1lsSEZ6WXBhNFc1ZwpMSGIybEVrSXVVZlNjaWNHYmpqQXRDbFRkR1ZtWVc0Z1Yy
- Rm9jbVZ1SUR4emRHVm1ZVzR1ZDJGb2NtVnVRR2x1CkxYUmxZMmd1WTI5dFBva0NOd1FUQVFn
- QUlRVUNYSWRlaHdJYkF3VUxDUWdIQWdZVkNBa0tDd0lFRmdJREFRSWUKQVFJWGdBQUtDUkNV
- Z2V3UEVaRHkyeUhURC85VUY3UWxEa0d4elE3QWFDSTZOOTVpUWY4LzFvU1VhRE51Mlk2SQpL
- K0R6UXBiMVRiVE9yM1ZKd3dZOGEzT1d6NU5MU09MTVdlVnh0K29zTW1sUUlHdWJEM09EWko4
- aXpQbEcvSnJOCnQ1elNkbU41SUE1ZjNlc1dXUVZLdmdoWkFnVERxZHB2K1pIVzJFbXhuQUox
- dUxGWFhlUWQzVVpjQzVyMy9nL3YKU2FNbzl4ZWszSjVtTnVEbTcxbEVXc0FzL0JBY0ZjK3lu
- TGh4d0JXQld3c3Z3UjhiSHRKNURPTVd2YUt1RHNrcApJR0ZVZS9LYjJCK2pyYXZRM1RuNnMv
- SHFKTTBjZXhTSHo1cGUrMHNHdlArdDlKNzIzNEJGUXdlRkV4cmlleThVCkl4T3I0WEFiYWFi
- U3J5WW5VL3pWSDlVMWkyQUlRWk1XSkFldkN2VmdRL1UrTmVSaFh1ZGU5WVVtRE1EbzJzQjIK
- VkFGRUFxaUYyUVVIUEEybThhN0VPM3lmTDRyTWswaUh6TElLdmg2L3JIOFFDWThpM1h4VE5M
- OWlDTHpCV3UvTgpPbkNBYlMremx2TFphaVNNaDVFZnV4VHR2NFBsVmRFamY2MlArWkhJRDE2
- Z1VEd0VtYXpMQU1yeDY2NmpINWt1ClVDVFZ5bWJMMFR2Qis2TDZBUmw4QU55TTRBRG1rV2tw
- eU0yMmtDdUlTWUFFZlFSM3VXWFo5WWd4YVBNcWJWK3cKQnJoSmc0SGFONkM2eFRxR3YzcjRC
- MmFxYjc3L0NWb1JKMVo5Y3BIQ3dpT3pJYUFtdnl6UFU2TXhDRFhaOEZnWQpsVDR2MjNHNWlt
- SlAyemdYNXMrRjZBQ1VKOVVRUEQwdVRmK0o5RGEycitza2gvc1dPbloreWNvSE5CUXZvY1pF
- Ck5BSFFmN2tDRFFSYmVvQVRBUkFBMkhkMGZzRFZLNzJSTFNESGJ5ME9oZ0RjRGxWQk0yTSto
- WVlwTzNmWDFyKysKc2hpcVBLQ0hWQXNRNWJ4ZTdIbUppbUhhNEtLWXMya3YvbWx0L0NhdUNK
- Ly9wbWN5Y0JNN0d2d25Lem11WHp1QQpHbVZUWkM2V1I1TGtha0ZydEhPelZtc0VHcE52NVJj
- OWw2SFlGcExrYlNrVmk1U1BRWkp5K0VNZ01DRmdqclpmClZGNnlvdHdFMWFmN0hOdE1oTlBh
- TEROMW9VS0Y1aitSeVJnNWl3SnVDRGtuSGp3QlFWNHBndzIvNXZTOEE3WlEKdjJNYlcvVExF
- eXBLWGlmNzhJaGdBelh0RTJYck0xbi9vNlpINzFvUkZGS096NDJsRmR6ZHJTWDBZc3FYZ0hD
- WAo1Z0l0TGZxemoxcHNNYTlvMWVpTlRFbTFkVlFyVHFueXMwbDE4b2FsUk5zd1lsUW1uWUJ3
- cHdDa2FUSExNSHdLCmZHQmJvNWRMUEVzaHRWb3dJNm5zZ3FMVHlRSG1xSFlxVVpZSXBpZ21t
- QzNTd0JXWTFWNmZmVUVta3FwQUFDRW4KTDQvZ1Vnbjd5US81ZDBzZXFuQXEycFNCSE1VVW9D
- Y1R6RVFVV1ZraUR2M1JrN2hURm1oVHNNcTc4eHYyWFJzWApNUjZ5UWhTVFBGWkNZRFVFeEVs
- RXNTbzlGV0hXcjZ6SHlZY2M4cURMRnZHOUZQaG1RdVQyczlCbHg2Z0kzMjNHCm5FcTFsd1dQ
- SlZ6UDRqUWtKS0lBWHdGcHYrVzhDV0xxekRXT3ZkbHJEYVRhVk1zY0ZUZUg1VzZVcHJsNjVq
- cUYKUUdNcGNSR0NzOEdDVVcxM0gwSXlPdFF0d1dYQTRueStTTDgxcHZpQW1hU1hVOGxhS2FS
- dTkxVk9WYUY5ZjRzQQpFUUVBQVlrQ0h3UVlBUUlBQ1FVQ1czcUFFd0liREFBS0NSQ1VnZXdQ
- RVpEeTIrb1hELzljSEhSa0JaT2ZrbVNxCjE0U3Z4MDYyUHRVMEtWNDcwVFNucC9qV29ZSm5L
- SXczRzBtWElSZ3J0SDJkUHdwSWdWanNZeVJTVk1LbVNwdDUKWnJEZjlOdFRiTldnazhWb0xl
- WnpZRW8rSjNvUHFGclRNczNhWVl2N2U0K0pLNjk1WW5tUSttT0Q5bmlhOTE1dApyNUFaajk1
- VWZTVGx5VW15aWMxZDhvdnNmMWZQN1hDVVZSRmNSamZOZkRGMW9ML3BEZ01QNUdaMk93YVRl
- am15CkN1SGpNOElSMUNpYXZCcFlEbUJuVFlrN1B0aHk2YXRXdllsMGZ5L0NxYWpUS3N4Nytw
- OXh6aXU4WmZWWCtpS0IKQ2MrSGUrRURFZEdJRGh2TlovSVFIZk9CMlBVWFdHUytzOUZOVHhy
- L0E2bkxHWG5BOVk2dzkzaVBkWUl3eFM3SwpYTG9LSmVlMTBEamx6c1lzUmZsRk9XMFpPaVNp
- aElDWGlRVjF1cU02dHpGRzlndFJjaXVzNVVBdGhXYU8xT3dVClNDUW1mQ09tNGZ2TUlKSUE5
- cnh0b1M2T3FSUWNpRjNjcm1vMHJKQ3ROMmF3WmZnaThYRWlmN2Q2aGp2MEVLTTkKWFpvaUFa
- WVpEKy9pTG01VGFLV042b0dJdGkwVmpKdjhaWk9aT2ZDYjZ2cUZJa0pXK2FPdTRvclRMRk16
- MjhhbwpVM1F5V3BOQzhGRm1kWXNWdWE4czZnTjFOSWE2eTNxYS9aQjhiQS9pa3k1OUFFejRp
- RElScmdVek1FZzhBazdUCmZtMUtpWWVpVHRCRENvMjVCdlhqYnFzeXhrUUQxbmtSbTZGQVZ6
- RXVPUEllOEp1cVcyeEQ5aXhHWXZqVTVoa1IKZ0pwM2dQNWIrY25HM0xQcXF1UTJFNmdvS1VN
- TEFia0NEUVJiZmw5REFSQUFzRExjYStMbFAydm5mdEVHaHBjQQpCR1ZOUUVGbkdQckNhdVU2
- SGhOODA1V3RQVHRtc1JPdUp6cWdVVDBtcHFXSWZacTZzTXd5dkhLOVRzL0tIM0paClVWYlJD
- M3oyaDNLZmhIL0RhZjk1cGQ2bVBjL2g5dkYvT3kzK2VUV2hnR25QNmNBNWtsUitmTzFXaEc4
- VnJpWHYKck5lUkcyMHN6emplSG9jblNJY1Q1WHVaUjB1REhPaUd4T2l6MXNNUkZUR3h6R095
- MTlSOXJ2dTYzdGlJM2Q3dgpnYzc1T0NBZGtlQi9TZUNFbGFSdzBUZjdMWmJQampzRjI2M0JZ
- bk1mNGtrTkVLdnFXY1UyaWNNcCtxZXpqeW5CCnB2ZXVlMHJDVFFCWUFRbG9GQ1ZUR0hyV1dB
- NkQ0VzVPMkFmSWRJYzF1MUpDWnAyZjVMV1ZvVUZUVklyUW5RUVUKU0hDaWZyOU1aeExUdFBK
- ZFU1Mm9TUHczZGs0aExQOGlKSUx1dnYvYXZhakNzUVlIRXR3WXNiZUZaeGl1TGdscApBN1lj
- Sk5ObXBnQ3BNRDR3VWh2bEN0QUtOQlFXeXIyOTc2OThFUVRuNDZlQmVVNkttMkNpaFhrZ3dD
- eWY4ZXlLCkxFM3NYZXdhcTVrZ1pXdk5xNml1NXFZSVJCOXl3K2NYYzYwZE9aRE9scTkzWDVT
- QVJZemFvZXBrSHo0cmtMa1AKUG8rdENIeUhRUHNHblBYYzlXVDgwREM5Tm5KR2R2VWx5NXJk
- TUk0eHBaeWdlb2tqd293VlFsUFV1Y1M2TXluNwpmOHc4Y2dmQjdDMklBSWNEeDJwUC9IendY
- dmtDT1FOQTdtVjFsTTA4bitnVmtUcnpweGlwNURicTRDSW9ZeDJNCkpaVDhiR1JINlhqY1VE
- S2EwOVFoeVpzQUVRRUFBWWtFUkFRWUFRZ0FEd1VDVzM1ZlF3SWJBZ1VKQThKbkFBSXAKQ1JD
- VWdld1BFWkR5MjhGZElBUVpBUWdBQmdVQ1czNWZRd0FLQ1JCVnhETFBjVk1NamNkc0QvMFJo
- QXN1UVlPeQpyMTNCbDNOaFhrWUFaR3AyWkZER3VrZTdPU2tWOG9qT09UZFR5ei9jT1JHQ2J5
- ZEQrRGd2cUZ5VmRuT1hLZ08wCmxKbUd3ckdlTGRnZ0F2aDBpaHJwNU8wWVVKOWJCU1htR01t
- UVRZSC9BbUxUR2FkYnVqQ1dqNWZGVWtDeXd4aW0KSHV5MFBiMjRwelR2UzUwR1k1WStxSDBG
- SE5haWdka2tpV04zcnVnN0haRXUvQ3lsUFpqT1h6K0QxUVBNckV4dwo3ZC9NS2FiVis5YU5i
- UVlabGRJajk4UXd2VUYxS1N6YThqbFVJdnBoUnEyN0FUOGZER1lHUGZERU1nMmNCT2FlCkty
- N29uUXM0YjdhV082aWZEbHhRVHB6c3pvK0FuODA3Tk1TdFZFRmYrczNBaFZEM2U3bmY4SkJh
- dmJWckFlMGsKb20yNm96elBubnh6K2xxVlZ0dzZVazRYTUl6dGl4L0h3SFl3dUNuY1VYWndL
- MEkzeUFKd2pZd29vck9DaEozUwpFVWJKUVB0R3NneFJERXhWQkZlNk5MUC82MnhQOU82dGFj
- d09kYjBNbVAxYjM5cFJBVEM3YmdkMWxkVUxpNzVaCmxKckowL1NpVkVyb3FOWXk3OXRmbWdB
- WjJVeFptczlTckV5Nm85UVNmc24xYVh2K01QTDlKYUNHbWtQNnpiTFEKTm5kajBKY2FRbmtD
- MHZneWRPMUJtNk11OTZQOXVmbEtaY0FTNndtTE01SWRIT3lqTDg4d0h3anVjakFPQnRjdwpw
- MG9HVG5WT25Sc05ZU084VzhZWi9LZGJ1Nzg1ZGF6TXFKMmlOakFEdUJiZG02TjRqNUVkTW5r
- TG4wQklmUEpwCmRnbTR2bDJVcExqd1JHci9NM3dtbTVwdnMrNnVCN2hrL0ZKaUQvNGxsRU5Q
- NGVNMWg3U200aitWcTZOMSt6VEIKSVhKQWViSXFhc0RwNXlaUzdYcnk0STM2bjg1WEVZZkcw
- MWx0QXlob05WMkRPOFNJUlFwdWkydHErOVJQM1JLMQpKREJ4eEVKWTJFTzVKWjhNeGFQSFEw
- RFQwNWxSRmpLMkFsaGRFSXRqTGpwSjNmVW05c3FMeE1XeHpQNlV6M2lpCjJ1YTR1bnJ0Nk9D
- VHFRd2lqRi8zYlRXaXd2VkFBSG5NRlVpb1hzaEhhb2hWRGNWZm5lSU1mVjBiUUNYWWkzTnAK
- WTB2MFp3Y2lGSCtnU0M3cUQ2WE51aHBWR1NMNElpbGlGeS9TemNhSkV6QUhlTERTaFpQMkNX
- ZG5DNHZnbDM3dApocHg4aDU1WWhKbjZIU3VVelBnaGFLdFZCMmsrajdaZXlaK1NGeHA3SXVi
- SEN3TEhsUWhUNzVSd1EzaUF4S242CjBxajUxY1lUbnF4ZFpYVzZmSDNQa3VNellVNUdwcVIv
- MU9sNWMvd2ZJNmc2QW04eUtXLzBFVUx0K0tuNExGc1MKbTdZM201SDV2MTJVNkpCWXZWK3Ix
- M2paaW9zNEVFREU5M0Q1c05IMk1JeVJ6Q0RxMXpkZHQ0WHV5S0ZqUEtXMQo5aWJaRGZGVjdL
- dUNzdnVMMjNzQmMxc0NNb3ArRTFtVC9ReE9JQTZvRFQxTVFzdHdPVnVReURDdi9PdktTZ2Z6
- CjhGWEdMNkFQY2xqQ3FqOEFKaHhReXN4ZG9pUVA4bS92dStialdHR3Z4dzVzMWxncGlSRFRS
- VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
- bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
- LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
-Message-ID: <224a22aa-277d-0cde-13a4-f085a977819f@i2se.com>
-Date: Sat, 24 Jul 2021 11:38:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <YPqh0SHa8n3BugnB@kroah.com>
+ <20210723125900.GA279903@ojas>
+ <702bc38c-8ea2-eb30-84db-a647140585f6@i2se.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <cover.1626882325.git.ojaswin98@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Provags-ID: V03:K1:QgEoYJCbfwF18x8WopQZhVk8L7RNb3ziDQMgX8Hf9S250RGXC06
- uhItzp2Eoeq7XT47nrs6iuof53l3Wvw9bDVx/888jN1gqb3eXwyNQwj0fRgslE4ETx1hQxN
- sllD4YM6hQM6ymTKSEP3rTaZPHra4gCMBDxIUXNLJN7Aekp4ZxhJX2g4PamE8mbCxxeUXbi
- /CjRuMyiCGkulUuCiUMeA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BlMt2YuliDo=:JnK0wD8vQVn/cuZyh+lW1Y
- u4fePma28IBNKYSs8+F/iPb1otmK9AqS7OklC995zVjG8JlVi4LyyTU4n98O6qyHC7UKn9GDV
- D76rfBfsYe/htBnjusRWAS49DDwjhP1E3e9pfn2cBbm2pypPTwXBRqzgd8ndpEbhNROxBBQJX
- 8IhLBCVCr4WBwHiPYiVpTS9TFJJWeX32dmN1wtTnY28DIOgIQzOpJ331NOXBJNih0ZxoO8Ok+
- wYGknPCbVT0Qe/O21t17s1wDSyUM7p1bqssEomOV2Zm6DZf3gqkrcNTiZnAPsIRPhUyFoUOJ1
- 1H91L39yJ6wvwDxkf+PQc027Iopmihkkj018HLqLInSyTqzpH+vPpeNoohSlXb+KsxjyUusSp
- Kg+F8+3CSkRpOYGPT9sVw/7vapNuutrjjVfLtpiHu/RCD91bjLNQFSbvWuc4WOgoyRm0t8iGy
- EA20/TX8mPOcoCdlq6jKjFb551xiMxyzh+qKz6FjdOXShem06vp9G0VUlq4SV9y89UNpAJ6UE
- czt4GN7Fd6EaJ0NX1NFzakIJ4JjNGN4REIRG8Qc4zypHBlYK4luw1rNqUvvr8tZmcQgXSnQkU
- od4NlV2FK2RBjT5B5FEiwJykFMqc5BAy6zdzvlNlvTFrxNPOHuNWZ8vZ24vyfMs4qusgQpvSz
- f133uDD+ndGtgDyBhnlJSxH5eRHkTAx4ieWdnXOZrlygTwdvekLdfLQMgYRJT1XRFwzA/zRc9
- fPY9WM2smH4blpbz0ZaVVFnGXtjYxVEb+bUpQecoLX47pD0YgbQl+jamI4wigQRhWlb6j2vHv
- MEkwLiB0Lj1OMVBUF+X/GBBSKPJyjuvmVrNWj7TQK77qWfov2mvLgkkpooiu8NWCVup6giMWt
- rO0Tpb/Lac2hnB7p/JWA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <702bc38c-8ea2-eb30-84db-a647140585f6@i2se.com>
 
-Am 21.07.21 um 18:20 schrieb Ojaswin Mujoo:
-> Hello,
->
-> This patchset adderesses the TODO item number 10 specified at:
->
->     drivers/staging/vc04-services/interface/TODO
->
-> For reference, the task is:
->
->     10) Reorganize file structure: Move char driver to it's own file and join
->     both platform files
->
->     The cdev is defined alongside with the platform code in vchiq_arm.c. It
->     would be nice to completely decouple it from the actual core code. For
->     instance to be able to use bcm2835-audio without having /dev/vchiq created.
->     One could argue it's better for security reasons or general cleanliness. It
->     could even be interesting to create two different kernel modules, something
->     the likes of vchiq-core.ko and vchiq-dev.ko. This would also ease the
->     upstreaming process.
->
-> A summary of the patches is as follows:
->
-> - Patch 1: Move cdev init code into a function
-> - Patch 2: Shift some devlarations from vchiq_arm.c to vchiq_arm.h for
->            sharing
-> - Patch 3: Move vchiq cdev init code from vchiq_arm.c into vchiq_dev.c
-> - Patch 4: Decouple cdev code by defining a Kconfig entry to allow
->            optional compilation of it.
-> - Patch 5: Merge code in vchiq_2835_arm.c to vchiq_arm.c
->
-> Changes since v3 [2]:
->
-> * In Patch 5, replace forward declarations of some of the functions with
->   function definition 
->
-The whole series is:
+On Fri, Jul 23, 2021 at 03:31:58PM +0200, Stefan Wahren wrote:
+> Am 23.07.21 um 14:59 schrieb Ojaswin Mujoo:
+> > On Fri, Jul 23, 2021 at 01:02:41PM +0200, Greg KH wrote:
+> >> On Wed, Jul 21, 2021 at 09:50:48PM +0530, Ojaswin Mujoo wrote:
+> >>> Hello,
+> >>>
+> >>> This patchset adderesses the TODO item number 10 specified at:
+> >>>
+> >>>     drivers/staging/vc04-services/interface/TODO
+> >>>
+> >>> For reference, the task is:
+> >>>
+> >>>     10) Reorganize file structure: Move char driver to it's own file and join
+> >>>     both platform files
+> >>>
+> >>>     The cdev is defined alongside with the platform code in vchiq_arm.c. It
+> >>>     would be nice to completely decouple it from the actual core code. For
+> >>>     instance to be able to use bcm2835-audio without having /dev/vchiq created.
+> >>>     One could argue it's better for security reasons or general cleanliness. It
+> >>>     could even be interesting to create two different kernel modules, something
+> >>>     the likes of vchiq-core.ko and vchiq-dev.ko. This would also ease the
+> >>>     upstreaming process.
+> >>>
+> >>> A summary of the patches is as follows:
+> >>>
+> >>> - Patch 1: Move cdev init code into a function
+> >>> - Patch 2: Shift some devlarations from vchiq_arm.c to vchiq_arm.h for
+> >>>            sharing
+> >>> - Patch 3: Move vchiq cdev init code from vchiq_arm.c into vchiq_dev.c
+> >>> - Patch 4: Decouple cdev code by defining a Kconfig entry to allow
+> >>>            optional compilation of it.
+> >>> - Patch 5: Merge code in vchiq_2835_arm.c to vchiq_arm.c
+> >>>
+> >>> Changes since v3 [2]:
+> >>>
+> >>> * In Patch 5, replace forward declarations of some of the functions with
+> >>>   function definition 
+> >> You dropped the reviews of others, so now I need to wait for them again
+> >> :(
+> >>
+> > Hello Greg,
+> >
+> > Apologies for that, I was under the impression that a new version
+> > needed a separate review :(
+> No, just the patches which had functional changes.
+Ohh, noted.
+> > If its okay, I can alternately resubmit this (as v5?) with Stefan's
+> > Reviewed-By tags on unchanged commits intact. Let me know if that's okay
+> > or if its better to wait out.
+> 
+> No, please don't resubmit. I will do the review soon.
 
-Reviewed-by: Stefan Wahren <stefan.wahren@i2se.com>
+Thanks for the review and all the help, Stefan. It is much appreciated
+:)
 
-Thanks
-
+Regards,
+Ojaswin
