@@ -1,105 +1,85 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143C970
-	for <linux-staging@lists.linux.dev>; Sat, 24 Jul 2021 17:44:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1627148677;
-	bh=NnnKncfAnaFeKpuZRfNKoEnQZQQS40lYryGaD8rwMk4=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=NFNUK8e1lGKlLsZ78wPfP5vHKXND1wmC2AI4RH71M5Ie9Y8wYdWHqJVuRDtIJ3wW3
-	 VXs2CX4KUZKOYnpaq3xLdSs4YyW7qx6gNhO3e4eHKLo/QnqC/AzUNWViHh7ztLdfXa
-	 a3TfKXl//kPVXrValL65VXLVmtUKycHLbFO8vyjI=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([83.52.228.41]) by mail.gmx.net
- (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1Ml6mE-1lMEif0gvs-00lTqs; Sat, 24 Jul 2021 19:44:37 +0200
-From: Len Baker <len.baker@gmx.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Len Baker <len.baker@gmx.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Phil Reid <preid@electromag.com.au>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] staging/fbtft: Fix braces coding style
-Date: Sat, 24 Jul 2021 17:14:11 +0200
-Message-Id: <20210724151411.9531-4-len.baker@gmx.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210724151411.9531-1-len.baker@gmx.com>
-References: <20210724151411.9531-1-len.baker@gmx.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6041E2FB0
+	for <linux-staging@lists.linux.dev>; Sat, 24 Jul 2021 18:02:05 +0000 (UTC)
+Received: by mail-vk1-f169.google.com with SMTP id d15so1101976vka.13
+        for <linux-staging@lists.linux.dev>; Sat, 24 Jul 2021 11:02:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CFAXOYswwIGflCWWx9fpDZl57pj1QpRpAZ3Zwc4ZdWQ=;
+        b=RWTeIOFxlJZEjp1mQLoYPt2ZaSri830cdsJ2xNXvpA+bRWdjdkBa0JeUa5Se6G/IoQ
+         eSoS28sX5Upi9+mFCnrcbVmlrKrwbyAaiyuu3mGX2wBhctB5qUVrYBkdlh4+DWY6t3kR
+         s7WvrlXn1xp1QJzHmheyEbgDY2E14TSfZ16Vz2lJNfQgf/pM9LedrHNrUH2X7QAxkwOE
+         tmoX5V+leyk+MADCpM3skNyPsPgNJhwWbDEG2BCf0SO/1wDQAjTEjovqA3sFYaWbqRd1
+         UA/s6UpnoLN86pA7NdUw9tExZ6i4zj6OlzQMh3IsOj35pNaSlaVIgHY9F1wYHeIjj0to
+         gsQA==
+X-Gm-Message-State: AOAM530T0SE01rO9cIyoeNRGu1+1h96d+J2yEbggIigcLpnTwNMnyYKB
+	m22XRgJiWuKcaWVHn3X0jV6tj2sOeMQ/GuAghDc=
+X-Google-Smtp-Source: ABdhPJznGi7hzvA1p2VsWdfv9lBV4MVLJwhvR4BKSFCYB+5JUdtBAWgTUa81Xuz+HTQ+Zc8W97HV8XtBugNdFeb48jQ=
+X-Received: by 2002:a05:6122:a12:: with SMTP id 18mr7348420vkn.1.1627149724368;
+ Sat, 24 Jul 2021 11:02:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Lxq6kiLtjzFc7OrUMkOeAtgYvYuYKRc/giZKldt3BoFUT8h46VN
- Kg9FIPsCHHoEzU1Mpx9okxfyNGfBWPsPHYWimuPRdKM7YMgx2f/hyOp2LoOaeTQQ39tB119
- r00lutgbYittzltAdnF6QCZZMkyT5+zF0brw7VKPt3rZbRv5z9hwxA/m471V2iAF4Ivk4re
- fJ9snb6LaTghFsDzNuZKg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+WwuL9lnI14=:Lg8CcfCZ7rwXHqQl323hZy
- fGlFde99fZWlaom5py+XLvoegd+qdqmZEnaZcZfjaZXvCeQfq1VcgF/kPHuf3DX7+Dnc+fEYM
- GF5J3HJvxIuQB/LKFn2AYmrVe+k7eP8fdhESjiwle6j2jlpdvGJkY53L22oeIQ9pjNVzIssJR
- lTeRxVTZoFtv7PJXi4frv7WYleVjSsoS+aMSpp7psFbCVzS0eR36Fl61cRvfhokOfM3YVs71d
- TSUNWgcaTPd2gGx/iffDIqzBPfpZfSPZ57NqUjGggEfbgwrNQyh7zBArIEtgH6Qdl/hRT32PJ
- JXoI9p0V8gNiUjVGp1f1s9Uz/+ibpDt7QxC6XeQ+0bo1/uw6tqnO3lVGaVIHVWKq7VzeNY4+d
- 2OpnbFIPjtMG4G37mboGXULo2eh2u2o6A0XFu2pYtyK0J8GAyB5aIjgh7s9SVTV94dYXhLCBv
- 0miwN3QGGRxpnD5Kxw+0pfJfAJubKiXXXruRCsawp5sJ1aqNmI/GellC7vWzdjvW3M7JFhBxV
- D+LTiSfdu6TIqkaju1DEGsoHLejU9iO+jg2GOwpf4tsTVfz1rkaaYRT/YilFHbaxeuENaDVUZ
- KlfGAn9Q7eBgvNoXqYPJUM5Pt6dN/Eo6NbpkJs5P7okfSgpPdP2YqDk9OMZRSdn0kNciNMdl+
- MXvkoUTAtJe1fy93gvr7MVIvwmN5QCaxcMZI9NMCETYMV7S45tDl+wEZvFEdBP9aSuXC0ughK
- 9odmeqPINVGQWl1Vd5BMuvN1jf1ucvBSmD+b+XDCaA8oPJGqNg94oTA5jI2lbELcTe+UEUC4k
- 2VZZkSasNSfjuaS0Qw9UY62tOGme/eW2xzVXIUdkAfKzSdOYg5SspQsEp7tl/gKC640W26ivK
- +3GDojDJUFZNf5dAvtRwplJIKRuG3mo4RXhFXDekbKGom+ybJq+s19ZFJRtYW30q99dg66Oqn
- NVZ/95qRcpoIbhYb87SLwP2G1O9gMhadg3TgGQpfaJZstM6uK6dGjVuaN6h/ixb7IWFI5k/Nl
- 7wG2olAL5nGf7iJQ2NFtfHQ9f0MCh6jDVlSoiwy4qZmjA2XnlK5rUjsDTiI6vIPDskEW+/YdI
- DBKweJCMhiMW2bjwr0ar/okB4t5uJ6NbzgQ
+References: <20210724151411.9531-1-len.baker@gmx.com> <20210724151411.9531-4-len.baker@gmx.com>
+In-Reply-To: <20210724151411.9531-4-len.baker@gmx.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Sat, 24 Jul 2021 20:01:53 +0200
+Message-ID: <CAMuHMdX6PUr0irndogg=Aa+AFDdiDJMeMWM74mLBkuLrW+zWng@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] staging/fbtft: Fix braces coding style
+To: Len Baker <len.baker@gmx.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Phil Reid <preid@electromag.com.au>, 
+	DRI Development <dri-devel@lists.freedesktop.org>, 
+	Linux Fbdev development list <linux-fbdev@vger.kernel.org>, linux-staging@lists.linux.dev, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Add braces to the "for" loop and remove braces from the "if" statement.
-This way the kernel coding style is followed.
+Hi Len,
 
-Signed-off-by: Len Baker <len.baker@gmx.com>
-=2D--
- drivers/staging/fbtft/fbtft-core.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+On Sat, Jul 24, 2021 at 7:44 PM Len Baker <len.baker@gmx.com> wrote:
+> Add braces to the "for" loop and remove braces from the "if" statement.
+> This way the kernel coding style is followed.
+>
+> Signed-off-by: Len Baker <len.baker@gmx.com>
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fb=
-tft-core.c
-index cc2bee22f7ad..d87792649efe 100644
-=2D-- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -1003,9 +1003,11 @@ int fbtft_init_display(struct fbtft_par *par)
- 	}
+Thanks for your patch!
 
- 	/* make sure stop marker exists */
--	for (i =3D 0; i < FBTFT_MAX_INIT_SEQUENCE; i++)
-+	for (i =3D 0; i < FBTFT_MAX_INIT_SEQUENCE; i++) {
- 		if (par->init_sequence[i] =3D=3D -3)
- 			break;
-+	}
-+
- 	if (i =3D=3D FBTFT_MAX_INIT_SEQUENCE) {
- 		dev_err(par->info->device,
- 			"missing stop marker at end of init sequence\n");
-@@ -1016,10 +1018,9 @@ int fbtft_init_display(struct fbtft_par *par)
+> --- a/drivers/staging/fbtft/fbtft-core.c
+> +++ b/drivers/staging/fbtft/fbtft-core.c
 
- 	i =3D 0;
- 	while (i < FBTFT_MAX_INIT_SEQUENCE) {
--		if (par->init_sequence[i] =3D=3D -3) {
--			/* done */
--			return 0;
--		}
-+		if (par->init_sequence[i] =3D=3D -3)
-+			return 0; /* done */
-+
- 		if (par->init_sequence[i] >=3D 0) {
- 			dev_err(par->info->device,
- 				"missing delimiter at position %d\n", i);
-=2D-
-2.25.1
+> @@ -1016,10 +1018,9 @@ int fbtft_init_display(struct fbtft_par *par)
+>
+>         i = 0;
+>         while (i < FBTFT_MAX_INIT_SEQUENCE) {
+> -               if (par->init_sequence[i] == -3) {
+> -                       /* done */
+> -                       return 0;
+> -               }
 
+These braces should not be removed, due to the presence of
+the comment.
+
+> +               if (par->init_sequence[i] == -3)
+> +                       return 0; /* done */
+> +
+>                 if (par->init_sequence[i] >= 0) {
+>                         dev_err(par->info->device,
+>                                 "missing delimiter at position %d\n", i);
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
