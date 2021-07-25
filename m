@@ -1,98 +1,61 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85216173
-	for <linux-staging@lists.linux.dev>; Sun, 25 Jul 2021 14:02:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1627221727;
-	bh=340oxUqB+pwxiqxWW/cd7DjFI0xOrzq59FIfoXP3S1I=;
-	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gbvFuDGOyKNCqw5KidhNLWnATQrXYGbCL60RErsLk8WUUv80FI6ipKOydrqL1w6XY
-	 2xDmvC5Yf/EsHCQVvDue/mNxqwP4idWefRTY5NBrBfoWVmGXt+gNLgTfG3o5JFM0Bf
-	 kpi/gLgRJ19i3fu6szYRigGoq2qdxdNQZCfzCEuI=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from titan ([83.52.228.41]) by mail.gmx.net (mrgmx105
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1N63VY-1l1VBu38Wm-016S1K; Sun, 25
- Jul 2021 16:02:06 +0200
-Date: Sun, 25 Jul 2021 16:02:04 +0200
-From: Len Baker <len.baker@gmx.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Len Baker <len.baker@gmx.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Phil Reid <preid@electromag.com.au>,
-	DRI Development <dri-devel@lists.freedesktop.org>,
-	Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-	linux-staging@lists.linux.dev,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 3/3] staging/fbtft: Fix braces coding style
-Message-ID: <20210725140204.GB1953@titan>
-References: <20210724151411.9531-1-len.baker@gmx.com>
- <20210724151411.9531-4-len.baker@gmx.com>
- <CAMuHMdX6PUr0irndogg=Aa+AFDdiDJMeMWM74mLBkuLrW+zWng@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 059DC29D6
+	for <linux-staging@lists.linux.dev>; Sun, 25 Jul 2021 15:59:28 +0000 (UTC)
+Received: from dslb-188-096-139-014.188.096.pools.vodafone-ip.de ([188.96.139.14] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1m7gXA-0000SM-Sl; Sun, 25 Jul 2021 17:59:20 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 01/18] staging: rtl8188eu: remove unused defines
+Date: Sun, 25 Jul 2021 17:58:45 +0200
+Message-Id: <20210725155902.32433-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdX6PUr0irndogg=Aa+AFDdiDJMeMWM74mLBkuLrW+zWng@mail.gmail.com>
-X-Provags-ID: V03:K1:3Eg3v7AELPHXFdoJHGTE5b05uHbis/dRr8ApGFt/g1+gkHNbSSg
- KSHc03AunknsizsegEZKOcG0miDl6Ne1a/radEDdbQ3VP4TJhjoU5qW5U8qCJTxKuJ9qiva
- u91KUIi8wpJOrhsSZLaBz9LJvnmmQNbtRhlk32j3azogf4uNS4mIs7R/t7MeP1II6juDyTl
- K7VvjSL0a7vD9NSEJW5tQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:2xiUjm9aORg=:xoqOPOdWGflIJ4WGEGkMFX
- bOCy2BhOi925zBfTtkX8yYLF6T0iQXo9hgeFgB7zzS57DL2EK8UXbCD5MVSiwZwmpT8KTOQBA
- Aj9KHT9jfQ/5a03etCykDe7InMaDfoE0e+rVV7EA+FAa5RrCkfycn7vKCTtzM8YG1qsSy/v47
- KuV1CzL/dLjXr4qKwIbP6MCICTkDCsqWtz1H7C2zCAsbQqWYsXc94T7k4gEMVPoMmRC+QbTxz
- vgtNrbOlVnCWIj5cdXXmlQRvGoWhaTs2G1+xo7egfgnIZmIi36FKVHP9RYdqbTwokJXR66gyl
- aZ2XMylFK2Xt30NYSv+Fzo2ookmxTz089a2UJCs2yuiyYRoA+wNdquQ+ocIhv4xWt+pGBh/Fd
- AtYzoJIplwayVMRtJWx5ZAS0MwGc4tUhKTyHrEPOtEmi4fcf/SXij4pgInsyPaOXYxNL9tBPq
- CBIyZffZ0PA5UaL5e4YQ1nAjVuJRB9V8bhcdHKcuWgBmS51Q8MM862KLT5a0Ey5RSA/sYh0X0
- o+87gwdZSFKmPPRxQhIfjhqhq67xRI8Cx/bDdkJ5brFj0wusgnhD36MsxEyG+O9RlZMVM+q0O
- nFLTcLfjLIMT8Qu8qjEhdxBemT1GibOHaL6HJXztsP2dZoDDv5WjUkyTn8zD6Yaxg3ARt5lCz
- McCFp0E33C+bfLtkUrD2KEf1nsHyL9EUshkWLDI/6zXR67tP8FYQbRvUXGTSZZUNi9sHLylOE
- 8b4YFP4SpcCLCroz/O0eQjtN3/MnThINO7+amlF9yEidr8kSRRLSDaRqTXEK0CWOeafkxMLDf
- YodzEnnsa4gMtiSHFU35RYzg48rqs/KTPE4AxCSg0Zc3KD4+v36A5qwFpgIjsqkSdveL2vBi6
- GO3cYaaUy8R65Efn935qlAYLej8IkvF1AMKMEpSxo7scDuTlRUlzS5x+CNfEAX/o4P/KOztin
- UVi3vlWtKghw2Ox0F8zStg+7ujU6rcYNOPgWHQVUzlYf6EWwmHQN++7GpgHYuDtQeeGbsgZ+F
- 0jPEjxGjvP3CHbOF/tu1EgbtJITWkLEZuJ7l7X1lMI+/AF5CqHv+fZtbtVJ0FQR2z7T9JCJuj
- 6dQnNQI8bD4bJ13eAPboqYD+k5iqbjPtrQI
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Now that power cut mask is not used any more, we can also remove the
+defines for power cut masks.
 
-On Sat, Jul 24, 2021 at 08:01:53PM +0200, Geert Uytterhoeven wrote:
-> Hi Len,
->
-> On Sat, Jul 24, 2021 at 7:44 PM Len Baker <len.baker@gmx.com> wrote:
-> > Add braces to the "for" loop and remove braces from the "if" statement=
-.
-> > This way the kernel coding style is followed.
-> >
-> > Signed-off-by: Len Baker <len.baker@gmx.com>
->
-> Thanks for your patch!
->
-> > --- a/drivers/staging/fbtft/fbtft-core.c
-> > +++ b/drivers/staging/fbtft/fbtft-core.c
->
-> > @@ -1016,10 +1018,9 @@ int fbtft_init_display(struct fbtft_par *par)
-> >
-> >         i =3D 0;
-> >         while (i < FBTFT_MAX_INIT_SEQUENCE) {
-> > -               if (par->init_sequence[i] =3D=3D -3) {
-> > -                       /* done */
-> > -                       return 0;
-> > -               }
->
-> These braces should not be removed, due to the presence of
-> the comment.
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+---
+ drivers/staging/rtl8188eu/include/pwrseqcmd.h | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-Ok, I leave it as is.
+diff --git a/drivers/staging/rtl8188eu/include/pwrseqcmd.h b/drivers/staging/rtl8188eu/include/pwrseqcmd.h
+index bfa0405cccde..bbf4f302c9f4 100644
+--- a/drivers/staging/rtl8188eu/include/pwrseqcmd.h
++++ b/drivers/staging/rtl8188eu/include/pwrseqcmd.h
+@@ -15,17 +15,6 @@
+ #define PWR_CMD_DELAY		0x03
+ #define PWR_CMD_END		0x04
+ 
+-/* The value of cut_msk: 8 bits */
+-#define PWR_CUT_TESTCHIP_MSK	BIT(0)
+-#define PWR_CUT_A_MSK		BIT(1)
+-#define PWR_CUT_B_MSK		BIT(2)
+-#define PWR_CUT_C_MSK		BIT(3)
+-#define PWR_CUT_D_MSK		BIT(4)
+-#define PWR_CUT_E_MSK		BIT(5)
+-#define PWR_CUT_F_MSK		BIT(6)
+-#define PWR_CUT_G_MSK		BIT(7)
+-#define PWR_CUT_ALL_MSK		0xFF
+-
+ enum pwrseq_cmd_delat_unit {
+ 	PWRSEQ_DELAY_US,
+ 	PWRSEQ_DELAY_MS,
+-- 
+2.20.1
 
-Thanks,
-Len
