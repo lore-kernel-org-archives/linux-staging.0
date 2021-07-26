@@ -1,181 +1,169 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66BF02FB0
-	for <linux-staging@lists.linux.dev>; Mon, 26 Jul 2021 18:08:13 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id j2so12099409wrx.9
-        for <linux-staging@lists.linux.dev>; Mon, 26 Jul 2021 11:08:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Tsf0a3AvWRqDTexWqFdji1NJV723gxbeeO4aZ8esbCY=;
-        b=RTUIlaJd4QwYbQl4SR4G4iWzZaARC/TbgYp2m3JhQtmYj+XpArOCEAPcvyzDO1ureA
-         gL1lVGk5nKiDBmEgTla7ZWYJXKFyzuze3ywPj2vHg32PAEtBndmi8gC+2Ylpw/vaGA4U
-         QOGnE3lpyx1J1Pv/TYbMno0MADcbcQexm7BFYZhtD6KQpcbUuq06MOIEPGPNJp/1RMWa
-         igIfEgdjeI6uPDMdP7OSV6ygPjSjtE3U0ek06NlBsk72FR8hNf0KdQh99aYjF1dIvpz/
-         yHZEaOzeZSXnaWzDr3zDt3GbInARcgrIyRnEP8ue6etRxwhc6ku6RReP7BvVbscDvBF3
-         D5qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Tsf0a3AvWRqDTexWqFdji1NJV723gxbeeO4aZ8esbCY=;
-        b=ubauWEcEfR02b4bkn22bG+3uslDH7Kha/4VKjfqMIE/OJ4qWucPUGC2zm2y2v3QsmC
-         pxiaDYG7Lv/1sl2jvpaIfBWYarO4HZXleJquMDSAfbPGW1KW3fkvbWzzEM4aysygOkUq
-         HynXR3JE5Z0bK5v9Mu+718/gJihgHiU0uPQQ4dhGuOjgLWSfiElQSWY+EWgrSBsp7HsN
-         ehDY7d+qDDuTgXGEhM2SmT88M9MwxWVAn0I3bkGS6zXYiKxRhpW7AkBrgWD6/FZ/s3nP
-         r2a2rcYS0DtQsfyH2uxQOZ+tFO4QfC/vH4wVabDIBlTAJb2H/++Ml4GMU+ykSrF3wKWR
-         4JuA==
-X-Gm-Message-State: AOAM531Oe+ZOT49gejmKckThSyGoM04aPGVlHv/GwDg8y2RjTI9n4+7y
-	F6Du8ywRHcYWYkJ6P2olWnA=
-X-Google-Smtp-Source: ABdhPJyh+hmqf/cFlwAMkqo7SDzKRv7gg6h/QOz8vezaua9C5i70oMg91SwQLqwHIelxvhtGTstIew==
-X-Received: by 2002:a5d:4d07:: with SMTP id z7mr21810782wrt.244.1627322891718;
-        Mon, 26 Jul 2021 11:08:11 -0700 (PDT)
-Received: from ?IPv6:2a02:8108:96c0:3b88::4bf9? ([2a02:8108:96c0:3b88::4bf9])
-        by smtp.gmail.com with ESMTPSA id p3sm211943wmp.25.2021.07.26.11.08.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Jul 2021 11:08:11 -0700 (PDT)
-Subject: Re: [PATCH] staging: rtl8188eu: remove braces from single line if
- blocks
-To: Larry Finger <Larry.Finger@lwfinger.net>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20210726092129.30334-1-straube.linux@gmail.com>
- <a4eb0dea-a34b-8dd9-03c6-aa0d87e68986@lwfinger.net>
-From: Michael Straube <straube.linux@gmail.com>
-Message-ID: <4c9c29c0-1cc8-d1fe-0057-3fcc28a9922b@gmail.com>
-Date: Mon, 26 Jul 2021 20:07:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0773470
+	for <linux-staging@lists.linux.dev>; Mon, 26 Jul 2021 19:54:11 +0000 (UTC)
+Received: from dslb-188-096-151-017.188.096.pools.vodafone-ip.de ([188.96.151.17] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1m86fs-00078e-1U; Mon, 26 Jul 2021 21:54:04 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH v2 14/18] staging: rtl8188eu: simplify rtl88eu_phy_iq_calibrate
+Date: Mon, 26 Jul 2021 21:53:54 +0200
+Message-Id: <20210726195354.28548-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210725155902.32433-14-martin@kaiser.cx>
+References: <20210725155902.32433-14-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <a4eb0dea-a34b-8dd9-03c6-aa0d87e68986@lwfinger.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
+The boolean is2t variable in rtl88eu_phy_iq_calibrate is always false.
+Remove some code that's unused in this case.
 
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+---
+v2:
+ - fixed two -Wunused-but-set-variable warnings
+   reported by kernel test robot <lkp@intel.com>
 
-Am 26.07.21 um 17:09 schrieb Larry Finger:
-> On 7/26/21 4:21 AM, Michael Straube wrote:
->> Remove braces from single line if blocks to clear checkpatch warnings.
->> WARNING: braces {} are not necessary for single statement blocks
->>
->> Signed-off-by: Michael Straube <straube.linux@gmail.com>
->> ---
->>   drivers/staging/rtl8188eu/core/rtw_cmd.c          | 3 +--
->>   drivers/staging/rtl8188eu/core/rtw_mlme.c         | 3 +--
->>   drivers/staging/rtl8188eu/core/rtw_xmit.c         | 3 +--
->>   drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c | 3 +--
->>   drivers/staging/rtl8188eu/hal/usb_halinit.c       | 6 ++----
->>   5 files changed, 6 insertions(+), 12 deletions(-)
->>
->> diff --git a/drivers/staging/rtl8188eu/core/rtw_cmd.c 
->> b/drivers/staging/rtl8188eu/core/rtw_cmd.c
->> index eb89a52aa4e3..56ece839c9ca 100644
->> --- a/drivers/staging/rtl8188eu/core/rtw_cmd.c
->> +++ b/drivers/staging/rtl8188eu/core/rtw_cmd.c
->> @@ -1159,9 +1159,8 @@ void rtw_createbss_cmd_callback(struct adapter 
->> *padapter, struct cmd_obj *pcmd)
->>           psta = rtw_get_stainfo(&padapter->stapriv, 
->> pnetwork->MacAddress);
->>           if (!psta) {
->>               psta = rtw_alloc_stainfo(&padapter->stapriv, 
->> pnetwork->MacAddress);
->> -            if (!psta) {
->> +            if (!psta)
->>                   goto createbss_cmd_fail;
->> -            }
->>           }
->>           rtw_indicate_connect(padapter);
->> diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme.c 
->> b/drivers/staging/rtl8188eu/core/rtw_mlme.c
->> index 71d205f3d73d..0d334aba9a3f 100644
->> --- a/drivers/staging/rtl8188eu/core/rtw_mlme.c
->> +++ b/drivers/staging/rtl8188eu/core/rtw_mlme.c
->> @@ -953,9 +953,8 @@ void rtw_joinbss_event_prehandle(struct adapter 
->> *adapter, u8 *pbuf)
->>               }
->>               /* s4. indicate connect */
->> -            if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)) {
->> +            if (check_fwstate(pmlmepriv, WIFI_STATION_STATE))
->>                   rtw_indicate_connect(adapter);
->> -            }
->>               /* s5. Cancel assoc_timer */
->>               del_timer_sync(&pmlmepriv->assoc_timer);
->> diff --git a/drivers/staging/rtl8188eu/core/rtw_xmit.c 
->> b/drivers/staging/rtl8188eu/core/rtw_xmit.c
->> index d5fc59417ec6..c77ebd18f40c 100644
->> --- a/drivers/staging/rtl8188eu/core/rtw_xmit.c
->> +++ b/drivers/staging/rtl8188eu/core/rtw_xmit.c
->> @@ -1124,9 +1124,8 @@ struct xmit_buf *rtw_alloc_xmitbuf(struct 
->> xmit_priv *pxmitpriv)
->>           list_del_init(&pxmitbuf->list);
->>           pxmitpriv->free_xmitbuf_cnt--;
->>           pxmitbuf->priv_data = NULL;
->> -        if (pxmitbuf->sctx) {
->> +        if (pxmitbuf->sctx)
->>               rtw_sctx_done_err(&pxmitbuf->sctx, 
->> RTW_SCTX_DONE_BUF_ALLOC);
->> -        }
->>       }
->>       spin_unlock_irqrestore(&pfree_xmitbuf_queue->lock, irql);
->> diff --git a/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c 
->> b/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
->> index 6cf87312bc36..a67615708745 100644
->> --- a/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
->> +++ b/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
->> @@ -510,7 +510,6 @@ void Hal_ReadThermalMeter_88E(struct adapter 
->> *Adapter, u8 *PROMContent, bool Aut
->>       else
->>           pHalData->EEPROMThermalMeter = EEPROM_Default_ThermalMeter_88E;
->> -    if (pHalData->EEPROMThermalMeter == 0xff || AutoloadFail) {
->> +    if (pHalData->EEPROMThermalMeter == 0xff || AutoloadFail)
->>           pHalData->EEPROMThermalMeter = EEPROM_Default_ThermalMeter_88E;
->> -    }
->>   }
->> diff --git a/drivers/staging/rtl8188eu/hal/usb_halinit.c 
->> b/drivers/staging/rtl8188eu/hal/usb_halinit.c
->> index 1d7d5037ce89..3e8f7315d377 100644
->> --- a/drivers/staging/rtl8188eu/hal/usb_halinit.c
->> +++ b/drivers/staging/rtl8188eu/hal/usb_halinit.c
->> @@ -641,9 +641,8 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
->>       }
->>       status = rtw_hal_power_on(Adapter);
->> -    if (status == _FAIL) {
->> +    if (status == _FAIL)
->>           goto exit;
->> -    }
->>       /*  Save target channel */
->>       haldata->CurrentChannel = 6;/* default set to 6 */
->> @@ -696,9 +695,8 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
->>       _InitTxBufferBoundary(Adapter, txpktbuf_bndy);
->>       status =  InitLLTTable(Adapter, txpktbuf_bndy);
->> -    if (status == _FAIL) {
->> +    if (status == _FAIL)
->>           goto exit;
->> -    }
->>       /*  Get Rx PHY status in order to report RSSI and others. */
->>       _InitDriverInfoSize(Adapter, DRVINFO_SZ);
->>
-> 
-> Michael,
-> 
-> You might as well stop looking at drivers/staging/rtl8188eu. There is a 
-> pending patch that blows away that directory and replaces it with a new 
-> version from the GitHub repo. The new one will be in 
-> drivers/staging/r8188eu.
-> 
-> NACKed by Larry.Finger <Larry.Finger@lwfinger.net>
-> 
-> Larry
-> 
+ drivers/staging/rtl8188eu/hal/phy.c | 65 ++---------------------------
+ 1 file changed, 3 insertions(+), 62 deletions(-)
 
-Ah ok, thank you for the information.
+diff --git a/drivers/staging/rtl8188eu/hal/phy.c b/drivers/staging/rtl8188eu/hal/phy.c
+index 256f87b9d630..fcac885b6581 100644
+--- a/drivers/staging/rtl8188eu/hal/phy.c
++++ b/drivers/staging/rtl8188eu/hal/phy.c
+@@ -703,53 +703,6 @@ static void patha_fill_iqk(struct adapter *adapt, bool iqkok, s32 result[][8],
+ 	}
+ }
+ 
+-static void pathb_fill_iqk(struct adapter *adapt, bool iqkok, s32 result[][8],
+-			   u8 final_candidate, bool txonly)
+-{
+-	u32 oldval_1, x, tx1_a, reg;
+-	s32 y, tx1_c;
+-
+-	if (final_candidate == 0xFF) {
+-		return;
+-	} else if (iqkok) {
+-		oldval_1 = (phy_query_bb_reg(adapt, rOFDM0_XBTxIQImbalance, bMaskDWord) >> 22) & 0x3FF;
+-
+-		x = result[final_candidate][4];
+-		if ((x & 0x00000200) != 0)
+-			x = x | 0xFFFFFC00;
+-		tx1_a = (x * oldval_1) >> 8;
+-		phy_set_bb_reg(adapt, rOFDM0_XBTxIQImbalance, 0x3FF, tx1_a);
+-
+-		phy_set_bb_reg(adapt, rOFDM0_ECCAThreshold, BIT(27),
+-			       ((x * oldval_1 >> 7) & 0x1));
+-
+-		y = result[final_candidate][5];
+-		if ((y & 0x00000200) != 0)
+-			y = y | 0xFFFFFC00;
+-
+-		tx1_c = (y * oldval_1) >> 8;
+-
+-		phy_set_bb_reg(adapt, rOFDM0_XDTxAFE, 0xF0000000,
+-			       ((tx1_c & 0x3C0) >> 6));
+-		phy_set_bb_reg(adapt, rOFDM0_XBTxIQImbalance, 0x003F0000,
+-			       (tx1_c & 0x3F));
+-		phy_set_bb_reg(adapt, rOFDM0_ECCAThreshold, BIT(25),
+-			       ((y * oldval_1 >> 7) & 0x1));
+-
+-		if (txonly)
+-			return;
+-
+-		reg = result[final_candidate][6];
+-		phy_set_bb_reg(adapt, rOFDM0_XBRxIQImbalance, 0x3FF, reg);
+-
+-		reg = result[final_candidate][7] & 0x3F;
+-		phy_set_bb_reg(adapt, rOFDM0_XBRxIQImbalance, 0xFC00, reg);
+-
+-		reg = (result[final_candidate][7] >> 6) & 0xF;
+-		phy_set_bb_reg(adapt, rOFDM0_AGCRSSITable, 0x0000F000, reg);
+-	}
+-}
+-
+ static void save_adda_registers(struct adapter *adapt, const u32 *addareg,
+ 				u32 *backup, u32 register_num)
+ {
+@@ -1150,8 +1103,8 @@ void rtl88eu_phy_iq_calibrate(struct adapter *adapt, bool recovery)
+ 	struct odm_dm_struct *dm_odm = &adapt->HalData->odmpriv;
+ 	s32 result[4][8];
+ 	u8 i, final;
+-	bool pathaok, pathbok;
+-	s32 reg_e94, reg_e9c, reg_ea4, reg_eb4, reg_ebc, reg_ec4;
++	bool pathaok;
++	s32 reg_e94, reg_e9c, reg_ea4, reg_eb4, reg_ebc;
+ 	bool is12simular, is13simular, is23simular;
+ 	u32 iqk_bb_reg_92c[IQK_BB_REG_NUM] = {
+ 		rOFDM0_XARxIQImbalance, rOFDM0_XBRxIQImbalance,
+@@ -1159,9 +1112,6 @@ void rtl88eu_phy_iq_calibrate(struct adapter *adapt, bool recovery)
+ 		rOFDM0_XATxIQImbalance, rOFDM0_XBTxIQImbalance,
+ 		rOFDM0_XCTxAFE, rOFDM0_XDTxAFE,
+ 		rOFDM0_RxIQExtAnta};
+-	bool is2t;
+-
+-	is2t = false;
+ 
+ 	if (!(dm_odm->SupportAbility & ODM_RF_CALIBRATION))
+ 		return;
+@@ -1178,13 +1128,12 @@ void rtl88eu_phy_iq_calibrate(struct adapter *adapt, bool recovery)
+ 
+ 	final = 0xff;
+ 	pathaok = false;
+-	pathbok = false;
+ 	is12simular = false;
+ 	is23simular = false;
+ 	is13simular = false;
+ 
+ 	for (i = 0; i < 3; i++) {
+-		phy_iq_calibrate(adapt, result, i, is2t);
++		phy_iq_calibrate(adapt, result, i, false);
+ 
+ 		if (i == 1) {
+ 			is12simular = simularity_compare(adapt, result, 0, 1);
+@@ -1214,7 +1163,6 @@ void rtl88eu_phy_iq_calibrate(struct adapter *adapt, bool recovery)
+ 		reg_ea4 = result[i][2];
+ 		reg_eb4 = result[i][4];
+ 		reg_ebc = result[i][5];
+-		reg_ec4 = result[i][6];
+ 	}
+ 
+ 	if (final != 0xff) {
+@@ -1227,9 +1175,7 @@ void rtl88eu_phy_iq_calibrate(struct adapter *adapt, bool recovery)
+ 		dm_odm->RFCalibrateInfo.RegE9C = reg_e9c;
+ 		dm_odm->RFCalibrateInfo.RegEB4 = reg_eb4;
+ 		dm_odm->RFCalibrateInfo.RegEBC = reg_ebc;
+-		reg_ec4 = result[final][6];
+ 		pathaok = true;
+-		pathbok = true;
+ 	} else {
+ 		dm_odm->RFCalibrateInfo.RegE94 = 0x100;
+ 		dm_odm->RFCalibrateInfo.RegEB4 = 0x100;
+@@ -1239,11 +1185,6 @@ void rtl88eu_phy_iq_calibrate(struct adapter *adapt, bool recovery)
+ 	if (reg_e94 != 0)
+ 		patha_fill_iqk(adapt, pathaok, result, final,
+ 			       (reg_ea4 == 0));
+-	if (is2t) {
+-		if (reg_eb4 != 0)
+-			pathb_fill_iqk(adapt, pathbok, result, final,
+-				       (reg_ec4 == 0));
+-	}
+ 
+ 	if (final < 4) {
+ 		for (i = 0; i < IQK_Matrix_REG_NUM; i++)
+-- 
+2.20.1
 
-Michael
