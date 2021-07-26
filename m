@@ -1,50 +1,50 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC7172
-	for <linux-staging@lists.linux.dev>; Mon, 26 Jul 2021 09:10:38 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id ga41so15236777ejc.10
-        for <linux-staging@lists.linux.dev>; Mon, 26 Jul 2021 02:10:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E65A72
+	for <linux-staging@lists.linux.dev>; Mon, 26 Jul 2021 09:21:52 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id l18so2546283wrv.5
+        for <linux-staging@lists.linux.dev>; Mon, 26 Jul 2021 02:21:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Yl7CupfQBRHivtmWrPtpI7/TUlZwh31U/GvJWFLimQ4=;
-        b=rNCoEe0Goq1rhpi2aFAuXK08hyQrUT7HX4EakktKx14Ke0ZIuNCbRCWJtxdAZzF0gi
-         OG+DeTF9f1sb/RdF/p8TGbLIMTtqDWQohf8nPVrA4+MyFj0Qv8MpV34Fpc5XKzanAF3S
-         QZFHYM+fW7t1J3elT0n1aEOJ0OyOIWdMKwWA2vJM38A0QpNG4PnNQ7s8rZVXILiPvq5x
-         pTI+P1ANjopIlsqtRICVJD6b2rOQ7MLZNfnM96j/Y5X60ERqXbACiatWEuT4xnjGs7JB
-         vsrvf9Kg7q6QW654s4l4NKMn+utxovUgZhRSjqMpmokOxlwCbUdMlW5MF1saY77Wp8GV
-         Emxw==
+        bh=rqNUqFciNN4LC8aT5JJ7kp05Roas++LREeGimN8w8rw=;
+        b=aJh6pZUOKONswsCUiE+v3fACkMsH/juMZscKD8PQx3W+W4YoZXIKtYP4uCxWJq5DmK
+         Mfg9ruke4uHCUx9+T7PYMVNTOnMJJMm/GAnB5hGh/PE6ed3a6IGjFyb18KGG6BXEGatI
+         tEa4Q8OdPZ+8e5iRQ7SrdHqkmE6/76h1GHVglDpetTJUshrZoF/uKHOMbmQuSDkkjBeD
+         53+eA+W58ulw80HVzHtH0i9jabQ/vAVlPUs8Mj4a/ps9x/a3yalQzkUySqz4MWLZq5wd
+         18lScrdFp9T2D6IRX7u86+lpdeNwgCQuh4XRDRaB1Bj445MR/rpBppj2cgo0AtFGiybA
+         FnQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Yl7CupfQBRHivtmWrPtpI7/TUlZwh31U/GvJWFLimQ4=;
-        b=rbljQFvmMydydIY0wn3fdlPWFywYE6KDyfxi841xPe3XBc+/2fP6cRt0Ie8rUXp3zd
-         DiKJI5G2TsRz74ScchJSfeEBlFRUIICz3BCrkW+ZHaLEzWxGXd/LU3RhH6Yh7BELwSiv
-         ukoWZDe9qm5ZKa0Sb0BRJebbwB3BAIfAshr7AmvbR2w5GW321axKySuDkZcfFVCxdh9a
-         obFOCOdwCynM52+yLQSxLO08WGNl7icwBAMXeAaSRvfuxA1tt668GQ0T7KDWKIRgwOPo
-         I3IFl2agt0VsQprGoym7Sza06LGp08KWsQyAtFqhQY2mxUTv0KOPNvJk7fdHQMVaDDeL
-         bBeQ==
-X-Gm-Message-State: AOAM531opckiJf6f2iLti78ytUciDM72oURdz6Z4zIC7Moi4pXczWiFY
-	tdG+GwaCqE0IOdW4D9LZC0qOkTxtf8g=
-X-Google-Smtp-Source: ABdhPJz5COJjMIP1Epi4BOUioeC9uXPs3GQrWZf9sDP+RROCNt87NcaBznzYib0LFfzH8Ry4WKWK5A==
-X-Received: by 2002:a17:906:585a:: with SMTP id h26mr16251647ejs.31.1627290636937;
-        Mon, 26 Jul 2021 02:10:36 -0700 (PDT)
+        bh=rqNUqFciNN4LC8aT5JJ7kp05Roas++LREeGimN8w8rw=;
+        b=Rex+ZWbJhfghGP7K9YN9hfrRV3o0GN11aEblk5Fb9DcfJ/gTRVDvP9GdKWZW4tujgV
+         pcC4SnHYdFEIHnP+0Z7qMteq2HKESfNDWbfAaZpAmvduScDAL1Ebr4tdicQxqipORc6p
+         GywUFcXvojZ5rdSDvJBbGYO343udS8zuBPwXr/tOhfbRKIxhp1UetuOVk65znU+zruVd
+         PXnI0B47GdYKZt1cikEfYTqCExClTY34l5vzvaWj/vc++h8ez1HuqZ/0ihxv+jAwB9eg
+         9XJWbhtY6DEWSd3m89dQ0vR66tXl32wkJD2X2zdUkc4OIFiI35USC5umT3ARHcoQNjm4
+         tLRg==
+X-Gm-Message-State: AOAM531QDmWmnGjkB9kfagsWw8veTA78tl8ga1X3YMsENzo7cr7IZ+iF
+	oj2F1d9OhfIiT4nHKjDpHbngElD1O2A=
+X-Google-Smtp-Source: ABdhPJz2uwaAY/feFqZNsLuiMK4gU1YCIYHxJAFsrMTudHMAMjr7Kd8aSGKX0T14AExgK2BUB4UnQg==
+X-Received: by 2002:a5d:6851:: with SMTP id o17mr18354347wrw.346.1627291311493;
+        Mon, 26 Jul 2021 02:21:51 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::4bf9])
-        by smtp.gmail.com with ESMTPSA id p3sm14536647ejy.20.2021.07.26.02.10.36
+        by smtp.gmail.com with ESMTPSA id a191sm2555704wme.15.2021.07.26.02.21.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jul 2021 02:10:36 -0700 (PDT)
+        Mon, 26 Jul 2021 02:21:51 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: rtl8188eu: remove blank lines
-Date: Mon, 26 Jul 2021 11:10:14 +0200
-Message-Id: <20210726091014.21405-1-straube.linux@gmail.com>
+Subject: [PATCH] staging: rtl8188eu: remove braces from single line if blocks
+Date: Mon, 26 Jul 2021 11:21:29 +0200
+Message-Id: <20210726092129.30334-1-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,80 +54,102 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unnecessary blank lines reported by checkpatch.
+Remove braces from single line if blocks to clear checkpatch warnings.
+WARNING: braces {} are not necessary for single statement blocks
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/rtl8188eu/core/rtw_ap.c           | 3 ---
- drivers/staging/rtl8188eu/core/rtw_mlme_ext.c     | 1 -
- drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c | 1 -
- drivers/staging/rtl8188eu/os_dep/ioctl_linux.c    | 1 -
- 4 files changed, 6 deletions(-)
+ drivers/staging/rtl8188eu/core/rtw_cmd.c          | 3 +--
+ drivers/staging/rtl8188eu/core/rtw_mlme.c         | 3 +--
+ drivers/staging/rtl8188eu/core/rtw_xmit.c         | 3 +--
+ drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c | 3 +--
+ drivers/staging/rtl8188eu/hal/usb_halinit.c       | 6 ++----
+ 5 files changed, 6 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/staging/rtl8188eu/core/rtw_ap.c b/drivers/staging/rtl8188eu/core/rtw_ap.c
-index b817aa8b9de4..a2aeb78733d5 100644
---- a/drivers/staging/rtl8188eu/core/rtw_ap.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_ap.c
-@@ -381,7 +381,6 @@ void add_RATid(struct adapter *padapter, struct sta_info *psta, u8 rssi_level)
- 		/* set ra_id, init_rate */
- 		psta->raid = raid;
- 		psta->init_rate = init_rate;
--
- 	}
- }
+diff --git a/drivers/staging/rtl8188eu/core/rtw_cmd.c b/drivers/staging/rtl8188eu/core/rtw_cmd.c
+index eb89a52aa4e3..56ece839c9ca 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_cmd.c
++++ b/drivers/staging/rtl8188eu/core/rtw_cmd.c
+@@ -1159,9 +1159,8 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
+ 		psta = rtw_get_stainfo(&padapter->stapriv, pnetwork->MacAddress);
+ 		if (!psta) {
+ 			psta = rtw_alloc_stainfo(&padapter->stapriv, pnetwork->MacAddress);
+-			if (!psta) {
++			if (!psta)
+ 				goto createbss_cmd_fail;
+-			}
+ 		}
  
-@@ -453,7 +452,6 @@ static void update_bmc_sta(struct adapter *padapter)
- 		spin_lock_bh(&psta->lock);
- 		psta->state = _FW_LINKED;
- 		spin_unlock_bh(&psta->lock);
--
- 	}
- }
- 
-@@ -1140,7 +1138,6 @@ static void update_bcn_wps_ie(struct adapter *padapter)
- 
- static void update_bcn_vendor_spec_ie(struct adapter *padapter, u8 *oui)
- {
--
- 	if (!memcmp(WPS_OUI, oui, 4))
- 		update_bcn_wps_ie(padapter);
- }
-diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
-index 25653ebfaafd..b1fe30e9a2b4 100644
---- a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
-@@ -4723,7 +4723,6 @@ u8 join_cmd_hdl(struct adapter *padapter, u8 *pbuf)
- 						pmlmeext->cur_ch_offset = HAL_PRIME_CHNL_OFFSET_DONT_CARE;
- 						break;
- 					}
--
- 				}
+ 		rtw_indicate_connect(padapter);
+diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme.c b/drivers/staging/rtl8188eu/core/rtw_mlme.c
+index 71d205f3d73d..0d334aba9a3f 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_mlme.c
++++ b/drivers/staging/rtl8188eu/core/rtw_mlme.c
+@@ -953,9 +953,8 @@ void rtw_joinbss_event_prehandle(struct adapter *adapter, u8 *pbuf)
  			}
- 			break;
+ 
+ 			/* s4. indicate connect */
+-			if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)) {
++			if (check_fwstate(pmlmepriv, WIFI_STATION_STATE))
+ 				rtw_indicate_connect(adapter);
+-			}
+ 
+ 			/* s5. Cancel assoc_timer */
+ 			del_timer_sync(&pmlmepriv->assoc_timer);
+diff --git a/drivers/staging/rtl8188eu/core/rtw_xmit.c b/drivers/staging/rtl8188eu/core/rtw_xmit.c
+index d5fc59417ec6..c77ebd18f40c 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_xmit.c
++++ b/drivers/staging/rtl8188eu/core/rtw_xmit.c
+@@ -1124,9 +1124,8 @@ struct xmit_buf *rtw_alloc_xmitbuf(struct xmit_priv *pxmitpriv)
+ 		list_del_init(&pxmitbuf->list);
+ 		pxmitpriv->free_xmitbuf_cnt--;
+ 		pxmitbuf->priv_data = NULL;
+-		if (pxmitbuf->sctx) {
++		if (pxmitbuf->sctx)
+ 			rtw_sctx_done_err(&pxmitbuf->sctx, RTW_SCTX_DONE_BUF_ALLOC);
+-		}
+ 	}
+ 	spin_unlock_irqrestore(&pfree_xmitbuf_queue->lock, irql);
+ 
 diff --git a/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
-index 2afef26ddb56..6cf87312bc36 100644
+index 6cf87312bc36..a67615708745 100644
 --- a/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
 +++ b/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
-@@ -455,7 +455,6 @@ void rtl8188e_EfuseParseChnlPlan(struct adapter *padapter, u8 *hwinfo, bool Auto
- 		 hal_com_get_channel_plan(hwinfo ? hwinfo[EEPROM_ChannelPlan_88E] : 0xFF,
- 					  padapter->registrypriv.channel_plan,
- 					  RT_CHANNEL_DOMAIN_WORLD_WIDE_13, AutoLoadFail);
--
+@@ -510,7 +510,6 @@ void Hal_ReadThermalMeter_88E(struct adapter *Adapter, u8 *PROMContent, bool Aut
+ 	else
+ 		pHalData->EEPROMThermalMeter = EEPROM_Default_ThermalMeter_88E;
+ 
+-	if (pHalData->EEPROMThermalMeter == 0xff || AutoloadFail) {
++	if (pHalData->EEPROMThermalMeter == 0xff || AutoloadFail)
+ 		pHalData->EEPROMThermalMeter = EEPROM_Default_ThermalMeter_88E;
+-	}
  }
+diff --git a/drivers/staging/rtl8188eu/hal/usb_halinit.c b/drivers/staging/rtl8188eu/hal/usb_halinit.c
+index 1d7d5037ce89..3e8f7315d377 100644
+--- a/drivers/staging/rtl8188eu/hal/usb_halinit.c
++++ b/drivers/staging/rtl8188eu/hal/usb_halinit.c
+@@ -641,9 +641,8 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
+ 	}
  
- void Hal_EfuseParseCustomerID88E(struct adapter *padapter, u8 *hwinfo, bool AutoLoadFail)
-diff --git a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-index d4dce8ef0322..2b43c7eab71f 100644
---- a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
-@@ -1212,7 +1212,6 @@ static int rtw_wx_set_essid(struct net_device *dev,
+ 	status = rtw_hal_power_on(Adapter);
+-	if (status == _FAIL) {
++	if (status == _FAIL)
+ 		goto exit;
+-	}
  
- 			if ((!memcmp(dst_ssid, src_ssid, ndis_ssid.ssid_length)) &&
- 			    (pnetwork->network.ssid.ssid_length == ndis_ssid.ssid_length)) {
--
- 				if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
- 					if (pnetwork->network.InfrastructureMode != pmlmepriv->cur_network.network.InfrastructureMode)
- 						continue;
+ 	/*  Save target channel */
+ 	haldata->CurrentChannel = 6;/* default set to 6 */
+@@ -696,9 +695,8 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
+ 	_InitTxBufferBoundary(Adapter, txpktbuf_bndy);
+ 
+ 	status =  InitLLTTable(Adapter, txpktbuf_bndy);
+-	if (status == _FAIL) {
++	if (status == _FAIL)
+ 		goto exit;
+-	}
+ 
+ 	/*  Get Rx PHY status in order to report RSSI and others. */
+ 	_InitDriverInfoSize(Adapter, DRVINFO_SZ);
 -- 
 2.32.0
 
