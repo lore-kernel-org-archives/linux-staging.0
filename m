@@ -1,42 +1,42 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A5870
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 21:07:03 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id ca5so1791271pjb.5
-        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 14:07:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A072D2FB0
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 21:07:04 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id b6so1807714pji.4
+        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 14:07:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=wy7ZFa/vlTHtgg8uQMNJ843aX+ZbzQs1i4QUu9cpwyY=;
-        b=CFD6/QI1O3EsbKYxaKeMIUYOQlfKd8FXsmJJprXlgdw+7zyXlZPIW5o4azRnTC8YCQ
-         mzeyQTg+S62pLX4cDFcNv6/N7XaNBnc5E2uNaV5hs68fYSXMP8/ESaJ0OkQygaJQa7AS
-         4F9qh1blRX9PVQ64lesabwlxtHleiGJJDFMls=
+        bh=3614TVaw9LF0d4ZTPxFRYVM1NwtwuaIqOAakzdvkIfc=;
+        b=clV0Gq5oIj0iMf/0TjNaHBfl9gFowEEPRY6F12E4uHkupoBZLOBAOjcr6hanGqNJ/D
+         Ou+0N0Rgv9rhpZQ75K6fWWlwQIAJeQwEbGM40/xLoMchxBkeod+sf82FLeOvb290o5QL
+         mySzWEkrdI1XTTrAkdIJlo6oyBUo3Ktd4nSiw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=wy7ZFa/vlTHtgg8uQMNJ843aX+ZbzQs1i4QUu9cpwyY=;
-        b=rYPomDx8QiTBHH5gi/XiLPx0EQgEvGTB5MvG90ejZrR35lMsroSODw0SgQqIW0MHV9
-         d8ycRx5OF5Iv4eOdP1+zGRofN3ocqgUZePzdGkXxWjbKJ0nwiIF+C8XKSTm7NeC2I/1Q
-         9nXU++iNP+JbLK/R/pWVXT32kiO79uC5AlqjepRr9Rojghws8OOZO/jZtKAffpsr0A6M
-         SX8jOmAIaQr4itn1iuGeG4YYo5BZOigIiFnG+ILKq0X5GYk9twEGozdgDq8bJ844KCoc
-         A/QwVelxvjobuamQUtv22KFcg6nMKNVi2lOBkx+1b96RYYFF+JE0FI9/QSpJnLkevmfD
-         Lr6g==
-X-Gm-Message-State: AOAM530UJl467Ie31QkxA2ba+S1NqdS3oZT5K7ONn2Va/x43lO1zDiRk
-	BSpLByncYKRbs1wK32yyPoaCkQ==
-X-Google-Smtp-Source: ABdhPJx+2T9X9pdhD3ddcewqGNtueFLcFZVjgp4XV45kz/Mw0ouxkgYoYELpNwYrCF7/43LnQvJqng==
-X-Received: by 2002:a17:90b:1d84:: with SMTP id pf4mr24025324pjb.166.1627420023668;
-        Tue, 27 Jul 2021 14:07:03 -0700 (PDT)
+        bh=3614TVaw9LF0d4ZTPxFRYVM1NwtwuaIqOAakzdvkIfc=;
+        b=RViFceLNHFGIlSMn/Q6j+Gw5fSKCR9jGleS4d6pzRtw/3ajw6R0y/BTfLAxfc7SvG9
+         ZysD/fb0H7aehKbXTiTkocEHmhsVolQ7coDiEkVMwRYqP67X+Ph6PPNUVt/XtNJOgpMb
+         PpCS5CSGuDg0PP4aSPcJrvZlo1XKhfH+zrl9tInDZOjGk0vyMWuGx6iDo0wFeMqehqKh
+         bAE1hOjC2U2O2l3XMxjsdSVDhp3uZebvk+xdbRO2TVvbz9prsz5F9TqqsfxGh0vabu+T
+         cbPaZneOwlxMvrJPd0OTH9G4ZFfV0xt1sdVxiZUTXs1Nm4vRf+e+cqhYQhlWK8PZsKP7
+         nvbg==
+X-Gm-Message-State: AOAM530jWeTaAaxZr7ZrQKEYQpGPnaRWMYckIgMgg40zzX974eoqVW5O
+	0A5uqG6wZ8CiHcu+7lVA1zYuEA==
+X-Google-Smtp-Source: ABdhPJzheM2xvO7r2KOy5JsPyHkQ5gmU070FcB/CrWaIBKULL/3U7eU4WZmglR8JYkwU1AHc0DVlNQ==
+X-Received: by 2002:aa7:9086:0:b029:39b:6377:17c1 with SMTP id i6-20020aa790860000b029039b637717c1mr9604180pfa.11.1627420024334;
+        Tue, 27 Jul 2021 14:07:04 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id s193sm4734376pfc.183.2021.07.27.14.06.56
+        by smtp.gmail.com with ESMTPSA id b13sm4545729pfl.49.2021.07.27.14.06.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jul 2021 14:07:01 -0700 (PDT)
+        Tue, 27 Jul 2021 14:07:02 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
 	Keith Packard <keithpac@amazon.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
@@ -48,9 +48,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com
-Subject: [PATCH 56/64] ethtool: stats: Use struct_group() to clear all stats at once
-Date: Tue, 27 Jul 2021 13:58:47 -0700
-Message-Id: <20210727205855.411487-57-keescook@chromium.org>
+Subject: [PATCH 61/64] Makefile: Enable -Warray-bounds
+Date: Tue, 27 Jul 2021 13:58:52 -0700
+Message-Id: <20210727205855.411487-62-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
@@ -60,55 +60,34 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1822; h=from:subject; bh=nf2hDwlk0YBMeQam31KvtF6X3nn/T4T4psodjHluwA0=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOM4ay2vSP0iUDUl/jIVt/Blah8KWXvHVH7Wzv7 NYIRQBeJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzjAAKCRCJcvTf3G3AJg7ED/ wIYAKrzGS2QdyAzL+zWobbS3KBQXRaEYAJzUBfRITbmMnqRyWiKhqX9YPUQktluLi8FRLF8/tN1uNl Zxa7PntzoeHKtnHdKaUlHK6jf3BDo5jSq4V1v/ebceGUpYXZEmqBaMINS8m6bmB3D2Mg/O+78AphgA 9W427uDE2RA+00IyaPB0SuPpufyTlaLDtD0Zu/sNtuHoxjQv7TLsi7hKzCX9rzcpT6iYxy+r2oHJHR UW5fD3JxKtWaV5YRkxjG6zL1MuLmgkGRIZRM5MeQGsmfy/FLz/XIKFETiqW5DntGZOtXT/0htDnrlk PzvLPT4HEfNLzx+3A9w8dI9o8ascU8vO2ZRk/b8a7pFTT9viBfWhZaSpikWc0hyxZUUez9dR413PZT Ihk7cAMDTlnVhX8R/9y3T0RhUGSPws7B1NsMvvxVseZgEJlROYx8WchI3f/YQofn8x40OI695ZW6eZ E2E0P3MhTIlruLHwghe2WVf/JwGX5pATdgB83WBO7y5tJPfTi3bt4dUNUN3MVJ1huNwC/xqUbDx8As Ckre4MXvBdIoXEXXN2pOr5ObcLIhMYDjjuGdxhjOInFiHku6jxVuO2Gu3Qwlt8hXM3TPFrAZoEl/Cr 5zyQjXfG1x4OBqaHrzFrl/No/XVLDOKeVvR6caucbAbMqbu6m2ziy3mOa3yA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1002; h=from:subject; bh=iIOagZzyF2xdp8n7enwD6qkgQ1o9k/a7rFZX1PVnmxg=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOOq3GxY9uHkpfXPpohPWhLzKrRlLl+w0yr5nG9 o51n+4eJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzjgAKCRCJcvTf3G3AJhXFD/ 9eNQSeUQPuzmwtU/NaiBjngkDUoTXVXv6KDOoXdN0EeDJr9dzNsPU4RUC2Yb7oNKtodqx9qr3F53BT txNpJNl/VSlLBo4MV0T1xF/z3OZoiHCgrhEK6jQQWkJ8g9DbwYCORPaM3KmjKoReDaEVCdUqLLgRLI bgnGYGgyZ8hwan3FbBKFMQwKRDx8sMPqQJUlxpC/0p1LlB5klJYif9tuDWpKW1liKmjqsack/xN7n0 V/cjUuTEEPcy51sw8cSiGkQYLx3KXX0nBtDSFN2xWj3EOY9Bm2RgpOqUqsPFAyinaCqQ43AtocYK4G EWC3c+pF5KODB9bWmzxaiWfcbQnr/qmuRE0npmKCThCFAdIG0L/zSn17BagAoxn/bfs7o1XTo9UQ6L K2E4D3ANbhN9AYyDSrP3MqqguYb7FfMwTv2zQNOLIoHqk90Ys/REfQ6FbJ9b4n+s+hlR2hs9IoQ0+Y 3LfKCSZCrYfZ2rhefZPYVzbWfzbM2+wTL1DtshJ1M+gKFcPfZ663TaMLREqy9r9mTtgswUne36LhxD ZfCNhpXpDpbsenQfUmuciUrsKoatyitqkdd4dOEVsAVIZ7jI+dZ2TTRu6UgVdfpiRIdWgIUBmXNdyf QZyNNzVnUyr2dpmTN5/GnRpfSS+N/XiRxODtkuSEXrfjk1fZDATTwSfL3kKA==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-In preparation for FORTIFY_SOURCE performing compile-time and run-time
-field bounds checking for memset(), avoid intentionally writing across
-neighboring fields.
+With the recent fixes for flexible arrays and expanded FORTIFY_SOURCE
+coverage, it is now possible to enable -Warray-bounds. Since both
+GCC and Clang include -Warray-bounds in -Wall, we just need to stop
+disabling it.
 
-Add struct_group() to mark region of struct stats_reply_data that should
-be initialized, which can now be done in a single memset() call.
-
+Co-developed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- net/ethtool/stats.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ Makefile | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/net/ethtool/stats.c b/net/ethtool/stats.c
-index ec07f5765e03..a20e0a24ff61 100644
---- a/net/ethtool/stats.c
-+++ b/net/ethtool/stats.c
-@@ -14,10 +14,12 @@ struct stats_req_info {
+diff --git a/Makefile b/Makefile
+index 6f781a199624..77d01ba3d4e1 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1089,7 +1089,6 @@ KBUILD_CFLAGS += $(call cc-disable-warning, stringop-truncation)
  
- struct stats_reply_data {
- 	struct ethnl_reply_data		base;
--	struct ethtool_eth_phy_stats	phy_stats;
--	struct ethtool_eth_mac_stats	mac_stats;
--	struct ethtool_eth_ctrl_stats	ctrl_stats;
--	struct ethtool_rmon_stats	rmon_stats;
-+	struct_group(stats,
-+		struct ethtool_eth_phy_stats	phy_stats;
-+		struct ethtool_eth_mac_stats	mac_stats;
-+		struct ethtool_eth_ctrl_stats	ctrl_stats;
-+		struct ethtool_rmon_stats	rmon_stats;
-+	);
- 	const struct ethtool_rmon_hist_range	*rmon_ranges;
- };
+ # We'll want to enable this eventually, but it's not going away for 5.7 at least
+ KBUILD_CFLAGS += $(call cc-disable-warning, zero-length-bounds)
+-KBUILD_CFLAGS += $(call cc-disable-warning, array-bounds)
+ KBUILD_CFLAGS += $(call cc-disable-warning, stringop-overflow)
  
-@@ -117,10 +119,7 @@ static int stats_prepare_data(const struct ethnl_req_info *req_base,
- 	/* Mark all stats as unset (see ETHTOOL_STAT_NOT_SET) to prevent them
- 	 * from being reported to user space in case driver did not set them.
- 	 */
--	memset(&data->phy_stats, 0xff, sizeof(data->phy_stats));
--	memset(&data->mac_stats, 0xff, sizeof(data->mac_stats));
--	memset(&data->ctrl_stats, 0xff, sizeof(data->ctrl_stats));
--	memset(&data->rmon_stats, 0xff, sizeof(data->rmon_stats));
-+	memset(&data->stats, 0xff, sizeof(data->stats));
- 
- 	if (test_bit(ETHTOOL_STATS_ETH_PHY, req_info->stat_mask) &&
- 	    dev->ethtool_ops->get_eth_phy_stats)
+ # Another good warning that we'll want to enable eventually
 -- 
 2.30.2
 
