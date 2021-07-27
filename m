@@ -1,38 +1,38 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE9570
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937432FAD
 	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 21:16:55 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id o44-20020a17090a0a2fb0290176ca3e5a2fso1132811pjo.1
+Received: by mail-pj1-f45.google.com with SMTP id mz5-20020a17090b3785b0290176ecf64922so6700944pjb.3
         for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 14:16:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=XdwAH1wi5GybK4WACckEvbqqM0uNwW2ti2D4UdHSPZY=;
-        b=Ok0JMPyOntA2/shXMQ9U1we++nT0qhfqh/2CJDQ7K4u1UjNQxoXnu4xajkK85E02cp
-         OtK4XcDGy3wt7Tpk39IjjY6WKVrrLzGuvSAivYryWC7kRY63lA/xKQX2Vbk2E2Uavoj/
-         TmQhzEwGrkAcpR2gJlO/FcTIp5gwC+F1KR0zE=
+        bh=DGTay7iAWSyVSQKDJdUkixgvUstnCPUf4gCx6hmeZFg=;
+        b=dNYQWvNnvzIA2X1XyugwcYlkkWjvJM3Vr3U1hCAtNIdHPOPlyGNYt6+nUriTVJE1MY
+         iZgmYH0qJz+aQ+mXI12gMaGW3TxvwmtxZIYqXUw/22X3My9fPAG+Pxwau+0K9PSBrncN
+         iFPA2Fm2fkDwZ73RqhbPCUL3LZE0YvDxxcwSY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=XdwAH1wi5GybK4WACckEvbqqM0uNwW2ti2D4UdHSPZY=;
-        b=pbhcU6J890c9u0f04ebe412Vvhhy1vDMujyU/BTuvn/YvK7ytWXXPImXYOF0jua9Ej
-         GPkCanPNXBCc16ZMqCgRARJ7l3yoJA8V/2WsDPwgTfUvJsO3E5Oc/IkBTtkX/nguOAwL
-         3yNzAZiFfRdW8ruRA+5tXSk+9FIxDRoZOLCmPucQNDgmyBb9H8h/evOo+fqnh07OmiAb
-         mFRDVB5FFoQ45C8ZQjjcf3uIcx4tByrp6eHAwnzc/L9BnSTTmfA3SsaHPJiylyJzCI3+
-         b4EHZriv0ESYeE+1zi3LCEbxieZ2hVyYe6B7AB6d/6gB885Rfv6+1HCEyYr2zBhTN523
-         FBTg==
-X-Gm-Message-State: AOAM532Gcag45H82ie43B3OneN2vKjeWcrIrFIAwyU05eCVNMrBMTqRy
-	vz2T1Dihjcm2gCLAdMjg75Bgag==
-X-Google-Smtp-Source: ABdhPJzNDR76qJ9OM5+z4CUAyTRDn6tOs0lDe4jIL47eptis/B+O9LnGDX5Q+EGMdPEud5CnEN4QqQ==
-X-Received: by 2002:a17:902:c950:b029:12b:6dff:737e with SMTP id i16-20020a170902c950b029012b6dff737emr20365641pla.23.1627420614916;
-        Tue, 27 Jul 2021 14:16:54 -0700 (PDT)
+        bh=DGTay7iAWSyVSQKDJdUkixgvUstnCPUf4gCx6hmeZFg=;
+        b=OGDzMaclNGq6R4gPcNPzUoQOUYEyYnr1ectwumg8/qwdE1hxT5lLtzywygCrPO+CtA
+         FmU//B8KpaCDbu091xuyX8dDLpt8h/YPL4jjL0mQN5xEkRM/+qzhVj/QAc2PqqxfWWDA
+         kHpxeoeIa8dgaoP8oMnGOkq+sJNRLXfu6if0ndSOB9Ynl0jPlOziKxB/GIhiMxW81Hvl
+         4DdGQwL5vmotIcWR/uzda/95d0d9xOM4a51JVmqybE8KvhHM4FhUP6jDiF0TBTBlU7fJ
+         /snGDGo009qAczdUX4g3egDVj0/KqI3lUYO9Jj6QrSE8QbalbJSuAjdZ77t1SeKHa4ZQ
+         THtw==
+X-Gm-Message-State: AOAM532gqgouzI7ZLolgHYt/YSvaa5o9B4bbxhzUthzDzk/ZUNsQpqBF
+	Hcmee0VNyp5nTcqBzj7ZXlqRAQ==
+X-Google-Smtp-Source: ABdhPJy6DyjMlXCxT3T2XebScQyyxEXTMu8TCjUAq1vEYKkzbYwWyNRsUTrVbClktjUGmOBVunhffg==
+X-Received: by 2002:a65:64c4:: with SMTP id t4mr25559293pgv.222.1627420615303;
+        Tue, 27 Jul 2021 14:16:55 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id y9sm1353654pfq.199.2021.07.27.14.16.51
+        by smtp.gmail.com with ESMTPSA id j187sm4758930pfb.132.2021.07.27.14.16.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jul 2021 14:16:53 -0700 (PDT)
+        Tue, 27 Jul 2021 14:16:54 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
@@ -48,9 +48,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com
-Subject: [PATCH 20/64] intersil: Use struct_group() for memcpy() region
-Date: Tue, 27 Jul 2021 13:58:11 -0700
-Message-Id: <20210727205855.411487-21-keescook@chromium.org>
+Subject: [PATCH 45/64] intel_th: msu: Use memset_after() for clearing hw header
+Date: Tue, 27 Jul 2021 13:58:36 -0700
+Message-Id: <20210727205855.411487-46-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
@@ -60,70 +60,42 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2591; h=from:subject; bh=XN4EcfAHOcyqzqxgubXwSLF7jbqQXUd6RGr4EKrJNsA=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOEPEvZgYdYMavqPMgeDE6afWty3UdJd13OmXSL GPE0C+OJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzhAAKCRCJcvTf3G3AJr8VD/ 9xVNxDN0+Jpu0O3w+sAgW+rnCimDM7o6SG5YedgqLo9ucHl7vx4cyG9meVQGqMt9RqIGfOuGWKUhx8 evPPkXhtqKEjLE9v6VbPKbcPAdcxh53eNx6j/QQCiD3ESy8EJWHhyi/1KC67cB50MeFLrW1O9lRLib KKuFycwhUjoh/Yf8VpDYUfNnYsn14knw+crJhaBTBggW55XmcO40aq/5WJYXp6vMSfcz6ZP2EWHk7X A7aNdVQ0uGEpCjRX0mqgIVDJeNnFivh2USUz4PVh6dZvVtegtUZ2Er0Oci5RoOwxWyXq/b6Erf0u4T twTqUdOnuOxP4/90seGDGkAX57dqITIzgJL0r9ENwWqSQqsPbLiKa1/asyzzEkUno7IAG5XBysCpu6 /UTarLm65AFjDrqgWfoh5tW46HI6qD+TBBvzHaKyX7X+LpVAnSVr3JjkdVO8P6H8yhL0opZP0C0HrZ EM6Th8xtyqMF0uHuhxj+93uIAvn5I7EZMEpFO/cLBzH04SfZZHCiywH1/jb/LjBKyf0zPQJQ1Vzpq1 TjAcn1pDlmxmr8t8QsbsbCjiwVyi9itWGM7tEeZ6WberH/QZcolHGoIakzm3k6rcGS90K3xsGVrVNR iuzAs+ECABSmTkuBrwO8EFf2/FSBUsGUtUvVELOjF7CEOssim03OhfpzKyzA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1172; h=from:subject; bh=4YDV077FmH9lemmMexWp8eMo9bjnp2d96nCsgVn4crc=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOK9ttF+ksljVKBeZVm/usaI00laWjD4Unf8h1d eoh1+beJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzigAKCRCJcvTf3G3AJhvxD/ 0XZptAWWII5Sd1eI6hMq+jc4oUfLp5M5OPVb2emcgAAU0hAdSFxWDSUreT7263Ke3iOrhK498DJ36F DFKeXG2Kgg+H8VsBs/8iBRv3fcGi9/Ws4R5EVR3wO8T1tGxps7guCF9Qt6VBQ1s4MJ6uP1WduVwPNZ ZlByIdd7bbTAOVP0DQkaoixkgPdZnttNUp6Rr9N82rM1ej3G08+KapIFaiYMmhQSc7X5eCVxNKiziy OaiXcQBIN39iFbSTkPqmGWB/O8O9gN3mx3NTI/59TdmWDsSIEA0nZvbfdngpv2IWvghbSAnYrPfRoP PgSUX4wsUmyVbVKlsPRTFFnPc//4u4ziXfaO+NBESwrPcAmCy46pnKciUhYP1HH9VEi+ZCFb+SruMD MadjaGn2+3NdXFhWFV8895TTZ9u2+OKWtOQfqo11ynnlTm/DCGHvWB/AFn/6JdmHikaEpmcDR35+C+ Egf9o3kqDZ/B2qBqmcNmBMEV+0x48LZBOC/a5eqPn2bWsV9AJA1QV8ZZ/okfq56/5BwWZsW3rb5Jgy w2lr+ZeijJNIcye0PRUUdx3g1rzpx5+DXlN5Ntxi5rE5nrCFrcdyM6t9z+TbSBsR3Gd5kdMjV62eDG arvpuLcVrVwUegzp+aFtKOIzZCN084P4qbo3Isqj7ayth3CARHq/kmH7pGPQ==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
 In preparation for FORTIFY_SOURCE performing compile-time and run-time
-field bounds checking for memcpy(), memmove(), and memset(), avoid
-intentionally writing across neighboring fields.
+field bounds checking for memset(), avoid intentionally writing across
+neighboring fields.
 
-Use struct_group() in struct hfa384x_tx_frame around members
-frame_control, duration_id, addr1, addr2, addr3, and seq_ctrl, so they
-can be referenced together. This will allow memcpy() and sizeof() to
-more easily reason about sizes, improve readability, and avoid future
-warnings about writing beyond the end of frame_control.
-
-"pahole" shows no size nor member offset changes to struct
-hfa384x_tx_frame. "objdump -d" shows no object code changes.
+Use memset_after() so memset() doesn't get confused about writing
+beyond the destination member that is intended to be the starting point
+of zeroing through the end of the struct.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/net/wireless/intersil/hostap/hostap_hw.c   |  5 +++--
- drivers/net/wireless/intersil/hostap/hostap_wlan.h | 14 ++++++++------
- 2 files changed, 11 insertions(+), 8 deletions(-)
+ drivers/hwtracing/intel_th/msu.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/net/wireless/intersil/hostap/hostap_hw.c b/drivers/net/wireless/intersil/hostap/hostap_hw.c
-index 9a19046217df..cea8a9ddc4da 100644
---- a/drivers/net/wireless/intersil/hostap/hostap_hw.c
-+++ b/drivers/net/wireless/intersil/hostap/hostap_hw.c
-@@ -1812,8 +1812,9 @@ static int prism2_tx_80211(struct sk_buff *skb, struct net_device *dev)
- 	memset(&txdesc, 0, sizeof(txdesc));
+diff --git a/drivers/hwtracing/intel_th/msu.c b/drivers/hwtracing/intel_th/msu.c
+index 432ade0842f6..f3e266b0756c 100644
+--- a/drivers/hwtracing/intel_th/msu.c
++++ b/drivers/hwtracing/intel_th/msu.c
+@@ -658,13 +658,11 @@ static void msc_buffer_clear_hw_header(struct msc *msc)
  
- 	/* skb->data starts with txdesc->frame_control */
--	hdr_len = 24;
--	skb_copy_from_linear_data(skb, &txdesc.frame_control, hdr_len);
-+	hdr_len = sizeof(txdesc.frame);
-+	BUILD_BUG_ON(hdr_len != 24);
-+	skb_copy_from_linear_data(skb, &txdesc.frame, hdr_len);
- 	if (ieee80211_is_data(txdesc.frame_control) &&
- 	    ieee80211_has_a4(txdesc.frame_control) &&
- 	    skb->len >= 30) {
-diff --git a/drivers/net/wireless/intersil/hostap/hostap_wlan.h b/drivers/net/wireless/intersil/hostap/hostap_wlan.h
-index dd2603d9b5d3..174735a137c5 100644
---- a/drivers/net/wireless/intersil/hostap/hostap_wlan.h
-+++ b/drivers/net/wireless/intersil/hostap/hostap_wlan.h
-@@ -115,12 +115,14 @@ struct hfa384x_tx_frame {
- 	__le16 tx_control; /* HFA384X_TX_CTRL_ flags */
+ 	list_for_each_entry(win, &msc->win_list, entry) {
+ 		unsigned int blk;
+-		size_t hw_sz = sizeof(struct msc_block_desc) -
+-			offsetof(struct msc_block_desc, hw_tag);
  
- 	/* 802.11 */
--	__le16 frame_control; /* parts not used */
--	__le16 duration_id;
--	u8 addr1[ETH_ALEN];
--	u8 addr2[ETH_ALEN]; /* filled by firmware */
--	u8 addr3[ETH_ALEN];
--	__le16 seq_ctrl; /* filled by firmware */
-+	struct_group(frame,
-+		__le16 frame_control; /* parts not used */
-+		__le16 duration_id;
-+		u8 addr1[ETH_ALEN];
-+		u8 addr2[ETH_ALEN]; /* filled by firmware */
-+		u8 addr3[ETH_ALEN];
-+		__le16 seq_ctrl; /* filled by firmware */
-+	);
- 	u8 addr4[ETH_ALEN];
- 	__le16 data_len;
+ 		for_each_sg(win->sgt->sgl, sg, win->nr_segs, blk) {
+ 			struct msc_block_desc *bdesc = sg_virt(sg);
  
+-			memset(&bdesc->hw_tag, 0, hw_sz);
++			memset_after(bdesc, 0, res0);
+ 		}
+ 	}
+ }
 -- 
 2.30.2
 
