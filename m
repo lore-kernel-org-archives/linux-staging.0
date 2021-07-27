@@ -1,27 +1,27 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25EC872
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 13:06:33 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 74C0C610D0;
-	Tue, 27 Jul 2021 13:06:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E69672
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 13:17:40 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 61F85601FD;
+	Tue, 27 Jul 2021 13:17:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1627391192;
-	bh=dSkirkfsI++z38mvXCgqd7NzcPR7nNLQlgLTI+XvctU=;
+	s=korg; t=1627391859;
+	bh=OOCCNXzx21q2l0kDMmSD+oFNhSnD0BpDuNRFYaqiBOY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QZDhYmb9bbXeiMbNBWfPk/4kt753Kwdf1mjnRSTO8Rd8sPHYwDcp8VbIpQMFSG6rI
-	 6QvGp13tgXAw46qpKBl8DhgozhimcgA4BrjoAyqe3R7JMT44eTj+gOmfGWzzvV4oNP
-	 xXZsnpsOLIVyYV+quvCiFY64Noo+hJy8k8za2RGk=
-Date: Tue, 27 Jul 2021 15:06:30 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Phillip Potter <phil@philpotter.co.uk>
-Cc: Larry.Finger@lwfinger.net, dan.carpenter@oracle.com,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	fabioaiuto83@gmail.com
-Subject: Re: [PATCH v3 0/7] staging: rtl8188eu: replace driver with better
- version
-Message-ID: <YQAE1q9ZWRPHqfK5@kroah.com>
-References: <20210724001055.1613840-1-phil@philpotter.co.uk>
+	b=K+g+iNG6pSkq4HWM5+uUlVZe7mk3unP/5rdNkCygIFoFQKYJ/j5Jq59Sj1cucJR7f
+	 FWkCExX0dU8cuoteuzWxfBV+FhtpWJ3+ChjHlmZbAqGIgOKIArNkw4SrDuvi7dbN9c
+	 YmfwOSKUCDVRUmMLhydGtpt3MNBkUFOUTnn1LVn4=
+Date: Tue, 27 Jul 2021 15:17:37 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	David Laight <David.Laight@aculab.com>
+Subject: Re: [PATCH v4 0/2] staging: rtl8188eu: Replace a custom function
+ with crc32_le()
+Message-ID: <YQAHcbOeh2ohAmTg@kroah.com>
+References: <20210723192620.10669-1-fmdefrancesco@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,23 +30,17 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210724001055.1613840-1-phil@philpotter.co.uk>
+In-Reply-To: <20210723192620.10669-1-fmdefrancesco@gmail.com>
 
-On Sat, Jul 24, 2021 at 01:10:48AM +0100, Phillip Potter wrote:
-> I had to break this patchset up a bit to get around the file size limits
-> on the mailing list, and also I removed the hostapd stuff which is
-> userspace related and therefore not required.
+On Fri, Jul 23, 2021 at 09:26:18PM +0200, Fabio M. De Francesco wrote:
+> Use kernel API crc32_le() in place of the custom getcrc32(). Remove no
+> more used functions and variables after the changes made by patch 1/2.
 > 
-> The driver currently in staging is older and less functional than the
-> version on Larry Finger's GitHub account, based upon v4.1.4_6773.20130222.
-> This series of patches therefore:
+> Fabio M. De Francesco (2):
+>   staging: rtl8188eu: Replace a custom function with crc32_le()
+>   staging: rtl8188eu: Remove no more used functions and variables
 > 
-> (1) Removes the current driver from staging.
-> (2) Imports the GitHub version mentioned above in its place.
+>  drivers/staging/rtl8188eu/core/rtw_security.c | 81 +++++--------------
+>  1 file changed, 19 insertions(+), 62 deletions(-)
 
-Let's do (2) first before worrying about (1), given that we can't get a
-version of (2) that actually builds yet :)
-
-thanks,
-
-greg k-h
+Much nicer, thanks!
