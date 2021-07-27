@@ -1,36 +1,36 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29912FAF
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 21:06:59 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id m10-20020a17090a34cab0290176b52c60ddso1025422pjf.4
-        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 14:06:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272FB70
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 21:07:01 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id q17-20020a17090a2e11b02901757deaf2c8so1227395pjd.0
+        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 14:07:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=BAjc7jN8mF2lxOocjxYUs8uk4UIdg9BIVyN6yKZHmUw=;
-        b=Ik3f6gOvQpeLuCM/En5JJmwMGhnVmhecqCsKjDJ2odwR3b/OtNzLiyoeOTeu9TpBj2
-         /OaEnt7Z40ngSvFECb51CKe1Mrq/TscdrX+6sxtX8ZJ679XmXcxAcgkm85bGnl2v4XsX
-         BNB53x5u/LQy29sMxiNlUWB84NzJJ44Lw+SoQ=
+        bh=RRl4QwGFVHrrGOIPdMRW7d1sxZ/z0xnxJ3QgfuV7q+Y=;
+        b=VLdolfVHCXSWi55Yx/uNOx2x9gNCjcm8fAuonyRhF6lka+9tJjMC+ljSDw1I2hhSPl
+         IPeW06Di2elnxoPtiM8a7tbufyY5DIpbj0wKJi28F7I97+I2C7r+CBhjZpWfsMqRUJOq
+         uPrEwdOtDaUl+C26xZmgSdL3xsdhOztQ/ekno=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=BAjc7jN8mF2lxOocjxYUs8uk4UIdg9BIVyN6yKZHmUw=;
-        b=eBV+Xpb/espezQ9WnFEtT2RJq+wNz0l7cfmYOiKotu7BbD1igEPjHx2Sh4OWAM10jK
-         jNxSnThejwJTq6WwYxKP3cIq0qwA9+LuVU+146eGpKwOS2/KwbjJd38tbmdq3HTNM0vS
-         3U9z2J5Ox/GN1lrT94vsIowp1Z2iFAo9JN5lNDvwpfsL4+SvddSyUBQ6g9lT+hdbb1Pt
-         LA9kVmURw2Nsk0OvLwa/YnLTIu2S2vmoW0luHG9ZDeln5fBdUmNYQi3140tCWJbBP31j
-         2ApvaBvqxGj2qGTR4YXqXSlcPbJUik+hsSN1m9ZWBO5QWuzhllMT2wXylmzL+xqiND85
-         E1XQ==
-X-Gm-Message-State: AOAM530dLhsyFeZzjjBBcQ3V+x3nU3oEQPHFEUAsT5gkMjk6Cu6OrCYT
-	sd/3jSEzTKORJ1dL1zN4u96TVQ==
-X-Google-Smtp-Source: ABdhPJzTyWnyJkM2fI4o+nQh75gG0gKQnAIhyupMsjyxw0lo+I3SNPw8cSYvp7EuMi65u5YL90cSkg==
-X-Received: by 2002:a63:190b:: with SMTP id z11mr25001094pgl.320.1627420019329;
-        Tue, 27 Jul 2021 14:06:59 -0700 (PDT)
+        bh=RRl4QwGFVHrrGOIPdMRW7d1sxZ/z0xnxJ3QgfuV7q+Y=;
+        b=nEiy7GcyaFy7yiUAAiq6TSviliGtx3YN9tnv5ZZ0OQK46ln0ML4LT0w1dWubwFIs5h
+         SVLT9xUJTSbLaOlELqqaF0a1Zu+HNMgWzmcPtx8UQ+16gC6PYOFYbET0evM0SpyVV9Dg
+         FU9mxgFsVZT6kivM5t5GeXVcbhIZcEdHS48vC3q9qLS+VTIuboHvtWTYLA/G0x5GTMUh
+         ElbVRVEwA1halj+TBa9jwAhTUXWKNre7u+lUIgTzPQXErmtvjOXDdUKu/L5wK2ivnXQq
+         sC9tb84gsfKK0Bg5IIItsUxfNwpw6nIfRvz5pPnE292tkpuLpNQ2i1iloIvzSFTS3kRm
+         ufKg==
+X-Gm-Message-State: AOAM530B73GJbDFK0hX01XZn7vyo7JWbBPf5m2awQVDXvcaabDhjuHo9
+	8OS0ahtBcMbUFEly5OBuL20tzw==
+X-Google-Smtp-Source: ABdhPJz1O0RCaY6YxEHXQjrBeBf6WlvQVtA9lzuclsJxgu0ny8IwFRemKEhaTqFBHWHY+58Ad0sxsg==
+X-Received: by 2002:a17:90b:1097:: with SMTP id gj23mr24623197pjb.65.1627420020773;
+        Tue, 27 Jul 2021 14:07:00 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id i1sm4395555pfo.37.2021.07.27.14.06.54
+        by smtp.gmail.com with ESMTPSA id k4sm1283492pgh.9.2021.07.27.14.06.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 27 Jul 2021 14:06:55 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
@@ -48,9 +48,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com
-Subject: [PATCH 38/64] xfrm: Use memset_after() to clear padding
-Date: Tue, 27 Jul 2021 13:58:29 -0700
-Message-Id: <20210727205855.411487-39-keescook@chromium.org>
+Subject: [PATCH 53/64] HID: roccat: Use struct_group() to zero kone_mouse_event
+Date: Tue, 27 Jul 2021 13:58:44 -0700
+Message-Id: <20210727205855.411487-54-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
@@ -60,7 +60,7 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1608; h=from:subject; bh=g0VWO37QK3XIcvkgv5p13lDa7YD+Jvxsuneh5al+DKo=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOIQmnrWwAaxPVdj8lblXkb8ZdEI/mjJwkI9weg Jb9tdxuJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBziAAKCRCJcvTf3G3AJkUiD/ 9GVAFoJywTVZLGJMfv82icJWJQRMDO1fnyc7Vo6lQ1D7/W+Dagrov588jsfphYxw9bCcMrBW5+ML39 Nlw0d86SRJKsp9W1D/uWpxT7B+ZifwMCrBQiW/QQdugvpBK16DiM/nuIxmvvNngfCD7TZeYhnxyJCN Q8sbUMZx2T8aExzVPglAhsAqyZAACXNIyRAkJJKyEFCtk5DV7xNyz4H7EIco1PaNQ6CPSvz3qtegIn nv2P2319IG2VLE3I2NZVINSDUfhFT63odWJElKoysAbPDvrq3781fUtYESiohGHqBR8FD3BGT+O8y5 9KD6fIZ0TSLsD63axSBtgp5OUer7kr086Bp7sU1ndEXv436bquzOxnCxGOOZ82tsCGeW/VxkIdKzGd IqrtSepbn6JZoMYp10wQJpM6ZcvscK8K2zcp2RMRpDMku/9dFd2GQ45TO3uUh94594qJDdQG0ecNlA NIP+5MnO4vD6X6sONnGwoom7JbHdfvLOAg4vRaXZ2jfmckTzxmeUil4NB16b45RGMUUNbmfDrGgLJc 0oHx1OYHLUpyYpWBvqH49SivknOgZOZzXIyabXPipERmCdfnqRmLJeBYq67aP5IvRZgUVF848zQS1a wYduCIDFnUzR+Pq8e8OGT0DcZ9ZGKEr3Av8YeNoVe5GpEviziiQ3/Fj3WyIg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1730; h=from:subject; bh=EUTv4O0nvngYWbdXtF9deGR2fwqq+6xUthh2+Rv4aLw=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOMI/KVhJIquCmbVDokB41QtN0+bK1f1n8H1BjO /vI3XCGJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzjAAKCRCJcvTf3G3AJigBD/ 4xOpohWQjjZHlbRQQB4Xc96JEF9UrR/87ufDJ/LQCR9f7bpU5HN4prxvGPl+Gh14S3nTWDhs7tQLV8 lgvttBveo3P3wp1AEgc84pleIWnY19RV8DcusmvreDhDG62N4MMW91V+yoqBuqB34xAxKaVJ0z6h4X tMH1NjPo77yLscB15GrJ4m3R/aS/iaccGcVUCwTR/CdCDoI/vLaImBCCH5YwQovtUmT1k04HUparAv jTs0fwcc1LfmJGkpT/YOIJnJ2shh0qAzEBKxdHgAIYE1pJJ59NQ6IfNzbMcQzEeapQ0p+kJRjODNpd oBpl+VAcjcyG71c3NBYs64mHgmd7xQgqxrKHeTTPI73krFkwv0sjaz1tYf6t3wGr+MJBryeUc/XLef bBUhQQ+U2nmjxMpH5biZuX8R5fJd8K2A6iOdS4OCIgCexMIqdOf47mtYSGy6w/OqX0D0HulkNM6Ak5 /kO3TY/+btKVuq9e6QW5DQLMbCfCbRrCJHmWxOFI5GVH3bchbtyGtVnd5VCwHQJhG28UCjTcKMLd10 3FKyVUcll/fy3asrDwz923cHSGawsRdwuUUF+B/1A93hUfh8ZPHnbv0X2Rh95SGmSNd9p793a13Ftn 6BVstROxT8kaLKdvZkdDDu6WqpqQxHglko/wXhuVc2rwuMX8jO3UGuzQBK9A==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
@@ -68,44 +68,51 @@ In preparation for FORTIFY_SOURCE performing compile-time and run-time
 field bounds checking for memset(), avoid intentionally writing across
 neighboring fields.
 
-Clear trailing padding bytes using the new helper so that memset()
-doesn't get confused about writing "past the end" of the last struct
-member. There is no change to the resulting machine code.
+Add struct_group() to mark region of struct kone_mouse_event that should
+be initialized to zero.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- net/xfrm/xfrm_policy.c | 4 +---
- net/xfrm/xfrm_user.c   | 2 +-
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ drivers/hid/hid-roccat-kone.c |  2 +-
+ drivers/hid/hid-roccat-kone.h | 12 +++++++-----
+ 2 files changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/net/xfrm/xfrm_policy.c b/net/xfrm/xfrm_policy.c
-index 37d17a79617c..1a06585022ab 100644
---- a/net/xfrm/xfrm_policy.c
-+++ b/net/xfrm/xfrm_policy.c
-@@ -2486,9 +2486,7 @@ static inline struct xfrm_dst *xfrm_alloc_dst(struct net *net, int family)
- 	xdst = dst_alloc(dst_ops, NULL, 1, DST_OBSOLETE_NONE, 0);
+diff --git a/drivers/hid/hid-roccat-kone.c b/drivers/hid/hid-roccat-kone.c
+index 1ca64481145e..ea17abc7ad52 100644
+--- a/drivers/hid/hid-roccat-kone.c
++++ b/drivers/hid/hid-roccat-kone.c
+@@ -857,7 +857,7 @@ static int kone_raw_event(struct hid_device *hdev, struct hid_report *report,
+ 		memcpy(&kone->last_mouse_event, event,
+ 				sizeof(struct kone_mouse_event));
+ 	else
+-		memset(&event->tilt, 0, 5);
++		memset(&event->wipe, 0, sizeof(event->wipe));
  
- 	if (likely(xdst)) {
--		struct dst_entry *dst = &xdst->u.dst;
--
--		memset(dst + 1, 0, sizeof(*xdst) - sizeof(*dst));
-+		memset_after(xdst, 0, u.dst);
- 	} else
- 		xdst = ERR_PTR(-ENOBUFS);
+ 	kone_keep_values_up_to_date(kone, event);
  
-diff --git a/net/xfrm/xfrm_user.c b/net/xfrm/xfrm_user.c
-index acc3a0dab331..0bf8fec3fd97 100644
---- a/net/xfrm/xfrm_user.c
-+++ b/net/xfrm/xfrm_user.c
-@@ -2907,7 +2907,7 @@ static int build_expire(struct sk_buff *skb, struct xfrm_state *x, const struct
- 	copy_to_user_state(x, &ue->state);
- 	ue->hard = (c->data.hard != 0) ? 1 : 0;
- 	/* clear the padding bytes */
--	memset(&ue->hard + 1, 0, sizeof(*ue) - offsetofend(typeof(*ue), hard));
-+	memset_after(ue, 0, hard);
+diff --git a/drivers/hid/hid-roccat-kone.h b/drivers/hid/hid-roccat-kone.h
+index 4a1a9cb76b08..65c800e3addc 100644
+--- a/drivers/hid/hid-roccat-kone.h
++++ b/drivers/hid/hid-roccat-kone.h
+@@ -152,11 +152,13 @@ struct kone_mouse_event {
+ 	uint16_t x;
+ 	uint16_t y;
+ 	uint8_t wheel; /* up = 1, down = -1 */
+-	uint8_t tilt; /* right = 1, left = -1 */
+-	uint8_t unknown;
+-	uint8_t event;
+-	uint8_t value; /* press = 0, release = 1 */
+-	uint8_t macro_key; /* 0 to 8 */
++	struct_group(wipe,
++		uint8_t tilt; /* right = 1, left = -1 */
++		uint8_t unknown;
++		uint8_t event;
++		uint8_t value; /* press = 0, release = 1 */
++		uint8_t macro_key; /* 0 to 8 */
++	);
+ } __attribute__ ((__packed__));
  
- 	err = xfrm_mark_put(skb, &x->mark);
- 	if (err)
+ enum kone_mouse_events {
 -- 
 2.30.2
 
