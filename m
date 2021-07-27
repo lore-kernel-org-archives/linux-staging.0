@@ -1,41 +1,41 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4A4A72
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 19:20:11 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id t21so17146310plr.13
-        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 12:20:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC21C72
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 19:20:14 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id l19so1315183pjz.0
+        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 12:20:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=x9x0aDShf2INUU0OKarFoIEX44er3m0F5sKf0xI1PAs=;
-        b=ZuTvLau6l/KP7hT9Eou1iBOzd0lkWv2v0/my4WmrtQVzjY2NU0QHpDCGOGEkvNew1H
-         85r4FUxADYoAWQ90m//XT9t74mNnbulM8nlzhxdI4Ij1gjPklkCApa406DSkXvym4ROF
-         gZWQfwlneMoBU4zuTvQOXdyBWMd8OOco4Co8GarT4o1iTj5W1p/HVUis91ORaBJW2ir+
-         +lcFS/2/ILZdRXjCAQ0Tv6X21zQn+/b3XGc7K21PutfOCElGR2MZYegzu/+MRg3z2UBm
-         QlkTH80mdIh805IvIYIPrNixQC+cvyXLH4WRLRHfpMaGXUspaHU5vKhy2BnOX2SWX94P
-         9KsQ==
+        bh=HHziLjjqyxefZtcR6RR5sEm7JWKE/3FDMlOkhJ3+ZIE=;
+        b=AsAbov8jJTY0LdVJ0IqoUjLzlw5C3IcPG/I6sbaWk+w9qzgN3F4np8CJDSJV+LLxpQ
+         w0MhhB7Gsq00qedbp7PrRPgAXg6OFC2uvywphjGl1/haXG/j7dqR/Nv1nSkVvKkdp3mD
+         vQO2e59SdJSoKzwVkVaNq2G6aJ2Lk56ruFLMerIlri/KdJEpP8IHpEGq53My0m+2v4Qr
+         gzCr/5xcpjtmkSt+kTY+dpA8fp7lLns92x/38RDIFOyf5YWxFqawZ+xCCKvFfv1PdTUn
+         ARI2L3imRmsltR7QRL/dM+QQ8uyFPNupVWzP6gsidFe8xGVc+s/RKI7N9Rk8kTaWmZcF
+         b74w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=x9x0aDShf2INUU0OKarFoIEX44er3m0F5sKf0xI1PAs=;
-        b=KXTcqSDv67xJj4oRMVm75Gy8mRZ9ojvDOhNcwMrAchtwgDKrfV7ezxTh1qmCdGkZsr
-         Our/wjxKgJGBAde8s+Ho7oP/ZGqKY0rqQvvFmqy3CLM6Hqubq6MRYk6TokKKbFzA2aGE
-         n24EpGvB2FIGf23UyrwZhOme4qCrw5R/mSeRmXNPta1QBEyTpRxYeC0Pf/ntnM2WNOKF
-         2YP7Xb3RR0gx8OFAPHaL1AMEMi3JwzIjAiizz/Bf+J0jt82+X7LTZG297/pek0mfxaUz
-         CE0+x+I7c+US57VCpK6/jxQAmAXR0nffKCKzrw2lI5hmU0GEcMOOAvJvXNkagKx7lqzZ
-         Mmvg==
-X-Gm-Message-State: AOAM530jpyXOQ9/YQo1K5qp+DFqcWa6S2Rj+KijQ3R/qHV3JOn2ItFX1
-	ZDcq+6JdG2rxm33sS9Z6UhwQDeyX8/Z2si7h
-X-Google-Smtp-Source: ABdhPJxeYLXMkgP/AmUac6Jiz6S8L9t9Z04HDEYgpbMrMJOOwzd+pNat1RXGXXsIX+7+5Sl4lTWUHg==
-X-Received: by 2002:a63:3107:: with SMTP id x7mr25037738pgx.303.1627413611306;
-        Tue, 27 Jul 2021 12:20:11 -0700 (PDT)
+        bh=HHziLjjqyxefZtcR6RR5sEm7JWKE/3FDMlOkhJ3+ZIE=;
+        b=NbHULj1qApf1dIK5UM2SXSkmsMqDSJyOd8Qo/fKe42jy9PFhIpw58/PuWJQX0gvN2A
+         w+lHzMZatU8Ru2TZauV3r2KP7xmmwIgEhsR/H/tcPm48cXO4H8v1go1Ju9pXqvuNpNM8
+         AolNBPVmyj4sOb08ipuwIFBdo4g9WT3t4zTtMs7ZMdpjzvA7BeETrXgpJy2o1C5B6tCx
+         UfQVR4MdeyEl3EIooGOPNXUsy5WL9dOniRkpVr7dQFMsKgA5Pj6W9p4ex/qDXPeIaGhM
+         WF9ZKbWat/p/Hj/eVTmNK/fV3P0ioYdNzZNsoJhEXAM6VWSlEUOipkTyz1VLLab8UwfK
+         DSBQ==
+X-Gm-Message-State: AOAM533unWMMv+u5NfjyaeEGc/kQEQtKoLEooX2ZWxnB0G0+c1oNVzcP
+	3n6WM/X6UzBYKHBZ5KiW8ZE=
+X-Google-Smtp-Source: ABdhPJzedmnDBl+aFoSqdhhSe5Uh+m5JBpXhH4WG7Z/970SgV40K1r31Voq+PQE7Z0DJvsYoA2B12Q==
+X-Received: by 2002:a17:902:9a92:b029:127:8aab:6a46 with SMTP id w18-20020a1709029a92b02901278aab6a46mr20556299plp.8.1627413614279;
+        Tue, 27 Jul 2021 12:20:14 -0700 (PDT)
 Received: from localhost.localdomain ([2402:e280:2130:198:9b25:1cfb:9ff3:2a8f])
-        by smtp.gmail.com with ESMTPSA id f7sm4317096pfc.111.2021.07.27.12.20.08
+        by smtp.gmail.com with ESMTPSA id f7sm4317096pfc.111.2021.07.27.12.20.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jul 2021 12:20:11 -0700 (PDT)
+        Tue, 27 Jul 2021 12:20:14 -0700 (PDT)
 From: Benjamin Philip <benjamin.philip495@gmail.com>
 To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
 	Teddy Wang <teddy.wang@siliconmotion.com>,
@@ -44,9 +44,9 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Benjamin Philip <benjamin.philip495@gmail.com>
-Subject: [PATCH 1/4] staging: sm750fb: Rename oScreen to o_screen in lynxfb_crtc
-Date: Wed, 28 Jul 2021 00:49:50 +0530
-Message-Id: <8d7c72027f7bc31a1c35a34f9909fa04f4cf8972.1627413010.git.benjamin.philip495@gmail.com>
+Subject: [PATCH 2/4] staging: sm750fb: Rename oCursor to o_cursor in lynxfb_crtc
+Date: Wed, 28 Jul 2021 00:49:51 +0530
+Message-Id: <aec911b055687892897feb4899644b9463245f1e.1627413010.git.benjamin.philip495@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1627413010.git.benjamin.philip495@gmail.com>
 References: <cover.1627413010.git.benjamin.philip495@gmail.com>
@@ -58,322 +58,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The struct lynxfb_crtc has a member named oScreen. This name is
-CamelCase and is frowned upon. This commit renames it to o_screen
+The struct lynxfb_crtc has a member named oCursor. This name is
+CamelCase and is frowned upon. This commit renames it to o_cursor
 and makes the necessary changes for the module to build.
 
-This change also fixes the following checkpatch CHECKs:
+This change also fixes the following checkpatch CHECK:
 
-CHECK: Avoid CamelCase: <oScreen>
-138: FILE: sm750.h:138:
-+	int oScreen; /* onscreen address offset in vidmem */
-
-CHECK: Avoid CamelCase: <oScreen>
-178: FILE: sm750.c:178:
-+	base = par->crtc.oScreen;
+CHECK: Avoid CamelCase: <oCursor>
+137: FILE: sm750.h:137:
++	int oCursor; /* cursor address offset in vidmem */
 
 Signed-off-by: Benjamin Philip <benjamin.philip495@gmail.com>
 ---
- drivers/staging/sm750fb/sm750.c    | 30 +++++++--------
- drivers/staging/sm750fb/sm750.h    |  2 +-
- drivers/staging/sm750fb/sm750_hw.c | 62 +++++++++++++++---------------
- 3 files changed, 47 insertions(+), 47 deletions(-)
+ drivers/staging/sm750fb/sm750.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 4f5f68e6aa60..202d8f47365c 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -175,7 +175,7 @@ static void lynxfb_ops_fillrect(struct fb_info *info,
- 	 * each time 2d function begin to work,below three variable always need
- 	 * be set, seems we can put them together in some place
- 	 */
--	base = par->crtc.oScreen;
-+	base = par->crtc.o_screen;
- 	pitch = info->fix.line_length;
- 	Bpp = info->var.bits_per_pixel >> 3;
- 
-@@ -213,7 +213,7 @@ static void lynxfb_ops_copyarea(struct fb_info *info,
- 	 * each time 2d function begin to work,below three variable always need
- 	 * be set, seems we can put them together in some place
- 	 */
--	base = par->crtc.oScreen;
-+	base = par->crtc.o_screen;
- 	pitch = info->fix.line_length;
- 	Bpp = info->var.bits_per_pixel >> 3;
- 
-@@ -247,7 +247,7 @@ static void lynxfb_ops_imageblit(struct fb_info *info,
- 	 * each time 2d function begin to work,below three variable always need
- 	 * be set, seems we can put them together in some place
- 	 */
--	base = par->crtc.oScreen;
-+	base = par->crtc.o_screen;
- 	pitch = info->fix.line_length;
- 	Bpp = info->var.bits_per_pixel >> 3;
- 
-@@ -614,44 +614,44 @@ static int sm750fb_set_drv(struct lynxfb_par *par)
- 	case sm750_simul_pri:
- 		output->paths = sm750_pnc;
- 		crtc->channel = sm750_primary;
--		crtc->oScreen = 0;
-+		crtc->o_screen = 0;
- 		crtc->vScreen = sm750_dev->pvMem;
- 		pr_info("use simul primary mode\n");
- 		break;
- 	case sm750_simul_sec:
- 		output->paths = sm750_pnc;
- 		crtc->channel = sm750_secondary;
--		crtc->oScreen = 0;
-+		crtc->o_screen = 0;
- 		crtc->vScreen = sm750_dev->pvMem;
- 		break;
- 	case sm750_dual_normal:
- 		if (par->index == 0) {
- 			output->paths = sm750_panel;
- 			crtc->channel = sm750_primary;
--			crtc->oScreen = 0;
-+			crtc->o_screen = 0;
- 			crtc->vScreen = sm750_dev->pvMem;
- 		} else {
- 			output->paths = sm750_crt;
- 			crtc->channel = sm750_secondary;
--			/* not consider of padding stuffs for oScreen,need fix */
--			crtc->oScreen = sm750_dev->vidmem_size >> 1;
--			crtc->vScreen = sm750_dev->pvMem + crtc->oScreen;
-+			/* not consider of padding stuffs for o_screen,need fix */
-+			crtc->o_screen = sm750_dev->vidmem_size >> 1;
-+			crtc->vScreen = sm750_dev->pvMem + crtc->o_screen;
- 		}
- 		break;
- 	case sm750_dual_swap:
- 		if (par->index == 0) {
- 			output->paths = sm750_panel;
- 			crtc->channel = sm750_secondary;
--			crtc->oScreen = 0;
-+			crtc->o_screen = 0;
- 			crtc->vScreen = sm750_dev->pvMem;
- 		} else {
- 			output->paths = sm750_crt;
- 			crtc->channel = sm750_primary;
--			/* not consider of padding stuffs for oScreen,
-+			/* not consider of padding stuffs for o_screen,
- 			 * need fix
- 			 */
--			crtc->oScreen = sm750_dev->vidmem_size >> 1;
--			crtc->vScreen = sm750_dev->pvMem + crtc->oScreen;
-+			crtc->o_screen = sm750_dev->vidmem_size >> 1;
-+			crtc->vScreen = sm750_dev->pvMem + crtc->o_screen;
- 		}
- 		break;
- 	default:
-@@ -718,7 +718,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
- 	 * set current cursor variable and proc pointer,
- 	 * must be set after crtc member initialized
- 	 */
--	crtc->cursor.offset = crtc->oScreen + crtc->vidmem_size - 1024;
-+	crtc->cursor.offset = crtc->o_screen + crtc->vidmem_size - 1024;
- 	crtc->cursor.mmio = sm750_dev->pvReg +
- 		0x800f0 + (int)crtc->channel * 0x140;
- 
-@@ -816,7 +816,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
- 
- 	strscpy(fix->id, fixId[index], sizeof(fix->id));
- 
--	fix->smem_start = crtc->oScreen + sm750_dev->vidmem_start;
-+	fix->smem_start = crtc->o_screen + sm750_dev->vidmem_start;
- 	pr_info("fix->smem_start = %lx\n", fix->smem_start);
- 	/*
- 	 * according to mmap experiment from user space application,
 diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
-index 8271cf7c89f3..08c1048be541 100644
+index 08c1048be541..4093d5e898c6 100644
 --- a/drivers/staging/sm750fb/sm750.h
 +++ b/drivers/staging/sm750fb/sm750.h
-@@ -135,7 +135,7 @@ struct lynxfb_crtc {
+@@ -134,7 +134,7 @@ struct lynx_cursor {
+ struct lynxfb_crtc {
  	unsigned char __iomem *vCursor; /* virtual address of cursor */
  	unsigned char __iomem *vScreen; /* virtual address of on_screen */
- 	int oCursor; /* cursor address offset in vidmem */
--	int oScreen; /* onscreen address offset in vidmem */
-+	int o_screen; /* onscreen address offset in vidmem */
+-	int oCursor; /* cursor address offset in vidmem */
++	int o_cursor; /* cursor address offset in vidmem */
+ 	int o_screen; /* onscreen address offset in vidmem */
  	int channel;/* which channel this crtc stands for*/
  	resource_size_t vidmem_size;/* this view's video memory max size */
- 
-diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
-index 7136d751cff5..a7c6eb07b62e 100644
---- a/drivers/staging/sm750fb/sm750_hw.c
-+++ b/drivers/staging/sm750fb/sm750_hw.c
-@@ -32,7 +32,7 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 
- 	ret = 0;
- 
--	sm750_dev->vidreg_start  = pci_resource_start(pdev, 1);
-+	sm750_dev->vidreg_start = pci_resource_start(pdev, 1);
- 	sm750_dev->vidreg_size = SZ_2M;
- 
- 	pr_info("mmio phyAddr = %lx\n", sm750_dev->vidreg_start);
-@@ -50,8 +50,8 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 	}
- 
- 	/* now map mmio and vidmem */
--	sm750_dev->pvReg = ioremap(sm750_dev->vidreg_start,
--				   sm750_dev->vidreg_size);
-+	sm750_dev->pvReg =
-+		ioremap(sm750_dev->vidreg_start, sm750_dev->vidreg_size);
- 	if (!sm750_dev->pvReg) {
- 		pr_err("mmio failed\n");
- 		ret = -EFAULT;
-@@ -78,8 +78,8 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 		sm750_dev->vidmem_start, sm750_dev->vidmem_size);
- 
- 	/* reserve the vidmem space of smi adaptor */
--	sm750_dev->pvMem = ioremap_wc(sm750_dev->vidmem_start,
--				      sm750_dev->vidmem_size);
-+	sm750_dev->pvMem =
-+		ioremap_wc(sm750_dev->vidmem_start, sm750_dev->vidmem_size);
- 	if (!sm750_dev->pvMem) {
- 		pr_err("Map video memory failed\n");
- 		ret = -EFAULT;
-@@ -98,8 +98,8 @@ int hw_sm750_inithw(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 	parm = &sm750_dev->initParm;
- 	if (parm->chip_clk == 0)
- 		parm->chip_clk = (sm750_get_chip_type() == SM750LE) ?
--						DEFAULT_SM750LE_CHIP_CLOCK :
--						DEFAULT_SM750_CHIP_CLOCK;
-+					       DEFAULT_SM750LE_CHIP_CLOCK :
-+					       DEFAULT_SM750_CHIP_CLOCK;
- 
- 	if (parm->mem_clk == 0)
- 		parm->mem_clk = parm->chip_clk;
-@@ -133,8 +133,8 @@ int hw_sm750_inithw(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 		}
- 
- 		val = peek32(PANEL_DISPLAY_CTRL) &
--			~(PANEL_DISPLAY_CTRL_DUAL_DISPLAY |
--			  PANEL_DISPLAY_CTRL_DOUBLE_PIXEL);
-+		      ~(PANEL_DISPLAY_CTRL_DUAL_DISPLAY |
-+			PANEL_DISPLAY_CTRL_DOUBLE_PIXEL);
- 		switch (sm750_dev->pnltype) {
- 		case sm750_24TFT:
- 			break;
-@@ -281,12 +281,12 @@ int hw_sm750_crtc_setMode(struct lynxfb_crtc *crtc,
- 
- 	/* set timing */
- 	modparm.pixel_clock = ps_to_hz(var->pixclock);
--	modparm.vertical_sync_polarity = (var->sync & FB_SYNC_HOR_HIGH_ACT)
--					 ? POS : NEG;
--	modparm.horizontal_sync_polarity = (var->sync & FB_SYNC_VERT_HIGH_ACT)
--					   ? POS : NEG;
--	modparm.clock_phase_polarity = (var->sync & FB_SYNC_COMP_HIGH_ACT)
--				       ? POS : NEG;
-+	modparm.vertical_sync_polarity =
-+		(var->sync & FB_SYNC_HOR_HIGH_ACT) ? POS : NEG;
-+	modparm.horizontal_sync_polarity =
-+		(var->sync & FB_SYNC_VERT_HIGH_ACT) ? POS : NEG;
-+	modparm.clock_phase_polarity =
-+		(var->sync & FB_SYNC_COMP_HIGH_ACT) ? POS : NEG;
- 	modparm.horizontal_display_end = var->xres;
- 	modparm.horizontal_sync_width = var->hsync_len;
- 	modparm.horizontal_sync_start = var->xres + var->right_margin;
-@@ -314,7 +314,7 @@ int hw_sm750_crtc_setMode(struct lynxfb_crtc *crtc,
- 	if (crtc->channel != sm750_secondary) {
- 		/* set pitch, offset, width, start address, etc... */
- 		poke32(PANEL_FB_ADDRESS,
--		       crtc->oScreen & PANEL_FB_ADDRESS_ADDRESS_MASK);
-+		       crtc->o_screen & PANEL_FB_ADDRESS_ADDRESS_MASK);
- 
- 		reg = var->xres * (var->bits_per_pixel >> 3);
- 		/*
-@@ -323,17 +323,17 @@ int hw_sm750_crtc_setMode(struct lynxfb_crtc *crtc,
- 		 */
- 		reg = ALIGN(reg, crtc->line_pad);
- 		reg = (reg << PANEL_FB_WIDTH_WIDTH_SHIFT) &
--		       PANEL_FB_WIDTH_WIDTH_MASK;
-+		      PANEL_FB_WIDTH_WIDTH_MASK;
- 		reg |= (fix->line_length & PANEL_FB_WIDTH_OFFSET_MASK);
- 		poke32(PANEL_FB_WIDTH, reg);
- 
- 		reg = ((var->xres - 1) << PANEL_WINDOW_WIDTH_WIDTH_SHIFT) &
--		       PANEL_WINDOW_WIDTH_WIDTH_MASK;
-+		      PANEL_WINDOW_WIDTH_WIDTH_MASK;
- 		reg |= (var->xoffset & PANEL_WINDOW_WIDTH_X_MASK);
- 		poke32(PANEL_WINDOW_WIDTH, reg);
- 
--		reg = (var->yres_virtual - 1) <<
--		      PANEL_WINDOW_HEIGHT_HEIGHT_SHIFT;
-+		reg = (var->yres_virtual - 1)
-+		      << PANEL_WINDOW_HEIGHT_HEIGHT_SHIFT;
- 		reg &= PANEL_WINDOW_HEIGHT_HEIGHT_MASK;
- 		reg |= (var->yoffset & PANEL_WINDOW_HEIGHT_Y_MASK);
- 		poke32(PANEL_WINDOW_HEIGHT, reg);
-@@ -341,7 +341,7 @@ int hw_sm750_crtc_setMode(struct lynxfb_crtc *crtc,
- 		poke32(PANEL_PLANE_TL, 0);
- 
- 		reg = ((var->yres - 1) << PANEL_PLANE_BR_BOTTOM_SHIFT) &
--		       PANEL_PLANE_BR_BOTTOM_MASK;
-+		      PANEL_PLANE_BR_BOTTOM_MASK;
- 		reg |= ((var->xres - 1) & PANEL_PLANE_BR_RIGHT_MASK);
- 		poke32(PANEL_PLANE_BR, reg);
- 
-@@ -350,7 +350,7 @@ int hw_sm750_crtc_setMode(struct lynxfb_crtc *crtc,
- 		poke32(PANEL_DISPLAY_CTRL, reg | (var->bits_per_pixel >> 4));
- 	} else {
- 		/* not implemented now */
--		poke32(CRT_FB_ADDRESS, crtc->oScreen);
-+		poke32(CRT_FB_ADDRESS, crtc->o_screen);
- 		reg = var->xres * (var->bits_per_pixel >> 3);
- 		/*
- 		 * crtc->channel is not equal to par->index on numeric,
-@@ -372,10 +372,10 @@ int hw_sm750_crtc_setMode(struct lynxfb_crtc *crtc,
- 	return ret;
- }
- 
--int hw_sm750_setColReg(struct lynxfb_crtc *crtc, ushort index,
--		       ushort red, ushort green, ushort blue)
-+int hw_sm750_setColReg(struct lynxfb_crtc *crtc, ushort index, ushort red,
-+		       ushort green, ushort blue)
- {
--	static unsigned int add[] = {PANEL_PALETTE_RAM, CRT_PALETTE_RAM};
-+	static unsigned int add[] = { PANEL_PALETTE_RAM, CRT_PALETTE_RAM };
- 
- 	poke32(add[crtc->channel] + index * 4,
- 	       (red << 16) | (green << 8) | blue);
-@@ -510,7 +510,7 @@ int hw_sm750le_deWait(void)
- {
- 	int i = 0x10000000;
- 	unsigned int mask = DE_STATE2_DE_STATUS_BUSY | DE_STATE2_DE_FIFO_EMPTY |
--		DE_STATE2_DE_MEM_FIFO_EMPTY;
-+			    DE_STATE2_DE_MEM_FIFO_EMPTY;
- 
- 	while (i--) {
- 		unsigned int val = peek32(DE_STATE2);
-@@ -527,8 +527,8 @@ int hw_sm750_deWait(void)
- {
- 	int i = 0x10000000;
- 	unsigned int mask = SYSTEM_CTRL_DE_STATUS_BUSY |
--		SYSTEM_CTRL_DE_FIFO_EMPTY |
--		SYSTEM_CTRL_DE_MEM_FIFO_EMPTY;
-+			    SYSTEM_CTRL_DE_FIFO_EMPTY |
-+			    SYSTEM_CTRL_DE_MEM_FIFO_EMPTY;
- 
- 	while (i--) {
- 		unsigned int val = peek32(SYSTEM_CTRL);
-@@ -554,15 +554,15 @@ int hw_sm750_pan_display(struct lynxfb_crtc *crtc,
- 
- 	total = var->yoffset * info->fix.line_length +
- 		((var->xoffset * var->bits_per_pixel) >> 3);
--	total += crtc->oScreen;
-+	total += crtc->o_screen;
- 	if (crtc->channel == sm750_primary) {
- 		poke32(PANEL_FB_ADDRESS,
- 		       peek32(PANEL_FB_ADDRESS) |
--		       (total & PANEL_FB_ADDRESS_ADDRESS_MASK));
-+			       (total & PANEL_FB_ADDRESS_ADDRESS_MASK));
- 	} else {
- 		poke32(CRT_FB_ADDRESS,
- 		       peek32(CRT_FB_ADDRESS) |
--		       (total & CRT_FB_ADDRESS_ADDRESS_MASK));
-+			       (total & CRT_FB_ADDRESS_ADDRESS_MASK));
- 	}
- 	return 0;
- }
 -- 
 2.31.1
 
