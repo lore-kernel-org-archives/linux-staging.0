@@ -1,106 +1,85 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D0A168
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 16:55:39 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id d17so16407728plh.10
-        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 09:55:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B88A177
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 19:20:09 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id u9-20020a17090a1f09b029017554809f35so6085305pja.5
+        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 12:20:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=QQoNCG1M1L8gK5ht1u6i2Ce3nKisRclgMdzn1xxe0eA=;
-        b=jjBH51zUezd5bHvHk2ASWyXfi/yE/hVl6TAbgIpIABp4TeK3z7dG6HRwMZyiX5+Uhr
-         a6U01JsaicvYDXPV5eWNA74GYSKK3+dAz3K4NPb+QpZw1GBER7K/0A3/JA7fwCcebkLv
-         DkML+5g5G0AB3ow5jYxg7xrwzK4rw+Pd1JdiP1fEiMEc0D/P/JbLUOS6bSJL41YL3OgM
-         sVVdfnaOqm7nj/xywAY66pDFHS2AoF8rLfw1ChGaMJuSP5eWCOB948CVrk4OS9lTyffk
-         G4J7eMP7Ae0MiVdbiEUqHVJdA1dHAyux1kr2yd50gg8BdOcLWBq80La8TAyzVvBc2ppi
-         X81A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LHDDmMV915NlqVzU6Fz/0FX3KRO8YEAV5C4ehYloHEU=;
+        b=tfKwMgeABBSvgWX+IvJ17zJcPJedYVLMFvoY0kv7zHDGEEVyGO1ZxXOQ/U5RygTnRh
+         Ll7px7rHAT3A3JDs5Uz0SJH86MQ80+D00Hrza5J9Qh0cdtrbEZ/P6+0/2XY4BAC9bw8e
+         yAEEPw016EIROUxGdVx4XkCBA4MYkhjR0kBVeC0cgB2bEYLPAMOeDk+YpPzrecRHO8En
+         IsDHHk1fpf2D5jvlJxWrV2tD7QMifkxlyfeI54APeCk+tYce4s8K2HNBzN85IVwQQLxp
+         yLqcjgWK88OhEAbamqwN7hc0KVDpbSSvRssb5IbY9tKxQAaQ9tzEcBTGw8kYYTMrJQuQ
+         AUfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=QQoNCG1M1L8gK5ht1u6i2Ce3nKisRclgMdzn1xxe0eA=;
-        b=hL+rg8qm497jLzzLV8MWZD2g6eEZKnEt9z4XBGJCWTUpRBBI+jevcBCZw4N6YiqK9q
-         aZFEBKIfevHFU1GwrfV1drECykAaefqCGBB2ilrGypWGV4eYp9WYlsxul/9iIWO7Ddtf
-         MK72e5ObHE9H1/u2roGUmZP1Dt1KjXR1jkqi5bx5Izjb0ON7iGM19BdpBmMJwuoQWtaE
-         XcQFZnOuPypuhQyJE1tSWU/SgX+ukKv52ge2MpMoFkovM0eaicTR8vVFgwEHvdZp+tEg
-         I4sDcuEOwlLKl7MRjOeKU6Uh7mkWg4QP70n8BciZRtwROycJ6S4NP8MNG3Pj7D23pcnu
-         0Gng==
-X-Gm-Message-State: AOAM532EBAOGfhPN1Me8WxvJ0g3unY5cyeJ+zr4h5jBzHeTBy16+38c+
-	l/QCLKtdW5BCMAOtw9KPXyg=
-X-Google-Smtp-Source: ABdhPJwY8lsfzvJMPbJsMFM8vgp5/st1KXukwiUobKcGkNjEncAvzMHeMUy7vLecay+P05ELFWikBQ==
-X-Received: by 2002:a17:90a:ce17:: with SMTP id f23mr2453653pju.236.1627404939233;
-        Tue, 27 Jul 2021 09:55:39 -0700 (PDT)
-Received: from ojas ([122.161.53.213])
-        by smtp.gmail.com with ESMTPSA id k16sm4169671pfu.83.2021.07.27.09.55.35
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LHDDmMV915NlqVzU6Fz/0FX3KRO8YEAV5C4ehYloHEU=;
+        b=F71qGgbLo3nxnNmLgooRCOPcDXB2lw+rubvoOiMAsPzy6Fc1FDz2OvYmnVSeGkpjdm
+         Q50S+y3pEj/PVObEparoBrJSk6L1u25ORHNszqn9J+4ennB3Z3egwKOMeHOzk85VeO5c
+         HUZxa3wwGhBH6idBHiyoSiRapDyc4eWn28YzU034d2bsf2V//6YmO9HpEkg7ROzsjetH
+         rirrEl7sHf/NZ7XYeVrp7uqMTrVmWtjciVay3/LpHUTU7Kn2g2ph+816Gyu8UOM+Vao0
+         a7YgNZnDZAQZmlzJWAU4wqbHgisQaTKBWjEo0Nwr3yejRVuH9q8xbU+Drb9n7y25APy4
+         mrFg==
+X-Gm-Message-State: AOAM533w54aG40LsQHTB7bcif3j0/Jm8jPK7wUFMJzEUCSVCpBfXq2gK
+	u8qdDs9X1yGPmZY4uaMO57g=
+X-Google-Smtp-Source: ABdhPJyMiOXY8pB7EwQqfVIsk+O8h5ZHty+pDmFkHEk0+/ShwQ9k7FNWEwvdBGSYHrfBKCfVQbnE+Q==
+X-Received: by 2002:a63:ee06:: with SMTP id e6mr24851846pgi.374.1627413608648;
+        Tue, 27 Jul 2021 12:20:08 -0700 (PDT)
+Received: from localhost.localdomain ([2402:e280:2130:198:9b25:1cfb:9ff3:2a8f])
+        by smtp.gmail.com with ESMTPSA id f7sm4317096pfc.111.2021.07.27.12.20.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jul 2021 09:55:38 -0700 (PDT)
-Date: Tue, 27 Jul 2021 22:25:26 +0530
-From: Ojaswin Mujoo <ojaswin98@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: nsaenz@kernel.org, stefan.wahren@i2se.com, dan.carpenter@oracle.com,
-	phil@raspberrypi.com, linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 4/5] staging: vchiq: Make creation of vchiq cdev
- optional
-Message-ID: <20210727165526.GA13711@ojas>
-References: <cover.1626882325.git.ojaswin98@gmail.com>
- <846c424dd4aae14d1cc28c8f30877a06e2b7dd10.1626882325.git.ojaswin98@gmail.com>
- <YQAJLao8H1Hl5VVf@kroah.com>
+        Tue, 27 Jul 2021 12:20:08 -0700 (PDT)
+From: Benjamin Philip <benjamin.philip495@gmail.com>
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Benjamin Philip <benjamin.philip495@gmail.com>
+Subject: [PATCH 0/4] staging: sm750fb: Remove CamelCase in lynxfb_crtc
+Date: Wed, 28 Jul 2021 00:49:49 +0530
+Message-Id: <cover.1627413010.git.benjamin.philip495@gmail.com>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YQAJLao8H1Hl5VVf@kroah.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 27, 2021 at 03:25:01PM +0200, Greg KH wrote:
-> On Wed, Jul 21, 2021 at 09:50:52PM +0530, Ojaswin Mujoo wrote:
-> > Before this commit, vchiq cdev (/dev/vchiq) was always created during
-> > platform initialization. Introduce a new Kconfig option
-> > CONFIG_VCHIQ_CDEV which determines if the cdev will be created or not.
-> > 
-> > Signed-off-by: Ojaswin Mujoo <ojaswin98@gmail.com>
-> > ---
-> >  drivers/staging/vc04_services/Kconfig                  | 10 ++++++++++
-> >  drivers/staging/vc04_services/Makefile                 |  5 ++++-
-> >  .../vc04_services/interface/vchiq_arm/vchiq_arm.h      |  9 +++++++++
-> >  3 files changed, 23 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/vc04_services/Kconfig b/drivers/staging/vc04_services/Kconfig
-> > index 4b886293f198..63caa6818d37 100644
-> > --- a/drivers/staging/vc04_services/Kconfig
-> > +++ b/drivers/staging/vc04_services/Kconfig
-> > @@ -19,6 +19,16 @@ config BCM2835_VCHIQ
-> >  		Defaults to Y when the Broadcom Videocore services
-> >  		are included in the build, N otherwise.
-> >  
-> > +if BCM2835_VCHIQ
-> > +
-> > +config VCHIQ_CDEV
-> > +	bool "VCHIQ Character Driver"
-> > +	help
-> > +		Enable the creation of VCHIQ character driver to help
-> > +		communicate with the Videocore platform.
-> 
-> I'll take this, but this really should say more about what this really
-> is for.  Who needs this?  Why will I know if I want a character driver
-> interface?  What tools talk to this?
-> 
-> Or conversely, why would I want to turn this off?
-> 
-> Can you send a follow-on patch that makes this more descriptive?
-Hello Greg,
+This patchset (as the subject implies) renames some struct members to follow
+the snake_case naming convention from CamelCase. By doing so, it also fixes
+2 checkpatch CHECKs.
 
-Sure, I can send in a follow up patch explaining this in more detail.
+To test it, I have checked if the module builds, which it does. I have also
+ensured that checkpatch.pl does not issue any new warnings.
 
-Thank you,
-Ojaswin
-> 
-> thanks,
-> 
-> greg k-h
+Also, is this patchset fine or should I have clubbed it into one big commit,
+Greg?
+
+Thanks,
+Benjamin Philip
+
+Benjamin Philip (4):
+  staging: sm750fb: Rename oScreen to o_screen in lynxfb_crtc
+  staging: sm750fb: Rename oCursor to o_cursor in lynxfb_crtc
+  staging: sm750fb: Rename vCursor to v_cursor in lynxfb_crtc
+  staging: sm750fb: Rename vScreen to v_screen in lynxfb_crtc
+
+ drivers/staging/sm750fb/sm750.c    | 44 ++++++++++-----------
+ drivers/staging/sm750fb/sm750.h    |  8 ++--
+ drivers/staging/sm750fb/sm750_hw.c | 62 +++++++++++++++---------------
+ 3 files changed, 57 insertions(+), 57 deletions(-)
+
+-- 
+2.31.1
+
