@@ -1,177 +1,106 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA1772
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 19:20:20 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id k1so17167453plt.12
-        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 12:20:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544C170
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 20:59:03 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id j1so1780721pjv.3
+        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 13:59:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=uO7kQ42xSTAH3+3Dd4r+058TnMUPwUJwWEreFhwbiJ4=;
-        b=XrG6NfXeZJF2h4g6w7+A3bstUDqrEF6qjbBGUEjH4N8/44iFl0VC3sMUocTpGbGzut
-         dzKBjRuWT6Oi+cWY9jnprPf9Nth5xSEZqmmW4V2K8glOA3ocQ+L7iHqOcvkKj6xwVuwy
-         IKR0JsgSbUvDhozXTRrL5Y0ofAgbXnmityuRrS+Ssq8LNfc0Bk7lg6LgE2UeCGPv4OwS
-         0ZcKxpE/IeOOHNMZB8KFg0lwU+GsdSFFQg2zs4wabdICMOh5x0oWrAJiITfXknn8+JMa
-         oe2gDrqX375oEST4VKrT6XfARbuTeR2leeTFM5z05Qk+8j8LBtmjTFyOVfPwRbssqK/4
-         gydA==
+        bh=c3ykowIwDTRKsInbKYf/ek7DP95JkPgh9oE6DtLLi+A=;
+        b=Kp+U9AytVp9BwbsLQj5AYOpg8DezjsG5/creX/t5fYRDEs7tszMAJwrDdgQwhZq/SR
+         pfMuBhqfFlPx2fMK05Ry9tqtfPSV8v4DUZPulqrs+9s8Twz/vFSkAn2NBw8N2WvhGIZs
+         I5L0NhknTsbo7S17qVe98S4vL28QINN1K21ew=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=uO7kQ42xSTAH3+3Dd4r+058TnMUPwUJwWEreFhwbiJ4=;
-        b=WYgtNMsOG5kkjKLkskd5ooSGCS0rt12kr57qXYqrdyjNw2VqynipYC8YWbts0fKhIv
-         cz73mc35eC8etdIXoUsctT6jH+GVMMfNsWdoahmR+KRrXi6FkmGWfmklhWmXZzsLI0A7
-         9o/UM4GftSPIFMSvnkjFOEDkpDxj/szBZcvOWWNzc45+EsvdEDQ4SypG/HdbJadYot+x
-         OCuNvMOQMFcZd5jiFXpjetSzNJ+lnGrKgyn0e1NQKWqqIZrQreQSmOk6Hnr2c50bQniT
-         XZ+G7j/8KnS7daafnjm+WmRMQemhRDxVW1OS9sVyTY5mcZfQnlzimdxfMsTMvxyZz9RZ
-         0s2w==
-X-Gm-Message-State: AOAM531MqL4erl2U+AKFmw+hQPWD957e0VplPj9DD+RjJsshf4lOW3Xq
-	CidD29+POMRvakNh+JBTEno=
-X-Google-Smtp-Source: ABdhPJyx+Om6fO6BkBy8rKT1fjJbR3aHCZ09gTN9jElT1zRxPVnyyxJl0kW2X0Z3cXJU0fejK+/5qQ==
-X-Received: by 2002:a17:90a:d816:: with SMTP id a22mr16713760pjv.180.1627413620528;
-        Tue, 27 Jul 2021 12:20:20 -0700 (PDT)
-Received: from localhost.localdomain ([2402:e280:2130:198:9b25:1cfb:9ff3:2a8f])
-        by smtp.gmail.com with ESMTPSA id f7sm4317096pfc.111.2021.07.27.12.20.17
+        bh=c3ykowIwDTRKsInbKYf/ek7DP95JkPgh9oE6DtLLi+A=;
+        b=ge8R2mjBC8oOASRq8ZEB9bb2vX3L5cxRjbX0Ed4pLb/7im6lOZMLyaHAzzM1Radbie
+         bwCuSj4H0JTxRh4pW16jrKCJdUPw4+j/MAmqL3JBeS/aUZKogdQqnaaYlQTjhRaVTv8D
+         YhQL0PfxHHS+ySpu5uDjxfCYycLY2m0U5cZ14UiXcqLs4TGzap+Hmlt2gHj/2NVUwr62
+         7dxiO3PkKE83i3oudJdHsCVIzYWzGk3zYnwMt5QoQZnZuEQ5WYjbdmXKsBn1PIwtKf7M
+         WkhBmmsdBHChj5X2Vr7v4fCMOQClTsLi4ixGQw20/B/n/V1k0DYCb1AsRadtMFn1iL3c
+         JnjQ==
+X-Gm-Message-State: AOAM533PMQmynTsLFgwCelMd13pDqCJgEAwzaIUODkIAZlFPZFzBrOc2
+	kDRCA6AveKSay9A9ONjbCj0Wqw==
+X-Google-Smtp-Source: ABdhPJwNHFDf+F+gUxt2yA1m1JnQqLEbNlnBfRoIoqlBir+Zo4XdTRlv/GVLC3WzAXlOzz8ixT2dzQ==
+X-Received: by 2002:a65:4508:: with SMTP id n8mr25560399pgq.407.1627419542777;
+        Tue, 27 Jul 2021 13:59:02 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id g3sm4480039pfi.197.2021.07.27.13.59.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jul 2021 12:20:20 -0700 (PDT)
-From: Benjamin Philip <benjamin.philip495@gmail.com>
-To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+        Tue, 27 Jul 2021 13:59:02 -0700 (PDT)
+From: Kees Cook <keescook@chromium.org>
+To: linux-hardening@vger.kernel.org
+Cc: Kees Cook <keescook@chromium.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Keith Packard <keithpac@amazon.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	linux-kernel@vger.kernel.org,
-	Benjamin Philip <benjamin.philip495@gmail.com>
-Subject: [PATCH 4/4] staging: sm750fb: Rename vScreen to v_screen in lynxfb_crtc
-Date: Wed, 28 Jul 2021 00:49:53 +0530
-Message-Id: <52db14bfc2f39e246aed7fdf866845a72e503b36.1627413010.git.benjamin.philip495@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1627413010.git.benjamin.philip495@gmail.com>
-References: <cover.1627413010.git.benjamin.philip495@gmail.com>
+	linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-staging@lists.linux.dev,
+	linux-block@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	clang-built-linux@googlegroups.com
+Subject: [PATCH 03/64] rpmsg: glink: Replace strncpy() with strscpy_pad()
+Date: Tue, 27 Jul 2021 13:57:54 -0700
+Message-Id: <20210727205855.411487-4-keescook@chromium.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
+References: <20210727205855.411487-1-keescook@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1814; h=from:subject; bh=CGejJDIBWoCTMrdLfdYOlKTt2khst8/bmsGsqzGrjiA=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOAj+vEe7YcbCfgSji3keoTaHrI/ZHofnZ1HVRt kwNnps2JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzgAAKCRCJcvTf3G3AJqZUEA CIcBP+l3BbFi7alvKzzPClmhyUHq9Qrd5uMRNKMY9XyV0NR/jnI8CoYhga76FZhbT+mDmv6EqlY2QS rhhfJ44Nv7YuNm8ADcxv6ICsgHYc6ExgMQ4gO83JrsqVUuNebi/HDrFNw7T4Z5c1/UUTlWpIwnqxs7 zwuIgbFRNhuxTlpAncpl+dPIlkv40KWXaiqTIR/FuXteCb0rHpAWPYMrJ3tXcDqBwzHtpYfAYbneQq NIhvmdPjcFi5GnKQBm9eTRP7/Xcjg+8Ve3GeZadiIqC14fSgnMgtIahIDXLyAD4WuxdSRQwG+lbGXR 16M20bodkEsvyiJfNZJQdqgyHsVt/eXqpuH1om13iF7+wTit6p8gEUfPMy/V38FyOTgjikr8am4k7A 23f/4W0+nt6mLLlDMXQtGC7TmA97UCqRJ+dNmiQMLuRljr6uD1DWUTS75HLcUjcWkIU1fBUYUi0DWk P/zazmIkeRAnFcJGwZf3zUXOErBqGPmnAav3Bok+zgtGP6JjxVaiFcJN+Dq/iIMuZ8gp1+kmma1GMv m/hLrzzRYpUJQyo2xNUAyVn6zzmEqA+jINb6SqBOUVg3sNfzZTRQkVA7NvmZp+LplR7Jw/n/+91q/6 pIUu/YH+PA+X/eemAshAw2isLrLbFZdRioKXBvLqtjcD2yGkNeO8ROQmebfA==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-The struct lynxfb_crtc has a member named vScreen. This name is
-CamelCase and is frowned upon. This commit renames it to v_screen
-and makes the necessary changes for the module to build.
+The use of strncpy() is considered deprecated for NUL-terminated
+strings[1]. Replace strncpy() with strscpy_pad() (as it seems this case
+expects the NUL padding to fill the allocation following the flexible
+array). This additionally silences a warning seen when building under
+-Warray-bounds:
 
-This change also fixes the following checkpatch CHECKs:
+./include/linux/fortify-string.h:38:30: warning: '__builtin_strncpy' offset 24 from the object at '__mptr' is out of the bounds of referenced subobject 'data' with type 'u8[]' {aka 'unsigned char[]'} at offset 24 [-Warray-bounds]
+   38 | #define __underlying_strncpy __builtin_strncpy
+      |                              ^
+./include/linux/fortify-string.h:50:9: note: in expansion of macro '__underlying_strncpy'
+   50 |  return __underlying_strncpy(p, q, size);
+      |         ^~~~~~~~~~~~~~~~~~~~
+drivers/rpmsg/qcom_glink_native.c: In function 'qcom_glink_work':
+drivers/rpmsg/qcom_glink_native.c:36:5: note: subobject 'data' declared here
+   36 |  u8 data[];
+      |     ^~~~
 
-CHECK: Avoid CamelCase: <vScreen>
-454: FILE: sm750.c:454:
-+		memset_io(crtc->vScreen, 0x0, crtc->vidmem_size);
+[1] https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings
 
-CHECK: Avoid CamelCase: <vScreen>
-136: FILE: sm750.h:136:
-+	unsigned char __iomem *vScreen; /* virtual address of on_screen */
-
-Signed-off-by: Benjamin Philip <benjamin.philip495@gmail.com>
+Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/staging/sm750fb/sm750.c | 18 +++++++++---------
- drivers/staging/sm750fb/sm750.h |  2 +-
- 2 files changed, 10 insertions(+), 10 deletions(-)
+ drivers/rpmsg/qcom_glink_native.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 202d8f47365c..dbd1159a2ef0 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -451,7 +451,7 @@ static int __maybe_unused lynxfb_resume(struct device *dev)
- 		crtc = &par->crtc;
- 		cursor = &crtc->cursor;
- 		memset_io(cursor->vstart, 0x0, cursor->size);
--		memset_io(crtc->vScreen, 0x0, crtc->vidmem_size);
-+		memset_io(crtc->v_screen, 0x0, crtc->vidmem_size);
- 		lynxfb_ops_set_par(info);
- 		fb_set_suspend(info, 0);
- 	}
-@@ -463,7 +463,7 @@ static int __maybe_unused lynxfb_resume(struct device *dev)
- 		crtc = &par->crtc;
- 		cursor = &crtc->cursor;
- 		memset_io(cursor->vstart, 0x0, cursor->size);
--		memset_io(crtc->vScreen, 0x0, crtc->vidmem_size);
-+		memset_io(crtc->v_screen, 0x0, crtc->vidmem_size);
- 		lynxfb_ops_set_par(info);
- 		fb_set_suspend(info, 0);
- 	}
-@@ -615,27 +615,27 @@ static int sm750fb_set_drv(struct lynxfb_par *par)
- 		output->paths = sm750_pnc;
- 		crtc->channel = sm750_primary;
- 		crtc->o_screen = 0;
--		crtc->vScreen = sm750_dev->pvMem;
-+		crtc->v_screen = sm750_dev->pvMem;
- 		pr_info("use simul primary mode\n");
- 		break;
- 	case sm750_simul_sec:
- 		output->paths = sm750_pnc;
- 		crtc->channel = sm750_secondary;
- 		crtc->o_screen = 0;
--		crtc->vScreen = sm750_dev->pvMem;
-+		crtc->v_screen = sm750_dev->pvMem;
- 		break;
- 	case sm750_dual_normal:
- 		if (par->index == 0) {
- 			output->paths = sm750_panel;
- 			crtc->channel = sm750_primary;
- 			crtc->o_screen = 0;
--			crtc->vScreen = sm750_dev->pvMem;
-+			crtc->v_screen = sm750_dev->pvMem;
- 		} else {
- 			output->paths = sm750_crt;
- 			crtc->channel = sm750_secondary;
- 			/* not consider of padding stuffs for o_screen,need fix */
- 			crtc->o_screen = sm750_dev->vidmem_size >> 1;
--			crtc->vScreen = sm750_dev->pvMem + crtc->o_screen;
-+			crtc->v_screen = sm750_dev->pvMem + crtc->o_screen;
+diff --git a/drivers/rpmsg/qcom_glink_native.c b/drivers/rpmsg/qcom_glink_native.c
+index 05533c71b10e..c7b9de655080 100644
+--- a/drivers/rpmsg/qcom_glink_native.c
++++ b/drivers/rpmsg/qcom_glink_native.c
+@@ -1440,7 +1440,7 @@ static int qcom_glink_rx_open(struct qcom_glink *glink, unsigned int rcid,
  		}
- 		break;
- 	case sm750_dual_swap:
-@@ -643,7 +643,7 @@ static int sm750fb_set_drv(struct lynxfb_par *par)
- 			output->paths = sm750_panel;
- 			crtc->channel = sm750_secondary;
- 			crtc->o_screen = 0;
--			crtc->vScreen = sm750_dev->pvMem;
-+			crtc->v_screen = sm750_dev->pvMem;
- 		} else {
- 			output->paths = sm750_crt;
- 			crtc->channel = sm750_primary;
-@@ -651,7 +651,7 @@ static int sm750fb_set_drv(struct lynxfb_par *par)
- 			 * need fix
- 			 */
- 			crtc->o_screen = sm750_dev->vidmem_size >> 1;
--			crtc->vScreen = sm750_dev->pvMem + crtc->o_screen;
-+			crtc->v_screen = sm750_dev->pvMem + crtc->o_screen;
- 		}
- 		break;
- 	default:
-@@ -801,7 +801,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
- 			    crtc->line_pad);
  
- 	info->pseudo_palette = &par->pseudo_palette[0];
--	info->screen_base = crtc->vScreen;
-+	info->screen_base = crtc->v_screen;
- 	pr_debug("screen_base vaddr = %p\n", info->screen_base);
- 	info->screen_size = line_length * var->yres_virtual;
- 	info->flags = FBINFO_FLAG_DEFAULT | 0;
-diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
-index 8952154739ac..aff69661c8e6 100644
---- a/drivers/staging/sm750fb/sm750.h
-+++ b/drivers/staging/sm750fb/sm750.h
-@@ -133,7 +133,7 @@ struct lynx_cursor {
- 
- struct lynxfb_crtc {
- 	unsigned char __iomem *v_cursor; /* virtual address of cursor */
--	unsigned char __iomem *vScreen; /* virtual address of on_screen */
-+	unsigned char __iomem *v_screen; /* virtual address of on_screen */
- 	int o_cursor; /* cursor address offset in vidmem */
- 	int o_screen; /* onscreen address offset in vidmem */
- 	int channel;/* which channel this crtc stands for*/
+ 		rpdev->ept = &channel->ept;
+-		strncpy(rpdev->id.name, name, RPMSG_NAME_SIZE);
++		strscpy_pad(rpdev->id.name, name, RPMSG_NAME_SIZE);
+ 		rpdev->src = RPMSG_ADDR_ANY;
+ 		rpdev->dst = RPMSG_ADDR_ANY;
+ 		rpdev->ops = &glink_device_ops;
 -- 
-2.31.1
+2.30.2
 
