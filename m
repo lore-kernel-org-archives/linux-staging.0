@@ -1,38 +1,38 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E352FAF
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 21:16:57 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id e14so41105plh.8
-        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 14:16:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD782FAD
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 21:16:58 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id ca5so1833726pjb.5
+        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 14:16:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=as474LhSy42cHKge7Gy2Fn1oqutkW78m6VkSl3HByJE=;
-        b=lSOk/hBBmMlB1rYWTRaPXPIkKi/CxdsLOHI3vbEi2GSoFn58wsWtYlaoOfqvPj59dt
-         ooaVxGQyHEHZnH0A70oChu8vvpJt9DQZz91T5V7lJ7/jvA+gX2vgTxoF4L8nNLo3A1bm
-         hHNtGTPTcV/mXDEkppwsVuEpgI+3vO6Y1uBxk=
+        bh=vvNgpOkYohlzmozRH90jT3va3z9rMWChvsz40h8+RkY=;
+        b=cI7pDAEV+fAYh/9IrkMcLzlca5EW1ooun6AivPtj97ng/WaVF+mQDkhXwA/1Z2+AJr
+         4Nn77aehsUrpK6SIapNlZq0hcL6Ffryk3x8aHwWk5fGDWlq2H7uxwsPJ/4q0+5tNCXsZ
+         hD+zPYAIV3KQDQDjzvXrg9fukVcidGdotaa4I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=as474LhSy42cHKge7Gy2Fn1oqutkW78m6VkSl3HByJE=;
-        b=fK+buoLh1/3fpSLW07+AMItFV3wlR8RTJ0l2e0HiMR2IrC4QG133f/aG6gG+oein5u
-         5eZSqU6/UbqWAz7Cuy20oWitGG2Nge7T/CQ2d8yWpa5Jbiis421BSqllEWFyPLfd+l+9
-         nDM6sjGNherR9yhaXNZk8IMvM4g97oc/aZ5GZMHclYfdeGbRNs7OrEZx5y/OqvZbe3Db
-         EspO+IKQEBbkh0drCnEbSh7bXGb3bejnTMR+0pOy4fuZid+G2HMJhz7oJ07uHFRykzVi
-         R9CAGKFu123Dor6+YhZUdRiggM0BsjL7i2UGCpJrT6VQ3NbVq/5s02QydxVCDJOYLEZT
-         7hAw==
-X-Gm-Message-State: AOAM531B71zGcAZ6VXBvyIdXhEtwpsP1SR5bURU6cp4w9KvE3ZO04SzJ
-	ACulBDLJNh0VycwcILi+os7MMA==
-X-Google-Smtp-Source: ABdhPJxGaEK/7GM0+vAKulISQNQ8zNmBoY4IggEYKPysQEG+1vegv9sBaDZhhkPzUiJxyIhOdVgTMQ==
-X-Received: by 2002:a17:90b:4a4d:: with SMTP id lb13mr6031654pjb.221.1627420617450;
-        Tue, 27 Jul 2021 14:16:57 -0700 (PDT)
+        bh=vvNgpOkYohlzmozRH90jT3va3z9rMWChvsz40h8+RkY=;
+        b=GENXy5jrgvwa7dsYKGLLstctYLCnZdCvVRYN3PzrfzlVZolkZn++MDzg+Ruz0mIaNw
+         twwp8/Ky3AwmtC9quCs3/aviZvLTBYizgcURnRmIc8cYWJR7GAHW8IZ5BuxIOwICY/Tx
+         96ZRwnB2EzS33n7bo+m0q5MRaCLBBEwhuAdjXb4RRvJZX+/c723TYjBohSGVFcIFF4sK
+         K5ELO2f/MmIsKzgiRjmd34bFB4Qdl+eiLYT0k0W3MCpx35VbyLmbtWPHuyjxATbt2Kr2
+         3FQj2RktV6iyCzDaPlsBhPfHR33OE1Y0Aok8PmnpXwDmd5kaE9xAsfOWnkUhFRu0ZxAi
+         G7Tw==
+X-Gm-Message-State: AOAM5310V1p8611adl+hMxvykubhXnEqmGLPBlhBteeupcLQJQGPPeqp
+	rRztg2VHpg0QqysvFHXnOsOlWA==
+X-Google-Smtp-Source: ABdhPJzE9AoOQUL4/giBdYIFX1uIcw2uVNeNuZFEGRMkEqN+EwkPLwt/9C4Lcpy6fWzjXCsTHLO9Mg==
+X-Received: by 2002:a17:90a:5201:: with SMTP id v1mr23545012pjh.46.1627420618454;
+        Tue, 27 Jul 2021 14:16:58 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id q19sm5028194pgj.17.2021.07.27.14.16.53
+        by smtp.gmail.com with ESMTPSA id 19sm5431637pgg.36.2021.07.27.14.16.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jul 2021 14:16:54 -0700 (PDT)
+        Tue, 27 Jul 2021 14:16:55 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
@@ -48,9 +48,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com
-Subject: [PATCH 46/64] IB/mthca: Use memset_after() for clearing mpt_entry
-Date: Tue, 27 Jul 2021 13:58:37 -0700
-Message-Id: <20210727205855.411487-47-keescook@chromium.org>
+Subject: [PATCH 24/64] staging: wlan-ng: Use struct_group() for memcpy() region
+Date: Tue, 27 Jul 2021 13:58:15 -0700
+Message-Id: <20210727205855.411487-25-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
@@ -60,37 +60,72 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1125; h=from:subject; bh=EIIm+0VdwQ9IH2XMV6ts5pIWwaxyRwboIG5815tF7+o=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOKarr4bIPgvwWH2qKkwLe6/q8cDAlBzD3bLA24 ll85FGeJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzigAKCRCJcvTf3G3AJvwwEA ChEYdVEvOlY6ZSSDwSK+GqTMcoJtHYXIXerlg3cv7Z5B/nj+4tsVkjpbbg6qYJ7G6Wn5LCRzlLTF/B JEQNK1K018MnLFUCnQdrWeHhqOML4Z+QY9330qvih8kbryLwUmmPm8tMDr8k7xeqODqXV0ysJUPb2N xVAh/ldKgMIWN0SIEK4b/AeC9lC2gYUHs0M9ufsvUwE/w7u4/dJRXGEtfOnpjbz9EiJRevDyOxG/L7 5kQTjyY65fkZSD9d3DQYA0of/YGF5vIAzSb90hB4BR+6elYWhMJodLf6s9scmQdVrWhXQ4dVg6J+8M ycSHtAUfvV0kejqMCcI904M9g4jJuniybmlBLuzSIsi21ELju85L/7B9KiYaqlPgChXogQSPXNk5Kd 54beIYuu1Fd49rYR1R8WtEoklJaIrmJSkYaEDaYgFR3e7sXiui1Lo6/7QEjLjklWuNupXgY7d+KgBw oCFrVzGvwPnUGDQnGEfR2OxN6HzTznt5SuyVEVOZkOSmgu5uS6ad9csIugS5srvBjmEQQuXMfiCcAe FRY7ypPn9oUPWMah/ykVuPdD7cmvKT/OghOEHP/qza9WeqolkQBPyj4t9m6qBq2lsFMVjj3xVeXXM2 +eC9JXnzHZx87wkFYpcVJstfzhif8T3qljrVvmM3fY2NknXhqRg98uBOWpsQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2375; h=from:subject; bh=c/SxbSrw72JMwWGBAhjNbuucRJa6d830VHNx2pfQMmY=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOF2QDCtL/erQWj7ox+a3ncXLGvlzCwDIvWXZkH qHjzBFyJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzhQAKCRCJcvTf3G3AJtV+D/ 0fO+YtYcaNoJFtJLfaoehtt1+wVJemFnhzXbO8zron27IVuMZAcUQZRTvfedVY+1vq9YmKpR1jLhu6 TonAYm/QSoolsRdIvr0usi+NR+eRkXR1ZnyvV5rnOc9YaBWbZRrQq3ZcX6YCjqPkK8p8WRxt9Bj0Sg q5zK3/CNl56vrOTzTCCoxMsajE9vAxySqiSXHSeiMfp2xd3+QR3kRFCFU0ZSA0xfMcnR2JvGQBggJS RkdJjwLCK+kENWJtvHtlX4elSv2P/OtT8hnnPRvud1yeMq+QpTzPeNdW7PxhWE2RwZNA2NugGVRSlX 3jR4hhDV+6JtngiZjWbObIbIUZuegWEMH0zZW7dNgjbeuJq60bTRCUm4kANVmgMnCpvv/gmJ/eOGF+ Cy3TIZB46rpL4aRD/GZgx7Z3LlwLOdMudLK7tK9BsLfb7ORVmmEeOisNmyspYO6/AqlMjaI1/ZZlV3 812R76a18N3vOrFFTOfbqpkITezkVwlqkVE+0wU0/No7R2jwKaEwkopqHCE2H8k4ufJ2CY+2fLArN9 RN/NT2xb7COyOrwRuX1S423r0L/eefO2fysMApU+RwzbiD/oDAlU7jx19jPFBWMojjzIhrQhJlkdja x1kg9JKYzfTYl3DgElyjMkkBql860vUUs21cPgyOy5TcZ8V0tBlTLOvGWnpg==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
 In preparation for FORTIFY_SOURCE performing compile-time and run-time
-field bounds checking for memset(), avoid intentionally writing across
-neighboring fields.
+field bounds checking for memcpy(), memmove(), and memset(), avoid
+intentionally writing across neighboring fields.
 
-Use memset_after() so memset() doesn't get confused about writing
-beyond the destination member that is intended to be the starting point
-of zeroing through the end of the struct.
+Use struct_group() in struct hfa384x_tx_frame around members
+frame_control, duration_id, address[1-4], and sequence_control, so they
+can be referenced together. This will allow memcpy() and sizeof() to
+more easily reason about sizes, improve readability, and avoid future
+warnings about writing beyond the end of frame_control.
+
+"pahole" shows no size nor member offset changes to struct
+hfa384x_tx_frame. "objdump -d" shows no meaningful object code changes
+(i.e. only source line number induced differences.)
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/infiniband/hw/mthca/mthca_mr.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/wlan-ng/hfa384x.h     | 16 +++++++++-------
+ drivers/staging/wlan-ng/hfa384x_usb.c |  4 +++-
+ 2 files changed, 12 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/infiniband/hw/mthca/mthca_mr.c b/drivers/infiniband/hw/mthca/mthca_mr.c
-index ce0e0867e488..64adba5c067d 100644
---- a/drivers/infiniband/hw/mthca/mthca_mr.c
-+++ b/drivers/infiniband/hw/mthca/mthca_mr.c
-@@ -469,8 +469,7 @@ int mthca_mr_alloc(struct mthca_dev *dev, u32 pd, int buffer_size_shift,
- 	mpt_entry->start     = cpu_to_be64(iova);
- 	mpt_entry->length    = cpu_to_be64(total_size);
+diff --git a/drivers/staging/wlan-ng/hfa384x.h b/drivers/staging/wlan-ng/hfa384x.h
+index 88e894dd3568..87eb87e3beab 100644
+--- a/drivers/staging/wlan-ng/hfa384x.h
++++ b/drivers/staging/wlan-ng/hfa384x.h
+@@ -476,13 +476,15 @@ struct hfa384x_tx_frame {
  
--	memset(&mpt_entry->lkey, 0,
--	       sizeof *mpt_entry - offsetof(struct mthca_mpt_entry, lkey));
-+	memset_after(mpt_entry, 0, length);
+ 	/*-- 802.11 Header Information --*/
  
- 	if (mr->mtt)
- 		mpt_entry->mtt_seg =
+-	u16 frame_control;
+-	u16 duration_id;
+-	u8 address1[6];
+-	u8 address2[6];
+-	u8 address3[6];
+-	u16 sequence_control;
+-	u8 address4[6];
++	struct_group(p80211,
++		u16 frame_control;
++		u16 duration_id;
++		u8 address1[6];
++		u8 address2[6];
++		u8 address3[6];
++		u16 sequence_control;
++		u8 address4[6];
++	);
+ 	__le16 data_len;		/* little endian format */
+ 
+ 	/*-- 802.3 Header Information --*/
+diff --git a/drivers/staging/wlan-ng/hfa384x_usb.c b/drivers/staging/wlan-ng/hfa384x_usb.c
+index f2a0e16b0318..38aaae7a2d69 100644
+--- a/drivers/staging/wlan-ng/hfa384x_usb.c
++++ b/drivers/staging/wlan-ng/hfa384x_usb.c
+@@ -2516,7 +2516,9 @@ int hfa384x_drvr_txframe(struct hfa384x *hw, struct sk_buff *skb,
+ 	cpu_to_le16s(&hw->txbuff.txfrm.desc.tx_control);
+ 
+ 	/* copy the header over to the txdesc */
+-	memcpy(&hw->txbuff.txfrm.desc.frame_control, p80211_hdr,
++	BUILD_BUG_ON(sizeof(hw->txbuff.txfrm.desc.p80211) !=
++		     sizeof(union p80211_hdr));
++	memcpy(&hw->txbuff.txfrm.desc.p80211, p80211_hdr,
+ 	       sizeof(union p80211_hdr));
+ 
+ 	/* if we're using host WEP, increase size by IV+ICV */
 -- 
 2.30.2
 
