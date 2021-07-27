@@ -1,169 +1,130 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0773470
-	for <linux-staging@lists.linux.dev>; Mon, 26 Jul 2021 19:54:11 +0000 (UTC)
-Received: from dslb-188-096-151-017.188.096.pools.vodafone-ip.de ([188.96.151.17] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1m86fs-00078e-1U; Mon, 26 Jul 2021 21:54:04 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH v2 14/18] staging: rtl8188eu: simplify rtl88eu_phy_iq_calibrate
-Date: Mon, 26 Jul 2021 21:53:54 +0200
-Message-Id: <20210726195354.28548-1-martin@kaiser.cx>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210725155902.32433-14-martin@kaiser.cx>
-References: <20210725155902.32433-14-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A8F70
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 01:00:50 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7B0B7EE;
+	Tue, 27 Jul 2021 03:00:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1627347647;
+	bh=h6ed/QhzBLfd0GPoqqSOV/hXs491XnYeRSbJ5MoZhok=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XmvdmbvKT4T0Gl2GLgXHoQjqYzORw4Uo7rvmWDfK/PuFVaIquNHJXNRxSiKXAaK33
+	 QQA82sQ0J6AzYYbW4UtBiEhZlOsIX9q9P93SbuLQuXKyJEqkUecvdQL2mHp4N+DMqR
+	 CTDj9Za/Wy99D6HUhG0YOBAkpaLfwrrgLNzDEeVQ=
+Date: Tue, 27 Jul 2021 04:00:42 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc: shawnguo@kernel.org, devicetree@vger.kernel.org, festevam@gmail.com,
+	kernel@pengutronix.de, kernel@puri.sm, krzk@kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, m.felsch@pengutronix.de,
+	mchehab@kernel.org, phone-devel@vger.kernel.org, robh@kernel.org,
+	slongerbeam@gmail.com
+Subject: Re: [PATCH v9 0/3] media: imx: add support for imx8mq MIPI RX
+Message-ID: <YP9aujiWH2Q/ghHK@pendragon.ideasonboard.com>
+References: <20210726082117.2423597-1-martin.kepplinger@puri.sm>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210726082117.2423597-1-martin.kepplinger@puri.sm>
 
-The boolean is2t variable in rtl88eu_phy_iq_calibrate is always false.
-Remove some code that's unused in this case.
+Hi Martin,
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
-v2:
- - fixed two -Wunused-but-set-variable warnings
-   reported by kernel test robot <lkp@intel.com>
+On Mon, Jul 26, 2021 at 10:21:14AM +0200, Martin Kepplinger wrote:
+> hi,
+> 
+> This patch series adds a driver for the i.MX8MQ CSI MIPI receiver / controller.
+> 
+> It includes the driver, the dt-bindings and the DT addition to the SoC dtsi.
+> I test it using libcamera. Thanks to Laurent who helped a lot. I'm happy for
+> any feedback,
 
- drivers/staging/rtl8188eu/hal/phy.c | 65 ++---------------------------
- 1 file changed, 3 insertions(+), 62 deletions(-)
+No more feedback from me :-) I'll take patches 1/3 and 2/3 in my tree
+and send a pull request.
 
-diff --git a/drivers/staging/rtl8188eu/hal/phy.c b/drivers/staging/rtl8188eu/hal/phy.c
-index 256f87b9d630..fcac885b6581 100644
---- a/drivers/staging/rtl8188eu/hal/phy.c
-+++ b/drivers/staging/rtl8188eu/hal/phy.c
-@@ -703,53 +703,6 @@ static void patha_fill_iqk(struct adapter *adapt, bool iqkok, s32 result[][8],
- 	}
- }
- 
--static void pathb_fill_iqk(struct adapter *adapt, bool iqkok, s32 result[][8],
--			   u8 final_candidate, bool txonly)
--{
--	u32 oldval_1, x, tx1_a, reg;
--	s32 y, tx1_c;
--
--	if (final_candidate == 0xFF) {
--		return;
--	} else if (iqkok) {
--		oldval_1 = (phy_query_bb_reg(adapt, rOFDM0_XBTxIQImbalance, bMaskDWord) >> 22) & 0x3FF;
--
--		x = result[final_candidate][4];
--		if ((x & 0x00000200) != 0)
--			x = x | 0xFFFFFC00;
--		tx1_a = (x * oldval_1) >> 8;
--		phy_set_bb_reg(adapt, rOFDM0_XBTxIQImbalance, 0x3FF, tx1_a);
--
--		phy_set_bb_reg(adapt, rOFDM0_ECCAThreshold, BIT(27),
--			       ((x * oldval_1 >> 7) & 0x1));
--
--		y = result[final_candidate][5];
--		if ((y & 0x00000200) != 0)
--			y = y | 0xFFFFFC00;
--
--		tx1_c = (y * oldval_1) >> 8;
--
--		phy_set_bb_reg(adapt, rOFDM0_XDTxAFE, 0xF0000000,
--			       ((tx1_c & 0x3C0) >> 6));
--		phy_set_bb_reg(adapt, rOFDM0_XBTxIQImbalance, 0x003F0000,
--			       (tx1_c & 0x3F));
--		phy_set_bb_reg(adapt, rOFDM0_ECCAThreshold, BIT(25),
--			       ((y * oldval_1 >> 7) & 0x1));
--
--		if (txonly)
--			return;
--
--		reg = result[final_candidate][6];
--		phy_set_bb_reg(adapt, rOFDM0_XBRxIQImbalance, 0x3FF, reg);
--
--		reg = result[final_candidate][7] & 0x3F;
--		phy_set_bb_reg(adapt, rOFDM0_XBRxIQImbalance, 0xFC00, reg);
--
--		reg = (result[final_candidate][7] >> 6) & 0xF;
--		phy_set_bb_reg(adapt, rOFDM0_AGCRSSITable, 0x0000F000, reg);
--	}
--}
--
- static void save_adda_registers(struct adapter *adapt, const u32 *addareg,
- 				u32 *backup, u32 register_num)
- {
-@@ -1150,8 +1103,8 @@ void rtl88eu_phy_iq_calibrate(struct adapter *adapt, bool recovery)
- 	struct odm_dm_struct *dm_odm = &adapt->HalData->odmpriv;
- 	s32 result[4][8];
- 	u8 i, final;
--	bool pathaok, pathbok;
--	s32 reg_e94, reg_e9c, reg_ea4, reg_eb4, reg_ebc, reg_ec4;
-+	bool pathaok;
-+	s32 reg_e94, reg_e9c, reg_ea4, reg_eb4, reg_ebc;
- 	bool is12simular, is13simular, is23simular;
- 	u32 iqk_bb_reg_92c[IQK_BB_REG_NUM] = {
- 		rOFDM0_XARxIQImbalance, rOFDM0_XBRxIQImbalance,
-@@ -1159,9 +1112,6 @@ void rtl88eu_phy_iq_calibrate(struct adapter *adapt, bool recovery)
- 		rOFDM0_XATxIQImbalance, rOFDM0_XBTxIQImbalance,
- 		rOFDM0_XCTxAFE, rOFDM0_XDTxAFE,
- 		rOFDM0_RxIQExtAnta};
--	bool is2t;
--
--	is2t = false;
- 
- 	if (!(dm_odm->SupportAbility & ODM_RF_CALIBRATION))
- 		return;
-@@ -1178,13 +1128,12 @@ void rtl88eu_phy_iq_calibrate(struct adapter *adapt, bool recovery)
- 
- 	final = 0xff;
- 	pathaok = false;
--	pathbok = false;
- 	is12simular = false;
- 	is23simular = false;
- 	is13simular = false;
- 
- 	for (i = 0; i < 3; i++) {
--		phy_iq_calibrate(adapt, result, i, is2t);
-+		phy_iq_calibrate(adapt, result, i, false);
- 
- 		if (i == 1) {
- 			is12simular = simularity_compare(adapt, result, 0, 1);
-@@ -1214,7 +1163,6 @@ void rtl88eu_phy_iq_calibrate(struct adapter *adapt, bool recovery)
- 		reg_ea4 = result[i][2];
- 		reg_eb4 = result[i][4];
- 		reg_ebc = result[i][5];
--		reg_ec4 = result[i][6];
- 	}
- 
- 	if (final != 0xff) {
-@@ -1227,9 +1175,7 @@ void rtl88eu_phy_iq_calibrate(struct adapter *adapt, bool recovery)
- 		dm_odm->RFCalibrateInfo.RegE9C = reg_e9c;
- 		dm_odm->RFCalibrateInfo.RegEB4 = reg_eb4;
- 		dm_odm->RFCalibrateInfo.RegEBC = reg_ebc;
--		reg_ec4 = result[final][6];
- 		pathaok = true;
--		pathbok = true;
- 	} else {
- 		dm_odm->RFCalibrateInfo.RegE94 = 0x100;
- 		dm_odm->RFCalibrateInfo.RegEB4 = 0x100;
-@@ -1239,11 +1185,6 @@ void rtl88eu_phy_iq_calibrate(struct adapter *adapt, bool recovery)
- 	if (reg_e94 != 0)
- 		patha_fill_iqk(adapt, pathaok, result, final,
- 			       (reg_ea4 == 0));
--	if (is2t) {
--		if (reg_eb4 != 0)
--			pathb_fill_iqk(adapt, pathbok, result, final,
--				       (reg_ec4 == 0));
--	}
- 
- 	if (final < 4) {
- 		for (i = 0; i < IQK_Matrix_REG_NUM; i++)
+Shawn, could you please review 3/3 ?
+
+> revision history
+> ----------------
+> v9: (thank you Laurent)
+> * improve getting the esc clock rate for hs_settle
+> 
+> v8: (thank you Laurent)
+> * calculate hs_settle for any clk rate and mode
+> * add reviewed-by tag
+> https://lore.kernel.org/linux-media/20210723101217.1954805-1-martin.kepplinger@puri.sm/T/
+> 
+> v7: (thank you Laurent and Rob)
+> * fix the binding example (include the reset driver)
+> * use pm_runtime_resume_and_get()
+> * fix some logic in init_cfg()
+> * add some useful code comments and fix minor bits found by Laurent in v6
+> https://lore.kernel.org/linux-media/20210716102244.581182-1-martin.kepplinger@puri.sm/T/#t
+> 
+> v6: (thank you Laurent and Rob)
+> * add reviewed-by tag to binding
+> * statically allocate clk_bulk_data
+> * fix how the hs_settle value is applied
+> * remove s_power calls
+> * remove the link_setup() callback implementation and make the link immutable
+> * more cleanups according to Laurents' review from v5
+> https://lore.kernel.org/linux-media/20210714111931.324485-1-martin.kepplinger@puri.sm/
+> 
+> v5: (thank you Laurent)
+> * fix reset usage by using the already supported reset controller driver
+> * remove clko2 (totally unrelated clock / had been included by accident)
+> * rename pxl clock to ui
+> https://lore.kernel.org/linux-media/20210618095753.114557-1-martin.kepplinger@puri.sm/
+> 
+> v4: (thank you Rob and Marco)
+> * create fsl,mipi-phy-gpr custom dt property instead of confusing "phy"
+> * add imx8mq-specific compatibile to imx8mq.dtsi for future use
+> https://lore.kernel.org/linux-media/20210614121522.2944593-1-martin.kepplinger@puri.sm/
+> 
+> v3: (thank you, Rob and Laurent)
+> among minor other things according to v2 review, changes include:
+> * better describe the clocks
+> * rename DT property "phy-reset" to "reset" and "phy-gpr" to "phy"
+> https://lore.kernel.org/linux-media/20210608104128.1616028-1-martin.kepplinger@puri.sm/T/#t
+> 
+> v2: (thank you, Dan and Guido)
+> among fixes according to v1 reviews, changes include:
+> * remove status property from dt-bindings example
+> * define a few bits in order to have less magic values
+> * use "imx8mq_mipi_csi_" as local function prefix
+> * read DT properties only during probe()
+> * remove dead code (log_status)
+> * add imx8mq_mipi_csi_release_icc()
+> * fix imx8mq_mipi_csi_init_icc()
+> https://lore.kernel.org/linux-media/20210531112326.90094-1-martin.kepplinger@puri.sm/
+> 
+> v1:
+> https://lore.kernel.org/linux-media/20210527075407.3180744-1-martin.kepplinger@puri.sm/T/#t
+> 
+> 
+> Martin Kepplinger (3):
+>   dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and
+>     controller
+>   media: imx: add a driver for i.MX8MQ mipi csi rx phy and controller
+>   arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
+> 
+>  .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 174 ++++
+>  arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 104 ++
+>  drivers/staging/media/imx/Makefile            |   1 +
+>  drivers/staging/media/imx/imx8mq-mipi-csi2.c  | 976 ++++++++++++++++++
+>  4 files changed, 1255 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+>  create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
+
 -- 
-2.20.1
+Regards,
 
+Laurent Pinchart
