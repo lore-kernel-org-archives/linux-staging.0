@@ -1,96 +1,90 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C1B70
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 09:32:04 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id j2so14328662wrx.9
-        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 02:32:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=w7wZEEL9rZqySe44kDL/q1xR524n0BSWFazCWSLOVKs=;
-        b=jUZS6qdAjkTvW7EKlSJ933UWY3bv5y1ZYjKg7R5fg4XiNs5HyWkJM5TJPbqbhm6kgV
-         YKCrdUt1H0WJGhfEaGlxvl/zmTvRIY1kcLYry3mhAhOLl3248kgj1TrNEYJOiY9sqmMn
-         2XFy+ztYEQAAZwWlrDbJHGATP0iSgKmaixHtRxVdG++jaCseGiYjxE1fbPQ2CZBVHB1Y
-         aotK8kwAzx+a1eymvTlnPF0v1AR7o8LxMbQEbWJ1C22+mTc1Jo32gFHuedH7cy9nvlf8
-         RtcNUW9hkoMLi7gqYflwVr/xGC+eI3xmNHcALpqunQUw+7LTAXwIan/v77jGrppzYagb
-         azXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=w7wZEEL9rZqySe44kDL/q1xR524n0BSWFazCWSLOVKs=;
-        b=n7qYq0hR+/enu2tWo0NmpvuRecnXnAr0kmf1VetyKQaIkWueasxgxPxXUwrf9qweEU
-         w2LW5YdIUK7YsGNvSljSWtokzbZp81p86UOeWJsTbr6JNJ5OZAtybr9OdzO5PxsF1uBw
-         GPcrr9qLiXR/xtuyhXMY+U2eY42wz+Jy6mDh/W+EqyMmaqiX78LWTIMhA7VFkbhpKaUT
-         Ys/GYkzRoz5yLQWYxSGbvG0B3VMXqpI5KoHCuH2nKtpeZXuLCKXeBAZZnYKMTWDcqO2k
-         YcOw4A0Jc0a07sKcSdfFf+uGwaQ5dWG8jQMrFfKpF6wmTQF/TagpZ0UlYRW21dd/qDrZ
-         BlZQ==
-X-Gm-Message-State: AOAM531YrRJj7SJHNCWkq6kGi9Z7z5jCexBzO4q244+Op4+FPhZi1V4E
-	qf6mnBboIay25W5EVAKJ0tI=
-X-Google-Smtp-Source: ABdhPJyEmHp9NOgzU8lswOkDOS34Fw8Akpm5TmO0JmiOlgQVSz3lAd5ar94Jb4LtLUWFpV1nC4wd9w==
-X-Received: by 2002:adf:f789:: with SMTP id q9mr8156786wrp.380.1627378322615;
-        Tue, 27 Jul 2021 02:32:02 -0700 (PDT)
-Received: from felia.fritz.box ([2001:16b8:2dbc:0:4075:79fb:1c82:6a65])
-        by smtp.gmail.com with ESMTPSA id q5sm2620362wrx.33.2021.07.27.02.32.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jul 2021 02:32:02 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
-	kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] MAINTAINERS: remove section HISILICON STAGING DRIVERS FOR HIKEY 960/970
-Date: Tue, 27 Jul 2021 11:31:54 +0200
-Message-Id: <20210727093154.553-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E7470
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 10:06:39 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CE4BB61406;
+	Tue, 27 Jul 2021 10:06:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1627380399;
+	bh=TYq2xP0tZs2/5voU8QnKjbi73hhy9xhuqGHqxUE1wcg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=PA4uxFMjUnu46PGnDXpt/fz+1DHgEp2UtnE85WcLrY5JxYFt5LJUEOxVuMTrpbfdz
+	 Tgm+RTdiqpT6kfmlr7ux1HX2n1aDP1XH4tB0sNYet4GU2bcUyj5pbAyup7kIKkLvfc
+	 oKfHiemeUFPr4UaVaKEW+RvrEEX3clAU1VZdkux3zaOsuPFwc6T4i3GpN0lCk3hz71
+	 nidbqCd0YGfjI+AXAogNBPDjTsukEU/BE28ih4lVlRv8cz8eNLEiXMIRgdaXgnfbrN
+	 v5tIysEfDp6TPMaXsFRYgh139tx7GOlxk2irzt2hfaWOQSO7SAhPaMrLNI/93g6C9S
+	 AL8sjWGgdZEJg==
+Date: Tue, 27 Jul 2021 12:06:32 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, Ralf Ramsauer
+ <ralf.ramsauer@oth-regensburg.de>, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: remove section HISILICON STAGING DRIVERS
+ FOR HIKEY 960/970
+Message-ID: <20210727120632.2f963b4c@coco.lan>
+In-Reply-To: <20210727093154.553-1-lukas.bulwahn@gmail.com>
+References: <20210727093154.553-1-lukas.bulwahn@gmail.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Commit 9bd9e0de1cf5 ("mfd: hi6421-spmi-pmic: move driver from staging")
-moves the last driver out of ./drivers/staging/hikey9xx/ and removes that
-directory, but missed to adjust the HISILICON STAGING DRIVERS FOR HIKEY
-960/970 section in MAINTAINERS.
+Em Tue, 27 Jul 2021 11:31:54 +0200
+Lukas Bulwahn <lukas.bulwahn@gmail.com> escreveu:
 
-Hence, ./scripts/get_maintainer.pl --self-test=patterns complains:
+> Commit 9bd9e0de1cf5 ("mfd: hi6421-spmi-pmic: move driver from staging")
+> moves the last driver out of ./drivers/staging/hikey9xx/ and removes that
+> directory, but missed to adjust the HISILICON STAGING DRIVERS FOR HIKEY
+> 960/970 section in MAINTAINERS.
+> 
+> Hence, ./scripts/get_maintainer.pl --self-test=patterns complains:
+> 
+>   warning: no file matches    F:    drivers/staging/hikey9xx/
+> 
+> As the directory ./drivers/staging/hikey9xx/ is gone, remove the section
+> HISILICON STAGING DRIVERS FOR HIKEY 960/970 in MAINTAINERS as well.
+> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
+> applies cleanly on next-20210726
+> 
+> Mauro, please ack.
+> 
+> Greg, please pick this patch into your staging-next tree.
 
-  warning: no file matches    F:    drivers/staging/hikey9xx/
+Acked-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-As the directory ./drivers/staging/hikey9xx/ is gone, remove the section
-HISILICON STAGING DRIVERS FOR HIKEY 960/970 in MAINTAINERS as well.
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-applies cleanly on next-20210726
+> 
+>  MAINTAINERS | 5 -----
+>  1 file changed, 5 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 0f548b498eb0..2eb730101689 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8453,11 +8453,6 @@ S:	Maintained
+>  F:	Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
+>  F:	drivers/mfd/hi6421-spmi-pmic.c
+>  
+> -HISILICON STAGING DRIVERS FOR HIKEY 960/970
+> -M:	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> -S:	Maintained
+> -F:	drivers/staging/hikey9xx/
+> -
+>  HISILICON TRUE RANDOM NUMBER GENERATOR V2 SUPPORT
+>  M:	Zaibo Xu <xuzaibo@huawei.com>
+>  S:	Maintained
 
-Mauro, please ack.
 
-Greg, please pick this patch into your staging-next tree.
 
- MAINTAINERS | 5 -----
- 1 file changed, 5 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0f548b498eb0..2eb730101689 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8453,11 +8453,6 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
- F:	drivers/mfd/hi6421-spmi-pmic.c
- 
--HISILICON STAGING DRIVERS FOR HIKEY 960/970
--M:	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
--S:	Maintained
--F:	drivers/staging/hikey9xx/
--
- HISILICON TRUE RANDOM NUMBER GENERATOR V2 SUPPORT
- M:	Zaibo Xu <xuzaibo@huawei.com>
- S:	Maintained
--- 
-2.17.1
-
+Thanks,
+Mauro
