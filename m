@@ -1,328 +1,415 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF050168
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 22:43:40 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id a26so185844lfr.11
-        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 15:43:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80FD0168
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 23:22:23 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id k4so209413wms.3
+        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 16:22:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+SboYQvLEoV+Q5oWgHDYhiCn7Tx7IEj91yehwnQAbvM=;
-        b=oPdc+CQOm8sqXyP7XoKBSgtFpkhKc5cVZX213KU9f4Da2FEPu6aF69LfwwjClKWNVJ
-         ng7j8yDgO8HI42dHLauya6am2azxxCJCaFF0anEjeHwgReEs16hSqD+oIFo6BZv6LpJS
-         ACmvJNRbwJRkxWuoPoNy6dRBIO6yHHlR2M++9sqSSkVpJNRx+YghTE2f5UEGqnLMKX0y
-         L9JtEjP+k5Rg4eykCaF7tDDJDWOi5kTiQCm0vlBFpWYapxXmiwTYE1eqKmNSFX0xs0VL
-         uH1WcfCABl1xCeDKnknA3HXWng9Y37zixBYLKsXyfi388/m+I1GilxgqhZGurEEKTpA1
-         AJfA==
+        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=g6v+H+B6T3nPG6krl5rvzwCnp3n6PhFEUJV8wcRmOPM=;
+        b=sTrsPh34KVfc2c4z3ySatBMEY2ABVi6if9p8w/YYrWeEeGw72eL8UpozSSMeJChDi6
+         HikEnOy3prW8Nyucp6I2ZJLMtE4Tdz3ZzfVAkH0wBHNTEQiGAtxG+dV7IaU3/CzNqepM
+         EnTCqtcIb+pXHazKNzWUfHXBqTe93b6xGvpUe47nrZt6SqE0p1WBCIJ5OgFZptT8pkNy
+         YXk9ul10wdH58s0TBPpO/p1nEUXyb3bbNX6Qq32fdnaUse3er4kXqxURGGZHr+4U/hdG
+         4pD+eufJEieYJ3QRBZIcK2l4D549EtnM7jKULtF7LomOQwEPpwq7zY1e371wpxac83F1
+         QPNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+SboYQvLEoV+Q5oWgHDYhiCn7Tx7IEj91yehwnQAbvM=;
-        b=HWpNghqovLpzVJZCAp2TJkbTh+iwQnAZOaH+iyiHMHqWHpXDMC+CZuSC1q84iVVtFA
-         14AR0Hu+Wjpj6kx4VoApp/QTQULFjYHIUIy+3+b4iMCtWDo6+Iv3+DTPanRcu7ITkrpv
-         /8Bo5JaspKXcDRnJyZWRmBVq1/kIkLE948LysXh98v/3jwYQmUnGtMNGk7w9ok380/w3
-         plIb7FO0FrKhMJZTRH5K9EDwbVgLGuKG5SUGdRHkoKre5toOBhVwsHqUe+OCKaYdW1XE
-         xrpn85v6knU5YcHfQbZKV98W1hqghcmNCFU4RZwwVHQRyig14WuMfaHkRXLjR9nsXCuj
-         rzLg==
-X-Gm-Message-State: AOAM532ujcalhvTsJsDCa9XXLcEG7TQk/dlzZfe+hj5QXzUSk+SkuzT8
-	8iBH8AVHhTFjEP6dLT0odKx3bNH9mJReryq50SrXoA==
-X-Google-Smtp-Source: ABdhPJxnTYGuinYeYdLqLqV+o8/XLcsFPV+/cmsQ8aq8v4uISWTPunqaNAJh2445rOdl0O13jTOR3bXB56B9K3i3ZVk=
-X-Received: by 2002:ac2:596a:: with SMTP id h10mr11005339lfp.374.1627425818438;
- Tue, 27 Jul 2021 15:43:38 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=g6v+H+B6T3nPG6krl5rvzwCnp3n6PhFEUJV8wcRmOPM=;
+        b=b29MhJaxE2eBptc4/QxBOlbTsLuVQavoBDXeocsbSlEVUUzPG3QT3kZg+HTEdtVQiM
+         LGUqAiDledjhhYOh4NUWu9N5ayd0Hb7NMfNZdpbRI6N7avRDGe6HmCNgXtXRJFlO7dDE
+         wK3VEtGyn1nKpJWPoKolI2uxTDDD1b92TNcyKxLofNuK3NlwJW6OyxTZrQ9gOEjhutqj
+         b4kyk7EIH0ONqDwGXakBzBIQyusUips7pIPODGcHZxz8A77VJOnFH/hfnk/JkTkqkClc
+         tZQRXbeXH0duGd/PxJbB1K8n1FlOv8ImHWFKv0o5llY4gCVzOZV+yaHh2panJAwVlW2y
+         W11Q==
+X-Gm-Message-State: AOAM532KlMF1QOzrGTkBFEqC6W3TIrjFuUmTBsEs7YnBuUdFw8Zalp9i
+	1uwaaKQZhSvgajvKhBFP3QdeFA==
+X-Google-Smtp-Source: ABdhPJzLCuwrg3tbj18JlxiEOu/qF6yGCoMVjSzChXFYShVUyAY8RryRkOlnIENRj2RaL04KMH45yw==
+X-Received: by 2002:a05:600c:a08:: with SMTP id z8mr5949316wmp.165.1627428141707;
+        Tue, 27 Jul 2021 16:22:21 -0700 (PDT)
+Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
+        by smtp.gmail.com with ESMTPSA id m7sm3848367wmq.20.2021.07.27.16.22.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jul 2021 16:22:21 -0700 (PDT)
+From: Phillip Potter <phil@philpotter.co.uk>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	dan.carpenter@oracle.com,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	fabioaiuto83@gmail.com,
+	martin@kaiser.cx
+Subject: [PATCH v4 0/6] staging: r8188eu: add newer/better RTL8188eu driver
+Date: Wed, 28 Jul 2021 00:22:13 +0100
+Message-Id: <20210727232219.2948-1-phil@philpotter.co.uk>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210727205855.411487-1-keescook@chromium.org> <20210727205855.411487-35-keescook@chromium.org>
-In-Reply-To: <20210727205855.411487-35-keescook@chromium.org>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Tue, 27 Jul 2021 15:43:27 -0700
-Message-ID: <CAKwvOdknit8DtWaFvLupmNEebjbwVa6R3xiGc2D4AqB_6+i52g@mail.gmail.com>
-Subject: Re: [PATCH 34/64] fortify: Detect struct member overflows in memcpy()
- at compile-time
-To: Kees Cook <keescook@chromium.org>
-Cc: linux-hardening@vger.kernel.org, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Keith Packard <keithpac@amazon.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org, 
-	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-staging@lists.linux.dev, linux-block@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 27, 2021 at 2:17 PM Kees Cook <keescook@chromium.org> wrote:
->
-> To accelerate the review of potential run-time false positives, it's
-> also worth noting that it is possible to partially automate checking
-> by examining memcpy() buffer argument fields to see if they have
-> a neighboring. It is reasonable to expect that the vast majority of
+I had to break this patchset up a bit to get around the file size limits
+on the mailing list, and also I removed the hostapd stuff which is
+userspace related and therefore not required.
 
-a neighboring...field?
+The driver currently in staging is older and less functional than the
+version on Larry Finger's GitHub account, based upon v4.1.4_6773.20130222.
+This series of patches therefore:
 
-> diff --git a/include/linux/fortify-string.h b/include/linux/fortify-string.h
-> index 7e67d02764db..5e79e626172b 100644
-> --- a/include/linux/fortify-string.h
-> +++ b/include/linux/fortify-string.h
-> @@ -2,13 +2,17 @@
->  #ifndef _LINUX_FORTIFY_STRING_H_
->  #define _LINUX_FORTIFY_STRING_H_
->
-> +#include <linux/bug.h>
+(1) Marks the older driver as deprecated and changes its CONFIG_
+    parameter and module name.
+(2) Imports the GitHub version mentioned above into the r8188eu folder
+    and configures the build system to allow the building of both drivers.
 
-What are you using from linux/bug.h here?
+There is plenty of work to do to this driver, including to its Makefile,
+but it is at least buildable/usable for now (albeit with a few build
+warnings).
 
-> +
->  #define __FORTIFY_INLINE extern __always_inline __attribute__((gnu_inline))
->  #define __RENAME(x) __asm__(#x)
->
->  void fortify_panic(const char *name) __noreturn __cold;
->  void __read_overflow(void) __compiletime_error("detected read beyond size of object (1st parameter)");
->  void __read_overflow2(void) __compiletime_error("detected read beyond size of object (2nd parameter)");
-> +void __read_overflow2_field(void) __compiletime_warning("detected read beyond size of field (2nd parameter); maybe use struct_group()?");
->  void __write_overflow(void) __compiletime_error("detected write beyond size of object (1st parameter)");
-> +void __write_overflow_field(void) __compiletime_warning("detected write beyond size of field (1st parameter); maybe use struct_group()?");
->
->  #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
->  extern void *__underlying_memchr(const void *p, int c, __kernel_size_t size) __RENAME(memchr);
-> @@ -182,22 +186,105 @@ __FORTIFY_INLINE void *memset(void *p, int c, __kernel_size_t size)
->         return __underlying_memset(p, c, size);
->  }
->
-> -__FORTIFY_INLINE void *memcpy(void *p, const void *q, __kernel_size_t size)
-> +/*
-> + * To make sure the compiler can enforce protection against buffer overflows,
-> + * memcpy(), memmove(), and memset() must not be used beyond individual
-> + * struct members. If you need to copy across multiple members, please use
-> + * struct_group() to create a named mirror of an anonymous struct union.
-> + * (e.g. see struct sk_buff.)
-> + *
-> + * Mitigation coverage
-> + *                                     Bounds checking at:
-> + *                                     +-------+-------+-------+-------+
-> + *                                     | Compile time  | Run time      |
-> + * memcpy() argument sizes:            | write | read  | write | read  |
-> + *                                     +-------+-------+-------+-------+
-> + * memcpy(known,   known,   constant)  |   y   |   y   |  n/a  |  n/a  |
-> + * memcpy(unknown, known,   constant)  |   n   |   y   |   V   |  n/a  |
-> + * memcpy(known,   unknown, constant)  |   y   |   n   |  n/a  |   V   |
-> + * memcpy(unknown, unknown, constant)  |   n   |   n   |   V   |   V   |
-> + * memcpy(known,   known,   dynamic)   |   n   |   n   |   b   |   B   |
-> + * memcpy(unknown, known,   dynamic)   |   n   |   n   |   V   |   B   |
-> + * memcpy(known,   unknown, dynamic)   |   n   |   n   |   b   |   V   |
-> + * memcpy(unknown, unknown, dynamic)   |   n   |   n   |   V   |   V   |
-> + *                                     +-------+-------+-------+-------+
-> + *
-> + * y = deterministic compile-time bounds checking
-> + * n = cannot do deterministic compile-time bounds checking
-> + * n/a = no run-time bounds checking needed since compile-time deterministic
-> + * b = perform run-time bounds checking
-> + * B = can perform run-time bounds checking, but current unenforced
-> + * V = vulnerable to run-time overflow
-> + *
-> + */
-> +__FORTIFY_INLINE void fortify_memcpy_chk(__kernel_size_t size,
-> +                                        const size_t p_size,
-> +                                        const size_t q_size,
-> +                                        const size_t p_size_field,
-> +                                        const size_t q_size_field,
-> +                                        const char *func)
->  {
-> -       size_t p_size = __builtin_object_size(p, 0);
-> -       size_t q_size = __builtin_object_size(q, 0);
-> -
->         if (__builtin_constant_p(size)) {
-> -               if (p_size < size)
-> +               /*
-> +                * Length argument is a constant expression, so we
-> +                * can perform compile-time bounds checking where
-> +                * buffer sizes are known.
-> +                */
-> +
-> +               /* Error when size is larger than enclosing struct. */
-> +               if (p_size > p_size_field && p_size < size)
->                         __write_overflow();
-> -               if (q_size < size)
-> +               if (q_size > q_size_field && q_size < size)
->                         __read_overflow2();
-> +
-> +               /* Warn when write size argument larger than dest field. */
-> +               if (p_size_field < size)
-> +                       __write_overflow_field();
-> +               /*
-> +                * Warn for source field over-read when building with W=1
-> +                * or when an over-write happened, so both can be fixed at
-> +                * the same time.
-> +                */
-> +               if ((IS_ENABLED(KBUILD_EXTRA_WARN1) || p_size_field < size) &&
-> +                   q_size_field < size)
-> +                       __read_overflow2_field();
->         }
-> -       if (p_size < size || q_size < size)
-> -               fortify_panic(__func__);
-> -       return __underlying_memcpy(p, q, size);
-> +       /*
-> +        * At this point, length argument may not be a constant expression,
-> +        * so run-time bounds checking can be done where buffer sizes are
-> +        * known. (This is not an "else" because the above checks may only
-> +        * be compile-time warnings, and we want to still warn for run-time
-> +        * overflows.)
-> +        */
-> +
-> +       /*
-> +        * Always stop accesses beyond the struct that contains the
-> +        * field, when the buffer's remaining size is known.
-> +        * (The -1 test is to optimize away checks where the buffer
-> +        * lengths are unknown.)
-> +        */
-> +       if ((p_size != (size_t)(-1) && p_size < size) ||
-> +           (q_size != (size_t)(-1) && q_size < size))
-> +               fortify_panic(func);
->  }
->
-> +#define __fortify_memcpy_chk(p, q, size, p_size, q_size,               \
-> +                            p_size_field, q_size_field, op) ({         \
-> +       size_t __fortify_size = (size_t)(size);                         \
-> +       fortify_memcpy_chk(__fortify_size, p_size, q_size,              \
-> +                          p_size_field, q_size_field, #op);            \
-> +       __underlying_##op(p, q, __fortify_size);                        \
-> +})
+Revisions of this patch set:
+V1: contained deletion of old driver as one patch and the whole new
+    driver as another, so was too big for the mailing lists.
+V2: split things up, but contained whitespace errorsm and various other
+    mistakes.
+V3: now based upon v4.1.4_6773.20130222 of the GitHub driver, with
+    tweaks to the Makefile (which is already cleaner but needed additional
+    tweaks) and the Kconfig to take into account feedback. There were
+    several trailing whitespace warnings even in this branch/version which
+    have now been corrected as well.
+V4: don't remove old driver now, just mark as deprecated and modify to
+    allow building alongside the new driver.
 
-Are there other macro expansion sites for `__fortify_memcpy_chk`,
-perhaps later in this series? I don't understand why `memcpy` is
-passed as `func` to `fortify_panic()` rather than continuing to use
-`__func__`?
+Phillip Potter (6):
+  staging: r8188eu: introduce new core dir for RTL8188eu driver
+  staging: r8188eu: introduce new hal dir for RTL8188eu driver
+  staging: r8188eu: introduce new os_dep dir for RTL8188eu driver
+  staging: r8188eu: introduce new include dir for RTL8188eu driver
+  staging: r8188eu: introduce new supporting files for RTL8188eu driver
+  staging: r8188eu: attach newly imported driver to build system
 
-> +
-> +/*
-> + * __builtin_object_size() must be captured here to avoid evaluating argument
-> + * side-effects further into the macro layers.
-> + */
-> +#define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
-> +               __builtin_object_size(p, 0), __builtin_object_size(q, 0), \
-> +               __builtin_object_size(p, 1), __builtin_object_size(q, 1), \
-> +               memcpy)
-> +
->  __FORTIFY_INLINE void *memmove(void *p, const void *q, __kernel_size_t size)
->  {
->         size_t p_size = __builtin_object_size(p, 0);
-> @@ -277,27 +364,27 @@ __FORTIFY_INLINE void *kmemdup(const void *p, size_t size, gfp_t gfp)
->         return __real_kmemdup(p, size, gfp);
->  }
->
-> -/* defined after fortified strlen and memcpy to reuse them */
-> +/* Defined after fortified strlen to reuse it. */
->  __FORTIFY_INLINE char *strcpy(char *p, const char *q)
->  {
->         size_t p_size = __builtin_object_size(p, 1);
->         size_t q_size = __builtin_object_size(q, 1);
->         size_t size;
->
-> +       /* If neither buffer size is known, immediately give up. */
->         if (p_size == (size_t)-1 && q_size == (size_t)-1)
->                 return __underlying_strcpy(p, q);
->         size = strlen(q) + 1;
->         /* test here to use the more stringent object size */
->         if (p_size < size)
->                 fortify_panic(__func__);
-> -       memcpy(p, q, size);
-> +       __underlying_memcpy(p, q, size);
->         return p;
->  }
->
->  /* Don't use these outside the FORITFY_SOURCE implementation */
->  #undef __underlying_memchr
->  #undef __underlying_memcmp
-> -#undef __underlying_memcpy
->  #undef __underlying_memmove
->  #undef __underlying_memset
->  #undef __underlying_strcat
-> diff --git a/include/linux/string.h b/include/linux/string.h
-> index 9473f81b9db2..cbe889e404e2 100644
-> --- a/include/linux/string.h
-> +++ b/include/linux/string.h
-> @@ -261,8 +261,9 @@ static inline const char *kbasename(const char *path)
->   * @count: The number of bytes to copy
->   * @pad: Character to use for padding if space is left in destination.
->   */
-> -static inline void memcpy_and_pad(void *dest, size_t dest_len,
-> -                                 const void *src, size_t count, int pad)
-> +static __always_inline void memcpy_and_pad(void *dest, size_t dest_len,
-> +                                          const void *src, size_t count,
-> +                                          int pad)
+ drivers/staging/Kconfig                       |    2 +
+ drivers/staging/Makefile                      |    3 +-
+ drivers/staging/r8188eu/Kconfig               |   25 +
+ drivers/staging/r8188eu/Makefile              |  129 +
+ drivers/staging/r8188eu/core/rtw_ap.c         | 1976 ++++
+ drivers/staging/r8188eu/core/rtw_br_ext.c     | 1184 +++
+ drivers/staging/r8188eu/core/rtw_cmd.c        | 2206 +++++
+ drivers/staging/r8188eu/core/rtw_debug.c      |  943 ++
+ drivers/staging/r8188eu/core/rtw_efuse.c      |  872 ++
+ drivers/staging/r8188eu/core/rtw_ieee80211.c  | 1625 ++++
+ drivers/staging/r8188eu/core/rtw_io.c         |  323 +
+ drivers/staging/r8188eu/core/rtw_ioctl_set.c  | 1118 +++
+ drivers/staging/r8188eu/core/rtw_iol.c        |  209 +
+ drivers/staging/r8188eu/core/rtw_led.c        | 1705 ++++
+ drivers/staging/r8188eu/core/rtw_mlme.c       | 2354 +++++
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 8407 +++++++++++++++++
+ drivers/staging/r8188eu/core/rtw_mp.c         | 1000 ++
+ drivers/staging/r8188eu/core/rtw_mp_ioctl.c   | 1352 +++
+ drivers/staging/r8188eu/core/rtw_p2p.c        | 2068 ++++
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c    |  655 ++
+ drivers/staging/r8188eu/core/rtw_recv.c       | 2252 +++++
+ drivers/staging/r8188eu/core/rtw_rf.c         |   88 +
+ drivers/staging/r8188eu/core/rtw_security.c   | 1757 ++++
+ drivers/staging/r8188eu/core/rtw_sreset.c     |   79 +
+ drivers/staging/r8188eu/core/rtw_sta_mgt.c    |  609 ++
+ drivers/staging/r8188eu/core/rtw_wlan_util.c  | 1690 ++++
+ drivers/staging/r8188eu/core/rtw_xmit.c       | 2370 +++++
+ drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c  |   86 +
+ .../r8188eu/hal/Hal8188ERateAdaptive.c        |  760 ++
+ .../staging/r8188eu/hal/HalHWImg8188E_BB.c    |  720 ++
+ .../staging/r8188eu/hal/HalHWImg8188E_MAC.c   |  230 +
+ .../staging/r8188eu/hal/HalHWImg8188E_RF.c    |  268 +
+ drivers/staging/r8188eu/hal/HalPhyRf.c        |   49 +
+ drivers/staging/r8188eu/hal/HalPhyRf_8188e.c  | 1505 +++
+ drivers/staging/r8188eu/hal/HalPwrSeqCmd.c    |  132 +
+ drivers/staging/r8188eu/hal/hal_com.c         |  381 +
+ drivers/staging/r8188eu/hal/hal_intf.c        |  468 +
+ drivers/staging/r8188eu/hal/odm.c             | 2174 +++++
+ drivers/staging/r8188eu/hal/odm_HWConfig.c    |  601 ++
+ drivers/staging/r8188eu/hal/odm_RTL8188E.c    |  400 +
+ .../staging/r8188eu/hal/odm_RegConfig8188E.c  |  130 +
+ drivers/staging/r8188eu/hal/odm_debug.c       |   32 +
+ drivers/staging/r8188eu/hal/odm_interface.c   |  205 +
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  762 ++
+ drivers/staging/r8188eu/hal/rtl8188e_dm.c     |  267 +
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 2390 +++++
+ drivers/staging/r8188eu/hal/rtl8188e_mp.c     |  851 ++
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 1135 +++
+ drivers/staging/r8188eu/hal/rtl8188e_rf6052.c |  569 ++
+ drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c |  202 +
+ drivers/staging/r8188eu/hal/rtl8188e_sreset.c |   80 +
+ drivers/staging/r8188eu/hal/rtl8188e_xmit.c   |   91 +
+ drivers/staging/r8188eu/hal/rtl8188eu_led.c   |  111 +
+ drivers/staging/r8188eu/hal/rtl8188eu_recv.c  |  136 +
+ drivers/staging/r8188eu/hal/rtl8188eu_xmit.c  |  703 ++
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 2334 +++++
+ drivers/staging/r8188eu/hal/usb_ops_linux.c   |  717 ++
+ .../staging/r8188eu/include/Hal8188EPhyCfg.h  |  269 +
+ .../staging/r8188eu/include/Hal8188EPhyReg.h  | 1088 +++
+ .../staging/r8188eu/include/Hal8188EPwrSeq.h  |  173 +
+ .../r8188eu/include/Hal8188ERateAdaptive.h    |   75 +
+ drivers/staging/r8188eu/include/Hal8188EReg.h |   44 +
+ .../r8188eu/include/HalHWImg8188E_BB.h        |   44 +
+ .../r8188eu/include/HalHWImg8188E_FW.h        |   33 +
+ .../r8188eu/include/HalHWImg8188E_MAC.h       |   30 +
+ .../r8188eu/include/HalHWImg8188E_RF.h        |   30 +
+ drivers/staging/r8188eu/include/HalPhyRf.h    |   30 +
+ .../staging/r8188eu/include/HalPhyRf_8188e.h  |   58 +
+ .../staging/r8188eu/include/HalPwrSeqCmd.h    |  126 +
+ drivers/staging/r8188eu/include/HalVerDef.h   |  166 +
+ drivers/staging/r8188eu/include/autoconf.h    |   43 +
+ drivers/staging/r8188eu/include/basic_types.h |  184 +
+ drivers/staging/r8188eu/include/cmd_osdep.h   |   32 +
+ drivers/staging/r8188eu/include/drv_types.h   |  346 +
+ .../staging/r8188eu/include/drv_types_linux.h |   23 +
+ drivers/staging/r8188eu/include/ethernet.h    |   41 +
+ drivers/staging/r8188eu/include/h2clbk.h      |   32 +
+ drivers/staging/r8188eu/include/hal_com.h     |  172 +
+ drivers/staging/r8188eu/include/hal_intf.h    |  430 +
+ drivers/staging/r8188eu/include/ieee80211.h   | 1261 +++
+ .../staging/r8188eu/include/ieee80211_ext.h   |  287 +
+ drivers/staging/r8188eu/include/if_ether.h    |  111 +
+ .../staging/r8188eu/include/ioctl_cfg80211.h  |  107 +
+ drivers/staging/r8188eu/include/ip.h          |  125 +
+ drivers/staging/r8188eu/include/mlme_osdep.h  |   35 +
+ .../staging/r8188eu/include/mp_custom_oid.h   |  349 +
+ drivers/staging/r8188eu/include/nic_spec.h    |   41 +
+ drivers/staging/r8188eu/include/odm.h         | 1182 +++
+ .../staging/r8188eu/include/odm_HWConfig.h    |  133 +
+ .../staging/r8188eu/include/odm_RTL8188E.h    |   56 +
+ .../r8188eu/include/odm_RegConfig8188E.h      |   43 +
+ .../r8188eu/include/odm_RegDefine11AC.h       |   46 +
+ .../r8188eu/include/odm_RegDefine11N.h        |  160 +
+ drivers/staging/r8188eu/include/odm_debug.h   |  143 +
+ .../staging/r8188eu/include/odm_interface.h   |  164 +
+ drivers/staging/r8188eu/include/odm_precomp.h |  103 +
+ drivers/staging/r8188eu/include/odm_reg.h     |  116 +
+ drivers/staging/r8188eu/include/odm_types.h   |   61 +
+ drivers/staging/r8188eu/include/osdep_intf.h  |   83 +
+ .../staging/r8188eu/include/osdep_service.h   |  489 +
+ drivers/staging/r8188eu/include/recv_osdep.h  |   54 +
+ .../staging/r8188eu/include/rtl8188e_cmd.h    |  122 +
+ drivers/staging/r8188eu/include/rtl8188e_dm.h |   62 +
+ .../staging/r8188eu/include/rtl8188e_hal.h    |  471 +
+ .../staging/r8188eu/include/rtl8188e_led.h    |   34 +
+ .../staging/r8188eu/include/rtl8188e_recv.h   |   69 +
+ drivers/staging/r8188eu/include/rtl8188e_rf.h |   35 +
+ .../staging/r8188eu/include/rtl8188e_spec.h   | 1438 +++
+ .../staging/r8188eu/include/rtl8188e_sreset.h |   31 +
+ .../staging/r8188eu/include/rtl8188e_xmit.h   |  177 +
+ drivers/staging/r8188eu/include/rtw_android.h |   64 +
+ drivers/staging/r8188eu/include/rtw_ap.h      |   67 +
+ drivers/staging/r8188eu/include/rtw_br_ext.h  |   66 +
+ drivers/staging/r8188eu/include/rtw_cmd.h     |  991 ++
+ drivers/staging/r8188eu/include/rtw_debug.h   |  274 +
+ drivers/staging/r8188eu/include/rtw_eeprom.h  |  130 +
+ drivers/staging/r8188eu/include/rtw_efuse.h   |  150 +
+ drivers/staging/r8188eu/include/rtw_event.h   |  113 +
+ drivers/staging/r8188eu/include/rtw_ht.h      |   44 +
+ drivers/staging/r8188eu/include/rtw_io.h      |  387 +
+ drivers/staging/r8188eu/include/rtw_ioctl.h   |  120 +
+ .../staging/r8188eu/include/rtw_ioctl_rtl.h   |   79 +
+ .../staging/r8188eu/include/rtw_ioctl_set.h   |   49 +
+ drivers/staging/r8188eu/include/rtw_iol.h     |   84 +
+ drivers/staging/r8188eu/include/rtw_led.h     |  201 +
+ drivers/staging/r8188eu/include/rtw_mlme.h    |  649 ++
+ .../staging/r8188eu/include/rtw_mlme_ext.h    |  874 ++
+ drivers/staging/r8188eu/include/rtw_mp.h      |  492 +
+ .../staging/r8188eu/include/rtw_mp_ioctl.h    |  339 +
+ .../r8188eu/include/rtw_mp_phy_regdef.h       | 1079 +++
+ drivers/staging/r8188eu/include/rtw_p2p.h     |  135 +
+ drivers/staging/r8188eu/include/rtw_pwrctrl.h |  282 +
+ drivers/staging/r8188eu/include/rtw_qos.h     |   30 +
+ drivers/staging/r8188eu/include/rtw_recv.h    |  473 +
+ drivers/staging/r8188eu/include/rtw_rf.h      |  145 +
+ .../staging/r8188eu/include/rtw_security.h    |  382 +
+ drivers/staging/r8188eu/include/rtw_sreset.h  |   50 +
+ drivers/staging/r8188eu/include/rtw_version.h |    1 +
+ drivers/staging/r8188eu/include/rtw_xmit.h    |  383 +
+ drivers/staging/r8188eu/include/sta_info.h    |  384 +
+ drivers/staging/r8188eu/include/usb_hal.h     |   26 +
+ drivers/staging/r8188eu/include/usb_ops.h     |  115 +
+ .../staging/r8188eu/include/usb_ops_linux.h   |   55 +
+ drivers/staging/r8188eu/include/usb_osintf.h  |   45 +
+ .../staging/r8188eu/include/usb_vendor_req.h  |   51 +
+ drivers/staging/r8188eu/include/wifi.h        | 1105 +++
+ drivers/staging/r8188eu/include/wlan_bssdef.h |  343 +
+ drivers/staging/r8188eu/include/xmit_osdep.h  |   67 +
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  | 8178 ++++++++++++++++
+ drivers/staging/r8188eu/os_dep/mlme_linux.c   |  302 +
+ drivers/staging/r8188eu/os_dep/os_intfs.c     | 1283 +++
+ .../staging/r8188eu/os_dep/osdep_service.c    |  535 ++
+ drivers/staging/r8188eu/os_dep/recv_linux.c   |  270 +
+ drivers/staging/r8188eu/os_dep/rtw_android.c  |  303 +
+ drivers/staging/r8188eu/os_dep/usb_intf.c     |  863 ++
+ .../staging/r8188eu/os_dep/usb_ops_linux.c    |  283 +
+ drivers/staging/r8188eu/os_dep/xmit_linux.c   |  282 +
+ drivers/staging/rtl8188eu/Kconfig             |    9 +-
+ drivers/staging/rtl8188eu/Makefile            |    4 +-
+ 159 files changed, 89176 insertions(+), 7 deletions(-)
+ create mode 100644 drivers/staging/r8188eu/Kconfig
+ create mode 100644 drivers/staging/r8188eu/Makefile
+ create mode 100644 drivers/staging/r8188eu/core/rtw_ap.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_br_ext.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_cmd.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_debug.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_efuse.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_ieee80211.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_io.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_ioctl_set.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_iol.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_led.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_mlme.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_mlme_ext.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_mp.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_mp_ioctl.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_p2p.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_pwrctrl.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_recv.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_rf.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_security.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_sreset.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_sta_mgt.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_wlan_util.c
+ create mode 100644 drivers/staging/r8188eu/core/rtw_xmit.c
+ create mode 100644 drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c
+ create mode 100644 drivers/staging/r8188eu/hal/Hal8188ERateAdaptive.c
+ create mode 100644 drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
+ create mode 100644 drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c
+ create mode 100644 drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c
+ create mode 100644 drivers/staging/r8188eu/hal/HalPhyRf.c
+ create mode 100644 drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
+ create mode 100644 drivers/staging/r8188eu/hal/HalPwrSeqCmd.c
+ create mode 100644 drivers/staging/r8188eu/hal/hal_com.c
+ create mode 100644 drivers/staging/r8188eu/hal/hal_intf.c
+ create mode 100644 drivers/staging/r8188eu/hal/odm.c
+ create mode 100644 drivers/staging/r8188eu/hal/odm_HWConfig.c
+ create mode 100644 drivers/staging/r8188eu/hal/odm_RTL8188E.c
+ create mode 100644 drivers/staging/r8188eu/hal/odm_RegConfig8188E.c
+ create mode 100644 drivers/staging/r8188eu/hal/odm_debug.c
+ create mode 100644 drivers/staging/r8188eu/hal/odm_interface.c
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188e_dm.c
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188e_mp.c
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188e_sreset.c
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188e_xmit.c
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188eu_led.c
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188eu_recv.c
+ create mode 100644 drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
+ create mode 100644 drivers/staging/r8188eu/hal/usb_halinit.c
+ create mode 100644 drivers/staging/r8188eu/hal/usb_ops_linux.c
+ create mode 100644 drivers/staging/r8188eu/include/Hal8188EPhyCfg.h
+ create mode 100644 drivers/staging/r8188eu/include/Hal8188EPhyReg.h
+ create mode 100644 drivers/staging/r8188eu/include/Hal8188EPwrSeq.h
+ create mode 100644 drivers/staging/r8188eu/include/Hal8188ERateAdaptive.h
+ create mode 100644 drivers/staging/r8188eu/include/Hal8188EReg.h
+ create mode 100644 drivers/staging/r8188eu/include/HalHWImg8188E_BB.h
+ create mode 100644 drivers/staging/r8188eu/include/HalHWImg8188E_FW.h
+ create mode 100644 drivers/staging/r8188eu/include/HalHWImg8188E_MAC.h
+ create mode 100644 drivers/staging/r8188eu/include/HalHWImg8188E_RF.h
+ create mode 100644 drivers/staging/r8188eu/include/HalPhyRf.h
+ create mode 100644 drivers/staging/r8188eu/include/HalPhyRf_8188e.h
+ create mode 100644 drivers/staging/r8188eu/include/HalPwrSeqCmd.h
+ create mode 100644 drivers/staging/r8188eu/include/HalVerDef.h
+ create mode 100644 drivers/staging/r8188eu/include/autoconf.h
+ create mode 100644 drivers/staging/r8188eu/include/basic_types.h
+ create mode 100644 drivers/staging/r8188eu/include/cmd_osdep.h
+ create mode 100644 drivers/staging/r8188eu/include/drv_types.h
+ create mode 100644 drivers/staging/r8188eu/include/drv_types_linux.h
+ create mode 100644 drivers/staging/r8188eu/include/ethernet.h
+ create mode 100644 drivers/staging/r8188eu/include/h2clbk.h
+ create mode 100644 drivers/staging/r8188eu/include/hal_com.h
+ create mode 100644 drivers/staging/r8188eu/include/hal_intf.h
+ create mode 100644 drivers/staging/r8188eu/include/ieee80211.h
+ create mode 100644 drivers/staging/r8188eu/include/ieee80211_ext.h
+ create mode 100644 drivers/staging/r8188eu/include/if_ether.h
+ create mode 100644 drivers/staging/r8188eu/include/ioctl_cfg80211.h
+ create mode 100644 drivers/staging/r8188eu/include/ip.h
+ create mode 100644 drivers/staging/r8188eu/include/mlme_osdep.h
+ create mode 100644 drivers/staging/r8188eu/include/mp_custom_oid.h
+ create mode 100644 drivers/staging/r8188eu/include/nic_spec.h
+ create mode 100644 drivers/staging/r8188eu/include/odm.h
+ create mode 100644 drivers/staging/r8188eu/include/odm_HWConfig.h
+ create mode 100644 drivers/staging/r8188eu/include/odm_RTL8188E.h
+ create mode 100644 drivers/staging/r8188eu/include/odm_RegConfig8188E.h
+ create mode 100644 drivers/staging/r8188eu/include/odm_RegDefine11AC.h
+ create mode 100644 drivers/staging/r8188eu/include/odm_RegDefine11N.h
+ create mode 100644 drivers/staging/r8188eu/include/odm_debug.h
+ create mode 100644 drivers/staging/r8188eu/include/odm_interface.h
+ create mode 100644 drivers/staging/r8188eu/include/odm_precomp.h
+ create mode 100644 drivers/staging/r8188eu/include/odm_reg.h
+ create mode 100644 drivers/staging/r8188eu/include/odm_types.h
+ create mode 100644 drivers/staging/r8188eu/include/osdep_intf.h
+ create mode 100644 drivers/staging/r8188eu/include/osdep_service.h
+ create mode 100644 drivers/staging/r8188eu/include/recv_osdep.h
+ create mode 100644 drivers/staging/r8188eu/include/rtl8188e_cmd.h
+ create mode 100644 drivers/staging/r8188eu/include/rtl8188e_dm.h
+ create mode 100644 drivers/staging/r8188eu/include/rtl8188e_hal.h
+ create mode 100644 drivers/staging/r8188eu/include/rtl8188e_led.h
+ create mode 100644 drivers/staging/r8188eu/include/rtl8188e_recv.h
+ create mode 100644 drivers/staging/r8188eu/include/rtl8188e_rf.h
+ create mode 100644 drivers/staging/r8188eu/include/rtl8188e_spec.h
+ create mode 100644 drivers/staging/r8188eu/include/rtl8188e_sreset.h
+ create mode 100644 drivers/staging/r8188eu/include/rtl8188e_xmit.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_android.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_ap.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_br_ext.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_cmd.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_debug.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_eeprom.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_efuse.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_event.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_ht.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_io.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_ioctl.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_ioctl_rtl.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_ioctl_set.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_iol.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_led.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_mlme.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_mlme_ext.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_mp.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_mp_ioctl.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_mp_phy_regdef.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_p2p.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_pwrctrl.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_qos.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_recv.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_rf.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_security.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_sreset.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_version.h
+ create mode 100644 drivers/staging/r8188eu/include/rtw_xmit.h
+ create mode 100644 drivers/staging/r8188eu/include/sta_info.h
+ create mode 100644 drivers/staging/r8188eu/include/usb_hal.h
+ create mode 100644 drivers/staging/r8188eu/include/usb_ops.h
+ create mode 100644 drivers/staging/r8188eu/include/usb_ops_linux.h
+ create mode 100644 drivers/staging/r8188eu/include/usb_osintf.h
+ create mode 100644 drivers/staging/r8188eu/include/usb_vendor_req.h
+ create mode 100644 drivers/staging/r8188eu/include/wifi.h
+ create mode 100644 drivers/staging/r8188eu/include/wlan_bssdef.h
+ create mode 100644 drivers/staging/r8188eu/include/xmit_osdep.h
+ create mode 100644 drivers/staging/r8188eu/os_dep/ioctl_linux.c
+ create mode 100644 drivers/staging/r8188eu/os_dep/mlme_linux.c
+ create mode 100644 drivers/staging/r8188eu/os_dep/os_intfs.c
+ create mode 100644 drivers/staging/r8188eu/os_dep/osdep_service.c
+ create mode 100644 drivers/staging/r8188eu/os_dep/recv_linux.c
+ create mode 100644 drivers/staging/r8188eu/os_dep/rtw_android.c
+ create mode 100644 drivers/staging/r8188eu/os_dep/usb_intf.c
+ create mode 100644 drivers/staging/r8188eu/os_dep/usb_ops_linux.c
+ create mode 100644 drivers/staging/r8188eu/os_dep/xmit_linux.c
 
-Why __always_inline here?
-
->  {
->         if (dest_len > count) {
->                 memcpy(dest, src, count);
-> diff --git a/lib/Makefile b/lib/Makefile
-> index 083a19336e20..74523fd394bd 100644
-> --- a/lib/Makefile
-> +++ b/lib/Makefile
-> @@ -370,7 +370,8 @@ TEST_FORTIFY_LOG = test_fortify.log
->  quiet_cmd_test_fortify = TEST    $@
->        cmd_test_fortify = $(CONFIG_SHELL) $(srctree)/scripts/test_fortify.sh \
->                         $< $@ "$(NM)" $(CC) $(c_flags) \
-> -                       $(call cc-disable-warning,fortify-source)
-> +                       $(call cc-disable-warning,fortify-source) \
-> +                       -DKBUILD_EXTRA_WARN1
->
->  targets += $(TEST_FORTIFY_LOGS)
->  clean-files += $(TEST_FORTIFY_LOGS)
-> diff --git a/lib/string_helpers.c b/lib/string_helpers.c
-> index faa9d8e4e2c5..4d205bf5993c 100644
-> --- a/lib/string_helpers.c
-> +++ b/lib/string_helpers.c
-> @@ -884,6 +884,12 @@ char *strreplace(char *s, char old, char new)
->  EXPORT_SYMBOL(strreplace);
->
->  #ifdef CONFIG_FORTIFY_SOURCE
-> +/* These are placeholders for fortify compile-time warnings. */
-> +void __read_overflow2_field(void) { }
-> +EXPORT_SYMBOL(__read_overflow2_field);
-> +void __write_overflow_field(void) { }
-> +EXPORT_SYMBOL(__write_overflow_field);
-> +
-
-Don't we rely on these being undefined for Clang to produce a linkage
-failure (until https://reviews.llvm.org/D106030 has landed)?  By
-providing a symbol definition we can link against, I don't think
-__compiletime_{warning|error} will warn at all with Clang?
-
->  void fortify_panic(const char *name)
->  {
->         pr_emerg("detected buffer overflow in %s\n", name);
-> diff --git a/lib/test_fortify/read_overflow2_field-memcpy.c b/lib/test_fortify/read_overflow2_field-memcpy.c
-> new file mode 100644
-> index 000000000000..de9569266223
-> --- /dev/null
-> +++ b/lib/test_fortify/read_overflow2_field-memcpy.c
-> @@ -0,0 +1,5 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +#define TEST   \
-> +       memcpy(large, instance.buf, sizeof(instance.buf) + 1)
-> +
-> +#include "test_fortify.h"
-> diff --git a/lib/test_fortify/write_overflow_field-memcpy.c b/lib/test_fortify/write_overflow_field-memcpy.c
-> new file mode 100644
-> index 000000000000..28cc81058dd3
-> --- /dev/null
-> +++ b/lib/test_fortify/write_overflow_field-memcpy.c
-> @@ -0,0 +1,5 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +#define TEST   \
-> +       memcpy(instance.buf, large, sizeof(instance.buf) + 1)
-> +
-> +#include "test_fortify.h"
-> --
-
-I haven't read the whole series yet, but I assume test_fortify.h was
-provided earlier in the series?
 -- 
-Thanks,
-~Nick Desaulniers
+2.31.1
+
