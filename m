@@ -1,43 +1,43 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6508F177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70D129D6
 	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 20:59:03 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id j18-20020a17090aeb12b029017737e6c349so800859pjz.0
+Received: by mail-pj1-f54.google.com with SMTP id g23-20020a17090a5797b02901765d605e14so996627pji.5
         for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 13:59:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=7nuFdIglNEHNCZJ4OURvNLaS8oKexf2Xbsw8tAobRMI=;
-        b=fXdIa5xzPdxqW9JkE+8PrL7R3HOjzt/uPGhXwllYH14fLZCAy6MK5N+Aom2hlW1RLu
-         LzaLP/I2bdBUasKo/LWt7kuMLca0bx1GK2a8LA0g1v3rpw0p8gJnsxnOKfkunXhaof5t
-         +9cGUtaq4+nJifYIALqVfSUNMPZBcUPcyBLJc=
+        bh=m9/SLyzkm5b4YgLSzID8XtRK8GIPppWgZQKzDtYl0cY=;
+        b=Q6r3JVenAALSlwAfyXn9c9rdA4TUAUv+3EIc2wTPETOe8m8gbk9+wqvXOiPL1oUvnH
+         ghkLdmrKLyR4I8vbN9OzUB9eFxc3TXAFvoPqhq1nLVTJTeUO4JgZrxR7Jn6GTmnnQyus
+         6EOqFEJs4cs2fjjy5HiOhsgCbIpL8hnk9RHbk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=7nuFdIglNEHNCZJ4OURvNLaS8oKexf2Xbsw8tAobRMI=;
-        b=l4U305lgBobUU9HM9op2OHkQ72oFleAtKu7OjcuCf57dYEbM5DY9PzlC64wFbs6QDw
-         ZEQA5jioKiQa1QZSWVuVUC49yw1h6SxVk4s6HZSm8OSt7DjlWJXv0CC25tPAZnoVSCZg
-         mu3mcEjyWafFu6tvfCoTw+L+NI4tTlV1N15iyflG0k2826bfOl4+ON+sSSp9mkrwefhB
-         FObtG6QyKNrAjp4qD/nZBD0g0xjA1OSg1RmbSGgYCl5Ab2rdjg742k0mEr9DI+HD/vI1
-         lQS/fqQI0yZ2J1euJNrZpXakpPNbyTojDJBverw7XHYSte7pVqjvdOkIiJEc2cR8LtBe
-         k/jg==
-X-Gm-Message-State: AOAM533rOhr+HY0CPKX1SbxhP6p+4Iwgn6pl4CC4giMApLsUM9u9lehE
-	559AOTkpioft7K2qzRKBqBcTXQ==
-X-Google-Smtp-Source: ABdhPJxucZUfEOCwFmOc5wsWAybtREO6GX9yQ3Vd7QeNwkxYfGm08yYOn/RWC1L2rMGwaMab2R+i4g==
-X-Received: by 2002:a17:90a:af8c:: with SMTP id w12mr12989398pjq.109.1627419543028;
+        bh=m9/SLyzkm5b4YgLSzID8XtRK8GIPppWgZQKzDtYl0cY=;
+        b=Wbl64muNesg9dbznvXbDt68ttd6l7TOYzOnDAs4NierQQKGn+DM4Filc4ljmgJqyCi
+         nqV3MqAVNmaAwQvq1yp7RKR3XNeXnPPENWHgqDmdRWDQCPr+YB0UxMIHJQqO76B4r91l
+         8+W0smMB+8/blmbe+UiP/yDiSE0UA5ADEaYTZyV0tVfbzCJcrhrTk8QkCjEfV9lPyqfF
+         iw3J/ZMEbUv0S7uJWD0nPvbifaNfUxGUMXVciCH6+0MI2vsaRZuvkJn56mTRwPZX+WoC
+         5KI6+Vvb7S0Cm11sJzTzDvSwLTYfj2kJ3QhfyqwzhCCALlOGjTugyfL4c5ohQkMA1hn0
+         r9nw==
+X-Gm-Message-State: AOAM5306/iE8Zcw97EFtgaN+J8AyjNxCM94B1Oeha6OJ2bSNaVcSn2tJ
+	vG2cFB/iiJlIRpSDBYwOIPMBUQ==
+X-Google-Smtp-Source: ABdhPJyHLrx2rOyZ+72UCSjITxuxc5Fx4+n8MmagGGchue3NLbPGkODQaUC1y1IyFCIXLG8+7pEjjg==
+X-Received: by 2002:a17:90a:aa92:: with SMTP id l18mr6315143pjq.20.1627419543327;
         Tue, 27 Jul 2021 13:59:03 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id i1sm3849350pjs.31.2021.07.27.13.59.02
+        by smtp.gmail.com with ESMTPSA id r10sm4606873pff.7.2021.07.27.13.59.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 27 Jul 2021 13:59:02 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Keith Packard <keithpac@amazon.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	linux-kernel@vger.kernel.org,
@@ -48,9 +48,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com
-Subject: [PATCH 01/64] media: omap3isp: Extract struct group for memcpy() region
-Date: Tue, 27 Jul 2021 13:57:52 -0700
-Message-Id: <20210727205855.411487-2-keescook@chromium.org>
+Subject: [PATCH 04/64] stddef: Introduce struct_group() helper macro
+Date: Tue, 27 Jul 2021 13:57:55 -0700
+Message-Id: <20210727205855.411487-5-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
@@ -60,151 +60,181 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4703; h=from:subject; bh=LCf4h7e2PK4sOgvQBd73gWCkmhRKJC4tH4kH78fVevA=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOAJSAPyozNrKWpqJWAzYod2fmvBM+4l2MwYKWh O4ocQxiJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzgAAKCRCJcvTf3G3AJoP0D/ 9KTuhNSJSjVRPOJFWeuepSlknmUmM/K2t4MDDXqOX/kDkR2wcXh6ttU5lVNW0YgBjHXAF5eWLYpPt5 XHm/KeoOX2MLhuXazp4Ti4YBKlziUsZTs5O6dl8oGQF8vvSOgQVD4x549qIJAaUMy/Q9HqWzVqq85p yP3Plkr/yT7Fr9RDFQxzPqOdsDFBoD1ZLcppau6vdTB0PZWIhyCpFYq2uKiDluWvj75Xhxrp9micdg U2R1bGYEEaNcOOSkguLQYe0+7XbhyY11oRTvhbZEZRUrrqPf99XF/yF1XvvLi6e8z/hVvbVGsEd8Mv Qiu6hKrvxmLG/6Gu1PUewl4RyNN90iXJ3Rh3zLatEPwPBHAFaGnBpr5RP4Ntn7iSsskKZBwlebvul7 dZxKtji4NE+xbeZup0zNKAjAcLeI8QVdmPiAbeqCybdrJc75zf4LhhuDwRXTdbrsXCooEGGuiMw3/v x+EUAxYAP0mwGpMCMNzDB9dpyGAKbRXmGfGhZu9JSilm3k8JsxQ47nQ3+PU4JxTEAGP/RA6CAwR6zV 7KB5mLzU0yyN2b7Az2uKl0RkeneD9qcEy0xqorM/qFH7O+d020ljiEXSwPXdgJdOF7fiAdpmoeK2uM 3RKFyedkYhLmnhtvfdEg6qb1tMNiC33AbBzVnm8LJMBkL2upkdQjzlsDvzsA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6059; h=from:subject; bh=3LEAbTxg4aXTCBqMfEtpBsDoqguT4nwPgyzTbu35rzM=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOB6fBnqoQEU0SOfpxJjjk2PGndGpdft7092EvT pn5C4GCJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzgQAKCRCJcvTf3G3AJjaKD/ 9Hy5ufgc4XqQ2z3z9FPvEU6kxJGQmWPS7Xcj/+0+Tt0ThcqyqNxB3pfnhNZY5oFVzFQAasxaE+uUMy w8l50dffII86GVzwgMHpVSOHfyKxD0+bVjHS1hMO0YxtoyYtE05wk1gZb0O3VCFvNI8kbknhLy9Uck SYOfNHqSctMehBN0ekYquyX+Sxta/bDS1L6zhOi7GKz1zqmata8K3Ru/ejXddx/tfY4Od9cnavr31N xw2Thp2oXNUsvJOPNbEvrB9M+WNLj3Jkh79uKUxA2pScrBaJuJyDc0eb75fwJObkRIzkHNc5UF68RQ 3sm3i/QfPCS0rVeZ3hKhcTFLjC3MZufvXgQPFR7BfYuYWBJojZhnwQdeoicgqEYtr8XHy8GgHXRxFT pHAAkO2PCn68C5FfPyf8+UKcLaAMIm3YG+MYg5c8HZrCT92UTJKR8kNFF5UhnMDqJdNE0LLWwmqQjD pee4CTHVdCAU/kDqXg2TD7dmrqC2bgT4icDvzkqIMtb10+q6UqF4VahbBVQrDLI3Y8Zcj+H+cdlb2F 0D5duiiZ6PW+dqS/zKFRLxwzmSl45QsWX4lUz1Wqs23RyLSPhcYSYz1PQjMeqiAlmp/hRAs8uiSw0q nFEKGgK/WMDmBCTVW0TdgnP5Vt5h5HAjsZEr+BMIwSeSu+7fa8Z0zUCwBT+w==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-In preparation for FORTIFY_SOURCE performing compile-time and run-time
-field bounds checking for memcpy(), memmove(), and memset(), avoid
-intentionally writing across neighboring fields.  Wrap the target region
-in a common named structure. This additionally fixes a theoretical
-misalignment of the copy (since the size of "buf" changes between 64-bit
-and 32-bit, but this is likely never built for 64-bit).
+Kernel code has a regular need to describe groups of members within a
+structure usually when they need to be copied or initialized separately
+from the rest of the surrounding structure. The generally accepted design
+pattern in C is to use a named sub-struct:
 
-FWIW, I think this code is totally broken on 64-bit (which appears to
-not be a "real" build configuration): it would either always fail (with
-an uninitialized data->buf_size) or would cause corruption in userspace
-due to the copy_to_user() in the call path against an uninitialized
-data->buf value:
+	struct foo {
+		int one;
+		struct {
+			int two;
+			int three;
+		} thing;
+		int four;
+	};
 
-omap3isp_stat_request_statistics_time32(...)
-    struct omap3isp_stat_data data64;
-    ...
-    omap3isp_stat_request_statistics(stat, &data64);
+This would allow for traditional references and sizing:
 
-int omap3isp_stat_request_statistics(struct ispstat *stat,
-                                     struct omap3isp_stat_data *data)
-    ...
-    buf = isp_stat_buf_get(stat, data);
+	memcpy(&dst.thing, &src.thing, sizeof(dst.thing));
 
-static struct ispstat_buffer *isp_stat_buf_get(struct ispstat *stat,
-                                               struct omap3isp_stat_data *data)
-...
-    if (buf->buf_size > data->buf_size) {
-            ...
-            return ERR_PTR(-EINVAL);
-    }
-    ...
-    rval = copy_to_user(data->buf,
-                        buf->virt_addr,
-                        buf->buf_size);
+However, doing this would mean that referencing struct members enclosed
+by such named structs would always require including the sub-struct name
+in identifiers:
 
-Regardless, additionally initialize data64 to be zero-filled to avoid
-undefined behavior.
+	do_something(dst.thing.three);
 
-Fixes: 378e3f81cb56 ("media: omap3isp: support 64-bit version of omap3isp_stat_data")
+This has tended to be quite inflexible, especially when such groupings
+need to be added to established code which causes huge naming churn.
+Three workarounds exist in the kernel for this problem, and each have
+other negative properties.
+
+To avoid the naming churn, there is a design pattern of adding macro
+aliases for the named struct:
+
+	#define f_three thing.three
+
+This ends up polluting the global namespace, and makes it difficult to
+search for identifiers.
+
+Another common work-around in kernel code avoids the pollution by avoiding
+the named struct entirely, instead identifying the group's boundaries using
+either a pair of empty anonymous structs of a pair of zero-element arrays:
+
+	struct foo {
+		int one;
+		struct { } start;
+		int two;
+		int three;
+		struct { } finish;
+		int four;
+	};
+
+	struct foo {
+		int one;
+		int start[0];
+		int two;
+		int three;
+		int finish[0];
+		int four;
+	};
+
+This allows code to avoid needing to use a sub-struct name for member
+references within the surrounding structure, but loses the benefits of
+being able to actually use such a struct, making it rather fragile. Using
+these requires open-coded calculation of sizes and offsets. The efforts
+made to avoid common mistakes include lots of comments, or adding various
+BUILD_BUG_ON()s. Such code is left with no way for the compiler to reason
+about the boundaries (e.g. the "start" object looks like it's 0 bytes
+in length and is not structurally associated with "finish"), making bounds
+checking depend on open-coded calculations:
+
+	if (length > offsetof(struct foo, finish) -
+		     offsetof(struct foo, start))
+		return -EINVAL;
+	memcpy(&dst.start, &src.start, length);
+
+However, the vast majority of places in the kernel that operate on
+groups of members do so without any identification of the grouping,
+relying either on comments or implicit knowledge of the struct contents,
+which is even harder for the compiler to reason about, and results in
+even more fragile manual sizing, usually depending on member locations
+outside of the region (e.g. to copy "two" and "three", use the start of
+"four" to find the size):
+
+	BUILD_BUG_ON((offsetof(struct foo, four) <
+		      offsetof(struct foo, two)) ||
+		     (offsetof(struct foo, four) <
+		      offsetof(struct foo, three));
+	if (length > offsetof(struct foo, four) -
+		     offsetof(struct foo, two))
+		return -EINVAL;
+	memcpy(&dst.two, &src.two, length);
+
+And both of the prior two idioms additionally appear to write beyond the
+end of the referenced struct member, forcing the compiler to ignore any
+attempt to perform bounds checking.
+
+In order to have a regular programmatic way to describe a struct
+region that can be used for references and sizing, can be examined for
+bounds checking, avoids forcing the use of intermediate identifiers,
+and avoids polluting the global namespace, introduce the struct_group()
+macro. This macro wraps the member declarations to create an anonymous
+union of an anonymous struct (no intermediate name) and a named struct
+(for references and sizing):
+
+	struct foo {
+		int one;
+		struct_group(thing,
+			int two,
+			int three,
+		);
+		int four;
+	};
+
+	if (length > sizeof(src.thing))
+		return -EINVAL;
+	memcpy(&dst.thing, &src.thing, length);
+	do_something(dst.three);
+
+There are some rare cases where the resulting struct_group() needs
+attributes added, so struct_group_attr() is also introduced to allow
+for specifying struct attributes (e.g. __align(x) or __packed).
+
+Co-developed-by: Keith Packard <keithpac@amazon.com>
+Signed-off-by: Keith Packard <keithpac@amazon.com>
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/media/platform/omap3isp/ispstat.c |  5 +--
- include/uapi/linux/omap3isp.h             | 44 +++++++++++++++++------
- 2 files changed, 36 insertions(+), 13 deletions(-)
+ include/linux/stddef.h | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-diff --git a/drivers/media/platform/omap3isp/ispstat.c b/drivers/media/platform/omap3isp/ispstat.c
-index 5b9b57f4d9bf..ea8222fed38e 100644
---- a/drivers/media/platform/omap3isp/ispstat.c
-+++ b/drivers/media/platform/omap3isp/ispstat.c
-@@ -512,7 +512,7 @@ int omap3isp_stat_request_statistics(struct ispstat *stat,
- int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
- 					struct omap3isp_stat_data_time32 *data)
- {
--	struct omap3isp_stat_data data64;
-+	struct omap3isp_stat_data data64 = { };
- 	int ret;
+diff --git a/include/linux/stddef.h b/include/linux/stddef.h
+index 998a4ba28eba..cf7f866944f9 100644
+--- a/include/linux/stddef.h
++++ b/include/linux/stddef.h
+@@ -36,4 +36,38 @@ enum {
+ #define offsetofend(TYPE, MEMBER) \
+ 	(offsetof(TYPE, MEMBER)	+ sizeof_field(TYPE, MEMBER))
  
- 	ret = omap3isp_stat_request_statistics(stat, &data64);
-@@ -521,7 +521,8 @@ int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
- 
- 	data->ts.tv_sec = data64.ts.tv_sec;
- 	data->ts.tv_usec = data64.ts.tv_usec;
--	memcpy(&data->buf, &data64.buf, sizeof(*data) - sizeof(data->ts));
-+	data->buf = (uintptr_t)data64.buf;
-+	memcpy(&data->frame, &data64.buf, sizeof(data->frame));
- 
- 	return 0;
- }
-diff --git a/include/uapi/linux/omap3isp.h b/include/uapi/linux/omap3isp.h
-index 87b55755f4ff..0a16af91621f 100644
---- a/include/uapi/linux/omap3isp.h
-+++ b/include/uapi/linux/omap3isp.h
-@@ -159,13 +159,25 @@ struct omap3isp_h3a_aewb_config {
- };
- 
- /**
-- * struct omap3isp_stat_data - Statistic data sent to or received from user
-- * @ts: Timestamp of returned framestats.
-- * @buf: Pointer to pass to user.
-+ * struct omap3isp_stat_frame - Statistic data without timestamp nor pointer.
-+ * @buf_size: Size of buffer.
-  * @frame_number: Frame number of requested stats.
-  * @cur_frame: Current frame number being processed.
-  * @config_counter: Number of the configuration associated with the data.
-  */
-+struct omap3isp_stat_frame {
-+	__u32 buf_size;
-+	__u16 frame_number;
-+	__u16 cur_frame;
-+	__u16 config_counter;
-+};
++/**
++ * struct_group_attr(NAME, ATTRS, MEMBERS)
++ *
++ * Used to create an anonymous union of two structs with identical
++ * layout and size: one anonymous and one named. The former can be
++ * used normally without sub-struct naming, and the latter can be
++ * used to reason about the start, end, and size of the group of
++ * struct members. Includes structure attributes argument.
++ *
++ * @NAME: The name of the mirrored sub-struct
++ * @ATTRS: Any struct attributes (normally empty)
++ * @MEMBERS: The member declarations for the mirrored structs
++ */
++#define struct_group_attr(NAME, ATTRS, MEMBERS) \
++	union { \
++		struct { MEMBERS } ATTRS; \
++		struct { MEMBERS } ATTRS NAME; \
++	}
 +
 +/**
-+ * struct omap3isp_stat_data - Statistic data sent to or received from user
-+ * @ts: Timestamp of returned framestats.
-+ * @buf: Pointer to pass to user.
-+ * @frame: Statistic data for frame.
++ * struct_group(NAME, MEMBERS)
++ *
++ * Used to create an anonymous union of two structs with identical
++ * layout and size: one anonymous and one named. The former can be
++ * used normally without sub-struct naming, and the latter can be
++ * used to reason about the start, end, and size of the group of
++ * struct members.
++ *
++ * @NAME: The name of the mirrored sub-struct
++ * @MEMBERS: The member declarations for the mirrored structs
 + */
- struct omap3isp_stat_data {
- #ifdef __KERNEL__
- 	struct {
-@@ -176,10 +188,15 @@ struct omap3isp_stat_data {
- 	struct timeval ts;
++#define struct_group(NAME, MEMBERS)	\
++	struct_group_attr(NAME, /* no attrs */, MEMBERS)
++
  #endif
- 	void __user *buf;
--	__u32 buf_size;
--	__u16 frame_number;
--	__u16 cur_frame;
--	__u16 config_counter;
-+	union {
-+		struct {
-+			__u32 buf_size;
-+			__u16 frame_number;
-+			__u16 cur_frame;
-+			__u16 config_counter;
-+		};
-+		struct omap3isp_stat_frame frame;
-+	};
- };
- 
- #ifdef __KERNEL__
-@@ -189,10 +206,15 @@ struct omap3isp_stat_data_time32 {
- 		__s32	tv_usec;
- 	} ts;
- 	__u32 buf;
--	__u32 buf_size;
--	__u16 frame_number;
--	__u16 cur_frame;
--	__u16 config_counter;
-+	union {
-+		struct {
-+			__u32 buf_size;
-+			__u16 frame_number;
-+			__u16 cur_frame;
-+			__u16 config_counter;
-+		};
-+		struct omap3isp_stat_frame frame;
-+	};
- };
- #endif
- 
 -- 
 2.30.2
 
