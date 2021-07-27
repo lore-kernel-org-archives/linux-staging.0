@@ -1,36 +1,36 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 141E62FAD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A76470
 	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 20:59:06 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id q2so1799126plr.11
+Received: by mail-pj1-f46.google.com with SMTP id o44-20020a17090a0a2fb0290176ca3e5a2fso1053296pjo.1
         for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 13:59:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=iuUva0FySkNQOcUDbwdlW2WIxXp65/YwLJggvLs0d2Q=;
-        b=SDf9ocitfb5Rs0PPIYeCT0/fXFDoOwuSmJ71BqMp8qK67TG51IYhnkPZYy/Q3tNO21
-         Gnrpr40E1hlQTmSfDar2EtSdufgNM0qMB+9w03gQuMGr7mQ5uzF4Kn4bygKa0DXqbzlv
-         VufURF9CT4nl7hDYdR1ieA2X/jXjjsUujEGMU=
+        bh=uPW4aGYkFWagrfBZ6kQLS1fLAo/l3YI0HfE68pjP/OM=;
+        b=UXpVpHuoBEvfkIVMmS2/VMwQ3bCV5jrK0wfMve0yrY4hayGeG4jDKjgxlRt2It30Iz
+         S44+j1gZxTlkm8YvMSPchxSLtEdSeKLytFhP5KNfmjNxQ6L+nnA6VIeYdnOhHvYqTGNE
+         2lfrw5gKAB7i6UPypwEWQs0LaSLesvD8FyEig=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=iuUva0FySkNQOcUDbwdlW2WIxXp65/YwLJggvLs0d2Q=;
-        b=peA408ycoxS8QgXXpDxJ2VnTBM6ADmtAcLx48LoG/VhfygZzk4hTRnOahUsN74dPqx
-         tGFXX75oegzSDGoX8nvLMEM2jcPOPIvtvW34BgDKPTdkyxzdiSpl2m9Ddrt86BgmJFpI
-         RTRb9UPvXMCHlGxqv60aDxP1WPWvBrpcmRox13gKVx8vB4dViQSuCxevy+hd8X55RszE
-         hWQi6HvpIr+ksQ1XEmqfcFPUhgrGQ9T5pawDWG6kzy/WlkIKHiXQq7vi8xGZgv4lXh1q
-         rcUdyamDvE74LtRk0s/klcolSGARoqyxpQLIz+Qo0Qf9OD97iAAYY9hANzWT0/VMSy41
-         U3hg==
-X-Gm-Message-State: AOAM5327mUz1aTGNRBUtQC/0mTal3Bly0I5H3Glzx9YEnBCpFcap0wNs
-	vG1EuFFZpdVCtoXUyK7sHxEsPA==
-X-Google-Smtp-Source: ABdhPJxd9cckzW204bnJlLeGWRw8HsEr60nmuyps9sZC+nCmiB8MQlX0YoxOoNf+wmuMOuPBFQp8bg==
-X-Received: by 2002:a63:44a:: with SMTP id 71mr25103040pge.259.1627419545742;
-        Tue, 27 Jul 2021 13:59:05 -0700 (PDT)
+        bh=uPW4aGYkFWagrfBZ6kQLS1fLAo/l3YI0HfE68pjP/OM=;
+        b=jONwXacHwJXMVr5Af9sg9SLBofYKVD5TbxtUrnJtc5MwPX2aTL+y9PEXjkVLdDETf4
+         YG0aVOm0crFljStlA1LP7Gs1uRSMgfJ/fin/3HULSgC3TUR/jWHJoiWugc+kmbmq8SS4
+         RBZVj9n5TUilNgMK1UUA5f/Rk1MOQV9ZdscQ+neWx1Mm0NjVaui7Q2YGArOO2JVoI5d2
+         8yf09H6rhHjQ0J1MWgfxgmzRlqWMvmRFlUQXI9BkdZ/zshcWtKFKOIssGkN1CUFsNwps
+         x9UpFRQGw0METpUmRGprtP60QiCWjk0vgJNvPJRj/y+EgUO2KOGUIxieGNhqxMJd6uxr
+         EDbw==
+X-Gm-Message-State: AOAM530OtdRFXyEq6EwFQUtYL/EuTXSPVu210b6okAid6Sh198dw10iA
+	y7NGNEL5VEnuwcBsM/0WhZMmLA==
+X-Google-Smtp-Source: ABdhPJxd0+AjNRPUswTM0GF/7R6M9ezJro8mUT8qaHqrKFrbmFwcqlTxjNrGQJxkBIVrT0fiUY7kSg==
+X-Received: by 2002:a17:902:7001:b029:12c:4e36:52c5 with SMTP id y1-20020a1709027001b029012c4e3652c5mr2732432plk.9.1627419546233;
+        Tue, 27 Jul 2021 13:59:06 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id b10sm4629437pfi.122.2021.07.27.13.59.03
+        by smtp.gmail.com with ESMTPSA id v5sm5184284pgi.74.2021.07.27.13.59.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 27 Jul 2021 13:59:05 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
@@ -48,9 +48,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com
-Subject: [PATCH 05/64] skbuff: Switch structure bounds to struct_group()
-Date: Tue, 27 Jul 2021 13:57:56 -0700
-Message-Id: <20210727205855.411487-6-keescook@chromium.org>
+Subject: [PATCH 09/64] staging: rtl8723bs: Avoid field-overflowing memcpy()
+Date: Tue, 27 Jul 2021 13:58:00 -0700
+Message-Id: <20210727205855.411487-10-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
@@ -60,7 +60,7 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3898; h=from:subject; bh=zDRFvFHICr3CPhHUYpPjYfgsT3sRvZztC648O8M/Z+4=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOBpvR1C53LhaWwxonGRaK5/85L2Hs7G8ZVB/N6 FPHA+JWJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzgQAKCRCJcvTf3G3AJq8YEA Cme+/3zGc1ol3V7MYHOv02AJS8eYSYvP56YPTN+IWhbG/R9iao0T79B3njP05AdYDQ/YzSVZFyf/nM dA48kevzTJQ5BH6U98ciGMAoiY4MhSCxDjxpggkoOLHCkKWSmCLxIFysdAaSpZoavbJiYSBCDvceLN RiDHeuN7xznxcDnJd55tsJ+s4n3qET0tTBt0l2kGnVjwvTSyzmILuKrvcWemv1D0RVYiX+E2jt99TI xBdZECNgLTvRPfaECNOE/oYadRe/oj4m0V1SGwAAc25mY74Wuw87dVvp6r6XamWTMVynN4sRe1Au0l ZqV6k+AJMT52RN/mXQfd19TzgH+9eLex0ywIpeVu7Wc7KOxzgkA7tN9HjgNuY4CRUVFKbPReaMQdus vwUmDgDCcu9Dx0l4QzTYz361oipSEVY20vjIwEsR6yog6nyRGOYLp1uAmwh9xz2Kp3fv2XoaAzZXR2 I0ceyOT34//v3kbI8cZDJ0fHg0ntu/bSopVzECOxn6N5NUgkRQDKgdk28qyMDnLCU3wodi4dVaFQGS knqS45LxCRnyHOiKsBXLi2kVHORjmVCZ5fuyRrq1JDcWHgY3T3Fb/Pf8qql4TTPlb51tmVciwA7mKN nveG2L2Sw3sIt442QEpUEQ42yM7ri+HBQuuh4OsJ/a9P5DszIHRUcnJVBWcQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1200; h=from:subject; bh=W255D43HxOgsOipc15Ftl/Z16nQ7WLNF6zRAweGW0nw=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOC1QFEAUDqn9/LsmpdJgx+v9gsLtlsJdMUyKBG b+56mhyJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzggAKCRCJcvTf3G3AJltAEA CFqUNvIguNTsoQJJxTpZmXIFSznOd0DQbsxxZjiiSI+Uy5K/rxgo0fi7YbevEnqZLbfvmzTrflUtnP vrxikp6Nm3oUKk87MfWKm55/Rb4UNEtRFkq6lpU13Pff2ZKiGagsWulzzRcChGxOWGJLkQgutmZo19 4lL+NXsl53eQK+fKsQUzoeZnXWEXR6fi9Prc46Jpll0wb0XU9OCffbFczCNAJ2TFktSN97z0OLhGOj bKetL0pmjEsXBBLKFBsoi6qrkGdaWIt+UYNqj6GyUTxl9aSKASroGp7CnPxFzGw8860bLtdeVytJpH M6VWwhSrRFnJ9E/kNVoT3886OMGv2hE1L1SgpE4EDWKKIk8OhjNP+fc2jAdhvOv3toFl4XiMe5rVbd XdqTBfQvqWFw1vAelUGVpKbstixGrSv0cEqG97X0qoVoqij+34qbecwOpBc2j8/gQp9d6gdqWiC7QO HVaCe91yWXyU7FvAW8qYQnHiPqborIACdGPPaCnRpJozv/LSuBdXrN/zfRcuHrOFb+yI1mNplJICgl WgxTNn036UBtlbh0Wb2bxTvaLshJR8pghfrGo4l7FN0LRxsxCkn4g9ZFd/8BPya8EYm72GRg/jZPRV IgZEiVdWLN8MdZlNcQ/Udi70s66J8qKfCm/KsWRSEfFjdnJHu0Fgu1w04aGQ==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
@@ -68,102 +68,29 @@ In preparation for FORTIFY_SOURCE performing compile-time and run-time
 field bounds checking for memcpy(), memmove(), and memset(), avoid
 intentionally writing across neighboring fields.
 
-Replace the existing empty member position markers "headers_start" and
-"headers_end" with a struct_group(). This will allow memcpy() and sizeof()
-to more easily reason about sizes, and improve readability.
+Adjust memcpy() destination to be the named structure itself, rather than
+the first member, allowing memcpy() to correctly reason about the size.
 
-"pahole" shows no size nor member offset changes to struct sk_buff.
-"objdump -d" shows no no meaningful object code changes (i.e. only source
-line number induced differences and optimizations.)
+"objdump -d" shows no object code changes.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/net/wireguard/queueing.h |  4 +---
- include/linux/skbuff.h           |  9 ++++-----
- net/core/skbuff.c                | 14 +++++---------
- 3 files changed, 10 insertions(+), 17 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/wireguard/queueing.h b/drivers/net/wireguard/queueing.h
-index 4ef2944a68bc..52da5e963003 100644
---- a/drivers/net/wireguard/queueing.h
-+++ b/drivers/net/wireguard/queueing.h
-@@ -79,9 +79,7 @@ static inline void wg_reset_packet(struct sk_buff *skb, bool encapsulating)
- 	u8 sw_hash = skb->sw_hash;
- 	u32 hash = skb->hash;
- 	skb_scrub_packet(skb, true);
--	memset(&skb->headers_start, 0,
--	       offsetof(struct sk_buff, headers_end) -
--		       offsetof(struct sk_buff, headers_start));
-+	memset(&skb->headers, 0, sizeof(skb->headers));
- 	if (encapsulating) {
- 		skb->l4_hash = l4_hash;
- 		skb->sw_hash = sw_hash;
-diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-index f19190820e63..b4032e9b130e 100644
---- a/include/linux/skbuff.h
-+++ b/include/linux/skbuff.h
-@@ -800,11 +800,10 @@ struct sk_buff {
- 	__u8			active_extensions;
- #endif
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index a0c19253095d..fbd6e3d16323 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -2390,7 +2390,7 @@ unsigned int rtw_restructure_ht_ie(struct adapter *padapter, u8 *in_ie, u8 *out_
+ 	}
  
--	/* fields enclosed in headers_start/headers_end are copied
-+	/* Fields enclosed in headers group are copied
- 	 * using a single memcpy() in __copy_skb_header()
- 	 */
--	/* private: */
--	__u32			headers_start[0];
-+	struct_group(headers,
- 	/* public: */
+ 	/* fill default supported_mcs_set */
+-	memcpy(ht_capie.mcs.rx_mask, pmlmeext->default_supported_mcs_set, 16);
++	memcpy(&ht_capie.mcs, pmlmeext->default_supported_mcs_set, 16);
  
- /* if you move pkt_type around you also must adapt those constants */
-@@ -920,8 +919,8 @@ struct sk_buff {
- 	u64			kcov_handle;
- #endif
- 
--	/* private: */
--	__u32			headers_end[0];
-+	); /* end headers group */
-+
- 	/* public: */
- 
- 	/* These elements must be at the end, see alloc_skb() for details.  */
-diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-index fc7942c0dddc..5f29c65507e0 100644
---- a/net/core/skbuff.c
-+++ b/net/core/skbuff.c
-@@ -987,12 +987,10 @@ void napi_consume_skb(struct sk_buff *skb, int budget)
- }
- EXPORT_SYMBOL(napi_consume_skb);
- 
--/* Make sure a field is enclosed inside headers_start/headers_end section */
-+/* Make sure a field is contained by headers group */
- #define CHECK_SKB_FIELD(field) \
--	BUILD_BUG_ON(offsetof(struct sk_buff, field) <		\
--		     offsetof(struct sk_buff, headers_start));	\
--	BUILD_BUG_ON(offsetof(struct sk_buff, field) >		\
--		     offsetof(struct sk_buff, headers_end));	\
-+	BUILD_BUG_ON(offsetof(struct sk_buff, field) !=		\
-+		     offsetof(struct sk_buff, headers.field));	\
- 
- static void __copy_skb_header(struct sk_buff *new, const struct sk_buff *old)
- {
-@@ -1004,14 +1002,12 @@ static void __copy_skb_header(struct sk_buff *new, const struct sk_buff *old)
- 	__skb_ext_copy(new, old);
- 	__nf_copy(new, old, false);
- 
--	/* Note : this field could be in headers_start/headers_end section
-+	/* Note : this field could be in the headers group.
- 	 * It is not yet because we do not want to have a 16 bit hole
- 	 */
- 	new->queue_mapping = old->queue_mapping;
- 
--	memcpy(&new->headers_start, &old->headers_start,
--	       offsetof(struct sk_buff, headers_end) -
--	       offsetof(struct sk_buff, headers_start));
-+	memcpy(&new->headers, &old->headers, sizeof(new->headers));
- 	CHECK_SKB_FIELD(protocol);
- 	CHECK_SKB_FIELD(csum);
- 	CHECK_SKB_FIELD(hash);
+ 	/* update default supported_mcs_set */
+ 	rtw_hal_get_hwreg(padapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
 -- 
 2.30.2
 
