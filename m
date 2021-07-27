@@ -1,36 +1,36 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272FB70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717FC2FAD
 	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 21:07:01 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id q17-20020a17090a2e11b02901757deaf2c8so1227395pjd.0
+Received: by mail-pl1-f172.google.com with SMTP id d17so17604966plh.10
         for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 14:07:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=RRl4QwGFVHrrGOIPdMRW7d1sxZ/z0xnxJ3QgfuV7q+Y=;
-        b=VLdolfVHCXSWi55Yx/uNOx2x9gNCjcm8fAuonyRhF6lka+9tJjMC+ljSDw1I2hhSPl
-         IPeW06Di2elnxoPtiM8a7tbufyY5DIpbj0wKJi28F7I97+I2C7r+CBhjZpWfsMqRUJOq
-         uPrEwdOtDaUl+C26xZmgSdL3xsdhOztQ/ekno=
+        bh=MXKHRxMVkVHDhZ+T8UiWjZTM6Vum4iJmblaVt4bfwFs=;
+        b=QpC9SEfvlX7NSN3JfA2BC35zgCfrRNM89W+45O2qaetJB35LhamFXcVq9sw1mHkTeW
+         /rqrtm+yHWSsc0IMWxYyPILgag6o+lXtAWSh9S38wjvoh0M06iGGbo4ZAdR2u94jE/Bx
+         ERMjdPmbTbLpNm0w77EfMtJW7fsMMDFF057oc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=RRl4QwGFVHrrGOIPdMRW7d1sxZ/z0xnxJ3QgfuV7q+Y=;
-        b=nEiy7GcyaFy7yiUAAiq6TSviliGtx3YN9tnv5ZZ0OQK46ln0ML4LT0w1dWubwFIs5h
-         SVLT9xUJTSbLaOlELqqaF0a1Zu+HNMgWzmcPtx8UQ+16gC6PYOFYbET0evM0SpyVV9Dg
-         FU9mxgFsVZT6kivM5t5GeXVcbhIZcEdHS48vC3q9qLS+VTIuboHvtWTYLA/G0x5GTMUh
-         ElbVRVEwA1halj+TBa9jwAhTUXWKNre7u+lUIgTzPQXErmtvjOXDdUKu/L5wK2ivnXQq
-         sC9tb84gsfKK0Bg5IIItsUxfNwpw6nIfRvz5pPnE292tkpuLpNQ2i1iloIvzSFTS3kRm
-         ufKg==
-X-Gm-Message-State: AOAM530B73GJbDFK0hX01XZn7vyo7JWbBPf5m2awQVDXvcaabDhjuHo9
-	8OS0ahtBcMbUFEly5OBuL20tzw==
-X-Google-Smtp-Source: ABdhPJz1O0RCaY6YxEHXQjrBeBf6WlvQVtA9lzuclsJxgu0ny8IwFRemKEhaTqFBHWHY+58Ad0sxsg==
-X-Received: by 2002:a17:90b:1097:: with SMTP id gj23mr24623197pjb.65.1627420020773;
-        Tue, 27 Jul 2021 14:07:00 -0700 (PDT)
+        bh=MXKHRxMVkVHDhZ+T8UiWjZTM6Vum4iJmblaVt4bfwFs=;
+        b=WN2YaE+3CLYlQjTOaiDJ+mmS9ad6pV1E2wlJU/bYOexNdpByRwvgG8P8RmGAt73hCR
+         /yvLKDrQJvABoQP3F9H2PuWYVkQxTDplu5hTwJyIMuhfNrcF6cFXuB3FSqOelKwQORRw
+         IMdyfWsfn3UMCIqeBwywEneYHkmTVfAwOuDfClFdkfJXvOGeit+C+/tkQoVLkFFupvJ6
+         6HZRpi0UnskVRojBebAN0/bC7jiMF6R6D8tYxrhT9HF52mzhYfQfC0j6w+H0urC9xFo/
+         P8WYaO5q+ZlTd4UfgVHyK+ZXJg7waOf3C+PTeHW5VZBMu7hjjuXK4stPsZOCdzk4ncPy
+         JhBQ==
+X-Gm-Message-State: AOAM532/5eN/4LA7oi1UJ+tRVL8E6uiNsCB2+/vO/FbnKh0H2vhnvenx
+	EkrNODfAoVWkkxFYxw9NkiRmog==
+X-Google-Smtp-Source: ABdhPJyuaoJo7hoFf8hTjNgbyLAts3NdgvoF/5uezLGJPhXywqIjaeGrS9UFbajj1vPPHXYDl+4KUQ==
+X-Received: by 2002:a05:6a00:1582:b029:332:67bf:c196 with SMTP id u2-20020a056a001582b029033267bfc196mr25270650pfk.52.1627420021064;
+        Tue, 27 Jul 2021 14:07:01 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id k4sm1283492pgh.9.2021.07.27.14.06.54
+        by smtp.gmail.com with ESMTPSA id h9sm3809707pjk.56.2021.07.27.14.06.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 27 Jul 2021 14:06:55 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
@@ -48,9 +48,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com
-Subject: [PATCH 53/64] HID: roccat: Use struct_group() to zero kone_mouse_event
-Date: Tue, 27 Jul 2021 13:58:44 -0700
-Message-Id: <20210727205855.411487-54-keescook@chromium.org>
+Subject: [PATCH 39/64] mac80211: Use memset_after() to clear tx status
+Date: Tue, 27 Jul 2021 13:58:30 -0700
+Message-Id: <20210727205855.411487-40-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
@@ -60,7 +60,7 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1730; h=from:subject; bh=EUTv4O0nvngYWbdXtF9deGR2fwqq+6xUthh2+Rv4aLw=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOMI/KVhJIquCmbVDokB41QtN0+bK1f1n8H1BjO /vI3XCGJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzjAAKCRCJcvTf3G3AJigBD/ 4xOpohWQjjZHlbRQQB4Xc96JEF9UrR/87ufDJ/LQCR9f7bpU5HN4prxvGPl+Gh14S3nTWDhs7tQLV8 lgvttBveo3P3wp1AEgc84pleIWnY19RV8DcusmvreDhDG62N4MMW91V+yoqBuqB34xAxKaVJ0z6h4X tMH1NjPo77yLscB15GrJ4m3R/aS/iaccGcVUCwTR/CdCDoI/vLaImBCCH5YwQovtUmT1k04HUparAv jTs0fwcc1LfmJGkpT/YOIJnJ2shh0qAzEBKxdHgAIYE1pJJ59NQ6IfNzbMcQzEeapQ0p+kJRjODNpd oBpl+VAcjcyG71c3NBYs64mHgmd7xQgqxrKHeTTPI73krFkwv0sjaz1tYf6t3wGr+MJBryeUc/XLef bBUhQQ+U2nmjxMpH5biZuX8R5fJd8K2A6iOdS4OCIgCexMIqdOf47mtYSGy6w/OqX0D0HulkNM6Ak5 /kO3TY/+btKVuq9e6QW5DQLMbCfCbRrCJHmWxOFI5GVH3bchbtyGtVnd5VCwHQJhG28UCjTcKMLd10 3FKyVUcll/fy3asrDwz923cHSGawsRdwuUUF+B/1A93hUfh8ZPHnbv0X2Rh95SGmSNd9p793a13Ftn 6BVstROxT8kaLKdvZkdDDu6WqpqQxHglko/wXhuVc2rwuMX8jO3UGuzQBK9A==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2852; h=from:subject; bh=zkH2Je2qGKqyQkSiaJEoBpiopw/INo+50iT5U6QcyXI=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOJovWFhW+3LgOdJB6YTmyNLx9mPkMh18BW/VNJ BOSsU16JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBziQAKCRCJcvTf3G3AJj8qD/ 9f25pzpuHDI7d5bSyGKts0iDOiz738IV/yhdknEcL4rC+JiQ/OTrFsGvAMK4zbyT6SQdRvwS0HsQtW FYEY3eOTO0eTLsnAGwNaxw3v5PWM7YYyFygBYMhIhpCgVOighF6YCT2xPnQ7LTyYdpD6L907wxXQ8j oXJcLb9fiEh1t6mn0/dicUHKyTwKkM3fIt2Gx4jCa1Ahv5gyWFd8/4Lv2Yd8KCGn/qxkTG1noBJf5C 2f2h93mKKljmD+CJrJzh/ZYUKpdAY63NSAR4QmZHT60LwkIYj0Fml9G4YK2meArKeNsA1MmJjOiSI6 VkDc7dPKwda9+aKjazu66ex6TqkUbOA0oaukDd2Rq6affQhlkFzRMDK6xCOTPFSye9KgRo0AGn0Klz ni+fmXKvOFIQYweU5qyOYDeL9tYUxQqUBJ6xchOdLgNXFSn5zy34UvmTQoqrVdOTKt+ImUcuGG23jI EEF20MHn/CZclwSMToQj+7lt9iWIQlJAvkfgdTS5zOajot+7oVFGJNYCGUneXC6jvsB+pZPMryc6uu HiwAJXVMsA04PW1mZDRt3xVTJJXADFBiu1CYcDhtJQH//Kmpo9Ydh7kPS4mFHHztPd+qOEZ0St7xxf dvAPnwZQNjibJgICAOUq6/ISKZEK5Qq848MAz7EEKrmQeFoCi4Q4SxSehYJw==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
@@ -68,51 +68,68 @@ In preparation for FORTIFY_SOURCE performing compile-time and run-time
 field bounds checking for memset(), avoid intentionally writing across
 neighboring fields.
 
-Add struct_group() to mark region of struct kone_mouse_event that should
-be initialized to zero.
+Use memset_after() so memset() doesn't get confused about writing
+beyond the destination member that is intended to be the starting point
+of zeroing through the end of the struct.
+
+Note that the common helper, ieee80211_tx_info_clear_status(), does NOT
+clear ack_signal, but the open-coded versions do. All three perform
+checks that the ack_signal position hasn't changed, though.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/hid/hid-roccat-kone.c |  2 +-
- drivers/hid/hid-roccat-kone.h | 12 +++++++-----
- 2 files changed, 8 insertions(+), 6 deletions(-)
+Should these each be clearing the same region? Because they're currently not.
+---
+ drivers/net/wireless/ath/carl9170/tx.c   | 4 +---
+ drivers/net/wireless/intersil/p54/txrx.c | 4 +---
+ include/net/mac80211.h                   | 4 +---
+ 3 files changed, 3 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/hid/hid-roccat-kone.c b/drivers/hid/hid-roccat-kone.c
-index 1ca64481145e..ea17abc7ad52 100644
---- a/drivers/hid/hid-roccat-kone.c
-+++ b/drivers/hid/hid-roccat-kone.c
-@@ -857,7 +857,7 @@ static int kone_raw_event(struct hid_device *hdev, struct hid_report *report,
- 		memcpy(&kone->last_mouse_event, event,
- 				sizeof(struct kone_mouse_event));
- 	else
--		memset(&event->tilt, 0, 5);
-+		memset(&event->wipe, 0, sizeof(event->wipe));
+diff --git a/drivers/net/wireless/ath/carl9170/tx.c b/drivers/net/wireless/ath/carl9170/tx.c
+index 88444fe6d1c6..6d2115639434 100644
+--- a/drivers/net/wireless/ath/carl9170/tx.c
++++ b/drivers/net/wireless/ath/carl9170/tx.c
+@@ -278,9 +278,7 @@ static void carl9170_tx_release(struct kref *ref)
+ 	BUILD_BUG_ON(
+ 	    offsetof(struct ieee80211_tx_info, status.ack_signal) != 20);
  
- 	kone_keep_values_up_to_date(kone, event);
+-	memset(&txinfo->status.ack_signal, 0,
+-	       sizeof(struct ieee80211_tx_info) -
+-	       offsetof(struct ieee80211_tx_info, status.ack_signal));
++	memset_after(&txinfo->status, 0, rates);
  
-diff --git a/drivers/hid/hid-roccat-kone.h b/drivers/hid/hid-roccat-kone.h
-index 4a1a9cb76b08..65c800e3addc 100644
---- a/drivers/hid/hid-roccat-kone.h
-+++ b/drivers/hid/hid-roccat-kone.h
-@@ -152,11 +152,13 @@ struct kone_mouse_event {
- 	uint16_t x;
- 	uint16_t y;
- 	uint8_t wheel; /* up = 1, down = -1 */
--	uint8_t tilt; /* right = 1, left = -1 */
--	uint8_t unknown;
--	uint8_t event;
--	uint8_t value; /* press = 0, release = 1 */
--	uint8_t macro_key; /* 0 to 8 */
-+	struct_group(wipe,
-+		uint8_t tilt; /* right = 1, left = -1 */
-+		uint8_t unknown;
-+		uint8_t event;
-+		uint8_t value; /* press = 0, release = 1 */
-+		uint8_t macro_key; /* 0 to 8 */
-+	);
- } __attribute__ ((__packed__));
+ 	if (atomic_read(&ar->tx_total_queued))
+ 		ar->tx_schedule = true;
+diff --git a/drivers/net/wireless/intersil/p54/txrx.c b/drivers/net/wireless/intersil/p54/txrx.c
+index 873fea59894f..f71b355f8583 100644
+--- a/drivers/net/wireless/intersil/p54/txrx.c
++++ b/drivers/net/wireless/intersil/p54/txrx.c
+@@ -431,9 +431,7 @@ static void p54_rx_frame_sent(struct p54_common *priv, struct sk_buff *skb)
+ 	 * Clear manually, ieee80211_tx_info_clear_status would
+ 	 * clear the counts too and we need them.
+ 	 */
+-	memset(&info->status.ack_signal, 0,
+-	       sizeof(struct ieee80211_tx_info) -
+-	       offsetof(struct ieee80211_tx_info, status.ack_signal));
++	memset_after(&info->status, 0, rates);
+ 	BUILD_BUG_ON(offsetof(struct ieee80211_tx_info,
+ 			      status.ack_signal) != 20);
  
- enum kone_mouse_events {
+diff --git a/include/net/mac80211.h b/include/net/mac80211.h
+index d8a1d09a2141..7abc1427aa8c 100644
+--- a/include/net/mac80211.h
++++ b/include/net/mac80211.h
+@@ -1200,9 +1200,7 @@ ieee80211_tx_info_clear_status(struct ieee80211_tx_info *info)
+ 
+ 	BUILD_BUG_ON(
+ 	    offsetof(struct ieee80211_tx_info, status.ack_signal) != 20);
+-	memset(&info->status.ampdu_ack_len, 0,
+-	       sizeof(struct ieee80211_tx_info) -
+-	       offsetof(struct ieee80211_tx_info, status.ampdu_ack_len));
++	memset_after(&info->status, 0, ack_signal);
+ }
+ 
+ 
 -- 
 2.30.2
 
