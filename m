@@ -1,36 +1,36 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E46E2F80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17CA2FAD
 	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 21:06:54 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id o44-20020a17090a0a2fb0290176ca3e5a2fso1090372pjo.1
+Received: by mail-pj1-f50.google.com with SMTP id l19so1923089pjz.0
         for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 14:06:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=O5PVCm4vbOkHTdhySLNgX8cYsmk07det2tWYYr+tRf4=;
-        b=gxKAidxHtXkH57cdgTrBRW+Iu6kBJm2gLTc/ZhTreM4nUhVINAm9hnCEsll5JLIeuv
-         GXDrZXo19JKoLdUCWqYws3d6+nRR58XFL0Nk9+2Zzh54A6uGcEngTnaAEe4kkqqnI2fB
-         ruSx/lD+GWJQolLfAMVF9OQXx6F28ZgkVPYx0=
+        bh=KNJkxRbTZjBfSAYGR3816TShm8Emkoyf8ZdfkqPS+FQ=;
+        b=TTGjFuoejzZ4UcURjJ4pPdNPDe9Jn5SyFBfglcq90IykesIiOVEkCdbcD/m3+qhdva
+         slQ4ePKQ6iwR++JiczF3JHBNNuTp4LyRmWMRuqTcdz+fw6qszodvFvFG5Ibp5X/LllWc
+         +fRyxKvk7rn5leQezWTlqBpgyuWYKt8lRuKMI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=O5PVCm4vbOkHTdhySLNgX8cYsmk07det2tWYYr+tRf4=;
-        b=t+iF+1cg3D641YXjABufnqE8XpxtTe7Bx6nDpOVGF/H+o61zWjDFcsl2BEORf6woRG
-         z6tUzG8yPJBoTSSUkU0wHSG5+ADdxuNDt0L8TU5tqNrexIwKMXuDjZgUAc/GO+RhyeeT
-         Hbb/zRbIByFWEGGiXU0vd5Whcf5+GRYsrULEVKPZOdFpsjrv/p61XR+8oHFzDNrrLXq5
-         KfsDkttm8/hhHdsKre9z5mMAmYwwYU4KGExmQxkIilLS5UMRaMNGTYby5qx8EQfrqjin
-         UKC5TTNy3vFpzGXdZpMPrXrkBMajjlVPwDPFlxcANojcLC37scqhvMTh1VhRkp/Utj3O
-         OpQQ==
-X-Gm-Message-State: AOAM533e/K3W4f+YimZJdCluJcervCRoCe7+d8DQPTKBVaPNbL502AUu
-	Ka/5qGa/iqE9y5MbgeK2m5x7/A==
-X-Google-Smtp-Source: ABdhPJzlXy/VcX23c9PQ65+XqlmSvwlYyjvPZKBc9QGkV1GFAs820b6KtM3ET4HtRC/ZSXPL17y+Jg==
-X-Received: by 2002:a17:90a:c003:: with SMTP id p3mr23960881pjt.14.1627420014073;
+        bh=KNJkxRbTZjBfSAYGR3816TShm8Emkoyf8ZdfkqPS+FQ=;
+        b=qiVCx4+QlK28Jcsjm21w+Ts135uiX3C+kxerLvcprPIVjg1+MBjUx6FS3+nm64RQh5
+         W0Spphx3szmAB99VpKSOqXfdqG9axBeiDOka4JNA+UATXwS6AUfBmOIaOJFsaZEnzHSs
+         8yydqnKHgDYxLM6cgu4Rj+33f4ngaHDQRDXWabXa3C/zCVadYZHyrdXIzFXC2dt/ozHf
+         cjo3VsoF61sySfvtybBtvBqcxM0VsfFeTbU1ZU4HL6uD7BHjk6FSa0HSEjR/eEPKI4L5
+         +iPtqF0BkTKh37jsGdIk2517gN/PeCm77/5P9bUurvY8qVJy0CjLrxORksmNj6q+rKD+
+         kwpw==
+X-Gm-Message-State: AOAM531BwyD5SC6fEqMTFUAHwODxIMS8g1qpdfrxk3Q2wHnSfpHKL21s
+	gqgY/SFxNyvtzvmp1A2dnuTdIg==
+X-Google-Smtp-Source: ABdhPJz8+E+SDb3LoAbaQEcUj/nENGUTPsEXTKFEfKJ+U87AixQ7X8CbyjH9KY5gO+50OJnIiipy2w==
+X-Received: by 2002:a17:90a:5a4c:: with SMTP id m12mr6207285pji.15.1627420014655;
         Tue, 27 Jul 2021 14:06:54 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id q14sm4721670pfn.73.2021.07.27.14.06.50
+        by smtp.gmail.com with ESMTPSA id g8sm4556875pfu.30.2021.07.27.14.06.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 27 Jul 2021 14:06:50 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
@@ -48,9 +48,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com
-Subject: [PATCH 55/64] RDMA/mlx5: Use struct_group() to zero struct mlx5_ib_mr
-Date: Tue, 27 Jul 2021 13:58:46 -0700
-Message-Id: <20210727205855.411487-56-keescook@chromium.org>
+Subject: [PATCH 44/64] iw_cxgb4: Use memset_after() for cpl_t5_pass_accept_rpl
+Date: Tue, 27 Jul 2021 13:58:35 -0700
+Message-Id: <20210727205855.411487-45-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
@@ -60,7 +60,7 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1274; h=from:subject; bh=oY909dEANo6V3IFn0noc67FV5hBK8uceU7oGCjc7zOw=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOMh317iG5OLcRV6f6KOkZ9q+C2N36hwkRl8LQQ C7eGawSJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzjAAKCRCJcvTf3G3AJg4UD/ 9BnzAT1Z7CsW+TRX8tpO/bHWsp1ALKoQrreRJNLcuwaofCAjFi8BnU29qFDffCG8DWqAC3Pmtj4p39 RskVkYUAy5axxifQzhefjhk7tLjvkw2mmeV+0QGdeg2rbLL5Dpmmav2A7WaFsWyg7W74/0ud+a6Hbc M4RLDpYX0mM68jox12+Syr653lTWFNFS86gcN1Q975/PUD2xYk3dY3H3s2zF7i9XFyEP2N2G5zErPl ED8ZrAbuSSNxMO5rke2YVbiw/FbKveB5UCkCgtjoT7lSW9mZYdr144xmSl8iaDmr3LYdfAxQG6WpF1 N2W+2K9FRkZT0VZd9PdKAMbV3Ofm9qyfYEnpmGGs0y4uhKJtYKpv60s7YXeG+eQtwR/bCFvecfShz5 rvqvYF46IrMS8jbLeJHjqvjyd1hw+zCAJKd2c4R2LPUZ7WDVjRNGtq82PEZ2Tr725JvJTSLKrGx8YA tWmn4rCBBSu/PqTl3206VAZLiP+HeqZxC26TE27C7IcR67ONOX3U06CdJRm2X3VkQMJVPvT0OYPmRr DH5V/sNlfiZe0r9fNcKAYsCQaHKXs6D2jYAWqxqm2msNETdd60wrVAfUL77zKIV9hqqj6sRIXPhZ8R +len0ulP7Zp0NQRxZYGLikaPmhWeDXiQR88kCVUq6p0rdBPBuFSFYAGLjJSQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2100; h=from:subject; bh=gV9IZTM5qU7jcRGph/XDG3+fKRJKxoN9HOMcsfOyL0A=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOK/UN78x/osAzwgMKupSwSrhwjEeLTXqK++CZi 7CH6/zyJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzigAKCRCJcvTf3G3AJi+aD/ 9wSoxGLjbf3nMxhdx0FTNoLb7tUlFlGp+wsA1eq4h8eLG5OlOTzsA8IwsIgBPWp2/c4lh/3h8Wej9u tFFoUjbe3EwfDLU01dywIYam3R6J6s+TD7jpKeWz0MWD2NFKTvNmK/r5nlDA+crVlsHLnuBl7ozHdp Uoh/Bz4xC9nN82aPUAif26+yocqytHa2sw58nHCezNegk9sqBcHUCoNnFodMubFs/UgzD7hGOsd+1B aOhnYDdb2QaqaHaKTplZpcofR90e0xKWhk0CRSg83IE3RApySZo8s2Q4xTS1Ma3eB82/7z+gvwQXWY hia/xw+mpgLBcAZ0jCu/itWg4QCogWD2bkotmQJEfjL9TXjZCGUa2NGLC/CnEfFKcyutnljBecv1EH 0Q9xXQNOo4tw2JZcb6z7NV4dR0L+tjj3BeFNlPgNbG4VgwmG7uKubRriMRe5NSZBE38cW0fSq5rQ3Y T/5J6pZ+p6FMSSVheYF8tjScBuAHu1NRrxeGGj9Wx4M222kdbmFmeXqMdbCPWOgSfuuCWozDcs7p7z +9BLk6YAP2L0i/Fh9KBLAPtQ43onOWXv77p4r/RE/gXudIT6F++lAYSdbKOI9/3skSabDHdxRbQYhk 1gswdeOGaLRaDVm2CSKXSrfli04Bjbp+JUMycYvzS0p20FUxvYZuh3eQYepg==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
@@ -68,41 +68,55 @@ In preparation for FORTIFY_SOURCE performing compile-time and run-time
 field bounds checking for memset(), avoid intentionally writing across
 neighboring fields.
 
-Add struct_group() to mark region of struct mlx5_ib_mr that should be
-initialized to zero.
+Use memset_after() so memset() doesn't get confused about writing
+beyond the destination member that is intended to be the starting point
+of zeroing through the end of the struct. Additionally, since everything
+appears to perform a roundup (including allocation), just change the
+size of the struct itself and add a build-time check to validate the
+expected size.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/infiniband/hw/mlx5/mlx5_ib.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/infiniband/hw/cxgb4/cm.c            | 5 +++--
+ drivers/net/ethernet/chelsio/cxgb4/t4_msg.h | 2 +-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-index 585fb00bdce8..830066e95260 100644
---- a/drivers/infiniband/hw/mlx5/mlx5_ib.h
-+++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-@@ -644,6 +644,7 @@ struct mlx5_ib_mr {
- 	struct ib_umem *umem;
- 
- 	/* This is zero'd when the MR is allocated */
-+	struct_group(cleared,
- 	union {
- 		/* Used only while the MR is in the cache */
- 		struct {
-@@ -691,12 +692,13 @@ struct mlx5_ib_mr {
- 			bool is_odp_implicit;
- 		};
- 	};
-+	);
+diff --git a/drivers/infiniband/hw/cxgb4/cm.c b/drivers/infiniband/hw/cxgb4/cm.c
+index 291471d12197..7129ae025b2d 100644
+--- a/drivers/infiniband/hw/cxgb4/cm.c
++++ b/drivers/infiniband/hw/cxgb4/cm.c
+@@ -2471,7 +2471,8 @@ static int accept_cr(struct c4iw_ep *ep, struct sk_buff *skb,
+ 	skb_get(skb);
+ 	rpl = cplhdr(skb);
+ 	if (!is_t4(adapter_type)) {
+-		skb_trim(skb, roundup(sizeof(*rpl5), 16));
++		BUILD_BUG_ON(sizeof(*rpl5) != roundup(sizeof(*rpl5), 16));
++		skb_trim(skb, sizeof(*rpl5));
+ 		rpl5 = (void *)rpl;
+ 		INIT_TP_WR(rpl5, ep->hwtid);
+ 	} else {
+@@ -2487,7 +2488,7 @@ static int accept_cr(struct c4iw_ep *ep, struct sk_buff *skb,
+ 		opt2 |= CONG_CNTRL_V(CONG_ALG_TAHOE);
+ 		opt2 |= T5_ISS_F;
+ 		rpl5 = (void *)rpl;
+-		memset(&rpl5->iss, 0, roundup(sizeof(*rpl5)-sizeof(*rpl), 16));
++		memset_after(rpl5, 0, opt0);
+ 		if (peer2peer)
+ 			isn += 4;
+ 		rpl5->iss = cpu_to_be32(isn);
+diff --git a/drivers/net/ethernet/chelsio/cxgb4/t4_msg.h b/drivers/net/ethernet/chelsio/cxgb4/t4_msg.h
+index fed5f93bf620..26433a62d7f0 100644
+--- a/drivers/net/ethernet/chelsio/cxgb4/t4_msg.h
++++ b/drivers/net/ethernet/chelsio/cxgb4/t4_msg.h
+@@ -497,7 +497,7 @@ struct cpl_t5_pass_accept_rpl {
+ 	__be32 opt2;
+ 	__be64 opt0;
+ 	__be32 iss;
+-	__be32 rsvd;
++	__be32 rsvd[3];
  };
  
- /* Zero the fields in the mr that are variant depending on usage */
- static inline void mlx5_clear_mr(struct mlx5_ib_mr *mr)
- {
--	memset(mr->out, 0, sizeof(*mr) - offsetof(struct mlx5_ib_mr, out));
-+	memset(&mr->cleared, 0, sizeof(mr->cleared));
- }
- 
- static inline bool is_odp_mr(struct mlx5_ib_mr *mr)
+ struct cpl_act_open_req {
 -- 
 2.30.2
 
