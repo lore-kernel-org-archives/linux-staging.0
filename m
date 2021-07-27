@@ -1,41 +1,42 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1322FB2
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 20:59:12 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id k4-20020a17090a5144b02901731c776526so6580087pjm.4
-        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 13:59:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42ADB2FB7
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 20:59:13 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id mz5-20020a17090b3785b0290176ecf64922so6604453pjb.3
+        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 13:59:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=siRAEsrzVlt9ucK6wXbx7gprBvPU1KNnXc5tokHkqwA=;
-        b=jOYGss8jVrPhLdtzPZO0ka53DS3EL2t6yN9FdJhWvSggA+/r3A2IbCss40cFO7n/2Q
-         spLM/Hggx35P3erp7stVOVXKhQclCsYzBx5ggNWy5bFqJCt4e2RjkcmLYwjoeCG08QqR
-         9o3L6zH7N6jgNQlPlhWWsdJ03/mYomS7UyKoU=
+        bh=VM7uWZbkUfYnHDd5ZNIAVnDbZvywZy43PN6h2gF7C7c=;
+        b=oBkhd6x8PpRaO8QoO+UEqARpklYQ85EbQwaaqZSpUTzsIkrs1pGiuH526VcUurLUkS
+         +gkvSbxFz3vGB1BF1YQeauyWi9ev8hnzhng3t5uiTcBEZberDOU2lSJPBM+aa6yDkfTe
+         HmjxMNfk6GT/foIn5FNaX7+ENNmF5UhcQ22mM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=siRAEsrzVlt9ucK6wXbx7gprBvPU1KNnXc5tokHkqwA=;
-        b=U4IUbOvl9VjdlE1RfPTidnAyMuq5NAYIic/8NbhZT4CyJ3alsdKNqQ7AAiqMrXwLeb
-         Lgg6+BHA12IzZhWdID1J+K2moW5W/G2GUpeR/yQEwGoQCecgO2Z2TeEz+s3azQMrHVDQ
-         9QsDB7yRoK7F1iqvB4jJRoS9pdFtbaHNBJ/zbcUFNw6l/zDvxv9X6E7DgJlZ76bZrMYm
-         2P7enkFaOfQUpLUip6OHIyET7ORtmX9Ccmaj6OO+MkZzyJntZNZmQhNSG3xf7wAn6vQr
-         jKS/cVkjDm3YQPW3ee1GIcCTeWD5k57LF34UfqhU8pQ5Fza9vJCj5JKhGpAisJHx1JwD
-         gr+A==
-X-Gm-Message-State: AOAM533pbOsBWWeogtfVl56XCn/ny+hB7/WkNeld02ryueYB4ZR/RrH1
-	caM8YhtyNyO7o8o3vNovZYT1sw==
-X-Google-Smtp-Source: ABdhPJxcIDmVZ5nPEAkDsJLKerbXDHgogxNbJCx3ZtX0xM3wU3njxXgPWzNdCs2a3BpXrJ8CbQKtPw==
-X-Received: by 2002:a17:902:b48b:b029:12c:59b:dc44 with SMTP id y11-20020a170902b48bb029012c059bdc44mr13599469plr.47.1627419552529;
+        bh=VM7uWZbkUfYnHDd5ZNIAVnDbZvywZy43PN6h2gF7C7c=;
+        b=nPyc+/wePrOI9iKsy/ame+mXADZvWWVE+hKprYN09OTBznjixG5zfm/J/x+OKud6kH
+         z9GUcBC5agEYm6d1VI9JYCcdZpHuKb/s1vX5sgSFjlV8xiwFpil2pwLy+XBliz3Ra+dk
+         wYkOmx8BupQFGKGDRPn0T+S/+e8nOpdLe6tN48iaEQIohH6RYxtOhIwyJrsFGldf+SSX
+         6ldLWMdozEx9N70C1GgxWWJTtUl2AA7OmOCCwWNWGAk9i+vXh+xwuJyS2pchCEXXZNF3
+         dCWDfImYG5PjIEpIwucsd+DttTlP7y8DIvD94XfLiQuBdaSzR7rDnMVql5lgdXJlXh26
+         Sxqg==
+X-Gm-Message-State: AOAM530ueZrKKBTtNI5GmtRJwIMALWe4lRB+K6MfkZP+OVLAtfDK5zgw
+	BdubYP6IRFgyQQYixhMftEJPDw==
+X-Google-Smtp-Source: ABdhPJzvwIujwX2h82eYkbdvoMbJ+ZJVnzoCXczVsCM4H67j0yiuDjVnUU+OKLLA11yr/7OVmcSq6g==
+X-Received: by 2002:a63:b4d:: with SMTP id a13mr22272005pgl.404.1627419552873;
         Tue, 27 Jul 2021 13:59:12 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id d29sm4694011pfq.193.2021.07.27.13.59.09
+        by smtp.gmail.com with ESMTPSA id e23sm3796816pjt.8.2021.07.27.13.59.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jul 2021 13:59:12 -0700 (PDT)
+        Tue, 27 Jul 2021 13:59:09 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Keith Packard <keithpac@amazon.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -48,9 +49,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com
-Subject: [PATCH 30/64] fortify: Move remaining fortify helpers into fortify-string.h
-Date: Tue, 27 Jul 2021 13:58:21 -0700
-Message-Id: <20210727205855.411487-31-keescook@chromium.org>
+Subject: [PATCH 28/64] compiler_types.h: Remove __compiletime_object_size()
+Date: Tue, 27 Jul 2021 13:58:19 -0700
+Message-Id: <20210727205855.411487-29-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
@@ -60,78 +61,64 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3145; h=from:subject; bh=12T5m5DUCmUyeamBVCK0X9eqcX/3MZ+nSw3lqvb6DZM=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOGsI5uu4BBDAJak9w31PhY/56QIHQY9qYASnaR 5iXUW6WJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzhgAKCRCJcvTf3G3AJnzWD/ 9zeRHN60Hh1cQdFdjudukv1XfFs+XvKe8NvV9QEHftgDf2iwskre+nLxfXPqwh1hMt9zDWXWY5oRPL 5VdwOf+Yp9IHA0ZzvWzN9d58Qs8EypT2ZK/kY3cBfJ3yHut4U6ddUMH/lIca2buFlaScq15XFNg1Im rQzpN5e0CppW/K6Uh74IxLf9omIWV4GRZ6idGpyfpYdUfI7PbfKfCohrObRQ1ABLMmT/sPmKk2zaCX Cmi2zrNghZVgHMU+Pg0pdsixXI9Do5CVE2nIJ1WB0MlsV/DWz5dRZUn+TU0+YvLwlJdIMOPa2ai6UY SUSovgWePofTVKoTMd6kPo4TNS3nEp5IECkkfec1TThvwuBJW4pgk6u/B5Rit/+OtAqwgemzwWJr5n RkUHACvdcXL6tFqPzDreUzCsCPDvyKJtmR+KPFY2YXCdZH/M0+jWsWVdpvwGHwsmlrw05Cdc2k0oD5 wJcl6Bbk1cUNmBEXi4KHLsRXhnJ1lIP/ctdobCyCAvEq6TKILCsxY+qy0FrM64KtV992CwhdYlkFbq t4KAGEnA4K8jVSm8FgMRrRNGTsLfVRxhyemcFixXRjlPWoj+SO5oJ/TB7kkRUhfleRU7MprwtYNIlk DAYfW1/LZPaRs0Qt9/nWQtdTDdNHUPM7txeSEdhZJMmGBl/8AspkFYgPJZDQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2278; h=from:subject; bh=26+UkQF9u4QR73rE2ugmnkAtGgRJVqdRH0gVQ+miGJI=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOGx79zwuZNTkBGJbxUTLtc6LvVjffViSXdghqh ZCh8w1mJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzhgAKCRCJcvTf3G3AJoOuD/ 9QhIBj8Ac1dYCQqsKDnl8+GV1Fmwz5NE+vrrmgysyx4iAIh5Hi9gSJVcciJHuWfxsYbsfjbgYy0kX1 fb3zQvUIkMQIB2igKikLexaw/u/aMZvCk9Z5omDCckYav5xDMDxop57SAnRwDmI5ma37g307rYAPXK 3MKhIW4uQWUEg9VD//gprsbS2OpIiwxkghySrauZU6lUWDXOFDxi3e7AnfeRnLBMm5P9R7uYb1c63i CCLVixc36sEWt5n1A3nVhugbXoR7XhzcCKsn6dHqVUwhOr0WC1NiDHg09PcpuJ/iyIKZftDHqUPqg6 5qiwdJ4fNBuagx0+hD1UYhVyC4D8uCcU5JbpSaMhqA5ruisKG07SgLC2mW64QD5KC1l5vxwssi27Ef 7z6+Z9XE9eAIUfHNMPoPePEDUngERmhsvmWGVOt9xejvTsuIr7a0dLku55mNRDgPOr3kKzwatg+19w b9l9CzMUNItXijvnyBQc/Vqy1SAb0lYpmUGz8MBzs95DcaaAGbaZmpWiUWaHQ5s823F8qG3r/1SSM/ zjI2/ycPgCzFufboCXRAyrLfLL7g8dxi7bDg8lAiPKcigIIGX0UbyaLeH8fulCViw1XPIwojOh5Gqh 6Oqz9uM0LoNmL8ecwuaSepH7hTO/bHW05UdooSY1mofMkUQTUBDoMmiCWncw==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-When commit a28a6e860c6c ("string.h: move fortified functions definitions
-in a dedicated header.") moved the fortify-specific code, some helpers
-were left behind. Moves the remaining fortify-specific helpers into
-fortify-string.h so they're together where they're used. This requires
-that any FORTIFY helper function prototypes be conditionally built to
-avoid "no prototype" warnings. Additionally removes unused helpers.
+Since all compilers support __builtin_object_size(), and there is only
+one user of __compiletime_object_size, remove it to avoid the needless
+indirection. This lets Clang reason about check_copy_size() correctly.
 
+Link: https://github.com/ClangBuiltLinux/linux/issues/1179
+Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- include/linux/fortify-string.h | 7 +++++++
- include/linux/string.h         | 9 ---------
- lib/string_helpers.c           | 2 ++
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ include/linux/compiler-gcc.h   | 2 --
+ include/linux/compiler_types.h | 4 ----
+ include/linux/thread_info.h    | 2 +-
+ 3 files changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/include/linux/fortify-string.h b/include/linux/fortify-string.h
-index c1be37437e77..7e67d02764db 100644
---- a/include/linux/fortify-string.h
-+++ b/include/linux/fortify-string.h
-@@ -2,6 +2,13 @@
- #ifndef _LINUX_FORTIFY_STRING_H_
- #define _LINUX_FORTIFY_STRING_H_
+diff --git a/include/linux/compiler-gcc.h b/include/linux/compiler-gcc.h
+index cb9217fc60af..01985821944b 100644
+--- a/include/linux/compiler-gcc.h
++++ b/include/linux/compiler-gcc.h
+@@ -41,8 +41,6 @@
  
-+#define __FORTIFY_INLINE extern __always_inline __attribute__((gnu_inline))
-+#define __RENAME(x) __asm__(#x)
-+
-+void fortify_panic(const char *name) __noreturn __cold;
-+void __read_overflow(void) __compiletime_error("detected read beyond size of object (1st parameter)");
-+void __read_overflow2(void) __compiletime_error("detected read beyond size of object (2nd parameter)");
-+void __write_overflow(void) __compiletime_error("detected write beyond size of object (1st parameter)");
+ #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
  
- #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
- extern void *__underlying_memchr(const void *p, int c, __kernel_size_t size) __RENAME(memchr);
-diff --git a/include/linux/string.h b/include/linux/string.h
-index b48d2d28e0b1..9473f81b9db2 100644
---- a/include/linux/string.h
-+++ b/include/linux/string.h
-@@ -249,15 +249,6 @@ static inline const char *kbasename(const char *path)
- 	return tail ? tail + 1 : path;
- }
- 
--#define __FORTIFY_INLINE extern __always_inline __attribute__((gnu_inline))
--#define __RENAME(x) __asm__(#x)
+-#define __compiletime_object_size(obj) __builtin_object_size(obj, 0)
 -
--void fortify_panic(const char *name) __noreturn __cold;
--void __read_overflow(void) __compiletime_error("detected read beyond size of object passed as 1st parameter");
--void __read_overflow2(void) __compiletime_error("detected read beyond size of object passed as 2nd parameter");
--void __read_overflow3(void) __compiletime_error("detected read beyond size of object passed as 3rd parameter");
--void __write_overflow(void) __compiletime_error("detected write beyond size of object passed as 1st parameter");
--
- #if !defined(__NO_FORTIFY) && defined(__OPTIMIZE__) && defined(CONFIG_FORTIFY_SOURCE)
- #include <linux/fortify-string.h>
+ #define __compiletime_warning(message) __attribute__((__warning__(message)))
+ #define __compiletime_error(message) __attribute__((__error__(message)))
+ 
+diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
+index e4ea86fc584d..c43308b0a9a9 100644
+--- a/include/linux/compiler_types.h
++++ b/include/linux/compiler_types.h
+@@ -290,10 +290,6 @@ struct ftrace_likely_data {
+ 	(sizeof(t) == sizeof(char) || sizeof(t) == sizeof(short) || \
+ 	 sizeof(t) == sizeof(int) || sizeof(t) == sizeof(long))
+ 
+-/* Compile time object size, -1 for unknown */
+-#ifndef __compiletime_object_size
+-# define __compiletime_object_size(obj) -1
+-#endif
+ #ifndef __compiletime_warning
+ # define __compiletime_warning(message)
  #endif
-diff --git a/lib/string_helpers.c b/lib/string_helpers.c
-index bde13612c25d..faa9d8e4e2c5 100644
---- a/lib/string_helpers.c
-+++ b/lib/string_helpers.c
-@@ -883,9 +883,11 @@ char *strreplace(char *s, char old, char new)
- }
- EXPORT_SYMBOL(strreplace);
- 
-+#ifdef CONFIG_FORTIFY_SOURCE
- void fortify_panic(const char *name)
+diff --git a/include/linux/thread_info.h b/include/linux/thread_info.h
+index 0999f6317978..ad0c4e041030 100644
+--- a/include/linux/thread_info.h
++++ b/include/linux/thread_info.h
+@@ -203,7 +203,7 @@ static inline void copy_overflow(int size, unsigned long count)
+ static __always_inline __must_check bool
+ check_copy_size(const void *addr, size_t bytes, bool is_source)
  {
- 	pr_emerg("detected buffer overflow in %s\n", name);
- 	BUG();
- }
- EXPORT_SYMBOL(fortify_panic);
-+#endif /* CONFIG_FORTIFY_SOURCE */
+-	int sz = __compiletime_object_size(addr);
++	int sz = __builtin_object_size(addr, 0);
+ 	if (unlikely(sz >= 0 && sz < bytes)) {
+ 		if (!__builtin_constant_p(bytes))
+ 			copy_overflow(sz, bytes);
 -- 
 2.30.2
 
