@@ -1,43 +1,43 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70D129D6
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 20:59:03 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id g23-20020a17090a5797b02901765d605e14so996627pji.5
-        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 13:59:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F462FAD
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 20:59:05 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id n10so7763plf.4
+        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 13:59:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=m9/SLyzkm5b4YgLSzID8XtRK8GIPppWgZQKzDtYl0cY=;
-        b=Q6r3JVenAALSlwAfyXn9c9rdA4TUAUv+3EIc2wTPETOe8m8gbk9+wqvXOiPL1oUvnH
-         ghkLdmrKLyR4I8vbN9OzUB9eFxc3TXAFvoPqhq1nLVTJTeUO4JgZrxR7Jn6GTmnnQyus
-         6EOqFEJs4cs2fjjy5HiOhsgCbIpL8hnk9RHbk=
+        bh=HpqGAKzdyVBA/Xfwi2YIWzNMC8MxbuJr9wu4OHi5PCI=;
+        b=b9n3PLWe+yZgButmI22wyxu+eeyOUhPxCDUEfynBqPyMnsrnYQiVExI+J4v3rxE5/o
+         G8J1IXNU0m0vNz/8YTkfJoaVZZj0wRBYaQuAJPoofDusamLFunZmfD45sWLn68LLU6JA
+         BeETDRJ6OBfY6C94RhaCenx0bdi00zda2HbHY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=m9/SLyzkm5b4YgLSzID8XtRK8GIPppWgZQKzDtYl0cY=;
-        b=Wbl64muNesg9dbznvXbDt68ttd6l7TOYzOnDAs4NierQQKGn+DM4Filc4ljmgJqyCi
-         nqV3MqAVNmaAwQvq1yp7RKR3XNeXnPPENWHgqDmdRWDQCPr+YB0UxMIHJQqO76B4r91l
-         8+W0smMB+8/blmbe+UiP/yDiSE0UA5ADEaYTZyV0tVfbzCJcrhrTk8QkCjEfV9lPyqfF
-         iw3J/ZMEbUv0S7uJWD0nPvbifaNfUxGUMXVciCH6+0MI2vsaRZuvkJn56mTRwPZX+WoC
-         5KI6+Vvb7S0Cm11sJzTzDvSwLTYfj2kJ3QhfyqwzhCCALlOGjTugyfL4c5ohQkMA1hn0
-         r9nw==
-X-Gm-Message-State: AOAM5306/iE8Zcw97EFtgaN+J8AyjNxCM94B1Oeha6OJ2bSNaVcSn2tJ
-	vG2cFB/iiJlIRpSDBYwOIPMBUQ==
-X-Google-Smtp-Source: ABdhPJyHLrx2rOyZ+72UCSjITxuxc5Fx4+n8MmagGGchue3NLbPGkODQaUC1y1IyFCIXLG8+7pEjjg==
-X-Received: by 2002:a17:90a:aa92:: with SMTP id l18mr6315143pjq.20.1627419543327;
-        Tue, 27 Jul 2021 13:59:03 -0700 (PDT)
+        bh=HpqGAKzdyVBA/Xfwi2YIWzNMC8MxbuJr9wu4OHi5PCI=;
+        b=lup4GmzZF+349HrytIjWnRChAsQnR3XGa9/zu0VnhdydzX0N9DD6xkgah/+n053V+7
+         edlp2Qro21HuIVAqODKFYGFxyxdnZhU4MLqtZj6vfQlfKOal2JcpMJYmEDWV83wjOchD
+         XlyryFnKikNaUfyBGtAlzIHqeeLWB8Tqizl0exI97GwQO2AmgfGpptfBN3OTrrPjexBJ
+         W7yGxNyzBvCFPRF41oJqXnjiD6KeyslIEe3eIz5uP7QIV5qJa2QY8GP8ISreovZGQqNP
+         46rARYJflToe/Hi8N7EtJvpxAlzfiG9lSNQG+c2YTGCjfyS2R+X0wK0F1RiLAullpjot
+         yqjQ==
+X-Gm-Message-State: AOAM533oo3gLSZ1+4xLWdu2XRA6sOq3pjl3UJXYJNGAJiLRGyHoJlC4R
+	IcWUKD+DKYQhuDnLXSaFm0gWxg==
+X-Google-Smtp-Source: ABdhPJwDSoBnYuvYRba1s+KLi8H28OXxuTeCqk1M8Bi6vVkOBrXn2p1i6DPX5y3V6fg7nYwJU2Ltsg==
+X-Received: by 2002:a05:6a00:1391:b029:347:168f:1be7 with SMTP id t17-20020a056a001391b0290347168f1be7mr25305700pfg.70.1627419544638;
+        Tue, 27 Jul 2021 13:59:04 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id r10sm4606873pff.7.2021.07.27.13.59.02
+        by smtp.gmail.com with ESMTPSA id z11sm547955pjq.13.2021.07.27.13.59.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 27 Jul 2021 13:59:02 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
-	Keith Packard <keithpac@amazon.com>,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Keith Packard <keithpac@amazon.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	linux-kernel@vger.kernel.org,
@@ -48,9 +48,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com
-Subject: [PATCH 04/64] stddef: Introduce struct_group() helper macro
-Date: Tue, 27 Jul 2021 13:57:55 -0700
-Message-Id: <20210727205855.411487-5-keescook@chromium.org>
+Subject: [PATCH 02/64] mac80211: Use flex-array for radiotap header bitmap
+Date: Tue, 27 Jul 2021 13:57:53 -0700
+Message-Id: <20210727205855.411487-3-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
@@ -60,181 +60,96 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6059; h=from:subject; bh=3LEAbTxg4aXTCBqMfEtpBsDoqguT4nwPgyzTbu35rzM=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOB6fBnqoQEU0SOfpxJjjk2PGndGpdft7092EvT pn5C4GCJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzgQAKCRCJcvTf3G3AJjaKD/ 9Hy5ufgc4XqQ2z3z9FPvEU6kxJGQmWPS7Xcj/+0+Tt0ThcqyqNxB3pfnhNZY5oFVzFQAasxaE+uUMy w8l50dffII86GVzwgMHpVSOHfyKxD0+bVjHS1hMO0YxtoyYtE05wk1gZb0O3VCFvNI8kbknhLy9Uck SYOfNHqSctMehBN0ekYquyX+Sxta/bDS1L6zhOi7GKz1zqmata8K3Ru/ejXddx/tfY4Od9cnavr31N xw2Thp2oXNUsvJOPNbEvrB9M+WNLj3Jkh79uKUxA2pScrBaJuJyDc0eb75fwJObkRIzkHNc5UF68RQ 3sm3i/QfPCS0rVeZ3hKhcTFLjC3MZufvXgQPFR7BfYuYWBJojZhnwQdeoicgqEYtr8XHy8GgHXRxFT pHAAkO2PCn68C5FfPyf8+UKcLaAMIm3YG+MYg5c8HZrCT92UTJKR8kNFF5UhnMDqJdNE0LLWwmqQjD pee4CTHVdCAU/kDqXg2TD7dmrqC2bgT4icDvzkqIMtb10+q6UqF4VahbBVQrDLI3Y8Zcj+H+cdlb2F 0D5duiiZ6PW+dqS/zKFRLxwzmSl45QsWX4lUz1Wqs23RyLSPhcYSYz1PQjMeqiAlmp/hRAs8uiSw0q nFEKGgK/WMDmBCTVW0TdgnP5Vt5h5HAjsZEr+BMIwSeSu+7fa8Z0zUCwBT+w==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3134; h=from:subject; bh=5kQsK42FaWrxRPo6tG17S0vU5dwTXkF5YJ2Hl+bjQYs=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOASZA2wSHJdmV0oArAVWb1HVe/NAsbCB3ibAr6 bxRmCeCJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzgAAKCRCJcvTf3G3AJucAD/ 9WI40Y8DsttY+40HaEXLlcd6Xryj8yJoVYK9d3gFpDvBSXYBI3VB3m525SOa2sCJC28jHTFRiHhMP6 huqw/nIdms4tjuS8pOZ+DGwzggPQcPgixq4hWdvWbXbeWvQ8mzb3g3NqUh7MCUUYaHd0XZHxeZEa68 KBhKJTR1IzAMdGAY+67PouIo4YzyBaBznnCQb+NLdIUlfT6t8W4CZN8+AQx4EbaO/u03il9VH+AfXK zdL7aZ+v+6RlA8EstG3CnlY/VnSeo0q9XrTH0Q56zymAeoXPIKieJGMZFa6iM2gjIrRUcDFGpVhu7C FZJrEnBqWU+ZIq8c+Zv+XxxBR1dgFsXNeW0wYvt3oXMHiOFT6xXQ9AnpctZU8KlMtct/hdjCaZw4oR 6asBqobuZZVyim88vDBe4PCm0P2lmf5t8CRqSL58iOkzZjRIH+nNwtC8icwiMHZbEOgdBWJYI4n844 m7nJHNp9t3NKdyBYEy6/4q2ExNfaSeCS36fcueGEcPaVGU6/xc4bbPtOCUCt/ocW7/1gVWfDLaGod7 erVQcNz7hMISnSKfJsI54OZh2ah7BqVzDbpCwCewNsGxodKlGatSWB6nfpU2DxvtQKgn0q2ExYIS5K sH5r2wLmmPf369ln2Cl1YKvhBYGnsOEMQkCSbYctGbRwD2e8tiHtSiSMTzJw==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-Kernel code has a regular need to describe groups of members within a
-structure usually when they need to be copied or initialized separately
-from the rest of the surrounding structure. The generally accepted design
-pattern in C is to use a named sub-struct:
+In preparation for FORTIFY_SOURCE performing compile-time and run-time
+field bounds checking for memcpy(), memmove(), and memset(), avoid
+intentionally writing across neighboring fields.
 
-	struct foo {
-		int one;
-		struct {
-			int two;
-			int three;
-		} thing;
-		int four;
-	};
+The it_present member of struct ieee80211_radiotap_header is treated as a
+flexible array (multiple u32s can be conditionally present). In order for
+memcpy() to reason (or really, not reason) about the size of operations
+against this struct, use of bytes beyond it_present need to be treated
+as part of the flexible array. Add a union/struct to contain the new
+"bitmap" member, for use with trailing presence bitmaps and arguments.
 
-This would allow for traditional references and sizing:
+Additionally improve readability in the iterator code which walks
+through the bitmaps and arguments.
 
-	memcpy(&dst.thing, &src.thing, sizeof(dst.thing));
-
-However, doing this would mean that referencing struct members enclosed
-by such named structs would always require including the sub-struct name
-in identifiers:
-
-	do_something(dst.thing.three);
-
-This has tended to be quite inflexible, especially when such groupings
-need to be added to established code which causes huge naming churn.
-Three workarounds exist in the kernel for this problem, and each have
-other negative properties.
-
-To avoid the naming churn, there is a design pattern of adding macro
-aliases for the named struct:
-
-	#define f_three thing.three
-
-This ends up polluting the global namespace, and makes it difficult to
-search for identifiers.
-
-Another common work-around in kernel code avoids the pollution by avoiding
-the named struct entirely, instead identifying the group's boundaries using
-either a pair of empty anonymous structs of a pair of zero-element arrays:
-
-	struct foo {
-		int one;
-		struct { } start;
-		int two;
-		int three;
-		struct { } finish;
-		int four;
-	};
-
-	struct foo {
-		int one;
-		int start[0];
-		int two;
-		int three;
-		int finish[0];
-		int four;
-	};
-
-This allows code to avoid needing to use a sub-struct name for member
-references within the surrounding structure, but loses the benefits of
-being able to actually use such a struct, making it rather fragile. Using
-these requires open-coded calculation of sizes and offsets. The efforts
-made to avoid common mistakes include lots of comments, or adding various
-BUILD_BUG_ON()s. Such code is left with no way for the compiler to reason
-about the boundaries (e.g. the "start" object looks like it's 0 bytes
-in length and is not structurally associated with "finish"), making bounds
-checking depend on open-coded calculations:
-
-	if (length > offsetof(struct foo, finish) -
-		     offsetof(struct foo, start))
-		return -EINVAL;
-	memcpy(&dst.start, &src.start, length);
-
-However, the vast majority of places in the kernel that operate on
-groups of members do so without any identification of the grouping,
-relying either on comments or implicit knowledge of the struct contents,
-which is even harder for the compiler to reason about, and results in
-even more fragile manual sizing, usually depending on member locations
-outside of the region (e.g. to copy "two" and "three", use the start of
-"four" to find the size):
-
-	BUILD_BUG_ON((offsetof(struct foo, four) <
-		      offsetof(struct foo, two)) ||
-		     (offsetof(struct foo, four) <
-		      offsetof(struct foo, three));
-	if (length > offsetof(struct foo, four) -
-		     offsetof(struct foo, two))
-		return -EINVAL;
-	memcpy(&dst.two, &src.two, length);
-
-And both of the prior two idioms additionally appear to write beyond the
-end of the referenced struct member, forcing the compiler to ignore any
-attempt to perform bounds checking.
-
-In order to have a regular programmatic way to describe a struct
-region that can be used for references and sizing, can be examined for
-bounds checking, avoids forcing the use of intermediate identifiers,
-and avoids polluting the global namespace, introduce the struct_group()
-macro. This macro wraps the member declarations to create an anonymous
-union of an anonymous struct (no intermediate name) and a named struct
-(for references and sizing):
-
-	struct foo {
-		int one;
-		struct_group(thing,
-			int two,
-			int three,
-		);
-		int four;
-	};
-
-	if (length > sizeof(src.thing))
-		return -EINVAL;
-	memcpy(&dst.thing, &src.thing, length);
-	do_something(dst.three);
-
-There are some rare cases where the resulting struct_group() needs
-attributes added, so struct_group_attr() is also introduced to allow
-for specifying struct attributes (e.g. __align(x) or __packed).
-
-Co-developed-by: Keith Packard <keithpac@amazon.com>
-Signed-off-by: Keith Packard <keithpac@amazon.com>
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- include/linux/stddef.h | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ include/net/ieee80211_radiotap.h | 24 ++++++++++++++++++++----
+ net/mac80211/rx.c                |  2 +-
+ net/wireless/radiotap.c          |  5 ++---
+ 3 files changed, 23 insertions(+), 8 deletions(-)
 
-diff --git a/include/linux/stddef.h b/include/linux/stddef.h
-index 998a4ba28eba..cf7f866944f9 100644
---- a/include/linux/stddef.h
-+++ b/include/linux/stddef.h
-@@ -36,4 +36,38 @@ enum {
- #define offsetofend(TYPE, MEMBER) \
- 	(offsetof(TYPE, MEMBER)	+ sizeof_field(TYPE, MEMBER))
+diff --git a/include/net/ieee80211_radiotap.h b/include/net/ieee80211_radiotap.h
+index c0854933e24f..101c1e961032 100644
+--- a/include/net/ieee80211_radiotap.h
++++ b/include/net/ieee80211_radiotap.h
+@@ -39,10 +39,26 @@ struct ieee80211_radiotap_header {
+ 	 */
+ 	__le16 it_len;
  
-+/**
-+ * struct_group_attr(NAME, ATTRS, MEMBERS)
-+ *
-+ * Used to create an anonymous union of two structs with identical
-+ * layout and size: one anonymous and one named. The former can be
-+ * used normally without sub-struct naming, and the latter can be
-+ * used to reason about the start, end, and size of the group of
-+ * struct members. Includes structure attributes argument.
-+ *
-+ * @NAME: The name of the mirrored sub-struct
-+ * @ATTRS: Any struct attributes (normally empty)
-+ * @MEMBERS: The member declarations for the mirrored structs
-+ */
-+#define struct_group_attr(NAME, ATTRS, MEMBERS) \
-+	union { \
-+		struct { MEMBERS } ATTRS; \
-+		struct { MEMBERS } ATTRS NAME; \
-+	}
+-	/**
+-	 * @it_present: (first) present word
+-	 */
+-	__le32 it_present;
++	union {
++		/**
++		 * @it_present: (first) present word
++		 */
++		__le32 it_present;
 +
-+/**
-+ * struct_group(NAME, MEMBERS)
-+ *
-+ * Used to create an anonymous union of two structs with identical
-+ * layout and size: one anonymous and one named. The former can be
-+ * used normally without sub-struct naming, and the latter can be
-+ * used to reason about the start, end, and size of the group of
-+ * struct members.
-+ *
-+ * @NAME: The name of the mirrored sub-struct
-+ * @MEMBERS: The member declarations for the mirrored structs
-+ */
-+#define struct_group(NAME, MEMBERS)	\
-+	struct_group_attr(NAME, /* no attrs */, MEMBERS)
++		struct {
++			/* The compiler makes it difficult to overlap
++			 * a flex-array with an existing singleton,
++			 * so we're forced to add an empty named
++			 * variable here.
++			 */
++			struct { } __unused;
 +
- #endif
++			/**
++			 * @bitmap: all presence bitmaps
++			 */
++			__le32 bitmap[];
++		};
++	};
+ } __packed;
+ 
+ /* version is always 0 */
+diff --git a/net/mac80211/rx.c b/net/mac80211/rx.c
+index 2563473b5cf1..0d959a98e908 100644
+--- a/net/mac80211/rx.c
++++ b/net/mac80211/rx.c
+@@ -328,7 +328,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+ 
+ 	rthdr = skb_push(skb, rtap_len);
+ 	memset(rthdr, 0, rtap_len - rtap.len - rtap.pad);
+-	it_present = &rthdr->it_present;
++	it_present = rthdr->bitmap;
+ 
+ 	/* radiotap header, set always present flags */
+ 	rthdr->it_len = cpu_to_le16(rtap_len);
+diff --git a/net/wireless/radiotap.c b/net/wireless/radiotap.c
+index 36f1b59a78bf..9f4f1a772964 100644
+--- a/net/wireless/radiotap.c
++++ b/net/wireless/radiotap.c
+@@ -115,10 +115,9 @@ int ieee80211_radiotap_iterator_init(
+ 	iterator->_max_length = get_unaligned_le16(&radiotap_header->it_len);
+ 	iterator->_arg_index = 0;
+ 	iterator->_bitmap_shifter = get_unaligned_le32(&radiotap_header->it_present);
+-	iterator->_arg = (uint8_t *)radiotap_header + sizeof(*radiotap_header);
++	iterator->_arg = (uint8_t *)&radiotap_header->bitmap[1];
+ 	iterator->_reset_on_ext = 0;
+-	iterator->_next_bitmap = &radiotap_header->it_present;
+-	iterator->_next_bitmap++;
++	iterator->_next_bitmap = &radiotap_header->bitmap[1];
+ 	iterator->_vns = vns;
+ 	iterator->current_namespace = &radiotap_ns;
+ 	iterator->is_radiotap_ns = 1;
 -- 
 2.30.2
 
