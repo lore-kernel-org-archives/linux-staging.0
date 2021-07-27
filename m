@@ -1,36 +1,36 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E98E70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72022F80
 	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 21:16:56 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id b6so1849433pji.4
+Received: by mail-pj1-f41.google.com with SMTP id mz5-20020a17090b3785b0290176ecf64922so6701020pjb.3
         for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 14:16:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=vvD4cE9CC0UwuFk0tFrxkl0FdzddHJztTx+G0lXko2o=;
-        b=X2kAI6271c2kBTWRkNK+SRyUD05VC55sahGiHWkGhtgogxcqv13k4bEJx1CzoRkXNa
-         NYhpiT00hyKycZt5MZCqoJys0Vj8ijuU6JI/ftE4rUt3HcwgYje+gBJFSIJVGEF29R+B
-         1p8D2+Q//lxigAx/4Pqgw4xuPqYVkWyNr336o=
+        bh=/OVgTbTtEQVoBvCYg6jSmmU2Jgo9MSvA0i/isq2f++M=;
+        b=Wm+Rznum7P688B/j40t8dWZbI3yL279fIwcyE8kRrWHtUSw2wnQuFT9lnz2fc4+43S
+         VfkMQShGeL8RgeifHwa+1Gb4HuwEbMHW1NdNSoXO6NwhzZS18EWYDI2Rgakw6baZcLDS
+         jAADfGvlUDiysfwlDOKPNJGXo8MmEW8NRVWiA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vvD4cE9CC0UwuFk0tFrxkl0FdzddHJztTx+G0lXko2o=;
-        b=a/ulcdnbXf5FrrKRluXHm7WR70EoVp057n7CCxLUbDT1yYMTK9JaIBmD7+VMs1Cc68
-         jKxiC6eAFb4MWZhgXkU+gDf/EC+qJFulC3iauSR1ZBWGePNjjXQwsSfppDsVJjw9LzSj
-         1ChN+C6V4bRw2JdTH7bvdBwmyhECtaGqGHqGIjwDNTb2+b2km5GE6P70fyWVjt2zKUG6
-         hoXiAs4dTlSrR/j/Z4qSWV43hhszKPB0yXbFGM1pX7JK8M5fODts3Tt25HFrvof/kcRO
-         Dejqz2mAsGvXT6fGbVJED1IXT/LLWn4lloz1bAUkVhU+qQQUIJn2RZUjiEfCZVqxx8EM
-         coDg==
-X-Gm-Message-State: AOAM532YoGnDdUX9DhSCP8hfPTagHNguWUzo9cyyMyb3UV051kOSkzqf
-	ocsiU+QSUDi5lDF4qasmfMGyKA==
-X-Google-Smtp-Source: ABdhPJzx5uKJYYGIQeb6ncc39fFtWiuuJzbqS3/tvESRfbaEkAgXMJJefnvqpPoyIhq8uFbnDuQ/Yw==
-X-Received: by 2002:a17:90a:3fc6:: with SMTP id u6mr9309818pjm.146.1627420615860;
-        Tue, 27 Jul 2021 14:16:55 -0700 (PDT)
+        bh=/OVgTbTtEQVoBvCYg6jSmmU2Jgo9MSvA0i/isq2f++M=;
+        b=XXkF/FBVl1BX7u43RB4xk8cNK31p9mV+G/CsOXOY4wkmzDevyZPvdJt8KhTZBp28BB
+         49DiKMlW9mYhPTrwuKWxR/ihml9OWLofN2I9y2Xmb52DMDONo7iWpp8b1k0Sa92VVHR0
+         h4PX1BuCumjuKhYdXGpjCVqN9yW8SJjzW6o7ALAqM4fdKAJLp8RbMzStaPSN4D6rCxwJ
+         n+SJtyV1mmzE7Mtnrj0I4EpPLyz2IVve+g93XHElCiysgYc7D+T+P3C1zcAeDTaWK7Vs
+         ImiC+M4+FfP6xiEEd+ARU3JBbPDi/Vl/FxeNXWTgiLdJyWEiui9rFJUzlnx/XG/H0yJK
+         hc8g==
+X-Gm-Message-State: AOAM533TJ+lg25YjGT5p63vOU5WPEWfmlgEClv0LOTMWX+F+qFyLkvxF
+	W/r88qkyIf/xlTtfeRF1pqoKDg==
+X-Google-Smtp-Source: ABdhPJzGt/TIZEMxb0jzYjcSPNZqHmgh+Y9I/xLu9VXGsQFFdjJSOJYeTkh6wOBuz86gO+ElXByK/Q==
+X-Received: by 2002:aa7:88d3:0:b029:32b:75d0:fa92 with SMTP id k19-20020aa788d30000b029032b75d0fa92mr25046135pff.23.1627420616406;
+        Tue, 27 Jul 2021 14:16:56 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id t9sm5079279pgc.81.2021.07.27.14.16.51
+        by smtp.gmail.com with ESMTPSA id 16sm4884267pfu.109.2021.07.27.14.16.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 27 Jul 2021 14:16:54 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
@@ -48,9 +48,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com
-Subject: [PATCH 21/64] cxgb4: Use struct_group() for memcpy() region
-Date: Tue, 27 Jul 2021 13:58:12 -0700
-Message-Id: <20210727205855.411487-22-keescook@chromium.org>
+Subject: [PATCH 60/64] fortify: Work around Clang inlining bugs
+Date: Tue, 27 Jul 2021 13:58:51 -0700
+Message-Id: <20210727205855.411487-61-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
@@ -60,102 +60,138 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3924; h=from:subject; bh=y2sMUjTim/gIwxveSmmQhx7NYTt7b1pVbIiPi7Evl4M=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOEnE25c6OQAZUZh7are7MybFphgO5c0XjmqaoM cypZk3uJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzhAAKCRCJcvTf3G3AJrVgD/ 9EUipW/aGz8pZZO+KYM/hHRGzHn3eJ8lr6sIZd2kwgY/YenMRyXcbyazHaKtq9k4qFGDfasF7ov858 QgSo0FLS6kKdp77nml8K4O9E8I7ayBPKVtULTSDvCMtWKEqBcfC6Q7M0Nb1UixUrR2Z1JhZZK9WtWH ID8omgKPI4LnnaYo4ycEAVB9pzBuOp2dw3mX8jThZiOXisc1A8O6CIE/RAKv1Fno46ecBIpYI58Lfj Q2dLClrapmNlYoUxj2kteXxZy308YbZng7p0daoSE68G8Dm0g06bXBLPRLc/bImHPgA3klYnSoixgZ RMD6kvFN+5q7n8MnIJdaq7gJBYyPBy/9C6wwG2lmKxvmgPKgNj1zDkyb7ttS5FAEi0kc+f+uE/Qvc6 LxFFznj1facXXLvYjxYdFVv9TF/b9/6/BBeUCOHLnyB4kGzOqlN4zBCzSlX25q7Qr8HnPEr34tJ/mP 3QyTlF29k5BfJetxRga3bVSYt4eLe0vVj8bLZug1htSckQNfV4X1STPomfizJ8F8ssl8VR+AZqcEPZ ru/Rhw2gsydUoGnN1DHmcUDJjNa8iHRdhVeY0MaxkmG0p3DjmhYkpj3nmosca/JbyjnMdcrVrIyErT CYzNTxmbAjdwEJnwSyRPybVcS5R4LwUCJqb30qR0qVGXDBcsbP8DrEjKddqA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5531; h=from:subject; bh=ngORCtAEDkc0H50xemEev9lyKw3n/iy6PZa3T6iXU20=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHONyzkRh/fY4SBFQw0UvjjNrDOdvLbPeIhyRa2i rGIomkmJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzjQAKCRCJcvTf3G3AJvcJD/ 9ExL37cKA3LzSQ4zLIwXWTofeLwiWaiJD2+4i6tZEdnlJ8ccIL6btbcA2/oKfwlt1Q/3aES1AfKvIp jX6QjMKLDVKoWDUwiV9cOfOSRNzlAJh+OWfd2UXFfAdjQ1Z+kurhqEfopYDzlXfZM/8Ll43JIXMy41 vRqzlXgxfU15MNxESA/2XVgVEq3AvADRrvMCLGF5sHXCGgcveDW73AuUPS9mFcuZNUwF4gXoC4tYAe iEknP/dsD2B1XUNWe6UXbC/nVA5fKWvikUxIgbeQvEJhFaAhEzz12AGCMWmYr5bBsiq4nE6SDMBRoB NxxYclKyhzZsf8NgLPDl1jnyOm5aK7+ppgvnl8/juecTXhoAeF5t4LcfgM9j6/nf6smMrbxkzvh8Hu kSMfLMSRbarT8DEYRsB4cOqvhtdunaoyyYS/iYbqXjCi/CBVLwAMrtD4Vm2UbWbz6opAzxWpLDHNIC NMoz0rNe69d8YBgNkUvq2oy1LcwrK/wAqTye/+4JUEY8Z7oz3apJZXgKntDIsiLVEafejl1w23aM9S qSKmhPAxUfHYW+msCimLNAvgWiEwVFHUIXg7Xo7PaOutDbMyl60C4HlzrSbkkF0HfkVZ7GF2sc+Kme /Kcbctx//Q2WSaC6OpP3OUv2AZUQXGVOv3FbJkiHhmwXwhzfjA6IB+t2CxqA==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-In preparation for FORTIFY_SOURCE performing compile-time and run-time
-field bounds checking for memcpy(), memmove(), and memset(), avoid
-intentionally writing across neighboring fields.
+To enable FORTIFY_SOURCE support for Clang, the kernel must work around
+a pair of bugs, related to Clang's inlining.
 
-Use struct_group() in struct fw_eth_tx_pkt_vm_wr around members ethmacdst,
-ethmacsrc, ethtype, and vlantci, so they can be referenced together. This
-will allow memcpy() and sizeof() to more easily reason about sizes,
-improve readability, and avoid future warnings about writing beyond the
-end of ethmacdst.
+Change all the fortified APIs into macros with different inline names to
+bypass Clang's broken inline-of-a-builtin detection:
+https://bugs.llvm.org/show_bug.cgi?id=50322
 
-"pahole" shows no size nor member offset changes to struct
-fw_eth_tx_pkt_vm_wr. "objdump -d" shows no object code changes.
+Lift all misbehaving __builtin_object_size() calls into the macros to
+bypass Clang's broken __builtin_object_size() arguments-of-an-inline
+visibility:
+https://github.com/ClangBuiltLinux/linux/issues/1401
+
+Thankfully, due to how the inlining already behaves in GCC, this change
+has no effect on GCC builds, but allows Clang to finally gain full
+FORTIFY coverage.
+
+However, because of a third bug which had no work-arounds, FORTIFY_SOURCE
+will only work with Clang version 13 and later. Update the Kconfig to
+reflect the new requirements.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/net/ethernet/chelsio/cxgb4/sge.c      |  8 +++++---
- drivers/net/ethernet/chelsio/cxgb4/t4fw_api.h | 10 ++++++----
- drivers/net/ethernet/chelsio/cxgb4vf/sge.c    |  7 ++-----
- 3 files changed, 13 insertions(+), 12 deletions(-)
+ include/linux/fortify-string.h | 33 +++++++++++++++++++++------------
+ security/Kconfig               |  2 +-
+ 2 files changed, 22 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/net/ethernet/chelsio/cxgb4/sge.c b/drivers/net/ethernet/chelsio/cxgb4/sge.c
-index 6a099cb34b12..9080b2c5ffe8 100644
---- a/drivers/net/ethernet/chelsio/cxgb4/sge.c
-+++ b/drivers/net/ethernet/chelsio/cxgb4/sge.c
-@@ -1842,8 +1842,10 @@ static netdev_tx_t cxgb4_vf_eth_xmit(struct sk_buff *skb,
- 	 * (including the VLAN tag) into the header so we reject anything
- 	 * smaller than that ...
- 	 */
--	fw_hdr_copy_len = sizeof(wr->ethmacdst) + sizeof(wr->ethmacsrc) +
--			  sizeof(wr->ethtype) + sizeof(wr->vlantci);
-+	BUILD_BUG_ON(sizeof(wr->firmware) !=
-+		     (sizeof(wr->ethmacdst) + sizeof(wr->ethmacsrc) +
-+		      sizeof(wr->ethtype) + sizeof(wr->vlantci)));
-+	fw_hdr_copy_len = sizeof(wr->firmware);
- 	ret = cxgb4_validate_skb(skb, dev, fw_hdr_copy_len);
- 	if (ret)
- 		goto out_free;
-@@ -1924,7 +1926,7 @@ static netdev_tx_t cxgb4_vf_eth_xmit(struct sk_buff *skb,
- 	wr->equiq_to_len16 = cpu_to_be32(wr_mid);
- 	wr->r3[0] = cpu_to_be32(0);
- 	wr->r3[1] = cpu_to_be32(0);
--	skb_copy_from_linear_data(skb, (void *)wr->ethmacdst, fw_hdr_copy_len);
-+	skb_copy_from_linear_data(skb, &wr->firmware, fw_hdr_copy_len);
- 	end = (u64 *)wr + flits;
+diff --git a/include/linux/fortify-string.h b/include/linux/fortify-string.h
+index 718325331021..4afd42079d3b 100644
+--- a/include/linux/fortify-string.h
++++ b/include/linux/fortify-string.h
+@@ -38,10 +38,11 @@ extern char *__underlying_strncpy(char *p, const char *q, __kernel_size_t size)
+ #define __underlying_strncpy	__builtin_strncpy
+ #endif
  
- 	/* If this is a Large Send Offload packet we'll put in an LSO CPL
-diff --git a/drivers/net/ethernet/chelsio/cxgb4/t4fw_api.h b/drivers/net/ethernet/chelsio/cxgb4/t4fw_api.h
-index 0a326c054707..2419459a0b85 100644
---- a/drivers/net/ethernet/chelsio/cxgb4/t4fw_api.h
-+++ b/drivers/net/ethernet/chelsio/cxgb4/t4fw_api.h
-@@ -794,10 +794,12 @@ struct fw_eth_tx_pkt_vm_wr {
- 	__be32 op_immdlen;
- 	__be32 equiq_to_len16;
- 	__be32 r3[2];
--	u8 ethmacdst[6];
--	u8 ethmacsrc[6];
--	__be16 ethtype;
--	__be16 vlantci;
-+	struct_group(firmware,
-+		u8 ethmacdst[ETH_ALEN];
-+		u8 ethmacsrc[ETH_ALEN];
-+		__be16 ethtype;
-+		__be16 vlantci;
-+	);
- };
+-__FORTIFY_INLINE char *strncpy(char *p, const char *q, __kernel_size_t size)
++#define strncpy(p, q, s) __fortify_strncpy(p, q, s, __builtin_object_size(p, 1))
++__FORTIFY_INLINE char *__fortify_strncpy(char *p, const char *q,
++					 __kernel_size_t size,
++					 const size_t p_size)
+ {
+-	size_t p_size = __builtin_object_size(p, 1);
+-
+ 	if (__builtin_constant_p(size) && p_size < size)
+ 		__write_overflow();
+ 	if (p_size < size)
+@@ -112,12 +113,15 @@ __FORTIFY_INLINE size_t strlcpy(char *p, const char *q, size_t size)
  
- #define FW_CMD_MAX_TIMEOUT 10000
-diff --git a/drivers/net/ethernet/chelsio/cxgb4vf/sge.c b/drivers/net/ethernet/chelsio/cxgb4vf/sge.c
-index 7bc80eeb2c21..671ca93e64ab 100644
---- a/drivers/net/ethernet/chelsio/cxgb4vf/sge.c
-+++ b/drivers/net/ethernet/chelsio/cxgb4vf/sge.c
-@@ -1167,10 +1167,7 @@ netdev_tx_t t4vf_eth_xmit(struct sk_buff *skb, struct net_device *dev)
- 	struct cpl_tx_pkt_core *cpl;
- 	const struct skb_shared_info *ssi;
- 	dma_addr_t addr[MAX_SKB_FRAGS + 1];
--	const size_t fw_hdr_copy_len = (sizeof(wr->ethmacdst) +
--					sizeof(wr->ethmacsrc) +
--					sizeof(wr->ethtype) +
--					sizeof(wr->vlantci));
-+	const size_t fw_hdr_copy_len = sizeof(wr->firmware);
+ /* defined after fortified strnlen to reuse it */
+ extern ssize_t __real_strscpy(char *, const char *, size_t) __RENAME(strscpy);
+-__FORTIFY_INLINE ssize_t strscpy(char *p, const char *q, size_t size)
++#define strscpy(p, q, s) __fortify_strscpy(p, q, s,			\
++					   __builtin_object_size(p, 1),	\
++					   __builtin_object_size(q, 1))
++__FORTIFY_INLINE ssize_t __fortify_strscpy(char *p, const char *q,
++					   size_t size,
++					   const size_t p_size,
++					   const size_t q_size)
+ {
+ 	size_t len;
+-	/* Use string size rather than possible enclosing struct size. */
+-	size_t p_size = __builtin_object_size(p, 1);
+-	size_t q_size = __builtin_object_size(q, 1);
  
- 	/*
- 	 * The chip minimum packet length is 10 octets but the firmware
-@@ -1267,7 +1264,7 @@ netdev_tx_t t4vf_eth_xmit(struct sk_buff *skb, struct net_device *dev)
- 	wr->equiq_to_len16 = cpu_to_be32(wr_mid);
- 	wr->r3[0] = cpu_to_be32(0);
- 	wr->r3[1] = cpu_to_be32(0);
--	skb_copy_from_linear_data(skb, (void *)wr->ethmacdst, fw_hdr_copy_len);
-+	skb_copy_from_linear_data(skb, &wr->firmware, fw_hdr_copy_len);
- 	end = (u64 *)wr + flits;
+ 	/* If we cannot get size of p and q default to call strscpy. */
+ 	if (p_size == (size_t) -1 && q_size == (size_t) -1)
+@@ -329,7 +333,8 @@ __FORTIFY_INLINE void fortify_memcpy_chk(__kernel_size_t size,
+ 		memmove)
  
- 	/*
+ extern void *__real_memscan(void *, int, __kernel_size_t) __RENAME(memscan);
+-__FORTIFY_INLINE void *memscan(void *p, int c, __kernel_size_t size)
++#define memscan(p, c, s) __fortify_memscan(p, c, s)
++__FORTIFY_INLINE void *__fortify_memscan(void *p, int c, __kernel_size_t size)
+ {
+ 	size_t p_size = __builtin_object_size(p, 0);
+ 
+@@ -340,7 +345,8 @@ __FORTIFY_INLINE void *memscan(void *p, int c, __kernel_size_t size)
+ 	return __real_memscan(p, c, size);
+ }
+ 
+-__FORTIFY_INLINE int memcmp(const void *p, const void *q, __kernel_size_t size)
++#define memcmp(p, q, s) __fortify_memcmp(p, q, s)
++__FORTIFY_INLINE int __fortify_memcmp(const void *p, const void *q, __kernel_size_t size)
+ {
+ 	size_t p_size = __builtin_object_size(p, 0);
+ 	size_t q_size = __builtin_object_size(q, 0);
+@@ -356,7 +362,8 @@ __FORTIFY_INLINE int memcmp(const void *p, const void *q, __kernel_size_t size)
+ 	return __underlying_memcmp(p, q, size);
+ }
+ 
+-__FORTIFY_INLINE void *memchr(const void *p, int c, __kernel_size_t size)
++#define memchr(p, c, s) __fortify_memchr(p, c, s)
++__FORTIFY_INLINE void *__fortify_memchr(const void *p, int c, __kernel_size_t size)
+ {
+ 	size_t p_size = __builtin_object_size(p, 0);
+ 
+@@ -368,7 +375,8 @@ __FORTIFY_INLINE void *memchr(const void *p, int c, __kernel_size_t size)
+ }
+ 
+ void *__real_memchr_inv(const void *s, int c, size_t n) __RENAME(memchr_inv);
+-__FORTIFY_INLINE void *memchr_inv(const void *p, int c, size_t size)
++#define memchr_inv(p, c, s) __fortify_memchr_inv(p, c, s)
++__FORTIFY_INLINE void *__fortify_memchr_inv(const void *p, int c, size_t size)
+ {
+ 	size_t p_size = __builtin_object_size(p, 0);
+ 
+@@ -392,7 +400,8 @@ __FORTIFY_INLINE void *kmemdup(const void *p, size_t size, gfp_t gfp)
+ }
+ 
+ /* Defined after fortified strlen to reuse it. */
+-__FORTIFY_INLINE char *strcpy(char *p, const char *q)
++#define strcpy(p, q) __fortify_strcpy(p, q)
++__FORTIFY_INLINE char *__fortify_strcpy(char *p, const char *q)
+ {
+ 	size_t p_size = __builtin_object_size(p, 1);
+ 	size_t q_size = __builtin_object_size(q, 1);
+diff --git a/security/Kconfig b/security/Kconfig
+index 8f0e675e70a4..509ec61bc54b 100644
+--- a/security/Kconfig
++++ b/security/Kconfig
+@@ -193,7 +193,7 @@ config FORTIFY_SOURCE
+ 	depends on ARCH_HAS_FORTIFY_SOURCE
+ 	# https://bugs.llvm.org/show_bug.cgi?id=50322
+ 	# https://bugs.llvm.org/show_bug.cgi?id=41459
+-	depends on !CONFIG_CC_IS_CLANG
++	depends on !CONFIG_CC_IS_CLANG || CLANG_VERSION >= 130000
+ 	help
+ 	  Detect overflows of buffers in common string and memory functions
+ 	  where the compiler can determine and validate the buffer sizes.
 -- 
 2.30.2
 
