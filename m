@@ -1,36 +1,36 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45BC070
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864062FAD
 	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 21:06:56 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id c16so15331plh.7
+Received: by mail-pl1-f175.google.com with SMTP id k1so17570309plt.12
         for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 14:06:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=UPGlu1gG6API/iCexVdVFLvP4yi8HHonlHYke9K7UR0=;
-        b=m3xmCqlfQQl6y88gzGHqm2N3UvKEnCdok/BJyDNoduQEklW/A7rLG1ArcEbIa4sNpg
-         gyE4VCnVWyScIlaG1xhcD8qrQj5NdPxQkhHLzIIQou5A0leQoAsnAyLU3S12xLMU/Hpr
-         6bYRGbAjxTPd/EtMM4GpfIh0ws6if/8UYqIYg=
+        bh=+j+u/2Y5xj0lHg0+NYIPs//vmCSVCR7ld8q4Rse+Wok=;
+        b=Z3ztXP319Dh8l3oZBZJGcpVrN2yjz+4Ojp0xdciZQMieu4MElN+0uh/aio07BZugcM
+         /IX8i89i9d4uIq473GDslpHYwhU2Ds+QQE/9q8XISm1huOhlc+3J3m4+mREFYd56BoTg
+         skm6aewPub1EVzigwBqCw2/Yd1runR7VC+xlM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=UPGlu1gG6API/iCexVdVFLvP4yi8HHonlHYke9K7UR0=;
-        b=FiKzFrcKbq0VSdGv/I1OKZbj2GMfgbjHyxA0uDryX7Ro3uySiw4GghdB6ir+RA3wo9
-         FUxHzknf5Duk6j5I1vBABipKKgJbnqjxG3ghvuVSG6PeyLo0uupM9KxhkEfLPlc7XnpA
-         M/Xf55N7DMLYoMUM6YWetfLhaHVanWium8ifGGtY8Ktnd5I1hAemgwsesQLLJQyUP3c8
-         jKG2OxrhzY826zNGYPAExv0wwxg5XX8Lsk2x6Q4fqPZROhpC4Di9+7wA++1JTv4I2ZWD
-         8fCn29poJwO8wsTqBDHBvUhznITboG8vG5d0J7MGkQK+w2/1C4H7HNci/ss54b3tMZNZ
-         8Pqw==
-X-Gm-Message-State: AOAM532nxPB/DxLWNlR2pt4DjOey5rHVeguUvk5LWJVolnZ/UGDDEXHo
-	vDlAavGZhh+8NVrO9sh67jlF0A==
-X-Google-Smtp-Source: ABdhPJyRr41WjbyJq9nCLCxMpkCCFYsX51CfWKd4/S2P+UzJSAsEt1kW141ndTqkUOB7pGW66MCilA==
-X-Received: by 2002:aa7:9546:0:b029:32e:5fdf:9576 with SMTP id w6-20020aa795460000b029032e5fdf9576mr25063139pfq.5.1627420015943;
-        Tue, 27 Jul 2021 14:06:55 -0700 (PDT)
+        bh=+j+u/2Y5xj0lHg0+NYIPs//vmCSVCR7ld8q4Rse+Wok=;
+        b=pyz/GyJLbrXb+oHZT7itllDJCPIDK7PvOdQYm4q9GqB2oPpOLOvWRVaGg73dSH7wXn
+         IEHm3nun/4OedRkmh0kp4CYNbPrRiwqxi77eYNrMcKEC07qXzxQVUIKgy5SvBZFNO5be
+         eqVnmrn+PxnO0Y94ucmYcJMGpPJJws+ZM0yIqSaeTIUM1dobd1GPWUhEXomGxpQGii1P
+         +d/nwPMfxOyAA1/A+NsHG3VtxzT6wVx4Keaq3jVfbXOB3wyscXWtVBTrvvy4JQAvcskX
+         1j24o490U45IsRBf1a/5N/lygakhilFfIYMA+pjVnhaiHIcREwv0BgTIa26rMEhENlVC
+         iQ4A==
+X-Gm-Message-State: AOAM533ojH+N6kofLL5U7Fg/4Cy0ECZaLz5QOTdGI10DQWcQWi8farJF
+	RUXM0HxzwkLxocWjIxdJunTQ4w==
+X-Google-Smtp-Source: ABdhPJwY519iS8lVwKX1qEnCiC9eqr58WVWOOgD2YLBJLa/v/6HlmhUYFBKbzZ/EK3LD3+nNoyJZWw==
+X-Received: by 2002:a65:564f:: with SMTP id m15mr25426446pgs.346.1627420016187;
+        Tue, 27 Jul 2021 14:06:56 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id d29sm4704061pfq.193.2021.07.27.14.06.52
+        by smtp.gmail.com with ESMTPSA id a18sm4605717pfi.6.2021.07.27.14.06.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 27 Jul 2021 14:06:54 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
@@ -48,9 +48,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com
-Subject: [PATCH 17/64] iommu/amd: Use struct_group() for memcpy() region
-Date: Tue, 27 Jul 2021 13:58:08 -0700
-Message-Id: <20210727205855.411487-18-keescook@chromium.org>
+Subject: [PATCH 42/64] net: qede: Use memset_after() for counters
+Date: Tue, 27 Jul 2021 13:58:33 -0700
+Message-Id: <20210727205855.411487-43-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
@@ -60,54 +60,39 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1451; h=from:subject; bh=3pnVXRScRiXcKlAzWmxtHjgtqdCSr5x9f+6aO5KQ5qc=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHODYV9h07PQ3v5RAvzij9k85T7DPu/8sNSs65Q4 0y0UliiJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzgwAKCRCJcvTf3G3AJiW2D/ 4nEDA70nGUYhVyf7oYOlQgzyry3f6d0tKPbEYWNkte1rIRW3O2InK76AVJyf0Q/BtnVYPXNStIrzaO SUDw2yOwXO4oq2+xlKHbSpDQcYZna36Xqovo10kVGY112L7kOGbUfQZZPm+9ZCxh9fprwP+ezpdrPw 5RhPSv0UwMiQYY/cih9csRF3Y0cUslbWzBAlMAKY4vV665FdBYm4Cd1UbBRiX7n5X6rkASp/R5KUJO gT9lqJlutTZcY84HhE2e7nVfUM1tK/zoQ1ZeRZ2l14KFhykcFSW9gTHS3VJa2Fr3ta26jaAzpIQzRI I1VZSdlxpEUPAljbEi8ms11eBPC5N8+yPox2bH9yz8bPLwwHOwyP+yRXagJSrsB0JY9elrri4Jr0d4 L0spfyNNFhXi1pYLN/VwHLWk0qCJ6U6H1/1yJ5fkSANbabpn+M+34UuJ87NhDZnoboRjX68s2N9xUp Ztc8gb6cNuq1OK7yjw+/s+IPxRe2Xrjyj6xMHQ75Nmq+kDqedEV8h/okfZHv9FN6eZGw8+d+79qrHr /MdSe/HI+xPECZcwJiIqojDU9hyrQ75Slj1hn65lXR2jBuZkuxOB9VWtjVZyPGXbccWBvdccl0Sthp x+6FisSerA0XyrnefqEYTnx+5XYfaYWhfusWvoUDsVRDlD5XjnXe/NKxjhWQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1223; h=from:subject; bh=+oNHWYKI7OiMvUYldC+7QtNoxUdXE/kW9CQ+oRXYBqY=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOJw9ilEafOIQz0OSX0a5+Mk3t4qj7IlMp5HpRI I8v04OeJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBziQAKCRCJcvTf3G3AJuzVD/ 0RRox2qEIN95eJcW3A8vqt2ioE4mwhWDpnaG56BfiMQGgYavXHJCjNhgbBwOFJCV1qn/abootdw6gi MIuifo1LNauLOJXChBIxqmMU3Y5bpiCSS/AijpuBw4Z3iddlnotuhrfgguUBRoe0mf+iCQYvPctEPn WNEIRI5/AaV9Mf6UxjeOssFDHXcaYAH95H575iNwuiGKQ9U/X9kkZ7TMLIu3DjiAVdI1ef63t0bGqJ NT8VGIND8Jg3dGU7L51DnGwqESwUIdKaynpk/XskM+AdL5mIvIdzjm8Fq/DjRqSq+QyI5DmIWRXQ92 G5LTkFitmHW91XYAOIqhDmxJqafU5YThOy1v0k2C1xSOyQW9WGRkaNMfV1Rii3I9S27TQsObux3BPx k0wCCYVx0vsm4+HfA1bKzRQxQKkWvuUU5/SSR3pKmdD1YYGx7+h2DDpDTh81iNj5g82Wb6mv71dLOX p5X8qV5v1SXGEjLD3KX+fBCU6+dHKcl2DE2qIxdx8FlZ2TWZHRmmn1EfgLksLuMGt420FQH4fwsTlj y3dZYW3f4iMZvEmWpEXaMikr0p9gjMmvEAGCTavGtutONWZP9n7LQj7xSt7a/5jTYEF68rES7VaS64 nI2irr5vSpIpC9om4QpqvyeS3NCG27UfZ3SZyJRpHb6GNh+XvFlAs6IMK8aA==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
 In preparation for FORTIFY_SOURCE performing compile-time and run-time
-field bounds checking for memcpy(), memmove(), and memset(), avoid
-intentionally writing across neighboring fields.
+field bounds checking for memset(), avoid intentionally writing across
+neighboring fields.
 
-Use struct_group() in struct ivhd_entry around members ext and hidh, so
-they can be referenced together. This will allow memcpy() and sizeof()
-to more easily reason about sizes, improve readability, and avoid future
-warnings about writing beyond the end of ext.
-
-"pahole" shows no size nor member offset changes to struct ivhd_entry.
-"objdump -d" shows no object code changes.
+Use memset_after() so memset() doesn't get confused about writing
+beyond the destination member that is intended to be the starting point
+of zeroing through the end of the struct.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/iommu/amd/init.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+The old code seems to be doing the wrong thing: starting from not the
+first member, but sized for the whole struct. Which is correct?
+---
+ drivers/net/ethernet/qlogic/qede/qede_main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-index 46280e6e1535..2df84737417b 100644
---- a/drivers/iommu/amd/init.c
-+++ b/drivers/iommu/amd/init.c
-@@ -121,8 +121,10 @@ struct ivhd_entry {
- 	u8 type;
- 	u16 devid;
- 	u8 flags;
--	u32 ext;
--	u32 hidh;
-+	struct_group(ext_hid,
-+		u32 ext;
-+		u32 hidh;
-+	);
- 	u64 cid;
- 	u8 uidf;
- 	u8 uidl;
-@@ -1378,7 +1380,8 @@ static int __init init_iommu_from_acpi(struct amd_iommu *iommu,
- 				break;
- 			}
- 
--			memcpy(hid, (u8 *)(&e->ext), ACPIHID_HID_LEN - 1);
-+			BUILD_BUG_ON(sizeof(e->ext_hid) != ACPIHID_HID_LEN - 1);
-+			memcpy(hid, &e->ext_hid, ACPIHID_HID_LEN - 1);
- 			hid[ACPIHID_HID_LEN - 1] = '\0';
- 
- 			if (!(*hid)) {
+diff --git a/drivers/net/ethernet/qlogic/qede/qede_main.c b/drivers/net/ethernet/qlogic/qede/qede_main.c
+index 01ac1e93d27a..309dfe8c94fb 100644
+--- a/drivers/net/ethernet/qlogic/qede/qede_main.c
++++ b/drivers/net/ethernet/qlogic/qede/qede_main.c
+@@ -2419,7 +2419,7 @@ static int qede_load(struct qede_dev *edev, enum qede_load_mode mode,
+ 	goto out;
+ err4:
+ 	qede_sync_free_irqs(edev);
+-	memset(&edev->int_info.msix_cnt, 0, sizeof(struct qed_int_info));
++	memset_after(&edev->int_info, 0, msix);
+ err3:
+ 	qede_napi_disable_remove(edev);
+ err2:
 -- 
 2.30.2
 
