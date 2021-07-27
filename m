@@ -1,36 +1,36 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D98942FAD
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 21:06:53 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id b6so1806660pji.4
-        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 14:06:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E46E2F80
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 21:06:54 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id o44-20020a17090a0a2fb0290176ca3e5a2fso1090372pjo.1
+        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 14:06:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=clRlkcTWzJOWdb6SjT1HZu+AyElzVwLtoYPXziOiXRE=;
-        b=MBUIR3iBfXKxxQGTkwEdR+msAp6pxmWHaDphvmnJvT1Zw3YRPe0XXCC1E1e0Bq7P9v
-         PHNDTqIkm/jI1FEa26EuyG+8VRkITbDssqS0hfWFfeIsKVWMxs6NsU4giYYW+nhBICQ9
-         RxMzcJq+3X+F/NXCQU0H77itPS7DDeCUh+z/o=
+        bh=O5PVCm4vbOkHTdhySLNgX8cYsmk07det2tWYYr+tRf4=;
+        b=gxKAidxHtXkH57cdgTrBRW+Iu6kBJm2gLTc/ZhTreM4nUhVINAm9hnCEsll5JLIeuv
+         GXDrZXo19JKoLdUCWqYws3d6+nRR58XFL0Nk9+2Zzh54A6uGcEngTnaAEe4kkqqnI2fB
+         ruSx/lD+GWJQolLfAMVF9OQXx6F28ZgkVPYx0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=clRlkcTWzJOWdb6SjT1HZu+AyElzVwLtoYPXziOiXRE=;
-        b=RdD2oaE3i2E2wqehjt/okiJYn//nr9LslBl/yAUBduF+G7y11YiJJ1J5+Kr//qvsW0
-         A94DinJjggCjFDzFOiuaxZXMK9MpO4VEsiEBTIUJa3jLkg3xkY7rVRcEVsjWXqz8F9yI
-         +Pv6lLmqU6hYZZdhhDw1TDgpNGUEca5PVdNJDro0UirA+atYvYxyCJwOpyh3EOoJUvOP
-         4V1DfPLk4sS/ceXD+t4+zpE0PhfiPzffT0PyIbuubxRhpWmqNi1XepH6lftEpHbGaniC
-         IBXQlqbaAP6yWaoNO/qj+GZPmkaaRSEfBybz8w1PPYfJN7Foi3eRb00h/8hyDHhCXqWI
-         MadQ==
-X-Gm-Message-State: AOAM531h0KiAdPXFL2CQeW90e/fGbUJOXBQm9a/DBiWHGUOJp9BXJ+4b
-	3YFsVqw6Z+bc2ByAnTuNLbH2+A==
-X-Google-Smtp-Source: ABdhPJyQWD89modfR5XqhD/BrBVi4uhzmxv+/WY0dPBKz1b0mLB8ON+0pnmzIlozqgKLDJGyoixVLw==
-X-Received: by 2002:a65:420d:: with SMTP id c13mr9244079pgq.123.1627420013548;
-        Tue, 27 Jul 2021 14:06:53 -0700 (PDT)
+        bh=O5PVCm4vbOkHTdhySLNgX8cYsmk07det2tWYYr+tRf4=;
+        b=t+iF+1cg3D641YXjABufnqE8XpxtTe7Bx6nDpOVGF/H+o61zWjDFcsl2BEORf6woRG
+         z6tUzG8yPJBoTSSUkU0wHSG5+ADdxuNDt0L8TU5tqNrexIwKMXuDjZgUAc/GO+RhyeeT
+         Hbb/zRbIByFWEGGiXU0vd5Whcf5+GRYsrULEVKPZOdFpsjrv/p61XR+8oHFzDNrrLXq5
+         KfsDkttm8/hhHdsKre9z5mMAmYwwYU4KGExmQxkIilLS5UMRaMNGTYby5qx8EQfrqjin
+         UKC5TTNy3vFpzGXdZpMPrXrkBMajjlVPwDPFlxcANojcLC37scqhvMTh1VhRkp/Utj3O
+         OpQQ==
+X-Gm-Message-State: AOAM533e/K3W4f+YimZJdCluJcervCRoCe7+d8DQPTKBVaPNbL502AUu
+	Ka/5qGa/iqE9y5MbgeK2m5x7/A==
+X-Google-Smtp-Source: ABdhPJzlXy/VcX23c9PQ65+XqlmSvwlYyjvPZKBc9QGkV1GFAs820b6KtM3ET4HtRC/ZSXPL17y+Jg==
+X-Received: by 2002:a17:90a:c003:: with SMTP id p3mr23960881pjt.14.1627420014073;
+        Tue, 27 Jul 2021 14:06:54 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id l1sm3813994pjq.1.2021.07.27.14.06.50
+        by smtp.gmail.com with ESMTPSA id q14sm4721670pfn.73.2021.07.27.14.06.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 27 Jul 2021 14:06:50 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
@@ -48,9 +48,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com
-Subject: [PATCH 16/64] thermal: intel: int340x_thermal: Use struct_group() for memcpy() region
-Date: Tue, 27 Jul 2021 13:58:07 -0700
-Message-Id: <20210727205855.411487-17-keescook@chromium.org>
+Subject: [PATCH 55/64] RDMA/mlx5: Use struct_group() to zero struct mlx5_ib_mr
+Date: Tue, 27 Jul 2021 13:58:46 -0700
+Message-Id: <20210727205855.411487-56-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
@@ -60,111 +60,49 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3277; h=from:subject; bh=FXb9nQQ+9raXNRheCnPL/rsMtfpVZSmOVeEiPUzBx+k=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOD97boEQtghYWjunVAHXryqRBeKslQ/U0/9Z2K SuHsN8WJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzgwAKCRCJcvTf3G3AJs4JD/ 4t9krlI0msPh0DWMgqWRsM+X+y+HiMVgVUi7JkKAiBNJZoty9G4c1eS7yLV6TgLer2yFH8Ds58wUxF O6n5C18sFXheNiEEW+6vqVVeyQpO6nOPUonTlA8hTYBZp6CBNW7L7fqFalI7RlROQmukoEwMQZpWKx EuiGE22FT/3gJFEHq6KV61yPGYruCiyqaRADMcMMvyaJddy1qUkMgv0+9MsD6Pk/GN14+iLJT/WvX/ +Ncg6xMtv77TZnfLggNoIAXvzxqKTuj4YKPXx37SB2DDRCzdDh7R0hdU6WnJYEDwR5nd28AxRY9pW0 3/vFBrVdXmb5M1ePJqtCrbIM24arQveQJ0OFOeHTeWVNTcpF2rYY6HkYdqN5OgBXbagUUrHLo5sTJT oCoXT0USJzevlZoW3hXd+qGHUmuaA7+oUpf8ERJftB1gtBZ5+mAE3oNp6XoGlqZWXKaZOqEXohtJdE JKAKoqmW3JI+EQI+YUWLhorOoexqDCL3tG1VxN6M8wVEznEOVlCPdgcKjMwd4TvvKajC88ejnODvYX Yx+uFlSgaEFH992Tzy+Sem73iwT45T1pxFzlgXi6UKZ/H5V8dY1HWDHhQdWkFNrA7YldsHu5LMPO23 EVZMhiu2pPLzAvDWB389kz3t6FqAo/HGYnm8kfHnyCibi/cFhsXVyBwQujpg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1274; h=from:subject; bh=oY909dEANo6V3IFn0noc67FV5hBK8uceU7oGCjc7zOw=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOMh317iG5OLcRV6f6KOkZ9q+C2N36hwkRl8LQQ C7eGawSJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzjAAKCRCJcvTf3G3AJg4UD/ 9BnzAT1Z7CsW+TRX8tpO/bHWsp1ALKoQrreRJNLcuwaofCAjFi8BnU29qFDffCG8DWqAC3Pmtj4p39 RskVkYUAy5axxifQzhefjhk7tLjvkw2mmeV+0QGdeg2rbLL5Dpmmav2A7WaFsWyg7W74/0ud+a6Hbc M4RLDpYX0mM68jox12+Syr653lTWFNFS86gcN1Q975/PUD2xYk3dY3H3s2zF7i9XFyEP2N2G5zErPl ED8ZrAbuSSNxMO5rke2YVbiw/FbKveB5UCkCgtjoT7lSW9mZYdr144xmSl8iaDmr3LYdfAxQG6WpF1 N2W+2K9FRkZT0VZd9PdKAMbV3Ofm9qyfYEnpmGGs0y4uhKJtYKpv60s7YXeG+eQtwR/bCFvecfShz5 rvqvYF46IrMS8jbLeJHjqvjyd1hw+zCAJKd2c4R2LPUZ7WDVjRNGtq82PEZ2Tr725JvJTSLKrGx8YA tWmn4rCBBSu/PqTl3206VAZLiP+HeqZxC26TE27C7IcR67ONOX3U06CdJRm2X3VkQMJVPvT0OYPmRr DH5V/sNlfiZe0r9fNcKAYsCQaHKXs6D2jYAWqxqm2msNETdd60wrVAfUL77zKIV9hqqj6sRIXPhZ8R +len0ulP7Zp0NQRxZYGLikaPmhWeDXiQR88kCVUq6p0rdBPBuFSFYAGLjJSQ==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
 In preparation for FORTIFY_SOURCE performing compile-time and run-time
-field bounds checking for memcpy(), avoid intentionally writing across
+field bounds checking for memset(), avoid intentionally writing across
 neighboring fields.
 
-Use struct_group() in struct art around members weight, and ac[0-9]_max,
-so they can be referenced together. This will allow memcpy() and sizeof()
-to more easily reason about sizes, improve readability, and avoid future
-warnings about writing beyond the end of weight.
-
-"pahole" shows no size nor member offset changes to struct art.
-"objdump -d" shows no meaningful object code changes (i.e. only source
-line number induced differences).
+Add struct_group() to mark region of struct mlx5_ib_mr that should be
+initialized to zero.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- .../intel/int340x_thermal/acpi_thermal_rel.c  |  5 +-
- .../intel/int340x_thermal/acpi_thermal_rel.h  | 48 ++++++++++---------
- 2 files changed, 29 insertions(+), 24 deletions(-)
+ drivers/infiniband/hw/mlx5/mlx5_ib.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
-index a478cff8162a..e90690a234c4 100644
---- a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
-+++ b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
-@@ -250,8 +250,9 @@ static int fill_art(char __user *ubuf)
- 		get_single_name(arts[i].source, art_user[i].source_device);
- 		get_single_name(arts[i].target, art_user[i].target_device);
- 		/* copy the rest int data in addition to source and target */
--		memcpy(&art_user[i].weight, &arts[i].weight,
--			sizeof(u64) * (ACPI_NR_ART_ELEMENTS - 2));
-+		BUILD_BUG_ON(sizeof(art_user[i].data) !=
-+			     sizeof(u64) * (ACPI_NR_ART_ELEMENTS - 2));
-+		memcpy(&art_user[i].data, &arts[i].data, sizeof(art_user[i].data));
- 	}
+diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
+index 585fb00bdce8..830066e95260 100644
+--- a/drivers/infiniband/hw/mlx5/mlx5_ib.h
++++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
+@@ -644,6 +644,7 @@ struct mlx5_ib_mr {
+ 	struct ib_umem *umem;
  
- 	if (copy_to_user(ubuf, art_user, art_len))
-diff --git a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
-index 58822575fd54..78d942477035 100644
---- a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
-+++ b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
-@@ -17,17 +17,19 @@
- struct art {
- 	acpi_handle source;
- 	acpi_handle target;
--	u64 weight;
--	u64 ac0_max;
--	u64 ac1_max;
--	u64 ac2_max;
--	u64 ac3_max;
--	u64 ac4_max;
--	u64 ac5_max;
--	u64 ac6_max;
--	u64 ac7_max;
--	u64 ac8_max;
--	u64 ac9_max;
-+	struct_group(data,
-+		u64 weight;
-+		u64 ac0_max;
-+		u64 ac1_max;
-+		u64 ac2_max;
-+		u64 ac3_max;
-+		u64 ac4_max;
-+		u64 ac5_max;
-+		u64 ac6_max;
-+		u64 ac7_max;
-+		u64 ac8_max;
-+		u64 ac9_max;
-+	);
- } __packed;
- 
- struct trt {
-@@ -47,17 +49,19 @@ union art_object {
- 	struct {
- 		char source_device[8]; /* ACPI single name */
- 		char target_device[8]; /* ACPI single name */
--		u64 weight;
--		u64 ac0_max_level;
--		u64 ac1_max_level;
--		u64 ac2_max_level;
--		u64 ac3_max_level;
--		u64 ac4_max_level;
--		u64 ac5_max_level;
--		u64 ac6_max_level;
--		u64 ac7_max_level;
--		u64 ac8_max_level;
--		u64 ac9_max_level;
-+		struct_group(data,
-+			u64 weight;
-+			u64 ac0_max_level;
-+			u64 ac1_max_level;
-+			u64 ac2_max_level;
-+			u64 ac3_max_level;
-+			u64 ac4_max_level;
-+			u64 ac5_max_level;
-+			u64 ac6_max_level;
-+			u64 ac7_max_level;
-+			u64 ac8_max_level;
-+			u64 ac9_max_level;
-+		);
+ 	/* This is zero'd when the MR is allocated */
++	struct_group(cleared,
+ 	union {
+ 		/* Used only while the MR is in the cache */
+ 		struct {
+@@ -691,12 +692,13 @@ struct mlx5_ib_mr {
+ 			bool is_odp_implicit;
+ 		};
  	};
- 	u64 __data[ACPI_NR_ART_ELEMENTS];
++	);
  };
+ 
+ /* Zero the fields in the mr that are variant depending on usage */
+ static inline void mlx5_clear_mr(struct mlx5_ib_mr *mr)
+ {
+-	memset(mr->out, 0, sizeof(*mr) - offsetof(struct mlx5_ib_mr, out));
++	memset(&mr->cleared, 0, sizeof(mr->cleared));
+ }
+ 
+ static inline bool is_odp_mr(struct mlx5_ib_mr *mr)
 -- 
 2.30.2
 
