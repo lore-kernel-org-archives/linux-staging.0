@@ -1,36 +1,36 @@
 Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A76470
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 20:59:06 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id o44-20020a17090a0a2fb0290176ca3e5a2fso1053296pjo.1
-        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 13:59:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A1FB2F80
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 20:59:07 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id m2-20020a17090a71c2b0290175cf22899cso1094079pjs.2
+        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 13:59:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=uPW4aGYkFWagrfBZ6kQLS1fLAo/l3YI0HfE68pjP/OM=;
-        b=UXpVpHuoBEvfkIVMmS2/VMwQ3bCV5jrK0wfMve0yrY4hayGeG4jDKjgxlRt2It30Iz
-         S44+j1gZxTlkm8YvMSPchxSLtEdSeKLytFhP5KNfmjNxQ6L+nnA6VIeYdnOhHvYqTGNE
-         2lfrw5gKAB7i6UPypwEWQs0LaSLesvD8FyEig=
+        bh=2339k4b0c5OWODNkIvToUoNb0tla173APtop2g87yK0=;
+        b=iEi8m5VvnHSI7PFGMBkWP99DR9/hasEmGaHMmQ/hAQvXWolvYn1ZqWUISR9yx86HKe
+         271G4W/Ncz7bw1+gj01x3c+6WGGDOH9Vwl/Z+aiHCXNR+A9GI+MIw4zbZztpHvcFA5pK
+         3bJY25UolqjG5yrPadDsyTKAutRNBCjMgVGtE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=uPW4aGYkFWagrfBZ6kQLS1fLAo/l3YI0HfE68pjP/OM=;
-        b=jONwXacHwJXMVr5Af9sg9SLBofYKVD5TbxtUrnJtc5MwPX2aTL+y9PEXjkVLdDETf4
-         YG0aVOm0crFljStlA1LP7Gs1uRSMgfJ/fin/3HULSgC3TUR/jWHJoiWugc+kmbmq8SS4
-         RBZVj9n5TUilNgMK1UUA5f/Rk1MOQV9ZdscQ+neWx1Mm0NjVaui7Q2YGArOO2JVoI5d2
-         8yf09H6rhHjQ0J1MWgfxgmzRlqWMvmRFlUQXI9BkdZ/zshcWtKFKOIssGkN1CUFsNwps
-         x9UpFRQGw0METpUmRGprtP60QiCWjk0vgJNvPJRj/y+EgUO2KOGUIxieGNhqxMJd6uxr
-         EDbw==
-X-Gm-Message-State: AOAM530OtdRFXyEq6EwFQUtYL/EuTXSPVu210b6okAid6Sh198dw10iA
-	y7NGNEL5VEnuwcBsM/0WhZMmLA==
-X-Google-Smtp-Source: ABdhPJxd0+AjNRPUswTM0GF/7R6M9ezJro8mUT8qaHqrKFrbmFwcqlTxjNrGQJxkBIVrT0fiUY7kSg==
-X-Received: by 2002:a17:902:7001:b029:12c:4e36:52c5 with SMTP id y1-20020a1709027001b029012c4e3652c5mr2732432plk.9.1627419546233;
+        bh=2339k4b0c5OWODNkIvToUoNb0tla173APtop2g87yK0=;
+        b=nIYXNKACzp6hsNIL8D0cHWmghpHVHPy1cvoxudlg4qnK/poPWhnNgpEobxZw1gO0t3
+         SExfeSis3Lxe1Tsf1h8ssOvzOPEsc6jfEJk67g/fRUMKgTzadvki1H4bXluXY65GT5ua
+         qNcqq8BEn/Kq3CWV7Oud+hA/eFFxMCmu0uBYWAUmBsCJRICrfEksWhs0wM7QhHiQwo3k
+         TTyZRTUDnK3KnmZn+jlF9sQapcbq0XYYVsDAJatLBXgwh8q/+LCcjV7NVWaWu4j1/ef1
+         6NPnaa8/LHHIMUyMGE25isgvBZFMQLntPHvGPDHEVSvXX5Ue2f7TVXRlJ2d01VNjnfFE
+         /5rA==
+X-Gm-Message-State: AOAM5337QMcaeZX4ZntS7RwT5+/iETcDemg4/zAd28NNhZX0vYRQ014I
+	/gk97wvEdSUf3uqT0KkrDNsNKA==
+X-Google-Smtp-Source: ABdhPJyJWxUGA3LrJs4BG51/vLWpJYAHbkWL9HNsMr9tG1fy6upd+bj3BEBNQksVHaNDSvFaiNMgng==
+X-Received: by 2002:a63:5610:: with SMTP id k16mr25193869pgb.439.1627419546981;
         Tue, 27 Jul 2021 13:59:06 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id v5sm5184284pgi.74.2021.07.27.13.59.03
+        by smtp.gmail.com with ESMTPSA id j20sm4672710pfc.203.2021.07.27.13.59.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 27 Jul 2021 13:59:05 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
@@ -48,9 +48,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com
-Subject: [PATCH 09/64] staging: rtl8723bs: Avoid field-overflowing memcpy()
-Date: Tue, 27 Jul 2021 13:58:00 -0700
-Message-Id: <20210727205855.411487-10-keescook@chromium.org>
+Subject: [PATCH 06/64] bnxt_en: Use struct_group_attr() for memcpy() region
+Date: Tue, 27 Jul 2021 13:57:57 -0700
+Message-Id: <20210727205855.411487-7-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
@@ -60,7 +60,7 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1200; h=from:subject; bh=W255D43HxOgsOipc15Ftl/Z16nQ7WLNF6zRAweGW0nw=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOC1QFEAUDqn9/LsmpdJgx+v9gsLtlsJdMUyKBG b+56mhyJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzggAKCRCJcvTf3G3AJltAEA CFqUNvIguNTsoQJJxTpZmXIFSznOd0DQbsxxZjiiSI+Uy5K/rxgo0fi7YbevEnqZLbfvmzTrflUtnP vrxikp6Nm3oUKk87MfWKm55/Rb4UNEtRFkq6lpU13Pff2ZKiGagsWulzzRcChGxOWGJLkQgutmZo19 4lL+NXsl53eQK+fKsQUzoeZnXWEXR6fi9Prc46Jpll0wb0XU9OCffbFczCNAJ2TFktSN97z0OLhGOj bKetL0pmjEsXBBLKFBsoi6qrkGdaWIt+UYNqj6GyUTxl9aSKASroGp7CnPxFzGw8860bLtdeVytJpH M6VWwhSrRFnJ9E/kNVoT3886OMGv2hE1L1SgpE4EDWKKIk8OhjNP+fc2jAdhvOv3toFl4XiMe5rVbd XdqTBfQvqWFw1vAelUGVpKbstixGrSv0cEqG97X0qoVoqij+34qbecwOpBc2j8/gQp9d6gdqWiC7QO HVaCe91yWXyU7FvAW8qYQnHiPqborIACdGPPaCnRpJozv/LSuBdXrN/zfRcuHrOFb+yI1mNplJICgl WgxTNn036UBtlbh0Wb2bxTvaLshJR8pghfrGo4l7FN0LRxsxCkn4g9ZFd/8BPya8EYm72GRg/jZPRV IgZEiVdWLN8MdZlNcQ/Udi70s66J8qKfCm/KsWRSEfFjdnJHu0Fgu1w04aGQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2358; h=from:subject; bh=urnr1c0HuSr0zcemksTCEth1t70QAfbHaEcP+c1mXUA=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOBqioJQ+1gy1GQQan/jf7RJ1/WXH5A0qXVd7xV vq5+5hOJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzgQAKCRCJcvTf3G3AJiWREA CNm4WJeCn47J5obmfhInAVhQHs+WaRodzYXqYlwhYZwqztfgNWLmnuTFB7WixSIet+ogzFMJ1r7fzU QnWXAsLuJ3BX98gUGzvKpmV42J3D2bYmtlrZs7Eyhzqsf8YU/1DgzM/cyzoMB1MkY7QVnFyA9ECldc n4XuqAu3QiaIe+5lzEXU3cW0wy5VDaO3U89VhsX3c6FWjMhQ0FF71U5yZVlZ7s8QMcwjgGQ/rSZ5HS tHMaYMmuprGsc0WRWDxssLMce4AZIdKRwnQBGxYX56oM9u/26JaL77KjZeahVv+n4nC+KkXfWFoSls jO+qT1zevLJBtQfWAqBgbtl6mxUkW3D/0aBPlL7o63ss885dcW9pWjj8sVkqG2AOPVUcl+mMOp+VQm 5qmqUeZbnxJVtXjSRXpvzpBMjNj47QiFJaRRu++FQ9+TJ9TwFws9C31mCXsNjIBK/xzNCc0OuY/J2T Fuuz5AL5SsvRzztZGGQvpjWG2xGgfilhJucEqfeyaJrFQIvjGMIAVFYzMGX4dwwIpBMhxVU4spof3f TLNENoSRR30/sOaQWASgjwj8RqwZ3WioWr4/ALRyqYdHD8j5usq3wgrSpYlAC1AQpefx1uLVDOyes3 1j+4vL+JqxKC93LWdqu/2gVD/VBJnBjDTcrSW3GQTmYSKuzKxca2WKziYSew==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
@@ -68,29 +68,64 @@ In preparation for FORTIFY_SOURCE performing compile-time and run-time
 field bounds checking for memcpy(), memmove(), and memset(), avoid
 intentionally writing across neighboring fields.
 
-Adjust memcpy() destination to be the named structure itself, rather than
-the first member, allowing memcpy() to correctly reason about the size.
+Use struct_group() around members queue_id, min_bw, max_bw, tsa, pri_lvl,
+and bw_weight so they can be referenced together. This will allow memcpy()
+and sizeof() to more easily reason about sizes, improve readability,
+and avoid future warnings about writing beyond the end of queue_id.
 
-"objdump -d" shows no object code changes.
+"pahole" shows no size nor member offset changes to struct bnxt_cos2bw_cfg.
+"objdump -d" shows no meaningful object code changes (i.e. only source
+line number induced differences and optimizations).
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/net/ethernet/broadcom/bnxt/bnxt_dcb.c |  4 ++--
+ drivers/net/ethernet/broadcom/bnxt/bnxt_dcb.h | 14 ++++++++------
+ 2 files changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index a0c19253095d..fbd6e3d16323 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -2390,7 +2390,7 @@ unsigned int rtw_restructure_ht_ie(struct adapter *padapter, u8 *in_ie, u8 *out_
+diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_dcb.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_dcb.c
+index 8a68df4d9e59..95c636f89329 100644
+--- a/drivers/net/ethernet/broadcom/bnxt/bnxt_dcb.c
++++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_dcb.c
+@@ -148,10 +148,10 @@ static int bnxt_hwrm_queue_cos2bw_qcfg(struct bnxt *bp, struct ieee_ets *ets)
  	}
  
- 	/* fill default supported_mcs_set */
--	memcpy(ht_capie.mcs.rx_mask, pmlmeext->default_supported_mcs_set, 16);
-+	memcpy(&ht_capie.mcs, pmlmeext->default_supported_mcs_set, 16);
+ 	data = &resp->queue_id0 + offsetof(struct bnxt_cos2bw_cfg, queue_id);
+-	for (i = 0; i < bp->max_tc; i++, data += sizeof(cos2bw) - 4) {
++	for (i = 0; i < bp->max_tc; i++, data += sizeof(cos2bw.cfg)) {
+ 		int tc;
  
- 	/* update default supported_mcs_set */
- 	rtw_hal_get_hwreg(padapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
+-		memcpy(&cos2bw.queue_id, data, sizeof(cos2bw) - 4);
++		memcpy(&cos2bw.cfg, data, sizeof(cos2bw.cfg));
+ 		if (i == 0)
+ 			cos2bw.queue_id = resp->queue_id0;
+ 
+diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_dcb.h b/drivers/net/ethernet/broadcom/bnxt/bnxt_dcb.h
+index 6eed231de565..716742522161 100644
+--- a/drivers/net/ethernet/broadcom/bnxt/bnxt_dcb.h
++++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_dcb.h
+@@ -23,13 +23,15 @@ struct bnxt_dcb {
+ 
+ struct bnxt_cos2bw_cfg {
+ 	u8			pad[3];
+-	u8			queue_id;
+-	__le32			min_bw;
+-	__le32			max_bw;
++	struct_group_attr(cfg, __packed,
++		u8		queue_id;
++		__le32		min_bw;
++		__le32		max_bw;
+ #define BW_VALUE_UNIT_PERCENT1_100		(0x1UL << 29)
+-	u8			tsa;
+-	u8			pri_lvl;
+-	u8			bw_weight;
++		u8		tsa;
++		u8		pri_lvl;
++		u8		bw_weight;
++	);
+ 	u8			unused;
+ };
+ 
 -- 
 2.30.2
 
