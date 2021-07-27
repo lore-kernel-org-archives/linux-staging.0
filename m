@@ -1,27 +1,27 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F8072
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 13:05:13 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 131CA61A2A;
-	Tue, 27 Jul 2021 13:05:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25EC872
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 13:06:33 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 74C0C610D0;
+	Tue, 27 Jul 2021 13:06:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1627391113;
-	bh=1GB5YmclR9G6ZS/AJEhyX4f1OTKseHBcaAqfPu/U780=;
+	s=korg; t=1627391192;
+	bh=dSkirkfsI++z38mvXCgqd7NzcPR7nNLQlgLTI+XvctU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vOO5DtD7SXA6zR3H5dqExSdhcxd3slCh+dw5QaJncJOb1efmwE7k/8ZIJTux6d7gi
-	 Kn02ob5K7+hvQq2dR02thzzkNYvH1L4mzLrY4CZtAEhkYnAp3soghkQbce5jxc+ygp
-	 sB0YFhDrglw8iam4dzvZ1Ju6k3keznYcLX5n2DBg=
-Date: Tue, 27 Jul 2021 15:05:11 +0200
+	b=QZDhYmb9bbXeiMbNBWfPk/4kt753Kwdf1mjnRSTO8Rd8sPHYwDcp8VbIpQMFSG6rI
+	 6QvGp13tgXAw46qpKBl8DhgozhimcgA4BrjoAyqe3R7JMT44eTj+gOmfGWzzvV4oNP
+	 xXZsnpsOLIVyYV+quvCiFY64Noo+hJy8k8za2RGk=
+Date: Tue, 27 Jul 2021 15:06:30 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8188eu: remove braces from single line if
- blocks
-Message-ID: <YQAEhxABM8ZFszCF@kroah.com>
-References: <20210726092129.30334-1-straube.linux@gmail.com>
- <a4eb0dea-a34b-8dd9-03c6-aa0d87e68986@lwfinger.net>
+To: Phillip Potter <phil@philpotter.co.uk>
+Cc: Larry.Finger@lwfinger.net, dan.carpenter@oracle.com,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	fabioaiuto83@gmail.com
+Subject: Re: [PATCH v3 0/7] staging: rtl8188eu: replace driver with better
+ version
+Message-ID: <YQAE1q9ZWRPHqfK5@kroah.com>
+References: <20210724001055.1613840-1-phil@philpotter.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,108 +30,22 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a4eb0dea-a34b-8dd9-03c6-aa0d87e68986@lwfinger.net>
+In-Reply-To: <20210724001055.1613840-1-phil@philpotter.co.uk>
 
-On Mon, Jul 26, 2021 at 10:09:51AM -0500, Larry Finger wrote:
-> On 7/26/21 4:21 AM, Michael Straube wrote:
-> > Remove braces from single line if blocks to clear checkpatch warnings.
-> > WARNING: braces {} are not necessary for single statement blocks
-> > 
-> > Signed-off-by: Michael Straube <straube.linux@gmail.com>
-> > ---
-> >   drivers/staging/rtl8188eu/core/rtw_cmd.c          | 3 +--
-> >   drivers/staging/rtl8188eu/core/rtw_mlme.c         | 3 +--
-> >   drivers/staging/rtl8188eu/core/rtw_xmit.c         | 3 +--
-> >   drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c | 3 +--
-> >   drivers/staging/rtl8188eu/hal/usb_halinit.c       | 6 ++----
-> >   5 files changed, 6 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_cmd.c b/drivers/staging/rtl8188eu/core/rtw_cmd.c
-> > index eb89a52aa4e3..56ece839c9ca 100644
-> > --- a/drivers/staging/rtl8188eu/core/rtw_cmd.c
-> > +++ b/drivers/staging/rtl8188eu/core/rtw_cmd.c
-> > @@ -1159,9 +1159,8 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
-> >   		psta = rtw_get_stainfo(&padapter->stapriv, pnetwork->MacAddress);
-> >   		if (!psta) {
-> >   			psta = rtw_alloc_stainfo(&padapter->stapriv, pnetwork->MacAddress);
-> > -			if (!psta) {
-> > +			if (!psta)
-> >   				goto createbss_cmd_fail;
-> > -			}
-> >   		}
-> >   		rtw_indicate_connect(padapter);
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme.c b/drivers/staging/rtl8188eu/core/rtw_mlme.c
-> > index 71d205f3d73d..0d334aba9a3f 100644
-> > --- a/drivers/staging/rtl8188eu/core/rtw_mlme.c
-> > +++ b/drivers/staging/rtl8188eu/core/rtw_mlme.c
-> > @@ -953,9 +953,8 @@ void rtw_joinbss_event_prehandle(struct adapter *adapter, u8 *pbuf)
-> >   			}
-> >   			/* s4. indicate connect */
-> > -			if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)) {
-> > +			if (check_fwstate(pmlmepriv, WIFI_STATION_STATE))
-> >   				rtw_indicate_connect(adapter);
-> > -			}
-> >   			/* s5. Cancel assoc_timer */
-> >   			del_timer_sync(&pmlmepriv->assoc_timer);
-> > diff --git a/drivers/staging/rtl8188eu/core/rtw_xmit.c b/drivers/staging/rtl8188eu/core/rtw_xmit.c
-> > index d5fc59417ec6..c77ebd18f40c 100644
-> > --- a/drivers/staging/rtl8188eu/core/rtw_xmit.c
-> > +++ b/drivers/staging/rtl8188eu/core/rtw_xmit.c
-> > @@ -1124,9 +1124,8 @@ struct xmit_buf *rtw_alloc_xmitbuf(struct xmit_priv *pxmitpriv)
-> >   		list_del_init(&pxmitbuf->list);
-> >   		pxmitpriv->free_xmitbuf_cnt--;
-> >   		pxmitbuf->priv_data = NULL;
-> > -		if (pxmitbuf->sctx) {
-> > +		if (pxmitbuf->sctx)
-> >   			rtw_sctx_done_err(&pxmitbuf->sctx, RTW_SCTX_DONE_BUF_ALLOC);
-> > -		}
-> >   	}
-> >   	spin_unlock_irqrestore(&pfree_xmitbuf_queue->lock, irql);
-> > diff --git a/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
-> > index 6cf87312bc36..a67615708745 100644
-> > --- a/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
-> > +++ b/drivers/staging/rtl8188eu/hal/rtl8188e_hal_init.c
-> > @@ -510,7 +510,6 @@ void Hal_ReadThermalMeter_88E(struct adapter *Adapter, u8 *PROMContent, bool Aut
-> >   	else
-> >   		pHalData->EEPROMThermalMeter = EEPROM_Default_ThermalMeter_88E;
-> > -	if (pHalData->EEPROMThermalMeter == 0xff || AutoloadFail) {
-> > +	if (pHalData->EEPROMThermalMeter == 0xff || AutoloadFail)
-> >   		pHalData->EEPROMThermalMeter = EEPROM_Default_ThermalMeter_88E;
-> > -	}
-> >   }
-> > diff --git a/drivers/staging/rtl8188eu/hal/usb_halinit.c b/drivers/staging/rtl8188eu/hal/usb_halinit.c
-> > index 1d7d5037ce89..3e8f7315d377 100644
-> > --- a/drivers/staging/rtl8188eu/hal/usb_halinit.c
-> > +++ b/drivers/staging/rtl8188eu/hal/usb_halinit.c
-> > @@ -641,9 +641,8 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
-> >   	}
-> >   	status = rtw_hal_power_on(Adapter);
-> > -	if (status == _FAIL) {
-> > +	if (status == _FAIL)
-> >   		goto exit;
-> > -	}
-> >   	/*  Save target channel */
-> >   	haldata->CurrentChannel = 6;/* default set to 6 */
-> > @@ -696,9 +695,8 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
-> >   	_InitTxBufferBoundary(Adapter, txpktbuf_bndy);
-> >   	status =  InitLLTTable(Adapter, txpktbuf_bndy);
-> > -	if (status == _FAIL) {
-> > +	if (status == _FAIL)
-> >   		goto exit;
-> > -	}
-> >   	/*  Get Rx PHY status in order to report RSSI and others. */
-> >   	_InitDriverInfoSize(Adapter, DRVINFO_SZ);
-> > 
+On Sat, Jul 24, 2021 at 01:10:48AM +0100, Phillip Potter wrote:
+> I had to break this patchset up a bit to get around the file size limits
+> on the mailing list, and also I removed the hostapd stuff which is
+> userspace related and therefore not required.
 > 
-> Michael,
+> The driver currently in staging is older and less functional than the
+> version on Larry Finger's GitHub account, based upon v4.1.4_6773.20130222.
+> This series of patches therefore:
 > 
-> You might as well stop looking at drivers/staging/rtl8188eu. There is a
-> pending patch that blows away that directory and replaces it with a new
-> version from the GitHub repo. The new one will be in
-> drivers/staging/r8188eu.
+> (1) Removes the current driver from staging.
+> (2) Imports the GitHub version mentioned above in its place.
 
-Until that happens, no reason people can't still get practice cleaning
-up this file.  So I'll keep taking these changes until then.
+Let's do (2) first before worrying about (1), given that we can't get a
+version of (2) that actually builds yet :)
 
 thanks,
 
