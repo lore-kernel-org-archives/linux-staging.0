@@ -1,38 +1,38 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB372FB3
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 20:59:13 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id k1so17546105plt.12
-        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 13:59:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDC02FB9
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 20:59:14 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id o44-20020a17090a0a2fb0290176ca3e5a2fso1053751pjo.1
+        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 13:59:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=vRBStJlDhZm0d9eTtG5cRn3WlrdJwJNmuGhxV2K5EZo=;
-        b=Nsz8DWljVaxUV6IjBgBUCk1PKkbZhxU5GBCfudGyn6bedsv1Ex+WBSMOLSEz7G7MgN
-         WAOh3b8WcpvZHC/rIjR95hnJWlWBQ/sOSeDYDJSdrWGDY1nyNgJogzpPcbea8ng/yF2+
-         b7TY+b4L/qmqRTkRVDoo5D5RnEKDBdQLyajYo=
+        bh=5dgtbc2dgc03WrB3zCW8xCKeemPdJxAysWeYGPrb2AU=;
+        b=F8BhKjlELwZQZC/NHilmj8UHyJiciojqkD21zu2phAh9IjoM/fxQim890WscudGWkn
+         ITiddmP/I7AMAah42EqEpj+RLkluZCVZ837vhUSZ98pD/iRc3avt5dWcp6Jyky58KYKr
+         5cCh2GoKzu208b1IjBoT3Lt5g7EZOYb86oyL0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vRBStJlDhZm0d9eTtG5cRn3WlrdJwJNmuGhxV2K5EZo=;
-        b=j0PgQXb38LPuN1qjdqLf85XyG7/Owv+Ug83kcH14bwAboWQTiqAfXmsYhq4SSEVmCi
-         v2kWk3D5kq/O9hMEMtUM/Ojo5n2azHN4GAnRFA0otw2V+ngq61b2+g4Y2UxXRRlaJ77v
-         dFTeoNdePPMesPjneXDd5vwiHyAle/RBbglAYy1CoFDQ9Q/nhQn9l8vypenb7SDcM+FK
-         KAGu/BXpjz0ObVbUeVFKKVkvnLc2ZHZvj+XgmzRa0tE0q2eGAQAOCe278ODALuOVAlF1
-         NC3w7BSsx9kRw+qLe7oJbFuOeYbtCPQ+EjNsUTyjSZ0NhQOqbSS0cdM1kOyJAyWIkbg8
-         EvfQ==
-X-Gm-Message-State: AOAM530OPB79Lzkc1zTeydrfTaDlCU2jocMzVn7pG40zo87anMD7K0sr
-	FptWYe25bNqqGY46EZ/vSqArAA==
-X-Google-Smtp-Source: ABdhPJyhWTh26zwaflmu8tgo3ARiqPdvOo/hYrckDCizLtD3AW+7DzGVFSehDuB/fG3mAAGw3NVedw==
-X-Received: by 2002:a63:67c5:: with SMTP id b188mr25442155pgc.333.1627419553101;
+        bh=5dgtbc2dgc03WrB3zCW8xCKeemPdJxAysWeYGPrb2AU=;
+        b=Vw3wCQwfWbx3Po15u55r5ek/2GqclmQihBhCh89pTBPtUkrYNc3t6MN+zrGVYByuQq
+         VnB+tYtSrlDmm/oyGK3ifg9V/nJNUMRdIhEEoiLshHy7MCACR3nWmB0HzIkHZoFDzzeZ
+         0HBBwR8KaWyHIBj+HwLANpVsJLMBcOJtMPTLhf8ZG2qgnU4f72SMU7NoYJ49+eP/vQvK
+         epsB76hsB52vrmPyj++395W+dZ6bloh9RiWf43Ikl3mX6O6I32wZ6X7d9nLR6tutX9Tu
+         N+RESfyyZjQK3zOZxtAQ1ccP96r9dpPf80WmQfq8d0A+MpzHOELQSfegRTMpyPW2ZoRo
+         AMbg==
+X-Gm-Message-State: AOAM530Rnm+Px4fCs6DegsNN/5shBQXkWvWYbPWlw7QaifNKxU4zLlEL
+	zD/kr1dH+GtkLsLZmUnZE9EYwA==
+X-Google-Smtp-Source: ABdhPJzHaCRGy5F+C/0IwVa3T6DxyU5SU0Rk1IFN+C3HrONrQCAZIHyVl0Jwr71UKmZc4kOAdrOx9Q==
+X-Received: by 2002:a17:90a:9511:: with SMTP id t17mr6099598pjo.194.1627419553892;
         Tue, 27 Jul 2021 13:59:13 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id f4sm5114945pgi.68.2021.07.27.13.59.09
+        by smtp.gmail.com with ESMTPSA id j185sm977660pfb.86.2021.07.27.13.59.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jul 2021 13:59:12 -0700 (PDT)
+        Tue, 27 Jul 2021 13:59:09 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
@@ -48,9 +48,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com
-Subject: [PATCH 31/64] fortify: Explicitly disable Clang support
-Date: Tue, 27 Jul 2021 13:58:22 -0700
-Message-Id: <20210727205855.411487-32-keescook@chromium.org>
+Subject: [PATCH 25/64] drm/mga/mga_ioc32: Use struct_group() for memcpy() region
+Date: Tue, 27 Jul 2021 13:58:16 -0700
+Message-Id: <20210727205855.411487-26-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
@@ -60,46 +60,148 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1434; h=from:subject; bh=OZRSNCCQRK4SI9xKythqbv7zK3vuXtwb3QhiwmK2e2s=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOHwCOrXdjKPaQWQTp+uW9oUvftBkVWr8r2JNok P/qAaYqJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzhwAKCRCJcvTf3G3AJoCzD/ 4rXCWl0wg4txaWiFFhdg/2zB4GZpYJQfc3gKG+4JFGMNSSyMqsjR7wvIcQ9gEw3+cnobZIiaO8b8Ts 4y0sNy+ntUvilrHAnRZtWZQVZ7Z0bphyaYuQgnGELUkyMmslVUhPTzSDaughNmfUsvkEFM+na0EDon 9JJonN1vAou+/HN62VbGE5PteJlTDw2ARwNaB/UDzOa8CrMfLABC2YCMWBQuW/UqXG+bpRn/qLi5tt MCnGh7OYAK68OrH12PTZeNI0ZH3K0pon9xoKCGRcbv4RNDpmHve1klM4hflJJRVdZs1aIaNJguaJTr 6HzvMH1IlLaBIYA4lMHcv39fbSr1Z24Y78ZwSdi26YFWkGiIV/xASK0JKJFtw2FqAGh322XFPKawrG jQORn0cKmpkW9asI32mQRS70BV/yIqqzFwVau7oE8B1pGVFNOb3v7tHQ1pe2FZlG3aDgzaXiZQvgvE BV8eE10/S2h2Ma/rMjBUEOjYcpqfCji2YQ9KXUQ9H8bATOOhL+MA0kKSq2drNbUrOiob2qLfmjcBrM 9FB51isfS+QH+Q88vYo6UjSXdNUljwv7UMKGBHm5ndrT3nefrnbGQCZFQt+GVMpwNv9zz9cx59pBu/ EGTrabicSmfTon6Nxko75RGn3EwP6RSQtf7jrirENHsTFm5z7IgfJKZI28iQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4623; h=from:subject; bh=k+K5bstPCbcyrh+sSnGNbOYkreiUUA/e+oUv7j7SsRI=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOF7lb8jaGmB5ldx4AxyJ1hPHdl4meiY4XD8VCT /iMBLayJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzhQAKCRCJcvTf3G3AJvoJD/ 92twoEjqLmo87BW6EPdn7+I36/Lfz4+EvdPI46UzDmOPeZZUdda/FVtlnjMfEf8Q7C65xjksxGuB11 ICT3mXYX/OI+OAHyDSDJYypVceEdn64IHFBqpq/oGwo5Yb3yImt3/puNdHix7T+reDMD9k3/10f1ea 64Pu/new1rtTnvCeLNrJVYFxo0r1FdR5tKQNjHTB90tHMLn2iIIKqbGXb20uLxtV+x7a+H7Us4Yvg3 jBkDEA9pd2OgCVOKGOgKUslD+d3uAxjiRTujQwyQFyuAcD0eO5bQmNCY2KVkY+N60I7KJX/+7VpO5f qXqg2QaavL2tumHBfYyNzwOsb6LN7zfwVX0ckRUzhnavSPV/D+qSZF3dIhW70wEeMyjzR0utNMhCoC xrhy6krEgk3kh6c5GIkeWWNBw1+HaHq84ZW7T0ZralGra2hddUdIcxJyigKD3DhXNPHoV1jCEMnjsR j27XJySoAwc8IRtRRcu1+lBrjuaYvhUsBhqRGiDppkxlrH8BYE9FWSEkYmo2/nR/nqvaO5kWIGopgr mtojfttWXR/DK1oruTB5GXelPdoUZCcw1LKaQBQtAAO+8wvNFMXwZCmCS87o/0cJrigkN+rbxsB6Fr kAar1dAvIQiU7igsE6A2DuLJrW43uIMso5wzoAuX6TFDDP3PcPS65gbtCqYg==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-Clang has never correctly compiled the FORTIFY_SOURCE defenses due to
-a couple bugs:
+In preparation for FORTIFY_SOURCE performing compile-time and run-time
+field bounds checking for memcpy(), memmove(), and memset(), avoid
+intentionally writing across neighboring fields.
 
-	Eliding inlines with matching __builtin_* names
-	https://bugs.llvm.org/show_bug.cgi?id=50322
+Use struct_group() in struct drm32_mga_init around members chipset, sgram,
+maccess, fb_cpp, front_offset, front_pitch, back_offset, back_pitch,
+depth_cpp, depth_offset, depth_pitch, texture_offset, and texture_size,
+so they can be referenced together. This will allow memcpy() and sizeof()
+to more easily reason about sizes, improve readability, and avoid future
+warnings about writing beyond the end of chipset.
 
-	Incorrect __builtin_constant_p() of some globals
-	https://bugs.llvm.org/show_bug.cgi?id=41459
+"pahole" shows no size nor member offset changes to struct drm32_mga_init.
+"objdump -d" shows no meaningful object code changes (i.e. only source
+line number induced differences and optimizations).
 
-In the process of making improvements to the FORTIFY_SOURCE defenses, the
-first (silent) bug (coincidentally) becomes worked around, but exposes
-the latter which breaks the build. As such, Clang must not be used with
-CONFIG_FORTIFY_SOURCE until at least latter bug is fixed (in Clang 13),
-and the fortify routines have been rearranged.
-
-Update the Kconfig to reflect the reality of the current situation.
+Note that since this includes a UAPI header, struct_group() has been
+explicitly redefined local to the header.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- security/Kconfig | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/mga/mga_ioc32.c | 30 ++++++++++++++------------
+ include/uapi/drm/mga_drm.h      | 37 ++++++++++++++++++++++++---------
+ 2 files changed, 44 insertions(+), 23 deletions(-)
 
-diff --git a/security/Kconfig b/security/Kconfig
-index 0ced7fd33e4d..8f0e675e70a4 100644
---- a/security/Kconfig
-+++ b/security/Kconfig
-@@ -191,6 +191,9 @@ config HARDENED_USERCOPY_PAGESPAN
- config FORTIFY_SOURCE
- 	bool "Harden common str/mem functions against buffer overflows"
- 	depends on ARCH_HAS_FORTIFY_SOURCE
-+	# https://bugs.llvm.org/show_bug.cgi?id=50322
-+	# https://bugs.llvm.org/show_bug.cgi?id=41459
-+	depends on !CONFIG_CC_IS_CLANG
- 	help
- 	  Detect overflows of buffers in common string and memory functions
- 	  where the compiler can determine and validate the buffer sizes.
+diff --git a/drivers/gpu/drm/mga/mga_ioc32.c b/drivers/gpu/drm/mga/mga_ioc32.c
+index 4fd4de16cd32..fbd0329dbd4f 100644
+--- a/drivers/gpu/drm/mga/mga_ioc32.c
++++ b/drivers/gpu/drm/mga/mga_ioc32.c
+@@ -38,16 +38,21 @@
+ typedef struct drm32_mga_init {
+ 	int func;
+ 	u32 sarea_priv_offset;
+-	int chipset;
+-	int sgram;
+-	unsigned int maccess;
+-	unsigned int fb_cpp;
+-	unsigned int front_offset, front_pitch;
+-	unsigned int back_offset, back_pitch;
+-	unsigned int depth_cpp;
+-	unsigned int depth_offset, depth_pitch;
+-	unsigned int texture_offset[MGA_NR_TEX_HEAPS];
+-	unsigned int texture_size[MGA_NR_TEX_HEAPS];
++	struct_group(always32bit,
++		int chipset;
++		int sgram;
++		unsigned int maccess;
++		unsigned int fb_cpp;
++		unsigned int front_offset;
++		unsigned int front_pitch;
++		unsigned int back_offset;
++		unsigned int back_pitch;
++		unsigned int depth_cpp;
++		unsigned int depth_offset;
++		unsigned int depth_pitch;
++		unsigned int texture_offset[MGA_NR_TEX_HEAPS];
++		unsigned int texture_size[MGA_NR_TEX_HEAPS];
++	);
+ 	u32 fb_offset;
+ 	u32 mmio_offset;
+ 	u32 status_offset;
+@@ -67,9 +72,8 @@ static int compat_mga_init(struct file *file, unsigned int cmd,
+ 
+ 	init.func = init32.func;
+ 	init.sarea_priv_offset = init32.sarea_priv_offset;
+-	memcpy(&init.chipset, &init32.chipset,
+-		offsetof(drm_mga_init_t, fb_offset) -
+-		offsetof(drm_mga_init_t, chipset));
++	memcpy(&init.always32bit, &init32.always32bit,
++	       sizeof(init32.always32bit));
+ 	init.fb_offset = init32.fb_offset;
+ 	init.mmio_offset = init32.mmio_offset;
+ 	init.status_offset = init32.status_offset;
+diff --git a/include/uapi/drm/mga_drm.h b/include/uapi/drm/mga_drm.h
+index 8c4337548ab5..61612e5ecab2 100644
+--- a/include/uapi/drm/mga_drm.h
++++ b/include/uapi/drm/mga_drm.h
+@@ -265,6 +265,16 @@ typedef struct _drm_mga_sarea {
+ #define DRM_IOCTL_MGA_WAIT_FENCE    DRM_IOWR(DRM_COMMAND_BASE + DRM_MGA_WAIT_FENCE, __u32)
+ #define DRM_IOCTL_MGA_DMA_BOOTSTRAP DRM_IOWR(DRM_COMMAND_BASE + DRM_MGA_DMA_BOOTSTRAP, drm_mga_dma_bootstrap_t)
+ 
++#define __struct_group(name, fields) \
++	union { \
++		struct { \
++			fields \
++		}; \
++		struct { \
++			fields \
++		} name; \
++	}
++
+ typedef struct _drm_mga_warp_index {
+ 	int installed;
+ 	unsigned long phys_addr;
+@@ -279,20 +289,25 @@ typedef struct drm_mga_init {
+ 
+ 	unsigned long sarea_priv_offset;
+ 
+-	int chipset;
+-	int sgram;
++	__struct_group(always32bit,
++		int chipset;
++		int sgram;
+ 
+-	unsigned int maccess;
++		unsigned int maccess;
+ 
+-	unsigned int fb_cpp;
+-	unsigned int front_offset, front_pitch;
+-	unsigned int back_offset, back_pitch;
++		unsigned int fb_cpp;
++		unsigned int front_offset;
++		unsigned int front_pitch;
++		unsigned int back_offset;
++		unsigned int back_pitch;
+ 
+-	unsigned int depth_cpp;
+-	unsigned int depth_offset, depth_pitch;
++		unsigned int depth_cpp;
++		unsigned int depth_offset;
++		unsigned int depth_pitch;
+ 
+-	unsigned int texture_offset[MGA_NR_TEX_HEAPS];
+-	unsigned int texture_size[MGA_NR_TEX_HEAPS];
++		unsigned int texture_offset[MGA_NR_TEX_HEAPS];
++		unsigned int texture_size[MGA_NR_TEX_HEAPS];
++	);
+ 
+ 	unsigned long fb_offset;
+ 	unsigned long mmio_offset;
+@@ -302,6 +317,8 @@ typedef struct drm_mga_init {
+ 	unsigned long buffers_offset;
+ } drm_mga_init_t;
+ 
++#undef __struct_group
++
+ typedef struct drm_mga_dma_bootstrap {
+ 	/**
+ 	 * \name AGP texture region
 -- 
 2.30.2
 
