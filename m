@@ -1,38 +1,38 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE962FB0
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 20:59:08 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id f13so18685plj.2
-        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 13:59:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D791A2FAF
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 20:59:09 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id l19so1888237pjz.0
+        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 13:59:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=hAtUXOqdIbIKgIXF67i6edRxNnI31C05ADltnD47YVA=;
-        b=KjyaAeWacqkMvH9zZm+BBzMkjACC5HUxdXv9tgcqmihQriCrMtd/DFnnW7F/YrD/ZY
-         Ukevt5iMkwkus4GIj0BPscD7xfNb9o1NPLdX8zvYUy6Vws2evRXwUJ9SqM3iq4seKTMQ
-         0scT3SXeeEgeJXutbDZfzTUKfHAc3euSilyDg=
+        bh=RbUTIPyfuQU3KvEwbLJbeU9iwD29PEErUjBhpe3f1nk=;
+        b=GtYyBBbtPxLFI/WfuLaMvDoXxWyPmC0zNQzNuCkFG4NF0Vg9BHEps6UBdbqkXeNeF3
+         TCLGbDASIg/2n9k5Rj/pRUe4EsWyA1ECIuxw4qfKiy8940LxdncMbz9exdPrnZjqZaTH
+         WwI9EGrUEd5BHZVFi1kSv8N0o7CeawloSKwTs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hAtUXOqdIbIKgIXF67i6edRxNnI31C05ADltnD47YVA=;
-        b=sIUG32nY993AUWArb57NZl5waqJb6knMkEq4yO4ZDDUCbX/dztlohbef0YAILEXM7q
-         0y7m0k/SmKP8W37hE812LJSWoDQFSyqTZjzAnIu8EWbVK6NW7jpEO6hw67xRA9SENA62
-         fx6vvmoSJsRtoRtx7tUutjdEFd7ju0+JKRmQtJ66y0+3NkbbKzx/KbU2PHU8zbYr0mnF
-         fcTWgSJoE9YPeE3kg17LgLlC2ylq48hQGTDucB86Bcwo3qY1QqPlnWI2ed1GprP2Co2b
-         dKiHUk4LlJidmIKdwk0UtqYaw1PQVM5KLEyKbb32JZLAwxlIFi9M2CilxuFwYd0olLtY
-         8Y+Q==
-X-Gm-Message-State: AOAM5338PFeKAKmNliXr7TPRdntwUM47AtohmGmLH/43T39t3zPMc+Ca
-	8JlRMo5ovsnLtUaHe2Ud0GV2OAPscpVVGpBg
-X-Google-Smtp-Source: ABdhPJwKVVacR07W565BalKjkQLpWp2QT/TsDZexTOWZktzaVimKCn1vRk5Czb/MD//fHQXIbyCEWw==
-X-Received: by 2002:a17:90b:3581:: with SMTP id mm1mr5913025pjb.98.1627419548265;
-        Tue, 27 Jul 2021 13:59:08 -0700 (PDT)
+        bh=RbUTIPyfuQU3KvEwbLJbeU9iwD29PEErUjBhpe3f1nk=;
+        b=icw1zVCTeZTD5lRSnithVTSE8c3zMdIeb+siGBnVOEERcFPG6wPgUkCLT0NvPzevjG
+         F8T9e9JA9qYmQIhb0+3HD9CPNIMVBPaq1o1ldzS9DzCzNyGgKDqoumZyl1A95LPWCbXE
+         qLzHezHRiV1mVW6puIvg8P+Z+z+IE0upVugHXO3cttkvKOUVIT/8flNuwWY38JC80RvL
+         kkmuyvknGP0k03IZwdyEgOn6YuE43U4EzqBWCr/ySWnOv0cNq1yp2rlGToihV4cVhsG0
+         eYatGE5t9uzBFMixtG3TFZFDmTy63RuVFOZZd8PqmUjCdzM0W9xiyOSolcMf6epbh84/
+         xZ5g==
+X-Gm-Message-State: AOAM530IozZIpCTEiXc4LsY6yTNIwDgKklVZKLyb/MdHyZj83ArTWWOf
+	XPup1GwNwJpClihmR1cyNU2m5A==
+X-Google-Smtp-Source: ABdhPJy7+ciBuOtNN7d83O4Zu0WNd8ovLzhIYFckNLYZmMMBqTt0NJ7ydcv6U7b3s5X1OqBXomDXgw==
+X-Received: by 2002:a63:4b20:: with SMTP id y32mr25282843pga.382.1627419549553;
+        Tue, 27 Jul 2021 13:59:09 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id a23sm4591110pff.43.2021.07.27.13.59.03
+        by smtp.gmail.com with ESMTPSA id n12sm5264202pgr.2.2021.07.27.13.59.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jul 2021 13:59:05 -0700 (PDT)
+        Tue, 27 Jul 2021 13:59:08 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
@@ -48,9 +48,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com
-Subject: [PATCH 10/64] lib80211: Use struct_group() for memcpy() region
-Date: Tue, 27 Jul 2021 13:58:01 -0700
-Message-Id: <20210727205855.411487-11-keescook@chromium.org>
+Subject: [PATCH 14/64] libertas_tf: Use struct_group() for memcpy() region
+Date: Tue, 27 Jul 2021 13:58:05 -0700
+Message-Id: <20210727205855.411487-15-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
@@ -60,96 +60,64 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3842; h=from:subject; bh=LxMwWIiVXxCqRjC5BkCQhCAsNp5uK9myZ2a4Qy1ipzQ=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOCS1cmBCRtXI7M3opQcsNvUfw7QHdDVtTF33mg z+crDrWJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzggAKCRCJcvTf3G3AJn8DD/ 0T8GLHAQTW4lQjhfBYcVN4KkQX84OyCKR/kM+6CyPh6kkSz3omcb5syI1kQjZZfi9AQMmXGm27pqXs Pfzoata/9c4TApOgEv263SYMjRV3AKeFaFCN+M+Tbki7UCpUotJm9dnRg/YZOUqcEJ2jnQpyukE/h5 WjTdoxGr75vnhyjqxtCW3aafwRG0iXBck5QQofWTgn8C998AMoFRs6Tj6WLGt00Byih284TbE5zULP NoahBowuHSS4qSopyrtMF5eCvftM06BTwO2pAHfSDoGwCRneDXaPTK82hxwFjKQowdrTh4iICk8J6z Jh8Cy9g9/qrCwlclWJxjLE11hOD2f4KFeZpANKSuUdLgh2gQH0XSCj9eew20UORocfAqHkT/RzbRTF SJY0WkjJuqFW0W0eO4eaZyUsWJHuNBEL3OEenTA/cKGL5oil0bnf+evfjR6n7xJYUez++9bbUL8NyK mwpGoz6NjtaMd6T6SdpdeK3SjBHnQVR7cnuN787a4kSO0UGQ/qiXd510dvC35+ROc9KccdBJQ9O8UG j59WtvEuYIf3wGvX7Gxat7V2DjodwzEvDiy+CyhMLXhp2kdRYaftK+hlMfdh3hvdX9HK1wsHqnZZNW 2jIB6Lm8e5R4+zKVC9MC8ZxvWDlXi8uYXm03gL2lKA5E1/cQXWrwqyFnfZrw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2474; h=from:subject; bh=aN5SRWSO0jhRLPZQ+xEXk4KxeSHDMCg25qp77Fv8hh8=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHODeg0TURmPLYxq0mwE2hFWy/0AYNHuIKbeAQlp DWoEAlmJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzgwAKCRCJcvTf3G3AJjDjEA CAOGWMwUe/TqhcNNpZ+tmgfq8Zfq/oBEgyGg6BbrnIuZqsMJLAnXFi1FFsi5XiWdBd9wW2z+pWLDsZ Qk5cK3uqkczBfKd+ThpeYFCNe/sGC223YyA78nUC5LdHCnah148wC6VuU4iYiPf187zVu1aljWgPkP QgNCXG2oB9NqtBh3pf0JmaHSqgeAqqpxLaVaFEmJDH7QkNmA17wGfU899KFpdb3HVZ8CkncDMoZhn1 DPXzHpS9vXg9vY+WPSF5Taeau8VEyUmFL+4Pc4A2M2LVWkpNBJCyJaADuQQg6QJdEmd9Qr6GMczp8B kuQcY9rOtl7uJhxsUbV+WyMYzIHXeJTGYueZa//yzwGhHGliQt3xlVGVyKk9A3pnvgh3jDJN8uYVaj b/rYpFLFcaBGhaT1yXcgkFAyKZpXO8Vh/Pi/2cwO1Z5UW4BAcnj54ZvKyiY4BZaN4jeZ47sDe9ccuy Y2ISwX8AwsLUH5I50e1AM5SHgOwd6aFVQVGJ0mAJspEUB2gl2BWkH9f+9sQ4HHmBKVKFcOmb1P4Ax/ PyqbaIoRlAj521CKzVKPR5wMiaW+0R2VneaPhPljqaAoY8fgIovvOjTe7GjzsFwSiv1CtakSIvU3Td UV1MTQ9MpUR6nFelPgLKjEpZMPkFtJ/MjnG8kchV6cXWqyz8+t5IN5yp45VQ==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
 In preparation for FORTIFY_SOURCE performing compile-time and run-time
-field bounds checking for memcpy(), memmove(), and memset(), avoid
-intentionally writing across neighboring fields.
+field array bounds checking for memcpy(), memmove(), and memset(),
+avoid intentionally writing across neighboring fields.
 
-Use struct_group() around members addr1, addr2, and addr3 in struct
-ieee80211_hdr so they can be referenced together. This will allow memcpy()
-and sizeof() to more easily reason about sizes, improve readability,
-and avoid future warnings about writing beyond the end of addr1.
+Use struct_group() in struct txpd around members tx_dest_addr_high
+and tx_dest_addr_low so they can be referenced together. This will
+allow memcpy() and sizeof() to more easily reason about sizes, improve
+readability, and avoid future warnings about writing beyond the end
+of tx_dest_addr_high.
 
-"pahole" shows no size nor member offset changes to struct ieee80211_hdr.
-"objdump -d" shows no meaningful object code changes (i.e. only source
-line number induced differences and optimizations).
+"pahole" shows no size nor member offset changes to struct txpd.
+"objdump -d" shows no object code changes.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/staging/rtl8723bs/core/rtw_security.c | 5 +++--
- drivers/staging/rtl8723bs/core/rtw_xmit.c     | 5 +++--
- include/linux/ieee80211.h                     | 8 +++++---
- net/wireless/lib80211_crypt_ccmp.c            | 3 ++-
- 4 files changed, 13 insertions(+), 8 deletions(-)
+ drivers/net/wireless/marvell/libertas_tf/libertas_tf.h | 10 ++++++----
+ drivers/net/wireless/marvell/libertas_tf/main.c        |  3 ++-
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index a99f439328f1..be7cf42855a1 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -1421,8 +1421,9 @@ u32 rtw_BIP_verify(struct adapter *padapter, u8 *precvframe)
- 		ClearRetry(BIP_AAD);
- 		ClearPwrMgt(BIP_AAD);
- 		ClearMData(BIP_AAD);
--		/* conscruct AAD, copy address 1 to address 3 */
--		memcpy(BIP_AAD+2, pwlanhdr->addr1, 18);
-+		/* conscruct AAD, copy address 1 through address 3 */
-+		BUILD_BUG_ON(sizeof(pwlanhdr->addrs) != 3 * ETH_ALEN);
-+		memcpy(BIP_AAD + 2, &pwlanhdr->addrs, 3 * ETH_ALEN);
- 
- 		if (omac1_aes_128(padapter->securitypriv.dot11wBIPKey[padapter->securitypriv.dot11wBIPKeyid].skey
- 			, BIP_AAD, ori_len, mic))
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 79e4d7df1ef5..cb47db784130 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -1198,8 +1198,9 @@ s32 rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, s
- 		ClearRetry(BIP_AAD);
- 		ClearPwrMgt(BIP_AAD);
- 		ClearMData(BIP_AAD);
--		/* conscruct AAD, copy address 1 to address 3 */
--		memcpy(BIP_AAD+2, pwlanhdr->addr1, 18);
-+		/* conscruct AAD, copy address 1 through address 3 */
-+		BUILD_BUG_ON(sizeof(pwlanhdr->addrs) != 3 * ETH_ALEN);
-+		memcpy(BIP_AAD + 2, &pwlanhdr->addrs, 3 * ETH_ALEN);
- 		/* copy management fram body */
- 		memcpy(BIP_AAD+BIP_AAD_SIZE, MGMT_body, frame_body_len);
- 		/* calculate mic */
-diff --git a/include/linux/ieee80211.h b/include/linux/ieee80211.h
-index a6730072d13a..d7932b520aaf 100644
---- a/include/linux/ieee80211.h
-+++ b/include/linux/ieee80211.h
-@@ -297,9 +297,11 @@ static inline u16 ieee80211_sn_sub(u16 sn1, u16 sn2)
- struct ieee80211_hdr {
- 	__le16 frame_control;
- 	__le16 duration_id;
--	u8 addr1[ETH_ALEN];
--	u8 addr2[ETH_ALEN];
--	u8 addr3[ETH_ALEN];
-+	struct_group(addrs,
-+		u8 addr1[ETH_ALEN];
-+		u8 addr2[ETH_ALEN];
-+		u8 addr3[ETH_ALEN];
+diff --git a/drivers/net/wireless/marvell/libertas_tf/libertas_tf.h b/drivers/net/wireless/marvell/libertas_tf/libertas_tf.h
+index 5d726545d987..b2af2ddb6bc4 100644
+--- a/drivers/net/wireless/marvell/libertas_tf/libertas_tf.h
++++ b/drivers/net/wireless/marvell/libertas_tf/libertas_tf.h
+@@ -268,10 +268,12 @@ struct txpd {
+ 	__le32 tx_packet_location;
+ 	/* Tx packet length */
+ 	__le16 tx_packet_length;
+-	/* First 2 byte of destination MAC address */
+-	u8 tx_dest_addr_high[2];
+-	/* Last 4 byte of destination MAC address */
+-	u8 tx_dest_addr_low[4];
++	struct_group(tx_dest_addr,
++		/* First 2 byte of destination MAC address */
++		u8 tx_dest_addr_high[2];
++		/* Last 4 byte of destination MAC address */
++		u8 tx_dest_addr_low[4];
 +	);
- 	__le16 seq_ctrl;
- 	u8 addr4[ETH_ALEN];
- } __packed __aligned(2);
-diff --git a/net/wireless/lib80211_crypt_ccmp.c b/net/wireless/lib80211_crypt_ccmp.c
-index 6a5f08f7491e..21d7c39bb394 100644
---- a/net/wireless/lib80211_crypt_ccmp.c
-+++ b/net/wireless/lib80211_crypt_ccmp.c
-@@ -136,7 +136,8 @@ static int ccmp_init_iv_and_aad(const struct ieee80211_hdr *hdr,
- 	pos = (u8 *) hdr;
- 	aad[0] = pos[0] & 0x8f;
- 	aad[1] = pos[1] & 0xc7;
--	memcpy(aad + 2, hdr->addr1, 3 * ETH_ALEN);
-+	BUILD_BUG_ON(sizeof(hdr->addrs) != 3 * ETH_ALEN);
-+	memcpy(aad + 2, &hdr->addrs, ETH_ALEN);
- 	pos = (u8 *) & hdr->seq_ctrl;
- 	aad[20] = pos[0] & 0x0f;
- 	aad[21] = 0;		/* all bits masked */
+ 	/* Pkt Priority */
+ 	u8 priority;
+ 	/* Pkt Trasnit Power control */
+diff --git a/drivers/net/wireless/marvell/libertas_tf/main.c b/drivers/net/wireless/marvell/libertas_tf/main.c
+index 71492211904b..02a1e1f547d8 100644
+--- a/drivers/net/wireless/marvell/libertas_tf/main.c
++++ b/drivers/net/wireless/marvell/libertas_tf/main.c
+@@ -232,7 +232,8 @@ static void lbtf_tx_work(struct work_struct *work)
+ 			     ieee80211_get_tx_rate(priv->hw, info)->hw_value);
+ 
+ 	/* copy destination address from 802.11 header */
+-	memcpy(txpd->tx_dest_addr_high, skb->data + sizeof(struct txpd) + 4,
++	BUILD_BUG_ON(sizeof(txpd->tx_dest_addr) != ETH_ALEN);
++	memcpy(&txpd->tx_dest_addr, skb->data + sizeof(struct txpd) + 4,
+ 		ETH_ALEN);
+ 	txpd->tx_packet_length = cpu_to_le16(len);
+ 	txpd->tx_packet_location = cpu_to_le32(sizeof(struct txpd));
 -- 
 2.30.2
 
