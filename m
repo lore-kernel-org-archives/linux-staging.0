@@ -1,38 +1,38 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C842FAF
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 21:16:59 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id u9-20020a17090a1f09b029017554809f35so6661457pja.5
-        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 14:16:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3397370
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 21:17:00 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id q17-20020a17090a2e11b02901757deaf2c8so1268891pjd.0
+        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 14:17:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=db8CMs13sEHX1QrEwLyB80i98nPNa1sx0I+0vCyGors=;
-        b=GWOY5bNN2CYuRWq0nDk3v8n5cQ2YUiqY5XDlZOPEfI39J/ywTay9f3iHysNx2fWQdy
-         zqT86UEKHG+I7P6vcxs8NsLuEZO32JeDh3YEB1VC1clApxF/IgDgUW1mT7APjJS6y9ti
-         ibvhpmNjVFtbWbV705O3Ucg2loDxWrMRa+bQ8=
+        bh=vRgb1VJvkR4TxUQ9j5wT6NQOJVualZe/N5ucmrpwcpM=;
+        b=Urt716jbz8XdyF5XY5KmZM6capTDsG++7NWnKWGXa8A82gOnBVfVmzBVpmjGHy1J4E
+         Ae0oY6icZsuXtD/nJ3EHWKWtJRkbNQuHNTS22y5t0/gFqDYoj2X9jMSktKlfLPXE1X8w
+         GZLII5xANVEeoTTYkjVLPXyHbZ6nhUyQoz/jc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=db8CMs13sEHX1QrEwLyB80i98nPNa1sx0I+0vCyGors=;
-        b=VFlSi5/0TUdY1GyKVTzuzUA8uwYm/9Y1H70Db2espQpbN5qbaUPggg+jO3H5fJtLmz
-         9vEJENvOVAQrPNXtwe61CNrcCm47fzA43Oo0H9I/YpBazkRQkZhYYhXd5j0K4d8uRzWH
-         /O//LBS6rT3lvqxVtX3l+2cRcWRwOMXASsnMoZitcGgKLZced5DoHngCVV55LVv+xNFo
-         Y60Yz5ws4k6H4swfQUjlnNUN0akL89xXPo0JZYKNsNhwBwQqD0p52tqR3/IjNx36S5pv
-         m29IAe6ZenxCNUZWxoWZ+UoQw0r2Q4yLUYd1MvD/PCmeLbEd7rCIigBF8U2vQO9PzaCS
-         XfZw==
-X-Gm-Message-State: AOAM532HYMF/CW1IC+GstJexI6mHehrnOEM1IcEx2MT2uui+dtV2T3Uz
-	/mQAl4JFoCCz4ymtUTVqdwXqHg==
-X-Google-Smtp-Source: ABdhPJynuJ3TvAm0Wd5cbNmdXEieC82pehh6dYyZToK5xONKi9T1JAddthF14F/cuU0HoDy1XIjotg==
-X-Received: by 2002:a17:90a:d305:: with SMTP id p5mr5977952pju.96.1627420618747;
-        Tue, 27 Jul 2021 14:16:58 -0700 (PDT)
+        bh=vRgb1VJvkR4TxUQ9j5wT6NQOJVualZe/N5ucmrpwcpM=;
+        b=UdI+uPv89OIK+Oi+tjIPRo2qFhCThD9DFpX5a/IjjtnPwD9ESvjTnkHpHTbJAbzDXD
+         Q21SxmhMVbycRVxQXWhrNQe8q8wGPjmBHNAxLCAXPJ8t06XIsG2b/ScoeV4TeqXzUA1l
+         IBQq2Y++k8niIrWMNt85ORFbxDBzHXIIFDXvlKONM1HbF7y0PvI6W0z5aJUKccKhGdEz
+         S/YPreFR/EncBGwr+6HxgDJ8wR+D8jpzSP/EpL6owcllczyyxQyvXoOgw4HexQ3g0UHz
+         AWP7V9rWqAh3fGPvMXARN/XNl/IqTR+TpCYr95cvBSjUS+ThWc5rsL04SlaWWmAZnR+6
+         ChHQ==
+X-Gm-Message-State: AOAM530cpkcmvtpFVCORewaRThJ67cC43R4fXywwZxj0wqohEDIvU0TE
+	grZxPtT3cErRX0cFeEnNNvLInw==
+X-Google-Smtp-Source: ABdhPJyL6XeGJmKfKYoPIwSnVfrJu9DIh6q4pNy4qcyzmKIcgSJdIeoB0sfhxYXoqkr/188RbhWTVQ==
+X-Received: by 2002:a05:6a00:1913:b029:32b:cec0:77e5 with SMTP id y19-20020a056a001913b029032bcec077e5mr24883708pfi.76.1627420619841;
+        Tue, 27 Jul 2021 14:16:59 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id k11sm5469795pgg.25.2021.07.27.14.16.54
+        by smtp.gmail.com with ESMTPSA id w15sm3794043pjc.45.2021.07.27.14.16.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jul 2021 14:16:55 -0700 (PDT)
+        Tue, 27 Jul 2021 14:16:57 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
@@ -48,9 +48,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com
-Subject: [PATCH 23/64] drm/amd/pm: Use struct_group() for memcpy() region
-Date: Tue, 27 Jul 2021 13:58:14 -0700
-Message-Id: <20210727205855.411487-24-keescook@chromium.org>
+Subject: [PATCH 51/64] tracing: Use struct_group() to zero struct trace_iterator
+Date: Tue, 27 Jul 2021 13:58:42 -0700
+Message-Id: <20210727205855.411487-52-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
@@ -60,244 +60,75 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9262; h=from:subject; bh=ELu/4WSY3rbbc3e6mnbh27qh1PLcuIwUnaACOi4RQcY=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOFJv5WnR7sn1mtFkKeG0XEr7rFPErTrPNncdI8 nbLR12KJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzhQAKCRCJcvTf3G3AJsR8D/ 9wZ161Upx2yiLo9WehBNhdepCoZIfK0ycr+o+YhGbFvIGHLX2Z/6CVTnO6oGmJhsrVbt+2nrrheUTv 8j7E+ffPwgNTUcJd8NXpFT9iui/NcLA8Yykf7B68HUXIlmENHMzE7OS29F6gOvqpuAocWp2XWkcFiL otEujZfJsmIdWxZhrOSSm850OaA3vK59G4R6x/nQbmZcTEuIsmnLAoSu6mxNQN8qfCo5+sTSnF3v2R JF91oAQ2cCf5Z2zYOFs/fY6mGfUVCy0oO/l4oZvnjGjWbHkr8bCYaQoMKAFt+gt7iCU/OQTfLYPVa2 62ogAYAXdveR8zzIITEVXrNMgpDA0PITtHEc3kSIq3iBDlCEKukUEznhPLc9L/KjJW4PDa8fphg2Yh Gekz7vZ+GJglawP6/OVsDHYjB+sVivtpueU6OrZQwDrIvls+2tBdhvYA2okrLoYv5QVghtQ5MteFgB QkVkfYyxoLj7VK3aJ9d3T602EK7C0ydm4p600HlPmh4c2j/2hlxA0edgA+/VxOFg8egmS6zr2IfSBD Eq4LZV5dvDAu9vqC6ypQ1LW/66+iw/9YGt0GJiJCY+arODnVFg6+4d9Q4V19RVMN/Hh+K9bnt0M/+J H7XpAuvLYZW1lukZMvCpZapOsvBI4BUSGa3FwriGOeJJSW/+YzrhY/tlrGCA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1917; h=from:subject; bh=x33Bs21uGrD+N+Lns8bFSqK7vUUUNaNSw4EtFfeCu58=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOLu8z/bdU1zMaKndqRyKLCCkXgpWttZKN9yc8w d3BxuKSJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBziwAKCRCJcvTf3G3AJgHsD/ 98DZD+ecFAqbOjuzLoGxIi4OSnpxnTAcnT2/ZfVnIlEZyXBS+jkr8lU+k0GXpQG2scT/z3KyhdrOJp E60WG63kSFNFWzdWBZZyb0Rf9XVDGHksNfg81VOrWxyCFWrib/BFkg1uKQ3XHny7kvC0saWxsJLOvP PMmBG3p0AzH/bcHeY8JCSe1JqVGWLz4Wdiqq+a1FX3oATkVH4X6hjEPQSu7K5W5gsu8y3sWyfaJ/21 OTekfh+08tGzJUz0x5qwW+mEDgtAt0LEEHLhnIpkUCLiYWmDJzWKF5CUljC6wN4V/uNZBOMTukJCz8 F9nA0W1W0nXeWdz0Z6mMUksqNHOYIhyE52fHArE2U0l0tdWYgbUybcSQsrFUzJ1QxTx6KXNTmHAdC8 g1F37UY/3wzrelPZKNjO7Q2mpX8Q0hoRoR0IePaxvGxraMIKoteVOWP+yTjyheOHuIRmmwFS+m4zl0 xz0ti0B1g1MqQBahH7M3aZtJg/kgJEHRJTpe8g68atzyvYwY8rGNnEiemCygZ2liwL0XGVd/tcrTlJ KkliSKYsXdS6eykIau3c0P0wmRt7ydb/oQgVBcA744nu/6TZH0x0ehC/RmIZ3f0pnMMvLuX81V1dQy aaHLtNUQtk1I2pKRDzLqOWe+HldXvpA+eH/7VFXxng+zPZzpvdu07VGean9Q==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
 In preparation for FORTIFY_SOURCE performing compile-time and run-time
-field bounds checking for memcpy(), memmove(), and memset(), avoid
-intentionally writing across neighboring fields.
+field bounds checking for memset(), avoid intentionally writing across
+neighboring fields.
 
-Use struct_group() in structs:
-	struct atom_smc_dpm_info_v4_5
-	struct atom_smc_dpm_info_v4_6
-	struct atom_smc_dpm_info_v4_7
-	struct atom_smc_dpm_info_v4_10
-	PPTable_t
-so the grouped members can be referenced together. This will allow
-memcpy() and sizeof() to more easily reason about sizes, improve
-readability, and avoid future warnings about writing beyond the end of
-the first member.
-
-"pahole" shows no size nor member offset changes to any structs.
-"objdump -d" shows no object code changes.
+Add struct_group() to mark region of struct trace_iterator that should
+be initialized to zero.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/gpu/drm/amd/include/atomfirmware.h           |  9 ++++++++-
- .../gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h    |  3 ++-
- drivers/gpu/drm/amd/pm/inc/smu11_driver_if_navi10.h  |  3 ++-
- .../gpu/drm/amd/pm/inc/smu13_driver_if_aldebaran.h   |  3 ++-
- drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c    |  6 +++---
- drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c      | 12 ++++++++----
- drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c   |  6 +++---
- 7 files changed, 28 insertions(+), 14 deletions(-)
+ include/linux/trace_events.h | 26 ++++++++++++++------------
+ kernel/trace/trace.c         |  4 +---
+ 2 files changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/include/atomfirmware.h b/drivers/gpu/drm/amd/include/atomfirmware.h
-index 3811e58dd857..694dee9d2691 100644
---- a/drivers/gpu/drm/amd/include/atomfirmware.h
-+++ b/drivers/gpu/drm/amd/include/atomfirmware.h
-@@ -2081,6 +2081,7 @@ struct atom_smc_dpm_info_v4_5
- {
-   struct   atom_common_table_header  table_header;
-     // SECTION: BOARD PARAMETERS
-+  struct_group(dpm_info,
-     // I2C Control
-   struct smudpm_i2c_controller_config_v2  I2cControllers[8];
+diff --git a/include/linux/trace_events.h b/include/linux/trace_events.h
+index ad413b382a3c..cadad77fe524 100644
+--- a/include/linux/trace_events.h
++++ b/include/linux/trace_events.h
+@@ -101,18 +101,20 @@ struct trace_iterator {
+ 	bool			snapshot;
  
-@@ -2159,7 +2160,7 @@ struct atom_smc_dpm_info_v4_5
-   uint32_t MvddRatio; // This is used for MVDD Vid workaround. It has 16 fractional bits (Q16.16)
-   
-   uint32_t     BoardReserved[9];
+ 	/* The below is zeroed out in pipe_read */
+-	struct trace_seq	seq;
+-	struct trace_entry	*ent;
+-	unsigned long		lost_events;
+-	int			leftover;
+-	int			ent_size;
+-	int			cpu;
+-	u64			ts;
 -
-+  );
+-	loff_t			pos;
+-	long			idx;
+-
+-	/* All new field here will be zeroed out in pipe_read */
++	struct_group(init,
++		struct trace_seq	seq;
++		struct trace_entry	*ent;
++		unsigned long		lost_events;
++		int			leftover;
++		int			ent_size;
++		int			cpu;
++		u64			ts;
++
++		loff_t			pos;
++		long			idx;
++
++		/* All new field here will be zeroed out in pipe_read */
++	);
  };
  
- struct atom_smc_dpm_info_v4_6
-@@ -2168,6 +2169,7 @@ struct atom_smc_dpm_info_v4_6
-   // section: board parameters
-   uint32_t     i2c_padding[3];   // old i2c control are moved to new area
+ enum trace_iter_flags {
+diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+index c59dd35a6da5..9f83864b0be6 100644
+--- a/kernel/trace/trace.c
++++ b/kernel/trace/trace.c
+@@ -6691,9 +6691,7 @@ tracing_read_pipe(struct file *filp, char __user *ubuf,
+ 		cnt = PAGE_SIZE - 1;
  
-+  struct_group(dpm_info,
-   uint16_t     maxvoltagestepgfx; // in mv(q2) max voltage step that smu will request. multiple steps are taken if voltage change exceeds this value.
-   uint16_t     maxvoltagestepsoc; // in mv(q2) max voltage step that smu will request. multiple steps are taken if voltage change exceeds this value.
- 
-@@ -2246,12 +2248,14 @@ struct atom_smc_dpm_info_v4_6
- 
-   // reserved
-   uint32_t   boardreserved[10];
-+  );
- };
- 
- struct atom_smc_dpm_info_v4_7
- {
-   struct   atom_common_table_header  table_header;
-     // SECTION: BOARD PARAMETERS
-+  struct_group(dpm_info,
-     // I2C Control
-   struct smudpm_i2c_controller_config_v2  I2cControllers[8];
- 
-@@ -2348,6 +2352,7 @@ struct atom_smc_dpm_info_v4_7
-   uint8_t      Padding8_Psi2;
- 
-   uint32_t     BoardReserved[5];
-+  );
- };
- 
- struct smudpm_i2c_controller_config_v3
-@@ -2478,6 +2483,7 @@ struct atom_smc_dpm_info_v4_10
-   struct   atom_common_table_header  table_header;
- 
-   // SECTION: BOARD PARAMETERS
-+  struct_group(dpm_info,
-   // Telemetry Settings
-   uint16_t GfxMaxCurrent; // in Amps
-   uint8_t   GfxOffset;     // in Amps
-@@ -2524,6 +2530,7 @@ struct atom_smc_dpm_info_v4_10
-   uint16_t spare5;
- 
-   uint32_t reserved[16];
-+  );
- };
- 
- /* 
-diff --git a/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h b/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h
-index 43d43d6addc0..8093a98800c3 100644
---- a/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h
-+++ b/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_arcturus.h
-@@ -643,6 +643,7 @@ typedef struct {
-   // SECTION: BOARD PARAMETERS
- 
-   // SVI2 Board Parameters
-+  struct_group(v4_6,
-   uint16_t     MaxVoltageStepGfx; // In mV(Q2) Max voltage step that SMU will request. Multiple steps are taken if voltage change exceeds this value.
-   uint16_t     MaxVoltageStepSoc; // In mV(Q2) Max voltage step that SMU will request. Multiple steps are taken if voltage change exceeds this value.
- 
-@@ -728,10 +729,10 @@ typedef struct {
-   uint32_t     BoardVoltageCoeffB;    // decode by /1000
- 
-   uint32_t     BoardReserved[7];
-+  );
- 
-   // Padding for MMHUB - do not modify this
-   uint32_t     MmHubPadding[8]; // SMU internal use
--
- } PPTable_t;
- 
- typedef struct {
-diff --git a/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_navi10.h b/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_navi10.h
-index 04752ade1016..0b4e6e907e95 100644
---- a/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_navi10.h
-+++ b/drivers/gpu/drm/amd/pm/inc/smu11_driver_if_navi10.h
-@@ -725,6 +725,7 @@ typedef struct {
-   uint32_t     Reserved[8];
- 
-   // SECTION: BOARD PARAMETERS
-+  struct_group(v4,
-   // I2C Control
-   I2cControllerConfig_t  I2cControllers[NUM_I2C_CONTROLLERS];     
- 
-@@ -809,10 +810,10 @@ typedef struct {
-   uint8_t      Padding8_Loadline;
- 
-   uint32_t     BoardReserved[8];
-+  );
- 
-   // Padding for MMHUB - do not modify this
-   uint32_t     MmHubPadding[8]; // SMU internal use
--
- } PPTable_t;
- 
- typedef struct {
-diff --git a/drivers/gpu/drm/amd/pm/inc/smu13_driver_if_aldebaran.h b/drivers/gpu/drm/amd/pm/inc/smu13_driver_if_aldebaran.h
-index a017983ff1fa..5056d3728da8 100644
---- a/drivers/gpu/drm/amd/pm/inc/smu13_driver_if_aldebaran.h
-+++ b/drivers/gpu/drm/amd/pm/inc/smu13_driver_if_aldebaran.h
-@@ -390,6 +390,7 @@ typedef struct {
-   uint32_t spare3[14];
- 
-   // SECTION: BOARD PARAMETERS
-+  struct_group(v4_10,
-   // Telemetry Settings
-   uint16_t GfxMaxCurrent; // in Amps
-   int8_t   GfxOffset;     // in Amps
-@@ -444,7 +445,7 @@ typedef struct {
- 
-   //reserved
-   uint32_t reserved[14];
--
-+  );
- } PPTable_t;
- 
- typedef struct {
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
-index 6ec8492f71f5..19951399cb33 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c
-@@ -463,11 +463,11 @@ static int arcturus_append_powerplay_table(struct smu_context *smu)
- 			smc_dpm_table->table_header.format_revision,
- 			smc_dpm_table->table_header.content_revision);
- 
-+	BUILD_BUG_ON(sizeof(smc_pptable->v4_6) != sizeof(smc_dpm_table->dpm_info));
- 	if ((smc_dpm_table->table_header.format_revision == 4) &&
- 	    (smc_dpm_table->table_header.content_revision == 6))
--		memcpy(&smc_pptable->MaxVoltageStepGfx,
--		       &smc_dpm_table->maxvoltagestepgfx,
--		       sizeof(*smc_dpm_table) - offsetof(struct atom_smc_dpm_info_v4_6, maxvoltagestepgfx));
-+		memcpy(&smc_pptable->v4_6, &smc_dpm_table->dpm_info,
-+		       sizeof(smc_dpm_table->dpm_info));
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
-index 59ea59acfb00..cb6665fbe319 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
-@@ -431,16 +431,20 @@ static int navi10_append_powerplay_table(struct smu_context *smu)
- 
- 	switch (smc_dpm_table->table_header.content_revision) {
- 	case 5: /* nv10 and nv14 */
--		memcpy(smc_pptable->I2cControllers, smc_dpm_table->I2cControllers,
--			sizeof(*smc_dpm_table) - sizeof(smc_dpm_table->table_header));
-+		BUILD_BUG_ON(sizeof(smc_pptable->v4) !=
-+			     sizeof(smc_dpm_table->dpm_info));
-+		memcpy(&smc_pptable->v4, &smc_dpm_table->dpm_info,
-+		       sizeof(smc_dpm_table->dpm_info));
- 		break;
- 	case 7: /* nv12 */
- 		ret = amdgpu_atombios_get_data_table(adev, index, NULL, NULL, NULL,
- 					      (uint8_t **)&smc_dpm_table_v4_7);
- 		if (ret)
- 			return ret;
--		memcpy(smc_pptable->I2cControllers, smc_dpm_table_v4_7->I2cControllers,
--			sizeof(*smc_dpm_table_v4_7) - sizeof(smc_dpm_table_v4_7->table_header));
-+		BUILD_BUG_ON(sizeof(smc_pptable->v4) !=
-+			     sizeof(smc_dpm_table_v4_7->dpm_info));
-+		memcpy(&smc_pptable->v4, &smc_dpm_table_v4_7->dpm_info,
-+		       sizeof(smc_dpm_table_v4_7->dpm_info));
- 		break;
- 	default:
- 		dev_err(smu->adev->dev, "smc_dpm_info with unsupported content revision %d!\n",
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-index 856eeaf293b8..c0645302fa50 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-@@ -407,11 +407,11 @@ static int aldebaran_append_powerplay_table(struct smu_context *smu)
- 			smc_dpm_table->table_header.format_revision,
- 			smc_dpm_table->table_header.content_revision);
- 
-+	BUILD_BUG_ON(sizeof(smc_pptable->v4_10) != sizeof(smc_dpm_table->dpm_info));
- 	if ((smc_dpm_table->table_header.format_revision == 4) &&
- 	    (smc_dpm_table->table_header.content_revision == 10))
--		memcpy(&smc_pptable->GfxMaxCurrent,
--		       &smc_dpm_table->GfxMaxCurrent,
--		       sizeof(*smc_dpm_table) - offsetof(struct atom_smc_dpm_info_v4_10, GfxMaxCurrent));
-+		memcpy(&smc_pptable->v4_10, &smc_dpm_table->dpm_info,
-+		       sizeof(smc_dpm_table->dpm_info));
- 	return 0;
- }
- 
+ 	/* reset all but tr, trace, and overruns */
+-	memset(&iter->seq, 0,
+-	       sizeof(struct trace_iterator) -
+-	       offsetof(struct trace_iterator, seq));
++	memset(&iter->init, 0, sizeof(iter->init));
+ 	cpumask_clear(iter->started);
+ 	trace_seq_init(&iter->seq);
+ 	iter->pos = -1;
 -- 
 2.30.2
 
