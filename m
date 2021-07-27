@@ -1,34 +1,53 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EBBB70
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 15:46:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9BFDE61B52;
-	Tue, 27 Jul 2021 15:46:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1627400810;
-	bh=50kCSW88KwosMSn+xIFUmr3VyLJESxOV9HJKXQ5R7Ck=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZqLg+RABAri82sy12Y+k21teuxMPWJbwu/gGLQqh70u5HzCBXNeVNbODBb37VwG7W
-	 s3BMExVHzrD9b1MGcRVv8W6Wzvp9BHoGO2JnogfnqdQh5/Qah/1zsQQVNNM/SxU1iV
-	 TgFAV9Y4sunPRa1lnY/Uj7rxeu2+cqIwcQ803g2c=
-Date: Tue, 27 Jul 2021 17:46:47 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Phillip Potter <phil@philpotter.co.uk>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-staging@lists.linux.dev, Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: Re: [PATCH v3 0/7] staging: rtl8188eu: replace driver with better
- version
-Message-ID: <YQAqZ4g10DIlQMPM@kroah.com>
-References: <20210724001055.1613840-1-phil@philpotter.co.uk>
- <YQAE1q9ZWRPHqfK5@kroah.com>
- <CAA=Fs0nwOBUoCSbwzaE7TTQab_BZcCy2SL1RJby+Hmo=URw_Pg@mail.gmail.com>
- <YQAOdEz9GfhpCeBZ@kroah.com>
- <c42ded8d-8027-eee3-c1c5-54e0736a1758@lwfinger.net>
- <YQAYER8JxrXG0f+G@kroah.com>
- <CAA=Fs0nBBe34Wqqj2pKHc0BGWTNgCsA28rMeFKSXBw_Sr80-bQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D0A168
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 16:55:39 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id d17so16407728plh.10
+        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 09:55:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=QQoNCG1M1L8gK5ht1u6i2Ce3nKisRclgMdzn1xxe0eA=;
+        b=jjBH51zUezd5bHvHk2ASWyXfi/yE/hVl6TAbgIpIABp4TeK3z7dG6HRwMZyiX5+Uhr
+         a6U01JsaicvYDXPV5eWNA74GYSKK3+dAz3K4NPb+QpZw1GBER7K/0A3/JA7fwCcebkLv
+         DkML+5g5G0AB3ow5jYxg7xrwzK4rw+Pd1JdiP1fEiMEc0D/P/JbLUOS6bSJL41YL3OgM
+         sVVdfnaOqm7nj/xywAY66pDFHS2AoF8rLfw1ChGaMJuSP5eWCOB948CVrk4OS9lTyffk
+         G4J7eMP7Ae0MiVdbiEUqHVJdA1dHAyux1kr2yd50gg8BdOcLWBq80La8TAyzVvBc2ppi
+         X81A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=QQoNCG1M1L8gK5ht1u6i2Ce3nKisRclgMdzn1xxe0eA=;
+        b=hL+rg8qm497jLzzLV8MWZD2g6eEZKnEt9z4XBGJCWTUpRBBI+jevcBCZw4N6YiqK9q
+         aZFEBKIfevHFU1GwrfV1drECykAaefqCGBB2ilrGypWGV4eYp9WYlsxul/9iIWO7Ddtf
+         MK72e5ObHE9H1/u2roGUmZP1Dt1KjXR1jkqi5bx5Izjb0ON7iGM19BdpBmMJwuoQWtaE
+         XcQFZnOuPypuhQyJE1tSWU/SgX+ukKv52ge2MpMoFkovM0eaicTR8vVFgwEHvdZp+tEg
+         I4sDcuEOwlLKl7MRjOeKU6Uh7mkWg4QP70n8BciZRtwROycJ6S4NP8MNG3Pj7D23pcnu
+         0Gng==
+X-Gm-Message-State: AOAM532EBAOGfhPN1Me8WxvJ0g3unY5cyeJ+zr4h5jBzHeTBy16+38c+
+	l/QCLKtdW5BCMAOtw9KPXyg=
+X-Google-Smtp-Source: ABdhPJwY8lsfzvJMPbJsMFM8vgp5/st1KXukwiUobKcGkNjEncAvzMHeMUy7vLecay+P05ELFWikBQ==
+X-Received: by 2002:a17:90a:ce17:: with SMTP id f23mr2453653pju.236.1627404939233;
+        Tue, 27 Jul 2021 09:55:39 -0700 (PDT)
+Received: from ojas ([122.161.53.213])
+        by smtp.gmail.com with ESMTPSA id k16sm4169671pfu.83.2021.07.27.09.55.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jul 2021 09:55:38 -0700 (PDT)
+Date: Tue, 27 Jul 2021 22:25:26 +0530
+From: Ojaswin Mujoo <ojaswin98@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: nsaenz@kernel.org, stefan.wahren@i2se.com, dan.carpenter@oracle.com,
+	phil@raspberrypi.com, linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 4/5] staging: vchiq: Make creation of vchiq cdev
+ optional
+Message-ID: <20210727165526.GA13711@ojas>
+References: <cover.1626882325.git.ojaswin98@gmail.com>
+ <846c424dd4aae14d1cc28c8f30877a06e2b7dd10.1626882325.git.ojaswin98@gmail.com>
+ <YQAJLao8H1Hl5VVf@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -37,72 +56,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAA=Fs0nBBe34Wqqj2pKHc0BGWTNgCsA28rMeFKSXBw_Sr80-bQ@mail.gmail.com>
+In-Reply-To: <YQAJLao8H1Hl5VVf@kroah.com>
 
-On Tue, Jul 27, 2021 at 03:34:55PM +0100, Phillip Potter wrote:
-> On Tue, 27 Jul 2021 at 15:28, Greg KH <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Tue, Jul 27, 2021 at 09:13:09AM -0500, Larry Finger wrote:
-> > > On 7/27/21 8:47 AM, Greg KH wrote:
-> > > > On Tue, Jul 27, 2021 at 02:25:34PM +0100, Phillip Potter wrote:
-> > > > > On Tue, 27 Jul 2021 at 14:06, Greg KH <gregkh@linuxfoundation.org> wrote:
-> > > > > >
-> > > > > > On Sat, Jul 24, 2021 at 01:10:48AM +0100, Phillip Potter wrote:
-> > > > > > > I had to break this patchset up a bit to get around the file size limits
-> > > > > > > on the mailing list, and also I removed the hostapd stuff which is
-> > > > > > > userspace related and therefore not required.
-> > > > > > >
-> > > > > > > The driver currently in staging is older and less functional than the
-> > > > > > > version on Larry Finger's GitHub account, based upon v4.1.4_6773.20130222.
-> > > > > > > This series of patches therefore:
-> > > > > > >
-> > > > > > > (1) Removes the current driver from staging.
-> > > > > > > (2) Imports the GitHub version mentioned above in its place.
-> > > > > >
-> > > > > > Let's do (2) first before worrying about (1), given that we can't get a
-> > > > > > version of (2) that actually builds yet :)
-> > > > > >
-> > > > > > thanks,
-> > > > > >
-> > > > > > greg k-h
-> > > > >
-> > > > > Dear Greg,
-> > > > >
-> > > > > I'm confused - v3 patchset builds fine for me after applying in
-> > > > > sequence from 1 to 7?
-> > > >
-> > > > Why does kbuild report problems?
-> > > >
-> > > > Anyway, please let's just add the new driver in a new directory, get it
-> > > > building, and then we can remove the old one.  That way patches will
-> > > > continue to work and there's no confusion when backporting patches as
-> > > > the code bases are different.
-> > >
-> > > I get no kbuild problems in the staging-next branch. I have no idea why the
-> > > test robot is reporting errors.
-> > >
-> > > Keeping the old rtl8188eu directory and builds will result in 3 drivers
-> > > competing for the hardware including rtl8xxxu, rtl8188eu, and r8188eu.
-> >
-> > I will only "keep" it around for a day at most.  I will delete the old
-> > driver, I just do not want the "new" driver in the same directory as the
-> > existing one to make it easier to handle changes over time.
-> >
-> > thanks,
-> >
-> > greg k-h
+On Tue, Jul 27, 2021 at 03:25:01PM +0200, Greg KH wrote:
+> On Wed, Jul 21, 2021 at 09:50:52PM +0530, Ojaswin Mujoo wrote:
+> > Before this commit, vchiq cdev (/dev/vchiq) was always created during
+> > platform initialization. Introduce a new Kconfig option
+> > CONFIG_VCHIQ_CDEV which determines if the cdev will be created or not.
+> > 
+> > Signed-off-by: Ojaswin Mujoo <ojaswin98@gmail.com>
+> > ---
+> >  drivers/staging/vc04_services/Kconfig                  | 10 ++++++++++
+> >  drivers/staging/vc04_services/Makefile                 |  5 ++++-
+> >  .../vc04_services/interface/vchiq_arm/vchiq_arm.h      |  9 +++++++++
+> >  3 files changed, 23 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/staging/vc04_services/Kconfig b/drivers/staging/vc04_services/Kconfig
+> > index 4b886293f198..63caa6818d37 100644
+> > --- a/drivers/staging/vc04_services/Kconfig
+> > +++ b/drivers/staging/vc04_services/Kconfig
+> > @@ -19,6 +19,16 @@ config BCM2835_VCHIQ
+> >  		Defaults to Y when the Broadcom Videocore services
+> >  		are included in the build, N otherwise.
+> >  
+> > +if BCM2835_VCHIQ
+> > +
+> > +config VCHIQ_CDEV
+> > +	bool "VCHIQ Character Driver"
+> > +	help
+> > +		Enable the creation of VCHIQ character driver to help
+> > +		communicate with the Videocore platform.
 > 
-> OK I'll do another patch set tonight after work without the removal
-> patch at the start and with the new driver integrated into kbuild
-> alongside old one - the directory name is different already, but they
-> share the same module .ko name - will leave this as-is if the old
-> driver is scheduled for deletion soon though. Many thanks.
+> I'll take this, but this really should say more about what this really
+> is for.  Who needs this?  Why will I know if I want a character driver
+> interface?  What tools talk to this?
+> 
+> Or conversely, why would I want to turn this off?
+> 
+> Can you send a follow-on patch that makes this more descriptive?
+Hello Greg,
 
-Ah, I missed the different directory name, sorry about that.
+Sure, I can send in a follow up patch explaining this in more detail.
 
-A new series would be good, we can focus on the build issues easier
-without having to worry about the existing nightmare^Wdriver.
-
-thanks,
-
-greg k-h
+Thank you,
+Ojaswin
+> 
+> thanks,
+> 
+> greg k-h
