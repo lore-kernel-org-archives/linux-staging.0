@@ -1,36 +1,36 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473CF2FAD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29912FAF
 	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 21:06:59 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id t21so17550517plr.13
+Received: by mail-pj1-f45.google.com with SMTP id m10-20020a17090a34cab0290176b52c60ddso1025422pjf.4
         for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 14:06:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=eHJ5K8LiDBXCeTCe7PvgaP3UqQR5uDLvklqQUiAbnC0=;
-        b=C9odf/LxM8hQlFgEX94OyyWcybtfMz5fkcvxUOiwkptiFAnxb7Vjc9j5fcILzWzUe0
-         9SXGn/8zZ/4rPOmwRPn9BGvFK32z6oyRZbo5d8AQJpThOjubhaqeuoW3W01DCWdHwowW
-         ZQKSKYcukTOUL4ao1lnoeA3vzowcOeQgLkBm8=
+        bh=BAjc7jN8mF2lxOocjxYUs8uk4UIdg9BIVyN6yKZHmUw=;
+        b=Ik3f6gOvQpeLuCM/En5JJmwMGhnVmhecqCsKjDJ2odwR3b/OtNzLiyoeOTeu9TpBj2
+         /OaEnt7Z40ngSvFECb51CKe1Mrq/TscdrX+6sxtX8ZJ679XmXcxAcgkm85bGnl2v4XsX
+         BNB53x5u/LQy29sMxiNlUWB84NzJJ44Lw+SoQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=eHJ5K8LiDBXCeTCe7PvgaP3UqQR5uDLvklqQUiAbnC0=;
-        b=bHfm0lNyM4DHfPSDHuk3rtzsDGuHljqNeNVqRy9G/NSAdgXjHRu3U2h6aKxNNoZKng
-         koKMlMix4j+/AYJ+9DOg/qxCixkd2MVuMovVLv+yVz1sXcBXhMdTV+5dGBuUdvEpWZN9
-         a3/xyDtZMi33zw5IgpGcZbtIHk2jYEWZALl1Q4oMDlsI+5hlB1F4kAmC2yxTg+HR/qRM
-         ANbhd68dlUTz/raa/EO9Ghyf2QhwMDMej6YYDbQlpjbckMPnQEBOrayMOQdwt4v+6wEu
-         q8uSWirAJZJj7UjEd6bv14v0PuHVR6Cl3VcoG/cxunN9i1rM9m7w013vz27VU0Mb07jO
-         ls2g==
-X-Gm-Message-State: AOAM53266VFer3I2BwSf6krKR2PhDYii7zVvElgzjqnSz44IPdeFF1Ip
-	ASHDvGzabSHqZmKBTkKoF9WOgw==
-X-Google-Smtp-Source: ABdhPJyiPLiIxF0eZ6Ht4eersAStzTtAa77UuUUu3QKRioXbvWIKsuENyKgvU1Bb8BbQdCxPR7B6MQ==
-X-Received: by 2002:a05:6a00:cc1:b029:32b:8465:9b59 with SMTP id b1-20020a056a000cc1b029032b84659b59mr24967310pfv.66.1627420018950;
-        Tue, 27 Jul 2021 14:06:58 -0700 (PDT)
+        bh=BAjc7jN8mF2lxOocjxYUs8uk4UIdg9BIVyN6yKZHmUw=;
+        b=eBV+Xpb/espezQ9WnFEtT2RJq+wNz0l7cfmYOiKotu7BbD1igEPjHx2Sh4OWAM10jK
+         jNxSnThejwJTq6WwYxKP3cIq0qwA9+LuVU+146eGpKwOS2/KwbjJd38tbmdq3HTNM0vS
+         3U9z2J5Ox/GN1lrT94vsIowp1Z2iFAo9JN5lNDvwpfsL4+SvddSyUBQ6g9lT+hdbb1Pt
+         LA9kVmURw2Nsk0OvLwa/YnLTIu2S2vmoW0luHG9ZDeln5fBdUmNYQi3140tCWJbBP31j
+         2ApvaBvqxGj2qGTR4YXqXSlcPbJUik+hsSN1m9ZWBO5QWuzhllMT2wXylmzL+xqiND85
+         E1XQ==
+X-Gm-Message-State: AOAM530dLhsyFeZzjjBBcQ3V+x3nU3oEQPHFEUAsT5gkMjk6Cu6OrCYT
+	sd/3jSEzTKORJ1dL1zN4u96TVQ==
+X-Google-Smtp-Source: ABdhPJzTyWnyJkM2fI4o+nQh75gG0gKQnAIhyupMsjyxw0lo+I3SNPw8cSYvp7EuMi65u5YL90cSkg==
+X-Received: by 2002:a63:190b:: with SMTP id z11mr25001094pgl.320.1627420019329;
+        Tue, 27 Jul 2021 14:06:59 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id r128sm4687668pfc.155.2021.07.27.14.06.54
+        by smtp.gmail.com with ESMTPSA id i1sm4395555pfo.37.2021.07.27.14.06.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 27 Jul 2021 14:06:55 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
@@ -48,9 +48,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com
-Subject: [PATCH 63/64] iwlwifi: dbg_ini: Split memcpy() to avoid multi-field write
-Date: Tue, 27 Jul 2021 13:58:54 -0700
-Message-Id: <20210727205855.411487-64-keescook@chromium.org>
+Subject: [PATCH 38/64] xfrm: Use memset_after() to clear padding
+Date: Tue, 27 Jul 2021 13:58:29 -0700
+Message-Id: <20210727205855.411487-39-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
@@ -60,48 +60,52 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1543; h=from:subject; bh=s7Xq57zTgnpQLZW9o4dFqvke+b60yZlygvvLnoMj4dM=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOO7ylJm1Pef8Nw2Y9AVMYN/aYHsm9YN/NkJMM0 14MmcVqJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzjgAKCRCJcvTf3G3AJh5wD/ 0a9KvpCqyFZ9QKAdlblaiFHTvLu6J0I4KvuS/Pu8WGvbtdHoFcEc1A0J0FqancucuNe2oN76GijGN8 ZmNxkbLuDowcPvHB1KNKV+y/VKyD/GjTqJSFGbHSgE1d3XVQUqA8M80luRN12bHJex3vWEGlQIgVUS eo5mVVxa1vQFLA/APQtdO4QC3S0Rxaeq//vH7IZ+y8uTxf7ChRZtqCWERhOu6zi0YYM7UsadKsQ1UW kuKw1BHS6rVbpMLujJWWAPEyxEe0W/MD7sUJar7lh/sg2nbnVIlvXob+LuNF5xQtZwtIVnlj1/Tx1c JeZYoyxgw4/uvoQF/VaOiL8Fb1Mky8hA3J0Q0KSrMfDlDYr2psRQCz/wYgNiK8aZmkNvU6EyldhpRR jvpt2FEuN89iS51ofpMkKT9jWkj2G2IJnYUpSSBDS7x/6U33s9hWYtpjYFkmrtQS+KN+/zM7e0Wq85 h9kdtxEMB5GcqKunvfEzrJH/6l30zcuWdtxzKr+5eUMIzfT4m7IfJftQW1OHHiIRW8y1i2y9mOZGde lSqRZZ+xSG98+pb5deEI05oPi7AOE1XKeHnMMfVyygop9nOeSAmsJJWm+ExFOnNUkiTzMkM+sJqqiU uZuZWsn+50meKz7mBFEHFWpt++2rlXLf2jFCbTMaiMMKok79IQfcYfkHRDkg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1608; h=from:subject; bh=g0VWO37QK3XIcvkgv5p13lDa7YD+Jvxsuneh5al+DKo=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOIQmnrWwAaxPVdj8lblXkb8ZdEI/mjJwkI9weg Jb9tdxuJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBziAAKCRCJcvTf3G3AJkUiD/ 9GVAFoJywTVZLGJMfv82icJWJQRMDO1fnyc7Vo6lQ1D7/W+Dagrov588jsfphYxw9bCcMrBW5+ML39 Nlw0d86SRJKsp9W1D/uWpxT7B+ZifwMCrBQiW/QQdugvpBK16DiM/nuIxmvvNngfCD7TZeYhnxyJCN Q8sbUMZx2T8aExzVPglAhsAqyZAACXNIyRAkJJKyEFCtk5DV7xNyz4H7EIco1PaNQ6CPSvz3qtegIn nv2P2319IG2VLE3I2NZVINSDUfhFT63odWJElKoysAbPDvrq3781fUtYESiohGHqBR8FD3BGT+O8y5 9KD6fIZ0TSLsD63axSBtgp5OUer7kr086Bp7sU1ndEXv436bquzOxnCxGOOZ82tsCGeW/VxkIdKzGd IqrtSepbn6JZoMYp10wQJpM6ZcvscK8K2zcp2RMRpDMku/9dFd2GQ45TO3uUh94594qJDdQG0ecNlA NIP+5MnO4vD6X6sONnGwoom7JbHdfvLOAg4vRaXZ2jfmckTzxmeUil4NB16b45RGMUUNbmfDrGgLJc 0oHx1OYHLUpyYpWBvqH49SivknOgZOZzXIyabXPipERmCdfnqRmLJeBYq67aP5IvRZgUVF848zQS1a wYduCIDFnUzR+Pq8e8OGT0DcZ9ZGKEr3Av8YeNoVe5GpEviziiQ3/Fj3WyIg==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-To avoid a run-time false positive in the stricter FORTIFY_SOURCE
-memcpy() checks, split the memcpy() into the struct and the data.
-Additionally switch the data member to a flexible array to follow
-modern language conventions.
+In preparation for FORTIFY_SOURCE performing compile-time and run-time
+field bounds checking for memset(), avoid intentionally writing across
+neighboring fields.
+
+Clear trailing padding bytes using the new helper so that memset()
+doesn't get confused about writing "past the end" of the last struct
+member. There is no change to the resulting machine code.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/net/wireless/intel/iwlwifi/fw/file.h     | 2 +-
- drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ net/xfrm/xfrm_policy.c | 4 +---
+ net/xfrm/xfrm_user.c   | 2 +-
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/net/wireless/intel/iwlwifi/fw/file.h b/drivers/net/wireless/intel/iwlwifi/fw/file.h
-index 9a8c7b7a0816..226ccd3a6612 100644
---- a/drivers/net/wireless/intel/iwlwifi/fw/file.h
-+++ b/drivers/net/wireless/intel/iwlwifi/fw/file.h
-@@ -116,7 +116,7 @@ enum iwl_ucode_tlv_type {
- struct iwl_ucode_tlv {
- 	__le32 type;		/* see above */
- 	__le32 length;		/* not including type/length fields */
--	u8 data[0];
-+	u8 data[];
- };
+diff --git a/net/xfrm/xfrm_policy.c b/net/xfrm/xfrm_policy.c
+index 37d17a79617c..1a06585022ab 100644
+--- a/net/xfrm/xfrm_policy.c
++++ b/net/xfrm/xfrm_policy.c
+@@ -2486,9 +2486,7 @@ static inline struct xfrm_dst *xfrm_alloc_dst(struct net *net, int family)
+ 	xdst = dst_alloc(dst_ops, NULL, 1, DST_OBSOLETE_NONE, 0);
  
- #define IWL_TLV_UCODE_MAGIC		0x0a4c5749
-diff --git a/drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c b/drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c
-index 0ddd255a8cc1..f4efddf3e3c3 100644
---- a/drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c
-+++ b/drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c
-@@ -71,7 +71,8 @@ static int iwl_dbg_tlv_add(const struct iwl_ucode_tlv *tlv,
- 	if (!node)
- 		return -ENOMEM;
+ 	if (likely(xdst)) {
+-		struct dst_entry *dst = &xdst->u.dst;
+-
+-		memset(dst + 1, 0, sizeof(*xdst) - sizeof(*dst));
++		memset_after(xdst, 0, u.dst);
+ 	} else
+ 		xdst = ERR_PTR(-ENOBUFS);
  
--	memcpy(&node->tlv, tlv, sizeof(node->tlv) + len);
-+	memcpy(&node->tlv, tlv, sizeof(node->tlv));
-+	memcpy(node->tlv.data, tlv->data, len);
- 	list_add_tail(&node->list, list);
+diff --git a/net/xfrm/xfrm_user.c b/net/xfrm/xfrm_user.c
+index acc3a0dab331..0bf8fec3fd97 100644
+--- a/net/xfrm/xfrm_user.c
++++ b/net/xfrm/xfrm_user.c
+@@ -2907,7 +2907,7 @@ static int build_expire(struct sk_buff *skb, struct xfrm_state *x, const struct
+ 	copy_to_user_state(x, &ue->state);
+ 	ue->hard = (c->data.hard != 0) ? 1 : 0;
+ 	/* clear the padding bytes */
+-	memset(&ue->hard + 1, 0, sizeof(*ue) - offsetofend(typeof(*ue), hard));
++	memset_after(ue, 0, hard);
  
- 	return 0;
+ 	err = xfrm_mark_put(skb, &x->mark);
+ 	if (err)
 -- 
 2.30.2
 
