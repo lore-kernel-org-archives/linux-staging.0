@@ -1,36 +1,36 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA16F2FAD
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 21:16:53 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id m10-20020a17090a34cab0290176b52c60ddso1066993pjf.4
-        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 14:16:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F8270
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 21:16:54 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id g23-20020a17090a5797b02901765d605e14so1077366pji.5
+        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 14:16:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=25sRwmW5CNRat3e6IvuHGLhvZkVof8m0C579IfALAdI=;
-        b=m4YGoh/P3tKU4Lxl4SRQWXdflOLrwwURErbp5YNr36KzJ2PuJLJ2p4gf7WuRawRpXx
-         ekHTI/ED4PKpoCyWnDVdzHypaNY3kdi6x5gvRjEtla6K+zhkWVqZiQKl6mdS5GbyZlsJ
-         5buVRA6MDRcJoXqbDVxmoBQ7/cFClrIrN8l/c=
+        bh=HP4OyANmlGcmztFWqw/dgo2DQckUAHhybqKwZBENvis=;
+        b=LCA95eGQPuDryGp7EbL19tEBN1vZX/DV2Ru999TrrBIWyGTxCgkLiQwMnWVaK3dqpk
+         60QOsc5jmDPjJIsota7QsQXAPPxE36dJdfR+Ydl1pbfvgmM6HMxLTyilm0vGV2trPRqk
+         qPStf78RsWs4Jdx6SvJZesYZLDr/2M1lshLlo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=25sRwmW5CNRat3e6IvuHGLhvZkVof8m0C579IfALAdI=;
-        b=Ai7+7DsxN6WdZtpZ+sfn8Kw6wEVsVQfMAxcU2/s6nY383t1yglPMAE10SV0D0oH/O8
-         jcUs2QL7A9GIDuA4BEZTbvy/0aAMtp2XpObPnuCHHz6J6wEcv+jKP6/ENTb5Db9LJSLo
-         PQAkATp+3aPeqL7Cy+VwzzsYwp4XHvfWEUhzwk3giCalx9dgUlGm9KzNK/DiAGmzkg6T
-         u/y197Cwvvj5yrHz+LgzvkLFog7QsdnLr6BeIX0H8P9MBFstNHEw3at1fHzpc9YwOFIF
-         XYGqbSi6ECvXG+Oe0AqJABR3MzkNzrzNpXYU0fceptHY6MYeoh3SsLGK3OzJMTIT+S4G
-         q/jA==
-X-Gm-Message-State: AOAM5313XLsXkvzkQ8uWCV7Gd0MUYQv9F9iDbZEHKOpIaatYJQ+G0DzV
-	nV5GEJX2czP/OPt/KMChX9fjkw==
-X-Google-Smtp-Source: ABdhPJwY+2ofr2EBPgGu3EgOIhKgQL5Y+IWBO4KDp9LuyiE+gYeW+mz8aBLAfLtF0V2SpR3iUs1lFw==
-X-Received: by 2002:a65:6118:: with SMTP id z24mr25262434pgu.325.1627420613440;
+        bh=HP4OyANmlGcmztFWqw/dgo2DQckUAHhybqKwZBENvis=;
+        b=VQaLTigzVX60tDd3vNx7zfT3zIR/Cq7mtfY+UhuSTZF8B6r4wub5WMn6E9eXQX9cLQ
+         OQhvtPOb4r4u1ChNSLCCPNsQdrXJTrlscssDKOhfQgnBr1Yxlr/h21oAPHT7WXFseiwp
+         Qf9m4iPzsmM+Peo2dofuOaaIGnNVhmxe4O3ccV0gV3LsE5Y5QfbwN19iCKLv32p50yHq
+         ou5x+ckISAurKRi6lfV7p3gvyjiInG1skzNQk62G+Lnv60c1AxdaoBvX3zYFAGmfjahU
+         Ss/dJbLH6rwD0CQqDNmg1ebXJUXjefZnZf0dCin8Y4IYiD//R4eukI1ji8OfpIvW9P1p
+         Uldw==
+X-Gm-Message-State: AOAM5312stYK6xOfmYQeWtcBS1hl+/XgNsZDUWYgYtq0pJrCYsJnzDM3
+	K7xaGPRgu3/Xwx95ruLEFqfKHQ==
+X-Google-Smtp-Source: ABdhPJxnDJcYqdBzy28fe0pM7iN+zbksS85dJ1SqWH/meLyEzdRT3xN+44Z+ArcWYMJYdepJ2zZ1uQ==
+X-Received: by 2002:a17:90a:c902:: with SMTP id v2mr6116581pjt.136.1627420613728;
         Tue, 27 Jul 2021 14:16:53 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id d6sm4820202pgq.88.2021.07.27.14.16.49
+        by smtp.gmail.com with ESMTPSA id m6sm4511294pfc.151.2021.07.27.14.16.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 27 Jul 2021 14:16:50 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
@@ -48,9 +48,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com
-Subject: [PATCH 35/64] fortify: Detect struct member overflows in memmove() at compile-time
-Date: Tue, 27 Jul 2021 13:58:26 -0700
-Message-Id: <20210727205855.411487-36-keescook@chromium.org>
+Subject: [PATCH 62/64] netlink: Avoid false-positive memcpy() warning
+Date: Tue, 27 Jul 2021 13:58:53 -0700
+Message-Id: <20210727205855.411487-63-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
@@ -60,114 +60,52 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3921; h=from:subject; bh=JPEM6DOHRS2oe2a1K9Mco8cbthiXTkdHcDm8bzIdvDM=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOIEjRLBnznqeqc0ATaynhwVRI6QziDo5Tbtcjp u3qp3HeJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBziAAKCRCJcvTf3G3AJrXKD/ 94GyBKZP5zi92YuEpTiW8hf7nEaF+eTLr5/G5tuNyw/8MMBbAPfHaLhXNhTanfvzpp8TPnNigqBzZN m9iZqfI8yZpLaxppQ9Oue/gSMjkVQ8Z6PwaJgYlsEoo9aYJFd6VLIBMq+5hMmYof9dHNVShSVBOjhQ yqOcoEc/vuV6Gn5m8fVUDpSXzFzI0W83yF6EaqJA4jnkvtCRFWrRx24aruLDQ3COq+F96/K+19poxN 9tXuCQtyWluR2GeGK3aqbCsdd9JsJ6csueQv36meVfK6nUUn4SFf1Gckjs7/NYsRHY0HfKFPEEApNR SdEADkgOZDVu2ihgyc9U/vYjlu+NmXrU+GI19763ZRZILtYs4UiDc3hHccbLOaGc7q4aGj095zy2M5 LT2zvzlHJs1L5Nz9jeCVcNhAY1cRNCMGhEqTLl22Bu8v1n/vrjbB4RFcjdhpNEBdErfv7mIzJ1Vr6T tgaFmScPBEF5DbvMEmTlR+21ZFYURngdg0XOO3SecQMHrTygR5y+cK0fGJFWhMT9JbMn8c9T7xRRuQ /Bzsd+0RDz2WQoOImzblcsio31vDsh/sOB8v+lpGof3ke96PD98VcfZfUSfI4QCK+lMSWiMHdsCrpu zqGA8h8aFNOzCl5HT2jwHjibZd3aIc3rEWNjtQZbIIjLIJihjZjelQ3pbFKQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1678; h=from:subject; bh=vs/nNFIrJxwpI5nY+xgEPX6hqzmriBWLvM3b/eZbMbo=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOOsotWr+xLgDAagynSwACfihlJOnm7qN9/Mu92 bGzCtbGJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzjgAKCRCJcvTf3G3AJj/ZD/ 9ntjJhpq8fBwkjGH+dUg05xTxsNzIOuiH2+WA92AhYmbos7FaDGTm1g+GjbS9tYtH4WO2HSlLQe7LQ FBHmUbu6aiUm0Adb7gUZE3muL85N91x3mnnmxIoo2J/A/2tV0zkQyLUOckCj8VK+SR9BfW61OwCULU 7dXUvxZG2bCfldSz9FFpeTg6B3n38v7ZsFzE0Z+OKqNG5B6gy6nq9hQDiK5eWY7jsHwu6TaCX2KdWP ox3h/ObmvzejD4r5bqMjjhvU16eLjApW1M3mdaJGfxBeiC7Hn4U7R0R/a57zPmDRTbz/MhdWbOOFDp ABNXWuprZfW5V1fn74AOyo4Qdi0fWAhH4ttZZuPFnGp39cUNy/oe1zMgHhD+XjhBS0RMucpc7gNElk gk4SaMhbgnC4Ou6wBhA+yQfDvMUjqtRWUuRYmsFZ5Llmrlr/jWnsbjlt39vSdTBC9vTKSqnxgt1omQ fQi/9qcta+kyf71Lx1H+c1m8ve+vz4yBPxEJ5ztsLmSYk+J3LMojiNObOTsmlTFbCj4ZoDBFSpnQga mYRnTFbLCAQHQtPXM2pa7+qmWPgSz70szWlbF1IDWFBmyv8JppWdlZQu+0ThYGXTdnhi+QLNwm/WxH Zw293JAH5hVEyNiT/+/fkkV4VjclpW+bzGJvvMPBwvfpxzJKDGLjwSx2fyMw==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-As done for memcpy(), also update memmove() to use the same tightened
-compile-time checks under CONFIG_FORTIFY_SOURCE.
+In preparation for FORTIFY_SOURCE performing compile-time and run-time
+field bounds checking for memcpy(), memmove(), and memset(), avoid
+intentionally writing across neighboring fields.
+
+Add a flexible array member to mark the end of struct nlmsghdr, and
+split the memcpy() to avoid false positive memcpy() warning:
+
+memcpy: detected field-spanning write (size 32) of single field (size 16)
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- arch/x86/boot/compressed/misc.c               |  3 ++-
- arch/x86/lib/memcpy_32.c                      |  1 +
- include/linux/fortify-string.h                | 21 ++++---------------
- .../read_overflow2_field-memmove.c            |  5 +++++
- .../write_overflow_field-memmove.c            |  5 +++++
- 5 files changed, 17 insertions(+), 18 deletions(-)
- create mode 100644 lib/test_fortify/read_overflow2_field-memmove.c
- create mode 100644 lib/test_fortify/write_overflow_field-memmove.c
+ include/uapi/linux/netlink.h | 1 +
+ net/netlink/af_netlink.c     | 4 +++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/boot/compressed/misc.c b/arch/x86/boot/compressed/misc.c
-index 743f13ea25c1..83ff4354970e 100644
---- a/arch/x86/boot/compressed/misc.c
-+++ b/arch/x86/boot/compressed/misc.c
-@@ -34,10 +34,11 @@
-  * try to define their own functions if these are not defined as macros.
-  */
- #define memzero(s, n)	memset((s), 0, (n))
-+#ifndef memmove
- #define memmove		memmove
--
- /* Functions used by the included decompressor code below. */
- void *memmove(void *dest, const void *src, size_t n);
-+#endif
+diff --git a/include/uapi/linux/netlink.h b/include/uapi/linux/netlink.h
+index 4c0cde075c27..ddeaa748df5e 100644
+--- a/include/uapi/linux/netlink.h
++++ b/include/uapi/linux/netlink.h
+@@ -47,6 +47,7 @@ struct nlmsghdr {
+ 	__u16		nlmsg_flags;	/* Additional flags */
+ 	__u32		nlmsg_seq;	/* Sequence number */
+ 	__u32		nlmsg_pid;	/* Sending process port ID */
++	__u8		contents[];
+ };
  
- /*
-  * This is set up by the setup-routine at boot-time
-diff --git a/arch/x86/lib/memcpy_32.c b/arch/x86/lib/memcpy_32.c
-index e565d1c9019e..f19b7fd07f04 100644
---- a/arch/x86/lib/memcpy_32.c
-+++ b/arch/x86/lib/memcpy_32.c
-@@ -4,6 +4,7 @@
+ /* Flags values */
+diff --git a/net/netlink/af_netlink.c b/net/netlink/af_netlink.c
+index 24b7cf447bc5..f2dd99e96822 100644
+--- a/net/netlink/af_netlink.c
++++ b/net/netlink/af_netlink.c
+@@ -2447,7 +2447,9 @@ void netlink_ack(struct sk_buff *in_skb, struct nlmsghdr *nlh, int err,
+ 			  NLMSG_ERROR, payload, flags);
+ 	errmsg = nlmsg_data(rep);
+ 	errmsg->error = err;
+-	memcpy(&errmsg->msg, nlh, payload > sizeof(*errmsg) ? nlh->nlmsg_len : sizeof(*nlh));
++	memcpy(&errmsg->msg, nlh, sizeof(*nlh));
++	if (payload > sizeof(*errmsg))
++		memcpy(errmsg->msg.contents, nlh->contents, nlh->nlmsg_len - sizeof(*nlh));
  
- #undef memcpy
- #undef memset
-+#undef memmove
- 
- __visible void *memcpy(void *to, const void *from, size_t n)
- {
-diff --git a/include/linux/fortify-string.h b/include/linux/fortify-string.h
-index 5e79e626172b..2ffa5224aaac 100644
---- a/include/linux/fortify-string.h
-+++ b/include/linux/fortify-string.h
-@@ -284,22 +284,10 @@ __FORTIFY_INLINE void fortify_memcpy_chk(__kernel_size_t size,
- 		__builtin_object_size(p, 0), __builtin_object_size(q, 0), \
- 		__builtin_object_size(p, 1), __builtin_object_size(q, 1), \
- 		memcpy)
--
--__FORTIFY_INLINE void *memmove(void *p, const void *q, __kernel_size_t size)
--{
--	size_t p_size = __builtin_object_size(p, 0);
--	size_t q_size = __builtin_object_size(q, 0);
--
--	if (__builtin_constant_p(size)) {
--		if (p_size < size)
--			__write_overflow();
--		if (q_size < size)
--			__read_overflow2();
--	}
--	if (p_size < size || q_size < size)
--		fortify_panic(__func__);
--	return __underlying_memmove(p, q, size);
--}
-+#define memmove(p, q, s)  __fortify_memcpy_chk(p, q, s,			\
-+		__builtin_object_size(p, 0), __builtin_object_size(q, 0), \
-+		__builtin_object_size(p, 1), __builtin_object_size(q, 1), \
-+		memmove)
- 
- extern void *__real_memscan(void *, int, __kernel_size_t) __RENAME(memscan);
- __FORTIFY_INLINE void *memscan(void *p, int c, __kernel_size_t size)
-@@ -385,7 +373,6 @@ __FORTIFY_INLINE char *strcpy(char *p, const char *q)
- /* Don't use these outside the FORITFY_SOURCE implementation */
- #undef __underlying_memchr
- #undef __underlying_memcmp
--#undef __underlying_memmove
- #undef __underlying_memset
- #undef __underlying_strcat
- #undef __underlying_strcpy
-diff --git a/lib/test_fortify/read_overflow2_field-memmove.c b/lib/test_fortify/read_overflow2_field-memmove.c
-new file mode 100644
-index 000000000000..6cc2724c8f62
---- /dev/null
-+++ b/lib/test_fortify/read_overflow2_field-memmove.c
-@@ -0,0 +1,5 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+#define TEST	\
-+	memmove(large, instance.buf, sizeof(instance.buf) + 1)
-+
-+#include "test_fortify.h"
-diff --git a/lib/test_fortify/write_overflow_field-memmove.c b/lib/test_fortify/write_overflow_field-memmove.c
-new file mode 100644
-index 000000000000..377fcf9bb2fd
---- /dev/null
-+++ b/lib/test_fortify/write_overflow_field-memmove.c
-@@ -0,0 +1,5 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+#define TEST	\
-+	memmove(instance.buf, large, sizeof(instance.buf) + 1)
-+
-+#include "test_fortify.h"
+ 	if (nlk_has_extack && extack) {
+ 		if (extack->_msg) {
 -- 
 2.30.2
 
