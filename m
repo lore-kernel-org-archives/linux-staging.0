@@ -1,38 +1,38 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17CA2FAD
-	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 21:06:54 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id l19so1923089pjz.0
-        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 14:06:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45BC070
+	for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 21:06:56 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id c16so15331plh.7
+        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 14:06:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=KNJkxRbTZjBfSAYGR3816TShm8Emkoyf8ZdfkqPS+FQ=;
-        b=TTGjFuoejzZ4UcURjJ4pPdNPDe9Jn5SyFBfglcq90IykesIiOVEkCdbcD/m3+qhdva
-         slQ4ePKQ6iwR++JiczF3JHBNNuTp4LyRmWMRuqTcdz+fw6qszodvFvFG5Ibp5X/LllWc
-         +fRyxKvk7rn5leQezWTlqBpgyuWYKt8lRuKMI=
+        bh=UPGlu1gG6API/iCexVdVFLvP4yi8HHonlHYke9K7UR0=;
+        b=m3xmCqlfQQl6y88gzGHqm2N3UvKEnCdok/BJyDNoduQEklW/A7rLG1ArcEbIa4sNpg
+         gyE4VCnVWyScIlaG1xhcD8qrQj5NdPxQkhHLzIIQou5A0leQoAsnAyLU3S12xLMU/Hpr
+         6bYRGbAjxTPd/EtMM4GpfIh0ws6if/8UYqIYg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=KNJkxRbTZjBfSAYGR3816TShm8Emkoyf8ZdfkqPS+FQ=;
-        b=qiVCx4+QlK28Jcsjm21w+Ts135uiX3C+kxerLvcprPIVjg1+MBjUx6FS3+nm64RQh5
-         W0Spphx3szmAB99VpKSOqXfdqG9axBeiDOka4JNA+UATXwS6AUfBmOIaOJFsaZEnzHSs
-         8yydqnKHgDYxLM6cgu4Rj+33f4ngaHDQRDXWabXa3C/zCVadYZHyrdXIzFXC2dt/ozHf
-         cjo3VsoF61sySfvtybBtvBqcxM0VsfFeTbU1ZU4HL6uD7BHjk6FSa0HSEjR/eEPKI4L5
-         +iPtqF0BkTKh37jsGdIk2517gN/PeCm77/5P9bUurvY8qVJy0CjLrxORksmNj6q+rKD+
-         kwpw==
-X-Gm-Message-State: AOAM531BwyD5SC6fEqMTFUAHwODxIMS8g1qpdfrxk3Q2wHnSfpHKL21s
-	gqgY/SFxNyvtzvmp1A2dnuTdIg==
-X-Google-Smtp-Source: ABdhPJz8+E+SDb3LoAbaQEcUj/nENGUTPsEXTKFEfKJ+U87AixQ7X8CbyjH9KY5gO+50OJnIiipy2w==
-X-Received: by 2002:a17:90a:5a4c:: with SMTP id m12mr6207285pji.15.1627420014655;
-        Tue, 27 Jul 2021 14:06:54 -0700 (PDT)
+        bh=UPGlu1gG6API/iCexVdVFLvP4yi8HHonlHYke9K7UR0=;
+        b=FiKzFrcKbq0VSdGv/I1OKZbj2GMfgbjHyxA0uDryX7Ro3uySiw4GghdB6ir+RA3wo9
+         FUxHzknf5Duk6j5I1vBABipKKgJbnqjxG3ghvuVSG6PeyLo0uupM9KxhkEfLPlc7XnpA
+         M/Xf55N7DMLYoMUM6YWetfLhaHVanWium8ifGGtY8Ktnd5I1hAemgwsesQLLJQyUP3c8
+         jKG2OxrhzY826zNGYPAExv0wwxg5XX8Lsk2x6Q4fqPZROhpC4Di9+7wA++1JTv4I2ZWD
+         8fCn29poJwO8wsTqBDHBvUhznITboG8vG5d0J7MGkQK+w2/1C4H7HNci/ss54b3tMZNZ
+         8Pqw==
+X-Gm-Message-State: AOAM532nxPB/DxLWNlR2pt4DjOey5rHVeguUvk5LWJVolnZ/UGDDEXHo
+	vDlAavGZhh+8NVrO9sh67jlF0A==
+X-Google-Smtp-Source: ABdhPJyRr41WjbyJq9nCLCxMpkCCFYsX51CfWKd4/S2P+UzJSAsEt1kW141ndTqkUOB7pGW66MCilA==
+X-Received: by 2002:aa7:9546:0:b029:32e:5fdf:9576 with SMTP id w6-20020aa795460000b029032e5fdf9576mr25063139pfq.5.1627420015943;
+        Tue, 27 Jul 2021 14:06:55 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id g8sm4556875pfu.30.2021.07.27.14.06.50
+        by smtp.gmail.com with ESMTPSA id d29sm4704061pfq.193.2021.07.27.14.06.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jul 2021 14:06:50 -0700 (PDT)
+        Tue, 27 Jul 2021 14:06:54 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-hardening@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
@@ -48,9 +48,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com
-Subject: [PATCH 44/64] iw_cxgb4: Use memset_after() for cpl_t5_pass_accept_rpl
-Date: Tue, 27 Jul 2021 13:58:35 -0700
-Message-Id: <20210727205855.411487-45-keescook@chromium.org>
+Subject: [PATCH 17/64] iommu/amd: Use struct_group() for memcpy() region
+Date: Tue, 27 Jul 2021 13:58:08 -0700
+Message-Id: <20210727205855.411487-18-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210727205855.411487-1-keescook@chromium.org>
 References: <20210727205855.411487-1-keescook@chromium.org>
@@ -60,63 +60,54 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2100; h=from:subject; bh=gV9IZTM5qU7jcRGph/XDG3+fKRJKxoN9HOMcsfOyL0A=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHOK/UN78x/osAzwgMKupSwSrhwjEeLTXqK++CZi 7CH6/zyJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzigAKCRCJcvTf3G3AJi+aD/ 9wSoxGLjbf3nMxhdx0FTNoLb7tUlFlGp+wsA1eq4h8eLG5OlOTzsA8IwsIgBPWp2/c4lh/3h8Wej9u tFFoUjbe3EwfDLU01dywIYam3R6J6s+TD7jpKeWz0MWD2NFKTvNmK/r5nlDA+crVlsHLnuBl7ozHdp Uoh/Bz4xC9nN82aPUAif26+yocqytHa2sw58nHCezNegk9sqBcHUCoNnFodMubFs/UgzD7hGOsd+1B aOhnYDdb2QaqaHaKTplZpcofR90e0xKWhk0CRSg83IE3RApySZo8s2Q4xTS1Ma3eB82/7z+gvwQXWY hia/xw+mpgLBcAZ0jCu/itWg4QCogWD2bkotmQJEfjL9TXjZCGUa2NGLC/CnEfFKcyutnljBecv1EH 0Q9xXQNOo4tw2JZcb6z7NV4dR0L+tjj3BeFNlPgNbG4VgwmG7uKubRriMRe5NSZBE38cW0fSq5rQ3Y T/5J6pZ+p6FMSSVheYF8tjScBuAHu1NRrxeGGj9Wx4M222kdbmFmeXqMdbCPWOgSfuuCWozDcs7p7z +9BLk6YAP2L0i/Fh9KBLAPtQ43onOWXv77p4r/RE/gXudIT6F++lAYSdbKOI9/3skSabDHdxRbQYhk 1gswdeOGaLRaDVm2CSKXSrfli04Bjbp+JUMycYvzS0p20FUxvYZuh3eQYepg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1451; h=from:subject; bh=3pnVXRScRiXcKlAzWmxtHjgtqdCSr5x9f+6aO5KQ5qc=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhAHODYV9h07PQ3v5RAvzij9k85T7DPu/8sNSs65Q4 0y0UliiJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQBzgwAKCRCJcvTf3G3AJiW2D/ 4nEDA70nGUYhVyf7oYOlQgzyry3f6d0tKPbEYWNkte1rIRW3O2InK76AVJyf0Q/BtnVYPXNStIrzaO SUDw2yOwXO4oq2+xlKHbSpDQcYZna36Xqovo10kVGY112L7kOGbUfQZZPm+9ZCxh9fprwP+ezpdrPw 5RhPSv0UwMiQYY/cih9csRF3Y0cUslbWzBAlMAKY4vV665FdBYm4Cd1UbBRiX7n5X6rkASp/R5KUJO gT9lqJlutTZcY84HhE2e7nVfUM1tK/zoQ1ZeRZ2l14KFhykcFSW9gTHS3VJa2Fr3ta26jaAzpIQzRI I1VZSdlxpEUPAljbEi8ms11eBPC5N8+yPox2bH9yz8bPLwwHOwyP+yRXagJSrsB0JY9elrri4Jr0d4 L0spfyNNFhXi1pYLN/VwHLWk0qCJ6U6H1/1yJ5fkSANbabpn+M+34UuJ87NhDZnoboRjX68s2N9xUp Ztc8gb6cNuq1OK7yjw+/s+IPxRe2Xrjyj6xMHQ75Nmq+kDqedEV8h/okfZHv9FN6eZGw8+d+79qrHr /MdSe/HI+xPECZcwJiIqojDU9hyrQ75Slj1hn65lXR2jBuZkuxOB9VWtjVZyPGXbccWBvdccl0Sthp x+6FisSerA0XyrnefqEYTnx+5XYfaYWhfusWvoUDsVRDlD5XjnXe/NKxjhWQ==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
 In preparation for FORTIFY_SOURCE performing compile-time and run-time
-field bounds checking for memset(), avoid intentionally writing across
-neighboring fields.
+field bounds checking for memcpy(), memmove(), and memset(), avoid
+intentionally writing across neighboring fields.
 
-Use memset_after() so memset() doesn't get confused about writing
-beyond the destination member that is intended to be the starting point
-of zeroing through the end of the struct. Additionally, since everything
-appears to perform a roundup (including allocation), just change the
-size of the struct itself and add a build-time check to validate the
-expected size.
+Use struct_group() in struct ivhd_entry around members ext and hidh, so
+they can be referenced together. This will allow memcpy() and sizeof()
+to more easily reason about sizes, improve readability, and avoid future
+warnings about writing beyond the end of ext.
+
+"pahole" shows no size nor member offset changes to struct ivhd_entry.
+"objdump -d" shows no object code changes.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/infiniband/hw/cxgb4/cm.c            | 5 +++--
- drivers/net/ethernet/chelsio/cxgb4/t4_msg.h | 2 +-
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ drivers/iommu/amd/init.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/infiniband/hw/cxgb4/cm.c b/drivers/infiniband/hw/cxgb4/cm.c
-index 291471d12197..7129ae025b2d 100644
---- a/drivers/infiniband/hw/cxgb4/cm.c
-+++ b/drivers/infiniband/hw/cxgb4/cm.c
-@@ -2471,7 +2471,8 @@ static int accept_cr(struct c4iw_ep *ep, struct sk_buff *skb,
- 	skb_get(skb);
- 	rpl = cplhdr(skb);
- 	if (!is_t4(adapter_type)) {
--		skb_trim(skb, roundup(sizeof(*rpl5), 16));
-+		BUILD_BUG_ON(sizeof(*rpl5) != roundup(sizeof(*rpl5), 16));
-+		skb_trim(skb, sizeof(*rpl5));
- 		rpl5 = (void *)rpl;
- 		INIT_TP_WR(rpl5, ep->hwtid);
- 	} else {
-@@ -2487,7 +2488,7 @@ static int accept_cr(struct c4iw_ep *ep, struct sk_buff *skb,
- 		opt2 |= CONG_CNTRL_V(CONG_ALG_TAHOE);
- 		opt2 |= T5_ISS_F;
- 		rpl5 = (void *)rpl;
--		memset(&rpl5->iss, 0, roundup(sizeof(*rpl5)-sizeof(*rpl), 16));
-+		memset_after(rpl5, 0, opt0);
- 		if (peer2peer)
- 			isn += 4;
- 		rpl5->iss = cpu_to_be32(isn);
-diff --git a/drivers/net/ethernet/chelsio/cxgb4/t4_msg.h b/drivers/net/ethernet/chelsio/cxgb4/t4_msg.h
-index fed5f93bf620..26433a62d7f0 100644
---- a/drivers/net/ethernet/chelsio/cxgb4/t4_msg.h
-+++ b/drivers/net/ethernet/chelsio/cxgb4/t4_msg.h
-@@ -497,7 +497,7 @@ struct cpl_t5_pass_accept_rpl {
- 	__be32 opt2;
- 	__be64 opt0;
- 	__be32 iss;
--	__be32 rsvd;
-+	__be32 rsvd[3];
- };
+diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
+index 46280e6e1535..2df84737417b 100644
+--- a/drivers/iommu/amd/init.c
++++ b/drivers/iommu/amd/init.c
+@@ -121,8 +121,10 @@ struct ivhd_entry {
+ 	u8 type;
+ 	u16 devid;
+ 	u8 flags;
+-	u32 ext;
+-	u32 hidh;
++	struct_group(ext_hid,
++		u32 ext;
++		u32 hidh;
++	);
+ 	u64 cid;
+ 	u8 uidf;
+ 	u8 uidl;
+@@ -1378,7 +1380,8 @@ static int __init init_iommu_from_acpi(struct amd_iommu *iommu,
+ 				break;
+ 			}
  
- struct cpl_act_open_req {
+-			memcpy(hid, (u8 *)(&e->ext), ACPIHID_HID_LEN - 1);
++			BUILD_BUG_ON(sizeof(e->ext_hid) != ACPIHID_HID_LEN - 1);
++			memcpy(hid, &e->ext_hid, ACPIHID_HID_LEN - 1);
+ 			hid[ACPIHID_HID_LEN - 1] = '\0';
+ 
+ 			if (!(*hid)) {
 -- 
 2.30.2
 
