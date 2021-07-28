@@ -1,58 +1,53 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F44470
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 18:57:16 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id c16so3829356plh.7
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 11:57:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788B070
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 20:00:49 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id a20so4120409plm.0
+        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 13:00:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=127Od1Z5L5mrPERJlQTktPz34XXJuvOrvHqT3KKh12Q=;
-        b=CT/CUy6V11s/6KhYMzSsdsMDErLudpJAHUqNC0Rpu9F7Ero2CNsiQemV80Kh7YxA18
-         O09bddDAkQD5N79FTWd2JhufucZWJdvUnGQK4C3MDdI6o+fliBhy2PpoYHcWAEFN4pot
-         mlS6O/Te+d+/T7xLqqDiIN6UOLBL2XxRO5jCQ=
+        bh=TJBawUD1aFfD+dzRqdwJ1MPEWpORtq7Fvvwh0fqmN4w=;
+        b=U5xnZ2ApxaMWnn7gJYnJAR8u59w7nGyYjuMteJJ5vh2utJ4V+34Hki0luScN94y1q5
+         NY7LJKxP0vdSs/BkhP4DvbU7p6TW8iGGLqYrsAgsXtFXw3z4kD6jfWlLcSNJq1dwldXH
+         csVkvbMVSaBdzCzmn4y28pFJJ6R7MAveCAHYupzmC5jABC4uID9rD1tNvWsHFP6EuitP
+         zz9zn2HchfkHh/FwP/LwNVEERNucc53wq7+yJRc3x98OP4+PY9iNN7tyJPbQ/rAj6XF4
+         LtutpaEF6eqyZtY0HfbHWNEuwDt0yVaHLSFCpzTkNwcr15QBhOkGoIRO60MThiEhkT1e
+         OyYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=127Od1Z5L5mrPERJlQTktPz34XXJuvOrvHqT3KKh12Q=;
-        b=KpIrbP3EdsII3K4/0fomlnus1OSF+CljQVILQLvbOE3ErGRH8Mnh6fLMofn5Gq4xAA
-         rIR4Ie7bZ9+Fjw5fm7NybtqNdUKZtku+2Y2iNjHmW3Z3jkdBpEAHGj3Edo+GOKwgoFhI
-         Tr/xMtz081UVy0YMiSaG5W7DsBdSdyh0kyHxU26T2iQlBHNNXy4kiHktgwwtghdhKjJd
-         huJX9pshEuCTTonJaiCVmgfy9vT+xvipT7qvRFmuitAeVjp6BecvmUIVSs+h9osoigGa
-         XMxIDsYKgwCVLocP2MBDba2Jl8sKL7NNznIG/yo8MGLCpHK6J9LpvyMYpTkrJ2GcjEGl
-         PIYQ==
-X-Gm-Message-State: AOAM533uJIzlcOp4k6U6CUPf2nmC/T3o0unwvu+pjHewS6jCy6APvH5l
-	icQ7Nfx6LSwBA4XsSTvNG0aJ8A==
-X-Google-Smtp-Source: ABdhPJznHpu/gslPhcK+chR4/yRixyO0Zt/1nxlU5ZOnQ6g7gqNYFE0PSpANagAqHnwDfuJHc+ddvw==
-X-Received: by 2002:a63:4c26:: with SMTP id z38mr313058pga.376.1627498636621;
-        Wed, 28 Jul 2021 11:57:16 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id d14sm5792859pjc.0.2021.07.28.11.57.15
+        bh=TJBawUD1aFfD+dzRqdwJ1MPEWpORtq7Fvvwh0fqmN4w=;
+        b=k7b+Usz9LLcYR7sRL6RjnO0ZhI4MQTcTg4vTHOuoa1AhTG3fMkfAhBSD9fTrWhXdiZ
+         Wq4sKpviZXmd2mFy5UeyawZymMvJxVp+Y1ZjIgOzlvhrwWXZ3WOPHHTwmIzCsDUTYyRm
+         +IDVtDQ6eYjeXZ1z2R3U2obLt01SSJtmxdKqESc4AOL02YQfbz+g0FAxQTOuQ1xInwbh
+         VzxzOZsFhKVy2PTDKHVugjRJiSGQidef3eFcY3d1xJMiGtoHEUea1y91hxsD4kqZ7uTG
+         SPA3nK5kdUqP1rrS0o70yXHXNfk+odtNs9OG4/HZbE4xujJCqOBz0Zvyvo0QKPGHl0rJ
+         HXQA==
+X-Gm-Message-State: AOAM530+yZrcj3uohMzQCBAqB5juZMSvXus5+Sd2cqEwyslUQRRUymtE
+	S2eeLAL2u/4I1GuJV/v200U=
+X-Google-Smtp-Source: ABdhPJxglSz5HVVd1rwyBjzRsuioP4LKmTyej4fYd6rxpo5LXhgxwUrQNYu6edeKN6oVLP3h57Ocvg==
+X-Received: by 2002:a17:90a:7505:: with SMTP id q5mr9437802pjk.64.1627502449011;
+        Wed, 28 Jul 2021 13:00:49 -0700 (PDT)
+Received: from ojas ([122.161.51.5])
+        by smtp.gmail.com with ESMTPSA id b13sm808153pfl.49.2021.07.28.13.00.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jul 2021 11:57:16 -0700 (PDT)
-Date: Wed, 28 Jul 2021 11:57:15 -0700
-From: Kees Cook <keescook@chromium.org>
-To: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: linux-hardening@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Keith Packard <keithpac@amazon.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-	Brian King <brking@linux.vnet.ibm.com>,
-	Tyrel Datwyler <tyreld@linux.ibm.com>
-Subject: Re: [PATCH 36/64] scsi: ibmvscsi: Avoid multi-field memset()
- overflow by aiming at srp
-Message-ID: <202107281152.515A3BA@keescook>
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-37-keescook@chromium.org>
- <yq135rzp79c.fsf@ca-mkp.ca.oracle.com>
+        Wed, 28 Jul 2021 13:00:48 -0700 (PDT)
+Date: Thu, 29 Jul 2021 01:30:39 +0530
+From: Ojaswin Mujoo <ojaswin98@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: nsaenz@kernel.org, stefan.wahren@i2se.com, dan.carpenter@oracle.com,
+	phil@raspberrypi.com, linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] staging: vchiq: Add details to $CONFIG_VCHIQ_CDEV
+ help text
+Message-ID: <20210728200039.GA17046@ojas>
+References: <cover.1627495116.git.ojaswin98@gmail.com>
+ <9c9c128b41e31d6bebe646e052aa05c44b19eb83.1627495116.git.ojaswin98@gmail.com>
+ <YQGmG6nwk+pOyAdu@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,71 +56,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <yq135rzp79c.fsf@ca-mkp.ca.oracle.com>
+In-Reply-To: <YQGmG6nwk+pOyAdu@kroah.com>
 
-On Tue, Jul 27, 2021 at 09:39:39PM -0400, Martin K. Petersen wrote:
-> 
-> Kees,
-> 
-> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > field bounds checking for memset(), avoid intentionally writing across
-> > neighboring fields.
-> >
-> > Instead of writing beyond the end of evt_struct->iu.srp.cmd, target the
-> > upper union (evt_struct->iu.srp) instead, as that's what is being wiped.
-> >
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> 
-> Orthogonal to your change, it wasn't immediately obvious to me that
-> SRP_MAX_IU_LEN was the correct length to use for an srp_cmd. However, I
-> traversed the nested unions and it does look OK.
-
-Yeah, I had the same fun. Maybe I should add a BUILD_BUG_ON() here to
-help illustrate the relationship? I did that in a few other places where
-the equalities weren't very clear.
-
-For example, change it to:
-
-+	BUILD_BUG_ON(sizeof(evt_struct->iu.srp) != SRP_MAX_IU_LEN);
-+	memset(&evt_struct->iu.srp, 0x00, sizeof(evt_struct->iu.srp));
- 	srp_cmd = &evt_struct->iu.srp.cmd;
--	memset(srp_cmd, 0x00, SRP_MAX_IU_LEN);
-
-> 
-> For good measure I copied Tyrel and Brian.
-> 
-> Acked-by: Martin K. Petersen <martin.petersen@oracle.com>
-
-For the moment, I'll leave the patch as-is unless you prefer having
-the BUILD_BUG_ON(). :)
-
-Thanks!
-
--Kees
-
-> 
+On Wed, Jul 28, 2021 at 08:46:51PM +0200, Greg KH wrote:
+> On Thu, Jul 29, 2021 at 12:07:17AM +0530, Ojaswin Mujoo wrote:
+> > Add some details to the Kconfig definition of $CONFIG_VCHIQ_CDEV to help
+> > make the motive behind it a bit more clear.
+> > 
+> > Signed-off-by: Ojaswin Mujoo <ojaswin98@gmail.com>
 > > ---
-> >  drivers/scsi/ibmvscsi/ibmvscsi.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/scsi/ibmvscsi/ibmvscsi.c b/drivers/scsi/ibmvscsi/ibmvscsi.c
-> > index e6a3eaaa57d9..7e8beb42d2d3 100644
-> > --- a/drivers/scsi/ibmvscsi/ibmvscsi.c
-> > +++ b/drivers/scsi/ibmvscsi/ibmvscsi.c
-> > @@ -1055,8 +1055,8 @@ static int ibmvscsi_queuecommand_lck(struct scsi_cmnd *cmnd,
-> >  		return SCSI_MLQUEUE_HOST_BUSY;
-> >  
-> >  	/* Set up the actual SRP IU */
-> > +	memset(&evt_struct->iu.srp, 0x00, SRP_MAX_IU_LEN);
-> >  	srp_cmd = &evt_struct->iu.srp.cmd;
-> > -	memset(srp_cmd, 0x00, SRP_MAX_IU_LEN);
-> >  	srp_cmd->opcode = SRP_CMD;
-> >  	memcpy(srp_cmd->cdb, cmnd->cmnd, sizeof(srp_cmd->cdb));
-> >  	int_to_scsilun(lun, &srp_cmd->lun);
+> >  drivers/staging/vc04_services/Kconfig | 8 ++++++--
+> >  1 file changed, 6 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/staging/vc04_services/Kconfig b/drivers/staging/vc04_services/Kconfig
+> > index 2b70c37cdd09..cb02d8a4cb74 100644
+> > --- a/drivers/staging/vc04_services/Kconfig
+> > +++ b/drivers/staging/vc04_services/Kconfig
+> > @@ -25,8 +25,12 @@ config VCHIQ_CDEV
+> >  	bool "VCHIQ Character Driver"
+> >  	default y
+> >  	help
+> > -		Enable the creation of VCHIQ character driver to help
+> > -		communicate with the Videocore platform.
+> > +		Enable the creation of VCHIQ character driver to help communicate
+> > +		with the VideoCore platform. The cdev exposes ioctls used by
+> > +		userspace libraries and testing tools to interact with VideoCore.
+> > +		This can be set to 'N' if the VideoCore communication is not needed
+> > +		by userspace but only by other kernel modules (like bcm2835-audio).
+> > +		If not sure, set this to 'Y'.
 > 
-> -- 
-> Martin K. Petersen	Oracle Linux Engineering
+> I still do not understand if I need this driver or not, and I have this
+> hardware!  What functionality does this driver accomplish?  What is
+> VideoCore?
+Hey Greg,
 
+I believe I can add this under the CONFIG_BCM2835_VCHIQ config option,
+as that enables the core driver that implements the functions to
+communicate with VideoCore platform? 
 
--- 
-Kees Cook
+This config option merely adds a cdev which exposes the the core
+driver's functionality to userspace. 
+
+Regards,
+Ojaswin
+> 
+> thanks,
+> 
+> greg k-h
