@@ -1,99 +1,94 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29AB270
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 11:24:04 +0000 (UTC)
-Received: by mail-lj1-f169.google.com with SMTP id f12so2670021ljn.1
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 04:24:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F1D70
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 12:00:24 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id g15so2227289wrd.3
+        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 05:00:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Wg+3/RRWhlXAdTdGrz6ZDOoqwDjAalfDgSMGfZRFy7c=;
-        b=MqB2oQJrWErl4M3jysGVniDJ4xARTYUEk892vt+CXTsOghQBHfw+ROqpA+FWeMfNAw
-         99HiHQl9pgCodpNZVcjBeusKVj1g8kcdEIy/ZsV7LY738G0Iid6EaBW2zhaAmZdiUtKc
-         pOnrw2np1M0KCLNrhvFVpkrx8b6JNzJx5ukHc=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=cVAGWXk6C/RClkhxJBC2qc8hyZaz+QfRZnXkvbgygas=;
+        b=ElZkUGcJJwD7Aa2mRV34LlTvFelQdA333XEOrmYWZPMcj7iUpAEUVcZgerqW02QZIv
+         D7u6xaS/dfr5c+SWwNuNeLDpKoasAQz8G5J0cuXDfqAU88VPr1shGX0hvw78ZRfbkqlq
+         DTz728iCazAcDN+cmZP5a/QDOIGh+KTFZncG5V06KvlsbtqNsxlcfNmcEZkTSwEHTvlk
+         AXWrR3emzZjJ1buD3hPAH4HktVHPwqhOMqPxi8dONbIR0gAiYdkaUbkG1PcShWST9xoX
+         w0kd5JFo1MYqlr1mGMdpFHFnUi9AwXArIra5D2Q2QutxIfjGyVM/FD4iH9mUvMRnw0fY
+         Afog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Wg+3/RRWhlXAdTdGrz6ZDOoqwDjAalfDgSMGfZRFy7c=;
-        b=NlGmY+2yy4G/TjGnqcfaauwE3J43H9iMvx86AQNiXol+TMA67S2pjklKkIlJxpJRjt
-         1QVJ8pkzB1bT5nK0gKTo6QoURKvRrUkjL3rsei1sKUeY9nw5WskWw7Amd3ErTIXHWArV
-         GD10XMGsp1ra5qoPhvqSYVxExYmtq61uuCsDFxw530/2umS0VTuVVbyY6E5tenMC139a
-         yzjILbWMIkHtoxQKqZgiFsVpzW+N/RFApih800lNHRAQB9xNcSAzv8R7OR06XkD7QcW/
-         2HUz7DwLeH3XY7KNvf0BaHnjFbA7Zk4iq7vGCrVW6QYEVmg6xQsehbUUS07UwQfoXN9t
-         U3xw==
-X-Gm-Message-State: AOAM533D0C3ryWXZZx7Q2wxoT6hkAUNoB7gRBJjd5kTIt1mJpyGjiq0Y
-	a0uewgdRhIRpU5ksKRdgIoJkEA==
-X-Google-Smtp-Source: ABdhPJzbJpuLwTQcj/uhUJ1FDab/S8wsNFZGfZq+HhHIgh+eTtqaebX9Ee+tEB7aFHczhnUT7I/eLg==
-X-Received: by 2002:a05:651c:124f:: with SMTP id h15mr18566268ljh.4.1627471443108;
-        Wed, 28 Jul 2021 04:24:03 -0700 (PDT)
-Received: from [172.16.11.1] ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id f14sm494569ljj.116.2021.07.28.04.24.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Jul 2021 04:24:02 -0700 (PDT)
-Subject: Re: [PATCH 62/64] netlink: Avoid false-positive memcpy() warning
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Kees Cook <keescook@chromium.org>
-Cc: linux-hardening@vger.kernel.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Keith Packard <keithpac@amazon.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
- linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
- clang-built-linux@googlegroups.com
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-63-keescook@chromium.org> <YQDv+oG7ok0T1L+r@kroah.com>
-From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <d7251d92-150b-5346-6237-52afc154bb00@rasmusvillemoes.dk>
-Date: Wed, 28 Jul 2021 13:24:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=cVAGWXk6C/RClkhxJBC2qc8hyZaz+QfRZnXkvbgygas=;
+        b=JM3W5uE6Wbcszp0stguFgzfsDmq/ZcDWeVJ58PHo+6cfFzd6+l8a4uAMwFirfJZmW+
+         SOnT5m+b4WIXoUUTEw7m8VtWmfa+mf2+A0j3CwiZ/pVi+0sj9wrIgS2O17fymki1NiYK
+         pTJ71fNzHUGkAxpP0rN72Tv953S5vHZZcAQfL1T0L8aVhOKMfZBOnUsFmS2SK9htICsq
+         1LbeQr6rO9krL0YWep2yGnvNckW7CB0Yc03Qz2RQjv9X4M0gNx3KIB0q3myEs86yw+IY
+         ezgxHeMqOBjMsh0bnoDqxpDxPkkwlvvJauGwmU7w6aa0aeYB+qaHDEhw3DjI8ab9slta
+         EBng==
+X-Gm-Message-State: AOAM5311uorGr13ryG1b1eiJ0pNePpK41FtJsaevSeH3PG4n1vvne2te
+	RWicXm8cI1r3EjiLmzCz8zI=
+X-Google-Smtp-Source: ABdhPJwafNQZVd1Gwz3myc+7Vx0WTbCDQuQXyXHGgpvrzw8HDEpiOTh5dRVAeEvqlgvQ7KhAojQi6w==
+X-Received: by 2002:a5d:67cc:: with SMTP id n12mr30345956wrw.131.1627473622800;
+        Wed, 28 Jul 2021 05:00:22 -0700 (PDT)
+Received: from localhost.localdomain (host-79-26-32-124.retail.telecomitalia.it. [79.26.32.124])
+        by smtp.gmail.com with ESMTPSA id n5sm6354930wri.31.2021.07.28.05.00.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jul 2021 05:00:22 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Suren Baghdasaryan <surenb@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arve =?ISO-8859-1?Q?Hj=F8nnev=E5g?= <arve@android.com>, Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>, Joel Fernandes <joel@joelfernandes.org>, Christian Brauner <christian@brauner.io>, Hridya Valsaraju <hridya@google.com>, LKML <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: android: Remove set but unused variable in ashmem.c
+Date: Wed, 28 Jul 2021 14:00:19 +0200
+Message-ID: <4425350.seJdf4cM5h@localhost.localdomain>
+In-Reply-To: <20210726134454.GJ1931@kadam>
+References: <20210723200514.10139-1-fmdefrancesco@gmail.com> <13453441.4PhDYAFLLM@localhost.localdomain> <20210726134454.GJ1931@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YQDv+oG7ok0T1L+r@kroah.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 28/07/2021 07.49, Greg Kroah-Hartman wrote:
-> On Tue, Jul 27, 2021 at 01:58:53PM -0700, Kees Cook wrote:
->> In preparation for FORTIFY_SOURCE performing compile-time and run-time
->> field bounds checking for memcpy(), memmove(), and memset(), avoid
->> intentionally writing across neighboring fields.
->>
->> Add a flexible array member to mark the end of struct nlmsghdr, and
->> split the memcpy() to avoid false positive memcpy() warning:
->>
->> memcpy: detected field-spanning write (size 32) of single field (size 16)
->>
->> Signed-off-by: Kees Cook <keescook@chromium.org>
->> ---
->>  include/uapi/linux/netlink.h | 1 +
->>  net/netlink/af_netlink.c     | 4 +++-
->>  2 files changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/include/uapi/linux/netlink.h b/include/uapi/linux/netlink.h
->> index 4c0cde075c27..ddeaa748df5e 100644
->> --- a/include/uapi/linux/netlink.h
->> +++ b/include/uapi/linux/netlink.h
->> @@ -47,6 +47,7 @@ struct nlmsghdr {
->>  	__u16		nlmsg_flags;	/* Additional flags */
->>  	__u32		nlmsg_seq;	/* Sequence number */
->>  	__u32		nlmsg_pid;	/* Sending process port ID */
->> +	__u8		contents[];
+Hello Dan,
+
+On Monday, July 26, 2021 3:44:54 PM CEST Dan Carpenter wrote:
+> On Sat, Jul 24, 2021 at 09:49:35AM +0200, Fabio M. De Francesco wrote:
+> >
+> > [...]
+> >
+> Another trick which would have helped is to try find out which patch
+> forgot to remove the "inode" variable, because that developer would have
+> seen the warning as well.
 > 
-> Is this ok to change a public, userspace visable, structure?
+> > > I'm guessing you are building with CONFIG_LOCKDEP=n.
+> > 
+> > Actually my .config sets CONFIG_LOCKDEP_SUPPORT=y. Did you refer to this?
+> > There is no CONFIG_LOCKDEP in the file.
+> 
+> Use make nconfig and then use f8 to search for CONFIG_LOCKDEP.
+> 
+> regards,
+> dan carpenter
 
-At least it should keep using a nlmsg_ prefix for consistency and reduce
-risk of collision with somebody having defined an object-like contents
-macro. But there's no guarantees in any case, of course.
+Thanks a lot. As always, you've been very helpful. I appreciate your 
+willingness to help and, more generally, your attitude towards people with 
+less experience than yours.
 
-Rasmus
+By using F8, I found that CONFIG_LOCKDEP is selected by CONFIG_LOCK_STAT (in 
+logical AND with other options) but, in my .config, the latter was set to 'n'. 
+After setting this other option to 'y', CONFIG_LOCKDEP magically :) appeared  
+in .config and it was automatically set to 'y'.
+
+I see that the same kind of search can also be done by using the slash if one 
+uses "make menuconfig".
+
+Regards,
+
+Fabio
+
+
+
