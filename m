@@ -1,1068 +1,188 @@
-Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8885372
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 09:13:10 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by comms.puri.sm (Postfix) with ESMTP id 3EC1CE1107;
-	Wed, 28 Jul 2021 02:13:10 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id c8JuHrTWmCpW; Wed, 28 Jul 2021 02:13:04 -0700 (PDT)
-From: Martin Kepplinger <martin.kepplinger@puri.sm>
-To: laurent.pinchart@ideasonboard.com,
-	dafna.hirschfeld@collabora.com,
-	shawnguo@kernel.org
-Cc: devicetree@vger.kernel.org,
-	festevam@gmail.com,
-	kernel@pengutronix.de,
-	kernel@puri.sm,
-	krzk@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-imx@nxp.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	m.felsch@pengutronix.de,
-	mchehab@kernel.org,
-	phone-devel@vger.kernel.org,
-	robh@kernel.org,
-	slongerbeam@gmail.com,
-	Martin Kepplinger <martin.kepplinger@puri.sm>
-Subject: [PATCH v10 2/3] media: imx: add a driver for i.MX8MQ mipi csi rx phy and controller
-Date: Wed, 28 Jul 2021 11:12:44 +0200
-Message-Id: <20210728091245.231043-3-martin.kepplinger@puri.sm>
-In-Reply-To: <20210728091245.231043-1-martin.kepplinger@puri.sm>
-References: <20210728091245.231043-1-martin.kepplinger@puri.sm>
-Content-Transfer-Encoding: 8bit
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318F372
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 09:15:10 +0000 (UTC)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16S97xeI005207;
+	Wed, 28 Jul 2021 09:15:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to :
+ subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=uBRkjZlYYDdNoPUkRuEzqVKzc7bNfow3yblGbH0Iges=;
+ b=GSN/EeQnigVzJEPHLDoe0ClZcdu/pDlXYTrmFNW59i3Y7W/eHakdCmFhyijvkfU3CH7J
+ x77bINh7kzN/ZcxRqE3gu2UTOlkK0iBqxgMP76dPUqUx9LXDvPtAkrsmcPGxNAXGWVDM
+ TUolt/9pntxEXKOkaq4k7wU4GWl98jFaq/9ePMLB4aWSzM38H1uaAsoAkhsUONB9ZwDA
+ BT42fmhm0vu37wk4TeFj/FKRvATdzDHF9PcWeuVPC5ubK0jTbsYr0O17ay/RrpjPAbFw
+ 2jrzG/N+E3M2dIWCMakXEXqLxIsgjcbFrJRYysX92feIDnD0kv7cE+ZYl8eCbUykhD3y bg== 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to :
+ subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2020-01-29;
+ bh=uBRkjZlYYDdNoPUkRuEzqVKzc7bNfow3yblGbH0Iges=;
+ b=TUiif95btzJzW5aGKMP7Bdwoc0F/4weZvEqxD5vcxMrQjh1hUMebAC5gckFkgzJ/PXCO
+ YzIsYo9Bl1SOLXJVLbX5bmDzbucPSd5O7wzEaNgstpuu2ZS54iSWx+iRWgOuYf0LiTSm
+ Lxr4OeM7glaxsJk23oI+oILVlt/H1PXua++NyqZY6spTdF8xz9YgtWE8KSo7y4f7LqNT
+ GjNDd/A2TwUNRTlVKR6t2MkZlb7u7wRMSw8GHWe4/t9E/1ngpQB/OfxYGGzxqlPIBlyh
+ /C8hvw3fbdvmqH5DR/yyPLjDrj+qroFvzHRZcfiqSyRkj392UYtGzT/7ex8cJYSvmHAA ZA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3a234w42fp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 28 Jul 2021 09:15:05 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16S9Ao2p175307;
+	Wed, 28 Jul 2021 09:15:03 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2173.outbound.protection.outlook.com [104.47.59.173])
+	by userp3020.oracle.com with ESMTP id 3a234x8t9u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 28 Jul 2021 09:15:03 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kSGY/Qj41ok6AYmd/xEfGamtJbqR13TXaEpCWWxiDzfIxH2NMMh2GpEjc5d586DZS8tDMAX9fy2njdWiPmMuz9xSuslc8+Jcd05tIWPFK25AoxGGzekhYfmTm9nfIWDFb5wFjR7VsUE/etIVMv+cKM1ba1uV3Jaa9R8n0lTTkstGCn/sHY1wDNhyFQQTrBg79i3mxOl3SZ86DfdSAx2Ryg6rn0UkT114dO0/Sbvsf0Tl0p0uglJGAQckttyJQfVRGQXyUbIRAirtenoCv/7H6Cp0LuDEM3AywE6Qwl4YHony+xVibdRyuK9rCII1xSzWJu4/VXguI1e7aziqSgl0kw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uBRkjZlYYDdNoPUkRuEzqVKzc7bNfow3yblGbH0Iges=;
+ b=OkCEFw4MVktfAQzUKZXIgvuF1eUSt8fHUDU2e9ylwjHgj/gXKEIzbkv+Ij46e/Y6NhwTA0OjnIJF6xxbO8rDPA07Uz/KHB4RdCt33yVtfcj28fne2ks9NV1FCtDNfGSR5xDJox/DexclxvqB5zWosRwwSOVgyra7tH50yDV+PkPnwBshL8vLw4PnWEqFOter539+mhu7iHDENJVpYloyo0sLHR7mxxQrV0cytzNE44l/BXAwb2Zh/sIG41o7N58iCDhb8G250hrOr/I/xWW80TfA04FVDdmXHXuNnHkhbLOA9VANMVcuIkwL0O1L3BaH2o5BprQkwVXzjAqfcfV/WA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uBRkjZlYYDdNoPUkRuEzqVKzc7bNfow3yblGbH0Iges=;
+ b=Pge/R+y3xcAEkFoIbmaQiD1vz+7B4uHim8vMFlbdSFah/+lRVZKmL93dnXem8jZjkRm7D3pGngUOQb0gYhvowBM4BfXOjEfVZlL+eetCeuGNsKayY0Ufkg8PwkBUYBbk0IXznexyDNKxWZOmCOOJGHrx68mtUKZd5I2X12y49/8=
+Authentication-Results: suse.cz; dkim=none (message not signed)
+ header.d=none;suse.cz; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CO1PR10MB4658.namprd10.prod.outlook.com
+ (2603:10b6:303:91::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18; Wed, 28 Jul
+ 2021 09:15:01 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4352.032; Wed, 28 Jul 2021
+ 09:15:01 +0000
+Date: Wed, 28 Jul 2021 12:14:35 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: dsterba@suse.cz, Kees Cook <keescook@chromium.org>,
+        linux-hardening@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Keith Packard <keithpac@amazon.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+        nborisov@suse.com
+Subject: Re: [PATCH 01/64] media: omap3isp: Extract struct group for memcpy()
+ region
+Message-ID: <20210728091434.GQ1931@kadam>
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-2-keescook@chromium.org>
+ <20210728085921.GV5047@twin.jikos.cz>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210728085921.GV5047@twin.jikos.cz>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JN2P275CA0010.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:3::22)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from kadam (102.222.70.252) by JN2P275CA0010.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:3::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.18 via Frontend Transport; Wed, 28 Jul 2021 09:14:50 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ec38b362-f2b6-493e-a258-08d951a82d82
+X-MS-TrafficTypeDiagnostic: CO1PR10MB4658:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<CO1PR10MB46586EC97129754A6558351A8EEA9@CO1PR10MB4658.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	VTNQgm/gYV57+vJtysoLh7qJb8Klrvu4qt09jCbAoJe110dvBpkeHmrn4UmoVB9qY1BY+trljrQ1XFNAe70CYGOnzhXwNYWGEBqi2PxgscgvcwBm3yUwpcSYpeD3ehL8llJ4HbRHf5u9Rm4O/A7w9Tx31tctNg2L8JnblevQ5eDmvIQymdsXh4/txvZ7mD8KNfAhMRZz3YeDUAUp+8cBPuyNu58GxoN23CT0qVJQhLVm52+XkAi2oPiXY3ATC5sUK2tgYTzbJqY9MwWGvs6FZ+yrAPSJp71gyzAaawJizzxHvoTYMi4s6ts1r+CWVsHScW/m3+ol8yMoRT8jwxo2CmNiu1Aflmrkvp/dkDrMAWX1NbIxFiUlVMzoEOiz+NgfUv2LhDbqFQpyQAgiAyKJ0Jdq5YXNQFq7HVO3xHDklNuGenWcl7YwPhz+2IPRXtzWu8zLkdlC2ReTVEk9y2etobrqdzMeX/nQOYMw48U9vDct1KYWKb7ROejPW8kNdEQFuEELSPxBqS+Vz6gU4FquwrPdPei/Y4V4uBlVfJlmsMx8maPQ+3HWYxL3SRiATHK0O3qZEQXkWMYxaK+AnDyOU1WeBs8zFtTfCeQbLL/AnviBrw6Ntgul8+sigmgriQVh+/nj06m+nHpjGzTf0yZ9w2dOS5iLt+xKbDhACpeudKW6L6c8vRWXUOgLM86qICZyY/NQOAu2xB/xFBaPZcpWB6iXrXGy/koGD79h7Skcj64AUaKDOowpSoV47bI1QRaEVXy01WBLfdjeSZHBN5Ibl8n4l2EE3CT4H0mAgKYXqIEDx19/AtkjXYWoce14kzFsVSIPWpP+TaDXAamkkOsaVA==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(39860400002)(396003)(376002)(366004)(346002)(136003)(83380400001)(6496006)(52116002)(921005)(55016002)(33716001)(38350700002)(38100700002)(5660300002)(9686003)(186003)(316002)(44832011)(26005)(66556008)(966005)(66946007)(1076003)(33656002)(66476007)(2906002)(7416002)(86362001)(956004)(478600001)(110136005)(9576002)(6666004)(8676002)(8936002)(32563001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?eb7RhCFZJReG7kmLF16WNYdTXU5OHR2xELDlhxaol3Dv0pfh7Rwrom5t2U2F?=
+ =?us-ascii?Q?JiAE99XQ2EVTalby6i93Qmw73AVkqJVsKX/OyRQXAnZGFEanVJECuaPiDKyu?=
+ =?us-ascii?Q?j8nVom4ASpGxaFClMrdNNch2P0BzGaijcpQ72Mf+f9PGR9rQn+7+b+qysCLx?=
+ =?us-ascii?Q?etC4MebBPbdqaJkkmjep1gG9I1fUvsABTDvs3ja7mM0PpfPzOfpk8A37W6vC?=
+ =?us-ascii?Q?455QMBcM+YUKFc8FFYpseV9uIMW+9bmzq59HqdnNwhFDvYJlmVu3pV3W4PAe?=
+ =?us-ascii?Q?s7oWuEqND1MR13FtRN287tygud2Oo3LjiVp2IDi9L0itj1MfBv9OTRN7ZDAm?=
+ =?us-ascii?Q?+y64a7e3ZKONe7wYQQMmJfS3ZuqvqgecdWtCWsPXkPmIDiDpVbZZRGQsRjIP?=
+ =?us-ascii?Q?FcUVX2Z5H7/etXy3GIuI7vPCrL2A7L/3GM30E+OMaDcY1P0Ne1J3pdxoidun?=
+ =?us-ascii?Q?l1WE1ILTjyVWa2jOd88msucQjHSY4jMeQVCtU4cTuzwDk7J/oWz3gbZE9v9S?=
+ =?us-ascii?Q?pU/gBrZyjl+FBNo0QPd8EqUOmLNqUUkmgBK8XX6v9ty1+i0SyGmcAAWe/h8G?=
+ =?us-ascii?Q?Bl+6eIL9MqOD32AsBHE27dgztr1Jm9IwQK/yISlf5EYlgu2VL4iEEACQo+Ko?=
+ =?us-ascii?Q?l0WUsiDYu3PW/ht4rPTLuVV6wVA/OfPhj8ojKak1051XeaZU0hi6PDayeG90?=
+ =?us-ascii?Q?+DRxXXOAwWkxMv+WPZ1CVZiAGjSOOyLqZ6X92F7vl9KWucmyEd2aRjEa16Ks?=
+ =?us-ascii?Q?iYmuTf6qNuYi7dRwaEQFJUooSHN0tN7o0x2imAQKwOhQIq3N43l3eTCtbXeY?=
+ =?us-ascii?Q?Lril4DpIs4ecHnNLKfONhwCvpXFoxy0IP014IRecsMpQLZHwJ2M5vDHSKWkz?=
+ =?us-ascii?Q?i3dts7mYrxMEWwV0GvlBMVT/Hl7wkwr4pq+h609+qcmEOY0RSkdvBHi2vvIu?=
+ =?us-ascii?Q?oV9/duiw6iLb1t56jUzxI5TcDVDOX4UW5EAU98UhOdRRwZAh9Y2e7TbtjsrF?=
+ =?us-ascii?Q?xDJuwUdIpN72NMd8CCAZHR1kAGZid5K89qCDGc1ABWb3xYWbqfu0ucqrdvnr?=
+ =?us-ascii?Q?wfYnH1opGUcqYusTzMPDADeFON3tUOf8PXAVsYGyLzpmPIoXmgOsWCuZNCcK?=
+ =?us-ascii?Q?LHUjfU0AMIte4coO35TRHJyiTkyFlZ7aBlgX96Tlduy1D6/UKXARNc2OsMi8?=
+ =?us-ascii?Q?LVzHOZEziWbiFkEqCitl+zreLHPoIPvInXesWjogPv68c6PUTR+jBcttPyeq?=
+ =?us-ascii?Q?DTp7QxuvfK+HilaS+4i9VYu/SucD1PYiedl8rTh+6TtoHiTcYUJaaxVVDbfk?=
+ =?us-ascii?Q?mH4MXuXseKwqIBXy0hMyxDPW?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec38b362-f2b6-493e-a258-08d951a82d82
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2021 09:15:01.5463
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: R72i7g9/I8+mtCoWZ/KaOn1hrwjy7rjPecVR5Qgmmv8+g9Kz6MdcuMzv2+2xkIb6dMCJ/fLC2Sa25fpn5QrCf6WXCy3mHRHvgu3nI7VRto8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4658
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10058 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 spamscore=0
+ mlxlogscore=999 bulkscore=0 mlxscore=0 phishscore=0 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2107280052
+X-Proofpoint-ORIG-GUID: O0u9XEyhEFqXzFqrr0nJzm6p2-mprUK7
+X-Proofpoint-GUID: O0u9XEyhEFqXzFqrr0nJzm6p2-mprUK7
 
-Add a driver to support the i.MX8MQ MIPI CSI receiver. The hardware side
-is based on
-https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.70_2.3.0
+On Wed, Jul 28, 2021 at 10:59:22AM +0200, David Sterba wrote:
+> >  drivers/media/platform/omap3isp/ispstat.c |  5 +--
+> >  include/uapi/linux/omap3isp.h             | 44 +++++++++++++++++------
+> >  2 files changed, 36 insertions(+), 13 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/omap3isp/ispstat.c b/drivers/media/platform/omap3isp/ispstat.c
+> > index 5b9b57f4d9bf..ea8222fed38e 100644
+> > --- a/drivers/media/platform/omap3isp/ispstat.c
+> > +++ b/drivers/media/platform/omap3isp/ispstat.c
+> > @@ -512,7 +512,7 @@ int omap3isp_stat_request_statistics(struct ispstat *stat,
+> >  int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
+> >  					struct omap3isp_stat_data_time32 *data)
+> >  {
+> > -	struct omap3isp_stat_data data64;
+> > +	struct omap3isp_stat_data data64 = { };
+> 
+> Should this be { 0 } ?
+> 
+> We've seen patches trying to switch from { 0 } to {  } but the answer
+> was that { 0 } is supposed to be used,
+> http://www.ex-parrot.com/~chris/random/initialise.html
+> 
+> (from https://lore.kernel.org/lkml/fbddb15a-6e46-3f21-23ba-b18f66e3448a@suse.com/)
 
-It's built as part of VIDEO_IMX7_CSI because that's documented to support
-i.MX8M platforms. This driver adds i.MX8MQ support where currently only the
-i.MX8MM platform has been supported.
+In the kernel we don't care about portability so much.  Use the = { }
+GCC extension.  If the first member of the struct is a pointer then
+Sparse will complain about = { 0 }.
 
-Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/staging/media/imx/Makefile           |   1 +
- drivers/staging/media/imx/imx8mq-mipi-csi2.c | 991 +++++++++++++++++++
- 2 files changed, 992 insertions(+)
- create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
+I had a patch to make checkpatch.pl complain about = { 0 }; but my
+system died and I haven't transfered my postponed messages to the new
+system...
 
-diff --git a/drivers/staging/media/imx/Makefile b/drivers/staging/media/imx/Makefile
-index 6ac33275cc97..19c2fc54d424 100644
---- a/drivers/staging/media/imx/Makefile
-+++ b/drivers/staging/media/imx/Makefile
-@@ -16,3 +16,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
- 
- obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
- obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-mipi-csis.o
-+obj-$(CONFIG_VIDEO_IMX7_CSI) += imx8mq-mipi-csi2.o
-diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-new file mode 100644
-index 000000000000..a6f562009b9a
---- /dev/null
-+++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-@@ -0,0 +1,991 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * NXP i.MX8MQ SoC series MIPI-CSI2 receiver driver
-+ *
-+ * Copyright (C) 2021 Purism SPC
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/clk-provider.h>
-+#include <linux/delay.h>
-+#include <linux/errno.h>
-+#include <linux/interconnect.h>
-+#include <linux/interrupt.h>
-+#include <linux/io.h>
-+#include <linux/kernel.h>
-+#include <linux/mfd/syscon.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/of.h>
-+#include <linux/of_device.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/regmap.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/reset.h>
-+#include <linux/spinlock.h>
-+
-+#include <media/v4l2-common.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-fwnode.h>
-+#include <media/v4l2-mc.h>
-+#include <media/v4l2-subdev.h>
-+
-+#define MIPI_CSI2_DRIVER_NAME			"imx8mq-mipi-csi2"
-+#define MIPI_CSI2_SUBDEV_NAME			MIPI_CSI2_DRIVER_NAME
-+
-+#define MIPI_CSI2_PAD_SINK			0
-+#define MIPI_CSI2_PAD_SOURCE			1
-+#define MIPI_CSI2_PADS_NUM			2
-+
-+#define MIPI_CSI2_DEF_PIX_WIDTH			640
-+#define MIPI_CSI2_DEF_PIX_HEIGHT		480
-+
-+/* Register map definition */
-+
-+/* i.MX8MQ CSI-2 controller CSR */
-+#define CSI2RX_CFG_NUM_LANES			0x100
-+#define CSI2RX_CFG_DISABLE_DATA_LANES		0x104
-+#define CSI2RX_BIT_ERR				0x108
-+#define CSI2RX_IRQ_STATUS			0x10c
-+#define CSI2RX_IRQ_MASK				0x110
-+#define CSI2RX_IRQ_MASK_ALL			0x1ff
-+#define CSI2RX_IRQ_MASK_ULPS_STATUS_CHANGE	0x8
-+#define CSI2RX_ULPS_STATUS			0x114
-+#define CSI2RX_PPI_ERRSOT_HS			0x118
-+#define CSI2RX_PPI_ERRSOTSYNC_HS		0x11c
-+#define CSI2RX_PPI_ERRESC			0x120
-+#define CSI2RX_PPI_ERRSYNCESC			0x124
-+#define CSI2RX_PPI_ERRCONTROL			0x128
-+#define CSI2RX_CFG_DISABLE_PAYLOAD_0		0x12c
-+#define CSI2RX_CFG_VID_VC_IGNORE		0x180
-+#define CSI2RX_CFG_VID_VC			0x184
-+#define CSI2RX_CFG_VID_P_FIFO_SEND_LEVEL	0x188
-+#define CSI2RX_CFG_DISABLE_PAYLOAD_1		0x130
-+
-+enum {
-+	ST_POWERED	= 1,
-+	ST_STREAMING	= 2,
-+	ST_SUSPENDED	= 4,
-+};
-+
-+enum imx8mq_mipi_csi_clk {
-+	CSI2_CLK_CORE,
-+	CSI2_CLK_ESC,
-+	CSI2_CLK_UI,
-+	CSI2_NUM_CLKS,
-+};
-+
-+static const char * const imx8mq_mipi_csi_clk_id[CSI2_NUM_CLKS] = {
-+	[CSI2_CLK_CORE] = "core",
-+	[CSI2_CLK_ESC] = "esc",
-+	[CSI2_CLK_UI] = "ui",
-+};
-+
-+#define CSI2_NUM_CLKS	ARRAY_SIZE(imx8mq_mipi_csi_clk_id)
-+
-+#define	GPR_CSI2_1_RX_ENABLE		BIT(13)
-+#define	GPR_CSI2_1_VID_INTFC_ENB	BIT(12)
-+#define	GPR_CSI2_1_HSEL			BIT(10)
-+#define	GPR_CSI2_1_CONT_CLK_MODE	BIT(8)
-+#define	GPR_CSI2_1_S_PRG_RXHS_SETTLE(x)	(((x) & 0x3f) << 2)
-+
-+/*
-+ * The send level configures the number of entries that must accumulate in
-+ * the Pixel FIFO before the data will be transferred to the video output.
-+ * The exact value needed for this configuration is dependent on the rate at
-+ * which the sensor transfers data to the CSI-2 Controller and the user
-+ * video clock.
-+ *
-+ * The calculation is the classical rate-in rate-out type of problem: If the
-+ * video bandwidth is 10% faster than the incoming mipi data and the video
-+ * line length is 500 pixels, then the fifo should be allowed to fill
-+ * 10% of the line length or 50 pixels. If the gap data is ok, then the level
-+ * can be set to 16 and ignored.
-+ */
-+#define CSI2RX_SEND_LEVEL			64
-+
-+struct csi_state {
-+	struct device *dev;
-+	void __iomem *regs;
-+	struct clk_bulk_data clks[CSI2_NUM_CLKS];
-+	struct reset_control *rst;
-+	struct regulator *mipi_phy_regulator;
-+
-+	struct v4l2_subdev sd;
-+	struct media_pad pads[MIPI_CSI2_PADS_NUM];
-+	struct v4l2_async_notifier notifier;
-+	struct v4l2_subdev *src_sd;
-+
-+	struct v4l2_fwnode_bus_mipi_csi2 bus;
-+
-+	struct mutex lock; /* Protect csi2_fmt, format_mbus, state, hs_settle */
-+	const struct csi2_pix_format *csi2_fmt;
-+	struct v4l2_mbus_framefmt format_mbus[MIPI_CSI2_PADS_NUM];
-+	u32 state;
-+	u32 hs_settle;
-+
-+	struct regmap *phy_gpr;
-+	u8 phy_gpr_reg;
-+
-+	struct icc_path			*icc_path;
-+	s32				icc_path_bw;
-+};
-+
-+/* -----------------------------------------------------------------------------
-+ * Format helpers
-+ */
-+
-+struct csi2_pix_format {
-+	u32 code;
-+	u8 width;
-+};
-+
-+static const struct csi2_pix_format imx8mq_mipi_csi_formats[] = {
-+	/* RAW (Bayer and greyscale) formats. */
-+	{
-+		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
-+		.width = 8,
-+	}, {
-+		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
-+		.width = 8,
-+	}, {
-+		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
-+		.width = 8,
-+	}, {
-+		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
-+		.width = 8,
-+	}, {
-+		.code = MEDIA_BUS_FMT_Y8_1X8,
-+		.width = 8,
-+	}, {
-+		.code = MEDIA_BUS_FMT_SBGGR10_1X10,
-+		.width = 10,
-+	}, {
-+		.code = MEDIA_BUS_FMT_SGBRG10_1X10,
-+		.width = 10,
-+	}, {
-+		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
-+		.width = 10,
-+	}, {
-+		.code = MEDIA_BUS_FMT_SRGGB10_1X10,
-+		.width = 10,
-+	}, {
-+		.code = MEDIA_BUS_FMT_Y10_1X10,
-+		.width = 10,
-+	}, {
-+		.code = MEDIA_BUS_FMT_SBGGR12_1X12,
-+		.width = 12,
-+	}, {
-+		.code = MEDIA_BUS_FMT_SGBRG12_1X12,
-+		.width = 12,
-+	}, {
-+		.code = MEDIA_BUS_FMT_SGRBG12_1X12,
-+		.width = 12,
-+	}, {
-+		.code = MEDIA_BUS_FMT_SRGGB12_1X12,
-+		.width = 12,
-+	}, {
-+		.code = MEDIA_BUS_FMT_Y12_1X12,
-+		.width = 12,
-+	}, {
-+		.code = MEDIA_BUS_FMT_SBGGR14_1X14,
-+		.width = 14,
-+	}, {
-+		.code = MEDIA_BUS_FMT_SGBRG14_1X14,
-+		.width = 14,
-+	}, {
-+		.code = MEDIA_BUS_FMT_SGRBG14_1X14,
-+		.width = 14,
-+	}, {
-+		.code = MEDIA_BUS_FMT_SRGGB14_1X14,
-+		.width = 14,
-+	}, {
-+	/* YUV formats */
-+		.code = MEDIA_BUS_FMT_YUYV8_2X8,
-+		.width = 16,
-+	}, {
-+		.code = MEDIA_BUS_FMT_YUYV8_1X16,
-+		.width = 16,
-+	}
-+};
-+
-+static const struct csi2_pix_format *find_csi2_format(u32 code)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(imx8mq_mipi_csi_formats); i++)
-+		if (code == imx8mq_mipi_csi_formats[i].code)
-+			return &imx8mq_mipi_csi_formats[i];
-+	return NULL;
-+}
-+
-+/* -----------------------------------------------------------------------------
-+ * Hardware configuration
-+ */
-+
-+static inline void imx8mq_mipi_csi_write(struct csi_state *state, u32 reg, u32 val)
-+{
-+	writel(val, state->regs + reg);
-+}
-+
-+static int imx8mq_mipi_csi_sw_reset(struct csi_state *state)
-+{
-+	int ret;
-+
-+	/*
-+	 * these are most likely self-clearing reset bits. to make it
-+	 * more clear, the reset-imx7 driver should implement the
-+	 * .reset() operation.
-+	 */
-+	ret = reset_control_assert(state->rst);
-+	if (ret < 0) {
-+		dev_err(state->dev, "Failed to assert resets: %d\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static void imx8mq_mipi_csi_system_enable(struct csi_state *state, int on)
-+{
-+	if (!on) {
-+		imx8mq_mipi_csi_write(state, CSI2RX_CFG_DISABLE_DATA_LANES, 0xf);
-+		return;
-+	}
-+
-+	regmap_update_bits(state->phy_gpr,
-+			   state->phy_gpr_reg,
-+			   0x3fff,
-+			   GPR_CSI2_1_RX_ENABLE |
-+			   GPR_CSI2_1_VID_INTFC_ENB |
-+			   GPR_CSI2_1_HSEL |
-+			   GPR_CSI2_1_CONT_CLK_MODE |
-+			   GPR_CSI2_1_S_PRG_RXHS_SETTLE(state->hs_settle));
-+}
-+
-+static void imx8mq_mipi_csi_set_params(struct csi_state *state)
-+{
-+	int lanes = state->bus.num_data_lanes;
-+
-+	imx8mq_mipi_csi_write(state, CSI2RX_CFG_NUM_LANES, lanes - 1);
-+	imx8mq_mipi_csi_write(state, CSI2RX_CFG_DISABLE_DATA_LANES,
-+			      (0xf << lanes) & 0xf);
-+	imx8mq_mipi_csi_write(state, CSI2RX_IRQ_MASK, CSI2RX_IRQ_MASK_ALL);
-+	/*
-+	 * 0x180 bit 0 controls the Virtual Channel behaviour: when set the
-+	 * interface ignores the Virtual Channel (VC) field in received packets;
-+	 * when cleared it causes the interface to only accept packets whose VC
-+	 * matches the value to which VC is set at offset 0x184.
-+	 */
-+	imx8mq_mipi_csi_write(state, CSI2RX_CFG_VID_VC_IGNORE, 1);
-+	imx8mq_mipi_csi_write(state, CSI2RX_CFG_VID_P_FIFO_SEND_LEVEL,
-+			      CSI2RX_SEND_LEVEL);
-+}
-+
-+static int imx8mq_mipi_csi_clk_enable(struct csi_state *state)
-+{
-+	return clk_bulk_prepare_enable(CSI2_NUM_CLKS, state->clks);
-+}
-+
-+static void imx8mq_mipi_csi_clk_disable(struct csi_state *state)
-+{
-+	clk_bulk_disable_unprepare(CSI2_NUM_CLKS, state->clks);
-+}
-+
-+static int imx8mq_mipi_csi_clk_get(struct csi_state *state)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < CSI2_NUM_CLKS; i++)
-+		state->clks[i].id = imx8mq_mipi_csi_clk_id[i];
-+
-+	return devm_clk_bulk_get(state->dev, CSI2_NUM_CLKS, state->clks);
-+}
-+
-+static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state)
-+{
-+	s64 link_freq;
-+	u32 lane_rate;
-+	unsigned long esc_clk_rate;
-+	u32 min_ths_settle, max_ths_settle, ths_settle_ns, esc_clk_period_ns;
-+
-+	/* Calculate the line rate from the pixel rate. */
-+	link_freq = v4l2_get_link_freq(state->src_sd->ctrl_handler,
-+				       state->csi2_fmt->width,
-+				       state->bus.num_data_lanes * 2);
-+	if (link_freq < 0) {
-+		dev_err(state->dev, "Unable to obtain link frequency: %d\n",
-+			(int)link_freq);
-+		return link_freq;
-+	}
-+
-+	lane_rate = link_freq * 2;
-+	if (lane_rate < 80000000 || lane_rate > 1500000000) {
-+		dev_dbg(state->dev, "Out-of-bound lane rate %u\n", lane_rate);
-+		return -EINVAL;
-+	}
-+
-+	/*
-+	 * The D-PHY specification requires Ths-settle to be in the range
-+	 * 85ns + 6*UI to 140ns + 10*UI, with the unit interval UI being half
-+	 * the clock period.
-+	 *
-+	 * The Ths-settle value is expressed in the hardware as a multiple of
-+	 * the Esc clock period:
-+	 *
-+	 * Ths-settle = (PRG_RXHS_SETTLE + 1) * Tperiod of RxClkInEsc
-+	 *
-+	 * Due to the one cycle inaccuracy introduced by rounding, the
-+	 * documentation recommends picking a value away from the boundaries.
-+	 * Let's pick the average.
-+	 */
-+	esc_clk_rate = clk_get_rate(state->clks[CSI2_CLK_ESC].clk);
-+	if (!esc_clk_rate) {
-+		dev_err(state->dev, "Could not get esc clock rate.\n");
-+		return -EINVAL;
-+	}
-+
-+	dev_dbg(state->dev, "esc clk rate: %lu\n", esc_clk_rate);
-+	esc_clk_period_ns = 1000000000 / esc_clk_rate;
-+
-+	min_ths_settle = 85 + 6 * 1000000 / (lane_rate / 1000);
-+	max_ths_settle = 140 + 10 * 1000000 / (lane_rate / 1000);
-+	ths_settle_ns = (min_ths_settle + max_ths_settle) / 2;
-+
-+	state->hs_settle = ths_settle_ns / esc_clk_period_ns - 1;
-+
-+	dev_dbg(state->dev, "lane rate %u Ths_settle %u hs_settle %u\n",
-+		lane_rate, ths_settle_ns, state->hs_settle);
-+
-+	return 0;
-+}
-+
-+static int imx8mq_mipi_csi_start_stream(struct csi_state *state)
-+{
-+	int ret;
-+
-+	ret = imx8mq_mipi_csi_sw_reset(state);
-+	if (ret)
-+		return ret;
-+
-+	imx8mq_mipi_csi_set_params(state);
-+	ret = imx8mq_mipi_csi_calc_hs_settle(state);
-+	if (ret)
-+		return ret;
-+
-+	imx8mq_mipi_csi_system_enable(state, true);
-+
-+	return 0;
-+}
-+
-+static void imx8mq_mipi_csi_stop_stream(struct csi_state *state)
-+{
-+	imx8mq_mipi_csi_system_enable(state, false);
-+}
-+
-+/* -----------------------------------------------------------------------------
-+ * V4L2 subdev operations
-+ */
-+
-+static struct csi_state *mipi_sd_to_csi2_state(struct v4l2_subdev *sdev)
-+{
-+	return container_of(sdev, struct csi_state, sd);
-+}
-+
-+static int imx8mq_mipi_csi_s_stream(struct v4l2_subdev *sd, int enable)
-+{
-+	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-+	int ret = 0;
-+
-+	imx8mq_mipi_csi_write(state, CSI2RX_IRQ_MASK,
-+			      CSI2RX_IRQ_MASK_ULPS_STATUS_CHANGE);
-+
-+	if (enable) {
-+		ret = pm_runtime_resume_and_get(state->dev);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	mutex_lock(&state->lock);
-+
-+	if (enable) {
-+		if (state->state & ST_SUSPENDED) {
-+			ret = -EBUSY;
-+			goto unlock;
-+		}
-+
-+		ret = imx8mq_mipi_csi_start_stream(state);
-+		if (ret < 0)
-+			goto unlock;
-+
-+		ret = v4l2_subdev_call(state->src_sd, video, s_stream, 1);
-+		if (ret < 0)
-+			goto unlock;
-+
-+		state->state |= ST_STREAMING;
-+	} else {
-+		v4l2_subdev_call(state->src_sd, video, s_stream, 0);
-+		imx8mq_mipi_csi_stop_stream(state);
-+		state->state &= ~ST_STREAMING;
-+	}
-+
-+unlock:
-+	mutex_unlock(&state->lock);
-+
-+	if (!enable || ret < 0)
-+		pm_runtime_put(state->dev);
-+
-+	return ret;
-+}
-+
-+static struct v4l2_mbus_framefmt *
-+imx8mq_mipi_csi_get_format(struct csi_state *state,
-+			   struct v4l2_subdev_state *sd_state,
-+			   enum v4l2_subdev_format_whence which,
-+			   unsigned int pad)
-+{
-+	if (which == V4L2_SUBDEV_FORMAT_TRY)
-+		return v4l2_subdev_get_try_format(&state->sd, sd_state, pad);
-+
-+	return &state->format_mbus[pad];
-+}
-+
-+static int imx8mq_mipi_csi_init_cfg(struct v4l2_subdev *sd,
-+				    struct v4l2_subdev_state *sd_state)
-+{
-+	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-+	struct v4l2_mbus_framefmt *fmt_sink;
-+	struct v4l2_mbus_framefmt *fmt_source;
-+	enum v4l2_subdev_format_whence which;
-+
-+	which = sd_state ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
-+	fmt_sink = imx8mq_mipi_csi_get_format(state, sd_state, which,
-+					      MIPI_CSI2_PAD_SINK);
-+
-+	fmt_sink->code = MEDIA_BUS_FMT_SGBRG10_1X10;
-+	fmt_sink->width = MIPI_CSI2_DEF_PIX_WIDTH;
-+	fmt_sink->height = MIPI_CSI2_DEF_PIX_HEIGHT;
-+	fmt_sink->field = V4L2_FIELD_NONE;
-+
-+	fmt_sink->colorspace = V4L2_COLORSPACE_RAW;
-+	fmt_sink->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt_sink->colorspace);
-+	fmt_sink->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt_sink->colorspace);
-+	fmt_sink->quantization =
-+		V4L2_MAP_QUANTIZATION_DEFAULT(false, fmt_sink->colorspace,
-+					      fmt_sink->ycbcr_enc);
-+
-+	fmt_source = imx8mq_mipi_csi_get_format(state, sd_state, which,
-+						MIPI_CSI2_PAD_SOURCE);
-+	*fmt_source = *fmt_sink;
-+
-+	return 0;
-+}
-+
-+static int imx8mq_mipi_csi_get_fmt(struct v4l2_subdev *sd,
-+				   struct v4l2_subdev_state *sd_state,
-+				   struct v4l2_subdev_format *sdformat)
-+{
-+	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-+	struct v4l2_mbus_framefmt *fmt;
-+
-+	fmt = imx8mq_mipi_csi_get_format(state, sd_state, sdformat->which,
-+					 sdformat->pad);
-+
-+	mutex_lock(&state->lock);
-+
-+	sdformat->format = *fmt;
-+
-+	mutex_unlock(&state->lock);
-+
-+	return 0;
-+}
-+
-+static int imx8mq_mipi_csi_enum_mbus_code(struct v4l2_subdev *sd,
-+					  struct v4l2_subdev_state *sd_state,
-+					  struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-+
-+	/*
-+	 * We can't transcode in any way, the source format is identical
-+	 * to the sink format.
-+	 */
-+	if (code->pad == MIPI_CSI2_PAD_SOURCE) {
-+		struct v4l2_mbus_framefmt *fmt;
-+
-+		if (code->index > 0)
-+			return -EINVAL;
-+
-+		fmt = imx8mq_mipi_csi_get_format(state, sd_state, code->which,
-+						 code->pad);
-+		code->code = fmt->code;
-+		return 0;
-+	}
-+
-+	if (code->pad != MIPI_CSI2_PAD_SINK)
-+		return -EINVAL;
-+
-+	if (code->index >= ARRAY_SIZE(imx8mq_mipi_csi_formats))
-+		return -EINVAL;
-+
-+	code->code = imx8mq_mipi_csi_formats[code->index].code;
-+
-+	return 0;
-+}
-+
-+static int imx8mq_mipi_csi_set_fmt(struct v4l2_subdev *sd,
-+				   struct v4l2_subdev_state *sd_state,
-+				   struct v4l2_subdev_format *sdformat)
-+{
-+	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-+	struct csi2_pix_format const *csi2_fmt;
-+	struct v4l2_mbus_framefmt *fmt;
-+
-+	/*
-+	 * The device can't transcode in any way, the source format can't be
-+	 * modified.
-+	 */
-+	if (sdformat->pad == MIPI_CSI2_PAD_SOURCE)
-+		return imx8mq_mipi_csi_get_fmt(sd, sd_state, sdformat);
-+
-+	if (sdformat->pad != MIPI_CSI2_PAD_SINK)
-+		return -EINVAL;
-+
-+	csi2_fmt = find_csi2_format(sdformat->format.code);
-+	if (!csi2_fmt)
-+		csi2_fmt = &imx8mq_mipi_csi_formats[0];
-+
-+	fmt = imx8mq_mipi_csi_get_format(state, sd_state, sdformat->which,
-+					 sdformat->pad);
-+
-+	mutex_lock(&state->lock);
-+
-+	fmt->code = csi2_fmt->code;
-+	fmt->width = sdformat->format.width;
-+	fmt->height = sdformat->format.height;
-+
-+	sdformat->format = *fmt;
-+
-+	/* Propagate the format from sink to source. */
-+	fmt = imx8mq_mipi_csi_get_format(state, sd_state, sdformat->which,
-+					 MIPI_CSI2_PAD_SOURCE);
-+	*fmt = sdformat->format;
-+
-+	/* Store the CSI2 format descriptor for active formats. */
-+	if (sdformat->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-+		state->csi2_fmt = csi2_fmt;
-+
-+	mutex_unlock(&state->lock);
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_subdev_video_ops imx8mq_mipi_csi_video_ops = {
-+	.s_stream	= imx8mq_mipi_csi_s_stream,
-+};
-+
-+static const struct v4l2_subdev_pad_ops imx8mq_mipi_csi_pad_ops = {
-+	.init_cfg		= imx8mq_mipi_csi_init_cfg,
-+	.enum_mbus_code		= imx8mq_mipi_csi_enum_mbus_code,
-+	.get_fmt		= imx8mq_mipi_csi_get_fmt,
-+	.set_fmt		= imx8mq_mipi_csi_set_fmt,
-+};
-+
-+static const struct v4l2_subdev_ops imx8mq_mipi_csi_subdev_ops = {
-+	.video	= &imx8mq_mipi_csi_video_ops,
-+	.pad	= &imx8mq_mipi_csi_pad_ops,
-+};
-+
-+/* -----------------------------------------------------------------------------
-+ * Media entity operations
-+ */
-+
-+static const struct media_entity_operations imx8mq_mipi_csi_entity_ops = {
-+	.link_validate	= v4l2_subdev_link_validate,
-+	.get_fwnode_pad = v4l2_subdev_get_fwnode_pad_1_to_1,
-+};
-+
-+/* -----------------------------------------------------------------------------
-+ * Async subdev notifier
-+ */
-+
-+static struct csi_state *
-+mipi_notifier_to_csi2_state(struct v4l2_async_notifier *n)
-+{
-+	return container_of(n, struct csi_state, notifier);
-+}
-+
-+static int imx8mq_mipi_csi_notify_bound(struct v4l2_async_notifier *notifier,
-+					struct v4l2_subdev *sd,
-+					struct v4l2_async_subdev *asd)
-+{
-+	struct csi_state *state = mipi_notifier_to_csi2_state(notifier);
-+	struct media_pad *sink = &state->sd.entity.pads[MIPI_CSI2_PAD_SINK];
-+
-+	state->src_sd = sd;
-+
-+	return v4l2_create_fwnode_links_to_pad(sd, sink, MEDIA_LNK_FL_ENABLED |
-+					       MEDIA_LNK_FL_IMMUTABLE);
-+}
-+
-+static const struct v4l2_async_notifier_operations imx8mq_mipi_csi_notify_ops = {
-+	.bound = imx8mq_mipi_csi_notify_bound,
-+};
-+
-+static int imx8mq_mipi_csi_async_register(struct csi_state *state)
-+{
-+	struct v4l2_fwnode_endpoint vep = {
-+		.bus_type = V4L2_MBUS_CSI2_DPHY,
-+	};
-+	struct v4l2_async_subdev *asd;
-+	struct fwnode_handle *ep;
-+	unsigned int i;
-+	int ret;
-+
-+	v4l2_async_notifier_init(&state->notifier);
-+
-+	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(state->dev), 0, 0,
-+					     FWNODE_GRAPH_ENDPOINT_NEXT);
-+	if (!ep)
-+		return -ENOTCONN;
-+
-+	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
-+	if (ret)
-+		goto err_parse;
-+
-+	for (i = 0; i < vep.bus.mipi_csi2.num_data_lanes; ++i) {
-+		if (vep.bus.mipi_csi2.data_lanes[i] != i + 1) {
-+			dev_err(state->dev,
-+				"data lanes reordering is not supported");
-+			ret = -EINVAL;
-+			goto err_parse;
-+		}
-+	}
-+
-+	state->bus = vep.bus.mipi_csi2;
-+
-+	dev_dbg(state->dev, "data lanes: %d flags: 0x%08x\n",
-+		state->bus.num_data_lanes,
-+		state->bus.flags);
-+
-+	asd = v4l2_async_notifier_add_fwnode_remote_subdev(&state->notifier,
-+							   ep, struct v4l2_async_subdev);
-+	if (IS_ERR(asd)) {
-+		ret = PTR_ERR(asd);
-+		goto err_parse;
-+	}
-+
-+	fwnode_handle_put(ep);
-+
-+	state->notifier.ops = &imx8mq_mipi_csi_notify_ops;
-+
-+	ret = v4l2_async_subdev_notifier_register(&state->sd, &state->notifier);
-+	if (ret)
-+		return ret;
-+
-+	return v4l2_async_register_subdev(&state->sd);
-+
-+err_parse:
-+	fwnode_handle_put(ep);
-+
-+	return ret;
-+}
-+
-+/* -----------------------------------------------------------------------------
-+ * Suspend/resume
-+ */
-+
-+static int imx8mq_mipi_csi_pm_suspend(struct device *dev, bool runtime)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-+	int ret = 0;
-+
-+	mutex_lock(&state->lock);
-+
-+	if (state->state & ST_POWERED) {
-+		imx8mq_mipi_csi_stop_stream(state);
-+		imx8mq_mipi_csi_clk_disable(state);
-+		state->state &= ~ST_POWERED;
-+		if (!runtime)
-+			state->state |= ST_SUSPENDED;
-+	}
-+
-+	mutex_unlock(&state->lock);
-+
-+	ret = icc_set_bw(state->icc_path, 0, 0);
-+	if (ret)
-+		dev_err(dev, "icc_set_bw failed with %d\n", ret);
-+
-+	return ret ? -EAGAIN : 0;
-+}
-+
-+static int imx8mq_mipi_csi_pm_resume(struct device *dev, bool runtime)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-+	int ret = 0;
-+
-+	ret = icc_set_bw(state->icc_path, 0, state->icc_path_bw);
-+	if (ret) {
-+		dev_err(dev, "icc_set_bw failed with %d\n", ret);
-+		return ret;
-+	}
-+
-+	mutex_lock(&state->lock);
-+
-+	if (!runtime && !(state->state & ST_SUSPENDED))
-+		goto unlock;
-+
-+	if (!(state->state & ST_POWERED)) {
-+		state->state |= ST_POWERED;
-+		ret = imx8mq_mipi_csi_clk_enable(state);
-+	}
-+	if (state->state & ST_STREAMING) {
-+		ret = imx8mq_mipi_csi_start_stream(state);
-+		if (ret)
-+			goto unlock;
-+	}
-+
-+	state->state &= ~ST_SUSPENDED;
-+
-+unlock:
-+	mutex_unlock(&state->lock);
-+
-+	return ret ? -EAGAIN : 0;
-+}
-+
-+static int __maybe_unused imx8mq_mipi_csi_suspend(struct device *dev)
-+{
-+	return imx8mq_mipi_csi_pm_suspend(dev, false);
-+}
-+
-+static int __maybe_unused imx8mq_mipi_csi_resume(struct device *dev)
-+{
-+	return imx8mq_mipi_csi_pm_resume(dev, false);
-+}
-+
-+static int __maybe_unused imx8mq_mipi_csi_runtime_suspend(struct device *dev)
-+{
-+	return imx8mq_mipi_csi_pm_suspend(dev, true);
-+}
-+
-+static int __maybe_unused imx8mq_mipi_csi_runtime_resume(struct device *dev)
-+{
-+	return imx8mq_mipi_csi_pm_resume(dev, true);
-+}
-+
-+static const struct dev_pm_ops imx8mq_mipi_csi_pm_ops = {
-+	SET_RUNTIME_PM_OPS(imx8mq_mipi_csi_runtime_suspend,
-+			   imx8mq_mipi_csi_runtime_resume,
-+			   NULL)
-+	SET_SYSTEM_SLEEP_PM_OPS(imx8mq_mipi_csi_suspend, imx8mq_mipi_csi_resume)
-+};
-+
-+/* -----------------------------------------------------------------------------
-+ * Probe/remove & platform driver
-+ */
-+
-+static int imx8mq_mipi_csi_subdev_init(struct csi_state *state)
-+{
-+	struct v4l2_subdev *sd = &state->sd;
-+
-+	v4l2_subdev_init(sd, &imx8mq_mipi_csi_subdev_ops);
-+	sd->owner = THIS_MODULE;
-+	snprintf(sd->name, sizeof(sd->name), "%s %s",
-+		 MIPI_CSI2_SUBDEV_NAME, dev_name(state->dev));
-+
-+	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+
-+	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-+	sd->entity.ops = &imx8mq_mipi_csi_entity_ops;
-+
-+	sd->dev = state->dev;
-+
-+	state->csi2_fmt = &imx8mq_mipi_csi_formats[0];
-+	imx8mq_mipi_csi_init_cfg(sd, NULL);
-+
-+	state->pads[MIPI_CSI2_PAD_SINK].flags = MEDIA_PAD_FL_SINK
-+					 | MEDIA_PAD_FL_MUST_CONNECT;
-+	state->pads[MIPI_CSI2_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE
-+					   | MEDIA_PAD_FL_MUST_CONNECT;
-+	return media_entity_pads_init(&sd->entity, MIPI_CSI2_PADS_NUM,
-+				      state->pads);
-+}
-+
-+static void imx8mq_mipi_csi_release_icc(struct platform_device *pdev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(&pdev->dev);
-+	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-+
-+	icc_put(state->icc_path);
-+}
-+
-+static int imx8mq_mipi_csi_init_icc(struct platform_device *pdev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(&pdev->dev);
-+	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-+
-+	/* Optional interconnect request */
-+	state->icc_path = of_icc_get(&pdev->dev, "dram");
-+	if (IS_ERR_OR_NULL(state->icc_path))
-+		return PTR_ERR_OR_ZERO(state->icc_path);
-+
-+	state->icc_path_bw = MBps_to_icc(700);
-+
-+	return 0;
-+}
-+
-+static int imx8mq_mipi_csi_parse_dt(struct csi_state *state)
-+{
-+	struct device *dev = state->dev;
-+	struct device_node *np = state->dev->of_node;
-+	struct device_node *node;
-+	phandle ph;
-+	u32 out_val[2];
-+	int ret = 0;
-+
-+	state->rst = devm_reset_control_array_get_exclusive(dev);
-+	if (IS_ERR(state->rst)) {
-+		dev_err(dev, "Failed to get reset: %pe\n", state->rst);
-+		return PTR_ERR(state->rst);
-+	}
-+
-+	ret = of_property_read_u32_array(np, "fsl,mipi-phy-gpr", out_val,
-+					 ARRAY_SIZE(out_val));
-+	if (ret) {
-+		dev_err(dev, "no fsl,mipi-phy-gpr property found: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ph = *out_val;
-+
-+	node = of_find_node_by_phandle(ph);
-+	if (!node) {
-+		dev_err(dev, "Error finding node by phandle\n");
-+		return -ENODEV;
-+	}
-+	state->phy_gpr = syscon_node_to_regmap(node);
-+	of_node_put(node);
-+	if (IS_ERR(state->phy_gpr)) {
-+		dev_err(dev, "failed to get gpr regmap: %pe\n", state->phy_gpr);
-+		return PTR_ERR(state->phy_gpr);
-+	}
-+
-+	state->phy_gpr_reg = out_val[1];
-+	dev_dbg(dev, "phy gpr register set to 0x%x\n", state->phy_gpr_reg);
-+
-+	return ret;
-+}
-+
-+static int imx8mq_mipi_csi_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct csi_state *state;
-+	int ret;
-+
-+	state = devm_kzalloc(dev, sizeof(*state), GFP_KERNEL);
-+	if (!state)
-+		return -ENOMEM;
-+
-+	state->dev = dev;
-+
-+	ret = imx8mq_mipi_csi_parse_dt(state);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to parse device tree: %d\n", ret);
-+		return ret;
-+	}
-+
-+	/* Acquire resources. */
-+	state->regs = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(state->regs))
-+		return PTR_ERR(state->regs);
-+
-+	ret = imx8mq_mipi_csi_clk_get(state);
-+	if (ret < 0)
-+		return ret;
-+
-+	platform_set_drvdata(pdev, &state->sd);
-+
-+	mutex_init(&state->lock);
-+
-+	ret = imx8mq_mipi_csi_subdev_init(state);
-+	if (ret < 0)
-+		goto mutex;
-+
-+	ret = imx8mq_mipi_csi_init_icc(pdev);
-+	if (ret)
-+		goto mutex;
-+
-+	/* Enable runtime PM. */
-+	pm_runtime_enable(dev);
-+	if (!pm_runtime_enabled(dev)) {
-+		ret = imx8mq_mipi_csi_pm_resume(dev, true);
-+		if (ret < 0)
-+			goto icc;
-+	}
-+
-+	ret = imx8mq_mipi_csi_async_register(state);
-+	if (ret < 0)
-+		goto cleanup;
-+
-+	return 0;
-+
-+cleanup:
-+	pm_runtime_disable(&pdev->dev);
-+	imx8mq_mipi_csi_pm_suspend(&pdev->dev, true);
-+
-+	media_entity_cleanup(&state->sd.entity);
-+	v4l2_async_notifier_unregister(&state->notifier);
-+	v4l2_async_notifier_cleanup(&state->notifier);
-+	v4l2_async_unregister_subdev(&state->sd);
-+icc:
-+	imx8mq_mipi_csi_release_icc(pdev);
-+mutex:
-+	mutex_destroy(&state->lock);
-+
-+	return ret;
-+}
-+
-+static int imx8mq_mipi_csi_remove(struct platform_device *pdev)
-+{
-+	struct v4l2_subdev *sd = platform_get_drvdata(pdev);
-+	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-+
-+	v4l2_async_notifier_unregister(&state->notifier);
-+	v4l2_async_notifier_cleanup(&state->notifier);
-+	v4l2_async_unregister_subdev(&state->sd);
-+
-+	pm_runtime_disable(&pdev->dev);
-+	imx8mq_mipi_csi_pm_suspend(&pdev->dev, true);
-+	media_entity_cleanup(&state->sd.entity);
-+	mutex_destroy(&state->lock);
-+	pm_runtime_set_suspended(&pdev->dev);
-+	imx8mq_mipi_csi_release_icc(pdev);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id imx8mq_mipi_csi_of_match[] = {
-+	{ .compatible = "fsl,imx8mq-mipi-csi2", },
-+	{ /* sentinel */ },
-+};
-+MODULE_DEVICE_TABLE(of, imx8mq_mipi_csi_of_match);
-+
-+static struct platform_driver imx8mq_mipi_csi_driver = {
-+	.probe		= imx8mq_mipi_csi_probe,
-+	.remove		= imx8mq_mipi_csi_remove,
-+	.driver		= {
-+		.of_match_table = imx8mq_mipi_csi_of_match,
-+		.name		= MIPI_CSI2_DRIVER_NAME,
-+		.pm		= &imx8mq_mipi_csi_pm_ops,
-+	},
-+};
-+
-+module_platform_driver(imx8mq_mipi_csi_driver);
-+
-+MODULE_DESCRIPTION("i.MX8MQ MIPI CSI-2 receiver driver");
-+MODULE_AUTHOR("Martin Kepplinger <martin.kepplinger@puri.sm>");
-+MODULE_LICENSE("GPL v2");
-+MODULE_ALIAS("platform:imx8mq-mipi-csi2");
--- 
-2.30.2
-
+regards,
+dan carpenter
