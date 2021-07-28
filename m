@@ -1,42 +1,41 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E57C3484
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 21:54:54 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id g23-20020a17090a5797b02901765d605e14so6115492pji.5
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 14:54:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57213484
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 21:56:32 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id j1so7235646pjv.3
+        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 14:56:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=PvxV9gHhGKtdfFaQjqk5AbqIjKjaiVpsJxDp652BEFc=;
-        b=Ssr+bNcEOuYZGZ5oJIQs+A8B9fkhzqh1u9Z8zaxKcBCDP8OfGFfuirkmGy3mGu8Ayo
-         +m6YNKKevzCabTQ+jtWD1tnOrFvanE0IWzW2gN3TxMVXflAELgequkGXNFZv2cLW3+7o
-         82FR2yiZxn/K2X43TKjkwH3LlwMhtC/vXsFZY=
+        bh=HZwmvCaIsPtNlFau8xRfO0wSxpkKiZeYhRsp0hhs6yw=;
+        b=hOKYAGtG8p+bAHn079A+GM3Py/fP7BGZDuwsW4Mjq9e8qxEHkXaIX8EFN5D2fIwLEi
+         ZFtJ1zO9oQPVoZsB0XSK72Q2e/dGGKnZNiWhA/JY3Rin/dkgbv2Nf8xBAGlU16+rs1d5
+         sh9E8Z/HoNqY67Kuijgp3iycbdTBVU2mbaxLE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=PvxV9gHhGKtdfFaQjqk5AbqIjKjaiVpsJxDp652BEFc=;
-        b=BwvTa15AO5T4hqGayTUyFas/ThAhJRur0WSGOLk9cqrBnqLX8IAHLK+ey4Oox9qPrA
-         Dm6SfwBZie/YRCOqqVh+nP9JSGC0kPUTkQlRMt6Lw+ay5keYrBgWRmefszrdRlA2XpG2
-         RuNYGmxPqd3Sm9zwX7WlUN5HESC4CiBjs5JSTDhUNTGRYCFzZ2RwC5GpG1RzA5J+JnxQ
-         mwjXABWGC9o7kpJayrud3qlcmsXvNHrFm9QMpq94ymN4Z34boMiFit1Gn+W3QZz9wejO
-         R2uSse4ysVI84D7Rj9337jPWOcuXkkb2+5UQlVyym7j88tD6XkEE5r8loD0GTwT5rPZx
-         GLlA==
-X-Gm-Message-State: AOAM532YjDOzhL6s2y8XhgJ2NdK5vDRAs5h4G3ELTfl8Flh8TJ4JQcsz
-	4jX1IYWVHayuzvrGoqgNfCvSvw==
-X-Google-Smtp-Source: ABdhPJxUo4g9VfX8u6iU89489n+cH/MsR7SE+SmAE0dzWHUhk6Ft3KaP/7y+/BJ2KWH/1p+QrGqCsA==
-X-Received: by 2002:a17:90a:1109:: with SMTP id d9mr1816360pja.183.1627509293927;
-        Wed, 28 Jul 2021 14:54:53 -0700 (PDT)
+        bh=HZwmvCaIsPtNlFau8xRfO0wSxpkKiZeYhRsp0hhs6yw=;
+        b=V2FhvkW+dOg06NlikgrxiacbFES0mLmoEu4JUu8VzEz2+80EyH8+GSovp6Gy/bSgrm
+         Uiw+54/6hW3OM4kMWyfmy95tV3GhlmXlntCeoWFvvd+kc4UUDBzRoJXCjMKsitNm6X3m
+         HHWQxZ+A4FcJ55BGI6hKxbSHZ2xEq0YdZF3hFqAVJqYdHOa4JWuohhjMOkmpayoK+8xE
+         tDpUN1qL6GKA6Tqlk4IeJQH6u6XBq9YWp5gPRjNQbKJU2nLGUbudDUGpXaKxuZogN1km
+         9yfWdMdut2cn3hw04j2TyR0sXpn2vjD5NvNmLYbisHJx5rU+hXq2GzeiJvaL3mqT2vq8
+         Teig==
+X-Gm-Message-State: AOAM531If6sLGXbbaDWpy8QFDfNUfW2E8G5bfGqFnqOjoaRSy8W8N9bL
+	XP2s7WDf7+ySyZmpdXnPkJ8YAA==
+X-Google-Smtp-Source: ABdhPJzYF1ZeTn1uxmA0auYJjoAviEKmg5jmTnExS/QLj8lRKV0fiEUKYsUTv/gKWeJm4puGljAjtg==
+X-Received: by 2002:a17:90a:44:: with SMTP id 4mr1792767pjb.130.1627509392397;
+        Wed, 28 Jul 2021 14:56:32 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id n22sm1014921pff.57.2021.07.28.14.54.52
+        by smtp.gmail.com with ESMTPSA id k8sm947353pgr.91.2021.07.28.14.56.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jul 2021 14:54:53 -0700 (PDT)
-Date: Wed, 28 Jul 2021 14:54:52 -0700
+        Wed, 28 Jul 2021 14:56:31 -0700 (PDT)
+Date: Wed, 28 Jul 2021 14:56:31 -0700
 From: Kees Cook <keescook@chromium.org>
-To: dsterba@suse.cz, Dan Carpenter <dan.carpenter@oracle.com>,
-	linux-hardening@vger.kernel.org,
+To: dsterba@suse.cz, linux-hardening@vger.kernel.org,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Keith Packard <keithpac@amazon.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -45,12 +44,11 @@ To: dsterba@suse.cz, Dan Carpenter <dan.carpenter@oracle.com>,
 	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
 	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH 02/64] mac80211: Use flex-array for radiotap header bitmap
-Message-ID: <202107281454.F96505E15@keescook>
+Subject: Re: [PATCH 47/64] btrfs: Use memset_after() to clear end of struct
+Message-ID: <202107281455.2A0753F5@keescook>
 References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-3-keescook@chromium.org>
- <20210728073556.GP1931@kadam>
- <20210728092323.GW5047@twin.jikos.cz>
+ <20210727205855.411487-48-keescook@chromium.org>
+ <20210728094215.GX5047@twin.jikos.cz>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,34 +57,53 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210728092323.GW5047@twin.jikos.cz>
+In-Reply-To: <20210728094215.GX5047@twin.jikos.cz>
 
-On Wed, Jul 28, 2021 at 11:23:23AM +0200, David Sterba wrote:
-> On Wed, Jul 28, 2021 at 10:35:56AM +0300, Dan Carpenter wrote:
-> > @@ -372,7 +372,7 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
-> >  			ieee80211_calculate_rx_timestamp(local, status,
-> >  							 mpdulen, 0),
-> >  			pos);
-> > -		rthdr->it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_TSFT);
-> > +		rthdr->data.it_present |= cpu_to_le32(1 << IEEE80211_RADIOTAP_TSFT);
+On Wed, Jul 28, 2021 at 11:42:15AM +0200, David Sterba wrote:
+> On Tue, Jul 27, 2021 at 01:58:38PM -0700, Kees Cook wrote:
+> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> > field bounds checking for memset(), avoid intentionally writing across
+> > neighboring fields.
+> > 
+> > Use memset_after() so memset() doesn't get confused about writing
+> > beyond the destination member that is intended to be the starting point
+> > of zeroing through the end of the struct.
+> > 
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > ---
+> >  fs/btrfs/root-tree.c | 5 +----
+> >  1 file changed, 1 insertion(+), 4 deletions(-)
+> > 
+> > diff --git a/fs/btrfs/root-tree.c b/fs/btrfs/root-tree.c
+> > index 702dc5441f03..ec9e78f65fca 100644
+> > --- a/fs/btrfs/root-tree.c
+> > +++ b/fs/btrfs/root-tree.c
+> > @@ -39,10 +39,7 @@ static void btrfs_read_root_item(struct extent_buffer *eb, int slot,
+> >  		need_reset = 1;
+> >  	}
+> >  	if (need_reset) {
+> > -		memset(&item->generation_v2, 0,
+> > -			sizeof(*item) - offsetof(struct btrfs_root_item,
+> > -					generation_v2));
+> > -
 > 
-> A drive-by comment, not related to the patchset, but rather the
-> ieee80211 driver itself.
+> Please add
+> 		/* Clear all members from generation_v2 onwards */
 > 
-> Shift expressions with (1 << NUMBER) can be subtly broken once the
-> NUMBER is 31 and the value gets silently cast to a 64bit type. It will
-> become 0xfffffffff80000000.
-> 
-> I've checked the IEEE80211_RADIOTAP_* defintions if this is even remotely
-> possible and yes, IEEE80211_RADIOTAP_EXT == 31. Fortunatelly it seems to
-> be used with used with a 32bit types (eg. _bitmap_shifter) so there are
-> no surprises.
-> 
-> The recommended practice is to always use unsigned types for shifts, so
-> "1U << ..." at least.
+> > +		memset_after(item, 0, level);
 
-Ah, good catch! I think just using BIT() is the right replacement here,
-yes? I suppose that should be a separate patch.
+Perhaps there should be another helper memset_starting()? That would
+make these cases a bit more self-documenting.
+
++		memset_starting(item, 0, generation_v2);
+
+> >  		generate_random_guid(item->uuid);
+> 
+> Acked-by: David Sterba <dsterba@suse.com>
+
+What do you think?
+
+-Kees
 
 -- 
 Kees Cook
