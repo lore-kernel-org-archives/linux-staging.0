@@ -1,88 +1,131 @@
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5126770
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 18:56:00 +0000 (UTC)
-Received: by mail-il1-f175.google.com with SMTP id q18so3402985ile.9
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 11:56:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F44470
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 18:57:16 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id c16so3829356plh.7
+        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 11:57:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=pg9Oc8FexJdwg++WGxFIyzfbO7HtZXQu4+lhfbZZJSA=;
-        b=SmUnU1tPVN9i/9tG/rMNoyq8GC2Ca9VXG2fndr5Q7lbUN7q2OvL7b3A8tyIlk4aRZO
-         8CxuepNlFVgtbqoM3ADQ3U0+DYSTh4XKY1ShBRwP2xptYX4NzEjxotT52leIbd5xNRXk
-         9vOonTxqSQqQW8naRs/ta+UU9thoYqHRLs8DxUAFrNPA0djreJxetA6MW8BtY4WeIUIW
-         dOTRz3L5cqS+wmNpuKdYDrs8Y7JxgzfS82zfkL2T7J9e0mh4UxOrd8m2b0kxlUw+Ng/I
-         ath2ZAyFnQXTEeGUJcV4oPxvcRcr2dsP1ecLOrYEwKb4egINVvb+Xoa2A3ZtaP1NLjlz
-         iCpg==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=127Od1Z5L5mrPERJlQTktPz34XXJuvOrvHqT3KKh12Q=;
+        b=CT/CUy6V11s/6KhYMzSsdsMDErLudpJAHUqNC0Rpu9F7Ero2CNsiQemV80Kh7YxA18
+         O09bddDAkQD5N79FTWd2JhufucZWJdvUnGQK4C3MDdI6o+fliBhy2PpoYHcWAEFN4pot
+         mlS6O/Te+d+/T7xLqqDiIN6UOLBL2XxRO5jCQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=pg9Oc8FexJdwg++WGxFIyzfbO7HtZXQu4+lhfbZZJSA=;
-        b=YoQCvFNlxXuZMrM+/Bs+mIA2MmItrRRA9PlBonEgiKCIdXJxvoyrx5n2MYZezh3c9L
-         OUyVoo7Ufnlw6M6ekGs7LBRLqr0ZdvUy9BQJm4x/B7cAPm7BBAr/RwCKNlzr8q75nYyT
-         Fl5zJh9riTSwXvZ6kXP7S63WI17HLwclOi/zu1HFuHLTo4oVlB/w7LVsqz7uMNJE7S9T
-         dXYdLzCHakSpitzACV2YW1ZxAuf0X2X8yMSjcWvwUKIUe8oxR1al317F7Kj8Bx6MQbtU
-         6vFkVHrY1z1M1pLdZlnsWW1COot/AeWd5BHdoj/vD660b8tzfuG7VEjJdnukr6Klm1g+
-         b8nQ==
-X-Gm-Message-State: AOAM532jdAXqis4uJrhkorZL3+SzF/6wH65DsdUvcNN1wyscse437IVW
-	kv9PIKejF5PLZcK62/+0aCBKU5cK2FU7OTViCwE=
-X-Google-Smtp-Source: ABdhPJzdp7XedqkKalo1YzTM6wrHzAyIyMCWMFfqhgcBbZM/+eDvInL7H0YNQ6mczgM/TVmUc+xtfPhLFrpBLGI8h4k=
-X-Received: by 2002:a05:6e02:dcd:: with SMTP id l13mr851205ilj.300.1627498559514;
- Wed, 28 Jul 2021 11:55:59 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=127Od1Z5L5mrPERJlQTktPz34XXJuvOrvHqT3KKh12Q=;
+        b=KpIrbP3EdsII3K4/0fomlnus1OSF+CljQVILQLvbOE3ErGRH8Mnh6fLMofn5Gq4xAA
+         rIR4Ie7bZ9+Fjw5fm7NybtqNdUKZtku+2Y2iNjHmW3Z3jkdBpEAHGj3Edo+GOKwgoFhI
+         Tr/xMtz081UVy0YMiSaG5W7DsBdSdyh0kyHxU26T2iQlBHNNXy4kiHktgwwtghdhKjJd
+         huJX9pshEuCTTonJaiCVmgfy9vT+xvipT7qvRFmuitAeVjp6BecvmUIVSs+h9osoigGa
+         XMxIDsYKgwCVLocP2MBDba2Jl8sKL7NNznIG/yo8MGLCpHK6J9LpvyMYpTkrJ2GcjEGl
+         PIYQ==
+X-Gm-Message-State: AOAM533uJIzlcOp4k6U6CUPf2nmC/T3o0unwvu+pjHewS6jCy6APvH5l
+	icQ7Nfx6LSwBA4XsSTvNG0aJ8A==
+X-Google-Smtp-Source: ABdhPJznHpu/gslPhcK+chR4/yRixyO0Zt/1nxlU5ZOnQ6g7gqNYFE0PSpANagAqHnwDfuJHc+ddvw==
+X-Received: by 2002:a63:4c26:: with SMTP id z38mr313058pga.376.1627498636621;
+        Wed, 28 Jul 2021 11:57:16 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id d14sm5792859pjc.0.2021.07.28.11.57.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jul 2021 11:57:16 -0700 (PDT)
+Date: Wed, 28 Jul 2021 11:57:15 -0700
+From: Kees Cook <keescook@chromium.org>
+To: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: linux-hardening@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Keith Packard <keithpac@amazon.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+	Brian King <brking@linux.vnet.ibm.com>,
+	Tyrel Datwyler <tyreld@linux.ibm.com>
+Subject: Re: [PATCH 36/64] scsi: ibmvscsi: Avoid multi-field memset()
+ overflow by aiming at srp
+Message-ID: <202107281152.515A3BA@keescook>
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-37-keescook@chromium.org>
+ <yq135rzp79c.fsf@ca-mkp.ca.oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: by 2002:a05:6e04:29b:0:0:0:0 with HTTP; Wed, 28 Jul 2021 11:55:58
- -0700 (PDT)
-In-Reply-To: <20210727205855.411487-16-keescook@chromium.org>
-References: <20210727205855.411487-1-keescook@chromium.org> <20210727205855.411487-16-keescook@chromium.org>
-From: Stanislav Yakovlev <stas.yakovlev@gmail.com>
-Date: Wed, 28 Jul 2021 22:55:58 +0400
-Message-ID: <CA++WF2M464stM5Cb8EpX+ecda5yymSZ0Z8PFPFEoqZ_iFhaScQ@mail.gmail.com>
-Subject: Re: [PATCH 15/64] ipw2x00: Use struct_group() for memcpy() region
-To: Kees Cook <keescook@chromium.org>
-Cc: linux-hardening@vger.kernel.org, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Keith Packard <keithpac@amazon.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org, 
-	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-staging@lists.linux.dev, linux-block@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <yq135rzp79c.fsf@ca-mkp.ca.oracle.com>
 
-On 28/07/2021, Kees Cook <keescook@chromium.org> wrote:
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field array bounds checking for memcpy(), memmove(), and memset(),
-> avoid intentionally writing across neighboring fields.
->
-> Use struct_group() in struct libipw_qos_information_element around
-> members qui, qui_type, qui_subtype, version, and ac_info, so they can be
-> referenced together. This will allow memcpy() and sizeof() to more easily
-> reason about sizes, improve readability, and avoid future warnings about
-> writing beyond the end of qui.
->
-> "pahole" shows no size nor member offset changes to struct
-> libipw_qos_information_element.
->
-> Additionally corrects the size in libipw_read_qos_param_element() as
-> it was testing the wrong structure size (it should have been struct
-> libipw_qos_information_element, not struct libipw_qos_parameter_info).
->
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  drivers/net/wireless/intel/ipw2x00/libipw.h    | 12 +++++++-----
->  drivers/net/wireless/intel/ipw2x00/libipw_rx.c |  8 ++++----
->  2 files changed, 11 insertions(+), 9 deletions(-)
->
+On Tue, Jul 27, 2021 at 09:39:39PM -0400, Martin K. Petersen wrote:
+> 
+> Kees,
+> 
+> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> > field bounds checking for memset(), avoid intentionally writing across
+> > neighboring fields.
+> >
+> > Instead of writing beyond the end of evt_struct->iu.srp.cmd, target the
+> > upper union (evt_struct->iu.srp) instead, as that's what is being wiped.
+> >
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> 
+> Orthogonal to your change, it wasn't immediately obvious to me that
+> SRP_MAX_IU_LEN was the correct length to use for an srp_cmd. However, I
+> traversed the nested unions and it does look OK.
 
-Acked-by: Stanislav Yakovlev <stas.yakovlev@gmail.com>
+Yeah, I had the same fun. Maybe I should add a BUILD_BUG_ON() here to
+help illustrate the relationship? I did that in a few other places where
+the equalities weren't very clear.
 
-Looks fine, thanks!
+For example, change it to:
 
-Stanislav.
++	BUILD_BUG_ON(sizeof(evt_struct->iu.srp) != SRP_MAX_IU_LEN);
++	memset(&evt_struct->iu.srp, 0x00, sizeof(evt_struct->iu.srp));
+ 	srp_cmd = &evt_struct->iu.srp.cmd;
+-	memset(srp_cmd, 0x00, SRP_MAX_IU_LEN);
+
+> 
+> For good measure I copied Tyrel and Brian.
+> 
+> Acked-by: Martin K. Petersen <martin.petersen@oracle.com>
+
+For the moment, I'll leave the patch as-is unless you prefer having
+the BUILD_BUG_ON(). :)
+
+Thanks!
+
+-Kees
+
+> 
+> > ---
+> >  drivers/scsi/ibmvscsi/ibmvscsi.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/scsi/ibmvscsi/ibmvscsi.c b/drivers/scsi/ibmvscsi/ibmvscsi.c
+> > index e6a3eaaa57d9..7e8beb42d2d3 100644
+> > --- a/drivers/scsi/ibmvscsi/ibmvscsi.c
+> > +++ b/drivers/scsi/ibmvscsi/ibmvscsi.c
+> > @@ -1055,8 +1055,8 @@ static int ibmvscsi_queuecommand_lck(struct scsi_cmnd *cmnd,
+> >  		return SCSI_MLQUEUE_HOST_BUSY;
+> >  
+> >  	/* Set up the actual SRP IU */
+> > +	memset(&evt_struct->iu.srp, 0x00, SRP_MAX_IU_LEN);
+> >  	srp_cmd = &evt_struct->iu.srp.cmd;
+> > -	memset(srp_cmd, 0x00, SRP_MAX_IU_LEN);
+> >  	srp_cmd->opcode = SRP_CMD;
+> >  	memcpy(srp_cmd->cdb, cmnd->cmnd, sizeof(srp_cmd->cdb));
+> >  	int_to_scsilun(lun, &srp_cmd->lun);
+> 
+> -- 
+> Martin K. Petersen	Oracle Linux Engineering
+
+
+-- 
+Kees Cook
