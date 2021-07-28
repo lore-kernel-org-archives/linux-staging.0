@@ -1,41 +1,23 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72CEB72
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 01:50:35 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id g23-20020a17090a5797b02901765d605e14so1924325pji.5
-        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 18:50:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Uxwg9y2D5FscAC8WTII8k+Fl1MaCKaIyqWX2425pbwg=;
-        b=LrIioahOxuG0Yy87ee4V5QkSIPXjkcKgctqXOSVmOvUvbl3AGJicrLW+CgQjr1Drb9
-         2+LoeVSx6hMKWQ3vNE2BnohqbgXg5IYeiV7M4xOT5JsYW83C6ivu5hTcWryqGo7UZRdo
-         H7BcuPUaJ6KHTDmRelDadDBO+fGgawogS5vN8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Uxwg9y2D5FscAC8WTII8k+Fl1MaCKaIyqWX2425pbwg=;
-        b=cmV3tG2tgi7+MhdlKz4bvf5sJQrkDn4UQzvPHYzuOANatO4YTRioCP4cprvpjDhlJk
-         NYBhdu6YET90MuxYWphG3uUesU5PyxfhjNoaNN2pNLcxDWF+mEwVicr2hekwNMyTxihk
-         xkQbppbRN/n/8BeVt4Kld7AuuD1NrjDXZWZ2sV0fqVhp9ZrhpoQ0+8KbmVvX8D2VTZ21
-         D+TDbUzOon84o1yHe4mZ6fB7fO128Zg0Dqfpcw8NXfrukE7cYj+vgjolXBjflfV0csmY
-         Lt1MjrKwS6AyOmeVTjvh/YJny/gdMgO1KmSOGmI5yDDATM0wplaf2bDiXVaeyorAtZMl
-         4XGg==
-X-Gm-Message-State: AOAM5331EW48Xcx6VdeLyGioKDAz9FM34xd9geQHTrAe1XvahE4BCC7F
-	YY04yYUkR+7Swg02EqRQWBKvzg==
-X-Google-Smtp-Source: ABdhPJyheVx5T5IFdDGIlFJGMqu67VgDnTIUx7vGl5lFj0tDG77pOvHSTj72nmspZwOompBVxs+mRA==
-X-Received: by 2002:a17:90a:bb0d:: with SMTP id u13mr25562521pjr.88.1627437035064;
-        Tue, 27 Jul 2021 18:50:35 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id s193sm5105347pfc.183.2021.07.27.18.50.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jul 2021 18:50:34 -0700 (PDT)
-Date: Tue, 27 Jul 2021 18:50:33 -0700
-From: Kees Cook <keescook@chromium.org>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 104D572
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 02:05:15 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9266560F9C;
+	Wed, 28 Jul 2021 02:05:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1627437915;
+	bh=2pHGTZ3zG2izbzSDc/FoK6QLfwWAp2guM0LU9c0ReoM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=A90UDbvYC68sVjy8WS8RsYKs+VyQnHbePNodp+Mph5MJd1I4oIlaX+oskjcTjKTyH
+	 yQ7mTTTNdv2h+JXdWv1KSFEc7PjWzPD6+c34uce4NAaAc1bic5Idu3jxsehfLL6Eij
+	 mARz6S+1199MQ2Upy0mfQnwpDIJrFHEl93pv8eXy4T1H4MHPRRCGAxGQywIOjH/ISG
+	 ZQfRRT3l9E/AZ+djOHJp8RsjaL+YqCgcVrG+OebfxlYzxYZslrcvKQ+G8STZSl/MiW
+	 A46vS61UDoPhBUZWvI5rnvf6u//RdOKM+e6TXxw5V+iHumywol5vccdZwZaFpyXjlS
+	 4vjW7Esac6Huw==
+Date: Tue, 27 Jul 2021 21:07:45 -0500
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Kees Cook <keescook@chromium.org>
 Cc: linux-hardening@vger.kernel.org, Keith Packard <keithpac@amazon.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
@@ -43,12 +25,10 @@ Cc: linux-hardening@vger.kernel.org, Keith Packard <keithpac@amazon.com>,
 	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
 	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH 01/64] media: omap3isp: Extract struct group for memcpy()
- region
-Message-ID: <202107271849.00A81539B@keescook>
+Subject: Re: [PATCH 03/64] rpmsg: glink: Replace strncpy() with strscpy_pad()
+Message-ID: <20210728020745.GB35706@embeddedor>
 References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-2-keescook@chromium.org>
- <20210728005546.GA35706@embeddedor>
+ <20210727205855.411487-4-keescook@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,86 +37,53 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210728005546.GA35706@embeddedor>
+In-Reply-To: <20210727205855.411487-4-keescook@chromium.org>
 
-On Tue, Jul 27, 2021 at 07:55:46PM -0500, Gustavo A. R. Silva wrote:
-> On Tue, Jul 27, 2021 at 01:57:52PM -0700, Kees Cook wrote:
-> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > field bounds checking for memcpy(), memmove(), and memset(), avoid
-> > intentionally writing across neighboring fields.  Wrap the target region
-> > in a common named structure. This additionally fixes a theoretical
-> > misalignment of the copy (since the size of "buf" changes between 64-bit
-> > and 32-bit, but this is likely never built for 64-bit).
-> > 
-> > FWIW, I think this code is totally broken on 64-bit (which appears to
-> > not be a "real" build configuration): it would either always fail (with
-> > an uninitialized data->buf_size) or would cause corruption in userspace
-> > due to the copy_to_user() in the call path against an uninitialized
-> > data->buf value:
-> > 
-> > omap3isp_stat_request_statistics_time32(...)
-> >     struct omap3isp_stat_data data64;
-> >     ...
-> >     omap3isp_stat_request_statistics(stat, &data64);
-> > 
-> > int omap3isp_stat_request_statistics(struct ispstat *stat,
-> >                                      struct omap3isp_stat_data *data)
-> >     ...
-> >     buf = isp_stat_buf_get(stat, data);
-> > 
-> > static struct ispstat_buffer *isp_stat_buf_get(struct ispstat *stat,
-> >                                                struct omap3isp_stat_data *data)
-> > ...
-> >     if (buf->buf_size > data->buf_size) {
-> >             ...
-> >             return ERR_PTR(-EINVAL);
-> >     }
-> >     ...
-> >     rval = copy_to_user(data->buf,
-> >                         buf->virt_addr,
-> >                         buf->buf_size);
-> > 
-> > Regardless, additionally initialize data64 to be zero-filled to avoid
-> > undefined behavior.
-> > 
-> > Fixes: 378e3f81cb56 ("media: omap3isp: support 64-bit version of omap3isp_stat_data")
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > ---
-> >  drivers/media/platform/omap3isp/ispstat.c |  5 +--
-> >  include/uapi/linux/omap3isp.h             | 44 +++++++++++++++++------
-> >  2 files changed, 36 insertions(+), 13 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/omap3isp/ispstat.c b/drivers/media/platform/omap3isp/ispstat.c
-> > index 5b9b57f4d9bf..ea8222fed38e 100644
-> > --- a/drivers/media/platform/omap3isp/ispstat.c
-> > +++ b/drivers/media/platform/omap3isp/ispstat.c
-> > @@ -512,7 +512,7 @@ int omap3isp_stat_request_statistics(struct ispstat *stat,
-> >  int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
-> >  					struct omap3isp_stat_data_time32 *data)
-> >  {
-> > -	struct omap3isp_stat_data data64;
-> > +	struct omap3isp_stat_data data64 = { };
-> >  	int ret;
-> >  
-> >  	ret = omap3isp_stat_request_statistics(stat, &data64);
-> > @@ -521,7 +521,8 @@ int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
-> >  
-> >  	data->ts.tv_sec = data64.ts.tv_sec;
-> >  	data->ts.tv_usec = data64.ts.tv_usec;
-> > -	memcpy(&data->buf, &data64.buf, sizeof(*data) - sizeof(data->ts));
-> > +	data->buf = (uintptr_t)data64.buf;
-> > +	memcpy(&data->frame, &data64.buf, sizeof(data->frame));
+On Tue, Jul 27, 2021 at 01:57:54PM -0700, Kees Cook wrote:
+> The use of strncpy() is considered deprecated for NUL-terminated
+> strings[1]. Replace strncpy() with strscpy_pad() (as it seems this case
+> expects the NUL padding to fill the allocation following the flexible
+> array). This additionally silences a warning seen when building under
+> -Warray-bounds:
 > 
-> I think this should be:
+> ./include/linux/fortify-string.h:38:30: warning: '__builtin_strncpy' offset 24 from the object at '__mptr' is out of the bounds of referenced subobject 'data' with type 'u8[]' {aka 'unsigned char[]'} at offset 24 [-Warray-bounds]
+>    38 | #define __underlying_strncpy __builtin_strncpy
+>       |                              ^
+> ./include/linux/fortify-string.h:50:9: note: in expansion of macro '__underlying_strncpy'
+>    50 |  return __underlying_strncpy(p, q, size);
+>       |         ^~~~~~~~~~~~~~~~~~~~
+> drivers/rpmsg/qcom_glink_native.c: In function 'qcom_glink_work':
+> drivers/rpmsg/qcom_glink_native.c:36:5: note: subobject 'data' declared here
+>    36 |  u8 data[];
+>       |     ^~~~
 > 
-> 	memcpy(..., &data64.frame, ...);
+> [1] https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings
 > 
-> instead.
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-Whoops; thanks! This is what I get for temporarily silencing the
-read-overflow warnings. :)
+Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
--Kees
+Thanks
+--
+Gustavo
 
--- 
-Kees Cook
+> ---
+>  drivers/rpmsg/qcom_glink_native.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/rpmsg/qcom_glink_native.c b/drivers/rpmsg/qcom_glink_native.c
+> index 05533c71b10e..c7b9de655080 100644
+> --- a/drivers/rpmsg/qcom_glink_native.c
+> +++ b/drivers/rpmsg/qcom_glink_native.c
+> @@ -1440,7 +1440,7 @@ static int qcom_glink_rx_open(struct qcom_glink *glink, unsigned int rcid,
+>  		}
+>  
+>  		rpdev->ept = &channel->ept;
+> -		strncpy(rpdev->id.name, name, RPMSG_NAME_SIZE);
+> +		strscpy_pad(rpdev->id.name, name, RPMSG_NAME_SIZE);
+>  		rpdev->src = RPMSG_ADDR_ANY;
+>  		rpdev->dst = RPMSG_ADDR_ANY;
+>  		rpdev->ops = &glink_device_ops;
+> -- 
+> 2.30.2
+> 
