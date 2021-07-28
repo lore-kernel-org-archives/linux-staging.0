@@ -1,159 +1,197 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FCBD72
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 00:42:28 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id x11so744704ejj.8
-        for <linux-staging@lists.linux.dev>; Tue, 27 Jul 2021 17:42:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hacQXSnfRWwcxxKatA3rmakX4p+29xXxzmf6cpokS6s=;
-        b=SRc+uT9z6K4GctoLTaNGhADToy4RtU21r2e9Lju1JcnaSNzNZxP4PeDceG0nks1FDJ
-         e60tuP1QP5V/IE/IoUECyVXpHNQTkaQVMYBMyC87JQsqwc/NzpJHn87lFQdfOz9lCiYt
-         6LF4rq26eHyVuhiWgTDDq1YgLt0AsVoIHFLOKuxxpS9+CwJAVramS4mvter/NH4QKz1O
-         Q17u4/AWGggZgUfItB4SpFbWVShHxVfGruvztc+pq+2lEcB6RSrq02kLvF3haf1oa5j/
-         KEOMZ1lXrkJDGxrAm1kWzT6W7+nhJxqD13AorHdTmU6B77QHjWIa60DjL44zgvaqxyL9
-         TrOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hacQXSnfRWwcxxKatA3rmakX4p+29xXxzmf6cpokS6s=;
-        b=jhvFpekMa7vBW/w+BJMwuEi/q/eaEn/K8GkoRYt0T7MS2ISZLCFqd0uyuIzCtQagJl
-         itQ7oRUEjOtWgr6PnzP5Q/72GliVrgIwDNiqN7qPyoWyQcfLsNYrHjq8HMjMfaj64TXN
-         mRTboudVcTLFoN2SmEY9I7UsqlbQXcurbbT+YXJLK15CBK7axOqKzpWDSxojHG83PBNJ
-         IanH4AdJn7+sorXRxEiEFd5kYcsj7LIEqFyfzpG4P4KwfT1vKQm1TcWcvCii6x/5fMmQ
-         NRs3sipyNHmlrW4RgIj0vkokmsYFrTL5+BTJn0sfqHPxDLc47ulpuG2YrKNLK0wKEb6h
-         H5Gg==
-X-Gm-Message-State: AOAM532V0TIZChvOp1ZzcBzEGYkpgctGAmJgGQmSwYjJxSB+Bj+bW5pw
-	A98FTx2m40OXCc/YBeFjTcw=
-X-Google-Smtp-Source: ABdhPJwzlKLmiZQB5pDjZe4FAD39IXCFUwx4tI8DBLvYgO7E2ApTXCjJO+BLtcy+biiJKUfJUO58LQ==
-X-Received: by 2002:a17:906:f84a:: with SMTP id ks10mr23758889ejb.537.1627432946705;
-        Tue, 27 Jul 2021 17:42:26 -0700 (PDT)
-Received: from localhost.localdomain (host-79-26-32-124.retail.telecomitalia.it. [79.26.32.124])
-        by smtp.gmail.com with ESMTPSA id e22sm1902617edu.35.2021.07.27.17.42.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jul 2021 17:42:26 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: core: Fix incorrect type in assignment
-Date: Wed, 28 Jul 2021 02:42:23 +0200
-Message-Id: <20210728004223.15102-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.32.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 236A772
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 00:53:18 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 871DE60F9D;
+	Wed, 28 Jul 2021 00:53:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1627433597;
+	bh=V7BMF/FvyWPzFRxxOCJEliV/8jG21FrrgDKLm323gMc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E95F9MNM8J/ruiWgqyL/OWAja7QE9lwWMH1hn56E1drKRJHzRI71JR4r7Q1k8mdzZ
+	 THWkufcNZzoKNvRSMagzkbUm27LRKFtlehEUMH4pc70s3QrW6G3K+Za3ex2enBCoxi
+	 RxhJ9V6QnTgQHZb3fPI3lSYsKzdqo6n8/Tgv0EC3YiuNFdbETPAJSI9xdS+/M7M93Z
+	 TIznOV5w1BAv74+8tyDs6nkDSQPXknW0EwQBtxRDhtH80R5NW6BJOxUkiqCx19Jyg4
+	 CTZaFhhXp8bu5AnQZCfWe6BVJR4do/lHoLrJuxUaJIaQms4USCSRZmPotcjAMpAHYG
+	 buZPMn28624/A==
+Date: Tue, 27 Jul 2021 19:55:46 -0500
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Kees Cook <keescook@chromium.org>
+Cc: linux-hardening@vger.kernel.org, Keith Packard <keithpac@amazon.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: Re: [PATCH 01/64] media: omap3isp: Extract struct group for memcpy()
+ region
+Message-ID: <20210728005546.GA35706@embeddedor>
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-2-keescook@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210727205855.411487-2-keescook@chromium.org>
 
-Fix sparse warning: incorrect type in assignment (different base types).
+On Tue, Jul 27, 2021 at 01:57:52PM -0700, Kees Cook wrote:
+> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> field bounds checking for memcpy(), memmove(), and memset(), avoid
+> intentionally writing across neighboring fields.  Wrap the target region
+> in a common named structure. This additionally fixes a theoretical
+> misalignment of the copy (since the size of "buf" changes between 64-bit
+> and 32-bit, but this is likely never built for 64-bit).
+> 
+> FWIW, I think this code is totally broken on 64-bit (which appears to
+> not be a "real" build configuration): it would either always fail (with
+> an uninitialized data->buf_size) or would cause corruption in userspace
+> due to the copy_to_user() in the call path against an uninitialized
+> data->buf value:
+> 
+> omap3isp_stat_request_statistics_time32(...)
+>     struct omap3isp_stat_data data64;
+>     ...
+>     omap3isp_stat_request_statistics(stat, &data64);
+> 
+> int omap3isp_stat_request_statistics(struct ispstat *stat,
+>                                      struct omap3isp_stat_data *data)
+>     ...
+>     buf = isp_stat_buf_get(stat, data);
+> 
+> static struct ispstat_buffer *isp_stat_buf_get(struct ispstat *stat,
+>                                                struct omap3isp_stat_data *data)
+> ...
+>     if (buf->buf_size > data->buf_size) {
+>             ...
+>             return ERR_PTR(-EINVAL);
+>     }
+>     ...
+>     rval = copy_to_user(data->buf,
+>                         buf->virt_addr,
+>                         buf->buf_size);
+> 
+> Regardless, additionally initialize data64 to be zero-filled to avoid
+> undefined behavior.
+> 
+> Fixes: 378e3f81cb56 ("media: omap3isp: support 64-bit version of omap3isp_stat_data")
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  drivers/media/platform/omap3isp/ispstat.c |  5 +--
+>  include/uapi/linux/omap3isp.h             | 44 +++++++++++++++++------
+>  2 files changed, 36 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/media/platform/omap3isp/ispstat.c b/drivers/media/platform/omap3isp/ispstat.c
+> index 5b9b57f4d9bf..ea8222fed38e 100644
+> --- a/drivers/media/platform/omap3isp/ispstat.c
+> +++ b/drivers/media/platform/omap3isp/ispstat.c
+> @@ -512,7 +512,7 @@ int omap3isp_stat_request_statistics(struct ispstat *stat,
+>  int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
+>  					struct omap3isp_stat_data_time32 *data)
+>  {
+> -	struct omap3isp_stat_data data64;
+> +	struct omap3isp_stat_data data64 = { };
+>  	int ret;
+>  
+>  	ret = omap3isp_stat_request_statistics(stat, &data64);
+> @@ -521,7 +521,8 @@ int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
+>  
+>  	data->ts.tv_sec = data64.ts.tv_sec;
+>  	data->ts.tv_usec = data64.ts.tv_usec;
+> -	memcpy(&data->buf, &data64.buf, sizeof(*data) - sizeof(data->ts));
+> +	data->buf = (uintptr_t)data64.buf;
+> +	memcpy(&data->frame, &data64.buf, sizeof(data->frame));
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_security.c | 31 +++++++++++--------
- 1 file changed, 18 insertions(+), 13 deletions(-)
+I think this should be:
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index a99f439328f1..527f710c7658 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -35,8 +35,10 @@ const char *security_type_str(u8 value)
- */
- void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
- {																	/*  exclude ICV */
--
--	unsigned char crc[4];
-+	union {
-+	__le32 f0;
-+	unsigned char f1[4];
-+	} crc;
- 
- 	signed int	curfragnum, length;
- 	u32 keylength;
-@@ -69,18 +71,18 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 
- 				length = pattrib->last_txcmdsz-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
- 
--				*((__le32 *)crc) = ~crc32_le(~0, payload, length);
-+				crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
- 
- 				arc4_setkey(ctx, wepkey, 3 + keylength);
- 				arc4_crypt(ctx, payload, payload, length);
--				arc4_crypt(ctx, payload + length, crc, 4);
-+				arc4_crypt(ctx, payload + length, crc.f1, 4);
- 
- 			} else {
- 				length = pxmitpriv->frag_len-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
--				*((__le32 *)crc) = ~crc32_le(~0, payload, length);
-+				crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
- 				arc4_setkey(ctx, wepkey, 3 + keylength);
- 				arc4_crypt(ctx, payload, payload, length);
--				arc4_crypt(ctx, payload + length, crc, 4);
-+				arc4_crypt(ctx, payload + length, crc.f1, 4);
- 
- 				pframe += pxmitpriv->frag_len;
- 				pframe = (u8 *)round_up((SIZE_PTR)(pframe), 4);
-@@ -121,7 +123,7 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
- 		arc4_crypt(ctx, payload, payload,  length);
- 
- 		/* calculate icv and compare the icv */
--		*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
-+		*((u32 *)crc) = ~crc32_le(~0, payload, length - 4);
- 
- 	}
- }
-@@ -464,7 +466,10 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 	u32 pnh;
- 	u8 rc4key[16];
- 	u8   ttkey[16];
--	u8 crc[4];
-+	union {
-+		__le32 f0;
-+		u8 f1[4];
-+	} crc;
- 	u8   hw_hdr_offset = 0;
- 	signed int			curfragnum, length;
- 
-@@ -506,19 +511,19 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 
- 				if ((curfragnum+1) == pattrib->nr_frags) {	/* 4 the last fragment */
- 					length = pattrib->last_txcmdsz-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
--					*((__le32 *)crc) = ~crc32_le(~0, payload, length);
-+					crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
- 
- 					arc4_setkey(ctx, rc4key, 16);
- 					arc4_crypt(ctx, payload, payload, length);
--					arc4_crypt(ctx, payload + length, crc, 4);
-+					arc4_crypt(ctx, payload + length, crc.f1, 4);
- 
- 				} else {
- 					length = pxmitpriv->frag_len-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
--					*((__le32 *)crc) = ~crc32_le(~0, payload, length);
-+					crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
- 
- 					arc4_setkey(ctx, rc4key, 16);
- 					arc4_crypt(ctx, payload, payload, length);
--					arc4_crypt(ctx, payload + length, crc, 4);
-+					arc4_crypt(ctx, payload + length, crc.f1, 4);
- 
- 					pframe += pxmitpriv->frag_len;
- 					pframe = (u8 *)round_up((SIZE_PTR)(pframe), 4);
-@@ -618,7 +623,7 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
- 			arc4_setkey(ctx, rc4key, 16);
- 			arc4_crypt(ctx, payload, payload, length);
- 
--			*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
-+			*((u32 *)crc) = ~crc32_le(~0, payload, length - 4);
- 
- 			if (crc[3] != payload[length - 1] || crc[2] != payload[length - 2] ||
- 			    crc[1] != payload[length - 3] || crc[0] != payload[length - 4])
--- 
-2.32.0
+	memcpy(..., &data64.frame, ...);
 
+instead.
+
+--
+Gustavo
+
+>  
+>  	return 0;
+>  }
+> diff --git a/include/uapi/linux/omap3isp.h b/include/uapi/linux/omap3isp.h
+> index 87b55755f4ff..0a16af91621f 100644
+> --- a/include/uapi/linux/omap3isp.h
+> +++ b/include/uapi/linux/omap3isp.h
+> @@ -159,13 +159,25 @@ struct omap3isp_h3a_aewb_config {
+>  };
+>  
+>  /**
+> - * struct omap3isp_stat_data - Statistic data sent to or received from user
+> - * @ts: Timestamp of returned framestats.
+> - * @buf: Pointer to pass to user.
+> + * struct omap3isp_stat_frame - Statistic data without timestamp nor pointer.
+> + * @buf_size: Size of buffer.
+>   * @frame_number: Frame number of requested stats.
+>   * @cur_frame: Current frame number being processed.
+>   * @config_counter: Number of the configuration associated with the data.
+>   */
+> +struct omap3isp_stat_frame {
+> +	__u32 buf_size;
+> +	__u16 frame_number;
+> +	__u16 cur_frame;
+> +	__u16 config_counter;
+> +};
+> +
+> +/**
+> + * struct omap3isp_stat_data - Statistic data sent to or received from user
+> + * @ts: Timestamp of returned framestats.
+> + * @buf: Pointer to pass to user.
+> + * @frame: Statistic data for frame.
+> + */
+>  struct omap3isp_stat_data {
+>  #ifdef __KERNEL__
+>  	struct {
+> @@ -176,10 +188,15 @@ struct omap3isp_stat_data {
+>  	struct timeval ts;
+>  #endif
+>  	void __user *buf;
+> -	__u32 buf_size;
+> -	__u16 frame_number;
+> -	__u16 cur_frame;
+> -	__u16 config_counter;
+> +	union {
+> +		struct {
+> +			__u32 buf_size;
+> +			__u16 frame_number;
+> +			__u16 cur_frame;
+> +			__u16 config_counter;
+> +		};
+> +		struct omap3isp_stat_frame frame;
+> +	};
+>  };
+>  
+>  #ifdef __KERNEL__
+> @@ -189,10 +206,15 @@ struct omap3isp_stat_data_time32 {
+>  		__s32	tv_usec;
+>  	} ts;
+>  	__u32 buf;
+> -	__u32 buf_size;
+> -	__u16 frame_number;
+> -	__u16 cur_frame;
+> -	__u16 config_counter;
+> +	union {
+> +		struct {
+> +			__u32 buf_size;
+> +			__u16 frame_number;
+> +			__u16 cur_frame;
+> +			__u16 config_counter;
+> +		};
+> +		struct omap3isp_stat_frame frame;
+> +	};
+>  };
+>  #endif
+>  
+> -- 
+> 2.30.2
+> 
