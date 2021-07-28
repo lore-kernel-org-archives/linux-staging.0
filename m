@@ -1,18 +1,18 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0C870
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 05:45:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D74CB60F91;
-	Wed, 28 Jul 2021 05:45:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6F270
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 05:46:01 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B91F460BD3;
+	Wed, 28 Jul 2021 05:46:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1627451149;
-	bh=zklXSglKzRovjPembkNEGUc2Sg0e8OpQIEb1zbmPiY8=;
+	s=korg; t=1627451161;
+	bh=5TT6vhaZMFh6Ixag3Q3JIRBCGhLz9P43hbzx09FExmY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mTu0LkN+HjpKbvRjkcugi/HAWS+cQ9ElSsonRdt+Pv9CMbs9mHGqBTfJXMppe8P+8
-	 27QM654pxifW89ApqFgJkzaGjUdQkTDZaHYB4N4mj8gWJ2/tu+jP6ASQ+/rHf6i2IR
-	 5umYkopMaIPQhOYee5KBr4PvFmBK15Ucv7HJHuuk=
-Date: Wed, 28 Jul 2021 07:45:47 +0200
+	b=F6DkcU1tItDCras3BrqzN0yT/k/efCY4jZ2AcBGGFZyCnArMJpoDY48G8teXgWArj
+	 OKxwCtiqpI560i3ebuU+kJI+rT9CPwa7B3UNyA1ll/SaFemqgmowNM0f+E1SaNF/Qw
+	 1NRg4+x5zFU1vDWXNXSDvARVwD9VpVh6Su5E+9ks=
+Date: Wed, 28 Jul 2021 07:45:59 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Kees Cook <keescook@chromium.org>
 Cc: linux-hardening@vger.kernel.org,
@@ -23,11 +23,11 @@ Cc: linux-hardening@vger.kernel.org,
 	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
 	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH 24/64] staging: wlan-ng: Use struct_group() for memcpy()
+Subject: Re: [PATCH 08/64] staging: rtl8192u: Use struct_group() for memcpy()
  region
-Message-ID: <YQDvC4CghCazix4w@kroah.com>
+Message-ID: <YQDvF2syaThTs7sx@kroah.com>
 References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-25-keescook@chromium.org>
+ <20210727205855.411487-9-keescook@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -36,27 +36,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210727205855.411487-25-keescook@chromium.org>
+In-Reply-To: <20210727205855.411487-9-keescook@chromium.org>
 
-On Tue, Jul 27, 2021 at 01:58:15PM -0700, Kees Cook wrote:
+On Tue, Jul 27, 2021 at 01:57:59PM -0700, Kees Cook wrote:
 > In preparation for FORTIFY_SOURCE performing compile-time and run-time
 > field bounds checking for memcpy(), memmove(), and memset(), avoid
 > intentionally writing across neighboring fields.
 > 
-> Use struct_group() in struct hfa384x_tx_frame around members
-> frame_control, duration_id, address[1-4], and sequence_control, so they
-> can be referenced together. This will allow memcpy() and sizeof() to
-> more easily reason about sizes, improve readability, and avoid future
-> warnings about writing beyond the end of frame_control.
+> Use struct_group() around members addr1, addr2, and addr3 in struct
+> rtl_80211_hdr_4addr, and members qui, qui_type, qui_subtype, version,
+> and ac_info in struct ieee80211_qos_information_element, so they can be
+> referenced together. This will allow memcpy() and sizeof() to more easily
+> reason about sizes, improve readability, and avoid future warnings about
+> writing beyond the end of addr1 and qui. Additionally replace zero sized
+> arrays with flexible arrays in struct ieee_param.
 > 
 > "pahole" shows no size nor member offset changes to struct
-> hfa384x_tx_frame. "objdump -d" shows no meaningful object code changes
-> (i.e. only source line number induced differences.)
+> rtl_80211_hdr_4addr nor struct ieee80211_qos_information_element. "objdump
+> -d" shows no meaningful object code changes (i.e. only source line number
+> induced differences and optimizations).
 > 
 > Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  drivers/staging/wlan-ng/hfa384x.h     | 16 +++++++++-------
->  drivers/staging/wlan-ng/hfa384x_usb.c |  4 +++-
->  2 files changed, 12 insertions(+), 8 deletions(-)
 
 Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
