@@ -1,135 +1,164 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B67872
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 09:02:14 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 2DF0A22262;
-	Wed, 28 Jul 2021 09:02:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1627462927;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sp2fXaO4+VkU0ewmSUxyDBIfoqxWZ/YmzoRuKp72TwU=;
-	b=QJtqaRDeD/r+6BS2RpMLHsBckRf2sr1w3iN33pezOooEqpnn8T7DqSapcRxyMPIZfjRSjm
-	7J+1lee9yCSAoX/yXx5qOnlJlNQlP5/7ZOeqDMcdtfzJJyxwr5G3M0hN/eM3VNhe4zl7mM
-	ShgAu0K7CLyKCgHUkgVaDq862Mit+3M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1627462927;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sp2fXaO4+VkU0ewmSUxyDBIfoqxWZ/YmzoRuKp72TwU=;
-	b=pmBfIB2QkmA3xf4kSvM/Kul+M1rkY2xpWB6cH5WhgISANis+5+m+8zDuM/QuNvL/ktFiFp
-	tiOqD9YAirWKVzAw==
-Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
-	by relay2.suse.de (Postfix) with ESMTP id 15362A3B8B;
-	Wed, 28 Jul 2021 09:02:07 +0000 (UTC)
-Received: by ds.suse.cz (Postfix, from userid 10065)
-	id 4CA03DA8A7; Wed, 28 Jul 2021 10:59:22 +0200 (CEST)
-Date: Wed, 28 Jul 2021 10:59:22 +0200
-From: David Sterba <dsterba@suse.cz>
-To: Kees Cook <keescook@chromium.org>
-Cc: linux-hardening@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Keith Packard <keithpac@amazon.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-	nborisov@suse.com
-Subject: Re: [PATCH 01/64] media: omap3isp: Extract struct group for memcpy()
- region
-Message-ID: <20210728085921.GV5047@twin.jikos.cz>
-Reply-To: dsterba@suse.cz
-Mail-Followup-To: dsterba@suse.cz, Kees Cook <keescook@chromium.org>,
-	linux-hardening@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Keith Packard <keithpac@amazon.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-	nborisov@suse.com
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-2-keescook@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD92B72
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 09:11:22 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id y12so2224234edo.6
+        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 02:11:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kHu9+6E3zn3Ify2B2lOQHD4xYOeH4mkuojnrDPfbLrs=;
+        b=tJRTn0Aw/Lz17zLOr8JStE7vmiULzbTCrgxSRnWNqfUASOmkZmaLj5z3FFVeJbj8W6
+         keHsK+fCOsoJIXgFQ06EVUIW0w7lNcrdg6qUG2f8MSrnNHIap9h1pge9AMWCZQJeea1D
+         wnnr7+G5JRCZXhJtirmftEY7nnGBj5gUYFYr47XV7ym0W8JXhEgxkqy/yaxrZaqITyAZ
+         XttsmbesVwsrApKaXMtzbGwZHwl0LBywoMutXyNYc30Gfp9tJCbA3/JjEtsRWsRhqPCY
+         5NJOhP3MK6kkQnrBo8fovNHPHD1BRwZLbv7/XnJxK276wdqzZWTZs6b620gtZfOMYLbI
+         286A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kHu9+6E3zn3Ify2B2lOQHD4xYOeH4mkuojnrDPfbLrs=;
+        b=Ljo5+Q30CdnUtsOokdbyDilKIyJzCYMViOaPiZw2hPBzhpQWoizaO9pMF+ttxqNmAP
+         ExnX/fbeKIa+wOJvQtYEcutFYapm3kcvNF7J7uDtv3FrXWZHpLCxWdHDKbltTDsot30S
+         5h8k2mwzCDm5oFXxowEp8oA9dmmtsvR4u8WzDy+TmrRoGB+RbGoqkdHk8B2GAqAqDmYh
+         PQ17XJcUOY3FhXolJHbssJUQR5SrZjFvkVnm3CltB+/5Hq7C/xl9zxA4gzorVIYpCdmA
+         DWIz4jX89mMs/nrl67YYop+z9A1iG+OTAeUpAPTneLOEjqUBSyig9UaGwCz/JFSUUdgE
+         JiGQ==
+X-Gm-Message-State: AOAM5317b6zHN7fqdtxPm/+GvsQWDc7M9M31Xuxblo6soBaSzYKBfJ++
+	Ck6PnnERKKJd4IEYJtYUWlU=
+X-Google-Smtp-Source: ABdhPJwrPbMTSNU5gFEP1jlzNu8I+TKcA5TYvt7qK1Ujs40LBiGwvrtIU/lVznzUnGeDXkBa9XMzJw==
+X-Received: by 2002:aa7:c7c2:: with SMTP id o2mr33022193eds.166.1627463481178;
+        Wed, 28 Jul 2021 02:11:21 -0700 (PDT)
+Received: from localhost.localdomain (host-79-26-32-124.retail.telecomitalia.it. [79.26.32.124])
+        by smtp.gmail.com with ESMTPSA id p18sm2322828edu.8.2021.07.28.02.11.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jul 2021 02:11:20 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v2] staging: rtl8723bs: core: Fix incorrect type in assignment
+Date: Wed, 28 Jul 2021 11:11:17 +0200
+Message-Id: <20210728091117.6235-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210727205855.411487-2-keescook@chromium.org>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 27, 2021 at 01:57:52PM -0700, Kees Cook wrote:
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field bounds checking for memcpy(), memmove(), and memset(), avoid
-> intentionally writing across neighboring fields.  Wrap the target region
-> in a common named structure. This additionally fixes a theoretical
-> misalignment of the copy (since the size of "buf" changes between 64-bit
-> and 32-bit, but this is likely never built for 64-bit).
-> 
-> FWIW, I think this code is totally broken on 64-bit (which appears to
-> not be a "real" build configuration): it would either always fail (with
-> an uninitialized data->buf_size) or would cause corruption in userspace
-> due to the copy_to_user() in the call path against an uninitialized
-> data->buf value:
-> 
-> omap3isp_stat_request_statistics_time32(...)
->     struct omap3isp_stat_data data64;
->     ...
->     omap3isp_stat_request_statistics(stat, &data64);
-> 
-> int omap3isp_stat_request_statistics(struct ispstat *stat,
->                                      struct omap3isp_stat_data *data)
->     ...
->     buf = isp_stat_buf_get(stat, data);
-> 
-> static struct ispstat_buffer *isp_stat_buf_get(struct ispstat *stat,
->                                                struct omap3isp_stat_data *data)
-> ...
->     if (buf->buf_size > data->buf_size) {
->             ...
->             return ERR_PTR(-EINVAL);
->     }
->     ...
->     rval = copy_to_user(data->buf,
->                         buf->virt_addr,
->                         buf->buf_size);
-> 
-> Regardless, additionally initialize data64 to be zero-filled to avoid
-> undefined behavior.
-> 
-> Fixes: 378e3f81cb56 ("media: omap3isp: support 64-bit version of omap3isp_stat_data")
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  drivers/media/platform/omap3isp/ispstat.c |  5 +--
->  include/uapi/linux/omap3isp.h             | 44 +++++++++++++++++------
->  2 files changed, 36 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/media/platform/omap3isp/ispstat.c b/drivers/media/platform/omap3isp/ispstat.c
-> index 5b9b57f4d9bf..ea8222fed38e 100644
-> --- a/drivers/media/platform/omap3isp/ispstat.c
-> +++ b/drivers/media/platform/omap3isp/ispstat.c
-> @@ -512,7 +512,7 @@ int omap3isp_stat_request_statistics(struct ispstat *stat,
->  int omap3isp_stat_request_statistics_time32(struct ispstat *stat,
->  					struct omap3isp_stat_data_time32 *data)
->  {
-> -	struct omap3isp_stat_data data64;
-> +	struct omap3isp_stat_data data64 = { };
+Fix sparse warnings: incorrect type in assignment (different base types).
 
-Should this be { 0 } ?
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
 
-We've seen patches trying to switch from { 0 } to {  } but the answer
-was that { 0 } is supposed to be used,
-http://www.ex-parrot.com/~chris/random/initialise.html
+v1 --> v2:
+Fix incorrect indentation of the fields of a union. Problem detected by
+Greg Kroah-Hartman.
 
-(from https://lore.kernel.org/lkml/fbddb15a-6e46-3f21-23ba-b18f66e3448a@suse.com/)
+ drivers/staging/rtl8723bs/core/rtw_security.c | 31 +++++++++++--------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index a99f439328f1..8b507f6a447e 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -35,8 +35,10 @@ const char *security_type_str(u8 value)
+ */
+ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ {																	/*  exclude ICV */
+-
+-	unsigned char crc[4];
++	union {
++		__le32 f0;
++		unsigned char f1[4];
++	} crc;
+ 
+ 	signed int	curfragnum, length;
+ 	u32 keylength;
+@@ -69,18 +71,18 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 
+ 				length = pattrib->last_txcmdsz-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
+ 
+-				*((__le32 *)crc) = ~crc32_le(~0, payload, length);
++				crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
+ 
+ 				arc4_setkey(ctx, wepkey, 3 + keylength);
+ 				arc4_crypt(ctx, payload, payload, length);
+-				arc4_crypt(ctx, payload + length, crc, 4);
++				arc4_crypt(ctx, payload + length, crc.f1, 4);
+ 
+ 			} else {
+ 				length = pxmitpriv->frag_len-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
+-				*((__le32 *)crc) = ~crc32_le(~0, payload, length);
++				crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
+ 				arc4_setkey(ctx, wepkey, 3 + keylength);
+ 				arc4_crypt(ctx, payload, payload, length);
+-				arc4_crypt(ctx, payload + length, crc, 4);
++				arc4_crypt(ctx, payload + length, crc.f1, 4);
+ 
+ 				pframe += pxmitpriv->frag_len;
+ 				pframe = (u8 *)round_up((SIZE_PTR)(pframe), 4);
+@@ -121,7 +123,7 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
+ 		arc4_crypt(ctx, payload, payload,  length);
+ 
+ 		/* calculate icv and compare the icv */
+-		*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
++		*((u32 *)crc) = ~crc32_le(~0, payload, length - 4);
+ 
+ 	}
+ }
+@@ -464,7 +466,10 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 	u32 pnh;
+ 	u8 rc4key[16];
+ 	u8   ttkey[16];
+-	u8 crc[4];
++	union {
++		__le32 f0;
++		u8 f1[4];
++	} crc;
+ 	u8   hw_hdr_offset = 0;
+ 	signed int			curfragnum, length;
+ 
+@@ -506,19 +511,19 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 
+ 				if ((curfragnum+1) == pattrib->nr_frags) {	/* 4 the last fragment */
+ 					length = pattrib->last_txcmdsz-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
+-					*((__le32 *)crc) = ~crc32_le(~0, payload, length);
++					crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
+ 
+ 					arc4_setkey(ctx, rc4key, 16);
+ 					arc4_crypt(ctx, payload, payload, length);
+-					arc4_crypt(ctx, payload + length, crc, 4);
++					arc4_crypt(ctx, payload + length, crc.f1, 4);
+ 
+ 				} else {
+ 					length = pxmitpriv->frag_len-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
+-					*((__le32 *)crc) = ~crc32_le(~0, payload, length);
++					crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
+ 
+ 					arc4_setkey(ctx, rc4key, 16);
+ 					arc4_crypt(ctx, payload, payload, length);
+-					arc4_crypt(ctx, payload + length, crc, 4);
++					arc4_crypt(ctx, payload + length, crc.f1, 4);
+ 
+ 					pframe += pxmitpriv->frag_len;
+ 					pframe = (u8 *)round_up((SIZE_PTR)(pframe), 4);
+@@ -618,7 +623,7 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+ 			arc4_setkey(ctx, rc4key, 16);
+ 			arc4_crypt(ctx, payload, payload, length);
+ 
+-			*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
++			*((u32 *)crc) = ~crc32_le(~0, payload, length - 4);
+ 
+ 			if (crc[3] != payload[length - 1] || crc[2] != payload[length - 2] ||
+ 			    crc[1] != payload[length - 3] || crc[0] != payload[length - 4])
+-- 
+2.32.0
+
