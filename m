@@ -1,39 +1,39 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84F33481
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 23:14:37 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id mz5-20020a17090b3785b0290176ecf64922so12578114pjb.3
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 16:14:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6433481
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 23:33:21 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id g23-20020a17090a5797b02901765d605e14so6436500pji.5
+        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 16:33:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=cp/1gwQbxKm35mFKd4TC2EFL1W+EtjwqZdL50egUVws=;
-        b=g6KzbBrSxn/nD5fbAKhLB3KhfMjP/EBF+i23w0kpmbqop6NS+P75BVA3oYPWAQv5TN
-         jVsYj83mHem2R5QZIvfE5d5URqJJQjsLnk9ETh7AN/rE48OqfmjnQNOSXEPIuAu+rr1g
-         LBym6tSkzsztfvOHVLJCIdl6Clmjoz1sl02aM=
+        bh=hFIkjt/HAKYP2gDSt85Hu9GQQgBuaRL3GoR8pjbA0bw=;
+        b=eZq87nPKlWl1J2DEEMJZ0uaEj2HBpzx1uFCKn+eDG74O39BY2fqgYPseftQWhiHZ3p
+         3PJNkhirHMnzPm0VwpSUdr5bc9yR+trhFp/MOdtZnE7T7uRicxtGEKbYH49hrFM5DKkn
+         1n46Y3AQgPVx/z+eMIRIv1CuZbfnRiL9Xc4bA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=cp/1gwQbxKm35mFKd4TC2EFL1W+EtjwqZdL50egUVws=;
-        b=dOxD05w5UPaKcI2FUXNYcmNJrK2saRIBRRrxjHiLH+v8WjfDrEm9jGmki3t+XXeQXE
-         GD0evoOjNbGobuBcY8ij4jdoGXik5J5s6fR9JtqHshAzP/FEjkacAePp7YREZ17aSUF0
-         mfnHOJJ/wLeVXEhPrGnW9nXkG+rU0s4EYUIFlQ1xLPj9UdI333vNgN715Qg72q+m3EmY
-         e4HnBPGqZPVNOOVGV8aV/GNtNVU+W1xICFlgVPU8cTUAcNe87w6nkoGgOVQq3LfgoFDE
-         HgK4Q6JLEqvcBbMlbst6PS3GgM9lvqHqyB6X5t5kulFYyJPucSO0ivnuiMJcvFsVKVjm
-         ogEw==
-X-Gm-Message-State: AOAM531Oht1eCO/q9xI4nDEDpr15KHet2sAcfSd5BszvyRFDJS6ni2Tj
-	QgmAq8nnPefCdkOuyq3xDqNzDw==
-X-Google-Smtp-Source: ABdhPJx1kv+LtzCaHLxEQ+7p9oKRsC6DgKBut532PtzT8ERKet67b0w3z4Vqt6OM2ER7XfKqYAMq8Q==
-X-Received: by 2002:a63:5a08:: with SMTP id o8mr1175343pgb.120.1627514077222;
-        Wed, 28 Jul 2021 16:14:37 -0700 (PDT)
+        bh=hFIkjt/HAKYP2gDSt85Hu9GQQgBuaRL3GoR8pjbA0bw=;
+        b=EYCRgiy4sekjHIkyCwgw5jghunykeQLGsrYspjEROy63nQFk+szd07RMBKTCU73ycT
+         CsiMSTpPBMS7imtO4FgslTs6OlKnP+qxL0Onz6XI0N00XEH3KngbBm8BUTTz45nv3G70
+         rOzFdFCool7SRp3KEeckMcRt9J/TQCE0Ln7FWXJlTkR9YzNILwemNBA6fx/DuDrEYnuF
+         IFTW0AkK+4s3JoRVzWQbzYlatHAhiXOC0zZ1hbEC1z4TuHVwNl4AutCvs/fgm88jsESZ
+         E97trbMeSK89Sq8oRc0XiA3Zfe93pLSk3s9K2fISUzc9HchuoFh2E9leWWao7dLjm7F8
+         yTwg==
+X-Gm-Message-State: AOAM532PUZh5QSqUGuV5xlo9fbV0REk8nzDAFZyyGEzsMye7GbH/fIWn
+	1RasVpyUPi1BLUI8fCbpfUtBsA==
+X-Google-Smtp-Source: ABdhPJyDOQNxc6ttxQhAqGxoxWvmp3MMGc7Zv3gC3yqd9RQT0SfNwJrM7aAomvW+xqq4hMTgYf4FHA==
+X-Received: by 2002:a17:90a:fc95:: with SMTP id ci21mr12127797pjb.176.1627515200829;
+        Wed, 28 Jul 2021 16:33:20 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 16sm1132146pfu.109.2021.07.28.16.14.36
+        by smtp.gmail.com with ESMTPSA id m34sm1068670pgb.85.2021.07.28.16.33.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jul 2021 16:14:36 -0700 (PDT)
-Date: Wed, 28 Jul 2021 16:14:35 -0700
+        Wed, 28 Jul 2021 16:33:20 -0700 (PDT)
+Date: Wed, 28 Jul 2021 16:33:18 -0700
 From: Kees Cook <keescook@chromium.org>
 To: Dan Carpenter <dan.carpenter@oracle.com>
 Cc: linux-hardening@vger.kernel.org,
@@ -46,7 +46,7 @@ Cc: linux-hardening@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
 Subject: Re: [PATCH 02/64] mac80211: Use flex-array for radiotap header bitmap
-Message-ID: <202107281602.4D9ED671@keescook>
+Message-ID: <202107281630.B0519DA@keescook>
 References: <20210727205855.411487-1-keescook@chromium.org>
  <20210727205855.411487-3-keescook@chromium.org>
  <20210728073556.GP1931@kadam>
@@ -62,35 +62,7 @@ In-Reply-To: <20210728073556.GP1931@kadam>
 
 On Wed, Jul 28, 2021 at 10:35:56AM +0300, Dan Carpenter wrote:
 > On Tue, Jul 27, 2021 at 01:57:53PM -0700, Kees Cook wrote:
-> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > field bounds checking for memcpy(), memmove(), and memset(), avoid
-> > intentionally writing across neighboring fields.
-> > 
-> > The it_present member of struct ieee80211_radiotap_header is treated as a
-> > flexible array (multiple u32s can be conditionally present). In order for
-> > memcpy() to reason (or really, not reason) about the size of operations
-> > against this struct, use of bytes beyond it_present need to be treated
-> > as part of the flexible array. Add a union/struct to contain the new
-> > "bitmap" member, for use with trailing presence bitmaps and arguments.
-> > 
-> > Additionally improve readability in the iterator code which walks
-> > through the bitmaps and arguments.
-> > 
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > ---
-> >  include/net/ieee80211_radiotap.h | 24 ++++++++++++++++++++----
-> >  net/mac80211/rx.c                |  2 +-
-> >  net/wireless/radiotap.c          |  5 ++---
-> >  3 files changed, 23 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/include/net/ieee80211_radiotap.h b/include/net/ieee80211_radiotap.h
-> > index c0854933e24f..101c1e961032 100644
-> > --- a/include/net/ieee80211_radiotap.h
-> > +++ b/include/net/ieee80211_radiotap.h
-> > @@ -39,10 +39,26 @@ struct ieee80211_radiotap_header {
-> >  	 */
-> >  	__le16 it_len;
-> >  
+> > [...]
 > > -	/**
 > > -	 * @it_present: (first) present word
 > > -	 */
@@ -118,56 +90,80 @@ On Wed, Jul 28, 2021 at 10:35:56AM +0300, Dan Carpenter wrote:
 > >  } __packed;
 > 
 > This patch is so confusing...
-
-Right, unfortunately your patch doesn't work under the strict memcpy().
-:(
-
-Here are the constraints I navigated to come to the original patch I
-sent:
-
-* I need to directly reference a flexible array for the it_present
-  pointer because pos is based on it, and the compiler thinks pos
-  walks off the end of the struct:
-
-	In function 'fortify_memcpy_chk',
-	    inlined from 'ieee80211_add_rx_radiotap_header' at net/mac80211/rx.c:652:3:
-	./include/linux/fortify-string.h:285:4: warning: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()?  [-Wattribute-warning]
-	  285 |    __write_overflow_field();
-	      |    ^~~~~~~~~~~~~~~~~~~~~~~~
-
-* It's churn/fragile to change the sizeof(), so I can't just do:
-	-	__le32 it_present;
-	+	__le32 it_bitmap[];
-
-* I want to use a union:
-	-	__le32 it_present;
-	+	union {
-	+		__le32 it_present;
-	+		__le32 it_bitmap[];
-	+	};
-* ... but I can't actually use a union because of compiler constraints
-  on flexible array members:
-	./include/net/ieee80211_radiotap.h:50:10: error: flexible array member in union
-	   50 |   __le32 it_optional[];
-	      |          ^~~~~~~~~~~
-
-* So I came to the horrible thing I original sent. :P
-
-If I could escape the __le32 *it_present incrementing, I could use a
-simple change:
-	 	__le32 it_present;
-	+	__le32 it_optional[];
-
-
+> 
 > Btw, after the end of the __le32 data there is a bunch of other le64,
 > u8 and le16 data so the struct is not accurate or complete.
+> 
+> It might be better to re-write this as something like this:
+> 
+> diff --git a/include/net/ieee80211_radiotap.h b/include/net/ieee80211_radiotap.h
+> index c0854933e24f..0cb5719e9668 100644
+> --- a/include/net/ieee80211_radiotap.h
+> +++ b/include/net/ieee80211_radiotap.h
+> @@ -42,7 +42,10 @@ struct ieee80211_radiotap_header {
+>  	/**
+>  	 * @it_present: (first) present word
+>  	 */
+> -	__le32 it_present;
+> +	struct {
+> +		__le32 it_present;
+> +		char buff[];
+> +	} data;
+>  } __packed;
 
-Hm, docs seem to indicate that the packet format is multiples of u32?
-*shrug*
+Ah-ha, got it:
 
-Hmpf.
-
--Kees
+diff --git a/include/net/ieee80211_radiotap.h b/include/net/ieee80211_radiotap.h
+index c0854933e24f..6b7274edb3c6 100644
+--- a/include/net/ieee80211_radiotap.h
++++ b/include/net/ieee80211_radiotap.h
+@@ -43,6 +43,10 @@ struct ieee80211_radiotap_header {
+ 	 * @it_present: (first) present word
+ 	 */
+ 	__le32 it_present;
++	/**
++	 * @it_optional: all remaining presence bitmaps
++	 */
++	__le32 it_optional[];
+ } __packed;
+ 
+ /* version is always 0 */
+diff --git a/net/mac80211/rx.c b/net/mac80211/rx.c
+index 2563473b5cf1..b6a960d37278 100644
+--- a/net/mac80211/rx.c
++++ b/net/mac80211/rx.c
+@@ -359,7 +359,13 @@ ieee80211_add_rx_radiotap_header(struct ieee80211_local *local,
+ 
+ 	put_unaligned_le32(it_present_val, it_present);
+ 
+-	pos = (void *)(it_present + 1);
++	/*
++	 * This references through an offset into it_optional[] rather
++	 * than via it_present otherwise later uses of pos will cause
++	 * the compiler to think we have walked past the end of the
++	 * struct member.
++	 */
++	pos = (void *)&rthdr->it_optional[it_present - rthdr->it_optional];
+ 
+ 	/* the order of the following fields is important */
+ 
+diff --git a/net/wireless/radiotap.c b/net/wireless/radiotap.c
+index 36f1b59a78bf..081f0a3bdfe1 100644
+--- a/net/wireless/radiotap.c
++++ b/net/wireless/radiotap.c
+@@ -115,10 +115,9 @@ int ieee80211_radiotap_iterator_init(
+ 	iterator->_max_length = get_unaligned_le16(&radiotap_header->it_len);
+ 	iterator->_arg_index = 0;
+ 	iterator->_bitmap_shifter = get_unaligned_le32(&radiotap_header->it_present);
+-	iterator->_arg = (uint8_t *)radiotap_header + sizeof(*radiotap_header);
++	iterator->_arg = (uint8_t *)radiotap_header->it_optional;
+ 	iterator->_reset_on_ext = 0;
+-	iterator->_next_bitmap = &radiotap_header->it_present;
+-	iterator->_next_bitmap++;
++	iterator->_next_bitmap = radiotap_header->it_optional;
+ 	iterator->_vns = vns;
+ 	iterator->current_namespace = &radiotap_ns;
+ 	iterator->is_radiotap_ns = 1;
 
 -- 
 Kees Cook
