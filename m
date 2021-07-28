@@ -1,94 +1,138 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F1D70
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 12:00:24 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id g15so2227289wrd.3
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 05:00:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=cVAGWXk6C/RClkhxJBC2qc8hyZaz+QfRZnXkvbgygas=;
-        b=ElZkUGcJJwD7Aa2mRV34LlTvFelQdA333XEOrmYWZPMcj7iUpAEUVcZgerqW02QZIv
-         D7u6xaS/dfr5c+SWwNuNeLDpKoasAQz8G5J0cuXDfqAU88VPr1shGX0hvw78ZRfbkqlq
-         DTz728iCazAcDN+cmZP5a/QDOIGh+KTFZncG5V06KvlsbtqNsxlcfNmcEZkTSwEHTvlk
-         AXWrR3emzZjJ1buD3hPAH4HktVHPwqhOMqPxi8dONbIR0gAiYdkaUbkG1PcShWST9xoX
-         w0kd5JFo1MYqlr1mGMdpFHFnUi9AwXArIra5D2Q2QutxIfjGyVM/FD4iH9mUvMRnw0fY
-         Afog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=cVAGWXk6C/RClkhxJBC2qc8hyZaz+QfRZnXkvbgygas=;
-        b=JM3W5uE6Wbcszp0stguFgzfsDmq/ZcDWeVJ58PHo+6cfFzd6+l8a4uAMwFirfJZmW+
-         SOnT5m+b4WIXoUUTEw7m8VtWmfa+mf2+A0j3CwiZ/pVi+0sj9wrIgS2O17fymki1NiYK
-         pTJ71fNzHUGkAxpP0rN72Tv953S5vHZZcAQfL1T0L8aVhOKMfZBOnUsFmS2SK9htICsq
-         1LbeQr6rO9krL0YWep2yGnvNckW7CB0Yc03Qz2RQjv9X4M0gNx3KIB0q3myEs86yw+IY
-         ezgxHeMqOBjMsh0bnoDqxpDxPkkwlvvJauGwmU7w6aa0aeYB+qaHDEhw3DjI8ab9slta
-         EBng==
-X-Gm-Message-State: AOAM5311uorGr13ryG1b1eiJ0pNePpK41FtJsaevSeH3PG4n1vvne2te
-	RWicXm8cI1r3EjiLmzCz8zI=
-X-Google-Smtp-Source: ABdhPJwafNQZVd1Gwz3myc+7Vx0WTbCDQuQXyXHGgpvrzw8HDEpiOTh5dRVAeEvqlgvQ7KhAojQi6w==
-X-Received: by 2002:a5d:67cc:: with SMTP id n12mr30345956wrw.131.1627473622800;
-        Wed, 28 Jul 2021 05:00:22 -0700 (PDT)
-Received: from localhost.localdomain (host-79-26-32-124.retail.telecomitalia.it. [79.26.32.124])
-        by smtp.gmail.com with ESMTPSA id n5sm6354930wri.31.2021.07.28.05.00.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jul 2021 05:00:22 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Suren Baghdasaryan <surenb@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arve =?ISO-8859-1?Q?Hj=F8nnev=E5g?= <arve@android.com>, Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>, Joel Fernandes <joel@joelfernandes.org>, Christian Brauner <christian@brauner.io>, Hridya Valsaraju <hridya@google.com>, LKML <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: android: Remove set but unused variable in ashmem.c
-Date: Wed, 28 Jul 2021 14:00:19 +0200
-Message-ID: <4425350.seJdf4cM5h@localhost.localdomain>
-In-Reply-To: <20210726134454.GJ1931@kadam>
-References: <20210723200514.10139-1-fmdefrancesco@gmail.com> <13453441.4PhDYAFLLM@localhost.localdomain> <20210726134454.GJ1931@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6838F3481
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 13:32:54 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 77FBCEE;
+	Wed, 28 Jul 2021 15:32:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1627479171;
+	bh=c1dkUuPXfClOIv5jpAqPkqsyfaPoUtpNHnoR7YUBKtE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JgCARYIVVkDVfEHmvs9gFM9xYM7j/CTlLRSZtKoKNqHJIs0AF6WwqQgMxUr03ru+P
+	 ypa7AigHetwOwZZOaGKbE2sakovaTsIV6Ny//st1PPyyR+gwYKG/iCPI81o/tnAtk5
+	 iwnjIUWpksVMQze9N4GnXsCRy6iR713Kq6mBzR0U=
+Date: Wed, 28 Jul 2021 16:32:45 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc: dafna.hirschfeld@collabora.com, shawnguo@kernel.org,
+	devicetree@vger.kernel.org, festevam@gmail.com,
+	kernel@pengutronix.de, kernel@puri.sm, krzk@kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, m.felsch@pengutronix.de,
+	mchehab@kernel.org, phone-devel@vger.kernel.org, robh@kernel.org,
+	slongerbeam@gmail.com, Sascha Hauer <s.hauer@pengutronix.de>
+Subject: Re: [PATCH v10 0/3] media: imx: add support for imx8mq MIPI RX
+Message-ID: <YQFcfbrTmGw4kZvQ@pendragon.ideasonboard.com>
+References: <20210728091245.231043-1-martin.kepplinger@puri.sm>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210728091245.231043-1-martin.kepplinger@puri.sm>
 
-Hello Dan,
+Hi Martin,
 
-On Monday, July 26, 2021 3:44:54 PM CEST Dan Carpenter wrote:
-> On Sat, Jul 24, 2021 at 09:49:35AM +0200, Fabio M. De Francesco wrote:
-> >
-> > [...]
-> >
-> Another trick which would have helped is to try find out which patch
-> forgot to remove the "inode" variable, because that developer would have
-> seen the warning as well.
+On Wed, Jul 28, 2021 at 11:12:42AM +0200, Martin Kepplinger wrote:
+> hi,
 > 
-> > > I'm guessing you are building with CONFIG_LOCKDEP=n.
-> > 
-> > Actually my .config sets CONFIG_LOCKDEP_SUPPORT=y. Did you refer to this?
-> > There is no CONFIG_LOCKDEP in the file.
+> This patch series adds a driver for the i.MX8MQ CSI MIPI receiver / controller.
 > 
-> Use make nconfig and then use f8 to search for CONFIG_LOCKDEP.
+> It includes the driver, the dt-bindings and the DT addition to the SoC dtsi.
+> I test it using libcamera. Thanks to Laurent who helped a lot. I'm happy for
+> any feedback,
+
+Thank you for the series. I've submitted a pull request that contains
+patches 1/3 and 2/3.
+
+Shawn, Sascha, how would you like to handle 3/3 ?
+
+> revision history
+> ----------------
+> v10: (thank you Dafna)
+> * improve send_level documentation.
+> * add some comments to 0x180 and 0x184
+> * after re-reading I could eliminate the unneeded setting of 0x184 (ignored
+>   by setting 0x180 to 1).
 > 
-> regards,
-> dan carpenter
+> v9: (thank you Laurent)
+> * improve getting the esc clock rate for hs_settle
+> https://lore.kernel.org/linux-media/20210726082117.2423597-1-martin.kepplinger@puri.sm/
+> 
+> v8: (thank you Laurent)
+> * calculate hs_settle for any clk rate and mode
+> * add reviewed-by tag
+> https://lore.kernel.org/linux-media/20210723101217.1954805-1-martin.kepplinger@puri.sm/T/
+> 
+> v7: (thank you Laurent and Rob)
+> * fix the binding example (include the reset driver)
+> * use pm_runtime_resume_and_get()
+> * fix some logic in init_cfg()
+> * add some useful code comments and fix minor bits found by Laurent in v6
+> https://lore.kernel.org/linux-media/20210716102244.581182-1-martin.kepplinger@puri.sm/T/#t
+> 
+> v6: (thank you Laurent and Rob)
+> * add reviewed-by tag to binding
+> * statically allocate clk_bulk_data
+> * fix how the hs_settle value is applied
+> * remove s_power calls
+> * remove the link_setup() callback implementation and make the link immutable
+> * more cleanups according to Laurents' review from v5
+> https://lore.kernel.org/linux-media/20210714111931.324485-1-martin.kepplinger@puri.sm/
+> 
+> v5: (thank you Laurent)
+> * fix reset usage by using the already supported reset controller driver
+> * remove clko2 (totally unrelated clock / had been included by accident)
+> * rename pxl clock to ui
+> https://lore.kernel.org/linux-media/20210618095753.114557-1-martin.kepplinger@puri.sm/
+> 
+> v4: (thank you Rob and Marco)
+> * create fsl,mipi-phy-gpr custom dt property instead of confusing "phy"
+> * add imx8mq-specific compatibile to imx8mq.dtsi for future use
+> https://lore.kernel.org/linux-media/20210614121522.2944593-1-martin.kepplinger@puri.sm/
+> 
+> v3: (thank you, Rob and Laurent)
+> among minor other things according to v2 review, changes include:
+> * better describe the clocks
+> * rename DT property "phy-reset" to "reset" and "phy-gpr" to "phy"
+> https://lore.kernel.org/linux-media/20210608104128.1616028-1-martin.kepplinger@puri.sm/T/#t
+> 
+> v2: (thank you, Dan and Guido)
+> among fixes according to v1 reviews, changes include:
+> * remove status property from dt-bindings example
+> * define a few bits in order to have less magic values
+> * use "imx8mq_mipi_csi_" as local function prefix
+> * read DT properties only during probe()
+> * remove dead code (log_status)
+> * add imx8mq_mipi_csi_release_icc()
+> * fix imx8mq_mipi_csi_init_icc()
+> https://lore.kernel.org/linux-media/20210531112326.90094-1-martin.kepplinger@puri.sm/
+> 
+> v1:
+> https://lore.kernel.org/linux-media/20210527075407.3180744-1-martin.kepplinger@puri.sm/T/#t
+> 
+> 
+> Martin Kepplinger (3):
+>   dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and
+>     controller
+>   media: imx: add a driver for i.MX8MQ mipi csi rx phy and controller
+>   arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
+> 
+>  .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 174 +++
+>  arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 104 ++
+>  drivers/staging/media/imx/Makefile            |   1 +
+>  drivers/staging/media/imx/imx8mq-mipi-csi2.c  | 991 ++++++++++++++++++
+>  4 files changed, 1270 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+>  create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
 
-Thanks a lot. As always, you've been very helpful. I appreciate your 
-willingness to help and, more generally, your attitude towards people with 
-less experience than yours.
-
-By using F8, I found that CONFIG_LOCKDEP is selected by CONFIG_LOCK_STAT (in 
-logical AND with other options) but, in my .config, the latter was set to 'n'. 
-After setting this other option to 'y', CONFIG_LOCKDEP magically :) appeared  
-in .config and it was automatically set to 'y'.
-
-I see that the same kind of search can also be done by using the slash if one 
-uses "make menuconfig".
-
+-- 
 Regards,
 
-Fabio
-
-
-
+Laurent Pinchart
