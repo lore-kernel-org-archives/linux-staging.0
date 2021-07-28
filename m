@@ -1,20 +1,20 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AFB270
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 20:21:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243F73484
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 20:39:53 +0000 (UTC)
 Received: from [192.168.1.107] ([37.4.249.97]) by mrelayeu.kundenserver.de
- (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MBE3k-1mLRWL08fW-00CmBq; Wed, 28 Jul 2021 22:21:43 +0200
-Subject: Re: [PATCH 1/2] staging: vchiq: Set $CONFIG_VCHIQ_CDEV to be enabled
- by default
+ (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MHX7f-1mLoug3euP-00DWEB; Wed, 28 Jul 2021 22:39:39 +0200
+Subject: Re: [PATCH 2/2] staging: vchiq: Add details to $CONFIG_VCHIQ_CDEV
+ help text
 To: Ojaswin Mujoo <ojaswin98@gmail.com>, Greg KH <gregkh@linuxfoundation.org>
 Cc: nsaenz@kernel.org, dan.carpenter@oracle.com, phil@raspberrypi.com,
  linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
 References: <cover.1627495116.git.ojaswin98@gmail.com>
- <70d91b0482e19d7551d3258ea54c970c1b996317.1627495116.git.ojaswin98@gmail.com>
- <YQGl47Wpu7+SHIW+@kroah.com> <20210728200607.GB17046@ojas>
+ <9c9c128b41e31d6bebe646e052aa05c44b19eb83.1627495116.git.ojaswin98@gmail.com>
+ <YQGmG6nwk+pOyAdu@kroah.com> <20210728200039.GA17046@ojas>
 From: Stefan Wahren <stefan.wahren@i2se.com>
 Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
@@ -146,8 +146,8 @@ Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
  bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
  LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
-Message-ID: <ddcc0ba2-edc0-89a9-b20d-ce58b3e548fc@i2se.com>
-Date: Wed, 28 Jul 2021 22:21:41 +0200
+Message-ID: <fa20cb94-ed73-ea6e-d128-cfb930399af6@i2se.com>
+Date: Wed, 28 Jul 2021 22:39:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 Precedence: bulk
@@ -156,72 +156,88 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210728200607.GB17046@ojas>
+In-Reply-To: <20210728200039.GA17046@ojas>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
-X-Provags-ID: V03:K1:DeIGGVUdrfnruO4rIdJQWKQYbObfZ7KM4sEp4XmsEn+FCGLPWkz
- S4ODThUdJRT/JINK3AWPe0k+YLY0EU9JeQHFvW3Ohnm5pRAKiPK0w91toF2C2bxH/BJy5Z9
- gXdYw80ccuO7XUQX0VW9C7kKe+HoD/UIi1iRujiJqthy0ljorH2k/CfbsE5MTlc7F3DDrtU
- fdcqExMivDfIyadiMrFvw==
+X-Provags-ID: V03:K1:Y02/QiNk1rqxdEZqpvH6LPWZWQmS1z49+ItqAh9lz5CqbPuCJx6
+ Xx10OI8ZKB3zICBbT4nciA45GcnA3JNefNK2HF4rRclUJjsACPO5PEICyvIMDBV7bA9KFDa
+ 8hmwnhiCCTzU1XTkqKZsex/CDi4XcOSwpClIYb6lNK69kA0jo15oeGhmy9eZsEaz27AL5bK
+ eppL39S/B5I8AW6k9PV+g==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BFj7To6X8To=:4XzoaPkzO4dfvXNQApLTOj
- HZ0pxsmM0H38nYepblt57Zml5TUIM9V2+d/hloqZ+1PShB5dfk2NPs4n+twCjers7skP9DgQ6
- IEyI+dsv9A2gS/9iQxVfjm6U3Uw8AgfDPBqLubzcqfc+barPFVUuhxDpNIwdhBtek3ZY6W2Re
- lyK/P/v9c+hRlW1+uJrRzhbvAZRsxtuJlWgTrqvt5y0GJpAJ+9GxL+YkJ4SGIPTrYxDhIOqeQ
- NbydE0voeSepqN7RvC0EOkshLfOWLgQgDQJBkun1Jl+92aD5qvEwkjohBJeO/AceRK6U42qP/
- 4eWXFgGjH+5o5aTg+iuSv7R8ueQudsfYenB3T83TpEykJYDvaa2AT8Ix9ix69HBe3Q2nLtEEl
- xi8QXaB8HRubTRcWKyILCV0TIUBp70fLb6oCmfEvosb8efHiDLj9Oket0pPNhb+TRdd5NZj6f
- JpXQewwnVUW8v+In0kqyM52VX/VyaQg1hFozQ2y5GjeihRh06DafW/RI5uaNJgbkPVScD05hU
- 7jCYWqwv6Q29SPtx5hkH9fkbv88Zu5uCQhamEdGl1L3hhkokhYkrPFwr4IeUn38tA30j3uEPx
- zAgkPE71LMkGi7/2v5m0GN+wpLiPBfzIMrfjS1mrf0SLNndYf8jpiMEoLaNPGEAKHx5gRLiAA
- BYNjPyVqt0m/WVA64H4LFFo9s59n81B4qIBE57tF6jImJKw98u80UfmS98KivmRHQBNOccg0r
- PoCsrmimMZRWyi+arCBlnExFksVv3csBPiLu8ReEep+PoyxmpOGNm/cM1YXA9wqjkhDwxXtKt
- 5HvPoRNjaaI2SUWDTQA4WjMg2XePHGLkk9Uid3B2Vq+sDJo0EQY+rEZ3kFTZ2IvNBEZDZLYwg
- UgKYNfUVO1b5ap4YeSiw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Bc3SjN1snrY=:0nfGz+iBqRXTMIG6dxogik
+ Kvm2Sfhnrc/IdmNx94nSztQjae4gUKmx63Zvx7JFpwGf9FfbUq7b98FbAP018wL5Lm3+bggAX
+ SaVsMZUA2NoLU+LHMNdVuV8xK+TcmuLSQxgAe9DP9lhwJTWNlSGdivIbqtyGe+GV+YMatBFaO
+ 9F9IMGK0OuENGuo52d6yGHqdbnSgTuIOQihU4whwPuPpzgdgdypaulgyC11K2csuBDE6Cenfk
+ 0o3woT7WTb+xlj86e1FgRTj+NHPdG5oaRcx/fYzlnh20eX9J7mnPJIxz+H2mGTwZfjCAq25OL
+ RkFO4HZMwJ0GL/8uq1ZJHM2qAIP17nc1XVElF5DfPhl8l9FvOtmajaQoaezr1SJwKOGJNCK7O
+ 4AspcIgLxhTimxGR500aFnQYaoL49d38vet5CmcHjgLRw4zSoxq5kyWXKu/dDuV9bWuHeatGq
+ VWCJEMRaxkEwNGO5kcNAUX43rw1Qio5NIFCv1iU9l8KMHETExlfLwRfYs7fQMpGDBirjUQmD2
+ Sv9utEMrFvN4FcFOKjg0xILAvdsXaMXIpC3/EcRIW8qdF0FlNSNyLtOh10KABMoZrsRvKT5EU
+ iD4xQwGbzehxEFbWKUSIJjgaTNn/UnWfun2gYCpcSrl0XFiELm54dqWiKyuCmU32lrdL/MOC7
+ 80dSHas7Uft940n6sWEpWBI5ap5MMYU3Q2qjN3q/CoL9LCx2jYv429yr+lArvyi/0trabtTeJ
+ wm2mHi8TDHpNbKr5GM5ciTR7hapdyp8m+LmR740I5JPKe11nETeAZO/gEimF9dmXi18XWacnB
+ qeZfZRObEi5d6nJ+jHi1ltK7zWDADf+0iyzhNIWh9Or95TDe0D0qdYFr6D0ha2/82prJAs2X8
+ 0KluiawDB4IpLGMd+W3w==
 
-Am 28.07.21 um 22:06 schrieb Ojaswin Mujoo:
-> On Wed, Jul 28, 2021 at 08:45:55PM +0200, Greg KH wrote:
->> On Thu, Jul 29, 2021 at 12:07:16AM +0530, Ojaswin Mujoo wrote:
->>> Before this config was defined, the cdev used to be created
->>> unconditionally. When an earlier commit introduced this config, the
->>> default behavior was set to disabled, which might surprise some
->>> unsuspecting users.  Hence, make this config default to 'Y' to be mor=
-e
->>> backward consistent.
+Am 28.07.21 um 22:00 schrieb Ojaswin Mujoo:
+> On Wed, Jul 28, 2021 at 08:46:51PM +0200, Greg KH wrote:
+>> On Thu, Jul 29, 2021 at 12:07:17AM +0530, Ojaswin Mujoo wrote:
+>>> Add some details to the Kconfig definition of $CONFIG_VCHIQ_CDEV to h=
+elp
+>>> make the motive behind it a bit more clear.
 >>>
 >>> Signed-off-by: Ojaswin Mujoo <ojaswin98@gmail.com>
 >>> ---
->>>  drivers/staging/vc04_services/Kconfig | 1 +
->>>  1 file changed, 1 insertion(+)
+>>>  drivers/staging/vc04_services/Kconfig | 8 ++++++--
+>>>  1 file changed, 6 insertions(+), 2 deletions(-)
 >>>
 >>> diff --git a/drivers/staging/vc04_services/Kconfig b/drivers/staging/=
 vc04_services/Kconfig
->>> index 63caa6818d37..2b70c37cdd09 100644
+>>> index 2b70c37cdd09..cb02d8a4cb74 100644
 >>> --- a/drivers/staging/vc04_services/Kconfig
 >>> +++ b/drivers/staging/vc04_services/Kconfig
->>> @@ -23,6 +23,7 @@ if BCM2835_VCHIQ
->>> =20
->>>  config VCHIQ_CDEV
+>>> @@ -25,8 +25,12 @@ config VCHIQ_CDEV
 >>>  	bool "VCHIQ Character Driver"
->>> +	default y
->>
->> default y is only if the machine will not work without this option.
->> Is that the case here?  If not, then please do not have this as the
->> default.
-> Got it Greg.=20
+>>>  	default y
+>>>  	help
+>>> -		Enable the creation of VCHIQ character driver to help
+>>> -		communicate with the Videocore platform.
+>>> +		Enable the creation of VCHIQ character driver to help communicate
+>>> +		with the VideoCore platform. The cdev exposes ioctls used by
+>>> +		userspace libraries and testing tools to interact with VideoCore.
+>>> +		This can be set to 'N' if the VideoCore communication is not neede=
+d
+>>> +		by userspace but only by other kernel modules (like bcm2835-audio)=
+=2E
+>>> +		If not sure, set this to 'Y'.
+>> I still do not understand if I need this driver or not, and I have thi=
+s
+>> hardware!  What functionality does this driver accomplish?  What is
+>> VideoCore?
+> Hey Greg,
 >
-> From my testing, the Raspberry Pi does seem to boot correctly without
-> this although some userspace libraries might not work.=20
+> I believe I can add this under the CONFIG_BCM2835_VCHIQ config option,
+> as that enables the core driver that implements the functions to
+> communicate with VideoCore platform?=20
+
+Sorry, today i'm too tired to give a good explanation. VideoCore is the
+VPU inside the BCM283x SoC. It runs a firmware and VCHIQ provides a way
+to communicate with this firmware / VPU. The VCHIQ driver is required to
+get access to the audio jack and camera interface (see depending drivers)=
+=2E
+
+Unfortunately i don't have an application list by the hand which uses
+the CDEV interface for VCHIQ, please use this link [1] as a starting poin=
+t.
+
+[1] - https://github.com/raspberrypi/userland
+
 >
-> Since the machine itself works, I guess I'll drop this patch.
-
-The idea is good, but the patch needs improvement :)
-
-Acceptable solution might be that BCM2835_VCHIQ selects VCHIQ_CDEV.
-
+> This config option merely adds a cdev which exposes the the core
+> driver's functionality to userspace.=20
 >
-> Thank you!
+> Regards,
 > Ojaswin
 >> thanks,
 >>
