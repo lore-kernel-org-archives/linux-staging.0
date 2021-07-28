@@ -1,53 +1,53 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788B070
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 20:00:49 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id a20so4120409plm.0
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 13:00:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A249470
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 20:06:13 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id q17-20020a17090a2e11b02901757deaf2c8so5931718pjd.0
+        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 13:06:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=TJBawUD1aFfD+dzRqdwJ1MPEWpORtq7Fvvwh0fqmN4w=;
-        b=U5xnZ2ApxaMWnn7gJYnJAR8u59w7nGyYjuMteJJ5vh2utJ4V+34Hki0luScN94y1q5
-         NY7LJKxP0vdSs/BkhP4DvbU7p6TW8iGGLqYrsAgsXtFXw3z4kD6jfWlLcSNJq1dwldXH
-         csVkvbMVSaBdzCzmn4y28pFJJ6R7MAveCAHYupzmC5jABC4uID9rD1tNvWsHFP6EuitP
-         zz9zn2HchfkHh/FwP/LwNVEERNucc53wq7+yJRc3x98OP4+PY9iNN7tyJPbQ/rAj6XF4
-         LtutpaEF6eqyZtY0HfbHWNEuwDt0yVaHLSFCpzTkNwcr15QBhOkGoIRO60MThiEhkT1e
-         OyYA==
+        bh=oOXvanqkJmFK42acZmBqNZo5yXMDDdF902WjpDqKC4A=;
+        b=WnAwo5B+9Xwwuru6q9EGEhgLjvCcS6LlStfUh1WwP/Q5o3pUKz7vcGCwDWOMbHCf+y
+         vwCvUj3gT/ytNsLCG8dg5cf09Qu1agFSi0hpKEXqg2yrh7+HTfbTLj0N7lTi+DwAUA+c
+         wiR4zn4V2tQ14TJYRd7y2LPKBsbPk2OwmiRff/+J4AEDQGP5zEemUeX5fzPCV0DHnPEJ
+         x7E6m68JxBw48tNnED7NLEn4yeWsOJrRPymcV3InL99jm6wiaqKPuC5cRewZ+ECj610+
+         bTHswTQoEPjOzgkuA1cbYByHodXUmieFhfZQZTyrmxbT1QxE6ymTkLGJOmpwUyi5Rht+
+         HcgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=TJBawUD1aFfD+dzRqdwJ1MPEWpORtq7Fvvwh0fqmN4w=;
-        b=k7b+Usz9LLcYR7sRL6RjnO0ZhI4MQTcTg4vTHOuoa1AhTG3fMkfAhBSD9fTrWhXdiZ
-         Wq4sKpviZXmd2mFy5UeyawZymMvJxVp+Y1ZjIgOzlvhrwWXZ3WOPHHTwmIzCsDUTYyRm
-         +IDVtDQ6eYjeXZ1z2R3U2obLt01SSJtmxdKqESc4AOL02YQfbz+g0FAxQTOuQ1xInwbh
-         VzxzOZsFhKVy2PTDKHVugjRJiSGQidef3eFcY3d1xJMiGtoHEUea1y91hxsD4kqZ7uTG
-         SPA3nK5kdUqP1rrS0o70yXHXNfk+odtNs9OG4/HZbE4xujJCqOBz0Zvyvo0QKPGHl0rJ
-         HXQA==
-X-Gm-Message-State: AOAM530+yZrcj3uohMzQCBAqB5juZMSvXus5+Sd2cqEwyslUQRRUymtE
-	S2eeLAL2u/4I1GuJV/v200U=
-X-Google-Smtp-Source: ABdhPJxglSz5HVVd1rwyBjzRsuioP4LKmTyej4fYd6rxpo5LXhgxwUrQNYu6edeKN6oVLP3h57Ocvg==
-X-Received: by 2002:a17:90a:7505:: with SMTP id q5mr9437802pjk.64.1627502449011;
-        Wed, 28 Jul 2021 13:00:49 -0700 (PDT)
+        bh=oOXvanqkJmFK42acZmBqNZo5yXMDDdF902WjpDqKC4A=;
+        b=DLNuuk4dolKR112Z+qvHWtZIFVxQma0JTD5gQiaodG0bUS87WEMMyu8QAlxyH2bO45
+         KLFK7LEZ+AfAWhVRqm5lDjq7dagCm/OR4PUqApIFkohWE4j/FFYUxVOc/EvegkBPE6nt
+         9sMhYJyZg/lXGy4BMLksiMyvLAqqSgR7nvs6zx3tJiL72y3rIcEjm5g+F5Adm6aPrgKR
+         U09qW4S7B1Du4TDQCCEw+MUqhuyvj7+lky8CL/yb7/YDZ52E2L65fSrv9ylIPncHumBs
+         yxHBvu29SryhI3iZyj/Vy7ZtIQxcvd78cN55v4QBY5lHM+Pe6XQjviTqMetlIicZ6TfF
+         tcRg==
+X-Gm-Message-State: AOAM533V8fpmovGE5YWMwwGprUlm7r7yD21dkFh2T4fhGg6SVnd1Zzj+
+	DPCoI0yS/KNZltj5fEgGNqI=
+X-Google-Smtp-Source: ABdhPJxlPnIoSUgxvNTqCOCrs1RLNXp7nKQOGGNqWBmMeOHJQEVlDU7Jpe2FJKzo2NYHKr+EBZjihA==
+X-Received: by 2002:a17:90a:ead4:: with SMTP id ev20mr11244312pjb.65.1627502773141;
+        Wed, 28 Jul 2021 13:06:13 -0700 (PDT)
 Received: from ojas ([122.161.51.5])
-        by smtp.gmail.com with ESMTPSA id b13sm808153pfl.49.2021.07.28.13.00.45
+        by smtp.gmail.com with ESMTPSA id m11sm759503pgn.56.2021.07.28.13.06.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jul 2021 13:00:48 -0700 (PDT)
-Date: Thu, 29 Jul 2021 01:30:39 +0530
+        Wed, 28 Jul 2021 13:06:12 -0700 (PDT)
+Date: Thu, 29 Jul 2021 01:36:07 +0530
 From: Ojaswin Mujoo <ojaswin98@gmail.com>
 To: Greg KH <gregkh@linuxfoundation.org>
 Cc: nsaenz@kernel.org, stefan.wahren@i2se.com, dan.carpenter@oracle.com,
 	phil@raspberrypi.com, linux-arm-kernel@lists.infradead.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] staging: vchiq: Add details to $CONFIG_VCHIQ_CDEV
- help text
-Message-ID: <20210728200039.GA17046@ojas>
+Subject: Re: [PATCH 1/2] staging: vchiq: Set $CONFIG_VCHIQ_CDEV to be enabled
+ by default
+Message-ID: <20210728200607.GB17046@ojas>
 References: <cover.1627495116.git.ojaswin98@gmail.com>
- <9c9c128b41e31d6bebe646e052aa05c44b19eb83.1627495116.git.ojaswin98@gmail.com>
- <YQGmG6nwk+pOyAdu@kroah.com>
+ <70d91b0482e19d7551d3258ea54c970c1b996317.1627495116.git.ojaswin98@gmail.com>
+ <YQGl47Wpu7+SHIW+@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,48 +56,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YQGmG6nwk+pOyAdu@kroah.com>
+In-Reply-To: <YQGl47Wpu7+SHIW+@kroah.com>
 
-On Wed, Jul 28, 2021 at 08:46:51PM +0200, Greg KH wrote:
-> On Thu, Jul 29, 2021 at 12:07:17AM +0530, Ojaswin Mujoo wrote:
-> > Add some details to the Kconfig definition of $CONFIG_VCHIQ_CDEV to help
-> > make the motive behind it a bit more clear.
+On Wed, Jul 28, 2021 at 08:45:55PM +0200, Greg KH wrote:
+> On Thu, Jul 29, 2021 at 12:07:16AM +0530, Ojaswin Mujoo wrote:
+> > Before this config was defined, the cdev used to be created
+> > unconditionally. When an earlier commit introduced this config, the
+> > default behavior was set to disabled, which might surprise some
+> > unsuspecting users.  Hence, make this config default to 'Y' to be more
+> > backward consistent.
 > > 
 > > Signed-off-by: Ojaswin Mujoo <ojaswin98@gmail.com>
 > > ---
-> >  drivers/staging/vc04_services/Kconfig | 8 ++++++--
-> >  1 file changed, 6 insertions(+), 2 deletions(-)
+> >  drivers/staging/vc04_services/Kconfig | 1 +
+> >  1 file changed, 1 insertion(+)
 > > 
 > > diff --git a/drivers/staging/vc04_services/Kconfig b/drivers/staging/vc04_services/Kconfig
-> > index 2b70c37cdd09..cb02d8a4cb74 100644
+> > index 63caa6818d37..2b70c37cdd09 100644
 > > --- a/drivers/staging/vc04_services/Kconfig
 > > +++ b/drivers/staging/vc04_services/Kconfig
-> > @@ -25,8 +25,12 @@ config VCHIQ_CDEV
+> > @@ -23,6 +23,7 @@ if BCM2835_VCHIQ
+> >  
+> >  config VCHIQ_CDEV
 > >  	bool "VCHIQ Character Driver"
-> >  	default y
-> >  	help
-> > -		Enable the creation of VCHIQ character driver to help
-> > -		communicate with the Videocore platform.
-> > +		Enable the creation of VCHIQ character driver to help communicate
-> > +		with the VideoCore platform. The cdev exposes ioctls used by
-> > +		userspace libraries and testing tools to interact with VideoCore.
-> > +		This can be set to 'N' if the VideoCore communication is not needed
-> > +		by userspace but only by other kernel modules (like bcm2835-audio).
-> > +		If not sure, set this to 'Y'.
+> > +	default y
 > 
-> I still do not understand if I need this driver or not, and I have this
-> hardware!  What functionality does this driver accomplish?  What is
-> VideoCore?
-Hey Greg,
+> 
+> default y is only if the machine will not work without this option.
+> Is that the case here?  If not, then please do not have this as the
+> default.
+Got it Greg. 
 
-I believe I can add this under the CONFIG_BCM2835_VCHIQ config option,
-as that enables the core driver that implements the functions to
-communicate with VideoCore platform? 
+From my testing, the Raspberry Pi does seem to boot correctly without
+this although some userspace libraries might not work. 
 
-This config option merely adds a cdev which exposes the the core
-driver's functionality to userspace. 
+Since the machine itself works, I guess I'll drop this patch.
 
-Regards,
+Thank you!
 Ojaswin
 > 
 > thanks,
