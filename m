@@ -1,28 +1,29 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F0D70
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 18:46:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A6BD56056C;
-	Wed, 28 Jul 2021 18:46:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A2E3483
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 18:55:43 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6127E60F9B;
+	Wed, 28 Jul 2021 18:55:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1627498013;
-	bh=4pYDQiXD1f15dcdtVWaMSRnaxJqMqA5JSOuuTmecDlY=;
+	s=korg; t=1627498542;
+	bh=9zzJ3Jm5htU4Noed99vYY+Z7L4GodhLuLn7PTmd2Xec=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Jr3JnTCbrw0xAzoeLMwfkhfCHjG9QY5Q+S0FytPjPllEBbNNkH8yU7dTNdYCGQAZL
-	 0OA1WutivUX891vzWTVUMQ3IUpRyk/4q2mu3sH3fREc3uQJ0BIxZWauJomd4Gyhg7C
-	 NRr2lvWHJQdgZZDjGTaMRqRxo0c5MddK4hBxoMJk=
-Date: Wed, 28 Jul 2021 20:46:51 +0200
+	b=Wimi91y0rQ+X4+9Wv0hYaI+wRYIVaubHDnNkVCj4NXADLqxnNrX4FmdkJzcW7eRIF
+	 AJxZRbGnE55xLawF4OshI3fulfhsmmp5sd5MEtpLj38RaCkamTnKtHNUYnQqIczspQ
+	 40Psjps3ZtSnwMVIBVCxs4NHpObOW3vCBROerxOo=
+Date: Wed, 28 Jul 2021 20:55:40 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Ojaswin Mujoo <ojaswin98@gmail.com>
-Cc: nsaenz@kernel.org, stefan.wahren@i2se.com, dan.carpenter@oracle.com,
-	phil@raspberrypi.com, linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] staging: vchiq: Add details to $CONFIG_VCHIQ_CDEV
- help text
-Message-ID: <YQGmG6nwk+pOyAdu@kroah.com>
-References: <cover.1627495116.git.ojaswin98@gmail.com>
- <9c9c128b41e31d6bebe646e052aa05c44b19eb83.1627495116.git.ojaswin98@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>
+Cc: Phillip Potter <phil@philpotter.co.uk>, dan.carpenter@oracle.com,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	fabioaiuto83@gmail.com, martin@kaiser.cx
+Subject: Re: [PATCH v4 0/6] staging: r8188eu: add newer/better RTL8188eu
+ driver
+Message-ID: <YQGoLPnL8s2buxFe@kroah.com>
+References: <20210727232219.2948-1-phil@philpotter.co.uk>
+ <YQGenmf2m3Tu7FFg@kroah.com>
+ <9902deed-021c-ad37-7fc7-f4279886c683@lwfinger.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,37 +32,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9c9c128b41e31d6bebe646e052aa05c44b19eb83.1627495116.git.ojaswin98@gmail.com>
+In-Reply-To: <9902deed-021c-ad37-7fc7-f4279886c683@lwfinger.net>
 
-On Thu, Jul 29, 2021 at 12:07:17AM +0530, Ojaswin Mujoo wrote:
-> Add some details to the Kconfig definition of $CONFIG_VCHIQ_CDEV to help
-> make the motive behind it a bit more clear.
+On Wed, Jul 28, 2021 at 01:41:15PM -0500, Larry Finger wrote:
+> On 7/28/21 1:14 PM, Greg KH wrote:
+> > Hm, I thought this would be in better shape than it is.
+> > 
+> > Right now we have 107 .c and .h files in drivers/staging/rtl8188eu/ that
+> > come to a total of 44597 lines.
+> > 
+> > So we are taking double the size here?
+> > 
+> > I'm all for putting a "better" driver in here, but this feels odd to
+> > me...  Is there major new functionality here that is not in the existing
+> > driver to justify this?
+> > 
+> > Ok, let's see how this goes, I'll give it a few weeks to see how much
+> > can easily be fixed up to hopefully get back to at least close the
+> > existing driver size...
 > 
-> Signed-off-by: Ojaswin Mujoo <ojaswin98@gmail.com>
-> ---
->  drivers/staging/vc04_services/Kconfig | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/vc04_services/Kconfig b/drivers/staging/vc04_services/Kconfig
-> index 2b70c37cdd09..cb02d8a4cb74 100644
-> --- a/drivers/staging/vc04_services/Kconfig
-> +++ b/drivers/staging/vc04_services/Kconfig
-> @@ -25,8 +25,12 @@ config VCHIQ_CDEV
->  	bool "VCHIQ Character Driver"
->  	default y
->  	help
-> -		Enable the creation of VCHIQ character driver to help
-> -		communicate with the Videocore platform.
-> +		Enable the creation of VCHIQ character driver to help communicate
-> +		with the VideoCore platform. The cdev exposes ioctls used by
-> +		userspace libraries and testing tools to interact with VideoCore.
-> +		This can be set to 'N' if the VideoCore communication is not needed
-> +		by userspace but only by other kernel modules (like bcm2835-audio).
-> +		If not sure, set this to 'Y'.
+> The major new functionality is that the new one uses cfg80211, whereas the
+> old one uses the WEXT calls.
 
-I still do not understand if I need this driver or not, and I have this
-hardware!  What functionality does this driver accomplish?  What is
-VideoCore?
+Ok, that's worth it alone.
+
+> It really is an improvement. It just needs a severe cleanup.
+> 
+> I warned you that this code was rough. It took me several weeks to get the
+> old one "ready" for staging. I never devoted that effort to the new one, and
+> you wanted it in a place where multiple authors could improve it.
+
+Fair enough, I did ask for it :)
+
+I'll go through and do a license cleanup tomorrow morning to start with,
+that should knock a bunch of lines off right away...
 
 thanks,
 
