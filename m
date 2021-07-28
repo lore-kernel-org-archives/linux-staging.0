@@ -1,102 +1,92 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8BF3481
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 16:00:29 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id mt6so5878374pjb.1
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 09:00:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yc5UbwPjJQACVbhvjLg+y5j4VZ0+YIpYUrLOrohGgkY=;
-        b=qx5DLqsbVm3pDju2VSYfAbQl88h0B1EVxHBtlFut/6ctc/nH5qKeikqQP8qDzv5eLz
-         4dXp4+bODSNL0hCZEqkcoIXwwgNai7tOfbtTXvvAJFOhkqKw4/R92jWdwWtXJ9MEEJsN
-         ro5LWDnEwbyRH9wKa5r5HNbWgvifvNoGYREpxyTCfDqcz+X9QWsBCb1IwHoUy5UGvqKn
-         D2CJREa3Lxf2IUklMIDwvcd8J2lFtg8zk4OMK/DqNxMeWeYh3PgASpIsx6JZRzQy1X5/
-         PpueJOCkPwHVbIzp97vF2w551yq7JhJQDq7PAJox8mAqy6DFKelLwFc9oSxgYgQ4xlnG
-         MF2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yc5UbwPjJQACVbhvjLg+y5j4VZ0+YIpYUrLOrohGgkY=;
-        b=gozuciV7XOaFxpvUVZ11a2pnjB+EsyBvb1tLo665ARZeXKK4lHKCCDlLJyqEFZsZTc
-         jaLU04ExPeCOXBgwK1OEFAqcfXSF4QIfxQyhKC6iC9SWPuziYUyHylp5Ll88mbxNKDJn
-         6bQWviotaj/tVgldBx0o7FrwYRKZUs+kMLOLdfrr/Do4HHM9VLLc/0avFbmRyDUWopoF
-         PKilX2+Kid1aCBoykpWBFQaX1pKbbRwfJAGbhZj/wXL6ZLKtpvWPlVficSgHSUz3Yxaj
-         6scoGf6Mia3e+UX+Cm2HhfrTZ0YYdk7dKT0IY/1e7JezsG2ssxei42Fg3fxRSoHDRSWU
-         z41A==
-X-Gm-Message-State: AOAM533TbI/lj+EET1kip/xRCQfr5wX8fropNuldgO6XS52HL+hHT1uH
-	v4NWhcLYmBOz6/FJnSED2o0CdOOVCKmwLZJLuCMZiA==
-X-Google-Smtp-Source: ABdhPJz2logvFN0MKIsYvPCI7xECU1r0uANCc3AQ/xrgU3X9/gvm7fwRg8jd0KyK/HMYlIFMJe0A74gaDSUTZUqwKDo=
-X-Received: by 2002:a65:6181:: with SMTP id c1mr507765pgv.208.1627488028807;
- Wed, 28 Jul 2021 09:00:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 786CC72
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 17:45:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=badeba3b8450; t=1627494340;
+	bh=2YMhgIVFIpcFYWrl8VJ85b+omZYWYfbhao4JskYXmfA=;
+	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QREbQZUT8kwSfosauDEsPlBbSoda1IM1ZVRr5LDA/PGpWG0w8ytC+ceEKwioqdxv0
+	 wFBBCP6FFwowoyKa4YaxtjjOYkIHDPQowxsp3NP1Oyb9zF2rWFzy0KewEYZFX8D7wI
+	 QI4rw/iuXcSL7tw/OPLCECPqtqKf4goxfd7dnzQk=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from titan ([79.150.72.99]) by mail.gmx.net (mrgmx004
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1MTzay-1mZqfR3MwM-00R2QF; Wed, 28
+ Jul 2021 19:45:39 +0200
+Date: Wed, 28 Jul 2021 19:45:27 +0200
+From: Len Baker <len.baker@gmx.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Len Baker <len.baker@gmx.com>, David Laight <David.Laight@ACULAB.COM>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging/rtl8712: Remove all strcpy() uses in favor of
+ strscpy()
+Message-ID: <20210728174527.GA4275@titan>
+References: <20210717155145.15041-1-len.baker@gmx.com>
+ <20210719053747.GN1931@kadam>
+ <de94438319a84e0985b3ba0f5c00807b@AcuMS.aculab.com>
+ <20210721080624.GV1931@kadam>
+ <20210723151510.GB2612@titan>
+ <20210726081148.GF1931@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210727232219.2948-1-phil@philpotter.co.uk> <20210728074605.pp5rs4c65tofnqot@viti.kaiser.cx>
-In-Reply-To: <20210728074605.pp5rs4c65tofnqot@viti.kaiser.cx>
-From: Phillip Potter <phil@philpotter.co.uk>
-Date: Wed, 28 Jul 2021 17:00:18 +0100
-Message-ID: <CAA=Fs0mH9YAVhr24YeE3jpZrnuDGhOuhj=Sb9Ekkpb-xoC5LYg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/6] staging: r8188eu: add newer/better RTL8188eu driver
-To: Martin Kaiser <martin@kaiser.cx>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
-	Dan Carpenter <dan.carpenter@oracle.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev, 
-	Fabio Aiuto <fabioaiuto83@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210726081148.GF1931@kadam>
+X-Provags-ID: V03:K1:hnORNkYY4j+OZ3r38+/VcZ/3w+bN0YS8S8yFZW3qYLNo/MWSVqo
+ qrB9gEDvTKlMYbg6Rt0ZUEkkymy8/NclpbYwQ/fhdKb7epTgMz7hU/a3suNZPQbIPaZIjHe
+ 76twIOkEP3ikinwHCQIWAVs0WBYq5wXCF8faIS3sIxYQmiQDsBmER+s0n9Z977ZO5HRnwYz
+ fxNKplQn3LrVEAMc7v5HQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:nzhPRzZcdSk=:p01CsDRAtKqDdFLPAFRumF
+ UFFU4lPZFUf842WUS1CEBxpOxzEv7QGl4z+zOWwWQpR58lHtoXCbO+ysC+u6php6w1t+RdMax
+ JLhkrxLEvY1vQNtjWAkFsrlogEPhfkrfZ24by7FaQ6nskC7LjkknH9owq2wE/gMfUmTwfja0f
+ n/bD6HGSzkUk5Gqh+f720C0gS9JJ3Q9VIjvRA7ceboMl/LRHtu9BVslFby7XpRbiaGGgBm3gn
+ AlmTADtrwlVmFiyfTjkubSmsVlYlXnYILDr2tEEjkqdOEfEQu6HTjb2+r581gMZ7NNMq9NG8L
+ 02b9AMMYpC9urkaJRsE7v8NZClZx6IDRIooqPbPnC+VmqjZRsB0g+8zVj1U4ZkwEo3RJspAbW
+ cNHLnmGqiPERrsyrel6LchFwDFczOif0rWEF/w4KaFkMCNYIWEHxFuNUE3g8EOo7uKGFEy6ON
+ mCa9ztsTdUe8vKdhP+HaFRaIRe1yD0bicYa4lhILPZf41ERNNwZV4hZU7wxJ0hX9tfxvbGcOJ
+ KYOrEtOor1wE7DdlaN4OLSLo0CwyeDP+/Gs/5pNsYS7aLdscC3yUMoAXAQq+Ta35ZtxazuzQ6
+ AsExNf6+t89hnbg+giTG8jqf4vcxGgvLG4GlFHhbNn9daR3NHF6ae7fdZcIHkQL1SCsxmVbTk
+ zKrCG718rVnbrLYDcI3pijbGgArPnRqdBg68x1AkXlANaM2utsexCZ1X+4nBdmD9tsINnBjgY
+ 3smiWy14KPuEqq+LfbGhhw3sy6lCS8GQROHiGw/NVRBKgaT7zq2sx4EtugWaz6glVgwj8fN8I
+ kwgHWDK7K2PGXrhoLpiwBqjTUO3u0vtKhi/J2RoXZhQ9lYkK/SDASYM5dyLEmKKgrqxXQ8AHN
+ nfOIiXHDfhnla8zYFueaeh9ajYr6Zj/dUneyEf5vSyoBia874nasH3PJRNUR/Rf8c9pge+Hnh
+ RQMecIORr8lj845Eq1rDm+690XseI7OO90lX3M5+UxCJh5ZriPtRuynzYR3xG0FSrjVP4efcH
+ vOaiHIP6TiAJSZnyufChQeEkdlQAjDWzoVE/emCEsD1RdBU7zIYPOoBdfjQbFxkqJOGhxKy+g
+ cg81Ml1OkhUWP/HYn5fCMH5sEFj0UkWteA9
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 28 Jul 2021 at 08:46, Martin Kaiser <martin@kaiser.cx> wrote:
+On Mon, Jul 26, 2021 at 11:11:48AM +0300, Dan Carpenter wrote:
+> On Fri, Jul 23, 2021 at 05:15:10PM +0200, Len Baker wrote:
+> > Hi,
+> >
+> > On Wed, Jul 21, 2021 at 11:06:24AM +0300, Dan Carpenter wrote:
+> > > On Mon, Jul 19, 2021 at 03:24:38PM +0000, David Laight wrote:
+> > > >
+> > > > I know only root can set module parameters, but having one
+> > > > that contains a string used as a printf format seems
+> > > > dangerous at best.
+> > > >
+> > > > Isn't it best to let userspace rename the interfaces later on?
+> > >
+> > > Yeah.  I think you're right.
+> >
+> > Sorry, but I don't understand if the code needs to be improved or not.
+> > Is the code shown by Dan not correct?
 >
-> Hi Philipp and all,
->
-> Thus wrote Phillip Potter (phil@philpotter.co.uk):
->
-> > The driver currently in staging is older and less functional than the
-> > version on Larry Finger's GitHub account, based upon v4.1.4_6773.20130222.
-> > This series of patches therefore:
->
-> [...]
->
-> > V4: don't remove old driver now, just mark as deprecated and modify to
-> >     allow building alongside the new driver.
->
-> Basically, you're suggesting to put aside all the fixes and cleanup
-> that was done since the rtl8188eu driver was imported into the kernel
-> tree. The TODO file says
->
-> - merge Realtek's bugfixes and new features into the driver
->
-> Why aren't we going down this route?
->
-> Edimax offer a realtek driver linux_v5.7.6.1_36803.20200602 for
-> rtl8188eu as a .zip file for download on their website
->
-> https://www.edimax.com/edimax/mw/cufiles/files/download/Driver_Utility/EW-7811Un_V2/EW-7811Un_V2_Linux_Driver_1.0.1.2.zip
->
-> If we integrate and fix the v4.1.4_6773.20130222 driver, are we running
-> the risk that someone else will come along and propose another replacement?
->
-> Thanks,
-> Martin
+> We should remove the ifname[] array and the module option completely.
 
-Dear Martin,
-
-I see what you are saying for sure - I think we've both sunk a fair
-few patches into the existing driver :-)
-
-That said, from what Larry has mentioned, this newer driver would
-still be a better bet overall due to the additional work that has
-already happened on it out-of-tree. The Realtek driver you reference
-probably has no CFG80211 support etc. would be my guess, but I am
-going off what others have suggested in terms of proposing this
-patchset. I can't honestly say what the risk of this happening again
-would be, but minimal I'd imagine.
+Thanks for the clarification.
 
 Regards,
-Phil
+Len
