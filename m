@@ -1,164 +1,133 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD92B72
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 09:11:22 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id y12so2224234edo.6
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 02:11:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kHu9+6E3zn3Ify2B2lOQHD4xYOeH4mkuojnrDPfbLrs=;
-        b=tJRTn0Aw/Lz17zLOr8JStE7vmiULzbTCrgxSRnWNqfUASOmkZmaLj5z3FFVeJbj8W6
-         keHsK+fCOsoJIXgFQ06EVUIW0w7lNcrdg6qUG2f8MSrnNHIap9h1pge9AMWCZQJeea1D
-         wnnr7+G5JRCZXhJtirmftEY7nnGBj5gUYFYr47XV7ym0W8JXhEgxkqy/yaxrZaqITyAZ
-         XttsmbesVwsrApKaXMtzbGwZHwl0LBywoMutXyNYc30Gfp9tJCbA3/JjEtsRWsRhqPCY
-         5NJOhP3MK6kkQnrBo8fovNHPHD1BRwZLbv7/XnJxK276wdqzZWTZs6b620gtZfOMYLbI
-         286A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kHu9+6E3zn3Ify2B2lOQHD4xYOeH4mkuojnrDPfbLrs=;
-        b=Ljo5+Q30CdnUtsOokdbyDilKIyJzCYMViOaPiZw2hPBzhpQWoizaO9pMF+ttxqNmAP
-         ExnX/fbeKIa+wOJvQtYEcutFYapm3kcvNF7J7uDtv3FrXWZHpLCxWdHDKbltTDsot30S
-         5h8k2mwzCDm5oFXxowEp8oA9dmmtsvR4u8WzDy+TmrRoGB+RbGoqkdHk8B2GAqAqDmYh
-         PQ17XJcUOY3FhXolJHbssJUQR5SrZjFvkVnm3CltB+/5Hq7C/xl9zxA4gzorVIYpCdmA
-         DWIz4jX89mMs/nrl67YYop+z9A1iG+OTAeUpAPTneLOEjqUBSyig9UaGwCz/JFSUUdgE
-         JiGQ==
-X-Gm-Message-State: AOAM5317b6zHN7fqdtxPm/+GvsQWDc7M9M31Xuxblo6soBaSzYKBfJ++
-	Ck6PnnERKKJd4IEYJtYUWlU=
-X-Google-Smtp-Source: ABdhPJwrPbMTSNU5gFEP1jlzNu8I+TKcA5TYvt7qK1Ujs40LBiGwvrtIU/lVznzUnGeDXkBa9XMzJw==
-X-Received: by 2002:aa7:c7c2:: with SMTP id o2mr33022193eds.166.1627463481178;
-        Wed, 28 Jul 2021 02:11:21 -0700 (PDT)
-Received: from localhost.localdomain (host-79-26-32-124.retail.telecomitalia.it. [79.26.32.124])
-        by smtp.gmail.com with ESMTPSA id p18sm2322828edu.8.2021.07.28.02.11.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jul 2021 02:11:20 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784CD72
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 09:13:07 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by comms.puri.sm (Postfix) with ESMTP id 41581E0E7D;
+	Wed, 28 Jul 2021 02:13:01 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id zuZBgGbAAueh; Wed, 28 Jul 2021 02:12:56 -0700 (PDT)
+From: Martin Kepplinger <martin.kepplinger@puri.sm>
+To: laurent.pinchart@ideasonboard.com,
+	dafna.hirschfeld@collabora.com,
+	shawnguo@kernel.org
+Cc: devicetree@vger.kernel.org,
+	festevam@gmail.com,
+	kernel@pengutronix.de,
+	kernel@puri.sm,
+	krzk@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-imx@nxp.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH v2] staging: rtl8723bs: core: Fix incorrect type in assignment
-Date: Wed, 28 Jul 2021 11:11:17 +0200
-Message-Id: <20210728091117.6235-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.32.0
+	m.felsch@pengutronix.de,
+	mchehab@kernel.org,
+	phone-devel@vger.kernel.org,
+	robh@kernel.org,
+	slongerbeam@gmail.com,
+	Martin Kepplinger <martin.kepplinger@puri.sm>
+Subject: [PATCH v10 0/3] media: imx: add support for imx8mq MIPI RX
+Date: Wed, 28 Jul 2021 11:12:42 +0200
+Message-Id: <20210728091245.231043-1-martin.kepplinger@puri.sm>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Fix sparse warnings: incorrect type in assignment (different base types).
+hi,
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
+This patch series adds a driver for the i.MX8MQ CSI MIPI receiver / controller.
 
-v1 --> v2:
-Fix incorrect indentation of the fields of a union. Problem detected by
-Greg Kroah-Hartman.
+It includes the driver, the dt-bindings and the DT addition to the SoC dtsi.
+I test it using libcamera. Thanks to Laurent who helped a lot. I'm happy for
+any feedback,
 
- drivers/staging/rtl8723bs/core/rtw_security.c | 31 +++++++++++--------
- 1 file changed, 18 insertions(+), 13 deletions(-)
+                           martin
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index a99f439328f1..8b507f6a447e 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -35,8 +35,10 @@ const char *security_type_str(u8 value)
- */
- void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
- {																	/*  exclude ICV */
--
--	unsigned char crc[4];
-+	union {
-+		__le32 f0;
-+		unsigned char f1[4];
-+	} crc;
- 
- 	signed int	curfragnum, length;
- 	u32 keylength;
-@@ -69,18 +71,18 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 
- 				length = pattrib->last_txcmdsz-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
- 
--				*((__le32 *)crc) = ~crc32_le(~0, payload, length);
-+				crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
- 
- 				arc4_setkey(ctx, wepkey, 3 + keylength);
- 				arc4_crypt(ctx, payload, payload, length);
--				arc4_crypt(ctx, payload + length, crc, 4);
-+				arc4_crypt(ctx, payload + length, crc.f1, 4);
- 
- 			} else {
- 				length = pxmitpriv->frag_len-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
--				*((__le32 *)crc) = ~crc32_le(~0, payload, length);
-+				crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
- 				arc4_setkey(ctx, wepkey, 3 + keylength);
- 				arc4_crypt(ctx, payload, payload, length);
--				arc4_crypt(ctx, payload + length, crc, 4);
-+				arc4_crypt(ctx, payload + length, crc.f1, 4);
- 
- 				pframe += pxmitpriv->frag_len;
- 				pframe = (u8 *)round_up((SIZE_PTR)(pframe), 4);
-@@ -121,7 +123,7 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
- 		arc4_crypt(ctx, payload, payload,  length);
- 
- 		/* calculate icv and compare the icv */
--		*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
-+		*((u32 *)crc) = ~crc32_le(~0, payload, length - 4);
- 
- 	}
- }
-@@ -464,7 +466,10 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 	u32 pnh;
- 	u8 rc4key[16];
- 	u8   ttkey[16];
--	u8 crc[4];
-+	union {
-+		__le32 f0;
-+		u8 f1[4];
-+	} crc;
- 	u8   hw_hdr_offset = 0;
- 	signed int			curfragnum, length;
- 
-@@ -506,19 +511,19 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 
- 				if ((curfragnum+1) == pattrib->nr_frags) {	/* 4 the last fragment */
- 					length = pattrib->last_txcmdsz-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
--					*((__le32 *)crc) = ~crc32_le(~0, payload, length);
-+					crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
- 
- 					arc4_setkey(ctx, rc4key, 16);
- 					arc4_crypt(ctx, payload, payload, length);
--					arc4_crypt(ctx, payload + length, crc, 4);
-+					arc4_crypt(ctx, payload + length, crc.f1, 4);
- 
- 				} else {
- 					length = pxmitpriv->frag_len-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
--					*((__le32 *)crc) = ~crc32_le(~0, payload, length);
-+					crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
- 
- 					arc4_setkey(ctx, rc4key, 16);
- 					arc4_crypt(ctx, payload, payload, length);
--					arc4_crypt(ctx, payload + length, crc, 4);
-+					arc4_crypt(ctx, payload + length, crc.f1, 4);
- 
- 					pframe += pxmitpriv->frag_len;
- 					pframe = (u8 *)round_up((SIZE_PTR)(pframe), 4);
-@@ -618,7 +623,7 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
- 			arc4_setkey(ctx, rc4key, 16);
- 			arc4_crypt(ctx, payload, payload, length);
- 
--			*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
-+			*((u32 *)crc) = ~crc32_le(~0, payload, length - 4);
- 
- 			if (crc[3] != payload[length - 1] || crc[2] != payload[length - 2] ||
- 			    crc[1] != payload[length - 3] || crc[0] != payload[length - 4])
+revision history
+----------------
+v10: (thank you Dafna)
+* improve send_level documentation.
+* add some comments to 0x180 and 0x184
+* after re-reading I could eliminate the unneeded setting of 0x184 (ignored
+  by setting 0x180 to 1).
+
+v9: (thank you Laurent)
+* improve getting the esc clock rate for hs_settle
+https://lore.kernel.org/linux-media/20210726082117.2423597-1-martin.kepplinger@puri.sm/
+
+v8: (thank you Laurent)
+* calculate hs_settle for any clk rate and mode
+* add reviewed-by tag
+https://lore.kernel.org/linux-media/20210723101217.1954805-1-martin.kepplinger@puri.sm/T/
+
+v7: (thank you Laurent and Rob)
+* fix the binding example (include the reset driver)
+* use pm_runtime_resume_and_get()
+* fix some logic in init_cfg()
+* add some useful code comments and fix minor bits found by Laurent in v6
+https://lore.kernel.org/linux-media/20210716102244.581182-1-martin.kepplinger@puri.sm/T/#t
+
+v6: (thank you Laurent and Rob)
+* add reviewed-by tag to binding
+* statically allocate clk_bulk_data
+* fix how the hs_settle value is applied
+* remove s_power calls
+* remove the link_setup() callback implementation and make the link immutable
+* more cleanups according to Laurents' review from v5
+https://lore.kernel.org/linux-media/20210714111931.324485-1-martin.kepplinger@puri.sm/
+
+v5: (thank you Laurent)
+* fix reset usage by using the already supported reset controller driver
+* remove clko2 (totally unrelated clock / had been included by accident)
+* rename pxl clock to ui
+https://lore.kernel.org/linux-media/20210618095753.114557-1-martin.kepplinger@puri.sm/
+
+v4: (thank you Rob and Marco)
+* create fsl,mipi-phy-gpr custom dt property instead of confusing "phy"
+* add imx8mq-specific compatibile to imx8mq.dtsi for future use
+https://lore.kernel.org/linux-media/20210614121522.2944593-1-martin.kepplinger@puri.sm/
+
+v3: (thank you, Rob and Laurent)
+among minor other things according to v2 review, changes include:
+* better describe the clocks
+* rename DT property "phy-reset" to "reset" and "phy-gpr" to "phy"
+https://lore.kernel.org/linux-media/20210608104128.1616028-1-martin.kepplinger@puri.sm/T/#t
+
+v2: (thank you, Dan and Guido)
+among fixes according to v1 reviews, changes include:
+* remove status property from dt-bindings example
+* define a few bits in order to have less magic values
+* use "imx8mq_mipi_csi_" as local function prefix
+* read DT properties only during probe()
+* remove dead code (log_status)
+* add imx8mq_mipi_csi_release_icc()
+* fix imx8mq_mipi_csi_init_icc()
+https://lore.kernel.org/linux-media/20210531112326.90094-1-martin.kepplinger@puri.sm/
+
+v1:
+https://lore.kernel.org/linux-media/20210527075407.3180744-1-martin.kepplinger@puri.sm/T/#t
+
+
+Martin Kepplinger (3):
+  dt-bindings: media: document the nxp,imx8mq-mipi-csi2 receiver phy and
+    controller
+  media: imx: add a driver for i.MX8MQ mipi csi rx phy and controller
+  arm64: dts: imx8mq: add mipi csi phy and csi bridge descriptions
+
+ .../bindings/media/nxp,imx8mq-mipi-csi2.yaml  | 174 +++
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 104 ++
+ drivers/staging/media/imx/Makefile            |   1 +
+ drivers/staging/media/imx/imx8mq-mipi-csi2.c  | 991 ++++++++++++++++++
+ 4 files changed, 1270 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+ create mode 100644 drivers/staging/media/imx/imx8mq-mipi-csi2.c
+
 -- 
-2.32.0
+2.30.2
 
