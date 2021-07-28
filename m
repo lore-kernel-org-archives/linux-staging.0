@@ -1,54 +1,54 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57213484
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 21:56:32 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id j1so7235646pjv.3
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 14:56:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 238FE3484
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 21:59:16 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id f13so4453692plj.2
+        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 14:59:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=date:from:to:subject:message-id:references:mime-version
+        h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=HZwmvCaIsPtNlFau8xRfO0wSxpkKiZeYhRsp0hhs6yw=;
-        b=hOKYAGtG8p+bAHn079A+GM3Py/fP7BGZDuwsW4Mjq9e8qxEHkXaIX8EFN5D2fIwLEi
-         ZFtJ1zO9oQPVoZsB0XSK72Q2e/dGGKnZNiWhA/JY3Rin/dkgbv2Nf8xBAGlU16+rs1d5
-         sh9E8Z/HoNqY67Kuijgp3iycbdTBVU2mbaxLE=
+        bh=ry2so8wkWIDOCG/sQogiwuE+9Zyl4IrepEHbauTvq4U=;
+        b=IGRqrDLsPrMGIokLAHHitBXrTGx8ldPYhQZ0vhlO7BwqLTxHuG39KqoD+0xySdQDeZ
+         wOes72WlsRRJac/rz2gEpxXYvtLZ6bSaZfmQarX0qm7P2LxswesUfd9AKF5i4JhugBhi
+         nx2jk3HjG5WlS1z72s2XLwsxgebFqKKL6xJwA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=HZwmvCaIsPtNlFau8xRfO0wSxpkKiZeYhRsp0hhs6yw=;
-        b=V2FhvkW+dOg06NlikgrxiacbFES0mLmoEu4JUu8VzEz2+80EyH8+GSovp6Gy/bSgrm
-         Uiw+54/6hW3OM4kMWyfmy95tV3GhlmXlntCeoWFvvd+kc4UUDBzRoJXCjMKsitNm6X3m
-         HHWQxZ+A4FcJ55BGI6hKxbSHZ2xEq0YdZF3hFqAVJqYdHOa4JWuohhjMOkmpayoK+8xE
-         tDpUN1qL6GKA6Tqlk4IeJQH6u6XBq9YWp5gPRjNQbKJU2nLGUbudDUGpXaKxuZogN1km
-         9yfWdMdut2cn3hw04j2TyR0sXpn2vjD5NvNmLYbisHJx5rU+hXq2GzeiJvaL3mqT2vq8
-         Teig==
-X-Gm-Message-State: AOAM531If6sLGXbbaDWpy8QFDfNUfW2E8G5bfGqFnqOjoaRSy8W8N9bL
-	XP2s7WDf7+ySyZmpdXnPkJ8YAA==
-X-Google-Smtp-Source: ABdhPJzYF1ZeTn1uxmA0auYJjoAviEKmg5jmTnExS/QLj8lRKV0fiEUKYsUTv/gKWeJm4puGljAjtg==
-X-Received: by 2002:a17:90a:44:: with SMTP id 4mr1792767pjb.130.1627509392397;
-        Wed, 28 Jul 2021 14:56:32 -0700 (PDT)
+        bh=ry2so8wkWIDOCG/sQogiwuE+9Zyl4IrepEHbauTvq4U=;
+        b=tEFoeC2s+2XeEaqaXi7rtNIEnjlrom8nzZK4WHrQr0M2iTux314TRnu2YrjPYFpt5q
+         4WpUg9gcgsyYwDmvIvFF3wf7xj91PVQugwEKoP2+8YhI6/EGcrYqbOkHMyH8p0HUIs+U
+         yPtu89TN1bBaf2S6w7UO06aSslha4F9Xn/XvPXjczJ5UDQXnpruMhVayveMnth+BKimd
+         sf6cSoGB2j8szm7QuT0ovrbF4fj+bTAoVXrRSdC+eKOaKcUHL8eG1zZkk7pWMERiwKNo
+         z3JTUaUX8oJG4uy7r6bfY45oFWe9+qmwbcWI4v6frdPfOowyyoOKR6KsLA1RnTsUyruQ
+         iuzw==
+X-Gm-Message-State: AOAM533I+E6H++Dd5rL39gIZPaKNHIQ5Cwh3+IutezWS4lBA8XYEqtL7
+	zpVXiZL/uMGyy7FwnVLhvIETeg==
+X-Google-Smtp-Source: ABdhPJzgz5HqNdUbzYWG/8osCsOtCEP6ipgHXlpT0b4bkWx62GdyxJFdtfEBDYACX8aQ6iHvHf/hRw==
+X-Received: by 2002:a65:498a:: with SMTP id r10mr928037pgs.7.1627509555798;
+        Wed, 28 Jul 2021 14:59:15 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id k8sm947353pgr.91.2021.07.28.14.56.31
+        by smtp.gmail.com with ESMTPSA id 30sm1011862pgq.31.2021.07.28.14.59.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jul 2021 14:56:31 -0700 (PDT)
-Date: Wed, 28 Jul 2021 14:56:31 -0700
+        Wed, 28 Jul 2021 14:59:15 -0700 (PDT)
+Date: Wed, 28 Jul 2021 14:59:14 -0700
 From: Kees Cook <keescook@chromium.org>
-To: dsterba@suse.cz, linux-hardening@vger.kernel.org,
+To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: linux-hardening@vger.kernel.org, Keith Packard <keithpac@amazon.com>,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Keith Packard <keithpac@amazon.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
 	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
 	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH 47/64] btrfs: Use memset_after() to clear end of struct
-Message-ID: <202107281455.2A0753F5@keescook>
+Subject: Re: [PATCH 04/64] stddef: Introduce struct_group() helper macro
+Message-ID: <202107281456.1A3A5C18@keescook>
 References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-48-keescook@chromium.org>
- <20210728094215.GX5047@twin.jikos.cz>
+ <20210727205855.411487-5-keescook@chromium.org>
+ <41183a98-bdb9-4ad6-7eab-5a7292a6df84@rasmusvillemoes.dk>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,51 +57,64 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210728094215.GX5047@twin.jikos.cz>
+In-Reply-To: <41183a98-bdb9-4ad6-7eab-5a7292a6df84@rasmusvillemoes.dk>
 
-On Wed, Jul 28, 2021 at 11:42:15AM +0200, David Sterba wrote:
-> On Tue, Jul 27, 2021 at 01:58:38PM -0700, Kees Cook wrote:
-> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > field bounds checking for memset(), avoid intentionally writing across
-> > neighboring fields.
+On Wed, Jul 28, 2021 at 12:54:18PM +0200, Rasmus Villemoes wrote:
+> On 27/07/2021 22.57, Kees Cook wrote:
+> 
+> > In order to have a regular programmatic way to describe a struct
+> > region that can be used for references and sizing, can be examined for
+> > bounds checking, avoids forcing the use of intermediate identifiers,
+> > and avoids polluting the global namespace, introduce the struct_group()
+> > macro. This macro wraps the member declarations to create an anonymous
+> > union of an anonymous struct (no intermediate name) and a named struct
+> > (for references and sizing):
 > > 
-> > Use memset_after() so memset() doesn't get confused about writing
-> > beyond the destination member that is intended to be the starting point
-> > of zeroing through the end of the struct.
+> > 	struct foo {
+> > 		int one;
+> > 		struct_group(thing,
+> > 			int two,
+> > 			int three,
+> > 		);
+> > 		int four;
+> > 	};
+> 
+> That example won't compile, the commas after two and three should be
+> semicolons.
+
+Oops, yes, thanks. This is why I shouldn't write code that doesn't first
+go through a compiler. ;)
+
+> And your implementation relies on MEMBERS not containing any comma
+> tokens, but as
+> 
+>   int a, b, c, d;
+> 
+> is a valid way to declare multiple members, consider making MEMBERS
+> variadic
+> 
+> #define struct_group(NAME, MEMBERS...)
+> 
+> to have it slurp up every subsequent argument and make that work.
+
+Ah! Perfect, thank you. I totally forgot I could do it that way.
+
+> 
 > > 
+> > Co-developed-by: Keith Packard <keithpac@amazon.com>
+> > Signed-off-by: Keith Packard <keithpac@amazon.com>
 > > Signed-off-by: Kees Cook <keescook@chromium.org>
 > > ---
-> >  fs/btrfs/root-tree.c | 5 +----
-> >  1 file changed, 1 insertion(+), 4 deletions(-)
-> > 
-> > diff --git a/fs/btrfs/root-tree.c b/fs/btrfs/root-tree.c
-> > index 702dc5441f03..ec9e78f65fca 100644
-> > --- a/fs/btrfs/root-tree.c
-> > +++ b/fs/btrfs/root-tree.c
-> > @@ -39,10 +39,7 @@ static void btrfs_read_root_item(struct extent_buffer *eb, int slot,
-> >  		need_reset = 1;
-> >  	}
-> >  	if (need_reset) {
-> > -		memset(&item->generation_v2, 0,
-> > -			sizeof(*item) - offsetof(struct btrfs_root_item,
-> > -					generation_v2));
-> > -
+> >  include/linux/stddef.h | 34 ++++++++++++++++++++++++++++++++++
 > 
-> Please add
-> 		/* Clear all members from generation_v2 onwards */
-> 
-> > +		memset_after(item, 0, level);
+> Bikeshedding a bit, but do we need to add 34 lines that need to be
+> preprocessed to virtually each and every translation unit [as opposed to
+> adding a struct_group.h header]? Oh well, you need it for struct
+> skbuff.h, so it would be pulled in by a lot regardless :(
 
-Perhaps there should be another helper memset_starting()? That would
-make these cases a bit more self-documenting.
-
-+		memset_starting(item, 0, generation_v2);
-
-> >  		generate_random_guid(item->uuid);
-> 
-> Acked-by: David Sterba <dsterba@suse.com>
-
-What do you think?
+My instinct is to make these kinds of helpers "always available" (like
+sizeof_field(), etc), but I have no strong opinion on where it should
+live. If the consensus is to move it, I certainly can! :)
 
 -Kees
 
