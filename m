@@ -1,25 +1,33 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57FB70
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 05:44:34 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CF5F360F91;
-	Wed, 28 Jul 2021 05:44:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF8470
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 05:45:39 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5EAC060F93;
+	Wed, 28 Jul 2021 05:45:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1627451074;
-	bh=CYjhDYPNMH+Hg9kMhEDMaCiOh0Q61z7lbz39STzyZmg=;
+	s=korg; t=1627451139;
+	bh=iRPIkA9wCneiiPcbFTtaQRP1uYFSznhLeZtrCj67jCs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HDpl0uUCU6bga5BodqjpnEYl0kd6HLLgTZMtAPfIgeBwnHH5uiF76teYESxc/N4P7
-	 k/ovqM79T9eyqn6SgP7x6USscrXpWQGUwkqmkTAeIwXiTkI3zRy+yNsdBXldz1UQUJ
-	 Hvi6qaBybDCmvB47KKVGK/LzMBZxd/Qe4TYGhA0A=
-Date: Wed, 28 Jul 2021 07:44:31 +0200
+	b=cSi5Yn73Q7vWLdkilrflKgNOm7mNY5dQqgNjN+qepVVuYUWrI0aHzBMp1F6Q0epj9
+	 ZMRABIZgA+udyB+hnoMPHnAJxchAq9ks+jQbdEnkCRvARKi62oxT1yu+FxUgwo1NKi
+	 BkptoOs2eYMnU4S84hmk6GAERU1CRR9+P4HQ4kPY=
+Date: Wed, 28 Jul 2021 07:45:36 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: core: Fix incorrect type in
- assignment
-Message-ID: <YQDuv2fIKtga0Blz@kroah.com>
-References: <20210728004223.15102-1-fmdefrancesco@gmail.com>
+To: Kees Cook <keescook@chromium.org>
+Cc: linux-hardening@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Keith Packard <keithpac@amazon.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: Re: [PATCH 07/64] staging: rtl8192e: Use struct_group() for memcpy()
+ region
+Message-ID: <YQDvABSKqzGxrycR@kroah.com>
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-8-keescook@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,35 +36,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210728004223.15102-1-fmdefrancesco@gmail.com>
+In-Reply-To: <20210727205855.411487-8-keescook@chromium.org>
 
-On Wed, Jul 28, 2021 at 02:42:23AM +0200, Fabio M. De Francesco wrote:
-> Fix sparse warning: incorrect type in assignment (different base types).
+On Tue, Jul 27, 2021 at 01:57:58PM -0700, Kees Cook wrote:
+> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> field bounds checking for memcpy(), memmove(), and memset(), avoid
+> intentionally writing across neighboring fields.
 > 
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> Use struct_group() around members addr1, addr2, and addr3 in struct
+> rtllib_hdr_4addr, and members qui, qui_type, qui_subtype, version,
+> and ac_info in struct rtllib_qos_information_element, so they can be
+> referenced together. This will allow memcpy() and sizeof() to more easily
+> reason about sizes, improve readability, and avoid future warnings about
+> writing beyond the end of addr1 and qui.
+> 
+> "pahole" shows no size nor member offset changes to struct
+> rtllib_hdr_4addr nor struct rtllib_qos_information_element. "objdump -d"
+> shows no meaningful object code changes (i.e. only source line number
+> induced differences and optimizations).
+> 
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_security.c | 31 +++++++++++--------
->  1 file changed, 18 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-> index a99f439328f1..527f710c7658 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_security.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-> @@ -35,8 +35,10 @@ const char *security_type_str(u8 value)
->  */
->  void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
->  {																	/*  exclude ICV */
-> -
-> -	unsigned char crc[4];
-> +	union {
-> +	__le32 f0;
-> +	unsigned char f1[4];
-> +	} crc;
+>  drivers/staging/rtl8192e/rtllib.h            | 20 ++++++++++++--------
+>  drivers/staging/rtl8192e/rtllib_crypt_ccmp.c |  3 ++-
+>  drivers/staging/rtl8192e/rtllib_rx.c         |  8 ++++----
+>  3 files changed, 18 insertions(+), 13 deletions(-)
 
-Odd indentation, are you sure this is right?
-
-Please indent the fields by one more tab.
-
-thanks,
-
-greg k-h
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
