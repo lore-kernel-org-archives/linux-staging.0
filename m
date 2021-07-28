@@ -1,38 +1,27 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 786CC72
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 17:45:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1627494340;
-	bh=2YMhgIVFIpcFYWrl8VJ85b+omZYWYfbhao4JskYXmfA=;
-	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QREbQZUT8kwSfosauDEsPlBbSoda1IM1ZVRr5LDA/PGpWG0w8ytC+ceEKwioqdxv0
-	 wFBBCP6FFwowoyKa4YaxtjjOYkIHDPQowxsp3NP1Oyb9zF2rWFzy0KewEYZFX8D7wI
-	 QI4rw/iuXcSL7tw/OPLCECPqtqKf4goxfd7dnzQk=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from titan ([79.150.72.99]) by mail.gmx.net (mrgmx004
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MTzay-1mZqfR3MwM-00R2QF; Wed, 28
- Jul 2021 19:45:39 +0200
-Date: Wed, 28 Jul 2021 19:45:27 +0200
-From: Len Baker <len.baker@gmx.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Len Baker <len.baker@gmx.com>, David Laight <David.Laight@ACULAB.COM>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging/rtl8712: Remove all strcpy() uses in favor of
- strscpy()
-Message-ID: <20210728174527.GA4275@titan>
-References: <20210717155145.15041-1-len.baker@gmx.com>
- <20210719053747.GN1931@kadam>
- <de94438319a84e0985b3ba0f5c00807b@AcuMS.aculab.com>
- <20210721080624.GV1931@kadam>
- <20210723151510.GB2612@titan>
- <20210726081148.GF1931@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89C2872
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 18:14:56 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AE49060462;
+	Wed, 28 Jul 2021 18:14:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1627496096;
+	bh=8EUKfV8kS3O311sXlNjcPWiu4Dc+lo6jGIAKFYYnWdY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FauvfWOu/fdFkhiWL7/WkqgcNSzjkeHkbrMrWb9o9Ud0UtKxdGiwf7SRBE+9UGXby
+	 RGFESAX4fCBGnqHtLjkDLizp6Nm/hVJyRvAaAVOBXiZbCxFf4jFjCoxVpDcbVvttA6
+	 5izrm2TehjPJdys+1yzi4FqZFzwy8KcWv3Or8p2U=
+Date: Wed, 28 Jul 2021 20:14:54 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Phillip Potter <phil@philpotter.co.uk>
+Cc: Larry.Finger@lwfinger.net, dan.carpenter@oracle.com,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	fabioaiuto83@gmail.com, martin@kaiser.cx
+Subject: Re: [PATCH v4 0/6] staging: r8188eu: add newer/better RTL8188eu
+ driver
+Message-ID: <YQGenmf2m3Tu7FFg@kroah.com>
+References: <20210727232219.2948-1-phil@philpotter.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,52 +30,223 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210726081148.GF1931@kadam>
-X-Provags-ID: V03:K1:hnORNkYY4j+OZ3r38+/VcZ/3w+bN0YS8S8yFZW3qYLNo/MWSVqo
- qrB9gEDvTKlMYbg6Rt0ZUEkkymy8/NclpbYwQ/fhdKb7epTgMz7hU/a3suNZPQbIPaZIjHe
- 76twIOkEP3ikinwHCQIWAVs0WBYq5wXCF8faIS3sIxYQmiQDsBmER+s0n9Z977ZO5HRnwYz
- fxNKplQn3LrVEAMc7v5HQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nzhPRzZcdSk=:p01CsDRAtKqDdFLPAFRumF
- UFFU4lPZFUf842WUS1CEBxpOxzEv7QGl4z+zOWwWQpR58lHtoXCbO+ysC+u6php6w1t+RdMax
- JLhkrxLEvY1vQNtjWAkFsrlogEPhfkrfZ24by7FaQ6nskC7LjkknH9owq2wE/gMfUmTwfja0f
- n/bD6HGSzkUk5Gqh+f720C0gS9JJ3Q9VIjvRA7ceboMl/LRHtu9BVslFby7XpRbiaGGgBm3gn
- AlmTADtrwlVmFiyfTjkubSmsVlYlXnYILDr2tEEjkqdOEfEQu6HTjb2+r581gMZ7NNMq9NG8L
- 02b9AMMYpC9urkaJRsE7v8NZClZx6IDRIooqPbPnC+VmqjZRsB0g+8zVj1U4ZkwEo3RJspAbW
- cNHLnmGqiPERrsyrel6LchFwDFczOif0rWEF/w4KaFkMCNYIWEHxFuNUE3g8EOo7uKGFEy6ON
- mCa9ztsTdUe8vKdhP+HaFRaIRe1yD0bicYa4lhILPZf41ERNNwZV4hZU7wxJ0hX9tfxvbGcOJ
- KYOrEtOor1wE7DdlaN4OLSLo0CwyeDP+/Gs/5pNsYS7aLdscC3yUMoAXAQq+Ta35ZtxazuzQ6
- AsExNf6+t89hnbg+giTG8jqf4vcxGgvLG4GlFHhbNn9daR3NHF6ae7fdZcIHkQL1SCsxmVbTk
- zKrCG718rVnbrLYDcI3pijbGgArPnRqdBg68x1AkXlANaM2utsexCZ1X+4nBdmD9tsINnBjgY
- 3smiWy14KPuEqq+LfbGhhw3sy6lCS8GQROHiGw/NVRBKgaT7zq2sx4EtugWaz6glVgwj8fN8I
- kwgHWDK7K2PGXrhoLpiwBqjTUO3u0vtKhi/J2RoXZhQ9lYkK/SDASYM5dyLEmKKgrqxXQ8AHN
- nfOIiXHDfhnla8zYFueaeh9ajYr6Zj/dUneyEf5vSyoBia874nasH3PJRNUR/Rf8c9pge+Hnh
- RQMecIORr8lj845Eq1rDm+690XseI7OO90lX3M5+UxCJh5ZriPtRuynzYR3xG0FSrjVP4efcH
- vOaiHIP6TiAJSZnyufChQeEkdlQAjDWzoVE/emCEsD1RdBU7zIYPOoBdfjQbFxkqJOGhxKy+g
- cg81Ml1OkhUWP/HYn5fCMH5sEFj0UkWteA9
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210727232219.2948-1-phil@philpotter.co.uk>
 
-On Mon, Jul 26, 2021 at 11:11:48AM +0300, Dan Carpenter wrote:
-> On Fri, Jul 23, 2021 at 05:15:10PM +0200, Len Baker wrote:
-> > Hi,
-> >
-> > On Wed, Jul 21, 2021 at 11:06:24AM +0300, Dan Carpenter wrote:
-> > > On Mon, Jul 19, 2021 at 03:24:38PM +0000, David Laight wrote:
-> > > >
-> > > > I know only root can set module parameters, but having one
-> > > > that contains a string used as a printf format seems
-> > > > dangerous at best.
-> > > >
-> > > > Isn't it best to let userspace rename the interfaces later on?
-> > >
-> > > Yeah.  I think you're right.
-> >
-> > Sorry, but I don't understand if the code needs to be improved or not.
-> > Is the code shown by Dan not correct?
->
-> We should remove the ifname[] array and the module option completely.
+On Wed, Jul 28, 2021 at 12:22:13AM +0100, Phillip Potter wrote:
+> I had to break this patchset up a bit to get around the file size limits
+> on the mailing list, and also I removed the hostapd stuff which is
+> userspace related and therefore not required.
+> 
+> The driver currently in staging is older and less functional than the
+> version on Larry Finger's GitHub account, based upon v4.1.4_6773.20130222.
+> This series of patches therefore:
+> 
+> (1) Marks the older driver as deprecated and changes its CONFIG_
+>     parameter and module name.
+> (2) Imports the GitHub version mentioned above into the r8188eu folder
+>     and configures the build system to allow the building of both drivers.
+> 
+> There is plenty of work to do to this driver, including to its Makefile,
+> but it is at least buildable/usable for now (albeit with a few build
+> warnings).
+> 
+> Revisions of this patch set:
+> V1: contained deletion of old driver as one patch and the whole new
+>     driver as another, so was too big for the mailing lists.
+> V2: split things up, but contained whitespace errorsm and various other
+>     mistakes.
+> V3: now based upon v4.1.4_6773.20130222 of the GitHub driver, with
+>     tweaks to the Makefile (which is already cleaner but needed additional
+>     tweaks) and the Kconfig to take into account feedback. There were
+>     several trailing whitespace warnings even in this branch/version which
+>     have now been corrected as well.
+> V4: don't remove old driver now, just mark as deprecated and modify to
+>     allow building alongside the new driver.
+> 
+> Phillip Potter (6):
+>   staging: r8188eu: introduce new core dir for RTL8188eu driver
+>   staging: r8188eu: introduce new hal dir for RTL8188eu driver
+>   staging: r8188eu: introduce new os_dep dir for RTL8188eu driver
+>   staging: r8188eu: introduce new include dir for RTL8188eu driver
+>   staging: r8188eu: introduce new supporting files for RTL8188eu driver
+>   staging: r8188eu: attach newly imported driver to build system
+> 
+>  drivers/staging/Kconfig                       |    2 +
+>  drivers/staging/Makefile                      |    3 +-
+>  drivers/staging/r8188eu/Kconfig               |   25 +
+>  drivers/staging/r8188eu/Makefile              |  129 +
+>  drivers/staging/r8188eu/core/rtw_ap.c         | 1976 ++++
+>  drivers/staging/r8188eu/core/rtw_br_ext.c     | 1184 +++
+>  drivers/staging/r8188eu/core/rtw_cmd.c        | 2206 +++++
+>  drivers/staging/r8188eu/core/rtw_debug.c      |  943 ++
+>  drivers/staging/r8188eu/core/rtw_efuse.c      |  872 ++
+>  drivers/staging/r8188eu/core/rtw_ieee80211.c  | 1625 ++++
+>  drivers/staging/r8188eu/core/rtw_io.c         |  323 +
+>  drivers/staging/r8188eu/core/rtw_ioctl_set.c  | 1118 +++
+>  drivers/staging/r8188eu/core/rtw_iol.c        |  209 +
+>  drivers/staging/r8188eu/core/rtw_led.c        | 1705 ++++
+>  drivers/staging/r8188eu/core/rtw_mlme.c       | 2354 +++++
+>  drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 8407 +++++++++++++++++
+>  drivers/staging/r8188eu/core/rtw_mp.c         | 1000 ++
+>  drivers/staging/r8188eu/core/rtw_mp_ioctl.c   | 1352 +++
+>  drivers/staging/r8188eu/core/rtw_p2p.c        | 2068 ++++
+>  drivers/staging/r8188eu/core/rtw_pwrctrl.c    |  655 ++
+>  drivers/staging/r8188eu/core/rtw_recv.c       | 2252 +++++
+>  drivers/staging/r8188eu/core/rtw_rf.c         |   88 +
+>  drivers/staging/r8188eu/core/rtw_security.c   | 1757 ++++
+>  drivers/staging/r8188eu/core/rtw_sreset.c     |   79 +
+>  drivers/staging/r8188eu/core/rtw_sta_mgt.c    |  609 ++
+>  drivers/staging/r8188eu/core/rtw_wlan_util.c  | 1690 ++++
+>  drivers/staging/r8188eu/core/rtw_xmit.c       | 2370 +++++
+>  drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c  |   86 +
+>  .../r8188eu/hal/Hal8188ERateAdaptive.c        |  760 ++
+>  .../staging/r8188eu/hal/HalHWImg8188E_BB.c    |  720 ++
+>  .../staging/r8188eu/hal/HalHWImg8188E_MAC.c   |  230 +
+>  .../staging/r8188eu/hal/HalHWImg8188E_RF.c    |  268 +
+>  drivers/staging/r8188eu/hal/HalPhyRf.c        |   49 +
+>  drivers/staging/r8188eu/hal/HalPhyRf_8188e.c  | 1505 +++
+>  drivers/staging/r8188eu/hal/HalPwrSeqCmd.c    |  132 +
+>  drivers/staging/r8188eu/hal/hal_com.c         |  381 +
+>  drivers/staging/r8188eu/hal/hal_intf.c        |  468 +
+>  drivers/staging/r8188eu/hal/odm.c             | 2174 +++++
+>  drivers/staging/r8188eu/hal/odm_HWConfig.c    |  601 ++
+>  drivers/staging/r8188eu/hal/odm_RTL8188E.c    |  400 +
+>  .../staging/r8188eu/hal/odm_RegConfig8188E.c  |  130 +
+>  drivers/staging/r8188eu/hal/odm_debug.c       |   32 +
+>  drivers/staging/r8188eu/hal/odm_interface.c   |  205 +
+>  drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  762 ++
+>  drivers/staging/r8188eu/hal/rtl8188e_dm.c     |  267 +
+>  .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 2390 +++++
+>  drivers/staging/r8188eu/hal/rtl8188e_mp.c     |  851 ++
+>  drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 1135 +++
+>  drivers/staging/r8188eu/hal/rtl8188e_rf6052.c |  569 ++
+>  drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c |  202 +
+>  drivers/staging/r8188eu/hal/rtl8188e_sreset.c |   80 +
+>  drivers/staging/r8188eu/hal/rtl8188e_xmit.c   |   91 +
+>  drivers/staging/r8188eu/hal/rtl8188eu_led.c   |  111 +
+>  drivers/staging/r8188eu/hal/rtl8188eu_recv.c  |  136 +
+>  drivers/staging/r8188eu/hal/rtl8188eu_xmit.c  |  703 ++
+>  drivers/staging/r8188eu/hal/usb_halinit.c     | 2334 +++++
+>  drivers/staging/r8188eu/hal/usb_ops_linux.c   |  717 ++
+>  .../staging/r8188eu/include/Hal8188EPhyCfg.h  |  269 +
+>  .../staging/r8188eu/include/Hal8188EPhyReg.h  | 1088 +++
+>  .../staging/r8188eu/include/Hal8188EPwrSeq.h  |  173 +
+>  .../r8188eu/include/Hal8188ERateAdaptive.h    |   75 +
+>  drivers/staging/r8188eu/include/Hal8188EReg.h |   44 +
+>  .../r8188eu/include/HalHWImg8188E_BB.h        |   44 +
+>  .../r8188eu/include/HalHWImg8188E_FW.h        |   33 +
+>  .../r8188eu/include/HalHWImg8188E_MAC.h       |   30 +
+>  .../r8188eu/include/HalHWImg8188E_RF.h        |   30 +
+>  drivers/staging/r8188eu/include/HalPhyRf.h    |   30 +
+>  .../staging/r8188eu/include/HalPhyRf_8188e.h  |   58 +
+>  .../staging/r8188eu/include/HalPwrSeqCmd.h    |  126 +
+>  drivers/staging/r8188eu/include/HalVerDef.h   |  166 +
+>  drivers/staging/r8188eu/include/autoconf.h    |   43 +
+>  drivers/staging/r8188eu/include/basic_types.h |  184 +
+>  drivers/staging/r8188eu/include/cmd_osdep.h   |   32 +
+>  drivers/staging/r8188eu/include/drv_types.h   |  346 +
+>  .../staging/r8188eu/include/drv_types_linux.h |   23 +
+>  drivers/staging/r8188eu/include/ethernet.h    |   41 +
+>  drivers/staging/r8188eu/include/h2clbk.h      |   32 +
+>  drivers/staging/r8188eu/include/hal_com.h     |  172 +
+>  drivers/staging/r8188eu/include/hal_intf.h    |  430 +
+>  drivers/staging/r8188eu/include/ieee80211.h   | 1261 +++
+>  .../staging/r8188eu/include/ieee80211_ext.h   |  287 +
+>  drivers/staging/r8188eu/include/if_ether.h    |  111 +
+>  .../staging/r8188eu/include/ioctl_cfg80211.h  |  107 +
+>  drivers/staging/r8188eu/include/ip.h          |  125 +
+>  drivers/staging/r8188eu/include/mlme_osdep.h  |   35 +
+>  .../staging/r8188eu/include/mp_custom_oid.h   |  349 +
+>  drivers/staging/r8188eu/include/nic_spec.h    |   41 +
+>  drivers/staging/r8188eu/include/odm.h         | 1182 +++
+>  .../staging/r8188eu/include/odm_HWConfig.h    |  133 +
+>  .../staging/r8188eu/include/odm_RTL8188E.h    |   56 +
+>  .../r8188eu/include/odm_RegConfig8188E.h      |   43 +
+>  .../r8188eu/include/odm_RegDefine11AC.h       |   46 +
+>  .../r8188eu/include/odm_RegDefine11N.h        |  160 +
+>  drivers/staging/r8188eu/include/odm_debug.h   |  143 +
+>  .../staging/r8188eu/include/odm_interface.h   |  164 +
+>  drivers/staging/r8188eu/include/odm_precomp.h |  103 +
+>  drivers/staging/r8188eu/include/odm_reg.h     |  116 +
+>  drivers/staging/r8188eu/include/odm_types.h   |   61 +
+>  drivers/staging/r8188eu/include/osdep_intf.h  |   83 +
+>  .../staging/r8188eu/include/osdep_service.h   |  489 +
+>  drivers/staging/r8188eu/include/recv_osdep.h  |   54 +
+>  .../staging/r8188eu/include/rtl8188e_cmd.h    |  122 +
+>  drivers/staging/r8188eu/include/rtl8188e_dm.h |   62 +
+>  .../staging/r8188eu/include/rtl8188e_hal.h    |  471 +
+>  .../staging/r8188eu/include/rtl8188e_led.h    |   34 +
+>  .../staging/r8188eu/include/rtl8188e_recv.h   |   69 +
+>  drivers/staging/r8188eu/include/rtl8188e_rf.h |   35 +
+>  .../staging/r8188eu/include/rtl8188e_spec.h   | 1438 +++
+>  .../staging/r8188eu/include/rtl8188e_sreset.h |   31 +
+>  .../staging/r8188eu/include/rtl8188e_xmit.h   |  177 +
+>  drivers/staging/r8188eu/include/rtw_android.h |   64 +
+>  drivers/staging/r8188eu/include/rtw_ap.h      |   67 +
+>  drivers/staging/r8188eu/include/rtw_br_ext.h  |   66 +
+>  drivers/staging/r8188eu/include/rtw_cmd.h     |  991 ++
+>  drivers/staging/r8188eu/include/rtw_debug.h   |  274 +
+>  drivers/staging/r8188eu/include/rtw_eeprom.h  |  130 +
+>  drivers/staging/r8188eu/include/rtw_efuse.h   |  150 +
+>  drivers/staging/r8188eu/include/rtw_event.h   |  113 +
+>  drivers/staging/r8188eu/include/rtw_ht.h      |   44 +
+>  drivers/staging/r8188eu/include/rtw_io.h      |  387 +
+>  drivers/staging/r8188eu/include/rtw_ioctl.h   |  120 +
+>  .../staging/r8188eu/include/rtw_ioctl_rtl.h   |   79 +
+>  .../staging/r8188eu/include/rtw_ioctl_set.h   |   49 +
+>  drivers/staging/r8188eu/include/rtw_iol.h     |   84 +
+>  drivers/staging/r8188eu/include/rtw_led.h     |  201 +
+>  drivers/staging/r8188eu/include/rtw_mlme.h    |  649 ++
+>  .../staging/r8188eu/include/rtw_mlme_ext.h    |  874 ++
+>  drivers/staging/r8188eu/include/rtw_mp.h      |  492 +
+>  .../staging/r8188eu/include/rtw_mp_ioctl.h    |  339 +
+>  .../r8188eu/include/rtw_mp_phy_regdef.h       | 1079 +++
+>  drivers/staging/r8188eu/include/rtw_p2p.h     |  135 +
+>  drivers/staging/r8188eu/include/rtw_pwrctrl.h |  282 +
+>  drivers/staging/r8188eu/include/rtw_qos.h     |   30 +
+>  drivers/staging/r8188eu/include/rtw_recv.h    |  473 +
+>  drivers/staging/r8188eu/include/rtw_rf.h      |  145 +
+>  .../staging/r8188eu/include/rtw_security.h    |  382 +
+>  drivers/staging/r8188eu/include/rtw_sreset.h  |   50 +
+>  drivers/staging/r8188eu/include/rtw_version.h |    1 +
+>  drivers/staging/r8188eu/include/rtw_xmit.h    |  383 +
+>  drivers/staging/r8188eu/include/sta_info.h    |  384 +
+>  drivers/staging/r8188eu/include/usb_hal.h     |   26 +
+>  drivers/staging/r8188eu/include/usb_ops.h     |  115 +
+>  .../staging/r8188eu/include/usb_ops_linux.h   |   55 +
+>  drivers/staging/r8188eu/include/usb_osintf.h  |   45 +
+>  .../staging/r8188eu/include/usb_vendor_req.h  |   51 +
+>  drivers/staging/r8188eu/include/wifi.h        | 1105 +++
+>  drivers/staging/r8188eu/include/wlan_bssdef.h |  343 +
+>  drivers/staging/r8188eu/include/xmit_osdep.h  |   67 +
+>  drivers/staging/r8188eu/os_dep/ioctl_linux.c  | 8178 ++++++++++++++++
+>  drivers/staging/r8188eu/os_dep/mlme_linux.c   |  302 +
+>  drivers/staging/r8188eu/os_dep/os_intfs.c     | 1283 +++
+>  .../staging/r8188eu/os_dep/osdep_service.c    |  535 ++
+>  drivers/staging/r8188eu/os_dep/recv_linux.c   |  270 +
+>  drivers/staging/r8188eu/os_dep/rtw_android.c  |  303 +
+>  drivers/staging/r8188eu/os_dep/usb_intf.c     |  863 ++
+>  .../staging/r8188eu/os_dep/usb_ops_linux.c    |  283 +
+>  drivers/staging/r8188eu/os_dep/xmit_linux.c   |  282 +
+>  drivers/staging/rtl8188eu/Kconfig             |    9 +-
+>  drivers/staging/rtl8188eu/Makefile            |    4 +-
+>  159 files changed, 89176 insertions(+), 7 deletions(-)
 
-Thanks for the clarification.
+Hm, I thought this would be in better shape than it is.
 
-Regards,
-Len
+Right now we have 107 .c and .h files in drivers/staging/rtl8188eu/ that
+come to a total of 44597 lines.
+
+So we are taking double the size here?
+
+I'm all for putting a "better" driver in here, but this feels odd to
+me...  Is there major new functionality here that is not in the existing
+driver to justify this?
+
+Ok, let's see how this goes, I'll give it a few weeks to see how much
+can easily be fixed up to hopefully get back to at least close the
+existing driver size...
+
+thanks,
+
+greg k-h
