@@ -1,97 +1,173 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DD23484
-	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 22:17:15 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id t3so2368012plg.9
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 15:17:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84F33481
+	for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 23:14:37 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id mz5-20020a17090b3785b0290176ecf64922so12578114pjb.3
+        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 16:14:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xt0NXK+H6bJd9bnnm9cvAJ4y45wGQkVige8G5Umi1CA=;
-        b=vEaa4dDeac8LD1acoUW9tefGeFHRP/w4agRgkhlQXwXzg34Ehtd7jHBTBFmt+KDzt9
-         w+3FYyDN7mQkp9hRCYRkFAol2oq8S0EtTJiRyjDXnEvNbIoT3VyA1y0VxqmPo1WCKg0S
-         YoyKegu1GJ/Gc23aQQI5MHRSkeG1FuKs4tQVhWK/VwcRzTZgoHAqevbauG1tIZtSYnbe
-         WxE9us2ZJ+b4iKaS0/K8Rzq7VTmDGwKa/LoU7FvjxkuHpIrjxsJTX1W/OL8PJLc5BSBe
-         gqajCFdpkWyG5aTzSdWSFnE2M6cNueYKPcTDNp87xWi4PaZwstfSpbmQzkCmqaPJIuqk
-         bJyA==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=cp/1gwQbxKm35mFKd4TC2EFL1W+EtjwqZdL50egUVws=;
+        b=g6KzbBrSxn/nD5fbAKhLB3KhfMjP/EBF+i23w0kpmbqop6NS+P75BVA3oYPWAQv5TN
+         jVsYj83mHem2R5QZIvfE5d5URqJJQjsLnk9ETh7AN/rE48OqfmjnQNOSXEPIuAu+rr1g
+         LBym6tSkzsztfvOHVLJCIdl6Clmjoz1sl02aM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xt0NXK+H6bJd9bnnm9cvAJ4y45wGQkVige8G5Umi1CA=;
-        b=cxq/0O8dXufmmWCfEDcXzbeNqc58+2Toh2OdlXOsjB9fdF5jb3DCWEL9EbEpSFfygS
-         kTSqF3hnSU+gxG1+v7YWNuyIlXBrU2jmwlAKDuBKohBu7RYnw60xCslOURcBdmQY3tIy
-         kyAPMRKyBK0Y2+w9JPZ5H7adrioAxUGQuwfOFKZstNLT05A8/r2BGGVnDwBFwMg9dTQe
-         5im56HOGCdFwNlsnBCqQijWiyhd5bxv5o0+DUUqHxEQsT5psoPtl87WllBCLSFzRoapW
-         42uVPzp7AgHYbIEroCab3oYjG3NfIrER+37NV8seZ++IvgWJlE1yoEkBM1FfPCWWbPNy
-         LWdg==
-X-Gm-Message-State: AOAM533L4uGzsAaJPMFYiK0o2Pl8uyHxp4GPTygo1y1gdtUzVLHGM4ih
-	g5B8LRF+xGBPN+8yg6uRMj7Wr5C3d0k99m/lsxeBFw==
-X-Google-Smtp-Source: ABdhPJypKjcK2osCbLWCRwN08jcNKfs+sWQUroChMf+l64prEvfgvKosw0q8cVPsVYKppcqSUgvmDLDBSlT6FIx2DV0=
-X-Received: by 2002:a17:90a:1b01:: with SMTP id q1mr7887939pjq.162.1627510634892;
- Wed, 28 Jul 2021 15:17:14 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=cp/1gwQbxKm35mFKd4TC2EFL1W+EtjwqZdL50egUVws=;
+        b=dOxD05w5UPaKcI2FUXNYcmNJrK2saRIBRRrxjHiLH+v8WjfDrEm9jGmki3t+XXeQXE
+         GD0evoOjNbGobuBcY8ij4jdoGXik5J5s6fR9JtqHshAzP/FEjkacAePp7YREZ17aSUF0
+         mfnHOJJ/wLeVXEhPrGnW9nXkG+rU0s4EYUIFlQ1xLPj9UdI333vNgN715Qg72q+m3EmY
+         e4HnBPGqZPVNOOVGV8aV/GNtNVU+W1xICFlgVPU8cTUAcNe87w6nkoGgOVQq3LfgoFDE
+         HgK4Q6JLEqvcBbMlbst6PS3GgM9lvqHqyB6X5t5kulFYyJPucSO0ivnuiMJcvFsVKVjm
+         ogEw==
+X-Gm-Message-State: AOAM531Oht1eCO/q9xI4nDEDpr15KHet2sAcfSd5BszvyRFDJS6ni2Tj
+	QgmAq8nnPefCdkOuyq3xDqNzDw==
+X-Google-Smtp-Source: ABdhPJx1kv+LtzCaHLxEQ+7p9oKRsC6DgKBut532PtzT8ERKet67b0w3z4Vqt6OM2ER7XfKqYAMq8Q==
+X-Received: by 2002:a63:5a08:: with SMTP id o8mr1175343pgb.120.1627514077222;
+        Wed, 28 Jul 2021 16:14:37 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id 16sm1132146pfu.109.2021.07.28.16.14.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jul 2021 16:14:36 -0700 (PDT)
+Date: Wed, 28 Jul 2021 16:14:35 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: linux-hardening@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Keith Packard <keithpac@amazon.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: Re: [PATCH 02/64] mac80211: Use flex-array for radiotap header bitmap
+Message-ID: <202107281602.4D9ED671@keescook>
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-3-keescook@chromium.org>
+ <20210728073556.GP1931@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210727232219.2948-1-phil@philpotter.co.uk> <YQGenmf2m3Tu7FFg@kroah.com>
- <9902deed-021c-ad37-7fc7-f4279886c683@lwfinger.net> <YQGoLPnL8s2buxFe@kroah.com>
-In-Reply-To: <YQGoLPnL8s2buxFe@kroah.com>
-From: Phillip Potter <phil@philpotter.co.uk>
-Date: Wed, 28 Jul 2021 23:17:04 +0100
-Message-ID: <CAA=Fs0=bQt8Msaw_CjgjAsmQFjm6U3bag76K9uKHVfMPaehtvg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/6] staging: r8188eu: add newer/better RTL8188eu driver
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Dan Carpenter <dan.carpenter@oracle.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev, 
-	Fabio Aiuto <fabioaiuto83@gmail.com>, Martin Kaiser <martin@kaiser.cx>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210728073556.GP1931@kadam>
 
-On Wed, 28 Jul 2021 at 19:55, Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Wed, Jul 28, 2021 at 01:41:15PM -0500, Larry Finger wrote:
-> > On 7/28/21 1:14 PM, Greg KH wrote:
-> > > Hm, I thought this would be in better shape than it is.
-> > >
-> > > Right now we have 107 .c and .h files in drivers/staging/rtl8188eu/ that
-> > > come to a total of 44597 lines.
-> > >
-> > > So we are taking double the size here?
-> > >
-> > > I'm all for putting a "better" driver in here, but this feels odd to
-> > > me...  Is there major new functionality here that is not in the existing
-> > > driver to justify this?
-> > >
-> > > Ok, let's see how this goes, I'll give it a few weeks to see how much
-> > > can easily be fixed up to hopefully get back to at least close the
-> > > existing driver size...
-> >
-> > The major new functionality is that the new one uses cfg80211, whereas the
-> > old one uses the WEXT calls.
->
-> Ok, that's worth it alone.
->
-> > It really is an improvement. It just needs a severe cleanup.
-> >
-> > I warned you that this code was rough. It took me several weeks to get the
-> > old one "ready" for staging. I never devoted that effort to the new one, and
-> > you wanted it in a place where multiple authors could improve it.
->
-> Fair enough, I did ask for it :)
->
-> I'll go through and do a license cleanup tomorrow morning to start with,
-> that should knock a bunch of lines off right away...
->
-> thanks,
->
-> greg k-h
+On Wed, Jul 28, 2021 at 10:35:56AM +0300, Dan Carpenter wrote:
+> On Tue, Jul 27, 2021 at 01:57:53PM -0700, Kees Cook wrote:
+> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> > field bounds checking for memcpy(), memmove(), and memset(), avoid
+> > intentionally writing across neighboring fields.
+> > 
+> > The it_present member of struct ieee80211_radiotap_header is treated as a
+> > flexible array (multiple u32s can be conditionally present). In order for
+> > memcpy() to reason (or really, not reason) about the size of operations
+> > against this struct, use of bytes beyond it_present need to be treated
+> > as part of the flexible array. Add a union/struct to contain the new
+> > "bitmap" member, for use with trailing presence bitmaps and arguments.
+> > 
+> > Additionally improve readability in the iterator code which walks
+> > through the bitmaps and arguments.
+> > 
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > ---
+> >  include/net/ieee80211_radiotap.h | 24 ++++++++++++++++++++----
+> >  net/mac80211/rx.c                |  2 +-
+> >  net/wireless/radiotap.c          |  5 ++---
+> >  3 files changed, 23 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/include/net/ieee80211_radiotap.h b/include/net/ieee80211_radiotap.h
+> > index c0854933e24f..101c1e961032 100644
+> > --- a/include/net/ieee80211_radiotap.h
+> > +++ b/include/net/ieee80211_radiotap.h
+> > @@ -39,10 +39,26 @@ struct ieee80211_radiotap_header {
+> >  	 */
+> >  	__le16 it_len;
+> >  
+> > -	/**
+> > -	 * @it_present: (first) present word
+> > -	 */
+> > -	__le32 it_present;
+> > +	union {
+> > +		/**
+> > +		 * @it_present: (first) present word
+> > +		 */
+> > +		__le32 it_present;
+> > +
+> > +		struct {
+> > +			/* The compiler makes it difficult to overlap
+> > +			 * a flex-array with an existing singleton,
+> > +			 * so we're forced to add an empty named
+> > +			 * variable here.
+> > +			 */
+> > +			struct { } __unused;
+> > +
+> > +			/**
+> > +			 * @bitmap: all presence bitmaps
+> > +			 */
+> > +			__le32 bitmap[];
+> > +		};
+> > +	};
+> >  } __packed;
+> 
+> This patch is so confusing...
 
-Just stripping the debug code out of this version again will free up
-quite a few lines I think as well :-) Will get started on that.
+Right, unfortunately your patch doesn't work under the strict memcpy().
+:(
 
-Regards,
-Phil
+Here are the constraints I navigated to come to the original patch I
+sent:
+
+* I need to directly reference a flexible array for the it_present
+  pointer because pos is based on it, and the compiler thinks pos
+  walks off the end of the struct:
+
+	In function 'fortify_memcpy_chk',
+	    inlined from 'ieee80211_add_rx_radiotap_header' at net/mac80211/rx.c:652:3:
+	./include/linux/fortify-string.h:285:4: warning: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()?  [-Wattribute-warning]
+	  285 |    __write_overflow_field();
+	      |    ^~~~~~~~~~~~~~~~~~~~~~~~
+
+* It's churn/fragile to change the sizeof(), so I can't just do:
+	-	__le32 it_present;
+	+	__le32 it_bitmap[];
+
+* I want to use a union:
+	-	__le32 it_present;
+	+	union {
+	+		__le32 it_present;
+	+		__le32 it_bitmap[];
+	+	};
+* ... but I can't actually use a union because of compiler constraints
+  on flexible array members:
+	./include/net/ieee80211_radiotap.h:50:10: error: flexible array member in union
+	   50 |   __le32 it_optional[];
+	      |          ^~~~~~~~~~~
+
+* So I came to the horrible thing I original sent. :P
+
+If I could escape the __le32 *it_present incrementing, I could use a
+simple change:
+	 	__le32 it_present;
+	+	__le32 it_optional[];
+
+
+> Btw, after the end of the __le32 data there is a bunch of other le64,
+> u8 and le16 data so the struct is not accurate or complete.
+
+Hm, docs seem to indicate that the packet format is multiples of u32?
+*shrug*
+
+Hmpf.
+
+-Kees
+
+-- 
+Kees Cook
