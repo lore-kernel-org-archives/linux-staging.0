@@ -1,127 +1,92 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6D93481
-	for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 14:20:57 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id e5so7151357pld.6
-        for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 07:20:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=F1MJS4je1Oiq7mhlbgvshdM+wBGyXHC/8oJzd/GZ1Bg=;
-        b=Ow6fkhcPEh5V54oLfWWwMO7N3w8hOXvUHnRCEDo6zEciRgrCaJsWFsAcGnHwmh2vzD
-         FPMisuZ3FNXTf1ixYZPueZXd8SlW0Sz5U+WAicNuv3cCxFOuib10hY1RfAbe25NVplGQ
-         cFbNTcFvibLllrPwkX1NyOUGsfubqOt4JDVkl6QEMBEexnkifJfcBERFxqsXLxDQlC6C
-         sWvxUebaqrJx4zyMhNnHramYFQuvyDG0DUp+CZ8TnJsj2WONURIPg4QNHM4xLMgwjz4d
-         aQIxu9xpzTPCVDDZQL0Apsap6Nh+R7+Z0NH4Xj2u0w2G5KRLYVz10F7gqa8OYyYtCME9
-         Ig2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=F1MJS4je1Oiq7mhlbgvshdM+wBGyXHC/8oJzd/GZ1Bg=;
-        b=JQGIgla2gTz3qIrAwD1/ER7q/Sl+COd4g1ChzwBruzQ33x3yimtJl4qf6Oynq1+qKt
-         pMbpZcAFDRyhWFyG00gwpocOLb1oLQoZOz/KSfsT5muLm+Y0mnOfTU9k3RDZMz/fO0Df
-         1jAy8dIVFFmhOBOMF2KCN+1QaDx8uCxUEzbKueWxvt8izj8FmY1RueXf6haenMqTYR0w
-         xRHpin2FlR56Zd6Wl541Z2Xui7VTVpdHMKaDnLaAvF9IWwGuJ3LOZxwOymOIP0ssqrJx
-         tutSffsbLZOybQhn4wmD5bbFpVC3l8W4LpXsj9tvkPay06iVnumUG9WkbySJzZW/olpT
-         s4vw==
-X-Gm-Message-State: AOAM532pPJdZSMfGOF9BY3QQGfT+PYUMWPTtiNU5cSWKdlXNmi9vr5I0
-	mQPcgWKGPMsJMBc0knGFb0E=
-X-Google-Smtp-Source: ABdhPJwJqoUiFy7YXuGI7xJHhZ4oqQidNFSSfrsgUMREpiAhvQS66r555cMNOfkEqZZH73MivZZI6w==
-X-Received: by 2002:a17:902:a9c3:b029:12c:31c7:9b81 with SMTP id b3-20020a170902a9c3b029012c31c79b81mr4901232plr.30.1627568456660;
-        Thu, 29 Jul 2021 07:20:56 -0700 (PDT)
-Received: from ojas ([122.161.51.5])
-        by smtp.gmail.com with ESMTPSA id p3sm4091663pgi.20.2021.07.29.07.20.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jul 2021 07:20:56 -0700 (PDT)
-Date: Thu, 29 Jul 2021 19:50:43 +0530
-From: Ojaswin Mujoo <ojaswin98@gmail.com>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, nsaenz@kernel.org,
-	dan.carpenter@oracle.com, phil@raspberrypi.com,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: vchiq: Set $CONFIG_VCHIQ_CDEV to be enabled
- by default
-Message-ID: <20210729142043.GA25192@ojas>
-References: <cover.1627495116.git.ojaswin98@gmail.com>
- <70d91b0482e19d7551d3258ea54c970c1b996317.1627495116.git.ojaswin98@gmail.com>
- <YQGl47Wpu7+SHIW+@kroah.com>
- <20210728200607.GB17046@ojas>
- <ddcc0ba2-edc0-89a9-b20d-ce58b3e548fc@i2se.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C7272
+	for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 14:51:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+	Subject:Sender:Reply-To:Content-ID:Content-Description;
+	bh=c0pAqr7WjXOmFqze5UYuYquQopW+1yGLNu5EKWRUiGc=; b=u07QTVbfnWNQmvKswjiJGLv5mf
+	Q/+cUcRYtTRvAYz8JLJDravtb7cFv1rgmMreNJc+/FZFvZmmmLsCy8hfkY9AAO3GLBZuSDnDB13A0
+	KeEDjVoqDilEMP7JpmQMz7/24sdJlq8TuUiCNwXZZkIK7W8Dj8YXGTb418+5InGY9owxuPbhJAiyM
+	ODzwpFNN2sfYOH1E4SIvzNsONFVaT4xYZAgmIGR/y/oHIfUXl1WHC9af5JJnMzU3emr2eqQXHnYN3
+	cgdCThNaqLag18GqTJ9pVFn1C6rFP/VLZCj57ySHNOecjZEqBwJuLyFyuIY/J8r347uVNGXYpiTfQ
+	Aj6sNKOg==;
+Received: from [2601:1c0:6280:3f0::aefb]
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1m97NQ-004biU-Ic; Thu, 29 Jul 2021 14:51:12 +0000
+Subject: Re: [PATCH] staging: vt665X: remove unused CONFIG_PATH
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev
+Cc: forest@alittletooquiet.net, linux-kernel@vger.kernel.org,
+ Joe Perches <joe@perches.com>
+References: <20210729095812.1693061-1-gregkh@linuxfoundation.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <68f85669-71a8-b0c9-d23f-0dc7e1de2f12@infradead.org>
+Date: Thu, 29 Jul 2021 07:51:11 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ddcc0ba2-edc0-89a9-b20d-ce58b3e548fc@i2se.com>
+In-Reply-To: <20210729095812.1693061-1-gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 28, 2021 at 10:21:41PM +0200, Stefan Wahren wrote:
-> Am 28.07.21 um 22:06 schrieb Ojaswin Mujoo:
-> > On Wed, Jul 28, 2021 at 08:45:55PM +0200, Greg KH wrote:
-> >> On Thu, Jul 29, 2021 at 12:07:16AM +0530, Ojaswin Mujoo wrote:
-> >>> Before this config was defined, the cdev used to be created
-> >>> unconditionally. When an earlier commit introduced this config, the
-> >>> default behavior was set to disabled, which might surprise some
-> >>> unsuspecting users.  Hence, make this config default to 'Y' to be more
-> >>> backward consistent.
-> >>>
-> >>> Signed-off-by: Ojaswin Mujoo <ojaswin98@gmail.com>
-> >>> ---
-> >>>  drivers/staging/vc04_services/Kconfig | 1 +
-> >>>  1 file changed, 1 insertion(+)
-> >>>
-> >>> diff --git a/drivers/staging/vc04_services/Kconfig b/drivers/staging/vc04_services/Kconfig
-> >>> index 63caa6818d37..2b70c37cdd09 100644
-> >>> --- a/drivers/staging/vc04_services/Kconfig
-> >>> +++ b/drivers/staging/vc04_services/Kconfig
-> >>> @@ -23,6 +23,7 @@ if BCM2835_VCHIQ
-> >>>  
-> >>>  config VCHIQ_CDEV
-> >>>  	bool "VCHIQ Character Driver"
-> >>> +	default y
-> >>
-> >> default y is only if the machine will not work without this option.
-> >> Is that the case here?  If not, then please do not have this as the
-> >> default.
-> > Got it Greg. 
-> >
-> > From my testing, the Raspberry Pi does seem to boot correctly without
-> > this although some userspace libraries might not work. 
-> >
-> > Since the machine itself works, I guess I'll drop this patch.
+On 7/29/21 2:58 AM, Greg Kroah-Hartman wrote:
+> The vt6655 and vt6656 drivers have an unused CONFIG_PATH define floating
+> around in the code, but it is never used.  Remove it as drivers should
+> never be reading from config files anyway, even if these were valid
+> files.
 > 
-> The idea is good, but the patch needs improvement :)
-> 
-> Acceptable solution might be that BCM2835_VCHIQ selects VCHIQ_CDEV.
-Thanks for the suggestion, Stefan. 
+> Reported-by: Joe Perches <joe@perches.com>
+> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-So on testing with select, it seems like select defines a hard reverse
-dependency i.e if BCM2835_VCHIQ=y then VCHIQ_CDEV=y and it can't be set
-to n.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-Checking the Kconfig launguae doc, I found that we could use "imply" to
-define weak reverse dependencies, such that BCM2835_VCHIQ=y auto selects
-VCHIQ_CDEV=y but we can also change it back to n if required. I tested
-this out and it seems to work fine. I believe we can se imply here as it
-better suits the use case.
+Thanks.
 
-Thank you,
-Ojaswin
+> ---
+>  drivers/staging/vt6655/device_cfg.h | 3 ---
+>  drivers/staging/vt6656/device.h     | 2 --
+>  2 files changed, 5 deletions(-)
 > 
-> >
-> > Thank you!
-> > Ojaswin
-> >> thanks,
-> >>
-> >> greg k-h
-> > _______________________________________________
-> > linux-arm-kernel mailing list
-> > linux-arm-kernel@lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> diff --git a/drivers/staging/vt6655/device_cfg.h b/drivers/staging/vt6655/device_cfg.h
+> index db0304f6e21c..2d647a3619ba 100644
+> --- a/drivers/staging/vt6655/device_cfg.h
+> +++ b/drivers/staging/vt6655/device_cfg.h
+> @@ -38,9 +38,6 @@
+>  
+>  #include <linux/fs.h>
+>  #include <linux/fcntl.h>
+> -#ifndef CONFIG_PATH
+> -#define CONFIG_PATH            "/etc/vntconfiguration.dat"
+> -#endif
+>  
+>  #define PKT_BUF_SZ          2390
+>  
+> diff --git a/drivers/staging/vt6656/device.h b/drivers/staging/vt6656/device.h
+> index 947530fefe94..2c93a2e66c8a 100644
+> --- a/drivers/staging/vt6656/device.h
+> +++ b/drivers/staging/vt6656/device.h
+> @@ -77,8 +77,6 @@
+>  #define FIRMWARE_NAME			"vntwusb.fw"
+>  #define FIRMWARE_CHUNK_SIZE		0x400
+>  
+> -#define CONFIG_PATH			"/etc/vntconfiguration.dat"
+> -
+>  #define MAX_UINTS			8
+>  #define OPTION_DEFAULT			{ [0 ... MAX_UINTS - 1] = -1}
+>  
 > 
+
+
+-- 
+~Randy
+
