@@ -1,30 +1,57 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C7272
-	for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 14:51:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Sender:Reply-To:Content-ID:Content-Description;
-	bh=c0pAqr7WjXOmFqze5UYuYquQopW+1yGLNu5EKWRUiGc=; b=u07QTVbfnWNQmvKswjiJGLv5mf
-	Q/+cUcRYtTRvAYz8JLJDravtb7cFv1rgmMreNJc+/FZFvZmmmLsCy8hfkY9AAO3GLBZuSDnDB13A0
-	KeEDjVoqDilEMP7JpmQMz7/24sdJlq8TuUiCNwXZZkIK7W8Dj8YXGTb418+5InGY9owxuPbhJAiyM
-	ODzwpFNN2sfYOH1E4SIvzNsONFVaT4xYZAgmIGR/y/oHIfUXl1WHC9af5JJnMzU3emr2eqQXHnYN3
-	cgdCThNaqLag18GqTJ9pVFn1C6rFP/VLZCj57ySHNOecjZEqBwJuLyFyuIY/J8r347uVNGXYpiTfQ
-	Aj6sNKOg==;
-Received: from [2601:1c0:6280:3f0::aefb]
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1m97NQ-004biU-Ic; Thu, 29 Jul 2021 14:51:12 +0000
-Subject: Re: [PATCH] staging: vt665X: remove unused CONFIG_PATH
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev
-Cc: forest@alittletooquiet.net, linux-kernel@vger.kernel.org,
- Joe Perches <joe@perches.com>
-References: <20210729095812.1693061-1-gregkh@linuxfoundation.org>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <68f85669-71a8-b0c9-d23f-0dc7e1de2f12@infradead.org>
-Date: Thu, 29 Jul 2021 07:51:11 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05FC770
+	for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 16:47:48 +0000 (UTC)
+Received: by mail-oi1-f171.google.com with SMTP id a19so9247741oiw.6
+        for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 09:47:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=WByKALSH2u96aeeXWsaLJQnIIah2Zq4+6oOOD+AQHTY=;
+        b=CtY2tWmzEjc7d+wiaKiRgxdKYEf52ep9Zd4FBuhH46+795nlGmDqM50Do1fzXDz/t7
+         KzEaCyuCdbsfjd/j+vDVVGy679kJmJ6tmyHZmx2SDHhKkfK34sf9yDtCaCKPhzUNgSRD
+         jkzPxKYMyZAnG4lgXgUgTrCm/5wKaPDj3nVSGI1avUHFBkzFoLqQMF5+XmEV6HSSjaay
+         SP/idGu4cZkr+9SCceIx929PTJpm3HJpsiHVZqgEzOrifU2gWIThnzMLAfI9Rt0Y60gM
+         ehTbACjAIhVoqlaXzzPFvj0BrYPTUQi8SxSPAHqk7HsLjOSajebhqMwd3F/KztuZGpbz
+         0LVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=WByKALSH2u96aeeXWsaLJQnIIah2Zq4+6oOOD+AQHTY=;
+        b=GWFcb9DVXS5Ji3c0dOownpeivwRNL6O2AQa+isNw/4auHAEjkGMGmlhm/yA6Ii5KwZ
+         rYNypKTF+Eq9D28lvmKtvGvgJRG1NDx2TJjzFqW/SPSWneojHDI7aAEF1y1vTWKwXpSD
+         BLD66re5oBdBZ51tvEO6AtgJD+fm8WraINeRYTXAtEwRX7G3YuILA7F4VVPhveLHOkFk
+         t4EfLJBNqZ71//e2sbe1nCgUrbNAamrjBNv4LmTOhFOk8lHjCz86NgxXaendOkYwuSoV
+         YV49W5WBIM97ObhykzaqLUoCYIHx6+fJSG77Zcj+KQkopEtoGPJJ6/9xIIUEqSN86sLT
+         +0EA==
+X-Gm-Message-State: AOAM531tWe5LYDrOsRPM5D+UhTlu6Y51uxyzMh/uuz/1FmsMkXuyCdMq
+	G5JI0/Ub5i0WtT4y7XBecGk=
+X-Google-Smtp-Source: ABdhPJxVv8ZSeD6e+G/dL4Y956ZzVqxMdEZwzp0FEWvy2r2sn06pb40kdU98XiDxuymXmY8cBJW9rA==
+X-Received: by 2002:aca:3094:: with SMTP id w142mr3656047oiw.37.1627577268137;
+        Thu, 29 Jul 2021 09:47:48 -0700 (PDT)
+Received: from 2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com (2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com. [2603:8090:2005:39b3::100a])
+        by smtp.gmail.com with ESMTPSA id a24sm617069otq.72.2021.07.29.09.47.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Jul 2021 09:47:47 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Subject: Re: [PATCH v4 0/6] staging: r8188eu: add newer/better RTL8188eu
+ driver
+To: Martin Kaiser <martin@kaiser.cx>, Phillip Potter <phil@philpotter.co.uk>,
+ Greg KH <gregkh@linuxfoundation.org>
+Cc: Dan Carpenter <dan.carpenter@oracle.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-staging@lists.linux.dev, Fabio Aiuto <fabioaiuto83@gmail.com>
+References: <20210727232219.2948-1-phil@philpotter.co.uk>
+ <20210728074605.pp5rs4c65tofnqot@viti.kaiser.cx>
+ <CAA=Fs0mH9YAVhr24YeE3jpZrnuDGhOuhj=Sb9Ekkpb-xoC5LYg@mail.gmail.com>
+ <20210729133730.lnxqzawnvksp4skg@viti.kaiser.cx>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+Message-ID: <1d687d5f-d514-655a-f8bf-a5bac321affb@lwfinger.net>
+Date: Thu, 29 Jul 2021 11:47:45 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 Precedence: bulk
@@ -33,60 +60,33 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210729095812.1693061-1-gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210729133730.lnxqzawnvksp4skg@viti.kaiser.cx>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 7/29/21 2:58 AM, Greg Kroah-Hartman wrote:
-> The vt6655 and vt6656 drivers have an unused CONFIG_PATH define floating
-> around in the code, but it is never used.  Remove it as drivers should
-> never be reading from config files anyway, even if these were valid
-> files.
+On 7/29/21 8:37 AM, Martin Kaiser wrote:
+> ok, understood. That's an important feature. I see that Greg accepted
+> your patches, there's no point in arguing any more;-)
 > 
-> Reported-by: Joe Perches <joe@perches.com>
-> Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Greg and Larry: Would you mind sharing your ideas about getting
+> rtl8188eu support mainline? Do you imagine that we clean up this driver
+> until it can be moved out of staging? If so, we'd probably have to
+> resolve name conflicts with other realtek drivers and rename lots of
+> functions. Or would a cleanup of the new rtl8188eu driver be a
+> preparation for adding bits and pieces of it to rtlwifi?
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Martin,
 
-Thanks.
+I do see this driver being cleaned up to the point that it transitions to mainline.
 
-> ---
->  drivers/staging/vt6655/device_cfg.h | 3 ---
->  drivers/staging/vt6656/device.h     | 2 --
->  2 files changed, 5 deletions(-)
-> 
-> diff --git a/drivers/staging/vt6655/device_cfg.h b/drivers/staging/vt6655/device_cfg.h
-> index db0304f6e21c..2d647a3619ba 100644
-> --- a/drivers/staging/vt6655/device_cfg.h
-> +++ b/drivers/staging/vt6655/device_cfg.h
-> @@ -38,9 +38,6 @@
->  
->  #include <linux/fs.h>
->  #include <linux/fcntl.h>
-> -#ifndef CONFIG_PATH
-> -#define CONFIG_PATH            "/etc/vntconfiguration.dat"
-> -#endif
->  
->  #define PKT_BUF_SZ          2390
->  
-> diff --git a/drivers/staging/vt6656/device.h b/drivers/staging/vt6656/device.h
-> index 947530fefe94..2c93a2e66c8a 100644
-> --- a/drivers/staging/vt6656/device.h
-> +++ b/drivers/staging/vt6656/device.h
-> @@ -77,8 +77,6 @@
->  #define FIRMWARE_NAME			"vntwusb.fw"
->  #define FIRMWARE_CHUNK_SIZE		0x400
->  
-> -#define CONFIG_PATH			"/etc/vntconfiguration.dat"
-> -
->  #define MAX_UINTS			8
->  #define OPTION_DEFAULT			{ [0 ... MAX_UINTS - 1] = -1}
->  
-> 
+It is not clear to me that it would fit into the rtlwifi framework. It probably 
+could use the USB driver there, but unlikely to use a lot more of that code.
 
+I will certainly be on the lookout for conflicts with the rtlwifi and rtl8xxxu, 
+indeed the whole drivers/net/wireless/realtek/, code as the cleanup proceeds.
 
--- 
-~Randy
+Thanks for your concerns and questions.
+
+Larry
 
