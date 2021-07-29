@@ -1,75 +1,109 @@
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2BFF70
-	for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 18:12:12 +0000 (UTC)
-Received: by mail-il1-f173.google.com with SMTP id h18so6817526ilc.5
-        for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 11:12:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=9sdevUXdH+N3MKgpmyJ0uuYWzaLPK/wTSy/wLrHVjl8=;
-        b=LrBlLDFK9SjAKAIlpsdqQuLi27/nzz0Htshch9Ud+UGin+RPIjolujKY+S2k5M7VFJ
-         uEZno8mjctrUSlMaxJdUPyAaqVFhl++DggUTqgLqDRmmTNP2OuMUNO90KCosjdQRPwfN
-         XJ2L4DGs/GetU7KUF7nRTuH2+MBYhBoogL2h2jy7ZypP03cdUZzYMExzFZnapi9zptdS
-         JhJ71O9rbbrAJXc+zG6UeK4+wSxjVVjlXwXZRJ/zPE0YzsgBCOu3gWaxddkkuP3Xl/e+
-         lOTX0Y61nHnqkQUNCtlxIjfyDzxBEvomF8Fzkr/cnGs65JjAGO6sBMRlmlhYgn9MUXBM
-         b55A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=9sdevUXdH+N3MKgpmyJ0uuYWzaLPK/wTSy/wLrHVjl8=;
-        b=LOqL8QxKtOuDVVWt3JnhzcEv94W/XVNcfDUWrEa1sDLcVMgRaPMKhsSCzpOjf17C9o
-         AZwYJIz8GPgkbCGrF0mTsecCGwGJP38+wB4jnx7IsOgCaD6r1L/xi9iZuSwvZWWNp9E1
-         SYLHHhXXWkwXhI1IGnnl+fzcGodfNimxXv5qA/kEQgGZNp4SB0F2+KSclKBXTTrrmZsu
-         i7NOU9xruFzRvCaDAdeYcWSsaJDL00gAAQMAFD5E58vVKDuT/nAU0+x8D6NO6vrVqi73
-         pZ10YuYzdC5Qd4LKt1xvrBCJUzg/E+LFz0oJH4xXNbMfO0HKdMDvwGQu1gKWnULAf+9e
-         WnCg==
-X-Gm-Message-State: AOAM531IsHytPys4E5YlLI3GoAQIdTRCzScb7a0LHBCRRaQkbUPGjMx8
-	uIdoNtujQI1ZBSBtbgyh3NU=
-X-Google-Smtp-Source: ABdhPJwBBLYzIuCuR89jLr3eHp4+lZIMPFZKNgT6IQ2uyWoCBdtrwJv3TXGGgxcL1FFYHLZeESDYLw==
-X-Received: by 2002:a92:c5c2:: with SMTP id s2mr4665254ilt.180.1627582331952;
-        Thu, 29 Jul 2021 11:12:11 -0700 (PDT)
-Received: from Agam.localdomain ([2601:402:4500:9270::5e36])
-        by smtp.gmail.com with ESMTPSA id q10sm2893988ion.3.2021.07.29.11.12.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jul 2021 11:12:11 -0700 (PDT)
-Date: Thu, 29 Jul 2021 14:12:08 -0400
-From: Agam Kohli <agamkohli9@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Agam Kohli <agamkohli9@gmail.com>
-Subject: [PATCH] Staging: rt18712: hal_init: removed filename from beginning
- comment block
-Message-ID: <YQLveNI2UrnpeeAt@Agam.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5683483
+	for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 18:58:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D1F9600D4;
+	Thu, 29 Jul 2021 18:58:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1627585135;
+	bh=NY+6KsF6TgwvjW8V2qdlD2zqaxdlHCFW8WbLHI1uw44=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=QwbKTXNKGQlFHhv+nWwVAGS0y7dhrRo4QVZVXmOtNRN5nEqtsizCnwgYVL71jdemC
+	 NN4LRUz2GWMm7y5nxjYEDLhzAkGKRRgwxxSk0RtIMXokH62NJ6mpGF6A4PMG9LR/dk
+	 TFkkqH24xr7RZti78Lg43eSuDbQW/o4UTfuxqASt48qIZ7hGRVSrrGAHfGoGqApQr4
+	 fe/qqMg9s0eu93lcxSA+fP7WwiK2Zm7316Nw0lTenmESdj7Qq2k4auX+VlqVjOzIyH
+	 tJgu8hsfbG/DoN1PkOib/PnMN36fOPMKqtasZoBoWlwaNtiGVNPNof0RnW7kK1gS1x
+	 /NEEryLj0coQw==
+Date: Thu, 29 Jul 2021 11:58:50 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Kees Cook <keescook@chromium.org>
+Cc: linux-hardening@vger.kernel.org, "Gustavo A. R. Silva"
+ <gustavoars@kernel.org>, Keith Packard <keithpac@amazon.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton
+ <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+ linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ clang-built-linux@googlegroups.com
+Subject: Re: [PATCH 54/64] ipv6: Use struct_group() to zero rt6_info
+Message-ID: <20210729115850.7f913c73@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20210727205855.411487-55-keescook@chromium.org>
+References: <20210727205855.411487-1-keescook@chromium.org>
+	<20210727205855.411487-55-keescook@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Fixed a coding style issue
+On Tue, 27 Jul 2021 13:58:45 -0700 Kees Cook wrote:
+> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> field bounds checking for memset(), avoid intentionally writing across
+> neighboring fields.
+> 
+> Add struct_group() to mark region of struct rt6_info that should be
+> initialized to zero.
 
-Signed-off-by: Agam Kohli <agamkohli9@gmail.com>
----
- drivers/staging/rtl8712/hal_init.c | 1 -
- 1 file changed, 1 deletion(-)
+memset_after() ?
 
-diff --git a/drivers/staging/rtl8712/hal_init.c b/drivers/staging/rtl8712/hal_init.c
-index 22974277afa0..dc138fe7d2de 100644
---- a/drivers/staging/rtl8712/hal_init.c
-+++ b/drivers/staging/rtl8712/hal_init.c
-@@ -1,6 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0
- /******************************************************************************
-- * hal_init.c
-  *
-  * Copyright(c) 2007 - 2010 Realtek Corporation. All rights reserved.
-  * Linux device driver for RTL8192SU
--- 
-2.32.0
+> diff --git a/include/net/ip6_fib.h b/include/net/ip6_fib.h
+> index 15b7fbe6b15c..9816e7444918 100644
+> --- a/include/net/ip6_fib.h
+> +++ b/include/net/ip6_fib.h
+> @@ -205,20 +205,22 @@ struct fib6_info {
+>  
+>  struct rt6_info {
+>  	struct dst_entry		dst;
+> -	struct fib6_info __rcu		*from;
+> -	int				sernum;
+> -
+> -	struct rt6key			rt6i_dst;
+> -	struct rt6key			rt6i_src;
+> -	struct in6_addr			rt6i_gateway;
+> -	struct inet6_dev		*rt6i_idev;
+> -	u32				rt6i_flags;
+> -
+> -	struct list_head		rt6i_uncached;
+> -	struct uncached_list		*rt6i_uncached_list;
+> -
+> -	/* more non-fragment space at head required */
+> -	unsigned short			rt6i_nfheader_len;
+> +	struct_group(init,
+> +		struct fib6_info __rcu		*from;
+> +		int				sernum;
+> +
+> +		struct rt6key			rt6i_dst;
+> +		struct rt6key			rt6i_src;
+> +		struct in6_addr			rt6i_gateway;
+> +		struct inet6_dev		*rt6i_idev;
+> +		u32				rt6i_flags;
+> +
+> +		struct list_head		rt6i_uncached;
+> +		struct uncached_list		*rt6i_uncached_list;
+> +
+> +		/* more non-fragment space at head required */
+> +		unsigned short			rt6i_nfheader_len;
+> +	);
+>  };
+>  
+>  struct fib6_result {
+> diff --git a/net/ipv6/route.c b/net/ipv6/route.c
+> index 6b8051106aba..bbcc605bab57 100644
+> --- a/net/ipv6/route.c
+> +++ b/net/ipv6/route.c
+> @@ -327,9 +327,7 @@ static const struct rt6_info ip6_blk_hole_entry_template = {
+>  
+>  static void rt6_info_init(struct rt6_info *rt)
+>  {
+> -	struct dst_entry *dst = &rt->dst;
+> -
+> -	memset(dst + 1, 0, sizeof(*rt) - sizeof(*dst));
+> +	memset(&rt->init, 0, sizeof(rt->init));
+>  	INIT_LIST_HEAD(&rt->rt6i_uncached);
+>  }
+>  
 
