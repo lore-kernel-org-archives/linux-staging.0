@@ -1,78 +1,112 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE58870
-	for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 09:58:16 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 055C461076;
-	Thu, 29 Jul 2021 09:58:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1627552696;
-	bh=jU/mVxIYzVpDQbC61+5+mpAlihguu9WTIumYgAJw8Dw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=waM/KqvyOq+yOCVb4Y7Movu+Gw2kQRd8sEn7qKGl2Fb3gdPojP0dyQg7aEuCyy1tf
-	 3yoPeCsmXz1m2HTn5W9OrWeigDeEINSk0ciadtW/Vg+SXAUTTCBu7Mo7lnqBwTUwaz
-	 0cG8lejnJeg4hCEgS9pV/CwEy5z4erfQPK+Pv1CY=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-staging@lists.linux.dev
-Cc: forest@alittletooquiet.net,
-	linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604063483
+	for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 10:36:30 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out1.suse.de (Postfix) with ESMTP id 508A0223DB;
+	Thu, 29 Jul 2021 10:36:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1627554983;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UkKnqVbw14P1zZ1afK/03fijXFZbWicFe7fyoa6bfnY=;
+	b=pwTsly5mnrizCEq06N5ukXErKPn6Gc1C4FWAemD4tE4rdrKSAD7WEsJBIsy8JMWoICKPro
+	YUD+rdsGqthszKzibpdDw9PZmLm6K7z+/nJcnH3/9RbXzkKL1yBN2iLF4qJdxbzSEE22IX
+	Yy8hsiRj4qt+y/wj0C71RSUrfiRJOCs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1627554983;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UkKnqVbw14P1zZ1afK/03fijXFZbWicFe7fyoa6bfnY=;
+	b=oD2Z+sefoAAeNVxRJnEQBL4v50NCmrVZt9d8xH9i0feek4vyCIM8VXMg7aRjFLf8nzGBrz
+	j9JufWGGGCZMyACA==
+Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
+	by relay2.suse.de (Postfix) with ESMTP id 36ED5A3B8C;
+	Thu, 29 Jul 2021 10:36:23 +0000 (UTC)
+Received: by ds.suse.cz (Postfix, from userid 10065)
+	id D7134DA7AF; Thu, 29 Jul 2021 12:33:37 +0200 (CEST)
+Date: Thu, 29 Jul 2021 12:33:37 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Kees Cook <keescook@chromium.org>
+Cc: linux-hardening@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Keith Packard <keithpac@amazon.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Joe Perches <joe@perches.com>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] staging: vt665X: remove unused CONFIG_PATH
-Date: Thu, 29 Jul 2021 11:58:12 +0200
-Message-Id: <20210729095812.1693061-1-gregkh@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: Re: [PATCH 47/64] btrfs: Use memset_after() to clear end of struct
+Message-ID: <20210729103337.GS5047@suse.cz>
+Reply-To: dsterba@suse.cz
+Mail-Followup-To: dsterba@suse.cz, Kees Cook <keescook@chromium.org>,
+	linux-hardening@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Keith Packard <keithpac@amazon.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-48-keescook@chromium.org>
+ <20210728094215.GX5047@twin.jikos.cz>
+ <202107281455.2A0753F5@keescook>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1386; h=from:subject; bh=jU/mVxIYzVpDQbC61+5+mpAlihguu9WTIumYgAJw8Dw=; b=owGbwMvMwCRo6H6F97bub03G02pJDIlM1Rv/c/FLbX+pVXeyU1FIjnli5P/Ovq0qR/vN/8TPWS6n WVDcEcvCIMjEICumyPJlG8/R/RWHFL0MbU/DzGFlAhnCwMUpABMxm8OwYMmT8EWdxcxybnE7Z+66Mr viSkDxJoa58nIOz/5c6lPz7Hsf0Bon/XC+8dE9AA==
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202107281455.2A0753F5@keescook>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
 
-The vt6655 and vt6656 drivers have an unused CONFIG_PATH define floating
-around in the code, but it is never used.  Remove it as drivers should
-never be reading from config files anyway, even if these were valid
-files.
+On Wed, Jul 28, 2021 at 02:56:31PM -0700, Kees Cook wrote:
+> On Wed, Jul 28, 2021 at 11:42:15AM +0200, David Sterba wrote:
+> > On Tue, Jul 27, 2021 at 01:58:38PM -0700, Kees Cook wrote:
+> > > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> > > field bounds checking for memset(), avoid intentionally writing across
+> > > neighboring fields.
+> > > 
+> > > Use memset_after() so memset() doesn't get confused about writing
+> > > beyond the destination member that is intended to be the starting point
+> > > of zeroing through the end of the struct.
+> > > 
+> > > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > > ---
+> > >  fs/btrfs/root-tree.c | 5 +----
+> > >  1 file changed, 1 insertion(+), 4 deletions(-)
+> > > 
+> > > diff --git a/fs/btrfs/root-tree.c b/fs/btrfs/root-tree.c
+> > > index 702dc5441f03..ec9e78f65fca 100644
+> > > --- a/fs/btrfs/root-tree.c
+> > > +++ b/fs/btrfs/root-tree.c
+> > > @@ -39,10 +39,7 @@ static void btrfs_read_root_item(struct extent_buffer *eb, int slot,
+> > >  		need_reset = 1;
+> > >  	}
+> > >  	if (need_reset) {
+> > > -		memset(&item->generation_v2, 0,
+> > > -			sizeof(*item) - offsetof(struct btrfs_root_item,
+> > > -					generation_v2));
+> > > -
+> > 
+> > Please add
+> > 		/* Clear all members from generation_v2 onwards */
+> > 
+> > > +		memset_after(item, 0, level);
+> 
+> Perhaps there should be another helper memset_starting()? That would
+> make these cases a bit more self-documenting.
 
-Reported-by: Joe Perches <joe@perches.com>
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/staging/vt6655/device_cfg.h | 3 ---
- drivers/staging/vt6656/device.h     | 2 --
- 2 files changed, 5 deletions(-)
+That would be better, yes.
 
-diff --git a/drivers/staging/vt6655/device_cfg.h b/drivers/staging/vt6655/device_cfg.h
-index db0304f6e21c..2d647a3619ba 100644
---- a/drivers/staging/vt6655/device_cfg.h
-+++ b/drivers/staging/vt6655/device_cfg.h
-@@ -38,9 +38,6 @@
- 
- #include <linux/fs.h>
- #include <linux/fcntl.h>
--#ifndef CONFIG_PATH
--#define CONFIG_PATH            "/etc/vntconfiguration.dat"
--#endif
- 
- #define PKT_BUF_SZ          2390
- 
-diff --git a/drivers/staging/vt6656/device.h b/drivers/staging/vt6656/device.h
-index 947530fefe94..2c93a2e66c8a 100644
---- a/drivers/staging/vt6656/device.h
-+++ b/drivers/staging/vt6656/device.h
-@@ -77,8 +77,6 @@
- #define FIRMWARE_NAME			"vntwusb.fw"
- #define FIRMWARE_CHUNK_SIZE		0x400
- 
--#define CONFIG_PATH			"/etc/vntconfiguration.dat"
--
- #define MAX_UINTS			8
- #define OPTION_DEFAULT			{ [0 ... MAX_UINTS - 1] = -1}
- 
--- 
-2.32.0
+> +		memset_starting(item, 0, generation_v2);
 
+memset_from?
