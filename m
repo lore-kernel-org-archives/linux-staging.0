@@ -1,41 +1,41 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00113484
-	for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 17:09:48 +0000 (UTC)
-Received: by mail-ot1-f48.google.com with SMTP id 19-20020a9d08930000b02904b98d90c82cso6588558otf.5
-        for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 10:09:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C403483
+	for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 17:09:49 +0000 (UTC)
+Received: by mail-ot1-f53.google.com with SMTP id x15-20020a05683000cfb02904d1f8b9db81so6546683oto.12
+        for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 10:09:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=RicV499WZNq7QZbO+9Y5GGhbIPo1CGCHmOmkOGx7UNw=;
-        b=i3SvBHm5SPIrtiAaCEphHFlTcSXChyk/iW276Xt/YnhddQFl6SEkPl/m7G02v0mmQm
-         eY9R4KCwT7FsRaRQxNdlkF6+nk3nYyQEwsuS75YnMx3t91l3hQqRaWFVtpvjcIwnYLKr
-         XvgHHZFBgn2zsMvyJygu0Pcxht/vrRnXAS9SVG9D9S0JG03Qg8GG0Jt0f5cqKLZIYPfD
-         NfKfAcIeBicFE8Gus3KC6hkaQQ+cJscMf+imitVjWlcc3u9R6wZFshWOkggyOxdet+5o
-         SREu2lIbGsaHo0BooLkl3i+q8g9zYlRkQqNp6+P4b3qx/UpB6xpZexHX3+9J3ZUw5PgV
-         2gfg==
+        bh=IlFmYvL65EJ/K0zVzrAy+kcaagNB6BfLSJIY9lMTxMQ=;
+        b=hXdFFJ64JtmyMm4DuJfIKi0cT+CIu3txpInHcWsVqbvaRg7KUiHw66Sb3uTLrveLx9
+         DL3Ll41By9D1AOeMmQWKIlqqDXxEyefC6jxHxEkd1pHbxD6xl77h4BWedc+b71avu7IR
+         y780XDjkOm5IbLZ6NvQaOsSxyRYSoVmZr3QfQt9x/WFvmk9g8fZQncNNxxrodZK4xxIc
+         Lvjq9umw2pi5JGx2MJO/JltR7G5TYTt1RIx07GDtqkuUl7jFJd0/nz8ykHRwS9RXO6OF
+         2gq35XtLqdknHx1s2hfyBqjXDmHulGxHhydde0YLIDheQwA1/6cuHK7MZxRcDPaqUhZN
+         lJiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=RicV499WZNq7QZbO+9Y5GGhbIPo1CGCHmOmkOGx7UNw=;
-        b=CT5gB2hng5nBNg1SVcy3gH0f/KPzoVSVf7aLYbx1Dl7lAVhknR5U44lTZSkLVABL3M
-         oQnrwl+Zma23xFsKQnd1IichJ9w7UWoD7Jd6180NzIjDn7yEtzINDN/62rLq+lZuandO
-         I9NcWMiIEw8+KUHAhXevHknpo9f6g6kV7vfw5qNXpb0bVeZ56WiLvPMGXSUG/Akp3tuo
-         uH3uLTHY9GRJwh2a6uv07aGqWoXjiOzlGcl8Cepe2nEuZzLBqiJuwD8VthJakLKpTRX7
-         /c5j+ykTS/pDi+Gc5RycXkQhzRcFMm1cZ4Ml8YuHOlzFbt3Sn47w/Bcs0e8IyWZDRUsa
-         hFsQ==
-X-Gm-Message-State: AOAM531qub62R69SCuOx6JKgi8R3PxgXyBJ01BRuabUdvur8in1qlHvF
-	5/SfjlfsSZq5bqNz6H5TCgM=
-X-Google-Smtp-Source: ABdhPJxHfQzhwoC+z4R/qNmK1tyK0AvQiaae9pe8CDbqbYzsQWRp5Q3vkremarDKZ8RV0IOO27nX0A==
-X-Received: by 2002:a05:6830:1290:: with SMTP id z16mr4084701otp.28.1627578587949;
-        Thu, 29 Jul 2021 10:09:47 -0700 (PDT)
+        bh=IlFmYvL65EJ/K0zVzrAy+kcaagNB6BfLSJIY9lMTxMQ=;
+        b=J65cQLQ0gHO46olLWuCS03HNsajE12GPBKWA+BqcGYEHOzcTCjRV2MGII+NqdcyTny
+         FwkzAXb4K+gEYfZ2LlcxUsAAM3j8jUSr7/615CAKa4RIbqLwk4c5sl3X5076MY+f9VNx
+         begoKMwkkuM8S3L910U8snkOx8f+kQVzSyJvxDnrkIuILKJMaKxOSV39hCL2xQfAFLkx
+         65nEiImqCO8TGQlI9foEZLPxu2nfsdQv/DXOCR7jPy2YARSzCURVCKwQpaEkgWFLXN2C
+         xvhln74Kyh/hNIZTXubEKbLT/qIxDo1dDQtUyAYxQhdAhg8QOjG5Cyf+d8FT+ilvufsi
+         lMwg==
+X-Gm-Message-State: AOAM530s3LZWvgopKbO5j4nBqke2/N5LprUrCf673qW0OomFsZMWLlMy
+	A+rs4U4GfbEOTl1ohzVISpU=
+X-Google-Smtp-Source: ABdhPJzP7VtrOeRUWhdlbl1wJ1PY2NH/WRoWtPlGU5p4GikwKDK1IO0pHt2hbkXC6aV6m0PdqIpBzg==
+X-Received: by 2002:a9d:4b02:: with SMTP id q2mr4198025otf.52.1627578589186;
+        Thu, 29 Jul 2021 10:09:49 -0700 (PDT)
 Received: from 2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com.com (2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com. [2603:8090:2005:39b3::100a])
-        by smtp.gmail.com with ESMTPSA id a23sm614358otv.79.2021.07.29.10.09.46
+        by smtp.gmail.com with ESMTPSA id a23sm614358otv.79.2021.07.29.10.09.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jul 2021 10:09:47 -0700 (PDT)
+        Thu, 29 Jul 2021 10:09:48 -0700 (PDT)
 Sender: Larry Finger <larry.finger@gmail.com>
 From: Larry Finger <Larry.Finger@lwfinger.net>
 To: gregkh@linuxfoundation.org
@@ -43,9 +43,9 @@ Cc: phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Larry Finger <Larry.Finger@lwfinger.net>
-Subject: [PATCH 4/6] staging: r8188eu: Remove header file include/usb_hal.h
-Date: Thu, 29 Jul 2021 12:09:28 -0500
-Message-Id: <20210729170930.23171-5-Larry.Finger@lwfinger.net>
+Subject: [PATCH 5/6] staging: r8188eu: Remove header file include/rtw_version.h
+Date: Thu, 29 Jul 2021 12:09:29 -0500
+Message-Id: <20210729170930.23171-6-Larry.Finger@lwfinger.net>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210729170930.23171-1-Larry.Finger@lwfinger.net>
 References: <20210729170930.23171-1-Larry.Finger@lwfinger.net>
@@ -57,107 +57,91 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This header only includes one prototype and one define statement. The
-new definition is used once, thus it can be removed. The prototype is
-moved to a header that is already called by the supplier and the user
-of that routine, thus the small header is removed.
+This file contains only the definition of the driver version. This statement
+is moved into a header called by all the affected source files, and the now
+empty header is deleted.
 
 Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
 ---
- drivers/staging/r8188eu/hal/hal_intf.c     |  1 -
- drivers/staging/r8188eu/hal/usb_halinit.c  |  1 -
- drivers/staging/r8188eu/include/hal_intf.h |  1 +
- drivers/staging/r8188eu/include/usb_hal.h  | 10 ----------
- drivers/staging/r8188eu/os_dep/os_intfs.c  |  1 -
- drivers/staging/r8188eu/os_dep/usb_intf.c  |  3 +--
- 6 files changed, 2 insertions(+), 15 deletions(-)
- delete mode 100644 drivers/staging/r8188eu/include/usb_hal.h
+ drivers/staging/r8188eu/core/rtw_debug.c      | 2 +-
+ drivers/staging/r8188eu/include/drv_types.h   | 2 ++
+ drivers/staging/r8188eu/include/rtw_version.h | 2 --
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  | 1 -
+ drivers/staging/r8188eu/os_dep/os_intfs.c     | 1 -
+ drivers/staging/r8188eu/os_dep/usb_intf.c     | 1 -
+ 6 files changed, 3 insertions(+), 6 deletions(-)
+ delete mode 100644 drivers/staging/r8188eu/include/rtw_version.h
 
-diff --git a/drivers/staging/r8188eu/hal/hal_intf.c b/drivers/staging/r8188eu/hal/hal_intf.c
-index 4dda247e386a..02d76ac782d8 100644
---- a/drivers/staging/r8188eu/hal/hal_intf.c
-+++ b/drivers/staging/r8188eu/hal/hal_intf.c
-@@ -5,7 +5,6 @@
- #include <osdep_service.h>
- #include <drv_types.h>
- #include <hal_intf.h>
--#include <usb_hal.h>
+diff --git a/drivers/staging/r8188eu/core/rtw_debug.c b/drivers/staging/r8188eu/core/rtw_debug.c
+index 522fd59c2d50..a0ca61d8c3b8 100644
+--- a/drivers/staging/r8188eu/core/rtw_debug.c
++++ b/drivers/staging/r8188eu/core/rtw_debug.c
+@@ -4,7 +4,7 @@
+ #define _RTW_DEBUG_C_
  
- void rtw_hal_chip_configure(struct adapter *adapt)
- {
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 8ecb94728462..f784d8dcdd34 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -11,7 +11,6 @@
- #include <rtl8188e_led.h>
- #include <rtw_iol.h>
- #include <usb_ops.h>
--#include <usb_hal.h>
- #include <usb_osintf.h>
+ #include <rtw_debug.h>
+-#include <rtw_version.h>
++#include <drv_types.h>
  
- #define		HAL_MAC_ENABLE	1
-diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index c829aee518dd..d64fcda37100 100644
---- a/drivers/staging/r8188eu/include/hal_intf.h
-+++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -309,6 +309,7 @@ enum hardware_type {
+ int proc_get_drv_version(char *page, char **start,
+ 			  off_t offset, int count,
+diff --git a/drivers/staging/r8188eu/include/drv_types.h b/drivers/staging/r8188eu/include/drv_types.h
+index 0acc5847a602..d407d9274a78 100644
+--- a/drivers/staging/r8188eu/include/drv_types.h
++++ b/drivers/staging/r8188eu/include/drv_types.h
+@@ -38,6 +38,8 @@
+ #include <rtw_mp.h>
+ #include <rtw_br_ext.h>
  
- #define is_boot_from_eeprom(adapter) (adapter->eeprompriv.EepromOrEfuse)
- 
-+void rtl8188eu_set_hal_ops(struct adapter *padapter);
- void rtw_hal_def_value_init(struct adapter *padapter);
- 
- void	rtw_hal_free_data(struct adapter *padapter);
-diff --git a/drivers/staging/r8188eu/include/usb_hal.h b/drivers/staging/r8188eu/include/usb_hal.h
++#define DRIVERVERSION	"v4.1.4_6773.20130222"
++
+ enum _NIC_VERSION {
+ 	RTL8711_NIC,
+ 	RTL8712_NIC,
+diff --git a/drivers/staging/r8188eu/include/rtw_version.h b/drivers/staging/r8188eu/include/rtw_version.h
 deleted file mode 100644
-index 584602c40cca..000000000000
---- a/drivers/staging/r8188eu/include/usb_hal.h
+index 4ca74a9465fe..000000000000
+--- a/drivers/staging/r8188eu/include/rtw_version.h
 +++ /dev/null
-@@ -1,10 +0,0 @@
+@@ -1,2 +0,0 @@
 -/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
--/* Copyright(c) 2007 - 2011 Realtek Corporation. */
--
--#ifndef __USB_HAL_H__
--#define __USB_HAL_H__
--
--void rtl8188eu_set_hal_ops(struct adapter *padapter);
--#define hal_set_hal_ops	rtl8188eu_set_hal_ops
--
--#endif /* __USB_HAL_H__ */
+-#define DRIVERVERSION	"v4.1.4_6773.20130222"
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index 37973930845d..109389549435 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -14,7 +14,6 @@
+ #include <rtw_ioctl_set.h>
+ #include <rtw_mp_ioctl.h>
+ #include <usb_ops.h>
+-#include <rtw_version.h>
+ #include <rtl8188e_hal.h>
+ 
+ #include <rtw_mp.h>
 diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-index 454b94b037f3..34af5237d9e6 100644
+index 34af5237d9e6..cf92dc2a4fcc 100644
 --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
 +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-@@ -12,7 +12,6 @@
- #include <rtw_version.h>
+@@ -9,7 +9,6 @@
+ #include <recv_osdep.h>
+ #include <hal_intf.h>
+ #include <rtw_ioctl.h>
+-#include <rtw_version.h>
  
  #include <usb_osintf.h>
--#include <usb_hal.h>
  #include <rtw_br_ext.h>
- #include <linux/version.h>
- 
 diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-index 9be70ed65072..905a08ebd80d 100644
+index 905a08ebd80d..7db33946e418 100644
 --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
 +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-@@ -15,7 +15,6 @@
- #include <usb_vendor_req.h>
- #include <usb_ops.h>
- #include <usb_osintf.h>
--#include <usb_hal.h>
- #include <rtw_ioctl.h>
+@@ -8,7 +8,6 @@
+ #include <recv_osdep.h>
+ #include <xmit_osdep.h>
+ #include <hal_intf.h>
+-#include <rtw_version.h>
+ #include <linux/usb.h>
+ #include <osdep_intf.h>
  
- int ui_pid[3] = {0, 0, 0};
-@@ -628,7 +627,7 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
- 	padapter = rtw_netdev_priv(pnetdev);
- 
- 	/* step 2. hook HalFunc, allocate HalData */
--	hal_set_hal_ops(padapter);
-+	rtl8188eu_set_hal_ops(padapter);
- 
- 	padapter->intf_start = &usb_intf_start;
- 	padapter->intf_stop = &usb_intf_stop;
 -- 
 2.32.0
 
