@@ -1,237 +1,117 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0209A3483
-	for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 12:11:31 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id j2so6636497wrx.9
-        for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 05:11:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076DB3481
+	for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 12:54:20 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id l18so6831004wrv.5
+        for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 05:54:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8Nz6vB9p8A0wBJs6kkDYFIrrTzDZDT+uS9XB0IAUyko=;
-        b=IX9QYptYV6st0L1XmOo2+ZVTD1czWMC0yv2A0wEKs5uhoKxyG1M8hYGFid/Rc9caoJ
-         g3s8uihSolFDNGNVDmh/KcSkUnjuvxHUSlZem764aZk2d9p45qyVKzkwnR65zmpbIjwe
-         oixk5YiEQMSk6egRcnGh8U5DvdkvMLdRPa8MA=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sojLm/OhjX4jzl+CwB8PAyfGWgokmWWvVfhI8e4IKfE=;
+        b=h5hUX2zAHlgXlLgtDuzcJWrGe1s4S8nTN4bHSXzO4YxkCoa/ssdI7ZUt0npehg+fV4
+         r+4JWhJyqR1N78lG2Ct8zaPMe9hM4tCofg1aCKWHRKFDuSPQNfHNaJNgEm/8CdZBu3mI
+         zPl7OWqDTjmZ7CH0IFckEM+XS9faiZeNUFk4Ilm5mx6oc5dvpm2F5Xt4KyQakjZMNGpI
+         JVMqJ0vRBrW6Z0MoQdkqxsYAyH6yJ8wqlD9lJXg+Pb9wvdxiVtCK3CRDjvIe/uFCDlRy
+         YI5X76WrLvTyXbUj+gv37uMmMjiVGnLTm9LtzzBc89SCYPTz7LyjQIq11TV7xM4ebu3r
+         kTLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=8Nz6vB9p8A0wBJs6kkDYFIrrTzDZDT+uS9XB0IAUyko=;
-        b=b2mq6AFZWdCGqInPrSeF3dZq5tLgvCE0zI9o2vW9/50h+nY5keLgD563RwlYzCC0k4
-         Iq/rU3lptjvtm9qwHgGfdKibLyWGNEgBBHUjF11vJNQqX2IyIXKf5FWAWDuaoSje/K/3
-         RlzBoOMn/+7imrxPOeQbTFVqb8lbUoTnn/o7a87fcNq5s7Sq9gkB8jOhHMTHho6CTZxd
-         cU6Z5RzYX+amGj5dW3xWdN4WuotTgppmSh10rS/o7YSFhIbbA1IhLcF6KM8DbKRyDhRH
-         M2oay97IwKW5kPYXjHnyUhgO9AwISSxtHeMAeGrGAv53OklZXJkF71l/84oI6GMhYKb8
-         0UNg==
-X-Gm-Message-State: AOAM531GZRpruIgSux+rr5l9e+bKplKgWidRJd6GgnRvL3cj0u1Lu+rA
-	SEGMlvHOviN/t86jHmiOs+RzmQ==
-X-Google-Smtp-Source: ABdhPJyxNFOOp917FBlh8xg1Ee/DiYPVZ7Er8zzOKotZZKyVJ/yUFb4NW2JEu0Us3Suihgl1chkn3Q==
-X-Received: by 2002:a5d:4e91:: with SMTP id e17mr4462754wru.7.1627560689971;
-        Thu, 29 Jul 2021 05:11:29 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id a14sm3323850wrf.97.2021.07.29.05.11.28
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sojLm/OhjX4jzl+CwB8PAyfGWgokmWWvVfhI8e4IKfE=;
+        b=aL0xOWIpT9qBNCEZ4RFj0Q7eAM0+qKnw/ePIv0cH+kIRhbweIlQmODqqzbG8dAIgxo
+         HEdqol0p/5PpO6c+DBp8Mo8HpmQFn4knpUY87jwVQG7oCyiBtjoClXXOiQFdL8JxCIB6
+         bA0eEyCtsezsw4ixst/wVWzr02xOhkM/zbgF8vX/bqAqrQZ3CHGHJ8ZwzcraZiuz01VX
+         fGSPQZY5kRNLKb6V62Lrq99o3XlUVpzZqMW2HaLDgPV1eVqdlOcgSWNnnJSvV5i5AWVM
+         xjBuX8lYAv8sxSo5OE/VQ6jEuG+ckR2+RyEe19F3JZ3MvEYDWp+subI4X+u392A01JDZ
+         tG5A==
+X-Gm-Message-State: AOAM5314f3ygGoiFdp4nbajLXR3JBpADuGuudCjQ2F1mt2beOiHo3t4S
+	twd7hhB40v+O7SNtGbZ6Xko=
+X-Google-Smtp-Source: ABdhPJz0akrNVSl7x+MyGwUD3d8Ebq3UGQsTid5gKG7puHLNuj1uMJDcbPJSxWlyENV/o29X/2gAhA==
+X-Received: by 2002:adf:ea41:: with SMTP id j1mr4687602wrn.147.1627563259338;
+        Thu, 29 Jul 2021 05:54:19 -0700 (PDT)
+Received: from agape ([5.171.73.68])
+        by smtp.gmail.com with ESMTPSA id h15sm3191183wrq.88.2021.07.29.05.54.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jul 2021 05:11:29 -0700 (PDT)
-Date: Thu, 29 Jul 2021 14:11:27 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Kees Cook <keescook@chromium.org>, linux-kbuild@vger.kernel.org,
-	netdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-block@vger.kernel.org, clang-built-linux@googlegroups.com,
-	Keith Packard <keithpac@amazon.com>,
-	linux-hardening@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH 25/64] drm/mga/mga_ioc32: Use struct_group() for memcpy()
- region
-Message-ID: <YQKa76A6XuFqgM03@phenom.ffwll.local>
-Mail-Followup-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kees Cook <keescook@chromium.org>, linux-kbuild@vger.kernel.org,
-	netdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-block@vger.kernel.org, clang-built-linux@googlegroups.com,
-	Keith Packard <keithpac@amazon.com>,
-	linux-hardening@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-26-keescook@chromium.org>
- <YQDxmEYfppJ4wAmD@kroah.com>
+        Thu, 29 Jul 2021 05:54:19 -0700 (PDT)
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: hdegoede@redhat.com,
+	Larry.Finger@lwfinger.net,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8723bs: remove unused BT static variables
+Date: Thu, 29 Jul 2021 14:54:17 +0200
+Message-Id: <20210729125417.4380-1-fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YQDxmEYfppJ4wAmD@kroah.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 28, 2021 at 07:56:40AM +0200, Greg Kroah-Hartman wrote:
-> On Tue, Jul 27, 2021 at 01:58:16PM -0700, Kees Cook wrote:
-> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > field bounds checking for memcpy(), memmove(), and memset(), avoid
-> > intentionally writing across neighboring fields.
-> > 
-> > Use struct_group() in struct drm32_mga_init around members chipset, sgram,
-> > maccess, fb_cpp, front_offset, front_pitch, back_offset, back_pitch,
-> > depth_cpp, depth_offset, depth_pitch, texture_offset, and texture_size,
-> > so they can be referenced together. This will allow memcpy() and sizeof()
-> > to more easily reason about sizes, improve readability, and avoid future
-> > warnings about writing beyond the end of chipset.
-> > 
-> > "pahole" shows no size nor member offset changes to struct drm32_mga_init.
-> > "objdump -d" shows no meaningful object code changes (i.e. only source
-> > line number induced differences and optimizations).
-> > 
-> > Note that since this includes a UAPI header, struct_group() has been
-> > explicitly redefined local to the header.
-> > 
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > ---
-> >  drivers/gpu/drm/mga/mga_ioc32.c | 30 ++++++++++++++------------
-> >  include/uapi/drm/mga_drm.h      | 37 ++++++++++++++++++++++++---------
-> >  2 files changed, 44 insertions(+), 23 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/mga/mga_ioc32.c b/drivers/gpu/drm/mga/mga_ioc32.c
-> > index 4fd4de16cd32..fbd0329dbd4f 100644
-> > --- a/drivers/gpu/drm/mga/mga_ioc32.c
-> > +++ b/drivers/gpu/drm/mga/mga_ioc32.c
-> > @@ -38,16 +38,21 @@
-> >  typedef struct drm32_mga_init {
-> >  	int func;
-> >  	u32 sarea_priv_offset;
-> > -	int chipset;
-> > -	int sgram;
-> > -	unsigned int maccess;
-> > -	unsigned int fb_cpp;
-> > -	unsigned int front_offset, front_pitch;
-> > -	unsigned int back_offset, back_pitch;
-> > -	unsigned int depth_cpp;
-> > -	unsigned int depth_offset, depth_pitch;
-> > -	unsigned int texture_offset[MGA_NR_TEX_HEAPS];
-> > -	unsigned int texture_size[MGA_NR_TEX_HEAPS];
-> > +	struct_group(always32bit,
-> > +		int chipset;
-> > +		int sgram;
-> > +		unsigned int maccess;
-> > +		unsigned int fb_cpp;
-> > +		unsigned int front_offset;
-> > +		unsigned int front_pitch;
-> > +		unsigned int back_offset;
-> > +		unsigned int back_pitch;
-> > +		unsigned int depth_cpp;
-> > +		unsigned int depth_offset;
-> > +		unsigned int depth_pitch;
-> > +		unsigned int texture_offset[MGA_NR_TEX_HEAPS];
-> > +		unsigned int texture_size[MGA_NR_TEX_HEAPS];
-> > +	);
-> >  	u32 fb_offset;
-> >  	u32 mmio_offset;
-> >  	u32 status_offset;
-> > @@ -67,9 +72,8 @@ static int compat_mga_init(struct file *file, unsigned int cmd,
-> >  
-> >  	init.func = init32.func;
-> >  	init.sarea_priv_offset = init32.sarea_priv_offset;
-> > -	memcpy(&init.chipset, &init32.chipset,
-> > -		offsetof(drm_mga_init_t, fb_offset) -
-> > -		offsetof(drm_mga_init_t, chipset));
-> > +	memcpy(&init.always32bit, &init32.always32bit,
-> > +	       sizeof(init32.always32bit));
-> >  	init.fb_offset = init32.fb_offset;
-> >  	init.mmio_offset = init32.mmio_offset;
-> >  	init.status_offset = init32.status_offset;
-> > diff --git a/include/uapi/drm/mga_drm.h b/include/uapi/drm/mga_drm.h
-> > index 8c4337548ab5..61612e5ecab2 100644
-> > --- a/include/uapi/drm/mga_drm.h
-> > +++ b/include/uapi/drm/mga_drm.h
-> > @@ -265,6 +265,16 @@ typedef struct _drm_mga_sarea {
-> >  #define DRM_IOCTL_MGA_WAIT_FENCE    DRM_IOWR(DRM_COMMAND_BASE + DRM_MGA_WAIT_FENCE, __u32)
-> >  #define DRM_IOCTL_MGA_DMA_BOOTSTRAP DRM_IOWR(DRM_COMMAND_BASE + DRM_MGA_DMA_BOOTSTRAP, drm_mga_dma_bootstrap_t)
-> >  
-> > +#define __struct_group(name, fields) \
-> > +	union { \
-> > +		struct { \
-> > +			fields \
-> > +		}; \
-> > +		struct { \
-> > +			fields \
-> > +		} name; \
-> > +	}
-> > +
-> >  typedef struct _drm_mga_warp_index {
-> >  	int installed;
-> >  	unsigned long phys_addr;
-> > @@ -279,20 +289,25 @@ typedef struct drm_mga_init {
-> >  
-> >  	unsigned long sarea_priv_offset;
-> >  
-> > -	int chipset;
-> > -	int sgram;
-> > +	__struct_group(always32bit,
-> > +		int chipset;
-> > +		int sgram;
-> >  
-> > -	unsigned int maccess;
-> > +		unsigned int maccess;
-> >  
-> > -	unsigned int fb_cpp;
-> > -	unsigned int front_offset, front_pitch;
-> > -	unsigned int back_offset, back_pitch;
-> > +		unsigned int fb_cpp;
-> > +		unsigned int front_offset;
-> > +		unsigned int front_pitch;
-> > +		unsigned int back_offset;
-> > +		unsigned int back_pitch;
-> >  
-> > -	unsigned int depth_cpp;
-> > -	unsigned int depth_offset, depth_pitch;
-> > +		unsigned int depth_cpp;
-> > +		unsigned int depth_offset;
-> > +		unsigned int depth_pitch;
-> >  
-> > -	unsigned int texture_offset[MGA_NR_TEX_HEAPS];
-> > -	unsigned int texture_size[MGA_NR_TEX_HEAPS];
-> > +		unsigned int texture_offset[MGA_NR_TEX_HEAPS];
-> > +		unsigned int texture_size[MGA_NR_TEX_HEAPS];
-> > +	);
-> >  
-> >  	unsigned long fb_offset;
-> >  	unsigned long mmio_offset;
-> > @@ -302,6 +317,8 @@ typedef struct drm_mga_init {
-> >  	unsigned long buffers_offset;
-> >  } drm_mga_init_t;
-> >  
-> > +#undef __struct_group
-> > +
-> 
-> Why can you use __struct_group in this uapi header, but not the
-> networking one?
+remove some unused static variables. One of them
+is used to toggle on the BT coexistence mechanism,
+but it is always enabled and it's not conditioned
+to the value of the related parameter.
 
-If there's others, maybe we can stuff the uapi __struct_group into
-linux/types.h where all the other __ uapi types hang out?
+Remove unused field of the registry_priv struct as
+well, they were intended for hosting the parameters
+this patch rids.
 
-Anyway mga is very dead, I don't anyone cares.
+Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
+---
+ drivers/staging/rtl8723bs/include/drv_types.h |  4 ----
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   | 10 ----------
+ 2 files changed, 14 deletions(-)
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-I'm assuming this goes in through a topic pull from you?
-
-I'll leave the drm/amd one to figure out between you and Alex.
--Daniel
-
-> 
-> thanks,
-> 
-> greg k-h
-
+diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
+index 895c41526164..d49009c75d2e 100644
+--- a/drivers/staging/rtl8723bs/include/drv_types.h
++++ b/drivers/staging/rtl8723bs/include/drv_types.h
+@@ -139,10 +139,6 @@ struct registry_priv {
+ 
+ 	u8 channel_plan;
+ 
+-	u8 btcoex;
+-	u8 bt_iso;
+-	u8 bt_sco;
+-	u8 bt_ampdu;
+ 	s8	ant_num;
+ 
+ 	/* false:Reject AP's Add BA req, true:accept AP's Add BA req */
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index b042df319c98..7359f0861cce 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -95,12 +95,6 @@ static int rtw_low_power;
+ static int rtw_wifi_spec;
+ static int rtw_channel_plan = RT_CHANNEL_DOMAIN_MAX;
+ 
+-static int rtw_btcoex_enable = 1;
+-module_param(rtw_btcoex_enable, int, 0644);
+-MODULE_PARM_DESC(rtw_btcoex_enable, "Enable BT co-existence mechanism");
+-static int rtw_bt_iso = 2;/*  0:Low, 1:High, 2:From Efuse */
+-static int rtw_bt_sco = 3;/*  0:Idle, 1:None-SCO, 2:SCO, 3:From Counter, 4.Busy, 5.OtherBusy */
+-static int rtw_bt_ampdu = 1 ;/*  0:Disable BT control A-MPDU, 1:Enable BT control A-MPDU. */
+ static int rtw_ant_num = -1; /*  <0: undefined, >0: Antenna number */
+ module_param(rtw_ant_num, int, 0644);
+ MODULE_PARM_DESC(rtw_ant_num, "Antenna number setting");
+@@ -263,10 +257,6 @@ static void loadparam(struct adapter *padapter, struct net_device *pnetdev)
+ 
+ 	registry_par->channel_plan = (u8)rtw_channel_plan;
+ 
+-	registry_par->btcoex = (u8)rtw_btcoex_enable;
+-	registry_par->bt_iso = (u8)rtw_bt_iso;
+-	registry_par->bt_sco = (u8)rtw_bt_sco;
+-	registry_par->bt_ampdu = (u8)rtw_bt_ampdu;
+ 	registry_par->ant_num = (s8)rtw_ant_num;
+ 
+ 	registry_par->accept_addba_req = true;
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.20.1
+
