@@ -1,117 +1,61 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076DB3481
-	for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 12:54:20 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id l18so6831004wrv.5
-        for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 05:54:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sojLm/OhjX4jzl+CwB8PAyfGWgokmWWvVfhI8e4IKfE=;
-        b=h5hUX2zAHlgXlLgtDuzcJWrGe1s4S8nTN4bHSXzO4YxkCoa/ssdI7ZUt0npehg+fV4
-         r+4JWhJyqR1N78lG2Ct8zaPMe9hM4tCofg1aCKWHRKFDuSPQNfHNaJNgEm/8CdZBu3mI
-         zPl7OWqDTjmZ7CH0IFckEM+XS9faiZeNUFk4Ilm5mx6oc5dvpm2F5Xt4KyQakjZMNGpI
-         JVMqJ0vRBrW6Z0MoQdkqxsYAyH6yJ8wqlD9lJXg+Pb9wvdxiVtCK3CRDjvIe/uFCDlRy
-         YI5X76WrLvTyXbUj+gv37uMmMjiVGnLTm9LtzzBc89SCYPTz7LyjQIq11TV7xM4ebu3r
-         kTLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sojLm/OhjX4jzl+CwB8PAyfGWgokmWWvVfhI8e4IKfE=;
-        b=aL0xOWIpT9qBNCEZ4RFj0Q7eAM0+qKnw/ePIv0cH+kIRhbweIlQmODqqzbG8dAIgxo
-         HEdqol0p/5PpO6c+DBp8Mo8HpmQFn4knpUY87jwVQG7oCyiBtjoClXXOiQFdL8JxCIB6
-         bA0eEyCtsezsw4ixst/wVWzr02xOhkM/zbgF8vX/bqAqrQZ3CHGHJ8ZwzcraZiuz01VX
-         fGSPQZY5kRNLKb6V62Lrq99o3XlUVpzZqMW2HaLDgPV1eVqdlOcgSWNnnJSvV5i5AWVM
-         xjBuX8lYAv8sxSo5OE/VQ6jEuG+ckR2+RyEe19F3JZ3MvEYDWp+subI4X+u392A01JDZ
-         tG5A==
-X-Gm-Message-State: AOAM5314f3ygGoiFdp4nbajLXR3JBpADuGuudCjQ2F1mt2beOiHo3t4S
-	twd7hhB40v+O7SNtGbZ6Xko=
-X-Google-Smtp-Source: ABdhPJz0akrNVSl7x+MyGwUD3d8Ebq3UGQsTid5gKG7puHLNuj1uMJDcbPJSxWlyENV/o29X/2gAhA==
-X-Received: by 2002:adf:ea41:: with SMTP id j1mr4687602wrn.147.1627563259338;
-        Thu, 29 Jul 2021 05:54:19 -0700 (PDT)
-Received: from agape ([5.171.73.68])
-        by smtp.gmail.com with ESMTPSA id h15sm3191183wrq.88.2021.07.29.05.54.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jul 2021 05:54:19 -0700 (PDT)
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: hdegoede@redhat.com,
-	Larry.Finger@lwfinger.net,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: remove unused BT static variables
-Date: Thu, 29 Jul 2021 14:54:17 +0200
-Message-Id: <20210729125417.4380-1-fabioaiuto83@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4823481
+	for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 13:37:42 +0000 (UTC)
+Received: from martin by viti.kaiser.cx with local (Exim 4.89)
+	(envelope-from <martin@viti.kaiser.cx>)
+	id 1m96E6-0002pn-FI; Thu, 29 Jul 2021 15:37:30 +0200
+Date: Thu, 29 Jul 2021 15:37:30 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Phillip Potter <phil@philpotter.co.uk>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Larry Finger <Larry.Finger@lwfinger.net>
+Cc: Dan Carpenter <dan.carpenter@oracle.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-staging@lists.linux.dev, Fabio Aiuto <fabioaiuto83@gmail.com>
+Subject: Re: [PATCH v4 0/6] staging: r8188eu: add newer/better RTL8188eu
+ driver
+Message-ID: <20210729133730.lnxqzawnvksp4skg@viti.kaiser.cx>
+References: <20210727232219.2948-1-phil@philpotter.co.uk>
+ <20210728074605.pp5rs4c65tofnqot@viti.kaiser.cx>
+ <CAA=Fs0mH9YAVhr24YeE3jpZrnuDGhOuhj=Sb9Ekkpb-xoC5LYg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAA=Fs0mH9YAVhr24YeE3jpZrnuDGhOuhj=Sb9Ekkpb-xoC5LYg@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Sender: Martin Kaiser <martin@viti.kaiser.cx>
 
-remove some unused static variables. One of them
-is used to toggle on the BT coexistence mechanism,
-but it is always enabled and it's not conditioned
-to the value of the related parameter.
+Hi Phil and all,
 
-Remove unused field of the registry_priv struct as
-well, they were intended for hosting the parameters
-this patch rids.
+Thus wrote Phillip Potter (phil@philpotter.co.uk):
 
-Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
----
- drivers/staging/rtl8723bs/include/drv_types.h |  4 ----
- drivers/staging/rtl8723bs/os_dep/os_intfs.c   | 10 ----------
- 2 files changed, 14 deletions(-)
+> I see what you are saying for sure - I think we've both sunk a fair
+> few patches into the existing driver :-)
 
-diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
-index 895c41526164..d49009c75d2e 100644
---- a/drivers/staging/rtl8723bs/include/drv_types.h
-+++ b/drivers/staging/rtl8723bs/include/drv_types.h
-@@ -139,10 +139,6 @@ struct registry_priv {
- 
- 	u8 channel_plan;
- 
--	u8 btcoex;
--	u8 bt_iso;
--	u8 bt_sco;
--	u8 bt_ampdu;
- 	s8	ant_num;
- 
- 	/* false:Reject AP's Add BA req, true:accept AP's Add BA req */
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index b042df319c98..7359f0861cce 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -95,12 +95,6 @@ static int rtw_low_power;
- static int rtw_wifi_spec;
- static int rtw_channel_plan = RT_CHANNEL_DOMAIN_MAX;
- 
--static int rtw_btcoex_enable = 1;
--module_param(rtw_btcoex_enable, int, 0644);
--MODULE_PARM_DESC(rtw_btcoex_enable, "Enable BT co-existence mechanism");
--static int rtw_bt_iso = 2;/*  0:Low, 1:High, 2:From Efuse */
--static int rtw_bt_sco = 3;/*  0:Idle, 1:None-SCO, 2:SCO, 3:From Counter, 4.Busy, 5.OtherBusy */
--static int rtw_bt_ampdu = 1 ;/*  0:Disable BT control A-MPDU, 1:Enable BT control A-MPDU. */
- static int rtw_ant_num = -1; /*  <0: undefined, >0: Antenna number */
- module_param(rtw_ant_num, int, 0644);
- MODULE_PARM_DESC(rtw_ant_num, "Antenna number setting");
-@@ -263,10 +257,6 @@ static void loadparam(struct adapter *padapter, struct net_device *pnetdev)
- 
- 	registry_par->channel_plan = (u8)rtw_channel_plan;
- 
--	registry_par->btcoex = (u8)rtw_btcoex_enable;
--	registry_par->bt_iso = (u8)rtw_bt_iso;
--	registry_par->bt_sco = (u8)rtw_bt_sco;
--	registry_par->bt_ampdu = (u8)rtw_bt_ampdu;
- 	registry_par->ant_num = (s8)rtw_ant_num;
- 
- 	registry_par->accept_addba_req = true;
--- 
-2.20.1
+> That said, from what Larry has mentioned, this newer driver would
+> still be a better bet overall due to the additional work that has
+> already happened on it out-of-tree. The Realtek driver you reference
+> probably has no CFG80211 support etc. would be my guess, but I am
+> going off what others have suggested in terms of proposing this
+> patchset. I can't honestly say what the risk of this happening again
+> would be, but minimal I'd imagine.
 
+ok, understood. That's an important feature. I see that Greg accepted
+your patches, there's no point in arguing any more ;-)
+
+Greg and Larry: Would you mind sharing your ideas about getting
+rtl8188eu support mainline? Do you imagine that we clean up this driver
+until it can be moved out of staging? If so, we'd probably have to
+resolve name conflicts with other realtek drivers and rename lots of
+functions. Or would a cleanup of the new rtl8188eu driver be a
+preparation for adding bits and pieces of it to rtlwifi?
+
+Thanks,
+Martin
