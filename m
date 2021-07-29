@@ -1,62 +1,21 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604063483
-	for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 10:36:30 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 508A0223DB;
-	Thu, 29 Jul 2021 10:36:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1627554983;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UkKnqVbw14P1zZ1afK/03fijXFZbWicFe7fyoa6bfnY=;
-	b=pwTsly5mnrizCEq06N5ukXErKPn6Gc1C4FWAemD4tE4rdrKSAD7WEsJBIsy8JMWoICKPro
-	YUD+rdsGqthszKzibpdDw9PZmLm6K7z+/nJcnH3/9RbXzkKL1yBN2iLF4qJdxbzSEE22IX
-	Yy8hsiRj4qt+y/wj0C71RSUrfiRJOCs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1627554983;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UkKnqVbw14P1zZ1afK/03fijXFZbWicFe7fyoa6bfnY=;
-	b=oD2Z+sefoAAeNVxRJnEQBL4v50NCmrVZt9d8xH9i0feek4vyCIM8VXMg7aRjFLf8nzGBrz
-	j9JufWGGGCZMyACA==
-Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
-	by relay2.suse.de (Postfix) with ESMTP id 36ED5A3B8C;
-	Thu, 29 Jul 2021 10:36:23 +0000 (UTC)
-Received: by ds.suse.cz (Postfix, from userid 10065)
-	id D7134DA7AF; Thu, 29 Jul 2021 12:33:37 +0200 (CEST)
-Date: Thu, 29 Jul 2021 12:33:37 +0200
-From: David Sterba <dsterba@suse.cz>
-To: Kees Cook <keescook@chromium.org>
-Cc: linux-hardening@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Keith Packard <keithpac@amazon.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH 47/64] btrfs: Use memset_after() to clear end of struct
-Message-ID: <20210729103337.GS5047@suse.cz>
-Reply-To: dsterba@suse.cz
-Mail-Followup-To: dsterba@suse.cz, Kees Cook <keescook@chromium.org>,
-	linux-hardening@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Keith Packard <keithpac@amazon.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-48-keescook@chromium.org>
- <20210728094215.GX5047@twin.jikos.cz>
- <202107281455.2A0753F5@keescook>
+Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09E643483
+	for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 10:46:41 +0000 (UTC)
+Received: from uucp (helo=alpha)
+	by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
+	id 1m92rt-00028S-00; Thu, 29 Jul 2021 12:02:21 +0200
+Received: by alpha.franken.de (Postfix, from userid 1000)
+	id 6D6ABC254D; Thu, 29 Jul 2021 12:01:46 +0200 (CEST)
+Date: Thu, 29 Jul 2021 12:01:46 +0200
+From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org,
+	neil@brown.name, linux-mips@vger.kernel.org,
+	ilya.lipnitskiy@gmail.com, john@phrozen.org
+Subject: Re: [PATCH v2 1/3] MIPS: ralink: Define PCI_IOBASE
+Message-ID: <20210729100146.GA8648@alpha.franken.de>
+References: <20210614100617.28753-1-sergio.paracuellos@gmail.com>
+ <20210614100617.28753-2-sergio.paracuellos@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -65,48 +24,46 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202107281455.2A0753F5@keescook>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+In-Reply-To: <20210614100617.28753-2-sergio.paracuellos@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Wed, Jul 28, 2021 at 02:56:31PM -0700, Kees Cook wrote:
-> On Wed, Jul 28, 2021 at 11:42:15AM +0200, David Sterba wrote:
-> > On Tue, Jul 27, 2021 at 01:58:38PM -0700, Kees Cook wrote:
-> > > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > > field bounds checking for memset(), avoid intentionally writing across
-> > > neighboring fields.
-> > > 
-> > > Use memset_after() so memset() doesn't get confused about writing
-> > > beyond the destination member that is intended to be the starting point
-> > > of zeroing through the end of the struct.
-> > > 
-> > > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > > ---
-> > >  fs/btrfs/root-tree.c | 5 +----
-> > >  1 file changed, 1 insertion(+), 4 deletions(-)
-> > > 
-> > > diff --git a/fs/btrfs/root-tree.c b/fs/btrfs/root-tree.c
-> > > index 702dc5441f03..ec9e78f65fca 100644
-> > > --- a/fs/btrfs/root-tree.c
-> > > +++ b/fs/btrfs/root-tree.c
-> > > @@ -39,10 +39,7 @@ static void btrfs_read_root_item(struct extent_buffer *eb, int slot,
-> > >  		need_reset = 1;
-> > >  	}
-> > >  	if (need_reset) {
-> > > -		memset(&item->generation_v2, 0,
-> > > -			sizeof(*item) - offsetof(struct btrfs_root_item,
-> > > -					generation_v2));
-> > > -
-> > 
-> > Please add
-> > 		/* Clear all members from generation_v2 onwards */
-> > 
-> > > +		memset_after(item, 0, level);
+On Mon, Jun 14, 2021 at 12:06:15PM +0200, Sergio Paracuellos wrote:
+> PCI_IOBASE is used to create VM maps for PCI I/O ports, it is
+> required by generic PCI drivers to make memory mapped I/O range
+> work. Hence define it for ralink architectures to be able to
+> avoid parsing manually IO ranges in PCI generic driver code.
+> Function 'plat_mem_setup' for ralink is using 'set_io_port_base'
+> call using '0xa0000000' as address, so use the same address in
+> the definition to align things.
 > 
-> Perhaps there should be another helper memset_starting()? That would
-> make these cases a bit more self-documenting.
+> Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> ---
+>  arch/mips/include/asm/mach-ralink/spaces.h | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>  create mode 100644 arch/mips/include/asm/mach-ralink/spaces.h
+> 
+> diff --git a/arch/mips/include/asm/mach-ralink/spaces.h b/arch/mips/include/asm/mach-ralink/spaces.h
+> new file mode 100644
+> index 000000000000..87d085c9ad61
+> --- /dev/null
+> +++ b/arch/mips/include/asm/mach-ralink/spaces.h
+> @@ -0,0 +1,10 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef __ASM_MACH_RALINK_SPACES_H_
+> +#define __ASM_MACH_RALINK_SPACES_H_
+> +
+> +#define PCI_IOBASE	_AC(0xa0000000, UL)
+> +#define PCI_IOSIZE	SZ_16M
+> +#define IO_SPACE_LIMIT	(PCI_IOSIZE - 1)
+> +
+> +#include <asm/mach-generic/spaces.h>
+> +#endif
 
-That would be better, yes.
+does this really work for you ? I tried the same trick for RB532
+and the generated IO addresses are wrong...
 
-> +		memset_starting(item, 0, generation_v2);
+Thomas.
 
-memset_from?
+-- 
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
