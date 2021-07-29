@@ -1,83 +1,92 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC76F70
-	for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 00:54:32 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id k4so2572798wms.3
-        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 17:54:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=XSg1KClhpY6agnGkYpv/G7LfJe7Hmjfoc58jUe7Kj58=;
-        b=TsvSZ7v9WmHKhOgAONXj0WaM3Jej78yWnLkYYP4G16tw9RhDBmHz6PAIFry9fGA9xQ
-         03WjBF/e9/FL2uXqw5pQq5CRf188ycNhQcopmPHkJYvy8WjMHSYjBt6EucGrKmjR5YF6
-         aWr7DEG/VmCy6c1Nom9cGlSzJtTVNfuTHXwnWUlrareFC17tMh0w1+YiHudxYK6p7fOP
-         +Do8Cq7UB4J7wmCvXpE8UvcxeQdNMINakgsOzAps9y74JAafxAep4htIwJEfoB1g0RK5
-         QBTxLhHOxXXQ+MBeNZiyHili1gHK1vma2xzNRpWisBnDPoeHlByVtaNjr3ECAaqoYcde
-         +Sqw==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ACDD70
+	for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 01:59:11 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id d1so5067465pll.1
+        for <linux-staging@lists.linux.dev>; Wed, 28 Jul 2021 18:59:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=XSg1KClhpY6agnGkYpv/G7LfJe7Hmjfoc58jUe7Kj58=;
-        b=ZVfNVC27Wo/WWNY5C2yBKJQbgijCJXjX2MwLLH+NmumriH+mBJyY8SVsuIgWQDNRRf
-         nigRiRdmVzmYyDGzVPkEpyH33h4sZh2XtW1ZRlcmZ6dXo2zgEdkGOximZwUPZnUj+6Vh
-         ugtSXh8Ky+mDD0cQNimJbC+Mqww39zlntYowM8XcbVB2EpFJ5nTUgIcEFB6iMJ9wpDRD
-         9UxojBnfQ+O3XJes8+DxKJb8DBRWe6YyyhQN8i0F9g5jUjNcpxzhWJgY4rXUDFO0bvZP
-         +wwOGWrBuYLxEpXUGOtfD5sB4Yj2zBl/yrDu5e1MA9A9x5u2t9Oq95Bm2y7W4s7FS4xi
-         LFZQ==
-X-Gm-Message-State: AOAM530SFNi8L4AIUO9wBzyPHzJSk+1uHMyca7HYq/c8EMNljvu0U206
-	txTsEf2Jh41VdySbsXHaHuE=
-X-Google-Smtp-Source: ABdhPJzE4/hNCW5Y57W4WcRPxWQmXg7g/IPEA5r3KiXjfej0nyvqskFFYS8Ax0lwSX5krTBdVjFl5Q==
-X-Received: by 2002:a1c:9d91:: with SMTP id g139mr11650562wme.76.1627520071083;
-        Wed, 28 Jul 2021 17:54:31 -0700 (PDT)
-Received: from pc ([196.235.233.206])
-        by smtp.gmail.com with ESMTPSA id t1sm1459628wma.28.2021.07.28.17.54.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jul 2021 17:54:30 -0700 (PDT)
-Date: Thu, 29 Jul 2021 01:54:27 +0100
-From: Salah Triki <salah.triki@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	Ross Schmidt <ross.schm.dev@gmail.com>,
-	Marco Cesati <marcocesati@gmail.com>,
-	Brother Matthew De Angelis <matthew.v.deangelis@gmail.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Ivan Safonov <insafonov@gmail.com>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] tablet: acecad: update the reference count of the usb
- interface structure
-Message-ID: <20210729005427.GA784014@pc>
-References: <20210724205542.GA549014@pc>
- <20210727123756.GL1931@kadam>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=/EMnvbg1lkcKUNHoTGAUlLRl80RwVqD1WDQs78+Ryng=;
+        b=tts5OVeDAlioaCuUnNaxkd3+7TDtOFTCcvGYA3fcmNmziKsDumzofOfiUDUwj2BhQI
+         05v+o7i/rY1F75stXvrNpNBc8+NsbqAWm9yhKV/qAb9oIOS6SF45rSIf0kluDmctmcvz
+         MHjTsS61mgXKynXRMOosH9wEIkJAD70e3W5FY8TSGY1ao8sTiYDHAhqOW1MN/QLCnGR9
+         2E6Mw3W44zmeaX9InQ0MAtzx0L7IJlpWzhUwW0GBBYRwDRTyVX8cPYhRyt9XI+m6E4Bo
+         ZIJy56qqgHmDYgrkL+hIoeGHIe54nFKYR+tQoB6ZtpTa9PsGXRx0x0msWt7K84wjhVsN
+         K0CA==
+X-Gm-Message-State: AOAM531sAMhix0nC/JXqiVBsx5n3qALF4VMDMrkoXqtrfr2rsno+eFqF
+	6Z69+d5CXTDMwsZuX+Iy11U=
+X-Google-Smtp-Source: ABdhPJwy46rGfGzBPHT0dDc2OF3JHAeIdHBXsVA3/Hjfoi4OURPDSpbVi+xEgy37JuU2Z3C+YFQFpw==
+X-Received: by 2002:aa7:93dc:0:b029:328:d6c9:cae7 with SMTP id y28-20020aa793dc0000b0290328d6c9cae7mr2579458pff.53.1627523950822;
+        Wed, 28 Jul 2021 18:59:10 -0700 (PDT)
+Received: from ?IPv6:2601:647:4000:d7:9eeb:60dc:7a3c:6558? ([2601:647:4000:d7:9eeb:60dc:7a3c:6558])
+        by smtp.gmail.com with ESMTPSA id z16sm1344383pgu.21.2021.07.28.18.59.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Jul 2021 18:59:10 -0700 (PDT)
+Subject: Re: [PATCH 19/64] ip: Use struct_group() for memcpy() regions
+To: Kees Cook <keescook@chromium.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-hardening@vger.kernel.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Keith Packard <keithpac@amazon.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+ linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ clang-built-linux@googlegroups.com
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-20-keescook@chromium.org> <YQDxaYrHu0PeBIuX@kroah.com>
+ <202107281358.8E12638@keescook>
+From: Bart Van Assche <bvanassche@acm.org>
+Message-ID: <45855f4f-f7cf-b7b3-bcd6-c9ebc3a55c64@acm.org>
+Date: Wed, 28 Jul 2021 18:59:08 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210727123756.GL1931@kadam>
+In-Reply-To: <202107281358.8E12638@keescook>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 27, 2021 at 03:37:56PM +0300, Dan Carpenter wrote:
-> This commit message doesn't say what the user visible effects are.  If
-> you encountered this bug at runtime then please put the stack trace in
-> the commit mesage.
+On 7/28/21 2:01 PM, Kees Cook wrote:
+> On Wed, Jul 28, 2021 at 07:55:53AM +0200, Greg Kroah-Hartman wrote:
+>>>  struct ethhdr {
+>>> -	unsigned char	h_dest[ETH_ALEN];	/* destination eth addr	*/
+>>> -	unsigned char	h_source[ETH_ALEN];	/* source ether addr	*/
+>>> +	union {
+>>> +		struct {
+>>> +			unsigned char h_dest[ETH_ALEN];	  /* destination eth addr */
+>>> +			unsigned char h_source[ETH_ALEN]; /* source ether addr	  */
+>>> +		};
+>>> +		struct {
+>>> +			unsigned char h_dest[ETH_ALEN];	  /* destination eth addr */
+>>> +			unsigned char h_source[ETH_ALEN]; /* source ether addr	  */
+>>> +		} addrs;
+>>
+>> A union of the same fields in the same structure in the same way?
+>>
+>> Ah, because struct_group() can not be used here?  Still feels odd to see
+>> in a userspace-visible header.
 > 
+> Yeah, there is some inconsistency here. I will clean this up for v2.
+> 
+> Is there a place we can put kernel-specific macros for use in UAPI
+> headers? (I need to figure out where things like __kernel_size_t get
+> defined...)
 
-I made this patch based on the following documentation of
-usb_get_intf():
+How about using two memset() calls to clear h_dest[] and h_source[]
+instead of modifying the uapi header?
 
-[quote]
-Each live reference to a interface must be refcounted.
+Thanks,
 
-Drivers for USB interfaces should normally record such references 
-in their probe methods, when they bind to an interface, and release them 
-by calling usb_put_intf, in their disconnect methods.
+Bart.
 
-[/quote]
 
-Thanx
