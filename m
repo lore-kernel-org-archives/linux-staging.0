@@ -1,98 +1,133 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67DB73483
-	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 02:39:25 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id nh14so1266392pjb.2
-        for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 19:39:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=NHuO3a4lOV1ak/eQfFp+AAaG2sMLeGDAKzyV4AOK0RE=;
-        b=j8UqRed6HOKlyVkSoS05EJXewa+eUCRzTuOxtwGX5fDIEozj4tBUf/Pb6CHGAaLmaA
-         0lvkqjJ4PTgUwIVlwmbeuhhcBcZAYaZZ7EQBi+8oHJhkCGFeyBQklkhQLoPwf8W6+nzt
-         YRqHGvdjQepkZ10ZG9+WbgEXKCY3JTIc9WoQ4=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862A03483
+	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 02:57:50 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id k1so9305599plt.12
+        for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 19:57:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=NHuO3a4lOV1ak/eQfFp+AAaG2sMLeGDAKzyV4AOK0RE=;
-        b=KyCV6jrS82nFlBuL35HAGVBRvBsi+WrKMt4hLrmpvcIu9D4mHQU2hEcGCo2Vd/LrHK
-         enDkFc6sWpXFH9I+LZ+ZmPWyYQ66ARBqaq5VV9H17vAiPCBdi3vdTCNe2YlH3iP1ZFz2
-         fQeQCHrWzhfwudhzOFRm21fxzijp1jZMUTzE4J0mn6yjtaYvKTSO7Vy7hVQxBVA/H7Jz
-         cGf5hcsV4RVrnAanWh6EU73KyF9kevlo8n+awvMmOoDuMKtVVeKTi71oYJ81vQjlChKt
-         y81DP8ugDwYm+OKzHx0iTBHGSrkAdO58MEjlpPMQoJMUOq2n+BUT/NhZqMrLgpquRIEj
-         /gYQ==
-X-Gm-Message-State: AOAM533SL5K2L6jop1i8TFrKum1Z2jq6Rlcdn9Xuiy50N78kN4pbCz0s
-	SQf6rkZbiLvJeHpdWlZO1tUYcA==
-X-Google-Smtp-Source: ABdhPJzo5u8p9hbDXhUl8yhRH+ETwKt9UE7110pr1bIcu8dZOn97UljUZ8gMIyei6sG4Pc+UC9HyCw==
-X-Received: by 2002:a17:902:c409:b029:12c:8d18:a03 with SMTP id k9-20020a170902c409b029012c8d180a03mr518065plk.81.1627612764988;
-        Thu, 29 Jul 2021 19:39:24 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id x7sm195258pfn.70.2021.07.29.19.39.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jul 2021 19:39:24 -0700 (PDT)
-Date: Thu, 29 Jul 2021 19:39:23 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=SFzRUhN6YLmKo+jXursxkunKR479Zn0dAlkG5jiWhjw=;
+        b=m4N3+d+3cvNyaje23AwxqDEOcMmaksqK4V2NJRT7hEwxPQKfKKiCN4kH1G3UgA7aYD
+         20pzzAt7PLoaxLaPG2W+gxRQTKGSCCL3ncxuTacW+bXg35RVAeS+DfKAFt5NCWLjR3h5
+         ONCoft+q2oU6LHxfgsgg3VRGPOzQVgoZTTwIzisv4WZaP2RbDw0MC6sfRc149R4C+dj7
+         eK7CL/ho+4rQnyK3cMKNGhTzGfbWg+o5zzx6rAmzXwp29ET5LCHi4FmZwTOwQsow6ZxB
+         +yfxfxSIx1qSfXGZI8rMyyIDq5d9dPRbV57tsnWKbQShPEt4xmtlBAB5x4sgez/rXRTB
+         YiTA==
+X-Gm-Message-State: AOAM533j5Q9HYD2Se7IVUc2Etf6bcB2sy3yLRErxC0QoyFpGUE3yI1Au
+	0g1QI52dc5Sw79Zrj2E8KZA=
+X-Google-Smtp-Source: ABdhPJzldFKnrfj3e7CDNRZJLltOGnPwYmMzIK1MKjkK0sFTGZWcKCldhGHbW6FmNfgZHfM78rnouA==
+X-Received: by 2002:a17:90a:c092:: with SMTP id o18mr691992pjs.3.1627613869863;
+        Thu, 29 Jul 2021 19:57:49 -0700 (PDT)
+Received: from ?IPv6:2601:647:4000:d7:3f66:df55:a341:f79d? ([2601:647:4000:d7:3f66:df55:a341:f79d])
+        by smtp.gmail.com with ESMTPSA id c15sm221003pfl.181.2021.07.29.19.57.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Jul 2021 19:57:49 -0700 (PDT)
+Subject: Re: [PATCH 48/64] drbd: Use struct_group() to zero algs
+To: Kees Cook <keescook@chromium.org>
 Cc: linux-hardening@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Keith Packard <keithpac@amazon.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH 34/64] fortify: Detect struct member overflows in
- memcpy() at compile-time
-Message-ID: <202107291938.B26E4916@keescook>
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Keith Packard <keithpac@amazon.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+ linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ clang-built-linux@googlegroups.com,
+ Lars Ellenberg <lars.ellenberg@linbit.com>
 References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-35-keescook@chromium.org>
- <d2f9f21c-4d6e-9458-5887-ca5166d07942@rasmusvillemoes.dk>
+ <20210727205855.411487-49-keescook@chromium.org>
+ <1cc74e5e-8d28-6da4-244e-861eac075ca2@acm.org>
+ <202107291845.1E1528D@keescook>
+From: Bart Van Assche <bvanassche@acm.org>
+Message-ID: <0d71917d-967f-beaa-d83e-a60fa254627c@acm.org>
+Date: Thu, 29 Jul 2021 19:57:47 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d2f9f21c-4d6e-9458-5887-ca5166d07942@rasmusvillemoes.dk>
+In-Reply-To: <202107291845.1E1528D@keescook>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 28, 2021 at 01:19:59PM +0200, Rasmus Villemoes wrote:
-> On 27/07/2021 22.58, Kees Cook wrote:
+On 7/29/21 7:31 PM, Kees Cook wrote:
+> On Wed, Jul 28, 2021 at 02:45:55PM -0700, Bart Van Assche wrote:
+>> On 7/27/21 1:58 PM, Kees Cook wrote:
+>>> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+>>> field bounds checking for memset(), avoid intentionally writing across
+>>> neighboring fields.
+>>>
+>>> Add a struct_group() for the algs so that memset() can correctly reason
+>>> about the size.
+>>>
+>>> Signed-off-by: Kees Cook <keescook@chromium.org>
+>>> ---
+>>>   drivers/block/drbd/drbd_main.c     | 3 ++-
+>>>   drivers/block/drbd/drbd_protocol.h | 6 ++++--
+>>>   drivers/block/drbd/drbd_receiver.c | 3 ++-
+>>>   3 files changed, 8 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+>>> index 55234a558e98..b824679cfcb2 100644
+>>> --- a/drivers/block/drbd/drbd_main.c
+>>> +++ b/drivers/block/drbd/drbd_main.c
+>>> @@ -729,7 +729,8 @@ int drbd_send_sync_param(struct drbd_peer_device *peer_device)
+>>>   	cmd = apv >= 89 ? P_SYNC_PARAM89 : P_SYNC_PARAM;
+>>>   	/* initialize verify_alg and csums_alg */
+>>> -	memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
+>>> +	BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
+>>> +	memset(&p->algs, 0, sizeof(p->algs));
+>>>   	if (get_ldev(peer_device->device)) {
+>>>   		dc = rcu_dereference(peer_device->device->ldev->disk_conf);
+>>> diff --git a/drivers/block/drbd/drbd_protocol.h b/drivers/block/drbd/drbd_protocol.h
+>>> index dea59c92ecc1..a882b65ab5d2 100644
+>>> --- a/drivers/block/drbd/drbd_protocol.h
+>>> +++ b/drivers/block/drbd/drbd_protocol.h
+>>> @@ -283,8 +283,10 @@ struct p_rs_param_89 {
+>>>   struct p_rs_param_95 {
+>>>   	u32 resync_rate;
+>>> -	char verify_alg[SHARED_SECRET_MAX];
+>>> -	char csums_alg[SHARED_SECRET_MAX];
+>>> +	struct_group(algs,
+>>> +		char verify_alg[SHARED_SECRET_MAX];
+>>> +		char csums_alg[SHARED_SECRET_MAX];
+>>> +	);
+>>>   	u32 c_plan_ahead;
+>>>   	u32 c_delay_target;
+>>>   	u32 c_fill_target;
+>>> diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
+>>> index 1f740e42e457..6df2539e215b 100644
+>>> --- a/drivers/block/drbd/drbd_receiver.c
+>>> +++ b/drivers/block/drbd/drbd_receiver.c
+>>> @@ -3921,7 +3921,8 @@ static int receive_SyncParam(struct drbd_connection *connection, struct packet_i
+>>>   	/* initialize verify_alg and csums_alg */
+>>>   	p = pi->data;
+>>> -	memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
+>>> +	BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
+>>> +	memset(&p->algs, 0, sizeof(p->algs));
+>>
+>> Using struct_group() introduces complexity. Has it been considered not to
+>> modify struct p_rs_param_95 and instead to use two memset() calls instead of
+>> one (one memset() call per member)?
 > 
-> > At its core, FORTIFY_SOURCE uses the compiler's __builtin_object_size()
-> > internal[0] to determine the available size at a target address based on
-> > the compile-time known structure layout details. It operates in two
-> > modes: outer bounds (0) and inner bounds (1). In mode 0, the size of the
-> > enclosing structure is used. In mode 1, the size of the specific field
-> > is used. For example:
-> > 
-> > 	struct object {
-> > 		u16 scalar1;	/* 2 bytes */
-> > 		char array[6];	/* 6 bytes */
-> > 		u64 scalar2;	/* 8 bytes */
-> > 		u32 scalar3;	/* 4 bytes */
-> > 	} instance;
-> > 
-> >
-> > __builtin_object_size(instance.array, 0) == 18, since the remaining size
-> > of the enclosing structure starting from "array" is 18 bytes (6 + 8 + 4).
+> I went this direction because using two memset()s (or memcpy()s in other
+> patches) changes the machine code. It's not much of a change, but it
+> seems easier to justify "no binary changes" via the use of struct_group().
 > 
-> I think the compiler would usually end up making that struct size 24,
-> with 4 bytes of trailing padding (at least when alignof(u64) is 8). In
-> that case, does __builtin_object_size(instance.array, 0) actually
-> evaluate to 18, or to 22? A quick test on x86-64 suggests the latter, so
-> the memcpy(, , 20) would not be a violation.
-> 
-> Perhaps it's better to base the example on something which doesn't have
-> potential trailing padding - so either add another 4 byte member, or
-> also make scalar2 u32.
+> If splitting the memset() is preferred, I can totally do that instead.
+> :)
 
-Yup, totally right. Thanks! I've fixed the example now for v2.
+I don't have a strong opinion about this. Lars, do you want to comment
+on this patch?
 
--- 
-Kees Cook
+Thanks,
+
+Bart.
