@@ -1,51 +1,51 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081CF3481
-	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 13:39:16 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id hw6so2979813ejc.10
-        for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 06:39:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D5C3481
+	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 13:40:52 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id qk33so16817635ejc.12
+        for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 06:40:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=A0btF4f/Zvh8ltVtQYn7h5KQSDQ3I8KDE+5fPKu995k=;
-        b=hPiUBRyGda0IX/B4j3VjgPyJnQFYM02UALv5krx+Kre10dP4TC5N3wtXmpk8iGuSNh
-         k40fqHNR9LvU0b3umAKFhJkKKPAPgam7hWUy/noT5QgD9D2jslVizzGEx3w71oZ/j11s
-         +GHI28AxrqsLk/dMPtyX8WAn+EwUjQ5Rc7nPWoo1bjJUSlKYaY5FDiknJJxogcJ5MMEW
-         TWLH4pWFDgszr/dF8XeGZFgRMKtid/pDu8LEOMC4AMlDcRzKsSYMXdNz/b54oWyEbzvl
-         YeRNZ64jXpxc9FJ4NiqkPtmmUL3Vq8HrAX6qc0KQf1iIpCdeN1YsY7BcZqoO5roDDiYr
-         Iz9A==
+        bh=7470Qthj2WoaNQVaHaNL2p6JSX91F+g/VNrFt77iGeI=;
+        b=nvjUC4gNjw2JuQDVO6ggPrZDVysNA8E0HOXRenPw/LZLrKVY+Ao+hUmV4KemczMwmt
+         zrmr32M65dBC3hNaqV7M5CaLsA/kSVQdubQMKQULsVI/mOTBDSowi1kNAh5IuriJxTSC
+         dQd85zJOWN30aLDjqqBFDPjgNGgjc8axDWFVPFv4zGFkd0Ye/lLeO9pAjp9PY1wGACDi
+         IYP4ZQ1yE//NP1ZCnMjJFvf69WJJiQoLvH6vy1AG6GMHOb6HZbeOOpDWI/RLbzQw5/T4
+         xA9ZsJwtmd6Mesu41u73x7qU/nUWpBmNLfgqiSrGtF77g6bKSfVDLRGRFhb/x/he6HTO
+         CJ9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=A0btF4f/Zvh8ltVtQYn7h5KQSDQ3I8KDE+5fPKu995k=;
-        b=GiKEz0kxndEQmxk3HD3teve2MWGGZcxs+YP6JNXgLPL+T5kaaAaIyNMxi7Qt5UKcix
-         qi097zVxuHM31gIy9XOFTKnjhU+SBXcjjAR+VcFz2r0XLS3oi8w/llVr6Jx6r7ILw29X
-         +e5E3jROcBor+IDiLGCMLQVgNxMxgmqUJ4cHdHtBMDRNCwDm9qIsVTsaPCbpxG2KmeKm
-         vYnpiRb/m3GTiNFAnGljYsZ4Bu/PIew0S5ULj9i7X+5J/xkb6D1wY0b1SgyJMMuWsgBI
-         Knu8zRVGld/Kwa73l3y/62JXy2Ub9AbnScsq7g+Ya31DpMoCh0Qe4z9HfCFqurFIG1EE
-         4WWw==
-X-Gm-Message-State: AOAM5324j0/IDUMfVzbfoM7DP6vsPS3uKwbA2ama4NQiIduYwG1oeROM
-	0MVLyzzeyO7Y7d3mGXlOHbk=
-X-Google-Smtp-Source: ABdhPJzkonuszswUXBNiYdEveClGgPkKuD+AySlZU3GjiykkX1D6Mz0yP9Jk1MIbgvTHB45UMFK/lA==
-X-Received: by 2002:a17:906:7393:: with SMTP id f19mr2750212ejl.79.1627652355408;
-        Fri, 30 Jul 2021 06:39:15 -0700 (PDT)
+        bh=7470Qthj2WoaNQVaHaNL2p6JSX91F+g/VNrFt77iGeI=;
+        b=dQSZ4vgbYfVgiCOIgQjG7T5cut1tTvL2dUU5C20WaGUHkSJZy65qHFCULTnN6QI04e
+         9T2VlRvOlMFPDE75kRIJ4TD+uzjimhpHu30sqDvrRwvze6krMHeWDiUIMgell+qQDVka
+         e27Tlz695d0n7Dqgnfn/94XanHP0eVsa7ZV7fvSKCyyvUe8xqfwUCknV5kw2L+bplb3a
+         Vc9tPZswMleQ0Afswjk6Jz014p1MnuB6kGiyB7lBPMzxgjj/Lr0477NCf9U3SOX9HcN8
+         AHwhjxGZWWj2s4Np7/mgTyPKkuBuZjejmuBrXNfdHWZHDIrMvUKJoZBdMdZjP/mSdj/M
+         AA1w==
+X-Gm-Message-State: AOAM533HaNCfw5/544+oIz4ji4O+5XPTmlV4RViOp2ZcBc1lYgYP7yF+
+	2y/7r9O7SD9AzZLuqfPfVPw=
+X-Google-Smtp-Source: ABdhPJxvlPv3Eu6LxFIMgqRhcsgQGVn9JrLOqSdWTuC38Omx10DRbw0NlAt+TMzgozC61Rnnrc+e0Q==
+X-Received: by 2002:a17:906:43c9:: with SMTP id j9mr2591713ejn.57.1627652450605;
+        Fri, 30 Jul 2021 06:40:50 -0700 (PDT)
 Received: from agape ([5.171.81.215])
-        by smtp.gmail.com with ESMTPSA id p23sm727983edw.94.2021.07.30.06.39.14
+        by smtp.gmail.com with ESMTPSA id n13sm574146ejk.97.2021.07.30.06.40.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jul 2021 06:39:15 -0700 (PDT)
+        Fri, 30 Jul 2021 06:40:50 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: fabioaiuto83@gmail.com
+To: gregkh@linuxfoundation.org
 Cc: hdegoede@redhat.com,
 	Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	David Sterba <dsterba@suse.cz>
 Subject: [PATCH v2] staging: rtl8723bs: remove unused BIT macros definitions
-Date: Fri, 30 Jul 2021 15:39:13 +0200
-Message-Id: <20210730133914.8625-1-fabioaiuto83@gmail.com>
+Date: Fri, 30 Jul 2021 15:40:48 +0200
+Message-Id: <20210730134048.8736-1-fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -88,7 +88,7 @@ Suggested-by: David Sterba <dsterba@suse.cz>
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
 Changes in v2:
-	- edited changelog
+	- Edited changelog
 
  drivers/staging/rtl8723bs/include/osdep_service.h | 4 ----
  drivers/staging/rtl8723bs/include/wifi.h          | 8 --------
