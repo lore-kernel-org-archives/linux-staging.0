@@ -1,135 +1,105 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D4070
-	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 00:38:41 +0000 (UTC)
-Received: by mail-ot1-f44.google.com with SMTP id a5-20020a05683012c5b029036edcf8f9a6so7753968otq.3
-        for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 17:38:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982DE70
+	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 01:39:24 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id a4-20020a17090aa504b0290176a0d2b67aso18461592pjq.2
+        for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 18:39:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LQLHGvx8YzeIRk/lHZsyHMerPZm/rTK4XW2X0TgOuaE=;
-        b=LPLGvRJCSV7j3Q9FR+FA9zgfT+9lrriHwbs/cjHWEn7PNSCOJC8M/5yP9Ncbh5KxEt
-         QSUqB8zQ0S0yGHR9wDAIXSXBIZa+xox8iHQx/Y3frHpuOx06fvlfDS+fBBwTfrafC/hE
-         fMc1BZvuCWQnHsRJcXZeF51yiYA7H/OH1QZq5Sp9+3B17mp4Us9X6Kh2KhS4JE+LXwOl
-         pE9ayQBEQz/LLVbTIohmoOJQuFYAmLSKePGA3ymvJTV8lxTxAPmrGYskPmQrdWPrvAi4
-         6rrUxe4dpWSDobZ3hNM3szAUt8T7DyUlGc3ORjorOeoJT3dPwjMecK2sQdXkwNggFOqG
-         1p8Q==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=vPAHzrcSpfKuQzB1lrV/ttkpcnRRhB/aWzazYKPR4LA=;
+        b=Nkis4e8105uAbCge9aO+StXNkXelrJqOpF7xNsIBtcoe+D0iGfGrhXWOijeKDfFQS8
+         tcGIefv5L6ODB7FGlHuoK3nhQNiRzvNAcTkGvlhjpZKPls5MD5zfBf1pJ7Ll8rA8iZ5f
+         LTaEoFLk38qAHkDnPefiooUaNHcHv32+03LBo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=LQLHGvx8YzeIRk/lHZsyHMerPZm/rTK4XW2X0TgOuaE=;
-        b=fQAUnOuMi3COzvUqej+rVm6d4kiD/1fzSxjGCSBDa8lsvZOpSv0kINL3CGTbvKqRx2
-         liIqHWW0n8EC3RX/6izBudX+isc3xc803fsb7gP3HIvqkjSo/yYXrfFFbrJms3FVlf2z
-         hC3/0fJyQUe7pHeWk12yJyU0mpElWGwlxp9RZ1X1nE21zgxVOxyiwwvS1Y+PEu2CVZMd
-         aMqU8yTE3oDU2vDVFBPhhWKBJsOaC3xuKNq8P24dWcSUc1KnLuwPdl3F+7kSmCCZtLGq
-         8Xho4orlYbhLOzb+JdejrMoMMwry+YmCwZqtD2bgBe3CFzPVVlfB60gfTzLfDiv064he
-         JLog==
-X-Gm-Message-State: AOAM532xeVQ+i6+L1pd7M7TXE3rMusNRewliCUNKvWcNWdQIMCtoxPSg
-	wlqniGA1soDdhMfuTmEmUZ8=
-X-Google-Smtp-Source: ABdhPJyGo0BXwTDleEqjxV3kPtvQHWnEUvyPVlOv3kTnjob55wtZMRRfSUU4/7mASzbnPYSbGokgkA==
-X-Received: by 2002:a9d:7dcf:: with SMTP id k15mr68348otn.201.1627605520907;
-        Thu, 29 Jul 2021 17:38:40 -0700 (PDT)
-Received: from 2603-8090-2005-39b3-0000-0000-0000-100f.res6.spectrum.com.com (2603-8090-2005-39b3-0000-0000-0000-100f.res6.spectrum.com. [2603:8090:2005:39b3::100f])
-        by smtp.gmail.com with ESMTPSA id a21sm15205otf.36.2021.07.29.17.38.39
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=vPAHzrcSpfKuQzB1lrV/ttkpcnRRhB/aWzazYKPR4LA=;
+        b=D0IMkxmYe6ogPLYOtXuYFC/pxKmeXR/wPiZQo3pKRX+so0k5d3UbX6sE8UVK5N2cAU
+         SQf6DbwWPFT4WpiYL8MwAu8vMvy2H/xGNyO1VgE977+SdHLaAqhKzm3aKwOyMVDOVx9c
+         Kq2vfX7xGOOOabFg+Dv25smJRG/UG0FLfM3xX1cu38HJ5lxp/MK3YVO3DLCYnIC5AfSI
+         UmttEWIDqu+HHg4ZrdRJa849F5wupr9YkjxaMMMj9oEpBgx1d9QBUgmRHoPEKRXq0gKV
+         2RNF7lY86bZdYITPmIeC33D2ytyO8XIuulljfcz2qKhtZXzwy6QQ3VNsFFdOvrcMsbvn
+         B5yg==
+X-Gm-Message-State: AOAM532kD2By+umv/smYbiolb7VCgKwh8IelEdUueZMZiFm5afHzia8r
+	I9mghQGCN9rUNLAxZUTRgkzMIw==
+X-Google-Smtp-Source: ABdhPJzbwo1FmDrFDbiWZ8BWT3TYMS+pXDsYeTk5gfATiaIbAKAeZ3H6gw+DeJERV+7PZzePv9GaaQ==
+X-Received: by 2002:a63:1053:: with SMTP id 19mr5768pgq.395.1627609164105;
+        Thu, 29 Jul 2021 18:39:24 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id z5sm97349pgz.77.2021.07.29.18.39.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jul 2021 17:38:40 -0700 (PDT)
-Sender: Larry Finger <larry.finger@gmail.com>
-From: Larry Finger <Larry.Finger@lwfinger.net>
-To: gregkh@linuxfoundation.org
-Cc: phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Larry Finger <Larry.Finger@lwfinger.net>
-Subject: [PATCH] staging: r8188eu: Fix sleeping function called from invalid context
-Date: Thu, 29 Jul 2021 19:38:22 -0500
-Message-Id: <20210730003822.12471-1-Larry.Finger@lwfinger.net>
-X-Mailer: git-send-email 2.32.0
+        Thu, 29 Jul 2021 18:39:23 -0700 (PDT)
+Date: Thu, 29 Jul 2021 18:39:22 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-hardening@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Keith Packard <keithpac@amazon.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: Re: [PATCH 62/64] netlink: Avoid false-positive memcpy() warning
+Message-ID: <202107291838.25D1F118C@keescook>
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-63-keescook@chromium.org>
+ <YQDv+oG7ok0T1L+r@kroah.com>
+ <d7251d92-150b-5346-6237-52afc154bb00@rasmusvillemoes.dk>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d7251d92-150b-5346-6237-52afc154bb00@rasmusvillemoes.dk>
 
-The driver can call rtw_addbareq_cmd() from an interrupt routine. resulting
-in the following splat:
+On Wed, Jul 28, 2021 at 01:24:01PM +0200, Rasmus Villemoes wrote:
+> On 28/07/2021 07.49, Greg Kroah-Hartman wrote:
+> > On Tue, Jul 27, 2021 at 01:58:53PM -0700, Kees Cook wrote:
+> >> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> >> field bounds checking for memcpy(), memmove(), and memset(), avoid
+> >> intentionally writing across neighboring fields.
+> >>
+> >> Add a flexible array member to mark the end of struct nlmsghdr, and
+> >> split the memcpy() to avoid false positive memcpy() warning:
+> >>
+> >> memcpy: detected field-spanning write (size 32) of single field (size 16)
+> >>
+> >> Signed-off-by: Kees Cook <keescook@chromium.org>
+> >> ---
+> >>  include/uapi/linux/netlink.h | 1 +
+> >>  net/netlink/af_netlink.c     | 4 +++-
+> >>  2 files changed, 4 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/include/uapi/linux/netlink.h b/include/uapi/linux/netlink.h
+> >> index 4c0cde075c27..ddeaa748df5e 100644
+> >> --- a/include/uapi/linux/netlink.h
+> >> +++ b/include/uapi/linux/netlink.h
+> >> @@ -47,6 +47,7 @@ struct nlmsghdr {
+> >>  	__u16		nlmsg_flags;	/* Additional flags */
+> >>  	__u32		nlmsg_seq;	/* Sequence number */
+> >>  	__u32		nlmsg_pid;	/* Sending process port ID */
+> >> +	__u8		contents[];
+> > 
+> > Is this ok to change a public, userspace visable, structure?
+> 
+> At least it should keep using a nlmsg_ prefix for consistency and reduce
+> risk of collision with somebody having defined an object-like contents
+> macro. But there's no guarantees in any case, of course.
 
-[21760.582207] BUG: sleeping function called from invalid context at include/linux/sched/mm.h:201
-[21760.582219] in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 0, name: swapper/0
-[21760.582224] CPU: 0 PID: 0 Comm: swapper/0 Tainted: G         C O      5.14.0-rc2-00135-g774ba5f0db67 #3
-[21760.582228] Hardware name: TOSHIBA TECRA A50-A/TECRA A50-A, BIOS Version 4.50   09/29/2014
-[21760.582230] Call Trace:
-[21760.582232]  <IRQ>
-[21760.582233]  dump_stack_lvl+0x34/0x44
-[21760.582245]  ? rtw_addbareq_cmd+0x2a/0xba [r8188eu]
-[21760.582306]  ___might_sleep.cold+0x88/0x95
-[21760.582311]  kmem_cache_alloc_trace+0x25a/0x2d0
-[21760.582315]  rtw_addbareq_cmd+0x2a/0xba [r8188eu]
-[21760.582368]  rtw_issue_addbareq_cmd+0xda/0x17f [r8188eu]
-[21760.582404]  rtw_dump_xframe+0xa6/0x266 [r8188eu]
-[21760.582433]  xmitframe_direct+0x40/0x57 [r8188eu]
-[21760.582459]  pre_xmitframe+0x72/0x110 [r8188eu]
-[21760.582485]  rtl8188eu_hal_xmit+0xa/0xb [r8188eu]
-[21760.582508]  rtw_hal_xmit+0x1b/0x1c [r8188eu]
-[21760.582539]  rtw_xmit+0xd6/0x1cb [r8188eu]
-[21760.582564]  rtw_xmit_entry+0xe4/0x1d2 [r8188eu]
-[21760.582584]  xmit_one.constprop.0+0x98/0x170
-[21760.582588]  dev_hard_start_xmit+0x40/0x90
-[21760.582591]  sch_direct_xmit+0xfa/0x230
-[21760.582596]  __dev_xmit_skb+0x27c/0x530
-[21760.582598]  __dev_queue_xmit+0x327/0x4e0
-[21760.582602]  ip_finish_output2+0x279/0x5c0
-[21760.582605]  __ip_queue_xmit+0x167/0x3f0
-[21760.582607]  __tcp_transmit_skb+0x4ff/0x9a0
-[21760.582610]  tcp_rcv_established+0x5c1/0x6f0
-[21760.582613]  tcp_v4_do_rcv+0x13e/0x240
-[21760.582616]  tcp_v4_rcv+0xbad/0xc70
-[21760.582618]  ? ip_rcv_finish_core.constprop.0+0x13c/0x2f0
-[21760.582621]  ip_protocol_deliver_rcu+0x30/0x1f0
-[21760.582623]  ip_local_deliver_finish+0x4b/0x60
-[21760.582625]  __netif_receive_skb_one_core+0x63/0x90
-[21760.582628]  process_backlog+0x8f/0x140
-[21760.582631]  __napi_poll+0x2e/0x180
-[21760.582634]  net_rx_action+0x11b/0x260
-[21760.582637]  __do_softirq+0xcb/0x2f5
-[21760.582640]  irq_exit_rcu+0x9e/0xc0
-[21760.582643]  common_interrupt+0x83/0xa0
-[21760.582647]  </IRQ>
-[21760.582647]  asm_common_interrupt+0x1e/0x40
-[21760.582650] RIP: 0010:cpuidle_enter_state+0xdf/0x5c0
-[21760.582655] Code: 49 89 c6 0f 1f 44 00 00 31 ff e8 4c a1 98 ff 45 84 ff 74 12 9c 58 f6 c4 02 0f 85 10 03 00 00 31 ff e8 d5 73 9f ff fb 45 85 ed <0f> 88 59 01 00 00 4d 63 e5 49 83 fc 09 0f 87 05 04 00 00 4b 8d 04
+Ah, good call. I've adjusted this and added a comment.
 
-Fix by changing kmalloc() flags argument from GFP_KERNEL to GFP_ATOMIC.
+Thanks!
 
-Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
----
- drivers/staging/r8188eu/core/rtw_cmd.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+-Kees
 
-diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index 0302aa101de6..159346d97110 100644
---- a/drivers/staging/r8188eu/core/rtw_cmd.c
-+++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -1240,13 +1240,13 @@ u8 rtw_addbareq_cmd(struct adapter *padapter, u8 tid, u8 *addr)
- 	struct addBaReq_parm *paddbareq_parm;
- 	u8	res = _SUCCESS;
- 
--	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
-+	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
- 	if (ph2c == NULL) {
- 		res = _FAIL;
- 		goto exit;
- 	}
- 
--	paddbareq_parm = kzalloc(sizeof(struct addBaReq_parm), GFP_KERNEL);
-+	paddbareq_parm = kzalloc(sizeof(struct addBaReq_parm), GFP_ATOMIC);
- 	if (paddbareq_parm == NULL) {
- 		kfree(ph2c);
- 		res = _FAIL;
 -- 
-2.32.0
-
+Kees Cook
