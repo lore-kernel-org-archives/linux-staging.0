@@ -1,82 +1,134 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ABB772
-	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 14:54:17 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id y12so13579726edo.6
-        for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 07:54:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85E472
+	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 15:32:16 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id h11so12852871ljo.12
+        for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 08:32:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Jw0xLY+vm795MhFxQkfoXv1/Mq5jVRjAqI9LMouhf/s=;
-        b=NdaU2lIE2VdmHidOsEjh3ssUPR26yIq0ttRCxSLGiclMYfLL5X8V0IYDS7lo6Wiu1R
-         IIh3pzZi3AwUogrfsWc9U05ZJLPTquzIpN2I9RU7o0rPg1Tq4Z97nFCK7qFf4UkPw6M1
-         dmMFTsob/aTSK9mgQz/VRQVfQZmEBOGCNWm5GebqTJPzCCD5yOe40hl+9aXiXmE8m35d
-         NqyKxl1oCPwv5Oj1Ji89UHXy7oi4WK1kOshF3EXAePfqCUcboSIjxpiAoPZe0vzTgSjs
-         XwbPGe6mh8gq0rwSV3cIJ/b1aivNrniM8QOUYb+tuWlLHzl25+LYhxyvo1q1NKHtvsRO
-         gMLQ==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cuMBivazXPSSSnLg5TVHL25KvD4e4AyXmAdQoyFf5fI=;
+        b=V0takgq4CkvNar1Q60JxHbTt1cqvFsAT2Ql1xCcWDlliF/9fK1Tk6u2NKjLJFi2NsP
+         OtAUbjW/Hk6YTr3ZTfouOa43d0DCv4/nxXOIFvMh2o9s/LUtXhmtgHgxqNBlfkoO+0Ox
+         d1GAjEOyAM0plTITbZ2w6WFa49Z5MRcmaq85CbQLNYZrVs9T1wQ8UUGFYid/G6OviM1d
+         OMFu6dCu79GrtbGkEZtfmLAS5L0sYxR0jmS86rEcpL2kD9pJaHk0tbVbZ7ZyxkbmW+U+
+         QcVQ4cI0n7yRxCSYVdO9PPaLX284Bky+u6/vpPnImSqzkgKcHLw7rJHQ0RyOSVMQVUfP
+         ZxKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Jw0xLY+vm795MhFxQkfoXv1/Mq5jVRjAqI9LMouhf/s=;
-        b=mrDstrFnF3tSuln8TGVUKJYbbggJ/dCH5Pumjgrxc2HZfOv4UaADdIUnnBjXIzmVoN
-         YOtGJrgsJCyftbFE+c7kQU3dVyeP89QHTzgmZozbqOaTOF+IxE+xk465jwaadeAgG+uT
-         e54QJs11jtR321uQbt8GnZOlZHr95/cjJ6xS93oCI0Fi5jldkWHLLrXJFmPKlglw/76J
-         JLLj2vVhcSYTMwaI9lE5VFdWFCSAJ3zaQoi27qKlf1oVSJxVXlKJjEn9xhR06oziezTu
-         JpAhBjb4bl5XAgfdxvg+YwqKayWDGGc7mIAFP05T/HNp+ojgrSXGZ4RxF2uzlN+p6wHh
-         BLCA==
-X-Gm-Message-State: AOAM533lkZ5hl8ZtSJJt4ws8JlEAJEhav7U/0NWDhL/rP/u5sqfWuST6
-	RlQHhXmRZQX6ALvCgO6FJAs=
-X-Google-Smtp-Source: ABdhPJwKFHy5TdGafmcw5J/0qFZuSmaO6yyDBNHHM8pE0s/Ni2+FENJD00zajqvnc1vdo41KVVSUUA==
-X-Received: by 2002:a50:f1d8:: with SMTP id y24mr3373123edl.275.1627656856089;
-        Fri, 30 Jul 2021 07:54:16 -0700 (PDT)
-Received: from agape ([5.171.81.215])
-        by smtp.gmail.com with ESMTPSA id o7sm616292ejy.48.2021.07.30.07.54.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jul 2021 07:54:15 -0700 (PDT)
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: hdegoede@redhat.com,
-	Larry.Finger@lwfinger.net,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] staging: rtl8723bs: put condition parentheses at the end of a line
-Date: Fri, 30 Jul 2021 16:54:08 +0200
-Message-Id: <295a41c98cd475ae25f9288d99a929b75492db3f.1627656773.git.fabioaiuto83@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1627656773.git.fabioaiuto83@gmail.com>
-References: <cover.1627656773.git.fabioaiuto83@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cuMBivazXPSSSnLg5TVHL25KvD4e4AyXmAdQoyFf5fI=;
+        b=KN76K/QNLsUHvWqHYDQVgPkFXZ3cAoOqBQtE4YJC/1FB1KsTp7juUNhN3L0RrpGCTT
+         TT+5yQ1e+aYjrvsNDHARvBfUXW1WGICraoiT2SZg4abHG7kTBJ7f9mCknG9Ey7IB+xak
+         LZVZPSFE2G2vEr/hrlxXA/zpFtbfRqPlwaeAlDBoSK++BrJvlm4ZOQWoQ6Dj4JoZ8gaR
+         4Nd6+nWh00CQo9VNFDBupSEOzPMsijhfWJX3MDY+6xUo7MayIWJinWvjCI7ugKai833x
+         t3wM4NDQxVae3ZgYSX9hhps96qXa7vso0LeYwkRTwznIgvzZkW6Mzx//eaLdAH/xfdm6
+         pddQ==
+X-Gm-Message-State: AOAM532fxZ4WQyA3mNA3cfiC3QmrPXa5a7leeM0vnB8UkU7uUbiV2VGX
+	ptczD5TVfn5ZDCroSyiulj1gyLHLkZ4v2PfTzPbawg==
+X-Google-Smtp-Source: ABdhPJzhoAUM4a6+aRW2w5iC66nC+BulVEtoEK+XmW3hkTpBTQktpdSzzUsKFLM2RILR3UqcvgdkDUL260mhYjHoyJw=
+X-Received: by 2002:a2e:a911:: with SMTP id j17mr2005145ljq.341.1627659134322;
+ Fri, 30 Jul 2021 08:32:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-49-keescook@chromium.org> <1cc74e5e-8d28-6da4-244e-861eac075ca2@acm.org>
+ <202107291845.1E1528D@keescook>
+In-Reply-To: <202107291845.1E1528D@keescook>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Fri, 30 Jul 2021 08:32:03 -0700
+Message-ID: <CAKwvOdn+G6y3_=YZgp51cL64XW=VGgt7C0Vt0ARZOkezPTn5WQ@mail.gmail.com>
+Subject: Re: [PATCH 48/64] drbd: Use struct_group() to zero algs
+To: Kees Cook <keescook@chromium.org>
+Cc: Bart Van Assche <bvanassche@acm.org>, linux-hardening@vger.kernel.org, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Keith Packard <keithpac@amazon.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org, 
+	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-staging@lists.linux.dev, linux-block@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-put the closing parenthese at the end of a line
+On Thu, Jul 29, 2021 at 7:31 PM Kees Cook <keescook@chromium.org> wrote:
+>
+> On Wed, Jul 28, 2021 at 02:45:55PM -0700, Bart Van Assche wrote:
+> > On 7/27/21 1:58 PM, Kees Cook wrote:
+> > > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> > > field bounds checking for memset(), avoid intentionally writing across
+> > > neighboring fields.
+> > >
+> > > Add a struct_group() for the algs so that memset() can correctly reason
+> > > about the size.
+> > >
+> > > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > > ---
+> > >   drivers/block/drbd/drbd_main.c     | 3 ++-
+> > >   drivers/block/drbd/drbd_protocol.h | 6 ++++--
+> > >   drivers/block/drbd/drbd_receiver.c | 3 ++-
+> > >   3 files changed, 8 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+> > > index 55234a558e98..b824679cfcb2 100644
+> > > --- a/drivers/block/drbd/drbd_main.c
+> > > +++ b/drivers/block/drbd/drbd_main.c
+> > > @@ -729,7 +729,8 @@ int drbd_send_sync_param(struct drbd_peer_device *peer_device)
+> > >     cmd = apv >= 89 ? P_SYNC_PARAM89 : P_SYNC_PARAM;
+> > >     /* initialize verify_alg and csums_alg */
+> > > -   memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
+> > > +   BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
+> > > +   memset(&p->algs, 0, sizeof(p->algs));
+> > >     if (get_ldev(peer_device->device)) {
+> > >             dc = rcu_dereference(peer_device->device->ldev->disk_conf);
+> > > diff --git a/drivers/block/drbd/drbd_protocol.h b/drivers/block/drbd/drbd_protocol.h
+> > > index dea59c92ecc1..a882b65ab5d2 100644
+> > > --- a/drivers/block/drbd/drbd_protocol.h
+> > > +++ b/drivers/block/drbd/drbd_protocol.h
+> > > @@ -283,8 +283,10 @@ struct p_rs_param_89 {
+> > >   struct p_rs_param_95 {
+> > >     u32 resync_rate;
+> > > -   char verify_alg[SHARED_SECRET_MAX];
+> > > -   char csums_alg[SHARED_SECRET_MAX];
+> > > +   struct_group(algs,
+> > > +           char verify_alg[SHARED_SECRET_MAX];
+> > > +           char csums_alg[SHARED_SECRET_MAX];
+> > > +   );
+> > >     u32 c_plan_ahead;
+> > >     u32 c_delay_target;
+> > >     u32 c_fill_target;
+> > > diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
+> > > index 1f740e42e457..6df2539e215b 100644
+> > > --- a/drivers/block/drbd/drbd_receiver.c
+> > > +++ b/drivers/block/drbd/drbd_receiver.c
+> > > @@ -3921,7 +3921,8 @@ static int receive_SyncParam(struct drbd_connection *connection, struct packet_i
+> > >     /* initialize verify_alg and csums_alg */
+> > >     p = pi->data;
+> > > -   memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
+> > > +   BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
+> > > +   memset(&p->algs, 0, sizeof(p->algs));
+> >
+> > Using struct_group() introduces complexity. Has it been considered not to
+> > modify struct p_rs_param_95 and instead to use two memset() calls instead of
+> > one (one memset() call per member)?
+>
+> I went this direction because using two memset()s (or memcpy()s in other
+> patches) changes the machine code. It's not much of a change, but it
+> seems easier to justify "no binary changes" via the use of struct_group().
+>
+> If splitting the memset() is preferred, I can totally do that instead.
+> :)
 
-Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+I'm not sure that compilers can fold memsets of adjacent members. It
+might not matter, but you could wrap these members in a _named_ struct
+then simply use assignment for optimal codegen.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index d3d068babb5e..5ed13bf765d2 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -606,8 +606,7 @@ void rtw_update_scanned_network(struct adapter *adapter, struct wlan_bssid_ex *t
- 
- 		/*  probe resp(3) > beacon(1) > probe req(2) */
- 		if (target->reserved[0] != 2 &&
--		    target->reserved[0] >= pnetwork->network.reserved[0]
--			) {
-+		    target->reserved[0] >= pnetwork->network.reserved[0]) {
- 			update_ie = true;
- 		} else {
- 			update_ie = false;
+
 -- 
-2.20.1
-
+Thanks,
+~Nick Desaulniers
