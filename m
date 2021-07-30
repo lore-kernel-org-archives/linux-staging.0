@@ -1,97 +1,75 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D483D3481
-	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 19:18:28 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id i10so12255442pla.3
-        for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 12:18:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972483481
+	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 19:59:47 +0000 (UTC)
+Received: by mail-oi1-f176.google.com with SMTP id a19so14763565oiw.6
+        for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 12:59:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=GxQ+HQk3cdftqAN6ekEINRB7/ckK/Y3btr+5Ktub3O8=;
-        b=WS5dYESChuBnCxT0C846oXNdS39ELe0+GVYff+8CDiB/+f/gvQwIUAsaHdpyWtgQI9
-         Ksdmzxs2AfVddKWJDuxET2t1XvdH74XtC3HtYpRTl4M2aix9P85mPUTWk0m4skcu2rUY
-         hkzUA5m/uNIuqcBh7EgcpFhsleAuHbj8eKL2s=
+        d=gmail.com; s=20161025;
+        h=sender:to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=OnraWx5qTRp93j0CVIlVl1ZqO/lIu4qh2IAgjAxiQDs=;
+        b=IruMxjxfiLT71vsNF66JLojpeerjaqTAoivTyp/iUBHvLcFqQEx77kv3MU0xFcGqW3
+         ipl8uI4BgXeydJja5GHDU9U4VAqlejQuzJx+8iZOoiFTGXPdXfCL9v+vUKlamCf1/OVb
+         +YzgeIUtxb3NNQnamiPM9727SykRFp2YgvRKWnDXT3aMT+3gka7/B1EMXpfjtank53Gm
+         njBIJowD9Pel4Jw2LeQy/9RhHpscqw9/7eMkWja+gkLflmw4AlVgeghui7EA60Jze1g3
+         4b/7JWMMJV6StelyN0YsyQ3hAdTCAKTsb9XjYqChRhZ8v7W7CFjmbzKq1sKYc/lMEtie
+         1gXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=GxQ+HQk3cdftqAN6ekEINRB7/ckK/Y3btr+5Ktub3O8=;
-        b=jJjhuvo2dQg51dfHC0TuRzTeAh/njhlF1EjCSPd5+o0/noJ/CSJa80MzZ1lA5uV+gi
-         GWkF39J/4OCxQzvOI4lRW4jZzP6Yjo190qf3mRGCmjd8eWvHrYLqS4SttQxG2M+UJp/E
-         2nhz3JrVpT1jRM+Zq8UhWOmkd4InTfhSyKmueo2o/Sr7GWMJT7lzplQIjAisrCWurHVM
-         C1W7O3PbgWMOVd5HaaVuXDEz1cGatvPjwHRRagf4JS/8Mc5Ry0W29RFH0MaclJT7plLd
-         ioda1qiTNAk83eZBnk2Flkh0oCfeIV4sa+4ovAiw+ByND3tyE+xSg/evmkGlj1mOSwM2
-         Zx1w==
-X-Gm-Message-State: AOAM532kX3COfN+nvB9jzMNjxRyQ3M7SWLIBy2V4VZvh0xl+1DhVC7T7
-	l8U01u+Pk5d0Ug5Y5vKECZQsXA==
-X-Google-Smtp-Source: ABdhPJyCK3+AR/s/Pq/itPZjFA3DL77BZcO4l8s7xQqT+jnGem6TdAj1wqpo6cwifM6sSr5c8f1XQQ==
-X-Received: by 2002:a65:498a:: with SMTP id r10mr500564pgs.7.1627672708339;
-        Fri, 30 Jul 2021 12:18:28 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 26sm3040727pjj.27.2021.07.30.12.18.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jul 2021 12:18:27 -0700 (PDT)
-Date: Fri, 30 Jul 2021 12:18:26 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Nick Desaulniers <ndesaulniers@google.com>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>, dsterba@suse.cz,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Bart Van Assche <bvanassche@acm.org>,
-	linux-hardening@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Keith Packard <keithpac@amazon.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-	nborisov@suse.com
-Subject: Re: [PATCH 01/64] media: omap3isp: Extract struct group for memcpy()
- region
-Message-ID: <202107301217.46EA9DA@keescook>
-References: <20210728091434.GQ1931@kadam>
- <c52a52d9-a9e0-5020-80fe-4aada39035d3@acm.org>
- <20210728213730.GR5047@suse.cz>
- <YQJDCw01gSp1d1/M@kroah.com>
- <20210729082039.GX25548@kadam>
- <202107291952.C08EAE039B@keescook>
- <20210730083845.GD5047@suse.cz>
- <20210730090054.GX1931@kadam>
- <202107300937.C7016A82@keescook>
- <CAKwvOdmtKszUS0-OyGMHuhqjyXQC_283KOQOouWWtimYCvsAoA@mail.gmail.com>
+        h=x-gm-message-state:sender:to:cc:from:subject:message-id:date
+         :user-agent:mime-version:content-language:content-transfer-encoding;
+        bh=OnraWx5qTRp93j0CVIlVl1ZqO/lIu4qh2IAgjAxiQDs=;
+        b=VdXAbLxsyqe90aycCYZ9f21lw7BgFGra1jZTngKNoI635wfib7piMmXZazhlWUnSKO
+         UOFKnedP9DajdUGLJEMIMXGyeQ9F7ocjUIAqGYuC+b/HAmU01gTzMM9+WEU0EMIy4GlB
+         aHYfk2aE8RiR3FCXijaPLEnPGNrFUylVyM/dPhgE7nLdmokawRVpOjh0h9PMYs5fy0GN
+         sZgXEml8nHN0LCsu4AxoXkjy+ZiJ6L+odQ/yF639xCxM8yehiWbJVj8BGSK1NjqcedPx
+         0ANagdrmE7fI7ZOO4sB3lDa0wt49uqLkIdttld7sZiVeIhaDda6HhUHxAu1ltXaVuWQ5
+         hf9Q==
+X-Gm-Message-State: AOAM5312RyZvS6MSNsR7XI452vZeQs79Exnnm5R2y1cE+m+UiAC9U8Pi
+	yfQY7TittRM/TaY4HWInye9efJ1qe4I=
+X-Google-Smtp-Source: ABdhPJxYHmxzycgXU2OiG+lfvIa8PNJ/DaLWgwgJ1CxCwYmReUqVyCq/RkJmeKF0xbNGU7ytQrKS3w==
+X-Received: by 2002:a54:4817:: with SMTP id j23mr3052561oij.59.1627675186547;
+        Fri, 30 Jul 2021 12:59:46 -0700 (PDT)
+Received: from 2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com (2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com. [2603:8090:2005:39b3::100a])
+        by smtp.gmail.com with ESMTPSA id e3sm403155oow.34.2021.07.30.12.59.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Jul 2021 12:59:45 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev
+From: Larry Finger <Larry.Finger@lwfinger.net>
+Subject: kernel BUG in new r8188eu
+Message-ID: <80042e9f-6811-38f3-010b-1c0951ba88db@lwfinger.net>
+Date: Fri, 30 Jul 2021 14:59:44 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKwvOdmtKszUS0-OyGMHuhqjyXQC_283KOQOouWWtimYCvsAoA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 30, 2021 at 10:08:03AM -0700, Nick Desaulniers wrote:
-> On Fri, Jul 30, 2021 at 9:44 AM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > On Fri, Jul 30, 2021 at 12:00:54PM +0300, Dan Carpenter wrote:
-> > > On Fri, Jul 30, 2021 at 10:38:45AM +0200, David Sterba wrote:
-> > > > Then is explicit memset the only reliable way accross all compiler
-> > > > flavors and supported versions?
-> > > >
-> > >
-> > > The = { } initializer works.  It's only when you start partially
-> > > initializing the struct that it doesn't initialize holes.
-> >
-> > No, partial works. It's when you _fully_ initialize the struct where the
-> > padding doesn't get initialized. *sob*
-> 
-> I'm pretty sure that this has more to do with whether or not the
-> compiler applies SROA then observes uses of the individual members or
-> not.
+Greg,
 
-Ultimately, it's just not consistent, so thank goodness for
--ftrivial-auto-var-init=zero. :)
+When I unplug the USB device with the driver loaded, I get the following BUG and 
+my laptop freezes:
 
--- 
-Kees Cook
+kernel: BUG: unable to handle page fault for address: ffffeb0200043248
+kernel: #PF: supervisor read access in kernel mode
+kernel: #PF: error_code(0x0000) - not-present page
+
+The traceback points to a kfree() call. I do not understand this BUG. Can you 
+explain what happens?
+
+I think I know how to avoid the BUG, but that might be at the expense of a 
+memory leak.
+
+Thanks,
+
+Larry
