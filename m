@@ -1,155 +1,190 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C806970
-	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 09:26:01 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id h14so10409909wrx.10
-        for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 02:26:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E61D70
+	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 09:41:42 +0000 (UTC)
+Received: by mail-ua1-f54.google.com with SMTP id v3so3747851uau.3
+        for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 02:41:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linbit-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=AkuGs7W3jKofUPHLtLFgYg9f4YA+eRGF5if/gTr/VXg=;
-        b=lylUtumRYNonwKmsPvuJom3wxBHkLf4anhWQaqkh04Z4ai4zZJd08vdZ7peV9SRpsh
-         8kDAxoMFjhA4/LA7o2la5MrwwsntBQgGjb0I1dUZFTJHnBuxsue7dB41Zed6v8YvFnQx
-         EtWmNPzKWs0OwoVonXjeCSLzamGDsOrch7MlE+WtH/ppN38tQ4p8HLRgifhRRjoPlQkI
-         e7dhso1fixnA6ExwMDoIvam1wge26Ggl97vNBtGlzBzaYUrpPxGPV5UmfIV5g4S/Vge/
-         4ukVRSa4etHYaDGK4EAFlKuotQCFXCnz8HEMRP8pLWuHCS1V7/wsG8+TQIpv8pIama72
-         IoVw==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=k1LiHMccWU3CFS90ABp7VFo/U1i2mCLKiQBjAQcFNBI=;
+        b=UuEe8gH/CL6m7fO5L+wZVLZquku8/H5SScQlIq2SuNi2SuqtcBh81cdmOet2CbboSh
+         2t61QX1GWfoAbFAxmpqf+HPY+yWh2MqNX0kWt9px7hjsQz7YQhQBVDnH0fpIZyB4eF0B
+         Vr5nFybp4J/ndAUw38lyXhpVZcTrjsEwvQM3A/tLu0od0pF0LmmjpA9J6QPr/lO0c2tf
+         hFwJvh5lCdEO2bXrBX1SW1fh8p/J7mTUHfRi0e3TtJ6ytbVp9Pi/mmdCLDlWdVCW81RI
+         amkeSf7f2YsQDTFU0H9JUzLAh/1kob8BXkbbAWTz1NyjJLoGB6LrGKNmAM54zvRoGAHb
+         /vog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=AkuGs7W3jKofUPHLtLFgYg9f4YA+eRGF5if/gTr/VXg=;
-        b=BL9a8T7ZSqfQS7A5axfcKUNAKDAlf/LaG3gzadMJvr5GpvzwHR66YnZh6lafHOe34Y
-         AcnKXY+Jm2G8KfBvssSMC5DMU+HodijuHuw04IyHWDclphhgNDFsGmVuD3XW1CyJc5K7
-         gRG7bFeZB5iCBXhjhVD+pHFwi7mfqbGYkyoMT2NrN2cg7o79jhZx/yhMj4J8dj3+7oF2
-         pCOwni9sBIxT/TidV9xl+Bd/vnV6SNDpR7J5x/a7thrtdqftJEqP28atiYvXWimV/Xxw
-         9ToJAKGo3seO1WKmXhXGD7C3PtzOFKznj54HVc5VFzCDtlu1O0Q9Td37oWiZf5rZTrB8
-         yJ5g==
-X-Gm-Message-State: AOAM531BSzNWVZXJ71hy2AcmBnT8P39nKzXQblMO3AsEj9xIpE8MREza
-	DphKORsy9NhKponXawn6ovQK9w==
-X-Google-Smtp-Source: ABdhPJzeDirH6vZRgzsjdA+6SGrdUfGDvYu5Q0o7XkuF8nVr9uoOebNL2C+zT2PnMdIeL/CWiOquwA==
-X-Received: by 2002:a5d:6448:: with SMTP id d8mr1920645wrw.295.1627637160119;
-        Fri, 30 Jul 2021 02:26:00 -0700 (PDT)
-Received: from grappa.linbit (62-99-137-214.static.upcbusiness.at. [62.99.137.214])
-        by smtp.gmail.com with ESMTPSA id v15sm1259298wmj.39.2021.07.30.02.25.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jul 2021 02:25:59 -0700 (PDT)
-Date: Fri, 30 Jul 2021 11:25:57 +0200
-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: Kees Cook <keescook@chromium.org>, linux-hardening@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Keith Packard <keithpac@amazon.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH 48/64] drbd: Use struct_group() to zero algs
-Message-ID: <20210730092557.GC909654@grappa.linbit>
-Mail-Followup-To: Bart Van Assche <bvanassche@acm.org>,
-	Kees Cook <keescook@chromium.org>, linux-hardening@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Keith Packard <keithpac@amazon.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-49-keescook@chromium.org>
- <1cc74e5e-8d28-6da4-244e-861eac075ca2@acm.org>
- <202107291845.1E1528D@keescook>
- <0d71917d-967f-beaa-d83e-a60fa254627c@acm.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=k1LiHMccWU3CFS90ABp7VFo/U1i2mCLKiQBjAQcFNBI=;
+        b=pQsOlHN5wOypKk/596EOrveiX0FKymXezI3tw/fnHb+rP6hAuXAuBMJmtnDp62mtiu
+         zGj/z0sGIXAG7tLJf6urQCoDluClofT9ceWl4XnfCaSl1aR/EcarT/JdHBakrx41XZCL
+         T0YgPRLijps0z+sURcyq5/imDSQx7zXPswXauSrBld0oaBb3orX2I0pA7pwn2vPBFBC5
+         1/n0aEr6pIQf6XB4HElfiPf2YE8XNNVkCFssMW1LgZppTY6hYeXM+9bkwsuj9waZ8hUn
+         2SUli8twNsFuGcf4K82P5eXYLHqOf59/Ty5I9MaflEWH32KQ8LUDargObqI0azD94mD8
+         J4ig==
+X-Gm-Message-State: AOAM531tGCORMmizHg6pufcDMdMgzb41yK7jlLnALimTplOhv/z3Lt5B
+	aw7V0iRtknwu/csjCe7EXWEoWXjJV3LIM+geKZM=
+X-Google-Smtp-Source: ABdhPJxK/OssVuNJ1ZfYu6/HZ7EDppG4U3Swi6HDXRLuq/EoQ28MVf59oAs9LmWei2OMswJjEyI4NsViICqYOzVzMzs=
+X-Received: by 2002:ab0:2b17:: with SMTP id e23mr840916uar.98.1627638101356;
+ Fri, 30 Jul 2021 02:41:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0d71917d-967f-beaa-d83e-a60fa254627c@acm.org>
+References: <20210614100617.28753-1-sergio.paracuellos@gmail.com>
+ <20210614100617.28753-2-sergio.paracuellos@gmail.com> <20210729100146.GA8648@alpha.franken.de>
+ <CAMhs-H-9=H2cTMtQxE_DUMraJ1KVNjOX2J-nO_RSdsyUUkSAMA@mail.gmail.com> <20210730083007.GA5072@alpha.franken.de>
+In-Reply-To: <20210730083007.GA5072@alpha.franken.de>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Fri, 30 Jul 2021 11:41:29 +0200
+Message-ID: <CAMhs-H9cULy1A0mHv3LrkshKdppQzkDuLJf81usqxbDtFn_U9A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] MIPS: ralink: Define PCI_IOBASE
+To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: linux-staging@lists.linux.dev, Greg KH <gregkh@linuxfoundation.org>, 
+	NeilBrown <neil@brown.name>, "open list:MIPS" <linux-mips@vger.kernel.org>, 
+	Ilya Lipnitskiy <ilya.lipnitskiy@gmail.com>, John Crispin <john@phrozen.org>, 
+	Bjorn Helgaas <helgaas@kernel.org>, lorenzo.pieralisi@arm.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jul 29, 2021 at 07:57:47PM -0700, Bart Van Assche wrote:
-> On 7/29/21 7:31 PM, Kees Cook wrote:
-> > On Wed, Jul 28, 2021 at 02:45:55PM -0700, Bart Van Assche wrote:
-> >> On 7/27/21 1:58 PM, Kees Cook wrote:
-> >>> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> >>> field bounds checking for memset(), avoid intentionally writing across
-> >>> neighboring fields.
-> >>>
-> >>> Add a struct_group() for the algs so that memset() can correctly reason
-> >>> about the size.
-> >>>
-> >>> Signed-off-by: Kees Cook <keescook@chromium.org>
-> >>> ---
-> >>>   drivers/block/drbd/drbd_main.c     | 3 ++-
-> >>>   drivers/block/drbd/drbd_protocol.h | 6 ++++--
-> >>>   drivers/block/drbd/drbd_receiver.c | 3 ++-
-> >>>   3 files changed, 8 insertions(+), 4 deletions(-)
-> >>>
-> >>> diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
-> >>> index 55234a558e98..b824679cfcb2 100644
-> >>> --- a/drivers/block/drbd/drbd_main.c
-> >>> +++ b/drivers/block/drbd/drbd_main.c
-> >>> @@ -729,7 +729,8 @@ int drbd_send_sync_param(struct drbd_peer_device *peer_device)
-> >>>   	cmd = apv >= 89 ? P_SYNC_PARAM89 : P_SYNC_PARAM;
-> >>>   	/* initialize verify_alg and csums_alg */
-> >>> -	memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
-> >>> +	BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
-> >>> +	memset(&p->algs, 0, sizeof(p->algs));
-> >>>   	if (get_ldev(peer_device->device)) {
-> >>>   		dc = rcu_dereference(peer_device->device->ldev->disk_conf);
-> >>> diff --git a/drivers/block/drbd/drbd_protocol.h b/drivers/block/drbd/drbd_protocol.h
-> >>> index dea59c92ecc1..a882b65ab5d2 100644
-> >>> --- a/drivers/block/drbd/drbd_protocol.h
-> >>> +++ b/drivers/block/drbd/drbd_protocol.h
-> >>> @@ -283,8 +283,10 @@ struct p_rs_param_89 {
-> >>>   struct p_rs_param_95 {
-> >>>   	u32 resync_rate;
-> >>> -	char verify_alg[SHARED_SECRET_MAX];
-> >>> -	char csums_alg[SHARED_SECRET_MAX];
-> >>> +	struct_group(algs,
-> >>> +		char verify_alg[SHARED_SECRET_MAX];
-> >>> +		char csums_alg[SHARED_SECRET_MAX];
-> >>> +	);
-> >>>   	u32 c_plan_ahead;
-> >>>   	u32 c_delay_target;
-> >>>   	u32 c_fill_target;
-> >>> diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
-> >>> index 1f740e42e457..6df2539e215b 100644
-> >>> --- a/drivers/block/drbd/drbd_receiver.c
-> >>> +++ b/drivers/block/drbd/drbd_receiver.c
-> >>> @@ -3921,7 +3921,8 @@ static int receive_SyncParam(struct drbd_connection *connection, struct packet_i
-> >>>   	/* initialize verify_alg and csums_alg */
-> >>>   	p = pi->data;
-> >>> -	memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
-> >>> +	BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
-> >>> +	memset(&p->algs, 0, sizeof(p->algs));
-> >>
-> >> Using struct_group() introduces complexity. Has it been considered not to
-> >> modify struct p_rs_param_95 and instead to use two memset() calls instead of
-> >> one (one memset() call per member)?
-> > 
-> > I went this direction because using two memset()s (or memcpy()s in other
-> > patches) changes the machine code. It's not much of a change, but it
-> > seems easier to justify "no binary changes" via the use of struct_group().
-> > 
-> > If splitting the memset() is preferred, I can totally do that instead.
-> > :)
-> 
-> I don't have a strong opinion about this. Lars, do you want to comment
-> on this patch?
+Hi Thomas,
 
+Thanks for the explanation.
 
-Fine either way. "no binary changes" sounds good ;-)
+On Fri, Jul 30, 2021 at 10:30 AM Thomas Bogendoerfer
+<tsbogend@alpha.franken.de> wrote:
+>
+> On Thu, Jul 29, 2021 at 01:21:45PM +0200, Sergio Paracuellos wrote:
+> > Hi Thomas,
+> >
+> > On Thu, Jul 29, 2021 at 12:02 PM Thomas Bogendoerfer
+> > <tsbogend@alpha.franken.de> wrote:
+> > >
+> > > On Mon, Jun 14, 2021 at 12:06:15PM +0200, Sergio Paracuellos wrote:
+> > > > PCI_IOBASE is used to create VM maps for PCI I/O ports, it is
+> > > > required by generic PCI drivers to make memory mapped I/O range
+> > > > work. Hence define it for ralink architectures to be able to
+> > > > avoid parsing manually IO ranges in PCI generic driver code.
+> > > > Function 'plat_mem_setup' for ralink is using 'set_io_port_base'
+> > > > call using '0xa0000000' as address, so use the same address in
+> > > > the definition to align things.
+> > > >
+> > > > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> > > > ---
+> > > >  arch/mips/include/asm/mach-ralink/spaces.h | 10 ++++++++++
+> > > >  1 file changed, 10 insertions(+)
+> > > >  create mode 100644 arch/mips/include/asm/mach-ralink/spaces.h
+> > > >
+> > > > diff --git a/arch/mips/include/asm/mach-ralink/spaces.h b/arch/mips/include/asm/mach-ralink/spaces.h
+> > > > new file mode 100644
+> > > > index 000000000000..87d085c9ad61
+> > > > --- /dev/null
+> > > > +++ b/arch/mips/include/asm/mach-ralink/spaces.h
+> > > > @@ -0,0 +1,10 @@
+> > > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > > +#ifndef __ASM_MACH_RALINK_SPACES_H_
+> > > > +#define __ASM_MACH_RALINK_SPACES_H_
+> > > > +
+> > > > +#define PCI_IOBASE   _AC(0xa0000000, UL)
+> > > > +#define PCI_IOSIZE   SZ_16M
+> > > > +#define IO_SPACE_LIMIT       (PCI_IOSIZE - 1)
+> > > > +
+> > > > +#include <asm/mach-generic/spaces.h>
+> > > > +#endif
+> > >
+> > > does this really work for you ? I tried the same trick for RB532
+> > > and the generated IO addresses are wrong...
+> >
+> > I got pci io resources assigned without complaints from the pci core
+> > code. I don't have real pci card that uses I/O bars but this is what I
+> > see in the boot (I added some traces when I was testing this):
+>
+> resource handling works, but the addresses generated for IO access
+> are wrong, because the iomap tries to ioremap it to a fixed
+> virtual address (PCI_IOBASE), which can't work for KSEG1 addresses.
 
-Thanks,
-    Lars
+What I don't understand is why the kernel is not complaining about
+remapping this if "devm_pci_remap_iospace" can't work. I cannot see
+any complaints in my dmesg log.
 
+>
+> > Is this wrong?
+>
+> to get it working this way, we would need to put PCI_IOBASE somewhere
+> into KSEG2, which I don't like since it will create TLB entries for IO
+> addresses, which most of the time isn't needed on MIPS because of
+> access via KSEG1.
+
+If I am understanding you correctly, you mean to change PCI_IOBASE
+location to be somewhere in KSEG2 and set up the new io base address
+through "set_io_port_base", right?
+TLB entries should be out of this. Yes, I don't like this either.
+
+> I'd much prefer to make the devm_pci_remap_iospace() in drivers/pci/of.c
+> optional. Something like this
+>
+> diff --git a/drivers/pci/of.c b/drivers/pci/of.c
+> index a143b02b2dcd..657aef39bf63 100644
+> --- a/drivers/pci/of.c
+> +++ b/drivers/pci/of.c
+> @@ -564,12 +564,14 @@ static int pci_parse_request_of_pci_ranges(struct device *dev,
+>
+>                 switch (resource_type(res)) {
+>                 case IORESOURCE_IO:
+> +#ifdef PCI_IOBASE
+>                         err = devm_pci_remap_iospace(dev, res, iobase);
+>                         if (err) {
+>                                 dev_warn(dev, "error %d: failed to map resource %pR\n",
+>                                          err, res);
+>                                 resource_list_destroy_entry(win);
+>                         }
+> +#endif
+>                         break;
+>                 case IORESOURCE_MEM:
+>                         res_valid |= !(res->flags & IORESOURCE_PREFETCH);
+>
+
+I don't know which architectures are not currently defining PCI_IOBASE
+and might need this to be called (or if this is also not possible at
+all scenario), honestly.
+
+>
+> This together with an increased IO space via
+>
+> #define IO_SPACE_LIMIT 0x1fffffff
+
+I guess we can also redefine the weak "pci_address_to_pio" symbol for
+mips to avoid this change, but only to do a "return (unsigned long)
+address;" it might make no sense also :).
+
+>
+> gives me a working PCI bus on the RB532.
+>
+> No idea, if the patch would be accepted by the PCI maintainers.
+>
+
+Let's ask about this, just to be sure...
+
++cc Bjorn Helgaas and Lorenzo Pieralisi.
+
+Bjorn, Lorenzo. Sorry to bother you. What do you think about this?
+What should be the correct approach to handle this? Does the
+"pci_parse_request_of_pci_ranges" change sound reasonable for you?
+
+Thanks in advance for your time and clarification.
+
+Best regards,
+    Sergio Paracuellos
+
+> Thomas.
+
+>
+> --
+> Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+> good idea.                                                [ RFC1925, 2.3 ]
