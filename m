@@ -1,75 +1,235 @@
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972483481
-	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 19:59:47 +0000 (UTC)
-Received: by mail-oi1-f176.google.com with SMTP id a19so14763565oiw.6
-        for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 12:59:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCD193483
+	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 20:42:32 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id oz16so18986064ejc.7
+        for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 13:42:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=OnraWx5qTRp93j0CVIlVl1ZqO/lIu4qh2IAgjAxiQDs=;
-        b=IruMxjxfiLT71vsNF66JLojpeerjaqTAoivTyp/iUBHvLcFqQEx77kv3MU0xFcGqW3
-         ipl8uI4BgXeydJja5GHDU9U4VAqlejQuzJx+8iZOoiFTGXPdXfCL9v+vUKlamCf1/OVb
-         +YzgeIUtxb3NNQnamiPM9727SykRFp2YgvRKWnDXT3aMT+3gka7/B1EMXpfjtank53Gm
-         njBIJowD9Pel4Jw2LeQy/9RhHpscqw9/7eMkWja+gkLflmw4AlVgeghui7EA60Jze1g3
-         4b/7JWMMJV6StelyN0YsyQ3hAdTCAKTsb9XjYqChRhZ8v7W7CFjmbzKq1sKYc/lMEtie
-         1gXg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=/OTvw/vz/MoiC7ggWi+Lx+RTd5Xd1sl050H55gD7g/c=;
+        b=qWEsmJqkA7bT/ckKxO6s3MSlP5pU5+8RXt0FEQ0taOXyTFe0GZAXyTbjeHUHNarGiE
+         dPNdfZhuWbhMQ+OkYpEh6T9hP3GfufKpUpXgcA0emGjdT22kPoonF4nFePJZUt8a+cUW
+         itvJDcqZpk8sciLSOMB1IGPrhL9pHWshfbdNTmJD/TI0+ZEuG/Ux0rC2uu9nbDgT++/F
+         YBcAgFNQ8V4W+TlZ87K9fdHvlcFIPdIjqXvzbE7wj/PzWI22o2seOt8wuKdaS+K39ryp
+         couVhHUmFpyH9rnfmkdVtuWq5vMLJtZ7ycRKUvms3uJ58JArVel+YcIb4JionTkt7UBM
+         iZNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:to:cc:from:subject:message-id:date
-         :user-agent:mime-version:content-language:content-transfer-encoding;
-        bh=OnraWx5qTRp93j0CVIlVl1ZqO/lIu4qh2IAgjAxiQDs=;
-        b=VdXAbLxsyqe90aycCYZ9f21lw7BgFGra1jZTngKNoI635wfib7piMmXZazhlWUnSKO
-         UOFKnedP9DajdUGLJEMIMXGyeQ9F7ocjUIAqGYuC+b/HAmU01gTzMM9+WEU0EMIy4GlB
-         aHYfk2aE8RiR3FCXijaPLEnPGNrFUylVyM/dPhgE7nLdmokawRVpOjh0h9PMYs5fy0GN
-         sZgXEml8nHN0LCsu4AxoXkjy+ZiJ6L+odQ/yF639xCxM8yehiWbJVj8BGSK1NjqcedPx
-         0ANagdrmE7fI7ZOO4sB3lDa0wt49uqLkIdttld7sZiVeIhaDda6HhUHxAu1ltXaVuWQ5
-         hf9Q==
-X-Gm-Message-State: AOAM5312RyZvS6MSNsR7XI452vZeQs79Exnnm5R2y1cE+m+UiAC9U8Pi
-	yfQY7TittRM/TaY4HWInye9efJ1qe4I=
-X-Google-Smtp-Source: ABdhPJxYHmxzycgXU2OiG+lfvIa8PNJ/DaLWgwgJ1CxCwYmReUqVyCq/RkJmeKF0xbNGU7ytQrKS3w==
-X-Received: by 2002:a54:4817:: with SMTP id j23mr3052561oij.59.1627675186547;
-        Fri, 30 Jul 2021 12:59:46 -0700 (PDT)
-Received: from 2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com (2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com. [2603:8090:2005:39b3::100a])
-        by smtp.gmail.com with ESMTPSA id e3sm403155oow.34.2021.07.30.12.59.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Jul 2021 12:59:45 -0700 (PDT)
-Sender: Larry Finger <larry.finger@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev
-From: Larry Finger <Larry.Finger@lwfinger.net>
-Subject: kernel BUG in new r8188eu
-Message-ID: <80042e9f-6811-38f3-010b-1c0951ba88db@lwfinger.net>
-Date: Fri, 30 Jul 2021 14:59:44 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=/OTvw/vz/MoiC7ggWi+Lx+RTd5Xd1sl050H55gD7g/c=;
+        b=I4mv8KeU8Xra4C3Qk0jyWhPfs3L4gIu1xU/hRbRvVJUSpu04yKJmNsBG/vHBOoZtHX
+         +H8RXrcxRf+b0ztOzYDfA1aSfeBNg8SsfgDVc2mJbHg43oniBCpScm1IkiRTqcnTTmq4
+         6oM+dKqs3iMYq/smc4egDZEbw0+f9TOfGcwmO6qjVrQ/sj6Lh9JcP1Jz2dX8o23MtN1K
+         y7ngtb/xZW0cifKniyGAWm9eYMEzRk2GUH+JHuna/McwC10CTihZEpyS8XTBmTQQ02iJ
+         i2262DSWgzRCvKjrxGtmtPill3Of4b5LoJ3cuM45aJLRLJWE7ow0/CDRagWGa359Cel9
+         KxpA==
+X-Gm-Message-State: AOAM533/xMb+QVeGUZy5CTcA8a7blF+iOpDR/tj8Ce9J/6kyTKdnIpVc
+	LL6cLDTzorYPdswgU9bVeZ7RD7fG7zM=
+X-Google-Smtp-Source: ABdhPJzd2Hfko33/ZkdoG/8XLn4KWl6PyYkMOySdCarKqb/kH9jKOqPJiq9o5sWV1WxlMAhTTurU5w==
+X-Received: by 2002:a17:906:b00c:: with SMTP id v12mr4518383ejy.222.1627677751189;
+        Fri, 30 Jul 2021 13:42:31 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::4bf9])
+        by smtp.gmail.com with ESMTPSA id dg20sm1139034edb.13.2021.07.30.13.42.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Jul 2021 13:42:30 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 2/2] staging: r8188eu: add missing spaces after ',' and before braces
+Date: Fri, 30 Jul 2021 22:41:53 +0200
+Message-Id: <20210730204153.27270-2-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210730204153.27270-1-straube.linux@gmail.com>
+References: <20210730204153.27270-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Greg,
+Add missing spaces to clear checkpatch errors.
 
-When I unplug the USB device with the driver loaded, I get the following BUG and 
-my laptop freezes:
+ERROR: space required before the open parenthesis '('
+ERROR: space required before the open brace '{'
+ERROR: space required after that ',' (ctx:ExV)
 
-kernel: BUG: unable to handle page fault for address: ffffeb0200043248
-kernel: #PF: supervisor read access in kernel mode
-kernel: #PF: error_code(0x0000) - not-present page
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_ap.c            |  2 +-
+ drivers/staging/r8188eu/core/rtw_mlme.c          | 10 +++++-----
+ drivers/staging/r8188eu/core/rtw_security.c      |  4 ++--
+ drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c   |  2 +-
+ drivers/staging/r8188eu/hal/hal_intf.c           |  2 +-
+ drivers/staging/r8188eu/hal/odm_RegConfig8188E.c |  2 +-
+ drivers/staging/r8188eu/hal/rtl8188e_hal_init.c  |  2 +-
+ drivers/staging/r8188eu/os_dep/rtw_android.c     |  4 ++--
+ 8 files changed, 14 insertions(+), 14 deletions(-)
 
-The traceback points to a kfree() call. I do not understand this BUG. Can you 
-explain what happens?
+diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
+index 463c9ca40492..0bb545135206 100644
+--- a/drivers/staging/r8188eu/core/rtw_ap.c
++++ b/drivers/staging/r8188eu/core/rtw_ap.c
+@@ -1028,7 +1028,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
+ 		/* set  Max Rx AMPDU size  to 64K */
+ 		pht_cap->ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_FACTOR & 0x03);
+ 
+-		if(rf_type == RF_1T1R) {
++		if (rf_type == RF_1T1R) {
+ 			pht_cap->mcs.rx_mask[0] = 0xff;
+ 			pht_cap->mcs.rx_mask[1] = 0x0;
+ 		}
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index f07e4e233788..d692f1477cc8 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -1317,7 +1317,7 @@ static u8 search_max_mac_id(struct adapter *padapter)
+ }
+ 
+ /* FOR AP , AD-HOC mode */
+-void rtw_sta_media_status_rpt(struct adapter *adapter,struct sta_info *psta,
++void rtw_sta_media_status_rpt(struct adapter *adapter, struct sta_info *psta,
+ 			      u32 mstatus)
+ {
+ 	u16 media_status_rpt;
+@@ -1330,7 +1330,7 @@ void rtw_sta_media_status_rpt(struct adapter *adapter,struct sta_info *psta,
+ 	rtw_hal_set_hwreg(adapter, HW_VAR_TX_RPT_MAX_MACID, (u8 *)&macid);
+ 	/* MACID|OPMODE:1 connect */
+ 	media_status_rpt = (u16)((psta->mac_id<<8) | mstatus);
+-	rtw_hal_set_hwreg(adapter,HW_VAR_H2C_MEDIA_STATUS_RPT,
++	rtw_hal_set_hwreg(adapter, HW_VAR_H2C_MEDIA_STATUS_RPT,
+ 			  (u8 *)&media_status_rpt);
+ }
+ 
+@@ -1428,7 +1428,7 @@ void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf)
+ 	spin_lock_bh(&pmlmepriv->lock);
+ 
+ 	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)) {
+-		if(adapter->registrypriv.wifi_spec == 1)
++		if (adapter->registrypriv.wifi_spec == 1)
+ 			rtw_set_roaming(adapter, 0); /* don't roam */
+ 		else if (rtw_to_roaming(adapter) > 0)
+ 			pmlmepriv->to_roaming--; /* this stadel_event is caused by roaming, decrease to_roaming */
+@@ -1651,7 +1651,7 @@ static int rtw_check_join_candidate(struct mlme_priv *pmlmepriv
+ 	if (rtw_is_desired_network(adapter, competitor)  == false)
+ 		goto exit;
+ 
+-	if(rtw_to_roaming(adapter) > 0) {
++	if (rtw_to_roaming(adapter) > 0) {
+ 		if (rtw_get_passing_time_ms((u32)competitor->last_scanned) >= RTW_SCAN_RESULT_EXPIRE ||
+ 		    is_same_ess(&competitor->network, &pmlmepriv->cur_network.network) == false)
+ 			goto exit;
+@@ -1668,7 +1668,7 @@ static int rtw_check_join_candidate(struct mlme_priv *pmlmepriv
+ 			(*candidate)->network.Ssid.Ssid,
+ 			(*candidate)->network.MacAddress,
+ 			(int)(*candidate)->network.Rssi);
+-		DBG_88E("[to_roaming:%u]\n",rtw_to_roaming(adapter));
++		DBG_88E("[to_roaming:%u]\n", rtw_to_roaming(adapter));
+ 	}
+ 
+ exit:
+diff --git a/drivers/staging/r8188eu/core/rtw_security.c b/drivers/staging/r8188eu/core/rtw_security.c
+index ee4775b8284b..2c1b9a6dcdf2 100644
+--- a/drivers/staging/r8188eu/core/rtw_security.c
++++ b/drivers/staging/r8188eu/core/rtw_security.c
+@@ -1229,7 +1229,7 @@ u32	rtw_aes_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 					length = pattrib->last_txcmdsz-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
+ 
+ 					aes_cipher(prwskey, pattrib->hdrlen, pframe, length);
+-				} else{
++				} else {
+ 					length = pxmitpriv->frag_len-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len ;
+ 
+ 					aes_cipher(prwskey, pattrib->hdrlen, pframe, length);
+@@ -1237,7 +1237,7 @@ u32	rtw_aes_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 					pframe = (u8 *)RND4((size_t)(pframe));
+ 				}
+ 			}
+-		} else{
++		} else {
+ 			RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("rtw_aes_encrypt: stainfo==NULL!!!\n"));
+ 			res = _FAIL;
+ 		}
+diff --git a/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c b/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
+index fc58d5fb1264..f90827577059 100644
+--- a/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
++++ b/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
+@@ -539,7 +539,7 @@ enum HAL_STATUS ODM_ReadAndConfig_PHY_REG_1T_8188E(struct odm_dm_struct *dm_odm)
+ 							rtw_IOL_append_DELAY_US_cmd(pxmit_frame, 5);
+ 						} else if (v1 == 0xf9) {
+ 							rtw_IOL_append_DELAY_US_cmd(pxmit_frame, 1);
+-						} else{
++						} else {
+ 							if (v1 == 0xa24)
+ 								dm_odm->RFCalibrateInfo.RegA24 = v2;
+ 
+diff --git a/drivers/staging/r8188eu/hal/hal_intf.c b/drivers/staging/r8188eu/hal/hal_intf.c
+index cb0635850aa8..1d813b6c3678 100644
+--- a/drivers/staging/r8188eu/hal/hal_intf.c
++++ b/drivers/staging/r8188eu/hal/hal_intf.c
+@@ -201,7 +201,7 @@ u8 rtw_hal_intf_ps_func(struct adapter *adapt,
+ s32 rtw_hal_xmitframe_enqueue(struct adapter *padapter,
+ 			      struct xmit_frame *pxmitframe)
+ {
+-	if(padapter->HalFunc.hal_xmitframe_enqueue)
++	if (padapter->HalFunc.hal_xmitframe_enqueue)
+ 		return padapter->HalFunc.hal_xmitframe_enqueue(padapter, pxmitframe);
+ 	return false;
+ }
+diff --git a/drivers/staging/r8188eu/hal/odm_RegConfig8188E.c b/drivers/staging/r8188eu/hal/odm_RegConfig8188E.c
+index a26c36cf8786..1a2055249192 100644
+--- a/drivers/staging/r8188eu/hal/odm_RegConfig8188E.c
++++ b/drivers/staging/r8188eu/hal/odm_RegConfig8188E.c
+@@ -77,7 +77,7 @@ void odm_ConfigBB_PHY_REG_PG_8188E(struct odm_dm_struct *pDM_Odm, u32 Addr,
+ 		ODM_delay_us(5);
+ 	} else if (Addr == 0xf9) {
+ 		ODM_delay_us(1);
+-	} else{
++	} else {
+ 		ODM_RT_TRACE(pDM_Odm, ODM_COMP_INIT, ODM_DBG_LOUD,
+ 			     ("===> @@@@@@@ ODM_ConfigBBWithHeaderFile: [PHY_REG] %08X %08X %08X\n",
+ 			     Addr, Bitmask, Data));
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+index fa6c092e714d..1a7a62dd8504 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+@@ -1741,7 +1741,7 @@ static struct HAL_VERSION ReadChipVersion8188E(struct adapter *padapter)
+ 	} else if (IS_2T2R(ChipVersion)) {
+ 		pHalData->rf_type = RF_2T2R;
+ 		pHalData->NumTotalRFPath = 2;
+-	} else{
++	} else {
+ 		pHalData->rf_type = RF_1T1R;
+ 		pHalData->NumTotalRFPath = 1;
+ 	}
+diff --git a/drivers/staging/r8188eu/os_dep/rtw_android.c b/drivers/staging/r8188eu/os_dep/rtw_android.c
+index ce02bfc6d02a..2b9e719e2a51 100644
+--- a/drivers/staging/r8188eu/os_dep/rtw_android.c
++++ b/drivers/staging/r8188eu/os_dep/rtw_android.c
+@@ -62,12 +62,12 @@ static int g_wifi_on = true;
+ int rtw_android_cmdstr_to_num(char *cmdstr)
+ {
+ 	int cmd_num;
+-	for(cmd_num=0; cmd_num < ANDROID_WIFI_CMD_MAX; cmd_num++)
++	for (cmd_num=0; cmd_num < ANDROID_WIFI_CMD_MAX; cmd_num++)
+ #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 0, 0))
+ 		if (!strncasecmp(cmdstr, android_wifi_cmd_str[cmd_num],
+ 		    strlen(android_wifi_cmd_str[cmd_num])))
+ #else
+-		if(0 == strnicmp(cmdstr, android_wifi_cmd_str[cmd_num],
++		if (0 == strnicmp(cmdstr, android_wifi_cmd_str[cmd_num],
+ 		   strlen(android_wifi_cmd_str[cmd_num])))
+ #endif
+ 			break;
+-- 
+2.32.0
 
-I think I know how to avoid the BUG, but that might be at the expense of a 
-memory leak.
-
-Thanks,
-
-Larry
