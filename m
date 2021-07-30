@@ -1,106 +1,158 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF22D70
-	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 17:08:16 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id y34so19196147lfa.8
-        for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 10:08:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D446A70
+	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 18:14:57 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id b7so14422834edu.3
+        for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 11:14:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IV0tGa4+rpa0rWOKVy/RYqy1amnye8o4Jt6/b1EaRas=;
-        b=C6FDsp9eo10MPB7h8sanJV5aN6A87Y6zvnhf4hLt8eXrk78vLYzMazC5TtOgLlOPY3
-         q6Wjzc5G5DyLh+vBan4K/J3UkTpZk9Zz/tHyBwnmFN/5EodvKdl6FgMiGT62DUfWqlrJ
-         CFHjvaoGeKrAtFractG9IPE4H024PaEN1hckYzkwZnlXcachhpXtQresnwHmLQ0ksg0x
-         p4P3NNHOEMKY3qWIjd6qDKsCUDG0PnpKpr+TSZhFKtwgJbg2c8ef3I8Cpfsg3xrToL0H
-         UgZn5Pr4DGCnZ1C0lX3+OMlNp5SKFXq2/hs7zv3T1TgDMiYGIhUNHql1vz9SGCm5BHse
-         xWjg==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RLzGmg23wIZLMApLuoWPPi+Aep//XD12yszpCHUj1tU=;
+        b=dtilBrvGD4Paiw5gtN95xp+rtU8nDFhHQEQh9n8pNS7e0IRW05ywg0na2P1Gw0MpDO
+         MMw1ba8EPu1FCEvBUY3RIO8oZGf57gmSV89cR+S3wroFGPgd4nvu2wU+l5RrXtBgtI9K
+         zaeAV+AJqrbhoiydjFA3qn+V4Bm4E3bHEJ/1MMZ520zgCzsno6fLb/MFcqEcqw1h5DJY
+         iAsTxROnNdA1APDuuNccrzgSpVRJeO73QbNUYgBk8bAZzgMcC5X5DbhS1DheWpW2Op4w
+         xy4eQUZnkCOWJ48ZdqBEs2X4E4iUyhka7osiqGLSnWCbZEQ2VvU4g2as2zMFIQPN4Qm/
+         ec5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IV0tGa4+rpa0rWOKVy/RYqy1amnye8o4Jt6/b1EaRas=;
-        b=bcMfGRkZu+TXAIO4ufZsWqhGKIVmnZ8HIhrtfOYBxQs3VZsCCBOzpQgIVS6s/n9Meq
-         UJe/9s5Mi9c4maYUebowT5luNXoSJYbb/9ZZ8Ay/GiqxB8i1mvUgpCGTiULi7LHH9biX
-         C/GB4WBKNcNAe9WDdRIcfLqePx3MEfCYspCUDcTDSXwm2tFrUP+PW+ZV7RPeL5ROvjYY
-         TTAX2IhMFG++lKoxB70tJTFryVPBA60BXmh/rvIAqUzhE2VVGcJScytDLaCuyxIYlwF0
-         eNVHA5MbMEL3dlUcHOUppbKwsK0BVAhca5WE0BenSX9avouMYrDM0bN6AM//9iuKGUzG
-         wmcg==
-X-Gm-Message-State: AOAM531wDIM7s4+GUnIPJJXwJqU3K257IA1lJToOZr8q0SndhrlFtOmK
-	kokKauQL2jr48nIWgVR2D/aQNdth9uE2wXEfAeKH8g==
-X-Google-Smtp-Source: ABdhPJzj9IdxPOohHA8FDaGlITftqmCvtv1eT7HQAjqzz+pi/C9CDaOH613bJIBrdNXKsY/3pslb8syNjswLKo9CXgk=
-X-Received: by 2002:a05:6512:32aa:: with SMTP id q10mr2512533lfe.368.1627664894662;
- Fri, 30 Jul 2021 10:08:14 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RLzGmg23wIZLMApLuoWPPi+Aep//XD12yszpCHUj1tU=;
+        b=DHfelna7g9D8xYCAthLgbq6IQHUJbMJjncv1uNqkUhH7C+ptEFIozOzxlAEeEw1sWZ
+         wqIdYyvJ/9Rt8qnjcTo50dbPzTNbbO5m8iaGeOznfgVZMOc8U1suhH7Rj6wPcNtdFeag
+         CFI55UW0XSvWzWfJDPMbXWZHTSZCtKyRmOkzY2qdEYPvGcdoHwJRFoznsFKncE3e/ySI
+         s+WFPS/+uYZtrDhX3UskBcv+PyNx38j9m8SYmStxbJcq9XOmzSSicFcPnx3fFV4t2pVr
+         EHa/f+zRHsqKcRxMw2tWZhhUFirNsnsxv5nXS7YobRwXb2cLLnU6/7d/4LXoCPwotJzO
+         64uA==
+X-Gm-Message-State: AOAM530isgbyXcvgCUelCKPc2TZBiniRcZv8vhC8EmxrpeMM9J4Br7U+
+	fipjEbF6/N6LepwDtlXxQS4=
+X-Google-Smtp-Source: ABdhPJxx5K1MTv2lyaSEQT9WQlWlEBXpUucttGaqcRBZ299ooz10Gy3aZl6zE+A+dVc3BcOsdMHPeA==
+X-Received: by 2002:a05:6402:280e:: with SMTP id h14mr4403812ede.187.1627668896126;
+        Fri, 30 Jul 2021 11:14:56 -0700 (PDT)
+Received: from localhost.localdomain (host-79-26-32-124.retail.telecomitalia.it. [79.26.32.124])
+        by smtp.gmail.com with ESMTPSA id a35sm1036984edf.80.2021.07.30.11.14.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Jul 2021 11:14:55 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH] staging: r8188eu: Fix different base types in assignments and parameters
+Date: Fri, 30 Jul 2021 20:14:52 +0200
+Message-Id: <20210730181452.23062-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210727205855.411487-2-keescook@chromium.org>
- <20210728085921.GV5047@twin.jikos.cz> <20210728091434.GQ1931@kadam>
- <c52a52d9-a9e0-5020-80fe-4aada39035d3@acm.org> <20210728213730.GR5047@suse.cz>
- <YQJDCw01gSp1d1/M@kroah.com> <20210729082039.GX25548@kadam>
- <202107291952.C08EAE039B@keescook> <20210730083845.GD5047@suse.cz>
- <20210730090054.GX1931@kadam> <202107300937.C7016A82@keescook>
-In-Reply-To: <202107300937.C7016A82@keescook>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Fri, 30 Jul 2021 10:08:03 -0700
-Message-ID: <CAKwvOdmtKszUS0-OyGMHuhqjyXQC_283KOQOouWWtimYCvsAoA@mail.gmail.com>
-Subject: Re: [PATCH 01/64] media: omap3isp: Extract struct group for memcpy() region
-To: Kees Cook <keescook@chromium.org>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>, dsterba@suse.cz, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Bart Van Assche <bvanassche@acm.org>, 
-	linux-hardening@vger.kernel.org, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Keith Packard <keithpac@amazon.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev, 
-	linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	clang-built-linux@googlegroups.com, nborisov@suse.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 30, 2021 at 9:44 AM Kees Cook <keescook@chromium.org> wrote:
->
-> On Fri, Jul 30, 2021 at 12:00:54PM +0300, Dan Carpenter wrote:
-> > On Fri, Jul 30, 2021 at 10:38:45AM +0200, David Sterba wrote:
-> > > Then is explicit memset the only reliable way accross all compiler
-> > > flavors and supported versions?
-> > >
-> >
-> > The = { } initializer works.  It's only when you start partially
-> > initializing the struct that it doesn't initialize holes.
->
-> No, partial works. It's when you _fully_ initialize the struct where the
-> padding doesn't get initialized. *sob*
+Fix sparse warnings of different base types in assignments
+and in passing function parameters.
 
-I'm pretty sure that this has more to do with whether or not the
-compiler applies SROA then observes uses of the individual members or
-not.
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_br_ext.c | 46 ++++++++++++++++++-----
+ 1 file changed, 36 insertions(+), 10 deletions(-)
 
->
-> struct foo {
->         u8 flag;
->         /* padding */
->         void *ptr;
-> };
->
-> These are fine:
->
-> struct foo ok1 = { };
-> struct foo ok2 = { .flag = 7 };
-> struct foo ok3 = { .ptr = NULL };
->
-> This is not:
->
-> struct foo bad = { .flag = 7, .ptr = NULL };
->
-> (But, of course, it depends on padding size, compiler version, and
-> architecture. i.e. things remain unreliable.)
->
-> --
-
+diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+index e00302137a60..31ca2e548555 100644
+--- a/drivers/staging/r8188eu/core/rtw_br_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+@@ -71,7 +71,7 @@ static inline int __nat25_add_pppoe_tag(struct sk_buff *skb, struct pppoe_tag *t
+ 	struct pppoe_hdr *ph = (struct pppoe_hdr *)(skb->data + ETH_HLEN);
+ 	int data_len;
+ 
+-	data_len = tag->tag_len + TAG_HDR_LEN;
++	data_len = be16_to_cpu(tag->tag_len) + TAG_HDR_LEN;
+ 	if (skb_tailroom(skb) < data_len) {
+ 		_DEBUG_ERR("skb_tailroom() failed in add SID tag!\n");
+ 		return -1;
+@@ -134,42 +134,68 @@ static inline void __nat25_generate_ipv4_network_addr(unsigned char *networkAddr
+ }
+ 
+ static inline void __nat25_generate_ipx_network_addr_with_node(unsigned char *networkAddr,
+-				unsigned int *ipxNetAddr, unsigned char *ipxNodeAddr)
++				__be32 *ipxNetAddr, unsigned char *ipxNodeAddr)
+ {
++	union {
++                unsigned int f0;
++                unsigned char f1[IPX_NODE_LEN];
++        } addr;
++
+ 	memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
+ 
+ 	networkAddr[0] = NAT25_IPX;
+-	memcpy(networkAddr+1, (unsigned char *)ipxNetAddr, 4);
++	addr.f0 = be32_to_cpu(*ipxNetAddr);
++	memcpy(networkAddr+1, addr.f1, 4);
+ 	memcpy(networkAddr+5, ipxNodeAddr, 6);
+ }
+ 
+ static inline void __nat25_generate_ipx_network_addr_with_socket(unsigned char *networkAddr,
+-				unsigned int *ipxNetAddr, unsigned short *ipxSocketAddr)
++				__be32 *ipxNetAddr, __be16 *ipxSocketAddr)
+ {
++	union {
++		unsigned int f0;
++		unsigned char f1[4];
++	} addr;
++
+ 	memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
+ 
+ 	networkAddr[0] = NAT25_IPX;
+-	memcpy(networkAddr+1, (unsigned char *)ipxNetAddr, 4);
+-	memcpy(networkAddr+5, (unsigned char *)ipxSocketAddr, 2);
++	addr.f0 = be32_to_cpu(*ipxNetAddr);
++	memcpy(networkAddr+1, addr.f1, 4);
++	addr.f0 ^= addr.f0;
++	addr.f0 = be16_to_cpu(*ipxSocketAddr);
++	memcpy(networkAddr+5, addr.f1, 2);
+ }
+ 
+ static inline void __nat25_generate_apple_network_addr(unsigned char *networkAddr,
+-				unsigned short *network, unsigned char *node)
++				__be16 *network, unsigned char *node)
+ {
++	union {
++                unsigned short f0;
++                unsigned char f1[2];
++        } addr;
++
+ 	memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
+ 
+ 	networkAddr[0] = NAT25_APPLE;
+-	memcpy(networkAddr+1, (unsigned char *)network, 2);
++	addr.f0 = be16_to_cpu(*network);
++	memcpy(networkAddr+1, addr.f1, 2);
+ 	networkAddr[3] = *node;
+ }
+ 
+ static inline void __nat25_generate_pppoe_network_addr(unsigned char *networkAddr,
+-				unsigned char *ac_mac, unsigned short *sid)
++				unsigned char *ac_mac, __be16 *sid)
+ {
++	union {
++                unsigned short f0;
++                unsigned char f1[2];
++        } addr;
++
+ 	memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
+ 
+ 	networkAddr[0] = NAT25_PPPOE;
+-	memcpy(networkAddr+1, (unsigned char *)sid, 2);
++	addr.f0 = be16_to_cpu(*sid);
++	memcpy(networkAddr+1, addr.f1, 2);
+ 	memcpy(networkAddr+3, (unsigned char *)ac_mac, 6);
+ }
+ 
 -- 
-Thanks,
-~Nick Desaulniers
+2.32.0
+
