@@ -1,43 +1,42 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982DE70
-	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 01:39:24 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id a4-20020a17090aa504b0290176a0d2b67aso18461592pjq.2
-        for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 18:39:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C265A70
+	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 01:41:56 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id e5so9137832pld.6
+        for <linux-staging@lists.linux.dev>; Thu, 29 Jul 2021 18:41:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=vPAHzrcSpfKuQzB1lrV/ttkpcnRRhB/aWzazYKPR4LA=;
-        b=Nkis4e8105uAbCge9aO+StXNkXelrJqOpF7xNsIBtcoe+D0iGfGrhXWOijeKDfFQS8
-         tcGIefv5L6ODB7FGlHuoK3nhQNiRzvNAcTkGvlhjpZKPls5MD5zfBf1pJ7Ll8rA8iZ5f
-         LTaEoFLk38qAHkDnPefiooUaNHcHv32+03LBo=
+        bh=z2Wamgmh73Y+Ncu8fAmHIQj7M7ZAYEMLRlTXvopvkv0=;
+        b=ijAtp7BbL9OeTMvwqZJ4C6mfxUVgFhIHqoi2Bpn7KTv+xzkqR66BceM/5iMj6cpOfn
+         epnzVaw1UhfDENDcgJ4dZ7tPhk6gmw29M697vajTqTUL4EanTqtO6s3pVRsJvTdO4U4i
+         durS8L9aynseywI9b6j0HfM/aNYNqA/7lc1W4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=vPAHzrcSpfKuQzB1lrV/ttkpcnRRhB/aWzazYKPR4LA=;
-        b=D0IMkxmYe6ogPLYOtXuYFC/pxKmeXR/wPiZQo3pKRX+so0k5d3UbX6sE8UVK5N2cAU
-         SQf6DbwWPFT4WpiYL8MwAu8vMvy2H/xGNyO1VgE977+SdHLaAqhKzm3aKwOyMVDOVx9c
-         Kq2vfX7xGOOOabFg+Dv25smJRG/UG0FLfM3xX1cu38HJ5lxp/MK3YVO3DLCYnIC5AfSI
-         UmttEWIDqu+HHg4ZrdRJa849F5wupr9YkjxaMMMj9oEpBgx1d9QBUgmRHoPEKRXq0gKV
-         2RNF7lY86bZdYITPmIeC33D2ytyO8XIuulljfcz2qKhtZXzwy6QQ3VNsFFdOvrcMsbvn
-         B5yg==
-X-Gm-Message-State: AOAM532kD2By+umv/smYbiolb7VCgKwh8IelEdUueZMZiFm5afHzia8r
-	I9mghQGCN9rUNLAxZUTRgkzMIw==
-X-Google-Smtp-Source: ABdhPJzbwo1FmDrFDbiWZ8BWT3TYMS+pXDsYeTk5gfATiaIbAKAeZ3H6gw+DeJERV+7PZzePv9GaaQ==
-X-Received: by 2002:a63:1053:: with SMTP id 19mr5768pgq.395.1627609164105;
-        Thu, 29 Jul 2021 18:39:24 -0700 (PDT)
+        bh=z2Wamgmh73Y+Ncu8fAmHIQj7M7ZAYEMLRlTXvopvkv0=;
+        b=IGVy+l1ROS29AtfwS14appnC66JdUUhsRDRPPza0Cx4Bn+1LFhVBd0MbYN5pTZXhZ8
+         wb/X5AP2Zb7Vy9smMsnIWnP7XnoMB6GW5M1oMrhseUXXCi79rPr5Yb3iLmecFYD1c/O1
+         6+ZiDmHnEhTPsXA7YrUGeQzw8SH26IY0WqsZuiHaCCi8qa44MMJT7sQq9f2L3mCcK92q
+         hDz4zQKXrFVTVKFJTjx3LOcUSUeVDREZJbDnp831UduVFI9x3+itTa0vrYp4l+/lYNrQ
+         7e7RcmO0QV2aKs4NZYl7YxqVzkT+J0yjrmSh0mZeJycpfCLrbIQ9bszX5zt2DeJVh9uv
+         AqCw==
+X-Gm-Message-State: AOAM531Z3mPqC4ETFoaxByWwL49+aZUZ8wknYxybI1Ux2tbK82MKx8cg
+	UOMKPN/dWrycmnTDv4GZYZvJTg==
+X-Google-Smtp-Source: ABdhPJw0813YKZxQ8DT1LgMIuVe3PAz9HErWNrX605I57TwGhBJvYb9BvbSpZ8Miqi8+VnzV2jJFmA==
+X-Received: by 2002:a05:6a00:ac8:b029:320:a6bb:880d with SMTP id c8-20020a056a000ac8b0290320a6bb880dmr239521pfl.41.1627609316347;
+        Thu, 29 Jul 2021 18:41:56 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id z5sm97349pgz.77.2021.07.29.18.39.23
+        by smtp.gmail.com with ESMTPSA id s25sm97149pgv.87.2021.07.29.18.41.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jul 2021 18:39:23 -0700 (PDT)
-Date: Thu, 29 Jul 2021 18:39:22 -0700
+        Thu, 29 Jul 2021 18:41:55 -0700 (PDT)
+Date: Thu, 29 Jul 2021 18:41:54 -0700
 From: Kees Cook <keescook@chromium.org>
-To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-hardening@vger.kernel.org,
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-hardening@vger.kernel.org,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Keith Packard <keithpac@amazon.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
@@ -46,11 +45,10 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
 Subject: Re: [PATCH 62/64] netlink: Avoid false-positive memcpy() warning
-Message-ID: <202107291838.25D1F118C@keescook>
+Message-ID: <202107291839.6AEFA1E8@keescook>
 References: <20210727205855.411487-1-keescook@chromium.org>
  <20210727205855.411487-63-keescook@chromium.org>
  <YQDv+oG7ok0T1L+r@kroah.com>
- <d7251d92-150b-5346-6237-52afc154bb00@rasmusvillemoes.dk>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,47 +57,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d7251d92-150b-5346-6237-52afc154bb00@rasmusvillemoes.dk>
+In-Reply-To: <YQDv+oG7ok0T1L+r@kroah.com>
 
-On Wed, Jul 28, 2021 at 01:24:01PM +0200, Rasmus Villemoes wrote:
-> On 28/07/2021 07.49, Greg Kroah-Hartman wrote:
-> > On Tue, Jul 27, 2021 at 01:58:53PM -0700, Kees Cook wrote:
-> >> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> >> field bounds checking for memcpy(), memmove(), and memset(), avoid
-> >> intentionally writing across neighboring fields.
-> >>
-> >> Add a flexible array member to mark the end of struct nlmsghdr, and
-> >> split the memcpy() to avoid false positive memcpy() warning:
-> >>
-> >> memcpy: detected field-spanning write (size 32) of single field (size 16)
-> >>
-> >> Signed-off-by: Kees Cook <keescook@chromium.org>
-> >> ---
-> >>  include/uapi/linux/netlink.h | 1 +
-> >>  net/netlink/af_netlink.c     | 4 +++-
-> >>  2 files changed, 4 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/include/uapi/linux/netlink.h b/include/uapi/linux/netlink.h
-> >> index 4c0cde075c27..ddeaa748df5e 100644
-> >> --- a/include/uapi/linux/netlink.h
-> >> +++ b/include/uapi/linux/netlink.h
-> >> @@ -47,6 +47,7 @@ struct nlmsghdr {
-> >>  	__u16		nlmsg_flags;	/* Additional flags */
-> >>  	__u32		nlmsg_seq;	/* Sequence number */
-> >>  	__u32		nlmsg_pid;	/* Sending process port ID */
-> >> +	__u8		contents[];
+On Wed, Jul 28, 2021 at 07:49:46AM +0200, Greg Kroah-Hartman wrote:
+> On Tue, Jul 27, 2021 at 01:58:53PM -0700, Kees Cook wrote:
+> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> > field bounds checking for memcpy(), memmove(), and memset(), avoid
+> > intentionally writing across neighboring fields.
 > > 
-> > Is this ok to change a public, userspace visable, structure?
+> > Add a flexible array member to mark the end of struct nlmsghdr, and
+> > split the memcpy() to avoid false positive memcpy() warning:
+> > 
+> > memcpy: detected field-spanning write (size 32) of single field (size 16)
+> > 
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > ---
+> >  include/uapi/linux/netlink.h | 1 +
+> >  net/netlink/af_netlink.c     | 4 +++-
+> >  2 files changed, 4 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/include/uapi/linux/netlink.h b/include/uapi/linux/netlink.h
+> > index 4c0cde075c27..ddeaa748df5e 100644
+> > --- a/include/uapi/linux/netlink.h
+> > +++ b/include/uapi/linux/netlink.h
+> > @@ -47,6 +47,7 @@ struct nlmsghdr {
+> >  	__u16		nlmsg_flags;	/* Additional flags */
+> >  	__u32		nlmsg_seq;	/* Sequence number */
+> >  	__u32		nlmsg_pid;	/* Sending process port ID */
+> > +	__u8		contents[];
 > 
-> At least it should keep using a nlmsg_ prefix for consistency and reduce
-> risk of collision with somebody having defined an object-like contents
-> macro. But there's no guarantees in any case, of course.
+> Is this ok to change a public, userspace visable, structure?
+> 
+> Nothing breaks?
 
-Ah, good call. I've adjusted this and added a comment.
-
-Thanks!
-
--Kees
+It really shouldn't break anything. Adding a flex array doesn't change
+the size. And with Rasmus's suggestion (naming it "nlmsg_content") it
+should be safe against weird global macro collisions, etc.
 
 -- 
 Kees Cook
