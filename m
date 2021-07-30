@@ -1,130 +1,130 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808BB70
-	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 18:16:48 +0000 (UTC)
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16UI3vac158050;
-	Fri, 30 Jul 2021 14:16:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=47G+jOd9ft2urcdZVKEMDZ0W/umlhqgBNQoiaG8/OGA=;
- b=MmozcAgtOxadFvhaSECQH4KmhgbRBg6VyWpLGX3FBtuagYmylENTaCuWR82/lNNfbPpb
- QJfiSQgTNSifUbi1oVVndx/rCdy1H/7S36oM4XhiUuN6IJWZ4ET3XDtCHkLDrST4RH2Q
- tfqKq/UxjHBu283tFp8IYQLePZmishK2Pp7/eqmxo/jF+F6+zIgYh5gToNqnRQvrrJqB
- NdbqtuiUus2teB5vKekm+w2HUPdFxhIKsaFDV0GC/ahvpW0zOlV8wJK3W/evsEIJdfgA
- qNLn333UfVsJWG6qEWqW49xmDlQ0rue3LB9jgqXzYZOC9Y7WOKP6EQ15gy09U5EidObu ag== 
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.11])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 3a4p568pj3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 30 Jul 2021 14:16:34 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
-	by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16UI75qd019316;
-	Fri, 30 Jul 2021 18:16:33 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com [9.57.198.28])
-	by ppma03dal.us.ibm.com with ESMTP id 3a235u95p7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 30 Jul 2021 18:16:33 +0000
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com [9.57.199.106])
-	by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 16UIGWiZ34472428
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 30 Jul 2021 18:16:32 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 75B7D28060;
-	Fri, 30 Jul 2021 18:16:32 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6A40028059;
-	Fri, 30 Jul 2021 18:16:29 +0000 (GMT)
-Received: from oc6857751186.ibm.com (unknown [9.160.21.31])
-	by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
-	Fri, 30 Jul 2021 18:16:29 +0000 (GMT)
-Subject: Re: [PATCH 36/64] scsi: ibmvscsi: Avoid multi-field memset() overflow
- by aiming at srp
-To: "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Kees Cook <keescook@chromium.org>
-Cc: linux-hardening@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Keith Packard <keithpac@amazon.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-        Brian King <brking@linux.vnet.ibm.com>
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-37-keescook@chromium.org>
- <yq135rzp79c.fsf@ca-mkp.ca.oracle.com>
-From: Tyrel Datwyler <tyreld@linux.ibm.com>
-Message-ID: <6eae8434-e9a7-aa74-628b-b515b3695359@linux.ibm.com>
-Date: Fri, 30 Jul 2021 11:16:28 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8D33481
+	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 18:51:42 +0000 (UTC)
+Received: by mail-ot1-f54.google.com with SMTP id o2-20020a9d22020000b0290462f0ab0800so10525835ota.11
+        for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 11:51:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=yA4gui9DD/LmW4Ty2YpYVvn6CWdZivb2tv6TTmjH338=;
+        b=jpR6lkUrbB+YEgoT+BkTpMdJW66emssZ3GLxwGdx9gaTQOonAxKjPO6d9tBxE1Ytwf
+         Cv3hjg+IOZP2mqOhlepwn+BDxxPpCE1CpQ1OWXzpW/PRjCIV06JhHXXp3JUFFS4se/Ki
+         /yWUfWuaIfBGwggvtKOhX4OREFCLTQTBqRLRI5KY9M+oiASZa0tBQmPL590YJ1QG6Syk
+         gQ/ceNJPEydt90o2a3bg7ehAcRSYwEgZjMriSN99UxMTwPYWAtg+IWvbUMYZRa0e3YVg
+         Irg3YvKJkH25GNqgIOVWkonYk0xrPzJ3q5FlsTRsYoVsHxD8siwosEcM54vtNNdvERUB
+         PZAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=yA4gui9DD/LmW4Ty2YpYVvn6CWdZivb2tv6TTmjH338=;
+        b=prrk/xJycp8gPtoBxQKKkZGFQ6YwxnElSMk13tG+k61+lTpJOyTEwKbQgNwJQiNPs6
+         HhjwCRvhYtZ1UZIwuKk41n0MdUuCF4/kEFC6Qkfz/NDhMh9OIaH9gIZX2A5Fi7vHnYx5
+         uS04nqqWqmoBJD6j5MqoO91P/uegRXueH6izezCpK29z6fa0NboQKMN16UPq1AQYHbku
+         T9BVgAGEWjjpcVMQHGusOSbM0ZaD8yiPP4m7+qV/50EAEppIg70eZkzHXKV+n9xYVBU/
+         l/AUyLXkbxyUJqRLOr0sjBLMiJJgmTpztDLx1nLXDG+b6ZAlc1qIVKGcogCJXgUSnshe
+         DlkQ==
+X-Gm-Message-State: AOAM530v9/9+/ImELdTSPWJuey3+QpcPJp+La8cJ6F14X5f8yoTH+6VA
+	Kg+aby/ycMn4gtgrowvGSlY=
+X-Google-Smtp-Source: ABdhPJx04fJT3RC9KgaKQ2xlKPiYjlAdDtm8VKvhjoBdpCaz6zJOtG1EmuH0AwL+YQyj7w5mti38fQ==
+X-Received: by 2002:a05:6830:1e34:: with SMTP id t20mr3199524otr.166.1627671101823;
+        Fri, 30 Jul 2021 11:51:41 -0700 (PDT)
+Received: from 2603-8090-2005-39b3-0000-0000-0000-100f.res6.spectrum.com (2603-8090-2005-39b3-0000-0000-0000-100f.res6.spectrum.com. [2603:8090:2005:39b3::100f])
+        by smtp.gmail.com with ESMTPSA id q13sm367386oov.6.2021.07.30.11.51.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Jul 2021 11:51:41 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Subject: Re: [PATCH 2/2] staging: r8188eu: Remove no more used functions and
+ variables
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20210730103716.27210-1-fmdefrancesco@gmail.com>
+ <20210730103716.27210-3-fmdefrancesco@gmail.com>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+Message-ID: <2daf2287-e019-3be3-6627-b698bee6246b@lwfinger.net>
+Date: Fri, 30 Jul 2021 13:51:39 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.12.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <yq135rzp79c.fsf@ca-mkp.ca.oracle.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210730103716.27210-3-fmdefrancesco@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: gc5JE-Gvwp4LjpvIX5-GdEcqjSPid7w2
-X-Proofpoint-GUID: gc5JE-Gvwp4LjpvIX5-GdEcqjSPid7w2
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
- definitions=2021-07-30_11:2021-07-30,2021-07-30 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- suspectscore=0 priorityscore=1501 spamscore=0 malwarescore=0
- impostorscore=0 mlxscore=0 clxscore=1011 adultscore=0 bulkscore=0
- phishscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2107140000 definitions=main-2107300121
 
-On 7/27/21 6:39 PM, Martin K. Petersen wrote:
+On 7/30/21 5:37 AM, Fabio M. De Francesco wrote:
+> Remove the functions and variables from rtw_security.c that are no more
+> necessary since the patch that replaces getcrc32() with crc32_le().
 > 
-> Kees,
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> ---
+>   drivers/staging/r8188eu/core/rtw_security.c | 37 ---------------------
+>   1 file changed, 37 deletions(-)
 > 
->> In preparation for FORTIFY_SOURCE performing compile-time and run-time
->> field bounds checking for memset(), avoid intentionally writing across
->> neighboring fields.
->>
->> Instead of writing beyond the end of evt_struct->iu.srp.cmd, target the
->> upper union (evt_struct->iu.srp) instead, as that's what is being wiped.
->>
->> Signed-off-by: Kees Cook <keescook@chromium.org>
+> diff --git a/drivers/staging/r8188eu/core/rtw_security.c b/drivers/staging/r8188eu/core/rtw_security.c
+> index 9625beea4b3c..136ba1e61dca 100644
+> --- a/drivers/staging/r8188eu/core/rtw_security.c
+> +++ b/drivers/staging/r8188eu/core/rtw_security.c
+> @@ -74,43 +74,6 @@ static void arcfour_encrypt(struct arc4context *parc4ctx, u8 *dest, u8 *src, u32
+>   
+>   }
+>   
+> -static int bcrc32initialized;
+> -static u32 crc32_table[256];
+> -
+> -static u8 crc32_reverseBit(u8 data)
+> -{
+> -	return (u8)((data<<7)&0x80) | ((data<<5)&0x40) | ((data<<3)&0x20) |
+> -		   ((data<<1)&0x10) | ((data>>1)&0x08) | ((data>>3)&0x04) |
+> -		   ((data>>5)&0x02) | ((data>>7)&0x01);
+> -}
+> -
+> -static void crc32_init(void)
+> -{
+> -	if (bcrc32initialized == 1) {
+> -		return;
+> -	} else {
+> -		int i, j;
+> -		u32 c;
+> -		u8 *p = (u8 *)&c, *p1;
+> -		u8 k;
+> -
+> -		c = 0x12340000;
+> -
+> -		for (i = 0; i < 256; ++i) {
+> -			k = crc32_reverseBit((u8)i);
+> -			for (c = ((u32)k) << 24, j = 8; j > 0; --j)
+> -				c = c & 0x80000000 ? (c << 1) ^ CRC32_POLY : (c << 1);
+> -			p1 = (u8 *)&crc32_table[i];
+> -
+> -			p1[0] = crc32_reverseBit(p[3]);
+> -			p1[1] = crc32_reverseBit(p[2]);
+> -			p1[2] = crc32_reverseBit(p[1]);
+> -			p1[3] = crc32_reverseBit(p[0]);
+> -		}
+> -		bcrc32initialized = 1;
+> -	}
+> -}
+> -
+>   /*
+>   	Need to consider the fragment  situation
+>   */
 > 
-> Orthogonal to your change, it wasn't immediately obvious to me that
-> SRP_MAX_IU_LEN was the correct length to use for an srp_cmd. However, I
-> traversed the nested unions and it does look OK.
-> 
-> For good measure I copied Tyrel and Brian.
 
-LGTM
+These two patches are
 
-Acked-by: Tyrel Datwyler <tyreld@linux.ibm.com>
+Tested-by: Larry Finger <Larry.Finger@lwfinger.net>
 
-> 
-> Acked-by: Martin K. Petersen <martin.petersen@oracle.com>
-> 
->> ---
->>  drivers/scsi/ibmvscsi/ibmvscsi.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/scsi/ibmvscsi/ibmvscsi.c b/drivers/scsi/ibmvscsi/ibmvscsi.c
->> index e6a3eaaa57d9..7e8beb42d2d3 100644
->> --- a/drivers/scsi/ibmvscsi/ibmvscsi.c
->> +++ b/drivers/scsi/ibmvscsi/ibmvscsi.c
->> @@ -1055,8 +1055,8 @@ static int ibmvscsi_queuecommand_lck(struct scsi_cmnd *cmnd,
->>  		return SCSI_MLQUEUE_HOST_BUSY;
->>  
->>  	/* Set up the actual SRP IU */
->> +	memset(&evt_struct->iu.srp, 0x00, SRP_MAX_IU_LEN);
->>  	srp_cmd = &evt_struct->iu.srp.cmd;
->> -	memset(srp_cmd, 0x00, SRP_MAX_IU_LEN);
->>  	srp_cmd->opcode = SRP_CMD;
->>  	memcpy(srp_cmd->cdb, cmnd->cmnd, sizeof(srp_cmd->cdb));
->>  	int_to_scsilun(lun, &srp_cmd->lun);
-> 
+Thanks for your contribution.
+
+Larry
 
