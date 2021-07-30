@@ -1,126 +1,103 @@
-Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1636B3486
-	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 08:30:19 +0000 (UTC)
-Received: from uucp (helo=alpha)
-	by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
-	id 1m9NuM-0004Cw-00; Fri, 30 Jul 2021 10:30:18 +0200
-Received: by alpha.franken.de (Postfix, from userid 1000)
-	id 3C3A3C2583; Fri, 30 Jul 2021 10:30:07 +0200 (CEST)
-Date: Fri, 30 Jul 2021 10:30:07 +0200
-From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Cc: linux-staging@lists.linux.dev, Greg KH <gregkh@linuxfoundation.org>,
-	NeilBrown <neil@brown.name>,
-	"open list:MIPS" <linux-mips@vger.kernel.org>,
-	Ilya Lipnitskiy <ilya.lipnitskiy@gmail.com>,
-	John Crispin <john@phrozen.org>
-Subject: Re: [PATCH v2 1/3] MIPS: ralink: Define PCI_IOBASE
-Message-ID: <20210730083007.GA5072@alpha.franken.de>
-References: <20210614100617.28753-1-sergio.paracuellos@gmail.com>
- <20210614100617.28753-2-sergio.paracuellos@gmail.com>
- <20210729100146.GA8648@alpha.franken.de>
- <CAMhs-H-9=H2cTMtQxE_DUMraJ1KVNjOX2J-nO_RSdsyUUkSAMA@mail.gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2324270
+	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 08:37:37 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CE1B760F6B;
+	Fri, 30 Jul 2021 08:37:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1627634256;
+	bh=DTpglHmXKXbKluct01aDVZ1dxfkxjsh42N5aehKR9Rw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WMCQWW6aFx/dz9ZgTZwV8OMq4XoL07U/pp9qTgPiD0WU731WK58/THpK69POPQaoD
+	 bx7FZgutrYCniJ8c4+6++AbWWjWKYghYONEGfAmLAuqDK7BNFCy/jgKpg+9J5nPOBR
+	 D+zUYXi+/Xsnqs9+P8BqOHhRnwMjNamw4sBM1JEEwDdgnDGbcABUVb4c8GlknGFTMR
+	 G1xOzRDSghQSDsO6GLHN1PPG7tXls3FXFIPewfgl2WMubt836XIzcDWi8cyIyKi2iK
+	 9tBvUxbVI9aVO2USwYrfMThHhxCZvfsMYMoSCJB2AstYZPDUo8AXd9ma2+YV3UeFCg
+	 gkG4/qsNQBNVQ==
+Date: Fri, 30 Jul 2021 03:40:09 -0500
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: linux-kernel@vger.kernel.org, Yong Zhi <yong.zhi@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 2/2][next] media: staging/intel-ipu3: css: Replace
+ one-element array and use struct_size() helper
+Message-ID: <20210730084009.GA5422@embeddedor>
+References: <cover.1627600430.git.gustavoars@kernel.org>
+ <8db90c8f5124bbeab20af9c1314439da8f033184.1627600430.git.gustavoars@kernel.org>
+ <20210730074950.GW1931@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMhs-H-9=H2cTMtQxE_DUMraJ1KVNjOX2J-nO_RSdsyUUkSAMA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210730074950.GW1931@kadam>
 
-On Thu, Jul 29, 2021 at 01:21:45PM +0200, Sergio Paracuellos wrote:
-> Hi Thomas,
+On Fri, Jul 30, 2021 at 10:49:50AM +0300, Dan Carpenter wrote:
+> On Thu, Jul 29, 2021 at 06:22:40PM -0500, Gustavo A. R. Silva wrote:
+> > There is a regular need in the kernel to provide a way to declare having
+> > a dynamically sized set of trailing elements in a structure. Kernel code
+> > should always use “flexible array members”[1] for these cases. The older
+> > style of one-element or zero-length arrays should no longer be used[2].
+> > 
+> > Replace a one-element array with a flexible-array member in struct
+> > imgu_fw_header and use the struct_size() helper.
+> > 
+> > This also helps with the ongoing efforts to globally enable
+> > -Warray-bounds and get us closer to being able to tighten the
+> > FORTIFY_SOURCE routines on memcpy().
+> > 
+> > [1] https://en.wikipedia.org/wiki/Flexible_array_member
+> > [2] https://www.kernel.org/doc/html/v5.10/process/deprecated.html#zero-length-and-one-element-arrays
+> > 
+> > Link: https://github.com/KSPP/linux/issues/79
+> > Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> > ---
+> >  drivers/staging/media/ipu3/ipu3-css-fw.c | 5 ++---
+> >  drivers/staging/media/ipu3/ipu3-css-fw.h | 2 +-
+> >  2 files changed, 3 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/ipu3/ipu3-css-fw.c b/drivers/staging/media/ipu3/ipu3-css-fw.c
+> > index ab021afff954..3b7df1128840 100644
+> > --- a/drivers/staging/media/ipu3/ipu3-css-fw.c
+> > +++ b/drivers/staging/media/ipu3/ipu3-css-fw.c
+> > @@ -127,9 +127,8 @@ int imgu_css_fw_init(struct imgu_css *css)
+> >  	if (css->fw->size < sizeof(struct imgu_fw_header) ||
+>                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> Originally this was sizeof() the pointer which is clearly wrong.  Then
+> patch 1 changed it to force that binary_header[] had at least one
+> element, but now it's changed again to say that binary_header[] can have
+> zero elements.  So either patch 1 or patch 2 is wrong.
 > 
-> On Thu, Jul 29, 2021 at 12:02 PM Thomas Bogendoerfer
-> <tsbogend@alpha.franken.de> wrote:
-> >
-> > On Mon, Jun 14, 2021 at 12:06:15PM +0200, Sergio Paracuellos wrote:
-> > > PCI_IOBASE is used to create VM maps for PCI I/O ports, it is
-> > > required by generic PCI drivers to make memory mapped I/O range
-> > > work. Hence define it for ralink architectures to be able to
-> > > avoid parsing manually IO ranges in PCI generic driver code.
-> > > Function 'plat_mem_setup' for ralink is using 'set_io_port_base'
-> > > call using '0xa0000000' as address, so use the same address in
-> > > the definition to align things.
-> > >
-> > > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> > > ---
-> > >  arch/mips/include/asm/mach-ralink/spaces.h | 10 ++++++++++
-> > >  1 file changed, 10 insertions(+)
-> > >  create mode 100644 arch/mips/include/asm/mach-ralink/spaces.h
-> > >
-> > > diff --git a/arch/mips/include/asm/mach-ralink/spaces.h b/arch/mips/include/asm/mach-ralink/spaces.h
-> > > new file mode 100644
-> > > index 000000000000..87d085c9ad61
-> > > --- /dev/null
-> > > +++ b/arch/mips/include/asm/mach-ralink/spaces.h
-> > > @@ -0,0 +1,10 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0 */
-> > > +#ifndef __ASM_MACH_RALINK_SPACES_H_
-> > > +#define __ASM_MACH_RALINK_SPACES_H_
-> > > +
-> > > +#define PCI_IOBASE   _AC(0xa0000000, UL)
-> > > +#define PCI_IOSIZE   SZ_16M
-> > > +#define IO_SPACE_LIMIT       (PCI_IOSIZE - 1)
-> > > +
-> > > +#include <asm/mach-generic/spaces.h>
-> > > +#endif
-> >
-> > does this really work for you ? I tried the same trick for RB532
-> > and the generated IO addresses are wrong...
-> 
-> I got pci io resources assigned without complaints from the pci core
-> code. I don't have real pci card that uses I/O bars but this is what I
-> see in the boot (I added some traces when I was testing this):
+> I feel like the probably the correct fix is to just fold these two
+> patches together and say that binary_header[] with zero elements is
+> allowed.  But I don't know this code well.
 
-resource handling works, but the addresses generated for IO access
-are wrong, because the iomap tries to ioremap it to a fixed
-virtual address (PCI_IOBASE), which can't work for KSEG1 addresses.
+Oops... I forgot to tag this one for stable, too. But it would probably
+be better to fold both of these into a single patch as you suggest.
 
-> Is this wrong?
+To me these two pieces of code suggest that binary_header[] should not
+be declared as a one-element array, but a flexible one instead:
 
-to get it working this way, we would need to put PCI_IOBASE somewhere
-into KSEG2, which I don't like since it will create TLB entries for IO
-addresses, which most of the time isn't needed on MIPS because of
-access via KSEG1.
+130                 if (sizeof(struct imgu_fw_bi_file_h) +
+131                     css->fwp->file_header.binary_nr * sizeof(struct imgu_fw_info) >
+132                     css->fw->size)
+133                         goto bad_fw;
+...
+147                 for (i = 0; i < binary_nr; i++) {
+148                         struct imgu_fw_info *bi = &css->fwp->binary_header[i];
+...
 
-I'd much prefer to make the devm_pci_remap_iospace() in drivers/pci/of.c
-optional. Something like this
-
-diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-index a143b02b2dcd..657aef39bf63 100644
---- a/drivers/pci/of.c
-+++ b/drivers/pci/of.c
-@@ -564,12 +564,14 @@ static int pci_parse_request_of_pci_ranges(struct device *dev,
- 
-                switch (resource_type(res)) {
-                case IORESOURCE_IO:
-+#ifdef PCI_IOBASE
-                        err = devm_pci_remap_iospace(dev, res, iobase);
-                        if (err) {
-                                dev_warn(dev, "error %d: failed to map resource %pR\n",
-                                         err, res);
-                                resource_list_destroy_entry(win);
-                        }
-+#endif
-                        break;
-                case IORESOURCE_MEM:
-                        res_valid |= !(res->flags & IORESOURCE_PREFETCH);
-
-
-This together with an increased IO space via
-
-#define IO_SPACE_LIMIT 0x1fffffff
-
-gives me a working PCI bus on the RB532.
-
-No idea, if the patch would be accepted by the PCI maintainers.
-
-Thomas.
-
--- 
-Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-good idea.                                                [ RFC1925, 2.3 ]
+Thanks
+--
+Gustavo
