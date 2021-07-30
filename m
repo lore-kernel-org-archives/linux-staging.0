@@ -1,27 +1,25 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4EFE72
-	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 08:23:15 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B344860EB2;
-	Fri, 30 Jul 2021 08:23:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1627633395;
-	bh=XienLPypcT4jafbAb8E33tAQFMRDgUBzkXinX5F9wpQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=yx/G7xZb46VOfBacHThzsYc15i4H4qGxulqdiRlyro/2sqPqd9Km7UjwqKGI08LUD
-	 Wf/d5rcKTOvP4VRDexS7iayUAJSlQ7Au4FH1ZGEDyXRgPn0xNDj2JgRxl/6BB5ChGW
-	 Bhh66FCQ3Q3g+Ms5N+IxS5bNdfgQ7d6eQEZq/SwA=
-Date: Fri, 30 Jul 2021 10:23:12 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: phil@philpotter.co.uk, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/6] staging: r8188eu: Remove header file
- include/rtw_version.h
-Message-ID: <YQO28PGmr1GB1FFb@kroah.com>
-References: <20210729170930.23171-1-Larry.Finger@lwfinger.net>
- <20210729170930.23171-6-Larry.Finger@lwfinger.net>
+Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1636B3486
+	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 08:30:19 +0000 (UTC)
+Received: from uucp (helo=alpha)
+	by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
+	id 1m9NuM-0004Cw-00; Fri, 30 Jul 2021 10:30:18 +0200
+Received: by alpha.franken.de (Postfix, from userid 1000)
+	id 3C3A3C2583; Fri, 30 Jul 2021 10:30:07 +0200 (CEST)
+Date: Fri, 30 Jul 2021 10:30:07 +0200
+From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: linux-staging@lists.linux.dev, Greg KH <gregkh@linuxfoundation.org>,
+	NeilBrown <neil@brown.name>,
+	"open list:MIPS" <linux-mips@vger.kernel.org>,
+	Ilya Lipnitskiy <ilya.lipnitskiy@gmail.com>,
+	John Crispin <john@phrozen.org>
+Subject: Re: [PATCH v2 1/3] MIPS: ralink: Define PCI_IOBASE
+Message-ID: <20210730083007.GA5072@alpha.franken.de>
+References: <20210614100617.28753-1-sergio.paracuellos@gmail.com>
+ <20210614100617.28753-2-sergio.paracuellos@gmail.com>
+ <20210729100146.GA8648@alpha.franken.de>
+ <CAMhs-H-9=H2cTMtQxE_DUMraJ1KVNjOX2J-nO_RSdsyUUkSAMA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,16 +28,99 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210729170930.23171-6-Larry.Finger@lwfinger.net>
+In-Reply-To: <CAMhs-H-9=H2cTMtQxE_DUMraJ1KVNjOX2J-nO_RSdsyUUkSAMA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Thu, Jul 29, 2021 at 12:09:29PM -0500, Larry Finger wrote:
-> This file contains only the definition of the driver version. This statement
-> is moved into a header called by all the affected source files, and the now
-> empty header is deleted.
+On Thu, Jul 29, 2021 at 01:21:45PM +0200, Sergio Paracuellos wrote:
+> Hi Thomas,
+> 
+> On Thu, Jul 29, 2021 at 12:02 PM Thomas Bogendoerfer
+> <tsbogend@alpha.franken.de> wrote:
+> >
+> > On Mon, Jun 14, 2021 at 12:06:15PM +0200, Sergio Paracuellos wrote:
+> > > PCI_IOBASE is used to create VM maps for PCI I/O ports, it is
+> > > required by generic PCI drivers to make memory mapped I/O range
+> > > work. Hence define it for ralink architectures to be able to
+> > > avoid parsing manually IO ranges in PCI generic driver code.
+> > > Function 'plat_mem_setup' for ralink is using 'set_io_port_base'
+> > > call using '0xa0000000' as address, so use the same address in
+> > > the definition to align things.
+> > >
+> > > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> > > ---
+> > >  arch/mips/include/asm/mach-ralink/spaces.h | 10 ++++++++++
+> > >  1 file changed, 10 insertions(+)
+> > >  create mode 100644 arch/mips/include/asm/mach-ralink/spaces.h
+> > >
+> > > diff --git a/arch/mips/include/asm/mach-ralink/spaces.h b/arch/mips/include/asm/mach-ralink/spaces.h
+> > > new file mode 100644
+> > > index 000000000000..87d085c9ad61
+> > > --- /dev/null
+> > > +++ b/arch/mips/include/asm/mach-ralink/spaces.h
+> > > @@ -0,0 +1,10 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +#ifndef __ASM_MACH_RALINK_SPACES_H_
+> > > +#define __ASM_MACH_RALINK_SPACES_H_
+> > > +
+> > > +#define PCI_IOBASE   _AC(0xa0000000, UL)
+> > > +#define PCI_IOSIZE   SZ_16M
+> > > +#define IO_SPACE_LIMIT       (PCI_IOSIZE - 1)
+> > > +
+> > > +#include <asm/mach-generic/spaces.h>
+> > > +#endif
+> >
+> > does this really work for you ? I tried the same trick for RB532
+> > and the generated IO addresses are wrong...
+> 
+> I got pci io resources assigned without complaints from the pci core
+> code. I don't have real pci card that uses I/O bars but this is what I
+> see in the boot (I added some traces when I was testing this):
 
-And now that the driver is in the tree, the "version" can be removed
-entirely.  But that's for a later patch :)
+resource handling works, but the addresses generated for IO access
+are wrong, because the iomap tries to ioremap it to a fixed
+virtual address (PCI_IOBASE), which can't work for KSEG1 addresses.
 
-Thanks for all of these cleanups, now applied.
+> Is this wrong?
 
-greg k-h
+to get it working this way, we would need to put PCI_IOBASE somewhere
+into KSEG2, which I don't like since it will create TLB entries for IO
+addresses, which most of the time isn't needed on MIPS because of
+access via KSEG1.
+
+I'd much prefer to make the devm_pci_remap_iospace() in drivers/pci/of.c
+optional. Something like this
+
+diff --git a/drivers/pci/of.c b/drivers/pci/of.c
+index a143b02b2dcd..657aef39bf63 100644
+--- a/drivers/pci/of.c
++++ b/drivers/pci/of.c
+@@ -564,12 +564,14 @@ static int pci_parse_request_of_pci_ranges(struct device *dev,
+ 
+                switch (resource_type(res)) {
+                case IORESOURCE_IO:
++#ifdef PCI_IOBASE
+                        err = devm_pci_remap_iospace(dev, res, iobase);
+                        if (err) {
+                                dev_warn(dev, "error %d: failed to map resource %pR\n",
+                                         err, res);
+                                resource_list_destroy_entry(win);
+                        }
++#endif
+                        break;
+                case IORESOURCE_MEM:
+                        res_valid |= !(res->flags & IORESOURCE_PREFETCH);
+
+
+This together with an increased IO space via
+
+#define IO_SPACE_LIMIT 0x1fffffff
+
+gives me a working PCI bus on the RB532.
+
+No idea, if the patch would be accepted by the PCI maintainers.
+
+Thomas.
+
+-- 
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
