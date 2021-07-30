@@ -1,101 +1,73 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 538DA70
-	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 09:10:37 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id gs8so15522193ejc.13
-        for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 02:10:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=PIj0/g+PL56KzxYDwNR9OxXc3IsrpR6H0nAgIpjaVHw=;
-        b=f23GaMoyeTU1FKwAcni5rNwzCYWM+R87wB7qPDqk6jkzoObdIGtM07AIweE0AZo9gl
-         3uFBaQm2YZHSsoXhGB1BlNkkgMLFUXMnMQiK6s0EgEfIEnVB3HWc63+RouiE1VpmYisU
-         M6NAQKHvlzBi11NzNY3bKPtD1X88BO+B0LM8FRQqirWxPRQnXx8TTSfnhu6z1UwE6UEE
-         zN3TeDTyGBsUXbgVvDifEGXo0123tWTT4QvXtxXwb64ktKUJInNWKuUfy5eDbGB3WC20
-         VP1fkgKZXXyv9g9cT9I6cprUw4T5m5JjvjDB+47vlZsKyMpOEIVhrD/RlJoQjLA5O6YH
-         LOgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=PIj0/g+PL56KzxYDwNR9OxXc3IsrpR6H0nAgIpjaVHw=;
-        b=qqh0KnlhGzLh9wRm52jGO5er2yW8ZJ+z05a+zihJBY9bCAe8fhKRy/w/QQ/VF+ixRg
-         AJQUJV1/DUdLqv1Ll7jCRW+MpPVcZSdyqVuqF6R0OU2sRncy4zlws8fg/PoT9JfRnMIc
-         lRS7P5ut3+YraUhyXQCikjBJxIgerrp5xs3QB/dm1mJZAOoZQmfQZlZZBPqabPi+IO+T
-         OrXTvgwBvE7pe9W9tbQkxeBGQgGp/9d7xp8Q3G7TnhplIi305iGg1MhSEfsAta9CjJJg
-         bKhkuCoaOLpYgmN2RpwFHkwCrkRnhgvd+DNoi8LQpfk4EGmKasYhhVgv2nnMHQum2B/+
-         s14g==
-X-Gm-Message-State: AOAM531SoBdusjNIVg+c/ZfXVGc06OYEW+72wphTrfHf7IzPfufHHrt9
-	uf14ce3e9tmvh/5jguBGr4M=
-X-Google-Smtp-Source: ABdhPJxzMNyxmdRD8Q+STTzSEzp0gv42ziBMGvx6ZeiZ9RU4PLZszaIcMtWfWylVi1A2UQNA3p+w2Q==
-X-Received: by 2002:a17:906:94cd:: with SMTP id d13mr1680170ejy.158.1627636235722;
-        Fri, 30 Jul 2021 02:10:35 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::4bf9])
-        by smtp.gmail.com with ESMTPSA id da23sm417665edb.34.2021.07.30.02.10.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jul 2021 02:10:35 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 3/3] staging: r8188eu: simplify odm_evm_db_to_percentage()
-Date: Fri, 30 Jul 2021 11:09:48 +0200
-Message-Id: <20210730090948.32759-3-straube.linux@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283B170
+	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 09:24:22 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 38E5361008;
+	Fri, 30 Jul 2021 09:24:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1627637061;
+	bh=77jKUheFdhc2Id3Q1Nk1ZnZGBKJC5c/XU+FUJFD9lDc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Hq3E/Y1Z+1EIkbPT/lfjXYWYMbL1w7z6fATHTk2KfQZ9TCyLsfkjvAhTHeq5xQPE+
+	 6Ttpt3+fGcLEBd1NmteodHLgfB+oUSpTxVcQ/em9PiVlNisYu3uOgBpvZJblWAZyPQ
+	 o9Pu9axrHjLkXFhHd+/y2XtrLrxDPZztaK2PW1Hg=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-staging@lists.linux.dev
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH 02/12] staging: r8188eu: move ODM_TARGET_CHNL_NUM_2G_5G
+Date: Fri, 30 Jul 2021 11:24:07 +0200
+Message-Id: <20210730092417.1014392-2-gregkh@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210730090948.32759-1-straube.linux@gmail.com>
-References: <20210730090948.32759-1-straube.linux@gmail.com>
+In-Reply-To: <20210730092417.1014392-1-gregkh@linuxfoundation.org>
+References: <20210730092417.1014392-1-gregkh@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1303; h=from:subject; bh=77jKUheFdhc2Id3Q1Nk1ZnZGBKJC5c/XU+FUJFD9lDc=; b=owGbwMvMwCRo6H6F97bub03G02pJDInMR+09/fcoas424c277vZ6fveHKB2hnJkS090uT116qLBb 4diyjlgWBkEmBlkxRZYv23iO7q84pOhlaHsaZg4rE8gQBi5OAZjIDjaG2WycO82ff8qr+pVgoylzvn S3dZj0fIZZTKbd0q7cLN0FeuzT//8x3xwQbDkXAA==
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
 
-Use clamp() to simplify odm_evm_db_to_percentage().
+The ODM_TARGET_CHNL_NUM_2G_5G define is only used in one place, so move
+it to the .c file it is used in instead of being in a .h file.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
-When this driver will be moved to drivers/net/wireless/realtek/rtlwifi
-(if that's the plan?) the odm_evm_db_to_percentage() function could be
-replaced by the generic version rtl_evm_db_to_percentage() from
-drivers/net/wireless/realtek/rtlwifi/stats.c
+ drivers/staging/r8188eu/hal/HalPhyRf.c     | 2 ++
+ drivers/staging/r8188eu/include/HalPhyRf.h | 2 --
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
- drivers/staging/r8188eu/hal/odm_HWConfig.c | 13 ++-----------
- 1 file changed, 2 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/hal/odm_HWConfig.c b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-index 51ae02805149..19222c0eddf7 100644
---- a/drivers/staging/r8188eu/hal/odm_HWConfig.c
-+++ b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-@@ -80,20 +80,11 @@ static u8 odm_SQ_process_patch_RT_CID_819x_Lenovo(struct odm_dm_struct *dm_odm,
- static u8 odm_evm_db_to_percentage(s8 value)
- {
- 	/*  -33dB~0dB to 0%~99% */
--	s8 ret_val;
--
--	ret_val = value;
--
--	if (ret_val >= 0)
--		ret_val = 0;
--	if (ret_val <= -33)
--		ret_val = -33;
--
--	ret_val = 0 - ret_val;
--	ret_val *= 3;
-+	s8 ret_val = clamp(-value, 0, 33) * 3;
+diff --git a/drivers/staging/r8188eu/hal/HalPhyRf.c b/drivers/staging/r8188eu/hal/HalPhyRf.c
+index 1805fdfbad48..e5a58ee156b7 100644
+--- a/drivers/staging/r8188eu/hal/HalPhyRf.c
++++ b/drivers/staging/r8188eu/hal/HalPhyRf.c
+@@ -7,6 +7,8 @@
+ /* 3 IQ Calibration */
+ /* 3============================================================ */
  
- 	if (ret_val == 99)
- 		ret_val = 100;
++#define ODM_TARGET_CHNL_NUM_2G_5G	59
 +
- 	return ret_val;
- }
+ u8 ODM_GetRightChnlPlaceforIQK(u8 chnl)
+ {
+ 	u8	channel_all[ODM_TARGET_CHNL_NUM_2G_5G] = {
+diff --git a/drivers/staging/r8188eu/include/HalPhyRf.h b/drivers/staging/r8188eu/include/HalPhyRf.h
+index 54af312509a0..ba877eb7e801 100644
+--- a/drivers/staging/r8188eu/include/HalPhyRf.h
++++ b/drivers/staging/r8188eu/include/HalPhyRf.h
+@@ -4,8 +4,6 @@
+ #ifndef __HAL_PHY_RF_H__
+ #define __HAL_PHY_RF_H__
  
+-#define ODM_TARGET_CHNL_NUM_2G_5G	59
+-
+ u8 ODM_GetRightChnlPlaceforIQK(u8 chnl);
+ 
+ #endif	/*  #ifndef __HAL_PHY_RF_H__ */
 -- 
 2.32.0
 
