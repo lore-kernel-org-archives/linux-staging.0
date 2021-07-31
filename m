@@ -1,54 +1,54 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D45A63481
-	for <linux-staging@lists.linux.dev>; Sat, 31 Jul 2021 16:07:19 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id u9-20020a17090a1f09b029017554809f35so25215826pja.5
-        for <linux-staging@lists.linux.dev>; Sat, 31 Jul 2021 09:07:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E13C3481
+	for <linux-staging@lists.linux.dev>; Sat, 31 Jul 2021 16:09:43 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id m20-20020a05600c4f54b029024e75a15716so8344642wmq.2
+        for <linux-staging@lists.linux.dev>; Sat, 31 Jul 2021 09:09:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=LG7zSyfSn36hr9Y31v8KfdvOMGtGx7avDWUzJUf+ldk=;
-        b=lc3SluDT+VZvarfeA7YUQ+oIQyL3uD2Z7hSTADjmM2kuDJ5T/bSknB1khTprf/Zj/I
-         YvlsAuu9r/jHXiXqyD3z8zhKwH4ooNWa4LIIdQvmGuLPJueYeZeOw5yfOtR6w3Orfayu
-         X7UGIW0SSl68z771c65kEZubBaVOTEMEImtIs=
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=5YngqDa9OtSmTxiUAuX4H0sFXwzCxz50QJ1BeJG4Tfg=;
+        b=s3RGNfZeTwyHnkEZtYqKpM0Xqfm/QXpmZIkIRcqxIbicD15qo/LrqW+kfBfsnePm8t
+         ZRCKa9VXJHZQ/Ujm/LHQrKmej3jN/WVqdd836u7SKiBhne58UMo+7vdBaKIVggk9c2jy
+         ntJVY/giGXiwjhwUOtG53dmkTM3s3yrMH1muBs2eSltQuLZ4WgvR7k2WQKbcngIedBre
+         YUVNf/AXoVcWjGudC3ueMOZQgwhJvpvKXGAPhuRsh+nZu3ZNd0BGwLAHUVzX5JPPxUCT
+         +/6x9vHmX2lpJssMuLpKGGghq+2hhyNxX6O0ucXer0QSlktHyevbW+xkSRtV33++Hf1e
+         jbEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=LG7zSyfSn36hr9Y31v8KfdvOMGtGx7avDWUzJUf+ldk=;
-        b=U+G4BdYHde3n4MyyVzpUDZebsdeXfNQz5cI0hbO4Kenty6TEfROvUDWaHQxPykrHmF
-         kpYxcVU8tLHXFI1pz1d23fPoz5i9ywyFePXVIRAkv+6Is07RWCiTYQW9FHZzhu6l6UWu
-         Xazmd4/+gTWyOk81uGwOEg3S37upYddo5Vf6/LM2Ic2/iZRiMbV6kWHJJ5AQcKwnW6uN
-         +6rXGPqwKXe091e9VsiKm/0+97WUPVcLVNkDQsDOcYH/S9Ym+l091YeNztNR6TROPKsh
-         4pg++D8X06iKpGkMsMNzJOlynQf0awRWfZ6H2MkOGs5HhT1jU3aPc+sWp+VenrptLEJr
-         5nIg==
-X-Gm-Message-State: AOAM531XF1TGR/CsKNGmSBnZviCmzfcBqPQLomReFv8S2HXLadBYgE6d
-	2kzAvmAAl5CO+S3t/bShMCFteQ==
-X-Google-Smtp-Source: ABdhPJzpVI9jyF73pL9aDmEauVhp5KKsoZrePmncq7sudEDatHwHMUSxgLnUds0Mz6ecfWmvyvBGPw==
-X-Received: by 2002:a63:f145:: with SMTP id o5mr1713333pgk.273.1627747639422;
-        Sat, 31 Jul 2021 09:07:19 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id x19sm6346863pfa.104.2021.07.31.09.07.18
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=5YngqDa9OtSmTxiUAuX4H0sFXwzCxz50QJ1BeJG4Tfg=;
+        b=pxAXDJKw+YKmyPmt4H6puML4JTAe2/mxhCvRghFkgvpYupw3bjoPkvBSxazISO97Ov
+         uBGachte6eWPQxL2ngCAyT8kRXlVLXkhADeaYuHMT+LLMKRQrRR5h5pL9yv+epqx+Gfc
+         AN3vfQqCCzt7SXMzEzrnJc1tBNuxNNicD2FKox0/SJYZU4QjLA4wzxXTP2RHMFTfeMCs
+         9QozT+z19D+cleds0CRb74EBFB4TY/QZ5GYWlT414Xem4JGkj2Mn5HzB0FgILJAqL/ul
+         06CNA3SD5VeHn7WC0L+XcFSdihZ88+FMjVCN2gmy/xSEXk0WIvkpITPxbRPgrGV7dKqj
+         E1OA==
+X-Gm-Message-State: AOAM531sq24WFLDOAs88q5kbWoMwG2xD/AbgeJRKwZ7VL4pEhUWZcQ8N
+	xHkpSGqMarWYcAIrmtrgXTw=
+X-Google-Smtp-Source: ABdhPJzVl8fbQNsHwMYJLRCQHtaHtHqyiCWS81wv9Zi1jOFqpLB9UIweWsF6c3KIsd/klThdIAggQA==
+X-Received: by 2002:a7b:c255:: with SMTP id b21mr8738377wmj.100.1627747781536;
+        Sat, 31 Jul 2021 09:09:41 -0700 (PDT)
+Received: from pc ([196.235.233.206])
+        by smtp.gmail.com with ESMTPSA id t15sm5405634wrx.17.2021.07.31.09.09.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Jul 2021 09:07:18 -0700 (PDT)
-Date: Sat, 31 Jul 2021 09:07:17 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Ariel Elior <aelior@marvell.com>, GR-everest-linux-l2@marvell.com
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Keith Packard <keithpac@amazon.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 42/64] net: qede: Use memset_after() for counters
-Message-ID: <202107310901.CB470B8C9D@keescook>
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-43-keescook@chromium.org>
+        Sat, 31 Jul 2021 09:09:41 -0700 (PDT)
+Date: Sat, 31 Jul 2021 17:09:38 +0100
+From: Salah Triki <salah.triki@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	Ross Schmidt <ross.schm.dev@gmail.com>,
+	Marco Cesati <marcocesati@gmail.com>,
+	Brother Matthew De Angelis <matthew.v.deangelis@gmail.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Ivan Safonov <insafonov@gmail.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] tablet: acecad: update the reference count of the usb
+ interface structure
+Message-ID: <20210731160938.GA909566@pc>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,69 +57,52 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210727205855.411487-43-keescook@chromium.org>
 
-On Tue, Jul 27, 2021 at 01:58:33PM -0700, Kees Cook wrote:
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field bounds checking for memset(), avoid intentionally writing across
-> neighboring fields.
-> 
-> Use memset_after() so memset() doesn't get confused about writing
-> beyond the destination member that is intended to be the starting point
-> of zeroing through the end of the struct.
-> 
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
-> The old code seems to be doing the wrong thing: starting from not the
-> first member, but sized for the whole struct. Which is correct?
+Based on the following documentation usb_get_inf(), use usb_get_intf()
+and usb_put_intf() in order to update the reference count of the usb
+interface structure.
 
-Quick ping on this question.
+Documentation of usb_get_inf():
 
-The old code seems to be doing the wrong thing: it starts from the second
-member and writes beyond int_info, clobbering qede_lock:
+[quote]
+Each live reference to a interface must be refcounted.
 
-struct qede_dev {
-        ...
-        struct qed_int_info             int_info;
+Drivers for USB interfaces should normally record such references
+in their probe methods, when they bind to an interface, and release them
+by calling usb_put_intf, in their disconnect methods.
+[/quote]
 
-        /* Smaller private variant of the RTNL lock */
-        struct mutex                    qede_lock;
-        ...
+Signed-off-by: Salah Triki <salah.triki@gmail.com>
+---
+Change since v1:
+	Modification of the description
 
+ drivers/input/tablet/acecad.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-struct qed_int_info {
-        struct msix_entry       *msix;
-        u8                      msix_cnt;
-
-        /* This should be updated by the protocol driver */
-        u8                      used_cnt;
-};
-
-Should this also clear the "msix" member, or should this not write
-beyond int_info? This patch does the latter.
-
--Kees
-
-> ---
->  drivers/net/ethernet/qlogic/qede/qede_main.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/net/ethernet/qlogic/qede/qede_main.c b/drivers/net/ethernet/qlogic/qede/qede_main.c
-> index 01ac1e93d27a..309dfe8c94fb 100644
-> --- a/drivers/net/ethernet/qlogic/qede/qede_main.c
-> +++ b/drivers/net/ethernet/qlogic/qede/qede_main.c
-> @@ -2419,7 +2419,7 @@ static int qede_load(struct qede_dev *edev, enum qede_load_mode mode,
->  	goto out;
->  err4:
->  	qede_sync_free_irqs(edev);
-> -	memset(&edev->int_info.msix_cnt, 0, sizeof(struct qed_int_info));
-> +	memset_after(&edev->int_info, 0, msix);
->  err3:
->  	qede_napi_disable_remove(edev);
->  err2:
-> -- 
-> 2.30.2
-> 
-
+diff --git a/drivers/input/tablet/acecad.c b/drivers/input/tablet/acecad.c
+index a38d1fe97334..85fe134a30ee 100644
+--- a/drivers/input/tablet/acecad.c
++++ b/drivers/input/tablet/acecad.c
+@@ -151,7 +151,7 @@ static int usb_acecad_probe(struct usb_interface *intf, const struct usb_device_
+ 		goto fail2;
+ 	}
+ 
+-	acecad->intf = intf;
++	acecad->intf = usb_get_intf(intf);
+ 	acecad->input = input_dev;
+ 
+ 	if (dev->manufacturer)
+@@ -236,6 +236,9 @@ static void usb_acecad_disconnect(struct usb_interface *intf)
+ 	input_unregister_device(acecad->input);
+ 	usb_free_urb(acecad->irq);
+ 	usb_free_coherent(udev, 8, acecad->data, acecad->data_dma);
++
++	usb_put_intf(acecad->intf);
++
+ 	kfree(acecad);
+ }
+ 
 -- 
-Kees Cook
+2.25.1
+
