@@ -1,194 +1,101 @@
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE1272
-	for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 15:51:42 +0000 (UTC)
-Received: by mail-vk1-f169.google.com with SMTP id w15so30012vkm.9
-        for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 08:51:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26AA53481
+	for <linux-staging@lists.linux.dev>; Sat, 31 Jul 2021 00:23:57 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id n12so13364186wrr.2
+        for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 17:23:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gKvMmjNFTT3BAck6SMVYU7Q3yMxXk96fB/X1tLYbNoo=;
-        b=t8QJZbVPdCX8R0q49b+JYcAA2VDFtdMYDvwxylkFwmIdiAwyVD+zJ24fsuljMy0pMQ
-         mBb/9Odw/bf7mC7YAELybRYUIfJ87RuTEsI7/E022CbuvuJMqG/1xBJwG1H5siX3Gqq3
-         XUutYrsr6x/M3Ml/WqowN+uUDs8U0Vy3qbJMaTQqpOTefHNeviS0FFKHFh0tLumAu0xX
-         BIRLr9KStDwQpGIZPArtFgr3HUd6wU+m3OQjhuQ4XEL/brm3CYt4wItwJGGLygev8uBl
-         Wez0UR5dLtpMYdUxlRmN3gFWa6UViKRvQ3kMyb8dH3C+MJs4DP7c217PNq3evp/oHG+R
-         sgBA==
+        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qOH69DvPtbrG4aMNPj+aM7ClxD5APY7n7/6ogqEJBeE=;
+        b=mqlnaPv6VgAQaGmmXabUraOPyUgteLJ9ahyrS1EIy/at+APSsHiHN6Lu8O8k3+zBte
+         Hz4LIPxYX5992GTKuYmqRJ/C+TTAt1wELPvTYQTDBPFGmj59rx5nMIXZDTAIyntRQnms
+         4ZDuDR9xqI7JBkasH36XSD3tqL67KWnzUWH4U1WkMwn2XJ3P9grfJSdDzlDylYPZRhhs
+         GwBvOX5rBQsMQBAOP2qnYneQw486wyi+e8SxtSL2jc7NCgEP+QEeuegFmh4ByxUzkKDd
+         dvhvQl8sQ3qSdPtanf4Phc/TelIRLe/OXz0xpFOzhgX6eBeFcqOXh7/QZGam+lDbn1V9
+         GW9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gKvMmjNFTT3BAck6SMVYU7Q3yMxXk96fB/X1tLYbNoo=;
-        b=fk6Muglo87mt3TKt0WK5K0YBSHCGzWht6eOwVS43K7HHso82dMSq7OzRkGvvzUnhQ0
-         oLtrSeaNiLkF/HuTGd3SRSCOhbJUBvmQQM5fLSip8XueZjB4LfAjnKyqTVVxYaakN1As
-         ehz50VmVL4ccbknTbTvYFhGeD74W47IQKf8i+O81qBbKr5ukIKn+IBtNEoLcL3L/nq05
-         hv+enCvNN8hynpAPTU0gROccs+dI+Rvbbi6bcAO010dp2sL2LFR/UdlbpFs0WR7Viet0
-         WyqippTbOuRR/N2P0RLOvZWo0iYuAqeu0khivLIPb9i5v+lzconiLCI+yCq9wtcUQQSL
-         drFw==
-X-Gm-Message-State: AOAM530U3IjXjpEJ9jMN7+E6SLL18Exobh8lcMDFPsp9DiJUOr/92DbM
-	Hjibx85d83Y6BUPStZ6Bloj6ssBiwPT6OL0zyS4=
-X-Google-Smtp-Source: ABdhPJwFJtQAdkN6kb1WpJpt6dD4I4xbJPUXyOlSwwKS4ed4nH1bPIb2OXWDemK/qa9M0rLR5QmyTcRyYbZjZI8cQ+w=
-X-Received: by 2002:a1f:9442:: with SMTP id w63mr1342574vkd.8.1627660301164;
- Fri, 30 Jul 2021 08:51:41 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qOH69DvPtbrG4aMNPj+aM7ClxD5APY7n7/6ogqEJBeE=;
+        b=p9pXby6GS14mQN7Fy2TsHZaG+CRbZjNvcl1CvWo8TJ2WZJoOk7hksADQt1l6YQ9QHb
+         OD2+jhHVAv8X1IuRjPyYwwHyb6UdgUa+Bs1Y30ddJP0fg+qT68UfSugdNkEKgkzYCcGO
+         HkH8UrOntvYDkeJQGey+LX3lxPbB/WguK43n7jIfAp024FvqBjQ3G38Q68sNWkyvslXR
+         6npV4yMQtlZ7WByiSdBKqv706pLhr8PehgYveU44YpYtyBZbBrgG8I9wWrVL7z84z3c2
+         Udo/0dSSbCTHhU9lVnb+SxCDDUcRP1yGiQPn49HTUtUyyn1qRZZ2I+5wX66xAsMBbRu/
+         TwxQ==
+X-Gm-Message-State: AOAM533hzXo0U8SB2jnmMFn8FyTdrW4IBnyln53/6Scj6yjNPqAmdscE
+	ceVzLCMcJkuY04goVsf7ul+KNA==
+X-Google-Smtp-Source: ABdhPJxpSIghPIO64MtHpAgcYJUNv2knFlki2Q+Nigcq+p9Rugj+/hBh3WCSxHkugZU74sH82eVfxA==
+X-Received: by 2002:adf:f282:: with SMTP id k2mr5730940wro.183.1627691035418;
+        Fri, 30 Jul 2021 17:23:55 -0700 (PDT)
+Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
+        by smtp.gmail.com with ESMTPSA id x9sm3236011wmj.41.2021.07.30.17.23.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Jul 2021 17:23:54 -0700 (PDT)
+From: Phillip Potter <phil@philpotter.co.uk>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 00/14] remove include/odm_debug.h
+Date: Sat, 31 Jul 2021 01:23:39 +0100
+Message-Id: <20210731002353.68479-1-phil@philpotter.co.uk>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210614100617.28753-1-sergio.paracuellos@gmail.com>
- <20210614100617.28753-2-sergio.paracuellos@gmail.com> <20210729100146.GA8648@alpha.franken.de>
- <CAMhs-H-9=H2cTMtQxE_DUMraJ1KVNjOX2J-nO_RSdsyUUkSAMA@mail.gmail.com>
- <20210730083007.GA5072@alpha.franken.de> <CAMhs-H97LxHeo-4ni=vSiYFhwKrGNMLXHVa263tbDu0+-TwARA@mail.gmail.com>
- <CAMhs-H9EMXi_t=r=LuwudYG0oz0O27xj3_ko-eq-R+75wKE3PQ@mail.gmail.com> <20210730123939.GA8207@alpha.franken.de>
-In-Reply-To: <20210730123939.GA8207@alpha.franken.de>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Fri, 30 Jul 2021 17:51:29 +0200
-Message-ID: <CAMhs-H9UQgbMO6BP4DxSg6RQfZOa0NpZ+NhYhMx=jJMrAY-SrA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] MIPS: ralink: Define PCI_IOBASE
-To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc: linux-staging@lists.linux.dev, Greg KH <gregkh@linuxfoundation.org>, 
-	NeilBrown <neil@brown.name>, "open list:MIPS" <linux-mips@vger.kernel.org>, 
-	Ilya Lipnitskiy <ilya.lipnitskiy@gmail.com>, John Crispin <john@phrozen.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 30, 2021 at 2:39 PM Thomas Bogendoerfer
-<tsbogend@alpha.franken.de> wrote:
->
-> On Fri, Jul 30, 2021 at 01:15:36PM +0200, Sergio Paracuellos wrote:
-> > On Fri, Jul 30, 2021 at 12:22 PM Sergio Paracuellos
-> > <sergio.paracuellos@gmail.com> wrote:
-> > >
-> > > Hi Thomas,
-> > >
-> > > On Fri, Jul 30, 2021 at 10:30 AM Thomas Bogendoerfer
-> > > <tsbogend@alpha.franken.de> wrote:
-> > > >
-> > > > On Thu, Jul 29, 2021 at 01:21:45PM +0200, Sergio Paracuellos wrote:
-> > > > > Hi Thomas,
-> > > > >
-> > > > > On Thu, Jul 29, 2021 at 12:02 PM Thomas Bogendoerfer
-> > > > > <tsbogend@alpha.franken.de> wrote:
-> > > > > >
-> > > > > > On Mon, Jun 14, 2021 at 12:06:15PM +0200, Sergio Paracuellos wrote:
-> > > > > > > PCI_IOBASE is used to create VM maps for PCI I/O ports, it is
-> > > > > > > required by generic PCI drivers to make memory mapped I/O range
-> > > > > > > work. Hence define it for ralink architectures to be able to
-> > > > > > > avoid parsing manually IO ranges in PCI generic driver code.
-> > > > > > > Function 'plat_mem_setup' for ralink is using 'set_io_port_base'
-> > > > > > > call using '0xa0000000' as address, so use the same address in
-> > > > > > > the definition to align things.
-> > > > > > >
-> > > > > > > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> > > > > > > ---
-> > > > > > >  arch/mips/include/asm/mach-ralink/spaces.h | 10 ++++++++++
-> > > > > > >  1 file changed, 10 insertions(+)
-> > > > > > >  create mode 100644 arch/mips/include/asm/mach-ralink/spaces.h
-> > > > > > >
-> > > > > > > diff --git a/arch/mips/include/asm/mach-ralink/spaces.h b/arch/mips/include/asm/mach-ralink/spaces.h
-> > > > > > > new file mode 100644
-> > > > > > > index 000000000000..87d085c9ad61
-> > > > > > > --- /dev/null
-> > > > > > > +++ b/arch/mips/include/asm/mach-ralink/spaces.h
-> > > > > > > @@ -0,0 +1,10 @@
-> > > > > > > +/* SPDX-License-Identifier: GPL-2.0 */
-> > > > > > > +#ifndef __ASM_MACH_RALINK_SPACES_H_
-> > > > > > > +#define __ASM_MACH_RALINK_SPACES_H_
-> > > > > > > +
-> > > > > > > +#define PCI_IOBASE   _AC(0xa0000000, UL)
-> > > > > > > +#define PCI_IOSIZE   SZ_16M
-> > > > > > > +#define IO_SPACE_LIMIT       (PCI_IOSIZE - 1)
-> > > > > > > +
-> > > > > > > +#include <asm/mach-generic/spaces.h>
-> > > > > > > +#endif
-> > > > > >
-> > > > > > does this really work for you ? I tried the same trick for RB532
-> > > > > > and the generated IO addresses are wrong...
-> > > > >
-> > > > > I got pci io resources assigned without complaints from the pci core
-> > > > > code. I don't have real pci card that uses I/O bars but this is what I
-> > > > > see in the boot (I added some traces when I was testing this):
-> > > >
-> > > > resource handling works, but the addresses generated for IO access
-> > > > are wrong, because the iomap tries to ioremap it to a fixed
-> > > > virtual address (PCI_IOBASE), which can't work for KSEG1 addresses.
-> > > >
-> > > > > Is this wrong?
-> > > >
-> > > > to get it working this way, we would need to put PCI_IOBASE somewhere
-> > > > into KSEG2, which I don't like since it will create TLB entries for IO
-> > > > addresses, which most of the time isn't needed on MIPS because of
-> > > > access via KSEG1.
-> > > >
-> > > > I'd much prefer to make the devm_pci_remap_iospace() in drivers/pci/of.c
-> > > > optional. Something like this
-> > > >
-> > > > diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-> > > > index a143b02b2dcd..657aef39bf63 100644
-> > > > --- a/drivers/pci/of.c
-> > > > +++ b/drivers/pci/of.c
-> > > > @@ -564,12 +564,14 @@ static int pci_parse_request_of_pci_ranges(struct device *dev,
-> > > >
-> > > >                 switch (resource_type(res)) {
-> > > >                 case IORESOURCE_IO:
-> > > > +#ifdef PCI_IOBASE
-> > > >                         err = devm_pci_remap_iospace(dev, res, iobase);
-> > > >                         if (err) {
-> > > >                                 dev_warn(dev, "error %d: failed to map resource %pR\n",
-> > > >                                          err, res);
-> > > >                                 resource_list_destroy_entry(win);
-> > > >                         }
-> > > > +#endif
-> > > >                         break;
-> > > >                 case IORESOURCE_MEM:
-> > > >                         res_valid |= !(res->flags & IORESOURCE_PREFETCH);
-> > > >
-> > > >
-> > > > This together with an increased IO space via
-> > > >
-> > > > #define IO_SPACE_LIMIT 0x1fffffff
-> > > >
-> > > > gives me a working PCI bus on the RB532.
-> > >
-> > > BTW, I have tested your changes and they result in a no working pci
-> > > for mt7621. I get a resource collision error:
-> > >
-> > > mt7621-pci 1e140000.pcie: resource collision: [io
-> > > 0x1e160000-0x1e16ffff] conflicts with PCI IO [io  0x0000-0xffff]
-> > >
-> > > My changes:
-> > >  - avoid PCI_IOBASE to be defined.
-> > >  - avoid map in pci_parse_request_of_pci_ranges
-> > >  - Change spaces.h to have the new IO_SPACE_LIMIT to 0x1fffffff
-> > >
-> > > Am I missing something?
-> >
-> > I am forced to set ioport_resource stuff at the beginning of the probe
-> > function to avoid this collision error:
-> >
-> > /* set resources limits */
-> > ioport_resource.start = 0x1e160000;
-> > ioport_resource.end = 0x1e16ffff;
->
-> yes, that's then neeed, I'm using
->
->         ioport_resource.start = 0;
->         ioport_resource.end = ~0UL;
->
-> but
->
-> ioport_resource.end = IO_SPACE_LIMIT;
->
-> would be more correct.
+This patch series removes include/odm_debug.h, after first going through
+and removing all uses of various macros within it and chipping away
+until it is no longer used. Removing all of this code significantly
+reduces the size of the driver by many hundreds of lines of code, and
+is a good idea due to the fact that none of the code follows best
+practice and none of it uses proper kernel internals for debugging.
 
-Makes sense. I guess we can add this assignment in the main ralink
-code platform to avoid defining this for every single pci driver.
+Phillip Potter (14):
+  staging: r8188eu: remove ODM_PRINT_ADDR macro definition
+  staging: r8188eu: remove ODM_dbg_* macro definitions
+  staging: r8188eu: remove ODM_RT_ASSERT macro definition and caller
+  staging: r8188eu: remove ODM_RT_TRACE_F macro definition
+  staging: r8188eu: remove ASSERT ifndef and macro definition
+  staging: r8188eu: remove ODM_RT_TRACE calls from
+    hal/Hal8188ERateAdaptive.c
+  staging: r8188eu: remove ODM_RT_TRACE calls from hal/HalPhyRf_8188e.c
+  staging: r8188eu: remove ODM_RT_TRACE calls from hal/odm_HWConfig.c
+  staging: r8188eu: remove ODM_RT_TRACE calls from hal/odm_RTL8188E.c
+  staging: r8188eu: remove ODM_RT_TRACE calls from
+    hal/odm_RegConfig8188E.c
+  staging: r8188eu: remove ODM_RT_TRACE calls from hal/odm.c
+  staging: r8188eu: remove ODM_RT_TRACE macro definition
+  staging: r8188eu: remove DbgPrint and RT_PRINTK macro definitions
+  staging: r8188eu: remove include/odm_debug.h
 
->
-> Thomas.
->
-> --
-> Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-> good idea.                                                [ RFC1925, 2.3 ]
+ drivers/staging/r8188eu/core/rtw_xmit.c       |   1 -
+ .../r8188eu/hal/Hal8188ERateAdaptive.c        |  99 +-------
+ drivers/staging/r8188eu/hal/HalPhyRf_8188e.c  | 228 +-----------------
+ drivers/staging/r8188eu/hal/odm.c             | 199 ++-------------
+ drivers/staging/r8188eu/hal/odm_HWConfig.c    |   6 -
+ drivers/staging/r8188eu/hal/odm_RTL8188E.c    |  38 +--
+ .../staging/r8188eu/hal/odm_RegConfig8188E.c  |  29 +--
+ drivers/staging/r8188eu/hal/odm_debug.c       |   7 -
+ drivers/staging/r8188eu/hal/rtl8188e_dm.c     |   1 -
+ drivers/staging/r8188eu/hal/usb_halinit.c     |  23 --
+ drivers/staging/r8188eu/include/hal_intf.h    |   2 -
+ drivers/staging/r8188eu/include/odm.h         |   4 -
+ drivers/staging/r8188eu/include/odm_debug.h   | 126 ----------
+ drivers/staging/r8188eu/include/odm_precomp.h |   4 -
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  |  27 ---
+ 15 files changed, 35 insertions(+), 759 deletions(-)
+ delete mode 100644 drivers/staging/r8188eu/include/odm_debug.h
+
+-- 
+2.31.1
+
