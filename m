@@ -1,361 +1,234 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C3D53485
-	for <linux-staging@lists.linux.dev>; Sat, 31 Jul 2021 00:39:51 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id p5so13372278wro.7
-        for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 17:39:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12363483
+	for <linux-staging@lists.linux.dev>; Sat, 31 Jul 2021 02:59:06 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id c16so13239574plh.7
+        for <linux-staging@lists.linux.dev>; Fri, 30 Jul 2021 19:59:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=NV06QZ64uyNn1gJZ+qOMKugrLK13q1+Hv54x8I1OrO0=;
-        b=cz+Lg+4ZeX9+XojXdOmJXkfe9ZpuZ6VhBtu3duSHudHHofOHHTA6Uk0IBKGAe4f0t6
-         IDWWAetr/8/fvJCYGelq8Km21O7/KoSThCMGHCeooGDFXPNEPrD4AsLIjnmK3yqgckpc
-         3zNxPY+JUVyAqmPF8iME189kBwde3gHN5+16u4qC1pG2aKnQD6/9XPAk5WXIPMuGElH4
-         SgXi5jpiTislDIecQqR0MN8elhltTNgVmC61+q0qjVwY4owz/PwCDlb0rHnYYYZI3FFL
-         KFnoZeRD7BhECDK9bidSbj6n7Rqw9DEqe8oLAH5+ms+sHcQUVAvH4JtgWwCESqMU/67p
-         kZPg==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=9Aa9q+ZgPH94d4mui+MhDlRe9awiZiZZrbzXI3QwflQ=;
+        b=K/AnMh6xbreh13akr8KlRWX933KG/LVSiOukQOOU02w9zDvPcZa/3brhzVIyI/b/3I
+         8MwYX4XWyDe4L8DaHTAAOwEDtNaP6NmQ6MxmN2PhdWVt37y0G/ZLykupXyKWHjpiieLb
+         dX8vGbaeXhGoISkRuWXLfYmOV+Mfm2EZz2F7A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=NV06QZ64uyNn1gJZ+qOMKugrLK13q1+Hv54x8I1OrO0=;
-        b=WjdSPD0c3KOfUSBoJZ3ABc247Yk5dYvqhrIKYLbxPfDdm3IAoToNkxGY9+3VrUNjwj
-         j5DGyH/ompIiKeGxZfIWTBNA82TtwH3EcZdDu/3emtB28HJ2F7zJ9lohuzaPIa9DZVqc
-         61A/TzTSwTMf4z2krDp95qN/ZRGneygadUb4RmYpQvvIsdQK14YjIjvWpApqvNeWdjwT
-         u+7Pi9Zi2AqOw4+6SaxkBqeQNCzELlYUbH8AthEEOzqldvuvi64xwcH/uU6yIRqWjw1g
-         smvAxWX7IY2UmvpL14Ih8hAwGLiqJdxty32uYqUxbeMDkrFZvAS5tdGYN0spXKRjVn9r
-         rrsg==
-X-Gm-Message-State: AOAM533SeB5wq+iWzZ81jcIU5i3pLvQnHno4wQYkB6VnOAwC2573mkEc
-	h9NgEBswHVTM0CTNr/h6vPCdRg==
-X-Google-Smtp-Source: ABdhPJwEPFaYoVq3juUdJs3a8ULrcLr2m74oxreWLTjRQ0ykas/CG86wANqir2T9e6phlh1BLUKVwA==
-X-Received: by 2002:a5d:508b:: with SMTP id a11mr6192589wrt.244.1627691989616;
-        Fri, 30 Jul 2021 17:39:49 -0700 (PDT)
-Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
-        by smtp.gmail.com with ESMTPSA id g138sm3829614wmg.32.2021.07.30.17.39.48
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=9Aa9q+ZgPH94d4mui+MhDlRe9awiZiZZrbzXI3QwflQ=;
+        b=qusYI3vOfr+vlhqtx912sCNTZPCZ7FE7Ajgm5JwXUiQGGRrx7joVeH4ktPwjURBCky
+         EKX3VGpR1xHebRlbkm452Fc2BaA3xcG+3LjgYGPGH+Zhbwt95MdsQ/hknHvMQLlOoz2n
+         lg6590y5Vp5EcbYV23RBx/zqZPVHbnRJ5mqleoINjxSbTRKhi2jX6V0ppvEX1r4PrEu3
+         Haff9002SHFh4MhEkZWbh3LKcQy72RNEoF0sAnRwcsA/jwJGDsHEA5D95j507l7w3hWb
+         yLrGjnTx16/OYg2W6LWKHCXSkhZUxSWovd+hc4uPqbw3/vS8yqXT0/+BFQytUmSNh6V4
+         EHEg==
+X-Gm-Message-State: AOAM530YWmKJNRc7UJVZLnSBQ5+CEwSgHzfUnaHTUqwXp6W/bpQzQzkY
+	cGg+SXFPEcHvG/5m77gnygjxFQ==
+X-Google-Smtp-Source: ABdhPJxTfKt3gvdchGd16NukW5boDEwoaheumkJt6I1FzMy8GwJfQpRQICiNX//vocu1zdwGzNo0jA==
+X-Received: by 2002:a63:5505:: with SMTP id j5mr1362082pgb.250.1627700346188;
+        Fri, 30 Jul 2021 19:59:06 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id c7sm4280329pgq.22.2021.07.30.19.59.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jul 2021 17:39:49 -0700 (PDT)
-From: Phillip Potter <phil@philpotter.co.uk>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 14/14 resent] staging: r8188eu: remove include/odm_debug.h
-Date: Sat, 31 Jul 2021 01:39:37 +0100
-Message-Id: <20210731003937.68615-15-phil@philpotter.co.uk>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210731003937.68615-1-phil@philpotter.co.uk>
-References: <20210731003937.68615-1-phil@philpotter.co.uk>
+        Fri, 30 Jul 2021 19:59:05 -0700 (PDT)
+Date: Fri, 30 Jul 2021 19:59:04 -0700
+From: Kees Cook <keescook@chromium.org>
+To: "Williams, Dan J" <dan.j.williams@intel.com>
+Cc: "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+	"keithpac@amazon.com" <keithpac@amazon.com>,
+	"clang-built-linux@googlegroups.com" <clang-built-linux@googlegroups.com>,
+	"linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
+	"gustavoars@kernel.org" <gustavoars@kernel.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
+Subject: Re: [PATCH 04/64] stddef: Introduce struct_group() helper macro
+Message-ID: <202107301952.B484563@keescook>
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-5-keescook@chromium.org>
+ <41183a98-bdb9-4ad6-7eab-5a7292a6df84@rasmusvillemoes.dk>
+ <202107281456.1A3A5C18@keescook>
+ <1d9a2e6df2a9a35b2cdd50a9a68cac5991e7e5f0.camel@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <1d9a2e6df2a9a35b2cdd50a9a68cac5991e7e5f0.camel@intel.com>
 
-Remove include/odm_debug.h in its entirety. To do this, first:
+On Fri, Jul 30, 2021 at 10:19:20PM +0000, Williams, Dan J wrote:
+> On Wed, 2021-07-28 at 14:59 -0700, Kees Cook wrote:
+> > On Wed, Jul 28, 2021 at 12:54:18PM +0200, Rasmus Villemoes wrote:
+> > > On 27/07/2021 22.57, Kees Cook wrote:
+> > > 
+> > > > In order to have a regular programmatic way to describe a struct
+> > > > region that can be used for references and sizing, can be examined for
+> > > > bounds checking, avoids forcing the use of intermediate identifiers,
+> > > > and avoids polluting the global namespace, introduce the struct_group()
+> > > > macro. This macro wraps the member declarations to create an anonymous
+> > > > union of an anonymous struct (no intermediate name) and a named struct
+> > > > (for references and sizing):
+> > > > 
+> > > >         struct foo {
+> > > >                 int one;
+> > > >                 struct_group(thing,
+> > > >                         int two,
+> > > >                         int three,
+> > > >                 );
+> > > >                 int four;
+> > > >         };
+> > > 
+> > > That example won't compile, the commas after two and three should be
+> > > semicolons.
+> > 
+> > Oops, yes, thanks. This is why I shouldn't write code that doesn't first
+> > go through a compiler. ;)
+> > 
+> > > And your implementation relies on MEMBERS not containing any comma
+> > > tokens, but as
+> > > 
+> > >   int a, b, c, d;
+> > > 
+> > > is a valid way to declare multiple members, consider making MEMBERS
+> > > variadic
+> > > 
+> > > #define struct_group(NAME, MEMBERS...)
+> > > 
+> > > to have it slurp up every subsequent argument and make that work.
+> > 
+> > Ah! Perfect, thank you. I totally forgot I could do it that way.
+> 
+> This is great Kees. It just so happens it would clean-up what we are
+> already doing in drivers/cxl/cxl.h for anonymous + named register block
+> pointers. However in the cxl case it also needs the named structure to
+> be typed. Any appetite for a typed version of this?
 
-(1) Remove DebugLevel and DebugComponents members from the struct
-    odm_dm_struct definition, and any uses of these elsewhere in
-    the driver.
+Oh cool! Yeah, totally I can expand it. Thanks for the suggestion!
 
-(2) Remove the function ODM_InitDebugSetting from hal/odm_debug.c
-    whilst leaving the file in place for now as it contains a global
-    which is still used and will be removed by further cleanup code.
-    Also remove all of its callers. All the function does is set the
-    members mentioned above.
+> 
+> Here is a rough idea of the cleanup it would induce in drivers/cxl/:
+> 
+> diff --git a/drivers/cxl/cxl.h b/drivers/cxl/cxl.h
+> index 53927f9fa77e..a2308c995654 100644
+> --- a/drivers/cxl/cxl.h
+> +++ b/drivers/cxl/cxl.h
+> @@ -75,52 +75,19 @@ static inline int cxl_hdm_decoder_count(u32 cap_hdr)
+>  #define CXLDEV_MBOX_BG_CMD_STATUS_OFFSET 0x18
+>  #define CXLDEV_MBOX_PAYLOAD_OFFSET 0x20
+>  
+> -#define CXL_COMPONENT_REGS() \
+> -       void __iomem *hdm_decoder
+> -
+> -#define CXL_DEVICE_REGS() \
+> -       void __iomem *status; \
+> -       void __iomem *mbox; \
+> -       void __iomem *memdev
+> -
+> -/* See note for 'struct cxl_regs' for the rationale of this organization */
+>  /*
+> - * CXL_COMPONENT_REGS - Common set of CXL Component register block base pointers
+>   * @hdm_decoder: CXL 2.0 8.2.5.12 CXL HDM Decoder Capability Structure
+> - */
+> -struct cxl_component_regs {
+> -       CXL_COMPONENT_REGS();
+> -};
+> -
+> -/* See note for 'struct cxl_regs' for the rationale of this organization */
+> -/*
+> - * CXL_DEVICE_REGS - Common set of CXL Device register block base pointers
+>   * @status: CXL 2.0 8.2.8.3 Device Status Registers
+>   * @mbox: CXL 2.0 8.2.8.4 Mailbox Registers
+>   * @memdev: CXL 2.0 8.2.8.5 Memory Device Registers
+>   */
+> -struct cxl_device_regs {
+> -       CXL_DEVICE_REGS();
+> -};
+> -
+> -/*
+> - * Note, the anonymous union organization allows for per
+> - * register-block-type helper routines, without requiring block-type
+> - * agnostic code to include the prefix.
+> - */
+>  struct cxl_regs {
+> -       union {
+> -               struct {
+> -                       CXL_COMPONENT_REGS();
+> -               };
+> -               struct cxl_component_regs component;
+> -       };
+> -       union {
+> -               struct {
+> -                       CXL_DEVICE_REGS();
+> -               };
+> -               struct cxl_device_regs device_regs;
+> -       };
+> +       struct_group_typed(cxl_component_regs, component,
+> +               void __iomem *hdm_decoder;
+> +       );
+> +       struct_group_typed(cxl_device_regs, device_regs,
+> +               void __iomem *status, *mbox, *memdev;
+> +       );
+>  };
+>  
+>  struct cxl_reg_map {
+> diff --git a/include/linux/stddef.h b/include/linux/stddef.h
+> index cf7f866944f9..84b7de24ffb5 100644
+> --- a/include/linux/stddef.h
+> +++ b/include/linux/stddef.h
+> @@ -49,12 +49,18 @@ enum {
+>   * @ATTRS: Any struct attributes (normally empty)
+>   * @MEMBERS: The member declarations for the mirrored structs
+>   */
+> -#define struct_group_attr(NAME, ATTRS, MEMBERS) \
+> +#define struct_group_attr(NAME, ATTRS, MEMBERS...) \
+>         union { \
+>                 struct { MEMBERS } ATTRS; \
+>                 struct { MEMBERS } ATTRS NAME; \
+>         }
+>  
+> +#define struct_group_attr_typed(TYPE, NAME, ATTRS, MEMBERS...) \
+> +       union { \
+> +               struct { MEMBERS } ATTRS; \
+> +               struct TYPE { MEMBERS } ATTRS NAME; \
+> +       }
+> +
+>  /**
+>   * struct_group(NAME, MEMBERS)
+>   *
+> @@ -67,7 +73,10 @@ enum {
+>   * @NAME: The name of the mirrored sub-struct
+>   * @MEMBERS: The member declarations for the mirrored structs
+>   */
+> -#define struct_group(NAME, MEMBERS)    \
+> +#define struct_group(NAME, MEMBERS...) \
+>         struct_group_attr(NAME, /* no attrs */, MEMBERS)
+>  
+> +#define struct_group_typed(TYPE, NAME, MEMBERS...) \
+> +       struct_group_attr_typed(TYPE, NAME, /* no attrs */, MEMBERS)
+> +
+>  #endif
 
-(3) Remove the now redundant constants and their usages:
-    ODM_CMNINFO_DBG_LEVEL
-    ODM_CMNINFO_DBG_COMP
-    HW_DEF_ODM_DBG_FLAG
-    HW_DEF_FA_CNT_DUMP
-    This includes usage within a few hexadecimal ioctl switch cases
-    in os_dep/ioctl_linux.c (although only the call itself within
-    0x11 as it contains additional code currently).
+Awesome! My instinct is to expose the resulting API as:
 
-(4) Finally, remove the file itself and its inclusion within
-    include/odm_precomp.h, as none of the remaining content is used
-    from anywhere else in the driver.
+__struct_group(type, name, attrs, members...)
 
-Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
----
- drivers/staging/r8188eu/hal/odm.c             |  8 ---
- drivers/staging/r8188eu/hal/odm_debug.c       |  7 --
- drivers/staging/r8188eu/hal/rtl8188e_dm.c     |  1 -
- drivers/staging/r8188eu/hal/usb_halinit.c     | 23 -------
- drivers/staging/r8188eu/include/hal_intf.h    |  2 -
- drivers/staging/r8188eu/include/odm.h         |  4 --
- drivers/staging/r8188eu/include/odm_debug.h   | 69 -------------------
- drivers/staging/r8188eu/include/odm_precomp.h |  1 -
- drivers/staging/r8188eu/os_dep/ioctl_linux.c  | 27 --------
- 9 files changed, 142 deletions(-)
- delete mode 100644 drivers/staging/r8188eu/include/odm_debug.h
+struct_group(name, members...)
+struct_group_attr(name, attrs, members...)
+struct_group_typed(type, name, members...)
 
-diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
-index 927e1cce999e..b3ce95822b0f 100644
---- a/drivers/staging/r8188eu/hal/odm.c
-+++ b/drivers/staging/r8188eu/hal/odm.c
-@@ -416,12 +416,6 @@ void ODM_CmnInfoUpdate(struct odm_dm_struct *pDM_Odm, u32 CmnInfo, u64 Value)
- 	case	ODM_CMNINFO_RSSI_MIN:
- 		pDM_Odm->RSSI_Min = (u8)Value;
- 		break;
--	case	ODM_CMNINFO_DBG_COMP:
--		pDM_Odm->DebugComponents = Value;
--		break;
--	case	ODM_CMNINFO_DBG_LEVEL:
--		pDM_Odm->DebugLevel = (u32)Value;
--		break;
- 	case	ODM_CMNINFO_RA_THRESHOLD_HIGH:
- 		pDM_Odm->RateAdaptive.HighRSSIThresh = (u8)Value;
- 		break;
-@@ -439,8 +433,6 @@ void odm_CommonInfoSelfInit(struct odm_dm_struct *pDM_Odm)
- 		pDM_Odm->AntDivType = CG_TRX_HW_ANTDIV;
- 	if (pDM_Odm->SupportICType & (ODM_RTL8723A))
- 		pDM_Odm->AntDivType = CGCS_RX_SW_ANTDIV;
--
--	ODM_InitDebugSetting(pDM_Odm);
- }
- 
- void odm_CommonInfoSelfUpdate(struct odm_dm_struct *pDM_Odm)
-diff --git a/drivers/staging/r8188eu/hal/odm_debug.c b/drivers/staging/r8188eu/hal/odm_debug.c
-index fad1c3cca25b..7029ec4f771e 100644
---- a/drivers/staging/r8188eu/hal/odm_debug.c
-+++ b/drivers/staging/r8188eu/hal/odm_debug.c
-@@ -3,11 +3,4 @@
- 
- #include "../include/odm_precomp.h"
- 
--void ODM_InitDebugSetting(struct odm_dm_struct *pDM_Odm)
--{
--	pDM_Odm->DebugLevel = ODM_DBG_TRACE;
--
--	pDM_Odm->DebugComponents = 0;
--}
--
- u32 GlobalDebugLevel;
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_dm.c b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-index 294b082a6c09..0e264c39d636 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-@@ -193,7 +193,6 @@ void rtl8188e_init_dm_priv(struct adapter *Adapter)
- 
- 	memset(pdmpriv, 0, sizeof(struct dm_priv));
- 	Init_ODM_ComInfo_88E(Adapter);
--	ODM_InitDebugSetting(podmpriv);
- }
- 
- void rtl8188e_deinit_dm_priv(struct adapter *Adapter)
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index d50a887ad7ea..ca8f00c4659a 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -2035,12 +2035,6 @@ GetHalDefVar8188EUsb(
- 			}
- 		}
- 		break;
--	case HW_DEF_ODM_DBG_FLAG:
--		{
--			struct odm_dm_struct *dm_ocm = &(haldata->odmpriv);
--			pr_info("dm_ocm->DebugComponents = 0x%llx\n", dm_ocm->DebugComponents);
--		}
--		break;
- 	case HAL_DEF_DBG_DUMP_RXPKT:
- 		*((u8 *)pValue) = haldata->bDumpRxPkt;
- 		break;
-@@ -2099,23 +2093,6 @@ static u8 SetHalDefVar8188EUsb(struct adapter *Adapter, enum hal_def_variable eV
- 	case HAL_DEF_DBG_DUMP_TXPKT:
- 		haldata->bDumpTxPkt = *((u8 *)pValue);
- 		break;
--	case HW_DEF_FA_CNT_DUMP:
--		{
--			u8 bRSSIDump = *((u8 *)pValue);
--			struct odm_dm_struct *dm_ocm = &(haldata->odmpriv);
--			if (bRSSIDump)
--				dm_ocm->DebugComponents	=	ODM_COMP_DIG|ODM_COMP_FA_CNT	;
--			else
--				dm_ocm->DebugComponents	= 0;
--		}
--		break;
--	case HW_DEF_ODM_DBG_FLAG:
--		{
--			u64	DebugComponents = *((u64 *)pValue);
--			struct odm_dm_struct *dm_ocm = &(haldata->odmpriv);
--			dm_ocm->DebugComponents = DebugComponents;
--		}
--		break;
- 	default:
- 		bResult = _FAIL;
- 		break;
-diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index 81d959c6fd4e..8f62cbe9ba37 100644
---- a/drivers/staging/r8188eu/include/hal_intf.h
-+++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -113,8 +113,6 @@ enum hal_def_variable {
- 	HW_VAR_MAX_RX_AMPDU_FACTOR,
- 	HW_DEF_RA_INFO_DUMP,
- 	HAL_DEF_DBG_DUMP_TXPKT,
--	HW_DEF_FA_CNT_DUMP,
--	HW_DEF_ODM_DBG_FLAG,
- };
- 
- enum hal_odm_variable {
-diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
-index 15827b6a5729..2a6fd4072e00 100644
---- a/drivers/staging/r8188eu/include/odm.h
-+++ b/drivers/staging/r8188eu/include/odm.h
-@@ -388,8 +388,6 @@ enum odm_common_info_def {
- 	ODM_CMNINFO_WIFI_DISPLAY,
- 	ODM_CMNINFO_LINK,
- 	ODM_CMNINFO_RSSI_MIN,
--	ODM_CMNINFO_DBG_COMP,			/*  u64 */
--	ODM_CMNINFO_DBG_LEVEL,			/*  u32 */
- 	ODM_CMNINFO_RA_THRESHOLD_HIGH,		/*  u8 */
- 	ODM_CMNINFO_RA_THRESHOLD_LOW,		/*  u8 */
- 	ODM_CMNINFO_RF_ANTENNA_TYPE,		/*  u8 */
-@@ -748,8 +746,6 @@ struct odm_dm_struct {
- 	bool	odm_ready;
- 
- 	struct rtl8192cd_priv *fake_priv;
--	u64	DebugComponents;
--	u32	DebugLevel;
- 
- /*  ODM HANDLE, DRIVER NEEDS NOT TO HOOK------ */
- 	bool	bCckHighPower;
-diff --git a/drivers/staging/r8188eu/include/odm_debug.h b/drivers/staging/r8188eu/include/odm_debug.h
-deleted file mode 100644
-index c71d890ac552..000000000000
---- a/drivers/staging/r8188eu/include/odm_debug.h
-+++ /dev/null
-@@ -1,69 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
--/* Copyright(c) 2007 - 2011 Realtek Corporation. */
--
--#ifndef	__ODM_DBG_H__
--#define __ODM_DBG_H__
--
--/*  */
--/*	Define the debug levels */
--/*  */
--/*	1. DBG_TRACE and DBG_LOUD are used for normal cases. */
--/*	They can help SW engineer to develop or trace states changed */
--/*	and also help HW enginner to trace every operation to and from HW, */
--/*	e.g IO, Tx, Rx. */
--/*  */
--/*	2. DBG_WARNNING and DBG_SERIOUS are used for unusual or error cases, */
--/*	which help us to debug SW or HW. */
--
--/*	Never used in a call to ODM_RT_TRACE()! */
--#define ODM_DBG_OFF				1
--
--/*	Fatal bug. */
--/*	For example, Tx/Rx/IO locked up, OS hangs, memory access violation, */
--/*	resource allocation failed, unexpected HW behavior, HW BUG and so on. */
--#define ODM_DBG_SERIOUS				2
--
--/*	Abnormal, rare, or unexpeted cases. */
--/*	For example, IRP/Packet/OID canceled, device suprisely unremoved and so on. */
--#define ODM_DBG_WARNING				3
--
--/*	Normal case with useful information about current SW or HW state. */
--/*	For example, Tx/Rx descriptor to fill, Tx/Rx descr. completed status, */
--/*	SW protocol state change, dynamic mechanism state change and so on. */
--/*  */
--#define ODM_DBG_LOUD					4
--
--/*	Normal case with detail execution flow or information. */
--#define ODM_DBG_TRACE					5
--
--/*  Define the tracing components */
--/* BB Functions */
--#define ODM_COMP_DIG					BIT0
--#define ODM_COMP_RA_MASK				BIT1
--#define ODM_COMP_DYNAMIC_TXPWR				BIT2
--#define ODM_COMP_FA_CNT					BIT3
--#define ODM_COMP_RSSI_MONITOR				BIT4
--#define ODM_COMP_CCK_PD					BIT5
--#define ODM_COMP_ANT_DIV				BIT6
--#define ODM_COMP_PWR_SAVE				BIT7
--#define ODM_COMP_PWR_TRA				BIT8
--#define ODM_COMP_RATE_ADAPTIVE				BIT9
--#define ODM_COMP_PATH_DIV				BIT10
--#define ODM_COMP_PSD					BIT11
--#define ODM_COMP_DYNAMIC_PRICCA				BIT12
--#define ODM_COMP_RXHP					BIT13
--/* MAC Functions */
--#define ODM_COMP_EDCA_TURBO				BIT16
--#define ODM_COMP_EARLY_MODE				BIT17
--/* RF Functions */
--#define ODM_COMP_TX_PWR_TRACK				BIT24
--#define ODM_COMP_RX_GAIN_TRACK				BIT25
--#define ODM_COMP_CALIBRATION				BIT26
--/* Common Functions */
--#define ODM_COMP_COMMON					BIT30
--#define ODM_COMP_INIT					BIT31
--
--/*------------------------Export Marco Definition---------------------------*/
--void ODM_InitDebugSetting(struct odm_dm_struct *pDM_Odm);
--
--#endif	/*  __ODM_DBG_H__ */
-diff --git a/drivers/staging/r8188eu/include/odm_precomp.h b/drivers/staging/r8188eu/include/odm_precomp.h
-index 9072acd26386..a1d6d674bda6 100644
---- a/drivers/staging/r8188eu/include/odm_precomp.h
-+++ b/drivers/staging/r8188eu/include/odm_precomp.h
-@@ -18,7 +18,6 @@
- 
- #include "odm.h"
- #include "odm_HWConfig.h"
--#include "odm_debug.h"
- #include "odm_RegDefine11AC.h"
- #include "odm_RegDefine11N.h"
- 
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index ffce43f99dd6..c763714cda58 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -4455,7 +4455,6 @@ static int rtw_dbg_port(struct net_device *dev,
- 		case 0x11:
- 			DBG_88E("turn %s Rx RSSI display function\n", (extra_arg == 1) ? "on" : "off");
- 			padapter->bRxRSSIDisplay = extra_arg;
--			rtw_hal_set_def_var(padapter, HW_DEF_FA_CNT_DUMP, &extra_arg);
- 			break;
- 		case 0x12: /* set rx_stbc */
- 		{
-@@ -4492,32 +4491,6 @@ static int rtw_dbg_port(struct net_device *dev,
- 			DBG_88E("get wifi_spec =%d\n", pregpriv->wifi_spec);
- 		}
- 			break;
--		case 0x16:
--			if (arg == 0xff) {
--				pr_info("ODM_COMP_DIG\t\tBIT0\n");
--				pr_info("ODM_COMP_RA_MASK\t\tBIT1\n");
--				pr_info("ODM_COMP_DYNAMIC_TXPWR\tBIT2\n");
--				pr_info("ODM_COMP_FA_CNT\t\tBIT3\n");
--				pr_info("ODM_COMP_RSSI_MONITOR\tBIT4\n");
--				pr_info("ODM_COMP_CCK_PD\t\tBIT5\n");
--				pr_info("ODM_COMP_ANT_DIV\t\tBIT6\n");
--				pr_info("ODM_COMP_PWR_SAVE\t\tBIT7\n");
--				pr_info("ODM_COMP_PWR_TRAIN\tBIT8\n");
--				pr_info("ODM_COMP_RATE_ADAPTIVE\tBIT9\n");
--				pr_info("ODM_COMP_PATH_DIV\t\tBIT10\n");
--				pr_info("ODM_COMP_PSD	\tBIT11\n");
--				pr_info("ODM_COMP_DYNAMIC_PRICCA\tBIT12\n");
--				pr_info("ODM_COMP_RXHP\t\tBIT13\n");
--				pr_info("ODM_COMP_EDCA_TURBO\tBIT16\n");
--				pr_info("ODM_COMP_EARLY_MODE\tBIT17\n");
--				pr_info("ODM_COMP_TX_PWR_TRACK\tBIT24\n");
--				pr_info("ODM_COMP_RX_GAIN_TRACK\tBIT25\n");
--				pr_info("ODM_COMP_CALIBRATION\tBIT26\n");
--				rtw_hal_get_def_var(padapter, HW_DEF_ODM_DBG_FLAG, &extra_arg);
--			} else {
--				rtw_hal_set_def_var(padapter, HW_DEF_ODM_DBG_FLAG, &extra_arg);
--			}
--			break;
- 		case 0x23:
- 			DBG_88E("turn %s the bNotifyChannelChange Variable\n", (extra_arg == 1) ? "on" : "off");
- 			padapter->bNotifyChannelChange = extra_arg;
 -- 
-2.31.1
-
+Kees Cook
