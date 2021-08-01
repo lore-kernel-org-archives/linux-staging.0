@@ -1,119 +1,98 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942EA70
-	for <linux-staging@lists.linux.dev>; Sun,  1 Aug 2021 09:52:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1627811531;
-	bh=2wkNneBgVy8D17kOJv1WptkFOFx7B1lNw8niqyN7lq4=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=lCiEDO7esfxNSmSQtUQc7eh6lyfAkd5ZOwvPDcyPS8MQYmp8TNqsKAkfuyAv/leMX
-	 p2dDgieAGSxyvHrbYxDt5++YW6uJlLb98H1k9RI5py9epyuJJ24a8H90EGnSfWWn0K
-	 Ts0ltthd/kMyUIzndfe+PCcTpbbH+uVmgWK1mcuU=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([79.150.72.99]) by mail.gmx.net
- (mrgmx005 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1MKbkM-1mSkNz2TG8-00L0ux; Sun, 01 Aug 2021 11:52:11 +0200
-From: Len Baker <len.baker@gmx.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Len Baker <len.baker@gmx.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Phil Reid <preid@electromag.com.au>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/3] staging/fbtft: Remove all strcpy() uses
-Date: Sun,  1 Aug 2021 10:51:53 +0200
-Message-Id: <20210801085155.3170-2-len.baker@gmx.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210801085155.3170-1-len.baker@gmx.com>
-References: <20210801085155.3170-1-len.baker@gmx.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907E272
+	for <linux-staging@lists.linux.dev>; Sun,  1 Aug 2021 11:41:17 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id s22-20020a17090a1c16b0290177caeba067so1718685pjs.0
+        for <linux-staging@lists.linux.dev>; Sun, 01 Aug 2021 04:41:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=V7CbcU24c2EcgEh6gPwl360Lbo6a4Vh6iTk5nFSY/dA=;
+        b=qZkxBAhluE0p43cVISH+ol5q1lT+cnqxEql+NIpY08L6/PwowG/tSK7brsoB2dM+g4
+         IsHCS42s3dWQ01GIdqQ2VK4IM4bOGJ/yx24/hAOvNqWJwbxbsCpKnF2rkFffMdNgwFrC
+         6NjZdCRVEFlKZINxUnEFV2Xkrte76bs6chq7lWN6s9gbkliRtcbETJiv3JjWBY+ROuau
+         7QBHcX8eOM8aLEoJRqNtPiQlkpD6wYCOuSCf3CNuwnvCF9AIupQzAS+CZdWu+b/WV2XR
+         qiQPlqwMe4USOYxSrqo6WEDk1pAoQV5dne9UdThjajtzvP3R06+MzqdQCnGXvELPeNu9
+         9QWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=V7CbcU24c2EcgEh6gPwl360Lbo6a4Vh6iTk5nFSY/dA=;
+        b=Cs5G0n/j+CKQgdc3meUvZHn2kwo4PEbgrQ1VMvYOqhpzEQJpW2u6PBNAnegaWF0nHd
+         gnEWFMVLaNXub/IwDyQk93X842IJe3/DlTPKMHDrm8f3wMwPUW+tVKwNZElStYgcm6lV
+         lzvh5iqr0DSkZ5JsvX1WsgfbJjhcVdyK8ruOZzAuk5kdvjaaDDvJkyKEsJ1ZZ4f8HbXz
+         TPsHXSuIne1SrfyCq2Q77UT8I/qV281awM+smlZOJWxESKeYRzI400WgOsYY2Cj3Bp8I
+         ANLpTxyiwIXwRuMZj3AryiHuwQYiVSqnvWT+AvYjIDNt2bAMvjtyizk+H0KHgElQ+We/
+         ELhA==
+X-Gm-Message-State: AOAM531qXXezhKYOqkKorNCCOhlrBj4d+j3TpCIEd6tjWrawF2fJI0qj
+	ZNYhTMsKAATmbV0ZClJAHiLR/a7rK16OI5bOSPc=
+X-Google-Smtp-Source: ABdhPJydhwxZ12g/won3lYfp7ROJMWycWxQ5X9RiPATUxhjXxXP+UgIyRIZYxpjob21kv49ZmMn2kBq09Ob2FCmxc98=
+X-Received: by 2002:a63:1457:: with SMTP id 23mr1761825pgu.203.1627818076930;
+ Sun, 01 Aug 2021 04:41:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:3DBDs+sfwC8IiyfEd0c3v9UOisAbafQS6Js2T1gtq0wcmsF5j83
- 8qLxZYy5rn2cjuCG7PAv9TkRlCbaEL62aP2MawsHZhM7KBEuJZq1oB8yMHp6OldMFVTbR2D
- R1D0svvBp1nzlxlajhaGYOmFALUMOoq6DHdnuy17JGauSIK/2hoDicOyotL5vvjlFNt/Cny
- HR8WWsy468LRkit8AbEuQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HKuE47COflc=:yESy/JNUZZefZ4o26Myjax
- mOvj9kIcubXwPKwLq2YDzJFAxuJ3HWUZ4h0f/6ft2e32x1vMgtHv0KL8Qhi3dvrQak7tDi5im
- TQsjyWX1VXZE80DnnFz9wccybE6SiDb32KhlqahCmCriofwTsP7YtBvSWW3bMQ20KaXyy9yL1
- 3RhHvTSb7Vt8oaQxZ62Su8D4s0mo5sqn/mSkgT9tfm0pQysL3uzWpGRF154n6omx3nqQil+CK
- ZU6lNRAcEIXfuaVsB3AWTsCWFCYdmEEO6+0mGxxWUFfDIZ/wc/OswGpr7MuASbDHONODMNpfN
- 4vwcZKyz/vmuJNKvlyEgpJcLdg3i5uWNxjuMp3vpUKlvIs3kr8O3V1u02mpNLvq6DYyIwOcbu
- SC9obBRVEPZOTnTURfjHNvmRkbmlOdsI5r0R9/Gf+iSPkZBn7jcXXa1NJGVQnB4I9A7WhdLlE
- QmLh67oIRbfO/k7iXJJIQIJbLIMjoe4LFANGKcrm3j7Nk9ylv0gqHUGozRC+I8qj//ntQBnCG
- Y1vbMwiLQqmoZk8516LVnWYa7Pq+tvJzKEnpIz4yAy3PzuVFra+r0eMKlWPq0f8mhO3r2gbam
- kzg/xFS0cmXb/ArmTvw+5sXZOoTc9AHj4RzBYQAu92e7/SsUibs3+rMb5nHP5EtHy7W7+6Beq
- 7FMjgy7JniYQHiyLDzWMoRq53UICksLLN3UHJ7TJakfrxTe5nKaBCwrVnYOmJTbxqB9I72jqZ
- YfqRM2MpRE0XFwSJSF61NBC6fI9++uBTeT05OKYXDQPBJVeQmZl9rKPYwc4VlzuPt9AtivozG
- Dsd6jroJ8ouxQ+tHDykAZ1491if96b0SRAqlSB92rJhk8FU15NKGN/om0fLteeZob2PK+C5Nt
- ApzVGzgFooGJtBhoAQpJrs0a6VddXAD8SYs+uvcwG4hGCc5hcRpNVuMVGz7b+NasF2BrffHXG
- NsUKXjT+bo4nOPMl/UJGo+VunjGYv3mYAEx/l9TV8v+XFvDY2erbRR+VASTpc9ACzDIkNa1ii
- isGUM8w0MH96M0CmdM+UakBJn7qwMDdPht8T0LiaG0TtuVw+rZGXPoFLeyDLeXGMF0ybUwkJf
- D0Zu409qxBwUkOaINBNYFjt1LYi2b3teArS
+References: <20210801085155.3170-1-len.baker@gmx.com>
+In-Reply-To: <20210801085155.3170-1-len.baker@gmx.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sun, 1 Aug 2021 14:40:40 +0300
+Message-ID: <CAHp75VcD_Kqedpkw-Pj+uQbWqdu_9FhXqJS5TuGUPoVv2x45-Q@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] Remove all strcpy() uses
+To: Len Baker <len.baker@gmx.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Phil Reid <preid@electromag.com.au>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
+	"open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, linux-staging@lists.linux.dev, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-strcpy() performs no bounds checking on the destination buffer. This
-could result in linear overflows beyond the end of the buffer, leading
-to all kinds of misbehaviors. The safe replacement is strscpy() but in
-this case it is simpler to use the "%*ph" format specifier.
+On Sun, Aug 1, 2021 at 11:53 AM Len Baker <len.baker@gmx.com> wrote:
+>
+> strcpy() performs no bounds checking on the destination buffer. This
+> could result in linear overflows beyond the end of the buffer, leading
+> to all kinds of misbehaviors. So, this serie removes all strcpy uses
+> from the "staging/fbtft" subsystem.
+>
+> Also, refactor the code a bit to follow the kernel coding-style and
+> avoid unnecessary variable initialization.
 
-Moreover, with the "0x%02X " in the sprintf followed by the strcat, the
-msg buffer (now removed) can print 128/5 values (25 hex values). So, the
-"%*ph" replacement won't cut output earlier than requested since this
-format specifier can print up to 64 bytes.
+I don't see patch 3 (even on lore.kernel.org).
 
-Signed-off-by: Len Baker <len.baker@gmx.com>
-=2D--
- drivers/staging/fbtft/fbtft-core.c | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+Greg, Geert, does it make sense to move this driver outside of staging?
+I would volunteer to maintain it there.
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fb=
-tft-core.c
-index 3723269890d5..e6286043bff7 100644
-=2D-- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -992,8 +992,6 @@ static int fbtft_init_display_from_property(struct fbt=
-ft_par *par)
- int fbtft_init_display(struct fbtft_par *par)
- {
- 	int buf[64];
--	char msg[128];
--	char str[16];
- 	int i =3D 0;
- 	int j;
+> Changelog v1 -> v2
+> - Add two new commits to clean the code.
+> - Use the "%*ph" format specifier instead of strscpy() function (Geert
+>   Uytterhoeven)
+>
+> Changelog v2 -> v3
+> - Change the initialization of the "j" variable in the "for" loop and
+>   update the code accordingly (Andy Shevchenko).
+> - Improve the commit message to inform that the "%*ph" replacement
+>   won't cut output earlier than requested (Andy Shevchenko).
+> - Don't remove the braces in the "if" statement due to the presence of
+>   the comment (Geert Uytterhoeven).
+>
+> Len Baker (3):
+>   staging/fbtft: Remove all strcpy() uses
+>   staging/fbtft: Remove unnecessary variable initialization
+>   staging/fbtft: Fix braces coding style
+>
+>  drivers/staging/fbtft/fbtft-core.c | 23 ++++++++++-------------
+>  1 file changed, 10 insertions(+), 13 deletions(-)
+>
+> --
+> 2.25.1
+>
 
-@@ -1036,17 +1034,14 @@ int fbtft_init_display(struct fbtft_par *par)
- 		switch (par->init_sequence[i]) {
- 		case -1:
- 			i++;
-+
- 			/* make debug message */
--			strcpy(msg, "");
--			j =3D i + 1;
--			while (par->init_sequence[j] >=3D 0) {
--				sprintf(str, "0x%02X ", par->init_sequence[j]);
--				strcat(msg, str);
--				j++;
--			}
-+			for (j =3D 0; par->init_sequence[i + 1 + j] >=3D 0; j++);
-+
- 			fbtft_par_dbg(DEBUG_INIT_DISPLAY, par,
--				      "init: write(0x%02X) %s\n",
--				      par->init_sequence[i], msg);
-+				      "init: write(0x%02X) %*ph\n",
-+				      par->init_sequence[i], j,
-+				      &par->init_sequence[i + 1]);
 
- 			/* Write */
- 			j =3D 0;
-=2D-
-2.25.1
-
+-- 
+With Best Regards,
+Andy Shevchenko
