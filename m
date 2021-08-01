@@ -1,53 +1,52 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33513484
-	for <linux-staging@lists.linux.dev>; Sun,  1 Aug 2021 19:04:52 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id z4so18816623wrv.11
-        for <linux-staging@lists.linux.dev>; Sun, 01 Aug 2021 12:04:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1CEC3481
+	for <linux-staging@lists.linux.dev>; Sun,  1 Aug 2021 21:04:34 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id n12-20020a05600c3b8cb029025a67bbd40aso2366761wms.0
+        for <linux-staging@lists.linux.dev>; Sun, 01 Aug 2021 14:04:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2LKvS4q4HTI5wMzebAXEEF35toBQt7KXxYePveJYywM=;
-        b=gd6ssKbimkv9spqz8hebjMZsV/a9yvcgmh9O8OAmXjWzQlyYi2PzRgjxZKAKRap+Yk
-         Xam9T3ndN9h77kdpmfevQ3s3uskCxRm9XNkXgVlx70glbdFR3DgAljb0uQoMm7KtGk7E
-         RjCo4KMZSzP+vHDdk/T/LC2lJDsSLcnJvZ+L0u/6kwp+cYHYMt7vpGfhxfBR0/jk5zOn
-         xJ/fR3Kt42qiHV2KTiTAaz17YR+LB1H0pXG4AgfZ6WeNtQhm9ldIL/YwOUd1C0SkNPDZ
-         74DppAffNdn6E08RrE0EYnWLVk47Y8BLJv/fJWf/Q7AR2dLfsmq9SxzusLDbR/c9dwnI
-         eASw==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WVtsRpshvjxSGDOxwbBdf63+kQjdGeYHZIUcQhDzSgA=;
+        b=gpHKST3HB4NXldnmI+x+hCvAheWaAriYHvkebnH3dX8JgXRrPg/MtYTpygrgzkXXGu
+         LInhcpBVaETCHnlfe8TOLHUTIAC7MxftusCzmD5FdJL43vjNV6DwElw0IbIhraMzvdNu
+         bz4efMHemNUJ2Foko4td5gn7kd/zlaExYDCCj3iJgfzIY17hwZnAwpvJMjiaXpb96D/T
+         KXcAX8Kxp4x4ez3HXVX35e7Setrz4be433ePHFx+dmno5kiNcNJv7nQRdJV/ghwy1UYu
+         7oaFtYuBACxyttWjJd5vxdFHoqSaFsUo9o/4b5AG5BjbS2c2K30Ka2VO2xdNE/l3qX+L
+         O5qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2LKvS4q4HTI5wMzebAXEEF35toBQt7KXxYePveJYywM=;
-        b=QSvH9RGPw2cCKgprCVT1Bt30qENzBoUNW9nDhsGDP6qsMLez6AUoyhkyBIZEJpO96W
-         BbY/EzwU6W2Ds0svVlHwdYN0RfP3Toy+S7BaZWX6Q0ECphClBj978vH2uJ8siKVSgiQT
-         YuBc0su62U3oYByU3XVDErcgvouFTEEOXDqvGmgLQxwSbht2Q/1UUgaAfz2R9T+B1Oj1
-         zcvxgkkHjOQbuMtCJys56ZN70HMp4hKCbESTw98Uew69F2MzuVnRZFFgF1HXtKByhgXp
-         XB1J/7hM05oMkyG7hR+9pZ9HqOdZhidgQAEr33fq9SVLe04L7UoJiPGYVeJ0v83uW84U
-         Dd6A==
-X-Gm-Message-State: AOAM532KXanb57NG0cXuPRt89zwJyZBikMcB12S+lo8K/ajru7xTkiD2
-	fae1NXQiayn0qCeukHYKIvxBkw==
-X-Google-Smtp-Source: ABdhPJydwhW7gwQ9aOaQBOEiPHDPOWHzqJaiLMrAYQUcJM53rxmwvipdo9bj4+HtsBOy3sSWPZnRsg==
-X-Received: by 2002:a5d:4f86:: with SMTP id d6mr13852410wru.271.1627844691344;
-        Sun, 01 Aug 2021 12:04:51 -0700 (PDT)
-Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
-        by smtp.gmail.com with ESMTPSA id c10sm8196026wmb.40.2021.08.01.12.04.50
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WVtsRpshvjxSGDOxwbBdf63+kQjdGeYHZIUcQhDzSgA=;
+        b=ixFVhOtJGgbAdrrzswxodXEQ9SDws3ezUvzKGkl08fA4pCa3McM5f6J6ATVvrNPIAR
+         QrO29jvi8GxKdJZEG1D9dE++a1mcFx1HRpFlaoqQDlGQBF07aqsiOO1Mzs9WbNFF61Wc
+         cMSiKnyCoM7PnO39oE2DHN/fsyBayqTWKFTxYEZAZrcnFItZuVq37ziTagHxXc4ehnbS
+         sm1CriB0de7xNV5kFRD9Z81Y1QLh9dppeUfyi2qA0Yvthb/P2Nx1XTOFpd/hIQSPSInK
+         JqjswJuKIMZ4MQ7XYW5kaowsee0ah2zfLoln+DV5cQUDt/rxdN8SA1ulGOGq2VRIqHay
+         fV5Q==
+X-Gm-Message-State: AOAM530zpFKQclFm9PoblhBcPcuIjBeD8bmYiphm2BiM4ZcQbDIqC7Qf
+	mYeJiN6ErDoM39waI8argKk=
+X-Google-Smtp-Source: ABdhPJx1x72/9jIFNpJ6nGCF16SW7cQOiJSnkpn2+SHHF3utY8SJScuFPcWI2tOa3kSoPA0pXVXOuw==
+X-Received: by 2002:a1c:32c1:: with SMTP id y184mr13129109wmy.70.1627851873035;
+        Sun, 01 Aug 2021 14:04:33 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::4bf9])
+        by smtp.gmail.com with ESMTPSA id f15sm8629709wrp.12.2021.08.01.14.04.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Aug 2021 12:04:50 -0700 (PDT)
-From: Phillip Potter <phil@philpotter.co.uk>
+        Sun, 01 Aug 2021 14:04:32 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	martin@kaiser.cx
-Subject: [PATCH 15/15] staging: r8188eu: remove RT_TRACE calls from core/rtw_recv.c
-Date: Sun,  1 Aug 2021 20:04:37 +0100
-Message-Id: <20210801190437.82017-16-phil@philpotter.co.uk>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210801190437.82017-1-phil@philpotter.co.uk>
-References: <20210801190437.82017-1-phil@philpotter.co.uk>
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 1/2] staging: r8188eu: remove return from void functions
+Date: Sun,  1 Aug 2021 23:03:53 +0200
+Message-Id: <20210801210354.25218-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,522 +55,325 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove RT_TRACE macro calls from core/rtw_recv.c, so that ultimately the
-macro definition itself can eventually be removed.
+Remove return from void functions to clear checkpatch warnings.
 
-Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+WARNING: void function return statements are not generally useful
+
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_recv.c | 161 ++----------------------
- 1 file changed, 11 insertions(+), 150 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme.c      |  7 -----
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c  | 30 --------------------
+ drivers/staging/r8188eu/core/rtw_p2p.c       |  2 --
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c   |  1 -
+ drivers/staging/r8188eu/core/rtw_security.c  |  2 --
+ drivers/staging/r8188eu/core/rtw_wlan_util.c |  4 ---
+ drivers/staging/r8188eu/hal/odm_RTL8188E.c   |  1 -
+ drivers/staging/r8188eu/hal/rtl8188e_dm.c    |  1 -
+ drivers/staging/r8188eu/hal/rtl8188e_mp.c    |  2 --
+ drivers/staging/r8188eu/os_dep/usb_intf.c    |  2 --
+ 10 files changed, 52 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index 610cc699caf9..d0d433f2fa4e 100644
---- a/drivers/staging/r8188eu/core/rtw_recv.c
-+++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -342,33 +342,24 @@ static int recvframe_chkmic(struct adapter *adapter,  struct recv_frame *precvfr
- 	stainfo = rtw_get_stainfo(&adapter->stapriv, &prxattrib->ta[0]);
- 
- 	if (prxattrib->encrypt == _TKIP_) {
--		RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("\n recvframe_chkmic:prxattrib->encrypt==_TKIP_\n"));
--		RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("\n recvframe_chkmic:da=0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x\n",
--			 prxattrib->ra[0], prxattrib->ra[1], prxattrib->ra[2], prxattrib->ra[3], prxattrib->ra[4], prxattrib->ra[5]));
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index af4b7053686f..3ee83f2dc1c9 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -330,8 +330,6 @@ void rtw_generate_random_ibss(u8 *pibss)
+ 	pibss[3] = (u8)(curtime & 0xff);/* p[0]; */
+ 	pibss[4] = (u8)((curtime>>8) & 0xff);/* p[1]; */
+ 	pibss[5] = (u8)((curtime>>16) & 0xff);/* p[2]; */
 -
- 		/* calculate mic code */
- 		if (stainfo != NULL) {
- 			if (IS_MCAST(prxattrib->ra)) {
- 				mickey = &psecuritypriv->dot118021XGrprxmickey[prxattrib->key_index].skey[0];
- 
--				RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("\n recvframe_chkmic: bcmc key\n"));
--
- 				if (!psecuritypriv) {
- 					res = _FAIL;
--					RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("\n recvframe_chkmic:didn't install group key!!!!!!!!!!\n"));
- 					DBG_88E("\n recvframe_chkmic:didn't install group key!!!!!!!!!!\n");
- 					goto exit;
- 				}
- 			} else {
- 				mickey = &stainfo->dot11tkiprxmickey.skey[0];
--				RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("\n recvframe_chkmic: unicast key\n"));
- 			}
- 
- 			datalen = precvframe->len-prxattrib->hdrlen-prxattrib->iv_len-prxattrib->icv_len-8;/* icv_len included the mic code */
- 			pframe = precvframe->rx_data;
- 			payload = pframe+prxattrib->hdrlen+prxattrib->iv_len;
- 
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("\n prxattrib->iv_len=%d prxattrib->icv_len=%d\n", prxattrib->iv_len, prxattrib->icv_len));
- 			rtw_seccalctkipmic(mickey, pframe, payload, datalen, &miccode[0],
- 					   (unsigned char)prxattrib->priority); /* care the length of the data */
- 
-@@ -377,44 +368,11 @@ static int recvframe_chkmic(struct adapter *adapter,  struct recv_frame *precvfr
- 			bmic_err = false;
- 
- 			for (i = 0; i < 8; i++) {
--				if (miccode[i] != *(pframemic+i)) {
--					RT_TRACE(_module_rtl871x_recv_c_, _drv_err_,
--						 ("recvframe_chkmic:miccode[%d](%02x)!=*(pframemic+%d)(%02x) ",
--						 i, miccode[i], i, *(pframemic+i)));
-+				if (miccode[i] != *(pframemic+i))
- 					bmic_err = true;
--				}
- 			}
- 
- 			if (bmic_err) {
--				RT_TRACE(_module_rtl871x_recv_c_, _drv_err_,
--					 ("\n *(pframemic-8)-*(pframemic-1)=0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x\n",
--					 *(pframemic-8), *(pframemic-7), *(pframemic-6),
--					 *(pframemic-5), *(pframemic-4), *(pframemic-3),
--					 *(pframemic-2), *(pframemic-1)));
--				RT_TRACE(_module_rtl871x_recv_c_, _drv_err_,
--					 ("\n *(pframemic-16)-*(pframemic-9)=0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x\n",
--					 *(pframemic-16), *(pframemic-15), *(pframemic-14),
--					 *(pframemic-13), *(pframemic-12), *(pframemic-11),
--					 *(pframemic-10), *(pframemic-9)));
--				{
--					uint i;
--					RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("\n ======demp packet (len=%d)======\n", precvframe->len));
--					for (i = 0; i < precvframe->len; i = i+8) {
--						RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x",
--							 *(precvframe->rx_data+i), *(precvframe->rx_data+i+1),
--							 *(precvframe->rx_data+i+2), *(precvframe->rx_data+i+3),
--							 *(precvframe->rx_data+i+4), *(precvframe->rx_data+i+5),
--							 *(precvframe->rx_data+i+6), *(precvframe->rx_data+i+7)));
--					}
--					RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("\n ====== demp packet end [len=%d]======\n", precvframe->len));
--					RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("\n hrdlen=%d,\n", prxattrib->hdrlen));
--				}
--
--				RT_TRACE(_module_rtl871x_recv_c_, _drv_err_,
--					 ("ra=0x%.2x 0x%.2x 0x%.2x 0x%.2x 0x%.2x 0x%.2x psecuritypriv->binstallGrpkey=%d ",
--					 prxattrib->ra[0], prxattrib->ra[1], prxattrib->ra[2],
--					 prxattrib->ra[3], prxattrib->ra[4], prxattrib->ra[5], psecuritypriv->binstallGrpkey));
--
- 				/*  double check key_index for some timing issue , */
- 				/*  cannot compare with psecuritypriv->dot118021XGrpKeyid also cause timing issue */
- 				if ((IS_MCAST(prxattrib->ra) == true)  && (prxattrib->key_index != pmlmeinfo->key_index))
-@@ -422,22 +380,16 @@ static int recvframe_chkmic(struct adapter *adapter,  struct recv_frame *precvfr
- 
- 				if ((prxattrib->bdecrypted) && (brpt_micerror)) {
- 					rtw_handle_tkip_mic_err(adapter, (u8)IS_MCAST(prxattrib->ra));
--					RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, (" mic error :prxattrib->bdecrypted=%d ", prxattrib->bdecrypted));
- 					DBG_88E(" mic error :prxattrib->bdecrypted=%d\n", prxattrib->bdecrypted);
- 				} else {
--					RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, (" mic error :prxattrib->bdecrypted=%d ", prxattrib->bdecrypted));
- 					DBG_88E(" mic error :prxattrib->bdecrypted=%d\n", prxattrib->bdecrypted);
- 				}
- 				res = _FAIL;
- 			} else {
- 				/* mic checked ok */
--				if ((!psecuritypriv->bcheck_grpkey) && (IS_MCAST(prxattrib->ra))) {
-+				if ((!psecuritypriv->bcheck_grpkey) && (IS_MCAST(prxattrib->ra)))
- 					psecuritypriv->bcheck_grpkey = true;
--					RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("psecuritypriv->bcheck_grpkey = true"));
--				}
- 			}
--		} else {
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("recvframe_chkmic: rtw_get_stainfo==NULL!!!\n"));
- 		}
- 
- 		recvframe_pull_tail(precvframe, 8);
-@@ -456,8 +408,6 @@ static struct recv_frame *decryptor(struct adapter *padapter, struct recv_frame
- 	struct recv_frame *return_packet = precv_frame;
- 	u32	 res = _SUCCESS;
- 
--	RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("prxstat->decrypted=%x prxattrib->encrypt=0x%03x\n", prxattrib->bdecrypted, prxattrib->encrypt));
--
- 	if (prxattrib->encrypt > 0) {
- 		u8 *iv = precv_frame->rx_data+prxattrib->hdrlen;
- 		prxattrib->key_index = (((iv[3])>>6)&0x3);
-@@ -536,16 +486,11 @@ static struct recv_frame *portctrl(struct adapter *adapter, struct recv_frame *p
- 	prtnframe = NULL;
- 
- 	psta = rtw_get_stainfo(pstapriv, psta_addr);
--	RT_TRACE(_module_rtl871x_recv_c_, _drv_info_,
--		 ("########portctrl:adapter->securitypriv.dot11AuthAlgrthm=%d\n",
--		 adapter->securitypriv.dot11AuthAlgrthm));
- 
- 	if (auth_alg == 2) {
- 		if ((psta != NULL) && (psta->ieee8021x_blocked)) {
- 			/* blocked */
- 			/* only accept EAPOL frame */
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("########portctrl:psta->ieee8021x_blocked==1\n"));
--
- 			prtnframe = precv_frame;
- 
- 			/* get ether_type */
-@@ -563,22 +508,11 @@ static struct recv_frame *portctrl(struct adapter *adapter, struct recv_frame *p
- 		} else {
- 			/* allowed */
- 			/* check decryption status, and decrypt the frame if needed */
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("########portctrl:psta->ieee8021x_blocked==0\n"));
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("portctrl:precv_frame->hdr.attrib.privacy=%x\n", precv_frame->attrib.privacy));
--
--			if (pattrib->bdecrypted == 0)
--				RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("portctrl:prxstat->decrypted=%x\n", pattrib->bdecrypted));
--
- 			prtnframe = precv_frame;
- 			/* check is the EAPOL frame or not (Rekey) */
--			if (ether_type == eapol_type) {
--				RT_TRACE(_module_rtl871x_recv_c_, _drv_notice_, ("########portctrl:ether_type==0x888e\n"));
-+			if (ether_type == eapol_type)
- 				/* check Rekey */
--
- 				prtnframe = precv_frame;
--			} else {
--				RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("########portctrl:ether_type=0x%04x\n", ether_type));
--			}
- 		}
- 	} else {
- 		prtnframe = precv_frame;
-@@ -594,18 +528,12 @@ static int recv_decache(struct recv_frame *precv_frame, u8 bretry, struct stainf
- 	u16 seq_ctrl = ((precv_frame->attrib.seq_num&0xffff) << 4) |
- 		(precv_frame->attrib.frag_num & 0xf);
- 
--	if (tid > 15) {
--		RT_TRACE(_module_rtl871x_recv_c_, _drv_notice_, ("recv_decache, (tid>15)! seq_ctrl=0x%x, tid=0x%x\n", seq_ctrl, tid));
--
-+	if (tid > 15)
- 		return _FAIL;
--	}
- 
- 	if (1) {/* if (bretry) */
--		if (seq_ctrl == prxcache->tid_rxseq[tid]) {
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_notice_, ("recv_decache, seq_ctrl=0x%x, tid=0x%x, tid_rxseq=0x%x\n", seq_ctrl, tid, prxcache->tid_rxseq[tid]));
--
-+		if (seq_ctrl == prxcache->tid_rxseq[tid])
- 			return _FAIL;
--		}
- 	}
- 
- 	prxcache->tid_rxseq[tid] = seq_ctrl;
-@@ -746,7 +674,6 @@ int sta2sta_data_frame(struct adapter *adapter, struct recv_frame *precv_frame,
- 	    (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true)) {
- 		/*  filter packets that SA is myself or multicast or broadcast */
- 		if (!memcmp(myhwaddr, pattrib->src, ETH_ALEN)) {
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, (" SA==myself\n"));
- 			ret = _FAIL;
- 			goto exit;
- 		}
-@@ -767,7 +694,6 @@ int sta2sta_data_frame(struct adapter *adapter, struct recv_frame *precv_frame,
- 	} else if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)) {
- 		/*  For Station mode, sa and bssid should always be BSSID, and DA is my mac-address */
- 		if (memcmp(pattrib->bssid, pattrib->src, ETH_ALEN)) {
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("bssid!=TA under STATION_MODE; drop pkt\n"));
- 			ret = _FAIL;
- 			goto exit;
- 		}
-@@ -806,7 +732,6 @@ int sta2sta_data_frame(struct adapter *adapter, struct recv_frame *precv_frame,
- 		*psta = rtw_get_stainfo(pstapriv, sta_addr); /*  get ap_info */
- 
- 	if (*psta == NULL) {
--		RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("can't get psta under sta2sta_data_frame ; drop pkt\n"));
- 		if (adapter->registrypriv.mp_mode == 1) {
- 			if (check_fwstate(pmlmepriv, WIFI_MP_STATE) == true)
- 			adapter->mppriv.rx_pktloss++;
-@@ -839,15 +764,12 @@ static int ap2sta_data_frame (
- 	    check_fwstate(pmlmepriv, _FW_UNDER_LINKING))) {
- 		/*  filter packets that SA is myself or multicast or broadcast */
- 		if (!memcmp(myhwaddr, pattrib->src, ETH_ALEN)) {
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, (" SA==myself\n"));
- 			ret = _FAIL;
- 			goto exit;
- 		}
- 
- 		/*  da should be for me */
- 		if ((memcmp(myhwaddr, pattrib->dst, ETH_ALEN)) && (!bmcast)) {
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_info_,
--				 (" ap2sta_data_frame:  compare DA fail; DA=%pM\n", (pattrib->dst)));
- 			ret = _FAIL;
- 			goto exit;
- 		}
-@@ -856,10 +778,6 @@ static int ap2sta_data_frame (
- 		if (!memcmp(pattrib->bssid, "\x0\x0\x0\x0\x0\x0", ETH_ALEN) ||
- 		    !memcmp(mybssid, "\x0\x0\x0\x0\x0\x0", ETH_ALEN) ||
- 		     (memcmp(pattrib->bssid, mybssid, ETH_ALEN))) {
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_info_,
--				 (" ap2sta_data_frame:  compare BSSID fail ; BSSID=%pM\n", (pattrib->bssid)));
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("mybssid=%pM\n", (mybssid)));
--
- 			if (!bmcast) {
- 				DBG_88E("issue_deauth to the nonassociated ap=%pM for the reason(7)\n", (pattrib->bssid));
- 				issue_deauth(adapter, pattrib->bssid, WLAN_REASON_CLASS3_FRAME_FROM_NONASSOC_STA);
-@@ -875,7 +793,6 @@ static int ap2sta_data_frame (
- 			*psta = rtw_get_stainfo(pstapriv, pattrib->bssid); /*  get ap_info */
- 
- 		if (*psta == NULL) {
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("ap2sta: can't get psta under STATION_MODE ; drop pkt\n"));
- 			ret = _FAIL;
- 			goto exit;
- 		}
-@@ -902,7 +819,6 @@ static int ap2sta_data_frame (
- 
- 		*psta = rtw_get_stainfo(pstapriv, pattrib->bssid); /*  get sta_info */
- 		if (*psta == NULL) {
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("can't get psta under MP_MODE ; drop pkt\n"));
- 			ret = _FAIL;
- 			goto exit;
- 		}
-@@ -948,7 +864,6 @@ static int sta2ap_data_frame(struct adapter *adapter,
- 
- 		*psta = rtw_get_stainfo(pstapriv, pattrib->src);
- 		if (*psta == NULL) {
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("can't get psta under AP_MODE; drop pkt\n"));
- 			DBG_88E("issue_deauth to sta=%pM for the reason(7)\n", (pattrib->src));
- 
- 			issue_deauth(adapter, pattrib->src, WLAN_REASON_CLASS3_FRAME_FROM_NONASSOC_STA);
-@@ -1116,13 +1031,9 @@ static int validate_recv_mgnt_frame(struct adapter *padapter,
- {
- 	struct sta_info *psta;
- 
--	RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("+validate_recv_mgnt_frame\n"));
--
- 	precv_frame = recvframe_chk_defrag(padapter, precv_frame);
--	if (precv_frame == NULL) {
--		RT_TRACE(_module_rtl871x_recv_c_, _drv_notice_, ("%s: fragment packet\n", __func__));
-+	if (precv_frame == NULL)
- 		return _SUCCESS;
--	}
- 
- 	/* for rx pkt statistics */
- 	psta = rtw_get_stainfo(&padapter->stapriv, GetAddr2Ptr(precv_frame->rx_data));
-@@ -1194,7 +1105,6 @@ static int validate_recv_data_frame(struct adapter *adapter,
- 		memcpy(pattrib->ra, GetAddr1Ptr(ptr), ETH_ALEN);
- 		memcpy(pattrib->ta, GetAddr2Ptr(ptr), ETH_ALEN);
- 		ret = _FAIL;
--		RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, (" case 3\n"));
- 		break;
- 	default:
- 		ret = _FAIL;
-@@ -1208,7 +1118,6 @@ static int validate_recv_data_frame(struct adapter *adapter,
- 	}
- 
- 	if (psta == NULL) {
--		RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, (" after to_fr_ds_chk; psta==NULL\n"));
- 		ret = _FAIL;
- 		goto exit;
- 	}
-@@ -1240,19 +1149,13 @@ static int validate_recv_data_frame(struct adapter *adapter,
- 
- 	/*  decache, drop duplicate recv packets */
- 	if (recv_decache(precv_frame, bretry, &psta->sta_recvpriv.rxcache) == _FAIL) {
--		RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("decache : drop pkt\n"));
- 		ret = _FAIL;
- 		goto exit;
- 	}
- 
- 	if (pattrib->privacy) {
--		RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("validate_recv_data_frame:pattrib->privacy=%x\n", pattrib->privacy));
--		RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("\n ^^^^^^^^^^^IS_MCAST(pattrib->ra(0x%02x))=%d^^^^^^^^^^^^^^^6\n", pattrib->ra[0], IS_MCAST(pattrib->ra)));
--
- 		GET_ENCRY_ALGO(psecuritypriv, psta, pattrib->encrypt, IS_MCAST(pattrib->ra));
- 
--		RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("\n pattrib->encrypt=%d\n", pattrib->encrypt));
--
- 		SET_ICE_IV_LEN(pattrib->iv_len, pattrib->icv_len, pattrib->encrypt);
- 	} else {
- 		pattrib->encrypt = 0;
-@@ -1288,7 +1191,6 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
- 
- 	/* add version chk */
- 	if (ver != 0) {
--		RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("validate_recv_data_frame fail! (ver!=0)\n"));
- 		retval = _FAIL;
- 		goto exit;
- 	}
-@@ -1340,15 +1242,11 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
- 	}
- 	switch (type) {
- 	case WIFI_MGT_TYPE: /* mgnt */
--		retval = validate_recv_mgnt_frame(adapter, precv_frame);
--		if (retval == _FAIL)
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("validate_recv_mgnt_frame fail\n"));
-+		validate_recv_mgnt_frame(adapter, precv_frame);
- 		retval = _FAIL; /*  only data frame return _SUCCESS */
- 		break;
- 	case WIFI_CTRL_TYPE: /* ctrl */
--		retval = validate_recv_ctrl_frame(adapter, precv_frame);
--		if (retval == _FAIL)
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("validate_recv_ctrl_frame fail\n"));
-+		validate_recv_ctrl_frame(adapter, precv_frame);
- 		retval = _FAIL; /*  only data frame return _SUCCESS */
- 		break;
- 	case WIFI_DATA_TYPE: /* data */
-@@ -1361,7 +1259,6 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
- 		}
- 		break;
- 	default:
--		RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("validate_recv_data_frame fail! type= 0x%x\n", type));
- 		retval = _FAIL;
- 		break;
- 	}
-@@ -1409,9 +1306,6 @@ static int wlanhdr_to_ethhdr (struct recv_frame *precvframe)
- 	rmv_len = pattrib->hdrlen + pattrib->iv_len + (bsnaphdr ? SNAP_SIZE : 0);
- 	len = precvframe->len - rmv_len;
- 
--	RT_TRACE(_module_rtl871x_recv_c_, _drv_info_,
--		 ("\n===pattrib->hdrlen: %x,  pattrib->iv_len:%x===\n\n", pattrib->hdrlen,  pattrib->iv_len));
--
- 	memcpy(&be_tmp, ptr+rmv_len, 2);
- 	eth_type = ntohs(be_tmp); /* pattrib->ether_type */
- 	pattrib->eth_type = eth_type;
-@@ -1517,8 +1411,6 @@ static struct recv_frame *recvframe_defrag(struct adapter *adapter, struct __que
- 	/* free the defrag_q queue and return the prframe */
- 	rtw_free_recvframe_queue(defrag_q, pfree_recv_queue);
- 
--	RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("Performance defrag!!!!!\n"));
--
- 	return prframe;
+-	return;
  }
  
-@@ -1579,15 +1471,12 @@ struct recv_frame *recvframe_chk_defrag(struct adapter *padapter, struct recv_fr
- 			phead = get_list_head(pdefrag_q);
- 			list_add_tail(&pfhdr->list, phead);
- 
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("Enqueuq: ismfrag=%d, fragnum=%d\n", ismfrag, fragnum));
+ u8 *rtw_get_capability_from_ie(u8 *ie)
+@@ -702,10 +700,7 @@ static int rtw_is_desired_network(struct adapter *adapter, struct wlan_network *
+ /* TODO: Perry: For Power Management */
+ void rtw_atimdone_event_callback(struct adapter	*adapter, u8 *pbuf)
+ {
 -
- 			prtnframe = NULL;
- 		} else {
- 			/* can't find this ta's defrag_queue, so free this recv_frame */
- 			if (precv_frame && pfree_recv_queue)
- 				rtw_free_recvframe(precv_frame, pfree_recv_queue);
- 			prtnframe = NULL;
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("Free because pdefrag_q==NULL: ismfrag=%d, fragnum=%d\n", ismfrag, fragnum));
+ 	RT_TRACE(_module_rtl871x_mlme_c_, _drv_err_, ("receive atimdone_evet\n"));
+-
+-	return;
+ }
+ 
+ void rtw_survey_event_callback(struct adapter	*adapter, u8 *pbuf)
+@@ -752,8 +747,6 @@ void rtw_survey_event_callback(struct adapter	*adapter, u8 *pbuf)
+ exit:
+ 
+ 	spin_unlock_bh(&pmlmepriv->lock);
+-
+-	return;
+ }
+ 
+ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index 00650888a2e3..62c77800bfd1 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -2149,8 +2149,6 @@ void issue_p2p_GO_request(struct adapter *padapter, u8 *raddr)
+ 	pattrib->last_txcmdsz = pattrib->pktlen;
+ 
+ 	dump_mgntframe(padapter, pmgntframe);
+-
+-	return;
+ }
+ 
+ static void issue_p2p_GO_response(struct adapter *padapter, u8 *raddr, u8 *frame_body, uint len, u8 result)
+@@ -2514,7 +2512,6 @@ static void issue_p2p_GO_response(struct adapter *padapter, u8 *raddr, u8 *frame
+ 	pattrib->last_txcmdsz = pattrib->pktlen;
+ 
+ 	dump_mgntframe(padapter, pmgntframe);
+-	return;
+ }
+ 
+ static void issue_p2p_GO_confirm(struct adapter *padapter, u8 *raddr, u8 result)
+@@ -2677,7 +2674,6 @@ static void issue_p2p_GO_confirm(struct adapter *padapter, u8 *raddr, u8 result)
+ 	pframe = rtw_set_ie(pframe, _VENDOR_SPECIFIC_IE_, p2pielen, (unsigned char *)p2pie, &pattrib->pktlen);
+ 	pattrib->last_txcmdsz = pattrib->pktlen;
+ 	dump_mgntframe(padapter, pmgntframe);
+-	return;
+ }
+ 
+ void issue_p2p_invitation_request(struct adapter *padapter, u8 *raddr)
+@@ -2925,8 +2921,6 @@ void issue_p2p_invitation_request(struct adapter *padapter, u8 *raddr)
+ 	pattrib->last_txcmdsz = pattrib->pktlen;
+ 
+ 	dump_mgntframe(padapter, pmgntframe);
+-
+-	return;
+ }
+ 
+ void issue_p2p_invitation_response(struct adapter *padapter, u8 *raddr, u8 dialogToken, u8 status_code)
+@@ -3117,8 +3111,6 @@ void issue_p2p_invitation_response(struct adapter *padapter, u8 *raddr, u8 dialo
+ 	pattrib->last_txcmdsz = pattrib->pktlen;
+ 
+ 	dump_mgntframe(padapter, pmgntframe);
+-
+-	return;
+ }
+ 
+ void issue_p2p_provision_request(struct adapter *padapter, u8 *pssid, u8 ussidlen, u8 *pdev_raddr)
+@@ -3214,8 +3206,6 @@ void issue_p2p_provision_request(struct adapter *padapter, u8 *pssid, u8 ussidle
+ 	pattrib->last_txcmdsz = pattrib->pktlen;
+ 
+ 	dump_mgntframe(padapter, pmgntframe);
+-
+-	return;
+ }
+ 
+ static u8 is_matched_in_profilelist(u8 *peermacaddr, struct profile_info *profileinfo)
+@@ -3480,8 +3470,6 @@ void issue_probersp_p2p(struct adapter *padapter, unsigned char *da)
+ 	pattrib->last_txcmdsz = pattrib->pktlen;
+ 
+ 	dump_mgntframe(padapter, pmgntframe);
+-
+-	return;
+ }
+ 
+ static int _issue_probereq_p2p(struct adapter *padapter, u8 *da, int wait_ack)
+@@ -4813,8 +4801,6 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
+ 	pattrib->last_txcmdsz = pattrib->pktlen;
+ 
+ 	dump_mgntframe(padapter, pmgntframe);
+-
+-	return;
+ }
+ 
+ static int _issue_probereq(struct adapter *padapter, struct ndis_802_11_ssid *pssid, u8 *da, int wait_ack)
+@@ -5084,8 +5070,6 @@ void issue_auth(struct adapter *padapter, struct sta_info *psta, unsigned short
+ 	rtw_wep_encrypt(padapter, (u8 *)pmgntframe);
+ 	DBG_88E("%s\n", __func__);
+ 	dump_mgntframe(padapter, pmgntframe);
+-
+-	return;
+ }
+ 
+ void issue_asocrsp(struct adapter *padapter, unsigned short status, struct sta_info *pstat, int pkt_type)
+@@ -5556,8 +5540,6 @@ void issue_assocreq(struct adapter *padapter)
+ 		pmlmepriv->assoc_req = NULL;
+ 		pmlmepriv->assoc_req_len = 0;
+ 	}
+-
+-	return;
+ }
+ 
+ /* when wait_ack is ture, this function shoule be called at process context */
+@@ -6473,7 +6455,6 @@ void site_survey(struct adapter *padapter)
+ 			issue_action_BSSCoexistPacket(padapter);
  		}
  	}
+-	return;
+ }
  
-@@ -1599,7 +1488,6 @@ struct recv_frame *recvframe_chk_defrag(struct adapter *padapter, struct recv_fr
- 			list_add_tail(&pfhdr->list, phead);
+ /* collect bss info from Beacon and Probe request/response frames. */
+@@ -7028,8 +7009,6 @@ void report_survey_event(struct adapter *padapter, struct recv_frame *precv_fram
+ 	rtw_enqueue_cmd(pcmdpriv, pcmd_obj);
  
- 			/* call recvframe_defrag to defrag */
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("defrag: ismfrag=%d, fragnum=%d\n", ismfrag, fragnum));
- 			precv_frame = recvframe_defrag(padapter, pdefrag_q);
- 			prtnframe = precv_frame;
- 		} else {
-@@ -1607,14 +1495,12 @@ struct recv_frame *recvframe_chk_defrag(struct adapter *padapter, struct recv_fr
- 			if (precv_frame && pfree_recv_queue)
- 				rtw_free_recvframe(precv_frame, pfree_recv_queue);
- 			prtnframe = NULL;
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("Free because pdefrag_q==NULL: ismfrag=%d, fragnum=%d\n", ismfrag, fragnum));
+ 	pmlmeext->sitesurvey_res.bss_cnt++;
+-
+-	return;
+ }
+ 
+ void report_surveydone_event(struct adapter *padapter)
+@@ -7073,8 +7052,6 @@ void report_surveydone_event(struct adapter *padapter)
+ 	DBG_88E("survey done event(%x)\n", psurveydone_evt->bss_cnt);
+ 
+ 	rtw_enqueue_cmd(pcmdpriv, pcmd_obj);
+-
+-	return;
+ }
+ 
+ void report_join_res(struct adapter *padapter, int res)
+@@ -7123,8 +7100,6 @@ void report_join_res(struct adapter *padapter, int res)
+ 	rtw_joinbss_event_prehandle(padapter, (u8 *)&pjoinbss_evt->network);
+ 
+ 	rtw_enqueue_cmd(pcmdpriv, pcmd_obj);
+-
+-	return;
+ }
+ 
+ void report_del_sta_event(struct adapter *padapter, unsigned char *MacAddr, unsigned short reason)
+@@ -7179,8 +7154,6 @@ void report_del_sta_event(struct adapter *padapter, unsigned char *MacAddr, unsi
+ 	DBG_88E("report_del_sta_event: delete STA, mac_id =%d\n", mac_id);
+ 
+ 	rtw_enqueue_cmd(pcmdpriv, pcmd_obj);
+-
+-	return;
+ }
+ 
+ void report_add_sta_event(struct adapter *padapter, unsigned char *MacAddr, int cam_idx)
+@@ -7225,8 +7198,6 @@ void report_add_sta_event(struct adapter *padapter, unsigned char *MacAddr, int
+ 	DBG_88E("report_add_sta_event: add STA\n");
+ 
+ 	rtw_enqueue_cmd(pcmdpriv, pcmd_obj);
+-
+-	return;
+ }
+ 
+ /****************************************************************************
+@@ -7667,7 +7638,6 @@ void link_timer_hdl(struct adapter *padapter)
+ 		issue_assocreq(padapter);
+ 		set_link_timer(pmlmeext, REASSOC_TO);
+ 	}
+-	return;
+ }
+ 
+ void addba_timer_hdl(struct sta_info *psta)
+diff --git a/drivers/staging/r8188eu/core/rtw_p2p.c b/drivers/staging/r8188eu/core/rtw_p2p.c
+index ce30161535c1..c19360ea09a4 100644
+--- a/drivers/staging/r8188eu/core/rtw_p2p.c
++++ b/drivers/staging/r8188eu/core/rtw_p2p.c
+@@ -312,8 +312,6 @@ static void issue_p2p_provision_resp(struct wifidirect_info *pwdinfo, u8 *raddr,
+ 	pattrib->last_txcmdsz = pattrib->pktlen;
+ 
+ 	dump_mgntframe(padapter, pmgntframe);
+-
+-	return;
+ }
+ 
+ static void issue_p2p_presence_resp(struct wifidirect_info *pwdinfo, u8 *da, u8 status, u8 dialogToken)
+diff --git a/drivers/staging/r8188eu/core/rtw_pwrctrl.c b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
+index d67eeb045002..80268a7d4388 100644
+--- a/drivers/staging/r8188eu/core/rtw_pwrctrl.c
++++ b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
+@@ -189,7 +189,6 @@ void rtw_ps_processor(struct adapter *padapter)
+ exit:
+ 	rtw_set_pwr_state_check_timer(&padapter->pwrctrlpriv);
+ 	pwrpriv->ps_processing = false;
+-	return;
+ }
+ 
+ static void pwr_state_check_handler(struct timer_list *t)
+diff --git a/drivers/staging/r8188eu/core/rtw_security.c b/drivers/staging/r8188eu/core/rtw_security.c
+index 66c730a5d754..df8107a0f5f2 100644
+--- a/drivers/staging/r8188eu/core/rtw_security.c
++++ b/drivers/staging/r8188eu/core/rtw_security.c
+@@ -180,8 +180,6 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
+ 				 &crc, &payload[length-4]));
  		}
  	}
- 
- 	if ((prtnframe != NULL) && (prtnframe->attrib.privacy)) {
- 		/* after defrag we must check tkip mic code */
- 		if (recvframe_chkmic(padapter,  prtnframe) == _FAIL) {
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("recvframe_chkmic(padapter,  prtnframe)==_FAIL\n"));
- 			if (precv_frame && pfree_recv_queue)
- 				rtw_free_recvframe(prtnframe, pfree_recv_queue);
- 			prtnframe = NULL;
-@@ -1831,9 +1717,6 @@ static int recv_indicatepkts_in_order(struct adapter *padapter, struct recv_reor
- 		pattrib = &prframe->attrib;
- 
- 		if (!SN_LESS(preorder_ctrl->indicate_seq, pattrib->seq_num)) {
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_notice_,
--				 ("recv_indicatepkts_in_order: indicate=%d seq=%d amsdu=%d\n",
--				  preorder_ctrl->indicate_seq, pattrib->seq_num, pattrib->amsdu));
- 			plist = plist->next;
- 			list_del_init(&(prframe->list));
- 
-@@ -1878,9 +1761,6 @@ static int recv_indicatepkt_reorder(struct adapter *padapter, struct recv_frame
- 		if (pattrib->qos != 1) {
- 			if (!padapter->bDriverStopped &&
- 			    !padapter->bSurpriseRemoved) {
--				RT_TRACE(_module_rtl871x_recv_c_, _drv_notice_,
--					 ("@@@@  recv_indicatepkt_reorder -recv_func recv_indicatepkt\n"));
 -
- 				rtw_recv_indicatepkt(padapter, prframe);
- 				return _SUCCESS;
- 			}
-@@ -1908,10 +1788,6 @@ static int recv_indicatepkt_reorder(struct adapter *padapter, struct recv_frame
+-	return;
+ }
  
- 	spin_lock_bh(&ppending_recvframe_queue->lock);
- 
--	RT_TRACE(_module_rtl871x_recv_c_, _drv_notice_,
--		 ("recv_indicatepkt_reorder: indicate=%d seq=%d\n",
--		  preorder_ctrl->indicate_seq, pattrib->seq_num));
+ /* 3		===== TKIP related ===== */
+diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+index db133ffad8f9..4bc42f18d6cc 100644
+--- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
++++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+@@ -648,8 +648,6 @@ void WMMOnAssocRsp(struct adapter *padapter)
+ 		pxmitpriv->wmm_para_seq[i] = inx[i];
+ 		DBG_88E("wmm_para_seq(%d): %d\n", i, pxmitpriv->wmm_para_seq[i]);
+ 	}
 -
- 	/* s2. check if winstart_b(indicate_seq) needs to been updated */
- 	if (!check_indicate_seq(preorder_ctrl, pattrib->seq_num))
- 		goto _err_exit;
-@@ -1988,20 +1864,14 @@ static int process_recv_indicatepkts(struct adapter *padapter, struct recv_frame
- 		}
- 	} else { /* B/G mode */
- 		retval = wlanhdr_to_ethhdr (prframe);
--		if (retval != _SUCCESS) {
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("wlanhdr_to_ethhdr: drop pkt\n"));
-+		if (retval != _SUCCESS)
- 			return retval;
--		}
+-	return;
+ }
  
- 		if ((!padapter->bDriverStopped) &&
- 		    (!padapter->bSurpriseRemoved)) {
- 			/* indicate this recv_frame */
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_notice_, ("@@@@ process_recv_indicatepkts- recv_func recv_indicatepkt\n"));
- 			rtw_recv_indicatepkt(padapter, prframe);
- 		} else {
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_notice_, ("@@@@ process_recv_indicatepkts- recv_func free_indicatepkt\n"));
+ static void bwmode_update_check(struct adapter *padapter, struct ndis_802_11_var_ie *pIE)
+@@ -777,7 +775,6 @@ void HT_caps_handler(struct adapter *padapter, struct ndis_802_11_var_ie *pIE)
+ 		else
+ 			pmlmeinfo->HT_caps.u.HT_cap_element.MCS_rate[i] &= MCS_rate_2R[i];
+ 	}
+-	return;
+ }
+ 
+ void HT_info_handler(struct adapter *padapter, struct ndis_802_11_var_ie *pIE)
+@@ -798,7 +795,6 @@ void HT_info_handler(struct adapter *padapter, struct ndis_802_11_var_ie *pIE)
+ 
+ 	pmlmeinfo->HT_info_enable = 1;
+ 	memcpy(&(pmlmeinfo->HT_info), pIE->data, pIE->Length);
+-	return;
+ }
+ 
+ void HTOnAssocRsp(struct adapter *padapter)
+diff --git a/drivers/staging/r8188eu/hal/odm_RTL8188E.c b/drivers/staging/r8188eu/hal/odm_RTL8188E.c
+index 62219a908097..03fe29e16f1d 100644
+--- a/drivers/staging/r8188eu/hal/odm_RTL8188E.c
++++ b/drivers/staging/r8188eu/hal/odm_RTL8188E.c
+@@ -345,5 +345,4 @@ bool ODM_DynamicPrimaryCCA_DupRTS(struct odm_dm_struct *dm_odm)
+ 
+ void odm_DynamicPrimaryCCA(struct odm_dm_struct *dm_odm)
+ {
+-	return;
+ }
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_dm.c b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
+index 0e264c39d636..b5f42127a751 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_dm.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
+@@ -182,7 +182,6 @@ void rtl8188e_HalDmWatchDog(struct adapter *Adapter)
+ skip_dm:
+ 	/*  Check GPIO to determine current RF on/off and Pbc status. */
+ 	/*  Check Hardware Radio ON/OFF or not */
+-	return;
+ }
+ 
+ void rtl8188e_init_dm_priv(struct adapter *Adapter)
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_mp.c b/drivers/staging/r8188eu/hal/rtl8188e_mp.c
+index 510906cc6007..a7893aa469ac 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_mp.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_mp.c
+@@ -67,8 +67,6 @@ void Hal_mpt_SwitchRfSetting(struct adapter *pAdapter)
+ 		pmp->MptCtx.backup0x52_RF_B = (u8)PHY_QueryRFReg(pAdapter, RF_PATH_B, RF_0x52, 0x000F0);
+ 		PHY_SetRFReg(pAdapter, RF_PATH_A, RF_0x52, 0x000F0, 0xD);
+ 		PHY_SetRFReg(pAdapter, RF_PATH_B, RF_0x52, 0x000F0, 0xD);
 -
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_notice_, ("recv_func:bDriverStopped(%d) OR bSurpriseRemoved(%d)", padapter->bDriverStopped, padapter->bSurpriseRemoved));
- 			retval = _FAIL;
- 			return retval;
- 		}
-@@ -2024,7 +1894,6 @@ static int recv_func_prehandle(struct adapter *padapter, struct recv_frame *rfra
- 			padapter->mppriv.rx_pktcount++;
+-	return;
+ }
+ /*---------------------------hal\rtl8192c\MPT_Phy.c---------------------------*/
  
- 		if (check_fwstate(pmlmepriv, WIFI_MP_LPBK_STATE) == false) {
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_alert_, ("MP - Not in loopback mode , drop pkt\n"));
- 			ret = _FAIL;
- 			rtw_free_recvframe(rframe, pfree_recv_queue);/* free this recv_frame */
- 			goto exit;
-@@ -2034,7 +1903,6 @@ static int recv_func_prehandle(struct adapter *padapter, struct recv_frame *rfra
- 	/* check the frame crtl field and decache */
- 	ret = validate_recv_frame(padapter, rframe);
- 	if (ret != _SUCCESS) {
--		RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("recv_func: validate_recv_frame fail! drop pkt\n"));
- 		rtw_free_recvframe(rframe, pfree_recv_queue);/* free this recv_frame */
- 		goto exit;
- 	}
-@@ -2055,20 +1923,16 @@ static int recv_func_posthandle(struct adapter *padapter, struct recv_frame *prf
+diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+index bc7f4bd7ce0b..ffa2f150f937 100644
+--- a/drivers/staging/r8188eu/os_dep/usb_intf.c
++++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+@@ -808,8 +808,6 @@ static void rtw_dev_remove(struct usb_interface *pusb_intf)
  
- 	prframe = decryptor(padapter, prframe);
- 	if (prframe == NULL) {
--		RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("decryptor: drop pkt\n"));
- 		ret = _FAIL;
- 		goto _recv_data_drop;
- 	}
+ 	RT_TRACE(_module_hci_intfs_c_, _drv_err_, ("-dev_remove()\n"));
+ 	DBG_88E("-r871xu_dev_remove, done\n");
+-
+-	return;
+ }
  
- 	prframe = recvframe_chk_defrag(padapter, prframe);
--	if (prframe == NULL) {
--		RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("recvframe_chk_defrag: drop pkt\n"));
-+	if (prframe == NULL)
- 		goto _recv_data_drop;
--	}
- 
- 	prframe = portctrl(padapter, prframe);
- 	if (prframe == NULL) {
--		RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("portctrl: drop pkt\n"));
- 		ret = _FAIL;
- 		goto _recv_data_drop;
- 	}
-@@ -2077,7 +1941,6 @@ static int recv_func_posthandle(struct adapter *padapter, struct recv_frame *prf
- 
- 	ret = process_recv_indicatepkts(padapter, prframe);
- 	if (ret != _SUCCESS) {
--		RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("recv_func: process_recv_indicatepkts fail!\n"));
- 		rtw_free_recvframe(orig_prframe, pfree_recv_queue);/* free this recv_frame */
- 		goto _recv_data_drop;
- 	}
-@@ -2149,10 +2012,8 @@ s32 rtw_recv_entry(struct recv_frame *precvframe)
- 	precvpriv = &padapter->recvpriv;
- 
- 	ret = recv_func(padapter, precvframe);
--	if (ret == _FAIL) {
--		RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("rtw_recv_entry: recv_func return fail!!!\n"));
-+	if (ret == _FAIL)
- 		goto _recv_entry_drop;
--	}
- 
- 	precvpriv->rx_pkts++;
- 
+ static int __init rtw_drv_entry(void)
 -- 
-2.31.1
+2.32.0
 
