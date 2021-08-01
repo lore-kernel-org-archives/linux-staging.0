@@ -1,50 +1,50 @@
 Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2658C3484
-	for <linux-staging@lists.linux.dev>; Sun,  1 Aug 2021 19:04:49 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id n12so18797669wrr.2
-        for <linux-staging@lists.linux.dev>; Sun, 01 Aug 2021 12:04:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A77DA3484
+	for <linux-staging@lists.linux.dev>; Sun,  1 Aug 2021 19:04:50 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id b11so13451215wrx.6
+        for <linux-staging@lists.linux.dev>; Sun, 01 Aug 2021 12:04:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=kdV8/s2ZaGPcTKUx15rayYaL1wTrixDIcE4vWJaabZA=;
-        b=JrbrLlsAYrGkATQSUcuiwomKZxeBmcauJIKTu00+jlrEkdV01KWPzVQbI1eLZ53ack
-         jD5G9Fjct+QaUjVmXLRdGm5adnDZsYIoVXrCs7t+cvwXMfCAtft4/Spmyh3abibtNsXO
-         9Ud7ABQVWQyCgyzUhWAFKzMQaVR4ran/nDTAbnf/pF5sZjRBNDsLW0arPh3ytIHY8K7j
-         qxLIarH0rXeVk945ReKOzjLuKtdT6N5R0A+QkQ8j2wyUT+HUQuKrGpfuNjY0p9SdxGLg
-         77ZeTYjSiVWiaK2SsLFQFb4rHc/Jzba0Pzzf9o/O/QKFfjI11Zl3WRwCznCgDIeZnSjW
-         U9sg==
+        bh=83HC7JvFVW2sV07in/PmMdubKKXvYlyr0pMfQCZB81c=;
+        b=WDQFnlnfgGs5XtiqdX8NGdsLTgzMW2UB9G0XfNprMQXG6cVI7ADsjp3XK5h1+yRkex
+         zrfkbvVNBjGTcWh1sM9PsE7hfGdk2U3OIgg28+UNdKWXKvPLqbjA/XbQorraH5I6khnJ
+         hCC2gpsMmyH7MSsG2E5VLDHwtN6o5u/fvL6fzgKUVUnyBzydc/zgAZltul/uy8j+mCud
+         b/FxL8fsLTOAiS3yw6hRzSSilRbJp5vPkxdFRg2wdj3DFQnqgIX5QlU41K5u2sOqi7Mi
+         rtdeePG9OoXpIES2P9BH2Bho1jUdH2Z0e7brcR3FTZuEd+dBynzDynEJzkHkwR3mA9Ld
+         Q+aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kdV8/s2ZaGPcTKUx15rayYaL1wTrixDIcE4vWJaabZA=;
-        b=UhObl8oXULRGZxUoNkTDrUx8AniCD1PPWORLo3v+4852h7NCcXTeX3zoYnv+TmBqaY
-         ubyQbIcVbzrFjyImZ04vokJ+LAr1vDdj1UDlx4B/40+KsqqLtMjpGRy5Xhx6a8Zbdm6V
-         CWIdPD8kY11NOQ0dQDiDNnGaPvsI5uQV5esMvNrcJyCUIROAiFmDcsoW4jlWwuV5pO24
-         nBXMIw4YfBMT2hiopEEWWYOhozRadTklCUjlVhuAWj5Trr0JqgrycEYhYqesqrdoDFDC
-         hI0nFNo2PKM+C4NNeL32DlGrVCmxkqsdGs8dnol2Ht039rk7EyvI/iY1lddBazzWDNxz
-         3osA==
-X-Gm-Message-State: AOAM532vF2Hrb63d5YxrS2RZ4JEUqYB4zpl6Un1lRI1bfExF8aD9eUo2
-	vZmS7ARxJbsed2WjTL8lKm4SwQ==
-X-Google-Smtp-Source: ABdhPJzRZKWMkdgyLLV5rr5ehzTGnvsBpCYMMPh3BkXCR2VkHdbZl0N+n/agw5mFTPhGxGJfkl37xg==
-X-Received: by 2002:a5d:4e91:: with SMTP id e17mr13794723wru.7.1627844687490;
-        Sun, 01 Aug 2021 12:04:47 -0700 (PDT)
+        bh=83HC7JvFVW2sV07in/PmMdubKKXvYlyr0pMfQCZB81c=;
+        b=RCKetBA/mvsuyoZKZrF7u8vmFat5uBAwTH2DF8vYuFhJS9VXffEo4HRN97RGbM2UDG
+         a7JNBobHMM29okAJgCcb3VldedQ93q8tbZmTWZYYm5K0KmqwS/tmDTixsmT0kYHt8vMK
+         +sVmpuhrPAV9Nw6KOqgezZCc2O+KggHn2nBqPOncmkZ7xhvpPyCkAsw93X0OTfKeQVF4
+         +I9by3W2yFDIXrToHkJYt0gm0wbFMSdyuEwBoIDaslTTV/yoEWw4Cvcf8uLluGb0Qfy2
+         7LFzwVc0Vf8nDmzKF8y3N4KuqP4LEGArKT7gAbFALc5su3MIxlTe0zSMBjFdwJUwsaMB
+         SYvw==
+X-Gm-Message-State: AOAM531ZmxRQRpOxx9qYS2A4+j8ks0XMQMbZx8qj9e1pPELHpssZaCa8
+	sxLMj9cjVW/kgunlsM5pomwFNTc5K61zhS37
+X-Google-Smtp-Source: ABdhPJz85FBTzmumwSAruHV+QOCBcg/tJbgHuQhAdiWAvN60ID7trGSoGFE2DLZUo6C/9ukcTgpIoQ==
+X-Received: by 2002:a5d:6904:: with SMTP id t4mr13616906wru.187.1627844689060;
+        Sun, 01 Aug 2021 12:04:49 -0700 (PDT)
 Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
-        by smtp.gmail.com with ESMTPSA id c10sm8196026wmb.40.2021.08.01.12.04.46
+        by smtp.gmail.com with ESMTPSA id c10sm8196026wmb.40.2021.08.01.12.04.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Aug 2021 12:04:47 -0700 (PDT)
+        Sun, 01 Aug 2021 12:04:48 -0700 (PDT)
 From: Phillip Potter <phil@philpotter.co.uk>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	martin@kaiser.cx
-Subject: [PATCH 10/15] staging: r8188eu: remove RT_TRACE calls from core/rtw_security.c
-Date: Sun,  1 Aug 2021 20:04:32 +0100
-Message-Id: <20210801190437.82017-11-phil@philpotter.co.uk>
+Subject: [PATCH 12/15] staging: r8188eu: remove RT_TRACE calls from core/rtw_xmit.c
+Date: Sun,  1 Aug 2021 20:04:34 +0100
+Message-Id: <20210801190437.82017-13-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210801190437.82017-1-phil@philpotter.co.uk>
 References: <20210801190437.82017-1-phil@philpotter.co.uk>
@@ -56,140 +56,350 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove RT_TRACE macro calls from core/rtw_security.c, so that ultimately the
+Remove RT_TRACE macro calls from core/rtw_xmit.c, so that ultimately the
 macro definition itself can eventually be removed.
 
 Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 ---
- drivers/staging/r8188eu/core/rtw_security.c | 37 +--------------------
- 1 file changed, 1 insertion(+), 36 deletions(-)
+ drivers/staging/r8188eu/core/rtw_xmit.c | 92 ++-----------------------
+ 1 file changed, 7 insertions(+), 85 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_security.c b/drivers/staging/r8188eu/core/rtw_security.c
-index 2c1b9a6dcdf2..1305031c0908 100644
---- a/drivers/staging/r8188eu/core/rtw_security.c
-+++ b/drivers/staging/r8188eu/core/rtw_security.c
-@@ -170,15 +170,6 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
+diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+index 4a5393184737..9518ff6f457d 100644
+--- a/drivers/staging/r8188eu/core/rtw_xmit.c
++++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+@@ -76,7 +76,6 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
  
- 		/* calculate icv and compare the icv */
- 		crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
--
--		if (crc.f1[3] != payload[length-1] ||
--		    crc.f1[2] != payload[length-2] ||
--		    crc.f1[1] != payload[length-3] ||
--		    crc.f1[0] != payload[length-4]) {
--			RT_TRACE(_module_rtl871x_security_c_, _drv_err_,
--				 ("rtw_wep_decrypt:icv error crc (%4ph)!=payload (%4ph)\n",
--				 &crc, &payload[length-4]));
--		}
+ 	if (pxmitpriv->pallocated_frame_buf  == NULL) {
+ 		pxmitpriv->pxmit_frame_buf = NULL;
+-		RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("alloc xmit_frame fail!\n"));
+ 		res = _FAIL;
+ 		goto exit;
  	}
+@@ -113,7 +112,6 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+ 	pxmitpriv->pallocated_xmitbuf = rtw_zvmalloc(NR_XMITBUFF * sizeof(struct xmit_buf) + 4);
  
- 	return;
-@@ -556,8 +547,6 @@ u32	rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 			stainfo = rtw_get_stainfo(&padapter->stapriv, &pattrib->ra[0]);
+ 	if (pxmitpriv->pallocated_xmitbuf  == NULL) {
+-		RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("alloc xmit_buf fail!\n"));
+ 		res = _FAIL;
+ 		goto exit;
+ 	}
+@@ -155,7 +153,6 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+ 	pxmitpriv->pallocated_xmit_extbuf = rtw_zvmalloc(num_xmit_extbuf * sizeof(struct xmit_buf) + 4);
  
- 		if (stainfo != NULL) {
--			RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("rtw_tkip_encrypt: stainfo!= NULL!!!\n"));
--
- 			if (IS_MCAST(pattrib->ra))
- 				prwskey = psecuritypriv->dot118021XGrpKey[psecuritypriv->dot118021XGrpKeyid].skey;
- 			else
-@@ -576,9 +565,6 @@ u32	rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 
- 				if ((curfragnum+1) == pattrib->nr_frags) {	/* 4 the last fragment */
- 					length = pattrib->last_txcmdsz-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
--					RT_TRACE(_module_rtl871x_security_c_, _drv_info_,
--						 ("pattrib->iv_len=%x, pattrib->icv_len=%x\n",
--						 pattrib->iv_len, pattrib->icv_len));
- 					crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
- 
- 					arcfour_init(&mycontext, rc4key, 16);
-@@ -597,7 +583,6 @@ u32	rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 				}
+ 	if (pxmitpriv->pallocated_xmit_extbuf  == NULL) {
+-		RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("alloc xmit_extbuf fail!\n"));
+ 		res = _FAIL;
+ 		goto exit;
+ 	}
+@@ -482,13 +479,11 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 		if (pktfile.pkt_len > 282) {/* MINIMUM_DHCP_PACKET_SIZE) { */
+ 			if (ETH_P_IP == pattrib->ether_type) {/*  IP header */
+ 				if (((tmp[21] == 68) && (tmp[23] == 67)) ||
+-				    ((tmp[21] == 67) && (tmp[23] == 68))) {
++				    ((tmp[21] == 67) && (tmp[23] == 68)))
+ 					/*  68 : UDP BOOTP client */
+ 					/*  67 : UDP BOOTP server */
+-					RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("====================== update_attrib: get DHCP Packet\n"));
+ 					/*  Use low rate to send DHCP packet. */
+ 					pattrib->dhcp_pkt = 1;
+-				}
  			}
- 		} else {
--			RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("rtw_tkip_encrypt: stainfo==NULL!!!\n"));
- 			res = _FAIL;
  		}
+ 	} else if (0x888e == pattrib->ether_type) {
+@@ -510,7 +505,6 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 	} else {
+ 		psta = rtw_get_stainfo(pstapriv, pattrib->ra);
+ 		if (psta == NULL) { /*  if we cannot get psta => drrp the pkt */
+-			RT_TRACE(_module_rtl871x_xmit_c_, _drv_alert_, ("\nupdate_attrib => get sta_info fail, ra: %pM\n", (pattrib->ra)));
+ 			res = _FAIL;
+ 			goto exit;
+ 		} else if ((check_fwstate(pmlmepriv, WIFI_AP_STATE) == true) && (!(psta->state & _FW_LINKED))) {
+@@ -525,7 +519,6 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 		pattrib->psta = psta;
+ 	} else {
+ 		/*  if we cannot get psta => drop the pkt */
+-		RT_TRACE(_module_rtl871x_xmit_c_, _drv_alert_, ("\nupdate_attrib => get sta_info fail, ra:%pM\n", (pattrib->ra)));
+ 		res = _FAIL;
+ 		goto exit;
  	}
-@@ -640,7 +625,6 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
- 				}
- 				prwskey = psecuritypriv->dot118021XGrpKey[prxattrib->key_index].skey;
- 			} else {
--				RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("rtw_tkip_decrypt: stainfo!= NULL!!!\n"));
- 				prwskey = &stainfo->dot118021x_UncstKey.skey[0];
- 			}
+@@ -551,12 +544,9 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 	}
  
-@@ -666,14 +650,9 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
- 			if (crc.f1[3] != payload[length-1] ||
- 			    crc.f1[2] != payload[length-2] ||
- 			    crc.f1[1] != payload[length-3] ||
--			    crc.f1[0] != payload[length-4]) {
--				RT_TRACE(_module_rtl871x_security_c_, _drv_err_,
--					 ("rtw_wep_decrypt:icv error crc (%4ph)!=payload (%4ph)\n",
--					 &crc, &payload[length-4]));
-+			    crc.f1[0] != payload[length-4])
- 				res = _FAIL;
+ 	if (psta->ieee8021x_blocked) {
+-		RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("\n psta->ieee8021x_blocked == true\n"));
+-
+ 		pattrib->encrypt = 0;
+ 
+ 		if ((pattrib->ether_type != 0x888e) && !check_fwstate(pmlmepriv, WIFI_MP_STATE)) {
+-			RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("\npsta->ieee8021x_blocked == true,  pattrib->ether_type(%.4x) != 0x888e\n", pattrib->ether_type));
+ 			res = _FAIL;
+ 			goto exit;
+ 		}
+@@ -592,15 +582,11 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 		pattrib->icv_len = 4;
+ 
+ 		if (padapter->securitypriv.busetkipkey == _FAIL) {
+-			RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_,
+-				 ("\npadapter->securitypriv.busetkipkey(%d) == _FAIL drop packet\n",
+-				 padapter->securitypriv.busetkipkey));
+ 			res = _FAIL;
+ 			goto exit;
+ 		}
+ 		break;
+ 	case _AES_:
+-		RT_TRACE(_module_rtl871x_xmit_c_, _drv_info_, ("pattrib->encrypt=%d (_AES_)\n", pattrib->encrypt));
+ 		pattrib->iv_len = 8;
+ 		pattrib->icv_len = 8;
+ 		break;
+@@ -610,20 +596,11 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 		break;
+ 	}
+ 
+-	RT_TRACE(_module_rtl871x_xmit_c_, _drv_info_,
+-		 ("update_attrib: encrypt=%d  securitypriv.sw_encrypt=%d\n",
+-		  pattrib->encrypt, padapter->securitypriv.sw_encrypt));
+-
+ 	if (pattrib->encrypt &&
+-	    (padapter->securitypriv.sw_encrypt || !psecuritypriv->hw_decrypted)) {
++	    (padapter->securitypriv.sw_encrypt || !psecuritypriv->hw_decrypted))
+ 		pattrib->bswenc = true;
+-		RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_,
+-			 ("update_attrib: encrypt=%d securitypriv.hw_decrypted=%d bswenc = true\n",
+-			  pattrib->encrypt, padapter->securitypriv.sw_encrypt));
+-	} else {
++	else
+ 		pattrib->bswenc = false;
+-		RT_TRACE(_module_rtl871x_xmit_c_, _drv_info_, ("update_attrib: bswenc = false\n"));
+-	}
+ 
+ 	rtw_set_tx_chksum_offload(pkt, pattrib);
+ 
+@@ -700,17 +677,8 @@ static s32 xmitframe_addmic(struct adapter *padapter, struct xmit_frame *pxmitfr
+ 
+ 			for (curfragnum = 0; curfragnum < pattrib->nr_frags; curfragnum++) {
+ 				payload = (u8 *)RND4((size_t)(payload));
+-				RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_,
+-					 ("=== curfragnum=%d, pframe = 0x%.2x, 0x%.2x, 0x%.2x, 0x%.2x, 0x%.2x, 0x%.2x, 0x%.2x, 0x%.2x,!!!\n",
+-					 curfragnum, *payload, *(payload+1),
+-					 *(payload+2), *(payload+3),
+-					 *(payload+4), *(payload+5),
+-					 *(payload+6), *(payload+7)));
+ 
+ 				payload = payload+pattrib->hdrlen+pattrib->iv_len;
+-				RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_,
+-					 ("curfragnum=%d pattrib->hdrlen=%d pattrib->iv_len=%d",
+-					 curfragnum, pattrib->hdrlen, pattrib->iv_len));
+ 				if ((curfragnum+1) == pattrib->nr_frags) {
+ 					length = pattrib->last_txcmdsz-pattrib->hdrlen-pattrib->iv_len-((pattrib->bswenc) ? pattrib->icv_len : 0);
+ 					rtw_secmicappend(&micdata, payload, length);
+@@ -719,32 +687,16 @@ static s32 xmitframe_addmic(struct adapter *padapter, struct xmit_frame *pxmitfr
+ 					length = pxmitpriv->frag_len-pattrib->hdrlen-pattrib->iv_len-((pattrib->bswenc) ? pattrib->icv_len : 0);
+ 					rtw_secmicappend(&micdata, payload, length);
+ 					payload = payload+length+pattrib->icv_len;
+-					RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("curfragnum=%d length=%d pattrib->icv_len=%d", curfragnum, length, pattrib->icv_len));
+ 				}
+ 			}
+ 			rtw_secgetmic(&micdata, &(mic[0]));
+-			RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("xmitframe_addmic: before add mic code!!!\n"));
+-			RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("xmitframe_addmic: pattrib->last_txcmdsz=%d!!!\n", pattrib->last_txcmdsz));
+-			RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("xmitframe_addmic: mic[0]=0x%.2x , mic[1]=0x%.2x , mic[2]= 0x%.2x, mic[3]=0x%.2x\n\
+-  mic[4]= 0x%.2x , mic[5]= 0x%.2x , mic[6]= 0x%.2x , mic[7]= 0x%.2x !!!!\n",
+-				mic[0], mic[1], mic[2], mic[3], mic[4], mic[5], mic[6], mic[7]));
+ 			/* add mic code  and add the mic code length in last_txcmdsz */
+ 
+ 			memcpy(payload, &(mic[0]), 8);
+ 			pattrib->last_txcmdsz += 8;
+ 
+-			RT_TRACE(_module_rtl871x_xmit_c_, _drv_info_, ("\n ======== last pkt ========\n"));
+ 			payload = payload-pattrib->last_txcmdsz+8;
+-			for (curfragnum = 0; curfragnum < pattrib->last_txcmdsz; curfragnum = curfragnum+8)
+-					RT_TRACE(_module_rtl871x_xmit_c_, _drv_info_,
+-						 (" %.2x,  %.2x,  %.2x,  %.2x,  %.2x,  %.2x,  %.2x,  %.2x ",
+-						 *(payload+curfragnum), *(payload+curfragnum+1),
+-						 *(payload+curfragnum+2), *(payload+curfragnum+3),
+-						 *(payload+curfragnum+4), *(payload+curfragnum+5),
+-						 *(payload+curfragnum+6), *(payload+curfragnum+7)));
+-			} else {
+-				RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("xmitframe_addmic: rtw_get_stainfo==NULL!!!\n"));
 -			}
- 		} else {
--			RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("rtw_tkip_decrypt: stainfo==NULL!!!\n"));
- 			res = _FAIL;
- 		}
++		}
  	}
-@@ -1218,8 +1197,6 @@ u32	rtw_aes_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 			stainfo = rtw_get_stainfo(&padapter->stapriv, &pattrib->ra[0]);
  
- 		if (stainfo != NULL) {
--			RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("rtw_aes_encrypt: stainfo!= NULL!!!\n"));
--
- 			if (IS_MCAST(pattrib->ra))
- 				prwskey = psecuritypriv->dot118021XGrpKey[psecuritypriv->dot118021XGrpKeyid].skey;
- 			else
-@@ -1238,7 +1215,6 @@ u32	rtw_aes_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 				}
- 			}
- 		} else {
--			RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("rtw_aes_encrypt: stainfo==NULL!!!\n"));
- 			res = _FAIL;
+ 	return _SUCCESS;
+@@ -755,7 +707,6 @@ static s32 xmitframe_swencrypt(struct adapter *padapter, struct xmit_frame *pxmi
+ 	struct	pkt_attrib	 *pattrib = &pxmitframe->attrib;
+ 
+ 	if (pattrib->bswenc) {
+-		RT_TRACE(_module_rtl871x_xmit_c_, _drv_alert_, ("### xmitframe_swencrypt\n"));
+ 		switch (pattrib->encrypt) {
+ 		case _WEP40_:
+ 		case _WEP104_:
+@@ -770,8 +721,6 @@ static s32 xmitframe_swencrypt(struct adapter *padapter, struct xmit_frame *pxmi
+ 		default:
+ 			break;
  		}
+-	} else {
+-		RT_TRACE(_module_rtl871x_xmit_c_, _drv_notice_, ("### xmitframe_hwencrypt\n"));
  	}
-@@ -1430,9 +1406,6 @@ static int aes_decipher(u8 *key, uint	hdrlen,
- 	/* compare the mic */
- 	for (i = 0; i < 8; i++) {
- 		if (pframe[hdrlen+8+plen-8+i] != message[hdrlen+8+plen-8+i]) {
--			RT_TRACE(_module_rtl871x_security_c_, _drv_err_,
--				 ("aes_decipher:mic check error mic[%d]: pframe(%x)!=message(%x)\n",
--				 i, pframe[hdrlen+8+plen-8+i], message[hdrlen+8+plen-8+i]));
- 			DBG_88E("aes_decipher:mic check error mic[%d]: pframe(%x)!=message(%x)\n",
- 				i, pframe[hdrlen+8+plen-8+i], message[hdrlen+8+plen-8+i]);
- 			res = _FAIL;
-@@ -1457,8 +1430,6 @@ u32	rtw_aes_decrypt(struct adapter *padapter, u8 *precvframe)
- 	if ((prxattrib->encrypt == _AES_)) {
- 		stainfo = rtw_get_stainfo(&padapter->stapriv, &prxattrib->ta[0]);
- 		if (stainfo != NULL) {
--			RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("rtw_aes_decrypt: stainfo!= NULL!!!\n"));
--
- 			if (IS_MCAST(prxattrib->ra)) {
- 				/* in concurrent we should use sw descrypt in group key, so we remove this message */
- 				if (!psecuritypriv->binstallGrpkey) {
-@@ -1479,7 +1450,6 @@ u32	rtw_aes_decrypt(struct adapter *padapter, u8 *precvframe)
- 			length = ((struct recv_frame *)precvframe)->len-prxattrib->hdrlen-prxattrib->iv_len;
- 			res = aes_decipher(prwskey, prxattrib->hdrlen, pframe, length);
+ 
+ 	return _SUCCESS;
+@@ -836,7 +785,6 @@ s32 rtw_make_wlanhdr (struct adapter *padapter, u8 *hdr, struct pkt_attrib *patt
+ 			if (psta->qos_option)
+ 				qos_option = true;
  		} else {
--			RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("rtw_aes_encrypt: stainfo==NULL!!!\n"));
+-			RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("fw_state:%x is not allowed to xmit frame\n", get_fwstate(pmlmepriv)));
  			res = _FAIL;
+ 			goto exit;
  		}
+@@ -1007,7 +955,6 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ 	mem_start = pbuf_start +	hw_hdr_offset;
+ 
+ 	if (rtw_make_wlanhdr(padapter, mem_start, pattrib) == _FAIL) {
+-		RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("rtw_xmitframe_coalesce: rtw_make_wlanhdr fail; drop pkt\n"));
+ 		DBG_88E("rtw_xmitframe_coalesce: rtw_make_wlanhdr fail; drop pkt\n");
+ 		res = _FAIL;
+ 		goto exit;
+@@ -1056,10 +1003,6 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ 
+ 			memcpy(pframe, pattrib->iv, pattrib->iv_len);
+ 
+-			RT_TRACE(_module_rtl871x_xmit_c_, _drv_notice_,
+-				 ("rtw_xmitframe_coalesce: keyid=%d pattrib->iv[3]=%.2x pframe=%.2x %.2x %.2x %.2x\n",
+-				  padapter->securitypriv.dot11PrivacyKeyIndex, pattrib->iv[3], *pframe, *(pframe+1), *(pframe+2), *(pframe+3)));
+-
+ 			pframe += pattrib->iv_len;
+ 
+ 			mpdu_len -= pattrib->iv_len;
+@@ -1100,8 +1043,6 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ 			ClearMFrag(mem_start);
+ 
+ 			break;
+-		} else {
+-			RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("%s: There're still something in packet!\n", __func__));
+ 		}
+ 
+ 		addr = (size_t)(pframe);
+@@ -1111,7 +1052,6 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
  	}
-@@ -1691,10 +1661,5 @@ void rtw_use_tkipkey_handler(void *FunctionContext)
+ 
+ 	if (xmitframe_addmic(padapter, pxmitframe) == _FAIL) {
+-		RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("xmitframe_addmic(padapter, pxmitframe) == _FAIL\n"));
+ 		DBG_88E("xmitframe_addmic(padapter, pxmitframe) == _FAIL\n");
+ 		res = _FAIL;
+ 		goto exit;
+@@ -1365,7 +1305,6 @@ struct xmit_frame *rtw_alloc_xmitframe(struct xmit_priv *pxmitpriv)/* _queue *pf
+ 	spin_lock_bh(&pfree_xmit_queue->lock);
+ 
+ 	if (list_empty(&pfree_xmit_queue->queue)) {
+-		RT_TRACE(_module_rtl871x_xmit_c_, _drv_info_, ("rtw_alloc_xmitframe:%d\n", pxmitpriv->free_xmitframe_cnt));
+ 		pxframe =  NULL;
+ 	} else {
+ 		phead = get_list_head(pfree_xmit_queue);
+@@ -1380,8 +1319,6 @@ struct xmit_frame *rtw_alloc_xmitframe(struct xmit_priv *pxmitpriv)/* _queue *pf
+ 	if (pxframe !=  NULL) { /* default value setting */
+ 		pxmitpriv->free_xmitframe_cnt--;
+ 
+-		RT_TRACE(_module_rtl871x_xmit_c_, _drv_info_, ("rtw_alloc_xmitframe():free_xmitframe_cnt=%d\n", pxmitpriv->free_xmitframe_cnt));
+-
+ 		pxframe->buf_addr = NULL;
+ 		pxframe->pxmitbuf = NULL;
+ 
+@@ -1408,10 +1345,8 @@ s32 rtw_free_xmitframe(struct xmit_priv *pxmitpriv, struct xmit_frame *pxmitfram
+ 	struct adapter *padapter = pxmitpriv->adapter;
+ 	struct sk_buff *pndis_pkt = NULL;
+ 
+-	if (pxmitframe == NULL) {
+-		RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("====== rtw_free_xmitframe():pxmitframe == NULL!!!!!!!!!!\n"));
++	if (pxmitframe == NULL)
+ 		goto exit;
+-	}
+ 
+ 	spin_lock_bh(&pfree_xmit_queue->lock);
+ 
+@@ -1425,7 +1360,6 @@ s32 rtw_free_xmitframe(struct xmit_priv *pxmitpriv, struct xmit_frame *pxmitfram
+ 	list_add_tail(&pxmitframe->list, get_list_head(pfree_xmit_queue));
+ 
+ 	pxmitpriv->free_xmitframe_cnt++;
+-	RT_TRACE(_module_rtl871x_xmit_c_, _drv_debug_, ("rtw_free_xmitframe():free_xmitframe_cnt=%d\n", pxmitpriv->free_xmitframe_cnt));
+ 
+ 	spin_unlock_bh(&pfree_xmit_queue->lock);
+ 
+@@ -1460,12 +1394,8 @@ void rtw_free_xmitframe_queue(struct xmit_priv *pxmitpriv, struct __queue *pfram
+ 
+ s32 rtw_xmitframe_enqueue(struct adapter *padapter, struct xmit_frame *pxmitframe)
  {
- 	struct adapter *padapter = (struct adapter *)FunctionContext;
+-	if (rtw_xmit_classifier(padapter, pxmitframe) == _FAIL) {
+-		RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_,
+-			 ("rtw_xmitframe_enqueue: drop xmit pkt for classifier fail\n"));
+-/* 		pxmitframe->pkt = NULL; */
++	if (rtw_xmit_classifier(padapter, pxmitframe) == _FAIL)
+ 		return _FAIL;
+-	}
  
--	RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("^^^rtw_use_tkipkey_handler ^^^\n"));
--
- 	padapter->securitypriv.busetkipkey = true;
--
--	RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("^^^rtw_use_tkipkey_handler padapter->securitypriv.busetkipkey=%d^^^\n", padapter->securitypriv.busetkipkey));
--
+ 	return _SUCCESS;
  }
+@@ -1552,27 +1482,23 @@ struct tx_servq *rtw_get_sta_pending(struct adapter *padapter, struct sta_info *
+ 	case 2:
+ 		ptxservq = &(psta->sta_xmitpriv.bk_q);
+ 		*(ac) = 3;
+-		RT_TRACE(_module_rtl871x_xmit_c_, _drv_info_, ("rtw_get_sta_pending : BK\n"));
+ 		break;
+ 	case 4:
+ 	case 5:
+ 		ptxservq = &(psta->sta_xmitpriv.vi_q);
+ 		*(ac) = 1;
+-		RT_TRACE(_module_rtl871x_xmit_c_, _drv_info_, ("rtw_get_sta_pending : VI\n"));
+ 		break;
+ 	case 6:
+ 	case 7:
+ 		ptxservq = &(psta->sta_xmitpriv.vo_q);
+ 		*(ac) = 0;
+-		RT_TRACE(_module_rtl871x_xmit_c_, _drv_info_, ("rtw_get_sta_pending : VO\n"));
+ 		break;
+ 	case 0:
+ 	case 3:
+ 	default:
+ 		ptxservq = &(psta->sta_xmitpriv.be_q);
+ 		*(ac) = 2;
+-		RT_TRACE(_module_rtl871x_xmit_c_, _drv_info_, ("rtw_get_sta_pending : BE\n"));
+-	break;
++		break;
+ 	}
+ 
+ 	return ptxservq;
+@@ -1601,7 +1527,6 @@ s32 rtw_xmit_classifier(struct adapter *padapter, struct xmit_frame *pxmitframe)
+ 	if (psta == NULL) {
+ 		res = _FAIL;
+ 		DBG_88E("rtw_xmit_classifier: psta == NULL\n");
+-		RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("rtw_xmit_classifier: psta == NULL\n"));
+ 		goto exit;
+ 	}
+ 
+@@ -1825,7 +1750,6 @@ static void do_queue_select(struct adapter	*padapter, struct pkt_attrib *pattrib
+ 	u8 qsel;
+ 
+ 	qsel = pattrib->priority;
+-	RT_TRACE(_module_rtl871x_xmit_c_, _drv_info_, ("### do_queue_select priority=%d , qsel = %d\n", pattrib->priority, qsel));
+ 
+ 	pattrib->qsel = qsel;
+ }
+@@ -1848,7 +1772,6 @@ s32 rtw_xmit(struct adapter *padapter, struct sk_buff **ppkt)
+ 
+ 	pxmitframe = rtw_alloc_xmitframe(pxmitpriv);
+ 	if (pxmitframe == NULL) {
+-		RT_TRACE(_module_xmit_osdep_c_, _drv_err_, ("rtw_xmit: no more pxmitframe\n"));
+ 		DBG_88E("DBG_TX_DROP_FRAME %s no more pxmitframe\n", __func__);
+ 		return -1;
+ 	}
+@@ -1868,7 +1791,6 @@ s32 rtw_xmit(struct adapter *padapter, struct sk_buff **ppkt)
+ 	res = update_attrib(padapter, *ppkt, &pxmitframe->attrib);
+ 
+ 	if (res == _FAIL) {
+-		RT_TRACE(_module_xmit_osdep_c_, _drv_err_, ("rtw_xmit: update attrib fail\n"));
+ 		rtw_free_xmitframe(pxmitpriv, pxmitframe);
+ 		return -1;
+ 	}
 -- 
 2.31.1
 
