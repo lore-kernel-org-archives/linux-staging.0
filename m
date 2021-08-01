@@ -1,84 +1,127 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01083481
-	for <linux-staging@lists.linux.dev>; Sun,  1 Aug 2021 13:34:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1627824855;
-	bh=Q/dcoSBUFR0wkRhCtWTaj2W+MgEtc+eWAxQm14Cb/Lc=;
-	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Off6RzThUjmsVS5ZtJbBRxOQDs1SmQwvn5QgY962YAs51ZTpHFTowGf1WC7Ei1FAO
-	 yIsLbSD75IwpasBqZzSHf8B3RNpo/KIhdE5OUeudiX0TcD0ev5fX59X2wy9G2J6gDQ
-	 0Zw8MorDm7sIK2BTzWyeyN2KE+3o59A+bpzyhJ3M=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from titan ([79.150.72.99]) by mail.gmx.net (mrgmx105
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1MKbkC-1mSxyd2auy-00KzLZ; Sun, 01
- Aug 2021 15:34:15 +0200
-Date: Sun, 1 Aug 2021 15:34:04 +0200
-From: Len Baker <len.baker@gmx.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Len Baker <len.baker@gmx.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Phil Reid <preid@electromag.com.au>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	dri-devel <dri-devel@lists.freedesktop.org>,
-	"open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A8593484
+	for <linux-staging@lists.linux.dev>; Sun,  1 Aug 2021 15:52:02 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id ca5so21976303pjb.5
+        for <linux-staging@lists.linux.dev>; Sun, 01 Aug 2021 08:52:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=xHYz6uN9LUWOmvY1GgfHO4Y8UXl1Yz9tQPohZSg/xdA=;
+        b=DIVTihfQx7ZoyF6uyVetp28JcN9ffC3/WRCuobr8y+uj5C1IXeaj0tGzXnLZQdyIzz
+         Q2Ia91APyDM+kAiL4nO6TNczvhaRF9BDpPA/Dcw2ZpcwKd0TsJwPceAKJDCSS8UfP3FB
+         nBpJFPR91l/Efd3YBzYgI0JANeJ+Kxr34XT4d98rvgKJynnsuREKt8bWit600vIbaIjW
+         RuC6fUrTgkKpkXKKvnHGnhVJFVUzqHjMBVGILSDgcyRNFj8weeGGgWixNoVg2x5SUOvU
+         RuTJuQ7w64Qxy/hEUaH9pB1w4d6PjA91W47m/Nq6QawzpIrtqx+0sDEdENvLM8dBIfMe
+         glLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=xHYz6uN9LUWOmvY1GgfHO4Y8UXl1Yz9tQPohZSg/xdA=;
+        b=kp5O+OD2yl45rlunmLIDr94E4Si01UlZzRxvJug2/JouOgukKLf4dfbIpF4Efxl/Zl
+         F2cg8kZ22emM+UIVGmOKvEvvYYZwN2i7RASOeiwmnZf7NM+AaWdRm4v8rjIYPqvnexGu
+         O9CZUPMIe7GWE/2q4Jme7Oeuh95nTA7J5HCRfAA9361fl36C3TI99hXLFPmYE+iN9ngp
+         vBcieLFiBtJuQoCSRyk0fBpOXm5YkeLJY3HirCgf5s9lHQV/7ZnrVFKZ1Bn9coKp/hLQ
+         W8L/kxg0r0nmuldn9z6HQqe2Q177YTME0OU1zrSGvz6wVa5/XcbcV8F4aNrqD9fyFXER
+         UV4g==
+X-Gm-Message-State: AOAM533jowL5dtAqWXWq2L4KosTrfu6nnv66GTCiye3znt6LgxFesQdA
+	RS5jz/P9aBeeY/F+o2sGXTg=
+X-Google-Smtp-Source: ABdhPJzRpZdLWngsKXPlPYXZ3ycUcVxOFOUrjpmiy1xtLZie17+yQVXoPRofZuvjmKHrUthDPtyLWg==
+X-Received: by 2002:a62:3342:0:b029:3b7:6395:a93 with SMTP id z63-20020a6233420000b02903b763950a93mr5305787pfz.71.1627833121661;
+        Sun, 01 Aug 2021 08:52:01 -0700 (PDT)
+Received: from jm.lan (1-171-223-196.dynamic-ip.hinet.net. [1.171.223.196])
+        by smtp.gmail.com with ESMTPSA id n33sm9579563pgm.55.2021.08.01.08.51.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Aug 2021 08:52:00 -0700 (PDT)
+From: Jhih-Ming Huang <fbihjmeric@gmail.com>
+To: gregkh@linuxfoundation.org,
+	fabioaiuto83@gmail.com,
+	ross.schm.dev@gmail.com,
+	maqianga@uniontech.com,
+	marcocesati@gmail.com,
 	linux-staging@lists.linux.dev,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 0/3] Remove all strcpy() uses
-Message-ID: <20210801133404.GA5988@titan>
-References: <20210801085155.3170-1-len.baker@gmx.com>
- <CAHp75VcD_Kqedpkw-Pj+uQbWqdu_9FhXqJS5TuGUPoVv2x45-Q@mail.gmail.com>
+	linux-kernel@vger.kernel.org
+Cc: Jhih-Ming Huang <fbihjmeric@gmail.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH v7] rtw_security: fix cast to restricted __le32
+Date: Sun,  1 Aug 2021 23:51:52 +0800
+Message-Id: <20210801155152.242089-1-fbihjmeric@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <YOIGbc2ymnWrThVK@kroah.com>
+References: <YOIGbc2ymnWrThVK@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHp75VcD_Kqedpkw-Pj+uQbWqdu_9FhXqJS5TuGUPoVv2x45-Q@mail.gmail.com>
-X-Provags-ID: V03:K1:4+Pp4U/a3eSnM89ROA2oEnBRHBcVjHUvh/sOFYn7YGYbhQXrOK3
- gIIzhRk1TOmkGk1sFHh2YVEYJjCu1Qso3Id/QdM0w58LyJbBIhqgHBWjfnAfzaG4/mbcDJZ
- rEwEZpDxC59TL9nSjLQbEIHAXdSmp47hSiul/4wX3151mcV8guZYKlnDmYdVsx1rnIhtdQT
- daY6wAb19kHUDxREuLOPg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:TOOnf/w1Jdk=:/0N54ezEkdw4FzS5U1m82p
- BYkyYs7ZB1sM1mtlLA0StOdcoX20D8NuiciAiVB1x24xveLcMHpzYqSNLknYDh5fiC36Ymu1d
- aGGW+Wb/gItkYj7w7T/TvYKhHJo5RaggnRNq9EuP+isCSYxLMQjU1l5r0jLNHqhGuY54S+M6s
- GEuM7J8VgACMNJXe+jxdYV/0ctHImxvZvJ/8GJNhxXKL/GMXQyAdjj1rf9e7Yj+Yt/vLbwVhK
- zD3NxNzjUReXeiiNhdq/m/USxW6uVPzV81hzEiEfFbXTZHsmQVIxD5k9Z91jgIEol5Xzhpwcj
- fNpnF35tBur3M8z3KHdGwNBtDkcQ6Zln9DnWFv1eu4dMiVlRVTcXfi9kYfouWARkr/xoXtgft
- R/1bRFS4r3zIXc23nbFniqL8J7YtO2ndH8p4EhaQLFG4CBrPOkZ+DQ3ZqshxSUjrUuO7uJSJ0
- vLb/B2OasUxn9GRBsA55qM0W2XDrlSQgtj3Hlw1lof54FUl3v4wg0K+ijPJn7jED2NBk5Wfks
- Z6GiZyKgnbShIJtW0mJGhF67ilRyNcNCWV690KUwx8zuSs79kgooEWfKaYy2ft22t1EW16y1S
- /MzYEzm9TdqzlPLVnZUS92b6JquQ0Fv80XAhF4O0FnWVvZGUw3lPbBPME5tYgxL/JocyVlkCh
- Zb4JtUtirKOARRBCAAjwltLdi4EAT77yB4COqp4/J/SnQcRa7pbeUKd3Al3rHMq82SJRSSR/B
- uUgHP9pKS2PxZ6Q7DENJKkbcOjlU9mxdlKnK33dd9uJTeINI2HZ2/79pbUhJtwY0+8hnglrQ7
- Fw8ZVHQJkEltHq0WRJhT6anNebqQseQsc0XUKCgt6kRvWuKEs+91ULK2l6h4BnGUCJ/B12CWu
- oFnPz6y/kv+U0Ayodd7JZ/ifwMSwlZF8SiEb/kDTIpqhAAq3+7QodfQD0/1F4z6tuyM9HnD3W
- QtUwfJlG8/tSawhQGkbOmF+k1dwvlbkcXX0h8Bm5E1D5Y0GZan/D6Y7JlG/5grkZlwvccCHA3
- 9kZar2RXyi+uNWu06pHCcsCBz60mhQie9tv8yABFEhyZug7RI9pxwRBYpDmJS2CmEraVnICcO
- BcTCpHvPf+Gzcu2uDSLHe7cAK7zfZ+wdGUO
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Andy,
+This patch fixes the sparse warning of fix cast to restricted __le32.
 
-On Sun, Aug 01, 2021 at 02:40:40PM +0300, Andy Shevchenko wrote:
-> On Sun, Aug 1, 2021 at 11:53 AM Len Baker <len.baker@gmx.com> wrote:
-> >
-> > strcpy() performs no bounds checking on the destination buffer. This
-> > could result in linear overflows beyond the end of the buffer, leading
-> > to all kinds of misbehaviors. So, this serie removes all strcpy uses
-> > from the "staging/fbtft" subsystem.
-> >
-> > Also, refactor the code a bit to follow the kernel coding-style and
-> > avoid unnecessary variable initialization.
->
-> I don't see patch 3 (even on lore.kernel.org).
+There was a change for replacing private CRC-32 routines with in kernel
+ones.
+However, the author used le32_to_cpu to convert crc32_le(), and we
+should use cpu_to_le32.
 
-Due to my email provider restrictions (number of emails per hour), I
-need to send an email every x time.
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Jhih-Ming Huang <fbihjmeric@gmail.com>
+---
+ changes from v6:
+   using get_unaligned_le32 to get the value and comparing it with crc,
+   instead of using memcmp with raw pointers.
 
-Regards,
-Len
+ drivers/staging/rtl8723bs/core/rtw_security.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index a99f439328f1..ff79e1aacd1a 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -92,7 +92,6 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
+ {
+ 	/*  exclude ICV */
+-	u8 crc[4];
+ 	signed int	length;
+ 	u32 keylength;
+ 	u8 *pframe, *payload, *iv, wepkey[16];
+@@ -119,10 +118,6 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
+ 		/* decrypt payload include icv */
+ 		arc4_setkey(ctx, wepkey, 3 + keylength);
+ 		arc4_crypt(ctx, payload, payload,  length);
+-
+-		/* calculate icv and compare the icv */
+-		*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
+-
+ 	}
+ }
+ 
+@@ -537,7 +532,7 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+ 	u32 pnh;
+ 	u8   rc4key[16];
+ 	u8   ttkey[16];
+-	u8 crc[4];
++	__le32 crc;
+ 	signed int			length;
+ 
+ 	u8 *pframe, *payload, *iv, *prwskey;
+@@ -618,10 +613,9 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+ 			arc4_setkey(ctx, rc4key, 16);
+ 			arc4_crypt(ctx, payload, payload, length);
+ 
+-			*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
++			crc = cpu_to_le32(~crc32_le(~0, payload, length - 4));
+ 
+-			if (crc[3] != payload[length - 1] || crc[2] != payload[length - 2] ||
+-			    crc[1] != payload[length - 3] || crc[0] != payload[length - 4])
++			if (crc != get_unaligned_le32(payload + length - 4))
+ 				res = _FAIL;
+ 		} else {
+ 			res = _FAIL;
+-- 
+2.32.0
+
