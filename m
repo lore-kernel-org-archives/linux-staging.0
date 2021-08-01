@@ -1,50 +1,50 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5685E3484
-	for <linux-staging@lists.linux.dev>; Sun,  1 Aug 2021 19:04:42 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id n12so18797382wrr.2
-        for <linux-staging@lists.linux.dev>; Sun, 01 Aug 2021 12:04:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C429A3488
+	for <linux-staging@lists.linux.dev>; Sun,  1 Aug 2021 19:04:43 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id i10-20020a05600c354ab029025a0f317abfso2673291wmq.3
+        for <linux-staging@lists.linux.dev>; Sun, 01 Aug 2021 12:04:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=+bHzFqlCEBl9DPFBvDoZPn3VBvm/ryyAOajFQrlee24=;
-        b=03Y9WCc+azymkvQqJam8QU05fZL2/7VWEJ0UpFHr87pWj9fpxRW92cqyFN1fKGGF6P
-         XeNxFD43LGq/ZZGEMB07VmMVzJHL9954oK8tkzAIjwwLkpBPDbBQCDuQTV6MpG6dHpIc
-         kVYIPDmEZGVBq2g1CF11hGHKks5VVTiCVlNsd87oEbNTr8WbP+zuRO0bGgbofWMDXz2Z
-         uWnJfIyzSehj35DmAP25ffxOcHdpCZiU7+e5TV0gRqP2f4rKEAo1HLepatz1RlBhy9lE
-         UcMIkkdh1ohgEATu6l494xPE3r+6Am6g0iwEFF3t88SzFYsKeg7yleITYRTNN0WrWJnb
-         aQ2Q==
+        bh=PaYR6V7BwVCAhT+WCl9MYXQBWVeOSpDreN1dn4JER14=;
+        b=LUv3hr2jRSjc3dan/dMo2kIKTj1A6atAJXA/h7g66jVqAMcrW1Ig7obQCSzshdcx5f
+         0CsqOt9iAhhbqMfHejEo4BH4lXFJ5jo6HcmN/qdsaNRxJSZFAi4x06Ttiah73TWFlt+Y
+         muAxoqVlh5YhpGRzeCEU0FzJlGgRSVOXmthwah3xKMPgVKstfkdXG9VeukZfabT2LpA0
+         SBoaHmpl27G5EzmnHerYB48bJl6B9m+HuRt/wAnPejLEqLFETlt30hSg8iUh/WFUJ5e5
+         9HJaRPoaRdNols/DEeRZ41hdZU90n3Mhg0bAwYzdUDEYG1e5VPbWj9JiPmnMVEXxEOwz
+         r3Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+bHzFqlCEBl9DPFBvDoZPn3VBvm/ryyAOajFQrlee24=;
-        b=IQqUmzbKpBpeTJLr0tE3lhIrV5rC6g8r6A8YNiD9hRLrgKmi3JhLjHKsjIvEFR4NK7
-         f1WmaZ9X7cmvx8CqIYwvmFqps86Om46uorguySU6ATlW7RiAUBG5l7xhx+mANN9inGfb
-         QdGWeVBVvRYM/vZN9nE0X3Nay1MggWau8JdW3Np/QWK7bH/YTE9ZLUetfSqZeEuaUwXB
-         aFUOPV/7sn5JMk42Wo+HO5XIFvfE9YbStLuaI56Bycd3uZ2pN83oeCW0zmkPx0Pf2f/q
-         F5JD+8iYGMVyI0fwjoA/b6ywI9vI+YtDt3+accrvPeix2YKN51Lgz4tg2wNqlx13eOAp
-         F/XA==
-X-Gm-Message-State: AOAM533Rh0shHjrttK0HQiig8NlGe1yo261WIUk1fXjMfWcY8UVErLI3
-	7Y6X0aQtYswkjyrLXqUsbwT/kK26GcXxDgNO
-X-Google-Smtp-Source: ABdhPJwWShi9rHzrBZdmT0zVhTQmwM58V8T7jX09jjlcJv+kDh0hfkMMkeaH+Fb+KN+ApAzdGx0xjg==
-X-Received: by 2002:adf:f5d1:: with SMTP id k17mr14028728wrp.123.1627844680686;
-        Sun, 01 Aug 2021 12:04:40 -0700 (PDT)
+        bh=PaYR6V7BwVCAhT+WCl9MYXQBWVeOSpDreN1dn4JER14=;
+        b=W8CaRlHFIH7Lm4+m7G1875onOSumPS2KEeuthfn+8iQSSyb9oGectaylr+QcpqED5A
+         QW5TPbTrb6CJIOCsm715ns8/PUA4oP1nqyFUuSzlkr2XbzW5COrJIczFdLBgriVBZxV9
+         FjTNXzAuX91ps897LUsx+sHl2lmbPDrc7ab0LS9FAjWDnh8cAEd1fm3eS9xhLSwu6LT1
+         dvvj1SoEmCgUr56TvhycivUJyJI3j+J0Tyvtq1hBrAZ8tcODjtRLzAL3pGLFVgLfOcoq
+         tS/abnk9ZCPj4Ctut9+6JXfZvIvJLTJhY8plMgfi99oKDc1TxerpmXPNBb+wGysm36QK
+         6jJQ==
+X-Gm-Message-State: AOAM530Yt2BEy7QiTLKCo7A+Me2mXrIJQ4dNk7mY+nS/aJPitoUkGXFg
+	e5rZVLtVXjrkxoqYno2mXeiGfA==
+X-Google-Smtp-Source: ABdhPJyStRD13ZlBc5TXh2q1SZPuUXMMLmnLbHJnGMqtVJgWyStPqekKCLLKTuT1k18vNlsaOw8a9w==
+X-Received: by 2002:a1c:cc12:: with SMTP id h18mr13808522wmb.12.1627844682173;
+        Sun, 01 Aug 2021 12:04:42 -0700 (PDT)
 Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
-        by smtp.gmail.com with ESMTPSA id c10sm8196026wmb.40.2021.08.01.12.04.39
+        by smtp.gmail.com with ESMTPSA id c10sm8196026wmb.40.2021.08.01.12.04.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Aug 2021 12:04:40 -0700 (PDT)
+        Sun, 01 Aug 2021 12:04:41 -0700 (PDT)
 From: Phillip Potter <phil@philpotter.co.uk>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	martin@kaiser.cx
-Subject: [PATCH 01/15] staging: r8188eu: remove RT_TRACE calls from core/rtw_cmd.c
-Date: Sun,  1 Aug 2021 20:04:23 +0100
-Message-Id: <20210801190437.82017-2-phil@philpotter.co.uk>
+Subject: [PATCH 03/15] staging: r8188eu: remove RT_TRACE calls from core/rtw_wlan_util.c
+Date: Sun,  1 Aug 2021 20:04:25 +0100
+Message-Id: <20210801190437.82017-4-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210801190437.82017-1-phil@philpotter.co.uk>
 References: <20210801190437.82017-1-phil@philpotter.co.uk>
@@ -56,249 +56,69 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove RT_TRACE macro calls from core/rtw_cmd.c, so that ultimately the
+Remove RT_TRACE macro calls from core/rtw_wlan_util.c, so that ultimately the
 macro definition itself can eventually be removed.
 
 Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 ---
- drivers/staging/r8188eu/core/rtw_cmd.c | 64 +++-----------------------
- 1 file changed, 7 insertions(+), 57 deletions(-)
+ drivers/staging/r8188eu/core/rtw_wlan_util.c | 25 +++-----------------
+ 1 file changed, 3 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index 4e17972ee66e..aad69078f67d 100644
---- a/drivers/staging/r8188eu/core/rtw_cmd.c
-+++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -77,8 +77,6 @@ int _rtw_init_evt_priv(struct evt_priv *pevtpriv)
- void rtw_free_evt_priv(struct	evt_priv *pevtpriv)
- {
- 
--	RT_TRACE(_module_rtl871x_cmd_c_, _drv_info_, ("+rtw_free_evt_priv\n"));
--
- 	_cancel_workitem_sync(&pevtpriv->c2h_wk);
- 	while (pevtpriv->c2h_wk_alive)
- 		rtw_msleep_os(10);
-@@ -88,8 +86,6 @@ void rtw_free_evt_priv(struct	evt_priv *pevtpriv)
- 		if (c2h != NULL && c2h != (void *)pevtpriv)
- 			kfree(c2h);
+diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+index 15edccef9f1d..212e64183e9c 100644
+--- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
++++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+@@ -1001,11 +1001,6 @@ int rtw_check_bcn_info(struct adapter  *Adapter, u8 *pframe, u32 packet_len)
+ 		bssid->Ssid.Ssid[0] = '\0';
  	}
--	RT_TRACE(_module_rtl871x_cmd_c_, _drv_info_, ("-rtw_free_evt_priv\n"));
--
- }
  
- void _rtw_free_cmd_priv (struct	cmd_priv *pcmdpriv)
-@@ -173,10 +169,7 @@ u32	rtw_init_evt_priv (struct	evt_priv *pevtpriv)
- 
- void rtw_free_cmd_priv(struct	cmd_priv *pcmdpriv)
- {
+-	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("%s bssid.Ssid.Ssid:%s bssid.Ssid.SsidLength:%d "
+-				"cur_network->network.Ssid.Ssid:%s len:%d\n", __func__, bssid->Ssid.Ssid,
+-				bssid->Ssid.SsidLength, cur_network->network.Ssid.Ssid,
+-				cur_network->network.Ssid.SsidLength));
 -
--	RT_TRACE(_module_rtl871x_cmd_c_, _drv_info_, ("rtw_free_cmd_priv\n"));
- 	_rtw_free_cmd_priv(pcmdpriv);
--
- }
+ 	if (memcmp(bssid->Ssid.Ssid, cur_network->network.Ssid.Ssid, 32) ||
+ 	    bssid->Ssid.SsidLength != cur_network->network.Ssid.SsidLength) {
+ 		if (bssid->Ssid.Ssid[0] != '\0' && bssid->Ssid.SsidLength != 0) { /* not hidden ssid */
+@@ -1022,9 +1017,6 @@ int rtw_check_bcn_info(struct adapter  *Adapter, u8 *pframe, u32 packet_len)
+ 	else
+ 		bssid->Privacy = 0;
  
- static int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
-@@ -282,8 +275,6 @@ int rtw_cmd_thread(void *context)
- 	pcmdpriv->cmdthd_running = true;
- 	up(&pcmdpriv->terminate_cmdthread_sema);
- 
--	RT_TRACE(_module_rtl871x_cmd_c_, _drv_info_, ("start r871x rtw_cmd_thread !!!!\n"));
--
- 	while (1) {
- 		if (_rtw_down_sema(&pcmdpriv->cmd_queue_sema) == _FAIL)
- 			break;
-@@ -337,15 +328,12 @@ int rtw_cmd_thread(void *context)
- 		/* call callback function for post-processed */
- 		if (pcmd->cmdcode < ARRAY_SIZE(rtw_cmd_callback)) {
- 			pcmd_callback = rtw_cmd_callback[pcmd->cmdcode].callback;
--			if (pcmd_callback == NULL) {
--				RT_TRACE(_module_rtl871x_cmd_c_, _drv_info_, ("mlme_cmd_hdl(): pcmd_callback = 0x%p, cmdcode = 0x%x\n", pcmd_callback, pcmd->cmdcode));
-+			if (pcmd_callback == NULL)
- 				rtw_free_cmd_obj(pcmd);
--			} else {
-+			else
- 				/* todo: !!! fill rsp_buf to pcmd->rsp if (pcmd->rsp!= NULL) */
- 				pcmd_callback(pcmd->padapter, pcmd);/* need conider that free cmd_obj in rtw_cmd_callback */
+-	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_,
+-		 ("%s(): cur_network->network.Privacy is %d, bssid.Privacy is %d\n",
+-		 __func__, cur_network->network.Privacy, bssid->Privacy));
+ 	if (cur_network->network.Privacy != bssid->Privacy) {
+ 		DBG_88E("%s(), privacy is not match return FAIL\n", __func__);
+ 		goto _mismatch;
+@@ -1049,25 +1041,14 @@ int rtw_check_bcn_info(struct adapter  *Adapter, u8 *pframe, u32 packet_len)
+ 	if (encryp_protocol == ENCRYP_PROTOCOL_WPA || encryp_protocol == ENCRYP_PROTOCOL_WPA2) {
+ 		pbuf = rtw_get_wpa_ie(&bssid->IEs[12], &wpa_ielen, bssid->IELength-12);
+ 		if (pbuf && (wpa_ielen > 0)) {
+-			if (_SUCCESS == rtw_parse_wpa_ie(pbuf, wpa_ielen+2, &group_cipher, &pairwise_cipher, &is_8021x)) {
+-				RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_,
+-					 ("%s pnetwork->pairwise_cipher: %d, group_cipher is %d, is_8021x is %d\n", __func__,
+-					 pairwise_cipher, group_cipher, is_8021x));
 -			}
++			rtw_parse_wpa_ie(pbuf, wpa_ielen+2, &group_cipher, &pairwise_cipher, &is_8021x);
  		} else {
--			RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_, ("%s: cmdcode = 0x%x callback not defined!\n", __func__, pcmd->cmdcode));
- 			rtw_free_cmd_obj(pcmd);
- 		}
+ 			pbuf = rtw_get_wpa2_ie(&bssid->IEs[12], &wpa_ielen, bssid->IELength-12);
  
-@@ -437,8 +425,6 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
- 
- 	rtw_free_network_queue(padapter, false);
- 
--	RT_TRACE(_module_rtl871x_cmd_c_, _drv_info_, ("%s: flush network queue\n", __func__));
--
- 	init_h2fwcmd_w_parm_no_rsp(ph2c, psurveyPara, GEN_CMD_CODE(_SiteSurvey));
- 
- 	/* psurveyPara->bsslimit = 48; */
-@@ -579,8 +565,6 @@ u8 rtw_setphy_cmd(struct adapter *padapter, u8 modem, u8 ch)
- 
- 	init_h2fwcmd_w_parm_no_rsp(ph2c, psetphypara, _SetPhy_CMD_);
- 
--	RT_TRACE(_module_rtl871x_cmd_c_, _drv_info_, ("CH =%d, modem =%d", ch, modem));
--
- 	psetphypara->modem = modem;
- 	psetphypara->rfchannel = ch;
- 
-@@ -756,11 +740,6 @@ u8 rtw_createbss_cmd(struct adapter  *padapter)
- 
- 	rtw_led_control(padapter, LED_CTL_START_TO_LINK);
- 
--	if (pmlmepriv->assoc_ssid.SsidLength == 0)
--		RT_TRACE(_module_rtl871x_cmd_c_, _drv_info_, (" createbss for Any SSid:%s\n", pmlmepriv->assoc_ssid.Ssid));
--	else
--		RT_TRACE(_module_rtl871x_cmd_c_, _drv_info_, (" createbss for SSid:%s\n", pmlmepriv->assoc_ssid.Ssid));
--
- 	pcmd = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
- 	if (pcmd == NULL) {
- 		res = _FAIL;
-@@ -824,16 +803,9 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
- 
- 	rtw_led_control(padapter, LED_CTL_START_TO_LINK);
- 
--	if (pmlmepriv->assoc_ssid.SsidLength == 0) {
--		RT_TRACE(_module_rtl871x_cmd_c_, _drv_info_, ("+Join cmd: Any SSid\n"));
--	} else {
--		RT_TRACE(_module_rtl871x_cmd_c_, _drv_notice_, ("+Join cmd: SSid =[%s]\n", pmlmepriv->assoc_ssid.Ssid));
--	}
--
- 	pcmd = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
- 	if (pcmd == NULL) {
- 		res = _FAIL;
--		RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_, ("rtw_joinbss_cmd: memory allocate for cmd_obj fail!!!\n"));
- 		goto exit;
- 	}
- 	/* for IEs is fix buf size */
-@@ -862,8 +834,6 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
- 
- 		res = _FAIL;
- 
--		RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_, ("rtw_joinbss_cmd :psecnetwork == NULL!!!\n"));
--
- 		goto exit;
- 	}
- 
-@@ -950,8 +920,6 @@ u8 rtw_disassoc_cmd(struct adapter *padapter, u32 deauth_timeout_ms, bool enqueu
- 	struct cmd_priv *cmdpriv = &padapter->cmdpriv;
- 	u8 res = _SUCCESS;
- 
--	RT_TRACE(_module_rtl871x_cmd_c_, _drv_notice_, ("+rtw_disassoc_cmd\n"));
--
- 	/* prepare cmd parameter */
- 	param = kzalloc(sizeof(*param), GFP_ATOMIC);
- 	if (param == NULL) {
-@@ -1360,8 +1328,6 @@ u8 rtw_set_chplan_cmd(struct adapter *padapter, u8 chplan, u8 enqueue)
- 
- 	u8	res = _SUCCESS;
- 
--	RT_TRACE(_module_rtl871x_cmd_c_, _drv_notice_, ("+rtw_set_chplan_cmd\n"));
--
- 	/* check input parameter */
- 	if (!rtw_is_channel_plan_valid(chplan)) {
- 		res = _FAIL;
-@@ -1413,8 +1379,6 @@ u8 rtw_led_blink_cmd(struct adapter *padapter, struct LED_871x *pLed)
- 
- 	u8	res = _SUCCESS;
- 
--	RT_TRACE(_module_rtl871x_cmd_c_, _drv_notice_, ("+rtw_led_blink_cmd\n"));
--
- 	pcmdobj = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
- 	if (pcmdobj == NULL) {
- 		res = _FAIL;
-@@ -1446,8 +1410,6 @@ u8 rtw_set_csa_cmd(struct adapter *padapter, u8 new_ch_no)
- 
- 	u8	res = _SUCCESS;
- 
--	RT_TRACE(_module_rtl871x_cmd_c_, _drv_notice_, ("+rtw_set_csa_cmd\n"));
--
- 	pcmdobj = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
- 	if (pcmdobj == NULL) {
- 		res = _FAIL;
-@@ -2038,9 +2000,8 @@ void rtw_survey_cmd_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
- 		/* TODO: cancel timer and do timeout handler directly... */
- 		/* need to make timeout handlerOS independent */
- 		_set_timer(&pmlmepriv->scan_to_timer, 1);
--		} else if (pcmd->res != H2C_SUCCESS) {
-+	} else if (pcmd->res != H2C_SUCCESS) {
- 		_set_timer(&pmlmepriv->scan_to_timer, 1);
--		RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_, ("\n ********Error: MgntActrtw_set_802_11_bssid_LIST_SCAN Fail ************\n\n."));
- 	}
- 
- 	/*  free cmd */
-@@ -2056,7 +2017,6 @@ void rtw_disassoc_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
- 		set_fwstate(pmlmepriv, _FW_LINKED);
- 		spin_unlock_bh(&pmlmepriv->lock);
- 
--		RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_, ("\n ***Error: disconnect_cmd_callback Fail ***\n."));
- 		return;
- 	} else /* clear bridge database */
- 		nat25_db_cleanup(padapter);
-@@ -2074,7 +2034,6 @@ void rtw_joinbss_cmd_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
- 		/* need to make timeout handlerOS independent */
- 		_set_timer(&pmlmepriv->assoc_timer, 1);
- 	} else if (pcmd->res != H2C_SUCCESS) {
--		RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_, ("********Error:rtw_select_and_join_from_scanned_queue Wait Sema  Fail ************\n"));
- 		_set_timer(&pmlmepriv->assoc_timer, 1);
- 	}
- 
-@@ -2090,10 +2049,8 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
- 	struct wlan_bssid_ex *pnetwork = (struct wlan_bssid_ex *)pcmd->parmbuf;
- 	struct wlan_network *tgt_network = &(pmlmepriv->cur_network);
- 
--	if ((pcmd->res != H2C_SUCCESS)) {
--		RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_, ("\n ********Error: rtw_createbss_cmd_callback  Fail ************\n\n."));
-+	if ((pcmd->res != H2C_SUCCESS))
- 		_set_timer(&pmlmepriv->assoc_timer, 1);
--	}
- 
- 	_cancel_timer(&pmlmepriv->assoc_timer, &timer_cancelled);
- 
-@@ -2103,10 +2060,8 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
- 		psta = rtw_get_stainfo(&padapter->stapriv, pnetwork->MacAddress);
- 		if (!psta) {
- 			psta = rtw_alloc_stainfo(&padapter->stapriv, pnetwork->MacAddress);
--			if (psta == NULL) {
--				RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_, ("\nCan't alloc sta_info when createbss_cmd_callback\n"));
-+			if (psta == NULL)
- 				goto createbss_cmd_fail ;
+-			if (pbuf && (wpa_ielen > 0)) {
+-				if (_SUCCESS == rtw_parse_wpa2_ie(pbuf, wpa_ielen+2, &group_cipher, &pairwise_cipher, &is_8021x)) {
+-					RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_,
+-						 ("%s pnetwork->pairwise_cipher: %d, pnetwork->group_cipher is %d, is_802x is %d\n",
+-						  __func__, pairwise_cipher, group_cipher, is_8021x));
+-				}
 -			}
++			if (pbuf && (wpa_ielen > 0))
++				rtw_parse_wpa2_ie(pbuf, wpa_ielen+2, &group_cipher, &pairwise_cipher, &is_8021x);
  		}
  
- 		rtw_indicate_connect(padapter);
-@@ -2117,7 +2072,6 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
- 		if (pwlan == NULL) {
- 			pwlan = rtw_get_oldest_wlan_network(&pmlmepriv->scanned_queue);
- 			if (pwlan == NULL) {
--				RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_, ("\n Error:  can't get pwlan in rtw_joinbss_event_callback\n"));
- 				spin_unlock_bh(&(pmlmepriv->scanned_queue.lock));
- 				goto createbss_cmd_fail;
- 			}
-@@ -2151,10 +2105,8 @@ void rtw_setstaKey_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *pc
- 	struct set_stakey_rsp *psetstakey_rsp = (struct set_stakey_rsp *)(pcmd->rsp);
- 	struct sta_info *psta = rtw_get_stainfo(pstapriv, psetstakey_rsp->addr);
- 
--	if (psta == NULL) {
--		RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_, ("\nERROR: rtw_setstaKey_cmdrsp_callback => can't get sta_info\n\n"));
-+	if (psta == NULL)
- 		goto exit;
--	}
- exit:
- 	rtw_free_cmd_obj(pcmd);
- 
-@@ -2168,10 +2120,8 @@ void rtw_setassocsta_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *
- 	struct set_assocsta_rsp *passocsta_rsp = (struct set_assocsta_rsp *)(pcmd->rsp);
- 	struct sta_info *psta = rtw_get_stainfo(pstapriv, passocsta_parm->addr);
- 
--	if (psta == NULL) {
--		RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_, ("\nERROR: setassocsta_cmdrsp_callbac => can't get sta_info\n\n"));
-+	if (psta == NULL)
- 		goto exit;
--	}
- 
- 	psta->aid = passocsta_rsp->cam_id;
- 	psta->mac_id = passocsta_rsp->cam_id;
+-		RT_TRACE(_module_rtl871x_mlme_c_, _drv_err_,
+-			 ("%s cur_network->group_cipher is %d: %d\n", __func__, cur_network->BcnInfo.group_cipher, group_cipher));
+ 		if (pairwise_cipher != cur_network->BcnInfo.pairwise_cipher || group_cipher != cur_network->BcnInfo.group_cipher) {
+ 			DBG_88E("%s pairwise_cipher(%x:%x) or group_cipher(%x:%x) is not match , return FAIL\n", __func__,
+ 				pairwise_cipher, cur_network->BcnInfo.pairwise_cipher,
 -- 
 2.31.1
 
