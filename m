@@ -1,41 +1,41 @@
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F01168
-	for <linux-staging@lists.linux.dev>; Mon,  2 Aug 2021 19:27:35 +0000 (UTC)
-Received: by mail-oo1-f53.google.com with SMTP id e3-20020a4ab9830000b029026ada3b6b90so670063oop.0
-        for <linux-staging@lists.linux.dev>; Mon, 02 Aug 2021 12:27:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79D62FB8
+	for <linux-staging@lists.linux.dev>; Mon,  2 Aug 2021 19:27:37 +0000 (UTC)
+Received: by mail-oi1-f182.google.com with SMTP id w6so25393483oiv.11
+        for <linux-staging@lists.linux.dev>; Mon, 02 Aug 2021 12:27:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=PEtNkG8rtc8rv6AzQvRGr9oASXuI9aEj66QUkSN+Z/A=;
-        b=B3EEiNnhEvd9uTtO6gbS50HIGmMxNpqG9k7VfsUcDQ+z6kjxx3amdUfSdZRT+qEpmJ
-         +fpshSmHuFC/vRdg1nd89m7sUTihdbEqiyCcCi/mmRCAsVddrIrAh1NmVhJc48fkHqJ/
-         jiE2XAGP/CSLSrG01ymrKW1TLj8hb5H5Oyc1i9rSQEFT5A1XZyciyuu0FS3IHGoiDqTh
-         UJTaW2WglYwokGYf8e5W2/PBy8O+avarNUjcBw50zvVd3/bi4qcZv/gdp7aIz40D9leq
-         XZSsg6w1eDuZd4aALvEbahGLEUDz1+k7ZS+ahC0drKqoqxz8m/fQL/ZazCPYb88XVe8i
-         VfMw==
+        bh=FBbLHPhZ18bzPWo02CdFqnHqISrb5NOz6HLB+bg+dnU=;
+        b=i//q+R+qnPajXGIWxR0PulC2FkZ1YN+ZLpGhZd+OKA3oUCKKRyq6/PbXXBUCgzctVW
+         v22XT1uoOg2F6CuYyTLI/PnkzKo5Gge4GY0rOuKOfXLdV4Gd1BRJ3w1QtGAa2U4k866z
+         bifepIFAsiZVfy/4m7LFMq+IbE/qaFFxHKRjvBr2dWe5z7th9F2oO54OJbfvyG/yKMF8
+         2bdMyeC4MPJn0OHHlhGHBlkauwRljI3Lr7j6iFN84Iwf/KjvH+vbdswQCOeUgFzMbFOR
+         D8x4cf0QdAd1vpEd1n0ZB72lv0BjYxRpv88Yjg2d3QPMow/gdd9xx/l9c9FiYJ5BynLx
+         2Gdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=PEtNkG8rtc8rv6AzQvRGr9oASXuI9aEj66QUkSN+Z/A=;
-        b=HqA2t6jLhUjgHOBjXE/GUw3RORrmu30qdYLUp4bk3vqEoR3twXdVlDfdn4sbr65awU
-         jmMiG6dYTvL/Y6RFaEKg8fwUDu7NsNFCJ+Vtrf2b6+RrJ6mRgSgocd7/Mzw0ai/h/KNZ
-         +ySFoSY4X4vy0qAF7baCH4Ggi/B3elNJ//VtvADDIQvcH4NMhrlEROOPQiiUbkEbnbvD
-         3fmgV43K7DiLtRhSH1iNpQDCc/aQ5HDGdsyVh+8d5OqhrCbdaUsAdWBLoWchsDG73Hqk
-         o8UqFmN3CR5JA5DT1wwGstf7ilu/8bC9VzPw3Bp7Dj8eLIIURUnWjTDknvNsp3NQyK93
-         fbjA==
-X-Gm-Message-State: AOAM533brQSL2PqtYbCscoRB7HDSpnyRX9m3VvVu04Yqr08tH8Tm5P3N
-	OSgKXQKP1JGW1FaDSUH+4w0=
-X-Google-Smtp-Source: ABdhPJzmqnr0ZItZ4FhPQxCyvq1ak7eN7XxNx12rYiKyseh01eIEwkdlvtREDT+j0NYgy0zjG88Flw==
-X-Received: by 2002:a4a:be1a:: with SMTP id l26mr12045301oop.27.1627932454672;
-        Mon, 02 Aug 2021 12:27:34 -0700 (PDT)
+        bh=FBbLHPhZ18bzPWo02CdFqnHqISrb5NOz6HLB+bg+dnU=;
+        b=msMqT+rRwCowh2h5bCi4KFh+Shhe8CUy2ZXEy75gdmoNrsoWAfGHwEyO7/C9LwHSRZ
+         +DcNcikp1ZoRenCx2CIgX1CNvV+sRBu2MSLrTsF02fZLxhrgZilaIZJlA98j3ETOwGFo
+         SNPRK8CvFQpazKp9nSstRPxqiw2YaXHAzwKQSkRgaPC8o3RgfqwnInMhMT/aAPlYGEpL
+         o+2GUcO/wu6rwYz6AUpaXZbsHPEgeDC/D94uPDIM27siiaIev19lWOS7SsxE/ss4zTCN
+         1j0fD4hA+CLAfKYrgbhhuOIga9puwFbfqlerZshIhF0c/OwFmp4wWFgSX3yx5It5fxL5
+         kGJA==
+X-Gm-Message-State: AOAM533uHkXPLbv4duCXpGPUzcQfdQbm76v6Hn6twoNdrUeOe3eOTutl
+	eDYCOjh56Gxb0r6T4BOPm1o=
+X-Google-Smtp-Source: ABdhPJzIJsIvsWUkzT1yw/gBl+raeHLkPZ+++BHaiHkiK4SfvzaIpRe7HakDszUClTTyGnnbdEsY8w==
+X-Received: by 2002:aca:fdc1:: with SMTP id b184mr11762639oii.101.1627932457228;
+        Mon, 02 Aug 2021 12:27:37 -0700 (PDT)
 Received: from 2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com.com (2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com. [2603:8090:2005:39b3::100a])
-        by smtp.gmail.com with ESMTPSA id i188sm1981035oih.7.2021.08.02.12.27.33
+        by smtp.gmail.com with ESMTPSA id i188sm1981035oih.7.2021.08.02.12.27.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Aug 2021 12:27:34 -0700 (PDT)
+        Mon, 02 Aug 2021 12:27:36 -0700 (PDT)
 Sender: Larry Finger <larry.finger@gmail.com>
 From: Larry Finger <Larry.Finger@lwfinger.net>
 To: gregkh@linuxfoundation.org
@@ -43,9 +43,9 @@ Cc: phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Larry Finger <Larry.Finger@lwfinger.net>
-Subject: [PATCH v2 3/6] staging: r8188eu: Remove wrappers for atomic operations
-Date: Mon,  2 Aug 2021 14:27:18 -0500
-Message-Id: <20210802192721.23110-4-Larry.Finger@lwfinger.net>
+Subject: [PATCH v2 5/6] staging: r8188eu: Remove all calls to _rtw_spinlock_free()
+Date: Mon,  2 Aug 2021 14:27:20 -0500
+Message-Id: <20210802192721.23110-6-Larry.Finger@lwfinger.net>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210802192721.23110-1-Larry.Finger@lwfinger.net>
 References: <20210802192721.23110-1-Larry.Finger@lwfinger.net>
@@ -57,250 +57,200 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-These wrappers were useful when this driver had the hooks for Windows,
-but are no longer needed.
+This routine is empty, thus all calls to it can be removed.
 
 Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
 ---
 v2 - no change
 ---
- drivers/staging/r8188eu/core/rtw_cmd.c        |  2 +-
- drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 14 +++---
- drivers/staging/r8188eu/include/drv_types.h   |  2 +-
- .../staging/r8188eu/include/osdep_service.h   | 14 ------
- drivers/staging/r8188eu/include/rtw_cmd.h     |  2 +-
- .../staging/r8188eu/include/rtw_mlme_ext.h    |  2 +-
- drivers/staging/r8188eu/include/usb_ops.h     |  4 +-
- .../staging/r8188eu/os_dep/osdep_service.c    | 50 -------------------
- 8 files changed, 13 insertions(+), 77 deletions(-)
+ drivers/staging/r8188eu/core/rtw_cmd.c        |  3 --
+ drivers/staging/r8188eu/core/rtw_mlme.c       |  3 --
+ drivers/staging/r8188eu/core/rtw_recv.c       |  5 ----
+ drivers/staging/r8188eu/core/rtw_sta_mgt.c    | 28 -------------------
+ drivers/staging/r8188eu/core/rtw_xmit.c       | 14 ----------
+ .../staging/r8188eu/include/osdep_service.h   |  1 -
+ drivers/staging/r8188eu/os_dep/os_intfs.c     |  2 --
+ .../staging/r8188eu/os_dep/osdep_service.c    |  4 ---
+ 8 files changed, 60 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index 55971c47c90a..35222a10b10c 100644
+index 35222a10b10c..566b4e04a3ee 100644
 --- a/drivers/staging/r8188eu/core/rtw_cmd.c
 +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -64,7 +64,7 @@ int _rtw_init_evt_priv(struct evt_priv *pevtpriv)
- 	int res = _SUCCESS;
+@@ -96,15 +96,12 @@ void _rtw_free_cmd_priv (struct	cmd_priv *pcmdpriv)
+ {
  
- 	/* allocate DMA-able/Non-Page memory for cmd_buf and rsp_buf */
--	ATOMIC_SET(&pevtpriv->event_seq, 0);
-+	atomic_set(&pevtpriv->event_seq, 0);
- 	pevtpriv->evt_done_cnt = 0;
+ 	if (pcmdpriv) {
+-		_rtw_spinlock_free(&(pcmdpriv->cmd_queue.lock));
+-
+ 		if (pcmdpriv->cmd_allocated_buf)
+ 			kfree(pcmdpriv->cmd_allocated_buf);
  
- 	_init_workitem(&pevtpriv->c2h_wk, c2h_wk_callback, NULL);
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index bce2f31e0ac1..a9a8ca157a7d 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -204,7 +204,7 @@ static void init_mlme_ext_priv_value(struct adapter *padapter)
- 		_12M_RATE_, _24M_RATE_, 0xff,
- 	};
- 
--	ATOMIC_SET(&pmlmeext->event_seq, 0);
-+	atomic_set(&pmlmeext->event_seq, 0);
- 	pmlmeext->mgnt_seq = 0;/* reset to zero when disconnect at client mode */
- 
- 	pmlmeext->cur_channel = padapter->registrypriv.channel;
-@@ -7008,7 +7008,7 @@ void report_survey_event(struct adapter *padapter, struct recv_frame *precv_fram
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct survey_event);
- 	pc2h_evt_hdr->ID = GEN_EVT_CODE(_Survey);
--	pc2h_evt_hdr->seq = ATOMIC_INC_RETURN(&pmlmeext->event_seq);
-+	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
- 
- 	psurvey_evt = (struct survey_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
- 
-@@ -7060,7 +7060,7 @@ void report_surveydone_event(struct adapter *padapter)
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct surveydone_event);
- 	pc2h_evt_hdr->ID = GEN_EVT_CODE(_SurveyDone);
--	pc2h_evt_hdr->seq = ATOMIC_INC_RETURN(&pmlmeext->event_seq);
-+	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
- 
- 	psurveydone_evt = (struct surveydone_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
- 	psurveydone_evt->bss_cnt = pmlmeext->sitesurvey_res.bss_cnt;
-@@ -7106,7 +7106,7 @@ void report_join_res(struct adapter *padapter, int res)
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct joinbss_event);
- 	pc2h_evt_hdr->ID = GEN_EVT_CODE(_JoinBss);
--	pc2h_evt_hdr->seq = ATOMIC_INC_RETURN(&pmlmeext->event_seq);
-+	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
- 
- 	pjoinbss_evt = (struct joinbss_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
- 	memcpy((unsigned char *)(&(pjoinbss_evt->network.network)), &(pmlmeinfo->network), sizeof(struct wlan_bssid_ex));
-@@ -7157,7 +7157,7 @@ void report_del_sta_event(struct adapter *padapter, unsigned char *MacAddr, unsi
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct stadel_event);
- 	pc2h_evt_hdr->ID = GEN_EVT_CODE(_DelSTA);
--	pc2h_evt_hdr->seq = ATOMIC_INC_RETURN(&pmlmeext->event_seq);
-+	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
- 
- 	pdel_sta_evt = (struct stadel_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
- 	memcpy((unsigned char *)(&(pdel_sta_evt->macaddr)), MacAddr, ETH_ALEN);
-@@ -7211,7 +7211,7 @@ void report_add_sta_event(struct adapter *padapter, unsigned char *MacAddr, int
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct stassoc_event);
- 	pc2h_evt_hdr->ID = GEN_EVT_CODE(_AddSTA);
--	pc2h_evt_hdr->seq = ATOMIC_INC_RETURN(&pmlmeext->event_seq);
-+	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
- 
- 	padd_sta_evt = (struct stassoc_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
- 	memcpy((unsigned char *)(&(padd_sta_evt->macaddr)), MacAddr, ETH_ALEN);
-@@ -8244,7 +8244,7 @@ u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
- 		goto _abort_event_;
+ 		if (pcmdpriv->rsp_allocated_buf)
+ 			kfree(pcmdpriv->rsp_allocated_buf);
  	}
+-
+ }
  
--	ATOMIC_INC(&pevt_priv->event_seq);
-+	atomic_inc(&pevt_priv->event_seq);
+ /*
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index c3763d9e448a..2b8f6b4388e1 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -87,9 +87,6 @@ int	_rtw_init_mlme_priv (struct adapter *padapter)
  
- 	peventbuf += 2;
+ static void rtw_mfree_mlme_priv_lock (struct mlme_priv *pmlmepriv)
+ {
+-	_rtw_spinlock_free(&pmlmepriv->lock);
+-	_rtw_spinlock_free(&(pmlmepriv->free_bss_pool.lock));
+-	_rtw_spinlock_free(&(pmlmepriv->scanned_queue.lock));
+ }
  
-diff --git a/drivers/staging/r8188eu/include/drv_types.h b/drivers/staging/r8188eu/include/drv_types.h
-index 8cefb5c288f3..04f4224c11de 100644
---- a/drivers/staging/r8188eu/include/drv_types.h
-+++ b/drivers/staging/r8188eu/include/drv_types.h
-@@ -178,7 +178,7 @@ struct dvobj_priv {
- 	struct usb_interface *pusbintf;
- 	struct usb_device *pusbdev;
+ #if defined (CONFIG_88EU_AP_MODE)
+diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+index 08e095cd08b8..a4cb08d41b8c 100644
+--- a/drivers/staging/r8188eu/core/rtw_recv.c
++++ b/drivers/staging/r8188eu/core/rtw_recv.c
+@@ -98,11 +98,6 @@ int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter)
  
--	ATOMIC_T continual_urb_error;
-+	atomic_t continual_urb_error;
- 	u8 signal_strength;
- };
+ static void rtw_mfree_recv_priv_lock(struct recv_priv *precvpriv)
+ {
+-	_rtw_spinlock_free(&precvpriv->lock);
+-	_rtw_spinlock_free(&precvpriv->free_recv_queue.lock);
+-	_rtw_spinlock_free(&precvpriv->recv_pending_queue.lock);
+-
+-	_rtw_spinlock_free(&precvpriv->free_recv_buf_queue.lock);
+ }
  
+ void _rtw_free_recv_priv (struct recv_priv *precvpriv)
+diff --git a/drivers/staging/r8188eu/core/rtw_sta_mgt.c b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
+index 3b1a6a689d95..29df34fd74f1 100644
+--- a/drivers/staging/r8188eu/core/rtw_sta_mgt.c
++++ b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
+@@ -130,32 +130,16 @@ inline struct sta_info *rtw_get_stainfo_by_offset(struct sta_priv *stapriv, int
+ void	_rtw_free_sta_xmit_priv_lock(struct sta_xmit_priv *psta_xmitpriv);
+ void	_rtw_free_sta_xmit_priv_lock(struct sta_xmit_priv *psta_xmitpriv)
+ {
+-
+-	_rtw_spinlock_free(&psta_xmitpriv->lock);
+-
+-	_rtw_spinlock_free(&(psta_xmitpriv->be_q.sta_pending.lock));
+-	_rtw_spinlock_free(&(psta_xmitpriv->bk_q.sta_pending.lock));
+-	_rtw_spinlock_free(&(psta_xmitpriv->vi_q.sta_pending.lock));
+-	_rtw_spinlock_free(&(psta_xmitpriv->vo_q.sta_pending.lock));
+-
+ }
+ 
+ static void	_rtw_free_sta_recv_priv_lock(struct sta_recv_priv *psta_recvpriv)
+ {
+-
+-	_rtw_spinlock_free(&psta_recvpriv->lock);
+-
+-	_rtw_spinlock_free(&(psta_recvpriv->defrag_q.lock));
+-
+ }
+ 
+ void rtw_mfree_stainfo(struct sta_info *psta);
+ void rtw_mfree_stainfo(struct sta_info *psta)
+ {
+ 
+-	if (&psta->lock != NULL)
+-		 _rtw_spinlock_free(&psta->lock);
+-
+ 	_rtw_free_sta_xmit_priv_lock(&psta->sta_xmitpriv);
+ 	_rtw_free_sta_recv_priv_lock(&psta->sta_recvpriv);
+ 
+@@ -188,18 +172,6 @@ static void rtw_mfree_sta_priv_lock(struct sta_priv *pstapriv)
+ #endif
+ 
+ 	 rtw_mfree_all_stainfo(pstapriv); /* be done before free sta_hash_lock */
+-
+-	_rtw_spinlock_free(&pstapriv->free_sta_queue.lock);
+-
+-	_rtw_spinlock_free(&pstapriv->sta_hash_lock);
+-	_rtw_spinlock_free(&pstapriv->wakeup_q.lock);
+-	_rtw_spinlock_free(&pstapriv->sleep_q.lock);
+-
+-#ifdef CONFIG_88EU_AP_MODE
+-	_rtw_spinlock_free(&pstapriv->asoc_list_lock);
+-	_rtw_spinlock_free(&pstapriv->auth_list_lock);
+-	_rtw_spinlock_free(&pacl_list->acl_node_q.lock);
+-#endif
+ }
+ 
+ u32	_rtw_free_sta_priv(struct	sta_priv *pstapriv)
+diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+index 87aa45c0305a..60cb91d1057a 100644
+--- a/drivers/staging/r8188eu/core/rtw_xmit.c
++++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+@@ -212,17 +212,6 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+ 
+ static void  rtw_mfree_xmit_priv_lock (struct xmit_priv *pxmitpriv)
+ {
+-	_rtw_spinlock_free(&pxmitpriv->lock);
+-
+-	_rtw_spinlock_free(&pxmitpriv->be_pending.lock);
+-	_rtw_spinlock_free(&pxmitpriv->bk_pending.lock);
+-	_rtw_spinlock_free(&pxmitpriv->vi_pending.lock);
+-	_rtw_spinlock_free(&pxmitpriv->vo_pending.lock);
+-	_rtw_spinlock_free(&pxmitpriv->bm_pending.lock);
+-
+-	_rtw_spinlock_free(&pxmitpriv->free_xmit_queue.lock);
+-	_rtw_spinlock_free(&pxmitpriv->free_xmitbuf_queue.lock);
+-	_rtw_spinlock_free(&pxmitpriv->pending_xmitbuf_queue.lock);
+ }
+ 
+ void _rtw_free_xmit_priv (struct xmit_priv *pxmitpriv)
+@@ -256,9 +245,6 @@ void _rtw_free_xmit_priv (struct xmit_priv *pxmitpriv)
+ 
+ 	vfree(pxmitpriv->pallocated_xmitbuf);
+ 
+-	/*  free xmit extension buff */
+-	_rtw_spinlock_free(&pxmitpriv->free_xmit_extbuf_queue.lock);
+-
+ 	pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmit_extbuf;
+ 	for (i = 0; i < num_xmit_extbuf; i++) {
+ 		rtw_os_xmit_resource_free(padapter, pxmitbuf, (max_xmit_extbuf_size + XMITBUF_ALIGN_SZ));
 diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
-index 446f43ac08d3..c70bbca29ccb 100644
+index 39c7c5534b55..c92284811827 100644
 --- a/drivers/staging/r8188eu/include/osdep_service.h
 +++ b/drivers/staging/r8188eu/include/osdep_service.h
-@@ -327,20 +327,6 @@ void rtw_suspend_lock_uninit(void);
- void rtw_lock_suspend(void);
- void rtw_unlock_suspend(void);
+@@ -222,7 +222,6 @@ void *rtw_malloc2d(int h, int w, int size);
+ u32  _rtw_down_sema(struct semaphore *sema);
+ void _rtw_mutex_init(struct mutex *pmutex);
+ void _rtw_mutex_free(struct mutex *pmutex);
+-void _rtw_spinlock_free(spinlock_t *plock);
  
--/* Atomic integer operations */
--#define ATOMIC_T atomic_t
+ void _rtw_init_queue(struct __queue *pqueue);
+ 
+diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+index 5f1ec883d6ed..935e35c82666 100644
+--- a/drivers/staging/r8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+@@ -979,8 +979,6 @@ u8 rtw_free_drv_sw(struct adapter *padapter)
+ 	}
+ 	#endif
+ 
+-	_rtw_spinlock_free(&padapter->br_ext_lock);
 -
--void ATOMIC_SET(ATOMIC_T *v, int i);
--int ATOMIC_READ(ATOMIC_T *v);
--void ATOMIC_ADD(ATOMIC_T *v, int i);
--void ATOMIC_SUB(ATOMIC_T *v, int i);
--void ATOMIC_INC(ATOMIC_T *v);
--void ATOMIC_DEC(ATOMIC_T *v);
--int ATOMIC_ADD_RETURN(ATOMIC_T *v, int i);
--int ATOMIC_SUB_RETURN(ATOMIC_T *v, int i);
--int ATOMIC_INC_RETURN(ATOMIC_T *v);
--int ATOMIC_DEC_RETURN(ATOMIC_T *v);
--
- struct rtw_netdev_priv_indicator {
- 	void *priv;
- 	u32 sizeof_priv;
-diff --git a/drivers/staging/r8188eu/include/rtw_cmd.h b/drivers/staging/r8188eu/include/rtw_cmd.h
-index 0f64b72bb5de..c14d9052b997 100644
---- a/drivers/staging/r8188eu/include/rtw_cmd.h
-+++ b/drivers/staging/r8188eu/include/rtw_cmd.h
-@@ -53,7 +53,7 @@ struct	evt_priv {
- 	bool c2h_wk_alive;
- 	struct rtw_cbuf *c2h_queue;
- 	#define C2H_QUEUE_MAX_LEN 10
--	ATOMIC_T event_seq;
-+	atomic_t event_seq;
- 	u8	*evt_buf;	/* shall be non-paged, and 4 bytes aligned */
- 	u8	*evt_allocated_buf;
- 	u32	evt_done_cnt;
-diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-index b9c76f04445c..88d4ec073723 100644
---- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-+++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-@@ -382,7 +382,7 @@ struct p2p_oper_class_map {
- struct mlme_ext_priv {
- 	struct adapter	*padapter;
- 	u8	mlmeext_init;
--	ATOMIC_T	event_seq;
-+	atomic_t event_seq;
- 	u16	mgnt_seq;
+ 	free_mlme_ext_priv(&padapter->mlmeextpriv);
  
- 	unsigned char	cur_channel;
-diff --git a/drivers/staging/r8188eu/include/usb_ops.h b/drivers/staging/r8188eu/include/usb_ops.h
-index 273bc2705558..5d290199e37c 100644
---- a/drivers/staging/r8188eu/include/usb_ops.h
-+++ b/drivers/staging/r8188eu/include/usb_ops.h
-@@ -38,7 +38,7 @@ static inline int rtw_inc_and_chk_continual_urb_error(struct dvobj_priv *dvobj)
- {
- 	int ret = false;
- 	int value;
--	value = ATOMIC_INC_RETURN(&dvobj->continual_urb_error);
-+	value = atomic_inc_return(&dvobj->continual_urb_error);
- 	if (value > MAX_CONTINUAL_URB_ERR) {
- 		DBG_88E("[dvobj:%p][ERROR] continual_urb_error:%d > %d\n",
- 			dvobj, value, MAX_CONTINUAL_URB_ERR);
-@@ -52,7 +52,7 @@ static inline int rtw_inc_and_chk_continual_urb_error(struct dvobj_priv *dvobj)
- */
- static inline void rtw_reset_continual_urb_error(struct dvobj_priv *dvobj)
- {
--	ATOMIC_SET(&dvobj->continual_urb_error, 0);
-+	atomic_set(&dvobj->continual_urb_error, 0);
- }
- 
- #define USB_HIGH_SPEED_BULK_SIZE	512
+ 	rtw_free_cmd_priv(&padapter->cmdpriv);
 diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
-index ec877615bdf7..f44b7dea95ed 100644
+index b1ccd620baab..e6904d2e0358 100644
 --- a/drivers/staging/r8188eu/os_dep/osdep_service.c
 +++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
-@@ -183,56 +183,6 @@ inline void rtw_unlock_suspend(void)
- {
+@@ -94,10 +94,6 @@ void	_rtw_mutex_free(struct mutex *pmutex)
+ 	mutex_destroy(pmutex);
  }
  
--inline void ATOMIC_SET(ATOMIC_T *v, int i)
+-void	_rtw_spinlock_free(spinlock_t *plock)
 -{
--	atomic_set(v, i);
 -}
 -
--inline int ATOMIC_READ(ATOMIC_T *v)
--{
--	return atomic_read(v);
--}
--
--inline void ATOMIC_ADD(ATOMIC_T *v, int i)
--{
--	atomic_add(i, v);
--}
--
--inline void ATOMIC_SUB(ATOMIC_T *v, int i)
--{
--	atomic_sub(i, v);
--}
--
--inline void ATOMIC_INC(ATOMIC_T *v)
--{
--	atomic_inc(v);
--}
--
--inline void ATOMIC_DEC(ATOMIC_T *v)
--{
--	atomic_dec(v);
--}
--
--inline int ATOMIC_ADD_RETURN(ATOMIC_T *v, int i)
--{
--	return atomic_add_return(i, v);
--}
--
--inline int ATOMIC_SUB_RETURN(ATOMIC_T *v, int i)
--{
--	return atomic_sub_return(i, v);
--}
--
--inline int ATOMIC_INC_RETURN(ATOMIC_T *v)
--{
--	return atomic_inc_return(v);
--}
--
--inline int ATOMIC_DEC_RETURN(ATOMIC_T *v)
--{
--	return atomic_dec_return(v);
--}
--
- static const struct device_type wlan_type = {
- 	.name = "wlan",
- };
+ void	_rtw_init_queue(struct __queue *pqueue)
+ {
+ 	INIT_LIST_HEAD(&(pqueue->queue));
 -- 
 2.32.0
 
