@@ -1,219 +1,269 @@
-Received: from mx0b-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B39EF72
-	for <linux-staging@lists.linux.dev>; Mon,  2 Aug 2021 14:59:17 +0000 (UTC)
-Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
-	by mx0a-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 172EEpSM014248;
-	Mon, 2 Aug 2021 07:29:31 -0700
-Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam07lp2040.outbound.protection.outlook.com [104.47.56.40])
-	by mx0a-0016f401.pphosted.com with ESMTP id 3a62652mjc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 02 Aug 2021 07:29:31 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mn6GWmTojoMuVXU2IVVuglIkNfodbqfo7/2YQVSZCCrGjK9fCWKhh3czlQYGaq7Ij0RCEfX/cb84CqkXxMOEMyaX70OCAkZWzWBdwTJaFmTcSzTqg8Vt4Shr401WfEID40BzYkFhxglaLCmQX3mIpqUvAPMtmOe0QlBP+MgLeDJLEX+YQ5bZfLwZujaY3dkOakqajIIqpK91uS+Q10X7vTMuR52fcXAK21t3Zb/VMKc6XqT18AOXQlY8CxlK7l0wScaSEAtAp6oMuVCOKTx8gjaAqRs6GlL3lVoDhms7chJ5HUqlH8zAlHJi5Q9rRF7q8m/QXJT4VLnBuR9iaxYELg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IfrCdvSUqJjQfxX/HuRzUq8L2pDt+t2GaIByIu/qAwk=;
- b=EeMofercIk02dAaq4ppE66b6ZGn/vNjpha32T9DGHFB0YkVDcT76zGV75KytXG77DUO4C0N0N6zUWmFbQpmEn1tGb1aa2okWv5VHh1pVzgU6CTChtV12LuZdLSByHnEFatEvzNmkM7R8yrI8vEJVdLLcaSHXgAr75jrVUd1QToGwXl+2/QtjGPYovIiwoO8DTO7mLSFr5t6sKnUOl2a6YP2xDkx9xJZ5HA8SmDwY8QGfwrGFoBLkG8VhHjEdUkWiYHrkGeFAaXO/lw648GkPAZlQ1NezvBc1UDHD3uAsUM7sUvv4j9BG/ToLCTlknmZIjy3XZf2rcGrFOOfRAbsYWA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
- dkim=pass header.d=marvell.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF4D177
+	for <linux-staging@lists.linux.dev>; Mon,  2 Aug 2021 15:16:01 +0000 (UTC)
+Received: by mail-ot1-f49.google.com with SMTP id z6-20020a9d24860000b02904d14e47202cso9060946ota.4
+        for <linux-staging@lists.linux.dev>; Mon, 02 Aug 2021 08:16:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IfrCdvSUqJjQfxX/HuRzUq8L2pDt+t2GaIByIu/qAwk=;
- b=V1zZWIAfjA5906sO9M1X9KAcKdIa+a2RnGPdcohArsru7HpXKAtDtSy9irGfgN7z3O/u1gwUyDo5sVvJRa5jUhPHtPL3VXhXSmbmjAK/NPLovhyS5gwJ06v8DwWnBk2XnsvXx2EwzipKX31eaUdVzhPqAHNAEBSlQzhmuhTQ/RM=
-Received: from SJ0PR18MB3882.namprd18.prod.outlook.com (2603:10b6:a03:2c8::13)
- by BYAPR18MB2550.namprd18.prod.outlook.com (2603:10b6:a03:138::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.26; Mon, 2 Aug
- 2021 14:29:29 +0000
-Received: from SJ0PR18MB3882.namprd18.prod.outlook.com
- ([fe80::6513:d2ca:d44a:537c]) by SJ0PR18MB3882.namprd18.prod.outlook.com
- ([fe80::6513:d2ca:d44a:537c%9]) with mapi id 15.20.4373.026; Mon, 2 Aug 2021
- 14:29:29 +0000
-From: Shai Malin <smalin@marvell.com>
-To: Kees Cook <keescook@chromium.org>
-CC: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Keith Packard
-	<keithpac@amazon.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "linux-wireless@vger.kernel.org"
-	<linux-wireless@vger.kernel.org>,
-        "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>,
-        "linux-staging@lists.linux.dev"
-	<linux-staging@lists.linux.dev>,
-        "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>,
-        "linux-kbuild@vger.kernel.org"
-	<linux-kbuild@vger.kernel.org>,
-        "clang-built-linux@googlegroups.com"
-	<clang-built-linux@googlegroups.com>,
-        "linux-hardening@vger.kernel.org"
-	<linux-hardening@vger.kernel.org>,
-        GR-everest-linux-l2
-	<GR-everest-linux-l2@marvell.com>,
-        Ariel Elior <aelior@marvell.com>
-Subject: Re: [PATCH 42/64] net: qede: Use memset_after() for counters
-Thread-Topic: [PATCH 42/64] net: qede: Use memset_after() for counters
-Thread-Index: AdeGtkLsSvL2o+KDTzKodUmtpqlAUA==
-Date: Mon, 2 Aug 2021 14:29:28 +0000
-Message-ID: 
- <SJ0PR18MB3882DC88DB04C9DE68678CEDCCEF9@SJ0PR18MB3882.namprd18.prod.outlook.com>
-Accept-Language: he-IL, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: chromium.org; dkim=none (message not signed)
- header.d=none;chromium.org; dmarc=none action=none header.from=marvell.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4671518c-feb1-4064-8873-08d955c1efd4
-x-ms-traffictypediagnostic: BYAPR18MB2550:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: 
- <BYAPR18MB25500E156F81C2FEE992AC5FCCEF9@BYAPR18MB2550.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- 4nKMtFfm6q75L022wx5/+fODlplahXWLRHW1OAyZ860p70iUbShyJ2thZvaSMBEufN8s/OWfKH+RKSoExCqJemQB4jPD+GLDMu9npwQIWGlbZFUfG7Of1CptJgx0Sin25jTfbFQaL20za672esZKSoH1KJKim3rvzo2kg7UHYqn6NaJ3UOuTfEfvUAgV/1UH2YhvC6UWIpoftVPCXFWmhcqrBluu7yQfo9p2/Wsed50faUNYWvOPb7qjro3hrYosgGFOSXZT6MLerLWAxvbUyNDtTBxLjjvg8dAmZjDojWXVrnHvwP+NZbmQnykyhhbYknq9l5GEMdtZFrzS/p3cDCr555PlG1ZL++NQHnWz7pKF3GiypwCVl4BbPARfW1C7gN/8dS/Rk+pKkVHstthZJxalew9MVxxFSZAqrH1Lbtk9Rd5ebd08Z9QrZ1760jK04UQLjNtYW88L5TbW6KHnqA3e/Qh5V4EU/BjNgNuft9a+yF4LUtrGz85V5j65psGOMLAkOb5LNWQvckP97QN+8NdILhRPo91VwKVlSO+ZmH/C1YqNwqYtAHn8APFXk99Y68xQW2up8C+5iTMyyKJk6zwirNE8mSa5Pc2W04PcrhArFCKW+WqdtKyG/xv7HQc0tIWnquXFaGD0zoFqrNU7b7ppqKWgKNsikzv/UkqSL0Yh8MCnVsh5ISGu6k6fHub442pf4vGzcw2Wmdmj2Cbg5g==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR18MB3882.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(396003)(39860400002)(136003)(366004)(186003)(83380400001)(86362001)(6916009)(38070700005)(26005)(7696005)(52536014)(7416002)(6506007)(107886003)(316002)(122000001)(38100700002)(8676002)(478600001)(8936002)(2906002)(71200400001)(64756008)(54906003)(55016002)(33656002)(76116006)(5660300002)(66476007)(66446008)(66556008)(9686003)(4326008)(66946007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?r36pt96gPfq2TWMhN6i6otGo9BCYDdrX9XhTdJ14F9NS9hNULE9dbz/8YvGM?=
- =?us-ascii?Q?CfkP8eb7K6I22nAVfkrYUSQnUanOfd0ynfbWSn7tscEEM36YOzF20ov9csij?=
- =?us-ascii?Q?jS/9msypDCduALT1mINwKviq4w4ESLIN0Jho2+rtdHA4J7wRWC7tvYHcLvUd?=
- =?us-ascii?Q?iKfGD0tYfs8nvZIJYesWdb2Ds4xnkYVLLaIHzaLEBJ7UaPnPl0rh5nE5rzi3?=
- =?us-ascii?Q?9AkMImGiw2m9WJyMNeS7EC7uhb0hHYcmCCIMVsokRFYOJFASUhVMYtsXOV56?=
- =?us-ascii?Q?MSq7yRjlH9zvSXwdkehG7pQOQ+MIBxqJlZrxD4HqTOfUMVs4G8kurQYykUQ1?=
- =?us-ascii?Q?rjVIE2dhc44GhX4XEoHsP08Tg2woJ0B2YgHkGP92NbQKn/+rCBzBAwNWP89D?=
- =?us-ascii?Q?vXrDklHctzsbF71MFQiLKGCMpWUlWHZX3rZZdDzJCMWJsBWWcUWm+4M1NXix?=
- =?us-ascii?Q?OAsCUGKp/0JtbYtDKoAFUm4KmR+jfdzKlzn7ujOv5k6DiOoeAFl3lDzYyy7i?=
- =?us-ascii?Q?4XM3f0CdlibPaYjnSSjk8oxLpdlVl0h4iU2qM4rjHyuSDIsWeCMKO213kGAm?=
- =?us-ascii?Q?FbIZRo+4iaqqVOGhz4HGVQsWVohjG9MuagXtCxbFuW1/9ixwNgCVz2i9GLok?=
- =?us-ascii?Q?ivKulGa7F6OhKzCbikzuI1vGROYzOmB84JsYDx9/mSVQG6iE6qeFSxEtsuYg?=
- =?us-ascii?Q?UHgj5bDXetEdpvR8InJmwzLr1b18bKETlbP7queg9t92uqRLNryzC6q9wrLc?=
- =?us-ascii?Q?3xAivZ6WiftIva94sin1LJZ7paPjGKDVKAgcZDFZdPVndaTe6e7GV7+AiX2r?=
- =?us-ascii?Q?KppxfVVX3Sc8J570A2Cc4YEAu3Slvw3V1JSNbcqxUZcxjxZ5mKXVxDw48VOW?=
- =?us-ascii?Q?Kcg1lLRLRgDJ2hzEo/iF/ZEqJ0nk1IReSOuOrdG/aetVu6VL9rOxAaCeu+BT?=
- =?us-ascii?Q?iCXA8DI/PHrdr1vNlZgpo7XhLBe/jhZeibydKQOex0/4IdpMZAmI8F8aUBYi?=
- =?us-ascii?Q?jz4pHanP5XJGbehc5x6gE9B88F4s7n8I/UsvKqcBbpxbkUyh3dXKgkvpu7Ax?=
- =?us-ascii?Q?s2BhhpC8/v0rPAn8Vr6PDmByofl3I2i6thbRpeicmL7n22LWWlDs6Lto/TZV?=
- =?us-ascii?Q?w688OiRi90CQlPXQCUsa+5C6NnT7GFFIf0N0M8Fjks3h147O/gwVsXeMWCQO?=
- =?us-ascii?Q?2XyArz6SoOia0ubB5JF1FovWD9OE8oUJxewNgeus9mws8DgKxcHK3l51/aUU?=
- =?us-ascii?Q?v3Ax+1GTD5H/WuxDse/+B2FFfHh8yaoWaW5bGSZJHGndnqWctef6/P+E1iis?=
- =?us-ascii?Q?ia4fDZKrCCoLttkdtJMvvTUa?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=UUGsT9ZBKIoOMU3i/IfKC7jHLnds9a6HaJpB/flOpvY=;
+        b=pIAKNmw5M9IgzkSaPReZMy0zN6VPTAaXDDeTV8B9h2f9jyi2bIYz66D4vK/ief2zcA
+         MQ9c4f0aXli7NRLa4gDXfN0NWuiofJwMQc1V6x9c0QgjvAMTIS/b8IgSSoujZKhowrXv
+         aGd8x8OmIdnlb6xGTSYebmQttqVGy/TmkxJcZHgdG3ShY1g+2jtTQEbZAX1/k3/MZPxL
+         u9mfgeWr/5Iuv0Oh9zeCxIJPbXRO3ZVRwdNkQsElODWNWFJji1CsRgfPGooEPOy0Huis
+         ef15jqTSESVzmVELueecFQeEcr8fNq7F9pgjqRcoykRJ0mRuBxU8F7heqEeAdcte5+/q
+         nw2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :in-reply-to:references:mime-version:content-transfer-encoding;
+        bh=UUGsT9ZBKIoOMU3i/IfKC7jHLnds9a6HaJpB/flOpvY=;
+        b=OB1ZpyEvrgDRRyppMSjv6IZCcP1T+wdmctZsUS9wB5Cr82olte4aoXIwACFZ4BMdbt
+         vmzuMh5r6w8PK1u1NMT5LgoTO1WyInBtYYvV90ECsE8KSBS9cwD5K16vEy8+M1nrTkuG
+         0wUnOjeTBBSADegLBIVfQE0dwmIQZ0KHwAq2mLAgk1XDz39+REzbwAgkuj/foQUFdzLG
+         HM7tiLNLU0e1z6UN+aKNPjm1BPzoURvRPn//9PVOGDAGvd2cVT6H0DraYtOEn70br/jB
+         LmQpv2I6jaciFuthS7N9spDU+7wFMWqTPOSxq2D6WlUQlkBTFt2yFFcqgfFjB9ftN+99
+         Z2Jw==
+X-Gm-Message-State: AOAM531y/4DjPmMEVY3OYFH/7t9SwwZ/gya6dnbd4g2KHznPJMznh3Gw
+	O/b/6mKuztZKinMZdA2QPl8=
+X-Google-Smtp-Source: ABdhPJwGcKgKHE+cI2p/kOMj+8O6mHUICeEUItfCqqGMp33rtEQUM3JvDNLB9R1plWDYX7OeDtpd2Q==
+X-Received: by 2002:a9d:17e8:: with SMTP id j95mr11451523otj.263.1627917360388;
+        Mon, 02 Aug 2021 08:16:00 -0700 (PDT)
+Received: from 2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com.com (2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com. [2603:8090:2005:39b3::100a])
+        by smtp.gmail.com with ESMTPSA id w16sm1807034oiv.15.2021.08.02.08.15.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Aug 2021 08:15:59 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+To: gregkh@linuxfoundation.org
+Cc: phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Larry Finger <Larry.Finger@lwfinger.net>
+Subject: [PATCH 2/6] staging: r8188eu: Remove wrapper around vfree
+Date: Mon,  2 Aug 2021 10:15:42 -0500
+Message-Id: <20210802151546.31797-3-Larry.Finger@lwfinger.net>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210802151546.31797-1-Larry.Finger@lwfinger.net>
+References: <20210802151546.31797-1-Larry.Finger@lwfinger.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: marvell.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR18MB3882.namprd18.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4671518c-feb1-4064-8873-08d955c1efd4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Aug 2021 14:29:28.8058
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Ivd18q5DnoheZEfOxS0dSHg0KLsScH+1yRYI2vpqQlJG9hz5rOnxqrwQhh01VneSHF1PPzRHa4nGDZUIPrICyw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR18MB2550
-X-Proofpoint-ORIG-GUID: ox9cV0OtkKJSABP7NaYpoBN3ml4Voeoj
-X-Proofpoint-GUID: ox9cV0OtkKJSABP7NaYpoBN3ml4Voeoj
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
- definitions=2021-08-02_05:2021-08-02,2021-08-02 signatures=0
+Content-Transfer-Encoding: 8bit
 
+This call is so simple that there is no need, or use, for a wrapper.
 
-On Tue, Jul 31, 2021 at 07:07:00PM -0300, Kees Cook wrote:
-> On Tue, Jul 27, 2021 at 01:58:33PM -0700, Kees Cook wrote:
-> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > field bounds checking for memset(), avoid intentionally writing across
-> > neighboring fields.
-> >
-> > Use memset_after() so memset() doesn't get confused about writing
-> > beyond the destination member that is intended to be the starting point
-> > of zeroing through the end of the struct.
-> >
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > ---
-> > The old code seems to be doing the wrong thing: starting from not the
-> > first member, but sized for the whole struct. Which is correct?
->=20
-> Quick ping on this question.
->=20
-> The old code seems to be doing the wrong thing: it starts from the second
-> member and writes beyond int_info, clobbering qede_lock:
+Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
+---
+ drivers/staging/r8188eu/core/rtw_mlme.c         |  4 +---
+ drivers/staging/r8188eu/core/rtw_mp.c           |  3 +--
+ drivers/staging/r8188eu/core/rtw_recv.c         |  5 +----
+ drivers/staging/r8188eu/core/rtw_sta_mgt.c      |  2 +-
+ drivers/staging/r8188eu/core/rtw_xmit.c         | 10 +++-------
+ drivers/staging/r8188eu/hal/odm_interface.c     |  2 +-
+ drivers/staging/r8188eu/hal/rtl8188e_hal_init.c |  2 +-
+ drivers/staging/r8188eu/include/osdep_service.h |  2 --
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c    |  4 ++--
+ drivers/staging/r8188eu/os_dep/osdep_service.c  |  7 +------
+ drivers/staging/r8188eu/os_dep/usb_intf.c       |  2 +-
+ 11 files changed, 13 insertions(+), 30 deletions(-)
 
-Thanks for highlighting the problem, but actually, the memset is redundant.
-We will remove it so the change will not be needed.
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index d8716a8b224a..5f8e58a0372a 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -133,9 +133,7 @@ void _rtw_free_mlme_priv (struct mlme_priv *pmlmepriv)
+ 	if (pmlmepriv) {
+ 		rtw_mfree_mlme_priv_lock (pmlmepriv);
+ 
+-		if (pmlmepriv->free_bss_buf) {
+-			rtw_vmfree(pmlmepriv->free_bss_buf, MAX_BSS_CNT * sizeof(struct wlan_network));
+-		}
++		vfree(pmlmepriv->free_bss_buf);
+ 	}
+ 
+ }
+diff --git a/drivers/staging/r8188eu/core/rtw_mp.c b/drivers/staging/r8188eu/core/rtw_mp.c
+index a12c6e0ad002..c579f2e2fd62 100644
+--- a/drivers/staging/r8188eu/core/rtw_mp.c
++++ b/drivers/staging/r8188eu/core/rtw_mp.c
+@@ -922,8 +922,7 @@ void _rtw_mp_xmit_priv(struct xmit_priv *pxmitpriv)
+ 		pxmitbuf++;
+ 	}
+ 
+-	if (pxmitpriv->pallocated_xmit_extbuf)
+-		rtw_vmfree(pxmitpriv->pallocated_xmit_extbuf, num_xmit_extbuf * sizeof(struct xmit_buf) + 4);
++	vfree(pxmitpriv->pallocated_xmit_extbuf);
+ 
+ 	if (padapter->registrypriv.mp_mode == 0) {
+ 		max_xmit_extbuf_size = 6000;
+diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+index 610cc699caf9..08e095cd08b8 100644
+--- a/drivers/staging/r8188eu/core/rtw_recv.c
++++ b/drivers/staging/r8188eu/core/rtw_recv.c
+@@ -115,12 +115,9 @@ void _rtw_free_recv_priv (struct recv_priv *precvpriv)
+ 
+ 	rtw_os_recv_resource_free(precvpriv);
+ 
+-	if (precvpriv->pallocated_frame_buf) {
+-		rtw_vmfree(precvpriv->pallocated_frame_buf, NR_RECVFRAME * sizeof(struct recv_frame) + RXFRAME_ALIGN_SZ);
+-	}
++	vfree(precvpriv->pallocated_frame_buf);
+ 
+ 	rtw_hal_free_recv_priv(padapter);
+-
+ }
+ 
+ struct recv_frame *_rtw_alloc_recvframe (struct __queue *pfree_recv_queue)
+diff --git a/drivers/staging/r8188eu/core/rtw_sta_mgt.c b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
+index feaf39fddf7c..3b1a6a689d95 100644
+--- a/drivers/staging/r8188eu/core/rtw_sta_mgt.c
++++ b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
+@@ -233,7 +233,7 @@ u32	_rtw_free_sta_priv(struct	sta_priv *pstapriv)
+ 		rtw_mfree_sta_priv_lock(pstapriv);
+ 
+ 		if (pstapriv->pallocated_stainfo_buf)
+-			rtw_vmfree(pstapriv->pallocated_stainfo_buf, sizeof(struct sta_info)*NUM_STA+4);
++			vfree(pstapriv->pallocated_stainfo_buf);
+ 		}
+ 
+ 	return _SUCCESS;
+diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+index 408d2b9955b9..87aa45c0305a 100644
+--- a/drivers/staging/r8188eu/core/rtw_xmit.c
++++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+@@ -252,11 +252,9 @@ void _rtw_free_xmit_priv (struct xmit_priv *pxmitpriv)
+ 		pxmitbuf++;
+ 	}
+ 
+-	if (pxmitpriv->pallocated_frame_buf)
+-		rtw_vmfree(pxmitpriv->pallocated_frame_buf, NR_XMITFRAME * sizeof(struct xmit_frame) + 4);
++	vfree(pxmitpriv->pallocated_frame_buf);
+ 
+-	if (pxmitpriv->pallocated_xmitbuf)
+-		rtw_vmfree(pxmitpriv->pallocated_xmitbuf, NR_XMITBUFF * sizeof(struct xmit_buf) + 4);
++	vfree(pxmitpriv->pallocated_xmitbuf);
+ 
+ 	/*  free xmit extension buff */
+ 	_rtw_spinlock_free(&pxmitpriv->free_xmit_extbuf_queue.lock);
+@@ -267,9 +265,7 @@ void _rtw_free_xmit_priv (struct xmit_priv *pxmitpriv)
+ 		pxmitbuf++;
+ 	}
+ 
+-	if (pxmitpriv->pallocated_xmit_extbuf) {
+-		rtw_vmfree(pxmitpriv->pallocated_xmit_extbuf, num_xmit_extbuf * sizeof(struct xmit_buf) + 4);
+-	}
++	vfree(pxmitpriv->pallocated_xmit_extbuf);
+ 
+ 	rtw_free_hwxmits(padapter);
+ 
+diff --git a/drivers/staging/r8188eu/hal/odm_interface.c b/drivers/staging/r8188eu/hal/odm_interface.c
+index 507baf9fd913..38f6ae410e53 100644
+--- a/drivers/staging/r8188eu/hal/odm_interface.c
++++ b/drivers/staging/r8188eu/hal/odm_interface.c
+@@ -85,7 +85,7 @@ void ODM_AllocateMemory(struct odm_dm_struct *pDM_Odm, void **pPtr, u32 length)
+ /*  length could be ignored, used to detect memory leakage. */
+ void ODM_FreeMemory(struct odm_dm_struct *pDM_Odm, void *pPtr, u32 length)
+ {
+-	rtw_vmfree(pPtr, length);
++	vfree(pPtr);
+ }
+ 
+ s32 ODM_CompareMemory(struct odm_dm_struct *pDM_Odm, void *pBuf1, void *pBuf2, u32 length)
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+index 62d8a7ca3a9a..a8e2081f3540 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+@@ -363,7 +363,7 @@ void rtw_IOL_cmd_tx_pkt_buf_dump(struct adapter *Adapter, int data_len)
+ 			} while (!rstatus && (loop++ < 10));
+ 		}
+ 		rtw_IOL_cmd_buf_dump(Adapter, data_len, pbuf);
+-		rtw_vmfree(pbuf, data_len+10);
++		vfree(pbuf);
+ 	}
+ 	DBG_88E("###### %s ######\n", __func__);
+ }
+diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
+index 30f645d89fe8..48d49919b2d5 100644
+--- a/drivers/staging/r8188eu/include/osdep_service.h
++++ b/drivers/staging/r8188eu/include/osdep_service.h
+@@ -214,10 +214,8 @@ extern unsigned char RSN_TKIP_CIPHER[4];
+ #define rtw_update_mem_stat(flag, sz) do {} while (0)
+ u8 *_rtw_vmalloc(u32 sz);
+ u8 *_rtw_zvmalloc(u32 sz);
+-void _rtw_vmfree(u8 *pbuf, u32 sz);
+ #define rtw_vmalloc(sz)			_rtw_vmalloc((sz))
+ #define rtw_zvmalloc(sz)			_rtw_zvmalloc((sz))
+-#define rtw_vmfree(pbuf, sz)		_rtw_vmfree((pbuf), (sz))
+ 
+ void *rtw_malloc2d(int h, int w, int size);
+ 
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index 5f4355cb03e7..11301e0f287a 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -5575,7 +5575,7 @@ static int rtw_wx_set_priv(struct net_device *dev,
+ 		return -ENOMEM;
+ 
+ 	if (copy_from_user(ext, dwrq->pointer, len)) {
+-		rtw_vmfree(ext, len);
++		vfree(ext);
+ 		return -EFAULT;
+ 	}
+ 
+@@ -5614,7 +5614,7 @@ static int rtw_wx_set_priv(struct net_device *dev,
+ 
+ FREE_EXT:
+ 
+-	rtw_vmfree(ext, len);
++	vfree(ext);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
+index d537f6352fc5..dab61fac976c 100644
+--- a/drivers/staging/r8188eu/os_dep/osdep_service.c
++++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
+@@ -53,11 +53,6 @@ inline u8 *_rtw_zvmalloc(u32 sz)
+ 	return pbuf;
+ }
+ 
+-inline void _rtw_vmfree(u8 *pbuf, u32 sz)
+-{
+-	vfree(pbuf);
+-}
+-
+ void *rtw_malloc2d(int h, int w, int size)
+ {
+ 	int j;
+@@ -296,7 +291,7 @@ void rtw_free_netdev(struct net_device *netdev)
+ 	if (!pnpi->priv)
+ 		goto RETURN;
+ 
+-	rtw_vmfree(pnpi->priv, pnpi->sizeof_priv);
++	vfree(pnpi->priv);
+ 	free_netdev(netdev);
+ 
+ RETURN:
+diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+index 270de35f1d35..2c372c9ad7e7 100644
+--- a/drivers/staging/r8188eu/os_dep/usb_intf.c
++++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+@@ -702,7 +702,7 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
+ 		if (pnetdev)
+ 			rtw_free_netdev(pnetdev);
+ 		else if (padapter)
+-			rtw_vmfree((u8 *)padapter, sizeof(*padapter));
++			vfree(padapter);
+ 		padapter = NULL;
+ 	}
+ exit:
+-- 
+2.32.0
 
->=20
-> struct qede_dev {
->         ...
->         struct qed_int_info             int_info;
->=20
->         /* Smaller private variant of the RTNL lock */
->         struct mutex                    qede_lock;
->         ...
->=20
->=20
-> struct qed_int_info {
->         struct msix_entry       *msix;
->         u8                      msix_cnt;
->=20
->         /* This should be updated by the protocol driver */
->         u8                      used_cnt;
-> };
->=20
-> Should this also clear the "msix" member, or should this not write
-> beyond int_info? This patch does the latter.
-
-It should clear only the msix_cnt, no need to clear the entire=20
-qed_int_info structure.
-
->=20
-> -Kees
->=20
-> > ---
-> >  drivers/net/ethernet/qlogic/qede/qede_main.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/net/ethernet/qlogic/qede/qede_main.c
-> b/drivers/net/ethernet/qlogic/qede/qede_main.c
-> > index 01ac1e93d27a..309dfe8c94fb 100644
-> > --- a/drivers/net/ethernet/qlogic/qede/qede_main.c
-> > +++ b/drivers/net/ethernet/qlogic/qede/qede_main.c
-> > @@ -2419,7 +2419,7 @@ static int qede_load(struct qede_dev *edev, enum
-> qede_load_mode mode,
-> >  	goto out;
-> >  err4:
-> >  	qede_sync_free_irqs(edev);
-> > -	memset(&edev->int_info.msix_cnt, 0, sizeof(struct qed_int_info));
-> > +	memset_after(&edev->int_info, 0, msix);
-
-We will replace the redundant memset with:
-edev->int_info.msix_cnt =3D 0;=20
-
-> >  err3:
-> >  	qede_napi_disable_remove(edev);
-> >  err2:
-> > --
-> > 2.30.2
-> >
->=20
-> --
-> Kees Cook
