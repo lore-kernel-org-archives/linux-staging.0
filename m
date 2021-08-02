@@ -1,59 +1,50 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE6E72
-	for <linux-staging@lists.linux.dev>; Mon,  2 Aug 2021 16:23:26 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id mz5-20020a17090b3785b0290176ecf64922so32446093pjb.3
-        for <linux-staging@lists.linux.dev>; Mon, 02 Aug 2021 09:23:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C885C70
+	for <linux-staging@lists.linux.dev>; Mon,  2 Aug 2021 17:19:52 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id x11so31128459ejj.8
+        for <linux-staging@lists.linux.dev>; Mon, 02 Aug 2021 10:19:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=JaILGVZ5ZfAh5yd44e+vxSRLCop37r4sy9cxjRO/kVU=;
-        b=aw1kgIMmRz0YMmD8jXYt7yhGZxHLHmcNQFLrG40MdDJ4dxtp5Dp6z04FghrmAgWxls
-         ibbc21J6Lj1o0KA7GwJpBkMxWoCQKSfGPfoyBryQnP/vDd6QBrsp3tbdnfeGJcBe4xv4
-         fS1shEaQqJCHHvIk5MIu8rA0hZEvPYJj50Zzs=
+         :content-disposition:in-reply-to:user-agent;
+        bh=Kgsw97NVFKM1NINGpazGJg2D+jbYM5Prts4Ms4WIhmw=;
+        b=V24lPFLG2LkOzZKhAdjBSrv1m8CzKwqWczXzFUcQ9/0xznmVvi7sEd+mhQN6++WoBj
+         +0Z8YejWKRUZplZqoI+L3jQtZeJJ/sDNpRIgxBClq77omFhDi8D1Vl7+6bakiZNv94MK
+         DN54P3eRJfKX8Ne76B1WDUiRgfcMTfEhyaudW26C13CeODIAB1UXrlbHRAO3hMCpePlv
+         MGuBRlP5HWXlcLpkEnOivm9qYt2n+uyhoB2L6TGVRPPj9D5e+7Sf0ZKCHqyghQF1HmS6
+         ZYRqhDJ1ST2+Ogw8Win3DkrqtLzG/OB0aK/MDvI8KqZFjSYX8lxycD4lFtLLpFduJ2HS
+         WFuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=JaILGVZ5ZfAh5yd44e+vxSRLCop37r4sy9cxjRO/kVU=;
-        b=AbGky8s89pxTB+McZyGGyJVeQ3dSWdBtVTexmgclwh0YRjx540S3RGl6goUm3rGOX5
-         tMsNCSnBs4wCWrjuag6yDscD2iScQRvIXD5XQk1uAVk+bsgO5zDGKtBvbZRbweWqjnUx
-         wzkpDQCGqsd7Lmh/u35DCxmhHymd+GK0CGq6p9KE89iEcyjq8WkuirURVkenCEUCgDEr
-         7dDtgfBYpddg6STbVmGx4ODs8jVaEQpnm6jBV9fZmt62bPSSqI2wRjeAh7NSbKtZISIk
-         aCdxWOilaRtINa7szyEh7YOBwEctnjGhMEl510dyMShYlulH/sj2/RIJ4/DFn7JUaGMK
-         tXXg==
-X-Gm-Message-State: AOAM5321j5Vcx2jsC8wPfQauZ53Ss6QXWuiEd6If2jiFTFdx7V8xo8oO
-	Sf8ywjj1KLWIlgm7zf5fQo1pqQ==
-X-Google-Smtp-Source: ABdhPJyna/JEEPlWGNR2S+ZqJqCzOPLMMoqPYs8YB21x4PV9XLYXx00eTM9yttg27rSVI2z426vQLw==
-X-Received: by 2002:a63:4a49:: with SMTP id j9mr2250552pgl.20.1627921406097;
-        Mon, 02 Aug 2021 09:23:26 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id s193sm13206950pfc.183.2021.08.02.09.23.25
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Kgsw97NVFKM1NINGpazGJg2D+jbYM5Prts4Ms4WIhmw=;
+        b=tA3/4ziU9OZaNXFnwZM9vN7mUy1ChDQj0MU1DNUgRHhU2DE2RZP3s4wWedh0xsr9Of
+         VT0GUqU4QymBNatLkK45Vu8Lsi9vg0SHiQpOMUJj5LI1y8gtzSXG8kwTNVLfze3IzGtG
+         yns6xN6rqHOkRqJIS72LfFMZTSsiHjR+qS43t3KBpzkgzPXY5q/eoo4Pcql/IXGKw0F1
+         5jw8CGaLzpRLZnsmFAcxXV9zqmkI5EUrssp3tg2WyjSRM4zVgcEhlN1FGr7iRywT6EBD
+         uDg+0HdUuL/YcfRaHHQLH6iK49fSOAgSwQXfJweyxHgfbS3fmZjpc/fLm8ohdBLbD9Z/
+         3n4w==
+X-Gm-Message-State: AOAM533O94rv2wS0l8M8L/XIdq+zaW5oZTF9l+KSjub8ppUCgNU2wqAn
+	LZAQlysj1f1gTcfjQMh5iJI=
+X-Google-Smtp-Source: ABdhPJzfs+VXJzaVSlUOPcsjhzwAWXyway26QjidiyNlOSGXySMPb8uhUgvdTqr5iP10dop+aX6S4Q==
+X-Received: by 2002:a17:906:e0ce:: with SMTP id gl14mr16496132ejb.168.1627924791169;
+        Mon, 02 Aug 2021 10:19:51 -0700 (PDT)
+Received: from agape.jhs ([5.171.8.39])
+        by smtp.gmail.com with ESMTPSA id i16sm6516196edr.38.2021.08.02.10.19.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Aug 2021 09:23:25 -0700 (PDT)
-Date: Mon, 2 Aug 2021 09:23:24 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Shai Malin <smalin@marvell.com>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Keith Packard <keithpac@amazon.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-	"clang-built-linux@googlegroups.com" <clang-built-linux@googlegroups.com>,
-	"linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
-	GR-everest-linux-l2 <GR-everest-linux-l2@marvell.com>,
-	Ariel Elior <aelior@marvell.com>
-Subject: Re: [PATCH 42/64] net: qede: Use memset_after() for counters
-Message-ID: <202108020922.FE8A35C854@keescook>
-References: <SJ0PR18MB3882DC88DB04C9DE68678CEDCCEF9@SJ0PR18MB3882.namprd18.prod.outlook.com>
+        Mon, 02 Aug 2021 10:19:50 -0700 (PDT)
+Date: Mon, 2 Aug 2021 19:19:48 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>
+Cc: gregkh@linuxfoundation.org, phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/6] Clean up some extraneous wrappers and some empty
+ routines
+Message-ID: <20210802171947.GA1405@agape.jhs>
+References: <20210802151546.31797-1-Larry.Finger@lwfinger.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -62,63 +53,82 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <SJ0PR18MB3882DC88DB04C9DE68678CEDCCEF9@SJ0PR18MB3882.namprd18.prod.outlook.com>
+In-Reply-To: <20210802151546.31797-1-Larry.Finger@lwfinger.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Mon, Aug 02, 2021 at 02:29:28PM +0000, Shai Malin wrote:
+Hi Larry,
+
+On Mon, Aug 02, 2021 at 10:15:40AM -0500, Larry Finger wrote:
+> The original code created some wrappers to handle the differences between
+> Linux and Windows. In a Linux-only version, these can be removed.
 > 
-> On Tue, Jul 31, 2021 at 07:07:00PM -0300, Kees Cook wrote:
-> > On Tue, Jul 27, 2021 at 01:58:33PM -0700, Kees Cook wrote:
-> > > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > > field bounds checking for memset(), avoid intentionally writing across
-> > > neighboring fields.
-> > >
-> > > Use memset_after() so memset() doesn't get confused about writing
-> > > beyond the destination member that is intended to be the starting point
-> > > of zeroing through the end of the struct.
-> > >
-> > > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > > ---
-> > > The old code seems to be doing the wrong thing: starting from not the
-> > > first member, but sized for the whole struct. Which is correct?
-> > 
-> > Quick ping on this question.
-> > 
-> > The old code seems to be doing the wrong thing: it starts from the second
-> > member and writes beyond int_info, clobbering qede_lock:
+> Larry Finger (6):
+>   staging: r8188eu: Remove wrappers for kalloc() and kzalloc()
+>   staging: r8188eu: Remove wrapper around vfree
+>   staging: r8188eu: Remove wrappers for atomic operations
+>   staging: r8188eu: Remove 4 empty routines from os_sep/service.c
+>   staging: r8188eu: Remove all calls to _rtw_spinlock_free()
+>   staging: r8188eu: Remove more empty routines
 > 
-> Thanks for highlighting the problem, but actually, the memset is redundant.
-> We will remove it so the change will not be needed.
+>  drivers/staging/r8188eu/core/rtw_ap.c         |   8 +-
+>  drivers/staging/r8188eu/core/rtw_br_ext.c     |   2 +-
+>  drivers/staging/r8188eu/core/rtw_br_ext.c.rej |  11 ++
+
+what these .rej files are?
+
+>  drivers/staging/r8188eu/core/rtw_cmd.c        |  16 +--
+>  drivers/staging/r8188eu/core/rtw_efuse.c      |   4 +-
+>  drivers/staging/r8188eu/core/rtw_efuse.c.rej  |  20 ++++
+>  drivers/staging/r8188eu/core/rtw_mlme.c       |  15 +--
+>  drivers/staging/r8188eu/core/rtw_mlme_ext.c   |  44 +++----
+>  .../staging/r8188eu/core/rtw_mlme_ext.c.rej   | 107 ++++++++++++++++++
+>  drivers/staging/r8188eu/core/rtw_mp.c         |   5 +-
+>  drivers/staging/r8188eu/core/rtw_p2p.c        |   8 +-
+>  drivers/staging/r8188eu/core/rtw_p2p.c.rej    |  18 +++
+>  drivers/staging/r8188eu/core/rtw_recv.c       |  16 +--
+>  drivers/staging/r8188eu/core/rtw_sta_mgt.c    |  48 +-------
+>  drivers/staging/r8188eu/core/rtw_wlan_util.c  |   2 +-
+>  drivers/staging/r8188eu/core/rtw_xmit.c       |  26 +----
+>  drivers/staging/r8188eu/hal/odm_interface.c   |   2 +-
+>  drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |   2 +-
+>  .../staging/r8188eu/hal/rtl8188e_cmd.c.rej    |  11 ++
+>  .../staging/r8188eu/hal/rtl8188e_hal_init.c   |  10 +-
+>  .../r8188eu/hal/rtl8188e_hal_init.c.rej       |  34 ++++++
+>  drivers/staging/r8188eu/hal/rtl8188eu_recv.c  |   3 +-
+>  .../staging/r8188eu/hal/rtl8188eu_recv.c.rej  |  12 ++
+>  drivers/staging/r8188eu/hal/usb_halinit.c     |   2 +-
+>  drivers/staging/r8188eu/hal/usb_halinit.c.rej |  11 ++
+>  drivers/staging/r8188eu/include/drv_types.h   |   2 +-
+>  .../staging/r8188eu/include/odm_precomp.h.rej |  19 ++++
+>  .../staging/r8188eu/include/osdep_service.h   |  28 -----
+>  drivers/staging/r8188eu/include/rtw_cmd.h     |   2 +-
+>  .../staging/r8188eu/include/rtw_mlme_ext.h    |   2 +-
+>  drivers/staging/r8188eu/include/usb_ops.h     |   4 +-
+>  drivers/staging/r8188eu/os_dep/ioctl_linux.c  |  70 ++++++------
+>  drivers/staging/r8188eu/os_dep/mlme_linux.c   |   3 +-
+>  drivers/staging/r8188eu/os_dep/os_intfs.c     |   2 -
+>  .../staging/r8188eu/os_dep/osdep_service.c    | 105 +----------------
+>  drivers/staging/r8188eu/os_dep/rtw_android.c  |   2 -
+>  drivers/staging/r8188eu/os_dep/usb_intf.c     |  10 +-
+>  drivers/staging/r8188eu/os_dep/xmit_linux.c   |   2 +-
+>  .../staging/r8188eu/os_dep/xmit_linux.c.rej   |  11 ++
+>  39 files changed, 366 insertions(+), 333 deletions(-)
+>  create mode 100644 drivers/staging/r8188eu/core/rtw_br_ext.c.rej
+>  create mode 100644 drivers/staging/r8188eu/core/rtw_efuse.c.rej
+>  create mode 100644 drivers/staging/r8188eu/core/rtw_mlme_ext.c.rej
+>  create mode 100644 drivers/staging/r8188eu/core/rtw_p2p.c.rej
+>  create mode 100644 drivers/staging/r8188eu/hal/rtl8188e_cmd.c.rej
+>  create mode 100644 drivers/staging/r8188eu/hal/rtl8188e_hal_init.c.rej
+>  create mode 100644 drivers/staging/r8188eu/hal/rtl8188eu_recv.c.rej
+>  create mode 100644 drivers/staging/r8188eu/hal/usb_halinit.c.rej
+>  create mode 100644 drivers/staging/r8188eu/include/odm_precomp.h.rej
+>  create mode 100644 drivers/staging/r8188eu/os_dep/xmit_linux.c.rej
 > 
-> > 
-> > struct qede_dev {
-> >         ...
-> >         struct qed_int_info             int_info;
-> > 
-> >         /* Smaller private variant of the RTNL lock */
-> >         struct mutex                    qede_lock;
-> >         ...
-> > 
-> > 
-> > struct qed_int_info {
-> >         struct msix_entry       *msix;
-> >         u8                      msix_cnt;
-> > 
-> >         /* This should be updated by the protocol driver */
-> >         u8                      used_cnt;
-> > };
-> > 
-> > Should this also clear the "msix" member, or should this not write
-> > beyond int_info? This patch does the latter.
+> -- 
+> 2.32.0
 > 
-> It should clear only the msix_cnt, no need to clear the entire 
-> qed_int_info structure.
+> 
 
-Should used_cnt be cleared too? It is currently. Better yet, what patch
-do you suggest I replace this proposed one with? :)
+thank you,
 
-Thanks for looking at this!
-
--Kees
-
--- 
-Kees Cook
+fabio
