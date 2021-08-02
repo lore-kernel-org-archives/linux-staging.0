@@ -1,106 +1,137 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 464BC29D6
-	for <linux-staging@lists.linux.dev>; Sun,  1 Aug 2021 21:04:35 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id l34-20020a05600c1d22b02902573c214807so7094537wms.2
-        for <linux-staging@lists.linux.dev>; Sun, 01 Aug 2021 14:04:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6297168
+	for <linux-staging@lists.linux.dev>; Mon,  2 Aug 2021 13:46:04 +0000 (UTC)
+Received: by mail-vk1-f182.google.com with SMTP id q3so1075863vkd.2
+        for <linux-staging@lists.linux.dev>; Mon, 02 Aug 2021 06:46:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Q60uXeQTP2Txfa0NFG78DG60WBiDi0/WKw762Gg42iM=;
-        b=kSjbo0aNgF7p31Zy2G0sMg2MXD//HBQNueCr8rIRLHtr8llYsteoY1Fw3V5Pmhs+wA
-         UODX86lQRtUmIp7yWEX4IfvIT923V/fP72LnX+QFYBZdUMEJReK9/rKWTjiN5T3lLkfd
-         WQCLlQ0YU9TxWt/Bui+hcLdMd3OtaKzl+72chJL87Ahe3JB9N/qa5yyVej/vhhCBixYZ
-         zw5bj0KZENtO6JeAmq5Rnx3GCiBswj0pqNRZD6yC6wseIYGHF3Prb+vtV97u7FnqS9wu
-         GGIf5r873blKED3ndE2wiHkxEMxdbyUxLfolEsoC90bEHQ79kZf5ZaF30hbhpzbYuxyo
-         PcpA==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RB17MU1pJAfRQkn/6jvNyWpVmGH7Icd/hgOnLlEzxuk=;
+        b=F5ASIru8EOb8b8ijHzOub5FKpL7CkNGrP/d38JvlhjC4EZQb4iHRHWmoHA99e522SR
+         DudGw4ze9SBj/QThHZHNn3eBE4gaiiwfiWkoA84+VmIQOahuMLfOCst9BsGiGPYhyhcg
+         1/SP/TOZczxWNXOzV6gLXF6xl7FwEnXCaGwOBSIqLnLLlbK3BgElbOQEHltY5Lzk0etI
+         p19bOUg4+/T1NhUQFD/CsIivwMBF1Gacc4DEcLrtL0X94Wgc5kGAfH9FtdnNSx6DtcPz
+         KbiHk+DDKEUVtXJEl2WzSWw92KUqI+0SSS6Td1/DoPK7ndr5VU/zMpev/hZOde2R+vO8
+         FgdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Q60uXeQTP2Txfa0NFG78DG60WBiDi0/WKw762Gg42iM=;
-        b=fWrQDkYvFoFJxp0WRKT2GGru/wPDww7llHgLpXZYsjKM/wrn7ubd3+GJtD3CbQq3zM
-         tM7/Ud7GTDTNuhjT8ABxelAnXmOc5wy0rqYPsyNktZK+5yVwN6ay8+17AhzELe2t4elT
-         /PcEBA2YyhfoDMb6Jf1A9w1gFqbMcPHFTjqbgKHIMQNRGwHlBc+RH8qbvZWyP5YKWoHv
-         TOMtITwA4hCITPmj5XUC7WDvAW3U70i91Ea0ORVac6fdDXoyw0FpnlwQDUPShRvhW3uX
-         1xC+jQfxGML5vysyuwluGmpiPpmQ1S1zr3fJGKjjdzzjYT+3MjgQ3V6DaL1TBUIeEnCi
-         lAlA==
-X-Gm-Message-State: AOAM533DJZOjZ3lNJHWtnxDvJ0H+s6jxUtQx5FnMi0EP09GVA4qQD3Nf
-	Q+8KKWYAX05ILDr2UZFTh7M=
-X-Google-Smtp-Source: ABdhPJxY8AmkJlB+piBlfcZnffkEreQvzhidAaoVuKzLFVwqaqSs8jNZtSsKDOe+mIsRdKQK1FqCpg==
-X-Received: by 2002:a7b:c5c8:: with SMTP id n8mr13774388wmk.124.1627851873717;
-        Sun, 01 Aug 2021 14:04:33 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::4bf9])
-        by smtp.gmail.com with ESMTPSA id f15sm8629709wrp.12.2021.08.01.14.04.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Aug 2021 14:04:33 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 2/2] staging: r8188eu: remove empty function odm_DynamicPrimaryCCA()
-Date: Sun,  1 Aug 2021 23:03:54 +0200
-Message-Id: <20210801210354.25218-2-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210801210354.25218-1-straube.linux@gmail.com>
-References: <20210801210354.25218-1-straube.linux@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RB17MU1pJAfRQkn/6jvNyWpVmGH7Icd/hgOnLlEzxuk=;
+        b=QOz11piVtqr+/2if4k+5+xw4lKL4UKmtatr+wk890sRBjHwMaFY4K8YOUB8KlOP+g4
+         PD0/T+tLtALUKFxKyidtkLZ3i4wHSMRz7JgAPFuPeJ9+w6PQarwHmdOm16LozIfFEJJq
+         YfW8ht3Z3HNPkROx6jS2XI1Nzceuj6QEkGVQOXZtF9kKElVyl+HOUsnYUf/kNApYNmw/
+         UBBd2B6iG0D0yt2ElVcbJ95u2RiGWMtdrgTFf14Wd9oCLrJdPHB4B1lScT2qg32EZvrJ
+         MOcTLDy13XZLGMBrn+lOZFQo3tXsU9ty9OCuQoWOr0UJREfL+p0fzDro3e/sf4qQYq26
+         q/pw==
+X-Gm-Message-State: AOAM5309alHiUasnTtx6cIQXIo4r7XaM1t3xRUUE1iBwzHVCuLPf7t0j
+	qhDpE0g5vOL8TNk+Xlb0pwvIOAJS53uR7HTFbKOinA==
+X-Google-Smtp-Source: ABdhPJys3C0NSF1OSBF2pdtOJrpc0ETgxFdEBsdyOedgw8e0aQQ3cCChzifcy/n0XDDC0J14ljAcg9DyT2dg6iAQlhM=
+X-Received: by 2002:a1f:cf47:: with SMTP id f68mr8719981vkg.7.1627911963456;
+ Mon, 02 Aug 2021 06:46:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <57783ece7ddae55f2bda2f59f452180bff744ea0.1626257398.git.geert+renesas@glider.be>
+In-Reply-To: <57783ece7ddae55f2bda2f59f452180bff744ea0.1626257398.git.geert+renesas@glider.be>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Mon, 2 Aug 2021 15:45:27 +0200
+Message-ID: <CAPDyKFoDULrvVJxRNQBjS-p6FynzXN_Az2eXkf9ag4CjYcsLNg@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: board: Fix uninitialized spinlock when
+ attaching genpd
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Kevin Hilman <khilman@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+	Bartosz Golaszewski <bgolaszewski@baylibre.com>, Magnus Damm <magnus.damm@gmail.com>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, Linux PM <linux-pm@vger.kernel.org>, 
+	linux-staging@lists.linux.dev, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Function odm_DynamicPrimaryCCA() does nothing, remove it.
+On Wed, 14 Jul 2021 at 12:13, Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> On Armadillo-800-EVA with CONFIG_DEBUG_SPINLOCK=y:
+>
+>     BUG: spinlock bad magic on CPU#0, swapper/1
+>      lock: lcdc0_device+0x10c/0x308, .magic: 00000000, .owner: <none>/-1, .owner_cpu: 0
+>     CPU: 0 PID: 1 Comm: swapper Not tainted 5.11.0-rc5-armadillo-00036-gbbca04be7a80-dirty #287
+>     Hardware name: Generic R8A7740 (Flattened Device Tree)
+>     [<c010c3c8>] (unwind_backtrace) from [<c010a49c>] (show_stack+0x10/0x14)
+>     [<c010a49c>] (show_stack) from [<c0159534>] (do_raw_spin_lock+0x20/0x94)
+>     [<c0159534>] (do_raw_spin_lock) from [<c040858c>] (dev_pm_get_subsys_data+0x8c/0x11c)
+>     [<c040858c>] (dev_pm_get_subsys_data) from [<c05fbcac>] (genpd_add_device+0x78/0x2b8)
+>     [<c05fbcac>] (genpd_add_device) from [<c0412db4>] (of_genpd_add_device+0x34/0x4c)
+>     [<c0412db4>] (of_genpd_add_device) from [<c0a1ea74>] (board_staging_register_device+0x11c/0x148)
+>     [<c0a1ea74>] (board_staging_register_device) from [<c0a1eac4>] (board_staging_register_devices+0x24/0x28)
+>
+> of_genpd_add_device() is called before platform_device_register(), as it
+> needs to attach the genpd before the device is probed.  But the spinlock
+> is only initialized when the device is registered.
+>
+> Fix this by open-coding the spinlock initialization, cfr.
+> device_pm_init_common() in the internal drivers/base code, and in the
+> SuperH early platform code.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Exposed by fw_devlinks changing probe order.
+> Masked before due to an unrelated wait context check failure, which
+> disabled any further spinlock checks.
+> https://lore.kernel.org/linux-acpi/CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com
+>
+> v2:
+>   - Improve code comment.
+> ---
+>  drivers/staging/board/board.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/staging/board/board.c b/drivers/staging/board/board.c
+> index cb6feb34dd401ae3..f980af0373452cab 100644
+> --- a/drivers/staging/board/board.c
+> +++ b/drivers/staging/board/board.c
+> @@ -136,6 +136,7 @@ int __init board_staging_register_clock(const struct board_staging_clk *bsc)
+>  static int board_staging_add_dev_domain(struct platform_device *pdev,
+>                                         const char *domain)
+>  {
+> +       struct device *dev = &pdev->dev;
+>         struct of_phandle_args pd_args;
+>         struct device_node *np;
+>
+> @@ -148,7 +149,11 @@ static int board_staging_add_dev_domain(struct platform_device *pdev,
+>         pd_args.np = np;
+>         pd_args.args_count = 0;
+>
+> -       return of_genpd_add_device(&pd_args, &pdev->dev);
+> +       /* Initialization similar to device_pm_init_common() */
+> +       spin_lock_init(&dev->power.lock);
+> +       dev->power.early_init = true;
+> +
+> +       return of_genpd_add_device(&pd_args, dev);
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/hal/odm.c              | 1 -
- drivers/staging/r8188eu/hal/odm_RTL8188E.c     | 4 ----
- drivers/staging/r8188eu/include/odm_RTL8188E.h | 2 --
- 3 files changed, 7 deletions(-)
+It looks like the only device that is being managed here, is a
+platform device that corresponds to the sh_mobile_lcdc_driver
+(drivers/video/fbdev/sh_mobile_lcdcfb.c).
 
-diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
-index 0bc836311036..08ec1e18b3f0 100644
---- a/drivers/staging/r8188eu/hal/odm.c
-+++ b/drivers/staging/r8188eu/hal/odm.c
-@@ -211,7 +211,6 @@ void ODM_DMWatchdog(struct odm_dm_struct *pDM_Odm)
- 	odm_RefreshRateAdaptiveMask(pDM_Odm);
- 
- 	odm_DynamicBBPowerSaving(pDM_Odm);
--	odm_DynamicPrimaryCCA(pDM_Odm);
- 	if ((pDM_Odm->AntDivType ==  CG_TRX_HW_ANTDIV)	||
- 	    (pDM_Odm->AntDivType == CGCS_RX_HW_ANTDIV)	||
- 	    (pDM_Odm->AntDivType == CG_TRX_SMART_ANTDIV))
-diff --git a/drivers/staging/r8188eu/hal/odm_RTL8188E.c b/drivers/staging/r8188eu/hal/odm_RTL8188E.c
-index 03fe29e16f1d..792284eac01f 100644
---- a/drivers/staging/r8188eu/hal/odm_RTL8188E.c
-+++ b/drivers/staging/r8188eu/hal/odm_RTL8188E.c
-@@ -342,7 +342,3 @@ bool ODM_DynamicPrimaryCCA_DupRTS(struct odm_dm_struct *dm_odm)
- 
- 	return	PrimaryCCA->DupRTS_flag;
- }
--
--void odm_DynamicPrimaryCCA(struct odm_dm_struct *dm_odm)
--{
--}
-diff --git a/drivers/staging/r8188eu/include/odm_RTL8188E.h b/drivers/staging/r8188eu/include/odm_RTL8188E.h
-index d6718186f2d6..776a8a6dab68 100644
---- a/drivers/staging/r8188eu/include/odm_RTL8188E.h
-+++ b/drivers/staging/r8188eu/include/odm_RTL8188E.h
-@@ -35,6 +35,4 @@ void odm_PrimaryCCA_Init(struct odm_dm_struct *pDM_Odm);
- 
- bool ODM_DynamicPrimaryCCA_DupRTS(struct odm_dm_struct *pDM_Odm);
- 
--void odm_DynamicPrimaryCCA(struct odm_dm_struct *pDM_Odm);
--
- #endif
--- 
-2.32.0
+Wouldn't it be better to move the domain information into the platform
+data of the above platform device and then deal with the attach to the
+genpd from the sh_mobile_lcdc_driver?
 
+In this way, the behaviour would be more consistent with others
+probe/attach to genpd - and $subject patch would not be needed.
+
+>  }
+>  #else
+>  static inline int board_staging_add_dev_domain(struct platform_device *pdev,
+> --
+> 2.25.1
+>
+
+Kind regards
+Uffe
