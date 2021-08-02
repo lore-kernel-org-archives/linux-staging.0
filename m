@@ -1,41 +1,41 @@
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0396168
-	for <linux-staging@lists.linux.dev>; Mon,  2 Aug 2021 19:27:31 +0000 (UTC)
-Received: by mail-oo1-f48.google.com with SMTP id y16-20020a4ad6500000b0290258a7ff4058so4651320oos.10
-        for <linux-staging@lists.linux.dev>; Mon, 02 Aug 2021 12:27:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F627173
+	for <linux-staging@lists.linux.dev>; Mon,  2 Aug 2021 19:27:34 +0000 (UTC)
+Received: by mail-oi1-f175.google.com with SMTP id x15so25342970oic.9
+        for <linux-staging@lists.linux.dev>; Mon, 02 Aug 2021 12:27:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1BQm57Jnk7RxHhdiWHKTgQArgujX37mKjjtMGP1o130=;
-        b=G+vb9aev6LSY184BDFZYxVNXmNXlcVWkwOpBRSKc/M3hqxg6u6kuHiQhM1LlN3TJK9
-         oz53kmmU/qX75D4in2VvEFiUJm1XEmruE5hSmTGQCeWCdENXpB1uhIwXBvoLdXstjGUm
-         0he+RMpR6VtsfaAakQ6k0nfOe20wKEH8/Sr9N3Oo1YCtyl9Vb868VvD50KfqhzfCPcut
-         IvHeu4WcI1Z5jUcHGG9aPUnl7pP4/kxV9HW8HWpUYqNzIx72RhHLWbn4l32P0bRZv+m8
-         FKaINvmgZCy5BDowlxoIZ0bXVcFmvMCg11CXh9YWhMoNiJwx/RZDG5Zc0kOOGqdf+Tb8
-         qWFw==
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=gkzXePvOtbyiretyIfgq7+vj0QP5KBYJpz4lusyxcfI=;
+        b=ZAsvzduQcdkYG/y9zEBIg70yAJzSHp2CTUdkT8IIWucEq888aBoVMOef3mddganQzv
+         Hm177oKu8eLsDLhRSViBP9il4fJi/ojPXGUCMxeKgpnw2tgKpzn19Ku4fHHuS5sFdLTz
+         kbhRGoEl6yYyS8HM3isFsL1JWkohQ67vRjxUeVYv5VCFaR7pOGqKyFdLUpdShA4sP+ve
+         1A6rn2YoUszFYJDu8nIlTclHYzqqold9iXu8IDPh1xzOcsZR8UgYZKfraC1/B09Mt3wy
+         cWGBb5E495unoyaX6Lz9OsGKh+JGZnPvByAW2iM1ph6Eks8ym2eUf16/vFBkfMtHKuuV
+         n2Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=1BQm57Jnk7RxHhdiWHKTgQArgujX37mKjjtMGP1o130=;
-        b=T+3vgn2Jd+DxgrA/qGrGVFbkTGtxgVzvG4jN1xvLSmsFeLk6y6Ksg0qYqw2LdhE6Vl
-         hsbl4YTeXGDoyeLT+y9XNyv86p1Drtys8F4Ln8MIe4wsoqdyFuQTTBAIj5y4mRmYJH1B
-         cXUJR4aRqVHo31lcKKOtkUhQShFk7NdGSLaUUmtBOWl9+qXQG0akGnwpVHseT8I71J0y
-         NQ7j91S422HTQuXOYkbgcf7wYEm+I/Lld3GYKP0lci3qkM+qGdtYjR8FnHV+9AjwjKuv
-         vW0Ib1loH1Rif0TtMfIV+9Jd/ZAFbuQFCGe6/yoUoojQAS/BrZWOOoKhENvPWvLWFDbl
-         rb0w==
-X-Gm-Message-State: AOAM532iWNCueDNlo59MnZbIilSoFrOb2WgnC0b8S7pyJxU2pVRNh7Jy
-	Rx5wJJhPpQkFRwLftINc/Zc=
-X-Google-Smtp-Source: ABdhPJxZ6Hotxu3ipnyKsBarFcQfa6GIgw7rHvVjdIe53vwxiMRdkQcRLS98elNn77ae51n+Frh3GQ==
-X-Received: by 2002:a4a:e5c8:: with SMTP id r8mr12023694oov.65.1627932450821;
-        Mon, 02 Aug 2021 12:27:30 -0700 (PDT)
+         :in-reply-to:references:mime-version:content-transfer-encoding;
+        bh=gkzXePvOtbyiretyIfgq7+vj0QP5KBYJpz4lusyxcfI=;
+        b=BfLSjml7vNDG+BpvOEvsX6mlwMrl52WiLjAoYAptcT4uVpMj0yBGqGcvByq33PIquk
+         3e8TW38ro6q3Vfuls6aeEGmigp1HVgbwrODSFJ1lu+FXoJ0oqkhQRI+afzpKeev7NpBq
+         GrARBscztCUT8mgSjtbKNnfr4HlRlQNVqxnR9YmSTIXT/jYsDdSpMT6u3yP77PZgmmAD
+         JKYr5x/6fZAms0r73Ht9xBAk1aU2xKopbqC+J9zLcEceYx7NDs4qoPZvSqSfshqqoLcD
+         c8jNIct/zOwF1rJ3ov6EbU0ettDJi8uacG8tQKNNtkbioPHNegF6Om/PSbAyTajdhQ0t
+         3zjw==
+X-Gm-Message-State: AOAM533LYERWc291QCIywCvubpQvvNbHsC27SDCXXGKEwIK7eMJPf2X4
+	gr/CUzmSVDdlKuup1FEgpOw=
+X-Google-Smtp-Source: ABdhPJzJYNTLqN29RXH0zPlazhuQeE+9tdhlpTUiQPOniohPFz1HxR7hHL8/ejamV/nOXJ2pFL7SBg==
+X-Received: by 2002:a05:6808:8f0:: with SMTP id d16mr379706oic.149.1627932453527;
+        Mon, 02 Aug 2021 12:27:33 -0700 (PDT)
 Received: from 2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com.com (2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com. [2603:8090:2005:39b3::100a])
-        by smtp.gmail.com with ESMTPSA id i188sm1981035oih.7.2021.08.02.12.27.29
+        by smtp.gmail.com with ESMTPSA id i188sm1981035oih.7.2021.08.02.12.27.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Aug 2021 12:27:30 -0700 (PDT)
+        Mon, 02 Aug 2021 12:27:33 -0700 (PDT)
 Sender: Larry Finger <larry.finger@gmail.com>
 From: Larry Finger <Larry.Finger@lwfinger.net>
 To: gregkh@linuxfoundation.org
@@ -43,10 +43,12 @@ Cc: phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Larry Finger <Larry.Finger@lwfinger.net>
-Subject: [PATCH v2 0/6] Clean up some extraneous wrappers and some empty routines
-Date: Mon,  2 Aug 2021 14:27:15 -0500
-Message-Id: <20210802192721.23110-1-Larry.Finger@lwfinger.net>
+Subject: [PATCH v2 2/6] staging: r8188eu: Remove wrapper around vfree
+Date: Mon,  2 Aug 2021 14:27:17 -0500
+Message-Id: <20210802192721.23110-3-Larry.Finger@lwfinger.net>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210802192721.23110-1-Larry.Finger@lwfinger.net>
+References: <20210802192721.23110-1-Larry.Finger@lwfinger.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,50 +57,215 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The original code created some wrappers to handle the differences between
-Linux and Windows. In a Linux-only version, these can be removed.
+This call is so simple that there is no need, or use, for a wrapper.
 
-v2 - remove some .rej files
+Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
+---
+v2 - no change
+---
+ drivers/staging/r8188eu/core/rtw_mlme.c         |  4 +---
+ drivers/staging/r8188eu/core/rtw_mp.c           |  3 +--
+ drivers/staging/r8188eu/core/rtw_recv.c         |  5 +----
+ drivers/staging/r8188eu/core/rtw_sta_mgt.c      |  2 +-
+ drivers/staging/r8188eu/core/rtw_xmit.c         | 10 +++-------
+ drivers/staging/r8188eu/hal/odm_interface.c     |  2 +-
+ drivers/staging/r8188eu/hal/rtl8188e_hal_init.c |  2 +-
+ drivers/staging/r8188eu/include/osdep_service.h |  2 --
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c    |  4 ++--
+ drivers/staging/r8188eu/os_dep/osdep_service.c  |  7 +------
+ drivers/staging/r8188eu/os_dep/usb_intf.c       |  2 +-
+ 11 files changed, 13 insertions(+), 30 deletions(-)
 
-Larry Finger (6):
-  staging: r8188eu: Remove wrappers for kalloc() and kzalloc()
-  staging: r8188eu: Remove wrapper around vfree
-  staging: r8188eu: Remove wrappers for atomic operations
-  staging: r8188eu: Remove 4 empty routines from os_sep/service.c
-  staging: r8188eu: Remove all calls to _rtw_spinlock_free()
-  staging: r8188eu: Remove more empty routines
-
- drivers/staging/r8188eu/core/rtw_ap.c         |   8 +-
- drivers/staging/r8188eu/core/rtw_br_ext.c     |   2 +-
- drivers/staging/r8188eu/core/rtw_cmd.c        |  16 +--
- drivers/staging/r8188eu/core/rtw_efuse.c      |   4 +-
- drivers/staging/r8188eu/core/rtw_mlme.c       |  15 +--
- drivers/staging/r8188eu/core/rtw_mlme_ext.c   |  44 ++++----
- drivers/staging/r8188eu/core/rtw_mp.c         |   5 +-
- drivers/staging/r8188eu/core/rtw_p2p.c        |   8 +-
- drivers/staging/r8188eu/core/rtw_recv.c       |  16 +--
- drivers/staging/r8188eu/core/rtw_sta_mgt.c    |  48 +-------
- drivers/staging/r8188eu/core/rtw_wlan_util.c  |   2 +-
- drivers/staging/r8188eu/core/rtw_xmit.c       |  26 +----
- drivers/staging/r8188eu/hal/odm_interface.c   |   2 +-
- drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |   2 +-
- .../staging/r8188eu/hal/rtl8188e_hal_init.c   |  10 +-
- drivers/staging/r8188eu/hal/rtl8188eu_recv.c  |   3 +-
- drivers/staging/r8188eu/hal/usb_halinit.c     |   2 +-
- drivers/staging/r8188eu/include/drv_types.h   |   2 +-
- .../staging/r8188eu/include/osdep_service.h   |  28 -----
- drivers/staging/r8188eu/include/rtw_cmd.h     |   2 +-
- .../staging/r8188eu/include/rtw_mlme_ext.h    |   2 +-
- drivers/staging/r8188eu/include/usb_ops.h     |   4 +-
- drivers/staging/r8188eu/os_dep/ioctl_linux.c  |  70 ++++++------
- drivers/staging/r8188eu/os_dep/mlme_linux.c   |   3 +-
- drivers/staging/r8188eu/os_dep/os_intfs.c     |   2 -
- .../staging/r8188eu/os_dep/osdep_service.c    | 105 +-----------------
- drivers/staging/r8188eu/os_dep/rtw_android.c  |   2 -
- drivers/staging/r8188eu/os_dep/usb_intf.c     |  10 +-
- drivers/staging/r8188eu/os_dep/xmit_linux.c   |   2 +-
- 29 files changed, 112 insertions(+), 333 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index 3a83cf9731a0..c3763d9e448a 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -129,9 +129,7 @@ void _rtw_free_mlme_priv (struct mlme_priv *pmlmepriv)
+ 	if (pmlmepriv) {
+ 		rtw_mfree_mlme_priv_lock (pmlmepriv);
+ 
+-		if (pmlmepriv->free_bss_buf) {
+-			rtw_vmfree(pmlmepriv->free_bss_buf, MAX_BSS_CNT * sizeof(struct wlan_network));
+-		}
++		vfree(pmlmepriv->free_bss_buf);
+ 	}
+ 
+ }
+diff --git a/drivers/staging/r8188eu/core/rtw_mp.c b/drivers/staging/r8188eu/core/rtw_mp.c
+index a12c6e0ad002..c579f2e2fd62 100644
+--- a/drivers/staging/r8188eu/core/rtw_mp.c
++++ b/drivers/staging/r8188eu/core/rtw_mp.c
+@@ -922,8 +922,7 @@ void _rtw_mp_xmit_priv(struct xmit_priv *pxmitpriv)
+ 		pxmitbuf++;
+ 	}
+ 
+-	if (pxmitpriv->pallocated_xmit_extbuf)
+-		rtw_vmfree(pxmitpriv->pallocated_xmit_extbuf, num_xmit_extbuf * sizeof(struct xmit_buf) + 4);
++	vfree(pxmitpriv->pallocated_xmit_extbuf);
+ 
+ 	if (padapter->registrypriv.mp_mode == 0) {
+ 		max_xmit_extbuf_size = 6000;
+diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+index 610cc699caf9..08e095cd08b8 100644
+--- a/drivers/staging/r8188eu/core/rtw_recv.c
++++ b/drivers/staging/r8188eu/core/rtw_recv.c
+@@ -115,12 +115,9 @@ void _rtw_free_recv_priv (struct recv_priv *precvpriv)
+ 
+ 	rtw_os_recv_resource_free(precvpriv);
+ 
+-	if (precvpriv->pallocated_frame_buf) {
+-		rtw_vmfree(precvpriv->pallocated_frame_buf, NR_RECVFRAME * sizeof(struct recv_frame) + RXFRAME_ALIGN_SZ);
+-	}
++	vfree(precvpriv->pallocated_frame_buf);
+ 
+ 	rtw_hal_free_recv_priv(padapter);
+-
+ }
+ 
+ struct recv_frame *_rtw_alloc_recvframe (struct __queue *pfree_recv_queue)
+diff --git a/drivers/staging/r8188eu/core/rtw_sta_mgt.c b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
+index feaf39fddf7c..3b1a6a689d95 100644
+--- a/drivers/staging/r8188eu/core/rtw_sta_mgt.c
++++ b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
+@@ -233,7 +233,7 @@ u32	_rtw_free_sta_priv(struct	sta_priv *pstapriv)
+ 		rtw_mfree_sta_priv_lock(pstapriv);
+ 
+ 		if (pstapriv->pallocated_stainfo_buf)
+-			rtw_vmfree(pstapriv->pallocated_stainfo_buf, sizeof(struct sta_info)*NUM_STA+4);
++			vfree(pstapriv->pallocated_stainfo_buf);
+ 		}
+ 
+ 	return _SUCCESS;
+diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+index 408d2b9955b9..87aa45c0305a 100644
+--- a/drivers/staging/r8188eu/core/rtw_xmit.c
++++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+@@ -252,11 +252,9 @@ void _rtw_free_xmit_priv (struct xmit_priv *pxmitpriv)
+ 		pxmitbuf++;
+ 	}
+ 
+-	if (pxmitpriv->pallocated_frame_buf)
+-		rtw_vmfree(pxmitpriv->pallocated_frame_buf, NR_XMITFRAME * sizeof(struct xmit_frame) + 4);
++	vfree(pxmitpriv->pallocated_frame_buf);
+ 
+-	if (pxmitpriv->pallocated_xmitbuf)
+-		rtw_vmfree(pxmitpriv->pallocated_xmitbuf, NR_XMITBUFF * sizeof(struct xmit_buf) + 4);
++	vfree(pxmitpriv->pallocated_xmitbuf);
+ 
+ 	/*  free xmit extension buff */
+ 	_rtw_spinlock_free(&pxmitpriv->free_xmit_extbuf_queue.lock);
+@@ -267,9 +265,7 @@ void _rtw_free_xmit_priv (struct xmit_priv *pxmitpriv)
+ 		pxmitbuf++;
+ 	}
+ 
+-	if (pxmitpriv->pallocated_xmit_extbuf) {
+-		rtw_vmfree(pxmitpriv->pallocated_xmit_extbuf, num_xmit_extbuf * sizeof(struct xmit_buf) + 4);
+-	}
++	vfree(pxmitpriv->pallocated_xmit_extbuf);
+ 
+ 	rtw_free_hwxmits(padapter);
+ 
+diff --git a/drivers/staging/r8188eu/hal/odm_interface.c b/drivers/staging/r8188eu/hal/odm_interface.c
+index 507baf9fd913..38f6ae410e53 100644
+--- a/drivers/staging/r8188eu/hal/odm_interface.c
++++ b/drivers/staging/r8188eu/hal/odm_interface.c
+@@ -85,7 +85,7 @@ void ODM_AllocateMemory(struct odm_dm_struct *pDM_Odm, void **pPtr, u32 length)
+ /*  length could be ignored, used to detect memory leakage. */
+ void ODM_FreeMemory(struct odm_dm_struct *pDM_Odm, void *pPtr, u32 length)
+ {
+-	rtw_vmfree(pPtr, length);
++	vfree(pPtr);
+ }
+ 
+ s32 ODM_CompareMemory(struct odm_dm_struct *pDM_Odm, void *pBuf1, void *pBuf2, u32 length)
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+index 62d8a7ca3a9a..a8e2081f3540 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+@@ -363,7 +363,7 @@ void rtw_IOL_cmd_tx_pkt_buf_dump(struct adapter *Adapter, int data_len)
+ 			} while (!rstatus && (loop++ < 10));
+ 		}
+ 		rtw_IOL_cmd_buf_dump(Adapter, data_len, pbuf);
+-		rtw_vmfree(pbuf, data_len+10);
++		vfree(pbuf);
+ 	}
+ 	DBG_88E("###### %s ######\n", __func__);
+ }
+diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
+index 4575f5da5f70..446f43ac08d3 100644
+--- a/drivers/staging/r8188eu/include/osdep_service.h
++++ b/drivers/staging/r8188eu/include/osdep_service.h
+@@ -214,10 +214,8 @@ extern unsigned char RSN_TKIP_CIPHER[4];
+ #define rtw_update_mem_stat(flag, sz) do {} while (0)
+ u8 *_rtw_vmalloc(u32 sz);
+ u8 *_rtw_zvmalloc(u32 sz);
+-void _rtw_vmfree(u8 *pbuf, u32 sz);
+ #define rtw_vmalloc(sz)			_rtw_vmalloc((sz))
+ #define rtw_zvmalloc(sz)			_rtw_zvmalloc((sz))
+-#define rtw_vmfree(pbuf, sz)		_rtw_vmfree((pbuf), (sz))
+ 
+ void *rtw_malloc2d(int h, int w, int size);
+ 
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index 5f4355cb03e7..11301e0f287a 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -5575,7 +5575,7 @@ static int rtw_wx_set_priv(struct net_device *dev,
+ 		return -ENOMEM;
+ 
+ 	if (copy_from_user(ext, dwrq->pointer, len)) {
+-		rtw_vmfree(ext, len);
++		vfree(ext);
+ 		return -EFAULT;
+ 	}
+ 
+@@ -5614,7 +5614,7 @@ static int rtw_wx_set_priv(struct net_device *dev,
+ 
+ FREE_EXT:
+ 
+-	rtw_vmfree(ext, len);
++	vfree(ext);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
+index 8d89b98545cf..ec877615bdf7 100644
+--- a/drivers/staging/r8188eu/os_dep/osdep_service.c
++++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
+@@ -53,11 +53,6 @@ inline u8 *_rtw_zvmalloc(u32 sz)
+ 	return pbuf;
+ }
+ 
+-inline void _rtw_vmfree(u8 *pbuf, u32 sz)
+-{
+-	vfree(pbuf);
+-}
+-
+ void *rtw_malloc2d(int h, int w, int size)
+ {
+ 	int j;
+@@ -296,7 +291,7 @@ void rtw_free_netdev(struct net_device *netdev)
+ 	if (!pnpi->priv)
+ 		goto RETURN;
+ 
+-	rtw_vmfree(pnpi->priv, pnpi->sizeof_priv);
++	vfree(pnpi->priv);
+ 	free_netdev(netdev);
+ 
+ RETURN:
+diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+index 270de35f1d35..2c372c9ad7e7 100644
+--- a/drivers/staging/r8188eu/os_dep/usb_intf.c
++++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+@@ -702,7 +702,7 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
+ 		if (pnetdev)
+ 			rtw_free_netdev(pnetdev);
+ 		else if (padapter)
+-			rtw_vmfree((u8 *)padapter, sizeof(*padapter));
++			vfree(padapter);
+ 		padapter = NULL;
+ 	}
+ exit:
 -- 
 2.32.0
 
