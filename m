@@ -1,31 +1,59 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0207772
-	for <linux-staging@lists.linux.dev>; Mon,  2 Aug 2021 15:36:40 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10064"; a="200650001"
-X-IronPort-AV: E=Sophos;i="5.84,289,1620716400"; 
-   d="scan'208";a="200650001"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2021 08:36:38 -0700
-X-IronPort-AV: E=Sophos;i="5.84,289,1620716400"; 
-   d="scan'208";a="418704479"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2021 08:36:35 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-	by paasikivi.fi.intel.com (Postfix) with SMTP id 8870C2036B;
-	Mon,  2 Aug 2021 18:36:33 +0300 (EEST)
-Date: Mon, 2 Aug 2021 18:36:33 +0300
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE6E72
+	for <linux-staging@lists.linux.dev>; Mon,  2 Aug 2021 16:23:26 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id mz5-20020a17090b3785b0290176ecf64922so32446093pjb.3
+        for <linux-staging@lists.linux.dev>; Mon, 02 Aug 2021 09:23:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=JaILGVZ5ZfAh5yd44e+vxSRLCop37r4sy9cxjRO/kVU=;
+        b=aw1kgIMmRz0YMmD8jXYt7yhGZxHLHmcNQFLrG40MdDJ4dxtp5Dp6z04FghrmAgWxls
+         ibbc21J6Lj1o0KA7GwJpBkMxWoCQKSfGPfoyBryQnP/vDd6QBrsp3tbdnfeGJcBe4xv4
+         fS1shEaQqJCHHvIk5MIu8rA0hZEvPYJj50Zzs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=JaILGVZ5ZfAh5yd44e+vxSRLCop37r4sy9cxjRO/kVU=;
+        b=AbGky8s89pxTB+McZyGGyJVeQ3dSWdBtVTexmgclwh0YRjx540S3RGl6goUm3rGOX5
+         tMsNCSnBs4wCWrjuag6yDscD2iScQRvIXD5XQk1uAVk+bsgO5zDGKtBvbZRbweWqjnUx
+         wzkpDQCGqsd7Lmh/u35DCxmhHymd+GK0CGq6p9KE89iEcyjq8WkuirURVkenCEUCgDEr
+         7dDtgfBYpddg6STbVmGx4ODs8jVaEQpnm6jBV9fZmt62bPSSqI2wRjeAh7NSbKtZISIk
+         aCdxWOilaRtINa7szyEh7YOBwEctnjGhMEl510dyMShYlulH/sj2/RIJ4/DFn7JUaGMK
+         tXXg==
+X-Gm-Message-State: AOAM5321j5Vcx2jsC8wPfQauZ53Ss6QXWuiEd6If2jiFTFdx7V8xo8oO
+	Sf8ywjj1KLWIlgm7zf5fQo1pqQ==
+X-Google-Smtp-Source: ABdhPJyna/JEEPlWGNR2S+ZqJqCzOPLMMoqPYs8YB21x4PV9XLYXx00eTM9yttg27rSVI2z426vQLw==
+X-Received: by 2002:a63:4a49:: with SMTP id j9mr2250552pgl.20.1627921406097;
+        Mon, 02 Aug 2021 09:23:26 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id s193sm13206950pfc.183.2021.08.02.09.23.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Aug 2021 09:23:25 -0700 (PDT)
+Date: Mon, 2 Aug 2021 09:23:24 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Shai Malin <smalin@marvell.com>
+Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Keith Packard <keithpac@amazon.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: atomisp: restore missing 'return' statement
-Message-ID: <20210802153633.GN3@paasikivi.fi.intel.com>
-References: <20210802143820.1150099-1-arnd@kernel.org>
+	Andrew Morton <akpm@linux-foundation.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+	"clang-built-linux@googlegroups.com" <clang-built-linux@googlegroups.com>,
+	"linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
+	GR-everest-linux-l2 <GR-everest-linux-l2@marvell.com>,
+	Ariel Elior <aelior@marvell.com>
+Subject: Re: [PATCH 42/64] net: qede: Use memset_after() for counters
+Message-ID: <202108020922.FE8A35C854@keescook>
+References: <SJ0PR18MB3882DC88DB04C9DE68678CEDCCEF9@SJ0PR18MB3882.namprd18.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -34,26 +62,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210802143820.1150099-1-arnd@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <SJ0PR18MB3882DC88DB04C9DE68678CEDCCEF9@SJ0PR18MB3882.namprd18.prod.outlook.com>
 
-On Mon, Aug 02, 2021 at 04:38:14PM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Mon, Aug 02, 2021 at 02:29:28PM +0000, Shai Malin wrote:
 > 
-> The input_system_configure_channel_sensor() function lost its final
-> return code in a previous patch:
+> On Tue, Jul 31, 2021 at 07:07:00PM -0300, Kees Cook wrote:
+> > On Tue, Jul 27, 2021 at 01:58:33PM -0700, Kees Cook wrote:
+> > > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> > > field bounds checking for memset(), avoid intentionally writing across
+> > > neighboring fields.
+> > >
+> > > Use memset_after() so memset() doesn't get confused about writing
+> > > beyond the destination member that is intended to be the starting point
+> > > of zeroing through the end of the struct.
+> > >
+> > > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > > ---
+> > > The old code seems to be doing the wrong thing: starting from not the
+> > > first member, but sized for the whole struct. Which is correct?
+> > 
+> > Quick ping on this question.
+> > 
+> > The old code seems to be doing the wrong thing: it starts from the second
+> > member and writes beyond int_info, clobbering qede_lock:
 > 
-> drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: In function 'input_system_configure_channel_sensor':
-> drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1649:1: error: control reaches end of non-void function [-Werror=return-type]
+> Thanks for highlighting the problem, but actually, the memset is redundant.
+> We will remove it so the change will not be needed.
 > 
-> Restore what was there originally.
+> > 
+> > struct qede_dev {
+> >         ...
+> >         struct qed_int_info             int_info;
+> > 
+> >         /* Smaller private variant of the RTNL lock */
+> >         struct mutex                    qede_lock;
+> >         ...
+> > 
+> > 
+> > struct qed_int_info {
+> >         struct msix_entry       *msix;
+> >         u8                      msix_cnt;
+> > 
+> >         /* This should be updated by the protocol driver */
+> >         u8                      used_cnt;
+> > };
+> > 
+> > Should this also clear the "msix" member, or should this not write
+> > beyond int_info? This patch does the latter.
 > 
-> Fixes: 728a5c64ae5f ("media: atomisp: remove dublicate code")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> It should clear only the msix_cnt, no need to clear the entire 
+> qed_int_info structure.
 
-Thanks!
+Should used_cnt be cleared too? It is currently. Better yet, what patch
+do you suggest I replace this proposed one with? :)
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Thanks for looking at this!
+
+-Kees
 
 -- 
-Sakari Ailus
+Kees Cook
