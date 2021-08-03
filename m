@@ -1,164 +1,865 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15BC070
-	for <linux-staging@lists.linux.dev>; Tue,  3 Aug 2021 13:28:34 +0000 (UTC)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 173DFM4P018250;
-	Tue, 3 Aug 2021 13:28:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=BTb0GNmXH8p//PQ47H7a9V3i+zYn0ZDwjDqJHRSzXrk=;
- b=hde16Cj8wZqNnNKBO2o2o+pYj8bBNM+K6T7arsy8CubmYgmCB3Nm7oq7EmwAtCpnz3FE
- Vv4nBssQvgrc2gnwtMTDGD9UkjClUkwpEdLX9pT1+YkacidmWbW9kfXFX4h3l901/pC+
- ep1GJ5UuO9ettaooajMQRZZPYBep4ef5iUHX7XiPcfx6dKv3XJn5BH4n6M0eGhJMpYhp
- shHzXkopfNpblzLIvi/oGyDMmrzifccGvFx8L9fdZuc5AqxsEklSeLeaKpkDlChBQPRl
- e89JpjclkUYDfzc8q2RIEo1A5GXyfr/cLFQoopL7uHtJIecMx9HeSBnA6z6LRdJldQv7 BA== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2020-01-29;
- bh=BTb0GNmXH8p//PQ47H7a9V3i+zYn0ZDwjDqJHRSzXrk=;
- b=CT3ruXYt+HKn0pT07Owd/xM8HHjOXLf2v9edZ4PTS90WpE9xtViLk//x996MA/h8pS5u
- stE3wYgSh7lIVqoDo22mgubfUZ8IIV/AlcfSqGnUFxHQWxtsEyQADKI6ZQhh7quonSfY
- 2DUuTtCzTFJTHBOcaBVRhkEOkI/7PtHod2hMAIwNo8klr+pWqkQQHtRlxbaKHvyOeQZm
- tzUVpIw1YiecT7jifIhpsZPin+7oP9fxUi0BGQ87JbAu2ikTsL0bSmz+f6/TlJNIsbIX
- jzTN9wvqh9RamKXBMDIhczIE0um/rz/m9ziRd4z6LwKiTeKjrjqEb6lfr2YfuUPC/NwK 2g== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3a65vdc4w6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 03 Aug 2021 13:28:32 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 173DFKdn043808;
-	Tue, 3 Aug 2021 13:28:30 GMT
-Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam08lp2048.outbound.protection.outlook.com [104.47.73.48])
-	by userp3020.oracle.com with ESMTP id 3a5g9v2ppr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 03 Aug 2021 13:28:30 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NWsKkV/BMWQyj/aGh3dOV5kNiQzk1pPJaqj46DlhED1i3AM9QKPOU/jKjF8pSD6PfJSmfr9T/Y7L1XLK07VmissRhpBF4Bc7lawf6wVQvnuO97a9dU7Mg2RpJx40zKBB2HxDQBgfRXD+4iKBcgqwoiL/oQXyO0BzeiMT+qYhp8JFK56IbvFNIsh0pHHBwgqObwjumNr4D96KVDOoslN/7GLFVsnd8aGp5ZAGQ+ZiyDgYq3kxFiM5KV1GnHHDZ31msDSWuSpacElAt11tlVKY0vqkgpiWQGpwUl1hpDydWfYdkCZSQilLSGZg1NNTR0f4nEIeW60YyikfU5e2LHdzJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BTb0GNmXH8p//PQ47H7a9V3i+zYn0ZDwjDqJHRSzXrk=;
- b=Zag0M/2iXs6ZhF/qyiRPl0udXaCUNtG69n9/dr9vfvCILSCF7RcrN0O1Rgwt+iCgsAHV4Jrfp0UdMxMtuV91Fx+YCU8/RSRpmnN7Sw+xM3M14P7qM+ea6+x4hLz5OXcPz8Kx4xJm3mXHBPpq3NKxqnUgYQ0RQW/aO6xlJ7HJHsARbf6Gw/knuCDVzJfWpBxN1L149ZpturthCKYM/2wqjeRVEhM7ub6U+g5aoaF0SULlt7NMNL5Jq2SFnGbIFNwMVWt+Deq7nkdTnTnhGZBtgOzpf8W+h73xqeITaGaaWndRjt3H/xc1VetGfF5Aet0QG6SwqLp6RBDq9BfHbsjaXQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDD670
+	for <linux-staging@lists.linux.dev>; Tue,  3 Aug 2021 13:52:38 +0000 (UTC)
+Received: by mail-oi1-f181.google.com with SMTP id o20so28173962oiw.12
+        for <linux-staging@lists.linux.dev>; Tue, 03 Aug 2021 06:52:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BTb0GNmXH8p//PQ47H7a9V3i+zYn0ZDwjDqJHRSzXrk=;
- b=QVII0O7W8MgMyJjiEZL8I9IJuQ+4Z3EI/riHjWGc4aj9sn0K00QuFzBbpSavK3ejaZ/N+7LlRCN9jSZfBZ1h86Hx4b9qjSqjQ92zJYX58psjBbiIG9WIbg8bX0xrTL46Qu+MPh/0DeZALvWI0zYf+7RGJtb69WuqGIu781gQYXc=
-Authentication-Results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
- header.from=oracle.com;
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by CO1PR10MB4434.namprd10.prod.outlook.com
- (2603:10b6:303:9a::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.15; Tue, 3 Aug
- 2021 13:28:29 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4373.026; Tue, 3 Aug 2021
- 13:28:29 +0000
-Date: Tue, 3 Aug 2021 16:28:10 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Larry Finger <Larry.Finger@lwfinger.net>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: r8188eu: core: Change the length of an array
-Message-ID: <20210803132810.GB1931@kadam>
-References: <20210802203020.9679-1-fmdefrancesco@gmail.com>
- <20210803061441.GK25548@kadam>
- <YQjgN/Xx5LUYtzz0@kroah.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YQjgN/Xx5LUYtzz0@kroah.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0024.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::15)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=o9tLEujF3bl/QXAdiRHECayJmRNG/zyLqEmSY9trrs8=;
+        b=Ps+ourrOmXNO+3hwgJQX5F74gex1GspD6V635N2D8caJ88yPMHATYNliSbyXYQs5iI
+         J8Wo5o3VN9Dkwwo7dvhmvO/D1CIClIMp9UnoBCFKJYFelIZjuhZcqF5JDKFLTUYtYCNS
+         xTF3Q75XGPnWdTvSdnhx798cIRkMicpO5lGWHS2hHHr4EYyK1IWAYuglxlaTflP8rXsb
+         7VvLEdzjkra9QSKN3dJucvbYtEfMEiTUwgOJWX1UyYAFwy8jF/gobRbU9+LEdw+QDJWi
+         2+ZwqIeJJOz8ibnIHUjhQ6IOFbKcIJeD4dOxqvEv3/nHyrqbOMN+J/g8cksBM4MyfFXB
+         +PzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :in-reply-to:references:mime-version:content-transfer-encoding;
+        bh=o9tLEujF3bl/QXAdiRHECayJmRNG/zyLqEmSY9trrs8=;
+        b=j0SVwbg6qtJWyfqfB7Hpxx8XiFx7hjPrvpnm3hYyloZKo/TGXRCKC/lwBx816rPdUv
+         +vMsptIWN6EfDWgiETutRg6UXplEx5NH8plak70dU0rM2nnFS0Fi0wZFIf1IWkXvhjtP
+         HyjeBnlFzs/1kQPyxP5MsHhEzGU2vS4zeOqr2qsnCqvYYBD2lMXHumaAI2RLLmKDb4/g
+         4z1mUd8VnxIHwdB8hg8biRdjnMw2Mb1jblbRA2DoGIpFBQpwjovXEzeIIsuOev+Zp4W0
+         /DAv4p7uK4pG0fqWSk2ddyxjKrDNVjpbwKmHcRD3sOwTODCweSPBWtQyeDIJrYVqwvke
+         L1tQ==
+X-Gm-Message-State: AOAM532NKB559DdT5TA4cSovQgU/LsVtx0s84trvINrEtzcybZFTfgAr
+	CNJ6QtsacBiWugnARB8vtjvfrCr/ERM=
+X-Google-Smtp-Source: ABdhPJxL3A95+9Ke56VriqyN6WxCyADWey4603l80iL3FF8g2g5lYgQFMg5tB0b5I1Hplpzxa+ryBA==
+X-Received: by 2002:aca:90b:: with SMTP id 11mr3107910oij.130.1627998757340;
+        Tue, 03 Aug 2021 06:52:37 -0700 (PDT)
+Received: from 2603-8090-2005-39b3-0000-0000-0000-1010.res6.spectrum.com.com (2603-8090-2005-39b3-0000-0000-0000-1010.res6.spectrum.com. [2603:8090:2005:39b3::1010])
+        by smtp.gmail.com with ESMTPSA id y26sm2504106otq.23.2021.08.03.06.52.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Aug 2021 06:52:36 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+To: gregkh@linuxfoundation.org
+Cc: phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Larry Finger <Larry.Finger@lwfinger.net>
+Subject: [PATCH 01/10] staging: r8188eu: Remove wrappers for kalloc() and kzalloc()
+Date: Tue,  3 Aug 2021 08:52:14 -0500
+Message-Id: <20210803135223.12543-2-Larry.Finger@lwfinger.net>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210803135223.12543-1-Larry.Finger@lwfinger.net>
+References: <20210803135223.12543-1-Larry.Finger@lwfinger.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kadam (102.222.70.252) by JNAP275CA0024.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.15 via Frontend Transport; Tue, 3 Aug 2021 13:28:24 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c445ada9-2e41-444d-1ebd-08d9568294a0
-X-MS-TrafficTypeDiagnostic: CO1PR10MB4434:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<CO1PR10MB443474226F187488899094C18EF09@CO1PR10MB4434.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	EXa0SCw4L3bgq82ozSfs7OJZYf5udL+Oz/nDtFfRhTclXajeRXT1fmokTDSBM+hJ3dw8USCrQHbIeHeJlGnaHKDU388Nyz7GS8LB6meH7G8RK7qwR07es72Y6b0Q3UtlfWFeQr5lf+XNgx85YSUPXKtUBLVz4liamSBwhbHuJvnssgZnlBrDLeZoRjlMDln299/wQI3ABnk/NRDtfjBSIuOA5+LZLJAqT30HXD+VUZ5Pa3ysmWxhGAkiQiTG1OL49UTd8B1eeFPRdZ5e2uK4QYlfSyA61ZvUsB/+gHil964MpNcwh6HNmmKpq6WAmCiBYjGYtwV/yhofVTIpavvQyTsCq9TcOqjD+8Svbmd6TWbn2PiwQfaqoxIbukz6+t3De6fvR+dnBcLM4lGA5yuUAIrQohqFtyeMkl8olX6+bQWFBEqbY63bsOwaANnwSRATXFjtH3ihMLRSG4fjrxP/pOmZ6j5GTYgW6/A16OFn515xjilir98mQCA96ShdbnKXTUKEXOD0HKkj3ZJfh0iWzLwKeCSkGY/LO/2ai2DDfR0DwJDrQCA1eUu3jVN0fJ09GoRdJRiwrYVzySVVkwGwJpwFvblqv8RBV9udrPtICSiaHRUSpdboYlY7RIB8B0iLImwA/ykrkHaBzbUd8Us4cdGE6DUbKOW20F44y5Nnn2F3OWdLCEr7iLooVwHmeOmjnunYS24cPhsSxO26kqBmyw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(6916009)(4744005)(33656002)(66556008)(6666004)(5660300002)(508600001)(66476007)(66946007)(1076003)(9576002)(4326008)(86362001)(52116002)(2906002)(54906003)(8676002)(956004)(6496006)(316002)(8936002)(33716001)(38350700002)(9686003)(186003)(26005)(38100700002)(55016002)(44832011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?8jh1AwlqoZYCuca2QriOGgOUJdp1dsZV1AuPQdjWbVf+ZkTlR+yTKlvYGs9H?=
- =?us-ascii?Q?Ka64ZcBnY1AJojjTVaQ5esxDGtMMYfF3iyK5Euc2oMT6w2EZp0lTHJFleeST?=
- =?us-ascii?Q?HOv+Tp+g8cq/KZdsXpeM7vA3FQMf9G+7IzGeSqKuvZ5fyEgjVDOu4x41nQ/v?=
- =?us-ascii?Q?V+mLGgk846/6pw8K8cYqhXFBEaw/JhC6NPGtaK4ToJGs9rtax+l7yylxj6zG?=
- =?us-ascii?Q?84y95k53atuRWt6AeXLaIf9ziXrAYyqMwb19o03EAsBAbcPFHB4Ek+y3bYG/?=
- =?us-ascii?Q?3GHZZCYG5QQX2KV8ZY7YF5j5axbXcFo2Ulr34BziDTqZRZypKlcaBlXEV+53?=
- =?us-ascii?Q?vCOz4BudXiSjF8QiVU/t5HEs4RUV2qsCJ+Tlzwv7EgPKRSUmjj/ra/ULxGyK?=
- =?us-ascii?Q?Y5H1Dk2mBfNBN5HzD4KUphOFF+XnnQBXis/9Qw/PO7uP+Op2d6IXbz5dUj1M?=
- =?us-ascii?Q?9WRc5EbngGhZEskdcqnBNriwgqb+ST62rYgsJEQ1GPUjmNUoPGBBaQm9ZrHQ?=
- =?us-ascii?Q?29lHa19H7pErqE3ldBELh3GSMlttskLI43Y7aYHSxkvWfyEzs1M8CT/DMXNh?=
- =?us-ascii?Q?gwnckF2fDQnLQly+gyft15FXSSMXYuSQ28PS0zyXqFET9CtQqds0nC9jNAdt?=
- =?us-ascii?Q?ulOmIoccOOyQsgt3/MN+Z12yCulkBeAAPIMOPFMbJU0VWIZKgcKl/BUNt4dW?=
- =?us-ascii?Q?jHeUEmX+By9LLFhYXFVdGBPvQ11d1A0xNUtY7dPZinuu6O8fRgX461QzkurQ?=
- =?us-ascii?Q?Iu7LPYbYenPr5QidQEYgiAtuE0r6o+bJDI7WoOlztre1W0n3JuFDJyXE3Von?=
- =?us-ascii?Q?WiCRjVawDYxek/8YESFGH/n7/uwVbI92wxGekqtVrIn8ZV+aDVFuaP5x+dsW?=
- =?us-ascii?Q?s+wCJEnJze2KfpHu3iZ/+t8VJF2YRX4JKmjt1C2qxU8ytBBMu91EFZW8aKW/?=
- =?us-ascii?Q?d2NJuzLXtauZBBZaHeJ5Qm/cF33VcMvQi0uKLLP2rq4uZ5BYBQQvsHv9zWRn?=
- =?us-ascii?Q?S+jzda3qYHzBtIXolsdhD6SX1pjxGVBAMwfaFJgmSlLSuSi+hIRVLfaP7iSE?=
- =?us-ascii?Q?sJlWv+1k51bet1nyUGUmMT93HeV2g6GxnHX19Dt+/pYKr5JSHI6/S0vXkUkx?=
- =?us-ascii?Q?iTTZJnDUcTzXQFrigtdA2TNPWTFy0Z5/+g9E/bshAaNFv/nYOBbhJH0eXDEs?=
- =?us-ascii?Q?FxOzYsoWybNsDX6df2Q8Y+1bHOMl/wtQjX+kjKE0zWfpYCDmGfQpZKCmM34P?=
- =?us-ascii?Q?LmklUmxnyDzqgzuJ4c1SQswYiZLmEkT9yO7VaZLmH9ZluLM/9xxRrJK6cqTI?=
- =?us-ascii?Q?ZC+T2mgCQ94zdA/Zf9OJmDPm?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c445ada9-2e41-444d-1ebd-08d9568294a0
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2021 13:28:29.0183
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FnEN3lAs9OeFT85c7MIPvo+NVRL2REARy3dgK3wGlUlP1lzpEOGp+TCgqiZUU1Q2dnDJiziX931UiYa8Z2bx3Hgur5UC2/2vXho859J0CN8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4434
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10064 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0 phishscore=0
- spamscore=0 adultscore=0 suspectscore=0 mlxlogscore=658 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
- definitions=main-2108030089
-X-Proofpoint-GUID: bC5meGCvtx1Xe5fTqRFSx5cJod_gfdyC
-X-Proofpoint-ORIG-GUID: bC5meGCvtx1Xe5fTqRFSx5cJod_gfdyC
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 03, 2021 at 08:20:39AM +0200, Greg Kroah-Hartman wrote:
-> On Tue, Aug 03, 2021 at 09:14:42AM +0300, Dan Carpenter wrote:
-> > On Mon, Aug 02, 2021 at 10:30:20PM +0200, Fabio M. De Francesco wrote:
-> > > IPX_NODE_LEN == 6, while addr.f1 should only have 4 elements.
-> > > Replace IPX_NODE_LEN with 4. In the while, remove the excess spaces
-> > > before the fields of the union.
-> > > 
-> > > Fixes: 56febcc2595e ("staging: r8188eu: Fix different base types in assignments and parameters")
-> > 
-> > Ugh...  I really feel we'd be better off reverting that patch entirely.
-> 
-> I do too, let me go revert that...
+These wrappers involve an in_interrupt() call, which is not frowned on
+in the kernel. These changes decrease the size of the driver by a trivial
+amount.
 
-Thanks!
+Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
+---
+ drivers/staging/r8188eu/core/rtw_ap.c         |  8 +--
+ drivers/staging/r8188eu/core/rtw_br_ext.c     |  2 +-
+ drivers/staging/r8188eu/core/rtw_cmd.c        | 11 ++--
+ drivers/staging/r8188eu/core/rtw_efuse.c      |  4 +-
+ drivers/staging/r8188eu/core/rtw_mlme.c       |  8 +--
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 30 ++++-----
+ drivers/staging/r8188eu/core/rtw_mp.c         |  2 +-
+ drivers/staging/r8188eu/core/rtw_p2p.c        |  8 +--
+ drivers/staging/r8188eu/core/rtw_wlan_util.c  |  2 +-
+ drivers/staging/r8188eu/core/rtw_xmit.c       |  2 +-
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  2 +-
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   |  8 +--
+ drivers/staging/r8188eu/hal/rtl8188eu_recv.c  |  3 +-
+ drivers/staging/r8188eu/hal/usb_halinit.c     |  2 +-
+ .../staging/r8188eu/include/osdep_service.h   |  6 --
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  | 66 +++++++++----------
+ drivers/staging/r8188eu/os_dep/mlme_linux.c   |  3 +-
+ .../staging/r8188eu/os_dep/osdep_service.c    | 28 ++------
+ drivers/staging/r8188eu/os_dep/usb_intf.c     |  4 +-
+ drivers/staging/r8188eu/os_dep/xmit_linux.c   |  2 +-
+ 20 files changed, 86 insertions(+), 115 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
+index 0bb545135206..3a23e4675fab 100644
+--- a/drivers/staging/r8188eu/core/rtw_ap.c
++++ b/drivers/staging/r8188eu/core/rtw_ap.c
+@@ -98,7 +98,7 @@ static void update_BCNTIM(struct adapter *padapter)
+ 		}
+ 
+ 		if (remainder_ielen > 0) {
+-			pbackup_remainder_ie = rtw_malloc(remainder_ielen);
++			pbackup_remainder_ie = kmalloc(remainder_ielen, GFP_KERNEL);
+ 			if (pbackup_remainder_ie && premainder_ie)
+ 				memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
+ 		}
+@@ -180,7 +180,7 @@ void rtw_add_bcn_ie(struct adapter *padapter, struct wlan_bssid_ex *pnetwork, u8
+ 	}
+ 
+ 	if (remainder_ielen > 0) {
+-		pbackup_remainder_ie = rtw_malloc(remainder_ielen);
++		pbackup_remainder_ie = kmalloc(remainder_ielen, GFP_KERNEL);
+ 		if (pbackup_remainder_ie && premainder_ie)
+ 			memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
+ 	}
+@@ -224,7 +224,7 @@ void rtw_remove_bcn_ie(struct adapter *padapter, struct wlan_bssid_ex *pnetwork,
+ 	}
+ 
+ 	if (remainder_ielen > 0) {
+-		pbackup_remainder_ie = rtw_malloc(remainder_ielen);
++		pbackup_remainder_ie = kmalloc(remainder_ielen, GFP_KERNEL);
+ 		if (pbackup_remainder_ie && premainder_ie)
+ 			memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
+ 	}
+@@ -1302,7 +1302,7 @@ static void update_bcn_wps_ie(struct adapter *padapter)
+ 	remainder_ielen = ielen - wps_offset - wps_ielen;
+ 
+ 	if (remainder_ielen > 0) {
+-		pbackup_remainder_ie = rtw_malloc(remainder_ielen);
++		pbackup_remainder_ie = kmalloc(remainder_ielen, GFP_KERNEL);
+ 		if (pbackup_remainder_ie)
+ 			memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
+ 	}
+diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+index 8f434768dd15..c62e40d1d3ef 100644
+--- a/drivers/staging/r8188eu/core/rtw_br_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+@@ -420,7 +420,7 @@ static void __nat25_db_network_insert(struct adapter *priv,
+ 		}
+ 		db = db->next_hash;
+ 	}
+-	db = (struct nat25_network_db_entry *) rtw_malloc(sizeof(*db));
++	db = kmalloc(sizeof(*db), GFP_KERNEL);
+ 	if (db == NULL) {
+ 		spin_unlock_bh(&priv->br_ext_lock);
+ 		return;
+diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+index 4e17972ee66e..55971c47c90a 100644
+--- a/drivers/staging/r8188eu/core/rtw_cmd.c
++++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+@@ -1947,10 +1947,13 @@ static void c2h_wk_callback(struct work_struct *work)
+ 		if ((c2h_evt = (struct c2h_evt_hdr *)rtw_cbuf_pop(evtpriv->c2h_queue)) != NULL) {
+ 			/* This C2H event is read, clear it */
+ 			c2h_evt_clear(adapter);
+-		} else if ((c2h_evt = (struct c2h_evt_hdr *)rtw_malloc(16)) != NULL) {
+-			/* This C2H event is not read, read & clear now */
+-			if (c2h_evt_read(adapter, (u8 *)c2h_evt) != _SUCCESS)
+-				continue;
++		} else {
++			c2h_evt = kmalloc(16, GFP_KERNEL);
++			if (c2h_evt) {
++				/* This C2H event is not read, read & clear now */
++				if (c2h_evt_read(adapter, (u8 *)c2h_evt) != _SUCCESS)
++					continue;
++			}
+ 		}
+ 
+ 		/* Special pointer to trigger c2h_evt_clear only */
+diff --git a/drivers/staging/r8188eu/core/rtw_efuse.c b/drivers/staging/r8188eu/core/rtw_efuse.c
+index e84540a7d2c5..e49613726c04 100644
+--- a/drivers/staging/r8188eu/core/rtw_efuse.c
++++ b/drivers/staging/r8188eu/core/rtw_efuse.c
+@@ -533,7 +533,7 @@ u8 rtw_efuse_map_write(struct adapter *padapter, u16 addr, u16 cnts, u8 *data)
+ 	if ((addr + cnts) > mapLen)
+ 		return _FAIL;
+ 
+-	map = rtw_zmalloc(mapLen);
++	map = kzalloc(mapLen, GFP_KERNEL);
+ 	if (map == NULL)
+ 		return _FAIL;
+ 
+@@ -625,7 +625,7 @@ u8 rtw_BT_efuse_map_write(struct adapter *padapter, u16 addr, u16 cnts, u8 *data
+ 	if ((addr + cnts) > mapLen)
+ 		return _FAIL;
+ 
+-	map = rtw_zmalloc(mapLen);
++	map = kzalloc(mapLen, GFP_KERNEL);
+ 	if (map == NULL)
+ 		return _FAIL;
+ 
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index a6d62074289f..3a83cf9731a0 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -1746,13 +1746,13 @@ int rtw_set_auth(struct adapter *adapter, struct security_priv *psecuritypriv)
+ 	struct	cmd_priv *pcmdpriv = &(adapter->cmdpriv);
+ 	int		res = _SUCCESS;
+ 
+-	pcmd = (struct	cmd_obj *)rtw_zmalloc(sizeof(struct cmd_obj));
++	pcmd = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
+ 	if (pcmd == NULL) {
+ 		res = _FAIL;  /* try again */
+ 		goto exit;
+ 	}
+ 
+-	psetauthparm = (struct setauth_parm *)rtw_zmalloc(sizeof(struct setauth_parm));
++	psetauthparm = kzalloc(sizeof(struct setauth_parm), GFP_KERNEL);
+ 	if (psetauthparm == NULL) {
+ 		kfree(pcmd);
+ 		res = _FAIL;
+@@ -1784,12 +1784,12 @@ int rtw_set_key(struct adapter *adapter, struct security_priv *psecuritypriv, in
+ 	struct mlme_priv		*pmlmepriv = &(adapter->mlmepriv);
+ 	int	res = _SUCCESS;
+ 
+-	pcmd = (struct	cmd_obj *)rtw_zmalloc(sizeof(struct	cmd_obj));
++	pcmd = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
+ 	if (pcmd == NULL) {
+ 		res = _FAIL;  /* try again */
+ 		goto exit;
+ 	}
+-	psetkeyparm = (struct setkey_parm *)rtw_zmalloc(sizeof(struct setkey_parm));
++	psetkeyparm = kzalloc(sizeof(struct setkey_parm), GFP_KERNEL);
+ 	if (psetkeyparm == NULL) {
+ 		kfree(pcmd);
+ 		res = _FAIL;
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index 78f66664bf9c..bce2f31e0ac1 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -662,7 +662,7 @@ unsigned int OnBeacon(struct adapter *padapter, struct recv_frame *precv_frame)
+ 	if (!memcmp(GetAddr3Ptr(pframe), get_my_bssid(&pmlmeinfo->network), ETH_ALEN)) {
+ 		if (pmlmeinfo->state & WIFI_FW_AUTH_NULL) {
+ 			/* we should update current network before auth, or some IE is wrong */
+-			pbss = (struct wlan_bssid_ex *)rtw_malloc(sizeof(struct wlan_bssid_ex));
++			pbss = kmalloc(sizeof(struct wlan_bssid_ex), GFP_ATOMIC);
+ 			if (pbss) {
+ 				if (collect_bss_info(padapter, precv_frame, pbss) == _SUCCESS) {
+ 					update_network(&(pmlmepriv->cur_network.network), pbss, padapter, true);
+@@ -6985,12 +6985,12 @@ void report_survey_event(struct adapter *padapter, struct recv_frame *precv_fram
+ 	pmlmeext = &padapter->mlmeextpriv;
+ 	pcmdpriv = &padapter->cmdpriv;
+ 
+-	pcmd_obj = (struct cmd_obj *)rtw_zmalloc(sizeof(struct cmd_obj));
++	pcmd_obj = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
+ 	if (pcmd_obj == NULL)
+ 		return;
+ 
+ 	cmdsz = (sizeof(struct survey_event) + sizeof(struct C2HEvent_Header));
+-	pevtcmd = (u8 *)rtw_zmalloc(cmdsz);
++	pevtcmd = kzalloc(cmdsz, GFP_ATOMIC);
+ 	if (pevtcmd == NULL) {
+ 		kfree(pcmd_obj);
+ 		return;
+@@ -7037,12 +7037,12 @@ void report_surveydone_event(struct adapter *padapter)
+ 	struct mlme_ext_priv		*pmlmeext = &padapter->mlmeextpriv;
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 
+-	pcmd_obj = (struct cmd_obj *)rtw_zmalloc(sizeof(struct cmd_obj));
++	pcmd_obj = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
+ 	if (pcmd_obj == NULL)
+ 		return;
+ 
+ 	cmdsz = (sizeof(struct surveydone_event) + sizeof(struct C2HEvent_Header));
+-	pevtcmd = (u8 *)rtw_zmalloc(cmdsz);
++	pevtcmd = kzalloc(cmdsz, GFP_KERNEL);
+ 	if (pevtcmd == NULL) {
+ 		kfree(pcmd_obj);
+ 		return;
+@@ -7083,12 +7083,12 @@ void report_join_res(struct adapter *padapter, int res)
+ 	struct mlme_ext_info	*pmlmeinfo = &(pmlmeext->mlmext_info);
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 
+-	pcmd_obj = (struct cmd_obj *)rtw_zmalloc(sizeof(struct cmd_obj));
++	pcmd_obj = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
+ 	if (pcmd_obj == NULL)
+ 		return;
+ 
+ 	cmdsz = (sizeof(struct joinbss_event) + sizeof(struct C2HEvent_Header));
+-	pevtcmd = (u8 *)rtw_zmalloc(cmdsz);
++	pevtcmd = kzalloc(cmdsz, GFP_ATOMIC);
+ 	if (pevtcmd == NULL) {
+ 		kfree(pcmd_obj);
+ 		return;
+@@ -7134,12 +7134,12 @@ void report_del_sta_event(struct adapter *padapter, unsigned char *MacAddr, unsi
+ 	struct mlme_ext_priv		*pmlmeext = &padapter->mlmeextpriv;
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 
+-	pcmd_obj = (struct cmd_obj *)rtw_zmalloc(sizeof(struct cmd_obj));
++	pcmd_obj = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
+ 	if (pcmd_obj == NULL)
+ 		return;
+ 
+ 	cmdsz = (sizeof(struct stadel_event) + sizeof(struct C2HEvent_Header));
+-	pevtcmd = (u8 *)rtw_zmalloc(cmdsz);
++	pevtcmd = kzalloc(cmdsz, GFP_KERNEL);
+ 	if (pevtcmd == NULL) {
+ 		kfree(pcmd_obj);
+ 		return;
+@@ -7188,12 +7188,12 @@ void report_add_sta_event(struct adapter *padapter, unsigned char *MacAddr, int
+ 	struct mlme_ext_priv		*pmlmeext = &padapter->mlmeextpriv;
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 
+-	pcmd_obj = (struct cmd_obj *)rtw_zmalloc(sizeof(struct cmd_obj));
++	pcmd_obj = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
+ 	if (pcmd_obj == NULL)
+ 		return;
+ 
+ 	cmdsz = (sizeof(struct stassoc_event) + sizeof(struct C2HEvent_Header));
+-	pevtcmd = (u8 *)rtw_zmalloc(cmdsz);
++	pevtcmd = kzalloc(cmdsz, GFP_KERNEL);
+ 	if (pevtcmd == NULL) {
+ 		kfree(pcmd_obj);
+ 		return;
+@@ -7611,11 +7611,11 @@ void survey_timer_hdl(struct adapter *padapter)
+ 			pmlmeext->scan_abort = false;/* reset */
+ 		}
+ 
+-		ph2c = (struct cmd_obj *)rtw_zmalloc(sizeof(struct cmd_obj));
++		ph2c = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
+ 		if (ph2c == NULL)
+ 			goto exit_survey_timer_hdl;
+ 
+-		psurveyPara = (struct sitesurvey_parm *)rtw_zmalloc(sizeof(struct sitesurvey_parm));
++		psurveyPara = kzalloc(sizeof(struct sitesurvey_parm), GFP_ATOMIC);
+ 		if (psurveyPara == NULL) {
+ 			kfree(ph2c);
+ 			goto exit_survey_timer_hdl;
+@@ -8188,13 +8188,13 @@ u8 set_tx_beacon_cmd(struct adapter *padapter)
+ 	u8 res = _SUCCESS;
+ 	int len_diff = 0;
+ 
+-	ph2c = (struct cmd_obj *)rtw_zmalloc(sizeof(struct cmd_obj));
++	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
+ 	if (ph2c == NULL) {
+ 		res = _FAIL;
+ 		goto exit;
+ 	}
+ 
+-	ptxBeacon_parm = (struct Tx_Beacon_param *)rtw_zmalloc(sizeof(struct Tx_Beacon_param));
++	ptxBeacon_parm = kzalloc(sizeof(struct Tx_Beacon_param), GFP_KERNEL);
+ 	if (ptxBeacon_parm == NULL) {
+ 		kfree(ph2c);
+ 		res = _FAIL;
+diff --git a/drivers/staging/r8188eu/core/rtw_mp.c b/drivers/staging/r8188eu/core/rtw_mp.c
+index 1b4e9bbc394b..a12c6e0ad002 100644
+--- a/drivers/staging/r8188eu/core/rtw_mp.c
++++ b/drivers/staging/r8188eu/core/rtw_mp.c
+@@ -669,7 +669,7 @@ void SetPacketTx(struct adapter *padapter)
+ 	kfree(pmp_priv->tx.pallocated_buf);
+ 	pmp_priv->tx.write_size = pkt_size;
+ 	pmp_priv->tx.buf_size = pkt_size + XMITBUF_ALIGN_SZ;
+-	pmp_priv->tx.pallocated_buf = rtw_zmalloc(pmp_priv->tx.buf_size);
++	pmp_priv->tx.pallocated_buf = kzalloc(pmp_priv->tx.buf_size, GFP_KERNEL);
+ 	if (pmp_priv->tx.pallocated_buf == NULL) {
+ 		DBG_88E("%s: malloc(%d) fail!!\n", __func__, pmp_priv->tx.buf_size);
+ 		return;
+diff --git a/drivers/staging/r8188eu/core/rtw_p2p.c b/drivers/staging/r8188eu/core/rtw_p2p.c
+index 30823bfdd1b5..3e550bc126db 100644
+--- a/drivers/staging/r8188eu/core/rtw_p2p.c
++++ b/drivers/staging/r8188eu/core/rtw_p2p.c
+@@ -34,7 +34,7 @@ static u32 go_add_group_info_attr(struct wifidirect_info *pwdinfo, u8 *pbuf)
+ 
+ 	DBG_88E("%s\n", __func__);
+ 
+-	pdata_attr = rtw_zmalloc(MAX_P2P_IE_LEN);
++	pdata_attr = kzalloc(MAX_P2P_IE_LEN, GFP_KERNEL);
+ 
+ 	pstart = pdata_attr;
+ 	pcur = pdata_attr;
+@@ -857,7 +857,7 @@ u32 process_assoc_req_p2p_ie(struct wifidirect_info *pwdinfo, u8 *pframe, uint l
+ 		/* Check P2P Device Info ATTR */
+ 		if (rtw_get_p2p_attr_content(p2p_ie, p2p_ielen, P2P_ATTR_DEVICE_INFO, NULL, (uint *)&attr_contentlen)) {
+ 			DBG_88E("[%s] Got P2P DEVICE INFO Attr!!\n", __func__);
+-			pattr_content = rtw_zmalloc(attr_contentlen);
++			pattr_content = kzalloc(attr_contentlen, GFP_KERNEL);
+ 			pbuf = pattr_content;
+ 			if (pattr_content) {
+ 				u8 num_of_secdev_type;
+@@ -1699,13 +1699,13 @@ u8 p2p_ps_wk_cmd(struct adapter *padapter, u8 p2p_ps_state, u8 enqueue)
+ 		return res;
+ 
+ 	if (enqueue) {
+-		ph2c = (struct cmd_obj *)rtw_zmalloc(sizeof(struct cmd_obj));
++		ph2c = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
+ 		if (ph2c == NULL) {
+ 			res = _FAIL;
+ 			goto exit;
+ 		}
+ 
+-		pdrvextra_cmd_parm = (struct drvextra_cmd_parm *)rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
++		pdrvextra_cmd_parm = kzalloc(sizeof(struct drvextra_cmd_parm), GFP_KERNEL);
+ 		if (pdrvextra_cmd_parm == NULL) {
+ 			kfree(ph2c);
+ 			res = _FAIL;
+diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+index 15edccef9f1d..2a30b9164107 100644
+--- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
++++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+@@ -919,7 +919,7 @@ int rtw_check_bcn_info(struct adapter  *Adapter, u8 *pframe, u32 packet_len)
+ 		return true;
+ 	}
+ 
+-	bssid = (struct wlan_bssid_ex *)rtw_zmalloc(sizeof(struct wlan_bssid_ex));
++	bssid = kzalloc(sizeof(struct wlan_bssid_ex), GFP_ATOMIC);
+ 	if (!bssid)
+ 		return _FAIL;
+ 
+diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+index 4a5393184737..408d2b9955b9 100644
+--- a/drivers/staging/r8188eu/core/rtw_xmit.c
++++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+@@ -1625,7 +1625,7 @@ void rtw_alloc_hwxmits(struct adapter *padapter)
+ 
+ 	pxmitpriv->hwxmit_entry = HWXMIT_ENTRY;
+ 
+-	pxmitpriv->hwxmits = (struct hw_xmit *)rtw_zmalloc(sizeof(struct hw_xmit) * pxmitpriv->hwxmit_entry);
++	pxmitpriv->hwxmits = kzalloc(sizeof(struct hw_xmit) * pxmitpriv->hwxmit_entry, GFP_KERNEL);
+ 
+ 	hwxmits = pxmitpriv->hwxmits;
+ 
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+index 4bd471873531..303661258e9c 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+@@ -489,7 +489,7 @@ static void SetFwRsvdPagePkt(struct adapter *adapt, bool bDLFinished)
+ 	struct rsvdpage_loc RsvdPageLoc;
+ 
+ 	DBG_88E("%s\n", __func__);
+-	ReservedPagePacket = (u8 *)rtw_zmalloc(1000);
++	ReservedPagePacket = kzalloc(1000, GFP_KERNEL);
+ 	if (ReservedPagePacket == NULL) {
+ 		DBG_88E("%s: alloc ReservedPagePacket fail!\n", __func__);
+ 		return;
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+index 1a7a62dd8504..62d8a7ca3a9a 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+@@ -76,13 +76,13 @@ efuse_phymap_to_logical(u8 *phymap, u16 _offset, u16 _size_byte, u8  *pbuf)
+ 	u16	efuse_utilized = 0;
+ 	u8 u1temp = 0;
+ 
+-	efuseTbl = (u8 *)rtw_zmalloc(EFUSE_MAP_LEN_88E);
++	efuseTbl = kzalloc(EFUSE_MAP_LEN_88E, GFP_KERNEL);
+ 	if (efuseTbl == NULL) {
+ 		DBG_88E("%s: alloc efuseTbl fail!\n", __func__);
+ 		goto exit;
+ 	}
+ 
+-	eFuseWord = (u16 **)rtw_malloc2d(EFUSE_MAX_SECTION_88E, EFUSE_MAX_WORD_UNIT, sizeof(u16));
++	eFuseWord = rtw_malloc2d(EFUSE_MAX_SECTION_88E, EFUSE_MAX_WORD_UNIT, sizeof(u16));
+ 	if (eFuseWord == NULL) {
+ 		DBG_88E("%s: alloc eFuseWord fail!\n", __func__);
+ 		goto exit;
+@@ -810,13 +810,13 @@ static void Hal_EfuseReadEFuse88E(struct adapter *Adapter,
+ 		goto exit;
+ 	}
+ 
+-	efuseTbl = (u8 *)rtw_zmalloc(EFUSE_MAP_LEN_88E);
++	efuseTbl = kzalloc(EFUSE_MAP_LEN_88E, GFP_KERNEL);
+ 	if (efuseTbl == NULL) {
+ 		DBG_88E("%s: alloc efuseTbl fail!\n", __func__);
+ 		goto exit;
+ 	}
+ 
+-	eFuseWord = (u16 **)rtw_malloc2d(EFUSE_MAX_SECTION_88E, EFUSE_MAX_WORD_UNIT, sizeof(u16));
++	eFuseWord = rtw_malloc2d(EFUSE_MAX_SECTION_88E, EFUSE_MAX_WORD_UNIT, sizeof(u16));
+ 	if (eFuseWord == NULL) {
+ 		DBG_88E("%s: alloc eFuseWord fail!\n", __func__);
+ 		goto exit;
+diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_recv.c b/drivers/staging/r8188eu/hal/rtl8188eu_recv.c
+index 2e3f624d0f22..278a89763258 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188eu_recv.c
++++ b/drivers/staging/r8188eu/hal/rtl8188eu_recv.c
+@@ -44,7 +44,8 @@ int	rtl8188eu_init_recv_priv(struct adapter *padapter)
+ 	/* init recv_buf */
+ 	_rtw_init_queue(&precvpriv->free_recv_buf_queue);
+ 
+-	precvpriv->pallocated_recv_buf = rtw_zmalloc(NR_RECVBUFF * sizeof(struct recv_buf) + 4);
++	precvpriv->pallocated_recv_buf = kzalloc(NR_RECVBUFF * sizeof(struct recv_buf) + 4,
++						 GFP_KERNEL);
+ 	if (precvpriv->pallocated_recv_buf == NULL) {
+ 		res = _FAIL;
+ 		RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("alloc recv_buf fail!\n"));
+diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+index d985894c0f30..441080bd0b74 100644
+--- a/drivers/staging/r8188eu/hal/usb_halinit.c
++++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+@@ -2252,7 +2252,7 @@ void rtl8188eu_set_hal_ops(struct adapter *adapt)
+ {
+ 	struct hal_ops	*halfunc = &adapt->HalFunc;
+ 
+-	adapt->HalData = rtw_zmalloc(sizeof(struct hal_data_8188e));
++	adapt->HalData = kzalloc(sizeof(struct hal_data_8188e), GFP_KERNEL);
+ 	if (adapt->HalData == NULL)
+ 		DBG_88E("cant not alloc memory for HAL DATA\n");
+ 	adapt->hal_data_sz = sizeof(struct hal_data_8188e);
+diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
+index ac0bd5cd0f82..4575f5da5f70 100644
+--- a/drivers/staging/r8188eu/include/osdep_service.h
++++ b/drivers/staging/r8188eu/include/osdep_service.h
+@@ -215,15 +215,9 @@ extern unsigned char RSN_TKIP_CIPHER[4];
+ u8 *_rtw_vmalloc(u32 sz);
+ u8 *_rtw_zvmalloc(u32 sz);
+ void _rtw_vmfree(u8 *pbuf, u32 sz);
+-u8 *_rtw_zmalloc(u32 sz);
+-u8 *_rtw_malloc(u32 sz);
+-void _rtw_mfree(u8 *pbuf, u32 sz);
+ #define rtw_vmalloc(sz)			_rtw_vmalloc((sz))
+ #define rtw_zvmalloc(sz)			_rtw_zvmalloc((sz))
+ #define rtw_vmfree(pbuf, sz)		_rtw_vmfree((pbuf), (sz))
+-#define rtw_malloc(sz)			_rtw_malloc((sz))
+-#define rtw_zmalloc(sz)			_rtw_zmalloc((sz))
+-#define rtw_mfree(pbuf, sz)		_rtw_mfree((pbuf), (sz))
+ 
+ void *rtw_malloc2d(int h, int w, int size);
+ 
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index 8ba2b81e32b8..5f4355cb03e7 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -522,7 +522,7 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
+ 		if (wep_key_len > 0) {
+ 			wep_key_len = wep_key_len <= 5 ? 5 : 13;
+ 			wep_total_len = wep_key_len + FIELD_OFFSET(struct ndis_802_11_wep, KeyMaterial);
+-			pwep = (struct ndis_802_11_wep *)rtw_malloc(wep_total_len);
++			pwep = kmalloc(wep_total_len, GFP_KERNEL);
+ 			if (!pwep) {
+ 				RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_err_, (" wpa_set_encryption: pwep allocate fail !!!\n"));
+ 				goto exit;
+@@ -642,7 +642,7 @@ static int rtw_set_wpa_ie(struct adapter *padapter, char *pie, unsigned short ie
+ 	}
+ 
+ 	if (ielen) {
+-		buf = rtw_zmalloc(ielen);
++		buf = kzalloc(ielen, GFP_KERNEL);
+ 		if (!buf) {
+ 			ret =  -ENOMEM;
+ 			goto exit;
+@@ -2109,11 +2109,9 @@ static int rtw_wx_set_enc_ext(struct net_device *dev,
+ 	int ret = 0;
+ 
+ 	param_len = sizeof(struct ieee_param) + pext->key_len;
+-	param = (struct ieee_param *)rtw_malloc(param_len);
++	param = kzalloc(param_len, GFP_KERNEL);
+ 	if (!param)
+-		return -1;
+-
+-	memset(param, 0, param_len);
++		return -ENOMEM;
+ 
+ 	param->cmd = IEEE_CMD_SET_ENCRYPTION;
+ 	memset(param->sta_addr, 0xff, ETH_ALEN);
+@@ -2194,8 +2192,8 @@ static int rtw_wx_read32(struct net_device *dev,
+ 	padapter = (struct adapter *)rtw_netdev_priv(dev);
+ 	p = &wrqu->data;
+ 	len = p->length;
+-	ptmp = (u8 *)rtw_malloc(len);
+-	if (NULL == ptmp)
++	ptmp = kmalloc(len, GFP_KERNEL);
++	if (!ptmp)
+ 		return -ENOMEM;
+ 
+ 	if (copy_from_user(ptmp, p->pointer, len)) {
+@@ -2464,7 +2462,7 @@ static int rtw_mp_ioctl_hdl(struct net_device *dev, struct iw_request_info *info
+ 	pparmbuf = NULL;
+ 	bset = (u8)(p->flags & 0xFFFF);
+ 	len = p->length;
+-	pparmbuf = (u8 *)rtw_malloc(len);
++	pparmbuf = kmalloc(len, GFP_KERNEL);
+ 	if (!pparmbuf) {
+ 		ret = -ENOMEM;
+ 		goto _rtw_mp_ioctl_hdl_exit;
+@@ -4674,7 +4672,7 @@ static int wpa_supplicant_ioctl(struct net_device *dev, struct iw_point *p)
+ 		goto out;
+ 	}
+ 
+-	param = (struct ieee_param *)rtw_malloc(p->length);
++	param = kmalloc(p->length, GFP_KERNEL);
+ 	if (!param) {
+ 		ret = -ENOMEM;
+ 		goto out;
+@@ -4728,13 +4726,13 @@ static u8 set_pairwise_key(struct adapter *padapter, struct sta_info *psta)
+ 	struct cmd_priv	*pcmdpriv = &padapter->cmdpriv;
+ 	u8 res = _SUCCESS;
+ 
+-	ph2c = (struct cmd_obj *)rtw_zmalloc(sizeof(struct cmd_obj));
++	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
+ 	if (!ph2c) {
+ 		res = _FAIL;
+ 		goto exit;
+ 	}
+ 
+-	psetstakey_para = (struct set_stakey_parm *)rtw_zmalloc(sizeof(struct set_stakey_parm));
++	psetstakey_para = kzalloc(sizeof(struct set_stakey_parm), GFP_KERNEL);
+ 	if (!psetstakey_para) {
+ 		kfree(ph2c);
+ 		res = _FAIL;
+@@ -4766,12 +4764,12 @@ static int set_group_key(struct adapter *padapter, u8 *key, u8 alg, int keyid)
+ 
+ 	DBG_88E("%s\n", __func__);
+ 
+-	pcmd = (struct cmd_obj *)rtw_zmalloc(sizeof(struct	cmd_obj));
++	pcmd = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
+ 	if (!pcmd) {
+ 		res = _FAIL;
+ 		goto exit;
+ 	}
+-	psetkeyparm = (struct setkey_parm *)rtw_zmalloc(sizeof(struct setkey_parm));
++	psetkeyparm = kzalloc(sizeof(struct setkey_parm), GFP_KERNEL);
+ 	if (!psetkeyparm) {
+ 		kfree(pcmd);
+ 		res = _FAIL;
+@@ -4887,14 +4885,11 @@ static int rtw_set_encryption(struct net_device *dev, struct ieee_param *param,
+ 		if (wep_key_len > 0) {
+ 			wep_key_len = wep_key_len <= 5 ? 5 : 13;
+ 			wep_total_len = wep_key_len + FIELD_OFFSET(struct ndis_802_11_wep, KeyMaterial);
+-			pwep = (struct ndis_802_11_wep *)rtw_malloc(wep_total_len);
++			pwep = kzalloc(wep_total_len, GFP_KERNEL);
+ 			if (!pwep) {
+-				DBG_88E(" r871x_set_encryption: pwep allocate fail !!!\n");
++				ret = -ENOMEM;
+ 				goto exit;
+ 			}
+-
+-			memset(pwep, 0, wep_total_len);
+-
+ 			pwep->KeyLength = wep_key_len;
+ 			pwep->Length = wep_total_len;
+ 		}
+@@ -5315,7 +5310,7 @@ static int rtw_set_wps_beacon(struct net_device *dev, struct ieee_param *param,
+ 	}
+ 
+ 	if (ie_len > 0) {
+-		pmlmepriv->wps_beacon_ie = rtw_malloc(ie_len);
++		pmlmepriv->wps_beacon_ie = kmalloc(ie_len, GFP_KERNEL);
+ 		pmlmepriv->wps_beacon_ie_len = ie_len;
+ 		if (!pmlmepriv->wps_beacon_ie) {
+ 			DBG_88E("%s()-%d: rtw_malloc() ERROR!\n", __func__, __LINE__);
+@@ -5352,7 +5347,7 @@ static int rtw_set_wps_probe_resp(struct net_device *dev, struct ieee_param *par
+ 	}
+ 
+ 	if (ie_len > 0) {
+-		pmlmepriv->wps_probe_resp_ie = rtw_malloc(ie_len);
++		pmlmepriv->wps_probe_resp_ie = kmalloc(ie_len, GFP_KERNEL);
+ 		pmlmepriv->wps_probe_resp_ie_len = ie_len;
+ 		if (!pmlmepriv->wps_probe_resp_ie) {
+ 			DBG_88E("%s()-%d: rtw_malloc() ERROR!\n", __func__, __LINE__);
+@@ -5384,11 +5379,11 @@ static int rtw_set_wps_assoc_resp(struct net_device *dev, struct ieee_param *par
+ 	}
+ 
+ 	if (ie_len > 0) {
+-		pmlmepriv->wps_assoc_resp_ie = rtw_malloc(ie_len);
++		pmlmepriv->wps_assoc_resp_ie = kmalloc(ie_len, GFP_KERNEL);
+ 		pmlmepriv->wps_assoc_resp_ie_len = ie_len;
+ 		if (!pmlmepriv->wps_assoc_resp_ie) {
+ 			DBG_88E("%s()-%d: rtw_malloc() ERROR!\n", __func__, __LINE__);
+-			return -EINVAL;
++			return -ENOMEM;
+ 		}
+ 
+ 		memcpy(pmlmepriv->wps_assoc_resp_ie, param->u.bcn_ie.buf, ie_len);
+@@ -5491,7 +5486,7 @@ static int rtw_hostapd_ioctl(struct net_device *dev, struct iw_point *p)
+ 		goto out;
+ 	}
+ 
+-	param = (struct ieee_param *)rtw_malloc(p->length);
++	param = kmalloc(p->length, GFP_KERNEL);
+ 	if (!param) {
+ 		ret = -ENOMEM;
+ 		goto out;
+@@ -5600,9 +5595,8 @@ static int rtw_wx_set_priv(struct net_device *dev,
+ 			kfree(pmlmepriv->wps_probe_req_ie);
+ 			pmlmepriv->wps_probe_req_ie = NULL;
+ 
+-			pmlmepriv->wps_probe_req_ie = rtw_malloc(cp_sz);
++			pmlmepriv->wps_probe_req_ie = kmalloc(cp_sz, GFP_KERNEL);
+ 			if (!pmlmepriv->wps_probe_req_ie) {
+-				pr_info("%s()-%d: rtw_malloc() ERROR!\n", __func__, __LINE__);
+ 				ret =  -EINVAL;
+ 				goto FREE_EXT;
+ 			}
+@@ -5674,12 +5668,12 @@ static int rtw_mp_efuse_get(struct net_device *dev,
+ 	pEfuseHal = &haldata->EfuseHal;
+ 
+ 	err = 0;
+-	data = _rtw_zmalloc(EFUSE_BT_MAX_MAP_LEN);
++	data = kzalloc(EFUSE_BT_MAX_MAP_LEN, GFP_KERNEL);
+ 	if (!data) {
+ 		err = -ENOMEM;
+ 		goto exit;
+ 	}
+-	rawdata = _rtw_zmalloc(EFUSE_BT_MAX_MAP_LEN);
++	rawdata = kzalloc(EFUSE_BT_MAX_MAP_LEN, GFP_KERNEL);
+ 	if (!rawdata) {
+ 		err = -ENOMEM;
+ 		goto exit;
+@@ -5989,22 +5983,22 @@ static int rtw_mp_efuse_set(struct net_device *dev,
+ 	haldata = GET_HAL_DATA(padapter);
+ 	pEfuseHal = &haldata->EfuseHal;
+ 	err = 0;
+-	setdata = _rtw_zmalloc(1024);
++	setdata = kzalloc(1024, GFP_KERNEL);
+ 	if (!setdata) {
+ 		err = -ENOMEM;
+ 		goto exit;
+ 	}
+-	ShadowMapBT = _rtw_malloc(EFUSE_BT_MAX_MAP_LEN);
++	ShadowMapBT = kmalloc(EFUSE_BT_MAX_MAP_LEN, GFP_KERNEL);
+ 	if (!ShadowMapBT) {
+ 		err = -ENOMEM;
+ 		goto exit;
+ 	}
+-	ShadowMapWiFi = _rtw_malloc(EFUSE_MAP_SIZE);
++	ShadowMapWiFi = kmalloc(EFUSE_MAP_SIZE, GFP_KERNEL);
+ 	if (!ShadowMapWiFi) {
+ 		err = -ENOMEM;
+ 		goto exit;
+ 	}
+-	setrawdata = _rtw_malloc(EFUSE_MAX_SIZE);
++	setrawdata = kmalloc(EFUSE_MAX_SIZE, GFP_KERNEL);
+ 	if (!setrawdata) {
+ 		err = -ENOMEM;
+ 		goto exit;
+@@ -7486,7 +7480,7 @@ static int rtw_test(
+ 	DBG_88E("+%s\n", __func__);
+ 	len = wrqu->data.length;
+ 
+-	pbuf = (u8 *)rtw_zmalloc(len);
++	pbuf = kzalloc(len, GFP_KERNEL);
+ 	if (!pbuf) {
+ 		DBG_88E("%s: no memory!\n", __func__);
+ 		return -ENOMEM;
+@@ -7832,7 +7826,7 @@ static int rtw_ioctl_wext_private(struct net_device *dev, union iwreq_data *wrq_
+ 	input_len = wdata.data.length;
+ 	if (input_len == 0)
+ 		return -EFAULT;
+-	input = rtw_zmalloc(input_len);
++	input = kzalloc(input_len, GFP_KERNEL);
+ 	if (NULL == input)
+ 		return -ENOMEM;
+ 	if (copy_from_user(input, wdata.data.pointer, input_len)) {
+@@ -7895,7 +7889,7 @@ static int rtw_ioctl_wext_private(struct net_device *dev, union iwreq_data *wrq_
+ 		k = j;
+ 	}
+ 
+-	buffer = rtw_zmalloc(4096);
++	buffer = kzalloc(4096, GFP_KERNEL);
+ 	if (NULL == buffer) {
+ 		err = -ENOMEM;
+ 		goto exit;
+@@ -8044,7 +8038,7 @@ static int rtw_ioctl_wext_private(struct net_device *dev, union iwreq_data *wrq_
+ 		else
+ 			n = wdata.data.length;
+ 
+-		output = rtw_zmalloc(4096);
++		output = kzalloc(4096, GFP_KERNEL);
+ 		if (NULL == output) {
+ 			err =  -ENOMEM;
+ 			goto exit;
+diff --git a/drivers/staging/r8188eu/os_dep/mlme_linux.c b/drivers/staging/r8188eu/os_dep/mlme_linux.c
+index 766b346afbb8..0855b218f7b1 100644
+--- a/drivers/staging/r8188eu/os_dep/mlme_linux.c
++++ b/drivers/staging/r8188eu/os_dep/mlme_linux.c
+@@ -119,10 +119,9 @@ void rtw_report_sec_ie(struct adapter *adapter, u8 authmode, u8 *sec_ie)
+ 	if (authmode == _WPA_IE_ID_) {
+ 		RT_TRACE(_module_mlme_osdep_c_, _drv_info_,
+ 			 ("rtw_report_sec_ie, authmode=%d\n", authmode));
+-		buff = rtw_malloc(IW_CUSTOM_MAX);
++		buff = kzalloc(IW_CUSTOM_MAX, GFP_KERNEL);
+ 		if (!buff)
+ 			return;
+-		memset(buff, 0, IW_CUSTOM_MAX);
+ 		p = buff;
+ 		p += sprintf(p, "ASSOCINFO(ReqIEs =");
+ 		len = sec_ie[1]+2;
+diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
+index 71d4fa25db86..8d89b98545cf 100644
+--- a/drivers/staging/r8188eu/os_dep/osdep_service.c
++++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
+@@ -58,32 +58,13 @@ inline void _rtw_vmfree(u8 *pbuf, u32 sz)
+ 	vfree(pbuf);
+ }
+ 
+-u8 *_rtw_malloc(u32 sz)
+-{
+-	u8	*pbuf = NULL;
+-
+-	pbuf = kmalloc(sz, in_interrupt() ? GFP_ATOMIC : GFP_KERNEL);
+-	return pbuf;
+-}
+-
+-u8 *_rtw_zmalloc(u32 sz)
+-{
+-	u8	*pbuf = _rtw_malloc(sz);
+-
+-	if (pbuf)
+-		memset(pbuf, 0, sz);
+-	return pbuf;
+-}
+-
+ void *rtw_malloc2d(int h, int w, int size)
+ {
+ 	int j;
+ 
+-	void **a = (void **)rtw_zmalloc(h*sizeof(void *) + h*w*size);
+-	if (!a) {
+-		pr_info("%s: alloc memory fail!\n", __func__);
++	void **a = kzalloc(h * sizeof(void *) + h * w * size, GFP_KERNEL);
++	if (!a)
+ 		return NULL;
+-	}
+ 
+ 	for (j = 0; j < h; j++)
+ 		a[j] = ((char *)(a+h)) + j*w*size;
+@@ -408,7 +389,7 @@ void rtw_buf_update(u8 **buf, u32 *buf_len, u8 *src, u32 src_len)
+ 		goto keep_ori;
+ 
+ 	/* duplicate src */
+-	dup = rtw_malloc(src_len);
++	dup = kmalloc(src_len, GFP_ATOMIC);
+ 	if (dup) {
+ 		dup_len = src_len;
+ 		memcpy(dup, src, dup_len);
+@@ -501,8 +482,7 @@ struct rtw_cbuf *rtw_cbuf_alloc(u32 size)
+ {
+ 	struct rtw_cbuf *cbuf;
+ 
+-	cbuf = (struct rtw_cbuf *)rtw_malloc(sizeof(*cbuf) +
+-	       sizeof(void *)*size);
++	cbuf = kmalloc(sizeof(*cbuf) + sizeof(void *)*size, GFP_KERNEL);
+ 
+ 	if (cbuf) {
+ 		cbuf->write = 0;
+diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+index bc7f4bd7ce0b..270de35f1d35 100644
+--- a/drivers/staging/r8188eu/os_dep/usb_intf.c
++++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+@@ -118,7 +118,7 @@ static u8 rtw_init_intf_priv(struct dvobj_priv *dvobj)
+ 
+ 	_rtw_mutex_init(&dvobj->usb_vendor_req_mutex);
+ 
+-	dvobj->usb_alloc_vendor_req_buf = rtw_zmalloc(MAX_USB_IO_CTL_SIZE);
++	dvobj->usb_alloc_vendor_req_buf = kzalloc(MAX_USB_IO_CTL_SIZE, GFP_KERNEL);
+ 	if (!dvobj->usb_alloc_vendor_req_buf) {
+ 		DBG_88E("alloc usb_vendor_req_buf failed... /n");
+ 		rst = _FAIL;
+@@ -150,7 +150,7 @@ static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
+ 	struct usb_endpoint_descriptor	*pendp_desc;
+ 	struct usb_device	*pusbd;
+ 
+-	pdvobjpriv = (struct dvobj_priv *)rtw_zmalloc(sizeof(*pdvobjpriv));
++	pdvobjpriv = kzalloc(sizeof(*pdvobjpriv), GFP_KERNEL);
+ 	if (!pdvobjpriv)
+ 		goto exit;
+ 
+diff --git a/drivers/staging/r8188eu/os_dep/xmit_linux.c b/drivers/staging/r8188eu/os_dep/xmit_linux.c
+index 421328173984..df9bdbff91ac 100644
+--- a/drivers/staging/r8188eu/os_dep/xmit_linux.c
++++ b/drivers/staging/r8188eu/os_dep/xmit_linux.c
+@@ -76,7 +76,7 @@ int rtw_os_xmit_resource_alloc(struct adapter *padapter, struct xmit_buf *pxmitb
+ {
+ 	int i;
+ 
+-	pxmitbuf->pallocated_buf = rtw_zmalloc(alloc_sz);
++	pxmitbuf->pallocated_buf = kzalloc(alloc_sz, GFP_KERNEL);
+ 	if (!pxmitbuf->pallocated_buf)
+ 		return _FAIL;
+ 
+-- 
+2.32.0
+
