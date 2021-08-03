@@ -1,99 +1,164 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D5170
-	for <linux-staging@lists.linux.dev>; Tue,  3 Aug 2021 12:39:35 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id n12-20020a05600c3b8cb029025a67bbd40aso1667871wms.0
-        for <linux-staging@lists.linux.dev>; Tue, 03 Aug 2021 05:39:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15BC070
+	for <linux-staging@lists.linux.dev>; Tue,  3 Aug 2021 13:28:34 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 173DFM4P018250;
+	Tue, 3 Aug 2021 13:28:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=BTb0GNmXH8p//PQ47H7a9V3i+zYn0ZDwjDqJHRSzXrk=;
+ b=hde16Cj8wZqNnNKBO2o2o+pYj8bBNM+K6T7arsy8CubmYgmCB3Nm7oq7EmwAtCpnz3FE
+ Vv4nBssQvgrc2gnwtMTDGD9UkjClUkwpEdLX9pT1+YkacidmWbW9kfXFX4h3l901/pC+
+ ep1GJ5UuO9ettaooajMQRZZPYBep4ef5iUHX7XiPcfx6dKv3XJn5BH4n6M0eGhJMpYhp
+ shHzXkopfNpblzLIvi/oGyDMmrzifccGvFx8L9fdZuc5AqxsEklSeLeaKpkDlChBQPRl
+ e89JpjclkUYDfzc8q2RIEo1A5GXyfr/cLFQoopL7uHtJIecMx9HeSBnA6z6LRdJldQv7 BA== 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2020-01-29;
+ bh=BTb0GNmXH8p//PQ47H7a9V3i+zYn0ZDwjDqJHRSzXrk=;
+ b=CT3ruXYt+HKn0pT07Owd/xM8HHjOXLf2v9edZ4PTS90WpE9xtViLk//x996MA/h8pS5u
+ stE3wYgSh7lIVqoDo22mgubfUZ8IIV/AlcfSqGnUFxHQWxtsEyQADKI6ZQhh7quonSfY
+ 2DUuTtCzTFJTHBOcaBVRhkEOkI/7PtHod2hMAIwNo8klr+pWqkQQHtRlxbaKHvyOeQZm
+ tzUVpIw1YiecT7jifIhpsZPin+7oP9fxUi0BGQ87JbAu2ikTsL0bSmz+f6/TlJNIsbIX
+ jzTN9wvqh9RamKXBMDIhczIE0um/rz/m9ziRd4z6LwKiTeKjrjqEb6lfr2YfuUPC/NwK 2g== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3a65vdc4w6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 03 Aug 2021 13:28:32 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 173DFKdn043808;
+	Tue, 3 Aug 2021 13:28:30 GMT
+Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam08lp2048.outbound.protection.outlook.com [104.47.73.48])
+	by userp3020.oracle.com with ESMTP id 3a5g9v2ppr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 03 Aug 2021 13:28:30 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NWsKkV/BMWQyj/aGh3dOV5kNiQzk1pPJaqj46DlhED1i3AM9QKPOU/jKjF8pSD6PfJSmfr9T/Y7L1XLK07VmissRhpBF4Bc7lawf6wVQvnuO97a9dU7Mg2RpJx40zKBB2HxDQBgfRXD+4iKBcgqwoiL/oQXyO0BzeiMT+qYhp8JFK56IbvFNIsh0pHHBwgqObwjumNr4D96KVDOoslN/7GLFVsnd8aGp5ZAGQ+ZiyDgYq3kxFiM5KV1GnHHDZ31msDSWuSpacElAt11tlVKY0vqkgpiWQGpwUl1hpDydWfYdkCZSQilLSGZg1NNTR0f4nEIeW60YyikfU5e2LHdzJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BTb0GNmXH8p//PQ47H7a9V3i+zYn0ZDwjDqJHRSzXrk=;
+ b=Zag0M/2iXs6ZhF/qyiRPl0udXaCUNtG69n9/dr9vfvCILSCF7RcrN0O1Rgwt+iCgsAHV4Jrfp0UdMxMtuV91Fx+YCU8/RSRpmnN7Sw+xM3M14P7qM+ea6+x4hLz5OXcPz8Kx4xJm3mXHBPpq3NKxqnUgYQ0RQW/aO6xlJ7HJHsARbf6Gw/knuCDVzJfWpBxN1L149ZpturthCKYM/2wqjeRVEhM7ub6U+g5aoaF0SULlt7NMNL5Jq2SFnGbIFNwMVWt+Deq7nkdTnTnhGZBtgOzpf8W+h73xqeITaGaaWndRjt3H/xc1VetGfF5Aet0QG6SwqLp6RBDq9BfHbsjaXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=7bd/TC29f1jODC6XC/0L2lVyB65HK/Gr36P+zQrr5uk=;
-        b=hW52omMzvHHZ5R0EKchB/LoeRd4/eU5N57SVV8ghFPb1FZWDJCDTrc0FjawPXiPwSH
-         psELRLn6wqn38WzGj0SwoGn1HiRO6STVE1napRYA79w+VCP5uhtQmz9Qwm9SUtJONmbl
-         +z0Ux77j3jPW2uOCD+vGsgStNpDWtch0LUoEgP1DnXBFgVYAuDMcEVywAzwoAuV7gzek
-         SmB+kCmAoPIpiEvoxfih9d6fu5EmdNBGgqeXsmKkjaiTvLm8vQpNkQrrgjc+KD7RLBw8
-         hIYxxzBtczhT3dSordX/+IGlpGtCiQ5Gzhy+m0jJ46IPmroxV4vuIiTqT9uGk9u9BxuI
-         wzeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=7bd/TC29f1jODC6XC/0L2lVyB65HK/Gr36P+zQrr5uk=;
-        b=KKH35OogXcwpORJ4XSfM9OvPi5ROqATXg9o+obVYGw+rYaGmpbAru8D/bmtizXxcs5
-         raoB84v8p1P9ktb7v9bjhdAu12VJz9bgfB2QZZWgmlBmhwIgHJ1V/AI7Sj/lKBLP463a
-         8fhv607R/sDvVFtHr2IQT/MnPxF8etsZBJTzoRTy0URl9zsunHRoxYowUANxeENJlHe3
-         jFcsH0zvR35qhyu+iHRUXCXiSZqc80LUSEtx2Nij2DXCqLj+4ALNHTKiNnpziSKKRcB1
-         y95+Umvj9u0tnQAo90EV7rVVgpbHzChk9PiRP2ASCg2o6OfXu/Of6KeuAv5N/dFVaHr+
-         Udeg==
-X-Gm-Message-State: AOAM531Pqpi3BXWw7gpgJQuIcKQa1Xe9AcdEsNunACqgMjZNI3pN5tRe
-	7BOQDTyd9qknOOZkmIkxgoE=
-X-Google-Smtp-Source: ABdhPJyvOXaLmbNeXW5Vnb4awG18xbtqYPe/ef00jLg+n9UAgs1goNhVcy1F12M+IpTdSqQBEvZEng==
-X-Received: by 2002:a05:600c:213:: with SMTP id 19mr4226192wmi.2.1627994374122;
-        Tue, 03 Aug 2021 05:39:34 -0700 (PDT)
-Received: from agape.jhs ([5.170.229.20])
-        by smtp.gmail.com with ESMTPSA id k17sm3050185wmj.0.2021.08.03.05.39.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Aug 2021 05:39:33 -0700 (PDT)
-Date: Tue, 3 Aug 2021 14:39:30 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: gregkh@linuxfoundation.org, hdegoede@redhat.com,
-	Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: commit c7e88ecbe328 ("staging: r8188eu: remove rtw_buf_free()
- function")
-Message-ID: <20210803123929.GA1898@agape.jhs>
-References: <20210803072129.GA1422@agape.jhs>
- <26260563.P9vmH3Ooqy@localhost.localdomain>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BTb0GNmXH8p//PQ47H7a9V3i+zYn0ZDwjDqJHRSzXrk=;
+ b=QVII0O7W8MgMyJjiEZL8I9IJuQ+4Z3EI/riHjWGc4aj9sn0K00QuFzBbpSavK3ejaZ/N+7LlRCN9jSZfBZ1h86Hx4b9qjSqjQ92zJYX58psjBbiIG9WIbg8bX0xrTL46Qu+MPh/0DeZALvWI0zYf+7RGJtb69WuqGIu781gQYXc=
+Authentication-Results: linuxfoundation.org; dkim=none (message not signed)
+ header.d=none;linuxfoundation.org; dmarc=none action=none
+ header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CO1PR10MB4434.namprd10.prod.outlook.com
+ (2603:10b6:303:9a::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.15; Tue, 3 Aug
+ 2021 13:28:29 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4373.026; Tue, 3 Aug 2021
+ 13:28:29 +0000
+Date: Tue, 3 Aug 2021 16:28:10 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        Larry Finger <Larry.Finger@lwfinger.net>,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: r8188eu: core: Change the length of an array
+Message-ID: <20210803132810.GB1931@kadam>
+References: <20210802203020.9679-1-fmdefrancesco@gmail.com>
+ <20210803061441.GK25548@kadam>
+ <YQjgN/Xx5LUYtzz0@kroah.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YQjgN/Xx5LUYtzz0@kroah.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0024.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::15)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <26260563.P9vmH3Ooqy@localhost.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from kadam (102.222.70.252) by JNAP275CA0024.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.15 via Frontend Transport; Tue, 3 Aug 2021 13:28:24 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c445ada9-2e41-444d-1ebd-08d9568294a0
+X-MS-TrafficTypeDiagnostic: CO1PR10MB4434:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<CO1PR10MB443474226F187488899094C18EF09@CO1PR10MB4434.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	EXa0SCw4L3bgq82ozSfs7OJZYf5udL+Oz/nDtFfRhTclXajeRXT1fmokTDSBM+hJ3dw8USCrQHbIeHeJlGnaHKDU388Nyz7GS8LB6meH7G8RK7qwR07es72Y6b0Q3UtlfWFeQr5lf+XNgx85YSUPXKtUBLVz4liamSBwhbHuJvnssgZnlBrDLeZoRjlMDln299/wQI3ABnk/NRDtfjBSIuOA5+LZLJAqT30HXD+VUZ5Pa3ysmWxhGAkiQiTG1OL49UTd8B1eeFPRdZ5e2uK4QYlfSyA61ZvUsB/+gHil964MpNcwh6HNmmKpq6WAmCiBYjGYtwV/yhofVTIpavvQyTsCq9TcOqjD+8Svbmd6TWbn2PiwQfaqoxIbukz6+t3De6fvR+dnBcLM4lGA5yuUAIrQohqFtyeMkl8olX6+bQWFBEqbY63bsOwaANnwSRATXFjtH3ihMLRSG4fjrxP/pOmZ6j5GTYgW6/A16OFn515xjilir98mQCA96ShdbnKXTUKEXOD0HKkj3ZJfh0iWzLwKeCSkGY/LO/2ai2DDfR0DwJDrQCA1eUu3jVN0fJ09GoRdJRiwrYVzySVVkwGwJpwFvblqv8RBV9udrPtICSiaHRUSpdboYlY7RIB8B0iLImwA/ykrkHaBzbUd8Us4cdGE6DUbKOW20F44y5Nnn2F3OWdLCEr7iLooVwHmeOmjnunYS24cPhsSxO26kqBmyw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(6916009)(4744005)(33656002)(66556008)(6666004)(5660300002)(508600001)(66476007)(66946007)(1076003)(9576002)(4326008)(86362001)(52116002)(2906002)(54906003)(8676002)(956004)(6496006)(316002)(8936002)(33716001)(38350700002)(9686003)(186003)(26005)(38100700002)(55016002)(44832011);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?8jh1AwlqoZYCuca2QriOGgOUJdp1dsZV1AuPQdjWbVf+ZkTlR+yTKlvYGs9H?=
+ =?us-ascii?Q?Ka64ZcBnY1AJojjTVaQ5esxDGtMMYfF3iyK5Euc2oMT6w2EZp0lTHJFleeST?=
+ =?us-ascii?Q?HOv+Tp+g8cq/KZdsXpeM7vA3FQMf9G+7IzGeSqKuvZ5fyEgjVDOu4x41nQ/v?=
+ =?us-ascii?Q?V+mLGgk846/6pw8K8cYqhXFBEaw/JhC6NPGtaK4ToJGs9rtax+l7yylxj6zG?=
+ =?us-ascii?Q?84y95k53atuRWt6AeXLaIf9ziXrAYyqMwb19o03EAsBAbcPFHB4Ek+y3bYG/?=
+ =?us-ascii?Q?3GHZZCYG5QQX2KV8ZY7YF5j5axbXcFo2Ulr34BziDTqZRZypKlcaBlXEV+53?=
+ =?us-ascii?Q?vCOz4BudXiSjF8QiVU/t5HEs4RUV2qsCJ+Tlzwv7EgPKRSUmjj/ra/ULxGyK?=
+ =?us-ascii?Q?Y5H1Dk2mBfNBN5HzD4KUphOFF+XnnQBXis/9Qw/PO7uP+Op2d6IXbz5dUj1M?=
+ =?us-ascii?Q?9WRc5EbngGhZEskdcqnBNriwgqb+ST62rYgsJEQ1GPUjmNUoPGBBaQm9ZrHQ?=
+ =?us-ascii?Q?29lHa19H7pErqE3ldBELh3GSMlttskLI43Y7aYHSxkvWfyEzs1M8CT/DMXNh?=
+ =?us-ascii?Q?gwnckF2fDQnLQly+gyft15FXSSMXYuSQ28PS0zyXqFET9CtQqds0nC9jNAdt?=
+ =?us-ascii?Q?ulOmIoccOOyQsgt3/MN+Z12yCulkBeAAPIMOPFMbJU0VWIZKgcKl/BUNt4dW?=
+ =?us-ascii?Q?jHeUEmX+By9LLFhYXFVdGBPvQ11d1A0xNUtY7dPZinuu6O8fRgX461QzkurQ?=
+ =?us-ascii?Q?Iu7LPYbYenPr5QidQEYgiAtuE0r6o+bJDI7WoOlztre1W0n3JuFDJyXE3Von?=
+ =?us-ascii?Q?WiCRjVawDYxek/8YESFGH/n7/uwVbI92wxGekqtVrIn8ZV+aDVFuaP5x+dsW?=
+ =?us-ascii?Q?s+wCJEnJze2KfpHu3iZ/+t8VJF2YRX4JKmjt1C2qxU8ytBBMu91EFZW8aKW/?=
+ =?us-ascii?Q?d2NJuzLXtauZBBZaHeJ5Qm/cF33VcMvQi0uKLLP2rq4uZ5BYBQQvsHv9zWRn?=
+ =?us-ascii?Q?S+jzda3qYHzBtIXolsdhD6SX1pjxGVBAMwfaFJgmSlLSuSi+hIRVLfaP7iSE?=
+ =?us-ascii?Q?sJlWv+1k51bet1nyUGUmMT93HeV2g6GxnHX19Dt+/pYKr5JSHI6/S0vXkUkx?=
+ =?us-ascii?Q?iTTZJnDUcTzXQFrigtdA2TNPWTFy0Z5/+g9E/bshAaNFv/nYOBbhJH0eXDEs?=
+ =?us-ascii?Q?FxOzYsoWybNsDX6df2Q8Y+1bHOMl/wtQjX+kjKE0zWfpYCDmGfQpZKCmM34P?=
+ =?us-ascii?Q?LmklUmxnyDzqgzuJ4c1SQswYiZLmEkT9yO7VaZLmH9ZluLM/9xxRrJK6cqTI?=
+ =?us-ascii?Q?ZC+T2mgCQ94zdA/Zf9OJmDPm?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c445ada9-2e41-444d-1ebd-08d9568294a0
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2021 13:28:29.0183
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FnEN3lAs9OeFT85c7MIPvo+NVRL2REARy3dgK3wGlUlP1lzpEOGp+TCgqiZUU1Q2dnDJiziX931UiYa8Z2bx3Hgur5UC2/2vXho859J0CN8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4434
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10064 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0 phishscore=0
+ spamscore=0 adultscore=0 suspectscore=0 mlxlogscore=658 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
+ definitions=main-2108030089
+X-Proofpoint-GUID: bC5meGCvtx1Xe5fTqRFSx5cJod_gfdyC
+X-Proofpoint-ORIG-GUID: bC5meGCvtx1Xe5fTqRFSx5cJod_gfdyC
 
-Hi Fabio,
-
-On Tue, Aug 03, 2021 at 02:23:25PM +0200, Fabio M. De Francesco wrote:
-> On Tuesday, August 3, 2021 9:21:30 AM CEST Fabio Aiuto wrote:
+On Tue, Aug 03, 2021 at 08:20:39AM +0200, Greg Kroah-Hartman wrote:
+> On Tue, Aug 03, 2021 at 09:14:42AM +0300, Dan Carpenter wrote:
+> > On Mon, Aug 02, 2021 at 10:30:20PM +0200, Fabio M. De Francesco wrote:
+> > > IPX_NODE_LEN == 6, while addr.f1 should only have 4 elements.
+> > > Replace IPX_NODE_LEN with 4. In the while, remove the excess spaces
+> > > before the fields of the union.
+> > > 
+> > > Fixes: 56febcc2595e ("staging: r8188eu: Fix different base types in assignments and parameters")
 > > 
-> > Do you have any idea of what happened? This
-> > topic could give us all deeper understanding
-> > of kernel memory management.
-> > 
-> Hi Fabio,
+> > Ugh...  I really feel we'd be better off reverting that patch entirely.
 > 
-> I've just briefly looked at that c7e88ecbe328. I have no time to dig it deeper 
-> but at a first look it seems that the following line is the culprit:
-> 
-> kfree(&pmlmepriv->assoc_req);
-> 
-> It should be:
-> 
-> kfree(pmlmepriv->assoc_req);
+> I do too, let me go revert that...
 
-I think you are right :)
+Thanks!
 
-I didn't noticed rtw_buf_free's first argument is
-a double star pointer.
-
-> 
-> The second line frees the memory location whose address is saved in assoc_rec; 
-> the first line instead frees assoc_req itself.
-> 
-> Regards,
-> 
-> Fabio 
-> 
-> 
-> 
-
-thank you,
-
-fabio
+regards,
+dan carpenter
