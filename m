@@ -1,101 +1,70 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D86F670
-	for <linux-staging@lists.linux.dev>; Tue,  3 Aug 2021 20:15:30 +0000 (UTC)
-Received: from dslb-188-104-062-095.188.104.pools.vodafone-ip.de ([188.104.62.95] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1mB0oy-0007wl-BZ; Tue, 03 Aug 2021 22:15:28 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BB070
+	for <linux-staging@lists.linux.dev>; Tue,  3 Aug 2021 22:36:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6B7E861029;
+	Tue,  3 Aug 2021 22:36:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1628030203;
+	bh=hQ50CpAn7wAmW4WIyQJTFytEVNqrsX5q/ubUIcXjkgg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=sAXwd2yVSeHKnfYXpLo0f4bKSUOd85VghAfY/zwkrp07hCFSHOaQHKhqRHCeV30fI
+	 yHJn5nXmYlqPGUw9CSNu5ySebChQtDRd7UwyArTCmbt5OdsdXPqUGjMuAI3wHwo8oz
+	 JJ+qzu7nrUQOb9iBBFgCAmPXUitt8DVKgMgJO8zoMAnUNiE4laeollNuUWw4fmzC7h
+	 K3iCAEy79Ee9tQlgVl1HnzTEqq4GI97yUw47jc2CwXU9OKTunaenCa6DfncRwjV+Ve
+	 L7v+p0bgVqJ5iS2pHHXEYwbWTtCGA+F3xYP2IE3re2MhscDH1wa/bl3ib8aRv/4Acv
+	 v+z0rR6PAImHg==
+From: Nathan Chancellor <nathan@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Phillip Potter <phil@philpotter.co.uk>,
-	linux-staging@lists.linux.dev,
+	Larry Finger <Larry.Finger@lwfinger.net>
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 6/6] staging: r8188eu: remove RT_TRACE and DBG_88E prints from xmit_linux.c
-Date: Tue,  3 Aug 2021 22:15:11 +0200
-Message-Id: <20210803201511.29000-6-martin@kaiser.cx>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210803201511.29000-1-martin@kaiser.cx>
-References: <20210803201511.29000-1-martin@kaiser.cx>
+	clang-built-linux@googlegroups.com,
+	Nathan Chancellor <nathan@kernel.org>
+Subject: [PATCH 0/4] staging: r8188eu: Fix clang warnings
+Date: Tue,  3 Aug 2021 15:36:05 -0700
+Message-Id: <20210803223609.1627280-1-nathan@kernel.org>
+X-Mailer: git-send-email 2.33.0.rc0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-Patchwork-Bot: notify
 Content-Transfer-Encoding: 8bit
 
-We should use the standard mechanism for debug prints. Remove the prints
-that use driver-specific macros.
+This series cleans up all of the clang warnings that I noticed with
+x86_64 allmodconfig on the current staging-next. This has been build
+tested with both clang and gcc with x86_64 allmodconfig.
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/os_dep/xmit_linux.c | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+Nathan Chancellor (4):
+  staging: r8188eu: Remove _rtw_spinlock_free()
+  staging: r8188eu: Remove unnecessary parentheses
+  staging: r8188eu: Remove self assignment in get_rx_power_val_by_reg()
+  staging: r8188eu: Remove pointless NULL check in
+    rtw_check_join_candidate()
 
-diff --git a/drivers/staging/r8188eu/os_dep/xmit_linux.c b/drivers/staging/r8188eu/os_dep/xmit_linux.c
-index 421328173984..8b22c988743f 100644
---- a/drivers/staging/r8188eu/os_dep/xmit_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/xmit_linux.c
-@@ -85,10 +85,8 @@ int rtw_os_xmit_resource_alloc(struct adapter *padapter, struct xmit_buf *pxmitb
- 
- 	for (i = 0; i < 8; i++) {
- 		pxmitbuf->pxmit_urb[i] = usb_alloc_urb(0, GFP_KERNEL);
--		if (!pxmitbuf->pxmit_urb[i]) {
--			DBG_88E("pxmitbuf->pxmit_urb[i]==NULL");
-+		if (!pxmitbuf->pxmit_urb[i])
- 			return _FAIL;
--		}
- 	}
- 	return _SUCCESS;
- }
-@@ -200,14 +198,12 @@ static int rtw_mlcst2unicst(struct adapter *padapter, struct sk_buff *skb)
- 			memcpy(newskb->data, psta->hwaddr, 6);
- 			res = rtw_xmit(padapter, &newskb);
- 			if (res < 0) {
--				DBG_88E("%s()-%d: rtw_xmit() return error!\n", __func__, __LINE__);
- 				pxmitpriv->tx_drop++;
- 				dev_kfree_skb_any(newskb);
- 			} else {
- 				pxmitpriv->tx_pkts++;
- 			}
- 		} else {
--			DBG_88E("%s-%d: skb_copy() failed!\n", __func__, __LINE__);
- 			pxmitpriv->tx_drop++;
- 
- 			spin_unlock_bh(&pstapriv->asoc_list_lock);
-@@ -227,12 +223,8 @@ int rtw_xmit_entry(struct sk_buff *pkt, struct  net_device *pnetdev)
- 	struct mlme_priv	*pmlmepriv = &padapter->mlmepriv;
- 	s32 res = 0;
- 
--	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("+xmit_enry\n"));
--
--	if (rtw_if_up(padapter) == false) {
--		RT_TRACE(_module_xmit_osdep_c_, _drv_err_, ("rtw_xmit_entry: rtw_if_up fail\n"));
-+	if (rtw_if_up(padapter) == false)
- 		goto drop_packet;
--	}
- 
- 	rtw_check_xmit_resource(padapter, pkt);
- 
-@@ -251,13 +243,11 @@ int rtw_xmit_entry(struct sk_buff *pkt, struct  net_device *pnetdev)
- 		goto drop_packet;
- 
- 	pxmitpriv->tx_pkts++;
--	RT_TRACE(_module_xmit_osdep_c_, _drv_info_, ("rtw_xmit_entry: tx_pkts=%d\n", (u32)pxmitpriv->tx_pkts));
- 	goto exit;
- 
- drop_packet:
- 	pxmitpriv->tx_drop++;
- 	dev_kfree_skb_any(pkt);
--	RT_TRACE(_module_xmit_osdep_c_, _drv_notice_, ("rtw_xmit_entry: drop, tx_drop=%d\n", (u32)pxmitpriv->tx_drop));
- 
- exit:
- 
+ drivers/staging/r8188eu/core/rtw_cmd.c        |  2 -
+ drivers/staging/r8188eu/core/rtw_mlme.c       | 18 +----
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c    |  2 +-
+ drivers/staging/r8188eu/core/rtw_recv.c       | 11 ---
+ drivers/staging/r8188eu/core/rtw_security.c   |  4 +-
+ drivers/staging/r8188eu/core/rtw_sta_mgt.c    | 77 -------------------
+ drivers/staging/r8188eu/core/rtw_wlan_util.c  |  2 +-
+ drivers/staging/r8188eu/core/rtw_xmit.c       | 19 -----
+ drivers/staging/r8188eu/hal/odm.c             |  2 +-
+ drivers/staging/r8188eu/hal/rtl8188e_rf6052.c |  2 -
+ drivers/staging/r8188eu/hal/usb_halinit.c     |  2 +-
+ .../staging/r8188eu/include/osdep_service.h   |  1 -
+ drivers/staging/r8188eu/os_dep/os_intfs.c     |  2 -
+ .../staging/r8188eu/os_dep/osdep_service.c    |  4 -
+ 14 files changed, 9 insertions(+), 139 deletions(-)
+
+
+base-commit: 11e14fc3e49481b6322bbd976bb7dd2f0d7ef3d2
 -- 
-2.20.1
+2.33.0.rc0
 
