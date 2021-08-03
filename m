@@ -1,231 +1,104 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A360070
-	for <linux-staging@lists.linux.dev>; Tue,  3 Aug 2021 08:15:59 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id gn26so35139050ejc.3
-        for <linux-staging@lists.linux.dev>; Tue, 03 Aug 2021 01:15:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FBB670
+	for <linux-staging@lists.linux.dev>; Tue,  3 Aug 2021 08:56:14 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id c16so22849838plh.7
+        for <linux-staging@lists.linux.dev>; Tue, 03 Aug 2021 01:56:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=LKpGLThUAKZDHBxGPyyiTIsZv8h3dQEtwjqNS0LfTfY=;
-        b=Jykv0bXk9ykz+FwAMHQ94SbW1/Boq78aX+mtIOgYAUjHD3kwsEPGCbCtrmjzvmQiwg
-         ntPoCunb06r859nLxzeRzsaeiQqFuF6+7YXVL9wfFARtVmyvXAHmIs+IbJPBUegWnTtG
-         YkBYJJ1VgOnMb3McBASPEsO+OhO7gDxoo8IAq1MrKVJoXWCj1ZOGNqigR+6BoapTScoN
-         IeSE9aKXX8vMr5dmUWIlOclDgI9vuVYUUfwkTMA3F578j3G27aWSVa/39NoRaIHlo8VR
-         x2FbWinzknLPhccnr9zUuY4F3aY2qhT14+oM2JchuSfAtsHDUnd3fh60jsFyV6/lF9Wl
-         6q6g==
+        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2VSBHI2kOyfU03u1WdUTP9YGD6lc5dbX5FmCawILdkw=;
+        b=xFyAfNKpx2lHljwdqXYLDuofUx/eI05GpD7CjNHjSTi8OzGQi6nhKb/M67VmZsIo5l
+         zgZZMg9JuCvYqwMt6HwWXuvZlVcen+VNhITVZNn4VZTLdo+zZbl7k3bQocWzR1lfvnJ7
+         s7/ZpmzSnx7ciwZjQm/x3Z8Q1fpQXLy31V2OBrGTPPOrUvlUGeDxFcW4pbce1HRnLZxc
+         6qHPZEcN5kwzyUwpTQ2ivR8gwSTDz4lFkNNr40VrvmoFb2MOnfpLCyv2Tk8a7nPJmiAI
+         xD9ScBoY0hevG7RuaXFXFPu+TS+nThE779jNPUZbARFbaoeVb/gxUO3BPVihQ5zEIpsK
+         tBOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=LKpGLThUAKZDHBxGPyyiTIsZv8h3dQEtwjqNS0LfTfY=;
-        b=ADixts91GYB5rd47flJhnIZkdiOefJ1WGx0b68oHgVcLeRpeFYWtxenTtm5kuMgLmU
-         qTVFCVDl8YJR+yvLkQNsi7TQEIlxudf80un+imFbHndidP++ZIPjpo1nm+s9YJwDYKId
-         g8M4JQGBslzkCUwKyQi85XWyaEa0s7kGJykPsYY+pz2+Jg/vysl6E31fXaIZrH5bYsu2
-         3PPyeFlEZegvBfCNPmptOWBkEHw7iAjL3iNoU+YZlOwjsDGswkcjloFHDcUbq8LWSn6e
-         ZDUdDmQy5OPLDnVe28P6wuRGNlF/0Lpj4L/4AoaHruSSyQsPqlBSMt51MjFR8hzCCqmD
-         8mxw==
-X-Gm-Message-State: AOAM532wKb7VikY/cL21Pr6AD1eIA/IsCZrBDFQm3s+co+QNCj1c/67A
-	MzkP/Yd/WHA4URX7CW7d9nA=
-X-Google-Smtp-Source: ABdhPJy0DAU6dtMQD9LujJfzucK0gBpu1BRKcDooUtCQkwtILARc3qp9pIHE6/3Qx+r3cy7x3mqIyQ==
-X-Received: by 2002:a17:906:5ac5:: with SMTP id x5mr16771566ejs.271.1627978557934;
-        Tue, 03 Aug 2021 01:15:57 -0700 (PDT)
-Received: from localhost.localdomain (host-82-51-42-96.retail.telecomitalia.it. [82.51.42.96])
-        by smtp.gmail.com with ESMTPSA id n16sm7677590edt.31.2021.08.03.01.15.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Aug 2021 01:15:57 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: Fix different base types in assignments and parameters
-Date: Tue, 03 Aug 2021 10:15:56 +0200
-Message-ID: <2671423.i2fK0j4CO3@localhost.localdomain>
-In-Reply-To: <20210802140505.GZ1931@kadam>
-References: <20210730181452.23062-1-fmdefrancesco@gmail.com> <20210802140505.GZ1931@kadam>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2VSBHI2kOyfU03u1WdUTP9YGD6lc5dbX5FmCawILdkw=;
+        b=lTvOXlbANklaTeqxoRWBpB5G8YeFB6/rjUeMUYjJ0gbxNtxYC7oZ49a8oGsZn40RKN
+         hQ0I8y/ZOOQWTTNrR+GhuP2gacHg/+bIvbD89GehQbg2EZlwyIuUquEZXNVdPFT//h/R
+         0eWS0qI0/7oi+z31msPjRGDzlX+pUVppd0SK+XYjkGQbPUwqxJHxro0TuZhaS9bUciYE
+         K9QZXTNKZd2OQd+esX7VhAh/CRnZF0t+iI0LyrpqmBMFWN06Pwa39GZ5f5qAkmJn+nhZ
+         aQB4OnhN2SX34VhS5F91cpk+PWRd3gPpEW6bczeVYqZwNWsAWIapsl5vFJc4Va4FpjZd
+         fu0Q==
+X-Gm-Message-State: AOAM5318MtQ7Zxe904uEbP6+jA06vdBJ0K2+i39zVGTGSNFgfqDwgiLY
+	GGBzGn3NtsaLM+Lo6vzQuklCpkjBBHaDzGxrHwcjFQ==
+X-Google-Smtp-Source: ABdhPJzPp7C0RinR/iokila0E0mzC0TMDoH9Ys8TEaTlWqVMLd+0B6mNL7o+4jpCfMcAD5navb9xQle/6NO9/YMqSJs=
+X-Received: by 2002:a17:903:2302:b029:12c:bb4f:cbdf with SMTP id
+ d2-20020a1709032302b029012cbb4fcbdfmr6974312plh.22.1627980973355; Tue, 03 Aug
+ 2021 01:56:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20210803071811.8142-1-lukas.bulwahn@gmail.com>
+In-Reply-To: <20210803071811.8142-1-lukas.bulwahn@gmail.com>
+From: Phillip Potter <phil@philpotter.co.uk>
+Date: Tue, 3 Aug 2021 09:56:02 +0100
+Message-ID: <CAA=Fs0=V_gcfDUxn1m9OkR78cht0S=j02BsHajG1A3vuGTqQJw@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: update STAGING - REALTEK RTL8188EU DRIVERS
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
+	Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>, kernel-janitors@vger.kernel.org, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Monday, August 2, 2021 4:05:05 PM CEST Dan Carpenter wrote:
-> On Fri, Jul 30, 2021 at 08:14:52PM +0200, Fabio M. De Francesco wrote:
-> > Fix sparse warnings of different base types in assignments
-> > and in passing function parameters.
-> 
-> This patch fixes some endian bugs but it's not mentioned at all in the
-> commit message.  Did you send to the correct patch?
-Dear Greg, Dan,
-
-I just read another message where Greg K-H decided to revert this patch, 
-probably also according to the review by Dan C..
-
-In doing so, the sparse warnings of different base types in assignments and 
-some endian bugs will appear anew and I think that these problem should be 
-addressed in some other way.
-
-I'll try to find some other solutions that result to be more correct and in 
-line with Linux conventions. But, before doing the work I need to better 
-understand what went wrong the first time. So, please, devote some time to 
-respond to my questions...
-
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > ---
-> > 
-> >  drivers/staging/r8188eu/core/rtw_br_ext.c | 46 ++++++++++++++++++-----
-> >  1 file changed, 36 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c
-> > b/drivers/staging/r8188eu/core/rtw_br_ext.c index 
-e00302137a60..31ca2e548555 100644
-> > --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
-> > +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
-> > @@ -71,7 +71,7 @@ static inline int __nat25_add_pppoe_tag(struct sk_buff 
-*skb, struct
-> > pppoe_tag *t> 
-> >  	struct pppoe_hdr *ph = (struct pppoe_hdr *)(skb->data + ETH_HLEN);
-> >  	int data_len;
-> > 
-> > -	data_len = tag->tag_len + TAG_HDR_LEN;
-> > +	data_len = be16_to_cpu(tag->tag_len) + TAG_HDR_LEN;
-> > 
-> >  	if (skb_tailroom(skb) < data_len) {
-> >  	
-> >  		_DEBUG_ERR("skb_tailroom() failed in add SID tag!\n");
-> >  		return -1;
-> > 
-> > @@ -134,42 +134,68 @@ static inline void 
-__nat25_generate_ipv4_network_addr(unsigned
-> > char *networkAddr> 
-> >  }
-> >  
-> >  static inline void __nat25_generate_ipx_network_addr_with_node(unsigned 
-char
-> >  *networkAddr,> 
-> > -				unsigned int *ipxNetAddr, 
-unsigned char *ipxNodeAddr)
-> > +				__be32 *ipxNetAddr, unsigned char 
-*ipxNodeAddr)
-> > 
-> >  {
-> > 
-> > +	union {
-> > +                unsigned int f0;
-> > +                unsigned char f1[IPX_NODE_LEN];
-> 
-> What is going on here??  Why is f1 six bytes?
-
-Here I've been misled by something else. I agree that f1 should be four bytes.
- 
-> > +        } addr;
-> > +
-> > 
-> >  	memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
-> >  	
-> >  	networkAddr[0] = NAT25_IPX;
-> > 
-> > -	memcpy(networkAddr+1, (unsigned char *)ipxNetAddr, 4);
-> > +	addr.f0 = be32_to_cpu(*ipxNetAddr);
-> > +	memcpy(networkAddr+1, addr.f1, 4);
-> 
-> What's the point of a union?  memcpy() doesn't care about endian
-> anotations.
-
-I'm not sure to understand. Please, elaborate a bit. Do you mean that there's 
-no need to use be32_to_cpu(*ipxNetAddr) and that we can use ipxNetAddr as-is 
-(it is a __be32) as the second parameter of memcpy(), even though the 
-networkAddr+1 is the address of an array of unsigned char? Is this that you 
-tried to explain to me?
-
-However, there's a huge error in passing the second parameter to memcpy(): it 
-should be &addr.f1. Or better, let's make addr to be __be32 and then pass 
-&addr (so there's no more need of that union). Do you agree?
-
-> >  	memcpy(networkAddr+5, ipxNodeAddr, 6);
-> >  
-> >  }
-> >  
-> >  static inline void __nat25_generate_ipx_network_addr_with_socket(unsigned 
-char
-> >  *networkAddr,> 
-> > -				unsigned int *ipxNetAddr, 
-unsigned short *ipxSocketAddr)
-> > +				__be32 *ipxNetAddr, __be16 
-*ipxSocketAddr)
-> > 
-> >  {
-> > 
-> > +	union {
-> > +		unsigned int f0;
-> > +		unsigned char f1[4];
-> > +	} addr;
-> > +
-> > 
-> >  	memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
-> >  	
-> >  	networkAddr[0] = NAT25_IPX;
-> > 
-> > -	memcpy(networkAddr+1, (unsigned char *)ipxNetAddr, 4);
-> > -	memcpy(networkAddr+5, (unsigned char *)ipxSocketAddr, 2);
-> > +	addr.f0 = be32_to_cpu(*ipxNetAddr);
-> > +	memcpy(networkAddr+1, addr.f1, 4);
-> > +	addr.f0 ^= addr.f0;
-> 
-> What on earth????
-
-According to my understanding I need to wipe all the bits of addr.f0 before 
-reusing it in the next assignment. Don't I have to?
-
-If we agree on this, I'd like to explain why I use the xor of itself... I know 
-that `addr.f0 = 0;` is more easily readable. But I've always thought that a 
-direct assignment of a specific value (0, in this case) should indicate that 
-one wants to use that 0 for something that needs that specific number.
-
-For example, in `for(i = 0; i < len; i++)` to indicate that we want to loop 
-starting from 0; or in `res = some_func(); if( !res ) return _FAIL;`, and so 
-on. In this cases I want to make it clear that 0 has a precise and special 
-meaning.
-
-Differently, when one simply wants a variable wiped out of any content, just 
-before re-using it for a subsequent "real" assignment, I prefer to xor(ing) 
-that variable with itself.
-
-Does it make sense to you?
-
-> > +	addr.f0 = be16_to_cpu(*ipxSocketAddr);
-> 
-> I'm so puzzled.
+On Tue, 3 Aug 2021 at 08:18, Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
 >
+> Commit 55dfa29b43d2 ("staging: rtl8188eu: remove rtl8188eu driver from
+> staging dir") removes ./drivers/staging/rtl8188eu, but misses to adjust
+> the STAGING - REALTEK RTL8188EU DRIVERS section in MAINTAINERS.
+>
+> Hence, ./scripts/get_maintainer.pl --self-test=patterns complains:
+>
+>   no file matches    F:    drivers/staging/rtl8188eu/
+>
+> A refurnished rtl8188eu driver is available in ./drivers/staging/r8188eu/
+> and there is no existing section in MAINTAINERS for that directory.
+>
+> So, reuse the STAGING - REALTEK RTL8188EU DRIVERS section and point to the
+> refurnished driver with its current developers and maintainers according
+> to the current git log.
+>
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
+> applies cleanly on next-20210803
+>
+> Philipp, Larry, please ack.
+>
+> Greg, please pick this minor cleanup on your staging-next tree.
+>
+>  MAINTAINERS | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 36aee8517ab0..ef32c02b3e4d 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -17723,8 +17723,9 @@ F:      drivers/staging/olpc_dcon/
+>
+>  STAGING - REALTEK RTL8188EU DRIVERS
+>  M:     Larry Finger <Larry.Finger@lwfinger.net>
+> -S:     Odd Fixes
+> -F:     drivers/staging/rtl8188eu/
+> +M:     Phillip Potter <phil@philpotter.co.uk>
+> +S:     Supported
+> +F:     drivers/staging/r8188eu/
+>
+>  STAGING - REALTEK RTL8712U DRIVERS
+>  M:     Larry Finger <Larry.Finger@lwfinger.net>
+> --
+> 2.17.1
+>
+Sorry, not sure how I missed this :-)
 
-Again like the assignment above, *ipxSocketAddr is of type __be16 and the 
-destination of memcpy() is an array of unsigned char(s). I think I could just 
-have a __be16 variable and pass the address of it to memcpy.
-
-Do you agree with the solution above? (Probably I was so distracted that I 
-didn't see I should have passed a pointer as the second parameter of 
-memcpy()).
- 
-> > +	memcpy(networkAddr+5, addr.f1, 2);
-> 
-> This patch is really weird so I'm done reviewing it.
-> 
-> regards,
-> dan carpenter
-
-I'm going to wait a bit for your reply to this message. If I don't receive any 
-response I'll wait for the revert and make a new patch and see what happens.
-Or, I could fix the patch, if Greg does not revert 56febcc2595e.
-
-Patiently waiting... :-)
-
-Thanks,
-
-Fabio
-
-
-
+Acked-by: Phillip Potter <phil@philpotter.co.uk>
