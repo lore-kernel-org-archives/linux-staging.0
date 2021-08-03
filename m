@@ -1,50 +1,24 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972D43483
-	for <linux-staging@lists.linux.dev>; Sat, 31 Jul 2021 23:56:52 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id n12so16610455wrr.2
-        for <linux-staging@lists.linux.dev>; Sat, 31 Jul 2021 16:56:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XlgQ4zodi9G4CtU/C9MKVtFIarxkNvlp0PU1Vx9JfrI=;
-        b=HQZt4JuH5hSHbS6H+iQSwxlSC0N9roPc/5P1qYbFqF301Q7cwcFgsGO9AkymFeNJSl
-         ol+kJEV8TcyupF0YouNb6Cbfxi95X57mkvDfVbG0K3ni66yBIYAl34dVoHoWyuuw1Ve1
-         XU9Tu0uE57ttMAxC+AUVH02U1QUiC8B1EydW3V4kFSuEHq/mdIFUh9tcc+DjptvhTgjy
-         5tHxeC03DEiskZgGqHJ7P6U0mF5IgKtlBHx9wmC8pyRlgEifdSPryWQ8cmrIOlaay1O+
-         nKklCZIzOGzPIKZdycHets5dbG/bMWMzRikxJWxw1RXmF3nE3wBwiZgcgE8Nn2M+9ZSM
-         EDzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XlgQ4zodi9G4CtU/C9MKVtFIarxkNvlp0PU1Vx9JfrI=;
-        b=Kc2xyujHeXNLEQHg7RuDyTpIs4zcE66Y3g3MTe+OC5xvIDsEf0RqF6sZdSjqiZKnp4
-         bOQLPNGEe6r7WNzvAspZv7y7UMjOQ7h9eYra9ddrWS+NcVHf7au/aGU+ltAPDaVVWVbP
-         5VsONrh62gikZTxnrp6OKlxQhXJH3Vpi5Cbxq+sYISHz2LsAdmrHUR4wzSRpeUjLLKde
-         IvTPLveC6FnHLmqVoARLHVAVaQb6jR+wwFplvHLnSMT55xc8U6RC57zIA7lqU29UdKkG
-         2H0PbhyTsxL3t48L5ljwX45tk+5ONARmM1l9LXE39Vte2OF/aJueUexR/LKxsBKozuO5
-         VWVg==
-X-Gm-Message-State: AOAM533JS49cOKMiyU5yKBIXA8sqN1/NgDxle7+Fq+0IxgfffNux4G8Q
-	gKQdltJtyEKCNawoob0NKMoHwQ==
-X-Google-Smtp-Source: ABdhPJwsLg+XYeW5CJMP6DuZ0e3P9OnoRWi6rKmRtpPVNLNFCyinLsCrQMRLuJcrutDBlTqIp5h3Zg==
-X-Received: by 2002:a5d:508b:: with SMTP id a11mr10742542wrt.244.1627775810799;
-        Sat, 31 Jul 2021 16:56:50 -0700 (PDT)
-Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
-        by smtp.gmail.com with ESMTPSA id l5sm7121782wrc.90.2021.07.31.16.56.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Jul 2021 16:56:50 -0700 (PDT)
-From: Phillip Potter <phil@philpotter.co.uk>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D384270
+	for <linux-staging@lists.linux.dev>; Tue,  3 Aug 2021 20:15:23 +0000 (UTC)
+Received: from dslb-188-104-062-095.188.104.pools.vodafone-ip.de ([188.104.62.95] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1mB0oo-0007wl-UF; Tue, 03 Aug 2021 22:15:18 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: r8188eu: remove RT_PRINT_DATA macro
-Date: Sun,  1 Aug 2021 00:56:48 +0100
-Message-Id: <20210731235648.67642-1-phil@philpotter.co.uk>
-X-Mailer: git-send-email 2.31.1
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 1/6] staging: r8188eu: remove RT_TRACE and DBG_88E prints from mlme_linux.c
+Date: Tue,  3 Aug 2021 22:15:06 +0200
+Message-Id: <20210803201511.29000-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,68 +27,49 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove RT_PRINT_DATA definition from include/rtw_debug.h, and its
-two calling statements in hal/hal_com.c, as this code was not written
-with best practices in mind and is safer to simply remove.
+We should use the standard mechanism for debug prints. Remove the prints
+that use driver-specific macros.
 
-Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/hal/hal_com.c       |  7 -------
- drivers/staging/r8188eu/include/rtw_debug.h | 18 ------------------
- 2 files changed, 25 deletions(-)
+ drivers/staging/r8188eu/os_dep/mlme_linux.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/hal_com.c b/drivers/staging/r8188eu/hal/hal_com.c
-index 66a2f3d6d9e7..91d5182f9bb1 100644
---- a/drivers/staging/r8188eu/hal/hal_com.c
-+++ b/drivers/staging/r8188eu/hal/hal_com.c
-@@ -339,18 +339,11 @@ s32 c2h_evt_read(struct adapter *adapter, u8 *buf)
- 	*buf = rtw_read8(adapter, REG_C2HEVT_MSG_NORMAL);
- 	*(buf+1) = rtw_read8(adapter, REG_C2HEVT_MSG_NORMAL + 1);
+diff --git a/drivers/staging/r8188eu/os_dep/mlme_linux.c b/drivers/staging/r8188eu/os_dep/mlme_linux.c
+index 766b346afbb8..0b04de4d2303 100644
+--- a/drivers/staging/r8188eu/os_dep/mlme_linux.c
++++ b/drivers/staging/r8188eu/os_dep/mlme_linux.c
+@@ -113,12 +113,8 @@ void rtw_report_sec_ie(struct adapter *adapter, u8 authmode, u8 *sec_ie)
+ 	u8	*buff, *p, i;
+ 	union iwreq_data wrqu;
  
--	RT_PRINT_DATA(_module_hal_init_c_, _drv_info_, "c2h_evt_read(): ",
--		      &c2h_evt, sizeof(c2h_evt));
+-	RT_TRACE(_module_mlme_osdep_c_, _drv_info_,
+-		 ("+rtw_report_sec_ie, authmode=%d\n", authmode));
+ 	buff = NULL;
+ 	if (authmode == _WPA_IE_ID_) {
+-		RT_TRACE(_module_mlme_osdep_c_, _drv_info_,
+-			 ("rtw_report_sec_ie, authmode=%d\n", authmode));
+ 		buff = rtw_malloc(IW_CUSTOM_MAX);
+ 		if (!buff)
+ 			return;
+@@ -191,8 +187,6 @@ void rtw_indicate_sta_assoc_event(struct adapter *padapter, struct sta_info *pst
+ 
+ 	memcpy(wrqu.addr.sa_data, psta->hwaddr, ETH_ALEN);
+ 
+-	DBG_88E("+rtw_indicate_sta_assoc_event\n");
 -
- 	/* Read the content */
- 	for (i = 0; i < c2h_evt->plen; i++)
- 		c2h_evt->payload[i] = rtw_read8(adapter, REG_C2HEVT_MSG_NORMAL +
- 						sizeof(*c2h_evt) + i);
+ 	wireless_send_event(padapter->pnetdev, IWEVREGISTERED, &wrqu, NULL);
+ }
  
--	RT_PRINT_DATA(_module_hal_init_c_, _drv_info_,
--		      "c2h_evt_read(): Command Content:\n",
--		      c2h_evt->payload, c2h_evt->plen);
+@@ -214,8 +208,6 @@ void rtw_indicate_sta_disassoc_event(struct adapter *padapter, struct sta_info *
+ 
+ 	memcpy(wrqu.addr.sa_data, psta->hwaddr, ETH_ALEN);
+ 
+-	DBG_88E("+rtw_indicate_sta_disassoc_event\n");
 -
- 	ret = _SUCCESS;
+ 	wireless_send_event(padapter->pnetdev, IWEVEXPIRED, &wrqu, NULL);
+ }
  
- clear_evt:
-diff --git a/drivers/staging/r8188eu/include/rtw_debug.h b/drivers/staging/r8188eu/include/rtw_debug.h
-index 56af0751f70e..83c71275c47b 100644
---- a/drivers/staging/r8188eu/include/rtw_debug.h
-+++ b/drivers/staging/r8188eu/include/rtw_debug.h
-@@ -81,24 +81,6 @@ extern u32 GlobalDebugLevel;
- 		}							\
- 	} while (0)
- 
--#define RT_PRINT_DATA(_comp, _level, _titlestring, _hexdata, _hexdatalen)\
--	do {								\
--		if (_level <= GlobalDebugLevel) {			\
--			int __i;					\
--			u8	*ptr = (u8 *)_hexdata;			\
--			pr_info("%s", DRIVER_PREFIX);			\
--			pr_info(_titlestring);				\
--			for (__i = 0; __i < (int)_hexdatalen; __i++ ) {	\
--				pr_info("%02X%s", ptr[__i],		\
--					 (((__i + 1) % 4) == 0) ?	\
--					 "  " : " ");	\
--				if (((__i + 1) % 16) == 0)		\
--					printk("\n");			\
--			}						\
--			printk("\n");					\
--		}							\
--	} while (0)
--
- int proc_get_drv_version(char *page, char **start,
- 			 off_t offset, int count,
- 			 int *eof, void *data);
 -- 
-2.31.1
+2.20.1
 
