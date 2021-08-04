@@ -1,82 +1,98 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043C570
-	for <linux-staging@lists.linux.dev>; Wed,  4 Aug 2021 18:10:39 +0000 (UTC)
-Received: by mail-oi1-f182.google.com with SMTP id x15so3818929oic.9
-        for <linux-staging@lists.linux.dev>; Wed, 04 Aug 2021 11:10:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9644970
+	for <linux-staging@lists.linux.dev>; Wed,  4 Aug 2021 18:38:08 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id x8so6108057lfe.3
+        for <linux-staging@lists.linux.dev>; Wed, 04 Aug 2021 11:38:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=nO7o2mnROm6vfrwIFqpPmkud04mZHjdO1289sNb+Hw0=;
-        b=SZUpBRULSN2CSoeeNZ16bWEwfw9BT+28HqCpb79v4tkTQVtEcEpowHLFyE3bARU+AP
-         yGdSakKCvE0yDTm+5/FXktniQT1fh4tM5N6EyJST9UfZfk+TPXOGrvJHms6ly5oEEDlW
-         x4qFcMj+jtEgKWEF+Or+aa1mGmQ7M8LVkrIoNmt3g4K4iFSxmvEeBPZyE6iTnHzguDeT
-         CbRdfdJxgQueqUiMUKrdYwMTdbEOnMwHu3Z8sPJFQqChjc7AKfOfiAs8dPS8TSk3m0w0
-         PxvqCnaG+EvQ1hQBXxpDAQan/W4lIx8PF5yLP+FftLVHl5RUOtL5ZpriNZKTKPdm+FwX
-         Zk1A==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=z3rdKtAtmpUfyg0lATOCk0JofX75VMc/F9YVDgzTlmo=;
+        b=hL3kh7fJ702qfHXGRmuNiz3WpbcUAIrGJjPnBX5dl7IcYmyfOdz543UZqWDT9auUXu
+         +VKOuEoya/RW3soo5yomR07LY2DsOXiifZCXUkIY4JBqSOvAdGB29LKMpJPtxEgPSUHR
+         H++B0VlI83gfkmknd9OB6FSzqh5klIS5f4O0o4yySG8tzcz11ZqasKTe2ESGVrsYod1Z
+         xm8x2moPh0FqBv8qLK9+EW15OlH9eSsWWrQsnVQLnXhNgf2SjdRb/Knf6kdg46Wt+QCC
+         mAJLezw1X8dPuqC2g7ftR97cJZOagQQb3QqKIBdHNQkU6GCqg63/eg30usVvtY6OJ2L+
+         FNZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=nO7o2mnROm6vfrwIFqpPmkud04mZHjdO1289sNb+Hw0=;
-        b=tnl0tEqJGnqjJdMSZoWUTYB2qdslkgrMYBjxDv8gALh02kqdIxYQTuWBCRGRhu/LfG
-         +oMvWHuMt/AL6JbcrtbAg2u0E0Gu5/e4yE+9CQPa5HNcPKqhKoEAWZR82b3sXM7NIuZZ
-         7WiHMBQuqU2m1R4ReOFzaMnZfjw2umV+m3bQIaYKrJPGt4KF4q9k6Zc2fAA9ikE8EeXd
-         uAIfoVVUSKzGXmL2s4gRhnqkdvhAFaTh7Ut0cMJ3hDt2XLKX8zufKSfElQt1zmprDUlR
-         Udh3PNGY5aHQhH36IGwGsJS9FlIOq+7+vk2lxZrf3O7JSCm9BFfKO1Wn6H6i41i0ngnp
-         wN1w==
-X-Gm-Message-State: AOAM5313DsAWdXUe4y0MBVpf3iwonzx+d+z6IVJRlm1NvG62repbdjE5
-	oUjF4g8QxwipbHXmGyQoedI=
-X-Google-Smtp-Source: ABdhPJxQfR3eULiGVYmQ466ZqjtzMkAdnUNOO6e49aXKcmE3YmWTf2uZ4d9Ehn4RPBezXBwuACTC0g==
-X-Received: by 2002:aca:f089:: with SMTP id o131mr547234oih.37.1628100639168;
-        Wed, 04 Aug 2021 11:10:39 -0700 (PDT)
-Received: from 2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com (2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com. [2603:8090:2005:39b3::100a])
-        by smtp.gmail.com with ESMTPSA id d7sm431522oon.18.2021.08.04.11.10.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Aug 2021 11:10:38 -0700 (PDT)
-Sender: Larry Finger <larry.finger@gmail.com>
-Subject: Re: [PATCH] staging: r8188eu: core: Remove rtw_mfree_all_stainfo()
-From: Larry Finger <Larry.Finger@lwfinger.net>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>
-References: <20210802005517.12815-1-fmdefrancesco@gmail.com>
- <20210804130136.GJ1931@kadam>
- <CAP71bdUDEX=B6Km9wZO1AyHpVzqqkGNw6xNvspBz3qUABSKMEQ@mail.gmail.com>
-Message-ID: <406c6f84-a2f6-1a0e-3a52-9406df41973c@lwfinger.net>
-Date: Wed, 4 Aug 2021 13:10:37 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=z3rdKtAtmpUfyg0lATOCk0JofX75VMc/F9YVDgzTlmo=;
+        b=nEBmSLnIR9DPhxJrH//jEHtcT8tIioDvNetD9XMfdjdB8Tp6PgDO6MWSk97hBDeoO+
+         5ucvn6Wxxo4hHT127XjfmJ8R6FA+I+4u2PDl9JlcYFggHlNiJkeR2gy7xKv5rruueLcc
+         k9PPBl6TreCTJl4lMYoHAj0F4OaRtJxOgpiqRETjX4j2bc7k7VQsD+ozS5cnK2YCVGuk
+         XD4q82AkZBMMzcSfxHaJmafTnmoBJlJfS0SmYV8VW/WMygggtX7nlknfjiTvIzC5kfr0
+         gU1DZ+rnYxHE5PEvSvUW3OVFt1KZitOptHcpVXv00g/S07TTVwrwr/Nrv41mSYqBlvq9
+         V5EA==
+X-Gm-Message-State: AOAM531gKsLUp0T9HsFvehFN33tVFjS2VN81SaIuTZXJWeNO98COEeWG
+	Lfn3a9HiVMxvpUORWwSsvr0djS5IjRG6QViWf3WlQQ==
+X-Google-Smtp-Source: ABdhPJwmIgOGB5O+9dimurF7YRRNX7IZEMgxHnqzHkVp9BaLqeko7Y4HJz1/6ayQ0E/T76/BZdQ9QGAMvx4jBBfRMII=
+X-Received: by 2002:a05:6512:2215:: with SMTP id h21mr413449lfu.543.1628102286318;
+ Wed, 04 Aug 2021 11:38:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAP71bdUDEX=B6Km9wZO1AyHpVzqqkGNw6xNvspBz3qUABSKMEQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210803223609.1627280-1-nathan@kernel.org> <20210803223609.1627280-4-nathan@kernel.org>
+In-Reply-To: <20210803223609.1627280-4-nathan@kernel.org>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Wed, 4 Aug 2021 11:37:55 -0700
+Message-ID: <CAKwvOdkehOWitL+o4s2jWiPk0eTmcjrntiw2rLbpiGynTqSfRw@mail.gmail.com>
+Subject: Re: [PATCH 3/4] staging: r8188eu: Remove self assignment in get_rx_power_val_by_reg()
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Phillip Potter <phil@philpotter.co.uk>, 
+	Larry Finger <Larry.Finger@lwfinger.net>, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 8/4/21 10:09 AM, Larry Finger wrote:
-> In other Realtek drivers, the while loop has a call to rtw_mfree_stainfo(psta). 
-> That routine does not exist in this driver, but I think it should. In a few rare 
-> instances, the driver leaks some memory - this missing code may explain that. In 
-> any case, this patch should be dropped as the fix will require testing.
+On Tue, Aug 3, 2021 at 3:36 PM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> Clang warns:
+>
+> drivers/staging/r8188eu/hal/rtl8188e_rf6052.c:344:13: warning:
+> explicitly assigning value of variable of type 'u32' (aka 'unsigned
+> int') to itself [-Wself-assign]
+>                         writeVal = writeVal;
+>                         ~~~~~~~~ ^ ~~~~~~~~
+> 1 warning generated.
+>
+> Remove this branch as it is useless.
+>
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+>  drivers/staging/r8188eu/hal/rtl8188e_rf6052.c | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
+> index 335b120ce603..77889dc05858 100644
+> --- a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
+> +++ b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
+> @@ -340,8 +340,6 @@ static void get_rx_power_val_by_reg(struct adapter *Adapter, u8 Channel,
+>                 /*  This mechanism is only applied when Driver-Highpower-Mechanism is OFF. */
+>                 if (pdmpriv->DynamicTxHighPowerLvl == TxHighPwrLevel_BT1)
+>                         writeVal = writeVal - 0x06060606;
+> -               else if (pdmpriv->DynamicTxHighPowerLvl == TxHighPwrLevel_BT2)
+> -                       writeVal = writeVal;
 
-After looking at the original code for several other drivers, routine 
-rtw_mfree_stainfo() just ends up calling a couple of routines that free a 
-spinlock. That operation for Windows and FreeBSD is not trivial, but for Linux, 
-the routine does nothing. Thus, despite its name, rtw_mfree_stainfo() does not 
-free anything, and it can be deleted.
+Hopefully the author didn't mean to subtract another magic constant
+like they did above. This also eliminates the last use of
+TxHighPwrLevel_BT2, but it's probably ok to keep the define in
+drivers/staging/r8188eu/include/odm.h.
 
-The original patch is
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-Acked-by: Larry Finger <Larry.Finger@lwfinger.net>
+>                 *(pOutWriteVal+rf) = writeVal;
+>         }
+>  }
+> --
+> 2.33.0.rc0
 
-Larry
 
+-- 
+Thanks,
+~Nick Desaulniers
