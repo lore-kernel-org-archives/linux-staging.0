@@ -1,53 +1,50 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A8B70
-	for <linux-staging@lists.linux.dev>; Tue,  3 Aug 2021 23:05:45 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id u15so116085wmj.1
-        for <linux-staging@lists.linux.dev>; Tue, 03 Aug 2021 16:05:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F47F70
+	for <linux-staging@lists.linux.dev>; Wed,  4 Aug 2021 00:13:57 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id nh14so550206pjb.2
+        for <linux-staging@lists.linux.dev>; Tue, 03 Aug 2021 17:13:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=fha1LXoMm1ejOZCKaIYrghwSrtyDw7IRZF3pOvDsN8k=;
-        b=zN5M/RJISf62v3T2SlIieTsGoCZ7dVG0tSF7h/AbHt0rTr9sGuF5VPLvwzmK5BRxmN
-         KOYb/PI18y+KKmL61bayINoZwmbTkAYs/6pwM4CvZZI7Y49jt3FGb7Xt1XYJGfS3cxMd
-         a/0EBH0NONw6OWAW5v7yzht3ZN8U0rtd+4hGr0bg/4g6yVcFL3CIq+qccYkUaBaasEzv
-         4qWOA06lkQjIssMxG6G1EBPq9+gq4btZPF8xU0KZcjZBjLYSZ1DcCZNMj1XAP+KymGC0
-         2KikYQcb6xJY0jBMpsxBSMpO3hPK/IPQ6ExS8K5ovUuXH0gaJqWwt05rgeuhPCtu9FqV
-         Yf/A==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wO/UCtLUJfMOPjFMa3FSun6AI/QRILAfUuJo3JZX0fg=;
+        b=elUaJCZRN3EO363usLpZzl18/cT4gFkB8vJu0xifJ1pgI1aUrEwF1Aqb+xcIKk/tWe
+         F4M9gbUoH/bTNrYPDgLVjcH6VX3wI4WVUnvOTqn9eO7lk4e6C6U6/tJxIq0iqid3CNAM
+         tdn+YdjOqgVfxep2mr8/UdSG58R7slkT9E4PRRsAOWYTo2q0Rd7QX5ozV5SM9BQHBSvJ
+         //qGYGz0QyfsyHpNbei2+30YDoTYCq3N5jQF7u2VpvXEUnWVXD2u+S6nSgJreV8wS4UA
+         aY3W+PYNOCq3f7ehtIHPs2OVTy6sEsbrMdO4174E/NAnxKOYqYeDsx2+ccMiFyU1uZWc
+         sGpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=fha1LXoMm1ejOZCKaIYrghwSrtyDw7IRZF3pOvDsN8k=;
-        b=rbuYtl5LNaisDdL4LNREqPYsgYmNMfVytaMUqIajcB6C8qN0+LBMhUhIOjrtR2yTX6
-         bOtYSbwhoOT1U2493W7XDqbzRepLyUWIDJXrcK3uaNFbJmHhNkr9V8v05t+6LhydHLwW
-         q1/Iewrg6NgI9i5S6sFm82wZimws+5aqC0UTzQHdSsVTAxEUTfccjRitSHqB3ymij2ZN
-         xgk4iXtRt334k8tac6DpgBgJV00HbkjpWkhcVm/hBJKbh0gmswp+zoLgkJR/SWOhVTdL
-         UzMj86I0xAiUztjEA0uoMgCMxcnjLKEFpa+kjdvEawMBnj0TP2VnLxEgWZoe54/8XWIs
-         iZVA==
-X-Gm-Message-State: AOAM530NHMnQ3zN6PxvPe5GQzZbKm/ARIM2bC5jfz7uexABBrmFFaQlc
-	cf5LLabJJYxQmk25pvJvmw6kTA==
-X-Google-Smtp-Source: ABdhPJxzeTghmnqiJ+UoaHeDU6QOGbROFAY6PKLF5EQ1duCtMLNWcIZB9AVIlJSnhCwCncNJ7puATg==
-X-Received: by 2002:a1c:a94f:: with SMTP id s76mr6271599wme.17.1628031944199;
-        Tue, 03 Aug 2021 16:05:44 -0700 (PDT)
-Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
-        by smtp.gmail.com with ESMTPSA id i29sm330045wmb.20.2021.08.03.16.05.43
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wO/UCtLUJfMOPjFMa3FSun6AI/QRILAfUuJo3JZX0fg=;
+        b=VEeShtC94AGY0XStKC0vq82Nwz61gK/wiZmqY9/y9maKXHoj4i9Ipz+i2IQVtaKm5r
+         IOYRIGzKVXK/3dAUNbq+NX/SmoPqHXyt1p8hgc7LNl5cZCa98WZU/jlkTmf3JZrjQ4lk
+         uAQN5YPUpxOc975tmerrsuf8CwWWcFN3sRUdharPBVnZwP2A7mgWqpQng946pVEZWfVH
+         51HV+rgP1ufmd6tj/iZ6NROi2ivpcSCaI+quM0jbjyIFUiaJhxz/U28vALEWoJFb4zCt
+         T8N4kbBkzvopwtUROmmd9mXCh3pLwgloEdMQxE7D2YxX3oGI89zOOGKJMn7loEuMrV6+
+         b45Q==
+X-Gm-Message-State: AOAM532PqdfpO/9aXGLYjdTFLbo3hWvpk+fewfkR6uxcMpwSJcJ94KjU
+	YE1XhEjpWzpuaQjqised2Bc=
+X-Google-Smtp-Source: ABdhPJzMNGF6LbiWAOwhuFjMYSP/ZflXBkO7SxTufDjoadatczNXyqXq+8wERU7Xjp0WAkz8gDPfcA==
+X-Received: by 2002:a62:e90b:0:b029:30e:4530:8dca with SMTP id j11-20020a62e90b0000b029030e45308dcamr24704562pfh.17.1628036037014;
+        Tue, 03 Aug 2021 17:13:57 -0700 (PDT)
+Received: from localhost.localdomain ([2001:8003:d90f:f801:7164:b4e6:b90b:c4d5])
+        by smtp.gmail.com with ESMTPSA id x189sm382302pfx.99.2021.08.03.17.13.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Aug 2021 16:05:43 -0700 (PDT)
-From: Phillip Potter <phil@philpotter.co.uk>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	martin@kaiser.cx,
+        Tue, 03 Aug 2021 17:13:56 -0700 (PDT)
+From: "Scott J. Crouch" <scottjcrouch@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: scottjcrouch@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 8/8] staging: r8188eu: remove RT_TRACE calls from hal/usb_ops_linux.c
-Date: Wed,  4 Aug 2021 00:05:35 +0100
-Message-Id: <20210803230535.74254-9-phil@philpotter.co.uk>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210803230535.74254-1-phil@philpotter.co.uk>
-References: <20210803230535.74254-1-phil@philpotter.co.uk>
+Subject: [PATCH] staging: rtl8723bs: Remove initialisation of globals to 0
+Date: Wed,  4 Aug 2021 10:13:34 +1000
+Message-Id: <20210804001335.16742-1-scottjcrouch@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,146 +53,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove RT_TRACE macro calls from hal/usb_ops_linux.c, so that ultimately the
-macro definition itself can eventually be removed.
+This fixes the following checkpatch.pl errors:
 
-Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+    ERROR: do not initialise globals to {0,NULL}
+
+Signed-off-by: Scott J. Crouch <scottjcrouch@gmail.com>
 ---
- drivers/staging/r8188eu/hal/usb_ops_linux.c | 38 ++-------------------
- 1 file changed, 3 insertions(+), 35 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-index 577090db84be..ce70c62572a8 100644
---- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
-+++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-@@ -22,7 +22,6 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u8 request, u16 value, u
- 	int vendorreq_times = 0;
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index b9efc1dfe6c7..a6d3c6fa900d 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -111,7 +111,7 @@ static int rtw_hwpwrp_detect; /* HW power  ping detect 0:disable , 1:enable */
  
- 	if ((adapt->bSurpriseRemoved) || (adapt->pwrctrlpriv.pnp_bstop_trx)) {
--		RT_TRACE(_module_hci_ops_os_c_, _drv_err_, ("usbctrl_vendorreq:(adapt->bSurpriseRemoved ||adapter->pwrctrlpriv.pnp_bstop_trx)!!!\n"));
- 		status = -EPERM;
- 		goto exit;
- 	}
-@@ -311,15 +310,10 @@ static int recvbuf2recvframe(struct adapter *adapt, struct sk_buff *pskb)
- 	pkt_cnt = (le32_to_cpu(prxstat->rxdw2) >> 16) & 0xff;
+ static int rtw_hw_wps_pbc;
  
- 	do {
--		RT_TRACE(_module_rtl871x_recv_c_, _drv_info_,
--			 ("recvbuf2recvframe: rxdesc=offsset 0:0x%08x, 4:0x%08x, 8:0x%08x, C:0x%08x\n",
--			  prxstat->rxdw0, prxstat->rxdw1, prxstat->rxdw2, prxstat->rxdw4));
--
- 		prxstat = (struct recv_stat *)pbuf;
+-int rtw_mc2u_disable = 0;
++int rtw_mc2u_disable;
  
- 		precvframe = rtw_alloc_recvframe(pfree_recv_queue);
- 		if (precvframe == NULL) {
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("recvbuf2recvframe: precvframe==NULL\n"));
- 			DBG_88E("%s()-%d: rtw_alloc_recvframe() failed! RX Drop!\n", __func__, __LINE__);
- 			goto _exit_recvbuf2recvframe;
- 		}
-@@ -345,7 +339,6 @@ static int recvbuf2recvframe(struct adapter *adapt, struct sk_buff *pskb)
- 		pkt_offset = RXDESC_SIZE + pattrib->drvinfo_sz + pattrib->shift_sz + pattrib->pkt_len;
+ static int rtw_80211d;
  
- 		if ((pattrib->pkt_len <= 0) || (pkt_offset > transfer_len)) {
--			RT_TRACE(_module_rtl871x_recv_c_, _drv_info_, ("recvbuf2recvframe: pkt_len<=0\n"));
- 			DBG_88E("%s()-%d: RX Warning!,pkt_len<=0 or pkt_offset> transfoer_len\n", __func__, __LINE__);
- 			rtw_free_recvframe(precvframe, pfree_recv_queue);
- 			goto _exit_recvbuf2recvframe;
-@@ -421,10 +414,7 @@ static int recvbuf2recvframe(struct adapter *adapt, struct sk_buff *pskb)
- 		if (pattrib->pkt_rpt_type == NORMAL_RX) { /* Normal rx packet */
- 			if (pattrib->physt)
- 				update_recvframe_phyinfo_88e(precvframe, (struct phy_stat *)pphy_status);
--			if (rtw_recv_entry(precvframe) != _SUCCESS) {
--				RT_TRACE(_module_rtl871x_recv_c_, _drv_err_,
--					("recvbuf2recvframe: rtw_recv_entry(precvframe) != _SUCCESS\n"));
--			}
-+			rtw_recv_entry(precvframe);
- 		} else {
- 			/* enqueue recvframe to txrtp queue */
- 			if (pattrib->pkt_rpt_type == TX_REPORT1) {
-@@ -484,15 +474,9 @@ static void usb_read_port_complete(struct urb *purb, struct pt_regs *regs)
- 	struct adapter	*adapt = (struct adapter *)precvbuf->adapter;
- 	struct recv_priv *precvpriv = &adapt->recvpriv;
+@@ -122,7 +122,7 @@ static char *ifname = "wlan%d";
+ module_param(ifname, charp, 0644);
+ MODULE_PARM_DESC(ifname, "The default name to allocate for first interface");
  
--	RT_TRACE(_module_hci_ops_os_c_, _drv_err_, ("usb_read_port_complete!!!\n"));
--
- 	precvpriv->rx_pending_cnt--;
+-char *rtw_initmac = NULL;  /*  temp mac address if users want to use instead of the mac address in Efuse */
++char *rtw_initmac;  /*  temp mac address if users want to use instead of the mac address in Efuse */
  
- 	if (adapt->bSurpriseRemoved || adapt->bDriverStopped || adapt->bReadPortCancel) {
--		RT_TRACE(_module_hci_ops_os_c_, _drv_err_,
--			 ("usb_read_port_complete:bDriverStopped(%d) OR bSurpriseRemoved(%d)\n",
--			 adapt->bDriverStopped, adapt->bSurpriseRemoved));
--
- 		precvbuf->reuse = true;
- 		DBG_88E("%s() RX Warning! bDriverStopped(%d) OR bSurpriseRemoved(%d) bReadPortCancel(%d)\n",
- 			__func__, adapt->bDriverStopped,
-@@ -502,8 +486,6 @@ static void usb_read_port_complete(struct urb *purb, struct pt_regs *regs)
- 
- 	if (purb->status == 0) { /* SUCCESS */
- 		if ((purb->actual_length > MAX_RECVBUF_SZ) || (purb->actual_length < RXDESC_SIZE)) {
--			RT_TRACE(_module_hci_ops_os_c_, _drv_err_,
--				 ("usb_read_port_complete: (purb->actual_length > MAX_RECVBUF_SZ) || (purb->actual_length < RXDESC_SIZE)\n"));
- 			precvbuf->reuse = true;
- 			rtw_read_port(adapt, precvpriv->ff_hwaddr, 0, (unsigned char *)precvbuf);
- 			DBG_88E("%s()-%d: RX Warning!\n", __func__, __LINE__);
-@@ -522,8 +504,6 @@ static void usb_read_port_complete(struct urb *purb, struct pt_regs *regs)
- 			rtw_read_port(adapt, precvpriv->ff_hwaddr, 0, (unsigned char *)precvbuf);
- 		}
- 	} else {
--		RT_TRACE(_module_hci_ops_os_c_, _drv_err_, ("usb_read_port_complete : purb->status(%d) != 0\n", purb->status));
--
- 		DBG_88E("###=> usb_read_port_complete => urb status(%d)\n", purb->status);
- 		skb_put(precvbuf->pskb, purb->actual_length);
- 		precvbuf->pskb = NULL;
-@@ -536,11 +516,9 @@ static void usb_read_port_complete(struct urb *purb, struct pt_regs *regs)
- 		case -EPIPE:
- 		case -ENODEV:
- 		case -ESHUTDOWN:
--			RT_TRACE(_module_hci_ops_os_c_, _drv_err_, ("usb_read_port_complete:bSurpriseRemoved=true\n"));
- 			__attribute__((__fallthrough__));
- 		case -ENOENT:
- 			adapt->bDriverStopped = true;
--			RT_TRACE(_module_hci_ops_os_c_, _drv_err_, ("usb_read_port_complete:bDriverStopped=true\n"));
- 			break;
- 		case -EPROTO:
- 		case -EOVERFLOW:
-@@ -575,17 +553,11 @@ static u32 usb_read_port(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *rmem)
- 	u32 ret = _SUCCESS;
- 
- 	if (adapter->bDriverStopped || adapter->bSurpriseRemoved ||
--	    adapter->pwrctrlpriv.pnp_bstop_trx) {
--		RT_TRACE(_module_hci_ops_os_c_, _drv_err_,
--			 ("usb_read_port:(adapt->bDriverStopped ||adapt->bSurpriseRemoved ||adapter->pwrctrlpriv.pnp_bstop_trx)!!!\n"));
-+	    adapter->pwrctrlpriv.pnp_bstop_trx)
- 		return _FAIL;
--	}
- 
--	if (!precvbuf) {
--		RT_TRACE(_module_hci_ops_os_c_, _drv_err_,
--			 ("usb_read_port:precvbuf==NULL\n"));
-+	if (!precvbuf)
- 		return _FAIL;
--	}
- 
- 	if ((!precvbuf->reuse) || (precvbuf->pskb == NULL)) {
- 		precvbuf->pskb = skb_dequeue(&precvpriv->free_recv_skb_queue);
-@@ -599,7 +571,6 @@ static u32 usb_read_port(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *rmem)
- 		if ((!precvbuf->reuse) || (precvbuf->pskb == NULL)) {
- 			precvbuf->pskb = netdev_alloc_skb(adapter->pnetdev, MAX_RECVBUF_SZ + RECVBUFF_ALIGN_SZ);
- 			if (precvbuf->pskb == NULL) {
--				RT_TRACE(_module_hci_ops_os_c_, _drv_err_, ("init_recvbuf(): alloc_skb fail!\n"));
- 				DBG_88E("#### usb_read_port() alloc_skb fail!#####\n");
- 				return _FAIL;
- 			}
-@@ -638,9 +609,6 @@ static u32 usb_read_port(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *rmem)
- 
- 		err = usb_submit_urb(purb, GFP_ATOMIC);
- 		if ((err) && (err != (-EPERM))) {
--			RT_TRACE(_module_hci_ops_os_c_, _drv_err_,
--				 ("cannot submit rx in-token(err=0x%.8x), URB_STATUS =0x%.8x",
--				 err, purb->status));
- 			DBG_88E("cannot submit rx in-token(err = 0x%08x),urb_status = %d\n",
- 				err, purb->status);
- 			ret = _FAIL;
+ module_param(rtw_initmac, charp, 0644);
+ module_param(rtw_channel_plan, int, 0644);
 -- 
-2.31.1
+2.32.0
 
