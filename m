@@ -1,89 +1,178 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131E470
-	for <linux-staging@lists.linux.dev>; Wed,  4 Aug 2021 17:20:42 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id e2-20020a17090a4a02b029016f3020d867so4528539pjh.3
-        for <linux-staging@lists.linux.dev>; Wed, 04 Aug 2021 10:20:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8115B70
+	for <linux-staging@lists.linux.dev>; Wed,  4 Aug 2021 17:46:57 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id n17so3138605lft.13
+        for <linux-staging@lists.linux.dev>; Wed, 04 Aug 2021 10:46:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=AQyHcpJjTts/ZjtVgPUT+mxcn9mCHDoW6ei2h1W6TL4=;
-        b=MFAH9BsY3FS8ZC+UAZCsYV3qxvovyfvBHmd+PeEtBjCfBALdsFW1Q0VtdtSjlhVK6o
-         tiFFZbBC36lRZ3jTkAUp2z3LCivitXpO6XOxVEQuXYIDym64fC7pXvgjClLz0ikCQ8DM
-         mWvkumAovkD9rUcqk+X7sITFYm1iqjllkeik9nEt0IQv/uHDce5yMDs/qcRtJCPv8ANG
-         b5uTi3eaaUGED6+qkxr2jBo9WPz04wCRC3dIO6AizTWMy1X4Ms9y8vImGx5IGe6Y4qE3
-         3+QP3ds3O6E64G48IIv0krgFJIjmGeAtSMyCWJcdKpMeHO2mG5Fcauwa+7SNwr2+hlgF
-         Ps2A==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=i0fTnqSIwvP+B7/OhEc8RR4PahnQd+RFyLdkyhqe4Tc=;
+        b=RRWCky2CXs3xzEfjAAPXPGGYAi8f16wCQRuYnmR0c854JYH46V1TU/iaBtBmpbnw6E
+         Kfj9vaBkqxYESFYfSJY52AWmM1LbnilU7aC5Xu/KtvlFL3VbNADAAIfagU8CIGHXdDP2
+         JgYquUWhMTOiGsXIXg82owPKoHCDn2hTIN4HBG6sixpXWP2eLeOunlVtNpCk+pcgu6Ns
+         LvYGr6o1GdH1QFIjNHN5Bm1Rchoy1yt1ki7Vl9b3KaSaOTvDFzjQNT0NeTXA4J8/PKBm
+         JIIjEmAR586EWxKNb42GY9/X/Gio6t1RQ1bfYDZspzJaKOr3HmKeMz0no9xzqC7o9AJr
+         P6Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=AQyHcpJjTts/ZjtVgPUT+mxcn9mCHDoW6ei2h1W6TL4=;
-        b=kr1Ed7E035Q+HWPX6Br8SHNUPDyFq4jAAz9ZjE6YVIQU7gcMvHjXn1El19pzCjPMZ1
-         eZ/ARqBl436Ccl3kRfjg5oYJV42IIIGf5DY0MB3BDgFpO/NRPjyFs979+SAj/jlrF3/c
-         UhKrXTnPshiSgr32RUxax6HDbTu9c80xvblkaaGHxVwAih97jk7RQOcQKFjgtyFe5Ygc
-         Ed8gaAeqDBCuimZwEYF7PXdMFFO9KLAwfW4kJ49UpHQH7C59mRVm4v1XVtIz9poJph2p
-         IhaJFsGVQyetya/KKqjORLNOCq2mEUGZOeiwatqJ7Df/8L4wAse3tNHWRbGTMFhgKTs/
-         DgEw==
-X-Gm-Message-State: AOAM531QOiz5X8eI0rPLMk/uJKXlrWst6US3aepnfSs6XGy/JgwYDZiI
-	zfZnr3tTAY/zmAWLLC1k9n4=
-X-Google-Smtp-Source: ABdhPJz5Yy+7QahSP+zwnvqUmMVsL7OZFkdDOQTxT+4E/rZbjjNOT5KxOLJTU99RIRvZuLq/COFHng==
-X-Received: by 2002:a63:e214:: with SMTP id q20mr188944pgh.134.1628097641345;
-        Wed, 04 Aug 2021 10:20:41 -0700 (PDT)
-Received: from user ([106.212.234.168])
-        by smtp.gmail.com with ESMTPSA id j19sm3494658pfr.82.2021.08.04.10.20.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Aug 2021 10:20:41 -0700 (PDT)
-Date: Wed, 4 Aug 2021 22:50:36 +0530
-From: SAURAV GIREPUNJE <saurav.girepunje@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: fabioaiuto83@gmail.com, marcocesati@gmail.com, ross.schm.dev@gmail.com,
-	insafonov@gmail.com, linux-staging@lists.linux.dev,
-	saurav.girepunje@hotmail.com
-Subject: Re: Post to linux-staging@lists.linux.dev denied: [PATCH] staging:
- rtl8723bs: os_dep: remove unused variable
-Message-ID: <YQrMZEND3pY8Pav4@user>
-References: <1628081824-28535-mlmmj-16bf2009@lists.linux.dev>
- <YQqZ4TlTzZGIaixJ@user>
- <YQqccPSjYA/lR11g@kroah.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=i0fTnqSIwvP+B7/OhEc8RR4PahnQd+RFyLdkyhqe4Tc=;
+        b=CCZfyrZqHvNB1MtmvIjoviKPQ2H60hypKkwZijQ7rDjicID1DILnIEbLmgqwHzw/Rg
+         O5beCrRE0JOWOxg1Cxs9euXhElo+pkZEC8guDHtHRmeclSRNqA3RPBJRd1KhNqRN2d18
+         D3W7U8urk6efzkzPVUqr8yNCxGQC1I3tp+0wBUiQZlTZLOL1fmZKr1qik5IWfFOb16km
+         ZSohu68dm4H/VMLJz/2ePxQRlkR1yMxjxAOGGRvdsxXw8n9YOKVOvpvOhKjVpy+weXU+
+         xNYjk0bY2I09R59SusbDGJoG0pzNYRgIACNny634cESmnytGJ+U+vqZeUN1dyiSwa6ut
+         lKKw==
+X-Gm-Message-State: AOAM5329//70sEQyvl/HB7uqjIlHWpVXBY/HHEysMZ3M2R9DqUQRv/Z1
+	MAE468Tc6mvLwjml7bbL1WR0kF8bar7mrzCXG/mAOg==
+X-Google-Smtp-Source: ABdhPJzJJxN9NhlxRp5no1JRr6vooQgAUqONBHOPfXRdIsLNXqjMeW7fZwg+VASNAi1sIXw3eOQOcoQYxTl9RDGai74=
+X-Received: by 2002:a05:6512:71:: with SMTP id i17mr297370lfo.368.1628099215326;
+ Wed, 04 Aug 2021 10:46:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YQqccPSjYA/lR11g@kroah.com>
+References: <20210803223609.1627280-1-nathan@kernel.org> <20210803223609.1627280-3-nathan@kernel.org>
+In-Reply-To: <20210803223609.1627280-3-nathan@kernel.org>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Wed, 4 Aug 2021 10:46:44 -0700
+Message-ID: <CAKwvOdmMH6V1yK42Y9xBQX2+2UoCF38q5g=6NXVtk3EWNGz2oQ@mail.gmail.com>
+Subject: Re: [PATCH 2/4] staging: r8188eu: Remove unnecessary parentheses
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Phillip Potter <phil@philpotter.co.uk>, 
+	Larry Finger <Larry.Finger@lwfinger.net>, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Aug 04, 2021 at 03:56:00PM +0200, Greg KH wrote:
-> On Wed, Aug 04, 2021 at 07:15:05PM +0530, SAURAV GIREPUNJE wrote:
-> > On Wed, Aug 04, 2021 at 12:57:04PM +0000, linux-staging+owner@lists.linux.dev wrote:
-> > > Greetings!
-> > >
-> > > This is the mlmmj program managing the <linux-staging@lists.linux.dev>
-> > > mailing list.
-> > >
-> > > The message from <saurav.girepunje@gmail.com> with subject "[PATCH]
-> > > staging: rtl8723bs: os_dep: remove unused variable" was unable to be
-> > > delivered to the list because the list address was not found in either the
-> > > To: or CC: header.
-> > >
-> > > (The denied message is below.)
-> >
-> > > Date: Wed, 4 Aug 2021 18:26:57 +0530
-> > > From: Saurav Girepunje <saurav.girepunje@gmail.com>
-> > > To: gregkh@linuxfoundation.org;, fabioaiuto83@gmail.com;,
-> > >  saurav.girepunje@gmail.com;, marcocesati@gmail.com;,
-> > >  ross.schm.dev@gmail.com;, insafonov@gmail.com;,
-> > >  linux-staging@lists.linux.dev;, linux-kernel@vger.kernel.org;
-> > > Cc: saurav.girepunje@hotmail.com
+On Tue, Aug 3, 2021 at 3:36 PM Nathan Chancellor <nathan@kernel.org> wrote:
 >
-> Why do you have ";" in your email addresses here?
+> Clang warns several times across the driver along the lines of:
 >
-> Try removing them.
+> drivers/staging/r8188eu/core/rtw_pwrctrl.c:222:21: warning: equality
+> comparison with extraneous parentheses [-Wparentheses-equality]
+>         if ((pwrpriv->rpwm == pslv)) {
+>              ~~~~~~~~~~~~~~^~~~~~~
+> drivers/staging/r8188eu/core/rtw_pwrctrl.c:222:21: note: remove
+> extraneous parentheses around the comparison to silence this warning
+>         if ((pwrpriv->rpwm == pslv)) {
+>             ~              ^      ~
+> drivers/staging/r8188eu/core/rtw_pwrctrl.c:222:21: note: use '=' to turn
+> this equality comparison into an assignment
+>         if ((pwrpriv->rpwm == pslv)) {
+>                            ^~
+>                            =
+> 1 warning generated.
+>
+> The compilers have agreed that single parentheses are used for equality
+> and double parentheses are used for assignment within control flow
+> statements such as if and while so remove them in these places to fix
+> the warning.
+>
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+>  drivers/staging/r8188eu/core/rtw_pwrctrl.c   | 2 +-
+>  drivers/staging/r8188eu/core/rtw_security.c  | 4 ++--
+>  drivers/staging/r8188eu/core/rtw_wlan_util.c | 2 +-
+>  drivers/staging/r8188eu/hal/odm.c            | 2 +-
+>  drivers/staging/r8188eu/hal/usb_halinit.c    | 2 +-
+>  5 files changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/staging/r8188eu/core/rtw_pwrctrl.c b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
+> index d67eeb045002..598c32d7eaa5 100644
+> --- a/drivers/staging/r8188eu/core/rtw_pwrctrl.c
+> +++ b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
+> @@ -219,7 +219,7 @@ void rtw_set_rpwm(struct adapter *padapter, u8 pslv)
+>                         pslv = PS_STATE_S3;
+>         }
+>
+> -       if ((pwrpriv->rpwm == pslv)) {
+> +       if (pwrpriv->rpwm == pslv) {
+>                 RT_TRACE(_module_rtl871x_pwrctrl_c_, _drv_err_,
+>                          ("%s: Already set rpwm[0x%02X], new=0x%02X!\n", __func__, pwrpriv->rpwm, pslv));
+>                 return;
+> diff --git a/drivers/staging/r8188eu/core/rtw_security.c b/drivers/staging/r8188eu/core/rtw_security.c
+> index 2c1b9a6dcdf2..45fd8b1aeb59 100644
+> --- a/drivers/staging/r8188eu/core/rtw_security.c
+> +++ b/drivers/staging/r8188eu/core/rtw_security.c
+> @@ -1211,7 +1211,7 @@ u32       rtw_aes_encrypt(struct adapter *padapter, u8 *pxmitframe)
+>         pframe = ((struct xmit_frame *)pxmitframe)->buf_addr + hw_hdr_offset;
+>
+>         /* 4 start to encrypt each fragment */
+> -       if ((pattrib->encrypt == _AES_)) {
+> +       if (pattrib->encrypt == _AES_) {
+>                 if (pattrib->psta)
+>                         stainfo = pattrib->psta;
+>                 else
+> @@ -1454,7 +1454,7 @@ u32       rtw_aes_decrypt(struct adapter *padapter, u8 *precvframe)
+>
+>         pframe = (unsigned char *)((struct recv_frame *)precvframe)->rx_data;
+>         /* 4 start to encrypt each fragment */
+> -       if ((prxattrib->encrypt == _AES_)) {
+> +       if (prxattrib->encrypt == _AES_) {
+>                 stainfo = rtw_get_stainfo(&padapter->stapriv, &prxattrib->ta[0]);
+>                 if (stainfo != NULL) {
+>                         RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("rtw_aes_decrypt: stainfo!= NULL!!!\n"));
+> diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+> index 15edccef9f1d..4a8e52484cfd 100644
+> --- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
+> +++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+> @@ -1306,7 +1306,7 @@ int support_short_GI(struct adapter *padapter, struct HT_caps_element *pHT_caps)
+>         if (!(pmlmeinfo->HT_enable))
+>                 return _FAIL;
+>
+> -       if ((pmlmeinfo->assoc_AP_vendor == HT_IOT_PEER_RALINK))
+> +       if (pmlmeinfo->assoc_AP_vendor == HT_IOT_PEER_RALINK)
+>                 return _FAIL;
+>
+>         bit_offset = (pmlmeext->cur_bwmode & HT_CHANNEL_WIDTH_40) ? 6 : 5;
+> diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
+> index 0bc836311036..65a117408d50 100644
+> --- a/drivers/staging/r8188eu/hal/odm.c
+> +++ b/drivers/staging/r8188eu/hal/odm.c
+> @@ -1631,7 +1631,7 @@ void odm_EdcaTurboCheckCE(struct odm_dm_struct *pDM_Odm)
+>         struct mlme_ext_priv    *pmlmeext = &(Adapter->mlmeextpriv);
+>         struct mlme_ext_info    *pmlmeinfo = &(pmlmeext->mlmext_info);
+>
+> -       if ((pregpriv->wifi_spec == 1))/*  (pmlmeinfo->HT_enable == 0)) */
+> +       if (pregpriv->wifi_spec == 1)
+
+^ was the comment you removed important?
+
+If not:
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
+>                 goto dm_CheckEdcaTurbo_EXIT;
+>
+>         if (pmlmeinfo->assoc_AP_vendor >=  HT_IOT_PEER_MAX)
+> diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+> index d985894c0f30..ec7badfd72aa 100644
+> --- a/drivers/staging/r8188eu/hal/usb_halinit.c
+> +++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+> @@ -1300,7 +1300,7 @@ static void hw_var_set_opmode(struct adapter *Adapter, u8 variable, u8 *val)
+>                 StopTxBeacon(Adapter);
+>
+>                 rtw_write8(Adapter, REG_BCN_CTRL, 0x19);/* disable atim wnd */
+> -       } else if ((mode == _HW_STATE_ADHOC_)) {
+> +       } else if (mode == _HW_STATE_ADHOC_) {
+>                 ResumeTxBeacon(Adapter);
+>                 rtw_write8(Adapter, REG_BCN_CTRL, 0x1a);
+>         } else if (mode == _HW_STATE_AP_) {
+> --
+> 2.33.0.rc0
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20210803223609.1627280-3-nathan%40kernel.org.
 
 
-Thanks Greg, That was the problem.
+
+-- 
+Thanks,
+~Nick Desaulniers
