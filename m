@@ -1,78 +1,95 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-4321.protonmail.ch (mail-4321.protonmail.ch [185.70.43.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71FC170
-	for <linux-staging@lists.linux.dev>; Wed,  4 Aug 2021 15:12:14 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id hw6so4224234ejc.10
-        for <linux-staging@lists.linux.dev>; Wed, 04 Aug 2021 08:12:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=5Vo9KH/MhVz7kXBD6l2im9RgAeC2wAwSck49Hn8SWjc=;
-        b=PaVIRT7vozP4R+oBv6QR8L8XGHClC2ZebRx/A1tLBc8n5ru4ZdjlSxGDK2J3+cTFcY
-         bxZ8OaNKlomp7AU/hnwR3Ee7RkZ3MAoW++Q/HvyDMTArIeZaVz1Ou6zDlLfu1RzQGA+1
-         KQuCygKrdaCRdZrlo1l6XBAsclWm3mWdxrZ9scXcYvK6ixhhSsnmQZ51iEOqj3kRwg36
-         FWFONcAT2PJWaCnv/KjSgQWImdNksnwPMDcTLy4Ie3aBxN6ZRS2SEVooaIyIvfQs5t1c
-         karWD8Xz/sSllhTNua8aU8b2e0VrW6ggfpdcPMNcUvAfZSsAx5GQf2H3fk3T8V4nBcKL
-         UNzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=5Vo9KH/MhVz7kXBD6l2im9RgAeC2wAwSck49Hn8SWjc=;
-        b=LvgWmWDAb7DVYykNsTVj9p2QDU4te1YC8zyFM3ociKInExgp0kgyjT6Qwo1hTctr3x
-         8WLN/Kuq0Nr/+vu5RkGAffhw2Ne68RCNVEo0uazMZFlNOr5of7a9QZDCQlukHht+Ddc5
-         SVmyCmMMM4L8s0XQRinRYuw5bHnk8hCzzzhgU9+NHyJ5zoxkEOKsWHXbwAj49fKOl+vy
-         o9UT0kmFjPBaOQNYkqL8IHqP7zjgWbPlvjW5XK8TTp1caTvnK4Yc+UnTDgWL9ceFGI4n
-         T0e9Kfwaq53/9mS2ug94QiaHu/ylEiOB8fvYZwfBKQKapKSgAA5kXWm9gZAV4s8hZ1dY
-         XjCg==
-X-Gm-Message-State: AOAM533bRhFi3ac8ZIG8Il+miyu4xHJGIk/OGPyty25aMlegJnK6TqIv
-	5Ua0aG1RXRZJAYmEDsUxS7c=
-X-Google-Smtp-Source: ABdhPJyjy5+mIOt6o4mj0inLDL55SGhwPIqkE0njS3o7l1bM/Kc/Zsgvt1x8uJFT9jmMszzaDj/8DQ==
-X-Received: by 2002:a17:906:9450:: with SMTP id z16mr26100237ejx.52.1628089932827;
-        Wed, 04 Aug 2021 08:12:12 -0700 (PDT)
-Received: from localhost.localdomain (host-82-51-42-96.retail.telecomitalia.it. [82.51.42.96])
-        by smtp.gmail.com with ESMTPSA id r27sm1064548edb.66.2021.08.04.08.12.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Aug 2021 08:12:12 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: core: Remove rtw_mfree_all_stainfo()
-Date: Wed, 04 Aug 2021 17:12:11 +0200
-Message-ID: <5755579.ylQvOfxgKt@localhost.localdomain>
-In-Reply-To: <20210804130136.GJ1931@kadam>
-References: <20210802005517.12815-1-fmdefrancesco@gmail.com> <20210804130136.GJ1931@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485EC70
+	for <linux-staging@lists.linux.dev>; Wed,  4 Aug 2021 15:14:39 +0000 (UTC)
+Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	by mail-4321.protonmail.ch (Postfix) with ESMTPS id 4Gfvxn02Wqz4x2Hd
+	for <linux-staging@lists.linux.dev>; Wed,  4 Aug 2021 14:58:20 +0000 (UTC)
+Authentication-Results: mail-4321.protonmail.ch;
+	dkim=pass (2048-bit key) header.d=bryanbrattlof.com header.i=@bryanbrattlof.com header.b="JZdqBTXF"
+Date: Wed, 04 Aug 2021 14:57:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
+	s=protonmail; t=1628089083;
+	bh=Uxwz3jXRe7LOguIMwMuWtaEHnBl60v6KEdbcFAjb0Vw=;
+	h=Date:To:From:Cc:Reply-To:Subject:From;
+	b=JZdqBTXFEr+E0i8+mJSx6VAiWbpKgMwKvDBH5f6Dq0Ca7C4GtqZXLQyiaVjWYwApY
+	 UcbTnfcvfbU2WQ8nL0fb6dVoggWiZjZapmKDSUaucyuOj1R29SNk+vhJuAoPkrSCgs
+	 XmV1CZ1+ZFhTFACCwUoTJXMQC1dtVwOMg4B3YuWPGHdBL6DsK4akB3HCZfkFNzsybo
+	 oVsO69ZFandu2opM+FdMuxSnScek3wSpkUQP6qqfPeymhtoZiUa0FJY2pwqafXwTDY
+	 dT0cxmxfMUD1MuD1gc2CWpa+JLMYFsZ/yC11TPR3t/QFAU0qtvA9b1OkVWDfIxl+g1
+	 r38TCnjxOGxcQ==
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: Bryan Brattlof <hello@bryanbrattlof.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
+Subject: [PATCH] staging: rtl8723bs: remove unused BT structures
+Message-ID: <20210804144812.715695-1-hello@bryanbrattlof.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+	autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	mailout.protonmail.ch
+Message-ID: <20210804145752._eiilGU-mv_tArkc0XZaX-S03zpmLhKZ_fzgarRSE9A@z>
 
-On Wednesday, August 4, 2021 3:01:36 PM CEST Dan Carpenter wrote:
-> On Mon, Aug 02, 2021 at 02:55:17AM +0200, Fabio M. De Francesco wrote:
-> > Remove rtw_mfree_all_stainfo() and the only line of code that calls
-> > it. This function simply takes a spinlock and iterates over a list
-> > with no purpose. That iteration has no side effects.
-> 
-> I mean, it's pretty clearly supposed to free all the items on the list.
-> 
-Sorry, I'm not sure to understand what you required:
-since rtw_mfree_all_stainfo() is supposed to free all the nodes on the list, 
-should a better patch *really* delete those items (instead than simply get rid 
-of the function itself)? 
+remove static BT debugging structures no longer in use.
 
-Thanks,
+Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
+---
+ drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c | 6 ------
+ drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c | 6 ------
+ 2 files changed, 12 deletions(-)
 
-Fabio
-> 
-> regards,
-> dan carpenter
+diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c b/drivers/stag=
+ing/rtl8723bs/hal/HalBtc8723b1Ant.c
+index 242c14959176..b3d7f50fac4c 100644
+--- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
++++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
+@@ -13,12 +13,6 @@ static struct coex_dm_8723b_1ant *pCoexDm =3D &GLCoexDm8=
+723b1Ant;
+ static struct coex_sta_8723b_1ant GLCoexSta8723b1Ant;
+ static struct coex_sta_8723b_1ant *pCoexSta =3D &GLCoexSta8723b1Ant;
 
+-static const char *const GLBtInfoSrc8723b1Ant[] =3D {
+-=09"BT Info[wifi fw]",
+-=09"BT Info[bt rsp]",
+-=09"BT Info[bt auto report]",
+-};
+-
+ /*  local function proto type if needed */
+ /*  local function start with halbtc8723b1ant_ */
+ static u8 halbtc8723b1ant_BtRssiState(
+diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c b/drivers/stag=
+ing/rtl8723bs/hal/HalBtc8723b2Ant.c
+index 3e36a7dc72a6..c1c7b5cc17a7 100644
+--- a/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c
++++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c
+@@ -20,12 +20,6 @@ static struct coex_dm_8723b_2ant *pCoexDm =3D &GLCoexDm8=
+723b2Ant;
+ static struct coex_sta_8723b_2ant GLCoexSta8723b2Ant;
+ static struct coex_sta_8723b_2ant *pCoexSta =3D &GLCoexSta8723b2Ant;
 
+-static const char *const GLBtInfoSrc8723b2Ant[] =3D {
+-=09"BT Info[wifi fw]",
+-=09"BT Info[bt rsp]",
+-=09"BT Info[bt auto report]",
+-};
+-
+ /*  local function start with halbtc8723b2ant_ */
+ static u8 halbtc8723b2ant_BtRssiState(
+ =09u8 levelNum, u8 rssiThresh, u8 rssiThresh1
+--
+2.30.2
 
 
