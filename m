@@ -1,107 +1,54 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C503B70
-	for <linux-staging@lists.linux.dev>; Wed,  4 Aug 2021 09:00:28 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id f13so2524355edq.13
-        for <linux-staging@lists.linux.dev>; Wed, 04 Aug 2021 02:00:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=z4l8UKBHFl733XkApxjN+RwM5wCVVn3XT2rD4WcVZ34=;
-        b=C0JyUPdPZQ0vaBPxYcLmU7w7lGAHp8rXN59zisPk/hc3LGpkILEtfzXdHKp/+moiMn
-         Nm8gSTrv50IbojdKAD1E6gME3VP9nxen3gCiZJP6pFO34mQcwrCxTEPhp3FSFFqY1nVj
-         /vm6S4LiFiCeKUaWcWuFMTPwnQVjbQQnUPScsCeJgdKuYFzaAtNCx20AIAg7SuwjAbEL
-         XBFm5ih4uc55nyMUYpONO6VSEvI0adziUJ0u6I9F+27VswlBudmZfdgh9WvUXoRbegEo
-         zUXMrSiq6ZuB8IWKsTTLm+BcRKUCRf8l1JUreDneOiUieC1n+ox5pUwwiitopImD8W9m
-         4t6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=z4l8UKBHFl733XkApxjN+RwM5wCVVn3XT2rD4WcVZ34=;
-        b=oicY2aSqDCr/KSq+CurVPLV6DIaq30z25UdnG8nYNjvF000QngHO3LWKUZdkDZ3APF
-         En+Db/Rv1EaUB8t0h5SOFxv4bAU/eYegcArdCq56gXyhwQ4uR3qtAyrzRDaKbtnoSVFk
-         Uz0tjXCrXkUEZ90k7QeHMnH4z6CMfhrc7DfKZTWYUVNPOTfCiKw/HbnL1BuZuZpFZu8P
-         S3fKdqi7A0c/koHWatJc/Ncmw5526bWIR7+O/2Y6a1MLF4Aok3lpyzFsnZOWFMqobU+j
-         UugoRZTbRpUxqA+/VahC7z9YO1ZXZeN2a5ws+5sG8Ei36GoIltpbtWrIL8o+KjFCxNlb
-         yyUw==
-X-Gm-Message-State: AOAM531Q7+WbyZ9+AVtrBbwxC24YV8QSMI2cOSTEpusynts69SfrLFOy
-	AxBF8xuO8DG/IQkExWSbA2s=
-X-Google-Smtp-Source: ABdhPJw0sI/s4GsRa8/Ii2zPBhn2K+6hhAUNO4hteg0yrx7ZChLg331KshhoHJWSBO2hN0iTN4a/Ig==
-X-Received: by 2002:aa7:c816:: with SMTP id a22mr8875648edt.202.1628067627082;
-        Wed, 04 Aug 2021 02:00:27 -0700 (PDT)
-Received: from localhost.localdomain (host-82-51-42-96.retail.telecomitalia.it. [82.51.42.96])
-        by smtp.gmail.com with ESMTPSA id ha26sm467528ejb.87.2021.08.04.02.00.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Aug 2021 02:00:26 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: Fix different base types in assignments and parameters
-Date: Wed, 04 Aug 2021 11:00:25 +0200
-Message-ID: <4550286.edLFIWPnRF@localhost.localdomain>
-In-Reply-To: <20210804075930.GD1931@kadam>
-References: <20210730181452.23062-1-fmdefrancesco@gmail.com> <20210804075930.GD1931@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1629170
+	for <linux-staging@lists.linux.dev>; Wed,  4 Aug 2021 09:08:31 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 05E8E60240;
+	Wed,  4 Aug 2021 09:08:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1628068111;
+	bh=gfAOtMgy1zhnJcHxLDPXlUJEUMs0JUp013YInIpbWsY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=njsCDekBb+xm9B2mbLB/NC9RtbtJXADT85+pXdRF6oPgUa6WEK2JTC35ZSE7cSdxM
+	 dvn2KOsGbDIubQ5hWY9VhqmPIIoblNvjZ4KKfhsN02z17puLse0x8MB0xmqTghjNH0
+	 21LjiEeDgPD7wr5BBoIgeGupu4NB3qY1FN9NJUZ0Jawr/sGBXxA77R8lmyuRQs0Lv2
+	 elAr5EwqLsbzIYRCxmQfvLwN1aJY2u6t6XastxShJsqOlmA/STkdgMQBAh5EKtFiDB
+	 3R87766lWGVGkQv9disc4B/JNBXhl4AOhrZWPbWiClUwheDNEFe2cmAkSdC0Q219oz
+	 0RSEcm2+MepWg==
+Date: Wed, 4 Aug 2021 17:08:24 +0800
+From: Shawn Guo <shawnguo@kernel.org>
+To: Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc: laurent.pinchart@ideasonboard.com, devicetree@vger.kernel.org,
+	festevam@gmail.com, kernel@pengutronix.de, kernel@puri.sm,
+	krzk@kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-imx@nxp.com, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	m.felsch@pengutronix.de, mchehab@kernel.org,
+	phone-devel@vger.kernel.org, robh@kernel.org, slongerbeam@gmail.com
+Subject: Re: [PATCH v9 3/3] arm64: dts: imx8mq: add mipi csi phy and csi
+ bridge descriptions
+Message-ID: <20210804090823.GB30984@dragon>
+References: <20210726082117.2423597-1-martin.kepplinger@puri.sm>
+ <20210726082117.2423597-4-martin.kepplinger@puri.sm>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210726082117.2423597-4-martin.kepplinger@puri.sm>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 
-On Wednesday, August 4, 2021 9:59:30 AM CEST Dan Carpenter wrote:
-> On Fri, Jul 30, 2021 at 08:14:52PM +0200, Fabio M. De Francesco wrote:
-> >  static inline void __nat25_generate_ipx_network_addr_with_socket(unsigned 
-char
-> >  *networkAddr,> 
-> > -				unsigned int *ipxNetAddr, 
-unsigned short *ipxSocketAddr)
-> >
-> > [...]
-> >
-> Here is another bug which was obscured/caused by the union.
+On Mon, Jul 26, 2021 at 10:21:17AM +0200, Martin Kepplinger wrote:
+> Describe the 2 available CSI interfaces on the i.MX8MQ with the MIPI-CSI2
+> receiver (new driver) and the CSI Bridge that provides the user buffers
+> (existing driver).
 > 
-> 	addr.f0 = be16_to_cpu(*ipxSocketAddr);
+> An image sensor is to be connected to the MIPIs' second port, to be described
+> in board files.
 > 
-> The addr.f0 variable is an int.  On big endian systems only the last two
-> bytes are set:
-> 
-> 	memcpy(networkAddr+5, addr.f1, 2);
-> 
-> So this is the equivalent of:
-> 
-> 	memset(networkAddr+5, 0, 2);
-> 
-> regards,
-> dan carpenter
+> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
 
-Dear Dan,
-
-Thanks, for pointing me to one more bug I introduced with this patch. The most 
-of them were due to me forgetting that memcpy() takes pointers. For some 
-reason I was thinking it takes values, therefore I put in it a lot of 
-unnecessary and faulty complications.
-
-I'd like to make a new patch, a better one (I hope), without unneeded unions 
-without the other wrong lines that are in the commit 56febcc2595e.
-
-However, I see that Greg hasn't yet had the time to revert the above commit, 
-so I don't know how to make a new patch.
-
-I mean: I could (1) either wait for Greg to revert it and then to fix the 
-sparse warnings with a new patch, or (2) I could fix the bugs I made in 
-56febcc2595e without having it reverted. I would prefer the solution (2) with 
-a "Fixes: 56febcc2595e (...)" and a "Reported-by: Dan Carpenter <...>" tags.
-
-What is the best solution between the two above?
-
-Thanks,
-
-Fabio
-
-
-
+Applied, thanks!
