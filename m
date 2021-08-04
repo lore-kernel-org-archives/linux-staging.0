@@ -1,129 +1,80 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC87970
-	for <linux-staging@lists.linux.dev>; Wed,  4 Aug 2021 13:45:11 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id o44-20020a17090a0a2fb0290176ca3e5a2fso3661320pjo.1
-        for <linux-staging@lists.linux.dev>; Wed, 04 Aug 2021 06:45:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84EC570
+	for <linux-staging@lists.linux.dev>; Wed,  4 Aug 2021 13:47:22 +0000 (UTC)
+Received: by mail-ot1-f41.google.com with SMTP id g5-20020a9d6b050000b02904f21e977c3eso1668531otp.5
+        for <linux-staging@lists.linux.dev>; Wed, 04 Aug 2021 06:47:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=cTzYEZ1ifUfSJIRMeEuRI6Bh508zFVAMOXiQ+FVtrxc=;
-        b=TNBShf0p3hMVW3kQkFtbtxvDdQmD05LrFa3qy/X9Pah321jDe5iBPFPGgKos2fgn8S
-         uT0AK78PF5HSyHqDyKCs+9dxikqydDrEbkqpXzZySdHcXrEO0AuNf2sn9Q0tY5ExkqIm
-         /uhEL5ZGk91SOS51AOS1JnM9VMI2xvhMh5ZesELyR/HS3EHpoH3hkaMARgT8lkTjMqw2
-         IahqJHsybLuWyd2sWWNgaLLKSMiiZv3iTmBBynEfItMy/hdkyumqCQxdQgotdMBMcTEq
-         U/QxC3ntztbgZG3JMUfezAkSlQmA8z7QBtsTyU05FtlghaWp78TTrzskITz9td2MZbVm
-         j03g==
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=+AoFXgsKTP3ruB8NfNUz2FtlRkR+ZhDok1NEQZlDiiA=;
+        b=RT/1HuaVluljWGOZGTF1ZYEw5QbLs+weqdbJrRWNabvzA9da8wWUZ4iIYOQhz4hwaW
+         M11z0HsoUiMCmh8FRm/C/nd8JhZKSPNm7opsrWKSOez5saNiCO39/ujbxXhSaSTdUVQr
+         lv6lAbG4EPz7swc1Hgd8Gvgoi1mXCQL6bntcmlWKpWXUo1i9MSg0K/FDqNau7Y4olnPj
+         Y94ear22tULX+Ty4AjSiBjAV8gYfY8VDnIbHE0fQv0mWWwP5bVDCY3Dcd8yXYiVQDAaW
+         +pCdZua0z3uD9957A4LB8WQGIrJmfEn4YtQvE3h+XxADlulJQmKS4hBxFn85/gpk6Z+1
+         Abfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=cTzYEZ1ifUfSJIRMeEuRI6Bh508zFVAMOXiQ+FVtrxc=;
-        b=HQP9Opitxmg4taq7yqjuIzMhBL15MgzBv48rFPchSWVUkDrdcmB06TzGpVxvMyslSY
-         DGB9Eavwy0q3lBz/T9JLILUYADY//sLFVq3Rc+kTcRM5UWp12wEEWX8OdQYF62gwHzFQ
-         odFJ5JA6SWOLo8wD9Z0IT8Nk3QXVs/HVkyG8ZSspDunMhCOB/1r54rXje5UYPeYKGKEf
-         HKDe9Vi6MbRa5WvuPSHVQKH25eCvhdyyl4KijqvIVNvw9wheQutuy0e7Ruf1e1pSe5e3
-         fegyd2moPLQWNY4w43AnXKDwmPdaBhh11QG2AcEGFRB8MYPDwPRBbr9Jr9raZDDa29VH
-         zZcQ==
-X-Gm-Message-State: AOAM530NFq/9doev4NETfEZWMXBHbR5nt24/ccbpmxewqVkAbFlCcoA+
-	Db1H9xMepWlZSILtAEYTWIQ=
-X-Google-Smtp-Source: ABdhPJxRHdi5e+UMW+6WkWSKWhqNuDp/6QrqXAcr388BCWiKBWlh+TF9dUNhGbo0q2H1TdNyFrSwcQ==
-X-Received: by 2002:a17:90b:e10:: with SMTP id ge16mr25294122pjb.150.1628084711190;
-        Wed, 04 Aug 2021 06:45:11 -0700 (PDT)
-Received: from user ([106.212.234.168])
-        by smtp.gmail.com with ESMTPSA id y2sm2859693pjl.6.2021.08.04.06.45.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Aug 2021 06:45:10 -0700 (PDT)
-Date: Wed, 4 Aug 2021 19:15:05 +0530
-From: SAURAV GIREPUNJE <saurav.girepunje@gmail.com>
-To: gregkh@linuxfoundation.org, fabioaiuto83@gmail.com,
-	saurav.girepunje@gmail.com, marcocesati@gmail.com,
-	ross.schm.dev@gmail.com, insafonov@gmail.com,
-	linux-staging@lists.linux.dev
-Cc: saurav.girepunje@hotmail.com;, moun.girepunje@gmail.com
-Subject: Re: Post to linux-staging@lists.linux.dev denied: [PATCH] staging:
- rtl8723bs: os_dep: remove unused variable
-Message-ID: <YQqZ4TlTzZGIaixJ@user>
-References: <1628081824-28535-mlmmj-16bf2009@lists.linux.dev>
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=+AoFXgsKTP3ruB8NfNUz2FtlRkR+ZhDok1NEQZlDiiA=;
+        b=GvcjaUWDy3Mt6OFtbga/0o7Po+WU57dLu//0/egkADdb7jf05o1dGVBtlI1r/jy5si
+         Bt9Dkty2GYZpMOYyaI4fWMBUEEp3JnuKdRUaTLZ81wvT/V8f/YMWFE1WZVZYAXxuTb9t
+         eymef+k+eHJe31nymXgl4AlNR0lBpyGeOPepNBQguxPGU7K7NeqDf91favubHvdMbJ6Y
+         BaWQoSVVNjekKsPUbEY/8o+sNNVgyg46aMUSxTW5fPrM5oqTK8ikGgkMHczyYzz+Qc10
+         YnfgbP5IZKA71aBa/eBSJsaq+7OWt0MEzOPFR94162fuWluHR5N06rd1Boej4zxXG8M/
+         /CMg==
+X-Gm-Message-State: AOAM530u3+dDu2NUgKPrlEs34hgWXT6kXHWVb9f8UONYxJvmkXHUj2Gi
+	4vQ9Xd/2GJY/ncioj411Erk=
+X-Google-Smtp-Source: ABdhPJzzTI1WmHb/8kQMI+idfHOuCXtawVTq+2pv3ONB0t0RWqCtiNEaBZqjwP9k9RkHJy3ymHtNtA==
+X-Received: by 2002:a9d:5c14:: with SMTP id o20mr789862otk.36.1628084841782;
+        Wed, 04 Aug 2021 06:47:21 -0700 (PDT)
+Received: from 2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com (2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com. [2603:8090:2005:39b3::100a])
+        by smtp.gmail.com with ESMTPSA id t27sm447990oij.34.2021.08.04.06.47.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Aug 2021 06:47:21 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Subject: Re: [PATCH 1/6] staging: r8188eu: Remove wrappers for kalloc() and
+ kzalloc()
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: gregkh@linuxfoundation.org, phil@philpotter.co.uk,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20210802151546.31797-1-Larry.Finger@lwfinger.net>
+ <20210802151546.31797-2-Larry.Finger@lwfinger.net>
+ <20210804131550.GL1931@kadam>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+Message-ID: <3fd8841a-ff5a-154a-666c-66e9a773dfac@lwfinger.net>
+Date: Wed, 4 Aug 2021 08:47:19 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1628081824-28535-mlmmj-16bf2009@lists.linux.dev>
+In-Reply-To: <20210804131550.GL1931@kadam>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 04, 2021 at 12:57:04PM +0000, linux-staging+owner@lists.linux.dev wrote:
-> Greetings!
->
-> This is the mlmmj program managing the <linux-staging@lists.linux.dev>
-> mailing list.
->
-> The message from <saurav.girepunje@gmail.com> with subject "[PATCH]
-> staging: rtl8723bs: os_dep: remove unused variable" was unable to be
-> delivered to the list because the list address was not found in either the
-> To: or CC: header.
->
-> (The denied message is below.)
+On 8/4/21 8:15 AM, Dan Carpenter wrote:
+> On Mon, Aug 02, 2021 at 10:15:41AM -0500, Larry Finger wrote:
+>> diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c.rej b/drivers/staging/r8188eu/core/rtw_br_ext.c.rej
+>> new file mode 100644
+>> index 000000000000..18113389acce
+>> --- /dev/null
+>> +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c.rej
+>        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 
+> ;)  Something went wrong.
 
-> Date: Wed, 4 Aug 2021 18:26:57 +0530
-> From: Saurav Girepunje <saurav.girepunje@gmail.com>
-> To: gregkh@linuxfoundation.org;, fabioaiuto83@gmail.com;,
->  saurav.girepunje@gmail.com;, marcocesati@gmail.com;,
->  ross.schm.dev@gmail.com;, insafonov@gmail.com;,
->  linux-staging@lists.linux.dev;, linux-kernel@vger.kernel.org;
-> Cc: saurav.girepunje@hotmail.com
-> Subject: [PATCH] staging: rtl8723bs: os_dep: remove unused variable
->
-> Remove below unused static variable from os_intfs.c
-> rtw_enusbss
-> rtw_hwpdn_mode
-> rtw_hwpwrp_detect
->
-> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/os_dep/os_intfs.c | 8 --------
->  1 file changed, 8 deletions(-)
->
-> diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-> index 724909078d80..71c9e7eec206 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-> @@ -109,11 +109,6 @@ static int rtw_antdiv_cfg = 1; /*  0:OFF , 1:ON, 2:decide by Efuse config */
->  static int rtw_antdiv_type; /* 0:decide by efuse  1: for 88EE, 1Tx and 1RxCG are diversity.(2 Ant with SPDT), 2:  for 88EE, 1Tx and 2Rx are diversity.(2 Ant, Tx and RxCG are both on aux port, RxCS is on main port), 3: for 88EE, 1Tx and 1RxCG are fixed.(1Ant, Tx and RxCG are both on aux port) */
->
->
-> -static int rtw_enusbss;/* 0:disable, 1:enable */
-> -
-> -static int rtw_hwpdn_mode = 2;/* 0:disable, 1:enable, 2: by EFUSE config */
-> -
-> -static int rtw_hwpwrp_detect; /* HW power  ping detect 0:disable , 1:enable */
->
->  static int rtw_hw_wps_pbc;
->
-> @@ -159,9 +154,6 @@ module_param(rtw_wifi_spec, int, 0644);
->  module_param(rtw_antdiv_cfg, int, 0644);
->  module_param(rtw_antdiv_type, int, 0644);
->
-> -module_param(rtw_enusbss, int, 0644);
-> -module_param(rtw_hwpdn_mode, int, 0644);
-> -module_param(rtw_hwpwrp_detect, int, 0644);
->
->  module_param(rtw_hw_wps_pbc, int, 0644);
->
-> --
-> 2.30.2
-Hi,
+I submitted v2 with this problem fixed. Sorry for the confusion.
 
-My mails are not getting deliverd due to below reason
-"unable to be delivered to  the list because the list address was not
-found in either the To: or CC: header."
-However linux-staging@lists.linux.dev is in my To header.
+Larry
 
-Is anyone highlight what I am doing wrong.
 
-saurav
