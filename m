@@ -1,82 +1,106 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B962170
-	for <linux-staging@lists.linux.dev>; Thu,  5 Aug 2021 11:47:09 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id qk33so9029674ejc.12
-        for <linux-staging@lists.linux.dev>; Thu, 05 Aug 2021 04:47:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5387B70
+	for <linux-staging@lists.linux.dev>; Thu,  5 Aug 2021 11:52:50 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id m10-20020a17090a34cab0290176b52c60ddso8679739pjf.4
+        for <linux-staging@lists.linux.dev>; Thu, 05 Aug 2021 04:52:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=qBX3Xccp6bI54eSUznvP+6mMefHCK9TZwZhPwT50a08=;
-        b=lTrn5cZNoWXqzAgGOwj5Ih69j5jyWhRh9SlLjGef3DYLtYYBKx4o4Wm5ZBnuHXfK4M
-         zp7cHfSB7Xsehk15UR36MVM/Oo26W8d3pYNxu2ivajL8gILjIjc94J+L3XzcUaerMaJA
-         YUzsBMifPy0Ah0b6qgiSVaMSEmgYzA+J2ciFOsogudhUKFgXSkiraIV8JiXifUGsSz5I
-         efof0eYyge0emxB8J/bwPuMU0s3oJMXCL0YDAH+MVjzQhy+AwEy4u0goH5t9n29MJobN
-         Hq3ItNV2cd+2mkwQ5kOqSSqASGdcVWMAwhQRI06F+3EABE1AYSxE/uU8hE5w2c4OkbLl
-         JkYQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mGypu+NaaW+Jhwv++tohvkOpOq2EXdTSw+wGzb6zcXY=;
+        b=GKXmOU+ySf+o3OukbvSv/pA5RbTOf44GtDdunsovYzvoPvUnPMlSz4t0g+UqM3SsnG
+         G1nzYSU4UXFic6w/8n6qihydAo38qyYbFj9YRvlrkRu+Wvjf9X5m2j2r/aKuSdpz2hvy
+         C1vy+TeRBfItlx+pL7J7cYgw2plEnn/Z9hUA0yi5/hIg1Hs4lX01hDtVAoFKSdOgABeu
+         ylgYVhXb5UJMvGdJTR5tSCUrHE63OAYYHpDHwiYMTvR2/lbYT3VOb0zsuc7j40xbusBf
+         JK8Jx4viVS1X9ygZuHkq6qq5YGRDNZnHCkQd2X6i21oZZFLZLugKVoJeHr0WdTF0lfKK
+         ADxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=qBX3Xccp6bI54eSUznvP+6mMefHCK9TZwZhPwT50a08=;
-        b=fr2Scx6O8DU6Zz3TmjJ+W5Ef8YpOb+LUDv/rLAcn+Y3knaRnl8hLjZC0mCEQAOomt2
-         I5t1AJyzMrq1/FU0Mgk3nuJbWWYvguRMSjluSkTgFJf52mJTzsNzGQx4i4+uEdok1CLH
-         Q2QCC/S9pfFSVtuaUQ2HS2uJpvkR+ip8F51PhSllxuY1wYsUGs/yXv0J4r6U/xRlEHCN
-         Q/8utP/lINx+9WrilkKF2p5pp3c7a0eTXLGuVoQx3FkP3+iVw/vbU8kQZvVK65atN4lF
-         z+r3nvMOrbH28XlTdIF+loBPAHv3G/NfDitUX/+90z453WDpaP+en7hNe0YjfAf7kwgK
-         al6A==
-X-Gm-Message-State: AOAM533cFwytUpHIcgXteyhelIvJQjO5Es/L+/H020fdwzvtLgr6NcJw
-	dZKjcqha0mkXOiMWhPDjZqY=
-X-Google-Smtp-Source: ABdhPJypvf/JPpUIIfitGvd/jw8HyAKKFLrzW6oH2/GdeZY6KY0SHKIkBSz61OkRgPcNfYuemUn/3g==
-X-Received: by 2002:a17:906:24c3:: with SMTP id f3mr4397984ejb.145.1628164027969;
-        Thu, 05 Aug 2021 04:47:07 -0700 (PDT)
-Received: from localhost.localdomain (host-82-51-42-96.retail.telecomitalia.it. [82.51.42.96])
-        by smtp.gmail.com with ESMTPSA id o23sm2179103eds.75.2021.08.05.04.47.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Aug 2021 04:47:07 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>, Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: r8188eu: core: Remove rtw_mfree_all_stainfo()
-Date: Thu, 05 Aug 2021 13:47:06 +0200
-Message-ID: <4588980.OG3HjkdD0c@localhost.localdomain>
-In-Reply-To: <406c6f84-a2f6-1a0e-3a52-9406df41973c@lwfinger.net>
-References: <20210802005517.12815-1-fmdefrancesco@gmail.com> <CAP71bdUDEX=B6Km9wZO1AyHpVzqqkGNw6xNvspBz3qUABSKMEQ@mail.gmail.com> <406c6f84-a2f6-1a0e-3a52-9406df41973c@lwfinger.net>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mGypu+NaaW+Jhwv++tohvkOpOq2EXdTSw+wGzb6zcXY=;
+        b=tFyfB1qtxIqaO0nHcQCGTqPzbZEo9M80xpHySWmTV3GelyKYvF6fXWXBXXryWrTP/V
+         IZ2yNXSJ/q5aIjEmFB+KBsPIC1tW03L1PFt8welFCc7BVGCInlUGv34RzuR9dot2G+tR
+         a2SUOOmp8KJFsHKjxCABWUwQ5+MWtRCsTET6pwzo3NYsSnb2NCu+1oaBj2VzRcRrF9nW
+         bNj68U495BwkMlcgnmh0L7G8J5zWT2bplcZDEorupQMlbXwjAJQSd3gx2fCqEl25V69y
+         kvxaf1bgT+u5it+dC2h92Rf56mLiyq9Rg5fvBFTnLaB2C372ySvs5pvmxvuyOhNvnpGL
+         yB0w==
+X-Gm-Message-State: AOAM532s4zjhdOoan79cEK256J0x2Al5OasQQZyoX87hhxD6zMVwyAkr
+	Ux8Ubo2kcihr59KRgrruCCfQM903TEUMz7ezlLo=
+X-Google-Smtp-Source: ABdhPJyqrlC+wjN7QOWKQ3nQEXmW3Mste+3scQ3W1W2pJRbKhcHo+smIRdnf47EbM8CP0WtbPya/hI4LB7KfbDt26Hg=
+X-Received: by 2002:a65:5ccd:: with SMTP id b13mr2323pgt.203.1628164369860;
+ Thu, 05 Aug 2021 04:52:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+References: <20210801085155.3170-1-len.baker@gmx.com> <CAHp75VcD_Kqedpkw-Pj+uQbWqdu_9FhXqJS5TuGUPoVv2x45-Q@mail.gmail.com>
+ <YQvJB5s1zY2yO87D@kroah.com> <CAHp75VeUH3+dZ6scREA-sZz8-7AF_MLobde+2-eZJz=MsxaW0Q@mail.gmail.com>
+ <YQvNnf0o9w4fdVjr@kroah.com>
+In-Reply-To: <YQvNnf0o9w4fdVjr@kroah.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 5 Aug 2021 14:52:10 +0300
+Message-ID: <CAHp75VdWiGM9-AqSeBC0tTWCVyLbjyf-F8_R0uns__HEUdrQMQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] Remove all strcpy() uses
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Daniel Vetter <daniel@ffwll.ch>, 
+	David Airlie <airlied@linux.ie>, =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
+Cc: Len Baker <len.baker@gmx.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Phil Reid <preid@electromag.com.au>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	dri-devel <dri-devel@lists.freedesktop.org>, 
+	"open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, linux-staging@lists.linux.dev, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wednesday, August 4, 2021 8:10:37 PM CEST Larry Finger wrote:
-> On 8/4/21 10:09 AM, Larry Finger wrote:
-> 
-> []
++Cc: David, Daniel, Noralf.
+
+The idea is to move fbtft under drivers/fbdev on the same terms, i.e.
+no acceptance of the new drivers there.
+The rationale is that for some of the panels it (fbtft) will be the
+only driver and nobody will convert it to tiny DRM.
+See more below.
+
+On Thu, Aug 5, 2021 at 2:38 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+> On Thu, Aug 05, 2021 at 02:30:35PM +0300, Andy Shevchenko wrote:
+> > On Thu, Aug 5, 2021 at 2:18 PM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > > On Sun, Aug 01, 2021 at 02:40:40PM +0300, Andy Shevchenko wrote:
+> > > > On Sun, Aug 1, 2021 at 11:53 AM Len Baker <len.baker@gmx.com> wrote:
+> > > > >
+> > > > > strcpy() performs no bounds checking on the destination buffer. This
+> > > > > could result in linear overflows beyond the end of the buffer, leading
+> > > > > to all kinds of misbehaviors. So, this serie removes all strcpy uses
+> > > > > from the "staging/fbtft" subsystem.
+> > > > >
+> > > > > Also, refactor the code a bit to follow the kernel coding-style and
+> > > > > avoid unnecessary variable initialization.
+> > > >
+> > > > I don't see patch 3 (even on lore.kernel.org).
+> > > >
+> > > > Greg, Geert, does it make sense to move this driver outside of staging?
+> > >
+> > > If you clean up everything that needs to be done, yes, please do.
+> >
+> > Do we have a clear TODO for that?
+> >
+> > The current one has the item which is not feasible to achieve in
+> > reasonable time. Some of those drivers won't be converted to tiny DRM.
+> > So the idea is to keep this out of staging in the maintenance phase
+> > (as it currently states, i.e. no new drivers accepted).  For the rest
+> > I'm not sure what else can be done (checkpatch? coccinelle?).
+> > Actually the first sentence in this paragraph is a motivation for
+> > moving out of staging.
 >
-> After looking at the original code for several other drivers, routine
-> rtw_mfree_stainfo() just ends up calling a couple of routines that free a
-> spinlock. That operation for Windows and FreeBSD is not trivial, but for 
-Linux,
-> the routine does nothing. Thus, despite its name, rtw_mfree_stainfo() does 
-not
-> free anything, and it can be deleted.
-> 
-> The original patch is
-> 
-> Acked-by: Larry Finger <Larry.Finger@lwfinger.net>
-> 
-> Larry
+> Take it up with the DRM developers/maintainers.  If they approve for
+> this to move out of staging without being converted over to use tiny
+> DRM, then I am fine to move it out.
 
-Larry, 
+Got it.  Cc'ed this to corresponding people.
 
-Thanks for looking at that routine and acking my patch,
-
-Fabio
-
-
-
+-- 
+With Best Regards,
+Andy Shevchenko
