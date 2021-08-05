@@ -1,41 +1,41 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D50CE70
-	for <linux-staging@lists.linux.dev>; Thu,  5 Aug 2021 18:37:27 +0000 (UTC)
-Received: by mail-ot1-f51.google.com with SMTP id g5-20020a9d6b050000b02904f21e977c3eso6139119otp.5
-        for <linux-staging@lists.linux.dev>; Thu, 05 Aug 2021 11:37:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBEC929CA
+	for <linux-staging@lists.linux.dev>; Thu,  5 Aug 2021 18:37:28 +0000 (UTC)
+Received: by mail-ot1-f43.google.com with SMTP id e13-20020a056830200db02904f06fa2790cso6143837otp.1
+        for <linux-staging@lists.linux.dev>; Thu, 05 Aug 2021 11:37:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=xuR/eXeijgiATwLli/lXRf3NRJtWpjVHi3sl2dMGKy4=;
-        b=IXNM63FaFAIWhcK5bd3M30d/Tt79C7gJ1d5FCFKe/ooeGACjNoAFkG0+PO3D/Q3KzW
-         1yWaSSsSf3BIQrm6v0Is50lqloOMxzmkgnsPbdedfWfnWzKu67Vy3Q3FVUIcSke+L23h
-         WYvaFoC1AP2GN3Fudgc6hH2b+cA7RPiFAD/aHXCuPv9fd7EiKOdx7KpmpTlHRl9NLr9v
-         bx1G3xhdCIl8c3wHWPPWSAle0JCSUOsSYsl1fedOHX6NBS/71LZPoFYI4xNXa34NSjIv
-         R2dOK2y/64sRv4S5kuAhmrZ4r1Y5Phe2RbtBiZyGI2fRQsS+6QtA74pD5gdgJYgCwk6I
-         mQBQ==
+        bh=0xIqY3Ha7oUmEWl7eMuzDyYERvbInSb/rsWCme0XJJ8=;
+        b=EfV5nfPM2w0W8hCuemLFoujIQtI/qIg5E/w6JJLnBHK7K9rc7F5GcFbW1ORgjByFvi
+         RdFW3fCv0tnO6K+30apDrs4vablheIMIQlNKlC+Dr3wSpT0Oum8oTgMzBqX+EHxucojx
+         uZXBEKuJY64AwNypKorysZED3WSXr0F54TOSapF49kPBYo9y0VWKZGLrOMRuRsqZ+Dvw
+         uwDCU8wpRRatuxvUOp6IpkCKdFOC+HQZMbVWWpN4MB+bF3Rt2WNpm8uH5EfPrVMkdHSx
+         tzOzCo5FeSAYj1ue2nxcyrkXQnkfDo2hcSfIrmKcvSreIWHMXCtNJSlosd9EigSrstJx
+         CGNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=xuR/eXeijgiATwLli/lXRf3NRJtWpjVHi3sl2dMGKy4=;
-        b=kQPcd6BSrlkc5UEyISI5ume2PGrUrr3bHQrIu8SfLDfrVMLkBzkjct8Oe0okGUJ4u8
-         oKAAhgf/Bz/LEm9Dx74vBRLMbdYCQjWbDrJCcuzoM6g2sFXMKTfXoHGDIWmmysDa5IMT
-         frFKANMLcc4r+AtjaJk4V2YG35j99NKO1/FG/imZlV4NaFPcuUrUBfbMcft4xFbBWA7H
-         9KsksH2dYo61xaDxkCMGrACpwqd/kLn/io4PrvafXKB08O1WD9ihkpx7s6Y+SY182a24
-         +nwkPVwqrOArrRmjwvKEVNnQNKgAWloI90LLNuaKIVuTa6rmtIhRG4nl2WkjiDnEKVjN
-         9KrQ==
-X-Gm-Message-State: AOAM5338MA2lbmX7qfRCfduA9UOXKYx8z15FBiKcSyuDJhoz6FNTYH9H
-	DCAi5suOF6tAhKl4Kg6eksw=
-X-Google-Smtp-Source: ABdhPJyxH7XQ7dkLWLfbdi7FtydRBk3PTJtMHdsVF4QTjBlFQjThKWKjk6hTKU9b+d8tttWIAnX3bQ==
-X-Received: by 2002:a9d:3a1:: with SMTP id f30mr4801816otf.195.1628188646960;
-        Thu, 05 Aug 2021 11:37:26 -0700 (PDT)
+        bh=0xIqY3Ha7oUmEWl7eMuzDyYERvbInSb/rsWCme0XJJ8=;
+        b=n1cuvHBYQ4TO3gXJ0nl+59HQhwAkZP+EbZZKt4IY5Beq5Ecd7NddsPiMNnFCELjXJl
+         VB5+jaSQqHjqBqzu0K6wFY66w3K2KMIYHX8SNbTN7Btrd9mBTPfib7i74DwmvEMMuuXM
+         7Wgkjtv7NdXifXfpVp5DjUE0ifMs39zpdDRqjtKgAiWxp8eFReanWoHls7s1c3Wprc62
+         X6rbR031U+2WrRraUbpJfX3Td0AZ9WBYV9guJI7HQG7Q5ILeO+2MmbD5Jci/zI3HlQHi
+         mAVahV9r582da7A9kmyfw0cR2ggN6oSyIwCRAykGSH8rBRfvgSxC/f5D5TIGmWxWOYTk
+         lVrw==
+X-Gm-Message-State: AOAM531My0yzdQanIk8iXZg3SjlW+kytfQ+1T+eJLR+ES4nWpYrXHtgR
+	8ikaVa/0Zxb5wXP9/QztsPk=
+X-Google-Smtp-Source: ABdhPJzq6YJDfJkIf9qV3e2iaS5lrYSueoCzzzTqdYiEaLlJHJBdxbHIzoglTbna5yf7elyZfsZQOg==
+X-Received: by 2002:a05:6830:2802:: with SMTP id w2mr4757055otu.303.1628188648210;
+        Thu, 05 Aug 2021 11:37:28 -0700 (PDT)
 Received: from 2603-8090-2005-39b3-0000-0000-0000-1016.res6.spectrum.com.com (2603-8090-2005-39b3-0000-0000-0000-1016.res6.spectrum.com. [2603:8090:2005:39b3::1016])
-        by smtp.gmail.com with ESMTPSA id q32sm1156726oiw.37.2021.08.05.11.37.25
+        by smtp.gmail.com with ESMTPSA id q32sm1156726oiw.37.2021.08.05.11.37.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Aug 2021 11:37:26 -0700 (PDT)
+        Thu, 05 Aug 2021 11:37:27 -0700 (PDT)
 Sender: Larry Finger <larry.finger@gmail.com>
 From: Larry Finger <Larry.Finger@lwfinger.net>
 To: gregkh@linuxfoundation.org
@@ -43,9 +43,9 @@ Cc: phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Larry Finger <Larry.Finger@lwfinger.net>
-Subject: [PATCH 1/5] staging: r8188eu: Remove wrappers for kalloc() and kzalloc()
-Date: Thu,  5 Aug 2021 13:37:13 -0500
-Message-Id: <20210805183717.23007-2-Larry.Finger@lwfinger.net>
+Subject: [PATCH 2/5] staging: r8188eu: Remove wrapper around vfree
+Date: Thu,  5 Aug 2021 13:37:14 -0500
+Message-Id: <20210805183717.23007-3-Larry.Finger@lwfinger.net>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210805183717.23007-1-Larry.Finger@lwfinger.net>
 References: <20210805183717.23007-1-Larry.Finger@lwfinger.net>
@@ -57,809 +57,213 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-These wrappers involve an in_interrupt() call, which is not frowned on
-in the kernel. These changes decrease the size of the driver by a trivial
-amount.
+This call is so simple that there is no need, or use, for a wrapper.
 
 Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
 ---
- drivers/staging/r8188eu/core/rtw_ap.c         |  8 +--
- drivers/staging/r8188eu/core/rtw_br_ext.c     |  2 +-
- drivers/staging/r8188eu/core/rtw_cmd.c        | 11 ++--
- drivers/staging/r8188eu/core/rtw_efuse.c      |  4 +-
- drivers/staging/r8188eu/core/rtw_mlme.c       |  8 +--
- drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 30 ++++-----
- drivers/staging/r8188eu/core/rtw_mp.c         |  2 +-
- drivers/staging/r8188eu/core/rtw_p2p.c        |  8 +--
- drivers/staging/r8188eu/core/rtw_wlan_util.c  |  2 +-
- drivers/staging/r8188eu/core/rtw_xmit.c       |  2 +-
- drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  2 +-
- .../staging/r8188eu/hal/rtl8188e_hal_init.c   |  8 +--
- drivers/staging/r8188eu/hal/rtl8188eu_recv.c  |  3 +-
- drivers/staging/r8188eu/hal/usb_halinit.c     |  2 +-
- .../staging/r8188eu/include/osdep_service.h   |  6 --
- drivers/staging/r8188eu/os_dep/ioctl_linux.c  | 66 +++++++++----------
- drivers/staging/r8188eu/os_dep/mlme_linux.c   |  3 +-
- .../staging/r8188eu/os_dep/osdep_service.c    | 28 ++------
- drivers/staging/r8188eu/os_dep/usb_intf.c     |  4 +-
- drivers/staging/r8188eu/os_dep/xmit_linux.c   |  2 +-
- 20 files changed, 86 insertions(+), 115 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme.c         |  4 +---
+ drivers/staging/r8188eu/core/rtw_mp.c           |  3 +--
+ drivers/staging/r8188eu/core/rtw_recv.c         |  5 +----
+ drivers/staging/r8188eu/core/rtw_sta_mgt.c      |  2 +-
+ drivers/staging/r8188eu/core/rtw_xmit.c         | 10 +++-------
+ drivers/staging/r8188eu/hal/odm_interface.c     |  2 +-
+ drivers/staging/r8188eu/hal/rtl8188e_hal_init.c |  2 +-
+ drivers/staging/r8188eu/include/osdep_service.h |  2 --
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c    |  4 ++--
+ drivers/staging/r8188eu/os_dep/osdep_service.c  |  7 +------
+ drivers/staging/r8188eu/os_dep/usb_intf.c       |  2 +-
+ 11 files changed, 13 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
-index d7b1a071928c..ad37f1f02ee2 100644
---- a/drivers/staging/r8188eu/core/rtw_ap.c
-+++ b/drivers/staging/r8188eu/core/rtw_ap.c
-@@ -98,7 +98,7 @@ static void update_BCNTIM(struct adapter *padapter)
- 		}
- 
- 		if (remainder_ielen > 0) {
--			pbackup_remainder_ie = rtw_malloc(remainder_ielen);
-+			pbackup_remainder_ie = kmalloc(remainder_ielen, GFP_KERNEL);
- 			if (pbackup_remainder_ie && premainder_ie)
- 				memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
- 		}
-@@ -180,7 +180,7 @@ void rtw_add_bcn_ie(struct adapter *padapter, struct wlan_bssid_ex *pnetwork, u8
- 	}
- 
- 	if (remainder_ielen > 0) {
--		pbackup_remainder_ie = rtw_malloc(remainder_ielen);
-+		pbackup_remainder_ie = kmalloc(remainder_ielen, GFP_KERNEL);
- 		if (pbackup_remainder_ie && premainder_ie)
- 			memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
- 	}
-@@ -224,7 +224,7 @@ void rtw_remove_bcn_ie(struct adapter *padapter, struct wlan_bssid_ex *pnetwork,
- 	}
- 
- 	if (remainder_ielen > 0) {
--		pbackup_remainder_ie = rtw_malloc(remainder_ielen);
-+		pbackup_remainder_ie = kmalloc(remainder_ielen, GFP_KERNEL);
- 		if (pbackup_remainder_ie && premainder_ie)
- 			memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
- 	}
-@@ -1302,7 +1302,7 @@ static void update_bcn_wps_ie(struct adapter *padapter)
- 	remainder_ielen = ielen - wps_offset - wps_ielen;
- 
- 	if (remainder_ielen > 0) {
--		pbackup_remainder_ie = rtw_malloc(remainder_ielen);
-+		pbackup_remainder_ie = kmalloc(remainder_ielen, GFP_KERNEL);
- 		if (pbackup_remainder_ie)
- 			memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
- 	}
-diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
-index 27c8ec3b7d62..6ee8df27bf3a 100644
---- a/drivers/staging/r8188eu/core/rtw_br_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
-@@ -394,7 +394,7 @@ static void __nat25_db_network_insert(struct adapter *priv,
- 		}
- 		db = db->next_hash;
- 	}
--	db = (struct nat25_network_db_entry *) rtw_malloc(sizeof(*db));
-+	db = kmalloc(sizeof(*db), GFP_KERNEL);
- 	if (!db) {
- 		spin_unlock_bh(&priv->br_ext_lock);
- 		return;
-diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index 4ac76ca6e383..d7d33e201f37 100644
---- a/drivers/staging/r8188eu/core/rtw_cmd.c
-+++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -1947,10 +1947,13 @@ static void c2h_wk_callback(struct work_struct *work)
- 		if ((c2h_evt = (struct c2h_evt_hdr *)rtw_cbuf_pop(evtpriv->c2h_queue)) != NULL) {
- 			/* This C2H event is read, clear it */
- 			c2h_evt_clear(adapter);
--		} else if ((c2h_evt = (struct c2h_evt_hdr *)rtw_malloc(16)) != NULL) {
--			/* This C2H event is not read, read & clear now */
--			if (c2h_evt_read(adapter, (u8 *)c2h_evt) != _SUCCESS)
--				continue;
-+		} else {
-+			c2h_evt = kmalloc(16, GFP_KERNEL);
-+			if (c2h_evt) {
-+				/* This C2H event is not read, read & clear now */
-+				if (c2h_evt_read(adapter, (u8 *)c2h_evt) != _SUCCESS)
-+					continue;
-+			}
- 		}
- 
- 		/* Special pointer to trigger c2h_evt_clear only */
-diff --git a/drivers/staging/r8188eu/core/rtw_efuse.c b/drivers/staging/r8188eu/core/rtw_efuse.c
-index 9e9085aab952..3e53ec522519 100644
---- a/drivers/staging/r8188eu/core/rtw_efuse.c
-+++ b/drivers/staging/r8188eu/core/rtw_efuse.c
-@@ -533,7 +533,7 @@ u8 rtw_efuse_map_write(struct adapter *padapter, u16 addr, u16 cnts, u8 *data)
- 	if ((addr + cnts) > mapLen)
- 		return _FAIL;
- 
--	map = rtw_zmalloc(mapLen);
-+	map = kzalloc(mapLen, GFP_KERNEL);
- 	if (!map)
- 		return _FAIL;
- 
-@@ -625,7 +625,7 @@ u8 rtw_BT_efuse_map_write(struct adapter *padapter, u16 addr, u16 cnts, u8 *data
- 	if ((addr + cnts) > mapLen)
- 		return _FAIL;
- 
--	map = rtw_zmalloc(mapLen);
-+	map = kzalloc(mapLen, GFP_KERNEL);
- 	if (!map)
- 		return _FAIL;
- 
 diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index 850dbb3f1cc7..549ebcccca57 100644
+index 549ebcccca57..72570aede776 100644
 --- a/drivers/staging/r8188eu/core/rtw_mlme.c
 +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -1735,13 +1735,13 @@ int rtw_set_auth(struct adapter *adapter, struct security_priv *psecuritypriv)
- 	struct	cmd_priv *pcmdpriv = &(adapter->cmdpriv);
- 	int		res = _SUCCESS;
+@@ -129,9 +129,7 @@ void _rtw_free_mlme_priv (struct mlme_priv *pmlmepriv)
+ 	if (pmlmepriv) {
+ 		rtw_mfree_mlme_priv_lock (pmlmepriv);
  
--	pcmd = (struct	cmd_obj *)rtw_zmalloc(sizeof(struct cmd_obj));
-+	pcmd = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
- 	if (!pcmd) {
- 		res = _FAIL;  /* try again */
- 		goto exit;
+-		if (pmlmepriv->free_bss_buf) {
+-			rtw_vmfree(pmlmepriv->free_bss_buf, MAX_BSS_CNT * sizeof(struct wlan_network));
+-		}
++		vfree(pmlmepriv->free_bss_buf);
  	}
  
--	psetauthparm = (struct setauth_parm *)rtw_zmalloc(sizeof(struct setauth_parm));
-+	psetauthparm = kzalloc(sizeof(struct setauth_parm), GFP_KERNEL);
- 	if (!psetauthparm) {
- 		kfree(pcmd);
- 		res = _FAIL;
-@@ -1773,12 +1773,12 @@ int rtw_set_key(struct adapter *adapter, struct security_priv *psecuritypriv, in
- 	struct mlme_priv		*pmlmepriv = &(adapter->mlmepriv);
- 	int	res = _SUCCESS;
- 
--	pcmd = (struct	cmd_obj *)rtw_zmalloc(sizeof(struct	cmd_obj));
-+	pcmd = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
- 	if (!pcmd) {
- 		res = _FAIL;  /* try again */
- 		goto exit;
- 	}
--	psetkeyparm = (struct setkey_parm *)rtw_zmalloc(sizeof(struct setkey_parm));
-+	psetkeyparm = kzalloc(sizeof(struct setkey_parm), GFP_KERNEL);
- 	if (!psetkeyparm) {
- 		kfree(pcmd);
- 		res = _FAIL;
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index 1ca356eecd1c..a8ed4e1a0278 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -662,7 +662,7 @@ unsigned int OnBeacon(struct adapter *padapter, struct recv_frame *precv_frame)
- 	if (!memcmp(GetAddr3Ptr(pframe), get_my_bssid(&pmlmeinfo->network), ETH_ALEN)) {
- 		if (pmlmeinfo->state & WIFI_FW_AUTH_NULL) {
- 			/* we should update current network before auth, or some IE is wrong */
--			pbss = (struct wlan_bssid_ex *)rtw_malloc(sizeof(struct wlan_bssid_ex));
-+			pbss = kmalloc(sizeof(struct wlan_bssid_ex), GFP_ATOMIC);
- 			if (pbss) {
- 				if (collect_bss_info(padapter, precv_frame, pbss) == _SUCCESS) {
- 					update_network(&(pmlmepriv->cur_network.network), pbss, padapter, true);
-@@ -6966,12 +6966,12 @@ void report_survey_event(struct adapter *padapter, struct recv_frame *precv_fram
- 	pmlmeext = &padapter->mlmeextpriv;
- 	pcmdpriv = &padapter->cmdpriv;
- 
--	pcmd_obj = (struct cmd_obj *)rtw_zmalloc(sizeof(struct cmd_obj));
-+	pcmd_obj = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
- 	if (!pcmd_obj)
- 		return;
- 
- 	cmdsz = (sizeof(struct survey_event) + sizeof(struct C2HEvent_Header));
--	pevtcmd = (u8 *)rtw_zmalloc(cmdsz);
-+	pevtcmd = kzalloc(cmdsz, GFP_ATOMIC);
- 	if (!pevtcmd) {
- 		kfree(pcmd_obj);
- 		return;
-@@ -7016,12 +7016,12 @@ void report_surveydone_event(struct adapter *padapter)
- 	struct mlme_ext_priv		*pmlmeext = &padapter->mlmeextpriv;
- 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
- 
--	pcmd_obj = (struct cmd_obj *)rtw_zmalloc(sizeof(struct cmd_obj));
-+	pcmd_obj = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
- 	if (!pcmd_obj)
- 		return;
- 
- 	cmdsz = (sizeof(struct surveydone_event) + sizeof(struct C2HEvent_Header));
--	pevtcmd = (u8 *)rtw_zmalloc(cmdsz);
-+	pevtcmd = kzalloc(cmdsz, GFP_KERNEL);
- 	if (!pevtcmd) {
- 		kfree(pcmd_obj);
- 		return;
-@@ -7060,12 +7060,12 @@ void report_join_res(struct adapter *padapter, int res)
- 	struct mlme_ext_info	*pmlmeinfo = &(pmlmeext->mlmext_info);
- 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
- 
--	pcmd_obj = (struct cmd_obj *)rtw_zmalloc(sizeof(struct cmd_obj));
-+	pcmd_obj = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
- 	if (!pcmd_obj)
- 		return;
- 
- 	cmdsz = (sizeof(struct joinbss_event) + sizeof(struct C2HEvent_Header));
--	pevtcmd = (u8 *)rtw_zmalloc(cmdsz);
-+	pevtcmd = kzalloc(cmdsz, GFP_ATOMIC);
- 	if (!pevtcmd) {
- 		kfree(pcmd_obj);
- 		return;
-@@ -7109,12 +7109,12 @@ void report_del_sta_event(struct adapter *padapter, unsigned char *MacAddr, unsi
- 	struct mlme_ext_priv		*pmlmeext = &padapter->mlmeextpriv;
- 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
- 
--	pcmd_obj = (struct cmd_obj *)rtw_zmalloc(sizeof(struct cmd_obj));
-+	pcmd_obj = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
- 	if (!pcmd_obj)
- 		return;
- 
- 	cmdsz = (sizeof(struct stadel_event) + sizeof(struct C2HEvent_Header));
--	pevtcmd = (u8 *)rtw_zmalloc(cmdsz);
-+	pevtcmd = kzalloc(cmdsz, GFP_KERNEL);
- 	if (!pevtcmd) {
- 		kfree(pcmd_obj);
- 		return;
-@@ -7161,12 +7161,12 @@ void report_add_sta_event(struct adapter *padapter, unsigned char *MacAddr, int
- 	struct mlme_ext_priv		*pmlmeext = &padapter->mlmeextpriv;
- 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
- 
--	pcmd_obj = (struct cmd_obj *)rtw_zmalloc(sizeof(struct cmd_obj));
-+	pcmd_obj = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
- 	if (!pcmd_obj)
- 		return;
- 
- 	cmdsz = (sizeof(struct stassoc_event) + sizeof(struct C2HEvent_Header));
--	pevtcmd = (u8 *)rtw_zmalloc(cmdsz);
-+	pevtcmd = kzalloc(cmdsz, GFP_KERNEL);
- 	if (!pevtcmd) {
- 		kfree(pcmd_obj);
- 		return;
-@@ -7582,11 +7582,11 @@ void survey_timer_hdl(struct adapter *padapter)
- 			pmlmeext->scan_abort = false;/* reset */
- 		}
- 
--		ph2c = (struct cmd_obj *)rtw_zmalloc(sizeof(struct cmd_obj));
-+		ph2c = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
- 		if (!ph2c)
- 			goto exit_survey_timer_hdl;
- 
--		psurveyPara = (struct sitesurvey_parm *)rtw_zmalloc(sizeof(struct sitesurvey_parm));
-+		psurveyPara = kzalloc(sizeof(struct sitesurvey_parm), GFP_ATOMIC);
- 		if (!psurveyPara) {
- 			kfree(ph2c);
- 			goto exit_survey_timer_hdl;
-@@ -8158,13 +8158,13 @@ u8 set_tx_beacon_cmd(struct adapter *padapter)
- 	u8 res = _SUCCESS;
- 	int len_diff = 0;
- 
--	ph2c = (struct cmd_obj *)rtw_zmalloc(sizeof(struct cmd_obj));
-+	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
- 	if (!ph2c) {
- 		res = _FAIL;
- 		goto exit;
- 	}
- 
--	ptxBeacon_parm = (struct Tx_Beacon_param *)rtw_zmalloc(sizeof(struct Tx_Beacon_param));
-+	ptxBeacon_parm = kzalloc(sizeof(struct Tx_Beacon_param), GFP_KERNEL);
- 	if (!ptxBeacon_parm) {
- 		kfree(ph2c);
- 		res = _FAIL;
+ }
 diff --git a/drivers/staging/r8188eu/core/rtw_mp.c b/drivers/staging/r8188eu/core/rtw_mp.c
-index 1065e9e8a015..36119602541a 100644
+index 36119602541a..9ff0a19cc680 100644
 --- a/drivers/staging/r8188eu/core/rtw_mp.c
 +++ b/drivers/staging/r8188eu/core/rtw_mp.c
-@@ -669,7 +669,7 @@ void SetPacketTx(struct adapter *padapter)
- 	kfree(pmp_priv->tx.pallocated_buf);
- 	pmp_priv->tx.write_size = pkt_size;
- 	pmp_priv->tx.buf_size = pkt_size + XMITBUF_ALIGN_SZ;
--	pmp_priv->tx.pallocated_buf = rtw_zmalloc(pmp_priv->tx.buf_size);
-+	pmp_priv->tx.pallocated_buf = kzalloc(pmp_priv->tx.buf_size, GFP_KERNEL);
- 	if (!pmp_priv->tx.pallocated_buf) {
- 		DBG_88E("%s: malloc(%d) fail!!\n", __func__, pmp_priv->tx.buf_size);
- 		return;
-diff --git a/drivers/staging/r8188eu/core/rtw_p2p.c b/drivers/staging/r8188eu/core/rtw_p2p.c
-index c19360ea09a4..b4497444a7af 100644
---- a/drivers/staging/r8188eu/core/rtw_p2p.c
-+++ b/drivers/staging/r8188eu/core/rtw_p2p.c
-@@ -34,7 +34,7 @@ static u32 go_add_group_info_attr(struct wifidirect_info *pwdinfo, u8 *pbuf)
+@@ -922,8 +922,7 @@ void _rtw_mp_xmit_priv(struct xmit_priv *pxmitpriv)
+ 		pxmitbuf++;
+ 	}
  
- 	DBG_88E("%s\n", __func__);
+-	if (pxmitpriv->pallocated_xmit_extbuf)
+-		rtw_vmfree(pxmitpriv->pallocated_xmit_extbuf, num_xmit_extbuf * sizeof(struct xmit_buf) + 4);
++	vfree(pxmitpriv->pallocated_xmit_extbuf);
  
--	pdata_attr = rtw_zmalloc(MAX_P2P_IE_LEN);
-+	pdata_attr = kzalloc(MAX_P2P_IE_LEN, GFP_KERNEL);
+ 	if (padapter->registrypriv.mp_mode == 0) {
+ 		max_xmit_extbuf_size = 6000;
+diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+index 37cf22569c59..6f6caf727f3b 100644
+--- a/drivers/staging/r8188eu/core/rtw_recv.c
++++ b/drivers/staging/r8188eu/core/rtw_recv.c
+@@ -115,12 +115,9 @@ void _rtw_free_recv_priv (struct recv_priv *precvpriv)
  
- 	pstart = pdata_attr;
- 	pcur = pdata_attr;
-@@ -855,7 +855,7 @@ u32 process_assoc_req_p2p_ie(struct wifidirect_info *pwdinfo, u8 *pframe, uint l
- 		/* Check P2P Device Info ATTR */
- 		if (rtw_get_p2p_attr_content(p2p_ie, p2p_ielen, P2P_ATTR_DEVICE_INFO, NULL, (uint *)&attr_contentlen)) {
- 			DBG_88E("[%s] Got P2P DEVICE INFO Attr!!\n", __func__);
--			pattr_content = rtw_zmalloc(attr_contentlen);
-+			pattr_content = kzalloc(attr_contentlen, GFP_KERNEL);
- 			pbuf = pattr_content;
- 			if (pattr_content) {
- 				u8 num_of_secdev_type;
-@@ -1697,13 +1697,13 @@ u8 p2p_ps_wk_cmd(struct adapter *padapter, u8 p2p_ps_state, u8 enqueue)
- 		return res;
+ 	rtw_os_recv_resource_free(precvpriv);
  
- 	if (enqueue) {
--		ph2c = (struct cmd_obj *)rtw_zmalloc(sizeof(struct cmd_obj));
-+		ph2c = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
- 		if (!ph2c) {
- 			res = _FAIL;
- 			goto exit;
+-	if (precvpriv->pallocated_frame_buf) {
+-		rtw_vmfree(precvpriv->pallocated_frame_buf, NR_RECVFRAME * sizeof(struct recv_frame) + RXFRAME_ALIGN_SZ);
+-	}
++	vfree(precvpriv->pallocated_frame_buf);
+ 
+ 	rtw_hal_free_recv_priv(padapter);
+-
+ }
+ 
+ struct recv_frame *_rtw_alloc_recvframe (struct __queue *pfree_recv_queue)
+diff --git a/drivers/staging/r8188eu/core/rtw_sta_mgt.c b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
+index 4f62ef3dd246..2f1d1bfb6f73 100644
+--- a/drivers/staging/r8188eu/core/rtw_sta_mgt.c
++++ b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
+@@ -211,7 +211,7 @@ u32	_rtw_free_sta_priv(struct	sta_priv *pstapriv)
+ 		rtw_mfree_sta_priv_lock(pstapriv);
+ 
+ 		if (pstapriv->pallocated_stainfo_buf)
+-			rtw_vmfree(pstapriv->pallocated_stainfo_buf, sizeof(struct sta_info)*NUM_STA+4);
++			vfree(pstapriv->pallocated_stainfo_buf);
  		}
  
--		pdrvextra_cmd_parm = (struct drvextra_cmd_parm *)rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
-+		pdrvextra_cmd_parm = kzalloc(sizeof(struct drvextra_cmd_parm), GFP_KERNEL);
- 		if (!pdrvextra_cmd_parm) {
- 			kfree(ph2c);
- 			res = _FAIL;
-diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-index c4e2726f3a19..5a9a824dcbfd 100644
---- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
-+++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-@@ -915,7 +915,7 @@ int rtw_check_bcn_info(struct adapter  *Adapter, u8 *pframe, u32 packet_len)
- 		return true;
- 	}
- 
--	bssid = (struct wlan_bssid_ex *)rtw_zmalloc(sizeof(struct wlan_bssid_ex));
-+	bssid = kzalloc(sizeof(struct wlan_bssid_ex), GFP_ATOMIC);
- 	if (!bssid)
- 		return _FAIL;
- 
+ 	return _SUCCESS;
 diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-index 3b61eb651ee4..3aab02a90697 100644
+index 3aab02a90697..05396cc2e82a 100644
 --- a/drivers/staging/r8188eu/core/rtw_xmit.c
 +++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-@@ -1625,7 +1625,7 @@ void rtw_alloc_hwxmits(struct adapter *padapter)
+@@ -252,11 +252,9 @@ void _rtw_free_xmit_priv (struct xmit_priv *pxmitpriv)
+ 		pxmitbuf++;
+ 	}
  
- 	pxmitpriv->hwxmit_entry = HWXMIT_ENTRY;
+-	if (pxmitpriv->pallocated_frame_buf)
+-		rtw_vmfree(pxmitpriv->pallocated_frame_buf, NR_XMITFRAME * sizeof(struct xmit_frame) + 4);
++	vfree(pxmitpriv->pallocated_frame_buf);
  
--	pxmitpriv->hwxmits = (struct hw_xmit *)rtw_zmalloc(sizeof(struct hw_xmit) * pxmitpriv->hwxmit_entry);
-+	pxmitpriv->hwxmits = kzalloc(sizeof(struct hw_xmit) * pxmitpriv->hwxmit_entry, GFP_KERNEL);
+-	if (pxmitpriv->pallocated_xmitbuf)
+-		rtw_vmfree(pxmitpriv->pallocated_xmitbuf, NR_XMITBUFF * sizeof(struct xmit_buf) + 4);
++	vfree(pxmitpriv->pallocated_xmitbuf);
  
- 	hwxmits = pxmitpriv->hwxmits;
+ 	/*  free xmit extension buff */
+ 	_rtw_spinlock_free(&pxmitpriv->free_xmit_extbuf_queue.lock);
+@@ -267,9 +265,7 @@ void _rtw_free_xmit_priv (struct xmit_priv *pxmitpriv)
+ 		pxmitbuf++;
+ 	}
  
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-index a6bb4ecadc49..f33bf732eeaf 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-@@ -489,7 +489,7 @@ static void SetFwRsvdPagePkt(struct adapter *adapt, bool bDLFinished)
- 	struct rsvdpage_loc RsvdPageLoc;
+-	if (pxmitpriv->pallocated_xmit_extbuf) {
+-		rtw_vmfree(pxmitpriv->pallocated_xmit_extbuf, num_xmit_extbuf * sizeof(struct xmit_buf) + 4);
+-	}
++	vfree(pxmitpriv->pallocated_xmit_extbuf);
  
- 	DBG_88E("%s\n", __func__);
--	ReservedPagePacket = (u8 *)rtw_zmalloc(1000);
-+	ReservedPagePacket = kzalloc(1000, GFP_KERNEL);
- 	if (!ReservedPagePacket) {
- 		DBG_88E("%s: alloc ReservedPagePacket fail!\n", __func__);
- 		return;
+ 	rtw_free_hwxmits(padapter);
+ 
+diff --git a/drivers/staging/r8188eu/hal/odm_interface.c b/drivers/staging/r8188eu/hal/odm_interface.c
+index 507baf9fd913..38f6ae410e53 100644
+--- a/drivers/staging/r8188eu/hal/odm_interface.c
++++ b/drivers/staging/r8188eu/hal/odm_interface.c
+@@ -85,7 +85,7 @@ void ODM_AllocateMemory(struct odm_dm_struct *pDM_Odm, void **pPtr, u32 length)
+ /*  length could be ignored, used to detect memory leakage. */
+ void ODM_FreeMemory(struct odm_dm_struct *pDM_Odm, void *pPtr, u32 length)
+ {
+-	rtw_vmfree(pPtr, length);
++	vfree(pPtr);
+ }
+ 
+ s32 ODM_CompareMemory(struct odm_dm_struct *pDM_Odm, void *pBuf1, void *pBuf2, u32 length)
 diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-index 433e960ec10b..abbc8d22883b 100644
+index abbc8d22883b..9b0d02a759a4 100644
 --- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
 +++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-@@ -76,13 +76,13 @@ efuse_phymap_to_logical(u8 *phymap, u16 _offset, u16 _size_byte, u8  *pbuf)
- 	u16	efuse_utilized = 0;
- 	u8 u1temp = 0;
- 
--	efuseTbl = (u8 *)rtw_zmalloc(EFUSE_MAP_LEN_88E);
-+	efuseTbl = kzalloc(EFUSE_MAP_LEN_88E, GFP_KERNEL);
- 	if (!efuseTbl) {
- 		DBG_88E("%s: alloc efuseTbl fail!\n", __func__);
- 		goto exit;
+@@ -363,7 +363,7 @@ void rtw_IOL_cmd_tx_pkt_buf_dump(struct adapter *Adapter, int data_len)
+ 			} while (!rstatus && (loop++ < 10));
+ 		}
+ 		rtw_IOL_cmd_buf_dump(Adapter, data_len, pbuf);
+-		rtw_vmfree(pbuf, data_len+10);
++		vfree(pbuf);
  	}
- 
--	eFuseWord = (u16 **)rtw_malloc2d(EFUSE_MAX_SECTION_88E, EFUSE_MAX_WORD_UNIT, sizeof(u16));
-+	eFuseWord = rtw_malloc2d(EFUSE_MAX_SECTION_88E, EFUSE_MAX_WORD_UNIT, sizeof(u16));
- 	if (!eFuseWord) {
- 		DBG_88E("%s: alloc eFuseWord fail!\n", __func__);
- 		goto exit;
-@@ -790,13 +790,13 @@ static void Hal_EfuseReadEFuse88E(struct adapter *Adapter,
- 		goto exit;
- 	}
- 
--	efuseTbl = (u8 *)rtw_zmalloc(EFUSE_MAP_LEN_88E);
-+	efuseTbl = kzalloc(EFUSE_MAP_LEN_88E, GFP_KERNEL);
- 	if (!efuseTbl) {
- 		DBG_88E("%s: alloc efuseTbl fail!\n", __func__);
- 		goto exit;
- 	}
- 
--	eFuseWord = (u16 **)rtw_malloc2d(EFUSE_MAX_SECTION_88E, EFUSE_MAX_WORD_UNIT, sizeof(u16));
-+	eFuseWord = rtw_malloc2d(EFUSE_MAX_SECTION_88E, EFUSE_MAX_WORD_UNIT, sizeof(u16));
- 	if (!eFuseWord) {
- 		DBG_88E("%s: alloc eFuseWord fail!\n", __func__);
- 		goto exit;
-diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_recv.c b/drivers/staging/r8188eu/hal/rtl8188eu_recv.c
-index 8535d3d1e3d8..3a169392d183 100644
---- a/drivers/staging/r8188eu/hal/rtl8188eu_recv.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188eu_recv.c
-@@ -44,7 +44,8 @@ int	rtl8188eu_init_recv_priv(struct adapter *padapter)
- 	/* init recv_buf */
- 	_rtw_init_queue(&precvpriv->free_recv_buf_queue);
- 
--	precvpriv->pallocated_recv_buf = rtw_zmalloc(NR_RECVBUFF * sizeof(struct recv_buf) + 4);
-+	precvpriv->pallocated_recv_buf = kzalloc(NR_RECVBUFF * sizeof(struct recv_buf) + 4,
-+						 GFP_KERNEL);
- 	if (!precvpriv->pallocated_recv_buf) {
- 		res = _FAIL;
- 		goto exit;
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 2981c3075ae8..b214b7b1e9de 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -2230,7 +2230,7 @@ void rtl8188eu_set_hal_ops(struct adapter *adapt)
- {
- 	struct hal_ops	*halfunc = &adapt->HalFunc;
- 
--	adapt->HalData = rtw_zmalloc(sizeof(struct hal_data_8188e));
-+	adapt->HalData = kzalloc(sizeof(struct hal_data_8188e), GFP_KERNEL);
- 	if (!adapt->HalData)
- 		DBG_88E("cant not alloc memory for HAL DATA\n");
- 	adapt->hal_data_sz = sizeof(struct hal_data_8188e);
+ 	DBG_88E("###### %s ######\n", __func__);
+ }
 diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
-index 57c0f32586a4..b64f8851796b 100644
+index b64f8851796b..1ff0980e6bfb 100644
 --- a/drivers/staging/r8188eu/include/osdep_service.h
 +++ b/drivers/staging/r8188eu/include/osdep_service.h
-@@ -215,15 +215,9 @@ extern unsigned char RSN_TKIP_CIPHER[4];
+@@ -214,10 +214,8 @@ extern unsigned char RSN_TKIP_CIPHER[4];
+ #define rtw_update_mem_stat(flag, sz) do {} while (0)
  u8 *_rtw_vmalloc(u32 sz);
  u8 *_rtw_zvmalloc(u32 sz);
- void _rtw_vmfree(u8 *pbuf, u32 sz);
--u8 *_rtw_zmalloc(u32 sz);
--u8 *_rtw_malloc(u32 sz);
--void _rtw_mfree(u8 *pbuf, u32 sz);
+-void _rtw_vmfree(u8 *pbuf, u32 sz);
  #define rtw_vmalloc(sz)			_rtw_vmalloc((sz))
  #define rtw_zvmalloc(sz)			_rtw_zvmalloc((sz))
- #define rtw_vmfree(pbuf, sz)		_rtw_vmfree((pbuf), (sz))
--#define rtw_malloc(sz)			_rtw_malloc((sz))
--#define rtw_zmalloc(sz)			_rtw_zmalloc((sz))
--#define rtw_mfree(pbuf, sz)		_rtw_mfree((pbuf), (sz))
+-#define rtw_vmfree(pbuf, sz)		_rtw_vmfree((pbuf), (sz))
  
  void *rtw_malloc2d(int h, int w, int size);
  
 diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index 8ba2b81e32b8..5f4355cb03e7 100644
+index 5f4355cb03e7..11301e0f287a 100644
 --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
 +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -522,7 +522,7 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
- 		if (wep_key_len > 0) {
- 			wep_key_len = wep_key_len <= 5 ? 5 : 13;
- 			wep_total_len = wep_key_len + FIELD_OFFSET(struct ndis_802_11_wep, KeyMaterial);
--			pwep = (struct ndis_802_11_wep *)rtw_malloc(wep_total_len);
-+			pwep = kmalloc(wep_total_len, GFP_KERNEL);
- 			if (!pwep) {
- 				RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_err_, (" wpa_set_encryption: pwep allocate fail !!!\n"));
- 				goto exit;
-@@ -642,7 +642,7 @@ static int rtw_set_wpa_ie(struct adapter *padapter, char *pie, unsigned short ie
- 	}
- 
- 	if (ielen) {
--		buf = rtw_zmalloc(ielen);
-+		buf = kzalloc(ielen, GFP_KERNEL);
- 		if (!buf) {
- 			ret =  -ENOMEM;
- 			goto exit;
-@@ -2109,11 +2109,9 @@ static int rtw_wx_set_enc_ext(struct net_device *dev,
- 	int ret = 0;
- 
- 	param_len = sizeof(struct ieee_param) + pext->key_len;
--	param = (struct ieee_param *)rtw_malloc(param_len);
-+	param = kzalloc(param_len, GFP_KERNEL);
- 	if (!param)
--		return -1;
--
--	memset(param, 0, param_len);
-+		return -ENOMEM;
- 
- 	param->cmd = IEEE_CMD_SET_ENCRYPTION;
- 	memset(param->sta_addr, 0xff, ETH_ALEN);
-@@ -2194,8 +2192,8 @@ static int rtw_wx_read32(struct net_device *dev,
- 	padapter = (struct adapter *)rtw_netdev_priv(dev);
- 	p = &wrqu->data;
- 	len = p->length;
--	ptmp = (u8 *)rtw_malloc(len);
--	if (NULL == ptmp)
-+	ptmp = kmalloc(len, GFP_KERNEL);
-+	if (!ptmp)
+@@ -5575,7 +5575,7 @@ static int rtw_wx_set_priv(struct net_device *dev,
  		return -ENOMEM;
  
- 	if (copy_from_user(ptmp, p->pointer, len)) {
-@@ -2464,7 +2462,7 @@ static int rtw_mp_ioctl_hdl(struct net_device *dev, struct iw_request_info *info
- 	pparmbuf = NULL;
- 	bset = (u8)(p->flags & 0xFFFF);
- 	len = p->length;
--	pparmbuf = (u8 *)rtw_malloc(len);
-+	pparmbuf = kmalloc(len, GFP_KERNEL);
- 	if (!pparmbuf) {
- 		ret = -ENOMEM;
- 		goto _rtw_mp_ioctl_hdl_exit;
-@@ -4674,7 +4672,7 @@ static int wpa_supplicant_ioctl(struct net_device *dev, struct iw_point *p)
- 		goto out;
- 	}
- 
--	param = (struct ieee_param *)rtw_malloc(p->length);
-+	param = kmalloc(p->length, GFP_KERNEL);
- 	if (!param) {
- 		ret = -ENOMEM;
- 		goto out;
-@@ -4728,13 +4726,13 @@ static u8 set_pairwise_key(struct adapter *padapter, struct sta_info *psta)
- 	struct cmd_priv	*pcmdpriv = &padapter->cmdpriv;
- 	u8 res = _SUCCESS;
- 
--	ph2c = (struct cmd_obj *)rtw_zmalloc(sizeof(struct cmd_obj));
-+	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
- 	if (!ph2c) {
- 		res = _FAIL;
- 		goto exit;
- 	}
- 
--	psetstakey_para = (struct set_stakey_parm *)rtw_zmalloc(sizeof(struct set_stakey_parm));
-+	psetstakey_para = kzalloc(sizeof(struct set_stakey_parm), GFP_KERNEL);
- 	if (!psetstakey_para) {
- 		kfree(ph2c);
- 		res = _FAIL;
-@@ -4766,12 +4764,12 @@ static int set_group_key(struct adapter *padapter, u8 *key, u8 alg, int keyid)
- 
- 	DBG_88E("%s\n", __func__);
- 
--	pcmd = (struct cmd_obj *)rtw_zmalloc(sizeof(struct	cmd_obj));
-+	pcmd = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
- 	if (!pcmd) {
- 		res = _FAIL;
- 		goto exit;
- 	}
--	psetkeyparm = (struct setkey_parm *)rtw_zmalloc(sizeof(struct setkey_parm));
-+	psetkeyparm = kzalloc(sizeof(struct setkey_parm), GFP_KERNEL);
- 	if (!psetkeyparm) {
- 		kfree(pcmd);
- 		res = _FAIL;
-@@ -4887,14 +4885,11 @@ static int rtw_set_encryption(struct net_device *dev, struct ieee_param *param,
- 		if (wep_key_len > 0) {
- 			wep_key_len = wep_key_len <= 5 ? 5 : 13;
- 			wep_total_len = wep_key_len + FIELD_OFFSET(struct ndis_802_11_wep, KeyMaterial);
--			pwep = (struct ndis_802_11_wep *)rtw_malloc(wep_total_len);
-+			pwep = kzalloc(wep_total_len, GFP_KERNEL);
- 			if (!pwep) {
--				DBG_88E(" r871x_set_encryption: pwep allocate fail !!!\n");
-+				ret = -ENOMEM;
- 				goto exit;
- 			}
--
--			memset(pwep, 0, wep_total_len);
--
- 			pwep->KeyLength = wep_key_len;
- 			pwep->Length = wep_total_len;
- 		}
-@@ -5315,7 +5310,7 @@ static int rtw_set_wps_beacon(struct net_device *dev, struct ieee_param *param,
- 	}
- 
- 	if (ie_len > 0) {
--		pmlmepriv->wps_beacon_ie = rtw_malloc(ie_len);
-+		pmlmepriv->wps_beacon_ie = kmalloc(ie_len, GFP_KERNEL);
- 		pmlmepriv->wps_beacon_ie_len = ie_len;
- 		if (!pmlmepriv->wps_beacon_ie) {
- 			DBG_88E("%s()-%d: rtw_malloc() ERROR!\n", __func__, __LINE__);
-@@ -5352,7 +5347,7 @@ static int rtw_set_wps_probe_resp(struct net_device *dev, struct ieee_param *par
- 	}
- 
- 	if (ie_len > 0) {
--		pmlmepriv->wps_probe_resp_ie = rtw_malloc(ie_len);
-+		pmlmepriv->wps_probe_resp_ie = kmalloc(ie_len, GFP_KERNEL);
- 		pmlmepriv->wps_probe_resp_ie_len = ie_len;
- 		if (!pmlmepriv->wps_probe_resp_ie) {
- 			DBG_88E("%s()-%d: rtw_malloc() ERROR!\n", __func__, __LINE__);
-@@ -5384,11 +5379,11 @@ static int rtw_set_wps_assoc_resp(struct net_device *dev, struct ieee_param *par
- 	}
- 
- 	if (ie_len > 0) {
--		pmlmepriv->wps_assoc_resp_ie = rtw_malloc(ie_len);
-+		pmlmepriv->wps_assoc_resp_ie = kmalloc(ie_len, GFP_KERNEL);
- 		pmlmepriv->wps_assoc_resp_ie_len = ie_len;
- 		if (!pmlmepriv->wps_assoc_resp_ie) {
- 			DBG_88E("%s()-%d: rtw_malloc() ERROR!\n", __func__, __LINE__);
--			return -EINVAL;
-+			return -ENOMEM;
- 		}
- 
- 		memcpy(pmlmepriv->wps_assoc_resp_ie, param->u.bcn_ie.buf, ie_len);
-@@ -5491,7 +5486,7 @@ static int rtw_hostapd_ioctl(struct net_device *dev, struct iw_point *p)
- 		goto out;
- 	}
- 
--	param = (struct ieee_param *)rtw_malloc(p->length);
-+	param = kmalloc(p->length, GFP_KERNEL);
- 	if (!param) {
- 		ret = -ENOMEM;
- 		goto out;
-@@ -5600,9 +5595,8 @@ static int rtw_wx_set_priv(struct net_device *dev,
- 			kfree(pmlmepriv->wps_probe_req_ie);
- 			pmlmepriv->wps_probe_req_ie = NULL;
- 
--			pmlmepriv->wps_probe_req_ie = rtw_malloc(cp_sz);
-+			pmlmepriv->wps_probe_req_ie = kmalloc(cp_sz, GFP_KERNEL);
- 			if (!pmlmepriv->wps_probe_req_ie) {
--				pr_info("%s()-%d: rtw_malloc() ERROR!\n", __func__, __LINE__);
- 				ret =  -EINVAL;
- 				goto FREE_EXT;
- 			}
-@@ -5674,12 +5668,12 @@ static int rtw_mp_efuse_get(struct net_device *dev,
- 	pEfuseHal = &haldata->EfuseHal;
- 
- 	err = 0;
--	data = _rtw_zmalloc(EFUSE_BT_MAX_MAP_LEN);
-+	data = kzalloc(EFUSE_BT_MAX_MAP_LEN, GFP_KERNEL);
- 	if (!data) {
- 		err = -ENOMEM;
- 		goto exit;
- 	}
--	rawdata = _rtw_zmalloc(EFUSE_BT_MAX_MAP_LEN);
-+	rawdata = kzalloc(EFUSE_BT_MAX_MAP_LEN, GFP_KERNEL);
- 	if (!rawdata) {
- 		err = -ENOMEM;
- 		goto exit;
-@@ -5989,22 +5983,22 @@ static int rtw_mp_efuse_set(struct net_device *dev,
- 	haldata = GET_HAL_DATA(padapter);
- 	pEfuseHal = &haldata->EfuseHal;
- 	err = 0;
--	setdata = _rtw_zmalloc(1024);
-+	setdata = kzalloc(1024, GFP_KERNEL);
- 	if (!setdata) {
- 		err = -ENOMEM;
- 		goto exit;
- 	}
--	ShadowMapBT = _rtw_malloc(EFUSE_BT_MAX_MAP_LEN);
-+	ShadowMapBT = kmalloc(EFUSE_BT_MAX_MAP_LEN, GFP_KERNEL);
- 	if (!ShadowMapBT) {
- 		err = -ENOMEM;
- 		goto exit;
- 	}
--	ShadowMapWiFi = _rtw_malloc(EFUSE_MAP_SIZE);
-+	ShadowMapWiFi = kmalloc(EFUSE_MAP_SIZE, GFP_KERNEL);
- 	if (!ShadowMapWiFi) {
- 		err = -ENOMEM;
- 		goto exit;
- 	}
--	setrawdata = _rtw_malloc(EFUSE_MAX_SIZE);
-+	setrawdata = kmalloc(EFUSE_MAX_SIZE, GFP_KERNEL);
- 	if (!setrawdata) {
- 		err = -ENOMEM;
- 		goto exit;
-@@ -7486,7 +7480,7 @@ static int rtw_test(
- 	DBG_88E("+%s\n", __func__);
- 	len = wrqu->data.length;
- 
--	pbuf = (u8 *)rtw_zmalloc(len);
-+	pbuf = kzalloc(len, GFP_KERNEL);
- 	if (!pbuf) {
- 		DBG_88E("%s: no memory!\n", __func__);
- 		return -ENOMEM;
-@@ -7832,7 +7826,7 @@ static int rtw_ioctl_wext_private(struct net_device *dev, union iwreq_data *wrq_
- 	input_len = wdata.data.length;
- 	if (input_len == 0)
+ 	if (copy_from_user(ext, dwrq->pointer, len)) {
+-		rtw_vmfree(ext, len);
++		vfree(ext);
  		return -EFAULT;
--	input = rtw_zmalloc(input_len);
-+	input = kzalloc(input_len, GFP_KERNEL);
- 	if (NULL == input)
- 		return -ENOMEM;
- 	if (copy_from_user(input, wdata.data.pointer, input_len)) {
-@@ -7895,7 +7889,7 @@ static int rtw_ioctl_wext_private(struct net_device *dev, union iwreq_data *wrq_
- 		k = j;
  	}
  
--	buffer = rtw_zmalloc(4096);
-+	buffer = kzalloc(4096, GFP_KERNEL);
- 	if (NULL == buffer) {
- 		err = -ENOMEM;
- 		goto exit;
-@@ -8044,7 +8038,7 @@ static int rtw_ioctl_wext_private(struct net_device *dev, union iwreq_data *wrq_
- 		else
- 			n = wdata.data.length;
+@@ -5614,7 +5614,7 @@ static int rtw_wx_set_priv(struct net_device *dev,
  
--		output = rtw_zmalloc(4096);
-+		output = kzalloc(4096, GFP_KERNEL);
- 		if (NULL == output) {
- 			err =  -ENOMEM;
- 			goto exit;
-diff --git a/drivers/staging/r8188eu/os_dep/mlme_linux.c b/drivers/staging/r8188eu/os_dep/mlme_linux.c
-index 766b346afbb8..0855b218f7b1 100644
---- a/drivers/staging/r8188eu/os_dep/mlme_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/mlme_linux.c
-@@ -119,10 +119,9 @@ void rtw_report_sec_ie(struct adapter *adapter, u8 authmode, u8 *sec_ie)
- 	if (authmode == _WPA_IE_ID_) {
- 		RT_TRACE(_module_mlme_osdep_c_, _drv_info_,
- 			 ("rtw_report_sec_ie, authmode=%d\n", authmode));
--		buff = rtw_malloc(IW_CUSTOM_MAX);
-+		buff = kzalloc(IW_CUSTOM_MAX, GFP_KERNEL);
- 		if (!buff)
- 			return;
--		memset(buff, 0, IW_CUSTOM_MAX);
- 		p = buff;
- 		p += sprintf(p, "ASSOCINFO(ReqIEs =");
- 		len = sec_ie[1]+2;
+ FREE_EXT:
+ 
+-	rtw_vmfree(ext, len);
++	vfree(ext);
+ 
+ 	return ret;
+ }
 diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
-index 250d499e4d4a..9cf9f272cccb 100644
+index 9cf9f272cccb..d3603e34eeb4 100644
 --- a/drivers/staging/r8188eu/os_dep/osdep_service.c
 +++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
-@@ -58,32 +58,13 @@ inline void _rtw_vmfree(u8 *pbuf, u32 sz)
- 	vfree(pbuf);
+@@ -53,11 +53,6 @@ inline u8 *_rtw_zvmalloc(u32 sz)
+ 	return pbuf;
  }
  
--u8 *_rtw_malloc(u32 sz)
+-inline void _rtw_vmfree(u8 *pbuf, u32 sz)
 -{
--	u8	*pbuf = NULL;
--
--	pbuf = kmalloc(sz, in_interrupt() ? GFP_ATOMIC : GFP_KERNEL);
--	return pbuf;
--}
--
--u8 *_rtw_zmalloc(u32 sz)
--{
--	u8	*pbuf = _rtw_malloc(sz);
--
--	if (pbuf)
--		memset(pbuf, 0, sz);
--	return pbuf;
+-	vfree(pbuf);
 -}
 -
  void *rtw_malloc2d(int h, int w, int size)
  {
  	int j;
+@@ -230,7 +225,7 @@ void rtw_free_netdev(struct net_device *netdev)
+ 	if (!pnpi->priv)
+ 		goto RETURN;
  
--	void **a = (void **)rtw_zmalloc(h*sizeof(void *) + h*w*size);
--	if (!a) {
--		pr_info("%s: alloc memory fail!\n", __func__);
-+	void **a = kzalloc(h * sizeof(void *) + h * w * size, GFP_KERNEL);
-+	if (!a)
- 		return NULL;
--	}
+-	rtw_vmfree(pnpi->priv, pnpi->sizeof_priv);
++	vfree(pnpi->priv);
+ 	free_netdev(netdev);
  
- 	for (j = 0; j < h; j++)
- 		a[j] = ((char *)(a+h)) + j*w*size;
-@@ -331,7 +312,7 @@ void rtw_buf_update(u8 **buf, u32 *buf_len, u8 *src, u32 src_len)
- 		goto keep_ori;
- 
- 	/* duplicate src */
--	dup = rtw_malloc(src_len);
-+	dup = kmalloc(src_len, GFP_ATOMIC);
- 	if (dup) {
- 		dup_len = src_len;
- 		memcpy(dup, src, dup_len);
-@@ -423,8 +404,7 @@ struct rtw_cbuf *rtw_cbuf_alloc(u32 size)
- {
- 	struct rtw_cbuf *cbuf;
- 
--	cbuf = (struct rtw_cbuf *)rtw_malloc(sizeof(*cbuf) +
--	       sizeof(void *)*size);
-+	cbuf = kmalloc(sizeof(*cbuf) + sizeof(void *)*size, GFP_KERNEL);
- 
- 	if (cbuf) {
- 		cbuf->write = 0;
+ RETURN:
 diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-index fffc2c0d9efb..f3321a6653fc 100644
+index f3321a6653fc..b1184c36ddfc 100644
 --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
 +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-@@ -118,7 +118,7 @@ static u8 rtw_init_intf_priv(struct dvobj_priv *dvobj)
- 
- 	_rtw_mutex_init(&dvobj->usb_vendor_req_mutex);
- 
--	dvobj->usb_alloc_vendor_req_buf = rtw_zmalloc(MAX_USB_IO_CTL_SIZE);
-+	dvobj->usb_alloc_vendor_req_buf = kzalloc(MAX_USB_IO_CTL_SIZE, GFP_KERNEL);
- 	if (!dvobj->usb_alloc_vendor_req_buf) {
- 		DBG_88E("alloc usb_vendor_req_buf failed... /n");
- 		rst = _FAIL;
-@@ -150,7 +150,7 @@ static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
- 	struct usb_endpoint_descriptor	*pendp_desc;
- 	struct usb_device	*pusbd;
- 
--	pdvobjpriv = (struct dvobj_priv *)rtw_zmalloc(sizeof(*pdvobjpriv));
-+	pdvobjpriv = kzalloc(sizeof(*pdvobjpriv), GFP_KERNEL);
- 	if (!pdvobjpriv)
- 		goto exit;
- 
-diff --git a/drivers/staging/r8188eu/os_dep/xmit_linux.c b/drivers/staging/r8188eu/os_dep/xmit_linux.c
-index 421328173984..df9bdbff91ac 100644
---- a/drivers/staging/r8188eu/os_dep/xmit_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/xmit_linux.c
-@@ -76,7 +76,7 @@ int rtw_os_xmit_resource_alloc(struct adapter *padapter, struct xmit_buf *pxmitb
- {
- 	int i;
- 
--	pxmitbuf->pallocated_buf = rtw_zmalloc(alloc_sz);
-+	pxmitbuf->pallocated_buf = kzalloc(alloc_sz, GFP_KERNEL);
- 	if (!pxmitbuf->pallocated_buf)
- 		return _FAIL;
- 
+@@ -702,7 +702,7 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
+ 		if (pnetdev)
+ 			rtw_free_netdev(pnetdev);
+ 		else if (padapter)
+-			rtw_vmfree((u8 *)padapter, sizeof(*padapter));
++			vfree(padapter);
+ 		padapter = NULL;
+ 	}
+ exit:
 -- 
 2.32.0
 
