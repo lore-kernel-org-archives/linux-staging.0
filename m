@@ -1,27 +1,32 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D780D70
-	for <linux-staging@lists.linux.dev>; Thu,  5 Aug 2021 11:17:49 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 01ED2600EF;
-	Thu,  5 Aug 2021 11:17:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E01DF70
+	for <linux-staging@lists.linux.dev>; Thu,  5 Aug 2021 11:18:33 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DABF0600EF;
+	Thu,  5 Aug 2021 11:18:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1628162269;
-	bh=AsV/wDbpXC+UOCKSfs8l5fzQWjjqdm3HA4mMajue9/E=;
+	s=korg; t=1628162313;
+	bh=DdQzlZ8vWjMbBjovaP8o9XoM1Irb0BPSwOEizsTvoPY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jcAzjAPrg3YBlPkj1H7r6YAfJXoCH1Ndh5cB22qa4K4rV3uuq5NbbafmcItCgLpO7
-	 YgEAAt/Yk2A07O9Y3RqHm8KPmqL0S+EgcwGr27LI9ajPA3QbCaFdcOypiy7fu7vMTw
-	 TwHj1njGqqru3KEW8Iqwc/5ks7zg9IP2YPOuYd8E=
-Date: Thu, 5 Aug 2021 13:17:47 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Jhih-Ming Huang <fbihjmeric@gmail.com>
-Cc: fabioaiuto83@gmail.com, ross.schm.dev@gmail.com, maqianga@uniontech.com,
-	marcocesati@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v7] rtw_security: fix cast to restricted __le32
-Message-ID: <YQvI2z/W+Crfb4CE@kroah.com>
-References: <YOIGbc2ymnWrThVK@kroah.com>
- <20210801155152.242089-1-fbihjmeric@gmail.com>
+	b=T6Y4IlN3BosamOneCduHXzFLrjeCTqR+kC/hL+fUn1zkZ0KB99FGtBi6f/bzJ+22a
+	 QBynemR7NZnbRCiVATHQfiIj9HKfnefJ5FhngZBbZKqyqgI9BbIsCQ7E7nUjBdmWKA
+	 g3Fwl4+4xKHj5kn8lTkB6F2mJr5E7nyWBOqM09hk=
+Date: Thu, 5 Aug 2021 13:18:31 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Len Baker <len.baker@gmx.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Phil Reid <preid@electromag.com.au>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	dri-devel <dri-devel@lists.freedesktop.org>,
+	"open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+	linux-staging@lists.linux.dev,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 0/3] Remove all strcpy() uses
+Message-ID: <YQvJB5s1zY2yO87D@kroah.com>
+References: <20210801085155.3170-1-len.baker@gmx.com>
+ <CAHp75VcD_Kqedpkw-Pj+uQbWqdu_9FhXqJS5TuGUPoVv2x45-Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,24 +35,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210801155152.242089-1-fbihjmeric@gmail.com>
+In-Reply-To: <CAHp75VcD_Kqedpkw-Pj+uQbWqdu_9FhXqJS5TuGUPoVv2x45-Q@mail.gmail.com>
 
-On Sun, Aug 01, 2021 at 11:51:52PM +0800, Jhih-Ming Huang wrote:
-> This patch fixes the sparse warning of fix cast to restricted __le32.
+On Sun, Aug 01, 2021 at 02:40:40PM +0300, Andy Shevchenko wrote:
+> On Sun, Aug 1, 2021 at 11:53 AM Len Baker <len.baker@gmx.com> wrote:
+> >
+> > strcpy() performs no bounds checking on the destination buffer. This
+> > could result in linear overflows beyond the end of the buffer, leading
+> > to all kinds of misbehaviors. So, this serie removes all strcpy uses
+> > from the "staging/fbtft" subsystem.
+> >
+> > Also, refactor the code a bit to follow the kernel coding-style and
+> > avoid unnecessary variable initialization.
 > 
-> There was a change for replacing private CRC-32 routines with in kernel
-> ones.
-> However, the author used le32_to_cpu to convert crc32_le(), and we
-> should use cpu_to_le32.
+> I don't see patch 3 (even on lore.kernel.org).
 > 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Jhih-Ming Huang <fbihjmeric@gmail.com>
-> ---
->  changes from v6:
->    using get_unaligned_le32 to get the value and comparing it with crc,
->    instead of using memcmp with raw pointers.
-> 
->  drivers/staging/rtl8723bs/core/rtw_security.c | 12 +++---------
->  1 file changed, 3 insertions(+), 9 deletions(-)
+> Greg, Geert, does it make sense to move this driver outside of staging?
 
-Does not apply to the tree :(
+If you clean up everything that needs to be done, yes, please do.
+
+thanks,
+
+greg k-h
