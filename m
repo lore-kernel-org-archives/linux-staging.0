@@ -1,89 +1,99 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9FA270
-	for <linux-staging@lists.linux.dev>; Thu,  5 Aug 2021 18:29:46 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0F37660F02;
-	Thu,  5 Aug 2021 18:29:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1628188186;
-	bh=g+LoOLtzde4IFS+UuVya/xo96UmrefQYwhGrlJnmR7g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Oae8wfEMxY/Am+GcbqdvZs4z6kpzYIGvpoABCoPgAfwc+xG0mYtPgO8DuZytQiy2+
-	 tVQHkPC16jomktkLPV+GZ7xQsmit6MaoV3MIcZqoynjZpmWqSvEijan6dnVu+ZKihN
-	 JMmTjKlXcnVEIwGho+nlSLdch262MFBCF6Sj7atY=
-Date: Thu, 5 Aug 2021 20:29:44 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Martin Kaiser <martin@kaiser.cx>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: r8188eu: remove label at the end of a
- function
-Message-ID: <YQwuGLEpq7O+P2GM@kroah.com>
-References: <20210805130750.7974-1-martin@kaiser.cx>
- <20210805145026.14572-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E85970
+	for <linux-staging@lists.linux.dev>; Thu,  5 Aug 2021 18:37:26 +0000 (UTC)
+Received: by mail-ot1-f51.google.com with SMTP id h63-20020a9d14450000b02904ce97efee36so6147343oth.7
+        for <linux-staging@lists.linux.dev>; Thu, 05 Aug 2021 11:37:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0+AYqAU56uuLxdBlSQMIoaHuTENUKbjs7q2AhKp/GAA=;
+        b=H+cnN1lGZC3Lqpoq1JPvwfrhBKJ/H/+h2VuRiT8kwaa6oCMkf1FCdI9oa/1kZ1otSi
+         z8YkvP/SZlU8tsV09PzOIqUbM834fCN+0KzGtZj9O+xTow2InaHQD/UJvljl+O5uMU57
+         lSKo7VuYQvdijSxULPkvK/SfGbw6rnxoeQcjxg2KkjLPpfgAnwLCDnwrwPBCQAW/TQXO
+         JAPgv5q4PBn6Seny1fWQ1kzVCSC1ZqgHCDEFjkzz1sIG9Sz5bL/s/1/LrrQWcLzIkAds
+         VlBPIUzrXojPnprnMK71+EnKIQTLYvcuLyOGOX+9gu8PIA43KTticdIu6ty6Xzpt8Q1F
+         zZXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=0+AYqAU56uuLxdBlSQMIoaHuTENUKbjs7q2AhKp/GAA=;
+        b=mm2wvOIalWT4u23UHrIZhjnF4lg/GHYsq4PXBrvomZ2+aKm4VqrPuL9Rj4R+0SlCp1
+         DLisuzF6Xk9LCcTscNhWRIxlEmWzIOJdarwaDEDk5C7rnkHRHs34vb3C/SlSXtokut/B
+         DoOvKDyTuN9vuEQ5tr8b/qZuyT5Gm1ezmHFzlc+beuOoZsAuQXivJbW78+5iKY4LS2fC
+         Lv5+8V9Oi/pSllFsuMSeRRW4Hkah+qyBeZ3ayvy7ol2kd/cHkeEUewV+4SvC/Mmhc1s2
+         9DhcR8FPFBPK401p4wyTUZRPDEdkuEdhwA1f3cySeNUkdZ6/gCfKlPDxwMYzEgPhzsuQ
+         n1iQ==
+X-Gm-Message-State: AOAM531S8e5j9zDHIVegBd5df+VW6XhfE4Ghmd0HOmQ1Q6mGk96FsYyD
+	cZbfLKMreWHg9jajvYAsQKE=
+X-Google-Smtp-Source: ABdhPJya9L60z9ML0olRmv1xTCXD9anpu2Of2vMLzjnixwpRJpO3YarSeAPBjs59rdK6G0elN1OLgQ==
+X-Received: by 2002:a9d:1917:: with SMTP id j23mr4754987ota.201.1628188645651;
+        Thu, 05 Aug 2021 11:37:25 -0700 (PDT)
+Received: from 2603-8090-2005-39b3-0000-0000-0000-1016.res6.spectrum.com.com (2603-8090-2005-39b3-0000-0000-0000-1016.res6.spectrum.com. [2603:8090:2005:39b3::1016])
+        by smtp.gmail.com with ESMTPSA id q32sm1156726oiw.37.2021.08.05.11.37.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Aug 2021 11:37:25 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+To: gregkh@linuxfoundation.org
+Cc: phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Larry Finger <Larry.Finger@lwfinger.net>
+Subject: [PATCH 0/5] Do more cleanups
+Date: Thu,  5 Aug 2021 13:37:12 -0500
+Message-Id: <20210805183717.23007-1-Larry.Finger@lwfinger.net>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210805145026.14572-1-martin@kaiser.cx>
 
-On Thu, Aug 05, 2021 at 04:50:26PM +0200, Martin Kaiser wrote:
-> Compilation fails for me
-> 
-> drivers/staging/r8188eu/hal/rtl8188e_dm.c: In function ‘rtl8188e_HalDmWatchDog’:
-> drivers/staging/r8188eu/hal/rtl8188e_dm.c:182:1: error: label at end of compound statement
->   182 | skip_dm:
->       | ^~~~~~~
-> 
-> Remove the label at the end of the function. Replace the jump to this label
-> with a return statement.
-> 
-> Fixes: b398ff88aa36 ("staging: r8188eu: remove return from void functions")
-> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
-> ---
-> v2:
->  - add Fixes tag
-> 
->  drivers/staging/r8188eu/hal/rtl8188e_dm.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_dm.c b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-> index b5f42127a751..72b3130eddd2 100644
-> --- a/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-> +++ b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-> @@ -145,7 +145,7 @@ void rtl8188e_HalDmWatchDog(struct adapter *Adapter)
->  	hw_init_completed = Adapter->hw_init_completed;
->  
->  	if (!hw_init_completed)
-> -		goto skip_dm;
-> +		return;
->  
->  	fw_cur_in_ps = Adapter->pwrctrlpriv.bFwCurrentInPSMode;
->  	rtw_hal_get_hwreg(Adapter, HW_VAR_FWLPS_RF_ON, (u8 *)(&fw_ps_awake));
-> @@ -179,7 +179,7 @@ void rtl8188e_HalDmWatchDog(struct adapter *Adapter)
->  		ODM_CmnInfoUpdate(&hal_data->odmpriv, ODM_CMNINFO_LINK, bLinked);
->  		ODM_DMWatchdog(&hal_data->odmpriv);
->  	}
-> -skip_dm:
-> +
->  	/*  Check GPIO to determine current RF on/off and Pbc status. */
->  	/*  Check Hardware Radio ON/OFF or not */
->  }
-> -- 
-> 2.20.1
+This collection consists of the previous patches that needed to be
+refactored plus the correct way to remove rtw_buf_free().
 
-https://lore.kernel.org/r/20210805140941.9130-1-straube.linux@gmail.com
-just submitted the same thing right before you, I'll go add both
-signed-off-by as you both did the same thing...
+Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
 
-thanks,
 
-greg k-h
+Larry Finger (5):
+  staging: r8188eu: Remove wrappers for kalloc() and kzalloc()
+  staging: r8188eu: Remove wrapper around vfree
+  staging: r8188eu: Remove all calls to _rtw_spinlock_free()
+  staging: r8188eu: Remove more empty routines
+  staging: r8188eu: Remove rtw_buf_free()
+
+ drivers/staging/r8188eu/core/rtw_ap.c         |  8 +--
+ drivers/staging/r8188eu/core/rtw_br_ext.c     |  2 +-
+ drivers/staging/r8188eu/core/rtw_cmd.c        | 14 ++--
+ drivers/staging/r8188eu/core/rtw_efuse.c      |  4 +-
+ drivers/staging/r8188eu/core/rtw_mlme.c       | 19 ++---
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 39 +++++------
+ drivers/staging/r8188eu/core/rtw_mp.c         |  5 +-
+ drivers/staging/r8188eu/core/rtw_p2p.c        |  8 +--
+ drivers/staging/r8188eu/core/rtw_recv.c       | 16 +----
+ drivers/staging/r8188eu/core/rtw_sta_mgt.c    | 48 +------------
+ drivers/staging/r8188eu/core/rtw_wlan_util.c  |  2 +-
+ drivers/staging/r8188eu/core/rtw_xmit.c       | 26 ++-----
+ drivers/staging/r8188eu/hal/odm_interface.c   |  2 +-
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  2 +-
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 10 +--
+ drivers/staging/r8188eu/hal/rtl8188eu_recv.c  |  3 +-
+ drivers/staging/r8188eu/hal/usb_halinit.c     |  2 +-
+ .../staging/r8188eu/include/osdep_service.h   | 10 ---
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  | 70 +++++++++----------
+ drivers/staging/r8188eu/os_dep/mlme_linux.c   |  3 +-
+ drivers/staging/r8188eu/os_dep/os_intfs.c     |  2 -
+ .../staging/r8188eu/os_dep/osdep_service.c    | 46 ++----------
+ drivers/staging/r8188eu/os_dep/usb_intf.c     |  6 +-
+ drivers/staging/r8188eu/os_dep/xmit_linux.c   |  2 +-
+ 24 files changed, 105 insertions(+), 244 deletions(-)
+
+-- 
+2.32.0
+
