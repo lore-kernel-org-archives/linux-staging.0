@@ -1,92 +1,148 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9CD270
-	for <linux-staging@lists.linux.dev>; Thu,  5 Aug 2021 22:03:53 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: ezequiel)
-	with ESMTPSA id 873A21F44331
-Message-ID: <6761bb11f4554e9f9cbe468b5ff8f851c57515ef.camel@collabora.com>
-Subject: Re: [PATCH] media: hantro: Fix check for single irq
-From: Ezequiel Garcia <ezequiel@collabora.com>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>, p.zabel@pengutronix.de
-Cc: mchehab@kernel.org, gregkh@linuxfoundation.org,
- hverkuil-cisco@xs4all.nl,  emil.velikov@collabora.com,
- linux-media@vger.kernel.org,  linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev,  linux-kernel@vger.kernel.org
-Date: Thu, 05 Aug 2021 19:03:36 -0300
-In-Reply-To: <20210805190416.332563-1-jernej.skrabec@gmail.com>
-References: <20210805190416.332563-1-jernej.skrabec@gmail.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2DC470
+	for <linux-staging@lists.linux.dev>; Thu,  5 Aug 2021 23:47:29 +0000 (UTC)
+Received: by mail-oi1-f175.google.com with SMTP id x15so9636967oic.9
+        for <linux-staging@lists.linux.dev>; Thu, 05 Aug 2021 16:47:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=OQWDDlOSX9gtP+071Su50rAXqbgHCyyr9WMmSuYegz0=;
+        b=mELehyYOMFONKRgWnZjlahZBcRMHzxQoGbavM8+p29NSvz/+ZJzKkGWJIvCvYs2SXC
+         R1Ak+74R5ZRMLd0S2bX08Dm2XJYNiEN3lUcyy/DDRacZuQtdLF+3knnl6H6fT3Tgk7sP
+         +Eqeqb461S0MC8jxC702FJyyhgcHichDuwInm2xAKVHNad3iom31+B8eRIl+SPZTQZn+
+         Erz3nIRvyywpFIEWDn2CPoFRHjkW1AJagjdS3qqohr0knKV/1GxVSvV+/wozgpelfpDV
+         k/p0KYFijxMiyxbb5dzVLpLQEsNwundvZaLXIfjTq5N9TaxZZIhaDYD8R5KzVARhDs8J
+         /ZmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=OQWDDlOSX9gtP+071Su50rAXqbgHCyyr9WMmSuYegz0=;
+        b=Kodcu1Mg9GYvAIg9DytNCAUqhbuh600/MEzbfgC9fHmK0yy2G3MshiAuNf++hu0cq2
+         wABL6gwRXM/M84KUbjaWnqqWN4Tww+2a2Ex/iCHGnWPXsIX3o+fS8y/WCXbn0H1674P5
+         T7J5wYCo9Ovkc3WRQ9pRKUkilS41Jbg9vh8l7aOXs6sTeeNE220gadYs4PitQ9/Rm25G
+         xUQXD1O189wOK+wClk4RIr+Y2oZgxzcYy/2sTaI3XnQ+5HBx1q5bU1ZwSe4cYrDQAqmy
+         aLj478uM1LEMNWWQiLoc1TNTxIifsVxv0lD1ooKTLe14PfMgNuIDou2qfL14qyQR3gq6
+         Ioxg==
+X-Gm-Message-State: AOAM531p/337d7WGehOJ9qKChYUnaw530GpQSX7RGZH+ABUVwvwNEmLD
+	QhVcgBzIoeo4DAkrZsNiCno=
+X-Google-Smtp-Source: ABdhPJw8+nnZbm3ybJZQNL/TB0QpC7SB2iW6QwY4lPZFHx7hFBIAzbe07xsiqjR5rCn9fj9gYLqAKQ==
+X-Received: by 2002:a05:6808:1388:: with SMTP id c8mr7323392oiw.172.1628207248842;
+        Thu, 05 Aug 2021 16:47:28 -0700 (PDT)
+Received: from 2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com (2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com. [2603:8090:2005:39b3::100a])
+        by smtp.gmail.com with ESMTPSA id bc42sm1030098oob.39.2021.08.05.16.47.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Aug 2021 16:47:28 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Subject: Re: [PATCH] staging: r8188eu: replace custom macros with
+ is_broadcast_ether_addr
+To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
+Cc: phil@philpotter.co.uk, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20210805205010.31192-1-straube.linux@gmail.com>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+Message-ID: <32466d30-6259-4752-281b-875158ad307a@lwfinger.net>
+Date: Thu, 5 Aug 2021 18:47:26 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210805205010.31192-1-straube.linux@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Hi Jernej,
-
-On Thu, 2021-08-05 at 21:04 +0200, Jernej Skrabec wrote:
-> Some cores use only one interrupt and in such case interrupt name in DT
-> is not needed. Driver supposedly accounted that, but due to the wrong
-> field check it never worked. Fix that.
+On 8/5/21 3:50 PM, Michael Straube wrote:
+> Replace usage of custom macros with is_broadcast_ether_addr. All buffers
+> are properly aligned. Remove the now unsued macros MacAddr_isBcst and
+> IS_MAC_ADDRESS_BROADCAST.
 > 
-> Fixes: 18d6c8b7b4c9 ("media: hantro: add fallback handling for single irq/clk")
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Signed-off-by: Michael Straube <straube.linux@gmail.com>
 > ---
->  drivers/staging/media/hantro/hantro_drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/staging/r8188eu/core/rtw_ioctl_set.c | 13 +++----------
+>   drivers/staging/r8188eu/core/rtw_recv.c      |  2 +-
+>   drivers/staging/r8188eu/include/wifi.h       |  7 -------
+>   3 files changed, 4 insertions(+), 18 deletions(-)
 > 
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index 8a2edd67f2c6..20e508158871 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -919,7 +919,7 @@ static int hantro_probe(struct platform_device *pdev)
->                 if (!vpu->variant->irqs[i].handler)
->                         continue;
->  
-> -               if (vpu->variant->num_clocks > 1) {
-> +               if (vpu->variant->num_irqs > 1) {
+> diff --git a/drivers/staging/r8188eu/core/rtw_ioctl_set.c b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+> index 3e2add5409cc..c354f720310c 100644
+> --- a/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+> +++ b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+> @@ -13,13 +13,6 @@
+>   
+>   extern void indicate_wx_scan_complete_event(struct adapter *padapter);
+>   
+> -#define IS_MAC_ADDRESS_BROADCAST(addr) \
+> -(\
+> -	((addr[0] == 0xff) && (addr[1] == 0xff) && \
+> -		(addr[2] == 0xff) && (addr[3] == 0xff) && \
+> -		(addr[4] == 0xff) && (addr[5] == 0xff))  ? true : false \
+> -)
+> -
+>   u8 rtw_validate_ssid(struct ndis_802_11_ssid *ssid)
+>   {
+>   	u8	 i;
+> @@ -656,8 +649,8 @@ u8 rtw_set_802_11_add_key(struct adapter *padapter, struct ndis_802_11_key *key)
+>   		}
+>   
+>   		/*  check BSSID */
+> -		if (IS_MAC_ADDRESS_BROADCAST(key->BSSID) == true) {
+> -			RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_, ("MacAddr_isBcst(key->BSSID)\n"));
+> +		if (is_broadcast_ether_addr(key->BSSID)) {
+> +			RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_, ("is_broadcast_ether_addr(key->BSSID)\n"));
+>   			ret = false;
+>   			goto exit;
+>   		}
+> @@ -744,7 +737,7 @@ u8 rtw_set_802_11_add_key(struct adapter *padapter, struct ndis_802_11_key *key)
+>   				 padapter->securitypriv.dot118021XGrpPrivacy, key->KeyLength));
+>   		}
+>   
+> -		if ((check_fwstate(&padapter->mlmepriv, WIFI_ADHOC_STATE) == true) && (IS_MAC_ADDRESS_BROADCAST(key->BSSID) == false)) {
+> +		if (check_fwstate(&padapter->mlmepriv, WIFI_ADHOC_STATE) && !is_broadcast_ether_addr(key->BSSID)) {
+>   			RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_,
+>   				 (" IBSS but BSSID is not Broadcast Address.\n"));
+>   			ret = _FAIL;
+> diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+> index aef32f029537..afab951d87fd 100644
+> --- a/drivers/staging/r8188eu/core/rtw_recv.c
+> +++ b/drivers/staging/r8188eu/core/rtw_recv.c
+> @@ -694,7 +694,7 @@ static void count_rx_stats(struct adapter *padapter, struct recv_frame *prframe,
+>   
+>   	padapter->mlmepriv.LinkDetectInfo.NumRxOkInPeriod++;
+>   
+> -	if ((!MacAddr_isBcst(pattrib->dst)) && (!IS_MCAST(pattrib->dst)))
+> +	if (!is_broadcast_ether_addr(pattrib->dst) && !IS_MCAST(pattrib->dst))
+>   		padapter->mlmepriv.LinkDetectInfo.NumRxUnicastOkInPeriod++;
+>   
+>   	if (sta)
+> diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
+> index 2c56d1d70d03..65fc677bf4eb 100644
+> --- a/drivers/staging/r8188eu/include/wifi.h
+> +++ b/drivers/staging/r8188eu/include/wifi.h
+> @@ -368,13 +368,6 @@ enum WIFI_REG_DOMAIN {
+>   
+>   #define GetAddr4Ptr(pbuf)	((unsigned char *)((size_t)(pbuf) + 24))
+>   
+> -#define MacAddr_isBcst(addr) \
+> -	( \
+> -	((addr[0] == 0xff) && (addr[1] == 0xff) && \
+> -	(addr[2] == 0xff) && (addr[3] == 0xff) && \
+> -	(addr[4] == 0xff) && (addr[5] == 0xff))  ? true : false \
+> -)
+> -
+>   static inline int IS_MCAST(unsigned char *da)
+>   {
+>   	if ((*da) & 0x01)
 
-Oops, thanks for spotting this.
- 
-How about this instead?
-
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index 31d8449ca1d2..af7054b04155 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -918,16 +918,15 @@ static int hantro_probe(struct platform_device *pdev)
-                if (!vpu->variant->irqs[i].handler)
-                        continue;
- 
--               if (vpu->variant->num_clocks > 1) {
--                       irq_name = vpu->variant->irqs[i].name;
--                       irq = platform_get_irq_byname(vpu->pdev, irq_name);
--               } else {
-+               irq_name = vpu->variant->irqs[i].name;
-+               irq = platform_get_irq_byname(vpu->pdev, irq_name);
-+               if (irq <= 0) {
-                        /*
--                        * If the driver has a single IRQ, chances are there
--                        * will be no actual name in the DT bindings.
-+                        * Missing interrupt-names property in device tree,
-+                        * looking up interrupts by index.
-                         */
-                        irq_name = "default";
--                       irq = platform_get_irq(vpu->pdev, 0);
-+                       irq = platform_get_irq(vpu->pdev, i);
-                }
-                if (irq <= 0)
-                        return -ENXIO;
+Acked-by: Larry Finger <Larry.Finger@lwfinger,net>
 
 
-
--- 
-Kindly,
-Ezequiel
 
