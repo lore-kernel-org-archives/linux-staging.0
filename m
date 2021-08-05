@@ -1,106 +1,105 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5387B70
-	for <linux-staging@lists.linux.dev>; Thu,  5 Aug 2021 11:52:50 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id m10-20020a17090a34cab0290176b52c60ddso8679739pjf.4
-        for <linux-staging@lists.linux.dev>; Thu, 05 Aug 2021 04:52:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C5070
+	for <linux-staging@lists.linux.dev>; Thu,  5 Aug 2021 12:06:13 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id i6so8055560edu.1
+        for <linux-staging@lists.linux.dev>; Thu, 05 Aug 2021 05:06:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mGypu+NaaW+Jhwv++tohvkOpOq2EXdTSw+wGzb6zcXY=;
-        b=GKXmOU+ySf+o3OukbvSv/pA5RbTOf44GtDdunsovYzvoPvUnPMlSz4t0g+UqM3SsnG
-         G1nzYSU4UXFic6w/8n6qihydAo38qyYbFj9YRvlrkRu+Wvjf9X5m2j2r/aKuSdpz2hvy
-         C1vy+TeRBfItlx+pL7J7cYgw2plEnn/Z9hUA0yi5/hIg1Hs4lX01hDtVAoFKSdOgABeu
-         ylgYVhXb5UJMvGdJTR5tSCUrHE63OAYYHpDHwiYMTvR2/lbYT3VOb0zsuc7j40xbusBf
-         JK8Jx4viVS1X9ygZuHkq6qq5YGRDNZnHCkQd2X6i21oZZFLZLugKVoJeHr0WdTF0lfKK
-         ADxg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ertoc34XQ2YSK37Kysk0lOwTGhFvoRTCVq5kxbjqo+U=;
+        b=CBxWj1sSeE3vi+yhdMWpQOTw8qlPx07H7aWU82ZZquLz8RVcAWTAj+jFayZbVo/Wk8
+         jBhAV8A4IIZIa6x1sr/vT85pT0plwJCgnmBQ9TrHnb66D/dGxuPebqs1JAh/8JorQi1w
+         KhFut1dy8BPqhMqMeACjbnASxGg6CrOYJxRDMnUF2X+IWw/+WwXhrMR0cWYM3Mvi74u0
+         yQMnSc7lytZy70YY0zXPf9VjS6MmrfpnlVnbmjy9EDIgwjoCHo7rmS06zXHTglc5/GVM
+         ljwJUo33GriHSpEbeXujiRCORyhl7pjJGT73s62vgMDMPjGVDvbOKJrRW57hwzn+XmaP
+         CgrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mGypu+NaaW+Jhwv++tohvkOpOq2EXdTSw+wGzb6zcXY=;
-        b=tFyfB1qtxIqaO0nHcQCGTqPzbZEo9M80xpHySWmTV3GelyKYvF6fXWXBXXryWrTP/V
-         IZ2yNXSJ/q5aIjEmFB+KBsPIC1tW03L1PFt8welFCc7BVGCInlUGv34RzuR9dot2G+tR
-         a2SUOOmp8KJFsHKjxCABWUwQ5+MWtRCsTET6pwzo3NYsSnb2NCu+1oaBj2VzRcRrF9nW
-         bNj68U495BwkMlcgnmh0L7G8J5zWT2bplcZDEorupQMlbXwjAJQSd3gx2fCqEl25V69y
-         kvxaf1bgT+u5it+dC2h92Rf56mLiyq9Rg5fvBFTnLaB2C372ySvs5pvmxvuyOhNvnpGL
-         yB0w==
-X-Gm-Message-State: AOAM532s4zjhdOoan79cEK256J0x2Al5OasQQZyoX87hhxD6zMVwyAkr
-	Ux8Ubo2kcihr59KRgrruCCfQM903TEUMz7ezlLo=
-X-Google-Smtp-Source: ABdhPJyqrlC+wjN7QOWKQ3nQEXmW3Mste+3scQ3W1W2pJRbKhcHo+smIRdnf47EbM8CP0WtbPya/hI4LB7KfbDt26Hg=
-X-Received: by 2002:a65:5ccd:: with SMTP id b13mr2323pgt.203.1628164369860;
- Thu, 05 Aug 2021 04:52:49 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ertoc34XQ2YSK37Kysk0lOwTGhFvoRTCVq5kxbjqo+U=;
+        b=iMDyp1NewqPF2m4ODO+UEKZEsohyoBSCqMJztzW6swg6ffnaEYAghCUrTHfFOlrXg9
+         THMvf76flGimDPuVpXZ8FCuRUhkHvCsuv7gdeVtUkPTRNP01RgGDn9lYWH8qPkoh69YD
+         CvVD+u7mZ51drS+h9jvTOr6teDrkLDqq33cVwU2LesS9LnoN2U9b7vRKHt6o6EB4WvrX
+         5t/fZrukXwKsJgV50Ue3rnZ073fdCaZcpigraW6LWd9EXdbq295H3NSffkX4skBqf9vo
+         ndQK9SdZQnXgPaIl7Yy6wbHyhbI+rWqdIFEAeKFDi3WKcVHZokdr8lYAVnAmrsmF9IDO
+         3pxg==
+X-Gm-Message-State: AOAM530P2fNA+Wg4/+QD/xq2ANvvk6smwzNBy1dgY7NnJHU+qxb/8g1C
+	zbv1J/oBoFuXxMSWiwef4GM=
+X-Google-Smtp-Source: ABdhPJw8PM+trx4KYu7wd3tmbcRq1jQ1J2yfZxOZ69fA3kgSsqHHa4YQcb9VfcIxLrRJqEpXwdot4A==
+X-Received: by 2002:a05:6402:d4e:: with SMTP id ec14mr5891853edb.277.1628165172143;
+        Thu, 05 Aug 2021 05:06:12 -0700 (PDT)
+Received: from localhost.localdomain (host-82-51-42-96.retail.telecomitalia.it. [82.51.42.96])
+        by smtp.gmail.com with ESMTPSA id c6sm2191565ede.48.2021.08.05.05.06.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Aug 2021 05:06:11 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH] staging: r8188eu: Remove unneeded comments in rtw_mp_ioctl.h
+Date: Thu,  5 Aug 2021 14:06:09 +0200
+Message-Id: <20210805120609.28588-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210801085155.3170-1-len.baker@gmx.com> <CAHp75VcD_Kqedpkw-Pj+uQbWqdu_9FhXqJS5TuGUPoVv2x45-Q@mail.gmail.com>
- <YQvJB5s1zY2yO87D@kroah.com> <CAHp75VeUH3+dZ6scREA-sZz8-7AF_MLobde+2-eZJz=MsxaW0Q@mail.gmail.com>
- <YQvNnf0o9w4fdVjr@kroah.com>
-In-Reply-To: <YQvNnf0o9w4fdVjr@kroah.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 5 Aug 2021 14:52:10 +0300
-Message-ID: <CAHp75VdWiGM9-AqSeBC0tTWCVyLbjyf-F8_R0uns__HEUdrQMQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] Remove all strcpy() uses
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Daniel Vetter <daniel@ffwll.ch>, 
-	David Airlie <airlied@linux.ie>, =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
-Cc: Len Baker <len.baker@gmx.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Phil Reid <preid@electromag.com.au>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	dri-devel <dri-devel@lists.freedesktop.org>, 
-	"open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, linux-staging@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-+Cc: David, Daniel, Noralf.
+After commit 85143bdc731b ("staging: r8188eu: include: Remove unused
+const definitions"), some comments are not anymore needed. Remove them
+too. In the while, remove also a line with a void comment.
 
-The idea is to move fbtft under drivers/fbdev on the same terms, i.e.
-no acceptance of the new drivers there.
-The rationale is that for some of the panels it (fbtft) will be the
-only driver and nobody will convert it to tiny DRM.
-See more below.
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ drivers/staging/r8188eu/include/rtw_mp_ioctl.h | 4 ----
+ 1 file changed, 4 deletions(-)
 
-On Thu, Aug 5, 2021 at 2:38 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
-> On Thu, Aug 05, 2021 at 02:30:35PM +0300, Andy Shevchenko wrote:
-> > On Thu, Aug 5, 2021 at 2:18 PM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > > On Sun, Aug 01, 2021 at 02:40:40PM +0300, Andy Shevchenko wrote:
-> > > > On Sun, Aug 1, 2021 at 11:53 AM Len Baker <len.baker@gmx.com> wrote:
-> > > > >
-> > > > > strcpy() performs no bounds checking on the destination buffer. This
-> > > > > could result in linear overflows beyond the end of the buffer, leading
-> > > > > to all kinds of misbehaviors. So, this serie removes all strcpy uses
-> > > > > from the "staging/fbtft" subsystem.
-> > > > >
-> > > > > Also, refactor the code a bit to follow the kernel coding-style and
-> > > > > avoid unnecessary variable initialization.
-> > > >
-> > > > I don't see patch 3 (even on lore.kernel.org).
-> > > >
-> > > > Greg, Geert, does it make sense to move this driver outside of staging?
-> > >
-> > > If you clean up everything that needs to be done, yes, please do.
-> >
-> > Do we have a clear TODO for that?
-> >
-> > The current one has the item which is not feasible to achieve in
-> > reasonable time. Some of those drivers won't be converted to tiny DRM.
-> > So the idea is to keep this out of staging in the maintenance phase
-> > (as it currently states, i.e. no new drivers accepted).  For the rest
-> > I'm not sure what else can be done (checkpatch? coccinelle?).
-> > Actually the first sentence in this paragraph is a motivation for
-> > moving out of staging.
->
-> Take it up with the DRM developers/maintainers.  If they approve for
-> this to move out of staging without being converted over to use tiny
-> DRM, then I am fine to move it out.
-
-Got it.  Cc'ed this to corresponding people.
-
+diff --git a/drivers/staging/r8188eu/include/rtw_mp_ioctl.h b/drivers/staging/r8188eu/include/rtw_mp_ioctl.h
+index 0376ddbf6011..cf99f39a582e 100644
+--- a/drivers/staging/r8188eu/include/rtw_mp_ioctl.h
++++ b/drivers/staging/r8188eu/include/rtw_mp_ioctl.h
+@@ -11,7 +11,6 @@
+ #include "rtw_efuse.h"
+ #include "rtw_mp.h"
+ 
+-/*  */
+ struct cfg_dbg_msg_struct {
+ 	u32 DebugLevel;
+ 	u32 DebugComponent_H32;
+@@ -52,7 +51,6 @@ struct dr_variable_struct {
+ 
+ #define _irqlevel_changed_(a, b)
+ 
+-/* rtl8188eu_oid_rtl_seg_81_80_00 */
+ int rtl8188eu_oid_rt_pro_set_data_rate_hdl(struct oid_par_priv *poid_par_priv);
+ int rtl8188eu_oid_rt_pro_start_test_hdl(struct oid_par_priv *poid_par_priv);
+ int rtl8188eu_oid_rt_pro_stop_test_hdl(struct oid_par_priv *poid_par_priv);
+@@ -60,7 +58,6 @@ int rtl8188eu_oid_rt_pro_set_channel_direct_call_hdl(struct oid_par_priv *poid_p
+ int rtl8188eu_oid_rt_pro_set_antenna_bb_hdl(struct oid_par_priv *poid_par_priv);
+ int rtl8188eu_oid_rt_pro_set_tx_power_control_hdl(struct oid_par_priv *poid_par_priv);
+ 
+-/* rtl8188eu_oid_rtl_seg_81_80_20 */
+ int rtl8188eu_oid_rt_pro_query_tx_packet_sent_hdl(struct oid_par_priv *poid_par_priv);
+ int rtl8188eu_oid_rt_pro_query_rx_packet_received_hdl(struct oid_par_priv *poid_par_priv);
+ int rtl8188eu_oid_rt_pro_query_rx_packet_crc32_error_hdl(struct oid_par_priv *par_priv);
+@@ -78,7 +75,6 @@ int rtl8188eu_oid_rt_pro_read_bb_reg_hdl(struct oid_par_priv *poid_par_priv);
+ int rtl8188eu_oid_rt_pro_write_rf_reg_hdl(struct oid_par_priv *poid_par_priv);
+ int rtl8188eu_oid_rt_pro_read_rf_reg_hdl(struct oid_par_priv *poid_par_priv);
+ 
+-/* rtl8188eu_oid_rtl_seg_81_85 */
+ int rtl8188eu_oid_rt_wireless_mode_hdl(struct oid_par_priv *poid_par_priv);
+ 
+ /*  rtl8188eu_oid_rtl_seg_87_11_00 */
 -- 
-With Best Regards,
-Andy Shevchenko
+2.32.0
+
