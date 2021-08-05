@@ -1,51 +1,51 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2BE570
-	for <linux-staging@lists.linux.dev>; Thu,  5 Aug 2021 13:11:13 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id h9so9500754ejs.4
-        for <linux-staging@lists.linux.dev>; Thu, 05 Aug 2021 06:11:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6BE70
+	for <linux-staging@lists.linux.dev>; Thu,  5 Aug 2021 14:10:47 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id p5so6772149wro.7
+        for <linux-staging@lists.linux.dev>; Thu, 05 Aug 2021 07:10:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=YuTZiK//J9JAwj4PAE08Ebr5Vz170oeRV5G9mQzcF20=;
-        b=P+W6LH2gBtT85pYdgfDnKnsj9a7BZd/vMK0QLxTDymVHEMh/nH2OoZ/OnOoaDINqFK
-         etABbv7sTQdonN4K7P1uonfzn6cR6yt/iftCbnjS6RYn8MEuNXCQ5TocU1Mjz1JxoiUN
-         rpzC0lp4X/qB9QML+TBH8z6+RwolIRFWCKby+Rl0EUNj6/KvvQvKlq4KkRxL3UGxJw1r
-         GhA1cjrzbgg/rlDoYrCP+h4UOQJ+ImkAlroD5YUp8cuF5LeUY5aWrIVdRoqke439tTMj
-         3vBqMUebKR8IHFCK0mo/CBbkwyetArmYtJgJ/IWhxrt7VWXP1/6b4Tx3pdSHu6wWXwvF
-         mQrw==
+        bh=NpYEEmebE1fM+RY82LCVN07dqLDtpFtPH1UGzt+rFWI=;
+        b=ujvzu/O1UZC6bAJ5as3xw1NKNWNBU18ZzJk/7RFqgYVbmv+8/vFqA1Opvpj/h7HB15
+         /HKvI/9dosCTr2ZCyRZ9c5i6hLc3BAkjYDxyxgK+5tIq9spTuvN6qn0HTEEUTjJtkvA4
+         CrG8sSGZQ44Ad0GUuBf+13pS1Ur6yCNx3g2J0u9DTHXC7s5RN9l9UYyN8LrJEIjEYQqJ
+         SNAWPIvrEfHZYhGcZZgaQkNU8uRmEEMsa8HUF/CyM6l6nJUGHV8ovYNOQfloQa/fGkC6
+         wZf59gdsP8jzZ8BXDW7JPacpN7Tkzt+zvPfb8RzBshs0tmIJOGCsJwkq8AJ8j9nvC52m
+         kqWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=YuTZiK//J9JAwj4PAE08Ebr5Vz170oeRV5G9mQzcF20=;
-        b=TA/e0Rthrh+pts3VrOh1gh7c98ElFHfbr6tLX3z8dv0troxinQ6eH2Df+W5unsPTKR
-         z1odINU4aiUW0JuLzlVquXYJ3yaXkzsvSotH+z68tozycBOtNwvkIpzY3cLID1N1fVlJ
-         C3T0WjedYVBSb5rx7PcdjGYTCftbKtQY1oygeRfM8mHqVliDahh5PJd2Y2HneY+9ApoT
-         VF396mEV6iVfa7YGD1kRGcmXVx6bxxi2MxX7C58Is8dteyZxUkSO+YQ+ShwE7dZ08KHF
-         M9I/8GkNb1/ml8/X2bKc8nNdIZ8tdJhM5NZHglrJgGkS+hT4Z0KiqnkzJAcDAendJXq/
-         X6RQ==
-X-Gm-Message-State: AOAM533HscHpONjysXJJQu2NJ+HKVrA9vf1bPr52H4P+z/IO56r4I2mY
-	vlfeIwr+Xe8NFYVyOX5SIpI=
-X-Google-Smtp-Source: ABdhPJwD9ix9lfeQvlComKKmYrqugIKWAfczOqDdQChbDntLD4DZCMZaRNTNQF1239hApg5LvUo9Aw==
-X-Received: by 2002:a17:906:b34c:: with SMTP id cd12mr4844963ejb.104.1628169071952;
-        Thu, 05 Aug 2021 06:11:11 -0700 (PDT)
-Received: from localhost.localdomain (host-82-51-42-96.retail.telecomitalia.it. [82.51.42.96])
-        by smtp.gmail.com with ESMTPSA id qa34sm1690363ejc.120.2021.08.05.06.11.10
+        bh=NpYEEmebE1fM+RY82LCVN07dqLDtpFtPH1UGzt+rFWI=;
+        b=tfCefdMgX/bUtvEBvEldngNzQi1Z0d3jezRsnr36eg11RMuwW2puGQmTBvlARmM1w5
+         akSmhNwcx90SBdxNJ4siNlA+OxIer/W3gR1TnPLp0Doj1KKVceQQqk+oECDg9QoEJqms
+         S59WcQRJlLf8L03FoMSFOsXgvqMSxPgWHV9CIkvaGjHa5rV00T111TDXlkcjmuO8735b
+         oKAMsTkfbLh7HsLR9j6pGxkCQQZioSyDTETbZ/wTyWqMypnariVlLSqPnOWyHf4FEbep
+         vXMrV7V5r11DBgVoRxDxbKVabFpTnmoIzuzl7ygX4hiRscZMKOSIKYVnIvcKFvi5vTvf
+         79yA==
+X-Gm-Message-State: AOAM532eXVubYcmp+eZ/9TYPqTslqzdcVkbR5+bM1zq5kxK70M8+TEvF
+	XDHRWsBdA5r90t3XuRaVcrI=
+X-Google-Smtp-Source: ABdhPJyrwF4DJ04n3fohJbZTYjK3r5jsm9ITPhzQvH2fBiVzxN0xfbDx3XKq0kbVuX09uYzHvcLK+g==
+X-Received: by 2002:a5d:53cf:: with SMTP id a15mr5456874wrw.410.1628172646066;
+        Thu, 05 Aug 2021 07:10:46 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::996b])
+        by smtp.gmail.com with ESMTPSA id 104sm6223950wrc.4.2021.08.05.07.10.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Aug 2021 06:11:11 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
+        Thu, 05 Aug 2021 07:10:45 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH] staging: r8188eu: Fix incorrect types in arguments
-Date: Thu,  5 Aug 2021 15:11:08 +0200
-Message-Id: <20210805131108.19775-1-fmdefrancesco@gmail.com>
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] staging: r8188eu: fix build error
+Date: Thu,  5 Aug 2021 16:09:41 +0200
+Message-Id: <20210805140941.9130-1-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,67 +55,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-GCC + Sparse emit warnings of passing incorrect type in arguments of 
-some functions because of different base types. Fix them by changing 
-the types of the parameters of the above-mentioned functions.
-In the meantime, remove the unnecessary casts of those arguments
-which are then passed to memcpy() within those same functions.
+Remove unnecessary label to fix build error introduced with
+commit b398ff88aa36 ("staging: r8188eu: remove return from void functions")
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+drivers/staging/r8188eu/hal/rtl8188e_dm.c:182:1: error: label at end of compound statement
+
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_br_ext.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/staging/r8188eu/hal/rtl8188e_dm.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
-index 27c8ec3b7d62..e4110d5bc6f2 100644
---- a/drivers/staging/r8188eu/core/rtw_br_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
-@@ -134,37 +134,37 @@ static inline void __nat25_generate_ipv4_network_addr(unsigned char *networkAddr
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_dm.c b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
+index b5f42127a751..7ac4257d7ebe 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_dm.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
+@@ -145,7 +145,7 @@ void rtl8188e_HalDmWatchDog(struct adapter *Adapter)
+ 	hw_init_completed = Adapter->hw_init_completed;
+ 
+ 	if (!hw_init_completed)
+-		goto skip_dm;
++		return;
+ 
+ 	fw_cur_in_ps = Adapter->pwrctrlpriv.bFwCurrentInPSMode;
+ 	rtw_hal_get_hwreg(Adapter, HW_VAR_FWLPS_RF_ON, (u8 *)(&fw_ps_awake));
+@@ -179,9 +179,6 @@ void rtl8188e_HalDmWatchDog(struct adapter *Adapter)
+ 		ODM_CmnInfoUpdate(&hal_data->odmpriv, ODM_CMNINFO_LINK, bLinked);
+ 		ODM_DMWatchdog(&hal_data->odmpriv);
+ 	}
+-skip_dm:
+-	/*  Check GPIO to determine current RF on/off and Pbc status. */
+-	/*  Check Hardware Radio ON/OFF or not */
  }
  
- static inline void __nat25_generate_ipx_network_addr_with_node(unsigned char *networkAddr,
--				unsigned int *ipxNetAddr, unsigned char *ipxNodeAddr)
-+				__be32 *ipxNetAddr, unsigned char *ipxNodeAddr)
- {
- 	memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
- 
- 	networkAddr[0] = NAT25_IPX;
--	memcpy(networkAddr+1, (unsigned char *)ipxNetAddr, 4);
-+	memcpy(networkAddr+1, ipxNetAddr, 4);
- 	memcpy(networkAddr+5, ipxNodeAddr, 6);
- }
- 
- static inline void __nat25_generate_ipx_network_addr_with_socket(unsigned char *networkAddr,
--				unsigned int *ipxNetAddr, unsigned short *ipxSocketAddr)
-+				__be32 *ipxNetAddr, __be16 *ipxSocketAddr)
- {
- 	memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
- 
- 	networkAddr[0] = NAT25_IPX;
--	memcpy(networkAddr+1, (unsigned char *)ipxNetAddr, 4);
--	memcpy(networkAddr+5, (unsigned char *)ipxSocketAddr, 2);
-+	memcpy(networkAddr+1, ipxNetAddr, 4);
-+	memcpy(networkAddr+5, ipxSocketAddr, 2);
- }
- 
- static inline void __nat25_generate_apple_network_addr(unsigned char *networkAddr,
--				unsigned short *network, unsigned char *node)
-+				__be16 *network, unsigned char *node)
- {
- 	memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
- 
- 	networkAddr[0] = NAT25_APPLE;
--	memcpy(networkAddr+1, (unsigned char *)network, 2);
-+	memcpy(networkAddr+1, network, 2);
- 	networkAddr[3] = *node;
- }
- 
- static inline void __nat25_generate_pppoe_network_addr(unsigned char *networkAddr,
--				unsigned char *ac_mac, unsigned short *sid)
-+				unsigned char *ac_mac, __be16 *sid)
- {
- 	memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
- 
+ void rtl8188e_init_dm_priv(struct adapter *Adapter)
 -- 
 2.32.0
 
