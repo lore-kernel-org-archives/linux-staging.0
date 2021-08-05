@@ -1,36 +1,57 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0944E70
-	for <linux-staging@lists.linux.dev>; Thu,  5 Aug 2021 18:58:45 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 31F1460F01;
-	Thu,  5 Aug 2021 18:58:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1628189925;
-	bh=IqXLzr/OLEXLF6zqTtqsk+B9+EiwaEbC1W4SSsIHGbI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gWLNpI6bhAYguYTIQlQYzBZMdJBcsm4IqY+fuRonMlyBqdFvEEQ0gBr5TrgbEDhnp
-	 j7L6VeeNWuOOoIzJ7qSB0fkKEruZktIoytGmvw/I3CriKPvjqXPDHbJLt+ycGe2X7B
-	 qh2XdyltJCTvJvwDYJgzOOptlXHH7LxAaPSEehpTOHf8uvVmBK0h2X9pGwvBxh97sq
-	 KfyE0NsSn8NUwFOqztp6sf215ukakymtn8dZtllUVpJ+Fuz2apCzDorNrEvwAzW0SH
-	 b/T1Q4CpO8CiLakpMFTOK818jjUoVauUGlpbScwOfGBLL0IhJOqXApd1Nr5o30eDUn
-	 hh8mjjS5lXOEg==
-From: Nathan Chancellor <nathan@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Nick Desaulniers <ndesaulniers@google.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AACCD70
+	for <linux-staging@lists.linux.dev>; Thu,  5 Aug 2021 19:04:24 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id i10-20020a05600c354ab029025a0f317abfso7081158wmq.3
+        for <linux-staging@lists.linux.dev>; Thu, 05 Aug 2021 12:04:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oTE2yvgvW8glea98LSY/ffZ1b6poaqIV5ugiE4I/bJE=;
+        b=lNNGt2hJtFLKaKfbRjcNF8QqPU6aHLbcEsKqIcUgkcBGaXt7+2Gc3JP83833YrWOIv
+         7jlaYW6QhcblMUqhSdwb6y+Myp+VyNclNkEOqYgO2WYj/LLZvzv79PPIfufk5L6ZVNnS
+         MSdFq1BZ3wz0ebR5WbqMUEcNA4+zP/6OV7D3dSQtXmcb6K5WlGGX0qpHJLHJX3N7sQOX
+         gIJt3pV2aV/+tmX7rD0tIWBiz/gSxp/mANKC65ED/b/DurNYsao+j0pGMqqf1/n1sZY/
+         Z4fa5X+QBDUhRVtgcpPrIjj2Aia7Q6ubvHXo36kvFKm+El3DLIOoGtnqcR3WsK3Mopk1
+         2uvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oTE2yvgvW8glea98LSY/ffZ1b6poaqIV5ugiE4I/bJE=;
+        b=sNrgNJXyFtCq4nOIccx0T47fS1NVY956zNJg0HiLBMIF2mT0eEH+uEE+6BTfNnn1kK
+         RJ5wV0wGVYuIuOG8cv9EHJoH3sLfdO0J3g6wImfgm294TIteguf4d36cc+lIHtLh77pN
+         bCh6n8qsDgDNQDoMHWf8sdlwz3ZHrbfiP0K83dB6CXI1X/N3hX/CBdmyyFEUc7GVhGUg
+         tM6tlq7hsbrYNVKJGwMKnlrFoVB80EJp1dFUivEVOWXHphXSA56IAmHz1MCOjWuxOtMd
+         Ocq2UkhUKDSxKxjCDs+phlstuxQNENsL6vequPLnErGCoVE99VSprEeLXhW/q50tOsuu
+         7ISg==
+X-Gm-Message-State: AOAM530Q9MePI/fHWXG7w9e/p2tt/fI7deEq/DmR9WwfOiHzWM/Y2ssg
+	ZgJAtusvZT7C9q9SZ5SYbjk=
+X-Google-Smtp-Source: ABdhPJwkC/YeGz/Dyo9+y84CiGmImn7JArYQpWwTejOvMX6UfS/2NsjkB1EpQntC8fZ8bP7wy08HGQ==
+X-Received: by 2002:a1c:2b04:: with SMTP id r4mr6508448wmr.168.1628190263065;
+        Thu, 05 Aug 2021 12:04:23 -0700 (PDT)
+Received: from kista.localdomain (cpe-86-58-46-198.static.triera.net. [86.58.46.198])
+        by smtp.gmail.com with ESMTPSA id q7sm6329781wmq.33.2021.08.05.12.04.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Aug 2021 12:04:22 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: ezequiel@collabora.com,
+	p.zabel@pengutronix.de
+Cc: mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	hverkuil-cisco@xs4all.nl,
+	emil.velikov@collabora.com,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	clang-built-linux@googlegroups.com,
-	Nathan Chancellor <nathan@kernel.org>
-Subject: [PATCH v2 3/3] staging: r8188eu: Remove pointless NULL check in rtw_check_join_candidate()
-Date: Thu,  5 Aug 2021 11:58:07 -0700
-Message-Id: <20210805185807.3296077-4-nathan@kernel.org>
-X-Mailer: git-send-email 2.33.0.rc0
-In-Reply-To: <20210805185807.3296077-1-nathan@kernel.org>
-References: <20210803223609.1627280-1-nathan@kernel.org>
- <20210805185807.3296077-1-nathan@kernel.org>
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] media: hantro: Fix check for single irq
+Date: Thu,  5 Aug 2021 21:04:16 +0200
+Message-Id: <20210805190416.332563-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,36 +60,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Clang warns:
+Some cores use only one interrupt and in such case interrupt name in DT
+is not needed. Driver supposedly accounted that, but due to the wrong
+field check it never worked. Fix that.
 
-drivers/staging/r8188eu/core/rtw_mlme.c:1629:28: warning: address of
-array 'pmlmepriv->assoc_ssid.Ssid' will always evaluate to 'true'
-[-Wpointer-bool-conversion]
-        if (pmlmepriv->assoc_ssid.Ssid && pmlmepriv->assoc_ssid.SsidLength) {
-            ~~~~~~~~~~~~~~~~~~~~~~^~~~ ~~
-1 warning generated.
-
-Ssid is an array not at the beginning of a struct so its address cannot
-be NULL so remove the check.
-
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Fixes: 18d6c8b7b4c9 ("media: hantro: add fallback handling for single irq/clk")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_mlme.c | 2 +-
+ drivers/staging/media/hantro/hantro_drv.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index e3d5a721d25c..95b952871e67 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -1622,7 +1622,7 @@ static int rtw_check_join_candidate(struct mlme_priv *pmlmepriv
- 	}
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index 8a2edd67f2c6..20e508158871 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -919,7 +919,7 @@ static int hantro_probe(struct platform_device *pdev)
+ 		if (!vpu->variant->irqs[i].handler)
+ 			continue;
  
- 	/* check ssid, if needed */
--	if (pmlmepriv->assoc_ssid.Ssid && pmlmepriv->assoc_ssid.SsidLength) {
-+	if (pmlmepriv->assoc_ssid.SsidLength) {
- 		if (competitor->network.Ssid.SsidLength != pmlmepriv->assoc_ssid.SsidLength ||
- 		    memcmp(competitor->network.Ssid.Ssid, pmlmepriv->assoc_ssid.Ssid, pmlmepriv->assoc_ssid.SsidLength))
- 			goto exit;
+-		if (vpu->variant->num_clocks > 1) {
++		if (vpu->variant->num_irqs > 1) {
+ 			irq_name = vpu->variant->irqs[i].name;
+ 			irq = platform_get_irq_byname(vpu->pdev, irq_name);
+ 		} else {
 -- 
-2.33.0.rc0
+2.32.0
 
