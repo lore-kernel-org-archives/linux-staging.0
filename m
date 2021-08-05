@@ -1,25 +1,25 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06AAB70
-	for <linux-staging@lists.linux.dev>; Thu,  5 Aug 2021 10:57:31 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 06A4661102;
-	Thu,  5 Aug 2021 10:57:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C087170
+	for <linux-staging@lists.linux.dev>; Thu,  5 Aug 2021 10:58:50 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C4BF5610CC;
+	Thu,  5 Aug 2021 10:58:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1628161051;
-	bh=5YItBmORmqphWcywSRK6VChbqHUwt7vQFPJnhLyl8Y4=;
+	s=korg; t=1628161130;
+	bh=W5+8fOY46ERocNkBVQLYJeWbPtwbDFyp6xF/ik8h/eM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E5yzwbx+98vYtasf88y60sQWHM2ZDNiNNIavxsI3WFkorHqLMy5BpF6paPcbMx/Me
-	 QfXSzAdfzwu2usYGyjDR8eCUI1vgjwjn4SdWu5mcsvpb6hU6Q7308kqYIOsokeFdIS
-	 GuDjsfM4mppculWROj1t7B49ROCy+znJVq+hyWlo=
-Date: Thu, 5 Aug 2021 12:57:29 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Colin King <colin.king@canonical.com>
-Cc: Marco Cesati <marcocesati@gmail.com>, linux-staging@lists.linux.dev,
-	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH][next] staging: r8188eu: Fix spelling mistakes and typos
-Message-ID: <YQvEGYIufwoPKHfS@kroah.com>
-References: <20210803104410.337982-1-colin.king@canonical.com>
+	b=1jsVLZwZ58FQkjNBQRcEM5qgjbwjB6z6jei1avtf1LG6AbM7JyCWX1x/rpZ3vpJo3
+	 qd1CIWmtgof+cxjrxI3WPi1+CuKpg+wd1VxGpGWe7pFh+kFy5L9Ij9dw97tyas20PV
+	 7YES607a+ZXIbHjVs2/OlRZKulfaieBp2Rhq+2Nc=
+Date: Thu, 5 Aug 2021 12:58:44 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Larry Finger <Larry.Finger@lwfinger.net>
+Cc: phil@philpotter.co.uk, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/10] Various cleanups of driver
+Message-ID: <YQvEZDF6DiBxZv38@kroah.com>
+References: <20210803135223.12543-1-Larry.Finger@lwfinger.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,25 +28,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210803104410.337982-1-colin.king@canonical.com>
+In-Reply-To: <20210803135223.12543-1-Larry.Finger@lwfinger.net>
 
-On Tue, Aug 03, 2021 at 11:44:10AM +0100, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
+On Tue, Aug 03, 2021 at 08:52:13AM -0500, Larry Finger wrote:
+> This set of patches removes some wrappers around simple actions,
+> and replaces some of the home-built bit manipulation macros.
 > 
-> There are quire a few spelling mistakes and typos in the driver
-> in comments, literal strings and function names. Fix these.
+> Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
 > 
-> Note that this just corrects spelling mistakes and does not
-> clean up any existing checkpatch warnings.
 > 
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> Larry Finger (10):
+>   staging: r8188eu: Remove wrappers for kalloc() and kzalloc()
+>   staging: r8188eu: Remove wrapper around vfree
+>   staging: r8188eu: Remove wrappers for atomic operations
+>   staging: r8188eu: Remove 4 empty routines from os_sep/service.c
+>   staging: r8188eu: Remove all calls to _rtw_spinlock_free()
+>   staging: r8188eu: Remove more empty routines
+>   staging: r8188eu: Remove rtw_division64()
+>   staging: r8188eu: Remove wrapper around do_div
+>   staging: r8188eu: Remove some unused and ugly macros
+>   staging: r8188eu: Remove some bit manipulation macros
 
-Does not apply to my tree right now, and if I try to take just parts of
-it, it blows up the build.
-
-Can you please break this up into a patch series?  You are doing a lot
-of different things all in one patch (functions, strings, comments) and
-it makes it hard to review, and apply.
+Portions of this series applied, again, can you rebase and resend?
 
 thanks,
 
