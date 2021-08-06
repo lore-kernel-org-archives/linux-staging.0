@@ -1,50 +1,50 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F5C70
-	for <linux-staging@lists.linux.dev>; Fri,  6 Aug 2021 00:40:43 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id b128so4475975wmb.4
-        for <linux-staging@lists.linux.dev>; Thu, 05 Aug 2021 17:40:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553C529D6
+	for <linux-staging@lists.linux.dev>; Fri,  6 Aug 2021 00:40:44 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id k38-20020a05600c1ca6b029025af5e0f38bso7608066wms.5
+        for <linux-staging@lists.linux.dev>; Thu, 05 Aug 2021 17:40:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=PegLaMgCLA483OQ2FYUTnGJ/mPU5ZJS0l25ewYVKbj4=;
-        b=Awaib9DcinCrQKCVOepFxC2mmtq/IgBYQ8T3WLZpHfc8BIsWYeIR8H3W0VBsy0Dxeu
-         66UEYxaGF5pznr0IANSEBgtIZZrMlSNuHDlHPll+tMuU87QqBWdl3oT5c3YZNlwGXSSu
-         XCZufKIBQKuEc2id/5E2zj3qTmomOYKQVFeD9x2btmJEOd0aZKfrgoOpuIDDiKW47lT4
-         ifD2x1rQG7oOXkjzhsf3u41epY/KpaPpoPNFomU0l5yu1vnn0vNO2bn4tpbTIvXFSh5R
-         ckPhru9LEA0+Kuum1DzlwpuLnsg75X/LEwa92SbMyjn7xnWQ+AElm3LLtxvpzA5ynZyd
-         VsZg==
+        bh=GzAalOOTuBO4XEijeAdtdHjWTbg8VwNu8lu94mqSzqE=;
+        b=Qvy7SYKiQdgsUT9+m7uND7BsbXU07s1zcM7MxCDI7PD9eoZ4V+EGiqDuyS1yVIyfSR
+         /Lq9/N4s0Dcvz0+a2x24r3YZjkAuzSESjsdsTaQZWc0hofZHpLKCXo/j5rthR56gwGRE
+         LPeXn/AFYFilzfpKIiNre1YlDsT77/tp+G5KcVSfE1JMbndkx6989C1tvjqv8p79olVw
+         e35YHM/BAO9dfvTnl8xWme7YI17C7kHytLTzFS/3zwE19gLJejTvKbmSE1X11O7II25Q
+         W6qS2KaLFSxEVBi+BAMD5Fyks+5XMHSfPOx3AZQGOAaf0WxPfhWE6baM88TCLLQMpD9F
+         IyRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=PegLaMgCLA483OQ2FYUTnGJ/mPU5ZJS0l25ewYVKbj4=;
-        b=a2t0egidCJPxZRzcKlRp7OmgjLUoS4/r7nFbKmnfmEtn18z3yfucwVYupsIJ+/DjIr
-         09UfBK9/O3MusEKQoey+6+3AJxDCkUs5ggvGDfkXVlCvsbwthWlaW2zusZtRxyzrf82Y
-         k2MMILk6MnpVLb6FU3znMMLsR8VpAU7qgaA9lt67fq8jv65+9dX5L7CeLfsGgsSuIDgV
-         XFhbb4ZMDTgWt/8vz2r+mU2jq/bsdFRN76KaHdGcFSLX/xDlvipIdpP/ky576q3DHYD2
-         ML1DN0QBrQJ9obXjhTBqpmjS2ovXJmlaMS4aD8qK2kb1HE7o/4If2IvLRIS94EPtt/ck
-         6WsA==
-X-Gm-Message-State: AOAM533xuJ80NQ3xtoHOaNjTdYvCIcMQ5V6cGfZ95EJMcFOUYgAYWW96
-	zCDhDzzj1sP8jp1vivD7BOovdA==
-X-Google-Smtp-Source: ABdhPJwATpORKozWI1nEbiquAzAXagM8kLVSvuKtQRuon+UZMiVwXN95KYzdpeUiWH25NSQ5O+tNyQ==
-X-Received: by 2002:a7b:cc14:: with SMTP id f20mr8645502wmh.38.1628210441990;
-        Thu, 05 Aug 2021 17:40:41 -0700 (PDT)
+        bh=GzAalOOTuBO4XEijeAdtdHjWTbg8VwNu8lu94mqSzqE=;
+        b=D6xesyxp5qEz5A0aIPC87qjH5wWco8D5HycxINF0On5e24JQLnxugjiKAQ8R8KpLOC
+         NW28/QTsK6G/qqw1v9p/ORPEz6P48nuuRIvQPec7pAJgIStHqOAHvw+MkPmcseo8jUR5
+         WjjTl4/+7ifzP3iYYN9SlG13lpeQrGnQ93xc7d5yICHlSjXzhUMjPScCnI52KX4irTXl
+         CeRjCcTiYiqjy6MEmk8B2i3VgQXT4sRQ5slEhSHaP32zaLu6fJJ6Jw4pO8vkycnvKxPS
+         d8eC5FV3pOcBnxJ7FIUABQQwAzPNN0hM2o/2A9Nct6D5vO+qONu0vmxDqj1k3IhFayA8
+         eqOw==
+X-Gm-Message-State: AOAM533YURgNdlxZAi4XCAA1pEIfW3AqgHxjlKRdg3ckQICSZfLhN0dE
+	AGzWkCN9C/l7bDlXqUC7lVX3xg==
+X-Google-Smtp-Source: ABdhPJxzXk2sxp2wB8B8QXTALU/4FsDAczh/SGo4HpqJXs0C1AEa2A3eyy3sslaj2CW+g0cWJDUZlA==
+X-Received: by 2002:a05:600c:4fc4:: with SMTP id o4mr16635885wmq.109.1628210442777;
+        Thu, 05 Aug 2021 17:40:42 -0700 (PDT)
 Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
-        by smtp.gmail.com with ESMTPSA id y19sm10727181wmq.5.2021.08.05.17.40.40
+        by smtp.gmail.com with ESMTPSA id y19sm10727181wmq.5.2021.08.05.17.40.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Aug 2021 17:40:41 -0700 (PDT)
+        Thu, 05 Aug 2021 17:40:42 -0700 (PDT)
 From: Phillip Potter <phil@philpotter.co.uk>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	martin@kaiser.cx
-Subject: [PATCH v2 05/11] staging: r8188eu: remove RT_TRACE calls from core/rtw_mp.c
-Date: Fri,  6 Aug 2021 01:40:28 +0100
-Message-Id: <20210806004034.82233-6-phil@philpotter.co.uk>
+Subject: [PATCH v2 06/11] staging: r8188eu: remove RT_TRACE calls from core/rtw_security.c
+Date: Fri,  6 Aug 2021 01:40:29 +0100
+Message-Id: <20210806004034.82233-7-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210806004034.82233-1-phil@philpotter.co.uk>
 References: <20210806004034.82233-1-phil@philpotter.co.uk>
@@ -56,61 +56,154 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove RT_TRACE macro calls from core/rtw_mp.c, so that ultimately the
+Remove RT_TRACE macro calls from core/rtw_security.c, so that ultimately the
 macro definition itself can eventually be removed.
 
 Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 ---
- drivers/staging/r8188eu/core/rtw_mp.c | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+ drivers/staging/r8188eu/core/rtw_security.c | 44 +--------------------
+ 1 file changed, 1 insertion(+), 43 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mp.c b/drivers/staging/r8188eu/core/rtw_mp.c
-index 252d5c37d813..def0c250a4ac 100644
---- a/drivers/staging/r8188eu/core/rtw_mp.c
-+++ b/drivers/staging/r8188eu/core/rtw_mp.c
-@@ -383,7 +383,6 @@ s32 mp_start_test(struct adapter *padapter)
- 
- 	psta = rtw_alloc_stainfo(&padapter->stapriv, bssid.MacAddress);
- 	if (!psta) {
--		RT_TRACE(_module_mp_, _drv_err_, ("mp_start_test: Can't alloc sta_info!\n"));
- 		pmlmepriv->fw_state = pmppriv->prev_fw_state;
- 		res = _FAIL;
- 		goto end_of_mp_start_test;
-@@ -864,15 +863,11 @@ u32 mp_query_psd(struct adapter *pAdapter, u8 *data)
- 	u32 i, psd_pts = 0, psd_start = 0, psd_stop = 0;
- 	u32 psd_data = 0;
- 
--	if (!netif_running(pAdapter->pnetdev)) {
--		RT_TRACE(_module_mp_, _drv_warning_, ("mp_query_psd: Fail! interface not opened!\n"));
-+	if (!netif_running(pAdapter->pnetdev))
- 		return 0;
--	}
- 
--	if (check_fwstate(&pAdapter->mlmepriv, WIFI_MP_STATE) == false) {
--		RT_TRACE(_module_mp_, _drv_warning_, ("mp_query_psd: Fail! not in MP mode!\n"));
-+	if (check_fwstate(&pAdapter->mlmepriv, WIFI_MP_STATE) == false)
- 		return 0;
--	}
- 
- 	if (strlen(data) == 0) { /* default value */
- 		psd_pts = 128;
-@@ -938,7 +933,6 @@ void _rtw_mp_xmit_priv(struct xmit_priv *pxmitpriv)
- 	pxmitpriv->pallocated_xmit_extbuf = rtw_zvmalloc(num_xmit_extbuf * sizeof(struct xmit_buf) + 4);
- 
- 	if (!pxmitpriv->pallocated_xmit_extbuf) {
--		RT_TRACE(_module_rtl871x_xmit_c_, _drv_err_, ("alloc xmit_extbuf fail!\n"));
- 		res = _FAIL;
- 		goto exit;
- 	}
-@@ -972,8 +966,6 @@ void _rtw_mp_xmit_priv(struct xmit_priv *pxmitpriv)
- 
- void Hal_ProSetCrystalCap (struct adapter *pAdapter, u32 CrystalCapVal)
+diff --git a/drivers/staging/r8188eu/core/rtw_security.c b/drivers/staging/r8188eu/core/rtw_security.c
+index 08a5a1975d11..6cacf7d01626 100644
+--- a/drivers/staging/r8188eu/core/rtw_security.c
++++ b/drivers/staging/r8188eu/core/rtw_security.c
+@@ -139,10 +139,6 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
  {
--	struct hal_data_8188e	*pHalData = GET_HAL_DATA(pAdapter);
+ 	/*  exclude ICV */
+-	union {
+-		__le32 f0;
+-		u8 f1[4];
+-	} crc;
+ 	struct arc4context	 mycontext;
+ 	int	length;
+ 	u32	keylength;
+@@ -167,18 +163,6 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
+ 		/* decrypt payload include icv */
+ 		arcfour_init(&mycontext, wepkey, 3+keylength);
+ 		arcfour_encrypt(&mycontext, payload, payload,  length);
 -
- 	CrystalCapVal = CrystalCapVal & 0x3F;
+-		/* calculate icv and compare the icv */
+-		crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
+-
+-		if (crc.f1[3] != payload[length-1] ||
+-		    crc.f1[2] != payload[length-2] ||
+-		    crc.f1[1] != payload[length-3] ||
+-		    crc.f1[0] != payload[length-4]) {
+-			RT_TRACE(_module_rtl871x_security_c_, _drv_err_,
+-				 ("rtw_wep_decrypt:icv error crc (%4ph)!=payload (%4ph)\n",
+-				 &crc, &payload[length-4]));
+-		}
+ 	}
+ }
  
- 	// write 0x24[16:11] = 0x24[22:17] = CrystalCap
+@@ -554,8 +538,6 @@ u32	rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 			stainfo = rtw_get_stainfo(&padapter->stapriv, &pattrib->ra[0]);
+ 
+ 		if (stainfo) {
+-			RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("rtw_tkip_encrypt: stainfo!= NULL!!!\n"));
+-
+ 			if (IS_MCAST(pattrib->ra))
+ 				prwskey = psecuritypriv->dot118021XGrpKey[psecuritypriv->dot118021XGrpKeyid].skey;
+ 			else
+@@ -574,9 +556,6 @@ u32	rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 
+ 				if ((curfragnum+1) == pattrib->nr_frags) {	/* 4 the last fragment */
+ 					length = pattrib->last_txcmdsz-pattrib->hdrlen-pattrib->iv_len-pattrib->icv_len;
+-					RT_TRACE(_module_rtl871x_security_c_, _drv_info_,
+-						 ("pattrib->iv_len=%x, pattrib->icv_len=%x\n",
+-						 pattrib->iv_len, pattrib->icv_len));
+ 					crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
+ 
+ 					arcfour_init(&mycontext, rc4key, 16);
+@@ -595,7 +574,6 @@ u32	rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 				}
+ 			}
+ 		} else {
+-			RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("rtw_tkip_encrypt: stainfo==NULL!!!\n"));
+ 			res = _FAIL;
+ 		}
+ 	}
+@@ -638,7 +616,6 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+ 				}
+ 				prwskey = psecuritypriv->dot118021XGrpKey[prxattrib->key_index].skey;
+ 			} else {
+-				RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("rtw_tkip_decrypt: stainfo!= NULL!!!\n"));
+ 				prwskey = &stainfo->dot118021x_UncstKey.skey[0];
+ 			}
+ 
+@@ -664,14 +641,9 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+ 			if (crc.f1[3] != payload[length-1] ||
+ 			    crc.f1[2] != payload[length-2] ||
+ 			    crc.f1[1] != payload[length-3] ||
+-			    crc.f1[0] != payload[length-4]) {
+-				RT_TRACE(_module_rtl871x_security_c_, _drv_err_,
+-					 ("rtw_wep_decrypt:icv error crc (%4ph)!=payload (%4ph)\n",
+-					 &crc, &payload[length-4]));
++			    crc.f1[0] != payload[length-4])
+ 				res = _FAIL;
+-			}
+ 		} else {
+-			RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("rtw_tkip_decrypt: stainfo==NULL!!!\n"));
+ 			res = _FAIL;
+ 		}
+ 	}
+@@ -1216,8 +1188,6 @@ u32	rtw_aes_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 			stainfo = rtw_get_stainfo(&padapter->stapriv, &pattrib->ra[0]);
+ 
+ 		if (stainfo) {
+-			RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("rtw_aes_encrypt: stainfo!= NULL!!!\n"));
+-
+ 			if (IS_MCAST(pattrib->ra))
+ 				prwskey = psecuritypriv->dot118021XGrpKey[psecuritypriv->dot118021XGrpKeyid].skey;
+ 			else
+@@ -1236,7 +1206,6 @@ u32	rtw_aes_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 				}
+ 			}
+ 		} else {
+-			RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("rtw_aes_encrypt: stainfo==NULL!!!\n"));
+ 			res = _FAIL;
+ 		}
+ 	}
+@@ -1428,9 +1397,6 @@ static int aes_decipher(u8 *key, uint	hdrlen,
+ 	/* compare the mic */
+ 	for (i = 0; i < 8; i++) {
+ 		if (pframe[hdrlen+8+plen-8+i] != message[hdrlen+8+plen-8+i]) {
+-			RT_TRACE(_module_rtl871x_security_c_, _drv_err_,
+-				 ("aes_decipher:mic check error mic[%d]: pframe(%x)!=message(%x)\n",
+-				 i, pframe[hdrlen+8+plen-8+i], message[hdrlen+8+plen-8+i]));
+ 			DBG_88E("aes_decipher:mic check error mic[%d]: pframe(%x)!=message(%x)\n",
+ 				i, pframe[hdrlen+8+plen-8+i], message[hdrlen+8+plen-8+i]);
+ 			res = _FAIL;
+@@ -1455,8 +1421,6 @@ u32	rtw_aes_decrypt(struct adapter *padapter, u8 *precvframe)
+ 	if (prxattrib->encrypt == _AES_) {
+ 		stainfo = rtw_get_stainfo(&padapter->stapriv, &prxattrib->ta[0]);
+ 		if (stainfo) {
+-			RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("rtw_aes_decrypt: stainfo!= NULL!!!\n"));
+-
+ 			if (IS_MCAST(prxattrib->ra)) {
+ 				/* in concurrent we should use sw descrypt in group key, so we remove this message */
+ 				if (!psecuritypriv->binstallGrpkey) {
+@@ -1477,7 +1441,6 @@ u32	rtw_aes_decrypt(struct adapter *padapter, u8 *precvframe)
+ 			length = ((struct recv_frame *)precvframe)->len-prxattrib->hdrlen-prxattrib->iv_len;
+ 			res = aes_decipher(prwskey, prxattrib->hdrlen, pframe, length);
+ 		} else {
+-			RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("rtw_aes_encrypt: stainfo==NULL!!!\n"));
+ 			res = _FAIL;
+ 		}
+ 	}
+@@ -1689,10 +1652,5 @@ void rtw_use_tkipkey_handler(void *FunctionContext)
+ {
+ 	struct adapter *padapter = (struct adapter *)FunctionContext;
+ 
+-	RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("^^^rtw_use_tkipkey_handler ^^^\n"));
+-
+ 	padapter->securitypriv.busetkipkey = true;
+-
+-	RT_TRACE(_module_rtl871x_security_c_, _drv_err_, ("^^^rtw_use_tkipkey_handler padapter->securitypriv.busetkipkey=%d^^^\n", padapter->securitypriv.busetkipkey));
+-
+ }
 -- 
 2.31.1
 
