@@ -1,126 +1,212 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCAE070
-	for <linux-staging@lists.linux.dev>; Fri,  6 Aug 2021 15:39:50 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id i6so13637990edu.1
-        for <linux-staging@lists.linux.dev>; Fri, 06 Aug 2021 08:39:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B776F3480
+	for <linux-staging@lists.linux.dev>; Fri,  6 Aug 2021 20:11:09 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id k2so8508850plk.13
+        for <linux-staging@lists.linux.dev>; Fri, 06 Aug 2021 13:11:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=eTk4yr0eN3hm7lLtT7TJ+GcZ/BI3UsKqBaJTxX9s20I=;
-        b=pe/zubRk3mozz1yIUrLLk1qW9TXvaqf1wg8raPZZYwlgaDMsBtQ5EDWfwopd9beKl4
-         USnByrcmC0Cw74780PIXSlzgIoQkiso5bHCfa/BdkLff7QVTcYcsZe3no4MRwTd3aipr
-         7Y+h8H2Ni2e6qkmhORuMQUvJCW8VZW2dfwrXQZeCrW9IwUlX4HvWMdfxBkmTHkOV54A/
-         Lb0VsTz+XP6P/gNmMQsaGMlQQ4B32Rf2qlFeryKtYndgmXoej2XSU0XWlQBbiQsHi9j/
-         kDoCZYS/MMIepYDppzIGPTiUFkj8816MtmjKrXnw+3bkVqM2BaOg8BXDzH9n3O9o3dx5
-         Txgw==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gpGUNpqaMwJIuNRGIK+xHtD3dfRYpLdOSmeYpAjk4As=;
+        b=gxIeRcJxCZIci1imgPh3HefMMPsMa7l1IDF147l4OvpZJ16310WFcXitrTS3pF4NlO
+         ihOzo0HSwuY907fZHrUOcRvgn16CsjpbI/lyJdxwunJ4Kz+dW79kLN9PnMoU2brM/zJn
+         EKQ8STv2trrWOV7ac3NnGXZUFyZSfLz0EC8S8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=eTk4yr0eN3hm7lLtT7TJ+GcZ/BI3UsKqBaJTxX9s20I=;
-        b=U8qQxQiNdpu3DYY2od5LSaFtU3rTpiItjyVY8kqd3U8E5OvEudFpzTGZyOwGQv4HcI
-         ldL5LzTuuGu+TMvpmKKyJTScDvS3vE0CHZyA6kM28djmHVTIY27UB1qH8ipeRDNA8ssi
-         /+LhgXB9AMzOa3tAWqIpEp1+WGd3GtY+ehCtu0uEPWMOGxAUYOsH2JNkfOv2WdR3P0Rk
-         hoCpAoidM08MiYt4jXR7TrcAiOPh99gm1Rfif9aTl53IQvrHnQg1N9fTl3m80hTMqRY6
-         XCjKe6a4dSLQ9qRUYjBcVMh0DikHKe9k6BhOe3dYVsrKctQPXE424zZTpPlcRvb2jJf0
-         EsLg==
-X-Gm-Message-State: AOAM533CKcMuDat3jhDkf37bWFz2rLYdm6tXIe4Iyj3yl/6fMqYkXjIO
-	fGqPIVcw/NbNcjHEXfveZNU=
-X-Google-Smtp-Source: ABdhPJwf+uCRRQJXeuBWe+3Hl730847C6jJePnZrXtrwCgIpfunEruQsEVRxOsUqaRz/YFxnW+J1LA==
-X-Received: by 2002:a05:6402:1ad9:: with SMTP id ba25mr13595781edb.255.1628264389312;
-        Fri, 06 Aug 2021 08:39:49 -0700 (PDT)
-Received: from jernej-laptop.localnet (89-212-178-211.dynamic.t-2.net. [89.212.178.211])
-        by smtp.gmail.com with ESMTPSA id bm1sm2997309ejb.38.2021.08.06.08.39.48
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gpGUNpqaMwJIuNRGIK+xHtD3dfRYpLdOSmeYpAjk4As=;
+        b=XG8iEHwmp+I9LzrnUy4FQaOlFRameUAb2KP49mE4Igkx4OcgH1H9v7i74xliZpKF11
+         mVEl677axaMEt3m+Izwe3gmsSUW+ofGInH2LlAQA2J8IhsUWD9LEOEijspX8Dm/0w/fF
+         fLOIEUmMAneriJwyBdOBTwfzeORne4OfamAHoaeDTwab8bPAMI+C9PhYI9DHA3yXdAAk
+         NegRTg/JTW9QioEVkaRIJT5nY3q9DPZXjKyFozawAZjt2d9ih82ecAB52Y6uA8S1locc
+         fdkkjzWMiIDKqwdAX468v7Y1e2HFzG0/oHv6PjkSddt9ZR7OyTgZ76QI6UgrFgANfpQv
+         jOvQ==
+X-Gm-Message-State: AOAM532xjpHXpXlzd7SQxmX1O0GLKL0UdkFPnLyWlOTER3b6aQvY3aWr
+	4m3WtypGA1I3GjjxqANq9D7I/w==
+X-Google-Smtp-Source: ABdhPJzQ2oJGAQd19amp1TcwZOtSrOVz0z6mNU1pON5r8p22K8f8ttDUf/3+lU1blSd4m20mIN3mmA==
+X-Received: by 2002:aa7:9f06:0:b029:3c6:c469:9135 with SMTP id g6-20020aa79f060000b02903c6c4699135mr11173133pfr.27.1628280669205;
+        Fri, 06 Aug 2021 13:11:09 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id n7sm9459191pjh.8.2021.08.06.13.11.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Aug 2021 08:39:48 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: p.zabel@pengutronix.de, Ezequiel Garcia <ezequiel@collabora.com>
-Cc: mchehab@kernel.org, gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl, emil.velikov@collabora.com, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: hantro: Fix check for single irq
-Date: Fri, 06 Aug 2021 17:39:47 +0200
-Message-ID: <1909651.VgzLf9ffF6@jernej-laptop>
-In-Reply-To: <79673df0562db410753c90f9957125f202c5a1b2.camel@collabora.com>
-References: <20210805190416.332563-1-jernej.skrabec@gmail.com> <8101406.vZ8PxZ7URt@jernej-laptop> <79673df0562db410753c90f9957125f202c5a1b2.camel@collabora.com>
+        Fri, 06 Aug 2021 13:11:08 -0700 (PDT)
+From: Kees Cook <keescook@chromium.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Kees Cook <keescook@chromium.org>,
+	Darshan D V <darshandv10@gmail.com>,
+	Aditya Srivastava <yashsri421@gmail.com>,
+	devel@driverdev.osuosl.org,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	William Durand <will+git@drnd.me>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] staging: rtl8192e: Avoid field-overflowing memcpy()
+Date: Fri,  6 Aug 2021 13:11:06 -0700
+Message-Id: <20210806201106.2871169-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5450; h=from:subject; bh=XdWtU0QlBv+CyPMrf/+gxW3AgNWEVeuoXd7jX5geTiY=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhDZdZ4M3etk3VpPvtJ2JqMyhAzZac4Stz/siA0xuI tU850aOJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYQ2XWQAKCRCJcvTf3G3AJgW8D/ 4jhwB/XMprURgY5FIwIP1KaJAjpdjsAOTkjgYlpc8eDWi6yUDxtJzRqVPmBzWGF4LdXfS9vTG/XTpV cEwJqMNc5K+3V44w0sdFXTy8Rm3etPMMsmisj9Lqug+rRdybA4p2M0M9ZXnoiMTQ1Vh6eQQlPFprIv 0LHf4navVhJ9GtguTLanVsFlYMCMKocAEEiL+jeo24+FvkntUdiwIKwsbKAvCfRlFze7dp2qhWyTZO JnihYF/4SGZvc1G4jDX1R0gb1O1YHuGzapY3GgwFfhhR4wavUwfMjzSSmNJIhrMQRDjig45yOCX5Gj ysvH7GDzhmfEtWxQIAh8xNRHXnrveUzMdVrN5JOPQRuqAfongSy4402FlwbRbP/8VQ9VTrrRtOYNxQ EySs6prL/iYzXu7tADKIZbRH9swJuP5bT4n+JOXqNMrb+slMPYAxHLho4120eZzB3kfZOzjga41Bxh 2Pe2rY9v7LWwmn1PweYGCJBiT7yFAfhxs+KWkWllbZx+AdLGOaH8fFvfsuR9iuQWW07nRnvIahLAmH vGjrMrtustDmiFKbmHAefQvRRPNBPfQD0rBlfFwrPxPzIHoxsWdBE+1bA7bJ4/ww5ckPAnYvaL/S61 4Ciq2feJ2zloRNHZ+3aMTMLRc6TOEXfz+3y2gU+/ZajcFdqHzbu2BAQWuDdw==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 
-Dne petek, 06. avgust 2021 ob 16:13:46 CEST je Ezequiel Garcia napisal(a):
-> On Fri, 2021-08-06 at 06:44 +0200, Jernej =C5=A0krabec wrote:
-> > Dne petek, 06. avgust 2021 ob 00:03:36 CEST je Ezequiel Garcia napisal(=
-a):
-> > > Hi Jernej,
-> > >=20
-> > > On Thu, 2021-08-05 at 21:04 +0200, Jernej Skrabec wrote:
-> > > > Some cores use only one interrupt and in such case interrupt name in
-> > > > DT
-> > > > is not needed. Driver supposedly accounted that, but due to the wro=
-ng
-> > > > field check it never worked. Fix that.
-> > > >=20
-> > > > Fixes: 18d6c8b7b4c9 ("media: hantro: add fallback handling for sing=
-le
-> > > > irq/clk") Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > > ---
-> > > >  drivers/staging/media/hantro/hantro_drv.c | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >=20
-> > > > diff --git a/drivers/staging/media/hantro/hantro_drv.c
-> > > > b/drivers/staging/media/hantro/hantro_drv.c index
-> > > > 8a2edd67f2c6..20e508158871 100644
-> > > > --- a/drivers/staging/media/hantro/hantro_drv.c
-> > > > +++ b/drivers/staging/media/hantro/hantro_drv.c
-> > > > @@ -919,7 +919,7 @@ static int hantro_probe(struct platform_device
-> > > > *pdev)
-> > > >                 if (!vpu->variant->irqs[i].handler)
-> > > >                         continue;
-> > > > =20
-> > > > -               if (vpu->variant->num_clocks > 1) {
-> > > > +               if (vpu->variant->num_irqs > 1) {
-> > >=20
-> > > Oops, thanks for spotting this.
-> > >=20
-> > > How about this instead?
-> >=20
-> > No, original solution is more robust. With solution below, you're assum=
-ing
-> > that irq order in driver array is same as in DT. That doesn't matter if
-> > there is only one name or if names match. However, if there is a typo,
-> > either in DT node or in driver, driver will still happily assign clock
-> > based on index and that might not be correct one. Even if it works out,
-> > you can easily miss that you have a typo. Driver doesn't tell you which
-> > irq is used, if it is successfully acquired.
->=20
-> I find it odd to iterate up to num_irqs but then
-> have a case for num_irqs =3D=3D 1, and call
-> platform_get_irq(vpu->pdev, 0).
+In preparation for FORTIFY_SOURCE performing compile-time and run-time
+field bounds checking for memcpy(), memmove(), and memset(), avoid
+intentionally writing across neighboring fields.
 
-True, it was also strange for me at first, but then it's robust and simple.=
-=20
-Because of that, I just fixed obvious issue.
+Split the 3 addr memcpy() into 3 memcpy() calls so the compiler doesn't
+think an overflowing memcpy() happens against the addr1 field (the
+neighbors are intended to be copied as well).
 
->=20
-> But OTOH, your fix is correct and it's a oneliner.
->=20
-> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
->=20
+rtllib_read_qos_param_element() copies a struct rtllib_info_element
+into a struct rtllib_qos_information_element, but is actually wanting to
+copy into the larger struct rtllib_qos_parameter_info (the contents of
+ac_params_record[] is later examined). Refactor the routine to perform
+centralized checks, and copy the entire contents directly (since the id
+and len members match the elementID and length members):
 
-Thanks!
+struct rtllib_info_element {
+        u8 id;
+        u8 len;
+        u8 data[];
+} __packed;
 
-Best regards,
-Jernej
+struct rtllib_qos_information_element {
+        u8 elementID;
+        u8 length;
+        u8 qui[QOS_OUI_LEN];
+        u8 qui_type;
+        u8 qui_subtype;
+        u8 version;
+        u8 ac_info;
+} __packed;
 
-> Thanks,
-> Ezequiel
+struct rtllib_qos_parameter_info {
+        struct rtllib_qos_information_element info_element;
+        u8 reserved;
+        struct rtllib_qos_ac_parameter ac_params_record[QOS_QUEUE_NUM];
+} __packed;
 
+Cc: Darshan D V <darshandv10@gmail.com>
+Cc: Aditya Srivastava <yashsri421@gmail.com>
+Cc: devel@driverdev.osuosl.org
+Cc: Larry Finger <Larry.Finger@lwfinger.net>
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ drivers/staging/rtl8192e/rtllib_crypt_ccmp.c |  4 +-
+ drivers/staging/rtl8192e/rtllib_rx.c         | 57 ++++++--------------
+ 2 files changed, 20 insertions(+), 41 deletions(-)
 
-
+diff --git a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
+index b60e2a109ce4..ed968c01c7ff 100644
+--- a/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
++++ b/drivers/staging/rtl8192e/rtllib_crypt_ccmp.c
+@@ -133,7 +133,9 @@ static int ccmp_init_iv_and_aad(struct rtllib_hdr_4addr *hdr,
+ 	pos = (u8 *) hdr;
+ 	aad[0] = pos[0] & 0x8f;
+ 	aad[1] = pos[1] & 0xc7;
+-	memcpy(aad + 2, hdr->addr1, 3 * ETH_ALEN);
++	memcpy(&aad[2], &hdr->addr1, ETH_ALEN);
++	memcpy(&aad[8], &hdr->addr2, ETH_ALEN);
++	memcpy(&aad[14], &hdr->addr3, ETH_ALEN);
+ 	pos = (u8 *) &hdr->seq_ctl;
+ 	aad[20] = pos[0] & 0x0f;
+ 	aad[21] = 0; /* all bits masked */
+diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
+index c2209c033838..e3d0a361d370 100644
+--- a/drivers/staging/rtl8192e/rtllib_rx.c
++++ b/drivers/staging/rtl8192e/rtllib_rx.c
+@@ -1556,6 +1556,8 @@ static int rtllib_verify_qos_info(struct rtllib_qos_information_element
+ 				     *info_element, int sub_type)
+ {
+ 
++	if (info_element->elementID != QOS_ELEMENT_ID)
++		return -1;
+ 	if (info_element->qui_subtype != sub_type)
+ 		return -1;
+ 	if (memcmp(info_element->qui, qos_oui, QOS_OUI_LEN))
+@@ -1570,57 +1572,32 @@ static int rtllib_verify_qos_info(struct rtllib_qos_information_element
+ 
+ 
+ /* Parse a QoS parameter element */
+-static int rtllib_read_qos_param_element(struct rtllib_qos_parameter_info
+-							*element_param,
+-					 struct rtllib_info_element
+-							*info_element)
++static int rtllib_read_qos_param_element(
++			struct rtllib_qos_parameter_info *element_param,
++			struct rtllib_info_element *info_element)
+ {
+-	int ret = 0;
+-	u16 size = sizeof(struct rtllib_qos_parameter_info) - 2;
++	size_t size = sizeof(*element_param);
+ 
+-	if ((info_element == NULL) || (element_param == NULL))
++	if (!element_param || !info_element || info_element->len != size - 2)
+ 		return -1;
+ 
+-	if (info_element->id == QOS_ELEMENT_ID && info_element->len == size) {
+-		memcpy(element_param->info_element.qui, info_element->data,
+-		       info_element->len);
+-		element_param->info_element.elementID = info_element->id;
+-		element_param->info_element.length = info_element->len;
+-	} else
+-		ret = -1;
+-	if (ret == 0)
+-		ret = rtllib_verify_qos_info(&element_param->info_element,
+-						QOS_OUI_PARAM_SUB_TYPE);
+-	return ret;
++	memcpy(element_param, info_element, size);
++	return rtllib_verify_qos_info(&element_param->info_element,
++				      QOS_OUI_PARAM_SUB_TYPE);
+ }
+ 
+ /* Parse a QoS information element */
+-static int rtllib_read_qos_info_element(struct rtllib_qos_information_element
+-							*element_info,
+-					struct rtllib_info_element
+-							*info_element)
++static int rtllib_read_qos_info_element(
++			struct rtllib_qos_information_element *element_info,
++			struct rtllib_info_element *info_element)
+ {
+-	int ret = 0;
+-	u16 size = sizeof(struct rtllib_qos_information_element) - 2;
++	size_t size = sizeof(*element_info);
+ 
+-	if (element_info == NULL)
++	if (!element_info || !info_element || info_element->len != size - 2)
+ 		return -1;
+-	if (info_element == NULL)
+-		return -1;
+-
+-	if ((info_element->id == QOS_ELEMENT_ID) &&
+-	    (info_element->len == size)) {
+-		memcpy(element_info->qui, info_element->data,
+-		       info_element->len);
+-		element_info->elementID = info_element->id;
+-		element_info->length = info_element->len;
+-	} else
+-		ret = -1;
+ 
+-	if (ret == 0)
+-		ret = rtllib_verify_qos_info(element_info,
+-					     QOS_OUI_INFO_SUB_TYPE);
+-	return ret;
++	memcpy(element_info, info_element, size);
++	return rtllib_verify_qos_info(element_info, QOS_OUI_INFO_SUB_TYPE);
+ }
+ 
+ 
+-- 
+2.30.2
 
