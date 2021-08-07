@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3973487
-	for <linux-staging@lists.linux.dev>; Sat,  7 Aug 2021 15:37:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2894B3480
+	for <linux-staging@lists.linux.dev>; Sat,  7 Aug 2021 15:37:24 +0000 (UTC)
 Received: from dslb-084-059-249-202.084.059.pools.vodafone-ip.de ([84.59.249.202] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1mCONz-0003Y3-OW; Sat, 07 Aug 2021 17:37:19 +0200
+	id 1mCONu-0003Y3-UR; Sat, 07 Aug 2021 17:37:15 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 10/12] staging: r8188eu: use IW_HANDLER to declare wext handlers
-Date: Sat,  7 Aug 2021 17:36:34 +0200
-Message-Id: <20210807153636.11712-11-martin@kaiser.cx>
+Subject: [PATCH 05/12] staging: r8188eu: remove RT_TRACE prints from mlme_linux.c
+Date: Sat,  7 Aug 2021 17:36:29 +0200
+Message-Id: <20210807153636.11712-6-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210807153636.11712-1-martin@kaiser.cx>
 References: <20210807153636.11712-1-martin@kaiser.cx>
@@ -30,125 +30,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the IW_HANDLER macro to declare the handler functions for
-wext ioctls. We don't have to skip unused ioctl numbers manually.
-
-The same modification was applied to the deprecated rtl8188eu driver in
-commit af249fce390f ("staging: rtl8188eu: use IW_HANDLER to declare wext
-handlers").
+We should use the standard mechanism for debug prints. Remove the prints
+that use driver-specific macros.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/os_dep/ioctl_linux.c | 96 ++++++++------------
- 1 file changed, 40 insertions(+), 56 deletions(-)
+ drivers/staging/r8188eu/os_dep/mlme_linux.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index 404744c90518..3da5adc64404 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -7426,62 +7426,46 @@ static int rtw_test(
- }
+diff --git a/drivers/staging/r8188eu/os_dep/mlme_linux.c b/drivers/staging/r8188eu/os_dep/mlme_linux.c
+index 0855b218f7b1..259628cbf020 100644
+--- a/drivers/staging/r8188eu/os_dep/mlme_linux.c
++++ b/drivers/staging/r8188eu/os_dep/mlme_linux.c
+@@ -113,12 +113,8 @@ void rtw_report_sec_ie(struct adapter *adapter, u8 authmode, u8 *sec_ie)
+ 	u8	*buff, *p, i;
+ 	union iwreq_data wrqu;
  
- static iw_handler rtw_handlers[] = {
--	NULL,					/* SIOCSIWCOMMIT */
--	rtw_wx_get_name,		/* SIOCGIWNAME */
--	dummy,					/* SIOCSIWNWID */
--	dummy,					/* SIOCGIWNWID */
--	NULL,				/* SIOCSIWFREQ */
--	rtw_wx_get_freq,		/* SIOCGIWFREQ */
--	rtw_wx_set_mode,		/* SIOCSIWMODE */
--	rtw_wx_get_mode,		/* SIOCGIWMODE */
--	dummy,					/* SIOCSIWSENS */
--	rtw_wx_get_sens,		/* SIOCGIWSENS */
--	NULL,					/* SIOCSIWRANGE */
--	rtw_wx_get_range,		/* SIOCGIWRANGE */
--	rtw_wx_set_priv,		/* SIOCSIWPRIV */
--	NULL,					/* SIOCGIWPRIV */
--	NULL,					/* SIOCSIWSTATS */
--	NULL,					/* SIOCGIWSTATS */
--	dummy,					/* SIOCSIWSPY */
--	dummy,					/* SIOCGIWSPY */
--	NULL,					/* SIOCGIWTHRSPY */
--	NULL,					/* SIOCWIWTHRSPY */
--	rtw_wx_set_wap,		/* SIOCSIWAP */
--	rtw_wx_get_wap,		/* SIOCGIWAP */
--	rtw_wx_set_mlme,		/* request MLME operation; uses struct iw_mlme */
--	dummy,					/* SIOCGIWAPLIST -- depricated */
--	rtw_wx_set_scan,		/* SIOCSIWSCAN */
--	rtw_wx_get_scan,		/* SIOCGIWSCAN */
--	rtw_wx_set_essid,		/* SIOCSIWESSID */
--	rtw_wx_get_essid,		/* SIOCGIWESSID */
--	dummy,					/* SIOCSIWNICKN */
--	rtw_wx_get_nick,		/* SIOCGIWNICKN */
--	NULL,					/* -- hole -- */
--	NULL,					/* -- hole -- */
--	rtw_wx_set_rate,		/* SIOCSIWRATE */
--	rtw_wx_get_rate,		/* SIOCGIWRATE */
--	rtw_wx_set_rts,			/* SIOCSIWRTS */
--	rtw_wx_get_rts,			/* SIOCGIWRTS */
--	rtw_wx_set_frag,		/* SIOCSIWFRAG */
--	rtw_wx_get_frag,		/* SIOCGIWFRAG */
--	dummy,					/* SIOCSIWTXPOW */
--	dummy,					/* SIOCGIWTXPOW */
--	dummy,					/* SIOCSIWRETRY */
--	rtw_wx_get_retry,		/* SIOCGIWRETRY */
--	rtw_wx_set_enc,			/* SIOCSIWENCODE */
--	rtw_wx_get_enc,			/* SIOCGIWENCODE */
--	dummy,					/* SIOCSIWPOWER */
--	rtw_wx_get_power,		/* SIOCGIWPOWER */
--	NULL,					/*---hole---*/
--	NULL,					/*---hole---*/
--	rtw_wx_set_gen_ie,		/* SIOCSIWGENIE */
--	NULL,					/* SIOCGWGENIE */
--	rtw_wx_set_auth,		/* SIOCSIWAUTH */
--	NULL,					/* SIOCGIWAUTH */
--	rtw_wx_set_enc_ext,		/* SIOCSIWENCODEEXT */
--	NULL,					/* SIOCGIWENCODEEXT */
--	rtw_wx_set_pmkid,		/* SIOCSIWPMKSA */
--	NULL,					/*---hole---*/
-+	IW_HANDLER(SIOCGIWNAME, rtw_wx_get_name),
-+	IW_HANDLER(SIOCSIWNWID, dummy),
-+	IW_HANDLER(SIOCGIWNWID, dummy),
-+	IW_HANDLER(SIOCGIWFREQ, rtw_wx_get_freq),
-+	IW_HANDLER(SIOCSIWMODE, rtw_wx_set_mode),
-+	IW_HANDLER(SIOCGIWMODE, rtw_wx_get_mode),
-+	IW_HANDLER(SIOCSIWSENS, dummy),
-+	IW_HANDLER(SIOCGIWSENS, rtw_wx_get_sens),
-+	IW_HANDLER(SIOCGIWRANGE, rtw_wx_get_range),
-+	IW_HANDLER(SIOCSIWPRIV, rtw_wx_set_priv),
-+	IW_HANDLER(SIOCSIWSPY, dummy),
-+	IW_HANDLER(SIOCGIWSPY, dummy),
-+	IW_HANDLER(SIOCSIWAP, rtw_wx_set_wap),
-+	IW_HANDLER(SIOCGIWAP, rtw_wx_get_wap),
-+	IW_HANDLER(SIOCSIWMLME, rtw_wx_set_mlme),
-+	IW_HANDLER(SIOCGIWAPLIST, dummy),
-+	IW_HANDLER(SIOCSIWSCAN, rtw_wx_set_scan),
-+	IW_HANDLER(SIOCGIWSCAN, rtw_wx_get_scan),
-+	IW_HANDLER(SIOCSIWESSID, rtw_wx_set_essid),
-+	IW_HANDLER(SIOCGIWESSID, rtw_wx_get_essid),
-+	IW_HANDLER(SIOCSIWNICKN, dummy),
-+	IW_HANDLER(SIOCGIWNICKN, rtw_wx_get_nick),
-+	IW_HANDLER(SIOCSIWRATE, rtw_wx_set_rate),
-+	IW_HANDLER(SIOCGIWRATE, rtw_wx_get_rate),
-+	IW_HANDLER(SIOCSIWRTS, rtw_wx_set_rts),
-+	IW_HANDLER(SIOCGIWRTS, rtw_wx_get_rts),
-+	IW_HANDLER(SIOCSIWFRAG, rtw_wx_set_frag),
-+	IW_HANDLER(SIOCGIWFRAG, rtw_wx_get_frag),
-+	IW_HANDLER(SIOCSIWTXPOW, dummy),
-+	IW_HANDLER(SIOCGIWTXPOW, dummy),
-+	IW_HANDLER(SIOCSIWRETRY, dummy),
-+	IW_HANDLER(SIOCGIWRETRY, rtw_wx_get_retry),
-+	IW_HANDLER(SIOCSIWENCODE, rtw_wx_set_enc),
-+	IW_HANDLER(SIOCGIWENCODE, rtw_wx_get_enc),
-+	IW_HANDLER(SIOCSIWPOWER, dummy),
-+	IW_HANDLER(SIOCGIWPOWER, rtw_wx_get_power),
-+	IW_HANDLER(SIOCSIWGENIE, rtw_wx_set_gen_ie),
-+	IW_HANDLER(SIOCSIWAUTH, rtw_wx_set_auth),
-+	IW_HANDLER(SIOCSIWENCODEEXT, rtw_wx_set_enc_ext),
-+	IW_HANDLER(SIOCSIWPMKSA, rtw_wx_set_pmkid),
- };
- 
- static const struct iw_priv_args rtw_private_args[] = {
+-	RT_TRACE(_module_mlme_osdep_c_, _drv_info_,
+-		 ("+rtw_report_sec_ie, authmode=%d\n", authmode));
+ 	buff = NULL;
+ 	if (authmode == _WPA_IE_ID_) {
+-		RT_TRACE(_module_mlme_osdep_c_, _drv_info_,
+-			 ("rtw_report_sec_ie, authmode=%d\n", authmode));
+ 		buff = kzalloc(IW_CUSTOM_MAX, GFP_KERNEL);
+ 		if (!buff)
+ 			return;
 -- 
 2.20.1
 
