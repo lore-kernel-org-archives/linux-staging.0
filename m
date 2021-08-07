@@ -1,41 +1,41 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C7717F
-	for <linux-staging@lists.linux.dev>; Sat,  7 Aug 2021 07:24:14 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id l18so14013169wrv.5
-        for <linux-staging@lists.linux.dev>; Sat, 07 Aug 2021 00:24:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F1993482
+	for <linux-staging@lists.linux.dev>; Sat,  7 Aug 2021 07:24:15 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id b11so14014209wrx.6
+        for <linux-staging@lists.linux.dev>; Sat, 07 Aug 2021 00:24:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=kOfa29VAz1NlQekE8P7/3E01ehCcTCDdZpc8rzXu9+8=;
-        b=TGhhO0/U6iy8CTCCnuKpidFV3bVAKGjyFHC08l2wtYLPab/r+yk5oD6fGhXCHbLxd2
-         K2mn2qSorYg4FB7W+sJa00dDlVJOmNvoXX2o9BtaigdrFSWBPnInrQEPNkC9CWXmxyf5
-         eXNYN2U3yR/rtSJwa4swc8BmqYcThmrXA0xaw60tFy3Gm4dqy4Y7nZe7mqLwTowW/ieB
-         DDSQwdVNPQvRSMZPIwKUd+Fh4uz+GnBK279vVNfniD6CpE7jBghKmazPZyUtH2nBckTr
-         nHoRNxAXvDt6Co/QwN8BChk/ahEMkys+pzqjE0KNphbfblh/lqUDOUocZ3MSd+10wcqr
-         VsRA==
+        bh=yZpnRUE7Yphc08hk+DfeofGWDUldN9X75Xfsn9wH+PI=;
+        b=tkuh9GwkNrziaUJcWCPMGArRfZFREuWJscQeOTFC2VdmpunXRGLccsjRmViIBy650D
+         XOSRbSFpHjBi1x7WtDfb5P7qDUb2wGkF8j+qGWPQtLt6AO6MJfcvrt/V7gFgQEptTXny
+         5gZ/du1j83vMH0O0lOuFx+Lf1+637JAathlRJg5WAhcnODdpH/IJ2OJbzr+ugsOxRcl3
+         yds2YIZ2pcI9MDGv4P34nztU/dJzZQ9k7bl4NigCYMIv09yjsSjzCDRZdIfJ9pcnjXzh
+         Sf9XsaSZRWU0LsMFNXNPtS5cBlCpNll9okhgIy2wsVVYhxBtaxMH/CRcYtA+quhKE/Wm
+         JlNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kOfa29VAz1NlQekE8P7/3E01ehCcTCDdZpc8rzXu9+8=;
-        b=Ic+QPcr8LC8VmdPMbTBDBrKpMJQa7yZM8HVx1bx3pWmFlwsTXl90xxaMz1+tvZXxrl
-         m2aE6tSQJMPHEL1twT5pN6PKgH+KYZZSqV2xnVAoh/EJYHoWfy+zyxb1OgToqI3+4IhX
-         4EVHbA+DoUoLev0aal4Kab5JdIQrCd1En5N/ay906TwuEEhLp2HHOd2Vil5U+ld7JMzf
-         xs7Way7TAIxMEq0aVE5GKjqMjD4GeEg/g3XXEH+/zeig15uO+qERuKZexbT6jxFccVFg
-         WejPHclIOhxgLX7Ak5ZDuk3RYrkk2K6L7j9q8yZ8qWkkmHJ4SVB7xmoNrNi+YArfycbd
-         /W0w==
-X-Gm-Message-State: AOAM532kE6aqWPjVqDFD9aTdJj0iNcxKKzHXzdsXVA6KkCnCW2U6wfDb
-	j6X2fjCW55qcozgK9JCARDs=
-X-Google-Smtp-Source: ABdhPJysQAP0lK1qriodegnx5Hj0BurpjgKvd5yHBxHmXA0OugHLV7iTq7mxtI17CdFLqvJKir5NSw==
-X-Received: by 2002:adf:f383:: with SMTP id m3mr14107000wro.81.1628321052848;
-        Sat, 07 Aug 2021 00:24:12 -0700 (PDT)
+        bh=yZpnRUE7Yphc08hk+DfeofGWDUldN9X75Xfsn9wH+PI=;
+        b=cotMzzSRp0xdOUhT4Cg+ZeZCNPvl+tFcquXgp43iNzNEVzr1LkcStF+zCZbKkMqIh0
+         boB9FPaxKriK7xkOK0C5O+8ScIz5eR+fyrh1uMMstetjr24a75yAfBF1SbrjegnVS6iv
+         CRpBnKoo3gVc4fCDPKiSNSxRpWDUSh2NBpS/Mg8GAjWTbwykkznMkolq/pyrlm0RL0oZ
+         czGMddKb8P5r+WPZxDLpoAS1EryyG3kzWSAfnu+HD8pFGLy+aGsM4NljNKeogzKDFaK8
+         keXGTIuRy2JQ3k5SlAis7B281WWT3m9nyOaXaYnUBaHf+ZMYSkwB3FGkXrLSMbpE5dw7
+         BsCw==
+X-Gm-Message-State: AOAM533kmLTCHZiq7+fOgC+dLVXNE7zCCsCR1kz2+kUzxdk9pFn+QDZ+
+	sDI3v1Z/fWtrSYoQMbZHB0U=
+X-Google-Smtp-Source: ABdhPJzKUcb0GlM7+05lEwrA4+pLfbrxh+7eaDz8GgEdAS/28Q2qBHVfYajgOFmAupBXq5171WCmew==
+X-Received: by 2002:adf:f88c:: with SMTP id u12mr14596257wrp.144.1628321053823;
+        Sat, 07 Aug 2021 00:24:13 -0700 (PDT)
 Received: from localhost.localdomain (10.red-83-57-27.dynamicip.rima-tde.net. [83.57.27.10])
-        by smtp.gmail.com with ESMTPSA id g5sm13915017wmh.31.2021.08.07.00.24.11
+        by smtp.gmail.com with ESMTPSA id g5sm13915017wmh.31.2021.08.07.00.24.12
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 07 Aug 2021 00:24:12 -0700 (PDT)
+        Sat, 07 Aug 2021 00:24:13 -0700 (PDT)
 From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 To: tsbogend@alpha.franken.de
 Cc: bhelgaas@google.com,
@@ -46,9 +46,9 @@ Cc: bhelgaas@google.com,
 	linux-staging@lists.linux.dev,
 	neil@brown.name,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] MIPS: ralink: don't define PC_IOBASE but increase IO_SPACE_LIMIT
-Date: Sat,  7 Aug 2021 09:24:07 +0200
-Message-Id: <20210807072409.9018-2-sergio.paracuellos@gmail.com>
+Subject: [PATCH 2/3] PCI: of: avoid 'devm_pci_remap_iospace' if PCI_IOBASE is not defined
+Date: Sat,  7 Aug 2021 09:24:08 +0200
+Message-Id: <20210807072409.9018-3-sergio.paracuellos@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210807072409.9018-1-sergio.paracuellos@gmail.com>
 References: <20210807072409.9018-1-sergio.paracuellos@gmail.com>
@@ -60,38 +60,81 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Defining PCI_IOBASE results in pci resource handling working but the
-addresses generated for IO accesses are wrong since the ioremap in the pci
-core function 'pci_parse_request_of_pci_ranges' tries to remap to a fixed
-virtual address (PC_IOBASE) which can't work for KSEG1 addresses. To get
-it working this way, we would need to put PCI_IOBASE somewhere into KSEG2
-which will result in creating TLB entries for IO addresses, which most of
-the time isn't needed on MIPS because of access via KSEG1. So avoid to
-define PCI_IOBASE and increase IO_SPACE_LIMIT resource for ralink MIPS
-platform instead, to get valid IO addresses for resources from pci core
-'pci_address_to_pio' function.
+Defining PCI_IOBASE for MIPS ralink in expected addresses results in PCI IO
+resources being assigned but the addresses generated for IO accesses are wrong
+since the ioremap in the PCI core function 'pci_parse_request_of_pci_ranges'
+tries to remap to a fixed virtual address (PC_IOBASE) which can't work for KSEG1
+addresses. To get it working this way, we would need to put PCI_IOBASE somewhere
+into KSEG2 which will result in creating TLB entries for IO addresses, which most
+of the time isn't needed on MIPS because of access via KSEG1. To allow MIPS PCI
+drivers to properly use the PCI generic core we need to increase IO_SPACE_LIMIT
+since IO addresses are in addresses higher that 0xffff. We also need to avoid
+the call 'devm_pci_remap_iospace' when 'pci_parse_request_of_pci_ranges' is
+called to avoid the following problem:
 
-Fixes: 222b27713d7f ("MIPS: ralink: Define PCI_IOBASE)
+------------[ cut here ]------------
+WARNING: CPU: 2 PID: 1 at ../drivers/pci/pci.c:4066 pci_remap_iospace+0x3c/0x54
+This architecture does not support memory mapped I/O
+Modules linked in:
+CPU: 2 PID: 1 Comm: swapper/0 Not tainted 5.10.1+ #1228
+Stack : 00000000 00000000 807fa974 00000000 827ffa80 80066b48 80710000 0000000b
+        00000000 00000000 81c59aac 7d06ddec 80850000 00000001 81c59a40 7d06ddec
+        00000000 00000000 807c909c 81c598f0 00000001 81c59904 00000000 0000000a
+        203a6d6d 80708880 0000000f 70617773 80850000 00000000 00000000 807d0000
+        807ffecc 1e160000 00000001 00000200 00000000 8054e920 00000008 815e0008
+        ...
+Call Trace:
+[<80008efc>] show_stack+0x8c/0x130
+[<806e1674>] dump_stack+0x9c/0xc8
+[<80024a3c>] __warn+0xc0/0xe8
+[<80024ad0>] warn_slowpath_fmt+0x6c/0xbc
+[<80410ca8>] pci_remap_iospace+0x3c/0x54
+[<80410d20>] devm_pci_remap_iospace+0x58/0xa4
+[<8042019c>] devm_of_pci_bridge_init+0x4dc/0x55c
+[<80408de8>] devm_pci_alloc_host_bridge+0x78/0x88
+[<80424e44>] mt7621_pci_probe+0x68/0x9a4
+[<80464804>] platform_drv_probe+0x40/0x7c
+[<804628bc>] really_probe+0x2fc/0x4e4
+[<80463214>] device_driver_attach+0x4c/0x74
+[<80463384>] __driver_attach+0x148/0x150
+[<8046047c>] bus_for_each_dev+0x6c/0xb0
+[<804614dc>] bus_add_driver+0x1b4/0x1fc
+[<80463aa0>] driver_register+0xd0/0x110
+[<80001714>] do_one_initcall+0x84/0x1c0
+[<808e7fd0>] kernel_init_freeable+0x214/0x24c
+[<806e4164>] kernel_init+0x14/0x118
+[<80003358>] ret_from_kernel_thread+0x14/0x1c
+
+---[ end trace 1c9d4412bd51b53c ]---
+mt7621-pci 1e140000.pcie: error -19: failed to map resource [io  0x1e160000-0x1e16ffff]
+
+Hence don't call 'devm_pci_remap_iospace' if PCI_IOBASE is not defined to get
+a working PCI core APIs for MIPS ralink platforms.
+
 Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 ---
- arch/mips/include/asm/mach-ralink/spaces.h | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/pci/of.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/mips/include/asm/mach-ralink/spaces.h b/arch/mips/include/asm/mach-ralink/spaces.h
-index 87d085c9ad61..31a3525213cf 100644
---- a/arch/mips/include/asm/mach-ralink/spaces.h
-+++ b/arch/mips/include/asm/mach-ralink/spaces.h
-@@ -2,9 +2,7 @@
- #ifndef __ASM_MACH_RALINK_SPACES_H_
- #define __ASM_MACH_RALINK_SPACES_H_
+diff --git a/drivers/pci/of.c b/drivers/pci/of.c
+index a143b02b2dcd..657aef39bf63 100644
+--- a/drivers/pci/of.c
++++ b/drivers/pci/of.c
+@@ -564,12 +564,14 @@ static int pci_parse_request_of_pci_ranges(struct device *dev,
  
--#define PCI_IOBASE	_AC(0xa0000000, UL)
--#define PCI_IOSIZE	SZ_16M
--#define IO_SPACE_LIMIT	(PCI_IOSIZE - 1)
-+#define IO_SPACE_LIMIT	0x1fffffff
- 
- #include <asm/mach-generic/spaces.h>
- #endif
+ 		switch (resource_type(res)) {
+ 		case IORESOURCE_IO:
++#ifdef PCI_IOBASE
+ 			err = devm_pci_remap_iospace(dev, res, iobase);
+ 			if (err) {
+ 				dev_warn(dev, "error %d: failed to map resource %pR\n",
+ 					 err, res);
+ 				resource_list_destroy_entry(win);
+ 			}
++#endif
+ 			break;
+ 		case IORESOURCE_MEM:
+ 			res_valid |= !(res->flags & IORESOURCE_PREFETCH);
 -- 
 2.25.1
 
