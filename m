@@ -1,50 +1,50 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446172FB3
-	for <linux-staging@lists.linux.dev>; Sat,  7 Aug 2021 09:48:38 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id b13so14337579wrs.3
-        for <linux-staging@lists.linux.dev>; Sat, 07 Aug 2021 02:48:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C3192FB3
+	for <linux-staging@lists.linux.dev>; Sat,  7 Aug 2021 09:48:39 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id d131-20020a1c1d890000b02902516717f562so7751560wmd.3
+        for <linux-staging@lists.linux.dev>; Sat, 07 Aug 2021 02:48:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=i4txUbUiM72tg9+taxP8c210NgRR0U+ErnpmNqbMHEI=;
-        b=iEPWkQ/dnS265W7fBT/TEgqIIRyyMIliV/GBBFJWxkM6ogZnTVA7OptaFtIoBQutWL
-         VkugHFefYY8AzTppMkuc8QQmdhiPIBJyF87UM0FfnpZBVNWR/jnPRimt133kcXw+Y5nu
-         q1Ry6oJc0ZjBqk2fqreB6zjmztiRDR4PC4ARnr29nLoMzR1qDDw9XxhQcVhcFxb8lADX
-         2cEQfo/pAfK0ZQEH4573FBkg+S6DT6YonAJlI1HE28UPPQSsj+CxWeXrX80JVJiWFTUd
-         VRSkUZEMWt7kdRGmdxgaaXI3GopgZMc3LXHDOsudevwxoAjBEIFAPzRY8xcPKL0qce6i
-         +FLg==
+        bh=6SDVwAxo8MuHClJKgaVJAPWUKlCJYuiKpUSio+EsXf4=;
+        b=gMS6SctLHDCRPcwWmcR+TmjFJveV434CNMBCOi9q71OTUw3SiaCW0MEAGoGSEDxw5f
+         XYo1zIQ4HKaUVmBQvJxPmw256xes8VIzViUfnppzEhoo4+gYmyCLcdZLx3IAUrRQMTIP
+         NZOUt9L9CSpvKEsm+kry1stXCbOdnZYZh0RYyiqymlS1yhSsBvmAcuBam+/2PUFWGiAi
+         eGULh3aCHeQm6u9kGE1a29RNjTHLLGjBPYrLxNAY2i8jvFXWxGdQDcUPOOSpgaBnib+A
+         EK4gxPIFTff9yCOuGuXvHO/vE+wR7XNt/SfCBYRJ/iWASeky1ECoH/dZIXLxqj0gVho8
+         lPdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=i4txUbUiM72tg9+taxP8c210NgRR0U+ErnpmNqbMHEI=;
-        b=HMX5V0zP9cgSHKnf/07uBGFH5ucUA0wKykdjLS/o+DkkuclvXAEPK3iX6Q6arzBdWd
-         qo05N9YTWxxwr7eqmZwgTmS53ZGIhh4odPGU4//99br/ch++yD2WGECFtSOooGyOSrPR
-         N/hcrZQZqb23I8diGGAHhPwtd/vYq36iOHCvZKodGaEmG3tdUArlrtC7G0vo04/VLQOz
-         wuoEe7F0kZOikdnnPsFVuHWoRuc+/vCrmxsb1/gjSFMUBye7pVwNJBJ8lYGx2mU8EZsm
-         a3i9qp3QqlHjLQwLQSv33gIPu6HUl6/vW+J8mqP9ImjShty6eMQqD/d0CtF3Sfn64I+r
-         bb6w==
-X-Gm-Message-State: AOAM5305wu1nMoye+wxN1uYTZ88Blw1sMGCYX0lFL5f3K2uXN3G6KVCh
-	IZLeRXRpQkye6WUOKti95/8=
-X-Google-Smtp-Source: ABdhPJyhei1pjYm7I3WMqJNUc7CB23dSmOuCDVOnXcKnm3Yp4eGbtn7LNHQb956N3JyRESoBBrgI2A==
-X-Received: by 2002:adf:f112:: with SMTP id r18mr14538107wro.160.1628329716716;
-        Sat, 07 Aug 2021 02:48:36 -0700 (PDT)
+        bh=6SDVwAxo8MuHClJKgaVJAPWUKlCJYuiKpUSio+EsXf4=;
+        b=XGy9tq09Twrj0Db49XSgOVHFtuqqFXi86vi2L+OtlIu5fskAvfUpTj797hrIBqUqih
+         aDcyWTEfvAVpQ+WRDlOSznG5bspYM/TwhHhIZwZzPZ9dPAFj7Ev87swC1cBhWwxIszeC
+         9XF1NsZnBOzWeUZ13vcappwziSxY0fzDGMA/vHoejIvyi6sIA6OuN08RKb9RVQzHDWrX
+         zYJ8NqkTEl+eFDgv4iGbjrjs0H0gIzl8Rr50N0SPgHT9xmOdZHOnzg4GrIriE9N0msEL
+         aGSPWZwF39JgY4h6WwrEQwVO3abdPwQiE3zLDC/V7qPlP17ZiQU3Wsctc+pwM9LEQgC1
+         Hv8Q==
+X-Gm-Message-State: AOAM531TEojXS62bNIHTxQFzT/LZ15cR5SLUmIa4S7K6k623euKbJ/JG
+	BOnRuMXGcxJPMQeSIFzamUM=
+X-Google-Smtp-Source: ABdhPJxmJLXuCSsatnpHPIZpX4tl0hFbZodDj/NY74F7Lw0zONQN3VAoXEbdBdeLKLToRH5t9Afinw==
+X-Received: by 2002:a05:600c:4b86:: with SMTP id e6mr24184388wmp.110.1628329718022;
+        Sat, 07 Aug 2021 02:48:38 -0700 (PDT)
 Received: from agape ([5.171.80.112])
-        by smtp.gmail.com with ESMTPSA id c190sm11252174wma.21.2021.08.07.02.48.36
+        by smtp.gmail.com with ESMTPSA id d9sm1809720wrw.26.2021.08.07.02.48.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Aug 2021 02:48:36 -0700 (PDT)
+        Sat, 07 Aug 2021 02:48:37 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: hdegoede@redhat.com,
 	Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 16/21] staging: rtl8723bs: remove unused rtw_rf_config module param
-Date: Sat,  7 Aug 2021 11:48:08 +0200
-Message-Id: <a83eaa9b2350d3d16f5b1dddc40870e0f0a6df06.1628329348.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 17/21] staging: rtl8723bs: remove unused macro in include/hal_data.h
+Date: Sat,  7 Aug 2021 11:48:09 +0200
+Message-Id: <13b4f41247d1b8bc10f0576d82e4dc9a285d88e1.1628329348.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1628329348.git.fabioaiuto83@gmail.com>
 References: <cover.1628329348.git.fabioaiuto83@gmail.com>
@@ -56,56 +56,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove unused rtw_rf_config module param and struct field
-used to store the param value.
+remove unused macro in include/hal_data.h
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/drv_types.h | 1 -
- drivers/staging/rtl8723bs/os_dep/os_intfs.c   | 4 ----
- 2 files changed, 5 deletions(-)
+ drivers/staging/rtl8723bs/include/hal_data.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
-index d49009c75d2e..580028d28c42 100644
---- a/drivers/staging/rtl8723bs/include/drv_types.h
-+++ b/drivers/staging/rtl8723bs/include/drv_types.h
-@@ -132,7 +132,6 @@ struct registry_priv {
+diff --git a/drivers/staging/rtl8723bs/include/hal_data.h b/drivers/staging/rtl8723bs/include/hal_data.h
+index f0b26e44f9b9..2bd7a7151db1 100644
+--- a/drivers/staging/rtl8723bs/include/hal_data.h
++++ b/drivers/staging/rtl8723bs/include/hal_data.h
+@@ -404,6 +404,5 @@ struct hal_com_data {
+ #define GET_HAL_DATA(__padapter)	((struct hal_com_data *)((__padapter)->HalData))
+ #define GET_HAL_RFPATH_NUM(__padapter) (((struct hal_com_data *)((__padapter)->HalData))->NumTotalRFPath)
+ #define RT_GetInterfaceSelection(_Adapter)	(GET_HAL_DATA(_Adapter)->InterfaceSel)
+-#define GET_RF_TYPE(__padapter)		(GET_HAL_DATA(__padapter)->rf_type)
  
- 	u8 lowrate_two_xmit;
- 
--	u8 rf_config;
- 	u8 low_power;
- 
- 	u8 wifi_spec;/*  !turbo_mode */
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index 128c64e0f0ab..7728eabdfe48 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -89,8 +89,6 @@ static int rtw_beamform_cap = 0x2;
- 
- static int rtw_lowrate_two_xmit = 1;/* Use 2 path Tx to transmit MCS0~7 and legacy mode */
- 
--/* int rf_config = RF_1T2R;  1T2R */
--static int rtw_rf_config = RF_MAX_TYPE;  /* auto */
- static int rtw_low_power;
- static int rtw_wifi_spec;
- static int rtw_channel_plan = RT_CHANNEL_DOMAIN_MAX;
-@@ -144,7 +142,6 @@ module_param(rtw_ampdu_amsdu, int, 0644);
- 
- module_param(rtw_lowrate_two_xmit, int, 0644);
- 
--module_param(rtw_rf_config, int, 0644);
- module_param(rtw_power_mgnt, int, 0644);
- module_param(rtw_smart_ps, int, 0644);
- module_param(rtw_low_power, int, 0644);
-@@ -249,7 +246,6 @@ static void loadparam(struct adapter *padapter, struct net_device *pnetdev)
- 	registry_par->beamform_cap = (u8)rtw_beamform_cap;
- 
- 	registry_par->lowrate_two_xmit = (u8)rtw_lowrate_two_xmit;
--	registry_par->rf_config = (u8)rtw_rf_config;
- 	registry_par->low_power = (u8)rtw_low_power;
- 
- 
+ #endif /* __HAL_DATA_H__ */
 -- 
 2.20.1
 
