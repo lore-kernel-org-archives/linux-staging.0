@@ -1,80 +1,75 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7373480
-	for <linux-staging@lists.linux.dev>; Sat,  7 Aug 2021 14:50:47 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id b13so15083855wrs.3
-        for <linux-staging@lists.linux.dev>; Sat, 07 Aug 2021 07:50:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=9hn67tJt2X1HPMWoBjQTop2rYNzqOcgRwZWoGVS2Fr0=;
-        b=qQ7q7kbLiOq0y+zSYTXgcu38Vz9+ADTLdxdQTwLWXKFPeZ/iNFjPB5QxKifmwUFS+C
-         de8b+cr/cTxcsn2Xcb3JR8iwN05NdMMBsHMmLw5JE6gZxpZtEkkaWwVUBsanjOQcQrR0
-         rziijtStCcuyD4bJay/jGhlOd41F5x0AxnmvSeuABsIroukgN8wTxW00fd3r3+Ag+GcN
-         wYeVO+PonOy0DL7IZGYbqK6CkbZgG3xXKwyPJllOnuR1/gqW9PFen7dM9JAK+ZwfcwF4
-         uDgh5oFidZuRWss38yhWzA4qZpq8RaEalc3ZTw0yuUzTENWuijVz+qYBYq2rAu3nJ1rS
-         GZBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=9hn67tJt2X1HPMWoBjQTop2rYNzqOcgRwZWoGVS2Fr0=;
-        b=Qo42UW114hISgqINq6qpba2+Hro6IwFPd85pU2IEfI94eRrZPoSXxhLScv0yvXqFGN
-         fS0X2iDBGN+xy8ZhFPQe80cmK0bspLw3sW6LdYjjJ70X1fYnO6+7CEGGb8C97A8PZW/6
-         /B5qYkcGvu0lalBfh1D0iKOkQZYIw3JHL+WoIzTaWmM0tHr9snXbie+D0MgiqCpFQlfv
-         xCMXgV7+PQdW8fOHyXPK4nmCPYjNLq4Iq7P5NyhDS2FqEUx8dHfMM+iSQyMQsv/2Y0BV
-         2hyd9Z23q2YeD5IG4RaWtDX4QXyQYZpy8CCmHfCnXYRaRQJ2A8KuM8WHLxqfkSoXMzqc
-         XDwQ==
-X-Gm-Message-State: AOAM530OkpHI/48I93cuA/glOy9sk/6uxvz4kLUu9q+S9p07izkllLca
-	C5ySsKkRz33AkPTxFP14Ndw=
-X-Google-Smtp-Source: ABdhPJznosRzvxBcRhbfL9RupXi4erQbhUVgXv9oQcXlBupwT29tuTt94TfgjfNXC08e6tOThohNyw==
-X-Received: by 2002:a5d:684a:: with SMTP id o10mr15912822wrw.384.1628347845701;
-        Sat, 07 Aug 2021 07:50:45 -0700 (PDT)
-Received: from agape.jhs ([5.171.80.175])
-        by smtp.gmail.com with ESMTPSA id e17sm2531296wru.7.2021.08.07.07.50.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Aug 2021 07:50:45 -0700 (PDT)
-Date: Sat, 7 Aug 2021 16:50:42 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Saurav Girepunje <saurav.girepunje@gmail.com>
-Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
-	insafonov@gmail.com, straube.linux@gmail.com, martin@kaiser.cx,
-	will+git@drnd.me, dan.carpenter@oracle.com,
-	apais@linux.microsoft.com, yashsri421@gmail.com,
-	marcocesati@gmail.com, ross.schm.dev@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] staging: rtl8188eu: os_dep: Remove unused variable
-Message-ID: <20210807145042.GC1425@agape.jhs>
-References: <20210807102232.6674-1-saurav.girepunje@gmail.com>
- <20210807102232.6674-2-saurav.girepunje@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2337629CA
+	for <linux-staging@lists.linux.dev>; Sat,  7 Aug 2021 15:37:20 +0000 (UTC)
+Received: from dslb-084-059-249-202.084.059.pools.vodafone-ip.de ([84.59.249.202] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1mCONo-0003Y3-5p; Sat, 07 Aug 2021 17:37:08 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 00/12] remove the remaining RT_TRACE prints
+Date: Sat,  7 Aug 2021 17:36:24 +0200
+Message-Id: <20210807153636.11712-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210807102232.6674-2-saurav.girepunje@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 
-Hello Saurav,
+Hello Greg and all,
 
-On Sat, Aug 07, 2021 at 03:52:29PM +0530, Saurav Girepunje wrote:
-> Remove unused variable data and data_len from mon_recv_decrypted() in mon.c
-> 
-> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> ---
->  drivers/staging/rtl8188eu/os_dep/mon.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8188eu/os_dep/mon.c b/drivers/staging/rtl8188eu/os_dep/mon.c
+I'm resending the patches from earlier this week, all in one series, based
+on today's staging-testing branch. I hope they do not conflict with other
+pending submissions.
 
-did you rebase you local tree on current staging-testing?
-rtl8188eu has been deleted... now there's r8188eu.
+As per Greg's request, I removed only RT_TRACE prints and left DBG_88E
+alone for now.
 
-thank you,
+While at it, I resurrected the IW_HANDLER change that was already accepted
+for the deprecated driver.
 
-fabio
+Thanks for reviewing this set,
+
+   Martin
+
+Martin Kaiser (12):
+  staging: r8188eu: remove RT_TRACE prints from usb_intf.c
+  staging: r8188eu: remove RT_TRACE prints from usb_ops_linux.c
+  staging: r8188eu: remove RT_TRACE prints from ioctl_linux.c
+  staging: r8188eu: remove empty function
+  staging: r8188eu: remove RT_TRACE prints from mlme_linux.c
+  staging: r8188eu: remove RT_TRACE prints from os_intfs.c
+  staging: r8188eu: remove an RT_TRACE print from osdep_service.c
+  staging: r8188eu: remove RT_TRACE prints from recv_linux.c
+  staging: r8188eu: remove RT_TRACE prints from xmit_linux.c
+  staging: r8188eu: use IW_HANDLER to declare wext handlers
+  staging: r8188eu: remove unused DEBUG_OID macro
+  staging: r8188eu: remove the RT_TRACE macro
+
+ drivers/staging/r8188eu/include/rtw_debug.h   |   9 -
+ drivers/staging/r8188eu/include/rtw_ioctl.h   |   6 -
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  | 181 +++++-------------
+ drivers/staging/r8188eu/os_dep/mlme_linux.c   |   4 -
+ drivers/staging/r8188eu/os_dep/os_intfs.c     |  49 +----
+ .../staging/r8188eu/os_dep/osdep_service.c    |   6 +-
+ drivers/staging/r8188eu/os_dep/recv_linux.c   |  23 +--
+ drivers/staging/r8188eu/os_dep/usb_intf.c     |  51 +----
+ .../staging/r8188eu/os_dep/usb_ops_linux.c    |  15 --
+ drivers/staging/r8188eu/os_dep/xmit_linux.c   |   8 +-
+ 10 files changed, 58 insertions(+), 294 deletions(-)
+
+-- 
+2.20.1
+
