@@ -1,50 +1,50 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B562FB7
-	for <linux-staging@lists.linux.dev>; Sat,  7 Aug 2021 09:48:22 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id z4so14322447wrv.11
-        for <linux-staging@lists.linux.dev>; Sat, 07 Aug 2021 02:48:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD042FB6
+	for <linux-staging@lists.linux.dev>; Sat,  7 Aug 2021 09:48:23 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id n12-20020a05600c3b8cb029025a67bbd40aso10670522wms.0
+        for <linux-staging@lists.linux.dev>; Sat, 07 Aug 2021 02:48:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=d0Nbs2vmcFJXEerAnkAy24smDLy8w+T8wOrXCoqMSqg=;
-        b=aPCtI+PJMs9bboSSaIICklzFdl0NMWKMIEZxYA1C37D9PSSEuaF9Wa8LgkysgONaQi
-         2gKghmzxsWB6MLVfT+bnVqhzyiWUboGlyVcSwm3SeUyJ5RxHKTh6/ad2vwzL68CRJzx/
-         d08UHFPGYdtPLaltqGQdswKCeLaXW4VAvgNsSKEqOE3r7tvu+qSdqQT4cbZ8uchXIf+c
-         JAF+DZhlF5FCmGKzfQXVMHNqcerQtPhY7grmXq82ayG+/Vt4z037/xSflSBllhbu961V
-         KgzFrATffUm/3b5ACAR3zZYuMoq3i1Vw/9Vq57+jj7iwKdw+1pDPUBY5Dtx+Gr1rpOvG
-         X3cw==
+        bh=GPndQDaxyiG3jrsoqJVhXHV4P1NA8knQl6XJxmATvj0=;
+        b=aBAVsiJKu6YBvtzM5OfjgZiVVE3LcvxOEaE/O16uOCvsgLgRvF59fE09xyJTFy8P9w
+         C0Q5ufntaCbHm4XFNA6SRNDLh8WFHv3sCkv3rsN4qzr/P+bfmp11dTRoyZKT3puKg4P4
+         4jBcn/ptwzc9URDHmN8JAo1brCORsB8a6vu7VyStZ33YXVNGAl4X3KMLWnUoofBnDixn
+         H1WjtIgig4B7hRBYa8S2adZLjdHeq+3mUuxQJpjb+F3R1lyAJ4Vmcp9JoYhgF+S1Is+W
+         AJXBLdVW3rW+/uNy7R156Hc7NJG9XtxJL2v7Wb44yhXz4DOucaWjxqRh4xYelsr4RaGG
+         XN4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=d0Nbs2vmcFJXEerAnkAy24smDLy8w+T8wOrXCoqMSqg=;
-        b=A7ygcbvYu2FYIZ1H4q5EISLoEyCP3+UPD8NIyHD6M6sVX52dfx5NOlQNXRFjmhEey4
-         QfUmGsDs3/WS6TcvGwBSHUNDN2uyWJcWeQ99V9x/YikNQ6owUyun0q1inCBM3NOSW6Ik
-         u8y6EsGb1CyEqhoi2CikuyEZX84szYc3IOMLfhMVhis9wM23UKdRRvdQrHkKN//lh3Ts
-         NEDi8HQQE/QWGlWSztz4chWxrTeeRU2lX7/1zKQiC36B8CQpD2NYmLCR4m8BuCOH+LkW
-         sA3gu+23XbHqj46BWfiUDOY+x8OiezODq21lmsnzlN9UI+Y60taTwm5fBhtBBKU884iK
-         cEBQ==
-X-Gm-Message-State: AOAM531g2k64OeiU/Xxdt2nSdV/QN78WC91wX1pS1Uz13OYqgLZ30kOV
-	8x3BIuJBarGfgX6/GpAkyyo=
-X-Google-Smtp-Source: ABdhPJwaJILn5gMj31zcvfSKxcI4B1veL2ug4dDqYsPwREdpZ7sQZkPSzlT9Sx4Cb/HXUyF8JtCM/w==
-X-Received: by 2002:adf:f889:: with SMTP id u9mr2623307wrp.3.1628329700514;
-        Sat, 07 Aug 2021 02:48:20 -0700 (PDT)
+        bh=GPndQDaxyiG3jrsoqJVhXHV4P1NA8knQl6XJxmATvj0=;
+        b=XgwYfk9EkY/qCaQbyCL5bk2thzmX0RsnhS8m/rOXiLQTnh5pSJGgy6jySITqwRPWji
+         KpCxzS773nTYgkArgiDu12G65CkHUqD0Wc+4bt9+J4cLShKOEA60jzjUiVXLKUg6PNmb
+         TilTe5kjW5fVehwEIfs56mWRV/L+LxOM6y4rni3VIo+w0gv/K2N8sm150U2gTLg7iDZl
+         K4bMD07t7qNqfQNe7WOb3R0ZgOk0ivM5Ktek75THqfkyHCQqwR0HnA8IaTryK0s3Ri+P
+         zGwzrajxGrkCEGn/pvsaXe5Dn6IYHgw9un83wwaDGbQceQ3VZXEZ+7Di2czxc18QYtTf
+         NpNw==
+X-Gm-Message-State: AOAM531SnMz1w1snIynHzB4cKb95U/bWWjtmqzl7e6UhRvGpO31A/14i
+	9xQmqrBL2DwBfb+xWdd1RU9mD4QahcM=
+X-Google-Smtp-Source: ABdhPJxpHXbVCiKXkXzJ5MZE2JKxiSI0SoBy3R53wX/1p84LWroJk0UEd89Uvv3nVux0fXtwFZeCFA==
+X-Received: by 2002:a1c:a78a:: with SMTP id q132mr7327391wme.76.1628329701880;
+        Sat, 07 Aug 2021 02:48:21 -0700 (PDT)
 Received: from agape ([5.171.80.112])
-        by smtp.gmail.com with ESMTPSA id 140sm11706543wmb.43.2021.08.07.02.48.20
+        by smtp.gmail.com with ESMTPSA id p22sm11062009wma.10.2021.08.07.02.48.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Aug 2021 02:48:20 -0700 (PDT)
+        Sat, 07 Aug 2021 02:48:21 -0700 (PDT)
 From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: hdegoede@redhat.com,
 	Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 04/21] staging: rtl8723bs: move function to file hal/odm_HWConfig.c
-Date: Sat,  7 Aug 2021 11:47:56 +0200
-Message-Id: <c2bb14c3d32d3a654df95288751f0bc8cd6566b0.1628329348.git.fabioaiuto83@gmail.com>
+Subject: [PATCH 05/21] staging: rtl8723bs: remove empty files
+Date: Sat,  7 Aug 2021 11:47:57 +0200
+Message-Id: <92cba6beb56150635ab4c7985d733c93fba7fe83.1628329348.git.fabioaiuto83@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1628329348.git.fabioaiuto83@gmail.com>
 References: <cover.1628329348.git.fabioaiuto83@gmail.com>
@@ -56,102 +56,76 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-move function odm_cck_rssi() to hal/odm_HWConfig.c.
-As it is used only in this file turn it to
-static.
+remove empty files after function move,
+hal/odm_RTL8723B.h has only an unused
+macro declaration.
 
 Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/odm_HWConfig.c | 27 +++++++++++++++++++
- drivers/staging/rtl8723bs/hal/odm_RTL8723B.c | 28 --------------------
- drivers/staging/rtl8723bs/hal/odm_RTL8723B.h |  2 --
- 3 files changed, 27 insertions(+), 30 deletions(-)
+ drivers/staging/rtl8723bs/Makefile           |  1 -
+ drivers/staging/rtl8723bs/hal/odm_RTL8723B.c |  8 --------
+ drivers/staging/rtl8723bs/hal/odm_RTL8723B.h | 12 ------------
+ drivers/staging/rtl8723bs/hal/odm_precomp.h  |  1 -
+ 4 files changed, 22 deletions(-)
+ delete mode 100644 drivers/staging/rtl8723bs/hal/odm_RTL8723B.c
+ delete mode 100644 drivers/staging/rtl8723bs/hal/odm_RTL8723B.h
 
-diff --git a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-index 6d7b34fd595e..2d4d8d57ceeb 100644
---- a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-+++ b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-@@ -71,6 +71,33 @@ static u8 odm_evm_db_to_percentage(s8 value)
- 	return ret_val;
- }
- 
-+static s8 odm_cck_rssi(u8 lna_idx, u8 vga_idx)
-+{
-+	s8 rx_pwr_all = 0x00;
-+
-+	switch (lna_idx) {
-+	/* 46  53 73 95 201301231630 */
-+	/*  46 53 77 99 201301241630 */
-+
-+	case 6:
-+		rx_pwr_all = -34 - (2 * vga_idx);
-+		break;
-+	case 4:
-+		rx_pwr_all = -14 - (2 * vga_idx);
-+		break;
-+	case 1:
-+		rx_pwr_all = 6 - (2 * vga_idx);
-+		break;
-+	case 0:
-+		rx_pwr_all = 16 - (2 * vga_idx);
-+		break;
-+	default:
-+		/* rx_pwr_all = -53+(2*(31-VGA_idx)); */
-+		break;
-+	}
-+	return rx_pwr_all;
-+}
-+
- static void odm_rx_phy_status_parsing(struct dm_odm_t *dm_odm,
- 				      struct odm_phy_info *phy_info,
- 				      u8 *phy_status,
+diff --git a/drivers/staging/rtl8723bs/Makefile b/drivers/staging/rtl8723bs/Makefile
+index fe45200ff53c..159ca1b9016b 100644
+--- a/drivers/staging/rtl8723bs/Makefile
++++ b/drivers/staging/rtl8723bs/Makefile
+@@ -35,7 +35,6 @@ r8723bs-y = \
+ 		hal/odm_HWConfig.o \
+ 		hal/odm_NoiseMonitor.o \
+ 		hal/odm_RegConfig8723B.o \
+-		hal/odm_RTL8723B.o \
+ 		hal/rtl8723b_cmd.o \
+ 		hal/rtl8723b_dm.o \
+ 		hal/rtl8723b_hal_init.o \
 diff --git a/drivers/staging/rtl8723bs/hal/odm_RTL8723B.c b/drivers/staging/rtl8723bs/hal/odm_RTL8723B.c
-index 325f2a7ae337..66bda505c01e 100644
+deleted file mode 100644
+index 66bda505c01e..000000000000
 --- a/drivers/staging/rtl8723bs/hal/odm_RTL8723B.c
-+++ b/drivers/staging/rtl8723bs/hal/odm_RTL8723B.c
-@@ -6,31 +6,3 @@
-  ******************************************************************************/
- 
- #include "odm_precomp.h"
++++ /dev/null
+@@ -1,8 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/******************************************************************************
+- *
+- * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
+- *
+- ******************************************************************************/
 -
--s8 odm_cck_rssi(u8 lna_idx, u8 vga_idx)
--{
--	s8 rx_pwr_all = 0x00;
--
--	switch (lna_idx) {
--	/* 46  53 73 95 201301231630 */
--	/*  46 53 77 99 201301241630 */
--
--	case 6:
--		rx_pwr_all = -34 - (2 * vga_idx);
--		break;
--	case 4:
--		rx_pwr_all = -14 - (2 * vga_idx);
--		break;
--	case 1:
--		rx_pwr_all = 6 - (2 * vga_idx);
--		break;
--	case 0:
--		rx_pwr_all = 16 - (2 * vga_idx);
--		break;
--	default:
--		/* rx_pwr_all = -53+(2*(31-VGA_idx)); */
--		break;
--
--	}
--	return rx_pwr_all;
--}
+-#include "odm_precomp.h"
 diff --git a/drivers/staging/rtl8723bs/hal/odm_RTL8723B.h b/drivers/staging/rtl8723bs/hal/odm_RTL8723B.h
-index 752f180ebd46..12b3ca90a43d 100644
+deleted file mode 100644
+index 12b3ca90a43d..000000000000
 --- a/drivers/staging/rtl8723bs/hal/odm_RTL8723B.h
-+++ b/drivers/staging/rtl8723bs/hal/odm_RTL8723B.h
-@@ -9,6 +9,4 @@
- 
- #define	DM_DIG_MIN_NIC_8723	0x1C
- 
--s8 odm_cck_rssi(u8 LNA_idx, u8 VGA_idx);
++++ /dev/null
+@@ -1,12 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/******************************************************************************
+- *
+- * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
+- *
+- ******************************************************************************/
+-#ifndef	__ODM_RTL8723B_H__
+-#define __ODM_RTL8723B_H__
 -
- #endif
+-#define	DM_DIG_MIN_NIC_8723	0x1C
+-
+-#endif
+diff --git a/drivers/staging/rtl8723bs/hal/odm_precomp.h b/drivers/staging/rtl8723bs/hal/odm_precomp.h
+index 5041c9535e9a..edce506022a5 100644
+--- a/drivers/staging/rtl8723bs/hal/odm_precomp.h
++++ b/drivers/staging/rtl8723bs/hal/odm_precomp.h
+@@ -43,7 +43,6 @@
+ #include "HalHWImg8723B_RF.h"
+ #include "HalHWImg8723B_BB.h"
+ #include "Hal8723BReg.h"
+-#include "odm_RTL8723B.h"
+ #include "odm_RegConfig8723B.h"
+ 
+ #endif	/*  __ODM_PRECOMP_H__ */
 -- 
 2.20.1
 
