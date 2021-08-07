@@ -1,53 +1,52 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D411770
-	for <linux-staging@lists.linux.dev>; Sat,  7 Aug 2021 09:48:44 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id m12so14309069wru.12
-        for <linux-staging@lists.linux.dev>; Sat, 07 Aug 2021 02:48:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6BC70
+	for <linux-staging@lists.linux.dev>; Sat,  7 Aug 2021 10:12:07 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id p21so16821001edi.9
+        for <linux-staging@lists.linux.dev>; Sat, 07 Aug 2021 03:12:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2aWYRmpVXXmfCzc0hGXLln/sWneJEQ0/P7zXh3U4+pM=;
-        b=Zru0D7EX4YflMhBX95pCSQbZQMsezC5CFExQ6KVQvW0G77g7U72gqzD2R3GKONI3Zc
-         Xe1/sIsxSNaQ/HYA2yT8BShZtG+5V2LjyW9TyyD3F2A5C46TpxY7cG0j/S/v3G1NklQ4
-         MA9poRvOHwBZ0XvqQnXZsFDJCR1vz6Fqy+2K3d/Xe7cXBhlYbwff6jHXrIGfFv0pAIix
-         kaL16l1W+FavoWQYNpeUyFpZ5058Q9Z+mE8j+aDLj8QnY+HD8jvQ3/IH+1oyCOZsU2kb
-         1CCffOpXORbLuanZ0465ttJU+TCPmk99NCDEhacOnYG4VDgjFWq+ynXmQjRNHQpWgEYX
-         uw3w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1OU67HbwUr4do4pKiu+mprt4x/hHymYLyxHmplXnMyk=;
+        b=qEBvSFM4ZWwzTqRLRXTSHiybKOUxWmGFiGsGwQWeKOr7LaN/7qptLh55siwChx5jbQ
+         9QYgRuf4I3jzfrkTwZ6fY9BuARbfDk4K161QGYemaWqA2HR8MxbUwfUYJ1tM3wRKso4r
+         gLqm8cyx/JTMLV9OyrFR30WVsuI/xEuFm/ys2Cz4Udosb0Je1iUJSdTe6CEyEQWI37lW
+         1SMJv4eVjjY5j1p2d4Z9sNcFNMoa81b2kAXdN9AY6zL89cyXOTQBcsyju8IGz+vdjs8e
+         TQJCeRKTHitUWrq8czBRW2vcShO23LBGOQIffaE7EBrX/W2R0h4gyoIpi3Mv189EPepI
+         nfIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2aWYRmpVXXmfCzc0hGXLln/sWneJEQ0/P7zXh3U4+pM=;
-        b=cKCd7p3eE4gJYE3d3Ln16WenWvYNDjY4/ZAzSg/6qhwnF91LtJw2Y3LAhmDosXsHYL
-         vRpxuzuOVSzrOpBFolpYh25CscFJ/RTdsw5QKZZz7oqCspoCZBQzScO+N8vFU4TswI5p
-         kPLgV5emzx3kY4xjpz4SjNyz7ot49fJfnGO94loZjc+b0MYGrvh6/J4wVPX+HYmsTWCP
-         uzKZ0rTZqJnpksWRpPNkqXzLvuaePAv/FomZfPpNinPJ0oVsX6NSGFUFGnX0pwdjplY5
-         hlN5ob9kvltz1aGNFDVwfDhxAqkPH0DSHEBKTClChfLS7LZa25o77ynC5d29DTeCVJGP
-         XHhA==
-X-Gm-Message-State: AOAM5317jhcz4siuc0HYRajtSocfAKYrllBbl/IB+fvwlJ4lBubPtC07
-	ZOsmNmo2YrKtl5YL1Pykws8=
-X-Google-Smtp-Source: ABdhPJzRGXKifkn8+7Zc4MzQYDICoV2uQ3OOL/kgODoErz8+VC8FREiXB0MkbHsA1T6hkQrYSENLXg==
-X-Received: by 2002:a5d:4562:: with SMTP id a2mr14825092wrc.347.1628329723336;
-        Sat, 07 Aug 2021 02:48:43 -0700 (PDT)
-Received: from agape ([5.171.80.112])
-        by smtp.gmail.com with ESMTPSA id g16sm14699013wro.63.2021.08.07.02.48.43
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1OU67HbwUr4do4pKiu+mprt4x/hHymYLyxHmplXnMyk=;
+        b=APDa9hdooh2gewyA39LBguX2QGjzzBi69GN7TzRV1yzKMOhsDs87HVbrSOjE0IHAYz
+         91EHTssbzA0ffG3Gbm+qtAgnynW3RVcDv3Z8mgPivua5osNsCUPgg637uDXXXM8MIzi5
+         X8flzc+V7Z9PDrxsqAMJxCdZ2wPKiaeoNYogP938DpXBn/wAMf9hr+KcSIauT6NZSeVW
+         O6oRVl2X7mEuscCbZE0ZkeOJlM+Zt6NCWRd77J2SlNm4fdNOHFA+sM1VMCXce5UfqbMb
+         IhEFtQv7ofjNQnWwJZPCKHmw3j4jqjb+Bui7PUVlYsaZIo/K+xjXG4LzbsTRSRVXBn8z
+         7LPQ==
+X-Gm-Message-State: AOAM531q2eRWuDxton1qTFNrOkgxmN+CDNW+yzNrH+2Qq5Wo6W6KPnbS
+	AKSkhk07IrvUtMxuvBjHQ0M=
+X-Google-Smtp-Source: ABdhPJwRb/SaWQSJbZpmSrjSg+gknlPts8QLcsJW14g2tDk7rj44La14pFsuB8GBDzJMTt99nLEqsA==
+X-Received: by 2002:a50:f113:: with SMTP id w19mr17549606edl.107.1628331126241;
+        Sat, 07 Aug 2021 03:12:06 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::a83e])
+        by smtp.gmail.com with ESMTPSA id u4sm3662514eje.81.2021.08.07.03.12.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Aug 2021 02:48:43 -0700 (PDT)
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
+        Sat, 07 Aug 2021 03:12:05 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
-Cc: hdegoede@redhat.com,
-	Larry.Finger@lwfinger.net,
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 21/21] staging: rtl8723bs: remove unused RF_*T*R enum
-Date: Sat,  7 Aug 2021 11:48:13 +0200
-Message-Id: <2f2f185a80fbec71af4a165180ed0156d194c96e.1628329348.git.fabioaiuto83@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1628329348.git.fabioaiuto83@gmail.com>
-References: <cover.1628329348.git.fabioaiuto83@gmail.com>
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 00/17] staging: r8188eu: remove unnecessary parentheses
+Date: Sat,  7 Aug 2021 12:11:02 +0200
+Message-Id: <20210807101119.16085-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,35 +55,69 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove unused RF_*T*R enum, for rtl8723bs is
-only capable of 1T1R rf path so selection is not needed.
+This series removes unnecessary parentheses reported by checkpatch.
 
-Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
----
- drivers/staging/rtl8723bs/include/rtw_rf.h | 10 ----------
- 1 file changed, 10 deletions(-)
+Michael Straube (17):
+  staging: r8188eu: remove unnecessary parentheses in os_dep dir
+  staging: r8188eu: remove unnecessary parentheses in hal dir
+  staging: r8188eu: remove unnecessary parentheses in
+    core/rtw_mlme_ext.c
+  staging: r8188eu: remove unnecessary parentheses in core/rtw_ap.c
+  staging: r8188eu: remove unnecessary parentheses in
+    core/rtw_wlan_util.c
+  staging: r8188eu: remove unnecessary parentheses in core/rtw_led.c
+  staging: r8188eu: remove unnecessary parentheses in core/rtw_p2p.c
+  staging: r8188eu: clean up comparsions to true/false
+  staging: r8188eu: remove unnecessary parentheses in core/rtw_mlme.c
+  staging: r8188eu: remove unnecessary parentheses in core/rtw_xmit.c
+  staging: r8188eu: remove unnecessary parentheses in core/rtw_sta_mgt.c
+  staging: r8188eu: remove unnecessary parentheses in core/rtw_recv.c
+  staging: r8188eu: remove unnecessary parentheses in core/rtw_pwrctrl.c
+  staging: r8188eu: remove unnecessary parentheses in core/rtw_io.c
+  staging: r8188eu: remove unnecessary parentheses in
+    core/rtw_ioctl_set.c
+  staging: r8188eu: remove unnecessary parentheses in core/rtw_cmd.c
+  staging: r8188eu: remove remaining unnecessary parentheses in core dir
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_rf.h b/drivers/staging/rtl8723bs/include/rtw_rf.h
-index 6c25707f4ec8..718275ee4500 100644
---- a/drivers/staging/rtl8723bs/include/rtw_rf.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_rf.h
-@@ -97,16 +97,6 @@ enum {
- 	HT_DATA_SC_20_LOWER_OF_40MHZ = 2,
- };
- 
--/* 2007/11/15 MH Define different RF type. */
--enum {
--	RF_1T2R = 0,
--	RF_2T4R = 1,
--	RF_2T2R = 2,
--	RF_1T1R = 3,
--	RF_2T2R_GREEN = 4,
--	RF_MAX_TYPE = 5,
--};
--
- u32 rtw_ch2freq(u32 ch);
- 
- #endif /* _RTL8711_RF_H_ */
+ drivers/staging/r8188eu/core/rtw_ap.c         |  80 +--
+ drivers/staging/r8188eu/core/rtw_br_ext.c     |   6 +-
+ drivers/staging/r8188eu/core/rtw_cmd.c        |  36 +-
+ drivers/staging/r8188eu/core/rtw_debug.c      |  14 +-
+ drivers/staging/r8188eu/core/rtw_ieee80211.c  |   4 +-
+ drivers/staging/r8188eu/core/rtw_io.c         |  32 +-
+ drivers/staging/r8188eu/core/rtw_ioctl_set.c  |  22 +-
+ drivers/staging/r8188eu/core/rtw_iol.c        |   2 +-
+ drivers/staging/r8188eu/core/rtw_led.c        | 354 +++++------
+ drivers/staging/r8188eu/core/rtw_mlme.c       | 110 ++--
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 586 +++++++++---------
+ drivers/staging/r8188eu/core/rtw_mp.c         |  10 +-
+ drivers/staging/r8188eu/core/rtw_p2p.c        |  78 +--
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c    |  20 +-
+ drivers/staging/r8188eu/core/rtw_recv.c       |  26 +-
+ drivers/staging/r8188eu/core/rtw_sta_mgt.c    |  22 +-
+ drivers/staging/r8188eu/core/rtw_wlan_util.c  |  70 +--
+ drivers/staging/r8188eu/core/rtw_xmit.c       |  56 +-
+ .../r8188eu/hal/Hal8188ERateAdaptive.c        |   8 +-
+ drivers/staging/r8188eu/hal/HalPhyRf_8188e.c  |  16 +-
+ drivers/staging/r8188eu/hal/hal_intf.c        |   2 +-
+ drivers/staging/r8188eu/hal/odm.c             |  44 +-
+ drivers/staging/r8188eu/hal/odm_RTL8188E.c    |  10 +-
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  56 +-
+ drivers/staging/r8188eu/hal/rtl8188e_dm.c     |  30 +-
+ drivers/staging/r8188eu/hal/rtl8188e_mp.c     |   8 +-
+ drivers/staging/r8188eu/hal/rtl8188e_rf6052.c |   2 +-
+ drivers/staging/r8188eu/hal/rtl8188eu_led.c   |  12 +-
+ drivers/staging/r8188eu/hal/rtl8188eu_xmit.c  |  10 +-
+ drivers/staging/r8188eu/hal/usb_halinit.c     |  32 +-
+ drivers/staging/r8188eu/hal/usb_ops_linux.c   |   6 +-
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  | 162 ++---
+ drivers/staging/r8188eu/os_dep/os_intfs.c     |   4 +-
+ .../staging/r8188eu/os_dep/osdep_service.c    |   4 +-
+ drivers/staging/r8188eu/os_dep/recv_linux.c   |   4 +-
+ drivers/staging/r8188eu/os_dep/rtw_android.c  |   2 +-
+ drivers/staging/r8188eu/os_dep/usb_intf.c     |   2 +-
+ 37 files changed, 971 insertions(+), 971 deletions(-)
+
 -- 
-2.20.1
+2.32.0
 
