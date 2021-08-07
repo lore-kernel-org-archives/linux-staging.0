@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC1E2FB8
-	for <linux-staging@lists.linux.dev>; Sat,  7 Aug 2021 15:37:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EBAB3480
+	for <linux-staging@lists.linux.dev>; Sat,  7 Aug 2021 15:37:22 +0000 (UTC)
 Received: from dslb-084-059-249-202.084.059.pools.vodafone-ip.de ([84.59.249.202] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1mCONr-0003Y3-SC; Sat, 07 Aug 2021 17:37:11 +0200
+	id 1mCONx-0003Y3-T7; Sat, 07 Aug 2021 17:37:17 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 02/12] staging: r8188eu: remove RT_TRACE prints from usb_ops_linux.c
-Date: Sat,  7 Aug 2021 17:36:26 +0200
-Message-Id: <20210807153636.11712-3-martin@kaiser.cx>
+Subject: [PATCH 08/12] staging: r8188eu: remove RT_TRACE prints from recv_linux.c
+Date: Sat,  7 Aug 2021 17:36:32 +0200
+Message-Id: <20210807153636.11712-9-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210807153636.11712-1-martin@kaiser.cx>
 References: <20210807153636.11712-1-martin@kaiser.cx>
@@ -35,81 +35,58 @@ that use driver-specific macros.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/os_dep/usb_ops_linux.c | 15 ---------------
- 1 file changed, 15 deletions(-)
+ drivers/staging/r8188eu/os_dep/recv_linux.c | 23 +--------------------
+ 1 file changed, 1 insertion(+), 22 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/os_dep/usb_ops_linux.c b/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
-index dd4bd14b76c2..62dd4a131534 100644
---- a/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
-@@ -89,9 +89,6 @@ static void usb_write_port_complete(struct urb *purb, struct pt_regs *regs)
+diff --git a/drivers/staging/r8188eu/os_dep/recv_linux.c b/drivers/staging/r8188eu/os_dep/recv_linux.c
+index 1fd3f1bf1fe5..8dfabdb02494 100644
+--- a/drivers/staging/r8188eu/os_dep/recv_linux.c
++++ b/drivers/staging/r8188eu/os_dep/recv_linux.c
+@@ -118,21 +118,8 @@ int rtw_recv_indicatepkt(struct adapter *padapter,
+ 	pfree_recv_queue = &(precvpriv->free_recv_queue);
  
- 	if (padapter->bSurpriseRemoved || padapter->bDriverStopped ||
- 	    padapter->bWritePortCancel) {
--		RT_TRACE(_module_hci_ops_os_c_, _drv_err_,
--			 ("usb_write_port_complete:bDriverStopped(%d) OR bSurpriseRemoved(%d)",
--			 padapter->bDriverStopped, padapter->bSurpriseRemoved));
- 		DBG_88E("%s(): TX Warning! bDriverStopped(%d) OR bSurpriseRemoved(%d) bWritePortCancel(%d) pxmitbuf->ext_tag(%x)\n",
- 			__func__, padapter->bDriverStopped,
- 			padapter->bSurpriseRemoved, padapter->bReadPortCancel,
-@@ -101,12 +98,10 @@ static void usb_write_port_complete(struct urb *purb, struct pt_regs *regs)
- 	}
- 
- 	if (purb->status) {
--		RT_TRACE(_module_hci_ops_os_c_, _drv_err_, ("usb_write_port_complete : purb->status(%d) != 0\n", purb->status));
- 		DBG_88E("###=> urb_write_port_complete status(%d)\n", purb->status);
- 		if ((purb->status == -EPIPE) || (purb->status == -EPROTO)) {
- 			sreset_set_wifi_error_status(padapter, USB_WRITE_PORT_FAIL);
- 		} else if (purb->status == -EINPROGRESS) {
--			RT_TRACE(_module_hci_ops_os_c_, _drv_err_, ("usb_write_port_complete: EINPROGESS\n"));
- 			goto check_completion;
- 		} else if (purb->status == -ENOENT) {
- 			DBG_88E("%s: -ENOENT\n", __func__);
-@@ -115,14 +110,11 @@ static void usb_write_port_complete(struct urb *purb, struct pt_regs *regs)
- 			DBG_88E("%s: -ECONNRESET\n", __func__);
- 			goto check_completion;
- 		} else if (purb->status == -ESHUTDOWN) {
--			RT_TRACE(_module_hci_ops_os_c_, _drv_err_, ("usb_write_port_complete: ESHUTDOWN\n"));
- 			padapter->bDriverStopped = true;
--			RT_TRACE(_module_hci_ops_os_c_, _drv_err_, ("usb_write_port_complete:bDriverStopped = true\n"));
- 			goto check_completion;
- 		} else {
- 			padapter->bSurpriseRemoved = true;
- 			DBG_88E("bSurpriseRemoved = true\n");
--			RT_TRACE(_module_hci_ops_os_c_, _drv_err_, ("usb_write_port_complete:bSurpriseRemoved = true\n"));
- 
- 			goto check_completion;
- 		}
-@@ -156,12 +148,8 @@ u32 usb_write_port(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *wmem)
- 	struct xmit_frame *pxmitframe = (struct xmit_frame *)pxmitbuf->priv_data;
- 	struct usb_device *pusbd = pdvobj->pusbdev;
- 
--	RT_TRACE(_module_hci_ops_os_c_, _drv_err_, ("+usb_write_port\n"));
+ 	skb = precv_frame->pkt;
+-	if (!skb) {
+-		RT_TRACE(_module_recv_osdep_c_, _drv_err_,
+-			 ("rtw_recv_indicatepkt():skb == NULL something wrong!!!!\n"));
++	if (!skb)
+ 		goto _recv_indicatepkt_drop;
+-	}
 -
- 	if ((padapter->bDriverStopped) || (padapter->bSurpriseRemoved) ||
- 	    (padapter->pwrctrlpriv.pnp_bstop_trx)) {
--		RT_TRACE(_module_hci_ops_os_c_, _drv_err_,
--			 ("usb_write_port:( padapter->bDriverStopped ||padapter->bSurpriseRemoved ||adapter->pwrctrlpriv.pnp_bstop_trx)!!!\n"));
- 		rtw_sctx_done_err(&pxmitbuf->sctx, RTW_SCTX_DONE_TX_DENY);
- 		goto exit;
- 	}
-@@ -214,7 +202,6 @@ u32 usb_write_port(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *wmem)
- 	} else {
- 		rtw_sctx_done_err(&pxmitbuf->sctx, RTW_SCTX_DONE_WRITE_PORT_ERR);
- 		DBG_88E("usb_write_port, status =%d\n", status);
--		RT_TRACE(_module_hci_ops_os_c_, _drv_err_, ("usb_write_port(): usb_submit_urb, status =%x\n", status));
+-	RT_TRACE(_module_recv_osdep_c_, _drv_info_,
+-		 ("rtw_recv_indicatepkt():skb != NULL !!!\n"));
+-	RT_TRACE(_module_recv_osdep_c_, _drv_info_,
+-		 ("rtw_recv_indicatepkt():precv_frame->rx_head =%p  precv_frame->hdr.rx_data =%p\n",
+-		 precv_frame->rx_head, precv_frame->rx_data));
+-	RT_TRACE(_module_recv_osdep_c_, _drv_info_,
+-		 ("precv_frame->hdr.rx_tail =%p precv_frame->rx_end =%p precv_frame->hdr.len =%d\n",
+-		 precv_frame->rx_tail, precv_frame->rx_end,
+-		 precv_frame->len));
  
- 		switch (status) {
- 		case -ENODEV:
-@@ -230,8 +217,6 @@ u32 usb_write_port(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *wmem)
+ 	skb->data = precv_frame->rx_data;
  
- /*    We add the URB_ZERO_PACKET flag to urb so that the host will send the zero packet automatically. */
+@@ -140,11 +127,6 @@ int rtw_recv_indicatepkt(struct adapter *padapter,
  
--	RT_TRACE(_module_hci_ops_os_c_, _drv_err_, ("-usb_write_port\n"));
+ 	skb->len = precv_frame->len;
+ 
+-	RT_TRACE(_module_recv_osdep_c_, _drv_info_,
+-		 ("skb->head =%p skb->data =%p skb->tail =%p skb->end =%p skb->len =%d\n",
+-		 skb->head, skb->data, skb_tail_pointer(skb),
+-		 skb_end_pointer(skb), skb->len));
 -
- exit:
- 	if (ret != _SUCCESS)
- 		rtw_free_xmitbuf(pxmitpriv, pxmitbuf);
+ 	if (check_fwstate(pmlmepriv, WIFI_AP_STATE)) {
+ 		struct sk_buff *pskb2 = NULL;
+ 		struct sta_info *psta = NULL;
+@@ -195,9 +177,6 @@ int rtw_recv_indicatepkt(struct adapter *padapter,
+ 
+ 	rtw_free_recvframe(precv_frame, pfree_recv_queue);
+ 
+-	RT_TRACE(_module_recv_osdep_c_, _drv_info_,
+-		 ("\n rtw_recv_indicatepkt :after netif_rx!!!!\n"));
+-
+ 	return _SUCCESS;
+ 
+ _recv_indicatepkt_drop:
 -- 
 2.20.1
 
