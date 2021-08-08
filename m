@@ -1,183 +1,211 @@
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B74817F
-	for <linux-staging@lists.linux.dev>; Sun,  8 Aug 2021 05:20:51 +0000 (UTC)
-Received: by mail-vs1-f45.google.com with SMTP id x144so8020534vsx.3
-        for <linux-staging@lists.linux.dev>; Sat, 07 Aug 2021 22:20:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=vamzk//toKdkNjCyAGnqe5q3gRuSTfvs1CUX5Gt5Yfs=;
-        b=ZooxQ9Rp3rn7r3+lkjFs3W8kEOMXAwN89FWfSR5bsl3+TOGpu1/X+M4Hd2rEIOgy1i
-         W4nMRYkhq+HDgaFss8zD/fWqk6ZUZT8ZFgn4NTqp3oshpAQfwRse8XZmbnz87bkA73Rj
-         TdlG9ueRlYyciaW+AAyhKoFqV4yuZe4L1O45WfXX/tWQc+SaaXecemSotY8sZeNKndF+
-         K4M2S4USlMyvGXWvSby8I71EyzgFz71+o1ZwZKZkgFnIJmalELAEkxk9BE4FqIJHiJVx
-         /ZXqAb1ldH9VWvrnm6c8dyVcztguVUDOHKrjpiV7I8cFYHTxF6x4OdEK4d+NaszZQyfg
-         UYtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=vamzk//toKdkNjCyAGnqe5q3gRuSTfvs1CUX5Gt5Yfs=;
-        b=Scdxy+S8oMOnPbwtwhhptpfVKQPptQBVR/XlOV7hMCoE7NRXa9Pr3xxdZMzeLTLCfl
-         F0mIHpc1FuA+/prY9MZ9LjnfPLYuXc23MogZm00XSBW+3ERyLlA/9GmaZIFJrxvcsPNt
-         6eFqMACpXj7kh/qUOvBwGQjtdyYuJ8MZSh2fBXDY3eSnEOLqq4eV9tsZhkib0KHcGRXH
-         AUAXbprbqHvjQ+RWPakJR7oT8huI0gypGRGrUYB47R6BEMJiJ7yv+nQNQagrdwy3vsLf
-         W28++ZAYA1GmbBybDDXeWHm7BCnnkZxezyUEZgmBhKThpdbqbJ59D8iEAEu0+NPDqpOH
-         G6Ew==
-X-Gm-Message-State: AOAM531EcfSILEkSl4HqA8JN8eikrrGEBBqHcEd/IL/L9EDADLWbHtnC
-	NczKYjX5b/RiEA87qO5dfSgNdrX9BLRvtwpv5L4=
-X-Google-Smtp-Source: ABdhPJzwpRmJgU5mR/oJ21UlVx3ITeMDRnrpJRZ8dwJKuKSsnYpIz/cDHcgpFISAzKt2LTVhuKvQTYi/p7hLJ54ACz8=
-X-Received: by 2002:a67:70c4:: with SMTP id l187mr13719259vsc.30.1628400050076;
- Sat, 07 Aug 2021 22:20:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C7A177
+	for <linux-staging@lists.linux.dev>; Sun,  8 Aug 2021 07:45:45 +0000 (UTC)
+Received: from [192.168.1.107] ([37.4.249.97]) by mrelayeu.kundenserver.de
+ (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1Mwfn8-1n51IO19mU-00y6vI; Sun, 08 Aug 2021 09:45:30 +0200
+Subject: Re: [PATCH v2 0/2] staging: vchiq: Fixups to Kconfig
+To: Ojaswin Mujoo <ojaswin98@gmail.com>, nsaenz@kernel.org,
+ gregkh@linuxfoundation.org
+Cc: dan.carpenter@oracle.com, phil@raspberrypi.com,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <cover.1627925241.git.ojaswin98@gmail.com>
+From: Stefan Wahren <stefan.wahren@i2se.com>
+Autocrypt: addr=stefan.wahren@i2se.com; keydata=
+ LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
+ CgptUUlOQkZ0NmdCTUJFQUN1Yi9wQmV2SHhidkplZnlaRzMySklObW4yYnNFUFgyNVY2ZmVq
+ bXlZd21DR0tqRnRMCi9Eb1VNRVZIRHhDSjQ3Qk1YbzM0NGZIVjFDM0FudWRnTjFCZWhMb0J0
+ TEh4bW5lQ3pnSDNLY1B0V1c3cHRqNEcKdEp2OUNRRFp5MjdTS29FUHh5YUk4Q0YweWdSeEpj
+ NzJNOUk5d21zUFo1YlVIc0x1WVdNcVE3SmNSbVBzNkQ4ZwpCa2srOC95bmdFeU5FeHd4SnBS
+ MXlsajVianhXREh5WVF2dUo1THpaS3VPOUxCM2xYVnNjNGJxWEVqYzZWRnVaCkZDQ2svc3lp
+ by9ZaHNlOE4rUXN4N01RYWd6NHdLVWtRUWJmWGcxVnFrVG5BaXZYczQyVm5Ja211NWd6SXcv
+ MHQKUkp2NTBGUmhIaHhweUtBSThCOG5oTjhRdng3TVZrUGM1dkRmZDN1R1lXNDdKUGhWUUJj
+ VXdKd05rLzQ5RjllQQp2ZzJtdE1QRm5GT1JrV1VSdlArRzZGSmZtNitDdk92N1lmUDF1ZXdB
+ aTRsbitKTzFnK2dqVklXbC9XSnB5MG5UCmlwZGZlSDlkSGtnU2lmUXVuWWN1Y2lzTXlvUmJG
+ OTU1dENna0VZOUVNRWRZMXQ4aUdEaUNnWDZzNTBMSGJpM2sKNDUzdWFjcHhmUVhTYUF3UGtz
+ bDhNa0NPc3YyZUVyNElOQ0hZUUR5WmljbEJ1dUNnOEVOYlI2QUdWdFpTUGNRYgplbnpTektS
+ Wm9POUNhcUlEK2ZhdkxpQi9kaHptSEErOWJnSWhtWGZ2WFJMRFp6ZThwbzFkeXQzRTFzaFhp
+ ZGRaClBBOE51SlZ6RUl0MmxtSTZWOHBaRHBuMjIxcmZLaml2UlFpYW9zNTRUZ1pqak1ZSTdu
+ bko3ZTZ4endBUkFRQUIKdENCVGRHVm1ZVzRnVjJGb2NtVnVJRHgzWVdoeVpXNXpkRUJuYlhn
+ dWJtVjBQb2tDTndRVEFRZ0FJUVVDWElkYwo0Z0liQXdVTENRZ0hBZ1lWQ0FrS0N3SUVGZ0lE
+ QVFJZUFRSVhnQUFLQ1JDVWdld1BFWkR5MjFPVEQvOUdpWkxkCnRSWWNteVJKZ2x0aVFRekFp
+ UWRjSUQ3OGxHb1dwL3grci92Y1U2YjZqdVl1ZVR3Z1Iwclc3djdsMklSQnlEN24KSEp4YSt0
+ SVNvUVpCZ2hvbE1JZmI5TXRoR09KTENZNzdrL1FoQWhuMzJOR1prZWp3OXR6a3MvNDBtclpT
+ VVQ4NApaeWJzUVhyTE0vSFI2VElJL0RlUEIwbktEM0ppcHBzMlVIUUQ5cUQySWpFd1NRUGxI
+ akNPckVaaDQ1UFo3bTkrClo5M0x6aVRlc1dabFlRdUxpSndzNHJLcHRIVzFkL3dSZWxzaG1t
+ NlFxY0wybDRDL2U0MGVEQjlncTRkU1poOVgKUEVZbGxpeU5RaDdhMkxTZHVtRTFyK2NTd0lq
+ RS91ZHRSdmRPOWFLb0psT2JVSzVkTmpTUEg3d0tUYndkWGRZRApHUHdEaFhkNThOQXdyK1BY
+ QmxQajB0STFMQ3ErTEJ4ZUt6aFdYK0dWcTlEb2pWanlVREV4Rk5Ga1h1b0M3ZzhtClY5VDB0
+ ZUJpdVpSbm91WEt3VjJGcHRaT0hIN0JVRVd0a0t0aGgxZXRmT1dwaWdCemtVN2JQc2ZJWVQr
+ cnk5dGIKMW9KK3Y0MVBOYXFaRW1QVXBKeHZmek5UN3Ayd01lRDdaajlmMHJ1YlJQdExBSjJR
+ R2pyRkhzdVh3QU9xcHl6ZQoxOEVidHNZazBOMHp1SEVoY2orUEJJQmZoMFlJWWQ1MW9mNkdJ
+ aU95UjlxMFhYdHBsVUo3VDIvSDF1UXFrWGxwCitnVzRWa2lmc2NJckl1eWZueFpXMTJlSXZq
+ NnlicVdMN2FZS0dZbVQ2aUxDUGJIWXlZY2F5bDRFa0ZjckNGN0UKZTBXVC9zY1ZNaE8vNVgv
+ SGFOQTVIQngvcjUycGdMY3Y0aTlNeExRbVUzUmxabUZ1SUZkaGFISmxiaUE4YzNSbApabUZ1
+ TG5kaGFISmxia0JwTW5ObExtTnZiVDZKQWpnRUV3RUNBQ0lGQWx0NmdCTUNHd01HQ3drSUJ3
+ TUNCaFVJCkFna0tDd1FXQWdNQkFoNEJBaGVBQUFvSkVKU0I3QThSa1BMYmpic1AvamdqYVNz
+ NUh0bGtBSXZXUytGcm15N2MKaG5jT0F4TFRWL0Q2UkV3SU95R0poRkt3d29pck55UTJnOXZV
+ YTNZQ1lDZjFmSjh3RWhhS09COWQwTHBNUm5MNApkRVQ4ZDgyMzhFL3BLK0hxTktpSXNKaHM2
+ SnNLOFpnalZRR3JtbWZua0dyWisxdjBIQnV4ZGljZ0duUC9XdHVBClVsOGw2Mi9BTGJheXlq
+ KzYxQ2xyc0V0UklhcU82N0xJWXdQaVBEUkkrWGlNek5pR3pIRi8xUTZHUjAyUkg2YTMKRjg5
+ ejhhUHhjSGkxWnZDdDJ5a3o2VUVjaHpQMHI1Z3FGSisvTC9VcHU4ME1YaVk0djVlSWFCNTJn
+ VlBnaXlNQQpsTDJkRHMxbUladm5yUkxSWTJ0YjNtQVlOa1Y1QjVJRFQzcGtXeTZrS281T0Nn
+ SytZZFlPUjhGTloyb04ydDhPCnJLK1ZudGFLN01NU0tIbG1ZL3NPd3RSbEVoMU9CbXJjQ3dH
+ d21wLzA1R2tSNDZmL0lzaFJWZUZPUmF3K0dBcXQKUDIrQ0ZhMkNOQS9JSG5aTm95aWtsRHpQ
+ UUhVVUdzck5wcERyaFg5Sm1oQm1nMXYyeXdIMU5YdTFpRGZQMUJBdwpLZ29rdDVmNVVhUkY5
+ c0FBNTN2V0V2YlVVTjllZXNGR0x6UFdkSkdRNWhwZC9WSDVJUXk5U0JyaC93SWNla3E1Cm4w
+ a042cGJUSHhHRTUyU2kvTVZJa05UdURaM2FwbjJqbERaNHBPdHBCWEkydlAzYlBPK05pcUJa
+ anNVM3R4TGkKV2R2MkZqeXp6NlhMUndlV1JZVkw1SGE2TER0eG9yMnZ1NlVQMDdwOXh6MXhS
+ WmFPRFczb1lsSEZ6WXBhNFc1ZwpMSGIybEVrSXVVZlNjaWNHYmpqQXRDbFRkR1ZtWVc0Z1Yy
+ Rm9jbVZ1SUR4emRHVm1ZVzR1ZDJGb2NtVnVRR2x1CkxYUmxZMmd1WTI5dFBva0NOd1FUQVFn
+ QUlRVUNYSWRlaHdJYkF3VUxDUWdIQWdZVkNBa0tDd0lFRmdJREFRSWUKQVFJWGdBQUtDUkNV
+ Z2V3UEVaRHkyeUhURC85VUY3UWxEa0d4elE3QWFDSTZOOTVpUWY4LzFvU1VhRE51Mlk2SQpL
+ K0R6UXBiMVRiVE9yM1ZKd3dZOGEzT1d6NU5MU09MTVdlVnh0K29zTW1sUUlHdWJEM09EWko4
+ aXpQbEcvSnJOCnQ1elNkbU41SUE1ZjNlc1dXUVZLdmdoWkFnVERxZHB2K1pIVzJFbXhuQUox
+ dUxGWFhlUWQzVVpjQzVyMy9nL3YKU2FNbzl4ZWszSjVtTnVEbTcxbEVXc0FzL0JBY0ZjK3lu
+ TGh4d0JXQld3c3Z3UjhiSHRKNURPTVd2YUt1RHNrcApJR0ZVZS9LYjJCK2pyYXZRM1RuNnMv
+ SHFKTTBjZXhTSHo1cGUrMHNHdlArdDlKNzIzNEJGUXdlRkV4cmlleThVCkl4T3I0WEFiYWFi
+ U3J5WW5VL3pWSDlVMWkyQUlRWk1XSkFldkN2VmdRL1UrTmVSaFh1ZGU5WVVtRE1EbzJzQjIK
+ VkFGRUFxaUYyUVVIUEEybThhN0VPM3lmTDRyTWswaUh6TElLdmg2L3JIOFFDWThpM1h4VE5M
+ OWlDTHpCV3UvTgpPbkNBYlMremx2TFphaVNNaDVFZnV4VHR2NFBsVmRFamY2MlArWkhJRDE2
+ Z1VEd0VtYXpMQU1yeDY2NmpINWt1ClVDVFZ5bWJMMFR2Qis2TDZBUmw4QU55TTRBRG1rV2tw
+ eU0yMmtDdUlTWUFFZlFSM3VXWFo5WWd4YVBNcWJWK3cKQnJoSmc0SGFONkM2eFRxR3YzcjRC
+ MmFxYjc3L0NWb1JKMVo5Y3BIQ3dpT3pJYUFtdnl6UFU2TXhDRFhaOEZnWQpsVDR2MjNHNWlt
+ SlAyemdYNXMrRjZBQ1VKOVVRUEQwdVRmK0o5RGEycitza2gvc1dPbloreWNvSE5CUXZvY1pF
+ Ck5BSFFmN2tDRFFSYmVvQVRBUkFBMkhkMGZzRFZLNzJSTFNESGJ5ME9oZ0RjRGxWQk0yTSto
+ WVlwTzNmWDFyKysKc2hpcVBLQ0hWQXNRNWJ4ZTdIbUppbUhhNEtLWXMya3YvbWx0L0NhdUNK
+ Ly9wbWN5Y0JNN0d2d25Lem11WHp1QQpHbVZUWkM2V1I1TGtha0ZydEhPelZtc0VHcE52NVJj
+ OWw2SFlGcExrYlNrVmk1U1BRWkp5K0VNZ01DRmdqclpmClZGNnlvdHdFMWFmN0hOdE1oTlBh
+ TEROMW9VS0Y1aitSeVJnNWl3SnVDRGtuSGp3QlFWNHBndzIvNXZTOEE3WlEKdjJNYlcvVExF
+ eXBLWGlmNzhJaGdBelh0RTJYck0xbi9vNlpINzFvUkZGS096NDJsRmR6ZHJTWDBZc3FYZ0hD
+ WAo1Z0l0TGZxemoxcHNNYTlvMWVpTlRFbTFkVlFyVHFueXMwbDE4b2FsUk5zd1lsUW1uWUJ3
+ cHdDa2FUSExNSHdLCmZHQmJvNWRMUEVzaHRWb3dJNm5zZ3FMVHlRSG1xSFlxVVpZSXBpZ21t
+ QzNTd0JXWTFWNmZmVUVta3FwQUFDRW4KTDQvZ1Vnbjd5US81ZDBzZXFuQXEycFNCSE1VVW9D
+ Y1R6RVFVV1ZraUR2M1JrN2hURm1oVHNNcTc4eHYyWFJzWApNUjZ5UWhTVFBGWkNZRFVFeEVs
+ RXNTbzlGV0hXcjZ6SHlZY2M4cURMRnZHOUZQaG1RdVQyczlCbHg2Z0kzMjNHCm5FcTFsd1dQ
+ SlZ6UDRqUWtKS0lBWHdGcHYrVzhDV0xxekRXT3ZkbHJEYVRhVk1zY0ZUZUg1VzZVcHJsNjVq
+ cUYKUUdNcGNSR0NzOEdDVVcxM0gwSXlPdFF0d1dYQTRueStTTDgxcHZpQW1hU1hVOGxhS2FS
+ dTkxVk9WYUY5ZjRzQQpFUUVBQVlrQ0h3UVlBUUlBQ1FVQ1czcUFFd0liREFBS0NSQ1VnZXdQ
+ RVpEeTIrb1hELzljSEhSa0JaT2ZrbVNxCjE0U3Z4MDYyUHRVMEtWNDcwVFNucC9qV29ZSm5L
+ SXczRzBtWElSZ3J0SDJkUHdwSWdWanNZeVJTVk1LbVNwdDUKWnJEZjlOdFRiTldnazhWb0xl
+ WnpZRW8rSjNvUHFGclRNczNhWVl2N2U0K0pLNjk1WW5tUSttT0Q5bmlhOTE1dApyNUFaajk1
+ VWZTVGx5VW15aWMxZDhvdnNmMWZQN1hDVVZSRmNSamZOZkRGMW9ML3BEZ01QNUdaMk93YVRl
+ am15CkN1SGpNOElSMUNpYXZCcFlEbUJuVFlrN1B0aHk2YXRXdllsMGZ5L0NxYWpUS3N4Nytw
+ OXh6aXU4WmZWWCtpS0IKQ2MrSGUrRURFZEdJRGh2TlovSVFIZk9CMlBVWFdHUytzOUZOVHhy
+ L0E2bkxHWG5BOVk2dzkzaVBkWUl3eFM3SwpYTG9LSmVlMTBEamx6c1lzUmZsRk9XMFpPaVNp
+ aElDWGlRVjF1cU02dHpGRzlndFJjaXVzNVVBdGhXYU8xT3dVClNDUW1mQ09tNGZ2TUlKSUE5
+ cnh0b1M2T3FSUWNpRjNjcm1vMHJKQ3ROMmF3WmZnaThYRWlmN2Q2aGp2MEVLTTkKWFpvaUFa
+ WVpEKy9pTG01VGFLV042b0dJdGkwVmpKdjhaWk9aT2ZDYjZ2cUZJa0pXK2FPdTRvclRMRk16
+ MjhhbwpVM1F5V3BOQzhGRm1kWXNWdWE4czZnTjFOSWE2eTNxYS9aQjhiQS9pa3k1OUFFejRp
+ RElScmdVek1FZzhBazdUCmZtMUtpWWVpVHRCRENvMjVCdlhqYnFzeXhrUUQxbmtSbTZGQVZ6
+ RXVPUEllOEp1cVcyeEQ5aXhHWXZqVTVoa1IKZ0pwM2dQNWIrY25HM0xQcXF1UTJFNmdvS1VN
+ TEFia0NEUVJiZmw5REFSQUFzRExjYStMbFAydm5mdEVHaHBjQQpCR1ZOUUVGbkdQckNhdVU2
+ SGhOODA1V3RQVHRtc1JPdUp6cWdVVDBtcHFXSWZacTZzTXd5dkhLOVRzL0tIM0paClVWYlJD
+ M3oyaDNLZmhIL0RhZjk1cGQ2bVBjL2g5dkYvT3kzK2VUV2hnR25QNmNBNWtsUitmTzFXaEc4
+ VnJpWHYKck5lUkcyMHN6emplSG9jblNJY1Q1WHVaUjB1REhPaUd4T2l6MXNNUkZUR3h6R095
+ MTlSOXJ2dTYzdGlJM2Q3dgpnYzc1T0NBZGtlQi9TZUNFbGFSdzBUZjdMWmJQampzRjI2M0JZ
+ bk1mNGtrTkVLdnFXY1UyaWNNcCtxZXpqeW5CCnB2ZXVlMHJDVFFCWUFRbG9GQ1ZUR0hyV1dB
+ NkQ0VzVPMkFmSWRJYzF1MUpDWnAyZjVMV1ZvVUZUVklyUW5RUVUKU0hDaWZyOU1aeExUdFBK
+ ZFU1Mm9TUHczZGs0aExQOGlKSUx1dnYvYXZhakNzUVlIRXR3WXNiZUZaeGl1TGdscApBN1lj
+ Sk5ObXBnQ3BNRDR3VWh2bEN0QUtOQlFXeXIyOTc2OThFUVRuNDZlQmVVNkttMkNpaFhrZ3dD
+ eWY4ZXlLCkxFM3NYZXdhcTVrZ1pXdk5xNml1NXFZSVJCOXl3K2NYYzYwZE9aRE9scTkzWDVT
+ QVJZemFvZXBrSHo0cmtMa1AKUG8rdENIeUhRUHNHblBYYzlXVDgwREM5Tm5KR2R2VWx5NXJk
+ TUk0eHBaeWdlb2tqd293VlFsUFV1Y1M2TXluNwpmOHc4Y2dmQjdDMklBSWNEeDJwUC9IendY
+ dmtDT1FOQTdtVjFsTTA4bitnVmtUcnpweGlwNURicTRDSW9ZeDJNCkpaVDhiR1JINlhqY1VE
+ S2EwOVFoeVpzQUVRRUFBWWtFUkFRWUFRZ0FEd1VDVzM1ZlF3SWJBZ1VKQThKbkFBSXAKQ1JD
+ VWdld1BFWkR5MjhGZElBUVpBUWdBQmdVQ1czNWZRd0FLQ1JCVnhETFBjVk1NamNkc0QvMFJo
+ QXN1UVlPeQpyMTNCbDNOaFhrWUFaR3AyWkZER3VrZTdPU2tWOG9qT09UZFR5ei9jT1JHQ2J5
+ ZEQrRGd2cUZ5VmRuT1hLZ08wCmxKbUd3ckdlTGRnZ0F2aDBpaHJwNU8wWVVKOWJCU1htR01t
+ UVRZSC9BbUxUR2FkYnVqQ1dqNWZGVWtDeXd4aW0KSHV5MFBiMjRwelR2UzUwR1k1WStxSDBG
+ SE5haWdka2tpV04zcnVnN0haRXUvQ3lsUFpqT1h6K0QxUVBNckV4dwo3ZC9NS2FiVis5YU5i
+ UVlabGRJajk4UXd2VUYxS1N6YThqbFVJdnBoUnEyN0FUOGZER1lHUGZERU1nMmNCT2FlCkty
+ N29uUXM0YjdhV082aWZEbHhRVHB6c3pvK0FuODA3Tk1TdFZFRmYrczNBaFZEM2U3bmY4SkJh
+ dmJWckFlMGsKb20yNm96elBubnh6K2xxVlZ0dzZVazRYTUl6dGl4L0h3SFl3dUNuY1VYWndL
+ MEkzeUFKd2pZd29vck9DaEozUwpFVWJKUVB0R3NneFJERXhWQkZlNk5MUC82MnhQOU82dGFj
+ d09kYjBNbVAxYjM5cFJBVEM3YmdkMWxkVUxpNzVaCmxKckowL1NpVkVyb3FOWXk3OXRmbWdB
+ WjJVeFptczlTckV5Nm85UVNmc24xYVh2K01QTDlKYUNHbWtQNnpiTFEKTm5kajBKY2FRbmtD
+ MHZneWRPMUJtNk11OTZQOXVmbEtaY0FTNndtTE01SWRIT3lqTDg4d0h3anVjakFPQnRjdwpw
+ MG9HVG5WT25Sc05ZU084VzhZWi9LZGJ1Nzg1ZGF6TXFKMmlOakFEdUJiZG02TjRqNUVkTW5r
+ TG4wQklmUEpwCmRnbTR2bDJVcExqd1JHci9NM3dtbTVwdnMrNnVCN2hrL0ZKaUQvNGxsRU5Q
+ NGVNMWg3U200aitWcTZOMSt6VEIKSVhKQWViSXFhc0RwNXlaUzdYcnk0STM2bjg1WEVZZkcw
+ MWx0QXlob05WMkRPOFNJUlFwdWkydHErOVJQM1JLMQpKREJ4eEVKWTJFTzVKWjhNeGFQSFEw
+ RFQwNWxSRmpLMkFsaGRFSXRqTGpwSjNmVW05c3FMeE1XeHpQNlV6M2lpCjJ1YTR1bnJ0Nk9D
+ VHFRd2lqRi8zYlRXaXd2VkFBSG5NRlVpb1hzaEhhb2hWRGNWZm5lSU1mVjBiUUNYWWkzTnAK
+ WTB2MFp3Y2lGSCtnU0M3cUQ2WE51aHBWR1NMNElpbGlGeS9TemNhSkV6QUhlTERTaFpQMkNX
+ ZG5DNHZnbDM3dApocHg4aDU1WWhKbjZIU3VVelBnaGFLdFZCMmsrajdaZXlaK1NGeHA3SXVi
+ SEN3TEhsUWhUNzVSd1EzaUF4S242CjBxajUxY1lUbnF4ZFpYVzZmSDNQa3VNellVNUdwcVIv
+ MU9sNWMvd2ZJNmc2QW04eUtXLzBFVUx0K0tuNExGc1MKbTdZM201SDV2MTJVNkpCWXZWK3Ix
+ M2paaW9zNEVFREU5M0Q1c05IMk1JeVJ6Q0RxMXpkZHQ0WHV5S0ZqUEtXMQo5aWJaRGZGVjdL
+ dUNzdnVMMjNzQmMxc0NNb3ArRTFtVC9ReE9JQTZvRFQxTVFzdHdPVnVReURDdi9PdktTZ2Z6
+ CjhGWEdMNkFQY2xqQ3FqOEFKaHhReXN4ZG9pUVA4bS92dStialdHR3Z4dzVzMWxncGlSRFRS
+ VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
+ bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
+ LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
+Message-ID: <b2cba890-4838-7b43-c5c4-548f25e14f76@i2se.com>
+Date: Sun, 8 Aug 2021 09:45:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210807072409.9018-1-sergio.paracuellos@gmail.com>
- <20210807072409.9018-3-sergio.paracuellos@gmail.com> <7f0d48a6-d4ae-4e8d-aaa8-4b0bb4ad8e35@www.fastmail.com>
-In-Reply-To: <7f0d48a6-d4ae-4e8d-aaa8-4b0bb4ad8e35@www.fastmail.com>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Sun, 8 Aug 2021 07:20:38 +0200
-Message-ID: <CAMhs-H-FcZmxZircJB6m2yi8Vmz8zy4gCBNYTWMsTS5=MstF9g@mail.gmail.com>
-Subject: Re: [PATCH 2/3] PCI: of: avoid 'devm_pci_remap_iospace' if PCI_IOBASE
- is not defined
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Greg KH <gregkh@linuxfoundation.org>, 
-	"linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>, linux-pci <linux-pci@vger.kernel.org>, 
-	linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <cover.1627925241.git.ojaswin98@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Provags-ID: V03:K1:muXV3t1vpNkk1GdrL7/NgsYKwmBvEPkLqN3RKhGV0N2OAhL/1mG
+ lzERXlfzFYL+QoNLvpTORH1tXSlatwwsnkT8kD0rrKW26x2rjyas1SvMq1VyaK+KVSmIL6z
+ VjgX8FMZPcO1Gwt/EwGIgOfwGitozzbql279gusO6sb5NRvDAvDZ0X7zoa6jm7VkwYpk2G1
+ WFstHuakOiVncbfWr03vw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Ot3Y3K2NYTY=:xW39zml2mS2iWXRcqQ9lf7
+ 0qUGDxlas+IbCUpfepyZwakYchTIcuECEEQkLA56lVJtBilIFa3mv6RyiQkcpsnJRMn3Wj1kt
+ UOBfh4KV2wos+MP6TrYGx/hQGPTZ9sDsSjZfqbEuzjlpOQTKQXhEmdspTn6NRSkk6uBvAX/OE
+ 1TwKlO2wSNm3RfjlO5yQ08BuSjgU53j4ih8hYtvAdLXOluNjnfdJRRoHdANAnyYrazqggLev2
+ sjgwb9PwTQZP12vM+xgyL1BpvSlYe+r2hjiQGx5QwIwUwDWyt+Hm09HiWdICCjJttB2fbljMP
+ tE1gnKRGAkHYqPvsZVFVzIg5b+Q/Y65QDXU4/QWXJ5ntqYcNy0CH3o3yPS/cLF802GHwItium
+ 5I1kZ5Sqgjk5KlLXrvkHeT47ZAB/uTWVz6CLmI6uKpzmBVBuZD48PRnWBmsTF8FcnhoYXDMxK
+ mri6n23xE4URhfOxhJm30qKqT9yKD3z5xknnDyTvIUvSprP8WEp1fuP+WiEGeaEo9F/youmYv
+ CEFQ4Y5RAML83hlRu/ejQFJod76WjtNlEJ1lwdFhsYCks5aV08GhPOzY7xiGsLEkInRUjgH4t
+ Gc9emXNCIIH2lo0au0YUqVjvttwkehJ9T+Lw/Hk9RaMzFE1F+3ebnI4MibSeZKC8FQHEbd3jy
+ ydZkS/3FnAKEhnsZXWlmIdxwFuDiHiHD7VXikXM4yr5LHYaC2JGZZmWJKSS9Afmmqs2kYz9vG
+ 4tE35GRbPJ7AM+ll7DWd14L7/XUapv4pb8qfEqxfwlVt/GXrVLKFuT2GPDkI90rwTZBfnVvSZ
+ 4go7hfNOHQIjtiUCrIFr8cTRfAiayn1SeWSH4LxExKw7yhlwajKNfsAXDNuZdsL3Kauq32xES
+ ch4K+WK2OeSGu3EjBAIg==
 
-Hi Jiaxun,
+Am 02.08.21 um 19:42 schrieb Ojaswin Mujoo:
+> Hi everyone,
+>
+> This patchset performs some minor fixups to the config options defined in
+> /staging/vc04_services/Kconfig. 
+>
+> Summary of the patches:
+>
+> Patch 1: Makes BCM2835_VCHIQ imply VCHIQ_CDEV to make the behavior more
+>          compatible to how it was before VCHIQ_CDEV was introduced (in
+>          [1]).
+> Patch 2: Add some more details to the configs' help texts
+>
+>
+> Changes since v1 [2]:
+>
+> *  As pre discussion with Greg and Stefan, used "imply" in BCM2835_VCHIQ
+>    instead of "default y" in VCHIQ_CDEV.
+> *  Added some more info in help texts of both the config options.
+>
+> In patch 2, although the resources on VideoCore and vchiq are really
+> scattered around the internet, I've tried to keep the help text as
+> accurate as possible, as per my knowledge.
+> Please do let me know if anything is off in it and I'll fix it.
 
-On Sun, Aug 8, 2021 at 3:41 AM Jiaxun Yang <jiaxun.yang@flygoat.com> wrote:
->
->
->
-> =E5=9C=A82021=E5=B9=B48=E6=9C=887=E6=97=A5=E5=85=AB=E6=9C=88 =E4=B8=8B=E5=
-=8D=883:24=EF=BC=8CSergio Paracuellos=E5=86=99=E9=81=93=EF=BC=9A
-> > Defining PCI_IOBASE for MIPS ralink in expected addresses results in
-> > PCI IO
-> > resources being assigned but the addresses generated for IO accesses
-> > are wrong
-> > since the ioremap in the PCI core function
-> > 'pci_parse_request_of_pci_ranges'
-> > tries to remap to a fixed virtual address (PC_IOBASE) which can't work
-> > for KSEG1
-> > addresses. To get it working this way, we would need to put PCI_IOBASE
-> > somewhere
-> > into KSEG2 which will result in creating TLB entries for IO addresses,
-> > which most
-> > of the time isn't needed on MIPS because of access via KSEG1. To allow
->
-> It was designed to allow multiple PCI bridge with sparse IO space pattern=
-.
-> So for ralink it's not going to happen?
+The whole series is:
 
-Sorry, I don't understand your question. Can you please clarify it for me?
+Reviewed-by: Stefan Wahren <stefan.wahren@i2se.com>
 
-Thanks,
-    Sergio Paracuellos
->
-> Thanks.
-> - Jiaxun
->
->
-> > MIPS PCI
-> > drivers to properly use the PCI generic core we need to increase
-> > IO_SPACE_LIMIT
-> > since IO addresses are in addresses higher that 0xffff. We also need to
-> > avoid
-> > the call 'devm_pci_remap_iospace' when
-> > 'pci_parse_request_of_pci_ranges' is
-> > called to avoid the following problem:
-> >
-> > ------------[ cut here ]------------
-> > WARNING: CPU: 2 PID: 1 at ../drivers/pci/pci.c:4066 pci_remap_iospace+0=
-x3c/0x54
-> > This architecture does not support memory mapped I/O
-> > Modules linked in:
-> > CPU: 2 PID: 1 Comm: swapper/0 Not tainted 5.10.1+ #1228
-> > Stack : 00000000 00000000 807fa974 00000000 827ffa80 80066b48 80710000 =
-0000000b
-> >         00000000 00000000 81c59aac 7d06ddec 80850000 00000001 81c59a40 =
-7d06ddec
-> >         00000000 00000000 807c909c 81c598f0 00000001 81c59904 00000000 =
-0000000a
-> >         203a6d6d 80708880 0000000f 70617773 80850000 00000000 00000000 =
-807d0000
-> >         807ffecc 1e160000 00000001 00000200 00000000 8054e920 00000008 =
-815e0008
-> >         ...
-> > Call Trace:
-> > [<80008efc>] show_stack+0x8c/0x130
-> > [<806e1674>] dump_stack+0x9c/0xc8
-> > [<80024a3c>] __warn+0xc0/0xe8
-> > [<80024ad0>] warn_slowpath_fmt+0x6c/0xbc
-> > [<80410ca8>] pci_remap_iospace+0x3c/0x54
-> > [<80410d20>] devm_pci_remap_iospace+0x58/0xa4
-> > [<8042019c>] devm_of_pci_bridge_init+0x4dc/0x55c
-> > [<80408de8>] devm_pci_alloc_host_bridge+0x78/0x88
-> > [<80424e44>] mt7621_pci_probe+0x68/0x9a4
-> > [<80464804>] platform_drv_probe+0x40/0x7c
-> > [<804628bc>] really_probe+0x2fc/0x4e4
-> > [<80463214>] device_driver_attach+0x4c/0x74
-> > [<80463384>] __driver_attach+0x148/0x150
-> > [<8046047c>] bus_for_each_dev+0x6c/0xb0
-> > [<804614dc>] bus_add_driver+0x1b4/0x1fc
-> > [<80463aa0>] driver_register+0xd0/0x110
-> > [<80001714>] do_one_initcall+0x84/0x1c0
-> > [<808e7fd0>] kernel_init_freeable+0x214/0x24c
-> > [<806e4164>] kernel_init+0x14/0x118
-> > [<80003358>] ret_from_kernel_thread+0x14/0x1c
-> >
-> > ---[ end trace 1c9d4412bd51b53c ]---
-> > mt7621-pci 1e140000.pcie: error -19: failed to map resource [io
-> > 0x1e160000-0x1e16ffff]
-> >
-> > Hence don't call 'devm_pci_remap_iospace' if PCI_IOBASE is not defined =
-to get
-> > a working PCI core APIs for MIPS ralink platforms.
-> >
-> > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> > ---
-> >  drivers/pci/of.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-> > index a143b02b2dcd..657aef39bf63 100644
-> > --- a/drivers/pci/of.c
-> > +++ b/drivers/pci/of.c
-> > @@ -564,12 +564,14 @@ static int pci_parse_request_of_pci_ranges(struct
-> > device *dev,
-> >
-> >               switch (resource_type(res)) {
-> >               case IORESOURCE_IO:
-> > +#ifdef PCI_IOBASE
-> >                       err =3D devm_pci_remap_iospace(dev, res, iobase);
-> >                       if (err) {
-> >                               dev_warn(dev, "error %d: failed to map re=
-source %pR\n",
-> >                                        err, res);
-> >                               resource_list_destroy_entry(win);
-> >                       }
-> > +#endif
-> >                       break;
-> >               case IORESOURCE_MEM:
-> >                       res_valid |=3D !(res->flags & IORESOURCE_PREFETCH=
-);
-> > --
-> > 2.25.1
-> >
-> >
->
->
-> --
-> - Jiaxun
+Thanks
+
