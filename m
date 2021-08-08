@@ -1,197 +1,183 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D116170
-	for <linux-staging@lists.linux.dev>; Sun,  8 Aug 2021 01:41:51 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-	by mailout.nyi.internal (Postfix) with ESMTP id 000835C00B0;
-	Sat,  7 Aug 2021 21:41:50 -0400 (EDT)
-Received: from imap44 ([10.202.2.94])
-  by compute2.internal (MEProxy); Sat, 07 Aug 2021 21:41:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
-	mime-version:message-id:in-reply-to:references:date:from:to:cc
-	:subject:content-type:content-transfer-encoding; s=fm2; bh=F96tM
-	Wj2xtLgP3+Yu+6pP+OueHUggM2jfq+yApxhj4Y=; b=lMsAQgW/EBndX0U76cjn2
-	jKXOX+9qt/nipvdhyhsx/11gM0zOGRDK4mrnCfelaua3p5n0gMnn4DuVxrcjpVIj
-	hxfxCxgmQ1UbSmoMYzSotcCkruynSwgqevN0ztMVQ7ZwHR4pAx4I4Jm3gjh12x9J
-	SbPr0EOQSmvH2J2yrdgmVEFmJN/e8ORsdlx55EhuY7r9feR1F6pm/hM0YoTooYxC
-	TRenqW3Imlzc+u9n2V5Q9QEEWeiQ+4++Zg5TNO4jwpt7WOUV/NcCXjwSNNHxgp4/
-	sUicB/f37gf3deIfQEq0WXxbH3Mj4B0uod5tQE2QcT1eHLx1FnFr7bNbdRaa5I/i
-	A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; bh=F96tMWj2xtLgP3+Yu+6pP+OueHUggM2jfq+yApxhj
-	4Y=; b=RSOFPHeXJajQkY1o4JJDlT6sOMqXtuh4pDiOSVqRfo4oUnPFwo8DNU7/2
-	SKPkDfQuMH3s+YQK92Q6+Y0ya1fS9c1P8tbbQ34PGnX9NE0/L61nKDDuAvLy6W0W
-	GHoWez8Ys5fHlg4stjD6MIk/BwrzhN6N4KKkJO3JT+lHD2zRePEyZTSUz4ufy5+h
-	G1vZtijthobDPsgorcvsQqUm3kG42tiTGhDJBJibDY1VU9ziAE4Mg5LutSF+fHWc
-	6XwsIunU6IYDVrC0jhdH62jAcQuGSbp4HEBy2UoTAhwKAdsCR3Cpg6Hh8vo8Ja25
-	r2Cd9Ve38fU5RsoceOcmlcqVoGIjA==
-X-ME-Sender: <xms:XjYPYQPxL7hO5t8OCJEpj-9J17oC8sqh8uVgUD5EOujT3fE4FpKYlQ>
-    <xme:XjYPYW9srI9PCMkaCmtGGRayQLDwnHF-V-6nHid1NTpSMsdYN2BL01N-zAqeNj1YN
-    yGKeIFXXNcM8rX_5Fs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrjeeggdefkecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvufgtgfesthhqredtreerjeenucfhrhhomhepfdflihgr
-    gihunhcujggrnhhgfdcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqe
-    enucggtffrrghtthgvrhhnpeefteegkeevfeethffgudehgedvueduvdeifedvvdelhfef
-    heekteefueektdefjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:XjYPYXQ9ikWIkhz_5kAw1Hrz9dBGCxjXaUZHa5xFWFmyOOhxStN_nQ>
-    <xmx:XjYPYYvO5VKDaxPWMR0fm46n4EKM4vGVwV4xjAZmTVGVmfXtAOAK7g>
-    <xmx:XjYPYYeX0fENrMgBepPZK_mexFzZR65vgUEbB4ORC6zoTYhT8MsYSw>
-    <xmx:XjYPYWvwVYhBrYK2tOMjNidl85gAnDCilaMj1wFH4WJTDs8srDpJuw>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 211E7FA0AA5; Sat,  7 Aug 2021 21:41:50 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-552-g2afffd2709-fm-20210805.001-g2afffd27
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B74817F
+	for <linux-staging@lists.linux.dev>; Sun,  8 Aug 2021 05:20:51 +0000 (UTC)
+Received: by mail-vs1-f45.google.com with SMTP id x144so8020534vsx.3
+        for <linux-staging@lists.linux.dev>; Sat, 07 Aug 2021 22:20:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=vamzk//toKdkNjCyAGnqe5q3gRuSTfvs1CUX5Gt5Yfs=;
+        b=ZooxQ9Rp3rn7r3+lkjFs3W8kEOMXAwN89FWfSR5bsl3+TOGpu1/X+M4Hd2rEIOgy1i
+         W4nMRYkhq+HDgaFss8zD/fWqk6ZUZT8ZFgn4NTqp3oshpAQfwRse8XZmbnz87bkA73Rj
+         TdlG9ueRlYyciaW+AAyhKoFqV4yuZe4L1O45WfXX/tWQc+SaaXecemSotY8sZeNKndF+
+         K4M2S4USlMyvGXWvSby8I71EyzgFz71+o1ZwZKZkgFnIJmalELAEkxk9BE4FqIJHiJVx
+         /ZXqAb1ldH9VWvrnm6c8dyVcztguVUDOHKrjpiV7I8cFYHTxF6x4OdEK4d+NaszZQyfg
+         UYtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=vamzk//toKdkNjCyAGnqe5q3gRuSTfvs1CUX5Gt5Yfs=;
+        b=Scdxy+S8oMOnPbwtwhhptpfVKQPptQBVR/XlOV7hMCoE7NRXa9Pr3xxdZMzeLTLCfl
+         F0mIHpc1FuA+/prY9MZ9LjnfPLYuXc23MogZm00XSBW+3ERyLlA/9GmaZIFJrxvcsPNt
+         6eFqMACpXj7kh/qUOvBwGQjtdyYuJ8MZSh2fBXDY3eSnEOLqq4eV9tsZhkib0KHcGRXH
+         AUAXbprbqHvjQ+RWPakJR7oT8huI0gypGRGrUYB47R6BEMJiJ7yv+nQNQagrdwy3vsLf
+         W28++ZAYA1GmbBybDDXeWHm7BCnnkZxezyUEZgmBhKThpdbqbJ59D8iEAEu0+NPDqpOH
+         G6Ew==
+X-Gm-Message-State: AOAM531EcfSILEkSl4HqA8JN8eikrrGEBBqHcEd/IL/L9EDADLWbHtnC
+	NczKYjX5b/RiEA87qO5dfSgNdrX9BLRvtwpv5L4=
+X-Google-Smtp-Source: ABdhPJzwpRmJgU5mR/oJ21UlVx3ITeMDRnrpJRZ8dwJKuKSsnYpIz/cDHcgpFISAzKt2LTVhuKvQTYi/p7hLJ54ACz8=
+X-Received: by 2002:a67:70c4:: with SMTP id l187mr13719259vsc.30.1628400050076;
+ Sat, 07 Aug 2021 22:20:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <7f0d48a6-d4ae-4e8d-aaa8-4b0bb4ad8e35@www.fastmail.com>
-In-Reply-To: <20210807072409.9018-3-sergio.paracuellos@gmail.com>
+MIME-Version: 1.0
 References: <20210807072409.9018-1-sergio.paracuellos@gmail.com>
- <20210807072409.9018-3-sergio.paracuellos@gmail.com>
-Date: Sun, 08 Aug 2021 09:41:29 +0800
-From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To: "Sergio Paracuellos" <sergio.paracuellos@gmail.com>,
- "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>
-Cc: "Bjorn Helgaas" <bhelgaas@google.com>, matthias.bgg@gmail.com,
- gregkh@linuxfoundation.org,
- "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
- linux-pci <linux-pci@vger.kernel.org>, linux-staging@lists.linux.dev,
- neil@brown.name, linux-kernel@vger.kernel.org
-Subject: =?UTF-8?Q?Re:_[PATCH_2/3]_PCI:_of:_avoid_'devm=5Fpci=5Fremap=5Fiospace'_?=
- =?UTF-8?Q?if_PCI=5FIOBASE_is_not_defined?=
-Content-Type: text/plain;charset=utf-8
+ <20210807072409.9018-3-sergio.paracuellos@gmail.com> <7f0d48a6-d4ae-4e8d-aaa8-4b0bb4ad8e35@www.fastmail.com>
+In-Reply-To: <7f0d48a6-d4ae-4e8d-aaa8-4b0bb4ad8e35@www.fastmail.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Sun, 8 Aug 2021 07:20:38 +0200
+Message-ID: <CAMhs-H-FcZmxZircJB6m2yi8Vmz8zy4gCBNYTWMsTS5=MstF9g@mail.gmail.com>
+Subject: Re: [PATCH 2/3] PCI: of: avoid 'devm_pci_remap_iospace' if PCI_IOBASE
+ is not defined
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Greg KH <gregkh@linuxfoundation.org>, 
+	"linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>, linux-pci <linux-pci@vger.kernel.org>, 
+	linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>, 
+	linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
+Hi Jiaxun,
 
-
-=E5=9C=A82021=E5=B9=B48=E6=9C=887=E6=97=A5=E5=85=AB=E6=9C=88 =E4=B8=8B=E5=
+On Sun, Aug 8, 2021 at 3:41 AM Jiaxun Yang <jiaxun.yang@flygoat.com> wrote:
+>
+>
+>
+> =E5=9C=A82021=E5=B9=B48=E6=9C=887=E6=97=A5=E5=85=AB=E6=9C=88 =E4=B8=8B=E5=
 =8D=883:24=EF=BC=8CSergio Paracuellos=E5=86=99=E9=81=93=EF=BC=9A
-> Defining PCI_IOBASE for MIPS ralink in expected addresses results in=20=
+> > Defining PCI_IOBASE for MIPS ralink in expected addresses results in
+> > PCI IO
+> > resources being assigned but the addresses generated for IO accesses
+> > are wrong
+> > since the ioremap in the PCI core function
+> > 'pci_parse_request_of_pci_ranges'
+> > tries to remap to a fixed virtual address (PC_IOBASE) which can't work
+> > for KSEG1
+> > addresses. To get it working this way, we would need to put PCI_IOBASE
+> > somewhere
+> > into KSEG2 which will result in creating TLB entries for IO addresses,
+> > which most
+> > of the time isn't needed on MIPS because of access via KSEG1. To allow
+>
+> It was designed to allow multiple PCI bridge with sparse IO space pattern=
+.
+> So for ralink it's not going to happen?
 
-> PCI IO
-> resources being assigned but the addresses generated for IO accesses=20=
+Sorry, I don't understand your question. Can you please clarify it for me?
 
-> are wrong
-> since the ioremap in the PCI core function=20
-> 'pci_parse_request_of_pci_ranges'
-> tries to remap to a fixed virtual address (PC_IOBASE) which can't work=
-=20
-> for KSEG1
-> addresses. To get it working this way, we would need to put PCI_IOBASE=
-=20
-> somewhere
-> into KSEG2 which will result in creating TLB entries for IO addresses,=
-=20
-> which most
-> of the time isn't needed on MIPS because of access via KSEG1. To allow=
-=20
-
-It was designed to allow multiple PCI bridge with sparse IO space patter=
-n.
-So for ralink it's not going to happen?
-
-Thanks.
-- Jiaxun
-
-
-> MIPS PCI
-> drivers to properly use the PCI generic core we need to increase=20
-> IO_SPACE_LIMIT
-> since IO addresses are in addresses higher that 0xffff. We also need t=
-o=20
-> avoid
-> the call 'devm_pci_remap_iospace' when=20
-> 'pci_parse_request_of_pci_ranges' is
-> called to avoid the following problem:
->=20
-> ------------[ cut here ]------------
-> WARNING: CPU: 2 PID: 1 at ../drivers/pci/pci.c:4066 pci_remap_iospace+=
-0x3c/0x54
-> This architecture does not support memory mapped I/O
-> Modules linked in:
-> CPU: 2 PID: 1 Comm: swapper/0 Not tainted 5.10.1+ #1228
-> Stack : 00000000 00000000 807fa974 00000000 827ffa80 80066b48 80710000=
- 0000000b
->         00000000 00000000 81c59aac 7d06ddec 80850000 00000001 81c59a40=
- 7d06ddec
->         00000000 00000000 807c909c 81c598f0 00000001 81c59904 00000000=
- 0000000a
->         203a6d6d 80708880 0000000f 70617773 80850000 00000000 00000000=
- 807d0000
->         807ffecc 1e160000 00000001 00000200 00000000 8054e920 00000008=
- 815e0008
->         ...
-> Call Trace:
-> [<80008efc>] show_stack+0x8c/0x130
-> [<806e1674>] dump_stack+0x9c/0xc8
-> [<80024a3c>] __warn+0xc0/0xe8
-> [<80024ad0>] warn_slowpath_fmt+0x6c/0xbc
-> [<80410ca8>] pci_remap_iospace+0x3c/0x54
-> [<80410d20>] devm_pci_remap_iospace+0x58/0xa4
-> [<8042019c>] devm_of_pci_bridge_init+0x4dc/0x55c
-> [<80408de8>] devm_pci_alloc_host_bridge+0x78/0x88
-> [<80424e44>] mt7621_pci_probe+0x68/0x9a4
-> [<80464804>] platform_drv_probe+0x40/0x7c
-> [<804628bc>] really_probe+0x2fc/0x4e4
-> [<80463214>] device_driver_attach+0x4c/0x74
-> [<80463384>] __driver_attach+0x148/0x150
-> [<8046047c>] bus_for_each_dev+0x6c/0xb0
-> [<804614dc>] bus_add_driver+0x1b4/0x1fc
-> [<80463aa0>] driver_register+0xd0/0x110
-> [<80001714>] do_one_initcall+0x84/0x1c0
-> [<808e7fd0>] kernel_init_freeable+0x214/0x24c
-> [<806e4164>] kernel_init+0x14/0x118
-> [<80003358>] ret_from_kernel_thread+0x14/0x1c
->=20
-> ---[ end trace 1c9d4412bd51b53c ]---
-> mt7621-pci 1e140000.pcie: error -19: failed to map resource [io =20
-> 0x1e160000-0x1e16ffff]
->=20
-> Hence don't call 'devm_pci_remap_iospace' if PCI_IOBASE is not defined=
- to get
-> a working PCI core APIs for MIPS ralink platforms.
->=20
-> Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> ---
->  drivers/pci/of.c | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-> index a143b02b2dcd..657aef39bf63 100644
-> --- a/drivers/pci/of.c
-> +++ b/drivers/pci/of.c
-> @@ -564,12 +564,14 @@ static int pci_parse_request_of_pci_ranges(struc=
-t=20
-> device *dev,
-> =20
->  		switch (resource_type(res)) {
->  		case IORESOURCE_IO:
-> +#ifdef PCI_IOBASE
->  			err =3D devm_pci_remap_iospace(dev, res, iobase);
->  			if (err) {
->  				dev_warn(dev, "error %d: failed to map resource %pR\n",
->  					 err, res);
->  				resource_list_destroy_entry(win);
->  			}
-> +#endif
->  			break;
->  		case IORESOURCE_MEM:
->  			res_valid |=3D !(res->flags & IORESOURCE_PREFETCH);
-> --=20
-> 2.25.1
->=20
->=20
-
-
---=20
-- Jiaxun
+Thanks,
+    Sergio Paracuellos
+>
+> Thanks.
+> - Jiaxun
+>
+>
+> > MIPS PCI
+> > drivers to properly use the PCI generic core we need to increase
+> > IO_SPACE_LIMIT
+> > since IO addresses are in addresses higher that 0xffff. We also need to
+> > avoid
+> > the call 'devm_pci_remap_iospace' when
+> > 'pci_parse_request_of_pci_ranges' is
+> > called to avoid the following problem:
+> >
+> > ------------[ cut here ]------------
+> > WARNING: CPU: 2 PID: 1 at ../drivers/pci/pci.c:4066 pci_remap_iospace+0=
+x3c/0x54
+> > This architecture does not support memory mapped I/O
+> > Modules linked in:
+> > CPU: 2 PID: 1 Comm: swapper/0 Not tainted 5.10.1+ #1228
+> > Stack : 00000000 00000000 807fa974 00000000 827ffa80 80066b48 80710000 =
+0000000b
+> >         00000000 00000000 81c59aac 7d06ddec 80850000 00000001 81c59a40 =
+7d06ddec
+> >         00000000 00000000 807c909c 81c598f0 00000001 81c59904 00000000 =
+0000000a
+> >         203a6d6d 80708880 0000000f 70617773 80850000 00000000 00000000 =
+807d0000
+> >         807ffecc 1e160000 00000001 00000200 00000000 8054e920 00000008 =
+815e0008
+> >         ...
+> > Call Trace:
+> > [<80008efc>] show_stack+0x8c/0x130
+> > [<806e1674>] dump_stack+0x9c/0xc8
+> > [<80024a3c>] __warn+0xc0/0xe8
+> > [<80024ad0>] warn_slowpath_fmt+0x6c/0xbc
+> > [<80410ca8>] pci_remap_iospace+0x3c/0x54
+> > [<80410d20>] devm_pci_remap_iospace+0x58/0xa4
+> > [<8042019c>] devm_of_pci_bridge_init+0x4dc/0x55c
+> > [<80408de8>] devm_pci_alloc_host_bridge+0x78/0x88
+> > [<80424e44>] mt7621_pci_probe+0x68/0x9a4
+> > [<80464804>] platform_drv_probe+0x40/0x7c
+> > [<804628bc>] really_probe+0x2fc/0x4e4
+> > [<80463214>] device_driver_attach+0x4c/0x74
+> > [<80463384>] __driver_attach+0x148/0x150
+> > [<8046047c>] bus_for_each_dev+0x6c/0xb0
+> > [<804614dc>] bus_add_driver+0x1b4/0x1fc
+> > [<80463aa0>] driver_register+0xd0/0x110
+> > [<80001714>] do_one_initcall+0x84/0x1c0
+> > [<808e7fd0>] kernel_init_freeable+0x214/0x24c
+> > [<806e4164>] kernel_init+0x14/0x118
+> > [<80003358>] ret_from_kernel_thread+0x14/0x1c
+> >
+> > ---[ end trace 1c9d4412bd51b53c ]---
+> > mt7621-pci 1e140000.pcie: error -19: failed to map resource [io
+> > 0x1e160000-0x1e16ffff]
+> >
+> > Hence don't call 'devm_pci_remap_iospace' if PCI_IOBASE is not defined =
+to get
+> > a working PCI core APIs for MIPS ralink platforms.
+> >
+> > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> > ---
+> >  drivers/pci/of.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/drivers/pci/of.c b/drivers/pci/of.c
+> > index a143b02b2dcd..657aef39bf63 100644
+> > --- a/drivers/pci/of.c
+> > +++ b/drivers/pci/of.c
+> > @@ -564,12 +564,14 @@ static int pci_parse_request_of_pci_ranges(struct
+> > device *dev,
+> >
+> >               switch (resource_type(res)) {
+> >               case IORESOURCE_IO:
+> > +#ifdef PCI_IOBASE
+> >                       err =3D devm_pci_remap_iospace(dev, res, iobase);
+> >                       if (err) {
+> >                               dev_warn(dev, "error %d: failed to map re=
+source %pR\n",
+> >                                        err, res);
+> >                               resource_list_destroy_entry(win);
+> >                       }
+> > +#endif
+> >                       break;
+> >               case IORESOURCE_MEM:
+> >                       res_valid |=3D !(res->flags & IORESOURCE_PREFETCH=
+);
+> > --
+> > 2.25.1
+> >
+> >
+>
+>
+> --
+> - Jiaxun
