@@ -1,82 +1,53 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD9E72
-	for <linux-staging@lists.linux.dev>; Sun,  8 Aug 2021 11:31:28 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 037ED6101D;
-	Sun,  8 Aug 2021 11:31:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1628422288;
-	bh=92qWD8sTNHhxOHQgDUsVIP6UvOBYfIM2nmUo8Ta8Ftc=;
-	h=Date:From:To:Cc:Subject:From;
-	b=2C85e8YCglK8Eevp4s86/Nx+wzJzgVXqM4xRR1+emW/fFqyhtvGjD8i8LppQ3IvKc
-	 KOgB1WcYwr0cloz/S7xkxcbVWszIS613xcmnIXIre64G9cUSHv7EjyhUOlTWSn7k/q
-	 EDWu1fcrV/fQTgkMGB/VnWMwtERyXyJ1V+LSJk5M=
-Date: Sun, 8 Aug 2021 13:31:26 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: devel@linuxdriverproject.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [GIT PULL] Staging driver fixes for 5.14-rc5
-Message-ID: <YQ/AjpNS3y41k/uT@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B2072
+	for <linux-staging@lists.linux.dev>; Sun,  8 Aug 2021 18:35:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 9196560F55;
+	Sun,  8 Aug 2021 18:35:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1628447754;
+	bh=nCSnbrDLnSyAr31z4DkHY/c3Wd4a/iyIffjfbWLDSXw=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=vOEKVb3jthqKyMhRr0UN7ZsVieO9JwnC7nfQBLE0TKQa6bI6JGUV1Ho3kwLVtjkhw
+	 3BOGBD7/pX8ysdQQkSrP9U3NTfwDWaoUCWWL1dxqGwiZdp9nf6dpz1+smKAM5l7fXR
+	 KgWzpSLy4xvx1cInsjudHNPTtZp+3uadAa8UXwizaSzIk+1fyKbwg099hlOsMsz7w4
+	 8GdNovJJr0A08FtNxpF8iVT+sxlxNILkne4IgHRtq04jpi382AzYkxF0TI133X6nV9
+	 3Hjez4phg58OBTNmFccvFbJrGcXtcteBZp0GIeDnVHVDmUe+txP9Yy91zSESu61voI
+	 2P+VyKx1ecyxQ==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 889F86096D;
+	Sun,  8 Aug 2021 18:35:54 +0000 (UTC)
+Subject: Re: [GIT PULL] Staging driver fixes for 5.14-rc5
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <YQ/AjpNS3y41k/uT@kroah.com>
+References: <YQ/AjpNS3y41k/uT@kroah.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <YQ/AjpNS3y41k/uT@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.14-rc5
+X-PR-Tracked-Commit-Id: c7b65650c7f41d3946c4e2f0bb56dfdb92cfe127
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 911c3c5e01516a1339eb54d9ca478a789002936b
+Message-Id: <162844775455.32600.2059164090152550632.pr-tracker-bot@kernel.org>
+Date: Sun, 08 Aug 2021 18:35:54 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, devel@linuxdriverproject.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-The following changes since commit 2734d6c1b1a089fb593ef6a23d4b70903526fe0c:
+The pull request you sent on Sun, 8 Aug 2021 13:31:26 +0200:
 
-  Linux 5.14-rc2 (2021-07-18 14:13:49 -0700)
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.14-rc5
 
-are available in the Git repository at:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/911c3c5e01516a1339eb54d9ca478a789002936b
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.14-rc5
+Thank you!
 
-for you to fetch changes up to c7b65650c7f41d3946c4e2f0bb56dfdb92cfe127:
-
-  staging: mt7621-pci: avoid to re-disable clock for those pcies not in use (2021-07-27 15:48:43 +0200)
-
-----------------------------------------------------------------
-Staging driver fixes for 5.14-rc5
-
-Here are a few small staging driver fixes for 5.14-rc5 to resolve some
-reported problems.  They include:
-	- mt7621 driver fix
-	- rtl8723bs driver fixes
-	- rtl8712 driver fixes.
-Nothing major, just small problems resolved.
-
-All have been in linux-next for a while with no reported issues.
-
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      staging: rtl8723bs: select CONFIG_CRYPTO_LIB_ARC4
-
-Pavel Skripkin (2):
-      staging: rtl8712: get rid of flush_scheduled_work
-      staging: rtl8712: error handling refactoring
-
-Sergio Paracuellos (1):
-      staging: mt7621-pci: avoid to re-disable clock for those pcies not in use
-
-Xiangyang Zhang (1):
-      staging: rtl8723bs: Fix a resource leak in sd_int_dpc
-
- drivers/staging/mt7621-pci/pci-mt7621.c   |  1 -
- drivers/staging/rtl8712/hal_init.c        | 30 ++++++++++++------
- drivers/staging/rtl8712/rtl8712_led.c     |  8 +++++
- drivers/staging/rtl8712/rtl871x_led.h     |  1 +
- drivers/staging/rtl8712/rtl871x_pwrctrl.c |  8 +++++
- drivers/staging/rtl8712/rtl871x_pwrctrl.h |  1 +
- drivers/staging/rtl8712/usb_intf.c        | 51 ++++++++++++++-----------------
- drivers/staging/rtl8723bs/Kconfig         |  1 +
- drivers/staging/rtl8723bs/hal/sdio_ops.c  |  2 ++
- 9 files changed, 64 insertions(+), 39 deletions(-)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
