@@ -1,103 +1,284 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A4A272
-	for <linux-staging@lists.linux.dev>; Mon,  9 Aug 2021 11:32:58 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 6D8F421ED4;
-	Mon,  9 Aug 2021 11:23:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1628508202;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XEHaigBd+p4Kdq3FOyfyiQahnEWWgwrbyI9p3sYy9Jg=;
-	b=FUJg+QaU7zw3qTf6t8q9Qr96X0Utqfsl+nS4wyhc9/5vWZMS539Of9T5SM02pWzim1Cnda
-	RMrFBB4C9IiCbCzLy7hKe0Nw5kCTqLiYUG2RwoYyBydeMv59tIlgL5Vpa/xsWEDauKkWvj
-	09N1MMAWFSlJkFOi7ijKkWYVWovvXhs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1628508202;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XEHaigBd+p4Kdq3FOyfyiQahnEWWgwrbyI9p3sYy9Jg=;
-	b=4VeRarVySJZv/AlngzeBW/O6mbVTRAHHGwmwBsPvaCbeLhv85RY/VfIGPtUkorqnnpUTKq
-	o+aHpptVRlTrrwAw==
-Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
-	by relay2.suse.de (Postfix) with ESMTP id 53C44A3B8E;
-	Mon,  9 Aug 2021 11:23:22 +0000 (UTC)
-Received: by ds.suse.cz (Postfix, from userid 10065)
-	id BAE5EDA880; Mon,  9 Aug 2021 13:20:30 +0200 (CEST)
-Date: Mon, 9 Aug 2021 13:20:30 +0200
-From: David Sterba <dsterba@suse.cz>
-To: Kees Cook <keescook@chromium.org>
-Cc: linux-hardening@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Keith Packard <keithpac@amazon.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH 47/64] btrfs: Use memset_after() to clear end of struct
-Message-ID: <20210809112030.GM5047@suse.cz>
-Reply-To: dsterba@suse.cz
-Mail-Followup-To: dsterba@suse.cz, Kees Cook <keescook@chromium.org>,
-	linux-hardening@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Keith Packard <keithpac@amazon.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
-References: <20210727205855.411487-1-keescook@chromium.org>
- <20210727205855.411487-48-keescook@chromium.org>
- <20210728094215.GX5047@twin.jikos.cz>
- <202107281455.2A0753F5@keescook>
- <20210729103337.GS5047@suse.cz>
- <202107310822.31BEB6E543@keescook>
+Received: from baidu.com (mx20.baidu.com [111.202.115.85])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C82E817F
+	for <linux-staging@lists.linux.dev>; Mon,  9 Aug 2021 14:29:38 +0000 (UTC)
+Received: from BJHW-Mail-Ex01.internal.baidu.com (unknown [10.127.64.11])
+	by Forcepoint Email with ESMTPS id 3B6D844BDE39BEAF316F;
+	Mon,  9 Aug 2021 22:13:47 +0800 (CST)
+Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
+ BJHW-Mail-Ex01.internal.baidu.com (10.127.64.11) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.14; Mon, 9 Aug 2021 22:13:47 +0800
+Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.14; Mon, 9 Aug 2021 22:13:46 +0800
+From: Cai Huoqing <caihuoqing@baidu.com>
+To: <gregkh@linuxfoundation.org>, <Larry.Finger@lwfinger.net>,
+	<phil@philpotter.co.uk>, <fmdefrancesco@gmail.com>
+CC: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Cai
+ Huoqing" <caihuoqing@baidu.com>
+Subject: [PATCH] staging: r8188eu: Remove the dependency on ipx network layer
+Date: Mon, 9 Aug 2021 22:13:39 +0800
+Message-ID: <20210809141339.2593-1-caihuoqing@baidu.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202107310822.31BEB6E543@keescook>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+Content-Type: text/plain
+X-Originating-IP: [172.31.63.8]
+X-ClientProxiedBy: BJHW-Mail-Ex16.internal.baidu.com (10.127.64.39) To
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
 
-On Sat, Jul 31, 2021 at 08:25:51AM -0700, Kees Cook wrote:
-> On Thu, Jul 29, 2021 at 12:33:37PM +0200, David Sterba wrote:
-> > On Wed, Jul 28, 2021 at 02:56:31PM -0700, Kees Cook wrote:
-> > > On Wed, Jul 28, 2021 at 11:42:15AM +0200, David Sterba wrote:
-> > > > On Tue, Jul 27, 2021 at 01:58:38PM -0700, Kees Cook wrote:
-> > > > >  	}
-> > > > >  	if (need_reset) {
-> > > > > -		memset(&item->generation_v2, 0,
-> > > > > -			sizeof(*item) - offsetof(struct btrfs_root_item,
-> > > > > -					generation_v2));
-> > > > > -
-> > > > 
-> > > > Please add
-> > > > 		/* Clear all members from generation_v2 onwards */
-> > > > 
-> > > > > +		memset_after(item, 0, level);
-> > > 
-> > > Perhaps there should be another helper memset_starting()? That would
-> > > make these cases a bit more self-documenting.
-> > 
-> > That would be better, yes.
-> > 
-> > > +		memset_starting(item, 0, generation_v2);
-> > 
-> > memset_from?
-> 
-> For v2, I bikeshed this to "memset_startat" since "from" is semantically
-> close to "source" which I thought might be confusing. (I, too, did not
-> like "starting".) :)
+commit <47595e32869f> ("<MAINTAINERS: Mark some staging directories>")
+indicated the ipx network layer as obsolete in Jan 2018,
+updated in the MAINTAINERS file
 
-memset_startat works for me, thanks.
+now, after being exposed for 3 years to refactoring,
+so to delete the ipx net layer related code for good.
+
+Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+---
+ drivers/staging/r8188eu/core/rtw_br_ext.c | 173 +++-------------------
+ 1 file changed, 21 insertions(+), 152 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+index 8f434768dd15..9076fa06bbd0 100644
+--- a/drivers/staging/r8188eu/core/rtw_br_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+@@ -5,7 +5,6 @@
+ 
+ #include "../include/linux/if_arp.h"
+ #include "../include/net/ip.h"
+-#include "../include/net/ipx.h"
+ #include "../include/linux/atalk.h"
+ #include "../include/linux/udp.h"
+ #include "../include/linux/if_pppox.h"
+@@ -26,7 +25,6 @@
+ 
+ #define NAT25_IPV4		01
+ #define NAT25_IPV6		02
+-#define NAT25_IPX		03
+ #define NAT25_APPLE		04
+ #define NAT25_PPPOE		05
+ 
+@@ -42,8 +40,6 @@
+ 	   0    1    2    3    4    5    6    7    8    9   10
+ 	|----|----|----|----|----|----|----|----|----|----|----|
+   IPv4  |type|                             |      IP addr      |
+-  IPX   |type|      Net addr     |          Node addr          |
+-  IPX   |type|      Net addr     |Sckt addr|
+   Apple |type| Network |node|
+   PPPoE |type|   SID   |           AC MAC            |
+ -----------------------------------------------------------------*/
+@@ -133,40 +129,6 @@ static inline void __nat25_generate_ipv4_network_addr(unsigned char *networkAddr
+ 	memcpy(networkAddr+7, (unsigned char *)ipAddr, 4);
+ }
+ 
+-static inline void __nat25_generate_ipx_network_addr_with_node(unsigned char *networkAddr,
+-				__be32 *ipxNetAddr, unsigned char *ipxNodeAddr)
+-{
+-	union {
+-                unsigned int f0;
+-                unsigned char f1[IPX_NODE_LEN];
+-        } addr;
+-
+-	memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
+-
+-	networkAddr[0] = NAT25_IPX;
+-	addr.f0 = be32_to_cpu(*ipxNetAddr);
+-	memcpy(networkAddr+1, addr.f1, 4);
+-	memcpy(networkAddr+5, ipxNodeAddr, 6);
+-}
+-
+-static inline void __nat25_generate_ipx_network_addr_with_socket(unsigned char *networkAddr,
+-				__be32 *ipxNetAddr, __be16 *ipxSocketAddr)
+-{
+-	union {
+-		unsigned int f0;
+-		unsigned char f1[4];
+-	} addr;
+-
+-	memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
+-
+-	networkAddr[0] = NAT25_IPX;
+-	addr.f0 = be32_to_cpu(*ipxNetAddr);
+-	memcpy(networkAddr+1, addr.f1, 4);
+-	addr.f0 ^= addr.f0;
+-	addr.f0 = be16_to_cpu(*ipxSocketAddr);
+-	memcpy(networkAddr+5, addr.f1, 2);
+-}
+-
+ static inline void __nat25_generate_apple_network_addr(unsigned char *networkAddr,
+ 				__be16 *network, unsigned char *node)
+ {
+@@ -291,13 +253,6 @@ static inline int __nat25_network_hash(unsigned char *networkAddr)
+ 
+ 		x = networkAddr[7] ^ networkAddr[8] ^ networkAddr[9] ^ networkAddr[10];
+ 
+-		return x & (NAT25_HASH_SIZE - 1);
+-	} else if (networkAddr[0] == NAT25_IPX) {
+-		unsigned long x;
+-
+-		x = networkAddr[1] ^ networkAddr[2] ^ networkAddr[3] ^ networkAddr[4] ^ networkAddr[5] ^
+-			networkAddr[6] ^ networkAddr[7] ^ networkAddr[8] ^ networkAddr[9] ^ networkAddr[10];
+-
+ 		return x & (NAT25_HASH_SIZE - 1);
+ 	} else if (networkAddr[0] == NAT25_APPLE) {
+ 		unsigned long x;
+@@ -610,129 +565,43 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 		default:
+ 			return -1;
+ 		}
+-	} else if ((protocol == ETH_P_IPX) ||
+-		   (protocol <= ETH_FRAME_LEN)) {
++	} else if (protocol <= ETH_FRAME_LEN) {
+ 		/*---------------------------------------------------*/
+-		/*         Handle IPX and Apple Talk frame           */
++		/*         Handle Apple Talk frame           */
+ 		/*---------------------------------------------------*/
+-		unsigned char ipx_header[2] = {0xFF, 0xFF};
+-		struct ipxhdr	*ipx = NULL;
+ 		struct elapaarp	*ea = NULL;
+ 		struct ddpehdr	*ddp = NULL;
+ 		unsigned char *framePtr = skb->data + ETH_HLEN;
+ 
+-		if (protocol == ETH_P_IPX) {
+-			DEBUG_INFO("NAT25: Protocol = IPX (Ethernet II)\n");
+-			ipx = (struct ipxhdr *)framePtr;
+-		} else if (protocol <= ETH_FRAME_LEN) {
+-			if (!memcmp(ipx_header, framePtr, 2)) {
+-				DEBUG_INFO("NAT25: Protocol = IPX (Ethernet 802.3)\n");
+-				ipx = (struct ipxhdr *)framePtr;
+-			} else {
+-				unsigned char ipx_8022_type =  0xE0;
+-				unsigned char snap_8022_type = 0xAA;
++		unsigned char snap_8022_type = 0xAA;
+ 
+-				if (*framePtr == snap_8022_type) {
+-					unsigned char ipx_snap_id[5] = {0x0, 0x0, 0x0, 0x81, 0x37};		/*  IPX SNAP ID */
+-					unsigned char aarp_snap_id[5] = {0x00, 0x00, 0x00, 0x80, 0xF3};	/*  Apple Talk AARP SNAP ID */
+-					unsigned char ddp_snap_id[5] = {0x08, 0x00, 0x07, 0x80, 0x9B};	/*  Apple Talk DDP SNAP ID */
++		if (*framePtr == snap_8022_type) {
++			/*  Apple Talk AARP SNAP ID */
++			unsigned char aarp_snap_id[5] = {0x00, 0x00, 0x00, 0x80, 0xF3};
++			/*  Apple Talk DDP SNAP ID */
++			unsigned char ddp_snap_id[5] = {0x08, 0x00, 0x07, 0x80, 0x9B};
+ 
+-					framePtr += 3;	/*  eliminate the 802.2 header */
++			framePtr += 3;	/*  eliminate the 802.2 header */
+ 
+-					if (!memcmp(ipx_snap_id, framePtr, 5)) {
+-						framePtr += 5;	/*  eliminate the SNAP header */
++			if (!memcmp(aarp_snap_id, framePtr, 5)) {
++				framePtr += 5;	/*  eliminate the SNAP header */
+ 
+-						DEBUG_INFO("NAT25: Protocol = IPX (Ethernet SNAP)\n");
+-						ipx = (struct ipxhdr *)framePtr;
+-					} else if (!memcmp(aarp_snap_id, framePtr, 5)) {
+-						framePtr += 5;	/*  eliminate the SNAP header */
++				ea = (struct elapaarp *)framePtr;
++			} else if (!memcmp(ddp_snap_id, framePtr, 5)) {
++				framePtr += 5;	/*  eliminate the SNAP header */
+ 
+-						ea = (struct elapaarp *)framePtr;
+-					} else if (!memcmp(ddp_snap_id, framePtr, 5)) {
+-						framePtr += 5;	/*  eliminate the SNAP header */
+-
+-						ddp = (struct ddpehdr *)framePtr;
+-					} else {
+-						DEBUG_WARN("NAT25: Protocol = Ethernet SNAP %02x%02x%02x%02x%02x\n", framePtr[0],
+-							framePtr[1], framePtr[2], framePtr[3], framePtr[4]);
+-						return -1;
+-					}
+-				} else if (*framePtr == ipx_8022_type) {
+-					framePtr += 3;	/*  eliminate the 802.2 header */
+-
+-					if (!memcmp(ipx_header, framePtr, 2)) {
+-						DEBUG_INFO("NAT25: Protocol = IPX (Ethernet 802.2)\n");
+-						ipx = (struct ipxhdr *)framePtr;
+-					} else {
+-						return -1;
+-					}
+-				} else {
+-					return -1;
+-				}
++				ddp = (struct ddpehdr *)framePtr;
++			} else {
++				DEBUG_WARN("NAT25: Protocol = Ethernet SNAP %02x%02x%02x%02x%02x\n",
++					   framePtr[0], framePtr[1], framePtr[2], framePtr[3],
++					   framePtr[4]);
++				return -1;
+ 			}
+ 		} else {
+ 			return -1;
+ 		}
+ 
+-		/*   IPX   */
+-		if (ipx != NULL) {
+-			switch (method) {
+-			case NAT25_CHECK:
+-				if (!memcmp(skb->data+ETH_ALEN, ipx->ipx_source.node, ETH_ALEN))
+-				DEBUG_INFO("NAT25: Check IPX skb_copy\n");
+-				return 0;
+-			case NAT25_INSERT:
+-				DEBUG_INFO("NAT25: Insert IPX, Dest =%08x,%02x%02x%02x%02x%02x%02x,%04x Source =%08x,%02x%02x%02x%02x%02x%02x,%04x\n",
+-					ipx->ipx_dest.net,
+-					ipx->ipx_dest.node[0],
+-					ipx->ipx_dest.node[1],
+-					ipx->ipx_dest.node[2],
+-					ipx->ipx_dest.node[3],
+-					ipx->ipx_dest.node[4],
+-					ipx->ipx_dest.node[5],
+-					ipx->ipx_dest.sock,
+-					ipx->ipx_source.net,
+-					ipx->ipx_source.node[0],
+-					ipx->ipx_source.node[1],
+-					ipx->ipx_source.node[2],
+-					ipx->ipx_source.node[3],
+-					ipx->ipx_source.node[4],
+-					ipx->ipx_source.node[5],
+-					ipx->ipx_source.sock);
+-
+-				if (!memcmp(skb->data+ETH_ALEN, ipx->ipx_source.node, ETH_ALEN)) {
+-					DEBUG_INFO("NAT25: Use IPX Net, and Socket as network addr\n");
+-
+-					__nat25_generate_ipx_network_addr_with_socket(networkAddr, &ipx->ipx_source.net, &ipx->ipx_source.sock);
+-
+-					/*  change IPX source node addr to wlan STA address */
+-					memcpy(ipx->ipx_source.node, GET_MY_HWADDR(priv), ETH_ALEN);
+-				} else {
+-					__nat25_generate_ipx_network_addr_with_node(networkAddr, &ipx->ipx_source.net, ipx->ipx_source.node);
+-				}
+-				__nat25_db_network_insert(priv, skb->data+ETH_ALEN, networkAddr);
+-				__nat25_db_print(priv);
+-				return 0;
+-			case NAT25_LOOKUP:
+-				if (!memcmp(GET_MY_HWADDR(priv), ipx->ipx_dest.node, ETH_ALEN)) {
+-					DEBUG_INFO("NAT25: Lookup IPX, Modify Destination IPX Node addr\n");
+-
+-					__nat25_generate_ipx_network_addr_with_socket(networkAddr, &ipx->ipx_dest.net, &ipx->ipx_dest.sock);
+-
+-					__nat25_db_network_lookup_and_replace(priv, skb, networkAddr);
+-
+-					/*  replace IPX destination node addr with Lookup destination MAC addr */
+-					memcpy(ipx->ipx_dest.node, skb->data, ETH_ALEN);
+-				} else {
+-					__nat25_generate_ipx_network_addr_with_node(networkAddr, &ipx->ipx_dest.net, ipx->ipx_dest.node);
+-
+-					__nat25_db_network_lookup_and_replace(priv, skb, networkAddr);
+-				}
+-				return 0;
+-			default:
+-				return -1;
+-			}
+-		} else if (ea != NULL) {
++		if (ea != NULL) {
+ 			/* Sanity check fields. */
+ 			if (ea->hw_len != ETH_ALEN || ea->pa_len != AARP_PA_ALEN) {
+ 				DEBUG_WARN("NAT25: Appletalk AARP Sanity check fail!\n");
+-- 
+2.25.1
+
