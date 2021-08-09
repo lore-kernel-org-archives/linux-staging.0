@@ -1,81 +1,103 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA7D470
-	for <linux-staging@lists.linux.dev>; Mon,  9 Aug 2021 09:30:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 576F56101D;
-	Mon,  9 Aug 2021 09:30:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1628501405;
-	bh=nOXYxYQLW5zR6aM4Cmr6nujW0ijsZafmxUDF+RZWAMY=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=emzl5ThEFQTkQ+mmgehTGVj65FmnpQTe9RYyjHCPh361pv5kj2fz/z6Bhp3U2YGS+
-	 ZoItmmKoKrCxAgeySofsNiyn50bHWRA7+Y+bVQwqoAo0xznxfiUGb4YU9VvE+h4UXM
-	 AYow2Vmc0kokIgc1EzcfqKv8Ls8gzN0nfy33LHSCjLVNIjh9Zloc5r9/U6aMPdHffM
-	 CEmSZo+udGe8buqiIrrz8lDk/Cwf+fycgnr3l/BrSlz6sIBDDw1KgVCJVoJbLsTMh3
-	 qt6icx9m92+823p6zQ3pk/t1Go7K6qNuPTuKF0jqY6vNNbtDO4lWTqNShv4q4vBOLs
-	 jO7ubl68Mq09g==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 4346660A14;
-	Mon,  9 Aug 2021 09:30:05 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A4A272
+	for <linux-staging@lists.linux.dev>; Mon,  9 Aug 2021 11:32:58 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out1.suse.de (Postfix) with ESMTP id 6D8F421ED4;
+	Mon,  9 Aug 2021 11:23:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1628508202;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XEHaigBd+p4Kdq3FOyfyiQahnEWWgwrbyI9p3sYy9Jg=;
+	b=FUJg+QaU7zw3qTf6t8q9Qr96X0Utqfsl+nS4wyhc9/5vWZMS539Of9T5SM02pWzim1Cnda
+	RMrFBB4C9IiCbCzLy7hKe0Nw5kCTqLiYUG2RwoYyBydeMv59tIlgL5Vpa/xsWEDauKkWvj
+	09N1MMAWFSlJkFOi7ijKkWYVWovvXhs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1628508202;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XEHaigBd+p4Kdq3FOyfyiQahnEWWgwrbyI9p3sYy9Jg=;
+	b=4VeRarVySJZv/AlngzeBW/O6mbVTRAHHGwmwBsPvaCbeLhv85RY/VfIGPtUkorqnnpUTKq
+	o+aHpptVRlTrrwAw==
+Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
+	by relay2.suse.de (Postfix) with ESMTP id 53C44A3B8E;
+	Mon,  9 Aug 2021 11:23:22 +0000 (UTC)
+Received: by ds.suse.cz (Postfix, from userid 10065)
+	id BAE5EDA880; Mon,  9 Aug 2021 13:20:30 +0200 (CEST)
+Date: Mon, 9 Aug 2021 13:20:30 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Kees Cook <keescook@chromium.org>
+Cc: linux-hardening@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Keith Packard <keithpac@amazon.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: Re: [PATCH 47/64] btrfs: Use memset_after() to clear end of struct
+Message-ID: <20210809112030.GM5047@suse.cz>
+Reply-To: dsterba@suse.cz
+Mail-Followup-To: dsterba@suse.cz, Kees Cook <keescook@chromium.org>,
+	linux-hardening@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Keith Packard <keithpac@amazon.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-48-keescook@chromium.org>
+ <20210728094215.GX5047@twin.jikos.cz>
+ <202107281455.2A0753F5@keescook>
+ <20210729103337.GS5047@suse.cz>
+ <202107310822.31BEB6E543@keescook>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] devlink: Set device as early as possible
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <162850140527.16932.1083737685938240617.git-patchwork-notify@kernel.org>
-Date: Mon, 09 Aug 2021 09:30:05 +0000
-References: <6859503f7e3e6cd706bf01ef06f1cae8c0b0970b.1628449004.git.leonro@nvidia.com>
-In-Reply-To: <6859503f7e3e6cd706bf01ef06f1cae8c0b0970b.1628449004.git.leonro@nvidia.com>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: davem@davemloft.net, kuba@kernel.org, leonro@nvidia.com,
- alexandre.belloni@bootlin.com, andrew@lunn.ch, aelior@marvell.com,
- luobin9@huawei.com, claudiu.manoil@nxp.com, coiby.xu@gmail.com,
- dchickles@marvell.com, drivers@pensando.io, fmanlunas@marvell.com,
- f.fainelli@gmail.com, gakula@marvell.com, gregkh@linuxfoundation.org,
- GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
- hkelam@marvell.com, idosch@nvidia.com, intel-wired-lan@lists.osuosl.org,
- ioana.ciornei@nxp.com, jerinj@marvell.com, jesse.brandeburg@intel.com,
- jiri@nvidia.com, lcherian@marvell.com, linux-kernel@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-staging@lists.linux.dev,
- manishc@marvell.com, michael.chan@broadcom.com, netdev@vger.kernel.org,
- oss-drivers@corigine.com, richardcochran@gmail.com, saeedm@nvidia.com,
- salil.mehta@huawei.com, sburla@marvell.com, snelson@pensando.io,
- simon.horman@corigine.com, sbhatta@marvell.com, sgoutham@marvell.com,
- tchornyi@marvell.com, tariqt@nvidia.com, anthony.l.nguyen@intel.com,
- UNGLinuxDriver@microchip.com, vkochan@marvell.com, vivien.didelot@gmail.com,
- vladimir.oltean@nxp.com, yisen.zhuang@huawei.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202107310822.31BEB6E543@keescook>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
 
-Hello:
-
-This patch was applied to netdev/net-next.git (refs/heads/master):
-
-On Sun,  8 Aug 2021 21:57:43 +0300 you wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
+On Sat, Jul 31, 2021 at 08:25:51AM -0700, Kees Cook wrote:
+> On Thu, Jul 29, 2021 at 12:33:37PM +0200, David Sterba wrote:
+> > On Wed, Jul 28, 2021 at 02:56:31PM -0700, Kees Cook wrote:
+> > > On Wed, Jul 28, 2021 at 11:42:15AM +0200, David Sterba wrote:
+> > > > On Tue, Jul 27, 2021 at 01:58:38PM -0700, Kees Cook wrote:
+> > > > >  	}
+> > > > >  	if (need_reset) {
+> > > > > -		memset(&item->generation_v2, 0,
+> > > > > -			sizeof(*item) - offsetof(struct btrfs_root_item,
+> > > > > -					generation_v2));
+> > > > > -
+> > > > 
+> > > > Please add
+> > > > 		/* Clear all members from generation_v2 onwards */
+> > > > 
+> > > > > +		memset_after(item, 0, level);
+> > > 
+> > > Perhaps there should be another helper memset_starting()? That would
+> > > make these cases a bit more self-documenting.
+> > 
+> > That would be better, yes.
+> > 
+> > > +		memset_starting(item, 0, generation_v2);
+> > 
+> > memset_from?
 > 
-> All kernel devlink implementations call to devlink_alloc() during
-> initialization routine for specific device which is used later as
-> a parent device for devlink_register().
-> 
-> Such late device assignment causes to the situation which requires us to
-> call to device_register() before setting other parameters, but that call
-> opens devlink to the world and makes accessible for the netlink users.
-> 
-> [...]
+> For v2, I bikeshed this to "memset_startat" since "from" is semantically
+> close to "source" which I thought might be confusing. (I, too, did not
+> like "starting".) :)
 
-Here is the summary with links:
-  - [net-next] devlink: Set device as early as possible
-    https://git.kernel.org/netdev/net-next/c/919d13a7e455
-
-You are awesome, thank you!
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+memset_startat works for me, thanks.
