@@ -1,169 +1,128 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71EC9177
-	for <linux-staging@lists.linux.dev>; Mon,  9 Aug 2021 15:23:41 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 179FCP4j008365;
-	Mon, 9 Aug 2021 15:23:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=o7yNlDuhWgz+XPuqZS8xaQO4BnOTwGaVE9SeiREHIvc=;
- b=uY6z43ujr161MJC/3QccVOvrdIS3gE/lt1C2ICU2o7FniAHFz3i0TD+1glO9dtShhavu
- uhCYoLguC4ZD85H2PSq2CYd7OSGUEZQSrnLBzuJXVTML/iiOQG+KcOS1IYro4xV5aXD+
- DoBWTYD+BKyW0GMNcAKyL2J2/ni+439QUXUlZtKtYH8QioKAdbWjgX6z3DEqbqvVlLc2
- klTezC9noeqGyqRMLkhsUe/y2enQz2Ebtr5QfzqumdcI/u6vTZOiRfd9rKd6ryoRbLaf
- NnEkTDXU7dBOVv1TEDolsTa/20tAZtSu40gXvV7U88ZfRQXelY9RS8UCBvNfrUaVYkVo mQ== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2020-01-29;
- bh=o7yNlDuhWgz+XPuqZS8xaQO4BnOTwGaVE9SeiREHIvc=;
- b=OQE7AQWNz6/wk0fU/HEEPl0OJI8ga1HxBy6gAajVqdPWI68C0h7k8uNGZeu96GNhndp8
- rfcMLqreMSnZ7ykkkI0X09+JIXKuuasBvhkI2j1dt+HLxvCUJXkgI5OUEUZ8SplHYvH4
- ftgYEQb4obE8z5siKXETd2Qa+CBrHWSk00VIzSSX4pEGLracFu9fGTl/9Ho9WiQAl3bt
- Ou5FdHqQ1BirZZigNsUvcn8LZcYhKZjgkOmE+0E7OX+Pt0UocYPcfZKfmq/ZQ+1kP1y6
- G50e7hU1XKejnKNIO/V+9Z9RnYfi0MT1WcB7bPkDP6o/5wM09tQzA0iqT1Rme8P/+i3/ TA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3aaq8a9kdy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 09 Aug 2021 15:23:37 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 179FATwG096134;
-	Mon, 9 Aug 2021 15:23:36 GMT
-Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam08lp2048.outbound.protection.outlook.com [104.47.73.48])
-	by aserp3030.oracle.com with ESMTP id 3aa8qrh72a-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 09 Aug 2021 15:23:36 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JqXY1IL4tV0MaL77AbsRfmxJrxlbAY7Dlyv4yvDa3vpk5oczfDFiklY/0ZonbQfGiCfMUgmNKY6aGXGhauBrjhs5SQuCfgFr2iCoYg5vGTqzww+h05IXJo0odrIwP3g5aSHj5B6UwuoOdh16IjqyduYNbPMHIhdv3t0TxAenr/SSAYPsNtVkCozqQBTGBQBPx2dVQMs/s/Ya3BwAsd3Fre30BuUM/pk0XwYF9BQMjrOW4tyixvIgQf1wOKWOhQW+ztskPyfAnLL0ukYUy2XRHpkDi4SIWzyw0kIwKOOc6S6IPaX7YdSXI8o1+M98sI+r/CXcjADD18z06xWlZF0qDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o7yNlDuhWgz+XPuqZS8xaQO4BnOTwGaVE9SeiREHIvc=;
- b=jq8rm2CCxOGc7k4fjIkRg0DCUNipGoADIO0Fs/WhdoikEYvnAjOPnYUwalALJKl/0b6je39B6XTYd5TcuMewU9LzD8ReK5yk+bWe1cXti4WOgZ46Wit9Ouyvxoyw1k3riqhp4MvD/4LClXg3UsXoMlWz/6RA479UY77rXw8Vkqm6+LIHCr+X00eNQS9kpKP9S0hwPTXjUSVxtipXtFH9bISPvKbnm0e+MolNnctlQ/CmBPH2OJyKU1nGQNHu1lB78D01fC0QssGW65cMJmaJdE67PGy7F5OUGzeeRwxf4ye8npHEVAvvw1Dox5fdylG5JDn/gFG/sxH4J3iFxt0O5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B099870
+	for <linux-staging@lists.linux.dev>; Mon,  9 Aug 2021 16:50:47 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id q11-20020a7bce8b0000b02902e6880d0accso3356902wmj.0
+        for <linux-staging@lists.linux.dev>; Mon, 09 Aug 2021 09:50:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o7yNlDuhWgz+XPuqZS8xaQO4BnOTwGaVE9SeiREHIvc=;
- b=IIgNlszHDt/+b5t9mZ4lRW8DW9Fwjoi0GtSFJTdigzLEByn3MBMY/9JyqUGOER6+l4cVeex7y3nk88mcSupN2WOP05IXzxB7+Fwytfc/OaAZrlDXVGWyh6lnOlAjsRbFEi4j0SVQY9VE/ePOikPQ03G170b1gJVSD6gZv+GN+J4=
-Authentication-Results: baidu.com; dkim=none (message not signed)
- header.d=none;baidu.com; dmarc=none action=none header.from=oracle.com;
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by CO1PR10MB4513.namprd10.prod.outlook.com
- (2603:10b6:303:93::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.17; Mon, 9 Aug
- 2021 15:23:35 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4394.023; Mon, 9 Aug 2021
- 15:23:35 +0000
-Date: Mon, 9 Aug 2021 18:23:14 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Cai Huoqing <caihuoqing@baidu.com>
-Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
-        phil@philpotter.co.uk, fmdefrancesco@gmail.com,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: Remove the dependency on ipx network
- layer
-Message-ID: <20210809152314.GT1931@kadam>
-References: <20210809141339.2593-1-caihuoqing@baidu.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210809141339.2593-1-caihuoqing@baidu.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNXP275CA0032.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:18::20)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+Hcj1n4ozk+H6CYKuRnd8vgH5o6uUv5uupFh+O9qQl4=;
+        b=WtcM64WlOV+7U8pgoWNEv8nRbRAxnA4ykdMJyImAh7O9jjfgnNmVskKRhQVIE2QpXD
+         khFH1HE+DZWoF6esCyvl5y7eO3s6OH1ATBpkf5Lpmt7G5joLq6s3nlAfZnjLRloeN/MZ
+         BnBpQWvB3U4cOWSnLBhPs8NSESEMOeWpgo74xYJvX1bBKdvTAkK/RD/tVY9oeqfYBVIn
+         C65xJfIX4S9xC425154Y57LkVH0xbZwI+49xlkDnLswu7izhhEn0DBFJUo2FIZqvtx+/
+         yqUoiGOQv9HfSrnp3SaMQKMwzmMPFwHrfcCyCKovNPYtcSpONezTeRjLYVXt0oebXAmZ
+         Z6DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+Hcj1n4ozk+H6CYKuRnd8vgH5o6uUv5uupFh+O9qQl4=;
+        b=UJHbB0a4jenNjl9HXV7CWnlGbXxuxsoRqSlOtSXQnywYsfuT5oR1//ZGw3SIhmW0SR
+         Y7t3CbnRshDy76VavPYwCmAk5TePWhKCyC5iqIC4nN/eM5Vx1FBHBeHvX4/qmp7/89sb
+         5u476v3OOO7OBozMG+9MQ7nVozP92o+M72EffSrcoVffjo9PnfVnpyLwKBMzAOo8y8yB
+         PFk9VitfIGtWVmeuaMiVA5lz9b6bfFJM38GZr9XY7K5zA9c84Cj2Fa+qHxiK9GyQI+WM
+         4La0YDhXVc1RpbSJasJtnO+5RHgVHNtaAhI8IQHIJvbG5wTMGnyVbdANYSDZPve+EykL
+         846w==
+X-Gm-Message-State: AOAM533rqdYNzPW3u8GfKT0IvJJ09y/76vR/j288UztXgRC2lhFCJ8/I
+	Gg+dCPnWHAZAYPvjLeiIP2o=
+X-Google-Smtp-Source: ABdhPJwa8Fvmjbw3awsQK7/5rPmYWF5OG9Cb/L1TsDRt/O3nQJhpxWV3BNI3a3S2ta9bTYTPSp5y2g==
+X-Received: by 2002:a7b:c5cd:: with SMTP id n13mr45612wmk.69.1628527846078;
+        Mon, 09 Aug 2021 09:50:46 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::996b])
+        by smtp.gmail.com with ESMTPSA id q5sm20484469wrx.33.2021.08.09.09.50.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Aug 2021 09:50:45 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH v2 00/17] staging: r8188eu: remove unnecessary parentheses
+Date: Mon,  9 Aug 2021 18:49:50 +0200
+Message-Id: <20210809165007.23204-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kadam (102.222.70.252) by JNXP275CA0032.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:18::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.15 via Frontend Transport; Mon, 9 Aug 2021 15:23:29 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b41624bd-df15-4aa1-e3dc-08d95b49a741
-X-MS-TrafficTypeDiagnostic: CO1PR10MB4513:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<CO1PR10MB451350AE2E9A5013BE56E7C28EF69@CO1PR10MB4513.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	KI0AW7RlV5T3u3Cx+f8zlWT++m7YSjyNsT5ymN10wMqcEG+0VGPZEcsXb7BT+JG2X3Xu3z0FUVV2nXqigkiKaI69dt2EINNfi8nuF6CrP2CR7vumbHHDr1WpVI1KdkvY/+IoFFTI/Nj8sn9aUOZFc2salpRibk0ztGRcgRfBlkWPyLLqxVt43T6vncjLmVOQEDD9jQa1jhNPppuAHdELvu6pml5mjBcaCKlbui6eZ0ACc7KhlY5VQslaP48dYApXX1m0WEUsdbSxS2xTO8GI9dBB/pVO4bA+wS1GUKhxzcw5I7AnHjDF4pnMCItrMl4ex2QvZHoC5T0JB/I0LZ6/GUD2FaY9jNfrx6C99MTgiSqCQTNxPhm3W4qv950SkFz1zknRJL6acS4S1SigPXQFMZCad5IbMFYm9JOtWsCdS+hjhNF1MQzM0YzcQdLXTS8tqgwhhlE+EJq6TObOLUxbjDqClMILCt3/wSV6jJAxAo5IS4WSN8Q8IqpzbSaFPu52iWh66PuzaZ8yXNf+WutYIj8gFMBwnEDQERsNfwD6SQ6BUzyiRHki3H3GVW00KqGt9HnK3OWaq1PWwh2tSM5L/+3syfHcWPzaDe/WJMuJwdLLnMcCQxm+JtZ/QJMgg4ywVaVlmwdx6p8ECPfN0ltdAiaanlOrHvCnVELhrVB6guZu2GG6eHDv0j0NXeDulXilHTp12XAGV9j3Nnm3yIKHYw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(39860400002)(376002)(366004)(346002)(396003)(38350700002)(9576002)(2906002)(1076003)(38100700002)(66476007)(26005)(52116002)(66556008)(66946007)(6496006)(186003)(478600001)(4326008)(5660300002)(316002)(4744005)(8936002)(83380400001)(6666004)(33716001)(8676002)(6916009)(86362001)(55016002)(9686003)(44832011)(33656002)(956004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?c7kcahZAE3p8mdzVjqMCGp1xagrY6Ud7OAhfMgLAU6cJvJU2i2iBtAhtzUsd?=
- =?us-ascii?Q?gpf1t3QaCH5p7+sqouGatPxr/QtH2sexpxriBnddGMzB/MhwOx5AGQh8p0vL?=
- =?us-ascii?Q?kzQ4yQSKHqqTYYmK2BrEjjiYPiRqRJl+nE879Zhlg2w5+PJ4n28c+Eu7fpaQ?=
- =?us-ascii?Q?b/solNdAMu7WyN0mS2HcIrSo7NZ9QFXVSvxwCxc7+HQYUQ8tp2eLUs4yQeVF?=
- =?us-ascii?Q?dXmz3czW2hfAXTQAaai46HP74xCWNGRUKxnP+isnPUJXxPWarKUApuvwZoeL?=
- =?us-ascii?Q?P3GL+OwFRljI49tgClShI4CnghqoIHkMT7sC992UVngrlKF0WUfg9gEtWTJd?=
- =?us-ascii?Q?wz73RzZgfY/h5CCCsz+jybdunq0KuJ6+MFXGp9vb6y3S54sdfjIb+zR4VNvk?=
- =?us-ascii?Q?suyykDYrPdFAVf3auT/djKmvrfw/zL6r+39pqZPoQRmqhZkJK8BJUh7wD78F?=
- =?us-ascii?Q?xLwlviPlaBrEDp9l0LqGI8bzVyEegXfh1SNU//5AScjd8XrXQU6WiLPJLtl+?=
- =?us-ascii?Q?JeM8SZWMLg5jpWjR1NYcb+Z4RUXR2xCkNnDgLhuwa4a/8VE29E3OF7/aCflU?=
- =?us-ascii?Q?cB06Oq5esoFGVj7LTbK3psOI3w7XSq6PkGKABNjS4GhUx8/CMTk6UvYOBFon?=
- =?us-ascii?Q?E9vLzNxp/04LQ4lsaP5dxn9Z9Bca7x0GX6iJ4WZo5CrCHZWEH/LKUseQePHg?=
- =?us-ascii?Q?lVW4zqTTEMatjb1L/NYDfAo4Rorx4XKxIeJR0NS3zbTA22ucfzB/ivK/kYs3?=
- =?us-ascii?Q?wtufpBNCxJnESMhHnYlM34gUc4a4XESD5bIYDuFNJs6VSVXjGlDBojvQnkoe?=
- =?us-ascii?Q?BASuFa6A1l3KisLCW1lOPc+vZATx+oekTUz3mOo+AbdMkP48W7+uEr/s8gV/?=
- =?us-ascii?Q?PPnOa7Aeq3a+bzQpBuQSo6c9OisHd8lmlfD4LncmWnSj5t3xfUh/uR9q6E+B?=
- =?us-ascii?Q?O/JykT9wbHh0lI19Hs9d9GN+3wQY7OROgZvXn1dY1++hhTCUXIKu+gkimlXX?=
- =?us-ascii?Q?aAAg2Q6FCzArXk3+p8LG1ESsHJdPddmg24iD+LUQEY8/YmWSOtuHmKGQIdnJ?=
- =?us-ascii?Q?ww82mMIvbEJESGOyQn+dq1Cf+srzB9B5hT3/+1BERxnIeKkoAUN5XJb2ZQvn?=
- =?us-ascii?Q?WSpXzRvJ2eRYBiXSR5RIyth4qIgKuksFGM77+6jdgrU9fWEcYCiA5kIYuqpA?=
- =?us-ascii?Q?jES5vxGTI7d4tByZTKjROvTobYByU2/48evT1pUXpQwQ2l8oFFqKPIfF3Ycs?=
- =?us-ascii?Q?EbcOSVCEBE787IezgbUKDYcA1LVVwZWdKBg+CfbZPY2oAyQheap+vEDobRCT?=
- =?us-ascii?Q?BrS+LbFrNTt7OXiDeLSfKdZg?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b41624bd-df15-4aa1-e3dc-08d95b49a741
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2021 15:23:35.0127
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ifOexLVc4pOUMLdzD3Sv28OTi95GNEj67pBL3tynkOVEn6RAvT72CUuU7/C8JEJmAJurglTJWAYSPhhAvmaRJ/eLCzS9c8z9MYTqRWc9NHA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4513
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10071 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0 mlxscore=0
- spamscore=0 adultscore=0 bulkscore=0 malwarescore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
- definitions=main-2108090112
-X-Proofpoint-ORIG-GUID: 2egPT87N26MzvJazjl0UMMbi-etZCOfD
-X-Proofpoint-GUID: 2egPT87N26MzvJazjl0UMMbi-etZCOfD
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 09, 2021 at 10:13:39PM +0800, Cai Huoqing wrote:
-> +			if (!memcmp(aarp_snap_id, framePtr, 5)) {
-> +				framePtr += 5;	/*  eliminate the SNAP header */
->  
-> -						DEBUG_INFO("NAT25: Protocol = IPX (Ethernet SNAP)\n");
-> -						ipx = (struct ipxhdr *)framePtr;
-> -					} else if (!memcmp(aarp_snap_id, framePtr, 5)) {
-> -						framePtr += 5;	/*  eliminate the SNAP header */
-> +				ea = (struct elapaarp *)framePtr;
-> +			} else if (!memcmp(ddp_snap_id, framePtr, 5)) {
-> +				framePtr += 5;	/*  eliminate the SNAP header */
+This series removes unnecessary parentheses.
+Most of them reported by checkpatch.
 
-To me this looks like we're still parsing an IPX header but we just
-deleted the "ipx" variable and any debug output that mentions IPX.
-What?
+v1 -> v2
+Updated patch 3 and 7 to remove some more parentheses that were not
+reported by checkpatch.
 
-It doesn't look like nat25_handle_frame() is ever called so once you
-delete that then you can delete the whole nat25_db_handle() function as
-well.  I'd prefer to see that kind of function which deletes whole
-functions and the compiler will complain if we delete something unused.
+Michael Straube (17):
+  staging: r8188eu: remove unnecessary parentheses in os_dep dir
+  staging: r8188eu: remove unnecessary parentheses in hal dir
+  staging: r8188eu: remove unnecessary parentheses in
+    core/rtw_mlme_ext.c
+  staging: r8188eu: remove unnecessary parentheses in core/rtw_ap.c
+  staging: r8188eu: remove unnecessary parentheses in
+    core/rtw_wlan_util.c
+  staging: r8188eu: remove unnecessary parentheses in core/rtw_led.c
+  staging: r8188eu: remove unnecessary parentheses in core/rtw_p2p.c
+  staging: r8188eu: clean up comparsions to true/false
+  staging: r8188eu: remove unnecessary parentheses in core/rtw_mlme.c
+  staging: r8188eu: remove unnecessary parentheses in core/rtw_xmit.c
+  staging: r8188eu: remove unnecessary parentheses in core/rtw_sta_mgt.c
+  staging: r8188eu: remove unnecessary parentheses in core/rtw_recv.c
+  staging: r8188eu: remove unnecessary parentheses in core/rtw_pwrctrl.c
+  staging: r8188eu: remove unnecessary parentheses in core/rtw_io.c
+  staging: r8188eu: remove unnecessary parentheses in
+    core/rtw_ioctl_set.c
+  staging: r8188eu: remove unnecessary parentheses in core/rtw_cmd.c
+  staging: r8188eu: remove remaining unnecessary parentheses in core dir
 
-regards,
-dan carpenter
+ drivers/staging/r8188eu/core/rtw_ap.c         |  80 +--
+ drivers/staging/r8188eu/core/rtw_br_ext.c     |   6 +-
+ drivers/staging/r8188eu/core/rtw_cmd.c        |  36 +-
+ drivers/staging/r8188eu/core/rtw_debug.c      |  14 +-
+ drivers/staging/r8188eu/core/rtw_ieee80211.c  |   4 +-
+ drivers/staging/r8188eu/core/rtw_io.c         |  32 +-
+ drivers/staging/r8188eu/core/rtw_ioctl_set.c  |  22 +-
+ drivers/staging/r8188eu/core/rtw_iol.c        |   2 +-
+ drivers/staging/r8188eu/core/rtw_led.c        | 354 +++++------
+ drivers/staging/r8188eu/core/rtw_mlme.c       | 110 ++--
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 586 +++++++++---------
+ drivers/staging/r8188eu/core/rtw_mp.c         |  10 +-
+ drivers/staging/r8188eu/core/rtw_p2p.c        |  78 +--
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c    |  20 +-
+ drivers/staging/r8188eu/core/rtw_recv.c       |  26 +-
+ drivers/staging/r8188eu/core/rtw_sta_mgt.c    |  22 +-
+ drivers/staging/r8188eu/core/rtw_wlan_util.c  |  70 +--
+ drivers/staging/r8188eu/core/rtw_xmit.c       |  56 +-
+ .../r8188eu/hal/Hal8188ERateAdaptive.c        |   8 +-
+ drivers/staging/r8188eu/hal/HalPhyRf_8188e.c  |  16 +-
+ drivers/staging/r8188eu/hal/hal_intf.c        |   2 +-
+ drivers/staging/r8188eu/hal/odm.c             |  44 +-
+ drivers/staging/r8188eu/hal/odm_RTL8188E.c    |  10 +-
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  56 +-
+ drivers/staging/r8188eu/hal/rtl8188e_dm.c     |  30 +-
+ drivers/staging/r8188eu/hal/rtl8188e_mp.c     |   8 +-
+ drivers/staging/r8188eu/hal/rtl8188e_rf6052.c |   2 +-
+ drivers/staging/r8188eu/hal/rtl8188eu_led.c   |  12 +-
+ drivers/staging/r8188eu/hal/rtl8188eu_xmit.c  |  10 +-
+ drivers/staging/r8188eu/hal/usb_halinit.c     |  32 +-
+ drivers/staging/r8188eu/hal/usb_ops_linux.c   |   6 +-
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  | 162 ++---
+ drivers/staging/r8188eu/os_dep/os_intfs.c     |   4 +-
+ .../staging/r8188eu/os_dep/osdep_service.c    |   4 +-
+ drivers/staging/r8188eu/os_dep/recv_linux.c   |   4 +-
+ drivers/staging/r8188eu/os_dep/rtw_android.c  |   2 +-
+ drivers/staging/r8188eu/os_dep/usb_intf.c     |   2 +-
+ 37 files changed, 971 insertions(+), 971 deletions(-)
+
+-- 
+2.32.0
 
