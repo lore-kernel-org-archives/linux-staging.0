@@ -1,284 +1,177 @@
-Received: from baidu.com (mx20.baidu.com [111.202.115.85])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C82E817F
-	for <linux-staging@lists.linux.dev>; Mon,  9 Aug 2021 14:29:38 +0000 (UTC)
-Received: from BJHW-Mail-Ex01.internal.baidu.com (unknown [10.127.64.11])
-	by Forcepoint Email with ESMTPS id 3B6D844BDE39BEAF316F;
-	Mon,  9 Aug 2021 22:13:47 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BJHW-Mail-Ex01.internal.baidu.com (10.127.64.11) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Mon, 9 Aug 2021 22:13:47 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Mon, 9 Aug 2021 22:13:46 +0800
-From: Cai Huoqing <caihuoqing@baidu.com>
-To: <gregkh@linuxfoundation.org>, <Larry.Finger@lwfinger.net>,
-	<phil@philpotter.co.uk>, <fmdefrancesco@gmail.com>
-CC: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Cai
- Huoqing" <caihuoqing@baidu.com>
-Subject: [PATCH] staging: r8188eu: Remove the dependency on ipx network layer
-Date: Mon, 9 Aug 2021 22:13:39 +0800
-Message-ID: <20210809141339.2593-1-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E979177
+	for <linux-staging@lists.linux.dev>; Mon,  9 Aug 2021 14:56:19 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 179EkYhF032120;
+	Mon, 9 Aug 2021 14:56:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=ZZLIAi4P3Lpksz5fNbLwF+2Ct6r3dlRz+Y2zeOGwA9k=;
+ b=UKLraI5OVwzhNMzaMZ59KpJX5AJ5CQBKmLJZNmI4vLP2r03whDCA2XLg4uuM2AiqZY9/
+ rfPJxQk88+uaL7R99UkDMCvNWMjQzP/QBTLsGrFSbS8Q7PwRh6JID8/uGGhEwps/ybs9
+ VcJOZyMkl31nWrr0L4S9OcBgHa10Dt0NEZ8n1gV45HyHjmBpDSGqHDKrp242XAsLNCDk
+ z1w12pKWFGXRUAUs5lODnOTifkCb8s0Ypq7McPPtCBtG5mrQdLsTv+Fm834WDca5eVlR
+ 1FBm7ln2P5Z1/QOxneA+gdh5AImWVkcD5wY2Jiovv/n3BHEz7y4RkxEPcr7L8cn0kkMN 0Q== 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2020-01-29;
+ bh=ZZLIAi4P3Lpksz5fNbLwF+2Ct6r3dlRz+Y2zeOGwA9k=;
+ b=cuqt7d3l6G7JLSLnNSv7mvlgDtL3fIi5CnaLj+U7GwdBLUapQb1mSQ/BhqkNEG1SEvW/
+ Oi16H7xbWSbUC+BtkIuwDmYWCh53g4JMmZIWHIW3RWWECXBQOUO8HS/Cgle2E5JTqCnN
+ TaxEB0QldG+hSYUd3QOLcyo8MVlXf81uXwxwi6n9bDb25wI5Gk22jTOXaYCRl0QGxiVl
+ 2BptJIk+X2gM7aficJA4TgfAvVLp3mjNv6G4nJWNJjEof+PlZot28Q9ojZtV+HEVvCVg
+ Aa8SpP9FopPDdGMjJ+SaX7qWezvrQZH8kAVRXykEkP2uJ0pIazVm1e4iC7dZ6jglHa2H Vw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3ab01r8ytd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 09 Aug 2021 14:56:10 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+	by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 179Eu473174892;
+	Mon, 9 Aug 2021 14:56:07 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2175.outbound.protection.outlook.com [104.47.58.175])
+	by userp3030.oracle.com with ESMTP id 3a9f9v5xgn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 09 Aug 2021 14:56:06 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Bk6MT8yU7b1J6rQyqVkD0janUIDW/9hD5usI+3eEX/z5fy7iBLawqGnspE6j9RBhVd8mqc4OW2witc1gQINwvNTWI8Hs6RJ4mwQbmJzMNLZG8vYOZVU22l7aZ6UvKVsn6qu3V8kEFKAa23nwO52T1iAXCPCJzNPD8hgtwEkfJV6CUfZ9Mxc4Uk/VClDKcZUeEOrVLbk54CTGghoHSRAzbObCE+Dw0R9LFvi4goTlQXhWuXX50YeuFRBHvBlVNOXNRddIxZQ0cSWa+L7CTbdOG/feRyoJUyxj+T8jK/9d7CSyTBRn87jDGOp69ypvCEohN90vpQ8SBkAIjgMvSt2oDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZZLIAi4P3Lpksz5fNbLwF+2Ct6r3dlRz+Y2zeOGwA9k=;
+ b=VCSSyHhVVYtygRBxgdTBpSe6o2tjdB0Drx7UjyDuEWuZBtuS42T1FLUsuWh7NH66c9Sqtw2GyQuv+BSsK3evJL3Y8QsqpA1g2IAIotDD6u/r+24XBmnkEl0+glV3K6AtjRz7KxFtSMZz55Rd9Q3hiET073RPKkpWQNDvaiiwRkLh2lDqzq5T5c0eTb6rhvASBWikChc2lpUxCZJ87xBaDlRK36pPUfC6aY40Sr6x+McoDtnzGJ3zS2F+ehjYhiY/mdk5/KsMqY1xF+QgB5g0CNLB9CnYLcDGLLU98/vQ+EVup9Ebjotg1rLMAnBp5+T+drkv7+jFMAq8CNA7y13I0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZZLIAi4P3Lpksz5fNbLwF+2Ct6r3dlRz+Y2zeOGwA9k=;
+ b=WiCWRCgShpp1J2tAwHBZQp5Uo5W0HCt3OCutDrUYk9GZfSo68e30ixll/8MYNQd+2oxVzT3IlfFL9O0VOV7wWDfTKpli+f/R79EWeopY+M1bFA75lYn+2j1xSGngyCxyEt1cyMyJ9NBv5I/5hQvaUtRt4x+x3dnPTt8XbmTj1T4=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR10MB1485.namprd10.prod.outlook.com
+ (2603:10b6:300:25::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.17; Mon, 9 Aug
+ 2021 14:56:01 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4394.023; Mon, 9 Aug 2021
+ 14:56:01 +0000
+Date: Mon, 9 Aug 2021 17:55:43 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Michael Straube <straube.linux@gmail.com>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+        phil@philpotter.co.uk, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 03/17] staging: r8188eu: remove unnecessary parentheses
+ in core/rtw_mlme_ext.c
+Message-ID: <20210809145543.GR1931@kadam>
+References: <20210807101119.16085-1-straube.linux@gmail.com>
+ <20210807101119.16085-4-straube.linux@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210807101119.16085-4-straube.linux@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JN2P275CA0009.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:3::21)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BJHW-Mail-Ex16.internal.baidu.com (10.127.64.39) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from kadam (102.222.70.252) by JN2P275CA0009.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:3::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.15 via Frontend Transport; Mon, 9 Aug 2021 14:55:56 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5ce565bf-748e-4094-7065-08d95b45cd54
+X-MS-TrafficTypeDiagnostic: MWHPR10MB1485:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR10MB1485141ECAD32065F9D334668EF69@MWHPR10MB1485.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	KwEy57X77dikzcN35MMk+Rnuv5BIqn36jFS0ZVp1Xl6zSQnwLxJQC9a6n10ucyN9tYPYN1i9BZ0H5EsQ/744l8M+fWDrIqMRTyGDyx2CUHIQRJN6a0k2nt7eNyI49oC2c9QPqFnmln0uMbJPm/ZgpCDgbFz2GhUOD/oGtUXlG0wHN1+v9+jBHpdgWc4+1ZGYun5DjZnpQS947eJpAKERaYPSNL/9AYKAxYwoWxwkbMlWxgia7F+p3yw8goM5QtYijvnKPORSnWRc4Mzu4sUVNn/g+x9Mk9HtdNgupP0O+b3gHQhiFB18oAj/FYQPj1qor3OGEbYBLLBGj3QnhIFcr8ZhY/mpWpwrezOJfKmpqhlPrvRsi/hsTC+BOdxg75O2hlux9zFNtJ7A+EQAW/efWsUOhMJGrGH778IG+pq3563oJKK3osS0Ei3CXX9oVoLv3DyOJjkS7CY1E9eZxcrFXkL5I/1QONLpNX2nmAek2OexRVl+w9SOlkRF/5GT3z3Rsr6iTodv3rFi587cGEN1+h1TWcr+nGt5RTY68mF1gSO//9fpDBlybS3VqnP8xfNYsD7MkcsLGZwanmCxKKvklYpdz0Rw28Ny/DouKe/0lOLgO6kHppDktqJXYZ7wBBVQAh9aCu1lQHfw8Jkso4wVT8VBjiA6+U+Fc0zdO7TpoYeXHrLvZxQKjj2038UAbmS3t8kEqLn+QwY7fscM7dufAw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(366004)(346002)(396003)(39860400002)(136003)(66556008)(66476007)(2906002)(8936002)(55016002)(6666004)(66946007)(316002)(6916009)(44832011)(9686003)(52116002)(86362001)(8676002)(6496006)(9576002)(26005)(186003)(478600001)(4326008)(956004)(38100700002)(1076003)(38350700002)(83380400001)(33716001)(33656002)(5660300002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?GOUv9Lz/gPnMqK7MxMyQTkMK7XJc9S7TTbwQmOSrW2C7rbNzqzOfXI7TLoDd?=
+ =?us-ascii?Q?g1qUJhHHWO+tbDU/j44m/fZ+f44AS5FgF8mnZ1uHCHXrUwZtrfZ3VNJD5fdb?=
+ =?us-ascii?Q?cWuOS8DGtR7dQtXAchMKkPAMtky2pxpQxAz5tjek8j2mIolJH2FCp80QiaEk?=
+ =?us-ascii?Q?WSWOTPr5hIqi7d/VghvD1ykpOk+sjLSnHNWRKbmhyzS01UIfZdq+6ocBrWh0?=
+ =?us-ascii?Q?5fuHVFkkBN8MTKuWuZUQlskIoSKejg0WIiD9/Wvr7lff9zK5bM4euJzCjM+N?=
+ =?us-ascii?Q?hlgPgX8r/iR/joH9HsCOBWtiJYh/QkTuRkN0SgxbJPselZNBwIFGNVPtjUAE?=
+ =?us-ascii?Q?SH4X5tFG3HC7Hf4ITszwFatcvOhRtwl+hAyhWz59mGQARrXHydtGmb7EQAZG?=
+ =?us-ascii?Q?4d1eC2eZb8b6u8NAIEzoGznIi1GnS6dQAl6+tahpnFRCxYqFAokXjNLygWB6?=
+ =?us-ascii?Q?lszHw/p7yBgHi3NMEENrrKOEjuJ1gOdLL1ql6ePQj9784YNG2nRVxDt+AykV?=
+ =?us-ascii?Q?+pn3mCVkU6mZ1IPMv0MDC8T22R1gil0FJAjJLtTdTktI8EGRoYaEO/ptqwgI?=
+ =?us-ascii?Q?zTnq0uVb2cjRaUVAx2iUAHOyFHvM6q3Zhqz5eNdtkma+a25kRwzRMvKLUcjJ?=
+ =?us-ascii?Q?tDqEvKpbZSkr934B39DzTPEgRAL6mz+Y+0GhAmiqTgyXkAZ5GXMHwPfFTUIQ?=
+ =?us-ascii?Q?a8WEhVRxwLxvxJEqJ0Ge+8zN0jGC4XeY/yQWs6OpbmUAAqYwwUg3a0EYYtbj?=
+ =?us-ascii?Q?QHn/UrcMc0ax2JoJn/yiT5mMufdcAvg9SRf7fYRlUrA6PxyNeJMx6xKd/WbP?=
+ =?us-ascii?Q?1EqP8OsA4jqgo80TYUmUiV2/1Z5eMuVSt2vIY98iNQFnZmwTMCOnU4KKm/v+?=
+ =?us-ascii?Q?qT702LthFu4OtitZMAyKm9AJH8bnnXIo6V/WNGlv6SxmoudSx/FI2ZuJEPJJ?=
+ =?us-ascii?Q?XGP8Ab7JTsxXUxhySLBMN+ASDGhh22exGFvkfRJT9A/FOX7DSDqekHS/spDx?=
+ =?us-ascii?Q?vU2IAoLjbx/v5Uu/qqkGN0Z/P3vstCetSDVTU+1M6VtWjh5YAjYNel1r/Hpq?=
+ =?us-ascii?Q?miI2hLx2Rz+9RUN1qKaN3Nt+aZQNif6Ia4bgrpmJixh6rsgwQAYWDFbZtvyS?=
+ =?us-ascii?Q?Kpcq7duCu/4k1XUJwe3dku3uEoR2QWLRW0Z4d+EErUecLM5xVntws826ek0i?=
+ =?us-ascii?Q?ehZmlnj58RRXnB1iF6OoxHNMY4MzHAE0uken689zVxbA+ADL+R6z4abdqF1V?=
+ =?us-ascii?Q?CVGETZN6PaN8NZdZa3URAZb9GAmdxP6C6pNmsb/wBeP2hAZ49ONBBHS4ORHO?=
+ =?us-ascii?Q?yBzDFQ2rz3nUG9pCI4IufNwC?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ce565bf-748e-4094-7065-08d95b45cd54
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2021 14:56:01.1896
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NH318X7mOWvYGlNtTQTGF6kAIVkxfdNjGC6LPSbmcvm6DVcWkiLLFHQ29LGxAu5qLNNhr7WFTV4IVxAgPzh0UqHDVhx5uYBjU2yzAyd+1nA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1485
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10071 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0
+ adultscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108090110
+X-Proofpoint-ORIG-GUID: p_tw4v7j4feuUUVdekquADsT8VmBt6OC
+X-Proofpoint-GUID: p_tw4v7j4feuUUVdekquADsT8VmBt6OC
 
-commit <47595e32869f> ("<MAINTAINERS: Mark some staging directories>")
-indicated the ipx network layer as obsolete in Jan 2018,
-updated in the MAINTAINERS file
+On Sat, Aug 07, 2021 at 12:11:05PM +0200, Michael Straube wrote:
+> @@ -1855,12 +1855,12 @@ void issue_p2p_GO_request(struct adapter *padapter, u8 *raddr)
+>  	pframe += sizeof(struct rtw_ieee80211_hdr_3addr);
+>  	pattrib->pktlen = sizeof(struct rtw_ieee80211_hdr_3addr);
+>  
+> -	pframe = rtw_set_fixed_ie(pframe, 1, &(category), &(pattrib->pktlen));
+> -	pframe = rtw_set_fixed_ie(pframe, 1, &(action), &(pattrib->pktlen));
+> -	pframe = rtw_set_fixed_ie(pframe, 4, (unsigned char *)&(p2poui), &(pattrib->pktlen));
+> -	pframe = rtw_set_fixed_ie(pframe, 1, &(oui_subtype), &(pattrib->pktlen));
+> +	pframe = rtw_set_fixed_ie(pframe, 1, &(category), &pattrib->pktlen);
+                                             ^^^^^^^^^^^
+These should be removed as well.
 
-now, after being exposed for 3 years to refactoring,
-so to delete the ipx net layer related code for good.
+> +	pframe = rtw_set_fixed_ie(pframe, 1, &(action), &pattrib->pktlen);
+                                             ^^^^^^^^
+> +	pframe = rtw_set_fixed_ie(pframe, 4, (unsigned char *)&(p2poui), &pattrib->pktlen);
+> +	pframe = rtw_set_fixed_ie(pframe, 1, &(oui_subtype), &pattrib->pktlen);
+                                             ^^^^^^^^^^^^^^
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
----
- drivers/staging/r8188eu/core/rtw_br_ext.c | 173 +++-------------------
- 1 file changed, 21 insertions(+), 152 deletions(-)
+All the third parameters of rtw_set_fixed_ie() in this patch really.
 
-diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
-index 8f434768dd15..9076fa06bbd0 100644
---- a/drivers/staging/r8188eu/core/rtw_br_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
-@@ -5,7 +5,6 @@
- 
- #include "../include/linux/if_arp.h"
- #include "../include/net/ip.h"
--#include "../include/net/ipx.h"
- #include "../include/linux/atalk.h"
- #include "../include/linux/udp.h"
- #include "../include/linux/if_pppox.h"
-@@ -26,7 +25,6 @@
- 
- #define NAT25_IPV4		01
- #define NAT25_IPV6		02
--#define NAT25_IPX		03
- #define NAT25_APPLE		04
- #define NAT25_PPPOE		05
- 
-@@ -42,8 +40,6 @@
- 	   0    1    2    3    4    5    6    7    8    9   10
- 	|----|----|----|----|----|----|----|----|----|----|----|
-   IPv4  |type|                             |      IP addr      |
--  IPX   |type|      Net addr     |          Node addr          |
--  IPX   |type|      Net addr     |Sckt addr|
-   Apple |type| Network |node|
-   PPPoE |type|   SID   |           AC MAC            |
- -----------------------------------------------------------------*/
-@@ -133,40 +129,6 @@ static inline void __nat25_generate_ipv4_network_addr(unsigned char *networkAddr
- 	memcpy(networkAddr+7, (unsigned char *)ipAddr, 4);
- }
- 
--static inline void __nat25_generate_ipx_network_addr_with_node(unsigned char *networkAddr,
--				__be32 *ipxNetAddr, unsigned char *ipxNodeAddr)
--{
--	union {
--                unsigned int f0;
--                unsigned char f1[IPX_NODE_LEN];
--        } addr;
--
--	memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
--
--	networkAddr[0] = NAT25_IPX;
--	addr.f0 = be32_to_cpu(*ipxNetAddr);
--	memcpy(networkAddr+1, addr.f1, 4);
--	memcpy(networkAddr+5, ipxNodeAddr, 6);
--}
--
--static inline void __nat25_generate_ipx_network_addr_with_socket(unsigned char *networkAddr,
--				__be32 *ipxNetAddr, __be16 *ipxSocketAddr)
--{
--	union {
--		unsigned int f0;
--		unsigned char f1[4];
--	} addr;
--
--	memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
--
--	networkAddr[0] = NAT25_IPX;
--	addr.f0 = be32_to_cpu(*ipxNetAddr);
--	memcpy(networkAddr+1, addr.f1, 4);
--	addr.f0 ^= addr.f0;
--	addr.f0 = be16_to_cpu(*ipxSocketAddr);
--	memcpy(networkAddr+5, addr.f1, 2);
--}
--
- static inline void __nat25_generate_apple_network_addr(unsigned char *networkAddr,
- 				__be16 *network, unsigned char *node)
- {
-@@ -291,13 +253,6 @@ static inline int __nat25_network_hash(unsigned char *networkAddr)
- 
- 		x = networkAddr[7] ^ networkAddr[8] ^ networkAddr[9] ^ networkAddr[10];
- 
--		return x & (NAT25_HASH_SIZE - 1);
--	} else if (networkAddr[0] == NAT25_IPX) {
--		unsigned long x;
--
--		x = networkAddr[1] ^ networkAddr[2] ^ networkAddr[3] ^ networkAddr[4] ^ networkAddr[5] ^
--			networkAddr[6] ^ networkAddr[7] ^ networkAddr[8] ^ networkAddr[9] ^ networkAddr[10];
--
- 		return x & (NAT25_HASH_SIZE - 1);
- 	} else if (networkAddr[0] == NAT25_APPLE) {
- 		unsigned long x;
-@@ -610,129 +565,43 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
- 		default:
- 			return -1;
- 		}
--	} else if ((protocol == ETH_P_IPX) ||
--		   (protocol <= ETH_FRAME_LEN)) {
-+	} else if (protocol <= ETH_FRAME_LEN) {
- 		/*---------------------------------------------------*/
--		/*         Handle IPX and Apple Talk frame           */
-+		/*         Handle Apple Talk frame           */
- 		/*---------------------------------------------------*/
--		unsigned char ipx_header[2] = {0xFF, 0xFF};
--		struct ipxhdr	*ipx = NULL;
- 		struct elapaarp	*ea = NULL;
- 		struct ddpehdr	*ddp = NULL;
- 		unsigned char *framePtr = skb->data + ETH_HLEN;
- 
--		if (protocol == ETH_P_IPX) {
--			DEBUG_INFO("NAT25: Protocol = IPX (Ethernet II)\n");
--			ipx = (struct ipxhdr *)framePtr;
--		} else if (protocol <= ETH_FRAME_LEN) {
--			if (!memcmp(ipx_header, framePtr, 2)) {
--				DEBUG_INFO("NAT25: Protocol = IPX (Ethernet 802.3)\n");
--				ipx = (struct ipxhdr *)framePtr;
--			} else {
--				unsigned char ipx_8022_type =  0xE0;
--				unsigned char snap_8022_type = 0xAA;
-+		unsigned char snap_8022_type = 0xAA;
- 
--				if (*framePtr == snap_8022_type) {
--					unsigned char ipx_snap_id[5] = {0x0, 0x0, 0x0, 0x81, 0x37};		/*  IPX SNAP ID */
--					unsigned char aarp_snap_id[5] = {0x00, 0x00, 0x00, 0x80, 0xF3};	/*  Apple Talk AARP SNAP ID */
--					unsigned char ddp_snap_id[5] = {0x08, 0x00, 0x07, 0x80, 0x9B};	/*  Apple Talk DDP SNAP ID */
-+		if (*framePtr == snap_8022_type) {
-+			/*  Apple Talk AARP SNAP ID */
-+			unsigned char aarp_snap_id[5] = {0x00, 0x00, 0x00, 0x80, 0xF3};
-+			/*  Apple Talk DDP SNAP ID */
-+			unsigned char ddp_snap_id[5] = {0x08, 0x00, 0x07, 0x80, 0x9B};
- 
--					framePtr += 3;	/*  eliminate the 802.2 header */
-+			framePtr += 3;	/*  eliminate the 802.2 header */
- 
--					if (!memcmp(ipx_snap_id, framePtr, 5)) {
--						framePtr += 5;	/*  eliminate the SNAP header */
-+			if (!memcmp(aarp_snap_id, framePtr, 5)) {
-+				framePtr += 5;	/*  eliminate the SNAP header */
- 
--						DEBUG_INFO("NAT25: Protocol = IPX (Ethernet SNAP)\n");
--						ipx = (struct ipxhdr *)framePtr;
--					} else if (!memcmp(aarp_snap_id, framePtr, 5)) {
--						framePtr += 5;	/*  eliminate the SNAP header */
-+				ea = (struct elapaarp *)framePtr;
-+			} else if (!memcmp(ddp_snap_id, framePtr, 5)) {
-+				framePtr += 5;	/*  eliminate the SNAP header */
- 
--						ea = (struct elapaarp *)framePtr;
--					} else if (!memcmp(ddp_snap_id, framePtr, 5)) {
--						framePtr += 5;	/*  eliminate the SNAP header */
--
--						ddp = (struct ddpehdr *)framePtr;
--					} else {
--						DEBUG_WARN("NAT25: Protocol = Ethernet SNAP %02x%02x%02x%02x%02x\n", framePtr[0],
--							framePtr[1], framePtr[2], framePtr[3], framePtr[4]);
--						return -1;
--					}
--				} else if (*framePtr == ipx_8022_type) {
--					framePtr += 3;	/*  eliminate the 802.2 header */
--
--					if (!memcmp(ipx_header, framePtr, 2)) {
--						DEBUG_INFO("NAT25: Protocol = IPX (Ethernet 802.2)\n");
--						ipx = (struct ipxhdr *)framePtr;
--					} else {
--						return -1;
--					}
--				} else {
--					return -1;
--				}
-+				ddp = (struct ddpehdr *)framePtr;
-+			} else {
-+				DEBUG_WARN("NAT25: Protocol = Ethernet SNAP %02x%02x%02x%02x%02x\n",
-+					   framePtr[0], framePtr[1], framePtr[2], framePtr[3],
-+					   framePtr[4]);
-+				return -1;
- 			}
- 		} else {
- 			return -1;
- 		}
- 
--		/*   IPX   */
--		if (ipx != NULL) {
--			switch (method) {
--			case NAT25_CHECK:
--				if (!memcmp(skb->data+ETH_ALEN, ipx->ipx_source.node, ETH_ALEN))
--				DEBUG_INFO("NAT25: Check IPX skb_copy\n");
--				return 0;
--			case NAT25_INSERT:
--				DEBUG_INFO("NAT25: Insert IPX, Dest =%08x,%02x%02x%02x%02x%02x%02x,%04x Source =%08x,%02x%02x%02x%02x%02x%02x,%04x\n",
--					ipx->ipx_dest.net,
--					ipx->ipx_dest.node[0],
--					ipx->ipx_dest.node[1],
--					ipx->ipx_dest.node[2],
--					ipx->ipx_dest.node[3],
--					ipx->ipx_dest.node[4],
--					ipx->ipx_dest.node[5],
--					ipx->ipx_dest.sock,
--					ipx->ipx_source.net,
--					ipx->ipx_source.node[0],
--					ipx->ipx_source.node[1],
--					ipx->ipx_source.node[2],
--					ipx->ipx_source.node[3],
--					ipx->ipx_source.node[4],
--					ipx->ipx_source.node[5],
--					ipx->ipx_source.sock);
--
--				if (!memcmp(skb->data+ETH_ALEN, ipx->ipx_source.node, ETH_ALEN)) {
--					DEBUG_INFO("NAT25: Use IPX Net, and Socket as network addr\n");
--
--					__nat25_generate_ipx_network_addr_with_socket(networkAddr, &ipx->ipx_source.net, &ipx->ipx_source.sock);
--
--					/*  change IPX source node addr to wlan STA address */
--					memcpy(ipx->ipx_source.node, GET_MY_HWADDR(priv), ETH_ALEN);
--				} else {
--					__nat25_generate_ipx_network_addr_with_node(networkAddr, &ipx->ipx_source.net, ipx->ipx_source.node);
--				}
--				__nat25_db_network_insert(priv, skb->data+ETH_ALEN, networkAddr);
--				__nat25_db_print(priv);
--				return 0;
--			case NAT25_LOOKUP:
--				if (!memcmp(GET_MY_HWADDR(priv), ipx->ipx_dest.node, ETH_ALEN)) {
--					DEBUG_INFO("NAT25: Lookup IPX, Modify Destination IPX Node addr\n");
--
--					__nat25_generate_ipx_network_addr_with_socket(networkAddr, &ipx->ipx_dest.net, &ipx->ipx_dest.sock);
--
--					__nat25_db_network_lookup_and_replace(priv, skb, networkAddr);
--
--					/*  replace IPX destination node addr with Lookup destination MAC addr */
--					memcpy(ipx->ipx_dest.node, skb->data, ETH_ALEN);
--				} else {
--					__nat25_generate_ipx_network_addr_with_node(networkAddr, &ipx->ipx_dest.net, ipx->ipx_dest.node);
--
--					__nat25_db_network_lookup_and_replace(priv, skb, networkAddr);
--				}
--				return 0;
--			default:
--				return -1;
--			}
--		} else if (ea != NULL) {
-+		if (ea != NULL) {
- 			/* Sanity check fields. */
- 			if (ea->hw_len != ETH_ALEN || ea->pa_len != AARP_PA_ALEN) {
- 				DEBUG_WARN("NAT25: Appletalk AARP Sanity check fail!\n");
--- 
-2.25.1
+>  	pwdinfo->negotiation_dialog_token = 1;	/*	Initialize the dialog value */
+> -	pframe = rtw_set_fixed_ie(pframe, 1, &pwdinfo->negotiation_dialog_token, &(pattrib->pktlen));
+> +	pframe = rtw_set_fixed_ie(pframe, 1, &pwdinfo->negotiation_dialog_token, &pattrib->pktlen);
+>  
+>  	/*	WPS Section */
+>  	wpsielen = 0;
+
+regards,
+dan carpenter
 
