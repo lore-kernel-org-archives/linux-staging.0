@@ -1,49 +1,49 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F686D00
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C746D0D
 	for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 23:50:56 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id u15so636020wmj.1
-        for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 16:50:55 -0700 (PDT)
+Received: by mail-wr1-f52.google.com with SMTP id z9so277246wrh.10
+        for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 16:50:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0vH97/uCd+lf2pt7Za/zqAhi1/nCsR1Usl1LMbLR/fU=;
-        b=C/9R/2Zqdotfvk8edzl9VTuojRPObLLxvQs+pWnpFbL8zb5hOgDBgg4bLxAOsMY9Qk
-         LBv5axnGw/RSLAtzO3MVjF5LT+Tw6cwvqrut3wANNWtU0dvbyjcp8MHiNmxist8a7Va7
-         LiyTVYu/hmMh9moyJNPzpuXRB7/titM1GfkXFByV8dMqMBhO0nxvOLbzJGBJpFVER7R2
-         hkpTOU0r6xEk3EzdsRzBEJ8GFUfkR5HVfqDE5wK/YUQhGbyyOSRlkfzxhWPuOI7qQbW3
-         d7+9G2IbvFOawl5RGB7wwGiVtL+Xoma07RrzJu4YCHxten9oSfx2ZkFT737pAISd2X7K
-         spTQ==
+        bh=fpBdLM1jjgCWmFdFG4PeoevZT0phpfn4uYGIZYMaDtU=;
+        b=dPId21aa+NzITqtT02ztCNHXgTunSTuesgek5y7mZ+4QohkF0XVlrJhj2R7jU6GXUu
+         7CrMI181xRQCtVr62rTkM/HIOxPR3Qas80FUYhxKP/8ulnOXYN1rr61qp5uJoiy6LLDb
+         THUGOhRBPKafrNDJV1Zmz7Le3RaBSOhuvWxwmEnzdQ47LZ/jFlfenW/z5FrH5oRpj3mN
+         eCdxX4aBLj5H1GXYgRKTXhUYdOZbhjy/dL//DY9zrufxRmOqBayjNu5ZFwSL+QH9PkhZ
+         ZE1tqEYJS6CbG+pXhqw9FVw8beMuU1amW5GbYFI+3Z7Nw/EeWVCIGXC40uoaEODeoQrz
+         38fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0vH97/uCd+lf2pt7Za/zqAhi1/nCsR1Usl1LMbLR/fU=;
-        b=PDmT5j12NG9VoJThPA3N47FQ/yKu+plVuPCBlLvadHPIO/ATjPBCwSr+b1BrkhbXiH
-         fafaOnzjMiz7rLK0I01fyQPDUfq/WGFgFOWaWGpMNWPuraiNr50hZ4LhIgumcJr4Q9tZ
-         Fh0ZhCgsmG12oSlFlW5D7IuPpgtPQNa9jrHyY+S175PmYqfN8v2oKz2TgQNzFZcIbkpR
-         0MoUhPHFJKA5bbBJDhNMEXp+xuvmJYWzQUtzZDnvWu9l5p+7Uew1S9Pxq9aUneug/fa3
-         Ap58pFDEP0pmmhJ5TNTkaRwh9TGfig5x3UyTJLLP3RNRhSsUipohH+uK4r/Bl9UHnZik
-         hkYA==
-X-Gm-Message-State: AOAM533pOGaWuRh+l/3kIUGOiS8CKgELm0Gi5bRYQpR5mUGIkfFVe1ix
-	qaHp0n/DjZpEr5qN9GGsRs7DVA==
-X-Google-Smtp-Source: ABdhPJxnzVytmkauOXAhM+QlQVMFffIABzlzCVUSxpZSyTtKRQ7R7+x+pUA33PgF1QizONYAbOkByQ==
-X-Received: by 2002:a1c:8093:: with SMTP id b141mr19189469wmd.177.1628639454510;
-        Tue, 10 Aug 2021 16:50:54 -0700 (PDT)
+        bh=fpBdLM1jjgCWmFdFG4PeoevZT0phpfn4uYGIZYMaDtU=;
+        b=mVJRx3FsCBYlsdNi3RHSc2H9+7+9LJAwRH95D+BSEwuG2VkWAtV9EIWZUXYhSSJEOL
+         wVWbf/IqMMDFNGHpwSutZLZ2USXcqFd1sYfNb+M4N//zBLqWNYtNy4lQsLxBeAPzMdFx
+         0TXhed/EmiS/yOYvwGfsINFbG9Pf18KY8qHVyK+XhDlj5ofsHBmzY+mScy4K6HCC3t8y
+         im7bmvgqC8okEmlb4/YgyhPs3dooVw1K1jJt9NhVUYy2/2SVHcN6K4LveUoKzxKXxsMU
+         07TAziswWR+demGba/TgY3rWyHOABLKwg58ROdKRIjUM74nFbSNEj6ebrr/e+UQzXbpn
+         WKJg==
+X-Gm-Message-State: AOAM5307lt929Twhulny/q3pD6OCN/AM724cT3Q+RsTjKM+9HlCyoEvN
+	3Posmhy3N/qOmGE38yslXvK4vA==
+X-Google-Smtp-Source: ABdhPJywP3kWWA2u+Px59SXSCD+LDZZ3cpzqiUoMoRG8kBZNiQXcJezLI2mVkzTsmGKTrVqd8N30Hg==
+X-Received: by 2002:adf:f4cf:: with SMTP id h15mr15572164wrp.67.1628639455231;
+        Tue, 10 Aug 2021 16:50:55 -0700 (PDT)
 Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
-        by smtp.gmail.com with ESMTPSA id p14sm13881220wro.3.2021.08.10.16.50.53
+        by smtp.gmail.com with ESMTPSA id p14sm13881220wro.3.2021.08.10.16.50.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Aug 2021 16:50:53 -0700 (PDT)
+        Tue, 10 Aug 2021 16:50:54 -0700 (PDT)
 From: Phillip Potter <phil@philpotter.co.uk>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 7/8] staging: r8188eu: remove unused variable from rtw_init_recv_timer
-Date: Wed, 11 Aug 2021 00:50:46 +0100
-Message-Id: <20210810235047.177883-8-phil@philpotter.co.uk>
+Subject: [PATCH 8/8] staging: r8188eu: remove lines from Makefile that silence build warnings
+Date: Wed, 11 Aug 2021 00:50:47 +0100
+Message-Id: <20210810235047.177883-9-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210810235047.177883-1-phil@philpotter.co.uk>
 References: <20210810235047.177883-1-phil@philpotter.co.uk>
@@ -55,26 +55,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unused variable from rtw_init_recv_timer function in
-os_dep/recv_linux.c
+Remove the several lines from the Makefile that append EXTRA_CFLAGS options
+to silence build warnings about unused variables, unused functions and such
+like. This will enable cleanup of missed warnings, and easier spotting
+of future such problems.
 
 Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 ---
- drivers/staging/r8188eu/os_dep/recv_linux.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/staging/r8188eu/Makefile | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/os_dep/recv_linux.c b/drivers/staging/r8188eu/os_dep/recv_linux.c
-index e0fbc5751391..74d76b2baebb 100644
---- a/drivers/staging/r8188eu/os_dep/recv_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/recv_linux.c
-@@ -211,7 +211,5 @@ static void _rtw_reordering_ctrl_timeout_handler(struct timer_list *t)
+diff --git a/drivers/staging/r8188eu/Makefile b/drivers/staging/r8188eu/Makefile
+index 152d6325b4d9..7f6658f931d1 100644
+--- a/drivers/staging/r8188eu/Makefile
++++ b/drivers/staging/r8188eu/Makefile
+@@ -2,15 +2,6 @@ SHELL := /bin/bash
+ EXTRA_CFLAGS += $(USER_EXTRA_CFLAGS)
+ EXTRA_CFLAGS += -O1
  
- void rtw_init_recv_timer(struct recv_reorder_ctrl *preorder_ctrl)
- {
--	struct adapter *padapter = preorder_ctrl->padapter;
+-EXTRA_CFLAGS += -Wno-unused-variable
+-EXTRA_CFLAGS += -Wno-unused-value
+-EXTRA_CFLAGS += -Wno-unused-label
+-EXTRA_CFLAGS += -Wno-unused-parameter
+-EXTRA_CFLAGS += -Wno-unused-function
+-EXTRA_CFLAGS += -Wno-unused
 -
- 	timer_setup(&preorder_ctrl->reordering_ctrl_timer, _rtw_reordering_ctrl_timeout_handler, 0);
- }
+-EXTRA_CFLAGS += -Wno-uninitialized
+-
+ ccflags-y += -D__CHECK_ENDIAN__
+ 
+ CONFIG_R8188EU = m
 -- 
 2.31.1
 
