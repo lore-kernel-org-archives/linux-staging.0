@@ -1,136 +1,98 @@
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F63177
-	for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 15:18:59 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="275960577"
-X-IronPort-AV: E=Sophos;i="5.84,310,1620716400"; 
-   d="scan'208";a="275960577"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2021 08:18:58 -0700
-X-IronPort-AV: E=Sophos;i="5.84,310,1620716400"; 
-   d="scan'208";a="671802800"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2021 08:18:55 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-	by paasikivi.fi.intel.com (Postfix) with SMTP id 14C6B20345;
-	Tue, 10 Aug 2021 18:18:53 +0300 (EEST)
-Date: Tue, 10 Aug 2021 18:18:53 +0300
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-kernel@vger.kernel.org, Yong Zhi <yong.zhi@intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-hardening@vger.kernel.org,
-	Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH v2 1/2] media: staging/intel-ipu3: css: Fix wrong size
- comparison
-Message-ID: <20210810151852.GI3@paasikivi.fi.intel.com>
-References: <cover.1627646101.git.gustavoars@kernel.org>
- <184d96f95d6261b1a91704eb68adbd0a2e1c2cc2.1627646101.git.gustavoars@kernel.org>
- <20210802060546.GL3@paasikivi.fi.intel.com>
- <3c9ac43d-09ca-e5d5-83a8-7b6d23928763@embeddedor.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B27D177
+	for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 15:37:06 +0000 (UTC)
+Received: from hellwig.intra.ispras.ru (unknown [10.10.2.182])
+	by mail.ispras.ru (Postfix) with ESMTPSA id E6DBA40755F7;
+	Tue, 10 Aug 2021 15:36:59 +0000 (UTC)
+Subject: Re: [PATCH] media: atomisp: Fix error handling in probe
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alex Dewar <alex.dewar90@gmail.com>,
+ Colin Ian King <colin.king@canonical.com>,
+ Linus Walleij <linus.walleij@linaro.org>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ ldv-project@linuxtesting.org
+References: <20210810115303.9089-1-novikov@ispras.ru>
+ <20210810151427.GY1931@kadam>
+From: Evgeny Novikov <novikov@ispras.ru>
+Message-ID: <528319d8-59d8-d3fa-3fa4-57bf2c1464e8@ispras.ru>
+Date: Tue, 10 Aug 2021 18:36:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3c9ac43d-09ca-e5d5-83a8-7b6d23928763@embeddedor.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210810151427.GY1931@kadam>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Hi Gustavo,
+Hi Dan,
 
-Apologies for the delay.
+Thank you for these suggestions. I will resend the patch.
 
-On Mon, Aug 02, 2021 at 08:46:20AM -0500, Gustavo A. R. Silva wrote:
-> Hi Sakari,
-> 
-> On 8/2/21 01:05, Sakari Ailus wrote:
-> > Hi Gustavo,
-> > 
-> > I missed you already had sent v2...
-> > 
-> > On Fri, Jul 30, 2021 at 07:08:13AM -0500, Gustavo A. R. Silva wrote:
-> >> There is a wrong comparison of the total size of the loaded firmware
-> >> css->fw->size with the size of a pointer to struct imgu_fw_header.
-> >>
-> >> Fix this by using the right operand 'struct imgu_fw_header' for
-> >> sizeof, instead of 'struct imgu_fw_header *' and turn binary_header
-> >> into a flexible-array member. Also, adjust the relational operator
-> >> to be '<=' instead of '<', as it seems that the intention of the
-> >> comparison is to determine if the loaded firmware contains any
-> >> 'struct imgu_fw_info' items in the binary_header[] array than merely
-> >> the file_header (struct imgu_fw_bi_file_h).
-> >>
-> >> The replacement of the one-element array with a flexible-array member
-> >> also help with the ongoing efforts to globally enable -Warray-bounds
-> >> and get us closer to being able to tighten the FORTIFY_SOURCE routines
-> >> on memcpy().
-> >>
-> >> Link: https://github.com/KSPP/linux/issues/79
-> >> Link: https://github.com/KSPP/linux/issues/109
-> >> Fixes: 09d290f0ba21 ("media: staging/intel-ipu3: css: Add support for firmware management")
-> >> Cc: stable@vger.kernel.org
-> >> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> >> ---
-> >>
-> >> It'd be just great if someone that knows this code better can confirm
-> >> these changes are correct. In particular the adjustment of the
-> >> relational operator. Thanks!
-> >>
-> >> Changes in v2:
-> >>  - Use flexible array and adjust relational operator, accordingly.
-> > 
-> > The operator was just correct. The check is just there to see the firmware
-> > is at least as large as the struct as which it is being accessed.
-> 
-> I'm a bit confused, so based on your reply to v1 of this series, this patch
-> is now correct, right?
-> 
-> The operator in v1 _was_ correct as long as the one-element array wasn't
-> transformed into a flexible array, right?
-> 
-> Notice that generally speaking flexible-array members don't occupy space in the
-> containing structure:
-> 
-> $ pahole -C imgu_fw_header drivers/staging/media/ipu3/ipu3-css-fw.o
-> struct imgu_fw_header {
-> 	struct imgu_fw_bi_file_h   file_header;          /*     0    72 */
-> 	/* --- cacheline 1 boundary (64 bytes) was 8 bytes ago --- */
-> 	struct imgu_fw_info        binary_header[] __attribute__((__aligned__(8))); /*    72     0 */
-> 
-> 	/* size: 72, cachelines: 2, members: 2 */
-> 	/* forced alignments: 1 */
-> 	/* last cacheline: 8 bytes */
-> } __attribute__((__aligned__(8)));
-> 
-> $ pahole -C imgu_fw_header drivers/staging/media/ipu3/ipu3-css-fw.o
-> struct imgu_fw_header {
-> 	struct imgu_fw_bi_file_h   file_header;          /*     0    72 */
-> 	/* --- cacheline 1 boundary (64 bytes) was 8 bytes ago --- */
-> 	struct imgu_fw_info        binary_header[1] __attribute__((__aligned__(8))); /*    72  1200 */
-> 
-> 	/* size: 1272, cachelines: 20, members: 2 */
-> 	/* forced alignments: 1 */
-> 	/* last cacheline: 56 bytes */
-> } __attribute__((__aligned__(8)));
-> 
-> So, now that the flexible array transformation is included in the same patch as the
-> bugfix, the operator is changed from '<' to '<='
+Best regards,
+Evgeny Novikov
 
-'<' is correct since you only need as much data as the struct you're about
-to access is large, not a byte more than that. As Dan noted.
-
-I think you could add a check for binary_nr is at least one.
-
--- 
-Kind regards,
-
-Sakari Ailus
+On 10.08.2021 18:14, Dan Carpenter wrote:
+> On Tue, Aug 10, 2021 at 02:53:03PM +0300, Evgeny Novikov wrote:
+>> There were several issues with handling errors in lm3554_probe():
+>> - Probe did not set the error code when v4l2_ctrl_handler_init() failed.
+>> - It intermixed gotos for handling errors of v4l2_ctrl_handler_init()
+>>    and media_entity_pads_init().
+>> - Probe did not free resources in case of failures of
+>>    atomisp_register_i2c_module().
+>>
+>> The patch fixes all these issues.
+>>
+>> Found by Linux Driver Verification project (linuxtesting.org).
+> This patch is good, but two things:
+>
+> 1) Please can you rename all the labels to say what the goto does?
+>
+> err_uninit:
+> 	lm3554_gpio_uninit(client);
+> cleanup_media:
+>   	media_entity_cleanup(&flash->sd.entity);
+> free_handler:
+>   	v4l2_ctrl_handler_free(&flash->ctrl_handler);
+> unregister_subdev:
+>   	v4l2_device_unregister_subdev(&flash->sd);
+>
+> 2) There is a missing error code still:
+>
+> drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
+>     858          if (ret) {
+>     859                  dev_err(&client->dev, "error initialize a ctrl_handler.\n");
+>     860                  goto fail3;
+>     861          }
+>     862
+>     863          for (i = 0; i < ARRAY_SIZE(lm3554_controls); i++)
+>     864                  v4l2_ctrl_new_custom(&flash->ctrl_handler, &lm3554_controls[i],
+>     865                                       NULL);
+>     866
+>     867          if (flash->ctrl_handler.error) {
+>     868                  dev_err(&client->dev, "ctrl_handler error.\n");
+>     869                  goto fail3;
+>                          ^^^^^^^^^^
+> 	err = flash->ctrl_handler.error;
+>
+>     870          }
+>     871
+>     872          flash->sd.ctrl_handler = &flash->ctrl_handler;
+>     873          err = media_entity_pads_init(&flash->sd.entity, 0, NULL);
+>     874          if (err) {
+>     875                  dev_err(&client->dev, "error initialize a media entity.\n");
+>     876                  goto fail2;
+>     877          }
+>
+> regards,
+> dan carpenter
+>
