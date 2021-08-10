@@ -1,77 +1,148 @@
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CCEE17F
-	for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 13:06:19 +0000 (UTC)
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.57])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GkXlV6G2kz1CVJV;
-	Tue, 10 Aug 2021 20:47:02 +0800 (CST)
-Received: from dggpeml500017.china.huawei.com (7.185.36.243) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 10 Aug 2021 20:47:16 +0800
-Received: from huawei.com (10.175.103.91) by dggpeml500017.china.huawei.com
- (7.185.36.243) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Tue, 10 Aug
- 2021 20:47:16 +0800
-From: Yang Yingliang <yangyingliang@huawei.com>
-To: <linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>
-CC: <Larry.Finger@lwfinger.net>, <phil@philpotter.co.uk>,
-	<gregkh@linuxfoundation.org>
-Subject: [PATCH -next] staging: r8188eu: Use GFP_ATOMIC under spin lock
-Date: Tue, 10 Aug 2021 20:53:14 +0800
-Message-ID: <20210810125314.2182112-1-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222AE17F
+	for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 13:45:25 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0AEC561075;
+	Tue, 10 Aug 2021 13:45:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1628603124;
+	bh=Glql89CKaEO2bKO5D0IqlIuTd5q4oxJ9Hn2ZSRZr+6k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=W3pWCgta7DCxFxMKzABYUZSAlENjwlFpfuHFoXXv2Eit9eMl2Z+UCcO5Dc43YQQMt
+	 WTVNyQ8MROBG3w8rJQO0Vcp2otFrz65A5789N/iQ/b/3s13ylFpmZfF1fcAyaedt3N
+	 ovC4qeJXiHZ331CjANyr3NzVzEvoZfFX9lJQHWfWjQT7fe/rRrKM6xabrSL4pAwcGO
+	 WAsrZtoEL2msoqVQ9ZFYcuNKnb/5PkDkqbuYEJEXJF/iG5535KgIcyS7mmOTgv7IMD
+	 CA0tzZ8OzXMMcuEEsgbziGo3jbol8i+tLifnzLmNjQRUT3CMMibJPFoNQ8K7rON1B/
+	 /tR/laAwFJygA==
+Date: Tue, 10 Aug 2021 16:45:20 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Prabhakar Kushwaha <prabhakar.pkin@gmail.com>
+Cc: "David S . Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Andrew Lunn <andrew@lunn.ch>, Ariel Elior <aelior@marvell.com>,
+	Bin Luo <luobin9@huawei.com>,
+	Claudiu Manoil <claudiu.manoil@nxp.com>,
+	Coiby Xu <coiby.xu@gmail.com>,
+	Derek Chickles <dchickles@marvell.com>, drivers@pensando.io,
+	Felix Manlunas <fmanlunas@marvell.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Geetha sowjanya <gakula@marvell.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
+	hariprasad <hkelam@marvell.com>, Ido Schimmel <idosch@nvidia.com>,
+	intel-wired-lan@lists.osuosl.org,
+	Ioana Ciornei <ioana.ciornei@nxp.com>,
+	Jerin Jacob <jerinj@marvell.com>,
+	Jesse Brandeburg <jesse.brandeburg@intel.com>,
+	Jiri Pirko <jiri@nvidia.com>, Linu Cherian <lcherian@marvell.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-omap@vger.kernel.org, linux-staging@lists.linux.dev,
+	Manish Chopra <manishc@marvell.com>,
+	Michael Chan <michael.chan@broadcom.com>, netdev@vger.kernel.org,
+	oss-drivers@corigine.com,
+	Richard Cochran <richardcochran@gmail.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Salil Mehta <salil.mehta@huawei.com>,
+	Satanand Burla <sburla@marvell.com>,
+	Shannon Nelson <snelson@pensando.io>,
+	Simon Horman <simon.horman@corigine.com>,
+	Subbaraya Sundeep <sbhatta@marvell.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Taras Chornyi <tchornyi@marvell.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	UNGLinuxDriver@microchip.com, Vadym Kochan <vkochan@marvell.com>,
+	Vivien Didelot <vivien.didelot@gmail.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Yisen Zhuang <yisen.zhuang@huawei.com>,
+	Prabhakar Kushwaha <pkushwaha@marvell.com>,
+	Shai Malin <malin1024@gmail.com>, Shai Malin <smalin@marvell.com>,
+	rtoshniwal@marvell.com, Omkar Kulkarni <okulkarni@marvell.com>
+Subject: Re: [PATCH net-next] devlink: Set device as early as possible
+Message-ID: <YRKC8NKClMyaQOmt@unreal>
+References: <6859503f7e3e6cd706bf01ef06f1cae8c0b0970b.1628449004.git.leonro@nvidia.com>
+ <CAJ2QiJLJk73RDS_XwQ0FY0ODq9qXbmiEZ2Y8Fkz9vVheK4he8g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpeml500017.china.huawei.com (7.185.36.243)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJ2QiJLJk73RDS_XwQ0FY0ODq9qXbmiEZ2Y8Fkz9vVheK4he8g@mail.gmail.com>
 
-A spin lock is taken in __nat25_db_network_insert() and
-update_BCNTIM() is called under spin lock so we should
-use GFP_ATOMIC in both place.
+On Tue, Aug 10, 2021 at 06:08:51PM +0530, Prabhakar Kushwaha wrote:
+> Hi Leon,
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
- drivers/staging/r8188eu/core/rtw_ap.c     | 2 +-
- drivers/staging/r8188eu/core/rtw_br_ext.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+<...>
 
-diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
-index ad37f1f02ee2..0586e4a4cbcb 100644
---- a/drivers/staging/r8188eu/core/rtw_ap.c
-+++ b/drivers/staging/r8188eu/core/rtw_ap.c
-@@ -98,7 +98,7 @@ static void update_BCNTIM(struct adapter *padapter)
- 		}
- 
- 		if (remainder_ielen > 0) {
--			pbackup_remainder_ie = kmalloc(remainder_ielen, GFP_KERNEL);
-+			pbackup_remainder_ie = kmalloc(remainder_ielen, GFP_ATOMIC);
- 			if (pbackup_remainder_ie && premainder_ie)
- 				memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
- 		}
-diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
-index 28f0452d6ccb..e3ff059ce224 100644
---- a/drivers/staging/r8188eu/core/rtw_br_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
-@@ -394,7 +394,7 @@ static void __nat25_db_network_insert(struct adapter *priv,
- 		}
- 		db = db->next_hash;
- 	}
--	db = kmalloc(sizeof(*db), GFP_KERNEL);
-+	db = kmalloc(sizeof(*db), GFP_ATOMIC);
- 	if (!db) {
- 		spin_unlock_bh(&priv->br_ext_lock);
- 		return;
--- 
-2.25.1
+> >  struct devlink *devlink_alloc_ns(const struct devlink_ops *ops,
+> > -                                size_t priv_size, struct net *net)
+> > +                                size_t priv_size, struct net *net,
+> > +                                struct device *dev)
+> >  {
+> >         struct devlink *devlink;
+> >
+> > -       if (WARN_ON(!ops))
+> > -               return NULL;
+> > -
+> > +       WARN_ON(!ops || !dev);
+> >         if (!devlink_reload_actions_valid(ops))
+> >                 return NULL;
+> >
+> >         devlink = kzalloc(sizeof(*devlink) + priv_size, GFP_KERNEL);
+> >         if (!devlink)
+> >                 return NULL;
+> > +
+> > +       devlink->dev = dev;
+> >         devlink->ops = ops;
+> >         xa_init_flags(&devlink->snapshot_ids, XA_FLAGS_ALLOC);
+> >         write_pnet(&devlink->_net, net);
+> > @@ -8810,12 +8812,9 @@ EXPORT_SYMBOL_GPL(devlink_alloc_ns);
+> >   *     devlink_register - Register devlink instance
+> >   *
+> >   *     @devlink: devlink
+> > - *     @dev: parent device
+> >   */
+> 
+> This patch is converting devlink_alloc() to devlink_alloc_register().
+> 
+> There are 2 APIs: devlink_alloc() and devlink_register().
+> Both APIs can be used in a scenario,
+>               Where devlink_alloc() can be done by code written around
+> one struct dev and used by another struct dev.
+> or
+> This scenario is not even a valid scenario?
 
+devlink_alloc() is used to allocated netdev structures for newly
+initialized device, it is not possible to share same devlink instance
+between different devices.
+
+> 
+> > -int devlink_register(struct devlink *devlink, struct device *dev)
+> > +int devlink_register(struct devlink *devlink)
+> >  {
+> > -       WARN_ON(devlink->dev);
+> > -       devlink->dev = dev;
+> >         mutex_lock(&devlink_mutex);
+> >         list_add_tail(&devlink->list, &devlink_list);
+> >         devlink_notify(devlink, DEVLINK_CMD_NEW);
+> 
+> Considering device registration has been moved to devlink_alloc().
+> Can the remaining code of devlink_register() be also moved in devlink_alloc()?
+
+The line "list_add_tail(&devlink->list, &devlink_list);" makes the
+devlink instance visible to the devlink netlink users. We need to be
+sure that it is happening when the device is already initialized, while
+devlink_alloc() is performed usually as first line in .probe() routine.
+
+This means that we can't combine alloc an register and
+devlink_alloc_register() can't be valid scenario.
+
+Thanks
+
+> 
+> --pk
