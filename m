@@ -1,98 +1,145 @@
 Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B27D177
-	for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 15:37:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04776177
+	for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 16:29:47 +0000 (UTC)
 Received: from hellwig.intra.ispras.ru (unknown [10.10.2.182])
-	by mail.ispras.ru (Postfix) with ESMTPSA id E6DBA40755F7;
-	Tue, 10 Aug 2021 15:36:59 +0000 (UTC)
-Subject: Re: [PATCH] media: atomisp: Fix error handling in probe
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alex Dewar <alex.dewar90@gmail.com>,
- Colin Ian King <colin.king@canonical.com>,
- Linus Walleij <linus.walleij@linaro.org>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- ldv-project@linuxtesting.org
-References: <20210810115303.9089-1-novikov@ispras.ru>
- <20210810151427.GY1931@kadam>
+	by mail.ispras.ru (Postfix) with ESMTPS id 12A644076258;
+	Tue, 10 Aug 2021 16:29:44 +0000 (UTC)
 From: Evgeny Novikov <novikov@ispras.ru>
-Message-ID: <528319d8-59d8-d3fa-3fa4-57bf2c1464e8@ispras.ru>
-Date: Tue, 10 Aug 2021 18:36:59 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Evgeny Novikov <novikov@ispras.ru>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alex Dewar <alex.dewar90@gmail.com>,
+	Colin Ian King <colin.king@canonical.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	ldv-project@linuxtesting.org
+Subject: [PATCH v2] media: atomisp: Fix error handling in probe
+Date: Tue, 10 Aug 2021 19:29:43 +0300
+Message-Id: <20210810162943.19852-1-novikov@ispras.ru>
+X-Mailer: git-send-email 2.26.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210810151427.GY1931@kadam>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Hi Dan,
+There were several issues with handling errors in lm3554_probe():
+- Probe did not set the error code when v4l2_ctrl_handler_init() failed.
+- It intermixed gotos for handling errors of v4l2_ctrl_handler_init()
+  and media_entity_pads_init().
+- It did not set the error code for failures of v4l2_ctrl_new_custom().
+- Probe did not free resources in case of failures of
+  atomisp_register_i2c_module().
 
-Thank you for these suggestions. I will resend the patch.
+The patch fixes all these issues.
 
-Best regards,
-Evgeny Novikov
+Found by Linux Driver Verification project (linuxtesting.org).
 
-On 10.08.2021 18:14, Dan Carpenter wrote:
-> On Tue, Aug 10, 2021 at 02:53:03PM +0300, Evgeny Novikov wrote:
->> There were several issues with handling errors in lm3554_probe():
->> - Probe did not set the error code when v4l2_ctrl_handler_init() failed.
->> - It intermixed gotos for handling errors of v4l2_ctrl_handler_init()
->>    and media_entity_pads_init().
->> - Probe did not free resources in case of failures of
->>    atomisp_register_i2c_module().
->>
->> The patch fixes all these issues.
->>
->> Found by Linux Driver Verification project (linuxtesting.org).
-> This patch is good, but two things:
->
-> 1) Please can you rename all the labels to say what the goto does?
->
-> err_uninit:
-> 	lm3554_gpio_uninit(client);
-> cleanup_media:
->   	media_entity_cleanup(&flash->sd.entity);
-> free_handler:
->   	v4l2_ctrl_handler_free(&flash->ctrl_handler);
-> unregister_subdev:
->   	v4l2_device_unregister_subdev(&flash->sd);
->
-> 2) There is a missing error code still:
->
-> drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
->     858          if (ret) {
->     859                  dev_err(&client->dev, "error initialize a ctrl_handler.\n");
->     860                  goto fail3;
->     861          }
->     862
->     863          for (i = 0; i < ARRAY_SIZE(lm3554_controls); i++)
->     864                  v4l2_ctrl_new_custom(&flash->ctrl_handler, &lm3554_controls[i],
->     865                                       NULL);
->     866
->     867          if (flash->ctrl_handler.error) {
->     868                  dev_err(&client->dev, "ctrl_handler error.\n");
->     869                  goto fail3;
->                          ^^^^^^^^^^
-> 	err = flash->ctrl_handler.error;
->
->     870          }
->     871
->     872          flash->sd.ctrl_handler = &flash->ctrl_handler;
->     873          err = media_entity_pads_init(&flash->sd.entity, 0, NULL);
->     874          if (err) {
->     875                  dev_err(&client->dev, "error initialize a media entity.\n");
->     876                  goto fail2;
->     877          }
->
-> regards,
-> dan carpenter
->
+Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
+---
+v2: Fix suggestions from Dan Carpenter:
+    - Rename labels for handling errors to clarify their meaning.
+    - Set the error code for failures of v4l2_ctrl_new_custom().
+---
+ .../media/atomisp/i2c/atomisp-lm3554.c        | 37 ++++++++++++-------
+ 1 file changed, 24 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
+index 362ed44b4eff..e046489cd253 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
+@@ -835,7 +835,6 @@ static int lm3554_probe(struct i2c_client *client)
+ 	int err = 0;
+ 	struct lm3554 *flash;
+ 	unsigned int i;
+-	int ret;
+ 
+ 	flash = kzalloc(sizeof(*flash), GFP_KERNEL);
+ 	if (!flash)
+@@ -844,7 +843,7 @@ static int lm3554_probe(struct i2c_client *client)
+ 	flash->pdata = lm3554_platform_data_func(client);
+ 	if (IS_ERR(flash->pdata)) {
+ 		err = PTR_ERR(flash->pdata);
+-		goto fail1;
++		goto free_flash;
+ 	}
+ 
+ 	v4l2_i2c_subdev_init(&flash->sd, client, &lm3554_ops);
+@@ -852,12 +851,12 @@ static int lm3554_probe(struct i2c_client *client)
+ 	flash->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+ 	flash->mode = ATOMISP_FLASH_MODE_OFF;
+ 	flash->timeout = LM3554_MAX_TIMEOUT / LM3554_TIMEOUT_STEPSIZE - 1;
+-	ret =
++	err =
+ 	    v4l2_ctrl_handler_init(&flash->ctrl_handler,
+ 				   ARRAY_SIZE(lm3554_controls));
+-	if (ret) {
++	if (err) {
+ 		dev_err(&client->dev, "error initialize a ctrl_handler.\n");
+-		goto fail3;
++		goto unregister_subdev;
+ 	}
+ 
+ 	for (i = 0; i < ARRAY_SIZE(lm3554_controls); i++)
+@@ -866,14 +865,15 @@ static int lm3554_probe(struct i2c_client *client)
+ 
+ 	if (flash->ctrl_handler.error) {
+ 		dev_err(&client->dev, "ctrl_handler error.\n");
+-		goto fail3;
++		err = flash->ctrl_handler.error;
++		goto free_handler;
+ 	}
+ 
+ 	flash->sd.ctrl_handler = &flash->ctrl_handler;
+ 	err = media_entity_pads_init(&flash->sd.entity, 0, NULL);
+ 	if (err) {
+ 		dev_err(&client->dev, "error initialize a media entity.\n");
+-		goto fail2;
++		goto free_handler;
+ 	}
+ 
+ 	flash->sd.entity.function = MEDIA_ENT_F_FLASH;
+@@ -884,16 +884,27 @@ static int lm3554_probe(struct i2c_client *client)
+ 
+ 	err = lm3554_gpio_init(client);
+ 	if (err) {
+-		dev_err(&client->dev, "gpio request/direction_output fail");
+-		goto fail3;
++		dev_err(&client->dev, "gpio request/direction_output fail.\n");
++		goto cleanup_media;
++	}
++
++	err = atomisp_register_i2c_module(&flash->sd, NULL, LED_FLASH);
++	if (err) {
++		dev_err(&client->dev, "fail to register atomisp i2c module.\n");
++		goto uninit_gpio;
+ 	}
+-	return atomisp_register_i2c_module(&flash->sd, NULL, LED_FLASH);
+-fail3:
++
++	return 0;
++
++uninit_gpio:
++	lm3554_gpio_uninit(client);
++cleanup_media:
+ 	media_entity_cleanup(&flash->sd.entity);
++free_handler:
+ 	v4l2_ctrl_handler_free(&flash->ctrl_handler);
+-fail2:
++unregister_subdev:
+ 	v4l2_device_unregister_subdev(&flash->sd);
+-fail1:
++free_flash:
+ 	kfree(flash);
+ 
+ 	return err;
+-- 
+2.26.2
+
