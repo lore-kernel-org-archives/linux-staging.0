@@ -1,66 +1,95 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 813AE70
-	for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 10:19:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8C6206108F;
-	Tue, 10 Aug 2021 10:19:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3224670
+	for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 10:21:10 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4C1D661051;
+	Tue, 10 Aug 2021 10:21:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1628590745;
-	bh=9CIYaoUk3OsY+BjiTGw8q0Huaalf7bY8/x0CBVVHlI4=;
+	s=korg; t=1628590869;
+	bh=/neDvGFqen0Ho9gJnce0tGXE6fYsBJbEyvmkPBb11rQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HEcHyhYjtQz+a+HeSkTIh91M3Cso18O/SugDnEbx0canubN2xtecscTSm4r914SuY
-	 faCtbl+EnNl3X/fhMHTSaPJeIYRaGPsIvzyBkARY2pb+37VY4GNTlva76lw4yxcwNr
-	 uaty7syo7uVh4xMPAXdOsW4YjUI0xtjylZBmhOfs=
-Date: Tue, 10 Aug 2021 12:19:01 +0200
+	b=LH1HTTRrWKFtEiDynQfyzk0k9Kkadnst9PXEEUDBpDdwp5uG2AWlnEu3XhrnHIsoH
+	 1hDg9yf0mx2+6TCr5eVrKEww38/TvqsadXZ+Z97RPWIP0YHK1TVkmwPXEJPZbM7hps
+	 HygMUeCHfjmvjw+/eKFiv1uZIjyyeCO8g9q0JDO4=
+Date: Tue, 10 Aug 2021 12:21:06 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Larry Finger <Larry.Finger@lwfinger.net>
 Cc: phil@philpotter.co.uk, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: Remove some dead files
-Message-ID: <YRJSlU9jquQkseXt@kroah.com>
-References: <20210809210912.1022-1-Larry.Finger@lwfinger.net>
+Subject: Re: [PATCH] staging: r8188eu: Replace BITn with BIT(n)
+Message-ID: <YRJTEp7jpZ+Tg7OB@kroah.com>
+References: <20210809182006.29452-1-Larry.Finger@lwfinger.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210809210912.1022-1-Larry.Finger@lwfinger.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210809182006.29452-1-Larry.Finger@lwfinger.net>
 
-On Mon, Aug 09, 2021 at 04:09:12PM -0500, Larry Finger wrote:
-> The porting of the new version included 3 source files that are
-> only used for testing of the device. They are not needed here.
+On Mon, Aug 09, 2021 at 01:20:06PM -0500, Larry Finger wrote:
+> The driver uses BITn instead of BIT(n). All such usage is converted.
+> 
+> Note that this patch does not address any warnings that checkpatch
+> will note. These include missing space around operators and lines
+> that are too long. These problems will be addressed in a separate
+> patch.
 > 
 > Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
 > ---
->  drivers/staging/r8188eu/Makefile            |    3 -
->  drivers/staging/r8188eu/core/rtw_mp.c       |  974 ---------------
->  drivers/staging/r8188eu/core/rtw_mp_ioctl.c | 1170 -------------------
->  drivers/staging/r8188eu/hal/rtl8188e_mp.c   |  798 -------------
->  4 files changed, 2945 deletions(-)
->  delete mode 100644 drivers/staging/r8188eu/core/rtw_mp.c
->  delete mode 100644 drivers/staging/r8188eu/core/rtw_mp_ioctl.c
->  delete mode 100644 drivers/staging/r8188eu/hal/rtl8188e_mp.c
 
-I get the following error with this patch applied:
+Breaks the build:
 
-ERROR: modpost: "rtl8188eu_oid_rt_pro_set_data_rate_hdl" [drivers/staging/r8188eu/r8188eu.ko] undefined!
-ERROR: modpost: "rtl8188eu_oid_rt_pro_set_single_carrier_tx_hdl" [drivers/staging/r8188eu/r8188eu.ko] undefined!
-ERROR: modpost: "rtl8188eu_oid_rt_pro_stop_test_hdl" [drivers/staging/r8188eu/r8188eu.ko] undefined!
-ERROR: modpost: "mp_stop_test" [drivers/staging/r8188eu/r8188eu.ko] undefined!
-ERROR: modpost: "MPT_InitializeAdapter" [drivers/staging/r8188eu/r8188eu.ko] undefined!
-ERROR: modpost: "Hal_GetThermalMeter" [drivers/staging/r8188eu/r8188eu.ko] undefined!
-ERROR: modpost: "Hal_SetThermalMeter" [drivers/staging/r8188eu/r8188eu.ko] undefined!
-ERROR: modpost: "MP_PHY_SetRFPathSwitch" [drivers/staging/r8188eu/r8188eu.ko] undefined!
-ERROR: modpost: "rtl8188eu_oid_rt_get_efuse_max_size_hdl" [drivers/staging/r8188eu/r8188eu.ko] undefined!
-ERROR: modpost: "rtl8188eu_oid_rt_pro_trigger_gpio_hdl" [drivers/staging/r8188eu/r8188eu.ko] undefined!
-WARNING: modpost: suppressed 46 unresolved symbol warnings because there were too many)
+n file included from drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c:4:
+drivers/staging/r8188eu/hal/../include/Hal8188EPwrSeq.h:45:105: error: ‘BIT1’ undeclared here (not in a function); did you mean ‘BIT’?
+   45 |         {0x0006, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_POLLING, BIT1, BIT1},/* wait till 0x04[17] = 1    power ready*/  \
+      |                                                                                                         ^~~~
+drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c:12:9: note: in expansion of macro ‘RTL8188E_TRANS_CARDEMU_TO_ACT’
+   12 |         RTL8188E_TRANS_CARDEMU_TO_ACT
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c:4:
+drivers/staging/r8188eu/hal/../include/Hal8188EPwrSeq.h:46:103: error: ‘BIT0’ undeclared here (not in a function); did you mean ‘BIT’?
+   46 |         {0x0002, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT0|BIT1, 0}, /* 0x02[1:0] = 0   reset BB*/                      \
+      |                                                                                                       ^~~~
+drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c:12:9: note: in expansion of macro ‘RTL8188E_TRANS_CARDEMU_TO_ACT’
+   12 |         RTL8188E_TRANS_CARDEMU_TO_ACT
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/staging/r8188eu/hal/../include/Hal8188EPwrSeq.h:47:103: error: ‘BIT7’ undeclared here (not in a function); did you mean ‘BIT’?
+   47 |         {0x0026, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT7, BIT7}, /*0x24[23] = 2b'01 schmit trigger */ \
+      |                                                                                                       ^~~~
+drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c:12:9: note: in expansion of macro ‘RTL8188E_TRANS_CARDEMU_TO_ACT’
+   12 |         RTL8188E_TRANS_CARDEMU_TO_ACT
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/staging/r8188eu/hal/../include/Hal8188EPwrSeq.h:49:103: error: ‘BIT4’ undeclared here (not in a function); did you mean ‘BIT’?
+   49 |         {0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT4|BIT3, 0}, /*0x04[12:11] = 2b'00 disable WL suspend*/ \
+      |                                                                                                       ^~~~
+drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c:12:9: note: in expansion of macro ‘RTL8188E_TRANS_CARDEMU_TO_ACT’
+   12 |         RTL8188E_TRANS_CARDEMU_TO_ACT
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/staging/r8188eu/hal/../include/Hal8188EPwrSeq.h:49:108: error: ‘BIT3’ undeclared here (not in a function); did you mean ‘BIT’?
+   49 |         {0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT4|BIT3, 0}, /*0x04[12:11] = 2b'00 disable WL suspend*/ \
+      |                                                                                                            ^~~~
+drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c:12:9: note: in expansion of macro ‘RTL8188E_TRANS_CARDEMU_TO_ACT’
+   12 |         RTL8188E_TRANS_CARDEMU_TO_ACT
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/staging/r8188eu/hal/../include/Hal8188EPwrSeq.h:123:103: error: ‘BIT5’ undeclared here (not in a function); did you mean ‘BIT’?
+  123 |         {0x0553, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT5, BIT5},/*Respond TxOK to scheduler*/ \
+      |                                                                                                       ^~~~
+drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c:60:9: note: in expansion of macro ‘RTL8188E_TRANS_ACT_TO_LPS’
+   60 |         RTL8188E_TRANS_ACT_TO_LPS
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/staging/r8188eu/hal/../include/Hal8188EPwrSeq.h:134:103: error: ‘BIT6’ undeclared here (not in a function); did you mean ‘BIT’?
+  134 |         {0x0029, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT6|BIT7, 0}, /*.        0x29[7:6] = 2b'00        enable BB clock*/\
+      |                                                                                                       ^~~~
+drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c:67:9: note: in expansion of macro ‘RTL8188E_TRANS_LPS_TO_ACT’
+   67 |         RTL8188E_TRANS_LPS_TO_ACT
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~
 
-Are you sure those symbols are not used?
 
-thanks,
+:(
 
-greg k-h
+
