@@ -1,96 +1,136 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA6917F
-	for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 22:24:40 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id nt11so315899pjb.2
-        for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 15:24:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QrhRnlztM32IaZrIGZ9Mi5bnSi+S4AFi7dtGVRZ3+oE=;
-        b=lxGFxypI3awP4jFNDHn9zjYNhCggd/GIfQmD8Hl1CdGYU4MNCyFNk9r05maXP8F22G
-         HdaczcdSjxSQu4pazGCUjomJ0bST5B9nWtVdqw1Bl4Qx5VxRvquT2As9HgOJsjD626xE
-         R1L882FgllHUtXsys4b+sA0gL6I4YGZilh1cXW14V8QPLS0H+JG8J2nF/GTeE0cl0Ht9
-         oVad7U14wENl9sBb8SKKAes/kZKHoTxke6i3L+ornLWZ6wmD8NgUq5KrbDG68+aeyPhS
-         9+zwpkTfhK6stWLcqmKMdxCIMkHjsvYygE36Bds305cuWqccbqdYlBs7ExOVXEuh9WSK
-         wzkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QrhRnlztM32IaZrIGZ9Mi5bnSi+S4AFi7dtGVRZ3+oE=;
-        b=olVAWCfaDWR4PMgzK9KOWdDo1Q4WnenwdexKXjl+ZXni3djVk9yFvfDM0sb5MVnFlh
-         lXeJXqDycUow3wJHY2PQ2C6+DPqPSmF/t75/8ZKCzWqOiKAsj/YYIj+t0emGXC2EjwLK
-         /7NiU4ZkFK+Ow9VKLdDlaGrkTxC8LpxkgnEshVsDvD6jyZtupEuOdarc3+ytjrEw19p5
-         YpC6tBlIIvCbAWrEpxeH9+r/H50pScZjh59Abl+LSW5eggXk47tawtEcHFRZlG1TzWg+
-         5w3wsM9BygqCmqFJ7r4Pf+pWI5VwSB0hwi6eaFlYs/D243SmyDo8yLzuViohfiGkfZeW
-         2I/A==
-X-Gm-Message-State: AOAM532EX34hx7mRiaO/+MinOWemHcc7sA61cm4ShH5jHc8wjgs9cQ6L
-	57N7bWAOV56nVNJDXz7T4RFfsHbw97HtC+x9N0v560K6nonJZAf/G8Q=
-X-Google-Smtp-Source: ABdhPJxYEaa4G0PKpfOtWkOuWJlc/+m01d8/a9mzzT44r+II16GS1SFt58hWCXe5dgu781qx1ubqndrSao0dUKuOrsw=
-X-Received: by 2002:a65:6a0a:: with SMTP id m10mr368854pgu.82.1628634280452;
- Tue, 10 Aug 2021 15:24:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB16E177
+	for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 22:32:47 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2FD2960F94;
+	Tue, 10 Aug 2021 22:32:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1628634767;
+	bh=jBhUSswXbu7eqOIoOTNA6LTai3QKt3yxiCxd0AsaSVM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=UlmwruyWNcVqCzdrGmJPwoT3zO+oq3c4bN4e1EG0j8Ii782GwufWkNoeuTDL0xflB
+	 ibTEtBFLr0igVxyV7HL8hPn+SCaP1x3th5gqtBsam28jRK9tdNeL2wovy8u/qrpKWL
+	 +3ON1m8q99OGqedxcga0dnuz8NVYmecq+yg2bUs024Ngg71HgXSIe9W4JRi++hh349
+	 SIt0uQxYWMXOgIAKY+5YfI8XqoxtksF9hr0fyuWl6G698LuWhGbGg24ZrDtltwIF1q
+	 ryYvHMuiPy/tBFJDq/n+5m6kmjByrUKxp9FT2Oz6rL/iywuYUqYIv5Nhwdvs3r7oD4
+	 GosihRIA4TfYw==
+Date: Tue, 10 Aug 2021 17:32:45 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: tsbogend@alpha.franken.de, bhelgaas@google.com, matthias.bgg@gmail.com,
+	gregkh@linuxfoundation.org, linux-mips@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-staging@lists.linux.dev,
+	neil@brown.name, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] PCI: of: avoid 'devm_pci_remap_iospace' if
+ PCI_IOBASE is not defined
+Message-ID: <20210810223245.GA2311409@bjorn-Precision-5520>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210810074504.957-1-phil@philpotter.co.uk> <CAK8P3a2n6WfsQUKP7W4VytJ6K=CGcfOz-eSc=6FzvkANWkk87A@mail.gmail.com>
- <YRJTgMI5CaG7VdGx@kroah.com>
-In-Reply-To: <YRJTgMI5CaG7VdGx@kroah.com>
-From: Phillip Potter <phil@philpotter.co.uk>
-Date: Tue, 10 Aug 2021 23:24:29 +0100
-Message-ID: <CAA=Fs0khyHV4AytW=smDMmKtR2Dv8QazcOBuuNpPfN+Z0nc_AQ@mail.gmail.com>
-Subject: Re: [PATCH] staging: r8188eu: remove rtw_ioctl function
-To: gregkh <gregkh@linuxfoundation.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Larry Finger <Larry.Finger@lwfinger.net>, 
-	linux-staging@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210807072409.9018-3-sergio.paracuellos@gmail.com>
 
-On Tue, 10 Aug 2021 at 11:23, gregkh <gregkh@linuxfoundation.org> wrote:
->
-> On Tue, Aug 10, 2021 at 10:08:31AM +0200, Arnd Bergmann wrote:
-> > On Tue, Aug 10, 2021 at 9:45 AM Phillip Potter <phil@philpotter.co.uk> wrote:
-> > > -int rtw_ioctl(struct net_device *dev, struct ifreq *rq, int cmd)
-> > > -{
-> > > -       struct iwreq *wrq = (struct iwreq *)rq;
-> > > -       int ret = 0;
-> > > -
-> > > -       switch (cmd) {
-> > > -       case RTL_IOCTL_WPA_SUPPLICANT:
-> > > -               ret = wpa_supplicant_ioctl(dev, &wrq->u.data);
-> > > -               break;
-> > > -#ifdef CONFIG_88EU_AP_MODE
-> > > -       case RTL_IOCTL_HOSTAPD:
-> > > -               ret = rtw_hostapd_ioctl(dev, &wrq->u.data);
-> > > -               break;
-> > > -#endif /*  CONFIG_88EU_AP_MODE */
-> > > -       case SIOCDEVPRIVATE:
-> > > -               ret = rtw_ioctl_wext_private(dev, &wrq->u);
-> > > -               break;
-> >
-> >
-> > I think these functions are all defined 'static' in the same file, so
-> > removing the
-> > caller will cause a warning about an unused function. Better remove the
-> > called functions along with the caller.
->
-> I get no build warnings/errors with this patch applied, which is odd.
->
-> So I'll take this for now, but a follow-on patch to remove these unused
-> functions would be great to have.
->
-> thanks,
->
-> greg k-h
+On Sat, Aug 07, 2021 at 09:24:08AM +0200, Sergio Paracuellos wrote:
+> Defining PCI_IOBASE for MIPS ralink in expected addresses results in PCI IO
+> resources being assigned but the addresses generated for IO accesses are wrong
+> since the ioremap in the PCI core function 'pci_parse_request_of_pci_ranges'
+> tries to remap to a fixed virtual address (PC_IOBASE) which can't work for KSEG1
+> addresses. To get it working this way, we would need to put PCI_IOBASE somewhere
+> into KSEG2 which will result in creating TLB entries for IO addresses, which most
+> of the time isn't needed on MIPS because of access via KSEG1. To allow MIPS PCI
+> drivers to properly use the PCI generic core we need to increase IO_SPACE_LIMIT
+> since IO addresses are in addresses higher that 0xffff. We also need to avoid
+> the call 'devm_pci_remap_iospace' when 'pci_parse_request_of_pci_ranges' is
+> called to avoid the following problem:
 
-Dear Greg,
+Rewrap to fit in ~75 columns.
 
-Many thanks, and of course, I shall prepare one now.
+This is a generic change so the commit log needs to be generic as
+well.  The MIPS/KSEG1/KSEG2 information is not really useful here
+because most readers won't understand it (and I don't :)).
 
-Regards,
-Phil
+devm_pci_remap_iospace() calls pci_remap_iospace(), which already
+contains #ifdef PCI_IOBASE.  When PCI_IOBASE is not defined (as on 
+MIPS ralink), it emits the warning below and returns failure.
+
+This patch avoids that failure, but it still leaves
+devm_pci_remap_iospace() and pci_remap_iospace() broken on MIPS
+ralink.  It's true that on MIPS ralink, they are currently only called
+via pci_parse_request_of_pci_ranges(), but I think it would be better
+if we could fix pci_remap_iospace() to handle this case so all these
+interfaces work consistently.
+
+This patch doesn't do anything with IO_SPACE_LIMIT, so I don't know
+what that part of the commit log is telling me.
+
+> ------------[ cut here ]------------
+> WARNING: CPU: 2 PID: 1 at ../drivers/pci/pci.c:4066 pci_remap_iospace+0x3c/0x54
+> This architecture does not support memory mapped I/O
+> Modules linked in:
+> CPU: 2 PID: 1 Comm: swapper/0 Not tainted 5.10.1+ #1228
+> Stack : 00000000 00000000 807fa974 00000000 827ffa80 80066b48 80710000 0000000b
+>         00000000 00000000 81c59aac 7d06ddec 80850000 00000001 81c59a40 7d06ddec
+>         00000000 00000000 807c909c 81c598f0 00000001 81c59904 00000000 0000000a
+>         203a6d6d 80708880 0000000f 70617773 80850000 00000000 00000000 807d0000
+>         807ffecc 1e160000 00000001 00000200 00000000 8054e920 00000008 815e0008
+>         ...
+> Call Trace:
+> [<80008efc>] show_stack+0x8c/0x130
+> [<806e1674>] dump_stack+0x9c/0xc8
+> [<80024a3c>] __warn+0xc0/0xe8
+> [<80024ad0>] warn_slowpath_fmt+0x6c/0xbc
+> [<80410ca8>] pci_remap_iospace+0x3c/0x54
+> [<80410d20>] devm_pci_remap_iospace+0x58/0xa4
+> [<8042019c>] devm_of_pci_bridge_init+0x4dc/0x55c
+> [<80408de8>] devm_pci_alloc_host_bridge+0x78/0x88
+> [<80424e44>] mt7621_pci_probe+0x68/0x9a4
+> [<80464804>] platform_drv_probe+0x40/0x7c
+> [<804628bc>] really_probe+0x2fc/0x4e4
+> [<80463214>] device_driver_attach+0x4c/0x74
+> [<80463384>] __driver_attach+0x148/0x150
+> [<8046047c>] bus_for_each_dev+0x6c/0xb0
+> [<804614dc>] bus_add_driver+0x1b4/0x1fc
+> [<80463aa0>] driver_register+0xd0/0x110
+> [<80001714>] do_one_initcall+0x84/0x1c0
+> [<808e7fd0>] kernel_init_freeable+0x214/0x24c
+> [<806e4164>] kernel_init+0x14/0x118
+> [<80003358>] ret_from_kernel_thread+0x14/0x1c
+> 
+> ---[ end trace 1c9d4412bd51b53c ]---
+> mt7621-pci 1e140000.pcie: error -19: failed to map resource [io  0x1e160000-0x1e16ffff]
+> 
+> Hence don't call 'devm_pci_remap_iospace' if PCI_IOBASE is not defined to get
+> a working PCI core APIs for MIPS ralink platforms.
+> 
+> Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> ---
+>  drivers/pci/of.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/pci/of.c b/drivers/pci/of.c
+> index a143b02b2dcd..657aef39bf63 100644
+> --- a/drivers/pci/of.c
+> +++ b/drivers/pci/of.c
+> @@ -564,12 +564,14 @@ static int pci_parse_request_of_pci_ranges(struct device *dev,
+>  
+>  		switch (resource_type(res)) {
+>  		case IORESOURCE_IO:
+> +#ifdef PCI_IOBASE
+>  			err = devm_pci_remap_iospace(dev, res, iobase);
+>  			if (err) {
+>  				dev_warn(dev, "error %d: failed to map resource %pR\n",
+>  					 err, res);
+>  				resource_list_destroy_entry(win);
+>  			}
+> +#endif
+>  			break;
+>  		case IORESOURCE_MEM:
+>  			res_valid |= !(res->flags & IORESOURCE_PREFETCH);
+> -- 
+> 2.25.1
+> 
