@@ -1,151 +1,145 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B79177
-	for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 07:00:10 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 17A6k74k015537;
-	Tue, 10 Aug 2021 07:00:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=SMa5jJ70cd2nkyw3M4P6+vxdesTklS7rYfyM9JndQsg=;
- b=S8M0rbf60qlgJuqysads5Z1hfncOsekNHrhUWith99sYx3gKXtWLzHGa0KMMHCO/ec9c
- J4IiqOaankGoJnL1OayVcUUJs9VKTRJdJNd4Ur23Lfe3p0W82HnCxy3dx6b5AZNvE4l0
- qFjx+XY+LiSV7wmFKh5+A0w7jj1I3Wsf01pWDmgVspJ4yEq/lcsezhjwppKGYWU9VACo
- NGmCJW99hUOnq12q4P36GQmAq5/A10jOH4szwqanAGRsMkI+E6IBD9GneE/rIAfoIxbn
- ssvXYaXZvLDkfhrni/BtmI6yk9vI7V/mbEF534LhCoxTGw8Q6CBrsFiHZ8+4ZaEOUH2t vg== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2020-01-29;
- bh=SMa5jJ70cd2nkyw3M4P6+vxdesTklS7rYfyM9JndQsg=;
- b=Qr2683CeZx3Y/g32P3ymd+tKAQWWNHI2DqwL2kjzt1YjisUQlkeaDybptHnCIV9QvHtX
- 3gjwgLzCVIaLb2UvyVyq9O8r5hfsfNpmBQCrEj0jEpMEctMg/i/ThO8jKKNQbtHeQEj7
- /cdBY8czBsjRyXi3ouK+nJf7a3cQRgTOLIwI5xGf2CfaDwssHeOn2Tn9DPlgKZu0UHaE
- bO5iwXPBW4q5U355eZmo5yh4EEOBQpl3MH1r9IZ9/OW0eMCq1jzArEPzzZJr56yKE/t7
- JR7nYIIv+h6vL9WTBkLBfUqsIOdDostz6WFYFE0tEenYHwdqRqq4q69suZm08tI80bZS nA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3aay0ftusv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 10 Aug 2021 07:00:04 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17A6k7x4195465;
-	Tue, 10 Aug 2021 07:00:03 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2102.outbound.protection.outlook.com [104.47.55.102])
-	by userp3020.oracle.com with ESMTP id 3aa3xsjpcm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 10 Aug 2021 07:00:02 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NRN8S8t0XnxL/aBfTbXHYhN6KVRg0FxSaqi+lSxH5M91wYQdlrzQsONogpKyGVEbpZ6DknPHkqNyieNQKYWbs23gDgy+XE8pp1wUpVTwoRF+wWS77JoSYo1V/jpM9/p8OQhl+N+s9mefQHbnOzyn2kHddCc1kkpMMty2ssEl6NXCodqXiqgZtE6p608j19gnskn586Ctr+B9JeOa7NSdbPg8v+iPEAIsBleJ/H4Y9Wl76ORAfp0iBQB32PhhDNpy0ZA/5tMyxtEiASVFYEyuPkra7w7R4BfC2ghqa4a41l2zk9xreGgkG+EbNdAq8pNvTLx3K1R9t8vM4JHazeLUfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SMa5jJ70cd2nkyw3M4P6+vxdesTklS7rYfyM9JndQsg=;
- b=cC5D0oyt92e8Z3/4QhVQRc6jTUCFDMKnwBM/bxobao/TtneovMxCbK7uOWxqU9ErizPLZKnC1VeIj7s/EjCEaWRtfwAYRt59pUtkCH/kx2yPXEtzCTffh2GNFlburDFL8Y9v6rQ2ZcZHtbsjEaC8d6U7ExsIACMfw/V2sg9f2zUCO+lswlKVeigInZhCeiL53/NZqJXDwk0l8fFYuN8+gW0cQ9w3MuwpP/fgbncFjhl1jNRPZu8MoWXAQIiYUS5nZS5BXgKe07xvfrPMHwnvGNhehQbVMNAgnxdDgSF4RCl3JM4ff4L59pY2RAaYlTvGIGKq4WU00TPuPPJl4ob43g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67248177
+	for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 07:45:07 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id 6so198436wme.5
+        for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 00:45:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SMa5jJ70cd2nkyw3M4P6+vxdesTklS7rYfyM9JndQsg=;
- b=y7OVh+g/rk77KTnTS/rrMoUGgvpKxlfqxxMudhFLDSIogOt1Np4sLJkY0+3CudGdoC1/X/+7jlquwAqsed9COAz709v6NTzyDXT5mhe/cjnn5GtX4GjdwfITaHL2M5/S8SGicy9msZSF5I9FSaPItLXNXyozbH2vItaNi719r7E=
-Authentication-Results: lwfinger.net; dkim=none (message not signed)
- header.d=none;lwfinger.net; dmarc=none action=none header.from=oracle.com;
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MWHPR1001MB2317.namprd10.prod.outlook.com
- (2603:10b6:301:35::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.21; Tue, 10 Aug
- 2021 07:00:00 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4394.023; Tue, 10 Aug 2021
- 07:00:00 +0000
-Date: Tue, 10 Aug 2021 09:59:39 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: gregkh@linuxfoundation.org, phil@philpotter.co.uk,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: Replace BITn with BIT(n)
-Message-ID: <20210810065939.GU1931@kadam>
-References: <20210809182006.29452-1-Larry.Finger@lwfinger.net>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210809182006.29452-1-Larry.Finger@lwfinger.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JN2P275CA0004.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:3::16)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JMD9lc87gLR9mUn618m2da6Xz9eP1IZPnQ6Y9giCJ60=;
+        b=BSFNkPJACLhV7hLuaLowjcRt/sPZEm0/yQFPGUWVk8jdvEPPtc2D1knHwsLdyMpkou
+         qNsxfp2wr87iUy6Vpi0872VvSZ0HE0BHAHUV8vC1aMkwrY8kVAdMCSFFaa/02CY12fbR
+         jbxunqViKB9ISUtq+whCT38QMukoDYl2bxV8S8xACEv3NXdCiwtZGjz9R0EAUmkoQK7B
+         JyCGcFjXGsrElkQ/RL4Z/QhnCeS4rgeCWpekkSM3AI4usUVZ9D4VLFbb62gW59rAVeMa
+         M7LPKMH4SdT+U0Pl2e9cQhnKxtKOaFx7cJPx7ZnqzlP0T2562RiYH2xfky24+VET0PsC
+         DA2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JMD9lc87gLR9mUn618m2da6Xz9eP1IZPnQ6Y9giCJ60=;
+        b=LfYsD08twWohvsLa5cDqI4w+D6ho0Ks8vc1RbibPv55G7tw4NjIKKvhlfndjUkAd7j
+         xZ3RkOGzrMyShOro358y2Qo4m9RDPVvjuQNieG1o9QTrZyFxQVsUBvs/mm50ZODaFFAm
+         HgVfrn9cAcrUnFeK+xrtmy5HoLIhEXm3yUfOLoBvb8rka20fAoJeoJ4HiCdI1j0UNC6W
+         adLowkb2Q3wK7iwBa3yIe1de/NePRyb9Y2JwNwUQcsNFOeWQkkK4gA2UrRMhleyIe6W1
+         GUzncsdUi2gO7rWf/jqM8dK6Et0VrAw362fbsNnzg3cL+daq8TQh42PeBebWSk8VsUB2
+         czNw==
+X-Gm-Message-State: AOAM531aN6U1XEhsCdcTsa2nosxS5mkiXGRGSzzHa8zRTixnXI7Ws3NW
+	ib+QiJUIfn16akmU+g2iteV6Ow==
+X-Google-Smtp-Source: ABdhPJzdiSUv999rtG5HAGMcE0/1qlYDTiib5nym8IELAKkgpweMXGgK5t8noa6UEbiHUWkDT+fbhg==
+X-Received: by 2002:a05:600c:3510:: with SMTP id h16mr3093610wmq.26.1628581505690;
+        Tue, 10 Aug 2021 00:45:05 -0700 (PDT)
+Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
+        by smtp.gmail.com with ESMTPSA id y21sm1845450wma.38.2021.08.10.00.45.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Aug 2021 00:45:05 -0700 (PDT)
+From: Phillip Potter <phil@philpotter.co.uk>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	arnd@arndb.de
+Subject: [PATCH] staging: r8188eu: remove rtw_ioctl function
+Date: Tue, 10 Aug 2021 08:45:04 +0100
+Message-Id: <20210810074504.957-1-phil@philpotter.co.uk>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kadam (102.222.70.252) by JN2P275CA0004.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:3::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.16 via Frontend Transport; Tue, 10 Aug 2021 06:59:54 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 55ffe59b-157c-456c-8cd0-08d95bcc786d
-X-MS-TrafficTypeDiagnostic: MWHPR1001MB2317:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<MWHPR1001MB2317E07DC8E64CC824D291FC8EF79@MWHPR1001MB2317.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:962;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	RDl6kpE/FEGW9qkt4ORIbiL5mxuWA+CfuQgd0Hi4B4wDuP8IZsTTK+YRgnLEfk1uPXyZyJVVg8bZZkq81XedARKTQeXh/0dLIBxlQB22wIABmCUXY7uUXtbCdsi6LkgD3QDJ6BczOnrIA89LdFZsEcWENaKRx3XGkUlhRxn8GKZcfAwQ2his9aw6+lddSi9g6ULiw+Ep1zIAH4K9PVPLjHcPIM9VCoIqyyxGLc0rahexYmisvdmOPGcMcnG0uHzTVP3zXtcJRfbGWQ9NhVCxFcRv6t/iP+mzmr4Nku5KV1eaDpTUN9WSVy2OAnsrOFDtb6gzHnYB7ZO5aJGQXeTlT3Sr50+DiFvEu5HowVvvsyM68RUlYpJtK4qRcY6of8M0SXBAhk05Nrivp2U8lYOkm+Ueh1XDJNKaK0jfxHJW7ySJeQ+6e4sLMUoO7zQ1Bmwe2/o+n0X0np9YE+JAE9Djvya7xDt1CB/xIE549nc30oqghpC8X/Lgv8GG3N+rPsEK6BnaahFDwwLt92YSHoG7DUBWCF2jLjnCLngs0NriHLs1HpsR1d6RFDL1lJmc37KcS0OGVUmvX6juBDnbE/yRF7kJ36OwJnbdTFWY2Q99zAmDntitiRP3Z774H6aBVm3QHgEOcV8kgplph8hR/wPpiTMSEtJ8SVqtuUZFZO3f0f89y8uZA3vkpdR6qZZDqvVnLf3rhzHaucm24uVNPUYpzw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(39860400002)(396003)(136003)(376002)(366004)(55016002)(4326008)(316002)(33716001)(44832011)(66556008)(86362001)(6916009)(66476007)(8936002)(9686003)(66946007)(38100700002)(38350700002)(9576002)(8676002)(2906002)(4744005)(478600001)(6666004)(5660300002)(6496006)(52116002)(26005)(956004)(186003)(33656002)(1076003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?KTJ5SNR8UUGwwt4LjBCHgng7XuZfgolRP5AO0YOE/QWUkde/ibMLUSv+sLD8?=
- =?us-ascii?Q?aPvS8u8gfgdc258IaK/2lwgi5K7lyPJXlZ7Af5uUKfZKt0I6zlOsNYpGepgK?=
- =?us-ascii?Q?KcNuqJOKIO0l1RYl4UWWwebaHPnnjxugRADMDtExWzbLJXVIOZvrWmC3l10T?=
- =?us-ascii?Q?gj6WTvZw2FQotIIINQ1G6CEDS5j0o1nnacTzBx8fW6FlByDYwjiLIXgyO8WD?=
- =?us-ascii?Q?EVfFjAE0fEAY2ECroPi9qv6T6rdarytC8I433y4ACUEhiXei9LXwbTPjBXDz?=
- =?us-ascii?Q?YAqyyhnIZbW+6jpWPAYXbFAUrLCxK8n4ml1NRi4U9w0qHELlHTBI3vrxltbE?=
- =?us-ascii?Q?4z9Fkq1Zbu45xDGnNCeDMNRlqF67404lMA7/mClrUDSnswtvnrYrEPzNbWu/?=
- =?us-ascii?Q?Ym7dowSq2+Oz0EAXX2mnjC+IJCuBsG+889o7XrNhE5eN7uRRDLdvGlFEaOPv?=
- =?us-ascii?Q?AcR7otLrO+K16dh4P2SoVL3GMWAJmhHS+I+l35UB8JOrxB8aZAfg/vGERpvB?=
- =?us-ascii?Q?8sKxkQoNI57O4Zf1bvkgdjjPd3x1+QfNLIHbaytYEAV3R4kBoHhvT9ZhK3Sr?=
- =?us-ascii?Q?Kewl5J/HKQMtPoqBuDmH815lYKPc+Dtr7LfW5CYJJn1cK5baHMrVUFhU7WIe?=
- =?us-ascii?Q?33hUkurqFOanDPpuFqM6DUSChPD8h8A8n560kbpianYf8Q7/aAVsVJ6Lu/uf?=
- =?us-ascii?Q?1xMAbL2GO3PxFXGBOIDProF9qHBJDPt+Hv0yYVciXsCn3RJzQLb/KKb4fkdK?=
- =?us-ascii?Q?p7Dj4tFBbA0X2EWpj1AORrGV2CXvxtPZlgpH254Sq0d+E63GreTQU9IIOjOs?=
- =?us-ascii?Q?tz18MB+mSnYVgpb0lQljFZAa2dfVGnUVwrXp/6lKM11Vr1ZIFUyaoJV5fWxg?=
- =?us-ascii?Q?rQ811I72pI+IXrAIGNzoLg54UEWf13qHtUaULdq2K/lZXOWQ57CtlR8B91Or?=
- =?us-ascii?Q?Ts7INsrKzMzZUqwk6aD8DWZ+NWKy+SOAlZ9LFw1izWeOZTvju09MLUDz2YIY?=
- =?us-ascii?Q?tr4lFxft440/3My+/S+4spelf6pzFpyEZ2NBvo1/w18rprd+4252BQ53mrcQ?=
- =?us-ascii?Q?20peGO8qDcmIsk5+kA8uyPS8UWft8X0TpGVLjP1/eBme8D5EOulI6tyi5G2O?=
- =?us-ascii?Q?LDhnSG/1evmoCHNjg1mgM9FwoRefTmMTyafkNnk9MnMT1/CxXJg+Nwm19aw6?=
- =?us-ascii?Q?0EL+a++xKABw68fS7+eleTVjHGBL9azml9ZJHZZt8XG0h37jGr5cojULXKgg?=
- =?us-ascii?Q?INYTZCRdCi9J3Q34ZBhflAHOkAGDKTQvq0YT1E+CtlaPB3xIwR4FnjWkRQW3?=
- =?us-ascii?Q?R9dFLN5jeYqv9l0dT0aXLFv5?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 55ffe59b-157c-456c-8cd0-08d95bcc786d
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2021 07:00:00.6024
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hwupoYsA66g6IXlWV02DTlbLtyZ4zAa2NluSRYEr1/h90Y+NrrUygRMExWWVoSgU0bbOW5cZWMeNIdiqFMz4tuvLfqrHDWsIJ06fw0ijRoY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1001MB2317
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10071 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=729 mlxscore=0
- suspectscore=0 malwarescore=0 phishscore=0 adultscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2107140000 definitions=main-2108100043
-X-Proofpoint-ORIG-GUID: 2BKfUE66het2QNyztjGvVaP4HRdTJYmu
-X-Proofpoint-GUID: 2BKfUE66het2QNyztjGvVaP4HRdTJYmu
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 09, 2021 at 01:20:06PM -0500, Larry Finger wrote:
-> -#define	IMR_TSF_BIT32_TOGGLE_88E	BIT24	/*  TSF Timer BIT32 toggle indication interrupt */
-> +#define	IMR_TSF_BIT32_TOGGLE_88E	BIT(24)	/*  TSF Timer BIT(3)2 toggle indication interrupt */
-                                                                      ^^^^^^^
-Typo here.  You can clean it up in a follow on patch.
+Remove rtw_ioctl function from os_dep/ioctl_linux.c, its declaration
+in include/osdep_intf.h, and finally its inclusion as the value of the
+.ndo_do_ioctl member of struct net_device_ops rtw_netdev_ops in
+os_dep/os_intfs.c.
 
-regards,
-dan carpenter
+The e-mail from Arnd Bergmann at:
+https://lore.kernel.org/linux-next/CAK8P3a0WRMNmBmBDerZ0nWPdFZKALnxrj-uUFBkTP-MOtv48vg@mail.gmail.com
+explains the justification for this approach. Essentially, changes from
+net-next make the existing function and its use of SIOCDEVPRIVATE ioctls
+unworkable without changes.
+
+Functions called from rtw_ioctl that are now no longer accessible will
+be cleaned up in further patches. Additionally, once these changes have
+made their way downstream to the staging branch, we can modify and
+reconnect rtw_android_priv_cmd via ndo_siocdevprivate in struct
+net_device_ops.
+
+Suggested-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+---
+ drivers/staging/r8188eu/include/osdep_intf.h |  2 --
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c | 28 --------------------
+ drivers/staging/r8188eu/os_dep/os_intfs.c    |  1 -
+ 3 files changed, 31 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/include/osdep_intf.h b/drivers/staging/r8188eu/include/osdep_intf.h
+index 1915c926faac..3ea60feee2db 100644
+--- a/drivers/staging/r8188eu/include/osdep_intf.h
++++ b/drivers/staging/r8188eu/include/osdep_intf.h
+@@ -48,8 +48,6 @@ u32 rtw_start_drv_threads(struct adapter *padapter);
+ void rtw_stop_drv_threads (struct adapter *padapter);
+ void rtw_cancel_all_timer(struct adapter *padapter);
+ 
+-int rtw_ioctl(struct net_device *dev, struct ifreq *rq, int cmd);
+-
+ int rtw_init_netdev_name(struct net_device *pnetdev, const char *ifname);
+ struct net_device *rtw_init_netdev(struct adapter *padapter);
+ u16 rtw_recv_select_queue(struct sk_buff *skb);
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index 34dce01e469c..beabbc84232f 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -8097,31 +8097,3 @@ static int rtw_ioctl_wext_private(struct net_device *dev, union iwreq_data *wrq_
+ 	kfree(output);
+ 	return err;
+ }
+-
+-#include "../include/rtw_android.h"
+-int rtw_ioctl(struct net_device *dev, struct ifreq *rq, int cmd)
+-{
+-	struct iwreq *wrq = (struct iwreq *)rq;
+-	int ret = 0;
+-
+-	switch (cmd) {
+-	case RTL_IOCTL_WPA_SUPPLICANT:
+-		ret = wpa_supplicant_ioctl(dev, &wrq->u.data);
+-		break;
+-#ifdef CONFIG_88EU_AP_MODE
+-	case RTL_IOCTL_HOSTAPD:
+-		ret = rtw_hostapd_ioctl(dev, &wrq->u.data);
+-		break;
+-#endif /*  CONFIG_88EU_AP_MODE */
+-	case SIOCDEVPRIVATE:
+-		ret = rtw_ioctl_wext_private(dev, &wrq->u);
+-		break;
+-	case (SIOCDEVPRIVATE+1):
+-		ret = rtw_android_priv_cmd(dev, rq, cmd);
+-		break;
+-	default:
+-		ret = -EOPNOTSUPP;
+-		break;
+-	}
+-	return ret;
+-}
+diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+index 935e35c82666..7d17c765205c 100644
+--- a/drivers/staging/r8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+@@ -692,7 +692,6 @@ static const struct net_device_ops rtw_netdev_ops = {
+ 	.ndo_select_queue	= rtw_select_queue,
+ 	.ndo_set_mac_address = rtw_net_set_mac_address,
+ 	.ndo_get_stats = rtw_net_get_stats,
+-	.ndo_do_ioctl = rtw_ioctl,
+ };
+ 
+ int rtw_init_netdev_name(struct net_device *pnetdev, const char *ifname)
+-- 
+2.31.1
+
