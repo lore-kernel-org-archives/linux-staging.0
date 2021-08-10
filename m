@@ -1,37 +1,37 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5CC2FB9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1922FBF
 	for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 23:50:52 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id c9so355953wri.8
+Received: by mail-wr1-f53.google.com with SMTP id q11so353234wrr.9
         for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 16:50:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=zmKg5cWLfDtvNzY5XeqvzfTrFB2tK46TS12T4izJ2U4=;
-        b=YU6vMGyzdAW0zY//9R+zdy84wWj2rlcQlmnrxAFGLblTkt/MF/JEpEmhNaBHwuE0Xq
-         bPUDHVdKZEABL2BES6koYjiCeztZ4GuvsbqlVky6Z4SXhU8Cg+RNnfKr6fWbalsv9x+7
-         aNxZnbTxMv8BFPvMT23NhZyD/1VJWWhtMUgoyjwW0MPh6ayrocXwn3geZucThBtkaZiC
-         fcU1nUldaHkGCXVPLKooo7awZWl0Qw1GNg6GelnGFHf2eXuqoQ4QGvwWEdl5aneDdOd2
-         G5WIcM7He1a34d9nrgmnNRY3EQg0n//0+ifBj5xecFgbbUiuT1r+zkvmoY5oEn5xn7AL
-         A0hw==
+        bh=s+bMuS4HbgN+glrMlQoSd0LVvTGOtjG5gRbIUrhqhfo=;
+        b=KcQsg6MBeDXHJtvOGXl0M+cHo2Wn35FjWDjLr0pknPf6TcX92rbT9UC3aW+YNcojas
+         /S5ilm+c8n0X4keJfm2aOiYrjVIOYgQfsaEX9dtTjVhYQLaRC31tuVaei6Lhp9dohLip
+         SoI9lUEk/a++Tk3d/L9oAXy6CMqNjUEVfY7cl2t6iwdkGJLEHn5YVYh6VGHwoMG4IzHZ
+         q2pPgSW95zzfBzLMnxDS4qrr6yHPYTRMNICJXLhM26TLQzHWVFkzor0YCIegVwvqWW9p
+         ObohON9pjcl4HkxlLrHUGFyXnarO9GassizWZ7o/QNj0iYPBErYbqQ6rFkMr/dA5fWkl
+         gyjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zmKg5cWLfDtvNzY5XeqvzfTrFB2tK46TS12T4izJ2U4=;
-        b=QGaVqQBDMTCBMWmEhMouiZn6SNV5Ivw/UOMsMMWw04Aq0T7wnbBwoEC46WnQximDK3
-         KTDq5VWX60GlF/OmNLy8CtXUvOzqIHzIN/Kumy0d7+wB+Mpi2gZ4x7Jy/QCq9jiKJjE7
-         XDXnEHUWZ/59PMJIFebVaaXa6gkaLLw0W1qSOPtxWeJJGYUxkYZsBq2PEAdwIauO5Lcn
-         odCD9ZtZ/Vli7r9nxea5YeYaRRJH6cstzaIteE6dX/uHkrt3xRuWuTcFvwfwJTQZ/Txj
-         VF2/2pQCcTqBBzV15G4TnQn+7JWpaVmDQTECTvSkdUGOrdS9IoTXmrs3zVgG2CIyyIf1
-         sjJQ==
-X-Gm-Message-State: AOAM530JTamtFZIwMhyIMLiGT+r+nMXS4EtNk/NPDHE91UdkG6Ru2G5k
-	PlmK0GqeyKltnPAznPv4S4qJNg==
-X-Google-Smtp-Source: ABdhPJy++88X6RefFjSFaTiHAugqJQyK54WiO5LmcuQi9pFNoQUK85w8BesRw4NmgX31jfOra6XCYw==
-X-Received: by 2002:a05:6000:1106:: with SMTP id z6mr34105222wrw.296.1628639450642;
-        Tue, 10 Aug 2021 16:50:50 -0700 (PDT)
+        bh=s+bMuS4HbgN+glrMlQoSd0LVvTGOtjG5gRbIUrhqhfo=;
+        b=IjAoVbVfp2R15nO24NRoEAGwo/JS6XGaGgVaVCwzfPdigo9JLKWIeWy3gk7jLv1E4U
+         sEdyJMJPxCcevLtEw5KofmCg++ilRAkWamrQ+U3cG4fLeq/i5BMZYxWCQpkYvR4sOqoK
+         uA+ENZ15BZ51rD6Xre7e6ig8fnL0y5TIFSxayNlx8hPnH+4XwdPFmOjX1mBx43BjDtDT
+         YURW5ETbdHrz4SRx+F17qSCeFUaZZnBn63tALSf7O8jgRXRc508YLjt1L2vCuiQkZPDH
+         DgXZkYMMtJiROhsQoq+WETzIMuv4SoNS3OqKYwn36jJ+zkRWVy6Qg6iHh6hKxYtQTQPu
+         FQIg==
+X-Gm-Message-State: AOAM530UNwF51wx7OtKIEj7pBiVbvFsOHS/cp6nVY9um+hqMjW/8acb4
+	bjdAZq5Bt+JbfSkh+WRAEvm9EQ==
+X-Google-Smtp-Source: ABdhPJxVslqn6dltSqdxLcrvBvTFItD0DXs7WgjMTCXszRyG/1WlSp2MXZYsdmpw5KmAWDoAdDcsgg==
+X-Received: by 2002:a5d:54c4:: with SMTP id x4mr12173137wrv.83.1628639451336;
+        Tue, 10 Aug 2021 16:50:51 -0700 (PDT)
 Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
         by smtp.gmail.com with ESMTPSA id p14sm13881220wro.3.2021.08.10.16.50.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
@@ -41,9 +41,9 @@ To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/8] staging: r8188eu: remove unused oid_null_function function
-Date: Wed, 11 Aug 2021 00:50:41 +0100
-Message-Id: <20210810235047.177883-3-phil@philpotter.co.uk>
+Subject: [PATCH 3/8] staging: r8188eu: remove unused label from recv_indicatepkt_reorder
+Date: Wed, 11 Aug 2021 00:50:42 +0100
+Message-Id: <20210810235047.177883-4-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210810235047.177883-1-phil@philpotter.co.uk>
 References: <20210810235047.177883-1-phil@philpotter.co.uk>
@@ -55,30 +55,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unused oid_null_function function from include/rtw_ioctl.h
+Remove unused goto label from recv_indicatepkt_reorder function in
+core/rtw_recv.c
 
 Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 ---
- drivers/staging/r8188eu/include/rtw_ioctl.h | 6 ------
- 1 file changed, 6 deletions(-)
+ drivers/staging/r8188eu/core/rtw_recv.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/include/rtw_ioctl.h b/drivers/staging/r8188eu/include/rtw_ioctl.h
-index 7ebc52f008a0..a36bd7313755 100644
---- a/drivers/staging/r8188eu/include/rtw_ioctl.h
-+++ b/drivers/staging/r8188eu/include/rtw_ioctl.h
-@@ -76,12 +76,6 @@ struct oid_obj_priv {
- 	int (*oidfuns)(struct oid_par_priv *poid_par_priv);
- };
+diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+index 08aea680312c..f0a042467386 100644
+--- a/drivers/staging/r8188eu/core/rtw_recv.c
++++ b/drivers/staging/r8188eu/core/rtw_recv.c
+@@ -1801,8 +1801,6 @@ static int recv_indicatepkt_reorder(struct adapter *padapter, struct recv_frame
+ 		_cancel_timer_ex(&preorder_ctrl->reordering_ctrl_timer);
+ 	}
  
--#if defined(_RTW_MP_IOCTL_C_)
--static int oid_null_function(struct oid_par_priv *poid_par_priv) {
--	return NDIS_STATUS_SUCCESS;
--}
--#endif
+-_success_exit:
 -
- extern struct iw_handler_def  rtw_handlers_def;
+ 	return _SUCCESS;
  
- int drv_query_info(struct  net_device *miniportadaptercontext, NDIS_OID oid,
+ _err_exit:
 -- 
 2.31.1
 
