@@ -1,99 +1,169 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1840F177
-	for <linux-staging@lists.linux.dev>; Wed, 11 Aug 2021 06:39:57 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id g138so1135128wmg.4
-        for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 23:39:56 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044EE177
+	for <linux-staging@lists.linux.dev>; Wed, 11 Aug 2021 07:00:37 +0000 (UTC)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 17B6pmpk018183;
+	Wed, 11 Aug 2021 07:00:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=NuBRdQnEBD3fxjQg4kOb4Z9BD9fmDTZa+lQzzKxpL1U=;
+ b=uFjZfljWq6sdbehhGiKU0X61c87CkAcFL11fFVwP+5HQ57WSY5MMD1FSxQafE9LCLf/f
+ 9s6FW4OOQ3yT09zc0OhfCdP3u744/pu5vrjwAU9STm7iEB5ysfm48VvhtomVf9ma6cMb
+ HtcdqAzfodc85gQS1S3YI4eDkSHL9RWovAABNgfx1kmRdZxsPkUPFdcZJ/RXyMaO/qFq
+ msx9yw/pozLOcdo0igHHr4h+QVOOfaIcRMRCbpd4IPG9MSIuZnAYlT26BDN9Li3dYHvU
+ XiAkOWVjGE3FNY2wmKs0DwxyA17c0yMaPLY07vLKvJts54PX8khGATmOX961pkC6dz5n NQ== 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2020-01-29;
+ bh=NuBRdQnEBD3fxjQg4kOb4Z9BD9fmDTZa+lQzzKxpL1U=;
+ b=wiLj6CmFwDWw/V30tweUtTpI7bAXeGE6DDxsMHgf7WNMjRstHQ+CCtyhouIn8TVyjk9C
+ Zonh5EoRhNFBQIdDABv5Pk4C3yHvI551MKG9Sk0e3iJ+84XcpjOMV99ZzrsUlVMMRFRa
+ WkQTVruF4Uknr1v3sMRYX1irATkch5VCYabM9ZbVqzsPh3L29XGxaondV3bw42sPreZP
+ rcmCtTRv8YZyCKFaOiWoo17yITyw8Ja6OJ1FNysdITYNkZNJ8zqufHXzuGzwD3QRov1o
+ TU9ic1K2ZTVmgfYN66I+MTORcg11a2FhdHSbncLcY9aWlj0XIiihJeDq2I8Ao4/GZO8Z 4g== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3abwqgs994-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 11 Aug 2021 07:00:26 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+	by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17B70Cbt126410;
+	Wed, 11 Aug 2021 07:00:24 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2102.outbound.protection.outlook.com [104.47.58.102])
+	by userp3030.oracle.com with ESMTP id 3abjw5tgus-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 11 Aug 2021 07:00:23 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FsXl0uTzoZGBeYVJkXYKI3PfibpCHLHtrYxN2jovSujaF8b5TUOpD781uplRU41vkeowtpiLrgr2ZWWZk8KSPwY4Bs/WMIA9SuwVsBVEHhxkogs8eox52Kzi/sBo/fzXl6VjnxWGInlXjXxTRdpfE9ux8wOPB5z5jPnQgg/RuAQHgCg+e36jnGMaVfYPL67ys7FX1yy1NOfM42SM0jk83bpiNyt5xOVriWe88q3LL0TmysDr0XGVzYRumLuG37fKysta2kvjMxDWcF+xQsQuiu6amseVkVy6ptfN8evpNivpnGdT21W0asmJddLT/G5+f6g34Poee9Li3uwjO/6P0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NuBRdQnEBD3fxjQg4kOb4Z9BD9fmDTZa+lQzzKxpL1U=;
+ b=IS3wNndfinShd4kgeVtSzX6M8WqEnR2DXGyne4q+uQgpxk9xjexOtgYUh70aXiaUtV+WjX3V3a+ZPosi8sXwCU1MVHrDtVhYFsIEpbaMSO7X4HxvXgFaEfEk7VmXCuAQZrQ8Vkicyo56JsnaHvzhxXvBd2mXRduRSNpLbFulX2F0SJQYwoUn2kLKbvT97NJ24zjAPFHSHSBz3U4KoPxOV1LAgN++i0+QNnIe8mXM1JzDBplCK5haySUAduzxo0SOXBSIAa4huYju9CmMDZBa/NvTjvsNd1/+5/+XEbB+d5E3FzE3IlvYMXNeock5GNkYcGc4OAH07vyE9bWNDvY4PQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=cmfIb0rfZ8OajcQAfXM5Dv+4gR8K8sf2e4DEU0yVO0Q=;
-        b=YGrxiAjBhoWOmWo5j025rIfB824lFLwQ+xjKxk8Hu7gBmMpgF2D9BqrGnKQgfh2TCe
-         R9cTRo/Y1XMM23s1ySJEW/62FdcjxzuvseKZZosRhF3Mq6HTG5Y3csHNtPw29cGqnX5e
-         QbcM+znkrvVcRQuJbikSBTgQFelixsdCW1aRwMRUfUepwEJS3TPpqthlQ71z0irzqJBX
-         aLKkRmYsqFVyfSDbYgtOpuWwh9OPTurCcsIMM5n1hVSqMVQLCWqdbQXrevx47iL6ULvo
-         b80DApIv3QOevv5gEaCrad9+gOCmSoeCQalM0T/9YrGRj3N4+2XBN0+IjzEECW0Xdpim
-         WK8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=cmfIb0rfZ8OajcQAfXM5Dv+4gR8K8sf2e4DEU0yVO0Q=;
-        b=baVEZMwkCjBELU6u/40A9D568spgCPXuEn7kxc5EuWLIeGjk8tdXcL+PT+4nEs0vUZ
-         wGxtrxirkE3iMOUFz/EZo+j5eUgYd+QD8mza+LGNYsN5phdMNcnvGfKQr3nTpLChFJXF
-         csiI/t4UiAGRYlYlGFaGCR7kyG/Yb81gP91JeKgko1XsIxYM6XqLf/IfN+bUPga5Bs3a
-         GBkPUHyb95qDF1ANYAnPzQyauH0/U5/thxbt2oSumqu5hj8z8wHASPqGx1n0g4EbB1Ar
-         28R8G3ZRf+ucDCaKQ7DAedAHv1yNUBVr+yLf1GVi1GHw1LAsqYfyYxAWFi1bgy5RQI9W
-         US+g==
-X-Gm-Message-State: AOAM533C74Y0F6BxQ+rDlf2qZ/7igCCaVuhdono235z0VxTPh8WZXulp
-	FBJgULkW5BF3qG0esLpgXSg=
-X-Google-Smtp-Source: ABdhPJykimIynP8A12fgkSUmxJ7HMSw3E9OvNUrTrXt24IpAaX5tam+FO+i+iDVf6AVMAJgDxT9cZg==
-X-Received: by 2002:a05:600c:3b94:: with SMTP id n20mr25252155wms.54.1628663995413;
-        Tue, 10 Aug 2021 23:39:55 -0700 (PDT)
-Received: from ?IPv6:2a02:8108:96c0:3b88::2571? ([2a02:8108:96c0:3b88::2571])
-        by smtp.gmail.com with ESMTPSA id q5sm25856759wrx.33.2021.08.10.23.39.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Aug 2021 23:39:55 -0700 (PDT)
-Subject: Re: [PATCH 0/8] staging: r8188eu: cleanup several warnings
-To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20210810235047.177883-1-phil@philpotter.co.uk>
-From: Michael Straube <straube.linux@gmail.com>
-Message-ID: <37fc4e87-3131-eb54-d47d-8ed4dc85e983@gmail.com>
-Date: Wed, 11 Aug 2021 08:39:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NuBRdQnEBD3fxjQg4kOb4Z9BD9fmDTZa+lQzzKxpL1U=;
+ b=CTeba+81h5mVbya8SlQnHAAntfOuNCuFuUOP8s5Rc+jqZqU/985PcOP9+nELGMdlhuOKgH2VZfpGoJTQMe+B7+PlMZlxc7QLi9zMLsqbkZdZ4gniB7AQPOZnYL9ChekWBKmxlF0Xsf4iAEb4NzVZXnlJMRRjngYNg7f/b0SvImc=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CO1PR10MB4705.namprd10.prod.outlook.com
+ (2603:10b6:303:96::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.15; Wed, 11 Aug
+ 2021 07:00:00 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4394.023; Wed, 11 Aug 2021
+ 07:00:00 +0000
+Date: Wed, 11 Aug 2021 09:59:37 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Tuo Li <islituo@gmail.com>
+Cc: gregkh@linuxfoundation.org, will+git@drnd.me, romain.perier@gmail.com,
+        yashsri421@gmail.com, apais@linux.microsoft.com,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        baijiaju1990@gmail.com, TOTE Robot <oslab@tsinghua.edu.cn>
+Subject: Re: [PATCH] staging: rtl8192e: rtl_core: Fix possible null-pointer
+ dereference in _rtl92e_pci_disconnect()
+Message-ID: <20210811065937.GA1931@kadam>
+References: <20210811031135.4110-1-islituo@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210811031135.4110-1-islituo@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0061.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::19)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210810235047.177883-1-phil@philpotter.co.uk>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from kadam (102.222.70.252) by JNAP275CA0061.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4394.17 via Frontend Transport; Wed, 11 Aug 2021 06:59:52 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2ec71af2-b5c4-4d0a-5b3c-08d95c95a2de
+X-MS-TrafficTypeDiagnostic: CO1PR10MB4705:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<CO1PR10MB47057DEEA0C30D8B010861CE8EF89@CO1PR10MB4705.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	6viHAyQfZZlnakXY5sgAJLyBr8Dt5V6iiPbCQZRowIFYUvFUb21y0IQxZQ5/XHP4EGzcHDdNF+0s//JiSvckp0Ym6U7vi1csfMgkApS7N7nwHJXlj1SEZk0b2K5bqGo/eySX/gLfL4dVHWWznhqE6rKNxY7tH2QcCY6+NdBbZCiUNRxP+RzfGUOBtcm06dm3Rf1mEp7H3jiNp0n9LzS6U9UEmmF4pjK1GL42DopV3bRiaxjiKB3EBE2pItQNURHJNUUu8R8AScWxSwVg3qUd9n40rGrRMGGUmiI17WtOP1kyvi6Oh1Rctkqq7aPtciduWHoY5ExQHNtxuO/B32VisOJ83YXFNw6dY3Y0GE7/kukudAU3pzfoNV4X1lM/k+QtByKhbD61eJePuZOVF05zs8VedWuejtwW0/szBCNyR0mqRf/ptQcDd3dCwxBu6wauvqqmieIt7RHD7y8Nfp9cMKGeowIMyWpwQfsN48mrw8Q7higuted4Lu/tukoFaNxibo9MQ3yFKz9YQh40mMjD0sEnrj6yuhVKT6yDYMaMCJjmnsRlJRwYdLo6du5s3GNQTT4uDbmc+cK7m0PR04fc8mSqRSVNWHIcWsK2kUF+A6yxVbEqxM51U8PIUX36OSiYuVKpVjY3vbGoFI1t/cUMkb0XEcG4fDXKzokcH/zQQ0r1j1BqQOWIlmDjCvVuCgem5iVubqoVsFsO0dSjEUT1Pg==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(396003)(376002)(366004)(39860400002)(136003)(9686003)(956004)(33656002)(5660300002)(6666004)(1076003)(38350700002)(66946007)(38100700002)(7416002)(4326008)(66476007)(2906002)(55016002)(66556008)(33716001)(6496006)(8936002)(186003)(52116002)(4744005)(316002)(44832011)(86362001)(9576002)(478600001)(6916009)(8676002)(26005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?au2fVFKdk+SRxz4d3zWd91LxsAkE/m5CwqPsc8u0WgdGVpkKk9F8t+krW+Zo?=
+ =?us-ascii?Q?virub8eAvrQvjLR5IKztAvRq5sd48P8Rk4YtO2l01JKvgZ7aZVvjIUwXpHtN?=
+ =?us-ascii?Q?PHghuGvLAbvPLY2yAqY8xdlH/zeBhmY7RMb2YkL/PoLvZGZNip+9WyCYQGBr?=
+ =?us-ascii?Q?PvrTGahxLssHv7sZYTsmM48xY4TXhOWTl7vVWC3+kp4pX4RVcKj2JL7Hdjkf?=
+ =?us-ascii?Q?AEBjEL7Evd93KsExSqMFvmHfg2oCQxh1dOIh3GB7nQTDiZYGn3HA3TDD7NSD?=
+ =?us-ascii?Q?O/RadjlP4SS7dfDxyHFcrGwmXp4PJne6Q1MRpfGjzXLrSldWmJA3EaHlWYia?=
+ =?us-ascii?Q?1fn2TRCh8nkQgZrltm0QiV9Eg5q5P88g7vq/I6NiFfnEZZ7DTzHPhlSLvVaI?=
+ =?us-ascii?Q?lA2F9oZ1MC1zUJkm5DdiTDRiB+B4ZBdE1s/rXiblAJAX8EDlj/hoSy33DAog?=
+ =?us-ascii?Q?CJRKC17+r1ppABjlG+2ua5hTXokexM7R4cFa5pvgtylOY890Ykq9TGV+jJGE?=
+ =?us-ascii?Q?e6yGLyXKitTsKirWGlYcQi9ovRBXP1bAUf4p2CPesLOuDeDiRzw1B+o1UEmE?=
+ =?us-ascii?Q?d38dJjeWtf80IwK0j9VO5FU7XbRyEfFxet/r0TklOzkgTzQkBp0J0cyVHnhB?=
+ =?us-ascii?Q?SIfuQzskZ2XxUWElhPCJ4zXoiAyiiZkho9uEeEGzHyk4FGdP+eCY1pabEUP2?=
+ =?us-ascii?Q?UEEmOOgJJaMMdcXzL0Ysn3du2ETsUT8pVXAdwQzvUPv7/J1ANQA4tfEjN0Y6?=
+ =?us-ascii?Q?a1MGWoN2sABIbj00yhaRHIjT/bl36R6OxISPCje9doQCtlxNovVEhlFrlSh2?=
+ =?us-ascii?Q?RJbJ9qSQiVH7s4y9qPOiACZpBKQwCaFTVDXWLW1YSM/GiDybuGmT+qIqrrIh?=
+ =?us-ascii?Q?kJm235eVY3I0ERymW686WBSBtox8S3K1fV+z4a4qpsTzJW2WMnWl5c/afGSf?=
+ =?us-ascii?Q?1iNAnuMYlxyE7G1ixigU667cYm6GtnmqvgxBUDp1g6DPOlh8btKGrdq8rZtJ?=
+ =?us-ascii?Q?wPujUO01rcBDtbZiud8p8waIseI7BYjRkrpUtJgjwSQ0Eslxgj6+C+vfVG6r?=
+ =?us-ascii?Q?rr07SjcFMy28qa4VfL+EbVv3Tjbvc1Uj76mK/Ux8Mjeq/KYkhx9FxTRyz0Vw?=
+ =?us-ascii?Q?qFEiPzB09iMOADvCWXfLvkETfPiQBZP2VEB+UH//7VkQYPqQkud7Z+AvoSvM?=
+ =?us-ascii?Q?sFfVWT5IcxwbeAXsrO2JKMYDn4baTGbpW5n2Yrbb84E00vV5YIcMrmSTZrjr?=
+ =?us-ascii?Q?d4eIOuJtskVGiHFzxL1okD8/rzJo/lM5mcS38AovnRubt3ljnKuA5SPFMf9/?=
+ =?us-ascii?Q?9R/R3BYO+2aEDu/EwHYgh7FO?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ec71af2-b5c4-4d0a-5b3c-08d95c95a2de
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2021 07:00:00.5777
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: F0hkeoUkj7Y/TMnXKf5SpKEvtbTm2IWLLoe2X7lLp+vs+3YgZGRtZaJ2liNZ20WkZ7rSlsNTY+2T5LXTtdaIzRAwCxZI+7IWbcpRB7fPEBo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4705
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10072 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
+ malwarescore=0 phishscore=0 bulkscore=0 suspectscore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108110045
+X-Proofpoint-ORIG-GUID: jJxk9LevDgPzz29fApryFBwlwPqubExf
+X-Proofpoint-GUID: jJxk9LevDgPzz29fApryFBwlwPqubExf
 
-On 8/11/21 1:50 AM, Phillip Potter wrote:
-> This series does a lot of cleanup, and came about due to me noticing
-> that the Makefile contains several lines that silence build warnings
-> about unused variables, functions and so on.
+On Tue, Aug 10, 2021 at 08:11:35PM -0700, Tuo Li wrote:
+> The variable dev is checked in:
+>   if (dev)
 > 
-> It accomplishes does three things therefore:
-> (1) Removes the unused functions no longer called by rtw_ioctl, which
->      was deleted in a previous patch (with the exception of the android
->      code, which I will add back in once ndo_siocdevprivate is merged in).
-> (2) Cleanup all build warnings resulting from removing the offending
->      Makefile lines.
-> (3) Remove the offending Makefile lines so that future build warnings
->      can be caught locally before submission as well.
+> This indicates that it can be NULL. If so, a null-pointer dereference will 
+> occur:
+>   priv = rtllib_priv(dev);
 > 
-> Phillip Potter (8):
->    staging: r8188eu: remove unused functions from os_dep/ioctl_linux.c
->    staging: r8188eu: remove unused oid_null_function function
->    staging: r8188eu: remove unused label from recv_indicatepkt_reorder
->    staging: r8188eu: remove rtw_mfree_sta_priv_lock function
->    staging: r8188eu: remove unused variable from rtl8188e_init_dm_priv
->    staging: r8188eu: remove unused variable from rtw_init_drv_sw
->    staging: r8188eu: remove unused variable from rtw_init_recv_timer
->    staging: r8188eu: remove lines from Makefile that silence build
->      warnings
+> However, the value of priv is not used in the remaining part of this 
+> function. Thus the else-branch can be removed to fix this posible 
+> null-pointer dereference.
 > 
->   drivers/staging/r8188eu/Makefile             |    9 -
->   drivers/staging/r8188eu/core/rtw_recv.c      |    2 -
->   drivers/staging/r8188eu/core/rtw_sta_mgt.c   |    9 -
->   drivers/staging/r8188eu/hal/rtl8188e_dm.c    |    1 -
->   drivers/staging/r8188eu/include/rtw_ioctl.h  |    6 -
->   drivers/staging/r8188eu/os_dep/ioctl_linux.c | 1538 ++----------------
->   drivers/staging/r8188eu/os_dep/os_intfs.c    |    1 -
->   drivers/staging/r8188eu/os_dep/recv_linux.c  |    2 -
->   8 files changed, 127 insertions(+), 1441 deletions(-)
-> 
+> Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
+> Signed-off-by: Tuo Li <islituo@gmail.com>
 
-Acked-by: Michael Straube <straube.linux@gmail.com>
+Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-Michael
+Smatch was not smart enough to spot the dereference inside rtllib_priv().
+Fortunately, the "dev" variable can't be NULL at this point.
+
+regards,
+dan carpenter
+
