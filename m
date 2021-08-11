@@ -1,91 +1,123 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5715870
-	for <linux-staging@lists.linux.dev>; Wed, 11 Aug 2021 00:55:21 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AA8C560EBC;
-	Wed, 11 Aug 2021 00:55:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1628643321;
-	bh=DTAl8Wi9FD9YleLLXVNMvg0hoef/6IRV9MZimfYACKs=;
-	h=From:To:Cc:Subject:Date:From;
-	b=S/on2pMTwZaJSwkcXzWZVlrGebs2GrailsKp9itDSYbLhN3bH7whN4Iu24MX2FEO+
-	 wG7Ks4XZPTTBGeuIbXwD+949oawDjbNMcEtItsLRBsGTiDZaQE30PfF+YfaHcWFbvQ
-	 2WGyWZRYRRw/5+V5vOxC6Dh7kB2cCz/GThFIeJO3eSxviYttpxXux2Z5CisxLUc1JQ
-	 /mAqsCdVOe65QDcTV6lwlDO/w3Rr9OYK14IUXWc37IzOLhofTERPlWKF2vZmbEf7+Y
-	 mQc1q9bJbb0y8iL6U9dIG0f+ewoQCAMg4CO3YVxCj5uGpoxfMEdzKMErl4bh5OuxkS
-	 fvPVsOKVdmPFg==
-From: Nathan Chancellor <nathan@kernel.org>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>
-Subject: [PATCH] staging: r8188eu: os_dep: Hoist vmalloc.h include into osdep_service.h
-Date: Tue, 10 Aug 2021 17:55:05 -0700
-Message-Id: <20210811005505.3953122-1-nathan@kernel.org>
-X-Mailer: git-send-email 2.33.0.rc1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F1E970
+	for <linux-staging@lists.linux.dev>; Wed, 11 Aug 2021 01:28:14 +0000 (UTC)
+Received: by mail-ot1-f43.google.com with SMTP id r16-20020a0568304190b02904f26cead745so1431427otu.10
+        for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 18:28:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=EI4+iDTUxFQwGasNdMOSZonXlfe7O3WRGPJ1aTgYbiA=;
+        b=BonCPtNUTrifYKdWnUaMchxI10JeqAzFuvwXxxahhZxDymjdXZWVcj6XaSrJElcpXn
+         spFH7YDpOI8WDIkWRXxlubrhQsEhp5tDTqMFhI82vMnG7wf8dvY6EJiWofj+eWhTi/qi
+         sudtB+f2uoLsfBB4cTv6sffjoqkShIaSRd+DMJdekcJRRmRZoB/PFbcMClxOHyL9UYf2
+         mEPjucsLActzMbBavZtN8cLKJJcokNokCWmVQZUy91xgwQ9JFE8V6gXcaqXhx4GN4UGm
+         P4b5rIj2+IrGOI5ZNrnXSA0/xx4accqr25DD4tkg96/A9oAGePmws6FsQFc0F87IokUc
+         jh3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=EI4+iDTUxFQwGasNdMOSZonXlfe7O3WRGPJ1aTgYbiA=;
+        b=O6BfcOWgg1FBW+EoGrO5qlU/Qy9VXnlUycMgBrO7Wzwa5da6rSYeO2W9WhUHQ6CNTW
+         XGihOCZJ+P5TKTfo3E8o5QorOh32aPS6TycJRM4oL+ZVEXG/+i4VYnmLB+6Ll0nHss1k
+         1AUPHW8sy7vW0u4XDl5/ewWX/jzSVDIuWLE6K+9uVOHAgR6CH6vllNGZTJAjLKKWXl/O
+         OA3GmpfVf4NBHJuNErZHfhkfGaCHwiM47uH23yr7VOvIyXrNtIkaz8nBrncVQp+tjolv
+         4tSOIRsFkDXuc4nzNhralc9ZdyY0q8SxEn5pnQLdoHp+EVjqvunrNURA6xY/iklBtbfo
+         HKFQ==
+X-Gm-Message-State: AOAM533SUeHCMHhRvmFZ+Q0ktfBQgO/bxOpZ8R5O4bzvaEy3Kj5JWiRp
+	W64Dv0I54tnzlmCTehty8MU=
+X-Google-Smtp-Source: ABdhPJwXSKFk8opl6Bx5+tWJl/GoJAy9+/Gwqc8q54HKF1DUUU4gyjkpzaBzz4HG88trJ+WZkCe0Ag==
+X-Received: by 2002:a9d:588a:: with SMTP id x10mr4485063otg.153.1628645293722;
+        Tue, 10 Aug 2021 18:28:13 -0700 (PDT)
+Received: from 2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com (2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com. [2603:8090:2005:39b3::100a])
+        by smtp.gmail.com with ESMTPSA id s12sm1792220otk.21.2021.08.10.18.28.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Aug 2021 18:28:13 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Subject: Re: [PATCH] staging: r8188eu: os_dep: Hoist vmalloc.h include into
+ osdep_service.h
+To: Nathan Chancellor <nathan@kernel.org>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20210811005505.3953122-1-nathan@kernel.org>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+Message-ID: <73f88d2c-7907-8897-4120-edf5fda97704@lwfinger.net>
+Date: Tue, 10 Aug 2021 20:28:11 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Patchwork-Bot: notify
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210811005505.3953122-1-nathan@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-After commit 71f09c5ae9d2 ("staging: r8188eu: Remove wrapper around
-vfree"), the driver fails to build on Hexagon due to an implicit
-declaration in several different files:
+On 8/10/21 7:55 PM, Nathan Chancellor wrote:
+> After commit 71f09c5ae9d2 ("staging: r8188eu: Remove wrapper around
+> vfree"), the driver fails to build on Hexagon due to an implicit
+> declaration in several different files:
+> 
+> drivers/staging/r8188eu/core/rtw_mlme.c:129:3: error: implicit
+> declaration of function 'vfree'
+> [-Werror,-Wimplicit-function-declaration]
+>                  vfree(pmlmepriv->free_bss_buf);
+>                  ^
+> 1 error generated.
+> 
+> Previously, vfree() was only called in osdep_service.c, which includes
+> vmalloc.h for vmalloc() and vfree(). Now, the driver relies on vfree()
+> getting implicitly included from another file.
+> 
+> Hoist the vmalloc.h include from osdep_service.c to osdep_service.h so
+> that the driver continues to build fine on all architectures.
+> 
+> Fixes: 71f09c5ae9d2 ("staging: r8188eu: Remove wrapper around vfree")
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+>   drivers/staging/r8188eu/include/osdep_service.h | 1 +
+>   drivers/staging/r8188eu/os_dep/osdep_service.c  | 1 -
+>   2 files changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
+> index 7e002009f9a0..0d1419af8274 100644
+> --- a/drivers/staging/r8188eu/include/osdep_service.h
+> +++ b/drivers/staging/r8188eu/include/osdep_service.h
+> @@ -39,6 +39,7 @@
+>   #include <linux/interrupt.h>	/*  for struct tasklet_struct */
+>   #include <linux/ip.h>
+>   #include <linux/kthread.h>
+> +#include <linux/vmalloc.h>
+>   
+>   #include <linux/usb.h>
+>   #include <linux/usb/ch9.h>
+> diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
+> index 910da0f0004a..9ea4e1a7c45f 100644
+> --- a/drivers/staging/r8188eu/os_dep/osdep_service.c
+> +++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
+> @@ -6,7 +6,6 @@
+>   #include "../include/osdep_service.h"
+>   #include "../include/drv_types.h"
+>   #include "../include/recv_osdep.h"
+> -#include "../include/linux/vmalloc.h"
+>   #include "../include/rtw_ioctl_set.h"
+>   
+>   /*
+> 
+> base-commit: ae7471cae00a432d1c9692452b1b9175a8f3c1b3
+> 
 
-drivers/staging/r8188eu/core/rtw_mlme.c:129:3: error: implicit
-declaration of function 'vfree'
-[-Werror,-Wimplicit-function-declaration]
-                vfree(pmlmepriv->free_bss_buf);
-                ^
-1 error generated.
+Acked-by: Larry Finger <Larry.Finger@lwfinger.net>
 
-Previously, vfree() was only called in osdep_service.c, which includes
-vmalloc.h for vmalloc() and vfree(). Now, the driver relies on vfree()
-getting implicitly included from another file.
+For some reason this header is pulled in on x86_64. What CPU does Hexagon use?
 
-Hoist the vmalloc.h include from osdep_service.c to osdep_service.h so
-that the driver continues to build fine on all architectures.
-
-Fixes: 71f09c5ae9d2 ("staging: r8188eu: Remove wrapper around vfree")
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
- drivers/staging/r8188eu/include/osdep_service.h | 1 +
- drivers/staging/r8188eu/os_dep/osdep_service.c  | 1 -
- 2 files changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
-index 7e002009f9a0..0d1419af8274 100644
---- a/drivers/staging/r8188eu/include/osdep_service.h
-+++ b/drivers/staging/r8188eu/include/osdep_service.h
-@@ -39,6 +39,7 @@
- #include <linux/interrupt.h>	/*  for struct tasklet_struct */
- #include <linux/ip.h>
- #include <linux/kthread.h>
-+#include <linux/vmalloc.h>
- 
- #include <linux/usb.h>
- #include <linux/usb/ch9.h>
-diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
-index 910da0f0004a..9ea4e1a7c45f 100644
---- a/drivers/staging/r8188eu/os_dep/osdep_service.c
-+++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
-@@ -6,7 +6,6 @@
- #include "../include/osdep_service.h"
- #include "../include/drv_types.h"
- #include "../include/recv_osdep.h"
--#include "../include/linux/vmalloc.h"
- #include "../include/rtw_ioctl_set.h"
- 
- /*
-
-base-commit: ae7471cae00a432d1c9692452b1b9175a8f3c1b3
--- 
-2.33.0.rc1
+Larry
 
