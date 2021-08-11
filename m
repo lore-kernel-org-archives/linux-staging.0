@@ -1,67 +1,187 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF6E177
-	for <linux-staging@lists.linux.dev>; Wed, 11 Aug 2021 07:40:56 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A150760230;
-	Wed, 11 Aug 2021 07:40:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1628667656;
-	bh=V/N3eN/dw5gSqAyCkP+gCTFP8cNeUSG7Vnrmvybg9YA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=2nEEGo6qq4f/vChJviFvNJGOXUdcy2sE4Et/9BG/ML35x1TGhgsfEw5gTXUiWdINt
-	 ttGxCioO0qIIw83UY6v5FTymJIdfLouK9VD6KUJOg7OXzijRvWbuAMD6gVR+6EMjhW
-	 4RQjquwm8YCOTFlMaKWo+P7hjklKwna7KOYnrSFk=
-Date: Wed, 11 Aug 2021 09:40:53 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Phillip Potter <phil@philpotter.co.uk>
-Cc: Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 8/8] staging: r8188eu: remove lines from Makefile that
- silence build warnings
-Message-ID: <YRN/BYRayELQnM+2@kroah.com>
-References: <20210810235047.177883-1-phil@philpotter.co.uk>
- <20210810235047.177883-9-phil@philpotter.co.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79EEB70
+	for <linux-staging@lists.linux.dev>; Wed, 11 Aug 2021 10:19:51 +0000 (UTC)
+Received: by mail-vk1-f173.google.com with SMTP id f4so511300vkb.10
+        for <linux-staging@lists.linux.dev>; Wed, 11 Aug 2021 03:19:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=I5+sfKd8Qk5fi/K9nkfNRq3adRlaCZduPHrRMySxD8Q=;
+        b=ldcW3CpuFUXP9UrjOK7qktadT10ivs8KVrrs7JsoTaX/NAdEGiTSkixKByyeW1Oc9j
+         xXd+Xr9e2nGn+ttE8jICPmzUBbCcUrgRion53J9uFOkxnvzpTT7mH2YXtO2wsh8AezVV
+         FxxybmRptOKS8f7lyLRnxE9lZclXnFWszANsq2aaBLGgjSitc9JaGYCRDuo2MW+iWfza
+         ebLhrR4FyLBCWy6C/MN1BXRXxhNbdUPNTez56nv4754PQiwHnXWlCHRYPBbfNf3ggCJi
+         Alw63VCEwV1sbaS8KSmKGrJ5ICbHc4SxR04hR2mkiYhIExf6rM9W3Z7X5JhFE1Yo5+J+
+         VCmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=I5+sfKd8Qk5fi/K9nkfNRq3adRlaCZduPHrRMySxD8Q=;
+        b=Je/Se99HIXavW5ly39rS5kPK6BgugNCJ6NmLTKLdCcbEgW1ZlqPVe0MgP0liylzoW3
+         OdOjQ3yGcewMLaicT57axTn2Of7Ur8gitJ6ytimBLRiB2oA/Uk+TayHQQb5VguQ7QdzF
+         ioVPxD+oBD8RGJ1k4mZnISOG76isUcg/hx5oa9L6r9HOBsR9taWxko56/68l+MdWDtwU
+         t2y3sp5iD14ZsGnRTQplqYVZAvKM93jzuBnxY0KUdjAeBO1Tp8Wr9l7ev2eRIS5U5yMb
+         jdp//+uYRzwg1zRr3qFgLz21Hxp5wLJv53d+4XvmzLWIG+UdmN5MfQnULUmPMityaCHg
+         6z9A==
+X-Gm-Message-State: AOAM5333PXttb+J1K3xxLtfOEDU3CE6LX1sgiDk//C/zNILBL9K7vR5T
+	Zo/OzKIMijd4WtE68tWMoRGXzXTng/aA68a1J2w=
+X-Google-Smtp-Source: ABdhPJxNKHPZi0srhB9nyrbfWxcjJPGixvokF8J7BnQ8SqYZNjtYkAc9Eq6ekrydVHBucD3e4YkM3pbdwPVl9xq89Wc=
+X-Received: by 2002:a05:6122:925:: with SMTP id j37mr3630877vka.21.1628677190504;
+ Wed, 11 Aug 2021 03:19:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210810235047.177883-9-phil@philpotter.co.uk>
+References: <20210807072409.9018-3-sergio.paracuellos@gmail.com> <20210810223245.GA2311409@bjorn-Precision-5520>
+In-Reply-To: <20210810223245.GA2311409@bjorn-Precision-5520>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Wed, 11 Aug 2021 12:19:39 +0200
+Message-ID: <CAMhs-H9+A1k7=vTHV4TTMOw=8vudD7D5HTgPKGN_NG40=THTQQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] PCI: of: avoid 'devm_pci_remap_iospace' if PCI_IOBASE
+ is not defined
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Greg KH <gregkh@linuxfoundation.org>, 
+	"open list:MIPS" <linux-mips@vger.kernel.org>, linux-pci <linux-pci@vger.kernel.org>, 
+	linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>, 
+	linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Aug 11, 2021 at 12:50:47AM +0100, Phillip Potter wrote:
-> Remove the several lines from the Makefile that append EXTRA_CFLAGS options
-> to silence build warnings about unused variables, unused functions and such
-> like. This will enable cleanup of missed warnings, and easier spotting
-> of future such problems.
-> 
-> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> ---
->  drivers/staging/r8188eu/Makefile | 9 ---------
->  1 file changed, 9 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/Makefile b/drivers/staging/r8188eu/Makefile
-> index 152d6325b4d9..7f6658f931d1 100644
-> --- a/drivers/staging/r8188eu/Makefile
-> +++ b/drivers/staging/r8188eu/Makefile
-> @@ -2,15 +2,6 @@ SHELL := /bin/bash
->  EXTRA_CFLAGS += $(USER_EXTRA_CFLAGS)
->  EXTRA_CFLAGS += -O1
->  
-> -EXTRA_CFLAGS += -Wno-unused-variable
-> -EXTRA_CFLAGS += -Wno-unused-value
-> -EXTRA_CFLAGS += -Wno-unused-label
-> -EXTRA_CFLAGS += -Wno-unused-parameter
-> -EXTRA_CFLAGS += -Wno-unused-function
-> -EXTRA_CFLAGS += -Wno-unused
-> -
-> -EXTRA_CFLAGS += -Wno-uninitialized
-> -
+Hi Bjorn,
 
-Ah, that is why I didn't see any warnings!  Thanks for these changes,
-will go queue them up now.
+On Wed, Aug 11, 2021 at 12:32 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
+>
+> On Sat, Aug 07, 2021 at 09:24:08AM +0200, Sergio Paracuellos wrote:
+> > Defining PCI_IOBASE for MIPS ralink in expected addresses results in PCI IO
+> > resources being assigned but the addresses generated for IO accesses are wrong
+> > since the ioremap in the PCI core function 'pci_parse_request_of_pci_ranges'
+> > tries to remap to a fixed virtual address (PC_IOBASE) which can't work for KSEG1
+> > addresses. To get it working this way, we would need to put PCI_IOBASE somewhere
+> > into KSEG2 which will result in creating TLB entries for IO addresses, which most
+> > of the time isn't needed on MIPS because of access via KSEG1. To allow MIPS PCI
+> > drivers to properly use the PCI generic core we need to increase IO_SPACE_LIMIT
+> > since IO addresses are in addresses higher that 0xffff. We also need to avoid
+> > the call 'devm_pci_remap_iospace' when 'pci_parse_request_of_pci_ranges' is
+> > called to avoid the following problem:
+>
+> Rewrap to fit in ~75 columns.
 
-greg k-h
+I thought it was already around 75 columns :). For sure, I will
+carefully check this for the next version.
+
+>
+> This is a generic change so the commit log needs to be generic as
+> well.  The MIPS/KSEG1/KSEG2 information is not really useful here
+> because most readers won't understand it (and I don't :)).
+
+Yes, you are right, my bad here. MIPS specific address segment names
+should be out of generic commit messages like this.
+
+>
+> devm_pci_remap_iospace() calls pci_remap_iospace(), which already
+> contains #ifdef PCI_IOBASE.  When PCI_IOBASE is not defined (as on
+> MIPS ralink), it emits the warning below and returns failure.
+>
+> This patch avoids that failure, but it still leaves
+> devm_pci_remap_iospace() and pci_remap_iospace() broken on MIPS
+> ralink.  It's true that on MIPS ralink, they are currently only called
+> via pci_parse_request_of_pci_ranges(), but I think it would be better
+> if we could fix pci_remap_iospace() to handle this case so all these
+> interfaces work consistently.
+
+Ok, agred. So... what should be the correct approach here? Change the
+core 'pci_remap_iospace' WARN_ON to a maybe a normal 'pr_warn' message
+and silently return 0 and delete function comment there saying that
+architectures that don't define PCI_IOBASE should not call that
+function? Or should we just redefine this weak 'pci_remap_iospace'
+symbol for mips ralink?? I prefer to always do changes in normal core
+functions but if this is going to be a mips ralink adjustment because
+of architecture specific stuff maybe is better to go for the other
+option... Thoughts?
+
+
+>
+> This patch doesn't do anything with IO_SPACE_LIMIT, so I don't know
+> what that part of the commit log is telling me.
+
+True, I was introducing the whole thing to have all pci io stuff
+working but it is out of scope for this commit in particular. Thanks
+for pointing out this also.
+
+Thanks in advance for your time.
+
+Best regards,
+    Sergio Paracuellos
+>
+> > ------------[ cut here ]------------
+> > WARNING: CPU: 2 PID: 1 at ../drivers/pci/pci.c:4066 pci_remap_iospace+0x3c/0x54
+> > This architecture does not support memory mapped I/O
+> > Modules linked in:
+> > CPU: 2 PID: 1 Comm: swapper/0 Not tainted 5.10.1+ #1228
+> > Stack : 00000000 00000000 807fa974 00000000 827ffa80 80066b48 80710000 0000000b
+> >         00000000 00000000 81c59aac 7d06ddec 80850000 00000001 81c59a40 7d06ddec
+> >         00000000 00000000 807c909c 81c598f0 00000001 81c59904 00000000 0000000a
+> >         203a6d6d 80708880 0000000f 70617773 80850000 00000000 00000000 807d0000
+> >         807ffecc 1e160000 00000001 00000200 00000000 8054e920 00000008 815e0008
+> >         ...
+> > Call Trace:
+> > [<80008efc>] show_stack+0x8c/0x130
+> > [<806e1674>] dump_stack+0x9c/0xc8
+> > [<80024a3c>] __warn+0xc0/0xe8
+> > [<80024ad0>] warn_slowpath_fmt+0x6c/0xbc
+> > [<80410ca8>] pci_remap_iospace+0x3c/0x54
+> > [<80410d20>] devm_pci_remap_iospace+0x58/0xa4
+> > [<8042019c>] devm_of_pci_bridge_init+0x4dc/0x55c
+> > [<80408de8>] devm_pci_alloc_host_bridge+0x78/0x88
+> > [<80424e44>] mt7621_pci_probe+0x68/0x9a4
+> > [<80464804>] platform_drv_probe+0x40/0x7c
+> > [<804628bc>] really_probe+0x2fc/0x4e4
+> > [<80463214>] device_driver_attach+0x4c/0x74
+> > [<80463384>] __driver_attach+0x148/0x150
+> > [<8046047c>] bus_for_each_dev+0x6c/0xb0
+> > [<804614dc>] bus_add_driver+0x1b4/0x1fc
+> > [<80463aa0>] driver_register+0xd0/0x110
+> > [<80001714>] do_one_initcall+0x84/0x1c0
+> > [<808e7fd0>] kernel_init_freeable+0x214/0x24c
+> > [<806e4164>] kernel_init+0x14/0x118
+> > [<80003358>] ret_from_kernel_thread+0x14/0x1c
+> >
+> > ---[ end trace 1c9d4412bd51b53c ]---
+> > mt7621-pci 1e140000.pcie: error -19: failed to map resource [io  0x1e160000-0x1e16ffff]
+> >
+> > Hence don't call 'devm_pci_remap_iospace' if PCI_IOBASE is not defined to get
+> > a working PCI core APIs for MIPS ralink platforms.
+> >
+> > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> > ---
+> >  drivers/pci/of.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/drivers/pci/of.c b/drivers/pci/of.c
+> > index a143b02b2dcd..657aef39bf63 100644
+> > --- a/drivers/pci/of.c
+> > +++ b/drivers/pci/of.c
+> > @@ -564,12 +564,14 @@ static int pci_parse_request_of_pci_ranges(struct device *dev,
+> >
+> >               switch (resource_type(res)) {
+> >               case IORESOURCE_IO:
+> > +#ifdef PCI_IOBASE
+> >                       err = devm_pci_remap_iospace(dev, res, iobase);
+> >                       if (err) {
+> >                               dev_warn(dev, "error %d: failed to map resource %pR\n",
+> >                                        err, res);
+> >                               resource_list_destroy_entry(win);
+> >                       }
+> > +#endif
+> >                       break;
+> >               case IORESOURCE_MEM:
+> >                       res_valid |= !(res->flags & IORESOURCE_PREFETCH);
+> > --
+> > 2.25.1
+> >
