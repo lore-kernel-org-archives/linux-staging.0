@@ -1,123 +1,95 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F1E970
-	for <linux-staging@lists.linux.dev>; Wed, 11 Aug 2021 01:28:14 +0000 (UTC)
-Received: by mail-ot1-f43.google.com with SMTP id r16-20020a0568304190b02904f26cead745so1431427otu.10
-        for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 18:28:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FAF672
+	for <linux-staging@lists.linux.dev>; Wed, 11 Aug 2021 03:12:37 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id f3so836544plg.3
+        for <linux-staging@lists.linux.dev>; Tue, 10 Aug 2021 20:12:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=EI4+iDTUxFQwGasNdMOSZonXlfe7O3WRGPJ1aTgYbiA=;
-        b=BonCPtNUTrifYKdWnUaMchxI10JeqAzFuvwXxxahhZxDymjdXZWVcj6XaSrJElcpXn
-         spFH7YDpOI8WDIkWRXxlubrhQsEhp5tDTqMFhI82vMnG7wf8dvY6EJiWofj+eWhTi/qi
-         sudtB+f2uoLsfBB4cTv6sffjoqkShIaSRd+DMJdekcJRRmRZoB/PFbcMClxOHyL9UYf2
-         mEPjucsLActzMbBavZtN8cLKJJcokNokCWmVQZUy91xgwQ9JFE8V6gXcaqXhx4GN4UGm
-         P4b5rIj2+IrGOI5ZNrnXSA0/xx4accqr25DD4tkg96/A9oAGePmws6FsQFc0F87IokUc
-         jh3Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nA6s5SUKPBQ0dyQ+8gQLVtYbBBkn3UOaZ+NSfCbjMkg=;
+        b=p5LDgZ2t+B+JteWwdlOOKCismHfQQXlCRhIDfxKJg64yBCytrfwvqhyPLHbmNHDc3H
+         WI5qCmW6TFZxjefGoteq1BOf7SbmmCyy5HN1TP0JEKib8gthBm/vP9RbbW0uyR0ASLPg
+         RY0RtCK62UPLIn6CmgPOrEGOwNT2hh2XYosr4RT9SDrrOQZ9mnC5qdQGg7lYqvdOtnmi
+         18Cqa6mKu0ogxFQMm7gphFFzxaX9CowRtlZ5yJx6UOmzXj/8dRbHe77V/nF2qcJlHdKS
+         CkLHd9rFQz5thhQpvia9wf9aQxJNSmxAszcI79LsRmcl2cf7O6IY9UqRavRdDREtOG7T
+         AQtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=EI4+iDTUxFQwGasNdMOSZonXlfe7O3WRGPJ1aTgYbiA=;
-        b=O6BfcOWgg1FBW+EoGrO5qlU/Qy9VXnlUycMgBrO7Wzwa5da6rSYeO2W9WhUHQ6CNTW
-         XGihOCZJ+P5TKTfo3E8o5QorOh32aPS6TycJRM4oL+ZVEXG/+i4VYnmLB+6Ll0nHss1k
-         1AUPHW8sy7vW0u4XDl5/ewWX/jzSVDIuWLE6K+9uVOHAgR6CH6vllNGZTJAjLKKWXl/O
-         OA3GmpfVf4NBHJuNErZHfhkfGaCHwiM47uH23yr7VOvIyXrNtIkaz8nBrncVQp+tjolv
-         4tSOIRsFkDXuc4nzNhralc9ZdyY0q8SxEn5pnQLdoHp+EVjqvunrNURA6xY/iklBtbfo
-         HKFQ==
-X-Gm-Message-State: AOAM533SUeHCMHhRvmFZ+Q0ktfBQgO/bxOpZ8R5O4bzvaEy3Kj5JWiRp
-	W64Dv0I54tnzlmCTehty8MU=
-X-Google-Smtp-Source: ABdhPJwXSKFk8opl6Bx5+tWJl/GoJAy9+/Gwqc8q54HKF1DUUU4gyjkpzaBzz4HG88trJ+WZkCe0Ag==
-X-Received: by 2002:a9d:588a:: with SMTP id x10mr4485063otg.153.1628645293722;
-        Tue, 10 Aug 2021 18:28:13 -0700 (PDT)
-Received: from 2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com (2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com. [2603:8090:2005:39b3::100a])
-        by smtp.gmail.com with ESMTPSA id s12sm1792220otk.21.2021.08.10.18.28.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Aug 2021 18:28:13 -0700 (PDT)
-Sender: Larry Finger <larry.finger@gmail.com>
-Subject: Re: [PATCH] staging: r8188eu: os_dep: Hoist vmalloc.h include into
- osdep_service.h
-To: Nathan Chancellor <nathan@kernel.org>,
- Phillip Potter <phil@philpotter.co.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20210811005505.3953122-1-nathan@kernel.org>
-From: Larry Finger <Larry.Finger@lwfinger.net>
-Message-ID: <73f88d2c-7907-8897-4120-edf5fda97704@lwfinger.net>
-Date: Tue, 10 Aug 2021 20:28:11 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+        bh=nA6s5SUKPBQ0dyQ+8gQLVtYbBBkn3UOaZ+NSfCbjMkg=;
+        b=dvSek0gzE94Pd8V63OUGX/z/I3pS0wbQc2Cf+FnmxwVZ4wcq37NsRflYIiT+yvPSOy
+         JU5VEhJc5APqgt0fvlAAOH1an72Q9zQKpjH+rpOJXfdrPYMil21vySj8U/TtieONmn2p
+         WdeVdlamB+jQ+FeEHEjHrZ1m4UZWHucQglwvKe2axpKo1lqJPQNumYfWSqvQl4qJsozy
+         RGbJlfjb3DymHAg8yEOHlmzBgW6Pp1UorLNFycFJW+Tx+fTkPnfrQZjnYHEeEIbNE+Xv
+         RYYakFygMaTNr2TxrzNuw5sgXP2XMich8XOrAVMynry+cWTYHgg2JPk1GJTpeSuHsMRW
+         Kfjw==
+X-Gm-Message-State: AOAM530uVWHnqVX9es91MWhCmz9nl7d3l6h9btFsgJ43zKqAO0ohiOs9
+	gPWMA7Sa2OWudAZO7uuqPuw=
+X-Google-Smtp-Source: ABdhPJyysRuUq7d4TEhgCa6TpIX0ck1p4VhxU7XDNRsw74KRlsI/BERlTGNzeP/A2anDTf2uYAM4UA==
+X-Received: by 2002:a62:864b:0:b029:3c7:7197:59fc with SMTP id x72-20020a62864b0000b02903c7719759fcmr28120433pfd.59.1628651556775;
+        Tue, 10 Aug 2021 20:12:36 -0700 (PDT)
+Received: from localhost.localdomain ([45.135.186.103])
+        by smtp.gmail.com with ESMTPSA id q21sm28800989pgk.71.2021.08.10.20.12.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Aug 2021 20:12:36 -0700 (PDT)
+From: Tuo Li <islituo@gmail.com>
+To: gregkh@linuxfoundation.org,
+	dan.carpenter@oracle.com,
+	will+git@drnd.me,
+	romain.perier@gmail.com,
+	yashsri421@gmail.com,
+	apais@linux.microsoft.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	baijiaju1990@gmail.com,
+	Tuo Li <islituo@gmail.com>,
+	TOTE Robot <oslab@tsinghua.edu.cn>
+Subject: [PATCH] staging: rtl8192e: rtl_core: Fix possible null-pointer dereference in _rtl92e_pci_disconnect()
+Date: Tue, 10 Aug 2021 20:11:35 -0700
+Message-Id: <20210811031135.4110-1-islituo@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210811005505.3953122-1-nathan@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/10/21 7:55 PM, Nathan Chancellor wrote:
-> After commit 71f09c5ae9d2 ("staging: r8188eu: Remove wrapper around
-> vfree"), the driver fails to build on Hexagon due to an implicit
-> declaration in several different files:
-> 
-> drivers/staging/r8188eu/core/rtw_mlme.c:129:3: error: implicit
-> declaration of function 'vfree'
-> [-Werror,-Wimplicit-function-declaration]
->                  vfree(pmlmepriv->free_bss_buf);
->                  ^
-> 1 error generated.
-> 
-> Previously, vfree() was only called in osdep_service.c, which includes
-> vmalloc.h for vmalloc() and vfree(). Now, the driver relies on vfree()
-> getting implicitly included from another file.
-> 
-> Hoist the vmalloc.h include from osdep_service.c to osdep_service.h so
-> that the driver continues to build fine on all architectures.
-> 
-> Fixes: 71f09c5ae9d2 ("staging: r8188eu: Remove wrapper around vfree")
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
->   drivers/staging/r8188eu/include/osdep_service.h | 1 +
->   drivers/staging/r8188eu/os_dep/osdep_service.c  | 1 -
->   2 files changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
-> index 7e002009f9a0..0d1419af8274 100644
-> --- a/drivers/staging/r8188eu/include/osdep_service.h
-> +++ b/drivers/staging/r8188eu/include/osdep_service.h
-> @@ -39,6 +39,7 @@
->   #include <linux/interrupt.h>	/*  for struct tasklet_struct */
->   #include <linux/ip.h>
->   #include <linux/kthread.h>
-> +#include <linux/vmalloc.h>
->   
->   #include <linux/usb.h>
->   #include <linux/usb/ch9.h>
-> diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
-> index 910da0f0004a..9ea4e1a7c45f 100644
-> --- a/drivers/staging/r8188eu/os_dep/osdep_service.c
-> +++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
-> @@ -6,7 +6,6 @@
->   #include "../include/osdep_service.h"
->   #include "../include/drv_types.h"
->   #include "../include/recv_osdep.h"
-> -#include "../include/linux/vmalloc.h"
->   #include "../include/rtw_ioctl_set.h"
->   
->   /*
-> 
-> base-commit: ae7471cae00a432d1c9692452b1b9175a8f3c1b3
-> 
+The variable dev is checked in:
+  if (dev)
 
-Acked-by: Larry Finger <Larry.Finger@lwfinger.net>
+This indicates that it can be NULL. If so, a null-pointer dereference will 
+occur:
+  priv = rtllib_priv(dev);
 
-For some reason this header is pulled in on x86_64. What CPU does Hexagon use?
+However, the value of priv is not used in the remaining part of this 
+function. Thus the else-branch can be removed to fix this posible 
+null-pointer dereference.
 
-Larry
+Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
+Signed-off-by: Tuo Li <islituo@gmail.com>
+---
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+index e85d9c2cdc96..0eb37a95b519 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+@@ -2557,8 +2557,6 @@ static void _rtl92e_pci_disconnect(struct pci_dev *pdev)
+ 			release_mem_region(pci_resource_start(pdev, 1),
+ 					pci_resource_len(pdev, 1));
+ 		}
+-	} else {
+-		priv = rtllib_priv(dev);
+ 	}
+ 
+ 	pci_disable_device(pdev);
+-- 
+2.25.1
 
