@@ -1,78 +1,103 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B97173
-	for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 12:19:59 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id l18so8031418wrv.5
-        for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 05:19:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1203872
+	for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 12:52:15 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id t1so9517611edd.6
+        for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 05:52:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Ird/DtT5j4H+vmbNk8aXdEZWAxnDnv0Dy+c9wLK6i18=;
-        b=qX7RVl+vyN71S8YgZXYl+f65pqazr4/Uf4BNfRTsZ3w2adR0oE35rreg0+bND/YUED
-         AzgVACvvgTeSkBzJSzOe+zH33b28NtGTCi+1IfN4ljKPlJJl+6ICJZZj4ipSQZQXyax9
-         TavQYi8cS4cEkNzd0RFIMi+iYfkUv/vQ0+lg6vFVez6JCijusxfLWVVfgxXHIH7SBjB9
-         36CBcb+CjpKFbrMVDwcPRhslIPALi5lYorKDL5nlmAOxIQhypeoC+EVXd7GAPPYCmDAm
-         qRhxCbzvihxLFJKtG8ro7ZcjNsaiosFdtv8V/PMFz3sZwzjT2xiKy5pxsr76hDoJwBiP
-         zJHg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=hW2AHW2LGJWIg3Oz36vt6ea6Y6cYNr8cSKGnKNQkhWE=;
+        b=e/T/nmC7+7cvdq1AUguADrAErXb0ShX24hCl6Rw6/nVVl+VEsZkw2cFfWVHWvhaXkf
+         GOK2hW+hF689McaSUc1xPbQWNwrSKVPud1zyd1xNOSDvrFYFUEP6HhJMEVCi/03HQ3EA
+         WtvK9SC5NU+mu6BkA8LG3WOIzf0ToTVXX8SwsZlZCnCGNMHzfQrQaX8/u9OYVPU4wbfh
+         Mcd8kJ6q6vjr9U66i9JQFwihEF+BaClrepaw8VmdhO0f/Yp0xkpetNc0cP3AoIexmjyA
+         heIDosxNKfXa5zE1C5/uAMIZjG3O5oka/fhzJdf2HZV4vSJzXe6HLTiy7qxAjbPUw3tD
+         RokA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Ird/DtT5j4H+vmbNk8aXdEZWAxnDnv0Dy+c9wLK6i18=;
-        b=T9ro9Uxtu+JQVlCHlJ4G8ShefYrirDckWLp6Q5BXyX6krrPo4jw1YqlklKuaKeLLtl
-         Za+Pxz3aeRP3LQs0Fk7L5GzjA0ynl23zfJS6S4hs8UmN5XZiY9Bu3FL1vvQYkMPgsBCl
-         XbHGknJ8Zhwot2J5JPqoLaSf2utDaokrAK4LTukXagHQvAvNIlxX95Lkn319Vqt2FR5I
-         7l2nPLNfF8Vof3KYXYgQDANsVIyjP6+fD5HPFKHpIB5oy8Jr3BB9sg3lMF/sEmzntdFi
-         PgdkQLgoX5qgCt3MHIgLB7AUnXKKutpBbVVzWBIDQgdoYQS271p95VXh/53HQKbdsnni
-         Vz8Q==
-X-Gm-Message-State: AOAM532uQsGKjkX1ObG+Wlt8o2cYsMBdYYMvURQo8+yAXBWnvfC3ji9k
-	IAvBLdnO1REz2zcz5szzCSo=
-X-Google-Smtp-Source: ABdhPJyCfB2XsM1E3ReM/1Ezb4pyV1C4YmG//olzt/ImVlpZZGG9J4tzZkcvCRV4QtM9uJ+ybg1+og==
-X-Received: by 2002:adf:f1c6:: with SMTP id z6mr3732507wro.207.1628770798047;
-        Thu, 12 Aug 2021 05:19:58 -0700 (PDT)
-Received: from ?IPv6:2a02:8108:96c0:3b88::2571? ([2a02:8108:96c0:3b88::2571])
-        by smtp.gmail.com with ESMTPSA id t8sm2805398wmj.5.2021.08.12.05.19.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Aug 2021 05:19:57 -0700 (PDT)
-Subject: Re: [PATCH] staging: r8188eu: remove rtw_ioctl function
-To: Dan Carpenter <dan.carpenter@oracle.com>,
- Phillip Potter <phil@philpotter.co.uk>, Martin Kaiser <martin@kaiser.cx>
-Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, arnd@arndb.de
-References: <20210810074504.957-1-phil@philpotter.co.uk>
- <20210810080640.GV1931@kadam>
-From: Michael Straube <straube.linux@gmail.com>
-Message-ID: <3af28555-34b3-99c3-cd48-7e4f81804ec5@gmail.com>
-Date: Thu, 12 Aug 2021 14:19:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=hW2AHW2LGJWIg3Oz36vt6ea6Y6cYNr8cSKGnKNQkhWE=;
+        b=GSf0EspAAHbD8JgRD+QS3JCLTPA/B4r7zqweFajcZXlN8NFzfNz8EvAaEVJRDkae5p
+         aM2Zx9782JH2l8KZ2xLYrq10bYTpCM1kD1A0JqPZLt6eCOdCnk5ieS0XzSstSE0g8N+7
+         8ZPbECpOtFN5nrtYJokFE5BsKTN5NjJfOCiMFFuNJjN4xSG6Y8BeUFnIHp/wUHHEus/Q
+         V3YyAgYa3D0ue2gEBwfVeeDTnnLp2z4XgtPzrH4HWc7g+7cfWxhQ6ubl9S4zf8XdJtp2
+         O+LJWrkfXgUTZTrnuvfn13pmT4ByAwjP1QhU0/MoQl5RmX9MlF3GrCrlQYX4JBvY4LLA
+         bm/A==
+X-Gm-Message-State: AOAM531XV6C0aSkBOJLik7CDSjsJyCA25U1ftd84bn9OootmV1rB4l+L
+	xcMC/AY2vTrmNFPHfqJSC9s=
+X-Google-Smtp-Source: ABdhPJx8r3AQYyHckN9/UA3uF3NV/MJLpkO8leO/8z2J/VxO8fU+Qz57FFO3S2Rv3+u0ll3GAnqBaA==
+X-Received: by 2002:aa7:c4d4:: with SMTP id p20mr5307552edr.382.1628772733392;
+        Thu, 12 Aug 2021 05:52:13 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-109-211.retail.telecomitalia.it. [79.22.109.211])
+        by smtp.gmail.com with ESMTPSA id w5sm791941ejz.25.2021.08.12.05.52.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Aug 2021 05:52:12 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Phillip Potter <phil@philpotter.co.uk>, Martin Kaiser <martin@kaiser.cx>, Michael Straube <straube.linux@gmail.com>, Fabio Aiuto <fabioaiuto83@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] staging: r8188eu: Remove all 5GHz network types
+Date: Thu, 12 Aug 2021 14:52:11 +0200
+Message-ID: <271471387.QXUees3VCy@localhost.localdomain>
+In-Reply-To: <13cdcd41-20f6-3b8e-0515-5066b1fdb49c@lwfinger.net>
+References: <20210812002519.23678-1-fmdefrancesco@gmail.com> <20210812002519.23678-2-fmdefrancesco@gmail.com> <13cdcd41-20f6-3b8e-0515-5066b1fdb49c@lwfinger.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210810080640.GV1931@kadam>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-On 8/10/21 10:06 AM, Dan Carpenter wrote:
-> Phillip, Michael, and Martin,
+On Thursday, August 12, 2021 4:09:49 AM CEST Larry Finger wrote:
+> On 8/11/21 7:25 PM, Fabio M. De Francesco wrote:
+> > Remove all 5Ghz network types. r8188eu works on
+> > 802.11bgn standards and on 2.4Ghz band.
+> > 
+> > Signed-off-by: Fabio M. De Francesco<fmdefrancesco@gmail.com>
+> > ---
+> > 
+> >   drivers/staging/r8188eu/core/rtw_ap.c         | 13 ++---------
+> >   drivers/staging/r8188eu/core/rtw_ieee80211.c  | 19 +++------------
+> >   drivers/staging/r8188eu/core/rtw_ioctl_set.c  |  2 +-
+> >   drivers/staging/r8188eu/core/rtw_mlme.c       | 10 --------
+> >   drivers/staging/r8188eu/core/rtw_p2p.c        |  2 +-
+> >   drivers/staging/r8188eu/core/rtw_wlan_util.c  | 15 ++----------
+> >   drivers/staging/r8188eu/hal/odm.c             |  1 -
+> >   drivers/staging/r8188eu/include/ieee80211.h   | 23 ++-----------------
+> >   drivers/staging/r8188eu/include/wifi.h        |  2 +-
+> >   drivers/staging/r8188eu/include/wlan_bssdef.h |  2 +-
+> >   10 files changed, 13 insertions(+), 76 deletions(-)
 > 
-> You are all working on this this same driver.  Could you Ack each
-> other's patches?
+> Fabio,
 > 
-> regards,
-> dan carpenter
+> This patch is fine, but it does conflict with my series fixing the smatch
+> warnings. Whichever set Greg takes first will apply cleanly, but the second 
+will
+> fail. This problem is due to many people working at the same time.
 > 
-> 
+Hi Larry,
 
-Sure, I will look at future patches from Phillip and Martin
-if time permits.
+The Wizard of Git :-) (Greg, of course) has been able to work this problem out 
+and took both series, as you probably already know.
 
-Regards,
-Michael
+Just kidding... However, you may be interested to know that, most of the 
+times, the above-mentioned conflict can be worked out by using the 3-way merge 
+option of git-am (https://en.wikipedia.org/wiki/Merge_(version_control)#Three-way_merge). I suppose that he used that option to resolve the conflict (am I 
+missing something?).
+
+> Acked-by: Larry Finger <Larry.Finger@lwfinger.net>
+
+Thanks for looking at my patches and acking them.
+
+Fabio
+> 
+> Larry
+
+
+
+
