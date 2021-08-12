@@ -1,53 +1,55 @@
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C20F9173
-	for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 01:55:46 +0000 (UTC)
-Received: by mail-oi1-f171.google.com with SMTP id h11so7847059oie.0
-        for <linux-staging@lists.linux.dev>; Wed, 11 Aug 2021 18:55:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02167173
+	for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 02:09:51 +0000 (UTC)
+Received: by mail-ot1-f47.google.com with SMTP id 108-20020a9d01750000b029050e5cc11ae3so5861985otu.5
+        for <linux-staging@lists.linux.dev>; Wed, 11 Aug 2021 19:09:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+        h=sender:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=l1TFGpQKbo9d6Zg3cXMrMAMjVR7np9Pm2fOo9b5VLkE=;
-        b=FLcKFZSCTWqYSbPbU/CKgWD2Iv58Le4xX78cuzcpPOgp/+At7ln28aVCXzNrM9hKwh
-         paI8zIz+aI0/BlEEVIyyi79iMlNN7cuPizSjGRneR2ztkS7gQ3lZT8FKQ1bAMVkNiQip
-         j4RGiz3AZYo0+6VHo6DGIvsQQ/MDn4hxIgALob91fnNBswQ1Ssnfv+UDzWj+CJLS00LU
-         7bI8LbpCyF13dA9s7gulor9PWP+Ks5i24qfWhNTZVp8bA1OGe6iido0zA8oap0nUG2xu
-         aj4HVoKhH6FHFlLI/rVXSu9wu2guBPx52A9UfP8fDSF2T1eCZfbFsCU2fCOfESxkO3/L
-         SqXQ==
+        bh=2rv1y9a7DhD+DMkiQAx6yZezSPg61dYWI9nQMqm1HZc=;
+        b=j9JKJVubaBOhWbda8FuodukmkVb2vghsIRtX3BWAp5rW+Wq7Ku04d4BScY1C6+BNyd
+         wqxx5XaiCgJpP8ch6eqLHuo5QQCFiJi8qDVoCrP0+c8fFmWMJhFl1CefgXeyjdWT9hrO
+         c5lX2p7DK28ukujvsKhHy36SM1iAIaGcaTxkeQPcOKjj0e7QRgtOGBfoXDsACHV3E4Xy
+         44baU1r8s8/4DQQ0pTVUcNa+kSWniCkZMvgb8mg1IkwMogEzuWY9dlTCze8YS4hvhKHk
+         Tt2PDTm5KD3HOOTJrkzVAnFyZniKTFONnn6qpN8AHKQQPQrgtEw3H23LQ+z+ieatw18r
+         LHDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+        h=x-gm-message-state:sender:subject:to:references:from:message-id
          :date:user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=l1TFGpQKbo9d6Zg3cXMrMAMjVR7np9Pm2fOo9b5VLkE=;
-        b=Fq7CEJjpS5V2VuBzAHtI5lkNifIpjZomJ+NpzaBr5+Wagh/l1k15o3YSFw13ul3J4H
-         h+XNPIYDIGGU2ElOiUb5ur6e41E9/+Qn+8Xhbns2J49XRD8Qwhw7ZFtI14jXtNY8WtJk
-         2Bqk6zi98BEmdmfbhgMs3ygoj5JoH1jHRoCikkPXkI5Fd92LWA8/1/P/Wo0uIeaCu8eu
-         oLmqzx8JxILectIGrl6PgeA2dZTa4Zj+ufc2F0w/dy5QMl2LAMdP2L5t24ITrRkGsz8M
-         WCDJ5x/e++wLXrSTyqxAfBxTkYczHYvelzNjNlamQaP6uPiLq7IAICeZodclUgB5vOXz
-         Ad4A==
-X-Gm-Message-State: AOAM532/RoKAxYpEGmHSO1hi1aX7EZNZTrOkbShec8i0VcumI85B1Yti
-	AkJPCQRDQZCHyMQmsw6xRIs=
-X-Google-Smtp-Source: ABdhPJy/KphdFc7XiR5guU8xcr1mCJHnEIKZz2vIN+OWYvuZbrNxzTlJfFFKoUGN0w4ILu0ZnEWIGw==
-X-Received: by 2002:a05:6808:3db:: with SMTP id o27mr1490366oie.114.1628733346063;
-        Wed, 11 Aug 2021 18:55:46 -0700 (PDT)
+        bh=2rv1y9a7DhD+DMkiQAx6yZezSPg61dYWI9nQMqm1HZc=;
+        b=GMKQsiwdqXsaQwKt2UZlkLAtJqa/oMR2x6lpYuCk+IHNUAzqEBvBXbHEhzHZ9yYnaa
+         WGOKWnbhCHvOvvgy1wW918Uth9sMnto7rtG3yx8oicWWvNuFeLMPa1TKx+9YlI0f+J8V
+         1XcqNFnVnLSI4IYcN/AYjrToXyHDeNd9a/5rxmwYDyhrgH02bNWSWI6egC8x7kOvqJff
+         TaxpDWZqCA5BPMejJbsS/7a/pXCzz+qkqZs9T+UNrKkcI7UgACFlmtS2MnsVtslWzS53
+         KXWMtj3Z0NXYrppII8NeX41Qdp9Y3Y7ysuIIhD0FYGsUvRRlvjR5Yvfgw4bqbiH40g3o
+         3UpQ==
+X-Gm-Message-State: AOAM531K+SHv/EiWv4IlduH+daDAx3VG8G4Ri7MkIaSFqm+WQiPIYRJ8
+	Deg3BYoyjhgWAA7yUASLQuU=
+X-Google-Smtp-Source: ABdhPJwUALF+W7L7C6ueR4w1GwhLGzF6TNSKLyt8t6UjRqY7m1Mh7un2f/JNR5c611A77eeJZALlDw==
+X-Received: by 2002:a9d:2208:: with SMTP id o8mr1579421ota.78.1628734191272;
+        Wed, 11 Aug 2021 19:09:51 -0700 (PDT)
 Received: from 2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com (2603-8090-2005-39b3-0000-0000-0000-100a.res6.spectrum.com. [2603:8090:2005:39b3::100a])
-        by smtp.gmail.com with ESMTPSA id s10sm232546oog.14.2021.08.11.18.55.44
+        by smtp.gmail.com with ESMTPSA id i20sm242688oou.29.2021.08.11.19.09.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Aug 2021 18:55:45 -0700 (PDT)
+        Wed, 11 Aug 2021 19:09:50 -0700 (PDT)
 Sender: Larry Finger <larry.finger@gmail.com>
-Subject: Re: [PATCH 0/3] staging: r8188eu: Clean up some smatch warnings and
- errors
-To: Phillip Potter <phil@philpotter.co.uk>
-Cc: Greg KH <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20210811215806.20426-1-Larry.Finger@lwfinger.net>
- <CAA=Fs0=WeawmsS=Y+iEL7AMvkhyN3wuXRaxD2eC271zvdeBwUg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] staging: r8188eu: Remove all 5GHz network types
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Phillip Potter <phil@philpotter.co.uk>, Martin Kaiser <martin@kaiser.cx>,
+ Michael Straube <straube.linux@gmail.com>,
+ Fabio Aiuto <fabioaiuto83@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20210812002519.23678-1-fmdefrancesco@gmail.com>
+ <20210812002519.23678-2-fmdefrancesco@gmail.com>
 From: Larry Finger <Larry.Finger@lwfinger.net>
-Message-ID: <21ed5860-1449-bdba-b1d4-daf5673302f2@lwfinger.net>
-Date: Wed, 11 Aug 2021 20:55:44 -0500
+Message-ID: <13cdcd41-20f6-3b8e-0515-5066b1fdb49c@lwfinger.net>
+Date: Wed, 11 Aug 2021 21:09:49 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 Precedence: bulk
@@ -56,21 +58,36 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAA=Fs0=WeawmsS=Y+iEL7AMvkhyN3wuXRaxD2eC271zvdeBwUg@mail.gmail.com>
+In-Reply-To: <20210812002519.23678-2-fmdefrancesco@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 8/11/21 7:00 PM, Phillip Potter wrote:
-> Dear Larry,
+On 8/11/21 7:25 PM, Fabio M. De Francesco wrote:
+> Remove all 5Ghz network types. r8188eu works on
+> 802.11bgn standards and on 2.4Ghz band.
 > 
-> Sorry, but the third patch doesn't apply to my copy of the staging
-> tree with staging-testing tip as of now. Thanks.
-> 
-> Regards,
-> Phil
+> Signed-off-by: Fabio M. De Francesco<fmdefrancesco@gmail.com>
+> ---
+>   drivers/staging/r8188eu/core/rtw_ap.c         | 13 ++---------
+>   drivers/staging/r8188eu/core/rtw_ieee80211.c  | 19 +++------------
+>   drivers/staging/r8188eu/core/rtw_ioctl_set.c  |  2 +-
+>   drivers/staging/r8188eu/core/rtw_mlme.c       | 10 --------
+>   drivers/staging/r8188eu/core/rtw_p2p.c        |  2 +-
+>   drivers/staging/r8188eu/core/rtw_wlan_util.c  | 15 ++----------
+>   drivers/staging/r8188eu/hal/odm.c             |  1 -
+>   drivers/staging/r8188eu/include/ieee80211.h   | 23 ++-----------------
+>   drivers/staging/r8188eu/include/wifi.h        |  2 +-
+>   drivers/staging/r8188eu/include/wlan_bssdef.h |  2 +-
+>   10 files changed, 13 insertions(+), 76 deletions(-)
 
-Thanks for the notification. There was a conflict that arose between the time I 
-created the patch, and when it was received. I just submitted v2.
+Fabio,
+
+This patch is fine, but it does conflict with my series fixing the smatch 
+warnings. Whichever set Greg takes first will apply cleanly, but the second will 
+fail. This problem is due to many people working at the same time.
+
+Acked-by: Larry Finger <Larry.Finger@lwfinger.net>
 
 Larry
+
