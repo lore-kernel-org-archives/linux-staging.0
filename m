@@ -1,53 +1,54 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1E672
-	for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 13:21:48 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id l7-20020a1c2507000000b002e6be5d86b3so1125079wml.3
-        for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 06:21:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9272B72
+	for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 13:27:29 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id h9so11582700ejs.4
+        for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 06:27:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=WZVGRDskmDYPzdeftiEChxL+8pjCbPwDx5dz49Ifopg=;
-        b=Q0PCtmR0L6F5btX+R5Hfv9xq5MzN6nGw6J5iuD8a/favIQ5eYGtcvjbNnHrOrwxeRC
-         ogScilg8e2dVTmhL3Gs2f3JUuA3uwSEPGA3ANRBMxg2L+QBzWoBkCN+8DKj2/M7S1NZ2
-         y5IVFrblsZNGCmQUagP8A57ywq5Mf8IV60ER0w0/GisQQ+/Huyy3sMZDrlmEgBEajExs
-         2dzdACx51jp1spYesfW2Q6/ZRvIUtE95aAGs9QMG04lqGPeUB42NYHWPHDhS7FOEiW4k
-         kILqb+4bbgpd6f+r0783O7CWJRf90RBR+fQRJpryNEMOKk1dvYEtGaqAtDvj611Ekhm9
-         bNSQ==
+        bh=a1XyyEYLOje8+rMvka9FNoicpg3HUjRni4R1G0+vh+4=;
+        b=RaXKoLf97je3BYHTr6WL752pU+3dr3DId3m89eB0vFkbYb5ywkUZcBzm1c5QoZCUwb
+         NhVFS659FYLCpZR9hS3iLmPVLZyzGyRvByjt6aQr/hpd4mIrUAxaHYEd7KBgU15qrMU4
+         l+zUyAwEouR9DIeNxRSsEFMNl4R4nVOC2yeYSjKOchRYfjK6ornu+JLGEw3zqCwBaB/+
+         wWkVpOG40kDAJplv8FP5SQlMHTsqBLAFAMnVQ+orFBuiyfXtnpR51nyEoA2ZK0bE7ua2
+         NFN5xOIHjuvQbCEqsvszc06+ry7ES+Y3fWYua+M3tugqiTui95y/1kOWLvFsRdPI1TzJ
+         muDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=WZVGRDskmDYPzdeftiEChxL+8pjCbPwDx5dz49Ifopg=;
-        b=DQu69lQwAH3UVVHRRmNBuWnbx0iJBzQ7Vr5C/wp9INuO6ithtF1iQu9zzonpHW8oRS
-         9R61CJMQ8Exq1AmhzR5dcRRUtZyIJLx1J1dn4B7F47sWojCsABRRPtZH5GuYFMzh4mlq
-         JVuRH+PuRGYKD9TMeSTDYPBOBc7g3U6+b5n4g6khSrwZ9pPKFsSlqjJHH8dXKzzO1ATD
-         BmrlSqnXqcy73UP+ux9PONA/EUerKc3lUGa4ZU6bk94JX8KG0ZHMchmYU8yx6Tsf1lfk
-         WiSqTFul0ay85bIR9HhCIafaa1oa7zx3BT9uzbYKbiYgQ2SW0b0YFVQ9YBVmw34tlGl9
-         99qg==
-X-Gm-Message-State: AOAM5300zADI6oYLwmGHcZ+gxmBjfXZlt8zDTISsFpof87U7BYkwYOzE
-	tiO38tWmk5ONHu6CK5jgkGpdBtz3c3A=
-X-Google-Smtp-Source: ABdhPJzp3tkIzXP6JNiRSbT++SHr3fYHl/ylsd2avLoJ9AHERWYyqr2mcU0dd5Ig+zKdFBaMKOkmGA==
-X-Received: by 2002:a7b:c7c3:: with SMTP id z3mr4052145wmk.96.1628774507441;
-        Thu, 12 Aug 2021 06:21:47 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::2571])
-        by smtp.gmail.com with ESMTPSA id f2sm2041006wru.31.2021.08.12.06.21.46
+        bh=a1XyyEYLOje8+rMvka9FNoicpg3HUjRni4R1G0+vh+4=;
+        b=NpqnHyiHnH/8eMDiEeqbgz5ANMq9Nc30lPUVmIiQcujpS/FpqBJXyQG/i+xKkRmpcg
+         Qu+f6uLBauu58PY3isMPn7R2p+oU1PJKyUAebaTV/t/lVkfx2x5y0gImElMYJ5qZD9OY
+         9fQ3NTbLJTYHyCGObVM4jz6RpYenj78c90NPNV1Wn9xX7eGOTbukQ4F4foBBcLjyoA2k
+         kKkG4MNsY1tLi1xXTLSeGSDDGo0pE0Xt+sTKvLhMSWFYXOPVxtcfQNvSfbXjGFw9AMM0
+         oehDMuRlfXatot/afz0mC1lC4X4FGBryqQJ9SyzdP+i8YyRLiG/csffa9v/T+wb+Fjst
+         3Y+Q==
+X-Gm-Message-State: AOAM5338/LacWrtBtY2FjT7U7r9ah3WjSTU/BBBGhEZS1X52WoZxi+8z
+	tTXYjT+nEufe5mpdIr8E/RZ1htaGnJA=
+X-Google-Smtp-Source: ABdhPJyULvIDilpcBpjZfeXM47eXHz0AftsFblB4I9GyYW8U8jQL7puMffzOwBSX4pyuVdzEPnvfLQ==
+X-Received: by 2002:a17:907:35d0:: with SMTP id ap16mr3667669ejc.456.1628774847517;
+        Thu, 12 Aug 2021 06:27:27 -0700 (PDT)
+Received: from agape ([5.171.80.192])
+        by smtp.gmail.com with ESMTPSA id p5sm809860ejl.73.2021.08.12.06.27.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Aug 2021 06:21:47 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
+        Thu, 12 Aug 2021 06:27:27 -0700 (PDT)
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
 To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	martin@kaiser.cx,
+Cc: hdegoede@redhat.com,
+	Larry.Finger@lwfinger.net,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Martin Kaiser <martin@kaiser.cx>,
+	Michael Straube <straube.linux@gmail.com>,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: replace custom hwaddr_aton_i() with mac_pton()
-Date: Thu, 12 Aug 2021 15:20:57 +0200
-Message-Id: <20210812132057.22579-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.32.0
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: r8188eu: remove cfg80211 residuals
+Date: Thu, 12 Aug 2021 15:27:25 +0200
+Message-Id: <20210812132725.18404-1-fabioaiuto83@gmail.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,72 +57,147 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace custom hwaddr_aton_i() with mac_pton() in core/ioctl_linux.c
-and remove the now unused functions hwaddr_aton_i() and hex2num_i().
+remove cfg80211 implementation residuals:
+an headeer file and build condition in Kconfig
+file.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
+Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
 ---
- drivers/staging/r8188eu/os_dep/ioctl_linux.c | 40 +-------------------
- 1 file changed, 1 insertion(+), 39 deletions(-)
+Dear Greg and Larry,
+I thought that cfg80211 had been implemented.
+Should we add a TODO file telling developers to
+do it in the near future? Is that a condition
+for mainlining r8188eu? If so please drop this
+patch and sorry for noise.
 
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index d059b738b348..38ee41f9d2ba 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -89,44 +89,6 @@ static const char * const iw_operation_mode[] = {
- 	"Secondary", "Monitor"
- };
+ drivers/staging/r8188eu/Kconfig               |  2 +-
+ .../staging/r8188eu/include/ioctl_cfg80211.h  | 91 -------------------
+ drivers/staging/r8188eu/os_dep/rtw_android.c  |  1 -
+ 3 files changed, 1 insertion(+), 93 deletions(-)
+ delete mode 100644 drivers/staging/r8188eu/include/ioctl_cfg80211.h
+
+diff --git a/drivers/staging/r8188eu/Kconfig b/drivers/staging/r8188eu/Kconfig
+index dc1719d3f2e4..beb768416ab9 100644
+--- a/drivers/staging/r8188eu/Kconfig
++++ b/drivers/staging/r8188eu/Kconfig
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ config R8188EU
+ 	tristate "Realtek RTL8188EU Wireless LAN NIC driver"
+-	depends on WLAN && USB && CFG80211
++	depends on WLAN && USB
+ 	depends on m
+ 	select WIRELESS_EXT
+ 	select WEXT_PRIV
+diff --git a/drivers/staging/r8188eu/include/ioctl_cfg80211.h b/drivers/staging/r8188eu/include/ioctl_cfg80211.h
+deleted file mode 100644
+index e22481050ef8..000000000000
+--- a/drivers/staging/r8188eu/include/ioctl_cfg80211.h
++++ /dev/null
+@@ -1,91 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
+-/* Copyright(c) 2007 - 2011 Realtek Corporation. i*/
+-
+-#ifndef __IOCTL_CFG80211_H__
+-#define __IOCTL_CFG80211_H__
+-
+-struct rtw_wdev_invit_info {
+-	u8 token;
+-	u8 flags;
+-	u8 status;
+-	u8 req_op_ch;
+-	u8 rsp_op_ch;
+-};
+-
+-#define rtw_wdev_invit_info_init(invit_info) \
+-	do { \
+-		(invit_info)->token = 0; \
+-		(invit_info)->flags = 0x00; \
+-		(invit_info)->status = 0xff; \
+-		(invit_info)->req_op_ch = 0; \
+-		(invit_info)->rsp_op_ch = 0; \
+-	} while (0)
+-
+-struct rtw_wdev_priv {
+-	struct wireless_dev *rtw_wdev;
+-
+-	struct adapter *padapter;
+-
+-	struct cfg80211_scan_request *scan_request;
+-	spinlock_t scan_req_lock;
+-
+-	struct net_device *pmon_ndev;/* for monitor interface */
+-	char ifname_mon[IFNAMSIZ + 1]; /* name of monitor interface */
+-
+-	u8 p2p_enabled;
+-
+-	u8 provdisc_req_issued;
+-
+-	struct rtw_wdev_invit_info invit_info;
+-
+-	u8 bandroid_scan;
+-	bool block;
+-	bool power_mgmt;
+-};
+-
+-#define wdev_to_priv(w) ((struct rtw_wdev_priv *)(wdev_priv(w)))
+-
+-#define wiphy_to_wdev(x)				\
+-((struct wireless_dev *)(((struct rtw_wdev_priv *)wiphy_priv(x))->rtw_wdev))
+-
+-int rtw_wdev_alloc(struct adapter *padapter, struct device *dev);
+-void rtw_wdev_free(struct wireless_dev *wdev);
+-void rtw_wdev_unregister(struct wireless_dev *wdev);
+-
+-void rtw_cfg80211_init_wiphy(struct adapter *padapter);
+-
+-void rtw_cfg80211_surveydone_event_callback(struct adapter *padapter);
+-
+-void rtw_cfg80211_indicate_connect(struct adapter *padapter);
+-void rtw_cfg80211_indicate_disconnect(struct adapter *padapter);
+-void rtw_cfg80211_indicate_scan_done(struct rtw_wdev_priv *pwdev_priv,
+-				     bool aborted);
+-
+-#ifdef CONFIG_88EU_AP_MODE
+-void rtw_cfg80211_indicate_sta_assoc(struct adapter *padapter,
+-				     u8 *pmgmt_frame, uint frame_len);
+-void rtw_cfg80211_indicate_sta_disassoc(struct adapter *padapter,
+-					unsigned char *da,
+-					unsigned short reason);
+-#endif /* CONFIG_88EU_AP_MODE */
+-
+-void rtw_cfg80211_issue_p2p_provision_request(struct adapter *padapter,
+-					      const u8 *buf, size_t len);
+-void rtw_cfg80211_rx_p2p_action_public(struct adapter *padapter,
+-				       u8 *pmgmt_frame, uint frame_len);
+-void rtw_cfg80211_rx_action_p2p(struct adapter *padapter, u8 *pmgmt_frame,
+-				uint frame_len);
+-void rtw_cfg80211_rx_action(struct adapter *adapter, u8 *frame,
+-			    uint frame_len, const char *msg);
+-
+-int rtw_cfg80211_set_mgnt_wpsp2pie(struct net_device *net,
+-				   char *buf, int len, int type);
+-
+-bool rtw_cfg80211_pwr_mgmt(struct adapter *adapter);
+-
+-#define rtw_cfg80211_rx_mgmt(dev, freq, sig_dbm, buf, len, gfp)		\
+-	cfg80211_rx_mgmt(dev, freq, sig_dbm, buf, len, gfp)
+-#define rtw_cfg80211_send_rx_assoc(dev, bss, buf, len)			\
+-	cfg80211_send_rx_assoc(dev, bss, buf, len)
+-
+-#endif /* __IOCTL_CFG80211_H__ */
+diff --git a/drivers/staging/r8188eu/os_dep/rtw_android.c b/drivers/staging/r8188eu/os_dep/rtw_android.c
+index d666feb87a7a..7c5e5c8007e3 100644
+--- a/drivers/staging/r8188eu/os_dep/rtw_android.c
++++ b/drivers/staging/r8188eu/os_dep/rtw_android.c
+@@ -7,7 +7,6 @@
+ #include "../include/rtw_android.h"
+ #include "../include/osdep_service.h"
+ #include "../include/rtw_debug.h"
+-#include "../include/ioctl_cfg80211.h"
+ #include "../include/rtw_ioctl_set.h"
  
--static int hex2num_i(char c)
--{
--	if (c >= '0' && c <= '9')
--		return c - '0';
--	if (c >= 'a' && c <= 'f')
--		return c - 'a' + 10;
--	if (c >= 'A' && c <= 'F')
--		return c - 'A' + 10;
--	return -1;
--}
--
--/**
-- * hwaddr_aton - Convert ASCII string to MAC address
-- * @txt: MAC address as a string (e.g., "00:11:22:33:44:55")
-- * @addr: Buffer for the MAC address (ETH_ALEN = 6 bytes)
-- * Returns: 0 on success, -1 on failure (e.g., string not a MAC address)
-- */
--static int hwaddr_aton_i(const char *txt, u8 *addr)
--{
--	int i;
--
--	for (i = 0; i < 6; i++) {
--		int a, b;
--
--		a = hex2num_i(*txt++);
--		if (a < 0)
--			return -1;
--		b = hex2num_i(*txt++);
--		if (b < 0)
--			return -1;
--		*addr++ = (a << 4) | b;
--		if (i < 5 && *txt++ != ':')
--			return -1;
--	}
--
--	return 0;
--}
--
- void indicate_wx_scan_complete_event(struct adapter *padapter)
- {
- 	union iwreq_data wrqu;
-@@ -2512,7 +2474,7 @@ static int rtw_get_ap_info(struct net_device *dev,
- 	while (phead != plist) {
- 		pnetwork = container_of(plist, struct wlan_network, list);
- 
--		if (hwaddr_aton_i(data, bssid)) {
-+		if (!mac_pton(data, bssid)) {
- 			DBG_88E("Invalid BSSID '%s'.\n", (u8 *)data);
- 			spin_unlock_bh(&pmlmepriv->scanned_queue.lock);
- 			return -EINVAL;
+ static const char *android_wifi_cmd_str[ANDROID_WIFI_CMD_MAX] = {
 -- 
-2.32.0
+2.20.1
 
