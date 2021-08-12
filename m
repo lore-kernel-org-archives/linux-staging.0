@@ -1,41 +1,41 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC1170
-	for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 00:25:31 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id yk17so7808632ejb.11
-        for <linux-staging@lists.linux.dev>; Wed, 11 Aug 2021 17:25:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E535370
+	for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 00:25:36 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id lo4so7742992ejb.7
+        for <linux-staging@lists.linux.dev>; Wed, 11 Aug 2021 17:25:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=dmbSK95IAXEHKOt1kFCKjuXIU0Vg0AxKnCR0OMtOosc=;
-        b=uQsRNUOtNpDlm5YjMZSJUpsgXBGHfU5ek4Lr9ER4BypV31RqEUsZjgIz6fCRMTmiCG
-         UHyoD1QX+v4XukF3/PnBrWHYKaJlxggrkoI3vNPpP3sNob0zXQmVrssO3uvNnCLxyepe
-         FuU3JS9vHK/zDhqCDAtWWIt5OrTU9MX483kuOOdQtgKR+4kA2w35FX/Jjl+3NFNfM7Og
-         w891xqXLDyyLqsT1eDdLuO0Ebbfff6eTgjr1Cen2oBp4FGLg/gLfpK5doBkpiZTBrpWf
-         jesESAM6fUUSxVuYRfrVcJHraL+CNuIKhsJe32uc3IQSl0r3O9FQmJZrALnupuzrfh60
-         CFiw==
+        bh=2gkCk4XBTcrLXKyJ5NL31/V7dYxmtIqztYuDF7+oWdI=;
+        b=qS/gpXvjD4Qofdg+JBBD5Ppd+jEzt3lz+axZMnnMqrpVP6+RMKn4PAeAId7wka0Xgb
+         1NUCyApKbVYBgA4C4DalvW55beCybODf16jJ4JVbZMKooCcceSgfB7kf4ghNqHhus6na
+         /5tH2K5OqrmSvRKO5VQk8/+YL1ajptR9KHCgXHP++53eJZG/3FHDgXSUVo8QLe4YjbR/
+         k8LwQB1mAdRLGHaAHI16895bhWWgtcNYyfRmaLG4F//OObKd2+1n2gJpqNnBEeemn8cM
+         7Y383SBisSlKEYl0J5WN2K03K85a/Yzxt1W/chGqOTJhMnib9H0i/ioOxYe9CWPozZzo
+         JFOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=dmbSK95IAXEHKOt1kFCKjuXIU0Vg0AxKnCR0OMtOosc=;
-        b=JMgwXg2VpQmBWvVT30/d6J5nQmIH8UQBZeVa40Ins3nSiyccWZ8MFTEBb3xBvV5Ykk
-         Drk1OKHD4761FRa76gxApTK7SUJ43anas7CW8isYiEsBYFcZuqgLtNwIQxfP7uSEr3IM
-         lzrVDkp49p7K+z4N0wuVpHr56ykT8lcGxMa1MnJdfgvalStmErqafxpu0EKI7O/dYDfk
-         XFb8un9NFG18PgKIH7v1kmE35fpczR3ZqMR/HtlUUybPTNO4i5TJnqndGhb0jD6pB2DR
-         8DeJoTmnwK4TPeg6WPLZ+dcWaqxVF5WtyGDOuI/6swOOS/XHaf6Ovv0NApVWDGN4pi/m
-         7lSw==
-X-Gm-Message-State: AOAM531qu+crYSS+AoU22+XMJePAwhi7W483tqTeTtvFp7pHbOjzy5YB
-	sqpJPl0CyfQi2/BUu4WyGdo=
-X-Google-Smtp-Source: ABdhPJw9mXgJSEtM9MlQP0B2I/hzUHPv9plSLllnMWJs+Vr07CXo/TZcW+asNngCgiLiRx80n2VLTQ==
-X-Received: by 2002:a17:906:150c:: with SMTP id b12mr1075003ejd.275.1628727930172;
-        Wed, 11 Aug 2021 17:25:30 -0700 (PDT)
+        bh=2gkCk4XBTcrLXKyJ5NL31/V7dYxmtIqztYuDF7+oWdI=;
+        b=H6WhMyK/CBYdXW0NzYrNuBXWFGJj8vP6tQ/0OxDSIAmak0t+tkTr8T2XalB+i0aqdf
+         nD2M9gF20PxdIi96ZRQ1W6QDkgB0lblgmLCsTTkWcM/xjdDw/pTd95haAae3C7QmcMoJ
+         yp0fBOI+Us6lpcW2KBdHuBIvhFvK9DS3OVHSCP4FQnHL8R4pUFae+RBx1ci9uB79Qd/F
+         krrC+k2h3Y6CrIePzevzQqydHWP0qlhqdLmLgsUP+PnXq8VxFkcz87PuJOHdoawLicYg
+         ntqPzGGHKoJARP+CysxPeqsUiIJCrDYVgpPpr613wysUjqFZnpHM7+y9Hrg2r5OcjCY2
+         xFRw==
+X-Gm-Message-State: AOAM533GuVdYvkm9OXiCMPZuwSEOVzys/5H1d+9lnVyeG2e89w2/Xjp3
+	7/jkxayCKA5Lvj1w5ha/+gU=
+X-Google-Smtp-Source: ABdhPJzexrP/XRGrjpCPKndj8D+hfEdYuksbcWCzXLxs96PNzD8/ai3ECqggutHf/cFJ8NVIerCxKQ==
+X-Received: by 2002:a17:907:78cf:: with SMTP id kv15mr1110535ejc.460.1628727935308;
+        Wed, 11 Aug 2021 17:25:35 -0700 (PDT)
 Received: from localhost.localdomain (host-79-22-109-211.retail.telecomitalia.it. [79.22.109.211])
-        by smtp.gmail.com with ESMTPSA id l20sm265048ejb.23.2021.08.11.17.25.29
+        by smtp.gmail.com with ESMTPSA id l20sm265048ejb.23.2021.08.11.17.25.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Aug 2021 17:25:29 -0700 (PDT)
+        Wed, 11 Aug 2021 17:25:34 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
@@ -46,9 +46,9 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH 2/3] staging: r8188eu: Remove code related to unsupported channels
-Date: Thu, 12 Aug 2021 02:25:18 +0200
-Message-Id: <20210812002519.23678-3-fmdefrancesco@gmail.com>
+Subject: [PATCH 3/3] staging: r8188eu: Remove no more necessary definitions and code
+Date: Thu, 12 Aug 2021 02:25:19 +0200
+Message-Id: <20210812002519.23678-4-fmdefrancesco@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210812002519.23678-1-fmdefrancesco@gmail.com>
 References: <20210812002519.23678-1-fmdefrancesco@gmail.com>
@@ -60,44 +60,283 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove all code related to unsupported channel
-bandwidths. rtl8188eu* NICs work only on 20 and
-40 Mhz channels.
+Remove no more necessary further 5GHz related code, along with no
+more used definitions of macro and variables.
 
 Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
- drivers/staging/r8188eu/include/odm.h    | 3 ---
- drivers/staging/r8188eu/include/rtw_rf.h | 3 ---
- 2 files changed, 6 deletions(-)
+ drivers/staging/r8188eu/core/rtw_debug.c      | 25 +------------------
+ drivers/staging/r8188eu/core/rtw_ioctl_set.c  |  2 +-
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 13 +++-------
+ drivers/staging/r8188eu/hal/odm.c             | 19 +++-----------
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c |  3 ---
+ .../staging/r8188eu/include/Hal8188EPhyCfg.h  |  4 ---
+ drivers/staging/r8188eu/include/odm.h         |  5 ----
+ .../staging/r8188eu/include/rtl8188e_spec.h   |  5 ----
+ .../staging/r8188eu/include/rtw_mlme_ext.h    |  1 -
+ 9 files changed, 8 insertions(+), 69 deletions(-)
 
+diff --git a/drivers/staging/r8188eu/core/rtw_debug.c b/drivers/staging/r8188eu/core/rtw_debug.c
+index e7b088563738..771f62452498 100644
+--- a/drivers/staging/r8188eu/core/rtw_debug.c
++++ b/drivers/staging/r8188eu/core/rtw_debug.c
+@@ -876,13 +876,11 @@ int proc_get_best_channel(char *page, char **start,
+ 	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 	int len = 0;
+-	u32 i, best_channel_24G = 1, best_channel_5G = 36, index_24G = 0, index_5G = 0;
++	u32 i, best_channel_24G = 1, index_24G = 0;
+ 
+ 	for (i = 0; pmlmeext->channel_set[i].ChannelNum != 0; i++) {
+ 		if (pmlmeext->channel_set[i].ChannelNum == 1)
+ 			index_24G = i;
+-		if (pmlmeext->channel_set[i].ChannelNum == 36)
+-			index_5G = i;
+ 	}
+ 
+ 	for (i = 0; pmlmeext->channel_set[i].ChannelNum != 0; i++) {
+@@ -894,32 +892,11 @@ int proc_get_best_channel(char *page, char **start,
+ 			}
+ 		}
+ 
+-		/*  5G */
+-		if (pmlmeext->channel_set[i].ChannelNum >= 36 &&
+-		    pmlmeext->channel_set[i].ChannelNum < 140) {
+-			 /*  Find primary channel */
+-			if (((pmlmeext->channel_set[i].ChannelNum - 36) % 8 == 0) &&
+-			    (pmlmeext->channel_set[i].rx_count < pmlmeext->channel_set[index_5G].rx_count)) {
+-				index_5G = i;
+-				best_channel_5G = pmlmeext->channel_set[i].ChannelNum;
+-			}
+-		}
+-
+-		if (pmlmeext->channel_set[i].ChannelNum >= 149 &&
+-		    pmlmeext->channel_set[i].ChannelNum < 165) {
+-			 /*  find primary channel */
+-			if (((pmlmeext->channel_set[i].ChannelNum - 149) % 8 == 0) &&
+-			    (pmlmeext->channel_set[i].rx_count < pmlmeext->channel_set[index_5G].rx_count)) {
+-				index_5G = i;
+-				best_channel_5G = pmlmeext->channel_set[i].ChannelNum;
+-			}
+-		}
+ 		/*  debug */
+ 		len += snprintf(page + len, count - len, "The rx cnt of channel %3d = %d\n",
+ 					pmlmeext->channel_set[i].ChannelNum, pmlmeext->channel_set[i].rx_count);
+ 	}
+ 
+-	len += snprintf(page + len, count - len, "best_channel_5G = %d\n", best_channel_5G);
+ 	len += snprintf(page + len, count - len, "best_channel_24G = %d\n", best_channel_24G);
+ 
+ 	*eof = 1;
+diff --git a/drivers/staging/r8188eu/core/rtw_ioctl_set.c b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+index 8b2f5ace1d86..edcac238076a 100644
+--- a/drivers/staging/r8188eu/core/rtw_ioctl_set.c
++++ b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+@@ -870,7 +870,7 @@ int rtw_set_channel_plan(struct adapter *adapter, u8 channel_plan)
+ */
+ int rtw_set_country(struct adapter *adapter, const char *country_code)
+ {
+-	int channel_plan = RT_CHANNEL_DOMAIN_WORLD_WIDE_5G;
++	int channel_plan = RT_CHANNEL_DOMAIN_GLOBAL_DOAMIN_2G;
+ 
+ 	DBG_88E("%s country_code:%s\n", __func__, country_code);
+ 
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index 967c7574215a..17e7d33a80c4 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -104,7 +104,6 @@ static struct rt_channel_plan_map	RTW_ChannelPlanMap[RT_CHANNEL_DOMAIN_MAX] = {
+ 	{0x01},	/* 0x10, RT_CHANNEL_DOMAIN_JAPAN */
+ 	{0x02},	/* 0x11, RT_CHANNEL_DOMAIN_FCC_NO_DFS */
+ 	{0x01},	/* 0x12, RT_CHANNEL_DOMAIN_JAPAN_NO_DFS */
+-	{0x00},	/* 0x13, RT_CHANNEL_DOMAIN_WORLD_WIDE_5G */
+ 	{0x02},	/* 0x14, RT_CHANNEL_DOMAIN_TAIWAN_NO_DFS */
+ 	{0x00},	/* 0x15, RT_CHANNEL_DOMAIN_ETSI_NO_DFS */
+ 	{0x00},	/* 0x16, RT_CHANNEL_DOMAIN_KOREA_NO_DFS */
+@@ -116,7 +115,6 @@ static struct rt_channel_plan_map	RTW_ChannelPlanMap[RT_CHANNEL_DOMAIN_MAX] = {
+ 	{0x00},	/* 0x1C, */
+ 	{0x00},	/* 0x1D, */
+ 	{0x00},	/* 0x1E, */
+-	{0x05},	/* 0x1F, RT_CHANNEL_DOMAIN_WORLD_WIDE_ONLY_5G */
+ 	/*  0x20 ~ 0x7F , New Define ===== */
+ 	{0x00},	/* 0x20, RT_CHANNEL_DOMAIN_WORLD_NULL */
+ 	{0x01},	/* 0x21, RT_CHANNEL_DOMAIN_ETSI1_NULL */
+@@ -6813,11 +6811,7 @@ static void process_80211d(struct adapter *padapter, struct wlan_bssid_ex *bssid
+ 			p++;
+ 
+ 			for (j = 0; j < noc; j++) {
+-				if (fcn <= 14)
+-					channel = fcn + j; /*  2.4 GHz */
+-				else
+-					channel = fcn + j*4; /*  5 GHz */
+-
++				channel = fcn + j;
+ 				chplan_ap.Channel[i++] = channel;
+ 			}
+ 		}
+@@ -6834,11 +6828,10 @@ static void process_80211d(struct adapter *padapter, struct wlan_bssid_ex *bssid
+ 		if (pregistrypriv->wireless_mode & WIRELESS_11G) {
+ 			do {
+ 				if ((i == MAX_CHANNEL_NUM) ||
+-				    (chplan_sta[i].ChannelNum == 0) ||
+-				    (chplan_sta[i].ChannelNum > 14))
++				    (chplan_sta[i].ChannelNum == 0))
+ 					break;
+ 
+-				if ((j == chplan_ap.Len) || (chplan_ap.Channel[j] > 14))
++				if (j == chplan_ap.Len)
+ 					break;
+ 
+ 				if (chplan_sta[i].ChannelNum == chplan_ap.Channel[j]) {
+diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
+index 2fd20339460f..3c793852939d 100644
+--- a/drivers/staging/r8188eu/hal/odm.c
++++ b/drivers/staging/r8188eu/hal/odm.c
+@@ -621,15 +621,9 @@ void odm_DIG(struct odm_dm_struct *pDM_Odm)
+ 				FirstDisConnect = (!pDM_Odm->bLinked) && (pDM_DigTable->bMediaConnect_1);
+ 			}
+ 		} else {
+-			if (*pDM_Odm->pBandType == ODM_BAND_5G) {
+-				DIG_Dynamic_MIN = pDM_DigTable->DIG_Dynamic_MIN_0;
+-				FirstConnect = (pDM_Odm->bLinked) && (!pDM_DigTable->bMediaConnect_0);
+-				FirstDisConnect = (!pDM_Odm->bLinked) && (pDM_DigTable->bMediaConnect_0);
+-			} else {
+-				DIG_Dynamic_MIN = pDM_DigTable->DIG_Dynamic_MIN_1;
+-				FirstConnect = (pDM_Odm->bLinked) && (!pDM_DigTable->bMediaConnect_1);
+-				FirstDisConnect = (!pDM_Odm->bLinked) && (pDM_DigTable->bMediaConnect_1);
+-			}
++			DIG_Dynamic_MIN = pDM_DigTable->DIG_Dynamic_MIN_1;
++			FirstConnect = (pDM_Odm->bLinked) && (!pDM_DigTable->bMediaConnect_1);
++			FirstDisConnect = (!pDM_Odm->bLinked) && (pDM_DigTable->bMediaConnect_1);
+ 		}
+ 	} else {
+ 		DIG_Dynamic_MIN = pDM_DigTable->DIG_Dynamic_MIN_0;
+@@ -1094,12 +1088,6 @@ u32 ODM_Get_Rate_Bitmap(struct odm_dm_struct *pDM_Odm, u32 macid, u32 ra_mask, u
+ 		else
+ 			rate_bitmap = 0x0000000f;
+ 		break;
+-	case (ODM_WM_A|ODM_WM_G):
+-		if (rssi_level == DM_RATR_STA_HIGH)
+-			rate_bitmap = 0x00000f00;
+-		else
+-			rate_bitmap = 0x00000ff0;
+-		break;
+ 	case (ODM_WM_B|ODM_WM_G):
+ 		if (rssi_level == DM_RATR_STA_HIGH)
+ 			rate_bitmap = 0x00000f00;
+@@ -1109,7 +1097,6 @@ u32 ODM_Get_Rate_Bitmap(struct odm_dm_struct *pDM_Odm, u32 macid, u32 ra_mask, u
+ 			rate_bitmap = 0x00000ff5;
+ 		break;
+ 	case (ODM_WM_B|ODM_WM_G|ODM_WM_N24G):
+-	case (ODM_WM_A|ODM_WM_B|ODM_WM_G|ODM_WM_N24G):
+ 		if (pDM_Odm->RFType == ODM_1T2R || pDM_Odm->RFType == ODM_1T1R) {
+ 			if (rssi_level == DM_RATR_STA_HIGH) {
+ 				rate_bitmap = 0x000f0000;
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+index f7b6402e1cd2..02955b8c4005 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+@@ -1026,9 +1026,6 @@ _PHY_SetBWMode92C(
+ 	case RF_8256:
+ 		/*  Please implement this function in Hal8190PciPhy8256.c */
+ 		break;
+-	case RF_8258:
+-		/*  Please implement this function in Hal8190PciPhy8258.c */
+-		break;
+ 	case RF_PSEUDO_11N:
+ 		break;
+ 	case RF_6052:
+diff --git a/drivers/staging/r8188eu/include/Hal8188EPhyCfg.h b/drivers/staging/r8188eu/include/Hal8188EPhyCfg.h
+index 96888d66d28c..4370ec2fa981 100644
+--- a/drivers/staging/r8188eu/include/Hal8188EPhyCfg.h
++++ b/drivers/staging/r8188eu/include/Hal8188EPhyCfg.h
+@@ -67,13 +67,10 @@ enum rf_radio_path {
+ 
+ enum wireless_mode {
+ 	WIRELESS_MODE_UNKNOWN = 0x00,
+-	WIRELESS_MODE_A			= BIT(2),
+ 	WIRELESS_MODE_B			= BIT(0),
+ 	WIRELESS_MODE_G			= BIT(1),
+ 	WIRELESS_MODE_AUTO		= BIT(5),
+ 	WIRELESS_MODE_N_24G		= BIT(3),
+-	WIRELESS_MODE_N_5G		= BIT(4),
+-	WIRELESS_MODE_AC		= BIT(6)
+ };
+ 
+ enum phy_rate_tx_offset_area {
+@@ -91,7 +88,6 @@ enum RF_TYPE_8190P {
+ 	RF_TYPE_MIN,		/*  0 */
+ 	RF_8225 = 1,		/*  1 11b/g RF for verification only */
+ 	RF_8256 = 2,		/*  2 11b/g/n */
+-	RF_8258 = 3,		/*  3 11a/b/g/n RF */
+ 	RF_6052 = 4,		/*  4 11b/g/n RF */
+ 	/*  TODO: We should remove this psudo PHY RF after we get new RF. */
+ 	RF_PSEUDO_11N = 5,	/*  5, It is a temporality RF. */
 diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
-index a1f8c7fe595c..4dadb22bcc89 100644
+index 4dadb22bcc89..19458e66603c 100644
 --- a/drivers/staging/r8188eu/include/odm.h
 +++ b/drivers/staging/r8188eu/include/odm.h
-@@ -567,9 +567,6 @@ enum odm_security {
- enum odm_bw {
- 	ODM_BW20M		= 0,
- 	ODM_BW40M		= 1,
--	ODM_BW80M		= 2,
--	ODM_BW160M		= 3,
--	ODM_BW10M		= 4,
+@@ -531,17 +531,13 @@ enum odm_wireless_mode {
+ 	ODM_WM_UNKNOW	= 0x0,
+ 	ODM_WM_B	= BIT(0),
+ 	ODM_WM_G	= BIT(1),
+-	ODM_WM_A	= BIT(2),
+ 	ODM_WM_N24G	= BIT(3),
+-	ODM_WM_N5G	= BIT(4),
+ 	ODM_WM_AUTO	= BIT(5),
+-	ODM_WM_AC	= BIT(6),
  };
  
- /*  ODM_CMNINFO_BOARD_TYPE */
-diff --git a/drivers/staging/r8188eu/include/rtw_rf.h b/drivers/staging/r8188eu/include/rtw_rf.h
-index 0f790da7e0aa..48129da9c93f 100644
---- a/drivers/staging/r8188eu/include/rtw_rf.h
-+++ b/drivers/staging/r8188eu/include/rtw_rf.h
-@@ -97,9 +97,6 @@ enum rf90_radio_path {
- enum ht_channel_width {
- 	HT_CHANNEL_WIDTH_20 = 0,
- 	HT_CHANNEL_WIDTH_40 = 1,
--	HT_CHANNEL_WIDTH_80 = 2,
--	HT_CHANNEL_WIDTH_160 = 3,
--	HT_CHANNEL_WIDTH_10 = 4,
+ /*  ODM_CMNINFO_BAND */
+ enum odm_band_type {
+ 	ODM_BAND_2_4G	= BIT(0),
+-	ODM_BAND_5G	= BIT(1),
  };
  
- /*  */
+ /*  ODM_CMNINFO_SEC_CHNL_OFFSET */
+@@ -933,7 +929,6 @@ enum odm_bb_config_type {
+     CONFIG_BB_PHY_REG,
+     CONFIG_BB_AGC_TAB,
+     CONFIG_BB_AGC_TAB_2G,
+-    CONFIG_BB_AGC_TAB_5G,
+     CONFIG_BB_PHY_REG_PG,
+ };
+ 
+diff --git a/drivers/staging/r8188eu/include/rtl8188e_spec.h b/drivers/staging/r8188eu/include/rtl8188e_spec.h
+index 5fdc6aac917c..1c96f7b81245 100644
+--- a/drivers/staging/r8188eu/include/rtl8188e_spec.h
++++ b/drivers/staging/r8188eu/include/rtl8188e_spec.h
+@@ -523,7 +523,6 @@ Default: 00b.
+ 
+ /*        8192C BW_OPMODE bits		(Offset 0x203, 8bit) */
+ #define	BW_OPMODE_20MHZ			BIT(2)
+-#define	BW_OPMODE_5G			BIT(1)
+ 
+ /*        8192C CAM Config Setting (offset 0x250, 1 byte) */
+ #define	CAM_VALID			BIT(15)
+@@ -1343,10 +1342,6 @@ Current IOREG MAP
+ #define		EEPROM_DEFAULT_24G_HT20_DIFF	0X02
+ #define		EEPROM_DEFAULT_24G_OFDM_DIFF	0X04
+ 
+-#define		EEPROM_DEFAULT_5G_INDEX		0X2A
+-#define		EEPROM_DEFAULT_5G_HT20_DIFF	0X00
+-#define		EEPROM_DEFAULT_5G_OFDM_DIFF	0X04
+-
+ #define		EEPROM_DEFAULT_DIFF		0XFE
+ #define	EEPROM_DEFAULT_CHANNEL_PLAN		0x7F
+ #define	EEPROM_DEFAULT_BOARD_OPTION		0x00
+diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+index 3b6e3ae92c9f..d2f4d3ce7b90 100644
+--- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
++++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+@@ -112,7 +112,6 @@ enum RT_CHANNEL_DOMAIN {
+ 	RT_CHANNEL_DOMAIN_JAPAN = 0x10,
+ 	RT_CHANNEL_DOMAIN_FCC_NO_DFS = 0x11,
+ 	RT_CHANNEL_DOMAIN_JAPAN_NO_DFS = 0x12,
+-	RT_CHANNEL_DOMAIN_WORLD_WIDE_5G = 0x13,
+ 	RT_CHANNEL_DOMAIN_TAIWAN_NO_DFS = 0x14,
+ 
+ 	/*  new channel plan mapping, (2GDOMAIN_5GDOMAIN) ===== */
 -- 
 2.32.0
 
