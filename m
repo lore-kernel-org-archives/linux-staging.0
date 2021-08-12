@@ -1,118 +1,150 @@
-Received: from mx-lax3-1.ucr.edu (mx-lax3-1.ucr.edu [169.235.156.35])
+Received: from mx5.ucr.edu (mx5.ucr.edu [138.23.62.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02DD70
-	for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 05:51:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544C570
+	for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 05:57:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=ucr.edu; i=@ucr.edu; q=dns/txt; s=selector3;
-  t=1628747489; x=1660283489;
-  h=mime-version:references:in-reply-to:from:date:message-id:
-   subject:to:cc;
-  bh=l3zfLLXduZiIZzfIz0+CTNmC/Omgz4giYTeAfSD4EzE=;
-  b=BFeA3aj/SiP9Yb1ZmUDSqSG5HhMqfFEVpMKVmkW/2GVds9PDdniaTFJ+
-   jv7jjYzZ0MlYG+rbbRBAQc/NMNA3423BI4WI04TkWcxiqmnsV8H0K40fM
-   XC+kV8h4fuOnkeEbIhkB3Y3BlGXw/B0YHwrHm9hxmLni1ZF32wOMLXAfr
-   d7//YaGMwSGWmhBwZnlKs7ILpp30z1jaIkjyqALX3FuLgB6BOZJLCeT9d
-   d5+yiVq8jxcwJ9njEDrYlQSLiwXjyWUwCcOzVP4M0WzjzkEiRSzYtLGAO
-   Nm3l2sX3jFt14mXJ8J4sC2VXNN9nrdqD93rZwGt1VmaGO28oSEr9UyLGo
+  t=1628747824; x=1660283824;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=Dih/syqAoRh+zFSVP5ghlcBWDYRkM3algk3/KHqQrKw=;
+  b=Bka+/TSyHPBwAde7guZK5l1rdJp+kgKK8zv4vs3azdTZz481UKnFQs1u
+   IKx12ZWADMuM2LJBUlDOnrjjtLwTZht8QdQmfLKCbyOPRrGwT026+G/91
+   8EnDY8IhKl7wFtO/mvKRslZq2fve+o6KJNu6W1+cs15cCP+DiekWVfExX
+   AYqR5tqlexQqVDl59FW/h4nijhrDbCV/QpHXAp61S+ov4K6KMxE8S/QZh
+   6MTmtRnc1xU3pMYV4jynxXdRNlEL8eLUKAWRZZe991JDDwxtZIMcPcaeg
+   LC26T0pNmrlFs636YogFbWodeM0qE+6oAQoeYIIO9Ds54MFz6TuysukI6
    w==;
-IronPort-SDR: VbwpVeNwFOYpNvaRSVWESQ6AriPiBj6huG0RSgX3dCjUieuvy8+6smv8ZZu0dj301w9OlO2P6y
- j+R266yOBRs8BUosAH0u8n+57vK9c6BHfNNphB/CqKIAmkaMI5CoZj9OIpbqZPODVMZuAdBwjm
- fhh4dKlwJcE3zX3H04KzAcx95nh5cuOnaE2ACmQaemdCG3JaX8A9BrqNTW1fP1ZC382npadaLV
- hOC2lVVDD8zlVI1eE/t6NHkwMeMnjnNooc2qAfCG5yMg9JyoaFsQ6dPYAHX99EtBYzny6LbJgF
- BrtR5f1nZL92yks38x6FoD0K
-X-IPAS-Result: =?us-ascii?q?A2EnAwDGtRRhfsfWVdFagQmBWYN4bIRIkXCbY4F8AgkBA?=
- =?us-ascii?q?QEPQQQBAYRZAoJnAiU1CA4BAgQBAQEBAwIDAQEBAQEBAwEBBgEBAQEBAQUEA?=
- =?us-ascii?q?QECEAEBgSILWQtjgU+BeQYEPYI1KQGDbAEBAQEDEhFWEAsLCgMCAiYCAiISA?=
- =?us-ascii?q?QUBHAYTIoVXnh6BBD2KOHqBMYEBiBwBCQ2BYxJ+KocMhmQngimBS4JvPodbg?=
- =?us-ascii?q?mQEhUQPggOBGwEBAZNbiU2CCZsGghEBBgKDDhySS4wCK4NTkXKRK7tGECOBP?=
- =?us-ascii?q?wKCETMaJX8GZ4FLTQECAQIBDAIBAgECAQIBAggBAQKGYpYqJC84AgYLAQEDC?=
- =?us-ascii?q?YkWAQE?=
-IronPort-PHdr: A9a23:/ds2NxP+EW5RlKgJwmwl6nYZDRdPi9zP1u491JMrhvp0f7i5+Ny6Z
- QqDv60r3AWCDdmTwskHotKei7rnV20E7MTJm1E5W7sIaSU4j94LlRcrGs+PBB6zBvfraysnA
- JYKDwc9rDm0PkdPBcnxeUDZrGGs4j4OABX/Mhd+KvjoFoLIgMm7yfy+94fQbglWizawYrx/J
- wiqoAvMscUbnZFsIbsrxBvTpXtIdeVWxWd2Kl+Wgh3x+MS+8oN9/ipJo/4u+NJOXqv8f6QjU
- LxXFy8mPHwv5M3qrhbMUw2C7WYBX2oMkxpIBw/F7AzmXpr0ryD3uPZx1DWcMMbrVr0/Ryis4
- Ll3Rx/pkCcHNiA28GfLisxrkalXpAutqwFjz4LIZY2YMud1cKHActMAXWdOUchRWC5BDI2yb
- IUBEvQPMvpDoonhu1cDtweyCRWwCO7tzDJDm3/43bc90+QkCQzJ3g0gHtMOsHTJq9X+KaQdU
- eCvw6nJ0D7OaPNX2Db96IfScxAtve2AULxrfMrM1UYvDRnJgUuNpoz4Jj6Y0PkGvGeH4eR6T
- +2vl3InpB9rojip3sohhY3Ei4YVx17K6yl0z4I4K9K7RUN0b9OpEJVduj2bOoZqQ84vTWJlt
- Dsnx7EbupO2YiYHxZskyhPCZfKKbpSF7xT+X+iSOTd1nGxpdK67ihqo8kWtyvfwWtep3FtFt
- CZJj93Bu3QL2hfO8MaIUOF98V2k2TuX0gDT7fxLLl4smKrALp4h3qYwlp0OsUTfBiP2mFv5j
- KuRdkg8/+in8eXnYrH/qp+EM494lxjyMqozlsG7Bek0KAcOX2+c+eSz0L3s41f1T6lNjv0zi
- qXZsZbaKtoHpqOhHQNZzoIu5wy8AjqmytgUg2QLIV1fdB6ai4XkP0nCIPXiAve+h1Ssni1rx
- /fDPrD5ApTML3jDn63gfbph90JRxhE+zc1D6JJOEL0OPu/8WlLpuNzCEhA5KxC0w/rgCNhl0
- oMeWGSPArKWMa/Lql+I+vggI+aNZI8TtzbwMPwl5//1jX8lgl8RZ62p3ZoRaHClEfVqOViWb
- mTygoRJLWBfkRAzQ6TJklqLUXtzbmyuWqs6rmU0Eo+pDofrQoGrnayP2zq9EpRKZ2dATFeWH
- iG7WZ+DXqI9aTCSP8gpoDwNVPD1Wp0h3BD27FTS1rF9aOfY53tL5trYyNFp6riLxlkJ/jtuA
- pHYijnVJ1w=
-IronPort-HdrOrdr: A9a23:V+UYlq+eW3MrHwtY915uk+DjI+orL9Y04lQ7vn2ZhyYlC/Bw9v
- re5MjzuiWE7Qr5NEtQ++xofZPwIk80lqQV3WByB8bHYOCOggLBR72Kr7GD/9SKIVyYygcy79
- YHT0G8MrDN5JpB5/oSLDPWLz/o+rXozJyV
+IronPort-SDR: c2nwXbQGOLC1CM6OrxoDQeaY/j9Q7KoLCCstiBaEN3ZOKtULeiKt3N4VIet5eeiQ/CKrmeAWZ5
+ 8kdUWFoU1upK/igsMh9iDtCRdC0yf9pOzyZhfvHjoZFGe0yyEKl2UDJuaOcyL+8uGiMDufSxkW
+ UgNkEVIejSURc0abE0/i6HcL43YUdzt4gOK+q/T5sshaF+msMtdHZmZCleUfwjkfkcE2bpwqo/
+ ODW7gpsshkWuMCkagLknTr12wImd/72D5eWWljQDog24ckaPEM8bguMDi4ZwcNDCndLLMxKf+n
+ 7F3FqR96RQDw2tpDOSalpzOg
+X-IPAS-Result: =?us-ascii?q?A2EnDQBEtxRhh0bYVdFaHAEBATwBAQQEAQECAQEHAQGBb?=
+ =?us-ascii?q?gKDd1UWjUyTUYEahnyIaIF8AgkBAQENAQESExwEAQGEWQKCZwIlNAkOAQIEA?=
+ =?us-ascii?q?QEBAQMCAwEBAQEBAQMBAQYBAQEBAQEFBAEBAhABAQEBgSALWQtjgU+BeQYEP?=
+ =?us-ascii?q?YI1KYNlCQIBAxIVCwFGEFE0AQUBHBkiOYIWAYMHBZ4YgQQ9jDEygQGIHAEJD?=
+ =?us-ascii?q?YFjCQEIgSgBiH6EcSeCKYJQgTN1h2+CUASDansTgimBUAEBAZA6G4MGAYtVg?=
+ =?us-ascii?q?SabcQEGAoMOHJ4zRZVFkSu7LQIKBwYQI4E9ghUzGiWBbAqBQU0BAgECAQwCA?=
+ =?us-ascii?q?QIBAgECAQIIAQECjjWOVyEyOAIGCwEBAwmJFgE?=
+IronPort-PHdr: A9a23:bESL3BRibbRpKsKhMki3TRNtadpsonefAWYlg6HPa5pwe6iut67vI
+ FbYra00ygOTBcOLsbkU16L/iOPJYSQ4+5GPsXQPItRndiQuroEopTEmG9OPEkbhLfTnPGQQF
+ cVGU0J5rTngaRAGUMnxaEfPrXKs8DUcBgvwNRZvJuTyB4Xek9m72/q99pHNfwlEnjmwba19I
+ Bi1ogjaq9Ubj5ZlJqst0BXCv2FGe/5RxWNmJFKTmwjz68Kt95N98Cpepuws+ddYXar1Y6o3Q
+ 7pYDC87M28u/83kqQPDTQqU6XQCVGgdjwdFDBLE7BH+WZfxrzf6u+9g0ySUIcH6UbY5Uim54
+ qx1VBHnljsINz8h8GHWlMNwir5boAm8rBB72oLYfZ2ZOOZ7cq7beNMaRHFBXt1QVyxHDYO3c
+ pUBAfMcNuZWronyuV8OogajDgWoCu7j1jpEi3nx0qAm3ektDRzK0BU8E94TrX/YqMj5OacXX
+ e2z0aLGzyjMb+lO1Dn99obGbx4vr/KLU71yf8rexkYhGhjZgliTs4HpIymY2vgRv2Wd8uFuV
+ fivi2kiqwxpoDevx8YtionUhoIS11vL9iV5z5w0JdalT0N6Yd+lEJtKuCGbK4d6Xs0vTnp1u
+ Ckm0L0Ko4C0czUXyJk+wRPUdvOIfZSS7B35SOaRPSl3hGhjeL+nmxu/70euxO3zWMSp0VtHr
+ ipLn8fRu3wTyxHe99aLR+V+80qh1zuC2A/d5+FaLU47mqfWKposz6Mum5QdtUnOESn7k1j1g
+ q+Obkgo5PSk5uD9brjlppKQLZF4hhz/P6g0mMGzHfw0PhUPUmWf4+iwyrPu8E3jTLlUjPA6i
+ LfVvI7UKMkdu6W3GRVa0pw55Ba6Fzqm1dMYkmQZI19dYxKHipTpO0nJIPDlEfezm1Ssnylvx
+ /DBJrDhB4/CLnnHkLv4ZbZ96VNQxBM9zd1d+55YEL4BIPX0Wk/+sNzXEAU1PBCzw+biENl91
+ 4UeVnyTAqKBLq/erVuF6vgsLuSMfoMZpivxJvk/6/PskXM1gVodcrOo3ZsTZnC4BPNmI0CBb
+ Hvsg9YBEX0FvgsiQOD2hlCPSiNTaGqoX64m+D40FZ+mAZ/ZRo+xmLyBwDu7HppOa2BCC1CMF
+ 2rodoqdV/cXdCKdOMBhkj0CVbiuUIIh0RCutBTmy7p8NObU/iwYtZT+1Nl6/eHciA899SInR
+ +qH1GTYfmBmnn4PDw021aE39V1vyl6CifAjq+FTD5pe6+4fAVRyDoLV0+EvU4O6YQnGZNrcD
+ Qv7Kug=
+IronPort-HdrOrdr: A9a23:1YV6IK4gvMd2E/0nCAPXwOHXdLJyesId70hD6qm+c20xTiX+rb
+ HSoB11726StN98YgBCpTnEAtj5fZq+z+8O3WBuB8bFYOCOggLBR+FfBMnZskbd8kXFl9K1vp
+ 0QF5SWZueAb2SSTvyW3OB7KbwdKRW8n5xA/d2utkuFhDsHBZ1d0w==
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="5.84,315,1620716400"; 
-   d="scan'208";a="59848121"
-Received: from mail-pl1-f199.google.com ([209.85.214.199])
-  by smtp-lax3-1.ucr.edu with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 11 Aug 2021 22:50:20 -0700
-Received: by mail-pl1-f199.google.com with SMTP id p21-20020a1709028a95b029012c31764588so3018289plo.12
-        for <linux-staging@lists.linux.dev>; Wed, 11 Aug 2021 22:50:19 -0700 (PDT)
+   d="scan'208";a="231702106"
+Received: from mail-pj1-f70.google.com ([209.85.216.70])
+  by smtpmx5.ucr.edu with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 11 Aug 2021 22:55:56 -0700
+Received: by mail-pj1-f70.google.com with SMTP id 16-20020a17090a1990b029017582e03c3bso7215754pji.7
+        for <linux-staging@lists.linux.dev>; Wed, 11 Aug 2021 22:55:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+4OvCfZOoMFqcsG6QeShyHGwKu7LE5OaUGDpdUOU7Sw=;
-        b=gmEZY5PNMH8Kne0pwVAvV7DD3cNahaX+b+etaIdZxRba1Tv0GwZZ264ba0g40ZvlTr
-         aTLfveFUxSE+Owp2znoq9/0tMblHKPH59gVh/F+Lyq8O4dUPzWo0QYeTwGtNsQfZsRln
-         Jhckz5u91Wc05+nlm+MwFk7IJO3iYW66U6vLbaLwXOEE/my6JfK3bEq4D4C51QfVWswj
-         FjXhF3Tan2NLux4bG5TZUlDLAI8SL576RIlAxw2Z+Y0B8b7h7h9SLG8m98qWzY3L4lMb
-         k0sly0PzXR1zc6kDonAzn+7y+vyfsd23PGrr8ro9nJM7RQvHfi51k9kh08/mvDt/9ges
-         2cJg==
-X-Gm-Message-State: AOAM530D6FEtu0B84GjOPCobIsi7CFFWO5sK0T0hinZA3MVQHewC2ZXr
-	5wYpCEyw1ocHHDy179cVNhB2ghjAN97aKtrPEowxbZzYiVH8qF4H12hNeHEjZX6siT872OOHXhL
-	/IIIOhxjjRHcUAtux8gFiq14mRfIlglV8KNXH2cHVjsE=
-X-Received: by 2002:a17:902:6a82:b029:12d:2431:94c1 with SMTP id n2-20020a1709026a82b029012d243194c1mr2218874plk.63.1628747419503;
-        Wed, 11 Aug 2021 22:50:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJziwkiqjDIjmuU3dBBadKSg7FwSBsBGxojfwp4aZ97za34xeBhSer8/cICJlIdqG3lupuTxRl5mIIhZQ1ByBGw=
-X-Received: by 2002:a17:902:6a82:b029:12d:2431:94c1 with SMTP id
- n2-20020a1709026a82b029012d243194c1mr2218856plk.63.1628747419252; Wed, 11 Aug
- 2021 22:50:19 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=rubSw9FCX3UYPP3qCFnQoWoTCnQrhAdQYI5e/tU4EqY=;
+        b=ZuGlmsPXwmHy66YnXdfDYHlVZzSlBxpK3mOeT0kmIf1UPQxC9Tpipt9i55gvPMQvzi
+         tHbtm4S91Z31iGXZ1smNyvtd5EGF++iXa95v4fdtmwDBZbcwXTtNCdek/O8I+A50EYAh
+         aw/zuJQMrq38DT34VIbMSogwkzqP8Gs9WKZromiT/FvbnHE0CUQTTk8xEku7GoOr3Oc+
+         4n7bZS457QSc2bnPC4a6kYCd5Tn1+TOsAHa0oS5tTTeRmUuJcljBF7Y3/MsmvLGhXYWD
+         A6l7YmPakL8Be9iFktixyjBjLnvgff/3kC7HBhHkkPIDZd8Vo1btAST7ow42ov7CD7fp
+         LB/Q==
+X-Gm-Message-State: AOAM5334KlQ3AbuQcZHCoXp6/p8KPV45uAN7B3oFtmM8DyiS877yqBQ1
+	5OHEqVD0JhxI7Nn05xDHWaw6wMP427nm48TYYX5zlAcp/cbJ11Vjl1vunWpW7p6thpQSh3JPnZr
+	zO3cmTO7PcTZv1Rbe/JEqacysJ60=
+X-Received: by 2002:a63:83c1:: with SMTP id h184mr2410937pge.37.1628747754102;
+        Wed, 11 Aug 2021 22:55:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxOygrKV5WhARieKOIood/QYvjnnVnFyEKRNwCN5hxkQkZt74kl1r/JcDId5gGmRbEWFlUyOw==
+X-Received: by 2002:a63:83c1:: with SMTP id h184mr2410923pge.37.1628747753894;
+        Wed, 11 Aug 2021 22:55:53 -0700 (PDT)
+Received: from kq.cs.ucr.edu (kq.cs.ucr.edu. [169.235.27.223])
+        by smtp.googlemail.com with ESMTPSA id j6sm1659165pfn.107.2021.08.11.22.55.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Aug 2021 22:55:53 -0700 (PDT)
+From: Yizhuo Zhai <yzhai003@ucr.edu>
+To: 
+Cc: Yizhuo Zhai <yzhai003@ucr.edu>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Juan Antonio Aldea-Armenteros <juant.aldea@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4] media: atomisp: fix the uninitialized use and rename "retvalue"
+Date: Wed, 11 Aug 2021 22:54:17 -0700
+Message-Id: <20210812055421.44450-1-yzhai003@ucr.edu>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210723003607.64179-1-yzhai003@ucr.edu>
+References: <20210723003607.64179-1-yzhai003@ucr.edu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210723003607.64179-1-yzhai003@ucr.edu> <20210811035405.17382-1-yzhai003@ucr.edu>
- <YRN11JOX/JHpq8Yn@kroah.com>
-In-Reply-To: <YRN11JOX/JHpq8Yn@kroah.com>
-From: Yizhuo Zhai <yzhai003@ucr.edu>
-Date: Wed, 11 Aug 2021 22:50:08 -0700
-Message-ID: <CABvMjLSFKVV_uC3n02t=p6X+qaptgZiCrVmy2875OMybN=e+Jw@mail.gmail.com>
-Subject: Re: [PATCH v4] media: atomisp: fix the uninitialized use and rename "retvalue"
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Juan Antonio Aldea-Armenteros <juant.aldea@gmail.com>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Greg:
-Sorry for the inconvenience, let me fix this issue and send a new one, thanks.
+Inside function mt9m114_detect(), variable "retvalue" could
+be uninitialized if mt9m114_read_reg() returns error, however, it
+is used in the later if statement, which is potentially unsafe.
 
-On Wed, Aug 11, 2021 at 12:01 AM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Tue, Aug 10, 2021 at 08:54:03PM -0700, Yizhuo Zhai wrote:
-> > From: Yizhuo <yzhai003@ucr.edu>
->
-> This name is not matching the name you use in your signed-off-by line :(
+The local variable "retvalue" is renamed to "model" to avoid
+confusion.
 
+Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
+Signed-off-by: Yizhuo Zhai<yzhai003@ucr.edu>
+---
+ drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+index f5de81132177..77293579a134 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+@@ -1533,16 +1533,19 @@ static struct v4l2_ctrl_config mt9m114_controls[] = {
+ static int mt9m114_detect(struct mt9m114_device *dev, struct i2c_client *client)
+ {
+ 	struct i2c_adapter *adapter = client->adapter;
+-	u32 retvalue;
++	u32 model;
++	int ret;
+ 
+ 	if (!i2c_check_functionality(adapter, I2C_FUNC_I2C)) {
+ 		dev_err(&client->dev, "%s: i2c error", __func__);
+ 		return -ENODEV;
+ 	}
+-	mt9m114_read_reg(client, MISENSOR_16BIT, (u32)MT9M114_PID, &retvalue);
+-	dev->real_model_id = retvalue;
++	ret = mt9m114_read_reg(client, MISENSOR_16BIT, MT9M114_PID, &model);
++	if (ret)
++		return ret;
++	dev->real_model_id = model;
+ 
+-	if (retvalue != MT9M114_MOD_ID) {
++	if (model != MT9M114_MOD_ID) {
+ 		dev_err(&client->dev, "%s: failed: client->addr = %x\n",
+ 			__func__, client->addr);
+ 		return -ENODEV;
 -- 
-Kind Regards,
+2.25.1
 
-Yizhuo Zhai
-
-Computer Science, Graduate Student
-University of California, Riverside
