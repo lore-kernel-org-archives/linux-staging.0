@@ -1,103 +1,127 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1203872
-	for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 12:52:15 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id t1so9517611edd.6
-        for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 05:52:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1E672
+	for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 13:21:48 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id l7-20020a1c2507000000b002e6be5d86b3so1125079wml.3
+        for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 06:21:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=hW2AHW2LGJWIg3Oz36vt6ea6Y6cYNr8cSKGnKNQkhWE=;
-        b=e/T/nmC7+7cvdq1AUguADrAErXb0ShX24hCl6Rw6/nVVl+VEsZkw2cFfWVHWvhaXkf
-         GOK2hW+hF689McaSUc1xPbQWNwrSKVPud1zyd1xNOSDvrFYFUEP6HhJMEVCi/03HQ3EA
-         WtvK9SC5NU+mu6BkA8LG3WOIzf0ToTVXX8SwsZlZCnCGNMHzfQrQaX8/u9OYVPU4wbfh
-         Mcd8kJ6q6vjr9U66i9JQFwihEF+BaClrepaw8VmdhO0f/Yp0xkpetNc0cP3AoIexmjyA
-         heIDosxNKfXa5zE1C5/uAMIZjG3O5oka/fhzJdf2HZV4vSJzXe6HLTiy7qxAjbPUw3tD
-         RokA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WZVGRDskmDYPzdeftiEChxL+8pjCbPwDx5dz49Ifopg=;
+        b=Q0PCtmR0L6F5btX+R5Hfv9xq5MzN6nGw6J5iuD8a/favIQ5eYGtcvjbNnHrOrwxeRC
+         ogScilg8e2dVTmhL3Gs2f3JUuA3uwSEPGA3ANRBMxg2L+QBzWoBkCN+8DKj2/M7S1NZ2
+         y5IVFrblsZNGCmQUagP8A57ywq5Mf8IV60ER0w0/GisQQ+/Huyy3sMZDrlmEgBEajExs
+         2dzdACx51jp1spYesfW2Q6/ZRvIUtE95aAGs9QMG04lqGPeUB42NYHWPHDhS7FOEiW4k
+         kILqb+4bbgpd6f+r0783O7CWJRf90RBR+fQRJpryNEMOKk1dvYEtGaqAtDvj611Ekhm9
+         bNSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=hW2AHW2LGJWIg3Oz36vt6ea6Y6cYNr8cSKGnKNQkhWE=;
-        b=GSf0EspAAHbD8JgRD+QS3JCLTPA/B4r7zqweFajcZXlN8NFzfNz8EvAaEVJRDkae5p
-         aM2Zx9782JH2l8KZ2xLYrq10bYTpCM1kD1A0JqPZLt6eCOdCnk5ieS0XzSstSE0g8N+7
-         8ZPbECpOtFN5nrtYJokFE5BsKTN5NjJfOCiMFFuNJjN4xSG6Y8BeUFnIHp/wUHHEus/Q
-         V3YyAgYa3D0ue2gEBwfVeeDTnnLp2z4XgtPzrH4HWc7g+7cfWxhQ6ubl9S4zf8XdJtp2
-         O+LJWrkfXgUTZTrnuvfn13pmT4ByAwjP1QhU0/MoQl5RmX9MlF3GrCrlQYX4JBvY4LLA
-         bm/A==
-X-Gm-Message-State: AOAM531XV6C0aSkBOJLik7CDSjsJyCA25U1ftd84bn9OootmV1rB4l+L
-	xcMC/AY2vTrmNFPHfqJSC9s=
-X-Google-Smtp-Source: ABdhPJx8r3AQYyHckN9/UA3uF3NV/MJLpkO8leO/8z2J/VxO8fU+Qz57FFO3S2Rv3+u0ll3GAnqBaA==
-X-Received: by 2002:aa7:c4d4:: with SMTP id p20mr5307552edr.382.1628772733392;
-        Thu, 12 Aug 2021 05:52:13 -0700 (PDT)
-Received: from localhost.localdomain (host-79-22-109-211.retail.telecomitalia.it. [79.22.109.211])
-        by smtp.gmail.com with ESMTPSA id w5sm791941ejz.25.2021.08.12.05.52.12
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WZVGRDskmDYPzdeftiEChxL+8pjCbPwDx5dz49Ifopg=;
+        b=DQu69lQwAH3UVVHRRmNBuWnbx0iJBzQ7Vr5C/wp9INuO6ithtF1iQu9zzonpHW8oRS
+         9R61CJMQ8Exq1AmhzR5dcRRUtZyIJLx1J1dn4B7F47sWojCsABRRPtZH5GuYFMzh4mlq
+         JVuRH+PuRGYKD9TMeSTDYPBOBc7g3U6+b5n4g6khSrwZ9pPKFsSlqjJHH8dXKzzO1ATD
+         BmrlSqnXqcy73UP+ux9PONA/EUerKc3lUGa4ZU6bk94JX8KG0ZHMchmYU8yx6Tsf1lfk
+         WiSqTFul0ay85bIR9HhCIafaa1oa7zx3BT9uzbYKbiYgQ2SW0b0YFVQ9YBVmw34tlGl9
+         99qg==
+X-Gm-Message-State: AOAM5300zADI6oYLwmGHcZ+gxmBjfXZlt8zDTISsFpof87U7BYkwYOzE
+	tiO38tWmk5ONHu6CK5jgkGpdBtz3c3A=
+X-Google-Smtp-Source: ABdhPJzp3tkIzXP6JNiRSbT++SHr3fYHl/ylsd2avLoJ9AHERWYyqr2mcU0dd5Ig+zKdFBaMKOkmGA==
+X-Received: by 2002:a7b:c7c3:: with SMTP id z3mr4052145wmk.96.1628774507441;
+        Thu, 12 Aug 2021 06:21:47 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::2571])
+        by smtp.gmail.com with ESMTPSA id f2sm2041006wru.31.2021.08.12.06.21.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Aug 2021 05:52:12 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Phillip Potter <phil@philpotter.co.uk>, Martin Kaiser <martin@kaiser.cx>, Michael Straube <straube.linux@gmail.com>, Fabio Aiuto <fabioaiuto83@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] staging: r8188eu: Remove all 5GHz network types
-Date: Thu, 12 Aug 2021 14:52:11 +0200
-Message-ID: <271471387.QXUees3VCy@localhost.localdomain>
-In-Reply-To: <13cdcd41-20f6-3b8e-0515-5066b1fdb49c@lwfinger.net>
-References: <20210812002519.23678-1-fmdefrancesco@gmail.com> <20210812002519.23678-2-fmdefrancesco@gmail.com> <13cdcd41-20f6-3b8e-0515-5066b1fdb49c@lwfinger.net>
+        Thu, 12 Aug 2021 06:21:47 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	martin@kaiser.cx,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: r8188eu: replace custom hwaddr_aton_i() with mac_pton()
+Date: Thu, 12 Aug 2021 15:20:57 +0200
+Message-Id: <20210812132057.22579-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Thursday, August 12, 2021 4:09:49 AM CEST Larry Finger wrote:
-> On 8/11/21 7:25 PM, Fabio M. De Francesco wrote:
-> > Remove all 5Ghz network types. r8188eu works on
-> > 802.11bgn standards and on 2.4Ghz band.
-> > 
-> > Signed-off-by: Fabio M. De Francesco<fmdefrancesco@gmail.com>
-> > ---
-> > 
-> >   drivers/staging/r8188eu/core/rtw_ap.c         | 13 ++---------
-> >   drivers/staging/r8188eu/core/rtw_ieee80211.c  | 19 +++------------
-> >   drivers/staging/r8188eu/core/rtw_ioctl_set.c  |  2 +-
-> >   drivers/staging/r8188eu/core/rtw_mlme.c       | 10 --------
-> >   drivers/staging/r8188eu/core/rtw_p2p.c        |  2 +-
-> >   drivers/staging/r8188eu/core/rtw_wlan_util.c  | 15 ++----------
-> >   drivers/staging/r8188eu/hal/odm.c             |  1 -
-> >   drivers/staging/r8188eu/include/ieee80211.h   | 23 ++-----------------
-> >   drivers/staging/r8188eu/include/wifi.h        |  2 +-
-> >   drivers/staging/r8188eu/include/wlan_bssdef.h |  2 +-
-> >   10 files changed, 13 insertions(+), 76 deletions(-)
-> 
-> Fabio,
-> 
-> This patch is fine, but it does conflict with my series fixing the smatch
-> warnings. Whichever set Greg takes first will apply cleanly, but the second 
-will
-> fail. This problem is due to many people working at the same time.
-> 
-Hi Larry,
+Replace custom hwaddr_aton_i() with mac_pton() in core/ioctl_linux.c
+and remove the now unused functions hwaddr_aton_i() and hex2num_i().
 
-The Wizard of Git :-) (Greg, of course) has been able to work this problem out 
-and took both series, as you probably already know.
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c | 40 +-------------------
+ 1 file changed, 1 insertion(+), 39 deletions(-)
 
-Just kidding... However, you may be interested to know that, most of the 
-times, the above-mentioned conflict can be worked out by using the 3-way merge 
-option of git-am (https://en.wikipedia.org/wiki/Merge_(version_control)#Three-way_merge). I suppose that he used that option to resolve the conflict (am I 
-missing something?).
-
-> Acked-by: Larry Finger <Larry.Finger@lwfinger.net>
-
-Thanks for looking at my patches and acking them.
-
-Fabio
-> 
-> Larry
-
-
-
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index d059b738b348..38ee41f9d2ba 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -89,44 +89,6 @@ static const char * const iw_operation_mode[] = {
+ 	"Secondary", "Monitor"
+ };
+ 
+-static int hex2num_i(char c)
+-{
+-	if (c >= '0' && c <= '9')
+-		return c - '0';
+-	if (c >= 'a' && c <= 'f')
+-		return c - 'a' + 10;
+-	if (c >= 'A' && c <= 'F')
+-		return c - 'A' + 10;
+-	return -1;
+-}
+-
+-/**
+- * hwaddr_aton - Convert ASCII string to MAC address
+- * @txt: MAC address as a string (e.g., "00:11:22:33:44:55")
+- * @addr: Buffer for the MAC address (ETH_ALEN = 6 bytes)
+- * Returns: 0 on success, -1 on failure (e.g., string not a MAC address)
+- */
+-static int hwaddr_aton_i(const char *txt, u8 *addr)
+-{
+-	int i;
+-
+-	for (i = 0; i < 6; i++) {
+-		int a, b;
+-
+-		a = hex2num_i(*txt++);
+-		if (a < 0)
+-			return -1;
+-		b = hex2num_i(*txt++);
+-		if (b < 0)
+-			return -1;
+-		*addr++ = (a << 4) | b;
+-		if (i < 5 && *txt++ != ':')
+-			return -1;
+-	}
+-
+-	return 0;
+-}
+-
+ void indicate_wx_scan_complete_event(struct adapter *padapter)
+ {
+ 	union iwreq_data wrqu;
+@@ -2512,7 +2474,7 @@ static int rtw_get_ap_info(struct net_device *dev,
+ 	while (phead != plist) {
+ 		pnetwork = container_of(plist, struct wlan_network, list);
+ 
+-		if (hwaddr_aton_i(data, bssid)) {
++		if (!mac_pton(data, bssid)) {
+ 			DBG_88E("Invalid BSSID '%s'.\n", (u8 *)data);
+ 			spin_unlock_bh(&pmlmepriv->scanned_queue.lock);
+ 			return -EINVAL;
+-- 
+2.32.0
 
