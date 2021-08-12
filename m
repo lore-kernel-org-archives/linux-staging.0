@@ -1,92 +1,109 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C760270
-	for <linux-staging@lists.linux.dev>; Wed, 11 Aug 2021 23:54:35 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id d1so4899483pll.1
-        for <linux-staging@lists.linux.dev>; Wed, 11 Aug 2021 16:54:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88ABD70
+	for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 00:00:22 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id t3so4873735plg.9
+        for <linux-staging@lists.linux.dev>; Wed, 11 Aug 2021 17:00:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=7Y4/3fSf/KmbpyyGbeX2xJ39stxqbAErUC/okq2TDDk=;
-        b=L3rnIL1slWAx5Y0hA4TCkr+OsTOuLk/bFjLK9EkWCAEu5FLK9xCkU6IqxwBFvcA45O
-         DoRehTlcd4qcd/Fy6DSG2E7MNx+G7lEVIj3/cuD33zPD7XCBhAZWzqt4ZOosP0xjjxIH
-         peeF78xQT8tdIXZbwhUqmzDNInzRAl/5rCSI20/1t3/q5eMMpFCyrV6KcA2Q2FW0pDhV
-         b5JnJ3Cn0G09+LOSvBJkQegO6rYJUm6sEib2kC8g+ybB7lvIrw3BXIMQxMGXF461ArLg
-         Wf97Yu+wlMgAQQqkwGNeCLiL+X5CvbKDVqjvUl6noDaqmyVajp67+BF5PmpEtjwQF4Mi
-         cHzA==
+        bh=gUpeHPEzA4pBxrfsOggRhHArCWTMfpMZNkNsV5I7XGs=;
+        b=bAvmuRCH+OIl1a+Ou7qFRzm7Q1aP9NKvTsdRZauqcEggnz1W9CwpNVZnKvD+Uzh/In
+         rGa95SglpyLP7ZVaxgKwDE+XlL9fU7aXuiihwqq3KLg0EeHrw4eMrJ4FZc+Ck+1HMz4n
+         K0l4ZIN+q6wbk4u5n/0SoOgSB+upENePE48xk+QXiTGUuplyGN2VInyvMVWD07DupygA
+         b4hGfE4gLPmW76VvIBolgcMtSUY4fgWMmXBbs32NKsP6wADiaXs97enS4HPr0uCUNnsD
+         S9U9OfcMVq5VCcjRxED27cVrndqRbyF90kOJSuPc8PcYCyoFrGqT4t1kPadvyUe6RLRS
+         lvBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=7Y4/3fSf/KmbpyyGbeX2xJ39stxqbAErUC/okq2TDDk=;
-        b=GME9bEriMrDMIbDjTlKkyKbCCH21ikgX2c00Z1er21xtNiD+r2D5OUq6jOwy2ru1+m
-         hSx/jZ1aZuI7mvB6mTYQ59/svGaAzp/fDYeB98qXucSRP9uoxQUwF4SgrFJiaYWsemRA
-         Pr4Xu7bI7Ne6w/prdoib2hcBnawJvwbeW8wntQ140mVekAPI9KW27Y9UdQss9g1EbsyR
-         KIBzuqQ2QpKZupx2U9fbq7utAAS3/isviKLXjfLw0VVlHhnXU9qw4HyIToa7hrxtq0o4
-         gMNuqZTduaP3F73yI9vdi6zZSva7w+3B2wmzvmDlWZkuZA+caPil92aU2gnsRgG33/T1
-         iFfA==
-X-Gm-Message-State: AOAM533tcZVCumUY7Vmw3Co2SyvmbN2Bw6ENJmhuxbM0jZ0p3KjPazAU
-	Zq9wp6E5GFWJxX3m8VbF7F0pTtvqEYBV0LZ0sl8rDA==
-X-Google-Smtp-Source: ABdhPJw4+nymE93DzmpNsy3fsXtqpKUg7uzbJ1hfJjgXx9prl+Z2EY4F0ODmxoroDl8DlW0pmalddj1/h5vKzOLFKOA=
-X-Received: by 2002:a17:902:ac87:b029:12d:3e59:cb7d with SMTP id
- h7-20020a170902ac87b029012d3e59cb7dmr1257600plr.22.1628726075469; Wed, 11 Aug
- 2021 16:54:35 -0700 (PDT)
+        bh=gUpeHPEzA4pBxrfsOggRhHArCWTMfpMZNkNsV5I7XGs=;
+        b=SoZWMqELpNFBu9y7AeSknf3mItpae6QtkzYdUx2vDuBLKnhMMhPlhJtxQMm000Po+I
+         8GWNSg7iPp9iYHkfcBPGzRGf90fFINzIVVch22cmNSA8w3IsLRvIQfl/s0fet1xLMh3X
+         qZhcylOnOHvvixL4IbGnmin58lVSixxVu8+w+FPJGWC7pBvEeKELvlOEYSyM/BjVLO2/
+         TT3oqXmZs/OMw1WEON6hrufz7svyM7nJxgDuhEnj70XLOtK1K8lcZ4dMoY+Li2R/c+b9
+         Jh7R+ZamOcEfjV3q/+T2dzhtT01qyJsBcEfnWsZOfl7hg857hB5cpG5Jn4UQjgQNtGto
+         60QA==
+X-Gm-Message-State: AOAM530sCsCWGbs3zQSC6vRDOhxM/bC/V7MgNAR/Zd90PMnl/0PS4cjF
+	7RDE+5S5mx+FmH5w+yGqW35QgJiBeWHL9/fUMRf6VQ==
+X-Google-Smtp-Source: ABdhPJz2f5hRZahEqgImorzB+UZdzmDwQcFB6qkz299J1hbye+wfh+1OPQAxyQv6a3dAJYeDinLY5u7bvUHMXOlg7oE=
+X-Received: by 2002:a65:6a0a:: with SMTP id m10mr1221345pgu.82.1628726421743;
+ Wed, 11 Aug 2021 17:00:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210811201450.31366-1-martin@kaiser.cx> <20210811201450.31366-5-martin@kaiser.cx>
-In-Reply-To: <20210811201450.31366-5-martin@kaiser.cx>
+References: <20210811215806.20426-1-Larry.Finger@lwfinger.net>
+In-Reply-To: <20210811215806.20426-1-Larry.Finger@lwfinger.net>
 From: Phillip Potter <phil@philpotter.co.uk>
-Date: Thu, 12 Aug 2021 00:54:24 +0100
-Message-ID: <CAA=Fs0=2gSn8_gECcqLJtXSSzzbA5=92pU6TAyYQdmO+ggMOPA@mail.gmail.com>
-Subject: Re: [PATCH 5/5] staging: r8188eu: remove CONFIG_USB_HCI from Makefile
-To: Martin Kaiser <martin@kaiser.cx>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
-	Dan Carpenter <dan.carpenter@oracle.com>, Michael Straube <straube.linux@gmail.com>, 
-	linux-staging@lists.linux.dev, 
+Date: Thu, 12 Aug 2021 01:00:11 +0100
+Message-ID: <CAA=Fs0=WeawmsS=Y+iEL7AMvkhyN3wuXRaxD2eC271zvdeBwUg@mail.gmail.com>
+Subject: Re: [PATCH 0/3] staging: r8188eu: Clean up some smatch warnings and errors
+To: Larry Finger <Larry.Finger@lwfinger.net>
+Cc: Greg KH <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 11 Aug 2021 at 21:15, Martin Kaiser <martin@kaiser.cx> wrote:
+On Wed, 11 Aug 2021 at 22:58, Larry Finger <Larry.Finger@lwfinger.net> wrote:
 >
-> We already depend on USB. There's no need to set CONFIG_USB_HCI in the
-> Makefile.
+> Smatch reports a number of warnings ans a few errors. Most are places where
+> the indentation is messed up, but a few are unitialized variables or
+> dereferencing a pointer before checking it.
 >
-> Some other Realtek drivers use #ifdef CONFIG_USB_HCI in their code, the
-> r8188 driver doesn't.
+> Smatch does output a false message concerning a potential memory leak.
+> The pointer is saved, and the memory freed in another routine.
 >
-> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
-> ---
->  drivers/staging/r8188eu/Makefile | 2 --
->  1 file changed, 2 deletions(-)
+> Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
 >
-> diff --git a/drivers/staging/r8188eu/Makefile b/drivers/staging/r8188eu/Makefile
-> index cca7a58c5f29..6bd3a0590aa3 100644
-> --- a/drivers/staging/r8188eu/Makefile
-> +++ b/drivers/staging/r8188eu/Makefile
-> @@ -4,8 +4,6 @@ EXTRA_CFLAGS += -O1
+> Larry Finger (3):
+>   staging: r8188eu: Fix Smatch warnings for core/*.c
+>   staging: r8188eu: Fix smatch problems in hal/*.c
+>   staging: r8188eu: Fix smatch warnings in os_dep/*.c
 >
->  ccflags-y += -D__CHECK_ENDIAN__
->
-> -CONFIG_USB_HCI = y
-> -
->  CONFIG_BT_COEXIST = n
->  CONFIG_WOWLAN = n
+>  drivers/staging/r8188eu/core/rtw_br_ext.c     |   2 +-
+>  drivers/staging/r8188eu/core/rtw_cmd.c        |   6 -
+>  drivers/staging/r8188eu/core/rtw_ieee80211.c  |   2 +-
+>  drivers/staging/r8188eu/core/rtw_io.c         |   2 +-
+>  drivers/staging/r8188eu/core/rtw_led.c        |  20 +--
+>  drivers/staging/r8188eu/core/rtw_mlme.c       |  16 ++-
+>  drivers/staging/r8188eu/core/rtw_mlme_ext.c   |  16 +--
+>  drivers/staging/r8188eu/core/rtw_mp.c         |   6 +-
+>  drivers/staging/r8188eu/core/rtw_p2p.c        |   4 +-
+>  drivers/staging/r8188eu/core/rtw_recv.c       |  18 +--
+>  drivers/staging/r8188eu/core/rtw_security.c   |   6 +-
+>  drivers/staging/r8188eu/core/rtw_sta_mgt.c    |   6 +-
+>  drivers/staging/r8188eu/core/rtw_wlan_util.c  |  14 +--
+>  drivers/staging/r8188eu/core/rtw_xmit.c       |   4 +-
+>  .../r8188eu/hal/Hal8188ERateAdaptive.c        |  16 +--
+>  .../staging/r8188eu/hal/HalHWImg8188E_RF.c    |   2 +-
+>  drivers/staging/r8188eu/hal/HalPwrSeqCmd.c    |   2 +-
+>  drivers/staging/r8188eu/hal/odm.c             |  18 +--
+>  drivers/staging/r8188eu/hal/odm_HWConfig.c    |   2 +-
+>  .../staging/r8188eu/hal/rtl8188e_hal_init.c   |   2 +-
+>  drivers/staging/r8188eu/hal/rtl8188e_mp.c     |   8 +-
+>  drivers/staging/r8188eu/hal/usb_halinit.c     |  18 +--
+>  drivers/staging/r8188eu/hal/usb_ops_linux.c   |  87 +++++++------
+>  drivers/staging/r8188eu/os_dep/ioctl_linux.c  |  58 ++++-----
+>  drivers/staging/r8188eu/os_dep/mlme_linux.c   |   3 +-
+>  drivers/staging/r8188eu/os_dep/os_intfs.c     |   2 +-
+>  .../staging/r8188eu/os_dep/osdep_service.c    |   2 +-
+>  drivers/staging/r8188eu/os_dep/recv_linux.c   |   8 +-
+>  drivers/staging/r8188eu/os_dep/usb_intf.c     | 117 +++++++++---------
+>  29 files changed, 227 insertions(+), 240 deletions(-)
 >
 > --
-> 2.20.1
+> 2.32.0
 >
 
-Dear Martin,
+Dear Larry,
 
-Looks good.
-
-Acked-by: Phillip Potter <phil@philpotter.co.uk>
+Sorry, but the third patch doesn't apply to my copy of the staging
+tree with staging-testing tip as of now. Thanks.
 
 Regards,
 Phil
