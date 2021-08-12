@@ -1,109 +1,102 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88ABD70
-	for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 00:00:22 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id t3so4873735plg.9
-        for <linux-staging@lists.linux.dev>; Wed, 11 Aug 2021 17:00:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39AF170
+	for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 00:25:25 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id g21so6650033edb.4
+        for <linux-staging@lists.linux.dev>; Wed, 11 Aug 2021 17:25:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gUpeHPEzA4pBxrfsOggRhHArCWTMfpMZNkNsV5I7XGs=;
-        b=bAvmuRCH+OIl1a+Ou7qFRzm7Q1aP9NKvTsdRZauqcEggnz1W9CwpNVZnKvD+Uzh/In
-         rGa95SglpyLP7ZVaxgKwDE+XlL9fU7aXuiihwqq3KLg0EeHrw4eMrJ4FZc+Ck+1HMz4n
-         K0l4ZIN+q6wbk4u5n/0SoOgSB+upENePE48xk+QXiTGUuplyGN2VInyvMVWD07DupygA
-         b4hGfE4gLPmW76VvIBolgcMtSUY4fgWMmXBbs32NKsP6wADiaXs97enS4HPr0uCUNnsD
-         S9U9OfcMVq5VCcjRxED27cVrndqRbyF90kOJSuPc8PcYCyoFrGqT4t1kPadvyUe6RLRS
-         lvBA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CGtwjMXEH5QqVf/PuaMPCPlbM6Xuiuly2nloQLXYWxU=;
+        b=VDkCydvbt3qx0iDm6nh5tklcsyQUcuEJZQsS6x8YEhCpWNj4QsLNudxCJfiuJ4sKXh
+         3SiwLAR+86gV11J/VNhJgOpDiHw9vhtJOArfLNZboxyy/fY9+tCKZf7OYjmrgJZ0cYvG
+         QRgja/ZsfzPItTD/mm3Sj7fkuyDFfTKGPQjctgm+m6tBXJn3iYGdQGSNGykuxXrv8TC1
+         BpDal6gYvhY65FAPSRm7gX++5vHJWyUVXw28rwh9GrZElFZQ6lVRRsAd/WDjEsRH54Om
+         anB3CrhTBlxAWiZ2U7xlv4YAqaBYrKrWOfwcPBL5VL9aOniztGKrKsZ7S3SO14B8PcU3
+         rs0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gUpeHPEzA4pBxrfsOggRhHArCWTMfpMZNkNsV5I7XGs=;
-        b=SoZWMqELpNFBu9y7AeSknf3mItpae6QtkzYdUx2vDuBLKnhMMhPlhJtxQMm000Po+I
-         8GWNSg7iPp9iYHkfcBPGzRGf90fFINzIVVch22cmNSA8w3IsLRvIQfl/s0fet1xLMh3X
-         qZhcylOnOHvvixL4IbGnmin58lVSixxVu8+w+FPJGWC7pBvEeKELvlOEYSyM/BjVLO2/
-         TT3oqXmZs/OMw1WEON6hrufz7svyM7nJxgDuhEnj70XLOtK1K8lcZ4dMoY+Li2R/c+b9
-         Jh7R+ZamOcEfjV3q/+T2dzhtT01qyJsBcEfnWsZOfl7hg857hB5cpG5Jn4UQjgQNtGto
-         60QA==
-X-Gm-Message-State: AOAM530sCsCWGbs3zQSC6vRDOhxM/bC/V7MgNAR/Zd90PMnl/0PS4cjF
-	7RDE+5S5mx+FmH5w+yGqW35QgJiBeWHL9/fUMRf6VQ==
-X-Google-Smtp-Source: ABdhPJz2f5hRZahEqgImorzB+UZdzmDwQcFB6qkz299J1hbye+wfh+1OPQAxyQv6a3dAJYeDinLY5u7bvUHMXOlg7oE=
-X-Received: by 2002:a65:6a0a:: with SMTP id m10mr1221345pgu.82.1628726421743;
- Wed, 11 Aug 2021 17:00:21 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CGtwjMXEH5QqVf/PuaMPCPlbM6Xuiuly2nloQLXYWxU=;
+        b=Xu2FhqZhlIsZcydqyhu4wH/ty8HIq914qMoR4leepZysNTdZdXNwi0zycdrHBIADJY
+         wdAsr1OrrrxcSJ0EdMC8RSF02qUYDVuvU2ArdXk0eIUX7DpEd5mmZAa4TBB54OuP7E9N
+         5+e7p61LoF6ikCLG/rC2yzb1/69cagwzqeuFcTgnV7QzZDSpqHXmTrW1MB0USkijFLoK
+         uhmg+1g+rze0NZXpIQGaHZYU8OpwhHcShG1qw3fVdp5HT84wSKe4Oor7VYWepPvKSCfI
+         qa+NZSj5xRjompigyUaLozlpvTGTvM+b6s6E+eVcCPzS+GoaaKmy0mQhI0iNB9GZmrKa
+         Dtmg==
+X-Gm-Message-State: AOAM530fkVfRvGXcY+bA95FbJDksMMxrY4r47QwJ7mcX0PYkCzwChReW
+	CjfcilbeNaej6uszunq3s0A=
+X-Google-Smtp-Source: ABdhPJwHk0TDrhlYSnm3cGo+D/URg1r46fSkj45jMILM/LeWXmQ0x8aUnKFbYY0WNySLYdm9YBZeZQ==
+X-Received: by 2002:a50:afe4:: with SMTP id h91mr2022426edd.326.1628727923521;
+        Wed, 11 Aug 2021 17:25:23 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-109-211.retail.telecomitalia.it. [79.22.109.211])
+        by smtp.gmail.com with ESMTPSA id l20sm265048ejb.23.2021.08.11.17.25.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Aug 2021 17:25:23 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Martin Kaiser <martin@kaiser.cx>,
+	Michael Straube <straube.linux@gmail.com>,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH 0/3] staging: r8188eu: Remove 5GHz band related code
+Date: Thu, 12 Aug 2021 02:25:16 +0200
+Message-Id: <20210812002519.23678-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210811215806.20426-1-Larry.Finger@lwfinger.net>
-In-Reply-To: <20210811215806.20426-1-Larry.Finger@lwfinger.net>
-From: Phillip Potter <phil@philpotter.co.uk>
-Date: Thu, 12 Aug 2021 01:00:11 +0100
-Message-ID: <CAA=Fs0=WeawmsS=Y+iEL7AMvkhyN3wuXRaxD2eC271zvdeBwUg@mail.gmail.com>
-Subject: Re: [PATCH 0/3] staging: r8188eu: Clean up some smatch warnings and errors
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Greg KH <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, 11 Aug 2021 at 22:58, Larry Finger <Larry.Finger@lwfinger.net> wrote:
->
-> Smatch reports a number of warnings ans a few errors. Most are places where
-> the indentation is messed up, but a few are unitialized variables or
-> dereferencing a pointer before checking it.
->
-> Smatch does output a false message concerning a potential memory leak.
-> The pointer is saved, and the memory freed in another routine.
->
-> Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
->
-> Larry Finger (3):
->   staging: r8188eu: Fix Smatch warnings for core/*.c
->   staging: r8188eu: Fix smatch problems in hal/*.c
->   staging: r8188eu: Fix smatch warnings in os_dep/*.c
->
->  drivers/staging/r8188eu/core/rtw_br_ext.c     |   2 +-
->  drivers/staging/r8188eu/core/rtw_cmd.c        |   6 -
->  drivers/staging/r8188eu/core/rtw_ieee80211.c  |   2 +-
->  drivers/staging/r8188eu/core/rtw_io.c         |   2 +-
->  drivers/staging/r8188eu/core/rtw_led.c        |  20 +--
->  drivers/staging/r8188eu/core/rtw_mlme.c       |  16 ++-
->  drivers/staging/r8188eu/core/rtw_mlme_ext.c   |  16 +--
->  drivers/staging/r8188eu/core/rtw_mp.c         |   6 +-
->  drivers/staging/r8188eu/core/rtw_p2p.c        |   4 +-
->  drivers/staging/r8188eu/core/rtw_recv.c       |  18 +--
->  drivers/staging/r8188eu/core/rtw_security.c   |   6 +-
->  drivers/staging/r8188eu/core/rtw_sta_mgt.c    |   6 +-
->  drivers/staging/r8188eu/core/rtw_wlan_util.c  |  14 +--
->  drivers/staging/r8188eu/core/rtw_xmit.c       |   4 +-
->  .../r8188eu/hal/Hal8188ERateAdaptive.c        |  16 +--
->  .../staging/r8188eu/hal/HalHWImg8188E_RF.c    |   2 +-
->  drivers/staging/r8188eu/hal/HalPwrSeqCmd.c    |   2 +-
->  drivers/staging/r8188eu/hal/odm.c             |  18 +--
->  drivers/staging/r8188eu/hal/odm_HWConfig.c    |   2 +-
->  .../staging/r8188eu/hal/rtl8188e_hal_init.c   |   2 +-
->  drivers/staging/r8188eu/hal/rtl8188e_mp.c     |   8 +-
->  drivers/staging/r8188eu/hal/usb_halinit.c     |  18 +--
->  drivers/staging/r8188eu/hal/usb_ops_linux.c   |  87 +++++++------
->  drivers/staging/r8188eu/os_dep/ioctl_linux.c  |  58 ++++-----
->  drivers/staging/r8188eu/os_dep/mlme_linux.c   |   3 +-
->  drivers/staging/r8188eu/os_dep/os_intfs.c     |   2 +-
->  .../staging/r8188eu/os_dep/osdep_service.c    |   2 +-
->  drivers/staging/r8188eu/os_dep/recv_linux.c   |   8 +-
->  drivers/staging/r8188eu/os_dep/usb_intf.c     | 117 +++++++++---------
->  29 files changed, 227 insertions(+), 240 deletions(-)
->
-> --
-> 2.32.0
->
+This series removes code only needed for 5 GHz because the r8188eu
+driver is meant to work with chips that are only capable to operate on
+2.4 GHz band with 14 channels.
 
-Dear Larry,
+This driver has been (quickly) tested with an ASUS USB N10 Nano, however
+I think it needs some more testing by more experienced users and
+programmers.
 
-Sorry, but the third patch doesn't apply to my copy of the staging
-tree with staging-testing tip as of now. Thanks.
+Thanks to Fabio Aiuto <fabioaiuto83@gmail.com> who gave me the
+inspiration to address this work, since he made a (more extended) 
+removal of 5 GHz code from rtl8723bs:
+https://lore.kernel.org/linux-staging/cover.1624367071.git.fabioaiuto83@gmail.com/.
 
-Regards,
-Phil
+Fabio M. De Francesco (3):
+  staging: r8188eu: Remove all 5GHz network types
+  staging: r8188eu: Remove code related to unsupported channel
+    bandwidths
+  staging: r8188eu: Remove no more necessary definitions and code
+
+ drivers/staging/r8188eu/core/rtw_ap.c         | 13 ++--------
+ drivers/staging/r8188eu/core/rtw_debug.c      | 25 +------------------
+ drivers/staging/r8188eu/core/rtw_ieee80211.c  | 19 +++-----------
+ drivers/staging/r8188eu/core/rtw_ioctl_set.c  |  4 +--
+ drivers/staging/r8188eu/core/rtw_mlme.c       | 10 --------
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 13 +++-------
+ drivers/staging/r8188eu/core/rtw_p2p.c        |  2 +-
+ drivers/staging/r8188eu/core/rtw_wlan_util.c  | 15 ++---------
+ drivers/staging/r8188eu/hal/odm.c             | 20 +++------------
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c |  3 ---
+ .../staging/r8188eu/include/Hal8188EPhyCfg.h  |  4 ---
+ drivers/staging/r8188eu/include/ieee80211.h   | 23 ++---------------
+ drivers/staging/r8188eu/include/odm.h         |  8 ------
+ .../staging/r8188eu/include/rtl8188e_spec.h   |  5 ----
+ .../staging/r8188eu/include/rtw_mlme_ext.h    |  1 -
+ drivers/staging/r8188eu/include/rtw_rf.h      |  3 ---
+ drivers/staging/r8188eu/include/wifi.h        |  2 +-
+ drivers/staging/r8188eu/include/wlan_bssdef.h |  2 +-
+ 18 files changed, 21 insertions(+), 151 deletions(-)
+
+-- 
+2.32.0
+
