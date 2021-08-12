@@ -1,131 +1,156 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5526A6D13
-	for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 20:48:33 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id t7-20020a17090a5d87b029017807007f23so17226373pji.5
-        for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 13:48:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50FF56D13
+	for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 21:08:33 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id lw7-20020a17090b1807b029017881cc80b7so17327162pjb.3
+        for <linux-staging@lists.linux.dev>; Thu, 12 Aug 2021 14:08:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=WZtJjyJUTegQi3wtal7UFzYebMO2uoYzz3xW5Q9+lNM=;
-        b=xJYMhr371aaJjypYVWjnTM0IqjW8glBa79jTURUd9BuX4UySQyLRSCJdXCy/+o8s3s
-         l3htzamHMjgR9S4yl/mpWjIyhdSwD6AbAxc9zCAzAYGt++hYSdBom0e4d5ap1SwdNvec
-         3nBi4wNDbrwqRV6RAIypQGvIsblw7ZSDfyo4r6sB75a9ONrRSp0xSlZ2kfoE+PRugjnU
-         fWKWlwR1IEKQjSoJD9got2vfRtLfI+bYXo3Kw/ibIHNgU7/cfBZ3n9ffzMxem6H3KcsL
-         lWrPaxmpIUS9NBHfHiw6HqWnHHsrp22/BdYYuV2IKrQcQotidIZ01XeE9HlH4+lMR5zP
-         li+g==
+        bh=s7RmTXV1rtgfdtsCI73hdM+Qxlp56ePZYyS2TvYXHy0=;
+        b=Jsgo+mi3WZrTSDyt8q/ESmF/EHxj9yFPwh/0j+7GpcvhIIk8KCAhIgloZNrMrqrIv7
+         c4/As1N7gjjkh8Y7ESiMlOkKstFJSrY38qG7p5YNlGuY6pLRhR/onBnG5t19gW1SLpVX
+         m/D+E6jfSS3i9vRN7/HxUGzMyp5JQYX74hpLuXc/olkzPW++Rd7Xev+oaAzXquocDyTG
+         pPMZsyduHZyXGm1wIjhpgzRMY1Th29csXIkS7AwHUpRsGonFcLTxmP0VFnj04t63ykJy
+         QFc2al99bWzRhQwwR/FMoXT3341qapOHjuGi9C66QxqOjN1Ce0nTTVafOTbcRx4v+ns3
+         KXow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=WZtJjyJUTegQi3wtal7UFzYebMO2uoYzz3xW5Q9+lNM=;
-        b=fSVZVDMRk8jCx1yEBHKht5jwA7A/nx8DUwFbiOhHLWwt/cRXfgE/9qb9rX6a1FNCzr
-         RSxXGSF8CWtpDGCZvQxSbWKa/pzYqdwnEvgCbgxLSWlZWmmeFMhZ+rNlyPmNUAitUpnz
-         UwejPGDaW0hjX/hqFBNhonhIZnXGzPmQyN36D/58mykXbHVEI7Zu+dPZRKe3SGDXd5Dg
-         yUcIKr9ObtdnfHC7HzGi6gcDiW23/jlANnNZvhmu6iqqUm1NtIivEqXwMHi3ojgTsGQI
-         WQiVOz3aImnsQkCCnhuEZ0hcVmSQ+eay/i9d8WQF5bA75uuFDzL6K8zBCBJhkG2JhVit
-         Fmhw==
-X-Gm-Message-State: AOAM533W9CxXzBtALGGMbaaofqaM5l2qDEcu9taUYo+YNdWZj08qPCaG
-	VGqrMSk4/0KJZcN1cGcOMzfGs0DhQKQc3hB10ZLoEQ==
-X-Google-Smtp-Source: ABdhPJxPw98RMdkQuhmUls7t9NhJ8obMPDiruC8nzoIoNzH58LUl196AhTQStq0hVEUd9U+FUAwZU6ra+FdqIoWdF+w=
-X-Received: by 2002:aa7:90d4:0:b029:3b3:2746:5449 with SMTP id
- k20-20020aa790d40000b02903b327465449mr5856929pfk.81.1628801312873; Thu, 12
- Aug 2021 13:48:32 -0700 (PDT)
+        bh=s7RmTXV1rtgfdtsCI73hdM+Qxlp56ePZYyS2TvYXHy0=;
+        b=QtQ6aMU++ka7Nq4ptqwzOfprtctCMnIDKcJu8ATAIkf+d6k4Jvy7yPuGKr+iI/+QpW
+         ohd7xo6M0/94HKCuvEDyU0VzQP+MeKj1XLi9M+BTTV4WKCeiPUK7Eiura08oDHYAhpec
+         A+d+xJc/25pkQ1283cgH2mqotPRVls8EbVV+Pyxer/lTJcjr1gDliQDNAWDWbyYTbbls
+         /k2JANKVR2oBngNJ6Nb/ZGuX/h9VKFfaJmUAB/rAODuz97lbF2ETHxbVRB6/VspbAVxj
+         9ZIW7KUR/D4B1HTOieDJNoPbSzjHQek0k5z4LJF9+wDk4caT3Ywn0QKcrk4vegLHHTR0
+         9ZMA==
+X-Gm-Message-State: AOAM5331yqHclmVWnzyRVklzNYM1fRhejXi8lmxxO9E4SZtMuk3HlJXe
+	Un4Ce5bpGLm44qjK1gchJjST5y0FZryDltdOHF9Pn3FeP5w=
+X-Google-Smtp-Source: ABdhPJzjHg3RbpWAOODxYFtknhA8PmgwNEs6HNL11CCJvjnYP1/m1/T+UJm+zQXMjaue3di5tN4RJ4k5WrwAgdPg3VY=
+X-Received: by 2002:a17:90a:1f49:: with SMTP id y9mr18061147pjy.225.1628802512865;
+ Thu, 12 Aug 2021 14:08:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210812132057.22579-1-straube.linux@gmail.com>
-In-Reply-To: <20210812132057.22579-1-straube.linux@gmail.com>
+References: <20210812204027.338872-1-nathan@kernel.org> <20210812204027.338872-2-nathan@kernel.org>
+In-Reply-To: <20210812204027.338872-2-nathan@kernel.org>
 From: Phillip Potter <phil@philpotter.co.uk>
-Date: Thu, 12 Aug 2021 21:48:21 +0100
-Message-ID: <CAA=Fs0=6xJtTBo5n4_JAvFezZZ1zGnRDZAbh4ExWko=o2sPR6g@mail.gmail.com>
-Subject: Re: [PATCH] staging: r8188eu: replace custom hwaddr_aton_i() with mac_pton()
-To: Michael Straube <straube.linux@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
-	Martin Kaiser <martin@kaiser.cx>, linux-staging@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date: Thu, 12 Aug 2021 22:08:22 +0100
+Message-ID: <CAA=Fs0meOs0uzN-3AS2a_Gwzs5eVvD6+xxPUkjhNFZ5L4WNx2g@mail.gmail.com>
+Subject: Re: [PATCH 1/3] staging: r8188eu: Remove unused static inline
+ functions in rtw_recv.h
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
+	Nick Desaulniers <ndesaulniers@google.com>, linux-staging@lists.linux.dev, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, clang-built-linux@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 12 Aug 2021 at 14:21, Michael Straube <straube.linux@gmail.com> wrote:
+On Thu, 12 Aug 2021 at 21:40, Nathan Chancellor <nathan@kernel.org> wrote:
 >
-> Replace custom hwaddr_aton_i() with mac_pton() in core/ioctl_linux.c
-> and remove the now unused functions hwaddr_aton_i() and hex2num_i().
+> After commit 987219ad34a6 ("staging: r8188eu: remove lines from Makefile
+> that silence build warnings"), clang warns several times:
 >
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
+> In file included from
+> drivers/staging/r8188eu/os_dep/../include/drv_types.h:22:
+> drivers/staging/r8188eu/os_dep/../include/rtw_recv.h:395:9: warning:
+> variable 'buf_desc' is uninitialized when used here [-Wuninitialized]
+>         return buf_desc;
+>                ^~~~~~~~
+> drivers/staging/r8188eu/os_dep/../include/rtw_recv.h:391:25: note:
+> initialize the variable 'buf_desc' to silence this warning
+>         unsigned char *buf_desc;
+>                                ^
+>                                 = NULL
+> drivers/staging/r8188eu/os_dep/../include/rtw_recv.h:412:52: warning:
+> variable 'buf_star' is uninitialized when used here [-Wuninitialized]
+>         precv_frame = rxmem_to_recvframe((unsigned char *)buf_star);
+>                                                           ^~~~~~~~
+> drivers/staging/r8188eu/os_dep/../include/rtw_recv.h:410:14: note:
+> initialize the variable 'buf_star' to silence this warning
+>         u8 *buf_star;
+>                     ^
+>                      = NULL
+> 2 warnings generated.
+>
+> The functions that these warnings come from are not used or are called
+> from functions that are not used so just remove them to remove the
+> warnings.
+>
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 > ---
->  drivers/staging/r8188eu/os_dep/ioctl_linux.c | 40 +-------------------
->  1 file changed, 1 insertion(+), 39 deletions(-)
+>  drivers/staging/r8188eu/include/rtw_recv.h | 46 ----------------------
+>  1 file changed, 46 deletions(-)
 >
-> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> index d059b738b348..38ee41f9d2ba 100644
-> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> @@ -89,44 +89,6 @@ static const char * const iw_operation_mode[] = {
->         "Secondary", "Monitor"
->  };
+> diff --git a/drivers/staging/r8188eu/include/rtw_recv.h b/drivers/staging/r8188eu/include/rtw_recv.h
+> index 857269ae4209..81594e7aed51 100644
+> --- a/drivers/staging/r8188eu/include/rtw_recv.h
+> +++ b/drivers/staging/r8188eu/include/rtw_recv.h
+> @@ -386,52 +386,6 @@ static inline u8 *recvframe_pull_tail(struct recv_frame *precvframe, int sz)
+>         return precvframe->rx_tail;
+>  }
 >
-> -static int hex2num_i(char c)
+> -static inline unsigned char *get_rxbuf_desc(struct recv_frame *precvframe)
 > -{
-> -       if (c >= '0' && c <= '9')
-> -               return c - '0';
-> -       if (c >= 'a' && c <= 'f')
-> -               return c - 'a' + 10;
-> -       if (c >= 'A' && c <= 'F')
-> -               return c - 'A' + 10;
-> -       return -1;
+> -       unsigned char *buf_desc;
+> -
+> -       if (precvframe == NULL)
+> -               return NULL;
+> -       return buf_desc;
 > -}
 > -
-> -/**
-> - * hwaddr_aton - Convert ASCII string to MAC address
-> - * @txt: MAC address as a string (e.g., "00:11:22:33:44:55")
-> - * @addr: Buffer for the MAC address (ETH_ALEN = 6 bytes)
-> - * Returns: 0 on success, -1 on failure (e.g., string not a MAC address)
-> - */
-> -static int hwaddr_aton_i(const char *txt, u8 *addr)
+> -static inline struct recv_frame *rxmem_to_recvframe(u8 *rxmem)
 > -{
-> -       int i;
+> -       /* due to the design of 2048 bytes alignment of recv_frame,
+> -        * we can reference the struct recv_frame */
+> -       /* from any given member of recv_frame. */
+> -       /*  rxmem indicates the any member/address in recv_frame */
 > -
-> -       for (i = 0; i < 6; i++) {
-> -               int a, b;
-> -
-> -               a = hex2num_i(*txt++);
-> -               if (a < 0)
-> -                       return -1;
-> -               b = hex2num_i(*txt++);
-> -               if (b < 0)
-> -                       return -1;
-> -               *addr++ = (a << 4) | b;
-> -               if (i < 5 && *txt++ != ':')
-> -                       return -1;
-> -       }
-> -
-> -       return 0;
+> -       return (struct recv_frame *)(((size_t)rxmem >> RXFRAME_ALIGN) << RXFRAME_ALIGN);
 > -}
 > -
->  void indicate_wx_scan_complete_event(struct adapter *padapter)
+> -static inline struct recv_frame *pkt_to_recvframe(struct sk_buff *pkt)
+> -{
+> -       u8 *buf_star;
+> -       struct recv_frame *precv_frame;
+> -       precv_frame = rxmem_to_recvframe((unsigned char *)buf_star);
+> -
+> -       return precv_frame;
+> -}
+> -
+> -static inline u8 *pkt_to_recvmem(struct sk_buff *pkt)
+> -{
+> -       /*  return the rx_head */
+> -
+> -       struct recv_frame *precv_frame = pkt_to_recvframe(pkt);
+> -
+> -       return  precv_frame->rx_head;
+> -}
+> -
+> -static inline u8 *pkt_to_recvdata(struct sk_buff *pkt)
+> -{
+> -       /*  return the rx_data */
+> -
+> -       struct recv_frame *precv_frame = pkt_to_recvframe(pkt);
+> -
+> -       return  precv_frame->rx_data;
+> -}
+> -
+>  static inline int get_recvframe_len(struct recv_frame *precvframe)
 >  {
->         union iwreq_data wrqu;
-> @@ -2512,7 +2474,7 @@ static int rtw_get_ap_info(struct net_device *dev,
->         while (phead != plist) {
->                 pnetwork = container_of(plist, struct wlan_network, list);
->
-> -               if (hwaddr_aton_i(data, bssid)) {
-> +               if (!mac_pton(data, bssid)) {
->                         DBG_88E("Invalid BSSID '%s'.\n", (u8 *)data);
->                         spin_unlock_bh(&pmlmepriv->scanned_queue.lock);
->                         return -EINVAL;
+>         return precvframe->len;
 > --
-> 2.32.0
+> 2.33.0.rc2
 >
 
-Dear Michael,
+Dear Nathan,
 
-Looks good, thanks.
+Thanks for this.
 
 Acked-by: Phillip Potter <phil@philpotter.co.uk>
 
