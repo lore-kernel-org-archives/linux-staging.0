@@ -1,20 +1,27 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC39E6D13
-	for <linux-staging@lists.linux.dev>; Fri, 13 Aug 2021 09:44:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F076D13
+	for <linux-staging@lists.linux.dev>; Fri, 13 Aug 2021 10:05:41 +0000 (UTC)
 Received: from martin by viti.kaiser.cx with local (Exim 4.89)
 	(envelope-from <martin@viti.kaiser.cx>)
-	id 1mETjN-0002KO-Tj; Fri, 13 Aug 2021 11:44:01 +0200
-Date: Fri, 13 Aug 2021 11:44:01 +0200
+	id 1mEU4G-0002an-N0; Fri, 13 Aug 2021 12:05:36 +0200
+Date: Fri, 13 Aug 2021 12:05:36 +0200
 From: Martin Kaiser <martin@kaiser.cx>
-To: Michael Straube <straube.linux@gmail.com>
-Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/4] staging: r8188eu: refactor Hal_GetChnlGroup88E()
-Message-ID: <20210813094401.y2d6wehhdtuvbvp4@viti.kaiser.cx>
-References: <20210813073109.25609-1-straube.linux@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 3/5] staging: r8188eu: (trivial) remove a duplicate debug
+ print
+Message-ID: <20210813100536.xkjzfq5pstbhdwru@viti.kaiser.cx>
+References: <20210811201450.31366-1-martin@kaiser.cx>
+ <20210811201450.31366-3-martin@kaiser.cx>
+ <CAA=Fs0n0U62cZADeEGXD7HUYzCXpZuHXGZZruztNoTeShFw5aA@mail.gmail.com>
+ <20210812061759.GW22532@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -23,31 +30,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210813073109.25609-1-straube.linux@gmail.com>
+In-Reply-To: <20210812061759.GW22532@kadam>
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: Martin Kaiser <martin@viti.kaiser.cx>
 
-Thus wrote Michael Straube (straube.linux@gmail.com):
+Hi Dan and Phil,
 
-> This series refactors Hal_GetChnlGroup88E().
->  - removes 5GHz code
->  - changes return type to void
->  - cleans up camel case naming
+Thus wrote Dan Carpenter (dan.carpenter@oracle.com):
 
-> Michael Straube (4):
->   staging: r8188eu: remove 5GHz code from Hal_GetChnlGroup88E()
->   staging: r8188eu: convert return type of Hal_GetChnlGroup88E() to void
->   staging: r8188eu: rename parameter of Hal_GetChnlGroup88E()
->   staging: r8188eu: rename Hal_GetChnlGroup88E()
+> Please think of the subject and the commit message as two different
+> things.  Often it's people reviewing on email will only read one or the
+> other.  In other words just restate the subject:
 
->  .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 90 ++++++-------------
->  1 file changed, 26 insertions(+), 64 deletions(-)
+ok, I'll keep that in mind for further patches.
 
-> -- 
-> 2.32.0
+> > Dear Martin,
 
-Hi Michael,
+> > Just my personal opinion, but I'd be inclined to strip out all DBG_88E
+> > calls totally. If there are necessary functions being called such as
+> > device_may_wakeup() we can always just keep this part and remove the
+> > macro call (not checked this function out myself yet). Thanks.
 
-this series looks ok to me.
+I'd agree with you, Phil. Most DBG_88E prints don't say anything useful.
 
-Acked-by: Martin Kaiser <martin@kaiser.cx>
+This comment from Greg made me drop the DBG_88E removal for now
+
+https://lore.kernel.org/linux-staging/20210803201511.29000-1-martin@kaiser.cx/T/#m05d82a0ca8ed36180ebdc987114b4d892445c52d
+
+A compromise would be to remove only those DBG_88E prints which are
+really not helpful.
+
+Best regards,
+Martin
