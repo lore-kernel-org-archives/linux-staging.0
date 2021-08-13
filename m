@@ -1,89 +1,133 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED0A168
-	for <linux-staging@lists.linux.dev>; Fri, 13 Aug 2021 15:00:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BDF7E610F7;
-	Fri, 13 Aug 2021 15:00:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1628866850;
-	bh=6RC6vslFjh+wQ8aj4nLqwnEjlCwuuO/dIriJN4spDOU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q5nskbAqluCwv1ZaznzfE/fQY3JWn0B9SKicAEJHrm1haXbQ7RCSqc434mUzOfsgK
-	 NfZJgizQZaTPiMBKMfZMtfogIhi79RFVigtolj9VowNQTi+PbWl9uNoVSBqXuDC6xN
-	 dXkf2sPnSL6UO+rmXL97gx0jg3QDbn/4pRNDU7tM=
-Date: Fri, 13 Aug 2021 17:00:47 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Oliver Graute <oliver.graute@kococonnector.com>
-Cc: oliver.graute@gmail.com, Carlis <zhangxuezhi1@yulong.com>,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] staging: fbtft: fb_st7789v: reset display before
- initialization
-Message-ID: <YRaJH5Sj+X4Z3xH/@kroah.com>
-References: <20210813125928.3734-1-oliver.graute@kococonnector.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7798D168
+	for <linux-staging@lists.linux.dev>; Fri, 13 Aug 2021 15:49:09 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id e15so12476857plh.8
+        for <linux-staging@lists.linux.dev>; Fri, 13 Aug 2021 08:49:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=wwWCtmitPIziHrsVDs3e/WXMsT5Htg5FsOmnBCodSj8=;
+        b=IYdotH9NOHI+p6YKBepbynbdJfSmXJkJybgDCe1TtlsZi9d8s2ARhtWMwxaW4OtCLq
+         bFaaxwtms7kw7v0QGyAhrDtCCioiCLcGglpFR8y2So3ynzX/1/r1QDH+OpSsyD4XSNXW
+         e09KeqUi7PPKNy3dHFxjXD1hHHD+rZWpC+hMA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=wwWCtmitPIziHrsVDs3e/WXMsT5Htg5FsOmnBCodSj8=;
+        b=t7rh1wj6N8oH7285TXeVhiaMwyXMaP6fS+jwkTOq25q5OwNEGxI3Q2pHmmKJT3eNKg
+         xVqiEqJ0c8Bxrr/N14O6sIwFpAByyemLOuCwfWY/DVxSlMZx/0qKRa5+G6DvTwe8CCho
+         uGWZ8QFw3XCtJWO3EPi9kvhot5MdpEM20v5aRV5QtZxMMnbGMeGQ734likpYH18C3Q/V
+         ZKk7vB/XxAoo89FMwiQcekdkNOV0XFZDXtALMRgWT8ATo1VOzf3qnEosPdJUlgMtRqpK
+         qDbEGs9wIUG/QCgfm4QAjTpP78UEurdX6TGUkCTUtSQLh5LP88451odrmhOmNB9Suj2J
+         EnZA==
+X-Gm-Message-State: AOAM5332ioi4Cn5I0vtrqOKkEZVGie5knBxlmYVmxrSghpEtfJ0un8y5
+	AHMDIfa+CgKhlKnO7EW9JVqisQ==
+X-Google-Smtp-Source: ABdhPJyv0yGI/+CjV3WSksJoELQp2QfXxshGvk60ssRFFyGXixHmNtvKKEOi+49tFIULL6ceroPwFw==
+X-Received: by 2002:a05:6a00:150d:b029:3c8:e86e:79ec with SMTP id q13-20020a056a00150db02903c8e86e79ecmr3123596pfu.62.1628869748959;
+        Fri, 13 Aug 2021 08:49:08 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id u21sm2725385pfh.163.2021.08.13.08.49.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Aug 2021 08:49:08 -0700 (PDT)
+Date: Fri, 13 Aug 2021 08:49:07 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Johannes Berg <johannes@sipsolutions.net>
+Cc: linux-hardening@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Keith Packard <keithpac@amazon.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: Re: [PATCH 10/64] lib80211: Use struct_group() for memcpy() region
+Message-ID: <202108130846.EC339BCA@keescook>
+References: <20210727205855.411487-1-keescook@chromium.org>
+ <20210727205855.411487-11-keescook@chromium.org>
+ <a9c8ae9e05cfe2679cd8a7ef0ab20b66cf38b930.camel@sipsolutions.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210813125928.3734-1-oliver.graute@kococonnector.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a9c8ae9e05cfe2679cd8a7ef0ab20b66cf38b930.camel@sipsolutions.net>
 
-On Fri, Aug 13, 2021 at 02:59:27PM +0200, Oliver Graute wrote:
-> In rare cases the display is flipped or mirrored. This was observed more
-> often in a low temperature environment. A clean reset on init_display()
-> should help to get registers in a sane state.
+On Fri, Aug 13, 2021 at 10:04:09AM +0200, Johannes Berg wrote:
+> On Tue, 2021-07-27 at 13:58 -0700, Kees Cook wrote:
+> > 
+> > +++ b/include/linux/ieee80211.h
+> > @@ -297,9 +297,11 @@ static inline u16 ieee80211_sn_sub(u16 sn1, u16 sn2)
+> >  struct ieee80211_hdr {
+> >  	__le16 frame_control;
+> >  	__le16 duration_id;
+> > -	u8 addr1[ETH_ALEN];
+> > -	u8 addr2[ETH_ALEN];
+> > -	u8 addr3[ETH_ALEN];
+> > +	struct_group(addrs,
+> > +		u8 addr1[ETH_ALEN];
+> > +		u8 addr2[ETH_ALEN];
+> > +		u8 addr3[ETH_ALEN];
+> > +	);
+> >  	__le16 seq_ctrl;
+> >  	u8 addr4[ETH_ALEN];
+> >  } __packed __aligned(2);
 > 
-> Signed-off-by: Oliver Graute <oliver.graute@kococonnector.com>
-> ---
->  drivers/staging/fbtft/fb_st7789v.c | 2 ++
->  1 file changed, 2 insertions(+)
+> This file isn't really just lib80211, it's also used by everyone else
+> for 802.11, but I guess that's OK - after all, this doesn't really
+> result in any changes here.
 > 
-> diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/staging/fbtft/fb_st7789v.c
-> index 3a280cc1892c..0a2dbed9ffc7 100644
-> --- a/drivers/staging/fbtft/fb_st7789v.c
-> +++ b/drivers/staging/fbtft/fb_st7789v.c
-> @@ -82,6 +82,8 @@ enum st7789v_command {
->  {
->  	int rc;
-> 
-> +	par->fbtftops.reset(par);
-> +
->  	rc = init_tearing_effect_line(par);
->  	if (rc)
->  		return rc;
-> -- 
-> 2.17.1
+> > +++ b/net/wireless/lib80211_crypt_ccmp.c
+> > @@ -136,7 +136,8 @@ static int ccmp_init_iv_and_aad(const struct ieee80211_hdr *hdr,
+> >  	pos = (u8 *) hdr;
+> >  	aad[0] = pos[0] & 0x8f;
+> >  	aad[1] = pos[1] & 0xc7;
+> > -	memcpy(aad + 2, hdr->addr1, 3 * ETH_ALEN);
+> > +	BUILD_BUG_ON(sizeof(hdr->addrs) != 3 * ETH_ALEN);
+> > +	memcpy(aad + 2, &hdr->addrs, ETH_ALEN);
 > 
 > 
+> However, how is it you don't need the same change in net/mac80211/wpa.c?
+> 
+> We have three similar instances:
+> 
+>         /* AAD (extra authenticate-only data) / masked 802.11 header
+>          * FC | A1 | A2 | A3 | SC | [A4] | [QC] */
+>         put_unaligned_be16(len_a, &aad[0]);
+>         put_unaligned(mask_fc, (__le16 *)&aad[2]);
+>         memcpy(&aad[4], &hdr->addr1, 3 * ETH_ALEN);
+> 
+> 
+> and
+> 
+>         memcpy(&aad[4], &hdr->addr1, 3 * ETH_ALEN);
+> 
+> and
+> 
+>         memcpy(aad + 2, &hdr->addr1, 3 * ETH_ALEN);
+> 
+> so those should also be changed, it seems?
 
-Hi,
+Ah! Yes, thanks for pointing this out. During earlier development I split
+the "cross-field write" changes from the "cross-field read" changes, and
+it looks like I missed moving lib80211_crypt_ccmp.c into that portion of
+the series (which I haven't posted nor finished -- it's lower priority
+than fixing the cross-field writes).
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+> In which case I'd probably prefer to do this separately from the staging
+> drivers ...
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+Agreed. Sorry for the noise on that part. I will double-check the other
+patches.
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/SubmittingPatches for what needs to be done
-  here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+-- 
+Kees Cook
