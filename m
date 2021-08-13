@@ -1,80 +1,50 @@
-Received: from sipsolutions.net (s3.sipsolutions.net [144.76.43.62])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7F872
-	for <linux-staging@lists.linux.dev>; Fri, 13 Aug 2021 08:06:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-	Resent-Cc:Resent-Message-ID; bh=sJrRyJAk0s7nMFwbcLX8dMSTh66Xp6VqgCIIZV7nbU4=;
-	t=1628841989; x=1630051589; b=ObOwey2lq55eDXQkHDgnxpGfiBoUiQnpXshIlUtIScMbagP
-	etiugZR44VcmwxF3cBP9LrsScxVaWt5VIdXF0bpXnxBlx1v8BB01qBVeFk8ktrUiNhguWLwLyEWuS
-	snEwsxo0HEkE7jHtPApEVvLFpf9JVFe4pfb0GTG7E0UpWnmAOssumcECGsNdqQ3T1lDe/h+LlXQQA
-	jCPd/mAVKaonkSkRA05+Ph7WI7G9ebLLgkKJWRvlmE7qp2J+7m17+Unrz/TNe631goh30pc+mIJ+1
-	h7ZJRD54D1MEbKcEODZiRxrL6q9LzfNpeF2XyK6A4zXGnJbP8TP59gFexhz73vrA==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <johannes@sipsolutions.net>)
-	id 1mERnV-00A8zH-4r; Fri, 13 Aug 2021 09:40:09 +0200
-Message-ID: <bb01e784dddf6a297025981a2a000a4d3fdaf2ba.camel@sipsolutions.net>
-Subject: Re: [PATCH 39/64] mac80211: Use memset_after() to clear tx status
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Kees Cook <keescook@chromium.org>, "David S. Miller"
- <davem@davemloft.net>,  Jakub Kicinski <kuba@kernel.org>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>, Keith Packard
- <keithpac@amazon.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- linux-wireless@vger.kernel.org,  netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  linux-staging@lists.linux.dev,
- linux-block@vger.kernel.org,  linux-kbuild@vger.kernel.org,
- clang-built-linux@googlegroups.com,  linux-hardening@vger.kernel.org
-Date: Fri, 13 Aug 2021 09:40:07 +0200
-In-Reply-To: <202107310852.551B66EE32@keescook>
-References: <20210727205855.411487-1-keescook@chromium.org>
-	 <20210727205855.411487-40-keescook@chromium.org>
-	 <202107310852.551B66EE32@keescook>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F7672
+	for <linux-staging@lists.linux.dev>; Fri, 13 Aug 2021 08:20:15 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 29B2960FC3;
+	Fri, 13 Aug 2021 08:20:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1628842815;
+	bh=R2t/HkTfw4iNuHnkpQLxoKAEyy4GosUZbPrQovzCfTM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Nyuqa5aQXSZ6GUZWcEcZv0Id4SVtTlXsNz9UtCd4ZlNnFf4KQEEgFX5crXQm/E1ya
+	 +6yBMTJAZZcoN9SYQjy7q4KOq1n2Mz93W7A1yOUmlYE4gr4tSFzYNDn819Ds5EjetO
+	 TZFVZBa2vnDIRfxw88FJFcMUTWRBQRzoTdvppxRM=
+Date: Fri, 13 Aug 2021 10:20:13 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Oliver Graute <oliver.graute@kococonnector.com>
+Cc: oliver.graute@gmail.com, Carlis <zhangxuezhi1@yulong.com>,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] fbtft: fb_st7789v: added reset on init_display()
+Message-ID: <YRYrPfEHrcvDL4va@kroah.com>
+References: <20210813062511.14537-1-oliver.graute@kococonnector.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-malware-bazaar: not-scanned
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210813062511.14537-1-oliver.graute@kococonnector.com>
 
-On Sat, 2021-07-31 at 08:55 -0700, Kees Cook wrote:
-> On Tue, Jul 27, 2021 at 01:58:30PM -0700, Kees Cook wrote:
-> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > field bounds checking for memset(), avoid intentionally writing across
-> > neighboring fields.
-> > 
-> > Use memset_after() so memset() doesn't get confused about writing
-> > beyond the destination member that is intended to be the starting point
-> > of zeroing through the end of the struct.
-> > 
-> > Note that the common helper, ieee80211_tx_info_clear_status(), does NOT
-> > clear ack_signal, but the open-coded versions do. All three perform
-> > checks that the ack_signal position hasn't changed, though.
+On Fri, Aug 13, 2021 at 08:25:10AM +0200, Oliver Graute wrote:
+> staging: fbtft: fb_st7789v: reset display before initialization
+
+What is this line here, and why is this not your subject line instead?
+
 > 
-> Quick ping on this question: there is a mismatch between the common
-> helper and the other places that do this. Is there a bug here?
+> In rare cases the display is flipped or mirrored. This was observed more
+> often in a low temperature environment. A clean reset on init_display()
+> should help to get registers in a sane state.
+> 
+> Signed-off-by: Oliver Graute <oliver.graute@kococonnector.com>
 
-Yes.
+What commit does this fix?
 
-The common helper should also clear ack_signal, but that was broken by
-commit e3e1a0bcb3f1 ("mac80211: reduce IEEE80211_TX_MAX_RATES"), because
-that commit changed the order of the fields and updated carl9170 and p54
-properly but not the common helper...
+thanks,
 
-It doesn't actually matter much because ack_signal is normally filled in
-afterwards, and even if it isn't, it's just for statistics.
-
-The correct thing to do here would be to
-
-	memset_after(&info->status, 0, rates);
-
-johannes
-
+greg k-h
