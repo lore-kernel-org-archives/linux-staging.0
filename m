@@ -1,73 +1,101 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE04168
-	for <linux-staging@lists.linux.dev>; Fri, 13 Aug 2021 16:27:51 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id w5so19291354ejq.2
-        for <linux-staging@lists.linux.dev>; Fri, 13 Aug 2021 09:27:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47F7372
+	for <linux-staging@lists.linux.dev>; Fri, 13 Aug 2021 16:38:09 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id a8so16079045pjk.4
+        for <linux-staging@lists.linux.dev>; Fri, 13 Aug 2021 09:38:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ImhGSizu51qcAiPtd7HLBN22Lau/TM3KbSolcI8f00k=;
-        b=RWKHnEj+1M8YE0PLOqaDZVnZjruu6unn14Hg9b/LdOWYpftRNvPZjMNs//UKcqArUM
-         dzrwBBifdrrijisFAqQf0rcJv56lQ243uUSSD3M7E5kYWtbrIijb0k7b2DTumc+RUR+d
-         hdxPl+vCudjouRaI7Porl5ikUztuZQMxKnrjMWAzPMtB0swUU+riAaswfA024ly8E/5Y
-         6TThc4WNFh5/FnpOGBjTx6lLtogvgWsk37h/FhiAXOYSX+qiZWo8fPKT/3VnX3uh5rkg
-         mtc4rpcOyNWoih8x/A99IMM4BXVFM4faB7BmyPoLhFlQYmifWPt/k8QlO6W4Spxf4x8W
-         F/4w==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=rKvd8GPFgFZOtNQzzws03kml/1ydB9Y6K/jtiteL0wc=;
+        b=mkunRimklcu7tq5sSrKfl+MZalwCsCE4vJGGtvK/+ezuV7gNnMBYCay5kpiCcnF0DR
+         r07bEiI8kfE2zFDR77solHFcAHg4UcjgdwcGYlr7CUxBh3a2rlLuN9NjGkRit/PgLxIK
+         fApuGfKI4bNzgewxf98oGVyAj4fiqfE+NFY3M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ImhGSizu51qcAiPtd7HLBN22Lau/TM3KbSolcI8f00k=;
-        b=MpEllNb6rE13GyOaZeDZztO8zy/AqOEuOqA13/6Tm9lB1o2E+metPVcU57bS5laqPQ
-         FUTWccUJEgaulXtw7dMlUWRKfi3P4AQHyzpuJfNSPbEBBI3CNqveeiHuuaehrfleb0B6
-         fQ5kyW7ZUVI5NGQJX/R90O0xn2c8MsHhDgm4/ScJUIFKuIH4EQ3fQIhrNlo6EQJ0HRSD
-         xlk4DIGcocZHaoBoo6+d0OGwfJoiuA0nidS5ih1OMp9kAH83gaTj5zjZTQv+NIhYpIGW
-         QGgWIGeNAbjmCvS3HhgZWaZ3OvcYReFQJKXRkYQZYGYCn9ZtAzaP+7k6Xov72XrPDyFW
-         KH9w==
-X-Gm-Message-State: AOAM533wdKkIo3i+wlqGO2K3kQquVn98k+IXvzsjlPQdZO8kqSDMW27O
-	6JyyviL+0NbgPsKY/CN6C5o=
-X-Google-Smtp-Source: ABdhPJwJGwcRLMAAg/iwe4fePXNNMSVl91JwT+NeusWxvJeP2w1mp3sT0YiWL86TjZi6ORQS2PAMbA==
-X-Received: by 2002:a17:906:4f03:: with SMTP id t3mr3364891eju.369.1628872069951;
-        Fri, 13 Aug 2021 09:27:49 -0700 (PDT)
-Received: from localhost.localdomain (host-79-22-109-211.retail.telecomitalia.it. [79.22.109.211])
-        by smtp.gmail.com with ESMTPSA id h19sm821013ejt.46.2021.08.13.09.27.48
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=rKvd8GPFgFZOtNQzzws03kml/1ydB9Y6K/jtiteL0wc=;
+        b=TmJUU5y4WJ6YGGQRiPRwmY0slteSc74lQKlZjiKj5wUvUBVs78tctt0eQThyly/aTO
+         ASmuIOX5YF8Fd8o3KesF7DFWVJosr6fpPZzWIQ/BYt4yjDENbzhsHGysqbTCPSN+wKae
+         +fdMFeeHEL9DhncPoYJIdNzDB8DB7pRhDvNpddu6c6Qhb27pf38EQDmv4PAvX1mr3+He
+         bcxGghPK7kvx18/g0cg7HR14egntVbJbgksgBnRrVGMnjWI5v2Y/Rz2obuUJ94g2fidW
+         IfnymnSwnG1iPYT9Iw1U/NMq8p1iEV4yhAajBP0KPfTjq1JhS+wzNvlX1ddl6e7wXYmZ
+         X42A==
+X-Gm-Message-State: AOAM531W34MfMq95RNx+P2NfIyERgQEBYItRVeuVgrSzvBv4IXZb5C0A
+	ih/Jk+P/JXw02ckaUhCh0d4z7A==
+X-Google-Smtp-Source: ABdhPJwWTb+EHLsKayUYtAvOSVOUAdQtjnMHIwfubJ7iDXxddJbwYUHITnIGBY+2pLtZ3MYHoMtp7g==
+X-Received: by 2002:a62:6042:0:b029:3e0:86b4:51b with SMTP id u63-20020a6260420000b02903e086b4051bmr3241725pfb.62.1628872688791;
+        Fri, 13 Aug 2021 09:38:08 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id q5sm2291199pjo.7.2021.08.13.09.38.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Aug 2021 09:27:49 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: gregkh@linuxfoundation.org, Michael Straube <straube.linux@gmail.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, martin@kaiser.cx, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Michael Straube <straube.linux@gmail.com>
-Subject: Re: [PATCH 1/4] staging: r8188eu: remove 5GHz code from Hal_GetChnlGroup88E()
-Date: Fri, 13 Aug 2021 18:27:48 +0200
-Message-ID: <7543688.ql1GSxUkq4@localhost.localdomain>
-In-Reply-To: <20210813073109.25609-2-straube.linux@gmail.com>
-References: <20210813073109.25609-1-straube.linux@gmail.com> <20210813073109.25609-2-straube.linux@gmail.com>
+        Fri, 13 Aug 2021 09:38:08 -0700 (PDT)
+Date: Fri, 13 Aug 2021 09:38:07 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: atomisp: restore missing 'return' statement
+Message-ID: <202108130937.7848F6B318@keescook>
+References: <20210802143820.1150099-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210802143820.1150099-1-arnd@kernel.org>
 
-On Friday, August 13, 2021 9:31:06 AM CEST Michael Straube wrote:
-> Remove 5GHz code from Hal_GetChnlGroup88E().
+On Mon, Aug 02, 2021 at 04:38:14PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
+> The input_system_configure_channel_sensor() function lost its final
+> return code in a previous patch:
+> 
+> drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: In function 'input_system_configure_channel_sensor':
+> drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1649:1: error: control reaches end of non-void function [-Werror=return-type]
+> 
+> Restore what was there originally.
+> 
+> Fixes: 728a5c64ae5f ("media: atomisp: remove dublicate code")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+
+I hit this too. Thanks!
+
+Reviewed-by: Kees Cook <keescook@chromium.org>
+
+-Kees
+
 > ---
->  .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 62 +++++--------------
->  1 file changed, 14 insertions(+), 48 deletions(-)
+>  .../media/atomisp/pci/hive_isp_css_common/host/input_system.c   | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+> index 8e085dda0c18..712e01c37870 100644
+> --- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+> +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+> @@ -1646,6 +1646,8 @@ static input_system_err_t input_system_configure_channel_sensor(
+>  	default:
+>  		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+>  	}
+> +
+> +	return INPUT_SYSTEM_ERR_NO_ERROR;
+>  }
+>  
+>  // Test flags and set structure.
+> -- 
+> 2.29.2
+> 
 
-I missed those lines in my "Remove 5GHz band related code" series.
-Nice work, so...
-
-Acked-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-
-Thanks,
-
-Fabio
-
-
+-- 
+Kees Cook
