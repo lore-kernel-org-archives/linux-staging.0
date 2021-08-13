@@ -1,87 +1,64 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sipsolutions.net (s3.sipsolutions.net [144.76.43.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA2872
-	for <linux-staging@lists.linux.dev>; Fri, 13 Aug 2021 18:26:27 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id u1so7481644wmm.0
-        for <linux-staging@lists.linux.dev>; Fri, 13 Aug 2021 11:26:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=mzFaXUU/x0+sUupGX2omqXEd8e4JzxswlubxRenky6w=;
-        b=ScYlXF5tHV8j2XrA2jNLLzo8Rab8MRZldCrvA9HegVr5y92+/z3K5kNNonQHZE5CIp
-         xfj9mMkzV+/tJiheHAPX6B6JjDct4b3lvUjknyYrimNkzEBnjq+mSSi8oEYGCBSSbuwm
-         k8ZeSxQ9iZoLcNg3jP/GPiL5Pw15HHo+JRsMP445xt8EKfrOn1sqYV/3sguXbnAUkloW
-         EmFiU1A9WTZdSvFT0ml0jKd/4IbM9Z3JzlLTzkvJeSotXrj7bZFXHN+HEajHKFxfHwrV
-         YKq6nAavtsoSEUCSSuN8Lu12fF2EbNSrrNDsNQ7pvHIGuEKoSCFc9rxMAw4spomShvDe
-         SxBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=mzFaXUU/x0+sUupGX2omqXEd8e4JzxswlubxRenky6w=;
-        b=rRkXi/F5eURqUmyEU/7N+qx4NHP6ArAgW8CBRJpgHr8YF9Fm3Msx9NxjCN4IMOTFZ3
-         BjpTQwGgavVTML0lx9lN5lF7cNjeFkIF73khcQlcDNMe6WrtfNbFWoHmF4lwx+pLKJUl
-         bA2ZNua+iiuv++7TZfPvTUbTxmKpVbHc/C5UHR3i4Fb5GQQ+dLZZvYHBmxKLRYeUxofd
-         h+YOkXP4hFVaL35Q6Ay0uolNxmRmF1fpN8BfHCQC0LESmA0+iZnUxCl63H0anTNPnMgj
-         EU0tangYKVty5iqdA7Z/1wOA05r3LlbxVSz/F4p3L6j70qXsZK10kJUuztPUj+QsKcrM
-         McBw==
-X-Gm-Message-State: AOAM531A2g6LQSFmnbJqXelpHxvX2AUWWdDke347KLbgVW7ELZj5irgb
-	n9ucVH7GlZo3/+Fp3rshilI=
-X-Google-Smtp-Source: ABdhPJxQFjf8JQn/5VnVYjev/ZHIaQJ2q8FdQ5/sVuFvBUdt/Mlfal5NlbRoF/1ca5UJOvsJVfvWRA==
-X-Received: by 2002:a1c:4a:: with SMTP id 71mr3991907wma.87.1628879185892;
-        Fri, 13 Aug 2021 11:26:25 -0700 (PDT)
-Received: from ?IPv6:2a02:8108:96c0:3b88::2571? ([2a02:8108:96c0:3b88::2571])
-        by smtp.gmail.com with ESMTPSA id p14sm2267405wro.3.2021.08.13.11.26.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Aug 2021 11:26:25 -0700 (PDT)
-Subject: Re: [PATCH 1/4] staging: r8188eu: remove 5GHz code from
- Hal_GetChnlGroup88E()
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, martin@kaiser.cx,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20210813073109.25609-1-straube.linux@gmail.com>
- <20210813073109.25609-2-straube.linux@gmail.com>
- <7543688.ql1GSxUkq4@localhost.localdomain>
-From: Michael Straube <straube.linux@gmail.com>
-Message-ID: <945d66b4-122c-33e2-659d-b7028de1bfcc@gmail.com>
-Date: Fri, 13 Aug 2021 20:25:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA0B173
+	for <linux-staging@lists.linux.dev>; Fri, 13 Aug 2021 19:45:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
+	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+	Resent-Cc:Resent-Message-ID; bh=vGxwLQwFO2S7TTjs1yBKTvR75GNMnpeXiG3mZABQ1io=;
+	t=1628883904; x=1630093504; b=t/jdB0s6VH0dlIjduxeXuxu1jqRbxS/0VRvWdf6HApMdYzx
+	Xb2sCD+RAjtJjjVTOBqQaoZaVKH9indbtkHwfnaZuPcDwfJQSs5rUqwhTnYxGLOqAM76bRV6NFsxj
+	v9G3CVkKjRTgCDP5oICJ2y+IpvI2Kd350P74UE7MmMjMcn4ob1Gjqs2R+0r2mZWRt5RLHQytrnL37
+	NnL4Qf5MlhbVUJRt19jgc/GkA6Z0rUEclboHNPmpZTCaEQf624dOSGOGrfFI4pZwIW6Cb1UPw23al
+	BwRJCo+NasQo0JBJSXH8pEwelL8oBBLfLocv0BM0lhvoomadsAFWV9H0dsEaOZ0w==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <johannes@sipsolutions.net>)
+	id 1mEd6u-00ANL4-Up; Fri, 13 Aug 2021 21:44:57 +0200
+Message-ID: <6488ed24d2ce0ccb1987c271064e25bc72c30863.camel@sipsolutions.net>
+Subject: Re: [PATCH 10/64] lib80211: Use struct_group() for memcpy() region
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Kees Cook <keescook@chromium.org>
+Cc: linux-hardening@vger.kernel.org, "Gustavo A. R. Silva"
+ <gustavoars@kernel.org>, Keith Packard <keithpac@amazon.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton
+ <akpm@linux-foundation.org>,  linux-kernel@vger.kernel.org,
+ linux-wireless@vger.kernel.org,  netdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,  linux-staging@lists.linux.dev,
+ linux-block@vger.kernel.org,  linux-kbuild@vger.kernel.org,
+ clang-built-linux@googlegroups.com
+Date: Fri, 13 Aug 2021 21:44:55 +0200
+In-Reply-To: <202108130846.EC339BCA@keescook>
+References: <20210727205855.411487-1-keescook@chromium.org>
+	 <20210727205855.411487-11-keescook@chromium.org>
+	 <a9c8ae9e05cfe2679cd8a7ef0ab20b66cf38b930.camel@sipsolutions.net>
+	 <202108130846.EC339BCA@keescook>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <7543688.ql1GSxUkq4@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-malware-bazaar: not-scanned
 
-On 8/13/21 6:27 PM, Fabio M. De Francesco wrote:
-> On Friday, August 13, 2021 9:31:06 AM CEST Michael Straube wrote:
->> Remove 5GHz code from Hal_GetChnlGroup88E().
->>
->> Signed-off-by: Michael Straube <straube.linux@gmail.com>
->> ---
->>   .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 62 +++++--------------
->>   1 file changed, 14 insertions(+), 48 deletions(-)
+On Fri, 2021-08-13 at 08:49 -0700, Kees Cook wrote:
 > 
-> I missed those lines in my "Remove 5GHz band related code" series.
-> Nice work, so...
-> 
-> Acked-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> 
-> Thanks,
-> 
-> Fabio
-> 
-> 
+> Ah! Yes, thanks for pointing this out. During earlier development I split
+> the "cross-field write" changes from the "cross-field read" changes, and
+> it looks like I missed moving lib80211_crypt_ccmp.c into that portion of
+> the series (which I haven't posted nor finished -- it's lower priority
+> than fixing the cross-field writes).
 
-Thanks for your review and ack Fabio. :)
+Oh, OK. I think all of this patch was cross-field read though.
 
-Michael
+Anyway, the patch itself is fine, just seems incomplete and somewhat
+badly organised :)
+
+johannes
+
+
