@@ -1,130 +1,74 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 749F72FAD
-	for <linux-staging@lists.linux.dev>; Sat, 14 Aug 2021 07:40:35 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id x14so204997wrs.5
-        for <linux-staging@lists.linux.dev>; Sat, 14 Aug 2021 00:40:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB462FB6
+	for <linux-staging@lists.linux.dev>; Sat, 14 Aug 2021 10:20:36 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id b15so22864757ejg.10
+        for <linux-staging@lists.linux.dev>; Sat, 14 Aug 2021 03:20:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ssbrzr2nx0rE0JNE1VJsrKipba9hb+pFtUvZYUXY/LU=;
-        b=DtNuDkOrsCOjybj26b0uPRs5N4qE1y5gum8Xm7eQgZXsNGjQO/6j7rI5axD9jcxqLL
-         yyRkjeenp6feIqil8jhspnZB1+1tl+WYkm1utHzd+qgwrzMXK9MHxH7vD44FXYWUaADu
-         ormpol1hnmmRUjOc+kaIR2p1NMDIqVsgX5Z9loLEvjCLPxT8p8hlHkgayOYJkbyo8OoV
-         9XeKaOCpr79C8vhuE1nHjIbKfQFbvViLYiFTURNyjiEGoSQ34YVqa/CXOBTA9cybmlYh
-         jqBiY1Jk0oQWmWF6PSGKjw8uP5KY2MC08W1WpGYnUpaNfamysLh0SsRQv8BvJYAtZY0i
-         seow==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=hJMFfB5qivF98UTpPlObntAxqLBo93oWecY40iYHQHQ=;
+        b=Gzw5YbwVsQHnzjACSEIRMx6WiZ9JQ1tLFs6p+F14Bq9SGXdBe9UoHQNbW2UU4iQYPw
+         CSvVefOwssotA9XVkyvJW8KhDChTCS+U3EGbYVcw2OynQvBtVNK/7BgCqjJKC7aUJszp
+         z+K1P6ZBf0Ls0lTYZbrLxi8drt8PWEuNAVeEKCQhfHoM7NVAVRfhlVD4czi8qz42kxzX
+         x4yFHtmtxkXZMKhmTHQc72IWghlgRBmgA/620fpypC2GTkfGOnhbc4mjbov7tAMtnzJe
+         KLvu7I2CACqz3C5dsFy6xvgDffpBEbyaCrAXza7SbGP+3w3omm3DRDGEqPscDeYZWF/5
+         Rtfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ssbrzr2nx0rE0JNE1VJsrKipba9hb+pFtUvZYUXY/LU=;
-        b=GMH27c+L8TX9Pseys+oIqahH9A/RB+Ooow4upB3jbBDdW8iK635I7XAuiyWRmlmtPL
-         BpPfaz2tf7g3jdsUacT4guexGqkDG6+h7t5LBwb/K9uydeyk6seQz9qjZNiMFd0mwfWW
-         dz8k3q8RdN5YgNpsMRi35fQfM1d8XPu/8LVJb/X7cxPX35v24YIMjo3pASqG67uem/aP
-         RqcUum23uUNPdeJtGA1tN45OiOzeNd1w7uj2svTkpmiCWHq0xHNEBVCBIyXOtUVPOQoL
-         CPpjKrXp8PQw03iadBFFHFEB3oXTdzdEIRs7kleeE8oJPuQA+QMN7XsEwSmOJb3pjZk/
-         wz7A==
-X-Gm-Message-State: AOAM531W0f9hhr3GneJcpJWj6TzaprItHXeOZWgJFWKnS9t2LR1fpByb
-	Y0ENlL98j14Z00FUnId+D+4=
-X-Google-Smtp-Source: ABdhPJxVOEE1AU4br+nyhnQEp/0WNXHPiWetLqZKce7RrxrL8Lq5eBB8yIkdTlz4pHHEqtfz5tH7Jg==
-X-Received: by 2002:adf:df08:: with SMTP id y8mr7261054wrl.124.1628926833841;
-        Sat, 14 Aug 2021 00:40:33 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::4058])
-        by smtp.gmail.com with ESMTPSA id l21sm3258750wmh.31.2021.08.14.00.40.28
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=hJMFfB5qivF98UTpPlObntAxqLBo93oWecY40iYHQHQ=;
+        b=lqwH1CCvIDynczBN8SoK7CGY2E51PTrpK+x+3gCEFLt2d5bMM8l68Nt5Z+yASqjHqV
+         EKIqHtDLW49NzY/p0b5VESIGkTuL72bISi0nzKYvj972w85etUBlYd5NsTpcOV6LRyO9
+         bl+qSypNkHbZY4wUj1h7nzfvW2kzM2GQtPal9KWcrFiQhS00bjwHNBMOZfqGB6/5mCS3
+         J6GvcR0v5GoAh5NpOyV/2ORxkeBMIPk38YAWrACnqHKQOcAL3HcgF6vvaCKD42TlVz7J
+         5KOHNZLAWeBMed7UPfPITsLc7KkCuvyxU0whPqYdXze/N6hNhuEy/AWP32k8ywRyLDCc
+         AhQg==
+X-Gm-Message-State: AOAM533N9QghccEUFg0j9lee//DESs5vpOP/ts/agn+LZ6lFhy8j/a/9
+	dEqiPpAkrtfBGDHW46+qBsc=
+X-Google-Smtp-Source: ABdhPJxsPrFDT3Au2VT49jXUIfgu/4WrpFPyKWsoc1HpcaMwn2FVwhDcRIOXEoEM9cX2V5EX0Q0AFw==
+X-Received: by 2002:a17:906:27c2:: with SMTP id k2mr6836723ejc.83.1628936435225;
+        Sat, 14 Aug 2021 03:20:35 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-109-211.retail.telecomitalia.it. [79.22.109.211])
+        by smtp.gmail.com with ESMTPSA id n26sm2057213eds.63.2021.08.14.03.20.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Aug 2021 00:40:33 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	martin@kaiser.cx,
-	fmdefrancesco@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: remove ODM_GetRightChnlPlaceforIQK()
-Date: Sat, 14 Aug 2021 09:39:20 +0200
-Message-Id: <20210814073920.3551-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.32.0
+        Sat, 14 Aug 2021 03:20:34 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: gregkh@linuxfoundation.org, Michael Straube <straube.linux@gmail.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, martin@kaiser.cx, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Michael Straube <straube.linux@gmail.com>
+Subject: Re: [PATCH] staging: r8188eu: remove ODM_GetRightChnlPlaceforIQK()
+Date: Sat, 14 Aug 2021 12:20:33 +0200
+Message-ID: <3475843.yqa22ZEQPp@localhost.localdomain>
+In-Reply-To: <20210814073920.3551-1-straube.linux@gmail.com>
+References: <20210814073920.3551-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Function ODM_GetRightChnlPlaceforIQK() returns always zero for
-channels <= 14. The driver is for chips that do not support 5 GHz,
-so remove the function and replace the usage of its return value
-with zero.
+On Saturday, August 14, 2021 9:39:20 AM CEST Michael Straube wrote:
+> Function ODM_GetRightChnlPlaceforIQK() returns always zero for
+> channels <= 14. The driver is for chips that do not support 5 GHz,
+> so remove the function and replace the usage of its return value
+> with zero.
+> 
+> Signed-off-by: Michael Straube <straube.linux@gmail.com>
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/hal/HalPhyRf_8188e.c | 29 ++------------------
- 1 file changed, 3 insertions(+), 26 deletions(-)
+There appears to be some superfluous code left for the 5GHz band.
+Nice removal, so ...
 
-diff --git a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-index 643a4d348b2e..c92a76aebc11 100644
---- a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-+++ b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-@@ -1004,27 +1004,6 @@ static void phy_IQCalibrate_8188E(struct adapter *adapt, s32 result[][8], u8 t,
- 	}
- }
- 
--#define ODM_TARGET_CHNL_NUM_2G_5G	59
--static u8 ODM_GetRightChnlPlaceforIQK(u8 chnl)
--{
--	u8	channel_all[ODM_TARGET_CHNL_NUM_2G_5G] = {
--		1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
--		36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64,
--		100, 102, 104, 106, 108, 110, 112, 114, 116, 118, 120, 122,
--		124, 126, 128, 130, 132, 134, 136, 138, 140, 149, 151, 153,
--		155, 157, 159, 161, 163, 165
--	};
--	u8	place = chnl;
--
--	if (chnl > 14) {
--		for (place = 14; place < sizeof(channel_all); place++) {
--			if (channel_all[place] == chnl)
--				return place-13;
--		}
--	}
--	return 0;
--}
--
- static void phy_LCCalibrate_8188E(struct adapter *adapt, bool is2t)
- {
- 	u8 tmpreg;
-@@ -1088,7 +1067,7 @@ void PHY_IQCalibrate_8188E(struct adapter *adapt, bool recovery)
- 	struct odm_dm_struct *dm_odm = &pHalData->odmpriv;
- 	struct mpt_context *pMptCtx = &adapt->mppriv.MptCtx;
- 	s32 result[4][8];	/* last is final result */
--	u8 i, final_candidate, Indexforchannel;
-+	u8 i, final_candidate;
- 	bool pathaok, pathbok;
- 	s32 RegE94, RegE9C, RegEA4, RegEB4, RegEBC, RegEC4;
- 	bool is12simular, is13simular, is23simular;
-@@ -1200,14 +1179,12 @@ void PHY_IQCalibrate_8188E(struct adapter *adapt, bool recovery)
- 			pathb_fill_iqk(adapt, pathbok, result, final_candidate, (RegEC4 == 0));
- 	}
- 
--	Indexforchannel = ODM_GetRightChnlPlaceforIQK(pHalData->CurrentChannel);
--
- /* To Fix BSOD when final_candidate is 0xff */
- /* by sherry 20120321 */
- 	if (final_candidate < 4) {
- 		for (i = 0; i < IQK_Matrix_REG_NUM; i++)
--			dm_odm->RFCalibrateInfo.IQKMatrixRegSetting[Indexforchannel].Value[0][i] = result[final_candidate][i];
--		dm_odm->RFCalibrateInfo.IQKMatrixRegSetting[Indexforchannel].bIQKDone = true;
-+			dm_odm->RFCalibrateInfo.IQKMatrixRegSetting[0].Value[0][i] = result[final_candidate][i];
-+		dm_odm->RFCalibrateInfo.IQKMatrixRegSetting[0].bIQKDone = true;
- 	}
- 
- 	_PHY_SaveADDARegisters(adapt, IQK_BB_REG_92C, dm_odm->RFCalibrateInfo.IQK_BB_backup_recover, 9);
--- 
-2.32.0
+Acked-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+
+Thanks,
+
+Fabio
+
+
 
