@@ -1,250 +1,175 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED3DD2FB0
-	for <linux-staging@lists.linux.dev>; Sat, 14 Aug 2021 17:36:51 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id e19so15963288pla.10
-        for <linux-staging@lists.linux.dev>; Sat, 14 Aug 2021 10:36:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2622FB0
+	for <linux-staging@lists.linux.dev>; Sat, 14 Aug 2021 17:57:02 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id b7so20198985edu.3
+        for <linux-staging@lists.linux.dev>; Sat, 14 Aug 2021 10:57:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=y+PGN1P4CCQfdrmi2TEua0XeKzgQPJ/6EHD4I6/2Dow=;
-        b=dykmCarnzbku1la7Qw32+cr7iPDn74d6I3CVKEzHbG5wLZcjnNpywSF8oRsToaV03T
-         CtR5gdIvh4ONFOtRKz8xFsi8wPKQRuBWOQ0ldNA2pdAMpuU92XVVL8TZagVNvW4hIpKh
-         5aqC9o+0W5lMsRzX30Xes039dmvSJyw0a4/P1AMFZ7XR/a3dHc4FC6rcscOLHE8lauLs
-         XUkVXapfe8WqbNhNtt3a/xNFibVJyZuVtJPVgQo8gxIduO4qzcU88mcRG5ABVCO0cUBM
-         khh64lDg/6jBD6TdosQTWQ1RyI9UwXStFVENWNqvrr7UJu3tNoHMkZpkyj7bDlBey1UI
-         Bwug==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HroRd12HmrCYe8trgy762PzKYxaKFWieH1+iL5Ovs98=;
+        b=ZSoVeipnm2sVJKSjl9rYDjsSY2G5ddE5AJt2kIszlfN39dX85Z/u5xM83scPUUCECw
+         C/t6hJR1aBFCONYVeu3T5/DECj6VaPXbUpT+RcD5VrARCGFFruv17c7tu/ptBpYwt7yr
+         ZVJLL1DoEOgU55gTt5nb41njsherhC+cIPbVy7Mq9P87+vU3ulhwdfnUgakdYgPvVeQv
+         RdhmA9S5OVPrW9F/FRe+UNec5OG9X6k/zfqWiUM0HmcVXQS7JtDeVVv/GXJzipxs9kmP
+         edmkjg2oVVr+md6c/5vGWBe7Rq8LRNfO4hjwt1pxoJihtwPIHCj2bs1Bs5949jPwBS0f
+         Z1Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=y+PGN1P4CCQfdrmi2TEua0XeKzgQPJ/6EHD4I6/2Dow=;
-        b=ay9z7ogiMimKVyBX193S84PbgTnAwXZfoWm2s3+0a6qQbPrhU1GsYOHA3wS54CColV
-         XrkTmOKHbGdXDPw9zYzPvK5Rxuiz0FGlV6ggxsF1T4vc4H9DwH+eLabiTwyyCS+aro+m
-         YPWdQrn9g12+7TVwTY8R7wmsByY3kWfP5IRIVcURHd/cQpUHapda71Az3WyeTqESvIBs
-         gENjN5qMUKWswGMsfyshH+9XA1DhlWVM0b9982jRgHzmA7f6LBuxN+uvPPlTK5KAM+1n
-         XY2CISTGvjOIR2MLEyvgCAZuoH+qzPh0niCus08CbPQeSZMum7XpWxWe8deiAVv9x8jC
-         9/lA==
-X-Gm-Message-State: AOAM531yQEwAZLFSsV8ZpStA4JVn4OFuKkIQpaGxcIxBXH3kbZ1xewbt
-	atFLZjgahaH5xYyoAHIcb74Ji801Ia2/Bew43Wrz2t2fbNnocw==
-X-Google-Smtp-Source: ABdhPJy5o1zJqY5PcOgAGbRgehzN5l952Z+tGfO+SWpjBv2jGgh76rRH0Wl4eQ2tZwr8h73GVJt1xUuq0JqNbArym3k=
-X-Received: by 2002:a17:902:8c81:b029:12c:ee37:3f58 with SMTP id
- t1-20020a1709028c81b029012cee373f58mr6460881plo.45.1628962611382; Sat, 14 Aug
- 2021 10:36:51 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HroRd12HmrCYe8trgy762PzKYxaKFWieH1+iL5Ovs98=;
+        b=iOrZNBMmMjj04HqJL9+pCZ3hESAaMdCQ6eoPqK7A+2+w9cZf3GyoS3XpIZZ7uo/6g3
+         5NB9x7G1RevrCty2xIxW74jIkx+f23Hon9PiOxhdWM1JsjH8hTRnIgsteSL08fTpggKy
+         Q55jZQkRkMNID7bdHYlwKlNaGeV7YaQDd1OZNIPSIuVCa2PH7adU2LRwXqazTRhMgToH
+         u7Z4RGJnwtm97vwpHV77pH1HngzEjCp7ujEmZMJQTz12Jq+k1fj4qREFsx6zBzXYg+G/
+         snVrfbDJeXrTIxXfewXkPyPqkCX/mbAK+dA2lhpmcuo44rW3TX6+QfDJ+3X5l0R8eOB+
+         TV7Q==
+X-Gm-Message-State: AOAM532YTDpLU1eaHUVSOSa7vWXfmyPCB8CClx+/baZMbpNqBkWJYaTU
+	vJ/g3crG/EMiluAqtBxtWgY=
+X-Google-Smtp-Source: ABdhPJzeqNfKAPjUM6vJITkB5K1o3SD6RGIcWXB1Y3f3ZpilwSnSHd+vP8PWUuoQOxH+Hna1Y2URQA==
+X-Received: by 2002:aa7:cb19:: with SMTP id s25mr10529501edt.194.1628963820861;
+        Sat, 14 Aug 2021 10:57:00 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-109-211.retail.telecomitalia.it. [79.22.109.211])
+        by smtp.gmail.com with ESMTPSA id j14sm2526614edk.7.2021.08.14.10.56.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Aug 2021 10:57:00 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] staging: greybus: Convert uart.c from IDR to XArray
+Date: Sat, 14 Aug 2021 19:56:57 +0200
+Message-Id: <20210814175657.13403-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210814165518.8672-1-straube.linux@gmail.com>
-In-Reply-To: <20210814165518.8672-1-straube.linux@gmail.com>
-From: Phillip Potter <phil@philpotter.co.uk>
-Date: Sat, 14 Aug 2021 18:36:40 +0100
-Message-ID: <CAA=Fs0kkhzvu134zOpb69Z6WFCCpmcfGLR-4KJeDd3n1d8g-qw@mail.gmail.com>
-Subject: Re: [PATCH] staging: r8188eu: use common ieee80211 constants
-To: Michael Straube <straube.linux@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
-	Martin Kaiser <martin@kaiser.cx>, "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, 
-	linux-staging@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sat, 14 Aug 2021 at 17:56, Michael Straube <straube.linux@gmail.com> wrote:
->
-> Many defined constants in wifi.h are unused and/or available from
-> <linux/ieee80211.h>, some with slightly different names. Remove
-> the constants from wifi.h and use the common ones. Rename where
-> necessary.
->
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
-> ---
->  drivers/staging/r8188eu/core/rtw_ap.c        | 12 ++---
->  drivers/staging/r8188eu/core/rtw_mlme.c      |  8 ++--
->  drivers/staging/r8188eu/include/wifi.h       | 50 --------------------
->  drivers/staging/r8188eu/os_dep/ioctl_linux.c |  2 +-
->  4 files changed, 11 insertions(+), 61 deletions(-)
->
-> diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
-> index bc4c6dbd5aa3..f1b519d20989 100644
-> --- a/drivers/staging/r8188eu/core/rtw_ap.c
-> +++ b/drivers/staging/r8188eu/core/rtw_ap.c
-> @@ -630,7 +630,7 @@ void update_sta_info_apmode(struct adapter *padapter, struct sta_info *psta)
->                         phtpriv_sta->sgi = true;
->
->                 /*  bwmode */
-> -               if ((sta_cap_info & ap_cap_info) & IEEE80211_HT_CAP_SUP_WIDTH) {
-> +               if ((sta_cap_info & ap_cap_info) & IEEE80211_HT_CAP_SUP_WIDTH_20_40) {
->                         phtpriv_sta->bwmode = pmlmeext->cur_bwmode;
->                         phtpriv_sta->ch_offset = pmlmeext->cur_ch_offset;
->                 }
-> @@ -1015,12 +1015,12 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
->
->                 if ((psecuritypriv->wpa_pairwise_cipher & WPA_CIPHER_CCMP) ||
->                     (psecuritypriv->wpa2_pairwise_cipher & WPA_CIPHER_CCMP))
-> -                       pht_cap->ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY&(0x07<<2));
-> +                       pht_cap->ampdu_params_info |= (IEEE80211_HT_AMPDU_PARM_DENSITY & (0x07 << 2));
->                 else
-> -                       pht_cap->ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY&0x00);
-> +                       pht_cap->ampdu_params_info |= (IEEE80211_HT_AMPDU_PARM_DENSITY & 0x00);
->
->                 /* set  Max Rx AMPDU size  to 64K */
-> -               pht_cap->ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_FACTOR & 0x03);
-> +               pht_cap->ampdu_params_info |= (IEEE80211_HT_AMPDU_PARM_FACTOR & 0x03);
->
->                 if (rf_type == RF_1T1R) {
->                         pht_cap->mcs.rx_mask[0] = 0xff;
-> @@ -1447,7 +1447,7 @@ static int rtw_ht_operation_update(struct adapter *padapter)
->             (pmlmepriv->ht_op_mode & HT_INFO_OPERATION_MODE_NON_GF_DEVS_PRESENT))
->                 new_op_mode = OP_MODE_MIXED;
->         else if ((le16_to_cpu(phtpriv_ap->ht_cap.cap_info) &
-> -                 IEEE80211_HT_CAP_SUP_WIDTH) &&
-> +                 IEEE80211_HT_CAP_SUP_WIDTH_20_40) &&
->                  pmlmepriv->num_sta_ht_20mhz)
->                 new_op_mode = OP_MODE_20MHZ_HT_STA_ASSOCED;
->         else if (pmlmepriv->olbc_ht)
-> @@ -1597,7 +1597,7 @@ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta)
->                                    pmlmepriv->num_sta_ht_no_gf);
->                 }
->
-> -               if ((ht_capab & IEEE80211_HT_CAP_SUP_WIDTH) == 0) {
-> +               if ((ht_capab & IEEE80211_HT_CAP_SUP_WIDTH_20_40) == 0) {
->                         if (!psta->ht_20mhz_set) {
->                                 psta->ht_20mhz_set = 1;
->                                 pmlmepriv->num_sta_ht_20mhz++;
-> diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-> index 5088b555f55d..9189f5c845f3 100644
-> --- a/drivers/staging/r8188eu/core/rtw_mlme.c
-> +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-> @@ -2001,7 +2001,7 @@ unsigned int rtw_restructure_ht_ie(struct adapter *padapter, u8 *in_ie, u8 *out_
->
->                 memset(&ht_capie, 0, sizeof(struct ieee80211_ht_cap));
->
-> -               ht_capie.cap_info = cpu_to_le16(IEEE80211_HT_CAP_SUP_WIDTH |
-> +               ht_capie.cap_info = cpu_to_le16(IEEE80211_HT_CAP_SUP_WIDTH_20_40 |
->                                                 IEEE80211_HT_CAP_SGI_20 |
->                                                 IEEE80211_HT_CAP_SGI_40 |
->                                                 IEEE80211_HT_CAP_TX_STBC |
-> @@ -2019,9 +2019,9 @@ unsigned int rtw_restructure_ht_ie(struct adapter *padapter, u8 *in_ie, u8 *out_
->                 ht_capie.ampdu_params_info = (max_rx_ampdu_factor&0x03);
->
->                 if (padapter->securitypriv.dot11PrivacyAlgrthm == _AES_)
-> -                       ht_capie.ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY&(0x07<<2));
-> +                       ht_capie.ampdu_params_info |= (IEEE80211_HT_AMPDU_PARM_DENSITY & (0x07 << 2));
->                 else
-> -                       ht_capie.ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY&0x00);
-> +                       ht_capie.ampdu_params_info |= (IEEE80211_HT_AMPDU_PARM_DENSITY & 0x00);
->
->                 rtw_set_ie(out_ie+out_len, _HT_CAPABILITY_IE_,
->                            sizeof(struct ieee80211_ht_cap), (unsigned char *)&ht_capie, pout_len);
-> @@ -2072,7 +2072,7 @@ void rtw_update_ht_cap(struct adapter *padapter, u8 *pie, uint ie_len)
->         p = rtw_get_ie(pie+sizeof(struct ndis_802_11_fixed_ie), _HT_CAPABILITY_IE_, &len, ie_len-sizeof(struct ndis_802_11_fixed_ie));
->         if (p && len > 0) {
->                 pht_capie = (struct ieee80211_ht_cap *)(p+2);
-> -               max_ampdu_sz = (pht_capie->ampdu_params_info & IEEE80211_HT_CAP_AMPDU_FACTOR);
-> +               max_ampdu_sz = (pht_capie->ampdu_params_info & IEEE80211_HT_AMPDU_PARM_FACTOR);
->                 max_ampdu_sz = 1 << (max_ampdu_sz+3); /*  max_ampdu_sz (kbytes); */
->                 phtpriv->rx_ampdu_maxlen = max_ampdu_sz;
->         }
-> diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
-> index f4212c4f4ada..0b3fd94cea18 100644
-> --- a/drivers/staging/r8188eu/include/wifi.h
-> +++ b/drivers/staging/r8188eu/include/wifi.h
-> @@ -597,10 +597,6 @@ struct rtw_ieee80211_bar {
->         __le16 start_seq_num;
->  } __packed;
->
-> -/* 802.11 BAR control masks */
-> -#define IEEE80211_BAR_CTRL_ACK_POLICY_NORMAL     0x0000
-> -#define IEEE80211_BAR_CTRL_CBMTID_COMPRESSED_BA  0x0004
-> -
->  /**
->   * struct ieee80211_ht_cap - HT additional information
->   *
-> @@ -662,52 +658,6 @@ enum ht_cap_ampdu_factor {
->         MAX_AMPDU_FACTOR_64K    = 3,
->  };
->
-> -/* 802.11n HT capabilities masks */
-> -#define IEEE80211_HT_CAP_SUP_WIDTH             0x0002
-> -#define IEEE80211_HT_CAP_SM_PS                 0x000C
-> -#define IEEE80211_HT_CAP_GRN_FLD               0x0010
-> -#define IEEE80211_HT_CAP_SGI_20                        0x0020
-> -#define IEEE80211_HT_CAP_SGI_40                        0x0040
-> -#define IEEE80211_HT_CAP_TX_STBC               0x0080
-> -#define IEEE80211_HT_CAP_RX_STBC               0x0300
-> -#define IEEE80211_HT_CAP_DELAY_BA              0x0400
-> -#define IEEE80211_HT_CAP_MAX_AMSDU             0x0800
-> -#define IEEE80211_HT_CAP_DSSSCCK40             0x1000
-> -/* 802.11n HT capability AMPDU settings */
-> -#define IEEE80211_HT_CAP_AMPDU_FACTOR          0x03
-> -#define IEEE80211_HT_CAP_AMPDU_DENSITY         0x1C
-> -/* 802.11n HT capability MSC set */
-> -#define IEEE80211_SUPP_MCS_SET_UEQM            4
-> -#define IEEE80211_HT_CAP_MAX_STREAMS           4
-> -#define IEEE80211_SUPP_MCS_SET_LEN             10
-> -/* maximum streams the spec allows */
-> -#define IEEE80211_HT_CAP_MCS_TX_DEFINED                0x01
-> -#define IEEE80211_HT_CAP_MCS_TX_RX_DIFF                0x02
-> -#define IEEE80211_HT_CAP_MCS_TX_STREAMS                0x0C
-> -#define IEEE80211_HT_CAP_MCS_TX_UEQM           0x10
-> -/* 802.11n HT IE masks */
-> -#define IEEE80211_HT_IE_CHA_SEC_OFFSET         0x03
-> -#define IEEE80211_HT_IE_CHA_SEC_NONE           0x00
-> -#define IEEE80211_HT_IE_CHA_SEC_ABOVE          0x01
-> -#define IEEE80211_HT_IE_CHA_SEC_BELOW          0x03
-> -#define IEEE80211_HT_IE_CHA_WIDTH              0x04
-> -#define IEEE80211_HT_IE_HT_PROTECTION          0x0003
-> -#define IEEE80211_HT_IE_NON_GF_STA_PRSNT       0x0004
-> -#define IEEE80211_HT_IE_NON_HT_STA_PRSNT       0x0010
-> -
-> -/* block-ack parameters */
-> -#define IEEE80211_ADDBA_PARAM_POLICY_MASK 0x0002
-> -#define IEEE80211_ADDBA_PARAM_TID_MASK 0x003C
-> -#define RTW_IEEE80211_ADDBA_PARAM_BUF_SIZE_MASK 0xFFC0
-> -#define IEEE80211_DELBA_PARAM_TID_MASK 0xF000
-> -#define IEEE80211_DELBA_PARAM_INITIATOR_MASK 0x0800
-> -
-> -/*
-> - * A-PMDU buffer sizes
-> - * According to IEEE802.11n spec size varies from 8K to 64K (in powers of 2)
-> - */
-> -#define IEEE80211_MIN_AMPDU_BUF 0x8
-> -
->  /* Spatial Multiplexing Power Save Modes */
->  #define WLAN_HT_CAP_SM_PS_STATIC       0
->  #define WLAN_HT_CAP_SM_PS_DYNAMIC      1
-> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> index 38ee41f9d2ba..0f82ed1b4469 100644
-> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> @@ -195,7 +195,7 @@ static char *translate_scan(struct adapter *padapter,
->                 pht_capie = (struct ieee80211_ht_cap *)(p+2);
->                 memcpy(&mcs_rate, pht_capie->mcs.rx_mask, 2);
->                 bw_40MHz = (le16_to_cpu(pht_capie->cap_info) &
-> -                           IEEE80211_HT_CAP_SUP_WIDTH) ? 1 : 0;
-> +                           IEEE80211_HT_CAP_SUP_WIDTH_20_40) ? 1 : 0;
->                 short_GI = (le16_to_cpu(pht_capie->cap_info) &
->                             (IEEE80211_HT_CAP_SGI_20|IEEE80211_HT_CAP_SGI_40)) ? 1 : 0;
->         }
-> --
-> 2.32.0
->
+Convert greybus/uart.c from IDR to XArray. The abstract data type XArray
+is more memory-efficient, parallelisable, and cache friendly. It takes
+advantage of RCU to perform lookups without locking. Furthermore, IDR is
+deprecated because XArray has a better (cleaner and more consistent) API.
 
-Dear Michael,
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
 
-Constants seem to be correct values still, nice. That said, the other
-patches that have come through from others before this prevent this
-applying to my copy of staging-testing branch. Assuming Greg takes the
-patches in order, this will therefore need reworking. That said, it
-builds fine for me when applied directly to fresh staging-testing tip
-without the patches that have come in since, so:
+v1->v2:
+	Fixed an issue found by the kernel test robot. It was due to
+	passing to xa_*lock() the same old mutex that IDR used with
+	the previous version of the code.
 
-Acked-by: Phillip Potter <phil@philpotter.co.uk>
+ drivers/staging/greybus/uart.c | 29 ++++++++++++++---------------
+ 1 file changed, 14 insertions(+), 15 deletions(-)
 
-By all means apply that Acked-by to v2 if needed. Many thanks.
+diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
+index 73f01ed1e5b7..5bf993e40f84 100644
+--- a/drivers/staging/greybus/uart.c
++++ b/drivers/staging/greybus/uart.c
+@@ -22,7 +22,7 @@
+ #include <linux/serial.h>
+ #include <linux/tty_driver.h>
+ #include <linux/tty_flip.h>
+-#include <linux/idr.h>
++#include <linux/xarray.h>
+ #include <linux/fs.h>
+ #include <linux/kdev_t.h>
+ #include <linux/kfifo.h>
+@@ -33,6 +33,7 @@
+ #include "gbphy.h"
+ 
+ #define GB_NUM_MINORS	16	/* 16 is more than enough */
++#define GB_RANGE_MINORS		XA_LIMIT(0, GB_NUM_MINORS)
+ #define GB_NAME		"ttyGB"
+ 
+ #define GB_UART_WRITE_FIFO_SIZE		PAGE_SIZE
+@@ -67,8 +68,7 @@ struct gb_tty {
+ };
+ 
+ static struct tty_driver *gb_tty_driver;
+-static DEFINE_IDR(tty_minors);
+-static DEFINE_MUTEX(table_lock);
++static DEFINE_XARRAY(tty_minors);
+ 
+ static int gb_uart_receive_data_handler(struct gb_operation *op)
+ {
+@@ -77,6 +77,7 @@ static int gb_uart_receive_data_handler(struct gb_operation *op)
+ 	struct tty_port *port = &gb_tty->port;
+ 	struct gb_message *request = op->request;
+ 	struct gb_uart_recv_data_request *receive_data;
++
+ 	u16 recv_data_size;
+ 	int count;
+ 	unsigned long tty_flags = TTY_NORMAL;
+@@ -341,8 +342,8 @@ static struct gb_tty *get_gb_by_minor(unsigned int minor)
+ {
+ 	struct gb_tty *gb_tty;
+ 
+-	mutex_lock(&table_lock);
+-	gb_tty = idr_find(&tty_minors, minor);
++	xa_lock(&tty_minors);
++	gb_tty = xa_load(&tty_minors, minor);
+ 	if (gb_tty) {
+ 		mutex_lock(&gb_tty->mutex);
+ 		if (gb_tty->disconnected) {
+@@ -353,19 +354,19 @@ static struct gb_tty *get_gb_by_minor(unsigned int minor)
+ 			mutex_unlock(&gb_tty->mutex);
+ 		}
+ 	}
+-	mutex_unlock(&table_lock);
++	xa_unlock(&tty_minors);
+ 	return gb_tty;
+ }
+ 
+ static int alloc_minor(struct gb_tty *gb_tty)
+ {
+ 	int minor;
++	int ret;
+ 
+-	mutex_lock(&table_lock);
+-	minor = idr_alloc(&tty_minors, gb_tty, 0, GB_NUM_MINORS, GFP_KERNEL);
+-	mutex_unlock(&table_lock);
+-	if (minor >= 0)
+-		gb_tty->minor = minor;
++	ret = xa_alloc(&tty_minors, &minor, gb_tty, GB_RANGE_MINORS, GFP_KERNEL);
++	if (ret)
++		return ret;
++	gb_tty->minor = minor;
+ 	return minor;
+ }
+ 
+@@ -374,9 +375,7 @@ static void release_minor(struct gb_tty *gb_tty)
+ 	int minor = gb_tty->minor;
+ 
+ 	gb_tty->minor = 0;	/* Maybe should use an invalid value instead */
+-	mutex_lock(&table_lock);
+-	idr_remove(&tty_minors, minor);
+-	mutex_unlock(&table_lock);
++	xa_erase(&tty_minors, minor);
+ }
+ 
+ static int gb_tty_install(struct tty_driver *driver, struct tty_struct *tty)
+@@ -982,7 +981,7 @@ static void gb_tty_exit(void)
+ {
+ 	tty_unregister_driver(gb_tty_driver);
+ 	put_tty_driver(gb_tty_driver);
+-	idr_destroy(&tty_minors);
++	xa_destroy(&tty_minors);
+ }
+ 
+ static const struct gbphy_device_id gb_uart_id_table[] = {
+-- 
+2.32.0
 
-Regards,
-Phil
