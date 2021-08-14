@@ -1,115 +1,147 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E6D22FB0
-	for <linux-staging@lists.linux.dev>; Sat, 14 Aug 2021 17:02:36 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id f12-20020a05600c4e8c00b002e6bdd6ffe2so6081945wmq.5
-        for <linux-staging@lists.linux.dev>; Sat, 14 Aug 2021 10:02:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA79C2FB0
+	for <linux-staging@lists.linux.dev>; Sat, 14 Aug 2021 17:12:07 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id q2so15904428plr.11
+        for <linux-staging@lists.linux.dev>; Sat, 14 Aug 2021 10:12:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=X9HnISzXWkNVCczHXM6hTEMkBbJkCBVv5W2RvJ/RQCE=;
-        b=IaI8Qf8y3Hhbe7l9Yq/M1VmbnJfx/iZy3c2Hrq0p2vC1m3Q4cUrhRuE40EWvUUUpL1
-         mGOBHV7kvFtHK7oY1or4FxjMIFxoF1WD9i3guIwka0EEjYUHEJxJel3312TkFwn8TCKx
-         morDQDr0p20mAkUzxQhLDnn6oze42yyfsb9+/FQeDFcY9mSUkl+kZq5hjJC9tONoIbcW
-         NDvLt8JqpIcI5DI6h1sp2xaSkCYIA1JJNxJJBX5FFnZfWxBL/7Fl/O2qNWIVNXWSJA6+
-         Ge0lQd2RMebV250RYgU93nFt5LcxWFt7RgRw93snmqD4YLJ5bKg6TndYQ1duwH6111nG
-         WtVw==
+        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NhNQ3d1S2VyVbXFpk6PnraqJwxymJZt+vRaCMuxw3ck=;
+        b=tO8GYJoOrj09sNBToZdSMHpLt5lX5x0MyEfXU3RTw7Un6sECKeQkT4kNXi+NDx2hwb
+         /VtGZaiICvXiTr6Ykjsth+a9tXFaN2bV1zODBk458fo6z8CJarTtVqKj6rxrdmF+5gYW
+         rMBQosC+utUgdAg8R3Ykn4qrHMZLWA4UjVrTJt7gWUS3OgQe8SL+RWeekYY4SzE+sxMo
+         k/MCJ32zrRsu4V/tLK2kcq1XTotPXcwSjPxJRDjK7KHMuxm0+aENmik+wQGUTmT4gpif
+         edIsH9cqVI2yyrnetQOnnksA+SygXejIQoN/s5vNDgYNxkVBenhH3hrTg9h3BnduUpOS
+         5QzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=X9HnISzXWkNVCczHXM6hTEMkBbJkCBVv5W2RvJ/RQCE=;
-        b=oKme++U8Y/KqTC+wl/HMfakBvAqPf4Q3iXJXpcIINJIgoZtu4VU+4SUCGJzuhVydXJ
-         pXwX7HhZxRjl93amLlHTPHAzHqNncTZUxOgIbXqY1uH2ngPrjWaB7UwTA/O2FgqPyqot
-         /jkek9iU0k7enCFRjPvS5q2+exYcjIGWVmEBAMzjlITLGoFQLnWPePMi+CUTVS0/2JxS
-         tihfNKJkST+u/BJFw6yiwET/OZ2k19DSOFG4aji9K63SZmVk1fVTcrTKlVpSqywrQTXG
-         FPQj5teaVfmi2kR+6bN9usAVnUE+IRezghc/8fu/wFz9U2RxMZDUr/ZeGXwzu0m4lH/S
-         qcYQ==
-X-Gm-Message-State: AOAM532Nltjt0lbccv6uhJnPqGmVIfFR5lzALjC6h83xwzJ8UMGqHhof
-	5GHYQCASVZ8JHaAuAsIGEns=
-X-Google-Smtp-Source: ABdhPJzvdRKJhhSHZETge+N+tLedrQj+cQPZKJB0HLdBgPp04ehf56MNITDph3+Ysd13DGMYAeEFyw==
-X-Received: by 2002:a1c:6a18:: with SMTP id f24mr2346878wmc.142.1628960554971;
-        Sat, 14 Aug 2021 10:02:34 -0700 (PDT)
-Received: from ?IPv6:2a02:8108:96c0:3b88::4058? ([2a02:8108:96c0:3b88::4058])
-        by smtp.gmail.com with ESMTPSA id z5sm4934753wmi.36.2021.08.14.10.02.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 14 Aug 2021 10:02:34 -0700 (PDT)
-Subject: Re: [PATCH] staging: r8188eu: os_dep: Remove defined but not used
- variables
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>, Martin Kaiser <martin@kaiser.cx>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20210814160804.11634-1-fmdefrancesco@gmail.com>
-From: Michael Straube <straube.linux@gmail.com>
-Message-ID: <e0c701f3-d13e-421a-c22b-d6be98e28e97@gmail.com>
-Date: Sat, 14 Aug 2021 19:01:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NhNQ3d1S2VyVbXFpk6PnraqJwxymJZt+vRaCMuxw3ck=;
+        b=cRh4rmNsSKDZ9TnMRuP1hkridL11E78xk4nxnf9brMjUTOTz/PgU+oXgHmILd99MfG
+         vIIoXE+o/I0tdKNT5RVk9IdVSy66qY2BI7+AMulY6Rh/URLbApdkjtr6/ZTP/lrGGKuW
+         OnnBS/VYlRNA/FcuqgyZHzdufqqTNGd0bBdFmu4FbOS+2aW+elN5ZHFGD5LdTsM1Uy97
+         NO7OiGtHIQGgG/6tBfku/j63KH8pE5ImeBZntlaVIuJgxn1RGyEL2NIS1V7wKuH5avZE
+         SukqEHzHom9k2GEVQyHMgEhOqwKMGxalEYsFNgSdXHy7/hhWejPstiA7I/rOFcPDBqbZ
+         HmZQ==
+X-Gm-Message-State: AOAM531ahvFasTuifIGtn7I1Z1mnEa17qyCKMsVKlr6mGQAx2wRY8dcB
+	4spycXJAZbDSNFw5MHF3IJlvAuqpxFqssDY9J91OAXGJXr+EDEJ8
+X-Google-Smtp-Source: ABdhPJwk6IRQHz8dyy7/VfLN3ZhOBlV5/7KQqbE98v7+lFYZrNtigyOeWahiW7+nTAUdtd9NRf10W0kelq8/lfJdBKs=
+X-Received: by 2002:a17:902:f704:b029:11a:cdee:490 with SMTP id
+ h4-20020a170902f704b029011acdee0490mr6412260plo.37.1628961127429; Sat, 14 Aug
+ 2021 10:12:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210814160804.11634-1-fmdefrancesco@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210813073109.25609-1-straube.linux@gmail.com> <20210813073109.25609-2-straube.linux@gmail.com>
+In-Reply-To: <20210813073109.25609-2-straube.linux@gmail.com>
+From: Phillip Potter <phil@philpotter.co.uk>
+Date: Sat, 14 Aug 2021 18:11:56 +0100
+Message-ID: <CAA=Fs0nkTO5PyQasfRNNbATs-HuN1GAz1gWHjhhARFh8-PEpHQ@mail.gmail.com>
+Subject: Re: [PATCH 1/4] staging: r8188eu: remove 5GHz code from Hal_GetChnlGroup88E()
+To: Michael Straube <straube.linux@gmail.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
+	Martin Kaiser <martin@kaiser.cx>, linux-staging@lists.linux.dev, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 8/14/21 6:08 PM, Fabio M. De Francesco wrote:
-> Remove defined but not used const variables. Issues detected by GCC
-> running with -Wunused-const-variable option enabled.
-> 
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+On Fri, 13 Aug 2021 at 08:32, Michael Straube <straube.linux@gmail.com> wrote:
+>
+> Remove 5GHz code from Hal_GetChnlGroup88E().
+>
+> Signed-off-by: Michael Straube <straube.linux@gmail.com>
 > ---
->   drivers/staging/r8188eu/os_dep/ioctl_linux.c | 21 --------------------
->   1 file changed, 21 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> index 38ee41f9d2ba..d9fdd83218dc 100644
-> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> @@ -84,11 +84,6 @@ static u32 rtw_rates[] = {1000000, 2000000, 5500000, 11000000,
->   	6000000, 9000000, 12000000, 18000000, 24000000, 36000000,
->   	48000000, 54000000};
->   
-> -static const char * const iw_operation_mode[] = {
-> -	"Auto", "Ad-Hoc", "Managed",  "Master", "Repeater",
-> -	"Secondary", "Monitor"
-> -};
+>  .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 62 +++++--------------
+>  1 file changed, 14 insertions(+), 48 deletions(-)
+>
+> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+> index f0560c15387c..634a0a022727 100644
+> --- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+> +++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+> @@ -2062,54 +2062,20 @@ static void Hal_ReadPowerValueFromPROM_8188E(struct txpowerinfo24g *pwrInfo24G,
+>
+>  static u8 Hal_GetChnlGroup88E(u8 chnl, u8 *pGroup)
+>  {
+> -       u8 bIn24G = true;
 > -
->   void indicate_wx_scan_complete_event(struct adapter *padapter)
->   {
->   	union iwreq_data wrqu;
-> @@ -6666,19 +6661,3 @@ struct iw_handler_def rtw_handlers_def = {
->   	.num_private_args = sizeof(rtw_private_args) / sizeof(struct iw_priv_args),
->   	.get_wireless_stats = rtw_get_wireless_stats,
->   };
+> -       if (chnl <= 14) {
+> -               bIn24G = true;
 > -
-> -/*  copy from net/wireless/wext.c start */
-> -/* ---------------------------------------------------------------- */
-> -/*
-> - * Calculate size of private arguments
-> - */
-> -static const char iw_priv_type_size[] = {
-> -	0,			      /* IW_PRIV_TYPE_NONE */
-> -	1,			      /* IW_PRIV_TYPE_BYTE */
-> -	1,			      /* IW_PRIV_TYPE_CHAR */
-> -	0,			      /* Not defined */
-> -	sizeof(__u32),		  /* IW_PRIV_TYPE_INT */
-> -	sizeof(struct iw_freq),	 /* IW_PRIV_TYPE_FLOAT */
-> -	sizeof(struct sockaddr),	/* IW_PRIV_TYPE_ADDR */
-> -	0,			      /* Not defined */
-> -};
-> 
+> -               if (chnl < 3)                   /*  Channel 1-2 */
+> -                       *pGroup = 0;
+> -               else if (chnl < 6)              /*  Channel 3-5 */
+> -                       *pGroup = 1;
+> -               else     if (chnl < 9)          /*  Channel 6-8 */
+> -                       *pGroup = 2;
+> -               else if (chnl < 12)             /*  Channel 9-11 */
+> -                       *pGroup = 3;
+> -               else if (chnl < 14)             /*  Channel 12-13 */
+> -                       *pGroup = 4;
+> -               else if (chnl == 14)            /*  Channel 14 */
+> -                       *pGroup = 5;
+> -       } else {
+> -               bIn24G = false;
+> -
+> -               if (chnl <= 40)
+> -                       *pGroup = 0;
+> -               else if (chnl <= 48)
+> -                       *pGroup = 1;
+> -               else     if (chnl <= 56)
+> -                       *pGroup = 2;
+> -               else if (chnl <= 64)
+> -                       *pGroup = 3;
+> -               else if (chnl <= 104)
+> -                       *pGroup = 4;
+> -               else if (chnl <= 112)
+> -                       *pGroup = 5;
+> -               else if (chnl <= 120)
+> -                       *pGroup = 5;
+> -               else if (chnl <= 128)
+> -                       *pGroup = 6;
+> -               else if (chnl <= 136)
+> -                       *pGroup = 7;
+> -               else if (chnl <= 144)
+> -                       *pGroup = 8;
+> -               else if (chnl <= 153)
+> -                       *pGroup = 9;
+> -               else if (chnl <= 161)
+> -                       *pGroup = 10;
+> -               else if (chnl <= 177)
+> -                       *pGroup = 11;
+> -       }
+> -       return bIn24G;
+> +       if (chnl < 3)                   /*  Channel 1-2 */
+> +               *pGroup = 0;
+> +       else if (chnl < 6)              /*  Channel 3-5 */
+> +               *pGroup = 1;
+> +       else if (chnl < 9)              /*  Channel 6-8 */
+> +               *pGroup = 2;
+> +       else if (chnl < 12)             /*  Channel 9-11 */
+> +               *pGroup = 3;
+> +       else if (chnl < 14)             /*  Channel 12-13 */
+> +               *pGroup = 4;
+> +       else if (chnl == 14)            /*  Channel 14 */
+> +               *pGroup = 5;
+> +
+> +       return true;
+>  }
+>
+>  void Hal_ReadPowerSavingMode88E(struct adapter *padapter, u8 *hwinfo, bool AutoLoadFail)
+> --
+> 2.32.0
+>
+
+Dear Michael,
 
 Looks good to me, thanks.
 
-Acked-by: Michael Straube <straube.linux@gmail.com>
+Acked-by: Phillip Potter <phil@philpotter.co.uk>
 
-Michael
+Regards,
+Phil
