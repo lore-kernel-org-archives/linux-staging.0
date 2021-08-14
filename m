@@ -1,41 +1,41 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2622FB0
-	for <linux-staging@lists.linux.dev>; Sat, 14 Aug 2021 17:57:02 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id b7so20198985edu.3
-        for <linux-staging@lists.linux.dev>; Sat, 14 Aug 2021 10:57:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDE892FB0
+	for <linux-staging@lists.linux.dev>; Sat, 14 Aug 2021 18:11:35 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id u3so24342016ejz.1
+        for <linux-staging@lists.linux.dev>; Sat, 14 Aug 2021 11:11:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=HroRd12HmrCYe8trgy762PzKYxaKFWieH1+iL5Ovs98=;
-        b=ZSoVeipnm2sVJKSjl9rYDjsSY2G5ddE5AJt2kIszlfN39dX85Z/u5xM83scPUUCECw
-         C/t6hJR1aBFCONYVeu3T5/DECj6VaPXbUpT+RcD5VrARCGFFruv17c7tu/ptBpYwt7yr
-         ZVJLL1DoEOgU55gTt5nb41njsherhC+cIPbVy7Mq9P87+vU3ulhwdfnUgakdYgPvVeQv
-         RdhmA9S5OVPrW9F/FRe+UNec5OG9X6k/zfqWiUM0HmcVXQS7JtDeVVv/GXJzipxs9kmP
-         edmkjg2oVVr+md6c/5vGWBe7Rq8LRNfO4hjwt1pxoJihtwPIHCj2bs1Bs5949jPwBS0f
-         Z1Bw==
+        b=Qd3IPhzhatP3qAPIfGyD0FPyGBfD3JED6WHZdddh3tMRygq1BjKtDQsPFLof+NGPq9
+         S2/zzTgzqfZ0GqttvfWXMaIQonB3EZQHotdcIY5lbHTvXfP8lEX2DzPSJZEo+T3mVRVk
+         TE/32LC6fvEB4K2w6EjcZZMZlU9PiCDSmB6j1BuRwv3s1YDgRxOAk1HbYUDmFJcoEv4p
+         NY4/DlFR7V5/UB9t393YTtNuehR/JpCtISx+0i2vEJVmYnwejeZiTSKtCktXSNVjvGaM
+         Vk/A4cZ76fVTOc2EBnE7HxgP5H3WaHajbKBdxmlfHw2M3nEpc0NHbm+tqzm71WJl/5PO
+         sbAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=HroRd12HmrCYe8trgy762PzKYxaKFWieH1+iL5Ovs98=;
-        b=iOrZNBMmMjj04HqJL9+pCZ3hESAaMdCQ6eoPqK7A+2+w9cZf3GyoS3XpIZZ7uo/6g3
-         5NB9x7G1RevrCty2xIxW74jIkx+f23Hon9PiOxhdWM1JsjH8hTRnIgsteSL08fTpggKy
-         Q55jZQkRkMNID7bdHYlwKlNaGeV7YaQDd1OZNIPSIuVCa2PH7adU2LRwXqazTRhMgToH
-         u7Z4RGJnwtm97vwpHV77pH1HngzEjCp7ujEmZMJQTz12Jq+k1fj4qREFsx6zBzXYg+G/
-         snVrfbDJeXrTIxXfewXkPyPqkCX/mbAK+dA2lhpmcuo44rW3TX6+QfDJ+3X5l0R8eOB+
-         TV7Q==
-X-Gm-Message-State: AOAM532YTDpLU1eaHUVSOSa7vWXfmyPCB8CClx+/baZMbpNqBkWJYaTU
-	vJ/g3crG/EMiluAqtBxtWgY=
-X-Google-Smtp-Source: ABdhPJzeqNfKAPjUM6vJITkB5K1o3SD6RGIcWXB1Y3f3ZpilwSnSHd+vP8PWUuoQOxH+Hna1Y2URQA==
-X-Received: by 2002:aa7:cb19:: with SMTP id s25mr10529501edt.194.1628963820861;
-        Sat, 14 Aug 2021 10:57:00 -0700 (PDT)
+        b=NA5KxUbhrlmmvI/FDpzA5SqekMD8BE2G41RWL7ODxPBTX/2MCaxH1PddqRlrNwe2ov
+         3Nsm2cBKa69kSIej1C4Si/B8HaKRDKst1pUfSFo4K1m0mCjy8sXYiOJwlydga+DR5v5E
+         iho8uO8LFm5K8cUgkdDxkNHxx/PR5DqwpLqckVa6uixo9qSg8j2bZX1Mvifw4J+gI7o7
+         9lJr7lqaqlpytvHsVG4QP0rY17lUC1x6rq4uE0fpzSlowOVhs1gSKEWdH0guXqvHQ+sR
+         ISPHfiirMyUXMdUJ1thmBG9BlgMk3n9FXPel/HrMvqFnwFKbDFzJqT0A8rGmVELoqyje
+         Uxsw==
+X-Gm-Message-State: AOAM532OF/NPOA6EQa4tfgh0GWWbU0mRgZqtSM9NBwi/pNbxwqIEkVlQ
+	xVssrrmn75zqd9vM282IytCfemcJ308=
+X-Google-Smtp-Source: ABdhPJy+9MC4Tbn8SqweBJ7OV7wehX53FRl+nRPdIw7sUHqhXOCtu9KA96mk6bqKECYnenGrt5a2Ow==
+X-Received: by 2002:a17:906:c013:: with SMTP id e19mr8517616ejz.389.1628964694186;
+        Sat, 14 Aug 2021 11:11:34 -0700 (PDT)
 Received: from localhost.localdomain (host-79-22-109-211.retail.telecomitalia.it. [79.22.109.211])
-        by smtp.gmail.com with ESMTPSA id j14sm2526614edk.7.2021.08.14.10.56.59
+        by smtp.gmail.com with ESMTPSA id e22sm2500749eds.45.2021.08.14.11.11.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Aug 2021 10:57:00 -0700 (PDT)
+        Sat, 14 Aug 2021 11:11:33 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 To: Johan Hovold <johan@kernel.org>,
 	Alex Elder <elder@kernel.org>,
@@ -45,9 +45,9 @@ To: Johan Hovold <johan@kernel.org>,
 	linux-kernel@vger.kernel.org
 Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
 	kernel test robot <lkp@intel.com>
-Subject: [PATCH] staging: greybus: Convert uart.c from IDR to XArray
-Date: Sat, 14 Aug 2021 19:56:57 +0200
-Message-Id: <20210814175657.13403-1-fmdefrancesco@gmail.com>
+Subject: [PATCH v2] staging: greybus: Convert uart.c from IDR to XArray
+Date: Sat, 14 Aug 2021 20:11:30 +0200
+Message-Id: <20210814181130.21383-1-fmdefrancesco@gmail.com>
 X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -67,9 +67,9 @@ Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
 
 v1->v2:
-	Fixed an issue found by the kernel test robot. It was due to
-	passing to xa_*lock() the same old mutex that IDR used with
-	the previous version of the code.
+        Fixed an issue found by the kernel test robot. It was due to
+        passing to xa_*lock() the same old mutex that IDR used with
+        the previous version of the code.
 
  drivers/staging/greybus/uart.c | 29 ++++++++++++++---------------
  1 file changed, 14 insertions(+), 15 deletions(-)
