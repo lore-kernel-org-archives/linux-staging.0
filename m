@@ -1,71 +1,94 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5FB62FAD
-	for <linux-staging@lists.linux.dev>; Fri, 13 Aug 2021 21:55:17 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id q3so13333792edt.5
-        for <linux-staging@lists.linux.dev>; Fri, 13 Aug 2021 14:55:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3652FAD
+	for <linux-staging@lists.linux.dev>; Sat, 14 Aug 2021 06:31:21 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id q11-20020a7bce8b0000b02902e6880d0accso11181673wmj.0
+        for <linux-staging@lists.linux.dev>; Fri, 13 Aug 2021 23:31:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=P+Z/RYz/jriuijQpIN7Fhw40kHDI4JM4DRM0zPmZRTY=;
-        b=VeuSfTAea9nDlLQ8zYxcK0qWXy7SzRkRFt2hjrCQ7JiEf75tgQcKWHrOxgS55Bonle
-         8sk6K+9xXJQWVdPdbjQxXz/IU0eJ1/BpZk9xHSB8IVXeDM6dT+HUMQ/R9kMHo+mCmJbg
-         T7LtrpDnbZnCYtyOwdOpJ1tzKxdU+8Sl+fDp+RZ3t5ifybxVLDw31ntMRlFZhzKUWFyN
-         QpXnFHtOT8XRIHF9tbdkC/1Zn5+aiZFduh0q9ALxbhv6maAdysYKJhvjMBZROUx4xGUB
-         N3RN77TH+NophsNw66AobC+cM49E1NfcjWZSo7CdwMajsUYfhd377RY/x4hHyM46Cn9Y
-         nU6A==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=AtcXPH0QsKZK91gULvtuZyrVdm2c/ou4YyVO9R8Tjas=;
+        b=PxDZJi6ym08BAMxJCJEzovKp9hlAwah97TMkUTz7/BxgMh4HQXjtMmEYsI2qi3I6nQ
+         ht93C7HpPmAHK2HVBpAeryvv+fNb/JZ9u07iiUTTxl7GG2NFVpPNubA0B/B5X6DSOMuC
+         3su9p4rBOoA3MkNjl+Tml9939F1afITOv9jvGsL7u9rab/9uIJvZBXH+TanemvQ1Qir0
+         mbsK4e5rm9Nqx2/u5Q0O21HoV0VViCOi2npbMxy9wd9zhvVZQW6v/vT01yklGG16cy9f
+         qeyqSD6j+Ri6kUwPhDURMZE5JX6VTX0cxaEazRCwWWk8Vg5LnpIS+WqAYOIRwClyBrtT
+         v6YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=P+Z/RYz/jriuijQpIN7Fhw40kHDI4JM4DRM0zPmZRTY=;
-        b=foT62gN78ucDLhDdp3PUpmNR/hvEfgW/vfBwhj83QzBqfIpnRKlR67DBWNEv8ttVV+
-         MCUUidFMnJD2PSryEc2m/zzfaw/513EcgtOCFDEWn911UTkKFUT1U17R7b4+0t24C3zb
-         V04P9BMigr/vLbu1khk2QbPtLwJmpc/4JeLdehxULsHfOHQnm1McyqL4drexk1ihuCrN
-         A50pzfaY3k47x9YRIoFjxGZfY5tv8oJ6jRQriG5+vR7gVcW1qftkSmHy7h459z1wYV8H
-         QDbsxf8QhB2wn3ShpEfdnO7m1zsyoOzpMc2ZpPrt24ULl+8XiCCdi8AZpzhxsk+WIXHu
-         VqmA==
-X-Gm-Message-State: AOAM533E867rsqGbkFpbI86wIMoNB1L5BMRUrbRDjPpFcS9/Jw4Q4KPs
-	jArjKruZ82jbcgmGBVnX/8M=
-X-Google-Smtp-Source: ABdhPJzHbUlQQIzzv3T9J80QbmMZRWzFGGEswNHk4x46iK0pDa74tVImS72KHHsj8knXm/3+OXVXmg==
-X-Received: by 2002:a50:aa87:: with SMTP id q7mr2807690edc.157.1628891716371;
-        Fri, 13 Aug 2021 14:55:16 -0700 (PDT)
-Received: from localhost.localdomain (host-79-22-109-211.retail.telecomitalia.it. [79.22.109.211])
-        by smtp.gmail.com with ESMTPSA id dg24sm1442864edb.6.2021.08.13.14.55.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Aug 2021 14:55:15 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Phillip Potter <phil@philpotter.co.uk>, Larry Finger <Larry.Finger@lwfinger.net>, Nathan Chancellor <nathan@kernel.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: Remove unnecessary ret variable in rtw_drv_init()
-Date: Fri, 13 Aug 2021 23:55:14 +0200
-Message-ID: <5820125.tyerhIWj94@localhost.localdomain>
-In-Reply-To: <20210813201418.4018631-1-nathan@kernel.org>
-References: <20210813201418.4018631-1-nathan@kernel.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=AtcXPH0QsKZK91gULvtuZyrVdm2c/ou4YyVO9R8Tjas=;
+        b=leYAqGL7jCnsyYBKq4mFd3Sfkxr5x+IIlmtGx+QVZOhoT35L0atTtvi7I5xZB8f5Xm
+         g8xMiTDsQIe79VoYYL2SJqtqAOEyIqVwagz/6JDHScT8M19LAkVTaXEoitjYcYuwnaJM
+         c2wSdPZcWHs5vnjvuLzOuDWPnWZIjAgNPuAyeICLwbUkdeabhHdds0Adod69dqWahTXI
+         1padjSSKrAGjd0TzA9FWNPeb0GQfQmBfkcFwWKxfKcgtxAJY6mulo9ulUpVFsJcyXSrC
+         afu4ZpKxtwuSdhUoTUhyii1HEeTAylsKoX8iSCpUD1Sb/37iaP6S9ZkofRmcRZfQpZgX
+         xBdQ==
+X-Gm-Message-State: AOAM532j/ed5otHEZyUeF3JiDq+dKMRMOmg4zIu6c577alOF52f3ro4r
+	r5Bu7k9Z9vpGApWTm9HCRkA=
+X-Google-Smtp-Source: ABdhPJw4iWyxTuMXYHkD5xDsOxLCqNutJt5p1e2SMEjfQAL4FN6es8Ocl07DJV0NAqaVjgHLTnw5Og==
+X-Received: by 2002:a05:600c:2159:: with SMTP id v25mr5983139wml.42.1628922679442;
+        Fri, 13 Aug 2021 23:31:19 -0700 (PDT)
+Received: from ?IPv6:2a02:8108:96c0:3b88::2571? ([2a02:8108:96c0:3b88::2571])
+        by smtp.gmail.com with ESMTPSA id d4sm3788029wrc.34.2021.08.13.23.31.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Aug 2021 23:31:18 -0700 (PDT)
+Subject: Re: [PATCH 0/4] staging: r8188eu: refactor Hal_GetChnlGroup88E()
+To: Martin Kaiser <martin@kaiser.cx>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+ phil@philpotter.co.uk, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20210813073109.25609-1-straube.linux@gmail.com>
+ <20210813094401.y2d6wehhdtuvbvp4@viti.kaiser.cx>
+From: Michael Straube <straube.linux@gmail.com>
+Message-ID: <036352c3-9ed7-b758-0abb-9423a6f248c8@gmail.com>
+Date: Sat, 14 Aug 2021 08:30:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <20210813094401.y2d6wehhdtuvbvp4@viti.kaiser.cx>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Friday, August 13, 2021 10:14:18 PM CEST Nathan Chancellor wrote:
-> ret is unnecessary as both error paths set the same error code so just
-> return that directly.
+On 8/13/21 11:44 AM, Martin Kaiser wrote:
+> Thus wrote Michael Straube (straube.linux@gmail.com):
 > 
-> Suggested-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+>> This series refactors Hal_GetChnlGroup88E().
+>>   - removes 5GHz code
+>>   - changes return type to void
+>>   - cleans up camel case naming
+> 
+>> Michael Straube (4):
+>>    staging: r8188eu: remove 5GHz code from Hal_GetChnlGroup88E()
+>>    staging: r8188eu: convert return type of Hal_GetChnlGroup88E() to void
+>>    staging: r8188eu: rename parameter of Hal_GetChnlGroup88E()
+>>    staging: r8188eu: rename Hal_GetChnlGroup88E()
+> 
+>>   .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 90 ++++++-------------
+>>   1 file changed, 26 insertions(+), 64 deletions(-)
+> 
+>> -- 
+>> 2.32.0
+> 
+> Hi Michael,
+> 
+> this series looks ok to me.
+> 
+> Acked-by: Martin Kaiser <martin@kaiser.cx>
+> 
 
-Much nicer!
+Hi Martin,
 
-Reviewed-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+thank you.
 
-Thanks,
-
-Fabio
-
-
+Michael
