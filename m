@@ -1,76 +1,115 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5F72FB0
-	for <linux-staging@lists.linux.dev>; Sat, 14 Aug 2021 16:57:51 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id gz13-20020a17090b0ecdb0290178c0e0ce8bso14885069pjb.1
-        for <linux-staging@lists.linux.dev>; Sat, 14 Aug 2021 09:57:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E6D22FB0
+	for <linux-staging@lists.linux.dev>; Sat, 14 Aug 2021 17:02:36 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id f12-20020a05600c4e8c00b002e6bdd6ffe2so6081945wmq.5
+        for <linux-staging@lists.linux.dev>; Sat, 14 Aug 2021 10:02:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Tu7497B1vudv4lRmDQxN1ly5NrWEwmYjdP9mT2Cvgv0=;
-        b=DKPz5wKcMz1mCz5OVjtfc9sW+oS8xoy01mPR0Y/zUtgc6CvvLTP7SAdV+9ka5SpYUb
-         ZY0C6tDMFiWofLJMFBlnyRnqPWfL98sGKkyzSPasrOZ7h8QhpP7RccWbsC5v2qe0N6fo
-         11nRj6MAJt7gGjiz7ldDeLnjuqG19zjdd7JvyFSofBhhl6c1k1gTNTYLxWP2dM+t+uke
-         64Cf09sGRIKXSsprdbPDgxQLQIHnmYiwl8o30uXc8EQfGfwR4Q0XhBZsLxYKNqw2mniI
-         7M6qrnHegNCXvIIz9CLH0QrbTYXk+kKfwy4WCxCcpIPLCalTUj6Wheo6v2WowAE+Kj85
-         L9Ag==
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=X9HnISzXWkNVCczHXM6hTEMkBbJkCBVv5W2RvJ/RQCE=;
+        b=IaI8Qf8y3Hhbe7l9Yq/M1VmbnJfx/iZy3c2Hrq0p2vC1m3Q4cUrhRuE40EWvUUUpL1
+         mGOBHV7kvFtHK7oY1or4FxjMIFxoF1WD9i3guIwka0EEjYUHEJxJel3312TkFwn8TCKx
+         morDQDr0p20mAkUzxQhLDnn6oze42yyfsb9+/FQeDFcY9mSUkl+kZq5hjJC9tONoIbcW
+         NDvLt8JqpIcI5DI6h1sp2xaSkCYIA1JJNxJJBX5FFnZfWxBL/7Fl/O2qNWIVNXWSJA6+
+         Ge0lQd2RMebV250RYgU93nFt5LcxWFt7RgRw93snmqD4YLJ5bKg6TndYQ1duwH6111nG
+         WtVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Tu7497B1vudv4lRmDQxN1ly5NrWEwmYjdP9mT2Cvgv0=;
-        b=ZMv0s13ulVSrLziv7E5dF3agZHPuqHqljy0CLL2qSYkSTx6SQ9RDYR6FUbwBJLenkN
-         f5bXSbKjEMjcmCCmyNNa5k28Oe+MJA+kEw7OjVAArnbWKS+b2U4n7KDR0Zqyvhk36SZP
-         /C/nxhLgEqg2lYuf0HlA3ag1hmxKT1HDh8vRBV0+VfAHrWZfOlRQDcIxJrID535Buqpi
-         Wbq4Y7XkWm2lkdjg2edKw3vdXt4wm+c8YmMKv567gc7mYpO4AbtxwzpfT4/cxD9VbKy4
-         FJQq/EOjU97OSVFDceKDF2oub6N2oQI1Ilt58Cp+aOeRld4Uzj+MtloVBmAnicOU8Hei
-         o3vA==
-X-Gm-Message-State: AOAM530dd10i18HsMKg+qQpDBUHtfw+1cq4olQ9PABV00KUkE2W/JpZt
-	96VfAmUaM8mc9PlmTsig7YO6AS59xkYSpzx9bBZCWw==
-X-Google-Smtp-Source: ABdhPJwQuIkSGIO6VHBqWxbOrKA+S04JhZ0uPErL8a1doj3dR1ZbgxLauvSBaG0iDoX2GY8u3d4JJACLIAPRrfPoztY=
-X-Received: by 2002:a62:5c6:0:b029:341:e0b1:a72c with SMTP id
- 189-20020a6205c60000b0290341e0b1a72cmr7779314pff.71.1628960271470; Sat, 14
- Aug 2021 09:57:51 -0700 (PDT)
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=X9HnISzXWkNVCczHXM6hTEMkBbJkCBVv5W2RvJ/RQCE=;
+        b=oKme++U8Y/KqTC+wl/HMfakBvAqPf4Q3iXJXpcIINJIgoZtu4VU+4SUCGJzuhVydXJ
+         pXwX7HhZxRjl93amLlHTPHAzHqNncTZUxOgIbXqY1uH2ngPrjWaB7UwTA/O2FgqPyqot
+         /jkek9iU0k7enCFRjPvS5q2+exYcjIGWVmEBAMzjlITLGoFQLnWPePMi+CUTVS0/2JxS
+         tihfNKJkST+u/BJFw6yiwET/OZ2k19DSOFG4aji9K63SZmVk1fVTcrTKlVpSqywrQTXG
+         FPQj5teaVfmi2kR+6bN9usAVnUE+IRezghc/8fu/wFz9U2RxMZDUr/ZeGXwzu0m4lH/S
+         qcYQ==
+X-Gm-Message-State: AOAM532Nltjt0lbccv6uhJnPqGmVIfFR5lzALjC6h83xwzJ8UMGqHhof
+	5GHYQCASVZ8JHaAuAsIGEns=
+X-Google-Smtp-Source: ABdhPJzvdRKJhhSHZETge+N+tLedrQj+cQPZKJB0HLdBgPp04ehf56MNITDph3+Ysd13DGMYAeEFyw==
+X-Received: by 2002:a1c:6a18:: with SMTP id f24mr2346878wmc.142.1628960554971;
+        Sat, 14 Aug 2021 10:02:34 -0700 (PDT)
+Received: from ?IPv6:2a02:8108:96c0:3b88::4058? ([2a02:8108:96c0:3b88::4058])
+        by smtp.gmail.com with ESMTPSA id z5sm4934753wmi.36.2021.08.14.10.02.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 14 Aug 2021 10:02:34 -0700 (PDT)
+Subject: Re: [PATCH] staging: r8188eu: os_dep: Remove defined but not used
+ variables
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>, Martin Kaiser <martin@kaiser.cx>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20210814160804.11634-1-fmdefrancesco@gmail.com>
+From: Michael Straube <straube.linux@gmail.com>
+Message-ID: <e0c701f3-d13e-421a-c22b-d6be98e28e97@gmail.com>
+Date: Sat, 14 Aug 2021 19:01:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210812132725.18404-1-fabioaiuto83@gmail.com>
- <c2abe840-98b4-cddd-e427-2243d456ec19@lwfinger.net> <YRYS+4I58YRnAepF@kroah.com>
- <CAP71bdXD-AY985fFzjCFFt2NLr7Jsd+Ucow2D_EE-renCVXP6A@mail.gmail.com>
-In-Reply-To: <CAP71bdXD-AY985fFzjCFFt2NLr7Jsd+Ucow2D_EE-renCVXP6A@mail.gmail.com>
-From: Phillip Potter <phil@philpotter.co.uk>
-Date: Sat, 14 Aug 2021 17:57:40 +0100
-Message-ID: <CAA=Fs0mY6f-r8j=H-aQ80Krw_q4=50iM0+26X=PZj-ze0-hgNA@mail.gmail.com>
-Subject: Re: [PATCH] staging: r8188eu: remove cfg80211 residuals
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Fabio Aiuto <fabioaiuto83@gmail.com>, 
-	Hans de Goede <hdegoede@redhat.com>, Martin Kaiser <martin@kaiser.cx>, 
-	Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev, 
-	LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210814160804.11634-1-fmdefrancesco@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Fri, 13 Aug 2021 at 19:42, Larry Finger <Larry.Finger@lwfinger.net> wrote:
->
->
->
-> On Fri, Aug 13, 2021 at 2:36 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > That's odd, I'll drop this from my queue, we should be using cfg80211
->
-> I will be going dark for a while as I add the cfg80211 bits back in.
->
-> One piece of good news. I dug out my PowerBook G4 with a PowerPC CPU and tested. Even with all the changes, the driver still works on a big-endian CPU.
->
-> Larry
->
->
+On 8/14/21 6:08 PM, Fabio M. De Francesco wrote:
+> Remove defined but not used const variables. Issues detected by GCC
+> running with -Wunused-const-variable option enabled.
+> 
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> ---
+>   drivers/staging/r8188eu/os_dep/ioctl_linux.c | 21 --------------------
+>   1 file changed, 21 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> index 38ee41f9d2ba..d9fdd83218dc 100644
+> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> @@ -84,11 +84,6 @@ static u32 rtw_rates[] = {1000000, 2000000, 5500000, 11000000,
+>   	6000000, 9000000, 12000000, 18000000, 24000000, 36000000,
+>   	48000000, 54000000};
+>   
+> -static const char * const iw_operation_mode[] = {
+> -	"Auto", "Ad-Hoc", "Managed",  "Master", "Repeater",
+> -	"Secondary", "Monitor"
+> -};
+> -
+>   void indicate_wx_scan_complete_event(struct adapter *padapter)
+>   {
+>   	union iwreq_data wrqu;
+> @@ -6666,19 +6661,3 @@ struct iw_handler_def rtw_handlers_def = {
+>   	.num_private_args = sizeof(rtw_private_args) / sizeof(struct iw_priv_args),
+>   	.get_wireless_stats = rtw_get_wireless_stats,
+>   };
+> -
+> -/*  copy from net/wireless/wext.c start */
+> -/* ---------------------------------------------------------------- */
+> -/*
+> - * Calculate size of private arguments
+> - */
+> -static const char iw_priv_type_size[] = {
+> -	0,			      /* IW_PRIV_TYPE_NONE */
+> -	1,			      /* IW_PRIV_TYPE_BYTE */
+> -	1,			      /* IW_PRIV_TYPE_CHAR */
+> -	0,			      /* Not defined */
+> -	sizeof(__u32),		  /* IW_PRIV_TYPE_INT */
+> -	sizeof(struct iw_freq),	 /* IW_PRIV_TYPE_FLOAT */
+> -	sizeof(struct sockaddr),	/* IW_PRIV_TYPE_ADDR */
+> -	0,			      /* Not defined */
+> -};
+> 
 
-Thanks Larry, and awesome news - a PowerBook G4 - one machine I'm sad
-I never owned back in the day :-)
+Looks good to me, thanks.
 
-Regards,
-Phil
+Acked-by: Michael Straube <straube.linux@gmail.com>
+
+Michael
