@@ -1,53 +1,70 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 281032FAD
-	for <linux-staging@lists.linux.dev>; Sun, 15 Aug 2021 05:30:30 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id AB7CB61038;
-	Sun, 15 Aug 2021 05:30:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1629005429;
-	bh=lqgZVhDD0rzu4lD+lPiRXpnVJ6yGAtXKU4Sdo3DPIZg=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=TVaToB+YJJeI21Trij33uoO5pwRWtkC2S4YFegzBqpVCrRdy+S8y8J9s6o6Z0iu/n
-	 1y5SQD/s5DA/Sk+GQIDd/9y4V50gtlJ7mSlWa5sylb2CnUEPjjSdI+FI0cAIkrMiL9
-	 rUQAIo4m3h17KLSfntoqB78OkATbV2qzvOgLXPWy8OQXFG3AzhZ1P680tlwm7RI/Vj
-	 fuGmTo66REdO/ImV8PkcOFRFYuOyV1i4EIxXDXLMeAeih2E6xxLKNhDMqq2Hus+GH5
-	 tDRQvMy0dF9Ev0MmBQsKpmEHCtNOsFzZ5s0e3dMB9qk7MnBt2ywuQw9uKlrd7EPUrn
-	 kILYn9fpsN0sw==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id A60BE60A9C;
-	Sun, 15 Aug 2021 05:30:29 +0000 (UTC)
-Subject: Re: [GIT PULL] IIO driver fixes for 5.14-rc6
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <YRf0Zwu0SySEe2g9@kroah.com>
-References: <YRf0Zwu0SySEe2g9@kroah.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <YRf0Zwu0SySEe2g9@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.14-rc6
-X-PR-Tracked-Commit-Id: a5056c0bc24f6c9982cfe6f4e3301f3c7d682191
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 56aee57345825a720dfcda6ea99e550c3141762f
-Message-Id: <162900542967.9665.1544491948431138031.pr-tracker-bot@kernel.org>
-Date: Sun, 15 Aug 2021 05:30:29 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B2652FAD
+	for <linux-staging@lists.linux.dev>; Sun, 15 Aug 2021 06:25:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EFA716103A;
+	Sun, 15 Aug 2021 06:25:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1629008754;
+	bh=8WgvM8M26oXRN4vw+Mt7hS5lSyYMjCSVo0s4LtoabEM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Pq5hMcRQjpEiOkegtUosI+prQg3jdqGJ3o+6wh3SJ7FOvtWgbGrGnUGMLjkWMlV7d
+	 7UbYtLGv5+PCeOXE8od97iS9Hw5BNkVPimXmtmPnAD7IZXEtbZaay0eBigfeFInE5w
+	 yRKWYFcBZZ+3qP6KZMdAWR8QO47lcAZd+iRWytUI=
+Date: Sun, 15 Aug 2021 08:25:51 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: daniel watson <ozzloy@challenge-bot.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging:iio:ade7854 surround complex defines in
+ parentheses
+Message-ID: <YRizb/FGfYpGbpJy@kroah.com>
+References: <20210815023115.13016-1-ozzloy@challenge-bot.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210815023115.13016-1-ozzloy@challenge-bot.com>
 
-The pull request you sent on Sat, 14 Aug 2021 18:50:47 +0200:
+On Sat, Aug 14, 2021 at 07:31:15PM -0700, daniel watson wrote:
+> Error found by checkpatch.pl
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.14-rc6
+What error?
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/56aee57345825a720dfcda6ea99e550c3141762f
+> 
+> Signed-off-by: daniel watson <ozzloy@challenge-bot.com>
 
-Thank you!
+Capitalize your name?
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+> ---
+>  drivers/staging/iio/meter/ade7854.h | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/iio/meter/ade7854.h b/drivers/staging/iio/meter/ade7854.h
+> index a51e6e3183d38..afb13e21002e1 100644
+> --- a/drivers/staging/iio/meter/ade7854.h
+> +++ b/drivers/staging/iio/meter/ade7854.h
+> @@ -139,9 +139,9 @@
+>  #define ADE7854_MAX_RX    7
+>  #define ADE7854_STARTUP_DELAY 1000
+>  
+> -#define ADE7854_SPI_SLOW	(u32)(300 * 1000)
+> -#define ADE7854_SPI_BURST	(u32)(1000 * 1000)
+> -#define ADE7854_SPI_FAST	(u32)(2000 * 1000)
+> +#define ADE7854_SPI_SLOW	((u32)(300 * 1000))
+> +#define ADE7854_SPI_BURST	((u32)(1000 * 1000))
+> +#define ADE7854_SPI_FAST	((u32)(2000 * 1000))
+
+This is not a real change that is needed, just look at the code to
+verify that.
+
+thanks,
+
+greg k-h
