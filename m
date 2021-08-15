@@ -1,89 +1,197 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9FE6D13
-	for <linux-staging@lists.linux.dev>; Sun, 15 Aug 2021 08:05:43 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id f5so19101158wrm.13
-        for <linux-staging@lists.linux.dev>; Sun, 15 Aug 2021 01:05:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC3D168
+	for <linux-staging@lists.linux.dev>; Sun, 15 Aug 2021 10:25:13 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id o1-20020a05600c5101b02902e676fe1f04so9854595wms.1
+        for <linux-staging@lists.linux.dev>; Sun, 15 Aug 2021 03:25:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=UrAgzl3jB506c9cAqBKWaFN40W2kC92MoWozjCwPEHQ=;
-        b=UWkkTVvu67+osPtAX0iSWeHcPAsWLnequ3aLFWbVL2Vkm/oSYgvxH8ykI4EjnUdjKT
-         H9eT0V8DOkGaJowMHEGb5RGW9xQ6bgcTqVMWf0VMe35yWv0lknZ38h0mu7OwAiaiO5T3
-         Vr6xs3b37hWUxNohgiMJ/6BpicvXrG9fxe0bJTfxae0BmwH6kHJNRvzR8b8Er//6DC8A
-         +Ijfe+XGG/eGWrK8mgAKvoevefgUzGcgis2+Rbe8+CdLJ0Ilofmg5A2gisrbs61W8qE2
-         3ENocHUJf6BMB9v8/SQA1aew/MJiE5QmYGkWM9TpMjqWuDVIh3PbfoXidqHqBnoxBGhX
-         lbAA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NHXtZAE4yO9OQyKA/b1qZJJcObKkgYRmxLsUtglnXMc=;
+        b=ReTTdvEmhOFKhfd25CUZDMb+Oix1oHh/tLRsU6qNvEYfLZBpJ6aJiJARsCcekrykYv
+         zDd9+R+nDJzaqIkithfRjEq7hgb7+5BTRy92bMaWcCOhIJC8+mArv0eycDJEP5TB3rfH
+         aRrUGCbIjWLBmnd4aSGS9Dlc4mkK0RBkFfF5ItxkDkShXo7mN8BCyqJqlnB8j5x5IRtq
+         uIu/FqkjwC0+lXwv1vSL7C72bGKcwohRzkdjGVaugfEhIPz8PUMMjrV3fCDiQofreQjV
+         Eb23ldN7OAjVZSJ/etwsWxkRKWukB34wSgjszNPp1hH+7VJDvHv9H8bZLXblFvpnrUjt
+         Labg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=UrAgzl3jB506c9cAqBKWaFN40W2kC92MoWozjCwPEHQ=;
-        b=tAcOeixG5ogDQ14Fau78cVuCax/BCCaW9XlHmgowI4SEjLb+z8qlQucxuSrHQGJSln
-         bAzjDbeA3OiUXg0YgLdjmlZjt4PUudZao4OS1xYNsIMTDTas6j+VskTsEXTRObSoWk1H
-         nG15KxPFfWc6eIKklxFFCkCTdROvSjAG8w5a9FB9MhkZSBPbc5ZEl0qTpruCCzKZ8X1R
-         EyaFfdhUoTMDNrq/Iz22zMxkLprU25Vz6/PqpqZSYttS0Jo5MVSdaiWWsqfqK0OFuK9L
-         57PaBPwD1ivptouh0Fa+Yre1KzyH85NMrr3afXJ/gfYnU/U68AkDT3AfTWHy4nEycQ5w
-         9aug==
-X-Gm-Message-State: AOAM532Z9shSuimyLL3C7DFGGD8DQtY0343vUWLV64mQuv2eSkV0NSyQ
-	yO8D9VWnK2uKaNV29OIYcak=
-X-Google-Smtp-Source: ABdhPJzCDz7NBwkMSBhStBGAH5BK185N1SSlwKLdR6RI+Re2hqdjt8MQVMf9SI2uQbcqvs/R+xQM2w==
-X-Received: by 2002:adf:fb8f:: with SMTP id a15mr12222669wrr.92.1629014741986;
-        Sun, 15 Aug 2021 01:05:41 -0700 (PDT)
-Received: from ?IPv6:2a02:8108:96c0:3b88::2571? ([2a02:8108:96c0:3b88::2571])
-        by smtp.gmail.com with ESMTPSA id p14sm6533436wmi.42.2021.08.15.01.05.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 15 Aug 2021 01:05:41 -0700 (PDT)
-Subject: Re: [PATCH] staging: r8188eu: use common ieee80211 constants
-To: Phillip Potter <phil@philpotter.co.uk>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- Larry Finger <Larry.Finger@lwfinger.net>, Martin Kaiser <martin@kaiser.cx>,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- linux-staging@lists.linux.dev,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20210814165518.8672-1-straube.linux@gmail.com>
- <CAA=Fs0kkhzvu134zOpb69Z6WFCCpmcfGLR-4KJeDd3n1d8g-qw@mail.gmail.com>
+        bh=NHXtZAE4yO9OQyKA/b1qZJJcObKkgYRmxLsUtglnXMc=;
+        b=UfKCiDoKJ1WwYkJgITkmVJsxHG+DHFt8Wkli/p2oeY4nWaiDrx/69Am+XRp6GA/F0w
+         lhrGxBW2+TWqDirZ2qUPfO5wNtiQr8xgghL/onlZ3vpkUr/YPm2Jve/ugJFWIvVoXFag
+         eBdlkv4fu/vohFi6cATvr9Csn5tal1B/u1JVdNKmgSYuTWQFGCNC10tArmQjgiBSO0KP
+         Jk8ZNo3OPWGEQyVl1EPfItZc0XmYbjQaZQAU/nDDXhnL7fuyUG29YDMhhogJlV0Cdy1p
+         MVi8vjCyTS4446sBXJk4qRwy+L/C+lahGyWc6a5L0+nRUcaDsYeUGAoSthYi+Tz94ALo
+         qPPA==
+X-Gm-Message-State: AOAM533Ax/pI75qPJI8jVUTILZTrmzJO7rsisl/Gbhi5TeYIaIpixBrk
+	u8k7gJtw5lKBUy8qv0utHl4=
+X-Google-Smtp-Source: ABdhPJwKuEcz0JPleUFLY0hqQkHU5snGigsQchBQ1Zr2lNhliPrLUO37FUqxUsFx5dXV7gKJcOuXrQ==
+X-Received: by 2002:a1c:10e:: with SMTP id 14mr10440487wmb.93.1629023112324;
+        Sun, 15 Aug 2021 03:25:12 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::4058])
+        by smtp.gmail.com with ESMTPSA id x13sm7623167wrq.44.2021.08.15.03.25.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Aug 2021 03:25:11 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
-Message-ID: <9f13258d-5fa1-aa28-e2e6-14f0721b8eb5@gmail.com>
-Date: Sun, 15 Aug 2021 10:04:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	martin@kaiser.cx,
+	fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: r8188eu: remove kernel version depended code paths
+Date: Sun, 15 Aug 2021 12:24:06 +0200
+Message-Id: <20210815102406.3707-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAA=Fs0kkhzvu134zOpb69Z6WFCCpmcfGLR-4KJeDd3n1d8g-qw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/14/21 7:36 PM, Phillip Potter wrote:
-> 
-> Dear Michael,
-> 
-> Constants seem to be correct values still, nice. That said, the other
-> patches that have come through from others before this prevent this
-> applying to my copy of staging-testing branch. Assuming Greg takes the
-> patches in order, this will therefore need reworking. That said, it
-> builds fine for me when applied directly to fresh staging-testing tip
-> without the patches that have come in since, so:
-> 
-> Acked-by: Phillip Potter <phil@philpotter.co.uk>
-> 
-> By all means apply that Acked-by to v2 if needed. Many thanks.
-> 
-> Regards,
-> Phil
-> 
+Remove kernel version depended code paths from the driver.
+Reported by checkpatch.
 
-Thanks for the hint Phillip. Sure I can send v2 if needed.
+WARNING: LINUX_VERSION_CODE should be avoided, code should be for the version to which it is merged
 
-Greg, is this ok as is or should I send v2 rebased on staging-testing
-with other pending patches applied?
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_mlme.c      |  4 ----
+ drivers/staging/r8188eu/os_dep/os_intfs.c    | 24 +-------------------
+ drivers/staging/r8188eu/os_dep/rtw_android.c |  9 --------
+ drivers/staging/r8188eu/os_dep/xmit_linux.c  |  5 ----
+ 4 files changed, 1 insertion(+), 41 deletions(-)
 
-Michael
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index 9189f5c845f3..d5ef5783f4ad 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -1499,11 +1499,7 @@ void rtw_dynamic_check_timer_handlder(struct adapter *adapter)
+ 
+ 	rcu_read_lock();
+ 
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,36)
+ 	if (rcu_dereference(adapter->pnetdev->rx_handler_data) &&
+-#else
+-	if (rcu_dereference(adapter->pnetdev->br_port) &&
+-#endif
+ 	    (check_fwstate(pmlmepriv, WIFI_STATION_STATE|WIFI_ADHOC_STATE) == true)) {
+ 		/*  expire NAT2.5 entry */
+ 		nat25_db_expire(adapter);
+diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+index cc7e54170948..f4bf4732578a 100644
+--- a/drivers/staging/r8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+@@ -637,19 +637,7 @@ static unsigned int rtw_classify8021d(struct sk_buff *skb)
+ 	return dscp >> 5;
+ }
+ 
+-static u16 rtw_select_queue(struct net_device *dev, struct sk_buff *skb
+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 2, 0))
+-			    ,struct net_device *sb_dev
+-#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 19, 0))
+-			    ,struct net_device *sb_dev
+-                            ,select_queue_fallback_t fallback
+-#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 14, 0))
+-			    ,void *unused
+-                            ,select_queue_fallback_t fallback
+-#elif (LINUX_VERSION_CODE == KERNEL_VERSION(3, 13, 0))
+-			    , void *accel
+-#endif
+-)
++static u16 rtw_select_queue(struct net_device *dev, struct sk_buff *skb, struct net_device *sb_dev)
+ {
+ 	struct adapter	*padapter = rtw_netdev_priv(dev);
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+@@ -706,15 +694,9 @@ int rtw_init_netdev_name(struct net_device *pnetdev, const char *ifname)
+ 	return 0;
+ }
+ 
+-#if LINUX_VERSION_CODE > KERNEL_VERSION(2,6,39)
+ static const struct device_type wlan_type = {
+ 	.name = "wlan",
+ };
+-#else
+-static struct device_type wlan_type = {
+-	.name = "wlan",
+-};
+-#endif
+ 
+ struct net_device *rtw_init_netdev(struct adapter *old_padapter)
+ {
+@@ -992,11 +974,7 @@ void netdev_br_init(struct net_device *netdev)
+ 
+ 	rcu_read_lock();
+ 
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,36)
+ 	if (rcu_dereference(adapter->pnetdev->rx_handler_data)) {
+-#else
+-	if (rcu_dereference(adapter->pnetdev->br_port)) {
+-#endif
+ 		struct net_device *br_netdev;
+ 		struct net *devnet = NULL;
+ 
+diff --git a/drivers/staging/r8188eu/os_dep/rtw_android.c b/drivers/staging/r8188eu/os_dep/rtw_android.c
+index d666feb87a7a..bdd381606ba6 100644
+--- a/drivers/staging/r8188eu/os_dep/rtw_android.c
++++ b/drivers/staging/r8188eu/os_dep/rtw_android.c
+@@ -63,13 +63,8 @@ int rtw_android_cmdstr_to_num(char *cmdstr)
+ {
+ 	int cmd_num;
+ 	for (cmd_num=0; cmd_num < ANDROID_WIFI_CMD_MAX; cmd_num++)
+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 0, 0))
+ 		if (!strncasecmp(cmdstr, android_wifi_cmd_str[cmd_num],
+ 		    strlen(android_wifi_cmd_str[cmd_num])))
+-#else
+-		if (0 == strnicmp(cmdstr, android_wifi_cmd_str[cmd_num],
+-		   strlen(android_wifi_cmd_str[cmd_num])))
+-#endif
+ 			break;
+ 	return cmd_num;
+ }
+@@ -162,11 +157,7 @@ int rtw_android_priv_cmd(struct net_device *net, struct ifreq *ifr, int cmd)
+ 		ret = -ENOMEM;
+ 		goto exit;
+ 	}
+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 0, 0))
+ 	if (!access_ok(priv_cmd.buf, priv_cmd.total_len)) {
+-#else
+-	if (!access_ok(VERIFY_READ, priv_cmd.buf, priv_cmd.total_len)) {
+-#endif
+ 		DBG_88E("%s: failed to access memory\n", __func__);
+ 		ret = -EFAULT;
+ 		goto exit;
+diff --git a/drivers/staging/r8188eu/os_dep/xmit_linux.c b/drivers/staging/r8188eu/os_dep/xmit_linux.c
+index 3a1b9d8988f2..4f1ce346b3a5 100644
+--- a/drivers/staging/r8188eu/os_dep/xmit_linux.c
++++ b/drivers/staging/r8188eu/os_dep/xmit_linux.c
+@@ -108,7 +108,6 @@ void rtw_os_xmit_resource_free(struct adapter *padapter,
+ 
+ void rtw_os_pkt_complete(struct adapter *padapter, struct sk_buff *pkt)
+ {
+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 35))
+ 	u16	queue;
+ 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+ 
+@@ -121,10 +120,6 @@ void rtw_os_pkt_complete(struct adapter *padapter, struct sk_buff *pkt)
+ 		if (__netif_subqueue_stopped(padapter->pnetdev, queue))
+ 			netif_wake_subqueue(padapter->pnetdev, queue);
+ 	}
+-#else
+-	if (netif_queue_stopped(padapter->pnetdev))
+-		netif_wake_queue(padapter->pnetdev);
+-#endif
+ 
+ 	dev_kfree_skb_any(pkt);
+ }
+-- 
+2.32.0
+
