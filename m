@@ -1,41 +1,41 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB4D6D19
-	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 09:59:35 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id o1-20020a05600c5101b02902e676fe1f04so10984215wms.1
-        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 02:59:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938026D17
+	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 09:59:36 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id g138so11177539wmg.4
+        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 02:59:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=KyjJYN2XshsuYz7jaJUcoW7fAV9lvNvVVnkMA0KNgnM=;
-        b=OEw8qQAjUDWS9e/Sah4oTcuvnNpKs21Hwe6tgIG4zC9B26MNDiF8cAAf6/4uXqPz4s
-         OAqh/MKDC3ypuRxElNNTW1ixB5xZVmaSdIjIlLKmCekH/YY5nOj1NtVHTbm1pBexj6h7
-         HWLwkZ1GbY2ULb5qjzSC1jaRc3W8kvNwZuvfuGnty+bM5vNnCvnqCXyfeogzahApLpdx
-         L5/F2Jcrl1c6E9Gk+4LT9h5u5ZqWmjrsgWq97PqlQGd7h4xszLjYBF+v57yzZ5Mgos19
-         zo6RgDC3zwmRJ8xhe51Jcp2m76uSa1if1ow3hNDVYsm8BRJS0l63n9Tod6T3iTLGuIwG
-         GQ8A==
+        bh=APmtX1P3ja8v/x20+NMdJ4eHxArTdJiEa3lLPOVHS3M=;
+        b=cWsutDqGU5kvkAFS/4yhpnZTJF3yrJhPFbzE7FtZ2YD4xqryIGrJAYcMdnldfIimFT
+         sQ2wpTi1V38SkfKHUUqogu5GyTdpRzweZh7oeWl9g/DAqwGpvDQOrN95lim0p+WPspJU
+         KAUZn1sNDc9D+pFyxpK9V6iMgHlt67PbPQ5jWVR0ie3EVJnnMRvr2jg+B2NHN6LemV9U
+         TDmX4yaz86sdDx7BAnHM/D3D6C4ClcvoJmyfK9zldqw9wyez9FkwlPwXw44ujAdsUf6z
+         +N9rBMmzcJv3PLPlWF4Vnqbg9+rx5SrhU1nnbnd/+WVXlWG6YDzGZ+NPgQLaxiwkVyNv
+         dSKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=KyjJYN2XshsuYz7jaJUcoW7fAV9lvNvVVnkMA0KNgnM=;
-        b=QVJ3rk2Z+tf8sP8qq4kdi7CbtPsKdyw13ezmV59/RUMNEflrvfuz6QOqUFLNyImok1
-         G5KolEAbHraw6T7z6wxslBtgKKUc6MyOKFssUapNQLT8V8h7ByyiBx8W5gtkn76sGQiK
-         7OWV7Zb6qRWoICxOyV1q5To1EbFsXBJNdZ9alGZbmY1+Q+Mv0WUy1gW1PbBM2o6A3VEK
-         rWWykY4qGVBbdcZdHTZAouWTNKvffREzJdg1XOJSBcVVoENjlqTt/7ZOCJ1QBFexj0hv
-         3vpwwuhY4XpW1P5tLlPsBLpKj40qhUjnsn0lEcPtbjrGR+IVzbdnc7SF4eEhSe/PQ5qi
-         zXGA==
-X-Gm-Message-State: AOAM531AojWBVvBmRSPHGPED4L1/oBAsTFe95QefyVX8ouzwuiqLyXTk
-	EISyVgQKeE1qHnFXvOO2E7k=
-X-Google-Smtp-Source: ABdhPJxvRwKpN2Y+CdTLakHeOwLVSwUL6uNnLI4HWG8a4WxRRDMVKa1qYle0lO9QCb5Fwo0L44n3sQ==
-X-Received: by 2002:a1c:4c05:: with SMTP id z5mr14126776wmf.145.1629107974195;
-        Mon, 16 Aug 2021 02:59:34 -0700 (PDT)
+        bh=APmtX1P3ja8v/x20+NMdJ4eHxArTdJiEa3lLPOVHS3M=;
+        b=T1ULzHbF5eZz/vbZNg7Y7nar/1iAQR15jHUxPdSxXT0bbzRCDddMiVownNuhXyAxA6
+         pn0ffj2Xu/vZmkY1vk8Dj/Q0lfc2IDmOwg0IwA8wBJBZ62EWRZF1UWj5KJxhesXOBm7r
+         lZUUFJedAhWy5+QBjBxxkrSVA+FH5KHVSyvl39dcsxuibex20lSs8XcVaOd/2Oof5KOj
+         dBuXYtfL7654xikYHHOzcyciUA6AfSKQrlsQJBzlmIvflFDe42SFXq1CoOPYFc4tc+NO
+         Pbg5r3YmFdmJ8y+xkeX74K6mQJ0eQNlvJPZTychRlIdLqUMDq01Zo71h1q9XZOwhiaDP
+         nenQ==
+X-Gm-Message-State: AOAM533lXiXuliIyXPD02pGBMFBrHmDs9MPCy2bmBTcJtbKJVlWpdNvK
+	jUc8CMN4gd7xfU1664cwcChNRSAgXNk=
+X-Google-Smtp-Source: ABdhPJwyigbcGOn5B1d77aO/3zYxJYOCbQ9sBEAyfnMDcfh66z01g7dBH8iDqYOhaDi9GJUZY32CZA==
+X-Received: by 2002:a7b:c5d2:: with SMTP id n18mr14574569wmk.97.1629107975044;
+        Mon, 16 Aug 2021 02:59:35 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::4058])
-        by smtp.gmail.com with ESMTPSA id g21sm1946635wmk.8.2021.08.16.02.59.33
+        by smtp.gmail.com with ESMTPSA id g21sm1946635wmk.8.2021.08.16.02.59.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Aug 2021 02:59:33 -0700 (PDT)
+        Mon, 16 Aug 2021 02:59:34 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 2/4] staging: r8188eu: convert rtw_is_cckrates_included() to bool
-Date: Mon, 16 Aug 2021 11:58:38 +0200
-Message-Id: <20210816095840.24259-2-straube.linux@gmail.com>
+Subject: [PATCH 3/4] staging: r8188eu: refactor rtw_is_cckratesonly_included()
+Date: Mon, 16 Aug 2021 11:58:39 +0200
+Message-Id: <20210816095840.24259-3-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210816095840.24259-1-straube.linux@gmail.com>
 References: <20210816095840.24259-1-straube.linux@gmail.com>
@@ -59,40 +59,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Function rtw_is_cckrates_included() returns boolean values.
-Change the return type to bool to reflect this.
+Refactor function rtw_is_cckratesonly_included(). Improves readability
+and slightly reduces object file size.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_ieee80211.c | 2 +-
- drivers/staging/r8188eu/include/ieee80211.h  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/r8188eu/core/rtw_ieee80211.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_ieee80211.c b/drivers/staging/r8188eu/core/rtw_ieee80211.c
-index beff2ab73a1a..c8627ad83006 100644
+index c8627ad83006..200c90b8ea51 100644
 --- a/drivers/staging/r8188eu/core/rtw_ieee80211.c
 +++ b/drivers/staging/r8188eu/core/rtw_ieee80211.c
-@@ -68,7 +68,7 @@ int rtw_get_bit_value_from_ieee_value(u8 val)
- 	return 0;
- }
+@@ -82,15 +82,13 @@ bool rtw_is_cckrates_included(u8 *rate)
  
--uint	rtw_is_cckrates_included(u8 *rate)
-+bool rtw_is_cckrates_included(u8 *rate)
+ uint	rtw_is_cckratesonly_included(u8 *rate)
  {
- 	while (*rate) {
- 		u8 r = *rate & 0x7f;
-diff --git a/drivers/staging/r8188eu/include/ieee80211.h b/drivers/staging/r8188eu/include/ieee80211.h
-index bc5b030e9c40..cbefd7af1d4f 100644
---- a/drivers/staging/r8188eu/include/ieee80211.h
-+++ b/drivers/staging/r8188eu/include/ieee80211.h
-@@ -1206,7 +1206,7 @@ int rtw_generate_ie(struct registry_priv *pregistrypriv);
+-	u32 i = 0;
++	while (*rate) {
++		u8 r = *rate & 0x7f;
  
- int rtw_get_bit_value_from_ieee_value(u8 val);
- 
--uint	rtw_is_cckrates_included(u8 *rate);
-+bool rtw_is_cckrates_included(u8 *rate);
- 
- uint	rtw_is_cckratesonly_included(u8 *rate);
+-	while (rate[i] != 0) {
+-		if  ((((rate[i]) & 0x7f) != 2) && (((rate[i]) & 0x7f) != 4) &&
+-		     (((rate[i]) & 0x7f) != 11)  && (((rate[i]) & 0x7f) != 22))
++		if (r != 2 && r != 4 && r != 11 && r != 22)
+ 			return false;
+-		i++;
++		rate++;
+ 	}
+-
+ 	return true;
+ }
  
 -- 
 2.32.0
