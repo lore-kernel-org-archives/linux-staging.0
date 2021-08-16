@@ -1,92 +1,181 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B5172
-	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 19:37:28 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id n12so28111634edx.8
-        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 12:37:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676A172
+	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 19:50:06 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id hs10so33985829ejc.0
+        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 12:50:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=hWBgaZy/6OsUctviq0mTpGRfIkXffP/uL/sHIzQRKqw=;
-        b=LaEUTxeXvM1m0ruw74D8pqZaaZI/GGNETOjvIEV8fw/BiBu7ddzIaQ4kgJlziCVNbI
-         tPS8BFwPPrn1X2oLj+gs72hj2ewi8e74tmKsr6ipHcXkXvbesOqljPUAhC5iPudYQDw3
-         hkM+NCo+WvmaaC1GRmwYIVU0qsm9h097PVKyvzqGIjVGooLClFvXS/EllvA01Hm2HJLt
-         jp1RBQnrvCbrAC5KsaAbPHVNBb/FftXhxoqR7AaSNqUUpAQsb5KU0MWLcFvNgjPmXTgG
-         ZFcBRnGOzNOuPeMYiBb0aSvFOqF1phR5/T1sGsYdAbpYMsX+BGNFShs153H0ETbmNX0/
-         4BGg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/HbL/ctCmtRDb+/41Ad/8cEQ9C3eCkUOM+E7n4I/I5c=;
+        b=TqNtl4u0g79zy/qXZhDzaCeqQGiUCfuS03jLo2RNvseT3iwGe6Q5gzmXJXHqtnFBZ6
+         180q4vktwjyThm5qWyX0cyOVOYk+TWeNl1ROhhHkh1BWotIXOAmDfPBFG4YHOjdLa0xa
+         OzO47r6S6X9eOV8U+TIa60B1QL6ZNNUx0b9lakDc7AWTahE3JVutI6Ob5AY67FMpcIcz
+         UfzaYbaLf2PxB53XJYz/DN5Dv15s7tA+OiqpkuNtvuTOefsesvdffj88njhfSvzVTAzH
+         +wDN4NWGjsMkXUb3xZf9RUapaWDf1RpmWXQ4yBmnmMuSBMGV5kG6LVGfnf1ck1upl4cX
+         MUWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=hWBgaZy/6OsUctviq0mTpGRfIkXffP/uL/sHIzQRKqw=;
-        b=gms8Jk4KiozMSAuFu3PvI9JmjRhCWkpoWL4rRdL80MydjtFu9jiGDFdMZJo2DFzttY
-         OQzW3opWJqAUDLizGpHEnCG72UnxYALjz43tyULL+DNmTVvy2hBpripkSAG09CzfV3vA
-         SAePGAnzvm73JY4nc+Eq+c+KOKnv6JJDSvaSQbtyOXadFYjSeybZpp56UDEmoEL0hu0I
-         Ag6VAVBkYozFr6/KXa5Jd1T96AGYmCK3TqSASm3MtNFP0ECVswZ/3SFKuhJcpccub27l
-         WaE+z5BtX0gurwORMkzprfSUBNJudfQHbpjwqqom7XzS/dQMp6AvhfaHJ6FPsP1wAXjE
-         EyxQ==
-X-Gm-Message-State: AOAM532UMEVQvFlIKcBjo9GIIbcLMcsGXljxybl5k50glGpEiFIrCMbK
-	92NQttSce1xObX/cHB9QqYU=
-X-Google-Smtp-Source: ABdhPJxdCrIuKYXWhR95PUNP7cr+X72slU1ZspA8KvPxIw0CCWVxTDxBURgHesFPkbw4Vd+qaxpAQQ==
-X-Received: by 2002:a05:6402:1d3c:: with SMTP id dh28mr201892edb.257.1629142647171;
-        Mon, 16 Aug 2021 12:37:27 -0700 (PDT)
-Received: from ?IPv6:2a02:8108:96c0:3b88::4058? ([2a02:8108:96c0:3b88::4058])
-        by smtp.gmail.com with ESMTPSA id x20sm58610ejb.100.2021.08.16.12.37.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Aug 2021 12:37:26 -0700 (PDT)
-Subject: Re: [PATCH v2 1/4] staging: r8188eu: refactor
- rtw_is_cckrates_included()
-To: Joe Perches <joe@perches.com>,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, martin@kaiser.cx,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20210816115430.28264-1-straube.linux@gmail.com>
- <22319347.s0ZA6q4zN9@localhost.localdomain>
- <c30b9e08b7df2bade93d217c0bf6eb4b416eb2ec.camel@perches.com>
-From: Michael Straube <straube.linux@gmail.com>
-Message-ID: <7a09afdb-5f85-0302-0375-93665e2f3f1a@gmail.com>
-Date: Mon, 16 Aug 2021 21:36:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+        bh=/HbL/ctCmtRDb+/41Ad/8cEQ9C3eCkUOM+E7n4I/I5c=;
+        b=n8IZ4uhNoLmlADR/Mw5F3tU13crfcfeKVdR5UB4MLHytI0ZdMgiX3P7Oshvztkny6l
+         s6Rh7hovFlLzTjDgyr+E8dSfi09eS17VbImwUBHMVBRni8S0vXrqIgvOTgq64zLofR+k
+         +fciNQOI8su50T7qgqnn9fraCFbN7qL60UwpwJIF5Jg/3nX0vQkhd3RkM5i3RdcDBgQa
+         bTkisUu/I3U0XzWp3xP0vwD5C+ryddS4ojUR5rWzbjMg8ge6iDuYb0Unhhh73qV0KLtg
+         U5MU5xrr6hJfNNqiroCeZjrdGOyvX4zsl/tKgjSQ4ap9O79MAC2RkLlmIRwbwU85a74k
+         sMxQ==
+X-Gm-Message-State: AOAM533T9gHmJV2mKBa7jF69An3TkhvzWOtIkD3AX0exW5dmdG8FAFGL
+	Y8U2tz8Hwbj8vnYpHVmmcBk=
+X-Google-Smtp-Source: ABdhPJwXmSxmTnhAPUxjJ7lf5SNJakuHdjJekAR788RIHxzMXMaRxvwqPWXfxjRkGvvD8I0IcB8xGg==
+X-Received: by 2002:a17:906:2acc:: with SMTP id m12mr122988eje.231.1629143404796;
+        Mon, 16 Aug 2021 12:50:04 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-109-211.retail.telecomitalia.it. [79.22.109.211])
+        by smtp.gmail.com with ESMTPSA id c16sm66622ejm.125.2021.08.16.12.50.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Aug 2021 12:50:04 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v3] staging: greybus: Convert uart.c from IDR to XArray
+Date: Mon, 16 Aug 2021 21:50:00 +0200
+Message-Id: <20210816195000.736-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <c30b9e08b7df2bade93d217c0bf6eb4b416eb2ec.camel@perches.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-On 8/16/21 6:15 PM, Joe Perches wrote:
-> On Mon, 2021-08-16 at 14:59 +0200, Fabio M. De Francesco wrote:
->> On Monday, August 16, 2021 1:54:27 PM CEST Michael Straube wrote:
->>> Refactor function rtw_is_cckrates_included(). Improves readability
->>> and slightly reduces object file size.
->>>
->>> Signed-off-by: Michael Straube <straube.linux@gmail.com>
->>> ---
->>> v1 -> v2
->>> Refactored to more compact code as suggested by Joe Perches.
->>>
->>>   drivers/staging/r8188eu/core/rtw_ieee80211.c | 9 ++++-----
->>>   1 file changed, 4 insertions(+), 5 deletions(-)
->>>
->>
->> Thanks for redoing the series as suggested by Joe Perches.
->> This is a perfect case where conciseness and readability don't clash and
->> instead the former enhances the latter.
-> 
-> Perhaps do the whole thing in one go (moving the & 0x7f into the helper
-> avoids an early loop exit defect when the rate being indexed is 0x80)
-> 
+Convert greybus/uart.c from IDR to XArray. The abstract data type XArray
+is more memory-efficient, parallelisable, and cache friendly. It takes
+advantage of RCU to perform lookups without locking. Furthermore, IDR is
+deprecated because XArray has a better (cleaner and more consistent) API.
 
-I have sent a new patch that does the refactoring in one go,
-so this series is obsolete now. ;)
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
 
-Regards,
-Michael
+v2->v3:
+	Fix some issues according to a review by Alex Elder <elder@ieee.org>
+
+v1->v2:
+        Fix an issue found by the kernel test robot. It is due to
+        passing to xa_*lock() the same old mutex that IDR used with
+        the previous version of the code.
+
+ drivers/staging/greybus/uart.c | 34 ++++++++++++++++------------------
+ 1 file changed, 16 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
+index 73f01ed1e5b7..815156c88005 100644
+--- a/drivers/staging/greybus/uart.c
++++ b/drivers/staging/greybus/uart.c
+@@ -22,7 +22,7 @@
+ #include <linux/serial.h>
+ #include <linux/tty_driver.h>
+ #include <linux/tty_flip.h>
+-#include <linux/idr.h>
++#include <linux/xarray.h>
+ #include <linux/fs.h>
+ #include <linux/kdev_t.h>
+ #include <linux/kfifo.h>
+@@ -32,8 +32,9 @@
+ 
+ #include "gbphy.h"
+ 
+-#define GB_NUM_MINORS	16	/* 16 is more than enough */
+-#define GB_NAME		"ttyGB"
++#define GB_NUM_MINORS		16	/* 16 is more than enough */
++#define GB_RANGE_MINORS		XA_LIMIT(0, GB_NUM_MINORS)
++#define GB_NAME			"ttyGB"
+ 
+ #define GB_UART_WRITE_FIFO_SIZE		PAGE_SIZE
+ #define GB_UART_WRITE_ROOM_MARGIN	1	/* leave some space in fifo */
+@@ -67,8 +68,7 @@ struct gb_tty {
+ };
+ 
+ static struct tty_driver *gb_tty_driver;
+-static DEFINE_IDR(tty_minors);
+-static DEFINE_MUTEX(table_lock);
++static DEFINE_XARRAY(tty_minors);
+ 
+ static int gb_uart_receive_data_handler(struct gb_operation *op)
+ {
+@@ -341,8 +341,8 @@ static struct gb_tty *get_gb_by_minor(unsigned int minor)
+ {
+ 	struct gb_tty *gb_tty;
+ 
+-	mutex_lock(&table_lock);
+-	gb_tty = idr_find(&tty_minors, minor);
++	xa_lock(&tty_minors);
++	gb_tty = xa_load(&tty_minors, minor);
+ 	if (gb_tty) {
+ 		mutex_lock(&gb_tty->mutex);
+ 		if (gb_tty->disconnected) {
+@@ -353,19 +353,19 @@ static struct gb_tty *get_gb_by_minor(unsigned int minor)
+ 			mutex_unlock(&gb_tty->mutex);
+ 		}
+ 	}
+-	mutex_unlock(&table_lock);
++	xa_unlock(&tty_minors);
+ 	return gb_tty;
+ }
+ 
+ static int alloc_minor(struct gb_tty *gb_tty)
+ {
+ 	int minor;
++	int ret;
+ 
+-	mutex_lock(&table_lock);
+-	minor = idr_alloc(&tty_minors, gb_tty, 0, GB_NUM_MINORS, GFP_KERNEL);
+-	mutex_unlock(&table_lock);
+-	if (minor >= 0)
+-		gb_tty->minor = minor;
++	ret = xa_alloc(&tty_minors, &minor, gb_tty, GB_RANGE_MINORS, GFP_KERNEL);
++	if (ret)
++		return ret;
++	gb_tty->minor = minor;
+ 	return minor;
+ }
+ 
+@@ -374,9 +374,7 @@ static void release_minor(struct gb_tty *gb_tty)
+ 	int minor = gb_tty->minor;
+ 
+ 	gb_tty->minor = 0;	/* Maybe should use an invalid value instead */
+-	mutex_lock(&table_lock);
+-	idr_remove(&tty_minors, minor);
+-	mutex_unlock(&table_lock);
++	xa_erase(&tty_minors, minor);
+ }
+ 
+ static int gb_tty_install(struct tty_driver *driver, struct tty_struct *tty)
+@@ -837,7 +835,7 @@ static int gb_uart_probe(struct gbphy_device *gbphy_dev,
+ 
+ 	minor = alloc_minor(gb_tty);
+ 	if (minor < 0) {
+-		if (minor == -ENOSPC) {
++		if (minor == -EBUSY) {
+ 			dev_err(&gbphy_dev->dev,
+ 				"no more free minor numbers\n");
+ 			retval = -ENODEV;
+@@ -982,7 +980,7 @@ static void gb_tty_exit(void)
+ {
+ 	tty_unregister_driver(gb_tty_driver);
+ 	put_tty_driver(gb_tty_driver);
+-	idr_destroy(&tty_minors);
++	xa_destroy(&tty_minors);
+ }
+ 
+ static const struct gbphy_device_id gb_uart_id_table[] = {
+-- 
+2.32.0
+
