@@ -1,119 +1,114 @@
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B05173
-	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 15:10:06 +0000 (UTC)
-Received: by mail-io1-f45.google.com with SMTP id q16so21055537ioj.0
-        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 08:10:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C30173
+	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 15:59:17 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id f12-20020a05600c4e8c00b002e6bdd6ffe2so9622035wmq.5
+        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 08:59:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ApokTc8mxObi8oLsmYtRa9frQO6t6d0mzitkU5awMsA=;
-        b=Ktq396n8+YfDiWEgaDGrc2kjUj/FbqM187aiv6pP6u0LMj3/QFpzl/GCX8JmtA78jY
-         yBDs/I6ZiBu2UH7uoTcze9yCn7oF0JmgH6GSGMtMkvghXspXiIAgu+DIUqXPzA9nxlj4
-         wUQC2zigW6KRNF7d3zu+lzRo8g8k/o6ybatkPaKFGzYXWpbX5yez8Qx/PvzKGzlGcREU
-         AssuQ9yIsg1jOgYvYeBQp/S6j7z0Dx5XRad1af35c8fy0m+kinIguuxrhb0lGx4GVWrc
-         wUyPmrhPTicTNIw6oWM/gK0bvsT5INnjm7r5z6idw7bkGR+VeJVa7bOYGb974rHE+jv1
-         5ZVg==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FE51E+z6rwW3vCT+HddSaJ7256vyRjZvLJv2NiM2qi0=;
+        b=Nk48hOOqlshjZSpO4U9E02aYdwG/pWMJ7nKwY7hf34vPX/s78Ok026mSndiSmx+iaW
+         01yp+itaciLVgIJODcmJ775k0JIcX+BjQXricCu1DPCHI8De0B4boZGrMquKFqueveYy
+         e3w6lc+wtEdPX7ePp/hPqpQ1PtcOHIiXnXb18W1CCIHZMKojfwP+sINGB6MCJlUQPk0t
+         lcnM8tl17E/B5h45LeKG+gN/6NE8MaZ5CbTi6Q3gYkqTw8aWtLTD2557H7mGq93ACt0b
+         h5ulTaFknQbUYQw+GGyvsXoMnWBgZhXxUKYdB9EBbwmZ9iav1TOKhIcs/YyDoK96G/1R
+         G0Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ApokTc8mxObi8oLsmYtRa9frQO6t6d0mzitkU5awMsA=;
-        b=sxlMgg8yOXWZ7lozGAv4ylrjC7jq7yFhtKnMW4ehwnIczYb1ih/i0UcEVkSbn8DqO9
-         yqmMNk4jo/QAl5zysY3p2YfYKzOCZtO9TJiN6bXl7AmZti5/gilWPTFT01LJMlRffrPZ
-         HmP+zjNHTQ6UTKbnnkWefCsWul8gPdRPaxOlAz6Sw8oQiiRPZgXM09Kdb3mDYWvEsTjR
-         sCzJBz3BDLesfuM+2I4+8DAf3E58nzZotdU2Vwp+UaX6DW2xWANCq/aHk4C8qgZxnyQn
-         4YBVCeyUyCXgRSHH0UiFdYH1lW/i3oU6g57TBiYpaAAT9SlzwhKm9VTQKfjfSOQCkp5E
-         af0Q==
-X-Gm-Message-State: AOAM531LZ+dtNCNhNZJLSnk+hsge5iJ5QD0/wUIEX4R21YIC99FSy6+Q
-	VlQYEVgjT5arTFlT3WsH0QoyMg==
-X-Google-Smtp-Source: ABdhPJzyIkOm/xZ02NFnTH6W4iDNwHM/gJaa4hr0GPRjC4doNqTHl9+QaDOnw/R0q7UZnod0GL2mSw==
-X-Received: by 2002:a05:6638:329d:: with SMTP id f29mr15989957jav.140.1629126605321;
-        Mon, 16 Aug 2021 08:10:05 -0700 (PDT)
-Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
-        by smtp.googlemail.com with ESMTPSA id w10sm5725935ioc.55.2021.08.16.08.10.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Aug 2021 08:10:04 -0700 (PDT)
-Subject: Re: [greybus-dev] [PATCH v2] staging: greybus: Convert uart.c from
- IDR to XArray
-To: Dan Carpenter <dan.carpenter@oracle.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Alex Elder <elder@kernel.org>, kernel test robot <lkp@intel.com>,
- linux-staging@lists.linux.dev, Johan Hovold <johan@kernel.org>,
- linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-References: <20210814181130.21383-1-fmdefrancesco@gmail.com>
- <5541b638-db1e-26f2-2682-81f35504c9a3@ieee.org> <YRp9rnCardsCukju@kroah.com>
- <20210816150653.GH1931@kadam>
-From: Alex Elder <elder@linaro.org>
-Message-ID: <687f29ce-6245-e549-9b7b-7cc2befba962@linaro.org>
-Date: Mon, 16 Aug 2021 10:10:04 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        bh=FE51E+z6rwW3vCT+HddSaJ7256vyRjZvLJv2NiM2qi0=;
+        b=lZBzkk233Gf56dmOAHMLEYN0kivUZ9LWecrhDah0dRZQ4rSAxD0Zz80sHkDovn8KOg
+         k9VuFhf4x4QAPSFGXpPrCbeV/lKdFdXyhyw7c+ynxjNCx1+KcsfelUP6j9GdHjP293Y1
+         viE8vrOBgOla3vpZrCK0jmC0DWZoCdlpKP/oNEQ2pmCgAY3dbau+2PUKlSjLx0mGIfU0
+         l41gwJitgxz4nB8MAyH/p+qQsMSwdrtdkzDhY/yaH5S5nLIZ+0iEe+XN9mydlUKcf3tG
+         Svpaab42B6sJSy/g0MBZHsts11Uq/tFSzR6sLW1372DD5JsooXQXBtPtDT9tvohUM7zs
+         W12g==
+X-Gm-Message-State: AOAM533SfcU8JhltNkOj1pBfWXaj7OJo/IrVmI98YzijY+u0N6Kip/WS
+	4lrX9CRR2cP2wHHHw4xKR+Y=
+X-Google-Smtp-Source: ABdhPJzaCZ52Gm//nMvaCG4cnVeA8+BFNVP9R4nI02Yzvc5gEDCUEHOMUKy3vSeOdlze4Lc/VUX1vQ==
+X-Received: by 2002:a1c:7506:: with SMTP id o6mr16432297wmc.112.1629129555724;
+        Mon, 16 Aug 2021 08:59:15 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::4058])
+        by smtp.gmail.com with ESMTPSA id a77sm11589597wmd.31.2021.08.16.08.59.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Aug 2021 08:59:15 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	martin@kaiser.cx,
+	fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 00/23] staging: r8188eu: clean up spacing style issues in core dir
+Date: Mon, 16 Aug 2021 17:57:55 +0200
+Message-Id: <20210816155818.24005-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210816150653.GH1931@kadam>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/16/21 10:06 AM, Dan Carpenter wrote:
-> On Mon, Aug 16, 2021 at 05:01:02PM +0200, Greg Kroah-Hartman wrote:
->> On Mon, Aug 16, 2021 at 09:46:08AM -0500, Alex Elder wrote:
->>> On 8/14/21 1:11 PM, Fabio M. De Francesco wrote:
->>>> Convert greybus/uart.c from IDR to XArray. The abstract data type XArray
->>>> is more memory-efficient, parallelisable, and cache friendly. It takes
->>>> advantage of RCU to perform lookups without locking. Furthermore, IDR is
->>>> deprecated because XArray has a better (cleaner and more consistent) API.
->>>
->>> I haven't verified the use of the new API (yet) but I have a few
->>> comments on your patch, below.
->>>
->>> 					-Alex
->>>
->>>> Reported-by: kernel test robot <lkp@intel.com>
->>>> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
->>>
->>> I'm not sure I'm right about this...  But the actual change you're
->>> making has nothing to do with what the Intel test robot reported.
->>> I personally find the "Reported-by" here a little misleading, but
->>> maybe the "Link" line that gets added will provide explanation.
->>>
->>> Anyway, unless someone else contradicts/corrects me, I'd rather
->>> not have the "Reported-by" here (despite wanting to provide much
->>> credit to <lkp@intel.com>...).
->>
->> You are correct, "Reported-by:" does not make sense here.
-> 
-> There should be a Fixes-from: tag for bugs found in review (not style
-> issues) but when I suggest it then people just say to use the
-> Reported-by tag.
+This series cleans up coding style issues in the core directory
+reported by checkpatch --types SPACING.
 
-I think things caught during review aren't normally worthy
-of specific mention in the commit message (though maybe in
-the non-committed part under "---").  I mean, that's what
-review is for.  And in the case of what <lkp@intel.com>
-does, that's effectively a technical aspect of "review."
+Michael Straube (23):
+  staging: r8188eu: add spaces around operators in core/rtw_ap.c
+  staging: r8188eu: rewrite subtraction in core/rtw_cmd.c
+  staging: r8188eu: remove unnecessary parentheses in core/rtw_cmd.c
+  staging: r8188eu: clean up spacing style issues in core/rtw_cmd.c
+  staging: r8188eu: clean up spacing style issues in core/rtw_efuse.c
+  staging: r8188eu: clean up spacing style issues in
+    core/rtw_ieee80211.c
+  staging: r8188eu: simplify multiplication in core/rtw_ioctl_set.c
+  staging: r8188eu: clean up spacing style issues in
+    core/rtw_ioctl_set.c
+  staging: r8188eu: add spaces around operators in core/rtw_iol.c
+  staging: r8188eu: clean up spacing style issues in core/rtw_mlme.c
+  staging: r8188eu: clean up spacing style issues in core/rtw_mlme_ext.c
+  staging: r8188eu: clean up spacing style issues in core/rtw_mp.c
+  staging: r8188eu: clean up spacing style issues in core/rtw_mp_ioctl.c
+  staging: r8188eu: clean up spacing style issues in core/rtw_p2p.c
+  staging: r8188eu: clean up spacing style issues in core/rtw_pwrctrl.c
+  staging: r8188eu: clean up spacing style issues in core/rtw_recv.c
+  staging: r8188eu: clean up spacing style issues in core/rtw_security.c
+  staging: r8188eu: add spaces around operators in core/rtw_wlan_util.c
+  staging: r8188eu: clean up spacing style issues in core/rtw_xmit.c
+  staging: r8188eu: clean up spacing style issues in core/rtw_debug.c
+  staging: r8188eu: add space around operator in core/rtw_sreset.c
+  staging: r8188eu: clean up spacing style issues in core/rtw_sta_mgt.c
+  staging: r8188eu: add spaces around operators in core/rtw_br_ext.c
 
-So I don't think "Fixes-from" (whatever that means) or
-"Reported-by" make sense for this type of update.
+ drivers/staging/r8188eu/core/rtw_ap.c        |  88 +++----
+ drivers/staging/r8188eu/core/rtw_br_ext.c    | 104 ++++----
+ drivers/staging/r8188eu/core/rtw_cmd.c       |  22 +-
+ drivers/staging/r8188eu/core/rtw_debug.c     |  42 ++--
+ drivers/staging/r8188eu/core/rtw_efuse.c     |  96 ++++----
+ drivers/staging/r8188eu/core/rtw_ieee80211.c | 124 +++++-----
+ drivers/staging/r8188eu/core/rtw_ioctl_set.c |  20 +-
+ drivers/staging/r8188eu/core/rtw_iol.c       |  12 +-
+ drivers/staging/r8188eu/core/rtw_mlme.c      |  80 +++----
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c  | 236 +++++++++----------
+ drivers/staging/r8188eu/core/rtw_mp.c        |  10 +-
+ drivers/staging/r8188eu/core/rtw_mp_ioctl.c  |   6 +-
+ drivers/staging/r8188eu/core/rtw_p2p.c       |  46 ++--
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c   |  16 +-
+ drivers/staging/r8188eu/core/rtw_recv.c      | 112 ++++-----
+ drivers/staging/r8188eu/core/rtw_security.c  | 188 +++++++--------
+ drivers/staging/r8188eu/core/rtw_sreset.c    |   2 +-
+ drivers/staging/r8188eu/core/rtw_sta_mgt.c   |   6 +-
+ drivers/staging/r8188eu/core/rtw_wlan_util.c |  60 ++---
+ drivers/staging/r8188eu/core/rtw_xmit.c      | 122 +++++-----
+ 20 files changed, 696 insertions(+), 696 deletions(-)
 
-					-Alex
-
-> 
-> regards,
-> dan carpenter
-> 
-> _______________________________________________
-> greybus-dev mailing list
-> greybus-dev@lists.linaro.org
-> https://lists.linaro.org/mailman/listinfo/greybus-dev
-> 
+-- 
+2.32.0
 
